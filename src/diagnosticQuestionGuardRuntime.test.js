@@ -7,12 +7,42 @@ import { VOWELS, VOWEL_EXAMPLES } from './diagnosticQuestionGuardRuntime';
 
 const byId = () => new Map(gameModel.buildQuestions().map(question => [question.id,question]));
 
+const AUDITED_VOWEL_LISTEN_IDS = [
+  'vowel-listen-went','vowel-listen-tell','vowel-listen-pet','vowel-listen-job',
+  'vowel-listen-fog','vowel-listen-not','vowel-listen-tug','vowel-listen-hut',
+  'vowel-listen-tub','vowel-listen-bun','vowel-listen-fix','vowel-listen-has'
+];
+
+const AUDITED_HFW_RECOGNIZE_IDS = [
+  'hfw-recognize-put','hfw-recognize-why','hfw-recognize-blue','hfw-recognize-help',
+  'hfw-recognize-for','hfw-recognize-yellow','hfw-recognize-both','hfw-recognize-there',
+  'hfw-recognize-even','hfw-recognize-ball','hfw-recognize-or','hfw-recognize-green',
+  'hfw-recognize-how','hfw-recognize-little','hfw-recognize-one','hfw-recognize-see',
+  'hfw-recognize-sounds','hfw-recognize-funny','hfw-recognize-find','hfw-recognize-could'
+];
+
 describe('diagnostic question semantic QA', () => {
   it('keeps the complete bank structurally valid', () => {
     const bank = gameModel.buildQuestions();
     expect(bank).toHaveLength(200);
     expect(new Set(bank.map(question => question.id)).size).toBe(200);
     expect(gameModel.validateQuestionBank(bank)).toEqual([]);
+  });
+
+  it('locks the exact 32 diagnostic IDs audited on 2026-09-18', () => {
+    const questions = byId();
+    expect(AUDITED_VOWEL_LISTEN_IDS).toHaveLength(12);
+    expect(AUDITED_HFW_RECOGNIZE_IDS).toHaveLength(20);
+
+    for(const id of [...AUDITED_VOWEL_LISTEN_IDS,...AUDITED_HFW_RECOGNIZE_IDS]){
+      expect(questions.has(id)).toBe(true);
+    }
+
+    const bank = [...questions.values()];
+    expect(bank.filter(question => question.id.startsWith('vowel-listen-')).map(question => question.id).sort())
+      .toEqual([...AUDITED_VOWEL_LISTEN_IDS].sort());
+    expect(bank.filter(question => question.id.startsWith('hfw-recognize-')).map(question => question.id).sort())
+      .toEqual([...AUDITED_HFW_RECOGNIZE_IDS].sort());
   });
 
   it('rebuilds every vowel-listen item as a real sound-comparison diagnostic', () => {

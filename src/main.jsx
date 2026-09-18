@@ -14,6 +14,7 @@ import './homeHero.css';
 import './questVisual.css';
 import './questPolish.css';
 import './questSceneUpgrade.css';
+import './questResponsiveFix.css';
 import './headwearAvatar.css';
 import './facegearAvatar.css';
 import './homeHeroRuntime';
