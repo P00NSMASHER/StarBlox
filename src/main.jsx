@@ -4,6 +4,7 @@ import './catalogArtRuntime';
 import './headwearAvatarRuntime';
 import './facegearAvatarRuntime';
 import './questionQualityRuntime';
+import './semanticQuestionGuardRuntime';
 import './purchaseGuardRuntime';
 import { App } from './App';
 import './styles.css';
