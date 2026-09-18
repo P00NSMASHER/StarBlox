@@ -39,7 +39,6 @@ const GRAMMAR_ROLE = Object.freeze({
 
 const previousBuildQuestions = gameModel.buildQuestions.bind(gameModel);
 const previousDailyPool = gameModel.dailyPool.bind(gameModel);
-const previousPickQuest = gameModel.pickQuest.bind(gameModel);
 const previousValidateQuestionBank = gameModel.validateQuestionBank.bind(gameModel);
 
 function withAnswerPosition(choices,answer,index){
@@ -134,9 +133,36 @@ export function validateDiagnosticBank(questions){
   return issues;
 }
 
+function pickHardenedQuest(stats={},count=5,date=Date.now()){
+  const pool = gameModel.dailyPool(date);
+  const now = date;
+  const scoreFor = (question) => {
+    const stat = stats[question.skill] || {seen:0,correct:0,wrong:0,lastSeen:0};
+    const dueDays = (now - (stat.lastSeen || 0)) / 86400000;
+    return (stat.seen ? 0 : 80) + stat.wrong * 18 - stat.correct * 3 + Math.min(24,Math.max(0,dueDays) * 4) + (question.role === 'transfer' ? 10 : 0) + (question.role === 'review' ? 4 : 0);
+  };
+  const ranked = [...pool].sort((a,b) => scoreFor(b) - scoreFor(a));
+  const picked = [];
+  const take = (predicate) => {
+    const question = ranked.find(candidate => !picked.some(item => item.id === candidate.id) && predicate(candidate));
+    if(question) picked.push(question);
+  };
+  take(question => question.role === 'transfer');
+  ['Lantern Lane','Story Street','Wordwood Garden'].forEach((district) => {
+    if(picked.length < count) take(question => question.district === district && !picked.some(item => item.skill === question.skill));
+  });
+  ranked.forEach((question) => {
+    if(picked.length < count && !picked.some(item => item.id === question.id) && !picked.some(item => item.skill === question.skill)) picked.push(question);
+  });
+  ranked.forEach((question) => {
+    if(picked.length < count && !picked.some(item => item.id === question.id)) picked.push(question);
+  });
+  return picked.slice(0,count);
+}
+
 gameModel.buildQuestions = () => hardenDiagnosticBank(previousBuildQuestions());
 gameModel.dailyPool = (date=Date.now()) => hardenDiagnosticBank(previousDailyPool(date),{preserveAnswerPosition:true});
-gameModel.pickQuest = (stats={},count=5,date=Date.now()) => hardenDiagnosticBank(previousPickQuest(stats,count,date),{preserveAnswerPosition:true});
+gameModel.pickQuest = pickHardenedQuest;
 gameModel.validateQuestionBank = (questions=gameModel.buildQuestions()) => validateDiagnosticBank(questions);
 
 export { HFW_RECOGNIZE, VOWELS, VOWEL_EXAMPLES, GRAMMAR_ROLE };
