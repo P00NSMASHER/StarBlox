@@ -51,7 +51,8 @@ describe('StarBlox hardened question runtime', () => {
     const questions = byId();
     const trinity = questions.get('religion-1');
     expect(trinity.answer).toBe('Father, Son, and Holy Spirit');
-    expect(trinity.choices).toContain('People can think, choose, and love.');
+    expect(trinity.choices).toContain('We show gratitude by caring for creation.');
+    expect(trinity.choices).toContain('Grace helps us live as children of God.');
     expect(trinity.choices.filter(choice => choice === trinity.answer)).toHaveLength(1);
   });
 
