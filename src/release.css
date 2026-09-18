@@ -1,0 +1,7 @@
+/* Release-safety overrides kept separate from feature styling. */
+.primaryButton.small,
+.secondaryButton.small,
+.filterRow button,
+.storeActions button {
+  min-height: 44px;
+}
