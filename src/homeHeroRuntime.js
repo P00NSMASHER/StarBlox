@@ -146,16 +146,20 @@ function decorateAvatarNode(node,save){
   node.dataset.hand = save.equipped?.hand || '';
   node.dataset.aura = save.equipped?.aura || '';
 
-  node.querySelectorAll('.runtimeAccessory').forEach(el => el.remove());
   const slots = [
     ['head','runtimeHead'],['face','runtimeFace'],['back','runtimeBack'],['hand','runtimeHand'],['aura','runtimeAura']
   ];
-  for(const [slot,className] of slots){
-    if(!save.equipped?.[slot]) continue;
-    const el = document.createElement('span');
-    el.className = `runtimeAccessory ${className}`;
-    el.setAttribute('aria-hidden','true');
-    node.appendChild(el);
+  const accessorySignature = slots.map(([slot]) => save.equipped?.[slot] || '').join('|');
+  if(node.dataset.runtimeAccessories !== accessorySignature){
+    node.querySelectorAll('.runtimeAccessory').forEach(el => el.remove());
+    for(const [slot,className] of slots){
+      if(!save.equipped?.[slot]) continue;
+      const el = document.createElement('span');
+      el.className = `runtimeAccessory ${className}`;
+      el.setAttribute('aria-hidden','true');
+      node.appendChild(el);
+    }
+    node.dataset.runtimeAccessories = accessorySignature;
   }
 }
 
