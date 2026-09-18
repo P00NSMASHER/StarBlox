@@ -266,11 +266,11 @@ export function buildQuestions(){
     const altWord = spelling.find(x => vowels[x] !== vowel);
     q.push(makeQuestion(
       'vowel-listen-' + word,'Reading','Lantern Lane','phonics','diagnose',
-      'A reader mixed up “' + altWord + '” and “' + word + '.” Which sound should the reader listen to most carefully?',
+      'To compare the short-vowel sounds in “' + altWord + '” and “' + word + ',” which part of the words should the reader listen to?',
       ['the middle vowel sound','the first sound','the final sound'],
       'the middle vowel sound',
-      'The middle vowel sound is the clearest difference between these two short-vowel words.',
-      'Listen to the sound in the center of each word.',3,10
+      'Short-vowel sounds are heard in the middle vowel position in these words.',
+      'Listen to the sound made by the vowel in the center of each word.',3,10
     ));
 
     const sameVowelWords = spelling.filter(x => x !== word && vowels[x] === vowel);
