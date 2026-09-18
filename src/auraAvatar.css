@@ -1,0 +1,24 @@
+.avatarAura.portableAura{
+  background-image:var(--aura-art);
+  background-position:center;
+  background-repeat:no-repeat;
+  background-size:contain;
+  color:transparent !important;
+  font-size:0 !important;
+  width:260px;
+  height:300px;
+  margin:-76px -54px -86px;
+  pointer-events:none;
+  filter:drop-shadow(0 0 12px rgba(134,231,255,.45));
+  opacity:.96;
+}
+@media (max-width:640px){
+  .avatarAura.portableAura{
+    width:220px;
+    height:250px;
+    margin:-58px -42px -70px;
+  }
+}
+@media (prefers-reduced-motion:reduce){
+  .avatarAura.portableAura{animation:none !important;}
+}
