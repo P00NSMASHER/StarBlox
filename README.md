@@ -1,6 +1,6 @@
 # StarBlox
 
-Independent React/Vite recreation of StarBlox with Replit as the target runtime and GitHub `main` as the canonical source. Floot is legacy reference only.
+Independent React/Vite recreation of StarBlox with Replit as the target runtime and GitHub `main` as the portable source mirror. Floot is legacy reference only.
 
 ## Current recreated systems
 
@@ -14,20 +14,20 @@ Independent React/Vite recreation of StarBlox with Replit as the target runtime 
 - permanent ownership, equip/place state and Dream Goal
 - rapid duplicate-purchase UI guard
 - Tiny Starter Studio -> Star Mansion Home progression
-- avatar equipment presentation with finished Headwear and Face & Glasses art wired by stable item ID
+- avatar equipment presentation with exact-ID portable artwork for Shoes, Headwear, Face & Glasses, Back Gear, and Hand Gear where those layers are equipped
 - Sprout Pup + persistent Buddy Bond
 - parent Learning Pulse
 - localStorage + IndexedDB persistence
 - save backup download/import
 - reduced-motion support
-- mobile-first responsive layout
+- responsive mobile layout rules
 - automated question/catalog/Home/purchase-guard regression tests
 
 ## Migration and art status
 
 This repository is a clean portable recreation, not a byte-for-byte copy of Floot's internal framework boilerplate.
 
-Catalog art is tracked by stable item ID in `catalog-art-manifest.json`. The current portable set contains 53 repo-owned final SVG thumbnails: all 12 Tops, all 12 Bottoms, Sneakers and Slip-Ons, all 12 Headwear items, all 12 Face & Glasses items, Sprout Pup, Starter Bed, and Tiny Homework Desk. The remaining 139 catalog items still need item-specific final art; runtime fallbacks preserve item identity but are not the final visual target.
+Catalog art is tracked by stable item ID in `catalog-art-manifest.json`. The current portable set contains 87 repo-owned final SVG thumbnails: all 12 Tops, all 12 Bottoms, all 12 Shoes, all 12 Headwear items, all 12 Face & Glasses items, all 12 Back Gear items, all 12 Hand Gear items, plus Sprout Pup, Starter Bed, and Tiny Homework Desk. The remaining 105 catalog items still need item-specific final art; runtime fallbacks preserve item identity but are not the final visual target.
 
 Existing Floot browser progress cannot automatically cross to a Replit domain because browser storage is origin-scoped. The recreated app includes JSON save import/export so progress can be migrated safely once a backup is obtained from the Floot build.
 
