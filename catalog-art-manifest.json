@@ -1,0 +1,94 @@
+{
+  "version": 1,
+  "target": 192,
+  "finalCount": 12,
+  "remaining": 180,
+  "note": "The first 12 Tops assets were generated in Floot. Their original Floot CDN paths are retained here for migration tracking; replace with portable assets before production on Replit.",
+  "duplicateAssetPaths": [],
+  "items": {
+    "tops-1": {
+      "name": "Hoodie",
+      "assetPath": "floot:///_cdn/static/968c9e36-7f8c-43af-93bc-af91885781da.png",
+      "tier": 1,
+      "theme": "Cloud Pop",
+      "status": "needs-portable-copy"
+    },
+    "tops-2": {
+      "name": "Zip Hoodie",
+      "assetPath": "floot:///_cdn/static/cea5fa59-1ec6-42a8-be93-0bebca547998.png",
+      "tier": 1,
+      "theme": "Pixel Party",
+      "status": "needs-portable-copy"
+    },
+    "tops-3": {
+      "name": "Varsity Tee",
+      "assetPath": "floot:///_cdn/static/ad1c9b0d-1b50-46d6-ac9b-878177857e12.png",
+      "tier": 1,
+      "theme": "Berry Blast",
+      "status": "needs-portable-copy"
+    },
+    "tops-4": {
+      "name": "Bow Cardigan",
+      "assetPath": "floot:///_cdn/static/20768476-3a87-4aa1-8db6-686b92ac3503.png",
+      "tier": 2,
+      "theme": "Garden Glow",
+      "status": "needs-portable-copy"
+    },
+    "tops-5": {
+      "name": "Crewneck",
+      "assetPath": "floot:///_cdn/static/7b19667f-06ee-4771-9113-d9053dc1b60c.png",
+      "tier": 2,
+      "theme": "Galaxy Glow",
+      "status": "needs-portable-copy"
+    },
+    "tops-6": {
+      "name": "Gamer Jacket",
+      "assetPath": "floot:///_cdn/static/0d69169d-5aab-43c8-97d5-e4b07874bd41.png",
+      "tier": 2,
+      "theme": "Sunny Pop",
+      "status": "needs-portable-copy"
+    },
+    "tops-7": {
+      "name": "Colorblock Hoodie",
+      "assetPath": "floot:///_cdn/static/b0321185-edba-4b0f-ac82-c62d95638b0c.png",
+      "tier": 3,
+      "theme": "Aqua Wave",
+      "status": "needs-portable-copy"
+    },
+    "tops-8": {
+      "name": "Puffer Vest",
+      "assetPath": "floot:///_cdn/static/5f189adc-2739-4575-b496-4e3069db654f.png",
+      "tier": 3,
+      "theme": "Art Attack",
+      "status": "needs-portable-copy"
+    },
+    "tops-9": {
+      "name": "Art Smock",
+      "assetPath": "floot:///_cdn/static/aaeba665-ba98-4b44-a18e-ed8f8d8f5649.png",
+      "tier": 3,
+      "theme": "Star Luxe",
+      "status": "needs-portable-copy"
+    },
+    "tops-10": {
+      "name": "Star Bomber",
+      "assetPath": "floot:///_cdn/static/a8e88327-b993-4245-b295-a463a6002f0b.png",
+      "tier": 4,
+      "theme": "Midnight Neon",
+      "status": "needs-portable-copy"
+    },
+    "tops-11": {
+      "name": "Cloud Jacket",
+      "assetPath": "floot:///_cdn/static/e47a52bd-6c02-46cc-a81b-39c94f87898c.png",
+      "tier": 4,
+      "theme": "Candy Core",
+      "status": "needs-portable-copy"
+    },
+    "tops-12": {
+      "name": "Star Coat",
+      "assetPath": "floot:///_cdn/static/13e0cefb-1ce4-4028-bfe6-30c16ce4fc1e.png",
+      "tier": 5,
+      "theme": "Adventure Club",
+      "status": "needs-portable-copy"
+    }
+  }
+}
