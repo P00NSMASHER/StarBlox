@@ -32,7 +32,19 @@ const portableCatalogArt = Object.freeze({
   'shoes-2': '/assets/catalog/shoes-2.svg',
   'companions-1': '/assets/catalog/companions-1.svg',
   'beds-1': '/assets/catalog/beds-1.svg',
-  'desks-1': '/assets/catalog/desks-1.svg'
+  'desks-1': '/assets/catalog/desks-1.svg',
+  'headwear-1': '/assets/catalog/headwear-1.svg',
+  'headwear-2': '/assets/catalog/headwear-2.svg',
+  'headwear-3': '/assets/catalog/headwear-3.svg',
+  'headwear-4': '/assets/catalog/headwear-4.svg',
+  'headwear-5': '/assets/catalog/headwear-5.svg',
+  'headwear-6': '/assets/catalog/headwear-6.svg',
+  'headwear-7': '/assets/catalog/headwear-7.svg',
+  'headwear-8': '/assets/catalog/headwear-8.svg',
+  'headwear-9': '/assets/catalog/headwear-9.svg',
+  'headwear-10': '/assets/catalog/headwear-10.svg',
+  'headwear-11': '/assets/catalog/headwear-11.svg',
+  'headwear-12': '/assets/catalog/headwear-12.svg'
 });
 
 for (const item of gameModel.store) {

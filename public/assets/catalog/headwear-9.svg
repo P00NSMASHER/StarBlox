@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img">
+<defs>
+<linearGradient id="g1" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ffcc57"/><stop offset="1" stop-color="#ff78ac"/></linearGradient>
+<radialGradient id="glow"><stop stop-color="#ff78ac" stop-opacity=".32"/><stop offset="1" stop-color="#ff78ac" stop-opacity="0"/></radialGradient>
+<filter id="ds" x="-40%" y="-40%" width="180%" height="180%"><feDropShadow dx="0" dy="16" stdDeviation="14" flood-color="#291e57" flood-opacity=".28"/><feDropShadow dx="0" dy="0" stdDeviation="8" flood-color="#ff78ac" flood-opacity=".24"/></filter>
+</defs>
+<ellipse cx="256" cy="290" rx="205" ry="178" fill="url(#glow)"/>
+<ellipse cx="256" cy="391" rx="122" ry="24" fill="#513c79" opacity=".12"/>
+<g filter="url(#ds)"><path d="M127 326l32-143 58 75 40-128 43 128 58-75 27 143z" fill="url(#g1)" stroke="#694b74" stroke-width="10" stroke-linejoin="round"/>
+<path d="M159 183l17-47 22 43-39 4zm98-53 21-45 21 46-42-1zm101 53 18-47 21 43-39 4z" fill="#f4d1a2" stroke="#9d6a42" stroke-width="7"/>
+<path d="M136 318h242v45c-55 30-188 30-242 0z" fill="#ff89bc" stroke="#694b74" stroke-width="10"/>
+<circle cx="257" cy="339" r="19" fill="#ffd65d" stroke="#fff1a8" stroke-width="7"/></g>
+</svg>

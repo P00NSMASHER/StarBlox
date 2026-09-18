@@ -1,9 +1,9 @@
 {
-  "version": 4,
+  "version": 5,
   "target": 192,
-  "finalCount": 29,
-  "remaining": 163,
-  "note": "Portable repo-owned premium SVG art is active for all 12 Tops, the full 12-item Bottoms collection, Sneakers + Slip-Ons, Sprout Pup, Starter Bed, and Tiny Homework Desk. Final paths are unique and mapped by stable item ID.",
+  "finalCount": 41,
+  "remaining": 151,
+  "note": "Portable repo-owned premium SVG art is active for all 12 Tops, all 12 Bottoms, Sneakers + Slip-Ons, all 12 Headwear items, Sprout Pup, Starter Bed, and Tiny Homework Desk. Final paths are unique and mapped by stable item ID; finished Headwear art is also used on the avatar via exact equipped IDs.",
   "duplicateAssetPaths": [],
   "items": {
     "tops-1": {"name":"Hoodie","assetPath":"/assets/catalog/tops-1.svg","tier":1,"theme":"Cloud Pop","status":"final-portable"},
@@ -34,6 +34,18 @@
     "shoes-2": {"name":"Slip-Ons","assetPath":"/assets/catalog/shoes-2.svg","tier":1,"theme":"Art Attack","status":"final-portable"},
     "companions-1": {"name":"Sprout Pup","assetPath":"/assets/catalog/companions-1.svg","tier":1,"theme":"Cloud Pop","status":"final-portable"},
     "beds-1": {"name":"Starter Bed","assetPath":"/assets/catalog/beds-1.svg","tier":1,"theme":"Garden Glow","status":"final-portable"},
-    "desks-1": {"name":"Tiny Homework Desk","assetPath":"/assets/catalog/desks-1.svg","tier":1,"theme":"Midnight Neon","status":"final-portable"}
+    "desks-1": {"name":"Tiny Homework Desk","assetPath":"/assets/catalog/desks-1.svg","tier":1,"theme":"Midnight Neon","status":"final-portable"},
+    "headwear-1": {"name":"Headband","assetPath":"/assets/catalog/headwear-1.svg","tier":1,"theme":"Midnight Neon","status":"final-portable"},
+    "headwear-2": {"name":"Cloud Clips","assetPath":"/assets/catalog/headwear-2.svg","tier":1,"theme":"Candy Core","status":"final-portable"},
+    "headwear-3": {"name":"Pixel Cap","assetPath":"/assets/catalog/headwear-3.svg","tier":1,"theme":"Adventure Club","status":"final-portable"},
+    "headwear-4": {"name":"Berry Bow","assetPath":"/assets/catalog/headwear-4.svg","tier":2,"theme":"Cloud Pop","status":"final-portable"},
+    "headwear-5": {"name":"Flower Crown","assetPath":"/assets/catalog/headwear-5.svg","tier":2,"theme":"Pixel Party","status":"final-portable"},
+    "headwear-6": {"name":"Gamer Headset","assetPath":"/assets/catalog/headwear-6.svg","tier":2,"theme":"Berry Blast","status":"final-portable"},
+    "headwear-7": {"name":"Bucket Hat","assetPath":"/assets/catalog/headwear-7.svg","tier":3,"theme":"Garden Glow","status":"final-portable"},
+    "headwear-8": {"name":"Star Clips","assetPath":"/assets/catalog/headwear-8.svg","tier":3,"theme":"Galaxy Glow","status":"final-portable"},
+    "headwear-9": {"name":"Pencil Crown","assetPath":"/assets/catalog/headwear-9.svg","tier":3,"theme":"Sunny Pop","status":"final-portable"},
+    "headwear-10": {"name":"Cat Ears","assetPath":"/assets/catalog/headwear-10.svg","tier":4,"theme":"Aqua Wave","status":"final-portable"},
+    "headwear-11": {"name":"Halo Headband","assetPath":"/assets/catalog/headwear-11.svg","tier":4,"theme":"Art Attack","status":"final-portable"},
+    "headwear-12": {"name":"Crystal Crown","assetPath":"/assets/catalog/headwear-12.svg","tier":5,"theme":"Star Luxe","status":"final-portable"}
   }
 }

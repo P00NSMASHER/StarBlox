@@ -1,0 +1,22 @@
+.headGear.portableHeadGear{
+  top:-58px;
+  left:50%;
+  width:132px;
+  height:116px;
+  transform:translateX(-50%);
+  color:transparent;
+  background-image:var(--headwear-art);
+  background-repeat:no-repeat;
+  background-position:center;
+  background-size:contain;
+  filter:drop-shadow(0 8px 8px #271b5740) drop-shadow(0 0 5px #8eeaff88);
+  z-index:9;
+  pointer-events:none;
+}
+@media(max-width:720px){
+  .headGear.portableHeadGear{
+    width:118px;
+    height:104px;
+    top:-52px;
+  }
+}
