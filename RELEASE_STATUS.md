@@ -1,76 +1,75 @@
 # StarBlox Release Status
 
-Last integration/release pass: 2026-09-18 (America/New_York), automation cycle 3.
+Last integration/release pass: 2026-09-18 (America/New_York), cycle 4.
 
-Canonical implementation target: private GitHub repository `P00NSMASHER/StarBlox` on `main`, with Replit app `StarBlox` (`821e329b-9d6b-4bc9-940d-b18a07aaa463`) as the target runtime. Floot is legacy reference only.
+Canonical runtime target: Replit app `StarBlox` (`821e329b-9d6b-4bc9-940d-b18a07aaa463`). GitHub `P00NSMASHER/StarBlox` on `main` is the portable source mirror used for static QA and integration when Replit inspection is unavailable. Floot is legacy reference only.
 
 Canonical visual contract: `VISUAL_NORTH_STAR.md`.
 
-Code-under-test for this pass: `16c16f8b6ea116d115f7e1229cc83a1ca19e94be`. GitHub Actions run `35390229422` completed successfully on that exact head. The final status-ledger commit is documentation-only and is not substituted for the code-under-test SHA.
+Latest source code head statically tested this cycle: `8e1154a13deac758fdb9b6021cb000f13c8a5c90`. GitHub Actions run `35394307100` completed successfully on that exact source head. Subsequent integration commits only synchronized `catalog-art-manifest.json`, README, and this release ledger; they do not substitute for rendered Replit verification.
 
 ## Gate status
 
 | Gate | Status | Evidence |
 | --- | --- | --- |
-| Dependency install | PASS | GitHub Actions run `35390229422` completed successfully on `16c16f8b6ea116d115f7e1229cc83a1ca19e94be`; the workflow uses Node 22 and runs `npm install --no-audit --no-fund`. |
-| Automated tests | PASS | The same CI run completed `npm test` successfully after the semantic question guards, strengthened family regressions, Home regressions and jsdom rapid-purchase interaction test were all present. |
-| Production build | PASS | The same exact-head CI run completed the Vite production build successfully. |
-| Import/file-path integrity | PASS | Production build passed with catalog art, Headwear/Facegear avatar wiring, question hardening, semantic guards, purchase guard, Home/Quest runtimes and the specialist Quest/Study polish layer loaded from main. |
-| Question-bank structural invariants | PASS | Tests require exactly 200 questions, 200 unique IDs, non-empty unique choices, and exactly one keyed answer present in each choice set. |
-| 5-action Quest selection | PASS | Automated test requires exactly five distinct adaptive actions and at least one transfer item. Correct responses auto-advance; retries do not count as independent evidence. |
-| Question semantic QA | PASS WITH FIX for audited high-risk families | This cycle found a real multiple-defensible-answer risk in the generated HFW cloze family (`help`: the old sentence could also accept `see`) plus weaker spelling-context ambiguity. All 20 `hfw-cloze-*` items now use meaning-led stems; all 12 `context-*` items are explicitly spelling-in-context with reviewed spellings/distractors. Previous HFW-use/story/Religion high-risk families remain hardened. Re-audit remains mandatory after generator/source changes. |
-| Store structural invariants | PASS | Automated test requires exactly 192 items, 192 unique IDs, positive prices, and non-negative Star requirements. |
-| Wrong-answer reward farming | PASS (static) | First wrong attempt can receive the intentional learning reward; later wrong retry attempts add 0 Coins/XP. Runtime abuse testing remains NOT TESTED. |
-| Rapid duplicate purchase protection | PASS WITH FIX for the normal UI path / NOT TESTED under runtime stress | A stale-render rapid-double-click window existed because purchase eligibility was checked before the functional state update. This cycle added an imported 1.2s capture-phase `Buy Forever` guard. Its jsdom interaction regression proves the second rapid click does not reach the purchase handler. Browser stress/concurrency remains NOT TESTED. |
-| Buy/equip/place/Dream Goal state | PASS (static) | Permanent ownership, equip/place state, Star Worth, room placement and Dream Goal share persisted state keyed by stable item IDs. Runtime refresh/recovery remains NOT TESTED. |
-| Home / Avatar / Buddy state consistency | PASS WITH FIX (static) | Home enhancement fingerprints/accessory decoration are idempotent. Headwear and Face & Glasses art map to exact equipped IDs. Base player body remains visually unfinished but state wiring is coherent. |
-| Persistence safety | PASS WITH FIX (static) | Save v2 persists to localStorage and IndexedDB and preserves an IndexedDB-only backup during initial hydration. Browser recovery and cross-refresh interaction remain NOT TESTED. |
-| Critical touch targets | PASS (static) | Critical Store controls have >=44px release overrides; nav, Read Aloud and answer controls meet the same baseline in source styling. |
-| Reduced motion | PASS (static) | Global, Quest and Quest-polish reduced-motion rules are present. Rendered verification remains NOT TESTED. |
-| Narrow mobile layout | PASS (static) / NOT TESTED (rendered) | Core Quest CSS plus the polish layer include <=900px, <=760px and <=560px reflow rules, single-column answers, bottom navigation and mobile Quest rail/layout changes. Actual 320px/390px rendering has not been observed. |
-| Catalog manifest uniqueness | PASS (static) | Manifest v6 records 53 final portable assets with `duplicateAssetPaths: []` and exact stable item-ID mappings. |
-| Catalog portable-path integrity | PASS for completed set | Completed entries use repo-local `/assets/catalog/...` paths and runtime mapping follows the same stable IDs. |
-| Catalog completion | FAIL — P1 visual blocker | 53/192 final portable thumbnails are complete; 139 remain. Finished: all Tops, all Bottoms, Sneakers + Slip-Ons, all Headwear, all Face & Glasses, Sprout Pup, Starter Bed and Tiny Homework Desk. Fallback initials remain below the North Star. |
-| README/status accuracy | PASS WITH FIX | README and this ledger now reflect GitHub/Replit canonical ownership, current Quest presentation, semantic QA changes, duplicate-purchase protection and 53/192 art completion. |
-| False online/social claims | PASS (static) | Current source does not expose public child profiles/chat or claim real multiplayer/social state. |
-| Replit runtime / preview | BLOCKED | Read-only Replit Agent smoke inspection timed out. Startup, actual Home/Quest/Market rendering, runtime persistence, rapid-purchase interaction and phone behavior therefore remain unverified. |
-| Replit publication | NOT TESTED / not deployed | Replit reports `found:false` for this repl's publication status. No publish is claimed. |
+| Replit authoritative-state inspection | BLOCKED | Three read-only inspection attempts returned that Replit Agent was busy with an earlier request. Current Replit development HEAD, uncommitted changes, and source parity with GitHub therefore remain unverified. |
+| Replit publication | PASS for existence / NOT TESTED for source parity | Replit reports a successful deployment at `https://star-blox.replit.app` (deployment `dc7d0107-184a-48cd-9276-395452ef5b05`). Whether that deployment contains the latest source/art changes is NOT TESTED. |
+| Dependency install | PASS (GitHub mirror) | GitHub Actions run `35394307100` completed the Node 22 dependency-install step successfully on source head `8e1154a1`. |
+| Automated tests | PASS (GitHub mirror) | The same run completed the test step successfully. Existing regressions cover the 200-question bank, catalog structure, Home integration, semantic question guards, and rapid-purchase UI guard. |
+| Production build / imports | PASS (GitHub mirror) | The same exact-head run completed the Vite production bundle successfully, including current Home/Quest runtimes and exact-ID equipment runtime imports. |
+| Question-bank structural invariants | PASS (automated/static) | Existing tests require exactly 200 questions, 200 unique IDs, non-empty unique choices, and exactly one keyed answer in each choice set. No question-source changes landed after the last hardened QA cycle. |
+| 5-action Quest selection | PASS (automated/static) | Existing tests require exactly five distinct adaptive actions and transfer practice. Retries are not counted as independent mastery evidence. |
+| Question semantic QA | PASS for audited high-risk families | Previously hardened HFW cloze, spelling-context, HFW-use, story, and Religion families remain unchanged in this art-focused cycle. |
+| Store structural invariants | PASS (automated/static) | Existing tests require exactly 192 store items with 192 unique IDs, positive prices, and non-negative Star requirements. |
+| Wrong-answer reward farming | PASS (static) / NOT TESTED runtime | Source retains the first-wrong learning reward and zero additional Coins/XP for later wrong retries. Live interaction abuse testing is unavailable this cycle. |
+| Rapid duplicate-purchase protection | PASS (automated/static) / NOT TESTED runtime stress | The capture-phase Buy Forever duplicate-click guard and jsdom regression remain present. Live concurrency/stress remains unverified. |
+| Buy/equip/place/Dream Goal state | PASS (static) / NOT TESTED runtime | Ownership, equipment, room placement, Star Worth and Dream Goal use stable item IDs in persisted state. Refresh/recovery in the current Replit runtime is not tested. |
+| Home / Avatar / Buddy state consistency | PASS (static wiring) | Home enhancement remains idempotent. Exact equipped artwork is now available for Shoes, Headwear, Face & Glasses, Back Gear and Hand Gear. Base avatar body remains visually unfinished. |
+| Persistence safety | PASS (static) / NOT TESTED runtime | Save v2 continues to use localStorage + IndexedDB with initial-backup preservation. Browser recovery is not tested this cycle. |
+| Critical touch targets | PASS (static) | Existing release CSS keeps critical Store, navigation, Read Aloud, and answer controls at the release baseline. |
+| Reduced motion | PASS (static) | Global/Quest reduced-motion rules remain present. Rendered behavior is NOT TESTED. |
+| Narrow mobile layout | PASS (static rules) / NOT TESTED rendered | Responsive Quest/Home/Store rules exist, but actual 320px/390px rendering could not be observed. |
+| Catalog manifest uniqueness | PASS WITH FIX | Integration corrected the stale manifest to version 9: 87 final portable items, 105 remaining, `duplicateAssetPaths: []`, stable exact-ID mappings including all 12 Back Gear items. |
+| Catalog portable-path integrity | PASS for completed set | Completed entries use repo-local `/assets/catalog/...` paths. Runtime catalog mapping now includes all completed Tops, Bottoms, Shoes, Headwear, Facegear, Back Gear, Hand Gear, Sprout Pup, Starter Bed and Tiny Homework Desk. |
+| Catalog completion | FAIL — P1 visual blocker | 87/192 item-specific portable thumbnails are complete; 105 remain. Any fallback initials/symbols remain explicitly below the North Star. |
+| README/status accuracy | PASS WITH FIX | This cycle corrected stale 53-item/undeployed claims and synchronized current Back Gear completion plus the confirmed live deployment status. |
+| False online/social claims | PASS (static) | Current source still does not expose public child profiles/chat or claim real multiplayer/social state. |
 
-## Visual fidelity
+## VISUAL FIDELITY
 
-The North Star fails simple CSS avatar geometry, initials as final item art, generic SaaS controls/cards, sparse gradient-only scenes, emoji placeholders, and unillustrated Home/Quest/Store presentation. Static source improvements are not treated as rendered PASS without runtime visual evidence.
+The North Star explicitly fails default React/Vite presentation, simple CSS avatar geometry, initials or emoji as final art, generic SaaS cards/filters, sparse gradient-heavy screens, and unillustrated primary environments. Static source work is not promoted to rendered PASS without observing the actual Replit runtime.
 
 | Area | Status | Fidelity evidence / remaining gap |
 | --- | --- | --- |
-| Home | FAIL — P1 visual blocker, substantial progress | Illustrated five-tier room scenes, room progression, Dream Goal, Daily Quests, Customize tray, Today I'm Learning, physical Sprout Pup, cobalt/cyan glass chrome and gold accents are present. Headwear and Face & Glasses now use exact finished art. Remaining blocker: the core player body is still CSS geometry and unfinished owned items can fall back to initials. Actual rendered composition is NOT TESTED. |
-| Store | FAIL — P1 visual blocker | Functional 192-item catalog and 53 finished thumbnails are present, but the screen still centers on a card grid plus text filter rows. The approved large selected-item/right-side character preview and rich item-detail experience are absent; 139 items still lack final art. |
-| Quest | FAIL — P1 pending rendered proof, major source-level improvement | Specialist work now supplies an illustrated environment, large original guide avatar + physical buddy, Diagnose/Practice/Review/Transfer strip, illustrated lesson card, stacked A/B/C answers, hint/why feedback, mastery/Today’s Learning rail and earned bar. A new polish layer deepens the mission header, phase depth, lesson/answer chrome, feedback, Study hierarchy and desktop/mobile composition. It still reuses a Home room backdrop instead of a purpose-built learning-room scene, and Replit rendering could not be inspected; therefore it is not promoted to PASS. |
-| Avatar / Buddy | FAIL — P1 visual blocker | Quest has a substantive original illustrated guide + buddy and Sprout Pup has portable art. Gameplay Avatar remains CSS geometry; Headwear and Face & Glasses are real exact-ID art overlays, but top/bottom/shoes/back/hand/aura correspondence is still largely CSS/symbolic. |
-| Catalog Art | FAIL — P1 visual blocker | 53/192 final portable thumbnails are complete and unique; 139 remain. The completed set is repo-owned and exact-ID mapped. |
-| HUD / Nav / Logo | FAIL — P1 visual blocker | Coins/Stars/XP/Mastery HUD and left nav use cobalt/cyan tactile chrome and clear child-sized controls. The StarBlox mark remains styled text and nav uses standard icon treatment rather than fully illustrated premium game chrome. |
-| Mobile | NOT TESTED (rendered) | Static responsive rules are substantially improved, including dedicated Quest reflow and polish. Text clipping, density and touch behavior at actual 320px/390px Replit viewports remain unverified. |
+| Quest | FAIL — P1 pending rendered proof | Source contains an illustrated environment, large original guide + buddy, phase strip, lesson card, answers, hint/why feedback, mastery/Today's Learning rail and earned bar. It still reuses Home-room artwork rather than a purpose-built learning room, and actual Replit rendering at desktop/390/320 remains unverified. |
+| Home | FAIL — P1 visual blocker | Five-tier illustrated room scenes, Dream Goal, Daily Quests, Customize tray, Today's Learning and physical Sprout Pup exist in source. The core player body is still CSS geometry and unfinished items can still fall back to non-final treatment. Rendered composition is NOT TESTED. |
+| Store | FAIL — P1 visual blocker | Catalog art coverage improved to 87 items, but Store is still fundamentally a card-grid/filter experience. The approved large selected-item/right-side character preview and rich item-detail composition remain absent, and 105 items lack final artwork. |
+| Avatar / Buddy | FAIL — P1 visual blocker | Sprout Pup and several equipment categories now have real exact-ID art overlays. The underlying player remains simple CSS geometry; Tops/Bottoms/Auras and general body rendering are not yet premium illustrated character art. |
+| Catalog Art | FAIL — P1 visual blocker | 87/192 final portable thumbnails are complete, unique and repo-local; 105 remain. This cycle integrated the completed 12-item Back Gear set into the manifest and exact equipped mapping. |
+| HUD / Nav / Logo | FAIL — P1 visual blocker | Cobalt/cyan counters and navigation are coherent, but the logo remains styled text and nav/icons remain materially below the illustrated tactile chrome of the references. |
+| Mobile | NOT TESTED rendered | Static breakpoints exist, but clipping, density, touch flow and readable hierarchy on actual iPad/phone viewports were not observable because runtime/browser inspection was unavailable. |
 
-## Integration and QA work in this cycle
+## Integration / QA work this cycle
 
-1. Re-read `VISUAL_NORTH_STAR.md` and latest `main` before integration, then preserved specialist improvements rather than rolling them back.
-2. Integrated/verified specialist Quest composition + polish, question hardening, complete Bottoms/Headwear/Face & Glasses art batches and exact avatar Headwear/Facegear mapping.
-3. Found a release-blocking rapid-purchase risk in the normal Store UI path and added a narrow capture-phase duplicate `Buy Forever` guard without redesigning Store behavior.
-4. Added timing and jsdom interaction coverage proving the second rapid Buy Forever click is intercepted; an initial CI failure exposed the missing jsdom test environment, which was corrected. Exact-head CI is now green.
-5. Continued the question red team and found a real semantic ambiguity in `hfw-cloze-help`, plus weaker risks in automatically generated spelling-context choices. All 20 HFW cloze and all 12 spelling-context items were hardened and their constructs/regressions strengthened by follow-on specialist work.
-6. Updated `QUESTION_QA_LEDGER.md` and README to match current implementation rather than stale earlier state.
-7. Attempted a Replit runtime smoke check; it timed out, so runtime/rendered gates remain BLOCKED/NOT TESTED rather than being guessed.
+1. Re-read `VISUAL_NORTH_STAR.md` and inspected latest GitHub `main`; attempted authoritative Replit inspection first, but Replit Agent remained busy and no runtime result was fabricated.
+2. Preserved the specialist Back Gear batch: all 12 Back Gear SVGs are present, catalog runtime maps all 12 exact IDs, and avatar runtime maps all 12 exact equipped IDs.
+3. Found and repaired integration drift: the manifest still claimed only 77 final items and listed only Back Gear 1–2 even though Back Gear 3–12 had landed. Manifest v9 now records 87/192 with all Back Gear exact IDs.
+4. Updated README from the stale 53-item count to the current 87-item portable set and current equipment wiring.
+5. Verified GitHub Actions run `35394307100` passed install, tests and production build on source head `8e1154a1` after the complete Back Gear runtime mapping landed.
+6. Corrected the stale release claim that no deployment exists. Replit reports `https://star-blox.replit.app` live; source parity and rendered behavior remain NOT TESTED.
+7. Attempted independent public browser visual QA, but the browser connector required interactive user input in this automation context; no rendered claims were inferred from that failure.
 
 ## Release blockers / unverified gates
 
-1. **BLOCKED — Replit runtime:** startup and actual Home/Quest/Market rendering cannot be called PASS until the target Replit runtime can be inspected.
-2. **FAIL — Store visual fidelity:** missing selected-item/character detail composition and 139 finished item thumbnails.
-3. **FAIL — Avatar visual fidelity:** core player remains CSS geometry even though Headwear/Facegear wiring improved substantially.
-4. **FAIL — Home visual fidelity:** illustrated environment is strong, but CSS avatar and fallback item treatment remain below the approved reference bar.
-5. **FAIL / pending proof — Quest visual fidelity:** source now closely follows the requested composition and has an additional premium polish layer, but purpose-built learning-room art and rendered proof remain missing.
-6. **NOT TESTED — rendered mobile:** actual 320px/390px Home/Store/Quest behavior is unobserved.
-7. **NOT TESTED — runtime persistence/reward stress:** IndexedDB recovery, rapid purchase stress and retry interaction need real browser execution.
-8. **FAIL — catalog completion:** 139 item-specific final thumbnails remain.
+1. **BLOCKED — authoritative Replit runtime/source parity:** current development HEAD and rendered Home/Quest/Store cannot be inspected while Replit Agent is busy.
+2. **FAIL — Quest visual proof:** source composition is substantially improved but no rendered proof exists, and the learning-room background remains reused rather than purpose-built.
+3. **FAIL — Store visual fidelity:** missing large selected-item/character detail composition; 105 catalog items still need finished art.
+4. **FAIL — Home/Avatar visual fidelity:** illustrated room work is strong but the core player remains CSS geometry and fallback treatment is still visible for unfinished categories.
+5. **FAIL — HUD/Nav/Logo fidelity:** still materially below the approved illustrated premium chrome target.
+6. **NOT TESTED — rendered mobile/iPad:** actual desktop, iPad, 390px and 320px layouts are unobserved.
+7. **NOT TESTED — runtime persistence/reward/purchase stress:** needs real-browser execution against current Replit source.
+8. **NOT TESTED — live deployment freshness:** deployment exists, but latest GitHub/Replit specialist changes are not proven to be deployed.
 
 ## Highest-priority next action
 
-**Render/smoke-test the new Quest composition in the target Replit runtime at desktop and 390px/320px widths, then fix only the concrete visual/layout defects revealed.** Quest is now structurally close to the approved reference in source, so observed runtime fidelity is the highest-value next gate before shifting primary visual effort to the Store selected-item/detail composition.
+**As soon as Replit Agent becomes available, inspect/smoke-test the authoritative Quest build at desktop, iPad, 390px and 320px widths and fix only the concrete rendering/fidelity defects found there.** Quest remains priority #1 and is structurally closest to the North Star in source; rendered evidence is now the highest-value gate before concentrating the next visual pass on Store selected-item/detail composition.
