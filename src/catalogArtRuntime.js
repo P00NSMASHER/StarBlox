@@ -1,8 +1,10 @@
 import { gameModel } from './gameModel';
 import './shoesAvatarRuntime';
 import './backgearAvatarRuntime';
+import './handgearAvatarRuntime';
 import './shoesAvatar.css';
 import './backgearAvatar.css';
+import './handgearAvatar.css';
 
 // Portable, repo-owned catalog artwork. Keep this map explicit so every finished
 // asset is attached to the exact stable store item ID rather than inferred from
@@ -44,9 +46,6 @@ const portableCatalogArt = Object.freeze({
   'shoes-10': '/assets/catalog/shoes-10.svg',
   'shoes-11': '/assets/catalog/shoes-11.svg',
   'shoes-12': '/assets/catalog/shoes-12.svg',
-  'companions-1': '/assets/catalog/companions-1.svg',
-  'beds-1': '/assets/catalog/beds-1.svg',
-  'desks-1': '/assets/catalog/desks-1.svg',
   'headwear-1': '/assets/catalog/headwear-1.svg',
   'headwear-2': '/assets/catalog/headwear-2.svg',
   'headwear-3': '/assets/catalog/headwear-3.svg',
@@ -71,8 +70,23 @@ const portableCatalogArt = Object.freeze({
   'facegear-10': '/assets/catalog/facegear-10.svg',
   'facegear-11': '/assets/catalog/facegear-11.svg',
   'facegear-12': '/assets/catalog/facegear-12.svg',
+  'companions-1': '/assets/catalog/companions-1.svg',
+  'beds-1': '/assets/catalog/beds-1.svg',
+  'desks-1': '/assets/catalog/desks-1.svg',
   'backgear-1': '/assets/catalog/backgear-1.svg',
-  'backgear-2': '/assets/catalog/backgear-2.svg'
+  'backgear-2': '/assets/catalog/backgear-2.svg',
+  'handgear-1': '/assets/catalog/handgear-1.svg',
+  'handgear-2': '/assets/catalog/handgear-2.svg',
+  'handgear-3': '/assets/catalog/handgear-3.svg',
+  'handgear-4': '/assets/catalog/handgear-4.svg',
+  'handgear-5': '/assets/catalog/handgear-5.svg',
+  'handgear-6': '/assets/catalog/handgear-6.svg',
+  'handgear-7': '/assets/catalog/handgear-7.svg',
+  'handgear-8': '/assets/catalog/handgear-8.svg',
+  'handgear-9': '/assets/catalog/handgear-9.svg',
+  'handgear-10': '/assets/catalog/handgear-10.svg',
+  'handgear-11': '/assets/catalog/handgear-11.svg',
+  'handgear-12': '/assets/catalog/handgear-12.svg'
 });
 
 for (const item of gameModel.store) {
