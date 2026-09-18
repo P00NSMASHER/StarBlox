@@ -181,11 +181,71 @@ const vocabTransfers = {
   scurries:'A squirrel darts across the yard in quick little steps.'
 };
 
+const storyCharacterDistractors = {
+  'new-student':['The new student is sitting alone at lunch.','Maya and the student talk about favorite books by the end of lunch.'],
+  'family-recipe':['At first Ana worries that classmates may think the food looks strange.','Several children want to try the recipe.'],
+  'park-care':['The picnic is already over.','A piece of paper is near a tree.'],
+  'crayons':['Mateo has many crayons.','Priya has only two crayons.']
+};
+
+const religionApplicationItems = [
+  {
+    role:'transfer',
+    prompt:'Unit 1 says people are made in God’s image and likeness and can think, choose, and love. Which action uses those gifts together?',
+    choices:['Think about the choices, choose a kind action, and show love.','Choose without thinking about what the choice does.','Refuse to make any choice when someone needs help.'],
+    answer:'Think about the choices, choose a kind action, and show love.',
+    explanation:'This choice uses thinking, choosing, and loving together, exactly as the Unit 1 source describes.',
+    hint:'Look for the action that includes thinking, choosing, and loving.',
+    difficulty:3,
+    reward:10
+  },
+  {
+    role:'review',
+    prompt:'Which group names the three Persons in the Trinity?',
+    choices:['Father, Son, and Holy Spirit','Father, Son, and Mary','Jesus, Peter, and Paul'],
+    answer:'Father, Son, and Holy Spirit',
+    explanation:'Unit 1 teaches that the Trinity is one God in Three Persons: Father, Son, and Holy Spirit.',
+    hint:'Remember the three Persons named in the Unit 1 lesson.',
+    difficulty:2,
+    reward:9
+  },
+  {
+    role:'transfer',
+    prompt:'Creation is a gift from God. Which action best shows care for creation?',
+    choices:['Put litter in a trash can after a picnic.','Leave paper on the grass for someone else to pick up.','Pull plants out of a garden just to throw them away.'],
+    answer:'Put litter in a trash can after a picnic.',
+    explanation:'Putting litter in the trash is a clear way to care for creation.',
+    hint:'Choose the action that protects and cares for the world around us.',
+    difficulty:3,
+    reward:10
+  },
+  {
+    role:'review',
+    prompt:'Which statement matches the Unit 1 lesson about Jesus?',
+    choices:['Jesus is God’s greatest gift and teaches us about God and how to live.','Jesus is mainly a teacher about winning games.','Jesus teaches that creation should be ignored.'],
+    answer:'Jesus is God’s greatest gift and teaches us about God and how to live.',
+    explanation:'The approved Unit 1 source says Jesus is God’s greatest gift and teaches us about God and how to live.',
+    hint:'Choose the statement that repeats the Unit 1 teaching about Jesus.',
+    difficulty:2,
+    reward:9
+  },
+  {
+    role:'practice',
+    prompt:'What does Unit 1 call the new life Jesus gives us?',
+    choices:['grace','a trophy','a game'],
+    answer:'grace',
+    explanation:'Unit 1 teaches that grace is the new life Jesus gives us.',
+    hint:'The lesson uses one special word for the new life Jesus gives us.',
+    difficulty:2,
+    reward:9
+  }
+];
+
 function seedRandom(seed){
-  let x = seed * 9301 + 49297;
+  let x = (seed ^ 0x9e3779b9) >>> 0;
   return () => {
-    x = (x * 233280 + 49297) % 233280;
-    return x / 233280;
+    x = (Math.imul(x,1664525) + 1013904223) >>> 0;
+    return x / 4294967296;
   };
 }
 
@@ -375,11 +435,11 @@ export function buildQuestions(){
 
     q.push(makeQuestion(
       'story-character-' + story.id,'Reading','Story Street','character-reasoning','transfer',
-      story.text + '\n\nWhich action gives the best clue about the character’s thinking?',
-      [story.character,'The passage has a beginning and an ending.','The story has words on the page.'],
+      story.text + '\n\nWhich detail best shows what the character values or decides to do?',
+      [story.character,...storyCharacterDistractors[story.id]],
       story.character,
-      'A character’s action can reveal what the character thinks or values.',
-      'Choose an action the character actually takes.',4,12
+      'The best clue is a specific choice or action from the passage that reveals the character’s thinking.',
+      'Choose the detail that most directly shows a choice or value.',4,12
     ));
   });
 
@@ -393,21 +453,10 @@ export function buildQuestions(){
       'Think about what the lesson teaches us to understand or do.',3,10
     ));
 
-    const apply = [
-      'Stop, think, and choose a kind action.',
-      'Remember Father, Son, and Holy Spirit when making the Sign of the Cross.',
-      'Pick up litter in the park even when nobody tells you to.',
-      'Show love to someone who feels left out.',
-      'Choose a loving action even when it is harder.'
-    ][i];
-
+    const item = religionApplicationItems[i];
     q.push(makeQuestion(
-      'religion-transfer-' + i,'Religion','Wordwood Garden','religion-application','transfer',
-      'Which real-life choice best applies the lesson “' + fact + '”?',
-      [apply,'Grab the biggest share before anyone else can.','Ignore everyone around you.'],
-      apply,
-      'The correct choice puts the lesson into action.',
-      'Look for the choice that matches the lesson, not just a generally pleasant action.',4,12
+      'religion-transfer-' + i,'Religion','Wordwood Garden','religion-application',item.role,
+      item.prompt,item.choices,item.answer,item.explanation,item.hint,item.difficulty,item.reward
     ));
   });
 
@@ -416,7 +465,7 @@ export function buildQuestions(){
     ['grammar-1','Which plural is correct for “dog”?',['dogs','doges','dogies'],'dogs','Most nouns like dog add -s.'],
     ['grammar-2','Which sentence is a command?',['Please put your book away.','Where is your book?','What a great book!'],'Please put your book away.','A command tells someone to do something.'],
     ['grammar-3','Which sentence is an exclamation?',['That parade was amazing!','Where is the parade?','The parade is today.'],'That parade was amazing!','An exclamation shows strong feeling.'],
-    ['grammar-4','Which sentence best SHOWS that a character is nervous?',['Maya’s hands shook as she waited for her turn.','Maya was nervous.','Maya is a person.'],'Maya’s hands shook as she waited for her turn.','Strong writing can show a feeling through an action.'],
+    ['grammar-4','Which sentence best SHOWS that a character is nervous?',['Maya’s hands shook as she waited for her turn.','Maya tied her shoes before school.','Maya smiled as she opened a birthday gift.'],'Maya’s hands shook as she waited for her turn.','Strong writing can show a feeling through an action.'],
     ['grammar-5','Which is a complete sentence?',['The puppy ran home.','Running very fast.','Under the table.'],'The puppy ran home.','A complete sentence tells a complete thought.']
   ];
 
@@ -439,6 +488,7 @@ export function validateQuestionBank(questions=buildQuestions()){
     ids.add(question.id);
 
     if(!question.prompt || !question.answer || !question.source) issues.push({id:question.id,type:'missing-required-field'});
+    if(question.choices.some(choice => typeof choice !== 'string' || !choice.trim())) issues.push({id:question.id,type:'blank-choice'});
     if(new Set(question.choices).size !== question.choices.length) issues.push({id:question.id,type:'duplicate-choice'});
     if(question.choices.filter(choice => choice === question.answer).length !== 1) issues.push({id:question.id,type:'answer-choice-invariant'});
     if(question.choices.length !== 3) issues.push({id:question.id,type:'choice-count'});
@@ -450,7 +500,8 @@ export function validateQuestionBank(questions=buildQuestions()){
 export function dailyPool(date=Date.now()){
   const all = buildQuestions();
   const day = Math.floor(date / 86400000);
-  return shuffle(all, seedRandom(day));
+  const rng = seedRandom(day);
+  return shuffle(all, rng).map(question => ({...question,choices:shuffle(question.choices,rng)}));
 }
 
 export function pickQuest(stats={},count=5,date=Date.now()){
