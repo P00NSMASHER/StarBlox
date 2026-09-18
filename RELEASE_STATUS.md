@@ -1,6 +1,6 @@
 # StarBlox Release Status
 
-Last integration/release pass: 2026-09-18 (America/New_York), cycle 4.
+Last integration/release pass: 2026-09-18 (America/New_York), cycle 5.
 
 Canonical runtime target: Replit app `StarBlox` (`821e329b-9d6b-4bc9-940d-b18a07aaa463`). GitHub `P00NSMASHER/StarBlox` on `main` is the portable source mirror used for static QA and integration when Replit inspection is unavailable. Floot is legacy reference only.
 
@@ -12,8 +12,8 @@ Latest source code head statically tested this cycle: `8e1154a13deac758fdb9b6021
 
 | Gate | Status | Evidence |
 | --- | --- | --- |
-| Replit authoritative-state inspection | BLOCKED | Three read-only inspection attempts returned that Replit Agent was busy with an earlier request. Current Replit development HEAD, uncommitted changes, and source parity with GitHub therefore remain unverified. |
-| Replit publication | PASS for existence / NOT TESTED for source parity | Replit reports a successful deployment at `https://star-blox.replit.app` (deployment `dc7d0107-184a-48cd-9276-395452ef5b05`). Whether that deployment contains the latest source/art changes is NOT TESTED. |
+| Replit authoritative-state inspection | BLOCKED | Mandatory first inspection and a later retry both returned that Replit Agent was busy with an earlier request. Current Replit development HEAD, uncommitted/Replit-only changes, build/run state, and source parity with GitHub therefore remain unverified. |
+| Replit publication | PASS for existence / NOT TESTED for source parity | Replit again reports deployment `dc7d0107-184a-48cd-9276-395452ef5b05` as `success` at `https://star-blox.replit.app`. Whether that deployment contains the latest Replit workspace state or GitHub mirror changes is NOT TESTED. |
 | Dependency install | PASS (GitHub mirror) | GitHub Actions run `35394307100` completed the Node 22 dependency-install step successfully on source head `8e1154a1`. |
 | Automated tests | PASS (GitHub mirror) | The same run completed the test step successfully. Existing regressions cover the 200-question bank, catalog structure, Home integration, semantic question guards, and rapid-purchase UI guard. |
 | Production build / imports | PASS (GitHub mirror) | The same exact-head run completed the Vite production bundle successfully, including current Home/Quest runtimes and exact-ID equipment runtime imports. |
@@ -42,8 +42,8 @@ The North Star explicitly fails default React/Vite presentation, simple CSS avat
 | Area | Status | Fidelity evidence / remaining gap |
 | --- | --- | --- |
 | Quest | FAIL — P1 pending rendered proof | Source contains an illustrated environment, large original guide + buddy, phase strip, lesson card, answers, hint/why feedback, mastery/Today's Learning rail and earned bar. It still reuses Home-room artwork rather than a purpose-built learning room, and actual Replit rendering at desktop/390/320 remains unverified. |
-| Home | FAIL — P1 visual blocker | Five-tier illustrated room scenes, Dream Goal, Daily Quests, Customize tray, Today's Learning and physical Sprout Pup exist in source. The core player body is still CSS geometry and unfinished items can still fall back to non-final treatment. Rendered composition is NOT TESTED. |
-| Store | FAIL — P1 visual blocker | Catalog art coverage improved to 87 items, but Store is still fundamentally a card-grid/filter experience. The approved large selected-item/right-side character preview and rich item-detail composition remain absent, and 105 items lack final artwork. |
+| Home | FAIL — P1 visual blocker | Five-tier illustrated room scenes, Dream Goal, Daily Quests, Customize tray, Today's Learning and physical Sprout Pup exist in source. The core player body is still CSS geometry; `homeHeroRuntime` still renders a `🔒` emoji in locked tier previews and initials for unfinished item thumbnails, both explicitly below the North Star. Rendered composition is NOT TESTED. |
+| Store | FAIL — P1 visual blocker | Direct inspection of the current mirror render code confirms Store is still only hero + Dream Goal banner + category/tier filters + product-card grid. There is no selected-item state, large right-side character preview, or rich item-detail panel. 105 items also still lack final artwork. |
 | Avatar / Buddy | FAIL — P1 visual blocker | Sprout Pup and several equipment categories now have real exact-ID art overlays. The underlying player remains simple CSS geometry; Tops/Bottoms/Auras and general body rendering are not yet premium illustrated character art. |
 | Catalog Art | FAIL — P1 visual blocker | 87/192 final portable thumbnails are complete, unique and repo-local; 105 remain. This cycle integrated the completed 12-item Back Gear set into the manifest and exact equipped mapping. |
 | HUD / Nav / Logo | FAIL — P1 visual blocker | Cobalt/cyan counters and navigation are coherent, but the logo remains styled text and nav/icons remain materially below the illustrated tactile chrome of the references. |
@@ -51,13 +51,15 @@ The North Star explicitly fails default React/Vite presentation, simple CSS avat
 
 ## Integration / QA work this cycle
 
-1. Re-read `VISUAL_NORTH_STAR.md` and inspected latest GitHub `main`; attempted authoritative Replit inspection first, but Replit Agent remained busy and no runtime result was fabricated.
-2. Preserved the specialist Back Gear batch: all 12 Back Gear SVGs are present, catalog runtime maps all 12 exact IDs, and avatar runtime maps all 12 exact equipped IDs.
-3. Found and repaired integration drift: the manifest still claimed only 77 final items and listed only Back Gear 1–2 even though Back Gear 3–12 had landed. Manifest v9 now records 87/192 with all Back Gear exact IDs.
-4. Updated README from the stale 53-item count to the current 87-item portable set and current equipment wiring.
-5. Verified GitHub Actions run `35394307100` passed install, tests and production build on source head `8e1154a1` after the complete Back Gear runtime mapping landed.
-6. Corrected the stale release claim that no deployment exists. Replit reports `https://star-blox.replit.app` live; source parity and rendered behavior remain NOT TESTED.
-7. Attempted independent public browser visual QA, but the browser connector required interactive user input in this automation context; no rendered claims were inferred from that failure.
+1. Followed the Replit-first requirement: attempted authoritative Replit inspection before making decisions; Replit Agent was busy, and a later retry was also rejected without queueing work.
+2. Re-read `VISUAL_NORTH_STAR.md` and inspected latest GitHub `main`. The mirror head remained `7764644e237f2544b8fd05cf45046d4d424b5948`; no newer GitHub source commit was treated as evidence of Replit state.
+3. Rechecked Replit publication status. Deployment `dc7d0107-184a-48cd-9276-395452ef5b05` still reports `success` at `https://star-blox.replit.app`, but deployed-source freshness remains unverified.
+4. Static integration audit verified that `catalogArtRuntime` transitively imports Shoes, Back Gear and Hand Gear avatar runtimes, so the apparent missing direct imports in `main.jsx` are not an integration defect. Good specialist work was left untouched.
+5. Inspected the actual current Store render path in `App.jsx`. It has no selected-item/detail state or right-side character/item preview, confirming the Store P1 fidelity failure from source rather than inference.
+6. Inspected Home enhancement source and confirmed two explicit North-Star violations remain on a primary screen: locked room tiers use an emoji lock, and unfinished thumbnails can fall back to initials.
+7. Inspected Quest enhancement source and confirmed the intended four-phase strip, illustrated guide, lesson vignette, evidence rail and earned bar are wired in the mirror; actual Replit rendering remains NOT TESTED.
+8. Public-browser rendered QA could not be used in this session, so desktop/390px/320px visual behavior was not guessed.
+9. No application-source change was made while Replit source parity is blocked. Only this evidence ledger was updated, avoiding a GitHub-first change that could overwrite newer Replit-only work.
 
 ## Release blockers / unverified gates
 
@@ -72,4 +74,4 @@ The North Star explicitly fails default React/Vite presentation, simple CSS avat
 
 ## Highest-priority next action
 
-**As soon as Replit Agent becomes available, inspect/smoke-test the authoritative Quest build at desktop, iPad, 390px and 320px widths and fix only the concrete rendering/fidelity defects found there.** Quest remains priority #1 and is structurally closest to the North Star in source; rendered evidence is now the highest-value gate before concentrating the next visual pass on Store selected-item/detail composition.
+**Unblock authoritative Replit inspection, then smoke-test Quest first at desktop, iPad, 390px and 320px and fix only the concrete defects actually visible in that Replit build.** Do not start a GitHub-first Store redesign until Replit parity is established; once Quest rendered proof is in hand, the confirmed next P1 is Store selected-item/character-detail composition.
