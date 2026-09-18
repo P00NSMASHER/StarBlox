@@ -258,8 +258,16 @@ export function shuffle(items, rng=Math.random){
   return a;
 }
 
-function makeQuestion(id,subject,district,skill,role,prompt,choices,answer,explanation,hint,difficulty,reward){
-  return {id,subject,district,skill,role,prompt,choices,answer,explanation,hint,difficulty,reward,source:SOURCE};
+function makeQuestion(id,subject,district,skill,role,prompt,choices,answer,explanation,hint,difficulty,reward,options={}){
+  return {id,subject,district,skill,role,prompt,choices,answer,explanation,hint,difficulty,reward,source:SOURCE,...options};
+}
+
+function spellingSentenceCloze(word){
+  return spellingSentences[word].replace(new RegExp('\\b' + word + '\\b','i'),'_____');
+}
+
+function missingLetterPattern(word,index){
+  return word.slice(0,index) + '_' + word.slice(index + 1);
 }
 
 function choiceLetters(correct, pool, count=2){
@@ -271,39 +279,44 @@ export function buildQuestions(){
 
   spelling.forEach((word,i) => {
     const vowel = vowels[word];
+    const sentenceCloze = spellingSentenceCloze(word);
+    const vowelIndex = word.indexOf(vowel);
     const otherVowels = ['a','e','i','o','u'].filter(v => v !== vowel);
     q.push(makeQuestion(
       'spell-vowel-' + word,'Reading','Lantern Lane','spelling','practice',
-      'Which vowel letter is in the middle of “' + word + '”?',
+      'Which vowel completes this week’s spelling word in the sentence? “' + sentenceCloze + '” Word pattern: ' + missingLetterPattern(word,vowelIndex),
       choiceLetters(vowel, otherVowels),vowel,
-      'The middle vowel in “' + word + '” is “' + vowel + '.”',
-      'Say the word slowly and look at the middle letter.',1,7
+      'The weekly spelling word is “' + word + ',” so the missing vowel is “' + vowel + '.”',
+      'Use the sentence clue, then say the word slowly and listen for the middle vowel.',2,8,
+      {masteryEligible:false}
     ));
 
     const first = word[0];
     const firstPool = ['b','f','h','j','m','n','p','t','w'].filter(x => x !== first);
     q.push(makeQuestion(
-      'spell-first-' + word,'Reading','Lantern Lane','spelling','review',
-      'Which letter begins the word “' + word + '”?',
+      'spell-first-' + word,'Reading','Lantern Lane','spelling','practice',
+      'Which first letter completes this week’s spelling word in the sentence? “' + sentenceCloze + '” Word pattern: ' + missingLetterPattern(word,0),
       choiceLetters(first, firstPool.slice(i % 4)),first,
-      '“' + word + '” begins with “' + first + '.”',
-      'Look at the first letter.',1,7
+      'The weekly spelling word is “' + word + ',” so it begins with “' + first + '.”',
+      'Use the sentence clue and the visible word pattern before choosing the first letter.',2,8,
+      {masteryEligible:false}
     ));
 
     const last = word[word.length-1];
     const lastPool = ['b','g','l','n','s','t','x'].filter(x => x !== last);
     q.push(makeQuestion(
-      'spell-last-' + word,'Reading','Lantern Lane','spelling','review',
-      'Which letter ends the word “' + word + '”?',
+      'spell-last-' + word,'Reading','Lantern Lane','spelling','practice',
+      'Which final letter completes this week’s spelling word in the sentence? “' + sentenceCloze + '” Word pattern: ' + missingLetterPattern(word,word.length-1),
       choiceLetters(last, lastPool.slice(i % 3)),last,
-      '“' + word + '” ends with “' + last + '.”',
-      'Look at the final letter.',1,7
+      'The weekly spelling word is “' + word + ',” so it ends with “' + last + '.”',
+      'Use the sentence clue and the visible word pattern before choosing the final letter.',2,8,
+      {masteryEligible:false}
     ));
 
     const rhyme = rhymes[word];
     const rhymeDistractors = ['cap','bed','fish','moon','cake'].filter(x => x !== rhyme);
     q.push(makeQuestion(
-      'rhyme-' + word,'Reading','Lantern Lane','phonics','transfer',
+      'rhyme-' + word,'Reading','Lantern Lane','phonics','practice',
       'Which word rhymes with “' + word + '”?',
       [rhyme, rhymeDistractors[i % rhymeDistractors.length], rhymeDistractors[(i+2) % rhymeDistractors.length]],
       rhyme,
