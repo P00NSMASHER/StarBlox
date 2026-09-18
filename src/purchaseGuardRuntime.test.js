@@ -1,3 +1,4 @@
+// @vitest-environment jsdom
 import { describe, expect, it } from 'vitest';
 import { RAPID_PURCHASE_GUARD_MS, installPurchaseGuard, shouldBlockRapidPurchase } from './purchaseGuardRuntime';
 
