@@ -108,6 +108,24 @@ function dailyRows(save){
   ];
 }
 
+export function homeFingerprint(save){
+  return JSON.stringify({
+    coins:save?.coins || 0,
+    stars:save?.stars || 0,
+    xp:save?.xp || 0,
+    starWorth:save?.starWorth || 0,
+    dreamGoalId:save?.dreamGoalId || '',
+    owned:[...(save?.owned || [])],
+    daily:save?.daily || {},
+    equipped:save?.equipped || {},
+    roomDecor:[...(save?.roomDecor || [])],
+    companionBond:save?.companionBond || 0,
+    stats:Object.entries(save?.stats || {})
+      .sort(([a],[b]) => a.localeCompare(b))
+      .map(([key,value]) => [key,value?.seen,value?.lastSeen,value?.correct,value?.independentCorrect])
+  });
+}
+
 function decorateAvatarNode(node,save){
   if(!node || !save) return;
   const topIndex = itemNumber(save.equipped?.top) - 1;
@@ -212,11 +230,7 @@ function buildHome(roomPage,save){
 
   roomPage.querySelector('.homeHeroRuntime')?.remove();
   roomPage.classList.add('homeHeroReady');
-  roomPage.dataset.homeHeroFingerprint = JSON.stringify({
-    coins:save.coins,stars:save.stars,xp:save.xp,starWorth:save.starWorth,dreamGoalId:save.dreamGoalId,
-    daily:save.daily,equipped:save.equipped,roomDecor:save.roomDecor,companionBond:save.companionBond,
-    stats:Object.entries(save.stats || {}).map(([key,value]) => [key,value?.seen,value?.lastSeen,value?.correct,value?.independentCorrect])
-  });
+  roomPage.dataset.homeHeroFingerprint = homeFingerprint(save);
 
   const root = document.createElement('section');
   root.className = `homeHeroRuntime homeTier${room.id}`;
@@ -342,7 +356,7 @@ function enhance(){
 
   const roomPage = document.querySelector('.roomPage');
   if(roomPage){
-    const fp = JSON.stringify({coins:save.coins,stars:save.stars,xp:save.xp,starWorth:save.starWorth,dreamGoalId:save.dreamGoalId,daily:save.daily,equipped:save.equipped,roomDecor:save.roomDecor,companionBond:save.companionBond,stats:save.stats});
+    const fp = homeFingerprint(save);
     if(roomPage.dataset.homeHeroFingerprint !== fp) buildHome(roomPage,save);
   }
 
