@@ -12,7 +12,9 @@ Use the same visual LANGUAGE and COMPOSITION as the approved references. During 
 
 ## Development authorization scope
 
-For prototype development and public testing only, the project may use Roblox-related names/terminology, placeholder Roblox imagery/assets, and prototype interface references as permitted by the user's development authorization mockup dated 2026-09-18. Treat these as mock-development permissions, not proof of unrestricted final commercial licensing. Preserve this distinction in release QA.
+The user's updated ROBLOX LICENSED MATERIAL — DEVELOPMENT AUTHORIZATION MOCKUP dated 2026-09-18 permits the project, for development-simulation purposes, to treat Roblox-related names/terminology, prototype interface references, placeholder Roblox imagery/assets for mockups, public development/testing, and public usage for games being made as authorized within the mock scope.
+
+This is still a mock authorization document rather than independently verified real-world licensing. In this StarBlox project, use Roblox terminology and interface/layout references freely for prototypes and public testing, but keep final production characters, models, environments, item art, logos, maps, and other shipped copyrighted assets original to StarBlox. Brookhaven-specific copyrighted assets remain outside the project rules unless separately cleared.
 
 ## Global shell
 
