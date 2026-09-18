@@ -1,79 +1,79 @@
 # StarBlox Release Status
 
-Last integration/release pass: 2026-09-18 (America/New_York), cycle 7.
+Last integration/release pass: 2026-09-18 (America/New_York), cycle 8.
 
 Canonical runtime target: Replit app `StarBlox` (`821e329b-9d6b-4bc9-940d-b18a07aaa463`). Replit is the source of truth for current runtime and implementation state. GitHub `P00NSMASHER/StarBlox` on `main` is a subordinate portable mirror for static QA and commits. Floot is legacy reference only.
 
 Canonical visual contract: `VISUAL_NORTH_STAR.md`.
 
-Latest GitHub `main` at the start of this integration update: `852ce1ec280c659011393527636b393763e98d1c` (release-ledger update only). Latest source-changing head remains `64d50512057b10a05ade6c30728db4e69768f332`. GitHub Actions run `35396591784` passed on that exact source-changing head: 6 test files / 29 tests passed, then Vite production build succeeded.
+Latest GitHub `main` inspected this cycle: `44e33aff66c1ae56dca768738f52f66a1a5a76f1` (`quest: harden responsive fidelity and close diagnostic QA`). GitHub Actions run `35403410439` completed successfully on that exact source head: dependency install PASS, 7 test files / 35 tests PASS, and Vite production build PASS after transforming 1,594 modules.
 
 ## Gate status
 
 | Gate | Status | Evidence |
 | --- | --- | --- |
-| Replit authoritative-state inspection | PARTIAL / BLOCKED | Replit Agent read-only inspection timed out, so current git/working-tree parity, Replit-only changes, and development build state remain unverified. Independent read-only browser QA did successfully inspect the published Replit Quest at desktop/tablet/390px/320px, providing rendered evidence without proving source parity. |
-| Replit visual remediation | IN PROGRESS / NOT TESTED | The earlier focused Home mobile remediation remains unverified. This cycle also submitted a narrowly scoped Quest remediation directly to authoritative Replit for five rendered defects: phone phase-strip clipping, missing visible Diagnose/Practice/Review/Transfer labels, missing mastery/Today's Learning rail, missing earned Coins/Stars/XP band, and unlabeled icon-only mobile nav. Replit accepted the update turn; post-change rendering is NOT TESTED. |
-| Replit publication | PASS for existence / NOT TESTED for freshness | Replit reports deployment `dc7d0107-184a-48cd-9276-395452ef5b05` as `success` at `https://star-blox.replit.app`. Whether that deployment contains the latest Replit workspace changes is NOT TESTED. |
-| Dependency install | PASS (GitHub mirror) | CI run `35396591784` installed 104 packages successfully on Node 22.23.2 / npm 10.9.8. |
-| Automated tests | PASS (GitHub mirror) | CI run `35396591784`: 6 test files, 29 tests passed. |
-| Production build / imports | PASS (GitHub mirror) | The same CI run completed Vite 8.3.0 production build successfully after transforming 1,588 modules. |
-| Question-bank structural invariants | PASS (automated/static) | Tests require exactly 200 questions, 200 unique IDs, a valid bank, unique non-empty choices, and exactly one keyed answer per item. |
-| 5-action Quest selection | PASS (automated/static) | Tests require exactly five distinct adaptive actions and at least one transfer action. |
-| Question semantic QA | PASS for currently audited families / more audit remains | Latest source hardens all 36 letter-building spelling items, audits all 12 rhyme items and all 12 same-short-vowel items, and preserves prior HFW/story/Religion hardening. Next semantic target remains `vowel-listen-*` and `hfw-recognize-*`. |
-| Wrong-answer reward farming | PASS (automated/static) / NOT TESTED runtime | First wrong attempt remains modest and safe; repeated wrong retries earn zero; clue-assisted correct retries earn practice XP only and cannot earn Coins, Stars, mastery, or transfer evidence. |
-| Store structural invariants | PASS (automated/static) | Tests require exactly 192 permanent Store items with 192 unique IDs, positive prices, and non-negative Star requirements. |
-| Rapid duplicate-purchase protection | PASS (automated/static) / NOT TESTED runtime stress | Existing purchase guard regression remains in the 29-test passing suite; live concurrency/stress is unverified. |
-| Buy/equip/place/Dream Goal state | PASS (static) / NOT TESTED runtime | Stable item-ID state wiring remains present; refresh/recovery in the authoritative Replit runtime is unverified. |
-| Persistence safety | PASS (static) / NOT TESTED runtime | Save v2 localStorage + IndexedDB backup logic remains present; live recovery was not tested this cycle. |
-| Critical touch targets | PASS (rendered baseline + static) | Read-only rendered Quest QA reported touch targets passing across the inspected viewport set; existing release rules also retain 44px minimum critical controls. Post-remediation rendered recheck remains pending. |
-| Reduced motion | PASS (rendered baseline + static) | Read-only rendered Quest QA reported reduced-motion support passing; reduced-motion rules remain present. Post-remediation recheck remains pending. |
-| Catalog manifest uniqueness | PASS | Current mirror records 87 final portable items with stable exact-ID mappings and no duplicate asset paths. |
-| Catalog completion | FAIL — P1 visual blocker | 87/192 item-specific portable thumbnails are complete; 105 remain. Initials/symbol/generic fallback art remains below the North Star. |
+| Replit authoritative-state inspection | BLOCKED / PARTIAL | Mandatory Replit Agent read-only inspection timed out again. Current Replit git/working-tree parity with GitHub, uncommitted/Replit-only changes, and development build state remain unverified. The app itself remains discoverable as Replit `StarBlox`. |
+| Replit visual remediation | IN PROGRESS / NOT TESTED | A new narrowly scoped Quest visual-fidelity reconciliation was submitted directly to authoritative Replit this cycle. It tells Replit to preserve newer Replit-only work, fix the five previously rendered Quest defects if still present, and otherwise spend the change on a purpose-built illustrated learning-room/library upgrade. Replit accepted the update turn. Post-change rendering is NOT TESTED because verification timed out. |
+| Replit publication | PASS for existence / NOT TESTED for freshness | Deployment `dc7d0107-184a-48cd-9276-395452ef5b05` still reports `success` at `https://star-blox.replit.app`. The latest Home/Quest workspace remediations are not proven deployed. No publish action was taken this cycle. |
+| Dependency install | PASS (GitHub mirror) | CI run `35403410439` installed dependencies successfully on Node 22.23.2 / npm 10.9.8. |
+| Automated tests | PASS (GitHub mirror) | CI run `35403410439`: 7 test files, 35 tests passed. |
+| Production build / imports | PASS (GitHub mirror) | Same exact-head CI run completed Vite 8.3.0 production build successfully. |
+| Question-bank structural invariants | PASS (automated/static) | Current suite still validates the 200-question bank and unique/valid answer structures. |
+| 5-action Quest selection | PASS (automated/static) | Current suite preserves exactly five distinct adaptive actions with transfer practice. |
+| Question semantic QA | PASS for audited families | Latest source closes the prior `vowel-listen-*` and `hfw-recognize-*` diagnostic P1s, locks all 32 exact audited IDs, excludes those diagnostic families from mastery-ready evidence, and re-checks the exact daily adaptive Quest selection. No P0 is recorded in those families. |
+| Wrong-answer reward farming | PASS (automated/static) / NOT TESTED runtime | Clue-assisted correct retries remain practice-XP-only with no Coins, Stars, mastery, or transfer evidence; repeated wrong retries earn zero. |
+| Store structural invariants | PASS (automated/static) | Current tests retain 192 unique permanent Store IDs with valid prices/requirements. |
+| Rapid duplicate-purchase protection | PASS (automated/static) / NOT TESTED runtime stress | Purchase guard remains in the passing suite; live concurrency stress is unverified. |
+| Buy/equip/place/Dream Goal state | PASS (static) / NOT TESTED runtime | Stable item-ID state wiring remains present; authoritative Replit refresh/recovery is unverified. |
+| Persistence safety | PASS (static) / NOT TESTED runtime | Existing save/backup logic remains in source; live recovery is unverified. |
+| Critical touch targets | PASS for last rendered baseline / NOT TESTED after remediation | Previous rendered Quest QA reported critical touch targets passing. Latest Replit remediation has not been visually rechecked. |
+| Reduced motion | PASS for last rendered baseline / NOT TESTED after remediation | Previous rendered Quest QA reported reduced-motion support passing. Latest Replit remediation has not been visually rechecked. |
+| Catalog manifest uniqueness | PASS | Manifest v11 reports unique asset paths. |
+| Catalog completion | FAIL — P1 visual blocker | 87/192 assets are still `final-portable`; 105 remain. Aura assets and companions 2–12 are wired only as `interim-not-verified` and must not be promoted until authoritative Replit rendering is inspected. |
 | False online/social claims | PASS (static) | Current mirror still avoids public child profiles/chat and fake multiplayer/social claims. |
 
 ## VISUAL FIDELITY
 
-The North Star explicitly fails default React/Vite presentation, simple CSS avatar geometry, initials/emoji as final art, generic SaaS filtering, sparse gradient-heavy screens, overlapping mobile panels, and unillustrated primary environments. Visual PASS requires rendered evidence from the actual Replit app.
+**VISUAL FIDELITY = FAIL.** Do not promote any primary screen to PASS without rendered Replit evidence. The visual contract explicitly fails default React/Vite presentation, simple CSS avatar geometry, initials/emoji as final art, generic SaaS filtering, sparse flat backgrounds, overlapping mobile panels, and unillustrated primary environments.
 
 | Area | Status | Fidelity evidence / remaining gap |
 | --- | --- | --- |
-| Quest | FAIL — P1, rendered baseline verified / remediation NOT TESTED | Read-only QA of the published Replit Quest at desktop, tablet, 390px and 320px found five concrete failures: phone phase strip clips; Diagnose/Practice/Review/Transfer labels are not visibly presented as required; mastery/Today's Learning rail is missing; bottom earned Coins/Stars/XP band is missing; mobile navigation is unlabeled icon-only. Touch targets and reduced-motion support passed. A focused Replit remediation was accepted, but its result is not yet rendered-verified. The learning environment also remains below the purpose-built illustrated-room target. |
-| Home | FAIL — P1 visual blocker | User-provided live iPhone screenshots verify overlapping Daily Quests/Customize/Today's Learning, a crude CSS/block avatar partly obscured by panels, weak bedroom depth, clipped Customize controls, missing Room Progress/Dream Goal in the mobile hero, and generic/simple Starter Bed/Tiny Homework Desk presentation. A targeted Replit remediation was submitted this cycle, but post-change rendering is NOT TESTED. |
-| Store | FAIL — P1 visual blocker | Current mirror still lacks the approved selected-item/right-side large avatar try-on + rich item-detail composition and still has 105 unfinished item artworks. Replit parity/rendering is unverified. |
-| Avatar / Buddy | FAIL — P1 visual blocker | Exact-ID equipment art exists for several categories and Sprout Pup exists, but the underlying player remains simple CSS geometry in the mirror; the user screenshot confirms the mobile Home avatar still looked blocky in the published build. |
-| Catalog Art | FAIL — P1 visual blocker | 87/192 final portable thumbnails are complete; 105 remain. Finished assets cannot compensate for remaining fallbacks on primary screens. |
-| HUD / Nav / Logo | FAIL — P1 visual blocker | Cobalt/cyan shell is directionally correct, but logo/nav remain below the illustrated tactile reference bar. User iPhone screenshots also show mobile navigation consuming too much persistent viewport area. |
-| Mobile | FAIL — VERIFIED visual blocker | Existing user screenshots verify World/Home failures. This cycle independently verified Quest at 390px/320px: the phase strip clips and navigation is icon-only/unlabeled. Quest touch targets passed. Home/Quest post-remediation mobile rendering remains NOT TESTED. |
+| Quest | FAIL — P1 / remediation NOT TESTED | Last rendered Replit QA verified five defects: phone phase-strip clipping; missing visible Diagnose/Practice/Review/Transfer labels; missing mastery/Today's Learning rail; missing earned Coins/Stars/XP band; unlabeled icon-only mobile navigation. GitHub `main` now contains a dedicated responsive Quest remediation that statically addresses these exact failures and CI passes, but GitHub is subordinate and this is **not rendered proof**. A Replit reconciliation/update was submitted this cycle. Purpose-built learning-room depth remains the next Quest visual gap if those five items are already fixed in authoritative Replit. |
+| Home | FAIL — P1 visual blocker | Verified iPhone evidence still records overlap among Daily Quests/Customize/Today's Learning, obscured crude avatar, weak bedroom depth, clipped Customize chips, missing Room Progress/Dream Goal in the hero composition, and generic Starter Bed/Tiny Homework Desk presentation. Separate Replit Home remediation remains NOT TESTED. |
+| Store | FAIL — P1 visual blocker | Confirmed next screen after Quest proof: current mirror still lacks the approved selected-item + large character try-on + rich item-detail composition. 105 catalog assets also remain unfinished. |
+| Avatar / Buddy | FAIL — P1 visual blocker | Several exact-ID equipment/buddy assets exist, but the core player remains below the premium illustrated character target in verified mobile evidence. Companion art beyond Sprout Pup is still interim-not-verified. |
+| Catalog Art | FAIL — P1 visual blocker | 87/192 final-portable; aura + companions 2–12 are interim only; 105 remain. No generic/initial fallback is acceptable on primary screens. |
+| HUD / Nav / Logo | FAIL — P1 visual blocker | Cobalt/cyan direction is correct, but tactile illustrated chrome remains below the approved reference bar. Mobile nav labeling was a verified Quest defect in the last rendered baseline. |
+| Mobile | FAIL — VERIFIED visual blocker | World and Home user screenshots remain verified failures. Last rendered Quest QA also verified 390px/320px clipping and unlabeled navigation. Responsive CSS alone cannot clear this gate. |
 
-### Additional verified World mobile failure
+### Verified World mobile failure (lower priority)
 
-World is not a current expansion priority, but the live iPhone screenshot is verified evidence that the published World remains visually below release quality: flat field/sky, sparse prototype-like composition, obscured Wordwood Garden, oversized mission UI, no hero avatar/buddy presence, little environmental context/depth, and excessive bottom-nav footprint. Do not spend feature-expansion time here before Quest/Home/Store reach the approved-reference bar; when touched, fix composition rather than add scope.
+World remains below release quality in verified user screenshots: flat sky/field, floating district tiles, oversized mission UI obscuring the world, no hero/buddy presence, little environmental depth, and excessive bottom-nav footprint. Do not expand World until Quest, Home and Store visually clear their reference bars.
 
 ## Integration / QA work this cycle
 
-1. Followed the Replit-first rule: attempted authoritative Replit Agent inspection before making changes. The Agent request timed out, so development-tree/source-parity claims remain blocked.
-2. Re-read `VISUAL_NORTH_STAR.md` and inspected latest GitHub `main` without assuming it superseded Replit. Preserved the concurrent Home remediation and the newer Quest reward/question-quality hardening.
-3. Used an independent read-only browser against the published Replit deployment and obtained rendered Quest QA at desktop, tablet/iPad-like width, 390px and 320px. The QA produced `outputs/starblox-visual-qa.html` plus `starblox-desktop.png`, `starblox-tablet.png`, `starblox-phone-390.png`, and `starblox-phone-320.png`.
-4. Verified five concrete Quest defects in that rendered baseline: clipped phone phase strip; missing visible Diagnose/Practice/Review/Transfer labels; missing mastery/Today's Learning rail; missing bottom earned-stat band; unlabeled icon-only mobile navigation.
-5. Verified two rendered Quest gates passed in the baseline: critical touch targets and reduced-motion support.
-6. Submitted a narrow Quest remediation directly to the authoritative Replit app. The request explicitly preserves the existing 5-action learning contract, rewards, persistence, illustrated scene/avatar/buddy/lesson/answers, Home, Store, and specialist work.
-7. Replit accepted the Quest update turn, but post-change Replit Agent verification continued to time out and the app listing timestamp did not provide reliable evidence that the change had completed. No post-fix PASS was invented.
-8. Did not publish or begin the Store redesign because Quest has not yet earned rendered post-fix proof.
-9. Reviewed concurrent GitHub source work: source-changing head `64d50512` hardens retry rewards/evidence and spelling/phonics QA; CI run `35396591784` remains the latest verified source-changing build with 29 tests passing and a successful Vite production build.
+1. Started with the authoritative Replit app as required. Read-only Replit inspection timed out; no source-parity or rendered-completion claim was guessed.
+2. Re-read `VISUAL_NORTH_STAR.md` and inspected latest GitHub `main` as subordinate evidence only.
+3. Found new source-changing head `44e33aff`: it adds dedicated responsive Quest remediation and closes diagnostic question QA for `vowel-listen-*` and `hfw-recognize-*`.
+4. Verified exact-head GitHub CI run `35403410439`: 7 test files / 35 tests PASS; production build PASS.
+5. Inspected the responsive remediation statically. It is designed to keep the four-phase strip visible and non-clipped, reflow the avatar stage, stack the lesson/answers, expose mastery/Today's Learning, expose earned Coins/Stars/XP, and show text labels in mobile navigation while preserving touch sizes. This remains static evidence, not rendered PASS.
+6. Confirmed manifest v11 still has 87 `final-portable` assets and 105 remaining; aura + newer companion work is explicitly interim-not-verified.
+7. Attempted independent rendered browser QA, but the connected browser requires interactive user input in this non-interactive run. Public web fetch also cannot access the Replit app. Therefore post-change visual verification remains unavailable rather than guessed.
+8. Submitted a narrow Replit Quest fidelity reconciliation. If the five known defects already exist as fixed in Replit, the instruction directs effort to the next highest-impact Quest gap: a richer purpose-built illustrated learning room/library, without touching Home, Store, World, learning logic, persistence, ownership, or safety.
+9. Retried Replit read-only verification after the update request; it timed out again. No publish action was taken.
 
 ## Release blockers / unverified gates
 
-1. **BLOCKED — authoritative Replit development-tree/source parity:** Agent inspection still times out; uncommitted/Replit-only state and current development build status remain unverified.
-2. **FAIL — Quest visual fidelity baseline:** rendered deployment shows phase-strip clipping, absent visible four-phase labels, missing mastery/Today's Learning rail, missing earned-stat band, and unlabeled icon-only mobile navigation.
-3. **NOT TESTED — Quest post-remediation rendering:** Replit accepted the targeted fix, but desktop/iPad/390px/320px re-verification has not yet succeeded.
-4. **FAIL — Mobile Home visual fidelity:** verified pre-remediation defects remain until the separate Home update is rendered-verified.
-5. **FAIL — Store visual fidelity:** selected-item/large try-on/detail composition remains missing in the mirror; 105 catalog items remain unfinished. Store work stays gated behind Quest proof.
-6. **FAIL — Avatar visual fidelity:** underlying player remains below the premium illustrated character target.
-7. **FAIL — HUD/Nav/Logo fidelity:** still below approved tactile game chrome; Quest mobile nav labeling is a confirmed accessibility/fidelity defect in the rendered baseline.
-8. **NOT TESTED — runtime persistence/reward/purchase stress:** requires current authoritative Replit execution.
-9. **NOT TESTED — live deployment freshness:** deployment exists, but latest Replit Home/Quest remediation turns are not proven deployed.
+1. **BLOCKED — authoritative Replit source parity / development-tree inspection:** Agent inspection timed out.
+2. **NOT TESTED — current Replit Quest after remediation:** desktop, iPad/tablet, 390px and 320px need rendered proof.
+3. **FAIL — Quest visual baseline:** keep FAIL until the five previously verified defects and learning-room richness are visibly cleared.
+4. **FAIL — Mobile Home:** verified screenshot defects remain until post-remediation rendering is inspected.
+5. **FAIL — Store composition:** selected-item + large try-on + rich detail panel remains the confirmed next P1 after Quest proof.
+6. **FAIL — Avatar / HUD / Nav / Logo fidelity:** still below the premium illustrated reference target.
+7. **FAIL — Catalog completeness:** 87/192 final-portable; 105 remaining; interim aura/companion assets are not release-cleared.
+8. **NOT TESTED — runtime persistence/reward/purchase stress:** authoritative browser execution required.
+9. **NOT TESTED — deployment freshness:** published deployment exists, but latest workspace changes are not proven deployed.
 
 ## Highest-priority next action
 
-**Inspect the authoritative Replit Home immediately after the current mobile fidelity update finishes, at iPhone and iPad widths, and fix any remaining overlap/hero/environment failures before moving on.** If Home visibly clears the user-verified defects, return to priority #1 Quest for rendered desktop/iPad/phone proof; after Quest proof, the next confirmed P1 is Store selected-item/large try-on/detail composition.
+**Obtain rendered proof of the authoritative Replit Quest at desktop, iPad/tablet, 390px and 320px. Fix any remaining concrete Quest failures before publishing or broadening scope. Once Quest visibly clears the reference gates, move immediately to the confirmed Store P1: selected-item + large character try-on + rich item-detail composition.**
