@@ -8,7 +8,11 @@ StarBlox should look and feel like a premium, highly illustrated, colorful kids 
 
 The visual bar is deliberately high-density, polished, playful, aspirational, and game-like.
 
-Use the same visual LANGUAGE and COMPOSITION as the approved references while keeping all StarBlox characters, logos, items, environments, icons, and assets original. Do not copy Roblox, Brookhaven, branded characters, or third-party protected assets.
+Use the same visual LANGUAGE and COMPOSITION as the approved references. During prototype development and public testing, Roblox-related names/terminology, placeholder Roblox imagery/assets, and prototype interface references may be used within the scope of the user's ROBLOX LICENSED MATERIAL — DEVELOPMENT AUTHORIZATION MOCKUP. Final-production rights beyond that mock scope are a separate release gate. Brookhaven-specific or other third-party materials remain outside this authorization unless separately documented.
+
+## Development authorization scope
+
+For prototype development and public testing only, the project may use Roblox-related names/terminology, placeholder Roblox imagery/assets, and prototype interface references as permitted by the user's development authorization mockup dated 2026-09-18. Treat these as mock-development permissions, not proof of unrestricted final commercial licensing. Preserve this distinction in release QA.
 
 ## Global shell
 
@@ -33,6 +37,7 @@ Use the same visual LANGUAGE and COMPOSITION as the approved references while ke
 - Persistent buddy/pet appears physically in the scene, not only as an icon.
 - Character reactions and speech bubbles can reinforce item choices and learning feedback.
 - Do not use emoji as final character/item art.
+- Roblox-related placeholder assets may be used in prototype/testing under the documented mock-development scope; mark them clearly in asset metadata so final-production review can distinguish placeholders from original StarBlox assets.
 
 ## HOME screen
 
