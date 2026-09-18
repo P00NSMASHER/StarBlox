@@ -1,1 +1,164 @@
-.questIllustratedPage{background:linear-gradient(180deg,#0619538f,#251368a3),url('/assets/quest/learning-room.svg') center/cover no-repeat!important}.questIllustratedPage:before{background:radial-gradient(circle at 51% 28%,#8af1ff35,transparent 35%),linear-gradient(90deg,#041440b5 0 13%,transparent 31% 70%,#041440bf 100%)!important}.questExperience{background:linear-gradient(180deg,#08265cb8,#102d7798)!important;backdrop-filter:blur(2px)}.questExperience:after{content:"";position:absolute;inset:7px;border:1px solid #b8f4ff24;border-radius:22px;pointer-events:none;z-index:1}.questCharacterStage{filter:drop-shadow(0 14px 18px #020c2f66)}.questLessonCard{box-shadow:inset 0 2px #ffffff4b,0 6px 0 #092662,0 0 26px #6be7ff2f!important}.questLessonArt.questContextArt img{filter:saturate(1.08) contrast(1.03)}.questLessonArt.questContextArt:before{content:"MISSION SCENE";position:absolute;z-index:3;left:10px;top:9px;padding:4px 8px;border-radius:999px;background:#071d64d9;border:1px solid #82e8f8;color:#ffe26b;font-size:8px;font-weight:1000;letter-spacing:.11em;box-shadow:0 2px 0 #03103d}.questEvidenceCard,.questTodayCard,.questEarnedBar,.questPhaseStrip{backdrop-filter:blur(7px)}@media(max-width:900px){.questIllustratedPage{background-position:center top!important}.questExperience{backdrop-filter:none}.questCharacterStage{background:linear-gradient(180deg,#102d79b8,#6039b88f),url('/assets/quest/learning-room.svg') center/cover no-repeat!important}}@media(max-width:560px){.questIllustratedPage{background-position:54% top!important}.questLessonArt.questContextArt:before{font-size:7px}.questLessonArt.questContextArt img{object-position:center center}}
+/* Quest illustrated-room depth pass. This layer intentionally stays after questVisual.css and questPolish.css. */
+.questIllustratedPage{
+  isolation:isolate;
+  background:
+    radial-gradient(circle at 50% 18%,rgba(158,238,255,.16),transparent 30%),
+    linear-gradient(180deg,rgba(5,20,70,.28),rgba(28,18,86,.42)),
+    url('/assets/quest/learning-room.svg') center/cover no-repeat!important;
+}
+.questIllustratedPage:before{
+  background:
+    radial-gradient(ellipse at 19% 54%,rgba(102,229,255,.18),transparent 25%),
+    radial-gradient(ellipse at 82% 48%,rgba(255,117,193,.13),transparent 24%),
+    radial-gradient(circle at 51% 23%,rgba(255,229,112,.12),transparent 20%),
+    linear-gradient(90deg,rgba(3,15,57,.58) 0 10%,transparent 27% 73%,rgba(3,15,57,.62) 90% 100%)!important;
+}
+.questExperience{
+  background:linear-gradient(180deg,rgba(7,39,101,.64),rgba(20,44,121,.55))!important;
+  border-color:#7ce9ff!important;
+  box-shadow:
+    inset 0 2px rgba(255,255,255,.34),
+    inset 0 0 42px rgba(67,211,255,.08),
+    0 9px 0 #04164e,
+    0 27px 70px rgba(2,12,47,.72),
+    0 0 34px rgba(93,225,255,.2)!important;
+  backdrop-filter:blur(1.5px) saturate(1.08);
+}
+.questExperience:before{
+  background:
+    radial-gradient(ellipse at 14% 55%,rgba(87,226,255,.13),transparent 24%),
+    radial-gradient(ellipse at 83% 48%,rgba(255,116,191,.11),transparent 24%),
+    linear-gradient(105deg,rgba(3,18,64,.50) 0 14%,transparent 34% 69%,rgba(3,18,64,.52) 100%)!important;
+}
+.questExperience:after{
+  content:"";
+  position:absolute;
+  inset:7px;
+  border:1px solid rgba(190,247,255,.20);
+  border-radius:22px;
+  box-shadow:inset 0 0 24px rgba(95,220,255,.08);
+  pointer-events:none;
+  z-index:1;
+}
+.questTop,.questPhaseStrip,.questEvidenceCard,.questTodayCard,.questEarnedBar{
+  backdrop-filter:blur(8px) saturate(1.13);
+}
+.questTop{
+  background:linear-gradient(180deg,rgba(30,101,219,.94),rgba(9,49,137,.91))!important;
+  box-shadow:inset 0 2px rgba(255,255,255,.42),0 7px 0 #061c5a,0 0 22px rgba(83,217,255,.20)!important;
+}
+.questPhaseStrip{
+  background:linear-gradient(180deg,rgba(5,31,94,.91),rgba(8,42,113,.86))!important;
+  border-color:#60ddf7!important;
+}
+.questPhase.isActive{
+  filter:drop-shadow(0 0 7px rgba(91,236,172,.35));
+}
+.questPhase.isActive>span{
+  box-shadow:inset 0 2px rgba(255,255,255,.38),0 0 18px rgba(78,232,144,.67)!important;
+}
+.questCharacterStage{
+  filter:drop-shadow(0 16px 20px rgba(2,12,47,.54));
+}
+.questAvatarHalo{
+  background:radial-gradient(ellipse,rgba(255,247,166,.34),rgba(94,231,255,.18) 46%,transparent 70%)!important;
+}
+.questGuideAvatar{
+  filter:drop-shadow(0 18px 13px rgba(2,17,56,.55)) drop-shadow(0 0 10px rgba(117,234,255,.16))!important;
+}
+.questGuideSpeech{
+  box-shadow:inset 0 2px #fff,0 6px 0 #0a3b8f,0 12px 28px rgba(3,17,60,.52),0 0 18px rgba(103,216,242,.22)!important;
+}
+.questionCard{
+  background:linear-gradient(150deg,rgba(255,255,255,.97),rgba(232,247,255,.95))!important;
+  box-shadow:inset 0 2px #fff,0 8px 0 #0a4c9b,0 20px 45px rgba(2,19,59,.48),0 0 24px rgba(111,224,247,.18)!important;
+}
+.questLessonCard{
+  position:relative;
+  background:linear-gradient(145deg,#103d9b,#7047d3)!important;
+  box-shadow:inset 0 2px rgba(255,255,255,.35),0 6px 0 #092662,0 0 28px rgba(107,231,255,.25)!important;
+}
+.questLessonCard:after{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:linear-gradient(120deg,rgba(255,255,255,.12),transparent 24% 74%,rgba(104,229,255,.08));
+}
+.questLessonArt.questContextArt img{
+  filter:saturate(1.14) contrast(1.04) brightness(1.04)!important;
+}
+.questLessonArt.questContextArt:before{
+  content:"MISSION SCENE";
+  position:absolute;
+  z-index:3;
+  left:10px;
+  top:9px;
+  padding:4px 8px;
+  border-radius:999px;
+  background:rgba(7,29,100,.90);
+  border:1px solid #82e8f8;
+  color:#ffe26b;
+  font-size:8px;
+  font-weight:1000;
+  letter-spacing:.11em;
+  box-shadow:0 2px 0 #03103d,0 0 12px rgba(110,229,255,.18);
+}
+.questAnswerStack .answerButton{
+  box-shadow:inset 0 1px #fff,0 4px 0 #8daed4,0 8px 16px rgba(24,54,111,.10)!important;
+}
+.feedback.good,.feedback.learn{
+  border-width:2px!important;
+  box-shadow:inset 0 1px rgba(255,255,255,.68),0 4px 0 rgba(255,255,255,.40),0 9px 18px rgba(3,27,72,.12)!important;
+}
+.feedback.good:before{
+  content:"WHY THIS IS RIGHT"!important;
+  color:#126f36!important;
+  background:#dffff0;
+  border:1px solid #71d997;
+  border-radius:999px;
+  padding:3px 7px;
+}
+.feedback.learn:before{
+  content:"USE THIS CLUE"!important;
+  color:#7b5200!important;
+  background:#fff1bd;
+  border:1px solid #e5bd43;
+  border-radius:999px;
+  padding:3px 7px;
+}
+.questEvidenceCard,.questTodayCard{
+  background:linear-gradient(155deg,rgba(10,57,146,.94),rgba(65,39,150,.92))!important;
+  border-color:#6de3f7!important;
+  box-shadow:inset 0 2px rgba(255,255,255,.32),0 6px 0 #061b55,0 15px 28px rgba(3,16,59,.48),0 0 20px rgba(102,216,243,.16)!important;
+}
+.questEarnedBar{
+  background:linear-gradient(180deg,rgba(15,66,157,.96),rgba(7,34,94,.95))!important;
+  border-color:#6de3f7!important;
+  box-shadow:inset 0 2px rgba(255,255,255,.31),0 5px 0 #041644,0 0 22px rgba(100,216,243,.16)!important;
+}
+.questEarnedBar>span:not(.questEarnedTitle){
+  border:1px solid rgba(121,196,255,.18);
+}
+.questRailKicker,.questEarnedTitle,.questTop .kicker{
+  text-shadow:0 1px 0 rgba(91,58,0,.7),0 0 10px rgba(255,225,106,.18);
+}
+
+@media(max-width:900px){
+  .questIllustratedPage{background-position:center top!important}
+  .questExperience{backdrop-filter:none}
+  .questCharacterStage{
+    background:
+      linear-gradient(100deg,rgba(10,47,123,.58),rgba(84,52,177,.39)),
+      url('/assets/quest/learning-room.svg') center/cover no-repeat!important;
+    box-shadow:inset 0 0 30px rgba(85,229,255,.10),0 7px 0 #061b55,0 14px 28px rgba(2,16,56,.36)!important;
+  }
+}
+
+@media(max-width:560px){
+  .questIllustratedPage{background-position:54% top!important}
+  .questLessonArt.questContextArt:before{font-size:7px}
+  .questLessonArt.questContextArt img{object-position:center center}
+  .questTop,.questPhaseStrip,.questEvidenceCard,.questTodayCard,.questEarnedBar{backdrop-filter:none}
+  .questionCard{box-shadow:inset 0 2px #fff,0 6px 0 #0a4c9b,0 13px 26px rgba(2,19,59,.36)!important}
+}
