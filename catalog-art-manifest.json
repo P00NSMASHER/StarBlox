@@ -1,9 +1,9 @@
 {
-  "version": 6,
+  "version": 7,
   "target": 192,
-  "finalCount": 53,
-  "remaining": 139,
-  "note": "Portable repo-owned premium SVG art is active for all 12 Tops, all 12 Bottoms, Sneakers + Slip-Ons, all 12 Headwear items, all 12 Face & Glasses items, Sprout Pup, Starter Bed, and Tiny Homework Desk. Final paths are unique and mapped by stable item ID; finished Headwear and Face & Glasses art are also used on the avatar via exact equipped IDs.",
+  "finalCount": 65,
+  "remaining": 127,
+  "note": "Portable repo-owned premium SVG art is active for all 12 Tops, all 12 Bottoms, all 12 Shoes, all 12 Headwear items, all 12 Face & Glasses items, Backpack + Mini Pack, Sprout Pup, Starter Bed, and Tiny Homework Desk. Final paths are unique and mapped by stable item ID. Finished Shoes, Headwear, Face & Glasses, and the first two Back Gear items also replace generic equipped-avatar placeholders through exact equipped IDs.",
   "duplicateAssetPaths": [],
   "items": {
     "tops-1": {"name":"Hoodie","assetPath":"/assets/catalog/tops-1.svg","tier":1,"theme":"Cloud Pop","status":"final-portable"},
@@ -32,6 +32,16 @@
     "bottoms-12": {"name":"Star Trousers","assetPath":"/assets/catalog/bottoms-12.svg","tier":5,"theme":"Berry Blast","status":"final-portable"},
     "shoes-1": {"name":"Sneakers","assetPath":"/assets/catalog/shoes-1.svg","tier":1,"theme":"Aqua Wave","status":"final-portable"},
     "shoes-2": {"name":"Slip-Ons","assetPath":"/assets/catalog/shoes-2.svg","tier":1,"theme":"Art Attack","status":"final-portable"},
+    "shoes-3": {"name":"High-Tops","assetPath":"/assets/catalog/shoes-3.svg","tier":1,"theme":"Star Luxe","status":"final-portable"},
+    "shoes-4": {"name":"Bow Shoes","assetPath":"/assets/catalog/shoes-4.svg","tier":2,"theme":"Midnight Neon","status":"final-portable"},
+    "shoes-5": {"name":"Boots","assetPath":"/assets/catalog/shoes-5.svg","tier":2,"theme":"Candy Core","status":"final-portable"},
+    "shoes-6": {"name":"Runners","assetPath":"/assets/catalog/shoes-6.svg","tier":2,"theme":"Adventure Club","status":"final-portable"},
+    "shoes-7": {"name":"Chunky Sneakers","assetPath":"/assets/catalog/shoes-7.svg","tier":3,"theme":"Cloud Pop","status":"final-portable"},
+    "shoes-8": {"name":"Trainers","assetPath":"/assets/catalog/shoes-8.svg","tier":3,"theme":"Pixel Party","status":"final-portable"},
+    "shoes-9": {"name":"Paint Kicks","assetPath":"/assets/catalog/shoes-9.svg","tier":3,"theme":"Berry Blast","status":"final-portable"},
+    "shoes-10": {"name":"Light Shoes","assetPath":"/assets/catalog/shoes-10.svg","tier":4,"theme":"Garden Glow","status":"final-portable"},
+    "shoes-11": {"name":"Platform Sneakers","assetPath":"/assets/catalog/shoes-11.svg","tier":4,"theme":"Galaxy Glow","status":"final-portable"},
+    "shoes-12": {"name":"Star Boots","assetPath":"/assets/catalog/shoes-12.svg","tier":5,"theme":"Sunny Pop","status":"final-portable"},
     "companions-1": {"name":"Sprout Pup","assetPath":"/assets/catalog/companions-1.svg","tier":1,"theme":"Cloud Pop","status":"final-portable"},
     "beds-1": {"name":"Starter Bed","assetPath":"/assets/catalog/beds-1.svg","tier":1,"theme":"Garden Glow","status":"final-portable"},
     "desks-1": {"name":"Tiny Homework Desk","assetPath":"/assets/catalog/desks-1.svg","tier":1,"theme":"Midnight Neon","status":"final-portable"},
@@ -58,6 +68,8 @@
     "facegear-9": {"name":"Splatter Cheeks","assetPath":"/assets/catalog/facegear-9.svg","tier":3,"theme":"Star Luxe","status":"final-portable"},
     "facegear-10": {"name":"Lightning Glasses","assetPath":"/assets/catalog/facegear-10.svg","tier":4,"theme":"Midnight Neon","status":"final-portable"},
     "facegear-11": {"name":"Gem Frames","assetPath":"/assets/catalog/facegear-11.svg","tier":4,"theme":"Candy Core","status":"final-portable"},
-    "facegear-12": {"name":"Star Mask","assetPath":"/assets/catalog/facegear-12.svg","tier":5,"theme":"Adventure Club","status":"final-portable"}
+    "facegear-12": {"name":"Star Mask","assetPath":"/assets/catalog/facegear-12.svg","tier":5,"theme":"Adventure Club","status":"final-portable"},
+    "backgear-1": {"name":"Backpack","assetPath":"/assets/catalog/backgear-1.svg","tier":1,"theme":"Garden Glow","status":"final-portable"},
+    "backgear-2": {"name":"Mini Pack","assetPath":"/assets/catalog/backgear-2.svg","tier":1,"theme":"Galaxy Glow","status":"final-portable"}
   }
 }
