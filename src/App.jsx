@@ -15,6 +15,7 @@ import {
   PawPrint
 } from 'lucide-react';
 import { gameModel } from './gameModel';
+import { scoreQuestAttempt } from './questRewardPolicy';
 import {
   exportSave,
   importSave,
@@ -259,6 +260,28 @@ export function App(){
     const ok = choice === currentQ.answer;
     const wasRetry = wrongRewarded;
     const independent = ok && !wasRetry;
+    const masteryEligible = currentQ.masteryEligible !== false;
+    const snapshot = save.stats[currentQ.skill] || {
+      seen:0,
+      correct:0,
+      wrong:0,
+      lastSeen:0,
+      independentCorrect:0,
+      masteryCorrect:0
+    };
+    const projectedMasteryCorrect =
+      (snapshot.masteryCorrect || 0) + (independent && masteryEligible ? 1 : 0);
+    const becomesMasteredPreview =
+      independent &&
+      masteryEligible &&
+      projectedMasteryCorrect >= 4 &&
+      !save.mastered.includes(currentQ.skill);
+    const previewOutcome = scoreQuestAttempt({
+      question:currentQ,
+      correct:ok,
+      wasRetry,
+      becomesMastered:becomesMasteredPreview
+    });
 
     setSave(current => {
       const old = current.stats[currentQ.skill] || {
@@ -266,7 +289,8 @@ export function App(){
         correct:0,
         wrong:0,
         lastSeen:0,
-        independentCorrect:0
+        independentCorrect:0,
+        masteryCorrect:0
       };
 
       const next = {
@@ -275,33 +299,37 @@ export function App(){
         correct: old.correct + (ok ? 1 : 0),
         wrong: old.wrong + (!ok && !wasRetry ? 1 : 0),
         lastSeen: Date.now(),
-        independentCorrect: (old.independentCorrect || 0) + (independent ? 1 : 0)
+        independentCorrect: (old.independentCorrect || 0) + (independent ? 1 : 0),
+        masteryCorrect: (old.masteryCorrect || 0) + (independent && masteryEligible ? 1 : 0)
       };
 
       const becomesMastered =
         independent &&
-        next.independentCorrect >= 4 &&
+        masteryEligible &&
+        next.masteryCorrect >= 4 &&
         !current.mastered.includes(currentQ.skill);
-
-      const baseReward = ok ? currentQ.reward : (wasRetry ? 0 : 2);
-      const transferBonus = ok && currentQ.role === 'transfer' ? 3 : 0;
-      const masteryBonus = becomesMastered ? 25 : 0;
+      const outcome = scoreQuestAttempt({
+        question:currentQ,
+        correct:ok,
+        wasRetry,
+        becomesMastered
+      });
 
       return {
         ...current,
-        coins: current.coins + baseReward + transferBonus + masteryBonus,
-        stars: current.stars + (becomesMastered ? 1 : 0),
-        xp: current.xp + (ok ? 16 : (wasRetry ? 0 : 6)) + (ok && currentQ.role === 'transfer' ? 5 : 0),
+        coins: current.coins + outcome.coins,
+        stars: current.stars + outcome.stars,
+        xp: current.xp + outcome.xp,
         stats: {...current.stats,[currentQ.skill]:next},
-        mastered: becomesMastered ? [...current.mastered,currentQ.skill] : current.mastered,
-        transferWins: current.transferWins + (ok && currentQ.role === 'transfer' ? 1 : 0),
+        mastered: outcome.masteryAwarded ? [...current.mastered,currentQ.skill] : current.mastered,
+        transferWins: current.transferWins + outcome.transferEvidence,
         daily: {
           ...current.daily,
-          transfers: current.daily.transfers + (ok && currentQ.role === 'transfer' ? 1 : 0)
+          transfers: current.daily.transfers + outcome.transferEvidence
         },
-        districtProgress: ok ? {
+        districtProgress: outcome.districtProgress ? {
           ...current.districtProgress,
-          [currentQ.district]: (current.districtProgress[currentQ.district] || 0) + 1
+          [currentQ.district]: (current.districtProgress[currentQ.district] || 0) + outcome.districtProgress
         } : current.districtProgress
       };
     });
@@ -310,7 +338,11 @@ export function App(){
       setFeedback({
         ok:true,
         text:currentQ.explanation,
-        retry:wasRetry
+        retry:wasRetry,
+        rewardCoins:previewOutcome.coins,
+        rewardXp:previewOutcome.xp,
+        masteryAwarded:previewOutcome.masteryAwarded,
+        transferEvidence:previewOutcome.transferEvidence
       });
 
       advanceTimer.current = window.setTimeout(advanceQuestion,950);
@@ -319,7 +351,11 @@ export function App(){
       setFeedback({
         ok:false,
         text:currentQ.hint,
-        retry:false
+        retry:wasRetry,
+        rewardCoins:previewOutcome.coins,
+        rewardXp:previewOutcome.xp,
+        masteryAwarded:false,
+        transferEvidence:0
       });
     }
   };
@@ -626,8 +662,12 @@ export function App(){
                         <p>{feedback.text}</p>
                         <small>
                           {feedback.ok
-                            ? '+' + (currentQ.reward + (currentQ.role === 'transfer' ? 3 : 0)) + ' Coins · ' + currentQ.district + ' gets brighter · moving on…'
-                            : wrongRewarded ? 'Try again — no penalty.' : 'You earned 2 Coins + XP for learning.'}
+                            ? feedback.retry
+                              ? '+' + feedback.rewardXp + ' XP clue-assisted practice · no Coins, Mastery Star, or transfer evidence · ' + currentQ.district + ' gets brighter · moving on…'
+                              : '+' + feedback.rewardCoins + ' Coins · +' + feedback.rewardXp + ' XP' + (feedback.masteryAwarded ? ' · +1 Mastery Star' : '') + ' · ' + currentQ.district + ' gets brighter · moving on…'
+                            : feedback.rewardCoins > 0
+                              ? '+' + feedback.rewardCoins + ' Coins · +' + feedback.rewardXp + ' XP for the learning attempt · nothing was taken away.'
+                              : 'No extra Coins or XP on this retry · the clue stays available and nothing is taken away.'}
                         </small>
                       </div>
                     )}
