@@ -44,7 +44,19 @@ const portableCatalogArt = Object.freeze({
   'headwear-9': '/assets/catalog/headwear-9.svg',
   'headwear-10': '/assets/catalog/headwear-10.svg',
   'headwear-11': '/assets/catalog/headwear-11.svg',
-  'headwear-12': '/assets/catalog/headwear-12.svg'
+  'headwear-12': '/assets/catalog/headwear-12.svg',
+  'facegear-1': '/assets/catalog/facegear-1.svg',
+  'facegear-2': '/assets/catalog/facegear-2.svg',
+  'facegear-3': '/assets/catalog/facegear-3.svg',
+  'facegear-4': '/assets/catalog/facegear-4.svg',
+  'facegear-5': '/assets/catalog/facegear-5.svg',
+  'facegear-6': '/assets/catalog/facegear-6.svg',
+  'facegear-7': '/assets/catalog/facegear-7.svg',
+  'facegear-8': '/assets/catalog/facegear-8.svg',
+  'facegear-9': '/assets/catalog/facegear-9.svg',
+  'facegear-10': '/assets/catalog/facegear-10.svg',
+  'facegear-11': '/assets/catalog/facegear-11.svg',
+  'facegear-12': '/assets/catalog/facegear-12.svg'
 });
 
 for (const item of gameModel.store) {

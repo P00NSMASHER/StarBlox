@@ -1,9 +1,9 @@
 {
-  "version": 5,
+  "version": 6,
   "target": 192,
-  "finalCount": 41,
-  "remaining": 151,
-  "note": "Portable repo-owned premium SVG art is active for all 12 Tops, all 12 Bottoms, Sneakers + Slip-Ons, all 12 Headwear items, Sprout Pup, Starter Bed, and Tiny Homework Desk. Final paths are unique and mapped by stable item ID; finished Headwear art is also used on the avatar via exact equipped IDs.",
+  "finalCount": 53,
+  "remaining": 139,
+  "note": "Portable repo-owned premium SVG art is active for all 12 Tops, all 12 Bottoms, Sneakers + Slip-Ons, all 12 Headwear items, all 12 Face & Glasses items, Sprout Pup, Starter Bed, and Tiny Homework Desk. Final paths are unique and mapped by stable item ID; finished Headwear and Face & Glasses art are also used on the avatar via exact equipped IDs.",
   "duplicateAssetPaths": [],
   "items": {
     "tops-1": {"name":"Hoodie","assetPath":"/assets/catalog/tops-1.svg","tier":1,"theme":"Cloud Pop","status":"final-portable"},
@@ -46,6 +46,18 @@
     "headwear-9": {"name":"Pencil Crown","assetPath":"/assets/catalog/headwear-9.svg","tier":3,"theme":"Sunny Pop","status":"final-portable"},
     "headwear-10": {"name":"Cat Ears","assetPath":"/assets/catalog/headwear-10.svg","tier":4,"theme":"Aqua Wave","status":"final-portable"},
     "headwear-11": {"name":"Halo Headband","assetPath":"/assets/catalog/headwear-11.svg","tier":4,"theme":"Art Attack","status":"final-portable"},
-    "headwear-12": {"name":"Crystal Crown","assetPath":"/assets/catalog/headwear-12.svg","tier":5,"theme":"Star Luxe","status":"final-portable"}
+    "headwear-12": {"name":"Crystal Crown","assetPath":"/assets/catalog/headwear-12.svg","tier":5,"theme":"Star Luxe","status":"final-portable"},
+    "facegear-1": {"name":"Reader Glasses","assetPath":"/assets/catalog/facegear-1.svg","tier":1,"theme":"Cloud Pop","status":"final-portable"},
+    "facegear-2": {"name":"Heart Shades","assetPath":"/assets/catalog/facegear-2.svg","tier":1,"theme":"Pixel Party","status":"final-portable"},
+    "facegear-3": {"name":"Gamer Visor","assetPath":"/assets/catalog/facegear-3.svg","tier":1,"theme":"Berry Blast","status":"final-portable"},
+    "facegear-4": {"name":"Sparkle Freckles","assetPath":"/assets/catalog/facegear-4.svg","tier":2,"theme":"Garden Glow","status":"final-portable"},
+    "facegear-5": {"name":"Petal Paint","assetPath":"/assets/catalog/facegear-5.svg","tier":2,"theme":"Galaxy Glow","status":"final-portable"},
+    "facegear-6": {"name":"Star Shades","assetPath":"/assets/catalog/facegear-6.svg","tier":2,"theme":"Sunny Pop","status":"final-portable"},
+    "facegear-7": {"name":"Smile Specs","assetPath":"/assets/catalog/facegear-7.svg","tier":3,"theme":"Aqua Wave","status":"final-portable"},
+    "facegear-8": {"name":"Bubble Frames","assetPath":"/assets/catalog/facegear-8.svg","tier":3,"theme":"Art Attack","status":"final-portable"},
+    "facegear-9": {"name":"Splatter Cheeks","assetPath":"/assets/catalog/facegear-9.svg","tier":3,"theme":"Star Luxe","status":"final-portable"},
+    "facegear-10": {"name":"Lightning Glasses","assetPath":"/assets/catalog/facegear-10.svg","tier":4,"theme":"Midnight Neon","status":"final-portable"},
+    "facegear-11": {"name":"Gem Frames","assetPath":"/assets/catalog/facegear-11.svg","tier":4,"theme":"Candy Core","status":"final-portable"},
+    "facegear-12": {"name":"Star Mask","assetPath":"/assets/catalog/facegear-12.svg","tier":5,"theme":"Adventure Club","status":"final-portable"}
   }
 }

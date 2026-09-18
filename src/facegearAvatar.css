@@ -1,0 +1,22 @@
+.faceGear.portableFaceGear{
+  top:26px;
+  left:50%;
+  width:118px;
+  height:92px;
+  transform:translateX(-50%);
+  color:transparent;
+  background-image:var(--facegear-art);
+  background-repeat:no-repeat;
+  background-position:center;
+  background-size:contain;
+  filter:drop-shadow(0 6px 7px #271b5738) drop-shadow(0 0 4px #8eeaff66);
+  z-index:10;
+  pointer-events:none;
+}
+@media(max-width:720px){
+  .faceGear.portableFaceGear{
+    width:106px;
+    height:84px;
+    top:29px;
+  }
+}
