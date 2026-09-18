@@ -15,7 +15,12 @@ const portableCatalogArt = Object.freeze({
   'tops-9': '/assets/catalog/tops-9.svg',
   'tops-10': '/assets/catalog/tops-10.svg',
   'tops-11': '/assets/catalog/tops-11.svg',
-  'tops-12': '/assets/catalog/tops-12.svg'
+  'tops-12': '/assets/catalog/tops-12.svg',
+  'bottoms-1': '/assets/catalog/bottoms-1.svg',
+  'shoes-1': '/assets/catalog/shoes-1.svg',
+  'companions-1': '/assets/catalog/companions-1.svg',
+  'beds-1': '/assets/catalog/beds-1.svg',
+  'desks-1': '/assets/catalog/desks-1.svg'
 });
 
 for (const item of gameModel.store) {
