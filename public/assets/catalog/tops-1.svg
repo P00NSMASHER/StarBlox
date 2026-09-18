@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Cloud Pop Hoodie">
+<defs>
+ <radialGradient id="bg" cx="50%" cy="35%" r="75%"><stop offset="0" stop-color="#ffffff"/><stop offset=".45" stop-color="#dff7ff"/><stop offset="1" stop-color="#9fdcff"/></radialGradient>
+ <linearGradient id="cloth" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#62d6ff"/><stop offset=".52" stop-color="#55a9ff"/><stop offset="1" stop-color="#7768ff"/></linearGradient>
+ <linearGradient id="cuff" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#8ee9ff"/><stop offset="1" stop-color="#4f8aff"/></linearGradient>
+ <filter id="shadow" x="-30%" y="-30%" width="160%" height="180%"><feDropShadow dx="0" dy="16" stdDeviation="14" flood-color="#3160a8" flood-opacity=".35"/></filter>
+ <filter id="glow"><feGaussianBlur stdDeviation="8"/></filter>
+</defs>
+<rect width="512" height="512" rx="70" fill="url(#bg)"/>
+<circle cx="96" cy="112" r="34" fill="#fff" opacity=".65"/><circle cx="126" cy="112" r="28" fill="#fff" opacity=".55"/>
+<circle cx="407" cy="100" r="6" fill="#ffd857"/><circle cx="434" cy="134" r="4" fill="#fff"/><circle cx="389" cy="150" r="3" fill="#fff"/>
+<ellipse cx="256" cy="430" rx="132" ry="28" fill="#4e74a8" opacity=".18" filter="url(#glow)"/>
+<g filter="url(#shadow)">
+ <path d="M172 182c13-34 45-55 84-55s71 21 84 55l47 24-29 78-36-14v140H190V270l-36 14-29-78z" fill="url(#cloth)" stroke="#3d72db" stroke-width="8" stroke-linejoin="round"/>
+ <path d="M201 176c7-28 27-49 55-49s48 21 55 49c-15 17-33 25-55 25s-40-8-55-25z" fill="#8ceaff" stroke="#4b8ee8" stroke-width="7"/>
+ <path d="M222 176c11 10 22 15 34 15s24-5 34-15" fill="none" stroke="#eafcff" stroke-width="7" stroke-linecap="round"/>
+ <path d="M232 176l-5 38M280 176l5 38" stroke="#edfaff" stroke-width="6" stroke-linecap="round"/>
+ <circle cx="226" cy="219" r="7" fill="#fff"/><circle cx="286" cy="219" r="7" fill="#fff"/>
+ <path d="M225 318c18-13 44-13 62 0l16 42H209z" fill="#408fe7" opacity=".6" stroke="#3776c6" stroke-width="6"/>
+ <path d="M170 404h52v26h-52zM290 404h52v26h-52z" fill="url(#cuff)" stroke="#3e78c9" stroke-width="6"/>
+ <path d="M198 258c35 26 82 26 116 0" fill="none" stroke="#a6f2ff" stroke-width="8" opacity=".65"/>
+ <g transform="translate(256 278)"><circle r="29" fill="#fff" opacity=".95"/><path d="M0-19 6-6 21-5 10 5 13 20 0 12-13 20-10 5-21-5-6-6z" fill="#ffd95f" stroke="#ffb82f" stroke-width="3"/></g>
+</g>
+<path d="M105 332c17-14 32-14 48 0M370 344c13-11 26-11 39 0" fill="none" stroke="#fff" stroke-width="7" opacity=".65" stroke-linecap="round"/>
+</svg>
