@@ -1,6 +1,6 @@
 # StarBlox
 
-Independent React/Vite recreation of the current StarBlox game so development can move from Floot to Replit without buying a Floot source export.
+Independent React/Vite recreation of StarBlox with Replit as the target runtime and GitHub `main` as the canonical source. Floot is legacy reference only.
 
 ## Current recreated systems
 
@@ -20,13 +20,13 @@ Independent React/Vite recreation of the current StarBlox game so development ca
 - save backup download/import
 - reduced-motion support
 - mobile-first responsive layout
-- automated question/catalog regression tests
+- automated question/catalog/Home regression tests
 
-## Migration status
+## Migration and art status
 
 This repository is a clean portable recreation, not a byte-for-byte copy of Floot's internal framework boilerplate.
 
-The original first 12 premium Tops thumbnails were generated inside Floot. Their exact old asset IDs are retained in `catalog-art-manifest.json`, but the image files still need to be copied/recreated as portable assets before production release.
+Catalog art is tracked by stable item ID in `catalog-art-manifest.json`. The current portable set contains 17 repo-owned final SVG thumbnails: all 12 Tops plus the five highest-visibility starter items (Jeans, Sneakers, Sprout Pup, Starter Bed, and Tiny Homework Desk). The remaining catalog still needs item-specific final art; runtime fallbacks preserve item identity but are not the final visual target.
 
 Existing Floot browser progress cannot automatically cross to a Replit domain because browser storage is origin-scoped. The recreated app includes JSON save import/export so progress can be migrated safely once a backup is obtained from the Floot build.
 
@@ -57,3 +57,4 @@ Production build:
 - runtime learning content remains source-grounded
 - every production question must have exactly one defensible correct answer
 - preserve existing player progress during migrations
+- final shipped characters, environments, item art, logos, and maps remain original StarBlox assets
