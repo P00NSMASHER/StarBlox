@@ -17,7 +17,7 @@ export function loadLocalSnapshot(){
   return null;
 }
 
-function writeIndexedDb(value){
+function writeIndexedDb(value,{preserveExisting=false}={}){
   if(typeof indexedDB === 'undefined') return;
 
   try{
@@ -32,7 +32,17 @@ function writeIndexedDb(value){
     request.onsuccess = () => {
       const db = request.result;
       const tx = db.transaction(STORE_NAME,'readwrite');
-      tx.objectStore(STORE_NAME).put(value,'current');
+      const store = tx.objectStore(STORE_NAME);
+
+      if(preserveExisting){
+        const get = store.get('current');
+        get.onsuccess = () => {
+          if(get.result == null) store.put(value,'current');
+        };
+      }else{
+        store.put(value,'current');
+      }
+
       tx.oncomplete = () => db.close();
       tx.onerror = () => db.close();
     };
@@ -40,14 +50,20 @@ function writeIndexedDb(value){
 }
 
 export function persistSnapshot(value){
+  let hadCurrentLocal = false;
+
   if(typeof localStorage !== 'undefined'){
     try{
+      hadCurrentLocal = localStorage.getItem(CURRENT_KEY) !== null;
       const raw = JSON.stringify(value);
       localStorage.setItem(CURRENT_KEY,raw);
     }catch{}
   }
 
-  writeIndexedDb(value);
+  // On a fresh localStorage start, preserve any IndexedDB backup until the
+  // app has had a chance to hydrate it. This prevents the default save from
+  // overwriting recoverable progress during initial mount.
+  writeIndexedDb(value,{preserveExisting:!hadCurrentLocal});
 }
 
 export function readIndexedDbBackup(){
