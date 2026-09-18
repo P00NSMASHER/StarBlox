@@ -41,7 +41,7 @@ function skillKey(label){
 
 function evidenceLabel(stat,mastered){
   if(mastered) return 'Strong in Practice';
-  if((stat?.independentCorrect || 0) >= 2) return 'Growing';
+  if((stat?.masteryCorrect || 0) >= 2) return 'Growing';
   if((stat?.seen || 0) > 0) return 'Learning';
   return 'New';
 }
@@ -164,17 +164,17 @@ function updateEvidenceRail(board,skill,role,qCounter){
   const status = evidenceLabel(stat,mastered);
   const rail = getOrCreate(board,'questEvidenceRail','aside');
   const districts = save.districtProgress || {};
-  const signature = JSON.stringify({skill,role,qCounter,status,ind:stat.independentCorrect || 0,seen:stat.seen || 0,wrong:stat.wrong || 0,districts});
+  const signature = JSON.stringify({skill,role,qCounter,status,mastery:stat.masteryCorrect || 0,ind:stat.independentCorrect || 0,seen:stat.seen || 0,wrong:stat.wrong || 0,districts});
   setHtmlIfChanged(rail,signature,`
     <section class="questEvidenceCard">
       <span class="questRailKicker">MASTERY EVIDENCE</span>
       <div class="questEvidenceStatus"><i></i><b>${status}</b></div>
       <h3>${String(skill).replace(/-/g,' ')}</h3>
       <div class="questEvidenceNumbers">
-        <span><b>${stat.independentCorrect || 0}</b><small>First-try wins</small></span>
-        <span><b>${stat.seen || 0}</b><small>Independent looks</small></span>
+        <span><b>${stat.masteryCorrect || 0}</b><small>Mastery-ready wins</small></span>
+        <span><b>${stat.independentCorrect || 0}</b><small>First-try answers</small></span>
       </div>
-      <small class="questEvidenceNote">Evidence grows over time. One answer never proves mastery.</small>
+      <small class="questEvidenceNote">Only eligible first-try answers build mastery. Clue-assisted success never counts as mastery or transfer evidence.</small>
     </section>
     <section class="questTodayCard">
       <span class="questRailKicker">TODAY'S LEARNING</span>
