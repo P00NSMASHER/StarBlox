@@ -37,6 +37,7 @@ import './progressionWidgets.css';
 import './environmentArt.css';
 import './mobileAccessibility.css';
 import './motionGameFeel.css';
+import './homeReferenceFinal.css';
 
 createRoot(document.getElementById('root')).render(
   <React.StrictMode>
