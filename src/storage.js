@@ -101,8 +101,28 @@ export function loadLocalSnapshot(){
   return null;
 }
 
-function writeIndexedDb(value,{preserveExisting=false}={}){
-  if(typeof indexedDB === 'undefined') return;
+function writeLocalSnapshot(value){
+  if(typeof localStorage === 'undefined') return false;
+  try{
+    localStorage.setItem(CURRENT_KEY,JSON.stringify(value));
+    return true;
+  }catch{
+    return false;
+  }
+}
+
+function writeIndexedDb(value,{preserveExisting=false,onExisting,onMissing,onError}={}){
+  if(typeof indexedDB === 'undefined'){
+    onError?.();
+    return;
+  }
+
+  let callbackSettled = false;
+  const settle = (callback,arg) => {
+    if(callbackSettled) return;
+    callbackSettled = true;
+    callback?.(arg);
+  };
 
   try{
     const request = indexedDB.open(DB_NAME,1);
@@ -113,6 +133,8 @@ function writeIndexedDb(value,{preserveExisting=false}={}){
       }
     };
 
+    request.onerror = () => settle(onError);
+
     request.onsuccess = () => {
       const db = request.result;
       const tx = db.transaction(STORE_NAME,'readwrite');
@@ -121,33 +143,68 @@ function writeIndexedDb(value,{preserveExisting=false}={}){
       if(preserveExisting){
         const get = store.get('current');
         get.onsuccess = () => {
-          if(get.result == null) store.put(value,'current');
+          if(get.result == null){
+            store.put(value,'current');
+            settle(onMissing);
+          }else{
+            settle(onExisting,sanitizeSnapshotShape(get.result));
+          }
         };
+        get.onerror = () => settle(onError);
       }else{
         store.put(value,'current');
       }
 
       tx.oncomplete = () => db.close();
-      tx.onerror = () => db.close();
+      tx.onerror = () => {
+        settle(onError);
+        db.close();
+      };
     };
-  }catch{}
+  }catch{
+    settle(onError);
+  }
 }
 
 export function persistSnapshot(value){
   let hadCurrentLocal = false;
+  let canUseLocal = typeof localStorage !== 'undefined';
 
-  if(typeof localStorage !== 'undefined'){
+  if(canUseLocal){
     try{
       hadCurrentLocal = localStorage.getItem(CURRENT_KEY) !== null;
-      const raw = JSON.stringify(value);
-      localStorage.setItem(CURRENT_KEY,raw);
-    }catch{}
+    }catch{
+      canUseLocal = false;
+    }
   }
 
-  // On a fresh localStorage start, preserve any IndexedDB backup until the
-  // app has had a chance to hydrate it. This prevents the default save from
-  // overwriting recoverable progress during initial mount.
-  writeIndexedDb(value,{preserveExisting:!hadCurrentLocal});
+  // If a current local snapshot exists, normal persistence can update both
+  // stores immediately. When IndexedDB is unavailable, localStorage remains
+  // the authoritative fallback for both new and returning players.
+  if(hadCurrentLocal || typeof indexedDB === 'undefined'){
+    if(canUseLocal) writeLocalSnapshot(value);
+    writeIndexedDb(value);
+    return;
+  }
+
+  // Fresh/missing localStorage is a recovery state until IndexedDB has been
+  // checked. Do not write the default render into CURRENT_KEY first: a refresh
+  // during that async hydration window would make the next boot prefer the
+  // default local snapshot and strand a recoverable IndexedDB backup. If a
+  // backup exists, mirror that backup into localStorage; otherwise establish
+  // this value as the new save in both stores.
+  writeIndexedDb(value,{
+    preserveExisting:true,
+    onExisting:(backup) => {
+      if(canUseLocal) writeLocalSnapshot(backup);
+    },
+    onMissing:() => {
+      if(canUseLocal) writeLocalSnapshot(value);
+    },
+    onError:() => {
+      if(canUseLocal) writeLocalSnapshot(value);
+    }
+  });
 }
 
 export function readIndexedDbBackup(){
