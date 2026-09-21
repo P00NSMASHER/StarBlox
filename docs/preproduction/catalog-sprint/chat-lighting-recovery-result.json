@@ -3,7 +3,7 @@
   "batchId": "chat-lighting-recovery-20260921",
   "status": "STAGED_READY_FOR_INDEPENDENT_REVIEW",
   "sourceHead": "b57f8f7a55983a5371b87062d2f54fbcac9c46e6",
-  "workflowRunId": "35665398592",
+  "workflowRunId": 35665398592,
   "producer": "04",
   "transportHelper": "CHAT",
   "independentReviewer": "14",
@@ -181,11 +181,13 @@
     "metadata": "PASS_4_OF_4",
     "exactByteReadback": "PASS_8_OF_8",
     "candidateDecode": "PASS_4_OF_4",
-    "repeatBehavior": "PENDING_SECOND_RUN",
-    "tests": "NOT_RUN",
-    "build": "NOT_RUN",
-    "render": "NOT_RUN",
-    "independentVisualReview": "PENDING_14"
+    "repeatBehavior": "PASS_SECOND_RUN_NO_DOWNLOAD_OR_REGENERATION",
+    "tests": "PASS",
+    "build": "PASS",
+    "render": "FAIL",
+    "independentVisualReview": "PENDING_14",
+    "typecheck": "NOT_APPLICABLE_NO_TYPESCRIPT_APP_CHANGES",
+    "batchCardDetailRender": "INCOMPLETE_0_OF_4"
   },
   "freeze": {
     "replitTouched": false,
@@ -194,5 +196,13 @@
     "canonicalMappingsTouched": false,
     "gameplayChanged": false
   },
-  "handoff": "04: preserve these stored versions and reconcile lane-04 without regenerating. 14: inspect exact card/detail pixels for these hashes. 08: only wire after independent ACCEPT. 15: byte-transfer blocker cleared for these four IDs only."
+  "handoff": "04: preserve these stored versions and reconcile lane-04 without regenerating. 14: inspect exact card/detail pixels for these hashes. 08: only wire after independent ACCEPT. 15: byte-transfer blocker cleared for these four IDs only.",
+  "testedSourceHead": "3ea71d51c2f3a0946cceda9979065c3bf476be4c",
+  "renderEvidence": {
+    "artifactName": "lighting-5-8-recovery-evidence",
+    "reportPath": "artifacts/catalog-staged-art/report.json",
+    "matchedIds": [],
+    "matchedHashes": {}
+  },
+  "independentVisualReview": "PENDING_WORKSTREAM_14_NOT_SELF_APPROVED"
 }
