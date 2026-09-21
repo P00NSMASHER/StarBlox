@@ -1,14 +1,15 @@
 {
-  "schemaVersion": 6,
+  "schemaVersion": 7,
   "lane": "06",
   "workstream": "06",
   "phase": "CATALOG_SPRINT",
   "branch": "screenshot-match-preproduction",
   "policyObserved": "docs/preproduction/DELIVERY_PROTOCOL_V2.md",
-  "status": "FIRST_BATCH_ACCEPTED_SECOND_BATCH_READY_FOR_RENDER_REVIEW",
+  "status": "COMPANION_SECOND_BATCH_PENDING_05_SEATING_7_10_STAGED_RENDERED",
   "productionAssignment": ["companions-2","companions-3","companions-4","companions-5","companions-6","companions-7","companions-8","companions-9","companions-10","companions-11","companions-12"],
   "currentRepairCapacityFromState": ["companions-1","companions-2","companions-3","companions-4","companions-5","companions-6","companions-7","companions-8","companions-9","companions-10","companions-11","companions-12","seating-7","seating-8","seating-9","seating-10","seating-11","seating-12","shoes-7","shoes-8","shoes-9","shoes-10","shoes-11","shoes-12"],
-  "independentReviewer": "05",
+  "companionIndependentReviewer": "05",
+  "secondaryIndependentReviewer": "02",
   "integrationOwner": "08",
   "canonicalManifestChanged": false,
   "runtimeWiringChanged": false,
@@ -23,115 +24,76 @@
     "finding": "All legacy companion SVGs are recognizable and child-friendly but too flat/vector-like for the premium dimensional screenshot target."
   },
   "preservedLegacyVersions": {
-    "paths": "/assets/catalog/companions-1.svg through /assets/catalog/companions-12.svg",
-    "status": "PRESERVED_REJECTED_EXACT_HASH_VERSIONS"
+    "companions": "/assets/catalog/companions-1.svg through /assets/catalog/companions-12.svg",
+    "seating": "/assets/catalog/seating-7.svg through /assets/catalog/seating-10.svg remain preserved while versioned repairs are reviewed",
+    "status": "PRESERVED_REJECTED_OR_PRIOR_EXACT_HASH_VERSIONS"
   },
   "acceptedReplacementBatch": {
     "reviewShardSha": "cc78e6521dfeb300a9f751b486356a1755610e75",
     "reviewResult": "ACCEPT_4_OF_4",
     "items": [
-      {"id":"companions-3","name":"Berry Bunny","tier":1,"theme":"Berry Blast","candidateRepositoryPath":"public/assets/catalog-candidates/chat-20260921-intake01/companions-3-detail.webp","candidateGitBlobSha":"adba95dc769e603337dc4ac38b9a513ce9914b10","bytes":58902,"dimensions":[768,768],"independentDecision":"ACCEPT_05","status":"INTEGRATION_ELIGIBLE_PRESERVE_BYTES"},
-      {"id":"companions-4","name":"Sunny Bird","tier":2,"theme":"Garden Glow","candidateRepositoryPath":"public/assets/catalog-candidates/chat-20260921-intake01/companions-4-detail.webp","candidateGitBlobSha":"b382339e76ed9d4aeae72b1c8cccc904abf85b57","bytes":53770,"dimensions":[768,768],"independentDecision":"ACCEPT_05","status":"INTEGRATION_ELIGIBLE_PRESERVE_BYTES"},
-      {"id":"companions-10","name":"Pixel Bot","tier":4,"theme":"Midnight Neon","candidateRepositoryPath":"public/assets/catalog-candidates/chat-20260921-intake01/companions-10-detail.webp","candidateGitBlobSha":"2b09d950b08083bb3a9ec5e2073ae23d88411cf4","bytes":63032,"dimensions":[768,768],"independentDecision":"ACCEPT_05","status":"INTEGRATION_ELIGIBLE_PRESERVE_BYTES"},
-      {"id":"companions-11","name":"Dream Dragon","tier":4,"theme":"Candy Core","candidateRepositoryPath":"public/assets/catalog-candidates/chat-20260921-intake01/companions-11-detail.webp","candidateGitBlobSha":"465fe45abbe4d9b4355444cb3f75a49927b604e9","bytes":63886,"dimensions":[768,768],"independentDecision":"ACCEPT_05","status":"INTEGRATION_ELIGIBLE_PRESERVE_BYTES"}
+      {"id":"companions-3","name":"Berry Bunny","tier":1,"theme":"Berry Blast","candidateRepositoryPath":"public/assets/catalog-candidates/chat-20260921-intake01/companions-3-detail.webp","candidateGitBlobSha":"adba95dc769e603337dc4ac38b9a513ce9914b10","bytes":58902,"dimensions":[768,768],"independentDecision":"ACCEPT_05","status":"PRESERVE_ACCEPTED_BYTES"},
+      {"id":"companions-4","name":"Sunny Bird","tier":2,"theme":"Garden Glow","candidateRepositoryPath":"public/assets/catalog-candidates/chat-20260921-intake01/companions-4-detail.webp","candidateGitBlobSha":"b382339e76ed9d4aeae72b1c8cccc904abf85b57","bytes":53770,"dimensions":[768,768],"independentDecision":"ACCEPT_05","status":"PRESERVE_ACCEPTED_BYTES"},
+      {"id":"companions-10","name":"Pixel Bot","tier":4,"theme":"Midnight Neon","candidateRepositoryPath":"public/assets/catalog-candidates/chat-20260921-intake01/companions-10-detail.webp","candidateGitBlobSha":"2b09d950b08083bb3a9ec5e2073ae23d88411cf4","bytes":63032,"dimensions":[768,768],"independentDecision":"ACCEPT_05","status":"PRESERVE_ACCEPTED_BYTES"},
+      {"id":"companions-11","name":"Dream Dragon","tier":4,"theme":"Candy Core","candidateRepositoryPath":"public/assets/catalog-candidates/chat-20260921-intake01/companions-11-detail.webp","candidateGitBlobSha":"465fe45abbe4d9b4355444cb3f75a49927b604e9","bytes":63886,"dimensions":[768,768],"independentDecision":"ACCEPT_05","status":"PRESERVE_ACCEPTED_BYTES"}
     ],
-    "producerAction": "Do not regenerate or overwrite these accepted exact hashes. Workstream 08 may integrate after its normal metadata/file/content checks."
+    "producerAction": "Do not regenerate, overwrite, or downgrade these accepted exact hashes. Canonical wiring remains Workstream 08 only."
   },
-  "repairBatch": {
+  "companionRepairBatch": {
     "batchSize": 4,
-    "method": "Advance the next repository-stored rich candidates for exact legacy-REWORK companion IDs. Preserve source/card/detail files and require fresh rendered independent review before any canonical use.",
-    "status": "READY_FOR_REVIEW",
+    "method": "Reuse repository-stored rich candidates for exact legacy-REWORK companion IDs and require fresh actual-pixel review before any canonical use.",
+    "status": "READY_FOR_REVIEW_PENDING_05",
     "items": [
-      {
-        "id": "companions-2",
-        "name": "Moon Cat",
-        "tier": 1,
-        "theme": "Pixel Party",
-        "candidateRepositoryPath": "public/assets/catalog-candidates/chat-20260921-intake01/companions-2-detail.webp",
-        "candidateGitBlobSha": "88d10d6f8c412d0ab7fde6ac7a7ff202858077db",
-        "bytes": 55566,
-        "dimensions": [768,768],
-        "sourcePath": "public/assets/catalog-candidates/chat-20260921-intake01/companions-2-source.png",
-        "sourceGitBlobSha": "bfbc3eb92064335185a8a21c0a7cabfca0b2fa26",
-        "sourceBytes": 1927746,
-        "cardPath": "public/assets/catalog-candidates/chat-20260921-intake01/companions-2-card.webp",
-        "cardGitBlobSha": "5bcdffbdb2e71d217abf9ae3c5ae1e3c53b90136",
-        "cardBytes": 11502,
-        "provenance": "Repository-stored rich candidate batch chat-20260921-intake01; exact item-ID file set preserved.",
-        "producerPixelCheck": "PENDING_SHARED_RENDER; exact Moon Cat identity and Pixel Party theme must be confirmed by reviewer 05 from rendered pixels.",
-        "independentDecision": "PENDING_05"
-      },
-      {
-        "id": "companions-5",
-        "name": "Pebble Turtle",
-        "tier": 2,
-        "theme": "Galaxy Glow",
-        "candidateRepositoryPath": "public/assets/catalog-candidates/chat-20260921-intake01/companions-5-detail.webp",
-        "candidateGitBlobSha": "1ae7b431e519563ee1dbbdb0ae762bfee6f95ac0",
-        "bytes": 61302,
-        "dimensions": [768,768],
-        "sourcePath": "public/assets/catalog-candidates/chat-20260921-intake01/companions-5-source.png",
-        "sourceGitBlobSha": "c0e158e8035d9d8a6d8db207cfa38829d1a194f2",
-        "sourceBytes": 1832376,
-        "cardPath": "public/assets/catalog-candidates/chat-20260921-intake01/companions-5-card.webp",
-        "cardGitBlobSha": "fc6026d0d16a09315e8e98e978be36f47a1aec8b",
-        "cardBytes": 12544,
-        "provenance": "Repository-stored rich candidate batch chat-20260921-intake01; exact item-ID file set preserved.",
-        "producerPixelCheck": "PENDING_SHARED_RENDER; exact Pebble Turtle identity and Galaxy Glow theme must be confirmed by reviewer 05 from rendered pixels.",
-        "independentDecision": "PENDING_05"
-      },
-      {
-        "id": "companions-6",
-        "name": "Comet Fox",
-        "tier": 2,
-        "theme": "Sunny Pop",
-        "candidateRepositoryPath": "public/assets/catalog-candidates/chat-20260921-intake01/companions-6-detail.webp",
-        "candidateGitBlobSha": "28cb411201d8ec30dae2f70b740efe1e86985386",
-        "bytes": 69582,
-        "dimensions": [768,768],
-        "sourcePath": "public/assets/catalog-candidates/chat-20260921-intake01/companions-6-source.png",
-        "sourceGitBlobSha": "ca9f39e3ae3d9b15f3b1e2db5091e4b990b72b1f",
-        "sourceBytes": 1959111,
-        "cardPath": "public/assets/catalog-candidates/chat-20260921-intake01/companions-6-card.webp",
-        "cardGitBlobSha": "c8d5c071e0d9434be59a3e2ca1b28ea261229a86",
-        "cardBytes": 14528,
-        "provenance": "Repository-stored rich candidate batch chat-20260921-intake01; exact item-ID file set preserved.",
-        "producerPixelCheck": "PENDING_SHARED_RENDER; exact Comet Fox identity and Sunny Pop theme must be confirmed by reviewer 05 from rendered pixels.",
-        "independentDecision": "PENDING_05"
-      },
-      {
-        "id": "companions-7",
-        "name": "Story Owl",
-        "tier": 3,
-        "theme": "Aqua Wave",
-        "candidateRepositoryPath": "public/assets/catalog-candidates/chat-20260921-intake01/companions-7-detail.webp",
-        "candidateGitBlobSha": "39d35ea40a0a138ae99ddcdc09f8f2a3683fa49d",
-        "bytes": 69614,
-        "dimensions": [768,768],
-        "sourcePath": "public/assets/catalog-candidates/chat-20260921-intake01/companions-7-source.png",
-        "sourceGitBlobSha": "0d370a965ef527f502b13dc8256cbcaaf148ca0f",
-        "sourceBytes": 1952556,
-        "cardPath": "public/assets/catalog-candidates/chat-20260921-intake01/companions-7-card.webp",
-        "cardGitBlobSha": "34603f5288726378309407227a000dca18743c61",
-        "cardBytes": 14720,
-        "provenance": "Repository-stored rich candidate batch chat-20260921-intake01; exact item-ID file set preserved.",
-        "producerPixelCheck": "PENDING_SHARED_RENDER; exact Story Owl identity and Aqua Wave theme must be confirmed by reviewer 05 from rendered pixels.",
-        "independentDecision": "PENDING_05"
-      }
+      {"id":"companions-2","name":"Moon Cat","tier":1,"theme":"Pixel Party","candidateRepositoryPath":"public/assets/catalog-candidates/chat-20260921-intake01/companions-2-detail.webp","candidateGitBlobSha":"88d10d6f8c412d0ab7fde6ac7a7ff202858077db","bytes":55566,"dimensions":[768,768],"sourcePath":"public/assets/catalog-candidates/chat-20260921-intake01/companions-2-source.png","sourceGitBlobSha":"bfbc3eb92064335185a8a21c0a7cabfca0b2fa26","cardPath":"public/assets/catalog-candidates/chat-20260921-intake01/companions-2-card.webp","cardGitBlobSha":"5bcdffbdb2e71d217abf9ae3c5ae1e3c53b90136","independentDecision":"PENDING_05"},
+      {"id":"companions-5","name":"Pebble Turtle","tier":2,"theme":"Galaxy Glow","candidateRepositoryPath":"public/assets/catalog-candidates/chat-20260921-intake01/companions-5-detail.webp","candidateGitBlobSha":"1ae7b431e519563ee1dbbdb0ae762bfee6f95ac0","bytes":61302,"dimensions":[768,768],"sourcePath":"public/assets/catalog-candidates/chat-20260921-intake01/companions-5-source.png","sourceGitBlobSha":"c0e158e8035d9d8a6d8db207cfa38829d1a194f2","cardPath":"public/assets/catalog-candidates/chat-20260921-intake01/companions-5-card.webp","cardGitBlobSha":"fc6026d0d16a09315e8e98e978be36f47a1aec8b","independentDecision":"PENDING_05"},
+      {"id":"companions-6","name":"Comet Fox","tier":2,"theme":"Sunny Pop","candidateRepositoryPath":"public/assets/catalog-candidates/chat-20260921-intake01/companions-6-detail.webp","candidateGitBlobSha":"28cb411201d8ec30dae2f70b740efe1e86985386","bytes":69582,"dimensions":[768,768],"sourcePath":"public/assets/catalog-candidates/chat-20260921-intake01/companions-6-source.png","sourceGitBlobSha":"ca9f39e3ae3d9b15f3b1e2db5091e4b990b72b1f","cardPath":"public/assets/catalog-candidates/chat-20260921-intake01/companions-6-card.webp","cardGitBlobSha":"c8d5c071e0d9434be59a3e2ca1b28ea261229a86","independentDecision":"PENDING_05"},
+      {"id":"companions-7","name":"Story Owl","tier":3,"theme":"Aqua Wave","candidateRepositoryPath":"public/assets/catalog-candidates/chat-20260921-intake01/companions-7-detail.webp","candidateGitBlobSha":"39d35ea40a0a138ae99ddcdc09f8f2a3683fa49d","bytes":69614,"dimensions":[768,768],"sourcePath":"public/assets/catalog-candidates/chat-20260921-intake01/companions-7-source.png","sourceGitBlobSha":"0d370a965ef527f502b13dc8256cbcaaf148ca0f","cardPath":"public/assets/catalog-candidates/chat-20260921-intake01/companions-7-card.webp","cardGitBlobSha":"34603f5288726378309407227a000dca18743c61","independentDecision":"PENDING_05"}
     ]
   },
   "remainingCompanionRepairQueue": {
     "richCandidateThemeHold": ["companions-8","companions-12"],
     "noRichImportedCandidate": ["companions-1","companions-9"],
     "acceptedPreserve": ["companions-3","companions-4","companions-10","companions-11"],
-    "rule": "Review the current four exact hashes before reuse. If REWORK, preserve that hash and repair only the rejected ID. If ACCEPT, leave bytes unchanged and advance companions-8/12; companions-1/9 need separate new replacements."
+    "rule": "Wait for reviewer-05 decision on the current four exact hashes. If REWORK, preserve that hash and repair only the rejected ID; if ACCEPT, leave bytes unchanged and advance companions-8/12."
+  },
+  "secondaryRepairBatch": {
+    "batchId": "lane06-seating-7-10-20260921",
+    "reason": "Companion repair batch companions-2/5/6/7 is unchanged and pending reviewer 05, so Delivery Protocol V2 secondary repair capacity was used rather than repeating generation or source inspection.",
+    "reviewer": "02",
+    "status": "STAGED_RENDERED_READY_FOR_REVIEW",
+    "intakeEvidence": "docs/preproduction/catalog-sprint/lane-06-seating-7-10-intake.json",
+    "workflowRunId": 35667087896,
+    "items": [
+      {"id":"seating-7","name":"Lounge Chair","tier":3,"theme":"Cloud Pop","candidateRepositoryPath":"public/assets/catalog/seating-7-w06-v2.png","candidateGitBlobSha":"91457eddbb3ae915867d717eec72632ea6a183be","candidateSha256":"0b04752c2ad25da0152cd0353a30504a3673f105cbed7d33fa7379ac33c46985","bytes":547583,"dimensions":[768,768],"sourcePath":"docs/preproduction/catalog-sprint/recovered-originals/seating-7-10-20260921/seating-7-source.png","sourceGitBlobSha":"17dc2de515dcdceca4e55aeff420dfdaae5c05ef","sourceBytes":903382,"sourceDimensions":[1024,1024],"independentDecision":"PENDING_02","status":"READY_FOR_REVIEW"},
+      {"id":"seating-8","name":"Bubble Seat","tier":3,"theme":"Pixel Party","candidateRepositoryPath":"public/assets/catalog/seating-8-w06-v2.png","candidateGitBlobSha":"23c02ab51249ab373aab264a17778a090d023eb4","candidateSha256":"05472fdb7a2372e31ddaba77cf5bd7bf4c3205be5d284a817c7aa8e0dbd05396","bytes":566882,"dimensions":[768,768],"sourcePath":"docs/preproduction/catalog-sprint/recovered-originals/seating-7-10-20260921/seating-8-source.png","sourceGitBlobSha":"b01a8d8167ed1ac2c2e89062ef1549cd973fa01f","sourceBytes":997229,"sourceDimensions":[1024,1024],"independentDecision":"PENDING_02","status":"READY_FOR_REVIEW"},
+      {"id":"seating-9","name":"Art Stool","tier":3,"theme":"Berry Blast","candidateRepositoryPath":"public/assets/catalog/seating-9-w06-v2.png","candidateGitBlobSha":"7fcdea13121a8820dd8dc64e8982637acb2c5819","candidateSha256":"6d211ad03c47323794d4dc5f55bffb69937a24f137ece00fc79ad412e4e935f9","bytes":527794,"dimensions":[768,768],"sourcePath":"docs/preproduction/catalog-sprint/recovered-originals/seating-7-10-20260921/seating-9-source.png","sourceGitBlobSha":"e0fbc363c52919ad0415e21e88bb69fd72b4f2a2","sourceBytes":883748,"sourceDimensions":[1024,1024],"independentDecision":"PENDING_02","status":"READY_FOR_REVIEW"},
+      {"id":"seating-10","name":"Pod Chair","tier":4,"theme":"Garden Glow","candidateRepositoryPath":"public/assets/catalog/seating-10-w06-v2.png","candidateGitBlobSha":"9aa53664cbc8ee24283ea44830f1f3037c576340","candidateSha256":"c2af9cd66d2e0e214eb79129c420a6cbc3ecf09c7c86f0e1e571867439ae714c","bytes":591815,"dimensions":[768,768],"sourcePath":"docs/preproduction/catalog-sprint/recovered-originals/seating-7-10-20260921/seating-10-source.png","sourceGitBlobSha":"4da4339ee3b1fa16bef7cf8e779701c5a1a8c01d","sourceBytes":1003354,"sourceDimensions":[1024,1024],"independentDecision":"PENDING_02","status":"READY_FOR_REVIEW"}
+    ],
+    "checks": {
+      "metadata": "PASS_4_OF_4_AGAINST_CURRENT_GAME_MODEL",
+      "sourceDecode": "PASS_4_OF_4_PNG_1024",
+      "candidateDecode": "PASS_4_OF_4_PNG_768",
+      "uniqueCandidateContent": "PASS_4_OF_4",
+      "exactRepositoryReadback": "PASS_8_OF_8",
+      "isolatedBrowserRender": "PASS_4_OF_4",
+      "selfApproval": "NONE"
+    },
+    "renderEvidence": {
+      "contactSheet": "artifact from workflow run 35667087896: artifacts/lane06-seating-7-10/seating-7-10-card-contact-sheet.png",
+      "detailScreenshotSha256": {
+        "seating-7": "e8ebfa1aa420ee7f50ba67816f2b1adcaed1a7f727ee813888a5b357b362c5ae",
+        "seating-8": "84efc31030e7785eeb9da81e60cc986c40b7eb07ea81a64f245005650073848a",
+        "seating-9": "34a6974c3b798236c9a429b0748178f7f4fa4b49aecdef361ac6c77f890a90ee",
+        "seating-10": "ce5397be1d08cb78d2a67692dd963fae995e4cd69f045ccf2a561363ccfbd044"
+      }
+    }
   },
   "secondaryRepairCapacity": {
-    "seating": ["seating-7","seating-8","seating-9","seating-10","seating-11","seating-12"],
+    "seatingRemaining": ["seating-11","seating-12"],
     "shoes": ["shoes-7","shoes-8","shoes-9","shoes-10","shoes-11","shoes-12"],
     "reviewer": "02",
-    "startedThisRun": false,
-    "reason": "Changed reviewer input produced four companion ACCEPTs, so this run advanced the next bounded companion batch instead of switching to secondary capacity."
+    "startedThisRun": true,
+    "rule": "Do not scale the Seating visual recipe until reviewer 02 decides this four-item pilot. If it passes, continue seating-11/12 before Shoes 7-12; if it fails, repair only exact rejected IDs."
   },
   "checks": {
     "assignmentCurrent": "PASS",
@@ -139,23 +101,25 @@
     "legacyCompanionIndependentPixelReview": "PASS_REWORK_12_OF_12",
     "firstReplacementIndependentReview": "PASS_ACCEPT_4_OF_4",
     "acceptedBytesPreserved": "PASS_NO_REGENERATION",
-    "secondBatchRepositoryStorage": "PASS_4_OF_4",
-    "secondBatchSharedRender": "PENDING_WORKFLOW_TRIGGERED_BY_LANE_UPDATE",
-    "secondBatchFreshIndependentReview": "PENDING_05",
-    "canonicalIntegration": "PENDING_08_FOR_ACCEPTED_FIRST_BATCH",
+    "companionSecondBatchRepositoryStorage": "PASS_4_OF_4",
+    "companionSecondBatchFreshIndependentReview": "PENDING_05",
+    "secondarySeatingPilotStorage": "PASS_4_OF_4",
+    "secondarySeatingPilotReadback": "PASS_8_OF_8_SOURCE_PLUS_DERIVATIVE",
+    "secondarySeatingPilotRender": "PASS_4_OF_4",
+    "secondarySeatingPilotIndependentReview": "PENDING_02",
     "existingAssetsOverwrittenThisRun": 0,
     "canonicalFilesTouched": false,
     "playerDataTouched": false
   },
   "blockers": [
-    "Second batch requires shared staged-art card/detail render evidence, then reviewer 05 exact-hash decisions.",
-    "Workstream 08 has not yet been observed integrating the four first-batch ACCEPT hashes; lane 06 does not own canonical wiring."
+    "Reviewer 05 has not yet issued exact-hash decisions for companions-2/5/6/7; Workstream 06 will not regenerate or advance that companion recipe while pending.",
+    "Reviewer 02 must independently decide Seating 7-10 exact candidate hashes before Workstream 06 scales the secondary Seating recipe."
   ],
   "nextActions": [
-    "14/shared staged-art workflow: render companions-2, companions-5, companions-6 and companions-7 exact hashes from this READY_FOR_REVIEW lane update.",
-    "05: independently review those four exact rendered hashes immediately; do not transfer legacy REWORK decisions.",
-    "08: integrate companions-3, companions-4, companions-10 and companions-11 exact ACCEPT hashes after normal metadata/file/content checks.",
-    "06: preserve all accepted hashes; repair only second-batch REWORK IDs or advance companions-8/12 when accepted."
+    "05: independently review companions-2, companions-5, companions-6 and companions-7 current exact rich hashes when rendered evidence is available.",
+    "02: independently review seating-7 through seating-10 exact staged PNG hashes from workflow run 35667087896 at card/detail scale.",
+    "08: preserve sole ownership of canonical manifest/runtime changes; Workstream 06 does not promote its own art.",
+    "06: preserve all accepted hashes; after reviewer input, repair only exact REWORK IDs or advance the next explicitly assigned IDs."
   ],
   "freeze": {
     "replitTouched": false,
