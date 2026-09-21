@@ -14,6 +14,32 @@ export function storeCardAccessibleLabel(card){
   return [name,state,price].filter(Boolean).join('. ');
 }
 
+export function revealStoreFocusTarget(target){
+  if(!target?.closest) return false;
+  const row = target.closest('.sbStoreCategoryRow,.sbStoreTierRow');
+  if(!row || !row.contains(target)) return false;
+  const targetRect = target.getBoundingClientRect?.();
+  const rowRect = row.getBoundingClientRect?.();
+  if(!targetRect || !rowRect) return false;
+
+  // Keyboard users must not land on a filter that is visually clipped inside
+  // the intentionally horizontal category/tier trays. Adjust only that tray's
+  // horizontal position; never move the page vertically or change selection.
+  const edgePadding = 8;
+  let nextLeft = Number(row.scrollLeft || 0);
+  if(targetRect.left < rowRect.left + edgePadding){
+    nextLeft += targetRect.left - (rowRect.left + edgePadding);
+  }else if(targetRect.right > rowRect.right - edgePadding){
+    nextLeft += targetRect.right - (rowRect.right - edgePadding);
+  }else{
+    return true;
+  }
+  nextLeft = Math.max(0,nextLeft);
+  if(typeof row.scrollTo === 'function') row.scrollTo({left:nextLeft,behavior:'auto'});
+  else row.scrollLeft = nextLeft;
+  return true;
+}
+
 function decorateHud(root){
   const stats = root.querySelector('.hudStats');
   stats?.setAttribute('aria-label','Player progress');
@@ -176,10 +202,15 @@ function scheduleScan(){
   queueMicrotask(scan);
 }
 
+function handleFocusIn(event){
+  revealStoreFocusTarget(event?.target);
+}
+
 if(typeof document !== 'undefined'){
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded',scheduleScan,{once:true});
   else scheduleScan();
 
+  document.addEventListener('focusin',handleFocusIn);
   const host = document.getElementById('root') || document.documentElement;
   new MutationObserver(scheduleScan).observe(host,{
     subtree:true,
