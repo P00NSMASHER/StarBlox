@@ -46,6 +46,33 @@ button:disabled{cursor:not-allowed;}
   .studyGrid,.avatarPage,.roomInventory,.roomStage{max-width:100%;}
   .heroPanel{max-width:100%;}
   .sbStoreRightRail,.questEvidenceRail,.questCharacterStage{min-width:0;}
+
+  /* The original world used absolute desktop pins that sat beneath the fixed mobile HUD.
+     Reflow them into a compact game-board grid so every destination is reachable without overlap. */
+  .world{
+    min-height:100vh;
+    padding:122px 12px max(96px,calc(82px + env(safe-area-inset-bottom)));
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:12px;
+    align-content:start;
+  }
+  .worldTitle,.world .district,.world .questDock{
+    position:relative;
+    inset:auto;
+    width:auto;
+    max-width:none;
+    min-width:0;
+    transform:none;
+    z-index:3;
+  }
+  .worldTitle{grid-column:1/-1;padding:16px 18px;}
+  .worldTitle h1{font-size:clamp(28px,6vw,40px);}
+  .world .district{min-height:76px;padding:10px 12px;}
+  .world .district:hover{transform:none;}
+  .world .wordwood{grid-column:1/-1;}
+  .world .questDock{grid-column:1/-1;margin-top:2px;}
+  .world .avatarDock{display:none;}
 }
 
 @media (max-width:767px){
@@ -58,6 +85,18 @@ button:disabled{cursor:not-allowed;}
   .sbSettingsButton{min-width:46px;min-height:46px;}
   .sidebar .navBtn{min-height:56px;}
   .sidebar .navBtn span{font-size:11px;}
+
+  /* World keeps a dense two-column game-board feel but never hides beneath fixed chrome. */
+  .world{padding:116px 9px max(94px,calc(80px + env(safe-area-inset-bottom)));gap:9px;}
+  .worldTitle{padding:14px;}
+  .worldTitle p{font-size:15px;line-height:1.4;}
+  .world .district{min-height:82px;padding:10px;grid-template-columns:38px minmax(0,1fr);}
+  .world .district b{font-size:14px;}
+  .world .district small{font-size:11px;line-height:1.2;}
+  .world .district em{font-size:10px;}
+  .world .questDock{padding:13px;width:auto;}
+  .world .questDock .primaryButton{min-height:48px;font-size:16px;}
+  .world .safeCopy{font-size:11px;line-height:1.3;}
 
   /* Quest reading and answer controls. */
   .questReadAloud,.readAloud{min-width:44px;min-height:48px;font-size:16px!important;padding:10px 14px;}
@@ -104,6 +143,11 @@ button:disabled{cursor:not-allowed;}
 @media (max-width:389px){
   .page:not(.marketPage):not(.questPage){padding-left:8px;padding-right:8px;}
   .sidebar .navBtn span{font-size:10px;}
+  .world{grid-template-columns:1fr 1fr;padding-left:7px;padding-right:7px;gap:7px;}
+  .world .district{min-height:86px;grid-template-columns:32px minmax(0,1fr);padding:8px;}
+  .world .districtIcon{font-size:23px;}
+  .world .district b{font-size:13px;}
+  .world .district small{font-size:10px;}
   .questReadAloud,.readAloud{font-size:15px!important;}
   .marketPage.sbStoreMatch .storeCard .itemCopy h3{font-size:12.5px;}
   .sbStoreDetailActions{grid-template-columns:1fr;}
