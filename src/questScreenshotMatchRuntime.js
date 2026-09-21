@@ -24,6 +24,10 @@ export function questMasteryLabel(skill){
     : 'SKILL MASTERY';
 }
 
+function setTextIfChanged(node,value){
+  if(node && node.textContent !== value) node.textContent = value;
+}
+
 function ensureHeader(board){
   const top = board.querySelector('.questTop');
   if(!top) return;
@@ -49,7 +53,7 @@ function ensureHeader(board){
     breadcrumb.className = 'questBreadcrumb';
     core.appendChild(breadcrumb);
   }
-  breadcrumb.textContent = `${district}  ›  ${skill.textContent.trim()}  ›  ${role}`;
+  setTextIfChanged(breadcrumb,`${district}  ›  ${skill.textContent.trim()}  ›  ${role}`);
 
   const counter = top.querySelector('.qCounter');
   if(counter){
@@ -105,10 +109,8 @@ function decorateQuestion(board){
 
   const hint = card.querySelector('.questHintReady');
   if(hint){
-    const title = hint.querySelector('b');
-    const copy = hint.querySelector('span');
-    if(title) title.textContent = 'HINT';
-    if(copy) copy.textContent = 'Make one calm try. If it misses, a clue appears — nothing is taken away.';
+    setTextIfChanged(hint.querySelector('b'),'HINT');
+    setTextIfChanged(hint.querySelector('span'),'Make one calm try. If it misses, a clue appears — nothing is taken away.');
   }
 
   const feedback = card.querySelector('.feedback');
@@ -124,14 +126,10 @@ function decorateRail(board){
 
   const skill = board.querySelector('.questTop h2')?.textContent || '';
   const evidence = rail.querySelector('.questEvidenceCard');
-  const kicker = evidence?.querySelector('.questRailKicker');
-  if(kicker) kicker.textContent = questMasteryLabel(skill);
+  setTextIfChanged(evidence?.querySelector('.questRailKicker'),questMasteryLabel(skill));
 
   const today = rail.querySelector('.questTodayCard');
-  if(today){
-    const todayKicker = today.querySelector('.questRailKicker');
-    if(todayKicker) todayKicker.textContent = 'TODAY’S LEARNING';
-  }
+  if(today) setTextIfChanged(today.querySelector('.questRailKicker'),'TODAY’S LEARNING');
 
   let buddy = rail.querySelector('.questBuddyPanel');
   if(!buddy){
@@ -146,8 +144,7 @@ function decorateEarned(board){
   const bar = board.querySelector('.questEarnedBar');
   if(!bar) return;
   bar.setAttribute('aria-label','Rewards earned during this Quest');
-  const note = bar.querySelector('em');
-  if(note) note.textContent = 'Earned here stays yours • no speed bonus • no loss for mistakes';
+  setTextIfChanged(bar.querySelector('em'),'Earned here stays yours • no speed bonus • no loss for mistakes');
 }
 
 export function decorateQuestScreenshotMatch(board){
