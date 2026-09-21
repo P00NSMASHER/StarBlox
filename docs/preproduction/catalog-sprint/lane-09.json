@@ -1,11 +1,12 @@
 {
-  "schemaVersion": 4,
+  "schemaVersion": 5,
   "lane": "09",
   "workstream": "09",
   "phase": "CATALOG_SPRINT",
   "branch": "screenshot-match-preproduction",
-  "status": "GENERATED_ADOBE_REPAIRS_TOPS_7_8_DECOR_1_2_STAGING_BLOCKED",
-  "currentObservedBranchHead": "7fa1e46001d756f6333a609c1a493dd35017e22a",
+  "status": "GENERATED_ADOBE_REPAIRS_TOPS_7_10_DECOR_1_2_STAGING_BLOCKED_ESCALATED_CYCLE_2",
+  "currentObservedBranchHeadBeforeWrite": "63b6315b2f86130e3b9d11d3295d7657508d5c21",
+  "previousLaneBlobSha": "a34309076e4143f35fc7346509c8967cafb849a2",
   "primaryAssignment": ["decor-1","decor-2","decor-3","decor-4","decor-5","decor-6","decor-7","decor-8","decor-9","decor-10","decor-11","decor-12"],
   "secondaryRepairAssignment": {
     "ids": ["tops-7","tops-8","tops-9","tops-10","tops-11","tops-12"],
@@ -17,25 +18,18 @@
   "runtimeWiringChanged": false,
   "changedInputs": {
     "reviewer01": {
-      "reviewBlobSha": "d750e37b564fca9e36cf225be15d823afeec7839",
+      "reviewBlobSha": "505483331d57704b1382a3a7d38a87ac8c50ffbc",
+      "reviewSourceHead": "60e0f9a5cddfaf4925aae4800dd96816690a98ae",
       "replacementAccepted": ["tops-1","tops-2","tops-3","tops-4","tops-5","tops-6"],
       "replacementRework": [
-        {
-          "id": "tops-7",
-          "hash": "fe5b33a5b8eb8de137abab7daf315ddfaaaaf408",
-          "path": "/assets/catalog/tops-7-w09-v2.svg",
-          "reason": "Still a flat frontal vector hoodie. Identity/theme read, but Tier 3 lacks convincing fabric volume, folds, material response, three-quarter construction and cast/contact lighting.",
-          "failedChecks": ["dimensional construction","materials","lighting"]
-        },
-        {
-          "id": "tops-8",
-          "hash": "81bbec69f1e164b9772e0f867409581526f5255a",
-          "path": "/assets/catalog/tops-8-w09-v2.svg",
-          "reason": "Vest silhouette is distinct, but quilt/puffer regions remain flat graphic bands with weak loft/material depth and weak Art Attack storytelling.",
-          "failedChecks": ["theme/tier","dimensional construction","materials","lighting"]
-        }
+        {"id":"tops-7","hash":"fe5b33a5b8eb8de137abab7daf315ddfaaaaf408","path":"/assets/catalog/tops-7-w09-v2.svg","failedChecks":["dimensional construction","materials","lighting"]},
+        {"id":"tops-8","hash":"81bbec69f1e164b9772e0f867409581526f5255a","path":"/assets/catalog/tops-8-w09-v2.svg","failedChecks":["theme/tier","dimensional construction","materials","lighting"]},
+        {"id":"tops-9","hash":"232c5db97964d710489c4e32bc7c87d4a985efc1","path":"/assets/catalog/tops-9-w09-v2.svg","failedChecks":["dimensional construction","materials","lighting"]},
+        {"id":"tops-10","hash":"233739b22d0f3395b02bc51f57fb1f36afc41993","path":"/assets/catalog/tops-10-w09-v2.svg","failedChecks":["dimensional construction","materials","lighting","tier progression"]},
+        {"id":"tops-11","hash":"9e29094190a1c1867e94d44ef1c4134140447191","path":"/assets/catalog/tops-11-w09-v2.svg","failedChecks":["dimensional construction","materials","lighting","tier progression"]},
+        {"id":"tops-12","hash":"1788cfb30ffd70d71bf182f01f137f9d241200fa","path":"/assets/catalog/tops-12-w09-v2.svg","failedChecks":["theme/tier","dimensional construction","materials","lighting","tier progression"]}
       ],
-      "tops9Through12ReplacementDisposition": "NOT_YET_RECORDED_FOR_CURRENT_W09_V2_HASHES"
+      "disposition": "TOPS_7_12_CURRENT_W09_V2_HASHES_REWORK"
     },
     "reviewer14": {
       "reviewBlobSha": "f3f20ddb9d2104aec998e70711584133b4d5e490",
@@ -53,10 +47,10 @@
     "tops": [
       {"id":"tops-7","path":"/assets/catalog/tops-7-w09-v2.svg","blobSha":"fe5b33a5b8eb8de137abab7daf315ddfaaaaf408","status":"REWORK_PRESERVED"},
       {"id":"tops-8","path":"/assets/catalog/tops-8-w09-v2.svg","blobSha":"81bbec69f1e164b9772e0f867409581526f5255a","status":"REWORK_PRESERVED"},
-      {"id":"tops-9","path":"/assets/catalog/tops-9-w09-v2.svg","blobSha":"232c5db97964d710489c4e32bc7c87d4a985efc1","status":"READY_FOR_REVIEW_PRESERVED"},
-      {"id":"tops-10","path":"/assets/catalog/tops-10-w09-v2.svg","blobSha":"233739b22d0f3395b02bc51f57fb1f36afc41993","status":"READY_FOR_REVIEW_PRESERVED"},
-      {"id":"tops-11","path":"/assets/catalog/tops-11-w09-v2.svg","blobSha":"9e29094190a1c1867e94d44ef1c4134140447191","status":"READY_FOR_REVIEW_PRESERVED"},
-      {"id":"tops-12","path":"/assets/catalog/tops-12-w09-v2.svg","blobSha":"1788cfb30ffd70d71bf182f01f137f9d241200fa","status":"READY_FOR_REVIEW_PRESERVED"}
+      {"id":"tops-9","path":"/assets/catalog/tops-9-w09-v2.svg","blobSha":"232c5db97964d710489c4e32bc7c87d4a985efc1","status":"REWORK_PRESERVED"},
+      {"id":"tops-10","path":"/assets/catalog/tops-10-w09-v2.svg","blobSha":"233739b22d0f3395b02bc51f57fb1f36afc41993","status":"REWORK_PRESERVED"},
+      {"id":"tops-11","path":"/assets/catalog/tops-11-w09-v2.svg","blobSha":"9e29094190a1c1867e94d44ef1c4134140447191","status":"REWORK_PRESERVED"},
+      {"id":"tops-12","path":"/assets/catalog/tops-12-w09-v2.svg","blobSha":"1788cfb30ffd70d71bf182f01f137f9d241200fa","status":"REWORK_PRESERVED"}
     ],
     "decor": [
       {"id":"decor-1","name":"Book Crate","tier":1,"theme":"Midnight Neon","path":"/assets/catalog/decor-1.svg","blobSha":"81999ed9d9b289bd2137cac690a36e8e99d03824","status":"REWORK_PRESERVED"},
@@ -73,86 +67,80 @@
       {"id":"decor-12","name":"Trophy Wall","tier":5,"theme":"Star Luxe","path":"/assets/catalog/decor-12.svg","blobSha":"903e0f5d45dd6874c4352493db3e3e3346e0b39c","status":"REWORK_PRESERVED"}
     ]
   },
-  "generatedRepairBatch": {
-    "batch": 3,
-    "status": "GENERATED_ADOBE_NOT_REPOSITORY_STAGED",
-    "count": 4,
-    "assets": [
-      {
-        "id": "tops-7",
-        "name": "Colorblock Hoodie",
-        "tier": 3,
-        "theme": "Aqua Wave",
-        "sourceRejectedHash": "fe5b33a5b8eb8de137abab7daf315ddfaaaaf408",
-        "intendedRepositoryPath": "/assets/catalog/tops-7-w09-v3.png",
-        "format": "png",
-        "dimensions": [1024,1024],
-        "adobeGenAIAssetId": "urn:aaid:sc:US:a146737a-008b-4662-8e45-07fdc29254ad",
-        "adobeStoredBytes": 1044529,
-        "producerPixelInspection": "PASS_DIMENSIONAL_THREE_QUARTER_HOOD_BODY_SLEEVE_VOLUME_FABRIC_FOLDS_RIBBING_CAST_SHADOW",
-        "repositoryReadback": "BLOCKED_BINARY_TRANSFER_NOT_AVAILABLE_IN_THIS_RUN",
-        "status": "GENERATED_ADOBE_STAGING_BLOCKED"
-      },
-      {
-        "id": "tops-8",
-        "name": "Puffer Vest",
-        "tier": 3,
-        "theme": "Art Attack",
-        "sourceRejectedHash": "81bbec69f1e164b9772e0f867409581526f5255a",
-        "intendedRepositoryPath": "/assets/catalog/tops-8-w09-v3.png",
-        "format": "png",
-        "dimensions": [1024,1024],
-        "adobeGenAIAssetId": "urn:aaid:sc:US:a89505f7-417e-4449-b346-365f707a9618",
-        "adobeStoredBytes": 1222362,
-        "producerPixelInspection": "PASS_DIMENSIONAL_QUILTED_LOFT_RAISED_COLLAR_ZIPPER_HARDWARE_ART_ATTACK_MATERIAL_STORYTELLING_CAST_SHADOW",
-        "repositoryReadback": "BLOCKED_BINARY_TRANSFER_NOT_AVAILABLE_IN_THIS_RUN",
-        "status": "GENERATED_ADOBE_STAGING_BLOCKED"
-      },
-      {
-        "id": "decor-1",
-        "name": "Book Crate",
-        "tier": 1,
-        "theme": "Midnight Neon",
-        "sourceRejectedHash": "81999ed9d9b289bd2137cac690a36e8e99d03824",
-        "intendedRepositoryPath": "/assets/catalog/decor-1-w09-v2.png",
-        "format": "png",
-        "dimensions": [1024,1024],
-        "adobeGenAIAssetId": "urn:aaid:sc:US:acf980d3-05f0-47bd-8949-55f729654a37",
-        "adobeStoredBytes": 1079158,
-        "producerPixelInspection": "PASS_PHYSICAL_WOOD_SLATS_THICKNESS_METAL_CORNERS_BOOK_PAGE_DEPTH_NEON_EDGE_ACCENTS_GROUNDED_SHADOW",
-        "repositoryReadback": "BLOCKED_BINARY_TRANSFER_NOT_AVAILABLE_IN_THIS_RUN",
-        "status": "GENERATED_ADOBE_STAGING_BLOCKED"
-      },
-      {
-        "id": "decor-2",
-        "name": "Cloud Shelf",
-        "tier": 1,
-        "theme": "Candy Core",
-        "sourceRejectedHash": "c07d57b318bfed909f22e11427e389cb26490696",
-        "intendedRepositoryPath": "/assets/catalog/decor-2-w09-v2.png",
-        "format": "png",
-        "dimensions": [1024,1024],
-        "adobeGenAIAssetId": "urn:aaid:sc:US:712c6b0d-d36b-482d-8d69-6fee92742ec7",
-        "adobeStoredBytes": 907917,
-        "producerPixelInspection": "PASS_CLOUD_BODY_THICKNESS_WALL_BRACKETS_SHELF_DEPTH_CANDY_MATERIAL_RESPONSE_CONTACT_SHADOW",
-        "repositoryReadback": "BLOCKED_BINARY_TRANSFER_NOT_AVAILABLE_IN_THIS_RUN",
-        "status": "GENERATED_ADOBE_STAGING_BLOCKED"
-      }
-    ]
-  },
+  "generatedRepairBatches": [
+    {
+      "batch": 3,
+      "status": "GENERATED_ADOBE_NOT_REPOSITORY_STAGED",
+      "count": 4,
+      "assets": [
+        {"id":"tops-7","name":"Colorblock Hoodie","tier":3,"theme":"Aqua Wave","sourceRejectedHash":"fe5b33a5b8eb8de137abab7daf315ddfaaaaf408","intendedRepositoryPath":"/assets/catalog/tops-7-w09-v3.png","format":"png","dimensions":[1024,1024],"adobeGenAIAssetId":"urn:aaid:sc:US:a146737a-008b-4662-8e45-07fdc29254ad","adobeStoredBytes":1044529,"producerPixelInspection":"PASS_DIMENSIONAL_THREE_QUARTER_HOOD_BODY_SLEEVE_VOLUME_FABRIC_FOLDS_RIBBING_CAST_SHADOW","repositoryReadback":"BLOCKED_BINARY_TRANSFER_NOT_AVAILABLE","status":"GENERATED_ADOBE_STAGING_BLOCKED"},
+        {"id":"tops-8","name":"Puffer Vest","tier":3,"theme":"Art Attack","sourceRejectedHash":"81bbec69f1e164b9772e0f867409581526f5255a","intendedRepositoryPath":"/assets/catalog/tops-8-w09-v3.png","format":"png","dimensions":[1024,1024],"adobeGenAIAssetId":"urn:aaid:sc:US:a89505f7-417e-4449-b346-365f707a9618","adobeStoredBytes":1222362,"producerPixelInspection":"PASS_DIMENSIONAL_QUILTED_LOFT_RAISED_COLLAR_ZIPPER_HARDWARE_ART_ATTACK_MATERIAL_STORYTELLING_CAST_SHADOW","repositoryReadback":"BLOCKED_BINARY_TRANSFER_NOT_AVAILABLE","status":"GENERATED_ADOBE_STAGING_BLOCKED"},
+        {"id":"decor-1","name":"Book Crate","tier":1,"theme":"Midnight Neon","sourceRejectedHash":"81999ed9d9b289bd2137cac690a36e8e99d03824","intendedRepositoryPath":"/assets/catalog/decor-1-w09-v2.png","format":"png","dimensions":[1024,1024],"adobeGenAIAssetId":"urn:aaid:sc:US:acf980d3-05f0-47bd-8949-55f729654a37","adobeStoredBytes":1079158,"producerPixelInspection":"PASS_PHYSICAL_WOOD_SLATS_THICKNESS_METAL_CORNERS_BOOK_PAGE_DEPTH_NEON_EDGE_ACCENTS_GROUNDED_SHADOW","repositoryReadback":"BLOCKED_BINARY_TRANSFER_NOT_AVAILABLE","status":"GENERATED_ADOBE_STAGING_BLOCKED"},
+        {"id":"decor-2","name":"Cloud Shelf","tier":1,"theme":"Candy Core","sourceRejectedHash":"c07d57b318bfed909f22e11427e389cb26490696","intendedRepositoryPath":"/assets/catalog/decor-2-w09-v2.png","format":"png","dimensions":[1024,1024],"adobeGenAIAssetId":"urn:aaid:sc:US:712c6b0d-d36b-482d-8d69-6fee92742ec7","adobeStoredBytes":907917,"producerPixelInspection":"PASS_CLOUD_BODY_THICKNESS_WALL_BRACKETS_SHELF_DEPTH_CANDY_MATERIAL_RESPONSE_CONTACT_SHADOW","repositoryReadback":"BLOCKED_BINARY_TRANSFER_NOT_AVAILABLE","status":"GENERATED_ADOBE_STAGING_BLOCKED"}
+      ]
+    },
+    {
+      "batch": 4,
+      "status": "GENERATED_ADOBE_NOT_REPOSITORY_STAGED",
+      "count": 2,
+      "assets": [
+        {
+          "id": "tops-9",
+          "name": "Art Smock",
+          "tier": 3,
+          "theme": "Star Luxe",
+          "sourceRejectedHash": "232c5db97964d710489c4e32bc7c87d4a985efc1",
+          "intendedRepositoryPath": "/assets/catalog/tops-9-w09-v3.png",
+          "format": "png",
+          "dimensions": [1024,1024],
+          "adobeGenAIAssetId": "urn:aaid:sc:US:177bdebd-f68a-4742-8d51-e576d41570d1",
+          "adobeStoredBytes": 1111663,
+          "generationRequestId": "958542b4-26dd-4337-9991-57aec83e52e7",
+          "producerPixelInspection": "PASS_THREE_QUARTER_SMOCk_APRON_CONSTRUCTION_ROLLED_SLEEVE_VOLUME_DEEP_TOOL_POCKETS_FABRIC_FOLDS_STITCHING_GOLD_STAR_HARDWARE_CAST_SHADOW",
+          "repositoryReadback": "BLOCKED_BINARY_TRANSFER_NOT_AVAILABLE",
+          "status": "GENERATED_ADOBE_STAGING_BLOCKED"
+        },
+        {
+          "id": "tops-10",
+          "name": "Star Bomber",
+          "tier": 4,
+          "theme": "Midnight Neon",
+          "sourceRejectedHash": "233739b22d0f3395b02bc51f57fb1f36afc41993",
+          "intendedRepositoryPath": "/assets/catalog/tops-10-w09-v3.png",
+          "format": "png",
+          "dimensions": [1024,1024],
+          "adobeGenAIAssetId": "urn:aaid:sc:US:61864223-7124-4bf1-afc1-20e679aa4ec5",
+          "adobeStoredBytes": 1388197,
+          "generationRequestId": "8585ff04-733a-4f56-ada2-0b3f0a8315a5",
+          "producerPixelInspection": "PASS_TRUE_BOMBER_BODY_AND_SLEEVE_VOLUME_RIBBED_CUFFS_WAIST_RAISED_COLLAR_ZIPPER_HARDWARE_SATIN_VS_KNIT_MATERIAL_NEON_RIM_SPECULAR_LIGHTING_CAST_SHADOW",
+          "repositoryReadback": "BLOCKED_BINARY_TRANSFER_NOT_AVAILABLE",
+          "status": "GENERATED_ADOBE_STAGING_BLOCKED"
+        }
+      ]
+    }
+  ],
   "binaryStagingBlocker": {
-    "status": "OPEN_FIRST_CYCLE",
-    "detail": "Adobe Firefly generation and authenticated preview succeeded, but this Workstream-09 tool context cannot extract the generated binary bytes into the GitHub create_blob(base64) writer. Direct container download of the Adobe presigned short URL is unavailable in this environment. The repository has a previously proven Adobe-to-Git-blob transfer path coordinated by Workstream 15, so the exact stable GenAI asset URNs above are handed off for byte preservation/branch attachment rather than falsely claiming STAGED.",
-    "requiredResolution": "Use the previously proven Adobe asset-search/presigned-rendition/inline-byte to Git create_blob path, attach each exact image to its intended versioned path on the newest branch head with force=false, then verify exact readback before changing status to READY_FOR_REVIEW."
+    "status": "OPEN_SECOND_CYCLE_ESCALATED_TO_15",
+    "detail": "Second consecutive Workstream-09 cycle: Adobe generation and authenticated actual-pixel preview succeeded, and presigned rendition/source URLs were resolved for the prior Tops 7/8 and Decor 1/2 generations, but this runtime cannot transfer those image bytes into GitHub create_blob/base64. Direct container egress to Adobe short hosts also failed at DNS resolution. No generated image is falsely marked STAGED. The repository already has a proven coordinated Adobe-to-Git recovery workflow for other lanes, so Workstream 15 must attach the stable generation URNs without regeneration.",
+    "requiredResolution": "15 should use the proven byte-recovery path to attach exact existing generations to the intended versioned paths on the latest screenshot-match-preproduction head with non-force publication and exact readback. Resolve/stage Batch 3 first, then Batch 4. Do not generate Tops 11/12 or Decor 3+ until at least one blocked batch is persisted/reviewable so this lane does not accumulate unshippable art.",
+    "stableAssetsAwaitingTransport": [
+      "urn:aaid:sc:US:a146737a-008b-4662-8e45-07fdc29254ad",
+      "urn:aaid:sc:US:a89505f7-417e-4449-b346-365f707a9618",
+      "urn:aaid:sc:US:acf980d3-05f0-47bd-8949-55f729654a37",
+      "urn:aaid:sc:US:712c6b0d-d36b-482d-8d69-6fee92742ec7",
+      "urn:aaid:sc:US:177bdebd-f68a-4742-8d51-e576d41570d1",
+      "urn:aaid:sc:US:61864223-7124-4bf1-afc1-20e679aa4ec5"
+    ]
   },
   "checks": {
     "phaseAndOwnership": "PASS",
-    "reviewer01FreshReplacementEvidence": "PASS_TOPS_7_8_EXACT_HASH_REWORK",
+    "reviewer01FreshReplacementEvidence": "PASS_TOPS_7_12_CURRENT_W09_V2_HASHES_REWORK",
     "reviewer14DecorEvidence": "PASS_DECOR_12_OF_12_EXACT_HASH_REWORK",
-    "tops9Through12PreservedPendingReview": "PASS_NO_REGENERATION_WITHOUT_CURRENT_HASH_REWORK",
-    "newAdobeGeneration": "PASS_4_ASSETS",
-    "producerActualPixelInspection": "PASS_4_ASSETS",
-    "newRepositoryPersistence": "BLOCKED_NOT_STAGED",
+    "tops7And8PendingGenerationPreservedWithoutRegeneration": "PASS",
+    "newAdobeGenerationThisRun": "PASS_2_ASSETS_TOPS_9_10",
+    "producerActualPixelInspectionThisRun": "PASS_2_ASSETS",
+    "binaryTransportAttemptThisRun": "PRESIGNED_URLS_RESOLVED_FOR_BATCH3_CONTAINER_EGRESS_BLOCKED_DNS",
+    "newRepositoryPersistence": "BLOCKED_NOT_STAGED_SECOND_CYCLE",
     "canonicalIntegration": "NOT_PERFORMED_BY_09",
     "fullBuild": "NOT_RUN_NO_CANONICAL_RUNTIME_CHANGE",
     "fullTestSuite": "NOT_RUN_NO_CANONICAL_RUNTIME_CHANGE",
@@ -161,10 +149,10 @@
     "mainTouched": false
   },
   "handoff": {
-    "01": "Do not re-review Tops 7/8 until the new v3 PNG bytes are repository-staged and exact hashes exist. Tops 9-12 current W09 v2 hashes remain pending independent disposition; do not infer acceptance.",
-    "14": "Decor 1/2 have new Adobe-generated v2 PNG candidates but are not repository-staged yet. Preserve the existing 12 REWORK decisions; review new exact hashes only after staging. Decor 3-12 remain actionable REWORK for future bounded batches.",
-    "08": "No new Workstream-09 asset is eligible for integration from this run because the new generated bytes are not repository-staged/read back and therefore have no Git blob hash or independent ACCEPT.",
-    "15": "Please resolve the exact Adobe-to-Git binary handoff for the four stable GenAI URNs above using the already-proven byte-preservation path, then attach to the intended versioned paths with non-force latest-head commits. This is the first Workstream-09 cycle with this concrete binary-staging blocker."
+    "01": "Tops 7-10 now have dimensional Adobe-generated replacements but none is repository-staged. Do not review until exact Git hashes and card/detail renders exist. Tops 11-12 current W09 v2 hashes remain REWORK and are preserved pending transport recovery before further generation.",
+    "14": "Decor 1/2 have dimensional generated replacements waiting on repository attachment; retain the existing 12 REWORK decisions until replacement hashes exist. Decor 3-12 remain actionable REWORK but generation is intentionally paused behind the second-cycle binary staging blocker.",
+    "08": "No new Workstream-09 asset is eligible for integration because generated replacements lack repository readback and independent exact-hash ACCEPT.",
+    "15": "SECOND-CYCLE ESCALATION: resolve Adobe-to-Git byte transport for the six stable generation URNs listed in binaryStagingBlocker using the already-proven recovery workflow. Stage Batch 3 first (Tops 7/8, Decor 1/2), then Batch 4 (Tops 9/10), preserving exact bytes and intended versioned paths; do not regenerate."
   },
   "freeze": {"replitTouched":false,"flootTouched":false,"mainMergedOrModified":false,"playerDataTouched":false}
 }
