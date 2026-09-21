@@ -1,0 +1,77 @@
+name: StarBlox chat catalog intake 01
+
+on:
+  push:
+    branches: [screenshot-match-preproduction]
+    paths: [.github/workflows/catalog-chat-intake01.yml]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: starblox-catalog-chat-intake01
+  cancel-in-progress: false
+
+jobs:
+  import-candidates:
+    if: github.ref == 'refs/heads/screenshot-match-preproduction'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout preproduction only
+        uses: actions/checkout@v4
+        with:
+          ref: screenshot-match-preproduction
+          fetch-depth: 0
+      - name: Record inspected source head
+        run: echo "SOURCE_HEAD=$(git rev-parse HEAD)" >> "$GITHUB_ENV"
+      - name: Import verified candidate image bytes
+        run: python3 docs/preproduction/catalog-sprint/import_chat_intake01.py --root . --include-moon
+      - name: Use Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install existing game dependencies
+        run: npm install --no-audit --no-fund
+      - name: Run existing regression suite
+        run: timeout 120s npm test -- --reporter=verbose
+      - name: Build existing game with staged candidates
+        run: npm run build
+      - name: Record executed checks
+        run: |
+          python3 - <<'PY'
+          import json, os
+          from pathlib import Path
+          p = Path('docs/preproduction/catalog-sprint/chat-intake01-import.json')
+          report = json.loads(p.read_text())
+          report['regressionSuite'] = 'PASS'
+          report['productionBuild'] = 'PASS'
+          report['testedSourceHead'] = os.environ['SOURCE_HEAD']
+          report['workflowRunId'] = os.environ['GITHUB_RUN_ID']
+          report['candidateFilesOnly'] = True
+          report['typecheck'] = 'NOT_APPLICABLE_NO_TYPESCRIPT_APP_CHANGES'
+          p.write_text(json.dumps(report, indent=2) + '\n')
+          PY
+      - name: Commit only candidate assets and intake evidence
+        run: |
+          set -eu
+          test "$GITHUB_REF" = "refs/heads/screenshot-match-preproduction"
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- public/assets/catalog-candidates/chat-20260921-intake01 docs/preproduction/catalog-sprint/chat-intake01.json docs/preproduction/catalog-sprint/chat-intake01-import.json
+          if git diff --cached --quiet; then
+            echo 'Verified candidate files already present; no new commit.'
+            exit 0
+          fi
+          git commit -m 'catalog: stage real companion source art and reviewed Moon Chair crop'
+          for attempt in 1 2 3; do
+            if git push origin HEAD:refs/heads/screenshot-match-preproduction; then
+              echo "CANDIDATE_COMMIT=$(git rev-parse HEAD)"
+              exit 0
+            fi
+            git fetch origin screenshot-match-preproduction
+            git rebase origin/screenshot-match-preproduction
+          done
+          echo 'Concurrent branch changes prevented safe publication; no force push.' >&2
+          exit 1
