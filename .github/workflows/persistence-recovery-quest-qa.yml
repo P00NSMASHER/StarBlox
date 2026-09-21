@@ -1,0 +1,68 @@
+name: StarBlox Persistence Recovery Quest QA
+
+on:
+  push:
+    branches:
+      - screenshot-match-preproduction
+    paths:
+      - 'src/storage.js'
+      - 'src/persistenceTransactions.js'
+      - 'src/purchaseGuardRuntime.js'
+      - 'src/App.jsx'
+      - 'src/gameModel.js'
+      - 'catalog-art-manifest.json'
+      - 'src/catalogArtRuntime.js'
+      - 'scripts/persistenceRecoveryQuestQa.mjs'
+      - '.github/workflows/persistence-recovery-quest-qa.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: starblox-persistence-recovery-quest-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  recovery-quest-browser-stress:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install project dependencies
+        run: npm install --no-audit --no-fund
+      - name: Install Playwright without changing package metadata
+        run: |
+          npm install --no-save --no-audit --no-fund playwright@1.55.0
+          npx playwright install --with-deps chromium
+      - name: Build production bundle
+        run: npm run build
+      - name: Start local production preview
+        run: |
+          nohup npx vite preview --host 127.0.0.1 --port 4173 > /tmp/starblox-persistence-recovery-preview.log 2>&1 &
+          for i in $(seq 1 40); do
+            if curl -fsS http://127.0.0.1:4173/ >/dev/null; then exit 0; fi
+            sleep 0.5
+          done
+          cat /tmp/starblox-persistence-recovery-preview.log
+          exit 1
+      - name: Run synthetic recovery and Quest browser stress
+        run: node scripts/persistenceRecoveryQuestQa.mjs
+        env:
+          STARBLOX_QA_URL: http://127.0.0.1:4173
+          STARBLOX_QA_OUTPUT: artifacts/persistence-recovery-quest-qa
+      - name: Print summary
+        if: always()
+        run: |
+          cat artifacts/persistence-recovery-quest-qa/summary.txt || true
+          if [ -f artifacts/persistence-recovery-quest-qa/report.json ]; then
+            node -e "const r=require('./artifacts/persistence-recovery-quest-qa/report.json'); console.log(JSON.stringify({status:r.status,sourceHead:r.sourceHead,cases:r.cases.map(x=>({name:x.name,status:x.status,error:x.error||null}))},null,2))"
+          fi
+      - name: Upload evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: persistence-recovery-quest-qa
+          path: artifacts/persistence-recovery-quest-qa
+          if-no-files-found: warn
+          retention-days: 7
