@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "batchId": "chat-shoes-recovery-5-6-20260921",
+  "status": "INTAKE_REQUESTED_NOT_STAGED",
+  "repository": "P00NSMASHER/StarBlox",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "5bf5b5d84e7c4ac057e7aca4339122edba952c3f",
+  "producer": "04",
+  "transportHelper": "CHAT",
+  "independentReviewer": "02",
+  "canonicalWriter": "08",
+  "purpose": "Stage the exact newly generated premium Shoes 5-6 Firefly assets from Workstream 04. No canonical wiring, metadata changes, ownership changes, or player-state changes.",
+  "outputReport": "docs/preproduction/catalog-sprint/chat-shoes-recovery-5-6-result.json",
+  "items": [
+    {"id":"shoes-5","name":"Boots","collectionId":"shoes","type":"avatar","tier":2,"theme":"Candy Core","price":125,"starReq":0,"assetId":"urn:aaid:sc:US:79816d31-2e7b-45e5-8b43-5691fded8309","sourceUrl":"https://at.adobe.com/PfzxVODUVBeNbkW9","renditionUrl":"https://at.adobe.com/NwvVJLGnLLpW2yI5","candidateRepositoryPath":"public/assets/catalog/shoes-5-w04-v2.jpg","producerPixelInspection":"PASS — paired three-quarter chunky ankle boots with layered tread soles, stitched pastel synthetic-leather panels, padded collars, laces/eyelets and dimensional candy-like translucent accents; no text/logo/UI."},
+    {"id":"shoes-6","name":"Runners","collectionId":"shoes","type":"avatar","tier":2,"theme":"Adventure Club","price":175,"starReq":0,"assetId":"urn:aaid:sc:US:1f5493d8-3baa-4a8f-a0fa-3691d2660566","sourceUrl":"https://at.adobe.com/S48YrUfNFiYsjlWM","renditionUrl":"https://at.adobe.com/esJuvyBdX0bhBGuN","candidateRepositoryPath":"public/assets/catalog/shoes-6-w04-v2.jpg","producerPixelInspection":"PASS — paired three-quarter trail runners with breathable mesh, layered cushioned/tread soles, reinforced trail panels, real laces and subtle compass/map geometry; no text/logo/UI."}
+  ],
+  "reviewNote": "Producer visual inspection is not approval. Reviewer 02 must inspect the exact repository-staged hashes at card/detail scale. Workstream 08 alone may wire accepted versions."
+}
