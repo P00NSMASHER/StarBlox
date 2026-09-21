@@ -97,6 +97,22 @@ describe('screenshot rebuild learning-integrity gate', () => {
     });
   });
 
+  it('keeps the fixed-day invited vocabulary transfer semantically defensible in the actual five-action Quest', () => {
+    const quest = gameModel.pickQuest({},5,FIXED_DATE);
+    const item = quest.find(question => question.id === 'vocab-transfer-invited');
+    expect(item).toBeTruthy();
+    expect(item.skill).toBe('vocabulary');
+    expect(item.role).toBe('transfer');
+    expect(item.prompt).toBe('Which new example best fits “invited”?');
+    expect(item.answer).toBe('Jada gets a message asking her to join the game.');
+    expect(new Set(item.choices)).toEqual(new Set([
+      'Jada gets a message asking her to join the game.',
+      'A child begs earnestly for one more chance.',
+      'A family celebrates with traditional music and foods.'
+    ]));
+    expectSingleAnswer(item);
+  });
+
   it('keeps the default Quest exactly five distinct deterministic actions', () => {
     const first = gameModel.pickQuest({},5,FIXED_DATE);
     const second = gameModel.pickQuest({},5,FIXED_DATE);
