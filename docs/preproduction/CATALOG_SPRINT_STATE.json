@@ -200,14 +200,14 @@
     "catalogGateStillRequiresAll192Accepted": true
   },
   "coordinationSnapshot": {
-    "observedHead": "c74ed6e7470ad118598affebc3edd503ee83cc1d",
+    "observedHead": "7f11ace8b118fc62baa9a356c14e882a0f5531b0",
     "repositoryStagedAssignedCandidates": 82,
     "generatedLocalDeskCandidates": 3,
     "assignedIdsWithAnyRepositoryOrLocalCandidate": 85,
-    "independentReviewedCurrentHashes": 83,
+    "independentReviewedCurrentHashes": 95,
     "independentAcceptedCurrentHashes": 0,
-    "independentReworkCurrentHashes": 83,
-    "independentUnreviewedIds": 109,
+    "independentReworkCurrentHashes": 95,
+    "independentUnreviewedIds": 97,
     "canonicalV2Promotions": 0,
     "reviewShardsPresent": [
       "01",
@@ -217,11 +217,15 @@
     ],
     "reviewedReworkFamilies": [
       "tops",
+      "bottoms",
+      "shoes",
       "seating",
       "auras",
+      "companions",
+      "beds",
       "lighting"
     ],
-    "note": "Independent visual coverage now spans Tops 12, Bottoms 12, Seating 11, Auras legacy 12, Companions 12, Beds 12 and Lighting 12 = 83 unique item hashes. All 83 are REWORK; zero current/replacement hashes have qualified ACCEPT.",
+    "note": "Independent visual coverage now spans Tops 12, Bottoms 12, Shoes 12, Seating 11, Auras legacy 12, Companions 12, Beds 12 and Lighting 12 = 95 unique item hashes. All 95 are REWORK; zero current/replacement hashes have qualified ACCEPT. Replacement review fixtures, not generation, are the oldest catalog bottleneck.",
     "storedReplacementCandidateVersions": 6,
     "replacementCandidateIds": [
       "tops-7",
@@ -313,11 +317,11 @@
     "15": [
       "Preserve the automated CI evidence and coordinate an authorized executable local Chromium/Vite path without Replit/Floot or real player data."
     ],
-    "priority": "REAL_BROWSER_TIMING_CONCURRENCY_EVIDENCE_AFTER_AUTOMATED_PASS",
+    "priority": "PERSIST-REAL-BROWSER-TRANSACTION-STRESS_AFTER_AUTOMATED_PASS",
     "details": {
       "PERSIST-TRANSACTION-IDEMPOTENCY": "PASS_AUTOMATED at 1ce91011311dff6ea9b7b8119010d84f0466e42f; purchase reload/replay exactly-once regression passed.",
       "PERSIST-QUEST-COMPLETION-REFRESH": "PASS_AUTOMATED at 1ce91011311dff6ea9b7b8119010d84f0466e42f; final completion reload/replay exactly-once regression passed.",
-      "PERSIST-BROWSER-TIMING-CONCURRENCY": "OPEN RELEASE BLOCKER: requires authorized executable browser evidence for purchase/equip/place/reload, final Quest feedback refresh timing, multi-tab replay, malformed import and IndexedDB/localStorage recovery. No real player data."
+      "PERSIST-REAL-BROWSER-TRANSACTION-STRESS": "OPEN RELEASE BLOCKER: automated transaction/reload semantics pass at 1ce91011311dff6ea9b7b8119010d84f0466e42f, but authorized executable real-browser timing/concurrency evidence is still required. No real player data."
     }
   },
   "supportAssignments": {
@@ -378,9 +382,9 @@
     ],
     "focusedExecutableCheck": "PASS_NODE_ASSERTIONS_purchase_once_replay_receipt_restore_quest_completion_replay",
     "fullCi": "PASS",
-    "liveBrowserPersistence": "PENDING_AUTHORIZED_EXECUTABLE_BROWSER",
+    "liveBrowserPersistence": "BLOCKED_AUTHORIZED_DEVICE_OFFLINE",
     "blockersStillOpenForRelease": [
-      "PERSIST-BROWSER-TIMING-CONCURRENCY"
+      "PERSIST-REAL-BROWSER-TRANSACTION-STRESS"
     ],
     "testedHead": "1ce91011311dff6ea9b7b8119010d84f0466e42f",
     "workflowRunId": 35652200670,
@@ -392,7 +396,7 @@
       "PERSIST-TRANSACTION-IDEMPOTENCY": "PASS_AUTOMATED_RELOAD_REPLAY",
       "PERSIST-QUEST-COMPLETION-REFRESH": "PASS_AUTOMATED_RELOAD_REPLAY"
     },
-    "note": "GitHub job steps and raw logs were independently inspected by Workstream 15. Durable purchase receipt/reload/replay, receipt-only ownership recovery, final Quest completion reload/replay, storage recovery, 192-item catalog, 200-question bank, rapid action guards and production Vite build all passed. Real browser purchase/equip/place/reload, final-feedback refresh timing, multi-tab replay, malformed import and live IndexedDB/localStorage recovery remain unproven."
+    "note": "GitHub job steps and raw logs were independently inspected by Workstream 15. Durable purchase receipt/reload/replay, receipt-only ownership recovery, final Quest completion reload/replay, storage recovery, 192-item catalog, 200-question bank, rapid action guards and production Vite build all passed. The remaining persistence release blocker is the Workstream-13-owned PERSIST-REAL-BROWSER-TRANSACTION-STRESS gate: real browser purchase/equip/place/reload, final-feedback refresh timing, multi-tab replay, malformed import and live IndexedDB/localStorage recovery remain unproven because the authorized device path is offline."
   },
   "binaryTransferEvidence": {
     "status": "SUPPORTED_PATH_PROVEN_GIT_BLOBS_CREATED_BRANCH_ATTACHMENT_PENDING",
@@ -497,6 +501,20 @@
       "pendingReplacementHashes": [
         "tops-7-w09-v2",
         "tops-8-w09-v2"
+      ]
+    },
+    "02": {
+      "reviewBlobSha": "adaecbc6fd1f534bd9055c2292bcb7776c27bdce",
+      "reviewedUniqueItemIds": 23,
+      "newlyReviewed": [
+        "shoes-1..12"
+      ],
+      "newlyAccepted": 0,
+      "newlyRework": 12,
+      "nextPartitionPriority": [
+        "backgear-1..12",
+        "handgear-1..12",
+        "replacement seating/shoes when READY_FOR_REVIEW"
       ]
     }
   }
