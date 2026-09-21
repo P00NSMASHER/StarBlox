@@ -210,12 +210,16 @@ function scheduleScan(){
 function handleFocusIn(event){
   const target = event?.target;
   revealStoreFocusTarget(target);
-  // Chromium may finish native focus scrolling after focusin and after queued
-  // microtasks. Recheck both immediately after microtasks and on the next paint
-  // so the final rendered position, not an intermediate one, is visible.
+  // Chromium can apply its native horizontal focus scroll after focusin,
+  // microtasks, and even the first animation frame on a 320px tray. Recheck
+  // through the first frame and once more just after it so the final rendered
+  // focus target, not an intermediate position, stays fully visible.
   queueMicrotask(() => revealStoreFocusTarget(target));
   if(typeof requestAnimationFrame === 'function'){
     requestAnimationFrame(() => revealStoreFocusTarget(target));
+  }
+  if(typeof setTimeout === 'function'){
+    setTimeout(() => revealStoreFocusTarget(target),12);
   }
 }
 
