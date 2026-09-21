@@ -1,62 +1,83 @@
 # Catalog Sprint — Workstream 13 Persistence / Economy QA
 
-STATUS: **LATEST RUNTIME CI REVALIDATION PASS / REAL-BROWSER TIMING-CONCURRENCY STILL BLOCKED**
+STATUS: **REAL-BROWSER PURCHASE/ROOM/MULTITAB/IMPORT/RECOVERY PASS / QUEST BROWSER TIMING STILL OPEN**
 
 Branch: `screenshot-match-preproduction`  
-Audited branch head before this report write: `2efff814883bffaa695cb6dfae80ed2dc3dc2658`  
-Latest runtime-affecting persistence-relevant CI head: `81bbf06dc070b0f72f942dde9c14ac4bba476922`  
+Automated durable transaction baseline: `81bbf06dc070b0f72f942dde9c14ac4bba476922` — **98/98 tests + production build PASS**  
+Broad Chromium persistence head: `795c2d6f9ee197c66bc725d6a7c53fe5f0fd3382`  
+Focused Chromium recovery head: `04a7e72f5b8adb6d36a164df2edc324c877de390`  
 Replit/Floot: **untouched**  
 `main`: **not merged or modified**  
 Real player data: **not used or modified**
 
-## Material result this pass
+## Material result
 
-The branch changed after the prior Workstream-13 evidence: `src/mobileAccessibilityRuntime.js` received Store focus/scroll fixes. Persistence/economy code, catalog manifest/runtime mapping, prices and item IDs did not change. Because this was a real runtime change, I did not rely only on the older `1ce9101...` proof.
+The prior device-offline blocker is no longer the correct classification. Workstream 13 created an isolated GitHub Actions + Playwright Chromium path that runs the production Vite build against synthetic state only. This produced real browser timing/reload/concurrency evidence without Replit/Floot or real player records.
 
-GitHub Actions run `35652513911`, job `106508054992`, on exact head `81bbf06dc070b0f72f942dde9c14ac4bba476922` completed successfully:
+### Broad browser stress — material PASS
 
-- **22/22 test files PASS**;
-- **98/98 tests PASS**;
-- persistence reload transaction tests: **3/3 PASS**;
-- durable persistence transaction tests: **5/5 PASS**;
-- storage recovery/sanitization tests: **7/7 PASS**;
-- rapid purchase across React-style rerender: **PASS**;
-- rapid Place/Put Away: **PASS**;
-- rapid Quest-answer double tap: **PASS**;
-- reward/evidence policy: **PASS**;
-- 192-item catalog invariant: **PASS**;
-- production Vite build: **PASS**, 1,613 modules transformed;
-- output: CSS 167.39 kB / 35.69 kB gzip; JS 304.14 kB / 93.34 kB gzip.
+GitHub Actions run `35660627560`, job `106534723983`, Chromium `140.0.7339.16`, exact head `795c2d6...`, artifact `10667216430`, digest `sha256:4ca9e54fba30addccc003cb33d02e7dd1cb9e68bd4af76ce2f189b4ba08c0eef`:
 
-The commits after that tested runtime head through the audited head change catalog review/QA/coordination documents and the staged-art QA workflow, not storage, transaction, reward, App transaction wiring, catalog canonical mapping or player-state semantics. The new CI therefore revalidates the existing Workstream-13 protections after the latest runtime-affecting accessibility change.
+- production build: **PASS**, 1,613 modules;
+- initial synthetic Coins/Stars/XP and unknown/no-art state: **PASS**;
+- rapid double purchase of `tops-2`: **PASS exactly once**, including reload, one durable receipt and one daily-purchase increment;
+- equip `tops-2` then reload: **PASS**;
+- underlying React room `Put Away` / `Place` rapid double tap + reload: **PASS exactly once**;
+- simultaneous same `tops-3` purchase from two browser tabs: **PASS exactly once**, second tab converged after reload;
+- malformed save import through the live UI: **PASS**, existing save unchanged;
+- accepted catalog-art path for owned/equipped companion state plus unknown/no-art IDs: **PASS**, no ownership/equipment pruning.
 
-## Protected state remains green in automated evidence
+The broad harness's IndexedDB-recovery case was invalid because its test-only `addInitScript` reseeded localStorage whenever localStorage was intentionally deleted. That result is classified as **HARNESS INVALID**, not a product recovery failure.
 
-The durable transaction/reload protections remain intact: permanent purchases revalidate current ownership/Stars/Coins inside the functional save transaction and persist a per-item receipt; completed receipts can restore missing ownership without another charge. Final Quest completion commits Coins, XP, Quest count, Buddy Bond and daily completion atomically with an active/completed receipt before the feedback-transition timer, and replay is rejected.
+### Focused IndexedDB recovery — PASS
 
-Storage sanitization preserves the receipt fields, keeps missing-localStorage recovery open until IndexedDB is checked, rejects malformed imported arrays, and shape-sanitizes stable IDs without filtering them against current artwork. Missing/new/replaced catalog images therefore do not remove permanent ownership, equipped gear, room placement or Dream Goal state.
+A second BrowserContext removed that reseeding behavior and tested recovery directly. Run `35660997658`, job `106535917074`, exact head `04a7e72...`, artifact `10667273151`, digest `sha256:d121fa07b34419c9c04aa88aad6d96ee23157265bc04c1fc8a9d334fdb8b0620`:
 
-Automated preservation remains **PASS** for Coins, Stars, XP, Star Worth/Home progress, owned IDs including unknown/no-art IDs, equipped gear, room placement, Dream Goal, mastery/evidence, Buddy/Bond and district progress.
+- production build: **PASS**, 1,613 modules;
+- current critical state reached IndexedDB backup: **PASS**;
+- delete localStorage, reload, recover the exact critical state from IndexedDB: **PASS**;
+- recovered Coins/Stars/XP, ownership, equipped IDs, room placement, Dream Goal and unknown/no-art IDs matched the pre-loss state.
 
-## Real-browser timing/concurrency blocker
+This closes the previous real-browser localStorage-loss / IndexedDB-recovery evidence gap.
 
-I checked the authorized executable device path again in this run. The sole authorized device `PAAM-L044` remains **offline**, last seen `2026-09-18T11:51:14.213+00:00`. There is therefore still no authorized online branch-local Chromium/Vite path for destructive synthetic transaction timing.
+## Browser preservation matrix
 
-I did **not** relabel jsdom reload tests, Playwright visual screenshots or static source inspection as real-browser persistence proof. The following remain **BLOCKED / NOT TESTED** in a real browser:
+| State / behavior | Browser evidence |
+| --- | --- |
+| Coins / Stars / XP survive interactions + reload | **PASS** |
+| Star Worth purchase increment exactly once | **PASS** |
+| Owned IDs including unknown/no-art | **PASS** |
+| Equipped gear including unknown/no-art | **PASS** |
+| Room placement including unknown/no-art | **PASS** |
+| Dream Goal unknown/no-art ID | **PASS** |
+| Rapid purchase double tap + reload | **PASS exactly once** |
+| Same purchase from two tabs | **PASS exactly once** |
+| Equip then reload | **PASS** |
+| Underlying room Put Away / Place double tap + reload | **PASS** |
+| Malformed import through UI | **PASS — no mutation** |
+| localStorage loss + IndexedDB recovery | **PASS — exact critical state** |
+| Accepted catalog image-path integration pruning state | **PASS — no pruning observed** |
+| Quest wrong/retry + rapid answer + final refresh timing | **OPEN — QA harness locator mismatch** |
 
-- purchase/equip/place followed by immediate refresh/re-entry;
-- multi-tab purchase/reward replay timing;
-- refresh immediately around final Quest feedback/transition;
-- physical/touch double taps;
-- partially malformed import through the real browser path;
-- live localStorage deletion while a valid IndexedDB backup remains.
+## Separate Store UI routing defect
 
-This is now an unchanged blocker for a second cycle and is **escalated to Workstream 15**. The smallest next action is not another source rewrite: 15 should coordinate an authorized executable local Chromium/Vite path, after which 13 should run the isolated synthetic timing/concurrency matrix without real player data.
+The screenshot Store's selected-item right-rail `Place / Put Away` control did not mutate room placement when the selected item was already placed/equipped. The underlying React room action passed rapid double-tap, remove/place and reload testing.
+
+Classification: **Store UI routing defect, not persistence transaction failure.** Workstream 04/15 should fix selected-item action delegation without rewriting the passing room persistence semantics.
+
+## Remaining Workstream-13 release blocker
+
+`PERSIST-QUEST-BROWSER-TIMING` remains open. The focused browser run reached the Quest test, but the QA harness selected an exact source-bank wrong-choice string that was not the rendered answer locator at that moment. This is currently a **browser harness/content-display mismatch**, not a reproduced persistence failure.
+
+Automated durable Quest evidence is still green: final completion is committed with its receipt before the presentation timer, reload/replay is exactly once, repeated wrong retry does not farm rewards, and assisted success remains separate from independent mastery/evidence.
+
+Next Workstream-13 action: bind the browser Quest test to the actual rendered choice buttons/current source question, then exercise wrong/retry, rapid correct double-click, and refresh immediately after final completion commit. Add runtime code only if that browser run reproduces a real race.
 
 ## Handoff
 
-**15:** durable purchase, Quest completion and recovery semantics are still green after the latest runtime-affecting change. `PERSIST-BROWSER-TIMING-CONCURRENCY` is the only Workstream-13 release blocker and is escalated after two unchanged cycles.  
-**14:** visual artifacts are not transaction timing evidence; expose any authorized state-isolated browser harness to 13 if one becomes available.  
-**08:** catalog integration may continue, but must never filter `owned`, `equipped`, `roomDecor` or `dreamGoalId` against image availability.
+**15:** the broad `PERSIST-REAL-BROWSER-TRANSACTION-STRESS` blocker is substantially closed: purchase/reload, equip, room toggle, multi-tab replay, malformed import, IndexedDB recovery and no-art retention now have real Chromium evidence. Keep only Quest browser timing open for Workstream 13.  
+**04:** fix the selected-item Store right-rail Place/Put Away routing while preserving underlying transaction behavior.  
+**08:** catalog image-path integration must continue to preserve stable IDs/prices/unlocks and never filter `owned`, `equipped`, `roomDecor` or `dreamGoalId` by artwork availability.  
+**12:** automated reward/evidence semantics remain green; coordinate rendered Quest-choice behavior if needed for the final browser timing case.
 
-No runtime persistence/economy code, producer art, canonical catalog manifest/runtime, Replit, Floot, `main`, paid setting or real player state was modified in this pass.
+No persistence transaction/reward semantics, producer art, canonical catalog mapping, Replit, Floot, `main`, paid setting or real-player state was modified by Workstream 13 in this pass.
