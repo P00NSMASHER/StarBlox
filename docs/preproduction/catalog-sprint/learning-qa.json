@@ -1,0 +1,95 @@
+{
+  "schemaVersion": 1,
+  "workstream": "12",
+  "phase": "CATALOG_SPRINT",
+  "status": "PASS_NO_CATALOG_INDUCED_LEARNING_REGRESSION",
+  "branch": "screenshot-match-preproduction",
+  "auditedSourceHead": "f654431b2bb76d2eceb322dd35c613dfad17e7ae",
+  "learningBaselineCommit": "9bbf25831da6106762ceb0bfce6e29dc32c5f41f",
+  "ci": {
+    "workflowRunId": 35641273312,
+    "jobId": 106470895718,
+    "conclusion": "SUCCESS",
+    "testFiles": "20/20 PASS",
+    "tests": "85/85 PASS",
+    "productionBuild": "PASS",
+    "modulesTransformed": 1612,
+    "cssBytes": "167.22 kB / 35.66 kB gzip",
+    "jsBytes": "300.96 kB / 92.19 kB gzip"
+  },
+  "learningCoreHashes": {
+    "src/gameModel.js": "79fdb8c3bed4d715e0b1c770f34db0037a7f7c3b",
+    "src/questionQualityRuntime.js": "3f47e96074c4d2e1e3f1e835aed27c654d8f072a",
+    "src/semanticQuestionGuardRuntime.js": "f21bd7d9c55610bfe00c04c2e2f81efaa2e3f591",
+    "src/diagnosticQuestionGuardRuntime.js": "81eba5b34384dbc7699dde70ce048e401458570f",
+    "src/questRewardPolicy.js": "4ae853a7f4bb04a811ef04b4b9a306066e33829b"
+  },
+  "regressionAssessment": {
+    "learningCoreChangedSinceBaseline": false,
+    "catalogRuntimeLearningMutation": "PASS_NONE_OBSERVED",
+    "catalogArtRuntimeScope": "Only stable Store item image fields are assigned; question bank, keys, choices, source, selector and reward policy are not mutated.",
+    "questDecoratorScope": "Presentation and accessibility only; no prompt, choice, key, source or scoring rewrite observed.",
+    "mobileAccessibilityScope": "ARIA/button/image-layout decoration only; no learning-content or scoring rewrite observed.",
+    "rapidQuestAnswerGuard": "PASS_DUPLICATE_CLICK_GUARD_WITHOUT_SCORING_CHANGE"
+  },
+  "testedFamilies": {
+    "productionBank": "PASS_200_UNIQUE_VALIDATED_QUESTIONS",
+    "oneDefensibleKeyStructuralGate": "PASS",
+    "phonicsRhymeVowelsSpelling": "PASS",
+    "highFrequencyWordsUseClozeRecognition": "PASS",
+    "vocabularyInContextAndTransfer": "PASS",
+    "readingMainInferenceEvidenceCharacter": "PASS",
+    "religionUnit1": "PASS",
+    "fiveActionDeterministicQuest": "PASS_EXACTLY_5_DISTINCT",
+    "assistedRetryVsIndependentMastery": "PASS",
+    "repeatedWrongRewardFarming": "PASS_BLOCKED",
+    "catalogSvgActiveContentAndExternalReferences": "PASS_ALL_CURRENT_PUBLIC_ASSETS_CATALOG_SVGS",
+    "productionBuild": "PASS"
+  },
+  "catalogSafetyRegression": {
+    "test": "src/catalogAssetSafety.test.js",
+    "commit": "f654431b2bb76d2eceb322dd35c613dfad17e7ae",
+    "result": "PASS",
+    "rejects": [
+      "script/foreignObject/iframe/object/embed tags",
+      "inline event handlers",
+      "javascript: URIs",
+      "CSS @import",
+      "non-fragment url() references",
+      "non-fragment href/xlink:href/src references"
+    ]
+  },
+  "newScriptReview": {
+    "docs/preproduction/catalog-sprint/import_chat_intake01.py": {
+      "status": "PASS_SCOPED_STAGING_ONLY",
+      "externalDependency": "HTTPS Adobe download endpoints are used only to stage candidate bytes, not by the game runtime.",
+      "controls": "Pinned outer archive SHA, per-file SHA/size, safe-path checks, PNG CRC/dimensions, WebP container checks, symlink rejection and no-overwrite behavior.",
+      "learningImpact": "NONE_OBSERVED"
+    },
+    "scripts/catalogMobileQa.mjs": {
+      "status": "PASS_QA_ONLY",
+      "learningImpact": "NONE_OBSERVED"
+    }
+  },
+  "severity": {
+    "p0Found": 0,
+    "p0Quarantined": 0,
+    "newP1LearningDefects": 0
+  },
+  "notTested": [
+    "Physical-device or screen-reader Quest legibility in this Workstream 12 run; no catalog change altered Quest learning text and this remains a separate release-QA responsibility.",
+    "Independent visual acceptance of staged catalog art; Workstreams 01/14 own that gate."
+  ],
+  "handoff": {
+    "08": "Integrate accepted catalog art only by stable item ID/image mapping. Do not widen catalogArtRuntime into question, source, selector, mastery or reward state. Re-run CI after any canonical integration.",
+    "14": "Learning gate is PASS on audited head f654431b2bb76d2eceb322dd35c613dfad17e7ae with 85/85 tests and production build green, including the new catalog SVG safety regression. Any later runtime-affecting integration requires fresh CI/readback.",
+    "15": "No catalog-induced learning blocker exists at the audited head. Do not switch the catalog phase based on this report alone; all independent art/integration/persistence gates still apply."
+  },
+  "freeze": {
+    "replitTouched": false,
+    "flootTouched": false,
+    "mainMergedOrModified": false,
+    "playerProgressChanged": false,
+    "curriculumExpanded": false
+  }
+}
