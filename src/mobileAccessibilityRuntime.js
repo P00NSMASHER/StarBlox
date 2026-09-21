@@ -64,6 +64,14 @@ function decorateStore(root){
     if(label) card.setAttribute('aria-label',label);
   });
 
+  // Catalog thumbnails are square. Explicit intrinsic dimensions reserve space
+  // before lazy-loaded SVGs decode, reducing layout movement without changing art.
+  page.querySelectorAll('.storeCard .itemArt img,.sbStorePreviewArt img').forEach(image => {
+    if(!image.hasAttribute('width')) image.setAttribute('width','512');
+    if(!image.hasAttribute('height')) image.setAttribute('height','512');
+    if(!image.hasAttribute('decoding')) image.setAttribute('decoding','async');
+  });
+
   const categoryRow = page.querySelector('.sbStoreCategoryRow');
   if(categoryRow){
     categoryRow.setAttribute('role','group');
