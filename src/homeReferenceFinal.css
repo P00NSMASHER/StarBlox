@@ -1,0 +1,155 @@
+/* Workstream 03 — final Home reference tuning.
+   Loaded after cross-cutting progression/environment/accessibility/motion layers so
+   measured Home geometry remains authoritative without changing game state. */
+
+@media (min-width:1280px){
+  /* The reference Room Progress panel is a compact five-tier strip, not a second
+     dashboard. Keep all five real tiers visible and move the three-horizon summary
+     to responsive layouts where there is room for it. */
+  .homeHeroRuntime .homeRoomProgress{
+    top:84px;
+    left:36.93vw;
+    width:43.32vw;
+    max-width:610px;
+    height:165px!important;
+    min-height:165px!important;
+    max-height:165px;
+    overflow:hidden;
+    padding:9px 12px 10px;
+    box-sizing:border-box;
+  }
+  .homeHeroRuntime .homeRoomProgress .homeGoalHorizons{
+    display:none!important;
+  }
+  .homeHeroRuntime .homeRoomProgress .homePanelHeading{
+    margin-bottom:5px;
+  }
+  .homeHeroRuntime .homeRoomProgress .homePanelHeading>b{
+    font-size:12px;
+  }
+  .homeHeroRuntime .homeTierStrip{
+    gap:6px;
+  }
+  .homeHeroRuntime .homeTierPreview{
+    padding:4px;
+  }
+  .homeHeroRuntime .tierPreviewArt{
+    height:58px;
+  }
+  .homeHeroRuntime .homeTierPreview>b{
+    min-height:18px;
+    font-size:9px;
+    line-height:1.02;
+  }
+  .homeHeroRuntime .homeTierPreview>small{
+    font-size:7px;
+    line-height:1;
+  }
+  .homeHeroRuntime .homeTierMeter{
+    height:7px;
+    margin-top:5px;
+  }
+  .homeHeroRuntime .homeTierNext{
+    margin-top:2px;
+    font-size:8px;
+    line-height:1;
+  }
+
+  /* Exact lower-band anchors from the 1408×1056 visual contract. The extra
+     progression summaries remain available on smaller stacked layouts, while the
+     wide reference keeps the avatar/environment as the hero. */
+  .homeHeroRuntime .homeCustomize{
+    top:822px!important;
+    bottom:auto!important;
+    left:31.4vw;
+    width:42.62vw;
+    max-width:600px;
+    min-width:535px;
+    height:213px;
+    min-height:213px!important;
+    max-height:213px;
+    overflow:hidden;
+    box-sizing:border-box;
+  }
+  .homeHeroRuntime .homeCustomize .homeCollectionProgress{
+    display:none!important;
+  }
+  .homeHeroRuntime .homeCustomizeTabs{
+    margin:7px 0 6px;
+  }
+  .homeHeroRuntime .homeCustomizeTrack{
+    gap:7px;
+  }
+  .homeHeroRuntime .homeCustomizeItem{
+    min-width:92px;
+    width:92px;
+    padding:4px;
+  }
+  .homeHeroRuntime .homeCustomizeArt{
+    height:58px;
+  }
+
+  .homeHeroRuntime .homeLearning{
+    top:772px!important;
+    bottom:auto!important;
+    right:.85vw;
+    width:23.72vw;
+    max-width:334px;
+    min-width:300px;
+    height:158px;
+    min-height:158px!important;
+    max-height:158px;
+    overflow:hidden;
+    box-sizing:border-box;
+  }
+  .homeHeroRuntime .homeLearning .homeMasteryCard{
+    display:none!important;
+  }
+  .homeHeroRuntime .homeLearningRows{
+    margin-top:6px;
+  }
+  .homeHeroRuntime .homeWorldMessage{
+    top:938px!important;
+    bottom:auto!important;
+    right:.85vw;
+    width:23.72vw;
+    max-width:334px;
+    min-width:300px;
+    height:90px;
+    min-height:90px;
+    box-sizing:border-box;
+  }
+
+  /* Give the real selected Dream Goal an aspirational room-stage treatment without
+     implying ownership. The item art remains the exact state-selected item. */
+  .homeHeroRuntime .homeDreamArt{
+    position:relative;
+    isolation:isolate;
+    background:
+      linear-gradient(180deg,rgba(255,255,255,.05),rgba(33,20,81,.20)),
+      url('/assets/environments/brightside-bedroom.svg') center 46%/cover no-repeat!important;
+    border-color:#d6f8ff;
+    box-shadow:inset 0 0 0 2px rgba(255,255,255,.36),0 6px 16px rgba(5,23,65,.28);
+  }
+  .homeHeroRuntime .homeDreamArt::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    z-index:-1;
+    pointer-events:none;
+    background:radial-gradient(circle at 50% 48%,rgba(255,246,191,.44),transparent 48%);
+  }
+  .homeHeroRuntime .homeDreamArt img,
+  .homeHeroRuntime .homeDreamArt .dreamItemImage{
+    position:relative;
+    z-index:1;
+    display:block;
+    width:74%!important;
+    height:74%!important;
+    margin:13% auto 0;
+    object-fit:contain!important;
+    border-radius:14px;
+    background:rgba(248,253,255,.72);
+    box-shadow:0 5px 14px rgba(5,23,65,.22),inset 0 1px 0 rgba(255,255,255,.78);
+  }
+}
