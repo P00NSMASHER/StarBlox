@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "batchId": "chat-desks-5-6-recovery-20260921",
   "sourceHead": "594088a1f06d87c56228157ba37b9e6c38d1092b",
-  "workflowRunId": "35669227577",
-  "status": "STAGED_READY_FOR_INDEPENDENT_REVIEW",
+  "workflowRunId": 35669227577,
+  "status": "STAGED_RENDERED_PENDING_INDEPENDENT_REVIEW",
   "producer": "03",
   "transportHelper": "CHAT",
   "independentReviewer": "05",
@@ -98,10 +98,13 @@
     "metadata": "PASS_2_OF_2",
     "sourceCandidateReadback": "PASS_4_OF_4",
     "imageDecodeAndNonblank": "PASS_4_OF_4",
-    "tests": "NOT_RUN",
-    "build": "NOT_RUN",
-    "render": "NOT_RUN",
-    "independentVisualReview": "PENDING_05"
+    "tests": "PASS",
+    "build": "PASS",
+    "render": "PASS",
+    "independentVisualReview": "PENDING_05",
+    "existingLightingVerifierCompatibility": "PASS",
+    "repeatIntake": "PASS_NO_REDOWNLOAD_OR_REGENERATION",
+    "typecheck": "NOT_APPLICABLE_NO_TYPESCRIPT_APP_CHANGES"
   },
   "reviewNotes": {
     "desks-5": "Check Pixel Party theme specificity: rich wood/garden/book form is visible but pixel-language may be understated.",
@@ -113,5 +116,60 @@
     "mainTouched": false,
     "canonicalMappingsTouched": false,
     "gameplayChanged": false
+  },
+  "testedSourceHead": "c37b2e46761cb38a4cd1ee22bd73f2687df0100c",
+  "renderEvidence": {
+    "artifactName": "desks-5-6-recovery-evidence",
+    "proof": {
+      "sourceHead": "c37b2e46761cb38a4cd1ee22bd73f2687df0100c",
+      "workflowRunId": "35669227577",
+      "scope": "Only recovered desks-5-6; not canonical Store, other candidates, or visual acceptance",
+      "status": "PASS_2_OF_2_ISOLATED_RENDER",
+      "items": [
+        {
+          "id": "desks-5",
+          "name": "Garden Book Desk",
+          "path": "public/assets/catalog/desks-5-w03-recovered-v2.jpg",
+          "gitBlobSha": "95fe65632e4f40b76b23cce30071ee2fdc5b4399",
+          "sha256": "19be1b31799b00bfbf6eb540f0a9d128460985daebd9ce3c508695632a49d6f4",
+          "width": 600,
+          "height": 600,
+          "opaqueFraction": 1,
+          "cardCaptured": true,
+          "detailCaptured": true
+        },
+        {
+          "id": "desks-6",
+          "name": "Galaxy Gamer Setup",
+          "path": "public/assets/catalog/desks-6-w03-recovered-v2.jpg",
+          "gitBlobSha": "52df05265de236911927b904b07e68dac7a17828",
+          "sha256": "c0037a3a56a5b477fd714fbaf2419d4ffa9197721421bd1c0e20f99d99eac991",
+          "width": 600,
+          "height": 600,
+          "opaqueFraction": 1,
+          "cardCaptured": true,
+          "detailCaptured": true
+        }
+      ],
+      "errors": [],
+      "screenshots": [
+        {
+          "path": "artifacts/desks-5-6-recovery/desks-5-6-card-contact-sheet.png",
+          "sha256": "2d1b6bb3c1b0251cb23521044bec98d0b51b3a6631fb1437be2c324d9f73b5db",
+          "bytes": 88554
+        },
+        {
+          "path": "artifacts/desks-5-6-recovery/desks-5-95fe6563-detail.png",
+          "sha256": "bc6e60a1f56f3623e8f7402b640b2e346645075acc63529b841a07d0d8ee3be4",
+          "bytes": 339822
+        },
+        {
+          "path": "artifacts/desks-5-6-recovery/desks-6-52df0526-detail.png",
+          "sha256": "639fd2b8bdc9704444864618fa07d27cc2afa5188b5b69df82041f99a5272e21",
+          "bytes": 246714
+        }
+      ]
+    },
+    "scope": "Only exact Desk 5-6 images; not the shared whole-catalog gate or canonical Store approval"
   }
 }
