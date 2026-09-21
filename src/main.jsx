@@ -20,10 +20,12 @@ import './headwearAvatar.css';
 import './facegearAvatar.css';
 import './homeHeroRuntime';
 import './homeScreenshotMatchRuntime';
+import './storeScreenshotMatchRuntime';
 import './questVisualRuntime';
 import './questContextArtRuntime';
 import './shellChrome.css';
 import './homeScreenshotMatch.css';
+import './storeScreenshotMatch.css';
 
 createRoot(document.getElementById('root')).render(
   <React.StrictMode>
