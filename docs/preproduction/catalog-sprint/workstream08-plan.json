@@ -1,25 +1,12 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "workstream": "08",
   "phase": "CATALOG_SPRINT",
   "branch": "screenshot-match-preproduction",
-  "sourceHeadAtPlan": "6e7e7b88a1ffadf188a352835427aed08431ecd7",
-  "canonicalBefore": {
-    "manifestBlobSha": "54fb26beca9b8da5f17472193831ee8248ffd3a4",
-    "runtimeBlobSha": "b350940b703ea2934062e183c5529ad9f9b7f810",
-    "manifestVersion": 13,
-    "finalPortable": 103
-  },
+  "purpose": "Integrate the next newly qualified exact-hash ACCEPT micro-batch after Tops 1-6 and Lighting 1-4 became canonical.",
   "acceptedBatch": [
-    {"itemId":"tops-1","name":"Hoodie","tier":1,"theme":"Cloud Pop","assetPath":"/assets/catalog/tops-1-w07-v2.jpg","assetBlobSha":"5fd9544999694ec27c9b6247aaffeca1c0c7b484","producer":"07","reviewer":"01","reviewFile":"docs/preproduction/catalog-sprint/reviews/01.json"},
-    {"itemId":"tops-2","name":"Zip Hoodie","tier":1,"theme":"Pixel Party","assetPath":"/assets/catalog/tops-2-w07-v2.jpg","assetBlobSha":"428450782feb314535163b54d0405f9af8b7cd65","producer":"07","reviewer":"01","reviewFile":"docs/preproduction/catalog-sprint/reviews/01.json"},
-    {"itemId":"tops-3","name":"Varsity Tee","tier":1,"theme":"Berry Blast","assetPath":"/assets/catalog/tops-3-w07-v2.jpg","assetBlobSha":"b4a834586feae169e102f43aeceaaaf11893ec11","producer":"07","reviewer":"01","reviewFile":"docs/preproduction/catalog-sprint/reviews/01.json"},
-    {"itemId":"tops-4","name":"Bow Cardigan","tier":2,"theme":"Garden Glow","assetPath":"/assets/catalog/tops-4-w07-v2.jpg","assetBlobSha":"26d03c5ba26c565e79e809f825db87c9be1dba21","producer":"07","reviewer":"01","reviewFile":"docs/preproduction/catalog-sprint/reviews/01.json"},
-    {"itemId":"tops-5","name":"Crewneck","tier":2,"theme":"Galaxy Glow","assetPath":"/assets/catalog/tops-5-w07-v2.jpg","assetBlobSha":"78c5c89270be2f505f77d033f340c72cf0ff80a8","producer":"07","reviewer":"01","reviewFile":"docs/preproduction/catalog-sprint/reviews/01.json"},
-    {"itemId":"tops-6","name":"Gamer Jacket","tier":2,"theme":"Sunny Pop","assetPath":"/assets/catalog/tops-6-w07-v2.jpg","assetBlobSha":"44d88aa84246f9d8a76b3f22c408653eb28176aa","producer":"07","reviewer":"01","reviewFile":"docs/preproduction/catalog-sprint/reviews/01.json"},
-    {"itemId":"lighting-1","name":"Starter Lamp","tier":1,"theme":"Cloud Pop","assetPath":"/assets/catalog/lighting-1-v2.jpg","assetBlobSha":"9d8aa142fa53f06dbad9ce59e9c8d34c1096ddc3","producer":"04","reviewer":"14","reviewFile":"docs/preproduction/catalog-sprint/reviews/14.json"},
-    {"itemId":"lighting-2","name":"Cloud Lamp","tier":1,"theme":"Pixel Party","assetPath":"/assets/catalog/lighting-2-v2.jpg","assetBlobSha":"8c10fe689d6d7e398e85b24eb1ca1323cee07ea3","producer":"04","reviewer":"14","reviewFile":"docs/preproduction/catalog-sprint/reviews/14.json"},
-    {"itemId":"lighting-3","name":"Pixel Cube Light","tier":1,"theme":"Berry Blast","assetPath":"/assets/catalog/lighting-3-v2.jpg","assetBlobSha":"fc21ddf5a608ee393410ff9682cf2ef87a56c46d","producer":"04","reviewer":"14","reviewFile":"docs/preproduction/catalog-sprint/reviews/14.json"},
-    {"itemId":"lighting-4","name":"Heart Lamp","tier":2,"theme":"Garden Glow","assetPath":"/assets/catalog/lighting-4-v2.jpg","assetBlobSha":"7975e490a9fb97574f03081acf9fc871c22224f3","producer":"04","reviewer":"14","reviewFile":"docs/preproduction/catalog-sprint/reviews/14.json"}
+    {"itemId":"auras-6","name":"Galaxy Orbit","tier":2,"theme":"Berry Blast","assetPath":"/assets/catalog/auras-6-v2.svg","assetBlobSha":"ce4b155c7fb5469fde415ab9d744cab41027fe4d","producer":"11","reviewer":"05","reviewFile":"docs/preproduction/catalog-sprint/reviews/05.json"},
+    {"itemId":"auras-7","name":"Sunny Rays","tier":3,"theme":"Garden Glow","assetPath":"/assets/catalog/auras-7-v2.svg","assetBlobSha":"c451e7479e142f1eca89cc5282b352c2d2ca2d4b","producer":"11","reviewer":"05","reviewFile":"docs/preproduction/catalog-sprint/reviews/05.json"},
+    {"itemId":"auras-8","name":"Aqua Bubbles","tier":3,"theme":"Galaxy Glow","assetPath":"/assets/catalog/auras-8-v2.svg","assetBlobSha":"6884668fe721f3b26a562e11924237a32c656db6","producer":"11","reviewer":"05","reviewFile":"docs/preproduction/catalog-sprint/reviews/05.json"}
   ]
 }
