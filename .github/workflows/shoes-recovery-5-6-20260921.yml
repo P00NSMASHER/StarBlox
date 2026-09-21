@@ -1,0 +1,56 @@
+name: StarBlox Shoes 5-6 Byte Recovery
+
+on:
+  push:
+    branches: [screenshot-match-preproduction]
+    paths:
+      - '.github/workflows/shoes-recovery-5-6-20260921.yml'
+      - 'scripts/importShoesRecovery5to6_20260921.py'
+      - 'docs/preproduction/catalog-sprint/chat-shoes-recovery-5-6-20260921.json'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: starblox-shoes-recovery-5-6-20260921
+  cancel-in-progress: false
+
+jobs:
+  recover-exact-shoes:
+    if: github.ref == 'refs/heads/screenshot-match-preproduction'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: screenshot-match-preproduction
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: python3 -m pip install --disable-pip-version-check Pillow==11.3.0
+      - name: Recover exact Shoes 5-6 bytes and verify Store metadata
+        run: python3 scripts/importShoesRecovery5to6_20260921.py
+      - name: Re-run importer to prove immutable readback
+        run: python3 scripts/importShoesRecovery5to6_20260921.py
+      - name: Publish only this Lane-04 batch and evidence
+        run: |
+          set -eu
+          test "$GITHUB_REF" = refs/heads/screenshot-match-preproduction
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- \
+            public/assets/catalog/shoes-5-w04-v2.jpg \
+            public/assets/catalog/shoes-6-w04-v2.jpg \
+            docs/preproduction/catalog-sprint/recovered-originals/shoes-5-6-20260921 \
+            docs/preproduction/catalog-sprint/chat-shoes-recovery-5-6-result.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'catalog: stage Shoes 5-6 premium replacements'
+          for attempt in 1 2 3; do
+            if git push origin HEAD:refs/heads/screenshot-match-preproduction; then exit 0; fi
+            git fetch origin screenshot-match-preproduction
+            git rebase origin/screenshot-match-preproduction
+          done
+          echo 'Concurrent changes prevented safe publication; no force push.' >&2
+          exit 1
