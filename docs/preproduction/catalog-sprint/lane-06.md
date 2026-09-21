@@ -1,75 +1,76 @@
 # Catalog Sprint — Lane 06 Companions
 
-STATUS: **READY FOR REVIEW — RICH CANDIDATE EVIDENCE PACKAGED; 4-ITEM FIRST REVIEW QUEUE**
+STATUS: **READY FOR REVIEW — COMPANION REVIEW DEPENDENCY ESCALATED AFTER TWO CYCLES**
 
 Branch: `screenshot-match-preproduction`  
 Workstream: 06  
 Phase: `CATALOG_SPRINT`  
 Production assignment: `companions-2` through `companions-12`  
 Preserved final: `companions-1` Sprout Pup  
+Independent reviewer: **Workstream 05**  
+Canonical integration owner: **Workstream 08**  
 Canonical manifest/runtime: **unchanged by this lane**  
-Self-approval: **NO**  
-Independent reviewer under Delivery Protocol v2: **Workstream 05**  
-Canonical integration owner: **Workstream 08**
+Self-approval: **NO**
 
-## Material change this pass
+## Material increment this pass
 
-The lane previously described only the 11 existing interim SVGs. That was incomplete: the branch also contains a repository-stored image-generation candidate batch under `public/assets/catalog-candidates/chat-20260921-intake01/` with source PNG plus card/detail WebP derivatives.
+Lane 06 did not repeat SVG source inspection or regenerate pending art. It re-read the current branch at `f1512099a2b9f467ff3e5e4ca985ca649bc3b15d`, the v2 coordination state, reviewer-05 shard, stored rich-candidate directory, and the shared staged-art workflow.
 
-This pass did **not** generate or overwrite companion art. Instead it reconciled that stored batch with the current Lane 06 assignment and recorded the exact review queue, hashes, dimensions, provenance, theme holds, and missing rich candidate so Workstream 05 can perform independent actual-pixel review without repeating source discovery.
+The blocker is now narrower and evidenced:
 
-The import record says the candidate package contains **10 companion items / 30 image files**, remains `CANDIDATES_ONLY`, changed neither canonical manifest nor runtime, and passed its import-time regression suite and production build. These are still **not final assets**.
+- `reviews/05.json` now exists (`9d855d01e7f0132e999850a7c616cfd1239eb015`), but it contains **12 Aura REWORK decisions and zero companion decisions**.
+- The repository still contains the rich companion batch under `public/assets/catalog-candidates/chat-20260921-intake01/`: **10 companion items / 30 source-card-detail files** were read back at the current head.
+- The shared staged-art QA workflow exists, but its current file (`dcaa37f4dce03ab4a88a16fb9323a6a1757c30ba`) renders **Lighting only**. Workstream 14 owns that common harness; Lane 06 will not edit it.
+- Because no companion exact-hash `REWORK` exists, v2 forbids speculative regeneration while current SVG/rich candidates are awaiting independent pixel review.
 
-## First review queue for Workstream 05
+This is the second Lane-06 cycle with the same missing companion review dependency, so the lane now explicitly escalates the review/fixture dependency to Command Center 15 rather than generating duplicate companion art.
 
-These four repository-stored rich candidates were already marked `READY_FOR_INDEPENDENT_REVIEW` by the intake record. They should be rendered at card and detail scale and reviewed by exact current hash before any regeneration.
+## First independent review queue — current file identities
 
-| ID | Item | Theme | Source | Card | Detail | Current lane disposition |
+These four rich candidates remain the preferred first review batch. The source/card/detail files are repository-stored, non-canonical, and now bound to both existing SHA-256 evidence and current Git blob identities.
+
+| ID | Item | Theme | Card Git blob | Detail Git blob | Card/detail size | State |
 | --- | --- | --- | --- | --- | --- | --- |
-| `companions-3` | Berry Bunny | Berry Blast | `7fcc085c…` PNG 1254×1254 | `0df56c98…` WebP 256×256 | `3f4bec2d…` WebP 768×768 | **READY FOR 05 REVIEW** |
-| `companions-4` | Sunny Bird | Garden Glow | `f2356393…` PNG 1254×1254 | `b417fdf0…` WebP 256×256 | `92889982…` WebP 768×768 | **READY FOR 05 REVIEW** |
-| `companions-10` | Pixel Bot | Midnight Neon | `6f6df89d…` PNG 1254×1254 | `cb9b6ed7…` WebP 256×256 | `c963cbad…` WebP 768×768 | **READY FOR 05 REVIEW** |
-| `companions-11` | Dream Dragon | Candy Core | `b72c5009…` PNG 1254×1254 | `6ece80e9…` WebP 256×256 | `d531305b…` WebP 768×768 | **READY FOR 05 REVIEW** |
+| `companions-3` | Berry Bunny | Berry Blast | `7a104a2d609c16272cb58e18da50bff8072c347f` | `adba95dc769e603337dc4ac38b9a513ce9914b10` | 256² / 768² | **PENDING 05 PIXEL REVIEW** |
+| `companions-4` | Sunny Bird | Garden Glow | `cfa57b9102aea1f42696a4488bcf0be53dc50986` | `b382339e76ed9d4aeae72b1c8cccc904abf85b57` | 256² / 768² | **PENDING 05 PIXEL REVIEW** |
+| `companions-10` | Pixel Bot | Midnight Neon | `ec8d60c931fedc8505e3e4ff7a17e00492baed1d` | `2b09d950b08083bb3a9ec5e2073ae23d88411cf4` | 256² / 768² | **PENDING 05 PIXEL REVIEW** |
+| `companions-11` | Dream Dragon | Candy Core | `b7e808511f870638db6e5434d57b9a877b060bf1` | `465fe45abbe4d9b4355444cb3f75a49927b604e9` | 256² / 768² | **PENDING 05 PIXEL REVIEW** |
 
-Exact paths and full hashes are in `lane-06.json` and `chat-intake01.json`.
+Full source/card/detail paths, SHA-256 values, dimensions and bytes are in `lane-06.json`. The current directory readback confirms these exact files remain stored.
 
-## Rich-candidate theme holds
+## Other companion candidates
 
-The following imported rich candidates are useful evidence but were not promoted to the first review queue because their intake notes identify a theme-fit question. This is **not** a rejection of the existing SVG version and **not** permission to regenerate yet.
+The existing 512×512 SVG candidates for `companions-2..12` remain preserved as interim comparison/fallback versions. Their prior source-level evidence remains reusable because their hashes did not change; source validity is not visual acceptance.
 
-- `companions-2` Moon Cat — subject fits, but the imported image does not clearly establish **Pixel Party**.
-- `companions-5` Pebble Turtle — pebble identity fits, but the imported garden/stone treatment does not clearly establish **Galaxy Glow**.
-- `companions-6` Comet Fox — comet identity fits, but the imported cool cosmic palette does not clearly establish **Sunny Pop**.
-- `companions-7` Story Owl — scholar/story identity fits, but warm library treatment does not clearly establish **Aqua Wave**.
-- `companions-8` Bubble Axolotl — subject/bubbles fit, but the imported image does not clearly establish **Art Attack**.
-- `companions-12` Star Unicorn — star/unicorn identity fits, but **Adventure Club** identity is not established through explorer/accessory treatment.
+Six imported rich candidates remain on theme-review hold rather than being regenerated without reviewer evidence:
 
-`companions-9` Garden Snail has **no rich imported candidate** in this batch; its existing SVG remains the only current Lane 06 candidate.
+- `companions-2` Moon Cat — Pixel Party expression needs review.
+- `companions-5` Pebble Turtle — Galaxy Glow expression needs review.
+- `companions-6` Comet Fox — Sunny Pop expression needs review.
+- `companions-7` Story Owl — Aqua Wave expression needs review.
+- `companions-8` Bubble Axolotl — Art Attack expression needs review.
+- `companions-12` Star Unicorn — Adventure Club expression needs review.
 
-## Existing SVG baseline preserved
+`companions-9` Garden Snail still has no rich imported candidate; its existing SVG remains the current Lane-06 candidate.
 
-All 11 assigned interim SVGs still exist under `/assets/catalog/companions-2.svg` through `/assets/catalog/companions-12.svg`, are 512×512 self-contained repo-owned SVGs, and have distinct Git blob identities. The lane did not overwrite them. They remain useful comparison/fallback candidates until Workstream 05 inspects real rendered pixels.
+## Checks actually performed / reused
 
-The SVG source inspection still shows distinct species/robot silhouettes and motifs: Moon Cat, Berry Bunny, Sunny Bird, Pebble Turtle, Comet Fox, Story Owl, Bubble Axolotl, Garden Snail, Pixel Bot, Dream Dragon, and Star Unicorn. Source validity is **not** being treated as premium-art acceptance.
-
-## Validation actually performed
-
-- **PASS — current assignment:** `CATALOG_SPRINT_STATE.json` still assigns `companions-2..12` to Workstream 06.
-- **PASS — review ownership:** Delivery Protocol v2 assigns companions to independent reviewer **05**; the old 01/14 handoff is superseded.
-- **PASS — SVG candidate identity:** 11/11 existing SVGs have recorded distinct blob SHAs and metadata.
-- **PASS — rich candidate package discovered and reconciled:** 10 companion items / 30 stored source-card-detail files are recorded under the candidate directory.
-- **PASS — rich package import-time decode/dimension checks, regression suite and production build:** retained from the hash-bound import record.
-- **PASS — exact rich candidate review queue packaged:** companions 3, 4, 10, and 11 now have source/card/detail paths, hashes, bytes and dimensions in `lane-06.json`.
-- **NOT PERFORMED — independent pixel acceptance:** Workstream 06 cannot self-approve its own production lane.
-- **PENDING — reviewer shard:** `docs/preproduction/catalog-sprint/reviews/05.json` did not exist at the inspected head.
+- **PASS — assignment current:** Workstream 06 still owns `companions-2..12`.
+- **PASS — review ownership current:** Workstream 05 owns companion independent review.
+- **PASS — current repository storage:** 10 rich companion items / 30 stored files remain in the candidate directory.
+- **PASS — first queue blob identity:** all 12 source/card/detail files for companions 3, 4, 10 and 11 have current Git blob identities recorded in `lane-06.json`.
+- **PASS — import-time decode/dimension checks:** reused by unchanged hash from the prior import evidence.
+- **PASS — import-time regression suite/build:** reused from import head `f371e00ca215752c29ae67bb548e2005ad5fced5`; this pass did not claim a new build.
+- **PENDING — independent companion pixel decisions:** reviewer 05 has not reviewed companions yet.
 - **PENDING — canonical integration:** Workstream 08 may integrate only an independently accepted current asset hash.
+- **0 new assets generated; 0 existing assets overwritten.**
 
-## Next actions / handoff
+## Escalated next action
 
-1. **Workstream 05:** render `companions-3`, `companions-4`, `companions-10`, and `companions-11` from the stored card/detail files and write exact-hash `ACCEPT / REWORK / BLOCKED` decisions to `reviews/05.json`.
-2. **Workstream 05:** compare existing SVGs against the six theme-hold rich candidates before requesting any regeneration.
-3. **Workstream 08:** consume any qualified independent ACCEPT incrementally; the candidate directory remains non-canonical until then.
-4. **Workstream 06:** if reviewer 05 returns a concrete REWORK, preserve the rejected version and repair only the named ID in a bounded 2–6 item batch. Do not regenerate pending items merely for activity.
-5. **Command Center 15:** if review remains missing across another cycle, treat the specific reviewer dependency as the lane blocker and resolve/reassign review ownership rather than assigning duplicate companion generation.
+1. **05:** inspect actual card/detail pixels for `companions-3`, `companions-4`, `companions-10`, and `companions-11` and append exact-hash `ACCEPT / REWORK / BLOCKED` decisions to `reviews/05.json`.
+2. **14:** if reviewer 05 requires a reproducible fixture, extend/reuse the staged-art QA path for those exact repository-stored files. Do not wire candidates canonically merely to render them.
+3. **15:** resolve this two-cycle anti-stall dependency through reviewer/fixture coordination rather than assigning duplicate companion generation.
+4. **06:** only after a concrete exact-hash `REWORK`, preserve the rejected version and repair the named companion in a bounded 2–6 item batch.
+5. **08:** integrate only a current companion hash with qualified independent `ACCEPT` plus automated mapping/file checks.
 
-**No companion asset bytes, avatar UI, save state, ownership, Buddy Bond, pricing, learning/economy logic, canonical manifest/runtime, Replit/Floot, or `main` were changed in this pass.**
+**No companion asset bytes, avatar UI, item IDs, ownership, Buddy Bond, saves, pricing, learning/economy logic, canonical manifest/runtime, Replit/Floot, or `main` were changed in this pass.**
