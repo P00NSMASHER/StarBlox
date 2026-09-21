@@ -1,42 +1,36 @@
 {
-  "schemaVersion": 4,
+  "schemaVersion": 5,
   "lane": "06",
   "workstream": "06",
   "phase": "CATALOG_SPRINT",
   "branch": "screenshot-match-preproduction",
-  "policyObserved": "docs/preproduction/DELIVERY_PROTOCOL_V3.md",
-  "status": "REWORK_CONFIRMED_RICH_REPAIR_BATCH_READY_FOR_FRESH_REVIEW",
-  "inspectedSourceHead": "7fcededc7ad46a490b3bb3e7226e1599289152d3",
+  "policyObserved": "docs/preproduction/DELIVERY_PROTOCOL_V2.md",
+  "status": "REPLACEMENT_BATCH_RENDERED_AWAITING_REVIEWER_05",
+  "inspectedSourceHead": "169f2f5bb9edd23e3bb1be9a0bf80eced80004c6",
   "productionAssignment": ["companions-2","companions-3","companions-4","companions-5","companions-6","companions-7","companions-8","companions-9","companions-10","companions-11","companions-12"],
-  "currentRepairAssignmentFromState": ["companions-1","companions-2","companions-3","companions-4","companions-5","companions-6","companions-7","companions-8","companions-9","companions-10","companions-11","companions-12","seating-7","seating-8","seating-9","seating-10","seating-11","seating-12","shoes-7","shoes-8","shoes-9","shoes-10","shoes-11","shoes-12"],
+  "currentRepairCapacityFromState": ["companions-1","companions-2","companions-3","companions-4","companions-5","companions-6","companions-7","companions-8","companions-9","companions-10","companions-11","companions-12","seating-7","seating-8","seating-9","seating-10","seating-11","seating-12","shoes-7","shoes-8","shoes-9","shoes-10","shoes-11","shoes-12"],
+  "independentReviewer": "05",
+  "integrationOwner": "08",
   "canonicalManifestChanged": false,
   "runtimeWiringChanged": false,
   "playerStateChanged": false,
   "selfApproved": false,
-  "independentReviewer": "05",
-  "integrationOwner": "08",
-  "reviewState": {
-    "shardPath": "docs/preproduction/catalog-sprint/reviews/05.json",
-    "reviewSourceHead": "d94ff26ac1c4bc63329a48dedb8a48d52a6219ad",
-    "companionLegacyVersionsReviewed": 12,
-    "companionLegacyAccepted": 0,
-    "companionLegacyRework": 12,
-    "companionLegacyBlocked": 0,
-    "familyFinding": "All 12 legacy companion SVGs are recognizable and child-friendly but read as flat centered vector mascots with insufficient three-quarter anatomy, material response, cast/rim lighting and tier progression for the premium dimensional screenshot target.",
-    "reworkNowAuthorizesRepair": true
+  "legacyReview": {
+    "reviewShard": "docs/preproduction/catalog-sprint/reviews/05.json",
+    "companionsReviewed": 12,
+    "accepted": 0,
+    "rework": 12,
+    "blocked": 0,
+    "finding": "All legacy companion SVGs are recognizable and child-friendly but too flat/vector-like for the premium dimensional screenshot target; replacements need three-quarter anatomy, stronger materials, cast/rim lighting and clearer tier progression."
   },
   "preservedLegacyVersions": {
-    "count": 12,
     "paths": "/assets/catalog/companions-1.svg through /assets/catalog/companions-12.svg",
-    "status": "PRESERVED_REJECTED_EXACT_HASH_VERSIONS",
-    "note": "Legacy SVGs remain available for comparison/revert; none was overwritten or relabeled final."
+    "status": "PRESERVED_REJECTED_EXACT_HASH_VERSIONS"
   },
   "repairBatch": {
-    "method": "Reuse repository-stored high-resolution rich candidate intake files as replacement versions for four independently rejected legacy SVGs; no duplicate regeneration.",
     "batchSize": 4,
-    "status": "READY_FOR_FRESH_INDEPENDENT_PIXEL_REVIEW",
-    "producerPixelEvidence": "PASS_REUSED_UNCHANGED_HASH_CHAT_INTAKE_PIXEL_INSPECTION_NOT_INDEPENDENT_ACCEPTANCE",
-    "sourceImportEvidence": "PASS_REUSED_UNCHANGED_HASH_FROM_chat-intake01",
+    "method": "Reuse existing repository-stored rich candidates for exact independently rejected companion IDs; no duplicate generation.",
+    "status": "RENDERED_READY_FOR_FRESH_INDEPENDENT_REVIEW",
     "items": [
       {
         "id": "companions-3",
@@ -44,18 +38,13 @@
         "tier": 1,
         "theme": "Berry Blast",
         "legacyRejectedHash": "c0e69b68240cb91c00dd16c2784b3d5c7c41c4fb",
-        "sourcePath": "public/assets/catalog-candidates/chat-20260921-intake01/companions-3-source.png",
-        "sourceGitBlobSha": "f8090501e08f964085e474d028028bbe56e0b70f",
-        "sourceSha256": "7fcc085c034f41187df28a4f7b6bea80bd51ae25a7f43683fee62ecff9d2ef7e",
-        "sourceBytes": 1898422,
-        "sourceDimensions": [1254,1254],
-        "candidatePath": "/assets/catalog-candidates/chat-20260921-intake01/companions-3-detail.webp",
         "candidateRepositoryPath": "public/assets/catalog-candidates/chat-20260921-intake01/companions-3-detail.webp",
         "candidateGitBlobSha": "adba95dc769e603337dc4ac38b9a513ce9914b10",
         "candidateSha256": "3f4bec2dfe80c3edf855ecba1965d3fcfeb066dab83e26f2d9d8850c1cb6c473",
-        "candidateBytes": 58902,
-        "candidateDimensions": [768,768],
-        "status": "READY_FOR_FRESH_REVIEW"
+        "dimensions": [768,768],
+        "bytes": 58902,
+        "producerPixelCheck": "PASS_DISTINCT_DIMENSIONAL_BUNNY_WITH_BERRY_DETAILS_AND_CHILD_FRIENDLY_EXPRESSION",
+        "independentDecision": "PENDING_05"
       },
       {
         "id": "companions-4",
@@ -63,18 +52,13 @@
         "tier": 2,
         "theme": "Garden Glow",
         "legacyRejectedHash": "16e50e59ba950076bf0ecc512b9a3262bf5ca2de",
-        "sourcePath": "public/assets/catalog-candidates/chat-20260921-intake01/companions-4-source.png",
-        "sourceGitBlobSha": "d9c04f68d3e9d31fa9d32c086b2068a718d59d2b",
-        "sourceSha256": "f2356393433a98617ea7ba48cc00983c6340977020517d28e569882c79e35796",
-        "sourceBytes": 1781724,
-        "sourceDimensions": [1254,1254],
-        "candidatePath": "/assets/catalog-candidates/chat-20260921-intake01/companions-4-detail.webp",
         "candidateRepositoryPath": "public/assets/catalog-candidates/chat-20260921-intake01/companions-4-detail.webp",
         "candidateGitBlobSha": "b382339e76ed9d4aeae72b1c8cccc904abf85b57",
         "candidateSha256": "92889982b25c097aca39a2af07f16557633eb50c2541065c309d37e975f4cdf8",
-        "candidateBytes": 53770,
-        "candidateDimensions": [768,768],
-        "status": "READY_FOR_FRESH_REVIEW"
+        "dimensions": [768,768],
+        "bytes": 53770,
+        "producerPixelCheck": "PASS_ROUNDED_DIMENSIONAL_BIRD_WITH_LAYERED_WINGS_SUN_GARDEN_LIGHTING",
+        "independentDecision": "PENDING_05"
       },
       {
         "id": "companions-10",
@@ -82,18 +66,13 @@
         "tier": 4,
         "theme": "Midnight Neon",
         "legacyRejectedHash": "f1150f08a1a0bba8d9601ed2dd8f9dae6a17bb7d",
-        "sourcePath": "public/assets/catalog-candidates/chat-20260921-intake01/companions-10-source.png",
-        "sourceGitBlobSha": "ab33d346efacc40e52a233581b194c86a713e1ca",
-        "sourceSha256": "6f6df89dfd98642b940343fa446991db14793e38a1c0c7276ad53ff46a4b8f8c",
-        "sourceBytes": 1736526,
-        "sourceDimensions": [1254,1254],
-        "candidatePath": "/assets/catalog-candidates/chat-20260921-intake01/companions-10-detail.webp",
         "candidateRepositoryPath": "public/assets/catalog-candidates/chat-20260921-intake01/companions-10-detail.webp",
         "candidateGitBlobSha": "2b09d950b08083bb3a9ec5e2073ae23d88411cf4",
         "candidateSha256": "c963cbad0067ade8277e9f84b331437431bdce498de11bc10eab4e3ff01b73e2",
-        "candidateBytes": 63032,
-        "candidateDimensions": [768,768],
-        "status": "READY_FOR_FRESH_REVIEW"
+        "dimensions": [768,768],
+        "bytes": 63032,
+        "producerPixelCheck": "PASS_DISTINCT_TOY_ROBOT_ANATOMY_PIXEL_FACE_NEON_MATERIAL_LIGHTING",
+        "independentDecision": "PENDING_05"
       },
       {
         "id": "companions-11",
@@ -101,34 +80,52 @@
         "tier": 4,
         "theme": "Candy Core",
         "legacyRejectedHash": "883280e7edab0226ff76154d33cd9bddf2b30d67",
-        "sourcePath": "public/assets/catalog-candidates/chat-20260921-intake01/companions-11-source.png",
-        "sourceGitBlobSha": "2ae7c9ef047577231acc863ad8aec81004b8bc93",
-        "sourceSha256": "b72c5009899a8411604f3e8b6ffb33198c7fa71f57d3753478eb1323153a3de9",
-        "sourceBytes": 1885239,
-        "sourceDimensions": [1254,1254],
-        "candidatePath": "/assets/catalog-candidates/chat-20260921-intake01/companions-11-detail.webp",
         "candidateRepositoryPath": "public/assets/catalog-candidates/chat-20260921-intake01/companions-11-detail.webp",
         "candidateGitBlobSha": "465fe45abbe4d9b4355444cb3f75a49927b604e9",
         "candidateSha256": "d531305bbf28873c2863033dd5da7638d2b1d80fffd1ab3df787556a257cf2ba",
-        "candidateBytes": 63886,
-        "candidateDimensions": [768,768],
-        "status": "READY_FOR_FRESH_REVIEW_THEME_CONFIRM_CANDY_CORE"
+        "dimensions": [768,768],
+        "bytes": 63886,
+        "producerPixelCheck": "PASS_DIMENSIONAL_DRAGON_ANATOMY_IRIDESCENT_WINGS_CHILD_FRIENDLY_EXPRESSION_THEME_FIT_NEEDS_INDEPENDENT_CONFIRMATION",
+        "independentDecision": "PENDING_05"
       }
     ]
+  },
+  "renderEvidence": {
+    "workflow": "StarBlox Staged Catalog Art QA",
+    "workflowRunId": 35655371282,
+    "artifactId": 10663896836,
+    "artifactDigest": "sha256:26fe90eb465e9b6933e947da43413fbf7f59fe41238480a122a1e77e3b3980ad",
+    "artifactSourceHead": "f1f8492182e51358dda8e106644361feea5781f1",
+    "result": "PASS",
+    "replacementCount": 20,
+    "companionReplacementScreenshots": [
+      "staged-replacements/detail/companions-3-adba95dc.png",
+      "staged-replacements/detail/companions-4-b382339e.png",
+      "staged-replacements/detail/companions-10-2b09d950.png",
+      "staged-replacements/detail/companions-11-465fe45a.png"
+    ],
+    "httpDecode": "PASS_4_OF_4_STATUS_200_SCREENSHOT_TRUE_768x768",
+    "continuityToCurrentHead": "PASS_COMPARE_F1F8492_TO_169F2F5_CHANGED_ONLY_REVIEWS_01_JSON"
   },
   "remainingCompanionRepairQueue": {
     "richCandidateThemeHold": ["companions-2","companions-5","companions-6","companions-7","companions-8","companions-12"],
     "noRichImportedCandidate": ["companions-1","companions-9"],
-    "note": "These rejected legacy versions are repair-authorized, but Lane 06 is keeping the current run bounded to four reuse-first candidates rather than regenerating all 12 at once."
+    "rule": "Do not regenerate or promote the current four while reviewer 05 has not dispositioned these exact hashes. If a replacement is REWORK, preserve it and repair only that exact ID; if ACCEPT, leave bytes unchanged and advance another bounded batch."
+  },
+  "secondaryRepairCapacity": {
+    "seating": ["seating-7","seating-8","seating-9","seating-10","seating-11","seating-12"],
+    "shoes": ["shoes-7","shoes-8","shoes-9","shoes-10","shoes-11","shoes-12"],
+    "reviewer": "02",
+    "startedThisRun": false,
+    "reason": "This run closed the previously missing reproducible companion render-evidence dependency; no duplicate generation was needed."
   },
   "checks": {
-    "assignmentCurrent": "PASS_STATE_V3_REPAIR_SCOPE_INCLUDES_COMPANIONS_1_12",
-    "reviewOwnershipCurrent": "PASS_05",
+    "assignmentCurrent": "PASS",
+    "policyCurrent": "PASS_V2",
     "legacyCompanionIndependentPixelReview": "PASS_REWORK_12_OF_12",
-    "richCandidateRepositoryStorage": "PASS_REUSED_10_ITEMS_30_FILES",
-    "repairBatchCurrentBlobIdentity": "PASS_4_ITEMS_8_SOURCE_DETAIL_FILES_FROM_PRIOR_READBACK",
-    "repairBatchDecodeDimensions": "PASS_REUSED_UNCHANGED_HASH_IMPORT_EVIDENCE",
-    "repairBatchProducerPixelInspection": "PASS_REUSED_CHAT_INTAKE_NOT_INDEPENDENT",
+    "repairBatchRepositoryStorage": "PASS_4_OF_4",
+    "repairBatchStagedRender": "PASS_4_OF_4",
+    "repairBatchCurrentBlobIdentity": "PASS_4_OF_4",
     "freshIndependentReviewOfReplacementHashes": "PENDING_05",
     "canonicalIntegration": "PENDING_08_AFTER_ACCEPT",
     "newAssetsGeneratedThisRun": 0,
@@ -137,14 +134,13 @@
     "playerDataTouched": false
   },
   "blockers": [
-    "The four rich replacement hashes require a fresh independent Workstream-05 actual-pixel decision; legacy REWORK decisions cannot transfer to replacement hashes.",
-    "The shared staged-art workflow is owned by Workstream 14 and currently does not render companion candidate paths; Lane 06 did not edit shared QA infrastructure."
+    "Reviewer 05 has not yet issued ACCEPT/REWORK/BLOCKED for the four replacement hashes. The reproducible render evidence blocker is now resolved by artifact 10663896836."
   ],
   "nextActions": [
-    "05: prioritize exact-hash actual-pixel review of companions-3 detail blob adba95dc..., companions-4 b382339e..., companions-10 2b09d950..., and companions-11 465fe45a..., using source/detail files recorded above.",
-    "14: if Workstream 05 needs reproducible screenshots, extend the existing staged-art fixture for these exact candidate paths rather than requiring canonical wiring first.",
-    "06: if any replacement is REWORK, preserve it and repair only that exact ID; if accepted, leave bytes untouched and move to the next bounded companion repair batch.",
-    "08: integrate only replacement hashes independently accepted by 05 plus automated metadata/file/content checks."
+    "05: review the four exact replacement screenshots/hashes from artifact 10663896836 immediately.",
+    "06: on any REWORK, preserve that hash and repair only the rejected ID; on ACCEPT, leave it unchanged and advance the next bounded companion batch.",
+    "06: if the four remain review-pending with no changed input next cycle, use the explicit secondary repair capacity starting with seating-7..12, then shoes-7..12, never self-approving.",
+    "08: integrate only exact replacement hashes independently accepted by 05 plus automated metadata/file/content checks."
   ],
   "freeze": {
     "replitTouched": false,
