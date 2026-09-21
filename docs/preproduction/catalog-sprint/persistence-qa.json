@@ -1,119 +1,111 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "workstream": "13",
   "phase": "CATALOG_SPRINT",
-  "status": "PASS_AUTOMATED_ON_LATEST_RUNTIME_CHANGE_REAL_BROWSER_BLOCKED",
+  "status": "PASS_BROWSER_PURCHASE_EQUIP_ROOM_MULTITAB_IMPORT_RECOVERY_NO_ART__QUEST_BROWSER_PENDING",
   "branch": "screenshot-match-preproduction",
-  "auditedBranchHead": "2efff814883bffaa695cb6dfae80ed2dc3dc2658",
-  "testedRuntimeHead": "81bbf06dc070b0f72f942dde9c14ac4bba476922",
-  "continuity": {
-    "fromPriorPersistenceTestHead": "1ce91011311dff6ea9b7b8119010d84f0466e42f",
-    "result": "PASS",
-    "materialRuntimeChangeSincePriorEvidence": "src/mobileAccessibilityRuntime.js only",
-    "persistenceEconomyFilesChanged": false,
-    "catalogManifestOrRuntimeChanged": false,
-    "afterTestedRuntimeHeadToAuditedHead": "Only catalog QA/review/coordination docs and staged-art workflow changed; no persistence/economy/runtime catalog mapping change."
+  "auditedBranchHeadBeforeReport": "a254f36c1b3218a69d02bf051dc484bac328062a",
+  "latestAutomatedTransactionProofHead": "81bbf06dc070b0f72f942dde9c14ac4bba476922",
+  "browserEvidence": {
+    "broadRun": {
+      "workflowRunId": 35660627560,
+      "jobId": 106534723983,
+      "head": "795c2d6f9ee197c66bc725d6a7c53fe5f0fd3382",
+      "browser": "Chromium 140.0.7339.16 via Playwright on GitHub Actions ubuntu-24.04",
+      "artifactId": 10667216430,
+      "artifactDigest": "sha256:4ca9e54fba30addccc003cb33d02e7dd1cb9e68bd4af76ce2f189b4ba08c0eef",
+      "productionBuild": "PASS_1613_MODULES",
+      "syntheticOnly": true,
+      "realPlayerDataUsed": false,
+      "cases": {
+        "catalogArtAndNoArtRetention": "PASS",
+        "rapidPurchaseExactlyOnceReload": "PASS",
+        "equipReload": "PASS",
+        "underlyingRoomPlacePutAwayDoubleTapReload": "PASS",
+        "multiTabSamePurchaseReplayExactlyOnce": "PASS",
+        "malformedImportNoMutation": "PASS",
+        "indexedDbRecoveryInThisHarness": "HARNESS_INVALID_ADD_INIT_SCRIPT_RESEEDED_LOCALSTORAGE"
+      }
+    },
+    "focusedRecoveryRun": {
+      "workflowRunId": 35660997658,
+      "jobId": 106535917074,
+      "head": "04a7e72f5b8adb6d36a164df2edc324c877de390",
+      "browser": "Chromium 140.0.7339.16 via Playwright on GitHub Actions ubuntu-24.04",
+      "artifactId": 10667273151,
+      "artifactDigest": "sha256:d121fa07b34419c9c04aa88aad6d96ee23157265bc04c1fc8a9d334fdb8b0620",
+      "productionBuild": "PASS_1613_MODULES",
+      "syntheticOnly": true,
+      "realPlayerDataUsed": false,
+      "cases": {
+        "indexedDbBackupCurrent": "PASS",
+        "localStorageLossRecoversExactCriticalIndexedDbState": "PASS",
+        "questRetryRapidFinalRefresh": "BLOCKED_HARNESS_CHOICE_LOCATOR_MISMATCH_NOT_PRODUCT_FAILURE"
+      }
+    }
   },
-  "runtimeHashes": {
-    "storageJsGitBlobSha": "34015dd498e6ae489ec01c00c2c414989ff59226",
-    "storageTestGitBlobSha": "2a81968edb9f1d1ddbef5166b9ea5c40de0021e6",
-    "persistenceTransactionsGitBlobSha": "2e791be48fbc3b7724c4b7808ba29b7da5eeaa57",
-    "persistenceTransactionsTestGitBlobSha": "c6bed227404b9c0bf6c85b89906737447cbae4a5",
-    "persistenceEconomyIntegrationTestGitBlobSha": "b26f86880bab7371696403eb306107bd8c3397df",
-    "appGitBlobSha": "2ad09c471bc8b95a9861cd4add746ffd66e63ea5"
+  "verifiedBrowserInvariants": {
+    "coinsStarsXp": "PASS",
+    "starWorthHomeProgress": "PASS",
+    "ownedInventoryIncludingUnknownNoArt": "PASS",
+    "equippedGearIncludingUnknownNoArt": "PASS",
+    "roomPlacementIncludingUnknownNoArt": "PASS",
+    "dreamGoalUnknownNoArt": "PASS",
+    "purchaseExactlyOnceRapidAndReload": "PASS",
+    "purchaseExactlyOnceMultiTabReplay": "PASS",
+    "equipPersistsReload": "PASS",
+    "roomUnderlyingStateTransitionDoubleTapReload": "PASS",
+    "malformedImportPreservesSave": "PASS",
+    "localStorageLossIndexedDbRecoveryExactCriticalState": "PASS",
+    "acceptedCatalogArtPathDoesNotPruneOwnership": "PASS"
   },
-  "implementedProtections": {
-    "purchase": "applyPermanentPurchase revalidates owned/receipt/star/coin state in the functional save transaction, records a durable per-item receipt, charges once, and restores ownership from a receipt without a second charge.",
-    "questCompletion": "Final Quest completion reward/progress is committed atomically with active/completed receipt state before the UI transition timer; replay of a completed receipt is rejected.",
-    "storage": "Receipt fields survive sanitization. Missing current localStorage remains a recovery state until IndexedDB is checked so a default render cannot mask a recoverable backup.",
-    "missingArt": "Owned/equipped/room/Dream Goal IDs are shape-sanitized only and never filtered against catalog-art availability."
-  },
-  "ci": {
-    "workflowRunId": 35652513911,
-    "jobId": 106508054992,
+  "existingAutomatedProofReused": {
     "head": "81bbf06dc070b0f72f942dde9c14ac4bba476922",
-    "triggeringRuntimeChange": "a11y: isolate Store focus scroll to keyboard",
     "tests": "PASS_22_OF_22_FILES_98_OF_98_TESTS",
-    "persistenceReloadTransactionCases": "PASS_3_OF_3",
-    "persistenceTransactionCases": "PASS_5_OF_5",
-    "storageRecoveryCases": "PASS_7_OF_7",
-    "purchaseRapidActionTests": "PASS",
-    "roomRapidActionTests": "PASS",
-    "questRapidActionTests": "PASS",
-    "rewardEvidenceTests": "PASS",
-    "catalog192Invariant": "PASS",
-    "productionBuild": "PASS",
-    "modulesTransformed": 1613,
-    "bundle": {
-      "cssKb": 167.39,
-      "cssGzipKb": 35.69,
-      "jsKb": 304.14,
-      "jsGzipKb": 93.34
-    }
+    "purchaseReloadReceipt": "PASS",
+    "questCompletionReloadReceipt": "PASS",
+    "storageRecovery": "PASS",
+    "rapidActionGuards": "PASS",
+    "rewardEvidencePolicy": "PASS",
+    "productionBuild": "PASS"
   },
-  "executedCases": [
-    {"case":"corrupt current localStorage falls through to recoverable legacy key","result":"PASS_AUTOMATED_RECONFIRMED"},
-    {"case":"missing localStorage cannot mask recoverable IndexedDB backup during hydration","result":"PASS_AUTOMATED_RECONFIRMED"},
-    {"case":"unknown/no-art IDs survive sanitize, persistence and purchase receipt recovery","result":"PASS_AUTOMATED_RECONFIRMED"},
-    {"case":"permanent purchase survives persist/reload and duplicate replay cannot recharge","result":"PASS_AUTOMATED_RECONFIRMED"},
-    {"case":"receipt-only partial snapshot restores ownership without recharge","result":"PASS_AUTOMATED_RECONFIRMED"},
-    {"case":"final Quest completion survives persist/reload and receipt replay cannot re-award","result":"PASS_AUTOMATED_RECONFIRMED"},
-    {"case":"rapid Buy Forever across React-style rerender","result":"PASS_AUTOMATED_RECONFIRMED"},
-    {"case":"rapid Place/Put Away toggle","result":"PASS_AUTOMATED_RECONFIRMED"},
-    {"case":"rapid Quest answer double tap","result":"PASS_AUTOMATED_RECONFIRMED"},
-    {"case":"repeated wrong reward and assisted-vs-independent reward policy","result":"PASS_AUTOMATED_RECONFIRMED"}
-  ],
-  "invariants": {
-    "coinsStarsXp": "PASS_AUTOMATED",
-    "starWorthHomeProgress": "PASS_AUTOMATED",
-    "ownedInventoryUnknownNoArtIds": "PASS_AUTOMATED",
-    "equippedGear": "PASS_AUTOMATED",
-    "roomPlacement": "PASS_AUTOMATED",
-    "dreamGoal": "PASS_AUTOMATED",
-    "masteryEvidence": "PASS_AUTOMATED",
-    "buddyBond": "PASS_AUTOMATED",
-    "districtProgress": "PASS_AUTOMATED",
-    "purchaseExactlyOnceAcrossPersistedReload": "PASS_AUTOMATED",
-    "questCompletionExactlyOnceAcrossPersistedReload": "PASS_AUTOMATED",
-    "missingArtNeverPrunesOwnership": "PASS_AUTOMATED"
-  },
-  "browserAttempt": {
-    "result": "BLOCKED_AUTHORIZED_REMOTE_DEVICE_OFFLINE",
-    "device": "PAAM-L044",
-    "deviceStatus": "offline",
-    "lastSeen": "2026-09-18T11:51:14.213+00:00",
-    "details": "The authorized executable-device path was checked again this run. No online device is available for a branch-local Chromium/Vite transaction test, so jsdom/CI evidence is not relabeled as real-browser timing proof.",
-    "realPlayerDataUsed": false
-  },
-  "openReleaseRisks": [
+  "findings": [
     {
-      "id": "PERSIST-BROWSER-TIMING-CONCURRENCY",
-      "status": "BLOCKED_DEVICE_OFFLINE_ESCALATED_TO_15",
-      "severity": "RELEASE_BLOCKER",
-      "evidence": "Durable transactions and reload semantics pass on the latest runtime-affecting CI head, but real-browser purchase/equip/place/reload, final-Quest feedback refresh timing, multi-tab replay, malformed import and IndexedDB/localStorage recovery remain unexecuted.",
-      "unchangedBlockerCycles": 2,
-      "ownerNext": "15 coordinates an authorized executable local Chromium/Vite path without Replit/Floot or real player data; 13 executes the isolated synthetic timing/concurrency matrix immediately when available."
+      "id": "STORE-ROOM-RIGHT-RAIL-ROUTING",
+      "classification": "UI_ROUTING_DEFECT_NOT_PERSISTENCE_TRANSACTION_DEFECT",
+      "status": "HANDOFF_04_15",
+      "evidence": "The screenshot Store right-rail Place / Put Away control did not mutate placement while an item was already placed/equipped, but the underlying React room action passed rapid double-tap, Put Away, Place and reload exactly-once behavior.",
+      "ownerNext": "04/15 fix selected-item right-rail delegation without changing persistence semantics."
+    },
+    {
+      "id": "PERSIST-QUEST-REAL-BROWSER-FINAL-REFRESH",
+      "classification": "OPEN_BROWSER_EVIDENCE_GAP",
+      "status": "BLOCKED_QA_HARNESS_LOCATOR_MISMATCH",
+      "evidence": "Focused browser recovery run reached Quest but the harness attempted an exact source choice string that was not the visible answer locator. Automated durable Quest completion/replay remains PASS; no browser product failure was reproduced.",
+      "ownerNext": "13 align the Quest browser harness with actual rendered choices, then execute wrong/retry, rapid correct and immediate-final-refresh timing."
     }
   ],
-  "notTested": [
-    "real-browser purchase/equip/place then refresh/re-entry",
-    "real-browser multi-tab purchase/reward replay timing",
-    "real-browser refresh immediately around final Quest completion transition",
-    "physical-device double taps",
-    "browser import of partially malformed save",
-    "live browser localStorage deletion while IndexedDB backup remains"
+  "releaseBlockers": [
+    {
+      "id": "PERSIST-QUEST-BROWSER-TIMING",
+      "status": "OPEN",
+      "scope": "real Chromium wrong/retry no-farming, rapid correct answer and refresh immediately after final Quest commit",
+      "note": "Purchase/equip/room/multi-tab/import/IndexedDB/no-art browser matrix is now materially proven; do not keep labeling the whole browser matrix untested."
+    }
   ],
   "handoff": {
-    "15": "Persistence source semantics remain green on the latest runtime-affecting CI head. The authorized device remains offline for a second unchanged cycle; PERSIST-BROWSER-TIMING-CONCURRENCY is escalated as the only Workstream-13 release blocker.",
-    "14": "Do not substitute visual screenshots for transaction timing. If the shared QA harness gains an authorized state-isolated interaction path, expose it to 13 without wiring real player data.",
-    "08": "Catalog integration may continue; image availability must never filter owned/equipped/roomDecor/dreamGoalId."
+    "15": "Real Chromium now proves rapid purchase/reload, multi-tab purchase replay, equip reload, underlying room toggle double-tap/reload, malformed-import preservation, exact IndexedDB recovery after localStorage loss, and no-art ownership/equipment/placement/Dream Goal retention. Remaining W13 browser release work is Quest final-refresh/retry timing only. Store right-rail Place/Put Away routing is a separate UI defect for 04/15.",
+    "04": "Fix the screenshot Store selected-item room action delegation; do not alter the underlying passing persistence transaction/guard semantics.",
+    "08": "Accepted catalog art-path changes did not prune synthetic ownership/equipment state in Chromium. Continue preserving stable IDs/prices/unlocks and never filter saved IDs by art availability.",
+    "12": "Automated reward/evidence policy remains green; 13 still needs rendered-choice-aware browser Quest timing evidence."
   },
   "freeze": {
     "replitTouched": false,
     "flootTouched": false,
     "mainMergedOrModified": false,
     "realPlayerDataTouched": false,
-    "catalogManifestTouched": false,
-    "producerArtTouched": false
+    "canonicalCatalogManifestTouchedBy13": false,
+    "producerArtTouchedBy13": false,
+    "persistenceRuntimeSemanticsRewritten": false
   }
 }
