@@ -32,6 +32,13 @@ button:disabled{cursor:not-allowed;}
   overscroll-behavior-inline:contain;
   -webkit-overflow-scrolling:touch;
 }
+.sbStoreCategoryRow,.sbStoreTierRow{scroll-padding-inline:8px;}
+
+/* On the wide desktop contract the tier tray previously began two pixels under
+   the fixed 170px navigation rail, allowing its focus halo to be obscured. */
+@media (min-width:1280px){
+  .marketPage.sbStoreMatch .sbStoreTierRow{padding-left:10px;box-sizing:border-box;}
+}
 
 /* Stronger readable muted copy on light surfaces. */
 .studyGrid p,.storyBox,.sbStoreCollectionCopy small,.sbStorePermanent,
