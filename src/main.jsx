@@ -21,6 +21,7 @@ import './headwearAvatar.css';
 import './facegearAvatar.css';
 import './homeHeroRuntime';
 import './homeScreenshotMatchRuntime';
+import './progressionWidgetsRuntime';
 import './storeScreenshotMatchRuntime';
 import './questVisualRuntime';
 import './questContextArtRuntime';
@@ -30,6 +31,7 @@ import './homeScreenshotMatch.css';
 import './storeScreenshotMatch.css';
 import './questScreenshotMatch.css';
 import './avatarBuddy.css';
+import './progressionWidgets.css';
 
 createRoot(document.getElementById('root')).render(
   <React.StrictMode>
