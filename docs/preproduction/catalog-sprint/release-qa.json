@@ -18,12 +18,7 @@
     "stagedArtArtifactId": 10665857539,
     "stagedArtArtifactDigest": "sha256:1480d7f858cb7ecfffe7f53871d71aad230ff39df864d0a4ebd0a3025d5dc63f",
     "stagedArtFixture": "PASS_SINGLE_FRAMEWORK_48_REVIEWER14_ASSETS_PLUS_27_VERSIONED_REPLACEMENTS_HTTP200_DECODE_SCREENSHOT_ZERO_ERRORS",
-    "replacementCoverage": [
-      "auras-1..8",
-      "desks-2..4",
-      "lighting-1..4",
-      "tops-1..12"
-    ],
+    "replacementCoverage": ["auras-1..8","desks-2..4","lighting-1..4","tops-1..12"],
     "referencePixels": "BLOCKED_NOT_REPOSITORY_ACCESSIBLE_NO_PIXEL_IDENTICAL_CLAIM"
   },
   "canonical": {
@@ -51,22 +46,17 @@
   },
   "reviewer14": {
     "partition": ["lighting","wall","rugs","decor"],
-    "reviewed": 48,
-    "accepted": 4,
-    "rework": 44,
-    "blocked": 0,
-    "accepted": {
+    "reviewedCount": 48,
+    "acceptedCount": 4,
+    "reworkCount": 44,
+    "blockedCount": 0,
+    "acceptedHashes": {
       "lighting-1": "9d8aa142fa53f06dbad9ce59e9c8d34c1096ddc3",
       "lighting-2": "8c10fe689d6d7e398e85b24eb1ca1323cee07ea3",
       "lighting-3": "fc21ddf5a608ee393410ff9682cf2ef87a56c46d",
       "lighting-4": "7975e490a9fb97574f03081acf9fc871c22224f3"
     },
-    "reworkFamilies": {
-      "lightingLegacy5To12": 8,
-      "wall": 12,
-      "rugs": 12,
-      "decor": 12
-    },
+    "reworkFamilies": {"lightingLegacy5To12":8,"wall":12,"rugs":12,"decor":12},
     "exactContentUniqueness": "PASS_48_UNIQUE_GIT_BLOB_HASHES",
     "renderedNearDuplicateReview": "PASS_NO_IDENTITY_COLLISION_SHARED_FLAT_TEMPLATES_REMAIN_QUALITY_DEFECTS"
   },
@@ -105,10 +95,5 @@
     "13: close synthetic real-browser purchase/equip/place/reload and recovery stress gate.",
     "15: keep phase CATALOG_SPRINT until all 192 exact current hashes meet the catalog gate; Store/Quest geometry remains GAME_FINISHING work, not a catalog blocker."
   ],
-  "freeze": {
-    "replitTouched": false,
-    "flootTouched": false,
-    "mainMergedOrModified": false,
-    "playerDataTouched": false
-  }
+  "freeze": {"replitTouched":false,"flootTouched":false,"mainMergedOrModified":false,"playerDataTouched":false}
 }
