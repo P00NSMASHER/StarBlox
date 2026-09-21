@@ -1,191 +1,197 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "reviewer": "05",
-  "role": "Quest Screen Builder / independent catalog reviewer",
+  "role": "independent catalog reviewer for beds/desks/companions/auras",
   "phase": "CATALOG_SPRINT",
   "branch": "screenshot-match-preproduction",
-  "sourceHead": "d94ff26ac1c4bc63329a48dedb8a48d52a6219ad",
-  "assignedCollections": [
-    "beds",
-    "desks",
-    "companions",
-    "auras"
-  ],
+  "sourceHead": "20515bb8fe8da83c56843ec3b690574699eeb2f7",
+  "policy": "docs/preproduction/DELIVERY_PROTOCOL_V2.md",
+  "assignedCollections": ["beds", "desks", "companions", "auras"],
   "assignedCount": 48,
-  "reviewBatch": {
-    "reviewedThisRevision": 24,
-    "collections": [
-      "companions",
-      "beds"
-    ],
-    "accepted": 0,
-    "rework": 24,
-    "blocked": 0,
-    "result": "REWORK_24_OF_24"
-  },
-  "history": [
+  "historyRefs": [
     {
-      "priorReviewBlobSha": "9d855d01e7f0132e999850a7c616cfd1239eb015",
-      "priorReviewSourceHead": "e7a161d4ebecef485875d04e4a3e75d239800530",
-      "collection": "auras",
-      "reviewed": 12,
-      "accepted": 0,
-      "rework": 12,
-      "blocked": 0,
-      "artifactId": 10658055447,
-      "artifactDigest": "sha256:b7aa40c7c0af6602607b06c284850d404ba89a85f2e242941361e2a8ee168230",
-      "note": "Exact-hash prior Aura review is preserved in Git history. Those 12 legacy versions were REWORK. Replacement candidates auras-1-v2 through auras-4-v2 now exist and require fresh rendered review; the old decisions do not transfer to replacement hashes.",
-      "exactLegacyHashes": [
-        {"itemId":"auras-1","assetHash":"5fdf391924548197f0d1025fbfddc6b5eea1dada","decision":"REWORK"},
-        {"itemId":"auras-2","assetHash":"951d0de53b0177256bb71308f18fc3c5a2563a43","decision":"REWORK"},
-        {"itemId":"auras-3","assetHash":"a27b05e02ca3165d18bccac63a8cff3a645e393e","decision":"REWORK"},
-        {"itemId":"auras-4","assetHash":"feb01955145685f718c231287abbad60ecc2e408","decision":"REWORK"},
-        {"itemId":"auras-5","assetHash":"537e3a60ee47a50e219ff4d165f0cf8fa7cf45f7","decision":"REWORK"},
-        {"itemId":"auras-6","assetHash":"12323f12b60b5b411cde8ad383d3238d78e40053","decision":"REWORK"},
-        {"itemId":"auras-7","assetHash":"82678bb86daa67c81faa82ca6613b698133a5ebd","decision":"REWORK"},
-        {"itemId":"auras-8","assetHash":"9cf59e4329b180645ccf6a12057654a126f10cdd","decision":"REWORK"},
-        {"itemId":"auras-9","assetHash":"df6ff86bdb73909ae6e41a505861aba8bfce2f5a","decision":"REWORK"},
-        {"itemId":"auras-10","assetHash":"be285375c688a518b491b09ff047920cc6e23fe5","decision":"REWORK"},
-        {"itemId":"auras-11","assetHash":"3a80508473e5364899b1276256ea26c72f9efce0","decision":"REWORK"},
-        {"itemId":"auras-12","assetHash":"afa2b684e811302c2889e068b16e730eb58e6d27","decision":"REWORK"}
-      ]
+      "reviewBlobSha": "d9066630eeae3bddb184d06c0fa0bbcf17c7d57b",
+      "scope": "legacy Companions 1-12 and Beds 1-12 exact-hash reviews",
+      "result": "REWORK_24_OF_24",
+      "note": "Full item-specific reasons remain immutable in Git history; replacement hashes require fresh decisions."
+    },
+    {
+      "reviewBlobSha": "9d855d01e7f0132e999850a7c616cfd1239eb015",
+      "scope": "legacy Auras 1-12 exact-hash review",
+      "result": "REWORK_12_OF_12",
+      "note": "Legacy decisions do not transfer to replacement hashes."
     }
   ],
-  "renderEvidence": {
-    "type": "github-actions-artifact",
-    "workflowRunId": 35639821618,
-    "artifactId": 10658055447,
-    "artifactDigest": "sha256:b7aa40c7c0af6602607b06c284850d404ba89a85f2e242941361e2a8ee168230",
-    "auditedRuntimeHead": "4d8bb9671b8c394db89d994de75ee4af3ccd578a",
-    "assetContinuity": {
-      "status": "PASS",
-      "method": "GitHub compare from auditedRuntimeHead to screenshot-match-preproduction at review time contained no public/assets/catalog/beds-*.svg or companions-*.svg changes.",
-      "reviewHead": "d94ff26ac1c4bc63329a48dedb8a48d52a6219ad"
-    },
-    "screenshots": [
-      {
-        "file": "store-desktop-1408x1056-companions.png",
-        "sha256": "b51e8c21b6fda414728716c942138e7e3a1be314cfe0e1251b2db83baa72b8e9",
-        "dimensions": [1408,1056],
-        "coverage": "All 12 companion cards; companions-1 also selected in detail/try-on context."
-      },
-      {
-        "file": "store-phone-390x844-companions.png",
-        "sha256": "467648877056d2d7bf37b74f3140e4cf5085c86f4bfe73d0135730aed27b9957",
-        "dimensions": [390,844],
-        "coverage": "First six companions at actual two-column phone card scale."
-      },
-      {
-        "file": "store-desktop-1408x1056-beds.png",
-        "sha256": "74280d1554d7434586a9c79d60ba0aa8951d8a0d3d503b6169506e3a1159e82f",
-        "dimensions": [1408,1056],
-        "coverage": "All 12 bed cards; beds-1 also selected in detail/try-on context."
-      },
-      {
-        "file": "store-phone-390x844-beds.png",
-        "sha256": "0cf6ba075c2e100ffa9e19be6ac5368df32c3d736e3207bf788c30a5056b91ea",
-        "dimensions": [390,844],
-        "coverage": "First six beds at actual two-column phone card scale."
-      }
-    ],
-    "reviewPrinciple": "A release-relevant premium-art failure visible at actual card scale is sufficient for REWORK; larger detail inspection is not required to reject that exact hash. Replacement hashes require fresh card/detail review."
+  "legacyUniqueIdCoverage": {
+    "auras": 12,
+    "companions": 12,
+    "beds": 12,
+    "desks": 0,
+    "totalUniqueIdsReviewed": 36
   },
-  "familyFindings": {
-    "companions": "All 12 are recognizable, distinct and child-friendly, but the actual Store pixels consistently read as flat centered vector mascots with limited three-quarter anatomy, material response, cast/rim lighting and tier progression. Identity/originality are not the problem; premium dimensional collectible execution is.",
-    "beds": "All 12 are readable and varied, but the actual Store pixels remain predominantly frontal flat furniture icons. Mattress/frame/canopy/loft/pod construction, material depth and tier spectacle are insufficient relative to the dimensional screenshot contract."
+  "currentReplacementBatch": {
+    "reviewedVersions": 8,
+    "accepted": 4,
+    "rework": 4,
+    "blocked": 0,
+    "result": "ACCEPT_4_REWORK_4",
+    "priority": "Fresh replacement hashes were reviewed before untouched legacy work."
+  },
+  "renderEvidence": {
+    "workflow": "StarBlox Staged Catalog Art QA",
+    "workflowRunId": 35654620624,
+    "artifactId": 10663298893,
+    "artifactDigest": "sha256:f2c0d3d3aa251f5e1934017a7c61acf644e8876ab1e1a5b0c37e7f06ffb8e9db",
+    "artifactSourceHead": "acbc6035da9d57bc88043604caa5ec0b6352398e",
+    "contactSheet": "staged-replacements/staged-replacements-contact-sheet.png",
+    "actualPixelsReviewed": true,
+    "httpDecode": "PASS_FOR_ALL_8_REVIEWED_REPLACEMENTS",
+    "companionContinuity": "Lane 06 later re-rendered the same four exact hashes successfully in workflow run 35655371282 / artifact 10663896836; no hash substitution is inferred."
   },
   "reviews": [
     {
-      "itemId":"companions-1","name":"Sprout Pup","tier":1,"theme":"Cloud Pop","price":30,"starReq":0,"assetPath":"/assets/catalog/companions-1.svg","assetHash":"797d05aa87a416c24bd6f220b8bb13f8f44a4d8a","hashAlgorithm":"git-blob-sha1","producer":"legacy-pre-sprint","decision":"REWORK","evidenceRefs":["artifact:10658055447/store-desktop-1408x1056-companions.png","artifact:10658055447/store-phone-390x844-companions.png"],"reason":"The selected/detail pixels show a cute, readable Sprout Pup, but it is essentially a flat centered mascot with minimal head/body depth, plush/fur material or three-quarter toy lighting. Preserve the friendly starter identity while giving it dimensional anatomy and soft collectible materials.","checks":{"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"FAIL","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
+      "itemId": "auras-1",
+      "name": "Soft Sparkles",
+      "tier": 1,
+      "theme": "Midnight Neon",
+      "producer": "11",
+      "assetPath": "/assets/catalog/auras-1-v2.svg",
+      "assetHash": "48639f1262052350660127bbc5d3d25de34d61e3",
+      "hashAlgorithm": "git-blob-sha1",
+      "decision": "REWORK",
+      "evidenceRefs": ["artifact:10663298893/staged-replacements/staged-replacements-contact-sheet.png", "artifact:10663298893/staged-replacements/detail/auras-1-48639f12.png"],
+      "reason": "Contrast and Midnight Neon color cues improve over the legacy hash, but the rendered result is still a sparse dashed ring with flat star sprites and dots. It lacks volumetric particle depth, layered foreground/background sparkle, convincing emissive falloff and premium spatial richness even for Tier 1.",
+      "checks": {"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"FAIL","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
     },
     {
-      "itemId":"companions-2","name":"Moon Cat","tier":1,"theme":"Pixel Party","price":45,"starReq":0,"assetPath":"/assets/catalog/companions-2.svg","assetHash":"45b5e59ea5bb28dbc3d8c325f313ec4b92ef8005","hashAlgorithm":"git-blob-sha1","producer":"06","decision":"REWORK","evidenceRefs":["artifact:10658055447/store-desktop-1408x1056-companions.png","artifact:10658055447/store-phone-390x844-companions.png"],"reason":"Cat/moon/pixel identity reads clearly, but the actual card is a dark frontal vector mascot with little body volume or material lighting. Keep Tier 1 simple while adding dimensional toy-cat anatomy, surface response and controlled moon/pixel light.","checks":{"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"FAIL","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
+      "itemId": "auras-2",
+      "name": "Cloud Puffs",
+      "tier": 1,
+      "theme": "Candy Core",
+      "producer": "11",
+      "assetPath": "/assets/catalog/auras-2-v2.svg",
+      "assetHash": "c2be24c165f3e28995d5d2eb946dbdde983afe2a",
+      "hashAlgorithm": "git-blob-sha1",
+      "decision": "REWORK",
+      "evidenceRefs": ["artifact:10663298893/staged-replacements/staged-replacements-contact-sheet.png", "artifact:10663298893/staged-replacements/detail/auras-2-c2be24c1.png"],
+      "reason": "Candy palette and cloud identity are readable, but four repeated flat cloud shapes still read as icon art rather than an aura. Add true puff volume, depth staggering, translucent atmospheric overlap, softer cast/emissive light and a more spatial surrounding effect while keeping Tier 1 simple.",
+      "checks": {"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"FAIL","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
     },
     {
-      "itemId":"companions-3","name":"Berry Bunny","tier":1,"theme":"Berry Blast","price":65,"starReq":0,"assetPath":"/assets/catalog/companions-3.svg","assetHash":"c0e69b68240cb91c00dd16c2784b3d5c7c41c4fb","hashAlgorithm":"git-blob-sha1","producer":"06","decision":"REWORK","evidenceRefs":["artifact:10658055447/store-desktop-1408x1056-companions.png","artifact:10658055447/store-phone-390x844-companions.png"],"reason":"Bunny and berry cues are immediately legible, but the symmetric face/body and berry detail read as flat graphics. Add plush/fur volume, ear/body depth and soft three-quarter lighting while retaining the clean starter silhouette.","checks":{"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"FAIL","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
+      "itemId": "auras-3",
+      "name": "Pixel Bits",
+      "tier": 1,
+      "theme": "Adventure Club",
+      "producer": "11",
+      "assetPath": "/assets/catalog/auras-3-v2.svg",
+      "assetHash": "9b682148eb26898ec5f56ac11eac635e7c93c8fc",
+      "hashAlgorithm": "git-blob-sha1",
+      "decision": "REWORK",
+      "evidenceRefs": ["artifact:10663298893/staged-replacements/staged-replacements-contact-sheet.png", "artifact:10663298893/staged-replacements/detail/auras-3-9b682148.png"],
+      "reason": "The colored pixel blocks have better glow and some dimensional shading, but the effect remains a flat elliptical orbit around a generic star and Adventure Club is weakly expressed. Build more three-dimensional depth/parallax and a specific exploration/adventure signature without overloading the starter tier.",
+      "checks": {"identity":"PASS","themeTier":"PARTIAL","silhouette":"PASS","materialLighting":"PARTIAL","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
     },
     {
-      "itemId":"companions-4","name":"Sunny Bird","tier":2,"theme":"Garden Glow","price":85,"starReq":0,"assetPath":"/assets/catalog/companions-4.svg","assetHash":"16e50e59ba950076bf0ecc512b9a3262bf5ca2de","hashAlgorithm":"git-blob-sha1","producer":"06","decision":"REWORK","evidenceRefs":["artifact:10658055447/store-desktop-1408x1056-companions.png","artifact:10658055447/store-phone-390x844-companions.png"],"reason":"The cheerful bird identity is clear, but the body/wings are simple flat shapes with little feather/toy material or spatial depth. Give the bird rounded collectible anatomy, layered wings and garden-lit dimensional shading.","checks":{"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"FAIL","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
+      "itemId": "auras-4",
+      "name": "Berry Hearts",
+      "tier": 2,
+      "theme": "Cloud Pop",
+      "producer": "11",
+      "assetPath": "/assets/catalog/auras-4-v2.svg",
+      "assetHash": "3059eae7ab68c125f1af1696305fdf5689131455",
+      "hashAlgorithm": "git-blob-sha1",
+      "decision": "REWORK",
+      "evidenceRefs": ["artifact:10663298893/staged-replacements/staged-replacements-contact-sheet.png", "artifact:10663298893/staged-replacements/detail/auras-4-3059eae7.png"],
+      "reason": "Berry-heart and Cloud Pop cues are clear and card-readable, but the hearts/cloud remain flat sticker-like objects around a broad ring. Tier 2 still needs layered depth, soft volumetric cloud treatment, richer heart material and convincing surrounding glow/occlusion.",
+      "checks": {"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"FAIL","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
     },
     {
-      "itemId":"companions-5","name":"Pebble Turtle","tier":2,"theme":"Galaxy Glow","price":125,"starReq":0,"assetPath":"/assets/catalog/companions-5.svg","assetHash":"3d30ea4f291c2ac5fb8b60171df249167c3647cb","hashAlgorithm":"git-blob-sha1","producer":"06","decision":"REWORK","evidenceRefs":["artifact:10658055447/store-desktop-1408x1056-companions.png","artifact:10658055447/store-phone-390x844-companions.png"],"reason":"The low turtle silhouette and shell are distinct, but the side-on card lacks convincing shell curvature, body volume and Galaxy Glow material. Add sculpted shell/body depth, pebble texture and subtle luminous treatment.","checks":{"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"FAIL","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
+      "itemId": "companions-3",
+      "name": "Berry Bunny",
+      "tier": 1,
+      "theme": "Berry Blast",
+      "producer": "06",
+      "assetPath": "public/assets/catalog-candidates/chat-20260921-intake01/companions-3-detail.webp",
+      "assetHash": "adba95dc769e603337dc4ac38b9a513ce9914b10",
+      "hashAlgorithm": "git-blob-sha1",
+      "decision": "ACCEPT",
+      "evidenceRefs": ["artifact:10663298893/staged-replacements/staged-replacements-contact-sheet.png", "artifact:10663298893/staged-replacements/detail/companions-3-adba95dc.png"],
+      "reason": "Fresh pixels fix the legacy flat-mascot defect: the bunny has rounded toy/plush anatomy, strong ear/body depth, believable surface highlights and shadows, clear berry/strawberry identity, child-friendly expression and clean card-scale silhouette. It is richly finished but still simple enough for Tier 1.",
+      "checks": {"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"PASS","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
     },
     {
-      "itemId":"companions-6","name":"Comet Fox","tier":2,"theme":"Sunny Pop","price":175,"starReq":0,"assetPath":"/assets/catalog/companions-6.svg","assetHash":"0d7b1d86360e6ef7d9d6bf70340d009436836a70","hashAlgorithm":"git-blob-sha1","producer":"06","decision":"REWORK","evidenceRefs":["artifact:10658055447/store-desktop-1408x1056-companions.png","artifact:10658055447/store-phone-390x844-companions.png"],"reason":"Fox/star identity is recognizable, but the centered mascot anatomy remains shallow and graphic. Add real muzzle/torso/limb/tail depth, plush-toy material and directional comet/sun lighting without changing the friendly expression.","checks":{"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"FAIL","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
+      "itemId": "companions-4",
+      "name": "Sunny Bird",
+      "tier": 2,
+      "theme": "Garden Glow",
+      "producer": "06",
+      "assetPath": "public/assets/catalog-candidates/chat-20260921-intake01/companions-4-detail.webp",
+      "assetHash": "b382339e76ed9d4aeae72b1c8cccc904abf85b57",
+      "hashAlgorithm": "git-blob-sha1",
+      "decision": "ACCEPT",
+      "evidenceRefs": ["artifact:10663298893/staged-replacements/staged-replacements-contact-sheet.png", "artifact:10663298893/staged-replacements/detail/companions-4-b382339e.png"],
+      "reason": "The replacement is convincingly dimensional with rounded body volume, layered feather forms, cast/contact shadow, warm directional sun lighting and an unmistakable garden/sun identity. It reads cleanly at card scale and provides a credible Tier-2 step above the simpler starter companion.",
+      "checks": {"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"PASS","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
     },
     {
-      "itemId":"companions-7","name":"Story Owl","tier":3,"theme":"Aqua Wave","price":240,"starReq":2,"assetPath":"/assets/catalog/companions-7.svg","assetHash":"a7a852d6d6b1486d5f0820f5ea93240e31c9ae2c","hashAlgorithm":"git-blob-sha1","producer":"06","decision":"REWORK","evidenceRefs":["artifact:10658055447/store-desktop-1408x1056-companions.png"],"reason":"Owl and story/book cues are distinct, but the locked Store card still reads as flat layered circles/wings with limited feather or toy volume. Tier 3 needs stronger sculpted anatomy, material separation and Aqua Wave lighting.","checks":{"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"FAIL","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
+      "itemId": "companions-10",
+      "name": "Pixel Bot",
+      "tier": 4,
+      "theme": "Midnight Neon",
+      "producer": "06",
+      "assetPath": "public/assets/catalog-candidates/chat-20260921-intake01/companions-10-detail.webp",
+      "assetHash": "2b09d950b08083bb3a9ec5e2073ae23d88411cf4",
+      "hashAlgorithm": "git-blob-sha1",
+      "decision": "ACCEPT",
+      "evidenceRefs": ["artifact:10663298893/staged-replacements/staged-replacements-contact-sheet.png", "artifact:10663298893/staged-replacements/detail/companions-10-2b09d950.png"],
+      "reason": "The legacy flat robot problem is resolved: this version has distinct molded toy-robot anatomy, joints, beveled panels, glossy/plastic material separation, a dark pixel-face display and strong teal/magenta neon illumination. Tier 4 spectacle is materially richer without harming card readability.",
+      "checks": {"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"PASS","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
     },
     {
-      "itemId":"companions-8","name":"Bubble Axolotl","tier":3,"theme":"Art Attack","price":330,"starReq":2,"assetPath":"/assets/catalog/companions-8.svg","assetHash":"29a71f6ec9ba4b16aa84c3afd04466935a9a0a89","hashAlgorithm":"git-blob-sha1","producer":"06","decision":"REWORK","evidenceRefs":["artifact:10658055447/store-desktop-1408x1056-companions.png"],"reason":"External gills make the axolotl identifiable, but the image is a flat symmetric sticker-like mascot and the bubble treatment lacks translucent depth. Add rounded aquatic anatomy, refractive bubbles and dimensional Art Attack accents.","checks":{"identity":"PASS","themeTier":"PARTIAL","silhouette":"PASS","materialLighting":"FAIL","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
-    },
-    {
-      "itemId":"companions-9","name":"Garden Snail","tier":3,"theme":"Star Luxe","price":460,"starReq":2,"assetPath":"/assets/catalog/companions-9.svg","assetHash":"3208135a5b44b0d080e5c80da43b63aa04d7652e","hashAlgorithm":"git-blob-sha1","producer":"06","decision":"REWORK","evidenceRefs":["artifact:10658055447/store-desktop-1408x1056-companions.png"],"reason":"The side-profile snail/spiral is readable, but shell/body and garden details remain mostly planar. Add volumetric shell gloss, soft body depth, layered botanical detail and controlled Star Luxe highlights appropriate to Tier 3.","checks":{"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"FAIL","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
-    },
-    {
-      "itemId":"companions-10","name":"Pixel Bot","tier":4,"theme":"Midnight Neon","price":640,"starReq":5,"assetPath":"/assets/catalog/companions-10.svg","assetHash":"f1150f08a1a0bba8d9601ed2dd8f9dae6a17bb7d","hashAlgorithm":"git-blob-sha1","producer":"06","decision":"REWORK","evidenceRefs":["artifact:10658055447/store-desktop-1408x1056-companions.png"],"reason":"Robot identity and neon screen cues are clear, but the Tier-4 card still resembles a flat vector mascot. Increase hardware/panel depth, joints, metallic material response, emissive screen/neon light and three-quarter stance.","checks":{"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"FAIL","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
-    },
-    {
-      "itemId":"companions-11","name":"Dream Dragon","tier":4,"theme":"Candy Core","price":880,"starReq":5,"assetPath":"/assets/catalog/companions-11.svg","assetHash":"883280e7edab0226ff76154d33cd9bddf2b30d67","hashAlgorithm":"git-blob-sha1","producer":"06","decision":"REWORK","evidenceRefs":["artifact:10658055447/store-desktop-1408x1056-companions.png"],"reason":"Dragon silhouette, wings and pastel direction are readable, but the anatomy and wing layers are flattened and lack Tier-4 material richness. Add sculpted head/body/wing depth, soft candy materials and controlled dream glow.","checks":{"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"FAIL","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
-    },
-    {
-      "itemId":"companions-12","name":"Star Unicorn","tier":5,"theme":"Adventure Club","price":1200,"starReq":9,"assetPath":"/assets/catalog/companions-12.svg","assetHash":"64b6ea9a0d31fd73ed9770f7d991152abbc47139","hashAlgorithm":"git-blob-sha1","producer":"06","decision":"REWORK","evidenceRefs":["artifact:10658055447/store-desktop-1408x1056-companions.png"],"reason":"The high-tier unicorn is unmistakable, but it remains a mostly flat white/pastel mascot with limited horn, mane, body and lighting depth. Tier 5 needs a clearly premium sculpted collectible pose, luxe materials and stronger star/adventure spectacle.","checks":{"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"FAIL","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
-    },
-    {
-      "itemId":"beds-1","name":"Starter Bed","tier":1,"theme":"Garden Glow","price":44,"starReq":0,"assetPath":"/assets/catalog/beds-1.svg","assetHash":"3d2d8f7bb4503e940dd5d85878f3962b3f7fdf13","hashAlgorithm":"git-blob-sha1","producer":"legacy-pre-sprint","decision":"REWORK","evidenceRefs":["artifact:10658055447/store-desktop-1408x1056-beds.png","artifact:10658055447/store-phone-390x844-beds.png"],"reason":"Readable starter-bed identity, but the selected/detail and grid pixels remain a flat front-facing furniture icon with little mattress/frame depth, believable material response or three-quarter collectible lighting. Rebuild the same simple starter concept with clear mattress thickness, frame perspective and soft dimensional light.","checks":{"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"FAIL","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
-    },
-    {
-      "itemId":"beds-2","name":"Cloud Bed","tier":1,"theme":"Galaxy Glow","price":65,"starReq":0,"assetPath":"/assets/catalog/beds-2.svg","assetHash":"17e8a9e7b9ebc8d9ace7ca5439ae3feca981893f","hashAlgorithm":"git-blob-sha1","producer":"legacy-pre-sprint","decision":"REWORK","evidenceRefs":["artifact:10658055447/store-desktop-1408x1056-beds.png","artifact:10658055447/store-phone-390x844-beds.png"],"reason":"Cloud styling is recognizable, but the bed reads as a flat frontal icon. Galaxy Glow is mostly palette/motif rather than luminous material; add true bed depth, plush cloud volume and restrained galaxy lighting while keeping Tier 1 simple.","checks":{"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"FAIL","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
-    },
-    {
-      "itemId":"beds-3","name":"Pixel Bunk","tier":1,"theme":"Sunny Pop","price":94,"starReq":0,"assetPath":"/assets/catalog/beds-3.svg","assetHash":"6241049fede55ed533811d1cf90569313c8eb2f6","hashAlgorithm":"git-blob-sha1","producer":"legacy-pre-sprint","decision":"REWORK","evidenceRefs":["artifact:10658055447/store-desktop-1408x1056-beds.png","artifact:10658055447/store-phone-390x844-beds.png"],"reason":"Pixel cues are visible, but the bunk construction is not convincingly dimensional at card scale and the Sunny Pop identity is secondary to flat block shapes. Clarify stacked-bed/ladder depth and use dimensional sunny materials without overloading Tier 1.","checks":{"identity":"PASS","themeTier":"PARTIAL","silhouette":"PASS","materialLighting":"FAIL","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
-    },
-    {
-      "itemId":"beds-4","name":"Berry Daybed","tier":2,"theme":"Aqua Wave","price":123,"starReq":0,"assetPath":"/assets/catalog/beds-4.svg","assetHash":"e7c633d73a01b794c4d2e55a0806186727821340","hashAlgorithm":"git-blob-sha1","producer":"legacy-pre-sprint","decision":"REWORK","evidenceRefs":["artifact:10658055447/store-desktop-1408x1056-beds.png","artifact:10658055447/store-phone-390x844-beds.png"],"reason":"The berry/daybed direction is readable, but the silhouette remains front-flat and does not convincingly show chaise/daybed depth, upholstery or Aqua Wave material. Add side depth, layered cushion/bolster construction and controlled aqua highlights.","checks":{"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"FAIL","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
-    },
-    {
-      "itemId":"beds-5","name":"Garden Canopy","tier":2,"theme":"Art Attack","price":181,"starReq":0,"assetPath":"/assets/catalog/beds-5.svg","assetHash":"d8016fa3e69734b8260be4a66884f45ca49692e5","hashAlgorithm":"git-blob-sha1","producer":"legacy-pre-sprint","decision":"REWORK","evidenceRefs":["artifact:10658055447/store-desktop-1408x1056-beds.png","artifact:10658055447/store-phone-390x844-beds.png"],"reason":"Canopy/garden cues exist, but posts, drape/foliage and bed volume collapse into a flat card icon; Art Attack is weak. Rebuild with visible canopy depth, layered fabric/foliage and dimensional art-theme detailing.","checks":{"identity":"PASS","themeTier":"PARTIAL","silhouette":"PASS","materialLighting":"FAIL","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
-    },
-    {
-      "itemId":"beds-6","name":"Galaxy Gamer Bed","tier":2,"theme":"Star Luxe","price":254,"starReq":0,"assetPath":"/assets/catalog/beds-6.svg","assetHash":"c75dd653482fb31292bbf33e9396213253e11320","hashAlgorithm":"git-blob-sha1","producer":"legacy-pre-sprint","decision":"REWORK","evidenceRefs":["artifact:10658055447/store-desktop-1408x1056-beds.png","artifact:10658055447/store-phone-390x844-beds.png"],"reason":"Gamer/space cues distinguish the item, but the furniture remains a shallow frontal block with little tech hardware, bedding depth or Star Luxe material response. Add believable 3D bed/tech construction and richer but controlled luminous surfaces.","checks":{"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"FAIL","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
-    },
-    {
-      "itemId":"beds-7","name":"Sunny Loft Bed","tier":3,"theme":"Midnight Neon","price":348,"starReq":2,"assetPath":"/assets/catalog/beds-7.svg","assetHash":"acfb238a0180f27a6996513972914b78e4236c29","hashAlgorithm":"git-blob-sha1","producer":"legacy-pre-sprint","decision":"REWORK","evidenceRefs":["artifact:10658055447/store-desktop-1408x1056-beds.png"],"reason":"Loft identity is not strong enough through the real locked-card treatment; the structure reads flat and Midnight Neon relies on color rather than luminous architecture. Clarify loft height, ladder/platform depth and neon edge lighting for Tier 3.","checks":{"identity":"PASS","themeTier":"PARTIAL","silhouette":"PASS","materialLighting":"FAIL","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
-    },
-    {
-      "itemId":"beds-8","name":"Aqua Bubble Bed","tier":3,"theme":"Candy Core","price":479,"starReq":2,"assetPath":"/assets/catalog/beds-8.svg","assetHash":"9082cc7295ac64c10c5d2ee253736c793c1cda20","hashAlgorithm":"git-blob-sha1","producer":"legacy-pre-sprint","decision":"REWORK","evidenceRefs":["artifact:10658055447/store-desktop-1408x1056-beds.png"],"reason":"Bubble/aqua motifs are visible, but the bed body is still a flat frontal icon and Candy Core is not materially expressed. Add translucent bubble volume, plush candy material and three-quarter bed geometry without sacrificing card readability.","checks":{"identity":"PASS","themeTier":"PARTIAL","silhouette":"PASS","materialLighting":"FAIL","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
-    },
-    {
-      "itemId":"beds-9","name":"Art Studio Bed","tier":3,"theme":"Adventure Club","price":667,"starReq":2,"assetPath":"/assets/catalog/beds-9.svg","assetHash":"8278f9aaa4c3945694e732bf1b4865200007aec0","hashAlgorithm":"git-blob-sha1","producer":"legacy-pre-sprint","decision":"REWORK","evidenceRefs":["artifact:10658055447/store-desktop-1408x1056-beds.png"],"reason":"The current card does not separate the Art Studio concept strongly enough from a decorated generic bed. Add real studio function—integrated storage/tools/work surface—and three-quarter furniture depth while preserving the Adventure Club theme.","checks":{"identity":"PASS","themeTier":"PARTIAL","silhouette":"PASS","materialLighting":"FAIL","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
-    },
-    {
-      "itemId":"beds-10","name":"Neon Pod Bed","tier":4,"theme":"Cloud Pop","price":928,"starReq":5,"assetPath":"/assets/catalog/beds-10.svg","assetHash":"b968a999fd2b963fd330048f3cac257ee20b1744","hashAlgorithm":"git-blob-sha1","producer":"legacy-pre-sprint","decision":"REWORK","evidenceRefs":["artifact:10658055447/store-desktop-1408x1056-beds.png"],"reason":"Pod/neon direction is present, but the enclosure does not read as a convincing volumetric pod and Tier 4 spectacle is mostly flat glow. Build a clear cocoon shell, inset mattress depth, cloud-soft materials and controlled neon rim/bloom.","checks":{"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"FAIL","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
-    },
-    {
-      "itemId":"beds-11","name":"Dream Princess Loft","tier":4,"theme":"Pixel Party","price":1276,"starReq":5,"assetPath":"/assets/catalog/beds-11.svg","assetHash":"f8de7c7fe822abacf2ee33f4dfa0b466dae13ed6","hashAlgorithm":"git-blob-sha1","producer":"legacy-pre-sprint","decision":"REWORK","evidenceRefs":["artifact:10658055447/store-desktop-1408x1056-beds.png"],"reason":"Princess/loft cues read, but the architecture remains a flat furniture emblem. Tier 4 needs layered loft structure, steps/rails/canopy depth, richer material hierarchy and intentional Pixel Party accents rather than surface decoration.","checks":{"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"FAIL","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
-    },
-    {
-      "itemId":"beds-12","name":"Luxe Star Canopy","tier":5,"theme":"Berry Blast","price":1740,"starReq":9,"assetPath":"/assets/catalog/beds-12.svg","assetHash":"d4b0760138b48106b3cd2dde0030308d7800e2f2","hashAlgorithm":"git-blob-sha1","producer":"legacy-pre-sprint","decision":"REWORK","evidenceRefs":["artifact:10658055447/store-desktop-1408x1056-beds.png"],"reason":"Star/canopy identity is clear, but the highest tier is still a symmetric flat icon with insufficient drape, frame, textile and metallic depth. Rebuild as a premium three-quarter hero canopy with layered fabric, luxe trim, rich berry lighting and spectacular but readable star detail.","checks":{"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"FAIL","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
+      "itemId": "companions-11",
+      "name": "Dream Dragon",
+      "tier": 4,
+      "theme": "Candy Core",
+      "producer": "06",
+      "assetPath": "public/assets/catalog-candidates/chat-20260921-intake01/companions-11-detail.webp",
+      "assetHash": "465fe45abbe4d9b4355444cb3f75a49927b604e9",
+      "hashAlgorithm": "git-blob-sha1",
+      "decision": "ACCEPT",
+      "evidenceRefs": ["artifact:10663298893/staged-replacements/staged-replacements-contact-sheet.png", "artifact:10663298893/staged-replacements/detail/companions-11-465fe45a.png"],
+      "reason": "The replacement has strong three-quarter dragon anatomy, dimensional limbs/head/horns, translucent iridescent wings, soft candy/pastel materials, controlled glow and a clear premium Tier-4 silhouette. It is visually distinct from the other accepted companions and fixes the legacy flat-vector failure.",
+      "checks": {"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"PASS","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
     }
   ],
-  "pendingPriority": [
-    {"ids":["auras-1-v2","auras-2-v2","auras-3-v2","auras-4-v2"],"reason":"Replacement Aura candidates are repository-stored and await fresh staged-art rendered pixels; legacy Aura REWORK decisions cannot transfer across hashes."},
-    {"ids":["desks-2","desks-3","desks-4","desks-5","desks-6","desks-7","desks-8","desks-9","desks-10","desks-11","desks-12"],"reason":"Lane 03 now exists; review new desk candidates from the staged-art render artifact when available, before legacy final-portable fallback review."},
-    {"ids":["desks-1"],"reason":"Legacy final-portable desk remains in reviewer-05 partition and should be reviewed after staged/replacement candidates."}
+  "integrationEligible": [
+    {"itemId":"companions-3","assetHash":"adba95dc769e603337dc4ac38b9a513ce9914b10","decision":"ACCEPT"},
+    {"itemId":"companions-4","assetHash":"b382339e76ed9d4aeae72b1c8cccc904abf85b57","decision":"ACCEPT"},
+    {"itemId":"companions-10","assetHash":"2b09d950b08083bb3a9ec5e2073ae23d88411cf4","decision":"ACCEPT"},
+    {"itemId":"companions-11","assetHash":"465fe45abbe4d9b4355444cb3f75a49927b604e9","decision":"ACCEPT"}
+  ],
+  "notIntegrationEligible": [
+    {"itemId":"auras-1","assetHash":"48639f1262052350660127bbc5d3d25de34d61e3","decision":"REWORK"},
+    {"itemId":"auras-2","assetHash":"c2be24c165f3e28995d5d2eb946dbdde983afe2a","decision":"REWORK"},
+    {"itemId":"auras-3","assetHash":"9b682148eb26898ec5f56ac11eac635e7c93c8fc","decision":"REWORK"},
+    {"itemId":"auras-4","assetHash":"3059eae7ab68c125f1af1696305fdf5689131455","decision":"REWORK"}
+  ],
+  "nextPriority": [
+    "Review auras-5-v2 through auras-8-v2 immediately after Workstream 14 publishes hash-bound card/detail renders.",
+    "Review any staged desk replacements before untouched legacy desk art.",
+    "Review the next companion replacement batch as soon as rendered.",
+    "Use producer capacity for Bottoms only after replacement-review dependencies are consumed."
   ],
   "handoff": {
-    "06": "Companions-2..12 exact current hashes are REWORK. Repair in bounded versioned batches; preserve existing candidates. Focus on dimensional anatomy/material/lighting, not identity redesign.",
-    "08": "No companion or bed item from this review batch is independently accepted; do not promote these exact hashes on reviewer-05 evidence.",
-    "11": "Aura legacy history remains REWORK. Fresh review is required for auras-1-v2..4-v2 after staged-art renderer artifact completes.",
-    "15": "Twenty-four more reviewer-05 items now have actual-pixel dispositions. Route companion repairs to 06. Beds need a non-reviewer-05 producer assignment before repair because reviewer 05 cannot approve its own output; preserve current versions. Keep 05 focused next on staged Aura replacements and desk candidates."
+    "08": "Four companion replacement hashes are independently ACCEPTed and may be integrated immediately after normal metadata/file/content checks. Do not wait for the rest of the catalog.",
+    "06": "companions-3, companions-4, companions-10 and companions-11 are ACCEPTed at the exact hashes above. Preserve those bytes and advance the next bounded companion repair batch; do not regenerate accepted versions.",
+    "11": "auras-1-v2 through auras-4-v2 remain REWORK. Preserve these rejected versions and repair the item-specific dimensional/material defects; auras-5-v2 through auras-8-v2 still await shared render evidence before reviewer disposition.",
+    "14": "Render auras-5-v2 through auras-8-v2 next using the existing staged-art fixture and bind card/detail screenshots to the exact hashes in lane-11.json.",
+    "15": "First qualified Workstream-05 ACCEPT micro-batch now exists (4 companions). Route 08 to integrate it immediately and keep replacement review ahead of untouched legacy review."
   },
   "freeze": {
     "replitTouched": false,
     "flootTouched": false,
     "mainMergedOrModified": false,
-    "playerStateChanged": false,
-    "learningEconomyTouched": false,
-    "canonicalManifestRuntimeTouched": false,
-    "productionAssetsTouched": false
+    "canonicalManifestOrRuntimeTouched": false,
+    "learningOrPlayerStateTouched": false
   }
 }
