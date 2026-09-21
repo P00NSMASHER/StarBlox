@@ -3,7 +3,7 @@
 STATUS: **CATALOG_SPRINT / 95 HASH-BOUND REVIEWS ALL REWORK / PERSISTENCE AUTOMATED PASS + REAL-BROWSER GATE OPEN / NOT READY FOR REPLIT**
 
 Branch: `screenshot-match-preproduction` only  
-Observed coordination head: `da070b301e8ce57ca10d44bcb4ccd2078cfe4690`  
+Observed coordination head: `893bd7e8e9ba3f3c22c2c9ebb0a588e878a6ba1c`  
 Latest runtime/test-proven head: `1ce91011311dff6ea9b7b8119010d84f0466e42f`  
 Delivery policy: `docs/preproduction/DELIVERY_PROTOCOL_V2.md`  
 Phase authority: Workstream 15  
@@ -17,7 +17,7 @@ The exact verified full-suite transaction/reload claim below is bound to `1ce910
 
 **Estimated coordinated screenshot-match completion: 78%.**
 
-The estimate is deliberately **held**, not increased. Independent visual review has expanded to **95/192 unique item hashes** and all 95 are REWORK; no replacement hash is independently accepted or canonically promoted yet. Durable purchase and final-Quest completion semantics now pass the verified 98-test reload/replay gate, while one separate real-browser timing/concurrency release blocker remains. Six versioned repair candidates are branch-stored (Tops 7/8 and Auras 1-4). Ten additional already-generated Firefly repairs (Lighting 1-4 and Tops 1-6) are preserved as immutable Git blobs but do **not** count as staged until their owners attach them to versioned branch paths and verify readback. Scheduling activity, local generations, legacy `final-portable` labels and READY_FOR_REVIEW do not increase completion by themselves.
+The estimate is deliberately **held**, not increased. Independent visual review has expanded to **95/192 unique item hashes** and all 95 are REWORK; no replacement hash is independently accepted or canonically promoted yet. Durable purchase and final-Quest completion semantics now pass the verified 98-test reload/replay gate, while one separate real-browser timing/concurrency release blocker remains. Twelve versioned repair candidates are now branch-stored with exact Git readback (Tops 1-8 and Auras 1-4). The remaining four already-generated Lighting 1-4 repairs are preserved as immutable Git blobs but do **not** count as staged until Workstream 04 attaches them to owned versioned branch paths and verifies readback. Desks 2-4 remain generated-local only. Scheduling activity, local generations, legacy `final-portable` labels and READY_FOR_REVIEW do not increase completion by themselves.
 
 **READY FOR SINGLE REPLIT INTEGRATION: NO.**
 
@@ -31,7 +31,7 @@ The estimate is deliberately **held**, not increased. Independent visual review 
 | Quest | **88%** | Implemented / 6 geometry blockers | Learning behavior remains green; header, phase strip, avatar/body/mastery and earned-summary geometry still miss measured contracts. |
 | Avatar / Buddy | **80%** | Implemented / catalog + try-on fidelity pending | Saved IDs/Buddy state remain protected. Companion/aura review and final layered equipment fidelity remain incomplete. |
 | Progression | **90%** | Automated state gate PASS / final render pending | Five canonical room tiers, Dream Goal, Daily/mastery and ownership-bound progress remain intact. |
-| Catalog Art | **52% legacy canonical labels; 0/95 reviewed hashes accepted** | **Primary visual blocker** | Manifest still has 99 legacy `final-portable` labels and 23 interim entries. Six versioned repair candidates are branch-stored (Tops 7/8, Auras 1-4), while ten more generated repairs are preserved as Git blobs pending owner path attachment/readback. Current independent decisions cover 95 unique item hashes and all 95 are REWORK. |
+| Catalog Art | **52% legacy canonical labels; 0/95 reviewed hashes accepted** | **Primary visual blocker** | Manifest still has 99 legacy `final-portable` labels and 23 interim entries. Twelve versioned repair candidates are branch-stored with exact readback (Tops 1-8, Auras 1-4). Four Lighting repairs remain immutable Git objects pending owner-04 path attachment/readback, and three desk candidates remain local-only pending owner-03 transfer. Current independent decisions cover 95 unique item hashes and all 95 are REWORK. |
 | Environments | **82%** | Structurally implemented / fidelity+perf pending | Home/learning/Store scenes exist; final dimensional materials, room-tier scenes, crops and performance remain GAME_FINISHING work. |
 | Mobile / Accessibility | **86%** | Browser-emulation improved / affected CI refresh pending / device proof pending | Store focus-tray work and browser-emulation evidence are strong, but `src/mobileAccessibilityRuntime.js` changed after the exact 98-test proven head. Workstream 14 owns the fresh affected/current-head suite; physical-device and screen-reader evidence remains unproven. |
 | Motion / Game Feel | **84%** | Automated helpers PASS / real perf pending | Bounded/reduced-motion helpers remain green; actual phone/tablet normal/reduced-motion paint/composite proof remains later work. |
@@ -49,7 +49,9 @@ Canonical manifest remains v12:
 - canonical manifest/runtime mappings: **122**;
 - recorded duplicate manifest paths: **0**;
 - V2 current-hash canonical promotions: **0**;
-- repository-stored replacement candidate versions awaiting fresh independent review: **6** (`tops-7`, `tops-8`, `auras-1..4`).
+- repository-stored replacement candidate versions awaiting fresh independent review: **12** (`tops-1..8`, `auras-1..4`);
+- generated repair versions preserved as Git objects but not yet path-staged: **4** (`lighting-1..4`);
+- generated-local desk candidates not yet repository-staged: **3** (`desks-2..4`).
 
 Production/staging accounting is intentionally separate:
 
@@ -85,9 +87,11 @@ These findings invalidate any assumption that a legacy `final-portable` or inter
 
 ### Binary transfer bridge
 
-The Adobe/Firefly binary handoff blocker is now resolved at the byte-preservation layer without regeneration. Workstream 15 used the existing Adobe GenAI asset search/presigned-rendition/inline-byte path and GitHub `create_blob(base64)` to preserve exact JPEG renditions as immutable Git blobs for **Lighting 1–4** and **Tops 1–6**. The first candidate also proved GitHub accepts the blob in a candidate tree. Repeated branch ref attempts were stopped after concurrent specialist commits correctly caused non-fast-forward rejection; no force push was used.
+The Adobe/Firefly binary handoff blocker is resolved without regeneration. Workstream 15 used the existing Adobe GenAI asset search/presigned-rendition/inline-byte path and GitHub `create_blob(base64)` to preserve exact JPEG renditions for **Lighting 1–4** and **Tops 1–6**. No force push was used.
 
-These ten blobs are **not counted as repository-staged assets yet**. Workstreams 04 and 07 own normal latest-head path attachment/readback, after which 14/01 respectively perform fresh exact-hash pixel review. The exact blob mappings are persisted in `CATALOG_SPRINT_STATE.json`.
+**Tops 1–6 are now genuinely branch-stored** at `public/assets/catalog/tops-1-w07-v2.jpg` through `tops-6-w07-v2.jpg`, and direct repository readback matches all six immutable Git blob SHAs from the handoff. They are stored producer candidates only: reviewer 01 still needs qualified current-hash card/detail pixels and an independent decision before 08 may wire them.
+
+**Lighting 1–4 remain Git-object-only**, not staged. Workstream 04 owns path attachment/readback. The exact path/blob evidence and separation of stored/object-only/local-only counts are persisted in `CATALOG_SPRINT_STATE.json`.
 
 ### Repair routing recorded in sprint state
 
