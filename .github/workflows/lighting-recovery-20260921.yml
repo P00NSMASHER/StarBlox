@@ -5,22 +5,20 @@ on:
     branches: [screenshot-match-preproduction]
     paths:
       - '.github/workflows/lighting-recovery-20260921.yml'
-      - 'scripts/importLightingRecovery20260921.py'
-      - 'docs/preproduction/catalog-sprint/chat-lighting-recovery-20260921.json'
+      - 'scripts/verifyLightingRecovery20260921.mjs'
   workflow_dispatch:
 
 permissions:
   contents: write
-
 concurrency:
   group: starblox-lighting-recovery-20260921
   cancel-in-progress: false
 
 jobs:
-  recover-existing-art:
+  verify-stored-lighting:
     if: github.ref == 'refs/heads/screenshot-match-preproduction'
     runs-on: ubuntu-24.04
-    timeout-minutes: 18
+    timeout-minutes: 12
     steps:
       - uses: actions/checkout@v4
         with:
@@ -29,60 +27,31 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - name: Install image-decoding verifier only
-        run: python3 -m pip install --disable-pip-version-check Pillow==11.3.0
-      - name: Recover four existing image generations without modifying their pixels
-        id: intake
+      - name: Verify existing bytes only without downloading or regenerating
         run: |
-          python3 -m py_compile scripts/importLightingRecovery20260921.py
-          python3 scripts/importLightingRecovery20260921.py
-          python3 scripts/importLightingRecovery20260921.py
-      - name: Publish only candidate bytes, retained originals and intake report
-        id: publish
-        run: |
-          set -eu
-          test "$GITHUB_REF" = 'refs/heads/screenshot-match-preproduction'
-          git config user.name 'github-actions[bot]'
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add -- public/assets/catalog/lighting-5-w04-recovered-v2.jpg public/assets/catalog/lighting-6-w04-recovered-v2.jpg public/assets/catalog/lighting-7-w04-recovered-v2.jpg public/assets/catalog/lighting-8-w04-recovered-v2.jpg docs/preproduction/catalog-sprint/recovered-originals/lighting-5-8-20260921 docs/preproduction/catalog-sprint/chat-lighting-recovery-result.json
-          if ! git diff --cached --quiet; then
-            git commit -m 'catalog: stage four recovered lane-04 Lighting images and preserved source bytes'
-            for attempt in 1 2 3; do
-              if git push origin HEAD:refs/heads/screenshot-match-preproduction; then break; fi
-              git fetch origin screenshot-match-preproduction
-              git rebase origin/screenshot-match-preproduction
-              if [ "$attempt" -eq 3 ]; then echo 'Safe publication blocked by concurrent changes; no force push' >&2; exit 1; fi
-            done
-          fi
+          test -f docs/preproduction/catalog-sprint/chat-lighting-recovery-result.json
           echo "TESTED_SOURCE_HEAD=$(git rev-parse HEAD)" >> "$GITHUB_ENV"
-      - name: Install existing game dependencies without metadata changes
-        run: npm install --no-save --package-lock=false --no-audit --no-fund
-      - name: Run existing regression suite including catalog mapping guards
+          python3 -m pip install --disable-pip-version-check Pillow==11.3.0
+          python3 scripts/importLightingRecovery20260921.py
+      - name: Install unchanged app and isolated browser QA dependencies
+        run: |
+          npm install --no-save --package-lock=false --no-audit --no-fund
+          npm install --no-save --package-lock=false --no-audit --no-fund playwright@1.55.0
+          npx playwright install --with-deps chromium
+      - name: Execute full regression suite on this coherent candidate
         id: tests
         continue-on-error: true
         run: timeout 120s npm test -- --reporter=verbose
-      - name: Build the actual preproduction application
+      - name: Build current application
         id: build
         continue-on-error: true
         run: npm run build
-      - name: Install existing staged-art browser tooling
-        run: |
-          npm install --no-save --package-lock=false --no-audit --no-fund playwright@1.55.0
-          npx playwright install --with-deps chromium
-      - name: Render candidate contact sheets and details using the existing fixture
+      - name: Render exact four stored images without loading the Vite source entrypoint
         id: render
         continue-on-error: true
-        run: |
-          nohup python3 -m http.server 4174 --bind 127.0.0.1 --directory . > /tmp/starblox-lighting-recovery.log 2>&1 &
-          for i in $(seq 1 30); do
-            if curl -fsS http://127.0.0.1:4174/public/assets/catalog/lighting-5-w04-recovered-v2.jpg >/dev/null; then break; fi
-            sleep 0.5
-          done
-          node scripts/catalog-staged-art-qa.mjs
-        env:
-          GITHUB_SHA: ${{ env.TESTED_SOURCE_HEAD }}
-      - name: Record actually executed checks, including failures
-        if: always() && steps.publish.outcome == 'success'
+        run: node scripts/verifyLightingRecovery20260921.mjs
+      - name: Record isolated proof without erasing shared-fixture failure
+        if: always()
         env:
           TEST_OUTCOME: ${{ steps.tests.outcome }}
           BUILD_OUTCOME: ${{ steps.build.outcome }}
@@ -92,56 +61,49 @@ jobs:
           import json, os
           from pathlib import Path
           p=Path('docs/preproduction/catalog-sprint/chat-lighting-recovery-result.json')
+          if not p.exists(): raise SystemExit('Missing stored intake; no success report')
           r=json.loads(p.read_text())
-          def state(value):
-              return {'success':'PASS','failure':'FAIL','skipped':'NOT_RUN','cancelled':'CANCELLED'}.get(value,'NOT_RUN')
-          r['testedSourceHead']=os.environ['TESTED_SOURCE_HEAD']
-          r['workflowRunId']=int(os.environ['GITHUB_RUN_ID'])
-          r['checks'].update({'repeatBehavior':'PASS_SECOND_RUN_NO_DOWNLOAD_OR_REGENERATION','tests':state(os.environ['TEST_OUTCOME']),'build':state(os.environ['BUILD_OUTCOME']),'render':state(os.environ['RENDER_OUTCOME']),'typecheck':'NOT_APPLICABLE_NO_TYPESCRIPT_APP_CHANGES'})
-          render=Path('artifacts/catalog-staged-art/report.json')
-          if render.exists():
-              evidence=json.loads(render.read_text())
-              wanted={i['id']:i['gitBlobSha'] for i in r['items']}
-              matches=[i for s in evidence.get('sets',{}).values() for i in s.get('items',[]) if wanted.get(i.get('id'))==i.get('blobSha')]
-              seen={i['id'] for i in matches if i.get('screenshot') and i.get('status')==200 and not i.get('errors')}
-              r['checks']['batchCardDetailRender']='PASS_4_OF_4' if len(seen)==4 else 'INCOMPLETE_'+str(len(seen))+'_OF_4'
-              r['renderEvidence']={'artifactName':'lighting-5-8-recovery-evidence','reportPath':'artifacts/catalog-staged-art/report.json','matchedIds':sorted(seen),'matchedHashes':{i:wanted[i] for i in sorted(seen)}}
+          r.setdefault('sharedFixtureFailure', {'workflowRunId':35665398592,'jobId':106549924161,'artifactId':10669425873,'status':'FAIL','reason':'Repository-root navigation loaded raw Vite main.jsx with the wrong MIME type; unrelated staged Desk 2–4 images were also fully transparent. No errors or blank-asset assertions were suppressed.','owner':'14 shared fixture; 03 desk candidates'})
+          def state(key): return {'success':'PASS','failure':'FAIL','skipped':'NOT_RUN','cancelled':'CANCELLED'}.get(os.environ[key],'NOT_RUN')
+          proof=Path('artifacts/lighting-recovery-isolated/report.json')
+          executed=json.loads(proof.read_text()) if proof.exists() else {'status':'NOT_RUN','items':[]}
+          r['isolatedVerification']={'workflowRunId':int(os.environ['GITHUB_RUN_ID']),'testedSourceHead':os.environ['TESTED_SOURCE_HEAD'],'tests':state('TEST_OUTCOME'),'build':state('BUILD_OUTCOME'),'render':state('RENDER_OUTCOME'),'scope':'Only the exact four recovered Lighting images; not a whole-catalog or canonical Store acceptance','artifactName':'lighting-5-8-isolated-render-evidence','proof':executed}
+          r['checks']['batchCardDetailRender']=executed['status']
+          r['checks']['sharedCatalogFixture']='FAIL_RECORDED_SEPARATELY_NOT_RETESTED'
           r['independentVisualReview']='PENDING_WORKSTREAM_14_NOT_SELF_APPROVED'
-          r['status']='STAGED_READY_FOR_INDEPENDENT_REVIEW'
+          r['canonicalPromotionsThisIntake']=0
           p.write_text(json.dumps(r,indent=2)+'\n')
-          print(json.dumps({'items':[(i['id'],i['repositoryPath'],i['gitBlobSha']) for i in r['items']],'checks':r['checks']},indent=2))
+          print(json.dumps(r['isolatedVerification'],indent=2))
           PY
-      - name: Publish only executed-check evidence with safe concurrency handling
-        if: always() && steps.publish.outcome == 'success'
+      - name: Preserve only this batch evidence on preproduction
+        if: always()
         run: |
           set -eu
+          test "$GITHUB_REF" = refs/heads/screenshot-match-preproduction
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add -- docs/preproduction/catalog-sprint/chat-lighting-recovery-result.json
           if git diff --cached --quiet; then exit 0; fi
-          git commit -m 'catalog: record exact Lighting recovery readback, tests, build and render evidence'
+          git commit -m 'qa: record isolated Lighting 5–8 rendering while retaining shared-fixture failure'
           for attempt in 1 2 3; do
             if git push origin HEAD:refs/heads/screenshot-match-preproduction; then exit 0; fi
             git fetch origin screenshot-match-preproduction
             git rebase origin/screenshot-match-preproduction
           done
-          echo 'Evidence publication blocked; artifact remains, no force push' >&2
+          echo 'Concurrent changes prevented safe evidence publication; no force push' >&2
           exit 1
-      - name: Retain source bytes, candidates and real render evidence
+      - name: Retain actual card and detail screenshots
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: lighting-5-8-recovery-evidence
+          name: lighting-5-8-isolated-render-evidence
           retention-days: 14
-          if-no-files-found: warn
+          if-no-files-found: error
           path: |
+            artifacts/lighting-recovery-isolated
             docs/preproduction/catalog-sprint/chat-lighting-recovery-result.json
-            docs/preproduction/catalog-sprint/recovered-originals/lighting-5-8-20260921
-            public/assets/catalog/lighting-5-w04-recovered-v2.jpg
-            public/assets/catalog/lighting-6-w04-recovered-v2.jpg
-            public/assets/catalog/lighting-7-w04-recovered-v2.jpg
-            public/assets/catalog/lighting-8-w04-recovered-v2.jpg
-            artifacts/catalog-staged-art
-      - name: Do not hide failed regression, build or render checks
-        if: always() && steps.publish.outcome == 'success'
+      - name: Fail honestly if any scoped check did not pass
+        if: always()
         env:
           TEST_OUTCOME: ${{ steps.tests.outcome }}
           BUILD_OUTCOME: ${{ steps.build.outcome }}
