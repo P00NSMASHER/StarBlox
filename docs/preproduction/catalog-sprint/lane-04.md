@@ -1,71 +1,71 @@
 # Catalog Sprint Lane 04 — Lighting
 
-STATUS: **READY_FOR_REVIEW — 12/12 assigned lighting candidates staged; NOT self-approved**
+STATUS: **REWORK IN PROGRESS — Lighting 1–4 staged for fresh review; Lighting 5–8 newly generated; Lighting 9–12 remain**
 
 Repository: `P00NSMASHER/StarBlox`  
 Branch: `screenshot-match-preproduction`  
 Active phase: `CATALOG_SPRINT`  
-Assignment: `lighting-1` through `lighting-12`  
-Independent reviewer under delivery protocol v2: **Workstream 14**  
+Primary assignment: `lighting-1` through `lighting-12`  
+Secondary assignment after Lighting: `shoes-1` through `shoes-6`  
+Independent Lighting reviewer: **Workstream 14**  
 Canonical manifest/runtime owner: **Workstream 08**  
 Replit/Floot: **untouched**  
 `main`: **untouched**
 
-## Production state
+## Why the legacy Lighting set is being replaced
 
-All 12 assigned lighting IDs have repository-stored, original StarBlox SVG candidates. Lane 04 has not changed `catalog-art-manifest.json`, `src/catalogArtRuntime.js`, Store runtime/CSS, `src/gameModel.js`, item prices/unlocks, player data, saves, ownership or rewards.
+Workstream 14 independently rendered the legacy Lighting family and recorded **12/12 REWORK**. The items are recognizable, but the old SVGs are too flat/front-facing for the premium dimensional screenshot target: shallow construction and materials, weak emitted-light depth, inconsistent theme expression and insufficient tier progression. No legacy Lighting hash has an independent ACCEPT.
 
-Current exact candidate blobs:
+Lane 04 therefore repaired only reviewed defects and preserved every old version. It did not touch `catalog-art-manifest.json`, `src/catalogArtRuntime.js`, Store runtime/CSS, item IDs, prices, unlocks, saves, ownership, rewards or player data.
 
-| ID | Item | Tier | Theme | Git blob SHA | Bytes |
-|---|---|---:|---|---|---:|
-| `lighting-1` | Starter Lamp | 1 | Cloud Pop | `a522ae4d0a602673e51b3108a4631e1a4891e79b` | 3756 |
-| `lighting-2` | Cloud Lamp | 1 | Pixel Party | `07e2ef5ebe1322b52a0514d0a1a9ba2f7f19c2ab` | 3943 |
-| `lighting-3` | Pixel Cube Light | 1 | Berry Blast | `f0416273531258ca17417ba7507406b15eed3a20` | 4059 |
-| `lighting-4` | Heart Lamp | 2 | Garden Glow | `42f07255a3f04e10d1df2009555283529903b4c1` | 3703 |
-| `lighting-5` | Vine Light | 2 | Galaxy Glow | `8aa582f7bd95628d9b745eb71cf434df170b39c7` | 4236 |
-| `lighting-6` | Planet Lamp | 2 | Sunny Pop | `a3ef6f5e0a2967f64f05268ca84cd40e3de781dd` | 4009 |
-| `lighting-7` | Sun Lamp | 3 | Aqua Wave | `c6be5b8c09122fb3e9c26715551c7f0bbf4768fc` | 3726 |
-| `lighting-8` | Bubble Lamp | 3 | Art Attack | `18db9f245fb4cae1687ec9128c4f6878c40cfb81` | 3797 |
-| `lighting-9` | Color Lamp | 3 | Star Luxe | `4ed3cf2ec2789cf1d93adc0b11809a0ba293348e` | 3769 |
-| `lighting-10` | Neon Strip Tower | 4 | Midnight Neon | `fbebec245fddc134b6e513b1493819947f4a1ef1` | 3814 |
-| `lighting-11` | Aurora Light | 4 | Candy Core | `516885790c49af408442b425621b9a6b5df7e8bd` | 3767 |
-| `lighting-12` | Crystal Chandelier | 5 | Adventure Club | `3568ddead0af062045687e9c4c6f2c0596acc6b3` | 4418 |
+## Lighting 1–4 — binary-transfer blocker closed
 
-All declare an `800×800` SVG viewBox. Existing producer checks remain: XML parse 12/12 PASS, CairoSVG render 12/12 PASS, metadata match PASS, distinct source silhouettes PASS, no external/brand/Roblox/Brookhaven/third-party source material observed.
+The exact previously generated Firefly bytes were already preserved as immutable Git blobs by coordination. This run attached those same bytes to versioned paths on the latest branch using a normal non-force tree/commit/ref update; **nothing was regenerated**.
 
-## Delivery-protocol-v2 producer pixel evidence refresh
+Attachment commit: `f1f8492182e51358dda8e106644361feea5781f1`
 
-On branch head `7a5b71410a19a1456c8897e320179e3c6869cdec`, Lane 04 re-read and rerendered a representative cross-tier sample from the exact current Git blobs:
+| ID | Versioned path | Git blob SHA | Bytes | State |
+|---|---|---|---:|---|
+| `lighting-1` | `public/assets/catalog/lighting-1-v2.jpg` | `9d8aa142fa53f06dbad9ce59e9c8d34c1096ddc3` | 21,735 | READY_FOR_REVIEW |
+| `lighting-2` | `public/assets/catalog/lighting-2-v2.jpg` | `8c10fe689d6d7e398e85b24eb1ca1323cee07ea3` | 26,239 | READY_FOR_REVIEW |
+| `lighting-3` | `public/assets/catalog/lighting-3-v2.jpg` | `fc21ddf5a608ee393410ff9682cf2ef87a56c46d` | 27,378 | READY_FOR_REVIEW |
+| `lighting-4` | `public/assets/catalog/lighting-4-v2.jpg` | `7975e490a9fb97574f03081acf9fc871c22224f3` | 21,757 | READY_FOR_REVIEW |
 
-- `lighting-1` — Starter Lamp — `a522ae4d...`
-- `lighting-4` — Heart Lamp — `42f07255...`
-- `lighting-10` — Neon Strip Tower — `fbebec245...`
-- `lighting-12` — Crystal Chandelier — `3568ddead...`
+Exact tree/path/blob readback is **PASS 4/4**. The branch subsequently advanced through unrelated reviewer/documentation commits, and these files remain on the descendant branch. They are producer candidates, not accepted art. Reviewer 14 must render these exact new hashes before Workstream 08 may wire any of them.
 
-Producer rerender result: **4/4 rendered successfully at 800×800 and remained recognizable at 220×220 card scale; no malformed geometry or obvious clipping was observed in the sample.**
+## Lighting 5–8 — next dimensional batch generated
 
-This pixel pass also exposed a real quality risk that source/XML checks did not: the representative images are clean and item-recognizable, but their presentation is visibly **flat/vector and strongly templated** relative to the premium dimensional toy-block screenshot target. The repeated in-art tier pill is also presentation chrome baked into the thumbnail rather than Store UI. Lane 04 is recording that concern rather than self-approving or blindly regenerating the batch.
+A new bounded four-item Firefly batch was created from the exact current metadata and Workstream-14 defect notes. Each output was visually inspected at approximately 800px during this run. Producer inspection confirms that each is materially more dimensional than its rejected legacy SVG, but **producer inspection is not independent acceptance**.
 
-This is **producer evidence only**, not an independent `REWORK`. No asset bytes were replaced in this pass because delivery protocol v2 requires an evidenced exact-hash defect/review decision before replacement.
+| ID | Item / theme | Firefly GenAI asset | Producer pixel finding | State |
+|---|---|---|---|---|
+| `lighting-5` | Vine Light / Galaxy Glow | `urn:aaid:sc:US:a7777709-a50b-40e8-987a-dfaef58bfb75` | Sculptural bronze vine, layered translucent leaves, many star-orb emitters and clear contact/cast shadow. | GENERATED_REMOTE_UPLOAD_PENDING |
+| `lighting-6` | Planet Lamp / Sunny Pop | `urn:aaid:sc:US:42d0edcf-6e79-4035-91e8-26514ee0b7d4` | Dimensional glowing planet globe, physically separated rings, warm metal support/base and strong Sunny Pop light. | GENERATED_REMOTE_UPLOAD_PENDING |
+| `lighting-7` | Sun Lamp / Aqua Wave | `urn:aaid:sc:US:d98ee54e-0ca5-45fd-933a-df8a4d3600e2` | Translucent aqua glass center/rays, chrome stem/base and warm internal glow visibly express dimensional Aqua Wave construction. | GENERATED_REMOTE_UPLOAD_PENDING |
+| `lighting-8` | Bubble Lamp / Art Attack | `urn:aaid:sc:US:32cfde85-8990-4b1f-ab34-9127985e7d7f` | Overlapping refractive glass bubbles, chrome stand and vivid paint-like internal swirls address the old flat-circle treatment. | GENERATED_REMOTE_UPLOAD_PENDING |
 
-## Current review dependency
+Generation outputs are 1024×1024 PNGs in Adobe. The recorded Firefly container sizes are 1,055,809; 883,836; 1,135,259; and 1,107,905 bytes respectively.
 
-At the evidence-refresh head, `docs/preproduction/catalog-sprint/reviews/14.json` and `docs/preproduction/catalog-sprint/release-qa.json` were not present. Under protocol v2 that is not a reason for Lane 04 to duplicate production: Workstream 14 owns the lighting review partition and should create exact-hash `ACCEPT | REWORK | BLOCKED` decisions from actual card/detail pixels. One qualified independent `ACCEPT` is sufficient for Workstream 08 to integrate that exact asset version; a concrete `REWORK` returns only the affected IDs to Lane 04.
+### Current transfer limitation for this new batch
 
-## What remains unclaimed
+The existing Adobe connector rendered all four generated images successfully and preserved them by exact GenAI asset ID. In this Lane 04 run, however, the raw binary extraction needed for GitHub `create_blob(base64)` was not exposed through the image-preview result, and direct container retrieval of the Adobe host was unavailable. Therefore Lighting 5–8 are **not repository-staged** and no Git hash/path is fabricated for them.
 
-- **NOT TESTED — independent lighting acceptance:** reviewer 14 has not yet produced a hash-bound decision shard.
-- **NOT TESTED — canonical lighting wiring:** Workstream 08 only.
-- **NOT TESTED — actual canonical Store card/detail context for these staged lighting files:** Workstreams 10/14 after accepted integration, or 14's isolated staged-asset fixture before integration.
-- **NOT RUN — full branch build by Lane 04:** this pass changed report evidence only, not runtime or asset bytes.
+This is narrower than the prior blocker: the project-level Adobe→GitHub bridge is already proven, and Lighting 1–4 demonstrate it works. Coordination should reuse that supported byte-extraction bridge for the four exact Firefly IDs above. **Do not regenerate Lighting 5–8.**
+
+## Remaining Lighting work
+
+`lighting-9` Color Lamp / Star Luxe, `lighting-10` Neon Strip Tower / Midnight Neon, `lighting-11` Aurora Light / Candy Core and `lighting-12` Crystal Chandelier / Adventure Club remain on their rejected legacy hashes and are the next bounded generation batch unless reviewer 14 sends a higher-priority replacement REWORK.
+
+Shoes 1–6 remain the secondary Lane 04 repair assignment only after Lighting is completed or blocked on review/import. This run did not start shoe work because Lighting still has actionable work.
 
 ## Handoff
 
-**14:** prioritize exact-hash card/detail review of `lighting-1..12`. Pay particular attention to the recorded flat/vector/template-like fidelity concern, material depth, embedded tier pill, item recognition, tier progression and visual near-duplicates. Only your rendered review converts the concern into `ACCEPT`, `REWORK` or `BLOCKED`.
+**14:** immediately render and independently review `lighting-1-v2.jpg` through `lighting-4-v2.jpg` by the exact Git hashes above. The legacy REWORK decisions do not automatically apply to these replacements.
 
-**08:** integrate only lighting versions with a qualified independent current-hash `ACCEPT`; preserve all 192 item semantics and every unrelated mapping.
+**08:** do not wire producer-only candidates. Lighting 1–4 can become eligible only after reviewer-14 exact-hash ACCEPT. Lighting 5–8 are still generated-remote, not staged.
 
-**15:** Lane 04 remains production-complete and is waiting on reviewer 14 decisions. If a lighting item receives `REWORK`, route that exact current hash back here. Otherwise reassign only through `CATALOG_SPRINT_STATE.json`; do not resume Store work while phase remains `CATALOG_SPRINT`.
+**15:** the old Lighting 1–4 upload blocker is closed. Reuse the already-proven Adobe/Firefly byte-extraction bridge for the exact Lighting 5–8 GenAI IDs above, attach them to versioned branch paths, and verify exact readback; do not regenerate them.
 
-No Replit/Floot action, no `main` merge, no deployment, and no player-data change occurred.
+**04 next pass:** preserve Lighting 5–8, generate/stage Lighting 9–12 in a bounded batch if import capacity is available, or repair any current replacement hash that reviewer 14 rejects. Do not resume Store redesign while `phase=CATALOG_SPRINT`.
+
+No Replit/Floot action, no `main` merge, no deployment, no canonical manifest/runtime edit, and no player-data change occurred.
