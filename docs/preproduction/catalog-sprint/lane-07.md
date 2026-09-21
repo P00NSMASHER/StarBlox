@@ -1,6 +1,6 @@
 # Catalog Sprint Lane 07 — Rugs + Assigned Tops Repairs
 
-STATUS: **TOPS 1–6 HAVE QUALIFIED PIXEL EVIDENCE / RUGS 1–3 NEW FIRE FLY REPAIRS GENERATED BUT NOT REPOSITORY-STAGED / RUGS LEGACY 12/12 REWORK**
+STATUS: **TOPS 1–6 INDEPENDENTLY ACCEPTED / READY FOR WORKSTREAM 08 / RUGS 1–6 PREMIUM REPAIRS GENERATED BUT NOT REPOSITORY-STAGED / LEGACY RUGS 12/12 REWORK**
 
 Branch: `screenshot-match-preproduction`  
 Delivery authority: `docs/preproduction/DELIVERY_PROTOCOL_V2.md`  
@@ -9,64 +9,69 @@ Replit/Floot: **untouched**
 
 ## Material progress this run
 
-### Tops 1–6: render evidence blocker cleared
+### Tops 1–6 — independent acceptance complete
 
-The six exact Workstream-07 replacement JPEGs were already branch-stored and read back, so they were **not regenerated or re-uploaded**.
+The six exact Workstream-07 Firefly replacement JPEGs were already stored on the branch and were **not regenerated or re-uploaded**. Reviewer 01 has now independently reviewed the qualified hash-bound pixels from staged-art artifact `10663298893` and recorded **ACCEPT 6 / REWORK 0 / BLOCKED 0** for these exact hashes:
 
-The shared staged-art QA workflow has now completed successfully for these exact hashes:
-
-- workflow run: `35654620624` — **SUCCESS**;
-- workflow head: `acbc6035da9d57bc88043604caa5ec0b6352398e`;
-- artifact: `10663298893` (`catalog-staged-art-review`);
-- artifact digest: `sha256:f2c0d3d3aa251f5e1934017a7c61acf644e8876ab1e1a5b0c37e7f06ffb8e9db`;
-- `tops-1..6`: **HTTP 200, screenshots captured, no render errors**;
-- rendered evidence is under `staged-replacements/staged-replacements-contact-sheet.png` plus six exact-hash detail PNGs.
-
-Reviewer 01 therefore no longer lacks qualified pixel evidence for these replacements. The exact review targets are:
-
-| ID | Versioned candidate | Git blob | Artifact detail |
+| ID | Candidate | Exact Git blob | Reviewer 01 |
 |---|---|---|---|
-| `tops-1` | `public/assets/catalog/tops-1-w07-v2.jpg` | `5fd9544999694ec27c9b6247aaffeca1c0c7b484` | `staged-replacements/detail/tops-1-5fd95449.png` |
-| `tops-2` | `public/assets/catalog/tops-2-w07-v2.jpg` | `428450782feb314535163b54d0405f9af8b7cd65` | `staged-replacements/detail/tops-2-42845078.png` |
-| `tops-3` | `public/assets/catalog/tops-3-w07-v2.jpg` | `b4a834586feae169e102f43aeceaaaf11893ec11` | `staged-replacements/detail/tops-3-b4a83458.png` |
-| `tops-4` | `public/assets/catalog/tops-4-w07-v2.jpg` | `26d03c5ba26c565e79e809f825db87c9be1dba21` | `staged-replacements/detail/tops-4-26d03c5b.png` |
-| `tops-5` | `public/assets/catalog/tops-5-w07-v2.jpg` | `78c5c89270be2f505f77d033f340c72cf0ff80a8` | `staged-replacements/detail/tops-5-78c5c892.png` |
-| `tops-6` | `public/assets/catalog/tops-6-w07-v2.jpg` | `44d88aa84246f9d8a76b3f22c408653eb28176aa` | `staged-replacements/detail/tops-6-44d88aa8.png` |
+| `tops-1` | `public/assets/catalog/tops-1-w07-v2.jpg` | `5fd9544999694ec27c9b6247aaffeca1c0c7b484` | **ACCEPT** |
+| `tops-2` | `public/assets/catalog/tops-2-w07-v2.jpg` | `428450782feb314535163b54d0405f9af8b7cd65` | **ACCEPT** |
+| `tops-3` | `public/assets/catalog/tops-3-w07-v2.jpg` | `b4a834586feae169e102f43aeceaaaf11893ec11` | **ACCEPT** |
+| `tops-4` | `public/assets/catalog/tops-4-w07-v2.jpg` | `26d03c5ba26c565e79e809f825db87c9be1dba21` | **ACCEPT** |
+| `tops-5` | `public/assets/catalog/tops-5-w07-v2.jpg` | `78c5c89270be2f505f77d033f340c72cf0ff80a8` | **ACCEPT** |
+| `tops-6` | `public/assets/catalog/tops-6-w07-v2.jpg` | `44d88aa84246f9d8a76b3f22c408653eb28176aa` | **ACCEPT** |
 
-These remain **producer candidates only**. Reviewer 01 must now record exact-hash ACCEPT / REWORK / BLOCKED. Workstream 08 alone may wire an accepted replacement.
+Reviewer 01's finding is that these six replacements materially fix the legacy flat-vector garment defect through dimensional construction, fabric/fold depth, hardware where applicable and controlled lighting while preserving item identity and starter/Tier-2 restraint.
 
-## Rugs: first replacement micro-batch generated
+**Handoff to Workstream 08:** these six exact hashes are now eligible for canonical-integration evaluation. Workstream 08 still owns metadata/file/content validation and all manifest/runtime wiring. Workstream 07 has no reason to regenerate or repair Tops 1–6 unless a later exact-hash regression is evidenced.
 
-Reviewer 14 has already dispositioned every legacy `rugs-1..12` hash **REWORK**. The family defect remains clear: the current art reads as upright floating badges rather than floor textiles. Replacements need a floor-plane three-quarter perspective, pile/weave, edge thickness, real floor contact and item-specific textile construction.
+## Rugs — legacy family remains REWORK 12/12
 
-This run generated and visually inspected the first **3-item** replacement micro-batch in Adobe Firefly using the real metadata and those exact review defects:
+Reviewer 14's exact finding still controls the rug repair scope: every legacy `rugs-1..12` image reads too much like an upright badge/sign rather than a floor textile. Replacements therefore require floor-plane three-quarter perspective, visible pile/weave, edge thickness, actual floor contact and item/theme-specific textile construction. Higher tiers must progress through materials and construction rather than glow-only ornament.
 
-| ID | Item / theme | Firefly asset | Generation | Producer visual check | Repository state |
+The rejected legacy SVG hashes remain preserved for comparison and rollback. No legacy rug hash is eligible for canonical promotion.
+
+## Rugs 1–3 — preserved generated repairs, still awaiting binary attachment
+
+The previously generated Firefly replacements were re-located and visually inspected again this run; they were **not regenerated**:
+
+| ID | Item / theme | Exact Firefly asset | Producer visual check |
+|---|---|---|---|
+| `rugs-1` | Starter Mat / Aqua Wave | `urn:aaid:sc:US:a1e701b2-ec20-4699-8f3e-8b0fa45044f8` | Low woven floor mat, aqua wave relief, stitched/bound edge, thickness and contact shadow. |
+| `rugs-2` | Cloud Rug / Art Attack | `urn:aaid:sc:US:7059212c-2223-4a70-b84c-4989dc692661` | Plush tufted cloud floor rug with stitched edge and floor contact; independent review must still judge theme strength. |
+| `rugs-3` | Pixel Grid Rug / Star Luxe | `urn:aaid:sc:US:1ad22d63-a119-431e-98e0-37431189dc3e` | Tufted pixel-grid floor textile with thick bound edge, violet/cyan fibers, restrained gold accents and contact shadow. |
+
+All three remain **GENERATED, NOT STAGED** because there is still no Workstream-07 binary/base64 handle suitable for GitHub `create_blob`.
+
+## Rugs 4–6 — new bounded premium repair batch generated
+
+Using reviewer 14's item-level REWORK findings, this run generated and visually inspected the next three replacements:
+
+| ID | Item / theme | Exact Firefly asset | Generation request | Producer visual check | Repository state |
 |---|---|---|---|---|---|
-| `rugs-1` | Starter Mat / Aqua Wave | `urn:aaid:sc:US:a1e701b2-ec20-4699-8f3e-8b0fa45044f8` | PNG, 1024×1024 | PASS — low floor mat, woven aqua wave relief, stitched/bound edge, visible thickness and contact shadow | **GENERATED, NOT STAGED** |
-| `rugs-2` | Cloud Rug / Art Attack | `urn:aaid:sc:US:7059212c-2223-4a70-b84c-4989dc692661` | PNG, 1024×1024 | PASS_DIRECTIONAL — unmistakably floor-oriented plush tufted cloud with stitched edge/contact shadow; Art Attack accents intentionally restrained for Tier 1 | **GENERATED, NOT STAGED** |
-| `rugs-3` | Pixel Grid Rug / Star Luxe | `urn:aaid:sc:US:1ad22d63-a119-431e-98e0-37431189dc3e` | PNG, 1024×1024 | PASS — floor-plane tufted pixel-grid textile, thick bound edge, violet/cyan fibers, restrained gold star accents and contact shadow | **GENERATED, NOT STAGED** |
+| `rugs-4` | Heart Rug / Midnight Neon | `urn:aaid:sc:US:11a1ec20-e664-463c-9fb6-4efaef419723` | `b837d13d-68e0-4987-b2fd-f9406c09a9d9` | Heart-shaped plush floor rug, thick tufting, midnight purple/navy material, restrained cyan-magenta luminous piping, three-quarter floor depth and contact shadow. | **GENERATED, NOT STAGED** |
+| `rugs-5` | Leaf Rug / Candy Core | `urn:aaid:sc:US:c25cb861-5324-40aa-9fc5-b48167719c1d` | `5de1e5e1-1532-44ce-9de1-7fbf825f573c` | Leaf-shaped plush floor rug, pink/mint/cream tufted vein construction, visible bound edge and floor contact. | **GENERATED, NOT STAGED** |
+| `rugs-6` | Orbit Rug / Adventure Club | `urn:aaid:sc:US:0fe30bbd-402c-4695-9ae7-4f534358a411` | `8df89ac5-3567-4949-9617-b0c01b7f4dad` | Round navy/teal rug with thick tufted edge, orbital stitched paths, gold planet/star motifs, clear floor-plane depth and contact. | **GENERATED, NOT STAGED** |
 
-### Exact blocker
+Each successful output is PNG at 1024×1024. One initial `rugs-5` generation request was blocked before producing an output; it was retried once with neutral product-render wording. Only the successful exact asset above is retained as the production candidate.
 
-The images were successfully generated, indexed and visually inspected, but this Workstream-07 runtime did **not** receive a binary file/base64 handle from the Adobe generation/rendition calls that could be passed into GitHub `create_blob`. Per protocol, no repository path/hash/byte count is invented and these three are **not READY_FOR_REVIEW** yet.
+## Exact transfer blocker — escalated after second consecutive cycle
 
-Do **not regenerate** these images merely to solve transfer. Command Center 15 has already demonstrated an Adobe-generation → exact Git-blob extraction route on other assets. The next transfer action is to preserve the exact three GenAI asset IDs above through that proven path, attach them to versioned `rugs-1..3` candidate paths with a normal non-force commit, read back exact Git blobs/bytes, then hand them to reviewer 14.
+Workstream 07 can search, resolve and visually inspect the exact Firefly assets, but still does not receive a direct binary/base64 handle that can be passed to GitHub `create_blob`. Because this is the second consecutive cycle with the same narrow transfer blocker, it is now explicitly escalated to Workstream 15 rather than repeated as a passive wait.
 
-## Preserved rejected rug versions
+**Do not regenerate any of Rugs 1–6 to solve transport.** Command Center 15 should use the already-proven Adobe-generation → Git-blob extraction path on these exact six GenAI asset IDs, attach the bytes to versioned `rugs-1..6` repository paths with a normal non-force commit, read back exact path/blob/byte evidence, and hand the hashes to reviewer 14.
 
-The prior SVGs remain untouched and available for comparison. Reviewer 14's result is **REWORK 12/12, ACCEPT 0, BLOCKED 0**. No current rug hash is eligible for canonical wiring.
+Until that happens, these six are **not STAGED, not READY_FOR_REVIEW and not eligible for Workstream 08 integration**.
 
-Next production after the transfer step is solved: continue `rugs-4..6` as the next bounded batch, unless a newly staged rug replacement returns REWORK first.
+## Next actions / handoff
 
-## Handoff
+**Workstream 08:** consume reviewer-01 ACCEPT for the exact Tops 1–6 replacement hashes now; perform normal metadata/file/content checks and wire only if those checks pass.
 
-**Reviewer 01:** review `tops-1..6` immediately from artifact `10663298893`. Qualified exact-hash pixel evidence now exists; do not continue treating these six as evidence-blocked.
+**Workstream 15:** resolve the repeated binary transfer blocker for the six exact Rug GenAI assets. Do not regenerate them.
 
-**Reviewer 14:** legacy Rugs remain REWORK 12/12. New `rugs-1..3` Firefly candidates are generated but are not yours to review until they are attached to versioned repository paths and exact readback is recorded.
+**Reviewer 14:** once Rug replacement bytes are attached to versioned repository paths and shared staged-art rendering exists, independently disposition each exact replacement hash. Legacy Rug REWORK decisions do not automatically transfer to a new hash.
 
-**Workstream 08:** no self-approval occurred. Do not wire any Lane-07 item until its assigned independent reviewer ACCEPTs the exact current replacement hash.
+**Workstream 07:** after the transfer handoff, continue `rugs-7..9` as the next bounded repair batch unless a newly staged `rugs-1..6` replacement returns REWORK first.
 
-**Command Center 15:** Tops review-pixel dependency is cleared. The remaining Lane-07 transfer blocker is narrow: preserve the exact three Firefly rug asset bytes into Git and return repository path/blob/byte readback without regenerating them.
-
-No canonical manifest/runtime mapping, player data, economy, learning content, Replit/Floot project or `main` branch was modified.
+No runtime/canonical mapping changed in this Workstream-07 pass, so no new build/test claim is made. No canonical manifest/runtime, player data, economy, learning content, Replit/Floot project or `main` branch was modified.
