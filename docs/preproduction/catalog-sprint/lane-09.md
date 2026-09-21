@@ -1,6 +1,6 @@
 # Catalog Sprint — Lane 09 Room Decor + Tops Repair Batch
 
-STATUS: **REVIEW-DRIVEN REPAIR ADVANCED — Tops 7/8 v3 + Decor 1/2 v2 generated in Adobe; repository staging blocked**
+STATUS: **REVIEW-DRIVEN REPAIR ADVANCED — Tops 7–10 + Decor 1/2 generated in Adobe; repository staging blocked for second cycle and escalated to 15**
 
 Branch: `screenshot-match-preproduction`  
 Workstream: 09  
@@ -11,83 +11,65 @@ Self-approval: **NO**
 
 ## Changed review inputs
 
-The review state materially changed, so this pass did not repeat the previous status report.
+Reviewer 01 now has exact current-hash decisions for all six Workstream-09 Tops candidates. Tops 1–6 from the other producer remain accepted; **tops-7 through tops-12 current W09 v2 hashes are all REWORK**. The newly reviewed exact hashes are:
 
-Reviewer 01 has now independently reviewed the exact Workstream-09 `tops-7` and `tops-8` v2 hashes from real staged-art pixels:
+- `tops-9` Art Smock — `232c5db97964d710489c4e32bc7c87d4a985efc1` — REWORK: still frontal/flat; lacks smock construction depth, fabric folds, pocket/tool volume and convincing material/contact light.
+- `tops-10` Star Bomber — `233739b22d0f3395b02bc51f57fb1f36afc41993` — REWORK: needs real bomber volume, ribbed cuffs/waist, zipper/hardware depth, differentiated materials and controlled neon lighting.
+- `tops-11` Cloud Jacket — `9e29094190a1c1867e94d44ef1c4134140447191` — REWORK: needs stronger body/sleeve depth, seams/hardware, plush-vs-shell separation and richer Tier-4 treatment.
+- `tops-12` Star Coat — `1788cfb30ffd70d71bf182f01f137f9d241200fa` — REWORK: needs true coat thickness/folds, layered lapels/trim, premium hardware and Tier-5 Adventure Club construction/light.
 
-- `tops-7` blob `fe5b33a5b8eb8de137abab7daf315ddfaaaaf408` — **REWORK**. It still reads as a flat frontal vector hoodie and fails dimensional construction, materials and lighting.
-- `tops-8` blob `81bbec69f1e164b9772e0f867409581526f5255a` — **REWORK**. The puffer/quilt regions remain flat graphic bands with weak loft/material depth and weak Art Attack storytelling.
+Reviewer 14 remains unchanged at **Decor 1–12 REWORK**, exact current hashes, reason code `FLAT_PRODUCT_ICON`. The baseline Decor versions remain preserved until replacement bytes are repository-staged and independently re-reviewed.
 
-Reviewer 01 accepted the separate Tops 1–6 replacement batch, which confirms the intended direction: genuinely dimensional raster-style product art can clear the visual gate. `tops-9..tops-12` Workstream-09 v2 hashes still do **not** have a recorded current-hash reviewer disposition, so they were preserved and not regenerated.
+## New bounded repair pilot — Tops 9–10
 
-Reviewer 14 has also completed its entire 48-item partition. **Decor 1–12 are now 12/12 REWORK** on the exact current hashes, reason code `FLAT_PRODUCT_ICON`. This makes the Decor repair lane actionable for the first time. The independent evidence is bound to GitHub Actions run `35656393329`, artifact `10665735307`, digest `sha256:ad8d2da6f5553eb922616956515b85a16c89d80b34574e6679dfd6716c6f3233`.
+Two additional premium 1024×1024 PNG repairs were generated and inspected from actual pixels. This is intentionally a two-item pilot because the lane already has four earlier generated images waiting on binary staging; generating Tops 11/12 or more Decor before transport recovery would accumulate unshippable art.
 
-## New repair batch generated from those exact defects
+| ID | Item | Tier / theme | Intended path | Stable Adobe GenAI asset | Stored bytes | Producer pixel finding |
+| --- | --- | --- | --- | --- | ---: | --- |
+| `tops-9` | Art Smock | T3 / Star Luxe | `/assets/catalog/tops-9-w09-v3.png` | `urn:aaid:sc:US:177bdebd-f68a-4742-8d51-e576d41570d1` | 1,111,663 | clear three-quarter smock/apron construction, rolled sleeve volume, deep tool pockets, fabric folds/stitching, restrained gold star hardware and grounded cast shadow |
+| `tops-10` | Star Bomber | T4 / Midnight Neon | `/assets/catalog/tops-10-w09-v3.png` | `urn:aaid:sc:US:61864223-7124-4bf1-afc1-20e679aa4ec5` | 1,388,197 | true padded bomber body/sleeve volume, ribbed cuffs/waist, raised collar, zipper/pocket hardware, satin-vs-knit separation and controlled cyan/magenta rim/specular lighting |
 
-Four premium dimensional 1024×1024 PNG candidates were generated with Adobe Firefly and inspected from actual pixels. They are intentionally **not called STAGED or READY_FOR_REVIEW yet**, because repository byte attachment/readback is still pending.
+Generation request IDs are retained in `lane-09.json`. These images are **GENERATED_ADOBE_STAGING_BLOCKED**, not STAGED and not READY_FOR_REVIEW.
 
-| ID | Item | New intended path | Stable Adobe GenAI asset | Adobe stored bytes | Producer pixel finding |
-| --- | --- | --- | --- | ---: | --- |
-| `tops-7` | Colorblock Hoodie | `/assets/catalog/tops-7-w09-v3.png` | `urn:aaid:sc:US:a146737a-008b-4662-8e45-07fdc29254ad` | 1,044,529 | clear three-quarter hood/body/sleeve volume, fabric folds, ribbing, material planes and grounded cast shadow |
-| `tops-8` | Puffer Vest | `/assets/catalog/tops-8-w09-v3.png` | `urn:aaid:sc:US:a89505f7-417e-4449-b346-365f707a9618` | 1,222,362 | convincing quilted loft, raised collar, zipper/hardware, technical-fabric response, integrated Art Attack accents and cast shadow |
-| `decor-1` | Book Crate | `/assets/catalog/decor-1-w09-v2.png` | `urn:aaid:sc:US:acf980d3-05f0-47bd-8949-55f729654a37` | 1,079,158 | physical wood slat thickness, metal corner hardware, page-block depth, restrained neon accents and grounded product shadow |
-| `decor-2` | Cloud Shelf | `/assets/catalog/decor-2-w09-v2.png` | `urn:aaid:sc:US:712c6b0d-d36b-482d-8d69-6fee92742ec7` | 907,917 | cloud-body/shelf thickness, visible wall support, Candy Core material response and actual contact/cast shadow |
+## Existing generated batch preserved without regeneration
 
-These producer observations are only generation-quality evidence. Reviewer 01 must independently judge new Tops exact Git hashes after staging; Reviewer 14 must independently judge new Decor exact Git hashes after staging.
+The prior four generated replacements remain stable and were not regenerated:
 
-## Preserved current repository versions
+- `tops-7` Colorblock Hoodie → intended `/assets/catalog/tops-7-w09-v3.png`, Adobe asset `urn:aaid:sc:US:a146737a-008b-4662-8e45-07fdc29254ad`.
+- `tops-8` Puffer Vest → intended `/assets/catalog/tops-8-w09-v3.png`, Adobe asset `urn:aaid:sc:US:a89505f7-417e-4449-b346-365f707a9618`.
+- `decor-1` Book Crate → intended `/assets/catalog/decor-1-w09-v2.png`, Adobe asset `urn:aaid:sc:US:acf980d3-05f0-47bd-8949-55f729654a37`.
+- `decor-2` Cloud Shelf → intended `/assets/catalog/decor-2-w09-v2.png`, Adobe asset `urn:aaid:sc:US:712c6b0d-d36b-482d-8d69-6fee92742ec7`.
 
-No rejected or pending repository asset was overwritten.
+All original/versioned SVG candidates remain in repository history and current branch paths; none was overwritten.
 
-Current Tops versions remain:
+## Binary staging blocker — second cycle escalation
 
-- `tops-7-w09-v2.svg` — `fe5b33a5…` — preserved **REWORK**.
-- `tops-8-w09-v2.svg` — `81bbec69…` — preserved **REWORK**.
-- `tops-9-w09-v2.svg` — `232c5db9…` — preserved **pending reviewer-01 current-hash disposition**.
-- `tops-10-w09-v2.svg` — `233739b2…` — preserved **pending**.
-- `tops-11-w09-v2.svg` — `9e290941…` — preserved **pending**.
-- `tops-12-w09-v2.svg` — `1788cfb3…` — preserved **pending**.
+This is now the **second consecutive Workstream-09 cycle** with the same concrete delivery blocker. Authenticated Adobe presigned rendition/source URLs were successfully resolved for the prior four generated assets, but this runtime still cannot transfer the returned binary image bytes into GitHub `create_blob(base64)`. A direct container egress attempt to the Adobe short host also failed at DNS resolution.
 
-All original `decor-1..decor-12.svg` versions remain unchanged and preserved as the 12 reviewer-14 REWORK baselines.
+Per Delivery Protocol V2 anti-stall rules, this is escalated to Workstream 15 rather than retried indefinitely. Workstream 15 already has a proven Adobe-generation → Git recovery path in this repository for other catalog lanes. It should recover the six stable generation URNs now recorded in `lane-09.json`, publish exact bytes to the intended versioned paths on the newest preproduction head using non-force commits, and verify exact readback. **Do not regenerate these six images.**
 
-## Concrete staging blocker
+Until at least one blocked batch is repository-persisted, Workstream 09 will not generate Tops 11/12 or Decor 3+; this prevents status churn and an expanding queue of inaccessible artwork.
 
-Adobe generation, stable GenAI asset storage and authenticated pixel preview all succeeded. The unresolved step is **binary transfer into the GitHub blob writer from this Workstream-09 tool context**. Direct download of the Adobe presigned/short URL into the working container is not available here, so this pass cannot honestly claim repository persistence or exact Git readback for the four new PNGs.
+## Validation this pass
 
-This is not a project-wide unknown path: the project has already proven an Adobe-generation → exact Git blob preservation path under coordination by Workstream 15. The four stable Adobe GenAI URNs above are therefore handed off for that same byte-preservation flow. Required completion sequence remains:
-
-`Adobe generated bytes → Git create_blob(base64) → versioned path on latest branch via non-force commit → exact path/blob readback → READY_FOR_REVIEW`.
-
-This is the **first Workstream-09 cycle** recording this specific binary-staging blocker, so it is escalated precisely rather than treated as a permanent stop.
-
-## Remaining production queue
-
-1. Stage/read back the four generated PNGs above without regenerating them.
-2. Reviewer 01 re-reviews the new `tops-7/8` exact hashes.
-3. Reviewer 14 reviews the new `decor-1/2` exact hashes.
-4. Preserve `tops-9..12` until their current v2 hashes receive Reviewer-01 decisions; do not regenerate without exact-hash REWORK.
-5. Continue Decor repairs in bounded batches from the now-recorded Reviewer-14 `FLAT_PRODUCT_ICON` findings, starting with `decor-3..6` after the binary path is available.
-
-## Validation
-
-- **PASS** — current phase/ownership read before work.
-- **PASS** — exact Reviewer-01 `tops-7/8` v2 REWORK decisions consumed.
-- **PASS** — exact Reviewer-14 Decor 12/12 REWORK decisions consumed.
-- **PASS** — four new dimensional assets generated and visually inspected at 1024×1024.
-- **PASS** — old repository versions preserved.
-- **PASS** — `tops-9..12` not regenerated without current-hash REWORK.
-- **BLOCKED** — new binary repository persistence/readback for the four Adobe assets.
-- **NOT RUN** — full tests/build, because Workstream 09 made no canonical runtime/manifest mapping change.
-- **PASS** — no gameplay, save/economy, learning, shared CSS/runtime, canonical catalog mapping, Replit/Floot, `main`, deployment or player-data changes.
+- **PASS** — latest `ART_VISUALS_SPRINT.json`, Delivery Protocol V2, branch head and current review shards read before work.
+- **PASS** — exact Reviewer-01 current-hash REWORK decisions consumed for Tops 7–12.
+- **PASS** — exact Reviewer-14 Decor 12/12 REWORK evidence retained.
+- **PASS** — Tops 7/8 pending generated replacements preserved without regeneration.
+- **PASS** — two new dimensional Tops 9/10 assets generated and actual pixels inspected.
+- **PASS** — old repository versions preserved; no shared manifest/runtime or gameplay file edits.
+- **BLOCKED** — generated PNG repository persistence/readback, second cycle.
+- **NOT RUN** — full tests/build because no repository asset bytes or canonical runtime mappings changed in this pass.
+- **PASS** — no Replit/Floot, `main`, deployment, paid settings, player data, saves, economy or learning changes.
 
 ## Handoff
 
-**15:** use the already-proven Adobe-to-Git byte-preservation path for the four stable GenAI URNs, attach them at the intended versioned PNG paths on the newest branch head with `force=false`, and verify exact readback. Do not regenerate them.
+**15 — second-cycle escalation:** recover and stage the six stable Adobe assets recorded in `lane-09.json`. Stage Batch 3 first (Tops 7/8 + Decor 1/2), then Batch 4 (Tops 9/10). Preserve exact bytes and versioned intended paths; no regeneration.
 
-**01:** do not review Tops 7/8 again until the new v3 PNGs have repository paths and exact Git hashes. `tops-9..12` current W09 v2 hashes remain pending your disposition.
+**01:** wait for exact Git hashes and card/detail renders before reviewing new Tops 7–10 replacements. Tops 11/12 current W09 v2 hashes remain REWORK and preserved; no new versions are generated yet because transport is blocked.
 
-**14:** Decor 1/2 now have dimensional generated replacements waiting on repository attachment; retain the current 12 REWORK decisions until replacement hashes exist, then review the exact new hashes. Decor 3–12 remain actionable REWORK.
+**14:** Decor 1/2 dimensional replacements remain generated but unstaged. Retain current REWORK decisions until exact new Git hashes exist. Decor 3–12 remain actionable REWORK but are intentionally paused behind the transport bottleneck.
 
-**08:** no new Workstream-09 asset from this run is eligible for integration yet; none of the four generated images has repository readback plus independent exact-hash ACCEPT.
+**08:** nothing from this pass is eligible for canonical integration; no new replacement has repository readback plus independent exact-hash ACCEPT.
 
 Environment/background work remains paused until the catalog gate passes. Replit/Floot were not used, and `main` was not touched.
