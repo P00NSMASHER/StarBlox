@@ -200,7 +200,7 @@
     "catalogGateStillRequiresAll192Accepted": true
   },
   "coordinationSnapshot": {
-    "observedHead": "7f11ace8b118fc62baa9a356c14e882a0f5531b0",
+    "observedHead": "b8d8dc1bdea4c1790c445fd210cbf1023a8f5f4e",
     "repositoryStagedAssignedCandidates": 82,
     "generatedLocalDeskCandidates": 3,
     "assignedIdsWithAnyRepositoryOrLocalCandidate": 85,
@@ -225,9 +225,15 @@
       "beds",
       "lighting"
     ],
-    "note": "Independent visual coverage now spans Tops 12, Bottoms 12, Shoes 12, Seating 11, Auras legacy 12, Companions 12, Beds 12 and Lighting 12 = 95 unique item hashes. All 95 are REWORK; zero current/replacement hashes have qualified ACCEPT. Replacement review fixtures, not generation, are the oldest catalog bottleneck.",
-    "storedReplacementCandidateVersions": 6,
+    "note": "95 unique item hashes have independent decisions, all REWORK. Twelve versioned replacement candidates are now branch-stored: Tops 1-8 and Auras 1-4. Lighting 1-4 remain immutable Git objects pending owner-04 path attachment; desks 2-4 remain generated-local pending owner-03 transfer. Zero replacement hashes are ACCEPTed or canonically promoted.",
+    "storedReplacementCandidateVersions": 12,
     "replacementCandidateIds": [
+      "tops-1",
+      "tops-2",
+      "tops-3",
+      "tops-4",
+      "tops-5",
+      "tops-6",
       "tops-7",
       "tops-8",
       "auras-1",
@@ -235,7 +241,7 @@
       "auras-3",
       "auras-4"
     ],
-    "replacementCandidatesAwaitingIndependentAccept": 6
+    "replacementCandidatesAwaitingIndependentAccept": 12
   },
   "repairAssignments": {
     "11": [
@@ -399,9 +405,9 @@
     "note": "GitHub job steps and raw logs were independently inspected by Workstream 15. Durable purchase receipt/reload/replay, receipt-only ownership recovery, final Quest completion reload/replay, storage recovery, 192-item catalog, 200-question bank, rapid action guards and production Vite build all passed. The remaining persistence release blocker is the Workstream-13-owned PERSIST-REAL-BROWSER-TRANSACTION-STRESS gate: real browser purchase/equip/place/reload, final-feedback refresh timing, multi-tab replay, malformed import and live IndexedDB/localStorage recovery remain unproven because the authorized device path is offline."
   },
   "binaryTransferEvidence": {
-    "status": "SUPPORTED_PATH_PROVEN_GIT_BLOBS_CREATED_BRANCH_ATTACHMENT_PENDING",
+    "status": "SUPPORTED_PATH_PROVEN_TOPS_1_6_BRANCH_STORED_LIGHTING_1_4_OBJECT_ONLY",
     "method": "Adobe GenAIAsset search -> presigned rendition -> Adobe inline byte readback -> GitHub create_blob(base64)",
-    "note": "These Git object blobs are immutable byte preservation only and DO NOT count as repository-staged assets until an owning lane attaches them to a versioned branch path and verifies readback. Replit/Floot/main were not touched.",
+    "note": "Tops 1-6 exact JPG bytes now exist at owned versioned branch paths with Git blob readback matching the preserved handoff SHAs. Lane-07 documentation is stale and owner 07 must reconcile it; central accounting uses actual repository bytes. Lighting 1-4 are still object-only and desks 2-4 still local-only.",
     "lighting": {
       "lighting-1": {
         "blobSha": "9d8aa142fa53f06dbad9ce59e9c8d34c1096ddc3",
@@ -427,32 +433,44 @@
       "tops-1": {
         "blobSha": "5fd9544999694ec27c9b6247aaffeca1c0c7b484",
         "mimeType": "image/jpeg",
-        "bytes": 22951
+        "bytes": 22951,
+        "repositoryPath": "public/assets/catalog/tops-1-w07-v2.jpg",
+        "pathReadback": "PASS"
       },
       "tops-2": {
         "blobSha": "428450782feb314535163b54d0405f9af8b7cd65",
         "mimeType": "image/jpeg",
-        "bytes": 27448
+        "bytes": 27448,
+        "repositoryPath": "public/assets/catalog/tops-2-w07-v2.jpg",
+        "pathReadback": "PASS"
       },
       "tops-3": {
         "blobSha": "b4a834586feae169e102f43aeceaaaf11893ec11",
         "mimeType": "image/jpeg",
-        "bytes": 22414
+        "bytes": 22414,
+        "repositoryPath": "public/assets/catalog/tops-3-w07-v2.jpg",
+        "pathReadback": "PASS"
       },
       "tops-4": {
         "blobSha": "26d03c5ba26c565e79e809f825db87c9be1dba21",
         "mimeType": "image/jpeg",
-        "bytes": 31644
+        "bytes": 31644,
+        "repositoryPath": "public/assets/catalog/tops-4-w07-v2.jpg",
+        "pathReadback": "PASS"
       },
       "tops-5": {
         "blobSha": "78c5c89270be2f505f77d033f340c72cf0ff80a8",
         "mimeType": "image/jpeg",
-        "bytes": 21739
+        "bytes": 21739,
+        "repositoryPath": "public/assets/catalog/tops-5-w07-v2.jpg",
+        "pathReadback": "PASS"
       },
       "tops-6": {
         "blobSha": "44d88aa84246f9d8a76b3f22c408653eb28176aa",
         "mimeType": "image/jpeg",
-        "bytes": 31238
+        "bytes": 31238,
+        "repositoryPath": "public/assets/catalog/tops-6-w07-v2.jpg",
+        "pathReadback": "PASS"
       }
     },
     "branchAttachmentOwners": {
@@ -462,13 +480,11 @@
         "lighting-3",
         "lighting-4"
       ],
-      "07": [
-        "tops-1",
-        "tops-2",
-        "tops-3",
-        "tops-4",
-        "tops-5",
-        "tops-6"
+      "07": [],
+      "03": [
+        "desks-2",
+        "desks-3",
+        "desks-4"
       ]
     },
     "branchAttachmentRule": "normal non-force latest-head commit, then exact path/blob readback; no regeneration"
@@ -517,5 +533,19 @@
         "replacement seating/shoes when READY_FOR_REVIEW"
       ]
     }
+  },
+  "catalogSprintCounts": {
+    "targetIds": 192,
+    "repositoryStagedAssignedCandidateIds": 82,
+    "generatedLocalOnlyCandidateIds": 3,
+    "assignedIdsWithAnyRepositoryOrLocalCandidate": 85,
+    "independentReviewedUniqueIds": 95,
+    "independentAcceptedCurrentHashes": 0,
+    "canonicalV2WiredIds": 0,
+    "catalogReleaseClearedIds": 0,
+    "branchStoredReplacementVersions": 12,
+    "gitObjectOnlyRepairVersions": 4,
+    "localOnlyGeneratedDeskIds": 3,
+    "note": "Status labels are not quality. Stored/reviewed/accepted/wired/release-cleared are tracked separately; replacement versions do not increase unique item count."
   }
 }
