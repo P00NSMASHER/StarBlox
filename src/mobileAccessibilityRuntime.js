@@ -158,6 +158,7 @@ export function applyMobileAccessibility(root = document){
 
 function scan(){
   queued = false;
+  if(typeof document === 'undefined') return;
   applyMobileAccessibility(document);
 }
 
