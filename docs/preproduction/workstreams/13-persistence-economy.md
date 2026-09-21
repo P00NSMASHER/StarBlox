@@ -1,136 +1,120 @@
 # Workstream 13 — Persistence + Economy Safety
 
-STATUS: **HARDENED / TARGETED STATIC + HELPER CHECKS PASS / FULL BRANCH SUITE + LIVE BROWSER STRESS PENDING**
+STATUS: **AUTOMATED FULL SUITE + BUILD PASS / INDEXEDDB HYDRATION LOSS WINDOW FIXED / LIVE TRANSACTION STRESS + TWO SHARED-APP BLOCKERS REMAIN**
 
-Branch: `screenshot-match-preproduction`
-Inspected branch head before this handoff: `2c39e68877f1389fadbe27a9526c2b485d0a27d9`
-Replit: **untouched**
-Main: **not merged or modified**
+Branch: `screenshot-match-preproduction`  
+Last CI-tested persistence head: `c5f738a4243fabdc89784e3bbf8e61cd01427474`  
+Audited continuation after that run: docs-only through `42ca9a098f4ad8e1e8772ae923788a9c93ea8d4d`  
+Detailed catalog evidence: `docs/preproduction/catalog-sprint/persistence-qa.json` and `.md`  
+Replit/Floot: **untouched**  
+`main`: **not merged or modified**  
+Real player data: **not accessed or modified**
 
-## Scope reviewed
+## Protected state contract
 
-This pass reviewed the current persistence/economy paths in `src/storage.js`, `src/App.jsx`, `src/purchaseGuardRuntime.js`, `src/questRewardPolicy.js`, their relevant tests, `RELEASE_STATUS.md`, `docs/preproduction/COORDINATION.md`, and `docs/preproduction/SCREENSHOT_MATCH_TARGET.md`.
+Screenshot-match work may change presentation, but must never silently reset, prune or rewrite valid Coins, Stars, XP, Star Worth/Home progress, permanent owned IDs, equipped gear, room placement, Dream Goal, mastery/evidence, Buddy/Bond, district progress or recoverable backups. Missing artwork is never a reason to alter ownership/equipment/placement/Dream Goal state.
 
-The required invariant remains: screenshot-match work may change presentation, but it must not reset or silently discard Coins, XP, Mastery Stars, Star Worth/Home progress, permanent ownership, equipped gear, room placement, Dream Goal selection, learning/mastery evidence, Buddy/Bond state, or district progress.
+Existing shape recovery remains additive/backward-compatible: malformed fields fall back safely while valid fields survive, arrays are rejected as imported saves, IDs are de-duplicated without catalog-art filtering, and unknown/no-art IDs remain legitimate persisted state.
 
-## Changes completed
+## Material change this cycle — IndexedDB hydration recovery race
 
-### 1. Corrupted-save recovery hardened without tying ownership to art
+A source-level recovery race was confirmed and fixed entirely inside Workstream-13-owned persistence code.
 
-Updated `src/storage.js` with `sanitizeSnapshotShape(raw)` and applied it to current/legacy localStorage reads, IndexedDB recovery, and imported saves.
+Before the fix, a player with missing `starblox-save-v2` localStorage but recoverable IndexedDB progress could hit this sequence:
 
-The recovery layer now:
-- accepts only plain save objects, so an imported JSON array cannot masquerade as a save;
-- preserves valid finite non-negative Coins, Stars, XP, Star Worth, Quest count, transfer wins, and Buddy Bond;
-- preserves and de-duplicates string IDs in `owned`, `mastered`, and `roomDecor`;
-- preserves valid equipped item IDs and Dream Goal IDs;
-- preserves valid learning evidence in `stats`, normalizing malformed numeric counters rather than allowing `NaN`/type errors into gameplay;
-- preserves valid Daily and district progress counters;
-- leaves unknown top-level fields intact for forward compatibility;
-- deliberately **does not validate owned/equipped/room/Dream Goal IDs against current catalog artwork**.
+1. initial React state renders from defaults because localStorage is absent;
+2. asynchronous IndexedDB recovery begins;
+3. the persistence effect immediately writes that default state into the current localStorage key;
+4. a refresh before IndexedDB hydration completes causes the next boot to prefer the newly written local default, stranding the older recoverable IndexedDB backup.
 
-That last rule is important: a future item, an unfinished-art item, or an item whose asset fails to load remains owned/equipped/placed. Missing art is a presentation fallback, never an ownership migration.
+`src/storage.js` now treats missing current localStorage as a recovery state until IndexedDB is checked. An existing backup is mirrored into localStorage; only a genuinely empty IndexedDB establishes the new default save. IndexedDB/open failure falls back to localStorage. No schema reset, balance change, ID migration or real-player mutation was introduced.
 
-Malformed fields are removed from the recovered raw shape so the existing additive `migrateSave()` default merge can safely fill only the damaged portion. Valid fields survive unchanged.
+A deterministic regression was added to `src/storage.test.js` with an existing IndexedDB backup containing currency/progression plus unknown/no-art owned/equipped/room/Dream Goal IDs. It verifies that `persistSnapshot(defaultRender)` cannot create a local default before backup inspection, cannot overwrite the backup, and restores the backup to both read paths.
 
-### 2. Rapid duplicate-action protection now survives React rerenders
+Storage change commit: `18de120c384270b0fe3a47220fa2d03bbe845c42`  
+Regression commit / tested head: `c5f738a4243fabdc89784e3bbf8e61cd01427474`
 
-Updated `src/purchaseGuardRuntime.js` so the duplicate guard is keyed by stable action identity rather than `WeakMap` DOM-node identity. A React rerender that replaces a button therefore cannot reopen the same purchase window.
+## Full CI and build evidence now available
 
-Current guard windows:
-- `Buy Forever`: 1200 ms, keyed to the stable Store item ID/name;
-- room `Place` / `Put Away`: 650 ms, keyed to the room item;
-- Quest answer tap: 300 ms across the answer set.
+The previous report incorrectly said branch CI required a `main` path. Current `.github/workflows/ci.yml` runs directly on `screenshot-match-preproduction`; no Replit or main merge is required.
 
-The room guard closes a concrete state-integrity gap: a rapid double tap could otherwise place an item and immediately toggle it back out. The Quest guard closes the brief browser-event window before React has committed `feedback`/disabled-state changes. Normal next-question flow is not blocked because correct-answer advancement occurs later than the short answer guard window.
+GitHub Actions run `35647722275`, job `106492177317`, exact head `c5f738a4243fabdc89784e3bbf8e61cd01427474`:
 
-Wearable equip remains naturally idempotent because equipping the same stable ID writes the same `equipped[key]` value.
+- **20/20 test files PASS**;
+- **86/86 tests PASS**;
+- new IndexedDB hydration regression **PASS**;
+- existing storage recovery / unknown-no-art ownership tests **PASS**;
+- rapid Buy Forever guard including React-style rerender replacement **PASS**;
+- rapid Place/Put Away guard **PASS**;
+- rapid Quest-answer double-tap guard **PASS**;
+- reward/evidence policy tests **PASS**;
+- production Vite build **PASS**;
+- 1,612 modules transformed;
+- output: CSS 167.22 kB / 35.66 kB gzip; JS 301.33 kB / 92.36 kB gzip.
 
-### 3. Added tests only for verified gaps
+A Git compare from the tested head through the audited continuation showed only catalog release-QA documentation and Workstream-12 documentation changes, so this persistence/runtime proof remains applicable to that audited continuation.
 
-Added `src/storage.test.js` covering:
-- preservation of representative economy/progression state;
-- de-duplication without deleting unknown/no-art item IDs;
-- malformed nested save recovery;
-- corrupt current localStorage falling through to a recoverable legacy key;
-- persistence round-trip of Coins, XP, Stars, Star Worth, ownership, equipment, evidence, room placement, Dream Goal, district progress, and Buddy Bond;
-- rejection of array-shaped imports plus valid export/import round-trip.
+## Current state-preservation results
 
-Expanded `src/purchaseGuardRuntime.test.js` covering:
-- duplicate Buy Forever suppression;
-- duplicate suppression after a React-style button replacement;
-- room Place/Put Away double-tap suppression across rerender;
-- Quest answer double-tap suppression across two different answer buttons.
-
-No speculative tests were added for behavior that was not inspected.
-
-## State-preservation audit
-
-| State | Current protection / result |
+| State / behavior | Evidence status |
 | --- | --- |
-| Coins | Valid value survives load/import/refresh; purchases and Quest rewards remain additive/subtractive only through existing gameplay paths. |
-| XP | Valid value survives recovery; retry/independent reward policy unchanged. |
-| Mastery Stars | Valid value survives recovery; mastery award remains independent-success-only. |
-| Star Worth / Home tier | Valid value survives recovery; purchases continue to add item price to Star Worth. |
-| Owned inventory | De-duplicated by stable ID, never filtered by available art. |
-| Equipped gear | Stable string IDs preserved; no screenshot runtime writes save/equipment state merely to display art. |
-| Room placement | `roomDecor` stable IDs preserved; rapid place/put-away toggle now guarded. |
-| Dream Goal | Stable ID preserved even if its art is absent. |
-| Learning/mastery evidence | Valid `stats`, `mastered`, independent/mastery counters preserved; malformed counters are normalized safely. |
-| Buddy / Bond | Equipped companion ID and `companionBond` preserved. |
-| District progress | Existing district counters preserved and shallow migration remains additive for known defaults. |
-| Daily counters | Daily reset remains limited to daily quest/transfer/purchase counters; permanent state is not reset. |
+| Coins / Stars / XP | **PASS — automated round-trip + sanitizer** |
+| Star Worth / Home progress | **PASS — automated round-trip** |
+| Owned IDs including unknown/no-art | **PASS — automated; never filtered by art** |
+| Equipped IDs | **PASS — automated persistence + presentation fallback does not mutate save** |
+| Room placement | **PASS — persistence + rapid-toggle guard** |
+| Dream Goal | **PASS — persisted by stable ID independent of art** |
+| Mastery / learning evidence | **PASS — persistence + reward/evidence tests** |
+| Buddy / Bond | **PASS — persistence** |
+| District progress | **PASS — persistence** |
+| Corrupted-save recovery | **PASS — automated** |
+| Missing localStorage + existing IndexedDB backup | **PASS — fixed and regression-tested this cycle** |
+| Rapid purchase click through rerender | **PASS — UI guard** |
+| Rapid room Place/Put Away | **PASS — UI guard** |
+| Rapid Quest answer | **PASS — UI guard** |
+| Repeated wrong / assisted reward policy | **PASS — automated** |
 
-## Reward / retry verification
+## Live browser execution attempt
 
-`src/questRewardPolicy.js` and the existing Quest QA tests still enforce:
-- first wrong attempt: small non-punitive learning reward only;
+A real-browser destructive/recovery stress run was attempted through the authorized remote desktop/browser capability available to this automation, but the connected device was offline. Existing GitHub workflows provide branch-local CI and visual/catalog browser QA, but Workstream 13 does not own an invokable live purchase/reload/IndexedDB transaction workflow in the current branch; adding/changing shared workflow configuration requires coordination through Workstream 15.
+
+Therefore real-browser purchase/equip/place/reload, multi-tab timing, final-Quest refresh, and physical-device taps remain **BLOCKED / NOT TESTED**, not PASS. No real player profile was used.
+
+## Two shared-App release blockers found
+
+### 1. Durable purchase idempotency is not yet guaranteed
+
+`buy()` currently checks `save.owned`, Stars and Coins before `setSave()`. The functional updater then subtracts Coins, adds Star Worth, appends ownership and increments the daily purchase counter without rechecking the `current` state or a durable transaction receipt.
+
+The capture guard successfully stops ordinary rapid DOM double-clicks, including a React button replacement, but a UI debounce is not durable exactly-once transaction semantics for non-DOM replay or concurrent contexts. Workstream 13 should not patch shared `App.jsx` directly under the V2 ownership rules; Workstream 15 must coordinate the narrow shared change, after which 13 should add the transaction regression/browser replay proof. Prices and balances must not change.
+
+### 2. Final Quest completion has a refresh loss window
+
+The final correct answer schedules `advanceQuestion()` after 950 ms. Only then does `finishQuest()` add +30 Coins, +30 XP, `questsCompleted`, Buddy Bond and the daily Quest counter. Quest UI/progress itself is not persisted. Refresh during that window can therefore lose the completion award/record instead of providing a durable exactly-once completion transition.
+
+This also needs a narrow shared `App.jsx` change through Workstream 15, followed by Workstream-13 regression and synthetic browser refresh-before/after verification. Reward amounts and learning evidence semantics must remain unchanged.
+
+These are release blockers, not reasons to redesign persistence or reset saves.
+
+## Reward / retry contract retained
+
+`questRewardPolicy.js` still enforces:
+- first wrong: small non-punitive learning reward only;
 - repeated wrong retry: zero additional reward;
-- clue-assisted correct retry: practice XP only, no Coins, no Mastery Star, no transfer evidence;
-- independent eligible mastery: the only path to a Mastery Star;
-- wrong answers never remove Coins, Stars, owned items, or progress.
+- assisted correct retry: practice XP only, no Coins, no Mastery Star, no transfer evidence;
+- independent eligible mastery: only path to a Mastery Star;
+- wrong answers never remove currency, ownership or permanent progress.
 
-The screenshot-match Quest code has not changed these reward calculations.
-
-## Purchase / equip / place / completion review
-
-- **Purchase:** the Store detail rail proxies the existing primary Store action rather than duplicating purchase logic. The stable duplicate guard therefore applies to both the base button and the screenshot-match proxy path.
-- **Equip:** unowned IDs are rejected by the existing equip path; owned wearable equip is idempotent.
-- **Place / Put Away:** ownership check remains required and the new stable room-action guard prevents a rapid double-toggle from immediately undoing placement.
-- **Quest answers:** existing `feedback` gate still prevents a second scored answer after React state commits; the new 300 ms capture guard protects the pre-commit double-tap window.
-- **Quest completion:** completion remains on the final Quest advance path and awards the existing completion bonus once per normal completion transition. No completion/reward values were changed in this workstream.
-- **Refresh / re-entry:** current key -> legacy-key fallback -> IndexedDB recovery remains intact. The existing fresh-localStorage IndexedDB preservation behavior was retained so a default initial render cannot overwrite a recoverable backup before hydration.
-
-## Checks performed
-
-- **PASS — branch isolation:** all edits were written only to `screenshot-match-preproduction`.
-- **PASS — Replit untouched:** no Replit update or publish action was used.
-- **PASS — main untouched:** no merge or direct main-branch write was performed.
-- **PASS — isolated Node syntax/helper check:** persistence sanitizer and rapid-action guard helper logic passed direct Node assertions, including unknown/no-art ID preservation and corrupt numeric-field handling.
-- **PASS — isolated reward helper check:** current retry/reward policy passed direct assertions for first wrong, repeated wrong, assisted correct, and independent mastery/transfer outcomes.
-- **ADDED — Vitest regression coverage:** `src/storage.test.js` and expanded `src/purchaseGuardRuntime.test.js` now encode the verified gaps above.
-- **NOT RUN — full `npm test`:** repository CI is configured only for `main` pushes/PRs; opening/merging a main-targeting release path would violate preproduction rules. This automation runtime does not have the branch dependency tree checked out.
-- **NOT RUN — `npm run build`:** same preproduction/runtime limitation.
-- **NOT TESTED — authoritative live browser stress:** repeated purchase, refresh immediately after purchase/equip/place/Quest completion, localStorage loss with IndexedDB recovery, and real-device double taps still need consolidated browser QA.
-
-## Remaining risk / blockers
-
-1. **Full consolidated branch test/build gate remains pending.** The new Vitest files are committed but need execution in a materialized branch workspace before release sign-off.
-2. **Live refresh/re-entry stress remains pending.** Static source and targeted helper checks support the recovery contract, but browser IndexedDB timing should be exercised by Workstream 14.
-3. **Live purchase concurrency remains pending.** The UI-level stable guard closes the observed rapid-click/rerender gap, but release QA should still stress purchase state in a real browser.
-4. **Quest completion refresh edge remains live-QA-only.** Final completion is driven by a timer transition; browser QA should refresh before/after that transition and confirm exactly one completion award is persisted.
-5. **No artwork gate may mutate ownership.** Future catalog work must continue to attach artwork by stable item ID only and must never prune save arrays because an asset is missing.
+Workstream 12 semantic/evidence policy and Workstream 13 persistence/economy policy remain aligned.
 
 ## Handoff
 
-Workstream 14 / Command Center should, on the consolidated preproduction branch:
-- run the full `npm test` and `npm run build` suites;
-- browser-stress Buy Forever with rapid taps and immediate rerender;
-- double-tap Place/Put Away and Quest answers;
-- purchase/equip/place an item, refresh/re-enter, and verify exact state persistence;
-- complete a Quest and refresh around the final transition to verify one completion bonus;
-- delete the current localStorage key while retaining an IndexedDB backup and verify recovery before any default save can replace it;
-- import a partially malformed but recoverable save and verify intact fields survive while damaged fields safely default;
-- explicitly verify an owned/equipped/placed ID with no final art remains owned after refresh.
+**15:** coordinate the smallest shared `App.jsx` changes for (a) atomic/durable purchase idempotency and (b) durable exactly-once final Quest completion. Preserve all existing reward/price values and legacy saves.
 
-Do not update/publish Replit and do not merge to `main` until the coordinated preproduction release gate clears and the user separately approves final integration.
+**13 next cycle:** once either shared change lands, add only the corresponding verified regression and run targeted + full CI. Then exercise the actual purchase/equip/place/reload or completion-refresh path in an isolated synthetic browser when an authorized branch-local browser path is available.
+
+**14/15:** expose/reuse a branch-local live browser harness for Workstream-13 state transitions without Replit or `main`; do not substitute screenshots or jsdom for browser persistence timing.
+
+**08:** catalog integration may continue. Asset availability must never be consulted to prune `owned`, `equipped`, `roomDecor` or `dreamGoalId`.
+
+No producer art, canonical catalog manifest/runtime, Replit, Floot, `main`, paid settings or real player data were touched by this workstream.
