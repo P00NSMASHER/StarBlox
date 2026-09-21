@@ -22,9 +22,7 @@ const producerLanes = [
   'docs/preproduction/catalog-sprint/lane-11.json',
   'docs/preproduction/catalog-sprint/lane-12.json'
 ];
-const visualLanes = [
-  'docs/preproduction/visuals/lane-13.json'
-];
+const visualLanes = ['docs/preproduction/visuals/lane-13.json'];
 const tierFor = i => i < 3 ? 1 : i < 6 ? 2 : i < 9 ? 3 : i < 11 ? 4 : 5;
 
 function allObjects(value, out=[]) {
@@ -120,38 +118,20 @@ function selectVisualCandidates(report){
       const signature=signatureCheck(repositoryPath);
       if(!signature.ok){report.warnings.push(`${candidateId}: ignored invalid visual asset ${repositoryPath} (${signature.reason})`);continue;}
       n+=1;
-      out.push({
-        id:`${candidateId}-${n}`,
-        name:`${candidateId} ${n}`,
-        tier:null,
-        theme:lane.targetScreen??lane.candidateType??null,
-        producerLane:lanePath,
-        discovery:'visual-lane',
-        repositoryPath,
-        blobSha:blobSha(repositoryPath),
-        signature,
-        declaredDimensions:asset.dimensions??null,
-        candidateId,
-        candidateType:lane.candidateType??null,
-        targetScreen:lane.targetScreen??null
-      });
+      out.push({id:`${candidateId}-${n}`,name:`${candidateId} ${n}`,tier:null,theme:lane.targetScreen??lane.candidateType??null,producerLane:lanePath,discovery:'visual-lane',repositoryPath,blobSha:blobSha(repositoryPath),signature,declaredDimensions:asset.dimensions??null,candidateId,candidateType:lane.candidateType??null,targetScreen:lane.targetScreen??null});
     }
   }
   return out;
 }
 
-async function seedSameOrigin(page){
-  await page.goto(originSeed,{waitUntil:'load',timeout:10000});
-}
+async function seedSameOrigin(page){ await page.goto(originSeed,{waitUntil:'load',timeout:10000}); }
 async function settleImages(page,timeoutMs=7000){
   return page.evaluate(async timeout=>{
     const images=[...document.images];
     await Promise.all(images.map(img=>img.complete?Promise.resolve():new Promise(resolve=>{const done=()=>resolve();img.addEventListener('load',done,{once:true});img.addEventListener('error',done,{once:true});setTimeout(done,timeout);} )));
     return images.map(img=>{
       let opaqueFraction=null,pixelProbeError=null;
-      try{
-        const c=document.createElement('canvas');c.width=48;c.height=48;const ctx=c.getContext('2d',{willReadFrequently:true});ctx.clearRect(0,0,48,48);ctx.drawImage(img,0,0,48,48);const d=ctx.getImageData(0,0,48,48).data;let opaque=0;for(let i=3;i<d.length;i+=4)if(d[i]>8)opaque++;opaqueFraction=opaque/(48*48);
-      }catch(error){pixelProbeError=String(error);}
+      try{const c=document.createElement('canvas');c.width=48;c.height=48;const ctx=c.getContext('2d',{willReadFrequently:true});ctx.clearRect(0,0,48,48);ctx.drawImage(img,0,0,48,48);const d=ctx.getImageData(0,0,48,48).data;let opaque=0;for(let i=3;i<d.length;i+=4)if(d[i]>8)opaque++;opaqueFraction=opaque/(48*48);}catch(error){pixelProbeError=String(error);}
       return {src:img.getAttribute('src'),complete:img.complete,naturalWidth:img.naturalWidth,naturalHeight:img.naturalHeight,opaqueFraction,pixelProbeError};
     });
   },timeoutMs);
@@ -168,22 +148,27 @@ async function renderSet(browser,setName,items,report,detailViewport={width:800,
     for(const image of setReport.contactSheetImageStatus){if(!image.naturalWidth)setReport.contactSheetErrors.push(`contact-sheet decode failed: ${image.src}`);else if(image.pixelProbeError)setReport.contactSheetErrors.push(`contact-sheet pixel probe failed: ${image.src}: ${image.pixelProbeError}`);else if((image.opaqueFraction??0)<0.005)setReport.contactSheetErrors.push(`contact-sheet visually blank/transparent: ${image.src}`);}
     await page.screenshot({path:path.join(out,`${setName}-contact-sheet.png`),fullPage:true,timeout:15000});
   }catch(error){setReport.contactSheetErrors.push(String(error));}finally{await page.close();}
-  for(const item of items){
-    const p=await browser.newPage({viewport:detailViewport,deviceScaleFactor:1});const errors=[];p.on('console',m=>{if(m.type()==='error')errors.push(m.text());});p.on('pageerror',e=>errors.push(String(e)));const url=`${base}/${item.repositoryPath}`;let status=null,naturalWidth=0,naturalHeight=0,opaqueFraction=null,screenshot=false;
-    try{
-      const response=await p.goto(url,{waitUntil:'load',timeout:10000});status=response?.status()??null;if(status!==200)throw new Error(`asset status ${status}`);
-      await p.setContent(`<!doctype html><meta charset="utf-8"><style>html,body{margin:0;width:${detailViewport.width}px;height:${detailViewport.height}px;background:#081936;display:grid;place-items:center}img{width:${detailViewport.width}px;height:${detailViewport.height}px;object-fit:contain}</style><img id="asset" src="${url}" alt="${item.id}">`);
-      const imageState=(await settleImages(p))[0];naturalWidth=imageState?.naturalWidth??0;naturalHeight=imageState?.naturalHeight??0;opaqueFraction=imageState?.opaqueFraction??null;
-      if(!naturalWidth)throw new Error('asset image decode failed');if(imageState?.pixelProbeError)throw new Error(`asset pixel probe failed: ${imageState.pixelProbeError}`);if((opaqueFraction??0)<0.005)throw new Error(`asset visually blank/transparent: opaqueFraction=${opaqueFraction}`);
-      await p.locator('#asset').screenshot({path:path.join(out,'detail',`${item.id}-${item.blobSha.slice(0,8)}.png`),timeout:15000});screenshot=true;
-    }catch(error){errors.push(String(error));}
-    setReport.items.push({...item,status,naturalWidth,naturalHeight,opaqueFraction,screenshot,errors});await p.close();
-  }
+
+  const detailPage=await browser.newPage({viewport:detailViewport,deviceScaleFactor:1});
+  let currentErrors=[];
+  detailPage.on('console',m=>{if(m.type()==='error')currentErrors.push(m.text());});
+  detailPage.on('pageerror',e=>currentErrors.push(String(e)));
+  try{
+    await seedSameOrigin(detailPage);
+    for(const item of items){
+      currentErrors=[];const url=`${base}/${item.repositoryPath}`;let status=null,naturalWidth=0,naturalHeight=0,opaqueFraction=null,screenshot=false;
+      try{
+        await detailPage.setContent(`<!doctype html><meta charset="utf-8"><style>html,body{margin:0;width:${detailViewport.width}px;height:${detailViewport.height}px;background:#081936;display:grid;place-items:center}img{width:${detailViewport.width}px;height:${detailViewport.height}px;object-fit:contain}</style><img id="asset" src="${url}" alt="${item.id}">`);
+        const imageState=(await settleImages(detailPage))[0];naturalWidth=imageState?.naturalWidth??0;naturalHeight=imageState?.naturalHeight??0;opaqueFraction=imageState?.opaqueFraction??null;status=naturalWidth?200:null;
+        if(!naturalWidth)throw new Error('asset image decode failed');if(imageState?.pixelProbeError)throw new Error(`asset pixel probe failed: ${imageState.pixelProbeError}`);if((opaqueFraction??0)<0.005)throw new Error(`asset visually blank/transparent: opaqueFraction=${opaqueFraction}`);
+        await detailPage.locator('#asset').screenshot({path:path.join(out,'detail',`${item.id}-${item.blobSha.slice(0,8)}.png`),timeout:15000});screenshot=true;
+      }catch(error){currentErrors.push(String(error));}
+      setReport.items.push({...item,status,naturalWidth,naturalHeight,opaqueFraction,screenshot,errors:[...currentErrors]});
+    }
+  }finally{await detailPage.close();}
 }
 function duplicateHashGroups(items){
-  const byHash=new Map();
-  for(const item of items){const list=byHash.get(item.blobSha)??[];list.push(item);byHash.set(item.blobSha,list);}
-  return [...byHash.entries()].filter(([,list])=>list.length>1).map(([hash,list])=>({hash,ids:list.map(x=>x.id),paths:list.map(x=>x.repositoryPath)}));
+  const byHash=new Map();for(const item of items){const list=byHash.get(item.blobSha)??[];list.push(item);byHash.set(item.blobSha,list);}return [...byHash.entries()].filter(([,list])=>list.length>1).map(([hash,list])=>({hash,ids:list.map(x=>x.id),paths:list.map(x=>x.repositoryPath)}));
 }
 
 fs.mkdirSync(artifactRoot,{recursive:true});
