@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "workstream": "10",
+  "phase": "CATALOG_SPRINT",
+  "status": "PASS_BROWSER_EMULATION",
+  "catalogGateApproved": false,
+  "auditedRuntimeHead": "4d8bb9671b8c394db89d994de75ee4af3ccd578a",
+  "evidence": {
+    "workflowRunId": 35639821618,
+    "jobId": 106466219076,
+    "artifactId": 10658055447,
+    "artifactDigest": "sha256:b7aa40c7c0af6602607b06c284850d404ba89a85f2e242941361e2a8ee168230",
+    "manifestBlobSha": "862894db70500087409396dc5a72d032cf00a693",
+    "canonicalRuntimeBlobSha": "fcf502b18a51781b415b7ba3620e9b8eb66d37e3",
+    "gameModelBlobSha": "79fdb8c3bed4d715e0b1c770f34db0037a7f7c3b",
+    "runtimeAccessibilityBlobSha": "8321cabf7deb6246adfabc69848fa3b3694c1d2f",
+    "accessibilityCssBlobSha": "35031e5d18de72fcd9b49b4e4a35a75340dac4dc",
+    "qaScriptBlobSha": "e447d29ad9ca632f124e631429ad24592974d039"
+  },
+  "scope": {
+    "browser": "Playwright 1.55 Chromium headless on GitHub Actions ubuntu-24.04",
+    "reducedMotion": "reduce",
+    "viewports": ["1408x1056", "390x844", "320x568"],
+    "collections": ["tops","bottoms","shoes","headwear","facegear","backgear","handgear","auras","companions","beds","seating","desks","lighting","wall","rugs","decor"],
+    "physicalDevicePerformanceTested": false,
+    "screenReaderTested": false
+  },
+  "result": {
+    "releaseBlockingCount": 0,
+    "checks": {
+      "categoryNavigation": "48/48 PASS",
+      "horizontalOverflow": "48/48 PASS",
+      "touchTargets": "48/48 PASS",
+      "cardReadableState": "48/48 PASS",
+      "cardSemantics": "48/48 PASS",
+      "imageLoadingAndAlternatives": "48/48 PASS",
+      "explicitImageDimensions": "48/48 PASS",
+      "focusVisible": "48/48 PASS",
+      "reducedMotionContext": "48/48 PASS",
+      "keyboardCardActivation": "48/48 PASS",
+      "phoneTwoColumnGrid": "32/32 PASS",
+      "runtimeErrors": "3/3 PASS",
+      "longScrollProbe": "3/3 PASS",
+      "layoutStabilityProbe": "3/3 PASS"
+    },
+    "longScroll": [
+      {"viewport":"desktop-1408x1056","maxScrollY":169,"frames":61,"avgFrameMs":16.590163934426798,"maxFrameMs":16.80000000000109,"slowFramesOver34ms":0,"verySlowFramesOver50ms":0,"catalogResourceCount":175,"catalogTransferBytes":140484,"catalogResourceDurationMs":17634.19999999972,"cls":0.001557105828907864},
+      {"viewport":"phone-390x844","maxScrollY":2029,"frames":61,"avgFrameMs":16.409836065573575,"maxFrameMs":16.800000000000182,"slowFramesOver34ms":0,"verySlowFramesOver50ms":0,"catalogResourceCount":132,"catalogTransferBytes":127584,"catalogResourceDurationMs":3042.799999999639,"cls":0},
+      {"viewport":"phone-320x568","maxScrollY":2663,"frames":61,"avgFrameMs":16.39836065573808,"maxFrameMs":16.800000000000182,"slowFramesOver34ms":0,"verySlowFramesOver50ms":0,"catalogResourceCount":132,"catalogTransferBytes":127584,"catalogResourceDurationMs":2903.1999999999534,"cls":0}
+    ],
+    "screenshotEvidence": {
+      "count": 32,
+      "coverage": "All 16 collections at desktop-1408x1056 and phone-390x844 in artifact 10658055447; 320x568 covered by measured checks but not retained as per-collection screenshots."
+    }
+  },
+  "fixHistory": [
+    {"head":"fd7c1f0ff582141ba83844cbec5932eafd3b0473","releaseBlockingCount":52,"finding":"36 explicit image-dimension failures plus 16 desktop card readability failures."},
+    {"head":"d22eb74880684b3277fe6291eeaf58c803de99d6","releaseBlockingCount":16,"fix":"Added square intrinsic width/height plus async decoding to Store catalog images; explicit-dimension failures cleared."},
+    {"head":"4863ff8c93471e9795a8bbd1c4796262a51da972","releaseBlockingCount":0,"fix":"Raised dense desktop Store item-name and price text to readable floors while preserving phone two-column density."},
+    {"head":"4d8bb9671b8c394db89d994de75ee4af3ccd578a","releaseBlockingCount":0,"finding":"Final exact-head production build and full catalog mobile/accessibility browser gate passed."}
+  ],
+  "limitations": [
+    "PASS covers the current canonical Store runtime and manifest at the audited head, not independent visual acceptance of staged non-canonical catalog art.",
+    "Physical iPhone/iPad/Android performance is NOT TESTED; long-scroll timings are headless Chromium emulation.",
+    "VoiceOver/TalkBack/NVDA are NOT TESTED; browser semantics, focusability, labels and keyboard activation were verified.",
+    "Catalog gate remains unapproved because Workstreams 01/14 visual acceptance and Workstream 08 canonical integration of pending art are separate requirements."
+  ],
+  "freeze": {"replitTouched":false,"flootTouched":false,"mainMergedOrModified":false}
+}
