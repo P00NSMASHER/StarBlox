@@ -68,3 +68,69 @@ Added `src/screenshotLearningIntegrity.test.js` to fail the release gate if the 
 ### Execution status
 
 Static review and branch-diff checks passed. Full Vitest/build/browser execution was **not run** in this automation environment because only GitHub file/write access is available here; Workstream 14 / Command Center must execute the consolidated suite before final sign-off.
+
+## 2026-09-21 15:45 America/New_York — Real-browser Religion Unit 1 learning audit
+
+### Scope
+
+This run was change-aware. Full CI was **not** repeated because compare evidence from runtime-proven head `f654431b2bb76d2eceb322dd35c613dfad17e7ae` through audited branch head `9a041e14f09e89b0000ae60eaf3172dd4e529dc3` showed no `src/`, canonical catalog runtime/manifest, or production catalog-asset change. Existing run `35641273312` therefore remains the applicable executed 20/20-file, 85/85-test + production-build proof.
+
+Instead, Workstream 12 closed a previously untested browser-legibility/cue case by downloading and inspecting Playwright artifact `10654114272` from run `35631059432`.
+
+### Exact ID audited
+
+- `religion-transfer-2` — Religion Unit 1 / `religion-application` / transfer.
+
+Specific approved Unit 1 source content used for semantic comparison:
+
+- `Creation is a gift from God.`
+- `We show gratitude by caring for creation.`
+
+Rendered item:
+
+- Prompt: `Creation is a gift from God. Which action best shows care for creation?`
+- Key: `Put litter in a trash can after a picnic.`
+- Distractors: `Leave paper on the grass for someone else to pick up.` / `Pull plants out of a garden just to throw them away.`
+
+### Findings
+
+| Area | Result | Finding | Disposition |
+| --- | --- | --- | --- |
+| Semantic correctness | PASS | The key directly demonstrates caring for creation. Both distractors depict neglect/destruction and are not defensible alternate answers under the approved Unit 1 source. | No quarantine or content change. |
+| Initial answer cue | PASS | In the actual browser screenshot, deterministic choice shuffle places the key at **B**. A/B/C share the same initial visual treatment; no `correctChoice`/`wrongChoice` cue is visible before a response. | Preserve this neutral initial state. |
+| Desktop readability | PASS | At 1408×1056 the prompt, all three answers, Read aloud, Hint, mastery/evidence copy and reward-safe copy are visible; no pageerror/console.error/horizontal overflow reported. | No learning UI fix required. |
+| 390px answer readability | PASS | All 3 answers measured 344 px wide × 64.94 px high at 16 px font; no overflow/runtime error. | Browser render closes prior static-only evidence gap. |
+| 320px answer readability | PASS | All 3 answers measured 278 px wide, 64.94–85.41 px high at 16 px font; prompt remains readable in captured viewport; no overflow/runtime error. | Browser render closes prior static-only evidence gap. |
+| Assisted mastery copy | PASS | Browser UI states that only eligible first-try answers build mastery and clue-assisted success never counts as mastery/transfer evidence; hint/reward copy says nothing is taken away and there is no speed bonus/loss for mistakes. | Consistent with executed reward-policy tests. |
+| 1024px runtime sanity | PASS | Quest mounted with no runtime error and no horizontal overflow. | No action. |
+
+### Browser evidence
+
+Workflow run `35631059432`, artifact `10654114272`, artifact runtime head `276181274e2f11ed49b46e09852712d43899b538`.
+
+- `report.json`: `sha256:72333c166e28662aaea43ca464f42dec031ac63d479565e11cd7d749933122c7`
+- `quest-desktop-1408x1056.png`: `sha256:15bccde0c04e28cd4dc7fc488f0b921e3690325fc383109bde75cf6c4de71b20`
+- `quest-landscape-1024x768.png`: `sha256:2dc81518ece6ff732126a9dd5b55286aa0c591ef13fc6f8b3ab6e31ac46f30b3`
+- `quest-phone-390x844.png`: `sha256:c73b798f750548ea66565ba7532fc3b229fbd3541d03f091cd81acee6b33d299`
+- `quest-phone-320x568.png`: `sha256:77e443e0dabb06ffa1b2580aca5fe1059aafff66ceb562f16e766a6d81af628d`
+
+The browser evidence remains applicable to the current Quest surface: `questScreenshotMatchRuntime.js` is unchanged; later mobile accessibility runtime changes are Store-image-only, and later accessibility CSS additions are Store-card-only. Quest-specific accessibility rules did not change.
+
+### New workflow review
+
+`.github/workflows/catalog-staged-art-qa.yml` was inspected. It is QA-only, serves catalog lighting SVGs on localhost, renders them with Playwright and uploads artifacts; it has no game-runtime or question-bank import path. The CI workflow's new docs-only push filter changes triggering only; test/build commands remain unchanged.
+
+### Severity summary
+
+- P0 found: **0**
+- P0 fixed: **0**
+- P0 quarantined: **0**
+- new learning P1 found: **0**
+
+No `QUESTION_QA_LEDGER.md` row was added because the audited item, generator, source mapping and selector are unchanged. Per ledger policy, the new browser evidence is recorded here rather than duplicating a settled semantic-family entry.
+
+### Remaining not tested
+
+- Physical iPhone/iPad/Android Quest behavior.
+- VoiceOver/TalkBack/NVDA.
+- A fresh live click-through of correct → wrong → clue → retry transitions in Playwright during this run. Existing automated reward/evidence tests remain applicable because the relevant runtime hashes are unchanged.
