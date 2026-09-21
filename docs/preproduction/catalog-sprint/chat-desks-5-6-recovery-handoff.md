@@ -1,39 +1,58 @@
-# Desk 5–6 recovery — W03 transport handoff
+# Checkpoint — Desk 05–06 recovered and browser-verified
 
+Status: **2 repository-staged candidates / 2 clean card-and-detail renders / independent visual acceptance pending**.
 Original producer: **03**. Byte-transport/helper: **CHAT**. Independent visual reviewer: **05**. Canonical catalog writer: **08**.
-Branch: `screenshot-match-preproduction` only. This is a two-item recovery batch, not two new generations or final approvals.
+Branch: `screenshot-match-preproduction` only. This is recovery of two existing generations, not two newly generated or final-approved items.
 
-The exact two Firefly generations listed as remote-only in `lane-03.json` are now stored in versioned repository paths. The requested central-helper transfer is complete. Source PNGs and the existing service JPEG renditions were copied without cropping, resizing, recompression, recoloring or regeneration.
+## Exact delivered artwork
+
+The two Firefly generations previously remote-only in `lane-03.json` are now stored in versioned repository paths. Source PNGs and existing service JPEG renditions were copied without cropping, resizing, recompression, recoloring or regeneration.
 
 | ID | Name | Tier / theme | Repository candidate | Git blob |
 |---|---|---|---|---|
 | desks-5 | Garden Book Desk | 2 / Pixel Party | public/assets/catalog/desks-5-w03-recovered-v2.jpg | 95fe65632e4f40b76b23cce30071ee2fdc5b4399 |
 | desks-6 | Galaxy Gamer Setup | 2 / Berry Blast | public/assets/catalog/desks-6-w03-recovered-v2.jpg | 52df05265de236911927b904b07e68dac7a17828 |
 
-Candidates: two 600×600 JPEGs, **86,526 bytes total**. Original 1024×1024 PNGs: **1,939,973 bytes total**, preserved under `docs/preproduction/catalog-sprint/recovered-originals/desks-5-6-20260921/`. Every exact file hash, source generation ID, dimensions and byte count are in `chat-desks-5-6-recovery-result.json`. These file sizes are not device-performance claims.
+Candidates: two 600×600 JPEGs, **86,526 bytes total** (51,545 and 34,981). Original 1024×1024 PNGs: **1,939,973 bytes total**, retained under `docs/preproduction/catalog-sprint/recovered-originals/desks-5-6-20260921/`. Exact file hashes, provenance and measurements are in `chat-desks-5-6-recovery-result.json`. These sizes are not phone-performance claims.
 
-Metadata was checked against the actual `store` export from `src/gameModel.js`, including ID/name/type/collection/tier/theme/price/unlock. All four files passed decoding, nonblank-content checks and exact readback. A repeated intake revalidates stored files without requesting another download. Candidate content is distinct; the intake rejects exact content reused by another item and conflicting destination bytes.
+## Executed checks and immutable evidence
 
-## Executed evidence
+Workflow `.github/workflows/desks-recovery-5-6.yml`, run **35669227577**, job **106561715343**, concluded **SUCCESS**. Actual tested source/asset commit: **c37b2e46761cb38a4cd1ee22bd73f2687df0100c**.
 
-Workflow: `.github/workflows/desks-recovery-5-6.yml`, run **35669227577**, job **106561715343**.
+- Authoritative exported Store metadata, including names, type/collection, tiers/themes, prices and unlocks: **PASS 2/2**.
+- Original/candidate decode, nonblank-content and exact byte readback: **PASS 4/4**.
+- Duplicate candidate content: **0**, with exact-content checks against other item files.
+- Repeat intake: **PASS**, no re-download or regeneration.
+- Full application regression suite: **PASS**, actually executed in the job.
+- Production build: **PASS**, actually executed in the job.
+- Scoped Desk image-only browser verification: **PASS 2/2**, one 200px-card contact sheet and two 800×800 detail captures; both images decode at 600×600 and opaqueFraction 1; **zero page/console/request errors**.
+- Existing Lighting verifier default-contract compatibility: **PASS**, separately executed after the narrow parameterization.
+- TypeScript typecheck: **NOT APPLICABLE**, no TypeScript application changes.
+- Independent art acceptance / canonical Store wiring: **PENDING / NOT PERFORMED** by this helper.
 
-Use the actual `checks` and `renderEvidence` fields in `chat-desks-5-6-recovery-result.json` and workflow outcomes. The existence of this handoff is not a test/build/render PASS. Initial publication finished; final CI/browser verification was still running when this handoff was first written.
+Artifact **10670532506**, `desks-5-6-recovery-evidence`, ZIP SHA-256 **256584d73494b969d22165750f696b7c209f90ab9225e443b78e9c60459c7dc5**.
 
-The pass reuses the existing immutable intake primitives and parameterizes the existing bounded image verifier for exactly Desk 5–6. Its default Lighting 5–8 contract is retained and tested for compatibility. It does not rewrite Workstream 14's shared renderer, change any blank-image assertion or touch canonical Store mappings. Scoped image-only captures are not proof of canonical Store integration or whole-catalog correctness.
+The interactive helper downloaded the artifact, verified its ZIP digest, all four stored asset hashes and all three screenshot hashes, then inspected the actual card contact sheet. Evidence paths:
 
-## Pixel preflight — not independent acceptance
+- `artifacts/desks-5-6-recovery/report.json`
+- `artifacts/desks-5-6-recovery/desks-5-6-card-contact-sheet.png`
+- `artifacts/desks-5-6-recovery/desks-5-95fe6563-detail.png`
+- `artifacts/desks-5-6-recovery/desks-6-52df0526-detail.png`
 
-The interactive helper inspected both resolved Adobe renditions beside the original user Store reference. Garden Book Desk has a warm wood worktop, bookshelf, planter trough, articulated lamp, books and drawers. Galaxy Gamer Setup has a dark curved desk, galaxy monitor, controllers, speaker pair and orb lamp.
+The pass reuses existing immutable intake primitives and the bounded image verifier; default Lighting behavior remains passing. It does not rewrite Workstream 14's shared renderer, suppress failed/blank-image assertions or touch canonical Store mappings. These image-only captures are not canonical Store or whole-catalog acceptance. Other Desk/shared-fixture failures remain separate and open.
 
-Reviewer 05 must specifically check **Pixel Party theme clarity** on Garden Book Desk and **small-card dark-detail readability / apparently floating headphone-like objects** on Galaxy Gamer Setup. These are open visual concerns, not hidden or self-approved. Functional object identity and richer rendering alone do not guarantee reference-quality acceptance.
+## Visual concerns retained for independent review
 
-03: reconcile the old remote-only flags to these exact stored versions; do not regenerate or reupload them. Preserve all Desk 2–4 files and their separate open issues. Resume the next truly missing Desk item only after checking current assignments.
+Garden Book Desk has a dimensional warm-wood worktop, bookshelf, planter trough, articulated lamp and drawers. Galaxy Gamer Setup has a dark curved desk, galaxy monitor, controllers, speaker pair and orb lamp. The original user Store reference was also inspected.
 
-05: judge the exact stored hashes using the scoped card/detail evidence. Record ACCEPT/REWORK/BLOCKED in your sole-owned shard. Do not transfer an old version's verdict or count this helper's preflight as independent approval.
+Reviewer 05 must check **Pixel Party theme clarity** on Garden Book Desk and **small-card dark-detail readability / apparently floating headphone-like objects** on Galaxy Gamer Setup. The second image is noticeably darker at card scale. These are open visual concerns, not hidden or self-approved. Richer rendering and functional identity alone do not establish reference-quality acceptance.
 
-14: the versioned Desk paths are discoverable by the existing file scanner. Consume the exact-hash evidence without another transport framework. Other failed shared-fixture/Desk checks remain separate and are not waived.
+03: reconcile remote-only flags to these exact stored versions; no duplicate generation/upload. Preserve Desk 2–4 versions and separate findings. Check assignments before the next genuinely missing Desk item.
 
-08: integrate only after qualified independent ACCEPT and all normal metadata/file checks. This intake changes **zero canonical mappings** and **zero final status labels**.
+05: review these exact hashes from the cited artifact and record ACCEPT/REWORK/BLOCKED in your sole-owned shard. Do not transfer old-version verdicts or count this helper preflight as independent approval.
 
-15: W03's remote-byte transfer blocker is cleared for Desk 5–6 only. Artwork quality and independent acceptance are still pending. Replit, Floot, main, player progress, economy and learning were not changed.
+14: discover these versioned paths or consume the exact-hash artifact. No new renderer is needed for their review. Do not relabel unrelated shared-fixture failures as resolved by this scoped run.
+
+08: integrate only after qualified independent ACCEPT and normal checks. This pass adds **zero canonical promotions and zero final approvals**.
+
+15: W03's byte-transfer blocker is cleared for Desk 5–6 only; independent quality approval is pending. Existing Lighting 9–12 and Shoes 1–6 were already staged by another worker and were not regenerated. Replit, Floot, main, player saves, economy and curriculum were untouched by this pass.
