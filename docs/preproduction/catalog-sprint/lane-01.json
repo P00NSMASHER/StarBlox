@@ -1,10 +1,10 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "lane": "01",
   "workstream": "01",
   "phase": "CATALOG_SPRINT",
   "branch": "screenshot-match-preproduction",
-  "status": "GENERATED_ADOBE_SEATING_2_3_STAGING_BLOCKED_FIRST_CYCLE",
+  "status": "SEATING_2_3_STAGING_BLOCKED_SECOND_CYCLE_ESCALATED_HOME_SCENE_V1_REWORK_REVIEWED",
   "reviewPartition": ["tops", "bottoms", "headwear", "facegear"],
   "producerRepairAssignment": ["seating-2", "seating-3", "seating-4", "seating-5", "seating-6"],
   "independentReviewer": "02",
@@ -54,10 +54,20 @@
     ]
   },
   "binaryStagingBlocker": {
-    "status": "OPEN_FIRST_CYCLE",
-    "detail": "Firefly generation, asset persistence and actual-pixel inspection succeeded. This Workstream-01 tool context can resolve and inspect authenticated Adobe renditions but cannot expose the binary/base64 payload to GitHub create_blob, and the container has no outbound DNS path to the Adobe short URL. The images therefore remain GENERATED_ADOBE, not STAGED or READY_FOR_REVIEW.",
-    "requiredResolution": "Use the already-proven Adobe GenAI asset-to-Git blob byte bridge from a tool context that can expose the rendition bytes, attach each exact image to its intended versioned path on the newest screenshot-match-preproduction head with force=false, then fetch/read back the Git blob before reviewer 02 inspection.",
-    "security": "No presigned/temporary Adobe URLs are committed; only stable GenAI asset URNs are recorded."
+    "status": "SECOND_CYCLE_ESCALATED_TO_15",
+    "detail": "The exact seating-2/3 Firefly assets are still present and inspectable, but Workstream 01 still lacks a permitted raw-byte bridge from Adobe storage to GitHub binary staging. This is the second cycle with the same transport-only blocker, so Workstream 01 did not repeat the failed container/browser transfer calls and did not regenerate the assets.",
+    "requiredResolution": "15 should use the already-proven coordination-owned Adobe-to-Git recovery path to attach these two existing asset URNs to their intended versioned repository paths, then return exact Git blob hashes/readback for reviewer 02. No new generation is needed.",
+    "security": "Only stable Adobe GenAI asset URNs are recorded; no temporary/presigned Adobe URLs are committed."
+  },
+  "sceneDirectionReview": {
+    "reviewFile": "docs/preproduction/visuals/reviews/01.json",
+    "candidateId": "home-bedroom-w13-v1",
+    "producer": "13",
+    "candidateGitBlobSha": "d37d2ad7e07f91a79e00a89a0a43e168408ae53c",
+    "referenceSha256": "6a4b110aeaf12a6ab0c629f9181cc6cfa8d4f55a518d4f2a6adb3ac6e756c457",
+    "actualPixelsInspected": true,
+    "decision": "REWORK_BEFORE_RUNTIME_INTEGRATION",
+    "finding": "Material depth and warm palette are a real improvement, but the centered white window competes with the intended avatar silhouette; the room is also too sparse and semi-realistic versus the approved dense stylized toy-game bedroom. Preserve bed-left/desk-right and the open center, then move/diffuse the central hotspot and add controlled side-zone prop density/stylization."
   },
   "checks": {
     "phaseAndExclusiveAssignment": "PASS",
@@ -66,6 +76,7 @@
     "premiumDimensionalDirection": "PASS_2_OF_2_PRODUCER_CHECK_ONLY",
     "repositoryPersistence": "BLOCKED_0_OF_2_STAGED",
     "independentReview": "NOT_STARTED_NO_REPOSITORY_HASH",
+    "lane13IndependentSceneArtReview": "PASS_ACTUAL_PIXELS_REVIEWED_REWORK_ISSUED",
     "canonicalIntegration": "NOT_PERFORMED_BY_01",
     "learningEconomyTouched": false,
     "playerDataTouched": false,
@@ -74,8 +85,10 @@
   },
   "handoff": {
     "02": "Do not review or accept seating-2/3 from producer previews. Wait for exact versioned repository paths and Git blob hashes, then use real staged card/detail pixels.",
-    "15": "First-cycle binary staging blocker is recorded with stable Adobe GenAI URNs for seating-2/3. If the same blocker persists into the next Workstream-01 cycle, use the existing proven Adobe-to-Git byte bridge rather than regenerating these images.",
-    "01Next": "Do not regenerate seating-2/3. Resolve staging first; once staged, continue seating-4/5 as the next bounded repair batch while fresh reviewer-01 replacement hashes remain higher review priority."
+    "13": "Home environment v1 is independently REWORK. Preserve its strong material depth and bed-left/desk-right composition, but move/diffuse the central window hotspot, increase side-zone environmental density, and push the room toward chunkier saturated toy-game stylization. Exact repair contract is in docs/preproduction/visuals/reviews/01.json.",
+    "14": "Do not composition-approve home-bedroom-w13-v1 for runtime wiring; review the revised Workstream-13 candidate after it is staged.",
+    "15": "Second-cycle seating byte-transfer blocker is now formally escalated. Use the proven coordination-owned Adobe-to-Git bridge for seating-2/3 rather than requesting regeneration. No runtime handoff is recommended for Workstream-13 Home v1.",
+    "01Next": "Do not regenerate seating-2/3. Fresh staged replacement hashes in Tops/Bottoms/Headwear/Facegear remain first review priority; otherwise inspect the next Workstream-13 scene/character candidate or continue only after the seating bridge returns exact repository hashes."
   },
   "freeze": {
     "replitTouched": false,
