@@ -1,6 +1,6 @@
 # Catalog Sprint — Lane 09 Room Decor
 
-STATUS: **READY FOR REVIEW — 12/12 ASSIGNED ROOM-DECOR CANDIDATES STAGED**
+STATUS: **READY FOR REVIEW — 12/12 ASSIGNED ROOM-DECOR CANDIDATES STAGED; V2 PIXEL EVIDENCE REFRESHED**
 
 Branch: `screenshot-match-preproduction`  
 Workstream: 09  
@@ -8,12 +8,12 @@ Phase: `CATALOG_SPRINT`
 Environment/background work: **paused by catalog-first directive**  
 Canonical manifest/runtime: **not changed by this lane**  
 Self-approval: **NO**  
-Independent review required: **Workstream 01 and/or 14**  
+Independent reviewer under Delivery Protocol V2: **Workstream 14**  
 Canonical integration owner: **Workstream 08**
 
 ## Scope completed
 
-The complete assigned room-decor family, `decor-1` through `decor-12`, now has original StarBlox-specific 800×800 SVG candidates under `public/assets/catalog/`. Each item was drawn as its actual object rather than a generic icon or recolored stand-in, while sharing a coherent collectible-card presentation: dark themed backdrop, soft halo, grounded shadow, dimensional strokes/gradients, clean central silhouette, and increasing ornamental density toward the higher tiers.
+The complete assigned room-decor family, `decor-1` through `decor-12`, has original StarBlox-specific 800×800 SVG candidates under `public/assets/catalog/`. Each item was drawn as its actual object rather than a generic icon or recolored stand-in, while sharing a coherent collectible-card presentation.
 
 | ID | Item | Tier | Theme | Price | Stars | Git blob | Bytes |
 | --- | --- | ---: | --- | ---: | ---: | --- | ---: |
@@ -30,49 +30,48 @@ The complete assigned room-decor family, `decor-1` through `decor-12`, now has o
 | `decor-11` | Dream Vanity Set | 4 | Art Attack | 1276 | 5 | `250aad2e72917036ae03c1db3e9071ae6c7aa983` | 2876 |
 | `decor-12` | Trophy Wall | 5 | Star Luxe | 1740 | 9 | `903e0f5d45dd6874c4352493db3e3e3346e0b39c` | 3115 |
 
-All twelve use `viewBox="0 0 800 800"`, `role="img"`, and item/theme-specific accessible labels. They are self-contained SVGs with no external image/font dependencies.
+All twelve use `viewBox="0 0 800 800"`, accessible item/theme labels, and self-contained SVG source with no external image/font dependency.
 
-## Item-specific visual differentiation
+## Delivery Protocol V2 producer pixel evidence refresh
 
-- **Book Crate:** slatted wood crate, five differently colored books, gold star badge.
-- **Cloud Shelf:** cloud-shaped upper form, pastel shelf, books and soft cloud/crescent details.
-- **Arcade Mini:** compact arcade cabinet with cyan trim, star screen and dedicated control deck.
-- **Plush Stack:** layered cloud/plush base, pink cat-eared plush and oversized star topper.
-- **Plant Wall:** framed vertical garden with multiple pots, branching leaves, vine and blossom accents.
-- **Telescope:** angled navy optical tube, bright cyan lens, gold tripod and star accents.
-- **Skate Rack:** tall wood/green rack holding two visually different boards plus leafy top detail.
-- **Mini Aquarium:** glass tank, layered water/sand, two fish, aquatic plants and bubbles.
-- **Easel Set:** wood easel, colorful landscape canvas, palette, paint container and brushes.
-- **Mini Fridge:** rounded aqua retro fridge with split doors, handles and decorative magnets.
-- **Dream Vanity Set:** illuminated round mirror, pink vanity storage, stool, cosmetics and star hardware.
-- **Trophy Wall:** ornate purple/gold display case, two trophies, three medal ribbons and luminous star centerpiece.
+At branch head `911edfc37d05b0402ea028613c6a835401d316f0`, Lane 09 re-read the current assignment and exact candidate blobs, then rerendered a representative cross-tier sample from the repository-stored source:
 
-The higher-tier pieces add more components, glow and ornamental treatment, but the Tier-1 pieces remain complete, attractive objects rather than intentionally weak starter placeholders.
+- `decor-1` Book Crate — Git blob `81999ed9...` — SHA-256 `e4b782d90747cb23d314bfb30732912bc6bdc5b70dc97dc461cc92ae198c60de`
+- `decor-4` Plush Stack — Git blob `cb4bc4cf...` — SHA-256 `9bcdd23a187ae24fb19b4ccdf2fedc1e6ef44806040dc3b93fa38260befaa3ec`
+- `decor-10` Mini Fridge — Git blob `f390a4a2...` — SHA-256 `2f7ac54925fef20b6ef4fce06ebd4cc0397faff17b821d49456bc2ae9cc3bcaf`
+- `decor-12` Trophy Wall — Git blob `903e0f5d...` — SHA-256 `8cab73b5198b193fce59ace4737cc2ac19e826d28d00732b057c96cbd23d089a`
 
-## Validation actually performed
+Producer rerender result: **4/4 rendered successfully at 800×800 and 220×220 card scale; all remained item-recognizable and no clipping or malformed geometry was observed.** This verifies persistence/readback and renderability for the sampled current blobs; it is not independent acceptance.
 
-- **PASS — assignment/state re-read:** immediately before the documentation commit, the shared sprint state still named Workstream 09 as owner of `decor-1..decor-12` and remained in `CATALOG_SPRINT`.
-- **PASS — exact metadata:** IDs, names, categories, tiers, themes, prices and Star requirements were matched against the current catalog-generation rules.
-- **PASS — repository readback:** all 12 assets exist on `screenshot-match-preproduction`; GitHub blob SHAs and byte sizes are recorded above.
-- **PASS — unique lane blobs:** the 12 Git blob SHAs are distinct.
-- **PASS — canvas/source contract:** all 12 use an 800×800 SVG viewBox and are self-contained.
-- **PASS — XML parse:** all 12 authored SVGs parsed successfully before upload.
-- **PASS — producer render smoke:** all 12 were rasterized locally through CairoSVG at 400×400 without render failure.
-- **PASS — producer contact-sheet inspection:** no clipping, malformed geometry, accidental source text, or obvious same-silhouette recolor clone was observed across the 12-item sheet.
-- **PASS — scope isolation:** this lane did not edit `catalog-art-manifest.json`, `src/catalogArtRuntime.js`, save/economy state, learning content, ownership, prices, screen CSS, or environment runtime files.
-- **PENDING — independent visual approval:** Workstream 01 and/or 14 must judge the exact rendered blobs; producer inspection is not final acceptance.
-- **NOT TESTED — actual Store card/detail/browser context:** owned by the catalog integration/release-QA workstreams.
-- **NOT RUN — full production build/test suite:** this was an asset-only production lane and shared runtime integration has not occurred yet.
+The pixel refresh also exposed a meaningful fidelity risk that the earlier source/XML checks could not establish: the representative items are clean and readable, but their presentation is visibly **flat/vector and strongly templated** relative to the premium dimensional toy-block screenshot target. The higher tiers add components, glow, and ornament, but material depth remains limited. Lane 09 is recording this as a producer concern rather than silently treating clean rendering as final visual quality.
 
-## Provenance / safety
+No assets were replaced in this pass because Delivery Protocol V2 explicitly requires an exact-hash independent `REWORK` before replacing a pending staged candidate. That avoids regenerating art while reviewer 14 has not yet ruled on the current versions.
 
-All twelve candidates were authored as original repository-owned StarBlox SVG artwork for this sprint. No external raster embeds, remote URLs, external fonts, brand marks, recognizable third-party characters, Roblox/Brookhaven assets, emoji-as-art, or copied IP were introduced.
+## Validation already established
 
-## Handoff / blockers
+- **PASS — assignment/state:** Workstream 09 still exclusively owns `decor-1..decor-12`; phase remains `CATALOG_SPRINT`.
+- **PASS — exact metadata:** IDs, names, tiers, themes, prices and Star requirements match current catalog rules.
+- **PASS — repository presence/readback:** all 12 files are repository-stored with recorded Git blob SHAs and byte sizes.
+- **PASS — unique lane blobs:** 12/12 Git blob SHAs are distinct.
+- **PASS — source/render contract:** 800×800 SVGs, valid XML, prior 12/12 Cairo render smoke, and no obvious malformed geometry in the original producer contact sheet.
+- **PASS — V2 representative rerender:** 4/4 current blobs rendered at both detail and card scale with no clipping.
+- **PASS — scope isolation:** no manifest/runtime, gameplay, save/economy, learning, screen CSS, environment runtime, Replit/Floot, `main`, or deployment changes were made.
+- **PENDING — independent visual acceptance:** Workstream 14 must judge actual card/detail pixels for each exact current hash.
+- **NOT TESTED — canonical Store context for these staged assets:** 14's staged-asset fixture or post-acceptance Store QA remains the correct path.
+- **NOT RUN — full build/test by Lane 09:** this pass changed evidence/reporting only, not runtime or asset bytes.
 
-1. Workstream 01 and/or Workstream 14 should independently render and inspect each exact blob at Store-card and selected-item scale, recording ACCEPT or a precise REWORK defect.
-2. Workstream 08 should add only independently accepted IDs to the canonical catalog manifest and exact-ID runtime mapping; Workstream 09 intentionally did not touch either shared file.
-3. Actual Store browser context, phone scrolling, consolidated build, and release-level duplicate/near-duplicate checks remain outside this producer lane and are not claimed PASS.
-4. This document is Workstream 09's reassignment request to Command Center 15. Until the coordinator records a new assignment, Workstream 09 should not take another catalog category or resume environment/background development while phase remains `CATALOG_SPRINT`.
+## Current review dependency
 
-**Replit and Floot were not used. `main` was not merged or modified.**
+`docs/preproduction/catalog-sprint/reviews/14.json` was not present when this V2 evidence refresh ran. Under the current protocol, that is not a reason for Lane 09 to regenerate or self-approve the candidates. Workstream 14 owns the room-decor review partition and should create hash-bound `ACCEPT | REWORK | BLOCKED` decisions from actual card/detail pixels. One qualified current-hash `ACCEPT` is sufficient for Workstream 08 to integrate that item incrementally; only a concrete `REWORK` returns that exact asset version to Lane 09.
+
+The older `01 and/or 14` review wording in this lane has been corrected: **Delivery Protocol V2 routes `decor` review exclusively to Workstream 14.**
+
+## Handoff
+
+**14:** prioritize exact-hash card/detail review of `decor-1..12`. Pay particular attention to the producer-observed flat/vector/template-like fidelity risk, material depth, tier progression, object identity at small scale, and visual near-duplicates. Convert the concern into `ACCEPT`, `REWORK`, or `BLOCKED` only from actual rendered evidence.
+
+**08:** integrate each room-decor item only after a qualified independent current-hash `ACCEPT`; preserve all 192 item semantics and unrelated mappings.
+
+**15:** Lane 09 remains production-complete and awaits reviewer 14 decisions. Route any exact `REWORK` hash back here. Otherwise reassign only through `CATALOG_SPRINT_STATE.json`; do not resume environment/background work while phase remains `CATALOG_SPRINT`.
+
+No Replit/Floot action, no `main` merge, no deployment, and no player-data change occurred.
