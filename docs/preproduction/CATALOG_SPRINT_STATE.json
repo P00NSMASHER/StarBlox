@@ -1,0 +1,73 @@
+{
+  "schemaVersion": 1,
+  "phase": "CATALOG_SPRINT",
+  "userPriority": "Finish catalog first; then automatically resume normal development and finish the game.",
+  "repository": "P00NSMASHER/StarBlox",
+  "branch": "screenshot-match-preproduction",
+  "policyPath": "docs/preproduction/CATALOG_SPRINT.md",
+  "phaseOwner": "15",
+  "manifestAndRuntimeWriter": "08",
+  "replitUpdatesAllowed": false,
+  "mainMergeAllowed": false,
+  "schedulesChanged": false,
+  "baseline": {
+    "sourceHead": "56ea88a9dae79fa59ae0885cab7cd6b7411bed6a",
+    "manifestVersion": 12,
+    "catalogTarget": 192,
+    "recordedFinalPortable": 99,
+    "nonFinal": 93,
+    "interimNotVerified": 23,
+    "withoutFinalCoverageExcludingInterim": 70,
+    "recordedDuplicateAssetPaths": 0,
+    "screenshotQualityApprovedCount": null
+  },
+  "productionAssignments": {
+    "02": ["seating-2", "seating-3", "seating-4", "seating-5", "seating-6", "seating-7", "seating-8", "seating-9", "seating-10", "seating-11", "seating-12"],
+    "03": ["desks-2", "desks-3", "desks-4", "desks-5", "desks-6", "desks-7", "desks-8", "desks-9", "desks-10", "desks-11", "desks-12"],
+    "04": ["lighting-1", "lighting-2", "lighting-3", "lighting-4", "lighting-5", "lighting-6", "lighting-7", "lighting-8", "lighting-9", "lighting-10", "lighting-11", "lighting-12"],
+    "05": ["wall-1", "wall-2", "wall-3", "wall-4", "wall-5", "wall-6", "wall-7", "wall-8", "wall-9", "wall-10", "wall-11", "wall-12"],
+    "06": ["companions-2", "companions-3", "companions-4", "companions-5", "companions-6", "companions-7", "companions-8", "companions-9", "companions-10", "companions-11", "companions-12"],
+    "07": ["rugs-1", "rugs-2", "rugs-3", "rugs-4", "rugs-5", "rugs-6", "rugs-7", "rugs-8", "rugs-9", "rugs-10", "rugs-11", "rugs-12"],
+    "09": ["decor-1", "decor-2", "decor-3", "decor-4", "decor-5", "decor-6", "decor-7", "decor-8", "decor-9", "decor-10", "decor-11", "decor-12"],
+    "11": ["auras-1", "auras-2", "auras-3", "auras-4", "auras-5", "auras-6", "auras-7", "auras-8", "auras-9", "auras-10", "auras-11", "auras-12"]
+  },
+  "supportAssignments": {
+    "01": "Art direction and per-item rendered acceptance including the existing 99",
+    "08": "Canonical manifest, exact-ID runtime wiring and integration",
+    "10": "Catalog mobile, scrolling and accessibility QA",
+    "12": "Learning-integrity guard",
+    "13": "Save, inventory, purchase and reward guard",
+    "14": "Independent catalog release QA and duplicate-content verification",
+    "15": "Coordination, reassignments, completion gate and switch-back"
+  },
+  "normalRoles": {
+    "01": "Visual Target Director",
+    "02": "HUD Shell Builder",
+    "03": "Home Screen Builder",
+    "04": "Store Screen Builder",
+    "05": "Quest Screen Builder",
+    "06": "Avatar Buddy Builder",
+    "07": "Progression Widget Builder",
+    "08": "Catalog Art Factory and catalog release polish",
+    "09": "Environment Art Builder",
+    "10": "Mobile Accessibility QA",
+    "11": "Motion Game Feel",
+    "12": "Learning Integrity Guard",
+    "13": "Persistence Economy Guard",
+    "14": "Visual Release QA",
+    "15": "StarBlox Command Center"
+  },
+  "catalogGate": {
+    "status": "NOT_STARTED",
+    "acceptedFinalCount": null,
+    "auditedRuntimeHead": null,
+    "manifestDigest": null,
+    "assetSetDigest": null,
+    "acceptedItemIds": [],
+    "evidenceRefs": [],
+    "approvedAt": null
+  },
+  "automaticReturnPhase": "GAME_FINISHING",
+  "gameReleaseStatus": "NOT_READY",
+  "deploymentRequiresSeparateUserApproval": true
+}
