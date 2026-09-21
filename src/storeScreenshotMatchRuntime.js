@@ -20,6 +20,12 @@ function escapeHtml(value){
   return String(value ?? '').replace(/[&<>"']/g,char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
 }
 
+function escapeSelectorValue(value){
+  const raw = String(value ?? '');
+  if(typeof globalThis.CSS?.escape === 'function') return globalThis.CSS.escape(raw);
+  return raw.replace(/[\\"]/g,'\\$&');
+}
+
 function setTextIfChanged(node,value){
   if(node && node.textContent !== value) node.textContent = value;
 }
@@ -196,7 +202,7 @@ function artMarkup(item){
 
 function updateRightRail(page,currency){
   const rail = ensureRightRail(page);
-  const card = page.querySelector(`.storeCard[data-store-item-id="${CSS.escape(selectedItemId)}"]`) || page.querySelector('.storeCard');
+  const card = page.querySelector(`.storeCard[data-store-item-id="${escapeSelectorValue(selectedItemId)}"]`) || page.querySelector('.storeCard');
   const item = card ? resolveCardItem(card) : null;
   if(!item) return;
   selectedItemId = item.id;
@@ -287,6 +293,7 @@ function ensureCollections(page){
 
 function selectItem(id){
   selectedItemId = id;
+  if(typeof document === 'undefined') return;
   const page = document.querySelector('.marketPage');
   if(!page) return;
   const currency = currentCurrency();
@@ -316,6 +323,7 @@ export function decorateStoreScreenshotMatch(page){
 
 function scan(){
   queued = false;
+  if(typeof document === 'undefined') return;
   document.querySelectorAll('.marketPage').forEach(page => decorateStoreScreenshotMatch(page));
 }
 
