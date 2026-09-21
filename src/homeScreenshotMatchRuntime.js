@@ -108,6 +108,7 @@ export function decorateHomeScreenshotMatch(root){
 let queued = false;
 function scan(){
   queued = false;
+  if(typeof document === 'undefined') return;
   document.querySelectorAll('.homeHeroRuntime').forEach(root => decorateHomeScreenshotMatch(root));
 }
 
