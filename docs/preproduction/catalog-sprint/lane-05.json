@@ -1,0 +1,72 @@
+{
+  "lane": "05",
+  "workstream": "05",
+  "phase": "CATALOG_SPRINT",
+  "status": "READY_FOR_REVIEW",
+  "branch": "screenshot-match-preproduction",
+  "sourceHeadAfterAssetBatch": "87fe0f3fbd959335efc604cb64a62252f3fd1c66",
+  "assignedIds": [
+    "wall-1","wall-2","wall-3","wall-4","wall-5","wall-6",
+    "wall-7","wall-8","wall-9","wall-10","wall-11","wall-12"
+  ],
+  "candidateCount": 12,
+  "canonicalManifestChanged": false,
+  "runtimeWiringChanged": false,
+  "selfApproved": false,
+  "reviewRequired": ["01", "14"],
+  "integrationOwner": "08",
+  "assets": [
+    {"id":"wall-1","name":"School Star Poster","tier":1,"theme":"Garden Glow","path":"/assets/catalog/wall-1.svg","repositoryPath":"public/assets/catalog/wall-1.svg","blobSha":"aedaec3bbb44bd966e62d897ea0ccc5a64b14bd8","bytes":2743,"dimensions":[800,800],"creationCommit":"3e10875108bb27323d8ea90efe93945638a9bbc7","status":"READY_FOR_REVIEW"},
+    {"id":"wall-2","name":"Cloud Wall Flag","tier":1,"theme":"Galaxy Glow","path":"/assets/catalog/wall-2.svg","repositoryPath":"public/assets/catalog/wall-2.svg","blobSha":"2dd6f4f09bd201e1e03582cb2b8990930f934d39","bytes":1905,"dimensions":[800,800],"creationCommit":"a6c0a832c302cb07d40ce59f0ca198d3fa3ad2de","status":"READY_FOR_REVIEW"},
+    {"id":"wall-3","name":"Pixel Scoreboard","tier":1,"theme":"Sunny Pop","path":"/assets/catalog/wall-3.svg","repositoryPath":"public/assets/catalog/wall-3.svg","blobSha":"3419da96bd482ef0300acce28363662ec45abddf","bytes":1899,"dimensions":[800,800],"creationCommit":"8ed1f930a8e926f4e9b68e6c79a09506c92e0b99","status":"READY_FOR_REVIEW"},
+    {"id":"wall-4","name":"Heart Gallery","tier":2,"theme":"Aqua Wave","path":"/assets/catalog/wall-4.svg","repositoryPath":"public/assets/catalog/wall-4.svg","blobSha":"269b888dffce8aa2ac6cc9f885960d7c5e3d70b5","bytes":1766,"dimensions":[800,800],"creationCommit":"ddd7740e5d282adf1979ab1a9f57fb3159782823","status":"READY_FOR_REVIEW"},
+    {"id":"wall-5","name":"Garden Garland","tier":2,"theme":"Art Attack","path":"/assets/catalog/wall-5.svg","repositoryPath":"public/assets/catalog/wall-5.svg","blobSha":"e9db285a837784a875642c0b56a7964873d79a5d","bytes":2223,"dimensions":[800,800],"creationCommit":"830617716290a1565096fed5d9240e3be8e0a7f8","status":"READY_FOR_REVIEW"},
+    {"id":"wall-6","name":"Planet Map","tier":2,"theme":"Star Luxe","path":"/assets/catalog/wall-6.svg","repositoryPath":"public/assets/catalog/wall-6.svg","blobSha":"d31b39482cce122c9030e8105592d89be3f6fd33","bytes":1662,"dimensions":[800,800],"creationCommit":"20846cda11ea41ce5dd0483fdd079a6ed0ff358d","status":"READY_FOR_REVIEW"},
+    {"id":"wall-7","name":"Skate Poster","tier":3,"theme":"Midnight Neon","path":"/assets/catalog/wall-7.svg","repositoryPath":"public/assets/catalog/wall-7.svg","blobSha":"f291c8368d4218603e3afe957662c3d37c5ca62a","bytes":1871,"dimensions":[800,800],"creationCommit":"2ecd63d63a1b2666e9c08c7a5f7a392e7571e8bd","status":"READY_FOR_REVIEW"},
+    {"id":"wall-8","name":"Ocean Window","tier":3,"theme":"Candy Core","path":"/assets/catalog/wall-8.svg","repositoryPath":"public/assets/catalog/wall-8.svg","blobSha":"d50201ae8eb39ea26cffc8b7c85686cf6b4b7baa","bytes":1606,"dimensions":[800,800],"creationCommit":"b70f50dd0b2d9e90a3c226623d6fadd62c8a15d7","status":"READY_FOR_REVIEW"},
+    {"id":"wall-9","name":"Art Gallery Wall","tier":3,"theme":"Adventure Club","path":"/assets/catalog/wall-9.svg","repositoryPath":"public/assets/catalog/wall-9.svg","blobSha":"0a83f6684de27c0ac31057d600bb24e2a3e5a183","bytes":1674,"dimensions":[800,800],"creationCommit":"13e80e7e49a110e7e36a325b4e0394012a848d4c","status":"READY_FOR_REVIEW"},
+    {"id":"wall-10","name":"Neon City Sign","tier":4,"theme":"Cloud Pop","path":"/assets/catalog/wall-10.svg","repositoryPath":"public/assets/catalog/wall-10.svg","blobSha":"df566297cc638fbcf1673d799a7ffb9e1f586927","bytes":1639,"dimensions":[800,800],"creationCommit":"5dd8042d8c2b6a51f0e73c8b7dd57d6ba255bc1e","status":"READY_FOR_REVIEW"},
+    {"id":"wall-11","name":"Star Mirror","tier":4,"theme":"Pixel Party","path":"/assets/catalog/wall-11.svg","repositoryPath":"public/assets/catalog/wall-11.svg","blobSha":"d0609238147f8d63e58662efe9755abbaecc39e1","bytes":1853,"dimensions":[800,800],"creationCommit":"c47e8a11d2e4a66bb2f961eb3b64dd7b9df7896d","status":"READY_FOR_REVIEW"},
+    {"id":"wall-12","name":"Golden Crest","tier":5,"theme":"Berry Blast","path":"/assets/catalog/wall-12.svg","repositoryPath":"public/assets/catalog/wall-12.svg","blobSha":"84a7eeb0f909572fe9e896b912b675990187ae48","bytes":1747,"dimensions":[800,800],"creationCommit":"87fe0f3fbd959335efc604cb64a62252f3fd1c66","status":"READY_FOR_REVIEW"}
+  ],
+  "provenance": {
+    "type": "original-repo-owned-svg",
+    "description": "Original StarBlox-specific self-contained SVG candidates authored directly on the preproduction branch for this catalog sprint lane.",
+    "externalUrls": false,
+    "externalRasterEmbeds": false,
+    "externalFonts": false,
+    "thirdPartyBrandsOrCharacters": false,
+    "robloxOrBrookhavenAssets": false
+  },
+  "checks": {
+    "catalogMetadataMatched": "PASS",
+    "githubAssetPresenceBlobShaAndSize": "PASS",
+    "canvasContract800x800": "PASS",
+    "localXmlParseBeforeWrite": "PASS",
+    "renderedCardScaleReview": "NOT_TESTED",
+    "storeBrowserReview": "NOT_TESTED",
+    "independentVisualApproval": "PENDING_01_14",
+    "fullBuild": "NOT_RUN",
+    "fullTestSuite": "NOT_RUN"
+  },
+  "visualDifferentiation": {
+    "wall-1": "framed school-star achievement poster with school-tool motifs",
+    "wall-2": "pointed pennant with dimensional cloud emblem",
+    "wall-3": "dark pixel-scoreboard panel with tiled score lights",
+    "wall-4": "asymmetric multi-frame heart gallery",
+    "wall-5": "leaf-and-flower hanging garland with star ornaments",
+    "wall-6": "orbital planet-map plaque with ringed world and satellites",
+    "wall-7": "neon skateboard poster with glowing wheels and diagonal motion",
+    "wall-8": "deep-set ocean window with layered waves and fish",
+    "wall-9": "multi-frame art gallery wall with varied abstract scenes",
+    "wall-10": "glowing dimensional city-skyline sign",
+    "wall-11": "star-shaped framed mirror with reflective highlights",
+    "wall-12": "ornate tier-5 heraldic golden crest with star centerpiece"
+  },
+  "blockers": [
+    "Independent rendered visual and card-scale acceptance is still required from Workstream 01 and/or Workstream 14.",
+    "Workstream 08 must integrate only accepted candidates into the canonical manifest and exact-ID runtime mapping.",
+    "No branch-local browser render or full production build was executed by this lane."
+  ],
+  "handoff": "Lane 05 has staged all 12 assigned wall candidates. Workstreams 01/14 should review the actual rendered assets by hash; Workstream 08 should integrate only accepted IDs. Command Center 15 may reassign this worker only after review/integration needs are reconciled."
+}
