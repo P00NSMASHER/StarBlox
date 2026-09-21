@@ -1,0 +1,146 @@
+name: StarBlox Lane 13 Home v2 Intake
+
+on:
+  push:
+    branches: [screenshot-match-preproduction]
+    paths:
+      - '.github/workflows/lane13-home-v2-intake.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: starblox-lane13-home-v2-intake
+  cancel-in-progress: false
+
+jobs:
+  stage-scene:
+    if: github.ref == 'refs/heads/screenshot-match-preproduction'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: screenshot-match-preproduction
+          fetch-depth: 0
+
+      - name: Install image verifier
+        run: python3 -m pip install --disable-pip-version-check Pillow==11.3.0
+
+      - name: Stage exact Adobe outputs or verify existing identical bytes
+        env:
+          FULL_URL: 'https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:e4ef809a-d20b-4056-9cd1-5fe95e92bf75'
+          DESKTOP_URL: 'https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:102f4dce-1dc8-43f1-a1f5-667155d813e0'
+        run: |
+          set -eu
+          mkdir -p public/assets/visuals/lane-13 docs/preproduction/visuals
+          FULL='public/assets/visuals/lane-13/home-bedroom-w13-v2-full.png'
+          DESKTOP='public/assets/visuals/lane-13/home-bedroom-w13-v2-1408x1056.png'
+          if [ ! -f "$FULL" ]; then curl -fL --retry 2 "$FULL_URL" -o "$FULL"; fi
+          if [ ! -f "$DESKTOP" ]; then curl -fL --retry 2 "$DESKTOP_URL" -o "$DESKTOP"; fi
+          python3 - <<'PY'
+          from PIL import Image, ImageStat
+          from pathlib import Path
+          import hashlib, json
+          files=[
+            ('full','public/assets/visuals/lane-13/home-bedroom-w13-v2-full.png',(2320,1808)),
+            ('desktop','public/assets/visuals/lane-13/home-bedroom-w13-v2-1408x1056.png',(1408,1056)),
+          ]
+          out=[]
+          for role,p,expected in files:
+            b=Path(p).read_bytes()
+            im=Image.open(p); im.load()
+            if im.format != 'PNG': raise SystemExit(f'{p}: expected PNG, got {im.format}')
+            if im.size != expected: raise SystemExit(f'{p}: expected {expected}, got {im.size}')
+            rgb=im.convert('RGB')
+            stat=ImageStat.Stat(rgb.resize((64,64)))
+            if max(stat.var) < 10: raise SystemExit(f'{p}: image variance too low')
+            out.append({'role':role,'path':p,'format':'PNG','dimensions':list(im.size),'bytes':len(b),'sha256':hashlib.sha256(b).hexdigest(),'variance64':stat.var})
+          report={
+            'schemaVersion':1,
+            'candidateId':'home-bedroom-w13-v2',
+            'candidateType':'environment-background',
+            'producer':'13',
+            'targetScreen':'Home',
+            'status':'STAGED_PENDING_ORIGIN_READBACK_AND_INDEPENDENT_REVIEW',
+            'parentCandidate':'home-bedroom-w13-v1',
+            'repairBasis':'docs/preproduction/visuals/reviews/01.json exact v1 REWORK contract',
+            'reference':{'path':'docs/preproduction/reference-screenshots/originals/home-1448x1086.jpeg','sha256':'6a4b110aeaf12a6ab0c629f9181cc6cfa8d4f55a518d4f2a6adb3ac6e756c457'},
+            'provenance':{
+              'sourceMethod':'Adobe image_generate from prior no-character lane-13 scene reference with v1 reviewer repair contract',
+              'generationRequestId':'a61e4792-b459-4bcd-9e50-56475be8f979',
+              'sourceAdobeUrn':'urn:aaid:ps:US:e4ef809a-d20b-4056-9cd1-5fe95e92bf75',
+              'desktopDerivativeMethod':'Adobe image_crop_and_resize center reframe only',
+              'cropRequestId':'4bf802ff-17a1-4d22-84b9-657b30f6296d',
+              'desktopAdobeUrn':'urn:aaid:ps:US:102f4dce-1dc8-43f1-a1f5-667155d813e0'
+            },
+            'repairContractApplied':[
+              'brightest architectural window/daylight moved into far-left third, outside intended center avatar corridor',
+              'bed-left and desk-right anchors preserved',
+              'center floor remains open for separately composited avatar',
+              'side-zone prop density increased without UI/text/logos',
+              'chunkier rounded toy-game furniture and saturated blush/lilac/cyan/gold accents',
+              'top-center and far-right overlay zones kept comparatively calm'
+            ],
+            'files':out,
+            'producerVisualInspection':'PASS_PRODUCER_ONLY_NOT_INDEPENDENT_ACCEPT',
+            'runtimeWired':False,
+            'canonicalCatalogTouched':False,
+            'workstream06AvatarTouched':False,
+            'workstream09ActiveEnvironmentTouched':False,
+            'replitOrFlootTouched':False,
+            'mainTouched':False,
+            'originReadback':'PENDING'
+          }
+          Path('docs/preproduction/visuals/lane-13-home-v2-intake.json').write_text(json.dumps(report,indent=2)+'\n')
+          PY
+
+      - name: Commit candidate bytes and intake evidence only
+        run: |
+          set -eu
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- public/assets/visuals/lane-13/home-bedroom-w13-v2-full.png public/assets/visuals/lane-13/home-bedroom-w13-v2-1408x1056.png docs/preproduction/visuals/lane-13-home-v2-intake.json
+          if ! git diff --cached --quiet; then
+            git commit -m 'visuals: stage Home bedroom v2 environment candidate'
+            for attempt in 1 2 3; do
+              if git push origin HEAD:refs/heads/screenshot-match-preproduction; then break; fi
+              git fetch origin screenshot-match-preproduction
+              git rebase origin/screenshot-match-preproduction
+              if [ "$attempt" -eq 3 ]; then echo 'safe publish blocked; no force push' >&2; exit 1; fi
+            done
+          fi
+
+      - name: Verify exact origin readback and publish PASS evidence
+        run: |
+          set -eu
+          git fetch origin screenshot-match-preproduction
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib, json, subprocess
+          p=Path('docs/preproduction/visuals/lane-13-home-v2-intake.json')
+          r=json.loads(p.read_text())
+          for f in r['files']:
+            data=subprocess.check_output(['git','show',f"origin/screenshot-match-preproduction:{f['path']}"])
+            got=hashlib.sha256(data).hexdigest()
+            if got != f['sha256']:
+              raise SystemExit(f"origin readback mismatch {f['path']}: {got} != {f['sha256']}")
+            f['originReadbackSha256']=got
+            f['gitBlobSha']=subprocess.check_output(['git','rev-parse',f"origin/screenshot-match-preproduction:{f['path']}"]).decode().strip()
+          r['originReadback']='PASS_2_OF_2_EXACT_SHA256'
+          r['status']='STAGED_READY_FOR_INDEPENDENT_REVIEW'
+          r['sourceHeadAfterBinaryPush']=subprocess.check_output(['git','rev-parse','origin/screenshot-match-preproduction']).decode().strip()
+          p.write_text(json.dumps(r,indent=2)+'\n')
+          PY
+          git add -- docs/preproduction/visuals/lane-13-home-v2-intake.json
+          if ! git diff --cached --quiet; then
+            git commit -m 'visuals: record exact Home v2 origin readback'
+            for attempt in 1 2 3; do
+              if git push origin HEAD:refs/heads/screenshot-match-preproduction; then exit 0; fi
+              git fetch origin screenshot-match-preproduction
+              git rebase origin/screenshot-match-preproduction
+            done
+            echo 'readback evidence publication blocked; no force push' >&2
+            exit 1
+          fi
