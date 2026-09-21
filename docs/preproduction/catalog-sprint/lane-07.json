@@ -1,66 +1,159 @@
 {
-  "schemaVersion": 4,
-  "orchestrationVersion": 3,
+  "schemaVersion": 5,
+  "orchestrationVersion": 2,
   "lane": "07",
   "workstream": "07",
   "phase": "CATALOG_SPRINT",
   "branch": "screenshot-match-preproduction",
-  "status": "RUGS_REWORK_12_OF_12__TOPS_1_6_STAGED_READY_FOR_REVIEW_01",
-  "sourceHeadCheckedThisRun": "9a4a2b5741f4840ca0c1cfd791d629ffcb98ab5c",
+  "status": "TOPS_1_6_PIXEL_EVIDENCE_READY_FOR_REVIEW_01__RUGS_1_3_GENERATED_ADOBE_PENDING_REPOSITORY_ATTACHMENT__RUGS_REWORK_12_OF_12",
+  "sourceHeadCheckedThisRun": "c825a365db925833c4c9243b80f26ad8560c02ea",
+  "deliveryProtocol": "docs/preproduction/DELIVERY_PROTOCOL_V2.md",
   "productionAssignment": ["rugs-1","rugs-2","rugs-3","rugs-4","rugs-5","rugs-6","rugs-7","rugs-8","rugs-9","rugs-10","rugs-11","rugs-12"],
   "repairAssignment": ["tops-1","tops-2","tops-3","tops-4","tops-5","tops-6","rugs-1","rugs-2","rugs-3","rugs-4","rugs-5","rugs-6","rugs-7","rugs-8","rugs-9","rugs-10","rugs-11","rugs-12"],
+  "owners": {
+    "phase": "15",
+    "manifestRuntime": "08",
+    "topsIndependentReview": "01",
+    "rugIndependentReview": "14"
+  },
   "selfApproved": false,
-  "owners": {"phase":"15","manifestRuntime":"08","rugIndependentReview":"14","topsIndependentReview":"01"},
-  "rugReview": {
-    "shardPath":"docs/preproduction/catalog-sprint/reviews/14.json",
-    "reviewSourceHead":"da070b301e8ce57ca10d44bcb4ccd2078cfe4690",
-    "reviewedCount":12,"accepted":0,"rework":12,"blocked":0,"decision":"REWORK_12_OF_12",
-    "artifactId":10662541654,
-    "artifactDigest":"sha256:ab947bfa966a944caa27ec4800c60811638050f178dec6bfab5163b4027169df",
-    "evidence":["rugs/rugs-contact-sheet.png","rugs/detail/rugs-1.png through rugs/detail/rugs-12.png"],
-    "sharedDefect":"All 12 rugs read as upright floating badges/signs rather than floor textiles. Replacements must use floor-plane three-quarter perspective with visible pile/weave, edge thickness, floor contact and item/theme-specific textile construction; higher tiers must progress through richer materials rather than glow-only ornament.",
-    "assetContinuity":"PASS_CURRENT_HASHES_MATCH_REVIEWED_HASHES"
-  },
-  "rugCandidates": [
-    {"id":"rugs-1","name":"Starter Mat","tier":1,"theme":"Aqua Wave","repositoryPath":"public/assets/catalog/rugs-1.svg","gitBlobSha":"30965be773947cbff94d1499ddf2d8e2a121c54c","bytes":1888,"dimensions":[800,800],"decision":"REWORK"},
-    {"id":"rugs-2","name":"Cloud Rug","tier":1,"theme":"Art Attack","repositoryPath":"public/assets/catalog/rugs-2.svg","gitBlobSha":"3ab198d01c381f12b20a8764327b8ee2df50f9c8","bytes":2309,"dimensions":[800,800],"decision":"REWORK"},
-    {"id":"rugs-3","name":"Pixel Grid Rug","tier":1,"theme":"Star Luxe","repositoryPath":"public/assets/catalog/rugs-3.svg","gitBlobSha":"9008fbd26088d82946b1a84330ef4135a844e8ed","bytes":2091,"dimensions":[800,800],"decision":"REWORK"},
-    {"id":"rugs-4","name":"Heart Rug","tier":2,"theme":"Midnight Neon","repositoryPath":"public/assets/catalog/rugs-4.svg","gitBlobSha":"094e35add74786eae5c371eeb6e98a01af3f91a4","bytes":2091,"dimensions":[800,800],"decision":"REWORK"},
-    {"id":"rugs-5","name":"Leaf Rug","tier":2,"theme":"Candy Core","repositoryPath":"public/assets/catalog/rugs-5.svg","gitBlobSha":"444fc7ee4adae44ed23879e72f2b69f3f17a9624","bytes":1985,"dimensions":[800,800],"decision":"REWORK"},
-    {"id":"rugs-6","name":"Orbit Rug","tier":2,"theme":"Adventure Club","repositoryPath":"public/assets/catalog/rugs-6.svg","gitBlobSha":"3fad9495eb41588d635dfbe0a96854b2bf1cd309","bytes":2337,"dimensions":[800,800],"decision":"REWORK"},
-    {"id":"rugs-7","name":"Checker Rug","tier":3,"theme":"Cloud Pop","repositoryPath":"public/assets/catalog/rugs-7.svg","gitBlobSha":"4bf9d6ad3cb2c6a8fa625d5084a0eade817d2f45","bytes":2081,"dimensions":[800,800],"decision":"REWORK"},
-    {"id":"rugs-8","name":"Wave Rug","tier":3,"theme":"Pixel Party","repositoryPath":"public/assets/catalog/rugs-8.svg","gitBlobSha":"38d97147ca1ace14db22c8a408fb206776cc979d","bytes":2082,"dimensions":[800,800],"decision":"REWORK"},
-    {"id":"rugs-9","name":"Splash Rug","tier":3,"theme":"Berry Blast","repositoryPath":"public/assets/catalog/rugs-9.svg","gitBlobSha":"3b6f3de23334a43a85b99165280fba82fd8c3431","bytes":2292,"dimensions":[800,800],"decision":"REWORK"},
-    {"id":"rugs-10","name":"Neon Grid Rug","tier":4,"theme":"Garden Glow","repositoryPath":"public/assets/catalog/rugs-10.svg","gitBlobSha":"2a12b492144b9de33e454c18cbc1d0d4e64c28f5","bytes":2148,"dimensions":[800,800],"decision":"REWORK"},
-    {"id":"rugs-11","name":"Dream Cloud Rug","tier":4,"theme":"Galaxy Glow","repositoryPath":"public/assets/catalog/rugs-11.svg","gitBlobSha":"1c09f5503a2f42d550b3abe60182ae6c54cdda9d","bytes":2387,"dimensions":[800,800],"decision":"REWORK"},
-    {"id":"rugs-12","name":"Luxe Star Rug","tier":5,"theme":"Sunny Pop","repositoryPath":"public/assets/catalog/rugs-12.svg","gitBlobSha":"718227d632a1a85fa3386f1d9ef1e407a7e5a115","bytes":2461,"dimensions":[800,800],"decision":"REWORK"}
-  ],
-  "secondaryRepairBatch": {
-    "authorization":"Command Center repair assignment routes tops-1..6 to Workstream 07; exact generated Adobe Firefly bytes were supplied as immutable Git blobs and were not regenerated in this run.",
-    "legacyReviewResult":"REWORK_6_OF_6",
-    "stagingCommit":"da070b301e8ce57ca10d44bcb4ccd2078cfe4690",
-    "repositoryStagedCount":6,
-    "status":"READY_FOR_REVIEW_01",
-    "candidates":[
-      {"id":"tops-1","name":"Hoodie","tier":1,"theme":"Cloud Pop","repositoryPath":"public/assets/catalog/tops-1-w07-v2.jpg","publicPath":"/assets/catalog/tops-1-w07-v2.jpg","format":"image/jpeg","gitBlobSha":"5fd9544999694ec27c9b6247aaffeca1c0c7b484","bytes":22951,"generationDimensions":[1024,1024],"adobeAssetId":"urn:aaid:sc:US:e62699af-bcff-4f60-bd5f-a19a62ff052e","readback":"PASS_GIT_TREE","status":"READY_FOR_REVIEW"},
-      {"id":"tops-2","name":"Zip Hoodie","tier":1,"theme":"Pixel Party","repositoryPath":"public/assets/catalog/tops-2-w07-v2.jpg","publicPath":"/assets/catalog/tops-2-w07-v2.jpg","format":"image/jpeg","gitBlobSha":"428450782feb314535163b54d0405f9af8b7cd65","bytes":27448,"generationDimensions":[1024,1024],"adobeAssetId":"urn:aaid:sc:US:94276c9c-0f7e-4d05-a37f-ae590a3ed9cf","readback":"PASS_GIT_TREE","status":"READY_FOR_REVIEW"},
-      {"id":"tops-3","name":"Varsity Tee","tier":1,"theme":"Berry Blast","repositoryPath":"public/assets/catalog/tops-3-w07-v2.jpg","publicPath":"/assets/catalog/tops-3-w07-v2.jpg","format":"image/jpeg","gitBlobSha":"b4a834586feae169e102f43aeceaaaf11893ec11","bytes":22414,"generationDimensions":[1024,1024],"adobeAssetId":"urn:aaid:sc:US:1ff65d2d-d6cc-4429-8d4c-17e2638ac32b","readback":"PASS_GIT_TREE","status":"READY_FOR_REVIEW"},
-      {"id":"tops-4","name":"Bow Cardigan","tier":2,"theme":"Garden Glow","repositoryPath":"public/assets/catalog/tops-4-w07-v2.jpg","publicPath":"/assets/catalog/tops-4-w07-v2.jpg","format":"image/jpeg","gitBlobSha":"26d03c5ba26c565e79e809f825db87c9be1dba21","bytes":31644,"generationDimensions":[1024,1024],"adobeAssetId":"urn:aaid:sc:US:ad254a5f-5bbc-495a-8fbf-bed26afe03a7","readback":"PASS_GIT_TREE","status":"READY_FOR_REVIEW"},
-      {"id":"tops-5","name":"Crewneck","tier":2,"theme":"Galaxy Glow","repositoryPath":"public/assets/catalog/tops-5-w07-v2.jpg","publicPath":"/assets/catalog/tops-5-w07-v2.jpg","format":"image/jpeg","gitBlobSha":"78c5c89270be2f505f77d033f340c72cf0ff80a8","bytes":21739,"generationDimensions":[1024,1024],"adobeAssetId":"urn:aaid:sc:US:191b24f6-f43d-4b38-97ad-278d19c8a371","readback":"PASS_GIT_TREE","status":"READY_FOR_REVIEW"},
-      {"id":"tops-6","name":"Gamer Jacket","tier":2,"theme":"Sunny Pop","repositoryPath":"public/assets/catalog/tops-6-w07-v2.jpg","publicPath":"/assets/catalog/tops-6-w07-v2.jpg","format":"image/jpeg","gitBlobSha":"44d88aa84246f9d8a76b3f22c408653eb28176aa","bytes":31238,"generationDimensions":[1024,1024],"adobeAssetId":"urn:aaid:sc:US:bde8083a-a281-4c1c-b558-5afac29151ec","readback":"PASS_GIT_TREE","status":"READY_FOR_REVIEW"}
+  "topsRepairBatch": {
+    "repositoryStagedCount": 6,
+    "stagingCommit": "da070b301e8ce57ca10d44bcb4ccd2078cfe4690",
+    "status": "READY_FOR_REVIEW_01_WITH_QUALIFIED_PIXEL_EVIDENCE",
+    "candidates": [
+      {"id":"tops-1","name":"Hoodie","tier":1,"theme":"Cloud Pop","repositoryPath":"public/assets/catalog/tops-1-w07-v2.jpg","gitBlobSha":"5fd9544999694ec27c9b6247aaffeca1c0c7b484","format":"image/jpeg","bytes":22951,"status":"READY_FOR_REVIEW"},
+      {"id":"tops-2","name":"Zip Hoodie","tier":1,"theme":"Pixel Party","repositoryPath":"public/assets/catalog/tops-2-w07-v2.jpg","gitBlobSha":"428450782feb314535163b54d0405f9af8b7cd65","format":"image/jpeg","bytes":27448,"status":"READY_FOR_REVIEW"},
+      {"id":"tops-3","name":"Varsity Tee","tier":1,"theme":"Berry Blast","repositoryPath":"public/assets/catalog/tops-3-w07-v2.jpg","gitBlobSha":"b4a834586feae169e102f43aeceaaaf11893ec11","format":"image/jpeg","bytes":22414,"status":"READY_FOR_REVIEW"},
+      {"id":"tops-4","name":"Bow Cardigan","tier":2,"theme":"Garden Glow","repositoryPath":"public/assets/catalog/tops-4-w07-v2.jpg","gitBlobSha":"26d03c5ba26c565e79e809f825db87c9be1dba21","format":"image/jpeg","bytes":31644,"status":"READY_FOR_REVIEW"},
+      {"id":"tops-5","name":"Crewneck","tier":2,"theme":"Galaxy Glow","repositoryPath":"public/assets/catalog/tops-5-w07-v2.jpg","gitBlobSha":"78c5c89270be2f505f77d033f340c72cf0ff80a8","format":"image/jpeg","bytes":21739,"status":"READY_FOR_REVIEW"},
+      {"id":"tops-6","name":"Gamer Jacket","tier":2,"theme":"Sunny Pop","repositoryPath":"public/assets/catalog/tops-6-w07-v2.jpg","gitBlobSha":"44d88aa84246f9d8a76b3f22c408653eb28176aa","format":"image/jpeg","bytes":31238,"status":"READY_FOR_REVIEW"}
     ],
-    "provenance":"Original Adobe Firefly item-specific dimensional Tops repairs created by Workstream 07 from real catalog metadata and reviewer-01 defects; immutable extracted JPEG blobs were supplied by Command Center 15 and attached without regeneration. No third-party brand/character or Roblox/Brookhaven reference used.",
-    "repositoryReadback":{"method":"Git Trees API at staging tree debfe63b5309c1286ca6c01ebd4b385afb296266","result":"PASS_6_OF_6_EXACT_PATH_SHA_AND_SIZE","uniqueBlobs":"PASS_6_OF_6"},
-    "independentAcceptance":"PENDING_REVIEWER_01",
-    "canonicalIntegration":"PENDING_08_AFTER_ACCEPT"
+    "qualifiedRenderedEvidence": {
+      "workflowRunId": 35654620624,
+      "workflowHead": "acbc6035da9d57bc88043604caa5ec0b6352398e",
+      "workflowConclusion": "SUCCESS",
+      "artifactId": 10663298893,
+      "artifactName": "catalog-staged-art-review",
+      "artifactDigest": "sha256:f2c0d3d3aa251f5e1934017a7c61acf644e8876ab1e1a5b0c37e7f06ffb8e9db",
+      "artifactReportReplacementCount": 16,
+      "topsEvidence": [
+        "staged-replacements/staged-replacements-contact-sheet.png",
+        "staged-replacements/detail/tops-1-5fd95449.png",
+        "staged-replacements/detail/tops-2-42845078.png",
+        "staged-replacements/detail/tops-3-b4a83458.png",
+        "staged-replacements/detail/tops-4-26d03c5b.png",
+        "staged-replacements/detail/tops-5-78c5c892.png",
+        "staged-replacements/detail/tops-6-44d88aa8.png"
+      ],
+      "renderResult": "PASS_6_OF_6_HTTP_200_SCREENSHOT_TRUE_NO_ERRORS",
+      "naturalRenderDimensions": [600,600]
+    },
+    "handoff": "Reviewer 01 now has qualified exact-hash card/detail pixel evidence for tops-1..6. Review these replacement hashes before more legacy review. Old Tops REWORK decisions do not transfer to the new hashes.",
+    "canonicalIntegration": "PENDING_08_AFTER_REVIEWER_01_ACCEPT"
   },
-  "checks": {"topsRepairAttachment":"PASS_6_OF_6","topsRepairReadback":"PASS_6_OF_6","topsRepairIndependentReview":"PENDING_01","topsRepairCanonicalIntegration":"PENDING_08","rugIndependentReview":"REWORK_12_OF_12_BY_14","rugReplacementProduction":"NEXT_BOUNDED_BATCH_REQUIRED","canonicalManifestTouched":false,"canonicalRuntimeTouched":false,"playerDataTouched":false,"replitOrFlootTouched":false,"mainTouched":false},
-  "handoff": {
-    "01":"Review the exact six versioned JPEG hashes above at Store-card/detail scale. They replace rejected legacy Tops only as candidates; return exact-hash ACCEPT/REWORK/BLOCKED.",
-    "14":"Rugs current hashes are reconciled as REWORK 12/12 from artifact 10662541654. No current rug hash is accepted.",
-    "07_next":"Repair rugs in bounded 2-6 item versioned batches, beginning with rugs-1..6 unless Command Center records another exact assignment. Preserve rejected SVGs for comparison; replacements must read unmistakably as floor textiles in perspective.",
-    "08":"Do not wire the six Tops replacements or any rug until the assigned independent reviewer ACCEPTs the exact current replacement hash.",
-    "15":"The prior Tops binary-transfer blocker is cleared. Six exact Tops replacement JPEGs are repository-staged and read back; rug review is no longer pending—12/12 current rug hashes are REWORK."
+  "rugReview": {
+    "reviewer": "14",
+    "artifactId": 10662541654,
+    "decision": "REWORK_12_OF_12",
+    "accepted": 0,
+    "rework": 12,
+    "blocked": 0,
+    "sharedDefect": "All current rugs read as upright floating badges/signs rather than floor textiles. Replacements require floor-plane three-quarter perspective, visible pile/weave, edge thickness, floor contact and item/theme-specific textile construction; higher tiers must progress through materials/construction rather than glow-only ornament."
   },
-  "freeze": {"replitTouched":false,"flootTouched":false,"mainMergedOrModified":false,"canonicalManifestOrRuntimeTouched":false,"playerDataTouched":false,"learningEconomyTouched":false}
+  "rejectedRugVersions": [
+    {"id":"rugs-1","name":"Starter Mat","tier":1,"theme":"Aqua Wave","repositoryPath":"public/assets/catalog/rugs-1.svg","gitBlobSha":"30965be773947cbff94d1499ddf2d8e2a121c54c"},
+    {"id":"rugs-2","name":"Cloud Rug","tier":1,"theme":"Art Attack","repositoryPath":"public/assets/catalog/rugs-2.svg","gitBlobSha":"3ab198d01c381f12b20a8764327b8ee2df50f9c8"},
+    {"id":"rugs-3","name":"Pixel Grid Rug","tier":1,"theme":"Star Luxe","repositoryPath":"public/assets/catalog/rugs-3.svg","gitBlobSha":"9008fbd26088d82946b1a84330ef4135a844e8ed"},
+    {"id":"rugs-4","name":"Heart Rug","tier":2,"theme":"Midnight Neon","repositoryPath":"public/assets/catalog/rugs-4.svg","gitBlobSha":"094e35add74786eae5c371eeb6e98a01af3f91a4"},
+    {"id":"rugs-5","name":"Leaf Rug","tier":2,"theme":"Candy Core","repositoryPath":"public/assets/catalog/rugs-5.svg","gitBlobSha":"444fc7ee4adae44ed23879e72f2b69f3f17a9624"},
+    {"id":"rugs-6","name":"Orbit Rug","tier":2,"theme":"Adventure Club","repositoryPath":"public/assets/catalog/rugs-6.svg","gitBlobSha":"3fad9495eb41588d635dfbe0a96854b2bf1cd309"},
+    {"id":"rugs-7","name":"Checker Rug","tier":3,"theme":"Cloud Pop","repositoryPath":"public/assets/catalog/rugs-7.svg","gitBlobSha":"4bf9d6ad3cb2c6a8fa625d5084a0eade817d2f45"},
+    {"id":"rugs-8","name":"Wave Rug","tier":3,"theme":"Pixel Party","repositoryPath":"public/assets/catalog/rugs-8.svg","gitBlobSha":"38d97147ca1ace14db22c8a408fb206776cc979d"},
+    {"id":"rugs-9","name":"Splash Rug","tier":3,"theme":"Berry Blast","repositoryPath":"public/assets/catalog/rugs-9.svg","gitBlobSha":"3b6f3de23334a43a85b99165280fba82fd8c3431"},
+    {"id":"rugs-10","name":"Neon Grid Rug","tier":4,"theme":"Garden Glow","repositoryPath":"public/assets/catalog/rugs-10.svg","gitBlobSha":"2a12b492144b9de33e454c18cbc1d0d4e64c28f5"},
+    {"id":"rugs-11","name":"Dream Cloud Rug","tier":4,"theme":"Galaxy Glow","repositoryPath":"public/assets/catalog/rugs-11.svg","gitBlobSha":"1c09f5503a2f42d550b3abe60182ae6c54cdda9d"},
+    {"id":"rugs-12","name":"Luxe Star Rug","tier":5,"theme":"Sunny Pop","repositoryPath":"public/assets/catalog/rugs-12.svg","gitBlobSha":"718227d632a1a85fa3386f1d9ef1e407a7e5a115"}
+  ],
+  "rugRepairBatchThisRun": {
+    "scope": ["rugs-1","rugs-2","rugs-3"],
+    "status": "GENERATED_IN_ADOBE_NOT_REPOSITORY_STAGED",
+    "producerVisualCheck": "PASS_DIRECTIONAL_DIMENSIONAL_FLOOR_PRESENTATION",
+    "candidates": [
+      {
+        "id":"rugs-1",
+        "name":"Starter Mat",
+        "tier":1,
+        "theme":"Aqua Wave",
+        "adobeGenAIAssetId":"urn:aaid:sc:US:a1e701b2-ec20-4699-8f3e-8b0fa45044f8",
+        "generationRequestId":"272cb2ac-71e2-469c-9977-53d209a56683",
+        "generationFormat":"image/png",
+        "generationDimensions":[1024,1024],
+        "visualCheck":"PASS: unmistakably floor-oriented rectangular mat; bound edge thickness, woven surface, aqua wave relief and contact shadow materially address reviewer-14 family defect.",
+        "repositoryPath":null,
+        "gitBlobSha":null,
+        "repositoryBytes":null,
+        "status":"GENERATED_ADOBE_ASSET_PENDING_BINARY_ATTACHMENT"
+      },
+      {
+        "id":"rugs-2",
+        "name":"Cloud Rug",
+        "tier":1,
+        "theme":"Art Attack",
+        "adobeGenAIAssetId":"urn:aaid:sc:US:7059212c-2223-4a70-b84c-4989dc692661",
+        "generationRequestId":"e33265a7-8617-4075-83a5-d02ec792cecf",
+        "generationFormat":"image/png",
+        "generationDimensions":[1024,1024],
+        "visualCheck":"PASS_DIRECTIONAL: clearly floor-oriented plush cloud with substantial tufted pile, stitched edge and contact shadow; Art Attack accents are intentionally restrained for Tier 1 and require independent review after staging.",
+        "repositoryPath":null,
+        "gitBlobSha":null,
+        "repositoryBytes":null,
+        "status":"GENERATED_ADOBE_ASSET_PENDING_BINARY_ATTACHMENT"
+      },
+      {
+        "id":"rugs-3",
+        "name":"Pixel Grid Rug",
+        "tier":1,
+        "theme":"Star Luxe",
+        "adobeGenAIAssetId":"urn:aaid:sc:US:1ad22d63-a119-431e-98e0-37431189dc3e",
+        "generationRequestId":"bc257735-8765-4cc9-9d56-ac9defbb8df8",
+        "generationFormat":"image/png",
+        "generationDimensions":[1024,1024],
+        "visualCheck":"PASS: floor-plane rectangular textile with thick bound edge, visibly tufted pixel-grid construction, violet/cyan fibers, restrained gold star accents and real contact shadow.",
+        "repositoryPath":null,
+        "gitBlobSha":null,
+        "repositoryBytes":null,
+        "status":"GENERATED_ADOBE_ASSET_PENDING_BINARY_ATTACHMENT"
+      }
+    ],
+    "repositoryTransferBlocker": "This run successfully generated, indexed and visually inspected the three Firefly assets, but the current Adobe connector response exposed only auth-gated/presigned visual renditions to this task and did not expose a binary file/base64 handle that could be passed into GitHub create_blob. Per protocol they are NOT STAGED and NOT READY_FOR_REVIEW until exact image bytes are attached to versioned branch paths and read back.",
+    "nextTransferAction": "Use the already-proven Adobe-generation-to-Git-blob extraction path from Command Center 15 for these three exact GenAI asset IDs, or expose a binary file/base64 handle to Workstream 07. Do not regenerate these images merely to solve transfer."
+  },
+  "nextActions": [
+    "01: review tops-1..6 exact replacement hashes using artifact 10663298893 immediately; replacement review now has qualified pixel evidence.",
+    "07/15: preserve and attach exact generated image bytes for rugs-1..3 to versioned repository paths without regeneration, then exact readback and reviewer-14 handoff.",
+    "07: after rugs-1..3 transfer is solved, continue rugs-4..6 as the next bounded repair batch or respond first to any reviewer REWORK on a newly staged rug hash.",
+    "08: integrate only independently ACCEPTed exact hashes; none from this lane is self-approved."
+  ],
+  "checks": {
+    "topsRepairAttachment":"PASS_6_OF_6",
+    "topsReplacementRenderedEvidence":"PASS_6_OF_6_ARTIFACT_10663298893",
+    "topsRepairIndependentReview":"PENDING_01",
+    "rugLegacyIndependentReview":"REWORK_12_OF_12_BY_14",
+    "rugReplacementGeneration":"PASS_3_OF_3_ADOBE",
+    "rugReplacementRepositoryAttachment":"BLOCKED_BINARY_HANDLE_NOT_EXPOSED_THIS_RUN",
+    "canonicalManifestTouched":false,
+    "canonicalRuntimeTouched":false,
+    "playerDataTouched":false,
+    "replitOrFlootTouched":false,
+    "mainTouched":false
+  },
+  "freeze": {
+    "replitTouched": false,
+    "flootTouched": false,
+    "mainMergedOrModified": false,
+    "canonicalManifestOrRuntimeTouched": false,
+    "playerDataTouched": false,
+    "learningEconomyTouched": false
+  }
 }
