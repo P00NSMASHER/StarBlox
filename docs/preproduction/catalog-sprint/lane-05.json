@@ -1,21 +1,23 @@
 {
+  "schemaVersion": 2,
   "lane": "05",
   "workstream": "05",
   "phase": "CATALOG_SPRINT",
-  "status": "READY_FOR_REVIEW",
+  "status": "BOTTOMS_1_4_GENERATED_REMOTE_UPLOAD_BLOCKED__WALL_1_12_AWAIT_14",
   "branch": "screenshot-match-preproduction",
-  "sourceHeadAfterAssetBatch": "87fe0f3fbd959335efc604cb64a62252f3fd1c66",
-  "assignedIds": [
-    "wall-1","wall-2","wall-3","wall-4","wall-5","wall-6",
-    "wall-7","wall-8","wall-9","wall-10","wall-11","wall-12"
-  ],
-  "candidateCount": 12,
+  "policy": "docs/preproduction/ART_VISUALS_SPRINT.json + compatible docs/preproduction/DELIVERY_PROTOCOL_V2.md",
   "canonicalManifestChanged": false,
   "runtimeWiringChanged": false,
   "selfApproved": false,
-  "reviewRequired": ["01", "14"],
   "integrationOwner": "08",
-  "assets": [
+  "independentReviewPartition": ["beds", "desks", "companions", "auras"],
+  "productionAssignment": {
+    "bottoms": ["bottoms-1","bottoms-2","bottoms-3","bottoms-4","bottoms-5","bottoms-6","bottoms-7","bottoms-8","bottoms-9","bottoms-10","bottoms-11","bottoms-12"],
+    "wall": ["wall-1","wall-2","wall-3","wall-4","wall-5","wall-6","wall-7","wall-8","wall-9","wall-10","wall-11","wall-12"],
+    "bottomsReviewer": "01",
+    "wallReviewer": "14"
+  },
+  "wallCandidates": [
     {"id":"wall-1","name":"School Star Poster","tier":1,"theme":"Garden Glow","path":"/assets/catalog/wall-1.svg","repositoryPath":"public/assets/catalog/wall-1.svg","blobSha":"aedaec3bbb44bd966e62d897ea0ccc5a64b14bd8","bytes":2743,"dimensions":[800,800],"creationCommit":"3e10875108bb27323d8ea90efe93945638a9bbc7","status":"READY_FOR_REVIEW"},
     {"id":"wall-2","name":"Cloud Wall Flag","tier":1,"theme":"Galaxy Glow","path":"/assets/catalog/wall-2.svg","repositoryPath":"public/assets/catalog/wall-2.svg","blobSha":"2dd6f4f09bd201e1e03582cb2b8990930f934d39","bytes":1905,"dimensions":[800,800],"creationCommit":"a6c0a832c302cb07d40ce59f0ca198d3fa3ad2de","status":"READY_FOR_REVIEW"},
     {"id":"wall-3","name":"Pixel Scoreboard","tier":1,"theme":"Sunny Pop","path":"/assets/catalog/wall-3.svg","repositoryPath":"public/assets/catalog/wall-3.svg","blobSha":"3419da96bd482ef0300acce28363662ec45abddf","bytes":1899,"dimensions":[800,800],"creationCommit":"8ed1f930a8e926f4e9b68e6c79a09506c92e0b99","status":"READY_FOR_REVIEW"},
@@ -29,44 +31,55 @@
     {"id":"wall-11","name":"Star Mirror","tier":4,"theme":"Pixel Party","path":"/assets/catalog/wall-11.svg","repositoryPath":"public/assets/catalog/wall-11.svg","blobSha":"d0609238147f8d63e58662efe9755abbaecc39e1","bytes":1853,"dimensions":[800,800],"creationCommit":"c47e8a11d2e4a66bb2f961eb3b64dd7b9df7896d","status":"READY_FOR_REVIEW"},
     {"id":"wall-12","name":"Golden Crest","tier":5,"theme":"Berry Blast","path":"/assets/catalog/wall-12.svg","repositoryPath":"public/assets/catalog/wall-12.svg","blobSha":"84a7eeb0f909572fe9e896b912b675990187ae48","bytes":1747,"dimensions":[800,800],"creationCommit":"87fe0f3fbd959335efc604cb64a62252f3fd1c66","status":"READY_FOR_REVIEW"}
   ],
-  "provenance": {
-    "type": "original-repo-owned-svg",
-    "description": "Original StarBlox-specific self-contained SVG candidates authored directly on the preproduction branch for this catalog sprint lane.",
-    "externalUrls": false,
-    "externalRasterEmbeds": false,
-    "externalFonts": false,
-    "thirdPartyBrandsOrCharacters": false,
-    "robloxOrBrookhavenAssets": false
+  "bottomsPilot": {
+    "batchId": "w05-bottoms-1-4-20260921-b01",
+    "ids": ["bottoms-1","bottoms-2","bottoms-3","bottoms-4"],
+    "producer": "05",
+    "reviewer": "01",
+    "status": "GENERATED_REMOTE_UPLOAD_BLOCKED",
+    "newGenerationCount": 4,
+    "repositoryStoredCount": 0,
+    "independentAccepts": 0,
+    "canonicalPromotions": 0,
+    "items": [
+      {"id":"bottoms-1","name":"Jeans","tier":1,"theme":"Garden Glow","price":30,"starReq":0,"sourceGenerationRequestId":"5ae7c057-d4c7-4823-8dc8-f159360e3507","sourceUrl":"https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:141665e4-a731-4bf3-87f4-398bc68c2672","candidateResizeRequestId":"8d151490-edbb-4d19-8ef3-fc2a9e386271","candidateUrl":"https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:5d8c6b83-fe19-4958-95ed-90b21d6a5c66","sourceDimensions":[1024,1024],"candidateDimensions":[768,768],"format":"PNG","intendedRepositoryPath":"public/assets/catalog/bottoms-1-w05-v2.png","producerPixelCheck":"PASS — three-quarter denim body volume, pockets, seams/cuffs and leaf accents; clear Garden Glow identity without text or brand marks.","repositoryStatus":"GENERATED_REMOTE_UPLOAD_BLOCKED"},
+      {"id":"bottoms-2","name":"Joggers","tier":1,"theme":"Galaxy Glow","price":45,"starReq":0,"sourceGenerationRequestId":"4f755b7a-4a2c-49e9-8bc9-ba1c75ca507b","sourceUrl":"https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:6693ece6-744b-49c0-aa3a-40e5ff91036a","candidateResizeRequestId":"5cf796fa-dfb0-4ebf-ac14-930141c23486","candidateUrl":"https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:a75f0d96-5ca4-40c5-8083-06e7df9fc7ef","sourceDimensions":[1024,1024],"candidateDimensions":[768,768],"format":"PNG","intendedRepositoryPath":"public/assets/catalog/bottoms-2-w05-v2.png","producerPixelCheck":"PASS — dimensional knit joggers with elastic waistband, drawstring, ribbed cuffs, fabric folds and restrained galaxy glow accents.","repositoryStatus":"GENERATED_REMOTE_UPLOAD_BLOCKED"},
+      {"id":"bottoms-3","name":"Cargo Pants","tier":1,"theme":"Sunny Pop","price":65,"starReq":0,"sourceGenerationRequestId":"d3cd9c95-19e0-49ca-a201-6df078a69086","sourceUrl":"https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:b94cc91b-33fa-4b71-a660-c0ffc03eba17","candidateResizeRequestId":"ed818426-4ddf-43bb-9281-0d940014104b","candidateUrl":"https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:ecf2afba-41bf-41ea-8b34-0188732551ff","sourceDimensions":[1024,1024],"candidateDimensions":[768,768],"format":"PNG","intendedRepositoryPath":"public/assets/catalog/bottoms-3-w05-v2.png","producerPixelCheck":"PASS — articulated three-quarter cargo pants with real side pockets, seams and Sunny Pop yellow/blue construction; card-readable silhouette.","repositoryStatus":"GENERATED_REMOTE_UPLOAD_BLOCKED"},
+      {"id":"bottoms-4","name":"Pleat Skirt","tier":2,"theme":"Aqua Wave","price":85,"starReq":0,"sourceGenerationRequestId":"aa70c929-1c5e-488f-b866-f1d5857a9401","sourceUrl":"https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:9b9add29-d91e-46e8-bea9-e7046dc8be66","candidateResizeRequestId":"34496cd4-3561-4d28-a3fe-4aea252ae6c7","candidateUrl":"https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:dab24bef-fafb-477c-ae22-943f805df586","sourceDimensions":[1024,1024],"candidateDimensions":[768,768],"format":"PNG","intendedRepositoryPath":"public/assets/catalog/bottoms-4-w05-v2.png","producerPixelCheck":"PASS — three-quarter pleated skirt with waist volume, deep pleats, stitching, layered hem and Aqua Wave material response.","repositoryStatus":"GENERATED_REMOTE_UPLOAD_BLOCKED"}
+    ],
+    "checks": {
+      "exactMetadata": "PASS_4_OF_4",
+      "sourceGeneration": "PASS_4_OF_4_ADOBE_FIREFLY",
+      "sourcePixelInspection": "PASS_4_OF_4",
+      "candidateResize": "PASS_4_OF_4_768x768",
+      "candidatePixelInspection": "PASS_4_OF_4",
+      "repositoryWrite": "BLOCKED_0_OF_4",
+      "repositoryHashReadback": "NOT_RUN_NO_REPOSITORY_BYTES",
+      "independentReview": "NOT_ELIGIBLE_UNTIL_STAGED"
+    },
+    "blocker": "The generated source/candidate URLs are inspectable, but Workstream 05 does not currently have a direct raw-byte transfer from Adobe short URLs into assigned GitHub asset paths. Per V2 these are not staged or READY_FOR_REVIEW until exact repository bytes and hashes exist. Preserve these pixels and do not regenerate while transport is unresolved."
   },
   "checks": {
-    "catalogMetadataMatched": "PASS",
-    "githubAssetPresenceBlobShaAndSize": "PASS",
-    "canvasContract800x800": "PASS",
-    "localXmlParseBeforeWrite": "PASS",
-    "renderedCardScaleReview": "NOT_TESTED",
-    "storeBrowserReview": "NOT_TESTED",
-    "independentVisualApproval": "PENDING_01_14",
-    "fullBuild": "NOT_RUN",
-    "fullTestSuite": "NOT_RUN"
-  },
-  "visualDifferentiation": {
-    "wall-1": "framed school-star achievement poster with school-tool motifs",
-    "wall-2": "pointed pennant with dimensional cloud emblem",
-    "wall-3": "dark pixel-scoreboard panel with tiled score lights",
-    "wall-4": "asymmetric multi-frame heart gallery",
-    "wall-5": "leaf-and-flower hanging garland with star ornaments",
-    "wall-6": "orbital planet-map plaque with ringed world and satellites",
-    "wall-7": "neon skateboard poster with glowing wheels and diagonal motion",
-    "wall-8": "deep-set ocean window with layered waves and fish",
-    "wall-9": "multi-frame art gallery wall with varied abstract scenes",
-    "wall-10": "glowing dimensional city-skyline sign",
-    "wall-11": "star-shaped framed mirror with reflective highlights",
-    "wall-12": "ornate tier-5 heraldic golden crest with star centerpiece"
+    "wallRepositoryPresence": "PASS_12_OF_12",
+    "wallDistinctBlobShas": "PASS_12_OF_12",
+    "wallIndependentVisualApproval": "PENDING_14",
+    "bottomsGeneration": "PASS_4_OF_4",
+    "bottomsRepositoryStorage": "BLOCKED_0_OF_4",
+    "bottomsIndependentReview": "NOT_ELIGIBLE_UNTIL_STAGED",
+    "canonicalFilesTouched": false,
+    "playerDataTouched": false,
+    "questOrLearningTouched": false
   },
   "blockers": [
-    "Independent rendered visual and card-scale acceptance is still required from Workstream 01 and/or Workstream 14.",
-    "Workstream 08 must integrate only accepted candidates into the canonical manifest and exact-ID runtime mapping.",
-    "No branch-local browser render or full production build was executed by this lane."
+    "Bottoms 1–4 exact generated bytes need an authorized transport into their four assigned repository paths before reviewer 01 can act.",
+    "Wall 1–12 remain candidates pending reviewer-14 exact-hash visual decisions; do not self-approve.",
+    "Fresh Workstream-05 partition reviews for current companion/desk hashes are waiting on the currently running Workstream-14 staged-art render artifact."
   ],
-  "handoff": "Lane 05 has staged all 12 assigned wall candidates. Workstreams 01/14 should review the actual rendered assets by hash; Workstream 08 should integrate only accepted IDs. Command Center 15 may reassign this worker only after review/integration needs are reconciled."
+  "handoff": {
+    "01": "Review bottoms-1..4 only after the exact generated pixels are repository-staged and hash-bound; producer pixel checks are not independent acceptance.",
+    "14": "Judge current Wall 1–12 exact hashes from rendered pixels; return item-specific REWORK findings before any wall regeneration.",
+    "15": "Bottoms 1–4 have generated/verified 1024px source and 768px candidate pixels but no Workstream-05-owned binary transport into GitHub. If the existing coordinator-owned recovery path can ingest the recorded exact URLs, transport them without regeneration and return hashes to lane 05.",
+    "05": "When the running staged-art artifact completes, prioritize fresh companions-2/5/6/7 and desks-2/3/4 exact rendered hashes before more producer work."
+  },
+  "freeze": {"replitTouched":false,"flootTouched":false,"mainMergedOrModified":false,"canonicalManifestOrRuntimeTouched":false,"playerDataTouched":false,"questLearningTouched":false}
 }
