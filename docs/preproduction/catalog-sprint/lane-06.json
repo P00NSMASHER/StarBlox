@@ -1,117 +1,156 @@
 {
-  "schemaVersion": 3,
+  "schemaVersion": 4,
   "lane": "06",
   "workstream": "06",
   "phase": "CATALOG_SPRINT",
   "branch": "screenshot-match-preproduction",
-  "status": "READY_FOR_REVIEW_ESCALATED",
-  "inspectedSourceHead": "f1512099a2b9f467ff3e5e4ca985ca649bc3b15d",
-  "assignment": ["companions-2","companions-3","companions-4","companions-5","companions-6","companions-7","companions-8","companions-9","companions-10","companions-11","companions-12"],
-  "preservedFinal": {"id":"companions-1","name":"Sprout Pup","path":"/assets/catalog/companions-1.svg","gitBlobSha":"797d05aa87a416c24bd6f220b8bb13f8f44a4d8a","bytes":2344,"dimensions":[512,512]},
+  "policyObserved": "docs/preproduction/DELIVERY_PROTOCOL_V3.md",
+  "status": "REWORK_CONFIRMED_RICH_REPAIR_BATCH_READY_FOR_FRESH_REVIEW",
+  "inspectedSourceHead": "7fcededc7ad46a490b3bb3e7226e1599289152d3",
+  "productionAssignment": ["companions-2","companions-3","companions-4","companions-5","companions-6","companions-7","companions-8","companions-9","companions-10","companions-11","companions-12"],
+  "currentRepairAssignmentFromState": ["companions-1","companions-2","companions-3","companions-4","companions-5","companions-6","companions-7","companions-8","companions-9","companions-10","companions-11","companions-12","seating-7","seating-8","seating-9","seating-10","seating-11","seating-12","shoes-7","shoes-8","shoes-9","shoes-10","shoes-11","shoes-12"],
   "canonicalManifestChanged": false,
   "runtimeWiringChanged": false,
   "playerStateChanged": false,
   "selfApproved": false,
-  "reviewer": "05",
+  "independentReviewer": "05",
   "integrationOwner": "08",
   "reviewState": {
     "shardPath": "docs/preproduction/catalog-sprint/reviews/05.json",
-    "shardBlobSha": "9d855d01e7f0132e999850a7c616cfd1239eb015",
-    "shardPresent": true,
-    "collectionsReviewedInShard": ["auras"],
-    "companionDecisionsPresent": 0,
-    "companionAccepted": 0,
-    "companionRework": 0,
-    "companionBlocked": 0,
-    "unchangedPendingCycles": 2,
-    "escalatedTo": "15",
-    "escalationReason": "Reviewer 05 now has a valid shard but it contains only Aura decisions. Companions remain without the required independent actual-pixel decision for a second Lane 06 cycle, so Delivery Protocol v2 anti-stall escalation applies."
+    "reviewSourceHead": "d94ff26ac1c4bc63329a48dedb8a48d52a6219ad",
+    "companionLegacyVersionsReviewed": 12,
+    "companionLegacyAccepted": 0,
+    "companionLegacyRework": 12,
+    "companionLegacyBlocked": 0,
+    "familyFinding": "All 12 legacy companion SVGs are recognizable and child-friendly but read as flat centered vector mascots with insufficient three-quarter anatomy, material response, cast/rim lighting and tier progression for the premium dimensional screenshot target.",
+    "reworkNowAuthorizesRepair": true
   },
-  "existingSvgCandidates": {
-    "count": 11,
-    "status": "INTERIM_READY_FOR_REVIEW",
-    "paths": "/assets/catalog/companions-2.svg through /assets/catalog/companions-12.svg",
-    "dimensions": [512,512],
-    "allDistinctGitBlobShas": true,
-    "sourceDependencyReview": "PASS_PREVIOUS_HASH_BOUND_EVIDENCE",
-    "note": "No SVG was regenerated or relabeled final. Source/XML validity is not visual acceptance."
+  "preservedLegacyVersions": {
+    "count": 12,
+    "paths": "/assets/catalog/companions-1.svg through /assets/catalog/companions-12.svg",
+    "status": "PRESERVED_REJECTED_EXACT_HASH_VERSIONS",
+    "note": "Legacy SVGs remain available for comparison/revert; none was overwritten or relabeled final."
   },
-  "richCandidateIntake": {
-    "batchId": "chat-20260921-intake01",
-    "directory": "public/assets/catalog-candidates/chat-20260921-intake01",
-    "repositoryStoredCompanionItems": 10,
-    "repositoryStoredCompanionFiles": 30,
-    "currentDirectoryReadback": "PASS_AT_f1512099a2b9f467ff3e5e4ca985ca649bc3b15d",
-    "canonical": false,
-    "firstReviewQueue": [
+  "repairBatch": {
+    "method": "Reuse repository-stored high-resolution rich candidate intake files as replacement versions for four independently rejected legacy SVGs; no duplicate regeneration.",
+    "batchSize": 4,
+    "status": "READY_FOR_FRESH_INDEPENDENT_PIXEL_REVIEW",
+    "producerPixelEvidence": "PASS_REUSED_UNCHANGED_HASH_CHAT_INTAKE_PIXEL_INSPECTION_NOT_INDEPENDENT_ACCEPTANCE",
+    "sourceImportEvidence": "PASS_REUSED_UNCHANGED_HASH_FROM_chat-intake01",
+    "items": [
       {
-        "id":"companions-3","name":"Berry Bunny","theme":"Berry Blast",
-        "sourcePath":"public/assets/catalog-candidates/chat-20260921-intake01/companions-3-source.png","sourceGitBlobSha":"f8090501e08f964085e474d028028bbe56e0b70f","sourceSha256":"7fcc085c034f41187df28a4f7b6bea80bd51ae25a7f43683fee62ecff9d2ef7e","sourceBytes":1898422,"sourceDimensions":[1254,1254],
-        "cardPath":"public/assets/catalog-candidates/chat-20260921-intake01/companions-3-card.webp","cardGitBlobSha":"7a104a2d609c16272cb58e18da50bff8072c347f","cardSha256":"0df56c980665063c58451da33e4b377ebe1398ad5b9fa1b5cf7b9f42af4977af","cardBytes":12900,"cardDimensions":[256,256],
-        "detailPath":"public/assets/catalog-candidates/chat-20260921-intake01/companions-3-detail.webp","detailGitBlobSha":"adba95dc769e603337dc4ac38b9a513ce9914b10","detailSha256":"3f4bec2dfe80c3edf855ecba1965d3fcfeb066dab83e26f2d9d8850c1cb6c473","detailBytes":58902,"detailDimensions":[768,768]
+        "id": "companions-3",
+        "name": "Berry Bunny",
+        "tier": 1,
+        "theme": "Berry Blast",
+        "legacyRejectedHash": "c0e69b68240cb91c00dd16c2784b3d5c7c41c4fb",
+        "sourcePath": "public/assets/catalog-candidates/chat-20260921-intake01/companions-3-source.png",
+        "sourceGitBlobSha": "f8090501e08f964085e474d028028bbe56e0b70f",
+        "sourceSha256": "7fcc085c034f41187df28a4f7b6bea80bd51ae25a7f43683fee62ecff9d2ef7e",
+        "sourceBytes": 1898422,
+        "sourceDimensions": [1254,1254],
+        "candidatePath": "/assets/catalog-candidates/chat-20260921-intake01/companions-3-detail.webp",
+        "candidateRepositoryPath": "public/assets/catalog-candidates/chat-20260921-intake01/companions-3-detail.webp",
+        "candidateGitBlobSha": "adba95dc769e603337dc4ac38b9a513ce9914b10",
+        "candidateSha256": "3f4bec2dfe80c3edf855ecba1965d3fcfeb066dab83e26f2d9d8850c1cb6c473",
+        "candidateBytes": 58902,
+        "candidateDimensions": [768,768],
+        "status": "READY_FOR_FRESH_REVIEW"
       },
       {
-        "id":"companions-4","name":"Sunny Bird","theme":"Garden Glow",
-        "sourcePath":"public/assets/catalog-candidates/chat-20260921-intake01/companions-4-source.png","sourceGitBlobSha":"d9c04f68d3e9d31fa9d32c086b2068a718d59d2b","sourceSha256":"f2356393433a98617ea7ba48cc00983c6340977020517d28e569882c79e35796","sourceBytes":1781724,"sourceDimensions":[1254,1254],
-        "cardPath":"public/assets/catalog-candidates/chat-20260921-intake01/companions-4-card.webp","cardGitBlobSha":"cfa57b9102aea1f42696a4488bcf0be53dc50986","cardSha256":"b417fdf011dbb14b7567612466add612af23eb53a0b9e12ecd42c2ffe142115b","cardBytes":11942,"cardDimensions":[256,256],
-        "detailPath":"public/assets/catalog-candidates/chat-20260921-intake01/companions-4-detail.webp","detailGitBlobSha":"b382339e76ed9d4aeae72b1c8cccc904abf85b57","detailSha256":"92889982b25c097aca39a2af07f16557633eb50c2541065c309d37e975f4cdf8","detailBytes":53770,"detailDimensions":[768,768]
+        "id": "companions-4",
+        "name": "Sunny Bird",
+        "tier": 2,
+        "theme": "Garden Glow",
+        "legacyRejectedHash": "16e50e59ba950076bf0ecc512b9a3262bf5ca2de",
+        "sourcePath": "public/assets/catalog-candidates/chat-20260921-intake01/companions-4-source.png",
+        "sourceGitBlobSha": "d9c04f68d3e9d31fa9d32c086b2068a718d59d2b",
+        "sourceSha256": "f2356393433a98617ea7ba48cc00983c6340977020517d28e569882c79e35796",
+        "sourceBytes": 1781724,
+        "sourceDimensions": [1254,1254],
+        "candidatePath": "/assets/catalog-candidates/chat-20260921-intake01/companions-4-detail.webp",
+        "candidateRepositoryPath": "public/assets/catalog-candidates/chat-20260921-intake01/companions-4-detail.webp",
+        "candidateGitBlobSha": "b382339e76ed9d4aeae72b1c8cccc904abf85b57",
+        "candidateSha256": "92889982b25c097aca39a2af07f16557633eb50c2541065c309d37e975f4cdf8",
+        "candidateBytes": 53770,
+        "candidateDimensions": [768,768],
+        "status": "READY_FOR_FRESH_REVIEW"
       },
       {
-        "id":"companions-10","name":"Pixel Bot","theme":"Midnight Neon",
-        "sourcePath":"public/assets/catalog-candidates/chat-20260921-intake01/companions-10-source.png","sourceGitBlobSha":"ab33d346efacc40e52a233581b194c86a713e1ca","sourceSha256":"6f6df89dfd98642b940343fa446991db14793e38a1c0c7276ad53ff46a4b8f8c","sourceBytes":1736526,"sourceDimensions":[1254,1254],
-        "cardPath":"public/assets/catalog-candidates/chat-20260921-intake01/companions-10-card.webp","cardGitBlobSha":"ec8d60c931fedc8505e3e4ff7a17e00492baed1d","cardSha256":"cb9b6ed7bea071629f0ab65c0e4d0bc86a5dbba88b4bd866384d18e60350a7a9","cardBytes":13460,"cardDimensions":[256,256],
-        "detailPath":"public/assets/catalog-candidates/chat-20260921-intake01/companions-10-detail.webp","detailGitBlobSha":"2b09d950b08083bb3a9ec5e2073ae23d88411cf4","detailSha256":"c963cbad0067ade8277e9f84b331437431bdce498de11bc10eab4e3ff01b73e2","detailBytes":63032,"detailDimensions":[768,768]
+        "id": "companions-10",
+        "name": "Pixel Bot",
+        "tier": 4,
+        "theme": "Midnight Neon",
+        "legacyRejectedHash": "f1150f08a1a0bba8d9601ed2dd8f9dae6a17bb7d",
+        "sourcePath": "public/assets/catalog-candidates/chat-20260921-intake01/companions-10-source.png",
+        "sourceGitBlobSha": "ab33d346efacc40e52a233581b194c86a713e1ca",
+        "sourceSha256": "6f6df89dfd98642b940343fa446991db14793e38a1c0c7276ad53ff46a4b8f8c",
+        "sourceBytes": 1736526,
+        "sourceDimensions": [1254,1254],
+        "candidatePath": "/assets/catalog-candidates/chat-20260921-intake01/companions-10-detail.webp",
+        "candidateRepositoryPath": "public/assets/catalog-candidates/chat-20260921-intake01/companions-10-detail.webp",
+        "candidateGitBlobSha": "2b09d950b08083bb3a9ec5e2073ae23d88411cf4",
+        "candidateSha256": "c963cbad0067ade8277e9f84b331437431bdce498de11bc10eab4e3ff01b73e2",
+        "candidateBytes": 63032,
+        "candidateDimensions": [768,768],
+        "status": "READY_FOR_FRESH_REVIEW"
       },
       {
-        "id":"companions-11","name":"Dream Dragon","theme":"Candy Core",
-        "sourcePath":"public/assets/catalog-candidates/chat-20260921-intake01/companions-11-source.png","sourceGitBlobSha":"2ae7c9ef047577231acc863ad8aec81004b8bc93","sourceSha256":"b72c5009899a8411604f3e8b6ffb33198c7fa71f57d3753478eb1323153a3de9","sourceBytes":1885239,"sourceDimensions":[1254,1254],
-        "cardPath":"public/assets/catalog-candidates/chat-20260921-intake01/companions-11-card.webp","cardGitBlobSha":"b7e808511f870638db6e5434d57b9a877b060bf1","cardSha256":"6ece80e9a3fb51896a985072a02f23fa5be485bd12fb04d74e8af9e70cdc7d29","cardBytes":13162,"cardDimensions":[256,256],
-        "detailPath":"public/assets/catalog-candidates/chat-20260921-intake01/companions-11-detail.webp","detailGitBlobSha":"465fe45abbe4d9b4355444cb3f75a49927b604e9","detailSha256":"d531305bbf28873c2863033dd5da7638d2b1d80fffd1ab3df787556a257cf2ba","detailBytes":63886,"detailDimensions":[768,768]
+        "id": "companions-11",
+        "name": "Dream Dragon",
+        "tier": 4,
+        "theme": "Candy Core",
+        "legacyRejectedHash": "883280e7edab0226ff76154d33cd9bddf2b30d67",
+        "sourcePath": "public/assets/catalog-candidates/chat-20260921-intake01/companions-11-source.png",
+        "sourceGitBlobSha": "2ae7c9ef047577231acc863ad8aec81004b8bc93",
+        "sourceSha256": "b72c5009899a8411604f3e8b6ffb33198c7fa71f57d3753478eb1323153a3de9",
+        "sourceBytes": 1885239,
+        "sourceDimensions": [1254,1254],
+        "candidatePath": "/assets/catalog-candidates/chat-20260921-intake01/companions-11-detail.webp",
+        "candidateRepositoryPath": "public/assets/catalog-candidates/chat-20260921-intake01/companions-11-detail.webp",
+        "candidateGitBlobSha": "465fe45abbe4d9b4355444cb3f75a49927b604e9",
+        "candidateSha256": "d531305bbf28873c2863033dd5da7638d2b1d80fffd1ab3df787556a257cf2ba",
+        "candidateBytes": 63886,
+        "candidateDimensions": [768,768],
+        "status": "READY_FOR_FRESH_REVIEW_THEME_CONFIRM_CANDY_CORE"
       }
-    ],
-    "themeReviewHold": [
-      {"id":"companions-2","reason":"Rich candidate lunar-cat identity fits, but Pixel Party theme remains uncertain."},
-      {"id":"companions-5","reason":"Rich candidate pebble/turtle identity fits, but Galaxy Glow remains uncertain."},
-      {"id":"companions-6","reason":"Rich candidate comet-fox identity fits, but Sunny Pop remains uncertain."},
-      {"id":"companions-7","reason":"Rich candidate story/owl identity fits, but Aqua Wave remains uncertain."},
-      {"id":"companions-8","reason":"Rich candidate bubble/axolotl identity fits, but Art Attack remains uncertain."},
-      {"id":"companions-12","reason":"Rich candidate star/unicorn identity fits, but Adventure Club remains uncertain."}
-    ],
-    "noRichCandidate": ["companions-9"]
+    ]
   },
-  "renderDependency": {
-    "owner": "14",
-    "workflowPath": ".github/workflows/catalog-staged-art-qa.yml",
-    "workflowBlobSha": "dcaa37f4dce03ab4a88a16fb9323a6a1757c30ba",
-    "currentFixtureScope": "lighting-only",
-    "companionCandidateFixtureAvailable": false,
-    "lane06MayEditSharedHarness": false,
-    "smallestNextAction": "Workstream 05 should review the four repository-stored card/detail companion files with an actual-pixel path; if the common fixture is needed, Workstream 14 should extend/reuse it for those exact candidate paths rather than Workstream 06 modifying shared QA infrastructure."
+  "remainingCompanionRepairQueue": {
+    "richCandidateThemeHold": ["companions-2","companions-5","companions-6","companions-7","companions-8","companions-12"],
+    "noRichImportedCandidate": ["companions-1","companions-9"],
+    "note": "These rejected legacy versions are repair-authorized, but Lane 06 is keeping the current run bounded to four reuse-first candidates rather than regenerating all 12 at once."
   },
   "checks": {
-    "assignmentCurrent": "PASS",
+    "assignmentCurrent": "PASS_STATE_V3_REPAIR_SCOPE_INCLUDES_COMPANIONS_1_12",
     "reviewOwnershipCurrent": "PASS_05",
-    "richCandidateCurrentRepositoryReadback": "PASS_10_ITEMS_30_FILES",
-    "firstReviewQueueCurrentBlobIdentity": "PASS_4_ITEMS_12_FILES",
-    "richCandidateImportDecodeDimensions": "PASS_REUSED_UNCHANGED_HASH_EVIDENCE",
-    "richCandidateRegressionSuite": "PASS_REUSED_IMPORT_HEAD_f371e00ca215752c29ae67bb548e2005ad5fced5",
-    "richCandidateProductionBuild": "PASS_REUSED_IMPORT_HEAD_f371e00ca215752c29ae67bb548e2005ad5fced5",
-    "companionIndependentPixelReview": "PENDING_05",
-    "companionCanonicalIntegration": "PENDING_08",
+    "legacyCompanionIndependentPixelReview": "PASS_REWORK_12_OF_12",
+    "richCandidateRepositoryStorage": "PASS_REUSED_10_ITEMS_30_FILES",
+    "repairBatchCurrentBlobIdentity": "PASS_4_ITEMS_8_SOURCE_DETAIL_FILES_FROM_PRIOR_READBACK",
+    "repairBatchDecodeDimensions": "PASS_REUSED_UNCHANGED_HASH_IMPORT_EVIDENCE",
+    "repairBatchProducerPixelInspection": "PASS_REUSED_CHAT_INTAKE_NOT_INDEPENDENT",
+    "freshIndependentReviewOfReplacementHashes": "PENDING_05",
+    "canonicalIntegration": "PENDING_08_AFTER_ACCEPT",
     "newAssetsGeneratedThisRun": 0,
-    "existingAssetsOverwrittenThisRun": 0
+    "existingAssetsOverwrittenThisRun": 0,
+    "canonicalFilesTouched": false,
+    "playerDataTouched": false
   },
   "blockers": [
-    "reviews/05.json now exists but contains Aura decisions only; zero companion exact-hash decisions are recorded.",
-    "The common staged-art QA workflow currently renders Lighting only. Lane 06 is not authorized to edit that shared harness, so it cannot manufacture independent reviewer pixel evidence itself.",
-    "No companion REWORK decision exists, so Delivery Protocol v2 forbids speculative regeneration while current SVG/rich candidates are pending independent review."
+    "The four rich replacement hashes require a fresh independent Workstream-05 actual-pixel decision; legacy REWORK decisions cannot transfer to replacement hashes.",
+    "The shared staged-art workflow is owned by Workstream 14 and currently does not render companion candidate paths; Lane 06 did not edit shared QA infrastructure."
   ],
   "nextActions": [
-    "05: inspect actual card/detail pixels for companions-3, companions-4, companions-10 and companions-11 using the exact hashes above and append ACCEPT/REWORK/BLOCKED decisions to reviews/05.json.",
-    "14: if reviewer 05 needs a reproducible fixture, extend/reuse the staged-art QA path for these exact rich candidate files; do not wire them canonically just to render them.",
-    "15: anti-stall escalation — the companion review dependency has remained unchanged for two Lane 06 cycles. Resolve review execution/fixture ownership rather than assigning duplicate companion generation.",
-    "06: after a concrete exact-hash REWORK, preserve that rejected version and repair only the named companion in a bounded 2-6 item batch.",
-    "08: integrate only a current rich/SVG companion asset hash that has a qualified independent ACCEPT plus automated mapping/file checks."
+    "05: prioritize exact-hash actual-pixel review of companions-3 detail blob adba95dc..., companions-4 b382339e..., companions-10 2b09d950..., and companions-11 465fe45a..., using source/detail files recorded above.",
+    "14: if Workstream 05 needs reproducible screenshots, extend the existing staged-art fixture for these exact candidate paths rather than requiring canonical wiring first.",
+    "06: if any replacement is REWORK, preserve it and repair only that exact ID; if accepted, leave bytes untouched and move to the next bounded companion repair batch.",
+    "08: integrate only replacement hashes independently accepted by 05 plus automated metadata/file/content checks."
   ],
-  "handoff": "No speculative companion regeneration was performed. The material increment is a current-head readback of the 30 repository-stored rich companion files, exact Git blob identities for the four first-review items, confirmation that reviewer 05 has not yet reviewed companions, and a two-cycle anti-stall escalation to Command Center 15."
+  "freeze": {
+    "replitTouched": false,
+    "flootTouched": false,
+    "mainMergedOrModified": false,
+    "canonicalManifestOrRuntimeTouched": false,
+    "playerDataTouched": false
+  }
 }
