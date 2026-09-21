@@ -1,0 +1,100 @@
+{
+  "schemaVersion": 1,
+  "workstream": "15",
+  "phase": "ART_VISUALS_SPRINT",
+  "auditedHead": "7779958c04061b6ae8c6bf294deaeb2aec956acb",
+  "authority": [
+    "docs/preproduction/ART_VISUALS_SPRINT.json",
+    "docs/preproduction/CATALOG_SPRINT_STATE.json",
+    "docs/preproduction/DELIVERY_PROTOCOL_V2.md"
+  ],
+  "scope": "Coordination only. Workstream 08 remains the sole canonical catalog manifest/runtime writer.",
+  "reconciliation": {
+    "referencePixels": {
+      "status": "AVAILABLE_AND_AUTHORITATIVE",
+      "manifest": "docs/preproduction/reference-screenshots/original-reference-manifest.json",
+      "originals": 3,
+      "desktopComparisons": 3,
+      "staleMissingReferenceBlocker": "CLOSED"
+    },
+    "storeMetadataRegression": {
+      "priorFailure": "beds-1 manifest theme Aqua Wave disagreed with authoritative Store theme Garden Glow",
+      "currentStatus": "RESOLVED_AND_RECHECKED",
+      "evidence": [
+        "catalog-art-manifest.json version 15 now maps beds-1 to Garden Glow",
+        "StarBlox CI run 35665938295 completed successfully with Run tests PASS and Build production bundle PASS at head 5b2dec716e3c6ba80620a7c847d986a853080a17"
+      ],
+      "rule": "Do not restore the stale blocker. Any future metadata mismatch is a new observed regression and must be proved from current head."
+    },
+    "catalog": {
+      "target": 192,
+      "independentlyReviewedUniqueIds": 180,
+      "acceptedCurrentReplacementHashes": 17,
+      "canonicalWiredAcceptedHashes": 17,
+      "acceptedButNotCanonical": 0,
+      "catalogReleaseClearedIds": 0,
+      "manifestVersion": 15,
+      "strictRemainingCurrentHashAcceptances": 175,
+      "countSemantics": "Do not confuse legacy final-portable labels or review coverage with strict current-hash acceptance/release clearance."
+    }
+  },
+  "criticalPath": {
+    "oldestReleaseCriticalDependency": {
+      "owner": "14",
+      "action": "Independently review exact recovered Lighting 5-8 hashes now using the isolated actual card/detail render pixels, then write exact-hash ACCEPT/REWORK decisions to reviewer-14 evidence. Do not self-approve producer-14 work; these assets were produced by 04.",
+      "evidence": {
+        "workflowRunId": 35665938359,
+        "status": "PASS_4_OF_4_ISOLATED_RENDER",
+        "items": [
+          {"id":"lighting-5","blob":"a9e03e73c7080fdc2effd884bb0965999954d90c","sha256":"510ab0ef733659835532947e3136369adc44420b9cba4473e2b247746db5afe3"},
+          {"id":"lighting-6","blob":"d8d8fca7cda78451860377bfdfd257b4a450aa9c","sha256":"a28e77f7fd2577de121592230eb361a18a211e5273b611b6f81e11efd80cc3c2"},
+          {"id":"lighting-7","blob":"7ce162a18ab641df7ab73f380557aad5aa64b24d","sha256":"81bcfea88ef5ae81899db362f0dbdb8d6028efe363aff578052256e8cd7fc5fe"},
+          {"id":"lighting-8","blob":"9073a049ec9116cf3e4408adf068be48f1ad00f1","sha256":"201427a6743793334b27ae72b9a955103577540e17abc9667c868c82be6f22db"}
+        ]
+      },
+      "nextHop": "08 integrates every qualified ACCEPT immediately after metadata/file/content checks."
+    },
+    "sharedFixtureRepair": {
+      "owners": ["14","15"],
+      "status": "OPEN_NARROW_REPAIR",
+      "observedFailure": "Shared staged-art render fixture navigated the repository root and loaded raw Vite main.jsx with the wrong MIME type.",
+      "constraint": "Repair the fixture/entrypoint only; do not weaken blank-asset/render assertions and do not run duplicate heavy CI while isolated evidence already exists."
+    },
+    "deskCandidateDefect": {
+      "owner": "03",
+      "reviewer": "05",
+      "status": "REWORK_BEFORE_REVIEW",
+      "ids": ["desks-2","desks-3","desks-4"],
+      "observedFailure": "The staged desk candidates were fully transparent in shared-fixture evidence.",
+      "action": "Replace only the defective exact versions in a 2-4 item premium batch, preserve old bytes, prove repo readback, then return to 05 for actual-pixel exact-hash review."
+    }
+  },
+  "currentAssignments": {
+    "01": "Keep reviewer partition tops/bottoms/headwear/facegear; production stewardship remains seating 1-6. Review fresh exact hashes before more legacy churn.",
+    "02": "Keep reviewer partition shoes/backgear/handgear/seating; production stewardship remains beds 1-12.",
+    "03": "Repair transparent desks 2-4 first; do not scale the defective recipe.",
+    "04": "Preserve Lighting 5-8 recovered candidates pending 14 decisions; continue only after feedback, then remaining Lighting/Shoes within assigned ranges.",
+    "05": "Keep reviewer partition beds/desks/companions/auras; do not review transparent desk candidates until 03 replaces them. Production stewardship remains bottoms/wall.",
+    "06": "Companions 1-12, seating 7-12 and shoes 7-12 production only; avoid overlap with reviewers/producers already holding exact IDs.",
+    "07": "Tops 1-6 accepted versions are preserved; focus only unresolved assigned rugs or evidenced defects.",
+    "08": "Sole canonical writer. No accepted backlog exists at this snapshot; integrate the next qualified exact-hash ACCEPT immediately.",
+    "09": "Tops 7-12/decor production only. Do not scale any flat-vector recipe rejected by actual-pixel review.",
+    "10": "Maintain deterministic phone/tablet/desktop visual capture and visual readability evidence; no nonvisual feature expansion.",
+    "11": "Auras production only; preserve accepted/canonical Auras 6-8 and repair only evidenced remaining defects in micro-batches.",
+    "12": "Accessory production queue only: headwear/facegear/backgear/handgear. One active micro-batch, exact IDs claimed before work, reviewers remain 01/02.",
+    "13": "Continue versioned character/environment/scene composition in parallel, but do not displace catalog critical path or edit gameplay/economy/learning/state.",
+    "14": "First decide Lighting 5-8 from existing isolated card/detail evidence, then narrowly repair shared staged-art fixture and continue independent visual QA/reference diffs.",
+    "15": "Reconcile assignments, shared visual workflow/entrypoint conflicts and current evidence only; no canonical manifest/runtime writes."
+  },
+  "gates": {
+    "catalogSprintRemainsActive": true,
+    "gameFinishingAllowed": false,
+    "artVisualsComplete": false,
+    "replitTouched": false,
+    "flootTouched": false,
+    "mainMergeAllowed": false,
+    "deploymentAllowed": false,
+    "realPlayerDataTouched": false,
+    "nonvisualReleaseGates": "OPEN_DEFERRED_NOT_WAIVED"
+  }
+}
