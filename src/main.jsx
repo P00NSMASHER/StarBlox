@@ -23,9 +23,11 @@ import './homeScreenshotMatchRuntime';
 import './storeScreenshotMatchRuntime';
 import './questVisualRuntime';
 import './questContextArtRuntime';
+import './questScreenshotMatchRuntime';
 import './shellChrome.css';
 import './homeScreenshotMatch.css';
 import './storeScreenshotMatch.css';
+import './questScreenshotMatch.css';
 
 createRoot(document.getElementById('root')).render(
   <React.StrictMode>
