@@ -1,127 +1,129 @@
 {
-  "schemaVersion": 5,
-  "previousRevisionBlobSha": "f2701fc7c9116d0eb2f1da7d84e128d27b832fff",
+  "schemaVersion": 6,
+  "previousRevisionBlobSha": "d750e37b564fca9e36cf225be15d823afeec7839",
   "reviewer": "01",
   "role": "Visual Target Director / independent catalog reviewer",
   "phase": "CATALOG_SPRINT",
   "branch": "screenshot-match-preproduction",
-  "sourceHead": "b88f688cc4575bef1e1ec676e4a510a6267a9ed5",
+  "sourceHead": "60e0f9a5cddfaf4925aae4800dd96816690a98ae",
   "assignedCollections": ["tops", "bottoms", "headwear", "facegear"],
   "assignedCount": 48,
-  "reviewedUniqueItemIds": 48,
-  "remainingUnreviewedUniqueItemIds": 0,
-  "reviewScope": "Fresh exact-hash Tops 1-8 replacement review from staged-art card/detail pixels plus Facegear 1-12 legacy review. Prior Tops/Bottoms/Headwear exact-hash decisions remain immutable in previousRevisionBlobSha.",
+  "basePartitionCoverage": "48/48 unique IDs reviewed; exact legacy/current decisions remain in immutable prior revisions",
   "contractEvidence": {
     "deliveryProtocol": "docs/preproduction/DELIVERY_PROTOCOL_V2.md",
-    "screenshotTarget": "docs/preproduction/SCREENSHOT_MATCH_TARGET.md",
-    "designSystem": "docs/preproduction/DESIGN_SYSTEM_CONTRACT.md",
-    "originalReferencePixels": {
-      "status": "BLOCKED_NOT_REPOSITORY_ACCESSIBLE_ALREADY_RECORDED",
-      "note": "Use frozen contracts plus actual running-game/staged-art pixels. Promotional collages are not reference evidence."
-    }
+    "originalReferencePixels": "BLOCKED_NOT_REPOSITORY_ACCESSIBLE_ALREADY_RECORDED",
+    "rule": "Actual rendered pixels and exact hashes are required; source/XML/no-clipping alone is not acceptance."
   },
-  "renderEvidence": {
-    "replacementTops": {
-      "workflowRunId": 35654620624,
-      "artifactId": 10663298893,
-      "artifactDigest": "sha256:efad54a2f3ad1b4252f49e8ac741d3238727b933b27a4ea81fdb8496638e4164",
-      "sourceHead": "6ca1a6c790211dd32d75518db75a7d4a41a146c0",
-      "contactSheet": {
-        "file": "staged-replacements/staged-replacements-contact-sheet.png",
-        "sha256": "cea0fea5dd18ebab4867845ec531c84ac43030b54a5d2dc43cf0ac01b44d09c3"
-      },
-      "result": "PASS_REAL_CARD_AND_800X800_DETAIL_PIXELS_HASH_BOUND"
+  "priorCurrentReplacementEvidence": {
+    "historyBlobSha": "d750e37b564fca9e36cf225be15d823afeec7839",
+    "scope": "tops-1..8 replacement hashes",
+    "disposition": "tops-1..6 ACCEPT; tops-7..8 REWORK",
+    "note": "Do not redo unchanged accepted hashes."
+  },
+  "newRenderEvidence": {
+    "workflowRunId": 35656393329,
+    "artifactId": 10665735307,
+    "artifactDigest": "sha256:ad8d2da6f5553eb922616956515b85a16c89d80b34574e6679dfd6716c6f3233",
+    "sourceHead": "0880f39100a4ec21ca50370a3306df000b284f09",
+    "contactSheet": {
+      "file": "staged-replacements/staged-replacements-contact-sheet.png",
+      "sha256": "efeb1b58485d23ceedf0f93ef5974442fdecace7202570a1e4a3bbb2667afd08"
     },
-    "facegearLegacy": {
-      "workflowRunId": 35639821618,
-      "artifactId": 10658055447,
-      "artifactDigest": "sha256:b7aa40c7c0af6602607b06c284850d404ba89a85f2e242941361e2a8ee168230",
-      "runtimeHead": "4d8bb9671b8c394db89d994de75ee4af3ccd578a",
-      "desktop": {
-        "file": "store-desktop-1408x1056-facegear.png",
-        "sha256": "7d5e2a5b1f7fc386212b0bbf1847afbbf07db8166f6a213f57ad59ace80d8ec2",
-        "dimensions": [1408, 1056],
-        "coverage": "All 12 Facegear at Store-card scale; facegear-1 selected/detail."
-      },
-      "phone": {
-        "file": "store-phone-390x844-facegear.png",
-        "sha256": "871afd20650b1f4d9202960f8be7b42d608e7e0bbaf0cefd9a231a31cdc50756",
-        "dimensions": [390, 844],
-        "coverage": "First six Facegear in the actual two-column phone Store grid."
-      },
-      "continuity": "Git comparison from the rendered runtime head through the current branch showed no Facegear asset changes; current exact blob hashes are recorded below."
+    "result": "PASS_REAL_HASH_BOUND_CARD_AND_800X800_DETAIL_PIXELS"
+  },
+  "newReplacementReviews": [
+    {
+      "id": "tops-9",
+      "name": "Art Smock",
+      "tier": 3,
+      "theme": "Star Luxe",
+      "candidatePath": "/assets/catalog/tops-9-w09-v2.svg",
+      "candidateBlobSha": "232c5db97964d710489c4e32bc7c87d4a985efc1",
+      "producer": "09",
+      "decision": "REWORK",
+      "evidence": {"detail":"staged-replacements/detail/tops-9-232c5db9.png","sha256":"396bd0ef5f6afa263f7fa7e6a159f90c33a0968035c50d5639e8514554b3b3fa"},
+      "reason": "Smock identity and art marks read, but the garment remains a frontal layered vector panel. Tier 3 still lacks apron/smock construction depth, fabric folds, pocket/tool volume, three-quarter form and convincing material/contact lighting.",
+      "failedChecks": ["dimensional construction", "materials", "lighting"]
+    },
+    {
+      "id": "tops-10",
+      "name": "Star Bomber",
+      "tier": 4,
+      "theme": "Midnight Neon",
+      "candidatePath": "/assets/catalog/tops-10-w09-v2.svg",
+      "candidateBlobSha": "233739b22d0f3395b02bc51f57fb1f36afc41993",
+      "producer": "09",
+      "decision": "REWORK",
+      "evidence": {"detail":"staged-replacements/detail/tops-10-233739b2.png","sha256":"0b909bc490fc2cc8c65d6de48b0e5b8caea5079ce40cc53812114a5243090d52"},
+      "reason": "Star-bomber identity and neon palette are readable, but Tier 4 is still a flat frontal jacket with line-art glow. It needs true bomber volume, ribbed cuffs/waist, zipper/hardware depth, differentiated materials and controlled neon rim/specular lighting.",
+      "failedChecks": ["dimensional construction", "materials", "lighting", "tier progression"]
+    },
+    {
+      "id": "tops-11",
+      "name": "Cloud Jacket",
+      "tier": 4,
+      "theme": "Candy Core",
+      "candidatePath": "/assets/catalog/tops-11-w09-v2.svg",
+      "candidateBlobSha": "9e29094190a1c1867e94d44ef1c4134140447191",
+      "producer": "09",
+      "decision": "REWORK",
+      "evidence": {"detail":"staged-replacements/detail/tops-11-9e290941.png","sha256":"bb865cdfb4025a0cac5c4bdb418bd8596e7ffff6adff37aac24ad2765f6c96ca"},
+      "reason": "Cloud/puff elements add some volume, but the jacket body still reads as a flat pastel vector construction. Tier 4 needs stronger body/sleeve depth, seams/hardware, plush-vs-shell material separation, three-quarter presentation and more coherent Candy Core lighting.",
+      "failedChecks": ["dimensional construction", "materials", "lighting", "tier progression"]
+    },
+    {
+      "id": "tops-12",
+      "name": "Star Coat",
+      "tier": 5,
+      "theme": "Adventure Club",
+      "candidatePath": "/assets/catalog/tops-12-w09-v2.svg",
+      "candidateBlobSha": "1788cfb30ffd70d71bf182f01f137f9d241200fa",
+      "producer": "09",
+      "decision": "REWORK",
+      "evidence": {"detail":"staged-replacements/detail/tops-12-1788cfb3.png","sha256":"6083a1c47ae03258180507050296b9ba924831457c517c00d76c6e685ce50856"},
+      "reason": "Long-coat/star identity is clear, but the highest tier remains a flattened vector/card treatment. It needs layered lapels/trim, real coat thickness and folds, premium hardware/material response, Adventure Club-specific construction detail and Tier-5 hero lighting/perspective.",
+      "failedChecks": ["theme/tier", "dimensional construction", "materials", "lighting", "tier progression"]
+    }
+  ],
+  "currentTopsReplacementDisposition": {
+    "ACCEPT": {
+      "tops-1": "5fd9544999694ec27c9b6247aaffeca1c0c7b484",
+      "tops-2": "428450782feb314535163b54d0405f9af8b7cd65",
+      "tops-3": "b4a834586feae169e102f43aeceaaaf11893ec11",
+      "tops-4": "26d03c5ba26c565e79e809f825db87c9be1dba21",
+      "tops-5": "78c5c89270be2f505f77d033f340c72cf0ff80a8",
+      "tops-6": "44d88aa84246f9d8a76b3f22c408653eb28176aa"
+    },
+    "REWORK": {
+      "tops-7": "fe5b33a5b8eb8de137abab7daf315ddfaaaaf408",
+      "tops-8": "81bbec69f1e164b9772e0f867409581526f5255a",
+      "tops-9": "232c5db97964d710489c4e32bc7c87d4a985efc1",
+      "tops-10": "233739b22d0f3395b02bc51f57fb1f36afc41993",
+      "tops-11": "9e29094190a1c1867e94d44ef1c4134140447191",
+      "tops-12": "1788cfb30ffd70d71bf182f01f137f9d241200fa"
     }
   },
-  "sharedCriteria": ["exact identity", "theme/tier", "silhouette", "dimensional construction", "materials", "lighting", "card/detail readability", "originality", "inappropriate visual reuse"],
-  "priorReviewedHistory": {
-    "blobSha": "f2701fc7c9116d0eb2f1da7d84e128d27b832fff",
-    "covers": ["tops-1..12 legacy", "bottoms-1..12", "headwear-1..12"],
-    "decisionSummary": {"ACCEPT": 0, "REWORK": 36, "BLOCKED": 0},
-    "note": "Exact per-item hashes, screenshots and item-specific findings remain in the prior immutable review blob."
-  },
-  "familyFindings": {
-    "topsReplacement": "Tops 1-6 replacement hashes materially fix the legacy flat-vector construction and are accepted. Tops 7-8 replacement hashes remain too flat/vector-like and require another version.",
-    "facegearLegacy": "All 12 Facegear identities are readable, but the legacy family remains icon/vector-like with insufficient wearable/cosmetic depth, materials, reflections and higher-tier construction."
-  },
-  "facegearReviews": [
-    {"id":"facegear-1","name":"Reader Glasses","tier":1,"theme":"Cloud Pop","path":"/assets/catalog/facegear-1.svg","gitBlobSha":"e8d002b1dc0782667c9e5b8277b1bd797fa9a2af","producer":"legacy-pre-sprint-repository-owned","decision":"REWORK","reason":"Clear reader-glasses identity, but ultra-flat line art. Add frame thickness, hinges/temples, lens transparency/reflection and a wearable three-quarter angle.","failedChecks":["dimensional construction","materials","lighting"]},
-    {"id":"facegear-2","name":"Heart Shades","tier":1,"theme":"Pixel Party","path":"/assets/catalog/facegear-2.svg","gitBlobSha":"84f353ab6a7d718672f6afb1f27bd63cc395e8be","producer":"legacy-pre-sprint-repository-owned","decision":"REWORK","reason":"Heart-shades identity reads, but lenses/frame are flat graphic shapes. Add molded thickness, arms/hinges, glossy translucent lenses, reflections and side depth.","failedChecks":["dimensional construction","materials","lighting"]},
-    {"id":"facegear-3","name":"Gamer Visor","tier":1,"theme":"Berry Blast","path":"/assets/catalog/facegear-3.svg","gitBlobSha":"07d1fedd12d1e090a7cd4186bf381e9b80291c38","producer":"legacy-pre-sprint-repository-owned","decision":"REWORK","reason":"Visor identity is clear, but the broad front panel is icon-flat. Add curved visor volume, support hardware, lens depth, reflections and controlled emissive response.","failedChecks":["dimensional construction","materials","lighting"]},
-    {"id":"facegear-4","name":"Sparkle Freckles","tier":2,"theme":"Garden Glow","path":"/assets/catalog/facegear-4.svg","gitBlobSha":"14d4a70354eacaeadc30f43da246082b559f577c","producer":"legacy-pre-sprint-repository-owned","decision":"REWORK","reason":"Sparkle freckles read as floating star stickers rather than integrated cosmetics. Add believable face-placement/material cues with subtle sparkle depth and skin-adjacent lighting.","failedChecks":["dimensional construction","materials","lighting"]},
-    {"id":"facegear-5","name":"Petal Paint","tier":2,"theme":"Galaxy Glow","path":"/assets/catalog/facegear-5.svg","gitBlobSha":"fe7aa576979b737fed14a6e7695b556ddbeca672","producer":"legacy-pre-sprint-repository-owned","decision":"REWORK","reason":"Petals are flat floating decals and Galaxy Glow is weak. Add cosmetic surface integration, layered pigment/material depth and a specific galaxy-light treatment.","failedChecks":["theme/tier","dimensional construction","materials","lighting"]},
-    {"id":"facegear-6","name":"Star Shades","tier":2,"theme":"Sunny Pop","path":"/assets/catalog/facegear-6.svg","gitBlobSha":"e11f2753faffd68c96f4222386fc15e65aa88892","producer":"legacy-pre-sprint-repository-owned","decision":"REWORK","reason":"Star-shades identity is strong but frame/lenses remain flat. Add frame/lens thickness, temple arms/hinges, reflection/refraction and molded Sunny Pop material response.","failedChecks":["dimensional construction","materials","lighting"]},
-    {"id":"facegear-7","name":"Smile Specs","tier":3,"theme":"Aqua Wave","path":"/assets/catalog/facegear-7.svg","gitBlobSha":"aebeacf412b8bfd346b6708612cfe8bae51cef8e","producer":"legacy-pre-sprint-repository-owned","decision":"REWORK","reason":"Smile Specs are recognizable but icon-like. Add true frame hardware/depth, tinted lens material/reflection and wearable perspective.","failedChecks":["dimensional construction","materials","lighting"]},
-    {"id":"facegear-8","name":"Bubble Frames","tier":3,"theme":"Art Attack","path":"/assets/catalog/facegear-8.svg","gitBlobSha":"1ea18668c02dcaeb7173a3880df4e2a4fe6795a7","producer":"legacy-pre-sprint-repository-owned","decision":"REWORK","reason":"Bubble-frame silhouette reads, but transparent circles remain 2D and Art Attack is background-led. Add translucent bubble-lens volume, frame thickness/reflections and stronger art-specific material/detail.","failedChecks":["theme/tier","dimensional construction","materials","lighting"]},
-    {"id":"facegear-9","name":"Splatter Cheeks","tier":3,"theme":"Star Luxe","path":"/assets/catalog/facegear-9.svg","gitBlobSha":"c9d3b9acc6923c739516312646129d3ed64d138d","producer":"legacy-pre-sprint-repository-owned","decision":"REWORK","reason":"Splatter Cheeks read as floating colored decals rather than premium face paint. Add cosmetic/paint integration, pigment/material variation, placement depth and stronger Star Luxe treatment.","failedChecks":["dimensional construction","materials","lighting"]},
-    {"id":"facegear-10","name":"Lightning Glasses","tier":4,"theme":"Midnight Neon","path":"/assets/catalog/facegear-10.svg","gitBlobSha":"3f4eaa082685069fefe4f65cc6181a05304f1c4c","producer":"legacy-pre-sprint-repository-owned","decision":"REWORK","reason":"Lightning identity is strong, but Tier 4 remains a flat emblem. Add frame/lens thickness, temples/hinges, sculpted lightning geometry and controlled Midnight Neon emission/rim lighting.","failedChecks":["dimensional construction","materials","lighting"]},
-    {"id":"facegear-11","name":"Gem Frames","tier":4,"theme":"Candy Core","path":"/assets/catalog/facegear-11.svg","gitBlobSha":"e3810cf6f0ac829785b48237e3995899a5783c94","producer":"legacy-pre-sprint-repository-owned","decision":"REWORK","reason":"Gem-frame concept is readable but flat. Tier 4 needs faceted gem settings/refraction, true frame depth, hardware and richer Candy Core material response.","failedChecks":["dimensional construction","materials","lighting"]},
-    {"id":"facegear-12","name":"Star Mask","tier":5,"theme":"Adventure Club","path":"/assets/catalog/facegear-12.svg","gitBlobSha":"f4e58656aeb558869e92342f69fe48d8ed6077ae","producer":"legacy-pre-sprint-repository-owned","decision":"REWORK","reason":"Star-mask identity is readable, but Tier 5 is still a flat emblem. Add sculpted shell thickness, strap/support construction, layered materials and richer Adventure Club hero lighting/detail.","failedChecks":["theme/tier","dimensional construction","materials","lighting"]}
-  ],
-  "replacementReviews": [
-    {"id":"tops-1","name":"Hoodie","tier":1,"theme":"Cloud Pop","candidatePath":"/assets/catalog/tops-1-w07-v2.jpg","candidateBlobSha":"5fd9544999694ec27c9b6247aaffeca1c0c7b484","producer":"07","decision":"ACCEPT","evidence":{"detail":"staged-replacements/detail/tops-1-5fd95449.png","sha256":"316f455c673b78f68247494fab1d9226aae11c6c9f42341133beae7fa9a3fe23"},"reason":"Dimensional hoodie with clear hood/body/sleeve volume, soft fabric folds and controlled lighting while preserving a simple starter identity."},
-    {"id":"tops-2","name":"Zip Hoodie","tier":1,"theme":"Pixel Party","candidatePath":"/assets/catalog/tops-2-w07-v2.jpg","candidateBlobSha":"428450782feb314535163b54d0405f9af8b7cd65","producer":"07","decision":"ACCEPT","evidence":{"detail":"staged-replacements/detail/tops-2-42845078.png","sha256":"657ae78ec3d1f20f403f3f6dd2684440f978407edea4c2fdf460520284d12110"},"reason":"Three-dimensional zipper/hardware, hood-body separation and fabric volume resolve the legacy defect; Pixel Party motif remains card-readable."},
-    {"id":"tops-3","name":"Varsity Tee","tier":1,"theme":"Berry Blast","candidatePath":"/assets/catalog/tops-3-w07-v2.jpg","candidateBlobSha":"b4a834586feae169e102f43aeceaaaf11893ec11","producer":"07","decision":"ACCEPT","evidence":{"detail":"staged-replacements/detail/tops-3-b4a83458.png","sha256":"113913dc314c99ebc8a4f678dd77251cb11e15f710f472a4fac0b2479efe6e05"},"reason":"Sleeves, collar and torso show convincing volume/folds and the berry/lightning treatment remains readable without overloading Tier 1."},
-    {"id":"tops-4","name":"Bow Cardigan","tier":2,"theme":"Garden Glow","candidatePath":"/assets/catalog/tops-4-w07-v2.jpg","candidateBlobSha":"26d03c5ba26c565e79e809f825db87c9be1dba21","producer":"07","decision":"ACCEPT","evidence":{"detail":"staged-replacements/detail/tops-4-26d03c5b.png","sha256":"ac70493ecbc917640a59a8e8ea0fa2ac78bddc96afd39cf3f4bf9468257651e4"},"reason":"Real cardigan/knit volume with layered bow, floral/button/cuff construction and soft dimensional lighting appropriate to Tier 2."},
-    {"id":"tops-5","name":"Crewneck","tier":2,"theme":"Galaxy Glow","candidatePath":"/assets/catalog/tops-5-w07-v2.jpg","candidateBlobSha":"78c5c89270be2f505f77d033f340c72cf0ff80a8","producer":"07","decision":"ACCEPT","evidence":{"detail":"staged-replacements/detail/tops-5-78c5c892.png","sha256":"3e4d39e00dad975723c210da93ad7d8ec556714086dcad115009267c373fbc21"},"reason":"Constructed sweatshirt volume, folds/ribbing and galaxy material-light treatment provide the missing dimensionality."},
-    {"id":"tops-6","name":"Gamer Jacket","tier":2,"theme":"Sunny Pop","candidatePath":"/assets/catalog/tops-6-w07-v2.jpg","candidateBlobSha":"44d88aa84246f9d8a76b3f22c408653eb28176aa","producer":"07","decision":"ACCEPT","evidence":{"detail":"staged-replacements/detail/tops-6-44d88aa8.png","sha256":"f25406e4bb67922e30818f9937f836fdd9fcd9d10194f38eb77e7fecf1b685e7"},"reason":"Layered collar/panels, seams/hardware and dimensional sleeves fix the flat panel look while gamer identity and Sunny Pop accents remain distinct."},
-    {"id":"tops-7","name":"Colorblock Hoodie","tier":3,"theme":"Aqua Wave","candidatePath":"/assets/catalog/tops-7-w09-v2.svg","candidateBlobSha":"fe5b33a5b8eb8de137abab7daf315ddfaaaaf408","producer":"09","decision":"REWORK","evidence":{"detail":"staged-replacements/detail/tops-7-fe5b33a5.png","sha256":"7e855b4036c72b1131a29d6cdfbc3cfa3958482b177a1eafea30ec65cf9359e4"},"reason":"Still a flat frontal vector hoodie. Identity/theme read, but Tier 3 lacks convincing fabric volume, folds, material response, three-quarter construction and cast/contact lighting.","failedChecks":["dimensional construction","materials","lighting"]},
-    {"id":"tops-8","name":"Puffer Vest","tier":3,"theme":"Art Attack","candidatePath":"/assets/catalog/tops-8-w09-v2.svg","candidateBlobSha":"81bbec69f1e164b9772e0f867409581526f5255a","producer":"09","decision":"REWORK","evidence":{"detail":"staged-replacements/detail/tops-8-81bbec69.png","sha256":"8b1d284a2fc801764e86ed651b2ee92bfe75cd4df042c2d489c64521cc7fc0a8"},"reason":"Vest silhouette is distinct, but quilt/puffer regions remain flat graphic bands with weak loft/material depth and weak Art Attack storytelling.","failedChecks":["theme/tier","dimensional construction","materials","lighting"]}
-  ],
   "summary": {
     "uniqueCatalogIdsReviewed": 48,
-    "baseLegacyOrCurrentHashes": {"ACCEPT": 0, "REWORK": 48, "BLOCKED": 0},
-    "replacementHashesReviewed": 8,
+    "baseLegacyOrCurrentHashes": {"ACCEPT":0,"REWORK":48,"BLOCKED":0},
+    "replacementHashesReviewed": 12,
     "replacementACCEPT": 6,
-    "replacementREWORK": 2,
+    "replacementREWORK": 6,
     "replacementBLOCKED": 0,
-    "qualifiedCurrentReplacementAccepts": 6
+    "reviewedThisRun": 4,
+    "newAcceptsThisRun": 0,
+    "newReworkThisRun": 4
   },
   "handoff": {
-    "08": {
-      "action": "INTEGRATE_WHEN_AUTOMATED_CHECKS_PASS",
-      "acceptedExactHashes": {
-        "tops-1": "5fd9544999694ec27c9b6247aaffeca1c0c7b484",
-        "tops-2": "428450782feb314535163b54d0405f9af8b7cd65",
-        "tops-3": "b4a834586feae169e102f43aeceaaaf11893ec11",
-        "tops-4": "26d03c5ba26c565e79e809f825db87c9be1dba21",
-        "tops-5": "78c5c89270be2f505f77d033f340c72cf0ff80a8",
-        "tops-6": "44d88aa84246f9d8a76b3f22c408653eb28176aa"
-      },
-      "note": "These six replacement hashes are independently accepted from actual hash-bound card/detail pixels and are eligible for canonical integration after Workstream 08 metadata/file/content/safety checks. No second universal visual approval is required."
-    },
-    "15": {
-      "repairs": [
-        {"ids":["tops-7","tops-8"],"producer":"09","reason":"Replacement hashes still fail the dimensional/material target; preserve them and create a new version."},
-        {"ids":["facegear-1","facegear-2","facegear-3","facegear-4","facegear-5","facegear-6","facegear-7","facegear-8","facegear-9","facegear-10","facegear-11","facegear-12"],"producer":"NON_REVIEWER_01","reason":"All legacy Facegear hashes are REWORK; assign bounded versioned repairs to a producer other than reviewer 01."}
-      ]
-    },
-    "next01Review": "Base partition is now 48/48 reviewed. Fresh replacement hashes for Tops/Bottoms/Headwear/Facegear take priority on future runs; do not redo accepted Tops 1-6 unless their hash changes."
+    "08": "Preserve/integrate Tops 1-6 ACCEPT hashes only after normal metadata/file/content checks; Tops 7-12 current hashes are not eligible.",
+    "15": "Route exact Tops 7-12 REWORK to producer 09 in bounded new versions. Tops 7/8 already have newer generated-but-not-staged v3 candidates; do not ask reviewer 01 to review them until exact repository hashes and rendered pixels exist.",
+    "next01Review": "Fresh replacement hashes for Tops/Bottoms/Headwear/Facegear take priority. Do not redo unchanged Tops 1-6."
   },
   "freeze": {
     "replitTouched": false,
     "flootTouched": false,
     "mainMergedOrModified": false,
-    "productionAssetsTouched": false,
+    "productionAssetsTouchedByReview": false,
     "canonicalManifestOrRuntimeTouched": false,
     "learningEconomyTouched": false,
     "playerDataTouched": false
