@@ -1,0 +1,85 @@
+{
+  "lane": "06",
+  "workstream": "06",
+  "phase": "CATALOG_SPRINT",
+  "status": "READY_FOR_REVIEW",
+  "branch": "screenshot-match-preproduction",
+  "inspectedSourceHead": "f1058fc173e054cab9b9485a5e982dc75b1f1fb5",
+  "assignedIds": [
+    "companions-2","companions-3","companions-4","companions-5","companions-6","companions-7",
+    "companions-8","companions-9","companions-10","companions-11","companions-12"
+  ],
+  "candidateCount": 11,
+  "assetsChangedByLane": false,
+  "assetsGeneratedByLane": 0,
+  "assetsRejectedByLane": 0,
+  "canonicalManifestChanged": false,
+  "runtimeWiringChanged": false,
+  "selfApproved": false,
+  "reviewRequired": ["01", "14"],
+  "integrationOwner": "08",
+  "preservedFinal": {
+    "id": "companions-1",
+    "name": "Sprout Pup",
+    "status": "final-portable",
+    "path": "/assets/catalog/companions-1.svg",
+    "blobSha": "797d05aa87a416c24bd6f220b8bb13f8f44a4d8a",
+    "bytes": 2344,
+    "dimensions": [512,512]
+  },
+  "assets": [
+    {"id":"companions-2","name":"Moon Cat","tier":1,"theme":"Pixel Party","price":45,"starReq":0,"path":"/assets/catalog/companions-2.svg","repositoryPath":"public/assets/catalog/companions-2.svg","blobSha":"45b5e59ea5bb28dbc3d8c325f313ec4b92ef8005","bytes":1968,"dimensions":[512,512],"priorStatus":"interim-not-verified","status":"READY_FOR_REVIEW","provenance":"pre-existing repo-owned self-contained SVG"},
+    {"id":"companions-3","name":"Berry Bunny","tier":1,"theme":"Berry Blast","price":65,"starReq":0,"path":"/assets/catalog/companions-3.svg","repositoryPath":"public/assets/catalog/companions-3.svg","blobSha":"c0e69b68240cb91c00dd16c2784b3d5c7c41c4fb","bytes":2068,"dimensions":[512,512],"priorStatus":"interim-not-verified","status":"READY_FOR_REVIEW","provenance":"pre-existing repo-owned self-contained SVG"},
+    {"id":"companions-4","name":"Sunny Bird","tier":2,"theme":"Garden Glow","price":85,"starReq":0,"path":"/assets/catalog/companions-4.svg","repositoryPath":"public/assets/catalog/companions-4.svg","blobSha":"16e50e59ba950076bf0ecc512b9a3262bf5ca2de","bytes":1828,"dimensions":[512,512],"priorStatus":"interim-not-verified","status":"READY_FOR_REVIEW","provenance":"pre-existing repo-owned self-contained SVG"},
+    {"id":"companions-5","name":"Pebble Turtle","tier":2,"theme":"Galaxy Glow","price":125,"starReq":0,"path":"/assets/catalog/companions-5.svg","repositoryPath":"public/assets/catalog/companions-5.svg","blobSha":"3d30ea4f291c2ac5fb8b60171df249167c3647cb","bytes":1666,"dimensions":[512,512],"priorStatus":"interim-not-verified","status":"READY_FOR_REVIEW","provenance":"pre-existing repo-owned self-contained SVG"},
+    {"id":"companions-6","name":"Comet Fox","tier":2,"theme":"Sunny Pop","price":175,"starReq":0,"path":"/assets/catalog/companions-6.svg","repositoryPath":"public/assets/catalog/companions-6.svg","blobSha":"0d7b1d86360e6ef7d9d6bf70340d009436836a70","bytes":1962,"dimensions":[512,512],"priorStatus":"interim-not-verified","status":"READY_FOR_REVIEW","provenance":"pre-existing repo-owned self-contained SVG"},
+    {"id":"companions-7","name":"Story Owl","tier":3,"theme":"Aqua Wave","price":240,"starReq":2,"path":"/assets/catalog/companions-7.svg","repositoryPath":"public/assets/catalog/companions-7.svg","blobSha":"a7a852d6d6b1486d5f0820f5ea93240e31c9ae2c","bytes":1833,"dimensions":[512,512],"priorStatus":"interim-not-verified","status":"READY_FOR_REVIEW","provenance":"pre-existing repo-owned self-contained SVG"},
+    {"id":"companions-8","name":"Bubble Axolotl","tier":3,"theme":"Art Attack","price":330,"starReq":2,"path":"/assets/catalog/companions-8.svg","repositoryPath":"public/assets/catalog/companions-8.svg","blobSha":"29a71f6ec9ba4b16aa84c3afd04466935a9a0a89","bytes":1808,"dimensions":[512,512],"priorStatus":"interim-not-verified","status":"READY_FOR_REVIEW","provenance":"pre-existing repo-owned self-contained SVG"},
+    {"id":"companions-9","name":"Garden Snail","tier":3,"theme":"Star Luxe","price":460,"starReq":2,"path":"/assets/catalog/companions-9.svg","repositoryPath":"public/assets/catalog/companions-9.svg","blobSha":"3208135a5b44b0d080e5c80da43b63aa04d7652e","bytes":1993,"dimensions":[512,512],"priorStatus":"interim-not-verified","status":"READY_FOR_REVIEW","provenance":"pre-existing repo-owned self-contained SVG"},
+    {"id":"companions-10","name":"Pixel Bot","tier":4,"theme":"Midnight Neon","price":640,"starReq":5,"path":"/assets/catalog/companions-10.svg","repositoryPath":"public/assets/catalog/companions-10.svg","blobSha":"f1150f08a1a0bba8d9601ed2dd8f9dae6a17bb7d","bytes":2211,"dimensions":[512,512],"priorStatus":"interim-not-verified","status":"READY_FOR_REVIEW","provenance":"pre-existing repo-owned self-contained SVG"},
+    {"id":"companions-11","name":"Dream Dragon","tier":4,"theme":"Candy Core","price":880,"starReq":5,"path":"/assets/catalog/companions-11.svg","repositoryPath":"public/assets/catalog/companions-11.svg","blobSha":"883280e7edab0226ff76154d33cd9bddf2b30d67","bytes":2209,"dimensions":[512,512],"priorStatus":"interim-not-verified","status":"READY_FOR_REVIEW","provenance":"pre-existing repo-owned self-contained SVG"},
+    {"id":"companions-12","name":"Star Unicorn","tier":5,"theme":"Adventure Club","price":1200,"starReq":9,"path":"/assets/catalog/companions-12.svg","repositoryPath":"public/assets/catalog/companions-12.svg","blobSha":"64b6ea9a0d31fd73ed9770f7d991152abbc47139","bytes":2669,"dimensions":[512,512],"priorStatus":"interim-not-verified","status":"READY_FOR_REVIEW","provenance":"pre-existing repo-owned self-contained SVG"}
+  ],
+  "staticVisualInspection": {
+    "companions-2": "dark moonlit cat with cyan eyes, crescent-moon backdrop, pixel accents and star chest emblem",
+    "companions-3": "white-and-pink long-eared bunny with berry/leaf chest motif and rounded friendly face",
+    "companions-4": "yellow bird with wings, orange beak and sun-bright palette",
+    "companions-5": "low wide turtle silhouette with patterned green shell, head/feet/tail anatomy and pebble-garden palette",
+    "companions-6": "orange fox with pointed ears, white muzzle, comet-star forehead motif and curled tail",
+    "companions-7": "purple owl with large cream eye discs, wings and book/page-like chest detail",
+    "companions-8": "pink axolotl with six external gill branches, bubble accents and aquatic cyan surround",
+    "companions-9": "side-profile snail with spiral shell, eyestalks, leaf/flower garden accent and elongated body",
+    "companions-10": "rounded metallic robot with neon cyan/pink screen eyes, antenna, block limbs and pixel accents",
+    "companions-11": "purple winged dragon with crown/horn treatment, pastel gradient wings, tail and higher-tier glow",
+    "companions-12": "white star unicorn with gold horn, rainbow mane/tail, star accents and highest-tier luminous treatment"
+  },
+  "provenance": {
+    "type": "existing-repo-owned-svg-candidates",
+    "description": "All 11 assigned companion files already existed in the repository before this run. This lane inspected their actual SVG source, metadata, blob identity and byte sizes and found no missing file or concrete source-level defect requiring regeneration. They remain interim until independent rendered review.",
+    "externalUrlsObserved": false,
+    "externalRasterEmbedsObserved": false,
+    "externalFontsObserved": false,
+    "thirdPartyBrandsOrCharactersObserved": false,
+    "robloxOrBrookhavenAssetsObserved": false
+  },
+  "checks": {
+    "catalogMetadataMatched": "PASS",
+    "githubAssetPresenceBlobShaAndSize": "PASS",
+    "uniqueBlobShaWithinAssignedLane": "PASS_11_OF_11",
+    "canvasContract512x512": "PASS",
+    "ariaLabelThemeAndNameMatch": "PASS_11_OF_11",
+    "missingAssignedAssets": "PASS_0_MISSING",
+    "sourceLevelExternalDependencyReview": "PASS",
+    "renderedCardScaleReview": "NOT_TESTED",
+    "storeBrowserReview": "NOT_TESTED",
+    "independentVisualApproval": "PENDING_01_14",
+    "fullBuild": "NOT_RUN",
+    "fullTestSuite": "NOT_RUN"
+  },
+  "blockers": [
+    "Independent rendered/card-scale review by Workstream 01 and/or 14 is required before any companion-2..12 item can move from interim-not-verified to accepted final art.",
+    "Workstream 08 alone may update catalog-art-manifest.json and src/catalogArtRuntime.js after independent acceptance.",
+    "This worker had source-level SVG inspection but no branch-local pixel renderer/contact-sheet evidence, so no screenshot-quality claim is made."
+  ],
+  "handoff": "Lane 06 has inspected and staged all 11 assigned existing companion assets as READY_FOR_REVIEW without rewriting them. Workstreams 01/14 should render and judge the exact blobs listed here; Workstream 08 should integrate only independently accepted IDs. This file is Lane 06's reassignment request to Command Center 15 after review/integration needs are reconciled."
+}
