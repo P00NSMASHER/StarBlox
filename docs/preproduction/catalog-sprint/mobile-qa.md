@@ -1,9 +1,10 @@
 # Catalog Sprint — Workstream 10 Mobile / Accessibility QA
 
-STATUS: **PASS — EXTENDED CANONICAL STORE BROWSER GATE, 0 RELEASE-BLOCKING FAILURES**
+STATUS: **PASS — EXTENDED CANONICAL STORE BROWSER GATE, CURRENT CANONICAL HASHES UNCHANGED**
 
 Branch: `screenshot-match-preproduction`  
 Audited runtime head: `81bbf06dc070b0f72f942dde9c14ac4bba476922`  
+Observed descendant before this report: `b8d8dc1bdea4c1790c445fd210cbf1023a8f5f4e`  
 Catalog phase: `CATALOG_SPRINT`  
 Catalog gate: **NOT APPROVED by Workstream 10**  
 Replit/Floot: **untouched**  
@@ -11,13 +12,15 @@ Replit/Floot: **untouched**
 
 ## This pass
 
-Workstream 10 closed a real narrow-screen keyboard defect rather than rerunning the prior catalog sweep unchanged. Extended keyboard traversal exposed a 320px Store category tray case where Chromium's native focus scrolling could leave the newly focused category partly clipped. A first snap-alignment attempt was deliberately rejected after partial browser evidence showed it could interfere with pointer category navigation and wider desktop/tablet focus positioning.
+Workstream 10 did **not** rerun the unchanged 16-collection canonical Store matrix merely because the schedule fired. A Git comparison from the exact browser-proven runtime head through the current descendant found no change to `catalog-art-manifest.json`, `src/catalogArtRuntime.js`, Store runtime/styles, Workstream-10 runtime/CSS, or the catalog-mobile QA harness.
 
-The final fix in `src/mobileAccessibilityRuntime.js` keeps the horizontal reveal behavior keyboard-only through `:focus-visible`, uses snap-aligned correction only for the narrow category tray, preserves the minimal-delta behavior on wider layouts, and rechecks after Chromium's native focus scrolling settles. Pointer/touch clicks no longer move the tray during the press/release sequence. A targeted jsdom regression covers the 320px snapped-category alignment.
+The material new files are six Workstream-07 replacement Tops JPEGs (`tops-1-w07-v2.jpg` through `tops-6-w07-v2.jpg`) plus staged-art workflow/review/coordination changes. Those six images are **branch-staged candidates, not canonical Store mappings**, so they are explicitly excluded from this canonical PASS. Workstream 14 owns the staged card/detail render fixture and Workstream 01 owns their independent visual disposition. Workstream 10 will exercise the Tops collection plus one stable control immediately after Workstream 08 canonically wires an independently accepted replacement hash.
 
-No item IDs, prices, ownership, learning logic, economy logic, catalog manifest entries, producer art, or saved player data were changed.
+This is a continuity/evidence pass, not a claim that staged images have passed mobile QA.
 
-## Exact passing evidence
+No item IDs, prices, ownership, learning logic, economy logic, catalog manifest mappings, producer art, or saved player data were changed by Workstream 10.
+
+## Exact passing evidence retained
 
 GitHub Actions run `35652513733`, job `106508054482`, artifact `10662478311` on exact source head `81bbf06dc070b0f72f942dde9c14ac4bba476922`.
 
@@ -35,11 +38,9 @@ Canonical/evidence hashes:
 
 The production build inside the browser workflow passed with Vite 8.3.0: 1,613 modules transformed; CSS 167.39 kB / 35.69 kB gzip; JS 304.14 kB / 93.34 kB gzip. The repository test/build check on the same runtime commit also passed.
 
-A branch comparison from the audited runtime head to descendant `354590ca34c9f4265c99fdcc336e19be6a667b2a` found only `docs/preproduction/catalog-sprint/persistence-qa.json` changed. No Store, manifest/runtime, catalog asset, Workstream-10 runtime/CSS or QA-harness file changed in that interval, so this Workstream-10 evidence remains applicable until a later relevant change.
+**Current canonical catalog-mobile result remains PASS, 0 release-blocking failures, because the relevant runtime/manifest hashes are unchanged.**
 
-**Final catalog-mobile result: PASS, 0 release-blocking failures.**
-
-## Full canonical Store matrix
+## Full canonical Store matrix retained
 
 The reduced-motion matrix exercised all 16 collections at desktop `1408×1056`, tablet `1024×768`, phone `390×844`, and phone `320×568` — 64 collection/viewport combinations.
 
@@ -61,9 +62,9 @@ The reduced-motion matrix exercised all 16 collections at desktop `1408×1056`, 
 | Reduced-motion active-animation check | **4/4 PASS; 0 active animations, 0ms longest finite animation** |
 | Runtime `pageerror` / `console.error` | **4/4 PASS** |
 
-The gate also retained screenshots of all 16 canonical collections at desktop 1408px and phone 390px. Tablet and 320px behavior was measured by the same strict browser script.
+The gate retained screenshots of all 16 canonical collections at desktop 1408px and phone 390px. Tablet and 320px behavior were measured by the same strict browser script.
 
-## Scroll / layout-stability evidence
+## Scroll / layout-stability evidence retained
 
 These are **Playwright 1.55 headless Chromium measurements on GitHub Actions Ubuntu 24.04**, not physical-device performance claims.
 
@@ -74,22 +75,31 @@ These are **Playwright 1.55 headless Chromium measurements on GitHub Actions Ubu
 | 390×844 | 2029px | 16.4ms | 0/61 | 132 | 0.0000 |
 | 320×568 | 2663px | 16.4ms | 0/61 | 132 | 0.0000 |
 
-Normal-motion controls were added instead of relying only on reduced-motion emulation. Tablet `1024×768` passed with four first-row columns, 0px horizontal overflow, 16.4ms average frame time and 0/61 frames above 34ms. Phone `390×844` passed with two first-row columns, 0px overflow, 16.6ms average frame time and 0/61 frames above 34ms. Neither normal-motion control produced a page error or `console.error`.
+Normal-motion controls also passed: tablet `1024×768` used four first-row columns with 0px horizontal overflow and 16.4ms average frame time; phone `390×844` used two columns with 0px overflow and 16.6ms average frame time. Both had 0/61 frames over 34ms and no runtime errors.
 
-## Contrast status
+## Staged-candidate boundary
 
-Exact rendered text contrast remains **NOT TESTED**, deliberately. The catalog text samples sit over gradients, images and/or translucent layers; the automated solid-background sampler could not derive an unambiguous opaque background, so Workstream 10 refused to manufacture a contrast ratio. Exact rendered contrast still needs screenshot/device-aware sampling or a human/device accessibility pass.
+New branch-stored but non-canonical assets observed this cycle:
+
+- `/assets/catalog/tops-1-w07-v2.jpg`
+- `/assets/catalog/tops-2-w07-v2.jpg`
+- `/assets/catalog/tops-3-w07-v2.jpg`
+- `/assets/catalog/tops-4-w07-v2.jpg`
+- `/assets/catalog/tops-5-w07-v2.jpg`
+- `/assets/catalog/tops-6-w07-v2.jpg`
+
+They are **not included** in the canonical Store evidence above. Workstream 14's staged-art path may render them before integration; that is staged-fixture evidence only. Workstream 10's next executable catalog action begins after Workstream 08 changes the canonical mapping: test the changed collection plus one unchanged control at desktop/tablet/390/320, then reserve a full 16-collection sweep for a coherent catalog milestone or final gate.
+
+## Contrast / assistive-technology status
+
+Exact rendered text contrast remains **NOT TESTED**, deliberately. The catalog text sits over gradients, images and translucent layers; the existing solid-background sampler cannot derive a defensible WCAG ratio and Workstream 10 will not fabricate one. This has now remained unchanged across repeated passes, so the final screenshot/device-aware contrast check is explicitly handed to Workstream 15 / final accessibility QA rather than triggering another unchanged automated catalog sweep.
+
+Physical iPhone/iPad/Android performance remains **NOT TESTED**. VoiceOver, TalkBack and NVDA remain **NOT TESTED**. Browser semantics, labels, focus-visible behavior, keyboard activation, full Tab traversal, long-scroll reachability and reduced-motion behavior are directly exercised, but those automated results are not physical-device or screen-reader evidence.
 
 ## Canonical-versus-staged boundary
 
-This PASS applies to the **current canonical Store manifest/runtime only**. The manifest is still v12 with 192 target IDs, 99 recorded `final-portable` and 93 remaining relative to that label. Staged or replacement art that Workstream 08 has not canonically integrated is explicitly outside this evidence.
+The manifest remains v12 with 192 target IDs, 99 recorded `final-portable`, and 93 remaining relative to that legacy label. Lighting, wall, rugs and decor still lack canonical image-backed coverage in this manifest version; seating and desks each have only their currently canonical first image. Staged/replacement art stays outside this PASS until Workstream 08 integrates it.
 
-That distinction is visible in the browser run: lighting, wall, rugs and decor currently had no canonical image-backed cards; seating and desks each had only their currently canonical first image. Their staged art can be reviewed in the staged-art pipeline, but it is not part of this canonical Store PASS. Workstream 10 must rerun the changed collections plus a stable control after Workstream 08 integrates new accepted art, with another full 16-collection sweep at a coherent catalog milestone or final gate.
+This PASS does **not** approve the catalog gate. Workstream 14 owns final catalog release QA, Workstream 08 owns canonical integration, and independent visual acceptance remains a separate requirement.
 
-## Limits / handoff
-
-Physical iPhone/iPad/Android performance remains **NOT TESTED**. VoiceOver, TalkBack and NVDA remain **NOT TESTED**. Browser semantics, labels, focus-visible behavior, keyboard activation, full Tab traversal, long-scroll reachability and reduced-motion behavior are now directly exercised. Exact rendered contrast remains **NOT TESTED** for the reason above.
-
-This PASS does **not** approve the catalog gate. Workstream 14 still owns final catalog release QA, Workstream 08 still owns canonical integration, and independent visual acceptance remains a separate requirement.
-
-**Handoff:** 08/14 may treat the current canonical Store's browser-emulated mobile/accessibility behavior as PASS at the hashes above. On the next canonical art integration, rerun the affected collection(s) plus a stable control immediately; do not spend an unchanged cycle rerunning the whole catalog.
+**Handoff:** 08/14 may continue to reuse the current canonical Store mobile/accessibility PASS at the exact hashes above. Do not rerun the unchanged full catalog because of staged-only files. After the next canonical art integration, immediately test affected collection(s) plus a stable control, with exact runtime/manifest/asset hashes and normal + reduced-motion browser evidence.
