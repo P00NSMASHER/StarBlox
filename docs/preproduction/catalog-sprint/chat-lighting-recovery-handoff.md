@@ -1,13 +1,14 @@
-# Lighting 5–8 — recovered artwork handoff
+# Checkpoint — Lighting 05–08 recovered and rendered
 
 Batch: `chat-lighting-recovery-20260921`  
-Original producer: **04**; byte-transport helper: **CHAT**  
+Status: **4 repository-staged candidates / 4 clean isolated browser renders / independent visual acceptance pending**  
+Original producer: **04**; byte-transport and QA helper: **CHAT**  
 Independent visual reviewer: **14**; canonical integrator: **08**  
 Branch: `screenshot-match-preproduction` only
 
-## Delivered pixels, not another generation
+## Exact delivered versions
 
-The four exact Firefly generations recorded as remote/upload-blocked in `lane-04.json` have been recovered into versioned repository paths. No image was regenerated, creatively edited, cropped, recolored or recompressed during this intake. The 1024×1024 source PNG responses are retained alongside the original producer's Adobe generation IDs. The 600×600 JPEG candidates are the service's existing display renditions, copied byte-for-byte.
+The four existing Firefly generations previously marked remote/upload-blocked in lane-04 have been recovered without regenerating, cropping, recoloring or recompressing them. The 600×600 JPEGs are exact service-rendition bytes; the 1024×1024 source PNG bytes are also preserved.
 
 | Item | Name | Tier | Theme | Candidate repository path | Git blob |
 |---|---|---:|---|---|---|
@@ -16,22 +17,52 @@ The four exact Firefly generations recorded as remote/upload-blocked in `lane-04
 | lighting-7 | Sun Lamp | 3 | Aqua Wave | public/assets/catalog/lighting-7-w04-recovered-v2.jpg | 7ce162a18ab641df7ab73f380557aad5aa64b24d |
 | lighting-8 | Bubble Lamp | 3 | Art Attack | public/assets/catalog/lighting-8-w04-recovered-v2.jpg | 9073a049ec9116cf3e4408adf068be48f1ad00f1 |
 
-Four display JPEGs total **224,811 bytes**. Four preserved source PNGs total **3,943,293 bytes**. This is a file-transfer measurement, not a phone-performance claim. Original path/hash/dimensions/provenance and each exact byte count are in `chat-lighting-recovery-result.json`.
+Four display JPEGs total **224,811 bytes**; four preserved PNG originals total **3,943,293 bytes**. These are measured file sizes, not phone-performance claims. Source paths, hashes, original generation IDs and per-file measurements remain in `chat-lighting-recovery-result.json`.
 
-## Execution evidence
+## Executed checks
 
-GitHub Actions run **35665398592**, job **106549924161**, uses `.github/workflows/lighting-recovery-20260921.yml`. The completed import/publication steps establish that the files are repository-staged rather than local-only or unattached Git objects. Metadata is compared against the actual exported `store` from `src/gameModel.js`, including name, type, collection, tier, theme, price and star requirement.
+- Actual Store metadata, including ID/name/category/type/tier/theme/price/unlock requirement: **PASS 4/4** against the exported `store` in `src/gameModel.js`.
+- Exact source/candidate byte readback: **PASS 8/8**; downloaded workflow artifact also independently matched its recorded ZIP digest and all eight file hashes in the interactive runtime.
+- Candidate decoding/dimensions/nonblank content: **PASS 4/4**, 600×600 JPEGs.
+- Duplicate candidate content: **0 duplicates**, four distinct measured content hashes.
+- Repeat intake: **PASS**, second invocation reverified stored files without downloading or regenerating them.
+- Full regression: **99/99 tests, 22/22 files PASS** on staged commit `3ea71d51c2f3a0946cceda9979065c3bf476be4c`; production Vite build **PASS**.
+- Subsequent coherent candidate `5b2dec716e3c6ba80620a7c847d986a853080a17`: full regression and production build steps **PASS** again in isolated-render verification run `35665938359`, job `106551579589`.
+- Four-image isolated browser verification: **PASS 4/4**, contact sheet plus four 800×800 detail captures, zero page/console/request errors. Each capture is tied to the exact candidate path and hash.
+- TypeScript typecheck: **NOT APPLICABLE**, no TypeScript app changes in this batch.
+- Canonical Store integration and independent visual acceptance: **NOT PERFORMED BY THIS INTAKE**. All four remain READY_FOR_REVIEW.
 
-The intake verifies supported image decode, square dimensions, nonconstant pixels, exact readback of all eight files, and four distinct candidate content hashes. Its second run verifies the existing bytes without downloading or regenerating them. It refuses conflicting destination bytes, a wrong branch, incorrect metadata or a force push.
+## Exact render evidence for reviewer 14
 
-**Use the executed outcome fields in `chat-lighting-recovery-result.json` and this run's actual steps/artifact for current test/build/render status.** Do not infer test or render PASS from this handoff's existence. The workflow reuses the existing `scripts/catalog-staged-art-qa.mjs`; it does not create a new renderer. The artifact `lighting-5-8-recovery-evidence` retains source files, candidates, report and real browser evidence.
+Successful scoped verification: run **35665938359**, job **106551579589**, artifact **10668723285**, name `lighting-5-8-isolated-render-evidence`.
 
-## Pixel preflight and independent next step
+Artifact SHA-256: `9a3e1a3a90752a3f60de0679dbfb05e4398080c3bd49bd2625c2437a1db473d3`.
 
-The interactive chat inspected the four remote source images. Vine Light shows a physically grounded bronze vine with translucent leaves and small luminous nodes; Planet Lamp is a warm glowing globe with separated metal orbit rings; Sun Lamp has sculpted aqua glass rays and a reflective support; Bubble Lamp uses overlapping glass volumes with vivid colored swirls and a chrome pedestal. These observations are a preflight, **not independent exact-hash approval of the stored JPEG versions**.
+Artifact paths:
 
-14 should inspect the actual 600px candidate at card and detail scale beside the original Store reference, including category identity, theme clarity, materials, lighting, margins and near-duplicate checks. Inspect whether small luminous details survive card reduction and whether the Sun Lamp unmistakably reads as a lamp rather than a mirror. Do not transfer an old legacy REWORK decision to these replacement hashes, and do not automatically approve a photographically richer image merely because it is raster.
+- `artifacts/lighting-recovery-isolated/report.json`
+- `artifacts/lighting-recovery-isolated/lighting-5-8-card-contact-sheet.png`
+- `artifacts/lighting-recovery-isolated/lighting-5-a9e03e73-detail.png`
+- `artifacts/lighting-recovery-isolated/lighting-6-d8d8fca7-detail.png`
+- `artifacts/lighting-recovery-isolated/lighting-7-7ce162a1-detail.png`
+- `artifacts/lighting-recovery-isolated/lighting-8-9073a049-detail.png`
 
-04 should reconcile its remote-only status to these actual stored paths, preserve the original generation IDs and avoid regenerating these four images. 08 may integrate only after a qualified independent ACCEPT and required mapping checks. This intake does not alter `catalog-art-manifest.json`, `src/catalogArtRuntime.js`, final labels, item IDs, prices, unlocks, player data, Replit, Floot or `main`.
+The interactive chat downloaded this artifact, verified its digest and all five screenshot hashes, and visually inspected the card contact sheet and exact stored JPEGs. This is transport/producer-side QA, **not reviewer-14 acceptance**. The fixture is image-only, not a claim that these candidates are already rendered in the canonical Store.
 
-The next transport batch is the existing **Lighting 9–12** generations already identified in lane-04, unless those files have since been staged. Check current paths before recovering; do not generate them again.
+## First failed shared-fixture run retained, not hidden
+
+Initial recovery run **35665398592**, job **106549924161**, successfully staged the assets, passed all 99 tests and built the game, but the whole shared staged-art gate failed. Its artifact **10669425873**, digest `9baa763a5bd00296e29d6f53ea738bedc180c4ad0f72f7f19cab65a4ac8f320f`, is retained.
+
+The shared fixture navigated to the repository-root `index.html` on a plain HTTP server. That attempted to load the Vite source `main.jsx` with `application/octet-stream`, adding a module-load console error before fixture replacement. Unrelated Desk 2–4 candidates also had zero visible alpha. Neither failure was suppressed or changed to PASS. Details and exact affected Desk hashes are preserved in `chat-lighting-render-incident.json` for 14/03.
+
+The clean follow-up uses a bounded image-only, same-origin Playwright fixture for these **four exact files only**. It does not alter the shared renderer, game runtime, or assertions; all asset/network/browser error checks stay active. The shared whole-catalog defect remains separately open until its owner repairs and reruns it.
+
+## Review observations and next action
+
+Vine Light has a grounded bronze vine, translucent leaves and small luminous nodes. Planet Lamp has a glowing orb and separated metal orbit rings. Sun Lamp has sculpted aqua glass rays and a reflective support. Bubble Lamp has overlapping glass volumes, vivid colored swirls and a chrome pedestal. These are descriptive preflight observations, not proof of final screenshot parity.
+
+14 should independently judge the stored 600px versions at card/detail scale beside the original Store reference: identity, exact theme, materials/light, margins, tier progression and visual uniqueness. In particular, verify that tiny Vine lights survive card reduction and that Sun Lamp unmistakably reads as a lamp rather than a mirror. Do not transfer legacy REWORK decisions to replacement hashes or accept a raster solely because it looks richer.
+
+04: reconcile remote-only statuses to these stored files and avoid duplicate generation. 08: integrate only after qualified independent ACCEPT. 15: byte-delivery and isolated-render blockers are cleared for these four IDs; shared fixture/Desk findings remain separately recorded. The next transport batch is existing **Lighting 9–12**, only after checking whether their current bytes are already stored.
+
+This pass adds **zero new generations, zero self-approved final items and zero canonical promotions**. It does not modify catalog manifest/runtime mappings, item IDs/prices/unlocks, player data, curriculum, Replit, Floot or `main`.
