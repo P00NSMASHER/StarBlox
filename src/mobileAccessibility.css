@@ -1,0 +1,121 @@
+/* Workstream 10 — responsive UX + accessibility safety layer. Loaded last. */
+html,body,#root,.shell,.main{max-width:100%;}
+html,body,#root,.shell{overflow-x:hidden;}
+@supports (overflow:clip){html,body,#root,.shell{overflow-x:clip;}}
+.main,.page,.world,.roomPage,.marketPage,.questPage,.avatarPage,.studyGrid{min-width:0;}
+img,video,canvas{max-width:100%;}
+
+button,[role="button"],[role="option"]{
+  touch-action:manipulation;
+  -webkit-tap-highlight-color:rgba(255,216,79,.24);
+}
+button:focus-visible,[role="button"]:focus-visible,[role="option"]:focus-visible,input:focus-visible,[tabindex]:focus-visible{
+  outline:4px solid #ffd84f!important;
+  outline-offset:3px!important;
+  box-shadow:0 0 0 2px rgba(5,23,65,.75),0 0 0 6px rgba(255,216,79,.32)!important;
+}
+button:disabled{cursor:not-allowed;}
+
+/* Keep every critical action at or above the child-touch target. */
+.primaryButton,.secondaryButton,.readAloud,.questReadAloud,.homeCta,
+.homeDailyRow button,.homeCustomizeTabs button,.sbStoreTierRow button,
+.sbStoreDetailActions button,.inventoryStrip button,.decorShelf button,
+.closetRow button,.backupActions button,.sbSettingsPopover button{
+  min-height:44px;
+}
+.sbStoreDetailActions .sbStoreDream{min-height:44px!important;}
+
+/* Horizontal trays stay locally scrollable instead of widening the page. */
+.filterRow,.sbStoreCategoryRow,.sbStoreTierRow,.homeCustomizeTrack,.homeCustomizeTabs,
+.inventoryStrip,.closetRow>div,.decorShelf{
+  max-width:100%;
+  overscroll-behavior-inline:contain;
+  -webkit-overflow-scrolling:touch;
+}
+
+/* Stronger readable muted copy on light surfaces. */
+.studyGrid p,.storyBox,.sbStoreCollectionCopy small,.sbStorePermanent,
+.homeDailyRow small,.homeLearningRows small{
+  color:#526b91;
+}
+
+@media (max-width:1023px){
+  .main{width:100%;padding-bottom:max(76px,env(safe-area-inset-bottom));}
+  .page:not(.marketPage):not(.questPage){padding-top:124px;}
+  .roomPage{padding-top:112px;}
+  .studyGrid,.avatarPage,.roomInventory,.roomStage{max-width:100%;}
+  .heroPanel{max-width:100%;}
+  .sbStoreRightRail,.questEvidenceRail,.questCharacterStage{min-width:0;}
+}
+
+@media (max-width:767px){
+  body{min-width:320px;}
+  .main{padding-bottom:max(78px,calc(70px + env(safe-area-inset-bottom)));}
+  .page:not(.marketPage):not(.questPage){padding:120px 10px 94px;}
+  .roomPage{padding-top:112px;padding-bottom:92px;}
+
+  /* Touch-safe shell without removing dense HUD information. */
+  .sbSettingsButton{min-width:46px;min-height:46px;}
+  .sidebar .navBtn{min-height:56px;}
+  .sidebar .navBtn span{font-size:11px;}
+
+  /* Quest reading and answer controls. */
+  .questReadAloud,.readAloud{min-width:44px;min-height:48px;font-size:16px!important;padding:10px 14px;}
+  .questScreenshotMatch .questAnswerStack .answerButton,
+  .answers .answerButton{min-height:56px!important;font-size:16px!important;line-height:1.28;padding:12px 13px;}
+  .questScreenshotMatch .questPassage,.questionText{font-size:15px!important;line-height:1.55!important;}
+  .questScreenshotMatch .feedback{font-size:15px!important;}
+  .questScreenshotMatch .feedback small{font-size:11px!important;}
+  .questAnswerHeading b{font-size:12px;}
+  .questAnswerHeading small{font-size:10px;line-height:1.3;}
+
+  /* Home action rows and customization trays. */
+  .homeDailyRow button{min-width:52px;min-height:44px;font-size:13px;}
+  .homeCustomizeTabs button{min-height:46px;font-size:12px;}
+  .homeCustomizeItem{min-height:112px;}
+  .homeDailySafeNote small,.homeWorldMessage small{font-size:12px;line-height:1.3;}
+  .homeGoalHorizons b,.homeMasteryCopy b{font-size:12px;}
+
+  /* Store cards keep a two-column game feel but increase essential text/action legibility. */
+  .marketPage.sbStoreMatch .sbStoreCategoryRow button{min-height:64px;font-size:11px;}
+  .marketPage.sbStoreMatch .sbStoreTierRow button{min-height:48px;font-size:12px;}
+  .marketPage.sbStoreMatch .storeCard .itemCopy h3{font-size:13px;line-height:1.12;}
+  .marketPage.sbStoreMatch .storeCard .price{font-size:12px;}
+  .sbStoreStateBadge{font-size:9px;min-height:22px;display:inline-flex;align-items:center;}
+  .sbStoreDetailActions button{min-height:48px;font-size:15px;}
+  .sbStoreDetailActions .sbStoreDream{min-height:48px!important;}
+  .sbStorePermanent{font-size:12px;line-height:1.35;}
+  .sbStoreMeta{font-size:11px;line-height:1.25;}
+  .sbStoreCollectionCopy b{font-size:13px;}
+  .sbStoreCollectionCopy small{font-size:10px;line-height:1.25;}
+
+  /* Study / room / avatar screens stay usable under the fixed HUD + bottom dock. */
+  .studyGrid{grid-template-columns:1fr;gap:12px;}
+  .studyGrid article{padding:16px;}
+  .studyGrid p,.storyBox{font-size:15px;line-height:1.45;}
+  .backupActions .secondaryButton{width:100%;min-height:48px;font-size:15px;}
+  .inventoryStrip button,.decorShelf button,.closetRow button{min-height:48px;}
+
+  /* Prevent accidental page-width expansion from long names/copy. */
+  .sbStoreDetailHead b,.sbStoreMeta span,.homeMasteryCopy,.homeCollectionProgress,
+  .questBreadcrumb,.studyGrid article,.roomHUD,.avatarCloset{overflow-wrap:anywhere;}
+}
+
+@media (max-width:389px){
+  .page:not(.marketPage):not(.questPage){padding-left:8px;padding-right:8px;}
+  .sidebar .navBtn span{font-size:10px;}
+  .questReadAloud,.readAloud{font-size:15px!important;}
+  .marketPage.sbStoreMatch .storeCard .itemCopy h3{font-size:12.5px;}
+  .sbStoreDetailActions{grid-template-columns:1fr;}
+  .sbStoreDetailActions .sbStoreDream{grid-column:auto;}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .shell,.shell *, .shell *::before,.shell *::after{
+    scroll-behavior:auto!important;
+    animation-duration:.001ms!important;
+    animation-iteration-count:1!important;
+    transition-duration:.001ms!important;
+    transition-delay:0s!important;
+  }
+}
