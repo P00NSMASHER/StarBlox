@@ -62,6 +62,43 @@
     "independentCatalogReleaseVerifier": "14",
     "catalogGateStillRequiresAll192Accepted": true
   },
+  "coordinationSnapshot": {
+    "observedHead": "7b146f9deb9eb77429150ec104b092167d582859",
+    "repositoryStagedAssignedCandidates": 82,
+    "generatedLocalDeskCandidates": 3,
+    "assignedIdsWithAnyRepositoryOrLocalCandidate": 85,
+    "independentReviewedCurrentHashes": 47,
+    "independentAcceptedCurrentHashes": 0,
+    "independentReworkCurrentHashes": 47,
+    "independentUnreviewedIds": 145,
+    "canonicalV2Promotions": 0,
+    "reviewShardsPresent": ["01","02","05","14"],
+    "reviewedReworkFamilies": ["tops","seating","auras","lighting"],
+    "note": "Legacy final-portable/interim labels are not visual acceptance. The first four independently reviewed families all require premium dimensional rework."
+  },
+  "repairAssignments": {
+    "CHAT": ["seating-2", "seating-3", "seating-4", "seating-5", "seating-6", "seating-7", "seating-8", "seating-9", "seating-10", "seating-11", "seating-12"],
+    "04": ["lighting-1", "lighting-2", "lighting-3", "lighting-4", "lighting-5", "lighting-6", "lighting-7", "lighting-8", "lighting-9", "lighting-10", "lighting-11", "lighting-12"],
+    "07": ["tops-1", "tops-2", "tops-3", "tops-4", "tops-5", "tops-6"],
+    "09": ["tops-7", "tops-8", "tops-9", "tops-10", "tops-11", "tops-12"],
+    "11": ["auras-1", "auras-2", "auras-3", "auras-4", "auras-5", "auras-6", "auras-7", "auras-8", "auras-9", "auras-10", "auras-11", "auras-12"]
+  },
+  "repairAssignmentPolicy": "Repair assignments are versioned secondary work only after the worker's currently staged original lane has no immediate producer action. They do not transfer review ownership, do not erase original productionAssignments, and every replacement requires fresh review by the existing independent reviewer. Workstreams 07 and 09 are intentionally assigned Tops repairs because reviewer 01 cannot self-approve and their rugs/decor candidates are already staged awaiting reviewer 14.",
+  "binaryAssetImport": {
+    "status": "PASS_PATH_PROVEN",
+    "supportedSequence": ["create_blob(base64)","create_tree(baseTreeSha)","create_commit(parentSha)","update_ref(force=false)","fetch_file(base64)","verify exact hash"],
+    "probePath": "docs/preproduction/catalog-sprint/binary-upload-probe.png",
+    "deskInstruction": "Workstream 03 must use this path from its own run to stage already-generated desks-2..4 without regeneration, then read back exact hashes. desks-5..12 remain production work."
+  },
+  "criticalRuntimeAssignments": {
+    "priority": "RELEASE_BLOCKER_BEFORE_CATALOG_THROUGHPUT",
+    "15": ["PERSIST-TRANSACTION-IDEMPOTENCY", "PERSIST-QUEST-COMPLETION-REFRESH"],
+    "13": ["Define durable/additive persistence semantics and regression coverage for the shared App fixes; then exercise synthetic browser refresh/re-entry when executable."],
+    "details": {
+      "PERSIST-TRANSACTION-IDEMPOTENCY": "Purchase eligibility is prechecked outside the functional state update; the shared App transaction must revalidate against current state and prevent duplicate charge/ownership effects under replay/concurrency, without changing prices or existing ownership.",
+      "PERSIST-QUEST-COMPLETION-REFRESH": "The final Quest completion award currently occurs after a 950ms UI timer. Coordinate an idempotent persisted completion transition/receipt so refresh after the last correct answer cannot lose or duplicate the completion award."
+    }
+  },
   "supportAssignments": {
     "01": "Independent art review partition and original reference fidelity; optional review rollup is not a gate dependency",
     "02": "Independent shoes/backgear/handgear/seating review; CHAT retains seating production",
