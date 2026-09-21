@@ -1,125 +1,129 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "workstream": "12",
   "phase": "CATALOG_SPRINT",
-  "status": "PASS_NO_CATALOG_INDUCED_LEARNING_REGRESSION",
+  "status": "PASS_TARGETED_EXECUTION_AFTER_PERSISTENCE_REFACTOR",
   "branch": "screenshot-match-preproduction",
-  "auditedBranchHead": "9a041e14f09e89b0000ae60eaf3172dd4e529dc3",
-  "runtimeEvidenceHead": "f654431b2bb76d2eceb322dd35c613dfad17e7ae",
-  "learningBaselineCommit": "9bbf25831da6106762ceb0bfce6e29dc32c5f41f",
+  "auditedBranchHead": "344635508e00fd1ae8f2bb5028d4c200d0789c5e",
+  "runtimeEvidenceHead": "81bbf06dc070b0f72f942dde9c14ac4bba476922",
+  "priorLearningEvidenceHead": "f654431b2bb76d2eceb322dd35c613dfad17e7ae",
   "runtimeContinuity": {
-    "f654431_to_9a041e1": "PASS_NO_SRC_OR_CANONICAL_CATALOG_ASSET_CHANGE",
-    "changedScopes": [
-      "catalog sprint coordination/review/lane documentation",
-      "catalog integration evidence",
-      "staged-art QA workflow",
-      "CI documentation-only path filter"
+    "priorAuditHead": "9a041e14f09e89b0000ae60eaf3172dd4e529dc3",
+    "materialChangesSincePriorAudit": [
+      "src/App.jsx gained durable purchase/Quest receipt transaction wiring",
+      "src/persistenceTransactions.js and targeted tests were added",
+      "src/storage.js and storage tests were hardened for receipt/recovery state",
+      "src/mobileAccessibilityRuntime.js and tests were changed for Store keyboard focus while retaining Quest decoration semantics"
     ],
-    "learningCoreChanged": false,
-    "canonicalManifestRuntimeChanged": false,
-    "freshFullCiRequiredThisRun": false,
-    "reason": "The exact runtime/build-proven learning head remains byte-applicable because comparison through the audited branch head contains no src/, catalog-art-manifest.json, src/catalogArtRuntime.js, or production catalog asset change."
-  },
-  "ci": {
-    "workflowRunId": 35641273312,
-    "jobId": 106470895718,
-    "runtimeHead": "f654431b2bb76d2eceb322dd35c613dfad17e7ae",
-    "conclusion": "SUCCESS",
-    "testFiles": "20/20 PASS",
-    "tests": "85/85 PASS",
-    "productionBuild": "PASS",
-    "modulesTransformed": 1612,
-    "cssBytes": "167.22 kB / 35.66 kB gzip",
-    "jsBytes": "300.96 kB / 92.19 kB gzip"
+    "learningSourceOrGeneratorChanged": false,
+    "gameModelChanged": false,
+    "questionGuardsChanged": false,
+    "questRewardPolicyChanged": false,
+    "questScreenshotDecoratorChanged": false,
+    "canonicalCatalogManifestOrRuntimeChanged": false,
+    "postTestContinuity": "PASS_NO_SRC_OR_CANONICAL_CATALOG_MAPPING_CHANGE_FROM_81bbf06_TO_3446355",
+    "reason": "The prior audit could not simply be reused because App/persistence/accessibility runtime changed. Those changes are now covered by a newer full CI/build run. Git comparison from that tested runtime head to the audited branch head contains catalog art, QA, review and coordination changes only; no src/, catalog-art-manifest.json or src/catalogArtRuntime.js change."
   },
   "learningCoreHashes": {
     "src/gameModel.js": "79fdb8c3bed4d715e0b1c770f34db0037a7f7c3b",
-    "src/questionQualityRuntime.js": "3f47e96074c4d2e1e3f1e835aed27c654d8f072a",
-    "src/semanticQuestionGuardRuntime.js": "f21bd7d9c55610bfe00c04c2e2f81efaa2e3f591",
-    "src/diagnosticQuestionGuardRuntime.js": "81eba5b34384dbc7699dde70ce048e401458570f",
     "src/questRewardPolicy.js": "4ae853a7f4bb04a811ef04b4b9a306066e33829b",
-    "src/questScreenshotMatchRuntime.js": "07725d00052a01152da09b98ef4e6ee20043442c",
-    "src/mobileAccessibilityRuntime.js": "8321cabf7deb6246adfabc69848fa3b3694c1d2f",
-    "src/mobileAccessibility.css": "35031e5d18de72fcd9b49b4e4a35a75340dac4dc"
+    "src/App.jsx": "2ad09c471bc8b95a9861cd4add746ffd66e63ea5",
+    "src/persistenceTransactions.js": "2e791be48fbc3b7724c4b7808ba29b7da5eeaa57",
+    "src/mobileAccessibilityRuntime.js": "272fb9b6a95a38eba4696c7d732d805621a52f49",
+    "src/motionGameFeelRuntime.js": "c02dbb46403b28bf9662498c6246e9f2c43cbd80"
   },
   "newEvidenceThisRun": {
-    "type": "REAL_BROWSER_QUEST_ARTIFACT_REAUDIT",
-    "workflowRunId": 35631059432,
-    "artifactId": 10654114272,
-    "artifactName": "preproduction-visual-qa",
-    "artifactRuntimeHead": "276181274e2f11ed49b46e09852712d43899b538",
-    "artifactGeneratedAt": "2026-09-21T17:18:22.489Z",
-    "reportSha256": "72333c166e28662aaea43ca464f42dec031ac63d479565e11cd7d749933122c7",
-    "screenshots": {
-      "quest-desktop-1408x1056.png": "15bccde0c04e28cd4dc7fc488f0b921e3690325fc383109bde75cf6c4de71b20",
-      "quest-landscape-1024x768.png": "2dc81518ece6ff732126a9dd5b55286aa0c591ef13fc6f8b3ab6e31ac46f30b3",
-      "quest-phone-390x844.png": "c73b798f750548ea66565ba7532fc3b229fbd3541d03f091cd81acee6b33d299",
-      "quest-phone-320x568.png": "77e443e0dabb06ffa1b2580aca5fe1059aafff66ceb562f16e766a6d81af628d"
+    "type": "TARGETED_EXECUTION_AUDIT_AFTER_QUEST_PERSISTENCE_CHANGE",
+    "workflowRunId": 35652513911,
+    "jobId": 106508054992,
+    "runtimeHead": "81bbf06dc070b0f72f942dde9c14ac4bba476922",
+    "conclusion": "SUCCESS",
+    "testFiles": "22/22 PASS",
+    "tests": "98/98 PASS",
+    "productionBuild": "PASS",
+    "modulesTransformed": 1613,
+    "bundle": {
+      "cssKb": 167.39,
+      "cssGzipKb": 35.69,
+      "jsKb": 304.14,
+      "jsGzipKb": 93.34
     },
-    "continuityToCurrent": {
-      "questScreenshotMatchRuntimeChanged": false,
-      "questSpecificMobileCssChanged": false,
-      "questSpecificMobileRuntimeChanged": false,
-      "note": "From the artifact head to the audited branch head, questScreenshotMatchRuntime.js is unchanged. Mobile accessibility runtime changes add Store image intrinsic dimensions only; CSS changes add Store card text floors only. Quest selectors/rules visible in this artifact remain textually unchanged."
-    },
-    "auditedQuestion": {
-      "id": "religion-transfer-2",
-      "role": "transfer",
-      "skill": "religion-application",
-      "approvedUnit1Source": "Creation is a gift from God. -> We show gratitude by caring for creation.",
-      "prompt": "Creation is a gift from God. Which action best shows care for creation?",
-      "key": "Put litter in a trash can after a picnic.",
-      "distractors": [
-        "Leave paper on the grass for someone else to pick up.",
-        "Pull plants out of a garden just to throw them away."
-      ],
-      "semanticDecision": "PASS_ONE_DEFENSIBLE_ANSWER_SOURCE_BOUNDED",
-      "browserChoiceOrder": ["A=distractor_leave_paper", "B=key_put_litter_in_trash", "C=distractor_pull_plants"],
-      "initialVisualCueCheck": "PASS_NO_KEYED_ANSWER_HIGHLIGHT_OBSERVED",
-      "supportiveFeedbackCopy": "PASS_NO_LOSS_OR_SPEED_PRESSURE"
-    },
-    "browserMetrics": {
-      "desktop1408": "PASS_PROMPT_CHOICES_READ_ALOUD_HINT_MASTERY_COPY_VISIBLE; no pageerror/console.error; no horizontal overflow",
-      "phone390": "PASS_3_VISIBLE_ANSWER_CONTROLS_344px_wide_64.94px_high_16px_font; no horizontal overflow/runtime errors",
-      "phone320": "PASS_3_VISIBLE_ANSWER_CONTROLS_278px_wide_64.94_to_85.41px_high_16px_font; prompt remains readable in captured viewport; no horizontal overflow/runtime errors",
-      "landscape1024": "PASS_SCREEN_MOUNT_NO_RUNTIME_ERROR_NO_HORIZONTAL_OVERFLOW"
+    "exactLearningRegressionsObservedPassing": [
+      "screenshotLearningIntegrity: hardened bank structurally and semantically valid",
+      "screenshotLearningIntegrity: phonics/rhyme/vowel/spelling audited constructs",
+      "screenshotLearningIntegrity: vocabulary, reading inference/evidence and Religion Unit 1 source-bounded",
+      "screenshotLearningIntegrity: exactly five distinct deterministic default Quest actions",
+      "screenshotLearningIntegrity: clue-assisted retries never become independent mastery or transfer evidence",
+      "questLearningQa: first wrong attempt safe/modest, assisted success cannot out-earn independent success or count as transfer, mastery only on independent eligible outcomes, repeated wrong retries earn nothing extra",
+      "diagnosticQuestionGuard: exact 32 audited diagnostic IDs and fixed five-action selector remain valid",
+      "questionQualityRuntime: HFW/use, passage-specific reading and source-faithful Religion regressions remain green",
+      "semanticQuestionGuard: HFW cloze and spelling-in-context families remain green",
+      "grammarQuestionQa: all six audited grammar items plus exact five fresh-save adaptive selections remain green",
+      "gameModel: 200 unique validated questions, exactly one keyed answer per three-choice set, five distinct adaptive actions and varied deterministic answer positions",
+      "motionGameFeelRuntime: positive feedback is recognized without celebrating negative feedback",
+      "mobileAccessibilityRuntime: Quest read-aloud, answer, feedback and XP semantics remain intact"
+    ],
+    "newPersistenceLearningCrossChecks": [
+      "persistenceTransactions: final Quest completion reward is committed only for the active receipt and replay of the same receipt is rejected",
+      "persistenceTransactions: stale or unknown Quest completion receipt receives no award",
+      "persistenceEconomyIntegration: final Quest completion survives persisted reload and duplicate replay cannot re-award Coins/XP/Quest/Bond/daily progress",
+      "storage: durable Quest receipts survive shape sanitization",
+      "purchaseGuardRuntime: rapid double-tap across different Quest answer buttons is blocked"
+    ],
+    "appSemanticReview": {
+      "firstWrongAttempt": "PASS: wasRetry=false, independent=false, wrong increments once; scoreQuestAttempt retains modest non-mastery learning credit only",
+      "assistedCorrectRetry": "PASS: wasRetry=true forces independent=false; independentCorrect/masteryCorrect do not increment; scoreQuestAttempt returns 0 Coins, 0 Stars, 0 transfer evidence and no mastery award",
+      "finalQuestionCompletion": "PASS: applyQuestCompletion is invoked only after a correct final answer and uses a per-Quest active receipt; it adds the separate Quest-completion reward atomically and rejects replay",
+      "answerKeyMutation": "PASS_NONE: choice correctness remains direct equality against currentQ.answer; persistence changes do not rewrite prompts/choices/keys/sources",
+      "falseSuccessMotion": "PASS_EXECUTED: motion test confirms negative feedback is not celebrated"
     }
+  },
+  "sourceBoundSemanticContinuity": {
+    "approvedReligionUnit1Example": {
+      "sourceStatement": "Creation is a gift from God.",
+      "approvedMeaning": "We show gratitude by caring for creation.",
+      "auditedQuestionId": "religion-transfer-2",
+      "priorBrowserDisposition": "PASS_ONE_DEFENSIBLE_ANSWER_SOURCE_BOUNDED",
+      "changedThisRun": false
+    },
+    "fixedFreshSaveAdaptiveIds": [
+      "vocab-transfer-invited",
+      "spell-first-tub",
+      "story-character-park-care",
+      "religion-transfer-0",
+      "story-infer-crayons"
+    ],
+    "note": "No source mapping, generator or selector changed, so settled semantic ledger findings were reused by exact unchanged code/hash and re-executed regressions rather than re-entered as new ledger defects. The broad SOURCE label alone was not treated as semantic proof."
   },
   "semanticFamilies": {
-    "phonicsRhymeVowelsSpelling": "PASS_REUSED_EXECUTED_REGRESSION_UNCHANGED_HASHES",
-    "highFrequencyWordsAndVocabulary": "PASS_REUSED_EXECUTED_REGRESSION_UNCHANGED_HASHES",
-    "readingInferenceEvidence": "PASS_REUSED_EXECUTED_REGRESSION_UNCHANGED_HASHES",
-    "religionUnit1": "PASS_EXECUTED_REGRESSION_PLUS_REAL_BROWSER_RELIGION_TRANSFER_2_REAUDIT",
-    "fiveActionDeterministicQuest": "PASS_REUSED_EXECUTED_REGRESSION_UNCHANGED_HASHES",
-    "assistedRetryVsIndependentMastery": "PASS_REUSED_EXECUTED_REGRESSION_PLUS_BROWSER_MASTERY_COPY_CONSISTENT",
-    "repeatedWrongRewardFarming": "PASS_REUSED_EXECUTED_REGRESSION_UNCHANGED_HASHES"
-  },
-  "newScriptReview": {
-    ".github/workflows/catalog-staged-art-qa.yml": {
-      "status": "PASS_QA_ONLY",
-      "scope": "Checks out the repository, installs pinned Playwright, serves repository-root catalog SVGs locally, renders lighting candidates and uploads screenshots/report.",
-      "learningImpact": "NONE_OBSERVED_NO_GAME_RUNTIME_OR_QUESTION_IMPORT"
-    },
-    ".github/workflows/ci.yml": {
-      "status": "PASS_CI_TRIGGER_ONLY",
-      "scope": "Adds docs/** and **/*.md push ignores; test/build commands unchanged.",
-      "learningImpact": "NONE_OBSERVED"
-    }
+    "phonicsRhymeVowelsSpelling": "PASS_EXECUTED_AT_81bbf06",
+    "highFrequencyWordsAndVocabulary": "PASS_EXECUTED_AT_81bbf06",
+    "readingInferenceEvidence": "PASS_EXECUTED_AT_81bbf06",
+    "religionUnit1": "PASS_EXECUTED_AT_81bbf06_PLUS_PRIOR_SOURCE_BOUNDED_BROWSER_AUDIT",
+    "fiveActionDeterministicQuest": "PASS_EXECUTED_AT_81bbf06",
+    "assistedRetryVsIndependentMastery": "PASS_EXECUTED_AT_81bbf06",
+    "repeatedWrongRewardFarming": "PASS_EXECUTED_AT_81bbf06",
+    "questCompletionReplay": "PASS_EXECUTED_AT_81bbf06",
+    "falseSuccessMotion": "PASS_EXECUTED_AT_81bbf06"
   },
   "severity": {
     "p0Found": 0,
     "p0Quarantined": 0,
-    "newP1LearningDefects": 0
+    "newP1LearningDefects": 0,
+    "learningFixRequired": false
   },
+  "regressions": [],
   "notTested": [
-    "Actual click-through of religion-transfer-2 correct/wrong/clue/retry transitions in a live browser was not added by this run; existing automated reward/evidence tests remain applicable because learning/runtime hashes are unchanged.",
-    "Physical-device and VoiceOver/TalkBack/NVDA behavior remain NOT TESTED; the browser artifact is headless Chromium.",
+    "Fresh real-browser click-through of correct -> auto-advance and wrong -> clue -> retry transitions after the persistence refactor remains NOT TESTED; the executed CI covers scoring, receipt/replay, rapid answer, motion classification and DOM semantics, but not browser timing.",
+    "Physical iPhone/iPad/Android Quest behavior remains NOT TESTED.",
+    "VoiceOver/TalkBack/NVDA remains NOT TESTED.",
     "Independent catalog-art quality remains outside Workstream 12."
   ],
   "handoff": {
-    "08": "No learning re-test is required for documentation/review-only catalog changes. After the first canonical runtime/asset integration, run the affected CI/build gate and keep mapping strictly item-ID -> image path.",
-    "14": "The real-browser Quest artifact now supplies Workstream-12 legibility evidence for religion-transfer-2 at desktop/landscape/390/320, with exact screenshot hashes. Preserve a no-answer-cue initial state and the current 16px phone answer floor when later geometry is corrected.",
-    "15": "No catalog-induced learning blocker exists through audited head 9a041e14f09e89b0000ae60eaf3172dd4e529dc3. Current reviewed art rework/integration blockers are not learning blockers. Re-run Workstream 12 if gameModel, question guards, Quest scoring/selector, reward policy, Quest decorator, or Quest-specific accessibility rules change."
+    "08": "No learning blocker exists for catalog art/review-only changes. After any actual canonical catalog runtime integration, rerun affected CI/build; keep mapping strictly stable item ID -> image path and never filter learning/player state by art availability.",
+    "13": "The new durable Quest receipt path is learning-safe in executed CI: assisted retries remain non-independent and final completion replay is idempotent. Preserve this separation during any further transaction fix; real-browser timing remains your release evidence gap.",
+    "14": "The executed motion/accessibility regressions protect against false success and preserve Quest answer/read-aloud semantics. A future staged-art or geometry change must not add answer cues; preserve the prior 16px phone answer floor and neutral initial answer styling.",
+    "15": "Learning gate is PASS through audited head 344635508e00fd1ae8f2bb5028d4c200d0789c5e with execution evidence at runtime head 81bbf06dc070b0f72f942dde9c14ac4bba476922 and hash continuity after it. Re-run Workstream 12 on any change to gameModel/question guards/Quest selector or scoring/reward policy/App answer flow/Quest decorator/Quest-specific accessibility or motion feedback."
   },
   "freeze": {
     "replitTouched": false,
