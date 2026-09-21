@@ -1,10 +1,10 @@
 {
-  "schemaVersion": 3,
+  "schemaVersion": 4,
   "workstream": "13",
   "phase": "CATALOG_SPRINT",
-  "status": "PASS_BROWSER_PURCHASE_EQUIP_ROOM_MULTITAB_IMPORT_RECOVERY_NO_ART__QUEST_BROWSER_PENDING",
+  "status": "PASS_REAL_BROWSER_PERSISTENCE_ECONOMY_MATRIX",
   "branch": "screenshot-match-preproduction",
-  "auditedBranchHeadBeforeReport": "a254f36c1b3218a69d02bf051dc484bac328062a",
+  "latestQuestBrowserHead": "7fa1e46001d756f6333a609c1a493dd35017e22a",
   "latestAutomatedTransactionProofHead": "81bbf06dc070b0f72f942dde9c14ac4bba476922",
   "browserEvidence": {
     "broadRun": {
@@ -23,8 +23,7 @@
         "equipReload": "PASS",
         "underlyingRoomPlacePutAwayDoubleTapReload": "PASS",
         "multiTabSamePurchaseReplayExactlyOnce": "PASS",
-        "malformedImportNoMutation": "PASS",
-        "indexedDbRecoveryInThisHarness": "HARNESS_INVALID_ADD_INIT_SCRIPT_RESEEDED_LOCALSTORAGE"
+        "malformedImportNoMutation": "PASS"
       }
     },
     "focusedRecoveryRun": {
@@ -39,8 +38,33 @@
       "realPlayerDataUsed": false,
       "cases": {
         "indexedDbBackupCurrent": "PASS",
-        "localStorageLossRecoversExactCriticalIndexedDbState": "PASS",
-        "questRetryRapidFinalRefresh": "BLOCKED_HARNESS_CHOICE_LOCATOR_MISMATCH_NOT_PRODUCT_FAILURE"
+        "localStorageLossRecoversExactCriticalIndexedDbState": "PASS"
+      }
+    },
+    "questTimingRun": {
+      "workflowRunId": 35662516044,
+      "jobId": 106540798056,
+      "head": "7fa1e46001d756f6333a609c1a493dd35017e22a",
+      "browser": "Chromium 140.0.7339.16 via Playwright on GitHub Actions ubuntu-24.04",
+      "artifactId": 10668080723,
+      "artifactDigest": "sha256:4ae925dcaaa268ca79b9f8261981bee49306993dcff79565a257c4f840ce96f8",
+      "productionBuild": "PASS_1613_MODULES",
+      "syntheticOnly": true,
+      "realPlayerDataUsed": false,
+      "case": "quest-wrong-retry-rapid-correct-final-refresh",
+      "result": "PASS",
+      "durationMs": 6792,
+      "finalCommitMs": 186,
+      "presentationTimerMs": 950,
+      "verified": {
+        "firstWrongRecordedOnce": "PASS",
+        "repeatedWrongNoCoinStarXpOrWrongEvidenceFarming": "PASS",
+        "assistedCorrectNoCoinsStarsTransferMasteryIndependentEvidence": "PASS",
+        "rapidCorrectDoubleClickSingleSeenCorrectIndependentTransition": "PASS",
+        "finalQuestCompletionCommittedBeforePresentationTimer": "PASS_186MS",
+        "immediateReloadPreservesCoinsXpQuestCountDailyQuestBuddyBondAndReceipt": "PASS",
+        "activeQuestReceiptCleared": "PASS",
+        "unknownNoArtOwnedEquippedRoomDreamGoalRetained": "PASS"
       }
     }
   },
@@ -51,12 +75,18 @@
     "equippedGearIncludingUnknownNoArt": "PASS",
     "roomPlacementIncludingUnknownNoArt": "PASS",
     "dreamGoalUnknownNoArt": "PASS",
+    "masteryTransferEvidencePolicy": "PASS",
+    "buddyBondQuestCompletion": "PASS",
+    "districtProgress": "PASS",
     "purchaseExactlyOnceRapidAndReload": "PASS",
     "purchaseExactlyOnceMultiTabReplay": "PASS",
     "equipPersistsReload": "PASS",
     "roomUnderlyingStateTransitionDoubleTapReload": "PASS",
     "malformedImportPreservesSave": "PASS",
     "localStorageLossIndexedDbRecoveryExactCriticalState": "PASS",
+    "questWrongRetryNoFarming": "PASS",
+    "questRapidCorrectExactlyOnce": "PASS",
+    "questFinalCompletionImmediateRefresh": "PASS",
     "acceptedCatalogArtPathDoesNotPruneOwnership": "PASS"
   },
   "existingAutomatedProofReused": {
@@ -69,35 +99,35 @@
     "rewardEvidencePolicy": "PASS",
     "productionBuild": "PASS"
   },
+  "catalogIntegrationGuard": {
+    "currentAcceptedCanonicalIncrementObserved": false,
+    "stableIdsPricesUnlocksMustRemainUnchanged": true,
+    "savedIdsMustNeverBeFilteredByArtAvailability": true,
+    "lastBrowserArtPathRetentionCheck": "PASS",
+    "nextAction": "Re-run changed-collection ownership/equipment/room/Dream Goal checks after the first accepted canonical art integration."
+  },
   "findings": [
     {
       "id": "STORE-ROOM-RIGHT-RAIL-ROUTING",
       "classification": "UI_ROUTING_DEFECT_NOT_PERSISTENCE_TRANSACTION_DEFECT",
       "status": "HANDOFF_04_15",
-      "evidence": "The screenshot Store right-rail Place / Put Away control did not mutate placement while an item was already placed/equipped, but the underlying React room action passed rapid double-tap, Put Away, Place and reload exactly-once behavior.",
-      "ownerNext": "04/15 fix selected-item right-rail delegation without changing persistence semantics."
+      "evidence": "The screenshot Store selected-item right-rail Place / Put Away delegation previously failed while the underlying room transaction passed rapid double-tap, Put Away, Place and reload exactly-once behavior.",
+      "ownerNext": "04/15 repair selected-item routing without changing passing persistence semantics."
     },
     {
-      "id": "PERSIST-QUEST-REAL-BROWSER-FINAL-REFRESH",
-      "classification": "OPEN_BROWSER_EVIDENCE_GAP",
-      "status": "BLOCKED_QA_HARNESS_LOCATOR_MISMATCH",
-      "evidence": "Focused browser recovery run reached Quest but the harness attempted an exact source choice string that was not the visible answer locator. Automated durable Quest completion/replay remains PASS; no browser product failure was reproduced.",
-      "ownerNext": "13 align the Quest browser harness with actual rendered choices, then execute wrong/retry, rapid correct and immediate-final-refresh timing."
-    }
-  ],
-  "releaseBlockers": [
-    {
       "id": "PERSIST-QUEST-BROWSER-TIMING",
-      "status": "OPEN",
-      "scope": "real Chromium wrong/retry no-farming, rapid correct answer and refresh immediately after final Quest commit",
-      "note": "Purchase/equip/room/multi-tab/import/IndexedDB/no-art browser matrix is now materially proven; do not keep labeling the whole browser matrix untested."
+      "classification": "RELEASE_BROWSER_EVIDENCE",
+      "status": "PASS",
+      "evidence": "GitHub Actions run 35662516044 on head 7fa1e460... passed rendered-choice-aware Chromium testing: wrong/retry no-farming, assisted evidence separation, rapid correct exactly once, final completion durable in 186ms before the 950ms transition, immediate reload preserving rewards/progress/receipt and unknown/no-art state.",
+      "ownerNext": "No persistence runtime change required. Preserve this evidence by hash and rerun only after relevant runtime changes or on the frozen final candidate."
     }
   ],
+  "releaseBlockers": [],
   "handoff": {
-    "15": "Real Chromium now proves rapid purchase/reload, multi-tab purchase replay, equip reload, underlying room toggle double-tap/reload, malformed-import preservation, exact IndexedDB recovery after localStorage loss, and no-art ownership/equipment/placement/Dream Goal retention. Remaining W13 browser release work is Quest final-refresh/retry timing only. Store right-rail Place/Put Away routing is a separate UI defect for 04/15.",
-    "04": "Fix the screenshot Store selected-item room action delegation; do not alter the underlying passing persistence transaction/guard semantics.",
-    "08": "Accepted catalog art-path changes did not prune synthetic ownership/equipment state in Chromium. Continue preserving stable IDs/prices/unlocks and never filter saved IDs by art availability.",
-    "12": "Automated reward/evidence policy remains green; 13 still needs rendered-choice-aware browser Quest timing evidence."
+    "15": "Workstream 13's current persistence/economy real-browser blocker is closed. Broad purchase/equip/room/multi-tab/import/no-art checks, exact IndexedDB recovery, and Quest wrong/retry/rapid/final-refresh timing all have synthetic Chromium PASS evidence. Keep Store right-rail routing as a separate UI owner issue and rerun W13 browser gates after relevant runtime changes or on the frozen final candidate.",
+    "04": "Fix selected-item Store right-rail Place/Put Away routing without changing underlying passing persistence transaction/guard semantics.",
+    "08": "No accepted canonical art increment was observed in this run. After the first accepted mapping change, preserve stable IDs/prices/unlocks and trigger changed-collection ownership/equipment/placement/Dream Goal retention checks.",
+    "12": "Rendered Quest-choice alignment now matches the hardened bank; browser evidence confirms wrong/retry and assisted-vs-independent reward/evidence rules."
   },
   "freeze": {
     "replitTouched": false,
