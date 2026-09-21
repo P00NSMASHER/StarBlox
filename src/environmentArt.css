@@ -1,0 +1,148 @@
+/* Workstream 09 — original Brightside City environment art. Loaded last so screen-specific layout remains authoritative. */
+:root{
+  --sb-env-bedroom:url('/assets/environments/brightside-bedroom.svg');
+  --sb-env-learning:url('/assets/environments/brightside-learning-room.svg');
+  --sb-env-boutique:url('/assets/environments/brightside-boutique.svg');
+}
+
+/* HOME — warm premium bedroom, intentionally quieter behind the avatar and dense panels. */
+.homeHeroRuntime .homeIllustratedScene{
+  background-image:
+    linear-gradient(180deg,rgba(255,244,249,.05) 0%,rgba(83,45,111,.02) 50%,rgba(18,31,78,.18) 100%),
+    var(--sb-env-bedroom)!important;
+  background-size:cover!important;
+  background-position:center top!important;
+  filter:saturate(1.08) contrast(1.02) brightness(1.02)!important;
+  transform:scale(1.012);
+  transform-origin:center center;
+}
+.homeHeroRuntime .homeSceneVignette{
+  background:
+    radial-gradient(ellipse at 53% 48%,rgba(255,255,255,.16) 0 20%,transparent 46%),
+    linear-gradient(90deg,rgba(8,30,87,.16) 0 13%,transparent 27% 73%,rgba(8,30,87,.20) 87% 100%),
+    linear-gradient(180deg,transparent 0 63%,rgba(24,18,69,.13) 100%)!important;
+}
+.homeHeroRuntime::after{
+  content:"";
+  position:absolute;
+  z-index:-1;
+  inset:0;
+  pointer-events:none;
+  background:
+    radial-gradient(circle at 48% 26%,rgba(255,251,207,.92) 0 2px,transparent 3px),
+    radial-gradient(circle at 66% 21%,rgba(255,255,255,.88) 0 2px,transparent 3px),
+    radial-gradient(circle at 58% 39%,rgba(255,229,119,.78) 0 2px,transparent 3px),
+    radial-gradient(circle at 75% 31%,rgba(255,255,255,.72) 0 1px,transparent 2px);
+  opacity:.8;
+}
+
+/* QUEST — original learning room replaces the flatter room-tier backdrop. */
+.questIllustratedPage{
+  background:
+    linear-gradient(180deg,rgba(8,28,94,.36),rgba(39,20,109,.24)),
+    var(--sb-env-learning) center top/cover no-repeat!important;
+  background-color:#d9c8e9!important;
+}
+.questIllustratedPage::before{
+  background:
+    radial-gradient(ellipse at 52% 31%,rgba(255,255,255,.16),transparent 38%),
+    linear-gradient(90deg,rgba(6,22,75,.50) 0 12%,transparent 27% 74%,rgba(6,23,75,.50) 89% 100%),
+    linear-gradient(180deg,transparent 0 70%,rgba(6,18,58,.22) 100%)!important;
+}
+.questScreenshotMatch{
+  background:linear-gradient(180deg,rgba(8,38,92,.56),rgba(16,45,119,.46))!important;
+  backdrop-filter:saturate(1.08);
+}
+.questScreenshotMatch .questCharacterStage::before{
+  content:"";
+  position:absolute;
+  left:4%;right:4%;bottom:0;
+  height:30%;
+  border-radius:50%;
+  background:radial-gradient(ellipse,rgba(255,240,168,.28),rgba(179,119,224,.10) 48%,transparent 74%);
+  filter:blur(3px);
+  pointer-events:none;
+}
+.questScreenshotMatch .questLessonArt{
+  background:linear-gradient(135deg,rgba(223,247,255,.96),rgba(234,220,255,.96))!important;
+}
+.questScreenshotMatch .questLessonArt img{
+  object-position:center center;
+  filter:saturate(1.05) contrast(1.02);
+}
+
+/* STORE — boutique-bedroom environment under the Store chrome. */
+.marketPage.sbStoreMatch{
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.08),rgba(44,28,79,.10)),
+    var(--sb-env-boutique) center top/cover no-repeat!important;
+  background-color:#e7c9e6!important;
+}
+.marketPage.sbStoreMatch::before{
+  background:
+    radial-gradient(ellipse at 49% 32%,rgba(255,255,255,.18),transparent 37%),
+    linear-gradient(90deg,rgba(67,39,95,.13) 0 10%,transparent 24% 76%,rgba(67,39,95,.16) 90% 100%),
+    linear-gradient(180deg,transparent 0 72%,rgba(88,55,62,.10) 100%)!important;
+}
+.marketPage.sbStoreMatch::after{
+  width:360px!important;
+  height:430px!important;
+  right:8px!important;
+  top:86px!important;
+  border-radius:42%!important;
+  background:radial-gradient(circle at 52% 24%,rgba(255,249,211,.52),transparent 56%)!important;
+  filter:blur(8px)!important;
+  opacity:.7!important;
+}
+.sbStoreAvatarStage{
+  background:
+    radial-gradient(circle at 50% 24%,rgba(255,255,255,.88) 0 8%,transparent 35%),
+    linear-gradient(180deg,rgba(255,216,234,.90) 0 49%,rgba(214,183,242,.92) 49% 67%,rgba(239,208,167,.94) 67% 100%)!important;
+}
+
+/* Study inherits the same Brightside learning-space family. */
+.studyIllustratedPage{
+  background:
+    linear-gradient(180deg,rgba(7,28,94,.38),rgba(41,25,108,.32)),
+    var(--sb-env-learning) center top/cover no-repeat!important;
+}
+
+@media (min-width:1280px){
+  .homeHeroRuntime .homeIllustratedScene,
+  .questIllustratedPage,
+  .marketPage.sbStoreMatch,
+  .studyIllustratedPage{background-position:center top!important}
+}
+
+@media (min-width:768px) and (max-width:1279px){
+  .homeHeroRuntime .homeIllustratedScene{background-position:49% top!important}
+  .questIllustratedPage,.studyIllustratedPage{background-position:48% top!important}
+  .marketPage.sbStoreMatch{background-position:51% top!important}
+}
+
+@media (max-width:767px){
+  .homeHeroRuntime .homeIllustratedScene{
+    background-size:auto 100%!important;
+    background-position:50% top!important;
+    transform:scale(1.02);
+  }
+  .questIllustratedPage,.studyIllustratedPage{
+    background-size:auto 100%!important;
+    background-position:50% top!important;
+  }
+  .marketPage.sbStoreMatch{
+    background-size:auto 100%!important;
+    background-position:53% top!important;
+  }
+  .homeHeroRuntime .homeSceneVignette,
+  .questIllustratedPage::before,
+  .marketPage.sbStoreMatch::before{
+    background:
+      linear-gradient(180deg,rgba(8,30,87,.10),rgba(8,30,87,.22)),
+      radial-gradient(ellipse at 50% 28%,rgba(255,255,255,.12),transparent 46%)!important;
+  }
+}
+
+@media (prefers-reduced-motion:reduce){
+  .homeHeroRuntime .homeIllustratedScene{transform:none!important}
+}
