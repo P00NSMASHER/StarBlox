@@ -7,6 +7,7 @@
   "branch": "screenshot-match-preproduction",
   "sourceHeadReadBeforeProduction": "825aaae38ab3907512a25d16767c0fec3e0efc7a",
   "assetBatchHead": "ad7c1a41f606b1c44e309f0315d59ea9abadd5ad",
+  "latestEvidenceHeadRead": "911edfc37d05b0402ea028613c6a835401d316f0",
   "assignedIds": [
     "decor-1", "decor-2", "decor-3", "decor-4", "decor-5", "decor-6",
     "decor-7", "decor-8", "decor-9", "decor-10", "decor-11", "decor-12"
@@ -15,7 +16,7 @@
   "canonicalManifestChanged": false,
   "runtimeWiringChanged": false,
   "selfApproved": false,
-  "reviewRequired": ["01", "14"],
+  "reviewRequired": ["14"],
   "integrationOwner": "08",
   "provenance": {
     "type": "original-repo-owned-svg",
@@ -40,6 +41,22 @@
     {"id":"decor-11","name":"Dream Vanity Set","tier":4,"theme":"Art Attack","price":1276,"starReq":5,"path":"/assets/catalog/decor-11.svg","repositoryPath":"public/assets/catalog/decor-11.svg","blobSha":"250aad2e72917036ae03c1db3e9071ae6c7aa983","bytes":2876,"dimensions":[800,800],"feature":"pink vanity with illuminated round mirror, drawer towers, stool, cosmetic bottles and star pull","status":"READY_FOR_REVIEW"},
     {"id":"decor-12","name":"Trophy Wall","tier":5,"theme":"Star Luxe","price":1740,"starReq":9,"path":"/assets/catalog/decor-12.svg","repositoryPath":"public/assets/catalog/decor-12.svg","blobSha":"903e0f5d45dd6874c4352493db3e3e3346e0b39c","bytes":3115,"dimensions":[800,800],"feature":"ornate deep-purple and gold display case with two trophies, three medals and a luminous star centerpiece","status":"READY_FOR_REVIEW"}
   ],
+  "v2ProducerPixelEvidence": {
+    "sampleIds": ["decor-1", "decor-4", "decor-10", "decor-12"],
+    "exactBlobReadback": "PASS_4_OF_4",
+    "render800x800": "PASS_4_OF_4",
+    "render220x220CardScale": "PASS_4_OF_4",
+    "clippingOrMalformedGeometryObserved": false,
+    "recognizableAtCardScale": true,
+    "independentApprovalClaimed": false,
+    "qualityRisk": "Representative samples are clean and item-recognizable but visibly flat/vector and strongly templated compared with the premium dimensional toy-block screenshot target; higher tiers add components/glow but limited material depth remains an independent-review concern.",
+    "sampleSha256": {
+      "decor-1": "e4b782d90747cb23d314bfb30732912bc6bdc5b70dc97dc461cc92ae198c60de",
+      "decor-4": "9bcdd23a187ae24fb19b4ccdf2fedc1e6ef44806040dc3b93fa38260befaa3ec",
+      "decor-10": "2f7ac54925fef20b6ef4fce06ebd4cc0397faff17b821d49456bc2ae9cc3bcaf",
+      "decor-12": "8cab73b5198b193fce59ace4737cc2ac19e826d28d00732b057c96cbd23d089a"
+    }
+  },
   "checks": {
     "catalogMetadataMatched": "PASS",
     "githubAssetPresenceBlobShaAndSize": "PASS_12_OF_12",
@@ -48,7 +65,9 @@
     "localXmlParse": "PASS_12_OF_12",
     "localCairoSvgRender400x400": "PASS_12_OF_12",
     "producerContactSheetInspection": "PASS_NO_CLIPPING_OR_MALFORMED_GEOMETRY_OBSERVED",
-    "independentVisualApproval": "PENDING_01_14",
+    "v2RepresentativePixelRefresh": "PASS_4_OF_4_RENDERED_WITH_FIDELITY_RISK_RECORDED",
+    "independentVisualApproval": "PENDING_14",
+    "reviewShard14PresenceAtLatestEvidenceHead": "MISSING",
     "storeBrowserReview": "NOT_TESTED",
     "fullBuild": "NOT_RUN_ASSET_ONLY_LANE",
     "fullTestSuite": "NOT_RUN_ASSET_ONLY_LANE",
@@ -59,9 +78,10 @@
     "mainTouched": false
   },
   "blockers": [
-    "Workstream 01 and/or 14 must independently render and judge each exact asset blob before visual acceptance.",
-    "Workstream 08 alone may add accepted decor IDs to catalog-art-manifest.json and src/catalogArtRuntime.js.",
-    "Actual Store card/detail context, phone scrolling, and consolidated branch build remain outside this producer lane and are not claimed PASS."
+    "Workstream 14 has not yet created docs/preproduction/catalog-sprint/reviews/14.json, so no exact-hash independent decision exists for decor-1..12.",
+    "Workstream 08 alone may add accepted decor IDs to catalog-art-manifest.json and src/catalogArtRuntime.js after reviewer 14 ACCEPT decisions.",
+    "The producer pixel refresh found a flat/vector/template-like fidelity risk relative to the premium dimensional screenshot target; this is a producer concern, not a self-issued REWORK. Reviewer 14 must decide exact hashes before replacement work.",
+    "Actual canonical Store card/detail context remains outside this producer lane and is not claimed PASS."
   ],
-  "handoff": "All 12 assigned room-decor candidates are staged and producer-validated as READY_FOR_REVIEW. Workstreams 01/14 should review the exact blob SHAs above; Workstream 08 should integrate only accepted IDs. This handoff requests reassignment from Command Center 15 after review/integration needs are reconciled. Workstream 09 must not take another lane or resume environment-background work while phase remains CATALOG_SPRINT."
+  "handoff": "Delivery Protocol V2 routes room-decor review exclusively to Workstream 14. All 12 exact candidate blobs remain staged and unchanged. Reviewer 14 should prioritize actual card/detail pixel decisions, especially material depth/template fidelity. Workstream 08 may integrate any current-hash ACCEPT incrementally. Workstream 09 must repair only exact REWORK versions or await a new assignment from 15; it must not resume environment/background work while phase remains CATALOG_SPRINT."
 }
