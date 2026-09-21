@@ -2,17 +2,17 @@
   "schemaVersion": 2,
   "workstream": "13",
   "phase": "CATALOG_SPRINT",
-  "status": "PASS_AUTOMATED_TRANSACTION_RELOAD_WITH_LIVE_BROWSER_BLOCKER",
+  "status": "PASS_AUTOMATED_ON_LATEST_RUNTIME_CHANGE_REAL_BROWSER_BLOCKED",
   "branch": "screenshot-match-preproduction",
-  "auditedBranchHead": "3cc4c44cc5a310fcf23ad9d88cfed856ea0f20c7",
-  "testedRuntimeHead": "1ce91011311dff6ea9b7b8119010d84f0466e42f",
+  "auditedBranchHead": "2efff814883bffaa695cb6dfae80ed2dc3dc2658",
+  "testedRuntimeHead": "81bbf06dc070b0f72f942dde9c14ac4bba476922",
   "continuity": {
-    "fromTestedHeadToAuditedHead": "PASS_REVIEW_DOCS_ONLY",
-    "changedFiles": [
-      "docs/preproduction/catalog-sprint/reviews/02.json",
-      "docs/preproduction/catalog-sprint/reviews/05.json"
-    ],
-    "runtimeContinuity": "App/storage/transaction/reward code unchanged after tested head through audited head."
+    "fromPriorPersistenceTestHead": "1ce91011311dff6ea9b7b8119010d84f0466e42f",
+    "result": "PASS",
+    "materialRuntimeChangeSincePriorEvidence": "src/mobileAccessibilityRuntime.js only",
+    "persistenceEconomyFilesChanged": false,
+    "catalogManifestOrRuntimeChanged": false,
+    "afterTestedRuntimeHeadToAuditedHead": "Only catalog QA/review/coordination docs and staged-art workflow changed; no persistence/economy/runtime catalog mapping change."
   },
   "runtimeHashes": {
     "storageJsGitBlobSha": "34015dd498e6ae489ec01c00c2c414989ff59226",
@@ -23,31 +23,23 @@
     "appGitBlobSha": "2ad09c471bc8b95a9861cd4add746ffd66e63ea5"
   },
   "implementedProtections": {
-    "purchase": "applyPermanentPurchase revalidates current owned/stars/coins state in the functional transaction, records a durable per-item purchase receipt, charges once, and restores ownership from a receipt without charging again.",
-    "questCompletion": "Final correct-answer state applies the +30 Coins/+30 XP/Quest/Bond/daily completion transaction atomically with an active/completed Quest receipt; the 950 ms timer is presentation/transition only.",
-    "storage": "Receipt fields survive shape sanitization. Missing current localStorage remains a recovery state until IndexedDB is checked, so a default render cannot mask a recoverable backup.",
-    "missingArt": "Owned/equipped/room/Dream Goal IDs are shape-sanitized only and are never filtered against current catalog-art availability."
-  },
-  "materialChangeThisRun": {
-    "commit": "1ce91011311dff6ea9b7b8119010d84f0466e42f",
-    "file": "src/persistenceEconomyIntegration.test.js",
-    "type": "TARGETED_RELOAD_TRANSACTION_REGRESSION",
-    "scope": "Synthetic jsdom/localStorage integration tests only; no real player data and no shared App/runtime modification.",
-    "cases": [
-      "Permanent purchase receipt/ownership survives reload and same item cannot charge twice.",
-      "Receipt-only partial snapshot restores missing ownership without a second charge, including a synthetic unknown/no-art item and Dream Goal.",
-      "Final Quest completion survives reload and same completion receipt cannot replay Coins/XP/Quest/Bond/daily rewards while unrelated protected state remains unchanged."
-    ]
+    "purchase": "applyPermanentPurchase revalidates owned/receipt/star/coin state in the functional save transaction, records a durable per-item receipt, charges once, and restores ownership from a receipt without a second charge.",
+    "questCompletion": "Final Quest completion reward/progress is committed atomically with active/completed receipt state before the UI transition timer; replay of a completed receipt is rejected.",
+    "storage": "Receipt fields survive sanitization. Missing current localStorage remains a recovery state until IndexedDB is checked so a default render cannot mask a recoverable backup.",
+    "missingArt": "Owned/equipped/room/Dream Goal IDs are shape-sanitized only and never filtered against catalog-art availability."
   },
   "ci": {
-    "workflowRunId": 35652200670,
-    "jobId": 106507027345,
-    "head": "1ce91011311dff6ea9b7b8119010d84f0466e42f",
+    "workflowRunId": 35652513911,
+    "jobId": 106508054992,
+    "head": "81bbf06dc070b0f72f942dde9c14ac4bba476922",
+    "triggeringRuntimeChange": "a11y: isolate Store focus scroll to keyboard",
     "tests": "PASS_22_OF_22_FILES_98_OF_98_TESTS",
-    "newReloadTransactionCases": "PASS_3_OF_3",
+    "persistenceReloadTransactionCases": "PASS_3_OF_3",
     "persistenceTransactionCases": "PASS_5_OF_5",
     "storageRecoveryCases": "PASS_7_OF_7",
     "purchaseRapidActionTests": "PASS",
+    "roomRapidActionTests": "PASS",
+    "questRapidActionTests": "PASS",
     "rewardEvidenceTests": "PASS",
     "catalog192Invariant": "PASS",
     "productionBuild": "PASS",
@@ -55,10 +47,22 @@
     "bundle": {
       "cssKb": 167.39,
       "cssGzipKb": 35.69,
-      "jsKb": 304.00,
-      "jsGzipKb": 93.28
+      "jsKb": 304.14,
+      "jsGzipKb": 93.34
     }
   },
+  "executedCases": [
+    {"case":"corrupt current localStorage falls through to recoverable legacy key","result":"PASS_AUTOMATED_RECONFIRMED"},
+    {"case":"missing localStorage cannot mask recoverable IndexedDB backup during hydration","result":"PASS_AUTOMATED_RECONFIRMED"},
+    {"case":"unknown/no-art IDs survive sanitize, persistence and purchase receipt recovery","result":"PASS_AUTOMATED_RECONFIRMED"},
+    {"case":"permanent purchase survives persist/reload and duplicate replay cannot recharge","result":"PASS_AUTOMATED_RECONFIRMED"},
+    {"case":"receipt-only partial snapshot restores ownership without recharge","result":"PASS_AUTOMATED_RECONFIRMED"},
+    {"case":"final Quest completion survives persist/reload and receipt replay cannot re-award","result":"PASS_AUTOMATED_RECONFIRMED"},
+    {"case":"rapid Buy Forever across React-style rerender","result":"PASS_AUTOMATED_RECONFIRMED"},
+    {"case":"rapid Place/Put Away toggle","result":"PASS_AUTOMATED_RECONFIRMED"},
+    {"case":"rapid Quest answer double tap","result":"PASS_AUTOMATED_RECONFIRMED"},
+    {"case":"repeated wrong reward and assisted-vs-independent reward policy","result":"PASS_AUTOMATED_RECONFIRMED"}
+  ],
   "invariants": {
     "coinsStarsXp": "PASS_AUTOMATED",
     "starWorthHomeProgress": "PASS_AUTOMATED",
@@ -73,30 +77,22 @@
     "questCompletionExactlyOnceAcrossPersistedReload": "PASS_AUTOMATED",
     "missingArtNeverPrunesOwnership": "PASS_AUTOMATED"
   },
-  "executedCases": [
-    {"case":"corrupt current localStorage falls through to recoverable legacy key","result":"PASS_AUTOMATED"},
-    {"case":"fresh localStorage plus existing IndexedDB backup cannot be masked by default-render persistence","result":"PASS_AUTOMATED"},
-    {"case":"unknown/no-art IDs survive sanitize, persistence and purchase receipt recovery","result":"PASS_AUTOMATED"},
-    {"case":"permanent purchase survives persist/reload and duplicate replay cannot recharge","result":"PASS_AUTOMATED_NEW_THIS_RUN"},
-    {"case":"receipt-only partial snapshot restores ownership without recharge","result":"PASS_AUTOMATED_NEW_THIS_RUN"},
-    {"case":"final Quest completion survives persist/reload and receipt replay cannot re-award","result":"PASS_AUTOMATED_NEW_THIS_RUN"},
-    {"case":"rapid Buy Forever DOM clicks including React-style button replacement","result":"PASS_AUTOMATED_UI_GUARD"},
-    {"case":"rapid Place/Put Away toggle","result":"PASS_AUTOMATED_UI_GUARD"},
-    {"case":"rapid Quest answer double tap","result":"PASS_AUTOMATED_UI_GUARD"},
-    {"case":"repeated wrong reward and assisted-vs-independent reward policy","result":"PASS_AUTOMATED"}
-  ],
   "browserAttempt": {
     "result": "BLOCKED_AUTHORIZED_REMOTE_DEVICE_OFFLINE",
-    "details": "Remote Desktop Commander listed the sole authorized device PAAM-L044 as offline (last seen 2026-09-18). Browser Use cannot reach the branch-local Vite preview. Therefore a real Chromium purchase/equip/place/reload or final-Quest-refresh transaction run was not fabricated from jsdom/CI evidence.",
+    "device": "PAAM-L044",
+    "deviceStatus": "offline",
+    "lastSeen": "2026-09-18T11:51:14.213+00:00",
+    "details": "The authorized executable-device path was checked again this run. No online device is available for a branch-local Chromium/Vite transaction test, so jsdom/CI evidence is not relabeled as real-browser timing proof.",
     "realPlayerDataUsed": false
   },
   "openReleaseRisks": [
     {
-      "id": "PERSIST-REAL-BROWSER-TRANSACTION-STRESS",
-      "status": "BLOCKED_DEVICE_OFFLINE",
+      "id": "PERSIST-BROWSER-TIMING-CONCURRENCY",
+      "status": "BLOCKED_DEVICE_OFFLINE_ESCALATED_TO_15",
       "severity": "RELEASE_BLOCKER",
-      "evidence": "Transaction and reload semantics now pass unit/integration CI, but real-browser persistence timing, multi-tab replay and physical double-tap timing remain unexecuted.",
-      "ownerNext": "13 runs isolated synthetic browser purchase/equip/place/reload, final-Quest refresh and multi-tab replay when an authorized executable browser/device path is online; 15/14 may expose an approved branch-local harness without Replit/main."
+      "evidence": "Durable transactions and reload semantics pass on the latest runtime-affecting CI head, but real-browser purchase/equip/place/reload, final-Quest feedback refresh timing, multi-tab replay, malformed import and IndexedDB/localStorage recovery remain unexecuted.",
+      "unchangedBlockerCycles": 2,
+      "ownerNext": "15 coordinates an authorized executable local Chromium/Vite path without Replit/Floot or real player data; 13 executes the isolated synthetic timing/concurrency matrix immediately when available."
     }
   ],
   "notTested": [
@@ -108,9 +104,9 @@
     "live browser localStorage deletion while IndexedDB backup remains"
   ],
   "handoff": {
-    "15": "The prior two source-gap blockers are implemented and CI-proven. Update control-state evidence from source-gap/pending to automated PASS, while retaining the single real-browser transaction-stress release blocker.",
-    "14": "Do not treat headless visual screenshots as persistence timing proof; reuse an approved local preview harness for isolated state-transition testing when available.",
-    "08": "Catalog integration may continue; art availability must never filter owned/equipped/roomDecor/dreamGoalId."
+    "15": "Persistence source semantics remain green on the latest runtime-affecting CI head. The authorized device remains offline for a second unchanged cycle; PERSIST-BROWSER-TIMING-CONCURRENCY is escalated as the only Workstream-13 release blocker.",
+    "14": "Do not substitute visual screenshots for transaction timing. If the shared QA harness gains an authorized state-isolated interaction path, expose it to 13 without wiring real player data.",
+    "08": "Catalog integration may continue; image availability must never filter owned/equipped/roomDecor/dreamGoalId."
   },
   "freeze": {
     "replitTouched": false,
