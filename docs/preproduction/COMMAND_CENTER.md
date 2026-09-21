@@ -17,7 +17,7 @@ The exact full-suite runtime/test claim below remains bound to `7b146f9...`. Sin
 
 **Estimated coordinated screenshot-match completion: 78%.**
 
-The estimate is deliberately **held**, not increased. The first 47 independently reviewed catalog hashes still require rework, no replacement hash is independently accepted or canonically promoted yet, and the two persistence release blockers now have an implementation but still lack full CI plus live-browser validation. Six versioned repair candidates are repository-stored (Tops 7/8 and Auras 1-4), but stored bytes are not acceptance. Scheduling activity, local generations, legacy `final-portable` labels and READY_FOR_REVIEW do not increase completion by themselves.
+The estimate is deliberately **held**, not increased. Independent visual review has expanded to 71/192 item hashes and all 71 are REWORK; no replacement hash is independently accepted or canonically promoted yet. The two persistence release blockers have an implementation but still lack fresh full CI plus Workstream-13 browser/replay validation. Six versioned repair candidates are repository-stored (Tops 7/8 and Auras 1-4). Ten additional already-generated Firefly repairs (Lighting 1-4 and Tops 1-6) have been preserved as immutable Git blobs but do **not** count as staged until their owners attach them to versioned branch paths and verify readback. Scheduling activity, local generations, legacy `final-portable` labels and READY_FOR_REVIEW do not increase completion by themselves.
 
 **READY FOR SINGLE REPLIT INTEGRATION: NO.**
 
@@ -31,7 +31,7 @@ The estimate is deliberately **held**, not increased. The first 47 independently
 | Quest | **88%** | Implemented / 6 geometry blockers | Learning behavior remains green; header, phase strip, avatar/body/mastery and earned-summary geometry still miss measured contracts. |
 | Avatar / Buddy | **80%** | Implemented / catalog + try-on fidelity pending | Saved IDs/Buddy state remain protected. Companion/aura review and final layered equipment fidelity remain incomplete. |
 | Progression | **90%** | Automated state gate PASS / final render pending | Five canonical room tiers, Dream Goal, Daily/mastery and ownership-bound progress remain intact. |
-| Catalog Art | **52% legacy canonical labels; 0/47 current-hash reviews accepted** | **Primary visual blocker** | Manifest still has 99 legacy `final-portable` labels and 23 interim entries. Six versioned repair candidates are now stored (Tops 7/8, Auras 1-4), but none has a fresh independent ACCEPT. The original reviewed families remain 47/47 REWORK. |
+| Catalog Art | **52% legacy canonical labels; 0/71 reviewed hashes accepted** | **Primary visual blocker** | Manifest still has 99 legacy `final-portable` labels and 23 interim entries. Six versioned repair candidates are branch-stored (Tops 7/8, Auras 1-4), while ten more generated repairs are preserved as Git blobs pending owner path attachment/readback. Current independent decisions cover 71 item hashes and all 71 are REWORK. |
 | Environments | **82%** | Structurally implemented / fidelity+perf pending | Home/learning/Store scenes exist; final dimensional materials, room-tier scenes, crops and performance remain GAME_FINISHING work. |
 | Mobile / Accessibility | **86%** | CI/browser-emulation improved / device proof pending | Store focus-tray fixes and tests are in; full CI is green. Existing canonical Store emulation is strong, while physical-device and screen-reader evidence remains unproven. |
 | Motion / Game Feel | **84%** | Automated helpers PASS / real perf pending | Bounded/reduced-motion helpers remain green; actual phone/tablet normal/reduced-motion paint/composite proof remains later work. |
@@ -64,11 +64,11 @@ A supported binary GitHub import/readback path is now proven by Workstream 08. W
 
 All four V2 review shards now exist. Current exact-hash coverage:
 
-- independently reviewed: **47 / 192**;
+- independently reviewed: **71 / 192**;
 - ACCEPT: **0**;
-- REWORK: **47**;
+- REWORK: **71**;
 - BLOCKED: **0**;
-- unreviewed: **145**.
+- unreviewed item IDs: **121**.
 
 Reviewed families and findings:
 
@@ -76,8 +76,16 @@ Reviewed families and findings:
 2. **Seating 2–12 — 11 REWORK:** distinct/readable objects but insufficient dimensional materials, perspective, themed construction and premium collectible depth.
 3. **Auras 1–12 — 12 REWORK:** weak card-scale contrast/theme identity and flat vector effect treatment; insufficient dimensional glow/particle richness.
 4. **Lighting 1–12 — 12 REWORK:** coherent but shared pastel flat-vector treatment, shallow materials and inadequate three-quarter dimensional lighting presentation.
+5. **Companions 1–12 — 12 REWORK:** distinct, child-friendly identities but flat mascot anatomy/materials, weak cast/rim lighting and insufficient premium tier progression.
+6. **Beds 1–12 — 12 REWORK:** readable furniture identities but predominantly frontal flat construction, insufficient mattress/frame/canopy/pod depth and weak high-tier material spectacle.
 
 These findings invalidate any assumption that a legacy `final-portable` or interim label equals screenshot-quality acceptance. No previously reviewed hash is eligible for Workstream 08 promotion. Since that review, Workstream 09 stored dimensional replacement candidates for `tops-7` and `tops-8`, and Workstream 11 stored replacement bytes for `auras-1..4`; all six require fresh exact-hash independent pixel decisions before promotion.
+
+### Binary transfer bridge
+
+The Adobe/Firefly binary handoff blocker is now resolved at the byte-preservation layer without regeneration. Workstream 15 used the existing Adobe GenAI asset search/presigned-rendition/inline-byte path and GitHub `create_blob(base64)` to preserve exact JPEG renditions as immutable Git blobs for **Lighting 1–4** and **Tops 1–6**. The first candidate also proved GitHub accepts the blob in a candidate tree. Repeated branch ref attempts were stopped after concurrent specialist commits correctly caused non-fast-forward rejection; no force push was used.
+
+These ten blobs are **not counted as repository-staged assets yet**. Workstreams 04 and 07 own normal latest-head path attachment/readback, after which 14/01 respectively perform fresh exact-hash pixel review. The exact blob mappings are persisted in `CATALOG_SPRINT_STATE.json`.
 
 ### Repair routing recorded in sprint state
 
