@@ -1,0 +1,120 @@
+name: StarBlox Original Reference Intake
+
+on:
+  push:
+    branches: [screenshot-match-preproduction]
+    paths: [.github/workflows/original-reference-intake.yml]
+  workflow_dispatch:
+
+concurrency:
+  group: starblox-original-reference-intake
+  cancel-in-progress: false
+
+jobs:
+  preserve-originals:
+    if: github.repository == 'P00NSMASHER/StarBlox' && github.ref == 'refs/heads/screenshot-match-preproduction'
+    permissions:
+      contents: write
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    outputs:
+      reference_commit: ${{ steps.publish.outputs.reference_commit }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: screenshot-match-preproduction
+          fetch-depth: 0
+      - name: Install only the image-verification dependency
+        run: python3 -m pip install 'Pillow==11.3.0'
+      - name: Import exact user-provided JPEG bytes and comparison derivatives
+        run: python3 docs/preproduction/reference-intake/import_reference_screenshots.py --root .
+      - name: Verify immutable intake and safe repeat behavior
+        run: python3 -m unittest discover -s docs/preproduction/reference-intake -p 'test_import_reference_screenshots.py' -v
+      - name: Publish only the original reference set on preproduction
+        id: publish
+        run: |
+          set -eu
+          test "$GITHUB_REF" = 'refs/heads/screenshot-match-preproduction'
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- docs/preproduction/reference-screenshots/originals/home-1448x1086.jpeg docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg docs/preproduction/reference-screenshots/originals/quest-1448x1086.jpeg docs/preproduction/reference-screenshots/home-desktop-1408x1056.png docs/preproduction/reference-screenshots/store-desktop-1408x1056.png docs/preproduction/reference-screenshots/quest-desktop-1408x1056.png docs/preproduction/reference-screenshots/original-reference-manifest.json
+          if git diff --cached --quiet; then
+            echo "reference_commit=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          git commit -m 'qa: preserve original Home Store Quest reference pixels and verified derivatives'
+          for attempt in 1 2 3; do
+            if git push origin HEAD:refs/heads/screenshot-match-preproduction; then
+              echo "reference_commit=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+            git fetch origin screenshot-match-preproduction
+            git rebase origin/screenshot-match-preproduction
+          done
+          echo 'Publication stopped on concurrent changes; no force push.' >&2
+          exit 1
+      - name: Retain immutable reference evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: original-reference-intake
+          path: docs/preproduction/reference-screenshots
+          if-no-files-found: warn
+          retention-days: 30
+
+  compare-existing-game:
+    needs: preserve-originals
+    permissions:
+      contents: read
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.preserve-originals.outputs.reference_commit }}
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install existing application dependencies
+        run: |
+          if [ -f package-lock.json ]; then npm ci --no-audit --no-fund; else npm install --no-audit --no-fund; fi
+      - name: Run current application regression suite
+        run: timeout 180s npm test -- --reporter=verbose
+      - name: Install existing capture-only tooling without changing committed metadata
+        run: |
+          npm install --no-save --no-audit --no-fund playwright@1.55.0 @axe-core/playwright@4.10.2 pixelmatch@7.1.0 pngjs@7.0.0
+          npx playwright install --with-deps chromium
+      - name: Build current application
+        run: npm run build
+      - name: Start isolated local preview
+        run: |
+          nohup npx vite preview --host 127.0.0.1 --port 4173 > /tmp/starblox-original-reference-preview.log 2>&1 &
+          for i in $(seq 1 40); do
+            if curl -fsS http://127.0.0.1:4173/ >/dev/null; then exit 0; fi
+            sleep 0.5
+          done
+          cat /tmp/starblox-original-reference-preview.log
+          exit 1
+      - name: Capture actual game and report strict desktop differences
+        run: GITHUB_SHA=$(git rev-parse HEAD) timeout 360s node scripts/referenceScreenshotCapture.mjs
+        env:
+          STARBLOX_QA_URL: http://127.0.0.1:4173
+          STARBLOX_REFERENCE_OUTPUT: artifacts/original-reference-comparison
+          STARBLOX_REFERENCE_DIR: docs/preproduction/reference-screenshots
+          STARBLOX_REFERENCE_REQUIRED: '0'
+          STARBLOX_REFERENCE_STRICT_DIFF: '1'
+          STARBLOX_REFERENCE_MAX_DIFF_RATIO: '0'
+      - name: Print factual capture summary even when parity fails
+        if: always()
+        run: |
+          cat artifacts/original-reference-comparison/summary.txt || true
+          echo 'Reference intake success is not game visual acceptance. Missing phone/tablet references remain NOT TESTED.'
+      - name: Preserve real screenshots, differences and full report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: original-reference-comparison
+          path: artifacts/original-reference-comparison
+          if-no-files-found: warn
+          retention-days: 30
