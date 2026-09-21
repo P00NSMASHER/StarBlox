@@ -8,6 +8,7 @@ import './semanticQuestionGuardRuntime';
 import './diagnosticQuestionGuardRuntime';
 import './purchaseGuardRuntime';
 import './shellChromeRuntime';
+import './avatarBuddyRuntime';
 import { App } from './App';
 import './styles.css';
 import './release.css';
@@ -28,6 +29,7 @@ import './shellChrome.css';
 import './homeScreenshotMatch.css';
 import './storeScreenshotMatch.css';
 import './questScreenshotMatch.css';
+import './avatarBuddy.css';
 
 createRoot(document.getElementById('root')).render(
   <React.StrictMode>
