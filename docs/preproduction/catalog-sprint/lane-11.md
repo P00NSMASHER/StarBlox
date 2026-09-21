@@ -1,77 +1,69 @@
 # Catalog Sprint — Lane 11 Auras
 
-STATUS: **READY FOR INDEPENDENT REVIEW — PRODUCER PIXEL CHECK ADDED FOR AURAS 1–4**
+STATUS: **REPAIR BATCH 1 READY FOR INDEPENDENT REVIEW — AURAS 1–4**
 
 Branch: `screenshot-match-preproduction`  
 Workstream: 11  
 Phase: `CATALOG_SPRINT`  
-Canonical manifest/runtime changed by Lane 11: **NO**  
-Player state changed: **NO**  
-Independent reviewer under Delivery Protocol V2: **Workstream 05**  
-Canonical integration owner: **Workstream 08**
+Independent reviewer: **05**  
+Canonical integrator: **08**  
+Replit/Floot: **untouched**  
+`main`: **untouched**  
+Player state: **unchanged**
 
-## Current assignment
+## Independent review is now actionable
 
-Lane 11 still exclusively owns `auras-1` through `auras-12`. All twelve pre-existing repo-owned SVG candidates remain `READY_FOR_REVIEW`; none was regenerated or relabeled final in this pass.
+Workstream 05 has independently reviewed the original `auras-1..12` hashes in the actual Store and returned **REWORK 12/12**. The common release defect is not identity or uniqueness; it is insufficient assigned-theme expression, card-scale contrast and premium dimensional material/lighting depth. The exact original hashes remain preserved for comparison.
 
-Delivery Protocol V2 changed the review allocation after the earlier handoff. Aura acceptance now belongs to **Workstream 05**, not Workstreams 01/14. At inspected head `007be8be7f720af97bd071ba36e6e399d01b0b0b`, `docs/preproduction/catalog-sprint/reviews/05.json` did not exist yet, so there is still **no independent hash-bound aura ACCEPT / REWORK / BLOCKED decision**.
+Lane 11 therefore has an evidenced repair assignment for all twelve Auras. This pass completed the first bounded repair batch: **`auras-1` through `auras-4`**. No canonical mapping changed and none of the replacements is self-approved.
 
-## Actual producer pixel evidence added this pass
+## Batch 1 repaired candidates
 
-To avoid repeating source-only inspection, Lane 11 fetched the exact current repository bytes for `auras-1..4`, verified that their Git blob SHAs still match the lane record, rasterized each SVG with **CairoSVG 2.8.2** at both **512×512** and **192×192**, and visually inspected the raster output over a dark neutral background.
+| ID | Item / theme / tier | Rejected original | New versioned candidate | New Git blob | Bytes | Repair intent |
+| --- | --- | --- | --- | --- | ---: | --- |
+| `auras-1` | Soft Sparkles / Midnight Neon / T1 | `5fdf391924548197f0d1025fbfddc6b5eea1dada` | `/assets/catalog/auras-1-v2.svg` | `48639f1262052350660127bbc5d3d25de34d61e3` | 2,592 | Strong midnight field, cyan/pink/violet orbit, larger luminous sparkles, bloom and motes while remaining a clean Starter effect. |
+| `auras-2` | Cloud Puffs / Candy Core / T1 | `951d0de53b0177256bb71308f18fc3c5a2563a43` | `/assets/catalog/auras-2-v2.svg` | `c2be24c165f3e28995d5d2eb946dbdde983afe2a` | 2,536 | Plush candy-gradient cloud volumes, cyan/pink rim light, highlights, depth shadow and a candy-star anchor. |
+| `auras-3` | Pixel Bits / Adventure Club / T1 | `a27b05e02ca3165d18bccac63a8cff3a645e393e` | `/assets/catalog/auras-3-v2.svg` | `9b682148eb26898ec5f56ac11eac635e7c93c8fc` | 2,929 | Tilted orbital tracks, beveled gold/aqua/violet voxel bits, compass-like star and bright pixel motes for a stronger Adventure Club identity. |
+| `auras-4` | Berry Hearts / Cloud Pop / T2 | `feb01955145685f718c231287abbad60ecc2e408` | `/assets/catalog/auras-4-v2.svg` | `3059eae7ab68c125f1af1696305fdf5689131455` | 2,927 | Glossy berry-heart volumes around a sculpted Cloud Pop center with cyan cloud arcs, star core, specular highlights and layered glow. |
 
-| ID | Blob SHA | 512 render | 192 render | Producer observation |
-| --- | --- | --- | --- | --- |
-| auras-1 Soft Sparkles | `5fdf391924548197f0d1025fbfddc6b5eea1dada` | 112,483 B / `7d2b1bd8...f57d91` | 27,983 B / `6ee0c4ba...2a833b` | Clean render; centered halo/four sparkles; readable but deliberately sparse/flat. |
-| auras-2 Cloud Puffs | `951d0de53b0177256bb71308f18fc3c5a2563a43` | 103,455 B / `d877c5e4...c8a15f` | 26,890 B / `6e8422f0...29e2d2` | Clean render; four clouds/top star are clear; visually simple. |
-| auras-3 Pixel Bits | `a27b05e02ca3165d18bccac63a8cff3a645e393e` | 110,285 B / `5eb43927...8f147` | 30,927 B / `9827b9d9...5f42788` | Clean render; pixel blocks read clearly; still flat/vector-like. |
-| auras-4 Berry Hearts | `feb01955145685f718c231287abbad60ecc2e408` | 106,765 B / `39e6e2ea...37135` | 30,884 B / `19ecce0c...13efe` | Clean render; heart silhouettes are clear; material depth is limited. |
+These are **versioned replacements**, not destructive overwrites. The original reviewed files remain in place until a replacement receives a fresh independent exact-hash `ACCEPT` and Workstream 08 chooses to wire it.
 
-The complete SHA-256 values are stored in `lane-11.json`.
+## Actual execution evidence
 
-### Producer-quality risk
+Before repository staging, the exact replacement bytes were rasterized locally with CairoSVG 2.8.2 at **512×512** and **192×192** and visually inspected on a dark Store-like field. After upload, GitHub readback returned the same Git blob SHA computed from each local source byte sequence.
 
-The first four candidates are structurally distinct, correctly centered and readable at card scale, but the raster inspection confirms an important **quality risk**: their treatment is flat/simple compared with the premium dimensional screenshot target. Lane 11 is **not** turning that observation into an ACCEPT or REWORK decision because self-approval is prohibited. Workstream 05 must independently judge the exact hashes using real rendered evidence.
+Producer render results:
 
-This pass therefore made **no asset replacement**. Regenerating before the independent decision would violate the preserve-valid-candidate rule. If reviewer 05 returns `REWORK` for a specific exact hash, Lane 11 should repair only that ID/version in a 2–6 item micro-batch.
+- `auras-1-v2`: 512 render 98,875 B (`14946bad...d8a2f`); 192 render 30,548 B (`9468d63b...2d0eb1`).
+- `auras-2-v2`: 512 render 100,006 B (`45e8bed8...fc3db2`); 192 render 28,399 B (`1c17e8ee...87277`).
+- `auras-3-v2`: 512 render 97,857 B (`28f95250...8bf99`); 192 render 29,333 B (`1d18c615...1eb035`).
+- `auras-4-v2`: 512 render 97,505 B (`e934fb04...e0b645`); 192 render 30,506 B (`5a32aba0...89175`).
 
-## Preserved candidate inventory
+All four replacements render without clipping or malformed geometry and materially improve the specific rejected dimensions: card-scale contrast, theme identity, layering and glow/material depth. That statement is **producer evidence only**; it is not an acceptance decision.
 
-The 12 candidate IDs and Git blobs remain:
+## Remaining rejected originals
 
-- `auras-1` Soft Sparkles — `5fdf391924548197f0d1025fbfddc6b5eea1dada`
-- `auras-2` Cloud Puffs — `951d0de53b0177256bb71308f18fc3c5a2563a43`
-- `auras-3` Pixel Bits — `a27b05e02ca3165d18bccac63a8cff3a645e393e`
-- `auras-4` Berry Hearts — `feb01955145685f718c231287abbad60ecc2e408`
-- `auras-5` Garden Fireflies — `537e3a60ee47a50e219ff4d165f0cf8fa7cf45f7`
-- `auras-6` Galaxy Orbit — `12323f12b60b5b411cde8ad383d3238d78e40053`
-- `auras-7` Sunny Rays — `82678bb86daa67c81faa82ca6613b698133a5ebd`
-- `auras-8` Aqua Bubbles — `9cf59e4329b180645ccf6a12057654a126f10cdd`
-- `auras-9` Art Confetti — `df6ff86bdb73909ae6e41a505861aba8bfce2f5a`
-- `auras-10` Neon Trail — `be285375c688a518b491b09ff047920cc6e23fe5`
-- `auras-11` Dream Aurora — `3a80508473e5364899b1276256ea26c72f9efce0`
-- `auras-12` Luxe Starstorm — `afa2b684e811302c2889e068b16e730eb58e6d27`
+`auras-5` through `auras-12` remain on their independently rejected original hashes and are still repair work for Lane 11. They were **not regenerated in this pass** because Delivery Protocol V2 calls for bounded 2–6 item micro-batches and fresh review of each replacement version.
 
-Prior source-level checks remain valid for the unchanged hashes: distinct effect structures, self-contained SVGs, no external raster/font dependency, no third-party character/brand or Roblox/Brookhaven asset observed, and directional Starter→Luxe effect-density progression.
+The next likely repair batch is `auras-5..8`, unless Workstream 05 returns a concrete defect on one of the new `v2` files that should be corrected first.
 
-## What is and is not proven
+## Current checks
 
-- **PASS** — current assignment still belongs to Lane 11.
-- **PASS** — exact current repository readback for `auras-1..4`.
-- **PASS** — `auras-1..4` rasterize successfully at 512 and 192 px.
-- **PASS** — no clipping or malformed geometry observed in those four producer renders.
-- **RISK** — those four may be too flat/simple for the premium dimensional target.
-- **PENDING** — independent Workstream 05 pixel review of `auras-1..12`.
-- **PENDING** — Workstream 08 canonical integration of individually accepted hashes.
-- **NOT CLAIMED** — Store-context acceptance, final art status or release clearance.
-- **NOT STORED BY LANE 11** — durable screenshot/contact-sheet artifact; Workstream 14 owns the shared candidate-render harness under V2.
+- **PASS** — Lane 11 still owns Aura production/repair.
+- **PASS** — reviewer 05 returned exact-hash `REWORK` for all twelve originals.
+- **PASS** — four replacements use new versioned paths and preserve originals.
+- **PASS** — GitHub repository readback for all four replacements.
+- **PASS** — unique Git blob identities, 512×512 SVG canvas, local 512/192 rasterization and producer pixel inspection.
+- **PENDING** — fresh independent Workstream 05 card/detail review of the four new hashes.
+- **PENDING** — Workstream 08 canonical wiring after any fresh `ACCEPT`.
+- **UNCHANGED** — manifest/runtime, prices, item IDs, player state and live Aura logic.
 
-## Next owner / action
+## Handoff
 
-**Workstream 05:** create `docs/preproduction/catalog-sprint/reviews/05.json` and review the exact aura hashes at actual card/detail scales. Start with `auras-1..4`, where producer pixel evidence now identifies a likely dimensional-depth question, then continue `auras-5..12`.
+**05:** independently render and review `auras-1-v2.svg` through `auras-4-v2.svg` at actual card and detail scale, binding every decision to the Git blob SHA above. If rejected again, return the precise visual defect.
 
-**Lane 11:** wait for exact-hash `REWORK` instructions; repair only rejected IDs. Do not regenerate pending candidates and do not resume motion/game-feel while phase remains `CATALOG_SPRINT`.
+**11:** preserve this batch while it is pending review; repair the next 2–6 rejected Aura IDs or immediately prioritize any concrete `v2` rejection. Do not self-promote a replacement.
 
-**Workstream 08:** integrate each qualified independent ACCEPT incrementally after normal metadata/path/content checks.
+**08:** do not wire a replacement until its new exact hash receives a qualified independent `ACCEPT` plus normal metadata/path/content checks.
 
-Replit/Floot were not used. `main` was not merged or modified.
+No general motion/game-feel work was resumed because the phase remains `CATALOG_SPRINT`.
