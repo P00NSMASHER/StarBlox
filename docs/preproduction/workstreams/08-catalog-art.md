@@ -1,106 +1,37 @@
-# Workstream 08 — Catalog Art Factory / Canonical Integrator
+# Workstream 08 — Catalog Art / Canonical Integration
 
-STATUS: **CATALOG SPRINT ACTIVE / 95 REVIEWED REWORK / 0 ACCEPT / 12 STORED REPLACEMENT VERSIONS PENDING FRESH REVIEW**
+STATUS: **FIRST V2 ACCEPTED BATCH INTEGRATED; FINAL CATALOG NOT READY**
 
-Branch: `screenshot-match-preproduction` only  
-Audited source head before this refresh: `b8d8dc1bdea4c1790c445fd210cbf1023a8f5f4e`  
-Replit/Floot: **untouched**  
-Main: **not merged or modified**
+Workstream 08 is the sole canonical writer for `catalog-art-manifest.json` and `src/catalogArtRuntime.js` during `CATALOG_SPRINT`.
 
-## Canonical state
+## Current canonical candidate
 
-Workstream 08 alone writes `catalog-art-manifest.json` and `src/catalogArtRuntime.js` during `CATALOG_SPRINT`.
+- target IDs: **192**
+- manifest version: **13**
+- canonical manifest/runtime mappings: **122**
+- `final-portable`: **103**
+- `interim-not-verified`: **19**
+- non-final relative to accepted/final-portable count: **89**
+- duplicate canonical asset paths: **0**
+- V2 exact-hash independently accepted and wired this batch: **4**
+- catalog release-cleared IDs: **0** until post-integration tests/Store checks and final catalog gate
 
-No canonical mapping changed in this pass because **zero exact current/replacement hashes have an independent ACCEPT**. Delivery Protocol V2 permits immediate integration after one qualified independent exact-hash ACCEPT plus metadata/file checks; there simply is not one yet.
+Integrated exact IDs:
+- `companions-3` — Berry Bunny — `/assets/catalog-candidates/chat-20260921-intake01/companions-3-detail.webp`
+- `companions-4` — Sunny Bird — `/assets/catalog-candidates/chat-20260921-intake01/companions-4-detail.webp`
+- `companions-10` — Pixel Bot — `/assets/catalog-candidates/chat-20260921-intake01/companions-10-detail.webp`
+- `companions-11` — Dream Dragon — `/assets/catalog-candidates/chat-20260921-intake01/companions-11-detail.webp`
 
-- Store IDs: **192**
-- manifest v12 legacy `final-portable`: **99**
-- interim-not-verified: **23**
-- non-final relative to legacy label: **93**
-- canonical manifest entries/runtime mappings: **122 / 122**
-- recorded duplicate manifest paths: **0**
-- independently ACCEPTED current hashes: **0**
-- canonical promotions this pass: **0**
+Reviewer 05 is independent from producer 06 and accepted the exact current hashes using actual staged-art pixels. The four accepted WebPs are distinct stored blobs, 768×768, and match the exact Store ID/name/tier/theme metadata. Old companion SVG versions remain in repository history for rollback.
 
-Canonical hashes remain manifest `862894db70500087409396dc5a72d032cf00a693`, runtime `fcf502b18a51781b415b7ba3620e9b8eb66d37e3`, game model `79fdb8c3bed4d715e0b1c770f34db0037a7f7c3b`.
+## Validation
 
-## Independent review progress
+Pre-commit checks pass for exact metadata, stored-byte/blob continuity, distinct accepted hashes, safe WebP evidence, reviewer independence, and canonical path uniqueness. No prices, unlocks, ownership, learning or player-state code is changed.
 
-All four V2 shards are present. Coverage is now **95 / 192**, all REWORK:
+Post-commit affected catalog tests, production build and Store smoke are required before this batch can be described as release-cleared. Do not infer those results from the old runtime proof.
 
-- Tops: 12 — reviewer 01
-- Bottoms: 12 — reviewer 01
-- Shoes: 12 — reviewer 02
-- Seating 2–12: 11 — reviewer 02
-- legacy Auras: 12 — reviewer 05
-- legacy Companions: 12 — reviewer 05
-- Beds: 12 — reviewer 05
-- legacy Lighting: 12 — reviewer 14
+## Remaining work
 
-**0 ACCEPT / 95 REWORK / 97 IDs without a qualified current-hash disposition.**
+The other Aura/companion interim entries stay interim until exact-hash acceptance. Legacy `final-portable` labels remain separate from V2 screenshot-quality acceptance; reviewed legacy families continue to produce REWORK findings. Consume every new qualified ACCEPT immediately, preserve rejected/prior versions, and keep generated/staged/accepted/wired/release-cleared counts distinct.
 
-Across families, the dominant failure is dimensionality/material quality rather than item recognizability. Legacy `final-portable` and interim labels therefore remain compatibility/history labels, not screenshot-quality acceptance.
-
-## Replacement inventory materially improved
-
-There are now **12 branch-stored replacement candidate versions** awaiting fresh exact-hash review.
-
-Previously stored:
-
-- Tops 7–8: `/assets/catalog/tops-7-w09-v2.svg`, `/assets/catalog/tops-8-w09-v2.svg`
-- Auras 1–4: `/assets/catalog/auras-1-v2.svg` through `/assets/catalog/auras-4-v2.svg`
-
-Newly attached without regeneration in commit `da070b301e8ce57ca10d44bcb4ccd2078cfe4690`:
-
-- Tops 1–6: `/assets/catalog/tops-1-w07-v2.jpg` through `/assets/catalog/tops-6-w07-v2.jpg`
-- exact blobs: `5fd95449...`, `42845078...`, `b4a83458...`, `26d03c5b...`, `78c5c892...`, `44d88aa8...`
-
-The full exact path/blob table is in `docs/preproduction/catalog-sprint/integration.json`.
-
-The CI run on the Tops staging commit (`35653350977`) succeeded. This confirms the branch remained build/test healthy, but it is not a substitute for card/detail visual review.
-
-## Remaining binary attachment work
-
-The generated-image transfer path is no longer a general blocker. Tops 1–6 have moved from preserved Git objects to real versioned branch paths.
-
-Lighting 1–4 remain preserved as immutable generated-image Git objects and need Workstream 04 attachment/readback at versioned paths:
-
-- `9d8aa142fa53f06dbad9ce59e9c8d34c1096ddc3`
-- `8c10fe689d6d7e398e85b24eb1ca1323cee07ea3`
-- `fc21ddf5a608ee393410ff9682cf2ef87a56c46d`
-- `7975e490a9fb97574f03081acf9fc871c22224f3`
-
-No regeneration is needed.
-
-## Other inventory and release dependencies
-
-- Original assigned repository-staged candidate IDs: **82**.
-- Desks 2–4: generated locally, **0 branch-staged**; desks 5–12 still need candidates.
-- Rich companion intake: **10 IDs / 30 stored binary files**; reviewer 05 still needs exact richer-version decisions.
-- Catalog persistence automated coverage has advanced, while real-browser transaction timing/concurrency remains a release gate.
-
-## Checks this pass
-
-- **PASS** — phase/Workstream-08 canonical ownership.
-- **PASS** — actual Store remains 192 IDs on unchanged game-model hash.
-- **PASS** — canonical manifest/runtime unchanged; duplicate manifest paths remain zero.
-- **PASS** — review shards reconciled to 95 REWORK / 0 ACCEPT.
-- **PASS** — twelve replacement versions are branch-stored.
-- **PASS** — Tops 1–6 generated bytes are attached to versioned paths without regeneration.
-- **PENDING** — generalized staged-art card/detail render evidence for the 12 replacement versions.
-- **PENDING** — Lighting 1–4 path attachment by owner 04.
-- **FAIL / incomplete** — desks remain 0 repository-staged.
-- **NOT RUN** — post-integration tests/build/Store checks because no canonical mapping changed.
-- **FAIL** — catalog gate remains open.
-
-## Immediate handoff
-
-1. **14:** render all 12 branch-stored replacement versions with exact path/hash card/detail artifacts.
-2. **01:** independently review Tops 1–8 replacement hashes immediately when fixture evidence lands.
-3. **05:** independently review Auras 1–4 replacement hashes immediately when fixture evidence lands.
-4. **04:** attach Lighting 1–4 preserved generated blobs to branch paths and verify exact readback.
-5. **03:** stage existing desks 2–4, then continue desks 5–12.
-6. **14:** continue Wall/Rugs/Decor pixel review in parallel.
-7. **08:** integrate the first qualified exact-hash ACCEPT immediately, then run affected catalog regression/build/Store checks for that coherent batch.
-
-Machine-readable evidence: `docs/preproduction/catalog-sprint/integration.json`. Human integration handoff: `docs/preproduction/catalog-sprint/integration.md`.
+Replit/Floot/main remain frozen. Only Workstream 15 may change phase.

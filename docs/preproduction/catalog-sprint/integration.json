@@ -1,150 +1,85 @@
 {
-  "schemaVersion": 4,
+  "schemaVersion": 5,
   "workstream": "08",
   "phase": "CATALOG_SPRINT",
-  "status": "NO_ACCEPTED_INCREMENT_REVIEW_COVERAGE_95_TOPS_REPAIRS_STAGED",
-  "auditedSourceHead": "b8d8dc1bdea4c1790c445fd210cbf1023a8f5f4e",
+  "status": "INTEGRATED_FIRST_V2_ACCEPT_BATCH_PENDING_POST_COMMIT_CI",
+  "auditedSourceHead": "b88f688cc4575bef1e1ec676e4a510a6267a9ed5",
   "branch": "screenshot-match-preproduction",
-  "canonical": {
-    "catalogTarget": 192,
+  "canonicalBefore": {
     "manifestVersion": 12,
     "manifestBlobSha": "862894db70500087409396dc5a72d032cf00a693",
     "runtimeBlobSha": "fcf502b18a51781b415b7ba3620e9b8eb66d37e3",
-    "gameModelBlobSha": "79fdb8c3bed4d715e0b1c770f34db0037a7f7c3b",
-    "recordedFinalPortable": 99,
-    "recordedInterimNotVerified": 23,
-    "recordedNonFinal": 93,
-    "canonicalManifestEntries": 122,
-    "canonicalRuntimeMappings": 122,
-    "recordedDuplicateAssetPaths": 0,
-    "v2QualifiedIndependentAcceptsCurrentHashes": 0,
-    "canonicalPromotionsThisRun": 0,
-    "manifestChangedThisRun": false,
-    "runtimeChangedThisRun": false
+    "finalPortable": 99,
+    "interimNotVerified": 23,
+    "nonFinal": 93
   },
-  "prepared": {
-    "repositoryStagedAssignedCandidateIds": 82,
-    "generatedLocalDeskIds": ["desks-2","desks-3","desks-4"],
-    "repositoryStagedDeskCount": 0,
-    "assignedDeskIdsWithoutGeneratedCandidate": 8,
-    "branchStoredReplacementCandidateVersions": 12,
-    "branchStoredReplacementIds": [
-      "tops-1","tops-2","tops-3","tops-4","tops-5","tops-6","tops-7","tops-8",
-      "auras-1","auras-2","auras-3","auras-4"
-    ],
-    "branchStoredReplacementPaths": {
-      "tops-1": "/assets/catalog/tops-1-w07-v2.jpg",
-      "tops-2": "/assets/catalog/tops-2-w07-v2.jpg",
-      "tops-3": "/assets/catalog/tops-3-w07-v2.jpg",
-      "tops-4": "/assets/catalog/tops-4-w07-v2.jpg",
-      "tops-5": "/assets/catalog/tops-5-w07-v2.jpg",
-      "tops-6": "/assets/catalog/tops-6-w07-v2.jpg",
-      "tops-7": "/assets/catalog/tops-7-w09-v2.svg",
-      "tops-8": "/assets/catalog/tops-8-w09-v2.svg",
-      "auras-1": "/assets/catalog/auras-1-v2.svg",
-      "auras-2": "/assets/catalog/auras-2-v2.svg",
-      "auras-3": "/assets/catalog/auras-3-v2.svg",
-      "auras-4": "/assets/catalog/auras-4-v2.svg"
-    },
-    "branchStoredReplacementBlobShas": {
-      "tops-1": "5fd9544999694ec27c9b6247aaffeca1c0c7b484",
-      "tops-2": "428450782feb314535163b54d0405f9af8b7cd65",
-      "tops-3": "b4a834586feae169e102f43aeceaaaf11893ec11",
-      "tops-4": "26d03c5ba26c565e79e809f825db87c9be1dba21",
-      "tops-5": "78c5c89270be2f505f77d033f340c72cf0ff80a8",
-      "tops-6": "44d88aa84246f9d8a76b3f22c408653eb28176aa",
-      "tops-7": "fe5b33a5b8eb8de137abab7daf315ddfaaaaf408",
-      "tops-8": "81bbec69f1e164b9772e0f867409581526f5255a",
-      "auras-1": "48639f1262052350660127bbc5d3d25de34d61e3",
-      "auras-2": "c2be24c165f3e28995d5d2eb946dbdde983afe2a",
-      "auras-3": "9b682148eb26898ec5f56ac11eac635e7c93c8fc",
-      "auras-4": "3059eae7ab68c125f1af1696305fdf5689131455"
-    },
-    "tops1Through6StageEvidence": {
-      "commit": "da070b301e8ce57ca10d44bcb4ccd2078cfe4690",
-      "result": "PASS_6_VERSIONED_JPEG_PATHS_ADDED_FROM_PRESERVED_GIT_BLOBS",
-      "note": "These are producer replacement candidates only. They are not canonical, not independently accepted and are not counted final."
-    },
-    "gitObjectOnlyFireflyReplacementsRemaining": 4,
-    "gitObjectOnlyFireflyIds": ["lighting-1","lighting-2","lighting-3","lighting-4"],
-    "gitObjectOnlyFireflyBlobShas": {
-      "lighting-1":"9d8aa142fa53f06dbad9ce59e9c8d34c1096ddc3",
-      "lighting-2":"8c10fe689d6d7e398e85b24eb1ca1323cee07ea3",
-      "lighting-3":"fc21ddf5a608ee393410ff9682cf2ef87a56c46d",
-      "lighting-4":"7975e490a9fb97574f03081acf9fc871c22224f3"
-    },
-    "richCompanionCandidateItemIds": 10,
-    "richCompanionStoredBinaryFiles": 30
+  "canonicalCandidate": {
+    "manifestVersion": 13,
+    "manifestBlobSha": "54fb26beca9b8da5f17472193831ee8248ffd3a4",
+    "runtimeBlobSha": "b350940b703ea2934062e183c5529ad9f9b7f810",
+    "catalogTarget": 192,
+    "manifestEntries": 122,
+    "runtimeMappings": 122,
+    "finalPortable": 103,
+    "interimNotVerified": 19,
+    "nonFinal": 89,
+    "duplicateAssetPaths": 0
   },
-  "review": {
-    "reviewShardsPresent": ["01","02","05","14"],
-    "reviewedCurrentOrLegacyHashes": 95,
-    "acceptedCurrentHashes": 0,
-    "reworkCurrentOrLegacyHashes": 95,
-    "blockedCurrentHashes": 0,
-    "unreviewedCatalogIds": 97,
-    "reviewedFamilies": {
-      "topsLegacy": {"reviewer":"01","reviewed":12,"accepted":0,"rework":12},
-      "bottoms": {"reviewer":"01","reviewed":12,"accepted":0,"rework":12},
-      "shoes": {"reviewer":"02","reviewed":12,"accepted":0,"rework":12},
-      "seating": {"reviewer":"02","reviewed":11,"accepted":0,"rework":11},
-      "aurasLegacy": {"reviewer":"05","reviewed":12,"accepted":0,"rework":12},
-      "companionsLegacy": {"reviewer":"05","reviewed":12,"accepted":0,"rework":12},
-      "beds": {"reviewer":"05","reviewed":12,"accepted":0,"rework":12},
-      "lightingLegacy": {"reviewer":"14","reviewed":12,"accepted":0,"rework":12}
-    },
-    "replacementHashesAwaitingFreshIndependentReview": [
-      "tops-1","tops-2","tops-3","tops-4","tops-5","tops-6","tops-7","tops-8",
-      "auras-1","auras-2","auras-3","auras-4"
-    ],
-    "releaseFinding": "No exact current or replacement hash has a qualified independent ACCEPT. Legacy REWORK decisions do not transfer to new replacement hashes. Replacement render evidence and review are now the immediate integration dependency."
-  },
-  "binaryAssetImport": {
-    "repositoryWriteReadback": "PASS_PATH_PROVEN",
-    "supportedSequence": ["create_blob(base64)","create_tree(baseTreeSha)","create_commit(parentSha)","update_ref(force=false)","fetch_file(base64)","verify exact hash"],
-    "adobeTransfer": "PASS_REAL_GENERATED_BYTES_TO_GIT_OBJECT_AND_BRANCH_PATH_FOR_TOPS_1_6",
-    "remainingAttachmentOwner": "04",
-    "remainingAttachmentIds": ["lighting-1","lighting-2","lighting-3","lighting-4"],
-    "deskHistoricalBytes": "STILL_PRODUCER_03_DEPENDENCY"
-  },
-  "validation": {
-    "phaseAndCanonicalOwnership": "PASS",
-    "actualCatalogStill192Ids": "PASS_FROM_UNCHANGED_GAME_MODEL_HASH",
-    "canonicalManifestRuntimeHashStable": "PASS",
-    "canonicalManifestDuplicatePaths": "PASS_0_RECORDED",
-    "allFourV2ReviewShardsPresent": "PASS",
-    "reviewCoverage": "PASS_ACCOUNTED_95_REVIEWED_0_ACCEPTED_95_REWORK",
-    "storedReplacementVersionCount": "PASS_12_BRANCH_STORED",
-    "tops1Through6BranchAttachment": "PASS_COMMIT_DA070B_6_JPEG_PATHS_ADDED",
-    "replacementRenderability": "PENDING_INDEPENDENT_STAGED_ART_FIXTURE_FOR_NEW_HASHES",
-    "lighting1Through4BranchAttachment": "PENDING_OWNER_04",
-    "desksRepositoryStaged": "FAIL_0_STAGED_3_GENERATED_LOCAL",
-    "canonicalIntegrationThisRun": "NONE_NO_ACCEPTED_CURRENT_HASHES",
-    "postIntegrationCatalogTests": "NOT_RUN_NO_CANONICAL_MAPPING_CHANGE",
-    "postIntegrationProductionBuild": "NOT_RUN_NO_CANONICAL_MAPPING_CHANGE",
-    "storeBrowserAfterIntegration": "NOT_RUN_NO_CANONICAL_MAPPING_CHANGE",
-    "latestObservedCi": "PASS_STAR_BLOX_CI_ON_TOPS_STAGE_COMMIT_DA070B_RUN_35653350977",
-    "catalogSpecificPersistenceReport": "PASS_AUTOMATED_REAL_BROWSER_TIMING_STILL_RELEASE_BLOCKER",
-    "releaseQa": "FAIL_CATALOG_NOT_RELEASE_READY"
-  },
-  "integratedIds": [],
-  "failures": [],
-  "blockers": [
-    "No current or replacement asset hash has a qualified independent ACCEPT, so Workstream 08 has nothing eligible to promote.",
-    "Twelve branch-stored replacement versions need fresh exact-hash pixel review: Tops 1-8 and Auras 1-4.",
-    "Lighting 1-4 improved Firefly bytes remain Git-object-only until Workstream 04 attaches them to versioned branch paths and verifies readback.",
-    "desks-2..4 remain generated-local only and desks-5..12 still lack generated candidates.",
-    "97 catalog IDs remain without a qualified current-hash independent visual disposition.",
-    "The eventual 192 accepted set still requires complete exact-content and rendered near-duplicate release checks plus final Store/mobile/persistence gates."
+  "integratedIds": [
+    "companions-3",
+    "companions-4",
+    "companions-10",
+    "companions-11"
   ],
-  "nextActions": [
-    "14: render the 12 branch-stored replacement versions in the generalized staged-art fixture with exact hash-bound card/detail evidence.",
-    "01: independently review Tops 1-8 replacement hashes as soon as fixture evidence exists; replacement hashes supersede the legacy REWORK decision only after a new ACCEPT/REWORK.",
-    "05: independently review Auras 1-4 replacement hashes as soon as fixture evidence exists.",
-    "04: attach the four preserved Lighting Firefly blobs to versioned branch paths with non-force latest-head commit and exact readback; do not regenerate.",
-    "03: stage existing desks-2..4 from producer-visible bytes, then continue desks-5..12.",
-    "14: continue Wall/Rugs/Decor actual-pixel review in parallel with replacement fixture work.",
-    "08: integrate the first qualified exact-hash ACCEPT immediately, then run affected catalog tests/build and canonical Store checks for that coherent batch."
+  "integratedItems": [
+    {"itemId":"companions-3","name":"Berry Bunny","tier":1,"theme":"Berry Blast","producer":"06","reviewer":"05","assetPath":"/assets/catalog-candidates/chat-20260921-intake01/companions-3-detail.webp","assetBlobSha":"adba95dc769e603337dc4ac38b9a513ce9914b10","bytes":58902},
+    {"itemId":"companions-4","name":"Sunny Bird","tier":2,"theme":"Garden Glow","producer":"06","reviewer":"05","assetPath":"/assets/catalog-candidates/chat-20260921-intake01/companions-4-detail.webp","assetBlobSha":"b382339e76ed9d4aeae72b1c8cccc904abf85b57","bytes":53770},
+    {"itemId":"companions-10","name":"Pixel Bot","tier":4,"theme":"Midnight Neon","producer":"06","reviewer":"05","assetPath":"/assets/catalog-candidates/chat-20260921-intake01/companions-10-detail.webp","assetBlobSha":"2b09d950b08083bb3a9ec5e2073ae23d88411cf4","bytes":63032},
+    {"itemId":"companions-11","name":"Dream Dragon","tier":4,"theme":"Candy Core","producer":"06","reviewer":"05","assetPath":"/assets/catalog-candidates/chat-20260921-intake01/companions-11-detail.webp","assetBlobSha":"465fe45abbe4d9b4355444cb3f75a49927b604e9","bytes":63886}
+  ],
+  "reviewEvidence": {
+    "reviewer": "05",
+    "reviewBlobSha": "cc78e6521dfeb300a9f751b486356a1755610e75",
+    "workflowRunId": 35654620624,
+    "artifactId": 10663298893,
+    "artifactDigest": "sha256:f2c0d3d3aa251f5e1934017a7c61acf644e8876ab1e1a5b0c37e7f06ffb8e9db",
+    "independence": "PASS_REVIEWER_05_PRODUCER_06",
+    "currentHashAccepts": 4,
+    "currentHashReworks": 4
+  },
+  "validationBeforeCommit": {
+    "exactIdNameTierTheme": "PASS_4_OF_4",
+    "storedPathAndBlobReadback": "PASS_4_OF_4",
+    "imageFormat": "WEBP_768x768_4_OF_4",
+    "uniqueAcceptedContentHashes": "PASS_4_OF_4",
+    "reviewerDuplicateVisualCheck": "PASS_4_OF_4",
+    "canonicalPathUniquenessAfterPlannedMerge": "PASS_122_UNIQUE",
+    "stablePricesUnlocksOwnership": "UNCHANGED_BY_SCOPE"
+  },
+  "postCommitValidation": {
+    "catalogTests": "PENDING_PUSH",
+    "productionBuild": "PENDING_PUSH",
+    "storeSmoke": "PENDING_PUSH"
+  },
+  "counts": {
+    "generatedLocalKnown": 0,
+    "preservedBlobOnlyKnown": 0,
+    "branchStagedRepairVersionsKnown": 37,
+    "independentlyReviewedUniqueCatalogIds": 156,
+    "acceptedCurrentReplacementHashes": 4,
+    "canonicalWiredAcceptedHashesAfterCommit": 4,
+    "catalogReleaseClearedIds": 0
+  },
+  "nextReviewDependencies": [
+    "01: review staged Tops replacement hashes from shared fixture",
+    "05: review auras-5..8 and next companion/desk replacements when rendered",
+    "14: review staged Lighting replacements and Decor; keep Wall/Rugs REWORK",
+    "08: integrate each new exact-hash ACCEPT immediately"
+  ],
+  "blockers": [
+    "188 catalog IDs are not yet current-hash accepted/canonically release-cleared.",
+    "Catalog gate still requires all 192 current hashes accepted, duplicate/near-duplicate final-set checks, final Store desktop/phone proof, and safety gates.",
+    "Real-browser persistence transaction stress remains a separate release blocker."
   ],
   "freeze": {"replitTouched":false,"flootTouched":false,"mainMergedOrModified":false,"phaseChanged":false}
 }
