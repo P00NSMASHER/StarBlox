@@ -1,10 +1,10 @@
 # Workstream 13 — Persistence + Economy Safety
 
-STATUS: **AUTOMATED DURABLE TRANSACTION/RELOAD GATE PASS / REAL-BROWSER TIMING STRESS REMAINS**
+STATUS: **LATEST RUNTIME CI PASS / DURABLE TRANSACTIONS GREEN / REAL-BROWSER TIMING STRESS REMAINS**
 
 Branch: `screenshot-match-preproduction`  
-CI-tested Workstream-13 head: `1ce91011311dff6ea9b7b8119010d84f0466e42f`  
-Audited continuation: `3cc4c44cc5a310fcf23ad9d88cfed856ea0f20c7` (review-document changes only after tested head)  
+Latest runtime-affecting CI-tested head: `81bbf06dc070b0f72f942dde9c14ac4bba476922`  
+Audited continuation before this report write: `2efff814883bffaa695cb6dfae80ed2dc3dc2658`  
 Detailed evidence: `docs/preproduction/catalog-sprint/persistence-qa.json` and `.md`  
 Replit/Floot: **untouched**  
 `main`: **not merged or modified**  
@@ -12,52 +12,42 @@ Real player data: **not accessed or modified**
 
 ## Protected state contract
 
-Screenshot-match presentation work must never silently reset, prune or rewrite valid Coins, Stars, XP, Star Worth/Home progress, permanent owned IDs, equipped gear, room placement, Dream Goal, mastery/evidence, Buddy/Bond, district progress or recoverable backups. Image availability is not an ownership rule. Unknown/no-art IDs remain legitimate persisted state.
+Screenshot-match work must never silently reset, prune or rewrite valid Coins, Stars, XP, Star Worth/Home progress, permanent owned IDs, equipped gear, room placement, Dream Goal, mastery/evidence, Buddy/Bond, district progress or recoverable backups. Image availability is presentation only: unknown/no-art IDs remain legitimate persisted state.
 
-Migrations remain additive/backward-compatible. Malformed fields fall back safely, arrays are rejected as save objects, stable IDs are de-duplicated without catalog-art filtering, and recoverable backups are preserved rather than reset.
+Migrations remain additive/backward-compatible. Malformed fields fall back safely, arrays are rejected as save objects, stable IDs are de-duplicated without catalog-art filtering, durable receipts survive sanitization, and recoverable backups are preserved rather than reset.
 
-## Durable transaction protections now implemented
+## Current durable protections
 
-The prior shared-App transaction gaps have landed and are now covered by regression evidence.
+**Permanent purchase:** `applyPermanentPurchase(current,item)` executes in the functional save transaction, revalidates current ownership/Stars/Coins, charges once, adds Star Worth once, records a durable per-item receipt and increments the daily purchase counter once. Receipt-backed ownership recovery does not charge again.
 
-**Permanent purchase:** `applyPermanentPurchase(current,item)` runs inside the functional save update and revalidates current ownership, Mastery Stars and Coins before changing state. A successful purchase subtracts the price once, adds the same amount to Star Worth, appends ownership, records a durable item receipt and increments the daily purchase counter once. If a receipt exists but ownership was lost from a partial/malformed snapshot, ownership is restored without another charge.
+**Final Quest completion:** the active Quest receipt is consumed during the final correct-answer save transition. +30 Coins, +30 XP, Quest completion, Buddy Bond and daily completion are committed atomically with the completed receipt before the 950 ms presentation transition. Replaying the completed receipt is rejected.
 
-**Final Quest completion:** an active Quest receipt is established at Quest start. On the final correct answer, `applyQuestCompletion` adds +30 Coins, +30 XP, one Quest completion, one Buddy Bond and one daily Quest completion in the same state transition, clears the active receipt and records the completed receipt. Replaying that completed receipt is rejected. The existing 950 ms timer only advances UI after feedback and is no longer the reward-commit point.
+**Storage/recovery:** purchase/Quest receipts survive sanitization. Missing current localStorage remains a recovery state until IndexedDB is checked, so an initial default render cannot mask a recoverable backup. Owned/equipped/room/Dream Goal IDs are shape-sanitized only and never filtered against art availability.
 
-**Storage:** `purchaseReceipts`, `activeQuestReceipt` and `lastCompletedQuestReceipt` survive save-shape sanitization. The earlier IndexedDB hydration fix remains in place so an initial default render cannot mask a recoverable backup when localStorage is missing.
+## Revalidation after the latest runtime change
 
-## New reload integration tests
+Since the prior Workstream-13 test head, the only runtime-affecting change was `src/mobileAccessibilityRuntime.js` Store focus/scroll behavior. Persistence/economy code and canonical catalog mappings were unchanged. GitHub Actions therefore provides a meaningful cross-runtime regression check rather than a duplicate documentation-only PASS.
 
-`src/persistenceEconomyIntegration.test.js` was added at `1ce91011311dff6ea9b7b8119010d84f0466e42f` to close the verified automated gap without speculative runtime changes. It uses isolated synthetic state only.
-
-- Purchase → persist → reload → replay proves one charge, one Star Worth increase, one daily-purchase increment and durable ownership/receipt.
-- Receipt-only partial snapshot → reload proves ownership restoration without another charge for a synthetic unknown/no-art item, while its Dream Goal ID remains valid.
-- Final Quest completion → persist → reload → replay proves exactly one completion award while preserving unrelated Stars, Star Worth, owned/equipped/room state, mastery, transfer evidence and district progress.
-
-These tests deliberately exercise a synthetic item that has no catalog art, so the regression also locks the rule that missing art never invalidates ownership.
-
-## Full CI / build evidence
-
-GitHub Actions run `35652200670`, job `106507027345`, exact head `1ce91011311dff6ea9b7b8119010d84f0466e42f`:
+Run `35652513911`, job `106508054992`, exact head `81bbf06dc070b0f72f942dde9c14ac4bba476922`:
 
 - **22/22 test files PASS**;
 - **98/98 tests PASS**;
-- new transaction reload tests **3/3 PASS**;
-- durable transaction helper tests **5/5 PASS**;
-- storage recovery/sanitization tests **7/7 PASS**;
-- rapid Buy Forever guard across React-style rerender **PASS**;
-- rapid Place/Put Away guard **PASS**;
-- rapid Quest-answer guard **PASS**;
-- reward/evidence policy tests **PASS**;
-- full 192-item catalog invariant **PASS**;
-- production Vite build **PASS**, 1,613 modules transformed;
-- CSS 167.39 kB / 35.69 kB gzip; JS 304.00 kB / 93.28 kB gzip.
+- purchase/Quest reload transaction integration **3/3 PASS**;
+- durable transaction helpers **5/5 PASS**;
+- storage recovery/sanitization **7/7 PASS**;
+- rapid Buy Forever across a React-style rerender **PASS**;
+- rapid Place/Put Away **PASS**;
+- rapid Quest-answer double tap **PASS**;
+- reward/evidence semantics **PASS**;
+- 192-item catalog invariant **PASS**;
+- production build **PASS**, 1,613 modules transformed;
+- CSS 167.39 kB / 35.69 kB gzip; JS 304.14 kB / 93.34 kB gzip.
 
-A compare from the tested head through the audited continuation found only catalog-review JSON changes, so no later persistence/economy runtime invalidated this evidence.
+Commits after that tested head through the audited continuation are catalog QA/review/coordination/workflow changes, not persistence/economy or canonical catalog-runtime changes. The automated persistence evidence therefore remains applicable.
 
 ## Current preservation matrix
 
-| State / behavior | Current evidence |
+| State / behavior | Evidence |
 | --- | --- |
 | Coins / Stars / XP | **PASS — automated** |
 | Star Worth / Home progress | **PASS — automated** |
@@ -73,23 +63,23 @@ A compare from the tested head through the audited continuation found only catal
 | Purchase replay across persisted reload | **PASS — automated** |
 | Quest-completion replay across persisted reload | **PASS — automated** |
 | Rapid purchase / room / Quest UI actions | **PASS — automated guards** |
-| Real-browser transaction timing | **BLOCKED / NOT TESTED** |
+| Real-browser transaction timing/concurrency | **BLOCKED / NOT TESTED** |
 
-## Remaining release blocker
+## Remaining release blocker — escalated
 
-The source-level purchase-idempotency and Quest-refresh gaps described in the prior report are no longer open source defects. The remaining blocker is **real-browser timing/concurrency evidence**: actual purchase/equip/place/reload, refresh around final Quest feedback, multi-tab replay, browser import recovery, physical/touch timing, and live localStorage-loss/IndexedDB restoration.
+The authorized executable-device path was checked again. `PAAM-L044` is still **offline**, last seen `2026-09-18T11:51:14.213+00:00`. No approved online branch-local Chromium/Vite path is currently available for isolated destructive timing tests.
 
-I retried the authorized device path this pass. Remote Desktop Commander lists the sole authorized machine `PAAM-L044` as offline, last seen September 18, 2026. Browser Use cannot access the branch-local Vite server. I therefore did not mislabel jsdom reload tests or visual-QA screenshots as real browser persistence timing.
+The remaining real-browser matrix is purchase/equip/place then refresh/re-entry, final-Quest refresh around feedback transition, multi-tab purchase/reward replay, malformed import, physical/touch double taps, and localStorage deletion with IndexedDB backup recovery. This blocker has now remained unchanged for two cycles and is **escalated to Workstream 15**. Another persistence source rewrite is not justified without a reproducible browser failure.
 
 ## Reward / retry contract retained
 
-Workstream 12’s reward/evidence rules still pass alongside the persistence suite: repeated wrong retries cannot farm rewards, assisted correct cannot create Coins/Mastery Stars/transfer evidence, and wrong answers never remove currency, ownership or permanent progress. Receipt logic changes only durability/idempotency; it does not change prices or reward amounts.
+Workstream 12's tested policy remains compatible with the persistence layer: repeated wrong retries do not farm rewards, assisted success cannot become independent mastery/transfer evidence, and wrong answers do not remove currency, ownership or permanent progress. Durable receipts change transaction safety only; they do not change prices or reward amounts.
 
 ## Handoff
 
-**15:** replace the stale control-state wording that still calls durable purchase/Quest completion a source gap. Those semantics are implemented and CI-proven; keep the real-browser stress gate open.  
-**13:** when an approved executable browser path is online, run isolated synthetic purchase/equip/place/reload, final-completion refresh, multi-tab replay, malformed-import and IndexedDB recovery cases. Add a code fix only if a reproducible browser failure remains.  
-**14/15:** reuse an authorized local Chromium/Vite harness for transaction timing; visual screenshots alone are insufficient.  
-**08:** catalog integration must remain presentation-only with respect to owned/equipped/room/Dream Goal IDs.
+**15:** automated persistence/economy semantics remain green on the newest runtime-affecting CI head. Coordinate an authorized executable local Chromium/Vite path for the one remaining browser timing/concurrency release blocker.  
+**13 next pass:** if that path appears, immediately run isolated synthetic purchase/equip/place/reload, final-completion refresh, malformed-import, IndexedDB recovery and multi-tab replay tests; add code only for a reproducible failure.  
+**14:** screenshots and visual QA are not transaction timing proof; share an authorized state-isolated interaction harness if available.  
+**08:** never make catalog art presence a filter for `owned`, `equipped`, `roomDecor` or `dreamGoalId`.
 
-No producer art, canonical catalog manifest/runtime, Replit, Floot, `main`, paid setting or real player state was modified by Workstream 13.
+No producer art, canonical catalog manifest/runtime, Replit, Floot, `main`, paid setting or real-player state was modified by Workstream 13.
