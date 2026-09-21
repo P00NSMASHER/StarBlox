@@ -20,6 +20,10 @@ function escapeHtml(value){
   return String(value ?? '').replace(/[&<>"']/g,char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
 }
 
+function setTextIfChanged(node,value){
+  if(node && node.textContent !== value) node.textContent = value;
+}
+
 function categorySvg(kind){
   const shapes = {
     grid:'<rect x="4" y="4" width="6" height="6" rx="1"/><rect x="14" y="4" width="6" height="6" rx="1"/><rect x="4" y="14" width="6" height="6" rx="1"/><rect x="14" y="14" width="6" height="6" rx="1"/>',
@@ -146,12 +150,9 @@ function decorateTierRow(page){
 function decorateHero(page,currency){
   const hero = page.querySelector('.marketHero');
   if(!hero) return;
-  const kicker = hero.querySelector('.kicker');
-  const title = hero.querySelector('h1');
-  const copy = hero.querySelector('p');
-  if(kicker) kicker.textContent = 'STAR MARKET · STORE';
-  if(title) title.textContent = 'Pick Your Next Favorite';
-  if(copy) copy.textContent = 'Earn Coins by learning. Everything you choose stays yours forever.';
+  setTextIfChanged(hero.querySelector('.kicker'),'STAR MARKET · STORE');
+  setTextIfChanged(hero.querySelector('h1'),'Pick Your Next Favorite');
+  setTextIfChanged(hero.querySelector('p'),'Earn Coins by learning. Everything you choose stays yours forever.');
   let banner = hero.querySelector('.sbStoreEncouragement');
   if(!banner){
     banner = document.createElement('div');
