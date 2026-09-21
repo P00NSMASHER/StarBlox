@@ -176,6 +176,6 @@ if(typeof document !== 'undefined'){
     childList:true,
     characterData:true,
     attributes:true,
-    attributeFilter:['class','aria-selected']
+    attributeFilter:['class']
   });
 }
