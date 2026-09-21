@@ -6,6 +6,7 @@ on:
     paths:
       - 'docs/preproduction/catalog-sprint/workstream08-plan.json'
       - 'scripts/workstream08Integrate.mjs'
+      - 'scripts/workstream08NormalizeManifestMetadata.mjs'
       - '.github/workflows/workstream08-catalog-integrate.yml'
 
 permissions:
@@ -33,6 +34,9 @@ jobs:
 
       - name: Install dependencies
         run: npm install --no-audit --no-fund
+
+      - name: Reconcile canonical metadata to current Store model
+        run: node scripts/workstream08NormalizeManifestMetadata.mjs
 
       - name: Validate and stage accepted exact hashes
         run: node scripts/workstream08Integrate.mjs
