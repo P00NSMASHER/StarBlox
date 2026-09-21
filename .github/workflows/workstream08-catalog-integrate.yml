@@ -1,0 +1,59 @@
+name: Workstream 08 Catalog Integrate
+
+on:
+  push:
+    branches: [screenshot-match-preproduction]
+    paths:
+      - 'docs/preproduction/catalog-sprint/workstream08-plan.json'
+      - 'scripts/workstream08Integrate.mjs'
+      - '.github/workflows/workstream08-catalog-integrate.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: workstream08-catalog-integrate-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  integrate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout current integration branch
+        uses: actions/checkout@v4
+        with:
+          ref: screenshot-match-preproduction
+          fetch-depth: 0
+
+      - name: Use Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Validate and stage accepted exact hashes
+        run: node scripts/workstream08Integrate.mjs
+
+      - name: Run tests
+        run: npm test -- --reporter=verbose
+
+      - name: Build production bundle
+        run: npm run build
+
+      - name: Finalize integration evidence
+        run: node scripts/workstream08Integrate.mjs --finalize-tests
+
+      - name: Commit canonical accepted batch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add catalog-art-manifest.json src/catalogArtRuntime.js docs/preproduction/catalog-sprint/integration.json docs/preproduction/catalog-sprint/integration.md docs/preproduction/workstreams/08-catalog-art.md
+          if git diff --cached --quiet; then
+            echo "No canonical changes to commit"
+            exit 0
+          fi
+          git commit -m "catalog: integrate accepted tops and lighting"
+          git push origin HEAD:screenshot-match-preproduction
