@@ -1,6 +1,6 @@
 # Catalog Sprint — Lane 11 Auras
 
-STATUS: **REPAIR BATCHES 1–2 STAGED — AURAS 1–8 AWAITING INDEPENDENT REVIEW**
+STATUS: **ALL 12 AURAS HAVE VERSIONED REPLACEMENTS — BATCH 1 REWORK / BATCHES 2–3 AWAITING INDEPENDENT REVIEW**
 
 Branch: `screenshot-match-preproduction`  
 Workstream: 11  
@@ -9,78 +9,73 @@ Independent reviewer: **05**
 Canonical integrator: **08**  
 Replit/Floot: **untouched**  
 `main`: **untouched**  
-Player state: **unchanged**
+Player state / live Aura logic: **unchanged**
 
-## Current review basis
+## Reviewer-05 decisions consumed this pass
 
-Workstream 05 independently reviewed the original `auras-1..12` hashes and returned **REWORK 12/12**. The common defect is weak assigned-theme expression, insufficient card-scale contrast and overly flat/non-premium material and lighting treatment. Legacy decisions do **not** transfer to replacement hashes.
+Reviewer 05 independently reviewed the exact `auras-1-v2.svg` through `auras-4-v2.svg` hashes from the shared staged-art artifact and returned **REWORK 4/4**. The concrete defects are still insufficient volumetric depth/material lighting despite better theme identity:
 
-Batch 1 (`auras-1..4`) is already repository-staged and has qualified shared rendered evidence from the existing staged-art workflow: run `35654620624`, artifact `10663298893`, digest `sha256:f2c0d3d3aa251f5e1934017a7c61acf644e8876ab1e1a5b0c37e7f06ffb8e9db`. Workstream 05 must still make the independent exact-hash visual decision.
+- `auras-1` Soft Sparkles — too sparse/flat; needs layered particle depth and emissive falloff.
+- `auras-2` Cloud Puffs — repeated flat clouds; needs true puff volume, depth staggering and atmospheric overlap.
+- `auras-3` Pixel Bits — improved glow but still a flat orbit; needs 3D/parallax and stronger Adventure Club signature.
+- `auras-4` Berry Hearts — sticker-like hearts/cloud; needs richer heart material, volumetric cloud and layered glow/occlusion.
 
-This pass reconciled the next four replacement files that were already created on the live branch but not yet reflected in Lane 11’s handoff. **No duplicate regeneration occurred.**
+Those rejected replacement versions are preserved. They are **not** integration eligible.
 
-## Batch 1 — awaiting reviewer 05 decision
+## Batch 2 — Auras 5–8
 
-| ID | Item / theme / tier | Replacement | Git blob | Bytes |
+These four versioned replacements remain repository-staged with exact readback and await Workstream 14’s shared card/detail render plus reviewer-05 disposition:
+
+| ID | Item / theme / tier | Replacement hash |
+| --- | --- | --- |
+| `auras-5` | Garden Fireflies / Pixel Party / T2 | `16416de7ab535af16c59aa40e4d8f5a85a2958bf` |
+| `auras-6` | Galaxy Orbit / Berry Blast / T2 | `ce4b155c7fb5469fde415ab9d744cab41027fe4d` |
+| `auras-7` | Sunny Rays / Garden Glow / T3 | `c451e7479e142f1eca89cc5282b352c2d2ca2d4b` |
+| `auras-8` | Aqua Bubbles / Galaxy Glow / T3 | `6884668fe721f3b26a562e11924237a32c656db6` |
+
+No regeneration occurred while these candidates are pending review.
+
+## Batch 3 — Auras 9–12 staged this pass
+
+The remaining rejected legacy Aura family is now replaced with four new versioned candidates. Old originals remain untouched.
+
+| ID | Item / theme / tier | Versioned path | Git blob | Bytes |
 | --- | --- | --- | --- | ---: |
-| `auras-1` | Soft Sparkles / Midnight Neon / T1 | `/assets/catalog/auras-1-v2.svg` | `48639f1262052350660127bbc5d3d25de34d61e3` | 2,592 |
-| `auras-2` | Cloud Puffs / Candy Core / T1 | `/assets/catalog/auras-2-v2.svg` | `c2be24c165f3e28995d5d2eb946dbdde983afe2a` | 2,536 |
-| `auras-3` | Pixel Bits / Adventure Club / T1 | `/assets/catalog/auras-3-v2.svg` | `9b682148eb26898ec5f56ac11eac635e7c93c8fc` | 2,929 |
-| `auras-4` | Berry Hearts / Cloud Pop / T2 | `/assets/catalog/auras-4-v2.svg` | `3059eae7ab68c125f1af1696305fdf5689131455` | 2,927 |
+| `auras-9` | Art Confetti / Sunny Pop / T3 | `/assets/catalog/auras-9-v2.svg` | `f88be0c4b5fdb36df870ffa113c08f8ec668363c` | 3,973 |
+| `auras-10` | Neon Trail / Aqua Wave / T4 | `/assets/catalog/auras-10-v2.svg` | `cbc767e6b29db880535d7fd99741debdadbcf6c5` | 2,798 |
+| `auras-11` | Dream Aurora / Art Attack / T4 | `/assets/catalog/auras-11-v2.svg` | `ddb2c81b49db8e6ea6369c8f70cb720228feb73c` | 2,895 |
+| `auras-12` | Luxe Starstorm / Star Luxe / T5 | `/assets/catalog/auras-12-v2.svg` | `93b33a82e9a5045e1e070ab7561bab08ce5ae947` | 3,205 |
 
-The shared artifact captured all four exact hashes at replacement card/detail scale. That is render evidence, not acceptance.
+All four repository paths were read back after creation and matched the exact Git blob hashes above. They retain the exact catalog names/themes/tiers from `gameModel.js`.
 
-## Batch 2 — repository-staged and read back
+### Producer execution evidence
 
-| ID | Item / theme / tier | Rejected original | New versioned candidate | New Git blob | Bytes | Creation commit |
-| --- | --- | --- | --- | --- | ---: | --- |
-| `auras-5` | Garden Fireflies / Pixel Party / T2 | `537e3a60ee47a50e219ff4d165f0cf8fa7cf45f7` | `/assets/catalog/auras-5-v2.svg` | `16416de7ab535af16c59aa40e4d8f5a85a2958bf` | 5,102 | `68929b1d8cbb3b7997a23a7c2c1f6f62786646ab` |
-| `auras-6` | Galaxy Orbit / Berry Blast / T2 | `12323f12b60b5b411cde8ad383d3238d78e40053` | `/assets/catalog/auras-6-v2.svg` | `ce4b155c7fb5469fde415ab9d744cab41027fe4d` | 5,030 | `8a9e0b6077184d2a684646bcc1fe0fe1517beaad` |
-| `auras-7` | Sunny Rays / Garden Glow / T3 | `82678bb86daa67c81faa82ca6613b698133a5ebd` | `/assets/catalog/auras-7-v2.svg` | `c451e7479e142f1eca89cc5282b352c2d2ca2d4b` | 4,889 | `a212e64ba540711ddbf5d88adbbb46c71b952764` |
-| `auras-8` | Aqua Bubbles / Galaxy Glow / T3 | `9cf59e4329b180645ccf6a12057654a126f10cdd` | `/assets/catalog/auras-8-v2.svg` | `6884668fe721f3b26a562e11924237a32c656db6` | 4,778 | `09d0501b349ea3f3ea0c347291530a792c4e81ac` |
+Each exact source was rasterized with CairoSVG 2.8.2 at **512×512** and **192×192** before staging, then the repository source was read back exactly. This is producer evidence only, not independent acceptance.
 
-All four paths were fetched from the current branch and returned the exact Git blob hashes above. Each remains a **512×512 SVG**. This satisfies repository staging/readback evidence; it does not substitute for independent pixel review.
+- **Art Confetti:** layered warm/cool ribbon vortex, foreground/background confetti pieces, sunlit spark stars, depth blur and cast-shadow treatment. 512 PNG SHA-256 `3e88b29052c274ff4568e0b0f6e0395f5d920290c00382edd24bb7956884f66f`; 192 PNG SHA-256 `f6ac9951d93768fa7fab4f9858669fbda8ef206f658110db6a487e82cccd3922`.
+- **Neon Trail:** large perspective aqua trail arcs, luminous wave filaments, droplets and layered cyan/blue/violet depth. 512 `88908e512b86cb9fb5de58e480df4f8f758fa55797cf788f1e38ef09ef66edad`; 192 `ab05464085cc35818b8be507a2cf91f387edb9fa3d63dd246eebf70048a6bc45`.
+- **Dream Aurora:** three layered painterly aurora curtains, mixed-pigment accents, highlight filaments, glow and asymmetric paint-like motes. 512 `b85d1c4d67ad2d7b41cd20d92cb38c8e6fe28e2079f337b8b3aa432501e0524f`; 192 `94e6dd6165fcba351612e34d8252a4f3a166bb01b9314bef8218aab56982e616`.
+- **Luxe Starstorm:** multiple crossing perspective rings, luminous star crystals, orbiting jewel-light nodes, comet arcs and gold/violet/pink hero lighting. 512 `5c7748238d00729c44d963c28669c6233d3b65d3e2e99e06857e83eef2d8c683`; 192 `802db7440d4560e87266ad0da538729cb72af2ab469ec896037fb04ac6dacadc`.
 
-### Producer evidence for Batch 2
+Producer checks found no clipping at either size and all four retained a distinct card-scale silhouette. Reviewer 05 must still decide premium quality from the shared staged-art fixture.
 
-- **Garden Fireflies:** dark dimensional garden field, vine/leaf depth, multiple luminous firefly nodes and Pixel Party accents; materially different from the rejected flat original.
-- **Galaxy Orbit:** crossed perspective orbit rings, berry/cosmic planet volumes, comet trails and a star field create a distinct spatial structure.
-- **Sunny Rays:** layered foliage, dimensional gold rays, a sculpted sun/star core and orbiting light motes give Tier 3 a clearer Garden Glow identity.
-- **Aqua Bubbles:** multiple reflective translucent bubble volumes surround a galaxy-filled central sphere with rim gradients, glow and depth shadow.
+## Current Aura lane state
 
-These observations come from the actual repository source bytes and producer inspection only. Workstream 14’s shared staged-art fixture must produce card/detail screenshots for Batch 2 before Workstream 05 makes the independent visual disposition.
-
-## Remaining Aura repair work
-
-The originals for `auras-9..12` remain rejected and preserved:
-
-- `auras-9` — `df6ff86bdb73909ae6e41a505861aba8bfce2f5a`
-- `auras-10` — `be285375c688a518b491b09ff047920cc6e23fe5`
-- `auras-11` — `3a80508473e5364899b1276256ea26c72f9efce0`
-- `auras-12` — `afa2b684e811302c2889e068b16e730eb58e6d27`
-
-Unless reviewer 05 returns a concrete defect on a replacement hash first, the next bounded production batch is `auras-9..12`.
-
-## Current checks
-
-- **PASS** — Workstream 11 still owns Aura production/repair.
-- **PASS** — original Aura hashes are independently `REWORK 12/12`.
-- **PASS** — Batch 1 replacement files are staged and have shared hash-bound render evidence.
-- **PASS** — Batch 2 replacement paths exist on the current branch and exact Git blob readback matches 4/4.
-- **PASS** — all eight replacement files preserve the rejected originals under separate versioned paths.
-- **PENDING** — reviewer 05 independent exact-hash decision for Batch 1.
-- **PENDING** — Workstream 14 card/detail fixture render for Batch 2, then reviewer 05 exact-hash decision.
-- **PENDING** — Workstream 08 canonical wiring only after qualified `ACCEPT`.
-- **UNCHANGED** — manifest/runtime, IDs, prices, ownership/player state and live Aura logic.
+- **Legacy Auras 1–12:** REWORK 12/12.
+- **Replacement Auras 1–4 v2:** REWORK 4/4; second repair required.
+- **Replacement Auras 5–8 v2:** staged/readback verified; shared render + reviewer-05 decision pending.
+- **Replacement Auras 9–12 v2:** staged/readback verified this pass; shared render + reviewer-05 decision pending.
+- **Qualified Aura ACCEPTs:** 0.
+- **Canonical Aura promotions by Workstream 08:** 0 at this handoff.
 
 ## Handoff
 
-**14:** render `auras-5-v2.svg` through `auras-8-v2.svg` with the existing staged-art fixture. Record card/detail screenshots against the exact hashes above; do not create a new harness.
+**14:** use the existing staged-art fixture to render `auras-5-v2.svg` through `auras-12-v2.svg` at card/detail scale. Bind screenshots to the exact hashes above; do not create another harness.
 
-**05:** immediately review `auras-1-v2.svg` through `auras-4-v2.svg` from artifact `10663298893`. After Batch 2 render evidence exists, independently `ACCEPT/REWORK/BLOCKED` `auras-5-v2.svg` through `auras-8-v2.svg`. Do not inherit the legacy decisions.
+**05:** do not integrate or inherit decisions for the rejected `auras-1..4` v2 hashes. Once shared evidence exists, independently `ACCEPT/REWORK/BLOCKED` the exact `auras-5..12` v2 hashes.
 
-**08:** consume any accepted replacement hash immediately after normal metadata/file/content checks. Do not wait for all twelve Auras.
+**08:** integrate only Aura replacement hashes with qualified reviewer-05 `ACCEPT` plus normal metadata/file/content checks. No Aura replacement is accepted yet.
 
-**11:** preserve Batches 1 and 2 while they are pending independent review. Continue with `auras-9..12` next unless a concrete replacement defect preempts that batch.
+**11:** all 12 Aura IDs now have preserved versioned replacement attempts. The next productive Aura work is a second repair of `auras-1..4` against reviewer-05’s exact dimensional/material defects, unless fresh reviewer decisions on Batches 2/3 preempt it.
 
-No general motion/game-feel work resumed because the phase remains `CATALOG_SPRINT`.
+General motion/game-feel work remains paused because the phase is still `CATALOG_SPRINT`.
