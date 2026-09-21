@@ -1,72 +1,71 @@
 # Catalog Sprint Lane 04 — Lighting
 
-STATUS: **READY_FOR_REVIEW — 12/12 assigned lighting candidates produced; NOT self-approved**
+STATUS: **READY_FOR_REVIEW — 12/12 assigned lighting candidates staged; NOT self-approved**
 
 Repository: `P00NSMASHER/StarBlox`  
 Branch: `screenshot-match-preproduction`  
-Source head read immediately before production: `93b22d9432c561ddeac80005f3dc0e1244bb4613`  
 Active phase: `CATALOG_SPRINT`  
 Assignment: `lighting-1` through `lighting-12`  
-Canonical manifest/runtime owner: Workstream 08  
+Independent reviewer under delivery protocol v2: **Workstream 14**  
+Canonical manifest/runtime owner: **Workstream 08**  
 Replit/Floot: **untouched**  
 `main`: **untouched**
 
-## Production result
+## Production state
 
-Lane 04 produced a bounded 12-item lighting batch using original StarBlox vector artwork. Every candidate matches the exact current Store ID/name/tier/theme metadata, uses the shared 800×800 collectible-card framing, and has an item-specific silhouette and light-source concept rather than an emoji, generic icon, recolor-only clone, or simple placeholder. The visual progression runs from attractive Starter lighting to an ornate Tier-5 Crystal Chandelier.
+All 12 assigned lighting IDs have repository-stored, original StarBlox SVG candidates. Lane 04 has not changed `catalog-art-manifest.json`, `src/catalogArtRuntime.js`, Store runtime/CSS, `src/gameModel.js`, item prices/unlocks, player data, saves, ownership or rewards.
 
-No existing final asset was replaced. Before production, `public/assets/catalog/lighting-1.svg` was absent and the current branch tree contained no `public/assets/catalog/lighting-*` assets. This lane did not edit `catalog-art-manifest.json`, `src/catalogArtRuntime.js`, `src/gameModel.js`, Store code/CSS, prices, unlock rules, player data, saves, ownership, or rewards.
+Current exact candidate blobs:
 
-## Candidate evidence
+| ID | Item | Tier | Theme | Git blob SHA | Bytes |
+|---|---|---:|---|---|---:|
+| `lighting-1` | Starter Lamp | 1 | Cloud Pop | `a522ae4d0a602673e51b3108a4631e1a4891e79b` | 3756 |
+| `lighting-2` | Cloud Lamp | 1 | Pixel Party | `07e2ef5ebe1322b52a0514d0a1a9ba2f7f19c2ab` | 3943 |
+| `lighting-3` | Pixel Cube Light | 1 | Berry Blast | `f0416273531258ca17417ba7507406b15eed3a20` | 4059 |
+| `lighting-4` | Heart Lamp | 2 | Garden Glow | `42f07255a3f04e10d1df2009555283529903b4c1` | 3703 |
+| `lighting-5` | Vine Light | 2 | Galaxy Glow | `8aa582f7bd95628d9b745eb71cf434df170b39c7` | 4236 |
+| `lighting-6` | Planet Lamp | 2 | Sunny Pop | `a3ef6f5e0a2967f64f05268ca84cd40e3de781dd` | 4009 |
+| `lighting-7` | Sun Lamp | 3 | Aqua Wave | `c6be5b8c09122fb3e9c26715551c7f0bbf4768fc` | 3726 |
+| `lighting-8` | Bubble Lamp | 3 | Art Attack | `18db9f245fb4cae1687ec9128c4f6878c40cfb81` | 3797 |
+| `lighting-9` | Color Lamp | 3 | Star Luxe | `4ed3cf2ec2789cf1d93adc0b11809a0ba293348e` | 3769 |
+| `lighting-10` | Neon Strip Tower | 4 | Midnight Neon | `fbebec245fddc134b6e513b1493819947f4a1ef1` | 3814 |
+| `lighting-11` | Aurora Light | 4 | Candy Core | `516885790c49af408442b425621b9a6b5df7e8bd` | 3767 |
+| `lighting-12` | Crystal Chandelier | 5 | Adventure Club | `3568ddead0af062045687e9c4c6f2c0596acc6b3` | 4418 |
 
-| ID | Exact name | Tier | Theme | Bytes | SHA-256 | Git blob SHA | Distinguishing art |
-|---|---|---:|---|---:|---|---|---|
-| lighting-1 | Starter Lamp | 1 | Cloud Pop | 3756 | `2ab1e098894d8a31…` | `a522ae4d0a602673e51b3108a4631e1a4891e79b` | classic tapered fabric-shade table lamp with chrome stem and weighted base |
-| lighting-2 | Cloud Lamp | 1 | Pixel Party | 3943 | `efce070c3758e03d…` | `07e2ef5ebe1322b52a0514d0a1a9ba2f7f19c2ab` | soft cloud diffuser with item-specific glowing rain-drop bulbs |
-| lighting-3 | Pixel Cube Light | 1 | Berry Blast | 4059 | `afee051732bed927…` | `f0416273531258ca17417ba7507406b15eed3a20` | stacked three-face voxel cube light with luminous pixel windows |
-| lighting-4 | Heart Lamp | 2 | Garden Glow | 3703 | `3a6cf144ba3bf347…` | `42f07255a3f04e10d1df2009555283529903b4c1` | heart-shaped glowing lamp body on gold stem and pedestal |
-| lighting-5 | Vine Light | 2 | Galaxy Glow | 4236 | `8628bb006ac6985e…` | `8aa582f7bd95628d9b745eb71cf434df170b39c7` | botanical arch lamp with branching vine, leaves and multiple warm bulbs |
-| lighting-6 | Planet Lamp | 2 | Sunny Pop | 4009 | `0994ec94c8800c93…` | `a3ef6f5e0a2967f64f05268ca84cd40e3de781dd` | ringed glowing planet sphere on a three-leg display stand |
-| lighting-7 | Sun Lamp | 3 | Aqua Wave | 3726 | `92ef848c943a95fe…` | `c6be5b8c09122fb3e9c26715551c7f0bbf4768fc` | sunburst floor lamp with radial rays and warm central disc |
-| lighting-8 | Bubble Lamp | 3 | Art Attack | 3797 | `3cb036d1ecb31df6…` | `18db9f245fb4cae1687ec9128c4f6878c40cfb81` | clustered blown-glass bubble globes on a slim floor stand |
-| lighting-9 | Color Lamp | 3 | Star Luxe | 3769 | `242e463b5588faa2…` | `4ed3cf2ec2789cf1d93adc0b11809a0ba293348e` | faceted prism lamp with multicolor crystal planes and star linework |
-| lighting-10 | Neon Strip Tower | 4 | Midnight Neon | 3814 | `e9575a4be07f73b8…` | `fbebec245fddc134b6e513b1493819947f4a1ef1` | tall dark tower with cyan vertical neon core and pink cross strips |
-| lighting-11 | Aurora Light | 4 | Candy Core | 3767 | `8e48f940fc2069df…` | `516885790c49af408442b425621b9a6b5df7e8bd` | three layered curved aurora light ribbons rising from a translucent base |
-| lighting-12 | Crystal Chandelier | 5 | Adventure Club | 4418 | `a14ffa19cd08da75…` | `3568ddead0af062045687e9c4c6f2c0596acc6b3` | ornate suspended gold chandelier with five crystal drops and glowing bulbs |
+All declare an `800×800` SVG viewBox. Existing producer checks remain: XML parse 12/12 PASS, CairoSVG render 12/12 PASS, metadata match PASS, distinct source silhouettes PASS, no external/brand/Roblox/Brookhaven/third-party source material observed.
 
-All SVGs use `viewBox="0 0 800 800"` and were separately rendered at 800×800 for producer validation.
+## Delivery-protocol-v2 producer pixel evidence refresh
 
-## Validation
+On branch head `7a5b71410a19a1456c8897e320179e3c6869cdec`, Lane 04 re-read and rerendered a representative cross-tier sample from the exact current Git blobs:
 
-- **PASS — metadata match:** exact lighting IDs/names/tier/theme were read from current `src/gameModel.js` before authoring.
-- **PASS — asset identity:** all 12 files have distinct item-specific geometry and signature features.
-- **PASS — XML:** all 12 SVG candidates parse successfully.
-- **PASS — 800×800 render:** all 12 rendered successfully through CairoSVG at 800×800.
-- **PASS — producer contact-sheet inspection:** the full lane was inspected together for framing consistency, clear silhouettes, and tier progression.
-- **PASS — provenance:** original in-lane vector artwork; no external/brand/Roblox/Brookhaven/third-party source material.
-- **NOT TESTED — independent visual acceptance:** Workstreams 01 and 14 must independently render and accept/reject each candidate. This producer does not self-approve.
-- **NOT TESTED — canonical manifest/runtime wiring:** Workstream 08 alone owns integration.
-- **NOT TESTED — real Store phone/desktop context:** Workstreams 10/14 own Store-context verification after integration.
-- **NOT RUN — full branch build:** this is an asset-only producer lane and did not modify runtime code.
+- `lighting-1` — Starter Lamp — `a522ae4d...`
+- `lighting-4` — Heart Lamp — `42f07255...`
+- `lighting-10` — Neon Strip Tower — `fbebec245...`
+- `lighting-12` — Crystal Chandelier — `3568ddead...`
 
-## Review status
+Producer rerender result: **4/4 rendered successfully at 800×800 and remained recognizable at 220×220 card scale; no malformed geometry or obvious clipping was observed in the sample.**
 
-Every candidate remains **READY_FOR_REVIEW**, not final acceptance. A correct file path, valid SVG, unique blob/hash, or producer contact-sheet check is not sufficient for screenshot-quality approval under the sprint contract.
+This pixel pass also exposed a real quality risk that source/XML checks did not: the representative images are clean and item-recognizable, but their presentation is visibly **flat/vector and strongly templated** relative to the premium dimensional toy-block screenshot target. The repeated in-art tier pill is also presentation chrome baked into the thumbnail rather than Store UI. Lane 04 is recording that concern rather than self-approving or blindly regenerating the batch.
 
-Reviewers should specifically check:
-- exact item recognition at small Store-card size;
-- silhouette/material/light-source distinction across all twelve;
-- clean readable framing against the shared collectible background;
-- premium toy-block/game polish rather than generic web-icon appearance;
-- Starter → Luxe spectacle progression without making early tiers unattractive;
-- no inappropriate identical/near-identical content reuse.
+This is **producer evidence only**, not an independent `REWORK`. No asset bytes were replaced in this pass because delivery protocol v2 requires an evidenced exact-hash defect/review decision before replacement.
+
+## Current review dependency
+
+At the evidence-refresh head, `docs/preproduction/catalog-sprint/reviews/14.json` and `docs/preproduction/catalog-sprint/release-qa.json` were not present. Under protocol v2 that is not a reason for Lane 04 to duplicate production: Workstream 14 owns the lighting review partition and should create exact-hash `ACCEPT | REWORK | BLOCKED` decisions from actual card/detail pixels. One qualified independent `ACCEPT` is sufficient for Workstream 08 to integrate that exact asset version; a concrete `REWORK` returns only the affected IDs to Lane 04.
+
+## What remains unclaimed
+
+- **NOT TESTED — independent lighting acceptance:** reviewer 14 has not yet produced a hash-bound decision shard.
+- **NOT TESTED — canonical lighting wiring:** Workstream 08 only.
+- **NOT TESTED — actual canonical Store card/detail context for these staged lighting files:** Workstreams 10/14 after accepted integration, or 14's isolated staged-asset fixture before integration.
+- **NOT RUN — full branch build by Lane 04:** this pass changed report evidence only, not runtime or asset bytes.
 
 ## Handoff
 
-**Workstreams 01 + 14:** independently render and review all 12 candidates, binding decisions to the recorded blob/hash evidence above.
+**14:** prioritize exact-hash card/detail review of `lighting-1..12`. Pay particular attention to the recorded flat/vector/template-like fidelity concern, material depth, embedded tier pill, item recognition, tier progression and visual near-duplicates. Only your rendered review converts the concern into `ACCEPT`, `REWORK` or `BLOCKED`.
 
-**Workstream 08:** after independent acceptance, integrate only approved exact-ID candidates into `catalog-art-manifest.json` and `src/catalogArtRuntime.js`, preserving every existing mapping and all 192 permanent item semantics.
+**08:** integrate only lighting versions with a qualified independent current-hash `ACCEPT`; preserve all 192 item semantics and every unrelated mapping.
 
-**Workstream 15:** Lane 04 has completed its assigned production batch and requests reassignment only through the sprint state. Until phase changes or 15 explicitly reassigns this lane, Workstream 04 will not take another catalog family and will not resume normal Store development.
+**15:** Lane 04 remains production-complete and is waiting on reviewer 14 decisions. If a lighting item receives `REWORK`, route that exact current hash back here. Otherwise reassign only through `CATALOG_SPRINT_STATE.json`; do not resume Store work while phase remains `CATALOG_SPRINT`.
 
-Replit/Floot remain frozen, `main` remains untouched, and this lane makes no claim that the catalog gate has passed.
+No Replit/Floot action, no `main` merge, no deployment, and no player-data change occurred.
