@@ -1,229 +1,131 @@
 # Workstream 14 — Visual Release QA
 
-STATUS: **CURRENT CI PASS / PLAYWRIGHT VISUAL GATE FAIL — 13 STRUCTURAL BLOCKERS**
+STATUS: **CATALOG_SPRINT / CURRENT CI PASS / STAGED-ASSET RENDER PATH PASS / CATALOG GATE FAIL**
 
-Branch: `screenshot-match-preproduction` only
-Current audited runtime head: `276181274e2f11ed49b46e09852712d43899b538`
-Replit: **untouched**
+Branch: `screenshot-match-preproduction` only  
+Audited runtime/catalog-asset continuity: full CI-proven `d044d6d68a21009ae521c65fe893fd81905e0863`; later reviewed changes are QA workflow/review/CI-filter files only  
+Lighting candidate source: `6b5401fcb708763b73525343ca82a172588ae0e0`  
+Replit/Floot: **untouched**  
 Main: **not merged or modified**
 
 ## Release decision
 
 **READY FOR SINGLE REPLIT INTEGRATION: NO.**
 
-The current branch builds cleanly and all automated tests pass. The previously identified Home/Room navigation hierarchy blocker is now fixed and browser-verified at all four exercised viewports. The strict branch-local Playwright visual gate still fails with **13 measured structural geometry blockers** across Home, Store, and Quest. Catalog completion, live persistence stress, full accessibility smoke, runtime performance profiling, and exact side-by-side reference-pixel comparison also remain incomplete.
+The runtime/test baseline is green, but the catalog is not remotely release-cleared under Delivery Protocol v2. Independent actual-pixel review has now demonstrated that several legacy `final-portable` and staged/interim families do **not** meet the premium dimensional screenshot-art standard. Accounting labels must not be treated as visual approval.
 
-Do not convert any of those untested areas to PASS.
+The catalog remains the active phase. Previously measured Home/Store/Quest geometry defects are intentionally deferred to `GAME_FINISHING`; they are not being used to block the catalog gate.
 
-## Evidence reviewed this pass
+## Fresh automated gate
 
-- all current workstream notes 01–13 plus current Workstream 14 state;
-- `docs/preproduction/SCREENSHOT_MATCH_TARGET.md`;
-- the current Workstream 01 measurable design contract;
-- `docs/preproduction/COORDINATION.md`;
-- `VISUAL_NORTH_STAR.md`;
-- `RELEASE_STATUS.md` as historical baseline only;
-- `catalog-art-manifest.json`;
-- current shell/Home/Store/Quest runtimes and relevant tests;
-- current CI and visual-QA workflows;
-- latest Playwright screenshots for Home, Store and Quest at 1408×1056, 1024×768, 390×844 and 320×568.
-
-Latest browser evidence: GitHub Actions run `35631059432`, artifact `10654114272` (`preproduction-visual-qa`).
-
-## Current automated integration gate
-
-Current-head CI run `35631059442` / job `106437102843` on exact runtime head `276181274e2f11ed49b46e09852712d43899b538`:
+GitHub Actions run `35646326387`, job `106487626130`, exact head `d044d6d68a21009ae521c65fe893fd81905e0863`:
 
 - dependency install: **PASS**;
-- Vitest: **19/19 test files PASS, 84/84 tests PASS**;
-- production build: **PASS**;
-- Vite 8.3.0 transformed **1,611 modules**;
-- production output: CSS **164.29 kB** (**35.15 kB gzip**), JS **300.70 kB** (**92.13 kB gzip**).
+- Vitest: **20/20 test files, 85/85 tests PASS**;
+- production Vite build: **PASS**;
+- **1,612 modules transformed**;
+- output: CSS **167.22 kB / 35.66 kB gzip**; JS **300.96 kB / 92.19 kB gzip**;
+- exactly 192 permanent Store IDs: **PASS**;
+- current manifest metadata/existing unique paths: **PASS**;
+- Aura/companion interim-promotion guard: **PASS**;
+- catalog SVG self-contained / no executable or embedded active content: **PASS**;
+- storage recovery, unknown/no-art ownership preservation and rapid purchase/room/Quest guards: **PASS automated**;
+- hardened learning bank, deterministic five-action Quest and reward/evidence rules: **PASS automated**.
 
-### Automated safety classifications
+No runtime or catalog asset changed after that tested head during this pass, so the hash-bound automated proof remains applicable. CI was also narrowed so future `docs/**` / markdown-only pushes do not launch redundant full test/build jobs; runtime/assets/workflow changes still do.
 
-| Gate | Status | Evidence |
-| --- | --- | --- |
-| Learning integrity / P0 learning defects | **PASS — automated** | 200-question bank, exactly one keyed answer per 3-choice item, audited semantic families, deterministic five-action Quest, and retry/evidence policy all pass. **No P0 learning defect found.** |
-| Shell navigation semantics | **PASS — automated + browser** | Targeted tests lock Home/Quests/Study/Room/Store ordering, logo-to-Home routing, and settings-based Customize access; Playwright verifies visible Home opens the screenshot-match bedroom composition. |
-| Persistence / save recovery | **PASS — automated / NOT TESTED live timing** | Malformed-save recovery, valid-state round trip, and unknown/no-art ID preservation pass. IndexedDB timing/re-entry still needs live-browser stress. |
-| Duplicate purchase / room / Quest action guard | **PASS — automated / NOT TESTED live stress** | Rapid Buy Forever, Place/Put Away, and Quest-answer guards pass, including React-style button replacement. |
-| Store structure | **PASS — automated** | Exactly 192 unique permanent Store IDs remain. |
-| Catalog item mapping | **PASS — automated** | Every manifest entry maps to exact stable Store metadata. |
-| Duplicate art reuse | **PASS — automated** | Wired manifest paths are unique; manifest duplicate paths = 0. |
-| Interim art promotion guard | **PASS — automated** | Aura/companion interim assets are not promoted to final without manifest review. |
-| Build/import integrity | **PASS** | Production Vite build completes successfully. |
-| Runtime performance | **NOT TESTED** | Bundle/build evidence is healthy, but phone/tablet paint, composite, animation smoothness, memory, and long-scroll profiling have not been performed. |
+## Staged-candidate rendering deadlock removed
 
-## QA fixes made during this gate
+Workstream 14 added a small branch-local staged-art QA path rather than wiring candidates into production or asking for a Replit preview:
 
-Two narrow verified QA/integration issues were resolved without touching Replit or `main`:
+- fixture: `docs/preproduction/catalog-sprint/reviews/14-lighting-contact-sheet.svg`;
+- workflow: `.github/workflows/catalog-staged-art-qa.yml`;
+- isolated repository-root HTTP server + Playwright Chromium;
+- card contact sheet plus one 800×800 detail capture per exact candidate.
 
-1. Shell navigation semantics were corrected by the shell owner so the underlying screenshot-match bedroom route is the visible **Home**, Brightside City/world remains reachable as **Room**, the visible order is Home → Quests → Study → Room → Store, and the logo routes to Home. Targeted regression tests were added.
-2. The new shell tests exposed an existing queued-microtask teardown hazard in `homeScreenshotMatchRuntime.js`. QA added only a `typeof document === 'undefined'` guard inside the queued scan. This prevents an unhandled jsdom teardown error and does not alter gameplay, save state, economy, learning logic, or browser behavior while `document` exists.
+The first workflow attempt correctly **FAILED** because a full-page SVG screenshot timed out; no artifact or visual PASS was fabricated. The workflow was narrowly hardened to render an HTML contact grid and individual `<svg>` elements directly.
 
-The first shell-test attempt also used unavailable jest-dom matchers; those assertions were replaced with Vitest-native attribute checks. The current 84-test suite is green.
+Retry run `35646739825` **PASS** produced artifact `10660601212`, digest `sha256:be5c24af79fb8f023d5bf8cda06f1e209c41faeb39068273c6614eb3a7b0f261`:
 
-## Latest browser structural visual gate
+- 12/12 Lighting candidate URLs: HTTP 200;
+- 12/12: exactly one rendered SVG;
+- 12/12: detail screenshot captured;
+- contact sheet captured;
+- 0 page errors / console errors.
 
-Playwright run `35631059432` built the production bundle, launched a local Vite preview, rendered the current runtime, and captured 12 screenshots.
+Git comparison from Lighting source head `6b5401f...` through the audited branch showed **no Lighting asset changes**, so the artifact is valid evidence for the exact hashes in `lane-04.json`.
 
-**VISUAL_QA_STATUS = FAIL**  
-**VISUAL_QA_RELEASE_BLOCKING_COUNT = 13**
+## Independent Lighting review — actual pixels
 
-The blocker count dropped from 17 to 13 because the four viewport-specific Home-route failures are now **PASS**.
+`docs/preproduction/catalog-sprint/reviews/14.json` now contains hash-bound item decisions for `lighting-1..12`.
 
-### Cross-viewport results that PASS
+**Result: 0 ACCEPT / 12 REWORK / 0 BLOCKED.**
 
-Across tested Home, Store and Quest at 1408×1056, 1024×768, 390×844 and 320×568:
+All twelve are recognizable and cleanly framed, and their object silhouettes are distinct. However, every rendered image uses a common flat/vector card language: front-facing or shallow 2.5D geometry, strong white outlines/glows, pastel gradient backdrop, limited believable material response, weak three-quarter collectible construction, and an embedded `TIER` badge baked into the artwork. Higher tiers add motif complexity but not enough material/lighting/spectacle progression. This is below the supplied premium dimensional toy-collectible target.
 
-- **PASS — Home route contract at all four viewports**: visible Home opens the approved bedroom Home composition;
-- **PASS — no blank/crash state** on the three exercised primary screens;
-- **PASS — no `pageerror` or `console.error`** observed;
-- **PASS — no page-level horizontal overflow**;
-- **PASS — five visible primary navigation controls**, named and touch-safe;
-- **PASS — phone Home visible critical actions**: 13 visible actions, all at least 44px high;
-- **PASS — phone Store first-row density**: 2 columns at 390px and 320px;
-- **PASS — phone Quest answers**: all 3 visible and touch/readability safe;
-- **PASS — Store desktop main chrome**;
-- **PASS — Store desktop 6-column grid density/card sizing**;
-- **PASS — Store visible generic fallback art in the current default category**: 0;
-- **PASS — Store HUD transparent over scene**;
-- **PASS — Quest lesson/answer split**: about 54.7% / 39.6%, directionally inside the reference contract.
+Exact per-item repair reasons are in `reviews/14.json`. The current hashes must **not** be promoted as final art. Workstream 04 should repair in bounded versioned batches and preserve the rejected versions for comparison.
 
-These are browser-observed PASS results, not static inference.
+## Cross-review catalog accounting
 
-## Exact 13 browser structural blockers
+Current qualified V2 review shards now show:
 
-### Home — 3 failures
+| Family | Reviewer | Reviewed | ACCEPT | REWORK |
+|---|---:|---:|---:|---:|
+| Tops | 01 | 12 | 0 | 12 |
+| Seating candidates | 02 | 11 | 0 | 11 |
+| Auras | 05 | 12 | 0 | 12 |
+| Lighting | 14 | 12 | 0 | 12 |
+| **Total** |  | **47** | **0** | **47** |
 
-| Region | Status | Measured | Contract |
-| --- | --- | ---: | ---: |
-| Room Progress | **FAIL** | height **204.4px** | **165px ±6** |
-| Dream Goal | **PASS** | within tolerance | target envelope |
-| Daily Quests | **PASS** | within tolerance | target envelope |
-| Customize | **FAIL** | y **787px** | **822px ±14** |
-| Today I’m Learning | **FAIL** | y **713px** | **772px ±14** |
-| Motivation card | **PASS** | within tolerance | target envelope |
+**145 IDs remain without qualified current-hash visual dispositions.** The important finding is not merely incomplete review: every family independently inspected so far contains concrete premium-art defects. The old 99 `final-portable` count therefore cannot be used as screenshot-quality completion.
 
-**Home gate: FAIL.** Latest screenshot confirms the correct warm bedroom Home now opens from Home, but the progression strip remains too tall and the Customize / Today’s Learning regions remain materially too high.
+## Catalog release gate
 
-### Store — 4 failures
-
-| Region | Status | Measured | Contract |
-| --- | --- | ---: | ---: |
-| Main Store chrome | **PASS** | within tolerance | reference envelope |
-| Grid density | **PASS** | **6 columns** | 6 columns |
-| Avatar try-on stage | **FAIL** | **360×455px** | about **378×470px** |
-| Selected-item detail | **FAIL** | height **261px** | **212px ±6.4** |
-| Collection strip | **FAIL** | x **178**, y **1046.4**, w **912**, h **183** | x **10**, y **832**, w **1088**, h **216** |
-| Value panel | **FAIL** | y **1046.4**, h **183** | y **850**, h **198** |
-
-**Store gate: FAIL.** Latest screenshot confirms a strong upper product grid/try-on composition, but the collection/value region still begins at or below the reference viewport fold instead of occupying the intended lower band. The selected-detail rail is too tall and the avatar stage is modestly undersized.
-
-### Quest — 6 failures
-
-| Region | Status | Measured | Contract |
-| --- | --- | ---: | ---: |
-| Header | **FAIL** | height **83px** | **71px ±6** |
-| Phase strip | **FAIL** | y **168px** | **153px ±14** |
-| Avatar zone | **FAIL** | x **28**, w **348**, h **729** | x **12**, w **368**, h **755** |
-| Learning body | **FAIL** | y **261**, h **642** | y **238**, h **662** |
-| Mastery rail | **FAIL** | w **204**, h **712** | w **216**, h **678** |
-| Earned summary | **FAIL** | x **486**, y **954**, w **619.5**, h **72** | x **470**, y **925**, w **385**, h **97** |
-| Lesson/answer split | **PASS** | **54.7% / 39.6%** | approximately 57–60% / 40–43% |
-
-**Quest gate: FAIL.** Latest screenshot is coherent and readable with no crash/overflow, but the outer layout is still too low/tall in several regions, and the earned summary is much too wide and too low.
-
-## Subjective screenshot review
-
-The current screenshots are recognizably one coherent StarBlox game: cobalt/cyan chrome, warm illustrated environments, avatar/buddy presentation, dense Store cards, Quest learning surfaces, and responsive mobile reflow are all visibly present. The corrected Home navigation now reveals the intended bedroom Home rather than Brightside City.
-
-Exact perceptual screenshot parity is still **NOT TESTED / BLOCKED side-by-side** because the repository does not contain the approved reference image pixels for an automated image-diff comparator. Illustration quality, facial appeal, material depth, lighting richness, and final-logo fidelity therefore cannot be promoted to full visual PASS from geometry alone.
-
-## Accessibility / narrow-screen classification
-
-| Area | Status | Evidence |
-| --- | --- | --- |
-| Page-level horizontal overflow | **PASS — browser** | 0 tested failures across 12 primary-screen/viewport renders. |
-| Home route semantics | **PASS — browser** | Correct at 1408, 1024, 390, and 320 widths. |
-| Primary nav naming / phone target size | **PASS — browser** | Five visible named controls; phone controls touch-safe. |
-| Home critical visible actions | **PASS — browser** | 13 visible phone actions, all ≥44px high. |
-| Quest answer touch/readability | **PASS — browser** | 3 visible answers; all touch/readability safe at 390 and 320. |
-| Store phone grid | **PASS — browser** | 2-column first row at 390 and 320. |
-| Keyboard focus order | **NOT TESTED** | Requires browser keyboard traversal. |
-| Focus clipping | **NOT TESTED** | Requires real traversal. |
-| Screen-reader announcements | **NOT TESTED** | No VoiceOver/TalkBack/NVDA smoke completed. |
-| Measured color contrast | **NOT TESTED** | Exact rendered contrast ratios not measured. |
-| Fixed HUD/dock coverage of every late-page action | **NOT TESTED exhaustively** | Top-viewport checks pass; full-scroll reachability remains required. |
-
-## Catalog / art gate
-
-Current manifest v12:
+Canonical manifest remains v12:
 
 - target: **192**;
-- final-portable: **99** (**51.56%**);
-- remaining non-final: **93**;
-- interim-not-verified: **23** — all 12 Aura assets plus companions 2–12;
-- duplicate asset paths: **0**.
+- legacy `final-portable`: **99**;
+- interim-not-verified: **23**;
+- canonical manifest/runtime mappings: **122**;
+- remaining relative to final-portable label: **93**;
+- duplicate manifest paths: **0**.
 
-Classification:
+Current classifications:
 
-- exact stable-ID mapping: **PASS automated**;
-- duplicate path reuse: **PASS automated**;
-- current default desktop Store category visible generic fallback count: **PASS browser (0)**;
-- complete release-quality catalog coverage: **FAIL**;
-- visual correctness of all 23 interim assets: **NOT TESTED / BLOCKED pending inspection**.
+- exactly 192 permanent Store IDs: **PASS automated**;
+- exact metadata/path integrity for currently wired entries: **PASS automated**;
+- wired path uniqueness: **PASS automated**;
+- catalog SVG active/embed-content safety: **PASS automated**;
+- all 192 current hashes independently accepted: **FAIL — 47 reviewed / 0 accepted / 145 unreviewed**;
+- all 192 unique final canonical assets: **FAIL**;
+- complete exact-content duplicate scan of the eventual final set: **NOT TESTED — final set does not exist yet**;
+- complete rendered near-duplicate review of final set: **NOT TESTED**;
+- final post-integration desktop/phone Store pass: **NOT TESTED — no accepted new art has been integrated**;
+- catalog-induced learning P0: **PASS automated — none found**;
+- catalog save/economy baseline: **PASS automated / live timing NOT TESTED**;
+- catalog-specific persistence report: **BLOCKED — `persistence-qa.json` is still missing**;
+- exact side-by-side original-reference pixel comparison: **BLOCKED — original user reference pixels are not repository-accessible**.
 
-Missing/unfinished art remains a presentation fallback only and must never mutate ownership, equipment, room placement, or Dream Goal state.
+Full machine-readable status and exact blockers are in `docs/preproduction/catalog-sprint/release-qa.json`; concise human summary is in `release-qa.md`.
 
-## Save / inventory / economy risk
+## Additional production blocker observed
 
-Automated state-safety coverage is **PASS** for inspected cases, including malformed-save recovery, unknown/no-art ownership preservation, round trips, and duplicate-action guards.
+`lane-03.json` now exists, so the old “missing desk handoff” blocker is obsolete. It reports three high-quality local generated desk candidates (`desks-2..4`) but **0 repository-staged bytes / 0 ready-for-review** because the producer lacked a supported binary-to-GitHub upload surface in that run. Local/generated image files are correctly not counted as delivered catalog assets. Workstream 15 should resolve or reassign that exact persistence path; Workstream 14 cannot visually accept local-only bytes as repository candidates.
 
-Still **NOT TESTED live**:
+## Whole-game evidence retained but deferred
 
-1. Buy Forever rapid clicks across actual React rerender;
-2. Place/Put Away double tap under physical/touch browser timing;
-3. Quest answer double tap under real event timing;
-4. purchase/equip/place then refresh/re-entry;
-5. refresh around final Quest-completion award;
-6. localStorage loss with IndexedDB backup recovery;
-7. malformed import recovery through the actual file input;
-8. owned/equipped/placed item with no final art surviving refresh.
+The last strict whole-game Playwright structural gate measured **13 failures**: Home 3, Store 4, Quest 6. Those measurements remain useful historical evidence but were **not remeasured in this catalog-focused pass** and are not catalog completion requirements. Once Workstream 15 switches to `GAME_FINISHING`, Workstream 14 will remeasure the current implementation before directing fixes; no stale failure should be silently treated as current PASS or permanent FAIL.
 
-Do not promote persistence/economy to full runtime PASS until these execute.
+Likewise, physical-device performance, real VoiceOver/TalkBack/NVDA smoke, final keyboard/focus/contrast proof, live persistence timing, and exact original screenshot parity remain **NOT TESTED / BLOCKED as explicitly recorded**, not inferred PASS.
 
-## Performance classification
+## Next owner/action
 
-- production build and module graph: **PASS**;
-- JS/CSS bundle sanity: **PASS as static evidence**;
-- runtime errors during the 12 primary screenshots: **PASS**;
-- reduced-motion helper tests: **PASS automated**;
-- phone/tablet paint/composite cost, animation smoothness, memory, long-scroll performance, and browser reduced-motion behavior: **NOT TESTED**.
+1. **04:** repair Lighting based on exact `reviews/14.json` defects; use versioned assets, preserve rejected hashes.
+2. **14:** review Wall next from actual card/detail pixels, then Rugs and Decor; replacement Lighting hashes preempt untouched legacy review.
+3. **01 / 02 / 05:** continue disjoint partitions and prioritize replacement candidates over untouched legacy finals.
+4. **08:** consume only qualified ACCEPT hashes; none of the 47 currently reviewed hashes qualifies for final integration.
+5. **15:** resolve/reassign the Lane 03 binary-upload blocker without duplicate ownership and route exact REWORK batches.
+6. **13:** produce catalog-specific synthetic-browser persistence/re-entry evidence before catalog PASS.
+7. **14 final catalog check:** after the 192 accepted final bytes exist, run complete content-hash/near-duplicate scan plus full integrated Store desktop/phone/browser gate.
 
-No performance regression is proven, but runtime performance is not release-cleared.
-
-## Remaining release blockers beyond the 13 measured geometry failures
-
-1. **Catalog completeness:** 93 items remain non-final; 23 interim Aura/companion assets still need visual approval before promotion.
-2. **Side-by-side reference fidelity:** exact illustration/material/logo/character parity is BLOCKED until approved reference pixels are available to the comparator or an equivalent authoritative manual comparison is performed.
-3. **Live persistence/economy stress:** the eight browser timing/re-entry cases above remain NOT TESTED.
-4. **Real accessibility smoke:** keyboard traversal, focus clipping, measured contrast, and screen-reader smoke remain NOT TESTED.
-5. **Runtime performance:** reduced-motion browser proof and phone/tablet paint/composite profiling remain NOT TESTED.
-6. **Final coordinated rerun:** after screen-owner geometry/art fixes, both full CI and strict Playwright structural QA must pass on the exact release-candidate head.
-
-## Handoff
-
-Command Center / screen owners should fix in this order:
-
-1. Quest outer geometry — learning-critical and 6 of the 13 strict failures;
-2. Store lower-fold collection/value composition plus selected-detail/avatar geometry — 4 failures;
-3. Home Room Progress height and the two lower-panel vertical positions — 3 failures;
-4. continue catalog-art completion without changing stable IDs or ownership semantics;
-5. rerun strict Playwright QA after each coordinated geometry batch rather than loosening tolerances;
-6. when geometry stabilizes, run live persistence/accessibility/performance stress;
-7. rerun the full test/build suite on the exact final runtime head;
-8. update this file and `COMMAND_CENTER.md` only from measured PASS evidence.
-
-**Replit must remain untouched. `main` must remain unmerged.**
+**Do not switch phase. Do not deploy. Replit and `main` remain untouched.**
