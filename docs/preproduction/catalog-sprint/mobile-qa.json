@@ -1,57 +1,47 @@
 {
-  "schemaVersion": 3,
+  "schemaVersion": 4,
   "workstream": "10",
   "phase": "CATALOG_SPRINT",
-  "status": "PASS_BROWSER_EMULATION_EXTENDED_CANONICAL_UNCHANGED",
+  "status": "PASS_FIRST_V2_CANONICAL_ART_BATCH_BROWSER_EMULATION",
   "catalogGateApproved": false,
-  "auditedRuntimeHead": "81bbf06dc070b0f72f942dde9c14ac4bba476922",
-  "observedDescendantHead": "b8d8dc1bdea4c1790c445fd210cbf1023a8f5f4e",
-  "continuity": {
-    "status": "PASS_FOR_CURRENT_CANONICAL_STORE_SCOPE",
-    "comparison": "81bbf06dc070b0f72f942dde9c14ac4bba476922..b8d8dc1bdea4c1790c445fd210cbf1023a8f5f4e",
-    "relevantCanonicalChanges": [],
-    "stagedOnlyChanges": [
-      "public/assets/catalog/tops-1-w07-v2.jpg",
-      "public/assets/catalog/tops-2-w07-v2.jpg",
-      "public/assets/catalog/tops-3-w07-v2.jpg",
-      "public/assets/catalog/tops-4-w07-v2.jpg",
-      "public/assets/catalog/tops-5-w07-v2.jpg",
-      "public/assets/catalog/tops-6-w07-v2.jpg",
-      ".github/workflows/catalog-staged-art-qa.yml"
+  "auditedRuntimeHead": "8a2c53aa2133baef23e263d8dda8b2a180dffe19",
+  "changeAwareDecision": {
+    "reasonForRun": "Workstream 08 changed the canonical manifest/runtime for the first independently accepted V2 art batch. This is a coherent catalog milestone, so the full 16-collection matrix was appropriate rather than relying on the previous unchanged-hash proof.",
+    "changedCollection": "companions",
+    "stableControl": "tops",
+    "futurePolicy": "For later small canonical batches, test changed collection(s) plus one stable control at 1408/1024/390/320 and reserve another full 16-collection sweep for a coherent milestone or final gate."
+  },
+  "canonicalIntegration": {
+    "manifestVersion": 13,
+    "manifestBlobSha": "54fb26beca9b8da5f17472193831ee8248ffd3a4",
+    "canonicalRuntimeBlobSha": "b350940b703ea2934062e183c5529ad9f9b7f810",
+    "catalogTarget": 192,
+    "finalPortable": 103,
+    "interimNotVerified": 19,
+    "changedIds": ["companions-3", "companions-4", "companions-10", "companions-11"],
+    "changedAssets": [
+      {"id":"companions-3","path":"/assets/catalog-candidates/chat-20260921-intake01/companions-3-detail.webp","blobSha":"adba95dc769e603337dc4ac38b9a513ce9914b10","bytes":58902,"format":"WEBP","dimensions":"768x768"},
+      {"id":"companions-4","path":"/assets/catalog-candidates/chat-20260921-intake01/companions-4-detail.webp","blobSha":"b382339e76ed9d4aeae72b1c8cccc904abf85b57","bytes":53770,"format":"WEBP","dimensions":"768x768"},
+      {"id":"companions-10","path":"/assets/catalog-candidates/chat-20260921-intake01/companions-10-detail.webp","blobSha":"2b09d950b08083bb3a9ec5e2073ae23d88411cf4","bytes":63032,"format":"WEBP","dimensions":"768x768"},
+      {"id":"companions-11","path":"/assets/catalog-candidates/chat-20260921-intake01/companions-11-detail.webp","blobSha":"465fe45abbe4d9b4355444cb3f75a49927b604e9","bytes":63886,"format":"WEBP","dimensions":"768x768"}
     ],
-    "otherChangedAreas": [
-      "catalog sprint coordination/review/integration documentation",
-      "persistence QA documentation"
-    ],
-    "note": "Git compare found no catalog-art-manifest.json, src/catalogArtRuntime.js, Store runtime/style, Workstream-10 runtime/CSS, or catalog-mobile QA harness change after the audited browser head. Six replacement Tops JPEGs were branch-staged but are not canonical Store mappings, so they are explicitly outside the canonical PASS and do not justify rerunning the unchanged 16-collection Store matrix. Workstream 14 owns staged candidate pixel fixtures; Workstream 10 will retest the affected collection plus a stable control after Workstream 08 canonical integration."
+    "ownershipPricesUnlocksChanged": false
   },
   "evidence": {
-    "workflowRunId": 35652513733,
-    "jobId": 106508054482,
-    "artifactId": 10662478311,
-    "artifactDigest": "sha256:0d18c7f21a2f04208c17199d0a8ab945690358d33b7d6c1cd0efb458387802e4",
+    "workflowRunId": 35659760652,
+    "jobId": 106532044131,
+    "artifactId": 10667595844,
+    "artifactDigest": "sha256:7a5d1cb254d00086f95889dc316087116dfb7d245cda02755c42705efabc1607",
     "artifactFileCount": 36,
-    "artifactZipBytes": 16916667,
-    "manifestBlobSha": "862894db70500087409396dc5a72d032cf00a693",
-    "canonicalRuntimeBlobSha": "fcf502b18a51781b415b7ba3620e9b8eb66d37e3",
+    "artifactZipBytes": 17010331,
     "mobileAccessibilityBlobSha": "272fb9b6a95a38eba4696c7d732d805621a52f49",
     "accessibilityCssBlobSha": "d1bf7ac11815a59baee4ccf45b58ec2ad40b6694",
     "qaScriptBlobSha": "3a563274fc4a069fe57062f9fcb0574a324a5533",
     "mobileAccessibilityTestBlobSha": "b0fe447b8b7bd2637b4d5865d66992f7f23f34d7"
   },
-  "canonicalScope": {
-    "actualCanonicalStoreOnly": true,
-    "stagedRepairCandidatesExcluded": true,
-    "canonicalManifestUnchanged": true,
-    "manifestVersion": 12,
-    "catalogTarget": 192,
-    "recordedFinalPortable": 99,
-    "recordedRemaining": 93,
-    "note": "This PASS applies to the canonical Store mappings at the audited hashes. The newly staged Tops 1-6 replacement JPEGs and all other staged/replacement art remain outside this evidence until Workstream 08 integrates accepted hashes."
-  },
   "scope": {
     "browser": "Playwright 1.55 Chromium headless on GitHub Actions ubuntu-24.04",
-    "build": "Vite 8.3.0 production build; 1613 modules; CSS 167.39 kB / 35.69 kB gzip; JS 304.14 kB / 93.34 kB gzip",
+    "build": "Vite 8.3.0 production build; 1613 modules; CSS 167.39 kB / 35.69 kB gzip; JS 304.31 kB / 93.39 kB gzip",
     "reducedMotionViewports": ["1408x1056", "1024x768", "390x844", "320x568"],
     "normalMotionControlViewports": ["1024x768", "390x844"],
     "collections": ["tops","bottoms","shoes","headwear","facegear","backgear","handgear","auras","companions","beds","seating","desks","lighting","wall","rugs","decor"],
@@ -82,57 +72,45 @@
       "normalMotionControl": "2/2 PASS",
       "computedContrast": "NOT_TESTED_4_OF_4"
     },
+    "changedCollectionEvidence": {
+      "companions": "12 visible cards at all four reduced-motion viewports; all 12 image-backed cards loaded, had alternative semantics, explicit width/height, readable state, focus-visible behavior and keyboard activation; phone grids were 2 columns at 390px and 320px.",
+      "stableControlTops": "12 visible cards at all four reduced-motion viewports with the same loading, intrinsic-dimension, focus, keyboard, readability and phone-grid checks passing."
+    },
     "longScroll": [
-      {"viewport":"desktop-1408x1056","maxScrollY":169,"frames":61,"avgFrameMs":16.3,"slowFramesOver34ms":0,"catalogResourceCount":187,"cls":0.0},
-      {"viewport":"tablet-1024x768","maxScrollY":612,"frames":61,"avgFrameMs":16.2,"slowFramesOver34ms":0,"catalogResourceCount":144,"cls":0.0040},
-      {"viewport":"phone-390x844","maxScrollY":2029,"frames":61,"avgFrameMs":16.4,"slowFramesOver34ms":0,"catalogResourceCount":132,"cls":0.0},
-      {"viewport":"phone-320x568","maxScrollY":2663,"frames":61,"avgFrameMs":16.4,"slowFramesOver34ms":0,"catalogResourceCount":132,"cls":0.0}
+      {"viewport":"desktop-1408x1056","maxScrollY":169,"frames":61,"avgFrameMs":16.1,"slowFramesOver34ms":0,"catalogResourceCount":168,"cls":0.0016},
+      {"viewport":"tablet-1024x768","maxScrollY":612,"frames":61,"avgFrameMs":16.3,"slowFramesOver34ms":0,"catalogResourceCount":140,"cls":0.0040},
+      {"viewport":"phone-390x844","maxScrollY":2029,"frames":61,"avgFrameMs":16.3,"slowFramesOver34ms":0,"catalogResourceCount":128,"cls":0.0},
+      {"viewport":"phone-320x568","maxScrollY":2663,"frames":61,"avgFrameMs":16.2,"slowFramesOver34ms":0,"catalogResourceCount":128,"cls":0.0}
     ],
     "normalMotion": [
       {"viewport":"tablet-1024x768","firstRowColumns":4,"horizontalOverflowPx":0,"frames":61,"avgFrameMs":16.4,"slowFramesOver34ms":0,"runtimeErrors":0},
-      {"viewport":"phone-390x844","firstRowColumns":2,"horizontalOverflowPx":0,"frames":61,"avgFrameMs":16.6,"slowFramesOver34ms":0,"runtimeErrors":0}
+      {"viewport":"phone-390x844","firstRowColumns":2,"horizontalOverflowPx":0,"frames":61,"avgFrameMs":16.4,"slowFramesOver34ms":0,"runtimeErrors":0}
     ],
     "contrast": {
       "status": "NOT_TESTED",
-      "reason": "The sampled catalog text sits over gradients/images/translucent layers rather than an unambiguous opaque solid CSS background, so the existing automated solid-background calculation intentionally did not fabricate a contrast ratio. Screenshot/device-aware contrast remains a human/tool-assisted final check and is escalated to Workstream 15 after repeated unchanged cycles; it does not invalidate unrelated canonical Store browser checks."
+      "reason": "Catalog text is composited over gradients/images/translucent layers, so the existing solid-background sampler cannot produce defensible ratios. Screenshot/device-aware contrast remains a final manual/tool-assisted gate."
     },
     "screenshotsAndArtifacts": {
-      "artifactId": 10662478311,
+      "artifactId": 10667595844,
       "fileCount": 36,
-      "coverage": "All 16 canonical collections have retained desktop-1408x1056 and phone-390x844 screenshots; tablet and 320px behavior were measured by the same strict browser gate."
+      "coverage": "All 16 canonical collections retained at desktop 1408x1056 and phone 390x844; tablet 1024x768 and phone 320x568 were measured by the same strict gate."
     }
   },
-  "stagedFixtureObservation": {
-    "status": "EXCLUDED_FROM_CANONICAL_PASS",
-    "newBranchStoredIds": ["tops-1","tops-2","tops-3","tops-4","tops-5","tops-6"],
-    "paths": [
-      "/assets/catalog/tops-1-w07-v2.jpg",
-      "/assets/catalog/tops-2-w07-v2.jpg",
-      "/assets/catalog/tops-3-w07-v2.jpg",
-      "/assets/catalog/tops-4-w07-v2.jpg",
-      "/assets/catalog/tops-5-w07-v2.jpg",
-      "/assets/catalog/tops-6-w07-v2.jpg"
-    ],
-    "owner": "07",
-    "renderFixtureOwner": "14",
-    "mobileQaAction": "No canonical Store rerun until Workstream 08 wires an independently accepted replacement hash. After that integration, test Tops plus one unchanged control across desktop/tablet/390/320 before any full milestone sweep."
+  "deterministicReferenceCapture": {
+    "workflowPath": ".github/workflows/reference-screenshot-capture.yml",
+    "scriptPath": "scripts/referenceScreenshotCapture.mjs",
+    "status": "PIPELINE_PREPARED_REFERENCE_PIXELS_ABSENT",
+    "targetScreens": ["Home", "Store", "Quest"],
+    "referenceDirectory": "docs/preproduction/reference-screenshots",
+    "referenceDirectoryPresent": false,
+    "note": "The capture/diff workflow is prepared, but the original user reference image files are not repository-accessible. Generated promotional collages must not be used as substitutes."
   },
-  "fixHistory": [
-    {"head":"fd7c1f0ff582141ba83844cbec5932eafd3b0473","releaseBlockingCount":52,"finding":"36 explicit image-dimension failures plus 16 desktop card readability failures."},
-    {"head":"d22eb74880684b3277fe6291eeaf58c803de99d6","releaseBlockingCount":16,"fix":"Added square intrinsic width/height plus async decoding to Store catalog images; explicit-dimension failures cleared."},
-    {"head":"4863ff8c93471e9795a8bbd1c4796262a51da972","releaseBlockingCount":0,"fix":"Raised dense desktop Store item-name and price text to readable floors while preserving phone two-column density."},
-    {"head":"6c4a286edd12bbe6bef49df4b03d93d2c118bb2d","releaseBlockingCount":1,"finding":"Extended keyboard traversal exposed a 320px category-filter focus clipping case after Chromium native focus scrolling."},
-    {"head":"e08a0ece9e911ad2c611ea6897199e17f8a46c36","releaseBlockingCount":"REGRESSION_DETECTED_IN_PARTIAL_RUN","finding":"An over-broad snap-alignment attempt interfered with pointer category navigation and wider-layout focus; the run was not used as PASS evidence."},
-    {"head":"81bbf06dc070b0f72f942dde9c14ac4bba476922","releaseBlockingCount":0,"fix":"Restricted snap-aligned focus correction to narrow keyboard-visible category focus and isolated pointer/touch focus from tray repositioning. Full extended catalog gate passed."}
-  ],
   "limitations": [
-    "PASS covers the current canonical Store runtime/manifest at the audited hashes, not staged or replacement art that is not yet canonical.",
-    "Physical iPhone/iPad/Android performance is NOT TESTED; frame and scroll measurements are headless Chromium emulation.",
-    "VoiceOver/TalkBack/NVDA are NOT TESTED; browser semantics, focusability, labels, keyboard activation and focus reachability were verified.",
-    "Exact rendered color contrast is NOT TESTED because the automated solid-background sampler could not derive valid ratios through gradient/image/translucent backgrounds; a screenshot/device-aware final check has been handed to 15.",
-    "Lighting, wall, rugs and decor had no canonical image-backed cards at this manifest version; seating and desks each had only their currently canonical first image. Their staged art is outside this PASS until Workstream 08 integrates it.",
-    "The catalog gate remains unapproved because independent visual acceptance and canonical integration of pending art are separate requirements."
+    "This PASS is headless Chromium browser-emulation evidence, not physical iPhone/iPad/Android performance evidence.",
+    "VoiceOver/TalkBack/NVDA remain NOT TESTED; browser semantics, focusability, labels, keyboard activation and reachability were verified.",
+    "Exact rendered color contrast remains NOT TESTED because the existing automated sampler cannot resolve layered visual backgrounds defensibly.",
+    "The catalog gate remains unapproved because only 4/192 current hashes are canonically accepted and final release QA is separate."
   ],
-  "nextAction": "Wait for a Workstream-08 canonical art integration. Immediately run changed collection(s) plus one stable control at desktop/tablet/390/320; reserve another full 16-collection sweep for a coherent catalog milestone or final gate. Do not rerun the unchanged canonical matrix merely because new staged-but-unwired files appeared.",
+  "nextAction": "After the next small Workstream-08 canonical integration, test only changed collection(s) plus a stable control at 1408/1024/390/320 with normal and reduced-motion evidence. Run the next full 16-collection sweep only at a coherent catalog milestone or final gate. Continue deterministic Home/Store/Quest capture support; final pixel-diff requires the original reference files to be made repository-accessible.",
   "freeze": {"replitTouched":false,"flootTouched":false,"mainMergedOrModified":false}
 }
