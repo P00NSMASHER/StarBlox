@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "batchId": "chat-lighting-recovery-20260921",
+  "status": "INTAKE_REQUESTED_NOT_STAGED",
+  "repository": "P00NSMASHER/StarBlox",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "fabbe9dca66a4389c07ae67724efaa8b8a456277",
+  "producer": "04",
+  "transportHelper": "CHAT",
+  "independentReviewer": "14",
+  "canonicalWriter": "08",
+  "purpose": "Recover the exact existing Firefly generations flagged GENERATED_REMOTE_UPLOAD_PENDING in lane-04. No new generation, no asset replacement, no canonical wiring, no ownership reassignment.",
+  "outputReport": "docs/preproduction/catalog-sprint/chat-lighting-recovery-result.json",
+  "protection": "Preserve all final/accepted/legacy files. Write only new versioned candidate/source paths. Stop on a conflicting existing file. Use current-head non-force publication. Keep Replit, Floot, main, saves, prices, unlocks and curriculum unchanged.",
+  "items": [
+    {"id":"lighting-5","name":"Vine Light","collectionId":"lighting","type":"room","tier":2,"theme":"Galaxy Glow","price":181,"starReq":0,"assetId":"urn:aaid:sc:US:a7777709-a50b-40e8-987a-dfaef58bfb75","sourceUrl":"https://at.adobe.com/7tOjXDv5Z2k1xPoH","renditionUrl":"https://at.adobe.com/Dh4u83303M2OHQa1","candidateRepositoryPath":"public/assets/catalog/lighting-5-w04-recovered-v2.jpg"},
+    {"id":"lighting-6","name":"Planet Lamp","collectionId":"lighting","type":"room","tier":2,"theme":"Sunny Pop","price":254,"starReq":0,"assetId":"urn:aaid:sc:US:42d0edcf-6e79-4035-91e8-26514ee0b7d4","sourceUrl":"https://at.adobe.com/HWd3f652Bmxma1AG","renditionUrl":"https://at.adobe.com/W9tkQWWQGa6T9dNb","candidateRepositoryPath":"public/assets/catalog/lighting-6-w04-recovered-v2.jpg"},
+    {"id":"lighting-7","name":"Sun Lamp","collectionId":"lighting","type":"room","tier":3,"theme":"Aqua Wave","price":348,"starReq":2,"assetId":"urn:aaid:sc:US:d98ee54e-0ca5-45fd-933a-df8a4d3600e2","sourceUrl":"https://at.adobe.com/U5vsoyZ82QxBpVyy","renditionUrl":"https://at.adobe.com/bfYehLv6FAU6Vuzu","candidateRepositoryPath":"public/assets/catalog/lighting-7-w04-recovered-v2.jpg"},
+    {"id":"lighting-8","name":"Bubble Lamp","collectionId":"lighting","type":"room","tier":3,"theme":"Art Attack","price":479,"starReq":2,"assetId":"urn:aaid:sc:US:32cfde85-8990-4b1f-ab34-9127985e7d7f","sourceUrl":"https://at.adobe.com/lt7dbBCIq2KQPfFf","renditionUrl":"https://at.adobe.com/IFI9j4ssbUljNrNC","candidateRepositoryPath":"public/assets/catalog/lighting-8-w04-recovered-v2.jpg"}
+  ],
+  "reviewNote": "Actual remote images were inspected in chat for identity, dimensional construction and material/light response. That is NOT repository hash-bound independent acceptance. Once stored, 14 must independently review the actual candidate hashes; 08 alone may wire accepted versions. No self-declared final count increase."
+}
