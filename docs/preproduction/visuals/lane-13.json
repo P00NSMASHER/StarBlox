@@ -1,0 +1,90 @@
+{
+  "schemaVersion": 1,
+  "workstream": "13",
+  "focus": "SCENE_CHARACTER_ART",
+  "status": "READY_FOR_REVIEW",
+  "branch": "screenshot-match-preproduction",
+  "sourceHeadBeforeAssetCommit": "590bdcc8915642db0836c07816c989d1bae2d19c",
+  "generatedAt": "2026-09-21T23:01:42.125894+00:00",
+  "candidateId": "home-bedroom-w13-v1",
+  "candidateType": "environment-background",
+  "targetScreen": "Home",
+  "observedDefect": {
+    "runningRenderEvidence": {
+      "workflowRunId": 35663655650,
+      "artifactId": 10668287632,
+      "renderHead": "b187186e62519ffa77bd0f7b166c601c90bdc416",
+      "file": "home-desktop-1408x1056.png"
+    },
+    "finding": "The current Home geometry is contract-green, but the visible environment remains a flatter high-detail vector treatment while the original reference has stronger volumetric depth, tactile materials, contact/cast lighting and cinematic room realism. Workstream 09 explicitly records that its current scene is SVG/vector and that a raster/3D pass may be needed.",
+    "scopeDecision": "Stage a separate versioned raster environment candidate only. Do not replace or edit Workstream 09 active SVG URLs and do not touch Workstream 06 avatar implementation."
+  },
+  "reference": {
+    "originalPath": "docs/preproduction/reference-screenshots/originals/home-1448x1086.jpeg",
+    "originalSha256": "6a4b110aeaf12a6ab0c629f9181cc6cfa8d4f55a518d4f2a6adb3ac6e756c457",
+    "comparisonPath": "docs/preproduction/reference-screenshots/home-desktop-1408x1056.png",
+    "pixelParityClaimed": false
+  },
+  "provenance": {
+    "generator": "Adobe Firefly image_generate",
+    "generationRequestId": "8cd09402-ff64-41ab-ad5f-f0a638662548",
+    "fireflyAssetId": "urn:aaid:sc:US:ec85f76f-eb61-49b8-acc4-950972ab07c3",
+    "optimizedDerivative": "Adobe image_crop_and_resize",
+    "cropRequestId": "b929fd71-ae94-4820-b007-7d4a4c56e6fd",
+    "creativeConstraints": [
+      "original StarBlox environment only",
+      "no character baked into background",
+      "no UI/text/buttons/logos in background",
+      "clear center foreground for separate avatar",
+      "calm top-center and right-edge overlay zones",
+      "warm pink/lilac bedroom with dimensional materials and lighting"
+    ]
+  },
+  "assets": [
+    {
+      "path": "public/assets/visuals/lane-13/home-bedroom-w13-v1-full.png",
+      "format": "PNG",
+      "dimensions": [
+        2304,
+        1792
+      ],
+      "bytes": 4967782,
+      "sha256": "fbdce223607f8883c494fcd8bfcab7feb88d6ee0d28d63101cecfa94427554e2",
+      "gitBlobSha": "f1f36f1ccd33d3aa45bb8d5b13b5f25405a7d256"
+    },
+    {
+      "path": "public/assets/visuals/lane-13/home-bedroom-w13-v1-1408x1056.png",
+      "format": "PNG",
+      "dimensions": [
+        1408,
+        1056
+      ],
+      "bytes": 1741694,
+      "sha256": "dcf02cbe451685acf3bb6fd4090d293e69c65c6c2a085c3746f6e380beb019ff",
+      "gitBlobSha": "d37d2ad7e07f91a79e00a89a0a43e168408ae53c"
+    }
+  ],
+  "visualInspection": {
+    "status": "PASS_PRODUCER_INSPECTION_ONLY",
+    "notes": [
+      "No person/character or interface text is present.",
+      "Center foreground remains open for a separately composited avatar.",
+      "Bed-left / desk-right composition follows the reference hierarchy without copying its UI.",
+      "Scene has materially stronger volumetric light, depth and tactile furniture response than the current vector background.",
+      "Independent art/composition review is still required."
+    ]
+  },
+  "integration": {
+    "runtimeWired": false,
+    "canonicalCatalogTouched": false,
+    "workstream06AvatarTouched": false,
+    "workstream09ActiveEnvironmentTouched": false,
+    "deploymentTouched": false,
+    "mainTouched": false
+  },
+  "reviewHandoff": {
+    "01": "Independently judge the exact candidate pixels for art-direction fit and originality.",
+    "14": "Independently judge Home composition, overlay-safe zones, performance/format and real-browser suitability before any wiring.",
+    "15": "Coordinate any approved environment handoff to Workstream 09; no runtime integration is authorized by this candidate."
+  }
+}
