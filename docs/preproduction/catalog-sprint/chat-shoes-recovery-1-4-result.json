@@ -1,0 +1,195 @@
+{
+  "schemaVersion": 1,
+  "batchId": "chat-shoes-recovery-1-4-20260921",
+  "status": "STAGED_READY_FOR_INDEPENDENT_REVIEW",
+  "sourceHead": "9d640df1e188480b6deb62989ab26b18f41719bd",
+  "workflowRunId": "35666743775",
+  "producer": "04",
+  "transportHelper": "CHAT",
+  "independentReviewer": "02",
+  "canonicalWriter": "08",
+  "newGenerations": 0,
+  "storedCandidateCount": 4,
+  "storedOriginalCount": 4,
+  "independentAcceptsThisIntake": 0,
+  "canonicalPromotionsThisIntake": 0,
+  "duplicateCandidateContent": 0,
+  "metadataSource": "src/gameModel.js store export",
+  "items": [
+    {
+      "id": "shoes-1",
+      "name": "Sneakers",
+      "collectionId": "shoes",
+      "collectionName": "Shoes",
+      "type": "avatar",
+      "tier": 1,
+      "theme": "Aqua Wave",
+      "price": 30,
+      "starReq": 0,
+      "format": "JPEG",
+      "dimensions": [
+        600,
+        600
+      ],
+      "bytes": 76160,
+      "sha256": "66f5e9b34823e2ea9fafa561016ea8772f4bc814b52e77bd606f87a3cdfa557a",
+      "gitBlobSha": "1a0351a733c7639ecdf4d90d41e4e5159bd7e8ad",
+      "producer": "04",
+      "transportHelper": "CHAT",
+      "independentReviewer": "02",
+      "assetId": "urn:aaid:sc:US:4f905a5b-73a9-4338-881f-ed50f5b1d16a",
+      "repositoryPath": "public/assets/catalog/shoes-1-w04-recovered-v2.jpg",
+      "assetPath": "/assets/catalog/shoes-1-w04-recovered-v2.jpg",
+      "status": "READY_FOR_REVIEW",
+      "readback": "PASS",
+      "transformation": "None: exact Adobe rendition response bytes copied; no crop, recolor, resize, recompression or regeneration",
+      "original": {
+        "format": "PNG",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "bytes": 1439718,
+        "sha256": "8dff75bfcf6411555e9c9fac89706c816d76f8e75afe811adc8bef45cb8c14a7",
+        "gitBlobSha": "5e0462b5e270a992b6b71dc4d787f7d8f7d8540f",
+        "validation": "DECODED_IMAGE_PASS",
+        "repositoryPath": "docs/preproduction/catalog-sprint/recovered-originals/shoes-1-4-20260921/shoes-1-4f905a5b-73a9-4338-881f-ed50f5b1d16a.png"
+      }
+    },
+    {
+      "id": "shoes-2",
+      "name": "Slip-Ons",
+      "collectionId": "shoes",
+      "collectionName": "Shoes",
+      "type": "avatar",
+      "tier": 1,
+      "theme": "Art Attack",
+      "price": 45,
+      "starReq": 0,
+      "format": "JPEG",
+      "dimensions": [
+        600,
+        600
+      ],
+      "bytes": 57235,
+      "sha256": "c53ad99e457bdbfa49b2ceac488a5e2def84faaa411a8d02e022d812d67fd931",
+      "gitBlobSha": "4377e9c6b996a154db67feae1adb924715364f54",
+      "producer": "04",
+      "transportHelper": "CHAT",
+      "independentReviewer": "02",
+      "assetId": "urn:aaid:sc:US:0c4d62d9-c5d2-4e8e-9aea-fcb08b5acfbb",
+      "repositoryPath": "public/assets/catalog/shoes-2-w04-recovered-v2.jpg",
+      "assetPath": "/assets/catalog/shoes-2-w04-recovered-v2.jpg",
+      "status": "READY_FOR_REVIEW",
+      "readback": "PASS",
+      "transformation": "None: exact Adobe rendition response bytes copied; no crop, recolor, resize, recompression or regeneration",
+      "original": {
+        "format": "PNG",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "bytes": 1078540,
+        "sha256": "4ef8de54da7da1873476bc1bf9649f1394813d254cdf15839a5bcbc885bc8da8",
+        "gitBlobSha": "c5ec03d620acf1c2dd6639ec4d63d28fed552754",
+        "validation": "DECODED_IMAGE_PASS",
+        "repositoryPath": "docs/preproduction/catalog-sprint/recovered-originals/shoes-1-4-20260921/shoes-2-0c4d62d9-c5d2-4e8e-9aea-fcb08b5acfbb.png"
+      }
+    },
+    {
+      "id": "shoes-3",
+      "name": "High-Tops",
+      "collectionId": "shoes",
+      "collectionName": "Shoes",
+      "type": "avatar",
+      "tier": 1,
+      "theme": "Star Luxe",
+      "price": 65,
+      "starReq": 0,
+      "format": "JPEG",
+      "dimensions": [
+        600,
+        600
+      ],
+      "bytes": 60955,
+      "sha256": "d477fe10d3854f8ab3edd9b50bd767fbf2ca1aa0cdf7df376f3b5a5ef3f2e6a6",
+      "gitBlobSha": "995c65c304af6acc85fad2a98cfe07029b486472",
+      "producer": "04",
+      "transportHelper": "CHAT",
+      "independentReviewer": "02",
+      "assetId": "urn:aaid:sc:US:68ea78e2-c7d7-4196-82bb-d3feb682d707",
+      "repositoryPath": "public/assets/catalog/shoes-3-w04-recovered-v2.jpg",
+      "assetPath": "/assets/catalog/shoes-3-w04-recovered-v2.jpg",
+      "status": "READY_FOR_REVIEW",
+      "readback": "PASS",
+      "transformation": "None: exact Adobe rendition response bytes copied; no crop, recolor, resize, recompression or regeneration",
+      "original": {
+        "format": "PNG",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "bytes": 1191190,
+        "sha256": "8e93230f10237d434aa78d6c1af0f3d346e659903d12da983e0f2d5c3b018ce5",
+        "gitBlobSha": "89a89362be797e7db00a3494c4063236292032f9",
+        "validation": "DECODED_IMAGE_PASS",
+        "repositoryPath": "docs/preproduction/catalog-sprint/recovered-originals/shoes-1-4-20260921/shoes-3-68ea78e2-c7d7-4196-82bb-d3feb682d707.png"
+      }
+    },
+    {
+      "id": "shoes-4",
+      "name": "Bow Shoes",
+      "collectionId": "shoes",
+      "collectionName": "Shoes",
+      "type": "avatar",
+      "tier": 2,
+      "theme": "Midnight Neon",
+      "price": 85,
+      "starReq": 0,
+      "format": "JPEG",
+      "dimensions": [
+        600,
+        600
+      ],
+      "bytes": 48963,
+      "sha256": "3d745ce1cc6a01a0db75b41e57a6c3ab3e73ce5044ce29ba82d0a7f5314c7eed",
+      "gitBlobSha": "121bd48007f74a2df4c760fa4650e7075138cffb",
+      "producer": "04",
+      "transportHelper": "CHAT",
+      "independentReviewer": "02",
+      "assetId": "urn:aaid:sc:US:01f92b75-fb85-403d-9822-d51a83e5d83a",
+      "repositoryPath": "public/assets/catalog/shoes-4-w04-recovered-v2.jpg",
+      "assetPath": "/assets/catalog/shoes-4-w04-recovered-v2.jpg",
+      "status": "READY_FOR_REVIEW",
+      "readback": "PASS",
+      "transformation": "None: exact Adobe rendition response bytes copied; no crop, recolor, resize, recompression or regeneration",
+      "original": {
+        "format": "PNG",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "bytes": 1060815,
+        "sha256": "d9ee593f13765a77783ed8aa5205e2a2c0748ac0498220ba14bc30568ab6000e",
+        "gitBlobSha": "f6ae08fb396068213040c38cf54ee61c1793b14b",
+        "validation": "DECODED_IMAGE_PASS",
+        "repositoryPath": "docs/preproduction/catalog-sprint/recovered-originals/shoes-1-4-20260921/shoes-4-01f92b75-fb85-403d-9822-d51a83e5d83a.png"
+      }
+    }
+  ],
+  "checks": {
+    "metadata": "PASS_4_OF_4",
+    "exactByteReadback": "PASS_8_OF_8",
+    "candidateDecode": "PASS_4_OF_4",
+    "repeatBehavior": "PENDING_SECOND_RUN",
+    "independentVisualReview": "PENDING_02"
+  },
+  "freeze": {
+    "replitTouched": false,
+    "flootTouched": false,
+    "mainTouched": false,
+    "canonicalMappingsTouched": false,
+    "gameplayChanged": false
+  },
+  "handoff": "04: preserve these stored versions. 02: inspect exact candidate hashes at card/detail scale. 08: only wire after independent ACCEPT. 15: byte-transfer blocker cleared for Shoes 1-4."
+}
