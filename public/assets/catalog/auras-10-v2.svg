@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Neon Trail Aura">
+<defs>
+  <radialGradient id="bg" cx="50%" cy="50%" r="58%"><stop offset="0" stop-color="#d9ffff" stop-opacity=".18"/><stop offset=".45" stop-color="#49e6e7" stop-opacity=".13"/><stop offset=".76" stop-color="#286ed8" stop-opacity=".08"/><stop offset="1" stop-color="#123b7a" stop-opacity="0"/></radialGradient>
+  <linearGradient id="aqua" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#eaffff"/><stop offset=".24" stop-color="#69fff2"/><stop offset=".58" stop-color="#21d8e4"/><stop offset=".82" stop-color="#2681ff"/><stop offset="1" stop-color="#814dff"/></linearGradient>
+  <linearGradient id="foam" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#ffffff" stop-opacity=".96"/><stop offset=".35" stop-color="#b9ffff" stop-opacity=".9"/><stop offset="1" stop-color="#49e7ff" stop-opacity=".5"/></linearGradient>
+  <filter id="glow" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="10" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  <filter id="deep" x="-50%" y="-50%" width="200%" height="200%"><feDropShadow dx="0" dy="10" stdDeviation="9" flood-color="#0b4c75" flood-opacity=".35"/></filter>
+</defs>
+<ellipse cx="256" cy="258" rx="218" ry="216" fill="url(#bg)"/>
+<g fill="none" stroke-linecap="round" filter="url(#deep)">
+  <path d="M72 319C91 190 180 103 299 103c78 0 136 39 151 103" stroke="url(#aqua)" stroke-width="28" opacity=".96"/>
+  <path d="M82 348C135 420 252 440 351 398c56-24 91-67 100-116" stroke="url(#aqua)" stroke-width="23" opacity=".91"/>
+  <path d="M106 383C56 284 90 164 185 111" stroke="#72fff1" stroke-width="12" opacity=".76" filter="url(#glow)"/>
+  <path d="M329 113C422 148 459 241 425 336" stroke="#62bbff" stroke-width="10" opacity=".72" filter="url(#glow)"/>
+</g>
+<g fill="none" stroke-linecap="round" filter="url(#glow)">
+  <path d="M77 302C119 226 166 210 209 225c46 16 79 17 115-17 31-29 68-28 112 5" stroke="url(#foam)" stroke-width="7"/>
+  <path d="M91 361c53-44 101-50 145-19 44 31 95 30 166-21" stroke="#d9ffff" stroke-width="6" opacity=".85"/>
+</g>
+<g filter="url(#glow)">
+  <circle cx="104" cy="271" r="11" fill="#b8ffff"/><circle cx="392" cy="186" r="9" fill="#76f9ff"/><circle cx="421" cy="319" r="12" fill="#a4e5ff"/><circle cx="156" cy="389" r="10" fill="#6ffff1"/>
+  <circle cx="128" cy="221" r="5" fill="#fff"/><circle cx="365" cy="153" r="5" fill="#fff"/><circle cx="377" cy="374" r="5" fill="#fff"/>
+</g>
+<g opacity=".72" fill="#dcffff"><ellipse cx="131" cy="193" rx="8" ry="15" transform="rotate(-28 131 193)"/><ellipse cx="379" cy="146" rx="7" ry="13" transform="rotate(26 379 146)"/><ellipse cx="404" cy="352" rx="8" ry="15" transform="rotate(30 404 352)"/></g>
+</svg>
