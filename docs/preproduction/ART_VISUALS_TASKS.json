@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "userDirection": "Dedicate the full 15 active scheduled tasks to completing the art and visuals",
+  "allocationPath": "docs/preproduction/ART_VISUALS_SPRINT.json",
+  "allocationBlobReadback": "b9f04c7d0ff68a96489309a35c7f67a1def3d76c",
+  "operation": "Updated existing prompts and titles; preserved all existing hourly staggered schedules; explicitly enabled the same 15 tasks",
+  "updateResults": {
+    "requested": 15,
+    "confirmedSuccessful": 15,
+    "confirmedEnabledInUpdateResponses": 15,
+    "newTasksCreated": 0,
+    "schedulesModified": 0,
+    "unrelatedTasksModified": 0
+  },
+  "tasks": [
+    {"workstream":"01","id":"6ab137a6d6408191bd062700415a912a","title":"01 Art Direction Seating","minute":27},
+    {"workstream":"02","id":"6ab137a76a24819189d3f3ca959036c7","title":"02 Beds Gear Review","minute":31},
+    {"workstream":"03","id":"6ab137a808e88191945281a219fd5d7a","title":"03 Desks Home Art","minute":3},
+    {"workstream":"04","id":"6ab137a8a58c8191b36fb8ef7acf3abd","title":"04 Lighting Store Art","minute":6},
+    {"workstream":"05","id":"6ab137a9b7008191a3448f767b586d6c","title":"05 Clothing Wall Review","minute":35},
+    {"workstream":"06","id":"6ab137aa52b48191a5e477921fafd3da","title":"06 Companion Seating Art","minute":9},
+    {"workstream":"07","id":"6ab137ab0f9c81919de95cf036fef0ac","title":"07 Tops Rug Art","minute":12},
+    {"workstream":"08","id":"6ab137abb53c8191b4f48260735f6705","title":"08 Art Integration","minute":40},
+    {"workstream":"09","id":"6ab137ac693c8191aacefba42a080470","title":"09 Tops Decor Art","minute":15},
+    {"workstream":"10","id":"6ab137ad08388191a69b90d716fdfc66","title":"10 Mobile Visual Match","minute":55},
+    {"workstream":"11","id":"6ab137adaa708191a5dc955e0b5d089f","title":"11 Aura Effects Art","minute":18},
+    {"workstream":"12","id":"6ab137ae4c0c81919983c1ff69020447","title":"12 Accessory Art","minute":45},
+    {"workstream":"13","id":"6ab137af3b24819189c2f09b63cc43c2","title":"13 Scene Character Art","minute":50},
+    {"workstream":"14","id":"6ab137b081c481919f034ec3938ea0b9","title":"14 Visual Render QA","minute":22},
+    {"workstream":"15","id":"6ab137b12ca08191ab01334816325eff","title":"15 Art Visuals Director","minute":0}
+  ],
+  "changedMissions": {
+    "12": "Learning audit allocation replaced with Headwear/Facegear/Backgear/Handgear art production; existing learning tests and pending release obligations retained.",
+    "13": "Persistence development allocation replaced with scene and character art; existing persistence tests/evidence and pending release obligations retained.",
+    "all": "Remain art/visual-focused after catalog completion until scenes, characters, screens and mobile visual fidelity are accepted. No automatic premature return to nonvisual development."
+  },
+  "referenceAccess": "Original three user screenshots have verified stored bytes and comparison derivatives under docs/preproduction/reference-screenshots; all prompts identify the resolved reference-access blocker.",
+  "knownCurrentTestFailureHandedTo08": "beds-1 theme metadata mismatch in catalogManifestQa.test.js; observed 98 passed and 1 failed, not an all-green candidate.",
+  "noNewCatalogFinalsClaimedByReallocation": true,
+  "replitFlootMainTouched": false,
+  "newTaskRunsClaimedComplete": false,
+  "note": "These receipts confirm saved task configuration, not future execution or finished artwork. The active sprint owner reconciles subsequent progress from actual assets/tests and does not infer completion from schedules."
+}
