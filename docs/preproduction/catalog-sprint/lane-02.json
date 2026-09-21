@@ -3,26 +3,49 @@
   "workstream": "02",
   "phase": "CATALOG_SPRINT",
   "sourceHead": "d688f9dcc2836ef04e0e99279d55b5c2e84ce3a6",
-  "status": "BEDS_1_4_GENERATED_REMOTE_UPLOAD_PENDING",
+  "status": "BEDS_1_4_STAGED_READY_FOR_REVIEW_05",
   "reviewPartition": {
-    "collections": ["shoes", "backgear", "handgear", "seating"],
+    "collections": [
+      "shoes",
+      "backgear",
+      "handgear",
+      "seating"
+    ],
     "legacyCoverage": "48_OF_48_REVIEWED",
     "freshReplacementCheck": "NO_REPOSITORY_STAGED_SEATING_OR_SHOE_REPLACEMENT_HASH_READY_THIS_RUN",
     "note": "Remote/generated-only shoe repairs are not reviewable until repository-staged and rendered. No source inspection was called a visual PASS."
   },
   "productionAssignment": {
     "collection": "beds",
-    "ids": ["beds-1", "beds-2", "beds-3", "beds-4", "beds-5", "beds-6", "beds-7", "beds-8", "beds-9", "beds-10", "beds-11", "beds-12"],
+    "ids": [
+      "beds-1",
+      "beds-2",
+      "beds-3",
+      "beds-4",
+      "beds-5",
+      "beds-6",
+      "beds-7",
+      "beds-8",
+      "beds-9",
+      "beds-10",
+      "beds-11",
+      "beds-12"
+    ],
     "independentReviewer": "05",
     "canonicalIntegrator": "08"
   },
   "batch": {
     "batchId": "w02-beds-20260921-b01",
-    "ids": ["beds-1", "beds-2", "beds-3", "beds-4"],
+    "ids": [
+      "beds-1",
+      "beds-2",
+      "beds-3",
+      "beds-4"
+    ],
     "producer": "02",
-    "status": "GENERATED_REMOTE_UPLOAD_PENDING",
+    "status": "STAGED_READY_FOR_REVIEW_05",
     "canonical": false,
-    "readyForIndependentReview": false,
+    "readyForIndependentReview": true,
     "candidates": [
       {
         "itemId": "beds-1",
@@ -34,11 +57,26 @@
         "generationProvider": "Adobe Firefly image_generate",
         "generationRequestId": "61a7e9bf-8119-46eb-92c7-2ad9fc7e65fd",
         "remoteSourceUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:989fea66-597a-40bb-8735-fcc6f03b73c4",
-        "requestedDimensions": [1024, 1024],
+        "requestedDimensions": [
+          1024,
+          1024
+        ],
         "format": "PNG",
         "producerPixelCheck": "PASS",
         "producerFinding": "Actual pixels show a clear three-quarter bed with visible mattress/frame depth, soft mint-and-cream textiles, painted wood volume, sprout identity and contact shadow; materially addresses the legacy flat-icon defect while keeping Tier 1 simple.",
-        "intendedRepositoryPath": "/assets/catalog-candidates/w02-beds-20260921-b01/beds-1-w02-v1.png"
+        "intendedRepositoryPath": "/assets/catalog-candidates/w02-beds-20260921-b01/beds-1-w02-v1.png",
+        "repositoryPath": "public/assets/catalog-candidates/w02-beds-20260921-b01/beds-1-w02-v1.png",
+        "assetPath": "/assets/catalog-candidates/w02-beds-20260921-b01/beds-1-w02-v1.png",
+        "gitBlobSha": "0b9f4213f84c9cde0de5ede646345c0ebc851127",
+        "sha256": "fe1f4dbcb35a77b036b576c4c22659fc56027b8a4ed8ac240caa2a87d937cf47",
+        "bytes": 673746,
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "status": "READY_FOR_REVIEW_05",
+        "readback": "PASS",
+        "transformation": "None: exact producer-recorded Adobe Firefly PNG response bytes copied; no crop, resize, recompression, recolor, or regeneration"
       },
       {
         "itemId": "beds-2",
@@ -50,11 +88,26 @@
         "generationProvider": "Adobe Firefly image_generate",
         "generationRequestId": "c724894d-4bae-4170-95e0-79a2d81dbe80",
         "remoteSourceUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:826e8113-6a7f-43ca-b74f-f1f9145a0963",
-        "requestedDimensions": [1024, 1024],
+        "requestedDimensions": [
+          1024,
+          1024
+        ],
         "format": "PNG",
         "producerPixelCheck": "PASS",
         "producerFinding": "Actual pixels show plush cloud volume, unmistakable bed geometry, mattress depth, soft upholstery and restrained galaxy-lit bedding in a three-quarter collectible presentation; no text/UI/persons are present.",
-        "intendedRepositoryPath": "/assets/catalog-candidates/w02-beds-20260921-b01/beds-2-w02-v1.png"
+        "intendedRepositoryPath": "/assets/catalog-candidates/w02-beds-20260921-b01/beds-2-w02-v1.png",
+        "repositoryPath": "public/assets/catalog-candidates/w02-beds-20260921-b01/beds-2-w02-v1.png",
+        "assetPath": "/assets/catalog-candidates/w02-beds-20260921-b01/beds-2-w02-v1.png",
+        "gitBlobSha": "67a0fe2874f975cedb1b4b994e0237ac55d2fb3e",
+        "sha256": "e3cd4e02aa6a1f1dda5ed7f31213fcf340687cfd92ffc0d1fefdcd37a6708320",
+        "bytes": 825777,
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "status": "READY_FOR_REVIEW_05",
+        "readback": "PASS",
+        "transformation": "None: exact producer-recorded Adobe Firefly PNG response bytes copied; no crop, resize, recompression, recolor, or regeneration"
       },
       {
         "itemId": "beds-3",
@@ -66,11 +119,26 @@
         "generationProvider": "Adobe Firefly image_generate",
         "generationRequestId": "0c32bf55-8039-4db5-80a4-84725b710558",
         "remoteSourceUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:cf13eedf-8473-451e-a391-7ba1548df800",
-        "requestedDimensions": [1024, 1024],
+        "requestedDimensions": [
+          1024,
+          1024
+        ],
         "format": "PNG",
         "producerPixelCheck": "PASS",
         "producerFinding": "Actual pixels show two clearly stacked bunks, real ladder/rail/platform depth and chunky Sunny Pop yellow-blue construction; the bunk category now reads immediately instead of as a flat pixel emblem.",
-        "intendedRepositoryPath": "/assets/catalog-candidates/w02-beds-20260921-b01/beds-3-w02-v1.png"
+        "intendedRepositoryPath": "/assets/catalog-candidates/w02-beds-20260921-b01/beds-3-w02-v1.png",
+        "repositoryPath": "public/assets/catalog-candidates/w02-beds-20260921-b01/beds-3-w02-v1.png",
+        "assetPath": "/assets/catalog-candidates/w02-beds-20260921-b01/beds-3-w02-v1.png",
+        "gitBlobSha": "22b1d9f6802cc0b442c9226511ff96e8ea0bbacc",
+        "sha256": "5f33ceba9cce51f8ebe0e89c3e94e3766d3ad7e486d31a090c6c38de5a9ed8f4",
+        "bytes": 879492,
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "status": "READY_FOR_REVIEW_05",
+        "readback": "PASS",
+        "transformation": "None: exact producer-recorded Adobe Firefly PNG response bytes copied; no crop, resize, recompression, recolor, or regeneration"
       },
       {
         "itemId": "beds-4",
@@ -82,21 +150,37 @@
         "generationProvider": "Adobe Firefly image_generate",
         "generationRequestId": "4538066f-3177-45ca-84d3-0c8acf7b0dd6",
         "remoteSourceUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:3270a937-a4b6-4f4a-b9ec-7fba21638638",
-        "requestedDimensions": [1024, 1024],
+        "requestedDimensions": [
+          1024,
+          1024
+        ],
         "format": "PNG",
         "producerPixelCheck": "PASS",
         "producerFinding": "Actual pixels show a true upholstered daybed with mattress/side depth, aqua wave construction, berry accents, layered bolsters and richer Tier 2 material treatment. It remains card-readable and distinct from beds 1-3.",
-        "intendedRepositoryPath": "/assets/catalog-candidates/w02-beds-20260921-b01/beds-4-w02-v1.png"
+        "intendedRepositoryPath": "/assets/catalog-candidates/w02-beds-20260921-b01/beds-4-w02-v1.png",
+        "repositoryPath": "public/assets/catalog-candidates/w02-beds-20260921-b01/beds-4-w02-v1.png",
+        "assetPath": "/assets/catalog-candidates/w02-beds-20260921-b01/beds-4-w02-v1.png",
+        "gitBlobSha": "18fa8722d9831af1113e07c2103b373acc41c3c0",
+        "sha256": "21b08cbdf228d1a90338b4710ab625e39a18d323050555e8052f8ec443c4c295",
+        "bytes": 981252,
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "status": "READY_FOR_REVIEW_05",
+        "readback": "PASS",
+        "transformation": "None: exact producer-recorded Adobe Firefly PNG response bytes copied; no crop, resize, recompression, recolor, or regeneration"
       }
     ]
   },
   "staging": {
-    "status": "BLOCKED_BEFORE_GIT_BLOB_CREATION",
-    "attemptedSupportedPath": "Generated bytes were inspected successfully; attempted ChatGPT-file -> Adobe connector egress twice so the existing remote binary bridge could be used.",
-    "result": "BLOCKED_FILE_REFERENCE",
-    "exactBlocker": "Generated ChatGPT image file references are unavailable for connector egress in this run. The GitHub create_blob path requires raw/base64 bytes and cannot ingest a local file path or the generated-file reference directly.",
-    "falseClaimsAvoided": ["No repository path is claimed staged", "No Git blob SHA is claimed", "No independent ACCEPT is claimed", "No canonical mapping was edited"],
-    "nextSafeAction": "Use an authorized byte-transfer path to download each recorded remoteSourceUrl, write the exact PNG to its intendedRepositoryPath on screenshot-match-preproduction, read back the Git blob/bytes, then mark READY_FOR_REVIEW and hand exact hashes to reviewer 05. Do not regenerate these four unless reviewer 05 later returns REWORK."
+    "status": "PASS_BEDS_1_4_EXACT_BYTES_STAGED",
+    "method": "Authorized GitHub Actions download from the producer-recorded Adobe HTTPS short URLs",
+    "exactByteReadback": "PASS_4_OF_4",
+    "metadata": "PASS_4_OF_4_AGAINST_CURRENT_GAME_MODEL",
+    "duplicateCandidateContent": 0,
+    "independentVisualReview": "PENDING_05",
+    "canonicalIntegration": "PENDING_08_AFTER_ACCEPT"
   },
   "freeze": {
     "replitTouched": false,
@@ -104,5 +188,20 @@
     "mainMergedOrModified": false,
     "canonicalManifestOrRuntimeTouched": false,
     "playerDataTouched": false
-  }
+  },
+  "stagingHistory": [
+    {
+      "status": "BLOCKED_BEFORE_GIT_BLOB_CREATION",
+      "attemptedSupportedPath": "Generated bytes were inspected successfully; attempted ChatGPT-file -> Adobe connector egress twice so the existing remote binary bridge could be used.",
+      "result": "BLOCKED_FILE_REFERENCE",
+      "exactBlocker": "Generated ChatGPT image file references are unavailable for connector egress in this run. The GitHub create_blob path requires raw/base64 bytes and cannot ingest a local file path or the generated-file reference directly.",
+      "falseClaimsAvoided": [
+        "No repository path is claimed staged",
+        "No Git blob SHA is claimed",
+        "No independent ACCEPT is claimed",
+        "No canonical mapping was edited"
+      ],
+      "nextSafeAction": "Use an authorized byte-transfer path to download each recorded remoteSourceUrl, write the exact PNG to its intendedRepositoryPath on screenshot-match-preproduction, read back the Git blob/bytes, then mark READY_FOR_REVIEW and hand exact hashes to reviewer 05. Do not regenerate these four unless reviewer 05 later returns REWORK."
+    }
+  ]
 }
