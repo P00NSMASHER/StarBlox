@@ -13,6 +13,8 @@ on:
       - 'docs/preproduction/catalog-sprint/lane-07.json'
       - 'docs/preproduction/catalog-sprint/lane-09.json'
       - 'docs/preproduction/catalog-sprint/lane-11.json'
+      - 'docs/preproduction/catalog-sprint/lane-12.json'
+      - 'docs/preproduction/visuals/lane-13.json'
       - 'scripts/catalog-staged-art-qa.mjs'
       - '.github/workflows/catalog-staged-art-qa.yml'
   workflow_dispatch:
@@ -39,19 +41,6 @@ jobs:
           npm install --no-save --no-audit --no-fund playwright@1.55.0
           npx playwright install --with-deps chromium
 
-      - name: Start repository-root fixture server
-        run: |
-          nohup python3 -m http.server 4174 --bind 127.0.0.1 --directory . > /tmp/starblox-staged-art.log 2>&1 &
-          echo $! > /tmp/starblox-staged-art.pid
-          for i in $(seq 1 30); do
-            if curl -fsS http://127.0.0.1:4174/public/assets/catalog/wall-1.svg >/dev/null; then
-              exit 0
-            fi
-            sleep 0.5
-          done
-          cat /tmp/starblox-staged-art.log
-          exit 1
-
       - name: Render reviewer collections and every repository-staged replacement hash
         run: node scripts/catalog-staged-art-qa.mjs
 
@@ -68,6 +57,3 @@ jobs:
           if-no-files-found: error
           retention-days: 14
 
-      - name: Print fixture server log on failure
-        if: failure()
-        run: cat /tmp/starblox-staged-art.log || true
