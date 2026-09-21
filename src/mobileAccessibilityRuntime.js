@@ -23,14 +23,19 @@ export function revealStoreFocusTarget(target){
   if(!targetRect || !rowRect) return false;
 
   // Keyboard users must not land on a filter that is visually clipped inside
-  // the intentionally horizontal category/tier trays. Adjust only that tray's
-  // horizontal position; never move the page vertically or change selection.
+  // the intentionally horizontal category/tier trays. Use the intersection of
+  // the tray and the viewport because a wide scroll container can itself extend
+  // past a 320px viewport. Adjust only horizontal tray position; never move the
+  // page vertically or change selection/state.
   const edgePadding = 8;
+  const viewportWidth = Number(globalThis?.innerWidth) || rowRect.right;
+  const visibleLeft = Math.max(rowRect.left,0) + edgePadding;
+  const visibleRight = Math.min(rowRect.right,viewportWidth) - edgePadding;
   let nextLeft = Number(row.scrollLeft || 0);
-  if(targetRect.left < rowRect.left + edgePadding){
-    nextLeft += targetRect.left - (rowRect.left + edgePadding);
-  }else if(targetRect.right > rowRect.right - edgePadding){
-    nextLeft += targetRect.right - (rowRect.right - edgePadding);
+  if(targetRect.left < visibleLeft){
+    nextLeft += targetRect.left - visibleLeft;
+  }else if(targetRect.right > visibleRight){
+    nextLeft += targetRect.right - visibleRight;
   }else{
     return true;
   }
@@ -203,7 +208,12 @@ function scheduleScan(){
 }
 
 function handleFocusIn(event){
-  revealStoreFocusTarget(event?.target);
+  const target = event?.target;
+  revealStoreFocusTarget(target);
+  // Chromium can finish its own focus scrolling after focusin dispatch. Recheck
+  // once in a microtask so the final visible position, not an intermediate one,
+  // satisfies the keyboard contract.
+  queueMicrotask(() => revealStoreFocusTarget(target));
 }
 
 if(typeof document !== 'undefined'){
