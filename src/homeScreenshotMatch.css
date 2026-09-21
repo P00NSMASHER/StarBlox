@@ -1,0 +1,292 @@
+/* Workstream 03 — Home screenshot-match composition. Loaded after base Home and shell chrome. */
+.homeHeroRuntime{
+  --home-panel:linear-gradient(180deg,rgba(21,95,203,.95) 0%,rgba(13,67,157,.95) 48%,rgba(8,42,112,.96) 100%);
+  --home-panel-deep:#051741;
+  --home-rim:#63d9f4;
+  --home-rim-strong:#d6f8ff;
+  --home-gold:#ffd84f;
+  --home-pink:#ff78b7;
+  --home-green:#35cc6a;
+  font-family:"Nunito Sans",Nunito,ui-rounded,"Trebuchet MS",system-ui,sans-serif;
+  min-height:100vh;
+  background:#f3afc4;
+}
+.homeHeroRuntime::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:-2;
+  pointer-events:none;
+  background:
+    radial-gradient(circle at 24% 27%,rgba(255,240,154,.95) 0 2px,transparent 3px),
+    radial-gradient(circle at 41% 34%,rgba(255,255,255,.9) 0 2px,transparent 3px),
+    radial-gradient(circle at 72% 24%,rgba(255,216,79,.9) 0 3px,transparent 4px),
+    radial-gradient(circle at 61% 52%,rgba(255,255,255,.76) 0 2px,transparent 3px),
+    linear-gradient(180deg,rgba(255,183,207,.08),rgba(120,74,171,.04) 55%,rgba(65,31,93,.12));
+}
+.homeHeroRuntime .homeIllustratedScene{
+  filter:saturate(1.18) contrast(1.04) brightness(1.04);
+  background-position:center center;
+}
+.homeHeroRuntime .homeSceneVignette{
+  background:
+    radial-gradient(circle at 53% 47%,transparent 0 34%,rgba(61,30,91,.08) 62%,rgba(5,23,65,.28) 100%),
+    linear-gradient(90deg,rgba(255,197,217,.1),transparent 26%,transparent 76%,rgba(61,34,102,.18));
+}
+.homeHeroRuntime .glassPanel{
+  background:var(--home-panel);
+  border:3px solid var(--home-rim);
+  border-radius:22px;
+  box-shadow:inset 0 2px 0 rgba(255,255,255,.3),inset 0 -2px 0 rgba(2,13,47,.3),0 7px 0 var(--home-panel-deep),0 16px 30px rgba(3,20,63,.34),0 0 15px rgba(99,217,244,.28);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+}
+.homeHeroRuntime .homePanelHeading>span{
+  color:#fff;
+  font-size:13px;
+  letter-spacing:.025em;
+  text-shadow:0 2px 0 #051741;
+}
+.homeHeroRuntime .homePanelHeading>b{
+  font-size:16px;
+  line-height:1.12;
+}
+.homeDailySafeNote{
+  margin-top:9px;
+  min-height:44px;
+  padding:8px 10px;
+  display:grid;
+  grid-template-columns:34px 1fr;
+  gap:8px;
+  align-items:center;
+  border-radius:14px;
+  border:2px solid rgba(255,192,221,.88);
+  background:linear-gradient(180deg,rgba(255,245,252,.98),rgba(255,226,242,.98));
+  color:#7a2c6b;
+  box-shadow:inset 0 2px 0 #fff,0 3px 0 rgba(99,52,105,.18);
+}
+.homeDailySafeNote>span{
+  font-size:27px;
+  color:var(--home-pink);
+  text-shadow:0 2px 0 #fff;
+}
+.homeDailySafeNote p{margin:0;display:grid;gap:1px}.homeDailySafeNote b{font-size:12px}.homeDailySafeNote small{font-size:10px;line-height:1.22;font-weight:800;color:#8d507e}
+.homeDreamBenefits{
+  list-style:none;
+  padding:0;
+  margin:8px 0 10px;
+  display:grid;
+  gap:6px;
+}
+.homeDreamBenefits li{
+  position:relative;
+  padding-left:22px;
+  color:#fff;
+  font-size:12px;
+  line-height:1.2;
+  font-weight:900;
+}
+.homeDreamBenefits li::before{
+  content:"★";
+  position:absolute;
+  left:0;
+  top:-1px;
+  color:var(--home-gold);
+  font-size:15px;
+  text-shadow:0 2px 0 #8a5509;
+}
+.homeWorldMessage{
+  position:absolute;
+  z-index:8;
+  display:grid;
+  grid-template-columns:58px 1fr;
+  gap:10px;
+  align-items:center;
+  padding:9px 12px;
+  color:#fff;
+}
+.homeWorldStar{
+  width:54px;
+  height:54px;
+  display:grid;
+  place-items:center;
+  color:#fff7b0;
+  font-size:44px;
+  line-height:1;
+  filter:drop-shadow(0 3px 0 #c77a12) drop-shadow(0 0 8px rgba(255,216,79,.65));
+}
+.homeWorldMessage p{margin:0;display:grid;gap:2px}.homeWorldMessage strong{font-size:18px;line-height:1.02;color:#fff8b7;text-shadow:0 2px 0 #071e57}.homeWorldMessage small{font-size:11px;line-height:1.2;font-weight:850;color:#e2f5ff}
+.homeBuddyRole{
+  order:-1;
+  color:#67417f;
+  font-size:10px;
+  font-weight:1000;
+  letter-spacing:.03em;
+  text-transform:uppercase;
+}
+
+@media (min-width:1280px){
+  .homeHeroRuntime{
+    height:100vh;
+    min-height:760px;
+    max-height:none;
+    overflow:hidden;
+  }
+  .homeRoomProgress{
+    top:84px;
+    left:36.93vw;
+    transform:none;
+    width:43.32vw;
+    max-width:690px;
+    min-width:0;
+    min-height:164px;
+    box-sizing:border-box;
+    padding:10px 12px 11px;
+  }
+  .homeRoomProgress .homePanelHeading{margin-bottom:7px}.homeRoomProgress .homePanelHeading>b{font-size:13px}
+  .homeTierStrip{gap:7px}.homeTierPreview{padding:5px;border-radius:13px}.tierPreviewArt{height:66px}.homeTierPreview b{font-size:11px}.homeTierPreview small{font-size:9px}.homeTierPreview .tierNumber{width:22px;height:22px;font-size:10px}
+  .homeTierMeter{height:8px;margin-top:6px}.homeTierNext{font-size:9px;margin-top:3px}
+
+  .homeHeroZone{
+    left:34.7vw;
+    top:248px;
+    width:32.8vw;
+    height:575px;
+  }
+  .homeAvatarMount{
+    left:52%;
+    bottom:32px;
+    width:350px;
+    height:540px;
+  }
+  .homeHeroAvatar{transform:scale(1.82);filter:drop-shadow(0 20px 16px rgba(9,31,81,.48))!important}
+  .homeHeroGlow{width:470px;height:190px;bottom:12px;background:radial-gradient(ellipse,rgba(255,246,180,.78),rgba(255,186,224,.28) 48%,transparent 72%)}
+  .homeBuddyScene{
+    right:auto;
+    left:-56px;
+    bottom:44px;
+    width:170px;
+  }
+  .homeBuddyScene img{width:142px;height:142px;border-radius:30px}
+  .homeBuddyBubble{
+    position:absolute;
+    right:102px;
+    bottom:118px;
+    min-width:165px;
+    width:165px;
+    margin:0;
+    padding:9px 11px;
+    text-align:left;
+    border-radius:16px;
+  }
+  .homeBuddyBubble::after{
+    content:"";
+    position:absolute;
+    right:-12px;
+    bottom:18px;
+    width:22px;
+    height:22px;
+    background:#fff;
+    border-right:3px solid #88d9ff;
+    border-bottom:3px solid #88d9ff;
+    transform:rotate(-45deg);
+  }
+  .homeBuddyBubble b{font-size:13px}.homeBuddyBubble small{font-size:10px}.homeMotivation{display:none}
+
+  .homeDreamGoal{
+    top:118px;
+    right:.85vw;
+    width:18.2vw;
+    max-width:257px;
+    min-width:230px;
+    height:560px;
+    box-sizing:border-box;
+    padding:13px 13px 15px;
+  }
+  .homeDreamGoal .homePanelHeading>span{font-size:17px;color:#fff8b7}.homeDreamGoal .homePanelHeading>b{font-size:18px;margin-top:2px}
+  .homeDreamArt{height:226px;margin:9px 0 8px;border-radius:15px}
+  .homeDreamGoal p{font-size:12px;line-height:1.28;margin:7px 0;color:#eaf7ff}
+  .homeDreamProgress{height:12px}.homeDreamNumbers b{font-size:13px}.homeDreamNumbers small{font-size:10px}
+  .homeCta{min-height:50px;font-size:16px;border-radius:15px;background:linear-gradient(180deg,#fff181 0%,#ffd044 45%,#f5a91b 100%);color:#17366b;text-shadow:0 1px 0 rgba(255,255,255,.7);box-shadow:inset 0 2px 0 #fff6bf,0 5px 0 #c77a12}
+
+  .homeDailyQuests{
+    left:.98vw;
+    bottom:23px;
+    width:29.1vw;
+    max-width:410px;
+    min-width:370px;
+    min-height:302px;
+    box-sizing:border-box;
+    padding:11px 12px 12px;
+  }
+  .homeDailyQuests .homePanelHeading{grid-template-columns:auto 1fr;align-items:end;gap:9px}.homeDailyQuests .homePanelHeading>span{font-size:18px}.homeDailyQuests .homePanelHeading>b{text-align:right;font-size:11px;color:#d6f8ff}
+  .homeDailyRows{gap:7px;margin-top:8px}.homeDailyRow{grid-template-columns:36px 1fr 56px;min-height:58px;padding:7px 8px;border-radius:13px;background:linear-gradient(180deg,#ffffffee,#edf7ffea);border:2px solid #8acded;color:#17366b;box-shadow:0 3px 0 rgba(5,23,65,.22)}
+  .dailyCheck{width:34px;height:34px;font-size:13px}.homeDailyRow b{font-size:12px;color:#17366b}.homeDailyRow small{font-size:10px;color:#667da4}.homeDailyRow button{min-height:38px;font-size:12px}
+
+  .homeCustomize{
+    left:31.4vw;
+    right:auto;
+    bottom:20px;
+    width:42.8vw;
+    max-width:603px;
+    min-width:535px;
+    min-height:214px;
+    box-sizing:border-box;
+    padding:10px 12px 11px;
+  }
+  .homeCustomize .homePanelHeading{grid-template-columns:auto 1fr;align-items:end;gap:10px}.homeCustomize .homePanelHeading>span{font-size:18px}.homeCustomize .homePanelHeading>b{text-align:right;font-size:11px;color:#d6f8ff}
+  .homeCustomizeTabs{gap:6px;margin:8px 0 7px}.homeCustomizeTabs button{min-height:44px;padding:7px 12px;border-radius:12px;font-size:11px;background:linear-gradient(180deg,#eaf7ff,#cfe9ff);color:#17366b;border-color:#8ed5ff;box-shadow:0 3px 0 rgba(5,23,65,.2)}.homeCustomizeTabs button.active{background:linear-gradient(180deg,#2c94ff,#0e5fcc 58%,#0949a5);border-color:#fff;color:#fff;box-shadow:0 3px 0 #051741,0 0 12px rgba(99,217,244,.46)}
+  .homeCustomizeTrack{gap:8px}.homeCustomizeItem{min-width:96px;width:96px;background:linear-gradient(180deg,#f8fdff,#e8f4ff);color:#17366b;border-color:#9cdcff}.homeCustomizeArt{height:62px}.homeCustomizeItem>span:nth-child(2){font-size:10px}.homeCustomizeItem small{font-size:9px;color:#667da4}.homeCustomizeStatus{font-size:9px;color:#d6f8ff}
+
+  .homeLearning{
+    right:.85vw;
+    bottom:127px;
+    width:23.7vw;
+    max-width:334px;
+    min-width:300px;
+    min-height:156px;
+    box-sizing:border-box;
+    padding:10px 11px;
+  }
+  .homeLearning .homePanelHeading{grid-template-columns:1fr}.homeLearning .homePanelHeading>span{font-size:17px}.homeLearning .homePanelHeading>b{font-size:11px;color:#d6f8ff}
+  .homeLearningRows{grid-template-columns:repeat(3,1fr);gap:5px;margin-top:7px}.homeLearningRows>div{grid-template-columns:1fr;padding:6px;text-align:center;background:linear-gradient(180deg,#f8fdff,#eaf5ff);color:#17366b;border:2px solid #8fd7ff}.homeLearningRows>div>span{margin:auto;width:31px;height:31px;font-size:11px}.homeLearningRows p{gap:1px}.homeLearningRows b{font-size:9px;color:#17366b}.homeLearningRows small{display:none}.homeSecondary{display:none}
+  .homeWorldMessage{
+    right:.85vw;
+    bottom:23px;
+    width:23.7vw;
+    max-width:334px;
+    min-width:300px;
+    height:89px;
+    box-sizing:border-box;
+  }
+  .homeEarnedObjects{display:none}
+}
+
+@media (min-width:1024px) and (max-width:1279px){
+  .homeHeroRuntime{min-height:100vh}.homeWorldMessage{right:14px;bottom:14px;width:280px}.homeDreamBenefits li{font-size:11px}.homeDailySafeNote small{font-size:9px}
+}
+
+@media (max-width:1050px){
+  .homeWorldMessage{
+    position:relative;
+    inset:auto;
+    transform:none;
+    width:auto;
+    max-width:none;
+    min-width:0;
+    height:auto;
+    grid-column:1/-1;
+    order:8;
+  }
+  .homeDailySafeNote{min-height:48px}.homeDreamBenefits li{font-size:12px}
+}
+
+@media (max-width:700px){
+  .homeHeroRuntime .glassPanel{border-width:2px;border-radius:18px;box-shadow:inset 0 2px 0 rgba(255,255,255,.28),0 4px 0 #051741,0 10px 22px rgba(3,20,63,.28)}
+  .homeWorldMessage{width:100%;flex:none;grid-template-columns:48px 1fr}.homeWorldStar{width:46px;height:46px;font-size:36px}.homeWorldMessage strong{font-size:17px}.homeWorldMessage small{font-size:12px}
+  .homePanelHeading>span{font-size:15px!important}.homePanelHeading>b{font-size:14px!important}.homeDailyRow b{font-size:13px}.homeDailyRow small{font-size:11px}.homeDreamGoal p,.homeDreamBenefits li{font-size:13px}.homeDailySafeNote b{font-size:13px}.homeDailySafeNote small{font-size:11px}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .homeHeroRuntime *, .homeHeroRuntime *::before, .homeHeroRuntime *::after{scroll-behavior:auto!important;transition-duration:.001ms!important;animation-duration:.001ms!important;animation-iteration-count:1!important}
+}
