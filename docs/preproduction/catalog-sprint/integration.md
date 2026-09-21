@@ -1,8 +1,10 @@
 # Workstream 08 catalog integration
 
-Status: **10 NEW EXACT-HASH ACCEPTS CANONICALLY PREPARED; TEST/BUILD/STORE SMOKE PENDING**
+Status: **10 NEW EXACT-HASH ACCEPTS CANONICALLY WIRED; SCOPED TEST/BUILD/STORE SMOKE PASS**
 
+Canonical commit: `56245a88f5b680fae2c2d53fdf9c803dd6c809a2`  
 Source head before canonical write: `4d12f8bd531aa0bcf55935385126dcb4115914c6`  
+Concurrent producer checkpoint safely rebased before publication: `092011946baa285ec71de3e613e07978e842452a` (Desk 5–6 art/evidence only; no conflicting canonical input)  
 Reviewer shard: `docs/preproduction/catalog-sprint/reviews/02.json` @ `ad4d8c9892a5e4c9c2a33553d5ab50f89b03b036`  
 Branch: `screenshot-match-preproduction` only. Replit/Floot/main/player data untouched.
 
@@ -21,7 +23,7 @@ Branch: `screenshot-match-preproduction` only. Replit/Floot/main/player data unt
 | seating-9 | Art Stool | T3 · Berry Blast | `/assets/catalog/seating-9-w06-v2.png` | `7fcdea13121a8820dd8dc64e8982637acb2c5819` | PNG 768×768 |
 | seating-10 | Pod Chair | T4 · Garden Glow | `/assets/catalog/seating-10-w06-v2.png` | `9aa53664cbc8ee24283ea44830f1f3037c576340` | PNG 768×768 |
 
-Reviewer 02 is independent from producers 04/06. Each accepted file was re-read from the repository, its Git blob was matched to the review decision and producer handoff, metadata was checked against the actual Store model, raster decode succeeded, and canonical path/content uniqueness was recomputed. Historical REWORK hashes do not block these replacement hashes.
+Reviewer 02 is independent from producers 04/06. Each accepted file was re-read from repository bytes, its Git blob was matched to the exact review decision and producer handoff, metadata was checked against the authoritative Store model, raster decode succeeded, and canonical path/content uniqueness was recomputed. Historical REWORK hashes do not block these replacement hashes.
 
 ## Accounting
 
@@ -30,13 +32,16 @@ Reviewer 02 is independent from producers 04/06. Each accepted file was re-read 
 - Strict accepted/wired remaining: **165**.
 - Interim-not-verified manifest entries: **16**.
 - Canonical manifest/runtime mappings: **130**.
+- Canonical manifest version: **16**.
+- Canonical manifest blob: `b93b1a0501370997aa658e49a36600150ccf5d71`.
+- Canonical runtime blob: `48da673bc54df5bcea308509d496a9c77a5ab71b`.
 - Canonical duplicate paths: **0**; canonical duplicate content hashes: **0**.
 - Catalog release-cleared IDs: **0** until reviewer 14 completes the independent release gate.
 
-## Verification and handoff
-
-Full catalog tests, production build and strict Store/mobile smoke execute before publication by the Workstream-08 integration job. The earlier beds-1 metadata defect is already fixed in the current canonical manifest (Garden Glow) and remains protected by the strict catalog metadata test. After a green canonical commit, reviewer 14 should run the fresh Home/Store/Quest reference comparison against the committed originals; Workstream 08 does not self-approve reference parity.
-
 ## Executed validation
 
-**PASS:** full npm regression, Vite production build, and strict catalog Store/mobile QA all succeeded against the coherent prepared canonical files before commit. Fresh original-reference comparison remains independently owned by 14 and is not claimed here.
+Workstream-08 integration run `35669414785`, job `106562287824`, completed successfully. Exact-hash validation, full npm regression, Vite production build, and strict catalog Store/mobile QA all passed against the coherent prepared canonical files before commit. The canonical files were then rebased safely over the unrelated Desk 5–6 producer checkpoint and pushed without force. The canonical manifest/runtime digests above are unchanged from the validated candidate.
+
+The earlier `beds-1` metadata defect remains fixed: canonical theme is `Garden Glow`, matching the authoritative Store model, and the strict catalog metadata test passed in this integration run.
+
+Fresh Home/Store/Quest comparison against the committed original reference pixels remains independently owned by reviewer 14. Workstream 08 does not claim reference parity or catalog release clearance.
