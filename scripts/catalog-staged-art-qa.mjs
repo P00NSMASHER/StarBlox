@@ -1,3 +1,4 @@
+// Shared staged-art renderer: always emits a hash-bound report, including partial decode failures.
 import { chromium } from 'playwright';
 import fs from 'node:fs';
 import path from 'node:path';
