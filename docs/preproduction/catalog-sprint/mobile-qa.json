@@ -1,16 +1,29 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "workstream": "10",
   "phase": "CATALOG_SPRINT",
-  "status": "PASS_BROWSER_EMULATION_EXTENDED",
+  "status": "PASS_BROWSER_EMULATION_EXTENDED_CANONICAL_UNCHANGED",
   "catalogGateApproved": false,
   "auditedRuntimeHead": "81bbf06dc070b0f72f942dde9c14ac4bba476922",
-  "observedDescendantHead": "354590ca34c9f4265c99fdcc336e19be6a667b2a",
+  "observedDescendantHead": "b8d8dc1bdea4c1790c445fd210cbf1023a8f5f4e",
   "continuity": {
-    "status": "PASS_FOR_WORKSTREAM_10_SCOPE",
-    "comparison": "81bbf06dc070b0f72f942dde9c14ac4bba476922..354590ca34c9f4265c99fdcc336e19be6a667b2a",
-    "changedFiles": ["docs/preproduction/catalog-sprint/persistence-qa.json"],
-    "note": "The only descendant change observed before this report was persistence-QA documentation. No Store, catalog manifest/runtime, catalog asset, Workstream-10 runtime/CSS or QA-harness file changed, so the exact-head browser evidence remains applicable to current Workstream-10 scope until a later relevant change occurs."
+    "status": "PASS_FOR_CURRENT_CANONICAL_STORE_SCOPE",
+    "comparison": "81bbf06dc070b0f72f942dde9c14ac4bba476922..b8d8dc1bdea4c1790c445fd210cbf1023a8f5f4e",
+    "relevantCanonicalChanges": [],
+    "stagedOnlyChanges": [
+      "public/assets/catalog/tops-1-w07-v2.jpg",
+      "public/assets/catalog/tops-2-w07-v2.jpg",
+      "public/assets/catalog/tops-3-w07-v2.jpg",
+      "public/assets/catalog/tops-4-w07-v2.jpg",
+      "public/assets/catalog/tops-5-w07-v2.jpg",
+      "public/assets/catalog/tops-6-w07-v2.jpg",
+      ".github/workflows/catalog-staged-art-qa.yml"
+    ],
+    "otherChangedAreas": [
+      "catalog sprint coordination/review/integration documentation",
+      "persistence QA documentation"
+    ],
+    "note": "Git compare found no catalog-art-manifest.json, src/catalogArtRuntime.js, Store runtime/style, Workstream-10 runtime/CSS, or catalog-mobile QA harness change after the audited browser head. Six replacement Tops JPEGs were branch-staged but are not canonical Store mappings, so they are explicitly outside the canonical PASS and do not justify rerunning the unchanged 16-collection Store matrix. Workstream 14 owns staged candidate pixel fixtures; Workstream 10 will retest the affected collection plus a stable control after Workstream 08 canonical integration."
   },
   "evidence": {
     "workflowRunId": 35652513733,
@@ -34,7 +47,7 @@
     "catalogTarget": 192,
     "recordedFinalPortable": 99,
     "recordedRemaining": 93,
-    "note": "This PASS applies to the canonical Store mappings at the audited hash. Staged or replacement art that Workstream 08 has not canonically integrated is not covered and must be checked after integration."
+    "note": "This PASS applies to the canonical Store mappings at the audited hashes. The newly staged Tops 1-6 replacement JPEGs and all other staged/replacement art remain outside this evidence until Workstream 08 integrates accepted hashes."
   },
   "scope": {
     "browser": "Playwright 1.55 Chromium headless on GitHub Actions ubuntu-24.04",
@@ -81,13 +94,28 @@
     ],
     "contrast": {
       "status": "NOT_TESTED",
-      "reason": "The sampled catalog text sits over gradients/images/translucent layers rather than an unambiguous opaque solid CSS background, so the automated solid-background calculation intentionally did not fabricate a contrast ratio. Exact contrast remains for screenshot/device-aware tooling."
+      "reason": "The sampled catalog text sits over gradients/images/translucent layers rather than an unambiguous opaque solid CSS background, so the existing automated solid-background calculation intentionally did not fabricate a contrast ratio. Screenshot/device-aware contrast remains a human/tool-assisted final check and is escalated to Workstream 15 after repeated unchanged cycles; it does not invalidate unrelated canonical Store browser checks."
     },
     "screenshotsAndArtifacts": {
       "artifactId": 10662478311,
       "fileCount": 36,
-      "coverage": "All 16 canonical collections have retained desktop-1408x1056 and phone-390x844 screenshots; the artifact also contains the machine-readable report/summary and additional control evidence. Tablet and 320px behavior were measured by the same strict browser gate."
+      "coverage": "All 16 canonical collections have retained desktop-1408x1056 and phone-390x844 screenshots; tablet and 320px behavior were measured by the same strict browser gate."
     }
+  },
+  "stagedFixtureObservation": {
+    "status": "EXCLUDED_FROM_CANONICAL_PASS",
+    "newBranchStoredIds": ["tops-1","tops-2","tops-3","tops-4","tops-5","tops-6"],
+    "paths": [
+      "/assets/catalog/tops-1-w07-v2.jpg",
+      "/assets/catalog/tops-2-w07-v2.jpg",
+      "/assets/catalog/tops-3-w07-v2.jpg",
+      "/assets/catalog/tops-4-w07-v2.jpg",
+      "/assets/catalog/tops-5-w07-v2.jpg",
+      "/assets/catalog/tops-6-w07-v2.jpg"
+    ],
+    "owner": "07",
+    "renderFixtureOwner": "14",
+    "mobileQaAction": "No canonical Store rerun until Workstream 08 wires an independently accepted replacement hash. After that integration, test Tops plus one unchanged control across desktop/tablet/390/320 before any full milestone sweep."
   },
   "fixHistory": [
     {"head":"fd7c1f0ff582141ba83844cbec5932eafd3b0473","releaseBlockingCount":52,"finding":"36 explicit image-dimension failures plus 16 desktop card readability failures."},
@@ -101,10 +129,10 @@
     "PASS covers the current canonical Store runtime/manifest at the audited hashes, not staged or replacement art that is not yet canonical.",
     "Physical iPhone/iPad/Android performance is NOT TESTED; frame and scroll measurements are headless Chromium emulation.",
     "VoiceOver/TalkBack/NVDA are NOT TESTED; browser semantics, focusability, labels, keyboard activation and focus reachability were verified.",
-    "Exact rendered color contrast is NOT TESTED because the automated solid-background sampler could not derive valid ratios through gradient/image/translucent backgrounds; screenshot/device-aware contrast tooling is still required.",
+    "Exact rendered color contrast is NOT TESTED because the automated solid-background sampler could not derive valid ratios through gradient/image/translucent backgrounds; a screenshot/device-aware final check has been handed to 15.",
     "Lighting, wall, rugs and decor had no canonical image-backed cards at this manifest version; seating and desks each had only their currently canonical first image. Their staged art is outside this PASS until Workstream 08 integrates it.",
     "The catalog gate remains unapproved because independent visual acceptance and canonical integration of pending art are separate requirements."
   ],
-  "nextAction": "Rerun the changed-collections plus stable-control gate immediately after the next Workstream-08 canonical art integration; reserve another full 16-collection sweep for a coherent catalog milestone or final gate.",
+  "nextAction": "Wait for a Workstream-08 canonical art integration. Immediately run changed collection(s) plus one stable control at desktop/tablet/390/320; reserve another full 16-collection sweep for a coherent catalog milestone or final gate. Do not rerun the unchanged canonical matrix merely because new staged-but-unwired files appeared.",
   "freeze": {"replitTouched":false,"flootTouched":false,"mainMergedOrModified":false}
 }
