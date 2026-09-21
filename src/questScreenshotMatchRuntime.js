@@ -92,8 +92,9 @@ function decorateQuestion(board){
     if(!answers.querySelector('.questAnswerHeading')){
       const heading = document.createElement('div');
       heading.className = 'questAnswerHeading';
+      heading.style.order = '-1';
       heading.innerHTML = '<b>CHOOSE THE BEST ANSWER</b><small>Tap one answer. Your choice checks right away.</small>';
-      answers.prepend(heading);
+      answers.appendChild(heading);
     }
 
     [...answers.querySelectorAll('.answerButton')].forEach((button,index) => {
