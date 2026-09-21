@@ -215,17 +215,17 @@
     "owner": "14 shared fixture; 03 desk candidates"
   },
   "isolatedVerification": {
-    "workflowRunId": 35665938359,
-    "testedSourceHead": "5b2dec716e3c6ba80620a7c847d986a853080a17",
+    "workflowRunId": 35669181049,
+    "testedSourceHead": "bf1784e58586d98018879f7462c4f603e0ad0468",
     "tests": "PASS",
     "build": "PASS",
     "render": "PASS",
     "scope": "Only the exact four recovered Lighting images; not a whole-catalog or canonical Store acceptance",
     "artifactName": "lighting-5-8-isolated-render-evidence",
     "proof": {
-      "sourceHead": "5b2dec716e3c6ba80620a7c847d986a853080a17",
-      "workflowRunId": "35665938359",
-      "scope": "Only recovered Lighting 5\u20138; not canonical Store, other candidates, or visual acceptance",
+      "sourceHead": "bf1784e58586d98018879f7462c4f603e0ad0468",
+      "workflowRunId": "35669181049",
+      "scope": "Only recovered lighting-5-8; not canonical Store, other candidates, or visual acceptance",
       "status": "PASS_4_OF_4_ISOLATED_RENDER",
       "items": [
         {
