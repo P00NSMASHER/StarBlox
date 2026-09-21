@@ -156,7 +156,7 @@
     "candidateDecode": "PASS_4_OF_4_PNG_768",
     "uniqueCandidateContent": "PASS_4_OF_4",
     "exactRepositoryReadback": "PASS_8_OF_8",
-    "isolatedBrowserRender": "PENDING",
+    "isolatedBrowserRender": "PASS_4_OF_4",
     "independentVisualReview": "PENDING_02",
     "canonicalIntegration": "NOT_PERFORMED"
   },
@@ -166,5 +166,59 @@
     "mainTouched": false,
     "canonicalMappingsTouched": false,
     "playerDataTouched": false
+  },
+  "renderEvidence": {
+    "reportPath": "artifacts/lane06-seating-7-10/report.json",
+    "contactSheet": "artifacts/lane06-seating-7-10/seating-7-10-card-contact-sheet.png",
+    "items": [
+      {
+        "id": "seating-7",
+        "candidateGitBlobSha": "91457eddbb3ae915867d717eec72632ea6a183be",
+        "repositoryPath": "public/assets/catalog/seating-7-w06-v2.png",
+        "naturalDimensions": [
+          768,
+          768
+        ],
+        "screenshotPath": "artifacts/lane06-seating-7-10/detail/seating-7-91457edd.png",
+        "screenshotSha256": "e8ebfa1aa420ee7f50ba67816f2b1adcaed1a7f727ee813888a5b357b362c5ae",
+        "errors": []
+      },
+      {
+        "id": "seating-8",
+        "candidateGitBlobSha": "23c02ab51249ab373aab264a17778a090d023eb4",
+        "repositoryPath": "public/assets/catalog/seating-8-w06-v2.png",
+        "naturalDimensions": [
+          768,
+          768
+        ],
+        "screenshotPath": "artifacts/lane06-seating-7-10/detail/seating-8-23c02ab5.png",
+        "screenshotSha256": "84efc31030e7785eeb9da81e60cc986c40b7eb07ea81a64f245005650073848a",
+        "errors": []
+      },
+      {
+        "id": "seating-9",
+        "candidateGitBlobSha": "7fcdea13121a8820dd8dc64e8982637acb2c5819",
+        "repositoryPath": "public/assets/catalog/seating-9-w06-v2.png",
+        "naturalDimensions": [
+          768,
+          768
+        ],
+        "screenshotPath": "artifacts/lane06-seating-7-10/detail/seating-9-7fcdea13.png",
+        "screenshotSha256": "34a6974c3b798236c9a429b0748178f7f4fa4b49aecdef361ac6c77f890a90ee",
+        "errors": []
+      },
+      {
+        "id": "seating-10",
+        "candidateGitBlobSha": "9aa53664cbc8ee24283ea44830f1f3037c576340",
+        "repositoryPath": "public/assets/catalog/seating-10-w06-v2.png",
+        "naturalDimensions": [
+          768,
+          768
+        ],
+        "screenshotPath": "artifacts/lane06-seating-7-10/detail/seating-10-9aa53664.png",
+        "screenshotSha256": "ce5397be1d08cb78d2a67692dd963fae995e4cd69f045ccf2a561363ccfbd044",
+        "errors": []
+      }
+    ]
   }
 }
