@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 3,
+  "schemaVersion": 4,
   "lane": "03",
   "workstream": "03",
   "phase": "CATALOG_SPRINT",
@@ -7,7 +7,7 @@
   "sourceHeadReadBeforeRecovery": "631a5eb6fbaa0a3edfef6c40c8fe15d7cdc4b585",
   "assetStageBaseHead": "b88f688cc4575bef1e1ec676e4a510a6267a9ed5",
   "assetStageCommit": "264ca2d54e0cb09495d716512a9c6ad28bf0784f",
-  "sourceHeadRevalidatedBeforeHandoff": "4402614a4d966cf301fa1e2a6d9648573fb5dddd",
+  "sourceHeadRevalidatedBeforeHandoff": "5b2dec716e3c6ba80620a7c847d986a853080a17",
   "assignment": [
     "desks-2",
     "desks-3",
@@ -21,7 +21,7 @@
     "desks-11",
     "desks-12"
   ],
-  "status": "DESKS_2_TO_4_READY_FOR_REVIEW_DESKS_5_TO_6_GENERATED_REMOTE_TRANSFER_PENDING",
+  "status": "DESKS_2_TO_4_READY_FOR_REVIEW_CURRENT_RENDER_PENDING_DESKS_5_TO_6_EXACT_ADOBE_RECOVERY_LINKS_RESOLVED_ESCALATED_TO_15",
   "selfApproved": false,
   "reviewOwner": "05",
   "integrationOwner": "08",
@@ -168,6 +168,10 @@
       "requestedDimensions": [1024, 1024],
       "qaRenditionOutputUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:cd72d5c6-47f0-439e-99af-e0f3a2a47052",
       "qaRenditionDimensions": [512, 512],
+      "adobeRecoveryRenditionUrl": "https://at.adobe.com/erUtDmd1Tm6AK332",
+      "adobeRecoveryDownloadUrl": "https://at.adobe.com/nNW24oiGxUt4gYTk",
+      "candidateRepositoryPath": "public/assets/catalog/desks-5-w03-recovered-v2.jpg",
+      "sourceRepositoryPath": "docs/preproduction/catalog-sprint/recovered-originals/desks-5-6-20260921/desks-5-8962802a-f953-4cfe-bc19-c56fc7afcc74.ffgenimg",
       "feature": "warm-wood book-and-garden study desk with asymmetric built-in shelf, integrated leafy planter trough, articulated reading lamp, books, pencil cup and rounded drawer pedestal",
       "producerRenderCheck": "PASS_REMOTE_PIXELS — full desk is centered, dimensional and card-readable; coherent three-quarter construction/material lighting; no person, pet, UI, text, logo, clipping or malformed geometry observed",
       "repositoryStatus": "GENERATED_REMOTE_NOT_STAGED",
@@ -188,30 +192,50 @@
       "requestedDimensions": [1024, 1024],
       "qaRenditionOutputUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:e1dc3b27-aa79-4163-930b-be3e4977393e",
       "qaRenditionDimensions": [512, 512],
+      "adobeRecoveryRenditionUrl": "https://at.adobe.com/cNu2n27bdRVX6IdN",
+      "adobeRecoveryDownloadUrl": "https://at.adobe.com/s1UsqTcWV9olEyMH",
+      "candidateRepositoryPath": "public/assets/catalog/desks-6-w03-recovered-v2.jpg",
+      "sourceRepositoryPath": "docs/preproduction/catalog-sprint/recovered-originals/desks-5-6-20260921/desks-6-bc5a80a0-b94a-4564-8360-9d521a05dde0.ffgenimg",
       "feature": "indigo gaming desk with curved top, galaxy monitor, speaker pair, keyboard/controller setup, planet-orb lamp, drawer pedestal and berry-magenta material accents",
       "producerRenderCheck": "PASS_REMOTE_PIXELS — distinct gamer silhouette and functional tech setup remain visible at card scale; dimensional materials and controlled lighting; no person, pet, UI, text overlay, brand mark, clipping or malformed desk geometry observed",
       "repositoryStatus": "GENERATED_REMOTE_NOT_STAGED",
       "reviewStatus": "NOT_READY_FOR_REVIEW"
     }
   ],
+  "changedDependencies": {
+    "reviewer05": "Current desks-2-v1/desks-3-v1/desks-4-v1 hashes are PENDING_SHARED_RENDER. Reviewer 05 explicitly rejected transfer of the stale blank-render finding from obsolete -w03-v1 hashes and requested Workstream 14 render the current lane-03 paths before disposition.",
+    "reviewer05CurrentDeskHashes": {
+      "desks-2": "357f4ba8385e737499f12409c0bea141f9bc5e6a",
+      "desks-3": "b3352961988d7e9c5ff48d1559fc4d2296d4eab3",
+      "desks-4": "711feeb78e6d08351fc2fd2d3176ddb1a288e8f2"
+    },
+    "workstream14": "Shared fixture defect remains open: it rendered obsolete desk candidate paths. No current desks-2..4 review decision exists yet."
+  },
+  "transportRecoveryAttempt": {
+    "cycle": 2,
+    "result": "EXACT_ADOBE_SOURCE_AND_RENDITION_LINKS_RESOLVED_BUT_BRANCH_BYTE_TRANSFER_REQUIRES_CENTRAL_HELPER",
+    "details": "Adobe asset resolution now provides at.adobe.com download and rendition URLs for the exact preserved Firefly generations, matching the successful Lighting recovery transport pattern. Workstream 03 remains restricted to owned asset paths and lane files and does not own shared recovery workflow/scripts. The blocker is therefore escalated to 15 rather than generating more unstaged desks or editing shared workflow infrastructure.",
+    "escalatedTo15": true,
+    "requestedHelperAction": "Use the proven immutable Adobe URL recovery pattern once for desks-5 and desks-6: validate current Store metadata, fetch only these exact at.adobe.com source/rendition URLs, store versioned candidate/source bytes, verify decode/dimensions/sha256/Git blob/readback and non-duplicate content, then publish a normal non-force latest-head commit. Return exact stored hashes to lane 03; reviewer 05 then reviews them and 08 alone integrates accepted hashes."
+  },
   "checks": {
     "assignmentRevalidatedBeforeWrite": "PASS",
     "exactGameModelMetadata": "PASS_DESKS_2_TO_6",
     "preservePendingStagedAssets": "PASS_DESKS_2_TO_4_NOT_REGENERATED",
-    "newFullQualityGeneration": "PASS_2_OF_2_DESKS_5_TO_6",
-    "newCardScaleVisualCheck": "PASS_2_OF_2_512_RENDITIONS",
+    "newFullQualityGeneration": "PASS_2_OF_2_DESKS_5_TO_6_PREVIOUS_CYCLE_PRESERVED",
+    "newCardScaleVisualCheck": "PASS_2_OF_2_CURRENT_ADOBE_RENDITIONS_REINSPECTED",
     "repositoryBinaryUploadExisting": "PASS_3_OF_3_DESKS_2_TO_4",
     "repositoryReadbackHashExisting": "PASS_3_OF_3_DESKS_2_TO_4",
-    "repositoryBinaryUploadNew": "NOT_RUN_BINARY_PAYLOAD_NOT_EXPOSED_TO_GITHUB_WRITER_IN_THIS_WORKER",
-    "independentVisualReview": "PENDING_REVIEWER_05_FOR_STAGED_DESKS_2_TO_4",
+    "repositoryBinaryUploadNew": "BLOCKED_THIS_LANE_SHARED_TRANSPORT_HELPER_REQUIRED_EXACT_ADOBE_URLS_NOW_RESOLVED",
+    "independentVisualReview": "PENDING_REVIEWER_05_AFTER_WORKSTREAM_14_CURRENT_HASH_RENDER",
     "canonicalIntegration": "NOT_RUN_OWNER_08"
   },
   "blocker": {
-    "code": "DESKS_5_6_REMOTE_BINARY_TRANSFER_PENDING",
-    "detail": "Adobe Firefly generation and producer pixel inspection succeeded, but this Workstream-03 tool surface exposes the GenAI asset/preview URLs without a raw-byte handoff to the GitHub create_blob action. Project-level binary transfer is known to exist from prior coordinator evidence, so the exact generation asset IDs and output URLs are preserved for a one-time central blob transfer. No fake repository path/hash/byte count is claimed.",
-    "ownerHandoff": "15 preserves exact Firefly bytes as immutable Git blobs if centrally available; 03 attaches those blobs to versioned desk paths on the latest head and performs exact readback before review."
+    "code": "DESKS_5_6_REMOTE_BINARY_TRANSFER_ESCALATED_CYCLE_2",
+    "detail": "The exact Firefly assets are preserved and now have connector-resolved at.adobe.com source and rendition links suitable for the same recovery technique already proven on Lighting 5–8. Workstream 03 does not own shared recovery workflow/script paths, so it will not create another framework or edit those shared files. This is the second consecutive cycle of the byte-transfer blocker and is escalated to 15 with exact URLs and destinations instead of repeated generation.",
+    "ownerHandoff": "15 or its authorized transport helper performs the one-time immutable byte recovery; 03 only accepts returned exact hashes and updates owned lane files/asset versions."
   },
-  "nextAction": "Do not regenerate desks-5 or desks-6. First reconcile the one-time binary transfer of the exact Firefly assets above into Git, then attach/read back versioned desk paths and hand the exact hashes to reviewer 05. Once branch staging is proven, continue the next 2-4 item micro-batch with desks-7 onward. Reviewer 05 should meanwhile review the already-staged desks-2..4 exact hashes; Workstream 08 integrates only ACCEPTed staged hashes.",
+  "nextAction": "Do not generate desks-7..12 yet. First: 14 renders current desks-2-v1/desks-3-v1/desks-4-v1 hashes for reviewer 05. In parallel, 15/authorized transport helper stages the exact desks-5/desks-6 Adobe bytes using the resolved at.adobe.com links above. After either review produces a concrete REWORK, repair that defect before more production; after desks-5/6 are staged and the pilot receives independent review, continue the next 2–4 item batch with desks-7 onward. 08 integrates only exact-hash ACCEPTed staged assets.",
   "freeze": {
     "replitTouched": false,
     "flootTouched": false,
