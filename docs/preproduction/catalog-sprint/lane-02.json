@@ -1,0 +1,108 @@
+{
+  "schemaVersion": 1,
+  "workstream": "02",
+  "phase": "CATALOG_SPRINT",
+  "sourceHead": "d688f9dcc2836ef04e0e99279d55b5c2e84ce3a6",
+  "status": "BEDS_1_4_GENERATED_REMOTE_UPLOAD_PENDING",
+  "reviewPartition": {
+    "collections": ["shoes", "backgear", "handgear", "seating"],
+    "legacyCoverage": "48_OF_48_REVIEWED",
+    "freshReplacementCheck": "NO_REPOSITORY_STAGED_SEATING_OR_SHOE_REPLACEMENT_HASH_READY_THIS_RUN",
+    "note": "Remote/generated-only shoe repairs are not reviewable until repository-staged and rendered. No source inspection was called a visual PASS."
+  },
+  "productionAssignment": {
+    "collection": "beds",
+    "ids": ["beds-1", "beds-2", "beds-3", "beds-4", "beds-5", "beds-6", "beds-7", "beds-8", "beds-9", "beds-10", "beds-11", "beds-12"],
+    "independentReviewer": "05",
+    "canonicalIntegrator": "08"
+  },
+  "batch": {
+    "batchId": "w02-beds-20260921-b01",
+    "ids": ["beds-1", "beds-2", "beds-3", "beds-4"],
+    "producer": "02",
+    "status": "GENERATED_REMOTE_UPLOAD_PENDING",
+    "canonical": false,
+    "readyForIndependentReview": false,
+    "candidates": [
+      {
+        "itemId": "beds-1",
+        "name": "Starter Bed",
+        "tier": 1,
+        "theme": "Garden Glow",
+        "legacyPath": "/assets/catalog/beds-1.svg",
+        "legacyGitBlobSha": "3d2d8f7bb4503e940dd5d85878f3962b3f7fdf13",
+        "generationProvider": "Adobe Firefly image_generate",
+        "generationRequestId": "61a7e9bf-8119-46eb-92c7-2ad9fc7e65fd",
+        "remoteSourceUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:989fea66-597a-40bb-8735-fcc6f03b73c4",
+        "requestedDimensions": [1024, 1024],
+        "format": "PNG",
+        "producerPixelCheck": "PASS",
+        "producerFinding": "Actual pixels show a clear three-quarter bed with visible mattress/frame depth, soft mint-and-cream textiles, painted wood volume, sprout identity and contact shadow; materially addresses the legacy flat-icon defect while keeping Tier 1 simple.",
+        "intendedRepositoryPath": "/assets/catalog-candidates/w02-beds-20260921-b01/beds-1-w02-v1.png"
+      },
+      {
+        "itemId": "beds-2",
+        "name": "Cloud Bed",
+        "tier": 1,
+        "theme": "Galaxy Glow",
+        "legacyPath": "/assets/catalog/beds-2.svg",
+        "legacyGitBlobSha": "17e8a9e7b9ebc8d9ace7ca5439ae3feca981893f",
+        "generationProvider": "Adobe Firefly image_generate",
+        "generationRequestId": "c724894d-4bae-4170-95e0-79a2d81dbe80",
+        "remoteSourceUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:826e8113-6a7f-43ca-b74f-f1f9145a0963",
+        "requestedDimensions": [1024, 1024],
+        "format": "PNG",
+        "producerPixelCheck": "PASS",
+        "producerFinding": "Actual pixels show plush cloud volume, unmistakable bed geometry, mattress depth, soft upholstery and restrained galaxy-lit bedding in a three-quarter collectible presentation; no text/UI/persons are present.",
+        "intendedRepositoryPath": "/assets/catalog-candidates/w02-beds-20260921-b01/beds-2-w02-v1.png"
+      },
+      {
+        "itemId": "beds-3",
+        "name": "Pixel Bunk",
+        "tier": 1,
+        "theme": "Sunny Pop",
+        "legacyPath": "/assets/catalog/beds-3.svg",
+        "legacyGitBlobSha": "6241049fede55ed533811d1cf90569313c8eb2f6",
+        "generationProvider": "Adobe Firefly image_generate",
+        "generationRequestId": "0c32bf55-8039-4db5-80a4-84725b710558",
+        "remoteSourceUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:cf13eedf-8473-451e-a391-7ba1548df800",
+        "requestedDimensions": [1024, 1024],
+        "format": "PNG",
+        "producerPixelCheck": "PASS",
+        "producerFinding": "Actual pixels show two clearly stacked bunks, real ladder/rail/platform depth and chunky Sunny Pop yellow-blue construction; the bunk category now reads immediately instead of as a flat pixel emblem.",
+        "intendedRepositoryPath": "/assets/catalog-candidates/w02-beds-20260921-b01/beds-3-w02-v1.png"
+      },
+      {
+        "itemId": "beds-4",
+        "name": "Berry Daybed",
+        "tier": 2,
+        "theme": "Aqua Wave",
+        "legacyPath": "/assets/catalog/beds-4.svg",
+        "legacyGitBlobSha": "e7c633d73a01b794c4d2e55a0806186727821340",
+        "generationProvider": "Adobe Firefly image_generate",
+        "generationRequestId": "4538066f-3177-45ca-84d3-0c8acf7b0dd6",
+        "remoteSourceUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:3270a937-a4b6-4f4a-b9ec-7fba21638638",
+        "requestedDimensions": [1024, 1024],
+        "format": "PNG",
+        "producerPixelCheck": "PASS",
+        "producerFinding": "Actual pixels show a true upholstered daybed with mattress/side depth, aqua wave construction, berry accents, layered bolsters and richer Tier 2 material treatment. It remains card-readable and distinct from beds 1-3.",
+        "intendedRepositoryPath": "/assets/catalog-candidates/w02-beds-20260921-b01/beds-4-w02-v1.png"
+      }
+    ]
+  },
+  "staging": {
+    "status": "BLOCKED_BEFORE_GIT_BLOB_CREATION",
+    "attemptedSupportedPath": "Generated bytes were inspected successfully; attempted ChatGPT-file -> Adobe connector egress twice so the existing remote binary bridge could be used.",
+    "result": "BLOCKED_FILE_REFERENCE",
+    "exactBlocker": "Generated ChatGPT image file references are unavailable for connector egress in this run. The GitHub create_blob path requires raw/base64 bytes and cannot ingest a local file path or the generated-file reference directly.",
+    "falseClaimsAvoided": ["No repository path is claimed staged", "No Git blob SHA is claimed", "No independent ACCEPT is claimed", "No canonical mapping was edited"],
+    "nextSafeAction": "Use an authorized byte-transfer path to download each recorded remoteSourceUrl, write the exact PNG to its intendedRepositoryPath on screenshot-match-preproduction, read back the Git blob/bytes, then mark READY_FOR_REVIEW and hand exact hashes to reviewer 05. Do not regenerate these four unless reviewer 05 later returns REWORK."
+  },
+  "freeze": {
+    "replitTouched": false,
+    "flootTouched": false,
+    "mainMergedOrModified": false,
+    "canonicalManifestOrRuntimeTouched": false,
+    "playerDataTouched": false
+  }
+}
