@@ -1,91 +1,112 @@
 # Workstream 08 — Catalog Art Factory / Canonical Integrator
 
-STATUS: **CATALOG SPRINT ACTIVE / 46 CANDIDATES STAGED / INDEPENDENT REVIEW BLOCKS PROMOTION**
+STATUS: **CATALOG SPRINT ACTIVE / 0 ACCEPTED CURRENT HASHES / BINARY IMPORT PATH PROVEN**
 
 Branch: `screenshot-match-preproduction` only  
-Audited pre-report source head: `6f9d7f6261b84d0f9f9ad13b0c591e0ef7a88590`  
+Audited source head before this report update: `e85ee50298ac0028be962fef886d9b150a5ca829`  
 Replit/Floot: **untouched**  
 Main: **not merged or modified**
 
-## Current canonical state
+## Canonical responsibility
 
-Workstream 08 is the sole sprint writer for `catalog-art-manifest.json` and `src/catalogArtRuntime.js`. The canonical catalog is intentionally unchanged in this run because no staged candidate yet has independent hash-bound visual acceptance.
+Workstream 08 alone writes `catalog-art-manifest.json` and `src/catalogArtRuntime.js` during `CATALOG_SPRINT`.
 
-- target Store IDs: **192**
-- manifest version: **12**
-- final-portable: **99**
+No canonical item was promoted in this pass because the V2 independent review shards currently contain **zero ACCEPT decisions** for current asset hashes.
+
+Canonical state remains:
+
+- target IDs: **192**
+- manifest v12 `final-portable`: **99**
 - interim-not-verified: **23**
 - canonical non-final: **93**
-- canonical manifest entries: **122**
-- exact-ID runtime mappings: **122**
-- recorded duplicate asset paths: **0**
-- independently sprint-approved artwork recorded by Workstream 08: **0**
+- manifest entries: **122**
+- runtime mappings: **122**
+- duplicate manifest paths recorded: **0**
+- V2 exact-hash visually accepted: **0**
 
-The 122 canonical mappings are the 99 final-portable assets plus the 23 interim Aura/companion assets. A runtime mapping does not make an interim asset final.
+Legacy `final-portable` is kept as a historical/runtime label, not treated as proof of premium rendered quality.
 
-## Sprint handoffs ingested
+## Current production inventory
 
-Four producer handoffs are currently present:
+Unique assigned item IDs with repository-staged artwork: **82**.
 
-| Lane | IDs | Count | Producer status | Canonical status |
-|---|---|---:|---|---|
-| CHAT | `seating-2` … `seating-12` | 11 | READY_FOR_REVIEW; producer browser render PASS | not wired / not final |
-| 04 | `lighting-1` … `lighting-12` | 12 | READY_FOR_REVIEW; producer XML/render/contact-sheet PASS | not wired / not final |
-| 05 | `wall-1` … `wall-12` | 12 | READY_FOR_REVIEW; metadata/path/XML checks PASS | not wired / not final |
-| 06 | `companions-2` … `companions-12` | 11 | READY_FOR_REVIEW; pre-existing interim candidates inspected | still interim-not-verified |
+Breakdown:
 
-Totals:
+| Lane | IDs | Repository-staged status |
+|---|---:|---|
+| CHAT seating | 11 | staged, but all 11 reviewed REWORK |
+| 04 lighting | 12 | staged, awaiting reviewer 14 decisions |
+| 05 wall | 12 | staged, awaiting reviewer 14 decisions |
+| 06 companions | 11 | existing interim SVGs; richer candidate intake also exists |
+| 07 rugs | 12 | staged, awaiting reviewer 14 decisions |
+| 09 decor | 12 | staged, awaiting reviewer 14 decisions |
+| 11 auras | 12 | staged interim, all 12 reviewed REWORK |
 
-- **46 staged candidates**
-- **35 newly authored candidates** (seating + lighting + wall)
-- **11 pre-existing interim companion candidates**
-- **47 assigned IDs not yet handed off**: desks 03, rugs 07, decor 09, auras 11
-- **0 canonical promotions this run**
+Newly authored repository-staged assigned IDs: **59**.  
+Pre-existing interim companion/aura IDs: **23**.
 
-The four available handoffs match the current Store metadata for names, IDs, tier calculation and themes. Their recorded blob identities are unique within each lane, and no cross-lane blob identity collision was observed among the 46 reported candidates. This does not replace the full rendered/content duplicate audit required by release QA.
+Desk lane 03 has generated local premium candidates for `desks-2`, `desks-3`, `desks-4`, but repository-staged desk count is still **0**; eight assigned desk IDs have no generated candidate yet.
 
-## Evidence bindings
+Lane 06 additionally has **30 repository-stored binary files across 10 richer companion candidate item IDs**. Reviewer 05 should start with `companions-3`, `companions-4`, `companions-10`, and `companions-11`.
 
-- `docs/preproduction/catalog-sprint/lane-CHAT.json` blob `8d19cae6960874f612c646b7b79a7a1df7651a4d`
-- `docs/preproduction/catalog-sprint/lane-04.json` blob `2b20dac09b16f66bb4d2de6fc702de2be57c90df`
-- `docs/preproduction/catalog-sprint/lane-05.json` blob `1dc6c564e9172ddae7f6a607ce8fbfde9e292a4c`
-- `docs/preproduction/catalog-sprint/lane-06.json` blob `266932942d7203d5cc2d33febcea68b542962b9a`
-- canonical manifest blob `862894db70500087409396dc5a72d032cf00a693`
-- runtime blob `fcf502b18a51781b415b7ba3620e9b8eb66d37e3`
-- game model blob `79fdb8c3bed4d715e0b1c770f34db0037a7f7c3b`
+## Independent review results now available
 
-Detailed integration evidence is in:
+### Reviewer 01
+`tops-1..12`: **12 REWORK / 0 ACCEPT**.
 
-- `docs/preproduction/catalog-sprint/integration.json`
-- `docs/preproduction/catalog-sprint/integration.md`
+The current legacy Tops are recognizable but too flat/front-facing, with insufficient fabric/material volume and three-quarter collectible depth. These exact hashes must not be counted as release-cleared art.
 
-## Review blockers
+### Reviewer 02
+`seating-2..12`: **11 REWORK / 0 ACCEPT**.
 
-`docs/preproduction/catalog-sprint/art-review.json` is not present. `docs/preproduction/catalog-sprint/release-qa.json` is also not present. Therefore none of the 46 staged candidates has the independent reviewer evidence required by the sprint contract.
+The candidate furniture is distinct/readable, but too vector-flat and lacks convincing upholstery/material/lighting depth. These hashes are not eligible for integration.
 
-Workstream 08 will **not** promote an item because it is a valid SVG, because its producer rendered it successfully, because its path is unique, or because it is labeled `READY_FOR_REVIEW`. Independent item-specific acceptance must be bound to the exact staged asset hash first.
+### Reviewer 05
+`auras-1..12`: **12 REWORK / 0 ACCEPT**.
 
-## Checks this run
+The current interim effects are readable but too sparse/flat, often weakly matched to theme, and insufficiently dimensional at real Store card scale.
 
-- **PASS** — sprint phase, branch, and Workstream 08 canonical ownership confirmed.
-- **PASS** — current `gameModel.js` still defines 16 collections × 12 items = 192 Store IDs.
-- **PASS** — available producer IDs/names/tiers/themes match current Store metadata.
-- **PASS** — available producer handoffs do not overlap one another.
-- **PASS** — canonical manifest remains at 99 final-portable / 23 interim / 93 non-final with 0 recorded duplicate paths.
-- **PASS** — current runtime remains explicit stable-ID mapping; no card-position inference.
-- **BLOCKED** — independent Workstream 01 visual acceptance is missing.
-- **BLOCKED** — Workstream 14 catalog release QA is missing.
-- **NOT RUN** — post-integration catalog tests/build, because no coherent canonical integration occurred in this run.
-- **NOT RUN** — Store browser validation after integration, for the same reason.
+### Reviewer 14
+`reviews/14.json`: **not yet published**.
 
-## Previous completed canonical batch
+A branch-local staged-art QA workflow/contact-sheet path now exists, which is the correct mechanism for reviewing lighting/wall/rugs/decor before canonical wiring.
 
-The prior canonical batch added original final-portable artwork for `beds-2` through `beds-12` plus `seating-1`, bringing the manifest to 99 final-portable assets. Those mappings remain preserved.
+## Binary import blocker materially reduced
 
-## Next action
+A complete binary repository write/readback sequence is now proven on the preproduction branch.
 
-1. Workstreams 01 and/or 14 independently render and record ACCEPT / REWORK / BLOCKED by exact hash for the 46 staged candidates.
-2. Workstreams 03, 07, 09, and 11 publish desks, rugs, decor, and aura lane handoffs.
-3. Workstream 08 re-reads the latest branch and merges **only accepted exact-ID assets** into the manifest/runtime.
-4. After each coherent canonical integration, run duplicate checks, relevant catalog regression tests, missing-image/ownership fallback checks, production build, and Store browser validation before reporting PASS.
-5. Workstream 15 alone decides when the 192-item catalog gate is satisfied and switches to `GAME_FINISHING`.
+Evidence probe:
+
+- `docs/preproduction/catalog-sprint/binary-upload-probe.png`
+- Git blob `95b4328446e6af8fabd920f3330f6c688889ad94`
+- SHA-256 `391590d092f57b13968ea0174fda8726918550f84594de498c72482f1f2e9623`
+- 68 bytes / 2×2 PNG
+- base64 readback and decoded SHA-256: **PASS**
+
+Use: `create_blob(base64)` → `create_tree` → `create_commit` → `update_ref(force=false)` → `fetch_file(encoding=base64)` → verify decoded hash/dimensions/bytes.
+
+This means future producer runs with visible generated bytes have a supported GitHub binary import route. Lane 03's prior generated file IDs are not visible to this automation, so those exact desk images must be uploaded from Lane 03's own run rather than regenerated.
+
+## Checks this pass
+
+- **PASS** — phase and Workstream 08 canonical ownership.
+- **PASS** — game model/manifest/runtime canonical hashes remain unchanged.
+- **PASS** — all eight production lane reports now exist.
+- **PASS** — 01/02/05 independent review shards exist and were consumed.
+- **PASS** — exact binary Git write + repository path + base64 readback verified.
+- **PASS** — current manifest still records zero duplicate asset paths.
+- **REWORK** — 35 reviewed current hashes: 12 Tops + 11 Seating + 12 Auras.
+- **PENDING** — reviewer 14 shard for lighting/wall/rugs/decor.
+- **BLOCKED** — desks-2..4 are local-only in Lane 03; historical bytes are not visible cross-automation.
+- **NOT RUN** — post-integration catalog tests/build because no canonical mapping changed.
+- **NOT RUN** — Store browser validation after integration for the same reason.
+
+## Immediate handoff
+
+1. 14 publishes exact-hash lighting decisions from the new staged-art fixture.
+2. 05 reviews the four richer companion candidates first.
+3. 03 stages existing desks-2..4 using the proven binary Git path.
+4. 15 assigns independent repair producers for Tops, Seating and Auras.
+5. 08 integrates the **first accepted exact hash immediately** and then runs the affected catalog regression/build.
+
+Detailed machine-readable evidence is in `docs/preproduction/catalog-sprint/integration.json`.
