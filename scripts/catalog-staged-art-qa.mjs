@@ -4,6 +4,7 @@ import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 
 const base = 'http://127.0.0.1:4174';
+const originSeed = `${base}/public/assets/catalog/wall-1.svg`;
 const artifactRoot = 'artifacts/catalog-staged-art';
 const themes = ['Cloud Pop','Pixel Party','Berry Blast','Garden Glow','Galaxy Glow','Sunny Pop','Aqua Wave','Art Attack','Star Luxe','Midnight Neon','Candy Core','Adventure Club'];
 const definitions = {
@@ -18,7 +19,11 @@ const producerLanes = [
   'docs/preproduction/catalog-sprint/lane-06.json',
   'docs/preproduction/catalog-sprint/lane-07.json',
   'docs/preproduction/catalog-sprint/lane-09.json',
-  'docs/preproduction/catalog-sprint/lane-11.json'
+  'docs/preproduction/catalog-sprint/lane-11.json',
+  'docs/preproduction/catalog-sprint/lane-12.json'
+];
+const visualLanes = [
+  'docs/preproduction/visuals/lane-13.json'
 ];
 const tierFor = i => i < 3 ? 1 : i < 6 ? 2 : i < 9 ? 3 : i < 11 ? 4 : 5;
 
@@ -42,7 +47,7 @@ function candidatePathFromObject(o) {
   return null;
 }
 function blobSha(p) { return execFileSync('git',['hash-object',p],{encoding:'utf8'}).trim(); }
-function stateText(o) { return ['status','decision','reviewStatus','candidateStatus','repositoryStatus'].map(k => String(o?.[k] ?? '').toUpperCase()).join(' '); }
+function stateText(o) { return ['status','decision','reviewStatus','candidateStatus','repositoryStatus','deliveryStatus'].map(k => String(o?.[k] ?? '').toUpperCase()).join(' '); }
 function looksReviewable(o) {
   const s = stateText(o);
   return s.includes('READY_FOR_REVIEW') || s.includes('READY_FOR_FRESH_REVIEW') || s.includes('READY_FOR_FRESH_INDEPENDENT_PIXEL_REVIEW') || s.includes('STAGED');
@@ -89,7 +94,8 @@ function selectCurrentReplacementCandidates(report){
   for(const [id,list] of candidates.entries()){
     const dedup=[...new Map(list.map(x=>[`${x.repositoryPath}:${x.blobSha}`,x])).values()];
     const valid=dedup.filter(x=>x.signature.ok);
-    const pick=valid.find(x=>x.discovery==='lane-reviewable')??valid.sort((a,b)=>b.repositoryPath.localeCompare(a.repositoryPath))[0];
+    const laneValid=valid.filter(x=>x.discovery==='lane-reviewable');
+    const pick=laneValid.at(-1)??valid.sort((a,b)=>b.repositoryPath.localeCompare(a.repositoryPath))[0];
     if(pick) selected.push(pick);
     for(const c of dedup) if(!pick||c.repositoryPath!==pick.repositoryPath||c.blobSha!==pick.blobSha) report.skippedCandidates.push({id,repositoryPath:c.repositoryPath,blobSha:c.blobSha,signature:c.signature,reason:c.signature.ok?'alternate-version-not-selected':'invalid-file-signature'});
     if(!pick) report.errors.push(`${id}: no valid staged replacement among ${dedup.map(x=>x.repositoryPath).join(', ')}`);
@@ -101,7 +107,42 @@ function selectOwnCollectionPath(lane,id,fallback,report){
   for(let i=matches.length-1;i>=0;i--){const p=candidatePathFromObject(matches[i]);if(!p)continue;const sig=signatureCheck(p);if(sig.ok)return p;report.warnings.push(`${id}: ignored invalid lane candidate ${p} (${sig.reason})`);}
   return fallback;
 }
+function selectVisualCandidates(report){
+  const out=[];
+  for(const lanePath of visualLanes){
+    if(!fs.existsSync(lanePath)) continue;
+    const lane=readLane(lanePath);
+    const candidateId=String(lane.candidateId??path.basename(lanePath,'.json'));
+    let n=0;
+    for(const asset of Array.isArray(lane.assets)?lane.assets:[]){
+      const repositoryPath=normalizeRepoPath(asset.path);
+      if(!repositoryPath||!fs.existsSync(repositoryPath)) continue;
+      const signature=signatureCheck(repositoryPath);
+      if(!signature.ok){report.warnings.push(`${candidateId}: ignored invalid visual asset ${repositoryPath} (${signature.reason})`);continue;}
+      n+=1;
+      out.push({
+        id:`${candidateId}-${n}`,
+        name:`${candidateId} ${n}`,
+        tier:null,
+        theme:lane.targetScreen??lane.candidateType??null,
+        producerLane:lanePath,
+        discovery:'visual-lane',
+        repositoryPath,
+        blobSha:blobSha(repositoryPath),
+        signature,
+        declaredDimensions:asset.dimensions??null,
+        candidateId,
+        candidateType:lane.candidateType??null,
+        targetScreen:lane.targetScreen??null
+      });
+    }
+  }
+  return out;
+}
 
+async function seedSameOrigin(page){
+  await page.goto(originSeed,{waitUntil:'load',timeout:10000});
+}
 async function settleImages(page,timeoutMs=7000){
   return page.evaluate(async timeout=>{
     const images=[...document.images];
@@ -115,12 +156,12 @@ async function settleImages(page,timeoutMs=7000){
     });
   },timeoutMs);
 }
-async function renderSet(browser,setName,items,report){
+async function renderSet(browser,setName,items,report,detailViewport={width:800,height:800}){
   const out=path.join(artifactRoot,setName);fs.mkdirSync(path.join(out,'detail'),{recursive:true});
   const setReport={items:[],contactSheetErrors:[],contactSheetImageStatus:[]};report.sets[setName]=setReport;if(!items.length)return;
   const page=await browser.newPage({viewport:{width:1200,height:960},deviceScaleFactor:1});page.on('console',m=>{if(m.type()==='error')setReport.contactSheetErrors.push(m.text());});page.on('pageerror',e=>setReport.contactSheetErrors.push(String(e)));
   try{
-    await page.goto(base,{waitUntil:'domcontentloaded'});
+    await seedSameOrigin(page);
     const cards=items.map(item=>`<article><img src="${base}/${item.repositoryPath}" alt="${item.id}"><div><b>${item.id}</b><br>${item.name}<br><span>${item.tier?`T${item.tier}`:''}${item.theme?` · ${item.theme}`:''} · ${item.blobSha.slice(0,8)}</span><br><small>${item.repositoryPath}</small></div></article>`).join('');
     await page.setContent(`<!doctype html><meta charset="utf-8"><style>html,body{margin:0;background:#081936;color:white;font:14px system-ui,sans-serif}main{box-sizing:border-box;width:1200px;padding:30px;display:grid;grid-template-columns:repeat(4,1fr);gap:18px}article{min-height:310px;background:#102c5d;border:2px solid #39d5ff;border-radius:18px;padding:12px;box-sizing:border-box;overflow:hidden}img{width:100%;height:210px;object-fit:contain;display:block}div{padding-top:7px;line-height:18px}span,small{color:#b9d8ff;font-size:11px;word-break:break-all}</style><main>${cards}</main>`);
     setReport.contactSheetImageStatus=await settleImages(page);
@@ -128,17 +169,22 @@ async function renderSet(browser,setName,items,report){
     await page.screenshot({path:path.join(out,`${setName}-contact-sheet.png`),fullPage:true,timeout:15000});
   }catch(error){setReport.contactSheetErrors.push(String(error));}finally{await page.close();}
   for(const item of items){
-    const p=await browser.newPage({viewport:{width:800,height:800},deviceScaleFactor:1});const errors=[];p.on('console',m=>{if(m.type()==='error')errors.push(m.text());});p.on('pageerror',e=>errors.push(String(e)));const url=`${base}/${item.repositoryPath}`;let status=null,naturalWidth=0,naturalHeight=0,opaqueFraction=null,screenshot=false;
+    const p=await browser.newPage({viewport:detailViewport,deviceScaleFactor:1});const errors=[];p.on('console',m=>{if(m.type()==='error')errors.push(m.text());});p.on('pageerror',e=>errors.push(String(e)));const url=`${base}/${item.repositoryPath}`;let status=null,naturalWidth=0,naturalHeight=0,opaqueFraction=null,screenshot=false;
     try{
       const probe=await fetch(url);status=probe.status;if(status!==200)throw new Error(`asset status ${status}`);
-      await p.goto(base,{waitUntil:'domcontentloaded'});
-      await p.setContent(`<!doctype html><meta charset="utf-8"><style>html,body{margin:0;width:800px;height:800px;background:#081936;display:grid;place-items:center}img{width:800px;height:800px;object-fit:contain}</style><img id="asset" src="${url}" alt="${item.id}">`);
+      await seedSameOrigin(p);
+      await p.setContent(`<!doctype html><meta charset="utf-8"><style>html,body{margin:0;width:${detailViewport.width}px;height:${detailViewport.height}px;background:#081936;display:grid;place-items:center}img{width:${detailViewport.width}px;height:${detailViewport.height}px;object-fit:contain}</style><img id="asset" src="${url}" alt="${item.id}">`);
       const imageState=(await settleImages(p))[0];naturalWidth=imageState?.naturalWidth??0;naturalHeight=imageState?.naturalHeight??0;opaqueFraction=imageState?.opaqueFraction??null;
       if(!naturalWidth)throw new Error('asset image decode failed');if(imageState?.pixelProbeError)throw new Error(`asset pixel probe failed: ${imageState.pixelProbeError}`);if((opaqueFraction??0)<0.005)throw new Error(`asset visually blank/transparent: opaqueFraction=${opaqueFraction}`);
       await p.locator('#asset').screenshot({path:path.join(out,'detail',`${item.id}-${item.blobSha.slice(0,8)}.png`),timeout:15000});screenshot=true;
     }catch(error){errors.push(String(error));}
     setReport.items.push({...item,status,naturalWidth,naturalHeight,opaqueFraction,screenshot,errors});await p.close();
   }
+}
+function duplicateHashGroups(items){
+  const byHash=new Map();
+  for(const item of items){const list=byHash.get(item.blobSha)??[];list.push(item);byHash.set(item.blobSha,list);}
+  return [...byHash.entries()].filter(([,list])=>list.length>1).map(([hash,list])=>({hash,ids:list.map(x=>x.id),paths:list.map(x=>x.repositoryPath)}));
 }
 
 fs.mkdirSync(artifactRoot,{recursive:true});
@@ -148,7 +194,8 @@ try{
   for(const [collection,def] of Object.entries(definitions)){
     const lane=readLane(def.lane);const items=def.names.map((name,i)=>{const id=`${collection}-${i+1}`,fallback=`public/assets/catalog/${id}.svg`,repositoryPath=selectOwnCollectionPath(lane,id,fallback,report);if(!fs.existsSync(repositoryPath))throw new Error(`${id}: no staged file at ${repositoryPath}`);return{id,name,tier:tierFor(i),theme:themes[(i+def.offset)%themes.length],repositoryPath,blobSha:blobSha(repositoryPath)};});await renderSet(browser,collection,items,report);
   }
-  const replacements=selectCurrentReplacementCandidates(report);await renderSet(browser,'staged-replacements',replacements,report);report.replacementCount=replacements.length;report.replacementIds=replacements.map(x=>`${x.id}:${x.blobSha}:${x.repositoryPath}`);
+  const replacements=selectCurrentReplacementCandidates(report);await renderSet(browser,'staged-replacements',replacements,report);report.replacementCount=replacements.length;report.replacementIds=replacements.map(x=>`${x.id}:${x.blobSha}:${x.repositoryPath}`);report.replacementExactDuplicateGroups=duplicateHashGroups(replacements);
+  const visuals=selectVisualCandidates(report);await renderSet(browser,'visual-assets',visuals,report,{width:1408,height:1056});report.visualAssetCount=visuals.length;report.visualAssetIds=visuals.map(x=>`${x.id}:${x.blobSha}:${x.repositoryPath}`);report.visualExactDuplicateGroups=duplicateHashGroups(visuals);
 }catch(error){report.errors.push(String(error));}finally{await browser.close();fs.writeFileSync(path.join(artifactRoot,'report.json'),JSON.stringify(report,null,2));}
 const failures=[...report.errors,...Object.entries(report.sets).flatMap(([name,set])=>[...set.contactSheetErrors.map(e=>`${name}: ${e}`),...set.items.flatMap(i=>(i.status!==200||!i.screenshot||!i.naturalWidth||i.errors.length)?[`${name}/${i.id}/${i.blobSha}: ${JSON.stringify(i)}`]:[])])];
 if(failures.length){console.error(failures.join('\n'));process.exitCode=1;}
