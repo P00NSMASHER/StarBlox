@@ -1,15 +1,15 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "workstream": "12",
   "phase": "ART_VISUALS_ONLY",
   "status": "GENERATED_TRANSFER_BLOCKED_NOT_READY_FOR_REVIEW",
-  "sourceHead": "7779958c04061b6ae8c6bf294deaeb2aec956acb",
+  "inputHead": "e82566d1f7f46612708d63d4ca848fcbb547e21f",
   "branch": "screenshot-match-preproduction",
   "batchId": "w12-headwear-1-4-v2",
   "reference": {
     "storePath": "docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg",
     "sha256": "b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d",
-    "visualInspection": "PASS_ACTUAL_STORE_REFERENCE_INSPECTED",
+    "visualInspection": "PASS_ACTUAL_STORE_REFERENCE_REINSPECTED",
     "targetNotes": "Dimensional toy-fashion product presentation, tactile materials, three-quarter construction, pink/lilac studio depth, coherent warm/cool lighting, sparkle/bokeh and clear card-scale silhouettes."
   },
   "ownership": {
@@ -18,7 +18,8 @@
     "itemIds": ["headwear-1", "headwear-2", "headwear-3", "headwear-4"],
     "independentReviewer": "01",
     "canonicalWriter": "08",
-    "nonOverlapReconciled": true
+    "nonOverlapReconciled": true,
+    "writeScope": ["owned candidate paths", "docs/preproduction/catalog-sprint/lane-12.json", "docs/preproduction/catalog-sprint/lane-12.md"]
   },
   "items": [
     {
@@ -41,9 +42,10 @@
         "dimensions": [768, 768],
         "outputUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:86475a6d-2212-4408-869d-acefcf9d89ea",
         "plannedRepositoryPath": "public/assets/catalog/headwear-1-w12-v2.jpg",
-        "bytes": null,
+        "resolvedDownloadBytes": 71308,
         "sha256": null,
-        "gitBlobSha": null
+        "gitBlobSha": null,
+        "transportProbe": "RESOLVED_AND_DOWNLOADED_IN_READ_ONLY_BROWSER_BUT_RAW_BYTES_NOT_EXPOSED_TO_GITHUB_RUNTIME"
       },
       "producerVisualCheck": {
         "identity": "PASS",
@@ -51,7 +53,8 @@
         "dimensionalConstruction": "PASS",
         "materialLighting": "PASS",
         "cardScaleFraming": "PASS",
-        "originality": "PASS"
+        "originality": "PASS",
+        "observed": "Thick curved padded navy/black band with cyan/pink neon piping, visible side depth and small star ornament on pink studio background."
       },
       "deliveryStatus": "GENERATED_ADOBE_PRESERVED_NOT_STAGED",
       "reviewStatus": "NOT_READY_FOR_REVIEW"
@@ -76,9 +79,10 @@
         "dimensions": [768, 768],
         "outputUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:0c81e8f1-cc0c-4b7d-bc60-6ff99b03c09a",
         "plannedRepositoryPath": "public/assets/catalog/headwear-2-w12-v2.jpg",
-        "bytes": null,
+        "resolvedDownloadBytes": 64660,
         "sha256": null,
-        "gitBlobSha": null
+        "gitBlobSha": null,
+        "transportProbe": "RESOLVED_AND_DOWNLOADED_IN_READ_ONLY_BROWSER_BUT_RAW_BYTES_NOT_EXPOSED_TO_GITHUB_RUNTIME"
       },
       "producerVisualCheck": {
         "identity": "PASS",
@@ -86,7 +90,8 @@
         "dimensionalConstruction": "PASS",
         "materialLighting": "PASS",
         "cardScaleFraming": "PASS",
-        "originality": "PASS"
+        "originality": "PASS",
+        "observed": "Three glossy pastel cloud ornaments on clearly visible silver metal hair clips with layered volume, hardware and grounded shadow."
       },
       "deliveryStatus": "GENERATED_ADOBE_PRESERVED_NOT_STAGED",
       "reviewStatus": "NOT_READY_FOR_REVIEW"
@@ -111,9 +116,10 @@
         "dimensions": [768, 768],
         "outputUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:3fd6bccd-e3cf-4b02-8f9f-834f674d6790",
         "plannedRepositoryPath": "public/assets/catalog/headwear-3-w12-v2.jpg",
-        "bytes": null,
+        "resolvedDownloadBytes": null,
         "sha256": null,
-        "gitBlobSha": null
+        "gitBlobSha": null,
+        "transportProbe": "NOT_RETRIED_AFTER_TRANSPORT_PATH_BECAME_UNAVAILABLE"
       },
       "producerVisualCheck": {
         "identity": "PASS",
@@ -121,7 +127,8 @@
         "dimensionalConstruction": "PASS",
         "materialLighting": "PASS",
         "cardScaleFraming": "PASS",
-        "originality": "PASS"
+        "originality": "PASS",
+        "observed": "Dimensional navy/cream baseball cap with thick brim, crown seams, textile volume and small pixel emblem at a three-quarter product angle."
       },
       "deliveryStatus": "GENERATED_ADOBE_PRESERVED_NOT_STAGED",
       "reviewStatus": "NOT_READY_FOR_REVIEW"
@@ -146,9 +153,10 @@
         "dimensions": [768, 768],
         "outputUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:ba0ac426-6df0-4577-a7ff-c3f4670683de",
         "plannedRepositoryPath": "public/assets/catalog/headwear-4-w12-v2.jpg",
-        "bytes": null,
+        "resolvedDownloadBytes": null,
         "sha256": null,
-        "gitBlobSha": null
+        "gitBlobSha": null,
+        "transportProbe": "NOT_RETRIED_AFTER_TRANSPORT_PATH_BECAME_UNAVAILABLE"
       },
       "producerVisualCheck": {
         "identity": "PASS",
@@ -156,7 +164,8 @@
         "dimensionalConstruction": "PASS",
         "materialLighting": "PASS",
         "cardScaleFraming": "PASS",
-        "originality": "PASS"
+        "originality": "PASS",
+        "observed": "Glossy deep-pink satin bow with sculpted folds, wrapped center knot, thick loop edges, cyan accent and cast shadow."
       },
       "deliveryStatus": "GENERATED_ADOBE_PRESERVED_NOT_STAGED",
       "reviewStatus": "NOT_READY_FOR_REVIEW"
@@ -168,22 +177,38 @@
     "independentLegacyReworkConfirmed": "PASS_4_OF_4",
     "fullQualityGenerationsPreserved": "PASS_4_OF_4_ADOBE_CC_ASSETS",
     "phoneDerivativesGeneratedAndVisuallyVerified": "PASS_4_OF_4",
-    "repositoryByteUpload": "BLOCKED_TRANSPORT_CAPABILITY",
+    "repositoryCandidatePathsPresentAtLatestTree": "FAIL_0_OF_4",
+    "repositoryByteUpload": "BLOCKED_TRANSPORT_CAPABILITY_SECOND_CYCLE",
     "exactRepositoryReadback": "NOT_TESTED_NO_STAGED_BYTES",
     "independentReviewer01": "NOT_READY",
-    "tests": "NOT_RUN_DOCS_AND_EXTERNAL_GENERATION_ONLY_NO_RUNTIME_CHANGE",
+    "tests": "NOT_RUN_NO_RUNTIME_CANONICAL_OR_LEARNING_CHANGE",
     "build": "NOT_RUN_NO_RUNTIME_OR_CANONICAL_CHANGE"
+  },
+  "transportInvestigation": {
+    "cycle": 2,
+    "gitBinaryWriteCapability": "AVAILABLE_CREATE_BLOB_TREE_COMMIT_NON_FORCE_REF_UPDATE_IF_RAW_BYTES_EXIST",
+    "containerAdobeNetwork": "BLOCKED_DNS",
+    "remoteDesktop": "OFFLINE",
+    "browserReadOnlyProbe": {
+      "headwear-1": "RESOLVED_JPEG_768x768_71308_BYTES_DOWNLOAD_PRESERVED_INSIDE_BROWSER_RUNTIME_ONLY",
+      "headwear-2": "RESOLVED_JPEG_768x768_64660_BYTES_DOWNLOAD_PRESERVED_INSIDE_BROWSER_RUNTIME_ONLY",
+      "headwear-3": "NOT_TESTED_AFTER_BROWSER_CAPACITY_BLOCK",
+      "headwear-4": "NOT_TESTED_AFTER_BROWSER_CAPACITY_BLOCK"
+    },
+    "browserWriteTransfer": "UNAVAILABLE_AND_NO_PAID_CAPACITY_CHANGE_AUTHORIZED",
+    "sharedRecoveryPrecedent": "Other lanes now have coordination-owned GitHub Actions import/recovery workflows, but Workstream 12 is explicitly restricted from editing shared workflows/scripts in this sprint.",
+    "missingCapability": "One coordination-owned mechanism that exposes the already-generated derivative bytes (or base64) to GitHub binary staging without Workstream 12 changing shared workflow/script files."
   },
   "blocker": {
     "id": "W12-ADOBE-BYTE-TRANSFER",
-    "firstEscalatedThisRun": true,
-    "detail": "The four 768x768 derivatives were generated and visually inspected and the 1024x1024 originals are durably represented by Adobe Creative Cloud generation assets. This worker cannot extract those Adobe short-URL binary bytes into a GitHub create_blob/upload operation: the available container has no external DNS, the read-only cloud browser tunnel cannot reach Adobe, and the existing branch-local CI importers are hard-coded to other workstreams/categories. Workstream 12 is restricted to owned candidate paths plus lane-12 evidence, so it did not modify shared intake workflows/scripts.",
-    "handoffTo15": "Assign or provide one authorized generic Adobe-URL-to-GitHub binary transport owned by the coordination/shared-file lane, then stage the existing derivatives at the planned versioned paths and verify exact readback. Do not regenerate headwear-1..4."
+    "escalationState": "SECOND_CYCLE_ESCALATED_TO_15",
+    "detail": "All four current headwear replacement visuals already exist and were re-inspected. The blocker is byte transport only: Adobe previews/asset IDs are readable, GitHub binary create_blob is writable, but this worker has no permitted bridge that yields raw JPEG bytes to the GitHub call. Two derivative URLs were independently resolved as valid 768x768 JPEG downloads, confirming the assets themselves are not missing. The browser transfer route then became unavailable and increasing paid capacity is prohibited. Remote Desktop is offline. Creating or editing a shared importer/workflow would exceed Workstream 12's explicit write scope.",
+    "handoffTo15": "Use the coordination/shared-file lane to attach the four existing derivative bytes at the planned versioned paths or provide a generic approved Adobe-short-URL-to-GitHub binary transport. Then return exact Git blob hashes/readback to Workstream 12 and reviewer 01. Do not regenerate headwear-1..4."
   },
   "handoff": {
     "01": "Do not review yet; exact repository bytes are not staged. Review headwear-1..4 only after versioned path/hash readback exists.",
     "08": "No canonical action; zero Workstream-12 current hashes are independently accepted.",
-    "15": "Resolve W12-ADOBE-BYTE-TRANSFER once; preserve and reuse the four existing Adobe generations rather than spending more generation credits."
+    "15": "Second-cycle escalation: resolve W12-ADOBE-BYTE-TRANSFER through the coordination/shared-file lane. Existing generated art is preserved; do not spend more generation credits."
   },
   "freeze": {
     "replitTouched": false,
