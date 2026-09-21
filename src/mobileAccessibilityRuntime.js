@@ -31,14 +31,27 @@ export function revealStoreFocusTarget(target){
   const viewportWidth = Number(globalThis?.innerWidth) || rowRect.right;
   const visibleLeft = Math.max(rowRect.left,0) + edgePadding;
   const visibleRight = Math.min(rowRect.right,viewportWidth) - edgePadding;
+  const clippedLeft = targetRect.left < visibleLeft;
+  const clippedRight = targetRect.right > visibleRight;
+  if(!clippedLeft && !clippedRight) return true;
+
   let nextLeft = Number(row.scrollLeft || 0);
-  if(targetRect.left < visibleLeft){
+  const targetOffsetLeft = Number(target.offsetLeft || 0);
+  const snappedCategory = row.classList?.contains('sbStoreCategoryRow') && targetOffsetLeft > 0;
+
+  if(snappedCategory){
+    // The category tray uses scroll-snap-type with each button snapped to its
+    // start edge. A tiny delta (for example the 22px needed by Shoes at 320px)
+    // can snap straight back to the previous category. Align the focused
+    // button itself to the tray's padded start so the snap point and the
+    // accessibility correction agree instead of fighting each other.
+    nextLeft = targetOffsetLeft - edgePadding;
+  }else if(clippedLeft){
     nextLeft += targetRect.left - visibleLeft;
-  }else if(targetRect.right > visibleRight){
+  }else if(clippedRight){
     nextLeft += targetRect.right - visibleRight;
-  }else{
-    return true;
   }
+
   nextLeft = Math.max(0,nextLeft);
   if(typeof row.scrollTo === 'function') row.scrollTo({left:nextLeft,behavior:'auto'});
   else row.scrollLeft = nextLeft;
