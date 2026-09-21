@@ -4,75 +4,110 @@ STATUS: **FAIL — CATALOG NOT RELEASE READY**
 
 Branch: `screenshot-match-preproduction` only. Replit/Floot untouched. `main` unmodified. No real player data used.
 
-## Material evidence this pass
+## Material progress this pass
 
-The single staged-art Playwright workflow now renders both Workstream-14 collections and every repository-staged versioned replacement it can discover. The narrow fixture update keeps the existing framework/artifact and adds robust versioned-file discovery for SVG/JPG/WEBP plus hash binding. The latest proven run is `35657747373` on head `20515bb8fe8da83c56843ec3b690574699eeb2f7`, artifact `10665857539`, digest `sha256:1480d7f858cb7ecfffe7f53871d71aad230ff39df864d0a4ebd0a3025d5dc63f`.
+The existing staged-art Playwright workflow was hardened rather than replaced. It still produces one compact artifact with hash-bound card and 800×800 detail evidence for Workstream-14 collections plus repository-staged versioned replacements from producer lanes. It supports SVG/PNG/JPG/JPEG/WEBP, records exact Git blob hashes, and now checks more than HTTP/decode dimensions: invalid file signatures and effectively fully transparent image payloads are release-blocking fixture findings.
 
-That run successfully rendered **48/48** reviewer-14 items plus **27 versioned replacement files** with HTTP 200, nonzero decoded dimensions, card/detail screenshots and **zero page/console errors**. The replacement set includes Auras 1–8, Desks 2–4, Lighting 1–4 and Tops 1–12. Cross-partition renders are evidence only; Workstream 14 does not disposition Tops/Auras/Desks.
+The diagnostic run `35663502757` on `60e0f9a5cddfaf4925aae4800dd96816690a98ae` uploaded artifact `10668875135`, digest `sha256:a17eaf3d70986b473fa017cbdef1119ba2f86dbc9d15b6969262cec30ab81f54`. It correctly failed the current Desk replacement batch instead of silently accepting decodable-but-empty bytes:
 
-The workflow change itself was covered by normal CI run `35657434360` / job `106524446604` on `00d6cebfaf0e645ce08c150db1a93245d3eed148`: **22/22 test files PASS, 98/98 tests PASS, production Vite build PASS, 1,613 modules transformed**. Output was CSS 167.39 kB / 35.69 kB gzip and JS 304.14 kB / 93.34 kB gzip.
+- `desks-2-v1.webp`, `desks-3-v1.webp`, `desks-4-v1.webp`: invalid WebP signatures;
+- `desks-2-w03-v1.webp`, `desks-3-w03-v1.webp`, `desks-4-w03-v1.webp`: valid 512×512 WebP decode but **opaqueFraction = 0**, so the rendered card/detail image is visually blank/transparent.
+
+Other selected replacement assets in that diagnostic batch remained renderable. Workstream 14 does **not** disposition Desk art; this is a producer/evidence blocker for Workstream 03 and reviewer 05.
 
 ## Independent Workstream-14 visual review
 
-The assigned partition is now fully dispositioned: **48 reviewed / 4 ACCEPT / 44 REWORK / 0 BLOCKED**.
+Workstream 14's assigned partition remains fully dispositioned: **48 reviewed / 4 ACCEPT / 44 REWORK / 0 BLOCKED**.
 
-### First accepted replacement hashes
+Qualified exact replacement ACCEPTs remain:
 
-Actual staged pixels materially corrected the prior flat-vector defects for:
+- `lighting-1` → `9d8aa142fa53f06dbad9ce59e9c8d34c1096ddc3`
+- `lighting-2` → `8c10fe689d6d7e398e85b24eb1ca1323cee07ea3`
+- `lighting-3` → `fc21ddf5a608ee393410ff9682cf2ef87a56c46d`
+- `lighting-4` → `7975e490a9fb97574f03081acf9fc871c22224f3`
 
-- `lighting-1` → `/assets/catalog/lighting-1-v2.jpg` → `9d8aa142fa53f06dbad9ce59e9c8d34c1096ddc3` — **ACCEPT**
-- `lighting-2` → `/assets/catalog/lighting-2-v2.jpg` → `8c10fe689d6d7e398e85b24eb1ca1323cee07ea3` — **ACCEPT**
-- `lighting-3` → `/assets/catalog/lighting-3-v2.jpg` → `fc21ddf5a608ee393410ff9682cf2ef87a56c46d` — **ACCEPT**
-- `lighting-4` → `/assets/catalog/lighting-4-v2.jpg` → `7975e490a9fb97574f03081acf9fc871c22224f3` — **ACCEPT**
+Current Workstream-14 REWORK backlog is Lighting 5–12, Wall 1–12, Rugs 1–12 and Decor 1–12. Exact-content uniqueness remains PASS for the 48 reviewed Workstream-14 hashes; manual rendered review found no identity-level duplicate collision, although repeated flat/vector templates remain quality defects.
 
-They now show dimensional construction, believable material/emissive response, grounded/cast lighting and clear card/detail readability. Workstream 08 may integrate these exact hashes after its metadata/file/content checks; no second universal visual approval is required.
+## Cross-partition review coverage
 
-### Remaining Workstream-14 rework
+Current reviewer shards cover **180 / 192 unique item IDs** at at least one exact hash:
 
-- Lighting 5–12 current canonical hashes: **8 REWORK**. Lighting 5–8 have producer-generated remote replacements but those bytes still need repository staging; 9–12 still need replacement production.
-- Wall 1–12: **12 REWORK** — readable identities but insufficient physical mounting/frame/glass/metal/fabric/neon depth.
-- Rugs 1–12: **12 REWORK** — current art reads as upright/floating badges instead of floor textiles with pile/weave/edge/contact perspective.
-- Decor 1–12: **12 REWORK** — readable/distinct objects but shallow icon-like construction/material response and weak high-tier progression.
+- reviewer 01: **48 / 48** Tops, Bottoms, Headwear, Facegear;
+- reviewer 02: **48 / 48** Shoes, Backgear, Handgear, Seating;
+- reviewer 05: **36 / 48** Auras, Companions, Beds; Desk remains the 12-ID coverage gap;
+- reviewer 14: **48 / 48** Lighting, Wall, Rugs, Decor.
 
-All 48 Workstream-14 current/replacement hashes are exact-content unique. Manual rendered review found no item-identity near-duplicate collision; repeated flat templates/backgrounds remain quality defects rather than duplicate content.
+Known qualified replacement ACCEPTs currently total **14 exact hashes**: Tops 1–6, Companions 3/4/10/11, and Lighting 1–4. This is not the same as 14 release-cleared IDs: accepted hashes must also be current, canonically wired, and pass the remaining gates. Auras 1–4 v2 and later Tops 7–12 versions remain REWORK at their reviewed hashes.
 
-## Overall review accounting
+## Canonical manifest / current CI
 
-The four disjoint reviewer partitions currently contain evidence for **155 / 192 unique item IDs** at at least one exact hash: reviewer 01 = 36, reviewer 02 = 35, reviewer 05 = 36, reviewer 14 = 48. This is review coverage, not final acceptance coverage; many reviewed legacy hashes are superseded or awaiting replacements.
+The canonical manifest is now **v13** with `finalCount = 103`; Workstream 08 has incrementally promoted accepted Companions 3, 4, 10 and 11. This demonstrates that V2 micro-batch integration is active.
 
-The catalog has only **4 qualified accepted replacement hashes known to this release gate** at this point. Legacy `final-portable` labels do not count as screenshot-quality acceptance.
+The latest CI run `35663779638` on `a7003fb7715b1515b660a21670a2ec9c53f94511` is **FAIL**, not green:
 
-## Canonical and release gates
+- **98 / 99 tests PASS**;
+- one exact metadata assertion fails: `beds-1` manifest theme is `Aqua Wave`, while current `gameModel` metadata is `Garden Glow`;
+- production build is **NOT RUN** on that latest head because CI stops after the failing test.
 
-Canonical manifest is still v12: target 192, legacy `final-portable` count 99, 23 interim-not-verified, 122 manifest/runtime mappings and zero duplicate manifest paths. Automated CI still confirms exactly 192 stable Store IDs and exact metadata/path integrity for wired entries.
+The QA test was intentionally kept strict. Earlier stale assumptions that all final assets must be SVG or all companion replacements must remain interim were corrected to V2 behavior: repo-owned SVG/PNG/JPG/WEBP are supported and an independently accepted exact hash may be final. The `beds-1` mismatch is therefore a genuine canonical metadata blocker owned by Workstream 08, not a test to relax.
 
-Gate status:
+## Persistence / economy release gate
 
-- 192 stable catalog IDs: **PASS**
-- current wired metadata/path integrity: **PASS — automated**
-- Workstream-14 partition fully reviewed: **PASS**
-- all 192 current final hashes independently accepted: **FAIL**
-- all 192 accepted hashes canonically wired: **FAIL**
-- complete final-set exact-content duplicate scan: **NOT TESTED — final set incomplete**
-- complete final-set rendered near-duplicate review: **NOT TESTED — final set incomplete**
-- post-integration desktop/phone Store art verification: **NOT TESTED — first accepted batch not yet integrated**
-- catalog-induced P0 learning defect: **PASS — automated, none found**
-- automated purchase/Quest reload/replay safety: **PASS**
-- synthetic real-browser persistence timing/concurrency/recovery: **NOT TESTED — release blocker**
-- physical-device performance: **NOT TESTED**
-- screen-reader smoke: **NOT TESTED**
-- pixel-identical reference parity: **BLOCKED — original user reference image pixels are not repository-accessible**
+Workstream 13 has now closed its prior real-browser persistence blocker. Current `persistence-qa.json` is **PASS_REAL_BROWSER_PERSISTENCE_ECONOMY_MATRIX** with synthetic-only Chromium evidence for:
 
-Store/Quest geometry remains deferred to `GAME_FINISHING` and is not a catalog-completion prerequisite. Home's latest measured structural geometry remains PASS unless new evidence shows a regression.
+- purchase/equip/room state and reload;
+- rapid and multi-tab exactly-once purchase behavior;
+- malformed import no-mutation;
+- exact IndexedDB recovery after localStorage loss;
+- wrong/retry no-farming, assisted-vs-independent evidence, rapid correct exactly-once behavior;
+- final Quest completion committed before the 950 ms presentation timer and surviving immediate reload;
+- unknown/no-art ownership/equipment/room/Dream Goal retention.
+
+No real player data was used. Persistence/economy therefore has **no current release blocker**; rerun only after relevant runtime changes or on the frozen final candidate.
+
+## Original reference pixels — blocker removed
+
+The previous “original reference pixels unavailable” blocker is now resolved. Commit `9d64486f85e8779faaabb87214af0bdf2f998ece` preserves the exact original Home, Store and Quest JPEG bytes plus verified 1408×1056 lossless comparison derivatives under `docs/preproduction/reference-screenshots/`.
+
+The manifest records exact originals and hashes, including:
+
+- Home SHA-256 `6a4b110aeaf12a6ab0c629f9181cc6cfa8d4f55a518d4f2a6adb3ac6e756c457`;
+- Store SHA-256 `b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d`;
+- Quest SHA-256 `70f1b952709a85c77bb11851ffe9ae704acf8b97640355e908b6ec537b5c73c9`.
+
+Original-byte/dimension verification passed 3/3. Pixel-identical game comparison is now **NOT TESTED**, not BLOCKED by missing references: the first compare workflow could not reach build/capture because the current `beds-1` metadata CI failure stopped the job first. Generated promotional collages remain invalid reference evidence.
+
+## Current gate classification
+
+| Gate | Status |
+|---|---|
+| Exactly 192 stable Store IDs | **PASS** |
+| Canonical metadata/path integrity | **FAIL — beds-1 theme mismatch** |
+| Workstream-14 48-ID review partition | **PASS** |
+| Independent unique-ID review coverage | **180 / 192 — Desk family remains** |
+| Qualified exact replacement ACCEPTs known | **14** |
+| All 192 current final hashes independently accepted | **FAIL** |
+| All 192 accepted hashes canonically wired | **FAIL** |
+| Complete final exact-content duplicate scan | **NOT TESTED — final set incomplete** |
+| Complete rendered near-duplicate review | **NOT TESTED — final set incomplete** |
+| Final integrated desktop/phone Store art verification | **NOT TESTED** |
+| Catalog-induced learning P0 | **PASS — none found in latest executed tests** |
+| Real-browser persistence/economy matrix | **PASS** |
+| Physical-device performance | **NOT TESTED** |
+| VoiceOver/TalkBack/NVDA smoke | **NOT TESTED** |
+| Original reference pixels accessible | **PASS** |
+| Pixel-identical Home/Store/Quest comparison | **NOT TESTED — current CI metadata failure prevents capture** |
+
+Store/Quest geometry remains `GAME_FINISHING` work, not a catalog-completion prerequisite. Home's last measured structural geometry remains PASS unless new evidence shows a regression.
 
 ## Exact next owners
 
-1. **08:** integrate Lighting 1–4 v2 exact accepted hashes immediately after metadata/file/content checks, then run affected catalog tests/build and canonical Store smoke.
-2. **04:** preserve accepted Lighting 1–4; stage the already-generated Lighting 5–8 bytes and continue Lighting 9–12 replacement production.
-3. **05 / 07 / 09:** submit versioned Wall / Rug / Decor replacements from the exact review defects above.
-4. **01 / 05:** consume the staged-art artifact for their Tops/Auras/Desks replacements and make their own exact-hash decisions; Workstream 14 does not decide those families.
-5. **14:** keep the same staged-art fixture current and independently review new Lighting/Wall/Rugs/Decor replacement hashes as soon as they arrive.
-6. **13:** close the isolated real-browser persistence/re-entry/concurrency gate using synthetic state only.
-7. **15:** keep phase `CATALOG_SPRINT` until all 192 current hashes pass the catalog gate.
+1. **08:** correct `beds-1` canonical theme metadata to the exact current `gameModel` value (`Garden Glow`) and rerun affected tests/build. Do not weaken the metadata assertion.
+2. **03:** replace/restage Desks 2–4 with genuinely visible bytes. Current `-v1` aliases are invalid WebP files and current `-w03-v1` WebPs are fully transparent despite decoding. Continue remaining Desk production after that.
+3. **05:** review Desk exact hashes only after the shared fixture produces visible card/detail pixels; do not convert the current blank files to PASS.
+4. **08:** preserve already integrated accepted Companions 3/4/10/11; integrate qualified Tops 1–6 and Lighting 1–4 once the canonical metadata/build gate is clean and normal file/content checks pass.
+5. **04 / 05 / 07 / 09 / 11 / 06:** continue bounded replacement work for existing REWORK families; each new hash needs fresh independent review.
+6. **14:** keep the one staged-art fixture current, independently disposition only Lighting/Wall/Rugs/Decor replacements, and run complete final duplicate/near-duplicate/Store/reference gates at coherent milestones.
+7. **15:** keep `CATALOG_SPRINT` until all 192 current hashes are stored, correct, unique, independently accepted, canonically wired and Store-verified with no catalog-induced safety P0.
 
-**READY FOR SINGLE REPLIT INTEGRATION: NO.**
+**READY FOR SINGLE REPLIT INTEGRATION: NO.** Replit/Floot and `main` remain untouched.
