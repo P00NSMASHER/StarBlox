@@ -1,112 +1,95 @@
 # Workstream 08 — Catalog Art Factory / Canonical Integrator
 
-STATUS: **CATALOG SPRINT ACTIVE / 0 ACCEPTED CURRENT HASHES / BINARY IMPORT PATH PROVEN**
+STATUS: **CATALOG SPRINT ACTIVE / 71 REVIEWED REWORK / 0 ACCEPT / 6 STORED REPLACEMENTS PENDING / 10 FIREFLY BLOBS PRESERVED**
 
 Branch: `screenshot-match-preproduction` only  
-Audited source head before this report update: `e85ee50298ac0028be962fef886d9b150a5ca829`  
+Input head audited before this report refresh: `a2770557f4e6dbb019ba76112ec1363a1857d2b4`  
 Replit/Floot: **untouched**  
 Main: **not merged or modified**
 
-## Canonical responsibility
+## Canonical state
 
 Workstream 08 alone writes `catalog-art-manifest.json` and `src/catalogArtRuntime.js` during `CATALOG_SPRINT`.
 
-No canonical item was promoted in this pass because the V2 independent review shards currently contain **zero ACCEPT decisions** for current asset hashes.
+No canonical mapping changed in this pass because **zero exact current/replacement hashes have an independent ACCEPT**.
 
-Canonical state remains:
-
-- target IDs: **192**
-- manifest v12 `final-portable`: **99**
+- Store IDs: **192**
+- manifest v12 legacy `final-portable`: **99**
 - interim-not-verified: **23**
-- canonical non-final: **93**
-- manifest entries: **122**
-- runtime mappings: **122**
-- duplicate manifest paths recorded: **0**
-- V2 exact-hash visually accepted: **0**
+- non-final relative to legacy label: **93**
+- canonical manifest entries/runtime mappings: **122 / 122**
+- recorded duplicate manifest paths: **0**
+- independently ACCEPTED current hashes: **0**
+- canonical promotions this pass: **0**
 
-Legacy `final-portable` is kept as a historical/runtime label, not treated as proof of premium rendered quality.
+Canonical hashes remain manifest `862894db70500087409396dc5a72d032cf00a693`, runtime `fcf502b18a51781b415b7ba3620e9b8eb66d37e3`, game model `79fdb8c3bed4d715e0b1c770f34db0037a7f7c3b`.
 
-## Current production inventory
+## Review progress
 
-Unique assigned item IDs with repository-staged artwork: **82**.
+All four V2 shards now exist. Review coverage is **71 / 192**, all REWORK:
 
-Breakdown:
+- Tops: 12 — reviewer 01
+- Seating 2–12: 11 — reviewer 02
+- legacy Auras: 12 — reviewer 05
+- Companions 1–12: 12 — reviewer 05
+- Beds 1–12: 12 — reviewer 05
+- Lighting 1–12: 12 — reviewer 14
 
-| Lane | IDs | Repository-staged status |
-|---|---:|---|
-| CHAT seating | 11 | staged, but all 11 reviewed REWORK |
-| 04 lighting | 12 | staged, awaiting reviewer 14 decisions |
-| 05 wall | 12 | staged, awaiting reviewer 14 decisions |
-| 06 companions | 11 | existing interim SVGs; richer candidate intake also exists |
-| 07 rugs | 12 | staged, awaiting reviewer 14 decisions |
-| 09 decor | 12 | staged, awaiting reviewer 14 decisions |
-| 11 auras | 12 | staged interim, all 12 reviewed REWORK |
+**0 ACCEPT / 71 REWORK / 121 unreviewed.**
 
-Newly authored repository-staged assigned IDs: **59**.  
-Pre-existing interim companion/aura IDs: **23**.
+The dominant defect is now consistent across reviewed families: artwork is identifiable but too flat/vector-like for the premium dimensional collectible target. Legacy `final-portable` labels remain runtime history, not screenshot-quality approval.
 
-Desk lane 03 has generated local premium candidates for `desks-2`, `desks-3`, `desks-4`, but repository-staged desk count is still **0**; eight assigned desk IDs have no generated candidate yet.
+## New branch-stored replacement candidates
 
-Lane 06 additionally has **30 repository-stored binary files across 10 richer companion candidate item IDs**. Reviewer 05 should start with `companions-3`, `companions-4`, `companions-10`, and `companions-11`.
+Six versioned replacements are actually stored and read back on the branch, but still require fresh independent review:
 
-## Independent review results now available
+- `tops-7` → `/assets/catalog/tops-7-w09-v2.svg` — `fe5b33a5b8eb8de137abab7daf315ddfaaaaf408`
+- `tops-8` → `/assets/catalog/tops-8-w09-v2.svg` — `81bbec69f1e164b9772e0f867409581526f5255a`
+- `auras-1` → `/assets/catalog/auras-1-v2.svg` — `48639f1262052350660127bbc5d3d25de34d61e3`
+- `auras-2` → `/assets/catalog/auras-2-v2.svg` — `c2be24c165f3e28995d5d2eb946dbdde983afe2a`
+- `auras-3` → `/assets/catalog/auras-3-v2.svg` — `9b682148eb26898ec5f56ac11eac635e7c93c8fc`
+- `auras-4` → `/assets/catalog/auras-4-v2.svg` — `3059eae7ab68c125f1af1696305fdf5689131455`
 
-### Reviewer 01
-`tops-1..12`: **12 REWORK / 0 ACCEPT**.
+Their current bytes/labels match the expected item/theme identities and the six Git blobs are distinct. Reviewer 01 owns the Tops replacements; reviewer 05 owns the Aura replacements. Prior REWORK decisions do not transfer to these new hashes.
 
-The current legacy Tops are recognizable but too flat/front-facing, with insufficient fabric/material volume and three-quarter collectible depth. These exact hashes must not be counted as release-cleared art.
+## Real generated-image transfer path
 
-### Reviewer 02
-`seating-2..12`: **11 REWORK / 0 ACCEPT**.
+Binary transfer is no longer limited to a synthetic probe. The coordinated path has now preserved **10 real Adobe-generated replacement images as immutable Git blob objects**:
 
-The candidate furniture is distinct/readable, but too vector-flat and lacks convincing upholstery/material/lighting depth. These hashes are not eligible for integration.
+- Lighting 1–4: `9d8aa142...`, `8c10fe68...`, `fc21ddf5...`, `7975e490...`
+- Tops 1–6: `5fd95449...`, `42845078...`, `b4a83458...`, `26d03c5b...`, `78c5c892...`, `44d88aa8...`
 
-### Reviewer 05
-`auras-1..12`: **12 REWORK / 0 ACCEPT**.
+Those blobs are **not branch-staged assets yet**. Workstream 04 must attach Lighting 1–4 and Workstream 07 must attach Tops 1–6 to versioned repository paths using the latest-head non-force path and exact readback. No regeneration is required.
 
-The current interim effects are readable but too sparse/flat, often weakly matched to theme, and insufficiently dimensional at real Store card scale.
+The general binary sequence remains proven: generated bytes → base64 Git blob → tree/commit/ref attach → `fetch_file(..., encoding=base64)` readback/hash verification.
 
-### Reviewer 14
-`reviews/14.json`: **not yet published**.
+## Other inventory
 
-A branch-local staged-art QA workflow/contact-sheet path now exists, which is the correct mechanism for reviewing lighting/wall/rugs/decor before canonical wiring.
-
-## Binary import blocker materially reduced
-
-A complete binary repository write/readback sequence is now proven on the preproduction branch.
-
-Evidence probe:
-
-- `docs/preproduction/catalog-sprint/binary-upload-probe.png`
-- Git blob `95b4328446e6af8fabd920f3330f6c688889ad94`
-- SHA-256 `391590d092f57b13968ea0174fda8726918550f84594de498c72482f1f2e9623`
-- 68 bytes / 2×2 PNG
-- base64 readback and decoded SHA-256: **PASS**
-
-Use: `create_blob(base64)` → `create_tree` → `create_commit` → `update_ref(force=false)` → `fetch_file(encoding=base64)` → verify decoded hash/dimensions/bytes.
-
-This means future producer runs with visible generated bytes have a supported GitHub binary import route. Lane 03's prior generated file IDs are not visible to this automation, so those exact desk images must be uploaded from Lane 03's own run rather than regenerated.
+- Repository-staged assigned candidate IDs: **82**.
+- Desk lane: `desks-2..4` generated locally, **0 repository-staged**; `desks-5..12` still need candidates.
+- Rich companion intake: **10 IDs / 30 stored binary files**. The legacy companion family is now REWORK; richer candidate versions still need exact-hash independent review.
+- Catalog-specific persistence evidence now exists and automated checks pass, but final live-browser/re-entry release evidence remains open.
 
 ## Checks this pass
 
-- **PASS** — phase and Workstream 08 canonical ownership.
-- **PASS** — game model/manifest/runtime canonical hashes remain unchanged.
-- **PASS** — all eight production lane reports now exist.
-- **PASS** — 01/02/05 independent review shards exist and were consumed.
-- **PASS** — exact binary Git write + repository path + base64 readback verified.
-- **PASS** — current manifest still records zero duplicate asset paths.
-- **REWORK** — 35 reviewed current hashes: 12 Tops + 11 Seating + 12 Auras.
-- **PENDING** — reviewer 14 shard for lighting/wall/rugs/decor.
-- **BLOCKED** — desks-2..4 are local-only in Lane 03; historical bytes are not visible cross-automation.
-- **NOT RUN** — post-integration catalog tests/build because no canonical mapping changed.
-- **NOT RUN** — Store browser validation after integration for the same reason.
+- **PASS** — `CATALOG_SPRINT` and sole Workstream-08 canonical ownership.
+- **PASS** — actual Store remains 192 IDs on unchanged game-model hash.
+- **PASS** — manifest/runtime unchanged; duplicate manifest paths recorded = 0.
+- **PASS** — all four review shards consumed: 71 REWORK / 0 ACCEPT.
+- **PASS** — exact readback of six branch-stored replacement candidate blobs.
+- **PASS** — Adobe-to-Git binary preservation path demonstrated on ten real generated images.
+- **PENDING** — branch attachment/readback of those ten Git-object-only images by owners 04/07.
+- **FAIL/incomplete** — desks remain 0 repository-staged.
+- **NOT RUN** — post-integration catalog tests/build/Store validation because no canonical mapping changed.
+- **FAIL** — catalog release gate remains open.
 
 ## Immediate handoff
 
-1. 14 publishes exact-hash lighting decisions from the new staged-art fixture.
-2. 05 reviews the four richer companion candidates first.
-3. 03 stages existing desks-2..4 using the proven binary Git path.
-4. 15 assigns independent repair producers for Tops, Seating and Auras.
-5. 08 integrates the **first accepted exact hash immediately** and then runs the affected catalog regression/build.
+1. Reviewer 01 reviews the new `tops-7`/`tops-8` hashes and then attached Tops 1–6 replacements.
+2. Reviewer 05 reviews `auras-1-v2..4-v2`, then richer companion/desks replacements as staged.
+3. Workstreams 04/07 attach their already-preserved Firefly Git blobs to versioned branch paths; do not regenerate.
+4. Workstream 03 stages existing `desks-2..4` bytes, then continues `desks-5..12`.
+5. Reviewer 14 continues wall/rug/decor actual-pixel review and release QA.
+6. Workstream 08 integrates the **first exact-hash ACCEPT immediately**, then runs affected catalog tests/build/Store checks for that coherent canonical batch.
 
-Detailed machine-readable evidence is in `docs/preproduction/catalog-sprint/integration.json`.
+Machine-readable evidence: `docs/preproduction/catalog-sprint/integration.json`.
