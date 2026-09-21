@@ -60,4 +60,6 @@ jobs:
             exit 0
           fi
           git commit -m "catalog: integrate accepted tops and lighting"
+          git fetch origin screenshot-match-preproduction
+          git rebase origin/screenshot-match-preproduction
           git push origin HEAD:screenshot-match-preproduction
