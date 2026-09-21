@@ -6,7 +6,6 @@ on:
       - screenshot-match-preproduction
     paths:
       - 'src/**'
-      - 'public/assets/catalog/**'
       - 'catalog-art-manifest.json'
       - 'scripts/catalogMobileQa.mjs'
       - '.github/workflows/catalog-mobile-qa.yml'
