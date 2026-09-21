@@ -1,0 +1,902 @@
+{
+  "schemaVersion": 1,
+  "batchId": "chat-20260921-intake01",
+  "status": "CANDIDATES_ONLY",
+  "intakeSourceHead": "ea35c9647ca0ef324da33732d9ca4b2ed4f5bc76",
+  "productionOwner": "06",
+  "canonicalWriter": "08",
+  "newGenerationCount": 0,
+  "preparedItemCount": 10,
+  "preparedImageFileCount": 30,
+  "canonicalFinalCountDelta": 0,
+  "notices": [
+    "No canonical manifest or runtime is modified.",
+    "Four sources ready for independent review; six on theme-review hold.",
+    "Do not mistake candidate availability for final acceptance.",
+    "Two incomplete Sunny Bird blob transfers were never linked to a branch and are not part of this package."
+  ],
+  "files": [
+    {
+      "path": "public/assets/catalog-candidates/chat-20260921-intake01/companions-2-source.png",
+      "sha256": "7dfa865eb5dc5a36ec70cd1453d9f6fe61e970ce004ab26291a929903e55bfc5",
+      "bytes": 1927746,
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "format": "PNG",
+      "itemId": "companions-2",
+      "variant": "source"
+    },
+    {
+      "path": "public/assets/catalog-candidates/chat-20260921-intake01/companions-2-card.webp",
+      "sha256": "e55d3356e2efc80befde7899e172e2999feb21df8ebc99365196bb0c0125b00f",
+      "bytes": 11502,
+      "dimensions": [
+        256,
+        256
+      ],
+      "format": "WEBP",
+      "itemId": "companions-2",
+      "variant": "card"
+    },
+    {
+      "path": "public/assets/catalog-candidates/chat-20260921-intake01/companions-2-detail.webp",
+      "sha256": "ce192527d6fc0ac13d5de34d8923b190f03832dcf213c4a0131bee99b04a7f37",
+      "bytes": 55566,
+      "dimensions": [
+        768,
+        768
+      ],
+      "format": "WEBP",
+      "itemId": "companions-2",
+      "variant": "detail"
+    },
+    {
+      "path": "public/assets/catalog-candidates/chat-20260921-intake01/companions-3-source.png",
+      "sha256": "7fcc085c034f41187df28a4f7b6bea80bd51ae25a7f43683fee62ecff9d2ef7e",
+      "bytes": 1898422,
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "format": "PNG",
+      "itemId": "companions-3",
+      "variant": "source"
+    },
+    {
+      "path": "public/assets/catalog-candidates/chat-20260921-intake01/companions-3-card.webp",
+      "sha256": "0df56c980665063c58451da33e4b377ebe1398ad5b9fa1b5cf7b9f42af4977af",
+      "bytes": 12900,
+      "dimensions": [
+        256,
+        256
+      ],
+      "format": "WEBP",
+      "itemId": "companions-3",
+      "variant": "card"
+    },
+    {
+      "path": "public/assets/catalog-candidates/chat-20260921-intake01/companions-3-detail.webp",
+      "sha256": "3f4bec2dfe80c3edf855ecba1965d3fcfeb066dab83e26f2d9d8850c1cb6c473",
+      "bytes": 58902,
+      "dimensions": [
+        768,
+        768
+      ],
+      "format": "WEBP",
+      "itemId": "companions-3",
+      "variant": "detail"
+    },
+    {
+      "path": "public/assets/catalog-candidates/chat-20260921-intake01/companions-4-source.png",
+      "sha256": "f2356393433a98617ea7ba48cc00983c6340977020517d28e569882c79e35796",
+      "bytes": 1781724,
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "format": "PNG",
+      "itemId": "companions-4",
+      "variant": "source"
+    },
+    {
+      "path": "public/assets/catalog-candidates/chat-20260921-intake01/companions-4-card.webp",
+      "sha256": "b417fdf011dbb14b7567612466add612af23eb53a0b9e12ecd42c2ffe142115b",
+      "bytes": 11942,
+      "dimensions": [
+        256,
+        256
+      ],
+      "format": "WEBP",
+      "itemId": "companions-4",
+      "variant": "card"
+    },
+    {
+      "path": "public/assets/catalog-candidates/chat-20260921-intake01/companions-4-detail.webp",
+      "sha256": "92889982b25c097aca39a2af07f16557633eb50c2541065c309d37e975f4cdf8",
+      "bytes": 53770,
+      "dimensions": [
+        768,
+        768
+      ],
+      "format": "WEBP",
+      "itemId": "companions-4",
+      "variant": "detail"
+    },
+    {
+      "path": "public/assets/catalog-candidates/chat-20260921-intake01/companions-5-source.png",
+      "sha256": "12078370124a1d982b5259705de38a382ed23b972f46e71806a2fd4b6f7dcd97",
+      "bytes": 1832376,
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "format": "PNG",
+      "itemId": "companions-5",
+      "variant": "source"
+    },
+    {
+      "path": "public/assets/catalog-candidates/chat-20260921-intake01/companions-5-card.webp",
+      "sha256": "3b6d031e66fe68f5e6dd066e42eec472d86e9e7cca3f967232b78f5c900749ab",
+      "bytes": 12544,
+      "dimensions": [
+        256,
+        256
+      ],
+      "format": "WEBP",
+      "itemId": "companions-5",
+      "variant": "card"
+    },
+    {
+      "path": "public/assets/catalog-candidates/chat-20260921-intake01/companions-5-detail.webp",
+      "sha256": "35d02dc461852304a420f85f65fef3853ac4a10578e20d0f897ee4a3c7280b22",
+      "bytes": 61302,
+      "dimensions": [
+        768,
+        768
+      ],
+      "format": "WEBP",
+      "itemId": "companions-5",
+      "variant": "detail"
+    },
+    {
+      "path": "public/assets/catalog-candidates/chat-20260921-intake01/companions-6-source.png",
+      "sha256": "815121f85f51833df5e79df0a46eb86f67296f8b4af16b27c42d707e1227e63a",
+      "bytes": 1959111,
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "format": "PNG",
+      "itemId": "companions-6",
+      "variant": "source"
+    },
+    {
+      "path": "public/assets/catalog-candidates/chat-20260921-intake01/companions-6-card.webp",
+      "sha256": "c0f90627bc4acc886d21b5c70d05a899a7d52468f9b6fde149c4e72214c4d3e7",
+      "bytes": 14528,
+      "dimensions": [
+        256,
+        256
+      ],
+      "format": "WEBP",
+      "itemId": "companions-6",
+      "variant": "card"
+    },
+    {
+      "path": "public/assets/catalog-candidates/chat-20260921-intake01/companions-6-detail.webp",
+      "sha256": "70c0b676040f72e445d7e11b5a09591cea9160be62bb7c4924c1cc86c1c418bf",
+      "bytes": 69582,
+      "dimensions": [
+        768,
+        768
+      ],
+      "format": "WEBP",
+      "itemId": "companions-6",
+      "variant": "detail"
+    },
+    {
+      "path": "public/assets/catalog-candidates/chat-20260921-intake01/companions-7-source.png",
+      "sha256": "944487f9748f5b2cac4fa9af8f7a0af8ad9aa3fe74dc43de0d41d9ce9fdee915",
+      "bytes": 1952556,
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "format": "PNG",
+      "itemId": "companions-7",
+      "variant": "source"
+    },
+    {
+      "path": "public/assets/catalog-candidates/chat-20260921-intake01/companions-7-card.webp",
+      "sha256": "2c7ae644a089ec2d97feb0fb4354ca6160fb5b7f2d1a4c7ad1c2f4d1c4a66fbb",
+      "bytes": 14720,
+      "dimensions": [
+        256,
+        256
+      ],
+      "format": "WEBP",
+      "itemId": "companions-7",
+      "variant": "card"
+    },
+    {
+      "path": "public/assets/catalog-candidates/chat-20260921-intake01/companions-7-detail.webp",
+      "sha256": "5f47f5a082e93456a1bc51742e4257b1bc884ed0ee1b0f891243e3e9c9bbad7e",
+      "bytes": 69614,
+      "dimensions": [
+        768,
+        768
+      ],
+      "format": "WEBP",
+      "itemId": "companions-7",
+      "variant": "detail"
+    },
+    {
+      "path": "public/assets/catalog-candidates/chat-20260921-intake01/companions-8-source.png",
+      "sha256": "0c9f81dd34260d4447b05c06f06996fe2b988ae277c65832ff4e449c9a3c7bac",
+      "bytes": 1747159,
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "format": "PNG",
+      "itemId": "companions-8",
+      "variant": "source"
+    },
+    {
+      "path": "public/assets/catalog-candidates/chat-20260921-intake01/companions-8-card.webp",
+      "sha256": "2a76055bcfcaecc4ce06f161ce67a8d57e8e10127c97b6c8c66c20c465913b49",
+      "bytes": 13886,
+      "dimensions": [
+        256,
+        256
+      ],
+      "format": "WEBP",
+      "itemId": "companions-8",
+      "variant": "card"
+    },
+    {
+      "path": "public/assets/catalog-candidates/chat-20260921-intake01/companions-8-detail.webp",
+      "sha256": "363b93681e748a582116669b8738be8217d0343b860c6bacb4c5597308a1bcf5",
+      "bytes": 62094,
+      "dimensions": [
+        768,
+        768
+      ],
+      "format": "WEBP",
+      "itemId": "companions-8",
+      "variant": "detail"
+    },
+    {
+      "path": "public/assets/catalog-candidates/chat-20260921-intake01/companions-10-source.png",
+      "sha256": "6f6df89dfd98642b940343fa446991db14793e38a1c0c7276ad53ff46a4b8f8c",
+      "bytes": 1736526,
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "format": "PNG",
+      "itemId": "companions-10",
+      "variant": "source"
+    },
+    {
+      "path": "public/assets/catalog-candidates/chat-20260921-intake01/companions-10-card.webp",
+      "sha256": "cb9b6ed7bea071629f0ab65c0e4d0bc86a5dbba88b4bd866384d18e60350a7a9",
+      "bytes": 13460,
+      "dimensions": [
+        256,
+        256
+      ],
+      "format": "WEBP",
+      "itemId": "companions-10",
+      "variant": "card"
+    },
+    {
+      "path": "public/assets/catalog-candidates/chat-20260921-intake01/companions-10-detail.webp",
+      "sha256": "c963cbad0067ade8277e9f84b331437431bdce498de11bc10eab4e3ff01b73e2",
+      "bytes": 63032,
+      "dimensions": [
+        768,
+        768
+      ],
+      "format": "WEBP",
+      "itemId": "companions-10",
+      "variant": "detail"
+    },
+    {
+      "path": "public/assets/catalog-candidates/chat-20260921-intake01/companions-11-source.png",
+      "sha256": "b72c5009899a8411604f3e8b6ffb33198c7fa71f57d3753478eb1323153a3de9",
+      "bytes": 1885239,
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "format": "PNG",
+      "itemId": "companions-11",
+      "variant": "source"
+    },
+    {
+      "path": "public/assets/catalog-candidates/chat-20260921-intake01/companions-11-card.webp",
+      "sha256": "6ece80e9a3fb51896a985072a02f23fa5be485bd12fb04d74e8af9e70cdc7d29",
+      "bytes": 13162,
+      "dimensions": [
+        256,
+        256
+      ],
+      "format": "WEBP",
+      "itemId": "companions-11",
+      "variant": "card"
+    },
+    {
+      "path": "public/assets/catalog-candidates/chat-20260921-intake01/companions-11-detail.webp",
+      "sha256": "d531305bbf28873c2863033dd5da7638d2b1d80fffd1ab3df787556a257cf2ba",
+      "bytes": 63886,
+      "dimensions": [
+        768,
+        768
+      ],
+      "format": "WEBP",
+      "itemId": "companions-11",
+      "variant": "detail"
+    },
+    {
+      "path": "public/assets/catalog-candidates/chat-20260921-intake01/companions-12-source.png",
+      "sha256": "b5da076d897abf09d8a79c092fbb680a172239be003e2a4d43d91064f38647c0",
+      "bytes": 1928392,
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "format": "PNG",
+      "itemId": "companions-12",
+      "variant": "source"
+    },
+    {
+      "path": "public/assets/catalog-candidates/chat-20260921-intake01/companions-12-card.webp",
+      "sha256": "e51b401af8084e8ee937c1c13d12e914eb69ae7fcf111b7b359228b735b50241",
+      "bytes": 14818,
+      "dimensions": [
+        256,
+        256
+      ],
+      "format": "WEBP",
+      "itemId": "companions-12",
+      "variant": "card"
+    },
+    {
+      "path": "public/assets/catalog-candidates/chat-20260921-intake01/companions-12-detail.webp",
+      "sha256": "5384430c535008a77bd9de5492219ff686aca09ae31f186aee6853cb095d66ce",
+      "bytes": 78564,
+      "dimensions": [
+        768,
+        768
+      ],
+      "format": "WEBP",
+      "itemId": "companions-12",
+      "variant": "detail"
+    }
+  ],
+  "items": [
+    {
+      "itemId": "companions-2",
+      "name": "Moon Cat",
+      "collectionId": "companions",
+      "collectionName": "Buddies",
+      "type": "companion",
+      "tier": 1,
+      "theme": "Pixel Party",
+      "sourceFilename": "moonlit_starry_cat_companion.png",
+      "sourceSha256": "7dfa865eb5dc5a36ec70cd1453d9f6fe61e970ce004ab26291a929903e55bfc5",
+      "status": "HOLD_THEME_REVIEW",
+      "visualReview": "Lunar cat subject fits; no clear Pixel Party motif in the supplied source.",
+      "sourceProvenance": "Existing image-generation PNG attached in this conversation; reused, not regenerated.",
+      "files": {
+        "source": {
+          "path": "public/assets/catalog-candidates/chat-20260921-intake01/companions-2-source.png",
+          "sha256": "7dfa865eb5dc5a36ec70cd1453d9f6fe61e970ce004ab26291a929903e55bfc5",
+          "bytes": 1927746,
+          "dimensions": [
+            1254,
+            1254
+          ],
+          "format": "PNG",
+          "itemId": "companions-2",
+          "variant": "source"
+        },
+        "card": {
+          "path": "public/assets/catalog-candidates/chat-20260921-intake01/companions-2-card.webp",
+          "sha256": "e55d3356e2efc80befde7899e172e2999feb21df8ebc99365196bb0c0125b00f",
+          "bytes": 11502,
+          "dimensions": [
+            256,
+            256
+          ],
+          "format": "WEBP",
+          "itemId": "companions-2",
+          "variant": "card"
+        },
+        "detail": {
+          "path": "public/assets/catalog-candidates/chat-20260921-intake01/companions-2-detail.webp",
+          "sha256": "ce192527d6fc0ac13d5de34d8923b190f03832dcf213c4a0131bee99b04a7f37",
+          "bytes": 55566,
+          "dimensions": [
+            768,
+            768
+          ],
+          "format": "WEBP",
+          "itemId": "companions-2",
+          "variant": "detail"
+        }
+      }
+    },
+    {
+      "itemId": "companions-3",
+      "name": "Berry Bunny",
+      "collectionId": "companions",
+      "collectionName": "Buddies",
+      "type": "companion",
+      "tier": 1,
+      "theme": "Berry Blast",
+      "sourceFilename": "berry_bunny_s_sparkly_garden_adventure.png",
+      "sourceSha256": "7fcc085c034f41187df28a4f7b6bea80bd51ae25a7f43683fee62ecff9d2ef7e",
+      "status": "READY_FOR_INDEPENDENT_REVIEW",
+      "visualReview": "Strawberry ears/charm and berry-pink palette support Berry Blast; inspect tier balance and Store context before approval.",
+      "sourceProvenance": "Existing image-generation PNG attached in this conversation; reused, not regenerated.",
+      "files": {
+        "source": {
+          "path": "public/assets/catalog-candidates/chat-20260921-intake01/companions-3-source.png",
+          "sha256": "7fcc085c034f41187df28a4f7b6bea80bd51ae25a7f43683fee62ecff9d2ef7e",
+          "bytes": 1898422,
+          "dimensions": [
+            1254,
+            1254
+          ],
+          "format": "PNG",
+          "itemId": "companions-3",
+          "variant": "source"
+        },
+        "card": {
+          "path": "public/assets/catalog-candidates/chat-20260921-intake01/companions-3-card.webp",
+          "sha256": "0df56c980665063c58451da33e4b377ebe1398ad5b9fa1b5cf7b9f42af4977af",
+          "bytes": 12900,
+          "dimensions": [
+            256,
+            256
+          ],
+          "format": "WEBP",
+          "itemId": "companions-3",
+          "variant": "card"
+        },
+        "detail": {
+          "path": "public/assets/catalog-candidates/chat-20260921-intake01/companions-3-detail.webp",
+          "sha256": "3f4bec2dfe80c3edf855ecba1965d3fcfeb066dab83e26f2d9d8850c1cb6c473",
+          "bytes": 58902,
+          "dimensions": [
+            768,
+            768
+          ],
+          "format": "WEBP",
+          "itemId": "companions-3",
+          "variant": "detail"
+        }
+      }
+    },
+    {
+      "itemId": "companions-4",
+      "name": "Sunny Bird",
+      "collectionId": "companions",
+      "collectionName": "Buddies",
+      "type": "companion",
+      "tier": 2,
+      "theme": "Garden Glow",
+      "sourceFilename": "sparkling_sunny_bird_companion.png",
+      "sourceSha256": "f2356393433a98617ea7ba48cc00983c6340977020517d28e569882c79e35796",
+      "status": "READY_FOR_INDEPENDENT_REVIEW",
+      "visualReview": "Sun crest and sun chest emblem fit the name; greenery and flower setting support Garden Glow.",
+      "sourceProvenance": "Existing image-generation PNG attached in this conversation; reused, not regenerated.",
+      "files": {
+        "source": {
+          "path": "public/assets/catalog-candidates/chat-20260921-intake01/companions-4-source.png",
+          "sha256": "f2356393433a98617ea7ba48cc00983c6340977020517d28e569882c79e35796",
+          "bytes": 1781724,
+          "dimensions": [
+            1254,
+            1254
+          ],
+          "format": "PNG",
+          "itemId": "companions-4",
+          "variant": "source"
+        },
+        "card": {
+          "path": "public/assets/catalog-candidates/chat-20260921-intake01/companions-4-card.webp",
+          "sha256": "b417fdf011dbb14b7567612466add612af23eb53a0b9e12ecd42c2ffe142115b",
+          "bytes": 11942,
+          "dimensions": [
+            256,
+            256
+          ],
+          "format": "WEBP",
+          "itemId": "companions-4",
+          "variant": "card"
+        },
+        "detail": {
+          "path": "public/assets/catalog-candidates/chat-20260921-intake01/companions-4-detail.webp",
+          "sha256": "92889982b25c097aca39a2af07f16557633eb50c2541065c309d37e975f4cdf8",
+          "bytes": 53770,
+          "dimensions": [
+            768,
+            768
+          ],
+          "format": "WEBP",
+          "itemId": "companions-4",
+          "variant": "detail"
+        }
+      }
+    },
+    {
+      "itemId": "companions-5",
+      "name": "Pebble Turtle",
+      "collectionId": "companions",
+      "collectionName": "Buddies",
+      "type": "companion",
+      "tier": 2,
+      "theme": "Galaxy Glow",
+      "sourceFilename": "sparkling_pebble_turtle_companion.png",
+      "sourceSha256": "12078370124a1d982b5259705de38a382ed23b972f46e71806a2fd4b6f7dcd97",
+      "status": "HOLD_THEME_REVIEW",
+      "visualReview": "Pebble shell matches the item name; garden/stone setting needs Galaxy Glow treatment or explicit art-direction approval.",
+      "sourceProvenance": "Existing image-generation PNG attached in this conversation; reused, not regenerated.",
+      "files": {
+        "source": {
+          "path": "public/assets/catalog-candidates/chat-20260921-intake01/companions-5-source.png",
+          "sha256": "12078370124a1d982b5259705de38a382ed23b972f46e71806a2fd4b6f7dcd97",
+          "bytes": 1832376,
+          "dimensions": [
+            1254,
+            1254
+          ],
+          "format": "PNG",
+          "itemId": "companions-5",
+          "variant": "source"
+        },
+        "card": {
+          "path": "public/assets/catalog-candidates/chat-20260921-intake01/companions-5-card.webp",
+          "sha256": "3b6d031e66fe68f5e6dd066e42eec472d86e9e7cca3f967232b78f5c900749ab",
+          "bytes": 12544,
+          "dimensions": [
+            256,
+            256
+          ],
+          "format": "WEBP",
+          "itemId": "companions-5",
+          "variant": "card"
+        },
+        "detail": {
+          "path": "public/assets/catalog-candidates/chat-20260921-intake01/companions-5-detail.webp",
+          "sha256": "35d02dc461852304a420f85f65fef3853ac4a10578e20d0f897ee4a3c7280b22",
+          "bytes": 61302,
+          "dimensions": [
+            768,
+            768
+          ],
+          "format": "WEBP",
+          "itemId": "companions-5",
+          "variant": "detail"
+        }
+      }
+    },
+    {
+      "itemId": "companions-6",
+      "name": "Comet Fox",
+      "collectionId": "companions",
+      "collectionName": "Buddies",
+      "type": "companion",
+      "tier": 2,
+      "theme": "Sunny Pop",
+      "sourceFilename": "winking_cosmic_fox_companion.png",
+      "sourceSha256": "815121f85f51833df5e79df0a46eb86f67296f8b4af16b27c42d707e1227e63a",
+      "status": "HOLD_THEME_REVIEW",
+      "visualReview": "Comet tail matches the name; cool cosmic palette does not clearly establish the assigned Sunny Pop theme.",
+      "sourceProvenance": "Existing image-generation PNG attached in this conversation; reused, not regenerated.",
+      "files": {
+        "source": {
+          "path": "public/assets/catalog-candidates/chat-20260921-intake01/companions-6-source.png",
+          "sha256": "815121f85f51833df5e79df0a46eb86f67296f8b4af16b27c42d707e1227e63a",
+          "bytes": 1959111,
+          "dimensions": [
+            1254,
+            1254
+          ],
+          "format": "PNG",
+          "itemId": "companions-6",
+          "variant": "source"
+        },
+        "card": {
+          "path": "public/assets/catalog-candidates/chat-20260921-intake01/companions-6-card.webp",
+          "sha256": "c0f90627bc4acc886d21b5c70d05a899a7d52468f9b6fde149c4e72214c4d3e7",
+          "bytes": 14528,
+          "dimensions": [
+            256,
+            256
+          ],
+          "format": "WEBP",
+          "itemId": "companions-6",
+          "variant": "card"
+        },
+        "detail": {
+          "path": "public/assets/catalog-candidates/chat-20260921-intake01/companions-6-detail.webp",
+          "sha256": "70c0b676040f72e445d7e11b5a09591cea9160be62bb7c4924c1cc86c1c418bf",
+          "bytes": 69582,
+          "dimensions": [
+            768,
+            768
+          ],
+          "format": "WEBP",
+          "itemId": "companions-6",
+          "variant": "detail"
+        }
+      }
+    },
+    {
+      "itemId": "companions-7",
+      "name": "Story Owl",
+      "collectionId": "companions",
+      "collectionName": "Buddies",
+      "type": "companion",
+      "tier": 3,
+      "theme": "Aqua Wave",
+      "sourceFilename": "magical_story_owl_scholar.png",
+      "sourceSha256": "944487f9748f5b2cac4fa9af8f7a0af8ad9aa3fe74dc43de0d41d9ce9fdee915",
+      "status": "HOLD_THEME_REVIEW",
+      "visualReview": "Books and scholar details fit Story Owl; warm brown library treatment does not clearly establish Aqua Wave.",
+      "sourceProvenance": "Existing image-generation PNG attached in this conversation; reused, not regenerated.",
+      "files": {
+        "source": {
+          "path": "public/assets/catalog-candidates/chat-20260921-intake01/companions-7-source.png",
+          "sha256": "944487f9748f5b2cac4fa9af8f7a0af8ad9aa3fe74dc43de0d41d9ce9fdee915",
+          "bytes": 1952556,
+          "dimensions": [
+            1254,
+            1254
+          ],
+          "format": "PNG",
+          "itemId": "companions-7",
+          "variant": "source"
+        },
+        "card": {
+          "path": "public/assets/catalog-candidates/chat-20260921-intake01/companions-7-card.webp",
+          "sha256": "2c7ae644a089ec2d97feb0fb4354ca6160fb5b7f2d1a4c7ad1c2f4d1c4a66fbb",
+          "bytes": 14720,
+          "dimensions": [
+            256,
+            256
+          ],
+          "format": "WEBP",
+          "itemId": "companions-7",
+          "variant": "card"
+        },
+        "detail": {
+          "path": "public/assets/catalog-candidates/chat-20260921-intake01/companions-7-detail.webp",
+          "sha256": "5f47f5a082e93456a1bc51742e4257b1bc884ed0ee1b0f891243e3e9c9bbad7e",
+          "bytes": 69614,
+          "dimensions": [
+            768,
+            768
+          ],
+          "format": "WEBP",
+          "itemId": "companions-7",
+          "variant": "detail"
+        }
+      }
+    },
+    {
+      "itemId": "companions-8",
+      "name": "Bubble Axolotl",
+      "collectionId": "companions",
+      "collectionName": "Buddies",
+      "type": "companion",
+      "tier": 3,
+      "theme": "Art Attack",
+      "sourceFilename": "bubble_axolotl_fantasy_companion.png",
+      "sourceSha256": "0c9f81dd34260d4447b05c06f06996fe2b988ae277c65832ff4e449c9a3c7bac",
+      "status": "HOLD_THEME_REVIEW",
+      "visualReview": "Axolotl anatomy and bubbles fit the name; no clear Art Attack treatment is present.",
+      "sourceProvenance": "Existing image-generation PNG attached in this conversation; reused, not regenerated.",
+      "files": {
+        "source": {
+          "path": "public/assets/catalog-candidates/chat-20260921-intake01/companions-8-source.png",
+          "sha256": "0c9f81dd34260d4447b05c06f06996fe2b988ae277c65832ff4e449c9a3c7bac",
+          "bytes": 1747159,
+          "dimensions": [
+            1254,
+            1254
+          ],
+          "format": "PNG",
+          "itemId": "companions-8",
+          "variant": "source"
+        },
+        "card": {
+          "path": "public/assets/catalog-candidates/chat-20260921-intake01/companions-8-card.webp",
+          "sha256": "2a76055bcfcaecc4ce06f161ce67a8d57e8e10127c97b6c8c66c20c465913b49",
+          "bytes": 13886,
+          "dimensions": [
+            256,
+            256
+          ],
+          "format": "WEBP",
+          "itemId": "companions-8",
+          "variant": "card"
+        },
+        "detail": {
+          "path": "public/assets/catalog-candidates/chat-20260921-intake01/companions-8-detail.webp",
+          "sha256": "363b93681e748a582116669b8738be8217d0343b860c6bacb4c5597308a1bcf5",
+          "bytes": 62094,
+          "dimensions": [
+            768,
+            768
+          ],
+          "format": "WEBP",
+          "itemId": "companions-8",
+          "variant": "detail"
+        }
+      }
+    },
+    {
+      "itemId": "companions-10",
+      "name": "Pixel Bot",
+      "collectionId": "companions",
+      "collectionName": "Buddies",
+      "type": "companion",
+      "tier": 4,
+      "theme": "Midnight Neon",
+      "sourceFilename": "neon_star_robot_mascot.png",
+      "sourceSha256": "6f6df89dfd98642b940343fa446991db14793e38a1c0c7276ad53ff46a4b8f8c",
+      "status": "READY_FOR_INDEPENDENT_REVIEW",
+      "visualReview": "Pixel facial display and neon teal/purple materials support the name and Midnight Neon theme.",
+      "sourceProvenance": "Existing image-generation PNG attached in this conversation; reused, not regenerated.",
+      "files": {
+        "source": {
+          "path": "public/assets/catalog-candidates/chat-20260921-intake01/companions-10-source.png",
+          "sha256": "6f6df89dfd98642b940343fa446991db14793e38a1c0c7276ad53ff46a4b8f8c",
+          "bytes": 1736526,
+          "dimensions": [
+            1254,
+            1254
+          ],
+          "format": "PNG",
+          "itemId": "companions-10",
+          "variant": "source"
+        },
+        "card": {
+          "path": "public/assets/catalog-candidates/chat-20260921-intake01/companions-10-card.webp",
+          "sha256": "cb9b6ed7bea071629f0ab65c0e4d0bc86a5dbba88b4bd866384d18e60350a7a9",
+          "bytes": 13460,
+          "dimensions": [
+            256,
+            256
+          ],
+          "format": "WEBP",
+          "itemId": "companions-10",
+          "variant": "card"
+        },
+        "detail": {
+          "path": "public/assets/catalog-candidates/chat-20260921-intake01/companions-10-detail.webp",
+          "sha256": "c963cbad0067ade8277e9f84b331437431bdce498de11bc10eab4e3ff01b73e2",
+          "bytes": 63032,
+          "dimensions": [
+            768,
+            768
+          ],
+          "format": "WEBP",
+          "itemId": "companions-10",
+          "variant": "detail"
+        }
+      }
+    },
+    {
+      "itemId": "companions-11",
+      "name": "Dream Dragon",
+      "collectionId": "companions",
+      "collectionName": "Buddies",
+      "type": "companion",
+      "tier": 4,
+      "theme": "Candy Core",
+      "sourceFilename": "dreamy_star_dragon_companion.png",
+      "sourceSha256": "b72c5009899a8411604f3e8b6ffb33198c7fa71f57d3753478eb1323153a3de9",
+      "status": "READY_FOR_INDEPENDENT_REVIEW",
+      "visualReview": "Friendly dragon and pastel confection-like palette are a plausible Candy Core interpretation; require art-director sign-off.",
+      "sourceProvenance": "Existing image-generation PNG attached in this conversation; reused, not regenerated.",
+      "files": {
+        "source": {
+          "path": "public/assets/catalog-candidates/chat-20260921-intake01/companions-11-source.png",
+          "sha256": "b72c5009899a8411604f3e8b6ffb33198c7fa71f57d3753478eb1323153a3de9",
+          "bytes": 1885239,
+          "dimensions": [
+            1254,
+            1254
+          ],
+          "format": "PNG",
+          "itemId": "companions-11",
+          "variant": "source"
+        },
+        "card": {
+          "path": "public/assets/catalog-candidates/chat-20260921-intake01/companions-11-card.webp",
+          "sha256": "6ece80e9a3fb51896a985072a02f23fa5be485bd12fb04d74e8af9e70cdc7d29",
+          "bytes": 13162,
+          "dimensions": [
+            256,
+            256
+          ],
+          "format": "WEBP",
+          "itemId": "companions-11",
+          "variant": "card"
+        },
+        "detail": {
+          "path": "public/assets/catalog-candidates/chat-20260921-intake01/companions-11-detail.webp",
+          "sha256": "d531305bbf28873c2863033dd5da7638d2b1d80fffd1ab3df787556a257cf2ba",
+          "bytes": 63886,
+          "dimensions": [
+            768,
+            768
+          ],
+          "format": "WEBP",
+          "itemId": "companions-11",
+          "variant": "detail"
+        }
+      }
+    },
+    {
+      "itemId": "companions-12",
+      "name": "Star Unicorn",
+      "collectionId": "companions",
+      "collectionName": "Buddies",
+      "type": "companion",
+      "tier": 5,
+      "theme": "Adventure Club",
+      "sourceFilename": "sparkling_rainbow_unicorn_companion.png",
+      "sourceSha256": "b5da076d897abf09d8a79c092fbb680a172239be003e2a4d43d91064f38647c0",
+      "status": "HOLD_THEME_REVIEW",
+      "visualReview": "Star ornaments and unicorn silhouette fit the name; Adventure Club identity is not established by explorer/accessory details.",
+      "sourceProvenance": "Existing image-generation PNG attached in this conversation; reused, not regenerated.",
+      "files": {
+        "source": {
+          "path": "public/assets/catalog-candidates/chat-20260921-intake01/companions-12-source.png",
+          "sha256": "b5da076d897abf09d8a79c092fbb680a172239be003e2a4d43d91064f38647c0",
+          "bytes": 1928392,
+          "dimensions": [
+            1254,
+            1254
+          ],
+          "format": "PNG",
+          "itemId": "companions-12",
+          "variant": "source"
+        },
+        "card": {
+          "path": "public/assets/catalog-candidates/chat-20260921-intake01/companions-12-card.webp",
+          "sha256": "e51b401af8084e8ee937c1c13d12e914eb69ae7fcf111b7b359228b735b50241",
+          "bytes": 14818,
+          "dimensions": [
+            256,
+            256
+          ],
+          "format": "WEBP",
+          "itemId": "companions-12",
+          "variant": "card"
+        },
+        "detail": {
+          "path": "public/assets/catalog-candidates/chat-20260921-intake01/companions-12-detail.webp",
+          "sha256": "5384430c535008a77bd9de5492219ff686aca09ae31f186aee6853cb095d66ce",
+          "bytes": 78564,
+          "dimensions": [
+            768,
+            768
+          ],
+          "format": "WEBP",
+          "itemId": "companions-12",
+          "variant": "detail"
+        }
+      }
+    }
+  ]
+}

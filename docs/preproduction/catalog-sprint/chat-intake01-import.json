@@ -1,0 +1,54 @@
+{
+  "batchId": "chat-20260921-intake01",
+  "status": "CANDIDATES_ONLY",
+  "canonicalFinalCountDelta": 0,
+  "canonicalManifestChanged": false,
+  "runtimeChanged": false,
+  "replitUpdated": false,
+  "sourceHead": "f371e00ca215752c29ae67bb548e2005ad5fced5",
+  "companionItemsImported": 10,
+  "companionImageFilesImported": 30,
+  "archiveSha256": "e0458a2e5d04662fb332ef9a8c194e890b19440aab2d98dccb641d8e5388fc69",
+  "checks": "Outer archive SHA, per-file SHA/size, safe paths, PNG CRC/dimensions, WebP RIFF length; local Pillow full decode previously passed.",
+  "moonCandidate": {
+    "itemId": "seating-11",
+    "name": "Moon Chair",
+    "tier": 4,
+    "theme": "Galaxy Glow",
+    "collectionId": "seating",
+    "status": "READY_FOR_INDEPENDENT_REVIEW",
+    "files": [
+      {
+        "path": "public/assets/catalog-candidates/chat-20260921-intake01/seating-11-source.png",
+        "variant": "source",
+        "bytes": 130179,
+        "sha256": "bd40e967b71aec8667ed67987fc2c2c9de9016445137b4ad716f289a6c75cb2f",
+        "dimensions": [
+          410,
+          300
+        ],
+        "format": "PNG"
+      },
+      {
+        "path": "public/assets/catalog-candidates/chat-20260921-intake01/seating-11-card.png",
+        "variant": "card",
+        "bytes": 69831,
+        "sha256": "955ea7d202f7b5e0d3ff45634dfa3dd7471bcb9ccae29768bdf659c4905622f9",
+        "dimensions": [
+          256,
+          256
+        ],
+        "format": "PNG"
+      }
+    ],
+    "provenance": "Individual crop from an image-generated sheet after an Adobe edit; the sheet as a whole failed the requested batch brief. Crop and 256px padding inspected in chat. No generated labels/counters are used. Not canonical or independently accepted."
+  },
+  "independentVisualReview": "PENDING",
+  "storeBrowserAndMobileScrolling": "NOT_TESTED_IN_THIS_IMPORT",
+  "regressionSuite": "PASS",
+  "productionBuild": "PASS",
+  "testedSourceHead": "f371e00ca215752c29ae67bb548e2005ad5fced5",
+  "workflowRunId": "35637260171",
+  "candidateFilesOnly": true,
+  "typecheck": "NOT_APPLICABLE_NO_TYPESCRIPT_APP_CHANGES"
+}
