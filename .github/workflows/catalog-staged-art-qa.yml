@@ -37,7 +37,7 @@ jobs:
           nohup python3 -m http.server 4174 --bind 127.0.0.1 --directory . > /tmp/starblox-staged-art.log 2>&1 &
           echo $! > /tmp/starblox-staged-art.pid
           for i in $(seq 1 30); do
-            if curl -fsS http://127.0.0.1:4174/docs/preproduction/catalog-sprint/reviews/14-lighting-contact-sheet.svg >/dev/null; then
+            if curl -fsS http://127.0.0.1:4174/public/assets/catalog/lighting-1.svg >/dev/null; then
               exit 0
             fi
             sleep 0.5
@@ -51,31 +51,50 @@ jobs:
           node --input-type=module <<'NODE'
           import { chromium } from 'playwright';
           import fs from 'node:fs';
+
           const browser = await chromium.launch({headless:true});
-          const page = await browser.newPage({ viewport: { width: 1200, height: 960 }, deviceScaleFactor: 1 });
           const base = 'http://127.0.0.1:4174';
-          const consoleErrors = [];
-          page.on('console', m => { if (m.type() === 'error') consoleErrors.push(m.text()); });
-          page.on('pageerror', e => consoleErrors.push(String(e)));
-          await page.goto(`${base}/docs/preproduction/catalog-sprint/reviews/14-lighting-contact-sheet.svg`, {waitUntil:'networkidle'});
-          await page.screenshot({path:'artifacts/catalog-staged-art/lighting-contact-sheet.png', fullPage:true});
-          const results = [];
-          for (let i=1;i<=12;i++) {
+          const ids = Array.from({length:12}, (_,i) => `lighting-${i+1}`);
+          const labels = [
+            'Starter Lamp · a522ae4d','Cloud Lamp · 07e2ef5e','Pixel Cube Light · f0416273','Heart Lamp · 42f07255',
+            'Vine Light · 8aa582f7','Planet Lamp · a3ef6f5e','Sun Lamp · c6be5b8c','Bubble Lamp · 18db9f24',
+            'Color Lamp · 4ed3cf2e','Neon Strip Tower · fbebec24','Aurora Light · 51688579','Crystal Chandelier · 3568ddea'
+          ];
+          const report = {sourceHead:process.env.GITHUB_SHA, contactSheetErrors:[], results:[]};
+
+          const page = await browser.newPage({viewport:{width:1200,height:960},deviceScaleFactor:1});
+          page.on('console', m => { if (m.type()==='error') report.contactSheetErrors.push(m.text()); });
+          page.on('pageerror', e => report.contactSheetErrors.push(String(e)));
+          const cards = ids.map((id,i) => `<article><img src="${base}/public/assets/catalog/${id}.svg" alt="${id}"><div><b>${id}</b><br>${labels[i]}</div></article>`).join('');
+          await page.setContent(`<!doctype html><meta charset="utf-8"><style>html,body{margin:0;background:#081936;color:white;font:14px system-ui,sans-serif}main{box-sizing:border-box;width:1200px;padding:30px;display:grid;grid-template-columns:repeat(4,1fr);gap:18px}article{height:270px;background:#102c5d;border:2px solid #39d5ff;border-radius:18px;padding:12px;box-sizing:border-box}img{width:100%;height:210px;object-fit:contain;display:block}div{padding-top:7px;line-height:18px}</style><main>${cards}</main>`);
+          await page.waitForFunction(() => [...document.images].every(img => img.complete && img.naturalWidth > 0), null, {timeout:15000});
+          await page.screenshot({path:'artifacts/catalog-staged-art/lighting-contact-sheet.png', fullPage:true, timeout:15000});
+
+          for (const id of ids) {
             const p = await browser.newPage({viewport:{width:800,height:800},deviceScaleFactor:1});
             const errors = [];
-            p.on('console', m => { if (m.type() === 'error') errors.push(m.text()); });
+            p.on('console', m => { if (m.type()==='error') errors.push(m.text()); });
             p.on('pageerror', e => errors.push(String(e)));
-            const url = `${base}/public/assets/catalog/lighting-${i}.svg`;
-            const response = await p.goto(url, {waitUntil:'networkidle'});
-            const status = response?.status() ?? null;
-            const body = await p.locator('svg').count();
-            await p.screenshot({path:`artifacts/catalog-staged-art/lighting-detail/lighting-${i}.png`, fullPage:true});
-            results.push({id:`lighting-${i}`,url,status,svgCount:body,errors});
+            const url = `${base}/public/assets/catalog/${id}.svg`;
+            let status = null, svgCount = 0, screenshot = false;
+            try {
+              const response = await p.goto(url, {waitUntil:'domcontentloaded', timeout:15000});
+              status = response?.status() ?? null;
+              svgCount = await p.locator('svg').count();
+              if (svgCount === 1) {
+                await p.locator('svg').screenshot({path:`artifacts/catalog-staged-art/lighting-detail/${id}.png`, timeout:15000});
+                screenshot = true;
+              }
+            } catch (error) {
+              errors.push(String(error));
+            }
+            report.results.push({id,url,status,svgCount,screenshot,errors});
+            fs.writeFileSync('artifacts/catalog-staged-art/report.json', JSON.stringify(report, null, 2));
             await p.close();
           }
-          fs.writeFileSync('artifacts/catalog-staged-art/report.json', JSON.stringify({sourceHead:process.env.GITHUB_SHA,contactSheetErrors:consoleErrors,results}, null, 2));
-          if (consoleErrors.length || results.some(r => r.status !== 200 || r.svgCount !== 1 || r.errors.length)) process.exitCode = 1;
+          fs.writeFileSync('artifacts/catalog-staged-art/report.json', JSON.stringify(report, null, 2));
           await browser.close();
+          if (report.contactSheetErrors.length || report.results.some(r => r.status !== 200 || r.svgCount !== 1 || !r.screenshot || r.errors.length)) process.exitCode = 1;
           NODE
 
       - name: Print staged-art summary
