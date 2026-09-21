@@ -1,81 +1,170 @@
 {
-  "schemaVersion": 3,
+  "schemaVersion": 4,
   "lane": "09",
   "workstream": "09",
   "phase": "CATALOG_SPRINT",
   "branch": "screenshot-match-preproduction",
-  "status": "READY_FOR_REVIEW_TOPS_7_12_REPAIR_BATCH_STAGED",
+  "status": "GENERATED_ADOBE_REPAIRS_TOPS_7_8_DECOR_1_2_STAGING_BLOCKED",
+  "currentObservedBranchHead": "7fa1e46001d756f6333a609c1a493dd35017e22a",
   "primaryAssignment": ["decor-1","decor-2","decor-3","decor-4","decor-5","decor-6","decor-7","decor-8","decor-9","decor-10","decor-11","decor-12"],
   "secondaryRepairAssignment": {
-    "source": "docs/preproduction/CATALOG_SPRINT_STATE.json repairAssignments.09",
     "ids": ["tops-7","tops-8","tops-9","tops-10","tops-11","tops-12"],
-    "reason": "Reviewer 01 independently rejected the legacy Tops family for flat frontal/vector treatment below the premium dimensional collectible target.",
     "reviewOwner": "01",
     "producerOwner": "09"
   },
   "selfApproved": false,
   "canonicalManifestChanged": false,
   "runtimeWiringChanged": false,
-  "currentObservedBranchHead": "acbc6035da9d57bc88043604caa5ec0b6352398e",
-  "primaryDecor": {
-    "candidateCount": 12,
-    "reviewOwner": "14",
-    "status": "PENDING_INDEPENDENT_RENDERED_REVIEW",
-    "reviewEvidence": "Reviewer 14 currently has 36/48 assigned items reviewed (Lighting, Wall, Rugs), all REWORK. Decor remains the final 12 unreviewed items in reviewer 14's partition, so no decor bytes were replaced without item-level REWORK decisions.",
-    "producerEvidence": "Representative unchanged decor hashes previously rendered successfully at 800x800 and 220x220. Producer observed flat/vector material-depth risk; this is renderability/risk evidence only, not independent acceptance.",
-    "assets": [
-      {"id":"decor-1","name":"Book Crate","tier":1,"theme":"Midnight Neon","path":"/assets/catalog/decor-1.svg","blobSha":"81999ed9d9b289bd2137cac690a36e8e99d03824","bytes":2742,"dimensions":[800,800],"status":"READY_FOR_REVIEW"},
-      {"id":"decor-2","name":"Cloud Shelf","tier":1,"theme":"Candy Core","path":"/assets/catalog/decor-2.svg","blobSha":"c07d57b318bfed909f22e11427e389cb26490696","bytes":2076,"dimensions":[800,800],"status":"READY_FOR_REVIEW"},
-      {"id":"decor-3","name":"Arcade Mini","tier":1,"theme":"Adventure Club","path":"/assets/catalog/decor-3.svg","blobSha":"4fc2f591915f53b249956c20c50693ad22e3a1bb","bytes":2308,"dimensions":[800,800],"status":"READY_FOR_REVIEW"},
-      {"id":"decor-4","name":"Plush Stack","tier":2,"theme":"Cloud Pop","path":"/assets/catalog/decor-4.svg","blobSha":"cb4bc4cfca9bdd4764905fdf94aa8291605f1ce0","bytes":2461,"dimensions":[800,800],"status":"READY_FOR_REVIEW"},
-      {"id":"decor-5","name":"Plant Wall","tier":2,"theme":"Pixel Party","path":"/assets/catalog/decor-5.svg","blobSha":"0f7559a576177758d94dba1c3da27373a9151a2b","bytes":2332,"dimensions":[800,800],"status":"READY_FOR_REVIEW"},
-      {"id":"decor-6","name":"Telescope","tier":2,"theme":"Berry Blast","path":"/assets/catalog/decor-6.svg","blobSha":"3a8d81ea490f8bac42ef2147797a3926d69df9ef","bytes":2464,"dimensions":[800,800],"status":"READY_FOR_REVIEW"},
-      {"id":"decor-7","name":"Skate Rack","tier":3,"theme":"Garden Glow","path":"/assets/catalog/decor-7.svg","blobSha":"671c609625400bf5c2142daef73ab632bd1225a2","bytes":2317,"dimensions":[800,800],"status":"READY_FOR_REVIEW"},
-      {"id":"decor-8","name":"Mini Aquarium","tier":3,"theme":"Galaxy Glow","path":"/assets/catalog/decor-8.svg","blobSha":"87e33d5190b7a7ef21e23ae875dda8ae1808c4be","bytes":2550,"dimensions":[800,800],"status":"READY_FOR_REVIEW"},
-      {"id":"decor-9","name":"Easel Set","tier":3,"theme":"Sunny Pop","path":"/assets/catalog/decor-9.svg","blobSha":"5c95b853da763f7ff2e9e332169ea5841ac1885e","bytes":2390,"dimensions":[800,800],"status":"READY_FOR_REVIEW"},
-      {"id":"decor-10","name":"Mini Fridge","tier":4,"theme":"Aqua Wave","path":"/assets/catalog/decor-10.svg","blobSha":"f390a4a237605f8768111efc65c85d059529a690","bytes":2365,"dimensions":[800,800],"status":"READY_FOR_REVIEW"},
-      {"id":"decor-11","name":"Dream Vanity Set","tier":4,"theme":"Art Attack","path":"/assets/catalog/decor-11.svg","blobSha":"250aad2e72917036ae03c1db3e9071ae6c7aa983","bytes":2876,"dimensions":[800,800],"status":"READY_FOR_REVIEW"},
-      {"id":"decor-12","name":"Trophy Wall","tier":5,"theme":"Star Luxe","path":"/assets/catalog/decor-12.svg","blobSha":"903e0f5d45dd6874c4352493db3e3e3346e0b39c","bytes":3115,"dimensions":[800,800],"status":"READY_FOR_REVIEW"}
+  "changedInputs": {
+    "reviewer01": {
+      "reviewBlobSha": "d750e37b564fca9e36cf225be15d823afeec7839",
+      "replacementAccepted": ["tops-1","tops-2","tops-3","tops-4","tops-5","tops-6"],
+      "replacementRework": [
+        {
+          "id": "tops-7",
+          "hash": "fe5b33a5b8eb8de137abab7daf315ddfaaaaf408",
+          "path": "/assets/catalog/tops-7-w09-v2.svg",
+          "reason": "Still a flat frontal vector hoodie. Identity/theme read, but Tier 3 lacks convincing fabric volume, folds, material response, three-quarter construction and cast/contact lighting.",
+          "failedChecks": ["dimensional construction","materials","lighting"]
+        },
+        {
+          "id": "tops-8",
+          "hash": "81bbec69f1e164b9772e0f867409581526f5255a",
+          "path": "/assets/catalog/tops-8-w09-v2.svg",
+          "reason": "Vest silhouette is distinct, but quilt/puffer regions remain flat graphic bands with weak loft/material depth and weak Art Attack storytelling.",
+          "failedChecks": ["theme/tier","dimensional construction","materials","lighting"]
+        }
+      ],
+      "tops9Through12ReplacementDisposition": "NOT_YET_RECORDED_FOR_CURRENT_W09_V2_HASHES"
+    },
+    "reviewer14": {
+      "reviewBlobSha": "f3f20ddb9d2104aec998e70711584133b4d5e490",
+      "reviewed": 48,
+      "accepted": 4,
+      "rework": 44,
+      "decorDisposition": "REWORK_12_OF_12",
+      "decorReasonCode": "FLAT_PRODUCT_ICON",
+      "evidenceWorkflowRunId": 35656393329,
+      "evidenceArtifactId": 10665735307,
+      "evidenceArtifactDigest": "sha256:ad8d2da6f5553eb922616956515b85a16c89d80b34574e6679dfd6716c6f3233"
+    }
+  },
+  "preservedRepositoryCandidates": {
+    "tops": [
+      {"id":"tops-7","path":"/assets/catalog/tops-7-w09-v2.svg","blobSha":"fe5b33a5b8eb8de137abab7daf315ddfaaaaf408","status":"REWORK_PRESERVED"},
+      {"id":"tops-8","path":"/assets/catalog/tops-8-w09-v2.svg","blobSha":"81bbec69f1e164b9772e0f867409581526f5255a","status":"REWORK_PRESERVED"},
+      {"id":"tops-9","path":"/assets/catalog/tops-9-w09-v2.svg","blobSha":"232c5db97964d710489c4e32bc7c87d4a985efc1","status":"READY_FOR_REVIEW_PRESERVED"},
+      {"id":"tops-10","path":"/assets/catalog/tops-10-w09-v2.svg","blobSha":"233739b22d0f3395b02bc51f57fb1f36afc41993","status":"READY_FOR_REVIEW_PRESERVED"},
+      {"id":"tops-11","path":"/assets/catalog/tops-11-w09-v2.svg","blobSha":"9e29094190a1c1867e94d44ef1c4134140447191","status":"READY_FOR_REVIEW_PRESERVED"},
+      {"id":"tops-12","path":"/assets/catalog/tops-12-w09-v2.svg","blobSha":"1788cfb30ffd70d71bf182f01f137f9d241200fa","status":"READY_FOR_REVIEW_PRESERVED"}
+    ],
+    "decor": [
+      {"id":"decor-1","name":"Book Crate","tier":1,"theme":"Midnight Neon","path":"/assets/catalog/decor-1.svg","blobSha":"81999ed9d9b289bd2137cac690a36e8e99d03824","status":"REWORK_PRESERVED"},
+      {"id":"decor-2","name":"Cloud Shelf","tier":1,"theme":"Candy Core","path":"/assets/catalog/decor-2.svg","blobSha":"c07d57b318bfed909f22e11427e389cb26490696","status":"REWORK_PRESERVED"},
+      {"id":"decor-3","name":"Arcade Mini","tier":1,"theme":"Adventure Club","path":"/assets/catalog/decor-3.svg","blobSha":"4fc2f591915f53b249956c20c50693ad22e3a1bb","status":"REWORK_PRESERVED"},
+      {"id":"decor-4","name":"Plush Stack","tier":2,"theme":"Cloud Pop","path":"/assets/catalog/decor-4.svg","blobSha":"cb4bc4cfca9bdd4764905fdf94aa8291605f1ce0","status":"REWORK_PRESERVED"},
+      {"id":"decor-5","name":"Plant Wall","tier":2,"theme":"Pixel Party","path":"/assets/catalog/decor-5.svg","blobSha":"0f7559a576177758d94dba1c3da27373a9151a2b","status":"REWORK_PRESERVED"},
+      {"id":"decor-6","name":"Telescope","tier":2,"theme":"Berry Blast","path":"/assets/catalog/decor-6.svg","blobSha":"3a8d81ea490f8bac42ef2147797a3926d69df9ef","status":"REWORK_PRESERVED"},
+      {"id":"decor-7","name":"Skate Rack","tier":3,"theme":"Garden Glow","path":"/assets/catalog/decor-7.svg","blobSha":"671c609625400bf5c2142daef73ab632bd1225a2","status":"REWORK_PRESERVED"},
+      {"id":"decor-8","name":"Mini Aquarium","tier":3,"theme":"Galaxy Glow","path":"/assets/catalog/decor-8.svg","blobSha":"87e33d5190b7a7ef21e23ae875dda8ae1808c4be","status":"REWORK_PRESERVED"},
+      {"id":"decor-9","name":"Easel Set","tier":3,"theme":"Sunny Pop","path":"/assets/catalog/decor-9.svg","blobSha":"5c95b853da763f7ff2e9e332169ea5841ac1885e","status":"REWORK_PRESERVED"},
+      {"id":"decor-10","name":"Mini Fridge","tier":4,"theme":"Aqua Wave","path":"/assets/catalog/decor-10.svg","blobSha":"f390a4a237605f8768111efc65c85d059529a690","status":"REWORK_PRESERVED"},
+      {"id":"decor-11","name":"Dream Vanity Set","tier":4,"theme":"Art Attack","path":"/assets/catalog/decor-11.svg","blobSha":"250aad2e72917036ae03c1db3e9071ae6c7aa983","status":"REWORK_PRESERVED"},
+      {"id":"decor-12","name":"Trophy Wall","tier":5,"theme":"Star Luxe","path":"/assets/catalog/decor-12.svg","blobSha":"903e0f5d45dd6874c4352493db3e3e3346e0b39c","status":"REWORK_PRESERVED"}
     ]
   },
-  "secondaryRepairBatch": {
-    "batch": 2,
-    "candidateCount": 6,
-    "status": "READY_FOR_REVIEW",
-    "reviewOwner": "01",
+  "generatedRepairBatch": {
+    "batch": 3,
+    "status": "GENERATED_ADOBE_NOT_REPOSITORY_STAGED",
+    "count": 4,
     "assets": [
-      {"id":"tops-7","name":"Colorblock Hoodie","tier":3,"theme":"Aqua Wave","priorPath":"/assets/catalog/tops-7.svg","priorBlobSha":"5ae692e97f583f8644a4f8c430b07462de3d46df","reviewDefect":"Flat frontal hoodie family; add hood/body dimensionality, seams/folds, material variation and three-quarter collectible framing.","candidatePath":"/assets/catalog/tops-7-w09-v2.svg","candidateBlobSha":"fe5b33a5b8eb8de137abab7daf315ddfaaaaf408","candidateBytes":4180,"dimensions":[800,800],"format":"svg","creationCommit":"8e5d0b8249a7f1bd1af16175fca5bf6f6f34ada3","designChanges":["angled collectible pose","dimensional hood cavity","front/side material planes","layered colorblock panels","seam/fold highlights","cast shadow"],"repositoryReadback":"PASS_EXACT_PATH_BLOB_SIZE","producerPixelRender":"PENDING_SHARED_FIXTURE","status":"READY_FOR_REVIEW"},
-      {"id":"tops-8","name":"Puffer Vest","tier":3,"theme":"Art Attack","priorPath":"/assets/catalog/tops-8.svg","priorBlobSha":"5f3f1b1efeab3722616b7a14acfc0155bea10724","reviewDefect":"Puffer sections lack convincing loft/quilted material; increase cushion volume, panel highlights/shadows, zipper/opening construction and art-theme detail.","candidatePath":"/assets/catalog/tops-8-w09-v2.svg","candidateBlobSha":"81bbec69f1e164b9772e0f867409581526f5255a","candidateBytes":3973,"dimensions":[800,800],"format":"svg","creationCommit":"398b35fff3910d243040b5fe6fd829dd38ab3512","designChanges":["angled vest silhouette","separate collar/side plane","quilted highlight-shadow bands","zipper hardware","paint-swatch accents","stronger volume"],"repositoryReadback":"PASS_EXACT_PATH_BLOB_SIZE","producerPixelRender":"PENDING_SHARED_FIXTURE","status":"READY_FOR_REVIEW"},
-      {"id":"tops-9","name":"Art Smock","tier":3,"theme":"Star Luxe","priorPath":"/assets/catalog/tops-9.svg","priorBlobSha":"b90d69cc591a27db71200010f86ee5a0b5ff3a45","reviewDefect":"Paint/smock identity is present but garment/tool layering and fabric depth are not premium.","candidatePath":"/assets/catalog/tops-9-w09-v2.svg","candidateBlobSha":"232c5db97964d710489c4e32bc7c87d4a985efc1","candidateBytes":3861,"dimensions":[800,800],"format":"svg","creationCommit":"de71ba9a687fa37ba49fcea11581835d87a0a8fa","designChanges":["angled dimensional smock body","dark textile front/side shading","gold-trimmed layered collar","large dimensional split pocket","brush and palette accessories","fabric seam/fold highlights"],"repositoryReadback":"PASS_EXACT_PATH_BLOB_SIZE","producerPixelRender":"PENDING_SHARED_FIXTURE","status":"READY_FOR_REVIEW"},
-      {"id":"tops-10","name":"Star Bomber","tier":4,"theme":"Midnight Neon","priorPath":"/assets/catalog/tops-10.svg","priorBlobSha":"cffd037b7cf48b74e7bce71e9a31c20cf659b347","reviewDefect":"Tier 4 lacks material richness/spectacle; needs bomber volume, ribbing, reflective material, hardware and controlled neon rim.","candidatePath":"/assets/catalog/tops-10-w09-v2.svg","candidateBlobSha":"233739b22d0f3395b02bc51f57fb1f36afc41993","candidateBytes":4208,"dimensions":[800,800],"format":"svg","creationCommit":"be112559d340813d72cd9af40f6aa3702525d208","designChanges":["angled bomber volume","separate shoulder/side plane","metal zipper and pockets","cyan/pink neon piping","ribbed hem treatment","layered neon star crest"],"repositoryReadback":"PASS_EXACT_PATH_BLOB_SIZE","producerPixelRender":"PENDING_SHARED_FIXTURE","status":"READY_FOR_REVIEW"},
-      {"id":"tops-11","name":"Cloud Jacket","tier":4,"theme":"Candy Core","priorPath":"/assets/catalog/tops-11.svg","priorBlobSha":"796e4b19061d2c7fb442b05040669a2098dd302f","reviewDefect":"Cloud motif is readable, but Tier-4 construction/plush depth and lighting are insufficient; add volume, seams/hardware and candy-luxe material response.","candidatePath":"/assets/catalog/tops-11-w09-v2.svg","candidateBlobSha":"9e29094190a1c1867e94d44ef1c4134140447191","candidateBytes":4217,"dimensions":[800,800],"format":"svg","creationCommit":"facfd01b7cb2e81867a04aca12c599822483aa48","designChanges":["angled jacket construction","volumetric multi-lobe cloud collar","front/side plush material gradients","metal zipper hardware","layered pockets and seams","candy star/button accents"],"repositoryReadback":"PASS_EXACT_PATH_BLOB_SIZE","producerPixelRender":"PENDING_SHARED_FIXTURE","status":"READY_FOR_REVIEW"},
-      {"id":"tops-12","name":"Star Coat","tier":5,"theme":"Adventure Club","priorPath":"/assets/catalog/tops-12.svg","priorBlobSha":"976efa374df1f78d4ead572e2612d53cb80d31f2","reviewDefect":"Highest tier lacks luxe construction/materials/hero lighting; needs layered lapels/trim and spectacular but readable star detail.","candidatePath":"/assets/catalog/tops-12-w09-v2.svg","candidateBlobSha":"1788cfb30ffd70d71bf182f01f137f9d241200fa","candidateBytes":4536,"dimensions":[800,800],"format":"svg","creationCommit":"2dd3d914a74ee4f4df38031d0973a8110ac4c8ef","designChanges":["long angled hero coat","layered gold-edged lapels with contrasting lining","front/side material planes","gold zipper/buttons/trim","dimensional leather expedition pockets","adventure badges and premium star crest"],"repositoryReadback":"PASS_EXACT_PATH_BLOB_SIZE","producerPixelRender":"PENDING_SHARED_FIXTURE","status":"READY_FOR_REVIEW"}
-    ],
-    "remainingAssignedRepairs": []
+      {
+        "id": "tops-7",
+        "name": "Colorblock Hoodie",
+        "tier": 3,
+        "theme": "Aqua Wave",
+        "sourceRejectedHash": "fe5b33a5b8eb8de137abab7daf315ddfaaaaf408",
+        "intendedRepositoryPath": "/assets/catalog/tops-7-w09-v3.png",
+        "format": "png",
+        "dimensions": [1024,1024],
+        "adobeGenAIAssetId": "urn:aaid:sc:US:a146737a-008b-4662-8e45-07fdc29254ad",
+        "adobeStoredBytes": 1044529,
+        "producerPixelInspection": "PASS_DIMENSIONAL_THREE_QUARTER_HOOD_BODY_SLEEVE_VOLUME_FABRIC_FOLDS_RIBBING_CAST_SHADOW",
+        "repositoryReadback": "BLOCKED_BINARY_TRANSFER_NOT_AVAILABLE_IN_THIS_RUN",
+        "status": "GENERATED_ADOBE_STAGING_BLOCKED"
+      },
+      {
+        "id": "tops-8",
+        "name": "Puffer Vest",
+        "tier": 3,
+        "theme": "Art Attack",
+        "sourceRejectedHash": "81bbec69f1e164b9772e0f867409581526f5255a",
+        "intendedRepositoryPath": "/assets/catalog/tops-8-w09-v3.png",
+        "format": "png",
+        "dimensions": [1024,1024],
+        "adobeGenAIAssetId": "urn:aaid:sc:US:a89505f7-417e-4449-b346-365f707a9618",
+        "adobeStoredBytes": 1222362,
+        "producerPixelInspection": "PASS_DIMENSIONAL_QUILTED_LOFT_RAISED_COLLAR_ZIPPER_HARDWARE_ART_ATTACK_MATERIAL_STORYTELLING_CAST_SHADOW",
+        "repositoryReadback": "BLOCKED_BINARY_TRANSFER_NOT_AVAILABLE_IN_THIS_RUN",
+        "status": "GENERATED_ADOBE_STAGING_BLOCKED"
+      },
+      {
+        "id": "decor-1",
+        "name": "Book Crate",
+        "tier": 1,
+        "theme": "Midnight Neon",
+        "sourceRejectedHash": "81999ed9d9b289bd2137cac690a36e8e99d03824",
+        "intendedRepositoryPath": "/assets/catalog/decor-1-w09-v2.png",
+        "format": "png",
+        "dimensions": [1024,1024],
+        "adobeGenAIAssetId": "urn:aaid:sc:US:acf980d3-05f0-47bd-8949-55f729654a37",
+        "adobeStoredBytes": 1079158,
+        "producerPixelInspection": "PASS_PHYSICAL_WOOD_SLATS_THICKNESS_METAL_CORNERS_BOOK_PAGE_DEPTH_NEON_EDGE_ACCENTS_GROUNDED_SHADOW",
+        "repositoryReadback": "BLOCKED_BINARY_TRANSFER_NOT_AVAILABLE_IN_THIS_RUN",
+        "status": "GENERATED_ADOBE_STAGING_BLOCKED"
+      },
+      {
+        "id": "decor-2",
+        "name": "Cloud Shelf",
+        "tier": 1,
+        "theme": "Candy Core",
+        "sourceRejectedHash": "c07d57b318bfed909f22e11427e389cb26490696",
+        "intendedRepositoryPath": "/assets/catalog/decor-2-w09-v2.png",
+        "format": "png",
+        "dimensions": [1024,1024],
+        "adobeGenAIAssetId": "urn:aaid:sc:US:712c6b0d-d36b-482d-8d69-6fee92742ec7",
+        "adobeStoredBytes": 907917,
+        "producerPixelInspection": "PASS_CLOUD_BODY_THICKNESS_WALL_BRACKETS_SHELF_DEPTH_CANDY_MATERIAL_RESPONSE_CONTACT_SHADOW",
+        "repositoryReadback": "BLOCKED_BINARY_TRANSFER_NOT_AVAILABLE_IN_THIS_RUN",
+        "status": "GENERATED_ADOBE_STAGING_BLOCKED"
+      }
+    ]
   },
-  "provenance": "All six Workstream-09 replacement candidates are original self-contained StarBlox SVG repairs authored from Reviewer 01's exact item-level defects. They contain no external raster images, external fonts, brand marks, third-party characters, Roblox/Brookhaven assets, emoji, or copied promotional imagery.",
+  "binaryStagingBlocker": {
+    "status": "OPEN_FIRST_CYCLE",
+    "detail": "Adobe Firefly generation and authenticated preview succeeded, but this Workstream-09 tool context cannot extract the generated binary bytes into the GitHub create_blob(base64) writer. Direct container download of the Adobe presigned short URL is unavailable in this environment. The repository has a previously proven Adobe-to-Git-blob transfer path coordinated by Workstream 15, so the exact stable GenAI asset URNs above are handed off for byte preservation/branch attachment rather than falsely claiming STAGED.",
+    "requiredResolution": "Use the previously proven Adobe asset-search/presigned-rendition/inline-byte to Git create_blob path, attach each exact image to its intended versioned path on the newest branch head with force=false, then verify exact readback before changing status to READY_FOR_REVIEW."
+  },
   "checks": {
-    "phaseAndRepairOwnership": "PASS_FROM_CURRENT_STATE",
-    "primaryDecorPreserved": "PASS_12_OF_12_UNCHANGED",
-    "decorReviewProgress": "PENDING_14_DECOR_FINAL_12_OF_PARTITION",
-    "secondaryRepairRepoPersistence": "PASS_6_OF_6",
-    "secondaryRepairVersioning": "PASS_PRIOR_ASSETS_PRESERVED",
-    "secondaryRepairMetadataMatch": "PASS_6_OF_6",
-    "secondaryRepairCanvasContract": "PASS_6_OF_6_800x800_VIEWBOX",
-    "secondaryRepairMeasuredGitBlobSize": "PASS_6_OF_6",
-    "secondaryRepairIndependentVisualApproval": "PENDING_REVIEWER_01_CURRENT_HASHES",
+    "phaseAndOwnership": "PASS",
+    "reviewer01FreshReplacementEvidence": "PASS_TOPS_7_8_EXACT_HASH_REWORK",
+    "reviewer14DecorEvidence": "PASS_DECOR_12_OF_12_EXACT_HASH_REWORK",
+    "tops9Through12PreservedPendingReview": "PASS_NO_REGENERATION_WITHOUT_CURRENT_HASH_REWORK",
+    "newAdobeGeneration": "PASS_4_ASSETS",
+    "producerActualPixelInspection": "PASS_4_ASSETS",
+    "newRepositoryPersistence": "BLOCKED_NOT_STAGED",
     "canonicalIntegration": "NOT_PERFORMED_BY_09",
-    "fullBuild": "NOT_RUN_ASSET_ONLY_REPAIR_BATCH",
-    "fullTestSuite": "NOT_RUN_ASSET_ONLY_REPAIR_BATCH",
+    "fullBuild": "NOT_RUN_NO_CANONICAL_RUNTIME_CHANGE",
+    "fullTestSuite": "NOT_RUN_NO_CANONICAL_RUNTIME_CHANGE",
     "gameplaySaveLearningEconomyTouched": false,
     "replitOrFlootTouched": false,
     "mainTouched": false
   },
   "handoff": {
-    "01": "Prioritize actual-pixel review of all six new Workstream-09 Tops hashes. Old-hash REWORK decisions do not transfer to replacement hashes.",
-    "14": "Decor-1..12 remain unchanged and are now the final 12 unreviewed IDs in your assigned 48-item partition; issue exact-hash actual-pixel decisions before any decor replacement work.",
-    "08": "Do not wire Workstream-09 Tops replacements until Reviewer 01 accepts their exact current hashes; 09 did not modify canonical manifest/runtime.",
-    "15": "Workstream 09 completed its currently explicit Tops 7-12 secondary repair assignment with six versioned repository-stored candidates. Primary Decor remains pending Reviewer 14; assign any next non-self-reviewed repair work only after reconciling review/in-flight versions."
+    "01": "Do not re-review Tops 7/8 until the new v3 PNG bytes are repository-staged and exact hashes exist. Tops 9-12 current W09 v2 hashes remain pending independent disposition; do not infer acceptance.",
+    "14": "Decor 1/2 have new Adobe-generated v2 PNG candidates but are not repository-staged yet. Preserve the existing 12 REWORK decisions; review new exact hashes only after staging. Decor 3-12 remain actionable REWORK for future bounded batches.",
+    "08": "No new Workstream-09 asset is eligible for integration from this run because the new generated bytes are not repository-staged/read back and therefore have no Git blob hash or independent ACCEPT.",
+    "15": "Please resolve the exact Adobe-to-Git binary handoff for the four stable GenAI URNs above using the already-proven byte-preservation path, then attach to the intended versioned paths with non-force latest-head commits. This is the first Workstream-09 cycle with this concrete binary-staging blocker."
   },
   "freeze": {"replitTouched":false,"flootTouched":false,"mainMergedOrModified":false,"playerDataTouched":false}
 }
