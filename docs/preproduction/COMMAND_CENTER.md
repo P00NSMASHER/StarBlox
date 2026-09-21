@@ -1,23 +1,23 @@
 # StarBlox Screenshot-Match Command Center
 
-STATUS: **CATALOG_SPRINT / RUNTIME CI GREEN / CATALOG REVIEW-INTEGRATION BOTTLENECK / NOT READY FOR REPLIT**
+STATUS: **CATALOG_SPRINT / CURRENT CI GREEN / 47 HASH-BOUND ART REWORKS / TWO PERSISTENCE RELEASE BLOCKERS / NOT READY FOR REPLIT**
 
 Branch: `screenshot-match-preproduction` only  
-Observed branch head: `9b2ec2accb67f8627d7e1257d1b14746016c803a`  
-Latest runtime-affecting CI-proven head: `f654431b2bb76d2eceb322dd35c613dfad17e7ae`  
+Observed coordination head: `f1512099a2b9f467ff3e5e4ca985ca649bc3b15d`  
+Latest runtime/test-proven head: `7b146f9deb9eb77429150ec104b092167d582859`  
 Delivery policy: `docs/preproduction/DELIVERY_PROTOCOL_V2.md`  
 Phase authority: Workstream 15  
 Canonical catalog manifest/runtime writer: Workstream 08  
 Replit: **untouched**  
 Main: **not merged or modified**
 
-> The five commits after `f654431...` are documentation/coordination/QA-report changes only. Git comparison shows no runtime or catalog-asset change after that proven runtime head, so the existing CI proof remains applicable until a runtime/asset integration occurs.
+The coordination commit after the proven runtime head changes control documentation only. The exact runtime/test claim below remains bound to `7b146f9...`; any later runtime or canonical asset change must earn affected fresh evidence.
 
 ## Overall completion
 
 **Estimated coordinated screenshot-match completion: 78%.**
 
-This is intentionally held rather than increased from scheduling activity or newly staged-but-unreviewed art. Production candidates, independent visual acceptance, canonical wiring and release clearance are separate states.
+The estimate is deliberately **held**, not increased. Home geometry and CI evidence improved, but the first 47 independently reviewed catalog hashes all require rework, no V2 art hash is accepted/canonically promoted yet, and two persistence/economy source gaps are now classified as release blockers. Scheduling activity, local generations, legacy `final-portable` labels and READY_FOR_REVIEW do not increase completion by themselves.
 
 **READY FOR SINGLE REPLIT INTEGRATION: NO.**
 
@@ -25,90 +25,133 @@ This is intentionally held rather than increased from scheduling activity or new
 
 | Area | Completion | Gate state | Current assessment |
 | --- | ---: | --- | --- |
-| HUD / Shell | **82%** | Implemented / final render QA pending | Shared HUD/nav is integrated; final logo/chrome/focus/viewport fidelity belongs to GAME_FINISHING. |
-| Home | **84%** | Implemented / geometry fixes deferred | Latest whole-game QA previously measured three Home geometry failures; remeasure after catalog switch before fixing. |
-| Store | **78%** | Implemented / catalog critical path | Store structure and mobile browsing work; final visual completeness depends on accepted catalog art and later lower-band/detail geometry fixes. |
-| Quest | **88%** | Implemented / geometry fixes deferred | Learning flow is coherent and automated learning gates are green; six prior geometry failures require remeasurement in GAME_FINISHING. |
-| Avatar / Buddy | **80%** | Implemented / final equipment fidelity pending | Saved IDs/Buddy state preserved. Companion/aura visual acceptance is still catalog work; true layered try-on fidelity remains later work. |
-| Progression | **90%** | Automated state gate PASS / render pending | Five tiers, Dream Goal, Daily/mastery widgets remain real-state bound. |
-| Catalog Art | **52% canonical final / 82 candidates reported outside canonical final set** | **Primary blocker** | Manifest remains 99/192 final-portable plus 23 interim-not-verified. Seven production handoffs now report 82 assigned candidates; desks-2..12 still have no lane-03 handoff. No V2 review shard exists yet, so these candidates are not independently accepted. |
-| Environments | **82%** | Structurally implemented / fidelity+perf pending | Home learning/store scenes exist; final crop/material/depth/room-tier proof is GAME_FINISHING work. |
-| Mobile / Accessibility | **84%** | Catalog browser-emulation gate PASS on audited hashes | Workstream 10 reports zero release-blocking failures for the current canonical Store at desktop/390/320 emulation. Physical device and screen-reader evidence remain untested. |
-| Motion / Game Feel | **84%** | Automated helper PASS / real perf pending | Runtime motion remains intact; real normal/reduced-motion paint/composite proof is later release work. |
-| Learning Integrity | **96%** | **PASS on runtime head `f654431...`** | 20/20 test files, 85/85 tests and production build passed; no catalog-induced learning P0 found. Semantic/source integrity remains protected. |
-| Persistence / Economy | **90%** | Automated baseline green / catalog-specific browser report missing | Existing automated recovery and duplicate-action guards are green, but `catalog-sprint/persistence-qa.json` is not yet present and live refresh/re-entry/IndexedDB timing remains required. |
-| QA / Release | **58%** | CI green / visual acceptance system starting | Existing whole-game Playwright geometry evidence is useful, but V2 staged-asset review shards/fixture and final catalog release QA are not yet complete. |
+| HUD / Shell | **82%** | Implemented / final fidelity pending | Shared HUD/nav stays coherent and current CI is green. Final logo/chrome/focus/reference polish resumes in GAME_FINISHING. |
+| Home | **88%** | **Current structural browser geometry PASS** / final fidelity pending | Latest strict browser run clears the six measured desktop Home regions that previously failed. Reference-material/character/scene fidelity still needs final comparison after catalog. |
+| Store | **78%** | Implemented / catalog + 4 geometry blockers | Upper Store/grid works; avatar stage is modestly undersized, selected detail too tall, and collection/value lower band remains too low/narrow. Catalog art is still the dominant blocker. |
+| Quest | **88%** | Implemented / 6 geometry blockers | Learning behavior remains green; header, phase strip, avatar/body/mastery and earned-summary geometry still miss measured contracts. |
+| Avatar / Buddy | **80%** | Implemented / catalog + try-on fidelity pending | Saved IDs/Buddy state remain protected. Companion/aura review and final layered equipment fidelity remain incomplete. |
+| Progression | **90%** | Automated state gate PASS / final render pending | Five canonical room tiers, Dream Goal, Daily/mastery and ownership-bound progress remain intact. |
+| Catalog Art | **52% legacy canonical labels; 0/47 current-hash reviews accepted** | **Primary visual blocker** | Manifest still has 99 legacy `final-portable` labels and 23 interim entries. 82 assigned IDs are repository-staged plus 3 desks generated locally; first reviewed families Tops, Seating, Auras and Lighting are 47/47 REWORK. |
+| Environments | **82%** | Structurally implemented / fidelity+perf pending | Home/learning/Store scenes exist; final dimensional materials, room-tier scenes, crops and performance remain GAME_FINISHING work. |
+| Mobile / Accessibility | **86%** | CI/browser-emulation improved / device proof pending | Store focus-tray fixes and tests are in; full CI is green. Existing canonical Store emulation is strong, while physical-device and screen-reader evidence remains unproven. |
+| Motion / Game Feel | **84%** | Automated helpers PASS / real perf pending | Bounded/reduced-motion helpers remain green; actual phone/tablet normal/reduced-motion paint/composite proof remains later work. |
+| Learning Integrity | **96%** | **Automated PASS** | Current full CI preserves 200 validated questions, five-action Quest, source/evidence guards and retry/mastery policy; no catalog-induced learning P0 is recorded. |
+| Persistence / Economy | **88%** | IndexedDB race fixed / **2 release blockers open** | Hydration recovery regression is fixed and tested. Durable purchase idempotency and refresh-safe final Quest completion/reward semantics remain unresolved. |
+| QA / Release | **63%** | CI green / visual and live gates fail | All four V2 review shards now exist, staged-art review is real, and strict visual QA identifies 10 remaining screen geometry blockers. Catalog acceptance, live persistence, device/accessibility and final reference gates remain open. |
 
 ## Current catalog accounting
 
-Canonical manifest is still v12:
+Canonical manifest remains v12:
 
 - target IDs: **192**;
-- canonical `final-portable`: **99**;
+- legacy canonical `final-portable`: **99**;
 - canonical interim-not-verified: **23**;
-- canonical non-final relative to final-portable labels: **93**;
-- duplicate manifest paths recorded: **0**.
+- canonical manifest/runtime mappings: **122**;
+- recorded duplicate manifest paths: **0**;
+- V2 current-hash canonical promotions: **0**.
 
-Current production handoffs observed outside the canonical final count:
+Production/staging accounting is intentionally separate:
 
-- CHAT seating: **11** candidates;
-- 04 lighting: **12** candidates;
-- 05 wall: **12** candidates;
-- 06 companions: **11** existing interim candidates;
-- 07 rugs: **12** candidates;
-- 09 room decor: **12** candidates;
-- 11 auras: **12** existing interim candidates.
+- repository-staged assigned candidates: **82**;
+- desks generated locally: **3** (`desks-2..4`), not yet repository-staged;
+- assigned IDs with any repository/local candidate: **85**;
+- desks without any current candidate: **8** (`desks-5..12`).
 
-Total with current lane handoffs: **82 candidate IDs**. This is a production/staging count, not an acceptance or final count. `lane-03.json` for desks-2..12 is still absent at this head, leaving **11 assigned IDs without a current production handoff**.
+A supported binary GitHub import/readback path is now proven by Workstream 08. Workstream 03 is directed to use that path from its own run to upload its already-generated `desks-2..4` bytes without regeneration, then continue `desks-5..12`.
 
-The old Workstream 08 `integration.json` snapshot reports only 46 candidates and four lanes because it predates the 07/09/11 handoffs. It is stale as a current total and must be refreshed by Workstream 08 after V2 review decisions arrive.
+## Independent visual review status
 
-## Review and integration critical path
+All four V2 review shards now exist. Current exact-hash coverage:
 
-V2 deliberately removes the old monolithic-review deadlock. Current state at this head:
+- independently reviewed: **47 / 192**;
+- ACCEPT: **0**;
+- REWORK: **47**;
+- BLOCKED: **0**;
+- unreviewed: **145**.
 
-- review partition directory/shards: **not yet present**;
-- qualified V2 exact-hash independent ACCEPT decisions: **0 recorded**;
-- canonical integrations based on V2 accepts: **0**;
-- catalog gate: **NOT_STARTED**.
+Reviewed families and findings:
 
-Next owner/action sequence:
+1. **Tops 1–12 — 12 REWORK:** readable identities but flat frontal/vector garments with inadequate fabric volume, construction, three-quarter collectible depth and tier spectacle.
+2. **Seating 2–12 — 11 REWORK:** distinct/readable objects but insufficient dimensional materials, perspective, themed construction and premium collectible depth.
+3. **Auras 1–12 — 12 REWORK:** weak card-scale contrast/theme identity and flat vector effect treatment; insufficient dimensional glow/particle richness.
+4. **Lighting 1–12 — 12 REWORK:** coherent but shared pastel flat-vector treatment, shallow materials and inadequate three-quarter dimensional lighting presentation.
 
-1. **03 — desks:** create the missing `lane-03.json/.md` with actual stored desk assets or an exact supported-tool blocker. Do not substitute status-only documentation for stored/read-back art.
-2. **14 — render harness + room-art review:** create/reuse the branch-local staged-candidate card/detail fixture and write `reviews/14.json` for lighting/wall/rugs/decor from actual pixels. This is the oldest shared bottleneck because review must occur before 08 may promote candidates.
-3. **01 / 02 / 05 — parallel review shards:** independently review their disjoint 48-ID partitions and create `reviews/01.json`, `reviews/02.json`, `reviews/05.json`. Start with pending candidates, then legacy final-portable art lacking visual acceptance. No self-approval.
-4. **08 — incremental integration:** consume each qualified exact-hash ACCEPT immediately. One valid independent review plus automated mapping/file checks is enough for micro-batch integration; do not wait for all 192 or the old `art-review.json` + `release-qa.json` pair.
-5. **13 — persistence evidence:** create the missing catalog-specific persistence report from synthetic real-browser purchase/equip/place/reload/recovery checks. Existing automated guards may be reused by hash but live timing is still unproven.
-6. **10 / 12:** stay change-aware. Re-run affected catalog/mobile or learning checks after actual runtime/asset integrations, not on unchanged documentation-only heads.
-7. **15:** reconcile any rejection/repair ownership, update assignments only after in-flight work is accounted for, and keep phase in CATALOG_SPRINT until the complete catalog gate passes.
+These findings invalidate any assumption that a legacy `final-portable` or interim label equals screenshot-quality acceptance. No currently reviewed hash is eligible for Workstream 08 promotion.
 
-No worker may count READY_FOR_REVIEW, XML validity, unique filenames, generated posters, local ZIPs or source inspection as screenshot-quality acceptance.
+### Repair routing recorded in sprint state
 
-## Automated integration gate retained
+The existing exclusive production assignments remain intact. Exact secondary repair routing is now explicit:
 
-GitHub Actions run `35641273312`, job `106470895718`, on `f654431b2bb76d2eceb322dd35c613dfad17e7ae` completed successfully:
+- **CHAT:** Seating 2–12;
+- **04:** Lighting 1–12;
+- **11:** Auras 1–12;
+- **07:** Tops 1–6 after its staged Rugs lane has no immediate producer action;
+- **09:** Tops 7–12 after its staged Decor lane has no immediate producer action.
 
-- install dependencies: **PASS**;
+Reviewer 01 remains independent for Tops, so 07/09 can repair without self-approval. Every replacement must preserve its old version and receive a fresh exact-hash review. Reviewer 14 should continue Wall/Rugs/Decor; reviewer 01 Bottoms/Headwear/Facegear; reviewer 02 Shoes/Backgear/Handgear; reviewer 05 Beds/companions and desks as they become stored.
+
+## Persistence/economy priority
+
+Workstream 13 produced the previously missing catalog persistence report and fixed a real IndexedDB hydration race: a default render could mask a recoverable IndexedDB backup before async hydration. The fix is regression-covered.
+
+Two remaining source gaps are now explicit **release blockers and take priority over catalog throughput when shared App changes are required**:
+
+1. **PERSIST-TRANSACTION-IDEMPOTENCY** — purchase eligibility is checked outside the functional state transition, while the update itself does not revalidate current ownership/currency or record a durable transaction receipt. Existing UI click guards protect ordinary rapid taps but do not prove exactly-once behavior under replay/concurrency.
+2. **PERSIST-QUEST-COMPLETION-REFRESH** — the final correct answer waits about 950ms before `finishQuest` persists the completion reward/progress. Refresh during that interval can lose the completion record/reward because the in-progress Quest UI state is not durable.
+
+Workstream 15 owns coordination of the shared App transaction wiring; 13 owns durable/additive semantics and regression/browser evidence. The fix must preserve existing balances, ownership, rewards, five-action learning behavior and backward-compatible saves.
+
+## Current automated integration gate
+
+GitHub Actions run `35648728446` on exact head `7b146f9deb9eb77429150ec104b092167d582859` completed successfully:
+
+- dependency install: **PASS**;
 - test files: **20/20 PASS**;
-- tests: **85/85 PASS**;
+- tests: **87/87 PASS**;
 - Vite production build: **PASS**;
 - modules transformed: **1,612**;
-- CSS: **167.22 kB / 35.66 kB gzip**;
-- JS: **300.96 kB / 92.19 kB gzip**.
+- CSS: **167.39 kB / 35.69 kB gzip**;
+- JS: **301.85 kB / 92.57 kB gzip**.
 
-Because the current branch changes after that head are documentation/coordination evidence only, a redundant full suite is not rerun in this Command Center pass. Any runtime or canonical asset integration invalidates the affected proof and must earn fresh tests/build according to V2.
+This includes the IndexedDB hydration regression and Store focus-tray accessibility tests. It does **not** close the two source-level persistence blockers above because the relevant durable transaction/completion behavior is not yet implemented/tested.
 
-## Mobile catalog evidence retained
+## Latest structural browser gate
 
-Workstream 10's audited canonical Store run reports zero release-blocking failures across all 16 collections for desktop 1408×1056, phone 390×844 and phone 320×568 browser emulation, including navigation, overflow, touch targets, readable states, semantics, image loading/dimensions, visible focus, reduced-motion context, keyboard card activation, phone two-column grid, runtime errors, long scroll and layout stability.
+Strict Playwright visual QA run `35648728457` built and rendered head `7b146f9...`. The workflow conclusion is FAIL because the visual gate correctly found **10 release-blocking geometry mismatches**, not because the app crashed or failed to build.
 
-Limitations remain explicit: this is headless Chromium evidence, not physical iPhone/iPad/Android performance or VoiceOver/TalkBack/NVDA proof. It also predates future canonical art integrations and must be rerun change-aware.
+### Home — current structural gate PASS
+
+The six measured desktop Home regions now pass their configured geometry contracts. Across tested screens/viewports, mount, primary navigation, phone touch targets and horizontal-overflow/runtime-error checks also remain healthy. This clears the historical three Home geometry blockers; final screenshot/reference fidelity still remains.
+
+### Store — 4 structural blockers
+
+- avatar try-on stage: **360×455px**, target about **378×470px**;
+- selected-item detail: **261px high**, target **212px ±6.4**;
+- collection strip begins around **x178 / y1046.4**, far below/narrower than the intended lower band around **x10 / y832**;
+- value panel begins around **y1046.4**, versus target near **850px**.
+
+### Quest — 6 structural blockers
+
+- header: **83px**, target **71px ±6**;
+- phase strip: **y168px**, target **153px ±14**;
+- avatar zone remains offset/undersized;
+- learning body remains too low/short;
+- mastery rail remains too narrow/tall;
+- earned summary remains far too wide and too low.
+
+These screen-layout blockers are not prerequisites for switching out of CATALOG_SPRINT, but must be fixed in GAME_FINISHING before release readiness.
+
+## Mobile/accessibility evidence
+
+Existing Workstream 10 canonical Store browser emulation has zero release-blocking failures across all 16 collections at desktop 1408×1056, phone 390×844 and 320×568 for navigation, overflow, touch targets, card states, semantics, image loading/dimensions, focus visibility, keyboard activation, two-column phone layout, long scrolling and layout stability. Subsequent focus-tray runtime/test changes are covered by the successful 87-test CI/build above.
+
+Physical iPhone/iPad/Android performance and VoiceOver/TalkBack/NVDA remain **NOT TESTED**. Headless evidence must not be described as physical-device or screen-reader proof.
 
 ## Protected invariants
 
-Every integration must preserve:
+Every subsequent change must preserve:
 
-- 192 permanent stable Store IDs, prices and unlock rules;
+- all **192** permanent stable Store IDs, prices and unlock rules;
 - Coins, XP, Mastery Stars, Star Worth/Home progress, owned/equipped IDs, room placement, Dream Goal, mastery/evidence, Buddy/Bond and valid daily state;
 - exactly five default Quest learning actions;
 - source-bounded Grade-2 content and one defensible correct answer;
@@ -118,35 +161,20 @@ Every integration must preserve:
 - no public child chat/profiles, stranger discovery, ads, loot boxes, FOMO or punitive streaks;
 - original StarBlox art only: no Roblox/Brookhaven or third-party branded/character assets.
 
-Current learning guard reports **0 catalog-induced P0 learning defects** on its audited runtime head. No phase switch is authorized by that fact alone.
+## Next critical-path sequence
 
-## Shared design/runtime authority
+1. **15 + 13 — persistence release blockers:** implement and regression-test durable purchase idempotency and refresh-safe final Quest completion/reward behavior without changing user balances/prices/reward amounts.
+2. **03 — desks:** stage existing generated `desks-2..4` through the proven binary path, read back hashes, then continue `desks-5..12` in bounded premium batches.
+3. **CHAT / 04 / 11 / 07 / 09 — reviewed art repairs:** repair the exact rejected versions above in bounded batches; never overwrite history or self-approve.
+4. **01 / 02 / 05 / 14 — parallel reviews:** continue their disjoint partitions while prioritizing replacement hashes as soon as they are READY_FOR_REVIEW.
+5. **08 — incremental integration:** consume every independently ACCEPTed current hash immediately after metadata/file/content checks; do not wait for all 192 or old monolithic rollups.
+6. **10 / 12 / 13 / 14 — change-aware gates:** rerun only affected checks per integration and full milestone gates at coherent catalog points.
+7. **15 — catalog completion gate:** switch to GAME_FINISHING only after all 192 current hashes are correct/stored/unique/accepted, canonical wiring/build/Store checks pass, and no catalog-induced learning/save/economy P0 remains.
 
-- `docs/preproduction/DESIGN_SYSTEM_CONTRACT.md` remains the measurable visual contract.
-- `src/shellChrome.css` remains shared shell-token/chrome authority.
-- screen owners may tune screen-specific geometry but must not fork a second global HUD/nav/palette system.
-- avatar/buddy presentation remains centralized rather than copied screen by screen.
-- Store detail actions must proxy the existing permanent purchase/equip/place/Dream Goal paths.
-- catalog art maps by exact stable item ID; art availability may never determine ownership.
-- remove duplicated legacy CSS/runtime only after rendered evidence proves the rule dead or conflicting; do not do broad cleanup while the catalog is on the critical path.
+## Catalog gate and final release
 
-## Catalog gate and automatic switch
+`catalogGate.status` remains **NOT_STARTED** because there are currently zero V2 accepted hashes and unresolved art reworks. Phase therefore remains **CATALOG_SPRINT**.
 
-Workstream 15 may set `GAME_FINISHING` only when all **192 actual IDs** have:
+After the 192-item catalog gate passes, the same specialists automatically return to normal roles. GAME_FINISHING will address the remaining Store/Quest geometry, actual avatar equipment/try-on, environment/room-tier/logo quality, motion, mobile/accessibility, live persistence/reward stress, semantic learning and final reference/performance checks.
 
-- correct, unique, stored canonical assets;
-- independent exact-hash rendered visual acceptance;
-- zero unresolved interim/placeholders/art defects;
-- duplicate path/content and inappropriate near-duplicate checks cleared;
-- manifest/runtime agreement and safe decoding;
-- applicable catalog tests/build green on the integrated candidate;
-- actual desktop/phone Store loading, scrolling and readability checks green;
-- no catalog-induced learning, persistence or economy P0.
-
-Unrelated Home/Store/Quest geometry is **not** a catalog-gate requirement. It resumes immediately after this switch through the original screen owners.
-
-## Final release gate after catalog
-
-GAME_FINISHING priorities remain: remeasure/fix the actual Home/Store/Quest geometry backlog, finish avatar equipment/try-on and environment/room-tier/logo fidelity, close phone/keyboard/screen-reader/contrast and normal/reduced-motion performance evidence, perform real browser save/reward recovery stress, rerun semantic learning checks after UI changes, then freeze a candidate and run the final clean regression/build/reference/safety package.
-
-**READY FOR SINGLE REPLIT INTEGRATION stays NO** until those release blockers clear. Even a future YES is only a staged-development readiness state and is **not deployment permission**. Replit and `main` remain untouched until the user separately approves the final integration.
+Only after a frozen final candidate passes full clean regression/build plus real browser/reference/safety/accessibility/performance/persistence gates may this document change to **READY FOR SINGLE REPLIT INTEGRATION: YES**. That status is still **not deployment permission**. Replit and `main` remain untouched until separate user approval.
