@@ -152,6 +152,22 @@ export function deriveProgressionModel(save = {}){
   };
 }
 
+function modelFingerprint(model){
+  return JSON.stringify({
+    starWorth:model.room.starWorth,
+    room:model.room.id,
+    dream:model.dream.id,
+    coins:model.dream.coins,
+    dreamOwned:model.dream.owned,
+    daily:model.daily.map(row => row.value),
+    stars:model.mastery.stars,
+    mastered:model.mastery.masteredCount,
+    nextMastery:model.mastery.next ? [model.mastery.next.skill,model.mastery.next.masteryCorrect] : null,
+    owned:model.collection.ownedCount,
+    recent:model.recentLearning.map(row => [row.skill,row.masteryCorrect,row.mastered])
+  });
+}
+
 function ensureGoalHorizons(root,model){
   const panel = root.querySelector('.homeRoomProgress');
   if(!panel) return;
@@ -285,7 +301,7 @@ function decorateDaily(root,model){
     const rowsHost = panel.querySelector('.homeDailyRows');
     rowsHost?.insertAdjacentElement('afterend',summary);
   }
-  summary.innerHTML = `<b>${model.dailyDone}/${model.daily.length} complete today</b><span>Progress resets for a fresh day, but your Coins, XP, Stars, items, mastery, and Home progress never do.</span>`;
+  summary.innerHTML = `<b>${model.dailyDone}/${model.daily.length} complete today</b><span>Daily counters reset for a fresh day, but Coins, XP, Stars, items, mastery, and Home progress never do.</span>`;
 }
 
 function decorateLearning(root,model){
@@ -360,7 +376,8 @@ function decorateCustomization(root,model){
       tab.appendChild(count);
     }
     count.textContent = String(group.owned);
-    tab.setAttribute('aria-label',`${tab.childNodes[0]?.textContent?.trim() || tab.dataset.category}: ${group.owned} owned`);
+    const label = [...tab.childNodes].find(node => node.nodeType === 3)?.textContent?.trim() || tab.dataset.category;
+    tab.setAttribute('aria-label',`${label}: ${group.owned} owned`);
   });
 
   let collection = panel.querySelector('.homeCollectionProgress');
@@ -382,6 +399,12 @@ function decorateShellMastery(model){
 export function decorateProgressionWidgets(root,save){
   if(!root || !save) return false;
   const model = deriveProgressionModel(save);
+  const fingerprint = modelFingerprint(model);
+  if(root.dataset.progressionWidgets === 'v1' && root.dataset.progressionFingerprint === fingerprint){
+    decorateShellMastery(model);
+    return false;
+  }
+
   ensureGoalHorizons(root,model);
   decorateRoomProgress(root,model);
   decorateDreamGoal(root,model);
@@ -391,17 +414,7 @@ export function decorateProgressionWidgets(root,save){
   decorateCustomization(root,model);
   decorateShellMastery(model);
   root.dataset.progressionWidgets = 'v1';
-  root.dataset.progressionFingerprint = JSON.stringify({
-    starWorth:model.room.starWorth,
-    dream:model.dream.id,
-    coins:model.dream.coins,
-    dreamOwned:model.dream.owned,
-    daily:model.daily.map(row => row.value),
-    stars:model.mastery.stars,
-    mastered:model.mastery.masteredCount,
-    owned:model.collection.ownedCount,
-    recent:model.recentLearning.map(row => [row.skill,row.masteryCorrect,row.mastered])
-  });
+  root.dataset.progressionFingerprint = fingerprint;
   return true;
 }
 
