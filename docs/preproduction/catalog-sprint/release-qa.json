@@ -1,101 +1,114 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "workstream": "14",
   "phase": "CATALOG_SPRINT",
   "branch": "screenshot-match-preproduction",
   "status": "FAIL_CATALOG_NOT_RELEASE_READY",
-  "auditedHead": "84c18393ab26120e4e68e999bb464792374f9577",
-  "runtimeAssetContinuity": "GitHub compare from full CI-proven d044d6d68a21009ae521c65fe893fd81905e0863 to audited head contains only workflows, documentation/review reports and a tiny binary capability probe; no game runtime or catalog asset bytes changed.",
+  "auditedEvidenceHead": "20515bb8fe8da83c56843ec3b690574699eeb2f7",
+  "canonicalManifestVersion": 12,
+  "releaseDecision": "NOT_READY_FOR_SINGLE_REPLIT_INTEGRATION",
   "evidence": {
-    "fullCiRunId": 35646740058,
-    "fullCiJobId": 106488999656,
-    "fullCiHead": "8e49cff09f28c6cb4bfc44cba0f7d69d8e0dd7e9",
-    "tests": "PASS",
-    "productionBuild": "PASS",
-    "detailedCiBaseline": "d044d6d68a21009ae521c65fe893fd81905e0863 — PASS_20_OF_20_FILES_85_OF_85_TESTS_VITE_1612_MODULES",
-    "catalogSafetyTest": "PASS_ALL_CATALOG_SVG_SELF_CONTAINED_NO_EXECUTABLE_OR_EMBED_CONTENT",
-    "stagedLightingRunId": 35646739825,
-    "stagedLightingArtifactId": 10660601212,
-    "stagedLightingArtifactDigest": "sha256:be5c24af79fb8f023d5bf8cda06f1e209c41faeb39068273c6614eb3a7b0f261",
-    "stagedLightingRender": "PASS_12_OF_12_HTTP_200_SINGLE_SVG_DETAIL_SCREENSHOTS_AND_CONTACT_SHEET"
+    "fullCiRunId": 35657434360,
+    "fullCiHead": "00d6cebfaf0e645ce08c150db1a93245d3eed148",
+    "fullCiJobId": 106524446604,
+    "tests": "PASS_22_OF_22_FILES_98_OF_98_TESTS",
+    "productionBuild": "PASS_VITE_1613_MODULES_JS_304.14KB_GZIP_93.34KB_CSS_167.39KB_GZIP_35.69KB",
+    "stagedArtRunId": 35657747373,
+    "stagedArtHead": "20515bb8fe8da83c56843ec3b690574699eeb2f7",
+    "stagedArtArtifactId": 10665857539,
+    "stagedArtArtifactDigest": "sha256:1480d7f858cb7ecfffe7f53871d71aad230ff39df864d0a4ebd0a3025d5dc63f",
+    "stagedArtFixture": "PASS_SINGLE_FRAMEWORK_48_REVIEWER14_ASSETS_PLUS_27_VERSIONED_REPLACEMENTS_HTTP200_DECODE_SCREENSHOT_ZERO_ERRORS",
+    "replacementCoverage": [
+      "auras-1..8",
+      "desks-2..4",
+      "lighting-1..4",
+      "tops-1..12"
+    ],
+    "referencePixels": "BLOCKED_NOT_REPOSITORY_ACCESSIBLE_NO_PIXEL_IDENTICAL_CLAIM"
   },
   "canonical": {
     "catalogTarget": 192,
-    "actualStoreUniqueIds": "PASS_192_FROM_CURRENT_CI",
-    "manifestVersion": 12,
-    "manifestFinalPortableLabelCount": 99,
+    "actualStoreUniqueIds": "PASS_192_FROM_CI",
+    "manifestFinalPortableLegacyLabelCount": 99,
     "manifestInterimNotVerifiedCount": 23,
-    "manifestRemainingRelativeToFinalPortable": 93,
     "manifestEntries": 122,
     "runtimeMappings": 122,
     "duplicateManifestPaths": 0,
-    "exactMetadataForWiredEntries": "PASS_CURRENT_CI",
-    "uniqueExistingPathPerWiredEntry": "PASS_CURRENT_CI",
-    "complete192FinalMappings": "FAIL"
+    "exactMetadataForWiredEntries": "PASS_CI",
+    "uniqueExistingPathPerWiredEntry": "PASS_CI",
+    "complete192AcceptedFinalMappings": "FAIL"
   },
-  "independentReviewCoverage": {
-    "reviewedCurrentHashes": 47,
-    "accepted": 0,
-    "rework": 47,
+  "reviewCoverage": {
+    "disjointUniqueItemIdsWithAtLeastOneReviewedHash": 155,
+    "reviewer01ReviewedIds": 36,
+    "reviewer02ReviewedIds": 35,
+    "reviewer05ReviewedIds": 36,
+    "reviewer14ReviewedIds": 48,
+    "reviewer14CurrentResult": "4_ACCEPT_44_REWORK_0_BLOCKED",
+    "qualifiedAcceptedReplacementHashesKnownTo14": 4,
+    "acceptedReplacementIds": ["lighting-1","lighting-2","lighting-3","lighting-4"],
+    "note": "Coverage includes legacy/current hashes that may be superseded by replacement versions. Only exact-hash ACCEPTs count toward final catalog clearance."
+  },
+  "reviewer14": {
+    "partition": ["lighting","wall","rugs","decor"],
+    "reviewed": 48,
+    "accepted": 4,
+    "rework": 44,
     "blocked": 0,
-    "unreviewed": 145,
-    "reviewedFamilies": {
-      "tops": {"reviewer":"01","reviewed":12,"accepted":0,"rework":12},
-      "seating": {"reviewer":"02","reviewed":11,"accepted":0,"rework":11},
-      "auras": {"reviewer":"05","reviewed":12,"accepted":0,"rework":12},
-      "lighting": {"reviewer":"14","reviewed":12,"accepted":0,"rework":12}
+    "accepted": {
+      "lighting-1": "9d8aa142fa53f06dbad9ce59e9c8d34c1096ddc3",
+      "lighting-2": "8c10fe689d6d7e398e85b24eb1ca1323cee07ea3",
+      "lighting-3": "fc21ddf5a608ee393410ff9682cf2ef87a56c46d",
+      "lighting-4": "7975e490a9fb97574f03081acf9fc871c22224f3"
     },
-    "releaseFinding": "Legacy final-portable or interim labels cannot be treated as visual acceptance. Every independently inspected family so far materially misses the premium dimensional screenshot-art target."
+    "reworkFamilies": {
+      "lightingLegacy5To12": 8,
+      "wall": 12,
+      "rugs": 12,
+      "decor": 12
+    },
+    "exactContentUniqueness": "PASS_48_UNIQUE_GIT_BLOB_HASHES",
+    "renderedNearDuplicateReview": "PASS_NO_IDENTITY_COLLISION_SHARED_FLAT_TEMPLATES_REMAIN_QUALITY_DEFECTS"
   },
-  "binaryAssetImport": {
-    "status": "PASS_PATH_PROVEN_BY_WORKSTREAM_08",
-    "probePath": "docs/preproduction/catalog-sprint/binary-upload-probe.png",
-    "probeCommit": "4db259027bc5d80513f81cee1d4ceb757ad0c493",
-    "probeReadback": "PASS_EXACT_SHA256",
-    "supportedSequence": "create_blob(base64) -> create_tree -> create_commit -> update_ref(force=false) -> base64 readback/hash verify",
-    "deskCurrentState": "desks-2..4 remain GENERATED_LOCAL / 0 repository-staged because their historical generated file IDs were not visible to Workstream 08; producer 03 should reuse the proven path from the run where those bytes are visible. desks-5..12 still have no generated candidate."
+  "gates": {
+    "catalog192UniqueIds": "PASS",
+    "canonicalMetadataAndPathIntegrity": "PASS_AUTOMATED_CURRENT_MANIFEST",
+    "reviewer14PartitionFullyDispositioned": "PASS",
+    "all192CurrentFinalHashesIndependentlyAccepted": "FAIL",
+    "all192CurrentFinalHashesCanonicallyWired": "FAIL",
+    "fullFinalSetExactContentDuplicateScan": "NOT_TESTED_FINAL_SET_INCOMPLETE",
+    "fullFinalSetRenderedNearDuplicateReview": "NOT_TESTED_FINAL_SET_INCOMPLETE",
+    "postIntegrationDesktopPhoneStoreArtCheck": "NOT_TESTED_NO_ACCEPTED_BATCH_INTEGRATED_YET",
+    "catalogInducedLearningP0": "PASS_AUTOMATED_NO_P0_FOUND",
+    "automatedPersistenceReloadReplay": "PASS",
+    "realBrowserPersistenceTimingConcurrency": "NOT_TESTED_RELEASE_BLOCKER",
+    "physicalDevicePerformance": "NOT_TESTED",
+    "screenReaderSmoke": "NOT_TESTED",
+    "pixelIdenticalReferenceParity": "BLOCKED_ORIGINAL_REFERENCE_PIXELS_UNAVAILABLE"
   },
-  "checks": {
-    "exact192PermanentIds": "PASS_AUTOMATED",
-    "wiredManifestMetadata": "PASS_AUTOMATED_FOR_122_WIRED_ENTRIES",
-    "wiredFileExistence": "PASS_AUTOMATED_FOR_122_WIRED_ENTRIES",
-    "wiredUniquePaths": "PASS_0_DUPLICATE_PATHS",
-    "activeContentExternalEmbedSafety": "PASS_AUTOMATED_CURRENT_CI",
-    "all192CurrentHashIndependentVisualAcceptance": "FAIL_47_REVIEWED_0_ACCEPTED_145_UNREVIEWED",
-    "all192UniqueFinalCanonicalAssets": "FAIL",
-    "allStoredAssetExactContentDuplicateScan": "NOT_TESTED_COMPLETE_SET",
-    "allStoredAssetRenderedNearDuplicateReview": "NOT_TESTED_COMPLETE_SET",
-    "lightingExactContentWithinReviewedFamily": "PASS_12_DISTINCT_GIT_BLOB_HASHES",
-    "lightingRenderedQuality": "FAIL_REWORK_12_OF_12",
-    "catalogRegressionTests": "PASS_CURRENT_CI_ON_UNCHANGED_CANONICAL_RUNTIME",
-    "productionBuild": "PASS_CURRENT_CI_ON_UNCHANGED_CANONICAL_RUNTIME",
-    "canonicalStoreDesktopPhoneBrowsing": "PASS_PRIOR_BROWSER_EMULATION_ON_CURRENT_UNCHANGED_CANONICAL_MANIFEST_RUNTIME_HASHES",
-    "postFinalArtIntegrationStoreCheck": "NOT_TESTED_NO_ACCEPTED_ART_INTEGRATED",
-    "catalogLearningP0": "PASS_AUTOMATED_NO_CATALOG_INDUCED_P0_FOUND",
-    "catalogPersistenceEconomyP0": "PASS_AUTOMATED_BASELINE_ONLY_LIVE_TIMING_NOT_TESTED",
-    "catalogSpecificPersistenceReport": "BLOCKED_MISSING_persistence-qa.json",
-    "originalReferencePixelComparison": "BLOCKED_ORIGINAL_USER_REFERENCE_PIXELS_NOT_REPOSITORY_ACCESSIBLE"
-  },
-  "currentBlockers": [
-    "47 independently inspected current asset versions are REWORK and therefore ineligible for final-art promotion: tops 12, seating 11, auras 12, lighting 12.",
-    "145 catalog IDs do not yet have qualified independent current-hash visual dispositions under V2.",
-    "Canonical manifest/runtime still covers only 122 of 192 IDs and includes 23 interim-not-verified entries; only 99 carry legacy final-portable labels, which are not visual acceptance.",
-    "Desk binary repository writing is no longer a capability blocker, but desks-2..4 are still not staged: producer 03 must transfer its existing generated bytes using the now-proven import path; desks-5..12 still need candidates.",
-    "Complete content-hash and rendered near-duplicate review across the eventual 192 final stored assets has not yet been performed.",
-    "Catalog-specific live persistence/re-entry evidence is missing; persistence-qa.json does not yet exist.",
-    "Exact side-by-side comparison to the original user reference pixels remains blocked because those pixels are not repository-accessible."
+  "blockers": [
+    "Workstream 08 must integrate the four accepted Lighting replacement hashes and run affected canonical Store checks.",
+    "Most catalog IDs still require accepted replacement hashes; legacy final-portable labels do not satisfy visual acceptance.",
+    "Lighting 5-8 generated remote replacements need repository staging; Lighting 9-12 need replacement production.",
+    "Wall 1-12, Rugs 1-12 and Decor 1-12 current hashes are REWORK and need versioned replacements.",
+    "Cross-partition replacement review remains active for Tops, Auras, Desks, Companions and other families; Workstream 14 renders but does not decide them.",
+    "The eventual 192 accepted set still needs complete exact-content and rendered near-duplicate checks plus integrated desktop/phone Store verification.",
+    "Real-browser persistence timing/concurrency/recovery remains unproven despite passing automated reload/replay tests.",
+    "Original user reference screenshot pixels are not repository-accessible, so pixel-identical final sign-off is blocked."
   ],
-  "deferredNotCatalogGateBlockers": {
-    "wholeGameGeometry": "13 previously measured Home/Store/Quest structural failures remain deferred to GAME_FINISHING and were not remeasured in this catalog-focused pass.",
-    "fullPhysicalAccessibilityPerformance": "Physical-device, real screen-reader and final normal/reduced-motion performance proof remain whole-game release work after catalog completion."
-  },
   "nextActions": [
-    "04 repairs lighting exact REWORK items in bounded versioned batches; 14 re-reviews replacement hashes with the staged fixture.",
-    "14 proceeds to wall, rugs and decor actual-pixel review while preserving disjoint reviewer ownership.",
-    "01/02/05 continue their partitions and prioritize repaired candidates before untouched legacy finals.",
-    "08 consumes only qualified ACCEPT hashes incrementally; current reviewed REWORK hashes must not be integrated as final.",
-    "03 uses the Workstream-08-proven binary blob/tree/commit/ref path from the producer run to stage existing desks-2..4, then continues remaining assigned desks without regenerating those three.",
-    "13 produces catalog-specific synthetic browser persistence/economy evidence before the catalog gate can pass."
+    "08: consume lighting-1..4 v2 exact ACCEPTs immediately after metadata/file/content checks; run affected catalog tests/build/Store smoke.",
+    "04: preserve accepted lighting-1..4; stage already-generated lighting-5..8; continue lighting-9..12 repairs.",
+    "05/07/09: repair Wall/Rugs/Decor from exact reviewer-14 defects in bounded versioned batches.",
+    "01/05: consume hash-bound staged-art evidence for Tops/Auras/Desks and write their own independent decisions; reviewer 14 must not disposition those families.",
+    "14: keep the single staged-art fixture current and review replacement Lighting/Wall/Rugs/Decor hashes as they arrive.",
+    "13: close synthetic real-browser purchase/equip/place/reload and recovery stress gate.",
+    "15: keep phase CATALOG_SPRINT until all 192 exact current hashes meet the catalog gate; Store/Quest geometry remains GAME_FINISHING work, not a catalog blocker."
   ],
-  "freeze": {"replitTouched":false,"flootTouched":false,"mainMergedOrModified":false,"deploymentAttempted":false,"phaseChanged":false}
+  "freeze": {
+    "replitTouched": false,
+    "flootTouched": false,
+    "mainMergedOrModified": false,
+    "playerDataTouched": false
+  }
 }
