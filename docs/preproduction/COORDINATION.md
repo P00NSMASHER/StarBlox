@@ -1,7 +1,11 @@
 # Screenshot-Match Preproduction Coordination
 
+## Active priority — catalog first
+
+User direction (2026-09-21): finish the catalog first, then return to normal development and finish the game. Read `docs/preproduction/CATALOG_SPRINT_STATE.json` and `docs/preproduction/CATALOG_SPRINT.md` before normal workstream instructions. While phase is `CATALOG_SPRINT`, use the temporary exclusive assignments there: eight art-production lanes, independent quality review, single-writer manifest integration, safety guards, and Command Center. Do not continue unrelated screen redesigns or take another lane's items. Only 15 changes the phase after the verified 192-item catalog gate; all tasks then resume their normal roles automatically. A raw `finalCount: 192` does not satisfy the gate. Keep existing schedules; do not create replacement tasks. A missing/unreadable control file is BLOCKED, not permission to deploy or guess the phase.
+
 ## Operating rule
-All development happens on `screenshot-match-preproduction` until the full visual rebuild is integrated, tested, and signed off. **Do not call Replit update/publish tools and do not merge to `main` during preproduction.**
+All development happens on `screenshot-match-preproduction` until the full visual rebuild is integrated, tested, and signed off. **Do not call Replit update/publish tools and do not merge to `main` during preproduction.** Do not use Floot as an alternate production or image-generation target.
 
 ## Shared priorities
 1. Match the three screenshot references in hierarchy, density, visual language, and polish.
@@ -11,7 +15,7 @@ All development happens on `screenshot-match-preproduction` until the full visua
 5. Maintain responsive phone/tablet usability and performance.
 6. Integrate once, near the end, to minimize Replit credits.
 
-## Workstream ownership
+## Normal workstream ownership — resumes after catalog gate
 01 Visual target / design tokens
 02 HUD + shell + navigation
 03 Home screen
@@ -31,10 +35,11 @@ All development happens on `screenshot-match-preproduction` until the full visua
 ## Coordination contract
 - Inspect the branch head before each change.
 - Read `VISUAL_NORTH_STAR.md`, `RELEASE_STATUS.md`, `QUESTION_QA_LEDGER.md`, `catalog-art-manifest.json`, and `docs/preproduction/SCREENSHOT_MATCH_TARGET.md` when relevant.
-- Stay inside the owned workstream unless a narrow integration fix is necessary.
-- Do not overwrite another workstream’s changes blindly.
+- Stay inside the active phase's owned workstream unless a narrow verified safety fix is necessary.
+- Do not overwrite another workstream's changes blindly. Read the latest file SHA before every write; never force-push.
 - Prefer additive components/modules over giant rewrites of `src/App.jsx`; the Command Center owns final consolidation.
-- Update or create a workstream note under `docs/preproduction/workstreams/` with: STATUS, changes, tests, visual gaps, blockers, handoff.
+- During the catalog sprint, production handoffs go under `docs/preproduction/catalog-sprint/`; normal workstream notes remain intact for the later return.
+- In normal development, update the workstream note under `docs/preproduction/workstreams/` with STATUS, changes, tests, visual gaps, blockers and handoff.
 - Run relevant tests/build checks before reporting PASS.
 - Label anything not actually tested as NOT TESTED.
 - No task may update Replit. Command Center may only recommend that final integration is ready; a separate user-approved action will update Replit later.
