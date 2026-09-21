@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 1,
+  "lane": "09",
+  "workstream": "09",
+  "phase": "CATALOG_SPRINT",
+  "status": "READY_FOR_REVIEW",
+  "branch": "screenshot-match-preproduction",
+  "sourceHeadReadBeforeProduction": "825aaae38ab3907512a25d16767c0fec3e0efc7a",
+  "assetBatchHead": "ad7c1a41f606b1c44e309f0315d59ea9abadd5ad",
+  "assignedIds": [
+    "decor-1", "decor-2", "decor-3", "decor-4", "decor-5", "decor-6",
+    "decor-7", "decor-8", "decor-9", "decor-10", "decor-11", "decor-12"
+  ],
+  "candidateCount": 12,
+  "canonicalManifestChanged": false,
+  "runtimeWiringChanged": false,
+  "selfApproved": false,
+  "reviewRequired": ["01", "14"],
+  "integrationOwner": "08",
+  "provenance": {
+    "type": "original-repo-owned-svg",
+    "description": "Original StarBlox-specific room-decor SVG candidates authored directly on screenshot-match-preproduction during the catalog sprint. No external source imagery was used.",
+    "externalUrls": false,
+    "externalRasterEmbeds": false,
+    "externalFonts": false,
+    "thirdPartyBrandsOrCharacters": false,
+    "robloxOrBrookhavenAssets": false
+  },
+  "assets": [
+    {"id":"decor-1","name":"Book Crate","tier":1,"theme":"Midnight Neon","price":44,"starReq":0,"path":"/assets/catalog/decor-1.svg","repositoryPath":"public/assets/catalog/decor-1.svg","blobSha":"81999ed9d9b289bd2137cac690a36e8e99d03824","bytes":2742,"dimensions":[800,800],"feature":"wooden slatted book crate with five bright books and a gold star badge","status":"READY_FOR_REVIEW"},
+    {"id":"decor-2","name":"Cloud Shelf","tier":1,"theme":"Candy Core","price":65,"starReq":0,"path":"/assets/catalog/decor-2.svg","repositoryPath":"public/assets/catalog/decor-2.svg","blobSha":"c07d57b318bfed909f22e11427e389cb26490696","bytes":2076,"dimensions":[800,800],"feature":"cloud-shaped upper shelf with pastel books, soft lower cloud detail and a small crescent accent","status":"READY_FOR_REVIEW"},
+    {"id":"decor-3","name":"Arcade Mini","tier":1,"theme":"Adventure Club","price":94,"starReq":0,"path":"/assets/catalog/decor-3.svg","repositoryPath":"public/assets/catalog/decor-3.svg","blobSha":"4fc2f591915f53b249956c20c50693ad22e3a1bb","bytes":2308,"dimensions":[800,800],"feature":"compact dark arcade cabinet with cyan trim, glowing star screen and joystick-button control deck","status":"READY_FOR_REVIEW"},
+    {"id":"decor-4","name":"Plush Stack","tier":2,"theme":"Cloud Pop","price":123,"starReq":0,"path":"/assets/catalog/decor-4.svg","repositoryPath":"public/assets/catalog/decor-4.svg","blobSha":"cb4bc4cfca9bdd4764905fdf94aa8291605f1ce0","bytes":2461,"dimensions":[800,800],"feature":"layered cloud plush base with a pink cat-eared plush and oversized star topper","status":"READY_FOR_REVIEW"},
+    {"id":"decor-5","name":"Plant Wall","tier":2,"theme":"Pixel Party","price":181,"starReq":0,"path":"/assets/catalog/decor-5.svg","repositoryPath":"public/assets/catalog/decor-5.svg","blobSha":"0f7559a576177758d94dba1c3da27373a9151a2b","bytes":2332,"dimensions":[800,800],"feature":"framed vertical wall garden with four pots, branching leaves, hanging vine and pink blossom accents","status":"READY_FOR_REVIEW"},
+    {"id":"decor-6","name":"Telescope","tier":2,"theme":"Berry Blast","price":254,"starReq":0,"path":"/assets/catalog/decor-6.svg","repositoryPath":"public/assets/catalog/decor-6.svg","blobSha":"3a8d81ea490f8bac42ef2147797a3926d69df9ef","bytes":2464,"dimensions":[800,800],"feature":"angled navy telescope with bright cyan lens, gold tripod and star accents","status":"READY_FOR_REVIEW"},
+    {"id":"decor-7","name":"Skate Rack","tier":3,"theme":"Garden Glow","price":348,"starReq":2,"path":"/assets/catalog/decor-7.svg","repositoryPath":"public/assets/catalog/decor-7.svg","blobSha":"671c609625400bf5c2142daef73ab632bd1225a2","bytes":2317,"dimensions":[800,800],"feature":"standing wood-and-green rack holding two distinct colorful boards with a leafy crown detail","status":"READY_FOR_REVIEW"},
+    {"id":"decor-8","name":"Mini Aquarium","tier":3,"theme":"Galaxy Glow","price":479,"starReq":2,"path":"/assets/catalog/decor-8.svg","repositoryPath":"public/assets/catalog/decor-8.svg","blobSha":"87e33d5190b7a7ef21e23ae875dda8ae1808c4be","bytes":2550,"dimensions":[800,800],"feature":"glass aquarium with layered water and sand, two fish, aquatic plants, bubbles and a purple base","status":"READY_FOR_REVIEW"},
+    {"id":"decor-9","name":"Easel Set","tier":3,"theme":"Sunny Pop","price":667,"starReq":2,"path":"/assets/catalog/decor-9.svg","repositoryPath":"public/assets/catalog/decor-9.svg","blobSha":"5c95b853da763f7ff2e9e332169ea5841ac1885e","bytes":2390,"dimensions":[800,800],"feature":"wood easel with colorful sun-and-landscape canvas, paint palette, paint pot and brushes","status":"READY_FOR_REVIEW"},
+    {"id":"decor-10","name":"Mini Fridge","tier":4,"theme":"Aqua Wave","price":928,"starReq":5,"path":"/assets/catalog/decor-10.svg","repositoryPath":"public/assets/catalog/decor-10.svg","blobSha":"f390a4a237605f8768111efc65c85d059529a690","bytes":2365,"dimensions":[800,800],"feature":"rounded aqua retro mini fridge with split doors, dark handles and star-fruit-style decorative magnets","status":"READY_FOR_REVIEW"},
+    {"id":"decor-11","name":"Dream Vanity Set","tier":4,"theme":"Art Attack","price":1276,"starReq":5,"path":"/assets/catalog/decor-11.svg","repositoryPath":"public/assets/catalog/decor-11.svg","blobSha":"250aad2e72917036ae03c1db3e9071ae6c7aa983","bytes":2876,"dimensions":[800,800],"feature":"pink vanity with illuminated round mirror, drawer towers, stool, cosmetic bottles and star pull","status":"READY_FOR_REVIEW"},
+    {"id":"decor-12","name":"Trophy Wall","tier":5,"theme":"Star Luxe","price":1740,"starReq":9,"path":"/assets/catalog/decor-12.svg","repositoryPath":"public/assets/catalog/decor-12.svg","blobSha":"903e0f5d45dd6874c4352493db3e3e3346e0b39c","bytes":3115,"dimensions":[800,800],"feature":"ornate deep-purple and gold display case with two trophies, three medals and a luminous star centerpiece","status":"READY_FOR_REVIEW"}
+  ],
+  "checks": {
+    "catalogMetadataMatched": "PASS",
+    "githubAssetPresenceBlobShaAndSize": "PASS_12_OF_12",
+    "uniqueBlobShaWithinAssignedLane": "PASS_12_OF_12",
+    "canvasContract800x800": "PASS_12_OF_12",
+    "localXmlParse": "PASS_12_OF_12",
+    "localCairoSvgRender400x400": "PASS_12_OF_12",
+    "producerContactSheetInspection": "PASS_NO_CLIPPING_OR_MALFORMED_GEOMETRY_OBSERVED",
+    "independentVisualApproval": "PENDING_01_14",
+    "storeBrowserReview": "NOT_TESTED",
+    "fullBuild": "NOT_RUN_ASSET_ONLY_LANE",
+    "fullTestSuite": "NOT_RUN_ASSET_ONLY_LANE",
+    "manifestTouched": false,
+    "runtimeTouched": false,
+    "gameplaySaveLearningEconomyTouched": false,
+    "replitOrFlootTouched": false,
+    "mainTouched": false
+  },
+  "blockers": [
+    "Workstream 01 and/or 14 must independently render and judge each exact asset blob before visual acceptance.",
+    "Workstream 08 alone may add accepted decor IDs to catalog-art-manifest.json and src/catalogArtRuntime.js.",
+    "Actual Store card/detail context, phone scrolling, and consolidated branch build remain outside this producer lane and are not claimed PASS."
+  ],
+  "handoff": "All 12 assigned room-decor candidates are staged and producer-validated as READY_FOR_REVIEW. Workstreams 01/14 should review the exact blob SHAs above; Workstream 08 should integrate only accepted IDs. This handoff requests reassignment from Command Center 15 after review/integration needs are reconciled. Workstream 09 must not take another lane or resume environment-background work while phase remains CATALOG_SPRINT."
+}
