@@ -37,14 +37,13 @@ export function revealStoreFocusTarget(target){
 
   let nextLeft = Number(row.scrollLeft || 0);
   const targetOffsetLeft = Number(target.offsetLeft || 0);
-  const snappedCategory = row.classList?.contains('sbStoreCategoryRow') && targetOffsetLeft > 0;
+  const snappedNarrowCategory = viewportWidth <= 360 && row.classList?.contains('sbStoreCategoryRow') && targetOffsetLeft > 0;
 
-  if(snappedCategory){
-    // The category tray uses scroll-snap-type with each button snapped to its
-    // start edge. A tiny delta (for example the 22px needed by Shoes at 320px)
-    // can snap straight back to the previous category. Align the focused
-    // button itself to the tray's padded start so the snap point and the
-    // accessibility correction agree instead of fighting each other.
+  if(snappedNarrowCategory){
+    // At 320px, the category tray's scroll-snap can undo a tiny accessibility
+    // correction and leave the next category partly clipped. Align that focused
+    // category to its own snap point. Wider layouts keep the minimal-delta path
+    // so keyboard focus is not moved beneath the desktop/tablet side rail.
     nextLeft = targetOffsetLeft - edgePadding;
   }else if(clippedLeft){
     nextLeft += targetRect.left - visibleLeft;
@@ -220,13 +219,23 @@ function scheduleScan(){
   queueMicrotask(scan);
 }
 
+function isKeyboardVisibleFocus(target){
+  if(!target || typeof target.matches !== 'function') return true;
+  try{return target.matches(':focus-visible');}
+  catch{return true;}
+}
+
 function handleFocusIn(event){
   const target = event?.target;
+  // Pointer/touch clicks also move focus. Scrolling the snap tray during the
+  // pointer sequence can move a button between press and release and select the
+  // neighboring category. Only reconcile horizontal focus for keyboard-visible
+  // focus; pointer users retain normal click/touch scrolling behavior.
+  if(!isKeyboardVisibleFocus(target)) return;
   revealStoreFocusTarget(target);
-  // Chromium can apply its native horizontal focus scroll after focusin,
-  // microtasks, and even the first animation frame on a 320px tray. Recheck
-  // through the first frame and once more just after it so the final rendered
-  // focus target, not an intermediate position, stays fully visible.
+  // Chromium can apply its native horizontal keyboard-focus scroll after
+  // focusin, microtasks, and even the first animation frame on a 320px tray.
+  // Recheck through the first frame and once more just after it.
   queueMicrotask(() => revealStoreFocusTarget(target));
   if(typeof requestAnimationFrame === 'function'){
     requestAnimationFrame(() => revealStoreFocusTarget(target));
