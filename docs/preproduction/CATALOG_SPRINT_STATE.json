@@ -200,14 +200,14 @@
     "catalogGateStillRequiresAll192Accepted": true
   },
   "coordinationSnapshot": {
-    "observedHead": "1c5b619c63a2a887ac422be715b7542b5afb34b7",
+    "observedHead": "781028aabd6992039c1c583a47905e76f240d5cb",
     "repositoryStagedAssignedCandidates": 82,
     "generatedLocalDeskCandidates": 3,
     "assignedIdsWithAnyRepositoryOrLocalCandidate": 85,
-    "independentReviewedCurrentHashes": 47,
+    "independentReviewedCurrentHashes": 71,
     "independentAcceptedCurrentHashes": 0,
-    "independentReworkCurrentHashes": 47,
-    "independentUnreviewedIds": 145,
+    "independentReworkCurrentHashes": 71,
+    "independentUnreviewedIds": 121,
     "canonicalV2Promotions": 0,
     "reviewShardsPresent": [
       "01",
@@ -221,7 +221,7 @@
       "auras",
       "lighting"
     ],
-    "note": "47 original/current reviewed hashes remain REWORK. Six versioned replacement candidates are now repository-stored; Tops 7/8 have producer handoff, while Aura 1-4 bytes are stored but still need the lane-11 readback/handoff and reviewer-05 exact-hash pixel decision. No replacement hash is accepted or canonical-wired yet.",
+    "note": "Independent review coverage now includes Tops 12, Seating 11, Auras legacy 12, Lighting 12, Beds 12 and Companions 12 = 71 current/legacy item hashes reviewed; all 71 are REWORK, none ACCEPT. Auras-1..4 replacement hashes and Tops replacement hashes still require fresh review.",
     "storedReplacementCandidateVersions": 6,
     "replacementCandidateIds": [
       "tops-7",
@@ -382,5 +382,97 @@
       "PERSIST-TRANSACTION-IDEMPOTENCY",
       "PERSIST-QUEST-COMPLETION-REFRESH"
     ]
+  },
+  "binaryTransferEvidence": {
+    "status": "SUPPORTED_PATH_PROVEN_GIT_BLOBS_CREATED_BRANCH_ATTACHMENT_PENDING",
+    "method": "Adobe GenAIAsset search -> presigned rendition -> Adobe inline byte readback -> GitHub create_blob(base64)",
+    "note": "These Git object blobs are immutable byte preservation only and DO NOT count as repository-staged assets until an owning lane attaches them to a versioned branch path and verifies readback. Replit/Floot/main were not touched.",
+    "lighting": {
+      "lighting-1": {
+        "blobSha": "9d8aa142fa53f06dbad9ce59e9c8d34c1096ddc3",
+        "mimeType": "image/jpeg"
+      },
+      "lighting-2": {
+        "blobSha": "8c10fe689d6d7e398e85b24eb1ca1323cee07ea3",
+        "mimeType": "image/jpeg",
+        "bytes": 26239
+      },
+      "lighting-3": {
+        "blobSha": "fc21ddf5a608ee393410ff9682cf2ef87a56c46d",
+        "mimeType": "image/jpeg",
+        "bytes": 27378
+      },
+      "lighting-4": {
+        "blobSha": "7975e490a9fb97574f03081acf9fc871c22224f3",
+        "mimeType": "image/jpeg",
+        "bytes": 21757
+      }
+    },
+    "tops": {
+      "tops-1": {
+        "blobSha": "5fd9544999694ec27c9b6247aaffeca1c0c7b484",
+        "mimeType": "image/jpeg",
+        "bytes": 22951
+      },
+      "tops-2": {
+        "blobSha": "428450782feb314535163b54d0405f9af8b7cd65",
+        "mimeType": "image/jpeg",
+        "bytes": 27448
+      },
+      "tops-3": {
+        "blobSha": "b4a834586feae169e102f43aeceaaaf11893ec11",
+        "mimeType": "image/jpeg",
+        "bytes": 22414
+      },
+      "tops-4": {
+        "blobSha": "26d03c5ba26c565e79e809f825db87c9be1dba21",
+        "mimeType": "image/jpeg",
+        "bytes": 31644
+      },
+      "tops-5": {
+        "blobSha": "78c5c89270be2f505f77d033f340c72cf0ff80a8",
+        "mimeType": "image/jpeg",
+        "bytes": 21739
+      },
+      "tops-6": {
+        "blobSha": "44d88aa84246f9d8a76b3f22c408653eb28176aa",
+        "mimeType": "image/jpeg",
+        "bytes": 31238
+      }
+    },
+    "branchAttachmentOwners": {
+      "04": [
+        "lighting-1",
+        "lighting-2",
+        "lighting-3",
+        "lighting-4"
+      ],
+      "07": [
+        "tops-1",
+        "tops-2",
+        "tops-3",
+        "tops-4",
+        "tops-5",
+        "tops-6"
+      ]
+    },
+    "branchAttachmentRule": "normal non-force latest-head commit, then exact path/blob readback; no regeneration"
+  },
+  "latestReviewEvidence": {
+    "05": {
+      "reviewBlobSha": "d9066630eeae3bddb184d06c0fa0bbcf17c7d57b",
+      "sourceHead": "d94ff26ac1c4bc63329a48dedb8a48d52a6219ad",
+      "newlyReviewed": [
+        "companions-1..12",
+        "beds-1..12"
+      ],
+      "newlyAccepted": 0,
+      "newlyRework": 24,
+      "pendingPriority": [
+        "auras-1-v2..4-v2",
+        "desks-2..12",
+        "desks-1"
+      ]
+    }
   }
 }
