@@ -1,25 +1,42 @@
-# Workstream 08 — Catalog Integration
+# Workstream 08 catalog integration
 
-STATUS: **INTEGRATED_ACCEPTED_INCREMENT_TESTS_PASS_STORE_SMOKE_PENDING**
+Status: **10 NEW EXACT-HASH ACCEPTS CANONICALLY PREPARED; TEST/BUILD/STORE SMOKE PENDING**
 
-Branch: `screenshot-match-preproduction` only. Replit/Floot/main/player data remain untouched.
+Source head before canonical write: `4d12f8bd531aa0bcf55935385126dcb4115914c6`  
+Reviewer shard: `docs/preproduction/catalog-sprint/reviews/02.json` @ `ad4d8c9892a5e4c9c2a33553d5ab50f89b03b036`  
+Branch: `screenshot-match-preproduction` only. Replit/Floot/main/player data untouched.
 
-## This integration
+## Newly integrated exact-hash ACCEPTs
 
-Integrated 3 newly qualified exact-hash replacements: `auras-6`, `auras-7`, `auras-8`. Exact repository bytes/hashes, current Store metadata, supported decode, canonical path/content uniqueness and reviewer independence were all validated before wiring.
+| ID | Name | Tier/theme | Canonical asset | Git blob | Decode |
+|---|---|---|---|---|---|
+| shoes-1 | Sneakers | T1 · Aqua Wave | `/assets/catalog/shoes-1-w04-recovered-v2.jpg` | `1a0351a733c7639ecdf4d90d41e4e5159bd7e8ad` | JPEG 600×600 |
+| shoes-2 | Slip-Ons | T1 · Art Attack | `/assets/catalog/shoes-2-w04-recovered-v2.jpg` | `4377e9c6b996a154db67feae1adb924715364f54` | JPEG 600×600 |
+| shoes-3 | High-Tops | T1 · Star Luxe | `/assets/catalog/shoes-3-w04-recovered-v2.jpg` | `995c65c304af6acc85fad2a98cfe07029b486472` | JPEG 600×600 |
+| shoes-4 | Bow Shoes | T2 · Midnight Neon | `/assets/catalog/shoes-4-w04-recovered-v2.jpg` | `121bd48007f74a2df4c760fa4650e7075138cffb` | JPEG 600×600 |
+| shoes-5 | Boots | T2 · Candy Core | `/assets/catalog/shoes-5-w04-v2.jpg` | `eaac23dcecf94ac3875adb61017f2436cf4d1d0c` | JPEG 600×600 |
+| shoes-6 | Runners | T2 · Adventure Club | `/assets/catalog/shoes-6-w04-v2.jpg` | `2622d23d9a24e689c669292671c531a91b355221` | JPEG 600×600 |
+| seating-7 | Lounge Chair | T3 · Cloud Pop | `/assets/catalog/seating-7-w06-v2.png` | `91457eddbb3ae915867d717eec72632ea6a183be` | PNG 768×768 |
+| seating-8 | Bubble Seat | T3 · Pixel Party | `/assets/catalog/seating-8-w06-v2.png` | `23c02ab51249ab373aab264a17778a090d023eb4` | PNG 768×768 |
+| seating-9 | Art Stool | T3 · Berry Blast | `/assets/catalog/seating-9-w06-v2.png` | `7fcdea13121a8820dd8dc64e8982637acb2c5819` | PNG 768×768 |
+| seating-10 | Pod Chair | T4 · Garden Glow | `/assets/catalog/seating-10-w06-v2.png` | `9aa53664cbc8ee24283ea44830f1f3037c576340` | PNG 768×768 |
 
-Canonical manifest is now v15: **110 final-portable / 16 interim / 82 non-final**, with 126 canonical entries and 126 runtime mappings. Legacy labels remain distinct from the strict accepted-current-hash count.
+Reviewer 02 is independent from producers 04/06. Each accepted file was re-read from the repository, its Git blob was matched to the review decision and producer handoff, metadata was checked against the actual Store model, raster decode succeeded, and canonical path/content uniqueness was recomputed. Historical REWORK hashes do not block these replacement hashes.
 
-Strict current replacement state: **17 accepted / 17 canonical-wired / 0 release-cleared**.
+## Accounting
 
-## Validation
+- Legacy manifest final-portable labels after this batch: **114/192**. This is not the strict visual-acceptance count.
+- Current exact-hash independently accepted and canonical-wired replacements: **27/192**.
+- Strict accepted/wired remaining: **165**.
+- Interim-not-verified manifest entries: **16**.
+- Canonical manifest/runtime mappings: **130**.
+- Canonical duplicate paths: **0**; canonical duplicate content hashes: **0**.
+- Catalog release-cleared IDs: **0** until reviewer 14 completes the independent release gate.
 
-- metadata: PASS_3_OF_3_AGAINST_CURRENT_GAME_MODEL
-- exact stored bytes: PASS_3_OF_3_EXACT_GIT_BLOB_SHA
-- safe decode/render evidence: PASS_3_OF_3_SUPPORTED_FORMAT_PLUS_INDEPENDENT_RENDER_EVIDENCE
-- canonical uniqueness: PASS_126_UNIQUE_PATHS_AND_CONTENT_HASHES
-- npm tests: PASS_FULL_NPM_TEST_WORKFLOW
-- production build: PASS_VITE_PRODUCTION_BUILD_WORKFLOW
-- Store/mobile smoke: PENDING_AUTOMATIC_CATALOG_MOBILE_QA_ON_CANONICAL_COMMIT
+## Verification and handoff
 
-Next: consume every fresh exact-hash ACCEPT immediately; never wire REWORK or producer-only claims.
+Full catalog tests, production build and strict Store/mobile smoke execute before publication by the Workstream-08 integration job. The earlier beds-1 metadata defect is already fixed in the current canonical manifest (Garden Glow) and remains protected by the strict catalog metadata test. After a green canonical commit, reviewer 14 should run the fresh Home/Store/Quest reference comparison against the committed originals; Workstream 08 does not self-approve reference parity.
+
+## Executed validation
+
+**PASS:** full npm regression, Vite production build, and strict catalog Store/mobile QA all succeeded against the coherent prepared canonical files before commit. Fresh original-reference comparison remains independently owned by 14 and is not claimed here.

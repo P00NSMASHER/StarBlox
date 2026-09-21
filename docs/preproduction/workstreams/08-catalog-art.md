@@ -1,3 +1,9 @@
+## Current exact-hash integration — reviewer 02 Shoes 1–6 + Seating 7–10
+
+Prepared from source `4d12f8bd531aa0bcf55935385126dcb4115914c6`. Ten qualified replacement hashes passed exact Store metadata, stored-byte/hash, decode, reviewer-independence and uniqueness checks and are being canonically wired as one coherent batch. Strict accepted/wired count becomes **27/192**; legacy final-portable label count becomes **114/192**. Reviewer 14 retains catalog release-gate authority; no deployment or phase change is implied.
+
+Exact IDs: `shoes-1`, `shoes-2`, `shoes-3`, `shoes-4`, `shoes-5`, `shoes-6`, `seating-7`, `seating-8`, `seating-9`, `seating-10`.
+
 # Workstream 08 — Catalog Integration
 
 STATUS: **INTEGRATED_ACCEPTED_INCREMENT_TESTS_PASS_STORE_SMOKE_PENDING**
