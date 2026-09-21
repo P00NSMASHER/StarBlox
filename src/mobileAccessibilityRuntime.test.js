@@ -1,6 +1,6 @@
 /* @vitest-environment jsdom */
-import { beforeEach, describe, expect, it } from 'vitest';
-import { applyMobileAccessibility, parseXpProgress, storeCardAccessibleLabel } from './mobileAccessibilityRuntime';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { applyMobileAccessibility, parseXpProgress, revealStoreFocusTarget, storeCardAccessibleLabel } from './mobileAccessibilityRuntime';
 
 describe('mobile accessibility helpers',() => {
   beforeEach(() => {
@@ -33,6 +33,20 @@ describe('mobile accessibility helpers',() => {
     expect(card.hasAttribute('aria-selected')).toBe(false);
     expect(card.getAttribute('aria-label')).toContain('Star Hoodie');
     expect(category.getAttribute('aria-pressed')).toBe('true');
+  });
+
+  it('reveals keyboard-focused Store filters within their horizontal tray only',() => {
+    document.body.innerHTML = '<div class="sbStoreCategoryRow"><button>Room Decor</button></div>';
+    const row = document.querySelector('.sbStoreCategoryRow');
+    const button = row.querySelector('button');
+    Object.defineProperty(row,'scrollLeft',{value:40,writable:true,configurable:true});
+    row.getBoundingClientRect = () => ({left:10,right:310,top:0,bottom:64,width:300,height:64,x:10,y:0,toJSON(){}});
+    button.getBoundingClientRect = () => ({left:292,right:376,top:0,bottom:64,width:84,height:64,x:292,y:0,toJSON(){}});
+    row.scrollTo = vi.fn(({left}) => { row.scrollLeft = left; });
+
+    expect(revealStoreFocusTarget(button)).toBe(true);
+    expect(row.scrollTo).toHaveBeenCalledWith({left:114,behavior:'auto'});
+    expect(row.scrollLeft).toBe(114);
   });
 
   it('labels Quest read-aloud, answers, feedback, and XP progress',() => {
