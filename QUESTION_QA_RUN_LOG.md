@@ -134,3 +134,59 @@ No `QUESTION_QA_LEDGER.md` row was added because the audited item, generator, so
 - Physical iPhone/iPad/Android Quest behavior.
 - VoiceOver/TalkBack/NVDA.
 - A fresh live click-through of correct → wrong → clue → retry transitions in Playwright during this run. Existing automated reward/evidence tests remain applicable because the relevant runtime hashes are unchanged.
+
+## 2026-09-21 16:45 America/New_York — Quest persistence/reward integrity execution audit
+
+### Scope
+
+The prior Workstream-12 report could not be reused unchanged because `App.jsx`, persistence/storage code, and mobile accessibility changed after the previous audit. The question bank, semantic/diagnostic guards, Quest reward policy, source mapping and Quest presentation decorator remained unchanged.
+
+This run inspected the changed App transaction flow and reused a **newer executed CI/build gate** on runtime head `81bbf06dc070b0f72f942dde9c14ac4bba476922`: workflow run `35652513911`, job `106508054992`.
+
+### New execution evidence
+
+- **22/22 test files PASS**.
+- **98/98 tests PASS**.
+- production build **PASS**.
+- The consolidated learning gate passed the hardened bank, phonics/rhyme/vowels/spelling, vocabulary + reading inference/evidence + Religion Unit 1, exactly-five deterministic Quest, and assisted-retry exclusion tests.
+- Reward/evidence tests passed first-wrong safety, no assisted transfer/mastery, mastery only on independent eligible outcomes, and no repeated-wrong farming.
+- Persistence tests passed active-receipt completion, stale-receipt rejection, persisted reload and duplicate completion-replay rejection.
+- Motion regression passed: negative feedback is not celebrated as success.
+- Quest accessibility regression passed: read-aloud, answer, feedback and XP semantics remain present after the focus-handling changes.
+
+### App semantic review
+
+The refactor leaves the learning decision path intact:
+
+- correctness remains `choice === currentQ.answer`;
+- after a first miss, a later correct answer has `wasRetry=true`, so `independent=false`;
+- assisted success cannot increment `independentCorrect` or `masteryCorrect` and still receives 0 Coins, 0 Stars, 0 transfer evidence and no mastery award from the per-attempt policy;
+- the separate final-Quest +30 Coins/+30 XP completion reward is now attached to an active Quest receipt and committed atomically on the correct final answer;
+- replay of that completion receipt cannot award the completion bonus, Quest count, Bond or daily Quest progress twice.
+
+This persistence change therefore improves reward idempotency without promoting assisted evidence to independent mastery.
+
+### Semantic continuity
+
+No source/generator/selector change occurred, so settled semantic ledger findings remain valid and were re-executed by the current regression suite rather than manually duplicated. The fixed fresh-save adaptive IDs remain:
+
+`vocab-transfer-invited`, `spell-first-tub`, `story-character-park-care`, `religion-transfer-0`, `story-infer-crayons`.
+
+The approved Religion Unit 1 row used in the prior item-level browser audit also remains unchanged: `Creation is a gift from God.` → `We show gratitude by caring for creation.` The broad `SOURCE` string was not treated as semantic proof.
+
+### Severity and disposition
+
+- P0 found: **0**.
+- P0 quarantined: **0**.
+- New learning P1 found: **0**.
+- Learning fix required: **no**.
+
+No row was added to `QUESTION_QA_LEDGER.md`, because no question/template/source mapping/selector changed and no new defect was found.
+
+### Remaining not tested
+
+- Fresh real-browser correct → auto-advance and wrong → clue → retry click-through after the persistence refactor.
+- Physical-device Quest behavior.
+- VoiceOver/TalkBack/NVDA.
+
+The catalog sprint can continue. Re-run this workstream on any change to question/source generators, selector, reward policy, App answer flow, Quest presentation/accessibility, or motion feedback.
