@@ -1,0 +1,142 @@
+name: StarBlox Desk 5-6 Artwork Recovery
+
+on:
+  push:
+    branches: [screenshot-match-preproduction]
+    paths:
+      - '.github/workflows/desks-recovery-5-6.yml'
+      - 'docs/preproduction/catalog-sprint/recover_desks56.py'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+concurrency:
+  group: starblox-desk-5-6-recovery
+  cancel-in-progress: false
+
+jobs:
+  recover-and-verify:
+    if: github.ref == 'refs/heads/screenshot-match-preproduction'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: screenshot-match-preproduction
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Decode-verification dependency only
+        run: python3 -m pip install --disable-pip-version-check Pillow==11.3.0
+      - name: Recover exact existing W03 generations and verify safe repeat behavior
+        run: |
+          python3 -m py_compile docs/preproduction/catalog-sprint/recover_desks56.py
+          node --check scripts/verifyLightingRecovery20260921.mjs
+          python3 docs/preproduction/catalog-sprint/recover_desks56.py
+          python3 docs/preproduction/catalog-sprint/recover_desks56.py
+      - name: Publish only recovered assets and batch evidence
+        id: publish
+        run: |
+          set -eu
+          test "$GITHUB_REF" = refs/heads/screenshot-match-preproduction
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- public/assets/catalog/desks-5-w03-recovered-v2.jpg public/assets/catalog/desks-6-w03-recovered-v2.jpg docs/preproduction/catalog-sprint/recovered-originals/desks-5-6-20260921 docs/preproduction/catalog-sprint/chat-desks-5-6-recovery-result.json
+          if ! git diff --cached --quiet; then
+            git commit -m 'catalog: preserve and stage Garden Book Desk and Galaxy Gamer Setup pixels'
+            published=false
+            for attempt in 1 2 3; do
+              if git push origin HEAD:refs/heads/screenshot-match-preproduction; then published=true; break; fi
+              git fetch origin screenshot-match-preproduction
+              git rebase origin/screenshot-match-preproduction
+            done
+            test "$published" = true
+          fi
+          echo "TESTED_SOURCE_HEAD=$(git rev-parse HEAD)" >> "$GITHUB_ENV"
+      - name: Install unchanged app and existing browser QA tooling
+        run: |
+          npm install --no-save --package-lock=false --no-audit --no-fund
+          npm install --no-save --package-lock=false --no-audit --no-fund playwright@1.55.0
+          npx playwright install --with-deps chromium
+      - name: Full application regression suite
+        id: tests
+        continue-on-error: true
+        run: timeout 120s npm test -- --reporter=verbose
+      - name: Build actual preproduction application
+        id: build
+        continue-on-error: true
+        run: npm run build
+      - name: Existing Lighting default contract remains passing
+        id: lighting
+        continue-on-error: true
+        run: node scripts/verifyLightingRecovery20260921.mjs
+      - name: Exact Desk candidate card and detail browser verification
+        id: render
+        continue-on-error: true
+        run: node scripts/verifyLightingRecovery20260921.mjs
+        env:
+          STARBLOX_RECOVERY_BATCH: desks-5-6
+      - name: Record only actually executed proof
+        if: always() && steps.publish.outcome == 'success'
+        env:
+          TEST_OUTCOME: ${{ steps.tests.outcome }}
+          BUILD_OUTCOME: ${{ steps.build.outcome }}
+          RENDER_OUTCOME: ${{ steps.render.outcome }}
+          LIGHTING_OUTCOME: ${{ steps.lighting.outcome }}
+        run: |
+          python3 - <<'PY'
+          import json, os
+          from pathlib import Path
+          p=Path('docs/preproduction/catalog-sprint/chat-desks-5-6-recovery-result.json')
+          r=json.loads(p.read_text())
+          state=lambda key: {'success':'PASS','failure':'FAIL','skipped':'NOT_RUN','cancelled':'CANCELLED'}.get(os.environ.get(key),'NOT_RUN')
+          proof=Path('artifacts/desks-5-6-recovery/report.json')
+          executed=json.loads(proof.read_text()) if proof.exists() else {'status':'NOT_RUN','items':[]}
+          r['testedSourceHead']=os.environ['TESTED_SOURCE_HEAD']
+          r['workflowRunId']=int(os.environ['GITHUB_RUN_ID'])
+          r['checks'].update({'tests':state('TEST_OUTCOME'),'build':state('BUILD_OUTCOME'),'render':state('RENDER_OUTCOME'),'existingLightingVerifierCompatibility':state('LIGHTING_OUTCOME'),'repeatIntake':'PASS_NO_REDOWNLOAD_OR_REGENERATION','typecheck':'NOT_APPLICABLE_NO_TYPESCRIPT_APP_CHANGES','independentVisualReview':'PENDING_05'})
+          r['renderEvidence']={'artifactName':'desks-5-6-recovery-evidence','proof':executed,'scope':'Only exact Desk 5-6 images; not the shared whole-catalog gate or canonical Store approval'}
+          r['status']='STAGED_RENDERED_PENDING_INDEPENDENT_REVIEW' if executed['status']=='PASS_2_OF_2_ISOLATED_RENDER' else 'STAGED_RENDER_NOT_CLEARED'
+          r['canonicalPromotionsThisIntake']=0
+          p.write_text(json.dumps(r,indent=2)+'\n')
+          print(json.dumps({'ids':[i['id'] for i in r['items']],'checks':r['checks']},indent=2))
+          PY
+      - name: Publish only updated evidence without overwriting concurrent work
+        if: always() && steps.publish.outcome == 'success'
+        run: |
+          set -eu
+          test "$GITHUB_REF" = refs/heads/screenshot-match-preproduction
+          git add -- docs/preproduction/catalog-sprint/chat-desks-5-6-recovery-result.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'qa: record Desk 5-6 exact-byte and browser verification evidence'
+          for attempt in 1 2 3; do
+            if git push origin HEAD:refs/heads/screenshot-match-preproduction; then exit 0; fi
+            git fetch origin screenshot-match-preproduction
+            git rebase origin/screenshot-match-preproduction
+          done
+          echo 'Concurrent changes prevented safe evidence publication; no force push' >&2
+          exit 1
+      - name: Preserve real images and browser evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: desks-5-6-recovery-evidence
+          retention-days: 14
+          if-no-files-found: error
+          path: |
+            public/assets/catalog/desks-5-w03-recovered-v2.jpg
+            public/assets/catalog/desks-6-w03-recovered-v2.jpg
+            docs/preproduction/catalog-sprint/recovered-originals/desks-5-6-20260921
+            docs/preproduction/catalog-sprint/chat-desks-5-6-recovery-result.json
+            artifacts/desks-5-6-recovery
+            artifacts/lighting-recovery-isolated/report.json
+      - name: Fail honestly when any required check fails
+        if: always()
+        env:
+          PUBLISH_OUTCOME: ${{ steps.publish.outcome }}
+          TEST_OUTCOME: ${{ steps.tests.outcome }}
+          BUILD_OUTCOME: ${{ steps.build.outcome }}
+          RENDER_OUTCOME: ${{ steps.render.outcome }}
+          LIGHTING_OUTCOME: ${{ steps.lighting.outcome }}
+        run: test "$PUBLISH_OUTCOME" = success && test "$TEST_OUTCOME" = success && test "$BUILD_OUTCOME" = success && test "$RENDER_OUTCOME" = success && test "$LIGHTING_OUTCOME" = success
