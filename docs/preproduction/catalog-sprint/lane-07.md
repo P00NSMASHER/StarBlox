@@ -1,16 +1,27 @@
 # Catalog Sprint Lane 07 — Rugs
 
-STATUS: **READY_FOR_REVIEW / 12 OF 12 STAGED**
+STATUS: **READY FOR REVIEW — 12/12 STAGED / WAITING ON REVIEWER 14**
 
 Branch: `screenshot-match-preproduction`  
-Source head read before production: `2608b1f23ab09ed92e6cd1462586eebc7e37554f`  
-Source head read before handoff: `6f9d7f6261b84d0f9f9ad13b0c591e0ef7a88590`  
+Current orchestration: `DELIVERY_PROTOCOL_V2.md`  
+Latest lane reconciliation input head: `911edfc37d05b0402ea028613c6a835401d316f0`  
 Replit/Floot: **untouched**  
 `main`: **untouched**
 
-## Batch completed
+## What changed this run
 
-Lane 07 produced the complete assigned rug family as original, self-contained StarBlox SVG candidates. Each item uses its own silhouette, pile/construction treatment, stitched detail, motif and signature feature rather than a recolor-only variant. The set intentionally scales from straightforward Starter treatment to denser Tier-4 and Tier-5 glow, layering and ornament.
+Lane 07 did **not** regenerate any rug artwork. Under v2, a `READY_FOR_REVIEW` asset is preserved until an independent reviewer reports a concrete defect. The current review partition assigns the complete Rugs collection to **Workstream 14 only**.
+
+I reconciled the lane against the latest branch and verified that no `public/assets/catalog/rugs-*.svg` path changed between the original handoff head `6f9d7f6261b84d0f9f9ad13b0c591e0ef7a88590` and checked head `911edfc37d05b0402ea028613c6a835401d316f0`, despite 45 intervening commits. Therefore the previously recorded producer render and hash evidence remains applicable to the exact current candidate bytes.
+
+Direct repository readback also reconfirmed both ends of the family:
+
+- `rugs-1` Starter Mat → Git blob `30965be773947cbff94d1499ddf2d8e2a121c54c`, 800×800.
+- `rugs-12` Luxe Star Rug → Git blob `718227d632a1a85fa3386f1d9ef1e407a7e5a115`, 800×800.
+
+No reviewer-14 shard existed at the checked head (`docs/preproduction/catalog-sprint/reviews/14.json`), so there is still **no qualified independent actual-pixel ACCEPT/REWORK decision for any rug**. That is now the precise critical dependency. Regenerating unchanged candidates would violate the v2 anti-stall rules.
+
+## Current candidate family
 
 | ID | Name | Tier | Theme | Path |
 |---|---|---:|---|---|
@@ -27,38 +38,30 @@ Lane 07 produced the complete assigned rug family as original, self-contained St
 | `rugs-11` | Dream Cloud Rug | 4 | Galaxy Glow | `/assets/catalog/rugs-11.svg` |
 | `rugs-12` | Luxe Star Rug | 5 | Sunny Pop | `/assets/catalog/rugs-12.svg` |
 
-## Visual differentiation
+Each candidate retains the exact blob identity, byte count, creation commit, Store metadata and feature description recorded in `lane-07.json`. The family remains original repo-owned self-contained SVG art with no external URL/font/raster dependency, third-party brand/character, or Roblox/Brookhaven asset.
 
-- **Starter Mat** — woven rounded aqua mat, regular ribbing, short fringe and a simple star center.
-- **Cloud Rug** — irregular fluffy cloud silhouette with sculpted pile and playful stitched art accents.
-- **Pixel Grid Rug** — beveled dark grid with luminous checks, gold trim and a central star medallion.
-- **Heart Rug** — plush heart silhouette with a dark midnight center and neon pink/cyan piping.
-- **Leaf Rug** — leaf form with raised pale veins, stitched candy-color branches and sparkle details.
-- **Orbit Rug** — circular celestial construction with raised planet center, orbital rings and satellite dots.
-- **Checker Rug** — thick rounded checker pile with tufted star corners and fringe tabs.
-- **Wave Rug** — asymmetrical layered surf bands with stepped pixel highlights.
-- **Splash Rug** — irregular berry paint-splash silhouette with droplets and a pale star inset.
-- **Neon Grid Rug** — octagonal dark perspective grid with cyan/green glow and botanical corner details.
-- **Dream Cloud Rug** — galaxy cloud pile with crescent moon, constellation stitching and luminous highlights.
-- **Luxe Star Rug** — layered five-point gold construction with raised star insets, jewel accents and radiant stitching.
+## Producer evidence reused by exact unchanged hash
 
-## Producer validation
+- **PASS — XML parse:** 12/12 from original producer run; unchanged candidate hashes.
+- **PASS — CairoSVG 800×800 render:** 12/12 from original producer run; unchanged candidate hashes.
+- **PASS — producer contact-sheet inspection:** 12/12 readable/materially distinct; unchanged candidate hashes.
+- **PASS — metadata:** names, collection, tiers, themes, prices and Star requirements matched the real Store model; unchanged candidate hashes.
+- **PASS — unique blob identities:** 12/12 distinct.
+- **PASS — direct repository readback anchors:** `rugs-1` and `rugs-12` still match the recorded blobs.
+- **PENDING — independent actual-pixel review:** reviewer 14 has not yet supplied the v2 review shard.
+- **NOT TESTED BY LANE 07 — real canonical Store viewport context:** remains owned by review/integration/mobile QA.
+- **NOT RUN BY LANE 07 — full branch build/test:** no runtime or manifest change was made by this lane.
 
-- **PASS** — all 12 SVG files parse as XML.
-- **PASS** — all 12 render to 800×800 pixels with CairoSVG.
-- **PASS** — producer contact-sheet inspection found all 12 readable and materially distinct.
-- **PASS** — names, categories, tiers, themes, prices and Star requirements match the real Store model.
-- **PASS** — all 12 Git blob SHAs are unique within this lane.
-- **PASS** — no external URLs, raster embeds, fonts, brand marks, Roblox/Brookhaven assets or third-party characters were introduced.
-- **PASS** — no catalog manifest, runtime wiring, player state, economy or learning data was changed by Lane 07.
-- **PENDING** — independent rendered/card-scale acceptance by Workstream 01 and/or Workstream 14.
-- **NOT TESTED** — real Store desktop/phone viewport context by this lane.
-- **NOT RUN** — full branch build and full test suite by this lane.
+## Important stale dependency discovered
 
-Exact asset blob identities, byte sizes, creation commits and metadata are recorded in `docs/preproduction/catalog-sprint/lane-07.json`.
+`docs/preproduction/catalog-sprint/integration.json` is audited to the older `6f9d7f...` head and still says Lane 07 is missing. That snapshot predates this lane report and is stale with respect to Rugs. Workstream 08 should reread the latest lane after reviewer-14 decisions appear; Lane 07 must not edit the integration report or canonical manifest/runtime itself.
 
-## Handoff
+## Precise anti-stall handoff
 
-Workstreams 01/14 should review the exact recorded asset blobs and classify each item independently. `READY_FOR_REVIEW` is not final acceptance. Workstream 08 remains the sole owner of `catalog-art-manifest.json` and `src/catalogArtRuntime.js` and should integrate only independently accepted exact IDs.
+**Reviewer 14:** render `rugs-1..12` through the staged-asset fixture at actual Store-card and detail scale, then append exact-hash `ACCEPT / REWORK / BLOCKED` decisions to `docs/preproduction/catalog-sprint/reviews/14.json`. Return any REWORK with the exact ID/hash and observed defect.
 
-Command Center 15 may reassign Lane 07 only after review/integration needs are reconciled. While the phase remains `CATALOG_SPRINT`, this worker must not resume unrelated progression-widget work.
+**Workstream 08:** after those decisions exist, reread this current lane report and integrate accepted exact IDs incrementally while preserving IDs, prices, Star requirements, ownership and save behavior.
+
+**Command Center 15:** Lane 07 production is complete and unchanged. Please prioritize reviewer-14 → 08 as the dependency chain. After review/integration needs are reconciled, reassign Workstream 07 only to a specific unresolved catalog repair/evidence task, or leave it read-only until `GAME_FINISHING`. Do not return it to progression-widget work while phase remains `CATALOG_SPRINT`.
+
+No artwork was self-approved, no canonical mapping was changed, and no player/economy/learning data was touched.
