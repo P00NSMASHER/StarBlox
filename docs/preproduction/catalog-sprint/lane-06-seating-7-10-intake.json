@@ -1,0 +1,170 @@
+{
+  "schemaVersion": 1,
+  "batchId": "lane06-seating-7-10-20260921",
+  "producer": "06",
+  "independentReviewer": "02",
+  "canonicalWriter": "08",
+  "branch": "screenshot-match-preproduction",
+  "status": "STAGED_READY_FOR_INDEPENDENT_REVIEW",
+  "sourceHead": "f39d7bc9e42248b514b046ed3ee6548d2b35d128",
+  "newGenerationCount": 4,
+  "storedCandidateCount": 4,
+  "storedOriginalCount": 4,
+  "independentAcceptsThisIntake": 0,
+  "canonicalPromotionsThisIntake": 0,
+  "items": [
+    {
+      "id": "seating-7",
+      "name": "Lounge Chair",
+      "collectionId": "seating",
+      "collectionName": "Seating",
+      "type": "room",
+      "tier": 3,
+      "theme": "Cloud Pop",
+      "price": 348,
+      "starReq": 2,
+      "candidateRepositoryPath": "public/assets/catalog/seating-7-w06-v2.png",
+      "candidateGitBlobSha": "91457eddbb3ae915867d717eec72632ea6a183be",
+      "candidateSha256": "0b04752c2ad25da0152cd0353a30504a3673f105cbed7d33fa7379ac33c46985",
+      "bytes": 547583,
+      "dimensions": [
+        768,
+        768
+      ],
+      "format": "PNG",
+      "sourcePath": "docs/preproduction/catalog-sprint/recovered-originals/seating-7-10-20260921/seating-7-source.png",
+      "sourceGitBlobSha": "17dc2de515dcdceca4e55aeff420dfdaae5c05ef",
+      "sourceSha256": "cf8e2daf166f761e359285e247eed12cbad0b01eac99362dbc8382b954ea5ff2",
+      "sourceBytes": 903382,
+      "sourceDimensions": [
+        1024,
+        1024
+      ],
+      "generationRequestId": "bffb0443-0273-4e06-a91d-55251e032f04",
+      "resizeRequestId": "fd8067b6-1b00-4ccf-9273-867c66730175",
+      "provenance": "Generated for Lane 06 secondary Seating repair capacity; full-resolution source and Adobe 768x768 resize retained as exact repository bytes.",
+      "producerPixelCheck": "PASS_PREUPLOAD: dimensional plush cream/lavender lounge chair, stitched upholstery, rounded cloud-like cushion construction, short physical legs, three-quarter view and cast/rim lighting.",
+      "independentDecision": "PENDING_02",
+      "status": "READY_FOR_REVIEW"
+    },
+    {
+      "id": "seating-8",
+      "name": "Bubble Seat",
+      "collectionId": "seating",
+      "collectionName": "Seating",
+      "type": "room",
+      "tier": 3,
+      "theme": "Pixel Party",
+      "price": 479,
+      "starReq": 2,
+      "candidateRepositoryPath": "public/assets/catalog/seating-8-w06-v2.png",
+      "candidateGitBlobSha": "23c02ab51249ab373aab264a17778a090d023eb4",
+      "candidateSha256": "05472fdb7a2372e31ddaba77cf5bd7bf4c3205be5d284a817c7aa8e0dbd05396",
+      "bytes": 566882,
+      "dimensions": [
+        768,
+        768
+      ],
+      "format": "PNG",
+      "sourcePath": "docs/preproduction/catalog-sprint/recovered-originals/seating-7-10-20260921/seating-8-source.png",
+      "sourceGitBlobSha": "b01a8d8167ed1ac2c2e89062ef1549cd973fa01f",
+      "sourceSha256": "ee2d8ea94640da265173330249b3b8fc0a2897923e925142c2acfe41f8802986",
+      "sourceBytes": 997229,
+      "sourceDimensions": [
+        1024,
+        1024
+      ],
+      "generationRequestId": "bef776fb-1b3f-45cd-89ed-1243bcadf663",
+      "resizeRequestId": "bedbcd59-e337-4a37-9bc9-7c8a9a28a933",
+      "provenance": "Generated for Lane 06 secondary Seating repair capacity; full-resolution source and Adobe 768x768 resize retained as exact repository bytes.",
+      "producerPixelCheck": "PASS_PREUPLOAD: translucent spherical shell, visible rim/hardware, segmented plush blue cushion, cyan/magenta pixel-light base accents and grounded colored spill.",
+      "independentDecision": "PENDING_02",
+      "status": "READY_FOR_REVIEW"
+    },
+    {
+      "id": "seating-9",
+      "name": "Art Stool",
+      "collectionId": "seating",
+      "collectionName": "Seating",
+      "type": "room",
+      "tier": 3,
+      "theme": "Berry Blast",
+      "price": 667,
+      "starReq": 2,
+      "candidateRepositoryPath": "public/assets/catalog/seating-9-w06-v2.png",
+      "candidateGitBlobSha": "7fcdea13121a8820dd8dc64e8982637acb2c5819",
+      "candidateSha256": "6d211ad03c47323794d4dc5f55bffb69937a24f137ece00fc79ad412e4e935f9",
+      "bytes": 527794,
+      "dimensions": [
+        768,
+        768
+      ],
+      "format": "PNG",
+      "sourcePath": "docs/preproduction/catalog-sprint/recovered-originals/seating-7-10-20260921/seating-9-source.png",
+      "sourceGitBlobSha": "e0fbc363c52919ad0415e21e88bb69fd72b4f2a2",
+      "sourceSha256": "54ce22206871330f6b6aec4b54eb8f44b187b2b6e407c220fec549b4e1ed1ecf",
+      "sourceBytes": 883748,
+      "sourceDimensions": [
+        1024,
+        1024
+      ],
+      "generationRequestId": "24a2b038-9899-4283-914c-ab9987262245",
+      "resizeRequestId": "277d0351-4230-4a5b-9ac5-492bd2441597",
+      "provenance": "Generated for Lane 06 secondary Seating repair capacity; full-resolution source and Adobe 768x768 resize retained as exact repository bytes.",
+      "producerPixelCheck": "PASS_PREUPLOAD: round berry-red stitched seat, cream tripod legs, visible spring/height hardware, metal foot ring and berry/art details with clear physical construction.",
+      "independentDecision": "PENDING_02",
+      "status": "READY_FOR_REVIEW"
+    },
+    {
+      "id": "seating-10",
+      "name": "Pod Chair",
+      "collectionId": "seating",
+      "collectionName": "Seating",
+      "type": "room",
+      "tier": 4,
+      "theme": "Garden Glow",
+      "price": 928,
+      "starReq": 5,
+      "candidateRepositoryPath": "public/assets/catalog/seating-10-w06-v2.png",
+      "candidateGitBlobSha": "9aa53664cbc8ee24283ea44830f1f3037c576340",
+      "candidateSha256": "c2af9cd66d2e0e214eb79129c420a6cbc3ecf09c7c86f0e1e571867439ae714c",
+      "bytes": 591815,
+      "dimensions": [
+        768,
+        768
+      ],
+      "format": "PNG",
+      "sourcePath": "docs/preproduction/catalog-sprint/recovered-originals/seating-7-10-20260921/seating-10-source.png",
+      "sourceGitBlobSha": "4da4339ee3b1fa16bef7cf8e779701c5a1a8c01d",
+      "sourceSha256": "6e9f66fc09198af6d521034e23fa90594dcb8aa59e1cf2fc32770bb08b012918",
+      "sourceBytes": 1003354,
+      "sourceDimensions": [
+        1024,
+        1024
+      ],
+      "generationRequestId": "0e2479c5-6389-471c-98de-e2d858ff2914",
+      "resizeRequestId": "31e26fb9-9404-41b8-8d32-d24c255bd339",
+      "provenance": "Generated for Lane 06 secondary Seating repair capacity; full-resolution source and Adobe 768x768 resize retained as exact repository bytes.",
+      "producerPixelCheck": "PASS_PREUPLOAD: sculptural cocoon shell, wood/ivory structure, sage upholstered interior, floral/vine accents, integrated warm lights and higher-tier material richness.",
+      "independentDecision": "PENDING_02",
+      "status": "READY_FOR_REVIEW"
+    }
+  ],
+  "checks": {
+    "metadata": "PASS_4_OF_4_AGAINST_CURRENT_GAME_MODEL",
+    "sourceDecode": "PASS_4_OF_4_PNG_1024",
+    "candidateDecode": "PASS_4_OF_4_PNG_768",
+    "uniqueCandidateContent": "PASS_4_OF_4",
+    "exactRepositoryReadback": "PASS_8_OF_8",
+    "isolatedBrowserRender": "PENDING",
+    "independentVisualReview": "PENDING_02",
+    "canonicalIntegration": "NOT_PERFORMED"
+  },
+  "freeze": {
+    "replitTouched": false,
+    "flootTouched": false,
+    "mainTouched": false,
+    "canonicalMappingsTouched": false,
+    "playerDataTouched": false
+  }
+}
