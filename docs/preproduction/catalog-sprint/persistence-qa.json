@@ -1,0 +1,107 @@
+{
+  "schemaVersion": 1,
+  "workstream": "13",
+  "phase": "CATALOG_SPRINT",
+  "status": "PASS_AUTOMATED_WITH_LIVE_BROWSER_BLOCKERS",
+  "branch": "screenshot-match-preproduction",
+  "auditedBranchHead": "42ca9a098f4ad8e1e8772ae923788a9c93ea8d4d",
+  "testedRuntimeHead": "c5f738a4243fabdc89784e3bbf8e61cd01427474",
+  "continuity": {
+    "fromTestedHeadToAuditedHead": "PASS_DOCS_ONLY",
+    "changedFiles": [
+      "docs/preproduction/catalog-sprint/release-qa.json",
+      "docs/preproduction/workstreams/12-learning-integrity.md"
+    ]
+  },
+  "runtimeHashes": {
+    "storageJsGitBlobSha": "b39e6b18d0be81193f99f9a9a483bcf8fd5a83f9",
+    "storageTestGitBlobSha": "ad6c9bb64e2ab6efcb626d1a2ff253a88b84b008",
+    "purchaseGuardGitBlobSha": "f53097e4ae9999f9c1328165ecfe8637ced7f04f",
+    "questRewardPolicyGitBlobSha": "4ae853a7f4bb04a811ef04b4b9a306066e33829b",
+    "appGitBlobShaAtSourceReview": "6e88a4d8646fa3923b0841a9a8f8da4eb7ae3a2e"
+  },
+  "materialChange": {
+    "type": "PERSISTENCE_RECOVERY_FIX",
+    "storageCommit": "18de120c384270b0fe3a47220fa2d03bbe845c42",
+    "testCommit": "c5f738a4243fabdc89784e3bbf8e61cd01427474",
+    "finding": "When CURRENT_KEY was missing but IndexedDB held a recoverable backup, the first default render synchronously wrote CURRENT_KEY before asynchronous backup hydration. A refresh in that window could make the next boot prefer the newly written default and strand the IndexedDB backup.",
+    "fix": "Fresh/missing localStorage is now treated as a recovery state until IndexedDB is checked. Existing IndexedDB progress is mirrored into localStorage; only an actually empty backup establishes the new default save. IndexedDB/open failures fall back to localStorage rather than dropping the save.",
+    "compatibility": "Additive/backward-compatible; no schema reset, currency change, catalog-ID filtering, or player-data migration."
+  },
+  "ci": {
+    "workflowRunId": 35647722275,
+    "jobId": 106492177317,
+    "head": "c5f738a4243fabdc89784e3bbf8e61cd01427474",
+    "tests": "PASS_20_OF_20_FILES_86_OF_86_TESTS",
+    "storageHydrationRegression": "PASS",
+    "purchaseRapidActionTests": "PASS",
+    "rewardEvidenceTests": "PASS",
+    "productionBuild": "PASS",
+    "modulesTransformed": 1612,
+    "bundle": {
+      "cssKb": 167.22,
+      "cssGzipKb": 35.66,
+      "jsKb": 301.33,
+      "jsGzipKb": 92.36
+    }
+  },
+  "invariants": {
+    "coinsStarsXp": "PASS_AUTOMATED",
+    "starWorthHomeProgress": "PASS_AUTOMATED",
+    "ownedInventoryUnknownNoArtIds": "PASS_AUTOMATED",
+    "equippedGear": "PASS_AUTOMATED",
+    "roomPlacement": "PASS_AUTOMATED",
+    "dreamGoal": "PASS_AUTOMATED",
+    "masteryEvidence": "PASS_AUTOMATED",
+    "buddyBond": "PASS_AUTOMATED",
+    "districtProgress": "PASS_AUTOMATED",
+    "missingArtNeverPrunesOwnership": "PASS_AUTOMATED"
+  },
+  "executedCases": [
+    {"case":"corrupt current localStorage falls through to recoverable legacy key","result":"PASS_AUTOMATED"},
+    {"case":"valid save round-trip preserves economy and progression","result":"PASS_AUTOMATED"},
+    {"case":"unknown/no-art IDs survive sanitize and persistence","result":"PASS_AUTOMATED"},
+    {"case":"fresh localStorage plus existing IndexedDB backup cannot be masked by default-render persistence","result":"PASS_AUTOMATED_FIXED_THIS_RUN"},
+    {"case":"rapid Buy Forever DOM clicks including React-style button replacement","result":"PASS_AUTOMATED_UI_GUARD"},
+    {"case":"rapid Place/Put Away toggle","result":"PASS_AUTOMATED_UI_GUARD"},
+    {"case":"rapid Quest answer double tap","result":"PASS_AUTOMATED_UI_GUARD"},
+    {"case":"repeated wrong reward and assisted-vs-independent reward policy","result":"PASS_AUTOMATED"}
+  ],
+  "browserAttempt": {
+    "result": "BLOCKED_NO_LIVE_BROWSER_EXECUTION_THIS_RUN",
+    "details": "The authorized remote desktop/browser device available to this automation was offline. Existing GitHub branch workflows provide CI and visual/catalog browser QA, but no Workstream-13-owned live persistence transaction flow was available without a shared workflow change that must be coordinated through Workstream 15.",
+    "realPlayerDataUsed": false
+  },
+  "openReleaseRisks": [
+    {
+      "id": "PERSIST-TRANSACTION-IDEMPOTENCY",
+      "status": "SOURCE_GAP_BROWSER_NOT_TESTED",
+      "severity": "RELEASE_BLOCKER",
+      "evidence": "App buy() performs owned/star/coin prechecks outside the functional setSave updater; the updater itself subtracts/adds without rechecking current state or a durable transaction receipt. The capture guard protects normal rapid DOM clicks but is not durable exactly-once semantics for non-DOM replay or concurrent contexts.",
+      "ownerNext": "15 coordinates shared App transaction wiring; 13 supplies persistence/economy semantics and regression coverage."
+    },
+    {
+      "id": "PERSIST-QUEST-COMPLETION-REFRESH",
+      "status": "SOURCE_GAP_BROWSER_NOT_TESTED",
+      "severity": "RELEASE_BLOCKER",
+      "evidence": "Final correct answer schedules advanceQuestion after 950 ms; finishQuest then adds +30 Coins/+30 XP/questsCompleted/Bond/daily quest. Quest UI state is not persisted, so refresh before the timer can lose the completion award/record rather than guarantee exactly once.",
+      "ownerNext": "15 coordinates shared App completion receipt/state transition; 13 adds regression once wired."
+    }
+  ],
+  "notTested": [
+    "real-browser purchase/equip/place then refresh/re-entry",
+    "multi-tab purchase/reward replay timing",
+    "real-browser refresh immediately around final Quest completion timer",
+    "physical-device double taps",
+    "browser import of partially malformed save",
+    "live localStorage deletion while IndexedDB backup remains (the fixed race is covered by deterministic storage-level regression)"
+  ],
+  "freeze": {
+    "replitTouched": false,
+    "flootTouched": false,
+    "mainMergedOrModified": false,
+    "realPlayerDataTouched": false,
+    "catalogManifestTouched": false,
+    "producerArtTouched": false
+  }
+}
