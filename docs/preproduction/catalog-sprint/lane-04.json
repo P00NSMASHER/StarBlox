@@ -1,96 +1,72 @@
 {
-  "schemaVersion": 5,
+  "schemaVersion": 6,
   "lane": "04",
   "phase": "CATALOG_SPRINT",
   "repository": "P00NSMASHER/StarBlox",
   "branch": "screenshot-match-preproduction",
+  "observedHead": "63b6315b2f86130e3b9d11d3295d7657508d5c21",
+  "status": "LIGHTING_1_4_ACCEPTED_CANONICAL_LIGHTING_5_12_STAGED_PENDING_14_SHOES_1_6_STAGED_PENDING_02",
   "assignment": ["lighting-1","lighting-2","lighting-3","lighting-4","lighting-5","lighting-6","lighting-7","lighting-8","lighting-9","lighting-10","lighting-11","lighting-12"],
   "secondaryRepairAssignment": ["shoes-1","shoes-2","shoes-3","shoes-4","shoes-5","shoes-6"],
-  "status": "LIGHTING_1_4_ACCEPTED_5_12_REMOTE_SHOES_1_4_GENERATED_REMOTE",
+  "owners": {"phase":"15","canonicalManifestRuntime":"08","lightingReview":"14","shoesReview":"02"},
   "selfApproved": false,
-  "owners": {"phase":"15","manifestRuntime":"08","lightingIndependentReview":"14","shoesIndependentReview":"02"},
-  "observedHeadBeforeThisWrite": "4402614a4d966cf301fa1e2a6d9648573fb5dddd",
-  "review": {
-    "reviewer": "14",
-    "reviewFile": "docs/preproduction/catalog-sprint/reviews/14.json",
-    "reviewBlobSha": "f3f20ddb9d2104aec998e70711584133b4d5e490",
-    "workflowRunId": 35656393329,
-    "artifactId": 10665735307,
-    "artifactDigest": "sha256:ad8d2da6f5553eb922616956515b85a16c89d80b34574e6679dfd6716c6f3233",
-    "lightingReplacementAccepted": ["lighting-1","lighting-2","lighting-3","lighting-4"],
-    "lightingLegacyReworkStillApplicable": ["lighting-5","lighting-6","lighting-7","lighting-8","lighting-9","lighting-10","lighting-11","lighting-12"],
-    "finding": "Reviewer 14 independently ACCEPTed the exact v2 replacement hashes for lighting-1..4. Legacy lighting-5..12 hashes remain REWORK; the new remote-generated 5..12 versions still require repository staging and fresh exact-hash review."
+  "summary": {
+    "lightingAssigned": 12,
+    "lightingAcceptedAndCanonical": 4,
+    "lightingStagedAwaitingFreshReview": 8,
+    "lightingGeneratedRemoteOnly": 0,
+    "shoesAssigned": 6,
+    "shoesStagedAwaitingFreshReview": 6,
+    "shoesGeneratedRemoteOnly": 0
   },
-  "legacyHashes": {
-    "lighting-1":"a522ae4d0a602673e51b3108a4631e1a4891e79b",
-    "lighting-2":"07e2ef5ebe1322b52a0514d0a1a9ba2f7f19c2ab",
-    "lighting-3":"f0416273531258ca17417ba7507406b15eed3a20",
-    "lighting-4":"42f07255a3f04e10d1df2009555283529903b4c1",
-    "lighting-5":"8aa582f7bd95628d9b745eb71cf434df170b39c7",
-    "lighting-6":"a3ef6f5e0a2967f64f05268ca84cd40e3de781dd",
-    "lighting-7":"c6be5b8c09122fb3e9c26715551c7f0bbf4768fc",
-    "lighting-8":"18db9f245fb4cae1687ec9128c4f6878c40cfb81",
-    "lighting-9":"4ed3cf2ec2789cf1d93adc0b11809a0ba293348e",
-    "lighting-10":"fbebec245fddc134b6e513b1493819947f4a1ef1",
-    "lighting-11":"516885790c49af408442b425621b9a6b5df7e8bd",
-    "lighting-12":"3568ddead0af062045687e9c4c6f2c0596acc6b3"
-  },
-  "repositoryStagedLightingReplacements": [
-    {"id":"lighting-1","name":"Starter Lamp","tier":1,"theme":"Cloud Pop","path":"public/assets/catalog/lighting-1-v2.jpg","gitBlobSha":"9d8aa142fa53f06dbad9ce59e9c8d34c1096ddc3","bytes":21735,"mediaType":"image/jpeg","attachmentCommit":"f1f8492182e51358dda8e106644361feea5781f1","readback":"PASS","independentDecision":"ACCEPT","status":"ACCEPTED_BY_14_PENDING_08_INTEGRATION"},
-    {"id":"lighting-2","name":"Cloud Lamp","tier":1,"theme":"Pixel Party","path":"public/assets/catalog/lighting-2-v2.jpg","gitBlobSha":"8c10fe689d6d7e398e85b24eb1ca1323cee07ea3","bytes":26239,"mediaType":"image/jpeg","attachmentCommit":"f1f8492182e51358dda8e106644361feea5781f1","readback":"PASS","independentDecision":"ACCEPT","status":"ACCEPTED_BY_14_PENDING_08_INTEGRATION"},
-    {"id":"lighting-3","name":"Pixel Cube Light","tier":1,"theme":"Berry Blast","path":"public/assets/catalog/lighting-3-v2.jpg","gitBlobSha":"fc21ddf5a608ee393410ff9682cf2ef87a56c46d","bytes":27378,"mediaType":"image/jpeg","attachmentCommit":"f1f8492182e51358dda8e106644361feea5781f1","readback":"PASS","independentDecision":"ACCEPT","status":"ACCEPTED_BY_14_PENDING_08_INTEGRATION"},
-    {"id":"lighting-4","name":"Heart Lamp","tier":2,"theme":"Garden Glow","path":"public/assets/catalog/lighting-4-v2.jpg","gitBlobSha":"7975e490a9fb97574f03081acf9fc871c22224f3","bytes":21757,"mediaType":"image/jpeg","attachmentCommit":"f1f8492182e51358dda8e106644361feea5781f1","readback":"PASS","independentDecision":"ACCEPT","status":"ACCEPTED_BY_14_PENDING_08_INTEGRATION"}
+  "canonicalAcceptedLighting": [
+    {"id":"lighting-1","name":"Starter Lamp","tier":1,"theme":"Cloud Pop","path":"public/assets/catalog/lighting-1-v2.jpg","assetPath":"/assets/catalog/lighting-1-v2.jpg","gitBlobSha":"9d8aa142fa53f06dbad9ce59e9c8d34c1096ddc3","bytes":21735,"dimensions":null,"format":"JPEG","reviewer":"14","decision":"ACCEPT","canonicalManifestVersion":15,"status":"ACCEPTED_CANONICAL"},
+    {"id":"lighting-2","name":"Cloud Lamp","tier":1,"theme":"Pixel Party","path":"public/assets/catalog/lighting-2-v2.jpg","assetPath":"/assets/catalog/lighting-2-v2.jpg","gitBlobSha":"8c10fe689d6d7e398e85b24eb1ca1323cee07ea3","bytes":26239,"dimensions":null,"format":"JPEG","reviewer":"14","decision":"ACCEPT","canonicalManifestVersion":15,"status":"ACCEPTED_CANONICAL"},
+    {"id":"lighting-3","name":"Pixel Cube Light","tier":1,"theme":"Berry Blast","path":"public/assets/catalog/lighting-3-v2.jpg","assetPath":"/assets/catalog/lighting-3-v2.jpg","gitBlobSha":"fc21ddf5a608ee393410ff9682cf2ef87a56c46d","bytes":27378,"dimensions":null,"format":"JPEG","reviewer":"14","decision":"ACCEPT","canonicalManifestVersion":15,"status":"ACCEPTED_CANONICAL"},
+    {"id":"lighting-4","name":"Heart Lamp","tier":2,"theme":"Garden Glow","path":"public/assets/catalog/lighting-4-v2.jpg","assetPath":"/assets/catalog/lighting-4-v2.jpg","gitBlobSha":"7975e490a9fb97574f03081acf9fc871c22224f3","bytes":21757,"dimensions":null,"format":"JPEG","reviewer":"14","decision":"ACCEPT","canonicalManifestVersion":15,"status":"ACCEPTED_CANONICAL"}
   ],
-  "generatedRemoteLightingReplacements": [
-    {"id":"lighting-5","name":"Vine Light","tier":2,"theme":"Galaxy Glow","price":181,"starReq":0,"fireflyAssetId":"urn:aaid:sc:US:a7777709-a50b-40e8-987a-dfaef58bfb75","containerBytes":1055809,"dimensions":"1024x1024","format":"PNG output / Firefly GenAI container","producerPixelInspection":"PASS — bronze vine structure, layered translucent leaves, emissive nodes, physical base and cast shadow.","status":"GENERATED_REMOTE_UPLOAD_PENDING"},
-    {"id":"lighting-6","name":"Planet Lamp","tier":2,"theme":"Sunny Pop","price":254,"starReq":0,"fireflyAssetId":"urn:aaid:sc:US:42d0edcf-6e79-4035-91e8-26514ee0b7d4","containerBytes":883836,"dimensions":"1024x1024","format":"PNG output / Firefly GenAI container","producerPixelInspection":"PASS — glowing dimensional planet, separated orbit rings, warm metal support/base and emitted light.","status":"GENERATED_REMOTE_UPLOAD_PENDING"},
-    {"id":"lighting-7","name":"Sun Lamp","tier":3,"theme":"Aqua Wave","price":348,"starReq":2,"fireflyAssetId":"urn:aaid:sc:US:d98ee54e-0ca5-45fd-933a-df8a4d3600e2","containerBytes":1135259,"dimensions":"1024x1024","format":"PNG output / Firefly GenAI container","producerPixelInspection":"PASS — translucent aqua glass sun form, chrome support and internal warm glow.","status":"GENERATED_REMOTE_UPLOAD_PENDING"},
-    {"id":"lighting-8","name":"Bubble Lamp","tier":3,"theme":"Art Attack","price":479,"starReq":2,"fireflyAssetId":"urn:aaid:sc:US:32cfde85-8990-4b1f-ab34-9127985e7d7f","containerBytes":1107905,"dimensions":"1024x1024","format":"PNG output / Firefly GenAI container","producerPixelInspection":"PASS — overlapping refractive glass bubbles, chrome stand and vivid paint-like internal swirls.","status":"GENERATED_REMOTE_UPLOAD_PENDING"},
-    {"id":"lighting-9","name":"Color Lamp","tier":3,"theme":"Star Luxe","price":667,"starReq":2,"fireflyAssetId":"urn:aaid:sc:US:15f7fe15-5a46-4b69-9c9d-3ad89404271e","containerBytes":1067121,"dimensions":"1024x1024","format":"PNG output / Firefly GenAI container","producerPixelInspection":"PASS — beveled prism/crystal shade, thick transparent facets, rainbow dispersion and physical pedestal.","status":"GENERATED_REMOTE_UPLOAD_PENDING"},
-    {"id":"lighting-10","name":"Neon Strip Tower","tier":4,"theme":"Midnight Neon","price":928,"starReq":5,"fireflyAssetId":"urn:aaid:sc:US:5bdc1e60-cba6-4e2c-b80a-8742d968472b","containerBytes":1192456,"dimensions":"1024x1024","format":"PNG output / Firefly GenAI container","producerPixelInspection":"PASS — dimensional chassis, beveled panels, inset cyan/magenta neon and floor spill.","status":"GENERATED_REMOTE_UPLOAD_PENDING"},
-    {"id":"lighting-11","name":"Aurora Light","tier":4,"theme":"Candy Core","price":1276,"starReq":5,"fireflyAssetId":"urn:aaid:sc:US:a9b8f6e7-ca6f-4132-8b62-3f77070dceb5","containerBytes":929037,"dimensions":"1024x1024","format":"PNG output / Firefly GenAI container","producerPixelInspection":"PASS — thick translucent aurora ribbons wrap a physical base with refraction and emissive core.","status":"GENERATED_REMOTE_UPLOAD_PENDING"},
-    {"id":"lighting-12","name":"Crystal Chandelier","tier":5,"theme":"Adventure Club","price":1740,"starReq":9,"fireflyAssetId":"urn:aaid:sc:US:0c826f3c-c2d5-4da4-ac5a-37a9bbddd0b4","containerBytes":1520538,"dimensions":"1024x1024","format":"PNG output / Firefly GenAI container","producerPixelInspection":"PASS — multi-arm antique-gold fixture, layered faceted crystals, warm emitters and deep suspension hierarchy.","status":"GENERATED_REMOTE_UPLOAD_PENDING"}
+  "lightingReadyForReview": [
+    {"id":"lighting-5","name":"Vine Light","tier":2,"theme":"Galaxy Glow","price":181,"starReq":0,"path":"public/assets/catalog/lighting-5-w04-recovered-v2.jpg","gitBlobSha":"a9e03e73c7080fdc2effd884bb0965999954d90c","sha256":"510ab0ef733659835532947e3136369adc44420b9cba4473e2b247746db5afe3","dimensions":[600,600],"bytes":70274,"originalDimensions":[1024,1024],"provenance":"Adobe Firefly urn:aaid:sc:US:a7777709-a50b-40e8-987a-dfaef58bfb75; exact rendition bytes; original preserved","evidence":"docs/preproduction/catalog-sprint/chat-lighting-recovery-result.json","render":"PASS_ISOLATED_CARD_DETAIL_RUN_35665938359","status":"READY_FOR_REVIEW_14"},
+    {"id":"lighting-6","name":"Planet Lamp","tier":2,"theme":"Sunny Pop","price":254,"starReq":0,"path":"public/assets/catalog/lighting-6-w04-recovered-v2.jpg","gitBlobSha":"d8d8fca7cda78451860377bfdfd257b4a450aa9c","sha256":"a28e77f7fd2577de121592230eb361a18a211e5273b611b6f81e11efd80cc3c2","dimensions":[600,600],"bytes":40517,"originalDimensions":[1024,1024],"provenance":"Adobe Firefly urn:aaid:sc:US:42d0edcf-6e79-4035-91e8-26514ee0b7d4; exact rendition bytes; original preserved","evidence":"docs/preproduction/catalog-sprint/chat-lighting-recovery-result.json","render":"PASS_ISOLATED_CARD_DETAIL_RUN_35665938359","status":"READY_FOR_REVIEW_14"},
+    {"id":"lighting-7","name":"Sun Lamp","tier":3,"theme":"Aqua Wave","price":348,"starReq":2,"path":"public/assets/catalog/lighting-7-w04-recovered-v2.jpg","gitBlobSha":"7ce162a18ab641df7ab73f380557aad5aa64b24d","sha256":"81bcfea88ef5ae81899db362f0dbdb8d6028efe363aff578052256e8cd7fc5fe","dimensions":[600,600],"bytes":54969,"originalDimensions":[1024,1024],"provenance":"Adobe Firefly urn:aaid:sc:US:d98ee54e-0ca5-45fd-933a-df8a4d3600e2; exact rendition bytes; original preserved","evidence":"docs/preproduction/catalog-sprint/chat-lighting-recovery-result.json","render":"PASS_ISOLATED_CARD_DETAIL_RUN_35665938359","status":"READY_FOR_REVIEW_14"},
+    {"id":"lighting-8","name":"Bubble Lamp","tier":3,"theme":"Art Attack","price":479,"starReq":2,"path":"public/assets/catalog/lighting-8-w04-recovered-v2.jpg","gitBlobSha":"9073a049ec9116cf3e4408adf068be48f1ad00f1","sha256":"201427a6743793334b27ae72b9a955103577540e17abc9667c868c82be6f22db","dimensions":[600,600],"bytes":59051,"originalDimensions":[1024,1024],"provenance":"Adobe Firefly urn:aaid:sc:US:32cfde85-8990-4b1f-ab34-9127985e7d7f; exact rendition bytes; original preserved","evidence":"docs/preproduction/catalog-sprint/chat-lighting-recovery-result.json","render":"PASS_ISOLATED_CARD_DETAIL_RUN_35665938359","status":"READY_FOR_REVIEW_14"},
+    {"id":"lighting-9","name":"Color Lamp","tier":3,"theme":"Star Luxe","price":667,"starReq":2,"path":"public/assets/catalog/lighting-9-w04-recovered-v2.jpg","gitBlobSha":"d9a0e461a1a8ace589cf6be1ec93e61972ba7faf","sha256":"acaa1aff26a32460bf98636c25795c5e1e9c5f9969883b7040b5154c04757d4b","dimensions":[600,600],"bytes":54235,"originalDimensions":[1024,1024],"provenance":"Adobe Firefly urn:aaid:sc:US:15f7fe15-5a46-4b69-9c9d-3ad89404271e; exact rendition bytes; original preserved","evidence":"docs/preproduction/catalog-sprint/chat-lighting-recovery-9-12-result.json","render":"PENDING_SHARED_OR_ISOLATED_RENDER","status":"READY_FOR_REVIEW_FIXTURE_14"},
+    {"id":"lighting-10","name":"Neon Strip Tower","tier":4,"theme":"Midnight Neon","price":928,"starReq":5,"path":"public/assets/catalog/lighting-10-w04-recovered-v2.jpg","gitBlobSha":"e4ca304730d4c330711534c2c7c52da218c9acfa","sha256":"fe30864f4eab9de58ee94bf19ecf6b1d423cf2defb2b491e80837c053cd274d4","dimensions":[600,600],"bytes":59730,"originalDimensions":[1024,1024],"provenance":"Adobe Firefly urn:aaid:sc:US:5bdc1e60-cba6-4e2c-b80a-8742d968472b; exact rendition bytes; original preserved","evidence":"docs/preproduction/catalog-sprint/chat-lighting-recovery-9-12-result.json","render":"PENDING_SHARED_OR_ISOLATED_RENDER","status":"READY_FOR_REVIEW_FIXTURE_14"},
+    {"id":"lighting-11","name":"Aurora Light","tier":4,"theme":"Candy Core","price":1276,"starReq":5,"path":"public/assets/catalog/lighting-11-w04-recovered-v2.jpg","gitBlobSha":"995b6ae729b3daa9e1199dd032b24e128db0b61b","sha256":"e2d83341ece60decaa6901bd939e96db7f2c355500ca4f41b928b9478ce6d4d9","dimensions":[600,600],"bytes":44462,"originalDimensions":[1024,1024],"provenance":"Adobe Firefly urn:aaid:sc:US:a9b8f6e7-ca6f-4132-8b62-3f77070dceb5; exact rendition bytes; original preserved","evidence":"docs/preproduction/catalog-sprint/chat-lighting-recovery-9-12-result.json","render":"PENDING_SHARED_OR_ISOLATED_RENDER","status":"READY_FOR_REVIEW_FIXTURE_14"},
+    {"id":"lighting-12","name":"Crystal Chandelier","tier":5,"theme":"Adventure Club","price":1740,"starReq":9,"path":"public/assets/catalog/lighting-12-w04-recovered-v2.jpg","gitBlobSha":"ddb71949f485348a45e00c5105eb336ad55a010a","sha256":"1fab6a75c5e57c6833f84e6dd439bde6960fdf045fe2491f3c1262097a6514f8","dimensions":[600,600],"bytes":86386,"originalDimensions":[1024,1024],"provenance":"Adobe Firefly urn:aaid:sc:US:0c826f3c-c2d5-4da4-ac5a-37a9bbddd0b4; exact rendition bytes; original preserved","evidence":"docs/preproduction/catalog-sprint/chat-lighting-recovery-9-12-result.json","render":"PENDING_SHARED_OR_ISOLATED_RENDER","status":"READY_FOR_REVIEW_FIXTURE_14"}
   ],
-  "shoeLegacyReview": {
-    "reviewer":"02",
-    "priorReviewBlobSha":"adaecbc6fd1f534bd9055c2292bcb7776c27bdce",
-    "shoes1To6Decision":"REWORK_6_OF_6",
-    "sharedDefect":"Legacy shoes are readable but too flat/side-view/icon-like with weak sole/panel/lace/material depth; several themes are palette-only rather than material storytelling."
-  },
-  "generatedRemoteShoeReplacements": [
-    {"id":"shoes-1","name":"Sneakers","tier":1,"theme":"Aqua Wave","price":30,"starReq":0,"fireflyAssetId":"urn:aaid:sc:US:4f905a5b-73a9-4338-881f-ed50f5b1d16a","fireflyContainerBytes":1519906,"dimensions":"1024x1024","format":"PNG output / Firefly GenAI container","generationRequestId":"25b17b3e-f7d1-46cb-8d7b-6f369c7ca307","producerPixelInspection":"PASS — three-quarter pair with thick layered soles, laces/eyelets, stitched aqua/pearl panels, dimensional wave accents and grounded studio lighting; directly addresses flat side-view defect.","status":"GENERATED_REMOTE_UPLOAD_PENDING"},
-    {"id":"shoes-2","name":"Slip-Ons","tier":1,"theme":"Art Attack","price":45,"starReq":0,"fireflyAssetId":"urn:aaid:sc:US:0c4d62d9-c5d2-4e8e-9aea-fcb08b5acfbb","fireflyContainerBytes":1139782,"dimensions":"1024x1024","format":"PNG output / Firefly GenAI container","generationRequestId":"67e07ecf-14b1-4628-83a3-c17a93d26028","producerPixelInspection":"PASS — tangible canvas slip-ons with elastic gussets, stitched sole depth and dimensional multicolor Art Attack details instead of a flat template.","status":"GENERATED_REMOTE_UPLOAD_PENDING"},
-    {"id":"shoes-3","name":"High-Tops","tier":1,"theme":"Star Luxe","price":65,"starReq":0,"fireflyAssetId":"urn:aaid:sc:US:68ea78e2-c7d7-4196-82bb-d3feb682d707","fireflyContainerBytes":1256184,"dimensions":"1024x1024","format":"PNG output / Firefly GenAI container","generationRequestId":"160c224a-3d7a-44f2-b8df-0a5203e11974","producerPixelInspection":"PASS — tall three-quarter high-tops with padded collar, real laces/eyelets, panel seams, sole volume and restrained gold star hardware.","status":"GENERATED_REMOTE_UPLOAD_PENDING"},
-    {"id":"shoes-4","name":"Bow Shoes","tier":2,"theme":"Midnight Neon","price":85,"starReq":0,"fireflyAssetId":"urn:aaid:sc:US:01f92b75-fb85-403d-9822-d51a83e5d83a","fireflyContainerBytes":1113842,"dimensions":"1024x1024","format":"PNG output / Firefly GenAI container","generationRequestId":"705c94c7-3336-445e-8517-691e58cc831f","producerPixelInspection":"PASS — rounded three-quarter shoes with dimensional satin bows, dark structured uppers, thick soles and embedded cyan/magenta luminous piping with real floor spill.","status":"GENERATED_REMOTE_UPLOAD_PENDING"}
+  "shoesReadyForReview": [
+    {"id":"shoes-1","name":"Sneakers","tier":1,"theme":"Aqua Wave","price":30,"starReq":0,"path":"public/assets/catalog/shoes-1-w04-recovered-v2.jpg","gitBlobSha":"1a0351a733c7639ecdf4d90d41e4e5159bd7e8ad","sha256":"66f5e9b34823e2ea9fafa561016ea8772f4bc814b52e77bd606f87a3cdfa557a","dimensions":[600,600],"bytes":76160,"originalDimensions":[1024,1024],"provenance":"Adobe Firefly urn:aaid:sc:US:4f905a5b-73a9-4338-881f-ed50f5b1d16a; exact rendition bytes; original preserved","evidence":"docs/preproduction/catalog-sprint/chat-shoes-recovery-1-4-result.json","status":"READY_FOR_REVIEW_02"},
+    {"id":"shoes-2","name":"Slip-Ons","tier":1,"theme":"Art Attack","price":45,"starReq":0,"path":"public/assets/catalog/shoes-2-w04-recovered-v2.jpg","gitBlobSha":"4377e9c6b996a154db67feae1adb924715364f54","sha256":"c53ad99e457bdbfa49b2ceac488a5e2def84faaa411a8d02e022d812d67fd931","dimensions":[600,600],"bytes":57235,"originalDimensions":[1024,1024],"provenance":"Adobe Firefly urn:aaid:sc:US:0c4d62d9-c5d2-4e8e-9aea-fcb08b5acfbb; exact rendition bytes; original preserved","evidence":"docs/preproduction/catalog-sprint/chat-shoes-recovery-1-4-result.json","status":"READY_FOR_REVIEW_02"},
+    {"id":"shoes-3","name":"High-Tops","tier":1,"theme":"Star Luxe","price":65,"starReq":0,"path":"public/assets/catalog/shoes-3-w04-recovered-v2.jpg","gitBlobSha":"995c65c304af6acc85fad2a98cfe07029b486472","sha256":"d477fe10d3854f8ab3edd9b50bd767fbf2ca1aa0cdf7df376f3b5a5ef3f2e6a6","dimensions":[600,600],"bytes":60955,"originalDimensions":[1024,1024],"provenance":"Adobe Firefly urn:aaid:sc:US:68ea78e2-c7d7-4196-82bb-d3feb682d707; exact rendition bytes; original preserved","evidence":"docs/preproduction/catalog-sprint/chat-shoes-recovery-1-4-result.json","status":"READY_FOR_REVIEW_02"},
+    {"id":"shoes-4","name":"Bow Shoes","tier":2,"theme":"Midnight Neon","price":85,"starReq":0,"path":"public/assets/catalog/shoes-4-w04-recovered-v2.jpg","gitBlobSha":"121bd48007f74a2df4c760fa4650e7075138cffb","sha256":"3d745ce1cc6a01a0db75b41e57a6c3ab3e73ce5044ce29ba82d0a7f5314c7eed","dimensions":[600,600],"bytes":48963,"originalDimensions":[1024,1024],"provenance":"Adobe Firefly urn:aaid:sc:US:01f92b75-fb85-403d-9822-d51a83e5d83a; exact rendition bytes; original preserved","evidence":"docs/preproduction/catalog-sprint/chat-shoes-recovery-1-4-result.json","status":"READY_FOR_REVIEW_02"},
+    {"id":"shoes-5","name":"Boots","tier":2,"theme":"Candy Core","price":125,"starReq":0,"path":"public/assets/catalog/shoes-5-w04-v2.jpg","gitBlobSha":"eaac23dcecf94ac3875adb61017f2436cf4d1d0c","sha256":"99d2ab5d8a3414a85bb41f6d6917fa133c58abc2cee0dbe2d63f0b511572961f","dimensions":[600,600],"bytes":53844,"originalDimensions":[1024,1024],"provenance":"Adobe Firefly urn:aaid:sc:US:79816d31-2e7b-45e5-8b43-5691fded8309; newly generated premium repair; exact rendition bytes; original preserved","evidence":"docs/preproduction/catalog-sprint/chat-shoes-recovery-5-6-result.json","status":"READY_FOR_REVIEW_02"},
+    {"id":"shoes-6","name":"Runners","tier":2,"theme":"Adventure Club","price":175,"starReq":0,"path":"public/assets/catalog/shoes-6-w04-v2.jpg","gitBlobSha":"2622d23d9a24e689c669292671c531a91b355221","sha256":"48f855e77b0879668ea688749d808206d5e01494971ba8153c00559a07291fc4","dimensions":[600,600],"bytes":59428,"originalDimensions":[1024,1024],"provenance":"Adobe Firefly urn:aaid:sc:US:1f5493d8-3baa-4a8f-a0fa-3691d2660566; newly generated premium repair; exact rendition bytes; original preserved","evidence":"docs/preproduction/catalog-sprint/chat-shoes-recovery-5-6-result.json","status":"READY_FOR_REVIEW_02"}
   ],
   "checks": {
     "metadataUnchanged": "PASS",
-    "pricesUnlocksUnchanged": "PASS",
+    "idsPricesUnlocksUnchanged": "PASS",
+    "lighting5To8Readback": "PASS_8_FILES_CANDIDATE_PLUS_ORIGINAL",
+    "lighting5To8IsolatedCardDetailRender": "PASS_RUN_35665938359",
+    "lighting9To12Readback": "PASS_8_FILES_CANDIDATE_PLUS_ORIGINAL_RUN_35666422739",
+    "shoes1To4Readback": "PASS_8_FILES_CANDIDATE_PLUS_ORIGINAL_RUN_35666743775",
+    "shoes5To6Readback": "PASS_4_FILES_CANDIDATE_PLUS_ORIGINAL_RUN_35666988858",
     "playerDataTouched": false,
-    "manifestRuntimeTouched": false,
+    "canonicalManifestRuntimeTouchedByLane04": false,
     "storeCodeTouched": false,
     "replitOrFlootTouched": false,
-    "mainTouched": false,
-    "lighting1To4RepositoryStored": "PASS_4_OF_4",
-    "lighting1To4ExactPathBlobReadback": "PASS_4_OF_4",
-    "lighting1To4IndependentAcceptance": "PASS_4_OF_4_REVIEWER_14",
-    "lighting5To12Generated": "PASS_8_OF_8",
-    "lighting5To12RepositoryStored": "BLOCKED_RAW_BYTES_NOT_EXPOSED_TO_GITHUB_FROM_CURRENT_ADOBE_CONNECTOR",
-    "lighting5To12IndependentAcceptance": "NOT_TESTED_NOT_STAGED",
-    "shoes1To4Generated": "PASS_4_OF_4",
-    "shoes1To4ProducerPixelInspection": "PASS_4_OF_4",
-    "shoes1To4RepositoryStored": "BLOCKED_RAW_BYTES_NOT_EXPOSED_TO_GITHUB_FROM_CURRENT_ADOBE_CONNECTOR",
-    "shoes1To4IndependentAcceptance": "NOT_TESTED_NOT_STAGED"
+    "mainTouched": false
   },
   "blockers": [
-    "Lighting-5..12 are generated and pixel-inspected in Adobe but remain unstaged because the available Adobe connector exposes preview/download references, not raw base64 bytes accepted by GitHub create_blob in this run. Preserve the exact GenAI IDs; do not regenerate.",
-    "Shoes-1..4 are now generated and pixel-inspected but have the same raw-byte staging boundary. Preserve their exact GenAI IDs; do not regenerate."
+    "Reviewer 14 has not yet issued fresh exact-hash decisions for Lighting 5-12; legacy REWORK decisions do not transfer to these new hashes.",
+    "Reviewer 02 has not yet issued fresh exact-hash decisions for Shoes 1-6; legacy REWORK decisions do not transfer to these new hashes.",
+    "Lighting 9-12 and Shoes 1-6 still need qualified card/detail render evidence before independent disposition if the shared fixture has not already captured their current hashes."
   ],
   "handoff": {
-    "08": "Reviewer 14 ACCEPTed lighting-1..4 exact v2 hashes; they are eligible for Workstream-08 metadata/file/content checks and incremental canonical integration. No other Lane-04 asset is eligible yet.",
-    "14": "lighting-1..4 replacement review is complete ACCEPT. Review lighting-5..12 only after their exact generated bytes are attached to versioned repository paths; legacy REWORK does not transfer to new hashes.",
-    "02": "Shoes-1..4 have premium remote-generated replacements with exact GenAI IDs and producer pixel evidence; independently review only after those exact bytes are staged and rendered by the shared fixture.",
-    "15": "Lighting-1..4 review blocker is closed. Use the already-proven Adobe-byte bridge, from a context that can expose generation bytes, to attach lighting-5..12 and shoes-1..4 exact generated assets; do not regenerate them."
+    "14": "Lighting 5-8 exact recovered hashes already have isolated card/detail render proof; decide them first. Then render/review exact Lighting 9-12 hashes from this lane.",
+    "02": "Render and independently review exact Shoes 1-6 current hashes from this lane; do not inherit legacy REWORK decisions.",
+    "08": "Lighting 1-4 are already canonical in manifest v15. Integrate only future exact-hash ACCEPTs from 14/02 after normal metadata/file/content checks.",
+    "15": "Lane 04 raw-byte staging blockers are cleared. All assigned Lighting 1-12 and Shoes 1-6 now have repository-stored current candidates; no further Lane-04 production should occur until review feedback or explicit reassignment."
   },
-  "nextAction": "Do not regenerate lighting-1..12 or shoes-1..4. Next Lane-04 cycle: react to any imported exact hashes/reviewer findings; if byte staging remains external and no Lighting defect is actionable, generate Shoes 5-6 as the next bounded batch or take an explicit reassignment from 15."
+  "nextAction": "Preserve all current candidates; consume reviewer-14/02 exact-hash decisions. Repair only specific REWORK items in 2-6 item batches. If reviewers accept all current hashes and no Lane-04 repair remains, request reassignment from Workstream 15 rather than taking another lane or resuming Store work early."
 }
