@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "phase": "CATALOG_SPRINT",
+  "owner": "15",
+  "sourceRun": {
+    "workflow": "StarBlox Staged Catalog Art QA",
+    "runId": 35654620624,
+    "headSha": "acbc6035da9d57bc88043604caa5ec0b6352398e",
+    "conclusion": "success",
+    "artifactId": 10663298893,
+    "artifactName": "catalog-staged-art-review",
+    "artifactDigest": "sha256:f2c0d3d3aa251f5e1934017a7c61acf644e8876ab1e1a5b0c37e7f06ffb8e9db"
+  },
+  "artifactValidation": {
+    "replacementCount": 16,
+    "allHttp200": true,
+    "allScreenshotsCaptured": true,
+    "contactSheetErrors": 0,
+    "detailErrors": 0,
+    "contactSheet": "staged-replacements/staged-replacements-contact-sheet.png",
+    "note": "This file is a coordination handoff only. It is not a visual ACCEPT decision and does not modify canonical mappings."
+  },
+  "reviewer01": {
+    "priority": "IMMEDIATE",
+    "instruction": "Independently inspect actual artifact pixels and write fresh exact-hash ACCEPT/REWORK/BLOCKED decisions to reviews/01.json. Legacy Tops REWORK decisions do not transfer to these replacement hashes.",
+    "items": [
+      {"id":"tops-1","path":"public/assets/catalog/tops-1-w07-v2.jpg","blobSha":"5fd9544999694ec27c9b6247aaffeca1c0c7b484","detailScreenshot":"staged-replacements/detail/tops-1-5fd95449.png"},
+      {"id":"tops-2","path":"public/assets/catalog/tops-2-w07-v2.jpg","blobSha":"428450782feb314535163b54d0405f9af8b7cd65","detailScreenshot":"staged-replacements/detail/tops-2-42845078.png"},
+      {"id":"tops-3","path":"public/assets/catalog/tops-3-w07-v2.jpg","blobSha":"b4a834586feae169e102f43aeceaaaf11893ec11","detailScreenshot":"staged-replacements/detail/tops-3-b4a83458.png"},
+      {"id":"tops-4","path":"public/assets/catalog/tops-4-w07-v2.jpg","blobSha":"26d03c5ba26c565e79e809f825db87c9be1dba21","detailScreenshot":"staged-replacements/detail/tops-4-26d03c5b.png"},
+      {"id":"tops-5","path":"public/assets/catalog/tops-5-w07-v2.jpg","blobSha":"78c5c89270be2f505f77d033f340c72cf0ff80a8","detailScreenshot":"staged-replacements/detail/tops-5-78c5c892.png"},
+      {"id":"tops-6","path":"public/assets/catalog/tops-6-w07-v2.jpg","blobSha":"44d88aa84246f9d8a76b3f22c408653eb28176aa","detailScreenshot":"staged-replacements/detail/tops-6-44d88aa8.png"},
+      {"id":"tops-7","path":"public/assets/catalog/tops-7-w09-v2.svg","blobSha":"fe5b33a5b8eb8de137abab7daf315ddfaaaaf408","detailScreenshot":"staged-replacements/detail/tops-7-fe5b33a5.png"},
+      {"id":"tops-8","path":"public/assets/catalog/tops-8-w09-v2.svg","blobSha":"81bbec69f1e164b9772e0f867409581526f5255a","detailScreenshot":"staged-replacements/detail/tops-8-81bbec69.png"}
+    ]
+  },
+  "reviewer05": {
+    "priority": "IMMEDIATE",
+    "instruction": "Independently inspect actual artifact pixels and write fresh exact-hash ACCEPT/REWORK/BLOCKED decisions to reviews/05.json. Prior Aura/Companion REWORK decisions do not transfer to these replacement hashes.",
+    "items": [
+      {"id":"auras-1","path":"public/assets/catalog/auras-1-v2.svg","blobSha":"48639f1262052350660127bbc5d3d25de34d61e3","detailScreenshot":"staged-replacements/detail/auras-1-48639f12.png"},
+      {"id":"auras-2","path":"public/assets/catalog/auras-2-v2.svg","blobSha":"c2be24c165f3e28995d5d2eb946dbdde983afe2a","detailScreenshot":"staged-replacements/detail/auras-2-c2be24c1.png"},
+      {"id":"auras-3","path":"public/assets/catalog/auras-3-v2.svg","blobSha":"9b682148eb26898ec5f56ac11eac635e7c93c8fc","detailScreenshot":"staged-replacements/detail/auras-3-9b682148.png"},
+      {"id":"auras-4","path":"public/assets/catalog/auras-4-v2.svg","blobSha":"3059eae7ab68c125f1af1696305fdf5689131455","detailScreenshot":"staged-replacements/detail/auras-4-3059eae7.png"},
+      {"id":"companions-3","path":"public/assets/catalog-candidates/chat-20260921-intake01/companions-3-detail.webp","blobSha":"adba95dc769e603337dc4ac38b9a513ce9914b10","detailScreenshot":"staged-replacements/detail/companions-3-adba95dc.png"},
+      {"id":"companions-4","path":"public/assets/catalog-candidates/chat-20260921-intake01/companions-4-detail.webp","blobSha":"b382339e76ed9d4aeae72b1c8cccc904abf85b57","detailScreenshot":"staged-replacements/detail/companions-4-b382339e.png"},
+      {"id":"companions-10","path":"public/assets/catalog-candidates/chat-20260921-intake01/companions-10-detail.webp","blobSha":"2b09d950b08083bb3a9ec5e2073ae23d88411cf4","detailScreenshot":"staged-replacements/detail/companions-10-2b09d950.png"},
+      {"id":"companions-11","path":"public/assets/catalog-candidates/chat-20260921-intake01/companions-11-detail.webp","blobSha":"465fe45abbe4d9b4355444cb3f75a49927b604e9","detailScreenshot":"staged-replacements/detail/companions-11-465fe45a.png"}
+    ]
+  },
+  "integrationHandoff": {
+    "owner": "08",
+    "instruction": "Consume each new qualified exact-hash ACCEPT immediately after metadata/file/content checks. Do not wait for the entire 16-item handoff or old monolithic review files."
+  },
+  "nextFixture": {
+    "instruction": "A newer branch now contains additional replacement versions (including Tops 9-12 and Aura repairs after auras-4). Workstream 14 should let the existing workflow render those from current lane files; do not create another harness."
+  }
+}
