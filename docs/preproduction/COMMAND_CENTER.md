@@ -3,15 +3,15 @@
 STATUS: **CATALOG_SPRINT / 95 HASH-BOUND REVIEWS ALL REWORK / PERSISTENCE AUTOMATED PASS + REAL-BROWSER GATE OPEN / NOT READY FOR REPLIT**
 
 Branch: `screenshot-match-preproduction` only  
-Observed coordination head: `893bd7e8e9ba3f3c22c2c9ebb0a588e878a6ba1c`  
-Latest runtime/test-proven head: `1ce91011311dff6ea9b7b8119010d84f0466e42f`  
+Observed coordination head: `d029063b19b3298c50ac576d93d075bd5f057f7f`  
+Latest runtime/test-proven head: `da070b301e8ce57ca10d44bcb4ccd2078cfe4690`  
 Delivery policy: `docs/preproduction/DELIVERY_PROTOCOL_V2.md`  
 Phase authority: Workstream 15  
 Canonical catalog manifest/runtime writer: Workstream 08  
 Replit: **untouched**  
 Main: **not merged or modified**
 
-The exact verified full-suite transaction/reload claim below is bound to `1ce91011311dff6ea9b7b8119010d84f0466e42f`. Its raw GitHub job logs were independently inspected: 22/22 files, 98/98 tests and the production build pass. Later branch work includes a mobile-accessibility runtime change, so Workstream 14 has been directed to earn fresh affected/current-head CI rather than extending the 1ce910 claim across changed runtime bytes. Documentation-only/catalog-review commits do not invalidate unchanged persistence proof.
+The latest full-suite claim is now bound to `da070b301e8ce57ca10d44bcb4ccd2078cfe4690`. GitHub Actions run `35653350977`, job `106510832262`, was independently inspected: 22/22 test files, 98/98 tests and the production build pass, including the newer mobile-accessibility runtime. A GitHub comparison from `da070b...` to the current descendant contains only preproduction documentation/report changes and no `src`, package, Vite, public-asset or workflow/runtime/config bytes, so the proof remains valid for the current runtime. Unchanged proof is reused rather than rerun for documentation-only commits.
 
 ## Overall completion
 
@@ -25,7 +25,7 @@ The estimate is deliberately **held**, not increased. Independent visual review 
 
 | Area | Completion | Gate state | Current assessment |
 | --- | ---: | --- | --- |
-| HUD / Shell | **82%** | Implemented / final fidelity pending | Shared HUD/nav stays coherent and current CI is green. Final logo/chrome/focus/reference polish resumes in GAME_FINISHING. |
+| HUD / Shell | **82%** | Implemented / final fidelity pending | Shared HUD/nav stays coherent; the current runtime is covered by the verified 98-test/build gate. Final logo/chrome/focus/reference polish resumes in GAME_FINISHING. |
 | Home | **88%** | **Current structural browser geometry PASS** / final fidelity pending | Latest strict browser run clears the six measured desktop Home regions that previously failed. Reference-material/character/scene fidelity still needs final comparison after catalog. |
 | Store | **78%** | Implemented / catalog + 4 geometry blockers | Upper Store/grid works; avatar stage is modestly undersized, selected detail too tall, and collection/value lower band remains too low/narrow. Catalog art is still the dominant blocker. |
 | Quest | **88%** | Implemented / 6 geometry blockers | Learning behavior remains green; header, phase strip, avatar/body/mastery and earned-summary geometry still miss measured contracts. |
@@ -33,11 +33,11 @@ The estimate is deliberately **held**, not increased. Independent visual review 
 | Progression | **90%** | Automated state gate PASS / final render pending | Five canonical room tiers, Dream Goal, Daily/mastery and ownership-bound progress remain intact. |
 | Catalog Art | **52% legacy canonical labels; 0/95 reviewed hashes accepted** | **Primary visual blocker** | Manifest still has 99 legacy `final-portable` labels and 23 interim entries. Twelve versioned repair candidates are branch-stored with exact readback (Tops 1-8, Auras 1-4). Four Lighting repairs remain immutable Git objects pending owner-04 path attachment/readback, and three desk candidates remain local-only pending owner-03 transfer. Current independent decisions cover 95 unique item hashes and all 95 are REWORK. |
 | Environments | **82%** | Structurally implemented / fidelity+perf pending | Home/learning/Store scenes exist; final dimensional materials, room-tier scenes, crops and performance remain GAME_FINISHING work. |
-| Mobile / Accessibility | **86%** | Browser-emulation improved / affected CI refresh pending / device proof pending | Store focus-tray work and browser-emulation evidence are strong, but `src/mobileAccessibilityRuntime.js` changed after the exact 98-test proven head. Workstream 14 owns the fresh affected/current-head suite; physical-device and screen-reader evidence remains unproven. |
+| Mobile / Accessibility | **86%** | **Full CI + headless browser emulation PASS** / physical-device proof pending | The newer mobile runtime is covered by 98/98 tests + production build at `da070b...`. Workstream 10 also passed the canonical Store browser gate at runtime head `81bbf06...` across 1408×1056, 1024×768, 390×844 and 320×568 with zero release-blocking checks. Physical-device, screen-reader and exact rendered contrast evidence remain unproven. |
 | Motion / Game Feel | **84%** | Automated helpers PASS / real perf pending | Bounded/reduced-motion helpers remain green; actual phone/tablet normal/reduced-motion paint/composite proof remains later work. |
 | Learning Integrity | **96%** | **Automated PASS** | Current full CI preserves 200 validated questions, five-action Quest, source/evidence guards and retry/mastery policy; no catalog-induced learning P0 is recorded. |
 | Persistence / Economy | **88%** | **Automated transaction/reload PASS / 1 real-browser release blocker** | Hydration recovery, durable purchase idempotency and refresh-safe final Quest completion pass the exact 98-test CI/build gate. The remaining blocker is `PERSIST-REAL-BROWSER-TRANSACTION-STRESS`: real browser purchase/equip/place/reload, final-feedback refresh timing, multi-tab replay, malformed import and live IndexedDB/localStorage recovery are still unproven. |
-| QA / Release | **63%** | Exact 98-test runtime gate PASS / current-head affected CI + visual/live gates pending | All four V2 review shards exist and 95 unique catalog hashes have real independent decisions. The staged-art harness is being expanded so 01/05 can review replacement hashes without canonical wiring. Catalog acceptance, real-browser persistence timing, device/accessibility and final reference gates remain open. |
+| QA / Release | **63%** | **Current runtime 98-test/build PASS** / visual + live gates pending | All four V2 review shards exist and 95 unique catalog hashes have real independent decisions. Current runtime continuity to `da070b...` is proven. The staged-art harness still needs cross-partition replacement rendering for 01/05; catalog acceptance, real-browser persistence timing, physical accessibility and final reference gates remain open. |
 
 ## Current catalog accounting
 
@@ -118,23 +118,24 @@ One separate release blocker remains: **PERSIST-REAL-BROWSER-TRANSACTION-STRESS*
 
 ## Current automated integration gate
 
-GitHub Actions run `35652200670`, job `106507027345`, on exact head `1ce91011311dff6ea9b7b8119010d84f0466e42f` was independently inspected from its job steps and raw logs:
+GitHub Actions run `35653350977`, job `106510832262`, on exact head `da070b301e8ce57ca10d44bcb4ccd2078cfe4690` was independently inspected from its job steps and raw logs:
 
 - dependency/install steps: **PASS**;
 - test files: **22/22 PASS**;
 - tests: **98/98 PASS**;
-- durable transaction reload integration: **3/3 PASS**;
-- durable transaction helpers: **5/5 PASS**;
-- storage recovery/sanitization: **7/7 PASS**;
-- rapid Buy/room/Quest guards: **PASS**;
+- durable transaction reload integration: **PASS**;
+- rapid Buy/room/Quest action guards: **PASS**;
 - exact 200-question learning bank: **PASS**;
 - full 192-item catalog invariant: **PASS**;
+- mobile-accessibility runtime tests: **included in the passing suite**;
 - Vite production build: **PASS**;
 - modules transformed: **1,613**;
 - CSS: **167.39 kB / 35.69 kB gzip**;
-- JS: **304.00 kB / 93.28 kB gzip**.
+- JS: **304.14 kB / 93.34 kB gzip**.
 
-This evidence closes the automated persistence source gaps. It is **not** automatically extended to the current branch head because a later `src/mobileAccessibilityRuntime.js` change exists. Workstream 14 has been directed to run one coherent affected/current-head test+build gate; documentation-only commits continue to reuse unchanged proof.
+A direct GitHub compare from `da070b...` to the current descendant found only preproduction documentation/report changes and **no runtime/config/public-asset/workflow differences**, so this remains the current runtime test/build proof without a redundant documentation-only rerun.
+
+Separately, Workstream 10 browser run `35652513733`, job `106508054482`, passed the canonical Store build/browser-emulation gate at runtime head `81bbf06dc070b0f72f942dde9c14ac4bba476922`: all 16 collections passed category navigation, overflow, touch targets, card semantics, image loading, keyboard activation and reduced-motion context across the full 1408/1024/390/320 matrix, with retained screenshots/artifact evidence. That is headless Chromium evidence, not physical-device or screen-reader proof.
 
 ## Latest structural browser gate
 
