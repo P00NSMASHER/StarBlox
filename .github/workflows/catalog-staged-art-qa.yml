@@ -51,7 +51,7 @@ jobs:
           cat /tmp/starblox-staged-art.log
           exit 1
 
-      - name: Render reviewer collections and all staged replacement hashes
+      - name: Render reviewer collections and every repository-staged replacement hash
         run: |
           mkdir -p artifacts/catalog-staged-art
           node --input-type=module <<'NODE'
@@ -91,7 +91,7 @@ jobs:
             return p.replace(/^\//, '');
           }
           function candidatePathFromObject(o) {
-            for (const key of ['candidateRepositoryPath','repositoryPath','candidatePath','optimizedPath','publicPath','path']) {
+            for (const key of ['candidateRepositoryPath','repositoryPath','candidatePath','optimizedPath','publicPath','path','intendedRepositoryPath']) {
               const p = normalizeRepoPath(o?.[key]);
               if (p && fs.existsSync(p)) return p;
             }
@@ -109,23 +109,32 @@ jobs:
             return execFileSync('git',['hash-object',p],{encoding:'utf8'}).trim();
           }
           function isReplacementPath(id, p) {
-            const canonicalSvg = `public/assets/catalog/${id}.svg`;
-            return p !== canonicalSvg;
+            return p !== `public/assets/catalog/${id}.svg`;
           }
-          function readyStatus(o) {
-            const status = String(o?.status ?? '').toUpperCase();
-            return status.includes('READY_FOR_REVIEW') || status.includes('READY_FOR_FRESH_REVIEW') || status.includes('READY_FOR_FRESH_INDEPENDENT_PIXEL_REVIEW');
+          function stateText(o) {
+            return ['status','decision','reviewStatus','candidateStatus','repositoryStatus']
+              .map(k => String(o?.[k] ?? '').toUpperCase()).join(' ');
+          }
+          function looksReviewable(o) {
+            const s = stateText(o);
+            return s.includes('READY_FOR_REVIEW') || s.includes('READY_FOR_FRESH_REVIEW') || s.includes('READY_FOR_FRESH_INDEPENDENT_PIXEL_REVIEW') || s.includes('STAGED');
+          }
+          function replacementFileId(file) {
+            const m = file.match(/^([a-z]+-\d+)-.+\.(?:svg|png|jpe?g|webp)$/i);
+            return m?.[1] ?? null;
           }
           function collectReplacementCandidates() {
             const byKey = new Map();
+            const metadataById = new Map();
             for (const lanePath of producerLanes) {
               if (!fs.existsSync(lanePath)) continue;
               let lane;
               try { lane = JSON.parse(fs.readFileSync(lanePath,'utf8')); } catch { continue; }
               for (const o of allObjects(lane)) {
-                if (!o?.id || !/^[a-z]+-\d+$/.test(o.id) || !readyStatus(o)) continue;
+                if (!o?.id || !/^[a-z]+-\d+$/.test(o.id)) continue;
+                metadataById.set(o.id, {...(metadataById.get(o.id) ?? {}), ...o, producerLane:lanePath});
                 const repositoryPath = candidatePathFromObject(o);
-                if (!repositoryPath || !isReplacementPath(o.id, repositoryPath)) continue;
+                if (!repositoryPath || !isReplacementPath(o.id, repositoryPath) || !looksReviewable(o)) continue;
                 const sha = blobSha(repositoryPath);
                 byKey.set(`${o.id}:${sha}`, {
                   id:o.id,
@@ -133,12 +142,34 @@ jobs:
                   tier:o.tier ?? null,
                   theme:o.theme ?? null,
                   producerLane:lanePath,
+                  discovery:'lane-reviewable',
                   repositoryPath,
                   blobSha:sha
                 });
               }
             }
-            return [...byKey.values()].sort((a,b) => a.id.localeCompare(b.id));
+
+            const root = 'public/assets/catalog';
+            if (fs.existsSync(root)) {
+              for (const file of fs.readdirSync(root).sort()) {
+                const id = replacementFileId(file);
+                if (!id) continue;
+                const repositoryPath = path.posix.join(root, file);
+                const sha = blobSha(repositoryPath);
+                const meta = metadataById.get(id) ?? {};
+                byKey.set(`${id}:${sha}`, {
+                  id,
+                  name:meta.name ?? id,
+                  tier:meta.tier ?? null,
+                  theme:meta.theme ?? null,
+                  producerLane:meta.producerLane ?? null,
+                  discovery:'versioned-file-scan',
+                  repositoryPath,
+                  blobSha:sha
+                });
+              }
+            }
+            return [...byKey.values()].sort((a,b) => a.id.localeCompare(b.id) || a.repositoryPath.localeCompare(b.repositoryPath));
           }
 
           async function renderSet(browser, setName, items, report) {
@@ -200,7 +231,7 @@ jobs:
           const replacements = collectReplacementCandidates();
           await renderSet(browser, 'staged-replacements', replacements, report);
           report.replacementCount = replacements.length;
-          report.replacementIds = replacements.map(x => `${x.id}:${x.blobSha}`);
+          report.replacementIds = replacements.map(x => `${x.id}:${x.blobSha}:${x.repositoryPath}`);
 
           fs.writeFileSync('artifacts/catalog-staged-art/report.json', JSON.stringify(report, null, 2));
           await browser.close();
