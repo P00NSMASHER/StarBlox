@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Cloud Pop Berry Hearts">
+<defs>
+ <radialGradient id="bg"><stop stop-color="#fff" stop-opacity=".55"/><stop offset=".55" stop-color="#d8f4ff" stop-opacity=".22"/><stop offset="1" stop-color="#c4d8ff" stop-opacity="0"/></radialGradient>
+ <linearGradient id="berry" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ffd0e7"/><stop offset=".35" stop-color="#ff6ca8"/><stop offset=".72" stop-color="#c52f79"/><stop offset="1" stop-color="#7d2b7d"/></linearGradient>
+ <linearGradient id="cloud" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#fff"/><stop offset=".6" stop-color="#dff7ff"/><stop offset="1" stop-color="#9edcff"/></linearGradient>
+ <filter id="shadow"><feDropShadow dx="0" dy="10" stdDeviation="9" flood-color="#5160a0" flood-opacity=".23"/></filter>
+ <filter id="glow"><feGaussianBlur stdDeviation="8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+</defs>
+<rect width="512" height="512" rx="72" fill="url(#bg)"/>
+<g fill="none" stroke="#a8e8ff" stroke-width="16" stroke-linecap="round" opacity=".22" filter="url(#glow)"><path d="M103 202c24-59 80-101 153-101s133 45 154 109"/><path d="M105 324c30 56 84 88 151 88s123-35 151-92"/></g>
+<g filter="url(#shadow)">
+ <g transform="translate(131 166)"><path d="M0 18c-28-24-70-2-70 32 0 44 70 84 70 84s70-40 70-84c0-34-42-56-70-32z" fill="url(#berry)" stroke="#fff" stroke-width="4"/><path d="M-35 17c15-17 42-20 58-4" fill="none" stroke="#ffd9ea" stroke-width="10" stroke-linecap="round" opacity=".75"/></g>
+ <g transform="translate(378 172) scale(.82)"><path d="M0 18c-28-24-70-2-70 32 0 44 70 84 70 84s70-40 70-84c0-34-42-56-70-32z" fill="url(#berry)" stroke="#fff" stroke-width="4"/><path d="M-35 17c15-17 42-20 58-4" fill="none" stroke="#ffd9ea" stroke-width="10" stroke-linecap="round" opacity=".75"/></g>
+ <g transform="translate(156 345) scale(.72)"><path d="M0 18c-28-24-70-2-70 32 0 44 70 84 70 84s70-40 70-84c0-34-42-56-70-32z" fill="url(#berry)" stroke="#fff" stroke-width="4"/></g>
+ <g transform="translate(351 340) scale(.98)"><path d="M0 18c-28-24-70-2-70 32 0 44 70 84 70 84s70-40 70-84c0-34-42-56-70-32z" fill="url(#berry)" stroke="#fff" stroke-width="4"/><path d="M-35 17c15-17 42-20 58-4" fill="none" stroke="#ffd9ea" stroke-width="10" stroke-linecap="round" opacity=".72"/></g>
+</g>
+<g filter="url(#shadow)" fill="url(#cloud)" stroke="#fff" stroke-width="3"><path d="M204 248c3-29 25-45 50-41 13-20 46-18 57 5 28-4 51 15 52 44 25 7 33 38 14 56-9 9-25 13-41 11H215c-35 0-54-28-43-57 5-13 16-22 32-26z"/></g>
+<g filter="url(#glow)"><path d="M253 229 261 250 283 257 264 269 265 292 247 278 225 286 232 264 219 247 241 248Z" fill="#fff7b2" stroke="#ff91c9" stroke-width="3"/><circle cx="92" cy="277" r="8" fill="#8deaff"/><circle cx="421" cy="267" r="7" fill="#fff"/><circle cx="278" cy="101" r="6" fill="#9bdfff"/></g>
+</svg>

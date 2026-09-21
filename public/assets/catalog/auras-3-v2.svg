@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Adventure Club Pixel Bits">
+<defs>
+ <radialGradient id="bg"><stop stop-color="#1d3551" stop-opacity=".32"/><stop offset=".72" stop-color="#0a1c2c" stop-opacity=".08"/><stop offset="1" stop-color="#06111b" stop-opacity="0"/></radialGradient>
+ <linearGradient id="gold"><stop stop-color="#fff0a0"/><stop offset=".5" stop-color="#f6b84d"/><stop offset="1" stop-color="#bd6a2c"/></linearGradient>
+ <linearGradient id="aqua"><stop stop-color="#bffcff"/><stop offset=".5" stop-color="#4ee4ff"/><stop offset="1" stop-color="#2472ff"/></linearGradient>
+ <linearGradient id="violet"><stop stop-color="#f7c5ff"/><stop offset=".5" stop-color="#b16cff"/><stop offset="1" stop-color="#6636d8"/></linearGradient>
+ <filter id="g"><feGaussianBlur stdDeviation="7" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+</defs>
+<rect width="512" height="512" rx="72" fill="url(#bg)"/>
+<ellipse cx="256" cy="262" rx="155" ry="111" fill="none" stroke="#8fefff" stroke-width="3" stroke-opacity=".38" transform="rotate(-18 256 262)"/>
+<ellipse cx="256" cy="262" rx="125" ry="165" fill="none" stroke="#f3c368" stroke-width="3" stroke-opacity=".35" transform="rotate(31 256 262)"/>
+<g filter="url(#g)" stroke="#fff" stroke-opacity=".55" stroke-width="2">
+ <g transform="translate(118 120) rotate(-12)"><rect width="58" height="58" rx="8" fill="url(#gold)"/><rect x="13" y="13" width="32" height="32" rx="5" fill="#4a321a" opacity=".22"/></g>
+ <g transform="translate(342 108) rotate(10)"><rect width="46" height="46" rx="7" fill="url(#aqua)"/><rect x="10" y="10" width="26" height="26" rx="4" fill="#14396e" opacity=".2"/></g>
+ <g transform="translate(378 292) rotate(16)"><rect width="64" height="64" rx="9" fill="url(#violet)"/><rect x="14" y="14" width="36" height="36" rx="5" fill="#4d2777" opacity=".2"/></g>
+ <g transform="translate(92 338) rotate(-8)"><rect width="52" height="52" rx="8" fill="url(#aqua)"/><rect x="12" y="12" width="28" height="28" rx="4" fill="#163963" opacity=".18"/></g>
+ <g transform="translate(230 64) rotate(6)"><rect width="38" height="38" rx="6" fill="url(#violet)"/></g>
+ <g transform="translate(246 406) rotate(-8)"><rect width="42" height="42" rx="6" fill="url(#gold)"/></g>
+</g>
+<g fill="#fff" opacity=".9"><rect x="170" y="97" width="12" height="12" rx="3"/><rect x="324" y="164" width="10" height="10" rx="2"/><rect x="413" y="228" width="12" height="12" rx="3"/><rect x="161" y="391" width="10" height="10" rx="2"/><rect x="75" y="262" width="12" height="12" rx="3"/><rect x="302" y="386" width="9" height="9" rx="2"/></g>
+<g filter="url(#g)"><path d="M256 178 269 216 309 216 277 239 289 277 256 254 223 277 235 239 203 216 243 216Z" fill="url(#gold)" stroke="#fff2ba" stroke-width="3"/><path d="M244 302h24v24h-24zM222 326h20v20h-20zM272 326h18v18h-18z" fill="url(#aqua)"/></g>
+</svg>
