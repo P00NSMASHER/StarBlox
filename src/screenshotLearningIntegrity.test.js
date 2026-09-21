@@ -6,6 +6,7 @@ import { gameModel } from './gameModel';
 import { scoreQuestAttempt } from './questRewardPolicy';
 
 const FIXED_DATE = Date.UTC(2026,8,21);
+const SEMANTIC_AUDIT_DATE = Date.UTC(2026,8,18,18,0,0);
 const byId = () => new Map(gameModel.buildQuestions().map(question => [question.id,question]));
 
 function expectSingleAnswer(question){
@@ -97,8 +98,8 @@ describe('screenshot rebuild learning-integrity gate', () => {
     });
   });
 
-  it('keeps the fixed-day invited vocabulary transfer semantically defensible in the actual five-action Quest', () => {
-    const quest = gameModel.pickQuest({},5,FIXED_DATE);
+  it('keeps the fixed audit-day invited vocabulary transfer semantically defensible in the actual five-action Quest', () => {
+    const quest = gameModel.pickQuest({},5,SEMANTIC_AUDIT_DATE);
     const item = quest.find(question => question.id === 'vocab-transfer-invited');
     expect(item).toBeTruthy();
     expect(item.skill).toBe('vocabulary');
