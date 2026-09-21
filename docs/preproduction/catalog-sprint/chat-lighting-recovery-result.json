@@ -187,7 +187,8 @@
     "render": "FAIL",
     "independentVisualReview": "PENDING_14",
     "typecheck": "NOT_APPLICABLE_NO_TYPESCRIPT_APP_CHANGES",
-    "batchCardDetailRender": "INCOMPLETE_0_OF_4"
+    "batchCardDetailRender": "PASS_4_OF_4_ISOLATED_RENDER",
+    "sharedCatalogFixture": "FAIL_RECORDED_SEPARATELY_NOT_RETESTED"
   },
   "freeze": {
     "replitTouched": false,
@@ -204,5 +205,106 @@
     "matchedIds": [],
     "matchedHashes": {}
   },
-  "independentVisualReview": "PENDING_WORKSTREAM_14_NOT_SELF_APPROVED"
+  "independentVisualReview": "PENDING_WORKSTREAM_14_NOT_SELF_APPROVED",
+  "sharedFixtureFailure": {
+    "workflowRunId": 35665398592,
+    "jobId": 106549924161,
+    "artifactId": 10669425873,
+    "status": "FAIL",
+    "reason": "Repository-root navigation loaded raw Vite main.jsx with the wrong MIME type; unrelated staged Desk 2\u20134 images were also fully transparent. No errors or blank-asset assertions were suppressed.",
+    "owner": "14 shared fixture; 03 desk candidates"
+  },
+  "isolatedVerification": {
+    "workflowRunId": 35665938359,
+    "testedSourceHead": "5b2dec716e3c6ba80620a7c847d986a853080a17",
+    "tests": "PASS",
+    "build": "PASS",
+    "render": "PASS",
+    "scope": "Only the exact four recovered Lighting images; not a whole-catalog or canonical Store acceptance",
+    "artifactName": "lighting-5-8-isolated-render-evidence",
+    "proof": {
+      "sourceHead": "5b2dec716e3c6ba80620a7c847d986a853080a17",
+      "workflowRunId": "35665938359",
+      "scope": "Only recovered Lighting 5\u20138; not canonical Store, other candidates, or visual acceptance",
+      "status": "PASS_4_OF_4_ISOLATED_RENDER",
+      "items": [
+        {
+          "id": "lighting-5",
+          "name": "Vine Light",
+          "path": "public/assets/catalog/lighting-5-w04-recovered-v2.jpg",
+          "gitBlobSha": "a9e03e73c7080fdc2effd884bb0965999954d90c",
+          "sha256": "510ab0ef733659835532947e3136369adc44420b9cba4473e2b247746db5afe3",
+          "width": 600,
+          "height": 600,
+          "opaqueFraction": 1,
+          "cardCaptured": true,
+          "detailCaptured": true
+        },
+        {
+          "id": "lighting-6",
+          "name": "Planet Lamp",
+          "path": "public/assets/catalog/lighting-6-w04-recovered-v2.jpg",
+          "gitBlobSha": "d8d8fca7cda78451860377bfdfd257b4a450aa9c",
+          "sha256": "a28e77f7fd2577de121592230eb361a18a211e5273b611b6f81e11efd80cc3c2",
+          "width": 600,
+          "height": 600,
+          "opaqueFraction": 1,
+          "cardCaptured": true,
+          "detailCaptured": true
+        },
+        {
+          "id": "lighting-7",
+          "name": "Sun Lamp",
+          "path": "public/assets/catalog/lighting-7-w04-recovered-v2.jpg",
+          "gitBlobSha": "7ce162a18ab641df7ab73f380557aad5aa64b24d",
+          "sha256": "81bcfea88ef5ae81899db362f0dbdb8d6028efe363aff578052256e8cd7fc5fe",
+          "width": 600,
+          "height": 600,
+          "opaqueFraction": 1,
+          "cardCaptured": true,
+          "detailCaptured": true
+        },
+        {
+          "id": "lighting-8",
+          "name": "Bubble Lamp",
+          "path": "public/assets/catalog/lighting-8-w04-recovered-v2.jpg",
+          "gitBlobSha": "9073a049ec9116cf3e4408adf068be48f1ad00f1",
+          "sha256": "201427a6743793334b27ae72b9a955103577540e17abc9667c868c82be6f22db",
+          "width": 600,
+          "height": 600,
+          "opaqueFraction": 1,
+          "cardCaptured": true,
+          "detailCaptured": true
+        }
+      ],
+      "errors": [],
+      "screenshots": [
+        {
+          "path": "artifacts/lighting-recovery-isolated/lighting-5-8-card-contact-sheet.png",
+          "sha256": "8877b5d60f584c81fc097c919d20eb16d2c55270c852c1d6aeff5cdd105628e2",
+          "bytes": 177568
+        },
+        {
+          "path": "artifacts/lighting-recovery-isolated/lighting-5-a9e03e73-detail.png",
+          "sha256": "d583337e82adea3654aa908f7ca5aef7591e8fff271a8ad8c05b53d60a1a168e",
+          "bytes": 397260
+        },
+        {
+          "path": "artifacts/lighting-recovery-isolated/lighting-6-d8d8fca7-detail.png",
+          "sha256": "617decaa3ff907b4de8fd59e21cf12c7797a4118022633d43342e420b973cae6",
+          "bytes": 243191
+        },
+        {
+          "path": "artifacts/lighting-recovery-isolated/lighting-7-7ce162a1-detail.png",
+          "sha256": "5cf217871ef1681979bb985c13dc3d93d65fd904aa4c4d7e8ada091a6a8d80a5",
+          "bytes": 361538
+        },
+        {
+          "path": "artifacts/lighting-recovery-isolated/lighting-8-9073a049-detail.png",
+          "sha256": "732056d0e09e1fc683e34fa678a51f1140156023481e63659cbbb4d3bb441dc3",
+          "bytes": 363688
+        }
+      ]
+    }
+  }
 }
