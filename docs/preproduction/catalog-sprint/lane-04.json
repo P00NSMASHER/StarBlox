@@ -1,49 +1,53 @@
 {
-  "schemaVersion": 3,
+  "schemaVersion": 4,
   "lane": "04",
   "phase": "CATALOG_SPRINT",
   "repository": "P00NSMASHER/StarBlox",
   "branch": "screenshot-match-preproduction",
   "assignment": ["lighting-1","lighting-2","lighting-3","lighting-4","lighting-5","lighting-6","lighting-7","lighting-8","lighting-9","lighting-10","lighting-11","lighting-12"],
   "secondaryRepairAssignment": ["shoes-1","shoes-2","shoes-3","shoes-4","shoes-5","shoes-6"],
-  "status": "REWORK_IN_PROGRESS_4_STAGED_4_GENERATED_REMOTE",
+  "status": "REWORK_IN_PROGRESS_4_STAGED_8_GENERATED_REMOTE",
   "selfApproved": false,
   "owners": {"phase":"15","manifestRuntime":"08","independentReview":["14"]},
-  "latestObservedBranchHeadBeforeReport": "169f2f5bb9edd23e3bb1be9a0bf80eced80004c6",
+  "latestObservedHeadBeforeSecondGenerationBatch": "169f2f5bb9edd23e3bb1be9a0bf80eced80004c6",
   "review": {
     "reviewer": "14",
     "reviewFile": "docs/preproduction/catalog-sprint/reviews/14.json",
-    "result": "LEGACY_LIGHTING_REWORK_12_OF_12",
-    "reviewedLightingHashesAccepted": 0,
-    "reasonSummary": "Legacy SVGs are recognizable but materially below the premium dimensional screenshot-art target: flat/front-facing construction, shallow materials and emitted light, weak theme expression on some IDs, and insufficient tier progression. Replacement hashes require fresh actual-pixel independent review."
+    "legacyLightingReviewed": 12,
+    "legacyLightingAccept": 0,
+    "legacyLightingRework": 12,
+    "finding": "Legacy Lighting is recognizable but too flat/front-facing for the premium dimensional screenshot target; all current replacement hashes require fresh rendered review."
   },
-  "legacyReviewedCandidates": [
-    {"id":"lighting-1","name":"Starter Lamp","tier":1,"theme":"Cloud Pop","price":44,"starReq":0,"path":"public/assets/catalog/lighting-1.svg","gitBlobSha":"a522ae4d0a602673e51b3108a4631e1a4891e79b","decision":"REWORK"},
-    {"id":"lighting-2","name":"Cloud Lamp","tier":1,"theme":"Pixel Party","price":65,"starReq":0,"path":"public/assets/catalog/lighting-2.svg","gitBlobSha":"07e2ef5ebe1322b52a0514d0a1a9ba2f7f19c2ab","decision":"REWORK"},
-    {"id":"lighting-3","name":"Pixel Cube Light","tier":1,"theme":"Berry Blast","price":94,"starReq":0,"path":"public/assets/catalog/lighting-3.svg","gitBlobSha":"f0416273531258ca17417ba7507406b15eed3a20","decision":"REWORK"},
-    {"id":"lighting-4","name":"Heart Lamp","tier":2,"theme":"Garden Glow","price":123,"starReq":0,"path":"public/assets/catalog/lighting-4.svg","gitBlobSha":"42f07255a3f04e10d1df2009555283529903b4c1","decision":"REWORK"},
-    {"id":"lighting-5","name":"Vine Light","tier":2,"theme":"Galaxy Glow","price":181,"starReq":0,"path":"public/assets/catalog/lighting-5.svg","gitBlobSha":"8aa582f7bd95628d9b745eb71cf434df170b39c7","decision":"REWORK"},
-    {"id":"lighting-6","name":"Planet Lamp","tier":2,"theme":"Sunny Pop","price":254,"starReq":0,"path":"public/assets/catalog/lighting-6.svg","gitBlobSha":"a3ef6f5e0a2967f64f05268ca84cd40e3de781dd","decision":"REWORK"},
-    {"id":"lighting-7","name":"Sun Lamp","tier":3,"theme":"Aqua Wave","price":348,"starReq":2,"path":"public/assets/catalog/lighting-7.svg","gitBlobSha":"c6be5b8c09122fb3e9c26715551c7f0bbf4768fc","decision":"REWORK"},
-    {"id":"lighting-8","name":"Bubble Lamp","tier":3,"theme":"Art Attack","price":479,"starReq":2,"path":"public/assets/catalog/lighting-8.svg","gitBlobSha":"18db9f245fb4cae1687ec9128c4f6878c40cfb81","decision":"REWORK"},
-    {"id":"lighting-9","name":"Color Lamp","tier":3,"theme":"Star Luxe","price":667,"starReq":2,"path":"public/assets/catalog/lighting-9.svg","gitBlobSha":"4ed3cf2ec2789cf1d93adc0b11809a0ba293348e","decision":"REWORK"},
-    {"id":"lighting-10","name":"Neon Strip Tower","tier":4,"theme":"Midnight Neon","price":928,"starReq":5,"path":"public/assets/catalog/lighting-10.svg","gitBlobSha":"fbebec245fddc134b6e513b1493819947f4a1ef1","decision":"REWORK"},
-    {"id":"lighting-11","name":"Aurora Light","tier":4,"theme":"Candy Core","price":1276,"starReq":5,"path":"public/assets/catalog/lighting-11.svg","gitBlobSha":"516885790c49af408442b425621b9a6b5df7e8bd","decision":"REWORK"},
-    {"id":"lighting-12","name":"Crystal Chandelier","tier":5,"theme":"Adventure Club","price":1740,"starReq":9,"path":"public/assets/catalog/lighting-12.svg","gitBlobSha":"3568ddead0af062045687e9c4c6f2c0596acc6b3","decision":"REWORK"}
+  "legacyHashes": {
+    "lighting-1":"a522ae4d0a602673e51b3108a4631e1a4891e79b",
+    "lighting-2":"07e2ef5ebe1322b52a0514d0a1a9ba2f7f19c2ab",
+    "lighting-3":"f0416273531258ca17417ba7507406b15eed3a20",
+    "lighting-4":"42f07255a3f04e10d1df2009555283529903b4c1",
+    "lighting-5":"8aa582f7bd95628d9b745eb71cf434df170b39c7",
+    "lighting-6":"a3ef6f5e0a2967f64f05268ca84cd40e3de781dd",
+    "lighting-7":"c6be5b8c09122fb3e9c26715551c7f0bbf4768fc",
+    "lighting-8":"18db9f245fb4cae1687ec9128c4f6878c40cfb81",
+    "lighting-9":"4ed3cf2ec2789cf1d93adc0b11809a0ba293348e",
+    "lighting-10":"fbebec245fddc134b6e513b1493819947f4a1ef1",
+    "lighting-11":"516885790c49af408442b425621b9a6b5df7e8bd",
+    "lighting-12":"3568ddead0af062045687e9c4c6f2c0596acc6b3"
+  },
+  "repositoryStagedReplacements": [
+    {"id":"lighting-1","name":"Starter Lamp","tier":1,"theme":"Cloud Pop","path":"public/assets/catalog/lighting-1-v2.jpg","gitBlobSha":"9d8aa142fa53f06dbad9ce59e9c8d34c1096ddc3","bytes":21735,"mediaType":"image/jpeg","attachmentCommit":"f1f8492182e51358dda8e106644361feea5781f1","readback":"PASS","status":"READY_FOR_REVIEW"},
+    {"id":"lighting-2","name":"Cloud Lamp","tier":1,"theme":"Pixel Party","path":"public/assets/catalog/lighting-2-v2.jpg","gitBlobSha":"8c10fe689d6d7e398e85b24eb1ca1323cee07ea3","bytes":26239,"mediaType":"image/jpeg","attachmentCommit":"f1f8492182e51358dda8e106644361feea5781f1","readback":"PASS","status":"READY_FOR_REVIEW"},
+    {"id":"lighting-3","name":"Pixel Cube Light","tier":1,"theme":"Berry Blast","path":"public/assets/catalog/lighting-3-v2.jpg","gitBlobSha":"fc21ddf5a608ee393410ff9682cf2ef87a56c46d","bytes":27378,"mediaType":"image/jpeg","attachmentCommit":"f1f8492182e51358dda8e106644361feea5781f1","readback":"PASS","status":"READY_FOR_REVIEW"},
+    {"id":"lighting-4","name":"Heart Lamp","tier":2,"theme":"Garden Glow","path":"public/assets/catalog/lighting-4-v2.jpg","gitBlobSha":"7975e490a9fb97574f03081acf9fc871c22224f3","bytes":21757,"mediaType":"image/jpeg","attachmentCommit":"f1f8492182e51358dda8e106644361feea5781f1","readback":"PASS","status":"READY_FOR_REVIEW"}
   ],
-  "replacementCandidatesRepositoryStaged": [
-    {"id":"lighting-1","path":"public/assets/catalog/lighting-1-v2.jpg","gitBlobSha":"9d8aa142fa53f06dbad9ce59e9c8d34c1096ddc3","bytes":21735,"mediaType":"image/jpeg","source":"previously generated Adobe Firefly exact bytes preserved as immutable Git blob","attachmentCommit":"f1f8492182e51358dda8e106644361feea5781f1","readback":"PASS exact tree path/blob","decision":"READY_FOR_REVIEW"},
-    {"id":"lighting-2","path":"public/assets/catalog/lighting-2-v2.jpg","gitBlobSha":"8c10fe689d6d7e398e85b24eb1ca1323cee07ea3","bytes":26239,"mediaType":"image/jpeg","source":"previously generated Adobe Firefly exact bytes preserved as immutable Git blob","attachmentCommit":"f1f8492182e51358dda8e106644361feea5781f1","readback":"PASS exact tree path/blob","decision":"READY_FOR_REVIEW"},
-    {"id":"lighting-3","path":"public/assets/catalog/lighting-3-v2.jpg","gitBlobSha":"fc21ddf5a608ee393410ff9682cf2ef87a56c46d","bytes":27378,"mediaType":"image/jpeg","source":"previously generated Adobe Firefly exact bytes preserved as immutable Git blob","attachmentCommit":"f1f8492182e51358dda8e106644361feea5781f1","readback":"PASS exact tree path/blob","decision":"READY_FOR_REVIEW"},
-    {"id":"lighting-4","path":"public/assets/catalog/lighting-4-v2.jpg","gitBlobSha":"7975e490a9fb97574f03081acf9fc871c22224f3","bytes":21757,"mediaType":"image/jpeg","source":"previously generated Adobe Firefly exact bytes preserved as immutable Git blob","attachmentCommit":"f1f8492182e51358dda8e106644361feea5781f1","readback":"PASS exact tree path/blob","decision":"READY_FOR_REVIEW"}
+  "generatedRemoteReplacements": [
+    {"id":"lighting-5","name":"Vine Light","tier":2,"theme":"Galaxy Glow","price":181,"starReq":0,"fireflyAssetId":"urn:aaid:sc:US:a7777709-a50b-40e8-987a-dfaef58bfb75","containerBytes":1055809,"dimensions":"1024x1024","format":"PNG output / Firefly GenAI container","producerPixelInspection":"PASS — bronze vine structure, translucent layered leaves, star-orb emitters, physical base and cast shadow.","status":"GENERATED_REMOTE_UPLOAD_PENDING"},
+    {"id":"lighting-6","name":"Planet Lamp","tier":2,"theme":"Sunny Pop","price":254,"starReq":0,"fireflyAssetId":"urn:aaid:sc:US:42d0edcf-6e79-4035-91e8-26514ee0b7d4","containerBytes":883836,"dimensions":"1024x1024","format":"PNG output / Firefly GenAI container","producerPixelInspection":"PASS — glowing dimensional planet, separated orbit rings, warm metal support/base and Sunny Pop light.","status":"GENERATED_REMOTE_UPLOAD_PENDING"},
+    {"id":"lighting-7","name":"Sun Lamp","tier":3,"theme":"Aqua Wave","price":348,"starReq":2,"fireflyAssetId":"urn:aaid:sc:US:d98ee54e-0ca5-45fd-933a-df8a4d3600e2","containerBytes":1135259,"dimensions":"1024x1024","format":"PNG output / Firefly GenAI container","producerPixelInspection":"PASS — translucent aqua glass sun disk and wave-like rays, chrome support and internal warm glow.","status":"GENERATED_REMOTE_UPLOAD_PENDING"},
+    {"id":"lighting-8","name":"Bubble Lamp","tier":3,"theme":"Art Attack","price":479,"starReq":2,"fireflyAssetId":"urn:aaid:sc:US:32cfde85-8990-4b1f-ab34-9127985e7d7f","containerBytes":1107905,"dimensions":"1024x1024","format":"PNG output / Firefly GenAI container","producerPixelInspection":"PASS — overlapping refractive glass bubbles, chrome stand and vivid paint-like internal swirls.","status":"GENERATED_REMOTE_UPLOAD_PENDING"},
+    {"id":"lighting-9","name":"Color Lamp","tier":3,"theme":"Star Luxe","price":667,"starReq":2,"fireflyAssetId":"urn:aaid:sc:US:15f7fe15-5a46-4b69-9c9d-3ad89404271e","containerBytes":1067121,"dimensions":"1024x1024","format":"PNG output / Firefly GenAI container","producerPixelInspection":"PASS — large beveled prism/crystal shade with thick transparent facets, rainbow dispersion, gold/violet pedestal and visible floor light spill.","status":"GENERATED_REMOTE_UPLOAD_PENDING"},
+    {"id":"lighting-10","name":"Neon Strip Tower","tier":4,"theme":"Midnight Neon","price":928,"starReq":5,"fireflyAssetId":"urn:aaid:sc:US:5bdc1e60-cba6-4e2c-b80a-8742d968472b","containerBytes":1192456,"dimensions":"1024x1024","format":"PNG output / Firefly GenAI container","producerPixelInspection":"PASS — deep navy three-dimensional chassis, beveled panels, inset cyan/magenta neon strips and strong colored floor spill materially address the flat-panel defect.","status":"GENERATED_REMOTE_UPLOAD_PENDING"},
+    {"id":"lighting-11","name":"Aurora Light","tier":4,"theme":"Candy Core","price":1276,"starReq":5,"fireflyAssetId":"urn:aaid:sc:US:a9b8f6e7-ca6f-4132-8b62-3f77070dceb5","containerBytes":929037,"dimensions":"1024x1024","format":"PNG output / Firefly GenAI container","producerPixelInspection":"PASS — layered thick translucent pink/cyan/violet aurora ribbons physically wrap a pearly lamp base with refraction and warm emissive core.","status":"GENERATED_REMOTE_UPLOAD_PENDING"},
+    {"id":"lighting-12","name":"Crystal Chandelier","tier":5,"theme":"Adventure Club","price":1740,"starReq":9,"fireflyAssetId":"urn:aaid:sc:US:0c826f3c-c2d5-4da4-ac5a-37a9bbddd0b4","containerBytes":1520538,"dimensions":"1024x1024","format":"PNG output / Firefly GenAI container","producerPixelInspection":"PASS — multi-arm antique-gold suspended chandelier, layered faceted crystal drops, warm candle-like emitters and deep suspension hierarchy provide an appropriately spectacular Tier-5 hero silhouette.","status":"GENERATED_REMOTE_UPLOAD_PENDING"}
   ],
-  "replacementCandidatesGeneratedRemoteNotStaged": [
-    {"id":"lighting-5","name":"Vine Light","tier":2,"theme":"Galaxy Glow","fireflyAssetId":"urn:aaid:sc:US:a7777709-a50b-40e8-987a-dfaef58bfb75","fireflyContainerBytes":1055809,"generatedFormat":"Firefly GenAI image / PNG output","generatedDimensions":"1024x1024","producerPixelInspection":"PASS — sculptural bronze vine, layered translucent leaves, multiple star-orb emitters and cast/contact shadow materially address the flat botanical-light defect.","status":"GENERATED_REMOTE_UPLOAD_PENDING"},
-    {"id":"lighting-6","name":"Planet Lamp","tier":2,"theme":"Sunny Pop","fireflyAssetId":"urn:aaid:sc:US:42d0edcf-6e79-4035-91e8-26514ee0b7d4","fireflyContainerBytes":883836,"generatedFormat":"Firefly GenAI image / PNG output","generatedDimensions":"1024x1024","producerPixelInspection":"PASS — dimensional glowing planet globe, physically separated orbital rings, metal support/base and warm Sunny Pop light visibly address flat band/occlusion defects.","status":"GENERATED_REMOTE_UPLOAD_PENDING"},
-    {"id":"lighting-7","name":"Sun Lamp","tier":3,"theme":"Aqua Wave","fireflyAssetId":"urn:aaid:sc:US:d98ee54e-0ca5-45fd-933a-df8a4d3600e2","fireflyContainerBytes":1135259,"generatedFormat":"Firefly GenAI image / PNG output","generatedDimensions":"1024x1024","producerPixelInspection":"PASS — translucent aqua glass sun disk, sculpted wave-like rays, chrome stem/base and internal warm glow materially express Aqua Wave and dimensional Tier 3 construction.","status":"GENERATED_REMOTE_UPLOAD_PENDING"},
-    {"id":"lighting-8","name":"Bubble Lamp","tier":3,"theme":"Art Attack","fireflyAssetId":"urn:aaid:sc:US:32cfde85-8990-4b1f-ab34-9127985e7d7f","fireflyContainerBytes":1107905,"generatedFormat":"Firefly GenAI image / PNG output","generatedDimensions":"1024x1024","producerPixelInspection":"PASS — overlapping refractive glass globes, chrome stand and multicolor paint-like swirls visibly address prior flat-circle and weak Art Attack defects.","status":"GENERATED_REMOTE_UPLOAD_PENDING"}
-  ],
-  "remainingLightingRepairIds": ["lighting-9","lighting-10","lighting-11","lighting-12"],
   "checks": {
     "metadataUnchanged": "PASS",
     "pricesUnlocksUnchanged": "PASS",
@@ -55,19 +59,19 @@
     "lighting1To4RepositoryStored": "PASS_4_OF_4",
     "lighting1To4ExactPathBlobReadback": "PASS_4_OF_4",
     "lighting1To4IndependentAcceptance": "PENDING_REVIEWER_14",
-    "lighting5To8Generated": "PASS_4_OF_4",
-    "lighting5To8ActualPixelInspection": "PASS_4_OF_4_PRODUCER_ONLY",
-    "lighting5To8RepositoryStored": "BLOCKED_THIS_RUN_BINARY_EXTRACTION_FROM_NEW_FIREFLY_OUTPUT",
-    "lighting9To12Generated": "NOT_STARTED"
+    "lighting5To12Generated": "PASS_8_OF_8",
+    "lighting5To12ActualPixelInspection": "PASS_8_OF_8_PRODUCER_ONLY",
+    "lighting5To12RepositoryStored": "BLOCKED_THIS_RUN_RAW_BINARY_EXTRACTION_FROM_NEW_FIREFLY_OUTPUT",
+    "lighting5To12IndependentAcceptance": "NOT_TESTED_NOT_STAGED"
   },
   "blockers": [
-    "Reviewer 14 must independently render and disposition the exact repository-staged lighting-1-v2 through lighting-4-v2 hashes before Workstream 08 may integrate them.",
-    "Lighting-5..8 are successfully generated and visually inspected in Adobe, but this lane run could not extract their raw binary bytes into the GitHub create_blob path. The Firefly assets are preserved by exact GenAI asset IDs above; do not regenerate them."
+    "Reviewer 14 must independently render and disposition the exact staged lighting-1-v2 through lighting-4-v2 hashes before Workstream 08 may integrate them.",
+    "Lighting-5..12 are generated and pixel-inspected in Adobe but are not repository-staged. Their exact Firefly GenAI asset IDs are preserved above; this lane run could not expose their raw bytes to GitHub create_blob. Reuse the proven project-level Adobe-to-Git byte bridge; do not regenerate them."
   ],
   "handoff": {
-    "14": "Render/review lighting-1-v2.jpg through lighting-4-v2.jpg immediately by their exact Git blob hashes. Legacy lighting decisions do not transfer to these replacements.",
-    "08": "Do not wire producer-only candidates. lighting-1..4 are now staged and eligible for integration only after reviewer-14 exact-hash ACCEPT; lighting-5..8 remain remote generated, not staged.",
-    "15": "The prior Lighting 1-4 binary-transfer blocker is closed: exact preserved blobs are attached/read back on branch. New Lighting 5-8 Firefly generations are preserved by GenAI asset ID but need the same supported Adobe-byte extraction/import bridge before they become staged. Do not regenerate them."
+    "14": "Render/review lighting-1-v2.jpg through lighting-4-v2.jpg now by exact Git hash. When lighting-5..12 are imported to versioned paths, review those exact hashes; legacy decisions do not transfer.",
+    "08": "No producer-only asset may be wired. lighting-1..4 are staged but require reviewer-14 ACCEPT. lighting-5..12 are remote generated, not staged.",
+    "15": "Lighting 1-4 transfer is closed. Lighting 5-12 are complete Firefly generations with exact GenAI IDs and producer pixel evidence; use/reassign the already-proven Adobe-byte extraction bridge to attach them to versioned Git paths. Do not regenerate."
   },
-  "nextAction": "Reviewer 14 should prioritize lighting-1..4 v2. Lane 04 should preserve lighting-5..8 generated asset IDs for byte import, then continue lighting-9..12 in the next bounded generation batch or repair any replacement hash that reviewer 14 rejects. Shoes 1-6 remain secondary only after Lighting is review-blocked/completed per state."
+  "nextAction": "Prioritize fresh reviewer-14 decisions for staged lighting-1..4 and byte-import lighting-5..12. If Lighting becomes review/import-blocked with no actionable replacement defect, begin assigned Shoes 1-6 repairs rather than idling."
 }
