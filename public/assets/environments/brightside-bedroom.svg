@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1408 1056" role="img" aria-labelledby="t d">
+<title id="t">Brightside bedroom</title><desc id="d">An original warm pink and lilac StarBlox bedroom overlooking Brightside City.</desc>
+<defs>
+ <linearGradient id="wall" x2="0" y2="1"><stop stop-color="#ffd7e7"/><stop offset=".56" stop-color="#efc7ea"/><stop offset="1" stop-color="#cba8da"/></linearGradient>
+ <linearGradient id="floor" x2="0" y2="1"><stop stop-color="#d7a679"/><stop offset="1" stop-color="#9f6a55"/></linearGradient>
+ <linearGradient id="sky" x2="0" y2="1"><stop stop-color="#9fe8ff"/><stop offset=".55" stop-color="#f6c8ff"/><stop offset="1" stop-color="#ffd28e"/></linearGradient>
+ <linearGradient id="bed" x2="0" y2="1"><stop stop-color="#ff8ec3"/><stop offset="1" stop-color="#bd68d9"/></linearGradient>
+ <linearGradient id="wood" x2="1" y2="1"><stop stop-color="#f5c59c"/><stop offset="1" stop-color="#bd7d68"/></linearGradient>
+ <radialGradient id="sun"><stop stop-color="#fffbd8" stop-opacity=".98"/><stop offset="1" stop-color="#fff0b6" stop-opacity="0"/></radialGradient>
+ <filter id="soft"><feGaussianBlur stdDeviation="12"/></filter>
+ <filter id="shadow"><feDropShadow dx="0" dy="12" stdDeviation="10" flood-color="#603e70" flood-opacity=".22"/></filter>
+</defs>
+<rect width="1408" height="1056" fill="url(#wall)"/>
+<ellipse cx="330" cy="185" rx="340" ry="250" fill="url(#sun)" filter="url(#soft)"/>
+<!-- window / Brightside City -->
+<g filter="url(#shadow)"><rect x="70" y="92" width="360" height="414" rx="28" fill="#faf7ff"/><rect x="91" y="113" width="318" height="372" rx="18" fill="url(#sky)"/>
+<circle cx="335" cy="178" r="54" fill="#fff5a9" opacity=".9"/>
+<g opacity=".75" fill="#7664ae"><path d="M91 404h45V316h42v88h31V267h53v137h35V334h42v70h70v81H91z"/><path d="M127 315l14-26 14 26zm94-48l17-35 18 35zm108 66l16-31 17 31z" fill="#61529e"/></g>
+<path d="M250 113v372M91 300h318" stroke="#fff" stroke-width="12" opacity=".92"/></g>
+<!-- curtains -->
+<path d="M54 74h115v472H40q53-74 31-160T54 74z" fill="#a779db" opacity=".88"/><path d="M445 74h-88v472h108q-42-80-22-162t2-310z" fill="#e991c3" opacity=".82"/>
+<!-- floor -->
+<path d="M0 690h1408v366H0z" fill="url(#floor)"/><path d="M0 702h1408" stroke="#fff1e1" stroke-width="8" opacity=".5"/>
+<g opacity=".15" stroke="#6c433d" stroke-width="3"><path d="M0 785h1408M0 882h1408M0 979h1408"/><path d="M190 690l-40 366M480 690l-12 366M770 690l15 366M1060 690l45 366M1320 690l74 366"/></g>
+<!-- desk left -->
+<g filter="url(#shadow)"><rect x="78" y="610" width="350" height="34" rx="14" fill="url(#wood)"/><rect x="105" y="638" width="28" height="210" rx="12" fill="#a66657"/><rect x="374" y="638" width="28" height="210" rx="12" fill="#a66657"/>
+<rect x="166" y="523" width="170" height="94" rx="18" fill="#fff6fb" stroke="#8e70c4" stroke-width="8"/><rect x="181" y="538" width="140" height="62" rx="10" fill="#9ce6ff"/><path d="M204 582l24-25 23 19 18-12 31 18z" fill="#7d68c6" opacity=".65"/><circle cx="303" cy="553" r="9" fill="#ffe066"/>
+<g transform="translate(105 542)"><rect width="42" height="72" rx="8" fill="#8cd27f"/><path d="M21 6v60M6 22h30M6 39h30" stroke="#fff" stroke-width="5" opacity=".65"/></g>
+<g transform="translate(350 532)"><path d="M34 70V29" stroke="#7f8b62" stroke-width="8"/><path d="M33 32c-24-19-30-38-9-38 17 0 20 13 9 38m2 5c21-21 39-23 40-5 1 17-20 19-40 5" fill="#75b96c"/><rect x="9" y="66" width="53" height="34" rx="13" fill="#f299bb"/></g></g>
+<!-- central rug keeps hero readable -->
+<ellipse cx="744" cy="843" rx="310" ry="116" fill="#f7e7ff" opacity=".82"/><ellipse cx="744" cy="843" rx="245" ry="83" fill="#e5cbff" opacity=".55"/><path d="M744 786l17 36 40 5-29 28 7 40-35-19-35 19 7-40-29-28 40-5z" fill="#fff0a8" opacity=".62"/>
+<!-- bed right -->
+<g filter="url(#shadow)"><rect x="1025" y="512" width="305" height="322" rx="38" fill="#8d5ba8"/><rect x="1051" y="535" width="254" height="104" rx="34" fill="#f4d8ff"/><rect x="1001" y="624" width="353" height="200" rx="45" fill="url(#bed)"/><path d="M1028 675q155 52 299 0v111h-299z" fill="#f7a6cb" opacity=".72"/><rect x="1081" y="570" width="105" height="65" rx="28" fill="#fff9ff"/><rect x="1195" y="570" width="95" height="65" rx="28" fill="#fce8ff"/><path d="M1015 812h29v102h-29zm310 0h29v102h-29z" fill="#7b4a7e"/></g>
+<!-- shelves and trophies -->
+<g filter="url(#shadow)"><rect x="1090" y="120" width="240" height="26" rx="10" fill="#b27680"/><rect x="1090" y="278" width="240" height="26" rx="10" fill="#b27680"/>
+<g transform="translate(1120 159)"><rect width="34" height="100" rx="6" fill="#6fa9e9"/><rect x="40" width="30" height="100" rx="6" fill="#f092b6"/><rect x="76" y="14" width="30" height="86" rx="6" fill="#f4c35a"/></g>
+<g transform="translate(1232 157)" fill="#ffd85e"><path d="M28 0h44v28c0 28-16 44-22 47v20H35V75C24 69 15 52 15 28V0z"/><path d="M15 10H0c1 26 9 40 25 44m47-44h15c-1 26-9 40-25 44" fill="none" stroke="#e99a22" stroke-width="7"/><rect x="24" y="94" width="52" height="14" rx="7" fill="#b76e32"/></g></g>
+<!-- side table / lamp -->
+<g filter="url(#shadow)"><rect x="907" y="639" width="95" height="117" rx="19" fill="url(#wood)"/><path d="M955 640v-87" stroke="#815a8b" stroke-width="11"/><path d="M910 553h90l-17-65h-56z" fill="#fff0a8"/><circle cx="955" cy="537" r="76" fill="#fff0a8" opacity=".14" filter="url(#soft)"/></g>
+<!-- foreground plant -->
+<g transform="translate(35 745)" filter="url(#shadow)"><rect x="35" y="145" width="105" height="102" rx="24" fill="#9b70ce"/><path d="M88 150C22 116 15 53 60 59c25 3 35 42 28 91m4-2c46-52 91-55 92-15 1 32-40 35-92 15m-2-10C48 78 64 17 102 31c29 11 11 67-12 107" fill="#75bd79"/><path d="M87 151v-83" stroke="#4e8d5c" stroke-width="8"/></g>
+<!-- sparkles -->
+<g fill="#fff8b2" opacity=".9"><path d="M486 172l6 15 15 6-15 6-6 15-6-15-15-6 15-6z"/><path d="M876 274l5 12 12 5-12 5-5 12-5-12-12-5 12-5z"/><path d="M965 149l7 17 17 7-17 7-7 17-7-17-17-7 17-7z"/><circle cx="526" cy="309" r="5"/><circle cx="861" cy="173" r="4"/></g>
+<!-- soft center readability wash -->
+<ellipse cx="745" cy="478" rx="330" ry="365" fill="#fff" opacity=".10"/>
+</svg>
