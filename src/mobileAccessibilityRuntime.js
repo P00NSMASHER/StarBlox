@@ -210,10 +210,13 @@ function scheduleScan(){
 function handleFocusIn(event){
   const target = event?.target;
   revealStoreFocusTarget(target);
-  // Chromium can finish its own focus scrolling after focusin dispatch. Recheck
-  // once in a microtask so the final visible position, not an intermediate one,
-  // satisfies the keyboard contract.
+  // Chromium may finish native focus scrolling after focusin and after queued
+  // microtasks. Recheck both immediately after microtasks and on the next paint
+  // so the final rendered position, not an intermediate one, is visible.
   queueMicrotask(() => revealStoreFocusTarget(target));
+  if(typeof requestAnimationFrame === 'function'){
+    requestAnimationFrame(() => revealStoreFocusTarget(target));
+  }
 }
 
 if(typeof document !== 'undefined'){
