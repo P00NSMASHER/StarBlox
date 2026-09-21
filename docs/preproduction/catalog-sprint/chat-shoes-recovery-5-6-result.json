@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "batchId": "chat-shoes-recovery-5-6-20260921",
+  "status": "STAGED_READY_FOR_INDEPENDENT_REVIEW",
+  "sourceHead": "e7566e8cb2b43aababd1e6ed1faaa4f90c6c8e1d",
+  "workflowRunId": "35666988858",
+  "producer": "04",
+  "independentReviewer": "02",
+  "canonicalWriter": "08",
+  "newGenerations": 2,
+  "storedCandidateCount": 2,
+  "storedOriginalCount": 2,
+  "items": [
+    {
+      "id": "shoes-5",
+      "name": "Boots",
+      "collectionId": "shoes",
+      "collectionName": "Shoes",
+      "type": "avatar",
+      "tier": 2,
+      "theme": "Candy Core",
+      "price": 125,
+      "starReq": 0,
+      "format": "JPEG",
+      "dimensions": [
+        600,
+        600
+      ],
+      "bytes": 53844,
+      "sha256": "99d2ab5d8a3414a85bb41f6d6917fa133c58abc2cee0dbe2d63f0b511572961f",
+      "gitBlobSha": "eaac23dcecf94ac3875adb61017f2436cf4d1d0c",
+      "producer": "04",
+      "independentReviewer": "02",
+      "assetId": "urn:aaid:sc:US:79816d31-2e7b-45e5-8b43-5691fded8309",
+      "repositoryPath": "public/assets/catalog/shoes-5-w04-v2.jpg",
+      "assetPath": "/assets/catalog/shoes-5-w04-v2.jpg",
+      "status": "READY_FOR_REVIEW",
+      "readback": "PASS",
+      "producerPixelInspection": "PASS \u2014 paired three-quarter chunky ankle boots with layered tread soles, stitched pastel synthetic-leather panels, padded collars, laces/eyelets and dimensional candy-like translucent accents; no text/logo/UI.",
+      "transformation": "None: exact Adobe rendition bytes copied",
+      "original": {
+        "format": "PNG",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "bytes": 970067,
+        "sha256": "32fb8fe1a73375c439ee7aad18b71b55c1382a80f46ef4ddf1884e3961a3862a",
+        "gitBlobSha": "215628c6b3ecd31e5d4821df0e3c352b40b6c1b0",
+        "repositoryPath": "docs/preproduction/catalog-sprint/recovered-originals/shoes-5-6-20260921/shoes-5-79816d31-2e7b-45e5-8b43-5691fded8309.png"
+      }
+    },
+    {
+      "id": "shoes-6",
+      "name": "Runners",
+      "collectionId": "shoes",
+      "collectionName": "Shoes",
+      "type": "avatar",
+      "tier": 2,
+      "theme": "Adventure Club",
+      "price": 175,
+      "starReq": 0,
+      "format": "JPEG",
+      "dimensions": [
+        600,
+        600
+      ],
+      "bytes": 59428,
+      "sha256": "48f855e77b0879668ea688749d808206d5e01494971ba8153c00559a07291fc4",
+      "gitBlobSha": "2622d23d9a24e689c669292671c531a91b355221",
+      "producer": "04",
+      "independentReviewer": "02",
+      "assetId": "urn:aaid:sc:US:1f5493d8-3baa-4a8f-a0fa-3691d2660566",
+      "repositoryPath": "public/assets/catalog/shoes-6-w04-v2.jpg",
+      "assetPath": "/assets/catalog/shoes-6-w04-v2.jpg",
+      "status": "READY_FOR_REVIEW",
+      "readback": "PASS",
+      "producerPixelInspection": "PASS \u2014 paired three-quarter trail runners with breathable mesh, layered cushioned/tread soles, reinforced trail panels, real laces and subtle compass/map geometry; no text/logo/UI.",
+      "transformation": "None: exact Adobe rendition bytes copied",
+      "original": {
+        "format": "PNG",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "bytes": 1156560,
+        "sha256": "338005bb09f9617c358cf9117cec3b38104bf0c674d16041c8a54828bf6182fb",
+        "gitBlobSha": "f149984e0d6767f9ce5486947ed41359c0623d0e",
+        "repositoryPath": "docs/preproduction/catalog-sprint/recovered-originals/shoes-5-6-20260921/shoes-6-1f5493d8-3baa-4a8f-a0fa-3691d2660566.png"
+      }
+    }
+  ],
+  "checks": {
+    "metadata": "PASS_2_OF_2",
+    "exactByteReadback": "PASS_4_OF_4",
+    "candidateDecode": "PASS_2_OF_2",
+    "independentVisualReview": "PENDING_02"
+  },
+  "freeze": {
+    "replitTouched": false,
+    "flootTouched": false,
+    "mainTouched": false,
+    "canonicalMappingsTouched": false,
+    "gameplayChanged": false
+  }
+}
