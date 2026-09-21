@@ -1,26 +1,56 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "reviewer": "02",
   "partition": ["shoes", "backgear", "handgear", "seating"],
-  "inspectedSourceHead": "0323e898669744ef381093a170d97d29c163bbf7",
-  "evidenceCommit": "6d7b0595d51a3d987e74e8b0b55eafced50123cb",
-  "reviewedAt": "2026-09-21T19:34:00Z",
-  "evidence": {
-    "contactSheetPath": "docs/preproduction/catalog-sprint/reviews/02-seating-contact-sheet.svg",
-    "contactSheetCommit": "6d7b0595d51a3d987e74e8b0b55eafced50123cb",
-    "localRenderer": "CairoSVG 2.8.2 + Pillow 12.3.0",
-    "renderScales": ["160x160 card-scale", "400x400 detail-scale"],
-    "localCardContactSheetSha256": "fcbf299faf39c423d6b5549588d42c9a304fb507bacc7d2b7da3646652ad07c3",
-    "localDetailContactSheetSha256": "47e6192a67ff2bfc96211517aced4fb016d5aa929c22d13952d6f8604ddb094f",
-    "notes": "Independent pixel inspection of the exact Git blob versions. All 11 render cleanly and are distinct, but all fall materially short of the premium dimensional screenshot target because they read as flat vector icons with limited material depth, three-quarter perspective and coherent scene lighting."
+  "inspectedSourceHead": "b1e186581544580da5179affa0969ae4f102c29d",
+  "historyRefs": [
+    {
+      "type": "prior-review-shard",
+      "blobSha": "619fd671e769c4643491e92be1302c7909bb9d05",
+      "evidenceCommit": "6d7b0595d51a3d987e74e8b0b55eafced50123cb",
+      "scope": "seating-2..12"
+    }
+  ],
+  "evidenceSets": {
+    "seatingExactPixels": {
+      "contactSheetPath": "docs/preproduction/catalog-sprint/reviews/02-seating-contact-sheet.svg",
+      "contactSheetCommit": "6d7b0595d51a3d987e74e8b0b55eafced50123cb",
+      "renderScales": ["160x160 card-scale", "400x400 detail-scale"],
+      "localCardContactSheetSha256": "fcbf299faf39c423d6b5549588d42c9a304fb507bacc7d2b7da3646652ad07c3",
+      "localDetailContactSheetSha256": "47e6192a67ff2bfc96211517aced4fb016d5aa929c22d13952d6f8604ddb094f"
+    },
+    "shoesStorePixels": {
+      "workflowRunId": 35639821618,
+      "artifactId": 10658055447,
+      "artifactName": "catalog-mobile-qa",
+      "artifactDigest": "sha256:b7aa40c7c0af6602607b06c284850d404ba89a85f2e242941361e2a8ee168230",
+      "runtimeHead": "4d8bb9671b8c394db89d994de75ee4af3ccd578a",
+      "screenshots": [
+        {
+          "file": "store-desktop-1408x1056-shoes.png",
+          "sha256": "9233d30280d242ed3ef2857d1ca874e445b025bd7fcfe8cd95e85a8d360682b1",
+          "coverage": "All 12 Shoes visible in the actual Store grid; shoes-1 is also selected in the right-side item/try-on context."
+        },
+        {
+          "file": "store-phone-390x844-shoes.png",
+          "sha256": "b33532dba43498a2336e13beda5413e278c1811eae7baaa89b1177c93bd0b936",
+          "coverage": "shoes-1 through shoes-6 visible in the actual two-column phone Store grid."
+        }
+      ],
+      "assetContinuity": "PASS — GitHub compare from artifact runtime head 4d8bb9671b8c394db89d994de75ee4af3ccd578a through b1e186581544580da5179affa0969ae4f102c29d contains no public/assets/catalog/shoes-*.svg changes, so the rendered screenshots correspond to the current exact shoe blob hashes recorded below.",
+      "inspectionLimit": "All 12 current versions already fail the premium dimensional target at actual Store-card scale. No ACCEPT decision depends on unavailable per-item selected-detail screenshots; shoes-1 additionally has selected/try-on evidence."
+    }
   },
   "summary": {
-    "reviewed": 11,
+    "reviewed": 23,
     "accept": 0,
-    "rework": 11,
+    "rework": 23,
     "blocked": 0,
+    "reviewedThisPass": 12,
+    "newShoeRework": 12,
+    "remainingUnreviewed": 25,
     "duplicateVisualConflicts": 0,
-    "nextOwner": "15 to route exact seating REWORK defects back to CHAT producer; 08 must not integrate these hashes as accepted final art"
+    "nextOwner": "15 should route shoes-1..12 replacement work to a producer other than reviewer 02 while preserving these exact hashes for comparison. 08 must not promote these shoe hashes. Reviewer 02 should continue with backgear, then handgear, unless replacement seating/shoes reach READY_FOR_REVIEW first."
   },
   "reviews": [
     {
@@ -165,6 +195,174 @@
       "evidenceRefs": ["docs/preproduction/catalog-sprint/reviews/02-seating-contact-sheet.svg@6d7b0595d51a3d987e74e8b0b55eafced50123cb"],
       "reason": "Throne identity and Sunny Pop colors are clear, but this Tier-5 asset still uses the same flat icon language as lower tiers. It lacks luxe material richness, dimensional carving/upholstery, depth, lighting spectacle and a sufficiently elevated final-tier silhouette/presentation.",
       "checks": {"identity":"PASS","themeTier":"FAIL","silhouette":"PASS","materialLighting":"FAIL","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
+    },
+    {
+      "itemId": "shoes-1",
+      "name": "Sneakers",
+      "assetPath": "/assets/catalog/shoes-1.svg",
+      "assetHash": "d059b8b3650f8b638384c95bb3d23fecf24a2c41",
+      "hashAlgorithm": "git-blob-sha1",
+      "sourceHead": "b1e186581544580da5179affa0969ae4f102c29d",
+      "producer": "legacy-pre-sprint-repository-owned-art",
+      "decision": "REWORK",
+      "reviewedAt": "2026-09-21T20:31:00Z",
+      "evidenceRefs": ["artifact:10658055447/store-desktop-1408x1056-shoes.png#sha256=9233d30280d242ed3ef2857d1ca874e445b025bd7fcfe8cd95e85a8d360682b1", "artifact:10658055447/store-phone-390x844-shoes.png#sha256=b33532dba43498a2336e13beda5413e278c1811eae7baaa89b1177c93bd0b936"],
+      "reason": "Sneaker identity is clear and readable, but the pair is a flat side-view vector treatment with little sole thickness, panel/lace depth, textile response or three-quarter collectible lighting. Aqua Wave is mostly palette rather than material storytelling; selected-item pixels also remain below the dimensional target.",
+      "checks": {"identity":"PASS","themeTier":"FAIL","silhouette":"PASS","materialLighting":"FAIL","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
+    },
+    {
+      "itemId": "shoes-2",
+      "name": "Slip-Ons",
+      "assetPath": "/assets/catalog/shoes-2.svg",
+      "assetHash": "53a2a184e6ee57bb2e747e064cd13decd2e1b2f8",
+      "hashAlgorithm": "git-blob-sha1",
+      "sourceHead": "b1e186581544580da5179affa0969ae4f102c29d",
+      "producer": "legacy-pre-sprint-repository-owned-art",
+      "decision": "REWORK",
+      "reviewedAt": "2026-09-21T20:31:00Z",
+      "evidenceRefs": ["artifact:10658055447/store-desktop-1408x1056-shoes.png#sha256=9233d30280d242ed3ef2857d1ca874e445b025bd7fcfe8cd95e85a8d360682b1", "artifact:10658055447/store-phone-390x844-shoes.png#sha256=b33532dba43498a2336e13beda5413e278c1811eae7baaa89b1177c93bd0b936"],
+      "reason": "Slip-on identity survives card size, but the shoe is a shallow flat template with tiny graphic accents. Art Attack is decorative rather than materially expressed, and upper/sole thickness, texture and directional lighting are insufficient for premium collectible art.",
+      "checks": {"identity":"PASS","themeTier":"FAIL","silhouette":"PASS","materialLighting":"FAIL","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
+    },
+    {
+      "itemId": "shoes-3",
+      "name": "High-Tops",
+      "assetPath": "/assets/catalog/shoes-3.svg",
+      "assetHash": "1bb3c75805a469cd3d6e83cfa0b931e2a930dfdc",
+      "hashAlgorithm": "git-blob-sha1",
+      "sourceHead": "b1e186581544580da5179affa0969ae4f102c29d",
+      "producer": "legacy-pre-sprint-repository-owned-art",
+      "decision": "REWORK",
+      "reviewedAt": "2026-09-21T20:31:00Z",
+      "evidenceRefs": ["artifact:10658055447/store-desktop-1408x1056-shoes.png#sha256=9233d30280d242ed3ef2857d1ca874e445b025bd7fcfe8cd95e85a8d360682b1", "artifact:10658055447/store-phone-390x844-shoes.png#sha256=b33532dba43498a2336e13beda5413e278c1811eae7baaa89b1177c93bd0b936"],
+      "reason": "Tall-shoe identity is recognizable, but the purple uppers read like flat rectangular icons. Star Luxe lacks convincing eyelets/laces/panel construction, sole depth, premium material response and dimensional light.",
+      "checks": {"identity":"PASS","themeTier":"FAIL","silhouette":"PASS","materialLighting":"FAIL","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
+    },
+    {
+      "itemId": "shoes-4",
+      "name": "Bow Shoes",
+      "assetPath": "/assets/catalog/shoes-4.svg",
+      "assetHash": "873f4a2b82cce29054dcdb455c8cb2b815bc0a19",
+      "hashAlgorithm": "git-blob-sha1",
+      "sourceHead": "b1e186581544580da5179affa0969ae4f102c29d",
+      "producer": "legacy-pre-sprint-repository-owned-art",
+      "decision": "REWORK",
+      "reviewedAt": "2026-09-21T20:31:00Z",
+      "evidenceRefs": ["artifact:10658055447/store-desktop-1408x1056-shoes.png#sha256=9233d30280d242ed3ef2857d1ca874e445b025bd7fcfe8cd95e85a8d360682b1", "artifact:10658055447/store-phone-390x844-shoes.png#sha256=b33532dba43498a2336e13beda5413e278c1811eae7baaa89b1177c93bd0b936"],
+      "reason": "Bow identity and cyan/pink accent are readable, but the shoes are still flat outline-and-fill shapes. Midnight Neon appears mainly as color rather than believable luminous material, bevels or three-quarter construction.",
+      "checks": {"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"FAIL","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
+    },
+    {
+      "itemId": "shoes-5",
+      "name": "Boots",
+      "assetPath": "/assets/catalog/shoes-5.svg",
+      "assetHash": "c88195db98bf771e77d155b37c497afc59d89baa",
+      "hashAlgorithm": "git-blob-sha1",
+      "sourceHead": "b1e186581544580da5179affa0969ae4f102c29d",
+      "producer": "legacy-pre-sprint-repository-owned-art",
+      "decision": "REWORK",
+      "reviewedAt": "2026-09-21T20:31:00Z",
+      "evidenceRefs": ["artifact:10658055447/store-desktop-1408x1056-shoes.png#sha256=9233d30280d242ed3ef2857d1ca874e445b025bd7fcfe8cd95e85a8d360682b1", "artifact:10658055447/store-phone-390x844-shoes.png#sha256=b33532dba43498a2336e13beda5413e278c1811eae7baaa89b1177c93bd0b936"],
+      "reason": "Boot identity is clear but the pair reads as two flat frontal pink blocks. Shaft, sole, seams, toe volume and Candy Core material/lighting depth are too simple for Tier 2 screenshot quality.",
+      "checks": {"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"FAIL","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
+    },
+    {
+      "itemId": "shoes-6",
+      "name": "Runners",
+      "assetPath": "/assets/catalog/shoes-6.svg",
+      "assetHash": "1e2d34581d0ac30fc1042b4123aed0475e7741bf",
+      "hashAlgorithm": "git-blob-sha1",
+      "sourceHead": "b1e186581544580da5179affa0969ae4f102c29d",
+      "producer": "legacy-pre-sprint-repository-owned-art",
+      "decision": "REWORK",
+      "reviewedAt": "2026-09-21T20:31:00Z",
+      "evidenceRefs": ["artifact:10658055447/store-desktop-1408x1056-shoes.png#sha256=9233d30280d242ed3ef2857d1ca874e445b025bd7fcfe8cd95e85a8d360682b1", "artifact:10658055447/store-phone-390x844-shoes.png#sha256=b33532dba43498a2336e13beda5413e278c1811eae7baaa89b1177c93bd0b936"],
+      "reason": "Runner identity is readable but too close to the same flat low-shoe language as nearby cards. Adventure Club is reduced to small graphics, with little performance-panel construction, layered sole geometry or directional material lighting.",
+      "checks": {"identity":"PASS","themeTier":"FAIL","silhouette":"PASS","materialLighting":"FAIL","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
+    },
+    {
+      "itemId": "shoes-7",
+      "name": "Chunky Sneakers",
+      "assetPath": "/assets/catalog/shoes-7.svg",
+      "assetHash": "dc331c5657b26d8351b1edc1173f3d3dae4ab3e6",
+      "hashAlgorithm": "git-blob-sha1",
+      "sourceHead": "b1e186581544580da5179affa0969ae4f102c29d",
+      "producer": "legacy-pre-sprint-repository-owned-art",
+      "decision": "REWORK",
+      "reviewedAt": "2026-09-21T20:31:00Z",
+      "evidenceRefs": ["artifact:10658055447/store-desktop-1408x1056-shoes.png#sha256=9233d30280d242ed3ef2857d1ca874e445b025bd7fcfe8cd95e85a8d360682b1"],
+      "reason": "Visible beneath the locked-card treatment, the silhouette still reads as a low flat sneaker rather than a genuinely chunky Tier-3 construction. Cloud Pop is weakly expressed; exaggerated sole volume, plush/material layering and dimensional lighting are insufficient.",
+      "checks": {"identity":"FAIL","themeTier":"FAIL","silhouette":"FAIL","materialLighting":"FAIL","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
+    },
+    {
+      "itemId": "shoes-8",
+      "name": "Trainers",
+      "assetPath": "/assets/catalog/shoes-8.svg",
+      "assetHash": "778164f864532b3cf81e62e31ec1e708e0830237",
+      "hashAlgorithm": "git-blob-sha1",
+      "sourceHead": "b1e186581544580da5179affa0969ae4f102c29d",
+      "producer": "legacy-pre-sprint-repository-owned-art",
+      "decision": "REWORK",
+      "reviewedAt": "2026-09-21T20:31:00Z",
+      "evidenceRefs": ["artifact:10658055447/store-desktop-1408x1056-shoes.png#sha256=9233d30280d242ed3ef2857d1ca874e445b025bd7fcfe8cd95e85a8d360682b1"],
+      "reason": "The card remains a shallow dark low-shoe icon; Pixel Party comes through mainly as small panel accents. Tier-3 paneling, sole construction, surface variation and light/material depth are not premium enough.",
+      "checks": {"identity":"PASS","themeTier":"FAIL","silhouette":"PASS","materialLighting":"FAIL","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
+    },
+    {
+      "itemId": "shoes-9",
+      "name": "Paint Kicks",
+      "assetPath": "/assets/catalog/shoes-9.svg",
+      "assetHash": "3f4c2422210e53ccb047ea32b43fd8e5ef96c0a9",
+      "hashAlgorithm": "git-blob-sha1",
+      "sourceHead": "b1e186581544580da5179affa0969ae4f102c29d",
+      "producer": "legacy-pre-sprint-repository-owned-art",
+      "decision": "REWORK",
+      "reviewedAt": "2026-09-21T20:31:00Z",
+      "evidenceRefs": ["artifact:10658055447/store-desktop-1408x1056-shoes.png#sha256=9233d30280d242ed3ef2857d1ca874e445b025bd7fcfe8cd95e85a8d360682b1"],
+      "reason": "Paint-kick identity is only weakly conveyed through tiny colored dots on the same flat low-shoe template. Berry Blast/art surface storytelling, sole depth, layered panels and Tier-3 material response need substantial improvement.",
+      "checks": {"identity":"PASS","themeTier":"FAIL","silhouette":"PASS","materialLighting":"FAIL","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
+    },
+    {
+      "itemId": "shoes-10",
+      "name": "Light Shoes",
+      "assetPath": "/assets/catalog/shoes-10.svg",
+      "assetHash": "079a455f6a50f34ad8b139546fd1c522b9877ac3",
+      "hashAlgorithm": "git-blob-sha1",
+      "sourceHead": "b1e186581544580da5179affa0969ae4f102c29d",
+      "producer": "legacy-pre-sprint-repository-owned-art",
+      "decision": "REWORK",
+      "reviewedAt": "2026-09-21T20:31:00Z",
+      "evidenceRefs": ["artifact:10658055447/store-desktop-1408x1056-shoes.png#sha256=9233d30280d242ed3ef2857d1ca874e445b025bd7fcfe8cd95e85a8d360682b1"],
+      "reason": "The Tier-4 card does not visibly deliver the promised Light/Garden Glow spectacle; it remains a dark flat pair beneath the lock overlay. Premium construction, luminous depth, differentiated materials and hero lighting are missing.",
+      "checks": {"identity":"PASS","themeTier":"FAIL","silhouette":"PASS","materialLighting":"FAIL","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
+    },
+    {
+      "itemId": "shoes-11",
+      "name": "Platform Sneakers",
+      "assetPath": "/assets/catalog/shoes-11.svg",
+      "assetHash": "fa2bf50819a6a359fe7bc75afc46ca12a75f1013",
+      "hashAlgorithm": "git-blob-sha1",
+      "sourceHead": "b1e186581544580da5179affa0969ae4f102c29d",
+      "producer": "legacy-pre-sprint-repository-owned-art",
+      "decision": "REWORK",
+      "reviewedAt": "2026-09-21T20:31:00Z",
+      "evidenceRefs": ["artifact:10658055447/store-desktop-1408x1056-shoes.png#sha256=9233d30280d242ed3ef2857d1ca874e445b025bd7fcfe8cd95e85a8d360682b1"],
+      "reason": "Platform identity is not strongly differentiated at card scale: the shoe remains shallow and icon-like with limited sole mass. Galaxy Glow reads mostly as palette, and Tier-4 material richness/lighting progression is insufficient.",
+      "checks": {"identity":"FAIL","themeTier":"FAIL","silhouette":"FAIL","materialLighting":"FAIL","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
+    },
+    {
+      "itemId": "shoes-12",
+      "name": "Star Boots",
+      "assetPath": "/assets/catalog/shoes-12.svg",
+      "assetHash": "c1e373be9f3c62dc07f13b321fba4be539749060",
+      "hashAlgorithm": "git-blob-sha1",
+      "sourceHead": "b1e186581544580da5179affa0969ae4f102c29d",
+      "producer": "legacy-pre-sprint-repository-owned-art",
+      "decision": "REWORK",
+      "reviewedAt": "2026-09-21T20:31:00Z",
+      "evidenceRefs": ["artifact:10658055447/store-desktop-1408x1056-shoes.png#sha256=9233d30280d242ed3ef2857d1ca874e445b025bd7fcfe8cd95e85a8d360682b1"],
+      "reason": "Star-boot identity is recognizable, but the Tier-5 pair remains flat tan shapes with decorative stars. It lacks luxe construction, trim/hardware detail, material depth and controlled hero lighting expected of the final tier.",
+      "checks": {"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"FAIL","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
     }
   ]
 }
