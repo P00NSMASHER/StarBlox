@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "incident": "LIGHTING_RECOVERY_SHARED_RENDER_FIXTURE_20260921",
+  "observedSourceHead": "3ea71d51c2f3a0946cceda9979065c3bf476be4c",
+  "workflowRunId": 35665398592,
+  "jobId": 106549924161,
+  "artifactId": 10669425873,
+  "artifactSha256": "9baa763a5bd00296e29d6f53ea738bedc180c4ad0f72f7f19cab65a4ac8f320f",
+  "scope": "Existing shared staged-art fixture; not a production game crash",
+  "findings": [
+    {
+      "id": "STAGED_FIXTURE_RAW_APP_ENTRYPOINT",
+      "owner": "14",
+      "status": "OPEN_SHARED_FIXTURE",
+      "evidence": "Both contact and detail pages navigate to http://127.0.0.1:4174 before setContent. The plain repository-root server returns the actual index.html, whose Vite main.jsx script has application/octet-stream MIME type. A real module-load console error is recorded for otherwise decoded images.",
+      "observedEffect": "All four recovered Lighting files returned 200, decoded at 600x600 with opaqueFraction 1 and were screenshot-captured, but the preexisting module error made the strict per-image gate fail.",
+      "narrowRepair": "Use an inert same-origin fixture document rather than root app index.html. Keep image/page/request error assertions enabled; do not suppress this error by string matching. Rerun the actual shared fixture after an owner-approved change.",
+      "interactiveAction": "No shared renderer/runtime changes. Added bounded image-only verification for exactly the four recovered hashes, leaving the original shared failure recorded separately."
+    },
+    {
+      "id": "STAGED_DESK_TRANSPARENT_PIXELS",
+      "owner": "03",
+      "reviewer": "05",
+      "status": "OPEN_VERIFY_CURRENT_VERSIONS_BEFORE_REPAIR",
+      "evidence": "Existing staged desk WebP files decoded at 512x512 but all 48x48 alpha probe samples were transparent, opaqueFraction 0. These are unrelated to Lighting recovery and were not modified by CHAT.",
+      "versions": [
+        {"id":"desks-2","path":"public/assets/catalog/desks-2-w03-v1.webp","gitBlobSha":"39820a7bb86da9663a886ec2c160aac72257c698"},
+        {"id":"desks-3","path":"public/assets/catalog/desks-3-w03-v1.webp","gitBlobSha":"51d9862a76f6d49a5737b37083758940945aa0b5"},
+        {"id":"desks-4","path":"public/assets/catalog/desks-4-w03-v1.webp","gitBlobSha":"c6e196f82b5c397695ca1675a1425457b32e840a"}
+      ],
+      "narrowRepair": "Check the actual latest bytes and full-resolution sources. Recover or replace these defective derivatives only if the same invalid versions remain current. Never treat valid file signatures/dimensions as visible final artwork. Preserve failed hashes and do not lower the alpha/nonblank assertion."
+    }
+  ],
+  "separateIsolatedVerification": {
+    "script": "scripts/verifyLightingRecovery20260921.mjs",
+    "workflowRunId": 35665938359,
+    "scope": "lighting-5..8 recovered hashes only",
+    "evidencePath": "docs/preproduction/catalog-sprint/chat-lighting-recovery-result.json isolatedVerification",
+    "status": "SEE_EXECUTED_REPORT_NOT_INFERRED_FROM_SCRIPT_EXISTENCE"
+  },
+  "safety": "No reference images, game runtime, canonical mapping, curriculum, prices, unlocks, player saves or tests were altered to hide a defect. Replit, Floot and main were not touched."
+}
