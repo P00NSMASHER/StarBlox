@@ -1,63 +1,64 @@
 # Catalog Sprint — Workstream 13 Persistence / Economy QA
 
-STATUS: **AUTOMATED GATE PASS / INDEXEDDB HYDRATION RACE FIXED / LIVE TRANSACTION STRESS STILL BLOCKED**
+STATUS: **DURABLE PURCHASE + QUEST RELOAD SEMANTICS PASS IN CI / REAL-BROWSER TRANSACTION STRESS BLOCKED**
 
 Branch: `screenshot-match-preproduction`  
-Audited branch head before report write: `42ca9a098f4ad8e1e8772ae923788a9c93ea8d4d`  
-CI-tested persistence head: `c5f738a4243fabdc89784e3bbf8e61cd01427474`  
+Audited branch head before report write: `3cc4c44cc5a310fcf23ad9d88cfed856ea0f20c7`  
+CI-tested Workstream-13 head: `1ce91011311dff6ea9b7b8119010d84f0466e42f`  
 Replit/Floot: **untouched**  
 `main`: **not merged or modified**  
 Real player data: **not used or modified**
 
-## Material fix in this pass
+## What changed since the prior report
 
-A real recovery race existed when `starblox-save-v2` was absent but IndexedDB already held recoverable progress. On the first render, `persistSnapshot()` synchronously wrote the default render into localStorage while IndexedDB hydration was still asynchronous. If the page refreshed during that window, the next boot could see the new local default first and never restore the older IndexedDB progress.
+The two shared-App source gaps reported previously have now been implemented by the coordinated branch work. `App.jsx` routes permanent purchases through `applyPermanentPurchase(current,item)` inside the functional save updater, and final Quest completion is applied atomically during the final correct-answer save update with an active/completed Quest receipt. The 950 ms timer now controls only UI transition; it is no longer the point at which the +30 Coins/+30 XP/Quest/Bond/daily completion state is created.
 
-`src/storage.js` now treats missing localStorage as a **recovery state** until IndexedDB has been checked. If a backup exists, that preserved backup is mirrored into localStorage. Only a genuinely empty IndexedDB establishes the new default in both stores. IndexedDB/open failure falls back to localStorage rather than dropping the save. This is additive and backward-compatible: no save schema reset, currency rebalance, catalog-ID pruning, or migration of real player records.
+`persistenceTransactions.js` revalidates ownership, Stars and Coins from the current transaction state, records a durable purchase receipt, and can restore ownership from a receipt without charging twice. Storage sanitization preserves the purchase/Quest receipt fields. The existing IndexedDB hydration fix remains intact: a missing current localStorage key stays in recovery state until the backup is checked, so a default render cannot strand an older backup.
 
-A deterministic regression was added to `src/storage.test.js`. It starts with no current localStorage key plus an existing IndexedDB backup containing Coins, Stars, XP, unknown/no-art ownership, equipped gear, room placement, Dream Goal and Buddy Bond; the test verifies that the initial default render cannot mask or overwrite that backup during hydration.
+## New targeted evidence this pass
 
-## Exact test/build evidence
+Added `src/persistenceEconomyIntegration.test.js` at commit `1ce91011311dff6ea9b7b8119010d84f0466e42f`. These are synthetic jsdom/localStorage integration tests, not claimed as live-browser timing proof.
 
-GitHub Actions run `35647722275`, job `106492177317`, on `c5f738a4243fabdc89784e3bbf8e61cd01427474`:
+The three new cases verify:
 
-- **20/20 test files PASS**;
-- **86/86 tests PASS**;
-- new IndexedDB hydration regression: **PASS**;
-- existing storage recovery / unknown-no-art ownership tests: **PASS**;
-- rapid purchase rerender guard: **PASS**;
-- rapid room toggle guard: **PASS**;
-- rapid Quest-answer guard: **PASS**;
-- reward/evidence tests: **PASS**;
-- production Vite build: **PASS**, 1,612 modules transformed.
+1. a permanent purchase persists ownership + its durable receipt through reload and replay cannot subtract Coins or increase Star Worth/daily purchase twice;
+2. a receipt-only partial save restores ownership for a synthetic unknown/no-art item without a second charge and preserves that same ID as the Dream Goal;
+3. final Quest completion persists through reload and the same completion receipt cannot replay Coins, XP, Quest count, Buddy Bond or the daily Quest count, while Stars, Star Worth, ownership, equipment, room placement, mastery, transfer evidence and district progress remain unchanged.
 
-The two commits after the tested head that were present at audit time changed only catalog release-QA documentation and Workstream 12 documentation; no persistence/economy runtime changed, so the test evidence remains applicable to the audited head.
+This directly verifies the state semantics that had only been source-reviewed in the prior report. Missing art remains presentation-only and never prunes persisted IDs.
 
-## Preserved invariants
+## Exact CI evidence
 
-Automated evidence continues to preserve Coins, Stars, XP, Star Worth/Home progress, owned inventory, exact equipped IDs, room placement, Dream Goal, mastery/evidence, Buddy/Bond and district progress. Unknown/no-art owned IDs remain valid state and are never removed because an image is missing. The catalog is presentation; ownership is state.
+GitHub Actions run `35652200670`, job `106507027345`, exact head `1ce91011311dff6ea9b7b8119010d84f0466e42f`:
 
-Reward policy remains unchanged: first wrong is modest/non-punitive, repeated wrong retry earns nothing, assisted correct cannot create Coins/Mastery Star/transfer evidence, and Mastery Stars remain independent-success-only.
+- **22/22 test files PASS**;
+- **98/98 tests PASS**;
+- new reload transaction cases: **3/3 PASS**;
+- durable transaction helper cases: **5/5 PASS**;
+- storage recovery/sanitization cases: **7/7 PASS**;
+- rapid purchase rerender, room toggle and Quest double-tap guards: **PASS**;
+- learning reward/evidence policy: **PASS**;
+- 192-item Store invariant: **PASS**;
+- production Vite build: **PASS**, 1,613 modules transformed;
+- output: CSS 167.39 kB / 35.69 kB gzip; JS 304.00 kB / 93.28 kB gzip.
+
+The only two commits after the tested head at audit time changed `reviews/02.json` and `reviews/05.json`; no App, storage, transaction, reward or catalog-runtime code changed, so the persistence evidence remains applicable to the audited head.
+
+## Protected-state result
+
+Automated evidence now covers preservation of Coins, Stars, XP, Star Worth/Home progress, permanent owned IDs including unknown/no-art IDs, equipped gear, room placement, Dream Goal, mastery/evidence, Buddy/Bond and district progress through sanitization and the new purchase/Quest persist-reload tests. Purchase receipts prevent recharge after a persisted transaction; Quest completion receipts prevent reward replay after a persisted completion. Wrong/retry/assisted reward semantics remain governed by Workstream 12’s tested policy.
 
 ## Real-browser attempt
 
-A real-browser persistence stress run could not be executed in this pass: the authorized remote desktop/browser device exposed to this automation was offline. Current GitHub workflows provide CI and visual/catalog browser QA, but there is no Workstream-13-owned live purchase/reload/IndexedDB transaction flow that can be invoked without a shared workflow change, which must be coordinated through Workstream 15.
+I retried the authorized executable-browser path. Remote Desktop Commander reports the sole authorized device `PAAM-L044` **offline** (last seen September 18, 2026). Browser Use cannot reach the branch-local Vite preview. Therefore purchase/equip/place/reload, multi-tab replay, refresh around final Quest transition, malformed-import behavior and live localStorage-loss/IndexedDB recovery are still **BLOCKED / NOT TESTED in a real browser** rather than being inferred from jsdom or screenshots.
 
-This is therefore **BLOCKED / NOT TESTED**, not silently promoted to PASS. The deterministic storage-level race itself is fixed and regression-tested; the equivalent live browser delete-localStorage/reload scenario still belongs in release QA.
+The previous two *source* release blockers are therefore closed at the implementation + automated reload level. The remaining Workstream-13 release blocker is a narrower one: **real-browser transaction/recovery timing evidence**.
 
-## Two remaining release blockers found in the shared App transaction path
+## Handoff
 
-1. **Durable purchase idempotency is not proven.** `buy()` checks owned state, Stars and Coins before calling `setSave()`, but the functional updater itself subtracts Coins/adds Star Worth/appends ownership without rechecking the current state or a durable purchase receipt. `purchaseGuardRuntime.js` protects normal rapid DOM clicks—even through a React button replacement—but a UI capture debounce is not durable exactly-once transaction semantics for non-DOM replay/concurrent contexts. This requires a shared `App.jsx` transaction change coordinated by Workstream 15, then Workstream 13 should add the regression and real-browser replay test.
+**15:** update control-state persistence evidence: durable purchase idempotency and final Quest completion are implemented and CI-proven; retain only the real-browser timing/stress blocker.  
+**14/15:** expose/reuse an approved branch-local executable Chromium harness when available; do not substitute visual screenshots for persistence timing.  
+**13 next pass:** when such a path is available, run isolated synthetic purchase/equip/place/reload, final-Quest refresh, localStorage-loss/IndexedDB restore and multi-tab replay cases. Add code only if one of those real-browser cases reveals a concrete gap.  
+**08:** catalog art integration may continue; never filter `owned`, `equipped`, `roomDecor` or `dreamGoalId` against image availability.
 
-2. **Quest-completion refresh is not exactly-once.** The final correct answer schedules `advanceQuestion()` for 950 ms later; `finishQuest()` then adds the +30 Coins/+30 XP completion reward, Quest completion counter, Buddy Bond and daily Quest counter. Quest UI progress is not persisted. A refresh before that timer can therefore lose the completion award/record instead of guaranteeing one durable completion. This also requires a shared `App.jsx` completion-receipt/state-transition change through Workstream 15, followed by Workstream 13 regression/browser verification.
-
-These are release blockers until reproduced/fixed with the shared owner; they do not justify speculative schema resets or balance changes.
-
-## Next handoff
-
-- **15:** coordinate the smallest shared `App.jsx` changes for atomic purchase recheck/receipt semantics and durable exactly-once final Quest completion; do not alter prices/reward amounts.
-- **13:** after that wiring lands, add only the corresponding regression tests and exercise purchase/equip/place/reload plus final-Quest refresh in an isolated synthetic browser profile.
-- **14/15:** provide or authorize the existing branch-local browser harness path for persistence stress without Replit or `main`.
-- **08:** catalog art integration may continue; missing/replaced images must never filter `owned`, `equipped`, `roomDecor` or `dreamGoalId`.
-
-No Replit update/publish, `main` merge, paid-service change, producer-art edit, or canonical catalog-manifest edit was performed.
+No Replit update/publish, `main` merge, paid-service change, producer-art edit, canonical catalog-manifest edit or real-player mutation was performed.
