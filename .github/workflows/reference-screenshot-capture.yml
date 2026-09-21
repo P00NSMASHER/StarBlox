@@ -1,0 +1,82 @@
+name: StarBlox Reference Screenshot Capture
+
+on:
+  push:
+    branches:
+      - screenshot-match-preproduction
+    paths:
+      - 'scripts/referenceScreenshotCapture.mjs'
+      - '.github/workflows/reference-screenshot-capture.yml'
+      - 'docs/preproduction/reference-screenshots/**'
+  workflow_dispatch:
+
+concurrency:
+  group: starblox-reference-screenshot-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  deterministic-capture:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Use Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install project dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Install capture-only QA dependencies without changing package metadata
+        run: |
+          npm install --no-save --no-audit --no-fund playwright@1.55.0 @axe-core/playwright@4.10.2 pixelmatch@7.1.0 pngjs@7.0.0
+          npx playwright install --with-deps chromium
+
+      - name: Build production bundle
+        run: npm run build
+
+      - name: Start local production preview
+        run: |
+          nohup npx vite preview --host 127.0.0.1 --port 4173 > /tmp/starblox-reference-preview.log 2>&1 &
+          echo $! > /tmp/starblox-reference-preview.pid
+          for i in $(seq 1 40); do
+            if curl -fsS http://127.0.0.1:4173/ >/dev/null; then
+              exit 0
+            fi
+            sleep 0.5
+          done
+          cat /tmp/starblox-reference-preview.log
+          exit 1
+
+      - name: Capture deterministic Home Store Quest screenshots
+        run: node scripts/referenceScreenshotCapture.mjs
+        env:
+          STARBLOX_QA_URL: http://127.0.0.1:4173
+          STARBLOX_REFERENCE_OUTPUT: artifacts/reference-screenshot-capture
+          STARBLOX_REFERENCE_DIR: docs/preproduction/reference-screenshots
+          STARBLOX_REFERENCE_REQUIRED: '0'
+          STARBLOX_REFERENCE_STRICT_DIFF: '0'
+
+      - name: Print capture summary
+        if: always()
+        run: |
+          cat artifacts/reference-screenshot-capture/summary.txt || true
+          if [ -f artifacts/reference-screenshot-capture/report.json ]; then
+            node -e "const r=require('./artifacts/reference-screenshot-capture/report.json'); console.log(JSON.stringify({status:r.status,sourceHead:r.sourceHead,releaseBlockingCount:r.releaseBlockingCount,referencePresentCount:r.referencePresentCount,referenceExpectedCount:r.referenceExpectedCount,contrast:r.results.filter(x=>x.check==='rendered-color-contrast').map(x=>({viewport:x.viewport,screen:x.screen,status:x.status,message:x.message})),keyboard:r.results.filter(x=>x.check==='keyboard-focus-reachability').map(x=>({viewport:x.viewport,screen:x.screen,status:x.status,message:x.message}))},null,2))"
+          fi
+
+      - name: Upload deterministic screenshots and diffs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: reference-screenshot-capture
+          path: artifacts/reference-screenshot-capture
+          if-no-files-found: warn
+          retention-days: 7
+
+      - name: Print preview log on failure
+        if: failure()
+        run: cat /tmp/starblox-reference-preview.log || true
