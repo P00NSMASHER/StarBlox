@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 1,
+  "candidateId": "home-bedroom-w13-v2",
+  "candidateType": "environment-background",
+  "producer": "13",
+  "targetScreen": "Home",
+  "status": "STAGED_PENDING_ORIGIN_READBACK_AND_INDEPENDENT_REVIEW",
+  "parentCandidate": "home-bedroom-w13-v1",
+  "repairBasis": "docs/preproduction/visuals/reviews/01.json exact v1 REWORK contract",
+  "reference": {
+    "path": "docs/preproduction/reference-screenshots/originals/home-1448x1086.jpeg",
+    "sha256": "6a4b110aeaf12a6ab0c629f9181cc6cfa8d4f55a518d4f2a6adb3ac6e756c457"
+  },
+  "provenance": {
+    "sourceMethod": "Adobe image_generate from prior no-character lane-13 scene reference with v1 reviewer repair contract",
+    "generationRequestId": "a61e4792-b459-4bcd-9e50-56475be8f979",
+    "sourceAdobeUrn": "urn:aaid:ps:US:e4ef809a-d20b-4056-9cd1-5fe95e92bf75",
+    "desktopDerivativeMethod": "Adobe image_crop_and_resize center reframe only",
+    "cropRequestId": "4bf802ff-17a1-4d22-84b9-657b30f6296d",
+    "desktopAdobeUrn": "urn:aaid:ps:US:102f4dce-1dc8-43f1-a1f5-667155d813e0"
+  },
+  "repairContractApplied": [
+    "brightest architectural window/daylight moved into far-left third, outside intended center avatar corridor",
+    "bed-left and desk-right anchors preserved",
+    "center floor remains open for separately composited avatar",
+    "side-zone prop density increased without UI/text/logos",
+    "chunkier rounded toy-game furniture and saturated blush/lilac/cyan/gold accents",
+    "top-center and far-right overlay zones kept comparatively calm"
+  ],
+  "files": [
+    {
+      "role": "full",
+      "path": "public/assets/visuals/lane-13/home-bedroom-w13-v2-full.png",
+      "format": "PNG",
+      "dimensions": [
+        2320,
+        1808
+      ],
+      "bytes": 3808983,
+      "sha256": "d6f1936fc51ee7afd92a261a24015d02d93228cb7ae110fde9d7f12c0782c2cb",
+      "variance64": [
+        1938.4104742407799,
+        2090.78644156456,
+        1947.1505727767944
+      ]
+    },
+    {
+      "role": "desktop",
+      "path": "public/assets/visuals/lane-13/home-bedroom-w13-v2-1408x1056.png",
+      "format": "PNG",
+      "dimensions": [
+        1408,
+        1056
+      ],
+      "bytes": 1394961,
+      "sha256": "954d3d6e55b578506df87d787aa7d3aa7005f759b78cdd06b65603469ffc9251",
+      "variance64": [
+        1992.5989434719086,
+        2149.268665075302,
+        1987.0791540145874
+      ]
+    }
+  ],
+  "producerVisualInspection": "PASS_PRODUCER_ONLY_NOT_INDEPENDENT_ACCEPT",
+  "runtimeWired": false,
+  "canonicalCatalogTouched": false,
+  "workstream06AvatarTouched": false,
+  "workstream09ActiveEnvironmentTouched": false,
+  "replitOrFlootTouched": false,
+  "mainTouched": false,
+  "originReadback": "PENDING"
+}
