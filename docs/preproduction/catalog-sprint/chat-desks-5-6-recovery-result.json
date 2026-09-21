@@ -1,0 +1,117 @@
+{
+  "schemaVersion": 1,
+  "batchId": "chat-desks-5-6-recovery-20260921",
+  "sourceHead": "594088a1f06d87c56228157ba37b9e6c38d1092b",
+  "workflowRunId": "35669227577",
+  "status": "STAGED_READY_FOR_INDEPENDENT_REVIEW",
+  "producer": "03",
+  "transportHelper": "CHAT",
+  "independentReviewer": "05",
+  "canonicalWriter": "08",
+  "newGenerations": 0,
+  "storedCandidateCount": 2,
+  "storedOriginalCount": 2,
+  "independentAcceptsThisIntake": 0,
+  "canonicalPromotionsThisIntake": 0,
+  "duplicateCandidateContent": 0,
+  "items": [
+    {
+      "id": "desks-5",
+      "name": "Garden Book Desk",
+      "collectionId": "desks",
+      "collectionName": "Desks & Tech",
+      "type": "room",
+      "tier": 2,
+      "theme": "Pixel Party",
+      "price": 181,
+      "starReq": 0,
+      "format": "JPEG",
+      "dimensions": [
+        600,
+        600
+      ],
+      "bytes": 51545,
+      "sha256": "19be1b31799b00bfbf6eb540f0a9d128460985daebd9ce3c508695632a49d6f4",
+      "gitBlobSha": "95fe65632e4f40b76b23cce30071ee2fdc5b4399",
+      "assetId": "urn:aaid:sc:US:8962802a-f953-4cfe-bc19-c56fc7afcc74",
+      "producer": "03",
+      "transportHelper": "CHAT",
+      "independentReviewer": "05",
+      "repositoryPath": "public/assets/catalog/desks-5-w03-recovered-v2.jpg",
+      "assetPath": "/assets/catalog/desks-5-w03-recovered-v2.jpg",
+      "status": "READY_FOR_REVIEW",
+      "readback": "PASS",
+      "transformation": "None: exact existing Adobe rendition/source bytes; no resize, crop, recompression or regeneration",
+      "original": {
+        "format": "PNG",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "bytes": 1031950,
+        "sha256": "785d48f6dc8f8cdafac5afab059e0ffbe7869eaa9357e420b2ae6892d6ae555e",
+        "gitBlobSha": "f27bcab010ec219a4231232be1f5af07917d5db8",
+        "repositoryPath": "docs/preproduction/catalog-sprint/recovered-originals/desks-5-6-20260921/desks-5-8962802a-f953-4cfe-bc19-c56fc7afcc74.png"
+      }
+    },
+    {
+      "id": "desks-6",
+      "name": "Galaxy Gamer Setup",
+      "collectionId": "desks",
+      "collectionName": "Desks & Tech",
+      "type": "room",
+      "tier": 2,
+      "theme": "Berry Blast",
+      "price": 254,
+      "starReq": 0,
+      "format": "JPEG",
+      "dimensions": [
+        600,
+        600
+      ],
+      "bytes": 34981,
+      "sha256": "c0037a3a56a5b477fd714fbaf2419d4ffa9197721421bd1c0e20f99d99eac991",
+      "gitBlobSha": "52df05265de236911927b904b07e68dac7a17828",
+      "assetId": "urn:aaid:sc:US:bc5a80a0-b94a-4564-8360-9d521a05dde0",
+      "producer": "03",
+      "transportHelper": "CHAT",
+      "independentReviewer": "05",
+      "repositoryPath": "public/assets/catalog/desks-6-w03-recovered-v2.jpg",
+      "assetPath": "/assets/catalog/desks-6-w03-recovered-v2.jpg",
+      "status": "READY_FOR_REVIEW",
+      "readback": "PASS",
+      "transformation": "None: exact existing Adobe rendition/source bytes; no resize, crop, recompression or regeneration",
+      "original": {
+        "format": "PNG",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "bytes": 908023,
+        "sha256": "86468a792cf823a68baf113b12031d3fecd63442e1d0018d4bcd0f8678a8b55c",
+        "gitBlobSha": "61a832be12d4b65df40d10ad9f3cd4b7edfef457",
+        "repositoryPath": "docs/preproduction/catalog-sprint/recovered-originals/desks-5-6-20260921/desks-6-bc5a80a0-b94a-4564-8360-9d521a05dde0.png"
+      }
+    }
+  ],
+  "checks": {
+    "metadata": "PASS_2_OF_2",
+    "sourceCandidateReadback": "PASS_4_OF_4",
+    "imageDecodeAndNonblank": "PASS_4_OF_4",
+    "tests": "NOT_RUN",
+    "build": "NOT_RUN",
+    "render": "NOT_RUN",
+    "independentVisualReview": "PENDING_05"
+  },
+  "reviewNotes": {
+    "desks-5": "Check Pixel Party theme specificity: rich wood/garden/book form is visible but pixel-language may be understated.",
+    "desks-6": "Check dark leg/pedestal readability and seemingly floating headphone-like accessories. Not self-approved."
+  },
+  "freeze": {
+    "replitTouched": false,
+    "flootTouched": false,
+    "mainTouched": false,
+    "canonicalMappingsTouched": false,
+    "gameplayChanged": false
+  }
+}
