@@ -1,0 +1,91 @@
+{
+  "schemaVersion": 1,
+  "status": "ORIGINAL_BYTES_VERIFIED_AND_COMPARISON_FILES_PREPARED",
+  "source": "Original three screenshots attached by the user in this conversation; not generated promotional collages",
+  "branch": "screenshot-match-preproduction",
+  "pillowVersion": "11.3.0",
+  "images": [
+    {
+      "screen": "home",
+      "sourceAttachmentName": "259C0221-9344-4000-97EA-9DE94B2B168C.jpeg",
+      "originalRepositoryPath": "docs/preproduction/reference-screenshots/originals/home-1448x1086.jpeg",
+      "originalDimensions": [
+        1448,
+        1086
+      ],
+      "originalBytes": 702103,
+      "originalSha256": "6a4b110aeaf12a6ab0c629f9181cc6cfa8d4f55a518d4f2a6adb3ac6e756c457",
+      "originalGitBlobSha": "cd4905ff1a8b97d784698ae1b0f8c3521937711e",
+      "adobeAssetId": "urn:aaid:sc:US:12ec85e5-0ee5-4871-b864-5664180dd47b",
+      "comparisonRepositoryPath": "docs/preproduction/reference-screenshots/home-desktop-1408x1056.png",
+      "comparisonDimensions": [
+        1408,
+        1056
+      ],
+      "comparisonBytes": 2280767,
+      "comparisonSha256": "def576d3439ecc38aed1f7ae16223d7bda026114a213846da36360292dd7cc5c",
+      "comparisonGitBlobSha": "37cf41fd60acb8196cb675c72dd1344e218414f6",
+      "transformation": "RGB JPEG decode; uniform 176/181 scale; Pillow LANCZOS; lossless PNG; no crop or creative edits"
+    },
+    {
+      "screen": "store",
+      "sourceAttachmentName": "E6C9947A-B734-4A05-93D2-B8736B697DF0.jpeg",
+      "originalRepositoryPath": "docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg",
+      "originalDimensions": [
+        1448,
+        1086
+      ],
+      "originalBytes": 775979,
+      "originalSha256": "b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d",
+      "originalGitBlobSha": "383baa877d3af86fa92e3583740212000592b3d6",
+      "adobeAssetId": "urn:aaid:sc:US:3f85aee0-7a63-42e4-b537-692b1b1859e1",
+      "comparisonRepositoryPath": "docs/preproduction/reference-screenshots/store-desktop-1408x1056.png",
+      "comparisonDimensions": [
+        1408,
+        1056
+      ],
+      "comparisonBytes": 2381568,
+      "comparisonSha256": "534e5ac9143f7303871e96c4ba41b49fc8de73ebd804c6dd1fab33458146d3fe",
+      "comparisonGitBlobSha": "8be271d40d11c8420ef74838d6b4d50b2356c9d3",
+      "transformation": "RGB JPEG decode; uniform 176/181 scale; Pillow LANCZOS; lossless PNG; no crop or creative edits"
+    },
+    {
+      "screen": "quest",
+      "sourceAttachmentName": "D3CF87BB-CB64-4D41-B3A2-6E6C75D09EDD.jpeg",
+      "originalRepositoryPath": "docs/preproduction/reference-screenshots/originals/quest-1448x1086.jpeg",
+      "originalDimensions": [
+        1448,
+        1086
+      ],
+      "originalBytes": 789649,
+      "originalSha256": "70f1b952709a85c77bb11851ffe9ae704acf8b97640355e908b6ec537b5c73c9",
+      "originalGitBlobSha": "52ce6c21f08acd34070e1e692c2c436f77a3e420",
+      "adobeAssetId": "urn:aaid:sc:US:45034c54-017e-440c-a5a4-7c61478f6bb2",
+      "comparisonRepositoryPath": "docs/preproduction/reference-screenshots/quest-desktop-1408x1056.png",
+      "comparisonDimensions": [
+        1408,
+        1056
+      ],
+      "comparisonBytes": 2379312,
+      "comparisonSha256": "359ee4b24dbe2a3a3ef89327115fc70927d3d3eab1fb349c43d5c1020ea0ba8d",
+      "comparisonGitBlobSha": "5c6d467679f4ed8b1908da340e46077dabc25ae1",
+      "transformation": "RGB JPEG decode; uniform 176/181 scale; Pillow LANCZOS; lossless PNG; no crop or creative edits"
+    }
+  ],
+  "referenceCoverage": {
+    "desktop": 3,
+    "tablet": 0,
+    "phone": 0
+  },
+  "checks": {
+    "originalSha256": "PASS_3_OF_3",
+    "originalDimensions": "PASS_1448x1086_3_OF_3",
+    "comparisonDimensions": "PASS_1408x1056_3_OF_3",
+    "noGpsMetadata": "PASS_3_OF_3",
+    "referenceIdentity": "VISUALLY_CONFIRMED_HOME_STORE_QUEST_IN_INTERACTIVE_CHAT",
+    "gameVisualParity": "NOT_TESTED_BY_IMPORT",
+    "catalogArtCompleted": 0
+  },
+  "usage": "Use originals for art direction and normalized desktop PNGs for the existing referenceScreenshotCapture.mjs naming contract. Do not invent mobile reference pixels or use a comparison-completed flag as visual acceptance.",
+  "constraints": "Keep original StarBlox identity, exact real item IDs, source-grounded questions and child-safe economy. Screenshot wording, displayed balances, answers, scarcity/sale messaging and social promises are not product requirements."
+}
