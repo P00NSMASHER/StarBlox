@@ -19,7 +19,23 @@
     "existingAutomationCount": 15,
     "newAutomationsCreated": 0,
     "all15UpdateCallsSucceeded": true,
-    "minuteByWorkstream": {"01":20,"02":24,"03":2,"04":5,"05":28,"06":8,"07":11,"08":40,"09":14,"10":52,"11":17,"12":44,"13":48,"14":32,"15":0},
+    "minuteByWorkstream": {
+      "10": 52,
+      "11": 17,
+      "12": 44,
+      "13": 48,
+      "14": 32,
+      "15": 0,
+      "01": 20,
+      "02": 24,
+      "03": 2,
+      "04": 5,
+      "05": 28,
+      "06": 8,
+      "07": 11,
+      "08": 40,
+      "09": 14
+    },
     "note": "Offsets reduce contention, not a guarantee of completion order or throughput. Tasks consume completed hash-bound outputs across cycles."
   },
   "baseline": {
@@ -34,21 +50,142 @@
     "screenshotQualityApprovedCount": null
   },
   "productionAssignments": {
-    "CHAT": ["seating-2", "seating-3", "seating-4", "seating-5", "seating-6", "seating-7", "seating-8", "seating-9", "seating-10", "seating-11", "seating-12"],
+    "11": [
+      "auras-1",
+      "auras-2",
+      "auras-3",
+      "auras-4",
+      "auras-5",
+      "auras-6",
+      "auras-7",
+      "auras-8",
+      "auras-9",
+      "auras-10",
+      "auras-11",
+      "auras-12"
+    ],
+    "CHAT": [
+      "seating-2",
+      "seating-3",
+      "seating-4",
+      "seating-5",
+      "seating-6",
+      "seating-7",
+      "seating-8",
+      "seating-9",
+      "seating-10",
+      "seating-11",
+      "seating-12"
+    ],
     "02": [],
-    "03": ["desks-2", "desks-3", "desks-4", "desks-5", "desks-6", "desks-7", "desks-8", "desks-9", "desks-10", "desks-11", "desks-12"],
-    "04": ["lighting-1", "lighting-2", "lighting-3", "lighting-4", "lighting-5", "lighting-6", "lighting-7", "lighting-8", "lighting-9", "lighting-10", "lighting-11", "lighting-12"],
-    "05": ["wall-1", "wall-2", "wall-3", "wall-4", "wall-5", "wall-6", "wall-7", "wall-8", "wall-9", "wall-10", "wall-11", "wall-12"],
-    "06": ["companions-2", "companions-3", "companions-4", "companions-5", "companions-6", "companions-7", "companions-8", "companions-9", "companions-10", "companions-11", "companions-12"],
-    "07": ["rugs-1", "rugs-2", "rugs-3", "rugs-4", "rugs-5", "rugs-6", "rugs-7", "rugs-8", "rugs-9", "rugs-10", "rugs-11", "rugs-12"],
-    "09": ["decor-1", "decor-2", "decor-3", "decor-4", "decor-5", "decor-6", "decor-7", "decor-8", "decor-9", "decor-10", "decor-11", "decor-12"],
-    "11": ["auras-1", "auras-2", "auras-3", "auras-4", "auras-5", "auras-6", "auras-7", "auras-8", "auras-9", "auras-10", "auras-11", "auras-12"]
+    "03": [
+      "desks-2",
+      "desks-3",
+      "desks-4",
+      "desks-5",
+      "desks-6",
+      "desks-7",
+      "desks-8",
+      "desks-9",
+      "desks-10",
+      "desks-11",
+      "desks-12"
+    ],
+    "04": [
+      "lighting-1",
+      "lighting-2",
+      "lighting-3",
+      "lighting-4",
+      "lighting-5",
+      "lighting-6",
+      "lighting-7",
+      "lighting-8",
+      "lighting-9",
+      "lighting-10",
+      "lighting-11",
+      "lighting-12"
+    ],
+    "05": [
+      "wall-1",
+      "wall-2",
+      "wall-3",
+      "wall-4",
+      "wall-5",
+      "wall-6",
+      "wall-7",
+      "wall-8",
+      "wall-9",
+      "wall-10",
+      "wall-11",
+      "wall-12"
+    ],
+    "06": [
+      "companions-2",
+      "companions-3",
+      "companions-4",
+      "companions-5",
+      "companions-6",
+      "companions-7",
+      "companions-8",
+      "companions-9",
+      "companions-10",
+      "companions-11",
+      "companions-12"
+    ],
+    "07": [
+      "rugs-1",
+      "rugs-2",
+      "rugs-3",
+      "rugs-4",
+      "rugs-5",
+      "rugs-6",
+      "rugs-7",
+      "rugs-8",
+      "rugs-9",
+      "rugs-10",
+      "rugs-11",
+      "rugs-12"
+    ],
+    "09": [
+      "decor-1",
+      "decor-2",
+      "decor-3",
+      "decor-4",
+      "decor-5",
+      "decor-6",
+      "decor-7",
+      "decor-8",
+      "decor-9",
+      "decor-10",
+      "decor-11",
+      "decor-12"
+    ]
   },
   "reviewAssignments": {
-    "01": ["tops", "bottoms", "headwear", "facegear"],
-    "02": ["shoes", "backgear", "handgear", "seating"],
-    "05": ["beds", "desks", "companions", "auras"],
-    "14": ["lighting", "wall", "rugs", "decor"]
+    "14": [
+      "lighting",
+      "wall",
+      "rugs",
+      "decor"
+    ],
+    "01": [
+      "tops",
+      "bottoms",
+      "headwear",
+      "facegear"
+    ],
+    "02": [
+      "shoes",
+      "backgear",
+      "handgear",
+      "seating"
+    ],
+    "05": [
+      "beds",
+      "desks",
+      "companions",
+      "auras"
+    ]
   },
   "reviewPolicy": {
     "partitionUnit": "collectionId; all 12 actual item IDs in each assigned collection",
@@ -63,7 +200,7 @@
     "catalogGateStillRequiresAll192Accepted": true
   },
   "coordinationSnapshot": {
-    "observedHead": "7b146f9deb9eb77429150ec104b092167d582859",
+    "observedHead": "1c5b619c63a2a887ac422be715b7542b5afb34b7",
     "repositoryStagedAssignedCandidates": 82,
     "generatedLocalDeskCandidates": 3,
     "assignedIdsWithAnyRepositoryOrLocalCandidate": 85,
@@ -72,45 +209,134 @@
     "independentReworkCurrentHashes": 47,
     "independentUnreviewedIds": 145,
     "canonicalV2Promotions": 0,
-    "reviewShardsPresent": ["01","02","05","14"],
-    "reviewedReworkFamilies": ["tops","seating","auras","lighting"],
-    "note": "Legacy final-portable/interim labels are not visual acceptance. The first four independently reviewed families all require premium dimensional rework."
+    "reviewShardsPresent": [
+      "01",
+      "02",
+      "05",
+      "14"
+    ],
+    "reviewedReworkFamilies": [
+      "tops",
+      "seating",
+      "auras",
+      "lighting"
+    ],
+    "note": "47 original/current reviewed hashes remain REWORK. Six versioned replacement candidates are now repository-stored; Tops 7/8 have producer handoff, while Aura 1-4 bytes are stored but still need the lane-11 readback/handoff and reviewer-05 exact-hash pixel decision. No replacement hash is accepted or canonical-wired yet.",
+    "storedReplacementCandidateVersions": 6,
+    "replacementCandidateIds": [
+      "tops-7",
+      "tops-8",
+      "auras-1",
+      "auras-2",
+      "auras-3",
+      "auras-4"
+    ],
+    "replacementCandidatesAwaitingIndependentAccept": 6
   },
   "repairAssignments": {
-    "CHAT": ["seating-2", "seating-3", "seating-4", "seating-5", "seating-6", "seating-7", "seating-8", "seating-9", "seating-10", "seating-11", "seating-12"],
-    "04": ["lighting-1", "lighting-2", "lighting-3", "lighting-4", "lighting-5", "lighting-6", "lighting-7", "lighting-8", "lighting-9", "lighting-10", "lighting-11", "lighting-12"],
-    "07": ["tops-1", "tops-2", "tops-3", "tops-4", "tops-5", "tops-6"],
-    "09": ["tops-7", "tops-8", "tops-9", "tops-10", "tops-11", "tops-12"],
-    "11": ["auras-1", "auras-2", "auras-3", "auras-4", "auras-5", "auras-6", "auras-7", "auras-8", "auras-9", "auras-10", "auras-11", "auras-12"]
+    "11": [
+      "auras-1",
+      "auras-2",
+      "auras-3",
+      "auras-4",
+      "auras-5",
+      "auras-6",
+      "auras-7",
+      "auras-8",
+      "auras-9",
+      "auras-10",
+      "auras-11",
+      "auras-12"
+    ],
+    "CHAT": [
+      "seating-2",
+      "seating-3",
+      "seating-4",
+      "seating-5",
+      "seating-6",
+      "seating-7",
+      "seating-8",
+      "seating-9",
+      "seating-10",
+      "seating-11",
+      "seating-12"
+    ],
+    "04": [
+      "lighting-1",
+      "lighting-2",
+      "lighting-3",
+      "lighting-4",
+      "lighting-5",
+      "lighting-6",
+      "lighting-7",
+      "lighting-8",
+      "lighting-9",
+      "lighting-10",
+      "lighting-11",
+      "lighting-12"
+    ],
+    "07": [
+      "tops-1",
+      "tops-2",
+      "tops-3",
+      "tops-4",
+      "tops-5",
+      "tops-6"
+    ],
+    "09": [
+      "tops-7",
+      "tops-8",
+      "tops-9",
+      "tops-10",
+      "tops-11",
+      "tops-12"
+    ]
   },
   "repairAssignmentPolicy": "Repair assignments are versioned secondary work only after the worker's currently staged original lane has no immediate producer action. They do not transfer review ownership, do not erase original productionAssignments, and every replacement requires fresh review by the existing independent reviewer. Workstreams 07 and 09 are intentionally assigned Tops repairs because reviewer 01 cannot self-approve and their rugs/decor candidates are already staged awaiting reviewer 14.",
   "binaryAssetImport": {
     "status": "PASS_PATH_PROVEN",
-    "supportedSequence": ["create_blob(base64)","create_tree(baseTreeSha)","create_commit(parentSha)","update_ref(force=false)","fetch_file(base64)","verify exact hash"],
+    "supportedSequence": [
+      "create_blob(base64)",
+      "create_tree(baseTreeSha)",
+      "create_commit(parentSha)",
+      "update_ref(force=false)",
+      "fetch_file(base64)",
+      "verify exact hash"
+    ],
     "probePath": "docs/preproduction/catalog-sprint/binary-upload-probe.png",
     "deskInstruction": "Workstream 03 must use this path from its own run to stage already-generated desks-2..4 without regeneration, then read back exact hashes. desks-5..12 remain production work."
   },
   "criticalRuntimeAssignments": {
-    "priority": "RELEASE_BLOCKER_BEFORE_CATALOG_THROUGHPUT",
-    "15": ["PERSIST-TRANSACTION-IDEMPOTENCY", "PERSIST-QUEST-COMPLETION-REFRESH"],
-    "13": ["Define durable/additive persistence semantics and regression coverage for the shared App fixes; then exercise synthetic browser refresh/re-entry when executable."],
+    "13": [
+      "Inspect transaction helper/App/storage changes, run persistence/economy regression plus synthetic browser refresh/re-entry/replay evidence, and clear each blocker only on observed results."
+    ],
+    "15": [
+      "Coordinate affected full CI/build and preserve shared App/storage transaction contracts."
+    ],
+    "priority": "VERIFY_IMPLEMENTED_FIX_BEFORE_CATALOG_RELEASE_CLEARANCE",
     "details": {
-      "PERSIST-TRANSACTION-IDEMPOTENCY": "Purchase eligibility is prechecked outside the functional state update; the shared App transaction must revalidate against current state and prevent duplicate charge/ownership effects under replay/concurrency, without changing prices or existing ownership.",
-      "PERSIST-QUEST-COMPLETION-REFRESH": "The final Quest completion award currently occurs after a 950ms UI timer. Coordinate an idempotent persisted completion transition/receipt so refresh after the last correct answer cannot lose or duplicate the completion award."
+      "PERSIST-TRANSACTION-IDEMPOTENCY": "Implementation exists on branch: functional transaction revalidation plus durable purchase receipt. Release blocker remains until full regression/build and Workstream-13 replay/re-entry evidence pass.",
+      "PERSIST-QUEST-COMPLETION-REFRESH": "Implementation exists on branch: fifth correct answer atomically records the completion reward using a quest receipt before the 950ms UI transition. Release blocker remains until full regression/build and refresh/re-entry evidence pass."
     }
   },
   "supportAssignments": {
-    "01": "Independent art review partition and original reference fidelity; optional review rollup is not a gate dependency",
-    "02": "Independent shoes/backgear/handgear/seating review; CHAT retains seating production",
-    "05": "Independent beds/desks/companions/auras review; wall repairs only from reviewer 14 rejection",
-    "08": "Sole canonical manifest/runtime integrator; consume each qualified independent ACCEPT incrementally",
     "10": "Change-aware catalog mobile/accessibility/scrolling QA; label emulation and device limits",
     "12": "Semantic learning/source/evidence guard and untested real-browser learning cases",
     "13": "Save/inventory/economy guard and synthetic real-browser recovery/reward stress",
     "14": "Independent room-art review partition, staged-asset render harness, catalog release QA and efficient CI",
-    "15": "Critical-path coordination, shared-file ownership, reassignments, phase switch and final release gate"
+    "15": "Critical-path coordination, shared-file ownership, reassignments, phase switch and final release gate",
+    "01": "Independent art review partition and original reference fidelity; optional review rollup is not a gate dependency",
+    "02": "Independent shoes/backgear/handgear/seating review; CHAT retains seating production",
+    "05": "Independent beds/desks/companions/auras review; wall repairs only from reviewer 14 rejection",
+    "08": "Sole canonical manifest/runtime integrator; consume each qualified independent ACCEPT incrementally"
   },
   "normalRoles": {
+    "10": "Mobile Accessibility QA",
+    "11": "Motion Game Feel",
+    "12": "Learning Integrity Guard",
+    "13": "Persistence Economy Guard",
+    "14": "Visual Release QA",
+    "15": "StarBlox Command Center",
     "01": "Visual Target Director",
     "02": "HUD Shell Builder",
     "03": "Home Screen Builder",
@@ -119,13 +345,7 @@
     "06": "Avatar Buddy Builder",
     "07": "Progression Widget Builder",
     "08": "Catalog Art Factory and catalog release polish",
-    "09": "Environment Art Builder",
-    "10": "Mobile Accessibility QA",
-    "11": "Motion Game Feel",
-    "12": "Learning Integrity Guard",
-    "13": "Persistence Economy Guard",
-    "14": "Visual Release QA",
-    "15": "StarBlox Command Center"
+    "09": "Environment Art Builder"
   },
   "catalogGate": {
     "status": "NOT_STARTED",
@@ -139,5 +359,28 @@
   },
   "automaticReturnPhase": "GAME_FINISHING",
   "gameReleaseStatus": "NOT_READY",
-  "deploymentRequiresSeparateUserApproval": true
+  "deploymentRequiresSeparateUserApproval": true,
+  "criticalRuntimeEvidence": {
+    "observedImplementationHead": "620b22b74413f5108a5ec744219383bdb4dfd488",
+    "branchHeadAfterConcurrentCatalogWork": "1c5b619c63a2a887ac422be715b7542b5afb34b7",
+    "status": "IMPLEMENTED_PENDING_FULL_CI_AND_LIVE_BROWSER",
+    "commits": {
+      "transactionHelpers": "f58f20817af61876dfa3cc292c27c08beaf9942e",
+      "transactionTests": "df905eab4d6fe6125b3e92c8eddd462a07293748",
+      "receiptSanitization": "d814c3da15005a738356dbff850ed9170d5a0733",
+      "appWiring": "9e54caacf6b9553a9966286cf4905fe162c329a1",
+      "storageReceiptRegression": "620b22b74413f5108a5ec744219383bdb4dfd488"
+    },
+    "implemented": [
+      "Permanent purchases now revalidate owned/receipt/star/coin state inside the functional save transaction and record a durable purchase receipt without changing prices, ownership rules or rewards.",
+      "Final Quest completion +30 Coins/+30 XP/questsCompleted/Bond/daily quest is applied atomically during the final correct-answer save transaction using an active/completed receipt; the 950ms timer now controls UI transition only."
+    ],
+    "focusedExecutableCheck": "PASS_NODE_ASSERTIONS_purchase_once_replay_receipt_restore_quest_completion_replay",
+    "fullCi": "PENDING_CURRENT_RUNTIME_CHANGE",
+    "liveBrowserPersistence": "PENDING_WORKSTREAM_13",
+    "blockersStillOpenForRelease": [
+      "PERSIST-TRANSACTION-IDEMPOTENCY",
+      "PERSIST-QUEST-COMPLETION-REFRESH"
+    ]
+  }
 }
