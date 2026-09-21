@@ -2,7 +2,7 @@ name: StarBlox CI
 
 on:
   push:
-    branches: [main]
+    branches: [main, screenshot-match-preproduction]
   pull_request:
     branches: [main]
 
