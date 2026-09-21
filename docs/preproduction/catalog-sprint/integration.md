@@ -1,110 +1,107 @@
 # Catalog Sprint — Workstream 08 Integration
 
-STATUS: **NO ACCEPTED INCREMENT YET / REVIEW REWORKS RECORDED / BINARY IMPORT PATH PROVEN**
+STATUS: **NO ACCEPTED HASH YET / 71 INDEPENDENT REWORKS / 6 STORED REPLACEMENTS AWAIT REVIEW / 10 FIREFLY BLOBS PRESERVED**
 
 Branch: `screenshot-match-preproduction` only  
-Audited source head before this evidence update: `e85ee50298ac0028be962fef886d9b150a5ca829`  
+Input head audited before this Workstream-08 evidence refresh: `a2770557f4e6dbb019ba76112ec1363a1857d2b4`  
 Replit/Floot: **untouched**  
 Main: **not merged or modified**
 
-## Canonical catalog state
+## Canonical decision
 
-Workstream 08 remains the sole writer for `catalog-art-manifest.json` and `src/catalogArtRuntime.js`.
+Workstream 08 remains the only catalog manifest/runtime writer. I did **not** change `catalog-art-manifest.json` or `src/catalogArtRuntime.js` because there is still **no qualified independent ACCEPT for any current or replacement asset hash**.
 
-No canonical mapping changed in this pass because **zero current asset hashes have a qualified independent ACCEPT**. The manifest/runtime therefore remain exactly:
+Canonical state therefore remains unchanged:
 
-- Store target: **192 IDs**
+- actual Store IDs: **192**
 - manifest version: **12**
 - legacy `final-portable`: **99**
 - `interim-not-verified`: **23**
-- canonical non-final relative to the legacy label: **93**
+- non-final relative to the legacy label: **93**
 - manifest entries: **122**
-- exact-ID runtime mappings: **122**
-- recorded duplicate asset paths: **0**
-- V2 exact-hash independent ACCEPTs: **0**
+- runtime mappings: **122**
+- duplicate manifest paths recorded: **0**
+- V2 exact-hash ACCEPTs: **0**
+- canonical promotions this pass: **0**
 
-The 99 `final-portable` labels are preserved for compatibility, but they are not reinterpreted as screenshot-quality approval. Reviewer 01 has now explicitly rejected the current Tops hashes on visual-quality grounds.
+Stable canonical hashes are still:
 
-## Current prepared artwork
+- manifest Git blob: `862894db70500087409396dc5a72d032cf00a693`
+- runtime Git blob: `fcf502b18a51781b415b7ba3620e9b8eb66d37e3`
+- game model Git blob: `79fdb8c3bed4d715e0b1c770f34db0037a7f7c3b`
 
-All eight production lanes now have reports. Repository-staged assigned item IDs currently cover **82** items:
+## Independent review coverage materially advanced
 
-- CHAT seating: 11
-- 04 lighting: 12
-- 05 wall: 12
-- 06 companions: 11
-- 07 rugs: 12
-- 09 decor: 12
-- 11 auras: 12
+All four V2 review shards now exist. Current/legacy exact-hash review coverage is **71 / 192**, with **0 ACCEPT / 71 REWORK / 0 BLOCKED**:
 
-Of those 82, **59 are newly authored repository-staged candidates** and **23 are pre-existing interim companion/aura assets**.
+- Tops: 12 REWORK — reviewer 01
+- Seating 2–12: 11 REWORK — reviewer 02
+- legacy Auras: 12 REWORK — reviewer 05
+- Companions 1–12: 12 REWORK — reviewer 05
+- Beds 1–12: 12 REWORK — reviewer 05
+- Lighting 1–12: 12 REWORK — reviewer 14
 
-Desk lane 03 has generated **3 local premium candidates** (`desks-2`, `desks-3`, `desks-4`) with 512×512 WebP derivatives, but **0 desk candidates are repository-staged**. Eight assigned desk IDs still have no generated candidate.
+The common release defect is now well evidenced: existing artwork is generally recognizable and readable but materially too flat/vector-like for the premium dimensional Store target. Legacy `final-portable` remains a compatibility label, not visual acceptance.
 
-Lane 06 also records a richer companion intake under `public/assets/catalog-candidates/chat-20260921-intake01/`: **10 companion item IDs / 30 stored binary files**. Four are first-review candidates (`companions-3`, `companions-4`, `companions-10`, `companions-11`), six are held for theme direction, and `companions-9` has no rich candidate.
+## Replacement versions now stored on the branch
 
-## V2 review state
+Six replacement candidates have actual repository paths and exact Git blob readback, but none has fresh independent acceptance yet:
 
-Three review shards now exist and contain actual rendered-pixel decisions:
+| ID | Replacement path | Git blob |
+|---|---|---|
+| tops-7 | `/assets/catalog/tops-7-w09-v2.svg` | `fe5b33a5b8eb8de137abab7daf315ddfaaaaf408` |
+| tops-8 | `/assets/catalog/tops-8-w09-v2.svg` | `81bbec69f1e164b9772e0f867409581526f5255a` |
+| auras-1 | `/assets/catalog/auras-1-v2.svg` | `48639f1262052350660127bbc5d3d25de34d61e3` |
+| auras-2 | `/assets/catalog/auras-2-v2.svg` | `c2be24c165f3e28995d5d2eb946dbdde983afe2a` |
+| auras-3 | `/assets/catalog/auras-3-v2.svg` | `9b682148eb26898ec5f56ac11eac635e7c93c8fc` |
+| auras-4 | `/assets/catalog/auras-4-v2.svg` | `3059eae7ab68c125f1af1696305fdf5689131455` |
 
-- **01 / Tops:** 12 reviewed, **0 ACCEPT / 12 REWORK / 0 BLOCKED**
-- **02 / Seating 2–12:** 11 reviewed, **0 ACCEPT / 11 REWORK / 0 BLOCKED**
-- **05 / Auras:** 12 reviewed, **0 ACCEPT / 12 REWORK / 0 BLOCKED**
+I read back the replacement bytes and verified the recorded exact Git blobs. Their embedded item/theme labels and lane metadata align with the current Store identities. They remain **READY_FOR_REVIEW**, not canonical final art. Reviewer 01 owns the two Tops replacements; reviewer 05 owns the four Aura replacements.
 
-That is **35 current hashes reviewed, 35 REWORK, 0 ACCEPT**.
+## Binary transfer path improved again
 
-The rework findings are consistent: the current versions are identifiable and generally readable, but they are too flat/vector-like and lack the dimensional materials, three-quarter construction, lighting depth and higher-tier spectacle required by the screenshot target.
+The binary-import capability has progressed from a synthetic probe to real generated-image byte preservation.
 
-`reviews/14.json` is still absent. However Workstream 14 has now added a branch-local staged-art QA workflow and lighting contact-sheet path, so the review-before-wiring deadlock is materially reduced. The next independent review dependency is 14's exact-hash lighting/wall/rugs/decor decisions.
+A supported path now exists from Adobe-generated rendition bytes to immutable Git blob objects. Ten improved Firefly replacements have been preserved as Git objects:
 
-## Binary asset import path — proven
+- Lighting 1–4: `9d8aa142...`, `8c10fe68...`, `fc21ddf5...`, `7975e490...`
+- Tops 1–6: `5fd95449...`, `42845078...`, `b4a83458...`, `26d03c5b...`, `78c5c892...`, `44d88aa8...`
 
-Workstream 08 established and verified a supported binary-to-GitHub path without Replit, Floot, paid services or force pushes.
+These are **not branch-staged assets yet**. Git object existence alone does not make an item reviewable or integratable. The owning lanes must attach those exact blobs to versioned repository paths with a normal latest-head, non-force commit and verify path/blob readback:
 
-Probe:
+- Workstream 04 attaches Lighting 1–4.
+- Workstream 07 attaches Tops 1–6.
 
-- repository path: `docs/preproduction/catalog-sprint/binary-upload-probe.png`
-- commit: `4db259027bc5d80513f81cee1d4ceb757ad0c493`
-- Git blob SHA: `95b4328446e6af8fabd920f3330f6c688889ad94`
-- decoded SHA-256: `391590d092f57b13968ea0174fda8726918550f84594de498c72482f1f2e9623`
-- bytes: **68**
-- dimensions: **2×2 PNG**
-- exact base64 readback: **PASS**
+No regeneration is needed for those ten images.
 
-Supported sequence:
+## Other prepared inventory
 
-1. encode actual generated file bytes as base64;
-2. `create_blob(encoding=base64)`;
-3. attach the blob with `create_tree(base_tree_sha=latest tree)`;
-4. `create_commit(parent_sha=latest head)`;
-5. `update_ref(force=false)`;
-6. `fetch_file(encoding=base64)` and decode;
-7. verify exact SHA-256 / dimensions / bytes.
+- Assigned repository-staged candidate IDs remain **82**.
+- Desk lane: `desks-2..4` are generated locally but **0 are repository-staged**; `desks-5..12` still need candidates.
+- Rich companion intake: **10 item IDs / 30 stored binary files**. Four (`companions-3`, `-4`, `-10`, `-11`) were queued for richer-candidate review; the legacy companion versions have now all been independently marked REWORK.
+- Six stored replacement versions are awaiting fresh independent review.
+- 121 catalog IDs still lack a qualified current-hash visual disposition.
 
-A direct binary `fetch_blob` attempted UTF-8 decoding and is not the readback surface to use. `fetch_file(..., encoding=base64)` is the proven binary readback path.
+## Validation performed this pass
 
-I also attempted to materialize Lane 03's historical generated-file ID from this automation. The file is not visible across automation conversations, so Workstream 08 cannot recover those exact historical desk bytes here. **Lane 03 should upload the already-generated desks from its own run where the files are visible, using the proven blob/tree/commit/ref sequence; it should not regenerate them.**
-
-## Canonical integration decision
-
-Integrated IDs this pass: **0**.
-
-This is not a missing-review-file deadlock anymore. Review evidence now exists, but every reviewed current hash is REWORK. Under V2, one qualified independent ACCEPT would be enough to integrate that exact hash immediately. There simply is no accepted hash yet.
-
-Therefore `catalog-art-manifest.json` and `src/catalogArtRuntime.js` remain unchanged.
-
-No post-integration catalog regression/build was rerun because there was no canonical mapping change. The stable catalog manifest/runtime hashes are still:
-
-- manifest: `862894db70500087409396dc5a72d032cf00a693`
-- runtime: `fcf502b18a51781b415b7ba3620e9b8eb66d37e3`
-- game model: `79fdb8c3bed4d715e0b1c770f34db0037a7f7c3b`
+- **PASS** — phase is `CATALOG_SPRINT`; Workstream 08 remains canonical writer.
+- **PASS** — actual Store model remains 192 IDs on the unchanged game-model hash.
+- **PASS** — canonical manifest/runtime hashes remain unchanged and recorded duplicate paths remain zero.
+- **PASS** — all four V2 review shards are present and reconciled to **71 REWORK / 0 ACCEPT**.
+- **PASS** — six branch-stored replacement versions have exact repository-path/Git-blob readback and distinct hashes.
+- **PASS** — real Adobe-generated bytes have a proven transfer route into immutable Git blob objects.
+- **PENDING** — owners 04/07 must attach the ten preserved Firefly blobs to branch paths before review.
+- **FAIL / incomplete** — desks remain 0 repository-staged.
+- **NOT RUN** — post-integration catalog tests/build/Store checks because no canonical mapping changed.
+- **FAIL** — catalog release gate remains open; release QA records incomplete 192-art acceptance and the persistence track still has live-browser/re-entry work.
 
 ## Exact next dependencies
 
-1. **14:** run/reuse the staged-art fixture and publish `reviews/14.json`, beginning with `lighting-1..12`, then wall/rugs/decor.
-2. **05:** review the repository-stored richer companion candidates (`companions-3`, `-4`, `-10`, `-11`) from actual pixels, then continue companions/beds/desks when available.
-3. **03:** use the proven binary Git path to stage the existing `desks-2..4` derivatives and read back exact hashes. Do not regenerate them.
-4. **15:** route repair production for current REWORK families — Tops, Seating, Auras — to producers who are independent from the reviewer of the replacement hash.
-5. **08:** consume the first qualified exact-hash ACCEPT immediately; validate path/metadata/hash, update manifest/runtime, then run the affected catalog tests/build for that coherent batch.
+1. **01:** render and judge `tops-7-w09-v2` and `tops-8-w09-v2` now. After Workstream 07 attaches Tops 1–6 Firefly blobs, judge those exact hashes too.
+2. **05:** render and judge `auras-1-v2` through `auras-4-v2` now; continue desks and richer companion replacements as they become staged.
+3. **04 / 07:** attach the already-preserved Firefly Git blobs to versioned assigned paths and verify readback. Do not regenerate.
+4. **03:** stage the existing desks-2..4 bytes from its producer run using the proven binary path, then continue desks-5..12.
+5. **14:** continue actual-pixel wall/rug/decor review and refresh release QA at material milestones.
+6. **08:** integrate the first qualified exact-hash ACCEPT immediately; only then change manifest/runtime and run the affected catalog regression/build/Store checks for that coherent batch.
 
-The catalog phase remains active. Workstream 15 alone may change phase after the complete 192-item gate passes.
+Detailed machine-readable evidence is in `docs/preproduction/catalog-sprint/integration.json`. Workstream 15 alone may switch phase after the full catalog gate passes.
