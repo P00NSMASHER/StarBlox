@@ -1,22 +1,43 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "lane": "03",
   "workstream": "03",
   "phase": "CATALOG_SPRINT",
   "branch": "screenshot-match-preproduction",
-  "sourceHeadReadBeforeProduction": "32330fe91417d7aaf87e785a218ffad5a5a286aa",
-  "sourceHeadRevalidatedBeforeHandoff": "911edfc37d05b0402ea028613c6a835401d316f0",
+  "sourceHeadReadBeforeRecovery": "631a5eb6fbaa0a3edfef6c40c8fe15d7cdc4b585",
+  "assetStageBaseHead": "b88f688cc4575bef1e1ec676e4a510a6267a9ed5",
+  "assetStageCommit": "264ca2d54e0cb09495d716512a9c6ad28bf0784f",
+  "sourceHeadRevalidatedBeforeHandoff": "0db9b1c12d8f8aee03657a6d61ac4e6bac63da21",
   "assignment": [
-    "desks-2","desks-3","desks-4","desks-5","desks-6","desks-7",
-    "desks-8","desks-9","desks-10","desks-11","desks-12"
+    "desks-2",
+    "desks-3",
+    "desks-4",
+    "desks-5",
+    "desks-6",
+    "desks-7",
+    "desks-8",
+    "desks-9",
+    "desks-10",
+    "desks-11",
+    "desks-12"
   ],
-  "status": "GENERATED_LOCAL_UPLOAD_BLOCKED",
+  "status": "READY_FOR_REVIEW_DESKS_2_TO_4_STAGED",
   "selfApproved": false,
   "reviewOwner": "05",
   "integrationOwner": "08",
-  "generatedLocalCount": 3,
-  "repositoryStagedCount": 0,
-  "readyForReviewCount": 0,
+  "generatedOriginalCount": 3,
+  "repositoryStagedCount": 3,
+  "readyForReviewCount": 3,
+  "remainingProductionIds": [
+    "desks-5",
+    "desks-6",
+    "desks-7",
+    "desks-8",
+    "desks-9",
+    "desks-10",
+    "desks-11",
+    "desks-12"
+  ],
   "preservedFinal": {
     "id": "desks-1",
     "name": "Tiny Homework Desk",
@@ -29,12 +50,15 @@
     {
       "id": "desks-2",
       "name": "Cloud Study Desk",
+      "collection": "Desks & Tech",
       "tier": 1,
       "theme": "Candy Core",
       "price": 65,
       "starReq": 0,
       "priorRepositoryAsset": null,
-      "intendedRepositoryPath": "public/assets/catalog/desks-2-v1.webp",
+      "repositoryPath": "public/assets/catalog/desks-2-v1.webp",
+      "runtimeCandidatePath": "/assets/catalog/desks-2-v1.webp",
+      "gitBlobSha": "357f4ba8385e737499f12409c0bea141f9bc5e6a",
       "generation": {
         "provider": "OpenAI image generation",
         "generationId": "fb99c969-1ab6-4774-a934-5a2f4b45a93d",
@@ -48,23 +72,27 @@
         "dimensions": [512,512],
         "format": "WEBP",
         "quality": 90,
-        "bytes": 31594,
-        "sha256": "dcf63a302b50c8b8fc3a8b104d0013670e8e33665b47820b53e8ccbc75962e02"
+        "bytes": 30866,
+        "sha256": "c0b887c400535d468b23f4f70e2e921d2b90f9bd320f06f8b8698c1c21020ae1"
       },
       "feature": "rounded cloud-shell study desk with twin pastel drawer stacks, cloud shelf/backboard, star lamp, plant, books and pencil cup",
-      "producerRenderCheck": "PASS_LOCAL_PIXELS — isolated desk is fully visible and card-readable; no person, UI, text, logo, clipping or malformed anatomy/geometry observed",
-      "repositoryStatus": "UPLOAD_BLOCKED",
-      "reviewStatus": "NOT_READY_FOR_REVIEW"
+      "producerRenderCheck": "PASS_LOCAL_PIXELS — isolated desk is fully visible and card-readable; no person, UI, text, logo, clipping or malformed geometry observed",
+      "repositoryStatus": "STAGED_READBACK_PASS",
+      "readbackGitBlobSha": "357f4ba8385e737499f12409c0bea141f9bc5e6a",
+      "reviewStatus": "READY_FOR_REVIEW"
     },
     {
       "id": "desks-3",
       "name": "Pixel Mini Setup",
+      "collection": "Desks & Tech",
       "tier": 1,
       "theme": "Adventure Club",
       "price": 94,
       "starReq": 0,
       "priorRepositoryAsset": null,
-      "intendedRepositoryPath": "public/assets/catalog/desks-3-v1.webp",
+      "repositoryPath": "public/assets/catalog/desks-3-v1.webp",
+      "runtimeCandidatePath": "/assets/catalog/desks-3-v1.webp",
+      "gitBlobSha": "b3352961988d7e9c5ff48d1559fc4d2296d4eab3",
       "generation": {
         "provider": "OpenAI image generation",
         "generationId": "b108ca3b-cdf6-484d-b859-ce2d294c4645",
@@ -78,23 +106,27 @@
         "dimensions": [512,512],
         "format": "WEBP",
         "quality": 90,
-        "bytes": 36786,
-        "sha256": "e309aa1190e23abf925b105510a898ea716880037075a9976d5318f719b345e1"
+        "bytes": 36084,
+        "sha256": "50db3c540f7e807c5f8dc00ba96740f802a992a7c028608778fc2cc914ca0126"
       },
       "feature": "voxel-style compact tech desk with star monitor, pixel keyboard mat, controller, map board, cube lamp, books, plant and hanging headphones",
       "producerRenderCheck": "PASS_LOCAL_PIXELS — distinct blocky silhouette and functional tech setup read clearly at 512px; no person, UI text, brand mark, clipping or malformed geometry observed",
-      "repositoryStatus": "UPLOAD_BLOCKED",
-      "reviewStatus": "NOT_READY_FOR_REVIEW"
+      "repositoryStatus": "STAGED_READBACK_PASS",
+      "readbackGitBlobSha": "b3352961988d7e9c5ff48d1559fc4d2296d4eab3",
+      "reviewStatus": "READY_FOR_REVIEW"
     },
     {
       "id": "desks-4",
       "name": "Berry Vanity Desk",
+      "collection": "Desks & Tech",
       "tier": 2,
       "theme": "Cloud Pop",
       "price": 123,
       "starReq": 0,
       "priorRepositoryAsset": null,
-      "intendedRepositoryPath": "public/assets/catalog/desks-4-v1.webp",
+      "repositoryPath": "public/assets/catalog/desks-4-v1.webp",
+      "runtimeCandidatePath": "/assets/catalog/desks-4-v1.webp",
+      "gitBlobSha": "711feeb78e6d08351fc2fd2d3176ddb1a288e8f2",
       "generation": {
         "provider": "OpenAI image generation",
         "generationId": "e6cfd295-02b8-49ea-9ec5-f7ce70ae0501",
@@ -108,34 +140,36 @@
         "dimensions": [512,512],
         "format": "WEBP",
         "quality": 90,
-        "bytes": 39954,
-        "sha256": "9a1bbf92077826e11541fac291b2eaf0ef7d33b602d5ee310576319d84f006fd"
+        "bytes": 39394,
+        "sha256": "ed9432f4dc9ac88544435621edc8d5ad8cd374f554b3ba9e828ce0d86bad3023"
       },
       "feature": "pastel berry vanity with illuminated heart mirror, strawberry lamp and brush cup, cloud side panels, jewelry tray and curved legs",
       "producerRenderCheck": "PASS_LOCAL_PIXELS — vanity identity, mirror and berry/cloud signature details are clear and materially distinct from desks-2/3; no person, UI, text, brand mark or clipping observed",
-      "repositoryStatus": "UPLOAD_BLOCKED",
-      "reviewStatus": "NOT_READY_FOR_REVIEW"
+      "repositoryStatus": "STAGED_READBACK_PASS",
+      "readbackGitBlobSha": "711feeb78e6d08351fc2fd2d3176ddb1a288e8f2",
+      "reviewStatus": "READY_FOR_REVIEW"
     }
   ],
   "checks": {
     "assignmentRevalidatedBeforeWrite": "PASS",
     "exactGameModelMetadata": "PASS_3_OF_3",
-    "priorRepositoryAssetCheck": "PASS_DESKS_2_TO_4_ABSENT",
+    "priorRepositoryAssetCheck": "PASS_DESKS_2_TO_4_ABSENT_AT_GENERATION",
     "fullQualityGeneration": "PASS_3_OF_3",
-    "localDecodeAndDimensionReadback": "PASS_3_OF_3",
-    "localProducerPixelInspection": "PASS_3_OF_3",
-    "optimizedCardDerivative": "PASS_3_OF_3_512_WEBP",
-    "repositoryBinaryUpload": "BLOCKED",
-    "repositoryReadbackHash": "NOT_TESTED_NO_REPOSITORY_BYTES",
-    "independentVisualReview": "NOT_READY",
-    "canonicalIntegration": "NOT_RUN"
+    "cardDerivativeDecodeAndDimension": "PASS_3_OF_3_512_WEBP",
+    "producerPixelInspection": "PASS_3_OF_3",
+    "repositoryBinaryUpload": "PASS_3_OF_3",
+    "repositoryReadbackHash": "PASS_3_OF_3_EXACT_GIT_BLOB_SHA",
+    "independentVisualReview": "PENDING_REVIEWER_05",
+    "canonicalIntegration": "NOT_RUN_OWNER_08"
   },
-  "blocker": {
-    "code": "BINARY_REPOSITORY_UPLOAD_SURFACE_MISSING",
-    "firstObservedThisLaneRun": true,
-    "detail": "The available GitHub write surface in this run does not expose a local/ChatGPT-file parameter for transferring generated binary image bytes directly into a repository path. UTF-8 create/update actions can write text, but the delivery protocol requires actual image bytes saved and read back before an asset may be called STAGED. The worker deliberately did not downgrade the art to a text-only geometric substitute, external URL, or promotional sheet and did not claim a sandbox/local file as repository delivery.",
-    "needed": "A supported authorized binary-file-to-GitHub write/import path that can accept the generated file reference or local bytes and allow exact hash readback. Once available, upload the existing three generated originals/card derivatives rather than regenerate them."
-  },
-  "nextAction": "On the next cycle, re-check whether workstream 15/08 has established the supported binary import path. If yes, stage desks-2..4 first, read back exact hashes, then mark them READY_FOR_REVIEW for reviewer 05. If not and the same blocker persists for the second cycle, escalate it to 15 per DELIVERY_PROTOCOL_V2 instead of generating more desks.",
-  "freeze": {"replitTouched":false,"flootTouched":false,"mainMergedOrModified":false,"canonicalManifestTouched":false,"canonicalRuntimeTouched":false}
+  "blocker": null,
+  "nextAction": "Reviewer 05 should render/review desks-2-v1.webp, desks-3-v1.webp and desks-4-v1.webp by exact current Git blob hash. Workstream 08 may integrate only ACCEPTed hashes. On the next Workstream 03 cycle, if these three remain pending review, begin a new premium micro-batch with desks-5 and desks-6; do not regenerate desks-2..4.",
+  "freeze": {
+    "replitTouched": false,
+    "flootTouched": false,
+    "mainMergedOrModified": false,
+    "canonicalManifestTouched": false,
+    "canonicalRuntimeTouched": false,
+    "playerDataTouched": false
+  }
 }
