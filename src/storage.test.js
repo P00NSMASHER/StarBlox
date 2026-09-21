@@ -1,15 +1,76 @@
 // @vitest-environment jsdom
-import { afterEach, describe, expect, it } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import {
   exportSave,
   importSave,
   loadLocalSnapshot,
   persistSnapshot,
+  readIndexedDbBackup,
   sanitizeSnapshotShape
 } from './storage';
 
+const originalIndexedDbDescriptor = Object.getOwnPropertyDescriptor(globalThis,'indexedDB');
+
+function setIndexedDb(value){
+  Object.defineProperty(globalThis,'indexedDB',{
+    configurable:true,
+    writable:true,
+    value
+  });
+}
+
+function installFakeIndexedDb(initialValue){
+  let current = initialValue;
+
+  const db = {
+    objectStoreNames:{contains:() => true},
+    createObjectStore:() => {},
+    close:() => {},
+    transaction:() => {
+      const tx = {
+        oncomplete:null,
+        onerror:null,
+        objectStore:() => ({
+          get:() => {
+            const getRequest = {result:undefined,onsuccess:null,onerror:null};
+            queueMicrotask(() => {
+              getRequest.result = current;
+              getRequest.onsuccess?.();
+              queueMicrotask(() => tx.oncomplete?.());
+            });
+            return getRequest;
+          },
+          put:(value) => {
+            current = value;
+          }
+        })
+      };
+      return tx;
+    }
+  };
+
+  setIndexedDb({
+    open:() => {
+      const request = {result:db,onupgradeneeded:null,onsuccess:null,onerror:null};
+      queueMicrotask(() => request.onsuccess?.());
+      return request;
+    }
+  });
+
+  return {current:() => current};
+}
+
+beforeEach(() => {
+  setIndexedDb(undefined);
+});
+
 afterEach(() => {
   localStorage.clear();
+  if(originalIndexedDbDescriptor){
+    Object.defineProperty(globalThis,'indexedDB',originalIndexedDbDescriptor);
+  }else{
+    delete globalThis.indexedDB;
+  }
 });
 
 describe('StarBlox persistence recovery', () => {
@@ -120,6 +181,42 @@ describe('StarBlox persistence recovery', () => {
 
     persistSnapshot(save);
     expect(loadLocalSnapshot()).toEqual(save);
+  });
+
+  it('does not let the default render mask a recoverable IndexedDB backup during hydration', async () => {
+    const backup = {
+      stateVersion:2,
+      coins:777,
+      stars:4,
+      xp:990,
+      owned:['tops-1','future-no-art-item'],
+      equipped:{top:'tops-1',back:'future-no-art-item'},
+      roomDecor:['future-no-art-room'],
+      dreamGoalId:'future-no-art-item',
+      companionBond:8
+    };
+    const defaultRender = {
+      stateVersion:2,
+      coins:40,
+      stars:0,
+      xp:0,
+      owned:['tops-1']
+    };
+    const fakeDb = installFakeIndexedDb(backup);
+
+    persistSnapshot(defaultRender);
+
+    // The missing local key remains missing until IndexedDB has been checked,
+    // so a refresh during hydration cannot prefer a freshly written default.
+    expect(localStorage.getItem('starblox-save-v2')).toBeNull();
+
+    await Promise.resolve();
+    await Promise.resolve();
+    await Promise.resolve();
+
+    expect(loadLocalSnapshot()).toMatchObject(backup);
+    expect(fakeDb.current()).toEqual(backup);
+    expect(await readIndexedDbBackup()).toMatchObject(backup);
   });
 
   it('rejects arrays as imported saves and preserves valid imports through export/import', () => {
