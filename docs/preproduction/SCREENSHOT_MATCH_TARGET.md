@@ -3,6 +3,10 @@
 Branch: `screenshot-match-preproduction`
 Production host: Replit, but **do not update or publish Replit during preproduction**.
 
+## Measurable implementation contract
+
+All visual workstreams must use `docs/preproduction/DESIGN_SYSTEM_CONTRACT.md` for shared palette, gradients, glow/bevel treatment, typography, spacing, desktop reference geometry, content-density targets, and responsive breakpoints. This file remains the compositional/behavioral north star; the design-system contract defines the measurable implementation values.
+
 ## Reference composition
 
 The target is the three user-provided reference screenshots from 2026-09-21. Match their visual hierarchy, density, proportions, polish, and game feel as closely as practical while using original StarBlox-specific artwork and preserving child-safety rules.
