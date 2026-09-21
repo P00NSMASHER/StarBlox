@@ -50,22 +50,23 @@ function decorateStore(root){
 
   const grid = page.querySelector('.storeGrid');
   if(grid){
-    grid.setAttribute('role','listbox');
+    grid.setAttribute('role','group');
     grid.setAttribute('aria-label','Store items');
   }
 
   page.querySelectorAll('.storeCard').forEach(card => {
-    card.setAttribute('role','option');
+    card.setAttribute('role','button');
     if(!card.hasAttribute('tabindex')) card.tabIndex = 0;
     const selected = card.classList.contains('sbStoreSelected') || card.getAttribute('aria-selected') === 'true';
-    card.setAttribute('aria-selected',String(selected));
+    card.setAttribute('aria-pressed',String(selected));
+    card.removeAttribute('aria-selected');
     const label = storeCardAccessibleLabel(card);
     if(label) card.setAttribute('aria-label',label);
   });
 
   const categoryRow = page.querySelector('.sbStoreCategoryRow');
   if(categoryRow){
-    categoryRow.setAttribute('role','toolbar');
+    categoryRow.setAttribute('role','group');
     categoryRow.setAttribute('aria-label','Store categories');
     categoryRow.querySelectorAll('button').forEach(button => {
       button.setAttribute('aria-pressed',String(button.classList.contains('selectedFilter')));
@@ -74,7 +75,7 @@ function decorateStore(root){
 
   const tierRow = page.querySelector('.sbStoreTierRow');
   if(tierRow){
-    tierRow.setAttribute('role','toolbar');
+    tierRow.setAttribute('role','group');
     tierRow.setAttribute('aria-label','Store tiers');
     tierRow.querySelectorAll('button').forEach(button => {
       button.setAttribute('aria-pressed',String(button.classList.contains('selectedFilter')));
@@ -130,7 +131,7 @@ function decorateHome(root){
 
   const tabs = page.querySelector('.homeCustomizeTabs');
   if(tabs){
-    tabs.setAttribute('role','toolbar');
+    tabs.setAttribute('role','group');
     tabs.setAttribute('aria-label','Customize categories');
     tabs.querySelectorAll('button').forEach(button => {
       button.setAttribute('aria-pressed',String(button.classList.contains('active')));
