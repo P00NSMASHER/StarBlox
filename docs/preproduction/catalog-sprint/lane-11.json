@@ -1,0 +1,65 @@
+{
+  "schemaVersion": 1,
+  "lane": "11",
+  "workstream": "11",
+  "phase": "CATALOG_SPRINT",
+  "status": "READY_FOR_REVIEW",
+  "branch": "screenshot-match-preproduction",
+  "inspectedSourceHead": "4d8bb9671b8c394db89d994de75ee4af3ccd578a",
+  "assignedIds": [
+    "auras-1","auras-2","auras-3","auras-4","auras-5","auras-6",
+    "auras-7","auras-8","auras-9","auras-10","auras-11","auras-12"
+  ],
+  "candidateCount": 12,
+  "assetsChangedByLane": false,
+  "assetsGeneratedByLane": 0,
+  "assetsRejectedByLane": 0,
+  "canonicalManifestChanged": false,
+  "runtimeWiringChanged": false,
+  "selfApproved": false,
+  "reviewRequired": ["01", "14"],
+  "integrationOwner": "08",
+  "assets": [
+    {"id":"auras-1","name":"Soft Sparkles","tier":1,"theme":"Midnight Neon","price":30,"starReq":0,"path":"/assets/catalog/auras-1.svg","repositoryPath":"public/assets/catalog/auras-1.svg","blobSha":"5fdf391924548197f0d1025fbfddc6b5eea1dada","bytes":1449,"dimensions":[512,512],"priorStatus":"interim-not-verified","status":"READY_FOR_REVIEW","signatureFeature":"soft six-point sparkle halo with small white motes","provenance":"pre-existing repo-owned self-contained SVG"},
+    {"id":"auras-2","name":"Cloud Puffs","tier":1,"theme":"Candy Core","price":45,"starReq":0,"path":"/assets/catalog/auras-2.svg","repositoryPath":"public/assets/catalog/auras-2.svg","blobSha":"951d0de53b0177256bb71308f18fc3c5a2563a43","bytes":1436,"dimensions":[512,512],"priorStatus":"interim-not-verified","status":"READY_FOR_REVIEW","signatureFeature":"four outlined cloud-puff clusters with a small upper star","provenance":"pre-existing repo-owned self-contained SVG"},
+    {"id":"auras-3","name":"Pixel Bits","tier":1,"theme":"Adventure Club","price":65,"starReq":0,"path":"/assets/catalog/auras-3.svg","repositoryPath":"public/assets/catalog/auras-3.svg","blobSha":"a27b05e02ca3165d18bccac63a8cff3a645e393e","bytes":1618,"dimensions":[512,512],"priorStatus":"interim-not-verified","status":"READY_FOR_REVIEW","signatureFeature":"orbiting luminous pixel blocks and square motes","provenance":"pre-existing repo-owned self-contained SVG"},
+    {"id":"auras-4","name":"Berry Hearts","tier":2,"theme":"Cloud Pop","price":85,"starReq":0,"path":"/assets/catalog/auras-4.svg","repositoryPath":"public/assets/catalog/auras-4.svg","blobSha":"feb01955145685f718c231287abbad60ecc2e408","bytes":1341,"dimensions":[512,512],"priorStatus":"interim-not-verified","status":"READY_FOR_REVIEW","signatureFeature":"four large berry-pink heart bursts with gold accent motes","provenance":"pre-existing repo-owned self-contained SVG"},
+    {"id":"auras-5","name":"Garden Fireflies","tier":2,"theme":"Pixel Party","price":125,"starReq":0,"path":"/assets/catalog/auras-5.svg","repositoryPath":"public/assets/catalog/auras-5.svg","blobSha":"537e3a60ee47a50e219ff4d165f0cf8fa7cf45f7","bytes":1515,"dimensions":[512,512],"priorStatus":"interim-not-verified","status":"READY_FOR_REVIEW","signatureFeature":"paired botanical arcs with leaf shapes and glowing firefly nodes","provenance":"pre-existing repo-owned self-contained SVG"},
+    {"id":"auras-6","name":"Galaxy Orbit","tier":2,"theme":"Berry Blast","price":175,"starReq":0,"path":"/assets/catalog/auras-6.svg","repositoryPath":"public/assets/catalog/auras-6.svg","blobSha":"12323f12b60b5b411cde8ad383d3238d78e40053","bytes":1511,"dimensions":[512,512],"priorStatus":"interim-not-verified","status":"READY_FOR_REVIEW","signatureFeature":"crossed orbital rings with four colored planets and a crown star","provenance":"pre-existing repo-owned self-contained SVG"},
+    {"id":"auras-7","name":"Sunny Rays","tier":3,"theme":"Garden Glow","price":240,"starReq":2,"path":"/assets/catalog/auras-7.svg","repositoryPath":"public/assets/catalog/auras-7.svg","blobSha":"82678bb86daa67c81faa82ca6613b698133a5ebd","bytes":1404,"dimensions":[512,512],"priorStatus":"interim-not-verified","status":"READY_FOR_REVIEW","signatureFeature":"eight directional sun-ray beams around a dashed solar ring","provenance":"pre-existing repo-owned self-contained SVG"},
+    {"id":"auras-8","name":"Aqua Bubbles","tier":3,"theme":"Galaxy Glow","price":330,"starReq":2,"path":"/assets/catalog/auras-8.svg","repositoryPath":"public/assets/catalog/auras-8.svg","blobSha":"9cf59e4329b180645ccf6a12057654a126f10cdd","bytes":1232,"dimensions":[512,512],"priorStatus":"interim-not-verified","status":"READY_FOR_REVIEW","signatureFeature":"eight large translucent bubbles with white specular highlights","provenance":"pre-existing repo-owned self-contained SVG"},
+    {"id":"auras-9","name":"Art Confetti","tier":3,"theme":"Sunny Pop","price":460,"starReq":2,"path":"/assets/catalog/auras-9.svg","repositoryPath":"public/assets/catalog/auras-9.svg","blobSha":"df6ff86bdb73909ae6e41a505861aba8bfce2f5a","bytes":1621,"dimensions":[512,512],"priorStatus":"interim-not-verified","status":"READY_FOR_REVIEW","signatureFeature":"four sweeping color strokes surrounded by bars, dots and triangular confetti","provenance":"pre-existing repo-owned self-contained SVG"},
+    {"id":"auras-10","name":"Neon Trail","tier":4,"theme":"Aqua Wave","price":640,"starReq":5,"path":"/assets/catalog/auras-10.svg","repositoryPath":"public/assets/catalog/auras-10.svg","blobSha":"be285375c688a518b491b09ff047920cc6e23fe5","bytes":1105,"dimensions":[512,512],"priorStatus":"interim-not-verified","status":"READY_FOR_REVIEW","signatureFeature":"three intersecting cyan, pink and violet neon motion trails","provenance":"pre-existing repo-owned self-contained SVG"},
+    {"id":"auras-11","name":"Dream Aurora","tier":4,"theme":"Art Attack","price":880,"starReq":5,"path":"/assets/catalog/auras-11.svg","repositoryPath":"public/assets/catalog/auras-11.svg","blobSha":"3a80508473e5364899b1276256ea26c72f9efce0","bytes":1257,"dimensions":[512,512],"priorStatus":"interim-not-verified","status":"READY_FOR_REVIEW","signatureFeature":"three layered aurora ribbons with crescent moon and star","provenance":"pre-existing repo-owned self-contained SVG"},
+    {"id":"auras-12","name":"Luxe Starstorm","tier":5,"theme":"Star Luxe","price":1200,"starReq":9,"path":"/assets/catalog/auras-12.svg","repositoryPath":"public/assets/catalog/auras-12.svg","blobSha":"afa2b684e811302c2889e068b16e730eb58e6d27","bytes":1840,"dimensions":[512,512],"priorStatus":"interim-not-verified","status":"READY_FOR_REVIEW","signatureFeature":"dual storm trails, two orbital rings and four oversized luminous stars","provenance":"pre-existing repo-owned self-contained SVG"}
+  ],
+  "sourceInspection": {
+    "effectStructure": "All 12 candidates use materially different spatial motifs rather than recolors of one geometry: sparkles, clouds, pixels, hearts, botanical fireflies, planetary orbits, solar rays, bubbles, confetti, neon trails, aurora ribbons and starstorm rings.",
+    "tierProgression": "Directionally present in source complexity: Tier 1 uses sparse motif clusters; Tier 2 adds themed structures/orbits; Tier 3 adds broader radial or multi-element fields; Tier 4 adds continuous layered trails/ribbons; Tier 5 combines multiple orbit systems, trails and oversized star bursts.",
+    "externalDependenciesObserved": false,
+    "externalRasterEmbedsObserved": false,
+    "externalFontsObserved": false,
+    "thirdPartyBrandsOrCharactersObserved": false,
+    "robloxOrBrookhavenAssetsObserved": false
+  },
+  "checks": {
+    "catalogMetadataMatched": "PASS",
+    "githubAssetPresenceBlobShaAndSize": "PASS",
+    "uniqueBlobShaWithinAssignedLane": "PASS_12_OF_12",
+    "canvasContract512x512": "PASS",
+    "sourceLevelExternalDependencyReview": "PASS",
+    "sourceLevelDistinctEffectStructures": "PASS",
+    "sourceLevelTierProgression": "PASS_DIRECTIONAL",
+    "renderedCardScaleReview": "NOT_TESTED",
+    "storeBrowserReview": "NOT_TESTED_BY_LANE_11",
+    "independentVisualApproval": "PENDING_01_14",
+    "fullBuild": "NOT_RUN_BY_LANE_11",
+    "fullTestSuite": "NOT_RUN_BY_LANE_11"
+  },
+  "blockers": [
+    "Independent rendered/card-scale review by Workstream 01 and/or 14 is still required before any auras-1..12 item can move from interim-not-verified to accepted final art.",
+    "Workstream 08 alone may update catalog-art-manifest.json and src/catalogArtRuntime.js after independent acceptance.",
+    "This lane inspected the actual repository SVG source and Git identities but does not have authoritative rendered Store-card evidence, so no screenshot-quality claim is made."
+  ],
+  "handoff": "All 12 assigned aura assets already existed as item-specific, self-contained, uniquely hashed SVG candidates and no concrete source-level defect justified rewriting them. Workstreams 01/14 should render and judge the exact blobs listed here; Workstream 08 should promote only independently accepted IDs. Lane 11 requests reassignment from Command Center 15 after review/integration needs are reconciled and will not resume motion work while the phase remains CATALOG_SPRINT."
+}
