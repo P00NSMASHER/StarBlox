@@ -1,14 +1,29 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "workstream": "12",
   "phase": "CATALOG_SPRINT",
   "status": "PASS_NO_CATALOG_INDUCED_LEARNING_REGRESSION",
   "branch": "screenshot-match-preproduction",
-  "auditedSourceHead": "f654431b2bb76d2eceb322dd35c613dfad17e7ae",
+  "auditedBranchHead": "9a041e14f09e89b0000ae60eaf3172dd4e529dc3",
+  "runtimeEvidenceHead": "f654431b2bb76d2eceb322dd35c613dfad17e7ae",
   "learningBaselineCommit": "9bbf25831da6106762ceb0bfce6e29dc32c5f41f",
+  "runtimeContinuity": {
+    "f654431_to_9a041e1": "PASS_NO_SRC_OR_CANONICAL_CATALOG_ASSET_CHANGE",
+    "changedScopes": [
+      "catalog sprint coordination/review/lane documentation",
+      "catalog integration evidence",
+      "staged-art QA workflow",
+      "CI documentation-only path filter"
+    ],
+    "learningCoreChanged": false,
+    "canonicalManifestRuntimeChanged": false,
+    "freshFullCiRequiredThisRun": false,
+    "reason": "The exact runtime/build-proven learning head remains byte-applicable because comparison through the audited branch head contains no src/, catalog-art-manifest.json, src/catalogArtRuntime.js, or production catalog asset change."
+  },
   "ci": {
     "workflowRunId": 35641273312,
     "jobId": 106470895718,
+    "runtimeHead": "f654431b2bb76d2eceb322dd35c613dfad17e7ae",
     "conclusion": "SUCCESS",
     "testFiles": "20/20 PASS",
     "tests": "85/85 PASS",
@@ -22,52 +37,72 @@
     "src/questionQualityRuntime.js": "3f47e96074c4d2e1e3f1e835aed27c654d8f072a",
     "src/semanticQuestionGuardRuntime.js": "f21bd7d9c55610bfe00c04c2e2f81efaa2e3f591",
     "src/diagnosticQuestionGuardRuntime.js": "81eba5b34384dbc7699dde70ce048e401458570f",
-    "src/questRewardPolicy.js": "4ae853a7f4bb04a811ef04b4b9a306066e33829b"
+    "src/questRewardPolicy.js": "4ae853a7f4bb04a811ef04b4b9a306066e33829b",
+    "src/questScreenshotMatchRuntime.js": "07725d00052a01152da09b98ef4e6ee20043442c",
+    "src/mobileAccessibilityRuntime.js": "8321cabf7deb6246adfabc69848fa3b3694c1d2f",
+    "src/mobileAccessibility.css": "35031e5d18de72fcd9b49b4e4a35a75340dac4dc"
   },
-  "regressionAssessment": {
-    "learningCoreChangedSinceBaseline": false,
-    "catalogRuntimeLearningMutation": "PASS_NONE_OBSERVED",
-    "catalogArtRuntimeScope": "Only stable Store item image fields are assigned; question bank, keys, choices, source, selector and reward policy are not mutated.",
-    "questDecoratorScope": "Presentation and accessibility only; no prompt, choice, key, source or scoring rewrite observed.",
-    "mobileAccessibilityScope": "ARIA/button/image-layout decoration only; no learning-content or scoring rewrite observed.",
-    "rapidQuestAnswerGuard": "PASS_DUPLICATE_CLICK_GUARD_WITHOUT_SCORING_CHANGE"
+  "newEvidenceThisRun": {
+    "type": "REAL_BROWSER_QUEST_ARTIFACT_REAUDIT",
+    "workflowRunId": 35631059432,
+    "artifactId": 10654114272,
+    "artifactName": "preproduction-visual-qa",
+    "artifactRuntimeHead": "276181274e2f11ed49b46e09852712d43899b538",
+    "artifactGeneratedAt": "2026-09-21T17:18:22.489Z",
+    "reportSha256": "72333c166e28662aaea43ca464f42dec031ac63d479565e11cd7d749933122c7",
+    "screenshots": {
+      "quest-desktop-1408x1056.png": "15bccde0c04e28cd4dc7fc488f0b921e3690325fc383109bde75cf6c4de71b20",
+      "quest-landscape-1024x768.png": "2dc81518ece6ff732126a9dd5b55286aa0c591ef13fc6f8b3ab6e31ac46f30b3",
+      "quest-phone-390x844.png": "c73b798f750548ea66565ba7532fc3b229fbd3541d03f091cd81acee6b33d299",
+      "quest-phone-320x568.png": "77e443e0dabb06ffa1b2580aca5fe1059aafff66ceb562f16e766a6d81af628d"
+    },
+    "continuityToCurrent": {
+      "questScreenshotMatchRuntimeChanged": false,
+      "questSpecificMobileCssChanged": false,
+      "questSpecificMobileRuntimeChanged": false,
+      "note": "From the artifact head to the audited branch head, questScreenshotMatchRuntime.js is unchanged. Mobile accessibility runtime changes add Store image intrinsic dimensions only; CSS changes add Store card text floors only. Quest selectors/rules visible in this artifact remain textually unchanged."
+    },
+    "auditedQuestion": {
+      "id": "religion-transfer-2",
+      "role": "transfer",
+      "skill": "religion-application",
+      "approvedUnit1Source": "Creation is a gift from God. -> We show gratitude by caring for creation.",
+      "prompt": "Creation is a gift from God. Which action best shows care for creation?",
+      "key": "Put litter in a trash can after a picnic.",
+      "distractors": [
+        "Leave paper on the grass for someone else to pick up.",
+        "Pull plants out of a garden just to throw them away."
+      ],
+      "semanticDecision": "PASS_ONE_DEFENSIBLE_ANSWER_SOURCE_BOUNDED",
+      "browserChoiceOrder": ["A=distractor_leave_paper", "B=key_put_litter_in_trash", "C=distractor_pull_plants"],
+      "initialVisualCueCheck": "PASS_NO_KEYED_ANSWER_HIGHLIGHT_OBSERVED",
+      "supportiveFeedbackCopy": "PASS_NO_LOSS_OR_SPEED_PRESSURE"
+    },
+    "browserMetrics": {
+      "desktop1408": "PASS_PROMPT_CHOICES_READ_ALOUD_HINT_MASTERY_COPY_VISIBLE; no pageerror/console.error; no horizontal overflow",
+      "phone390": "PASS_3_VISIBLE_ANSWER_CONTROLS_344px_wide_64.94px_high_16px_font; no horizontal overflow/runtime errors",
+      "phone320": "PASS_3_VISIBLE_ANSWER_CONTROLS_278px_wide_64.94_to_85.41px_high_16px_font; prompt remains readable in captured viewport; no horizontal overflow/runtime errors",
+      "landscape1024": "PASS_SCREEN_MOUNT_NO_RUNTIME_ERROR_NO_HORIZONTAL_OVERFLOW"
+    }
   },
-  "testedFamilies": {
-    "productionBank": "PASS_200_UNIQUE_VALIDATED_QUESTIONS",
-    "oneDefensibleKeyStructuralGate": "PASS",
-    "phonicsRhymeVowelsSpelling": "PASS",
-    "highFrequencyWordsUseClozeRecognition": "PASS",
-    "vocabularyInContextAndTransfer": "PASS",
-    "readingMainInferenceEvidenceCharacter": "PASS",
-    "religionUnit1": "PASS",
-    "fiveActionDeterministicQuest": "PASS_EXACTLY_5_DISTINCT",
-    "assistedRetryVsIndependentMastery": "PASS",
-    "repeatedWrongRewardFarming": "PASS_BLOCKED",
-    "catalogSvgActiveContentAndExternalReferences": "PASS_ALL_CURRENT_PUBLIC_ASSETS_CATALOG_SVGS",
-    "productionBuild": "PASS"
-  },
-  "catalogSafetyRegression": {
-    "test": "src/catalogAssetSafety.test.js",
-    "commit": "f654431b2bb76d2eceb322dd35c613dfad17e7ae",
-    "result": "PASS",
-    "rejects": [
-      "script/foreignObject/iframe/object/embed tags",
-      "inline event handlers",
-      "javascript: URIs",
-      "CSS @import",
-      "non-fragment url() references",
-      "non-fragment href/xlink:href/src references"
-    ]
+  "semanticFamilies": {
+    "phonicsRhymeVowelsSpelling": "PASS_REUSED_EXECUTED_REGRESSION_UNCHANGED_HASHES",
+    "highFrequencyWordsAndVocabulary": "PASS_REUSED_EXECUTED_REGRESSION_UNCHANGED_HASHES",
+    "readingInferenceEvidence": "PASS_REUSED_EXECUTED_REGRESSION_UNCHANGED_HASHES",
+    "religionUnit1": "PASS_EXECUTED_REGRESSION_PLUS_REAL_BROWSER_RELIGION_TRANSFER_2_REAUDIT",
+    "fiveActionDeterministicQuest": "PASS_REUSED_EXECUTED_REGRESSION_UNCHANGED_HASHES",
+    "assistedRetryVsIndependentMastery": "PASS_REUSED_EXECUTED_REGRESSION_PLUS_BROWSER_MASTERY_COPY_CONSISTENT",
+    "repeatedWrongRewardFarming": "PASS_REUSED_EXECUTED_REGRESSION_UNCHANGED_HASHES"
   },
   "newScriptReview": {
-    "docs/preproduction/catalog-sprint/import_chat_intake01.py": {
-      "status": "PASS_SCOPED_STAGING_ONLY",
-      "externalDependency": "HTTPS Adobe download endpoints are used only to stage candidate bytes, not by the game runtime.",
-      "controls": "Pinned outer archive SHA, per-file SHA/size, safe-path checks, PNG CRC/dimensions, WebP container checks, symlink rejection and no-overwrite behavior.",
-      "learningImpact": "NONE_OBSERVED"
-    },
-    "scripts/catalogMobileQa.mjs": {
+    ".github/workflows/catalog-staged-art-qa.yml": {
       "status": "PASS_QA_ONLY",
+      "scope": "Checks out the repository, installs pinned Playwright, serves repository-root catalog SVGs locally, renders lighting candidates and uploads screenshots/report.",
+      "learningImpact": "NONE_OBSERVED_NO_GAME_RUNTIME_OR_QUESTION_IMPORT"
+    },
+    ".github/workflows/ci.yml": {
+      "status": "PASS_CI_TRIGGER_ONLY",
+      "scope": "Adds docs/** and **/*.md push ignores; test/build commands unchanged.",
       "learningImpact": "NONE_OBSERVED"
     }
   },
@@ -77,19 +112,21 @@
     "newP1LearningDefects": 0
   },
   "notTested": [
-    "Physical-device or screen-reader Quest legibility in this Workstream 12 run; no catalog change altered Quest learning text and this remains a separate release-QA responsibility.",
-    "Independent visual acceptance of staged catalog art; Workstreams 01/14 own that gate."
+    "Actual click-through of religion-transfer-2 correct/wrong/clue/retry transitions in a live browser was not added by this run; existing automated reward/evidence tests remain applicable because learning/runtime hashes are unchanged.",
+    "Physical-device and VoiceOver/TalkBack/NVDA behavior remain NOT TESTED; the browser artifact is headless Chromium.",
+    "Independent catalog-art quality remains outside Workstream 12."
   ],
   "handoff": {
-    "08": "Integrate accepted catalog art only by stable item ID/image mapping. Do not widen catalogArtRuntime into question, source, selector, mastery or reward state. Re-run CI after any canonical integration.",
-    "14": "Learning gate is PASS on audited head f654431b2bb76d2eceb322dd35c613dfad17e7ae with 85/85 tests and production build green, including the new catalog SVG safety regression. Any later runtime-affecting integration requires fresh CI/readback.",
-    "15": "No catalog-induced learning blocker exists at the audited head. Do not switch the catalog phase based on this report alone; all independent art/integration/persistence gates still apply."
+    "08": "No learning re-test is required for documentation/review-only catalog changes. After the first canonical runtime/asset integration, run the affected CI/build gate and keep mapping strictly item-ID -> image path.",
+    "14": "The real-browser Quest artifact now supplies Workstream-12 legibility evidence for religion-transfer-2 at desktop/landscape/390/320, with exact screenshot hashes. Preserve a no-answer-cue initial state and the current 16px phone answer floor when later geometry is corrected.",
+    "15": "No catalog-induced learning blocker exists through audited head 9a041e14f09e89b0000ae60eaf3172dd4e529dc3. Current reviewed art rework/integration blockers are not learning blockers. Re-run Workstream 12 if gameModel, question guards, Quest scoring/selector, reward policy, Quest decorator, or Quest-specific accessibility rules change."
   },
   "freeze": {
     "replitTouched": false,
     "flootTouched": false,
     "mainMergedOrModified": false,
     "playerProgressChanged": false,
-    "curriculumExpanded": false
+    "curriculumExpanded": false,
+    "questionBankChanged": false
   }
 }
