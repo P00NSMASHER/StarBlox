@@ -24,6 +24,6 @@ jobs:
       - name: Install dependencies
         run: npm install --no-audit --no-fund
       - name: Run tests
-        run: npm test
+        run: timeout 120s npm test -- --reporter=verbose
       - name: Build production bundle
         run: npm run build
