@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "batchId": "chat-lighting-recovery-9-12-20260921",
+  "status": "INTAKE_REQUESTED_NOT_STAGED",
+  "repository": "P00NSMASHER/StarBlox",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "002bfbb7e852d089022e7433a4eb18570d918a13",
+  "producer": "04",
+  "transportHelper": "CHAT",
+  "independentReviewer": "14",
+  "canonicalWriter": "08",
+  "purpose": "Recover the exact existing Firefly generations for Lighting 9-12 already recorded GENERATED_REMOTE_UPLOAD_PENDING in lane-04. No regeneration, canonical wiring, metadata changes, ownership changes, or player-state changes.",
+  "outputReport": "docs/preproduction/catalog-sprint/chat-lighting-recovery-9-12-result.json",
+  "protection": "Preserve all accepted/final/legacy files. Write only new versioned candidate/source paths. Stop on conflicts. Current-head non-force publication only. Replit, Floot, main, saves, prices, unlocks and curriculum stay untouched.",
+  "items": [
+    {"id":"lighting-9","name":"Color Lamp","collectionId":"lighting","type":"room","tier":3,"theme":"Star Luxe","price":667,"starReq":2,"assetId":"urn:aaid:sc:US:15f7fe15-5a46-4b69-9c9d-3ad89404271e","sourceUrl":"https://at.adobe.com/kKXl9hzI25wTkLHn","renditionUrl":"https://at.adobe.com/nhEn3cq9W0wuxB2V","candidateRepositoryPath":"public/assets/catalog/lighting-9-w04-recovered-v2.jpg"},
+    {"id":"lighting-10","name":"Neon Strip Tower","collectionId":"lighting","type":"room","tier":4,"theme":"Midnight Neon","price":928,"starReq":5,"assetId":"urn:aaid:sc:US:5bdc1e60-cba6-4e2c-b80a-8742d968472b","sourceUrl":"https://at.adobe.com/x1sZHGyE7XkyM7Gh","renditionUrl":"https://at.adobe.com/oL3fX3882siTAhkl","candidateRepositoryPath":"public/assets/catalog/lighting-10-w04-recovered-v2.jpg"},
+    {"id":"lighting-11","name":"Aurora Light","collectionId":"lighting","type":"room","tier":4,"theme":"Candy Core","price":1276,"starReq":5,"assetId":"urn:aaid:sc:US:a9b8f6e7-ca6f-4132-8b62-3f77070dceb5","sourceUrl":"https://at.adobe.com/rJk8z957HUmQ0kbD","renditionUrl":"https://at.adobe.com/wqQuGrblc6gA2OyG","candidateRepositoryPath":"public/assets/catalog/lighting-11-w04-recovered-v2.jpg"},
+    {"id":"lighting-12","name":"Crystal Chandelier","collectionId":"lighting","type":"room","tier":5,"theme":"Adventure Club","price":1740,"starReq":9,"assetId":"urn:aaid:sc:US:0c826f3c-c2d5-4da4-ac5a-37a9bbddd0b4","sourceUrl":"https://at.adobe.com/vGilyl32fLyR7XCJ","renditionUrl":"https://at.adobe.com/tsGXQsgsNTZbFhyK","candidateRepositoryPath":"public/assets/catalog/lighting-12-w04-recovered-v2.jpg"}
+  ],
+  "reviewNote": "The exact remote images were producer-inspected for identity, three-dimensional construction and material/light response. This is not independent approval. Reviewer 14 must inspect repository-staged exact hashes at card/detail scale; Workstream 08 alone may canonically wire accepted versions."
+}
