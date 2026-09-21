@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Luxe Starstorm Aura">
+<defs>
+  <radialGradient id="bg" cx="50%" cy="50%" r="58%"><stop offset="0" stop-color="#fffbe8" stop-opacity=".26"/><stop offset=".4" stop-color="#ffe86e" stop-opacity=".16"/><stop offset=".68" stop-color="#b98cff" stop-opacity=".14"/><stop offset="1" stop-color="#ff4ec8" stop-opacity="0"/></radialGradient>
+  <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fffde4"/><stop offset=".22" stop-color="#ffe987"/><stop offset=".48" stop-color="#ffbf3f"/><stop offset=".72" stop-color="#ff6fc9"/><stop offset="1" stop-color="#8c6dff"/></linearGradient>
+  <linearGradient id="violet" x1="1" y1="0" x2="0" y2="1"><stop stop-color="#ffffff"/><stop offset=".25" stop-color="#d9c8ff"/><stop offset=".58" stop-color="#9f7bff"/><stop offset=".8" stop-color="#ff76d5"/><stop offset="1" stop-color="#ffd75e"/></linearGradient>
+  <filter id="glow" x="-90%" y="-90%" width="280%" height="280%"><feGaussianBlur stdDeviation="12" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%"><feDropShadow dx="0" dy="12" stdDeviation="10" flood-color="#5b398f" flood-opacity=".35"/></filter>
+</defs>
+<ellipse cx="256" cy="258" rx="222" ry="218" fill="url(#bg)"/>
+<g fill="none" stroke-linecap="round" filter="url(#shadow)">
+  <ellipse cx="256" cy="257" rx="195" ry="112" stroke="url(#gold)" stroke-width="18" transform="rotate(-17 256 257)" opacity=".93"/>
+  <ellipse cx="256" cy="258" rx="169" ry="93" stroke="url(#violet)" stroke-width="14" transform="rotate(28 256 258)" opacity=".88"/>
+  <path d="M63 337C107 126 336 67 449 217" stroke="url(#gold)" stroke-width="16" opacity=".9"/>
+  <path d="M69 188C147 420 367 445 447 283" stroke="url(#violet)" stroke-width="13" opacity=".85"/>
+</g>
+<g filter="url(#glow)" fill="url(#gold)" stroke="#fffbe3" stroke-width="3">
+  <path d="M95 132l12 25 28 4-20 19 5 28-25-13-25 13 5-28-20-19 28-4z"/>
+  <path d="M416 113l12 24 27 4-19 19 4 27-24-13-24 13 5-27-20-19 27-4z"/>
+  <path d="M78 367l11 23 25 4-18 17 4 26-22-12-23 12 5-26-19-17 26-4z"/>
+  <path d="M425 350l14 28 31 4-23 22 6 32-28-15-28 15 6-32-23-22 31-4z"/>
+</g>
+<g filter="url(#shadow)">
+  <circle cx="256" cy="103" r="25" fill="url(#gold)"/><circle cx="256" cy="103" r="10" fill="#fffce8"/>
+  <circle cx="115" cy="262" r="18" fill="url(#violet)"/><circle cx="397" cy="253" r="20" fill="url(#gold)"/>
+  <circle cx="261" cy="414" r="22" fill="url(#violet)"/>
+</g>
+<g fill="#fff" filter="url(#glow)"><circle cx="256" cy="58" r="6"/><circle cx="256" cy="454" r="6"/><circle cx="52" cy="258" r="6"/><circle cx="459" cy="258" r="6"/><circle cx="150" cy="94" r="4"/><circle cx="362" cy="88" r="4"/><circle cx="142" cy="421" r="4"/><circle cx="372" cy="419" r="4"/></g>
+<g fill="none" stroke="#fff8bd" stroke-linecap="round" filter="url(#glow)" opacity=".78"><path d="M111 171c32-32 67-47 105-46" stroke-width="6"/><path d="M302 122c44 7 79 28 105 63" stroke-width="5"/><path d="M104 334c31 39 68 61 112 67" stroke-width="5"/><path d="M302 404c44-9 78-32 102-69" stroke-width="6"/></g>
+</svg>
