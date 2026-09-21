@@ -1,12 +1,12 @@
 {
   "schemaVersion": 1,
-  "orchestrationVersion": 3,
+  "orchestrationVersion": 2,
   "phase": "CATALOG_SPRINT",
   "userPriority": "Finish catalog first; then automatically resume normal development and finish the game.",
   "optimizationAuthorization": "2026-09-21: Optimize the 15 active scheduled tasks to finish the game and match the reference screenshots as closely as technically possible.",
   "repository": "P00NSMASHER/StarBlox",
   "branch": "screenshot-match-preproduction",
-  "policyPath": "docs/preproduction/DELIVERY_PROTOCOL_V3.md",
+  "policyPath": "docs/preproduction/DELIVERY_PROTOCOL_V2.md",
   "catalogPolicyPath": "docs/preproduction/CATALOG_SPRINT.md",
   "phaseOwner": "15",
   "manifestAndRuntimeWriter": "08",
@@ -199,7 +199,7 @@
     "catalogGateStillRequiresAll192Accepted": true
   },
   "coordinationSnapshot": {
-    "observedHead": "c5a0d2d080bc9bb7e463982b36d722eff730c081",
+    "observedHead": "dc6ac6040eaccf1b7370906b1dc6de66fb185471",
     "repositoryStagedAssignedCandidates": 82,
     "generatedLocalDeskCandidates": 3,
     "assignedIdsWithAnyRepositoryOrLocalCandidate": 85,
@@ -667,17 +667,18 @@
     "note": "Status labels are not quality. Stored/reviewed/accepted/wired/release-cleared are tracked separately; replacement versions do not increase unique item count."
   },
   "latestOptimization": {
-    "at": "2026-09-21T16:46:00-04:00",
-    "protocol": "V3",
+    "at": "2026-09-21T16:56:00-04:00",
+    "protocol": "V2",
     "priorities": [
-      "finish reviewed REWORK replacements before spending reviewer time on low-value legacy repetition",
-      "remove interactive-chat-only seating repair dependency",
-      "render replacement hashes before review",
-      "integrate each ACCEPT immediately",
-      "close real-browser persistence stress",
-      "after catalog PASS fix remaining Store/Quest geometry and exact screenshot fidelity"
+      "verified P0 safety defects first",
+      "finish reviewed REWORK replacements on the catalog critical path",
+      "render replacement hashes at card/detail scale before independent review",
+      "integrate each qualified independent ACCEPT immediately",
+      "keep real-browser persistence stress as a separate release blocker",
+      "after catalog PASS return all 15 automatically to measured Home/Store/Quest/game-finishing roles"
     ],
-    "referencePixelGate": "Original reference pixels are still required for pixel-identical final sign-off; frozen contracts remain the development target until they are repository-accessible."
+    "referencePixelGate": "Original reference pixels are still required for pixel-identical final sign-off; frozen contracts remain the development target until they are repository-accessible.",
+    "authorityRepair": "Removed unauthorized DELIVERY_PROTOCOL_V3.md and corrected all 15 StarBlox automation prompts plus central state back to DELIVERY_PROTOCOL_V2.md. Preserved the valid hourly dependency stagger and current non-conflicting repair/review allocations."
   },
   "latestWholeSuiteEvidence": {
     "status": "PASS_RUNTIME_IDENTICAL_TO_CURRENT_DESCENDANT",
