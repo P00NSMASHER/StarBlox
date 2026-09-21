@@ -1,1 +1,233 @@
-{"schemaVersion":4,"reviewer":"02","partition":["shoes","backgear","handgear","seating"],"inspectedSourceHead":"0b11f74f6fde958ee7c1a412329caddcd3722994","historyRefs":[{"type":"prior-review-shard","blobSha":"adaecbc6fd1f534bd9055c2292bcb7776c27bdce","scope":"seating-2..12 and shoes-1..12","disposition":"23 REWORK / 0 ACCEPT / 0 BLOCKED"},{"type":"prior-review-shard","blobSha":"a7702dee3e2f99d5cf9bfe636a0cd83a273cfefa","scope":"prior 35 cumulative decisions, including backgear-1..12 and immutable references to earlier seating/shoes review","disposition":"35 REWORK / 0 ACCEPT / 0 BLOCKED","note":"Complete prior per-item evidence remains preserved by immutable Git history; this revision adds handgear-1..12 and seating-1 without rewriting prior decisions."}],"evidenceSets":{"handgearStorePixels":{"workflowRunId":35639821618,"artifactId":10658055447,"artifactName":"catalog-mobile-qa","artifactDigest":"sha256:b7aa40c7c0af6602607b06c284850d404ba89a85f2e242941361e2a8ee168230","runtimeHead":"4d8bb9671b8c394db89d994de75ee4af3ccd578a","screenshots":[{"file":"store-desktop-1408x1056-handgear.png","sha256":"823125366e4a1f33b95dc4e57fc9f5ab9cbc297eeaf8fc79d1c8719050fc0f0e","dimensions":[1408,1056],"coverage":"All 12 Hand Gear items visible at actual Store-card scale; handgear-1 selected in detail/try-on context."},{"file":"store-phone-390x844-handgear.png","sha256":"b904fc745c376dd37c8336442144a2055ed682be56565f8314206e09d4e431d8","dimensions":[390,844],"coverage":"handgear-1 through handgear-6 visible at actual two-column phone Store-card scale."}],"assetContinuity":"PASS — compare 4d8bb967..00d6cebf contains no handgear asset changes; 00d6cebf..0b11f74f subsequent changes contain review/release documentation only. Current exact hashes are bound below.","inspectionLimit":"handgear-7..12 are desktop-card/locked-state evidence rather than unlocked detail renders. That is sufficient to establish the material/3D-quality failures; no ACCEPT depends on unavailable detail pixels."},"seating1StorePixels":{"workflowRunId":35639821618,"artifactId":10658055447,"artifactName":"catalog-mobile-qa","artifactDigest":"sha256:b7aa40c7c0af6602607b06c284850d404ba89a85f2e242941361e2a8ee168230","runtimeHead":"4d8bb9671b8c394db89d994de75ee4af3ccd578a","screenshots":[{"file":"store-desktop-1408x1056-seating.png","sha256":"c4b4c0779429f5d0b69c8217304ea0eb1774fa42174babfcf04dd656134c7a35","dimensions":[1408,1056]},{"file":"store-phone-390x844-seating.png","sha256":"0a8a9dce36077abe2c957544bd71fc653185b646f3cd88bd972511f83f50b123","dimensions":[390,844]}],"assetContinuity":"PASS — compare evidence through current inspected head contains no seating-1.svg change."},"freshReplacementCheck":{"workflowRunId":35657434343,"artifactId":10664957658,"artifactDigest":"sha256:871923398405890ec218f1b014fb60072d4e830760440251645301733b64efca","result":"NO_FRESH_SEATING_OR_SHOE_REPLACEMENT_HASHES","coveredReplacementCollections":["auras","bottoms","companions","lighting","tops"],"action":"Proceed to remaining legacy reviewer partition rather than wait."}},"summary":{"reviewedCumulative":48,"acceptCumulative":0,"reworkCumulative":48,"blockedCumulative":0,"reviewedThisPass":13,"newHandgearRework":12,"newSeating1Rework":1,"remainingUnreviewed":0,"partitionReviewCoverage":"48/48 actual IDs","duplicateVisualConflictsThisPass":0,"nextReviewPriority":"Fresh replacement hashes for Shoes/Backgear/Handgear/Seating as soon as READY_FOR_REVIEW; otherwise Workstream 02 producer capacity moves to Beds 1–12.","handoff":"08 must not promote any exact Workstream-02 legacy hash on this evidence. 15 has full review coverage for the partition and should route replacements to non-reviewer producers while reviewer 02 produces Beds only under its assigned producer role."},"reviews":[{"itemId":"handgear-1","name":"Star Pencil Wand","tier":1,"theme":"Aqua Wave","assetPath":"/assets/catalog/handgear-1.svg","assetHash":"52fb987a01f3296f09c3ae82864d53b391d3d655","hashAlgorithm":"git-blob-sha1","sourceHead":"0b11f74f6fde958ee7c1a412329caddcd3722994","producer":"legacy-pre-sprint-repository-owned-art","decision":"REWORK","reviewedAt":"2026-09-21T21:44:00Z","evidenceRefs":["artifact:10658055447/store-desktop-1408x1056-handgear.png#sha256=823125366e4a1f33b95dc4e57fc9f5ab9cbc297eeaf8fc79d1c8719050fc0f0e","artifact:10658055447/store-phone-390x844-handgear.png#sha256=b904fc745c376dd37c8336442144a2055ed682be56565f8314206e09d4e431d8"],"reason":"The star-pencil/wand identity is readable at Store scale, but it remains a flat front-facing vector collectible with little pencil-body thickness, star mounting depth, grip detail or material response. Rebuild with three-quarter pencil/wand construction, wood/paint/metal separation and controlled Aqua Wave lighting.","checks":{"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"FAIL","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}},{"itemId":"handgear-2","name":"Cloud Pop Fidget","tier":1,"theme":"Art Attack","assetPath":"/assets/catalog/handgear-2.svg","assetHash":"0b4ca2f666ed354e6e333a447ad64e56d57e4d63","hashAlgorithm":"git-blob-sha1","sourceHead":"0b11f74f6fde958ee7c1a412329caddcd3722994","producer":"legacy-pre-sprint-repository-owned-art","decision":"REWORK","reviewedAt":"2026-09-21T21:44:00Z","evidenceRefs":["artifact:10658055447/store-desktop-1408x1056-handgear.png#sha256=823125366e4a1f33b95dc4e57fc9f5ab9cbc297eeaf8fc79d1c8719050fc0f0e","artifact:10658055447/store-phone-390x844-handgear.png#sha256=b904fc745c376dd37c8336442144a2055ed682be56565f8314206e09d4e431d8"],"reason":"The cloud/fidget concept reads, but the current piece behaves like a soft cloud badge with repeated flat buttons. Give the fidget a tangible handheld body, movable/pressable component depth, edge thickness, mixed soft/plastic materials and clearer Art Attack storytelling.","checks":{"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"FAIL","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}},{"itemId":"handgear-3","name":"Pixel Cube","tier":1,"theme":"Star Luxe","assetPath":"/assets/catalog/handgear-3.svg","assetHash":"32610cf7f0198894a0273e75d6181b5377751021","hashAlgorithm":"git-blob-sha1","sourceHead":"0b11f74f6fde958ee7c1a412329caddcd3722994","producer":"legacy-pre-sprint-repository-owned-art","decision":"REWORK","reviewedAt":"2026-09-21T21:44:00Z","evidenceRefs":["artifact:10658055447/store-desktop-1408x1056-handgear.png#sha256=823125366e4a1f33b95dc4e57fc9f5ab9cbc297eeaf8fc79d1c8719050fc0f0e","artifact:10658055447/store-phone-390x844-handgear.png#sha256=b904fc745c376dd37c8336442144a2055ed682be56565f8314206e09d4e431d8"],"reason":"The cube has useful isometric volume and reads cleanly, but its faces still look like flat vector panels with shallow material response and sticker-like pixels. Keep the strong cube silhouette while adding bevels, face depth, tactile controls/materials and restrained Star Luxe reflections.","checks":{"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"FAIL","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}},{"itemId":"handgear-4","name":"Berry Mochi Pal","tier":2,"theme":"Midnight Neon","assetPath":"/assets/catalog/handgear-4.svg","assetHash":"c34bc47aa7c47995b1038b3a81b34a1c169acb64","hashAlgorithm":"git-blob-sha1","sourceHead":"0b11f74f6fde958ee7c1a412329caddcd3722994","producer":"legacy-pre-sprint-repository-owned-art","decision":"REWORK","reviewedAt":"2026-09-21T21:44:00Z","evidenceRefs":["artifact:10658055447/store-desktop-1408x1056-handgear.png#sha256=823125366e4a1f33b95dc4e57fc9f5ab9cbc297eeaf8fc79d1c8719050fc0f0e","artifact:10658055447/store-phone-390x844-handgear.png#sha256=b904fc745c376dd37c8336442144a2055ed682be56565f8314206e09d4e431d8"],"reason":"The berry-pal identity and expression are legible, but the handheld character is rendered as a glossy flat mascot on a stem. Add convincing squishy mochi volume, dimensional face/leaf/stem attachment, contact shadows and specific Midnight Neon accents instead of background-led theme.","checks":{"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"FAIL","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}},{"itemId":"handgear-5","name":"Sprout Wand","tier":2,"theme":"Candy Core","assetPath":"/assets/catalog/handgear-5.svg","assetHash":"1648e7dfaa77103ee46b1bdd8495c30a8fc8fbc9","hashAlgorithm":"git-blob-sha1","sourceHead":"0b11f74f6fde958ee7c1a412329caddcd3722994","producer":"legacy-pre-sprint-repository-owned-art","decision":"REWORK","reviewedAt":"2026-09-21T21:44:00Z","evidenceRefs":["artifact:10658055447/store-desktop-1408x1056-handgear.png#sha256=823125366e4a1f33b95dc4e57fc9f5ab9cbc297eeaf8fc79d1c8719050fc0f0e","artifact:10658055447/store-phone-390x844-handgear.png#sha256=b904fc745c376dd37c8336442144a2055ed682be56565f8314206e09d4e431d8"],"reason":"Sprout/wand identity is clear, but leaves, medallion and shaft read as layered vector shapes rather than a manufactured magical toy. Add leaf curvature, shaft thickness, inset emblem/hardware and richer Candy Core materials with three-quarter lighting.","checks":{"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"FAIL","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}},{"itemId":"handgear-6","name":"Comet Staff","tier":2,"theme":"Adventure Club","assetPath":"/assets/catalog/handgear-6.svg","assetHash":"65f8fbdb495659c69616bf9ebf79bd032d9132b9","hashAlgorithm":"git-blob-sha1","sourceHead":"0b11f74f6fde958ee7c1a412329caddcd3722994","producer":"legacy-pre-sprint-repository-owned-art","decision":"REWORK","reviewedAt":"2026-09-21T21:44:00Z","evidenceRefs":["artifact:10658055447/store-desktop-1408x1056-handgear.png#sha256=823125366e4a1f33b95dc4e57fc9f5ab9cbc297eeaf8fc79d1c8719050fc0f0e","artifact:10658055447/store-phone-390x844-handgear.png#sha256=b904fc745c376dd37c8336442144a2055ed682be56565f8314206e09d4e431d8"],"reason":"The orbital-staff silhouette is distinctive, but the orb/ring/staff assembly remains a flat graphic construction with weak attachment depth and generic space glow. Build a believable staff head, layered translucent orb/ring materials and more specific Adventure Club exploration detail.","checks":{"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"FAIL","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}},{"itemId":"handgear-7","name":"Sunny Spinner","tier":3,"theme":"Cloud Pop","assetPath":"/assets/catalog/handgear-7.svg","assetHash":"1c440bf0918e6d144f9e1900621e705dc11867f9","hashAlgorithm":"git-blob-sha1","sourceHead":"0b11f74f6fde958ee7c1a412329caddcd3722994","producer":"legacy-pre-sprint-repository-owned-art","decision":"REWORK","reviewedAt":"2026-09-21T21:44:00Z","evidenceRefs":["artifact:10658055447/store-desktop-1408x1056-handgear.png#sha256=823125366e4a1f33b95dc4e57fc9f5ab9cbc297eeaf8fc79d1c8719050fc0f0e","artifact:10658055447/store-phone-390x844-handgear.png#sha256=b904fc745c376dd37c8336442144a2055ed682be56565f8314206e09d4e431d8"],"reason":"Spinner identity is readable, but the sun/petal assembly looks like a floating emblem rather than a handheld spinner with hub, thickness and moving blades. Add axle/hub construction, layered blade depth, tactile material response and Cloud Pop-specific treatment.","checks":{"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"FAIL","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}},{"itemId":"handgear-8","name":"Bubble Wand","tier":3,"theme":"Pixel Party","assetPath":"/assets/catalog/handgear-8.svg","assetHash":"8f1e572423b952193333c7370430620ed681d5fe","hashAlgorithm":"git-blob-sha1","sourceHead":"0b11f74f6fde958ee7c1a412329caddcd3722994","producer":"legacy-pre-sprint-repository-owned-art","decision":"REWORK","reviewedAt":"2026-09-21T21:44:00Z","evidenceRefs":["artifact:10658055447/store-desktop-1408x1056-handgear.png#sha256=823125366e4a1f33b95dc4e57fc9f5ab9cbc297eeaf8fc79d1c8719050fc0f0e","artifact:10658055447/store-phone-390x844-handgear.png#sha256=b904fc745c376dd37c8336442144a2055ed682be56565f8314206e09d4e431d8"],"reason":"Bubble-wand identity reads, but the ring, bubbles and handle are mostly planar strokes/shapes. Add ring tube thickness, grip construction, transparent soap-film/refraction cues, spatial bubbles and Pixel Party detail that survives card scale.","checks":{"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"FAIL","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}},{"itemId":"handgear-9","name":"Paint Roller","tier":3,"theme":"Berry Blast","assetPath":"/assets/catalog/handgear-9.svg","assetHash":"8996e0ba5d523c219273356f41fb41e84f23b7c8","hashAlgorithm":"git-blob-sha1","sourceHead":"0b11f74f6fde958ee7c1a412329caddcd3722994","producer":"legacy-pre-sprint-repository-owned-art","decision":"REWORK","reviewedAt":"2026-09-21T21:44:00Z","evidenceRefs":["artifact:10658055447/store-desktop-1408x1056-handgear.png#sha256=823125366e4a1f33b95dc4e57fc9f5ab9cbc297eeaf8fc79d1c8719050fc0f0e","artifact:10658055447/store-phone-390x844-handgear.png#sha256=b904fc745c376dd37c8336442144a2055ed682be56565f8314206e09d4e431d8"],"reason":"Paint-roller identity is strong, but the roller, arm and handle remain smooth flat vector pieces and the paint itself lacks thickness/wet material behavior. Add roller nap, metal arm depth, grip texture, wet paint response and richer Berry Blast dimensionality.","checks":{"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"FAIL","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}},{"itemId":"handgear-10","name":"Neon Glow Stick","tier":4,"theme":"Garden Glow","assetPath":"/assets/catalog/handgear-10.svg","assetHash":"320ee20297d0914bc4d231c9063fe41679b44b5a","hashAlgorithm":"git-blob-sha1","sourceHead":"0b11f74f6fde958ee7c1a412329caddcd3722994","producer":"legacy-pre-sprint-repository-owned-art","decision":"REWORK","reviewedAt":"2026-09-21T21:44:00Z","evidenceRefs":["artifact:10658055447/store-desktop-1408x1056-handgear.png#sha256=823125366e4a1f33b95dc4e57fc9f5ab9cbc297eeaf8fc79d1c8719050fc0f0e","artifact:10658055447/store-phone-390x844-handgear.png#sha256=b904fc745c376dd37c8336442144a2055ed682be56565f8314206e09d4e431d8"],"reason":"The glow-stick pair is readable and luminous, but Tier 4 presentation relies on bloom around simple rectangular tubes. Add translucent tube/cap/grip construction, internal emissive material, believable overlap/occlusion and Garden Glow-specific organic detail rather than glow alone.","checks":{"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"FAIL","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}},{"itemId":"handgear-11","name":"Dream Sparkle Scepter","tier":4,"theme":"Galaxy Glow","assetPath":"/assets/catalog/handgear-11.svg","assetHash":"8f8125a399faf490cb80cc1b7a54a4df3fb3be3b","hashAlgorithm":"git-blob-sha1","sourceHead":"0b11f74f6fde958ee7c1a412329caddcd3722994","producer":"legacy-pre-sprint-repository-owned-art","decision":"REWORK","reviewedAt":"2026-09-21T21:44:00Z","evidenceRefs":["artifact:10658055447/store-desktop-1408x1056-handgear.png#sha256=823125366e4a1f33b95dc4e57fc9f5ab9cbc297eeaf8fc79d1c8719050fc0f0e","artifact:10658055447/store-phone-390x844-handgear.png#sha256=b904fc745c376dd37c8336442144a2055ed682be56565f8314206e09d4e431d8"],"reason":"Moon/star scepter identity is clear, but the crescent, stars and shaft remain layered flat shapes with limited jewel/metal/translucent response. Tier 4 needs sculpted head construction, inset gems, shaft hardware and richer Galaxy Glow depth.","checks":{"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"FAIL","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}},{"itemId":"handgear-12","name":"Luxe Star Staff","tier":5,"theme":"Sunny Pop","assetPath":"/assets/catalog/handgear-12.svg","assetHash":"97202840958de2c3df3931cefea8192acf511b2d","hashAlgorithm":"git-blob-sha1","sourceHead":"0b11f74f6fde958ee7c1a412329caddcd3722994","producer":"legacy-pre-sprint-repository-owned-art","decision":"REWORK","reviewedAt":"2026-09-21T21:44:00Z","evidenceRefs":["artifact:10658055447/store-desktop-1408x1056-handgear.png#sha256=823125366e4a1f33b95dc4e57fc9f5ab9cbc297eeaf8fc79d1c8719050fc0f0e","artifact:10658055447/store-phone-390x844-handgear.png#sha256=b904fc745c376dd37c8336442144a2055ed682be56565f8314206e09d4e431d8"],"reason":"The Tier-5 star staff is recognizable and ornate, but it is still a symmetrical vector stack with shallow metal/gem volume. Rebuild with sculpted star facets, dimensional wings/settings, richer gold/gem response, attachment hardware and controlled hero lighting worthy of the top tier.","checks":{"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"FAIL","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}},{"itemId":"seating-1","name":"Floor Cushion","tier":1,"theme":"Aqua Wave","assetPath":"/assets/catalog/seating-1.svg","assetHash":"bee7bf8ad3e1eba09cd007ec51572e2b5cf416e5","hashAlgorithm":"git-blob-sha1","sourceHead":"0b11f74f6fde958ee7c1a412329caddcd3722994","producer":"legacy-pre-sprint-repository-owned-art","decision":"REWORK","reviewedAt":"2026-09-21T21:44:00Z","evidenceRefs":["artifact:10658055447/store-desktop-1408x1056-seating.png#sha256=c4b4c0779429f5d0b69c8217304ea0eb1774fa42174babfcf04dd656134c7a35","artifact:10658055447/store-phone-390x844-seating.png#sha256=0a8a9dce36077abe2c957544bd71fc653185b646f3cd88bd972511f83f50b123"],"reason":"The floor-cushion identity and Aqua Wave palette read, but the piece still feels like a rounded vector badge: cushion compression, seams/piping, fabric weave, floor contact and three-quarter soft-body depth are too weak. Keep Tier 1 simple while making it unmistakably tactile room seating.","checks":{"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"FAIL","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}}],"handoff":{"08":"No current Shoes/Backgear/Handgear/Seating hash reviewed by 02 is ACCEPTed; canonical promotion is ineligible until a fresh replacement exact hash receives independent ACCEPT.","15":"Reviewer partition is now complete 48/48, all REWORK. Route replacement production to producers other than 02; reviewer 02 should prioritize any fresh replacement hashes and otherwise use its explicit producer capacity on Beds 1–12.","05":"Workstream 02's next producer action may create versioned Bed replacements; reviewer 05 remains independent and must review exact replacement hashes.","next02Action":"If no fresh review candidate is ready at next run, begin a 2–4 item premium dimensional Bed replacement batch, preserving old versions and staging exact readback bytes."},"freeze":{"replitTouched":false,"flootTouched":false,"mainMergedOrModified":false,"productionAssetsTouched":false,"canonicalManifestOrRuntimeTouched":false,"playerDataTouched":false}}
+{
+  "schemaVersion": 5,
+  "reviewer": "02",
+  "partition": ["shoes", "backgear", "handgear", "seating"],
+  "inspectedSourceHead": "12d2ca18bd22faabe26a1c408d703293de02f97a",
+  "historyRefs": [
+    {
+      "type": "prior-review-shard",
+      "blobSha": "c643fa96785dbff73677b2582d359e0c3084ce12",
+      "scope": "Complete legacy Shoes/Backgear/Handgear/Seating partition, 48/48 exact legacy hashes",
+      "disposition": "0 ACCEPT / 48 REWORK / 0 BLOCKED",
+      "note": "Immutable prior shard preserves every item-specific legacy decision and evidence. Those REWORK decisions apply only to their exact old hashes and do not transfer to the new replacements below."
+    }
+  ],
+  "evidenceSets": {
+    "freshShoes1To4": {
+      "producer": "04",
+      "source": "docs/preproduction/catalog-sprint/chat-shoes-recovery-1-4-result.json",
+      "workflowRunId": 35666743775,
+      "metadataAndReadback": "PASS_4_OF_4_METADATA; PASS_8_OF_8_SOURCE_PLUS_CANDIDATE_EXACT_BYTE_READBACK",
+      "visualInspection": "Exact Adobe rendition pixels corresponding byte-for-byte to the stored 600x600 JPEG candidates were independently inspected by reviewer 02 at 600px detail scale and 220px card proxy scale."
+    },
+    "freshShoes5To6": {
+      "producer": "04",
+      "source": "docs/preproduction/catalog-sprint/chat-shoes-recovery-5-6-result.json",
+      "workflowRunId": 35666988858,
+      "metadataAndReadback": "PASS_2_OF_2_METADATA; PASS_4_OF_4_SOURCE_PLUS_CANDIDATE_EXACT_BYTE_READBACK",
+      "visualInspection": "Exact Adobe rendition pixels corresponding byte-for-byte to the stored 600x600 JPEG candidates were independently inspected by reviewer 02 at 600px detail scale and 220px card proxy scale."
+    },
+    "freshSeating7To10": {
+      "producer": "06",
+      "workflowRunId": 35667087896,
+      "artifactId": 10669643556,
+      "artifactName": "lane06-seating-7-10-review-evidence",
+      "artifactDigest": "sha256:00ba02a7f5081fa88e8b3520ffcdb59ebe6bc01ce2d51760f5b8702deeb94982",
+      "contactSheet": "artifacts/lane06-seating-7-10/seating-7-10-card-contact-sheet.png",
+      "detailSha256": {
+        "seating-7": "e8ebfa1aa420ee7f50ba67816f2b1adcaed1a7f727ee813888a5b357b362c5ae",
+        "seating-8": "84efc31030e7785eeb9da81e60cc986c40b7eb07ea81a64f245005650073848a",
+        "seating-9": "34a6974c3b798236c9a429b0748178f7f4fa4b49aecdef361ac6c77f890a90ee",
+        "seating-10": "ce5397be1d08cb78d2a67692dd963fae995e4cd69f045ccf2a561363ccfbd044"
+      },
+      "checks": "PASS_4_OF_4_METADATA_DECODE_UNIQUE_READBACK_AND_ISOLATED_BROWSER_RENDER"
+    }
+  },
+  "summary": {
+    "legacyPartitionReviewed": 48,
+    "legacyRework": 48,
+    "freshReplacementReviewedThisPass": 10,
+    "freshAcceptThisPass": 10,
+    "freshReworkThisPass": 0,
+    "freshBlockedThisPass": 0,
+    "usableBy08Now": ["shoes-1", "shoes-2", "shoes-3", "shoes-4", "shoes-5", "shoes-6", "seating-7", "seating-8", "seating-9", "seating-10"],
+    "nextReviewPriority": "Any newer exact hashes for these items supersede these decisions. Next prioritize fresh Seating 1-6/11-12 and Shoes 7-12, then Backgear/Handgear replacements."
+  },
+  "reviews": [
+    {
+      "itemId": "shoes-1",
+      "name": "Sneakers",
+      "tier": 1,
+      "theme": "Aqua Wave",
+      "assetPath": "/assets/catalog/shoes-1-w04-recovered-v2.jpg",
+      "assetHash": "1a0351a733c7639ecdf4d90d41e4e5159bd7e8ad",
+      "hashAlgorithm": "git-blob-sha1",
+      "sourceHead": "12d2ca18bd22faabe26a1c408d703293de02f97a",
+      "producer": "04",
+      "decision": "ACCEPT",
+      "reviewedAt": "2026-09-21T23:39:00Z",
+      "evidenceRefs": ["docs/preproduction/catalog-sprint/chat-shoes-recovery-1-4-result.json", "adobe-asset:urn:aaid:sc:US:4f905a5b-73a9-4338-881f-ed50f5b1d16a"],
+      "reason": "Paired three-quarter sneakers remain clear at card scale; layered chunky soles, laces, stitching, iridescent panels and raised aqua wave accents create convincing material depth while keeping Tier 1 simple and readable.",
+      "checks": {"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"PASS","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
+    },
+    {
+      "itemId": "shoes-2",
+      "name": "Slip-Ons",
+      "tier": 1,
+      "theme": "Art Attack",
+      "assetPath": "/assets/catalog/shoes-2-w04-recovered-v2.jpg",
+      "assetHash": "4377e9c6b996a154db67feae1adb924715364f54",
+      "hashAlgorithm": "git-blob-sha1",
+      "sourceHead": "12d2ca18bd22faabe26a1c408d703293de02f97a",
+      "producer": "04",
+      "decision": "ACCEPT",
+      "reviewedAt": "2026-09-21T23:39:00Z",
+      "evidenceRefs": ["docs/preproduction/catalog-sprint/chat-shoes-recovery-1-4-result.json", "adobe-asset:urn:aaid:sc:US:0c4d62d9-c5d2-4e8e-9aea-fcb08b5acfbb"],
+      "reason": "Canvas slip-on identity is immediate; stitched uppers and sole depth are tangible, while raised multicolor buttons and drawn paint marks communicate Art Attack without becoming a flat badge. The pair stays distinct and legible at card size.",
+      "checks": {"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"PASS","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
+    },
+    {
+      "itemId": "shoes-3",
+      "name": "High-Tops",
+      "tier": 1,
+      "theme": "Star Luxe",
+      "assetPath": "/assets/catalog/shoes-3-w04-recovered-v2.jpg",
+      "assetHash": "995c65c304af6acc85fad2a98cfe07029b486472",
+      "hashAlgorithm": "git-blob-sha1",
+      "sourceHead": "12d2ca18bd22faabe26a1c408d703293de02f97a",
+      "producer": "04",
+      "decision": "ACCEPT",
+      "reviewedAt": "2026-09-21T23:39:00Z",
+      "evidenceRefs": ["docs/preproduction/catalog-sprint/chat-shoes-recovery-1-4-result.json", "adobe-asset:urn:aaid:sc:US:68ea78e2-c7d7-4196-82bb-d3feb682d707"],
+      "reason": "Tall padded high-top silhouette, laces, panel seams and layered soles read physically at both scales. Purple leather-like panels, metallic toe treatment and restrained gold star hardware communicate Star Luxe without excessive tier spectacle.",
+      "checks": {"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"PASS","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
+    },
+    {
+      "itemId": "shoes-4",
+      "name": "Bow Shoes",
+      "tier": 2,
+      "theme": "Midnight Neon",
+      "assetPath": "/assets/catalog/shoes-4-w04-recovered-v2.jpg",
+      "assetHash": "121bd48007f74a2df4c760fa4650e7075138cffb",
+      "hashAlgorithm": "git-blob-sha1",
+      "sourceHead": "12d2ca18bd22faabe26a1c408d703293de02f97a",
+      "producer": "04",
+      "decision": "ACCEPT",
+      "reviewedAt": "2026-09-21T23:39:00Z",
+      "evidenceRefs": ["docs/preproduction/catalog-sprint/chat-shoes-recovery-1-4-result.json", "adobe-asset:urn:aaid:sc:US:01f92b75-fb85-403d-9822-d51a83e5d83a"],
+      "reason": "Large satin bows remain readable over structured dark uppers, while cyan/magenta inset sole lighting and floor spill give real Midnight Neon depth. The shoe pair is physically coherent, distinct from the other replacements and card-readable.",
+      "checks": {"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"PASS","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
+    },
+    {
+      "itemId": "shoes-5",
+      "name": "Boots",
+      "tier": 2,
+      "theme": "Candy Core",
+      "assetPath": "/assets/catalog/shoes-5-w04-v2.jpg",
+      "assetHash": "eaac23dcecf94ac3875adb61017f2436cf4d1d0c",
+      "hashAlgorithm": "git-blob-sha1",
+      "sourceHead": "12d2ca18bd22faabe26a1c408d703293de02f97a",
+      "producer": "04",
+      "decision": "ACCEPT",
+      "reviewedAt": "2026-09-21T23:39:00Z",
+      "evidenceRefs": ["docs/preproduction/catalog-sprint/chat-shoes-recovery-5-6-result.json", "adobe-asset:urn:aaid:sc:US:79816d31-2e7b-45e5-8b43-5691fded8309"],
+      "reason": "Chunky ankle-boot construction, deep tread, padded collars, laces/eyelets and layered panels are convincing. Pastel synthetic-leather surfaces and translucent candy-like hardware make Candy Core specific while preserving clean card-scale recognition.",
+      "checks": {"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"PASS","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
+    },
+    {
+      "itemId": "shoes-6",
+      "name": "Runners",
+      "tier": 2,
+      "theme": "Adventure Club",
+      "assetPath": "/assets/catalog/shoes-6-w04-v2.jpg",
+      "assetHash": "2622d23d9a24e689c669292671c531a91b355221",
+      "hashAlgorithm": "git-blob-sha1",
+      "sourceHead": "12d2ca18bd22faabe26a1c408d703293de02f97a",
+      "producer": "04",
+      "decision": "ACCEPT",
+      "reviewedAt": "2026-09-21T23:39:00Z",
+      "evidenceRefs": ["docs/preproduction/catalog-sprint/chat-shoes-recovery-5-6-result.json", "adobe-asset:urn:aaid:sc:US:1f5493d8-3baa-4a8f-a0fa-3691d2660566"],
+      "reason": "Rugged runner identity is immediate: breathable mesh, reinforced overlays, real lacing and deep cushioned tread provide material depth. Muted trail colors and subtle compass/map geometry communicate Adventure Club without relying on a flat emblem.",
+      "checks": {"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"PASS","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
+    },
+    {
+      "itemId": "seating-7",
+      "name": "Lounge Chair",
+      "tier": 3,
+      "theme": "Cloud Pop",
+      "assetPath": "/assets/catalog/seating-7-w06-v2.png",
+      "assetHash": "91457eddbb3ae915867d717eec72632ea6a183be",
+      "hashAlgorithm": "git-blob-sha1",
+      "sourceHead": "f39d7bc9e42248b514b046ed3ee6548d2b35d128",
+      "producer": "06",
+      "decision": "ACCEPT",
+      "reviewedAt": "2026-09-21T23:39:00Z",
+      "evidenceRefs": ["artifact:10669643556/artifacts/lane06-seating-7-10/seating-7-10-card-contact-sheet.png", "artifact:10669643556/detail#sha256=e8ebfa1aa420ee7f50ba67816f2b1adcaed1a7f727ee813888a5b357b362c5ae"],
+      "reason": "Rounded lounge-chair silhouette is unmistakable at card scale; segmented cushioning, upholstery seams, wood legs and contact shadow provide convincing soft-body/material depth. The ivory-lilac Cloud Pop treatment remains distinct and appropriately richer for Tier 3.",
+      "checks": {"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"PASS","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
+    },
+    {
+      "itemId": "seating-8",
+      "name": "Bubble Seat",
+      "tier": 3,
+      "theme": "Pixel Party",
+      "assetPath": "/assets/catalog/seating-8-w06-v2.png",
+      "assetHash": "23c02ab51249ab373aab264a17778a090d023eb4",
+      "hashAlgorithm": "git-blob-sha1",
+      "sourceHead": "f39d7bc9e42248b514b046ed3ee6548d2b35d128",
+      "producer": "06",
+      "decision": "ACCEPT",
+      "reviewedAt": "2026-09-21T23:39:00Z",
+      "evidenceRefs": ["artifact:10669643556/artifacts/lane06-seating-7-10/seating-7-10-card-contact-sheet.png", "artifact:10669643556/detail#sha256=84efc31030e7785eeb9da81e60cc986c40b7eb07ea81a64f245005650073848a"],
+      "reason": "Transparent spherical shell, dimensional blue cushions and a pixel-lit physical base make the Bubble Seat category obvious and Pixel Party specific. Refraction, occlusion and grounded lighting survive card reduction and differ clearly from the other chairs.",
+      "checks": {"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"PASS","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
+    },
+    {
+      "itemId": "seating-9",
+      "name": "Art Stool",
+      "tier": 3,
+      "theme": "Berry Blast",
+      "assetPath": "/assets/catalog/seating-9-w06-v2.png",
+      "assetHash": "7fcdea13121a8820dd8dc64e8982637acb2c5819",
+      "hashAlgorithm": "git-blob-sha1",
+      "sourceHead": "f39d7bc9e42248b514b046ed3ee6548d2b35d128",
+      "producer": "06",
+      "decision": "ACCEPT",
+      "reviewedAt": "2026-09-21T23:39:00Z",
+      "evidenceRefs": ["artifact:10669643556/artifacts/lane06-seating-7-10/seating-7-10-card-contact-sheet.png", "artifact:10669643556/detail#sha256=34a6974c3b798236c9a429b0748178f7f4fa4b49aecdef361ac6c77f890a90ee"],
+      "reason": "Adjustable stool construction reads immediately through the round upholstered seat, spring/hardware and tripod supports. Berry-red fabric and berry embossing deliver Berry Blast without losing the functional stool silhouette; materials and lighting are dimensional at both scales.",
+      "checks": {"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"PASS","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
+    },
+    {
+      "itemId": "seating-10",
+      "name": "Pod Chair",
+      "tier": 4,
+      "theme": "Garden Glow",
+      "assetPath": "/assets/catalog/seating-10-w06-v2.png",
+      "assetHash": "9aa53664cbc8ee24283ea44830f1f3037c576340",
+      "hashAlgorithm": "git-blob-sha1",
+      "sourceHead": "f39d7bc9e42248b514b046ed3ee6548d2b35d128",
+      "producer": "06",
+      "decision": "ACCEPT",
+      "reviewedAt": "2026-09-21T23:39:00Z",
+      "evidenceRefs": ["artifact:10669643556/artifacts/lane06-seating-7-10/seating-7-10-card-contact-sheet.png", "artifact:10669643556/detail#sha256=ce5397be1d08cb78d2a67692dd963fae995e4cd69f045ccf2a561363ccfbd044"],
+      "reason": "Deep egg/pod shell, wood interior, layered sage cushions and built-in light establish a convincing Tier-4 chair. Floral/vine details communicate Garden Glow through structure and materials rather than background color; silhouette is unique and card-readable.",
+      "checks": {"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"PASS","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
+    }
+  ],
+  "handoff": {
+    "08": "These ten exact replacement hashes have one qualified independent reviewer-02 ACCEPT and may be integrated immediately after normal metadata/file/content checks. Legacy REWORK decisions remain bound only to their old hashes.",
+    "15": "Fresh Shoes 1-6 and Seating 7-10 have cleared independent visual review. Route remaining fresh replacement production without assigning review of Workstream-02-authored Beds back to reviewer 02.",
+    "04": "Preserve Shoes 1-6 exact accepted hashes; do not regenerate or overwrite them unless a later concrete defect is found.",
+    "06": "Preserve Seating 7-10 exact accepted hashes. The four-item recipe passed independent review, so Seating 11-12 may proceed under the current assignment.",
+    "05": "Reviewer 05 remains responsible for any Workstream-02 Bed replacement exact hashes after they are repository-staged."
+  },
+  "freeze": {
+    "replitTouched": false,
+    "flootTouched": false,
+    "mainMergedOrModified": false,
+    "productionAssetsTouched": false,
+    "canonicalManifestOrRuntimeTouched": false,
+    "playerDataTouched": false
+  }
+}
