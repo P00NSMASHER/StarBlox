@@ -1,8 +1,21 @@
-const NAV_LABELS = ['Home','Quests','Study','Room','Customize','Store'];
+const NAV_TARGETS = Object.freeze({
+  world: Object.freeze({label:'Room',nav:'room',order:4,ariaLabel:'Room / Brightside City'}),
+  quest: Object.freeze({label:'Quests',nav:'quests',order:2,ariaLabel:'Quests'}),
+  study: Object.freeze({label:'Study',nav:'study',order:3,ariaLabel:'Study'}),
+  home: Object.freeze({label:'Home',nav:'home',order:1,ariaLabel:'Home'}),
+  avatar: Object.freeze({label:'Customize',nav:'customize',order:6,ariaLabel:'Customize avatar'}),
+  market: Object.freeze({label:'Store',nav:'store',order:5,ariaLabel:'Store'})
+});
 
-function clickNav(index){
-  const buttons = document.querySelectorAll('.sidebar .navBtn');
-  buttons[index]?.click();
+const NAV_SOURCE_ORDER = Object.freeze(['world','quest','study','home','avatar','market']);
+
+export function resolveShellNavTarget(source){
+  return NAV_TARGETS[String(source || '').trim().toLowerCase()] || null;
+}
+
+function clickDestination(destination){
+  const button = document.querySelector(`.sidebar .navBtn[data-sb-nav="${destination}"]`);
+  button?.click();
 }
 
 function createSettingsButton(hud){
@@ -13,6 +26,7 @@ function createSettingsButton(hud){
   button.className = 'sbSettingsButton';
   button.setAttribute('aria-label','Open StarBlox settings');
   button.setAttribute('aria-expanded','false');
+  button.setAttribute('aria-controls','sb-settings-popover');
   button.innerHTML = `
     <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
       <path d="M12 8.25A3.75 3.75 0 1 0 12 15.75 3.75 3.75 0 0 0 12 8.25Z"/>
@@ -20,6 +34,7 @@ function createSettingsButton(hud){
     </svg>`;
 
   const popover = document.createElement('div');
+  popover.id = 'sb-settings-popover';
   popover.className = 'sbSettingsPopover';
   popover.hidden = true;
   popover.setAttribute('role','dialog');
@@ -46,11 +61,11 @@ function createSettingsButton(hud){
   popover.addEventListener('click',(event) => {
     const action = event.target?.dataset?.sbAction;
     if(action === 'customize'){
-      clickNav(4);
+      clickDestination('customize');
       closePopover();
     }
     if(action === 'study'){
-      clickNav(2);
+      clickDestination('study');
       closePopover();
     }
   });
@@ -68,15 +83,19 @@ function createSettingsButton(hud){
 function decorateNav(sidebar){
   const buttons = [...sidebar.querySelectorAll('.navBtn')];
   buttons.forEach((button,index) => {
-    const label = NAV_LABELS[index];
-    if(!label) return;
-    button.dataset.sbNav = label.toLowerCase();
-    button.setAttribute('aria-label',label === 'Customize' ? 'Customize avatar' : label);
+    const source = button.dataset.sbSourceNav || NAV_SOURCE_ORDER[index];
+    const target = resolveShellNavTarget(source);
+    if(!source || !target) return;
+
+    button.dataset.sbSourceNav = source;
+    button.dataset.sbNav = target.nav;
+    button.style.order = String(target.order);
+    button.setAttribute('aria-label',target.ariaLabel);
     if(button.classList.contains('active')) button.setAttribute('aria-current','page');
     else button.removeAttribute('aria-current');
 
     const text = button.querySelector('span');
-    if(text && text.textContent !== label) text.textContent = label;
+    if(text && text.textContent !== target.label) text.textContent = target.label;
   });
 }
 
@@ -84,20 +103,32 @@ function decorateBrand(hud){
   const brand = hud.querySelector('.brand');
   if(!brand) return;
   brand.setAttribute('aria-label','Go to StarBlox Home');
+
+  if(!brand.dataset.sbHomeRouteGuard){
+    brand.dataset.sbHomeRouteGuard = 'true';
+    brand.addEventListener('click',(event) => {
+      const home = document.querySelector('.sidebar .navBtn[data-sb-nav="home"]');
+      if(!home) return;
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      home.click();
+    },true);
+  }
+
   const logo = brand.querySelector('.logo');
   if(logo && logo.textContent !== 'STARBLOX★') logo.textContent = 'STARBLOX★';
   const subtitle = brand.querySelector('small');
   if(subtitle && subtitle.textContent !== 'BRIGHTSIDE CITY') subtitle.textContent = 'BRIGHTSIDE CITY';
 }
 
-function applyShellChrome(){
+export function applyShellChrome(){
   const hud = document.querySelector('.hud');
   const sidebar = document.querySelector('.sidebar');
+  if(sidebar) decorateNav(sidebar);
   if(hud){
     decorateBrand(hud);
     createSettingsButton(hud);
   }
-  if(sidebar) decorateNav(sidebar);
 }
 
 let queued = false;
@@ -106,6 +137,7 @@ function scheduleApply(){
   queued = true;
   queueMicrotask(() => {
     queued = false;
+    if(typeof document === 'undefined') return;
     applyShellChrome();
   });
 }
