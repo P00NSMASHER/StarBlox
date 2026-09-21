@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" role="img" aria-label="Pixel Party Cloud Lamp">
+<defs>
+  <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+    <stop stop-color="#ffffff" offset="0"/><stop stop-color="#d9d4ff" offset=".5"/><stop stop-color="#33d5ff" stop-opacity=".62" offset="1"/>
+  </linearGradient>
+  <radialGradient id="halo" cx="50%" cy="43%" r="52%">
+    <stop stop-color="#fff" stop-opacity=".96" offset="0"/><stop stop-color="#7657e9" stop-opacity=".32" offset=".42"/><stop stop-color="#33d5ff" stop-opacity="0" offset="1"/>
+  </radialGradient>
+  <linearGradient id="metal" x1="0" y1="0" x2="1" y2="1">
+    <stop stop-color="#fff" offset="0"/><stop stop-color="#dfe6f1" offset=".24"/><stop stop-color="#8090a9" offset=".58"/><stop stop-color="#f6fbff" offset=".82"/><stop stop-color="#5b677a" offset="1"/>
+  </linearGradient>
+  <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+    <stop stop-color="#fff6b0"/><stop stop-color="#ffd34f" offset=".35"/><stop stop-color="#c67c14" offset=".72"/><stop stop-color="#ffe982" offset="1"/>
+  </linearGradient>
+  <linearGradient id="glass" x1="0" y1="0" x2="1" y2="1">
+    <stop stop-color="#fff" stop-opacity=".92"/><stop stop-color="#7657e9" stop-opacity=".58" offset=".48"/><stop stop-color="#33d5ff" stop-opacity=".78" offset="1"/>
+  </linearGradient>
+  <filter id="shadow" x="-40%" y="-40%" width="180%" height="190%">
+    <feDropShadow dx="0" dy="28" stdDeviation="20" flood-color="#172646" flood-opacity=".28"/>
+    <feDropShadow dx="-7" dy="-8" stdDeviation="8" flood-color="#ffffff" flood-opacity=".38"/>
+  </filter>
+  <filter id="glow" x="-80%" y="-80%" width="260%" height="260%">
+    <feGaussianBlur stdDeviation="14" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+  </filter>
+  <filter id="softGlow" x="-60%" y="-60%" width="220%" height="220%">
+    <feGaussianBlur stdDeviation="7" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+  </filter>
+</defs>
+<rect width="800" height="800" rx="72" fill="url(#bg)"/>
+<circle cx="400" cy="350" r="285" fill="url(#halo)"/>
+<ellipse cx="400" cy="685" rx="250" ry="46" fill="#172646" opacity=".14"/>
+<path d="M88 108C188 48 315 36 420 58" fill="none" stroke="#fff" stroke-width="18" stroke-linecap="round" opacity=".35"/>
+<g fill="#fff" opacity=".88">
+ <path d="M112 158l10 23 23 10-23 10-10 23-10-23-23-10 23-10z"/>
+ <path d="M676 166l7 17 17 7-17 7-7 17-7-17-17-7 17-7z"/>
+ <circle cx="122" cy="598" r="7"/><circle cx="674" cy="610" r="9"/>
+</g>
+
+<g filter="url(#shadow)">
+  <ellipse cx="400" cy="646" rx="155" ry="30" fill="#2f3567" opacity=".18"/>
+  <path d="M330 606h140l28 38H302z" fill="url(#metal)" stroke="#fff" stroke-width="9"/>
+  <rect x="387" y="440" width="26" height="176" rx="13" fill="url(#metal)"/>
+  <g filter="url(#glow)">
+    <path d="M262 388c0-47 37-84 83-84 16-58 73-91 129-69 35 14 58 43 66 77 53 1 96 44 96 97 0 55-45 100-100 100H340c-43 0-78-35-78-78 0-16 5-31 13-43-8 1-13 0-13 0z" fill="#f8fdff" stroke="#fff" stroke-width="12"/>
+    <path d="M323 384c35 18 70 20 106 5 39-16 71-13 104 7" fill="none" stroke="#7657e9" stroke-opacity=".25" stroke-width="16" stroke-linecap="round"/>
+  </g>
+  <path d="M348 513c0 31-22 55-49 55s-49-24-49-55c0-20 21-50 49-82 28 32 49 62 49 82z" fill="#33d5ff" opacity=".76" stroke="#fff" stroke-width="6"/>
+  <path d="M550 520c0 23-16 41-37 41s-37-18-37-41c0-15 16-38 37-62 21 24 37 47 37 62z" fill="#7657e9" opacity=".64" stroke="#fff" stroke-width="6"/>
+</g>
+
+<g transform="translate(610 620)" opacity=".95">
+  <rect x="0" y="0" width="118" height="42" rx="21" fill="#071e57" opacity=".82" stroke="#8ae9ff" stroke-width="3"/>
+  <path d="M22 9l5 12 13 1-10 8 3 12-11-7-11 7 3-12-10-8 13-1z" fill="#ffd84f"/>
+  <text x="76" y="28" text-anchor="middle" font-family="Trebuchet MS,system-ui,sans-serif" font-weight="900" font-size="17" fill="#fff">TIER 1</text>
+</g>
+</svg>

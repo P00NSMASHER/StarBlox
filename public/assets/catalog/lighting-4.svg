@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" role="img" aria-label="Garden Glow Heart Lamp">
+<defs>
+  <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+    <stop stop-color="#fff9df" offset="0"/><stop stop-color="#dff6da" offset=".5"/><stop stop-color="#f0b94f" stop-opacity=".62" offset="1"/>
+  </linearGradient>
+  <radialGradient id="halo" cx="50%" cy="43%" r="52%">
+    <stop stop-color="#fff" stop-opacity=".96" offset="0"/><stop stop-color="#67b96b" stop-opacity=".32" offset=".42"/><stop stop-color="#f0b94f" stop-opacity="0" offset="1"/>
+  </radialGradient>
+  <linearGradient id="metal" x1="0" y1="0" x2="1" y2="1">
+    <stop stop-color="#fff" offset="0"/><stop stop-color="#dfe6f1" offset=".24"/><stop stop-color="#8090a9" offset=".58"/><stop stop-color="#f6fbff" offset=".82"/><stop stop-color="#5b677a" offset="1"/>
+  </linearGradient>
+  <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+    <stop stop-color="#fff6b0"/><stop stop-color="#ffd34f" offset=".35"/><stop stop-color="#c67c14" offset=".72"/><stop stop-color="#ffe982" offset="1"/>
+  </linearGradient>
+  <linearGradient id="glass" x1="0" y1="0" x2="1" y2="1">
+    <stop stop-color="#fff" stop-opacity=".92"/><stop stop-color="#67b96b" stop-opacity=".58" offset=".48"/><stop stop-color="#f0b94f" stop-opacity=".78" offset="1"/>
+  </linearGradient>
+  <filter id="shadow" x="-40%" y="-40%" width="180%" height="190%">
+    <feDropShadow dx="0" dy="28" stdDeviation="20" flood-color="#172646" flood-opacity=".28"/>
+    <feDropShadow dx="-7" dy="-8" stdDeviation="8" flood-color="#ffffff" flood-opacity=".38"/>
+  </filter>
+  <filter id="glow" x="-80%" y="-80%" width="260%" height="260%">
+    <feGaussianBlur stdDeviation="14" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+  </filter>
+  <filter id="softGlow" x="-60%" y="-60%" width="220%" height="220%">
+    <feGaussianBlur stdDeviation="7" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+  </filter>
+</defs>
+<rect width="800" height="800" rx="72" fill="url(#bg)"/>
+<circle cx="400" cy="350" r="285" fill="url(#halo)"/>
+<ellipse cx="400" cy="685" rx="250" ry="46" fill="#172646" opacity=".14"/>
+<path d="M88 108C188 48 315 36 420 58" fill="none" stroke="#fff" stroke-width="18" stroke-linecap="round" opacity=".35"/>
+<g fill="#fff" opacity=".88">
+ <path d="M112 158l10 23 23 10-23 10-10 23-10-23-23-10 23-10z"/>
+ <path d="M676 166l7 17 17 7-17 7-7 17-7-17-17-7 17-7z"/>
+ <circle cx="122" cy="598" r="7"/><circle cx="674" cy="610" r="9"/>
+</g>
+
+<g filter="url(#shadow)">
+  <ellipse cx="400" cy="652" rx="156" ry="31" fill="#2d5336" opacity=".15"/>
+  <path d="M315 615h170l34 34H281z" fill="url(#gold)" stroke="#fff" stroke-width="9"/>
+  <rect x="387" y="420" width="26" height="205" rx="13" fill="url(#gold)"/>
+  <g filter="url(#glow)">
+    <path d="M400 480C282 414 248 349 270 294c17-42 70-61 106-24l24 24 24-24c36-37 89-18 106 24 22 55-12 120-130 186z" fill="#ff96c7" stroke="#fff" stroke-width="12"/>
+    <path d="M400 426c-70-42-89-78-78-107 8-20 31-28 48-11l30 31 30-31c17-17 40-9 48 11 11 29-8 65-78 107z" fill="#fff8d7" opacity=".92"/>
+  </g>
+  <path d="M299 290c21-36 60-40 89-10" fill="none" stroke="#fff" stroke-width="14" stroke-linecap="round" opacity=".7"/>
+</g>
+
+<g transform="translate(610 620)" opacity=".95">
+  <rect x="0" y="0" width="118" height="42" rx="21" fill="#071e57" opacity=".82" stroke="#8ae9ff" stroke-width="3"/>
+  <path d="M22 9l5 12 13 1-10 8 3 12-11-7-11 7 3-12-10-8 13-1z" fill="#ffd84f"/>
+  <text x="76" y="28" text-anchor="middle" font-family="Trebuchet MS,system-ui,sans-serif" font-weight="900" font-size="17" fill="#fff">TIER 2</text>
+</g>
+</svg>

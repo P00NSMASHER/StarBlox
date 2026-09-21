@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" role="img" aria-label="Galaxy Glow Vine Light">
+<defs>
+  <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+    <stop stop-color="#f8f6ff" offset="0"/><stop stop-color="#d7dbff" offset=".5"/><stop stop-color="#8bdcff" stop-opacity=".62" offset="1"/>
+  </linearGradient>
+  <radialGradient id="halo" cx="50%" cy="43%" r="52%">
+    <stop stop-color="#fff" stop-opacity=".96" offset="0"/><stop stop-color="#5b55c7" stop-opacity=".32" offset=".42"/><stop stop-color="#8bdcff" stop-opacity="0" offset="1"/>
+  </radialGradient>
+  <linearGradient id="metal" x1="0" y1="0" x2="1" y2="1">
+    <stop stop-color="#fff" offset="0"/><stop stop-color="#dfe6f1" offset=".24"/><stop stop-color="#8090a9" offset=".58"/><stop stop-color="#f6fbff" offset=".82"/><stop stop-color="#5b677a" offset="1"/>
+  </linearGradient>
+  <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+    <stop stop-color="#fff6b0"/><stop stop-color="#ffd34f" offset=".35"/><stop stop-color="#c67c14" offset=".72"/><stop stop-color="#ffe982" offset="1"/>
+  </linearGradient>
+  <linearGradient id="glass" x1="0" y1="0" x2="1" y2="1">
+    <stop stop-color="#fff" stop-opacity=".92"/><stop stop-color="#5b55c7" stop-opacity=".58" offset=".48"/><stop stop-color="#8bdcff" stop-opacity=".78" offset="1"/>
+  </linearGradient>
+  <filter id="shadow" x="-40%" y="-40%" width="180%" height="190%">
+    <feDropShadow dx="0" dy="28" stdDeviation="20" flood-color="#172646" flood-opacity=".28"/>
+    <feDropShadow dx="-7" dy="-8" stdDeviation="8" flood-color="#ffffff" flood-opacity=".38"/>
+  </filter>
+  <filter id="glow" x="-80%" y="-80%" width="260%" height="260%">
+    <feGaussianBlur stdDeviation="14" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+  </filter>
+  <filter id="softGlow" x="-60%" y="-60%" width="220%" height="220%">
+    <feGaussianBlur stdDeviation="7" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+  </filter>
+</defs>
+<rect width="800" height="800" rx="72" fill="url(#bg)"/>
+<circle cx="400" cy="350" r="285" fill="url(#halo)"/>
+<ellipse cx="400" cy="685" rx="250" ry="46" fill="#172646" opacity=".14"/>
+<path d="M88 108C188 48 315 36 420 58" fill="none" stroke="#fff" stroke-width="18" stroke-linecap="round" opacity=".35"/>
+<g fill="#fff" opacity=".88">
+ <path d="M112 158l10 23 23 10-23 10-10 23-10-23-23-10 23-10z"/>
+ <path d="M676 166l7 17 17 7-17 7-7 17-7-17-17-7 17-7z"/>
+ <circle cx="122" cy="598" r="7"/><circle cx="674" cy="610" r="9"/>
+</g>
+
+<g filter="url(#shadow)">
+  <ellipse cx="400" cy="660" rx="190" ry="35" fill="#223d2b" opacity=".16"/>
+  <path d="M280 625h240l28 34H252z" fill="#6d7f5a" stroke="#fff" stroke-width="9"/>
+  <path d="M304 623c0-208 43-346 96-346s96 138 96 346" fill="none" stroke="#4f6c44" stroke-width="28" stroke-linecap="round"/>
+  <path d="M324 570c-50-21-78-54-92-99m60 17c-9-38-4-73 17-105m169 165c44-25 69-58 78-99m-47 21c13-42 9-78-11-109" fill="none" stroke="#67b96b" stroke-width="16" stroke-linecap="round"/>
+  <g fill="#89cf7e" stroke="#fff" stroke-width="5">
+    <ellipse cx="244" cy="454" rx="35" ry="18" transform="rotate(28 244 454)"/><ellipse cx="296" cy="398" rx="34" ry="18" transform="rotate(-34 296 398)"/>
+    <ellipse cx="557" cy="435" rx="36" ry="18" transform="rotate(-28 557 435)"/><ellipse cx="505" cy="368" rx="34" ry="18" transform="rotate(34 505 368)"/>
+  </g>
+  <g fill="#fff2a0" stroke="#fff" stroke-width="5" filter="url(#softGlow)">
+    <circle cx="400" cy="300" r="29"/><circle cx="347" cy="368" r="22"/><circle cx="455" cy="371" r="22"/>
+    <circle cx="310" cy="470" r="18"/><circle cx="493" cy="476" r="18"/>
+  </g>
+  <g fill="#f0b94f"><circle cx="400" cy="300" r="10"/><circle cx="347" cy="368" r="8"/><circle cx="455" cy="371" r="8"/></g>
+</g>
+
+<g transform="translate(610 620)" opacity=".95">
+  <rect x="0" y="0" width="118" height="42" rx="21" fill="#071e57" opacity=".82" stroke="#8ae9ff" stroke-width="3"/>
+  <path d="M22 9l5 12 13 1-10 8 3 12-11-7-11 7 3-12-10-8 13-1z" fill="#ffd84f"/>
+  <text x="76" y="28" text-anchor="middle" font-family="Trebuchet MS,system-ui,sans-serif" font-weight="900" font-size="17" fill="#fff">TIER 2</text>
+</g>
+</svg>

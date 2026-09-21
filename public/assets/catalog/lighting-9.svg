@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" role="img" aria-label="Star Luxe Color Lamp">
+<defs>
+  <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+    <stop stop-color="#fff8e8" offset="0"/><stop stop-color="#fff0c9" offset=".5"/><stop stop-color="#6a4ec7" stop-opacity=".62" offset="1"/>
+  </linearGradient>
+  <radialGradient id="halo" cx="50%" cy="43%" r="52%">
+    <stop stop-color="#fff" stop-opacity=".96" offset="0"/><stop stop-color="#d9aa2f" stop-opacity=".32" offset=".42"/><stop stop-color="#6a4ec7" stop-opacity="0" offset="1"/>
+  </radialGradient>
+  <linearGradient id="metal" x1="0" y1="0" x2="1" y2="1">
+    <stop stop-color="#fff" offset="0"/><stop stop-color="#dfe6f1" offset=".24"/><stop stop-color="#8090a9" offset=".58"/><stop stop-color="#f6fbff" offset=".82"/><stop stop-color="#5b677a" offset="1"/>
+  </linearGradient>
+  <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+    <stop stop-color="#fff6b0"/><stop stop-color="#ffd34f" offset=".35"/><stop stop-color="#c67c14" offset=".72"/><stop stop-color="#ffe982" offset="1"/>
+  </linearGradient>
+  <linearGradient id="glass" x1="0" y1="0" x2="1" y2="1">
+    <stop stop-color="#fff" stop-opacity=".92"/><stop stop-color="#d9aa2f" stop-opacity=".58" offset=".48"/><stop stop-color="#6a4ec7" stop-opacity=".78" offset="1"/>
+  </linearGradient>
+  <filter id="shadow" x="-40%" y="-40%" width="180%" height="190%">
+    <feDropShadow dx="0" dy="28" stdDeviation="20" flood-color="#172646" flood-opacity=".28"/>
+    <feDropShadow dx="-7" dy="-8" stdDeviation="8" flood-color="#ffffff" flood-opacity=".38"/>
+  </filter>
+  <filter id="glow" x="-80%" y="-80%" width="260%" height="260%">
+    <feGaussianBlur stdDeviation="14" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+  </filter>
+  <filter id="softGlow" x="-60%" y="-60%" width="220%" height="220%">
+    <feGaussianBlur stdDeviation="7" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+  </filter>
+</defs>
+<rect width="800" height="800" rx="72" fill="url(#bg)"/>
+<circle cx="400" cy="350" r="285" fill="url(#halo)"/>
+<ellipse cx="400" cy="685" rx="250" ry="46" fill="#172646" opacity=".14"/>
+<path d="M88 108C188 48 315 36 420 58" fill="none" stroke="#fff" stroke-width="18" stroke-linecap="round" opacity=".35"/>
+<g fill="#fff" opacity=".88">
+ <path d="M112 158l10 23 23 10-23 10-10 23-10-23-23-10 23-10z"/>
+ <path d="M676 166l7 17 17 7-17 7-7 17-7-17-17-7 17-7z"/>
+ <circle cx="122" cy="598" r="7"/><circle cx="674" cy="610" r="9"/>
+</g>
+
+<g filter="url(#shadow)">
+  <ellipse cx="400" cy="659" rx="170" ry="34" fill="#604519" opacity=".14"/>
+  <path d="M300 624h200l30 35H270z" fill="url(#gold)" stroke="#fff" stroke-width="9"/>
+  <rect x="388" y="464" width="24" height="170" rx="12" fill="url(#gold)"/>
+  <g filter="url(#glow)" stroke="#fff" stroke-width="9">
+    <path d="M400 205l118 122-55 157H337l-55-157z" fill="#fff8d2"/>
+    <path d="M400 205l0 279H337l-55-157z" fill="#ff8a70" opacity=".9"/>
+    <path d="M400 205l118 122-55 157H400z" fill="#7b5edc" opacity=".9"/>
+    <path d="M282 327h236l-55 157H337z" fill="#ffd84f" opacity=".66"/>
+  </g>
+  <path d="M400 235l34 78 84 8-64 55 18 82-72-44-72 44 18-82-64-55 84-8z" fill="none" stroke="#fff" stroke-width="9" opacity=".7"/>
+  <circle cx="354" cy="288" r="14" fill="#fff"/>
+</g>
+
+<g transform="translate(610 620)" opacity=".95">
+  <rect x="0" y="0" width="118" height="42" rx="21" fill="#071e57" opacity=".82" stroke="#8ae9ff" stroke-width="3"/>
+  <path d="M22 9l5 12 13 1-10 8 3 12-11-7-11 7 3-12-10-8 13-1z" fill="#ffd84f"/>
+  <text x="76" y="28" text-anchor="middle" font-family="Trebuchet MS,system-ui,sans-serif" font-weight="900" font-size="17" fill="#fff">TIER 3</text>
+</g>
+</svg>
