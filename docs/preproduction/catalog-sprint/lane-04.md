@@ -1,81 +1,68 @@
 # Catalog Sprint Lane 04 — Lighting / Shoes Repair
 
-STATUS: **LIGHTING 1–4 INDEPENDENTLY ACCEPTED; LIGHTING 5–12 GENERATED REMOTE; SHOES 1–4 GENERATED REMOTE; CANONICAL WIRING UNCHANGED**
+STATUS: **ALL ASSIGNED LIGHTING 1–12 AND SHOES 1–6 HAVE REPOSITORY-STORED CURRENT CANDIDATES; REVIEW FEEDBACK NOW GATES FURTHER PRODUCTION**
 
 Repository: `P00NSMASHER/StarBlox`  
 Branch: `screenshot-match-preproduction`  
-Active phase: `CATALOG_SPRINT`  
-Primary assignment: `lighting-1` through `lighting-12`  
-Secondary repair assignment: `shoes-1` through `shoes-6`  
-Lighting independent reviewer: **Workstream 14**  
-Shoes independent reviewer: **Workstream 02**  
-Canonical manifest/runtime owner: **Workstream 08**  
-Replit/Floot/main/player data: **untouched**
+Phase: `CATALOG_SPRINT`  
+Lighting reviewer: Workstream 14  
+Shoes reviewer: Workstream 02  
+Canonical manifest/runtime: Workstream 08 only  
+Replit/Floot/main/player data: untouched
 
-## Material progress this pass
+## Lighting
 
-Reviewer 14 has now independently reviewed the exact repository-staged Lighting v2 replacements. `lighting-1` through `lighting-4` are **ACCEPT 4/4** by exact Git blob hash. This closes their visual-review blocker and makes those exact versions eligible for Workstream 08's metadata/file/content checks and incremental canonical integration. Lane 04 did not edit the canonical manifest/runtime and did not self-approve anything.
+`lighting-1..4` are independently **ACCEPTED** by reviewer 14 and are already the canonical paths in manifest v15. Their exact accepted blobs remain:
 
-Review evidence: Workstream-14 review blob `f3f20ddb9d2104aec998e70711584133b4d5e490`; workflow run `35656393329`; artifact `10665735307`; digest `sha256:ad8d2da6f5553eb922616956515b85a16c89d80b34574e6679dfd6716c6f3233`.
+| ID | Canonical path | Git blob |
+|---|---|---|
+| lighting-1 | `public/assets/catalog/lighting-1-v2.jpg` | `9d8aa142fa53f06dbad9ce59e9c8d34c1096ddc3` |
+| lighting-2 | `public/assets/catalog/lighting-2-v2.jpg` | `8c10fe689d6d7e398e85b24eb1ca1323cee07ea3` |
+| lighting-3 | `public/assets/catalog/lighting-3-v2.jpg` | `fc21ddf5a608ee393410ff9682cf2ef87a56c46d` |
+| lighting-4 | `public/assets/catalog/lighting-4-v2.jpg` | `7975e490a9fb97574f03081acf9fc871c22224f3` |
 
-| ID | Versioned path | Git blob SHA | Bytes | Independent state |
+`lighting-5..12` are now fully staged as exact recovered Firefly renditions; the old raw-byte staging blocker is closed. All candidates are 600×600 JPEGs with their 1024×1024 originals preserved under `docs/preproduction/catalog-sprint/recovered-originals/`.
+
+| ID | Candidate path | Git blob | Bytes | State |
 |---|---|---|---:|---|
-| `lighting-1` | `public/assets/catalog/lighting-1-v2.jpg` | `9d8aa142fa53f06dbad9ce59e9c8d34c1096ddc3` | 21,735 | **ACCEPT** |
-| `lighting-2` | `public/assets/catalog/lighting-2-v2.jpg` | `8c10fe689d6d7e398e85b24eb1ca1323cee07ea3` | 26,239 | **ACCEPT** |
-| `lighting-3` | `public/assets/catalog/lighting-3-v2.jpg` | `fc21ddf5a608ee393410ff9682cf2ef87a56c46d` | 27,378 | **ACCEPT** |
-| `lighting-4` | `public/assets/catalog/lighting-4-v2.jpg` | `7975e490a9fb97574f03081acf9fc871c22224f3` | 21,757 | **ACCEPT** |
+| lighting-5 | `public/assets/catalog/lighting-5-w04-recovered-v2.jpg` | `a9e03e73c7080fdc2effd884bb0965999954d90c` | 70,274 | READY_FOR_REVIEW_14; isolated card/detail render PASS |
+| lighting-6 | `public/assets/catalog/lighting-6-w04-recovered-v2.jpg` | `d8d8fca7cda78451860377bfdfd257b4a450aa9c` | 40,517 | READY_FOR_REVIEW_14; isolated card/detail render PASS |
+| lighting-7 | `public/assets/catalog/lighting-7-w04-recovered-v2.jpg` | `7ce162a18ab641df7ab73f380557aad5aa64b24d` | 54,969 | READY_FOR_REVIEW_14; isolated card/detail render PASS |
+| lighting-8 | `public/assets/catalog/lighting-8-w04-recovered-v2.jpg` | `9073a049ec9116cf3e4408adf068be48f1ad00f1` | 59,051 | READY_FOR_REVIEW_14; isolated card/detail render PASS |
+| lighting-9 | `public/assets/catalog/lighting-9-w04-recovered-v2.jpg` | `d9a0e461a1a8ace589cf6be1ec93e61972ba7faf` | 54,235 | READY_FOR_REVIEW_FIXTURE_14 |
+| lighting-10 | `public/assets/catalog/lighting-10-w04-recovered-v2.jpg` | `e4ca304730d4c330711534c2c7c52da218c9acfa` | 59,730 | READY_FOR_REVIEW_FIXTURE_14 |
+| lighting-11 | `public/assets/catalog/lighting-11-w04-recovered-v2.jpg` | `995b6ae729b3daa9e1199dd032b24e128db0b61b` | 44,462 | READY_FOR_REVIEW_FIXTURE_14 |
+| lighting-12 | `public/assets/catalog/lighting-12-w04-recovered-v2.jpg` | `ddb71949f485348a45e00c5105eb336ad55a010a` | 86,386 | READY_FOR_REVIEW_FIXTURE_14 |
 
-Attachment/readback remains PASS 4/4 from commit `f1f8492182e51358dda8e106644361feea5781f1`.
+Lighting 5–8 exact card/detail evidence is from isolated render run `35665938359`. Lighting 9–12 exact byte recovery/readback succeeded in run `35666422739`; metadata/decode/readback passed 4/4. Legacy `lighting-5..12.svg` REWORK decisions do not transfer to these new hashes.
 
-## Lighting 5–12 — preserve exact generated assets, do not regenerate
+## Shoes 1–6
 
-The dimensional Firefly repairs remain preserved by stable GenAI asset ID and producer pixel inspection. Their legacy hashes remain REWORK; the new generated versions require repository staging and a fresh exact-hash Workstream-14 review before any integration.
+The previously generated Shoes 1–4 Firefly replacements have now also crossed the byte boundary and are repository-staged. Their exact candidate and original bytes passed metadata/decode/readback checks in run `35666743775`.
 
-| ID | Item / theme | Firefly GenAI asset | Producer evidence | State |
-|---|---|---|---|---|
-| `lighting-5` | Vine Light / Galaxy Glow | `urn:aaid:sc:US:a7777709-a50b-40e8-987a-dfaef58bfb75` | Sculptural bronze vine, layered translucent leaves, emissive nodes, physical base/cast shadow. | GENERATED_REMOTE_UPLOAD_PENDING |
-| `lighting-6` | Planet Lamp / Sunny Pop | `urn:aaid:sc:US:42d0edcf-6e79-4035-91e8-26514ee0b7d4` | Dimensional glowing globe with separated orbit rings and physical metal support. | GENERATED_REMOTE_UPLOAD_PENDING |
-| `lighting-7` | Sun Lamp / Aqua Wave | `urn:aaid:sc:US:d98ee54e-0ca5-45fd-933a-df8a4d3600e2` | Translucent aqua sun form, chrome support and internal warm glow. | GENERATED_REMOTE_UPLOAD_PENDING |
-| `lighting-8` | Bubble Lamp / Art Attack | `urn:aaid:sc:US:32cfde85-8990-4b1f-ab34-9127985e7d7f` | Refractive overlapping glass bubbles with physical stand and painted internal color. | GENERATED_REMOTE_UPLOAD_PENDING |
-| `lighting-9` | Color Lamp / Star Luxe | `urn:aaid:sc:US:15f7fe15-5a46-4b69-9c9d-3ad89404271e` | Beveled prism/crystal shade, thick facets, dispersion and pedestal. | GENERATED_REMOTE_UPLOAD_PENDING |
-| `lighting-10` | Neon Strip Tower / Midnight Neon | `urn:aaid:sc:US:5bdc1e60-cba6-4e2c-b80a-8742d968472b` | Deep dimensional chassis, inset cyan/magenta neon and floor spill. | GENERATED_REMOTE_UPLOAD_PENDING |
-| `lighting-11` | Aurora Light / Candy Core | `urn:aaid:sc:US:a9b8f6e7-ca6f-4132-8b62-3f77070dceb5` | Thick translucent aurora ribbons around a physical base with emissive core. | GENERATED_REMOTE_UPLOAD_PENDING |
-| `lighting-12` | Crystal Chandelier / Adventure Club | `urn:aaid:sc:US:0c826f3c-c2d5-4da4-ac5a-37a9bbddd0b4` | Layered antique-gold fixture, faceted crystals, warm emitters and high-tier suspension hierarchy. | GENERATED_REMOTE_UPLOAD_PENDING |
+A new bounded two-item repair batch completed Shoes 5–6. Boots / Candy Core and Runners / Adventure Club were generated as dimensional three-quarter pairs, visually inspected by the producer, then their exact Firefly renditions and 1024×1024 originals were stored/read back successfully in run `35666988858`. This is producer evidence only; reviewer 02 owns acceptance.
 
-The current Adobe connector can resolve and visually inspect these assets, but this run still cannot expose their raw image bytes as base64 accepted by GitHub `create_blob`. Direct container fetch is unavailable. Therefore no repository path/hash has been invented. Coordination should reuse the already-proven Adobe→Git byte bridge from a context that can expose the exact bytes.
+| ID | Candidate path | Git blob | Bytes | State |
+|---|---|---|---:|---|
+| shoes-1 | `public/assets/catalog/shoes-1-w04-recovered-v2.jpg` | `1a0351a733c7639ecdf4d90d41e4e5159bd7e8ad` | 76,160 | READY_FOR_REVIEW_02 |
+| shoes-2 | `public/assets/catalog/shoes-2-w04-recovered-v2.jpg` | `4377e9c6b996a154db67feae1adb924715364f54` | 57,235 | READY_FOR_REVIEW_02 |
+| shoes-3 | `public/assets/catalog/shoes-3-w04-recovered-v2.jpg` | `995c65c304af6acc85fad2a98cfe07029b486472` | 60,955 | READY_FOR_REVIEW_02 |
+| shoes-4 | `public/assets/catalog/shoes-4-w04-recovered-v2.jpg` | `121bd48007f74a2df4c760fa4650e7075138cffb` | 48,963 | READY_FOR_REVIEW_02 |
+| shoes-5 | `public/assets/catalog/shoes-5-w04-v2.jpg` | `eaac23dcecf94ac3875adb61017f2436cf4d1d0c` | 53,844 | READY_FOR_REVIEW_02 |
+| shoes-6 | `public/assets/catalog/shoes-6-w04-v2.jpg` | `2622d23d9a24e689c669292671c531a91b355221` | 59,428 | READY_FOR_REVIEW_02 |
 
-## Shoes 1–4 — first bounded secondary-repair batch generated
+All six keep their exact Store IDs, names, tiers, themes, prices and unlock requirements. No canonical shoe mapping changed in Lane 04.
 
-Lighting is now partially review-cleared but Lighting 5–12 are externally byte-import blocked. To avoid idling, Lane 04 started the assigned Shoes repair queue exactly as directed. Reviewer 02's preserved review (`adaecbc6fd1f534bd9055c2292bcb7776c27bdce`) marks Shoes 1–6 REWORK because the legacy family is flat/icon-like, weak in sole/panel/lace/material depth, and often expresses theme only through palette.
+## Current handoff
 
-A four-item 1024×1024 premium Firefly batch was generated and visually inspected against those defects. These are **producer candidates only**, not staged and not approved.
+**14:** Decide Lighting 5–8 first from the already-qualified isolated card/detail evidence. Then render/review the exact Lighting 9–12 hashes above. Do not inherit legacy decisions.
 
-| ID | Item / tier / theme | Firefly GenAI asset | Producer pixel finding | State |
-|---|---|---|---|---|
-| `shoes-1` | Sneakers / T1 / Aqua Wave | `urn:aaid:sc:US:4f905a5b-73a9-4338-881f-ed50f5b1d16a` | Three-quarter pair with thick layered soles, real laces/eyelets, stitched aqua/pearl panels and dimensional wave accents. | GENERATED_REMOTE_UPLOAD_PENDING |
-| `shoes-2` | Slip-Ons / T1 / Art Attack | `urn:aaid:sc:US:0c4d62d9-c5d2-4e8e-9aea-fcb08b5acfbb` | Tangible canvas slip-ons with elastic gussets, stitched sole depth and dimensional colorful art details. | GENERATED_REMOTE_UPLOAD_PENDING |
-| `shoes-3` | High-Tops / T1 / Star Luxe | `urn:aaid:sc:US:68ea78e2-c7d7-4196-82bb-d3feb682d707` | Tall three-quarter high-tops with padded collar, real laces/eyelets, panel seams, sole volume and restrained gold star hardware. | GENERATED_REMOTE_UPLOAD_PENDING |
-| `shoes-4` | Bow Shoes / T2 / Midnight Neon | `urn:aaid:sc:US:01f92b75-fb85-403d-9822-d51a83e5d83a` | Structured dark shoes with dimensional satin bows, thick soles and embedded cyan/magenta luminous piping with real floor spill. | GENERATED_REMOTE_UPLOAD_PENDING |
+**02:** Render and independently judge Shoes 1–6 from the exact current hashes above. Do not inherit the legacy Shoes REWORK decisions.
 
-Exact game metadata was preserved: names, IDs, tiers, themes, prices (`30`, `45`, `65`, `85`) and unlock requirements remain unchanged. No Store runtime or economy code was touched.
+**08:** Lighting 1–4 are already canonical in manifest v15. Integrate only newly qualified exact-hash ACCEPTs from reviewers 14/02 after normal metadata/file/content checks.
 
-## Current blockers
+**15:** The Lane-04 byte-transfer blocker is cleared. Every assigned Lighting 1–12 and Shoes 1–6 ID now has a repository-stored current candidate. No new family or Store redesign should be taken while catalog sprint remains active.
 
-1. **Lighting 5–12 byte staging:** generated and visually inspected, but raw bytes are not exposed through the available Adobe connector in this run. Do not regenerate; import the exact listed GenAI assets through the proven bridge, then route their current hashes to reviewer 14.
-2. **Shoes 1–4 byte staging:** same connector boundary. Do not regenerate; stage the exact listed GenAI assets and route current hashes to reviewer 02.
+**04 next pass:** consume fresh reviewer decisions first. Preserve ACCEPTs. Repair only exact REWORK items in a 2–6 item micro-batch. If all current hashes pass and no Lane-04 repair remains, request reassignment from Workstream 15 rather than taking another lane or resuming Store work early.
 
-This is not a global GitHub binary capability issue; Lighting 1–4 already proved repository binary attachment/readback works once bytes are available.
-
-## Handoff
-
-**08:** `lighting-1..4` v2 exact hashes are independently ACCEPTed and may be incrementally integrated after your normal metadata/file/content checks. No other Lane-04 candidate is eligible yet.
-
-**14:** Lighting 1–4 replacement review is complete. Review Lighting 5–12 only after the exact generated bytes above are staged at versioned paths; legacy REWORK never transfers to a new hash.
-
-**02:** Shoes 1–4 now have premium remote-generated replacements. Independently judge them only after those exact bytes are staged and rendered through the shared fixture.
-
-**15:** Lighting 1–4 review blocker is closed. Use/reassign the proven Adobe-byte extraction bridge to attach the exact Lighting 5–12 and Shoes 1–4 GenAI assets. Do not regenerate them.
-
-**04 next pass:** do not regenerate Lighting or Shoes 1–4. React to newly staged hashes/reviewer decisions first. If byte staging remains external and no Lighting defect is actionable, generate the remaining assigned Shoes 5–6 as the next bounded batch or take an explicit reassignment from 15.
-
-No Replit/Floot action, no `main` merge, no deployment, no canonical manifest/runtime edit, no Store code edit, and no player-data change occurred.
+No Replit/Floot action, `main` merge, deployment, canonical-manifest/runtime write by Lane 04, Store-code edit, player-data change, price change or unlock change occurred.
