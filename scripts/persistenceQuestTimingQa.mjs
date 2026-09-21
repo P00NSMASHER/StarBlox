@@ -3,6 +3,9 @@ import path from 'node:path';
 import process from 'node:process';
 import { chromium } from 'playwright';
 import { gameModel } from '../src/gameModel.js';
+import '../src/questionQualityRuntime.js';
+import '../src/semanticQuestionGuardRuntime.js';
+import '../src/diagnosticQuestionGuardRuntime.js';
 
 const BASE_URL = process.env.STARBLOX_QA_URL || 'http://127.0.0.1:4173';
 const OUTPUT = process.env.STARBLOX_QA_OUTPUT || 'artifacts/persistence-quest-timing-qa';
@@ -69,13 +72,13 @@ async function currentQuestion(page) {
   const visibleChoices = (await page.locator('.answers .answerButton').allTextContents()).map(v => v.trim());
   const candidates = allQuestions.filter(question => question.prompt === prompt);
   const question = candidates.find(question => sameChoices(question.choices, visibleChoices));
-  assert(question, 'Rendered Quest question could not be matched to source by prompt+choices', {
+  assert(question, 'Rendered Quest question could not be matched to hardened source by prompt+choices', {
     prompt,
     visibleChoices,
     candidateIds: candidates.map(q => q.id),
     candidateChoices: candidates.map(q => q.choices)
   });
-  assert(visibleChoices.includes(question.answer), 'Source answer is not one of the rendered choices', {
+  assert(visibleChoices.includes(question.answer), 'Hardened source answer is not one of the rendered choices', {
     questionId: question.id,
     answer: question.answer,
     visibleChoices
