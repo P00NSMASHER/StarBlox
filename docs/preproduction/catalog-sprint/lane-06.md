@@ -1,6 +1,6 @@
 # Catalog Sprint — Lane 06 Companions
 
-STATUS: **4 RICH REPLACEMENTS RENDERED / AWAITING REVIEWER 05**
+STATUS: **FIRST 4 REPLACEMENTS ACCEPTED / NEXT 4 READY FOR SHARED RENDER REVIEW**
 
 Branch: `screenshot-match-preproduction`  
 Workstream: 06  
@@ -15,66 +15,58 @@ Self-approval: **NO**
 
 ## Material increment this pass
 
-The prior reproducible-render blocker is now closed. Workstream 14's shared staged-art workflow successfully rendered the four current rich companion replacement hashes without canonical Store wiring.
+Workstream 05 completed fresh exact-hash review for the first rich replacement batch and returned **4 ACCEPT / 0 REWORK / 0 BLOCKED**:
 
-Successful evidence:
+- `companions-3` Berry Bunny — `adba95dc769e603337dc4ac38b9a513ce9914b10`;
+- `companions-4` Sunny Bird — `b382339e76ed9d4aeae72b1c8cccc904abf85b57`;
+- `companions-10` Pixel Bot — `2b09d950b08083bb3a9ec5e2073ae23d88411cf4`;
+- `companions-11` Dream Dragon — `465fe45abbe4d9b4355444cb3f75a49927b604e9`.
 
-- workflow: **StarBlox Staged Catalog Art QA**;
-- run: `35655371282` — **PASS**;
-- artifact: `10663896836`;
-- artifact digest: `sha256:26fe90eb465e9b6933e947da43413fbf7f59fe41238480a122a1e77e3b3980ad`;
-- artifact source head: `f1f8492182e51358dda8e106644361feea5781f1`;
-- current branch continuity: compare from that source head to `169f2f5bb9edd23e3bb1be9a0bf80eced80004c6` changed only reviewer-01 documentation, so these companion bytes remain current.
+Reviewer 05 found that these replacements fix the legacy flat-mascot defect with dimensional anatomy, material response, lighting and distinct silhouettes. Workstream 06 will preserve these exact bytes and will not regenerate or overwrite them. Workstream 08 may integrate them after normal metadata/file/content checks.
 
-The artifact report records HTTP 200, successful decode, 768×768 natural dimensions and detail screenshots for all four exact replacement hashes:
+Because reviewer input changed materially, this run advanced the next bounded companion batch instead of switching to secondary Seating/Shoes work.
 
-| ID | Item | Tier / theme | Replacement path | Exact Git blob | Render proof |
-| --- | --- | --- | --- | --- | --- |
-| `companions-3` | Berry Bunny | T1 / Berry Blast | `public/assets/catalog-candidates/chat-20260921-intake01/companions-3-detail.webp` | `adba95dc769e603337dc4ac38b9a513ce9914b10` | `staged-replacements/detail/companions-3-adba95dc.png` |
-| `companions-4` | Sunny Bird | T2 / Garden Glow | `public/assets/catalog-candidates/chat-20260921-intake01/companions-4-detail.webp` | `b382339e76ed9d4aeae72b1c8cccc904abf85b57` | `staged-replacements/detail/companions-4-b382339e.png` |
-| `companions-10` | Pixel Bot | T4 / Midnight Neon | `public/assets/catalog-candidates/chat-20260921-intake01/companions-10-detail.webp` | `2b09d950b08083bb3a9ec5e2073ae23d88411cf4` | `staged-replacements/detail/companions-10-2b09d950.png` |
-| `companions-11` | Dream Dragon | T4 / Candy Core | `public/assets/catalog-candidates/chat-20260921-intake01/companions-11-detail.webp` | `465fe45abbe4d9b4355444cb3f75a49927b604e9` | `staged-replacements/detail/companions-11-465fe45a.png` |
+## Second rich replacement batch — READY FOR REVIEW
 
-Producer-side inspection confirms these are materially different from the rejected flat SVG family: Berry Bunny has rounded plush-like bunny anatomy and berry details; Sunny Bird has rounded anatomy, layered wings and sun/garden lighting; Pixel Bot has distinct toy-robot construction with a pixel face and neon material response; Dream Dragon has dimensional dragon anatomy and luminous iridescent wings. These observations are **producer checks only, not acceptance**. Dream Dragon's exact Candy Core theme fit remains for independent reviewer 05 to decide.
+The next four legacy-REWORK companion IDs already have repository-stored source/card/detail files from the rich candidate batch. Their detail versions are now marked `READY_FOR_REVIEW`, which causes the existing shared staged-art workflow to render them without canonical Store wiring.
 
-## Independent-review state
+| ID | Item | Tier / theme | Detail path | Exact Git blob | Bytes |
+| --- | --- | --- | --- | --- | ---: |
+| `companions-2` | Moon Cat | T1 / Pixel Party | `public/assets/catalog-candidates/chat-20260921-intake01/companions-2-detail.webp` | `88d10d6f8c412d0ab7fde6ac7a7ff202858077db` | 55,566 |
+| `companions-5` | Pebble Turtle | T2 / Galaxy Glow | `public/assets/catalog-candidates/chat-20260921-intake01/companions-5-detail.webp` | `1ae7b431e519563ee1dbbdb0ae762bfee6f95ac0` | 61,302 |
+| `companions-6` | Comet Fox | T2 / Sunny Pop | `public/assets/catalog-candidates/chat-20260921-intake01/companions-6-detail.webp` | `28cb411201d8ec30dae2f70b740efe1e86985386` | 69,582 |
+| `companions-7` | Story Owl | T3 / Aqua Wave | `public/assets/catalog-candidates/chat-20260921-intake01/companions-7-detail.webp` | `39d35ea40a0a138ae99ddcdc09f8f2a3683fa49d` | 69,614 |
 
-Workstream 05 previously reviewed all 12 legacy companion SVG hashes and returned **0 ACCEPT / 12 REWORK / 0 BLOCKED**. Those exact rejected versions remain preserved at `/assets/catalog/companions-1.svg` through `/assets/catalog/companions-12.svg`.
+Each detail candidate is a repository-stored 768×768 WebP and retains its source PNG and card WebP siblings. These four are **not accepted or canonical**. Exact animal identity, theme fit, dimensional anatomy/materials, child-friendly expression and tier progression remain for Workstream 05 to judge from actual shared renders. The old legacy REWORK decisions do not transfer to these hashes.
 
-The four richer replacements above are different hashes, so the old decisions do not transfer. Workstream 05 now has reproducible card/detail-scale evidence and should issue fresh `ACCEPT / REWORK / BLOCKED` decisions against those exact hashes. Workstream 08 must not integrate them before that independent decision.
+## Remaining companion queue
 
-## Remaining companion repair queue
+After this batch:
 
-Rich repository candidates also exist for:
+- repository-rich candidates still behind it: `companions-8` Bubble Axolotl and `companions-12` Star Unicorn;
+- no rich imported replacement yet: `companions-1` Sprout Pup and `companions-9` Garden Snail;
+- accepted and frozen from producer changes: `companions-3`, `companions-4`, `companions-10`, `companions-11`.
 
-- `companions-2` Moon Cat — Pixel Party;
-- `companions-5` Pebble Turtle — Galaxy Glow;
-- `companions-6` Comet Fox — Sunny Pop;
-- `companions-7` Story Owl — Aqua Wave;
-- `companions-8` Bubble Axolotl — Art Attack;
-- `companions-12` Star Unicorn — Adventure Club.
-
-`companions-1` Sprout Pup and `companions-9` Garden Snail still need separate replacement candidates if/when their repair work reaches the front of the queue.
-
-This run did **not** regenerate pending companion art. Under Delivery Protocol v2, improving the missing render evidence is valid non-conflicting work while replacement hashes await review. If reviewer 05 still has not dispositioned these four by the next unchanged cycle, Workstream 06 can use its explicit secondary repair capacity starting with `seating-7..12`, then `shoes-7..12`, both independently reviewed by Workstream 02.
+If Moon Cat / Pebble Turtle / Comet Fox / Story Owl returns **REWORK**, preserve that exact hash and repair only that ID. If accepted, leave bytes untouched and advance Bubble Axolotl / Star Unicorn. Secondary repair capacity (`seating-7..12`, then `shoes-7..12`, reviewer 02) remains available only when companion work is genuinely waiting without changed input.
 
 ## Checks / preservation
 
-- **PASS — policy:** `DELIVERY_PROTOCOL_V2.md` is the current operational rule.
-- **PASS — assignment:** companion production remains owned by Workstream 06; state also grants the explicit secondary repair capacity described above.
-- **PASS — legacy companion review:** 12/12 legacy companion hashes are independently REWORK.
-- **PASS — replacement storage:** 4/4 rich replacement WebPs are repository-stored with exact blob identities.
-- **PASS — shared staged render:** 4/4 replacements rendered successfully in artifact `10663896836`.
-- **PASS — continuity:** no companion candidate bytes changed between artifact head and the inspected current head.
-- **PENDING — independent replacement review:** Workstream 05 has not yet dispositioned these four replacement hashes.
-- **PENDING — canonical integration:** Workstream 08 may wire only independently accepted exact hashes.
-- **0 new assets generated; 0 legacy assets overwritten; 0 canonical mappings changed.**
+- **PASS — policy:** Delivery Protocol V2 remains current.
+- **PASS — assignment:** Workstream 06 owns companion repair and explicit secondary Seating/Shoes capacity.
+- **PASS — legacy review:** 12/12 legacy companion hashes remain REWORK and preserved.
+- **PASS — first replacement review:** 4/4 exact rich replacement hashes independently ACCEPTed by reviewer 05.
+- **PASS — accepted bytes preserved:** no accepted companion was regenerated or overwritten.
+- **PASS — second-batch repository storage:** 4/4 exact detail WebPs exist with stable Git blob hashes.
+- **PENDING — second-batch shared render:** lane update triggers the existing staged-art workflow.
+- **PENDING — second-batch independent review:** reviewer 05 must issue fresh exact-hash decisions.
+- **PENDING — canonical integration:** Workstream 08 owns promotion of accepted exact hashes.
+- **0 canonical mappings changed; 0 player data, equipment IDs, ownership, Buddy Bond, saves, pricing, learning or economy state changed.**
 
 ## Handoff
 
-1. **05:** review the four exact companion replacement screenshots/hashes from artifact `10663896836` immediately.
-2. **06:** preserve any rejected replacement hash and repair only that ID; if accepted, leave it unchanged and advance the next bounded companion batch.
-3. **06:** if these remain unchanged/pending next cycle, begin the explicit secondary repair capacity with `seating-7..12`, then `shoes-7..12`, without self-approval.
-4. **08:** integrate only exact companion replacement hashes independently accepted by 05 plus automated metadata/file/content checks.
+1. **14/shared staged-art workflow:** render Moon Cat, Pebble Turtle, Comet Fox and Story Owl at card/detail scale from the exact hashes above.
+2. **05:** independently review those four exact rendered hashes.
+3. **08:** integrate Berry Bunny, Sunny Bird, Pixel Bot and Dream Dragon after standard metadata/file/content checks; do not wait for the rest of the catalog.
+4. **06:** preserve accepted hashes; repair only exact rejected IDs or advance `companions-8` / `companions-12` when the second batch passes.
 
 **No avatar UI, item/equipment IDs, ownership, Buddy Bond, saves, pricing, learning/economy logic, canonical manifest/runtime, Replit/Floot, or `main` was changed.**
