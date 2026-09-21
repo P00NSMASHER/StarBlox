@@ -7,6 +7,7 @@ import './questionQualityRuntime';
 import './semanticQuestionGuardRuntime';
 import './diagnosticQuestionGuardRuntime';
 import './purchaseGuardRuntime';
+import './shellChromeRuntime';
 import { App } from './App';
 import './styles.css';
 import './release.css';
@@ -20,6 +21,7 @@ import './facegearAvatar.css';
 import './homeHeroRuntime';
 import './questVisualRuntime';
 import './questContextArtRuntime';
+import './shellChrome.css';
 
 createRoot(document.getElementById('root')).render(
   <React.StrictMode>
