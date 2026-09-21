@@ -1,0 +1,181 @@
+let queued = false;
+
+export function parseXpProgress(value){
+  const match = String(value || '').match(/(\d+)\s*\/\s*(\d+)\s*XP/i);
+  if(!match) return null;
+  return {value:Number(match[1]),max:Number(match[2])};
+}
+
+export function storeCardAccessibleLabel(card){
+  if(!card) return '';
+  const name = card.querySelector('.itemCopy h3, h3, b')?.textContent?.trim() || 'Store item';
+  const state = card.querySelector('.sbStoreStateBadge')?.textContent?.trim();
+  const price = card.querySelector('.price, .sbStorePrice')?.textContent?.replace(/\s+/g,' ')?.trim();
+  return [name,state,price].filter(Boolean).join('. ');
+}
+
+function decorateHud(root){
+  const stats = root.querySelector('.hudStats');
+  stats?.setAttribute('aria-label','Player progress');
+
+  root.querySelectorAll('.hud .currency').forEach(node => {
+    const label = node.textContent.replace(/\s+/g,' ').trim();
+    if(label) node.setAttribute('aria-label',label);
+  });
+
+  const levelBox = root.querySelector('.hud .levelBox');
+  const progress = levelBox?.querySelector('.progress');
+  const parsed = parseXpProgress(levelBox?.querySelector('small')?.textContent);
+  if(levelBox) levelBox.setAttribute('aria-label',parsed ? `Level progress, ${parsed.value} of ${parsed.max} XP` : 'Level progress');
+  if(progress && parsed){
+    progress.setAttribute('role','progressbar');
+    progress.setAttribute('aria-label','Experience progress');
+    progress.setAttribute('aria-valuemin','0');
+    progress.setAttribute('aria-valuemax',String(parsed.max));
+    progress.setAttribute('aria-valuenow',String(parsed.value));
+  }
+
+  const mastery = root.querySelector('.hud .mastery');
+  if(mastery){
+    const count = mastery.querySelector('b')?.textContent?.trim();
+    mastery.setAttribute('aria-label',count ? `${count} skills mastered` : 'Mastery progress');
+  }
+
+  root.querySelector('.sidebar')?.setAttribute('aria-label','Primary navigation');
+}
+
+function decorateStore(root){
+  const page = root.querySelector('.marketPage.sbStoreMatch');
+  if(!page) return;
+
+  const grid = page.querySelector('.storeGrid');
+  if(grid){
+    grid.setAttribute('role','listbox');
+    grid.setAttribute('aria-label','Store items');
+  }
+
+  page.querySelectorAll('.storeCard').forEach(card => {
+    card.setAttribute('role','option');
+    if(!card.hasAttribute('tabindex')) card.tabIndex = 0;
+    const selected = card.classList.contains('sbStoreSelected') || card.getAttribute('aria-selected') === 'true';
+    card.setAttribute('aria-selected',String(selected));
+    const label = storeCardAccessibleLabel(card);
+    if(label) card.setAttribute('aria-label',label);
+  });
+
+  const categoryRow = page.querySelector('.sbStoreCategoryRow');
+  if(categoryRow){
+    categoryRow.setAttribute('role','toolbar');
+    categoryRow.setAttribute('aria-label','Store categories');
+    categoryRow.querySelectorAll('button').forEach(button => {
+      button.setAttribute('aria-pressed',String(button.classList.contains('selectedFilter')));
+    });
+  }
+
+  const tierRow = page.querySelector('.sbStoreTierRow');
+  if(tierRow){
+    tierRow.setAttribute('role','toolbar');
+    tierRow.setAttribute('aria-label','Store tiers');
+    tierRow.querySelectorAll('button').forEach(button => {
+      button.setAttribute('aria-pressed',String(button.classList.contains('selectedFilter')));
+    });
+  }
+
+  page.querySelector('.sbStoreRightRail')?.setAttribute('aria-label','Selected item preview and actions');
+  page.querySelectorAll('.sbStoreDetailActions button').forEach(button => {
+    button.type = 'button';
+  });
+}
+
+function decorateQuest(root){
+  const page = root.querySelector('.questPage');
+  if(!page) return;
+
+  page.querySelectorAll('.readAloud,.questReadAloud').forEach(button => {
+    button.type = 'button';
+    button.setAttribute('aria-label','Read this question aloud');
+  });
+
+  const phaseStrip = page.querySelector('.questPhaseStrip');
+  if(phaseStrip){
+    phaseStrip.setAttribute('role','list');
+    phaseStrip.querySelectorAll('.questPhase').forEach(phase => phase.setAttribute('role','listitem'));
+  }
+
+  page.querySelectorAll('.questAnswerStack .answerButton,.answers .answerButton').forEach((button,index) => {
+    button.type = 'button';
+    const letter = button.dataset.choice || String.fromCharCode(65 + index);
+    const text = button.textContent.replace(/\s+/g,' ').trim();
+    if(text) button.setAttribute('aria-label',`Answer ${letter}: ${text}`);
+  });
+
+  page.querySelector('.questEvidenceRail')?.setAttribute('aria-label','Quest mastery and learning summary');
+  const feedback = page.querySelector('.feedback');
+  if(feedback){
+    feedback.setAttribute('role','status');
+    feedback.setAttribute('aria-live','polite');
+    feedback.setAttribute('aria-atomic','true');
+  }
+}
+
+function decorateHome(root){
+  const page = root.querySelector('.homeHeroRuntime');
+  if(!page) return;
+
+  const roomStrip = page.querySelector('.homeTierStrip');
+  roomStrip?.setAttribute('aria-label','Room progress tiers');
+
+  const dailyRows = page.querySelector('.homeDailyRows');
+  dailyRows?.setAttribute('aria-label','Daily quests');
+
+  const tabs = page.querySelector('.homeCustomizeTabs');
+  if(tabs){
+    tabs.setAttribute('role','toolbar');
+    tabs.setAttribute('aria-label','Customize categories');
+    tabs.querySelectorAll('button').forEach(button => {
+      button.setAttribute('aria-pressed',String(button.classList.contains('active')));
+    });
+  }
+
+  page.querySelector('.homeCustomizeTrack')?.setAttribute('aria-label','Owned customization items');
+}
+
+function decorateRoomAndStudy(root){
+  root.querySelector('.inventoryStrip')?.setAttribute('aria-label','Owned room items');
+  root.querySelector('.decorShelf')?.setAttribute('aria-label','Placed room items');
+  root.querySelector('.backupActions')?.setAttribute('aria-label','Progress backup actions');
+}
+
+export function applyMobileAccessibility(root = document){
+  decorateHud(root);
+  decorateStore(root);
+  decorateQuest(root);
+  decorateHome(root);
+  decorateRoomAndStudy(root);
+  return true;
+}
+
+function scan(){
+  queued = false;
+  applyMobileAccessibility(document);
+}
+
+function scheduleScan(){
+  if(queued) return;
+  queued = true;
+  queueMicrotask(scan);
+}
+
+if(typeof document !== 'undefined'){
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded',scheduleScan,{once:true});
+  else scheduleScan();
+
+  const host = document.getElementById('root') || document.documentElement;
+  new MutationObserver(scheduleScan).observe(host,{
+    subtree:true,
+    childList:true,
+    characterData:true,
+    attributes:true,
+    attributeFilter:['class','aria-selected']
+  });
+}
