@@ -39,6 +39,12 @@ button:disabled{cursor:not-allowed;}
   color:#526b91;
 }
 
+/* The six-column desktop Store stays dense, but item identity and cost must not
+   shrink to decorative-caption sizes. Phone overrides below retain the same floor. */
+.marketPage.sbStoreMatch .storeCard .itemCopy h3{font-size:13px;line-height:1.08;}
+.marketPage.sbStoreMatch .storeCard .price{font-size:11.5px;line-height:1.12;}
+.sbStoreStateBadge{font-size:9px;min-height:22px;display:inline-flex;align-items:center;}
+
 @media (max-width:1023px){
   .main{width:100%;padding-bottom:max(76px,env(safe-area-inset-bottom));}
   .page:not(.marketPage):not(.questPage){padding-top:124px;}
