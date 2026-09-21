@@ -1,0 +1,78 @@
+{
+  "schemaVersion": 1,
+  "workstream": "08",
+  "phase": "CATALOG_SPRINT",
+  "status": "BLOCKED_ON_INDEPENDENT_REVIEW",
+  "auditedSourceHead": "6f9d7f6261b84d0f9f9ad13b0c591e0ef7a88590",
+  "branch": "screenshot-match-preproduction",
+  "canonical": {
+    "catalogTarget": 192,
+    "manifestVersion": 12,
+    "manifestBlobSha": "862894db70500087409396dc5a72d032cf00a693",
+    "runtimeBlobSha": "fcf502b18a51781b415b7ba3620e9b8eb66d37e3",
+    "gameModelBlobSha": "79fdb8c3bed4d715e0b1c770f34db0037a7f7c3b",
+    "recordedFinalPortable": 99,
+    "recordedInterimNotVerified": 23,
+    "recordedNonFinal": 93,
+    "canonicalManifestEntries": 122,
+    "canonicalRuntimeMappings": 122,
+    "recordedDuplicateAssetPaths": 0,
+    "sprintBoundIndependentVisualApprovals": 0
+  },
+  "staged": {
+    "candidateCount": 46,
+    "newlyAuthoredCandidateCount": 35,
+    "preExistingInterimCandidateCount": 11,
+    "notYetStagedAssignedCount": 47,
+    "readyForReviewLanes": ["CHAT", "04", "05", "06"],
+    "missingLaneReports": ["03", "07", "09", "11"],
+    "candidates": {
+      "CHAT": ["seating-2","seating-3","seating-4","seating-5","seating-6","seating-7","seating-8","seating-9","seating-10","seating-11","seating-12"],
+      "04": ["lighting-1","lighting-2","lighting-3","lighting-4","lighting-5","lighting-6","lighting-7","lighting-8","lighting-9","lighting-10","lighting-11","lighting-12"],
+      "05": ["wall-1","wall-2","wall-3","wall-4","wall-5","wall-6","wall-7","wall-8","wall-9","wall-10","wall-11","wall-12"],
+      "06": ["companions-2","companions-3","companions-4","companions-5","companions-6","companions-7","companions-8","companions-9","companions-10","companions-11","companions-12"]
+    },
+    "laneReportBlobShas": {
+      "CHAT": "8d19cae6960874f612c646b7b79a7a1df7651a4d",
+      "04": "2b20dac09b16f66bb4d2de6fc702de2be57c90df",
+      "05": "1dc6c564e9172ddae7f6a607ce8fbfde9e292a4c",
+      "06": "266932942d7203d5cc2d33febcea68b542962b9a"
+    }
+  },
+  "validation": {
+    "phaseAndOwnership": "PASS",
+    "actualCatalogStill192Ids": "PASS_FROM_CURRENT_GAME_MODEL",
+    "stagedMetadataVsGameModel": "PASS_FOR_46_REPORTED_CANDIDATES",
+    "reportedBlobIdentityWithinEachStagedLane": "PASS",
+    "reportedCrossLaneBlobIdentityCollision": "NONE_OBSERVED",
+    "canonicalManifestDuplicatePaths": "PASS_0_RECORDED",
+    "canonicalRuntimeManifestCoverage": "122_WIRED_ENTRIES_INCLUDING_23_INTERIM",
+    "independentArtReview": "BLOCKED_MISSING_art-review.json",
+    "independentReleaseQA": "BLOCKED_MISSING_release-qa.json",
+    "canonicalIntegrationThisRun": "NONE_NO_ACCEPTED_ITEMS",
+    "catalogTestsAfterIntegration": "NOT_RUN_NO_COHERENT_INTEGRATION",
+    "productionBuildAfterIntegration": "NOT_RUN_NO_COHERENT_INTEGRATION",
+    "storeBrowserAfterIntegration": "NOT_RUN_NO_COHERENT_INTEGRATION"
+  },
+  "integratedIds": [],
+  "rejectedIds": [],
+  "pendingIndependentReviewCount": 46,
+  "failures": [],
+  "blockers": [
+    "docs/preproduction/catalog-sprint/art-review.json does not exist, so no staged candidate has independent Workstream 01 acceptance bound to its asset hash.",
+    "docs/preproduction/catalog-sprint/release-qa.json does not exist, so no staged candidate has independent Workstream 14 release disposition bound to its asset hash.",
+    "Lane reports for desks (03), rugs (07), decor (09), and auras (11) are not yet present; 47 assigned IDs therefore have no current sprint handoff.",
+    "Policy forbids Workstream 08 from promoting READY_FOR_REVIEW or interim assets without independent rendered acceptance."
+  ],
+  "nextActions": [
+    "01 and/or 14 render and record item-specific ACCEPT/REWORK/BLOCKED decisions by exact asset hash for the 46 staged candidates.",
+    "03, 07, 09, and 11 publish their assigned lane handoffs without editing canonical manifest/runtime files.",
+    "08 re-read latest branch and only then merge accepted exact-ID assets into catalog-art-manifest.json and src/catalogArtRuntime.js, followed by catalog regression tests and production build."
+  ],
+  "freeze": {
+    "replitTouched": false,
+    "flootTouched": false,
+    "mainMergedOrModified": false,
+    "phaseChanged": false
+  }
+}
