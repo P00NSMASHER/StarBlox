@@ -1,0 +1,207 @@
+/* Workstream 11 — Motion and game-feel polish. Keep learning spectacle brief and non-blocking. */
+:root.sb-motion-ready{
+  --sb-motion-fast:180ms;
+  --sb-motion-medium:420ms;
+  --sb-motion-reward:920ms;
+  --sb-motion-ease:cubic-bezier(.2,.82,.24,1);
+}
+
+/* Gentle screen arrival: fast enough to never delay access to content. */
+.sb-motion-ready .sbMotionScreenEnter{
+  animation:sbScreenEnter var(--sb-motion-medium) var(--sb-motion-ease) both;
+}
+
+/* Slow ambient energy on a few premium anchors only. */
+.sb-motion-ready .homeRoomProgress,
+.sb-motion-ready .homeDreamGoal,
+.sb-motion-ready .marketPage.sbStoreMatch .marketHero,
+.sb-motion-ready .questScreenshotMatch>.questTop{
+  animation:sbPanelEnergy 5.8s ease-in-out infinite;
+  will-change:filter;
+}
+
+/* Idle celebration is intentionally tiny: the scene feels alive without competing with learning. */
+.sb-motion-ready .homeAvatarMount{
+  animation:sbAvatarIdle 6.4s ease-in-out infinite;
+  will-change:transform;
+}
+.sb-motion-ready .homeBuddyScene,
+.sb-motion-ready .questBuddyPanel{
+  animation:sbBuddyIdle 5.2s ease-in-out infinite;
+  will-change:transform;
+}
+
+/* Fine-pointer hover depth only; no essential information depends on hover. */
+@media (hover:hover) and (pointer:fine){
+  .sb-motion-ready .storeCard,
+  .sb-motion-ready .homeCustomizeItem,
+  .sb-motion-ready .homeCta,
+  .sb-motion-ready .sbStoreDetailActions button,
+  .sb-motion-ready .questAnswerStack .answerButton,
+  .sb-motion-ready .homeDailyRow button{
+    transition:transform var(--sb-motion-fast) ease,filter var(--sb-motion-fast) ease,box-shadow var(--sb-motion-fast) ease;
+  }
+  .sb-motion-ready .storeCard:hover,
+  .sb-motion-ready .homeCustomizeItem:hover,
+  .sb-motion-ready .questAnswerStack .answerButton:hover{
+    transform:translateY(-2px);
+    filter:brightness(1.035) saturate(1.025);
+  }
+}
+
+.sb-motion-ready .sbMotionPressed{
+  transform:translateY(2px) scale(.992)!important;
+  filter:brightness(.97)!important;
+  transition:transform 90ms ease,filter 90ms ease!important;
+}
+
+.sb-motion-ready .sbMotionSelection{
+  animation:sbSelectionFlash 520ms var(--sb-motion-ease) both;
+}
+.sb-motion-ready .storeCard.sbStoreSelected,
+.sb-motion-ready .storeCard.sbStoreEquipped,
+.sb-motion-ready .homeCustomizeItem.active,
+.sb-motion-ready .homeCustomizeItem[aria-selected="true"]{
+  filter:brightness(1.04) saturate(1.04);
+}
+.sb-motion-ready .sbMotionEquip{
+  animation:sbEquipPop 720ms var(--sb-motion-ease) both;
+}
+.sb-motion-ready .sbMotionEquipStage{
+  animation:sbStageCelebrate 720ms var(--sb-motion-ease) both;
+}
+
+/* Correct-answer celebration: under one second and purely decorative. */
+.sb-motion-ready .sbMotionCorrect{
+  animation:sbCorrectCelebrate var(--sb-motion-reward) var(--sb-motion-ease) both;
+}
+.sb-motion-ready .sbMotionCorrect .feedback{
+  box-shadow:0 0 0 3px rgba(145,240,173,.38),0 0 24px rgba(53,204,106,.42);
+}
+
+/* Room progression reveals once when Home is mounted. */
+.sb-motion-ready .sbMotionRoomReveal{
+  animation:sbRoomReveal 760ms var(--sb-motion-ease) both;
+}
+.sb-motion-ready .sbMotionRoomReveal .homeTierPreview{
+  animation:sbTierSettle 620ms var(--sb-motion-ease) both;
+}
+.sb-motion-ready .sbMotionRoomReveal .homeTierPreview:nth-child(2){animation-delay:55ms}
+.sb-motion-ready .sbMotionRoomReveal .homeTierPreview:nth-child(3){animation-delay:110ms}
+.sb-motion-ready .sbMotionRoomReveal .homeTierPreview:nth-child(4){animation-delay:165ms}
+.sb-motion-ready .sbMotionRoomReveal .homeTierPreview:nth-child(5){animation-delay:220ms}
+
+/* Decorative star travel. The runtime removes the layer after each burst. */
+.sbStarSparkLayer{
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  pointer-events:none;
+  overflow:hidden;
+}
+.sbStarSpark{
+  position:fixed;
+  display:block;
+  width:18px;
+  height:18px;
+  margin:-9px 0 0 -9px;
+  color:#ffd84f;
+  font-size:17px;
+  line-height:18px;
+  text-align:center;
+  text-shadow:0 1px 0 #9d640b,0 0 8px rgba(255,216,79,.75);
+  opacity:0;
+  transform:translate3d(0,0,0) scale(.55) rotate(0deg);
+  animation:sbSparkTravel 860ms var(--sb-motion-ease) var(--spark-delay,0ms) forwards;
+  will-change:transform,opacity;
+}
+
+/* Static emphasis used by the runtime when reduced motion is active. */
+.sbMotionStaticCue,
+.sbMotionStaticReady{
+  outline:3px solid rgba(214,248,255,.72);
+  outline-offset:2px;
+}
+
+@keyframes sbScreenEnter{
+  from{opacity:.82;transform:translateY(7px)}
+  to{opacity:1;transform:translateY(0)}
+}
+@keyframes sbPanelEnergy{
+  0%,100%{filter:drop-shadow(0 0 0 rgba(99,217,244,0))}
+  50%{filter:drop-shadow(0 0 5px rgba(99,217,244,.32))}
+}
+@keyframes sbAvatarIdle{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-4px)}
+}
+@keyframes sbBuddyIdle{
+  0%,100%{transform:translateY(0) rotate(0deg)}
+  45%{transform:translateY(-3px) rotate(-.8deg)}
+  65%{transform:translateY(-2px) rotate(.7deg)}
+}
+@keyframes sbSelectionFlash{
+  0%{filter:brightness(1) saturate(1)}
+  38%{filter:brightness(1.15) saturate(1.1)}
+  100%{filter:brightness(1) saturate(1)}
+}
+@keyframes sbEquipPop{
+  0%{filter:brightness(1);transform:scale(1)}
+  42%{filter:brightness(1.16) saturate(1.12);transform:scale(1.025)}
+  100%{filter:brightness(1);transform:scale(1)}
+}
+@keyframes sbStageCelebrate{
+  0%{filter:brightness(1) saturate(1)}
+  45%{filter:brightness(1.08) saturate(1.08)}
+  100%{filter:brightness(1) saturate(1)}
+}
+@keyframes sbCorrectCelebrate{
+  0%{transform:scale(1);filter:brightness(1)}
+  30%{transform:scale(1.004);filter:brightness(1.055) saturate(1.06)}
+  62%{transform:scale(1.001);filter:brightness(1.025)}
+  100%{transform:scale(1);filter:brightness(1)}
+}
+@keyframes sbRoomReveal{
+  from{opacity:.76;transform:translateY(-5px)}
+  to{opacity:1;transform:translateY(0)}
+}
+@keyframes sbTierSettle{
+  0%{opacity:.78;transform:translateY(5px) scale(.985)}
+  55%{opacity:1;transform:translateY(-1px) scale(1.006)}
+  100%{opacity:1;transform:translateY(0) scale(1)}
+}
+@keyframes sbSparkTravel{
+  0%{opacity:0;transform:translate3d(0,0,0) scale(.45) rotate(0deg)}
+  14%{opacity:1}
+  72%{opacity:1}
+  100%{opacity:0;transform:translate3d(var(--spark-x),var(--spark-y),0) scale(1.05) rotate(var(--spark-rot,120deg))}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .sb-motion-ready .sbMotionScreenEnter,
+  .sb-motion-ready .homeRoomProgress,
+  .sb-motion-ready .homeDreamGoal,
+  .sb-motion-ready .marketPage.sbStoreMatch .marketHero,
+  .sb-motion-ready .questScreenshotMatch>.questTop,
+  .sb-motion-ready .homeAvatarMount,
+  .sb-motion-ready .homeBuddyScene,
+  .sb-motion-ready .questBuddyPanel,
+  .sb-motion-ready .sbMotionSelection,
+  .sb-motion-ready .sbMotionEquip,
+  .sb-motion-ready .sbMotionEquipStage,
+  .sb-motion-ready .sbMotionCorrect,
+  .sb-motion-ready .sbMotionRoomReveal,
+  .sb-motion-ready .sbMotionRoomReveal .homeTierPreview{
+    animation:none!important;
+    transform:none!important;
+    transition:none!important;
+  }
+  .sbStarSparkLayer{display:none!important}
+  .sb-motion-ready .storeCard.sbStoreSelected,
+  .sb-motion-ready .storeCard.sbStoreEquipped,
+  .sb-motion-ready .sbMotionCorrect .feedback,
+  .sb-motion-ready .homeTierPreview.current{
+    outline:3px solid rgba(214,248,255,.9);
+    outline-offset:2px;
+  }
+}
