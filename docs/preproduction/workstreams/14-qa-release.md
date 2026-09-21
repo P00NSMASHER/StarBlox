@@ -1,137 +1,141 @@
 # Workstream 14 — Visual Release QA
 
-STATUS: **CATALOG_SPRINT / CI PASS / STAGED-ASSET RENDERING PASS / CATALOG GATE FAIL**
+STATUS: **CATALOG_SPRINT / 98-TEST CI PASS / STAGED-REPLACEMENT FIXTURE PASS / 4 LIGHTING ACCEPTS / CATALOG GATE FAIL**
 
 Branch: `screenshot-match-preproduction` only  
-Runtime/catalog-byte proof: current through CI-proven `8e49cff09f28c6cb4bfc44cba0f7d69d8e0dd7e9`; detailed unchanged-runtime baseline `d044d6d68a21009ae521c65fe893fd81905e0863`  
-Lighting candidate source: `6b5401fcb708763b73525343ca82a172588ae0e0`  
+Delivery policy: `docs/preproduction/DELIVERY_PROTOCOL_V2.md`  
 Replit/Floot: **untouched**  
-Main: **not merged or modified**
+Main: **not merged or modified**  
+Real player data: **not used**
 
 ## Release decision
 
 **READY FOR SINGLE REPLIT INTEGRATION: NO.**
 
-The automated game baseline is green, but Delivery Protocol v2 now has real pixel evidence that multiple catalog families — including assets historically labeled `final-portable` — do not meet the premium dimensional screenshot-art target. Those labels are not visual acceptance. The project must stay in `CATALOG_SPRINT` until all 192 current final hashes are independently accepted and the complete catalog gate passes.
+The game runtime/build gate remains green, and this pass produced the first independently accepted premium replacement hashes. The catalog is still not release-ready because the full 192-item exact-hash acceptance/canonical-wiring gate is far from complete, the complete final duplicate/near-duplicate gate cannot run until that final set exists, real-browser persistence stress remains unproven, and original reference screenshot pixels are unavailable for pixel-identical sign-off.
 
-The previously measured Home/Store/Quest geometry defects remain deferred to `GAME_FINISHING`; they are not being used to block catalog completion.
+Store/Quest geometry remains `GAME_FINISHING` work and does **not** block catalog phase completion. Home's last measured structural geometry remains PASS unless a new regression is observed.
 
-## Fresh automated evidence
+## Fresh test/build evidence
 
-Current CI run `35646740058`, job `106488999656`, on `8e49cff09f28c6cb4bfc44cba0f7d69d8e0dd7e9`: **PASS test-build**.
+Normal CI run `35657434360`, job `106524446604`, on `00d6cebfaf0e645ce08c150db1a93245d3eed148` completed successfully after the staged-art workflow change:
 
-Detailed CI run `35646326387`, job `106487626130`, on unchanged runtime/catalog bytes at `d044d6d68a21009ae521c65fe893fd81905e0863`:
-
-- Vitest: **20/20 test files, 85/85 tests PASS**;
+- install: **PASS**;
+- Vitest: **22/22 files PASS, 98/98 tests PASS**;
 - production Vite build: **PASS**;
-- **1,612 modules transformed**;
-- exactly 192 permanent Store IDs: **PASS**;
-- manifest metadata and unique existing asset paths: **PASS**;
-- interim Aura/companion promotion guard: **PASS**;
-- catalog SVG self-contained / no executable or embedded active content: **PASS**;
-- storage recovery, unknown/no-art ownership retention and rapid purchase/room/Quest guards: **PASS automated**;
-- hardened learning bank, five-action Quest and reward/evidence rules: **PASS automated**.
+- modules transformed: **1,613**;
+- CSS: **167.39 kB / 35.69 kB gzip**;
+- JS: **304.14 kB / 93.34 kB gzip**.
 
-Git comparison after that runtime proof contains workflow/config, review/report documents and a tiny binary capability probe, but **no game runtime or catalog asset-byte changes**, so the runtime/content tests remain applicable.
+The suite includes 192-item catalog invariants, manifest metadata/path checks, interim-art promotion guard, SVG active-content safety, learning semantic/source guards, persistence recovery, durable purchase/Quest reload-replay transactions, rapid action guards, shell navigation and mobile accessibility helpers. No catalog-induced P0 learning defect is recorded.
 
-CI has also been narrowed with `paths-ignore` for `docs/**` / markdown-only pushes, while runtime/assets/workflow changes still trigger the suite. Existing concurrency continues to cancel superseded CI jobs. This removes repeated heavy builds from documentation-only QA commits without weakening runtime coverage.
+## Shared staged-art render fixture
 
-## Branch-local staged-art fixture — PASS
+I reused and narrowly extended `.github/workflows/catalog-staged-art-qa.yml`; no second framework was created. The existing Playwright fixture now discovers repository-staged versioned replacement files even when a producer lane report is stale or uses `decision`/`reviewStatus` rather than top-level `status`. It supports SVG, PNG, JPG/JPEG and WEBP, records repository path + computed Git blob SHA, renders a card contact sheet and 800×800 detail capture, and keeps one compact artifact.
 
-Workstream 14 implemented the required review-before-wiring path without touching canonical Store mappings or Replit:
+Latest proven run: `35657747373` on `20515bb8fe8da83c56843ec3b690574699eeb2f7`.
 
-- fixture: `docs/preproduction/catalog-sprint/reviews/14-lighting-contact-sheet.svg`;
-- workflow: `.github/workflows/catalog-staged-art-qa.yml`;
-- repository-root HTTP server + Playwright Chromium;
-- card-scale contact sheet plus one 800×800 detail capture per exact candidate.
+Artifact: `10665857539`, digest `sha256:1480d7f858cb7ecfffe7f53871d71aad230ff39df864d0a4ebd0a3025d5dc63f`.
 
-The first workflow attempt **FAILED** on a Playwright full-page SVG screenshot timeout. It produced no artifact and was not treated as visual proof. The workflow was narrowly corrected to render an HTML contact grid and capture each SVG element directly.
+Results:
 
-Retry run `35646739825` **PASS** produced artifact `10660601212`, digest `sha256:be5c24af79fb8f023d5bf8cda06f1e209c41faeb39068273c6614eb3a7b0f261`:
+- reviewer-14 collections: **48/48 HTTP 200 + decoded + screenshot captured + zero errors**;
+- staged replacements: **27/27 HTTP 200 + decoded + screenshot captured + zero errors**;
+- replacement set currently includes **Auras 1–8, Desks 2–4, Lighting 1–4 and Tops 1–12**;
+- exact replacement IDs/paths/blob SHAs are recorded in the artifact `report.json`.
 
-- 12/12 exact Lighting candidate URLs returned HTTP 200;
-- 12/12 contained exactly one SVG;
-- 12/12 detail screenshots captured;
-- contact sheet captured;
-- 0 page errors / console errors.
+The fixture renders other partitions only to unblock their reviewers. Workstream 14 made no Tops/Auras/Desks visual decision.
 
-Lighting assets did not change from source `6b5401f...` through review, so this artifact is bound to the hashes in `lane-04.json`.
+## Independent Workstream-14 catalog review
 
-## Independent Lighting review — FAIL / REWORK 12
+Partition: Lighting / Wall / Rugs / Decor = **48 IDs**.
 
-`docs/preproduction/catalog-sprint/reviews/14.json` records the exact-hash decisions.
+Current exact-hash disposition: **48 reviewed / 4 ACCEPT / 44 REWORK / 0 BLOCKED**.
 
-**0 ACCEPT / 12 REWORK / 0 BLOCKED.**
+### Lighting 1–4 replacement hashes — ACCEPT
 
-All twelve Lighting candidates are recognizable, cleanly framed and distinct in broad silhouette, but the rendered pixels share a flat/vector presentation: shallow front-facing construction, white outline/glow, pastel gradient card backgrounds, limited believable material response and baked-in `TIER` badges. Higher tiers add motifs/glow rather than the richer three-quarter construction, materials and controlled lighting/spectacle required by the screenshot target.
+The actual pixels materially correct the prior flat/front-facing vector defects:
 
-The current Lighting hashes are therefore **ineligible for final integration**. Workstream 04 should repair them in bounded versioned batches from the item-specific findings in `reviews/14.json`; replacement hashes require fresh independent review.
+| ID | Replacement | Exact Git blob | Decision |
+|---|---|---|---|
+| lighting-1 | `/assets/catalog/lighting-1-v2.jpg` | `9d8aa142fa53f06dbad9ce59e9c8d34c1096ddc3` | **ACCEPT** |
+| lighting-2 | `/assets/catalog/lighting-2-v2.jpg` | `8c10fe689d6d7e398e85b24eb1ca1323cee07ea3` | **ACCEPT** |
+| lighting-3 | `/assets/catalog/lighting-3-v2.jpg` | `fc21ddf5a608ee393410ff9682cf2ef87a56c46d` | **ACCEPT** |
+| lighting-4 | `/assets/catalog/lighting-4-v2.jpg` | `7975e490a9fb97574f03081acf9fc871c22224f3` | **ACCEPT** |
 
-## Current V2 visual-review accounting
+They now show clear exact identity/theme, dimensional construction, believable material/emissive response, grounded/cast lighting and strong card/detail readability. Workstream 08 may consume these exact hashes immediately after its own metadata/file/content checks. A second universal visual review is not required by V2.
 
-| Family | Reviewer | Reviewed | ACCEPT | REWORK |
-|---|---:|---:|---:|---:|
-| Tops | 01 | 12 | 0 | 12 |
-| Seating candidates | 02 | 11 | 0 | 11 |
-| Auras | 05 | 12 | 0 | 12 |
-| Lighting | 14 | 12 | 0 | 12 |
-| **Total** |  | **47** | **0** | **47** |
+### Current REWORK families
 
-**145 IDs remain without qualified current-hash visual dispositions.** More importantly, every independently reviewed family so far has concrete premium-art defects; the manifest's legacy `final-portable` count cannot be interpreted as screenshot-quality completion.
+- Lighting 5–12: **8 REWORK** on the still-current legacy hashes. Producer 04 has generated Lighting 5–8 remotely but those bytes are not yet repository-staged; 9–12 still require replacement production.
+- Wall 1–12: **12 REWORK**. They read as flat UI/emblem treatments rather than physical mounted objects with frame/glass/metal/fabric/neon depth.
+- Rugs 1–12: **12 REWORK**. They read as upright/floating badges rather than floor textiles with pile/weave/edge thickness and contact/perspective.
+- Decor 1–12: **12 REWORK**. Identities are distinct, but the objects remain shallow icon-like product art with weak physical material response and insufficient high-tier progression.
 
-## Catalog release gate
+All 48 Workstream-14 hashes are exact-content unique. Manual rendered review found no identity-level near-duplicate collision; repeated flat backgrounds/templates remain quality defects, not duplicate content.
+
+Machine-readable decisions: `docs/preproduction/catalog-sprint/reviews/14.json`.
+
+## Cross-partition review status
+
+Disjoint reviewer shards currently contain at least one exact-hash review for **155 / 192 unique item IDs**:
+
+- reviewer 01: 36;
+- reviewer 02: 35;
+- reviewer 05: 36;
+- reviewer 14: 48.
+
+This number is **review coverage, not final acceptance**. Many decisions are against legacy hashes and are superseded when a replacement version appears. Only the current replacement hash can be accepted for release.
+
+The staged-art fixture now exposes the exact current replacement pixels needed by reviewers 01/05, including Tops 1–12, Auras 1–8 and Desks 2–4. They own those decisions.
+
+## Canonical catalog gate
 
 Canonical manifest remains v12:
 
-- target: **192**;
-- legacy `final-portable`: **99**;
+- target Store IDs: **192**;
+- legacy `final-portable` labels: **99**;
 - interim-not-verified: **23**;
-- canonical manifest/runtime mappings: **122**;
-- remaining relative to final-portable label: **93**;
+- manifest/runtime mappings: **122**;
 - duplicate manifest paths: **0**.
 
-Classification:
+Those labels are historical bookkeeping, not premium visual acceptance.
 
-- 192 permanent Store IDs: **PASS automated**;
-- current wired metadata/path integrity: **PASS automated**;
-- current wired path uniqueness: **PASS automated**;
-- catalog SVG active/embed-content safety: **PASS automated**;
-- all 192 unique accepted final canonical assets: **FAIL**;
-- all 192 current hashes independently accepted: **FAIL — 47 reviewed / 0 accepted / 145 unreviewed**;
-- complete final-set exact-content duplicate scan: **NOT TESTED — final set does not exist**;
-- complete final-set rendered near-duplicate review: **NOT TESTED**;
-- final post-integration Store desktop/phone art pass: **NOT TESTED — no accepted new art integrated**;
-- catalog-induced learning P0: **PASS automated — none found**;
-- save/economy automated baseline: **PASS / live timing NOT TESTED**;
-- catalog-specific persistence report: **BLOCKED — `persistence-qa.json` not yet present**;
-- exact original-reference pixel parity: **BLOCKED — original user reference pixels are not repository-accessible**.
+Current gate classification:
 
-Machine-readable gate: `docs/preproduction/catalog-sprint/release-qa.json`. Human summary: `release-qa.md`.
+| Gate | Status |
+|---|---|
+| Exactly 192 stable Store IDs | **PASS** |
+| Current wired metadata/path integrity | **PASS — automated** |
+| Workstream-14 48-ID review partition | **PASS — fully dispositioned** |
+| Qualified exact-hash accepted replacements known to this gate | **4** |
+| All 192 current final hashes independently accepted | **FAIL** |
+| All 192 accepted hashes canonically wired | **FAIL** |
+| Complete final exact-content duplicate scan | **NOT TESTED — final set incomplete** |
+| Complete rendered near-duplicate review | **NOT TESTED — final set incomplete** |
+| Post-integration desktop/phone Store art verification | **NOT TESTED — first accepted batch not yet integrated** |
+| Catalog-induced learning P0 | **PASS — automated** |
+| Automated purchase / final-Quest reload-replay | **PASS** |
+| Synthetic real-browser persistence timing/concurrency/recovery | **NOT TESTED — release blocker** |
+| Physical-device performance | **NOT TESTED** |
+| VoiceOver/TalkBack/NVDA smoke | **NOT TESTED** |
+| Pixel-identical original-reference parity | **BLOCKED — original reference pixels unavailable to repository QA** |
 
-## Desk asset transfer status — capability fixed, delivery still pending
+## Exact blockers and next owners
 
-`lane-03.json` is no longer missing. It records three generated local desk candidates (`desks-2..4`) but zero repository-staged images.
+1. **08 — canonical integration:** consume Lighting 1–4 v2 ACCEPT hashes now, then run affected catalog tests/build and actual canonical Store smoke. Do not wait for all 192 or old monolithic review files.
+2. **04 — Lighting:** preserve Lighting 1–4 accepted versions; stage already-generated Lighting 5–8; continue Lighting 9–12 repairs.
+3. **05 — Wall:** repair Wall 1–12 in versioned batches from reviewer-14 defects.
+4. **07 — Rugs:** repair Rugs 1–12 so they read as grounded floor textiles rather than upright badges.
+5. **09 — Decor:** repair Decor 1–12 with physical construction/material depth and stronger tier progression.
+6. **01 / 05 — cross-partition decisions:** consume the current staged-art artifact for Tops/Auras/Desks and write their own hash-bound decisions. Workstream 14 must not decide them.
+7. **13 — persistence:** close the synthetic real-browser purchase/equip/place/reload, final-feedback refresh, multi-tab replay and storage-recovery timing gate.
+8. **15 — phase owner:** keep `CATALOG_SPRINT` until all 192 current hashes are stored, correct, unique, independently accepted, canonically wired and Store-verified with no catalog-induced safety P0.
 
-Workstream 08 subsequently proved an authorized binary repository path with exact readback:
+## Deferred GAME_FINISHING release work
 
-`create_blob(base64) → create_tree → create_commit → update_ref(force=false) → fetch/readback hash verify`.
+When catalog PASS is reached, remeasure the then-current UI before fixing anything. Retained measured backlog is Store **4** structural blockers and Quest **6** structural blockers. Home is currently structurally PASS. Final release QA must also cover actual navigation/mobile controls, real purchase/equip/place/Quest flows, migration/recovery, semantic learning, keyboard/focus/contrast, screen-reader smoke, normal/reduced-motion performance and reference fidelity.
 
-Probe `docs/preproduction/catalog-sprint/binary-upload-probe.png` round-tripped exactly. Therefore **binary GitHub writing is no longer a project capability blocker**. However, Workstream 08 cannot see the historical generated desk file IDs from Workstream 03's separate run. Workstream 03 must use the now-proven path from the run where its generated bytes are visible; it should stage the existing desks-2..4 rather than regenerate them. `desks-5..12` still require candidates.
+The original three user reference screenshots remain authoritative. Their actual pixels are still not repository-accessible, so **pixel-identical sign-off is BLOCKED**; frozen target/design contracts may guide development but generated promotional collages are never proof.
 
-## Deferred whole-game release work
-
-The last strict whole-game Playwright structural gate measured **13 failures: Home 3, Store 4, Quest 6**. These are retained as historical measured evidence but were **not remeasured in this catalog-focused pass** and are not catalog gate requirements. Workstream 14 will remeasure the then-current implementation after the switch to `GAME_FINISHING` before directing fixes.
-
-Physical-device performance, real VoiceOver/TalkBack/NVDA smoke, final keyboard/focus/contrast proof, live persistence timing and exact original screenshot comparison likewise remain **NOT TESTED / BLOCKED where stated**, never silently promoted to PASS.
-
-## Exact current blockers / next owners
-
-1. **04:** repair `lighting-1..12` from the exact `reviews/14.json` defects; preserve rejected hashes.
-2. **14:** review Wall next from actual card/detail pixels, then Rugs and Decor; repaired Lighting hashes preempt untouched review.
-3. **01 / 02 / 05:** continue their disjoint partitions and prioritize replacement candidates over untouched legacy finals.
-4. **08:** integrate only qualified current-hash ACCEPT decisions; **none of the 47 reviewed hashes currently qualifies**.
-5. **03:** use the now-proven binary blob/tree/commit/ref path from its producer run to stage existing desks-2..4; do not regenerate them; continue remaining desks.
-6. **13:** produce catalog-specific synthetic-browser persistence/re-entry evidence before catalog PASS.
-7. **14 final catalog gate:** after 192 accepted final bytes exist, run complete exact-content hashing, rendered near-duplicate review, integrated Store desktop/phone checks and final regression/build.
-
-**Phase stays `CATALOG_SPRINT`. Replit/Floot and `main` remain untouched. No deployment is authorized.**
+**Replit/Floot untouched. `main` untouched. No deployment authorized.**
