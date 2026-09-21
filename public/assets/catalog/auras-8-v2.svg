@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Galaxy Glow Aqua Bubbles">
+<defs>
+  <radialGradient id="bg" cx="50%" cy="44%" r="78%"><stop offset="0" stop-color="#28246f"/><stop offset=".48" stop-color="#101746"/><stop offset="1" stop-color="#050a22"/></radialGradient>
+  <radialGradient id="bubble" cx="31%" cy="24%" r="76%"><stop offset="0" stop-color="#e6ffff" stop-opacity=".95"/><stop offset=".16" stop-color="#7bf8ff" stop-opacity=".82"/><stop offset=".45" stop-color="#23c7da" stop-opacity=".6"/><stop offset=".72" stop-color="#3270d8" stop-opacity=".34"/><stop offset="1" stop-color="#6127aa" stop-opacity=".2"/></radialGradient>
+  <radialGradient id="galaxy" cx="42%" cy="50%" r="60%"><stop stop-color="#fff6ff"/><stop offset=".18" stop-color="#7df7ff"/><stop offset=".48" stop-color="#b65cff"/><stop offset=".74" stop-color="#ff67c5"/><stop offset="1" stop-color="#ff67c5" stop-opacity="0"/></radialGradient>
+  <linearGradient id="rim" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#d9ffff"/><stop offset=".32" stop-color="#55efff"/><stop offset=".65" stop-color="#6d73ff"/><stop offset="1" stop-color="#d05eff"/></linearGradient>
+  <filter id="glow" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="7" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  <filter id="drop" x="-50%" y="-50%" width="200%" height="220%"><feDropShadow dx="0" dy="12" stdDeviation="11" flood-color="#000" flood-opacity=".58"/></filter>
+</defs>
+<rect width="512" height="512" rx="56" fill="url(#bg)"/>
+<circle cx="256" cy="256" r="165" fill="none" stroke="#55e8ff" stroke-opacity=".2" stroke-width="3"/>
+<circle cx="256" cy="256" r="126" fill="none" stroke="#a36dff" stroke-opacity=".16" stroke-width="2"/>
+<g opacity=".78" fill="#fff"><circle cx="106" cy="83" r="2"/><circle cx="161" cy="71" r="1.5"/><circle cx="400" cy="91" r="2.4"/><circle cx="430" cy="176" r="1.5"/><circle cx="80" cy="329" r="2"/><circle cx="425" cy="360" r="2"/><circle cx="342" cy="431" r="1.8"/><circle cx="165" cy="427" r="2.3"/></g>
+<g filter="url(#drop)">
+  <g transform="translate(256 252)">
+    <circle r="104" fill="url(#bubble)" stroke="url(#rim)" stroke-width="5"/>
+    <ellipse cx="-32" cy="-38" rx="34" ry="23" fill="#fff" opacity=".28" transform="rotate(-26)"/>
+    <path d="M-69 43 C-29 17 21 23 69 48" fill="none" stroke="#b9ffff" stroke-opacity=".25" stroke-width="6" stroke-linecap="round"/>
+    <ellipse cx="10" cy="30" rx="72" ry="24" fill="url(#galaxy)" opacity=".62" transform="rotate(19)" filter="url(#glow)"/>
+    <circle cx="-8" cy="8" r="4" fill="#fff" filter="url(#glow)"/><circle cx="25" cy="31" r="3" fill="#91fbff"/><circle cx="44" cy="10" r="2.5" fill="#fff"/>
+  </g>
+  <g transform="translate(116 123)"><circle r="54" fill="url(#bubble)" stroke="url(#rim)" stroke-width="4"/><ellipse cx="-17" cy="-21" rx="17" ry="11" fill="#fff" opacity=".3" transform="rotate(-28)"/><ellipse cx="8" cy="15" rx="36" ry="12" fill="url(#galaxy)" opacity=".55" transform="rotate(18)"/></g>
+  <g transform="translate(394 119)"><circle r="50" fill="url(#bubble)" stroke="url(#rim)" stroke-width="4"/><ellipse cx="-16" cy="-19" rx="16" ry="10" fill="#fff" opacity=".3" transform="rotate(-28)"/><ellipse cx="8" cy="13" rx="33" ry="11" fill="url(#galaxy)" opacity=".52" transform="rotate(16)"/></g>
+  <g transform="translate(90 260)"><circle r="39" fill="url(#bubble)" stroke="url(#rim)" stroke-width="3"/><ellipse cx="-12" cy="-15" rx="12" ry="8" fill="#fff" opacity=".31"/></g>
+  <g transform="translate(421 262)"><circle r="40" fill="url(#bubble)" stroke="url(#rim)" stroke-width="3"/><ellipse cx="-12" cy="-15" rx="12" ry="8" fill="#fff" opacity=".31"/></g>
+  <g transform="translate(121 397)"><circle r="59" fill="url(#bubble)" stroke="url(#rim)" stroke-width="4"/><ellipse cx="-19" cy="-22" rx="19" ry="12" fill="#fff" opacity=".3" transform="rotate(-26)"/><ellipse cx="10" cy="17" rx="39" ry="13" fill="url(#galaxy)" opacity=".55" transform="rotate(19)"/></g>
+  <g transform="translate(392 394)"><circle r="61" fill="url(#bubble)" stroke="url(#rim)" stroke-width="4"/><ellipse cx="-20" cy="-23" rx="20" ry="13" fill="#fff" opacity=".3" transform="rotate(-26)"/><ellipse cx="10" cy="17" rx="41" ry="14" fill="url(#galaxy)" opacity=".55" transform="rotate(19)"/></g>
+</g>
+<g fill="#9cfaff" filter="url(#glow)"><circle cx="247" cy="61" r="3"/><circle cx="452" cy="282" r="2.5"/><circle cx="284" cy="452" r="3"/><circle cx="57" cy="218" r="2.5"/></g>
+<g fill="#df8cff" opacity=".7"><circle cx="193" cy="87" r="2.4"/><circle cx="363" cy="72" r="2"/><circle cx="440" cy="330" r="2.4"/><circle cx="68" cy="352" r="2"/></g>
+<ellipse cx="256" cy="463" rx="165" ry="19" fill="#000" opacity=".2"/>
+</svg>
