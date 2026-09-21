@@ -1,10 +1,11 @@
 # Workstream 02 — HUD + Shell + Navigation
 
-STATUS: **IMPLEMENTED / BROWSER-QA NAV SEMANTICS FIXED / CURRENT CI + VISUAL RECHECK RUNNING**
+STATUS: **IMPLEMENTED / AUTOMATED GATE PASS / SHELL BROWSER QA PASS**
 
 Branch: `screenshot-match-preproduction` only
-Latest shell runtime commit: `4b0aeaae6e0e017881c469035903f57e85a593a7`
-Latest shell regression-test commit: `334676d88bbe2d71a8908f99aa385f8da013d5c5`
+Verified source head: `276181274e2f11ed49b46e09852712d43899b538`
+Shell runtime fix: `4b0aeaae6e0e017881c469035903f57e85a593a7`
+Shell regression tests: `334676d88bbe2d71a8908f99aa385f8da013d5c5`
 Replit: **untouched**
 Main: **not merged or modified**
 
@@ -26,19 +27,19 @@ Main: **not merged or modified**
   - <=389: further density compression without removing XP or primary navigation.
 - Added reduced-motion-safe shell behavior and keyboard Escape handling for the settings popover.
 
-## Browser-QA correction completed this pass
+## Browser-QA correction completed
 
 The first authoritative Playwright gate found a shell-owned hierarchy defect: the visible **Home** control was still the underlying `world` route, while the approved bedroom Home composition lived on the underlying `room` route. That made the visible Home button open Brightside City/world and made the visible Room button open the actual screenshot-match Home.
 
-This pass fixes that without changing React game state or rewriting `App.jsx`:
+The corrected shell now:
 
-- the underlying `room` route is now the visible **Home** destination;
-- the underlying `world` route is now the visible **Room** destination;
-- the visible rail is explicitly ordered **Home → Quests → Study → Room → Store** on desktop, tablet, and phone flex layouts;
-- active-state `aria-current` follows the correctly mapped visible destination;
-- the StarBlox logo now routes to the same screenshot-match Home destination instead of retaining the old `world` click while claiming an accessible Home label;
-- settings actions resolve destinations by stable shell destination rather than brittle raw button index;
-- Customize remains reachable through settings while staying outside the five-item primary rail.
+- maps the underlying `room` route to the visible **Home** destination;
+- maps the underlying `world` route to the visible **Room** destination;
+- explicitly orders the visible rail **Home → Quests → Study → Room → Store** on desktop, tablet, and phone flex layouts;
+- keeps active-state `aria-current` aligned to the correctly mapped visible destination;
+- routes the StarBlox logo to the same bedroom Home destination instead of retaining the old world-route click;
+- resolves settings actions by stable shell destination rather than brittle raw button index;
+- keeps Customize reachable through settings while staying outside the five-item primary rail.
 
 This is a presentation/routing-label correction only. No learning, reward, inventory, purchase, save, ownership, XP, Stars, Coins, mastery, or persistence behavior was changed.
 
@@ -47,36 +48,40 @@ This is a presentation/routing-label correction only. No learning, reward, inven
 - `src/shellChrome.css` — shared screenshot-match chrome, design tokens, desktop/tablet/phone shell geometry, selected/focus states.
 - `src/shellChromeRuntime.js` — additive DOM decoration for the five visible destinations, semantic Home/Room mapping, visual ordering, logo-to-Home routing, settings access, `aria-current`, and preserved Customize access.
 - `src/shellChromeRuntime.test.js` — regression coverage for visible navigation order, Home/Room mapping, logo routing, and settings-based Customize access.
-- `src/main.jsx` — already imports the shell runtime and shell chrome as part of the coordinated screenshot-match stack; no new `App.jsx` rewrite was required.
+- `src/main.jsx` — imports the shell runtime and shell chrome as part of the coordinated screenshot-match stack; `App.jsx` was not bloated with shell-specific presentation logic.
+- `src/homeScreenshotMatchRuntime.js` — coordinated QA added a narrow queued-scan teardown guard after the new shell regression file exposed an existing jsdom microtask race; no Home behavior or state semantics changed.
 
 ## Tests / build status
 
-- **PASS — prior coordinated automated gate:** before this browser-QA correction, the consolidated source head `583872b4083cd8d28b312da3c5c567eb9ce72b13` passed 18/18 test files, 81/81 tests, and the Vite production build.
-- **PASS — branch/browser diagnosis:** authoritative Playwright QA identified the Home/Room hierarchy mismatch and confirmed five named visible primary nav controls, target touch sizes, and no page-level horizontal overflow at the exercised responsive widths.
-- **ADDED — targeted shell regression suite:** `src/shellChromeRuntime.test.js` now locks the required Home/Quests/Study/Room/Store order, correct semantic route mapping, logo-to-Home behavior, and settings access to Customize.
-- **RUNNING — current full CI:** GitHub Actions CI for shell test head `334676d88bbe2d71a8908f99aa385f8da013d5c5` is executing the dependency install, complete Vitest suite, and production build.
-- **RUNNING — current Playwright visual gate:** the preproduction visual workflow is rebuilding and rechecking the same head, including the structural browser assertions and screenshot artifact set.
-- **NOT YET CLAIMED PASS — current rendered recheck:** this document does not mark the new Home/Room correction visually PASS until the current Playwright run completes.
+- **PASS — complete CI on verified source head `276181274e2f11ed49b46e09852712d43899b538`:** 19/19 Vitest files and 84/84 tests passed.
+- **PASS — shell regression suite:** all three new shell tests passed: visible five-destination order/mapping, logo-to-Home routing, and settings-based Customize access.
+- **PASS — production build:** Vite 8.3.0 production build completed; 1,611 modules transformed. Output was CSS 164.29 kB / 35.15 kB gzip and JS 300.70 kB / 92.13 kB gzip.
+- **PASS — shell browser route contract:** Playwright confirmed at 1408×1056, 1024×768, 390×844, and 320×568 that visible **Home** opens the approved bedroom Home composition.
+- **PASS — primary navigation browser checks:** all exercised Home/Store/Quest viewports reported exactly five visible, named, touch-safe primary navigation controls.
+- **PASS — responsive containment relevant to the shell:** all exercised viewports reported no page-level horizontal overflow and no page/console runtime errors.
+- **PASS — child-sized mobile interaction evidence:** 390 px and 320 px Home actions remained at least 44 px high; Store and Quest mobile controls also remained touch-safe under the shared dock/HUD.
+- **EXPECTED GLOBAL VISUAL-QA FAIL OUTSIDE THIS WORKSTREAM:** the strict visual workflow still reports 13 release-blocking geometry checks in Home/Store/Quest screen content. The former shell-owned Home-route failure is cleared; the remaining failures are screen-specific panel geometry, not shared HUD/nav failures.
 
 ## Visual gaps remaining
 
-- The shell still uses a CSS-styled text `STARBLOX★` mark rather than a final authored illustrated logo asset. The existing treatment matches the multicolor/outlined game language, but a final original logo illustration could improve fidelity.
+- The shell still uses a CSS-styled text `STARBLOX★` mark rather than a final authored illustrated logo asset. The current treatment matches the multicolor/outlined game language, but an original final logo illustration could improve fidelity.
 - Coins/Stars use styled existing HUD values rather than fully bespoke final pictographic illustrations.
-- Final exact screenshot fidelity still depends on measured viewport proof at 1408×1056, 1024 landscape/tablet, 390 px, and 320 px after this navigation correction.
-- Screen-specific geometry defects reported by visual QA belong to their owning Home/Store/Quest workstreams and should not be fixed by independently moving the global shell.
+- Exact artistic comparison of logo/icon shapes can still be refined if later screenshot review supplies a concrete measurable mismatch, but shell structure, routing, responsive containment, and touch safety now have browser proof.
+- The 13 current strict visual-QA failures belong to Home/Store/Quest content geometry and should be corrected by their owning workstreams rather than by independently moving the global shell.
 
 ## Blockers
 
-- No shell logic or state-preservation blocker is currently known.
-- The current full CI/build and Playwright structural visual gate must complete on the corrected shell head before this workstream can be called fully verified.
-- Final illustrated-logo fidelity remains an art-direction improvement rather than a functional blocker.
+- **No remaining Workstream 02 functional, build, routing, responsive-shell, or state-preservation blocker is known.**
+- Final illustrated-logo/pictogram fidelity is an optional art-direction refinement, not a blocker to handing the shared shell to downstream screen QA.
+- The overall StarBlox screenshot-match release remains blocked by screen-specific geometry, catalog completion, and other Command Center release gates outside this workstream.
 
 ## Handoff
 
 - Home, Store, and Quest builders must treat the shell as **fixed overlay chrome** and must not reserve a solid desktop header/sidebar canvas.
-- The visible destination contract is now authoritative: **Home opens the bedroom Home composition; Room opens Brightside City/world; Quests, Study, and Store preserve their existing underlying behaviors.**
+- The visible destination contract is authoritative: **Home opens the bedroom Home composition; Room opens Brightside City/world; Quests, Study, and Store preserve their existing underlying behaviors.**
 - Wide reference content can use the full viewport scene beneath the shell; keep critical interactive content out from under logo/HUD/nav hit areas.
 - Responsive work must retain all five primary destinations and keep XP/level visible in compact form.
 - Command Center should keep `shellChrome.css` as the shared chrome/token authority and avoid creating another global shell palette.
 - If later integration changes the base nav array/order, update the shell source mapping and its regression test together rather than relabeling by visual position alone.
+- Re-run full CI and the browser visual gate after any future runtime-affecting shell change.
 - **Do not update/publish Replit and do not merge to `main` until coordinated preproduction release sign-off and separate user approval.**
