@@ -200,14 +200,14 @@
     "catalogGateStillRequiresAll192Accepted": true
   },
   "coordinationSnapshot": {
-    "observedHead": "781028aabd6992039c1c583a47905e76f240d5cb",
+    "observedHead": "c74ed6e7470ad118598affebc3edd503ee83cc1d",
     "repositoryStagedAssignedCandidates": 82,
     "generatedLocalDeskCandidates": 3,
     "assignedIdsWithAnyRepositoryOrLocalCandidate": 85,
-    "independentReviewedCurrentHashes": 71,
+    "independentReviewedCurrentHashes": 83,
     "independentAcceptedCurrentHashes": 0,
-    "independentReworkCurrentHashes": 71,
-    "independentUnreviewedIds": 121,
+    "independentReworkCurrentHashes": 83,
+    "independentUnreviewedIds": 109,
     "canonicalV2Promotions": 0,
     "reviewShardsPresent": [
       "01",
@@ -221,7 +221,7 @@
       "auras",
       "lighting"
     ],
-    "note": "Independent review coverage now includes Tops 12, Seating 11, Auras legacy 12, Lighting 12, Beds 12 and Companions 12 = 71 current/legacy item hashes reviewed; all 71 are REWORK, none ACCEPT. Auras-1..4 replacement hashes and Tops replacement hashes still require fresh review.",
+    "note": "Independent visual coverage now spans Tops 12, Bottoms 12, Seating 11, Auras legacy 12, Companions 12, Beds 12 and Lighting 12 = 83 unique item hashes. All 83 are REWORK; zero current/replacement hashes have qualified ACCEPT.",
     "storedReplacementCandidateVersions": 6,
     "replacementCandidateIds": [
       "tops-7",
@@ -308,15 +308,16 @@
   },
   "criticalRuntimeAssignments": {
     "13": [
-      "Inspect transaction helper/App/storage changes, run persistence/economy regression plus synthetic browser refresh/re-entry/replay evidence, and clear each blocker only on observed results."
+      "Do not rewrite the passing transaction semantics. Sync persistence-qa.json to the verified 98/98 CI result, then run isolated synthetic real-browser timing/concurrency cases when an authorized browser/device path is available."
     ],
     "15": [
-      "Coordinate affected full CI/build and preserve shared App/storage transaction contracts."
+      "Preserve the automated CI evidence and coordinate an authorized executable local Chromium/Vite path without Replit/Floot or real player data."
     ],
-    "priority": "VERIFY_IMPLEMENTED_FIX_BEFORE_CATALOG_RELEASE_CLEARANCE",
+    "priority": "REAL_BROWSER_TIMING_CONCURRENCY_EVIDENCE_AFTER_AUTOMATED_PASS",
     "details": {
-      "PERSIST-TRANSACTION-IDEMPOTENCY": "Implementation exists on branch: functional transaction revalidation plus durable purchase receipt. Release blocker remains until full regression/build and Workstream-13 replay/re-entry evidence pass.",
-      "PERSIST-QUEST-COMPLETION-REFRESH": "Implementation exists on branch: fifth correct answer atomically records the completion reward using a quest receipt before the 950ms UI transition. Release blocker remains until full regression/build and refresh/re-entry evidence pass."
+      "PERSIST-TRANSACTION-IDEMPOTENCY": "PASS_AUTOMATED at 1ce91011311dff6ea9b7b8119010d84f0466e42f; purchase reload/replay exactly-once regression passed.",
+      "PERSIST-QUEST-COMPLETION-REFRESH": "PASS_AUTOMATED at 1ce91011311dff6ea9b7b8119010d84f0466e42f; final completion reload/replay exactly-once regression passed.",
+      "PERSIST-BROWSER-TIMING-CONCURRENCY": "OPEN RELEASE BLOCKER: requires authorized executable browser evidence for purchase/equip/place/reload, final Quest feedback refresh timing, multi-tab replay, malformed import and IndexedDB/localStorage recovery. No real player data."
     }
   },
   "supportAssignments": {
@@ -363,7 +364,7 @@
   "criticalRuntimeEvidence": {
     "observedImplementationHead": "620b22b74413f5108a5ec744219383bdb4dfd488",
     "branchHeadAfterConcurrentCatalogWork": "1c5b619c63a2a887ac422be715b7542b5afb34b7",
-    "status": "IMPLEMENTED_PENDING_FULL_CI_AND_LIVE_BROWSER",
+    "status": "AUTOMATED_CI_PASS_REAL_BROWSER_TIMING_PENDING",
     "commits": {
       "transactionHelpers": "f58f20817af61876dfa3cc292c27c08beaf9942e",
       "transactionTests": "df905eab4d6fe6125b3e92c8eddd462a07293748",
@@ -376,12 +377,22 @@
       "Final Quest completion +30 Coins/+30 XP/questsCompleted/Bond/daily quest is applied atomically during the final correct-answer save transaction using an active/completed receipt; the 950ms timer now controls UI transition only."
     ],
     "focusedExecutableCheck": "PASS_NODE_ASSERTIONS_purchase_once_replay_receipt_restore_quest_completion_replay",
-    "fullCi": "PENDING_CURRENT_RUNTIME_CHANGE",
-    "liveBrowserPersistence": "PENDING_WORKSTREAM_13",
+    "fullCi": "PASS",
+    "liveBrowserPersistence": "PENDING_AUTHORIZED_EXECUTABLE_BROWSER",
     "blockersStillOpenForRelease": [
-      "PERSIST-TRANSACTION-IDEMPOTENCY",
-      "PERSIST-QUEST-COMPLETION-REFRESH"
-    ]
+      "PERSIST-BROWSER-TIMING-CONCURRENCY"
+    ],
+    "testedHead": "1ce91011311dff6ea9b7b8119010d84f0466e42f",
+    "workflowRunId": 35652200670,
+    "workflowJobId": 106507027345,
+    "tests": "PASS_22_OF_22_FILES_98_OF_98_TESTS",
+    "productionBuild": "PASS_1613_MODULES",
+    "exactLogInspection": "PASS",
+    "sourceDefects": {
+      "PERSIST-TRANSACTION-IDEMPOTENCY": "PASS_AUTOMATED_RELOAD_REPLAY",
+      "PERSIST-QUEST-COMPLETION-REFRESH": "PASS_AUTOMATED_RELOAD_REPLAY"
+    },
+    "note": "GitHub job steps and raw logs were independently inspected by Workstream 15. Durable purchase receipt/reload/replay, receipt-only ownership recovery, final Quest completion reload/replay, storage recovery, 192-item catalog, 200-question bank, rapid action guards and production Vite build all passed. Real browser purchase/equip/place/reload, final-feedback refresh timing, multi-tab replay, malformed import and live IndexedDB/localStorage recovery remain unproven."
   },
   "binaryTransferEvidence": {
     "status": "SUPPORTED_PATH_PROVEN_GIT_BLOBS_CREATED_BRANCH_ATTACHMENT_PENDING",
@@ -472,6 +483,20 @@
         "auras-1-v2..4-v2",
         "desks-2..12",
         "desks-1"
+      ]
+    },
+    "01": {
+      "reviewBlobSha": "80865b2243f904cf567d5d362fea332ead7baf50",
+      "sourceHead": "781028aabd6992039c1c583a47905e76f240d5cb",
+      "reviewedUniqueItemIds": 24,
+      "newlyReviewed": [
+        "bottoms-1..12"
+      ],
+      "newlyAccepted": 0,
+      "newlyRework": 12,
+      "pendingReplacementHashes": [
+        "tops-7-w09-v2",
+        "tops-8-w09-v2"
       ]
     }
   }
