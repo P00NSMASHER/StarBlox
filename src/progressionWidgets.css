@@ -1,0 +1,426 @@
+/* Workstream 07 — progression widgets. Loaded after the Home screenshot-match layer. */
+.homeHeroRuntime .homeGoalHorizons{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:5px;
+  margin:4px 0 5px;
+}
+.homeHeroRuntime .homeGoalHorizons>div{
+  min-width:0;
+  padding:5px 7px;
+  border:1px solid rgba(214,248,255,.72);
+  border-radius:10px;
+  background:linear-gradient(180deg,rgba(248,253,255,.98),rgba(224,242,255,.96));
+  color:#17366b;
+  box-shadow:inset 0 1px 0 #fff,0 2px 0 rgba(5,23,65,.2);
+}
+.homeHeroRuntime .homeGoalHorizons span{
+  display:block;
+  font-size:8px;
+  line-height:1;
+  font-weight:1000;
+  letter-spacing:.06em;
+  color:#5a3bbe;
+}
+.homeHeroRuntime .homeGoalHorizons b{
+  display:block;
+  margin-top:2px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  font-size:9px;
+  line-height:1.1;
+}
+.homeHeroRuntime .homeTierPreview[data-progression-state="open"]{
+  border-color:rgba(145,240,173,.9);
+}
+.homeHeroRuntime .homeTierPreview[data-progression-state="current"]{
+  box-shadow:0 0 0 2px rgba(255,240,154,.42),0 0 14px rgba(255,216,79,.56);
+}
+.homeHeroRuntime .homeTierPreview[data-progression-state="locked"]{
+  filter:saturate(.72) brightness(.9);
+}
+.homeHeroRuntime .homeDreamHorizon{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:7px;
+  margin:-1px 0 7px;
+  padding:6px 8px;
+  border:1px solid rgba(255,240,154,.75);
+  border-radius:10px;
+  background:linear-gradient(180deg,rgba(255,246,191,.98),rgba(255,216,79,.92));
+  color:#684610;
+  box-shadow:inset 0 1px 0 #fff,0 2px 0 rgba(105,64,5,.18);
+}
+.homeHeroRuntime .homeDreamHorizon span{
+  font-size:8px;
+  font-weight:1000;
+  letter-spacing:.05em;
+}
+.homeHeroRuntime .homeDreamHorizon b{
+  font-size:10px;
+  text-align:right;
+}
+.homeHeroRuntime .homeDailyMiniMeter{
+  display:block;
+  width:100%;
+  height:5px;
+  margin-top:4px;
+  overflow:hidden;
+  border-radius:999px;
+  background:#cfe5f4;
+  box-shadow:inset 0 1px 2px rgba(5,23,65,.18);
+}
+.homeHeroRuntime .homeDailyMiniMeter i{
+  display:block;
+  height:100%;
+  border-radius:inherit;
+  background:linear-gradient(90deg,#35cc6a,#91f0ad);
+}
+.homeHeroRuntime .homeDailyBenefit{
+  display:block!important;
+  margin-top:3px;
+  font-size:8px!important;
+  line-height:1.15;
+  font-weight:850;
+  color:#667da4!important;
+}
+.homeHeroRuntime .homeDailySummary{
+  display:grid;
+  grid-template-columns:auto 1fr;
+  gap:7px;
+  align-items:center;
+  margin-top:7px;
+  padding:6px 8px;
+  border-radius:10px;
+  background:rgba(5,23,65,.36);
+  border:1px solid rgba(214,248,255,.36);
+  color:#fff;
+}
+.homeHeroRuntime .homeDailySummary b{
+  font-size:9px;
+  white-space:nowrap;
+  color:#fff8b7;
+}
+.homeHeroRuntime .homeDailySummary span{
+  font-size:8px;
+  line-height:1.15;
+  font-weight:800;
+  color:#d6f8ff;
+}
+.homeHeroRuntime .homeProgressRewardTiles{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:5px;
+  margin-top:7px;
+}
+.homeHeroRuntime .homeProgressRewardTiles>div{
+  min-width:0;
+  padding:5px 6px;
+  border-radius:10px;
+  background:linear-gradient(180deg,#fff,#edf7ff);
+  border:1px solid #8acded;
+  color:#17366b;
+  text-align:center;
+  box-shadow:inset 0 1px 0 #fff,0 2px 0 rgba(5,23,65,.18);
+}
+.homeHeroRuntime .homeProgressRewardTiles span{
+  display:block;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  font-size:7px;
+  font-weight:1000;
+  letter-spacing:.04em;
+  color:#5a3bbe;
+}
+.homeHeroRuntime .homeProgressRewardTiles b{
+  display:block;
+  margin-top:1px;
+  font-size:13px;
+  color:#17366b;
+}
+.homeHeroRuntime .homeProgressRewardTiles small{
+  display:block;
+  margin-top:1px;
+  font-size:7px;
+  font-weight:800;
+  color:#667da4;
+}
+.homeHeroRuntime .homeLearningState{
+  display:block!important;
+  margin-top:2px;
+  font-size:8px!important;
+  line-height:1.1;
+  font-weight:900;
+  color:#5a3bbe!important;
+}
+.homeHeroRuntime .homeLearningRows>div[data-learning-state="mastered"]{
+  border-color:#ffd84f;
+  box-shadow:inset 0 1px 0 #fff,0 0 10px rgba(255,216,79,.32);
+}
+.homeHeroRuntime .homeMasteryCard{
+  display:grid;
+  grid-template-columns:36px minmax(0,1fr);
+  gap:7px;
+  align-items:center;
+  margin-top:7px;
+  padding:6px 8px;
+  border-radius:12px;
+  border:1px solid rgba(255,240,154,.88);
+  background:linear-gradient(180deg,rgba(255,246,191,.98),rgba(255,226,118,.94));
+  color:#17366b;
+  box-shadow:inset 0 1px 0 #fff,0 3px 0 rgba(135,87,9,.22);
+}
+.homeHeroRuntime .homeMasteryIcon{
+  width:34px;
+  height:34px;
+  display:grid;
+  place-items:center;
+  border-radius:50%;
+  background:linear-gradient(180deg,#fff181,#ffd044 55%,#f5a91b);
+  color:#fff;
+  font-size:22px;
+  text-shadow:0 2px 0 #c77a12;
+  box-shadow:inset 0 1px 0 #fff,0 2px 0 #c77a12;
+}
+.homeHeroRuntime .homeMasteryCopy{
+  min-width:0;
+}
+.homeHeroRuntime .homeMasteryCopy span{
+  display:block;
+  font-size:8px;
+  font-weight:1000;
+  letter-spacing:.06em;
+  color:#7b5a13;
+}
+.homeHeroRuntime .homeMasteryCopy b{
+  display:block;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  font-size:10px;
+  color:#17366b;
+}
+.homeHeroRuntime .homeMasteryCopy small{
+  display:block;
+  margin-top:1px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  font-size:8px;
+  font-weight:800;
+  color:#667da4;
+}
+.homeHeroRuntime .homeCustomizeTabs button{
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:5px;
+}
+.homeHeroRuntime .homeCategoryCount{
+  min-width:19px;
+  height:19px;
+  padding:0 5px;
+  display:inline-grid;
+  place-items:center;
+  border-radius:999px;
+  background:#fff;
+  color:#17366b;
+  font-size:9px;
+  font-weight:1000;
+  box-shadow:inset 0 0 0 1px rgba(23,54,107,.16);
+}
+.homeHeroRuntime .homeCustomizeTabs button.active .homeCategoryCount{
+  background:#d6f8ff;
+  color:#0a2d73;
+}
+.homeHeroRuntime .homeCollectionProgress{
+  display:grid;
+  grid-template-columns:auto minmax(90px,1fr);
+  gap:8px;
+  align-items:center;
+  margin-top:6px;
+  color:#d6f8ff;
+}
+.homeHeroRuntime .homeCollectionProgress span{
+  font-size:8px;
+  font-weight:850;
+  white-space:nowrap;
+}
+.homeHeroRuntime .homeCollectionProgress span b{
+  color:#fff8b7;
+  font-size:10px;
+}
+.homeHeroRuntime .homeCollectionProgress>div{
+  height:7px;
+  overflow:hidden;
+  border-radius:999px;
+  background:rgba(5,23,65,.54);
+  box-shadow:inset 0 1px 2px rgba(0,0,0,.28);
+}
+.homeHeroRuntime .homeCollectionProgress i{
+  display:block;
+  height:100%;
+  border-radius:inherit;
+  background:linear-gradient(90deg,#a77af3,#ff78b7,#ffd84f);
+}
+
+@media (min-width:1280px){
+  .homeHeroRuntime .homeRoomProgress{
+    min-height:176px;
+  }
+  .homeHeroRuntime .homeRoomProgress .homePanelHeading{
+    margin-bottom:2px;
+  }
+  .homeHeroRuntime .homeTierStrip{
+    gap:5px;
+  }
+  .homeHeroRuntime .tierPreviewArt{
+    height:48px;
+  }
+  .homeHeroRuntime .homeTierPreview{
+    min-width:0;
+    padding:4px;
+  }
+  .homeHeroRuntime .homeTierPreview>b{
+    min-height:22px;
+    display:grid;
+    place-items:center;
+    font-size:9px;
+    line-height:1.05;
+    text-align:center;
+  }
+  .homeHeroRuntime .homeTierPreview>small{
+    font-size:7px;
+  }
+  .homeHeroRuntime .homeDailyQuests{
+    min-height:332px;
+  }
+  .homeHeroRuntime .homeDailyRow{
+    min-height:52px;
+  }
+  .homeHeroRuntime .homeDailySafeNote{
+    min-height:38px;
+    margin-top:6px;
+    padding:5px 8px;
+  }
+  .homeHeroRuntime .homeDailySafeNote>span{
+    font-size:22px;
+  }
+  .homeHeroRuntime .homeDailySafeNote small{
+    font-size:8px;
+  }
+  .homeHeroRuntime .homeLearning{
+    min-height:216px;
+  }
+  .homeHeroRuntime .homeCustomize{
+    min-height:232px;
+  }
+}
+
+@media (min-width:768px) and (max-width:1279px){
+  .homeHeroRuntime .homeGoalHorizons{
+    grid-template-columns:1fr;
+  }
+  .homeHeroRuntime .homeGoalHorizons>div{
+    display:grid;
+    grid-template-columns:90px 1fr;
+    gap:8px;
+    align-items:center;
+  }
+  .homeHeroRuntime .homeGoalHorizons b{
+    margin:0;
+    white-space:normal;
+  }
+}
+
+@media (max-width:767px){
+  .homeHeroRuntime .homeGoalHorizons{
+    grid-template-columns:1fr;
+    gap:6px;
+    margin:8px 0;
+  }
+  .homeHeroRuntime .homeGoalHorizons>div{
+    min-height:44px;
+    display:grid;
+    grid-template-columns:88px 1fr;
+    gap:8px;
+    align-items:center;
+    padding:8px 10px;
+  }
+  .homeHeroRuntime .homeGoalHorizons span{
+    font-size:10px;
+  }
+  .homeHeroRuntime .homeGoalHorizons b{
+    margin:0;
+    white-space:normal;
+    font-size:11px;
+  }
+  .homeHeroRuntime .homeDreamHorizon{
+    min-height:44px;
+    padding:8px 10px;
+  }
+  .homeHeroRuntime .homeDailySummary{
+    grid-template-columns:1fr;
+    min-height:44px;
+    padding:8px 10px;
+  }
+  .homeHeroRuntime .homeDailySummary b,
+  .homeHeroRuntime .homeDailySummary span{
+    font-size:10px;
+    white-space:normal;
+  }
+  .homeHeroRuntime .homeProgressRewardTiles{
+    gap:7px;
+  }
+  .homeHeroRuntime .homeProgressRewardTiles>div{
+    min-height:58px;
+    padding:8px 5px;
+  }
+  .homeHeroRuntime .homeProgressRewardTiles span{
+    font-size:8px;
+  }
+  .homeHeroRuntime .homeProgressRewardTiles b{
+    font-size:16px;
+  }
+  .homeHeroRuntime .homeProgressRewardTiles small{
+    font-size:8px;
+  }
+  .homeHeroRuntime .homeMasteryCard{
+    min-height:56px;
+    padding:8px 10px;
+  }
+  .homeHeroRuntime .homeMasteryCopy span,
+  .homeHeroRuntime .homeMasteryCopy small{
+    font-size:10px;
+    white-space:normal;
+  }
+  .homeHeroRuntime .homeMasteryCopy b{
+    font-size:12px;
+    white-space:normal;
+  }
+  .homeHeroRuntime .homeCustomizeTabs button{
+    min-height:44px;
+  }
+  .homeHeroRuntime .homeCollectionProgress{
+    grid-template-columns:1fr;
+    min-height:44px;
+    gap:5px;
+  }
+  .homeHeroRuntime .homeCollectionProgress span{
+    font-size:10px;
+    white-space:normal;
+  }
+}
+
+@media (prefers-reduced-motion:reduce){
+  .homeHeroRuntime .homeDailyMiniMeter i,
+  .homeHeroRuntime .homeCollectionProgress i,
+  .homeHeroRuntime .homeTierPreview[data-progression-state="current"]{
+    transition:none!important;
+    animation:none!important;
+  }
+}
