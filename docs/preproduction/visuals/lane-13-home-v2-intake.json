@@ -4,7 +4,7 @@
   "candidateType": "environment-background",
   "producer": "13",
   "targetScreen": "Home",
-  "status": "STAGED_PENDING_ORIGIN_READBACK_AND_INDEPENDENT_REVIEW",
+  "status": "STAGED_READY_FOR_INDEPENDENT_REVIEW",
   "parentCandidate": "home-bedroom-w13-v1",
   "repairBasis": "docs/preproduction/visuals/reviews/01.json exact v1 REWORK contract",
   "reference": {
@@ -42,7 +42,9 @@
         1938.4104742407799,
         2090.78644156456,
         1947.1505727767944
-      ]
+      ],
+      "originReadbackSha256": "d6f1936fc51ee7afd92a261a24015d02d93228cb7ae110fde9d7f12c0782c2cb",
+      "gitBlobSha": "daa6069209ec438c6fc5e2e20788c33f7534d426"
     },
     {
       "role": "desktop",
@@ -58,7 +60,9 @@
         1992.5989434719086,
         2149.268665075302,
         1987.0791540145874
-      ]
+      ],
+      "originReadbackSha256": "954d3d6e55b578506df87d787aa7d3aa7005f759b78cdd06b65603469ffc9251",
+      "gitBlobSha": "2806e8282923efb1b0dc467cbae7139b8d3f339b"
     }
   ],
   "producerVisualInspection": "PASS_PRODUCER_ONLY_NOT_INDEPENDENT_ACCEPT",
@@ -68,5 +72,6 @@
   "workstream09ActiveEnvironmentTouched": false,
   "replitOrFlootTouched": false,
   "mainTouched": false,
-  "originReadback": "PENDING"
+  "originReadback": "PASS_2_OF_2_EXACT_SHA256",
+  "sourceHeadAfterBinaryPush": "0d1db2ebf963366a245a25ba6d9493019bf74f1b"
 }
