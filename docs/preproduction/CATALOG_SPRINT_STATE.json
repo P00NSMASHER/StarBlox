@@ -1,15 +1,27 @@
 {
   "schemaVersion": 1,
+  "orchestrationVersion": 2,
   "phase": "CATALOG_SPRINT",
   "userPriority": "Finish catalog first; then automatically resume normal development and finish the game.",
+  "optimizationAuthorization": "2026-09-21: Optimize the 15 active scheduled tasks to finish the game as quickly and thoroughly as possible.",
   "repository": "P00NSMASHER/StarBlox",
   "branch": "screenshot-match-preproduction",
-  "policyPath": "docs/preproduction/CATALOG_SPRINT.md",
+  "policyPath": "docs/preproduction/DELIVERY_PROTOCOL_V2.md",
+  "catalogPolicyPath": "docs/preproduction/CATALOG_SPRINT.md",
   "phaseOwner": "15",
   "manifestAndRuntimeWriter": "08",
   "replitUpdatesAllowed": false,
   "mainMergeAllowed": false,
-  "schedulesChanged": false,
+  "schedulesChanged": true,
+  "schedulePolicy": {
+    "intervalHours": 1,
+    "timezone": "America/New_York",
+    "existingAutomationCount": 15,
+    "newAutomationsCreated": 0,
+    "all15UpdateCallsSucceeded": true,
+    "minuteByWorkstream": {"01":20,"02":24,"03":2,"04":5,"05":28,"06":8,"07":11,"08":40,"09":14,"10":52,"11":17,"12":44,"13":48,"14":32,"15":0},
+    "note": "Offsets reduce contention, not a guarantee of completion order or throughput. Tasks consume completed hash-bound outputs across cycles."
+  },
   "baseline": {
     "sourceHead": "56ea88a9dae79fa59ae0885cab7cd6b7411bed6a",
     "manifestVersion": 12,
@@ -32,15 +44,34 @@
     "09": ["decor-1", "decor-2", "decor-3", "decor-4", "decor-5", "decor-6", "decor-7", "decor-8", "decor-9", "decor-10", "decor-11", "decor-12"],
     "11": ["auras-1", "auras-2", "auras-3", "auras-4", "auras-5", "auras-6", "auras-7", "auras-8", "auras-9", "auras-10", "auras-11", "auras-12"]
   },
+  "reviewAssignments": {
+    "01": ["tops", "bottoms", "headwear", "facegear"],
+    "02": ["shoes", "backgear", "handgear", "seating"],
+    "05": ["beds", "desks", "companions", "auras"],
+    "14": ["lighting", "wall", "rugs", "decor"]
+  },
+  "reviewPolicy": {
+    "partitionUnit": "collectionId; all 12 actual item IDs in each assigned collection",
+    "coverageTarget": 192,
+    "shardPathTemplate": "docs/preproduction/catalog-sprint/reviews/<NN>.json",
+    "minimumQualifiedIndependentAcceptsPerCurrentAssetHash": 1,
+    "selfApprovalAllowed": false,
+    "actualPixelEvidenceRequired": true,
+    "oldMonolithicReviewFilesRequiredForMicrobatchIntegration": false,
+    "unresolvedDisagreementsBlockAffectedAsset": true,
+    "independentCatalogReleaseVerifier": "14",
+    "catalogGateStillRequiresAll192Accepted": true
+  },
   "supportAssignments": {
-    "01": "Art direction and per-item rendered acceptance including the existing 99",
-    "02": "Read-only catalog review until GAME_FINISHING while the chat owns seating-2..12",
-    "08": "Canonical manifest, exact-ID runtime wiring and integration",
-    "10": "Catalog mobile, scrolling and accessibility QA",
-    "12": "Learning-integrity guard",
-    "13": "Save, inventory, purchase and reward guard",
-    "14": "Independent catalog release QA and duplicate-content verification",
-    "15": "Coordination, reassignments, completion gate and switch-back"
+    "01": "Independent art review partition and original reference fidelity; optional review rollup is not a gate dependency",
+    "02": "Independent shoes/backgear/handgear/seating review; CHAT retains seating production",
+    "05": "Independent beds/desks/companions/auras review; wall repairs only from reviewer 14 rejection",
+    "08": "Sole canonical manifest/runtime integrator; consume each qualified independent ACCEPT incrementally",
+    "10": "Change-aware catalog mobile/accessibility/scrolling QA; label emulation and device limits",
+    "12": "Semantic learning/source/evidence guard and untested real-browser learning cases",
+    "13": "Save/inventory/economy guard and synthetic real-browser recovery/reward stress",
+    "14": "Independent room-art review partition, staged-asset render harness, catalog release QA and efficient CI",
+    "15": "Critical-path coordination, shared-file ownership, reassignments, phase switch and final release gate"
   },
   "normalRoles": {
     "01": "Visual Target Director",
