@@ -1,0 +1,195 @@
+{
+  "schemaVersion": 1,
+  "batchId": "chat-lighting-recovery-9-12-20260921",
+  "status": "STAGED_READY_FOR_INDEPENDENT_REVIEW",
+  "sourceHead": "55bf6ee3b8ab06e590baa5f27b5c710c1fac1838",
+  "workflowRunId": "35666422739",
+  "producer": "04",
+  "transportHelper": "CHAT",
+  "independentReviewer": "14",
+  "canonicalWriter": "08",
+  "newGenerations": 0,
+  "storedCandidateCount": 4,
+  "storedOriginalCount": 4,
+  "independentAcceptsThisIntake": 0,
+  "canonicalPromotionsThisIntake": 0,
+  "duplicateCandidateContent": 0,
+  "metadataSource": "src/gameModel.js store export",
+  "items": [
+    {
+      "id": "lighting-9",
+      "name": "Color Lamp",
+      "collectionId": "lighting",
+      "collectionName": "Lighting",
+      "type": "room",
+      "tier": 3,
+      "theme": "Star Luxe",
+      "price": 667,
+      "starReq": 2,
+      "format": "JPEG",
+      "dimensions": [
+        600,
+        600
+      ],
+      "bytes": 54235,
+      "sha256": "acaa1aff26a32460bf98636c25795c5e1e9c5f9969883b7040b5154c04757d4b",
+      "gitBlobSha": "d9a0e461a1a8ace589cf6be1ec93e61972ba7faf",
+      "producer": "04",
+      "transportHelper": "CHAT",
+      "independentReviewer": "14",
+      "assetId": "urn:aaid:sc:US:15f7fe15-5a46-4b69-9c9d-3ad89404271e",
+      "repositoryPath": "public/assets/catalog/lighting-9-w04-recovered-v2.jpg",
+      "assetPath": "/assets/catalog/lighting-9-w04-recovered-v2.jpg",
+      "status": "READY_FOR_REVIEW",
+      "readback": "PASS",
+      "transformation": "None: exact Adobe rendition response bytes copied; no crop, recolor, resize, recompression or regeneration",
+      "original": {
+        "format": "PNG",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "bytes": 1009169,
+        "sha256": "c15346c04fc2285f4e8c4c66e4842ab7674e8bd1855cd237cc8e0686fedafbc0",
+        "gitBlobSha": "b4b7477f3a58be1e60b98b1797486cd3b6deb1c7",
+        "validation": "DECODED_IMAGE_PASS",
+        "repositoryPath": "docs/preproduction/catalog-sprint/recovered-originals/lighting-9-12-20260921/lighting-9-15f7fe15-5a46-4b69-9c9d-3ad89404271e.png"
+      }
+    },
+    {
+      "id": "lighting-10",
+      "name": "Neon Strip Tower",
+      "collectionId": "lighting",
+      "collectionName": "Lighting",
+      "type": "room",
+      "tier": 4,
+      "theme": "Midnight Neon",
+      "price": 928,
+      "starReq": 5,
+      "format": "JPEG",
+      "dimensions": [
+        600,
+        600
+      ],
+      "bytes": 59730,
+      "sha256": "fe30864f4eab9de58ee94bf19ecf6b1d423cf2defb2b491e80837c053cd274d4",
+      "gitBlobSha": "e4ca304730d4c330711534c2c7c52da218c9acfa",
+      "producer": "04",
+      "transportHelper": "CHAT",
+      "independentReviewer": "14",
+      "assetId": "urn:aaid:sc:US:5bdc1e60-cba6-4e2c-b80a-8742d968472b",
+      "repositoryPath": "public/assets/catalog/lighting-10-w04-recovered-v2.jpg",
+      "assetPath": "/assets/catalog/lighting-10-w04-recovered-v2.jpg",
+      "status": "READY_FOR_REVIEW",
+      "readback": "PASS",
+      "transformation": "None: exact Adobe rendition response bytes copied; no crop, recolor, resize, recompression or regeneration",
+      "original": {
+        "format": "PNG",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "bytes": 1128943,
+        "sha256": "ca06b7331c8b00b9457a767e4e6ddd259b13af777da8bbc431e9f337e09bb754",
+        "gitBlobSha": "6c8aa4bbbc9f5a6957051d991d902b8a3c843ae8",
+        "validation": "DECODED_IMAGE_PASS",
+        "repositoryPath": "docs/preproduction/catalog-sprint/recovered-originals/lighting-9-12-20260921/lighting-10-5bdc1e60-cba6-4e2c-b80a-8742d968472b.png"
+      }
+    },
+    {
+      "id": "lighting-11",
+      "name": "Aurora Light",
+      "collectionId": "lighting",
+      "collectionName": "Lighting",
+      "type": "room",
+      "tier": 4,
+      "theme": "Candy Core",
+      "price": 1276,
+      "starReq": 5,
+      "format": "JPEG",
+      "dimensions": [
+        600,
+        600
+      ],
+      "bytes": 44462,
+      "sha256": "e2d83341ece60decaa6901bd939e96db7f2c355500ca4f41b928b9478ce6d4d9",
+      "gitBlobSha": "995b6ae729b3daa9e1199dd032b24e128db0b61b",
+      "producer": "04",
+      "transportHelper": "CHAT",
+      "independentReviewer": "14",
+      "assetId": "urn:aaid:sc:US:a9b8f6e7-ca6f-4132-8b62-3f77070dceb5",
+      "repositoryPath": "public/assets/catalog/lighting-11-w04-recovered-v2.jpg",
+      "assetPath": "/assets/catalog/lighting-11-w04-recovered-v2.jpg",
+      "status": "READY_FOR_REVIEW",
+      "readback": "PASS",
+      "transformation": "None: exact Adobe rendition response bytes copied; no crop, recolor, resize, recompression or regeneration",
+      "original": {
+        "format": "PNG",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "bytes": 880823,
+        "sha256": "cc4a95dff39d97957d9ea3e505c52f46ae12dfff80ec4d156c87ad132ff7694e",
+        "gitBlobSha": "7e0e0318eff011716e5474bdb616e0c25e364b24",
+        "validation": "DECODED_IMAGE_PASS",
+        "repositoryPath": "docs/preproduction/catalog-sprint/recovered-originals/lighting-9-12-20260921/lighting-11-a9b8f6e7-ca6f-4132-8b62-3f77070dceb5.png"
+      }
+    },
+    {
+      "id": "lighting-12",
+      "name": "Crystal Chandelier",
+      "collectionId": "lighting",
+      "collectionName": "Lighting",
+      "type": "room",
+      "tier": 5,
+      "theme": "Adventure Club",
+      "price": 1740,
+      "starReq": 9,
+      "format": "JPEG",
+      "dimensions": [
+        600,
+        600
+      ],
+      "bytes": 86386,
+      "sha256": "1fab6a75c5e57c6833f84e6dd439bde6960fdf045fe2491f3c1262097a6514f8",
+      "gitBlobSha": "ddb71949f485348a45e00c5105eb336ad55a010a",
+      "producer": "04",
+      "transportHelper": "CHAT",
+      "independentReviewer": "14",
+      "assetId": "urn:aaid:sc:US:0c826f3c-c2d5-4da4-ac5a-37a9bbddd0b4",
+      "repositoryPath": "public/assets/catalog/lighting-12-w04-recovered-v2.jpg",
+      "assetPath": "/assets/catalog/lighting-12-w04-recovered-v2.jpg",
+      "status": "READY_FOR_REVIEW",
+      "readback": "PASS",
+      "transformation": "None: exact Adobe rendition response bytes copied; no crop, recolor, resize, recompression or regeneration",
+      "original": {
+        "format": "PNG",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "bytes": 1430242,
+        "sha256": "80f7668742b5b05cc466f1d435c3450cef3b22c3f0cfa810d4eb5959f69cc10f",
+        "gitBlobSha": "b45668097dbb268230dff12841099d936aa9d62b",
+        "validation": "DECODED_IMAGE_PASS",
+        "repositoryPath": "docs/preproduction/catalog-sprint/recovered-originals/lighting-9-12-20260921/lighting-12-0c826f3c-c2d5-4da4-ac5a-37a9bbddd0b4.png"
+      }
+    }
+  ],
+  "checks": {
+    "metadata": "PASS_4_OF_4",
+    "exactByteReadback": "PASS_8_OF_8",
+    "candidateDecode": "PASS_4_OF_4",
+    "repeatBehavior": "PENDING_SECOND_RUN",
+    "independentVisualReview": "PENDING_14"
+  },
+  "freeze": {
+    "replitTouched": false,
+    "flootTouched": false,
+    "mainTouched": false,
+    "canonicalMappingsTouched": false,
+    "gameplayChanged": false
+  },
+  "handoff": "04: preserve these stored versions. 14: inspect exact candidate hashes at card/detail scale. 08: only wire after independent ACCEPT. 15: byte-transfer blocker cleared for Lighting 9-12."
+}
