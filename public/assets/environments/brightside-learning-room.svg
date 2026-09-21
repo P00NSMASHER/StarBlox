@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1408 1056" role="img" aria-labelledby="t d">
+<title id="t">Brightside learning room</title><desc id="d">An original warm StarBlox learning room with books, trophies, plants, desk, soft daylight, and Brightside City beyond the windows.</desc>
+<defs>
+ <linearGradient id="wall" x2="0" y2="1"><stop stop-color="#f7d6e7"/><stop offset=".52" stop-color="#dfc7ef"/><stop offset="1" stop-color="#b9b4df"/></linearGradient>
+ <linearGradient id="floor" x2="0" y2="1"><stop stop-color="#e1ba91"/><stop offset="1" stop-color="#a87962"/></linearGradient>
+ <linearGradient id="sky" x2="0" y2="1"><stop stop-color="#8fe0ff"/><stop offset=".62" stop-color="#d8c7ff"/><stop offset="1" stop-color="#ffcd93"/></linearGradient>
+ <linearGradient id="desk" x2="1" y2="1"><stop stop-color="#f1c39f"/><stop offset="1" stop-color="#a96d61"/></linearGradient>
+ <filter id="shadow"><feDropShadow dx="0" dy="12" stdDeviation="10" flood-color="#443c72" flood-opacity=".24"/></filter>
+ <filter id="blur"><feGaussianBlur stdDeviation="16"/></filter>
+</defs>
+<rect width="1408" height="1056" fill="url(#wall)"/>
+<ellipse cx="690" cy="220" rx="500" ry="300" fill="#fff8d6" opacity=".25" filter="url(#blur)"/>
+<!-- tall windows -->
+<g filter="url(#shadow)"><rect x="84" y="78" width="342" height="432" rx="28" fill="#fff9ff"/><rect x="107" y="102" width="296" height="383" rx="16" fill="url(#sky)"/>
+<g fill="#685ba6" opacity=".72"><path d="M107 399h44V323h35v76h35V270h48v129h39v-98h44v98h51v86H107z"/><path d="M143 323l12-22 12 22zm89-53l16-31 16 31zm119 31l14-27 14 27z" fill="#514b91"/></g><path d="M255 102v383M107 291h296" stroke="#fff" stroke-width="12" opacity=".92"/></g>
+<!-- whiteboard -->
+<g filter="url(#shadow)"><rect x="507" y="92" width="404" height="242" rx="26" fill="#fdfcff" stroke="#8a75bd" stroke-width="12"/><rect x="536" y="123" width="346" height="180" rx="18" fill="#edfaff"/>
+<path d="M572 250c40-52 82-78 126-78 47 0 88 29 142 81" fill="none" stroke="#74cfe8" stroke-width="11" stroke-linecap="round"/><path d="M626 198l19 40 44 6-32 30 8 44-39-21-39 21 8-44-32-30 44-6z" fill="#ffd75c" opacity=".88"/><circle cx="793" cy="180" r="20" fill="#ef8ac5"/><circle cx="834" cy="215" r="12" fill="#7c68d4"/></g>
+<!-- bookshelves -->
+<g filter="url(#shadow)"><rect x="1020" y="83" width="298" height="390" rx="28" fill="#9f6a79"/><rect x="1042" y="108" width="254" height="340" rx="18" fill="#f6d8e7"/><path d="M1042 216h254M1042 329h254" stroke="#a86f7d" stroke-width="13"/>
+<g><rect x="1062" y="130" width="28" height="75" rx="6" fill="#5d96d9"/><rect x="1097" y="121" width="31" height="84" rx="6" fill="#ef8aae"/><rect x="1135" y="137" width="27" height="68" rx="6" fill="#f0bf56"/><rect x="1170" y="128" width="34" height="77" rx="6" fill="#7d6ad2"/><rect x="1212" y="143" width="24" height="62" rx="6" fill="#77b87a"/>
+<rect x="1061" y="240" width="30" height="76" rx="6" fill="#f09b72"/><rect x="1099" y="252" width="26" height="64" rx="6" fill="#75b6d9"/><rect x="1132" y="231" width="34" height="85" rx="6" fill="#a47bdb"/><rect x="1174" y="245" width="29" height="71" rx="6" fill="#f3c95c"/>
+<rect x="1061" y="352" width="28" height="74" rx="6" fill="#6caacc"/><rect x="1097" y="341" width="31" height="85" rx="6" fill="#eb86bd"/><rect x="1136" y="355" width="26" height="71" rx="6" fill="#78be84"/></g>
+<g transform="translate(1206 352)" fill="#ffd85f"><path d="M20 0h42v24c0 24-14 38-21 42v17H29V66C20 61 10 47 10 24V0z"/><path d="M10 8H0c0 21 7 33 20 38m42-38h11c0 21-7 33-21 38" fill="none" stroke="#d99420" stroke-width="6"/><rect x="17" y="82" width="49" height="12" rx="6" fill="#a76539"/></g></g>
+<!-- floor -->
+<path d="M0 664h1408v392H0z" fill="url(#floor)"/><path d="M0 676h1408" stroke="#fff4e7" stroke-width="8" opacity=".52"/>
+<g opacity=".14" stroke="#69483f" stroke-width="3"><path d="M0 774h1408M0 874h1408M0 974h1408"/><path d="M210 664l-48 392M505 664l-18 392M800 664l15 392M1090 664l48 392M1360 664l38 392"/></g>
+<!-- main desk left-middle -->
+<g filter="url(#shadow)"><rect x="155" y="590" width="396" height="38" rx="15" fill="url(#desk)"/><rect x="188" y="622" width="32" height="225" rx="13" fill="#98615b"/><rect x="487" y="622" width="32" height="225" rx="13" fill="#98615b"/>
+<rect x="254" y="495" width="195" height="96" rx="19" fill="#fff8ff" stroke="#856eb4" stroke-width="8"/><rect x="272" y="513" width="159" height="60" rx="9" fill="#a6ebff"/><path d="M294 560l31-28 29 21 21-15 40 23z" fill="#7864c1" opacity=".65"/><circle cx="407" cy="528" r="9" fill="#ffd75b"/>
+<g transform="translate(184 512)"><rect width="46" height="78" rx="8" fill="#80bf78"/><path d="M23 8v62M8 25h30M8 44h30" stroke="#fff" stroke-width="5" opacity=".7"/></g></g>
+<!-- reading chair -->
+<g filter="url(#shadow)"><path d="M1050 594q0-96 102-96t102 96v129q0 43-38 43h-128q-38 0-38-43z" fill="#9b73d5"/><rect x="1077" y="535" width="150" height="145" rx="45" fill="#d9bafa"/><rect x="1068" y="664" width="170" height="98" rx="35" fill="#c78cdf"/><rect x="1077" y="748" width="24" height="108" rx="10" fill="#715183"/><rect x="1207" y="748" width="24" height="108" rx="10" fill="#715183"/></g>
+<!-- rug central -->
+<ellipse cx="741" cy="843" rx="320" ry="124" fill="#f5ecff" opacity=".86"/><ellipse cx="741" cy="843" rx="254" ry="86" fill="#d8c9ff" opacity=".48"/><g fill="#fff0a7" opacity=".68"><path d="M742 784l14 31 34 5-25 24 6 34-29-16-30 16 6-34-25-24 34-5z"/><circle cx="595" cy="842" r="9"/><circle cx="889" cy="843" r="9"/></g>
+<!-- plant -->
+<g transform="translate(884 542)" filter="url(#shadow)"><rect x="22" y="118" width="74" height="72" rx="21" fill="#f08eb6"/><path d="M60 122c-44-30-47-72-17-72 21 0 24 36 17 72m3-2c35-43 71-40 67-10-3 24-35 25-67 10m-2-3c-31-47-12-87 14-75 22 10 3 57-14 75" fill="#72b777"/><path d="M60 122V63" stroke="#4a8c57" stroke-width="7"/></g>
+<!-- warm lamp -->
+<g filter="url(#shadow)"><path d="M955 663v-102" stroke="#6d5c8e" stroke-width="10"/><path d="M913 563h84l-16-63h-52z" fill="#fff0a7"/><circle cx="955" cy="546" r="80" fill="#fff2b3" opacity=".14" filter="url(#blur)"/></g>
+<!-- sparkles -->
+<g fill="#fff6a9" opacity=".9"><path d="M454 178l7 17 17 7-17 7-7 17-7-17-17-7 17-7z"/><path d="M963 222l5 12 12 5-12 5-5 12-5-12-12-5 12-5z"/><path d="M923 410l6 14 14 6-14 6-6 14-6-14-14-6 14-6z"/><circle cx="467" cy="341" r="5"/><circle cx="947" cy="149" r="4"/></g>
+<!-- center readability wash -->
+<ellipse cx="727" cy="455" rx="320" ry="335" fill="#fff" opacity=".10"/>
+</svg>
