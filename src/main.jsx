@@ -10,6 +10,7 @@ import './purchaseGuardRuntime';
 import './shellChromeRuntime';
 import './avatarBuddyRuntime';
 import './mobileAccessibilityRuntime';
+import './motionGameFeelRuntime';
 import { App } from './App';
 import './styles.css';
 import './release.css';
@@ -35,6 +36,7 @@ import './avatarBuddy.css';
 import './progressionWidgets.css';
 import './environmentArt.css';
 import './mobileAccessibility.css';
+import './motionGameFeel.css';
 
 createRoot(document.getElementById('root')).render(
   <React.StrictMode>
