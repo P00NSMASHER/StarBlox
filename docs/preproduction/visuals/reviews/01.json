@@ -1,0 +1,73 @@
+{
+  "schemaVersion": 1,
+  "reviewer": "01",
+  "role": "Visual Target Director / independent scene-art reviewer",
+  "phase": "CATALOG_SPRINT",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "8ab7f69f30279827f11a94fa0ed4b63da615769e",
+  "reviewedAt": "2026-09-21T23:26:00-04:00",
+  "scope": "Workstream-13 scene/character art direction only; no runtime wiring authority",
+  "reference": {
+    "screen": "Home",
+    "path": "docs/preproduction/reference-screenshots/originals/home-1448x1086.jpeg",
+    "sha256": "6a4b110aeaf12a6ab0c629f9181cc6cfa8d4f55a518d4f2a6adb3ac6e756c457",
+    "adobeAssetId": "urn:aaid:sc:US:12ec85e5-0ee5-4871-b864-5664180dd47b",
+    "actualPixelsInspected": true
+  },
+  "reviews": [
+    {
+      "candidateId": "home-bedroom-w13-v1",
+      "candidateType": "environment-background",
+      "targetScreen": "Home",
+      "producer": "13",
+      "assetPath": "public/assets/visuals/lane-13/home-bedroom-w13-v1-1408x1056.png",
+      "assetSha256": "dcf02cbe451685acf3bb6fd4090d293e69c65c6c2a085c3746f6e380beb019ff",
+      "assetGitBlobSha": "d37d2ad7e07f91a79e00a89a0a43e168408ae53c",
+      "sourceFireflyAssetId": "urn:aaid:sc:US:ec85f76f-eb61-49b8-acc4-950972ab07c3",
+      "actualPixelsInspected": true,
+      "decision": "REWORK_BEFORE_RUNTIME_INTEGRATION",
+      "checks": {
+        "originality": "PASS",
+        "noBakedCharacterOrUi": "PASS",
+        "warmPinkLilacPalette": "PASS",
+        "materialDepth": "PASS",
+        "bedLeftDeskRightHierarchy": "PASS",
+        "centralAvatarReadability": "REWORK",
+        "referenceWorldStyle": "REWORK",
+        "environmentDensity": "REWORK",
+        "overlaySafeComposition": "PARTIAL"
+      },
+      "strengths": [
+        "Substantially stronger volumetric furniture, textile and daylight response than the current flat/vector environment direction.",
+        "Bed-left / desk-right composition is compatible with the target hierarchy and leaves useful foreground floor area for a separate avatar.",
+        "No copied third-party characters, logos, UI, text or flattened screenshot content are baked into the scene."
+      ],
+      "reworkReasons": [
+        "The brightest window is centered directly behind the intended avatar corridor, competing with the character silhouette; the original target keeps the avatar as the central visual focus rather than placing the strongest white hotspot behind her.",
+        "The room currently reads closer to a clean semi-realistic children’s bedroom than the denser stylized premium block-world / toy-game environment shown by the approved reference.",
+        "Prop and shelf density is too sparse for the target: the approved reference uses layered collectibles, décor, lighting and activity cues around the hero while still leaving the center playable.",
+        "The scene needs stronger game-specific shape language and saturated material accents so cobalt/navy chrome, the avatar and collectible panels feel like one authored world rather than UI floating over a generic room render."
+      ],
+      "measurableRepairContract": [
+        "Keep an avatar-safe corridor approximately x=36–64% of the 1408px frame and y=18–88%; move or diffuse the dominant window hotspot so the brightest architectural opening is not centered behind that corridor.",
+        "Preserve bed-left and desk-right anchors, but add roughly 4–7 distinct secondary environmental props across the side zones (shelves/books/soft lights/plants/collectible objects) without adding UI text or logos.",
+        "Increase stylization through chunkier rounded furniture silhouettes, clearer bevels/edge highlights and more saturated blush/lilac/cyan/gold material accents; avoid photorealistic neutral surfaces.",
+        "Keep top-center and far-right overlay zones visually calm enough for HUD/Dream Goal chrome; detail can increase around them but should not introduce high-frequency text-like marks.",
+        "Retain the clean center floor and separate-character architecture; do not bake the avatar, buddy, navigation, counters or cards into the background."
+      ],
+      "handoff": {
+        "13": "Produce a v2 environment using the repair contract above; preserve the strong material depth and bed-left/desk-right structure while fixing the central hotspot, density and toy-game stylization.",
+        "14": "Do not composition-approve v1 for runtime wiring; review v2 for overlay-safe zones, format/performance and real-browser composition after Workstream 13 stages it.",
+        "15": "No runtime handoff is recommended for v1. Keep Workstream 09 active environment unchanged until a revised independently accepted candidate exists."
+      }
+    }
+  ],
+  "freeze": {
+    "runtimeTouched": false,
+    "canonicalCatalogTouched": false,
+    "learningEconomyTouched": false,
+    "playerDataTouched": false,
+    "replitOrFlootTouched": false,
+    "mainTouched": false
+  }
+}
