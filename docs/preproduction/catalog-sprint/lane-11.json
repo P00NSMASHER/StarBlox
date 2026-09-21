@@ -1,147 +1,75 @@
 {
-  "schemaVersion": 3,
+  "schemaVersion": 4,
   "lane": "11",
   "workstream": "11",
   "phase": "CATALOG_SPRINT",
   "branch": "screenshot-match-preproduction",
-  "status": "REPAIR_BATCH_1_READY_FOR_INDEPENDENT_REVIEW",
+  "status": "REPAIR_BATCHES_1_2_STAGED_AWAITING_INDEPENDENT_REVIEW",
   "assignment": ["auras-1","auras-2","auras-3","auras-4","auras-5","auras-6","auras-7","auras-8","auras-9","auras-10","auras-11","auras-12"],
-  "repairAssignmentConfirmedFromState": true,
   "independentReviewer": "05",
   "integrationOwner": "08",
   "reviewShardPath": "docs/preproduction/catalog-sprint/reviews/05.json",
+  "auditedBranchHeadBeforeHandoff": "761aef6c75f29b97f95f6773e7db1729ea9a2146",
   "reviewEvidence": {
-    "reviewSourceHead": "e7a161d4ebecef485875d04e4a3e75d239800530",
-    "result": "REWORK_12_OF_12",
-    "reviewedOriginalHashes": 12,
-    "acceptedOriginalHashes": 0,
-    "nextAction": "Repair current exact Aura versions in bounded 2-6 item micro-batches and return every new hash to reviewer 05."
+    "legacyResult": "REWORK_12_OF_12",
+    "acceptedLegacyHashes": 0,
+    "freshReplacementAcceptsObserved": 0,
+    "note": "Legacy REWORK decisions never transfer to replacement hashes. Reviewer 05 must independently inspect each current replacement render before 08 integration."
   },
-  "repairBatch": {
-    "batch": 1,
-    "candidateCommit": "1c5b619c63a2a887ac422be715b7542b5afb34b7",
-    "count": 4,
-    "ids": ["auras-1","auras-2","auras-3","auras-4"],
-    "canonicalManifestChanged": false,
-    "runtimeWiringChanged": false,
-    "selfApproved": false,
-    "assets": [
-      {
-        "id": "auras-1",
-        "name": "Soft Sparkles",
-        "theme": "Midnight Neon",
-        "tier": 1,
-        "priorPath": "/assets/catalog/auras-1.svg",
-        "priorBlobSha": "5fdf391924548197f0d1025fbfddc6b5eea1dada",
-        "reviewDefect": "Washed-out pastel halo; Midnight Neon identity and dimensional glow/material richness insufficient.",
-        "candidatePath": "/assets/catalog/auras-1-v2.svg",
-        "repositoryPath": "public/assets/catalog/auras-1-v2.svg",
-        "gitBlobSha": "48639f1262052350660127bbc5d3d25de34d61e3",
-        "sha256": "a000c65ea5b8f592f92a7902107a501ff9a09893709e5de9d12c69193a0fb7ae",
-        "bytes": 2592,
-        "dimensions": [512,512],
-        "format": "SVG",
-        "repair": "Stronger midnight field, luminous cyan/pink/violet orbit, six large dimensional sparkles, bloom and small motes while preserving a simple Tier-1 silhouette.",
-        "status": "READY_FOR_REVIEW"
+  "repairBatches": [
+    {
+      "batch": 1,
+      "count": 4,
+      "ids": ["auras-1","auras-2","auras-3","auras-4"],
+      "status": "READY_FOR_INDEPENDENT_REVIEW",
+      "sharedRenderEvidence": {
+        "workflowRunId": 35654620624,
+        "artifactId": 10663298893,
+        "artifactDigest": "sha256:f2c0d3d3aa251f5e1934017a7c61acf644e8876ab1e1a5b0c37e7f06ffb8e9db",
+        "allHttp200": true,
+        "allScreenshotsCaptured": true
       },
-      {
-        "id": "auras-2",
-        "name": "Cloud Puffs",
-        "theme": "Candy Core",
-        "tier": 1,
-        "priorPath": "/assets/catalog/auras-2.svg",
-        "priorBlobSha": "951d0de53b0177256bb71308f18fc3c5a2563a43",
-        "reviewDefect": "Thin cyan cloud outlines; Candy Core identity, volume and light interaction absent.",
-        "candidatePath": "/assets/catalog/auras-2-v2.svg",
-        "repositoryPath": "public/assets/catalog/auras-2-v2.svg",
-        "gitBlobSha": "c2be24c165f3e28995d5d2eb946dbdde983afe2a",
-        "sha256": "720230fcbff7e201ce83caeb89e76a9ac2f81c2816742019aa9e980471a0b1a6",
-        "bytes": 2536,
-        "dimensions": [512,512],
-        "format": "SVG",
-        "repair": "Four plush candy-gradient cloud puffs with cyan/pink rim light, highlights, drop depth and a glowing candy-star anchor.",
-        "status": "READY_FOR_REVIEW"
-      },
-      {
-        "id": "auras-3",
-        "name": "Pixel Bits",
-        "theme": "Adventure Club",
-        "tier": 1,
-        "priorPath": "/assets/catalog/auras-3.svg",
-        "priorBlobSha": "a27b05e02ca3165d18bccac63a8cff3a645e393e",
-        "reviewDefect": "Pale wash and floating squares; Adventure Club identity and dimensional reward-art finish absent.",
-        "candidatePath": "/assets/catalog/auras-3-v2.svg",
-        "repositoryPath": "public/assets/catalog/auras-3-v2.svg",
-        "gitBlobSha": "9b682148eb26898ec5f56ac11eac635e7c93c8fc",
-        "sha256": "8a9211ddde4848f7a501facf35ecdaf7f380c5ab0181e7ecccce42433fbc8cac",
-        "bytes": 2929,
-        "dimensions": [512,512],
-        "format": "SVG",
-        "repair": "Layered tilted orbital tracks, beveled gold/aqua/violet voxel bits, central compass-like star and bright pixel motes to establish Adventure Club identity.",
-        "status": "READY_FOR_REVIEW"
-      },
-      {
-        "id": "auras-4",
-        "name": "Berry Hearts",
-        "theme": "Cloud Pop",
-        "tier": 2,
-        "priorPath": "/assets/catalog/auras-4.svg",
-        "priorBlobSha": "feb01955145685f718c231287abbad60ecc2e408",
-        "reviewDefect": "Flat pink heart bursts; Cloud Pop theme and Tier-2 dimensional light/material treatment insufficient.",
-        "candidatePath": "/assets/catalog/auras-4-v2.svg",
-        "repositoryPath": "public/assets/catalog/auras-4-v2.svg",
-        "gitBlobSha": "3059eae7ab68c125f1af1696305fdf5689131455",
-        "sha256": "c599a9b227edc3d16b629ff3cfc2f53b4254b1e28527094ceccb57b279f01408",
-        "bytes": 2927,
-        "dimensions": [512,512],
-        "format": "SVG",
-        "repair": "Glossy berry-heart volumes orbit a sculpted Cloud Pop center with cyan cloud arcs, star core, highlights and glow-depth separation.",
-        "status": "READY_FOR_REVIEW"
-      }
-    ]
-  },
-  "producerRenderEvidence": {
-    "method": "Candidate SVG bytes were rasterized locally with CairoSVG 2.8.2 at 512x512 and 192x192 before upload, visually inspected on a dark Store-like field, then repository readback Git blob SHAs were matched exactly to the uploaded source bytes.",
-    "result": "PASS_RENDERABILITY_AND_READBACK_4_OF_4",
-    "render512": {
-      "auras-1": {"bytes":98875,"sha256":"14946bad155aa60c888f772aceb9cba68f8c42dfb5594394f8738e60ce2d8a2f"},
-      "auras-2": {"bytes":100006,"sha256":"45e8bed8f5397e75b59b19d6cd6c2336981cf091caa59da7e6e2105eaffc3db2"},
-      "auras-3": {"bytes":97857,"sha256":"28f95250f0ea5ccfd9104c4a599390321b203419c31d890a77822c8af4b8bf99"},
-      "auras-4": {"bytes":97505,"sha256":"e934fb0466176517d7e592c03fe156e8e861a5b492cbd02f98c7c8522fe0b645"}
+      "assets": [
+        {"id":"auras-1","name":"Soft Sparkles","tier":1,"theme":"Midnight Neon","path":"/assets/catalog/auras-1-v2.svg","gitBlobSha":"48639f1262052350660127bbc5d3d25de34d61e3","format":"svg","dimensions":[512,512],"bytes":2592,"candidateStatus":"READY_FOR_REVIEW"},
+        {"id":"auras-2","name":"Cloud Puffs","tier":1,"theme":"Candy Core","path":"/assets/catalog/auras-2-v2.svg","gitBlobSha":"c2be24c165f3e28995d5d2eb946dbdde983afe2a","format":"svg","dimensions":[512,512],"bytes":2536,"candidateStatus":"READY_FOR_REVIEW"},
+        {"id":"auras-3","name":"Pixel Bits","tier":1,"theme":"Adventure Club","path":"/assets/catalog/auras-3-v2.svg","gitBlobSha":"9b682148eb26898ec5f56ac11eac635e7c93c8fc","format":"svg","dimensions":[512,512],"bytes":2929,"candidateStatus":"READY_FOR_REVIEW"},
+        {"id":"auras-4","name":"Berry Hearts","tier":2,"theme":"Cloud Pop","path":"/assets/catalog/auras-4-v2.svg","gitBlobSha":"3059eae7ab68c125f1af1696305fdf5689131455","format":"svg","dimensions":[512,512],"bytes":2927,"candidateStatus":"READY_FOR_REVIEW"}
+      ]
     },
-    "render192": {
-      "auras-1": {"bytes":30548,"sha256":"9468d63bb04310c85f234615d5a5d5c76b4086ff4aaf168a176f1763225d0eb1"},
-      "auras-2": {"bytes":28399,"sha256":"1c17e8ee5c64751aaf5da7fe8ea38cc05077e152176ec3bc367f4f593cb87277"},
-      "auras-3": {"bytes":29333,"sha256":"1d18c615b0c5b8f8872071286f79c81f5a3edef8c052010e35ac71f1821eb035"},
-      "auras-4": {"bytes":30506,"sha256":"5a32aba0b61a9d351d286dcb8f1641871f65c60bd7679099119701997e789175"}
-    },
-    "visualInspection": "All four repaired candidates render without clipping or malformed geometry and materially increase card-scale contrast, assigned-theme identity, layering and glow/depth versus the rejected hashes. This is producer evidence only, not acceptance."
-  },
-  "unchangedRejectedOriginals": [
-    {"id":"auras-5","blobSha":"537e3a60ee47a50e219ff4d165f0cf8fa7cf45f7","decision":"REWORK"},
-    {"id":"auras-6","blobSha":"12323f12b60b5b411cde8ad383d3238d78e40053","decision":"REWORK"},
-    {"id":"auras-7","blobSha":"82678bb86daa67c81faa82ca6613b698133a5ebd","decision":"REWORK"},
-    {"id":"auras-8","blobSha":"9cf59e4329b180645ccf6a12057654a126f10cdd","decision":"REWORK"},
-    {"id":"auras-9","blobSha":"df6ff86bdb73909ae6e41a505861aba8bfce2f5a","decision":"REWORK"},
-    {"id":"auras-10","blobSha":"be285375c688a518b491b09ff047920cc6e23fe5","decision":"REWORK"},
-    {"id":"auras-11","blobSha":"3a80508473e5364899b1276256ea26c72f9efce0","decision":"REWORK"},
-    {"id":"auras-12","blobSha":"afa2b684e811302c2889e068b16e730eb58e6d27","decision":"REWORK"}
+    {
+      "batch": 2,
+      "count": 4,
+      "ids": ["auras-5","auras-6","auras-7","auras-8"],
+      "status": "REPOSITORY_STAGED_READBACK_VERIFIED_SHARED_RENDER_PENDING",
+      "assets": [
+        {
+          "id":"auras-5","name":"Garden Fireflies","tier":2,"theme":"Pixel Party","path":"/assets/catalog/auras-5-v2.svg","gitBlobSha":"16416de7ab535af16c59aa40e4d8f5a85a2958bf","format":"svg","dimensions":[512,512],"bytes":5102,"creationCommit":"68929b1d8cbb3b7997a23a7c2c1f6f62786646ab","provenance":"Workstream 11 versioned repair; repository path and exact blob read back on current branch","candidateStatus":"READY_FOR_RENDER_AND_REVIEW","producerCheck":"Dark dimensional garden field with vine/leaf depth, multiple luminous firefly nodes and Pixel Party accents; materially distinct from legacy flat version."},
+        {
+          "id":"auras-6","name":"Galaxy Orbit","tier":2,"theme":"Berry Blast","path":"/assets/catalog/auras-6-v2.svg","gitBlobSha":"ce4b155c7fb5469fde415ab9d744cab41027fe4d","format":"svg","dimensions":[512,512],"bytes":5030,"creationCommit":"8a9e0b6077184d2a684646bcc1fe0fe1517beaad","provenance":"Workstream 11 versioned repair; repository path and exact blob read back on current branch","candidateStatus":"READY_FOR_RENDER_AND_REVIEW","producerCheck":"Crossed perspective orbit rings, berry/cosmic planet volumes, comet trails and star field create a distinct spatial structure and stronger dimensional light."},
+        {
+          "id":"auras-7","name":"Sunny Rays","tier":3,"theme":"Garden Glow","path":"/assets/catalog/auras-7-v2.svg","gitBlobSha":"c451e7479e142f1eca89cc5282b352c2d2ca2d4b","format":"svg","dimensions":[512,512],"bytes":4889,"creationCommit":"a212e64ba540711ddbf5d88adbbb46c71b952764","provenance":"Workstream 11 versioned repair; repository path and exact blob read back on current branch","candidateStatus":"READY_FOR_RENDER_AND_REVIEW","producerCheck":"Layered leaf ring, volumetric gold rays, sculpted sun/star core and orbiting glow motes provide a stronger Tier-3 Garden Glow identity."},
+        {
+          "id":"auras-8","name":"Aqua Bubbles","tier":3,"theme":"Galaxy Glow","path":"/assets/catalog/auras-8-v2.svg","gitBlobSha":"6884668fe721f3b26a562e11924237a32c656db6","format":"svg","dimensions":[512,512],"bytes":4778,"creationCommit":"09d0501b349ea3f3ea0c347291530a792c4e81ac","provenance":"Workstream 11 versioned repair; repository path and exact blob read back on current branch","candidateStatus":"READY_FOR_RENDER_AND_REVIEW","producerCheck":"Multiple reflective translucent bubble volumes around a large galaxy-filled central sphere, with rim gradients, star field, glow and depth shadow."}
+      ]
+    }
   ],
-  "checks": {
-    "stateAssignment": "PASS",
-    "reviewer05ReworkObtained": "PASS_12_OF_12",
-    "versionedRepairPaths": "PASS_4_OF_4",
-    "repositoryReadback": "PASS_4_OF_4",
-    "uniqueRepairBlobShas": "PASS_4_OF_4",
-    "canvas512": "PASS_4_OF_4",
-    "localCairoRender512And192": "PASS_4_OF_4",
-    "producerPixelInspection": "PASS_4_OF_4",
-    "independentReviewOfRepairHashes": "PENDING_05",
-    "canonicalIntegration": "PENDING_08",
-    "playerStateChanged": false,
-    "replitOrFlootTouched": false,
-    "mainTouched": false
+  "repositoryReadback": {
+    "batch2VerifiedPaths": ["public/assets/catalog/auras-5-v2.svg","public/assets/catalog/auras-6-v2.svg","public/assets/catalog/auras-7-v2.svg","public/assets/catalog/auras-8-v2.svg"],
+    "exactBlobIdentity": "PASS_4_OF_4",
+    "viewBox": "0 0 512 512",
+    "note": "This is byte/path verification plus producer source inspection, not independent visual acceptance. The shared staged-art fixture must supply card/detail pixels for reviewer 05."
   },
-  "nextAction": "Reviewer 05 should independently render and review auras-1-v2 through auras-4-v2 by exact Git blob SHA. Lane 11 will repair the next 2-6 rejected IDs while preserving these pending versions; Workstream 08 must not wire any repair until a fresh independent ACCEPT exists.",
-  "freeze": {"replitTouched":false,"flootTouched":false,"mainMergedOrModified":false,"playerStateChanged":false}
+  "remainingRepairWork": [
+    {"id":"auras-9","legacyHash":"df6ff86bdb73909ae6e41a505861aba8bfce2f5a","status":"REWORK_REPLACEMENT_NOT_YET_STAGED"},
+    {"id":"auras-10","legacyHash":"be285375c688a518b491b09ff047920cc6e23fe5","status":"REWORK_REPLACEMENT_NOT_YET_STAGED"},
+    {"id":"auras-11","legacyHash":"3a80508473e5364899b1276256ea26c72f9efce0","status":"REWORK_REPLACEMENT_NOT_YET_STAGED"},
+    {"id":"auras-12","legacyHash":"afa2b684e811302c2889e068b16e730eb58e6d27","status":"REWORK_REPLACEMENT_NOT_YET_STAGED"}
+  ],
+  "handoff": {
+    "14":"Render auras-5-v2 through auras-8-v2 with the existing staged-art fixture at card/detail scale and bind screenshots to the exact Git blob hashes above; do not create a second harness.",
+    "05":"Immediately review auras-1-v2 through auras-4-v2 from artifact 10663298893. After Workstream 14 renders batch 2, independently ACCEPT/REWORK/BLOCKED auras-5-v2 through auras-8-v2 by exact hash. Do not inherit legacy decisions.",
+    "08":"Integrate only exact replacement hashes that receive qualified reviewer-05 ACCEPT plus normal metadata/file/content checks; do not wait for all twelve Auras.",
+    "11":"Preserve batches 1 and 2 while pending review. Next production batch is auras-9..12 unless reviewer 05 returns a concrete replacement defect first."
+  },
+  "freeze": {"replitTouched":false,"flootTouched":false,"mainMergedOrModified":false,"canonicalManifestOrRuntimeTouched":false,"playerDataTouched":false,"liveAuraLogicTouched":false}
 }
