@@ -7,6 +7,9 @@ on:
     paths:
       - 'public/assets/catalog/**'
       - 'public/assets/catalog-candidates/**'
+      - 'docs/preproduction/catalog-sprint/lane-05.json'
+      - 'docs/preproduction/catalog-sprint/lane-02.json'
+      - 'docs/preproduction/catalog-sprint/lane-01.json'
       - 'docs/preproduction/catalog-sprint/lane-03.json'
       - 'docs/preproduction/catalog-sprint/lane-04.json'
       - 'docs/preproduction/catalog-sprint/lane-06.json'
