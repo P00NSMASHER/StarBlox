@@ -41,4 +41,12 @@ describe('Store screenshot-match runtime', () => {
     expect(page.querySelector('.sbStoreSelectedDetail').textContent).toContain('Hoodie');
     expect(page.querySelector('.sbStoreSelectedDetail').textContent).toContain('Permanent reward');
   });
+
+  it('is DOM-idempotent when the observer rescans an unchanged Store', () => {
+    const page = makeStorePage();
+    expect(decorateStoreScreenshotMatch(page)).toBe(true);
+    const first = page.innerHTML;
+    expect(decorateStoreScreenshotMatch(page)).toBe(true);
+    expect(page.innerHTML).toBe(first);
+  });
 });
