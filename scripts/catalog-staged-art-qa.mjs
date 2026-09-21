@@ -171,8 +171,7 @@ async function renderSet(browser,setName,items,report,detailViewport={width:800,
   for(const item of items){
     const p=await browser.newPage({viewport:detailViewport,deviceScaleFactor:1});const errors=[];p.on('console',m=>{if(m.type()==='error')errors.push(m.text());});p.on('pageerror',e=>errors.push(String(e)));const url=`${base}/${item.repositoryPath}`;let status=null,naturalWidth=0,naturalHeight=0,opaqueFraction=null,screenshot=false;
     try{
-      const probe=await fetch(url);status=probe.status;if(status!==200)throw new Error(`asset status ${status}`);
-      await seedSameOrigin(p);
+      const response=await p.goto(url,{waitUntil:'load',timeout:10000});status=response?.status()??null;if(status!==200)throw new Error(`asset status ${status}`);
       await p.setContent(`<!doctype html><meta charset="utf-8"><style>html,body{margin:0;width:${detailViewport.width}px;height:${detailViewport.height}px;background:#081936;display:grid;place-items:center}img{width:${detailViewport.width}px;height:${detailViewport.height}px;object-fit:contain}</style><img id="asset" src="${url}" alt="${item.id}">`);
       const imageState=(await settleImages(p))[0];naturalWidth=imageState?.naturalWidth??0;naturalHeight=imageState?.naturalHeight??0;opaqueFraction=imageState?.opaqueFraction??null;
       if(!naturalWidth)throw new Error('asset image decode failed');if(imageState?.pixelProbeError)throw new Error(`asset pixel probe failed: ${imageState.pixelProbeError}`);if((opaqueFraction??0)<0.005)throw new Error(`asset visually blank/transparent: opaqueFraction=${opaqueFraction}`);
