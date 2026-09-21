@@ -9,6 +9,7 @@ import './diagnosticQuestionGuardRuntime';
 import './purchaseGuardRuntime';
 import './shellChromeRuntime';
 import './avatarBuddyRuntime';
+import './mobileAccessibilityRuntime';
 import { App } from './App';
 import './styles.css';
 import './release.css';
@@ -33,6 +34,7 @@ import './questScreenshotMatch.css';
 import './avatarBuddy.css';
 import './progressionWidgets.css';
 import './environmentArt.css';
+import './mobileAccessibility.css';
 
 createRoot(document.getElementById('root')).render(
   <React.StrictMode>
