@@ -1,0 +1,70 @@
+name: StarBlox Preproduction Visual QA
+
+on:
+  push:
+    branches:
+      - screenshot-match-preproduction
+    paths:
+      - 'src/**'
+      - 'public/**'
+      - 'catalog-art-manifest.json'
+      - 'scripts/preproductionVisualQa.mjs'
+      - '.github/workflows/preproduction-visual-qa.yml'
+  workflow_dispatch:
+
+jobs:
+  browser-visual-gate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Use Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install project dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Install Playwright without changing package metadata
+        run: |
+          npm install --no-save --no-audit --no-fund playwright@1.55.0
+          npx playwright install --with-deps chromium
+
+      - name: Build production bundle
+        run: npm run build
+
+      - name: Start local production preview
+        run: |
+          nohup npx vite preview --host 127.0.0.1 --port 4173 > /tmp/starblox-vite-preview.log 2>&1 &
+          echo $! > /tmp/starblox-vite-preview.pid
+          for i in $(seq 1 40); do
+            if curl -fsS http://127.0.0.1:4173/ >/dev/null; then
+              exit 0
+            fi
+            sleep 0.5
+          done
+          cat /tmp/starblox-vite-preview.log
+          exit 1
+
+      - name: Run browser structural visual gate
+        run: node scripts/preproductionVisualQa.mjs
+        env:
+          STARBLOX_QA_URL: http://127.0.0.1:4173
+          STARBLOX_QA_OUTPUT: artifacts/preproduction-visual-qa
+          STARBLOX_QA_STRICT: '1'
+
+      - name: Upload screenshots and visual QA report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: preproduction-visual-qa
+          path: artifacts/preproduction-visual-qa
+          if-no-files-found: warn
+          retention-days: 7
+
+      - name: Print preview log on failure
+        if: failure()
+        run: cat /tmp/starblox-vite-preview.log || true
