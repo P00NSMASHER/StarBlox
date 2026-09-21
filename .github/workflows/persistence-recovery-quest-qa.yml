@@ -48,7 +48,7 @@ jobs:
           cat /tmp/starblox-persistence-recovery-preview.log
           exit 1
       - name: Run focused synthetic Quest timing browser stress
-        run: node scripts/persistenceQuestTimingQa.mjs
+        run: npx vite-node scripts/persistenceQuestTimingQa.mjs
         env:
           STARBLOX_QA_URL: http://127.0.0.1:4173
           STARBLOX_QA_OUTPUT: artifacts/persistence-quest-timing-qa
