@@ -27,9 +27,10 @@ describe('mobile accessibility helpers',() => {
     const card = document.querySelector('.storeCard');
     const category = document.querySelector('.sbStoreCategoryRow button');
 
-    expect(grid.getAttribute('role')).toBe('listbox');
-    expect(card.getAttribute('role')).toBe('option');
-    expect(card.getAttribute('aria-selected')).toBe('true');
+    expect(grid.getAttribute('role')).toBe('group');
+    expect(card.getAttribute('role')).toBe('button');
+    expect(card.getAttribute('aria-pressed')).toBe('true');
+    expect(card.hasAttribute('aria-selected')).toBe(false);
     expect(card.getAttribute('aria-label')).toContain('Star Hoodie');
     expect(category.getAttribute('aria-pressed')).toBe('true');
   });
