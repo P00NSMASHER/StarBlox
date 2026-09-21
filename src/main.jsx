@@ -32,6 +32,7 @@ import './storeScreenshotMatch.css';
 import './questScreenshotMatch.css';
 import './avatarBuddy.css';
 import './progressionWidgets.css';
+import './environmentArt.css';
 
 createRoot(document.getElementById('root')).render(
   <React.StrictMode>
