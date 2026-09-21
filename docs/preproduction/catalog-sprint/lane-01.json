@@ -1,0 +1,88 @@
+{
+  "schemaVersion": 1,
+  "lane": "01",
+  "workstream": "01",
+  "phase": "CATALOG_SPRINT",
+  "branch": "screenshot-match-preproduction",
+  "status": "GENERATED_ADOBE_SEATING_2_3_STAGING_BLOCKED_FIRST_CYCLE",
+  "reviewPartition": ["tops", "bottoms", "headwear", "facegear"],
+  "producerRepairAssignment": ["seating-2", "seating-3", "seating-4", "seating-5", "seating-6"],
+  "independentReviewer": "02",
+  "selfApproved": false,
+  "canonicalManifestChanged": false,
+  "runtimeWiringChanged": false,
+  "sourceReview": {
+    "reviewer": "02",
+    "historyBlobSha": "adaecbc6fd1f534bd9055c2292bcb7776c27bdce",
+    "sharedFinding": "Historical seating candidates are readable but too flat/front-facing and lack believable three-quarter furniture construction, materials and lighting."
+  },
+  "generatedRepairBatch": {
+    "batch": 1,
+    "count": 2,
+    "status": "GENERATED_ADOBE_NOT_REPOSITORY_STAGED",
+    "assets": [
+      {
+        "id": "seating-2",
+        "name": "Cloud Pouf",
+        "tier": 1,
+        "theme": "Art Attack",
+        "sourceRejectedHash": "84c1cc571840d32e3683f70a4fa318f953087a67",
+        "intendedRepositoryPath": "/assets/catalog/seating-2-w01-v2.png",
+        "format": "png",
+        "dimensions": [1024, 1024],
+        "adobeGenAIAssetId": "urn:aaid:sc:US:8897a93d-8960-4229-89a1-74f978302fc5",
+        "adobeStoredBytes": 983793,
+        "producerPixelInspection": "PASS_THREE_QUARTER_PLUSH_CLOUD_LOBES_UPHOLSTERY_SEAM_ART_ATTACK_BRUSH_ACCENTS_GROUNDED_CAST_SHADOW",
+        "repositoryReadback": "BLOCKED_BINARY_TRANSFER_NOT_AVAILABLE_IN_THIS_RUN",
+        "status": "GENERATED_ADOBE_STAGING_BLOCKED"
+      },
+      {
+        "id": "seating-3",
+        "name": "Pixel Beanbag",
+        "tier": 1,
+        "theme": "Star Luxe",
+        "sourceRejectedHash": "2f97c3a2fa59ff46298a9b846aa4755b31bbfcd3",
+        "intendedRepositoryPath": "/assets/catalog/seating-3-w01-v2.png",
+        "format": "png",
+        "dimensions": [1024, 1024],
+        "adobeGenAIAssetId": "urn:aaid:sc:US:61cbf6f7-0f86-491a-9aed-9a5632964f6b",
+        "adobeStoredBytes": 933672,
+        "producerPixelInspection": "PASS_THREE_QUARTER_STUFFED_BEANBAG_VOLUME_PANEL_SEAMS_GOLD_STAR_PIPING_PIXEL_EMBROIDERY_GROUNDED_CAST_SHADOW",
+        "repositoryReadback": "BLOCKED_BINARY_TRANSFER_NOT_AVAILABLE_IN_THIS_RUN",
+        "status": "GENERATED_ADOBE_STAGING_BLOCKED"
+      }
+    ]
+  },
+  "binaryStagingBlocker": {
+    "status": "OPEN_FIRST_CYCLE",
+    "detail": "Firefly generation, asset persistence and actual-pixel inspection succeeded. This Workstream-01 tool context can resolve and inspect authenticated Adobe renditions but cannot expose the binary/base64 payload to GitHub create_blob, and the container has no outbound DNS path to the Adobe short URL. The images therefore remain GENERATED_ADOBE, not STAGED or READY_FOR_REVIEW.",
+    "requiredResolution": "Use the already-proven Adobe GenAI asset-to-Git blob byte bridge from a tool context that can expose the rendition bytes, attach each exact image to its intended versioned path on the newest screenshot-match-preproduction head with force=false, then fetch/read back the Git blob before reviewer 02 inspection.",
+    "security": "No presigned/temporary Adobe URLs are committed; only stable GenAI asset URNs are recorded."
+  },
+  "checks": {
+    "phaseAndExclusiveAssignment": "PASS",
+    "exactMetadata": "PASS_2_OF_2",
+    "producerActualPixelInspection": "PASS_2_OF_2",
+    "premiumDimensionalDirection": "PASS_2_OF_2_PRODUCER_CHECK_ONLY",
+    "repositoryPersistence": "BLOCKED_0_OF_2_STAGED",
+    "independentReview": "NOT_STARTED_NO_REPOSITORY_HASH",
+    "canonicalIntegration": "NOT_PERFORMED_BY_01",
+    "learningEconomyTouched": false,
+    "playerDataTouched": false,
+    "replitOrFlootTouched": false,
+    "mainTouched": false
+  },
+  "handoff": {
+    "02": "Do not review or accept seating-2/3 from producer previews. Wait for exact versioned repository paths and Git blob hashes, then use real staged card/detail pixels.",
+    "15": "First-cycle binary staging blocker is recorded with stable Adobe GenAI URNs for seating-2/3. If the same blocker persists into the next Workstream-01 cycle, use the existing proven Adobe-to-Git byte bridge rather than regenerating these images.",
+    "01Next": "Do not regenerate seating-2/3. Resolve staging first; once staged, continue seating-4/5 as the next bounded repair batch while fresh reviewer-01 replacement hashes remain higher review priority."
+  },
+  "freeze": {
+    "replitTouched": false,
+    "flootTouched": false,
+    "mainMergedOrModified": false,
+    "canonicalManifestOrRuntimeTouched": false,
+    "learningEconomyTouched": false,
+    "playerDataTouched": false
+  }
+}
