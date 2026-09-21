@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Pixel Party Garden Fireflies">
+<defs>
+  <radialGradient id="bg" cx="50%" cy="46%" r="72%"><stop offset="0" stop-color="#3b2474"/><stop offset=".48" stop-color="#17163c"/><stop offset="1" stop-color="#07091f"/></radialGradient>
+  <linearGradient id="leaf" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#8df0a0"/><stop offset=".45" stop-color="#2fa96c"/><stop offset="1" stop-color="#0f5a48"/></linearGradient>
+  <linearGradient id="leafHi" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#d8ffd4"/><stop offset=".55" stop-color="#55cf7d"/><stop offset="1" stop-color="#14605a"/></linearGradient>
+  <radialGradient id="fire"><stop offset="0" stop-color="#fffde8"/><stop offset=".25" stop-color="#fff59a"/><stop offset=".62" stop-color="#ffbf3d"/><stop offset="1" stop-color="#ff7a00" stop-opacity="0"/></radialGradient>
+  <linearGradient id="vine" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ffd878"/><stop offset=".5" stop-color="#e69b36"/><stop offset="1" stop-color="#865019"/></linearGradient>
+  <linearGradient id="pixel" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#54f2ff"/><stop offset=".5" stop-color="#b26cff"/><stop offset="1" stop-color="#ff6db8"/></linearGradient>
+  <filter id="glow" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  <filter id="drop" x="-30%" y="-30%" width="160%" height="180%"><feDropShadow dx="0" dy="12" stdDeviation="10" flood-color="#000" flood-opacity=".55"/></filter>
+</defs>
+<rect width="512" height="512" rx="56" fill="url(#bg)"/>
+<ellipse cx="256" cy="266" rx="156" ry="160" fill="none" stroke="#8f66ff" stroke-opacity=".13" stroke-width="34" filter="url(#glow)"/>
+<g opacity=".38" fill="url(#pixel)">
+  <rect x="155" y="164" width="10" height="10" rx="2"/><rect x="171" y="164" width="7" height="7" rx="2"/><rect x="344" y="191" width="9" height="9" rx="2"/><rect x="357" y="207" width="6" height="6" rx="2"/><rect x="187" y="344" width="8" height="8" rx="2"/><rect x="326" y="329" width="10" height="10" rx="2"/><rect x="311" y="346" width="6" height="6" rx="2"/>
+</g>
+<g filter="url(#drop)">
+  <ellipse cx="256" cy="260" rx="143" ry="151" fill="none" stroke="url(#vine)" stroke-width="8" stroke-linecap="round" transform="rotate(-12 256 260)"/>
+  <ellipse cx="256" cy="260" rx="132" ry="143" fill="none" stroke="#ffd97c" stroke-opacity=".28" stroke-width="2" transform="rotate(17 256 260)"/>
+  <g transform="translate(137 145) rotate(-35)"><path d="M0 0 C14-18 42-15 55 2 C39 20 13 19 0 0Z" fill="url(#leafHi)"/><path d="M7 1 C23 2 36 4 49 5" fill="none" stroke="#d4ffd5" stroke-opacity=".48" stroke-width="2"/></g>
+  <g transform="translate(193 109) rotate(-12)"><path d="M0 0 C13-22 40-25 57-8 C48 14 20 21 0 0Z" fill="url(#leaf)"/><path d="M8-2 C27-4 40-4 51-5" fill="none" stroke="#d4ffd5" stroke-opacity=".42" stroke-width="2"/></g>
+  <g transform="translate(318 120) rotate(28)"><path d="M0 0 C12-20 39-23 55-4 C43 17 18 20 0 0Z" fill="url(#leafHi)"/></g>
+  <g transform="translate(363 181) rotate(62)"><path d="M0 0 C10-17 33-18 46-3 C37 14 14 17 0 0Z" fill="url(#leaf)"/></g>
+  <g transform="translate(365 327) rotate(125)"><path d="M0 0 C13-20 41-23 58-5 C46 18 19 21 0 0Z" fill="url(#leafHi)"/></g>
+  <g transform="translate(302 381) rotate(160)"><path d="M0 0 C14-22 43-22 61-2 C48 20 17 21 0 0Z" fill="url(#leaf)"/></g>
+  <g transform="translate(182 390) rotate(205)"><path d="M0 0 C13-20 39-21 56-4 C45 17 18 20 0 0Z" fill="url(#leafHi)"/></g>
+  <g transform="translate(116 319) rotate(244)"><path d="M0 0 C10-18 34-20 49-3 C39 16 14 18 0 0Z" fill="url(#leaf)"/></g>
+  <g transform="translate(111 217) rotate(294)"><path d="M0 0 C12-19 37-20 53-2 C41 18 15 18 0 0Z" fill="url(#leafHi)"/></g>
+</g>
+<g filter="url(#glow)">
+  <circle cx="166" cy="144" r="28" fill="url(#fire)"/><circle cx="166" cy="144" r="6" fill="#fff8ac"/>
+  <circle cx="264" cy="116" r="24" fill="url(#fire)"/><circle cx="264" cy="116" r="5" fill="#fffbd1"/>
+  <circle cx="355" cy="166" r="29" fill="url(#fire)"/><circle cx="355" cy="166" r="6" fill="#fff8ac"/>
+  <circle cx="392" cy="267" r="26" fill="url(#fire)"/><circle cx="392" cy="267" r="5" fill="#fffbd1"/>
+  <circle cx="347" cy="359" r="29" fill="url(#fire)"/><circle cx="347" cy="359" r="6" fill="#fff8ac"/>
+  <circle cx="248" cy="404" r="25" fill="url(#fire)"/><circle cx="248" cy="404" r="5" fill="#fffbd1"/>
+  <circle cx="151" cy="360" r="28" fill="url(#fire)"/><circle cx="151" cy="360" r="6" fill="#fff8ac"/>
+  <circle cx="112" cy="257" r="25" fill="url(#fire)"/><circle cx="112" cy="257" r="5" fill="#fffbd1"/>
+</g>
+<g fill="#fff6b8" opacity=".9"><circle cx="216" cy="146" r="3"/><circle cx="310" cy="151" r="2.5"/><circle cx="378" cy="220" r="3"/><circle cx="370" cy="307" r="2"/><circle cx="295" cy="390" r="3"/><circle cx="197" cy="384" r="2.5"/><circle cx="130" cy="303" r="3"/><circle cx="129" cy="205" r="2"/></g>
+<ellipse cx="256" cy="433" rx="138" ry="24" fill="#000" opacity=".22"/>
+</svg>
