@@ -1,81 +1,102 @@
 # Workstream 03 — Home Screen
 
-STATUS: **REFERENCE COMPOSITION IMPLEMENTED / FULL BUILD + RENDER QA PENDING**
+STATUS: **REFERENCE COMPOSITION RETUNED / CI PASS / FINAL HOME VISUAL SIGN-OFF PENDING**
 
 Branch: `screenshot-match-preproduction`
-Starting head for this pass: `e16e1fc7852addfda3b437728f7fda850254c42e`
+Latest Home source head for this pass: `a8d9b5439e2f9e88e25de6da20ef31498ebd95cd`
+Replit: **untouched**
+Main: **not merged or modified**
 
 ## Changes completed
 
-- Added a dedicated additive Home screenshot-match layer instead of rewriting `src/App.jsx` or the persistence model.
-- Matched the approved 1408×1056 Home reference geometry much more closely at wide desktop:
-  - Room Progress anchored at the approved top-center envelope with all five real room tiers visible at once;
-  - central avatar hero envelope enlarged and lowered to match the reference composition;
-  - Buddy moved beside the avatar with a reference-style speech card;
-  - My Dream Goal moved to the narrow right rail with a larger aspirational art area and gold primary CTA treatment;
-  - Daily Quests widened into the lower-left reference region;
-  - Customize Me widened into the lower-center tray;
-  - Today I’m Learning moved into the lower-right reference card;
-  - added the separate lower-right “Smart Kids Change the World!” motivational card.
-- Converged Home panel styling on the screenshot-match design contract: cobalt/navy dimensional chrome, cyan rim light, deep lower bevel, white inner highlight, gold/pink/green accents, and warmer scene treatment.
-- Added subtle static sparkle/highlight layers without requiring new environment assets.
-- Added the screenshot-reference safety note under Daily Quests: wrong answers are okay and nothing owned is lost.
-- Added Dream Goal benefits using truthful permanent-progress language only:
-  - earned through learning;
-  - kept forever once unlocked;
-  - progress is never taken away.
-- Preserved the existing real-state bindings for:
-  - room tier and Star Worth;
-  - Dream Goal item, ownership, Coins and price;
-  - Daily Quest counters;
-  - recent learning stats;
-  - owned customization inventory;
-  - equipped avatar items;
-  - equipped companion and Buddy Bond;
-  - placed room favorites.
-- Preserved starter-state positivity; no fake ownership, currency, quest completion, mastery, or room progress was introduced.
-- Added a compatibility repair for the new five-item shell so legacy Home navigation targets such as `Market` resolve to the visible `Store` destination. This fixes Home CTA/daily routing after Workstream 02 renamed the shell destination.
-- Added reduced-motion-safe Home overrides and kept existing touch-target behavior intact.
+The Home implementation remains additive and continues to reuse the existing save/game model rather than replacing `src/App.jsx` or persistence behavior.
+
+### Reference composition retained
+
+- Full warm Brightside bedroom environment remains the Home backdrop.
+- Central original StarBlox avatar remains the visual hero with the equipped Buddy beside it.
+- Five real room tiers remain visible simultaneously in the top-center Room Progress strip.
+- My Dream Goal remains the tall right rail using the player’s actual selected Dream Goal item, actual ownership state, actual Coins, actual item price, and actual progress.
+- Daily Quests remains the lower-left panel using only the three real tracked daily counters.
+- Customize Me remains the lower-center owned-item/category tray and continues to show only permanently owned real items.
+- Today I’m Learning remains the lower-right learning-evidence card.
+- The separate “Smart Kids Change the World!” motivational card remains beneath Today I’m Learning.
+- Buddy speech remains attached to the central avatar/Buddy scene.
+
+### Browser-QA geometry correction
+
+The strict 1408×1056 Playwright gate previously identified exactly three Home structural failures:
+
+1. Room Progress rendered about 204 px tall instead of the 165 px contract.
+2. Customize Me started around y=787 instead of the y=822 contract.
+3. Today I’m Learning started around y=713 instead of the y=772 contract.
+
+Added `src/homeReferenceFinal.css`, loaded after progression/environment/accessibility/motion layers, to make the Home-owned wide-desktop geometry authoritative without disturbing smaller responsive layouts:
+
+- Room Progress is fixed to the 165 px reference envelope at 1408×1056.
+- The extra three-horizon progression strip is hidden only in wide reference mode so the five-tier room strip remains compact and all five real tiers stay visible.
+- Customize Me is anchored to y=822 with the reference 600 px width and compact owned-item strip.
+- The wide-desktop collection-progress summary is hidden inside Customize Me because it is not part of the approved Home screenshot hierarchy; the underlying real collection state remains unchanged and still appears in responsive layouts.
+- Today I’m Learning is anchored to y=772 with the reference 334×158 envelope.
+- The extra mastery summary card is hidden only inside the wide-reference Today I’m Learning panel so the screenshot composition does not become a dashboard; mastery data and shell mastery state remain intact.
+- The motivational card is explicitly anchored to y=938 at the 90 px reference height.
+
+### Dream Goal presentation
+
+- Upgraded the Dream Goal art stage to use the original Brightside bedroom environment as an aspirational backdrop while keeping the **actual selected Dream Goal item** in front.
+- This does not imply ownership: owned/not-owned copy, Coins, price, CTA behavior and progress remain bound to real state.
+- No fake mansion ownership, fake currency, fake progress, fake purchase, fake mastery, or fake daily completion was introduced.
+
+### Starter-state behavior and compatibility
+
+- Starter states remain positive: empty learning evidence says the learner is ready rather than showing failure language.
+- Existing starter owned inventory, companion, room decor, Coins, Dream Goal, XP, Stars and Star Worth remain untouched.
+- Existing save keys and persistence format are unchanged by this Home pass.
+- Existing shell route normalization remains intact so legacy Home actions such as `Market` resolve to visible `Store` and `Avatar` resolves to Customize/settings access.
+- Reduced-motion, touch-target and responsive rules remain owned by the shared accessibility/motion layers; this final tuning is restricted to `min-width:1280px`.
 
 ## Files changed
 
-- `src/homeScreenshotMatch.css` — reference Home geometry, dimensional chrome, Daily/Dream/Customize/Learning composition, Buddy placement, motivation card, responsive and reduced-motion overrides.
-- `src/homeScreenshotMatchRuntime.js` — additive DOM decoration for screenshot headings/cards, truthful Home support copy, world-change message, Buddy role label, and shell-route compatibility.
-- `src/homeScreenshotMatchRuntime.test.js` — route-alias tests for Market→Store, Quest→Quests, and Avatar→Customize.
-- `src/main.jsx` — loads the Home screenshot-match runtime and CSS after the existing Home layer and shared shell chrome.
+- `src/homeReferenceFinal.css` — final wide-reference Home geometry and Dream Goal stage tuning.
+- `src/main.jsx` — loads `homeReferenceFinal.css` last so Home reference geometry is not re-expanded by later shared progression/motion layers.
+- Existing Home implementation remains in:
+  - `src/homeHeroRuntime.js`
+  - `src/homeHero.css`
+  - `src/homeScreenshotMatchRuntime.js`
+  - `src/homeScreenshotMatch.css`
+  - `src/homeScreenshotMatchRuntime.test.js`
 
-## Verification
+## Tests / build / browser QA
 
-- **PASS — branch isolation:** all changes are on `screenshot-match-preproduction`; `main` was not merged or changed by this workstream.
-- **PASS — Replit untouched:** no Replit update/publish action was called.
-- **PASS — additive change review:** compare from the starting head shows only the new Home runtime/CSS/test files plus two imports in `src/main.jsx`.
-- **PASS — new runtime syntax:** `node --check` completed successfully for `homeScreenshotMatchRuntime.js` in an isolated local syntax check.
-- **PASS — route-normalization smoke check:** direct module assertions passed for Market→Store, Quest→Quests, Avatar→Customize, and unchanged Study.
-- **PASS — CSS structural check:** opening/closing brace counts match for the new Home CSS.
-- **NOT TESTED — full `npm test`:** the repository dependencies/build tree are not available in this automation runtime and this branch is intentionally not deployed to Replit.
-- **NOT TESTED — `npm run build`:** same constraint; Visual Release QA / Command Center should run the full coordinated suite after additional workstreams land.
-- **NOT TESTED — rendered pixel comparison:** no preview host or production Replit update was used, by design.
+- **PASS — branch isolation:** all work is on `screenshot-match-preproduction` only.
+- **PASS — Replit untouched:** no Replit update or publish action was called.
+- **PASS — main untouched:** no merge or direct write to `main` was performed.
+- **PASS — full CI test step:** GitHub Actions run `35631942163` completed the project test step successfully on exact Home source head `a8d9b5439e2f9e88e25de6da20ef31498ebd95cd`.
+- **PASS — production build:** the same CI run completed `npm run build` successfully.
+- **PASS — strict visual workflow infrastructure:** GitHub Actions visual run `35631942179` successfully installed Playwright, built the production bundle, started the local production preview and executed the structural browser gate.
+- **FAIL — overall strict visual release gate:** run `35631942179` still ends in failure because the repository-wide gate also includes unresolved Store and Quest geometry checks. This workstream does not claim those screens are fixed.
+- **NOT YET CLAIMED — final Home structural PASS:** the Home tuning directly encodes the three previously measured Home contract corrections, but final Home-specific sign-off should come from the consolidated QA report/Command Center rather than inferring a release PASS from CSS alone.
+- **NOT TESTED — exact reference-pixel diff:** the approved reference screenshot pixels are not stored in-repo for automated image-diff comparison.
 
 ## Visual gaps remaining
 
-1. The current room-tier SVGs are still flatter/vector-style than the warm high-detail bedroom in the reference. Workstream 09 should replace/upgrade environment art without changing this Home layout contract.
-2. The avatar itself is still the existing generated/CSS character system. Workstream 06 owns the final high-detail original avatar/Buddy art and equipment fidelity.
-3. The illustrated logo/top HUD/left navigation are owned by Workstream 02; Home now reserves the screenshot-style composition around that fixed overlay, but final rendered overlap must be checked at 1408×1056.
-4. Dream Goal art fidelity depends on the selected real item and final catalog/environment art. This workstream intentionally did not fabricate a mansion image when the player’s actual Dream Goal is a different item.
-5. Daily Quests currently reflect the three real tracked daily counters available in save state rather than inventing a fourth fake completion counter just to mirror the screenshot.
-6. Today I’m Learning displays real/relevant tracked learning rows rather than faking five subject-progress values. Final icon treatment can be upgraded later without changing the data binding.
-7. Full browser render verification at 1408×1056, 1024 landscape, tablet, 390 px and 320 px remains pending.
+1. Exact perceptual parity of avatar face/body proportions, material depth, rim light and Buddy integration still needs authoritative side-by-side visual review even though the composition is in place.
+2. Dream Goal now has a stronger aspirational room-stage composition, but the selected item remains the real chosen item; it intentionally does not fabricate a mansion if the player chose something else.
+3. Final art quality for individual equipped/catalog items still depends on the catalog-art workstream; missing art must remain a visual fallback only and must never mutate ownership.
+4. Wide desktop now prioritizes the screenshot hierarchy over extra summary widgets. The hidden wide-only summaries remain available in responsive/staked layouts and their state is not discarded.
+5. Final keyboard/screen-reader/performance proof belongs to shared release QA, not this Home-only workstream.
 
 ## Blockers
 
-- **No code/data blocker found for the Home composition.**
-- Release-quality visual PASS is blocked on final environment art, avatar/Buddy art, coordinated browser render proof, and full build/test execution.
+- **No Home state, save, economy or learning blocker found.**
+- Home release sign-off is still blocked on authoritative consolidated browser/visual confirmation after this geometry pass.
+- Repository release remains blocked independently by unfinished Store/Quest geometry, catalog completion, live persistence stress, accessibility smoke and performance profiling.
 
 ## Handoff
 
-- Workstream 06 should keep the Home avatar visual envelope and Buddy placement established here while replacing character fidelity inside those mounts.
-- Workstream 07 may enrich Daily Quest / Dream Goal / Today’s Learning widgets, but must keep every displayed progress value bound to real state and should preserve the current Home region envelopes.
-- Workstream 09 should upgrade the bedroom/room-tier scene art beneath the Home chrome; do not reintroduce a dashboard-like opaque background.
-- Workstream 10 should verify the existing tablet/phone reflow plus the new world-message and safety-note additions at 390 px and 320 px.
-- Workstream 14 / Command Center should render the Home screen against the approved 1408×1056 reference and adjust only measured residual geometry/fidelity gaps.
-- **Do not update/publish Replit and do not merge to `main` until coordinated preproduction sign-off.**
+- Workstream 14 / Command Center should rerun/read the strict 1408×1056 Home geometry checks and mark the three prior Home failures PASS only from measured browser evidence.
+- Keep `src/homeReferenceFinal.css` last among visual imports unless a later measured integration conflict requires a narrower selector fix.
+- Do not re-add the wide-desktop three-horizon or mastery summary blocks inside the screenshot-reference envelopes unless the reference composition changes; they make the Home read like a dashboard and caused the measured height/vertical-position drift.
+- Workstream 08 may continue item-specific art completion by stable item ID; Home/Dream Goal must never infer ownership from artwork availability.
+- Workstream 10 should keep tablet/390/320 layouts stacked and touch-safe; the new strict geometry overrides intentionally do not apply below 1280 px.
+- **Do not update/publish Replit and do not merge to `main` until coordinated preproduction sign-off and a separate user-approved integration action.**
