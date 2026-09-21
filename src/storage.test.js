@@ -219,6 +219,18 @@ describe('StarBlox persistence recovery', () => {
     expect(await readIndexedDbBackup()).toMatchObject(backup);
   });
 
+  it('preserves durable purchase and quest receipts through shape sanitization', () => {
+    const cleaned = sanitizeSnapshotShape({
+      purchaseReceipts:['tops-2','tops-2','beds-4'],
+      activeQuestReceipt:' quest-active ',
+      lastCompletedQuestReceipt:' quest-done '
+    });
+
+    expect(cleaned.purchaseReceipts).toEqual(['tops-2','beds-4']);
+    expect(cleaned.activeQuestReceipt).toBe('quest-active');
+    expect(cleaned.lastCompletedQuestReceipt).toBe('quest-done');
+  });
+
   it('rejects arrays as imported saves and preserves valid imports through export/import', () => {
     expect(() => importSave('[]')).toThrow('That file is not a valid StarBlox save.');
 
