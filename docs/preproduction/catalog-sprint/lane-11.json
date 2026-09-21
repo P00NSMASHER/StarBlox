@@ -1,14 +1,24 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "lane": "11",
   "workstream": "11",
   "phase": "CATALOG_SPRINT",
-  "status": "READY_FOR_REVIEW",
   "branch": "screenshot-match-preproduction",
-  "inspectedSourceHead": "4d8bb9671b8c394db89d994de75ee4af3ccd578a",
-  "assignedIds": [
-    "auras-1","auras-2","auras-3","auras-4","auras-5","auras-6",
-    "auras-7","auras-8","auras-9","auras-10","auras-11","auras-12"
+  "inspectedSourceHead": "007be8be7f720af97bd071ba36e6e399d01b0b0b",
+  "status": "READY_FOR_INDEPENDENT_REVIEW",
+  "assignment": [
+    "auras-1",
+    "auras-2",
+    "auras-3",
+    "auras-4",
+    "auras-5",
+    "auras-6",
+    "auras-7",
+    "auras-8",
+    "auras-9",
+    "auras-10",
+    "auras-11",
+    "auras-12"
   ],
   "candidateCount": 12,
   "assetsChangedByLane": false,
@@ -17,8 +27,10 @@
   "canonicalManifestChanged": false,
   "runtimeWiringChanged": false,
   "selfApproved": false,
-  "reviewRequired": ["01", "14"],
+  "independentReviewer": "05",
   "integrationOwner": "08",
+  "reviewShardPath": "docs/preproduction/catalog-sprint/reviews/05.json",
+  "reviewShardAtInspectedHead": "MISSING",
   "assets": [
     {"id":"auras-1","name":"Soft Sparkles","tier":1,"theme":"Midnight Neon","price":30,"starReq":0,"path":"/assets/catalog/auras-1.svg","repositoryPath":"public/assets/catalog/auras-1.svg","blobSha":"5fdf391924548197f0d1025fbfddc6b5eea1dada","bytes":1449,"dimensions":[512,512],"priorStatus":"interim-not-verified","status":"READY_FOR_REVIEW","signatureFeature":"soft six-point sparkle halo with small white motes","provenance":"pre-existing repo-owned self-contained SVG"},
     {"id":"auras-2","name":"Cloud Puffs","tier":1,"theme":"Candy Core","price":45,"starReq":0,"path":"/assets/catalog/auras-2.svg","repositoryPath":"public/assets/catalog/auras-2.svg","blobSha":"951d0de53b0177256bb71308f18fc3c5a2563a43","bytes":1436,"dimensions":[512,512],"priorStatus":"interim-not-verified","status":"READY_FOR_REVIEW","signatureFeature":"four outlined cloud-puff clusters with a small upper star","provenance":"pre-existing repo-owned self-contained SVG"},
@@ -33,33 +45,50 @@
     {"id":"auras-11","name":"Dream Aurora","tier":4,"theme":"Art Attack","price":880,"starReq":5,"path":"/assets/catalog/auras-11.svg","repositoryPath":"public/assets/catalog/auras-11.svg","blobSha":"3a80508473e5364899b1276256ea26c72f9efce0","bytes":1257,"dimensions":[512,512],"priorStatus":"interim-not-verified","status":"READY_FOR_REVIEW","signatureFeature":"three layered aurora ribbons with crescent moon and star","provenance":"pre-existing repo-owned self-contained SVG"},
     {"id":"auras-12","name":"Luxe Starstorm","tier":5,"theme":"Star Luxe","price":1200,"starReq":9,"path":"/assets/catalog/auras-12.svg","repositoryPath":"public/assets/catalog/auras-12.svg","blobSha":"afa2b684e811302c2889e068b16e730eb58e6d27","bytes":1840,"dimensions":[512,512],"priorStatus":"interim-not-verified","status":"READY_FOR_REVIEW","signatureFeature":"dual storm trails, two orbital rings and four oversized luminous stars","provenance":"pre-existing repo-owned self-contained SVG"}
   ],
-  "sourceInspection": {
-    "effectStructure": "All 12 candidates use materially different spatial motifs rather than recolors of one geometry: sparkles, clouds, pixels, hearts, botanical fireflies, planetary orbits, solar rays, bubbles, confetti, neon trails, aurora ribbons and starstorm rings.",
-    "tierProgression": "Directionally present in source complexity: Tier 1 uses sparse motif clusters; Tier 2 adds themed structures/orbits; Tier 3 adds broader radial or multi-element fields; Tier 4 adds continuous layered trails/ribbons; Tier 5 combines multiple orbit systems, trails and oversized star bursts.",
-    "externalDependenciesObserved": false,
-    "externalRasterEmbedsObserved": false,
-    "externalFontsObserved": false,
-    "thirdPartyBrandsOrCharactersObserved": false,
-    "robloxOrBrookhavenAssetsObserved": false
+  "producerRenderEvidence": {
+    "scope": ["auras-1","auras-2","auras-3","auras-4"],
+    "method": "Exact repository SVG bytes were rasterized locally with CairoSVG 2.8.2 at 512x512 and 192x192, then visually inspected over a dark neutral field.",
+    "sourceBlobShaVerified": [
+      "5fdf391924548197f0d1025fbfddc6b5eea1dada",
+      "951d0de53b0177256bb71308f18fc3c5a2563a43",
+      "a27b05e02ca3165d18bccac63a8cff3a645e393e",
+      "feb01955145685f718c231287abbad60ecc2e408"
+    ],
+    "renders": {
+      "auras-1": {"render512":{"bytes":112483,"sha256":"7d2b1bd82df2cfd57ace0f86fca288bb0c860e2937ee6a08b8a8827866f57d91"},"render192":{"bytes":27983,"sha256":"6ee0c4ba1099a83bf72168a73f09bca5e2e0f555c1fb72e17f12d341ff2a833b"}},
+      "auras-2": {"render512":{"bytes":103455,"sha256":"d877c5e42a2d0a718601d16f88bb83df364fdf18b7361ceb4ba08306a9c8a15f"},"render192":{"bytes":26890,"sha256":"6e8422f0397141a3f22ef5b125839efcd7c051d9ed1ee797b12ee1245829e2d2"}},
+      "auras-3": {"render512":{"bytes":110285,"sha256":"5eb43927130de8c96efd8c3ee154aaeee9c20b60be719b037c4a9eeb8e98f147"},"render192":{"bytes":30927,"sha256":"9827b9d990fe0f522348cd0c2e03c26636d6b89d52ae366f30e1a06ea5f42788"}},
+      "auras-4": {"render512":{"bytes":106765,"sha256":"39e6e2ea0d877a72f748d09583fc248b7e26e2f8bfb14ccd90e57bb926d37135"},"render192":{"bytes":30884,"sha256":"19ecce0cc8e0b85795d9edbc934b80ee557dc7f8e1b855d800ccfa7346513efe"}}
+    },
+    "result": "PASS_RENDERABILITY_4_OF_4_WITH_QUALITY_RISK",
+    "observations": {
+      "auras-1": "Renders cleanly with centered halo and four large sparkles; motif is readable but deliberately sparse/flat.",
+      "auras-2": "Renders cleanly with four cloud clusters and top star; cloud shapes are immediately legible but visually simple.",
+      "auras-3": "Renders cleanly with distinct pixel blocks around a halo; readable at card scale but still flat/vector-like.",
+      "auras-4": "Renders cleanly with four berry hearts and gold motes; silhouette is clear but material depth is limited."
+    },
+    "qualityRisk": "The first four candidates are structurally distinct and readable, but their flat vector treatment may undershoot the premium dimensional screenshot target. This is a producer risk note, not ACCEPT or REWORK; Workstream 05 must decide from independent rendered evidence.",
+    "durableScreenshotArtifact": "NOT_STORED_BY_LANE_11; Workstream 14 owns the shared candidate render/contact-sheet harness."
   },
   "checks": {
     "catalogMetadataMatched": "PASS",
-    "githubAssetPresenceBlobShaAndSize": "PASS",
-    "uniqueBlobShaWithinAssignedLane": "PASS_12_OF_12",
+    "githubAssetPresenceBlobShaAndSize": "PASS_12_OF_12_FROM_PRIOR_LANE_EVIDENCE",
+    "currentHeadBlobReadback": "PASS_AURAS_1_TO_4",
+    "uniqueBlobShaWithinAssignedLane": "PASS_12_OF_12_FROM_PRIOR_LANE_EVIDENCE",
     "canvasContract512x512": "PASS",
     "sourceLevelExternalDependencyReview": "PASS",
     "sourceLevelDistinctEffectStructures": "PASS",
     "sourceLevelTierProgression": "PASS_DIRECTIONAL",
-    "renderedCardScaleReview": "NOT_TESTED",
-    "storeBrowserReview": "NOT_TESTED_BY_LANE_11",
-    "independentVisualApproval": "PENDING_01_14",
-    "fullBuild": "NOT_RUN_BY_LANE_11",
-    "fullTestSuite": "NOT_RUN_BY_LANE_11"
+    "producerPixelRender": "PASS_4_OF_4",
+    "independentVisualApproval": "PENDING_REVIEWER_05",
+    "canonicalIntegration": "PENDING_08",
+    "fullBuild": "NOT_RUN_ASSET_BYTES_UNCHANGED"
   },
   "blockers": [
-    "Independent rendered/card-scale review by Workstream 01 and/or 14 is still required before any auras-1..12 item can move from interim-not-verified to accepted final art.",
-    "Workstream 08 alone may update catalog-art-manifest.json and src/catalogArtRuntime.js after independent acceptance.",
-    "This lane inspected the actual repository SVG source and Git identities but does not have authoritative rendered Store-card evidence, so no screenshot-quality claim is made."
+    "Reviewer 05 shard does not exist at the inspected head, so no aura asset has an independent hash-bound ACCEPT/REWORK/BLOCKED decision under Delivery Protocol V2.",
+    "Lane 11 cannot self-approve. Workstream 05 must review actual pixels for auras-1..12; Workstream 08 may integrate each qualified ACCEPT incrementally.",
+    "Durable shared contact-sheet evidence for staged candidates belongs to Workstream 14; Lane 11's local producer render is supplementary and does not replace independent evidence."
   ],
-  "handoff": "All 12 assigned aura assets already existed as item-specific, self-contained, uniquely hashed SVG candidates and no concrete source-level defect justified rewriting them. Workstreams 01/14 should render and judge the exact blobs listed here; Workstream 08 should promote only independently accepted IDs. Lane 11 requests reassignment from Command Center 15 after review/integration needs are reconciled and will not resume motion work while the phase remains CATALOG_SPRINT."
+  "nextAction": "Workstream 05 should create reviews/05.json and independently review auras-1..12 (oldest READY_FOR_REVIEW first). If it returns REWORK for a specific exact hash, Lane 11 will repair only that ID/version in a 2-6 item micro-batch. No regeneration is justified before that decision.",
+  "freeze": {"replitTouched":false,"flootTouched":false,"mainMergedOrModified":false,"playerStateChanged":false}
 }
