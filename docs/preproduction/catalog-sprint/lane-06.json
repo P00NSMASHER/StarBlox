@@ -1,128 +1,117 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "lane": "06",
   "workstream": "06",
   "phase": "CATALOG_SPRINT",
-  "status": "READY_FOR_REVIEW",
   "branch": "screenshot-match-preproduction",
-  "inspectedSourceHead": "7a5b71410a19a1456c8897e320179e3c6869cdec",
-  "assignedIds": [
-    "companions-2","companions-3","companions-4","companions-5","companions-6","companions-7",
-    "companions-8","companions-9","companions-10","companions-11","companions-12"
-  ],
-  "candidateCount": 11,
-  "assetsChangedByLane": false,
-  "assetsGeneratedByLane": 0,
-  "assetsRejectedByLane": 0,
+  "status": "READY_FOR_REVIEW_ESCALATED",
+  "inspectedSourceHead": "f1512099a2b9f467ff3e5e4ca985ca649bc3b15d",
+  "assignment": ["companions-2","companions-3","companions-4","companions-5","companions-6","companions-7","companions-8","companions-9","companions-10","companions-11","companions-12"],
+  "preservedFinal": {"id":"companions-1","name":"Sprout Pup","path":"/assets/catalog/companions-1.svg","gitBlobSha":"797d05aa87a416c24bd6f220b8bb13f8f44a4d8a","bytes":2344,"dimensions":[512,512]},
   "canonicalManifestChanged": false,
   "runtimeWiringChanged": false,
+  "playerStateChanged": false,
   "selfApproved": false,
-  "reviewRequired": ["05"],
-  "reviewShard": "docs/preproduction/catalog-sprint/reviews/05.json",
-  "reviewShardStatusAtInspection": "MISSING_NOT_A_BLOCKER_TO_PREPARE_EVIDENCE",
+  "reviewer": "05",
   "integrationOwner": "08",
-  "preservedFinal": {
-    "id": "companions-1",
-    "name": "Sprout Pup",
-    "status": "final-portable",
-    "path": "/assets/catalog/companions-1.svg",
-    "blobSha": "797d05aa87a416c24bd6f220b8bb13f8f44a4d8a",
-    "bytes": 2344,
-    "dimensions": [512,512]
+  "reviewState": {
+    "shardPath": "docs/preproduction/catalog-sprint/reviews/05.json",
+    "shardBlobSha": "9d855d01e7f0132e999850a7c616cfd1239eb015",
+    "shardPresent": true,
+    "collectionsReviewedInShard": ["auras"],
+    "companionDecisionsPresent": 0,
+    "companionAccepted": 0,
+    "companionRework": 0,
+    "companionBlocked": 0,
+    "unchangedPendingCycles": 2,
+    "escalatedTo": "15",
+    "escalationReason": "Reviewer 05 now has a valid shard but it contains only Aura decisions. Companions remain without the required independent actual-pixel decision for a second Lane 06 cycle, so Delivery Protocol v2 anti-stall escalation applies."
   },
-  "svgCandidates": [
-    {"id":"companions-2","name":"Moon Cat","tier":1,"theme":"Pixel Party","price":45,"starReq":0,"path":"/assets/catalog/companions-2.svg","repositoryPath":"public/assets/catalog/companions-2.svg","blobSha":"45b5e59ea5bb28dbc3d8c325f313ec4b92ef8005","bytes":1968,"dimensions":[512,512],"priorStatus":"interim-not-verified","status":"READY_FOR_REVIEW"},
-    {"id":"companions-3","name":"Berry Bunny","tier":1,"theme":"Berry Blast","price":65,"starReq":0,"path":"/assets/catalog/companions-3.svg","repositoryPath":"public/assets/catalog/companions-3.svg","blobSha":"c0e69b68240cb91c00dd16c2784b3d5c7c41c4fb","bytes":2068,"dimensions":[512,512],"priorStatus":"interim-not-verified","status":"READY_FOR_REVIEW"},
-    {"id":"companions-4","name":"Sunny Bird","tier":2,"theme":"Garden Glow","price":85,"starReq":0,"path":"/assets/catalog/companions-4.svg","repositoryPath":"public/assets/catalog/companions-4.svg","blobSha":"16e50e59ba950076bf0ecc512b9a3262bf5ca2de","bytes":1828,"dimensions":[512,512],"priorStatus":"interim-not-verified","status":"READY_FOR_REVIEW"},
-    {"id":"companions-5","name":"Pebble Turtle","tier":2,"theme":"Galaxy Glow","price":125,"starReq":0,"path":"/assets/catalog/companions-5.svg","repositoryPath":"public/assets/catalog/companions-5.svg","blobSha":"3d30ea4f291c2ac5fb8b60171df249167c3647cb","bytes":1666,"dimensions":[512,512],"priorStatus":"interim-not-verified","status":"READY_FOR_REVIEW"},
-    {"id":"companions-6","name":"Comet Fox","tier":2,"theme":"Sunny Pop","price":175,"starReq":0,"path":"/assets/catalog/companions-6.svg","repositoryPath":"public/assets/catalog/companions-6.svg","blobSha":"0d7b1d86360e6ef7d9d6bf70340d009436836a70","bytes":1962,"dimensions":[512,512],"priorStatus":"interim-not-verified","status":"READY_FOR_REVIEW"},
-    {"id":"companions-7","name":"Story Owl","tier":3,"theme":"Aqua Wave","price":240,"starReq":2,"path":"/assets/catalog/companions-7.svg","repositoryPath":"public/assets/catalog/companions-7.svg","blobSha":"a7a852d6d6b1486d5f0820f5ea93240e31c9ae2c","bytes":1833,"dimensions":[512,512],"priorStatus":"interim-not-verified","status":"READY_FOR_REVIEW"},
-    {"id":"companions-8","name":"Bubble Axolotl","tier":3,"theme":"Art Attack","price":330,"starReq":2,"path":"/assets/catalog/companions-8.svg","repositoryPath":"public/assets/catalog/companions-8.svg","blobSha":"29a71f6ec9ba4b16aa84c3afd04466935a9a0a89","bytes":1808,"dimensions":[512,512],"priorStatus":"interim-not-verified","status":"READY_FOR_REVIEW"},
-    {"id":"companions-9","name":"Garden Snail","tier":3,"theme":"Star Luxe","price":460,"starReq":2,"path":"/assets/catalog/companions-9.svg","repositoryPath":"public/assets/catalog/companions-9.svg","blobSha":"3208135a5b44b0d080e5c80da43b63aa04d7652e","bytes":1993,"dimensions":[512,512],"priorStatus":"interim-not-verified","status":"READY_FOR_REVIEW"},
-    {"id":"companions-10","name":"Pixel Bot","tier":4,"theme":"Midnight Neon","price":640,"starReq":5,"path":"/assets/catalog/companions-10.svg","repositoryPath":"public/assets/catalog/companions-10.svg","blobSha":"f1150f08a1a0bba8d9601ed2dd8f9dae6a17bb7d","bytes":2211,"dimensions":[512,512],"priorStatus":"interim-not-verified","status":"READY_FOR_REVIEW"},
-    {"id":"companions-11","name":"Dream Dragon","tier":4,"theme":"Candy Core","price":880,"starReq":5,"path":"/assets/catalog/companions-11.svg","repositoryPath":"public/assets/catalog/companions-11.svg","blobSha":"883280e7edab0226ff76154d33cd9bddf2b30d67","bytes":2209,"dimensions":[512,512],"priorStatus":"interim-not-verified","status":"READY_FOR_REVIEW"},
-    {"id":"companions-12","name":"Star Unicorn","tier":5,"theme":"Adventure Club","price":1200,"starReq":9,"path":"/assets/catalog/companions-12.svg","repositoryPath":"public/assets/catalog/companions-12.svg","blobSha":"64b6ea9a0d31fd73ed9770f7d991152abbc47139","bytes":2669,"dimensions":[512,512],"priorStatus":"interim-not-verified","status":"READY_FOR_REVIEW"}
-  ],
+  "existingSvgCandidates": {
+    "count": 11,
+    "status": "INTERIM_READY_FOR_REVIEW",
+    "paths": "/assets/catalog/companions-2.svg through /assets/catalog/companions-12.svg",
+    "dimensions": [512,512],
+    "allDistinctGitBlobShas": true,
+    "sourceDependencyReview": "PASS_PREVIOUS_HASH_BOUND_EVIDENCE",
+    "note": "No SVG was regenerated or relabeled final. Source/XML validity is not visual acceptance."
+  },
   "richCandidateIntake": {
     "batchId": "chat-20260921-intake01",
-    "manifestPath": "docs/preproduction/catalog-sprint/chat-intake01.json",
-    "importPath": "docs/preproduction/catalog-sprint/chat-intake01-import.json",
-    "status": "CANDIDATES_ONLY",
+    "directory": "public/assets/catalog-candidates/chat-20260921-intake01",
     "repositoryStoredCompanionItems": 10,
-    "repositoryStoredCompanionImageFiles": 30,
-    "canonicalFinalCountDelta": 0,
-    "runtimeChanged": false,
-    "regressionSuite": "PASS_ON_IMPORT_HEAD",
-    "productionBuild": "PASS_ON_IMPORT_HEAD",
-    "readyForIndependentReview": [
-      {"id":"companions-3","name":"Berry Bunny","theme":"Berry Blast","sourcePath":"public/assets/catalog-candidates/chat-20260921-intake01/companions-3-source.png","sourceSha256":"7fcc085c034f41187df28a4f7b6bea80bd51ae25a7f43683fee62ecff9d2ef7e","sourceBytes":1898422,"sourceDimensions":[1254,1254],"cardPath":"public/assets/catalog-candidates/chat-20260921-intake01/companions-3-card.webp","cardSha256":"0df56c980665063c58451da33e4b377ebe1398ad5b9fa1b5cf7b9f42af4977af","cardBytes":12900,"cardDimensions":[256,256],"detailPath":"public/assets/catalog-candidates/chat-20260921-intake01/companions-3-detail.webp","detailSha256":"3f4bec2dfe80c3edf855ecba1965d3fcfeb066dab83e26f2d9d8850c1cb6c473","detailBytes":58902,"detailDimensions":[768,768],"producerNote":"Berry subject and palette align with Berry Blast; independent pixel review still required."},
-      {"id":"companions-4","name":"Sunny Bird","theme":"Garden Glow","sourcePath":"public/assets/catalog-candidates/chat-20260921-intake01/companions-4-source.png","sourceSha256":"f2356393433a98617ea7ba48cc00983c6340977020517d28e569882c79e35796","sourceBytes":1781724,"sourceDimensions":[1254,1254],"cardPath":"public/assets/catalog-candidates/chat-20260921-intake01/companions-4-card.webp","cardSha256":"b417fdf011dbb14b7567612466add612af23eb53a0b9e12ecd42c2ffe142115b","cardBytes":11942,"cardDimensions":[256,256],"detailPath":"public/assets/catalog-candidates/chat-20260921-intake01/companions-4-detail.webp","detailSha256":"92889982b25c097aca39a2af07f16557633eb50c2541065c309d37e975f4cdf8","detailBytes":53770,"detailDimensions":[768,768],"producerNote":"Sun motif plus greenery/flowers align with Garden Glow; independent pixel review still required."},
-      {"id":"companions-10","name":"Pixel Bot","theme":"Midnight Neon","sourcePath":"public/assets/catalog-candidates/chat-20260921-intake01/companions-10-source.png","sourceSha256":"6f6df89dfd98642b940343fa446991db14793e38a1c0c7276ad53ff46a4b8f8c","sourceBytes":1736526,"sourceDimensions":[1254,1254],"cardPath":"public/assets/catalog-candidates/chat-20260921-intake01/companions-10-card.webp","cardSha256":"cb9b6ed7bea071629f0ab65c0e4d0bc86a5dbba88b4bd866384d18e60350a7a9","cardBytes":13460,"cardDimensions":[256,256],"detailPath":"public/assets/catalog-candidates/chat-20260921-intake01/companions-10-detail.webp","detailSha256":"c963cbad0067ade8277e9f84b331437431bdce498de11bc10eab4e3ff01b73e2","detailBytes":63032,"detailDimensions":[768,768],"producerNote":"Pixel display and neon teal/purple treatment align with Midnight Neon; independent pixel review still required."},
-      {"id":"companions-11","name":"Dream Dragon","theme":"Candy Core","sourcePath":"public/assets/catalog-candidates/chat-20260921-intake01/companions-11-source.png","sourceSha256":"b72c5009899a8411604f3e8b6ffb33198c7fa71f57d3753478eb1323153a3de9","sourceBytes":1885239,"sourceDimensions":[1254,1254],"cardPath":"public/assets/catalog-candidates/chat-20260921-intake01/companions-11-card.webp","cardSha256":"6ece80e9a3fb51896a985072a02f23fa5be485bd12fb04d74e8af9e70cdc7d29","cardBytes":13162,"cardDimensions":[256,256],"detailPath":"public/assets/catalog-candidates/chat-20260921-intake01/companions-11-detail.webp","detailSha256":"d531305bbf28873c2863033dd5da7638d2b1d80fffd1ab3df787556a257cf2ba","detailBytes":63886,"detailDimensions":[768,768],"producerNote":"Friendly dragon and pastel confection palette are plausible Candy Core; independent pixel review still required."}
+    "repositoryStoredCompanionFiles": 30,
+    "currentDirectoryReadback": "PASS_AT_f1512099a2b9f467ff3e5e4ca985ca649bc3b15d",
+    "canonical": false,
+    "firstReviewQueue": [
+      {
+        "id":"companions-3","name":"Berry Bunny","theme":"Berry Blast",
+        "sourcePath":"public/assets/catalog-candidates/chat-20260921-intake01/companions-3-source.png","sourceGitBlobSha":"f8090501e08f964085e474d028028bbe56e0b70f","sourceSha256":"7fcc085c034f41187df28a4f7b6bea80bd51ae25a7f43683fee62ecff9d2ef7e","sourceBytes":1898422,"sourceDimensions":[1254,1254],
+        "cardPath":"public/assets/catalog-candidates/chat-20260921-intake01/companions-3-card.webp","cardGitBlobSha":"7a104a2d609c16272cb58e18da50bff8072c347f","cardSha256":"0df56c980665063c58451da33e4b377ebe1398ad5b9fa1b5cf7b9f42af4977af","cardBytes":12900,"cardDimensions":[256,256],
+        "detailPath":"public/assets/catalog-candidates/chat-20260921-intake01/companions-3-detail.webp","detailGitBlobSha":"adba95dc769e603337dc4ac38b9a513ce9914b10","detailSha256":"3f4bec2dfe80c3edf855ecba1965d3fcfeb066dab83e26f2d9d8850c1cb6c473","detailBytes":58902,"detailDimensions":[768,768]
+      },
+      {
+        "id":"companions-4","name":"Sunny Bird","theme":"Garden Glow",
+        "sourcePath":"public/assets/catalog-candidates/chat-20260921-intake01/companions-4-source.png","sourceGitBlobSha":"d9c04f68d3e9d31fa9d32c086b2068a718d59d2b","sourceSha256":"f2356393433a98617ea7ba48cc00983c6340977020517d28e569882c79e35796","sourceBytes":1781724,"sourceDimensions":[1254,1254],
+        "cardPath":"public/assets/catalog-candidates/chat-20260921-intake01/companions-4-card.webp","cardGitBlobSha":"cfa57b9102aea1f42696a4488bcf0be53dc50986","cardSha256":"b417fdf011dbb14b7567612466add612af23eb53a0b9e12ecd42c2ffe142115b","cardBytes":11942,"cardDimensions":[256,256],
+        "detailPath":"public/assets/catalog-candidates/chat-20260921-intake01/companions-4-detail.webp","detailGitBlobSha":"b382339e76ed9d4aeae72b1c8cccc904abf85b57","detailSha256":"92889982b25c097aca39a2af07f16557633eb50c2541065c309d37e975f4cdf8","detailBytes":53770,"detailDimensions":[768,768]
+      },
+      {
+        "id":"companions-10","name":"Pixel Bot","theme":"Midnight Neon",
+        "sourcePath":"public/assets/catalog-candidates/chat-20260921-intake01/companions-10-source.png","sourceGitBlobSha":"ab33d346efacc40e52a233581b194c86a713e1ca","sourceSha256":"6f6df89dfd98642b940343fa446991db14793e38a1c0c7276ad53ff46a4b8f8c","sourceBytes":1736526,"sourceDimensions":[1254,1254],
+        "cardPath":"public/assets/catalog-candidates/chat-20260921-intake01/companions-10-card.webp","cardGitBlobSha":"ec8d60c931fedc8505e3e4ff7a17e00492baed1d","cardSha256":"cb9b6ed7bea071629f0ab65c0e4d0bc86a5dbba88b4bd866384d18e60350a7a9","cardBytes":13460,"cardDimensions":[256,256],
+        "detailPath":"public/assets/catalog-candidates/chat-20260921-intake01/companions-10-detail.webp","detailGitBlobSha":"2b09d950b08083bb3a9ec5e2073ae23d88411cf4","detailSha256":"c963cbad0067ade8277e9f84b331437431bdce498de11bc10eab4e3ff01b73e2","detailBytes":63032,"detailDimensions":[768,768]
+      },
+      {
+        "id":"companions-11","name":"Dream Dragon","theme":"Candy Core",
+        "sourcePath":"public/assets/catalog-candidates/chat-20260921-intake01/companions-11-source.png","sourceGitBlobSha":"2ae7c9ef047577231acc863ad8aec81004b8bc93","sourceSha256":"b72c5009899a8411604f3e8b6ffb33198c7fa71f57d3753478eb1323153a3de9","sourceBytes":1885239,"sourceDimensions":[1254,1254],
+        "cardPath":"public/assets/catalog-candidates/chat-20260921-intake01/companions-11-card.webp","cardGitBlobSha":"b7e808511f870638db6e5434d57b9a877b060bf1","cardSha256":"6ece80e9a3fb51896a985072a02f23fa5be485bd12fb04d74e8af9e70cdc7d29","cardBytes":13162,"cardDimensions":[256,256],
+        "detailPath":"public/assets/catalog-candidates/chat-20260921-intake01/companions-11-detail.webp","detailGitBlobSha":"465fe45abbe4d9b4355444cb3f75a49927b604e9","detailSha256":"d531305bbf28873c2863033dd5da7638d2b1d80fffd1ab3df787556a257cf2ba","detailBytes":63886,"detailDimensions":[768,768]
+      }
     ],
     "themeReviewHold": [
-      {"id":"companions-2","reason":"Lunar cat subject fits, but imported candidate lacks a clear Pixel Party motif."},
-      {"id":"companions-5","reason":"Pebble shell fits, but imported garden/stone treatment does not establish Galaxy Glow."},
-      {"id":"companions-6","reason":"Comet identity fits, but cool cosmic palette does not clearly establish Sunny Pop."},
-      {"id":"companions-7","reason":"Story/scholar identity fits, but warm library treatment does not clearly establish Aqua Wave."},
-      {"id":"companions-8","reason":"Axolotl/bubble identity fits, but imported candidate does not clearly establish Art Attack."},
-      {"id":"companions-12","reason":"Star Unicorn identity fits, but imported candidate lacks clear Adventure Club explorer/accessory identity."}
+      {"id":"companions-2","reason":"Rich candidate lunar-cat identity fits, but Pixel Party theme remains uncertain."},
+      {"id":"companions-5","reason":"Rich candidate pebble/turtle identity fits, but Galaxy Glow remains uncertain."},
+      {"id":"companions-6","reason":"Rich candidate comet-fox identity fits, but Sunny Pop remains uncertain."},
+      {"id":"companions-7","reason":"Rich candidate story/owl identity fits, but Aqua Wave remains uncertain."},
+      {"id":"companions-8","reason":"Rich candidate bubble/axolotl identity fits, but Art Attack remains uncertain."},
+      {"id":"companions-12","reason":"Rich candidate star/unicorn identity fits, but Adventure Club remains uncertain."}
     ],
-    "noRichCandidate": ["companions-9"],
-    "notes": [
-      "The imported source/card/detail binaries are stored under public/assets/catalog-candidates and remain non-canonical.",
-      "The four READY entries are the preferred first actual-pixel review queue for reviewer 05; this lane does not approve them.",
-      "Theme-hold entries are not rejection evidence against the existing SVG versions and are not to be regenerated until reviewer 05 supplies an exact pixel-level defect or art-direction decision.",
-      "companions-9 currently has only the existing SVG candidate in Lane 06."
-    ]
+    "noRichCandidate": ["companions-9"]
   },
-  "sourceInspection": {
-    "companions-2": "dark moonlit cat with cyan eyes, crescent backdrop, pixel accents and star chest emblem",
-    "companions-3": "white-and-pink long-eared bunny with berry/leaf chest motif and rounded friendly face",
-    "companions-4": "yellow bird with wings, orange beak and sun-bright palette",
-    "companions-5": "low wide turtle silhouette with patterned green shell, head/feet/tail anatomy and pebble-garden palette",
-    "companions-6": "orange fox with pointed ears, white muzzle, comet-star forehead motif and curled tail",
-    "companions-7": "purple owl with large cream eye discs, wings and book/page-like chest detail",
-    "companions-8": "pink axolotl with six external gill branches, bubble accents and aquatic cyan surround",
-    "companions-9": "side-profile snail with spiral shell, eyestalks, leaf/flower garden accent and elongated body",
-    "companions-10": "rounded metallic robot with neon cyan/pink screen eyes, antenna, block limbs and pixel accents",
-    "companions-11": "purple winged dragon with crown/horn treatment, pastel gradient wings, tail and higher-tier glow",
-    "companions-12": "white star unicorn with gold horn, rainbow mane/tail, star accents and highest-tier luminous treatment"
-  },
-  "provenance": {
-    "existingSvgType": "pre-existing-repo-owned-self-contained-svg",
-    "richCandidateType": "repository-stored prior conversation image-generation candidates; source PNG plus card/detail WebP derivatives",
-    "externalUrlsObservedInSvg": false,
-    "externalRasterEmbedsObservedInSvg": false,
-    "externalFontsObservedInSvg": false,
-    "thirdPartyBrandsOrCharactersObservedInSvg": false,
-    "robloxOrBrookhavenAssetsObservedInSvg": false
+  "renderDependency": {
+    "owner": "14",
+    "workflowPath": ".github/workflows/catalog-staged-art-qa.yml",
+    "workflowBlobSha": "dcaa37f4dce03ab4a88a16fb9323a6a1757c30ba",
+    "currentFixtureScope": "lighting-only",
+    "companionCandidateFixtureAvailable": false,
+    "lane06MayEditSharedHarness": false,
+    "smallestNextAction": "Workstream 05 should review the four repository-stored card/detail companion files with an actual-pixel path; if the common fixture is needed, Workstream 14 should extend/reuse it for those exact candidate paths rather than Workstream 06 modifying shared QA infrastructure."
   },
   "checks": {
-    "catalogMetadataMatchedForSvgCandidates": "PASS",
-    "svgRepositoryPresenceBlobShaAndSize": "PASS_11_OF_11",
-    "uniqueSvgBlobShaWithinAssignedLane": "PASS_11_OF_11",
-    "svgCanvasContract512x512": "PASS",
-    "svgSourceExternalDependencyReview": "PASS",
-    "richCandidateImportManifestPresent": "PASS",
-    "richCandidateRepositoryStorage": "PASS_10_ITEMS_30_FILES_FROM_IMPORT_RECORD_AND_DIRECTORY_READBACK",
-    "richCandidateDecodeAndDimensionChecks": "PASS_ON_IMPORT_RECORD",
-    "richCandidateRegressionSuite": "PASS_ON_IMPORT_HEAD_f371e00ca215752c29ae67bb548e2005ad5fced5",
-    "richCandidateProductionBuild": "PASS_ON_IMPORT_HEAD_f371e00ca215752c29ae67bb548e2005ad5fced5",
-    "renderedCardScaleReviewByLane06": "NOT_PERFORMED_SELF_APPROVAL_FORBIDDEN",
-    "independentVisualApproval": "PENDING_REVIEWER_05",
-    "canonicalIntegration": "PENDING_08"
+    "assignmentCurrent": "PASS",
+    "reviewOwnershipCurrent": "PASS_05",
+    "richCandidateCurrentRepositoryReadback": "PASS_10_ITEMS_30_FILES",
+    "firstReviewQueueCurrentBlobIdentity": "PASS_4_ITEMS_12_FILES",
+    "richCandidateImportDecodeDimensions": "PASS_REUSED_UNCHANGED_HASH_EVIDENCE",
+    "richCandidateRegressionSuite": "PASS_REUSED_IMPORT_HEAD_f371e00ca215752c29ae67bb548e2005ad5fced5",
+    "richCandidateProductionBuild": "PASS_REUSED_IMPORT_HEAD_f371e00ca215752c29ae67bb548e2005ad5fced5",
+    "companionIndependentPixelReview": "PENDING_05",
+    "companionCanonicalIntegration": "PENDING_08",
+    "newAssetsGeneratedThisRun": 0,
+    "existingAssetsOverwrittenThisRun": 0
   },
   "blockers": [
-    "Reviewer 05 shard does not yet exist at the inspected head, so no companion candidate currently has the required independent actual-pixel ACCEPT/REWORK decision.",
-    "Four repository-stored rich companion candidates are packaged with exact source/card/detail hashes and should be reviewed first: companions-3, companions-4, companions-10 and companions-11.",
-    "Six imported rich candidates remain on theme-review hold and companions-9 has no imported rich candidate; repair/regeneration is not justified until reviewer 05 supplies a concrete visual defect or rejects the existing SVG/rich candidate by exact hash."
+    "reviews/05.json now exists but contains Aura decisions only; zero companion exact-hash decisions are recorded.",
+    "The common staged-art QA workflow currently renders Lighting only. Lane 06 is not authorized to edit that shared harness, so it cannot manufacture independent reviewer pixel evidence itself.",
+    "No companion REWORK decision exists, so Delivery Protocol v2 forbids speculative regeneration while current SVG/rich candidates are pending independent review."
   ],
   "nextActions": [
-    "05: render companions-3, companions-4, companions-10 and companions-11 from their repository-stored card/detail files and append exact-hash ACCEPT/REWORK/BLOCKED decisions to reviews/05.json.",
-    "05: compare the current SVG and imported rich candidates for the six theme-hold IDs before requesting any regeneration.",
-    "08: integrate only an independently ACCEPTED current asset hash; the imported candidate directory remains non-canonical until such acceptance.",
-    "06: on a concrete REWORK from reviewer 05, preserve the rejected version and repair only the named ID in a 2-6 item bounded batch."
+    "05: inspect actual card/detail pixels for companions-3, companions-4, companions-10 and companions-11 using the exact hashes above and append ACCEPT/REWORK/BLOCKED decisions to reviews/05.json.",
+    "14: if reviewer 05 needs a reproducible fixture, extend/reuse the staged-art QA path for these exact rich candidate files; do not wire them canonically just to render them.",
+    "15: anti-stall escalation — the companion review dependency has remained unchanged for two Lane 06 cycles. Resolve review execution/fixture ownership rather than assigning duplicate companion generation.",
+    "06: after a concrete exact-hash REWORK, preserve that rejected version and repair only the named companion in a bounded 2-6 item batch.",
+    "08: integrate only a current rich/SVG companion asset hash that has a qualified independent ACCEPT plus automated mapping/file checks."
   ],
-  "handoff": "Lane 06 now includes the previously missing repository-stored rich candidate evidence. Reviewer 05 owns independent actual-pixel decisions for companions. The first review queue is companions-3, -4, -10 and -11; Lane 06 will not regenerate or self-promote assets while those decisions are pending."
+  "handoff": "No speculative companion regeneration was performed. The material increment is a current-head readback of the 30 repository-stored rich companion files, exact Git blob identities for the four first-review items, confirmation that reviewer 05 has not yet reviewed companions, and a two-cycle anti-stall escalation to Command Center 15."
 }
