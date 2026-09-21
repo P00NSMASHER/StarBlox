@@ -1,9 +1,9 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "workstream": "08",
   "phase": "CATALOG_SPRINT",
-  "status": "NO_ACCEPTED_INCREMENT_REWORKS_RECORDED",
-  "auditedSourceHead": "e85ee50298ac0028be962fef886d9b150a5ca829",
+  "status": "NO_ACCEPTED_INCREMENT_REVIEW_COVERAGE_71",
+  "auditedSourceHead": "a2770557f4e6dbb019ba76112ec1363a1857d2b4",
   "branch": "screenshot-match-preproduction",
   "canonical": {
     "catalogTarget": 192,
@@ -22,184 +22,100 @@
   },
   "prepared": {
     "repositoryStagedAssignedItemIds": 82,
-    "newlyAuthoredRepositoryStagedItemIds": 59,
-    "preExistingInterimRepositoryItemIds": 23,
-    "generatedLocalDeskItemIds": [
-      "desks-2",
-      "desks-3",
-      "desks-4"
-    ],
-    "generatedLocalDeskCount": 3,
+    "generatedLocalDeskItemIds": ["desks-2","desks-3","desks-4"],
     "repositoryStagedDeskCount": 0,
     "assignedDeskIdsWithoutGeneratedCandidate": 8,
-    "uniqueAssignedIdsWithAnyCurrentCandidateOrLocalGeneration": 85,
+    "branchStoredReplacementCandidateVersions": 6,
+    "branchStoredReplacementIds": ["tops-7","tops-8","auras-1","auras-2","auras-3","auras-4"],
+    "branchStoredReplacementBlobShas": {
+      "tops-7": "fe5b33a5b8eb8de137abab7daf315ddfaaaaf408",
+      "tops-8": "81bbec69f1e164b9772e0f867409581526f5255a",
+      "auras-1": "48639f1262052350660127bbc5d3d25de34d61e3",
+      "auras-2": "c2be24c165f3e28995d5d2eb946dbdde983afe2a",
+      "auras-3": "9b682148eb26898ec5f56ac11eac635e7c93c8fc",
+      "auras-4": "3059eae7ab68c125f1af1696305fdf5689131455"
+    },
+    "branchStoredReplacementReadback": "PASS_6_OF_6_EXACT_GIT_BLOBS",
+    "fireflyGitObjectBlobsNotYetBranchStaged": 10,
+    "fireflyGitObjectIds": ["lighting-1","lighting-2","lighting-3","lighting-4","tops-1","tops-2","tops-3","tops-4","tops-5","tops-6"],
+    "fireflyBlobStatus": "IMMUTABLE_GIT_OBJECT_BYTES_PRESERVED_BRANCH_ATTACHMENT_PENDING_OWNER",
+    "fireflyAttachmentOwners": {"04":["lighting-1","lighting-2","lighting-3","lighting-4"],"07":["tops-1","tops-2","tops-3","tops-4","tops-5","tops-6"]},
     "richCompanionCandidateItemIds": 10,
     "richCompanionStoredBinaryFiles": 30,
-    "richCompanionReadyForReviewIds": [
-      "companions-3",
-      "companions-4",
-      "companions-10",
-      "companions-11"
-    ],
-    "richCompanionThemeHoldCount": 6,
-    "richCompanionNoRichCandidateIds": [
-      "companions-9"
-    ],
-    "laneReportBlobShas": {
-      "03": "63dff4219312f5b2ae79bb05ab665f9266ef2d59",
-      "04": "8d97dd6946ab6a21cd2093cc15aade03b3dd227b",
-      "05": "1dc6c564e9172ddae7f6a607ce8fbfde9e292a4c",
-      "06": "76c1f42baeaee7d59f520cfb7664e425e8e6a689",
-      "07": "33fe8c8f35320a1443b5eb82dd492095dd897ecf",
-      "09": "4e345efeba502cfcc1ebd354b69fbe0cc4717e2d",
-      "11": "894b6b7e1db5d718f966f4c32c230a04bdd6963a",
-      "CHAT": "8d19cae6960874f612c646b7b79a7a1df7651a4d"
-    }
+    "richCompanionFirstReviewIds": ["companions-3","companions-4","companions-10","companions-11"]
   },
   "review": {
-    "reviewShardsPresent": [
-      "01",
-      "02",
-      "05"
-    ],
-    "reviewShard14": "MISSING_AT_AUDIT_HEAD",
-    "reviewedCurrentHashes": 35,
+    "reviewShardsPresent": ["01","02","05","14"],
+    "reviewedCurrentOrLegacyHashes": 71,
     "acceptedCurrentHashes": 0,
-    "reworkCurrentHashes": 35,
+    "reworkCurrentOrLegacyHashes": 71,
     "blockedCurrentHashes": 0,
-    "reviewsByShard": {
-      "01": {
-        "scope": "tops-1..12",
-        "accept": 0,
-        "rework": 12,
-        "blocked": 0,
-        "blobSha": "2d8de991c514a418b4cec9e1d544f99c82bc0d10"
-      },
-      "02": {
-        "scope": "seating-2..12",
-        "accept": 0,
-        "rework": 11,
-        "blocked": 0,
-        "blobSha": "619fd671e769c4643491e92be1302c7909bb9d05"
-      },
-      "05": {
-        "scope": "auras-1..12",
-        "accept": 0,
-        "rework": 12,
-        "blocked": 0,
-        "blobSha": "9d855d01e7f0132e999850a7c616cfd1239eb015"
-      }
+    "unreviewedCatalogIds": 121,
+    "reviewedFamilies": {
+      "tops": {"reviewer":"01","reviewed":12,"accepted":0,"rework":12},
+      "seating": {"reviewer":"02","reviewed":11,"accepted":0,"rework":11},
+      "aurasLegacy": {"reviewer":"05","reviewed":12,"accepted":0,"rework":12},
+      "companionsLegacy": {"reviewer":"05","reviewed":12,"accepted":0,"rework":12},
+      "beds": {"reviewer":"05","reviewed":12,"accepted":0,"rework":12},
+      "lighting": {"reviewer":"14","reviewed":12,"accepted":0,"rework":12}
     },
-    "releaseRelevantFindings": [
-      "Current tops-1..12 exact hashes are REWORK; legacy final-portable labels remain preserved but do not constitute visual acceptance.",
-      "Current seating-2..12 exact hashes are REWORK and must not be wired canonically.",
-      "Current auras-1..12 exact hashes are REWORK and remain interim-not-verified.",
-      "Lighting has a branch-local staged-art QA fixture/contact sheet path but no reviews/14.json decision shard yet."
-    ]
+    "replacementHashesAwaitingFreshIndependentReview": ["tops-7","tops-8","auras-1","auras-2","auras-3","auras-4"],
+    "releaseFinding": "Every independently inspected family so far materially misses the premium dimensional screenshot-art target. Prior REWORK decisions do not transfer to replacement hashes; no exact replacement hash has an ACCEPT yet."
   },
   "binaryAssetImport": {
-    "status": "PASS_PATH_PROVEN",
-    "probePath": "docs/preproduction/catalog-sprint/binary-upload-probe.png",
-    "probeCommit": "4db259027bc5d80513f81cee1d4ceb757ad0c493",
-    "probeGitBlobSha": "95b4328446e6af8fabd920f3330f6c688889ad94",
-    "probeSha256": "391590d092f57b13968ea0174fda8726918550f84594de498c72482f1f2e9623",
-    "probeBytes": 68,
-    "probeDimensions": [
-      2,
-      2
-    ],
-    "writeSequence": [
-      "create_blob(base64)",
-      "create_tree(baseTreeSha)",
-      "create_commit(parentSha)",
-      "update_ref(force=false)",
-      "fetch_file(encoding=base64)",
-      "decode_and_verify_sha256"
-    ],
-    "readback": "PASS_EXACT_SHA256",
-    "historicalDeskFileTransfer": "BLOCKED_FILE_IDS_NOT_VISIBLE_TO_THIS_AUTOMATION",
-    "historicalDeskFileMaterializeAttempt": "files.materialize returned not visible for lane-03 conversation file ID; desk producer should upload from its own run where generated bytes are visible rather than regenerate."
+    "repositoryWriteReadback": "PASS_PATH_PROVEN",
+    "supportedSequence": ["create_blob(base64)","create_tree(baseTreeSha)","create_commit(parentSha)","update_ref(force=false)","fetch_file(base64)","verify exact hash"],
+    "adobeTransfer": "PASS_ADOBE_INLINE_BYTES_TO_GIT_BLOB_OBJECT",
+    "adobeGitObjectsCreated": {
+      "lighting-1":"9d8aa142fa53f06dbad9ce59e9c8d34c1096ddc3",
+      "lighting-2":"8c10fe689d6d7e398e85b24eb1ca1323cee07ea3",
+      "lighting-3":"fc21ddf5a608ee393410ff9682cf2ef87a56c46d",
+      "lighting-4":"7975e490a9fb97574f03081acf9fc871c22224f3",
+      "tops-1":"5fd9544999694ec27c9b6247aaffeca1c0c7b484",
+      "tops-2":"428450782feb314535163b54d0405f9af8b7cd65",
+      "tops-3":"b4a834586feae169e102f43aeceaaaf11893ec11",
+      "tops-4":"26d03c5ba26c565e79e809f825db87c9be1dba21",
+      "tops-5":"78c5c89270be2f505f77d033f340c72cf0ff80a8",
+      "tops-6":"44d88aa84246f9d8a76b3f22c408653eb28176aa"
+    },
+    "eligibility": "NOT_STAGED_NOT_REVIEWABLE_UNTIL_OWNING_LANE_ATTACHES_BLOB_TO_VERSIONED_BRANCH_PATH_AND_VERIFIES_READBACK",
+    "deskHistoricalBytes": "STILL_VISIBLE_ONLY_TO_PRODUCER_03_RUN"
   },
   "validation": {
     "phaseAndCanonicalOwnership": "PASS",
     "actualCatalogStill192Ids": "PASS_FROM_UNCHANGED_GAME_MODEL_HASH",
-    "canonicalManifestRuntimeUnchangedSincePriorIntegration": "PASS_HASH_STABLE",
+    "canonicalManifestRuntimeHashStable": "PASS",
     "canonicalManifestDuplicatePaths": "PASS_0_RECORDED",
-    "allEightProductionLaneReportsPresent": "PASS",
+    "allFourV2ReviewShardsPresent": "PASS",
+    "reviewCoverage": "PASS_ACCOUNTED_71_REVIEWED_0_ACCEPTED_71_REWORK",
+    "branchStoredReplacementMetadataAndAriaIdentity": "PASS_6_OF_6_FROM_CURRENT_BYTES_AND_LANE_METADATA",
+    "branchStoredReplacementUniqueGitBlobs": "PASS_6_OF_6",
+    "fireflyBinaryPreservation": "PASS_10_GIT_OBJECT_BLOBS_ATTACHMENT_PENDING",
     "desksRepositoryStaged": "FAIL_0_STAGED_3_GENERATED_LOCAL",
-    "v2ReviewShard01": "PASS_PRESENT_REWORK_12",
-    "v2ReviewShard02": "PASS_PRESENT_REWORK_11",
-    "v2ReviewShard05": "PASS_PRESENT_REWORK_12",
-    "v2ReviewShard14": "PENDING_MISSING",
-    "stagedArtQaWorkflow": "PASS_PRESENT_AT_HEAD",
-    "binaryRepositoryWriteReadback": "PASS",
     "canonicalIntegrationThisRun": "NONE_NO_ACCEPTED_CURRENT_HASHES",
     "postIntegrationCatalogTests": "NOT_RUN_NO_CANONICAL_MAPPING_CHANGE",
     "postIntegrationProductionBuild": "NOT_RUN_NO_CANONICAL_MAPPING_CHANGE",
-    "storeBrowserAfterIntegration": "NOT_RUN_NO_CANONICAL_MAPPING_CHANGE"
+    "storeBrowserAfterIntegration": "NOT_RUN_NO_CANONICAL_MAPPING_CHANGE",
+    "catalogSpecificPersistenceReport": "PASS_PRESENT_AUTOMATED_WITH_LIVE_BROWSER_BLOCKERS",
+    "releaseQa": "FAIL_CATALOG_NOT_RELEASE_READY"
   },
   "integratedIds": [],
-  "rejectedOrReworkIds": {
-    "tops": [
-      "tops-1",
-      "tops-2",
-      "tops-3",
-      "tops-4",
-      "tops-5",
-      "tops-6",
-      "tops-7",
-      "tops-8",
-      "tops-9",
-      "tops-10",
-      "tops-11",
-      "tops-12"
-    ],
-    "seating": [
-      "seating-2",
-      "seating-3",
-      "seating-4",
-      "seating-5",
-      "seating-6",
-      "seating-7",
-      "seating-8",
-      "seating-9",
-      "seating-10",
-      "seating-11",
-      "seating-12"
-    ],
-    "auras": [
-      "auras-1",
-      "auras-2",
-      "auras-3",
-      "auras-4",
-      "auras-5",
-      "auras-6",
-      "auras-7",
-      "auras-8",
-      "auras-9",
-      "auras-10",
-      "auras-11",
-      "auras-12"
-    ]
-  },
   "failures": [],
   "blockers": [
-    "No current asset hash has a qualified independent ACCEPT, so Workstream 08 has nothing eligible to promote.",
-    "Reviewer 14 has not yet published reviews/14.json for lighting/wall/rugs/decor; its branch-local staged-art workflow now exists and should supply actual-pixel evidence.",
-    "desks-2..4 are generated locally but not repository-staged because their historical generated file IDs are not visible to this automation; the binary GitHub import path is now proven for the producing run to use.",
-    "Eight assigned desk IDs still have no generated candidate."
+    "No current or replacement asset hash has a qualified independent ACCEPT, so Workstream 08 has nothing eligible to promote.",
+    "Six branch-stored replacement versions need fresh exact-hash pixel review: tops-7, tops-8 and auras-1..4.",
+    "Ten generated Firefly replacements now exist as immutable Git blob objects but are not repository-staged until owners 04/07 attach them to versioned branch paths and verify exact readback.",
+    "desks-2..4 remain generated-local only and desks-5..12 still lack generated candidates.",
+    "121 catalog IDs remain without a qualified current-hash independent visual disposition.",
+    "Catalog release still requires final persistence/re-entry clearance and complete duplicate/near-duplicate checks on the eventual 192 accepted asset set."
   ],
   "nextActions": [
-    "14: run/reuse the new staged-art QA fixture and publish exact-hash decisions in reviews/14.json, beginning with lighting-1..12.",
-    "05: review repository-stored rich companion candidates for companions-3, companions-4, companions-10 and companions-11, then continue companions/beds/desks as pixels become available.",
-    "03: in the producer run, use the proven base64 Git blob/tree/commit/ref path to stage existing desks-2..4 WebP derivatives and read them back by hash; do not regenerate those images.",
-    "15: assign authorized producers to repair the reviewed REWORK families (tops, seating, auras) without assigning the same reviewer as producer for the replacement hash.",
-    "08: integrate the first exact-hash ACCEPT immediately when one appears, then run affected catalog tests/build on that coherent canonical batch."
+    "01: independently render/review tops-7-w09-v2 and tops-8-w09-v2 immediately; after Workstream 07 attaches tops-1..6 Firefly blobs, review those exact new hashes.",
+    "05: independently render/review auras-1-v2 through auras-4-v2 immediately, then continue desks/rich companion replacements as staged.",
+    "04 and 07: attach the preserved Firefly Git blobs to versioned assigned asset paths with a latest-head non-force commit and exact path/blob readback; do not regenerate the images.",
+    "03: stage the existing desks-2..4 generated bytes from the producer run using the proven binary path, then continue desks-5..12.",
+    "14: continue wall/rugs/decor actual-pixel review and refresh release QA after material review/integration milestones.",
+    "08: integrate the first qualified exact-hash ACCEPT immediately, then run affected catalog tests/build and Store checks for that coherent canonical batch."
   ],
-  "freeze": {
-    "replitTouched": false,
-    "flootTouched": false,
-    "mainMergedOrModified": false,
-    "phaseChanged": false
-  }
+  "freeze": {"replitTouched":false,"flootTouched":false,"mainMergedOrModified":false,"phaseChanged":false}
 }
