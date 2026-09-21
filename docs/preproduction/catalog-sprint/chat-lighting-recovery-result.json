@@ -1,0 +1,198 @@
+{
+  "schemaVersion": 1,
+  "batchId": "chat-lighting-recovery-20260921",
+  "status": "STAGED_READY_FOR_INDEPENDENT_REVIEW",
+  "sourceHead": "b57f8f7a55983a5371b87062d2f54fbcac9c46e6",
+  "workflowRunId": "35665398592",
+  "producer": "04",
+  "transportHelper": "CHAT",
+  "independentReviewer": "14",
+  "canonicalWriter": "08",
+  "newGenerations": 0,
+  "storedCandidateCount": 4,
+  "storedOriginalCount": 4,
+  "independentAcceptsThisIntake": 0,
+  "canonicalPromotionsThisIntake": 0,
+  "duplicateCandidateContent": 0,
+  "metadataSource": "src/gameModel.js store export",
+  "items": [
+    {
+      "id": "lighting-5",
+      "name": "Vine Light",
+      "collectionId": "lighting",
+      "collectionName": "Lighting",
+      "type": "room",
+      "tier": 2,
+      "theme": "Galaxy Glow",
+      "price": 181,
+      "starReq": 0,
+      "format": "JPEG",
+      "dimensions": [
+        600,
+        600
+      ],
+      "bytes": 70274,
+      "sha256": "510ab0ef733659835532947e3136369adc44420b9cba4473e2b247746db5afe3",
+      "gitBlobSha": "a9e03e73c7080fdc2effd884bb0965999954d90c",
+      "producer": "04",
+      "transportHelper": "CHAT",
+      "independentReviewer": "14",
+      "assetId": "urn:aaid:sc:US:a7777709-a50b-40e8-987a-dfaef58bfb75",
+      "repositoryPath": "public/assets/catalog/lighting-5-w04-recovered-v2.jpg",
+      "assetPath": "/assets/catalog/lighting-5-w04-recovered-v2.jpg",
+      "status": "READY_FOR_REVIEW",
+      "readback": "PASS",
+      "transformation": "None: exact Adobe rendition response bytes copied; no crop, recolor, resize, recompression or regeneration",
+      "original": {
+        "format": "PNG",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "bytes": 981846,
+        "sha256": "aff0edfe3ac53b8f3715c669c7485e26a4aa7b8f8c59778f765c7367ffc3ffc5",
+        "gitBlobSha": "2f6836be83290db9372f9a65290f3bf5e8a25325",
+        "validation": "DECODED_IMAGE_PASS",
+        "repositoryPath": "docs/preproduction/catalog-sprint/recovered-originals/lighting-5-8-20260921/lighting-5-a7777709-a50b-40e8-987a-dfaef58bfb75.png"
+      }
+    },
+    {
+      "id": "lighting-6",
+      "name": "Planet Lamp",
+      "collectionId": "lighting",
+      "collectionName": "Lighting",
+      "type": "room",
+      "tier": 2,
+      "theme": "Sunny Pop",
+      "price": 254,
+      "starReq": 0,
+      "format": "JPEG",
+      "dimensions": [
+        600,
+        600
+      ],
+      "bytes": 40517,
+      "sha256": "a28e77f7fd2577de121592230eb361a18a211e5273b611b6f81e11efd80cc3c2",
+      "gitBlobSha": "d8d8fca7cda78451860377bfdfd257b4a450aa9c",
+      "producer": "04",
+      "transportHelper": "CHAT",
+      "independentReviewer": "14",
+      "assetId": "urn:aaid:sc:US:42d0edcf-6e79-4035-91e8-26514ee0b7d4",
+      "repositoryPath": "public/assets/catalog/lighting-6-w04-recovered-v2.jpg",
+      "assetPath": "/assets/catalog/lighting-6-w04-recovered-v2.jpg",
+      "status": "READY_FOR_REVIEW",
+      "readback": "PASS",
+      "transformation": "None: exact Adobe rendition response bytes copied; no crop, recolor, resize, recompression or regeneration",
+      "original": {
+        "format": "PNG",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "bytes": 839647,
+        "sha256": "0865bc6a54d14458b0f2b21fde469514509a70b2b540acbaa77acbd2f5c79741",
+        "gitBlobSha": "5cda387589208d27760e4eadb164797b77b0240b",
+        "validation": "DECODED_IMAGE_PASS",
+        "repositoryPath": "docs/preproduction/catalog-sprint/recovered-originals/lighting-5-8-20260921/lighting-6-42d0edcf-6e79-4035-91e8-26514ee0b7d4.png"
+      }
+    },
+    {
+      "id": "lighting-7",
+      "name": "Sun Lamp",
+      "collectionId": "lighting",
+      "collectionName": "Lighting",
+      "type": "room",
+      "tier": 3,
+      "theme": "Aqua Wave",
+      "price": 348,
+      "starReq": 2,
+      "format": "JPEG",
+      "dimensions": [
+        600,
+        600
+      ],
+      "bytes": 54969,
+      "sha256": "81bcfea88ef5ae81899db362f0dbdb8d6028efe363aff578052256e8cd7fc5fe",
+      "gitBlobSha": "7ce162a18ab641df7ab73f380557aad5aa64b24d",
+      "producer": "04",
+      "transportHelper": "CHAT",
+      "independentReviewer": "14",
+      "assetId": "urn:aaid:sc:US:d98ee54e-0ca5-45fd-933a-df8a4d3600e2",
+      "repositoryPath": "public/assets/catalog/lighting-7-w04-recovered-v2.jpg",
+      "assetPath": "/assets/catalog/lighting-7-w04-recovered-v2.jpg",
+      "status": "READY_FOR_REVIEW",
+      "readback": "PASS",
+      "transformation": "None: exact Adobe rendition response bytes copied; no crop, recolor, resize, recompression or regeneration",
+      "original": {
+        "format": "PNG",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "bytes": 1076670,
+        "sha256": "6da7652dbc64be6b4bafb73925e1ea7ea99a4cc2c608c5afd78b2541ab402e1b",
+        "gitBlobSha": "759250886c29dc6b3949a82920e50d4e8c1415b5",
+        "validation": "DECODED_IMAGE_PASS",
+        "repositoryPath": "docs/preproduction/catalog-sprint/recovered-originals/lighting-5-8-20260921/lighting-7-d98ee54e-0ca5-45fd-933a-df8a4d3600e2.png"
+      }
+    },
+    {
+      "id": "lighting-8",
+      "name": "Bubble Lamp",
+      "collectionId": "lighting",
+      "collectionName": "Lighting",
+      "type": "room",
+      "tier": 3,
+      "theme": "Art Attack",
+      "price": 479,
+      "starReq": 2,
+      "format": "JPEG",
+      "dimensions": [
+        600,
+        600
+      ],
+      "bytes": 59051,
+      "sha256": "201427a6743793334b27ae72b9a955103577540e17abc9667c868c82be6f22db",
+      "gitBlobSha": "9073a049ec9116cf3e4408adf068be48f1ad00f1",
+      "producer": "04",
+      "transportHelper": "CHAT",
+      "independentReviewer": "14",
+      "assetId": "urn:aaid:sc:US:32cfde85-8990-4b1f-ab34-9127985e7d7f",
+      "repositoryPath": "public/assets/catalog/lighting-8-w04-recovered-v2.jpg",
+      "assetPath": "/assets/catalog/lighting-8-w04-recovered-v2.jpg",
+      "status": "READY_FOR_REVIEW",
+      "readback": "PASS",
+      "transformation": "None: exact Adobe rendition response bytes copied; no crop, recolor, resize, recompression or regeneration",
+      "original": {
+        "format": "PNG",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "bytes": 1045130,
+        "sha256": "f844b0032df721229e998e291bfe68f22490002d14e7613b10f538dcf7934ba8",
+        "gitBlobSha": "8c988d213697fe4f20d19112e7e1d02e18550384",
+        "validation": "DECODED_IMAGE_PASS",
+        "repositoryPath": "docs/preproduction/catalog-sprint/recovered-originals/lighting-5-8-20260921/lighting-8-32cfde85-8990-4b1f-ab34-9127985e7d7f.png"
+      }
+    }
+  ],
+  "checks": {
+    "metadata": "PASS_4_OF_4",
+    "exactByteReadback": "PASS_8_OF_8",
+    "candidateDecode": "PASS_4_OF_4",
+    "repeatBehavior": "PENDING_SECOND_RUN",
+    "tests": "NOT_RUN",
+    "build": "NOT_RUN",
+    "render": "NOT_RUN",
+    "independentVisualReview": "PENDING_14"
+  },
+  "freeze": {
+    "replitTouched": false,
+    "flootTouched": false,
+    "mainTouched": false,
+    "canonicalMappingsTouched": false,
+    "gameplayChanged": false
+  },
+  "handoff": "04: preserve these stored versions and reconcile lane-04 without regenerating. 14: inspect exact card/detail pixels for these hashes. 08: only wire after independent ACCEPT. 15: byte-transfer blocker cleared for these four IDs only."
+}
