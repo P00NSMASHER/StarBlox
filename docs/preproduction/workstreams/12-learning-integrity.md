@@ -1,121 +1,107 @@
 # Workstream 12 — Learning Integrity Guard
 
-STATUS: **EXECUTION-BACKED PASS / REAL-BROWSER RELIGION CASE PASS / CATALOG_SPRINT ACTIVE**
+STATUS: **PASS / 98-TEST EXECUTION AFTER QUEST PERSISTENCE REFACTOR / CATALOG_SPRINT ACTIVE**
 
 Branch: `screenshot-match-preproduction`  
-Current audited branch head: `9a041e14f09e89b0000ae60eaf3172dd4e529dc3`  
-Runtime/build evidence head: `f654431b2bb76d2eceb322dd35c613dfad17e7ae`  
+Audited input head: `344635508e00fd1ae8f2bb5028d4c200d0789c5e`  
+Latest applicable runtime/build evidence: `81bbf06dc070b0f72f942dde9c14ac4bba476922`  
 Phase: `CATALOG_SPRINT`  
 Replit/Floot: **untouched**  
-Main: **not merged or modified**
+`main`: **not merged or modified**
 
 ## Current learning gate
 
-Workstream 12 has **0 current P0 learning defects, 0 quarantined families, and 0 new learning-content P1 defects**.
+- P0 learning defects: **0**.
+- P0 families quarantined: **0**.
+- New learning-content P1 defects: **0**.
+- Curriculum changes this run: **0**.
+- Player-data changes this run: **0**.
 
-The prior consolidated CI/build evidence is still applicable because branch comparison from `f654431b...` through the current audited head contains no learning/runtime or canonical catalog mapping change:
+The prior learning report could not simply be carried forward because the screenshot branch added durable Quest/purchase persistence transactions plus accessibility changes. The core sources/guards stayed stable, but the new completion path was learning-relevant and received fresh execution evidence.
 
-- **20/20 test files PASS**;
-- **85/85 tests PASS**;
-- production build **PASS**;
-- workflow run `35641273312`, job `106470895718`.
+GitHub Actions run `35652513911`, job `106508054992`, on `81bbf06dc070b0f72f942dde9c14ac4bba476922` passed **22/22 files, 98/98 tests, and production build**. A compare from that runtime head through the audited input head contains no `src/`, canonical manifest, or catalog runtime change, so this evidence remains applicable to the current learning runtime.
 
-Stable learning/runtime hashes:
+## Exact findings
 
-- `gameModel.js` — `79fdb8c3bed4d715e0b1c770f34db0037a7f7c3b`;
-- `questionQualityRuntime.js` — `3f47e96074c4d2e1e3f1e835aed27c654d8f072a`;
-- `semanticQuestionGuardRuntime.js` — `f21bd7d9c55610bfe00c04c2e2f81efaa2e3f591`;
-- `diagnosticQuestionGuardRuntime.js` — `81eba5b34384dbc7699dde70ce048e401458570f`;
-- `questRewardPolicy.js` — `4ae853a7f4bb04a811ef04b4b9a306066e33829b`.
+### Semantic families
 
-No canonical catalog integration occurred during this interval; Workstream 08 currently reports zero qualified ACCEPTs/promotions. Catalog review/rework churn therefore has not entered the learning runtime.
+Executed regressions remain green for the actual hardened families rather than merely checking that a key exists:
 
-## New real-browser evidence
+- phonics/rhyme/short-vowel diagnostics and spelling retrieval;
+- HFW recognition/use/cloze plus vocabulary-in-context;
+- passage-specific main idea, inference, character reasoning and text evidence;
+- Religion Unit 1 base/application roles and source-bounded content;
+- grammar evidence roles;
+- deterministic answer-position variation.
 
-This pass did not waste another full CI run on unchanged runtime bytes. It instead closed a previously untested browser learning case using the existing Playwright release artifact from run `35631059432`, artifact `10654114272`.
+The fixed fresh-save five-action audit selection remains:
 
-The rendered question is **`religion-transfer-2`**.
+`vocab-transfer-invited`, `spell-first-tub`, `story-character-park-care`, `religion-transfer-0`, `story-infer-crayons`.
 
-Specific approved Religion Unit 1 source content used for semantic comparison:
+`gameModel`, question-quality/semantic/diagnostic guards, source mapping and the selector did not change in this interval, so persistent ledger conclusions were reused by exact unchanged code and re-executed tests instead of being entered again as fresh defects.
 
-- `Creation is a gift from God.`
-- `We show gratitude by caring for creation.`
+### Approved Religion Unit 1 continuity
 
-Rendered transfer item:
+The item-level source audit remains bound to the exact approved row:
 
-- prompt: `Creation is a gift from God. Which action best shows care for creation?`
-- keyed answer: `Put litter in a trash can after a picnic.`
-- distractors: leaving paper on the grass / pulling garden plants out just to discard them.
+`Creation is a gift from God.` → `We show gratitude by caring for creation.`
 
-**Semantic result: PASS.** The key directly applies the approved teaching; the two distractors contradict it and are not reasonable alternate correct answers.
+The earlier real-browser `religion-transfer-2` audit therefore remains semantically valid. Its key (put litter in the trash after a picnic) directly applies the approved teaching; the two distractors describe neglect/destruction. The broad `ABVM Grade 2 current source pack` label by itself was not used as proof.
 
-Browser findings:
+### New Quest persistence/reward cross-check
 
-- 1408×1056: prompt, all three choices, Read aloud, Hint, mastery/evidence copy and reward-safe copy are visible; no browser/runtime error or horizontal overflow.
-- 390×844: all three answers are visible, 344 px wide × 64.94 px high, **16 px** answer text.
-- 320×568: all three answers are visible, 278 px wide, 64.94–85.41 px high, **16 px** answer text; prompt remains readable in the captured viewport.
-- 1024×768: Quest mounts without runtime error or horizontal overflow.
-- Initial state has **no answer-key visual cue**. The deterministic shuffled correct answer is B, while A/B/C share the same initial presentation.
-- Visible policy copy is consistent with scoring rules: only eligible first-try answers build mastery; clue-assisted success does not count as mastery/transfer evidence; mistakes do not remove rewards and there is no speed bonus.
+`App.jsx` now starts a per-Quest receipt and applies the final completion reward transaction on the correct last answer. The answer/evidence semantics remain intact:
 
-Evidence hashes are stored in `docs/preproduction/catalog-sprint/learning-qa.json` / `.md` and `QUESTION_QA_RUN_LOG.md`.
+- correctness is still exact equality with `currentQ.answer`;
+- a first wrong answer cannot become independent evidence;
+- after any miss, a correct retry has `wasRetry=true` and therefore `independent=false`;
+- assisted success does not increment independent/mastery counters and cannot award Coins, Stars, transfer evidence or mastery through `scoreQuestAttempt`;
+- final Quest completion reward is separate from per-question evidence and now has durable active/completed receipt protection;
+- stale receipt is rejected;
+- persisted reload followed by replay cannot re-award final completion Coins/XP, Quest count, Bond or daily Quest progress.
 
-Continuity check from that browser artifact to current branch:
+The executed CI directly covers these transaction and reload cases.
 
-- `questScreenshotMatchRuntime.js` is unchanged;
-- later mobile-accessibility runtime edits only reserve intrinsic dimensions for Store artwork;
-- later mobile-accessibility CSS edits only raise Store-card text floors;
-- Quest-specific prompt/answer/read-aloud rules are unchanged.
+### False-success / readable-feedback guard
 
-## Family status
+The same executed gate passes the motion test that allows positive feedback celebration while rejecting negative feedback as success. Quest accessibility tests also confirm read-aloud, answers, feedback live region and XP semantics survive the recent keyboard-focus work.
 
-- **Phonics/rhyme/vowels/spelling — PASS.** Existing executed regressions remain applicable; audited generators/guards did not change.
-- **High-frequency words/vocabulary — PASS.** Meaning-led HFW and vocabulary guards unchanged; no new family mutation.
-- **Reading inference/evidence/character reasoning — PASS.** Hardened family and source mapping unchanged.
-- **Religion Unit 1 — PASS.** Executed family regression remains green, plus `religion-transfer-2` now has source-bounded real-browser verification.
-- **Five-action deterministic Quest — PASS.** Executed fixed-date selector test remains applicable; selector code unchanged.
-- **First-try vs assisted evidence — PASS.** Executed reward regression unchanged, and browser mastery copy agrees with it.
-- **Wrong/retry farming prevention — PASS.** Reward policy unchanged and existing regression remains applicable.
-
-## Catalog/import safety relevance
-
-`.github/workflows/catalog-staged-art-qa.yml` was newly reviewed. It is a QA-only Playwright fixture that serves catalog **lighting SVGs** from localhost and uploads screenshots/report. It is not imported into the game and cannot rewrite questions, keys, choices, sources, Quest selection or rewards.
-
-The CI workflow now ignores documentation-only pushes; the test/build commands themselves are unchanged. No learning correctness regression was introduced.
-
-The previously added `catalogAssetSafety.test.js` remains the executable SVG active-content/external-reference guard. Workstream 12 does not duplicate Workstream 14's visual-art QA.
+The prior Playwright screenshots for `religion-transfer-2` remain the current rendered learning evidence because Quest presentation code did not change: prompt/answers were readable at 1408/1024/390/320, phone answer text was 16 px, and the correct choice had no special pre-answer cue.
 
 ## PASS / FAIL / BLOCKED / NOT TESTED
 
 | Area | Status |
 | --- | --- |
-| Answer keys / unique choices / source mapping | **PASS** |
-| Phonics/rhyme/vowel/spelling semantics | **PASS** |
-| HFW/vocabulary semantics | **PASS** |
-| Reading inference/evidence | **PASS** |
-| Religion Unit 1 | **PASS** |
-| Five default Quest actions / determinism | **PASS** |
-| Assisted retry excluded from independent mastery/transfer | **PASS** |
-| Wrong/retry reward farming | **PASS** |
-| Browser readability/cue check for `religion-transfer-2` at 1408/1024/390/320 | **PASS — headless Chromium** |
+| Phonics/rhyme/vowels/spelling | **PASS — executed** |
+| HFW/vocabulary context | **PASS — executed** |
+| Reading inference/evidence | **PASS — executed** |
+| Religion Unit 1 fidelity | **PASS — executed + prior exact-source browser audit** |
+| Exactly five deterministic default Quest actions | **PASS — executed** |
+| Assisted retry vs independent mastery/transfer | **PASS — executed** |
+| Repeated wrong reward farming | **PASS — executed** |
+| Final Quest completion reward replay | **PASS — executed** |
+| Negative feedback falsely celebrated | **PASS — executed** |
+| Quest read-aloud/answer/feedback accessibility semantics | **PASS — executed** |
+| Fresh browser correct/wrong/clue/retry click-through after persistence refactor | **NOT TESTED** |
 | Physical-device Quest behavior | **NOT TESTED** |
 | VoiceOver/TalkBack/NVDA | **NOT TESTED** |
-| Fresh browser click-through of correct/wrong/clue/retry states this pass | **NOT TESTED**; existing automated reward/evidence regression remains applicable |
 
 ## Ledger / quarantine
 
-No new row was added to `QUESTION_QA_LEDGER.md`: the audited item, generator, source mapping and Quest selector are unchanged, and the ledger explicitly says unchanged settled items should not be re-entered. The new browser evidence was appended to `QUESTION_QA_RUN_LOG.md`.
+No `QUESTION_QA_LEDGER.md` row was added because no question/template, shared generator, source mapping or selector changed and no new defect was found. This run is appended to `QUESTION_QA_RUN_LOG.md` instead.
 
-No P0 family required quarantine. If a future verified P0 appears, quarantine the affected family even if that makes the production pool smaller.
+No P0 family needs quarantine. If a future verified wrong key, multiple-defensible-answer, source contradiction or malformed family appears, quarantine that family even if the usable bank drops below the historical 200-question baseline.
 
 ## Handoff
 
-**08 Catalog integration:** keep art integration as stable item-ID → image mapping only. Documentation/review-only catalog changes do not require redundant learning CI. The first actual canonical runtime/asset integration must rerun affected CI/build before release.
+**08 Catalog integration:** art/review-only changes have no learning blocker. Any actual canonical catalog runtime integration should rerun affected CI/build; keep catalog wiring strictly stable item-ID → image path.
 
-**14 Visual QA:** preserve the neutral answer state and current phone readability floor while fixing Quest geometry. The browser hashes recorded by Workstream 12 are learning-legibility evidence, not screenshot-parity evidence.
+**13 Persistence/economy:** executed evidence shows the receipt refactor preserves independent-vs-assisted learning semantics and prevents final-completion replay. The remaining release gap is real-browser timing/concurrency, not source correctness.
 
-**15 Command Center:** no learning blocker exists through audited head `9a041e14f09e89b0000ae60eaf3172dd4e529dc3`. Trigger a fresh Workstream-12 audit if `gameModel`, any question guard, Quest selector/scoring, reward policy, Quest decorator, or Quest-specific accessibility rules change.
+**14 Visual QA:** preserve neutral pre-answer styling, 16 px phone answer text, read-aloud and feedback semantics while resolving geometry. Motion must continue using real positive feedback state and not celebrate negative feedback.
 
-When the catalog gate eventually changes phase to `GAME_FINISHING`, resume full browser learning checks: actual five-action progression, correct auto-advance, wrong→clue→retry, TTS/read-aloud, independent/assisted evidence, reward idempotency and final legibility at target widths.
+**15 Command Center:** Workstream 12 is PASS through audited input head `344635508e00fd1ae8f2bb5028d4c200d0789c5e` with runtime execution evidence at `81bbf06dc070b0f72f942dde9c14ac4bba476922` and no runtime/canonical-mapping change after it. Trigger a new learning audit when `gameModel`, question guards, Quest selector/scoring, reward policy, App answer flow, Quest decorator, Quest-specific accessibility, or feedback-motion code changes.
 
-**Never update/publish Replit, use Floot, merge to `main`, deploy, expand curriculum without approval, or modify real player data from this workstream.**
+When `catalogGate.status` becomes PASS and phase becomes `GAME_FINISHING`, resume full browser learning interaction testing: five actions, correct auto-advance, supportive wrong → clue → retry, TTS/read-aloud, mastery/evidence separation, no reward replay/farming and target-width legibility.
+
+**Never update/publish Replit, use Floot, merge `main`, deploy, expand curriculum without approval, or use real player data from this workstream.**
