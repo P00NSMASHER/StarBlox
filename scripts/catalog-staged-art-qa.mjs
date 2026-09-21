@@ -12,8 +12,11 @@ const definitions = {
   decor: {lane:'docs/preproduction/catalog-sprint/lane-09.json', offset:9, names:['Book Crate','Cloud Shelf','Arcade Mini','Plush Stack','Plant Wall','Telescope','Skate Rack','Mini Aquarium','Easel Set','Mini Fridge','Dream Vanity Set','Trophy Wall']}
 };
 const producerLanes = [
+  'docs/preproduction/catalog-sprint/lane-01.json',
+  'docs/preproduction/catalog-sprint/lane-02.json',
   'docs/preproduction/catalog-sprint/lane-03.json',
   'docs/preproduction/catalog-sprint/lane-04.json',
+  'docs/preproduction/catalog-sprint/lane-05.json',
   'docs/preproduction/catalog-sprint/lane-06.json',
   'docs/preproduction/catalog-sprint/lane-07.json',
   'docs/preproduction/catalog-sprint/lane-09.json',
