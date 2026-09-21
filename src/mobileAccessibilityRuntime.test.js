@@ -49,6 +49,23 @@ describe('mobile accessibility helpers',() => {
     expect(row.scrollLeft).toBe(114);
   });
 
+  it('uses the viewport edge when a Store filter tray itself is wider than a 320px phone',() => {
+    const priorWidth = window.innerWidth;
+    Object.defineProperty(window,'innerWidth',{value:320,writable:true,configurable:true});
+    document.body.innerHTML = '<div class="sbStoreCategoryRow"><button>Shoes</button></div>';
+    const row = document.querySelector('.sbStoreCategoryRow');
+    const button = row.querySelector('button');
+    Object.defineProperty(row,'scrollLeft',{value:0,writable:true,configurable:true});
+    row.getBoundingClientRect = () => ({left:9,right:600,top:252,bottom:316,width:591,height:64,x:9,y:252,toJSON(){}});
+    button.getBoundingClientRect = () => ({left:264,right:342,top:252,bottom:316,width:78,height:64,x:264,y:252,toJSON(){}});
+    row.scrollTo = vi.fn(({left}) => { row.scrollLeft = left; });
+
+    expect(revealStoreFocusTarget(button)).toBe(true);
+    expect(row.scrollTo).toHaveBeenCalledWith({left:30,behavior:'auto'});
+    expect(row.scrollLeft).toBe(30);
+    Object.defineProperty(window,'innerWidth',{value:priorWidth,writable:true,configurable:true});
+  });
+
   it('labels Quest read-aloud, answers, feedback, and XP progress',() => {
     document.body.innerHTML = `
       <header class="hud"><div class="hudStats"><div class="levelBox"><div class="progress"></div><small>24/180 XP</small></div></div></header>
