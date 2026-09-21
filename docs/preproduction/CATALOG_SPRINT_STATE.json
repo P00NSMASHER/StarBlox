@@ -22,7 +22,8 @@
     "screenshotQualityApprovedCount": null
   },
   "productionAssignments": {
-    "02": ["seating-2", "seating-3", "seating-4", "seating-5", "seating-6", "seating-7", "seating-8", "seating-9", "seating-10", "seating-11", "seating-12"],
+    "CHAT": ["seating-2", "seating-3", "seating-4", "seating-5", "seating-6", "seating-7", "seating-8", "seating-9", "seating-10", "seating-11", "seating-12"],
+    "02": [],
     "03": ["desks-2", "desks-3", "desks-4", "desks-5", "desks-6", "desks-7", "desks-8", "desks-9", "desks-10", "desks-11", "desks-12"],
     "04": ["lighting-1", "lighting-2", "lighting-3", "lighting-4", "lighting-5", "lighting-6", "lighting-7", "lighting-8", "lighting-9", "lighting-10", "lighting-11", "lighting-12"],
     "05": ["wall-1", "wall-2", "wall-3", "wall-4", "wall-5", "wall-6", "wall-7", "wall-8", "wall-9", "wall-10", "wall-11", "wall-12"],
@@ -33,6 +34,7 @@
   },
   "supportAssignments": {
     "01": "Art direction and per-item rendered acceptance including the existing 99",
+    "02": "Read-only catalog review until GAME_FINISHING while the chat owns seating-2..12",
     "08": "Canonical manifest, exact-ID runtime wiring and integration",
     "10": "Catalog mobile, scrolling and accessibility QA",
     "12": "Learning-integrity guard",
