@@ -60,6 +60,7 @@ export function sanitizeSnapshotShape(raw){
 
   const cleaned = {...raw};
   const owned = uniqueStrings(raw.owned);
+  const purchaseReceipts = uniqueStrings(raw.purchaseReceipts);
   const mastered = uniqueStrings(raw.mastered);
   const roomDecor = uniqueStrings(raw.roomDecor);
   const equipped = cleanEquipped(raw.equipped);
@@ -68,6 +69,7 @@ export function sanitizeSnapshotShape(raw){
   const stats = cleanStats(raw.stats);
 
   if(owned === undefined) delete cleaned.owned; else cleaned.owned = owned;
+  if(purchaseReceipts === undefined) delete cleaned.purchaseReceipts; else cleaned.purchaseReceipts = purchaseReceipts;
   if(mastered === undefined) delete cleaned.mastered; else cleaned.mastered = mastered;
   if(roomDecor === undefined) delete cleaned.roomDecor; else cleaned.roomDecor = roomDecor;
   if(equipped === undefined) delete cleaned.equipped; else cleaned.equipped = equipped;
@@ -82,6 +84,11 @@ export function sanitizeSnapshotShape(raw){
 
   if(typeof raw.dreamGoalId !== 'string' || !raw.dreamGoalId.trim()) delete cleaned.dreamGoalId;
   else cleaned.dreamGoalId = raw.dreamGoalId.trim();
+
+  for(const key of ['activeQuestReceipt','lastCompletedQuestReceipt']){
+    if(typeof raw[key] !== 'string') delete cleaned[key];
+    else cleaned[key] = raw[key].trim();
+  }
 
   if(typeof raw.lastDailyKey !== 'string') delete cleaned.lastDailyKey;
 
