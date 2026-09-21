@@ -8,8 +8,13 @@ const strict = process.env.STARBLOX_QA_STRICT !== '0';
 const sourceHead = process.env.GITHUB_SHA || null;
 const viewports = [
   {name:'desktop-1408x1056',width:1408,height:1056},
+  {name:'tablet-1024x768',width:1024,height:768},
   {name:'phone-390x844',width:390,height:844},
   {name:'phone-320x568',width:320,height:568}
+];
+const normalMotionControls = [
+  {name:'tablet-1024x768-normal-motion',width:1024,height:768},
+  {name:'phone-390x844-normal-motion',width:390,height:844}
 ];
 const collectionIds = ['tops','bottoms','shoes','headwear','facegear','backgear','handgear','auras','companions','beds','seating','desks','lighting','wall','rugs','decor'];
 const results=[];
@@ -149,6 +154,66 @@ async function measureLongScroll(page){
   });
 }
 
+async function collectMotionMetrics(page){
+  return page.evaluate(()=>{
+    const root=document.querySelector('.marketPage.sbStoreMatch');
+    const animations=root?.getAnimations?.({subtree:true})||[];
+    const durations=animations.map(animation=>{
+      try{
+        const timing=animation.effect?.getComputedTiming?.();
+        const duration=Number(timing?.duration);
+        return Number.isFinite(duration)?duration:null;
+      }catch{return null;}
+    }).filter(v=>v!==null);
+    return {
+      prefersReducedMotion:matchMedia('(prefers-reduced-motion: reduce)').matches,
+      activeAnimationCount:animations.length,
+      longestFiniteAnimationMs:durations.length?Math.max(...durations):0,
+      animationDurationsMs:durations.slice(0,20)
+    };
+  });
+}
+
+async function collectContrastMetrics(page){
+  return page.evaluate(()=>{
+    const parseColor=value=>{
+      const m=String(value||'').match(/rgba?\(([^)]+)\)/i);
+      if(!m) return null;
+      const p=m[1].split(',').map(v=>Number.parseFloat(v.trim()));
+      if(p.length<3||p.slice(0,3).some(Number.isNaN)) return null;
+      return {r:p[0],g:p[1],b:p[2],a:p.length>3&&Number.isFinite(p[3])?p[3]:1};
+    };
+    const luminance=c=>{
+      const channel=v=>{const x=v/255;return x<=0.03928?x/12.92:Math.pow((x+0.055)/1.055,2.4);};
+      return 0.2126*channel(c.r)+0.7152*channel(c.g)+0.0722*channel(c.b);
+    };
+    const ratio=(a,b)=>{const l1=luminance(a),l2=luminance(b);return (Math.max(l1,l2)+0.05)/(Math.min(l1,l2)+0.05);};
+    const solidBackground=node=>{
+      for(let el=node?.parentElement;el&&el!==document.documentElement;el=el.parentElement){
+        const style=getComputedStyle(el);
+        if(style.backgroundImage&&style.backgroundImage!=='none') return null;
+        const color=parseColor(style.backgroundColor);
+        if(color&&color.a>=0.95) return color;
+      }
+      const body=parseColor(getComputedStyle(document.body).backgroundColor);
+      return body&&body.a>=0.95?body:null;
+    };
+    const candidates=[
+      ...document.querySelectorAll('.marketPage.sbStoreMatch .storeGrid .storeCard .itemCopy h3'),
+      ...document.querySelectorAll('.marketPage.sbStoreMatch .storeGrid .storeCard .price,.marketPage.sbStoreMatch .storeGrid .storeCard .sbStorePrice'),
+      ...document.querySelectorAll('.marketPage.sbStoreMatch .storeGrid .storeCard .sbStoreStateBadge')
+    ].slice(0,24);
+    const samples=[];
+    for(const el of candidates){
+      const fg=parseColor(getComputedStyle(el).color);
+      const bg=solidBackground(el);
+      if(!fg||!bg) continue;
+      samples.push({text:(el.textContent||'').trim().slice(0,60),foreground:getComputedStyle(el).color,background:`rgb(${bg.r}, ${bg.g}, ${bg.b})`,ratio:ratio(fg,bg)});
+    }
+    return {measured:samples.length,samples,minimum:samples.length?Math.min(...samples.map(x=>x.ratio)):null};
+  });
+}
+
 async function testKeyboardActivation(page,viewport,collection){
   const card=page.locator('.marketPage.sbStoreMatch .storeGrid .storeCard:visible').first();
   if(!await card.count()) return;
@@ -160,6 +225,85 @@ async function testKeyboardActivation(page,viewport,collection){
   const id=await card.getAttribute('data-store-item-id');
   const pass=after==='true' || before==='true';
   record({viewport:viewport.name,collection,check:'keyboard-card-activation',status:pass?'PASS':'FAIL',releaseBlocking:!pass,message:`Card ${id||'unknown'} keyboard activation selected the item=${pass}.`,metrics:{before,after,id}});
+}
+
+async function testKeyboardTraversalAndReachability(page,viewport){
+  await activateCollection(page,'tops');
+  const start=page.locator('.sbStoreCategoryRow button[data-collection-id="tops"]').first();
+  if(!await start.count()){
+    record({viewport:viewport.name,check:'keyboard-traversal',status:'FAIL',releaseBlocking:true,message:'Could not locate the Tops category control to start traversal.'});
+    return;
+  }
+  await start.focus();
+  const visited=[];
+  let sawTier=false,sawCard=false,clipped=0,obscured=0;
+  for(let i=0;i<40;i+=1){
+    await page.keyboard.press('Tab');
+    await page.waitForTimeout(20);
+    const active=await page.evaluate(()=>{
+      const el=document.activeElement;
+      if(!el||el===document.body) return null;
+      const r=el.getBoundingClientRect();
+      const style=getComputedStyle(el);
+      const visible=style.display!=='none'&&style.visibility!=='hidden'&&r.width>0&&r.height>0;
+      const inStore=Boolean(el.closest('.marketPage.sbStoreMatch'));
+      const fits=visible&&r.left>=-2&&r.right<=innerWidth+2&&r.top>=-2&&r.bottom<=innerHeight+2;
+      const overlays=[...document.querySelectorAll('.sidebar,.topbar')].filter(node=>{
+        const s=getComputedStyle(node),q=node.getBoundingClientRect();
+        return (s.position==='fixed'||s.position==='sticky')&&s.display!=='none'&&s.visibility!=='hidden'&&q.width>0&&q.height>0;
+      });
+      const overlap=overlays.some(node=>{
+        if(node.contains(el)) return false;
+        const q=node.getBoundingClientRect();
+        return Math.max(0,Math.min(r.right,q.right)-Math.max(r.left,q.left))*Math.max(0,Math.min(r.bottom,q.bottom)-Math.max(r.top,q.top))>4;
+      });
+      return {
+        tag:el.tagName,
+        text:(el.getAttribute('aria-label')||el.textContent||'').replace(/\s+/g,' ').trim().slice(0,80),
+        inStore,
+        tier:Boolean(el.closest('.sbStoreTierRow')),
+        card:el.classList.contains('storeCard')||Boolean(el.closest('.storeCard')),
+        fits,
+        overlap,
+        rect:{x:r.x,y:r.y,w:r.width,h:r.height}
+      };
+    });
+    if(!active) continue;
+    visited.push(active);
+    if(active.inStore&&active.tier) sawTier=true;
+    if(active.inStore&&active.card) sawCard=true;
+    if(active.inStore&&!active.fits) clipped+=1;
+    if(active.inStore&&active.overlap) obscured+=1;
+    if(sawTier&&sawCard&&visited.length>=8) break;
+  }
+  const traversalPass=sawTier&&sawCard&&clipped===0&&obscured===0;
+  record({viewport:viewport.name,check:'keyboard-traversal',status:traversalPass?'PASS':'FAIL',releaseBlocking:!traversalPass,message:`Tab traversal reached tier controls=${sawTier}, catalog cards=${sawCard}, clipped=${clipped}, obscured-by-fixed-chrome=${obscured}.`,metrics:{visitedCount:visited.length,visited:visited.slice(0,24)}});
+
+  const last=page.locator('.marketPage.sbStoreMatch .storeGrid .storeCard:visible').last();
+  if(!await last.count()){
+    record({viewport:viewport.name,check:'last-card-keyboard-reachability',status:'FAIL',releaseBlocking:true,message:'No visible last card found.'});
+    return;
+  }
+  await last.focus();
+  await last.evaluate(node=>node.scrollIntoView({block:'center',inline:'nearest'}));
+  await page.waitForTimeout(80);
+  const reach=await last.evaluate(node=>{
+    const r=node.getBoundingClientRect();
+    const active=document.activeElement===node;
+    const fits=r.left>=-2&&r.right<=innerWidth+2&&r.top>=-2&&r.bottom<=innerHeight+2;
+    const overlays=[...document.querySelectorAll('.sidebar,.topbar')].filter(el=>{
+      const s=getComputedStyle(el),q=el.getBoundingClientRect();
+      return (s.position==='fixed'||s.position==='sticky')&&s.display!=='none'&&s.visibility!=='hidden'&&q.width>0&&q.height>0;
+    });
+    const overlap=overlays.some(el=>{
+      if(el.contains(node)) return false;
+      const q=el.getBoundingClientRect();
+      return Math.max(0,Math.min(r.right,q.right)-Math.max(r.left,q.left))*Math.max(0,Math.min(r.bottom,q.bottom)-Math.max(r.top,q.top))>4;
+    });
+    return {active,fits,overlap,rect:{x:r.x,y:r.y,w:r.width,h:r.height},scrollY};
+  });
+  const reachPass=reach.active&&reach.fits&&!reach.overlap;
+  record({viewport:viewport.name,check:'last-card-keyboard-reachability',status:reachPass?'PASS':'FAIL',releaseBlocking:!reachPass,message:`Last Tops card can be focused and scrolled clear of fixed HUD/dock=${reachPass}.`,metrics:reach});
 }
 
 async function inspectCollection(page,viewport,collection){
@@ -212,6 +356,32 @@ async function inspectCollection(page,viewport,collection){
   }
 }
 
+async function runNormalMotionControl(browser,viewport){
+  const context=await browser.newContext({viewport:{width:viewport.width,height:viewport.height},reducedMotion:'no-preference'});
+  const page=await context.newPage();
+  const pageErrors=[],consoleErrors=[];
+  page.on('pageerror',e=>pageErrors.push(String(e?.stack||e)));
+  page.on('console',m=>{if(m.type()==='error') consoleErrors.push(m.text());});
+  try{
+    await page.goto(baseUrl,{waitUntil:'networkidle',timeout:20000});
+    await page.waitForSelector('.sidebar .navBtn',{timeout:8000});
+    if(!await openStore(page)) throw new Error('Could not open Store from primary navigation.');
+    await activateCollection(page,'tops');
+    const contextMetrics=await page.evaluate(()=>({reduced:matchMedia('(prefers-reduced-motion: reduce)').matches,horizontalExcess:Math.max(document.documentElement.scrollWidth,document.body.scrollWidth)-innerWidth,columns:(()=>{const cards=[...document.querySelectorAll('.marketPage.sbStoreMatch .storeGrid .storeCard')].filter(node=>{const r=node.getBoundingClientRect(),s=getComputedStyle(node);return s.display!=='none'&&s.visibility!=='hidden'&&r.width>0&&r.height>0;});const y=cards[0]?.getBoundingClientRect().y;return cards.filter(c=>Math.abs(c.getBoundingClientRect().y-y)<3).length;})()}));
+    const motion=await collectMotionMetrics(page);
+    const scroll=await measureLongScroll(page);
+    const contextPass=!contextMetrics.reduced&&contextMetrics.horizontalExcess<=1&&(viewport.width>390||contextMetrics.columns===2);
+    record({viewport:viewport.name,collection:'tops',check:'normal-motion-context',status:contextPass?'PASS':'FAIL',releaseBlocking:!contextPass,message:`Normal-motion emulation active=${!contextMetrics.reduced}; horizontal overflow=${contextMetrics.horizontalExcess}px; first-row columns=${contextMetrics.columns}.`,metrics:{...contextMetrics,...motion}});
+    const scrollPass=viewport.width>767||scroll.slowFramesOver34ms<=6;
+    record({viewport:viewport.name,collection:'tops',check:'normal-motion-scroll-probe',status:scrollPass?'PASS':'FAIL',releaseBlocking:!scrollPass,message:`Normal-motion Chromium scroll: avg=${scroll.avgFrameMs.toFixed(1)}ms, >34ms=${scroll.slowFramesOver34ms}/${scroll.frames}.`,metrics:{...scroll,emulation:'Playwright Chromium headless; not physical-device performance'}});
+    const errorsPass=pageErrors.length===0&&consoleErrors.length===0;
+    record({viewport:viewport.name,collection:'tops',check:'normal-motion-runtime-errors',status:errorsPass?'PASS':'FAIL',releaseBlocking:!errorsPass,message:errorsPass?'No pageerror or console.error in normal-motion control.':`${pageErrors.length} page errors; ${consoleErrors.length} console errors.`,metrics:{pageErrors,consoleErrors}});
+    await page.screenshot({path:path.join(outputDir,`store-${viewport.name}-tops.png`),fullPage:false});
+  }catch(error){
+    record({viewport:viewport.name,collection:'tops',check:'normal-motion-control',status:'FAIL',releaseBlocking:true,message:String(error?.stack||error)});
+  }finally{await context.close();}
+}
+
 const browser=await chromium.launch({headless:true});
 try{
   for(const viewport of viewports){
@@ -235,6 +405,17 @@ try{
       if(!await openStore(page)) throw new Error('Could not open Store from primary navigation.');
       for(const collection of collectionIds) await inspectCollection(page,viewport,collection);
       await activateCollection(page,'tops');
+      await testKeyboardTraversalAndReachability(page,viewport);
+      const contrast=await collectContrastMetrics(page);
+      if(contrast.measured===0){
+        record({viewport:viewport.name,collection:'tops',check:'computed-contrast',status:'NOT_TESTED',releaseBlocking:false,message:'No text sample had an unambiguous opaque solid CSS background; exact contrast remains for screenshot/device tooling.',metrics:contrast});
+      }else{
+        const contrastPass=contrast.minimum>=4.5;
+        record({viewport:viewport.name,collection:'tops',check:'computed-contrast',status:contrastPass?'PASS':'FAIL',releaseBlocking:!contrastPass,message:`Measured ${contrast.measured} solid-background text samples; minimum contrast=${contrast.minimum.toFixed(2)}:1.`,metrics:contrast});
+      }
+      const motion=await collectMotionMetrics(page);
+      const reducedMotionPass=motion.prefersReducedMotion&&motion.longestFiniteAnimationMs<=100;
+      record({viewport:viewport.name,collection:'tops',check:'reduced-motion-behavior',status:reducedMotionPass?'PASS':'FAIL',releaseBlocking:!reducedMotionPass,message:`Reduced-motion active=${motion.prefersReducedMotion}; active animations=${motion.activeAnimationCount}; longest finite animation=${motion.longestFiniteAnimationMs}ms.`,metrics:motion});
       const scroll=await measureLongScroll(page);
       const cls=await page.evaluate(()=>Number(globalThis.__sbLayoutShiftValue||0));
       const scrollPass=viewport.width>767||scroll.slowFramesOver34ms<=6;
@@ -248,11 +429,12 @@ try{
       record({viewport:viewport.name,check:'qa-run',status:'FAIL',releaseBlocking:true,message:String(error?.stack||error)});
     }finally{await context.close();}
   }
+  for(const viewport of normalMotionControls) await runNormalMotionControl(browser,viewport);
 }finally{await browser.close();}
 
 const summary={
   generatedAt:new Date().toISOString(),sourceHead,baseUrl,
-  emulation:'Playwright 1.55 Chromium headless on GitHub Actions ubuntu-24.04; 1408x1056, 390x844, 320x568; reducedMotion=reduce. This is browser emulation, not physical-device performance.',
+  emulation:'Playwright 1.55 Chromium headless on GitHub Actions ubuntu-24.04; reduced-motion full matrix at 1408x1056, 1024x768, 390x844, 320x568; normal-motion Tops controls at 1024x768 and 390x844. This is browser emulation, not physical-device or screen-reader performance.',
   collectionCount:collectionIds.length,
   releaseBlockingCount,
   status:releaseBlockingCount===0?'PASS':'FAIL',
