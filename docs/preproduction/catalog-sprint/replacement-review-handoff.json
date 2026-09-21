@@ -96,10 +96,29 @@
   },
   "parallelReleaseGate": {
     "owner": "13",
-    "statusAtObservedHead": "SYNTHETIC_REAL_BROWSER_PERSISTENCE_STRESS_RUNNING",
+    "status": "FAIL_ONE_REAL_BROWSER_RECOVERY_CASE",
     "workflowRunId": 35660627560,
+    "artifactId": 10667216430,
+    "artifactDigest": "sha256:4ca9e54fba30addccc003cb33d02e7dd1cb9e68bd4af76ce2f189b4ba08c0eef",
     "sourceHead": "795c2d6f9ee197c66bc725d6a7c53fe5f0fd3382",
-    "instruction": "Close timing/reload/replay/concurrency with the synthetic branch-local/CI browser profile. Record exact results; do not substitute unit-only evidence."
+    "browser": "Chromium 140.0.7339.16 via Playwright",
+    "syntheticOnly": true,
+    "noRealPlayerData": true,
+    "summary": {"pass":7,"fail":1},
+    "passedCoverage": [
+      "initial-state catalog integration and no-art retention",
+      "rapid purchase exactly-once plus reload",
+      "equip persistence after reload",
+      "room rapid placement/put-away plus reload",
+      "visible room right-rail action routing harness",
+      "multi-tab same-purchase replay exactly-once",
+      "malformed import preserves current save"
+    ],
+    "failingCase": {
+      "name": "indexeddb-recovers-localstorage-and-no-art-state",
+      "error": "IndexedDB recovery changed currency/XP"
+    },
+    "instruction": "Treat this as the remaining persistence gate defect. Diagnose IndexedDB backup-vs-localStorage recovery ordering/merge semantics so recovery preserves currency/XP as well as no-art/forward-compatible state, then rerun the same synthetic browser suite. Do not weaken the assertion or replace it with unit-only evidence."
   },
   "screenshotSignoff": {
     "owners": ["10", "14"],
