@@ -34,7 +34,7 @@ describe('screenshot-match shell navigation',() => {
       .map(button => button.querySelector('span').textContent);
 
     expect(visibleOrder).toEqual(['Home','Quests','Study','Room','Store']);
-    expect(document.querySelector('[data-sb-nav="home"]')).toHaveAttribute('aria-current','page');
+    expect(document.querySelector('[data-sb-nav="home"]').getAttribute('aria-current')).toBe('page');
     expect(resolveShellNavTarget('home')?.label).toBe('Home');
     expect(resolveShellNavTarget('world')?.label).toBe('Room');
   });
@@ -54,7 +54,7 @@ describe('screenshot-match shell navigation',() => {
 
     expect(homeClicks).toBe(1);
     expect(originalBrandClicks).toBe(0);
-    expect(brand).toHaveAttribute('aria-label','Go to StarBlox Home');
+    expect(brand.getAttribute('aria-label')).toBe('Go to StarBlox Home');
   });
 
   it('keeps Customize reachable from settings while leaving it out of the five-item primary rail',() => {
@@ -71,7 +71,7 @@ describe('screenshot-match shell navigation',() => {
     customizeAction.click();
 
     expect(customizeClicks).toBe(1);
-    expect(settings).toHaveAttribute('aria-expanded','false');
+    expect(settings.getAttribute('aria-expanded')).toBe('false');
     expect(document.querySelector('.sbSettingsPopover').hidden).toBe(true);
   });
 });
