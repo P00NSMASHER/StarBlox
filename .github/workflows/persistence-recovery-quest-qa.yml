@@ -13,6 +13,7 @@ on:
       - 'catalog-art-manifest.json'
       - 'src/catalogArtRuntime.js'
       - 'scripts/persistenceRecoveryQuestQa.mjs'
+      - 'scripts/persistenceQuestTimingQa.mjs'
       - '.github/workflows/persistence-recovery-quest-qa.yml'
   workflow_dispatch:
 
@@ -46,23 +47,23 @@ jobs:
           done
           cat /tmp/starblox-persistence-recovery-preview.log
           exit 1
-      - name: Run synthetic recovery and Quest browser stress
-        run: node scripts/persistenceRecoveryQuestQa.mjs
+      - name: Run focused synthetic Quest timing browser stress
+        run: node scripts/persistenceQuestTimingQa.mjs
         env:
           STARBLOX_QA_URL: http://127.0.0.1:4173
-          STARBLOX_QA_OUTPUT: artifacts/persistence-recovery-quest-qa
+          STARBLOX_QA_OUTPUT: artifacts/persistence-quest-timing-qa
       - name: Print summary
         if: always()
         run: |
-          cat artifacts/persistence-recovery-quest-qa/summary.txt || true
-          if [ -f artifacts/persistence-recovery-quest-qa/report.json ]; then
-            node -e "const r=require('./artifacts/persistence-recovery-quest-qa/report.json'); console.log(JSON.stringify({status:r.status,sourceHead:r.sourceHead,cases:r.cases.map(x=>({name:x.name,status:x.status,error:x.error||null}))},null,2))"
+          cat artifacts/persistence-quest-timing-qa/summary.txt || true
+          if [ -f artifacts/persistence-quest-timing-qa/report.json ]; then
+            node -e "const r=require('./artifacts/persistence-quest-timing-qa/report.json'); console.log(JSON.stringify({status:r.status,sourceHead:r.sourceHead,cases:r.cases.map(x=>({name:x.name,status:x.status,error:x.error||null}))},null,2))"
           fi
       - name: Upload evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: persistence-recovery-quest-qa
-          path: artifacts/persistence-recovery-quest-qa
+          name: persistence-quest-timing-qa
+          path: artifacts/persistence-quest-timing-qa
           if-no-files-found: warn
           retention-days: 7
