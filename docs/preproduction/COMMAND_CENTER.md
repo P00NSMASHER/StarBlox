@@ -1,23 +1,23 @@
 # StarBlox Screenshot-Match Command Center
 
-STATUS: **CATALOG_SPRINT / 6 STORED REPAIR CANDIDATES / PERSISTENCE FIX IMPLEMENTED-PENDING-CI / NOT READY FOR REPLIT**
+STATUS: **CATALOG_SPRINT / 95 HASH-BOUND REVIEWS ALL REWORK / PERSISTENCE AUTOMATED PASS + REAL-BROWSER GATE OPEN / NOT READY FOR REPLIT**
 
 Branch: `screenshot-match-preproduction` only  
-Observed coordination head: `99d8520bb9e4bb44c7b8bfe2eddb566981a4f18a`  
-Latest runtime/test-proven head: `7b146f9deb9eb77429150ec104b092167d582859`  
+Observed coordination head: `da070b301e8ce57ca10d44bcb4ccd2078cfe4690`  
+Latest runtime/test-proven head: `1ce91011311dff6ea9b7b8119010d84f0466e42f`  
 Delivery policy: `docs/preproduction/DELIVERY_PROTOCOL_V2.md`  
 Phase authority: Workstream 15  
 Canonical catalog manifest/runtime writer: Workstream 08  
 Replit: **untouched**  
 Main: **not merged or modified**
 
-The exact full-suite runtime/test claim below remains bound to `7b146f9...`. Since then, persistence runtime code changed through `620b22b...`, so that baseline cannot clear the affected persistence gates. Catalog repair assets added afterward also require their own exact-hash visual decisions. Unchanged unrelated baseline evidence remains reusable.
+The exact verified full-suite transaction/reload claim below is bound to `1ce91011311dff6ea9b7b8119010d84f0466e42f`. Its raw GitHub job logs were independently inspected: 22/22 files, 98/98 tests and the production build pass. Later branch work includes a mobile-accessibility runtime change, so Workstream 14 has been directed to earn fresh affected/current-head CI rather than extending the 1ce910 claim across changed runtime bytes. Documentation-only/catalog-review commits do not invalidate unchanged persistence proof.
 
 ## Overall completion
 
 **Estimated coordinated screenshot-match completion: 78%.**
 
-The estimate is deliberately **held**, not increased. Independent visual review has expanded to 71/192 item hashes and all 71 are REWORK; no replacement hash is independently accepted or canonically promoted yet. The two persistence release blockers have an implementation but still lack fresh full CI plus Workstream-13 browser/replay validation. Six versioned repair candidates are repository-stored (Tops 7/8 and Auras 1-4). Ten additional already-generated Firefly repairs (Lighting 1-4 and Tops 1-6) have been preserved as immutable Git blobs but do **not** count as staged until their owners attach them to versioned branch paths and verify readback. Scheduling activity, local generations, legacy `final-portable` labels and READY_FOR_REVIEW do not increase completion by themselves.
+The estimate is deliberately **held**, not increased. Independent visual review has expanded to **95/192 unique item hashes** and all 95 are REWORK; no replacement hash is independently accepted or canonically promoted yet. Durable purchase and final-Quest completion semantics now pass the verified 98-test reload/replay gate, while one separate real-browser timing/concurrency release blocker remains. Six versioned repair candidates are branch-stored (Tops 7/8 and Auras 1-4). Ten additional already-generated Firefly repairs (Lighting 1-4 and Tops 1-6) are preserved as immutable Git blobs but do **not** count as staged until their owners attach them to versioned branch paths and verify readback. Scheduling activity, local generations, legacy `final-portable` labels and READY_FOR_REVIEW do not increase completion by themselves.
 
 **READY FOR SINGLE REPLIT INTEGRATION: NO.**
 
@@ -31,13 +31,13 @@ The estimate is deliberately **held**, not increased. Independent visual review 
 | Quest | **88%** | Implemented / 6 geometry blockers | Learning behavior remains green; header, phase strip, avatar/body/mastery and earned-summary geometry still miss measured contracts. |
 | Avatar / Buddy | **80%** | Implemented / catalog + try-on fidelity pending | Saved IDs/Buddy state remain protected. Companion/aura review and final layered equipment fidelity remain incomplete. |
 | Progression | **90%** | Automated state gate PASS / final render pending | Five canonical room tiers, Dream Goal, Daily/mastery and ownership-bound progress remain intact. |
-| Catalog Art | **52% legacy canonical labels; 0/71 reviewed hashes accepted** | **Primary visual blocker** | Manifest still has 99 legacy `final-portable` labels and 23 interim entries. Six versioned repair candidates are branch-stored (Tops 7/8, Auras 1-4), while ten more generated repairs are preserved as Git blobs pending owner path attachment/readback. Current independent decisions cover 71 item hashes and all 71 are REWORK. |
+| Catalog Art | **52% legacy canonical labels; 0/95 reviewed hashes accepted** | **Primary visual blocker** | Manifest still has 99 legacy `final-portable` labels and 23 interim entries. Six versioned repair candidates are branch-stored (Tops 7/8, Auras 1-4), while ten more generated repairs are preserved as Git blobs pending owner path attachment/readback. Current independent decisions cover 95 unique item hashes and all 95 are REWORK. |
 | Environments | **82%** | Structurally implemented / fidelity+perf pending | Home/learning/Store scenes exist; final dimensional materials, room-tier scenes, crops and performance remain GAME_FINISHING work. |
-| Mobile / Accessibility | **86%** | CI/browser-emulation improved / device proof pending | Store focus-tray fixes and tests are in; full CI is green. Existing canonical Store emulation is strong, while physical-device and screen-reader evidence remains unproven. |
+| Mobile / Accessibility | **86%** | Browser-emulation improved / affected CI refresh pending / device proof pending | Store focus-tray work and browser-emulation evidence are strong, but `src/mobileAccessibilityRuntime.js` changed after the exact 98-test proven head. Workstream 14 owns the fresh affected/current-head suite; physical-device and screen-reader evidence remains unproven. |
 | Motion / Game Feel | **84%** | Automated helpers PASS / real perf pending | Bounded/reduced-motion helpers remain green; actual phone/tablet normal/reduced-motion paint/composite proof remains later work. |
 | Learning Integrity | **96%** | **Automated PASS** | Current full CI preserves 200 validated questions, five-action Quest, source/evidence guards and retry/mastery policy; no catalog-induced learning P0 is recorded. |
-| Persistence / Economy | **88%** | **2 release blockers implemented / validation pending** | Hydration recovery remains fixed. Purchase idempotency now revalidates inside the functional save transaction with a durable receipt; final Quest completion now records the completion reward atomically on the fifth correct action before the 950ms UI transition. Full CI/build plus Workstream-13 live refresh/replay evidence are still required before either blocker closes. |
-| QA / Release | **63%** | CI green / visual and live gates fail | All four V2 review shards now exist, staged-art review is real, and strict visual QA identifies 10 remaining screen geometry blockers. Catalog acceptance, live persistence, device/accessibility and final reference gates remain open. |
+| Persistence / Economy | **88%** | **Automated transaction/reload PASS / 1 real-browser release blocker** | Hydration recovery, durable purchase idempotency and refresh-safe final Quest completion pass the exact 98-test CI/build gate. The remaining blocker is `PERSIST-REAL-BROWSER-TRANSACTION-STRESS`: real browser purchase/equip/place/reload, final-feedback refresh timing, multi-tab replay, malformed import and live IndexedDB/localStorage recovery are still unproven. |
+| QA / Release | **63%** | Exact 98-test runtime gate PASS / current-head affected CI + visual/live gates pending | All four V2 review shards exist and 95 unique catalog hashes have real independent decisions. The staged-art harness is being expanded so 01/05 can review replacement hashes without canonical wiring. Catalog acceptance, real-browser persistence timing, device/accessibility and final reference gates remain open. |
 
 ## Current catalog accounting
 
@@ -64,20 +64,22 @@ A supported binary GitHub import/readback path is now proven by Workstream 08. W
 
 All four V2 review shards now exist. Current exact-hash coverage:
 
-- independently reviewed: **71 / 192**;
+- independently reviewed: **95 / 192 unique item IDs**;
 - ACCEPT: **0**;
-- REWORK: **71**;
+- REWORK: **95**;
 - BLOCKED: **0**;
-- unreviewed item IDs: **121**.
+- unreviewed item IDs: **97**.
 
 Reviewed families and findings:
 
 1. **Tops 1–12 — 12 REWORK:** readable identities but flat frontal/vector garments with inadequate fabric volume, construction, three-quarter collectible depth and tier spectacle.
-2. **Seating 2–12 — 11 REWORK:** distinct/readable objects but insufficient dimensional materials, perspective, themed construction and premium collectible depth.
-3. **Auras 1–12 — 12 REWORK:** weak card-scale contrast/theme identity and flat vector effect treatment; insufficient dimensional glow/particle richness.
-4. **Lighting 1–12 — 12 REWORK:** coherent but shared pastel flat-vector treatment, shallow materials and inadequate three-quarter dimensional lighting presentation.
-5. **Companions 1–12 — 12 REWORK:** distinct, child-friendly identities but flat mascot anatomy/materials, weak cast/rim lighting and insufficient premium tier progression.
-6. **Beds 1–12 — 12 REWORK:** readable furniture identities but predominantly frontal flat construction, insufficient mattress/frame/canopy/pod depth and weak high-tier material spectacle.
+2. **Bottoms 1–12 — 12 REWORK:** item identities read, but flat frontal garment silhouettes, drawn-on seams/details and weak material depth keep even high tiers below the dimensional collectible target.
+3. **Shoes 1–12 — 12 REWORK:** current exact hashes are independently rejected; replacement work must preserve identity while improving dimensional construction/material/light treatment.
+4. **Seating 2–12 — 11 REWORK:** distinct/readable objects but insufficient dimensional materials, perspective, themed construction and premium collectible depth.
+5. **Auras 1–12 — 12 REWORK:** weak card-scale contrast/theme identity and flat vector effect treatment; insufficient dimensional glow/particle richness.
+6. **Lighting 1–12 — 12 REWORK:** coherent but shared pastel flat-vector treatment, shallow materials and inadequate three-quarter dimensional lighting presentation.
+7. **Companions 1–12 — 12 REWORK:** distinct, child-friendly identities but flat mascot anatomy/materials, weak cast/rim lighting and insufficient premium tier progression.
+8. **Beds 1–12 — 12 REWORK:** readable furniture identities but predominantly frontal flat construction, insufficient mattress/frame/canopy/pod depth and weak high-tier material spectacle.
 
 These findings invalidate any assumption that a legacy `final-portable` or interim label equals screenshot-quality acceptance. No previously reviewed hash is eligible for Workstream 08 promotion. Since that review, Workstream 09 stored dimensional replacement candidates for `tops-7` and `tops-8`, and Workstream 11 stored replacement bytes for `auras-1..4`; all six require fresh exact-hash independent pixel decisions before promotion.
 
@@ -101,28 +103,34 @@ Reviewer 01 remains independent for Tops, so 07/09 can repair without self-appro
 
 ## Persistence/economy priority
 
-Workstream 13 previously fixed the IndexedDB hydration race, and Workstream 15 has now implemented the two remaining source-level release fixes on the shared branch:
+The two source-level transaction defects are now **closed by automated evidence** on exact head `1ce91011311dff6ea9b7b8119010d84f0466e42f`:
 
-1. **PERSIST-TRANSACTION-IDEMPOTENCY — IMPLEMENTED, NOT CLEARED:** `src/persistenceTransactions.js` now revalidates owned state, durable purchase receipt, Mastery Stars and Coins inside the functional save transaction. A successful permanent purchase records its item ID as a durable receipt; replay cannot charge or increment purchase progress twice, and a surviving receipt can restore ownership without another charge.
-2. **PERSIST-QUEST-COMPLETION-REFRESH — IMPLEMENTED, NOT CLEARED:** starting a Quest records an active receipt. On the fifth correct action, the same save transaction now applies the normal attempt outcome **and** the existing +30 Coins/+30 XP/quest-completion/Bond/daily-quest completion reward, clears the active receipt and records the completed receipt. The 950ms timer now controls only the UI transition, so the completion award no longer depends on that timer firing.
+1. **PERSIST-TRANSACTION-IDEMPOTENCY — PASS_AUTOMATED:** permanent purchase revalidates current ownership, durable receipt, Mastery Stars and Coins inside the functional save transaction. Purchase → persist → reload → replay proves one charge, one Star Worth increase and one daily-purchase increment; receipt-only recovery restores ownership without another charge.
+2. **PERSIST-QUEST-COMPLETION-REFRESH — PASS_AUTOMATED:** the final correct action commits the normal attempt state and existing +30 Coins/+30 XP/quest/Bond/daily completion reward atomically under a durable Quest receipt. Persist → reload → replay proves exactly one completion award; the 950 ms timer controls UI transition only.
 
-Implementation evidence: helper commit `f58f208...`, regression-test commit `df905ea...`, receipt-preservation commit `d814c3d...`, App wiring `9e54caa...`, storage receipt test `620b22b...`. A focused executable Node assertion pass covered single purchase, replay, receipt recovery, single Quest completion and completion replay.
+The earlier IndexedDB hydration race remains regression-covered. Save-shape sanitization preserves the durable transaction fields, unknown/no-art owned IDs remain valid, and prices/reward amounts/five-action learning semantics are unchanged.
 
-**Neither release blocker is closed yet.** The previous full-CI claim is bound to an older runtime head. Workstream 13 must inspect these exact changes and provide affected regression/build plus synthetic browser refresh/re-entry/replay evidence before the blockers can be marked PASS.
+One separate release blocker remains: **PERSIST-REAL-BROWSER-TRANSACTION-STRESS**. Workstream 13 must still execute isolated synthetic real-browser purchase/equip/place/reload, final-feedback refresh timing, multi-tab replay, malformed-import and live localStorage/IndexedDB recovery when an authorized executable browser/device path is available. The authorized device path is currently offline; no real player data may be used.
 
 ## Current automated integration gate
 
-GitHub Actions run `35648728446` on exact head `7b146f9deb9eb77429150ec104b092167d582859` completed successfully:
+GitHub Actions run `35652200670`, job `106507027345`, on exact head `1ce91011311dff6ea9b7b8119010d84f0466e42f` was independently inspected from its job steps and raw logs:
 
-- dependency install: **PASS**;
-- test files: **20/20 PASS**;
-- tests: **87/87 PASS**;
+- dependency/install steps: **PASS**;
+- test files: **22/22 PASS**;
+- tests: **98/98 PASS**;
+- durable transaction reload integration: **3/3 PASS**;
+- durable transaction helpers: **5/5 PASS**;
+- storage recovery/sanitization: **7/7 PASS**;
+- rapid Buy/room/Quest guards: **PASS**;
+- exact 200-question learning bank: **PASS**;
+- full 192-item catalog invariant: **PASS**;
 - Vite production build: **PASS**;
-- modules transformed: **1,612**;
+- modules transformed: **1,613**;
 - CSS: **167.39 kB / 35.69 kB gzip**;
-- JS: **301.85 kB / 92.57 kB gzip**.
+- JS: **304.00 kB / 93.28 kB gzip**.
 
-This includes the IndexedDB hydration regression and Store focus-tray accessibility tests. It does **not** close the two source-level persistence blockers above because the relevant durable transaction/completion behavior is not yet implemented/tested.
+This evidence closes the automated persistence source gaps. It is **not** automatically extended to the current branch head because a later `src/mobileAccessibilityRuntime.js` change exists. Workstream 14 has been directed to run one coherent affected/current-head test+build gate; documentation-only commits continue to reuse unchanged proof.
 
 ## Latest structural browser gate
 
@@ -172,13 +180,14 @@ Every subsequent change must preserve:
 
 ## Next critical-path sequence
 
-1. **13 — validate the implemented persistence fixes:** inspect the exact transaction/App/storage changes, run affected regression + production build, then exercise synthetic browser purchase/replay and final-Quest refresh/re-entry. Clear neither blocker on source inspection alone.
-2. **03 — desks:** stage existing generated `desks-2..4` through the proven binary path, read back hashes, then continue `desks-5..12` in bounded premium batches.
-3. **CHAT / 04 / 11 / 07 / 09 — reviewed art repairs:** continue bounded versioned repairs. Current stored replacement micro-batches are Tops 7/8 and Auras 1-4; preserve prior versions and never self-approve.
-4. **01 / 02 / 05 / 14 — parallel reviews:** continue their disjoint partitions while prioritizing replacement hashes as soon as they are READY_FOR_REVIEW.
-5. **08 — incremental integration:** consume every independently ACCEPTed current hash immediately after metadata/file/content checks; do not wait for all 192 or old monolithic rollups.
-6. **10 / 12 / 13 / 14 — change-aware gates:** rerun only affected checks per integration and full milestone gates at coherent catalog points.
-7. **15 — catalog completion gate:** switch to GAME_FINISHING only after all 192 current hashes are correct/stored/unique/accepted, canonical wiring/build/Store checks pass, and no catalog-induced learning/save/economy P0 remains.
+1. **14 — unblock replacement review fixtures:** extend the existing staged-art Playwright/GitHub Actions fixture to emit hash-bound card/detail pixels for reviewer-01 Tops and reviewer-05 Auras (plus JPG/WEBP support for upcoming owner-attached repairs) without making their review decisions; run the one required affected/current-head test+build gate for the later mobile runtime change.
+2. **01 / 05 — replacement decisions:** immediately disposition Tops 7/8 and Auras 1-4 from qualified fixture pixels, then consume owner-07/03 replacements as they become path-staged. Prior REWORK decisions never transfer across hashes.
+3. **03 — desks:** attach/read back existing `desks-2..4` bytes from the producer task context through the proven binary path, then continue `desks-5..12` in bounded premium batches; do not regenerate the existing three.
+4. **04 / 07 — preserved Firefly repairs:** attach the ten immutable Git blobs (Lighting 1-4, Tops 1-6) to owned versioned branch paths with normal latest-head commits and exact readback; no regeneration or force push.
+5. **02 / 14 / other producers — parallel coverage and bounded repairs:** continue disjoint review partitions and exact reviewed-item repairs without self-approval or double assignment.
+6. **08 — incremental integration:** reconcile current review coverage and consume every independently ACCEPTed current hash immediately after metadata/file/content checks; do not wait for all 192 or old monolithic rollups.
+7. **13 — real-browser persistence stress:** preserve the 98-test automated PASS and run the remaining synthetic real-browser timing/concurrency cases only when an authorized executable path is available.
+8. **15 — catalog completion gate:** switch to GAME_FINISHING only after all 192 current hashes are correct/stored/unique/accepted, canonical wiring/build/Store checks pass, and no catalog-induced learning/save/economy P0 remains.
 
 ## Catalog gate and final release
 
