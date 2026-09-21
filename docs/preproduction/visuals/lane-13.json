@@ -1,14 +1,13 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "workstream": "13",
   "focus": "SCENE_CHARACTER_ART",
   "status": "READY_FOR_REVIEW",
   "branch": "screenshot-match-preproduction",
-  "sourceHeadBeforeAssetCommit": "590bdcc8915642db0836c07816c989d1bae2d19c",
-  "generatedAt": "2026-09-21T23:01:42.125894+00:00",
-  "candidateId": "home-bedroom-w13-v1",
+  "candidateId": "home-bedroom-w13-v2",
   "candidateType": "environment-background",
   "targetScreen": "Home",
+  "sourceHeadBeforeV2Staging": "be385b9c5f713d21575f424da298dd82d45ab2c1",
   "observedDefect": {
     "runningRenderEvidence": {
       "workflowRunId": 35663655650,
@@ -16,8 +15,8 @@
       "renderHead": "b187186e62519ffa77bd0f7b166c601c90bdc416",
       "file": "home-desktop-1408x1056.png"
     },
-    "finding": "The current Home geometry is contract-green, but the visible environment remains a flatter high-detail vector treatment while the original reference has stronger volumetric depth, tactile materials, contact/cast lighting and cinematic room realism. Workstream 09 explicitly records that its current scene is SVG/vector and that a raster/3D pass may be needed.",
-    "scopeDecision": "Stage a separate versioned raster environment candidate only. Do not replace or edit Workstream 09 active SVG URLs and do not touch Workstream 06 avatar implementation."
+    "finding": "Home geometry remains contract-green, but the environment still needs a dimensional raster/3D visual language closer to the original reference. The first lane-13 candidate improved depth but reviewer 01 rejected it because the central window hotspot competed with the avatar corridor, side-zone prop density was too sparse, and the scene read too generic/semi-realistic instead of premium toy-game.",
+    "scopeDecision": "Revise only the separate lane-13 environment candidate. Do not replace Workstream 09 active environment or touch Workstream 06 avatar assets/code."
   },
   "reference": {
     "originalPath": "docs/preproduction/reference-screenshots/originals/home-1448x1086.jpeg",
@@ -25,53 +24,65 @@
     "comparisonPath": "docs/preproduction/reference-screenshots/home-desktop-1408x1056.png",
     "pixelParityClaimed": false
   },
-  "provenance": {
-    "generator": "Adobe Firefly image_generate",
-    "generationRequestId": "8cd09402-ff64-41ab-ad5f-f0a638662548",
-    "fireflyAssetId": "urn:aaid:sc:US:ec85f76f-eb61-49b8-acc4-950972ab07c3",
-    "optimizedDerivative": "Adobe image_crop_and_resize",
-    "cropRequestId": "b929fd71-ae94-4820-b007-7d4a4c56e6fd",
-    "creativeConstraints": [
-      "original StarBlox environment only",
-      "no character baked into background",
-      "no UI/text/buttons/logos in background",
-      "clear center foreground for separate avatar",
-      "calm top-center and right-edge overlay zones",
-      "warm pink/lilac bedroom with dimensional materials and lighting"
-    ]
+  "priorCandidate": {
+    "candidateId": "home-bedroom-w13-v1",
+    "desktopAssetGitBlobSha": "d37d2ad7e07f91a79e00a89a0a43e168408ae53c",
+    "reviewer": "01",
+    "reviewFile": "docs/preproduction/visuals/reviews/01.json",
+    "decision": "REWORK_BEFORE_RUNTIME_INTEGRATION",
+    "preserved": true
   },
+  "provenance": {
+    "generator": "Adobe image_generate",
+    "generationRequestId": "a61e4792-b459-4bcd-9e50-56475be8f979",
+    "sourceAdobeUrn": "urn:aaid:ps:US:e4ef809a-d20b-4056-9cd1-5fe95e92bf75",
+    "generationBasis": "Prior no-character lane-13 scene reference plus reviewer-01 measurable v1 repair contract; actual immutable Home reference inspected before production.",
+    "optimizedDerivative": "Adobe image_crop_and_resize",
+    "cropRequestId": "4bf802ff-17a1-4d22-84b9-657b30f6296d",
+    "desktopAdobeUrn": "urn:aaid:ps:US:102f4dce-1dc8-43f1-a1f5-667155d813e0"
+  },
+  "repairContractApplied": [
+    "Brightest architectural window/daylight moved into far-left third so the central avatar corridor no longer has the dominant white opening behind it.",
+    "Bed-left and desk-right anchors preserved.",
+    "Center floor remains open for a separately composited avatar and buddy.",
+    "Side-zone density increased with shelves/books/plants/soft lamps/toy-like decor while keeping UI-free negative space.",
+    "Furniture uses chunkier rounded silhouettes, bevel highlights and more saturated blush/lilac/cyan/gold accents.",
+    "Top-center and far-right overlay zones remain comparatively calm; no text-like marks were introduced."
+  ],
   "assets": [
     {
-      "path": "public/assets/visuals/lane-13/home-bedroom-w13-v1-full.png",
+      "path": "public/assets/visuals/lane-13/home-bedroom-w13-v2-full.png",
       "format": "PNG",
-      "dimensions": [
-        2304,
-        1792
-      ],
-      "bytes": 4967782,
-      "sha256": "fbdce223607f8883c494fcd8bfcab7feb88d6ee0d28d63101cecfa94427554e2",
-      "gitBlobSha": "f1f36f1ccd33d3aa45bb8d5b13b5f25405a7d256"
+      "dimensions": [2320, 1808],
+      "bytes": 3808983,
+      "sha256": "d6f1936fc51ee7afd92a261a24015d02d93228cb7ae110fde9d7f12c0782c2cb",
+      "gitBlobSha": "daa6069209ec438c6fc5e2e20788c33f7534d426",
+      "originReadback": "PASS_EXACT_SHA256"
     },
     {
-      "path": "public/assets/visuals/lane-13/home-bedroom-w13-v1-1408x1056.png",
+      "path": "public/assets/visuals/lane-13/home-bedroom-w13-v2-1408x1056.png",
       "format": "PNG",
-      "dimensions": [
-        1408,
-        1056
-      ],
-      "bytes": 1741694,
-      "sha256": "dcf02cbe451685acf3bb6fd4090d293e69c65c6c2a085c3746f6e380beb019ff",
-      "gitBlobSha": "d37d2ad7e07f91a79e00a89a0a43e168408ae53c"
+      "dimensions": [1408, 1056],
+      "bytes": 1394961,
+      "sha256": "954d3d6e55b578506df87d787aa7d3aa7005f759b78cdd06b65603469ffc9251",
+      "gitBlobSha": "2806e8282923efb1b0dc467cbae7139b8d3f339b",
+      "originReadback": "PASS_EXACT_SHA256"
     }
   ],
+  "intakeEvidence": {
+    "workflowRunId": 35669831950,
+    "workflowJobId": 106563578273,
+    "resultPath": "docs/preproduction/visuals/lane-13-home-v2-intake.json",
+    "status": "PASS_STORED_AND_READBACK_2_OF_2"
+  },
   "visualInspection": {
     "status": "PASS_PRODUCER_INSPECTION_ONLY",
     "notes": [
-      "No person/character or interface text is present.",
-      "Center foreground remains open for a separately composited avatar.",
-      "Bed-left / desk-right composition follows the reference hierarchy without copying its UI.",
-      "Scene has materially stronger volumetric light, depth and tactile furniture response than the current vector background.",
-      "Independent art/composition review is still required."
+      "No person/character, interface text, logo, cards or buttons are baked into the candidate.",
+      "The dominant daylight source is now visibly left of the center avatar corridor, leaving a calmer mid-wall behind the intended hero position.",
+      "Bed-left / desk-right hierarchy and clean central floor are preserved.",
+      "Side zones contain more collectible/room-life detail than v1 while remaining readable as a background.",
+      "Independent art/composition acceptance is still required; this is not screenshot-parity proof."
     ]
   },
   "integration": {
@@ -83,8 +94,8 @@
     "mainTouched": false
   },
   "reviewHandoff": {
-    "01": "Independently judge the exact candidate pixels for art-direction fit and originality.",
-    "14": "Independently judge Home composition, overlay-safe zones, performance/format and real-browser suitability before any wiring.",
-    "15": "Coordinate any approved environment handoff to Workstream 09; no runtime integration is authorized by this candidate."
+    "01": "Independently judge the exact v2 pixels against the immutable Home reference and the prior measurable rework contract. ACCEPT/REWORK must bind to the exact desktop/full hashes above.",
+    "14": "Independently judge overlay-safe composition, format/performance and real-browser suitability. Do not composition-approve from producer notes alone.",
+    "15": "Only after independent acceptance, coordinate any approved environment handoff to Workstream 09. No runtime integration is authorized by this candidate."
   }
 }
