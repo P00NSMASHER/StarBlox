@@ -1,0 +1,92 @@
+{
+  "schemaVersion": 1,
+  "workstream": "14",
+  "phase": "CATALOG_SPRINT",
+  "branch": "screenshot-match-preproduction",
+  "status": "FAIL_CATALOG_NOT_RELEASE_READY",
+  "auditedHead": "8e49cff09f28c6cb4bfc44cba0f7d69d8e0dd7e9",
+  "runtimeAssetContinuity": "No runtime or catalog asset changes between full CI-proven d044d6d68a21009ae521c65fe893fd81905e0863 and audited head; later changes are QA workflow/review/CI-filter only.",
+  "evidence": {
+    "fullCiRunId": 35646326387,
+    "fullCiJobId": 106487626130,
+    "fullCiHead": "d044d6d68a21009ae521c65fe893fd81905e0863",
+    "tests": "PASS_20_OF_20_FILES_85_OF_85_TESTS",
+    "productionBuild": "PASS_VITE_1612_MODULES",
+    "catalogSafetyTest": "PASS_ALL_CATALOG_SVG_SELF_CONTAINED_NO_EXECUTABLE_OR_EMBED_CONTENT",
+    "stagedLightingRunId": 35646739825,
+    "stagedLightingArtifactId": 10660601212,
+    "stagedLightingArtifactDigest": "sha256:be5c24af79fb8f023d5bf8cda06f1e209c41faeb39068273c6614eb3a7b0f261",
+    "stagedLightingRender": "PASS_12_OF_12_HTTP_200_SINGLE_SVG_DETAIL_SCREENSHOTS_AND_CONTACT_SHEET"
+  },
+  "canonical": {
+    "catalogTarget": 192,
+    "actualStoreUniqueIds": "PASS_192_FROM_CURRENT_CI",
+    "manifestVersion": 12,
+    "manifestFinalPortableLabelCount": 99,
+    "manifestInterimNotVerifiedCount": 23,
+    "manifestRemainingRelativeToFinalPortable": 93,
+    "manifestEntries": 122,
+    "runtimeMappings": 122,
+    "duplicateManifestPaths": 0,
+    "exactMetadataForWiredEntries": "PASS_CURRENT_CI",
+    "uniqueExistingPathPerWiredEntry": "PASS_CURRENT_CI",
+    "complete192FinalMappings": "FAIL"
+  },
+  "independentReviewCoverage": {
+    "reviewedCurrentHashes": 47,
+    "accepted": 0,
+    "rework": 47,
+    "blocked": 0,
+    "unreviewed": 145,
+    "reviewedFamilies": {
+      "tops": {"reviewer":"01","reviewed":12,"accepted":0,"rework":12},
+      "seating": {"reviewer":"02","reviewed":11,"accepted":0,"rework":11},
+      "auras": {"reviewer":"05","reviewed":12,"accepted":0,"rework":12},
+      "lighting": {"reviewer":"14","reviewed":12,"accepted":0,"rework":12}
+    },
+    "releaseFinding": "Legacy final-portable or interim labels cannot be treated as visual acceptance. Every independently inspected family so far materially misses the premium dimensional screenshot-art target."
+  },
+  "checks": {
+    "exact192PermanentIds": "PASS_AUTOMATED",
+    "wiredManifestMetadata": "PASS_AUTOMATED_FOR_122_WIRED_ENTRIES",
+    "wiredFileExistence": "PASS_AUTOMATED_FOR_122_WIRED_ENTRIES",
+    "wiredUniquePaths": "PASS_0_DUPLICATE_PATHS",
+    "activeContentExternalEmbedSafety": "PASS_AUTOMATED_CURRENT_CI",
+    "all192CurrentHashIndependentVisualAcceptance": "FAIL_47_REVIEWED_0_ACCEPTED_145_UNREVIEWED",
+    "all192UniqueFinalCanonicalAssets": "FAIL",
+    "allStoredAssetExactContentDuplicateScan": "NOT_TESTED_COMPLETE_SET",
+    "allStoredAssetRenderedNearDuplicateReview": "NOT_TESTED_COMPLETE_SET",
+    "lightingExactContentWithinReviewedFamily": "PASS_12_DISTINCT_GIT_BLOB_HASHES",
+    "lightingRenderedQuality": "FAIL_REWORK_12_OF_12",
+    "catalogRegressionTests": "PASS_CURRENT_CI_ON_UNCHANGED_CANONICAL_RUNTIME",
+    "productionBuild": "PASS_CURRENT_CI_ON_UNCHANGED_CANONICAL_RUNTIME",
+    "canonicalStoreDesktopPhoneBrowsing": "PASS_PRIOR_BROWSER_EMULATION_ON_CURRENT_UNCHANGED_CANONICAL_MANIFEST_RUNTIME_HASHES",
+    "postFinalArtIntegrationStoreCheck": "NOT_TESTED_NO_ACCEPTED_ART_INTEGRATED",
+    "catalogLearningP0": "PASS_AUTOMATED_NO_CATALOG_INDUCED_P0_FOUND",
+    "catalogPersistenceEconomyP0": "PASS_AUTOMATED_BASELINE_ONLY_LIVE_TIMING_NOT_TESTED",
+    "catalogSpecificPersistenceReport": "BLOCKED_MISSING_persistence-qa.json",
+    "originalReferencePixelComparison": "BLOCKED_ORIGINAL_USER_REFERENCE_PIXELS_NOT_REPOSITORY_ACCESSIBLE"
+  },
+  "currentBlockers": [
+    "47 independently inspected current asset versions are REWORK and therefore ineligible for final-art promotion: tops 12, seating 11, auras 12, lighting 12.",
+    "145 catalog IDs do not yet have qualified independent current-hash visual dispositions under V2.",
+    "Canonical manifest/runtime still covers only 122 of 192 IDs and includes 23 interim-not-verified entries; only 99 carry legacy final-portable labels, which are not visual acceptance.",
+    "Desks lane has 3 locally generated candidates but zero repository-staged bytes because its supported binary upload path remains unresolved in lane-03.json.",
+    "Complete content-hash and rendered near-duplicate review across the eventual 192 final stored assets has not yet been performed.",
+    "Catalog-specific live persistence/re-entry evidence is missing; persistence-qa.json does not yet exist.",
+    "Exact side-by-side comparison to the original user reference pixels remains blocked because those pixels are not repository-accessible."
+  ],
+  "deferredNotCatalogGateBlockers": {
+    "wholeGameGeometry": "13 previously measured Home/Store/Quest structural failures remain deferred to GAME_FINISHING and were not remeasured in this catalog-focused pass.",
+    "fullPhysicalAccessibilityPerformance": "Physical-device, real screen-reader and final normal/reduced-motion performance proof remain whole-game release work after catalog completion."
+  },
+  "nextActions": [
+    "04 repairs lighting exact REWORK items in bounded versioned batches; 14 re-reviews replacement hashes with the staged fixture.",
+    "14 proceeds to wall, rugs and decor actual-pixel review while preserving disjoint reviewer ownership.",
+    "01/02/05 continue their partitions and prioritize repaired candidates before untouched legacy finals.",
+    "08 consumes only qualified ACCEPT hashes incrementally; current reviewed REWORK hashes must not be integrated as final.",
+    "15 resolves/reassigns the desk binary-upload blocker and routes exact art repairs without double assignment.",
+    "13 produces catalog-specific synthetic browser persistence/economy evidence before the catalog gate can pass."
+  ],
+  "freeze": {"replitTouched":false,"flootTouched":false,"mainMergedOrModified":false,"deploymentAttempted":false,"phaseChanged":false}
+}
