@@ -1,22 +1,43 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
+  "orchestrationVersion": 2,
   "lane": "07",
   "workstream": "07",
   "phase": "CATALOG_SPRINT",
   "branch": "screenshot-match-preproduction",
+  "status": "READY_FOR_REVIEW",
+  "workflowState": "WAITING_INDEPENDENT_REVIEW_14",
   "sourceHeadReadBeforeProduction": "2608b1f23ab09ed92e6cd1462586eebc7e37554f",
   "sourceHeadReadBeforeHandoff": "6f9d7f6261b84d0f9f9ad13b0c591e0ef7a88590",
+  "sourceHeadCheckedThisRun": "911edfc37d05b0402ea028613c6a835401d316f0",
   "assignment": [
     "rugs-1", "rugs-2", "rugs-3", "rugs-4", "rugs-5", "rugs-6",
     "rugs-7", "rugs-8", "rugs-9", "rugs-10", "rugs-11", "rugs-12"
   ],
-  "status": "READY_FOR_REVIEW",
   "candidateCount": 12,
   "selfApproved": false,
   "owners": {
     "phase": "15",
     "manifestRuntime": "08",
-    "independentReview": ["01", "14"]
+    "independentReview": ["14"]
+  },
+  "review": {
+    "partition": "14",
+    "shardPath": "docs/preproduction/catalog-sprint/reviews/14.json",
+    "shardObservedAtCheckedHead": false,
+    "decision": "PENDING",
+    "note": "DELIVERY_PROTOCOL_V2 assigns rugs exclusively to reviewer 14. No reviewer-14 shard existed at the checked head, so no ACCEPT/REWORK decision is available and no regeneration is authorized."
+  },
+  "changeAudit": {
+    "compareBase": "6f9d7f6261b84d0f9f9ad13b0c591e0ef7a88590",
+    "compareHead": "911edfc37d05b0402ea028613c6a835401d316f0",
+    "commitsAhead": 45,
+    "rugAssetPathChangesObserved": 0,
+    "conclusion": "All 12 rug candidate asset paths are unchanged since the original lane handoff, so prior producer render/hash evidence remains applicable under DELIVERY_PROTOCOL_V2.",
+    "directReadbackAnchors": [
+      {"id":"rugs-1","gitBlobSha":"30965be773947cbff94d1499ddf2d8e2a121c54c","dimensions":[800,800]},
+      {"id":"rugs-12","gitBlobSha":"718227d632a1a85fa3386f1d9ef1e407a7e5a115","dimensions":[800,800]}
+    ]
   },
   "provenance": {
     "type": "original-repo-owned-svg",
@@ -222,30 +243,37 @@
     }
   ],
   "producerChecks": {
-    "xmlParse12": "PASS",
-    "cairoRender800x800_12": "PASS",
-    "contactSheetInspection": "PASS",
-    "metadataMatch": "PASS",
-    "uniqueBlobShaWithinLane": "PASS_12_OF_12",
-    "distinctSilhouettes": "PASS",
+    "xmlParse12": "PASS_REUSED_UNCHANGED_HASHES",
+    "cairoRender800x800_12": "PASS_REUSED_UNCHANGED_HASHES",
+    "contactSheetInspection": "PASS_REUSED_UNCHANGED_HASHES",
+    "metadataMatch": "PASS_REUSED_UNCHANGED_HASHES",
+    "uniqueBlobShaWithinLane": "PASS_12_OF_12_REUSED_UNCHANGED_HASHES",
+    "distinctSilhouettes": "PASS_REUSED_UNCHANGED_HASHES",
+    "directRepositoryReadback": "PASS_ANCHORS_RUGS_1_AND_12",
     "manifestTouched": false,
     "runtimeTouched": false,
     "playerDataTouched": false,
     "replitOrFlootTouched": false,
     "mainTouched": false,
-    "independentRenderedAcceptance": "PENDING_01_14",
-    "realStoreViewportContext": "NOT_TESTED",
-    "fullBranchBuild": "NOT_RUN",
-    "fullTestSuite": "NOT_RUN"
+    "independentRenderedAcceptance": "PENDING_14",
+    "realStoreViewportContext": "NOT_TESTED_BY_LANE_07",
+    "fullBranchBuild": "NOT_RUN_BY_LANE_07",
+    "fullTestSuite": "NOT_RUN_BY_LANE_07"
   },
   "blockers": [
-    "Independent rendered/card-scale approval by Workstream 01 and/or 14 is required before any rugs-1..12 candidate can become accepted final art.",
-    "Workstream 08 alone may integrate independently accepted exact IDs into catalog-art-manifest.json and src/catalogArtRuntime.js.",
-    "Lane 07 did not execute the branch-local Store viewport suite or full branch test/build gate."
+    "Reviewer 14 has not yet written docs/preproduction/catalog-sprint/reviews/14.json at the checked head, so rugs-1..12 have no qualified independent actual-pixel ACCEPT/REWORK decisions.",
+    "Workstream 08 alone may integrate independently accepted exact IDs into catalog-art-manifest.json and src/catalogArtRuntime.js; its current integration.json snapshot predates this lane handoff and incorrectly lists lane 07 as missing.",
+    "Lane 07 cannot self-approve and must not regenerate unchanged READY_FOR_REVIEW candidates without an evidenced REWORK."
   ],
+  "antiStall": {
+    "actionThisRun": "Reconciled DELIVERY_PROTOCOL_V2, proved no rug asset path changed since the handoff, directly read back the first and last asset hashes, corrected the current review owner to 14, and escalated the precise missing-review dependency instead of regenerating unchanged art.",
+    "escalationRequested": true,
+    "nextOwner": "14",
+    "nextAction": "Render rugs-1..12 in the staged-asset review fixture at card/detail scale and append exact-hash ACCEPT/REWORK/BLOCKED decisions to reviews/14.json. Then 08 should reread lane-07 and integrate accepted IDs incrementally."
+  },
   "handoff": {
-    "15": "All 12 assigned rug candidates are produced and staged. Request reassignment only after review/integration needs are reconciled; do not resume progression work during CATALOG_SPRINT.",
-    "08": "Integrate only independently accepted exact IDs and preserve IDs/prices/starReq/ownership semantics.",
-    "01_14": "Review the exact asset blobs recorded here; READY_FOR_REVIEW is not acceptance."
+    "15": "Lane 07 production is complete and unchanged. The actionable blocker is reviewer-14 actual-pixel decisions, followed by 08 integration. Please prioritize that dependency; once review/integration needs are reconciled, reassign Workstream 07 to a specific unresolved catalog repair/evidence task or leave it read-only until GAME_FINISHING. Do not resume progression work during CATALOG_SPRINT.",
+    "14": "Current v2 review owner for rugs. Review the exact unchanged blobs recorded here at card/detail scale and create/append reviews/14.json; return concrete REWORK defects by exact ID/hash.",
+    "08": "Your current integration.json was audited before lane-07 existed and still lists rugs as missing. After reviewer 14 decisions appear, reread the latest lane-07 report and integrate each accepted exact ID while preserving IDs/prices/starReq/ownership semantics."
   }
 }
