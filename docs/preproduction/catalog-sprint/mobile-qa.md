@@ -1,105 +1,116 @@
 # Catalog Sprint — Workstream 10 Mobile / Accessibility QA
 
-STATUS: **PASS — EXTENDED CANONICAL STORE BROWSER GATE, CURRENT CANONICAL HASHES UNCHANGED**
+STATUS: **PASS — FIRST V2 CANONICAL ART BATCH / 0 MOBILE RELEASE BLOCKERS**
 
 Branch: `screenshot-match-preproduction`  
-Audited runtime head: `81bbf06dc070b0f72f942dde9c14ac4bba476922`  
-Observed descendant before this report: `b8d8dc1bdea4c1790c445fd210cbf1023a8f5f4e`  
+Audited runtime head: `8a2c53aa2133baef23e263d8dda8b2a180dffe19`  
 Catalog phase: `CATALOG_SPRINT`  
 Catalog gate: **NOT APPROVED by Workstream 10**  
 Replit/Floot: **untouched**  
 `main`: **not merged or modified**
 
-## This pass
+## Why this run was warranted
 
-Workstream 10 did **not** rerun the unchanged 16-collection canonical Store matrix merely because the schedule fired. A Git comparison from the exact browser-proven runtime head through the current descendant found no change to `catalog-art-manifest.json`, `src/catalogArtRuntime.js`, Store runtime/styles, Workstream-10 runtime/CSS, or the catalog-mobile QA harness.
+The previous Workstream-10 PASS was tied to manifest v12/runtime hashes. Workstream 08 has now completed the first V2 exact-hash canonical art integration, so the canonical Store really changed and prior unchanged-hash proof was no longer sufficient.
 
-The material new files are six Workstream-07 replacement Tops JPEGs (`tops-1-w07-v2.jpg` through `tops-6-w07-v2.jpg`) plus staged-art workflow/review/coordination changes. Those six images are **branch-staged candidates, not canonical Store mappings**, so they are explicitly excluded from this canonical PASS. Workstream 14 owns the staged card/detail render fixture and Workstream 01 owns their independent visual disposition. Workstream 10 will exercise the Tops collection plus one stable control immediately after Workstream 08 canonically wires an independently accepted replacement hash.
+Manifest v13 promoted four independently accepted Companion replacements:
 
-This is a continuity/evidence pass, not a claim that staged images have passed mobile QA.
+- `companions-3` Berry Bunny → `/assets/catalog-candidates/chat-20260921-intake01/companions-3-detail.webp` (`adba95dc769e603337dc4ac38b9a513ce9914b10`)
+- `companions-4` Sunny Bird → `/assets/catalog-candidates/chat-20260921-intake01/companions-4-detail.webp` (`b382339e76ed9d4aeae72b1c8cccc904abf85b57`)
+- `companions-10` Pixel Bot → `/assets/catalog-candidates/chat-20260921-intake01/companions-10-detail.webp` (`2b09d950b08083bb3a9ec5e2073ae23d88411cf4`)
+- `companions-11` Dream Dragon → `/assets/catalog-candidates/chat-20260921-intake01/companions-11-detail.webp` (`465fe45abbe4d9b4355444cb3f75a49927b604e9`)
 
-No item IDs, prices, ownership, learning logic, economy logic, catalog manifest mappings, producer art, or saved player data were changed by Workstream 10.
+All four are 768×768 WebP files. Stable IDs, prices, unlock rules, ownership, learning, economy and saves were not changed by the integration.
 
-## Exact passing evidence retained
+Because this was the **first accepted V2 canonical art batch**, it was treated as a coherent catalog milestone and the full 16-collection browser matrix was run once. For later small batches Workstream 10 will return to the narrower rule: changed collection(s) plus one stable control at 1408/1024/390/320, reserving another full matrix for a coherent milestone or final gate.
 
-GitHub Actions run `35652513733`, job `106508054482`, artifact `10662478311` on exact source head `81bbf06dc070b0f72f942dde9c14ac4bba476922`.
+## Exact evidence
 
-Artifact digest: `sha256:0d18c7f21a2f04208c17199d0a8ab945690358d33b7d6c1cd0efb458387802e4`  
-Artifact: 36 files, 16,916,667-byte ZIP.
+GitHub Actions run `35659760652`, job `106532044131`, artifact `10667595844` on source head `8a2c53aa2133baef23e263d8dda8b2a180dffe19`.
 
-Canonical/evidence hashes:
+Artifact digest: `sha256:7a5d1cb254d00086f95889dc316087116dfb7d245cda02755c42705efabc1607`  
+Artifact: 36 files, 17,010,331-byte ZIP.
 
-- manifest blob: `862894db70500087409396dc5a72d032cf00a693`
-- canonical catalog runtime: `fcf502b18a51781b415b7ba3620e9b8eb66d37e3`
+Canonical hashes:
+
+- manifest v13 blob: `54fb26beca9b8da5f17472193831ee8248ffd3a4`
+- catalog runtime blob: `b350940b703ea2934062e183c5529ad9f9b7f810`
 - Workstream-10 runtime: `272fb9b6a95a38eba4696c7d732d805621a52f49`
 - Workstream-10 CSS: `d1bf7ac11815a59baee4ccf45b58ec2ad40b6694`
-- QA harness: `3a563274fc4a069fe57062f9fcb0574a324a5533`
-- targeted runtime test: `b0fe447b8b7bd2637b4d5865d66992f7f23f34d7`
+- catalog mobile QA script: `3a563274fc4a069fe57062f9fcb0574a324a5533`
 
-The production build inside the browser workflow passed with Vite 8.3.0: 1,613 modules transformed; CSS 167.39 kB / 35.69 kB gzip; JS 304.14 kB / 93.34 kB gzip. The repository test/build check on the same runtime commit also passed.
+Production build inside the browser workflow: **PASS**, Vite 8.3.0, 1,613 modules, CSS 167.39 kB / 35.69 kB gzip, JS 304.31 kB / 93.39 kB gzip.
 
-**Current canonical catalog-mobile result remains PASS, 0 release-blocking failures, because the relevant runtime/manifest hashes are unchanged.**
+## Browser result
 
-## Full canonical Store matrix retained
+**CATALOG_MOBILE_QA_STATUS = PASS**  
+**release-blocking failures = 0**
 
-The reduced-motion matrix exercised all 16 collections at desktop `1408×1056`, tablet `1024×768`, phone `390×844`, and phone `320×568` — 64 collection/viewport combinations.
+Playwright 1.55 Chromium headless on GitHub Actions Ubuntu 24.04 exercised reduced-motion Store behavior at `1408×1056`, `1024×768`, `390×844`, and `320×568`, plus normal-motion controls at `1024×768` and `390×844`.
 
 | Check | Result |
 | --- | --- |
 | Category navigation | **64/64 PASS** |
 | Page-level horizontal overflow | **64/64 PASS** |
 | Critical card/category/tier touch targets | **64/64 PASS** |
-| Readable names, prices and visible states | **64/64 PASS** |
-| Card semantics, keyboard focus and accessible labels | **64/64 PASS** |
-| Image loading and alternative semantics | **64/64 PASS** |
-| Explicit intrinsic image dimensions | **64/64 PASS or honestly no image-backed canonical card yet** |
+| Readable names, prices and states | **64/64 PASS** |
+| Card semantics, focusability and accessible labels | **64/64 PASS** |
+| Image loading and alternatives | **64/64 PASS** |
+| Explicit intrinsic image dimensions | **64/64 PASS or no image-backed canonical card yet** |
 | Visible keyboard focus | **64/64 PASS** |
 | Reduced-motion context | **64/64 PASS** |
 | Enter-key card activation | **64/64 PASS** |
-| Phone first-row two-column grid | **32/32 PASS** |
-| Real Tab traversal reaches tiers + cards without clipping/fixed-chrome obstruction | **4/4 PASS** |
-| Last-card keyboard reachability below/around fixed HUD/dock | **4/4 PASS** |
-| Reduced-motion active-animation check | **4/4 PASS; 0 active animations, 0ms longest finite animation** |
+| Phone two-column grid | **32/32 PASS** |
+| Tab traversal tiers → cards, no clipping/fixed-HUD obstruction | **4/4 PASS** |
+| Last-card keyboard reachability | **4/4 PASS** |
+| Reduced-motion active-animation check | **4/4 PASS; 0 active animations** |
 | Runtime `pageerror` / `console.error` | **4/4 PASS** |
 
-The gate retained screenshots of all 16 canonical collections at desktop 1408px and phone 390px. Tablet and 320px behavior were measured by the same strict browser script.
+### Changed Companions collection
 
-## Scroll / layout-stability evidence retained
+The canonical Companions collection now renders **12/12 image-backed cards** at every tested viewport. All 12 loaded successfully, exposed alternative semantics, declared intrinsic width/height, remained readable, showed visible keyboard focus, and supported Enter-key selection. At `390px` and `320px`, the first row remained exactly **2 columns** with no page-level horizontal overflow.
 
-These are **Playwright 1.55 headless Chromium measurements on GitHub Actions Ubuntu 24.04**, not physical-device performance claims.
+### Stable control
+
+Tops was retained as the stable control and passed the same loading, intrinsic-dimension, readability, focus, keyboard and phone-grid checks at all four reduced-motion viewports.
+
+## Scroll / layout stability
+
+These are **headless Chromium emulation measurements**, not physical-device performance claims.
 
 | Viewport | Max scroll | Avg frame | Frames >34ms | Catalog resources | CLS |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| 1408×1056 | 169px | 16.3ms | 0/61 | 187 | 0.0000 |
-| 1024×768 | 612px | 16.2ms | 0/61 | 144 | 0.0040 |
-| 390×844 | 2029px | 16.4ms | 0/61 | 132 | 0.0000 |
-| 320×568 | 2663px | 16.4ms | 0/61 | 132 | 0.0000 |
+| 1408×1056 | 169px | 16.1ms | 0/61 | 168 | 0.0016 |
+| 1024×768 | 612px | 16.3ms | 0/61 | 140 | 0.0040 |
+| 390×844 | 2029px | 16.3ms | 0/61 | 128 | 0.0000 |
+| 320×568 | 2663px | 16.2ms | 0/61 | 128 | 0.0000 |
 
-Normal-motion controls also passed: tablet `1024×768` used four first-row columns with 0px horizontal overflow and 16.4ms average frame time; phone `390×844` used two columns with 0px overflow and 16.6ms average frame time. Both had 0/61 frames over 34ms and no runtime errors.
+Normal-motion controls also passed: tablet `1024×768` stayed at four first-row columns and phone `390×844` at two, both with `0px` horizontal overflow, about `16.4ms` average frame time, `0/61` frames over 34ms and no runtime errors.
 
-## Staged-candidate boundary
+## Contrast / assistive technology
 
-New branch-stored but non-canonical assets observed this cycle:
+Exact rendered color contrast remains **NOT TESTED**. The existing automated sampler deliberately refuses to fabricate ratios where text is composited over gradients, images or translucent layers. Final screenshot/device-aware measurement is still required.
 
-- `/assets/catalog/tops-1-w07-v2.jpg`
-- `/assets/catalog/tops-2-w07-v2.jpg`
-- `/assets/catalog/tops-3-w07-v2.jpg`
-- `/assets/catalog/tops-4-w07-v2.jpg`
-- `/assets/catalog/tops-5-w07-v2.jpg`
-- `/assets/catalog/tops-6-w07-v2.jpg`
+Physical iPhone/iPad/Android performance remains **NOT TESTED**. VoiceOver, TalkBack and NVDA remain **NOT TESTED**. Browser semantics, focus, keyboard activation, reachability and reduced-motion behavior are directly verified, but they are not substitutes for physical-device or screen-reader evidence.
 
-They are **not included** in the canonical Store evidence above. Workstream 14's staged-art path may render them before integration; that is staged-fixture evidence only. Workstream 10's next executable catalog action begins after Workstream 08 changes the canonical mapping: test the changed collection plus one unchanged control at desktop/tablet/390/320, then reserve a full 16-collection sweep for a coherent catalog milestone or final gate.
+## Deterministic screenshot capture support
 
-## Contrast / assistive-technology status
+The final deterministic Home/Store/Quest capture path is prepared:
 
-Exact rendered text contrast remains **NOT TESTED**, deliberately. The catalog text sits over gradients, images and translucent layers; the existing solid-background sampler cannot derive a defensible WCAG ratio and Workstream 10 will not fabricate one. This has now remained unchanged across repeated passes, so the final screenshot/device-aware contrast check is explicitly handed to Workstream 15 / final accessibility QA rather than triggering another unchanged automated catalog sweep.
+- workflow: `.github/workflows/reference-screenshot-capture.yml`
+- script: `scripts/referenceScreenshotCapture.mjs`
+- controlled production build + Chromium preview
+- deterministic target viewports
+- screenshot artifacts, keyboard/focus checks, contrast tooling and optional pixel-diff support
 
-Physical iPhone/iPad/Android performance remains **NOT TESTED**. VoiceOver, TalkBack and NVDA remain **NOT TESTED**. Browser semantics, labels, focus-visible behavior, keyboard activation, full Tab traversal, long-scroll reachability and reduced-motion behavior are directly exercised, but those automated results are not physical-device or screen-reader evidence.
+The expected source directory `docs/preproduction/reference-screenshots` is currently absent. Therefore **pixel-identical reference comparison remains BLOCKED on the original user reference image files becoming repository-accessible**. Generated promotional collages are not valid substitutes.
 
-## Canonical-versus-staged boundary
+## Handoff
 
-The manifest remains v12 with 192 target IDs, 99 recorded `final-portable`, and 93 remaining relative to that legacy label. Lighting, wall, rugs and decor still lack canonical image-backed coverage in this manifest version; seating and desks each have only their currently canonical first image. Staged/replacement art stays outside this PASS until Workstream 08 integrates it.
+- Workstream 08 may treat this four-Companion canonical batch as **mobile/accessibility browser PASS** at the exact hashes above.
+- Workstream 14 may reuse artifact `10667595844` for canonical Store screenshots, while keeping visual-art acceptance and catalog release QA separate.
+- On the next small canonical integration, Workstream 10 should test only the changed collection(s) plus one stable control at all four viewports, normal + reduced motion as applicable.
+- Run another full 16-collection sweep only at a coherent catalog milestone or final release gate.
+- Do not approve the catalog gate from this result: only **4/192** current item hashes are canonically accepted, and final visual, persistence, physical accessibility and reference-parity gates remain separate.
 
-This PASS does **not** approve the catalog gate. Workstream 14 owns final catalog release QA, Workstream 08 owns canonical integration, and independent visual acceptance remains a separate requirement.
-
-**Handoff:** 08/14 may continue to reuse the current canonical Store mobile/accessibility PASS at the exact hashes above. Do not rerun the unchanged full catalog because of staged-only files. After the next canonical art integration, immediately test affected collection(s) plus a stable control, with exact runtime/manifest/asset hashes and normal + reduced-motion browser evidence.
+Replit/Floot and `main` remain untouched.
