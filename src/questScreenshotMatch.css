@@ -1,0 +1,306 @@
+/* Workstream 05: final screenshot-match Quest composition layer. Loaded after earlier Quest CSS. */
+.questScreenshotMatch{
+  --quest-ice:#f8fdff;
+  --quest-ink:#17366b;
+  --quest-muted:#667da4;
+}
+
+.questScreenshotMatch .questTop{
+  overflow:visible!important;
+}
+.questCoreHeader{
+  min-width:0;
+  display:grid;
+  grid-template-columns:auto 1fr;
+  grid-template-areas:"title kicker" "title skill" "crumb crumb";
+  column-gap:12px;
+  align-items:center;
+}
+.questScreenTitle{
+  grid-area:title;
+  align-self:stretch;
+  min-width:104px;
+  display:grid;
+  place-items:center;
+  padding:6px 12px;
+  border:2px solid #fff1a0;
+  border-radius:16px;
+  background:linear-gradient(180deg,#fff181 0%,#ffd044 48%,#f5a91b 100%);
+  color:#5a3c00;
+  font-size:25px;
+  line-height:1;
+  font-weight:1000;
+  letter-spacing:.03em;
+  text-shadow:0 1px #fff7c9;
+  box-shadow:inset 0 2px #fff7c9,0 4px 0 #a7670b,0 0 14px rgba(255,216,79,.32);
+}
+.questCoreHeader .kicker{grid-area:kicker;margin:0!important;font-size:10px!important;letter-spacing:.1em}
+.questCoreHeader h2{grid-area:skill;margin:1px 0 0!important;line-height:1.02!important}
+.questBreadcrumb{
+  grid-area:crumb;
+  margin-top:5px;
+  min-width:0;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  color:#d8efff;
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:.015em;
+}
+.questScreenshotMatch .qCounter{position:relative;padding-top:18px!important;font-weight:1000!important}
+.questScreenshotMatch .qCounter:before{
+  content:attr(data-label);
+  position:absolute;
+  top:4px;
+  left:0;
+  right:0;
+  color:#d9f6ff;
+  font-size:7px;
+  letter-spacing:.12em;
+  line-height:1;
+}
+
+.questScreenshotMatch .questPhaseStrip{
+  background:linear-gradient(180deg,rgba(7,30,87,.96),rgba(8,44,117,.94))!important;
+}
+.questScreenshotMatch .questPhase{
+  position:relative;
+  min-height:44px;
+  padding:5px 7px;
+  border-radius:12px;
+}
+.questScreenshotMatch .questPhase[aria-current="step"]{
+  background:linear-gradient(180deg,rgba(35,135,238,.34),rgba(13,67,157,.2));
+  box-shadow:inset 0 0 0 1px rgba(214,248,255,.28);
+}
+.questScreenshotMatch .questPhase b{font-size:12px!important}
+.questScreenshotMatch .questPhase small{font-size:9px!important;line-height:1.1!important}
+
+/* Approved reference uses a light reading surface, not a large dark slab. */
+.questScreenshotMatch .questLessonCard{
+  background:linear-gradient(180deg,#ffffff 0%,#eef7ff 100%)!important;
+  border-color:#79dff6!important;
+  box-shadow:inset 0 2px #fff,0 6px 0 #0a4c9b,0 13px 28px rgba(2,19,59,.22)!important;
+}
+.questScreenshotMatch .questLessonCard:after{
+  background:linear-gradient(120deg,rgba(255,255,255,.55),transparent 24% 72%,rgba(99,217,244,.08))!important;
+}
+.questScreenshotMatch .questLessonCopy{
+  color:var(--quest-ink)!important;
+  background:linear-gradient(180deg,#fff 0%,#f5fbff 100%);
+}
+.questScreenshotMatch .questLessonLabel{
+  background:linear-gradient(180deg,#2c94ff,#0e5fcc)!important;
+  color:#fff!important;
+  border:2px solid #9cecff;
+  box-shadow:0 3px 0 #0a3d90;
+}
+.questLearningRhythm{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  color:#5a3bbe;
+  font-size:9px;
+  font-weight:1000;
+  letter-spacing:.1em;
+}
+.questLearningRhythm i{font-style:normal;color:#ffd84f;text-shadow:0 1px #a96a08}
+.questScreenshotMatch .questPassage{
+  color:var(--quest-ink)!important;
+  font-weight:800!important;
+  line-height:1.55!important;
+  scrollbar-color:#8fdff0 transparent;
+}
+.questScreenshotMatch .questStem{
+  margin-top:auto!important;
+  padding-top:12px;
+  border-top:2px solid #d6e9f7;
+  color:#37296f!important;
+  text-shadow:none!important;
+  font-size:clamp(20px,1.9vw,28px)!important;
+}
+.questScreenshotMatch .questLessonArt{
+  border-top:3px solid #79dff6!important;
+  background:linear-gradient(135deg,#dff7ff,#eadcff)!important;
+}
+
+.questAnswerHeading{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:8px;
+  margin-bottom:1px;
+  padding:3px 2px 6px;
+  color:#17366b;
+  border-bottom:2px solid #d7e9f7;
+}
+.questAnswerHeading b{font-size:11px;letter-spacing:.07em}
+.questAnswerHeading small{color:#667da4;font-size:9px;font-weight:800;text-align:right}
+.questScreenshotMatch .questAnswerStack .answerButton{
+  min-height:60px!important;
+  border-color:#b4d8f5!important;
+  background:linear-gradient(180deg,#fff 0%,#f1f7ff 100%)!important;
+  color:#17366b!important;
+  font-size:15px!important;
+  box-shadow:inset 0 1px #fff,0 4px 0 #8daed4,0 8px 16px rgba(24,54,111,.09)!important;
+}
+.questScreenshotMatch .questAnswerStack .answerButton:focus-visible{
+  outline:4px solid #ffd84f!important;
+  outline-offset:2px!important;
+}
+.questScreenshotMatch .questAnswerStack .answerButton[aria-pressed="true"]{
+  transform:translateY(-1px);
+}
+.questScreenshotMatch .questHintReady{
+  background:linear-gradient(180deg,#fff8d9,#ffefb6)!important;
+  color:#674a08!important;
+}
+.questScreenshotMatch .questHintReady b{font-size:10px;letter-spacing:.08em}
+.questScreenshotMatch .feedback{font-size:14px!important;line-height:1.35!important}
+.questScreenshotMatch .feedback p{color:inherit!important;font-weight:800!important}
+.questScreenshotMatch .feedback small{font-size:10px!important;line-height:1.35!important}
+
+.questBuddyPanel{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  padding:10px;
+  border:3px solid #ffb7db;
+  border-radius:18px;
+  background:linear-gradient(145deg,rgba(255,245,252,.97),rgba(236,225,255,.96));
+  color:#563376;
+  box-shadow:inset 0 2px #fff,0 5px 0 #9a5cbe,0 12px 24px rgba(45,21,87,.22);
+}
+.questBuddyFace{
+  flex:0 0 42px;
+  width:42px;
+  height:42px;
+  display:grid;
+  place-items:center;
+  border-radius:50%;
+  border:3px solid #fff0a1;
+  background:linear-gradient(180deg,#ff9bc9,#a77af3);
+  color:#fff7a8;
+  font-size:23px;
+  text-shadow:0 2px #713c96;
+  box-shadow:0 3px 0 #713c96;
+}
+.questBuddyPanel b,.questBuddyPanel small{display:block}
+.questBuddyPanel b{font-size:11px;letter-spacing:.04em}
+.questBuddyPanel small{margin-top:3px;font-size:9px;line-height:1.25;color:#76558f;font-weight:800}
+
+.questScreenshotMatch .questEvidenceNote{font-size:9px!important;line-height:1.35!important}
+.questScreenshotMatch .questTodayCard b{font-size:11px!important}
+.questScreenshotMatch .questTodayCard small{font-size:9px!important;line-height:1.25!important}
+.questScreenshotMatch .questEarnedBar em{font-size:9px!important;line-height:1.2!important}
+
+@media(min-width:1280px){
+  .questPage.questIllustratedPage{padding:10px 12px 18px!important;min-height:100vh!important}
+  .questScreenshotMatch{
+    width:100%!important;
+    max-width:none!important;
+    min-height:calc(100vh - 20px)!important;
+    margin:0!important;
+    padding:80px 224px 112px 372px!important;
+    border-radius:26px!important;
+  }
+  .questScreenshotMatch>.questTop{
+    min-height:72px!important;
+    margin:0 0 84px!important;
+    padding:10px 14px!important;
+  }
+  .questScreenshotMatch .questTop h2{font-size:28px!important}
+  .questScreenshotMatch .questPhaseStrip{
+    top:154px!important;
+    left:372px!important;
+    right:224px!important;
+    min-height:66px;
+    padding:8px 10px!important;
+  }
+  .questScreenshotMatch .questCharacterStage{
+    left:12px!important;
+    top:205px!important;
+    bottom:94px!important;
+    width:348px!important;
+  }
+  .questScreenshotMatch .questAvatarHalo{left:26px!important;right:26px!important;height:430px!important}
+  .questScreenshotMatch .questGuideAvatar{width:330px!important;max-height:575px!important}
+  .questScreenshotMatch .questGuideSpeech{width:250px!important;font-size:12px!important;padding:12px 13px!important}
+  .questScreenshotMatch .questionCard{
+    min-height:642px;
+    grid-template-columns:minmax(0,1.38fr) minmax(300px,1fr)!important;
+    grid-template-areas:"lesson read" "lesson answers" "lesson hint" "feedback feedback" "action action"!important;
+    gap:12px!important;
+    padding:13px!important;
+  }
+  .questScreenshotMatch .questLessonCard{
+    min-height:560px!important;
+    grid-template-rows:minmax(0,1fr) 178px!important;
+  }
+  .questScreenshotMatch .questPassage{font-size:17px!important;max-height:270px!important}
+  .questScreenshotMatch .questReadAloud{min-height:48px!important;font-size:14px!important}
+  .questScreenshotMatch .questAnswerStack .answerButton{min-height:62px!important}
+  .questScreenshotMatch .questHintReady{grid-area:hint!important}
+  .questScreenshotMatch .questEvidenceRail{
+    right:10px!important;
+    top:222px!important;
+    bottom:94px!important;
+    width:204px!important;
+    gap:10px!important;
+  }
+  .questScreenshotMatch .questEvidenceCard,.questScreenshotMatch .questTodayCard{padding:11px!important}
+  .questScreenshotMatch .questEvidenceNumbers{grid-template-columns:1fr!important}
+  .questScreenshotMatch .questEarnedBar{
+    left:470px!important;
+    right:auto!important;
+    bottom:16px!important;
+    width:min(620px,44vw)!important;
+    min-height:72px!important;
+  }
+}
+
+@media(min-width:901px) and (max-width:1279px){
+  .questScreenshotMatch{padding-top:74px!important}
+  .questScreenshotMatch .questTop{min-height:78px!important}
+  .questScreenTitle{min-width:88px;font-size:21px}
+  .questScreenshotMatch .questLessonCard{background:linear-gradient(180deg,#fff,#eef7ff)!important}
+}
+
+@media(max-width:900px){
+  .questCoreHeader{grid-template-columns:auto 1fr;column-gap:9px}
+  .questScreenTitle{min-width:82px;font-size:19px;border-radius:13px}
+  .questBreadcrumb{font-size:9px}
+  .questScreenshotMatch .questLessonCard{background:linear-gradient(180deg,#fff,#eef7ff)!important}
+  .questScreenshotMatch .questPassage{color:#17366b!important}
+  .questScreenshotMatch .questStem{color:#37296f!important}
+  .questBuddyPanel{min-height:82px}
+}
+
+@media(max-width:640px){
+  .questCoreHeader{display:block}
+  .questScreenTitle{display:inline-grid;min-width:72px;min-height:34px;margin-bottom:6px;font-size:17px}
+  .questBreadcrumb{white-space:normal;font-size:8px;line-height:1.2}
+  .questScreenshotMatch .qCounter{padding-top:16px!important}
+  .questLearningRhythm{font-size:8px;gap:4px}
+  .questAnswerHeading{display:block}
+  .questAnswerHeading small{display:block;margin-top:3px;text-align:left;font-size:8px}
+  .questScreenshotMatch .questPassage{font-size:15px!important;line-height:1.5!important}
+  .questScreenshotMatch .questStem{font-size:19px!important}
+  .questScreenshotMatch .questAnswerStack .answerButton{min-height:56px!important;font-size:15px!important}
+  .questBuddyPanel{padding:8px;border-width:2px;border-radius:15px}
+  .questBuddyFace{flex-basis:36px;width:36px;height:36px;font-size:19px}
+}
+
+@media(max-width:389px){
+  .questScreenTitle{font-size:16px}
+  .questScreenshotMatch .questPassage{font-size:15px!important}
+  .questScreenshotMatch .questStem{font-size:18px!important}
+  .questScreenshotMatch .questAnswerStack .answerButton{font-size:15px!important;min-height:56px!important}
+}
+
+@media(prefers-reduced-motion:reduce){
+  .questScreenshotMatch *,
+  .questScreenshotMatch *:before,
+  .questScreenshotMatch *:after{scroll-behavior:auto!important;transition:none!important;animation:none!important}
+}
