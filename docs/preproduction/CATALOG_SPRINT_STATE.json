@@ -1,12 +1,12 @@
 {
   "schemaVersion": 1,
-  "orchestrationVersion": 2,
+  "orchestrationVersion": 3,
   "phase": "CATALOG_SPRINT",
   "userPriority": "Finish catalog first; then automatically resume normal development and finish the game.",
-  "optimizationAuthorization": "2026-09-21: Optimize the 15 active scheduled tasks to finish the game as quickly and thoroughly as possible.",
+  "optimizationAuthorization": "2026-09-21: Optimize the 15 active scheduled tasks to finish the game and match the reference screenshots as closely as technically possible.",
   "repository": "P00NSMASHER/StarBlox",
   "branch": "screenshot-match-preproduction",
-  "policyPath": "docs/preproduction/DELIVERY_PROTOCOL_V2.md",
+  "policyPath": "docs/preproduction/DELIVERY_PROTOCOL_V3.md",
   "catalogPolicyPath": "docs/preproduction/CATALOG_SPRINT.md",
   "phaseOwner": "15",
   "manifestAndRuntimeWriter": "08",
@@ -18,25 +18,24 @@
     "timezone": "America/New_York",
     "existingAutomationCount": 15,
     "newAutomationsCreated": 0,
-    "all15UpdateCallsSucceeded": true,
     "minuteByWorkstream": {
-      "10": 52,
-      "11": 17,
-      "12": 44,
-      "13": 48,
-      "14": 32,
+      "10": 55,
+      "11": 18,
+      "12": 45,
+      "13": 50,
+      "14": 22,
       "15": 0,
-      "01": 20,
-      "02": 24,
-      "03": 2,
-      "04": 5,
-      "05": 28,
-      "06": 8,
-      "07": 11,
-      "08": 40,
-      "09": 14
+      "03": 3,
+      "04": 6,
+      "06": 9,
+      "07": 12,
+      "09": 15,
+      "01": 27,
+      "02": 31,
+      "05": 35,
+      "08": 40
     },
-    "note": "Offsets reduce contention, not a guarantee of completion order or throughput. Tasks consume completed hash-bound outputs across cycles."
+    "note": "Dependency-ordered hourly pipeline: producers -> render/review -> integration -> safety QA -> next-cycle coordination."
   },
   "baseline": {
     "sourceHead": "56ea88a9dae79fa59ae0885cab7cd6b7411bed6a",
@@ -258,18 +257,39 @@
       "auras-11",
       "auras-12"
     ],
-    "CHAT": [
+    "01": [
       "seating-2",
       "seating-3",
       "seating-4",
       "seating-5",
-      "seating-6",
-      "seating-7",
-      "seating-8",
-      "seating-9",
-      "seating-10",
-      "seating-11",
-      "seating-12"
+      "seating-6"
+    ],
+    "02": [
+      "beds-1",
+      "beds-2",
+      "beds-3",
+      "beds-4",
+      "beds-5",
+      "beds-6",
+      "beds-7",
+      "beds-8",
+      "beds-9",
+      "beds-10",
+      "beds-11",
+      "beds-12"
+    ],
+    "03": [
+      "desks-2",
+      "desks-3",
+      "desks-4",
+      "desks-5",
+      "desks-6",
+      "desks-7",
+      "desks-8",
+      "desks-9",
+      "desks-10",
+      "desks-11",
+      "desks-12"
     ],
     "04": [
       "lighting-1",
@@ -283,7 +303,65 @@
       "lighting-9",
       "lighting-10",
       "lighting-11",
-      "lighting-12"
+      "lighting-12",
+      "shoes-1",
+      "shoes-2",
+      "shoes-3",
+      "shoes-4",
+      "shoes-5",
+      "shoes-6"
+    ],
+    "05": [
+      "bottoms-1",
+      "bottoms-2",
+      "bottoms-3",
+      "bottoms-4",
+      "bottoms-5",
+      "bottoms-6",
+      "bottoms-7",
+      "bottoms-8",
+      "bottoms-9",
+      "bottoms-10",
+      "bottoms-11",
+      "bottoms-12",
+      "wall-1",
+      "wall-2",
+      "wall-3",
+      "wall-4",
+      "wall-5",
+      "wall-6",
+      "wall-7",
+      "wall-8",
+      "wall-9",
+      "wall-10",
+      "wall-11",
+      "wall-12"
+    ],
+    "06": [
+      "companions-1",
+      "companions-2",
+      "companions-3",
+      "companions-4",
+      "companions-5",
+      "companions-6",
+      "companions-7",
+      "companions-8",
+      "companions-9",
+      "companions-10",
+      "companions-11",
+      "companions-12",
+      "seating-7",
+      "seating-8",
+      "seating-9",
+      "seating-10",
+      "seating-11",
+      "seating-12",
+      "shoes-7",
+      "shoes-8",
+      "shoes-9",
+      "shoes-10",
+      "shoes-11",
+      "shoes-12"
     ],
     "07": [
       "tops-1",
@@ -291,7 +369,19 @@
       "tops-3",
       "tops-4",
       "tops-5",
-      "tops-6"
+      "tops-6",
+      "rugs-1",
+      "rugs-2",
+      "rugs-3",
+      "rugs-4",
+      "rugs-5",
+      "rugs-6",
+      "rugs-7",
+      "rugs-8",
+      "rugs-9",
+      "rugs-10",
+      "rugs-11",
+      "rugs-12"
     ],
     "09": [
       "tops-7",
@@ -299,10 +389,28 @@
       "tops-9",
       "tops-10",
       "tops-11",
-      "tops-12"
+      "tops-12",
+      "decor-1",
+      "decor-2",
+      "decor-3",
+      "decor-4",
+      "decor-5",
+      "decor-6",
+      "decor-7",
+      "decor-8",
+      "decor-9",
+      "decor-10",
+      "decor-11",
+      "decor-12"
     ]
   },
-  "repairAssignmentPolicy": "Repair assignments are versioned secondary work only after the worker's currently staged original lane has no immediate producer action. They do not transfer review ownership, do not erase original productionAssignments, and every replacement requires fresh review by the existing independent reviewer. Workstreams 07 and 09 are intentionally assigned Tops repairs because reviewer 01 cannot self-approve and their rugs/decor candidates are already staged awaiting reviewer 14.",
+  "repairAssignmentPolicy": {
+    "currentReviewedReworkCount": 95,
+    "currentReviewedAcceptCount": 0,
+    "rule": "Exact IDs may only be worked by one producer at a time. Workstream 15 may reassign after reconciling current versions. Producer and reviewer for the same family must differ.",
+    "chatDependencyRemovedForRepairs": true,
+    "note": "Historical CHAT seating candidates remain preserved versions; scheduled repair owners 01 and 06 now prevent interactive-chat-only work from blocking completion."
+  },
   "binaryAssetImport": {
     "status": "PASS_PATH_PROVEN",
     "supportedSequence": [
@@ -331,15 +439,21 @@
     }
   },
   "supportAssignments": {
-    "10": "Change-aware catalog mobile/accessibility/scrolling QA; label emulation and device limits",
-    "12": "Semantic learning/source/evidence guard and untested real-browser learning cases",
-    "13": "Save/inventory/economy guard and synthetic real-browser recovery/reward stress",
-    "14": "Independent room-art review partition, staged-asset render harness, catalog release QA and efficient CI",
-    "15": "Critical-path coordination, shared-file ownership, reassignments, phase switch and final release gate",
-    "01": "Independent art review partition and original reference fidelity; optional review rollup is not a gate dependency",
-    "02": "Independent shoes/backgear/handgear/seating review; CHAT retains seating production",
-    "05": "Independent beds/desks/companions/auras review; wall repairs only from reviewer 14 rejection",
-    "08": "Sole canonical manifest/runtime integrator; consume each qualified independent ACCEPT incrementally"
+    "10": "Change-aware Store/mobile/accessibility/performance QA and final deterministic screenshot capture support.",
+    "11": "Aura repair producer; Motion after catalog.",
+    "12": "Learning/source/evidence guard on changed heads and final browser learning proof.",
+    "13": "Persistence/economy guard; close real-browser transaction/re-entry blocker with synthetic profiles.",
+    "14": "Shared staged-art render fixture, independent Lighting/Wall/Rugs/Decor review, catalog release QA, final screenshot/reference QA.",
+    "15": "Critical-path coordination, shared-file ownership, dynamic non-overlap repair assignment, catalog phase switch and final release gate.",
+    "01": "Independent review of Tops/Bottoms/Headwear/Facegear plus scheduled Seating repair producer for IDs assigned in repairAssignments.",
+    "02": "Independent review of Shoes/Backgear/Handgear/Seating plus Beds repair producer.",
+    "03": "Desks production/repair and later exact non-self-reviewed repairs assigned by 15.",
+    "04": "Lighting repair producer, then Shoes 1-6 repair; Store screen after catalog.",
+    "05": "Independent review of Beds/Desks/Companions/Auras plus Bottoms and Wall repair producer.",
+    "06": "Companion repair producer plus Seating 7-12 and Shoes 7-12 repair capacity.",
+    "07": "Tops 1-6 and Rugs repair producer; Progression after catalog.",
+    "08": "Sole canonical manifest/runtime integrator; integrate accepted exact hashes incrementally.",
+    "09": "Tops 7-12 and Decor repair producer; Environments after catalog."
   },
   "normalRoles": {
     "10": "Mobile Accessibility QA",
@@ -547,5 +661,18 @@
     "gitObjectOnlyRepairVersions": 4,
     "localOnlyGeneratedDeskIds": 3,
     "note": "Status labels are not quality. Stored/reviewed/accepted/wired/release-cleared are tracked separately; replacement versions do not increase unique item count."
+  },
+  "latestOptimization": {
+    "at": "2026-09-21T16:46:00-04:00",
+    "protocol": "V3",
+    "priorities": [
+      "finish reviewed REWORK replacements before spending reviewer time on low-value legacy repetition",
+      "remove interactive-chat-only seating repair dependency",
+      "render replacement hashes before review",
+      "integrate each ACCEPT immediately",
+      "close real-browser persistence stress",
+      "after catalog PASS fix remaining Store/Quest geometry and exact screenshot fidelity"
+    ],
+    "referencePixelGate": "Original reference pixels are still required for pixel-identical final sign-off; frozen contracts remain the development target until they are repository-accessible."
   }
 }
