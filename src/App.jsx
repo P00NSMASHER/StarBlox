@@ -17,6 +17,11 @@ import {
 import { gameModel } from './gameModel';
 import { scoreQuestAttempt } from './questRewardPolicy';
 import {
+  applyPermanentPurchase,
+  applyQuestCompletion,
+  beginQuestReceipt
+} from './persistenceTransactions';
+import {
   exportSave,
   importSave,
   loadLocalSnapshot,
@@ -50,7 +55,10 @@ const DEFAULT_SAVE = {
     'Story Street':0,
     'Wordwood Garden':0
   },
-  companionBond: 0
+  companionBond: 0,
+  purchaseReceipts: [],
+  activeQuestReceipt: '',
+  lastCompletedQuestReceipt: ''
 };
 
 function migrateSave(raw){
@@ -70,6 +78,13 @@ function migrateSave(raw){
 
 function dayKey(){
   return new Date().toISOString().slice(0,10);
+}
+
+function newQuestReceiptId(){
+  if(globalThis.crypto?.randomUUID){
+    return 'quest-' + globalThis.crypto.randomUUID();
+  }
+  return 'quest-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2);
 }
 
 function tierName(tier){
@@ -141,6 +156,7 @@ export function App(){
   const [importMessage,setImportMessage] = useState('');
   const importRef = useRef(null);
   const advanceTimer = useRef(null);
+  const questReceiptRef = useRef('');
 
   useEffect(() => {
     if(loadLocalSnapshot()) return;
@@ -216,6 +232,9 @@ export function App(){
 
   const startQuest = () => {
     if(advanceTimer.current) window.clearTimeout(advanceTimer.current);
+    const receiptId = newQuestReceiptId();
+    questReceiptRef.current = receiptId;
+    setSave(current => beginQuestReceipt(current,receiptId));
     setQuest(gameModel.pickQuest(save.stats,5));
     setQIndex(0);
     setFeedback(null);
@@ -225,14 +244,6 @@ export function App(){
   };
 
   const finishQuest = () => {
-    setSave(current => ({
-      ...current,
-      coins: current.coins + 30,
-      xp: current.xp + 30,
-      questsCompleted: current.questsCompleted + 1,
-      companionBond: current.companionBond + 1,
-      daily: {...current.daily,quests:current.daily.quests + 1}
-    }));
     flash('Quest complete! +30 Coins +30 XP');
     setQuest([]);
     setQIndex(0);
@@ -315,7 +326,7 @@ export function App(){
         becomesMastered
       });
 
-      return {
+      const nextState = {
         ...current,
         coins: current.coins + outcome.coins,
         stars: current.stars + outcome.stars,
@@ -332,6 +343,12 @@ export function App(){
           [currentQ.district]: (current.districtProgress[currentQ.district] || 0) + outcome.districtProgress
         } : current.districtProgress
       };
+
+      if(ok && qIndex === quest.length - 1){
+        return applyQuestCompletion(nextState,questReceiptRef.current).state;
+      }
+
+      return nextState;
     });
 
     if(ok){
@@ -414,13 +431,7 @@ export function App(){
       return;
     }
 
-    setSave(current => ({
-      ...current,
-      coins: current.coins - item.price,
-      starWorth: current.starWorth + item.price,
-      owned: [...current.owned,id],
-      daily: {...current.daily,purchase:current.daily.purchase + 1}
-    }));
+    setSave(current => applyPermanentPurchase(current,item).state);
 
     flash(id === save.dreamGoalId
       ? item.name + ' is yours forever — Dream Goal complete!'
