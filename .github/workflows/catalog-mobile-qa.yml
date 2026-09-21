@@ -12,6 +12,10 @@ on:
       - '.github/workflows/catalog-mobile-qa.yml'
   workflow_dispatch:
 
+concurrency:
+  group: starblox-catalog-mobile-qa-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   catalog-mobile-accessibility:
     runs-on: ubuntu-24.04
