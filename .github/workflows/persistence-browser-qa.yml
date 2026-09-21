@@ -1,0 +1,85 @@
+name: StarBlox Persistence Browser QA
+
+on:
+  push:
+    branches:
+      - screenshot-match-preproduction
+    paths:
+      - 'src/storage.js'
+      - 'src/persistenceTransactions.js'
+      - 'src/purchaseGuardRuntime.js'
+      - 'src/App.jsx'
+      - 'src/gameModel.js'
+      - 'catalog-art-manifest.json'
+      - 'src/catalogArtRuntime.js'
+      - 'scripts/persistenceBrowserQa.mjs'
+      - '.github/workflows/persistence-browser-qa.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: starblox-persistence-browser-qa-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  persistence-browser-stress:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Use Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install project dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Install Playwright without changing package metadata
+        run: |
+          npm install --no-save --no-audit --no-fund playwright@1.55.0
+          npx playwright install --with-deps chromium
+
+      - name: Build production bundle
+        run: npm run build
+
+      - name: Start local production preview
+        run: |
+          nohup npx vite preview --host 127.0.0.1 --port 4173 > /tmp/starblox-persistence-preview.log 2>&1 &
+          echo $! > /tmp/starblox-persistence-preview.pid
+          for i in $(seq 1 40); do
+            if curl -fsS http://127.0.0.1:4173/ >/dev/null; then
+              exit 0
+            fi
+            sleep 0.5
+          done
+          cat /tmp/starblox-persistence-preview.log
+          exit 1
+
+      - name: Run synthetic real-browser persistence stress
+        run: node scripts/persistenceBrowserQa.mjs
+        env:
+          STARBLOX_QA_URL: http://127.0.0.1:4173
+          STARBLOX_QA_OUTPUT: artifacts/persistence-browser-qa
+
+      - name: Print persistence QA summary
+        if: always()
+        run: |
+          cat artifacts/persistence-browser-qa/summary.txt || true
+          if [ -f artifacts/persistence-browser-qa/report.json ]; then
+            node -e "const r=require('./artifacts/persistence-browser-qa/report.json'); console.log(JSON.stringify({status:r.status,sourceHead:r.sourceHead,syntheticOnly:r.syntheticOnly,cases:r.cases.map(x=>({name:x.name,status:x.status,error:x.error||null}))},null,2))"
+          fi
+
+      - name: Upload persistence QA report and failure screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: persistence-browser-qa
+          path: artifacts/persistence-browser-qa
+          if-no-files-found: warn
+          retention-days: 7
+
+      - name: Print preview log on failure
+        if: failure()
+        run: cat /tmp/starblox-persistence-preview.log || true
