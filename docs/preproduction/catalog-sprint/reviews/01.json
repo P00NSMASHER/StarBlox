@@ -1,0 +1,233 @@
+{
+  "schemaVersion": 2,
+  "reviewer": "01",
+  "role": "Visual Target Director / independent catalog reviewer",
+  "phase": "CATALOG_SPRINT",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "0323e898669744ef381093a170d97d29c163bbf7",
+  "assignedCollections": ["tops", "bottoms", "headwear", "facegear"],
+  "assignedCount": 48,
+  "reviewedThisRevision": 12,
+  "remainingUnreviewed": 36,
+  "reviewScope": "tops-1 through tops-12, current exact asset hashes",
+  "producerIdentity": {
+    "type": "legacy-pre-sprint-repository-owned-portable-art-batch",
+    "gitAuthor": "P00NSMASHER",
+    "provenanceExamples": [
+      {
+        "id": "tops-1",
+        "creationCommit": "80eafefbae589c4241890c7a289e0bf4a9647a28",
+        "message": "Add portable premium art for tops-1 Hoodie"
+      },
+      {
+        "id": "tops-12",
+        "creationCommit": "53934508cad1522c65889edc9e1fc21afaa4d6e2",
+        "message": "Add portable premium art for tops-12 Star Coat"
+      }
+    ],
+    "note": "The historical repository commit author is recorded; an original numbered workstream producer is not encoded in the asset provenance and is not inferred."
+  },
+  "contractEvidence": {
+    "deliveryProtocol": "docs/preproduction/DELIVERY_PROTOCOL_V2.md",
+    "screenshotTarget": "docs/preproduction/SCREENSHOT_MATCH_TARGET.md",
+    "designSystem": "docs/preproduction/DESIGN_SYSTEM_CONTRACT.md",
+    "originalReferencePixels": {
+      "status": "BLOCKED_NOT_REPOSITORY_ACCESSIBLE",
+      "treeInspected": "2dfbf33441c1b560fb0992e8f5c7817014104b7b",
+      "note": "The branch contains generated/catalog candidate raster files but no preserved copies of the three original user-provided reference screenshots. This review therefore uses the frozen textual visual contracts plus actual running Store screenshots and makes no pixel-identical-parity claim. Generated promotional collages are explicitly not reference evidence."
+    }
+  },
+  "renderEvidence": [
+    {
+      "type": "github-actions-artifact",
+      "workflowRunId": 35639821618,
+      "artifactId": 10658055447,
+      "artifactDigest": "sha256:b7aa40c7c0af6602607b06c284850d404ba89a85f2e242941361e2a8ee168230",
+      "runtimeHead": "4d8bb9671b8c394db89d994de75ee4af3ccd578a",
+      "manifestBlobSha": "862894db70500087409396dc5a72d032cf00a693",
+      "screenshots": [
+        {
+          "file": "store-desktop-1408x1056-tops.png",
+          "sha256": "a862198042f9dda807b2d846d4d49b920c453186fbb2b5e4cdeab5b692b6df0e",
+          "dimensions": [1408, 1056],
+          "coverage": "All 12 Tops visible at Store-card scale; tops-1 is also selected in the right-side detail/try-on context."
+        },
+        {
+          "file": "store-phone-390x844-tops.png",
+          "sha256": "90163f4e6563470476da5b97a4f0fbdac45ab18c4b50c5de378d605e4a87afe5",
+          "dimensions": [390, 844],
+          "coverage": "First six Tops visible in the actual two-column phone Store grid."
+        }
+      ],
+      "assetContinuityToSourceHead": "PASS_NO_TOPS_ASSET_CHANGES",
+      "continuityMethod": "GitHub compare 4d8bb9671b8c394db89d994de75ee4af3ccd578a..0323e898669744ef381093a170d97d29c163bbf7 contains no public/assets/catalog/tops-*.svg changes. Current per-item Git blob SHAs are recorded below."
+    }
+  ],
+  "acceptanceBasis": {
+    "actualPixelsReviewed": true,
+    "sourceOnlyApprovalAllowed": false,
+    "criteria": [
+      "exact item identity and metadata",
+      "card-scale readability",
+      "detail-scale quality where visible",
+      "distinct silhouette and construction",
+      "material and dimensional depth",
+      "lighting and framing",
+      "tier progression",
+      "originality and inappropriate visual reuse"
+    ],
+    "familyFinding": "The Tops are recognizable, original and readable, but the current family is consistently a centered, front-facing flat/vector garment treatment with weak fabric volume, material response and three-quarter collectible presentation. Tier progression relies mostly on motif/color complexity rather than substantially richer construction, materials, lighting and spectacle. This is below the premium dimensional screenshot-match art contract."
+  },
+  "summary": {
+    "ACCEPT": 0,
+    "REWORK": 12,
+    "BLOCKED": 0
+  },
+  "items": [
+    {
+      "id": "tops-1",
+      "name": "Hoodie",
+      "tier": 1,
+      "theme": "Cloud Pop",
+      "path": "/assets/catalog/tops-1.svg",
+      "gitBlobSha": "651ee7d3d642635a4ac49b3690d123f514b7bdc5",
+      "decision": "REWORK",
+      "evidence": ["store-desktop-1408x1056-tops.png", "store-phone-390x844-tops.png"],
+      "reason": "Identity is clear and starter-friendly, but card and selected-detail pixels show a flat front-facing garment icon with little believable fabric volume, fold/material response or three-quarter collectible depth. Preserve the simple Hoodie identity while rebuilding it as a dimensional toy-fashion item with stronger form lighting and material cues."
+    },
+    {
+      "id": "tops-2",
+      "name": "Zip Hoodie",
+      "tier": 1,
+      "theme": "Pixel Party",
+      "path": "/assets/catalog/tops-2.svg",
+      "gitBlobSha": "cc11d71c04187ce5cb760ddff6ef13a6657f8754",
+      "decision": "REWORK",
+      "evidence": ["store-desktop-1408x1056-tops.png", "store-phone-390x844-tops.png"],
+      "reason": "Zip-hoodie identity and pixel motif read, but the garment remains a flat frontal icon. Add dimensional hood/body separation, zipper/hardware depth, fabric folds and three-quarter lighting without overdecorating Tier 1."
+    },
+    {
+      "id": "tops-3",
+      "name": "Varsity Tee",
+      "tier": 1,
+      "theme": "Berry Blast",
+      "path": "/assets/catalog/tops-3.svg",
+      "gitBlobSha": "582539e384d37d0be8b000c3cb219739b543e7df",
+      "decision": "REWORK",
+      "evidence": ["store-desktop-1408x1056-tops.png", "store-phone-390x844-tops.png"],
+      "reason": "The tee and varsity/lightning motif are readable, but the presentation is sparse and two-dimensional. Give the shirt convincing body volume, sleeve/collar construction and material shading while keeping a clean starter-tier silhouette."
+    },
+    {
+      "id": "tops-4",
+      "name": "Bow Cardigan",
+      "tier": 2,
+      "theme": "Garden Glow",
+      "path": "/assets/catalog/tops-4.svg",
+      "gitBlobSha": "126df9f76d9e56751be40a12f60608d1acc2923f",
+      "decision": "REWORK",
+      "evidence": ["store-desktop-1408x1056-tops.png", "store-phone-390x844-tops.png"],
+      "reason": "Bow/cardigan identity is distinct, but knit, button, bow and cuff details read as flat graphic shapes. Rebuild with knit/soft-material depth, layered bow construction and dimensional lighting suitable for Tier 2."
+    },
+    {
+      "id": "tops-5",
+      "name": "Crewneck",
+      "tier": 2,
+      "theme": "Galaxy Glow",
+      "path": "/assets/catalog/tops-5.svg",
+      "gitBlobSha": "68c258eed4b24789f0751a95a28c7d3e1da18c5b",
+      "decision": "REWORK",
+      "evidence": ["store-desktop-1408x1056-tops.png", "store-phone-390x844-tops.png"],
+      "reason": "Galaxy emblem is readable, but the sweatshirt has little dimensional construction or material character and feels close to the same front-facing template as adjacent Tops. Preserve the crewneck simplicity while adding garment volume, ribbing/folds and richer galaxy material/light treatment."
+    },
+    {
+      "id": "tops-6",
+      "name": "Gamer Jacket",
+      "tier": 2,
+      "theme": "Sunny Pop",
+      "path": "/assets/catalog/tops-6.svg",
+      "gitBlobSha": "686eb503c38f01a148eb57f6c7ef10972b7fb186",
+      "decision": "REWORK",
+      "evidence": ["store-desktop-1408x1056-tops.png", "store-phone-390x844-tops.png"],
+      "reason": "Controller/gamer cues are recognizable, but the jacket layering, hardware and textile/tech materials are rendered as flat shapes. Add dimensional collar/panels, seams/hardware and controlled luminous accents while retaining the exact gamer-jacket identity."
+    },
+    {
+      "id": "tops-7",
+      "name": "Colorblock Hoodie",
+      "tier": 3,
+      "theme": "Aqua Wave",
+      "path": "/assets/catalog/tops-7.svg",
+      "gitBlobSha": "5ae692e97f583f8644a4f8c430b07462de3d46df",
+      "decision": "REWORK",
+      "evidence": ["store-desktop-1408x1056-tops.png"],
+      "reason": "Colorblocking separates it visually, but Tier 3 still presents as the same flat frontal hoodie family. Add stronger hood/body dimensionality, seams/folds, material variation and three-quarter collectible framing so progression is more than palette/pattern complexity."
+    },
+    {
+      "id": "tops-8",
+      "name": "Puffer Vest",
+      "tier": 3,
+      "theme": "Art Attack",
+      "path": "/assets/catalog/tops-8.svg",
+      "gitBlobSha": "5f3f1b1efeab3722616b7a14acfc0155bea10724",
+      "decision": "REWORK",
+      "evidence": ["store-desktop-1408x1056-tops.png"],
+      "reason": "Vest silhouette is distinct, but the puffer sections do not convincingly read as lofted/quilted material at card scale. Increase cushion volume, panel highlights/shadows, zipper/opening construction and art-theme detail without losing silhouette clarity."
+    },
+    {
+      "id": "tops-9",
+      "name": "Art Smock",
+      "tier": 3,
+      "theme": "Star Luxe",
+      "path": "/assets/catalog/tops-9.svg",
+      "gitBlobSha": "b90d69cc591a27db71200010f86ee5a0b5ff3a45",
+      "decision": "REWORK",
+      "evidence": ["store-desktop-1408x1056-tops.png"],
+      "reason": "Paint marks/smock identity are present, but construction is flat and apron/smock layering, tools and fabric depth are not premium at Tier 3. Add layered garment form, pocket/tool or paint-material detail and dimensional lighting while preserving the exact Art Smock concept."
+    },
+    {
+      "id": "tops-10",
+      "name": "Star Bomber",
+      "tier": 4,
+      "theme": "Midnight Neon",
+      "path": "/assets/catalog/tops-10.svg",
+      "gitBlobSha": "cffd037b7cf48b74e7bce71e9a31c20cf659b347",
+      "decision": "REWORK",
+      "evidence": ["store-desktop-1408x1056-tops.png"],
+      "reason": "Star/neon bomber cues read, but Tier 4 does not deliver a meaningful jump in material richness or spectacle; it remains another flat jacket card. Rebuild with dimensional bomber volume, ribbed/reflective materials, hardware and restrained neon rim/glow."
+    },
+    {
+      "id": "tops-11",
+      "name": "Cloud Jacket",
+      "tier": 4,
+      "theme": "Candy Core",
+      "path": "/assets/catalog/tops-11.svg",
+      "gitBlobSha": "796e4b19061d2c7fb442b05040669a2098dd302f",
+      "decision": "REWORK",
+      "evidence": ["store-desktop-1408x1056-tops.png"],
+      "reason": "Cloud motif and candy palette are readable, but the jacket lacks Tier-4 dimensional construction, plush/material depth and lighting differentiation. Push cloud/plush volume, seams/hardware and candy-luxe material response without obscuring the jacket silhouette."
+    },
+    {
+      "id": "tops-12",
+      "name": "Star Coat",
+      "tier": 5,
+      "theme": "Adventure Club",
+      "path": "/assets/catalog/tops-12.svg",
+      "gitBlobSha": "976efa374df1f78d4ead572e2612d53cb80d31f2",
+      "decision": "REWORK",
+      "evidence": ["store-desktop-1408x1056-tops.png"],
+      "reason": "The long-coat/star concept is recognizable, but the highest tier lacks the luxe construction, dimensional materials, ornament and controlled hero lighting expected of Tier 5. Create a clearly premium coat silhouette with layered lapels/trim, richer material response and spectacular but readable star detail."
+    }
+  ],
+  "handoff": {
+    "08": "Do not treat the current tops-1..12 versions as independently visually accepted. No Tops item from this exact-hash review is eligible for promotion on reviewer-01 evidence; preserve current mappings until replacement versions receive a new hash-bound independent review.",
+    "15": "Route Tops repairs in bounded versioned batches to an authorized producer who is not reviewer 01. Preserve current asset versions for comparison. The shared defect is flat frontal/vector treatment below the dimensional collectible target; item-specific repair notes above should control scope.",
+    "next01Review": "Continue with bottoms-1..12 unless a replacement Tops batch reaches READY_FOR_REVIEW first; replacement versions take priority."
+  },
+  "freeze": {
+    "replitTouched": false,
+    "flootTouched": false,
+    "mainMergedOrModified": false,
+    "learningEconomyTouched": false,
+    "productionAssetsTouched": false,
+    "canonicalManifestOrRuntimeTouched": false
+  }
+}
