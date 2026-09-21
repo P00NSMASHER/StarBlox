@@ -20,6 +20,10 @@ function clickDestination(label){
   target?.click();
 }
 
+function setTextIfChanged(node,value){
+  if(node && node.textContent !== value) node.textContent = value;
+}
+
 function ensureDailySafetyNote(root){
   const panel = root.querySelector('.homeDailyQuests');
   if(!panel || panel.querySelector('.homeDailySafeNote')) return;
@@ -68,7 +72,8 @@ function decorateBuddy(root){
 function repairDestinations(root){
   root.querySelectorAll('[data-go]').forEach(button => {
     const normalized = normalizeHomeDestination(button.dataset.go);
-    if(normalized) button.dataset.go = normalized[0].toUpperCase() + normalized.slice(1);
+    const next = normalized ? normalized[0].toUpperCase() + normalized.slice(1) : '';
+    if(next && button.dataset.go !== next) button.dataset.go = next;
   });
 
   const dreamButton = root.querySelector('.homeKeepLearning');
@@ -86,17 +91,10 @@ function repairDestinations(root){
 export function decorateHomeScreenshotMatch(root){
   if(!root) return false;
 
-  const roomHeading = root.querySelector('.homeRoomProgress .homePanelHeading > span');
-  if(roomHeading) roomHeading.textContent = 'ROOM PROGRESS — 5 TIERS';
-
-  const dreamHeading = root.querySelector('.homeDreamGoal .homePanelHeading > span');
-  if(dreamHeading) dreamHeading.textContent = 'MY DREAM GOAL';
-
-  const customizeHeading = root.querySelector('.homeCustomize .homePanelHeading > span');
-  if(customizeHeading) customizeHeading.textContent = 'CUSTOMIZE ME!';
-
-  const learningHeading = root.querySelector('.homeLearning .homePanelHeading > span');
-  if(learningHeading) learningHeading.textContent = 'TODAY I’M LEARNING…';
+  setTextIfChanged(root.querySelector('.homeRoomProgress .homePanelHeading > span'),'ROOM PROGRESS — 5 TIERS');
+  setTextIfChanged(root.querySelector('.homeDreamGoal .homePanelHeading > span'),'MY DREAM GOAL');
+  setTextIfChanged(root.querySelector('.homeCustomize .homePanelHeading > span'),'CUSTOMIZE ME!');
+  setTextIfChanged(root.querySelector('.homeLearning .homePanelHeading > span'),'TODAY I’M LEARNING…');
 
   ensureDailySafetyNote(root);
   ensureDreamBenefits(root);
