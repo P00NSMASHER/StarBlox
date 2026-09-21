@@ -36,7 +36,7 @@ function ensureHeader(board){
   const skill = core?.querySelector('h2');
   if(!core || !kicker || !skill) return;
 
-  core.classList.add('questCoreHeader');
+  if(!core.classList.contains('questCoreHeader')) core.classList.add('questCoreHeader');
   const {district,role} = parseQuestKicker(kicker.textContent);
 
   let screenTitle = core.querySelector('.questScreenTitle');
@@ -92,7 +92,7 @@ function decorateQuestion(board){
 
   const answers = card.querySelector('.questAnswerStack, .answers');
   if(answers){
-    answers.classList.add('questAnswerStack');
+    if(!answers.classList.contains('questAnswerStack')) answers.classList.add('questAnswerStack');
     if(!answers.querySelector('.questAnswerHeading')){
       const heading = document.createElement('div');
       heading.className = 'questAnswerHeading';
@@ -149,7 +149,7 @@ function decorateEarned(board){
 
 export function decorateQuestScreenshotMatch(board){
   if(!board) return false;
-  board.classList.add('questScreenshotMatch');
+  if(!board.classList.contains('questScreenshotMatch')) board.classList.add('questScreenshotMatch');
   ensureHeader(board);
   decoratePhaseStrip(board);
   decorateQuestion(board);
@@ -161,6 +161,7 @@ export function decorateQuestScreenshotMatch(board){
 
 function scan(){
   queued = false;
+  if(typeof document === 'undefined') return;
   document.querySelectorAll(QUEST_SELECTOR).forEach(decorateQuestScreenshotMatch);
 }
 
