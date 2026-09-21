@@ -1,0 +1,245 @@
+{
+  "schemaVersion": 1,
+  "lane": "CHAT",
+  "phase": "CATALOG_SPRINT",
+  "branch": "screenshot-match-preproduction",
+  "status": "READY_FOR_REVIEW",
+  "assignment": [
+    "seating-2",
+    "seating-3",
+    "seating-4",
+    "seating-5",
+    "seating-6",
+    "seating-7",
+    "seating-8",
+    "seating-9",
+    "seating-10",
+    "seating-11",
+    "seating-12"
+  ],
+  "candidateCount": 11,
+  "canonicalManifestChanged": false,
+  "runtimeWiringChanged": false,
+  "selfApproved": false,
+  "reviewRequired": [
+    "01",
+    "14"
+  ],
+  "integrationOwner": "08",
+  "browserInspection": {
+    "runId": "5895bf52-c2f8-4fbc-a85d-f9992a355219",
+    "result": "PASS_11_OF_11",
+    "notes": "Public raw SVG render inspection found no clipping, malformed shapes, source-text rendering, or thumbnail-scale ambiguity."
+  },
+  "provenance": "Original StarBlox self-contained SVG assets authored in the interactive catalog pass; no external raster embeds, fonts, brands, Roblox/Brookhaven, or third-party character assets.",
+  "assets": [
+    {
+      "id": "seating-2",
+      "name": "Cloud Pouf",
+      "tier": 1,
+      "theme": "Art Attack",
+      "price": 65,
+      "starReq": 0,
+      "path": "/assets/catalog/seating-2.svg",
+      "repositoryPath": "public/assets/catalog/seating-2.svg",
+      "gitBlobSha": "84c1cc571840d32e3683f70a4fa318f953087a67",
+      "bytes": 1551,
+      "dimensions": [
+        800,
+        800
+      ],
+      "feature": "soft cloud-shaped pouf with tufted star buttons and rounded feet",
+      "status": "READY_FOR_REVIEW"
+    },
+    {
+      "id": "seating-3",
+      "name": "Pixel Beanbag",
+      "tier": 1,
+      "theme": "Star Luxe",
+      "price": 94,
+      "starReq": 0,
+      "path": "/assets/catalog/seating-3.svg",
+      "repositoryPath": "public/assets/catalog/seating-3.svg",
+      "gitBlobSha": "2f97c3a2fa59ff46298a9b846aa4755b31bbfcd3",
+      "bytes": 1572,
+      "dimensions": [
+        800,
+        800
+      ],
+      "feature": "faceted beanbag with pixel-block panels and controller-style stitched accents",
+      "status": "READY_FOR_REVIEW"
+    },
+    {
+      "id": "seating-4",
+      "name": "Heart Chair",
+      "tier": 2,
+      "theme": "Midnight Neon",
+      "price": 123,
+      "starReq": 0,
+      "path": "/assets/catalog/seating-4.svg",
+      "repositoryPath": "public/assets/catalog/seating-4.svg",
+      "gitBlobSha": "6da47d7b490f7d9ab711d5d23d7331ed66c14f35",
+      "bytes": 1559,
+      "dimensions": [
+        800,
+        800
+      ],
+      "feature": "plush heart-back chair with scalloped cushion, gold legs and neon piping",
+      "status": "READY_FOR_REVIEW"
+    },
+    {
+      "id": "seating-5",
+      "name": "Reading Chair",
+      "tier": 2,
+      "theme": "Candy Core",
+      "price": 181,
+      "starReq": 0,
+      "path": "/assets/catalog/seating-5.svg",
+      "repositoryPath": "public/assets/catalog/seating-5.svg",
+      "gitBlobSha": "b2191711eeb00657b6130cd80fb2cf49893b1e81",
+      "bytes": 1607,
+      "dimensions": [
+        800,
+        800
+      ],
+      "feature": "cozy wingback reading chair with book pocket, rolled arms and stitched star cushion",
+      "status": "READY_FOR_REVIEW"
+    },
+    {
+      "id": "seating-6",
+      "name": "Gamer Chair",
+      "tier": 2,
+      "theme": "Adventure Club",
+      "price": 254,
+      "starReq": 0,
+      "path": "/assets/catalog/seating-6.svg",
+      "repositoryPath": "public/assets/catalog/seating-6.svg",
+      "gitBlobSha": "72e45f2e5f89014f8072b53032943c6377a14c71",
+      "bytes": 1561,
+      "dimensions": [
+        800,
+        800
+      ],
+      "feature": "ergonomic high-back gamer chair with segmented pads, cyan edge light and star crest",
+      "status": "READY_FOR_REVIEW"
+    },
+    {
+      "id": "seating-7",
+      "name": "Lounge Chair",
+      "tier": 3,
+      "theme": "Cloud Pop",
+      "price": 348,
+      "starReq": 2,
+      "path": "/assets/catalog/seating-7.svg",
+      "repositoryPath": "public/assets/catalog/seating-7.svg",
+      "gitBlobSha": "1aae41db602cf75baa0949e2144d7a3f6c4e3771",
+      "bytes": 1491,
+      "dimensions": [
+        800,
+        800
+      ],
+      "feature": "sculpted cloud-chaise lounge with curved back, floating arm bolster and layered cushion",
+      "status": "READY_FOR_REVIEW"
+    },
+    {
+      "id": "seating-8",
+      "name": "Bubble Seat",
+      "tier": 3,
+      "theme": "Pixel Party",
+      "price": 479,
+      "starReq": 2,
+      "path": "/assets/catalog/seating-8.svg",
+      "repositoryPath": "public/assets/catalog/seating-8.svg",
+      "gitBlobSha": "4462d9ebc8711b6ad30747a6ea5a0c2c97c22d86",
+      "bytes": 1772,
+      "dimensions": [
+        800,
+        800
+      ],
+      "feature": "transparent orb chair with pixel cushion, floating bubble accents and chrome ring base",
+      "status": "READY_FOR_REVIEW"
+    },
+    {
+      "id": "seating-9",
+      "name": "Art Stool",
+      "tier": 3,
+      "theme": "Berry Blast",
+      "price": 667,
+      "starReq": 2,
+      "path": "/assets/catalog/seating-9.svg",
+      "repositoryPath": "public/assets/catalog/seating-9.svg",
+      "gitBlobSha": "8e259a1de7197736c1abd2af014a5fb9f2f0307d",
+      "bytes": 1747,
+      "dimensions": [
+        800,
+        800
+      ],
+      "feature": "adjustable studio stool with berry paint-splatter cushion, palette foot ring and brush holder",
+      "status": "READY_FOR_REVIEW"
+    },
+    {
+      "id": "seating-10",
+      "name": "Pod Chair",
+      "tier": 4,
+      "theme": "Garden Glow",
+      "price": 928,
+      "starReq": 5,
+      "path": "/assets/catalog/seating-10.svg",
+      "repositoryPath": "public/assets/catalog/seating-10.svg",
+      "gitBlobSha": "184ef07383987872085ccfc3f97424b94de78f4f",
+      "bytes": 1669,
+      "dimensions": [
+        800,
+        800
+      ],
+      "feature": "hanging leaf-pod cocoon chair with woven shell, vine suspension and plush botanical cushion",
+      "status": "READY_FOR_REVIEW"
+    },
+    {
+      "id": "seating-11",
+      "name": "Moon Chair",
+      "tier": 4,
+      "theme": "Galaxy Glow",
+      "price": 1276,
+      "starReq": 5,
+      "path": "/assets/catalog/seating-11.svg",
+      "repositoryPath": "public/assets/catalog/seating-11.svg",
+      "gitBlobSha": "61b54c02d8fc0f374270c373f16e80bc9ca2b1fb",
+      "bytes": 1642,
+      "dimensions": [
+        800,
+        800
+      ],
+      "feature": "crescent-moon lounge chair with deep galaxy upholstery, star pillow and suspended sparkle accents",
+      "status": "READY_FOR_REVIEW"
+    },
+    {
+      "id": "seating-12",
+      "name": "Throne Chair",
+      "tier": 5,
+      "theme": "Sunny Pop",
+      "price": 1740,
+      "starReq": 9,
+      "path": "/assets/catalog/seating-12.svg",
+      "repositoryPath": "public/assets/catalog/seating-12.svg",
+      "gitBlobSha": "8fc85401f6e7d7e4868b1536ba204ba14bb00414",
+      "bytes": 1882,
+      "dimensions": [
+        800,
+        800
+      ],
+      "feature": "luxe sun-star throne with tall radiant back, gem-tufted velvet seat and sculpted gold arms",
+      "status": "READY_FOR_REVIEW"
+    }
+  ],
+  "checks": {
+    "exactMetadataMatch": "PASS",
+    "uniqueBlobShaWithinLane": "PASS_11_OF_11",
+    "canvasContract800x800": "PASS",
+    "browserRenderedVisualInspection": "PASS_11_OF_11",
+    "independentRenderedAcceptance": "PENDING_01_14",
+    "canonicalIntegration": "PENDING_08",
+    "storeBrowserContext": "PENDING_10_14"
+  },
+  "handoff": "All 11 interactive seating candidates are staged and browser-rendered without structural defects. Workstream 01/14 must independently accept/reject by exact blob; Workstream 08 integrates accepted IDs only."
+}
