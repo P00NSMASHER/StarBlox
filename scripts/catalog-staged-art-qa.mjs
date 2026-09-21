@@ -3,8 +3,6 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 
-const base = 'http://127.0.0.1:4174';
-const originSeed = `${base}/public/assets/catalog/wall-1.svg`;
 const artifactRoot = 'artifacts/catalog-staged-art';
 const themes = ['Cloud Pop','Pixel Party','Berry Blast','Garden Glow','Galaxy Glow','Sunny Pop','Aqua Wave','Art Attack','Star Luxe','Midnight Neon','Candy Core','Adventure Club'];
 const definitions = {
@@ -61,6 +59,18 @@ function signatureCheck(p) {
     if(ext==='.webp') return {ok:b.length>=12&&b.toString('ascii',0,4)==='RIFF'&&b.toString('ascii',8,12)==='WEBP',reason:'webp'};
     return {ok:false,reason:`unsupported-${ext}`};
   } catch(error) { return {ok:false,reason:String(error)}; }
+}
+function mimeForPath(p){
+  const ext=path.extname(p).toLowerCase();
+  if(ext==='.svg') return 'image/svg+xml';
+  if(ext==='.jpg'||ext==='.jpeg') return 'image/jpeg';
+  if(ext==='.png') return 'image/png';
+  if(ext==='.webp') return 'image/webp';
+  throw new Error(`Unsupported image extension for fixture: ${ext}`);
+}
+function dataUriForPath(p){
+  const bytes=fs.readFileSync(p);
+  return `data:${mimeForPath(p)};base64,${bytes.toString('base64')}`;
 }
 function readLane(p){try{return JSON.parse(fs.readFileSync(p,'utf8'));}catch{return {};}}
 function laneMetaById(){
@@ -124,7 +134,6 @@ function selectVisualCandidates(report){
   return out;
 }
 
-async function seedSameOrigin(page){ await page.goto(originSeed,{waitUntil:'load',timeout:10000}); }
 async function settleImages(page,timeoutMs=7000){
   return page.evaluate(async timeout=>{
     const images=[...document.images];
@@ -132,7 +141,7 @@ async function settleImages(page,timeoutMs=7000){
     return images.map(img=>{
       let opaqueFraction=null,pixelProbeError=null;
       try{const c=document.createElement('canvas');c.width=48;c.height=48;const ctx=c.getContext('2d',{willReadFrequently:true});ctx.clearRect(0,0,48,48);ctx.drawImage(img,0,0,48,48);const d=ctx.getImageData(0,0,48,48).data;let opaque=0;for(let i=3;i<d.length;i+=4)if(d[i]>8)opaque++;opaqueFraction=opaque/(48*48);}catch(error){pixelProbeError=String(error);}
-      return {src:img.getAttribute('src'),complete:img.complete,naturalWidth:img.naturalWidth,naturalHeight:img.naturalHeight,opaqueFraction,pixelProbeError};
+      return {assetPath:img.dataset.repoPath??null,complete:img.complete,naturalWidth:img.naturalWidth,naturalHeight:img.naturalHeight,opaqueFraction,pixelProbeError};
     });
   },timeoutMs);
 }
@@ -141,11 +150,10 @@ async function renderSet(browser,setName,items,report,detailViewport={width:800,
   const setReport={items:[],contactSheetErrors:[],contactSheetImageStatus:[]};report.sets[setName]=setReport;if(!items.length)return;
   const page=await browser.newPage({viewport:{width:1200,height:960},deviceScaleFactor:1});page.on('console',m=>{if(m.type()==='error')setReport.contactSheetErrors.push(m.text());});page.on('pageerror',e=>setReport.contactSheetErrors.push(String(e)));
   try{
-    await seedSameOrigin(page);
-    const cards=items.map(item=>`<article><img src="${base}/${item.repositoryPath}" alt="${item.id}"><div><b>${item.id}</b><br>${item.name}<br><span>${item.tier?`T${item.tier}`:''}${item.theme?` · ${item.theme}`:''} · ${item.blobSha.slice(0,8)}</span><br><small>${item.repositoryPath}</small></div></article>`).join('');
+    const cards=items.map(item=>`<article><img src="${dataUriForPath(item.repositoryPath)}" data-repo-path="${item.repositoryPath}" alt="${item.id}"><div><b>${item.id}</b><br>${item.name}<br><span>${item.tier?`T${item.tier}`:''}${item.theme?` · ${item.theme}`:''} · ${item.blobSha.slice(0,8)}</span><br><small>${item.repositoryPath}</small></div></article>`).join('');
     await page.setContent(`<!doctype html><meta charset="utf-8"><style>html,body{margin:0;background:#081936;color:white;font:14px system-ui,sans-serif}main{box-sizing:border-box;width:1200px;padding:30px;display:grid;grid-template-columns:repeat(4,1fr);gap:18px}article{min-height:310px;background:#102c5d;border:2px solid #39d5ff;border-radius:18px;padding:12px;box-sizing:border-box;overflow:hidden}img{width:100%;height:210px;object-fit:contain;display:block}div{padding-top:7px;line-height:18px}span,small{color:#b9d8ff;font-size:11px;word-break:break-all}</style><main>${cards}</main>`);
     setReport.contactSheetImageStatus=await settleImages(page);
-    for(const image of setReport.contactSheetImageStatus){if(!image.naturalWidth)setReport.contactSheetErrors.push(`contact-sheet decode failed: ${image.src}`);else if(image.pixelProbeError)setReport.contactSheetErrors.push(`contact-sheet pixel probe failed: ${image.src}: ${image.pixelProbeError}`);else if((image.opaqueFraction??0)<0.005)setReport.contactSheetErrors.push(`contact-sheet visually blank/transparent: ${image.src}`);}
+    for(const image of setReport.contactSheetImageStatus){const label=image.assetPath??'unknown-image';if(!image.naturalWidth)setReport.contactSheetErrors.push(`contact-sheet decode failed: ${label}`);else if(image.pixelProbeError)setReport.contactSheetErrors.push(`contact-sheet pixel probe failed: ${label}: ${image.pixelProbeError}`);else if((image.opaqueFraction??0)<0.005)setReport.contactSheetErrors.push(`contact-sheet visually blank/transparent: ${label}`);}
     await page.screenshot({path:path.join(out,`${setName}-contact-sheet.png`),fullPage:true,timeout:15000});
   }catch(error){setReport.contactSheetErrors.push(String(error));}finally{await page.close();}
 
@@ -154,11 +162,10 @@ async function renderSet(browser,setName,items,report,detailViewport={width:800,
   detailPage.on('console',m=>{if(m.type()==='error')currentErrors.push(m.text());});
   detailPage.on('pageerror',e=>currentErrors.push(String(e)));
   try{
-    await seedSameOrigin(detailPage);
     for(const item of items){
-      currentErrors=[];const url=`${base}/${item.repositoryPath}`;let status=null,naturalWidth=0,naturalHeight=0,opaqueFraction=null,screenshot=false;
+      currentErrors=[];const dataUri=dataUriForPath(item.repositoryPath);let status=null,naturalWidth=0,naturalHeight=0,opaqueFraction=null,screenshot=false;
       try{
-        await detailPage.setContent(`<!doctype html><meta charset="utf-8"><style>html,body{margin:0;width:${detailViewport.width}px;height:${detailViewport.height}px;background:#081936;display:grid;place-items:center}img{width:${detailViewport.width}px;height:${detailViewport.height}px;object-fit:contain}</style><img id="asset" src="${url}" alt="${item.id}">`);
+        await detailPage.setContent(`<!doctype html><meta charset="utf-8"><style>html,body{margin:0;width:${detailViewport.width}px;height:${detailViewport.height}px;background:#081936;display:grid;place-items:center}img{width:${detailViewport.width}px;height:${detailViewport.height}px;object-fit:contain}</style><img id="asset" src="${dataUri}" data-repo-path="${item.repositoryPath}" alt="${item.id}">`);
         const imageState=(await settleImages(detailPage))[0];naturalWidth=imageState?.naturalWidth??0;naturalHeight=imageState?.naturalHeight??0;opaqueFraction=imageState?.opaqueFraction??null;status=naturalWidth?200:null;
         if(!naturalWidth)throw new Error('asset image decode failed');if(imageState?.pixelProbeError)throw new Error(`asset pixel probe failed: ${imageState.pixelProbeError}`);if((opaqueFraction??0)<0.005)throw new Error(`asset visually blank/transparent: opaqueFraction=${opaqueFraction}`);
         await detailPage.locator('#asset').screenshot({path:path.join(out,'detail',`${item.id}-${item.blobSha.slice(0,8)}.png`),timeout:15000});screenshot=true;
