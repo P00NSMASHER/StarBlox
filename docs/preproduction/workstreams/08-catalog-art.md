@@ -1,3 +1,9 @@
+## V2 canonical increment — Rug 11 v3 qualified exact-hash ACCEPT
+
+Prepared from `187068cec23a87ecc256fd32010bf2d178da6065` using exact hash-bound reviewer 14 ACCEPT evidence. 1 items passed repository-byte, Store metadata, decode/safety, reviewer-independence and canonical uniqueness checks. Full tests/build/Store-mobile smoke are required before publication.
+
+Exact IDs: `rugs-11`.
+
 ## Workstream 08 — canonical catalog art integration
 
 Phase remains **ART_VISUALS_SPRINT / CATALOG_SPRINT**. Workstream 08 is the sole canonical writer for `catalog-art-manifest.json` and `src/catalogArtRuntime.js`; it does not generate art, change gameplay metadata, switch phase, or authorize deployment. Replit/Floot/main/player data remain untouched.
