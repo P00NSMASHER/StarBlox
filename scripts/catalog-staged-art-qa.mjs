@@ -81,8 +81,11 @@ function laneMetaById(){
   for(const lanePath of producerLanes){
     if(!fs.existsSync(lanePath)) continue;
     for(const o of allObjects(readLane(lanePath))){
-      if(!o?.id||!/^[a-z]+-\d+$/.test(o.id)) continue;
-      const list=map.get(o.id)??[]; list.push({...o,producerLane:lanePath}); map.set(o.id,list);
+      const id=o?.id??o?.itemId;
+      if(!id||!/^[a-z]+-\d+$/.test(id)) continue;
+      const list=map.get(id)??[];
+      list.push({...o,id,producerLane:lanePath});
+      map.set(id,list);
     }
   }
   return map;
