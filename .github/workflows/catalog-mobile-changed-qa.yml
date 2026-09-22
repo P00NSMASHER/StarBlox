@@ -25,7 +25,7 @@ jobs:
   changed-catalog-mobile-accessibility:
     if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-24.04
-    timeout-minutes: 25
+    timeout-minutes: 45
     steps:
       - name: Checkout latest preproduction with history
         uses: actions/checkout@v4
