@@ -4,6 +4,7 @@ on:
     branches: [screenshot-match-preproduction]
     paths:
       - 'scripts/artPromptOptimizer*.mjs'
+      - 'scripts/artReviewNormalizer*.mjs'
       - 'docs/preproduction/art-prompt-optimizer/**'
       - 'docs/preproduction/catalog-sprint/reviews/*.json'
       - 'src/gameModel.js'
@@ -19,8 +20,11 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Test optimizer core
-        run: node --test scripts/artPromptOptimizer.test.mjs
+      - name: Test optimizer core and review normalizer
+        run: |
+          node --test \
+            scripts/artPromptOptimizer.node-test.mjs \
+            scripts/artReviewNormalizer.node-test.mjs
       - name: Validate exact-hash learning corpus
         run: node scripts/artPromptOptimizer.mjs validate --repo-root .
       - name: Build prompt model and current repair queue
