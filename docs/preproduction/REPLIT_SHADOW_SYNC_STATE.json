@@ -1,0 +1,65 @@
+{
+  "schemaVersion": 1,
+  "status": "AGENT_UPDATING__SHADOW_VERIFICATION_PENDING",
+  "repository": "P00NSMASHER/StarBlox",
+  "sourceBranch": "screenshot-match-preproduction",
+  "replit": {
+    "replId": "821e329b-9d6b-4bc9-940d-b18a07aaa463",
+    "workspaceUrl": "https://replit.com/replid/821e329b-9d6b-4bc9-940d-b18a07aaa463",
+    "publishedUrl": "https://star-blox.replit.app",
+    "publishedStatusAtLastCheck": "success",
+    "publishAuthorized": false,
+    "mode": "UNPUBLISHED_SHADOW"
+  },
+  "source": {
+    "initialMigrationBaseline": "a01af6a1227997b35d27738f8576ec3b97147852",
+    "latestRequestedShadowHead": "812a05b27210da6ebd2e7fc21c5d4195fde15b08",
+    "migrationLedgerCommit": "d707e7869d27ee54a2a11ce099c52f0855f31c96"
+  },
+  "incrementalPolicy": {
+    "preferCoherentDeltas": true,
+    "retransferUnchangedFiles": false,
+    "preserveSaveCompatibility": true,
+    "realPlayerDataAllowed": false,
+    "publishOnlyAfterExplicitUserApproval": true
+  },
+  "latestDelta": {
+    "from": "a01af6a1227997b35d27738f8576ec3b97147852",
+    "to": "812a05b27210da6ebd2e7fc21c5d4195fde15b08",
+    "productionRelevantFiles": [
+      "src/motionGameFeelRuntime.js",
+      "src/motionGameFeelRuntime.test.js"
+    ],
+    "nonRuntimeEvidenceFiles": [
+      "docs/preproduction/REPLIT_SHADOW_MIGRATION.md",
+      "docs/preproduction/art-factory/ACTIVE_BATCH.json",
+      "docs/preproduction/art-factory/requests/w06-decor-5-qualification-20260922.json"
+    ],
+    "intent": "Apply only the production-relevant runtime delta to the existing unpublished shadow workspace."
+  },
+  "githubValidation": {
+    "sourceHeadWithLatestRuntimeChange": "4673b9ed14f60d0ac53f784f86d08cd88f0d9db9",
+    "ci": "PASS",
+    "catalogMobileQa": "PASS",
+    "persistenceBrowserQa": "PASS",
+    "storeObserverDiagnostic": "PASS",
+    "preproductionVisualQa": "FAIL_RELEASE_NOT_READY"
+  },
+  "releaseBoundary": {
+    "manifestVersion": 33,
+    "manifestEntries": 173,
+    "targetCatalogItems": 192,
+    "visibleGenericFallbackCount": 19,
+    "releaseCleared": 0,
+    "note": "Shadow migration may continue, but no publish/redeploy while release gates remain open."
+  },
+  "nextRequiredStep": "When Replit Agent is no longer updating, verify unpublished preview/build state and record the exact synchronized source head before sending another production delta.",
+  "safety": {
+    "mainTouched": false,
+    "replitPublished": false,
+    "flootTouched": false,
+    "realPlayerDataTouched": false,
+    "gameplaySemanticsChangedByMigration": false,
+    "economySemanticsChangedByMigration": false
+  }
+}
