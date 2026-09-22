@@ -10,7 +10,9 @@ on:
       - 'src/mobileAccessibilityRuntime.js'
       - '.github/workflows/catalog-mobile-changed-qa.yml'
   workflow_run:
-    workflows: ['Workstream 08 Catalog Integrate']
+    workflows:
+      - 'Workstream 08 Catalog Integrate'
+      - 'StarBlox Workstream 08 Exact-Hash Integration'
     types: [completed]
     branches: [screenshot-match-preproduction]
   workflow_dispatch:
