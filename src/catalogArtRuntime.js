@@ -143,7 +143,15 @@ const portableCatalogArt = Object.freeze({
   'lighting-1': '/assets/catalog/lighting-1-v2.jpg',
   'lighting-2': '/assets/catalog/lighting-2-v2.jpg',
   'lighting-3': '/assets/catalog/lighting-3-v2.jpg',
-  'lighting-4': '/assets/catalog/lighting-4-v2.jpg'
+  'lighting-4': '/assets/catalog/lighting-4-v2.jpg',
+  'lighting-5': '/assets/catalog/lighting-5-w04-recovered-v2.jpg',
+  'lighting-6': '/assets/catalog/lighting-6-w04-recovered-v2.jpg',
+  'lighting-7': '/assets/catalog/lighting-7-w04-recovered-v2.jpg',
+  'lighting-8': '/assets/catalog/lighting-8-w04-recovered-v2.jpg',
+  'lighting-9': '/assets/catalog/lighting-9-w04-recovered-v2.jpg',
+  'lighting-10': '/assets/catalog/lighting-10-w04-recovered-v2.jpg',
+  'lighting-11': '/assets/catalog/lighting-11-w04-recovered-v2.jpg',
+  'lighting-12': '/assets/catalog/lighting-12-w04-recovered-v2.jpg'
 });
 
 for (const item of gameModel.store) {
