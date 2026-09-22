@@ -1,6 +1,11 @@
 // @vitest-environment jsdom
 import { describe, expect, it } from 'vitest';
-import { isPositiveFeedback, motionDurationFor, shouldScheduleMotionScan } from './motionGameFeelRuntime';
+import {
+  isPositiveFeedback,
+  isSemanticCorrectFeedback,
+  motionDurationFor,
+  shouldScheduleMotionScan
+} from './motionGameFeelRuntime';
 
 describe('motion game-feel helpers', () => {
   it('keeps learning celebration bounded under two seconds', () => {
@@ -20,6 +25,23 @@ describe('motion game-feel helpers', () => {
     expect(isPositiveFeedback('You got it — great job!')).toBe(true);
     expect(isPositiveFeedback('Try again. That answer is not correct.')).toBe(false);
     expect(isPositiveFeedback('Wrong answer, but keep learning.')).toBe(false);
+  });
+
+  it('requires Quest semantic success state before celebration', () => {
+    const correct = document.createElement('div');
+    correct.className = 'feedback good';
+    correct.textContent = 'A neutral explanation with no success keywords.';
+    expect(isSemanticCorrectFeedback(correct)).toBe(true);
+
+    const wrong = document.createElement('div');
+    wrong.className = 'feedback learn';
+    wrong.textContent = 'Great job noticing the clue.';
+    expect(isSemanticCorrectFeedback(wrong)).toBe(false);
+
+    const textOnly = document.createElement('div');
+    textOnly.className = 'feedback';
+    textOnly.textContent = 'Correct! Nice work.';
+    expect(isSemanticCorrectFeedback(textOnly)).toBe(false);
   });
 
   it('ignores observer wakeups caused only by its own motion classes', () => {

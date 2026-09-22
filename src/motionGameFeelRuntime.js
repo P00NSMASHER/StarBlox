@@ -39,6 +39,13 @@ export function isPositiveFeedback(text = '', className = ''){
   return POSITIVE_PATTERN.test(value) && !NEGATIVE_PATTERN.test(value);
 }
 
+export function isSemanticCorrectFeedback(node){
+  if(!node?.classList) return false;
+  return node.classList.contains('feedback') &&
+    node.classList.contains('good') &&
+    !node.classList.contains('learn');
+}
+
 export function prefersReducedMotion(){
   return typeof window !== 'undefined' && typeof window.matchMedia === 'function'
     ? window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -125,10 +132,10 @@ function celebrateFeedback(feedback){
   const signature = `${feedback.className}|${text.trim()}`;
   if(feedback.dataset.sbMotionFeedbackSignature === signature) return;
   feedback.dataset.sbMotionFeedbackSignature = signature;
-  if(!isPositiveFeedback(text,feedback.className)) return;
+  if(!isSemanticCorrectFeedback(feedback)) return;
 
   const question = feedback.closest('.questionCard') || feedback.closest('.questScreenshotMatch') || feedback;
-  const selected = question.querySelector?.('.answerButton[aria-pressed="true"],.answerButton.correct,.answerButton.success') || feedback;
+  const selected = question.querySelector?.('.answerButton.correctChoice') || feedback;
   restartClass(question,'sbMotionCorrect',motionDurationFor('correct',prefersReducedMotion()));
   emitStarSparks(selected,feedback,6);
 }
