@@ -151,7 +151,17 @@ const portableCatalogArt = Object.freeze({
   'lighting-9': '/assets/catalog/lighting-9-w04-recovered-v2.jpg',
   'lighting-10': '/assets/catalog/lighting-10-w04-recovered-v2.jpg',
   'lighting-11': '/assets/catalog/lighting-11-w04-recovered-v2.jpg',
-  'lighting-12': '/assets/catalog/lighting-12-w04-recovered-v2.jpg'
+  'lighting-12': '/assets/catalog/lighting-12-w04-recovered-v2.jpg',
+  'rugs-1': '/assets/catalog/rugs-1-w07-v2.jpg',
+  'rugs-2': '/assets/catalog/rugs-2-w07-v2.jpg',
+  'rugs-3': '/assets/catalog/rugs-3-w07-v2.jpg',
+  'rugs-4': '/assets/catalog/rugs-4-w07-v2.jpg',
+  'rugs-5': '/assets/catalog/rugs-5-w07-v2.jpg',
+  'rugs-6': '/assets/catalog/rugs-6-w07-v2.jpg',
+  'rugs-7': '/assets/catalog/rugs-7-w07-v2.jpg',
+  'rugs-8': '/assets/catalog/rugs-8-w07-v2.jpg',
+  'decor-1': '/assets/catalog/decor-1-w09-v2.jpg',
+  'decor-2': '/assets/catalog/decor-2-w09-v2.jpg'
 });
 
 for (const item of gameModel.store) {

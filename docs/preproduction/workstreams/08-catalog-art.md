@@ -1,3 +1,9 @@
+## V2 canonical increment — Rugs 1-8 + Decor 1-2 exact-hash ACCEPTs
+
+Prepared from `328ea99adbd69a38096698629be66204f0b19bdc` using exact hash-bound reviewer 14 ACCEPT evidence. 10 items passed repository-byte, Store metadata, decode/safety, reviewer-independence and canonical uniqueness checks. Full tests/build/Store-mobile smoke are required before publication.
+
+Exact IDs: `rugs-1`, `rugs-2`, `rugs-3`, `rugs-4`, `rugs-5`, `rugs-6`, `rugs-7`, `rugs-8`, `decor-1`, `decor-2`.
+
 # Workstream 08 — Catalog Integration
 
 STATUS: **INTEGRATED_ACCEPTED_INCREMENT_TESTS_PASS_STORE_SMOKE_PENDING**
