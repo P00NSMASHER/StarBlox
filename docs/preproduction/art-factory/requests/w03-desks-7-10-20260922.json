@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 2,
+  "kind": "STARBLOX_ART_FACTORY_BATCH_REQUEST",
+  "producer": "03",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "e354f5be238776f7939e80f51fe7137571061bf6",
+  "batchId": "w03-desks-7-10-v1",
+  "scope": ["desks-7", "desks-8", "desks-9", "desks-10"],
+  "reviewer": "05",
+  "renderOwner": "14",
+  "integrationOwner": "08",
+  "coordinationOwner": "15",
+  "variantsPerItem": 2,
+  "legacyVerdict": "NONE_UNFILLED_TARGETS",
+  "exactStoreMetadata": {
+    "desks-7": {"name": "Sunny Creator Desk", "collection": "Desks & Tech", "tier": 3, "theme": "Garden Glow", "price": 348, "starReq": 2},
+    "desks-8": {"name": "Aqua Study Station", "collection": "Desks & Tech", "tier": 3, "theme": "Galaxy Glow", "price": 479, "starReq": 2},
+    "desks-9": {"name": "Art Maker Table", "collection": "Desks & Tech", "tier": 3, "theme": "Sunny Pop", "price": 667, "starReq": 2},
+    "desks-10": {"name": "Neon Streaming Desk", "collection": "Desks & Tech", "tier": 4, "theme": "Aqua Wave", "price": 928, "starReq": 5}
+  },
+  "generationPolicy": {
+    "useArtPromptOptimizer": true,
+    "compileArtFactoryJobV2": true,
+    "sourcePixels": 1024,
+    "derivativePixels": 600,
+    "preserveSourceBytes": true,
+    "stageVersionedExactBytes": true,
+    "realCardDetailRenderRequired": true,
+    "independentReviewerRequired": "05",
+    "noCanonicalWiringByProducer": true,
+    "freezeAfterPilotUntilIndependentDisposition": true
+  },
+  "visualContract": {
+    "camera": "coherent three-quarter front product camera; full desk visible",
+    "construction": "substantial tabletop thickness; believable supports/joints; storage/hardware physically attached; no floating parts",
+    "materials": "clear wood/painted-metal/plastic/textile/glass/ceramic response appropriate to each concept",
+    "lighting": "controlled premium studio key/rim lighting with grounded contact and cast shadow",
+    "readability": "strong distinct silhouette at 600x600 card scale",
+    "prohibited": ["flat icon", "promo grid", "collage", "text", "logo", "watermark", "emoji", "fabricated item id", "recolor clone", "room-scene-first composition", "chair obscuring product"]
+  },
+  "variantPlan": {
+    "desks-7": {
+      "A-PHYSICAL": "Sunny Creator Desk, Tier 3 Garden Glow. Thick honey-oak top, asymmetric left shelf-planter bridge with visible joinery, open angled timber supports, right rounded three-drawer pedestal with brushed-metal pulls, sketchbook/pencil cup/tablet stand/articulated brass-green lamp, integrated trailing greenery and warm botanical under-shelf glow. Premium isolated three-quarter product, navy-teal studio stage, strong contact shadow.",
+      "B-READABILITY": "Sunny Creator Desk, Tier 3 Garden Glow. Open trestle construction with broad warm-wood creator top, one compact rolling-style storage block physically tucked under the rear corner, raised narrow tool rail, centered sunlike task light and two sculptural planters framing but not hiding the desk. Fewer accessories, wider negative-space silhouette, materially rich wood/metal/ceramic separation, isolated three-quarter product."
+    },
+    "desks-8": {
+      "A-PHYSICAL": "Aqua Study Station, Tier 3 Galaxy Glow. Curved pale aqua laminate top with real edge thickness, twin powder-coated metal side frames, central drawer/cable bay, elevated monitor/book bridge, one compact screen showing abstract stars only, translucent blue glass organizer, planet-orb task lamp and subtle violet galaxy underglow. Isolated three-quarter product with grounded shadow.",
+      "B-THEME-TIER": "Aqua Study Station, Tier 3 Galaxy Glow. More architectural L-shaped study console: straight main writing slab joined to a shorter side shelf, rounded aqua storage pedestal, dark-indigo metal braces, star-map pinboard made only of abstract dots/lines, compact tablet stand and luminous orbit-ring lamp. Premium aqua/glass/metal material separation, crisp small-card silhouette, isolated studio product."
+    },
+    "desks-9": {
+      "A-PHYSICAL": "Art Maker Table, Tier 3 Sunny Pop. Sturdy pale maple maker table with thick butcher-block top, visible cross-braced legs, shallow center drawer, one side cubby tower, peg/tool rail, washable bright-yellow metal task lamp, paint cups, brushes, paper roll and closed craft boxes. Sunny Pop through warm yellow/coral/cyan accents and cheerful high-key edge light, not cartoon symbols. Isolated three-quarter product.",
+      "B-READABILITY": "Art Maker Table, Tier 3 Sunny Pop. Distinct split-level drafting construction with tilting upper art board on real hinge hardware, flat side work surface, two splayed wooden legs plus compact drawer pedestal, paper rack and organized brush jars. Bright but controlled yellow/orange hardware with teal details, believable wood/metal/plastic, clean silhouette and grounded studio shadow."
+    },
+    "desks-10": {
+      "A-PHYSICAL": "Neon Streaming Desk, Tier 4 Aqua Wave. Premium dark graphite streaming desk with thick chamfered top, two structural metal A-frames, right equipment cabinet with vented panels and real pulls, raised rear bridge carrying a wide monitor with abstract aqua waveform only, mic boom anchored by clamp, compact keyboard/control pad, translucent aqua edge insert and restrained neon underglow. Isolated three-quarter product, deep studio background.",
+      "B-THEME-TIER": "Neon Streaming Desk, Tier 4 Aqua Wave. Higher-spectacle curved-front command-style desk with layered graphite top, aqua translucent wave-shaped inlay, dual pedestal/support architecture, integrated cable channel, side streaming control console, mounted mic arm, compact speaker pair and one central ultrawide display with nonverbal abstract blue wave light. Rich metal/acrylic/glass response, controlled cyan-violet bloom, unmistakable premium furniture silhouette."
+    }
+  },
+  "targetPathConvention": "public/assets/catalog-candidates/desks/<itemId>-w03-v1-<variant>-original.png with a measured 600px derivative only after exact source bytes are preserved",
+  "provenanceRequirement": "Record exact generator/provider, exposed model identity/revision, seed, prompt text+sha256, sourceHead, repoPath, sha256, gitBlobSha, bytes, dimensions and derivative lineage for every real candidate. Do not create attempt-ledger rows until real bytes are staged/read back.",
+  "currentGeneratorBlocker": {
+    "state": "TRANSIENT_GENERATION_CAPACITY_BLOCKED_NO_ASSET_STAGED",
+    "adobeFirefly": "Adobe image_generate returned rate-limit exceeded twice; quota reports reset at midnight GMT.",
+    "nativeImageGen": "Two scoped attempts produced multi-item promotional grids with fabricated labels instead of isolated exact-ID assets; both were rejected before staging and must not be repurposed.",
+    "alternateProvider": "A connected alternate generator reported no credits; no purchase or paid-setting change was attempted.",
+    "safetyAction": "Do not stage invalid grids, do not lower quality, do not buy capacity, and do not start desks-11/12. Resume this exact request when a compliant authorized generator is available."
+  },
+  "freeze": {
+    "desks1To6AcceptedHashes": true,
+    "desks11To12UntilReviewer05Disposition": true,
+    "canonicalRuntime": true,
+    "canonicalManifest": true,
+    "gameplayLearningPersistenceEconomy": true,
+    "mainReplitFlootDeployPaidSettingsPlayerData": true
+  }
+}
