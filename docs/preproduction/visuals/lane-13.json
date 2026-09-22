@@ -692,5 +692,108 @@
       "15": "PENDING_COORDINATION_BEFORE_ANY_RUNTIME_WIRING"
     },
     "note": "Producer-staged only. Reviewer 01 judges art; reviewer 14 judges composition/performance; 15 gates any runtime wiring. No self-approval."
+  },
+  "latestAvatarFullbodyKeyArtCandidate": {
+    "candidateId": "avatar-keyart-fullbody-w13-v1",
+    "status": "STAGED_READY_FOR_INDEPENDENT_REVIEW",
+    "runtimeWired": false,
+    "intakeEvidence": "docs/preproduction/visuals/lane-13-avatar-keyart-fullbody-v1-intake.json",
+    "assets": {
+      "source": {
+        "label": "source",
+        "path": "docs/preproduction/visuals/recovered-originals/avatar-keyart-fullbody-w13-v1-source.png",
+        "bytes": 1875024,
+        "dimensions": [
+          1360,
+          1744
+        ],
+        "format": "PNG",
+        "mode": "RGB",
+        "sha256": "d72882cc97dcb389184629034b7cc608eb310f5a7d3e5fef45205164740cb04d",
+        "gitBlobSha": "00cfcda924dce72c18aa11e4cccb57e6ce4d3e6c",
+        "alphaBounds": null,
+        "alphaExtrema": null,
+        "transparentRequired": false
+      },
+      "full": {
+        "label": "full",
+        "path": "public/assets/visuals/lane-13/avatar-keyart-fullbody-w13-v1-full.png",
+        "bytes": 836136,
+        "dimensions": [
+          1360,
+          1744
+        ],
+        "format": "PNG",
+        "mode": "RGBA",
+        "sha256": "3c6d71689d604b16e4ad0d4998abcea0916ebc671e42329889a9c0202228db35",
+        "gitBlobSha": "4904d4e910292b0b049f73f5d2c3785913fb2af3",
+        "alphaBounds": [
+          318,
+          177,
+          938,
+          1659
+        ],
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "transparentRequired": true
+      },
+      "optimized": {
+        "label": "optimized",
+        "path": "public/assets/visuals/lane-13/avatar-keyart-fullbody-w13-v1-896.png",
+        "bytes": 438049,
+        "dimensions": [
+          896,
+          1149
+        ],
+        "format": "PNG",
+        "mode": "RGBA",
+        "sha256": "88869744dc91ccc3b4684d9b0c2269ea0669ad992e0a8040f988b9a61bfaa35e",
+        "gitBlobSha": "76a4be6c4ca63d65aecde4f136227bd2e8abc1da",
+        "alphaBounds": [
+          209,
+          116,
+          617,
+          1094
+        ],
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "transparentRequired": true
+      }
+    },
+    "remoteReadback": {
+      "remoteRef": "origin/screenshot-match-preproduction",
+      "remoteHead": "991361a9dbb3e4d73f984dfe15980201d3177350",
+      "assets": {
+        "source": {
+          "path": "docs/preproduction/visuals/recovered-originals/avatar-keyart-fullbody-w13-v1-source.png",
+          "bytes": 1875024,
+          "sha256": "d72882cc97dcb389184629034b7cc608eb310f5a7d3e5fef45205164740cb04d",
+          "matchesStagedBytes": true
+        },
+        "full": {
+          "path": "public/assets/visuals/lane-13/avatar-keyart-fullbody-w13-v1-full.png",
+          "bytes": 836136,
+          "sha256": "3c6d71689d604b16e4ad0d4998abcea0916ebc671e42329889a9c0202228db35",
+          "matchesStagedBytes": true
+        },
+        "optimized": {
+          "path": "public/assets/visuals/lane-13/avatar-keyart-fullbody-w13-v1-896.png",
+          "bytes": 438049,
+          "sha256": "88869744dc91ccc3b4684d9b0c2269ea0669ad992e0a8040f988b9a61bfaa35e",
+          "matchesStagedBytes": true
+        }
+      }
+    },
+    "reviews": {
+      "01": "PENDING_INDEPENDENT_ART_REVIEW",
+      "14": "PENDING_COMPOSITION_PERFORMANCE_REVIEW",
+      "15": "PENDING_COORDINATION_BEFORE_ANY_RUNTIME_WIRING"
+    },
+    "outfitAuthority": "NONCANONICAL_VISUAL_GUIDANCE_ONLY_DO_NOT_OVERRIDE_EQUIPPED_STATE",
+    "note": "Producer-staged full-body character key art only. Reviewer 01 judges art; reviewer 14 judges composition/performance; 15 coordinates with 06 before any runtime adaptation. No self-approval."
   }
 }

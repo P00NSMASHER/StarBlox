@@ -207,3 +207,17 @@ This candidate contains no avatar, buddy, UI, text, buttons, logos or third-part
   - optimized: `public/assets/visuals/lane-13/quest-study-foreground-w13-v1-1008.png` — 1008x576, 133292 bytes, SHA-256 `881302a212fff9d38ff52dd22c0749c43a1f033659d665cc9f8a494787b53193`, Git blob `ab48d418d68c5672a49f713a5e266f445eb1ed6e`
 
 - No physical-device test or screenshot-parity claim was performed by producer 13. Existing regression/build/accessibility/device gates remain open and unwaived.
+
+## Avatar full-body key art v1 — staged candidate
+
+- Candidate: `avatar-keyart-fullbody-w13-v1` — producer-staged only; not independently approved and not runtime-wired.
+- Gap addressed: actual original Home/Store/Quest references share a dimensional long-brown-haired expressive avatar with cat-ear headset styling, while the inspected current renders remain flatter/blockier and visually inconsistent across screens.
+- Scope: separate character key art/reference component only. The shown clothing is noncanonical visual guidance and must never override owned/equipped state.
+- Independent review: 01 art; 14 composition/performance; 15 coordination with 06 before any runtime adaptation.
+- Exact remote readback: `PASS_3_OF_3_EXACT_SHA256_AND_BYTE_LENGTH`.
+- Assets:
+  - source: `docs/preproduction/visuals/recovered-originals/avatar-keyart-fullbody-w13-v1-source.png` — 1360x1744, 1875024 bytes, SHA-256 `d72882cc97dcb389184629034b7cc608eb310f5a7d3e5fef45205164740cb04d`, Git blob `00cfcda924dce72c18aa11e4cccb57e6ce4d3e6c`
+  - full: `public/assets/visuals/lane-13/avatar-keyart-fullbody-w13-v1-full.png` — 1360x1744, 836136 bytes, SHA-256 `3c6d71689d604b16e4ad0d4998abcea0916ebc671e42329889a9c0202228db35`, Git blob `4904d4e910292b0b049f73f5d2c3785913fb2af3`
+  - optimized: `public/assets/visuals/lane-13/avatar-keyart-fullbody-w13-v1-896.png` — 896x1149, 438049 bytes, SHA-256 `88869744dc91ccc3b4684d9b0c2269ea0669ad992e0a8040f988b9a61bfaa35e`, Git blob `76a4be6c4ca63d65aecde4f136227bd2e8abc1da`
+
+- No physical-device test or screenshot-parity claim was performed by producer 13.

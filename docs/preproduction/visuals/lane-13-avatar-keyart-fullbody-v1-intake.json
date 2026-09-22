@@ -182,7 +182,7 @@
     "separateCharacterComponentNotFlattenedScreen": "PASS_BY_ASSET_SCOPE_AND_PRODUCER_PIXEL_INSPECTION",
     "uiTextButtonsAbsent": "PASS_BY_PRODUCER_PIXEL_INSPECTION",
     "outfitAuthority": "NONCANONICAL_VISUAL_GUIDANCE_ONLY_DO_NOT_OVERRIDE_EQUIPPED_STATE",
-    "exactRepositoryReadback": "PENDING_REMOTE_READBACK",
+    "exactRepositoryReadback": "PASS_3_OF_3_EXACT_SHA256_AND_BYTE_LENGTH",
     "independentArtReview": "PENDING_01",
     "compositionPerformanceReview": "PENDING_14",
     "runtimeIntegration": "NOT_PERFORMED",
@@ -194,5 +194,29 @@
     "14": "PENDING_COMPOSITION_PERFORMANCE_REVIEW",
     "15": "PENDING_COORDINATION_BEFORE_ANY_RUNTIME_WIRING"
   },
-  "releaseGates": "Existing regression/build/device/accessibility/parity gates remain external release gates and are not changed or passed by this visual intake."
+  "releaseGates": "Existing regression/build/device/accessibility/parity gates remain external release gates and are not changed or passed by this visual intake.",
+  "remoteReadback": {
+    "remoteRef": "origin/screenshot-match-preproduction",
+    "remoteHead": "991361a9dbb3e4d73f984dfe15980201d3177350",
+    "assets": {
+      "source": {
+        "path": "docs/preproduction/visuals/recovered-originals/avatar-keyart-fullbody-w13-v1-source.png",
+        "bytes": 1875024,
+        "sha256": "d72882cc97dcb389184629034b7cc608eb310f5a7d3e5fef45205164740cb04d",
+        "matchesStagedBytes": true
+      },
+      "full": {
+        "path": "public/assets/visuals/lane-13/avatar-keyart-fullbody-w13-v1-full.png",
+        "bytes": 836136,
+        "sha256": "3c6d71689d604b16e4ad0d4998abcea0916ebc671e42329889a9c0202228db35",
+        "matchesStagedBytes": true
+      },
+      "optimized": {
+        "path": "public/assets/visuals/lane-13/avatar-keyart-fullbody-w13-v1-896.png",
+        "bytes": 438049,
+        "sha256": "88869744dc91ccc3b4684d9b0c2269ea0669ad992e0a8040f988b9a61bfaa35e",
+        "matchesStagedBytes": true
+      }
+    }
+  }
 }
