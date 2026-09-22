@@ -1,0 +1,87 @@
+{
+  "schemaVersion": 1,
+  "workstream": "15",
+  "focus": "ART_AND_VISUALS_ONLY",
+  "phase": "CATALOG_SPRINT",
+  "observedHeadBeforeWrite": "6b46a643cf7a83ba5a3315a29b4a167645878689",
+  "authority": "docs/preproduction/ART_VISUALS_SPRINT.json",
+  "compatibleProtocol": "docs/preproduction/DELIVERY_PROTOCOL_V2.md",
+  "canonicalWriter": "08",
+  "accounting": {
+    "catalogTarget": 192,
+    "canonicalManifestVersion": 17,
+    "canonicalMappings": 138,
+    "independentlyAcceptedCurrentHashFloor": 65,
+    "canonicalWiredAcceptedHashes": 35,
+    "acceptedCurrentHashesAwaitingCanonicalFloor": 30,
+    "independentReviewCoverageUniqueIdFloor": 182,
+    "uniqueIdsWithoutUsableIndependentDispositionCeiling": 10,
+    "catalogReleaseClearedIds": 0,
+    "note": "Conservative current-head floors derived from exact current review shards plus manifest v17. Recompute before every canonical write because concurrent workers can advance the branch. Stored/reviewed/accepted/canonical/release-cleared remain separate."
+  },
+  "oldestReleaseCriticalDependency": {
+    "owner": "08",
+    "action": "Clear the exact-hash ACCEPT backlog in bounded coherent batches after current repo blob, Store metadata, decode/content uniqueness and reviewer-independence checks.",
+    "acceptedAwaitingCanonical": {
+      "01": ["tops-7", "tops-8", "tops-9", "tops-10", "bottoms-1", "bottoms-2", "bottoms-3", "bottoms-4", "headwear-1", "headwear-2", "headwear-3", "headwear-4"],
+      "02": ["seating-2", "seating-3"],
+      "05": ["desks-5", "desks-6", "beds-1", "beds-2", "beds-3", "beds-4"],
+      "14": ["rugs-1", "rugs-2", "rugs-3", "rugs-4", "rugs-5", "rugs-6", "rugs-7", "rugs-8", "decor-1", "decor-2"]
+    }
+  },
+  "readyForIndependentReview": {
+    "05": [
+      {"itemId":"auras-1","path":"/assets/catalog/auras-1-w11-v3.png","blobSha":"a7921c7b7c8f48fc47908595c1afa6f59217c7a5"},
+      {"itemId":"auras-2","path":"/assets/catalog/auras-2-w11-v3.png","blobSha":"1e421c71217e5386c1b255dfedeade8215976bcb"},
+      {"itemId":"auras-3","path":"/assets/catalog/auras-3-w11-v3.png","blobSha":"f164aefb93a21374a1cf0b9b7b7312a0ae68d34c"},
+      {"itemId":"auras-4","path":"/assets/catalog/auras-4-w11-v3.png","blobSha":"3357a67e4121ca631377e30033a31ef4c815ab61"}
+    ],
+    "02": [
+      {"itemId":"seating-4","path":"/assets/catalog/seating-4-chat-v2.png","blobSha":"55d1fb2edddb7638f87c5962bd03b6ac745a1f4b"},
+      {"itemId":"seating-5","path":"/assets/catalog/seating-5-chat-v2.png","blobSha":"252f0b24b3ede29d6abfbe7fc661a7da751de565"},
+      {"itemId":"seating-6","path":"/assets/catalog/seating-6-chat-v2.png","blobSha":"f4f00fb739aaae4ce970a4c4d1d738bca729ff40"}
+    ],
+    "14": [
+      {"itemId":"rugs-9","path":"/assets/catalog/rugs-9-w07-v2.jpg","blobSha":"9eef1db116e871d31c62de680d261cfbeccf49b3"},
+      {"itemId":"rugs-10","path":"/assets/catalog/rugs-10-chat-v2.png","blobSha":"e9ff2aabc5bfa90c7411d0b8a5c48f297d2d270d"},
+      {"itemId":"rugs-11","path":"/assets/catalog/rugs-11-chat-v2.png","blobSha":"cfff5c4d235295c0f3e0efc0ef34bfcbf629c916"},
+      {"itemId":"rugs-12","path":"/assets/catalog/rugs-12-chat-v2.png","blobSha":"e008d4b097caadd5e246d2d023e61179d543da3e"}
+    ]
+  },
+  "renderBeforeReview": {
+    "owner": "14",
+    "reviewerAfterRender": "05",
+    "items": [
+      {"itemId":"desks-2","path":"/assets/catalog/desks-2-chat-v2.png","blobSha":"277eb1e38e8a69caa0dab6d4d27bbb91796746f8"},
+      {"itemId":"desks-3","path":"/assets/catalog/desks-3-chat-v2.png","blobSha":"aeebeacdc4a95bf75af36583dae6e2391d9a1d9e"},
+      {"itemId":"desks-4","path":"/assets/catalog/desks-4-chat-v2.png","blobSha":"6f87e1527ec7d9bf1a3f81e1f54320f462dbb025"}
+    ],
+    "status": "VALID_REPO_BYTES_METADATA_READBACK_DECODE_PASS_BUT_CURRENT_CARD_DETAIL_RENDER_INCOMPLETE_0_OF_3",
+    "supersedes": ["desks-2-v1.webp@357f4ba8", "desks-3-v1.webp@b3352961", "desks-4-v1.webp@711feeb7"]
+  },
+  "producerRouting": {
+    "01": "Preserve accepted review hashes; if no newer partition review is ready, repair Seating 1 only for reviewer 02.",
+    "03": "Preserve Desk 2-6 current versions; wait for exact review evidence before further Desk generation; bounded Home visual support only while waiting.",
+    "06": "Correct Seating 11-12 producer ledger to actual current candidate hashes without changing bytes, then hand to 14 for render; next bounded catalog production is Shoes 7-10 only if still unclaimed REWORK.",
+    "07": "Preserve accepted Tops 1-6/Rugs 1-8 and staged Rugs 9-12; no more Rug generation unless reviewer 14 rejects an exact current hash.",
+    "09": "Preserve accepted Tops 7-10/Decor 1-2; next exact repair is Tops 11-12, then Decor 3-4 pilot only after Tops handoff.",
+    "12": "Preserve accepted Headwear 1-4; next accessory pilot is Headwear 5-8 unless a newer in-flight claim already exists."
+  },
+  "actualOpenVisualBlockers": [
+    "Thirty independently accepted current hashes are not yet canonical in manifest v17 at the observed head.",
+    "Desk independent review coverage remains incomplete: Desk 5-6 are ACCEPT; Desk 2-4 need current exact-pixel render before reviewer 05; remaining Desk IDs still need usable disposition/replacement work.",
+    "Wall 1-12 remain REWORK; Decor 3-12 remain REWORK; Tops 11-12 remain REWORK at their old exact hashes.",
+    "Seating 11-12 require corrected exact-hash ledger evidence plus reusable card/detail render before reviewer 02 can decide them.",
+    "All 192 current hashes are not yet independently accepted and canonically wired; final exact-reference screen comparisons and scoped visual finishing remain incomplete.",
+    "Physical-device, screen-reader and other deferred nonvisual release evidence remain OPEN and are not waived by the art sprint."
+  ],
+  "freeze": {
+    "replitTouched": false,
+    "flootTouched": false,
+    "mainMergedOrModified": false,
+    "deploymentAuthorized": false,
+    "realPlayerDataTouched": false,
+    "artVisualsComplete": false,
+    "releaseComplete": false
+  }
+}
