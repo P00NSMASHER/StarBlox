@@ -1,23 +1,23 @@
 {
-  "schemaVersion": 8,
-  "previousRevisionBlobSha": "f155210fcf47bf1a34b7469f4eaebde1967a796d",
+  "schemaVersion": 9,
+  "previousRevisionBlobSha": "14e15a384d5463cf8aa4d2c39f20244139cb6bbe",
   "reviewer": "01",
   "role": "Visual Target Director / independent catalog reviewer",
-  "phase": "CATALOG_SPRINT",
+  "phase": "ART_AND_VISUALS_ONLY",
   "branch": "screenshot-match-preproduction",
-  "sourceHead": "989753a9a958a9968ee6cc91cf73cca5dfa3fa14",
-  "assignedCollections": [
-    "tops",
-    "bottoms",
-    "headwear",
-    "facegear"
-  ],
+  "sourceHead": "46d6bb67f986fb432a14afd0d749ea6697e12a26",
+  "assignedCollections": ["tops", "bottoms", "headwear", "facegear"],
   "assignedCount": 48,
   "historyRefs": [
     {
       "blobSha": "f155210fcf47bf1a34b7469f4eaebde1967a796d",
-      "scope": "Immediate prior reviewer-01 shard with detailed evidence for preserved ACCEPTs: Tops 1-10, Bottoms 1-4, Headwear 1-4, plus immutable historical review links.",
-      "note": "Preserved unchanged. This revision does not re-review those exact hashes."
+      "scope": "Detailed preserved ACCEPT evidence for Tops 1-10, Bottoms 1-4 and Headwear 1-4 plus immutable historical review links.",
+      "note": "Exact accepted hashes remain frozen and were not re-reviewed."
+    },
+    {
+      "blobSha": "14e15a384d5463cf8aa4d2c39f20244139cb6bbe",
+      "scope": "Immediate prior reviewer-01 shard for Tops 11-12 v3.",
+      "note": "v3 BLOCKED/REWORK decisions are historical only and were not transferred to the new v4 hashes."
     }
   ],
   "contractEvidence": {
@@ -25,25 +25,25 @@
     "deliveryProtocol": "docs/preproduction/DELIVERY_PROTOCOL_V2.md",
     "originalReferenceManifest": "docs/preproduction/reference-screenshots/original-reference-manifest.json",
     "originalReferenceStatus": "ORIGINALS_STORED_AND_INTAKE_VERIFIED",
-    "rule": "Actual rendered Store-card/detail pixels and exact current hashes are required. A decode failure is BLOCKED; corrupted rendered pixels are REWORK, regardless of filename/version label."
+    "rule": "Judge exact current repository hash from actual Store-card/detail pixels. SVG format is neither automatic approval nor failure; premium acceptance requires item identity, silhouette/fit, convincing materials and lighting, construction/hardware, theme/tier progression, card readability, originality and no inappropriate visual reuse."
   },
   "renderEvidence": {
-    "workflow": "Catalog Staged Art QA",
-    "workflowRunId": 35676190280,
-    "artifactId": 10672639784,
-    "artifactName": "catalog-staged-art-review-9cfe1967",
-    "artifactZipSha256": "c8375e94c7e89429f2482d9f0a3d814585548f5c3b854b1a3c944a0f937ecc01",
-    "renderSourceHead": "9cfe19679527bd0a3ace2d76d4a88967a65509a7",
-    "evidenceGeneratedAt": "2026-09-22T01:34:13.012Z",
+    "workflow": "StarBlox Staged Catalog Art QA",
+    "workflowRunId": 35679543493,
+    "workflowJobId": 106593292679,
+    "artifactId": 10674715852,
+    "artifactName": "catalog-staged-art-review",
+    "artifactDigest": "sha256:df9233c30477674d9a49e86f139c9acaaabffff1a1655bb464dbf2b8159fe21d",
+    "renderSourceHead": "ff4d26d8e11f0d801b56123487e6cc64a56ad9b6",
     "report": {
       "path": "report.json",
-      "sha256": "22d5309e22fc3c7eb81a4e2270d21caf186a6a9dc7666d1f1413940b15b99b1d"
+      "sha256": "99b2510334a3dee1a26b53d8ed0b80c3a7653d7507e36560ff42b50e34fceb41"
     },
     "contactSheet": {
       "path": "staged-replacements/staged-replacements-contact-sheet.png",
-      "sha256": "15c998e520fbe82503eee3e2a36f6ed4963949304bb03e6f66082e2f7388fa11"
+      "sha256": "638a90dfd39aa9b3cc425f3d73e589d86d9aceaebde2527536fdd4d4bc1e94c2"
     },
-    "qaContext": "Tests PASS and build PASS. Staged-art render job failed because tops-11 could not decode; artifact upload succeeded and preserved the actual card/detail evidence."
+    "qaContext": "The workflow concluded failure because unrelated desks-2/3/4 contact-sheet images failed decode. The exact Tops 11-12 v4 report rows each returned HTTP 200, 600x600 natural dimensions, screenshot=true and zero per-item errors, and both card/detail pixels were preserved in the uploaded artifact; their review evidence is therefore qualified."
   },
   "reviews": [
     {
@@ -51,63 +51,66 @@
       "name": "Cloud Jacket",
       "tier": 4,
       "theme": "Candy Core",
-      "assetPath": "/assets/catalog/tops-11-w09-v3.jpg",
-      "repositoryPath": "public/assets/catalog/tops-11-w09-v3.jpg",
-      "assetHash": "4b854298242b2b108edf43b92a98f9678841e89e",
+      "assetPath": "/assets/catalog/tops-11-w09-v4.svg",
+      "repositoryPath": "public/assets/catalog/tops-11-w09-v4.svg",
+      "assetHash": "0f25972d3656ebca111083739660e4ddc0204fb8",
       "hashAlgorithm": "git-blob-sha1",
       "producer": "09",
-      "decision": "BLOCKED",
-      "reasonCode": "IMAGE_DECODE_FAILED_CURRENT_HASH",
+      "decision": "REWORK",
+      "reasonCode": "PREMIUM_DIMENSIONAL_MATERIAL_DEPTH_INSUFFICIENT",
       "evidenceRefs": [
-        "artifact:10672639784/report.json#sha256=22d5309e22fc3c7eb81a4e2270d21caf186a6a9dc7666d1f1413940b15b99b1d",
-        "artifact:10672639784/staged-replacements/staged-replacements-contact-sheet.png#sha256=15c998e520fbe82503eee3e2a36f6ed4963949304bb03e6f66082e2f7388fa11"
+        "artifact:10674715852/report.json#sha256=99b2510334a3dee1a26b53d8ed0b80c3a7653d7507e36560ff42b50e34fceb41",
+        "artifact:10674715852/staged-replacements/staged-replacements-contact-sheet.png#sha256=638a90dfd39aa9b3cc425f3d73e589d86d9aceaebde2527536fdd4d4bc1e94c2",
+        "artifact:10674715852/staged-replacements/detail/tops-11-0f25972d.png#sha256=12f17310b48e3eeac03964e817e63a7bb8d5a1af7c323f27d39fea2688a6343e"
       ],
-      "actualPixelFinding": "The exact current JPEG does not decode in the staged renderer (naturalWidth=0, naturalHeight=0). The card evidence shows a broken-image/alt-text state and no judgeable garment pixels, so identity, material depth, Tier-4 finish, framing and originality cannot be qualified.",
+      "actualPixelFinding": "The new hash cleanly decodes and is readable at card/detail scales, so the old v3 decode blocker is fixed. Identity is recognizable as a cloud-themed jacket and the zipper, pockets, cuffs and cloud/star motifs are clear. However the actual pixels are still predominantly symmetric/front-on flat-vector construction: sleeve and torso volumes do not turn convincingly in space, fabric/puffer loft reads as colored panels rather than tactile padded material, and lighting is mostly outline/gradient treatment instead of form-defining key/rim light. At Tier 4 it remains visibly less dimensional than the already accepted Tops 7-10 premium renders.",
       "checks": {
-        "decode": "FAIL",
-        "cardPixels": "BLOCKED",
-        "detailPixels": "BLOCKED",
-        "identity": "BLOCKED",
-        "themeTier": "BLOCKED",
-        "silhouette": "BLOCKED",
-        "materialLighting": "BLOCKED",
-        "cardReadability": "FAIL",
-        "originality": "BLOCKED",
-        "duplicateVisual": "BLOCKED"
+        "decode": "PASS",
+        "cardPixels": "PASS",
+        "detailPixels": "PASS",
+        "identity": "PASS",
+        "themeTier": "PARTIAL_FAIL",
+        "silhouetteFit": "REWORK",
+        "constructionHardware": "PASS",
+        "materialLighting": "FAIL",
+        "cardReadability": "PASS",
+        "originality": "PASS",
+        "duplicateVisual": "PASS"
       },
-      "repairForProducer09": "Re-export Cloud Jacket as a clean decodable 600x600 raster while preserving Candy Core and Tier 4. Keep the intended dimensional jacket construction; verify the exact file loads at both 200x160 card and 520x520 detail scales before returning a new hash. Do not reuse this broken hash."
+      "repairForProducer09": "Keep this clean Cloud Jacket identity, Candy Core palette, zipper/pockets and cloud/star details, but rebuild the exact next version as a genuinely three-quarter garment: visible torso side plane, foreshortened far sleeve, rounded padded/quilted loft with seam compression, differentiated rib-knit cuffs/hem and believable zipper/metal response. Use a warm key plus cool rim/grounded shadow so volume survives Store-card scale. Do not simply add stronger outlines or recolor this same frontal vector recipe."
     },
     {
       "itemId": "tops-12",
       "name": "Star Coat",
       "tier": 5,
       "theme": "Adventure Club",
-      "assetPath": "/assets/catalog/tops-12-w09-v3.jpg",
-      "repositoryPath": "public/assets/catalog/tops-12-w09-v3.jpg",
-      "assetHash": "5a5b3eae82027d7cf172a67089d77f7b14b8d638",
+      "assetPath": "/assets/catalog/tops-12-w09-v4.svg",
+      "repositoryPath": "public/assets/catalog/tops-12-w09-v4.svg",
+      "assetHash": "0732bbcf7dd4dae4e291f4109fc9686918ffceef",
       "hashAlgorithm": "git-blob-sha1",
       "producer": "09",
       "decision": "REWORK",
-      "reasonCode": "RENDER_PIXEL_CORRUPTION",
+      "reasonCode": "COAT_SILHOUETTE_AND_TIER5_DIMENSIONALITY_INSUFFICIENT",
       "evidenceRefs": [
-        "artifact:10672639784/report.json#sha256=22d5309e22fc3c7eb81a4e2270d21caf186a6a9dc7666d1f1413940b15b99b1d",
-        "artifact:10672639784/staged-replacements/staged-replacements-contact-sheet.png#sha256=15c998e520fbe82503eee3e2a36f6ed4963949304bb03e6f66082e2f7388fa11",
-        "artifact:10672639784/staged-replacements/detail/tops-12-5a5b3eae.png#sha256=c7693a3087fd1a2fcb55cca51e35fe66a995ecd4f6be21b36a940415f432706a"
+        "artifact:10674715852/report.json#sha256=99b2510334a3dee1a26b53d8ed0b80c3a7653d7507e36560ff42b50e34fceb41",
+        "artifact:10674715852/staged-replacements/staged-replacements-contact-sheet.png#sha256=638a90dfd39aa9b3cc425f3d73e589d86d9aceaebde2527536fdd4d4bc1e94c2",
+        "artifact:10674715852/staged-replacements/detail/tops-12-0732bbcf.png#sha256=42a95b38bd3a76b3bba86d206a0e0d6a428df8cec091ac8b32f3af77f66b1e24"
       ],
-      "actualPixelFinding": "The exact current file decodes at 600x600, but the actual card and 520x520 detail render are visibly corrupted: a large opaque gray block obscures roughly the lower half of the coat, with stray dark-green shapes and a bright colored strip. The upper coat suggests dimensional collar/hardware, but the corruption prevents a valid Tier-5 Adventure Club/material/framing judgment and makes the asset unusable.",
+      "actualPixelFinding": "The v4 hash cleanly decodes with no corruption, so the old v3 pixel-corruption defect is fixed. Adventure Club identity is stronger: navy/burgundy/gold palette, compass/star insignia, belt hardware, pockets and central quilting all read clearly. It still does not clear Tier-5 premium acceptance: the silhouette reads like a short bomber/field jacket rather than a long coat, the pose is nearly perfectly frontal/symmetric, and large fabric panels remain flat vector fills with limited tactile weave, thickness, folds or form lighting. A Tier-5 finale must be at least as physically dimensional and materially rich as the accepted lower-tier Tops, not merely more ornamented.",
       "checks": {
         "decode": "PASS",
-        "cardPixels": "FAIL",
-        "detailPixels": "FAIL",
+        "cardPixels": "PASS",
+        "detailPixels": "PASS",
         "identity": "PARTIAL_FAIL",
-        "themeTier": "BLOCKED_BY_CORRUPTION",
-        "silhouette": "FAIL",
-        "materialLighting": "BLOCKED_BY_CORRUPTION",
-        "cardReadability": "FAIL",
-        "originality": "BLOCKED_BY_CORRUPTION",
-        "duplicateVisual": "BLOCKED_BY_CORRUPTION"
+        "themeTier": "PARTIAL_FAIL",
+        "silhouetteFit": "FAIL",
+        "constructionHardware": "PASS",
+        "materialLighting": "FAIL",
+        "cardReadability": "PASS",
+        "originality": "PASS",
+        "duplicateVisual": "PASS"
       },
-      "repairForProducer09": "Re-export a clean, corruption-free 600x600 Star Coat preserving Adventure Club and Tier 5, then rerender the exact new hash at 200x160 and 520x520. Keep the dimensional coat construction/hardware visible in the surviving upper portion, but ensure the full silhouette, hem, materials and lighting are intact with no opaque blocks or stray color artifacts."
+      "repairForProducer09": "Preserve the clean Adventure Club navy/burgundy/gold language, compass/star identity and useful belt/pocket hardware, but make the next Star Coat unmistakably coat-length with a longer hem/tail and a three-quarter body turn. Add real fabric thickness at collar/hem, layered storm-panel depth, fold/tension cues, differentiated quilted vs woven vs metal materials, and stronger key/rim lighting with grounded shadow. Tier 5 should win on physical construction and material richness, not just badges and gold trim."
     }
   ],
   "currentReplacementDisposition": {
@@ -124,11 +127,9 @@
         "tops-9": "9011648da2461f63a4ac9e203833cf70eb1d6fe0",
         "tops-10": "5449283ed30dbfade70290cc976f85bace94fa0a"
       },
-      "BLOCKED": {
-        "tops-11": "4b854298242b2b108edf43b92a98f9678841e89e"
-      },
       "REWORK": {
-        "tops-12": "5a5b3eae82027d7cf172a67089d77f7b14b8d638"
+        "tops-11": "0f25972d3656ebca111083739660e4ddc0204fb8",
+        "tops-12": "0732bbcf7dd4dae4e291f4109fc9686918ffceef"
       }
     },
     "bottoms": {
@@ -148,19 +149,24 @@
       }
     }
   },
+  "pendingDependencies": {
+    "headwear5_8": "Producer 12 derivatives remain not reviewable until repository-staged exact hashes exist; headwear-5-w12-v2.png was still absent on the current branch when checked this run.",
+    "seating": "No Seating production was performed because fresh reviewer-01 Tops 11-12 v4 candidates were ready and review work has priority."
+  },
   "summary": {
     "uniqueCatalogIdsReviewedHistorically": 48,
     "reviewedThisRun": 2,
     "newAcceptsThisRun": 0,
-    "newReworkThisRun": 1,
-    "newBlockedThisRun": 1,
+    "newReworkThisRun": 2,
+    "newBlockedThisRun": 0,
     "newUsableBy08Now": [],
-    "preservedAcceptedHashes": "Tops 1-10, Bottoms 1-4, Headwear 1-4 remain unchanged and are not re-reviewed."
+    "preservedAcceptedHashes": "Tops 1-10, Bottoms 1-4 and Headwear 1-4 remain unchanged and are not re-reviewed."
   },
   "handoff": {
-    "08": "No new ACCEPT from this pass. Preserve and continue canonical handling of the already accepted exact hashes; do not consume Tops 11-12 current v3 hashes.",
-    "15": "Route exact producer-09 repair: Tops 11 current v3 hash is BLOCKED by decode failure; Tops 12 current v3 hash is REWORK due visible card/detail pixel corruption. Return only a new repo-stored hash with successful card/detail renders.",
-    "next01Review": "A fresh Tops/Bottoms/Headwear/Facegear exact-hash candidate still preempts Seating production. If none is ready after this review, continue the preserved premium Seating-1 repair candidate toward repo storage/readback, with reviewer 02 as the only approver."
+    "08": "No new ACCEPT in this pass. Preserve existing accepted exact hashes; do not wire Tops 11-12 v4.",
+    "09": "Both new v4 hashes render cleanly but remain REWORK. Tops 11 needs genuine three-quarter padded/fabric volume and form lighting; Tops 12 additionally needs an unmistakable coat-length silhouette and stronger Tier-5 physical/material progression. Return new exact hashes with actual card/detail renders.",
+    "15": "Route the precise Tops 11-12 v4 visual repairs above to producer 09. Do not treat the overall QA workflow failure as a Tops failure: target rows rendered successfully; the run failed on unrelated Desk 2-4 contact-sheet decode errors.",
+    "next01Review": "Any fresh repo-stored/rendered Tops/Bottoms/Headwear/Facegear exact hash preempts other work. Headwear 5-8 become next Headwear review only after repository hashes and card/detail evidence exist."
   },
   "freeze": {
     "replitTouched": false,
