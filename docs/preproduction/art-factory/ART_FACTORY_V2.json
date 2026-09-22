@@ -1,0 +1,172 @@
+{
+  "schemaVersion": 2,
+  "status": "ACTIVE_PREPRODUCTION_SIDECAR",
+  "repository": "P00NSMASHER/StarBlox",
+  "branch": "screenshot-match-preproduction",
+  "authority": {
+    "allocationOwner": "15",
+    "canonicalCatalogWriter": "08",
+    "independentReviewers": [
+      "01",
+      "02",
+      "05",
+      "14"
+    ],
+    "modelCheckpointRights": {
+      "state": "CLEARED_BY_USER_ATTESTATION",
+      "basis": "USER_ATTESTED_FULL_RIGHTS",
+      "note": "Record exact model/checkpoint identity and revision for every attempt. Code/data/API/custom-node terms remain separate."
+    }
+  },
+  "invariants": {
+    "gameplayChanges": false,
+    "canonicalArtWritesByFactory": false,
+    "mainMerge": false,
+    "deployment": false,
+    "paidSettingsOrPurchases": false,
+    "realPlayerData": false,
+    "automaticPerceptualApproval": false,
+    "preserveAcceptedExactHashes": true
+  },
+  "stack": [
+    {
+      "role": "generation",
+      "repo": "huggingface/diffusers",
+      "commit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+      "codeLicense": "Apache-2.0",
+      "reuse": "DIRECT_CODE_REUSE"
+    },
+    {
+      "role": "reference-conditioning",
+      "repo": "tencent-ailab/IP-Adapter",
+      "commit": "62e4af9d0c1ac7d5f8dd386a0ccf2211346af1a2",
+      "codeLicense": "Apache-2.0",
+      "reuse": "DIRECT_CODE_REUSE"
+    },
+    {
+      "role": "perceptual-hash",
+      "repo": "JohannesBuchner/imagehash",
+      "commit": "7a405c9a27571ee8c998b661ce751639c34b7355",
+      "codeLicense": "BSD-style",
+      "reuse": "DIRECT_CODE_REUSE_REPORT_ONLY"
+    },
+    {
+      "role": "alpha-matting",
+      "repo": "pymatting/pymatting",
+      "commit": "6d5c4a6bed0e5672abac0bad078e594423ffe4fd",
+      "codeLicense": "MIT",
+      "reuse": "DIRECT_CODE_REUSE"
+    },
+    {
+      "role": "ssim",
+      "repo": "scikit-image/scikit-image",
+      "commit": "2dff163516e1a7c528b48d5eda8cf40788f0ade3",
+      "codeLicense": "BSD-family",
+      "reuse": "OPTIONAL_REPORT_ONLY"
+    },
+    {
+      "role": "background-removal",
+      "repo": "danielgatis/rembg",
+      "commit": "202e42649a8492a7c49f808de36608a7d1cbbfe3",
+      "codeLicense": "MIT",
+      "reuse": "OPTIONAL_CODE_REUSE"
+    },
+    {
+      "role": "native-alpha",
+      "repo": "lllyasviel/LayerDiffuse_DiffusersCLI",
+      "commit": "3061d9aed52a6c52a13fcf2b196c0fef4d727824",
+      "codeLicense": "Apache-2.0",
+      "reuse": "OPTIONAL_CODE_REUSE"
+    },
+    {
+      "role": "super-resolution",
+      "repo": "xinntao/Real-ESRGAN",
+      "commit": "a4abfb2979a7bbff3f69f58f58ae324608821e27",
+      "codeLicense": "BSD-3-Clause",
+      "reuse": "OPTIONAL_DERIVATIVE_ONLY"
+    },
+    {
+      "role": "orchestration",
+      "repo": "invoke-ai/InvokeAI",
+      "commit": "9e1540962bcca7f8fa668d7d8e02cf79d75fda3b",
+      "codeLicense": "Apache-2.0",
+      "reuse": "OPTIONAL_SCALE_UP"
+    },
+    {
+      "role": "workflow-authoring",
+      "repo": "Comfy-Org/ComfyUI",
+      "commit": "e638023d54497dbe0579565e5de4bb7076899592",
+      "codeLicense": "GPL-3.0",
+      "reuse": "ISOLATED_OPTION_ONLY"
+    }
+  ],
+  "stages": [
+    "LIVE_RECONCILIATION",
+    "PROMPT_OPTIMIZATION",
+    "BOUNDED_GENERATION_2_TO_4",
+    "VERSIONED_DERIVATIVES",
+    "REPORT_ONLY_MACHINE_PREFLIGHT",
+    "GITHUB_EXACT_BYTE_STAGING_AND_READBACK",
+    "REAL_CARD_DETAIL_OR_SURFACE_RENDER",
+    "INDEPENDENT_EXACT_HASH_REVIEW",
+    "WORKSTREAM_08_CANONICAL_INTEGRATION",
+    "OUTCOME_LEARNING"
+  ],
+  "evidenceRequired": [
+    "itemId",
+    "attemptId",
+    "producer",
+    "promptSha256",
+    "promptRecipeVersion",
+    "seed",
+    "runtimeRepo",
+    "runtimeCommit",
+    "modelId",
+    "modelRevision",
+    "rightsBasis",
+    "referenceAndControlHashes",
+    "repoPath",
+    "sha256",
+    "gitBlobSha",
+    "bytes",
+    "width",
+    "height",
+    "derivativeLineage",
+    "realRenderEvidence",
+    "independentReviewer",
+    "reviewDecision"
+  ],
+  "pilotPolicy": {
+    "minVariants": 2,
+    "maxVariants": 4,
+    "scaleOnlyAfterIndependentDisposition": true,
+    "preserveRejectedEvidence": true,
+    "preserveAcceptedSourceAndDerivatives": true
+  },
+  "perceptualPolicy": {
+    "exactByteIdentityAuthoritative": true,
+    "phash": "REPORT_ONLY",
+    "dhash": "REPORT_ONLY",
+    "colorHash": "REPORT_ONLY",
+    "ssim": "OPTIONAL_REPORT_ONLY",
+    "autoAccept": false,
+    "autoRework": false
+  },
+  "workerRouting": {
+    "10": "Mobile/tablet visual rendering/readability/performance evidence.",
+    "11": "Aura production/effects and reduced-motion static equivalents.",
+    "12": "Accessory production and item-to-avatar consistency.",
+    "13": "Scene/character generation and environment composition.",
+    "14": "Shared render fixture, perceptual evidence, independent Lighting/Wall/Rugs/Decor review and composition/performance review.",
+    "15": "Factory director; live ownership reconciliation, non-overlap, bottleneck routing and final visual acceptance coordination.",
+    "01": "Independent Tops/Bottoms/Headwear/Facegear review plus art-direction outcome learning.",
+    "02": "Independent Shoes/Backgear/Handgear/Seating review plus HUD/chrome visual evidence when unblocked.",
+    "03": "Owned Desk/Home art production; use factory only for exact REWORK/unaccepted assignments.",
+    "04": "Owned Lighting/Store art production and staged Store composition work.",
+    "05": "Owned Bottoms/Wall production and independent Beds/Desks/Companions/Auras review.",
+    "06": "Owned Companion/Seating/Shoes production plus avatar/buddy studies when assigned catalog work is closed.",
+    "07": "Owned Tops1-6/Rugs production and progression art after catalog work is closed.",
+    "08": "Only canonical catalog writer; consumes independent exact-hash ACCEPTs.",
+    "09": "Owned Tops7-12/Decor production and environment finishing only after explicit handoff."
+  }
+}
