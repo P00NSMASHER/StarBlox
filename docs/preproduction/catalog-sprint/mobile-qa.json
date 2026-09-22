@@ -1,81 +1,92 @@
 {
-  "schemaVersion": 5,
+  "schemaVersion": 6,
   "workstream": "10",
   "phase": "ART_VISUALS_SPRINT",
-  "status": "PARTIAL_CURRENT_EVIDENCE_REAL_STORE_RESPONSIVE_RERUN_NOT_TESTED",
+  "status": "PARTIAL_CANONICAL_V24_RESPONSIVE_EXECUTION_IN_PROGRESS",
   "catalogGateApproved": false,
   "branch": "screenshot-match-preproduction",
-  "auditedBranchHead": "e11d4b4e2f379fc0e1e27090c56357ee9da24b69",
+  "auditedBranchHeadBeforeReport": "557068a467d3ff45f8d360bfaa8544e5ab5b04fe",
+  "contracts": {
+    "artVisualsSprint": "docs/preproduction/ART_VISUALS_SPRINT.json",
+    "commandCenter": "docs/preproduction/COMMAND_CENTER.md",
+    "deliveryProtocol": "docs/preproduction/DELIVERY_PROTOCOL_V2.md"
+  },
   "changeAwareDecision": {
-    "reason": "Canonical catalog advanced to manifest v23 with seven newly accepted exact hashes. Prior Workstream-10 browser proof is reusable only for unchanged hashes/protections and is not generalized to the new art. No redundant full 16-collection matrix was run.",
-    "canonicalChangedCollections": ["desks", "auras"],
-    "stableControlForNextRealStoreRun": "tops",
-    "requiredRealStoreViewports": ["1408x1056", "1024x768", "390x844", "320x568"],
+    "reason": "Canonical catalog advanced to manifest v24 with Seating 1/11/12 exact-hash ACCEPTs. Prior browser proof is reusable only for unchanged hashes and responsive safeguards; it is not generalized to the v24 Seating hashes. Workstream 10 did not start a schedule-only duplicate full matrix.",
+    "canonicalChangedCollections": ["seating"],
+    "stableControl": "tops",
+    "requiredViewports": ["1408x1056", "1024x768", "390x844", "320x568"],
     "requiredMotionModes": ["normal", "reduced"],
-    "freshCanonicalStoreExecution": "NOT_TESTED_THIS_CYCLE",
-    "reasonExecutionNotClaimed": "No fresh change-aware browser artifact for the manifest-v23 exact hashes was available/executable in this run. Staged fixture proof is kept separate from canonical responsive Store proof."
-  },
-  "canonicalIntegration": {
-    "manifestVersion": 23,
-    "manifestBlobSha": "93fa3434711ddedd87ff8bdd00030f62b6b770b6",
-    "runtimeBlobSha": "6a407b95dc15e5de6046d335ecd3a12239833dba",
-    "manifestEntries": 160,
-    "strictAcceptedCanonical": 81,
-    "changedIds": ["desks-2", "desks-3", "desks-4", "auras-5", "auras-9", "auras-10", "auras-12"],
-    "changedAssets": [
-      {"id":"desks-2","path":"/assets/catalog/desks-2-chat-v2.png","blobSha":"277eb1e38e8a69caa0dab6d4d27bbb91796746f8","dimensions":"1024x1024","format":"PNG"},
-      {"id":"desks-3","path":"/assets/catalog/desks-3-chat-v2.png","blobSha":"aeebeacdc4a95bf75af36583dae6e2391d9a1d9e","dimensions":"1024x1024","format":"PNG"},
-      {"id":"desks-4","path":"/assets/catalog/desks-4-chat-v2.png","blobSha":"6f87e1527ec7d9bf1a3f81e1f54320f462dbb025","dimensions":"1024x1024","format":"PNG"},
-      {"id":"auras-5","path":"/assets/catalog/auras-5-w11-v3.jpg","blobSha":"ae3bef6cbbf4333aa740dc9a3fddf4f2b5540192","dimensions":"600x600","format":"JPEG"},
-      {"id":"auras-9","path":"/assets/catalog/auras-9-w11-v3.jpg","blobSha":"9331e516a7a1a2fa32abafaf3bbf0932c3ca792d","dimensions":"600x600","format":"JPEG"},
-      {"id":"auras-10","path":"/assets/catalog/auras-10-w11-v3.jpg","blobSha":"6f07fe7f5c8be236f3c17df5f55afc550888f52e","dimensions":"600x600","format":"JPEG"},
-      {"id":"auras-12","path":"/assets/catalog/auras-12-w11-v3.jpg","blobSha":"d0fcf528ff4ee91e56760932fdcf357ab264dd3d","dimensions":"600x600","format":"JPEG"}
-    ],
-    "ownershipPricesUnlocksChanged": false
-  },
-  "stagedFixtureEvidenceForCurrentCanonicalBatch": {
-    "status": "PASS_EXACT_HASH_CARD_DETAIL_RENDER_ONLY",
-    "sourceHead": "9cfe19679527bd0a3ace2d76d4a88967a65509a7",
-    "artifactId": 10672639784,
-    "targetRows": "7/7 HTTP 200, screenshot present, no per-item render errors",
-    "reportErrors": [],
-    "reportWarnings": [],
-    "scopeWarning": "This is staged fixture evidence, not actual responsive canonical Store evidence.",
-    "observations": {
-      "desks": "Desks 2-4 remain centered and silhouette-distinct at fixture card/detail scale with no visible clipping in the preserved staged evidence.",
-      "auras": "Auras 5/9/10/12 remain visually distinct at fixture card scale. Current files are fully opaque JPEGs, so transparent-edge/alpha compositing is not exercised by these assets.",
-      "alphaLabel": "OPAQUE_FULL_FRAME_ALPHA_NOT_EXERCISED_INFORMATIONAL"
+    "scopeRule": "Changed collections plus stable control; the harness may expand to a coherent catch-up matrix only when the delta from the last browser-proven canonical baseline crosses its threshold.",
+    "freshCanonicalStoreExecution": "IN_PROGRESS_NOT_CLAIMED_AS_PASS_OR_FAIL",
+    "activeRun": {
+      "workflow": "StarBlox Catalog Changed-Batch Mobile QA",
+      "workflowRunId": 35687790334,
+      "jobId": 106618237485,
+      "triggerHead": "5c7af5f68b5fc229c250702f6d26b6fa4dacebbb",
+      "observedStatus": "IN_PROGRESS",
+      "observedStep": "Run changed collections plus stable control in normal and reduced motion",
+      "completedPrerequisites": ["scope", "dependencies", "Playwright install", "production build", "local production preview"],
+      "evidenceRule": "No responsive PASS/FAIL is recorded until the browser step finishes and the bound artifact exists."
     }
   },
-  "stagedNotCanonicalSignals": {
-    "sourceLane": "09",
-    "reviewOwner": "01",
-    "integrationOwner": "08",
-    "artifactId": 10674362796,
-    "workflowRun": 35681227316,
-    "workflowHead": "288103b2fae24862d8fe733d6b64964fc24d06d9",
-    "artifactDigest": "sha256:af564c231b473f2aa11628e8e8f672191cc84348221cdcd40495606415b946e7",
-    "items": [
-      {
-        "id": "tops-11",
-        "name": "Cloud Jacket",
-        "path": "/assets/catalog/tops-11-w09-v5.svg",
-        "blobSha": "43a850ecdc0b7e8861870f7c277f2544f6c87405",
-        "render": "PASS_EXACT_HASH_CARD_DETAIL",
-        "mobileVisualSignal": "CARD_SCALE_PREMIUM_DEPTH_WEAK",
-        "finding": "Identity and silhouette remain readable and unclipped in the staged card render, but the premium padded/material depth is still weak after reduction. This is a Workstream-10 small-card signal only, not an ACCEPT/REWORK decision."
-      },
-      {
-        "id": "tops-12",
-        "name": "Star Coat",
-        "path": "/assets/catalog/tops-12-w09-v5.svg",
-        "blobSha": "73339e6c9e472283f481ff18b1e6ba821856f617",
-        "render": "PASS_EXACT_HASH_CARD_DETAIL",
-        "mobileVisualSignal": "TIER5_COAT_LENGTH_AMBIGUOUS_AT_CARD_SCALE",
-        "finding": "At staged card scale the silhouette is readable as outerwear but still reads short-jacket/bomber-like rather than unmistakably coat-length. This is routed to reviewer 01/producer 09 and does not change review disposition."
-      }
+  "canonicalIntegration": {
+    "manifestVersion": 24,
+    "manifestBlobSha": "1da7f25e408e24b5130b4bb07af3a507ae8a46ff",
+    "runtimeBlobSha": "bdb28c0c5f445adf99879f62425ef896e22249ac",
+    "manifestEntries": 162,
+    "strictAcceptedCanonical": 84,
+    "changedIds": ["seating-1", "seating-11", "seating-12"],
+    "changedAssets": [
+      {"id":"seating-1","name":"Floor Cushion","path":"/assets/catalog/seating-1-w01-v2.svg","blobSha":"50d5e16c2bd2647be4701e0c10b3ff9d786f41e1","format":"SVG","reviewer":"02","decision":"ACCEPT"},
+      {"id":"seating-11","name":"Moon Chair","path":"/assets/catalog/seating-11-w06-v2.png","blobSha":"5126e9abcec4a09ef281dccb33aac6ba59b38b94","dimensions":"768x768","format":"PNG","reviewer":"02","decision":"ACCEPT"},
+      {"id":"seating-12","name":"Throne Chair","path":"/assets/catalog/seating-12-w06-v2.png","blobSha":"793b32f60ed10fffa80b549e75b66858ac0d7e4f","dimensions":"768x768","format":"PNG","reviewer":"02","decision":"ACCEPT"}
     ],
-    "canonicalStoreResponsiveStatus": "NOT_APPLICABLE_UNTIL_ACCEPTED_AND_CANONICALLY_WIRED"
+    "integrationValidation": {
+      "exactStoreMetadata": "PASS_3_OF_3",
+      "storedPathAndBlobReadback": "PASS_3_OF_3",
+      "safeDecodeOrRender": "PASS_3_OF_3",
+      "catalogManifestAssertions": "PASS_4_OF_4",
+      "storeRuntimeTests": "PASS_3_OF_3",
+      "productionBuild": "PASS_EXACT_CANONICAL_HEAD",
+      "ownershipPricesUnlocksChanged": false
+    },
+    "priorResponsiveFailure": {
+      "workflowRunId": 35685092749,
+      "artifactId": 10677200113,
+      "status": "FAIL_SHARED_STORE_NAV_BEFORE_ITEM_CONTENT",
+      "finding": "All attempted Store-entry pointer controls timed out before catalog content was reached. This is a shared navigation interaction blocker, not evidence that the Seating images themselves failed loading or rendering.",
+      "structuredLabel": "STORE_ENTRY_POINTER_TIMEOUT_BEFORE_CATALOG_CONTENT"
+    }
+  },
+  "stagedAcceptedNotCanonical": {
+    "collection": "shoes",
+    "reviewOwner": "02",
+    "producer": "06",
+    "workflowRunId": 35687207417,
+    "artifactId": 10676873799,
+    "cardScale": "210px high shared staged fixture, object-fit contain",
+    "scopeStatus": "EXACT_HASH_CARD_DETAIL_PIXELS_ACCEPTED_BY_REVIEWER_02_NOT_YET_CANONICAL_STORE_PROOF",
+    "items": [
+      {"id":"shoes-7","name":"Chunky Sneakers","assetHash":"cb8f02aaa4844d1a19a013edc3d0d1a15c0620a2","decision":"ACCEPT_BY_02","smallCardReadability":"PASS","mobileResponsiveStore":"NOT_APPLICABLE_UNTIL_08_CANONICAL_INTEGRATION"},
+      {"id":"shoes-8","name":"Trainers","assetHash":"1aa21e1156f7645fc218402c337d2eebe95d81f8","decision":"ACCEPT_BY_02","smallCardReadability":"PASS","mobileResponsiveStore":"NOT_APPLICABLE_UNTIL_08_CANONICAL_INTEGRATION"},
+      {"id":"shoes-9","name":"Paint Kicks","assetHash":"ff5e914eb935194a1541cebf5421264e5da2d543","decision":"ACCEPT_BY_02","smallCardReadability":"PASS","mobileResponsiveStore":"NOT_APPLICABLE_UNTIL_08_CANONICAL_INTEGRATION"},
+      {"id":"shoes-10","name":"Light Shoes","assetHash":"489e37f25644d13a4ca9518f4047ebfb35747a47","decision":"ACCEPT_BY_02","smallCardReadability":"PASS","mobileResponsiveStore":"NOT_APPLICABLE_UNTIL_08_CANONICAL_INTEGRATION"}
+    ],
+    "workstream10Disposition": "NO_SELF_APPROVAL_AND_NO_CANONICAL_MAPPING_CHANGE"
+  },
+  "stagedBlockedSignals": {
+    "collection": "tops",
+    "reviewOwner": "01",
+    "producer": "09",
+    "workflowRunId": 35687207417,
+    "rerunArtifactId": 10677595359,
+    "status": "BLOCKED_BY_REVIEWER_01_PIXEL_EVIDENCE_UNAVAILABLE",
+    "items": [
+      {"id":"tops-11","name":"Cloud Jacket","assetHash":"061a749472ad71e61732ac3a9629c42d54b4e580","decision":"BLOCKED_BY_01","structuredLabel":"SHARED_SIGNATURE_GATE_FAIL_NO_QUALIFIED_CARD_DETAIL_PIXELS","mobileResponsiveStore":"NOT_TESTED_NOT_CANONICAL"},
+      {"id":"tops-12","name":"Star Coat","assetHash":"e9d462cb222c2ff20e220e237cb3890e1e6eb76c","decision":"BLOCKED_BY_01","structuredLabel":"SHARED_SIGNATURE_GATE_FAIL_NO_QUALIFIED_CARD_DETAIL_PIXELS","mobileResponsiveStore":"NOT_TESTED_NOT_CANONICAL"}
+    ],
+    "note": "Both v6 hashes were blocked on evidence, not visually rejected. The shared signature gate failed and two render attempts produced no qualified card/detail pixels. Workstream 10 does not transfer the old v5 visual findings to these new hashes."
   },
   "reusedHistoricalBrowserProof": {
     "status": "REUSED_ONLY_FOR_UNCHANGED_HASHES_AND_RESPONSIVE_GUARDS",
@@ -84,23 +95,21 @@
     "jobId": 106532044131,
     "artifactId": 10667595844,
     "artifactDigest": "sha256:7a5d1cb254d00086f95889dc316087116dfb7d245cda02755c42705efabc1607",
-    "coverage": "16 collections at 1408x1056, 1024x768, 390x844 and 320x568 in headless Chromium, with reduced-motion plus normal-motion controls, two-column phone grid, keyboard/focus, overflow, reachability and scroll/layout probes.",
-    "warning": "Not proof for manifest-v23 newly integrated asset hashes."
+    "coverage": "16 collections at 1408x1056, 1024x768, 390x844 and 320x568 in headless Chromium, including two-column phone layout, keyboard/focus, no horizontal page overflow, full-scroll reachability, reduced motion, normal-motion controls and scroll/layout probes.",
+    "warning": "Not proof for manifest-v24 newly integrated Seating hashes."
   },
   "currentChecks": {
-    "manifestV23StagedExactHashDecode": "PASS_7_OF_7",
-    "manifestV23StagedCardDetailRender": "PASS_7_OF_7",
-    "manifestV23ActualStore1408": "NOT_TESTED",
-    "manifestV23ActualStore1024": "NOT_TESTED",
-    "manifestV23ActualStore390": "NOT_TESTED",
-    "manifestV23ActualStore320": "NOT_TESTED",
-    "manifestV23TwoColumnPhoneGrid": "NOT_TESTED_CURRENT_HASHES",
-    "manifestV23CanonicalCropContain": "NOT_TESTED_CURRENT_HASHES",
-    "manifestV23CanonicalDetailPanelComposition": "NOT_TESTED_CURRENT_HASHES",
-    "manifestV23CanonicalScrollAndLayoutStability": "NOT_TESTED_CURRENT_HASHES",
-    "manifestV23CanonicalNormalMotion": "NOT_TESTED_CURRENT_HASHES",
-    "manifestV23CanonicalReducedMotion": "NOT_TESTED_CURRENT_HASHES",
-    "measuredRenderedContrast": "NOT_TESTED",
+    "manifestV24ActualStore1408": "IN_PROGRESS_NOT_YET_CLAIMED",
+    "manifestV24ActualStore1024": "IN_PROGRESS_NOT_YET_CLAIMED",
+    "manifestV24ActualStore390": "IN_PROGRESS_NOT_YET_CLAIMED",
+    "manifestV24ActualStore320": "IN_PROGRESS_NOT_YET_CLAIMED",
+    "manifestV24TwoColumnPhoneGrid": "IN_PROGRESS_NOT_YET_CLAIMED",
+    "manifestV24CanonicalCropContain": "IN_PROGRESS_NOT_YET_CLAIMED",
+    "manifestV24CanonicalDetailPanelComposition": "IN_PROGRESS_NOT_YET_CLAIMED",
+    "manifestV24CanonicalScrollAndLayoutStability": "IN_PROGRESS_NOT_YET_CLAIMED",
+    "manifestV24CanonicalNormalMotion": "IN_PROGRESS_NOT_YET_CLAIMED",
+    "manifestV24CanonicalReducedMotion": "IN_PROGRESS_NOT_YET_CLAIMED",
+    "measuredRenderedContrast": "NOT_TESTED_CURRENT_HASHES",
     "physicalDevice": "NOT_TESTED",
     "screenReader": "NOT_TESTED"
   },
@@ -108,13 +117,14 @@
     "status": "PRESENT_AND_AUTHORITATIVE",
     "directory": "docs/preproduction/reference-screenshots/originals",
     "screens": ["home-1448x1086.jpeg", "store-1448x1086.jpeg", "quest-1448x1086.jpeg"],
-    "note": "The prior missing-reference blocker is stale and must not be reused. Desktop originals are the reference; phone/tablet remain responsive usability targets."
+    "storeSha256": "b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d",
+    "note": "Desktop originals remain the visual reference. Tablet/phone are responsive usability targets only."
   },
   "handoff": {
-    "reviewer01Producer09": "Review Tops 11-12 v5 exact hashes independently. Workstream 10 specifically flags weak premium-depth survival for Tops 11 and coat-length ambiguity for Tops 12 at staged card scale; these signals do not self-approve or alter reviewer authority.",
-    "workstream08And15": "Manifest-v23 Desks/Auras have clean exact-hash staged card/detail renders but still require a fresh change-aware actual Store run at 1408/1024/390/320 before Workstream 10 can call the new canonical batch responsive PASS.",
-    "workstream14": "May reuse artifact 10672639784 for exact-hash staged card/detail evidence, but not as responsive Store viewport proof.",
-    "nextWorkstream10": "When execution is available, run only changed collections desks+auras plus stable control tops at 1408/1024/390/320, normal and reduced motion, recording loading/decode, crop/contain, detail composition, scroll/layout stability, overflow, keyboard/focus and objective screenshot evidence."
+    "workstream15": "Shared Store pointer entry remains the known release-blocking interaction path until the active Workstream-10 run proves otherwise. If it persists, coordinate the shared-entrypoint repair; Workstream 10 will not mask it with forced DOM clicks.",
+    "workstream08": "Only Workstream 08 may canonical-wire Shoes 7-10, and only at reviewer-02 accepted exact hashes. Workstream 10 responsive Store proof starts after canonical integration.",
+    "reviewer01Producer09": "Tops 11-12 v6 remain evidence-BLOCKED at their exact hashes. Repair/export new signature-valid bytes and obtain fresh qualified pixels; do not transfer v5 judgments.",
+    "workstream14": "Keep staged fixture pixels separate from actual canonical responsive Store evidence. Reuse exact-hash staged artifacts where appropriate, but do not call responsive PASS from them."
   },
   "freeze": {
     "sharedUiChanged": false,
