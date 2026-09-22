@@ -1,139 +1,79 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "lane": "01",
   "workstream": "01",
-  "phase": "CATALOG_SPRINT",
+  "phase": "ART_AND_VISUALS_ONLY",
   "branch": "screenshot-match-preproduction",
-  "status": "SEATING_2_3_STAGED_READY_FOR_REVIEW_02_HOME_SCENE_V1_REWORK_REVIEWED",
-  "reviewPartition": [
-    "tops",
-    "bottoms",
-    "headwear",
-    "facegear"
-  ],
-  "producerRepairAssignment": [
-    "seating-2",
-    "seating-3",
-    "seating-4",
-    "seating-5",
-    "seating-6"
-  ],
+  "status": "SEATING_1_V2_STAGED_HASH_BOUND_AWAITING_RENDER_AND_REVIEW_02",
+  "reviewPartition": ["tops", "bottoms", "headwear", "facegear"],
+  "reviewPriority": "Fresh exact-hash in-partition candidates always preempt producer work.",
+  "reviewState": {
+    "authoritativeLedger": "docs/preproduction/catalog-sprint/reviews/01.json",
+    "preserveAccepted": ["tops-1..10", "bottoms-1..4", "headwear-1..4"],
+    "tops11": {
+      "producer": "09",
+      "currentRejectedBlob": "4b854298242b2b108edf43b92a98f9678841e89e",
+      "status": "BLOCKED_DECODE_WAIT_NEW_HASH"
+    },
+    "tops12": {
+      "producer": "09",
+      "currentRejectedBlob": "5a5b3eae82027d7cf172a67089d77f7b14b8d638",
+      "status": "REWORK_RENDER_CORRUPTION_WAIT_NEW_HASH"
+    },
+    "headwear5To8": {
+      "producer": "12",
+      "status": "NOT_REVIEWABLE_UNTIL_REPO_HASH_PLUS_CARD_DETAIL_EVIDENCE"
+    },
+    "latestDependencyScan": {
+      "observedBranchHeadBeforeProduction": "59dc6137a2d6dbd55d4342083dd8ba5a224665d6",
+      "result": "NO_NEW_REVIEWER_01_CANDIDATE_READY",
+      "note": "Newest head only updated reviewer-02 evidence; no fresh Tops/Bottoms/Headwear/Facegear exact hash with qualified card/detail proof was surfaced."
+    }
+  },
+  "producerStewardship": ["seating-1", "seating-2", "seating-3", "seating-4", "seating-5", "seating-6"],
+  "doNotRegenerate": ["seating-2", "seating-3", "seating-4", "seating-5", "seating-6"],
   "independentReviewer": "02",
   "selfApproved": false,
-  "canonicalManifestChanged": false,
-  "runtimeWiringChanged": false,
-  "sourceReview": {
-    "reviewer": "02",
-    "historyBlobSha": "adaecbc6fd1f534bd9055c2292bcb7776c27bdce",
-    "sharedFinding": "Historical seating candidates are readable but too flat/front-facing and lack believable three-quarter furniture construction, materials and lighting."
-  },
-  "generatedRepairBatch": {
-    "batch": 1,
-    "count": 2,
-    "status": "STAGED_READY_FOR_REVIEW_02",
-    "assets": [
-      {
-        "id": "seating-2",
-        "name": "Cloud Pouf",
-        "tier": 1,
-        "theme": "Art Attack",
-        "sourceRejectedHash": "84c1cc571840d32e3683f70a4fa318f953087a67",
-        "intendedRepositoryPath": "/assets/catalog/seating-2-w01-v2.png",
-        "format": "png",
-        "dimensions": [
-          1024,
-          1024
-        ],
-        "adobeGenAIAssetId": "urn:aaid:sc:US:8897a93d-8960-4229-89a1-74f978302fc5",
-        "adobeStoredBytes": 983793,
-        "producerPixelInspection": "PASS_THREE_QUARTER_PLUSH_CLOUD_LOBES_UPHOLSTERY_SEAM_ART_ATTACK_BRUSH_ACCENTS_GROUNDED_CAST_SHADOW",
-        "repositoryReadback": "PASS",
-        "status": "READY_FOR_REVIEW_02",
-        "repositoryPath": "public/assets/catalog/seating-2-w01-recovered-v2.jpg",
-        "assetPath": "/assets/catalog/seating-2-w01-recovered-v2.jpg",
-        "gitBlobSha": "c3d4705b7182b1be735b1a762b2ae79d58928aa5",
-        "sha256": "12f40b8c0dae3594f91ce34baa8ed98ed44d31aaf17dafb2bf606e1cf15b7942",
-        "bytes": 41405,
-        "candidateDimensions": [
-          600,
-          600
-        ],
-        "transformation": "None: exact Adobe rendition response bytes copied; no crop, resize, recompression, recolor, or regeneration"
-      },
-      {
-        "id": "seating-3",
-        "name": "Pixel Beanbag",
-        "tier": 1,
-        "theme": "Star Luxe",
-        "sourceRejectedHash": "2f97c3a2fa59ff46298a9b846aa4755b31bbfcd3",
-        "intendedRepositoryPath": "/assets/catalog/seating-3-w01-v2.png",
-        "format": "png",
-        "dimensions": [
-          1024,
-          1024
-        ],
-        "adobeGenAIAssetId": "urn:aaid:sc:US:61cbf6f7-0f86-491a-9aed-9a5632964f6b",
-        "adobeStoredBytes": 933672,
-        "producerPixelInspection": "PASS_THREE_QUARTER_STUFFED_BEANBAG_VOLUME_PANEL_SEAMS_GOLD_STAR_PIPING_PIXEL_EMBROIDERY_GROUNDED_CAST_SHADOW",
-        "repositoryReadback": "PASS",
-        "status": "READY_FOR_REVIEW_02",
-        "repositoryPath": "public/assets/catalog/seating-3-w01-recovered-v2.jpg",
-        "assetPath": "/assets/catalog/seating-3-w01-recovered-v2.jpg",
-        "gitBlobSha": "5d69a2f6adf1e4cf9b4ec413dbeedba84c41813b",
-        "sha256": "7c832d49d238ba450af495cd14566b11456980106fadbb14439a60cb9cc6f5a4",
-        "bytes": 44494,
-        "candidateDimensions": [
-          600,
-          600
-        ],
-        "transformation": "None: exact Adobe rendition response bytes copied; no crop, resize, recompression, recolor, or regeneration"
-      }
+  "seating1Production": {
+    "id": "seating-1",
+    "name": "Floor Cushion",
+    "theme": "Aqua Wave",
+    "tier": 1,
+    "producer": "01",
+    "legacyCanonicalPath": "/assets/catalog/seating-1.svg",
+    "legacyGitBlobSha": "bee7bf8ad3e1eba09cd007ec51572e2b5cf416e5",
+    "candidateRepositoryPath": "public/assets/catalog/seating-1-w01-v2.svg",
+    "candidateAssetPath": "/assets/catalog/seating-1-w01-v2.svg",
+    "candidateGitBlobSha": "50d5e16c2bd2647be4701e0c10b3ff9d786f41e1",
+    "candidateCommit": "cf236910d56fff9095ffbd18ee6c2f2180d571d3",
+    "format": "svg",
+    "viewBox": [0, 0, 1024, 1024],
+    "repositoryReadback": "PASS_EXACT_BLOB_SHA",
+    "producerVisualIntent": [
+      "physical three-quarter round floor-cushion construction with visible gusset thickness",
+      "aqua woven-fabric treatment with restrained Tier-1 Aqua Wave embroidery",
+      "piping, panel seams and four tuft depressions for tactile construction",
+      "upper-left rim/highlight plus side falloff and grounded contact/cast shadow",
+      "original StarBlox artwork with no third-party IP"
     ],
-    "repositoryStoredCount": 2
-  },
-  "binaryStagingBlocker": {
-    "status": "CLEARED_SEATING_2_3",
-    "resolution": "Authorized coordination-owned Adobe-to-Git recovery staged exact existing rendition/source bytes with immutable readback.",
-    "independentReview": "PENDING_02",
-    "canonicalIntegration": "PENDING_08_AFTER_ACCEPT"
-  },
-  "sceneDirectionReview": {
-    "reviewFile": "docs/preproduction/visuals/reviews/01.json",
-    "candidateId": "home-bedroom-w13-v1",
-    "producer": "13",
-    "candidateGitBlobSha": "d37d2ad7e07f91a79e00a89a0a43e168408ae53c",
-    "referenceSha256": "6a4b110aeaf12a6ab0c629f9181cc6cfa8d4f55a518d4f2a6adb3ac6e756c457",
-    "actualPixelsInspected": true,
-    "decision": "REWORK_BEFORE_RUNTIME_INTEGRATION",
-    "finding": "Material depth and warm palette are a real improvement, but the centered white window competes with the intended avatar silhouette; the room is also too sparse and semi-realistic versus the approved dense stylized toy-game bedroom. Preserve bed-left/desk-right and the open center, then move/diffuse the central hotspot and add controlled side-zone prop density/stylization."
-  },
-  "checks": {
-    "phaseAndExclusiveAssignment": "PASS",
-    "exactMetadata": "PASS_2_OF_2",
-    "producerActualPixelInspection": "PASS_2_OF_2",
-    "premiumDimensionalDirection": "PASS_2_OF_2_PRODUCER_CHECK_ONLY",
-    "repositoryPersistence": "PASS_2_OF_2_STAGED_READBACK",
-    "independentReview": "PENDING_02_EXACT_HASH",
-    "lane13IndependentSceneArtReview": "PASS_ACTUAL_PIXELS_REVIEWED_REWORK_ISSUED",
-    "canonicalIntegration": "NOT_PERFORMED_BY_01",
-    "learningEconomyTouched": false,
-    "playerDataTouched": false,
-    "replitOrFlootTouched": false,
-    "mainTouched": false
+    "producerLocalRasterSanityCheck": "PASS_1024x1024_RENDER_NO_CLIPPING",
+    "reviewStatus": "PENDING_02",
+    "acceptanceRestriction": "Producer 01 cannot approve this asset. SVG/source quality is not acceptance evidence; reviewer 02 must inspect actual shared-renderer Store-card and detail pixels tied to candidateGitBlobSha."
   },
   "handoff": {
-    "02": "Seating 2-3 exact replacement bytes are now repository-staged and hash-bound. Review these exact current hashes at card/detail scale; legacy REWORK does not transfer.",
-    "13": "Home environment v1 is independently REWORK. Preserve its strong material depth and bed-left/desk-right composition, but move/diffuse the central window hotspot, increase side-zone environmental density, and push the room toward chunkier saturated toy-game stylization. Exact repair contract is in docs/preproduction/visuals/reviews/01.json.",
-    "14": "Do not composition-approve home-bedroom-w13-v1 for runtime wiring; review the revised Workstream-13 candidate after it is staged.",
-    "15": "Seating 2-3 byte-transfer blocker cleared; no regeneration needed. Reviewer 02 owns the next decision.",
-    "01Next": "Do not regenerate seating-2/3. Fresh staged replacement hashes in Tops/Bottoms/Headwear/Facegear remain first review priority; otherwise inspect the next Workstream-13 scene/character candidate or continue only after the seating bridge returns exact repository hashes."
+    "02": "Review seating-1 only after shared-renderer card/detail pixels are tied to blob 50d5e16c2bd2647be4701e0c10b3ff9d786f41e1. Judge cushion identity, three-quarter physical construction, material depth, lighting, Aqua Wave Tier-1 specificity, card readability and duplicate risk. Legacy REWORK does not automatically transfer.",
+    "14": "Render /assets/catalog/seating-1-w01-v2.svg through the normal staged-asset Store-card/detail fixture and preserve evidence tied to blob 50d5e16c2bd2647be4701e0c10b3ff9d786f41e1 for reviewer 02.",
+    "15": "Seating-1 repair is now repository-stored and hash-bound. No ownership change requested. Fresh reviewer-01 candidates still preempt any further producer action.",
+    "08": "Do not canonical-wire seating-1 from producer evidence. Wait for reviewer-02 exact-hash ACCEPT."
   },
   "freeze": {
+    "canonicalManifestOrRuntimeTouched": false,
+    "learningEconomyTouched": false,
+    "playerDataTouched": false,
     "replitTouched": false,
     "flootTouched": false,
     "mainMergedOrModified": false,
-    "canonicalManifestOrRuntimeTouched": false,
-    "learningEconomyTouched": false,
-    "playerDataTouched": false
+    "deployed": false,
+    "purchasesOrPaidSettingsChanged": false
   }
 }
