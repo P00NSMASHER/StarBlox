@@ -4,76 +4,102 @@
   "phase": "CATALOG_SPRINT",
   "branch": "screenshot-match-preproduction",
   "status": "FAIL_CATALOG_NOT_RELEASE_READY",
-  "auditedEvidenceHead": "791e581856ec301d168e7aedc888e4de8ca1b8f3",
+  "auditedEvidenceHead": "3fc9cece0f42286ba1c0bc9737dbb0d18a896a50",
   "releaseDecision": "NOT_READY_FOR_SINGLE_REPLIT_INTEGRATION",
   "canonical": {
     "catalogTarget": 192,
     "actualStoreUniqueIds": "PASS_192",
-    "manifestVersion": 16,
-    "manifestEntries": 130,
-    "runtimeMappings": 130,
-    "finalPortable": 114,
+    "manifestVersion": 17,
+    "manifestEntries": 138,
+    "runtimeMappings": 138,
+    "finalPortable": 122,
     "interimNotVerified": 16,
-    "nonFinal": 78,
+    "nonFinal": 70,
     "duplicateAssetPaths": 0,
     "duplicateContentHashes": 0,
-    "exactMetadataForWiredEntries": "PASS_LATEST_INTEGRATION_V16",
-    "runtimeManifestAgreement": "PASS_130_OF_130",
-    "canonicalWiredAcceptedHashes": 27,
+    "exactMetadataForWiredEntries": "PASS_LATEST_INTEGRATION_V17",
+    "runtimeManifestAgreement": "PASS_138_OF_138",
+    "canonicalWiredAcceptedHashes": 35,
     "complete192AcceptedFinalMappings": "FAIL"
   },
   "currentAutomatedEvidence": {
     "latestReusableCiRunId": 35670445113,
     "latestReusableCiHead": "aee2bfdcf63c23e4775b7c8ed93e0a8bc752ee30",
-    "tests": "PASS",
-    "productionBuild": "PASS",
-    "integrationV16Tests": "PASS_FULL_NPM_TEST",
-    "integrationV16Build": "PASS_VITE_PRODUCTION_BUILD",
-    "integrationV16StoreMobileSmoke": "PASS_STRICT_CATALOG_MOBILE_QA_PRECOMMIT_HEADLESS_EMULATION",
-    "note": "Reviewer-14 changes after these checks are documentation/review disposition only and do not change runtime or asset bytes."
+    "tests": "PASS_REUSED_FOR_UNCHANGED_BASELINE",
+    "productionBuild": "PASS_REUSED_FOR_UNCHANGED_BASELINE",
+    "integrationV17Tests": "PASS_FULL_NPM_TEST_WORKFLOW",
+    "integrationV17Build": "PASS_VITE_PRODUCTION_BUILD_WORKFLOW",
+    "integrationV17StoreMobileSmoke": "NOT_TESTED_PENDING_AUTOMATIC_CATALOG_MOBILE_QA",
+    "scopedRugsRecoveryTestsBuild": "PASS_RUN_35671441228",
+    "scopedDecorRecoveryTestsBuild": "PASS_RUN_35671542628",
+    "note": "Runtime/assets changed through manifest v17 and recovery batches. Those workflows ran affected/full tests and production builds. Reviewer-14 decision writes are documentation only; no redundant heavy suite was launched for the review update."
   },
   "reviewCoverage": {
     "disjointUniqueItemIdsWithAtLeastOneIndependentDisposition": 180,
     "uniqueIdsStillWithoutUsableIndependentVisualDisposition": 12,
     "remainingCoverageFamily": "desks",
-    "canonicalWiredAcceptedHashes": 27,
-    "minimumQualifiedCurrentReplacementAcceptsKnownNow": 35,
+    "canonicalWiredAcceptedHashes": 35,
+    "minimumQualifiedCurrentReplacementAcceptsKnownNow": 45,
     "newReviewer14AcceptsNotYetCanonicalAtThisSnapshot": [
-      "lighting-5", "lighting-6", "lighting-7", "lighting-8",
-      "lighting-9", "lighting-10", "lighting-11", "lighting-12"
+      "rugs-1",
+      "rugs-2",
+      "rugs-3",
+      "rugs-4",
+      "rugs-5",
+      "rugs-6",
+      "rugs-7",
+      "rugs-8",
+      "decor-1",
+      "decor-2"
     ],
-    "minimumCurrentHashAcceptanceRemaining": 157,
-    "note": "The 35 count is a conservative floor: canonical v16 has 27 exact accepted hashes wired, and reviewer 14 has eight later Lighting accepts not present in that integration snapshot. Other concurrent reviewer shards may advance independently."
+    "minimumCurrentHashAcceptanceRemaining": 147,
+    "note": "Conservative floor: manifest v17 canonically wires 35 accepted exact hashes, and reviewer 14 has ten later exact-hash ACCEPTs for Rugs 1-8 and Decor 1-2. Other reviewer shards may advance independently."
   },
   "reviewer14": {
-    "partition": ["lighting", "wall", "rugs", "decor"],
+    "partition": [
+      "lighting",
+      "wall",
+      "rugs",
+      "decor"
+    ],
     "reviewedCount": 48,
-    "acceptedCount": 12,
-    "reworkCount": 36,
+    "acceptedCount": 22,
+    "reworkCount": 26,
     "blockedCount": 0,
     "lightingCurrentHashes": "ACCEPT_12_OF_12",
     "wallCurrentHashes": "REWORK_12_OF_12",
-    "rugsCurrentHashes": "REWORK_12_OF_12",
-    "decorCurrentHashes": "REWORK_12_OF_12",
-    "lighting9To12Evidence": {
-      "workflowRunId": 35669695516,
-      "artifactId": 10670588502,
-      "artifactDigest": "sha256:931d44eb5e0ca99b6046faca1dd7c395955e975143bd49392aaf8dc6d7d987f5",
-      "workflowHead": "4ad15b615907c4a3b3180db127ae8cac4acb2e91",
-      "result": "PASS_4_OF_4_EXACT_HASH_HTTP200_DECODE_OPAQUE_CARD_DETAIL_SCREENSHOTS_AND_INDEPENDENT_PIXEL_REVIEW",
+    "rugsCurrentHashes": "ACCEPT_8_OF_12_REWORK_4_OF_12",
+    "decorCurrentHashes": "ACCEPT_2_OF_12_REWORK_10_OF_12",
+    "latestEvidence": {
+      "workflowRunId": 35671542628,
+      "workflowHead": "8d7db7286346a72932bc7ee7c56953eda5e5cd48",
+      "artifactId": 10671346458,
+      "artifactDigest": "sha256:fae4585a8bfa051389ecdffa2e3c983cac4bf7be98677a2a8c7d1e57f1e4827e",
+      "result": "PASS_10_OF_10_RUGS1_8_DECOR1_2_EXACT_HASH_CARD_DETAIL_RENDER_AND_INDEPENDENT_PIXEL_REVIEW",
       "exactContentUniqueness": "PASS",
       "manualNearDuplicate": "PASS_NO_IDENTITY_COLLISION"
     }
   },
   "crossPartitionFixture": {
     "singleFramework": "PASS_REUSED_EXISTING_PLAYWRIGHT_GITHUB_ACTIONS_FIXTURE",
-    "supportedFormats": ["SVG", "PNG", "JPG", "JPEG", "WEBP"],
+    "supportedFormats": [
+      "SVG",
+      "PNG",
+      "JPG",
+      "JPEG",
+      "WEBP"
+    ],
     "hashBoundCardAnd800Detail": true,
-    "artifactId": 10670588502,
-    "artifactDigest": "sha256:931d44eb5e0ca99b6046faca1dd7c395955e975143bd49392aaf8dc6d7d987f5",
-    "lightingSet": "PASS_12_OF_12",
+    "latestInspectedArtifactId": 10671346458,
+    "latestInspectedArtifactDigest": "sha256:fae4585a8bfa051389ecdffa2e3c983cac4bf7be98677a2a8c7d1e57f1e4827e",
+    "dynamicVersionedDiscovery": "PASS_HEADWEAR_1_4_AND_VISUAL_LANE_13_ASSETS_RENDERED_WITH_EXACT_ID_PATH_HASH",
     "crossPartitionDispositionBy14": "NONE",
-    "deskEvidence": "NOT_CURRENT_FOR_DESKS_2_TO_4: artifact rendered stale -w03-v1 paths; current lane-03 points at different exact hashes and requires a fresh current-path render before reviewer 05 disposition. Desk 5-6 have separate clean scoped browser evidence but remain reviewer-05 decisions."
+    "deskEvidence": "BLOCKED_CURRENT_DESKS_2_TO_4: authoritative lane-03 paths desks-2/3/4-v1.webp at 357f4ba8..., b3352961..., 711feeb7... fail WebP signature validation. Older -w03-v1 alternates are not current and must not substitute for them.",
+    "staleFallbackGuard": {
+      "commit": "e1ed7fec6ca78c964723261f9d569e5b20fb6d7d",
+      "status": "FIX_COMMITTED_EXECUTION_ARTIFACT_PENDING",
+      "behavior": "When an authoritative lane-declared staged binding exists, invalid current bytes now block that ID instead of falling back to an older versioned file."
+    }
   },
   "persistenceEconomy": {
     "status": "PASS_REAL_BROWSER_PERSISTENCE_ECONOMY_MATRIX",
@@ -85,14 +111,16 @@
     "manifest": "docs/preproduction/reference-screenshots/original-reference-manifest.json",
     "desktopOriginals": "PASS_3_OF_3",
     "mobileTabletOriginals": "NOT_PROVIDED_DO_NOT_INVENT",
-    "freshReferenceCaptureRunId": 35670445111,
-    "freshReferenceCaptureStatusAtAudit": "IN_PROGRESS_AFTER_REFERENCE_INPUT_VERIFY_AND_BUILD_PASS",
-    "pixelIdenticalReferenceParity": "NOT_TESTED_UNTIL_CAPTURE_AND_DIAGNOSTIC_REVIEW_COMPLETE",
+    "attemptedReferenceCaptureRunId": 35670445111,
+    "attemptedReferenceCaptureHead": "aee2bfdcf63c23e4775b7c8ed93e0a8bc752ee30",
+    "attemptedReferenceCaptureStatus": "CANCELLED_DURING_CAPTURE_NO_REUSABLE_ARTIFACT",
+    "preCaptureSteps": "PASS_REFERENCE_INPUT_VERIFY_AND_BUILD",
+    "pixelIdenticalReferenceParity": "NOT_TESTED_REQUIRES_COMPLETED_CURRENT_CANDIDATE_CAPTURE_AND_REGION_LEVEL_REVIEW",
     "rawPixelDiffPolicy": "DIAGNOSTIC_ONLY_NOT_VISUAL_APPROVAL"
   },
   "gates": {
     "catalog192UniqueIds": "PASS",
-    "canonicalMetadataAndPathIntegrity": "PASS_LATEST_INTEGRATION_V16",
+    "canonicalMetadataAndPathIntegrity": "PASS_LATEST_INTEGRATION_V17",
     "reviewer14PartitionFullyDispositioned": "PASS_48_OF_48",
     "reviewer14LightingCurrentHashes": "PASS_ACCEPT_12_OF_12",
     "independentReviewCoverage": "PASS_180_OF_192_IDS_DESKS_REMAIN",
@@ -100,30 +128,38 @@
     "all192CurrentFinalHashesCanonicallyWired": "FAIL",
     "fullFinalSetExactContentDuplicateScan": "NOT_TESTED_FINAL_ACCEPTED_SET_INCOMPLETE",
     "fullFinalSetRenderedNearDuplicateReview": "NOT_TESTED_FINAL_ACCEPTED_SET_INCOMPLETE",
-    "postIntegrationDesktopPhoneStoreArtCheck": "PASS_FOR_INTEGRATION_V16_HEADLESS_EMULATION_NOT_FINAL_192_SET",
-    "catalogInducedLearningP0": "PASS_NO_P0_IN_LATEST_EXECUTED_CI",
+    "postIntegrationDesktopPhoneStoreArtCheck": "NOT_TESTED_FOR_INTEGRATION_V17_PENDING_STORE_SMOKE",
+    "catalogInducedLearningP0": "PASS_NO_P0_IN_EXECUTED_V17_TEST_BUILD",
     "realBrowserPersistenceTimingConcurrency": "PASS",
     "originalReferencePixelsAccessible": "PASS",
-    "actualReferenceComparison": "IN_PROGRESS_NOT_PASS",
+    "actualReferenceComparison": "NOT_TESTED_PRIOR_RUN_CANCELLED_NO_ARTIFACT",
     "physicalDevicePerformance": "NOT_TESTED",
     "screenReaderSmokeVoiceOverTalkBackNVDA": "NOT_TESTED",
-    "finalFrozenCandidateFullReleaseProof": "NOT_TESTED"
+    "finalFrozenCandidateFullReleaseProof": "NOT_TESTED",
+    "reviewer14RugsCurrentHashes": "PASS_ACCEPT_8_REWORK_4",
+    "reviewer14DecorCurrentHashes": "PASS_ACCEPT_2_REWORK_10"
   },
   "blockers": [
     "All 192 current final asset hashes are not yet independently accepted and canonically wired; catalog gate remains FAIL.",
-    "Wall 1-12, Rugs 1-12 and Decor 1-12 remain REWORK in reviewer 14's partition and need new versioned premium replacements.",
-    "Desk remains the 12-ID independent-review coverage gap. The shared artifact used stale Desk 2-4 paths; current exact Desk 2-4 hashes require fresh shared-fixture rendering before reviewer 05 can disposition them. Desk 5-6 are browser-rendered but still await reviewer 05.",
-    "Lighting 5-12 have qualified reviewer-14 ACCEPTs after canonical manifest v16 and still require Workstream 08 metadata/file/content checks and integration if not already consumed by a newer integration commit.",
+    "Wall 1-12, Rugs 9-12 and Decor 3-12 remain REWORK in reviewer 14's partition and need new versioned premium replacements.",
+    "Desk 2-4 current authoritative lane-03 files fail WebP signature checks. The older -w03-v1 blank/corrupt candidates are stale and are no longer allowed to substitute in the shared fixture; reviewer 05 requires valid current bytes before disposition. Desk 5-6 rendered cleanly but remain reviewer-05 decisions.",
+    "Manifest v17 tests/build pass, but the v17 post-integration desktop/phone Store art smoke is still NOT TESTED/PENDING.",
     "The eventual complete accepted set still needs full exact-content and rendered near-duplicate scans plus final integrated desktop/phone Store verification.",
-    "Fresh Home/Store/Quest reference capture is running, but reference parity remains NOT TESTED until artifacts complete and are reviewed; raw pixel diff alone cannot clear the visual gate.",
+    "Original Home/Store/Quest references are available, but attempted deterministic capture run 35670445111 was cancelled during capture and produced no reusable artifact; exact current-candidate reference comparison remains NOT TESTED.",
     "Physical-device performance and VoiceOver/TalkBack/NVDA evidence remain NOT TESTED."
   ],
   "nextActions": [
-    "08: consume lighting-5..12 exact ACCEPTs immediately after normal metadata/file/content checks and preserve all prior accepted mappings.",
-    "03/14/05: render current exact Desk 2-4 paths through the existing shared fixture, then let reviewer 05 decide; do not transfer stale blank/corrupt verdicts across hashes.",
-    "05/07/09 producers: replace Wall/Rugs/Decor REWORK hashes in bounded versioned batches for fresh reviewer-14 pixel decisions.",
-    "14: inspect fresh reference-capture artifacts when complete and keep strict visual interpretation separate from raw diff status.",
-    "15: keep phase CATALOG_SPRINT until all 192 current hashes are stored, unique, independently accepted, canonically wired and Store-verified."
+    "08: consume reviewer-14 exact ACCEPTs for Rugs 1-8 and Decor 1-2 in small canonical batches after normal metadata/file/content checks; preserve Lighting 1-12 accepted mappings.",
+    "03/15: repair/restage Desk 2-4 as genuinely valid image bytes at the authoritative lane paths or new versioned paths; do not reuse stale -w03-v1 evidence. Reviewer 05 decides only after exact-hash rendering.",
+    "05/07/09 producers: continue Wall 1-12, Rugs 9-12 and Decor 3-12 in bounded versioned premium batches; preserve reviewer-14 accepted hashes unchanged.",
+    "10/14: produce one completed deterministic Home/Store/Quest capture on the exact current candidate runtime/assets, then inspect side-by-side and region-level differences against immutable originals. Raw diff alone is not approval.",
+    "08/10: complete v17 Store desktop/phone visual smoke before treating that integration increment as visually verified.",
+    "15: remain in CATALOG_SPRINT / ART_VISUALS until all 192 current hashes are stored, unique, independently accepted, canonical and Store-verified."
   ],
-  "freeze": {"replitTouched":false,"flootTouched":false,"mainMergedOrModified":false,"playerDataTouched":false}
+  "freeze": {
+    "replitTouched": false,
+    "flootTouched": false,
+    "mainMergedOrModified": false,
+    "playerDataTouched": false
+  }
 }
