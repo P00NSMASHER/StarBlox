@@ -1,0 +1,174 @@
+{
+  "schemaVersion": 1,
+  "candidateId": "quest-study-foreground-w13-v1",
+  "producer": "13",
+  "independentArtReviewer": "01",
+  "compositionPerformanceReviewer": "14",
+  "runtimeCoordinator": "15",
+  "branch": "screenshot-match-preproduction",
+  "status": "STAGED_READY_FOR_INDEPENDENT_REVIEW",
+  "runtimeWired": false,
+  "sourceHeadBeforeStaging": "c24a6c7ce26bb609120c22a31a602651e5735999",
+  "referenceEvidence": {
+    "originalReferencePath": "docs/preproduction/reference-screenshots/originals/quest-1448x1086.jpeg",
+    "originalReferenceSha256": "70f1b952709a85c77bb11851ffe9ae704acf8b97640355e908b6ec537b5c73c9",
+    "originalReferenceManifest": "docs/preproduction/reference-screenshots/original-reference-manifest.json",
+    "normalizedReferencePath": "docs/preproduction/reference-screenshots/quest-desktop-1408x1056.png",
+    "normalizedReferenceSha256": "359ee4b24dbe2a3a3ef89327115fc70927d3d3eab1fb349c43d5c1020ea0ba8d",
+    "currentRenderWorkflowRun": 35663655650,
+    "currentRenderWorkflowHead": "b187186e62519ffa77bd0f7b166c601c90bdc416",
+    "currentRenderArtifact": "preproduction-visual-qa",
+    "currentRenderPathInArtifact": "quest-desktop-1408x1056.png",
+    "currentRenderSha256": "15bccde0c04e28cd4dc7fc488f0b921e3690325fc383109bde75cf6c4de71b20",
+    "currentRenderDimensions": [
+      1408,
+      1056
+    ],
+    "stagingPreparationHead": "47ab9c5aeee447913dddef1ee1037a26c7bcba00",
+    "comparisonValidity": "The inspected current render is from deterministic visual-QA run 35663655650 at b187186e62519ffa77bd0f7b166c601c90bdc416. A GitHub compare through the staging-preparation head showed catalog/art/evidence/workflow changes but no Quest application runtime/layout source-file change among the returned paths, so the structural foreground-depth defect remains applicable. No screenshot-parity claim is made for the newer head.",
+    "observedDefect": "The verified original Quest scene has a believable physical study zone: dimensional desk, chair, lamp, stationery and book forms grounded by warm light/contact shadows around the character while the educational panels remain functional overlays. The current render is dominated by a flat pink/lilac pedestal and blocky character with little tactile furniture or contact depth. This bounded Lane 13 candidate addresses only the lower-left physical study-furniture layer and intentionally leaves the center/right functional Quest panels unobstructed."
+  },
+  "promptRecipe": {
+    "prompt": "Original StarBlox Quest foreground study-nook furniture layer, polished dimensional 3D game art. A low curved study desk and compact cushioned chair entering from the lower-left and bottom edge only; warm pale oak, warm ivory, blush pink and lilac enamel, thin cyan piping and tiny original star-shaped hardware accents; soft cream desk mat; small stack of blank pastel books, rounded pencil cup with pencils, compact rounded reading lamp, subtle warm sunlit leaf-shadow lighting and soft believable contact shadows. Preserve a very large empty/open center and right side for functional Quest panels and counters. No person, avatar, buddy, interface, text, numbers, labels, buttons, readable screens, logos or brands. No wall, window or full-room background. Furniture should feel believable, tactile and premium, three-quarter perspective compatible with a 1408x1056 game scene. Isolated furniture group on a clean plain white studio background with all object edges fully visible for clean background removal.",
+    "negativePrompt": "UI, interface, text, letters, numbers, logo, watermark, app screenshot, full room, wall, window, human, character, avatar, animal, mascot, buddy, merchandise, product thumbnail, flat vector, icon, anime, franchise character, copyrighted character, clutter in center or right, cropped furniture edges, fake text, screen content",
+    "generationSize": [
+      2016,
+      1152
+    ],
+    "generationCount": 1,
+    "reasoner": "quality"
+  },
+  "provenance": {
+    "generator": "Adobe Firefly image_generate via connected Adobe tool",
+    "generationOutputUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:747296e7-2f27-4293-84d4-6f68b02c2989",
+    "generationRequestId": "7eaca95b-7889-475b-a1ef-ddf0dd7c00e3",
+    "fullBackgroundRemovalOutputUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:881d34c3-68bb-4d02-8020-57fbe29c461a",
+    "fullBackgroundRemovalRequestId": "c31093a6-7421-4027-b883-6def6113e057",
+    "optimizedSourceResizeOutputUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:baa33ea5-0759-4a0b-94ff-89c5fd983f27",
+    "optimizedSourceResizeRequestId": "6e950aa9-65dd-4623-af2f-7b6f4b8b76c3",
+    "optimizedBackgroundRemovalOutputUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:c54476ae-f08a-4246-b5e4-4fa3667cf750",
+    "optimizedBackgroundRemovalRequestId": "3522a1e9-2020-4e68-8eac-9fbbe713abec",
+    "sourcePixelInspection": "PASS_PREUPLOAD_ONLY: one bounded candidate was generated and inspected. It is a polished pale-oak/cream/blush/lilac curved desk-and-chair grouping with cyan edge piping, rounded lamp, blank pastel books, pencil cup, open desk mat and warm dimensional lighting. The group occupies the left/lower scene and leaves substantial center/right negative space. No text, logos, characters, buddies, UI or third-party IP are visible.",
+    "processing": [
+      "Generated one 2016x1152 PNG source with Adobe Firefly; no batch expansion.",
+      "Adobe background removal produced a 2016x1152 transparent full layer; producer visually inspected the cutout.",
+      "A first attempt to directly resize the transparent full layer was visually rejected because it introduced alpha/stretch artifacts and is not staged.",
+      "The clean optimized derivative was produced by resizing the opaque source to 1008x576 first and then removing its background; producer visually verified that derivative before staging."
+    ]
+  },
+  "producerPixelCheck": "PASS_PREUPLOAD_ONLY: the candidate directly addresses the current Quest scene's missing tactile desk/chair/material/contact-depth cues while remaining a separate layer rather than a flattened Quest screenshot. Left/lower occupancy and extensive center/right transparency protect the existing educational UI and counters. Producer inspection is not independent acceptance.",
+  "responsiveIntent": "Treat as a separate foreground furniture layer anchored lower-left/bottom. Preserve the large transparent center/right crop zone for functional Quest content and mastery/progress UI. Scale/crop independently at desktop/tablet/phone; do not bake interface, character, buddy, counters, lesson content or save state into this asset.",
+  "ownershipIsolation": {
+    "touchesWorkstream06AvatarOrCompanionAssets": false,
+    "touchesWorkstream09CatalogOrDecorAssets": false,
+    "touchesSharedRuntimeEntrypoints": false,
+    "exclusiveLane13Paths": true,
+    "runtimeWiringPerformed": false,
+    "canonicalCatalogMappingsTouched": false,
+    "coordinationBasis": "Current docs/preproduction/visuals/lane-15-coordination.json assigns Workstream 13 character/environment art and scene composition in versioned assets only; Workstreams 06 and 09 retain their assigned companion/catalog/decor production. This candidate uses only exclusive Lane 13 paths and is a Quest furniture foreground layer, not a 06 avatar/companion asset or 09 catalog/decor asset. Any future runtime wiring remains gated by 15."
+  },
+  "freeze": {
+    "replitTouched": false,
+    "flootTouched": false,
+    "mainTouched": false,
+    "deployPerformed": false,
+    "paidSettingsTouched": false,
+    "secretsTouched": false,
+    "playerDataTouched": false,
+    "saveSchemaTouched": false,
+    "gameplayTouched": false,
+    "learningTouched": false,
+    "economyTouched": false,
+    "rewardOrCurriculumTouched": false,
+    "catalogIdsNamesThemesTiersPricesUnlocksTouched": false,
+    "acceptedExactHashesOverwritten": false
+  },
+  "assets": {
+    "source": {
+      "label": "source",
+      "path": "docs/preproduction/visuals/recovered-originals/quest-study-foreground-w13-v1-source.png",
+      "bytes": 1477523,
+      "dimensions": [
+        2016,
+        1152
+      ],
+      "format": "PNG",
+      "mode": "RGB",
+      "sha256": "04b935a021d5aae556f7b9c6ba12059400e8cf251eb033a6e7285ec5d1bba406",
+      "gitBlobSha": "48cd6450f76057730caa6688e4f702576b51388c",
+      "alphaBounds": null,
+      "alphaExtrema": null,
+      "transparentRequired": false
+    },
+    "full": {
+      "label": "full",
+      "path": "public/assets/visuals/lane-13/quest-study-foreground-w13-v1-full.png",
+      "bytes": 408594,
+      "dimensions": [
+        2016,
+        1152
+      ],
+      "format": "PNG",
+      "mode": "RGBA",
+      "sha256": "c006585abcc12c90e0eff367e6929f2db608190598067f73dc977af00b83f60e",
+      "gitBlobSha": "9e6aad014dd091b04135e00a35af9f6aebf6aa70",
+      "alphaBounds": [
+        20,
+        324,
+        866,
+        1028
+      ],
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "transparentRequired": true
+    },
+    "optimized": {
+      "label": "optimized",
+      "path": "public/assets/visuals/lane-13/quest-study-foreground-w13-v1-1008.png",
+      "bytes": 133292,
+      "dimensions": [
+        1008,
+        576
+      ],
+      "format": "PNG",
+      "mode": "RGBA",
+      "sha256": "881302a212fff9d38ff52dd22c0749c43a1f033659d665cc9f8a494787b53193",
+      "gitBlobSha": "ab48d418d68c5672a49f713a5e266f445eb1ed6e",
+      "alphaBounds": [
+        10,
+        162,
+        433,
+        514
+      ],
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "transparentRequired": true
+    }
+  },
+  "checks": {
+    "sourceDecode": "PASS_PNG_2016x1152",
+    "fullDecode": "PASS_PNG_2016x1152",
+    "optimizedDecode": "PASS_PNG_1008x576",
+    "fullTransparency": "PASS_MEANINGFUL_ALPHA",
+    "optimizedTransparency": "PASS_MEANINGFUL_ALPHA",
+    "separateLayerNotFlattenedScreen": "PASS_BY_ASSET_SCOPE_AND_PRODUCER_PIXEL_INSPECTION",
+    "uiTextButtonsAbsent": "PASS_BY_PRODUCER_PIXEL_INSPECTION",
+    "catalogMappingsUntouched": "PASS_BY_EXCLUSIVE_PATH_SCOPE",
+    "exactRepositoryReadback": "PENDING_REMOTE_READBACK",
+    "independentArtReview": "PENDING_01",
+    "compositionPerformanceReview": "PENDING_14",
+    "runtimeIntegration": "NOT_PERFORMED",
+    "screenshotParity": "NOT_CLAIMED",
+    "physicalDevice": "NOT_PERFORMED"
+  },
+  "reviews": {
+    "01": "PENDING_INDEPENDENT_ART_REVIEW",
+    "14": "PENDING_COMPOSITION_PERFORMANCE_REVIEW",
+    "15": "PENDING_COORDINATION_BEFORE_ANY_RUNTIME_WIRING"
+  },
+  "releaseGates": "Existing regression/build/device/accessibility/parity gates remain external release gates for 08/14/15 and are not changed by this visual intake."
+}
