@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "itemId": "rugs-9",
+  "name": "Splash Rug",
+  "collectionId": "rugs",
+  "producer": "07",
+  "transportHelper": "CHAT",
+  "independentReviewer": "14",
+  "status": "READY_FOR_REVIEW_14_VERIFIED_HANDOFF",
+  "repositoryPath": "public/assets/catalog/rugs-9-w07-v2.jpg",
+  "assetPath": "/assets/catalog/rugs-9-w07-v2.jpg",
+  "gitBlobSha": "9eef1db116e871d31c62de680d261cfbeccf49b3",
+  "sha256": "b944487e47dab26ec095dcff9933521b34a8e3097c7663a855d129c0a744fc25",
+  "format": "JPEG",
+  "dimensions": [
+    600,
+    600
+  ],
+  "bytes": 79736,
+  "exactStoreMetadata": {
+    "tier": 3,
+    "theme": "Berry Blast",
+    "price": 667,
+    "starReq": 2
+  },
+  "sourceAssetId": "urn:aaid:sc:US:b00a0244-56e8-4393-939f-1c14209bc561",
+  "originalRepositoryPath": "docs/preproduction/catalog-sprint/recovered-originals/chat-catalog-recovery-desks5-6-rug9-20260921/rugs-9-b00a0244-56e8-4393-939f-1c14209bc561.png",
+  "verification": {
+    "repositoryPresence": "PASS",
+    "exactByteReadback": "PASS_FROM_EXISTING_RECOVERY_RESULT",
+    "candidateDecode": "PASS_FROM_EXISTING_RECOVERY_RESULT",
+    "currentHashIsNewerThanLegacyReviewedHash": true,
+    "visualPreviewInspected": true,
+    "visualObservation": "The staged replacement reads as a grounded berry-splash floor textile with visible pile/tuft depth, stitched seed details, edge thickness and contact shadow. It materially addresses the legacy reviewer-14 defect that the old SVG read as an upright badge rather than a rug.",
+    "independentReviewDecision": "PENDING_14"
+  },
+  "nonClaims": [
+    "No self-approval",
+    "No canonical manifest/runtime change",
+    "No claim of Store integration",
+    "No Replit/Floot/main change",
+    "No player-data change"
+  ],
+  "handoff": "Reviewer 14: judge this exact rugs-9 hash at card/detail scale and record ACCEPT/REWORK. Workstream 08 may integrate only after qualified independent ACCEPT."
+}
