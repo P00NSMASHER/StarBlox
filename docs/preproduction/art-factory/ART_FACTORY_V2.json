@@ -181,5 +181,28 @@
       "USER_ATTESTED_FULL_RIGHTS",
       "NO_PREFILLED_OUTPUT_HASHES"
     ]
+  },
+  "outputVerifier": {
+    "script": "docs/preproduction/art-factory/verify_staged_output.py",
+    "purpose": "Bind real generated raster bytes back to one deterministic planned attempt before render/review.",
+    "status": "REQUIRED_FOR_NEW_FACTORY_OUTPUTS",
+    "verifies": [
+      "PLAN_SHA256_INTEGRITY",
+      "BRANCH_AND_RIGHTS_BASIS",
+      "ITEM_ATTEMPT_PRODUCER_BINDING",
+      "VERSIONED_CATALOG_PATH",
+      "INDEPENDENT_REVIEWER_ROUTING",
+      "SAFE_RASTER_DECODE",
+      "WIDTH_HEIGHT_FORMAT_BYTES",
+      "SHA256_AND_GIT_BLOB_SHA",
+      "SOURCE_PRESERVATION_AND_DERIVATIVE_LINEAGE"
+    ],
+    "emitsStatus": "STAGED_EXACT_BYTES_VERIFIED",
+    "cannot": [
+      "AUTO_ACCEPT_OR_REWORK",
+      "WRITE_CATALOG_ART_MANIFEST",
+      "WRITE_CATALOG_RUNTIME",
+      "CHANGE_GAMEPLAY"
+    ]
   }
 }
