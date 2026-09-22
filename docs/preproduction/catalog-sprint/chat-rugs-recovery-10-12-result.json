@@ -1,0 +1,143 @@
+{
+  "schemaVersion": 1,
+  "batchId": "chat-rugs-recovery-10-12-20260922",
+  "status": "STAGED_READY_FOR_INDEPENDENT_REVIEW",
+  "sourceHead": "bc3ec4865eb6e7b01504bc666cf0949c09244c30",
+  "workflowRunId": "35672649596",
+  "transportHelper": "CHAT",
+  "canonicalWriter": "08",
+  "newGenerations": 0,
+  "storedCandidateCount": 3,
+  "storedOriginalCount": 3,
+  "duplicateCandidateContent": 0,
+  "items": [
+    {
+      "id": "rugs-10",
+      "name": "Neon Grid Rug",
+      "collectionId": "rugs",
+      "collectionName": "Rugs",
+      "type": "room",
+      "tier": 4,
+      "theme": "Garden Glow",
+      "price": 928,
+      "starReq": 5,
+      "format": "PNG",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "bytes": 1024457,
+      "sha256": "2dcef372136f64244e37a665812bc5c004b50ee5b5ca9facdd9db74f6d40615f",
+      "gitBlobSha": "e9ff2aabc5bfa90c7411d0b8a5c48f297d2d270d",
+      "producer": "CHAT",
+      "transportHelper": "CHAT",
+      "independentReviewer": "14",
+      "repositoryPath": "public/assets/catalog/rugs-10-chat-v2.png",
+      "assetPath": "/assets/catalog/rugs-10-chat-v2.png",
+      "assetId": "urn:aaid:ps:US:0216b0a2-ee7c-4a5c-8697-dbcf137d6448",
+      "status": "READY_FOR_REVIEW_14",
+      "readback": "PASS",
+      "original": {
+        "format": "PNG",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "bytes": 1024457,
+        "sha256": "2dcef372136f64244e37a665812bc5c004b50ee5b5ca9facdd9db74f6d40615f",
+        "gitBlobSha": "e9ff2aabc5bfa90c7411d0b8a5c48f297d2d270d",
+        "repositoryPath": "docs/preproduction/catalog-sprint/recovered-originals/chat-rugs-recovery-10-12-20260922/rugs-10-0216b0a2-ee7c-4a5c-8697-dbcf137d6448.png"
+      }
+    },
+    {
+      "id": "rugs-11",
+      "name": "Dream Cloud Rug",
+      "collectionId": "rugs",
+      "collectionName": "Rugs",
+      "type": "room",
+      "tier": 4,
+      "theme": "Galaxy Glow",
+      "price": 1276,
+      "starReq": 5,
+      "format": "PNG",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "bytes": 965350,
+      "sha256": "08a030bfd79ad4bcf9c033cbd0ea9b1f843bb520a592e7d04d273bd15a8a62f1",
+      "gitBlobSha": "cfff5c4d235295c0f3e0efc0ef34bfcbf629c916",
+      "producer": "CHAT",
+      "transportHelper": "CHAT",
+      "independentReviewer": "14",
+      "repositoryPath": "public/assets/catalog/rugs-11-chat-v2.png",
+      "assetPath": "/assets/catalog/rugs-11-chat-v2.png",
+      "assetId": "urn:aaid:ps:US:9432d2e6-197f-4e13-b6fd-79ec8ee4a798",
+      "status": "READY_FOR_REVIEW_14",
+      "readback": "PASS",
+      "original": {
+        "format": "PNG",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "bytes": 965350,
+        "sha256": "08a030bfd79ad4bcf9c033cbd0ea9b1f843bb520a592e7d04d273bd15a8a62f1",
+        "gitBlobSha": "cfff5c4d235295c0f3e0efc0ef34bfcbf629c916",
+        "repositoryPath": "docs/preproduction/catalog-sprint/recovered-originals/chat-rugs-recovery-10-12-20260922/rugs-11-9432d2e6-197f-4e13-b6fd-79ec8ee4a798.png"
+      }
+    },
+    {
+      "id": "rugs-12",
+      "name": "Luxe Star Rug",
+      "collectionId": "rugs",
+      "collectionName": "Rugs",
+      "type": "room",
+      "tier": 5,
+      "theme": "Sunny Pop",
+      "price": 1740,
+      "starReq": 9,
+      "format": "PNG",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "bytes": 1252966,
+      "sha256": "e5bbfe50a4e13682325cbe266601fe1d687a72f9dd8feeb81662b42b0a2fddf3",
+      "gitBlobSha": "e008d4b097caadd5e246d2d023e61179d543da3e",
+      "producer": "CHAT",
+      "transportHelper": "CHAT",
+      "independentReviewer": "14",
+      "repositoryPath": "public/assets/catalog/rugs-12-chat-v2.png",
+      "assetPath": "/assets/catalog/rugs-12-chat-v2.png",
+      "assetId": "urn:aaid:ps:US:0da4f61f-5f16-450e-89f5-41295d4aed61",
+      "status": "READY_FOR_REVIEW_14",
+      "readback": "PASS",
+      "original": {
+        "format": "PNG",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "bytes": 1252966,
+        "sha256": "e5bbfe50a4e13682325cbe266601fe1d687a72f9dd8feeb81662b42b0a2fddf3",
+        "gitBlobSha": "e008d4b097caadd5e246d2d023e61179d543da3e",
+        "repositoryPath": "docs/preproduction/catalog-sprint/recovered-originals/chat-rugs-recovery-10-12-20260922/rugs-12-0da4f61f-5f16-450e-89f5-41295d4aed61.png"
+      }
+    }
+  ],
+  "checks": {
+    "metadata": "PASS_3_OF_3_FROM_CURRENT_GAME_MODEL",
+    "exactByteReadback": "PASS_6_OF_6",
+    "candidateDecode": "PASS_3_OF_3",
+    "independentVisualReview": "PENDING_ASSIGNED_REVIEWERS"
+  },
+  "freeze": {
+    "replitTouched": false,
+    "flootTouched": false,
+    "mainTouched": false,
+    "canonicalMappingsTouched": false,
+    "gameplayChanged": false,
+    "playerDataTouched": false
+  }
+}
