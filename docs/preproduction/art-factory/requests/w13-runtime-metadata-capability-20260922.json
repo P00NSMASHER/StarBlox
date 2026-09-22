@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_W13_RUNTIME_METADATA_CAPABILITY_EVIDENCE",
+  "producer": "13",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "812a05b27210da6ebd2e7fc21c5d4195fde15b08",
+  "observedAtUtc": "2026-09-22T23:04:53Z",
+  "liveState": {
+    "manifestVersion": 33,
+    "finalPortable": 166,
+    "runtimeMappingGapToTarget": 19,
+    "activeBatch": "w13-wall-9-12-runtime-unblock-v2",
+    "scope": ["wall-9", "wall-10", "wall-11", "wall-12"],
+    "reviewer": "14",
+    "canonicalWriter": "08"
+  },
+  "remoteDeterministicRunner": {
+    "deviceName": "PAAM-L044",
+    "deviceId": "c83a6c06-c0d3-4127-84de-311c7c6f1364",
+    "status": "offline",
+    "lastSeenUtc": "2026-09-22T20:40:24.097+00:00",
+    "appVersion": "0.2.51",
+    "authTokenState": "valid",
+    "transitionSincePriorEvidence": "The runner is still offline, but its authoritative device record now shows a substantially newer last-seen timestamp than the prior 2026-09-18 observation. This proves the runner has reconnected since the earlier blocker record even though it is not executable at this run head."
+  },
+  "adobeFireflyMetadataRecoveryProbe": {
+    "purpose": "Determine whether already-saved Firefly generations can supply the exact model/checkpoint revision and runtime identity required by ART_FACTORY_V2 without spending generation quota or regenerating pixels.",
+    "generationRetried": false,
+    "quotaResetRespected": true,
+    "assetSearchScope": "GenAIAsset",
+    "totalSavedGenerationsObserved": 187,
+    "sampleAsset": {
+      "id": "urn:aaid:sc:US:c542e250-1ade-4e7d-8fe0-1789d29d74ac",
+      "mediaType": "application/vnd.adobe.firefly-generation-image+dcx",
+      "name": "StarBlox catalog asset for exact 310584702 32z.ffgenimg",
+      "createDate": "2026-09-22T17:09:56.830Z",
+      "size": 951273
+    },
+    "presignedResolutionSucceeded": true,
+    "metadataFieldsObserved": [
+      "asset id",
+      "name",
+      "media type",
+      "source type",
+      "size",
+      "creator/modifier ids",
+      "create/modify timestamps",
+      "rendition/download/preview URLs"
+    ],
+    "requiredFieldsNotExposedByCurrentReadbackSurface": [
+      "authoritative model/checkpoint id",
+      "authoritative model/checkpoint revision",
+      "authoritative generation runtime/tool revision"
+    ],
+    "seedObservation": "Some saved asset names contain numeric seed-like identifiers, but filenames are not authoritative provenance and are not promoted to executed-seed evidence.",
+    "conclusion": "The currently available saved-asset/readback metadata path cannot backfill ART_FACTORY_V2 model/revision/runtime provenance for existing Firefly generations. Do not treat saved GenAIAsset metadata as a substitute for provider-returned generation provenance."
+  },
+  "actionableHandoffTo15": {
+    "state": "FIRELFY_SAVED_ASSET_METADATA_PATH_NONCOMPLIANT_FOR_REVISION_BACKFILL__RUNNER_RECENTLY_SEEN_BUT_OFFLINE",
+    "next": [
+      "Do not regenerate or stage Wall9-12 while PAAM-L044 remains offline and before Firefly quota reset.",
+      "After the stated midnight-GMT Firefly reset, perform exactly one generation-response metadata-capability probe. Accept Firefly for Wall9-12 only if that response itself exposes authoritative model/checkpoint identity plus revision and sufficient runtime/tool identity, along with the executed seed or a policy-permitted authoritative seed-unavailable record.",
+      "If Firefly generation response still omits required revision/runtime provenance, mark that provider path noncompliant for ART_FACTORY_V2 instead of generating production candidates.",
+      "If PAAM-L044 comes online first, immediately prefer the already-pinned Diffusers/SDXL deterministic path and execute only the ACTIVE_BATCH Wall9-12 scope.",
+      "Preserve Wall1-7 accepted hashes, Wall8 recovery evidence, canonical mappings, CI/workflows, gameplay/state and all external producer scopes."
+    ]
+  },
+  "claims": {
+    "generatedWallPixels": false,
+    "stagedCandidateBytes": false,
+    "selfApproval": false,
+    "canonicalIntegration": false,
+    "ciWorkflowTouched": false
+  }
+}
