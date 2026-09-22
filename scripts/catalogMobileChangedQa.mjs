@@ -13,13 +13,36 @@ const motions=[['reduced','reduce'],['normal','no-preference']].map(([name,value
 const loadJson=p=>JSON.parse(fs.readFileSync(p,'utf8'));
 const gitBlob=p=>execFileSync('git',['hash-object',p],{encoding:'utf8'}).trim();
 const blobJson=sha=>JSON.parse(execFileSync('git',['cat-file','blob',sha],{encoding:'utf8'}));
+const gitBlobAt=(ref,p)=>execFileSync('git',['rev-parse',`${ref}:${p}`],{encoding:'utf8'}).trim();
 const collectionOf=id=>String(id).split('-')[0];
 
 function scopeNow(){
   const current=loadJson('catalog-art-manifest.json'),currentSha=gitBlob('catalog-art-manifest.json');
-  let prior=null,priorSha=null,baselineStatus='AVAILABLE';
-  try{const q=loadJson('docs/preproduction/catalog-sprint/mobile-qa.json');priorSha=q?.canonicalIntegration?.manifestBlobSha??q?.canonicalIntegration?.manifestBlob??null;if(priorSha)prior=blobJson(priorSha);else baselineStatus='MISSING_PRIOR_MANIFEST_HASH';}catch(e){baselineStatus=`BASELINE_READ_FAILED:${e.message}`;}
-  if(priorSha===currentSha)return{changed:false,reason:'CANONICAL_MANIFEST_UNCHANGED',sourceHead,currentManifestBlobSha:currentSha,priorManifestBlobSha:priorSha,manifestVersion:current.version,collections:[],changedIds:[],changedCollections:[],stableControl:null,fullMatrix:false,baselineStatus};
+  let prior=null,priorSha=null,baselineStatus='AVAILABLE',baselineSource=null;
+  try{
+    const q=loadJson('docs/preproduction/catalog-sprint/mobile-qa.json');
+    const reportedSha=q?.canonicalIntegration?.manifestBlobSha??q?.canonicalIntegration?.manifestBlob??null;
+    const explicitProvenSha=q?.lastBrowserProvenCanonical?.manifestBlobSha??q?.browserProvenCanonical?.manifestBlobSha??null;
+    const reusedProofHead=q?.reusedHistoricalBrowserProof?.sourceHead??null;
+    const freshExecution=String(q?.changeAwareDecision?.freshCanonicalStoreExecution??q?.freshCanonicalStoreExecution?.status??'');
+    if(explicitProvenSha){
+      priorSha=explicitProvenSha;
+      baselineStatus='EXPLICIT_BROWSER_PROVEN_MANIFEST';
+      baselineSource='mobile-qa:lastBrowserProvenCanonical';
+    }else if(reusedProofHead){
+      priorSha=gitBlobAt(reusedProofHead,'catalog-art-manifest.json');
+      baselineStatus='DERIVED_FROM_REUSED_BROWSER_PROOF_HEAD';
+      baselineSource=reusedProofHead;
+    }else if(reportedSha&&freshExecution.startsWith('PASS')){
+      priorSha=reportedSha;
+      baselineStatus='CURRENT_REPORT_BROWSER_PASS';
+      baselineSource='mobile-qa:canonicalIntegration';
+    }else{
+      baselineStatus='MISSING_BROWSER_PROVEN_BASELINE';
+    }
+    if(priorSha)prior=blobJson(priorSha);
+  }catch(e){baselineStatus=`BASELINE_READ_FAILED:${e.message}`;}
+  if(priorSha===currentSha)return{changed:false,reason:'CANONICAL_MANIFEST_UNCHANGED_FROM_BROWSER_PROVEN_BASELINE',sourceHead,currentManifestBlobSha:currentSha,priorManifestBlobSha:priorSha,manifestVersion:current.version,collections:[],changedIds:[],changedCollections:[],stableControl:null,fullMatrix:false,baselineStatus,baselineSource};
   let changedIds=[];
   if(prior){const ids=new Set([...Object.keys(prior.items||{}),...Object.keys(current.items||{})]);for(const id of ids){const a=prior.items?.[id],b=current.items?.[id];if((a?.assetPath??null)!==(b?.assetPath??null))changedIds.push(id);}}
   else changedIds=Object.keys(current.items||{});
@@ -28,13 +51,13 @@ function scopeNow(){
   if(fullMatrix)changedCollections=[...collectionsAll];
   const stableControl=collectionsAll.find(x=>!changedCollections.includes(x))||'tops';
   const collections=fullMatrix?[...collectionsAll]:[...changedCollections,stableControl];
-  return{changed:changedIds.length>0||!prior,reason:prior?'CANONICAL_ART_PATH_DELTA':'BASELINE_UNAVAILABLE_FULL_MATRIX',sourceHead,currentManifestBlobSha:currentSha,priorManifestBlobSha:priorSha,manifestVersion:current.version,collections,changedCollections,changedIds,stableControl,fullMatrix,baselineStatus};
+  return{changed:changedIds.length>0||!prior,reason:prior?'CANONICAL_ART_PATH_DELTA_FROM_LAST_BROWSER_PROVEN_BASELINE':'BROWSER_PROVEN_BASELINE_UNAVAILABLE_FULL_MATRIX',sourceHead,currentManifestBlobSha:currentSha,priorManifestBlobSha:priorSha,manifestVersion:current.version,collections,changedCollections,changedIds,stableControl,fullMatrix,baselineStatus,baselineSource};
 }
 const scope=scopeNow();
 if(process.argv.includes('--scope-only')){process.stdout.write(JSON.stringify(scope));process.exit(0);}
 await fsp.mkdir(outputDir,{recursive:true});
 await fsp.writeFile(path.join(outputDir,'scope.json'),JSON.stringify(scope,null,2)+'\n');
-if(!scope.changed){const report={schemaVersion:2,status:'SKIPPED_UNCHANGED_CANONICAL_ART_PATHS',generatedAt:new Date().toISOString(),sourceHead,scope,releaseBlockingCount:0,results:[]};await fsp.writeFile(path.join(outputDir,'report.json'),JSON.stringify(report,null,2)+'\n');await fsp.writeFile(path.join(outputDir,'summary.txt'),'SKIPPED: canonical art paths unchanged from last Workstream-10 proof.\n');process.exit(0);}
+if(!scope.changed){const report={schemaVersion:2,status:'SKIPPED_UNCHANGED_CANONICAL_ART_PATHS',generatedAt:new Date().toISOString(),sourceHead,scope,releaseBlockingCount:0,results:[]};await fsp.writeFile(path.join(outputDir,'report.json'),JSON.stringify(report,null,2)+'\n');await fsp.writeFile(path.join(outputDir,'summary.txt'),'SKIPPED: canonical art paths unchanged from last browser-proven Workstream-10 baseline.\n');process.exit(0);}
 
 const {chromium}=await import('playwright');
 const manifest=loadJson('catalog-art-manifest.json');
