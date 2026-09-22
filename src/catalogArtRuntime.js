@@ -167,6 +167,8 @@ const portableCatalogArt = Object.freeze({
   'rugs-6': '/assets/catalog/rugs-6-w07-v2.jpg',
   'rugs-7': '/assets/catalog/rugs-7-w07-v2.jpg',
   'rugs-8': '/assets/catalog/rugs-8-w07-v2.jpg',
+  'rugs-9': '/assets/catalog/rugs-9-w07-v2.jpg',
+  'rugs-10': '/assets/catalog/rugs-10-chat-v2.png',
   'decor-1': '/assets/catalog/decor-1-w09-v2.jpg',
   'decor-2': '/assets/catalog/decor-2-w09-v2.jpg'
 });
