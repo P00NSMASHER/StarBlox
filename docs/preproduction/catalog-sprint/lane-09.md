@@ -1,6 +1,6 @@
-# Catalog Sprint — Lane 09 Tops 11–12 v6 Repair Handoff
+# Catalog Sprint — Lane 09 Tops 11–12 v7 Repair Handoff
 
-STATUS: **TOPS 11–12 V6 — REPOSITORY-STAGED, EXACT READBACK PASS, SHARED PIXEL QA PENDING**
+STATUS: **TOPS 11–12 V7 — GENERATED LOCAL / CLEAN 600×600 WEBP DERIVATIVES / EXACT REPOSITORY BYTE TRANSFER BLOCKED**
 
 Branch: `screenshot-match-preproduction`  
 Phase: `ART_AND_VISUALS_ONLY`  
@@ -9,53 +9,56 @@ Canonical integration owner: **08 only**
 Independent review owner: **01 only**  
 Self-approval: **NO**
 
-## Reviewer input consumed
+## Current reviewer evidence consumed
 
-Reviewer 01 independently REWORKED both current v5 hashes after actual card/detail inspection. These were visual-quality failures, not decode failures:
+Reviewer 01’s latest exact-hash evidence supersedes the prior v5-only handoff. The current v6 candidates are **BLOCKED on evidence**, not visually rejected:
 
-- `tops-11` Cloud Jacket — `/assets/catalog/tops-11-w09-v5.svg`, blob `43a850ecdc0b7e8861870f7c277f2544f6c87405` — **REWORK** because card-scale volume/material response remained too flat for Tier 4 despite improved silhouette/hardware.
-- `tops-12` Star Coat — `/assets/catalog/tops-12-w09-v5.svg`, blob `73339e6c9e472283f481ff18b1e6ba821856f617` — **REWORK** because the long-coat read and Tier-5 physical/material depth remained below accepted Tops 7–10.
+- `tops-11` Cloud Jacket — `/assets/catalog/tops-11-w09-v6.jpg`, blob `061a749472ad71e61732ac3a9629c42d54b4e580` — shared staged-art signature gate **FAIL**, no qualified v6 card/detail pixels.
+- `tops-12` Star Coat — `/assets/catalog/tops-12-w09-v6.jpg`, blob `e9d462cb222c2ff20e220e237cb3890e1e6eb76c` — shared staged-art signature gate **FAIL**, no qualified v6 card/detail pixels.
 
-All v5 and older candidates remain preserved. No rejected hash was reused.
+Reviewer evidence: workflow `35687207417`, rerun job `106617438415`, artifact `10677595359`. The old v5 visual REWORK findings were not transferred to v6.
 
-## New exact v6 candidates
+Producer reconciliation independently confirms the transport problem: exact GitHub readback for Tops 11 v6 does not begin with a valid JPEG `FF D8` signature despite its `.jpg` extension. Do not reuse either v6 hash.
+
+## New bounded v7 repair package
+
+A fresh original two-item generation was created, then each garment was isolated into a **separate item image** with no promotional text or board content. Source generation ID: `183f523f-ccbb-4de7-ad41-185508d12295`.
 
 ### Tops 11 — Cloud Jacket
 
-- Identity preserved: `Cloud Jacket`, Tops, Tier 4, `Candy Core`.
-- New path: `/assets/catalog/tops-11-w09-v6.jpg`.
-- Exact Git blob: `061a749472ad71e61732ac3a9629c42d54b4e580`.
-- SHA-256: `ed9c8f99d904a3d980684f2f67f94b52eb6906c14a058c79794de3226694d2db`.
-- Format/dimensions/bytes: **JPEG / 600×600 / 49,502 bytes**.
-- Construction target realized: visibly inflated torso/sleeve chambers, seam compression, recessed padded hood, attached sleeve volume, glossy-shell versus knit separation, zipper/pocket hardware, controlled warm/cool form lighting and grounded shadow.
-- Provenance: original StarBlox image-generation repair exported as a clean repository JPEG; no copied screenshot pixels, third-party brands/characters, or Roblox/Brookhaven art.
+- Exact identity retained: Tops / `Cloud Jacket` / Tier 4 / `Candy Core`.
+- Planned versioned path: `/assets/catalog/tops-11-w09-v7.webp`.
+- Clean local derivative: **WEBP / 600×600 / 22,824 bytes**.
+- Local SHA-256: `b021eb2773dbe902debf39216eeeca51c5f8db7b7ef137a177a46969bb27a2fa`.
+- Expected Git blob if those exact bytes are transferred unchanged: `0641cd1563cd9f683d685231c52a28c9f66424be`.
+- Local decode/signature: **PASS**, `RIFF....WEBP`.
+- Visual construction: deep padded torso and sleeve baffles, seam compression, recessed hood opening, attached sleeve volume, textile highlights/roughness, asymmetric Candy Core patches/hardware, zipper/pockets and grounded form light.
 
 ### Tops 12 — Star Coat
 
-- Identity preserved: `Star Coat`, Tops, Tier 5, `Adventure Club`.
-- New path: `/assets/catalog/tops-12-w09-v6.jpg`.
-- Exact Git blob: `e9d462cb222c2ff20e220e237cb3890e1e6eb76c`.
-- SHA-256: `c14905d41ba51e10cc2a96dabdfdb5183aff563b2d738a5031a774bb6b79db26`.
-- Format/dimensions/bytes: **JPEG / 600×600 / 61,020 bytes**.
-- Construction target realized: unmistakable long outerwear silhouette, deep three-quarter torso, overlapping storm/yoke layers, padded hood, layered woven panels with fold/drape tension, belt and utility pockets, compass/star hardware, distinct metal highlights and cast/contact shadow.
-- Provenance: original StarBlox image-generation repair exported as a clean repository JPEG; no copied screenshot pixels, third-party brands/characters, or Roblox/Brookhaven art.
+- Exact identity retained: Tops / `Star Coat` / Tier 5 / `Adventure Club`.
+- Planned versioned path: `/assets/catalog/tops-12-w09-v7.webp`.
+- Clean local derivative: **WEBP / 600×600 / 30,026 bytes**.
+- Local SHA-256: `f0a76bcf14af0bc9d0ff9fb0ea5fb2980181a9873a1f034ab41f9633d8b1f94a`.
+- Expected Git blob if those exact bytes are transferred unchanged: `9f13c65b0310a70be3fb1e6464baf22dabe75ce1`.
+- Local decode/signature: **PASS**, `RIFF....WEBP`.
+- Visual construction: unmistakable long outerwear silhouette, three-quarter torso depth, overlapping storm/yoke layers, padded/quilted loft, woven drape/fold tension, belt and utility pockets, compass/star hardware, metal-specific highlights and grounded cast/contact shadow.
 
-## Repository persistence/readback
+These v7 derivatives are **GENERATED_LOCAL**, not staged, accepted or canonical.
 
-Asset commit: `0e59daad65faf9f4af6a017b62fa193b4db851e4`.
+## Exact blocker / transport handoff
 
-Both 600×600 JPEGs were written as Git blobs and read back from `screenshot-match-preproduction` at their exact versioned paths. Repository blob identity matches the values above. The local export/decode/dimension checks pass.
+The current GitHub binary blob writer is available, but the present binary-transfer path altered/truncated the raster payload before Git blob creation. Returned blob SHAs did not match the exact local expected hashes above. Those mismatched orphan blobs were deliberately **not attached to the branch**.
 
-The first shared QA push after the asset commit ran before lane-09 was pointed at v6, so run `35686953352` correctly rendered the previous v5 rows. That evidence is **not** transferred to v6. This lane update makes the two v6 paths authoritative inputs for the next shared staged-art card/detail capture.
+Do not recompress these images to a visibly lower quality simply to make transport easier. Workstream 15 or an approved transport helper should transfer the exact v7 derivative bytes to the planned paths without modification. Once bytes land, Workstream 09 must immediately:
 
-## Required next evidence + handoff
+1. reread each exact repository path;
+2. verify file signature, Git blob, SHA-256, bytes and 600×600 dimensions;
+3. run the shared staged-art Store-card/detail renderer on those new exact hashes;
+4. hand only those exact rendered hashes to Reviewer 01.
 
-**Shared staged-art QA:** render the exact v6 hashes at Store-card and detail scale, recording natural dimensions, HTTP/decode status, screenshot paths and per-item errors.
+Reviewer 01 alone decides ACCEPT/REWORK. Workstream 08 alone canonical-wires an independently accepted exact hash.
 
-**01:** after that exact v6 pixel evidence exists, independently issue ACCEPT or REWORK for `061a7494...` and `e9d462cb...`. Do not transfer the v5 verdicts.
+## Scope freeze
 
-**08:** do not canonical-wire either asset until Reviewer 01 accepts that exact v6 hash.
-
-**09:** preserve these v6 candidates while review is pending. Do **not** start Decor until Tops 11–12 v6 receive clean card/detail evidence and reviewer-01 disposition.
-
-No Replit/Floot, `main`, deployment, paid settings/services, canonical runtime/manifest, player state, saves, economy, learning logic, scene work, or existing accepted asset was changed.
+Decor remains unopened. Tops 1–10 and all historical Tops 11–12 versions are preserved. No Replit/Floot, `main`, deploy, paid settings/services, canonical runtime/manifest, gameplay, saves, economy, learning state, scene work or real-player data was changed.
