@@ -1,4 +1,4 @@
-import { gameModel } from './gameModel';
+import { gameModel } from './gameModel.js';
 
 const VOWELS = Object.freeze({
   went:'e',tell:'e',pet:'e',job:'o',fog:'o',not:'o',tug:'u',hut:'u',tub:'u',bun:'u',fix:'i',has:'a'
