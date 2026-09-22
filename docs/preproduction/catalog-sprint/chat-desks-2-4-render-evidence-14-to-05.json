@@ -1,0 +1,99 @@
+{
+  "schemaVersion": 1,
+  "scope": "ART_AND_VISUALS_ONLY",
+  "phase": "CATALOG_SPRINT",
+  "branch": "screenshot-match-preproduction",
+  "evidenceOwner": "14",
+  "decisionReviewer": "05",
+  "coordinationOwner": "15",
+  "canonicalWriter": "08",
+  "recordedOnHead": "281f8ba54229ac5c07320d79b5a31a8a45f9140b",
+  "handoffType": "EXACT_CURRENT_HASH_CARD_DETAIL_EVIDENCE_ONLY",
+  "dispositionBy14": "NONE",
+  "source": {
+    "workflowRunId": 35676190280,
+    "workflowHead": "9cfe19679527bd0a3ace2d76d4a88967a65509a7",
+    "artifactId": 10672639784,
+    "artifactName": "catalog-staged-art-review",
+    "overallWorkflowConclusion": "FAILURE",
+    "scopeCaveat": "The overall staged-art workflow conclusion was FAILURE. This handoff makes no claim that the full run passed. It records only Desk 2-4 scoped exact-hash evidence present in the uploaded artifact/report, where each Desk 2-4 row passes declared-vs-actual hash binding, signature/asset-safety, decode and card/detail render checks; report blankArtifactCount is 0."
+  },
+  "checks": {
+    "authoritativeLaneBinding": "PASS_3_OF_3",
+    "declaredVsActualHash": "PASS_3_OF_3",
+    "signatureAssetSafety": "PASS_3_OF_3",
+    "decode": "PASS_3_OF_3",
+    "renderedDetail": "PASS_3_OF_3",
+    "renderedCard": "PASS_3_OF_3",
+    "blankArtifactCount": 0,
+    "obsoleteHashesRetried": false
+  },
+  "obsoleteHashesExplicitlyExcluded": [
+    "357f4ba8",
+    "b3352961",
+    "711feeb7"
+  ],
+  "items": [
+    {
+      "itemId": "desks-2",
+      "assetPath": "/assets/catalog/desks-2-chat-v2.png",
+      "assetHash": "277eb1e38e8a69caa0dab6d4d27bbb91796746f8",
+      "hashAlgorithm": "git-blob-sha1",
+      "reportIndex": 22,
+      "declaredVsActualHash": "PASS",
+      "assetSafety": "PASS",
+      "decode": "PASS",
+      "rendered": true,
+      "cardEvidence": "staged-replacements/card/desks-2-277eb1e3.png",
+      "detailEvidence": "staged-replacements/detail/desks-2-277eb1e3.png",
+      "nonBlankPixelRead": "PASS",
+      "visualEvidenceNote": "Light-blue cloud-top desk with cyan drawer is visible, nonblank and readable at both card and detail scale.",
+      "reviewer05Disposition": "PENDING"
+    },
+    {
+      "itemId": "desks-3",
+      "assetPath": "/assets/catalog/desks-3-chat-v2.png",
+      "assetHash": "aeebeacdc4a95bf75af36583dae6e2391d9a1d9e",
+      "hashAlgorithm": "git-blob-sha1",
+      "reportIndex": 23,
+      "declaredVsActualHash": "PASS",
+      "assetSafety": "PASS",
+      "decode": "PASS",
+      "rendered": true,
+      "cardEvidence": "staged-replacements/card/desks-3-aeebeacd.png",
+      "detailEvidence": "staged-replacements/detail/desks-3-aeebeacd.png",
+      "nonBlankPixelRead": "PASS",
+      "visualEvidenceNote": "White-blue gaming desk with cyan pixel monitor/open shelf is visible, nonblank and readable at both card and detail scale.",
+      "reviewer05Disposition": "PENDING"
+    },
+    {
+      "itemId": "desks-4",
+      "assetPath": "/assets/catalog/desks-4-chat-v2.png",
+      "assetHash": "6f87e1527ec7d9bf1a3f81e1f54320f462dbb025",
+      "hashAlgorithm": "git-blob-sha1",
+      "reportIndex": 24,
+      "declaredVsActualHash": "PASS",
+      "assetSafety": "PASS",
+      "decode": "PASS",
+      "rendered": true,
+      "cardEvidence": "staged-replacements/card/desks-4-6f87e152.png",
+      "detailEvidence": "staged-replacements/detail/desks-4-6f87e152.png",
+      "nonBlankPixelRead": "PASS",
+      "visualEvidenceNote": "Pink-cyan vanity/desk with mirror-heart motif is visible, nonblank and readable at both card and detail scale.",
+      "reviewer05Disposition": "PENDING"
+    }
+  ],
+  "result": "DESK_2_TO_4_CURRENT_PNG_CARD_DETAIL_EVIDENCE_GAP_CLOSED_3_OF_3",
+  "next": {
+    "reviewer": "05",
+    "action": "Independently disposition Desk 2-4 using these exact current hashes and rendered pixels. Do not transfer any verdict from obsolete WebP hashes."
+  },
+  "freeze": {
+    "replitTouched": false,
+    "flootTouched": false,
+    "mainMergedOrModified": false,
+    "canonicalManifestOrRuntimeTouched": false,
+    "gameplayOrCatalogMetadataEdited": false,
+    "playerDataTouched": false
+  }
+}
