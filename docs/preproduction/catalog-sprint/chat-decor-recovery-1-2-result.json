@@ -3,7 +3,7 @@
   "batchId": "chat-decor-recovery-1-2-20260921",
   "status": "STAGED_READY_FOR_INDEPENDENT_REVIEW_14",
   "sourceHead": "45b102a99f17c8be1d0cd45bd0f29a1574b007cb",
-  "workflowRunId": "35671542628",
+  "workflowRunId": 35671542628,
   "producer": "09",
   "transportHelper": "CHAT",
   "independentReviewer": "14",
@@ -94,7 +94,11 @@
     "metadata": "PASS_2_OF_2",
     "exactByteReadback": "PASS_4_OF_4",
     "candidateDecode": "PASS_2_OF_2",
-    "independentVisualReview": "PENDING_14"
+    "independentVisualReview": "PENDING_14",
+    "tests": "PASS",
+    "build": "PASS",
+    "sharedRenderOverall": "FAIL",
+    "decorCardDetailRender": "PASS_2_OF_2"
   },
   "freeze": {
     "replitTouched": false,
@@ -103,5 +107,19 @@
     "canonicalMappingsTouched": false,
     "gameplayChanged": false,
     "playerDataTouched": false
-  }
+  },
+  "testedSourceHead": "26a593ed8a4209e2ac2ed46354023d9df2ebfd8a",
+  "renderEvidence": {
+    "artifactName": "decor-1-2-recovery-evidence",
+    "reportPath": "artifacts/catalog-staged-art/report.json",
+    "matchedIds": [
+      "decor-1",
+      "decor-2"
+    ],
+    "matchedHashes": {
+      "decor-1": "7e0bad0b6f1dda6068c17109757c396de860892a",
+      "decor-2": "d5377bda54cba2071819da60bf4f4d4c52e393a6"
+    }
+  },
+  "independentVisualReview": "PENDING_WORKSTREAM_14_NOT_SELF_APPROVED"
 }
