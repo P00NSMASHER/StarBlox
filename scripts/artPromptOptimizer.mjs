@@ -3,6 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import {pathToFileURL} from 'node:url';
+import {classifyFailure} from './artReviewNormalizer.mjs';
 
 export const BLOCKS={
  metadata:'Use the exact catalog ID/name/collection/tier/theme. Do not rename, recategorize, or substitute the item.',
@@ -27,6 +28,19 @@ export const BLOCKS={
 };
 const BASE=['metadata','category','silhouette','physical','material','theme','tier','card','original','stage'];
 const TECH=/corrupt|signature|decode|transparent|blank|missing file|wrong mime|404|readback|hash mismatch/i;
+const FAILURE_BLOCKS=Object.freeze({
+  TECHNICAL_INTEGRITY:[],
+  FLAT_COMPOSITION:['physical','material','camera','depth','original'],
+  WEAK_DEPTH:['physical','depth','camera'],
+  WEAK_MATERIAL_LIGHTING:['physical','material','depth'],
+  THEME_MISMATCH:['theme','original'],
+  TIER_INSUFFICIENT:['tier','material','depth'],
+  SMALL_CARD_READABILITY:['silhouette','card'],
+  NEAR_DUPLICATE_TEMPLATE:['original','theme','silhouette'],
+  WEAK_SILHOUETTE_IDENTITY:['category','silhouette','original'],
+  EXCESSIVE_BLOOM:['bloom','card'],
+  UNKNOWN_REWORK:[]
+});
 const DEFECTS=[
  [/flat|icon|emblem|sticker|vector|badge/i,['physical','material','camera','depth']],
  [/silhouette|identity|recogniz|category/i,['category','silhouette','original']],
@@ -47,14 +61,16 @@ const uniq=a=>[...new Set(a.filter(Boolean))];
 
 export function inferRepair(review={}){
  const text=[review.reason,review.reasonCode,...(review.defects||[])].filter(Boolean).join(' '), blocks=[];
+ const failureCodes=classifyFailure(review);
+ for(const code of failureCodes) blocks.push(...(FAILURE_BLOCKS[code]||[]));
  for(const [rx,b] of DEFECTS) if(rx.test(text)) blocks.push(...b);
- const f=Object.entries(review.checks||{}).filter(([,v])=>String(v).toUpperCase()==='FAIL').map(([k])=>k);
+ const f=Object.entries(review.checks||{}).filter(([,v])=>['FAIL','PARTIAL','REWORK','BLOCKED'].includes(String(v).toUpperCase())).map(([k])=>k);
  if(f.some(x=>/identity|silhouette/i.test(x))) blocks.push('category','silhouette');
- if(f.some(x=>/materialLighting/i.test(x))) blocks.push('physical','material','depth');
- if(f.some(x=>/cardReadability/i.test(x))) blocks.push('card');
- if(f.some(x=>/themeTier/i.test(x))) blocks.push('theme','tier');
- if(f.some(x=>/originality|duplicateVisual/i.test(x))) blocks.push('original');
- return {technical:TECH.test(text),blocks:uniq(blocks),text};
+ if(f.some(x=>/materialLighting|material|lighting/i.test(x))) blocks.push('physical','material','depth');
+ if(f.some(x=>/cardReadability|readab|contrast/i.test(x))) blocks.push('card');
+ if(f.some(x=>/themeTier|theme|tier/i.test(x))) blocks.push('theme','tier');
+ if(f.some(x=>/originality|duplicateVisual|duplicate/i.test(x))) blocks.push('original');
+ return {technical:TECH.test(text)||failureCodes.includes('TECHNICAL_INTEGRITY'),blocks:uniq(blocks),failureCodes,text};
 }
 
 export function normalizeReviews(docs=[]){
@@ -112,7 +128,7 @@ export function recommend(item,review,model,count=4){
  if(decision==='BLOCKED'||repair.technical)return{itemId:item.id,action:'TECHNICAL_REPAIR_NOT_PROMPT_REGEN',assetHash:review?.assetHash||null,reason:review?.reason||review?.reasonCode||'technical blocker'};
  const r=uniq([...repair.blocks,...defaults(item.collectionId)]), learned=Object.keys(BLOCKS).filter(x=>!BASE.includes(x)&&!r.includes(x)).sort((a,b)=>score(model,item,b)-score(model,item,a)).slice(0,4);
  const plans=[['A-PHYSICAL',['physical','material','camera','depth']],['B-READABILITY',['silhouette','card','original','bloom']],['C-THEME-TIER',['theme','tier','original','material']],['D-REPAIR',[...r,...learned]]].slice(0,Math.max(2,Math.min(4,Number(count)||4)));
- return {itemId:item.id,name:item.name,collectionId:item.collectionId,tier:item.tier,theme:item.theme,decision,sourceReviewHash:review?.assetHash||null,repairBlocks:r,variants:plans.map(([id,b])=>compose(item,[...r,...b],id))};
+ return {itemId:item.id,name:item.name,collectionId:item.collectionId,tier:item.tier,theme:item.theme,decision,sourceReviewHash:review?.assetHash||null,failureCodes:repair.failureCodes,repairBlocks:r,variants:plans.map(([id,b])=>compose(item,[...r,...b],id))};
 }
 export function validateExperiment(e){
  const errors=[]; for(const k of ['attemptId','itemId','assetHash','producer'])if(!e?.[k])errors.push(`missing ${k}`);
@@ -123,7 +139,7 @@ export function validateExperiment(e){
 
 function args(argv){const o={_:[]};for(let i=0;i<argv.length;i++){const x=argv[i];if(x.startsWith('--')){const k=x.slice(2),n=argv[i+1];if(n&&!n.startsWith('--')){o[k]=n;i++}else o[k]=true}else o._.push(x)}return o}
 function jsonl(f){return fs.existsSync(f)?fs.readFileSync(f,'utf8').split(/\r?\n/).map(x=>x.trim()).filter(Boolean).map(JSON.parse):[]}
-function reviewDocs(root){const d=path.join(root,'docs/preproduction/catalog-sprint/reviews');return fs.readdirSync(d).filter(x=>x.endsWith('.json')).sort().map(n=>({path:path.relative(root,path.join(d,n)),data:JSON.parse(fs.readFileSync(path.join(d,n),'utf8'))}))}
+function reviewDocs(root){const d=path.join(root,'docs/preproduction/catalog-sprint/reviews');return fs.readdirSync(d).filter(x=>/^\\d+\\.json$/.test(x)).sort().map(n=>({path:path.relative(root,path.join(d,n)),data:JSON.parse(fs.readFileSync(path.join(d,n),'utf8'))}))}
 async function main(){
  const a=args(process.argv.slice(2)),cmd=a._[0]||'validate',root=path.resolve(a['repo-root']||'.'),ledger=path.join(root,'docs/preproduction/art-prompt-optimizer/attempts.jsonl');
  const mod=await import(pathToFileURL(path.join(root,'src/gameModel.js')).href+`?t=${Date.now()}`),items=mod.store||mod.gameModel?.store||[],byId=new Map(items.map(x=>[x.id,x])),experiments=jsonl(ledger),docs=reviewDocs(root);
