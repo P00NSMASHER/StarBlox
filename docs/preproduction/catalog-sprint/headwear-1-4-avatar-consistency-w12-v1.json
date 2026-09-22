@@ -1,0 +1,127 @@
+{
+  "schemaVersion": 1,
+  "workstream": "12",
+  "phase": "ART_AND_VISUALS_ONLY",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "dd05c0371534b773ef54e30cb87d6cb5bdf98d97",
+  "evidenceType": "NON_RUNTIME_ITEM_TO_AVATAR_ATTACHMENT_SPEC",
+  "status": "SPEC_COMPLETE__NO_RUNTIME_OR_ASSET_MUTATION__AWAIT_15_HANDOFF",
+  "scope": [
+    "headwear-1",
+    "headwear-2",
+    "headwear-3",
+    "headwear-4"
+  ],
+  "preservation": {
+    "headwear5to8Regenerated": false,
+    "headwear5to8TransportRetried": false,
+    "headwear9to12Started": false,
+    "acceptedHeadwear1to4BytesChanged": false,
+    "catalogCanonicalFilesChanged": false,
+    "runtimeOrCssChanged": false,
+    "mainTouched": false,
+    "replitFlootDeployTouched": false,
+    "realPlayerDataTouched": false
+  },
+  "acceptedCurrentEvidence": {
+    "reviewer": "01",
+    "catalogManifestVersionObserved": 28,
+    "items": [
+      {
+        "id": "headwear-1",
+        "name": "Headband",
+        "tier": 1,
+        "theme": "Midnight Neon",
+        "acceptedGitBlobSha": "4d4424962a49f5145422723b625778d6649a4b26",
+        "canonicalStorePath": "/assets/catalog/headwear-1-w12-v2.jpg",
+        "currentAvatarRuntimePath": "/assets/catalog/headwear-1.svg",
+        "consistencyFinding": "MISMATCH_ACCEPTED_STORE_ART_VS_LEGACY_EQUIPPED_ART"
+      },
+      {
+        "id": "headwear-2",
+        "name": "Cloud Clips",
+        "tier": 1,
+        "theme": "Candy Core",
+        "acceptedGitBlobSha": "595c8fe9182f4aecd5355856f19947c7c83daa11",
+        "canonicalStorePath": "/assets/catalog/headwear-2-w12-v2.jpg",
+        "currentAvatarRuntimePath": "/assets/catalog/headwear-2.svg",
+        "consistencyFinding": "MISMATCH_ACCEPTED_STORE_ART_VS_LEGACY_EQUIPPED_ART"
+      },
+      {
+        "id": "headwear-3",
+        "name": "Pixel Cap",
+        "tier": 1,
+        "theme": "Adventure Club",
+        "acceptedGitBlobSha": "86db079b85360dc64e669aeca53cba874176c693",
+        "canonicalStorePath": "/assets/catalog/headwear-3-w12-v2.jpg",
+        "currentAvatarRuntimePath": "/assets/catalog/headwear-3.svg",
+        "consistencyFinding": "MISMATCH_ACCEPTED_STORE_ART_VS_LEGACY_EQUIPPED_ART"
+      },
+      {
+        "id": "headwear-4",
+        "name": "Berry Bow",
+        "tier": 2,
+        "theme": "Cloud Pop",
+        "acceptedGitBlobSha": "4257b4a959153fba985fa2a97720c379b6d63e33",
+        "canonicalStorePath": "/assets/catalog/headwear-4-w12-v2.jpg",
+        "currentAvatarRuntimePath": "/assets/catalog/headwear-4.svg",
+        "consistencyFinding": "MISMATCH_ACCEPTED_STORE_ART_VS_LEGACY_EQUIPPED_ART"
+      }
+    ]
+  },
+  "runtimeEvidence": {
+    "avatarComponent": {
+      "path": "src/App.jsx",
+      "finding": "Avatar places equipped headwear as span.headGear inside div.avatarHead when equipped.head is set."
+    },
+    "activeHeadwearRuntime": {
+      "path": "src/headwearAvatarRuntime.js",
+      "gitBlobSha": "d55c5fe19938db6ef9b7c53524a3b982b026db9f",
+      "finding": "HEADWEAR_ART currently points headwear-1..12 to legacy /assets/catalog/headwear-N.svg paths; syncHeadwearArt writes the selected legacy path into --headwear-art."
+    },
+    "entrypoint": {
+      "path": "src/main.jsx",
+      "gitBlobSha": "5faface6e32284ff626f25930189907a6feb1cfb",
+      "finding": "headwearAvatarRuntime and headwearAvatar.css are imported by the active entrypoint, so the legacy mapping is an active equipped-avatar path rather than dead documentation."
+    },
+    "geometry": {
+      "avatarWrapPx": [180, 300],
+      "avatarHeadPx": [70, 70],
+      "desktopPortableHeadwearBoxPx": [132, 116],
+      "desktopTopPx": -58,
+      "mobilePortableHeadwearBoxPx": [118, 104],
+      "mobileTopPx": -52,
+      "horizontalRule": "left:50%; transform:translateX(-50%) relative to the positioned avatar head",
+      "renderRule": "background-size:contain; background-position:center; pointer-events:none; z-index:9"
+    }
+  },
+  "attachmentContract": {
+    "identity": "The equipped appearance must remain recognizably the same exact item identity as the independently ACCEPTed Store art for that ID. A derivative may change background/transparency/crop for fit, but must preserve silhouette-defining form, materials, theme cues and distinctive construction.",
+    "sourceLineage": "Do not replace or alter the ACCEPTed JPG bytes. Any future try-on derivative must be versioned separately and record parent accepted Git blob SHA plus its own exact SHA-256/Git blob SHA, dimensions and bytes.",
+    "alphaRequirement": "The canonical Store replacements are JPEG paths and therefore cannot carry alpha. Do not simply point the avatar overlay at those opaque Store-card files. A true try-on implementation needs a transparent or otherwise avatar-safe derivative with explicit lineage, or an equivalent non-destructive masking path approved by 15.",
+    "framing": "Fit within the existing headwear overlay box without a visible card/studio rectangle, without clipping silhouette-defining parts, and without shrinking below card-readable recognition at the mobile 118x104 overlay size.",
+    "occlusion": "Do not cover the avatar eyes or smile. Headwear should visibly contact the hair/head rather than float. If an item semantically requires behind-hair depth, preserve the need as a layer requirement instead of faking it with a detached front-only placement.",
+    "motion": "No equip/hover motion may reveal hidden answers or celebrate wrong Quest states; accessory motion remains purely cosmetic and must retain reduced-motion compatibility if later implemented.",
+    "perItem": {
+      "headwear-1": "Headband: band must visibly wrap/contact the upper hairline/crown; preserve Midnight Neon identity and avoid a floating halo read.",
+      "headwear-2": "Cloud Clips: clips must visibly attach to hair at plausible clip points and retain a clearly paired clip read where the accepted source shows multiple clips; keep face features unobstructed.",
+      "headwear-3": "Pixel Cap: crown/brim must seat on the top of the head with a readable brim and no face occlusion below the eyebrow line; preserve Adventure Club construction cues.",
+      "headwear-4": "Berry Bow: knot/attachment point must visibly contact hair/headwear support and the bow must remain recognizable at mobile overlay size; preserve Cloud Pop identity rather than treating it as a generic bow."
+    }
+  },
+  "implementationGate": {
+    "state": "NOT_AUTHORIZED_THIS_RUN",
+    "reason": "Current Workstream15 handoff permits non-mutating attachment specification/evidence only while Headwear5-8 exact-byte transport remains unchanged-blocked.",
+    "requires": [
+      "Explicit Workstream15 handoff before any shared runtime/CSS or avatar-equipment wiring change",
+      "Preserve reviewer01 ACCEPTed Store hashes unchanged",
+      "Versioned try-on derivative path with exact lineage/readback if derivatives are created",
+      "Actual avatar render evidence at desktop and target phone width before calling consistency fixed",
+      "No change to catalog-art-manifest.json or src/catalogArtRuntime.js by Workstream12"
+    ]
+  },
+  "nextOwnerAction": {
+    "owner": "15",
+    "action": "When the Headwear5-8 scale gate permits or when coordinator capacity explicitly opens item-to-avatar implementation, hand off a narrow try-on derivative/runtime task using this spec. Do not solve the mismatch by replacing ACCEPTed Store art or by wiring opaque JPEG card art directly onto the avatar."
+  }
+}
