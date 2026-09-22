@@ -1,10 +1,14 @@
 {
-  "schemaVersion": 7,
+  "schemaVersion": 8,
   "lane": "11",
   "workstream": "11",
   "phase": "CATALOG_SPRINT",
   "branch": "screenshot-match-preproduction",
-  "status": "AURAS_6_8_ACCEPTED_CANONICAL__AURAS_1_5_9_10_12_V3_STAGED_PENDING_05__AURAS_11_REWORK",
+  "status": "AURAS_1_4_6_8_ACCEPTED__AURAS_5_9_10_12_V3_PENDING_05__AURA_11_V3_GIT_OBJECT_ONLY_ATTACH_BLOCKED",
+  "policy": "docs/preproduction/DELIVERY_PROTOCOL_V2.md",
+  "visualSprint": "docs/preproduction/ART_VISUALS_SPRINT.json",
+  "independentReviewer": "05",
+  "integrationOwner": "08",
   "assignment": [
     "auras-1",
     "auras-2",
@@ -19,533 +23,123 @@
     "auras-11",
     "auras-12"
   ],
-  "independentReviewer": "05",
-  "integrationOwner": "08",
-  "reviewShardPath": "docs/preproduction/catalog-sprint/reviews/05.json",
-  "auditedBranchHeadBeforeWrite": "8ab7f69f30279827f11a94fa0ed4b63da615769e",
+  "auditedBranchHeadBeforeWrite": "5f41d4e62a89e0c809d12be863b11c57706e1a9f",
   "historyRefs": [
     {
-      "priorLaneBlobSha": "914c6efbfa0ef551fbf07d2b3a33fb7754366013",
-      "scope": "Preserves v2 repair paths, exact hashes, producer raster checks and prior handoff for all 12 Auras."
+      "priorLaneBlobSha": "21305034a9b2202d230d80573a2aefcd408e0a15",
+      "scope": "Complete Lane-11 history through Auras 1-4 v3 staging and Auras 5/9/10/12 v3 staged-art render evidence."
     },
     {
-      "reviewArtifactId": 10663298893,
-      "scope": "Reviewer-05 exact-hash visual REWORK for auras-1-v2 through auras-4-v2."
-    },
-    {
-      "reviewArtifactId": 10667309738,
-      "scope": "Reviewer-05 exact-hash visual decisions for auras-5-v2 through auras-12-v2."
+      "reviewer05SourceHead": "281f8ba54229ac5c07320d79b5a31a8a45f9140b",
+      "scope": "Fresh independent reviewer-05 current shard."
     }
   ],
-  "reviewEvidence": {
-    "legacyResult": "REWORK_12_OF_12",
-    "replacementCurrentResult": "ACCEPT_3_REWORK_9_BLOCKED_0",
-    "acceptedAuraReplacementHashes": 3,
-    "accepted": [
-      {
-        "id": "auras-6",
-        "path": "/assets/catalog/auras-6-v2.svg",
-        "gitBlobSha": "ce4b155c7fb5469fde415ab9d744cab41027fe4d",
-        "reviewer": "05",
-        "canonicalIntegration": "PASS_WORKSTREAM_08"
-      },
-      {
-        "id": "auras-7",
-        "path": "/assets/catalog/auras-7-v2.svg",
-        "gitBlobSha": "c451e7479e142f1eca89cc5282b352c2d2ca2d4b",
-        "reviewer": "05",
-        "canonicalIntegration": "PASS_WORKSTREAM_08"
-      },
-      {
-        "id": "auras-8",
-        "path": "/assets/catalog/auras-8-v2.svg",
-        "gitBlobSha": "6884668fe721f3b26a562e11924237a32c656db6",
-        "reviewer": "05",
-        "canonicalIntegration": "PASS_WORKSTREAM_08"
-      }
+  "reviewState": {
+    "freshReviewer05Cycle": {
+      "scope": ["auras-1", "auras-2", "auras-3", "auras-4"],
+      "result": "ACCEPT_4_OF_4",
+      "workflowRunId": 35671890720,
+      "artifactId": 10670972588,
+      "actualCardPixelsReviewed": true,
+      "actualDetailPixelsReviewed": true,
+      "oldV2DecisionsTransferred": false
+    },
+    "acceptedCurrent": [
+      {"id":"auras-1","name":"Soft Sparkles","hash":"a7921c7b7c8f48fc47908595c1afa6f59217c7a5","path":"/assets/catalog/auras-1-w11-v3.png","canonical":"PENDING_08"},
+      {"id":"auras-2","name":"Cloud Puffs","hash":"1e421c71217e5386c1b255dfedeade8215976bcb","path":"/assets/catalog/auras-2-w11-v3.png","canonical":"PENDING_08"},
+      {"id":"auras-3","name":"Pixel Bits","hash":"f164aefb93a21374a1cf0b9b7b7312a0ae68d34c","path":"/assets/catalog/auras-3-w11-v3.png","canonical":"PENDING_08"},
+      {"id":"auras-4","name":"Berry Hearts","hash":"3357a67e4121ca631377e30033a31ef4c815ab61","path":"/assets/catalog/auras-4-w11-v3.png","canonical":"PENDING_08"},
+      {"id":"auras-6","name":"Galaxy Orbit","hash":"ce4b155c7fb5469fde415ab9d744cab41027fe4d","path":"/assets/catalog/auras-6-v2.svg","canonical":"PASS_08"},
+      {"id":"auras-7","name":"Sunny Rays","hash":"c451e7479e142f1eca89cc5282b352c2d2ca2d4b","path":"/assets/catalog/auras-7-v2.svg","canonical":"PASS_08"},
+      {"id":"auras-8","name":"Aqua Bubbles","hash":"6884668fe721f3b26a562e11924237a32c656db6","path":"/assets/catalog/auras-8-v2.svg","canonical":"PASS_08"}
     ],
-    "rework": [
-      {
-        "id": "auras-1",
-        "hash": "48639f1262052350660127bbc5d3d25de34d61e3",
-        "reason": "Needs volumetric particle depth and emissive falloff."
-      },
-      {
-        "id": "auras-2",
-        "hash": "c2be24c165f3e28995d5d2eb946dbdde983afe2a",
-        "reason": "Needs true cloud volume, depth staggering and atmospheric overlap."
-      },
-      {
-        "id": "auras-3",
-        "hash": "9b682148eb26898ec5f56ac11eac635e7c93c8fc",
-        "reason": "Needs stronger 3D parallax and Adventure Club specificity."
-      },
-      {
-        "id": "auras-4",
-        "hash": "3059eae7ab68c125f1af1696305fdf5689131455",
-        "reason": "Needs layered depth, volumetric cloud and richer material/glow."
-      },
-      {
-        "id": "auras-5",
-        "hash": "16416de7ab535af16c59aa40e4d8f5a85a2958bf",
-        "reason": "Still a flat leaf/light ring; Pixel Party specificity and depth are weak."
-      },
-      {
-        "id": "auras-9",
-        "hash": "f88be0c4b5fdb36df870ffa113c08f8ec668363c",
-        "reason": "Needs spatial scatter, foreground/background overlap and premium Tier-3 lighting."
-      },
-      {
-        "id": "auras-10",
-        "hash": "cbc767e6b29db880535d7fd99741debdadbcf6c5",
-        "reason": "Needs volumetric ribbon depth and layered light spill."
-      },
-      {
-        "id": "auras-11",
-        "hash": "ddb2c81b49db8e6ea6369c8f70cb720228feb73c",
-        "reason": "Needs translucent curtain depth, painterly material interaction and luminous atmosphere."
-      },
-      {
-        "id": "auras-12",
-        "hash": "93b33a82e9a5045e1e070ab7561bab08ce5ae947",
-        "reason": "Needs faceted/crystalline hero forms, near/far storm depth and luxury material response."
-      }
-    ]
+    "pendingReviewer05Current": [
+      {"id":"auras-5","name":"Garden Fireflies","hash":"ae3bef6cbbf4333aa740dc9a3fddf4f2b5540192","path":"/assets/catalog/auras-5-w11-v3.jpg","renderEvidence":"PASS_EXACT_HASH"},
+      {"id":"auras-9","name":"Art Confetti","hash":"9331e516a7a1a2fa32abafaf3bbf0932c3ca792d","path":"/assets/catalog/auras-9-w11-v3.jpg","renderEvidence":"PASS_EXACT_HASH"},
+      {"id":"auras-10","name":"Neon Trail","hash":"6f07fe7f5c8be236f3c17df5f55afc550888f52e","path":"/assets/catalog/auras-10-w11-v3.jpg","renderEvidence":"PASS_EXACT_HASH"},
+      {"id":"auras-12","name":"Luxe Starstorm","hash":"d0fcf528ff4ee91e56760932fdcf357ab264dd3d","path":"/assets/catalog/auras-12-w11-v3.jpg","renderEvidence":"PASS_EXACT_HASH"}
+    ],
+    "legacyAura11Rework": {
+      "id": "auras-11",
+      "name": "Dream Aurora",
+      "hash": "ddb2c81b49db8e6ea6369c8f70cb720228feb73c",
+      "decision": "REWORK",
+      "reason": "Needs translucent curtain depth, painterly material interaction and luminous atmosphere."
+    }
   },
-  "canonicalEvidence": {
-    "integrationReport": "docs/preproduction/catalog-sprint/integration.json",
-    "manifestVersionObserved": 15,
-    "integratedAuraIds": [
-      "auras-6",
-      "auras-7",
-      "auras-8"
-    ],
-    "note": "Workstream 08 independently verified metadata/file/content/reviewer gates and wired these exact accepted hashes."
-  },
-  "secondRepairBatch": {
-    "batch": 4,
-    "ids": [
-      "auras-1",
-      "auras-2",
-      "auras-3",
-      "auras-4"
-    ],
-    "status": "STAGED_READY_FOR_REVIEW_05",
-    "newGenerationCount": 4,
-    "repositoryStoredCount": 4,
-    "independentAccepts": 0,
-    "canonicalPromotions": 0,
-    "transportBlocker": "CLEARED_BY_COORDINATION_OWNED_EXACT_BYTE_RECOVERY",
-    "intendedRepositoryPaths": [
-      "public/assets/catalog/auras-1-w11-v3.png",
-      "public/assets/catalog/auras-2-w11-v3.png",
-      "public/assets/catalog/auras-3-w11-v3.png",
-      "public/assets/catalog/auras-4-w11-v3.png"
-    ],
-    "assets": [
-      {
-        "id": "auras-1",
-        "name": "Soft Sparkles",
-        "tier": 1,
-        "theme": "Midnight Neon",
-        "sourceDimensions": [
-          1024,
-          1024
-        ],
-        "candidateDimensions": [
-          768,
-          768
-        ],
-        "format": "PNG",
-        "sourceGenerationRequestId": "fde79f27-9d26-4bc5-add7-7cdb05a00833",
-        "sourceAssetId": "urn:aaid:sc:US:96e36bd6-1803-401c-ba42-5640d7780b8d",
-        "sourceContainerBytes": 708128,
-        "candidateResizeRequestId": "7fbbd366-c4fd-4ae4-aa07-4383f05289a2",
-        "sourceOutputUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:71d57b08-611c-4935-8279-c422afffdbf1",
-        "candidateOutputUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:dd4aad74-3910-46e4-ba6b-049c6f25a2e6",
-        "candidateBytes": 436583,
-        "producerPixelCheck": "PASS_VISUAL — faceted crystal stars at multiple apparent depths, luminous dust and curved cyan/magenta trails on a Midnight Neon field; materially richer than rejected v2 while staying simple Tier 1.",
-        "repositoryStatus": "STAGED_READBACK_PASS",
-        "repositoryPath": "public/assets/catalog/auras-1-w11-v3.png",
-        "assetPath": "/assets/catalog/auras-1-w11-v3.png",
-        "gitBlobSha": "a7921c7b7c8f48fc47908595c1afa6f59217c7a5",
-        "sha256": "f1cc40d91c8719b8a831a1d681a13d781134ed700320f40dc0427984ab818c52",
-        "status": "READY_FOR_REVIEW_05",
-        "readback": "PASS",
-        "transformation": "None: exact producer-recorded 768x768 PNG candidate bytes copied; no regeneration or creative edit"
-      },
-      {
-        "id": "auras-2",
-        "name": "Cloud Puffs",
-        "tier": 1,
-        "theme": "Candy Core",
-        "sourceDimensions": [
-          1024,
-          1024
-        ],
-        "candidateDimensions": [
-          768,
-          768
-        ],
-        "format": "PNG",
-        "sourceGenerationRequestId": "ec661fe2-ac87-4b26-859b-3c53c0255fbe",
-        "sourceAssetId": "urn:aaid:sc:US:3f30d527-cb7d-46aa-9afc-f14d13f1df26",
-        "sourceContainerBytes": 914547,
-        "candidateResizeRequestId": "d6e9dbaf-7d75-4998-bb3a-7becfcdf8678",
-        "sourceOutputUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:7b517129-a478-4ba3-a798-0b3efabb9d14",
-        "candidateOutputUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:29455bdd-8753-4c74-b981-3e8305c6d4f8",
-        "candidateBytes": 532682,
-        "producerPixelCheck": "PASS_VISUAL — overlapping candy-pink/lavender/cream cloud volumes, soft internal scattering, atmospheric occlusion and suspended motes; directly addresses rejected flat cloud icons.",
-        "repositoryStatus": "STAGED_READBACK_PASS",
-        "repositoryPath": "public/assets/catalog/auras-2-w11-v3.png",
-        "assetPath": "/assets/catalog/auras-2-w11-v3.png",
-        "gitBlobSha": "1e421c71217e5386c1b255dfedeade8215976bcb",
-        "sha256": "4840436aecc6fb510b2660c2a352783a096d2bd761a526c60e6080781faff595",
-        "status": "READY_FOR_REVIEW_05",
-        "readback": "PASS",
-        "transformation": "None: exact producer-recorded 768x768 PNG candidate bytes copied; no regeneration or creative edit"
-      },
-      {
-        "id": "auras-3",
-        "name": "Pixel Bits",
-        "tier": 1,
-        "theme": "Adventure Club",
-        "sourceDimensions": [
-          1024,
-          1024
-        ],
-        "candidateDimensions": [
-          768,
-          768
-        ],
-        "format": "PNG",
-        "sourceGenerationRequestId": "90e5e2fa-52cf-4f6b-8edd-00537c07cccf",
-        "sourceAssetId": "urn:aaid:sc:US:f89c3b68-841a-49f9-a5cf-2f39b5aff489",
-        "sourceContainerBytes": 892303,
-        "candidateResizeRequestId": "02fb6768-fe91-421b-ab45-00521b56e276",
-        "sourceOutputUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:d89e48a3-21b7-4793-8905-54c8708ab8b9",
-        "candidateOutputUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:a5f002f8-4b31-4ec0-8770-1781719ddfd5",
-        "candidateBytes": 529345,
-        "producerPixelCheck": "PASS_VISUAL — chunky beveled voxel cluster with gold/teal/berry Adventure Club palette, perspective segmented paths and near/far fragments; substantially stronger 3D parallax than v2.",
-        "repositoryStatus": "STAGED_READBACK_PASS",
-        "repositoryPath": "public/assets/catalog/auras-3-w11-v3.png",
-        "assetPath": "/assets/catalog/auras-3-w11-v3.png",
-        "gitBlobSha": "f164aefb93a21374a1cf0b9b7b7312a0ae68d34c",
-        "sha256": "6651e63e4d52bd538bd3597fb7800ae285defa340faf3243d8e55349ab7dea5d",
-        "status": "READY_FOR_REVIEW_05",
-        "readback": "PASS",
-        "transformation": "None: exact producer-recorded 768x768 PNG candidate bytes copied; no regeneration or creative edit"
-      },
-      {
-        "id": "auras-4",
-        "name": "Berry Hearts",
-        "tier": 2,
-        "theme": "Cloud Pop",
-        "sourceDimensions": [
-          1024,
-          1024
-        ],
-        "candidateDimensions": [
-          768,
-          768
-        ],
-        "format": "PNG",
-        "sourceGenerationRequestId": "50f751e9-16e1-4931-b4c0-281ac54561f2",
-        "sourceAssetId": "urn:aaid:sc:US:a7fbf1ae-ba43-4942-aec0-459342422483",
-        "sourceContainerBytes": 1093302,
-        "candidateResizeRequestId": "bb9fa695-71b9-4170-9d10-8ae6d0a8d202",
-        "sourceOutputUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:7d0d6548-d26e-4f41-9a9f-7d984129e3d8",
-        "candidateOutputUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:47e8b658-8ed0-4ebb-891e-318ecfa811c3",
-        "candidateBytes": 633991,
-        "producerPixelCheck": "PASS_VISUAL — glossy berry hearts, volumetric Cloud Pop puffs, pearl droplets and layered light trails create richer material, occlusion and depth than v2; open center remains card-readable.",
-        "repositoryStatus": "STAGED_READBACK_PASS",
-        "repositoryPath": "public/assets/catalog/auras-4-w11-v3.png",
-        "assetPath": "/assets/catalog/auras-4-w11-v3.png",
-        "gitBlobSha": "3357a67e4121ca631377e30033a31ef4c815ab61",
-        "sha256": "3c2efe8bfefeedd71fac98f3cc0b43ecdd479523c6aca528061f8a334532ed58",
-        "status": "READY_FOR_REVIEW_05",
-        "readback": "PASS",
-        "transformation": "None: exact producer-recorded 768x768 PNG candidate bytes copied; no regeneration or creative edit"
-      }
-    ],
-    "checks": {
-      "exactMetadata": "PASS_4_OF_4_FROM_CURRENT_LANE_AND_REVIEW",
-      "sourceGeneration": "PASS_4_OF_4_ADOBE_FIREFLY",
-      "sourcePixelInspection": "PASS_4_OF_4",
-      "optimizedResize": "PASS_4_OF_4_768x768",
-      "optimizedPixelInspection": "PASS_4_OF_4",
-      "repositoryWrite": "PASS_4_OF_4",
-      "repositoryHashReadback": "PASS_8_FILES_SOURCE_PLUS_CANDIDATE",
-      "independentReview": "PENDING_05_EXACT_HASH"
+  "aura11Repair": {
+    "id": "auras-11",
+    "name": "Dream Aurora",
+    "tier": 4,
+    "theme": "Art Attack",
+    "producer": "11",
+    "status": "GIT_OBJECT_ONLY_ATTACH_BLOCKED_NOT_READY_FOR_REVIEW",
+    "repairIntent": "Layered translucent aurora curtains with painterly color interaction, cyan/violet/magenta luminous atmosphere, clearly separated near/mid/far depth, crystalline highlight fragments, controlled bloom, atmospheric occlusion and an open avatar/card center.",
+    "generation": {
+      "tool": "OpenAI image generation",
+      "sourceAttachmentFileId": "file_00000000c41c71f5ae06b626fa05427a",
+      "sourceFormat": "PNG",
+      "sourceDimensions": [1254, 1254],
+      "sourceBytes": 2232873,
+      "sourceSha256": "cc58a3dd7499147cf9a9600800a3ad8e83647145f14719bc3eba06636229b413",
+      "producerPixelInspection": "PASS_VISUAL_GENERATION_ONLY"
+    },
+    "candidate": {
+      "intendedRepositoryPath": "public/assets/catalog/auras-11-w11-v3.jpg",
+      "assetPath": "/assets/catalog/auras-11-w11-v3.jpg",
+      "format": "JPEG",
+      "dimensions": [600, 600],
+      "bytes": 18443,
+      "sha256": "0a06996522c9cb999e82b8ba028e94bfe2cb8d16e043c94999065e0ae8ce1dc2",
+      "gitBlobSha": "7f3372c1584e07f18a3abfc7818013190fff1560",
+      "gitObjectWrite": "PASS",
+      "branchPathAttachment": "BLOCKED_CONCURRENT_HEAD_MOVEMENT",
+      "branchReadback": "NOT_AVAILABLE_UNTIL_ATTACHED",
+      "independentReview": "BLOCKED_UNTIL_BRANCH_ATTACHMENT_AND_EXACT_PATH_HASH_READBACK",
+      "canonicalIntegration": "BLOCKED_UNTIL_05_ACCEPT_AND_08_ONLY"
+    },
+    "attachmentAttempts": {
+      "forcePushUsed": false,
+      "result": "NON_FORCE_FAST_FORWARD_REF_UPDATE_REJECTED_AFTER_CONCURRENT_VISUAL_COMMITS",
+      "action": "Workstream 15 should attach the already-stored exact Git blob to the intended path from a fresh head; do not regenerate or transform."
     }
   },
   "currentAuraState": [
-    {
-      "id": "auras-1",
-      "status": "V3_STAGED_READY_FOR_REVIEW_05",
-      "hash": "a7921c7b7c8f48fc47908595c1afa6f59217c7a5"
-    },
-    {
-      "id": "auras-2",
-      "status": "V3_STAGED_READY_FOR_REVIEW_05",
-      "hash": "1e421c71217e5386c1b255dfedeade8215976bcb"
-    },
-    {
-      "id": "auras-3",
-      "status": "V3_STAGED_READY_FOR_REVIEW_05",
-      "hash": "f164aefb93a21374a1cf0b9b7b7312a0ae68d34c"
-    },
-    {
-      "id": "auras-4",
-      "status": "V3_STAGED_READY_FOR_REVIEW_05",
-      "hash": "3357a67e4121ca631377e30033a31ef4c815ab61"
-    },
-    {
-      "id": "auras-5",
-      "status": "V3_STAGED_READY_FOR_REVIEW_05",
-      "hash": "ae3bef6cbbf4333aa740dc9a3fddf4f2b5540192",
-      "path": "/assets/catalog/auras-5-w11-v3.jpg"
-    },
-    {
-      "id": "auras-6",
-      "status": "V2_ACCEPTED_CANONICAL",
-      "hash": "ce4b155c7fb5469fde415ab9d744cab41027fe4d"
-    },
-    {
-      "id": "auras-7",
-      "status": "V2_ACCEPTED_CANONICAL",
-      "hash": "c451e7479e142f1eca89cc5282b352c2d2ca2d4b"
-    },
-    {
-      "id": "auras-8",
-      "status": "V2_ACCEPTED_CANONICAL",
-      "hash": "6884668fe721f3b26a562e11924237a32c656db6"
-    },
-    {
-      "id": "auras-9",
-      "status": "V3_STAGED_READY_FOR_REVIEW_05",
-      "hash": "9331e516a7a1a2fa32abafaf3bbf0932c3ca792d",
-      "path": "/assets/catalog/auras-9-w11-v3.jpg"
-    },
-    {
-      "id": "auras-10",
-      "status": "V3_STAGED_READY_FOR_REVIEW_05",
-      "hash": "6f07fe7f5c8be236f3c17df5f55afc550888f52e",
-      "path": "/assets/catalog/auras-10-w11-v3.jpg"
-    },
-    {
-      "id": "auras-11",
-      "status": "V2_REWORK_REPAIR_REQUIRED",
-      "hash": "ddb2c81b49db8e6ea6369c8f70cb720228feb73c"
-    },
-    {
-      "id": "auras-12",
-      "status": "V3_STAGED_READY_FOR_REVIEW_05",
-      "hash": "d0fcf528ff4ee91e56760932fdcf357ab264dd3d",
-      "path": "/assets/catalog/auras-12-w11-v3.jpg"
-    }
+    {"id":"auras-1","status":"V3_ACCEPT_05_PENDING_08","hash":"a7921c7b7c8f48fc47908595c1afa6f59217c7a5"},
+    {"id":"auras-2","status":"V3_ACCEPT_05_PENDING_08","hash":"1e421c71217e5386c1b255dfedeade8215976bcb"},
+    {"id":"auras-3","status":"V3_ACCEPT_05_PENDING_08","hash":"f164aefb93a21374a1cf0b9b7b7312a0ae68d34c"},
+    {"id":"auras-4","status":"V3_ACCEPT_05_PENDING_08","hash":"3357a67e4121ca631377e30033a31ef4c815ab61"},
+    {"id":"auras-5","status":"V3_STAGED_RENDERED_PENDING_05","hash":"ae3bef6cbbf4333aa740dc9a3fddf4f2b5540192"},
+    {"id":"auras-6","status":"V2_ACCEPTED_CANONICAL","hash":"ce4b155c7fb5469fde415ab9d744cab41027fe4d"},
+    {"id":"auras-7","status":"V2_ACCEPTED_CANONICAL","hash":"c451e7479e142f1eca89cc5282b352c2d2ca2d4b"},
+    {"id":"auras-8","status":"V2_ACCEPTED_CANONICAL","hash":"6884668fe721f3b26a562e11924237a32c656db6"},
+    {"id":"auras-9","status":"V3_STAGED_RENDERED_PENDING_05","hash":"9331e516a7a1a2fa32abafaf3bbf0932c3ca792d"},
+    {"id":"auras-10","status":"V3_STAGED_RENDERED_PENDING_05","hash":"6f07fe7f5c8be236f3c17df5f55afc550888f52e"},
+    {"id":"auras-11","status":"V3_GIT_OBJECT_ONLY_ATTACH_BLOCKED","hash":"7f3372c1584e07f18a3abfc7818013190fff1560"},
+    {"id":"auras-12","status":"V3_STAGED_RENDERED_PENDING_05","hash":"d0fcf528ff4ee91e56760932fdcf357ab264dd3d"}
   ],
+  "counts": {
+    "qualifiedExactHashAccepts": 7,
+    "confirmedCanonicalAuraReplacements": 3,
+    "stagedPendingReviewer05": 4,
+    "gitObjectOnlyPendingBranchAttachment": 1,
+    "regeneratedAcceptedOrPendingAssetsThisPass": 0
+  },
   "handoff": {
-    "11": "Do not regenerate any staged v3 Aura while review is pending. Aura 11 is now the only remaining exact-hash REWORK without a newer staged candidate.",
-    "14": "Run 35672325902 proves the new Aura v3 exact hashes render correctly, but the shared staged-art workflow remains red from the already-known stale desks-2/3/4 -w03-v1.webp decode defect. Keep that release-visible and repair fixture selection under Workstream 14 ownership; Lane 11 did not change the shared harness.",
-    "15": "Aura 1-4 v3 transport is cleared and staged. Lane 11 has now also staged a bounded v3 pilot for Auras 5/9/10/12. Preserve all pending hashes; no regeneration while independent review is pending.",
-    "05": "Independent review evidence is ready for Aura v3 hashes. Use artifact 10671442777 from workflow run 35672325902: staged-replacements contact sheet plus exact detail renders for Auras 5/9/10/12 listed in latestPilotBatch.renderEvidence. All four Aura entries rendered HTTP 200 at 600x600 with screenshots and zero per-item errors. The workflow is red only because the existing stale desks-2/3/4 fixture entries fail decode; do not transfer that unrelated failure to Aura decisions.",
-    "08": "Auras 6/7/8 remain canonical. Do not wire any v3 Aura unless reviewer 05 ACCEPTs that exact hash and normal metadata/file/content checks pass."
+    "15": "Attach existing blob 7f3372c1584e07f18a3abfc7818013190fff1560 to public/assets/catalog/auras-11-w11-v3.jpg from a fresh head without changing bytes; then exact readback enables reviewer 05.",
+    "05": "Preserve exact ACCEPTs for Auras 1-4 and 6-8. Continue current-hash review of staged Auras 5/9/10/12. Review Aura 11 only after branch path/hash readback exists.",
+    "08": "Preserve canonical Auras 6-8. Auras 1-4 are exact-hash ACCEPT and are eligible only after normal metadata/file/content checks. Aura 11 is not eligible until attached and independently accepted.",
+    "11": "Do not regenerate accepted or pending Aura hashes. Await fresh reviewer decisions or successful Aura-11 branch attachment; remain on ART_AND_VISUALS only."
   },
   "freeze": {
     "replitTouched": false,
     "flootTouched": false,
     "mainMergedOrModified": false,
+    "deploymentTouched": false,
+    "paidSettingsTouched": false,
     "canonicalManifestOrRuntimeTouched": false,
     "playerDataTouched": false,
+    "learningEconomySaveLogicTouched": false,
     "liveAuraLogicTouched": false
-  },
-  "latestPilotBatch": {
-    "batch": 5,
-    "ids": [
-      "auras-5",
-      "auras-9",
-      "auras-10",
-      "auras-12"
-    ],
-    "status": "STAGED_READY_FOR_INDEPENDENT_REVIEW_05",
-    "generatedAt": "2026-09-22T00:24:00Z",
-    "repositoryStoredCount": 4,
-    "readbackVerifiedCount": 4,
-    "independentAccepts": 0,
-    "canonicalPromotions": 0,
-    "sourceOriginals": "PRESERVED_AS_ADOBE_GENAI_ASSETS",
-    "candidateDerivation": "Exact generated assets inspected through Adobe preview; the same quality-96 600x600 JPEG bytes were committed and hash-read back from the branch. Full-quality originals remain preserved by source asset URN.",
-    "assets": [
-      {
-        "id": "auras-5",
-        "name": "Garden Fireflies",
-        "tier": 2,
-        "theme": "Pixel Party",
-        "sourceAssetId": "urn:aaid:sc:US:193c44a4-f7b1-44ba-a95e-611b453009d5",
-        "sourceContainerBytes": 855975,
-        "sourceGenerationRequestId": "da10a57a-d76b-44e1-88ec-9437770fcd34",
-        "repositoryPath": "public/assets/catalog/auras-5-w11-v3.jpg",
-        "assetPath": "/assets/catalog/auras-5-w11-v3.jpg",
-        "candidateFormat": "JPEG",
-        "candidateDimensions": [
-          600,
-          600
-        ],
-        "candidateBytes": 66937,
-        "gitBlobSha": "ae3bef6cbbf4333aa740dc9a3fddf4f2b5540192",
-        "hashAlgorithm": "git-blob-sha1",
-        "producer": "11",
-        "status": "STAGED_READY_FOR_INDEPENDENT_REVIEW_05",
-        "readback": "PASS_EXACT_GIT_BLOB_SHA",
-        "repairIntent": "Spatial firefly swarm, translucent foliage, near/mid/far particle depth and Pixel Party pixel-cube accents instead of a flat leaf/light ring."
-      },
-      {
-        "id": "auras-9",
-        "name": "Art Confetti",
-        "tier": 3,
-        "theme": "Sunny Pop",
-        "sourceAssetId": "urn:aaid:sc:US:4c1e0eda-ea4a-44ca-a1e9-bc337dde0965",
-        "sourceContainerBytes": 1127770,
-        "sourceGenerationRequestId": "6a9c7713-0237-4179-8b17-e3ad4c358ecc",
-        "repositoryPath": "public/assets/catalog/auras-9-w11-v3.jpg",
-        "assetPath": "/assets/catalog/auras-9-w11-v3.jpg",
-        "candidateFormat": "JPEG",
-        "candidateDimensions": [
-          600,
-          600
-        ],
-        "candidateBytes": 109330,
-        "gitBlobSha": "9331e516a7a1a2fa32abafaf3bbf0932c3ca792d",
-        "hashAlgorithm": "git-blob-sha1",
-        "producer": "11",
-        "status": "STAGED_READY_FOR_INDEPENDENT_REVIEW_05",
-        "readback": "PASS_EXACT_GIT_BLOB_SHA",
-        "repairIntent": "Perspective confetti/ribbon scatter with foreground/background overlap and glossy Tier-3 material response rather than a flat circular graphic."
-      },
-      {
-        "id": "auras-10",
-        "name": "Neon Trail",
-        "tier": 4,
-        "theme": "Aqua Wave",
-        "sourceAssetId": "urn:aaid:sc:US:cbeead71-500c-48bc-9728-92a61ed097ba",
-        "sourceContainerBytes": 1154556,
-        "sourceGenerationRequestId": "05e3a49f-707c-4693-9776-c77e2eddca7f",
-        "repositoryPath": "public/assets/catalog/auras-10-w11-v3.jpg",
-        "assetPath": "/assets/catalog/auras-10-w11-v3.jpg",
-        "candidateFormat": "JPEG",
-        "candidateDimensions": [
-          600,
-          600
-        ],
-        "candidateBytes": 129235,
-        "gitBlobSha": "6f07fe7f5c8be236f3c17df5f55afc550888f52e",
-        "hashAlgorithm": "git-blob-sha1",
-        "producer": "11",
-        "status": "STAGED_READY_FOR_INDEPENDENT_REVIEW_05",
-        "readback": "PASS_EXACT_GIT_BLOB_SHA",
-        "repairIntent": "Volumetric translucent aqua ribbons with refractive edges, caustics, layered light spill and true depth crossings."
-      },
-      {
-        "id": "auras-12",
-        "name": "Luxe Starstorm",
-        "tier": 5,
-        "theme": "Star Luxe",
-        "sourceAssetId": "urn:aaid:sc:US:eac32836-4b16-46c9-b41d-38b3b18eb445",
-        "sourceContainerBytes": 1546858,
-        "sourceGenerationRequestId": "cbf74806-9ca8-406d-8e3b-6b20cf52d1a5",
-        "repositoryPath": "public/assets/catalog/auras-12-w11-v3.jpg",
-        "assetPath": "/assets/catalog/auras-12-w11-v3.jpg",
-        "candidateFormat": "JPEG",
-        "candidateDimensions": [
-          600,
-          600
-        ],
-        "candidateBytes": 142496,
-        "gitBlobSha": "d0fcf528ff4ee91e56760932fdcf357ab264dd3d",
-        "hashAlgorithm": "git-blob-sha1",
-        "producer": "11",
-        "status": "STAGED_READY_FOR_INDEPENDENT_REVIEW_05",
-        "readback": "PASS_EXACT_GIT_BLOB_SHA",
-        "repairIntent": "Faceted crystalline hero stars, polished gold/prismatic materials, near/far storm depth and richer Luxe light response."
-      }
-    ],
-    "checks": {
-      "exactMetadata": "PASS_4_OF_4_FROM_FRESH_REVIEW_05_AND_CURRENT_LANE",
-      "sourceGeneration": "PASS_4_OF_4_ADOBE_FIREFLY",
-      "sourcePixelInspection": "PASS_4_OF_4_ADOBE_INLINE_PREVIEW",
-      "sourceOriginalPreservation": "PASS_4_OF_4_BY_GENAI_ASSET_URN",
-      "candidateDecode": "PASS_4_OF_4_JPEG",
-      "candidateDimensions": "PASS_4_OF_4_600x600",
-      "repositoryWrite": "PASS_4_OF_4",
-      "repositoryHashReadback": "PASS_4_OF_4_EXACT_GIT_BLOB_SHA",
-      "independentReview": "PENDING_REVIEWER_05",
-      "canonicalIntegration": "BLOCKED_UNTIL_05_ACCEPT_AND_08_ONLY",
-      "sharedRender": "PASS_4_OF_4_EXACT_HASH_600x600_HTTP200_SCREENSHOT_TRUE",
-      "sharedRunOverall": "FAIL_UNRELATED_DESKS_2_4_STALE_DECODE_REMAINS_RELEASE_VISIBLE"
-    },
-    "renderEvidence": {
-      "workflow": "StarBlox Staged Catalog Art QA",
-      "workflowRunId": 35672325902,
-      "workflowHead": "f15ae12806627976a67ccd63be1371542039bcd9",
-      "workflowConclusion": "FAILURE_UNRELATED_STALE_DESKS_2_4_DECODE",
-      "artifactId": 10671442777,
-      "artifactName": "catalog-staged-art-review",
-      "artifactBytes": 59314180,
-      "artifactDigest": "sha256:190e080af412f1aa7cd73a523a6bd1a231b5fb6a9bd62cc0fd8bbd40aaa2ddf8",
-      "contactSheet": "staged-replacements/staged-replacements-contact-sheet.png",
-      "itemRenders": [
-        {
-          "id": "auras-5",
-          "hash": "ae3bef6cbbf4333aa740dc9a3fddf4f2b5540192",
-          "detail": "staged-replacements/detail/auras-5-ae3bef6c.png",
-          "httpStatus": 200,
-          "naturalDimensions": [
-            600,
-            600
-          ],
-          "screenshot": true,
-          "errors": []
-        },
-        {
-          "id": "auras-9",
-          "hash": "9331e516a7a1a2fa32abafaf3bbf0932c3ca792d",
-          "detail": "staged-replacements/detail/auras-9-9331e516.png",
-          "httpStatus": 200,
-          "naturalDimensions": [
-            600,
-            600
-          ],
-          "screenshot": true,
-          "errors": []
-        },
-        {
-          "id": "auras-10",
-          "hash": "6f07fe7f5c8be236f3c17df5f55afc550888f52e",
-          "detail": "staged-replacements/detail/auras-10-6f07fe7f.png",
-          "httpStatus": 200,
-          "naturalDimensions": [
-            600,
-            600
-          ],
-          "screenshot": true,
-          "errors": []
-        },
-        {
-          "id": "auras-12",
-          "hash": "d0fcf528ff4ee91e56760932fdcf357ab264dd3d",
-          "detail": "staged-replacements/detail/auras-12-d0fcf528.png",
-          "httpStatus": 200,
-          "naturalDimensions": [
-            600,
-            600
-          ],
-          "screenshot": true,
-          "errors": []
-        }
-      ],
-      "auraBatchResult": "PASS_RENDER_4_OF_4_EXACT_HASHES",
-      "unrelatedFailure": "Shared run also selected obsolete desks-2/3/4 -w03-v1.webp files that fail decode; this existing fixture defect makes the workflow red but does not invalidate the four Aura renders."
-    }
   }
 }
