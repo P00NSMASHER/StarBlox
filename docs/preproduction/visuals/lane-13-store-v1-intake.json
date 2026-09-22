@@ -1,0 +1,78 @@
+{
+  "schemaVersion": 1,
+  "candidateId": "store-boutique-w13-v1",
+  "candidateType": "environment-background",
+  "producer": "13",
+  "targetScreen": "Store",
+  "status": "STAGED_PENDING_ORIGIN_READBACK_AND_INDEPENDENT_REVIEW",
+  "reference": {
+    "path": "docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg",
+    "sha256": "b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d"
+  },
+  "runningRenderEvidence": {
+    "workflowRunId": 35663655650,
+    "artifactId": 10668287632,
+    "renderHead": "b187186e62519ffa77bd0f7b166c601c90bdc416",
+    "file": "store-desktop-1408x1056.png"
+  },
+  "observedDefect": "Current Store shell is much flatter and more UI-dominant than the immutable reference, with limited boutique architecture/material depth around the catalog and try-on area. This candidate adds only a separate dimensional boutique background; it does not replace catalog cards, item metadata, avatar/equipment rendering or runtime state.",
+  "provenance": {
+    "sourceMethod": "Adobe image_generate from actual immutable Store reference inspection plus current branch-local Store render comparison; no reference pixels copied into output",
+    "generationRequestId": "1f92b4a4-ed9d-41ec-9694-2a535d91055d",
+    "sourceAdobeUrn": "urn:aaid:ps:US:a9ec14ce-2dad-497c-894f-29a0bdd00445",
+    "sourceFireflyAssetId": "urn:aaid:sc:US:88cb4349-d511-413c-917d-0367c14afa5d",
+    "desktopDerivativeMethod": "Adobe image_crop_and_resize center reframe only; source 2304x1792 crop y=32 height=1728 to exact 1408x1056",
+    "cropRequestId": "3a6253e1-5209-438d-9204-b67beec5e50b",
+    "desktopAdobeUrn": "urn:aaid:ps:US:4adfdc54-b2ab-4699-86ef-054220181f16"
+  },
+  "compositionContract": [
+    "No people, avatars, mannequin, catalog UI, item cards, prices, text, counters, buttons, logos or third-party IP baked into the background.",
+    "Warm blush/lilac/cream boutique architecture with warm wood, soft gold light and selective cobalt/cyan accents compatible with StarBlox chrome.",
+    "Broad center-left and center kept comparatively calm behind existing catalog/filter UI.",
+    "Far-right try-on/avatar zone softly lit and uncluttered behind separately composited equipped-character rendering.",
+    "Richer boutique depth concentrated at far-left, upper perimeter and outer-right edges using wardrobe alcove, vanity, shelving, rails, plants, lamps and pedestal forms.",
+    "Reference outfit/merchandise is visual guidance only and does not override owned/equipped choices."
+  ],
+  "files": [
+    {
+      "role": "full",
+      "path": "public/assets/visuals/lane-13/store-boutique-w13-v1-full.png",
+      "format": "PNG",
+      "dimensions": [
+        2304,
+        1792
+      ],
+      "bytes": 4511635,
+      "sha256": "01fd80f63e0deda237b1e19df4cb307c8380347beb2c69868114fd13709cd444",
+      "variance64": [
+        2573.710761010647,
+        1649.921875,
+        1417.980209350586
+      ]
+    },
+    {
+      "role": "desktop",
+      "path": "public/assets/visuals/lane-13/store-boutique-w13-v1-1408x1056.png",
+      "format": "PNG",
+      "dimensions": [
+        1408,
+        1056
+      ],
+      "bytes": 1679187,
+      "sha256": "04d0a2660dc5109aa2cdcea956f807baa01c6eb6b998598f656dfce83d3d0fe8",
+      "variance64": [
+        2597.418356359005,
+        1662.729721069336,
+        1417.9229535460472
+      ]
+    }
+  ],
+  "producerVisualInspection": "PASS_PRODUCER_ONLY_NOT_INDEPENDENT_ACCEPT",
+  "runtimeWired": false,
+  "canonicalCatalogTouched": false,
+  "workstream06AvatarTouched": false,
+  "workstream09ActiveEnvironmentTouched": false,
+  "replitOrFlootTouched": false,
+  "mainTouched": false,
+  "originReadback": "PENDING"
+}
