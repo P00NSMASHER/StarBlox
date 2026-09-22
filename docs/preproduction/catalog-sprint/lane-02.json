@@ -1,275 +1,146 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "workstream": "02",
-  "phase": "CATALOG_SPRINT",
-  "sourceHead": "1a4df4ec25ff16da5f65aca7905a465b7d5c1da0",
-  "status": "SEATING_2_3_ACCEPTED_BEDS_1_4_RENDERED_READY_FOR_REVIEW_05",
+  "phase": "ART_VISUALS_ONLY",
+  "sourceHead": "a4600faaa608310b91ff202bd58d54c83eab0693",
+  "status": "SEATING_11_12_CURRENT_HASH_EVIDENCE_BLOCKED__SEATING_4_6_RENDER_PENDING__BEDS_1_4_READY_FOR_REVIEW_05",
+  "policy": "docs/preproduction/ART_VISUALS_SPRINT.json + compatible docs/preproduction/DELIVERY_PROTOCOL_V2.md",
   "reviewPartition": {
-    "collections": [
-      "shoes",
-      "backgear",
-      "handgear",
-      "seating"
-    ],
+    "collections": ["shoes","backgear","handgear","seating"],
     "legacyCoverage": "48_OF_48_REVIEWED",
-    "freshReplacementCheck": "SEATING_2_3_EXACT_HASH_ACCEPTED_THIS_RUN; SEATING_11_EXACT_HASH_BLOCKED_FIRST_CYCLE_ON_INSPECTABLE_RENDER_EVIDENCE; SHOES_1_6_AND_SEATING_7_10_ACCEPT_EVIDENCE_REUSED_UNCHANGED",
-    "note": "Legacy 48/48 REWORK decisions remain hash-bound. Fresh exact-hash ACCEPTs cover Shoes 1–6 and Seating 2–3/7–10. Seating-11 is BLOCKED on evidence access only, not visually rejected. Next review priority is fresh Seating 4–6/12 and Shoes 7–12, then Backgear/Handgear replacements.",
-    "latestFreshReview": {
-      "reviewedIds": [
-        "seating-2",
-        "seating-3"
-      ],
-      "reviewer": "02",
-      "producer": "01",
-      "decision": "ACCEPT_2_OF_2",
-      "exactHashes": {
-        "seating-2": "c3d4705b7182b1be735b1a762b2ae79d58928aa5",
-        "seating-3": "5d69a2f6adf1e4cf9b4ec413dbeedba84c41813b"
+    "freshAcceptedExactIds": ["shoes-1","shoes-2","shoes-3","shoes-4","shoes-5","shoes-6","seating-2","seating-3","seating-7","seating-8","seating-9","seating-10"],
+    "freshAcceptedCount": 12,
+    "currentBlockedExactVersions": [
+      {
+        "itemId": "seating-11",
+        "name": "Moon Chair",
+        "tier": 4,
+        "theme": "Galaxy Glow",
+        "producer": "06",
+        "decision": "BLOCKED",
+        "candidatePath": "/assets/catalog/seating-11-w06-v2.png",
+        "candidateGitBlobSha": "5126e9abcec4a09ef281dccb33aac6ba59b38b94",
+        "candidateSha256": "2bf8b90027f58f24323121305d675edc91ccb996605cd10ca73ccbe077645c47",
+        "bytes": 579001,
+        "dimensions": [768,768],
+        "workflowRunId": 35672223467,
+        "workflowJobId": 106571013165,
+        "blocker": "Lane-06 records nonmatching near-hashes for this exact staged file, and the staging run emitted no independently inspectable exact-current card/detail artifact. Browser fallback resolved the source image but exposed only a browser-local report, so reviewer 02 cannot issue a quality verdict.",
+        "blockerType": "EVIDENCE_INTEGRITY_NOT_VISUAL_REJECTION"
       },
-      "evidenceArtifact": {
-        "workflowRunId": 35671770098,
-        "artifactId": 10671012131,
-        "artifactName": "seating-2-3-recovery-evidence",
-        "digest": "sha256:07b7da381d584a08538754db0d8e97c4ed7434a4f23e8460f88ab73669fb3966",
-        "contactSheetSha256": "005780f5ae664771d8c3556356b00680d7cef09af0f883239d8a4433853bee07"
-      },
-      "reviewLedger": "docs/preproduction/catalog-sprint/reviews/02.json",
-      "reviewCommit": "3fc9cece0f42286ba1c0bc9737dbb0d18a896a50",
-      "note": "Actual card/contact-sheet and exact-hash detail pixels were inspected; no source-only quality inference."
+      {
+        "itemId": "seating-12",
+        "name": "Throne Chair",
+        "tier": 5,
+        "theme": "Sunny Pop",
+        "producer": "06",
+        "decision": "BLOCKED",
+        "candidatePath": "/assets/catalog/seating-12-w06-v2.png",
+        "candidateGitBlobSha": "793b32f60ed10fffa80b549e75b66858ac0d7e4f",
+        "candidateSha256": "5891818da864e528aaceb598f93d2b3426cb91c3eb1acd0375e4f57cbe7d69df",
+        "bytes": 577216,
+        "dimensions": [768,768],
+        "workflowRunId": 35672223467,
+        "workflowJobId": 106571013165,
+        "blocker": "Lane-06 records nonmatching near-hashes for this exact staged file, the staging run emitted no independently inspectable exact-current card/detail artifact, and the public-browser source fallback failed with ERR_TUNNEL_CONNECTION_FAILED.",
+        "blockerType": "EVIDENCE_INTEGRITY_NOT_VISUAL_REJECTION"
+      }
+    ],
+    "newReadyInput": {
+      "ids": ["seating-4","seating-5","seating-6"],
+      "stagingCommit": "a4600faaa608310b91ff202bd58d54c83eab0693",
+      "workflowRunId": 35673301701,
+      "status": "EXACT_BYTES_STAGED_RENDER_WORKFLOW_STILL_IN_PROGRESS_AT_LAST_CHECK",
+      "rule": "Do not disposition until the workflow publishes exact-hash card/detail pixels; prefer these ready repairs over untouched legacy work once render evidence is available."
     },
-    "latestBlockedReview": {
-      "itemId": "seating-11",
-      "name": "Moon Chair",
-      "tier": 4,
-      "theme": "Galaxy Glow",
-      "producer": "06",
-      "decision": "BLOCKED",
-      "sourceAssetPath": "/assets/catalog-candidates/chat-20260921-intake01/seating-11-source.png",
-      "sourceGitBlobSha": "b0b4ee954ce5af414ee90fecda374f84d551c3e5",
-      "cardAssetPath": "/assets/catalog-candidates/chat-20260921-intake01/seating-11-card.png",
-      "cardGitBlobSha": "9e777c1844140ea09eb0a304c4f103d5e6da9fcb",
-      "blockerCycle": 1,
-      "exactBlocker": "Shared staged-art artifact omits seating-11. Browser fallback returned only an inaccessible browser-local HTML evidence path, so reviewer 02 still lacks independently inspectable exact-hash card/detail pixels.",
-      "fixtureRequestOwner": "14",
-      "fixtureRequest": "Render the exact source/card hashes into the branch-local staged-art fixture and emit card/contact-sheet plus separate detail screenshot evidence. Do not regenerate the candidate solely for this blocker.",
-      "reviewLedgerCommit": "1a4df4ec25ff16da5f65aca7905a465b7d5c1da0"
-    }
+    "reviewLedger": "docs/preproduction/catalog-sprint/reviews/02.json",
+    "reviewLedgerBlobAfterAudit": "0c05422c55b3241517012e4d5f0e893a381f83bf"
   },
   "productionAssignment": {
     "collection": "beds",
-    "ids": [
-      "beds-1",
-      "beds-2",
-      "beds-3",
-      "beds-4",
-      "beds-5",
-      "beds-6",
-      "beds-7",
-      "beds-8",
-      "beds-9",
-      "beds-10",
-      "beds-11",
-      "beds-12"
-    ],
+    "ids": ["beds-1","beds-2","beds-3","beds-4","beds-5","beds-6","beds-7","beds-8","beds-9","beds-10","beds-11","beds-12"],
     "independentReviewer": "05",
-    "canonicalIntegrator": "08"
+    "canonicalIntegrator": "08",
+    "rule": "Preserve accepted/good art; generate or restage only evidenced unfinished/rejected versions. Never self-approve."
   },
-  "batch": {
+  "authoritativeBedMetadata": [
+    {"id":"beds-1","name":"Starter Bed","tier":1,"theme":"Garden Glow"},
+    {"id":"beds-2","name":"Cloud Bed","tier":1,"theme":"Galaxy Glow"},
+    {"id":"beds-3","name":"Pixel Bunk","tier":1,"theme":"Sunny Pop"},
+    {"id":"beds-4","name":"Berry Daybed","tier":2,"theme":"Aqua Wave"},
+    {"id":"beds-5","name":"Garden Canopy","tier":2,"theme":"Art Attack"},
+    {"id":"beds-6","name":"Galaxy Gamer Bed","tier":2,"theme":"Star Luxe"},
+    {"id":"beds-7","name":"Sunny Loft Bed","tier":3,"theme":"Midnight Neon"},
+    {"id":"beds-8","name":"Aqua Bubble Bed","tier":3,"theme":"Candy Core"},
+    {"id":"beds-9","name":"Art Studio Bed","tier":3,"theme":"Adventure Club"},
+    {"id":"beds-10","name":"Neon Pod Bed","tier":4,"theme":"Cloud Pop"},
+    {"id":"beds-11","name":"Dream Princess Loft","tier":4,"theme":"Pixel Party"},
+    {"id":"beds-12","name":"Luxe Star Canopy","tier":5,"theme":"Berry Blast"}
+  ],
+  "bedPilot": {
     "batchId": "w02-beds-20260921-b01",
-    "ids": [
-      "beds-1",
-      "beds-2",
-      "beds-3",
-      "beds-4"
-    ],
+    "ids": ["beds-1","beds-2","beds-3","beds-4"],
     "producer": "02",
     "status": "STAGED_READY_FOR_REVIEW_05",
     "canonical": false,
     "readyForIndependentReview": true,
     "candidates": [
       {
-        "itemId": "beds-1",
-        "name": "Starter Bed",
-        "tier": 1,
-        "theme": "Garden Glow",
-        "legacyPath": "/assets/catalog/beds-1.svg",
-        "legacyGitBlobSha": "3d2d8f7bb4503e940dd5d85878f3962b3f7fdf13",
-        "generationProvider": "Adobe Firefly image_generate",
-        "generationRequestId": "61a7e9bf-8119-46eb-92c7-2ad9fc7e65fd",
-        "remoteSourceUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:989fea66-597a-40bb-8735-fcc6f03b73c4",
-        "requestedDimensions": [
-          1024,
-          1024
-        ],
-        "format": "PNG",
-        "producerPixelCheck": "PASS",
-        "producerFinding": "Actual pixels show a clear three-quarter bed with visible mattress/frame depth, soft mint-and-cream textiles, painted wood volume, sprout identity and contact shadow; materially addresses the legacy flat-icon defect while keeping Tier 1 simple.",
-        "intendedRepositoryPath": "/assets/catalog-candidates/w02-beds-20260921-b01/beds-1-w02-v1.png",
-        "repositoryPath": "public/assets/catalog-candidates/w02-beds-20260921-b01/beds-1-w02-v1.png",
-        "assetPath": "/assets/catalog-candidates/w02-beds-20260921-b01/beds-1-w02-v1.png",
-        "gitBlobSha": "0b9f4213f84c9cde0de5ede646345c0ebc851127",
-        "sha256": "fe1f4dbcb35a77b036b576c4c22659fc56027b8a4ed8ac240caa2a87d937cf47",
-        "bytes": 673746,
-        "dimensions": [
-          1024,
-          1024
-        ],
-        "status": "READY_FOR_REVIEW_05",
-        "readback": "PASS",
-        "transformation": "None: exact producer-recorded Adobe Firefly PNG response bytes copied; no crop, resize, recompression, recolor, or regeneration"
+        "itemId":"beds-1","name":"Starter Bed","tier":1,"theme":"Garden Glow",
+        "legacyPath":"/assets/catalog/beds-1.svg","legacyGitBlobSha":"3d2d8f7bb4503e940dd5d85878f3962b3f7fdf13",
+        "generationProvider":"Adobe Firefly image_generate","generationRequestId":"61a7e9bf-8119-46eb-92c7-2ad9fc7e65fd",
+        "remoteSourceUrl":"https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:989fea66-597a-40bb-8735-fcc6f03b73c4",
+        "repositoryPath":"public/assets/catalog-candidates/w02-beds-20260921-b01/beds-1-w02-v1.png","assetPath":"/assets/catalog-candidates/w02-beds-20260921-b01/beds-1-w02-v1.png",
+        "gitBlobSha":"0b9f4213f84c9cde0de5ede646345c0ebc851127","sha256":"fe1f4dbcb35a77b036b576c4c22659fc56027b8a4ed8ac240caa2a87d937cf47","bytes":673746,"dimensions":[1024,1024],"format":"PNG","readback":"PASS","status":"READY_FOR_REVIEW_05",
+        "producerFinding":"Three-quarter bed with visible mattress/frame depth, mint-and-cream textiles, painted wood volume, sprout identity and contact shadow; Tier 1 remains controlled."
       },
       {
-        "itemId": "beds-2",
-        "name": "Cloud Bed",
-        "tier": 1,
-        "theme": "Galaxy Glow",
-        "legacyPath": "/assets/catalog/beds-2.svg",
-        "legacyGitBlobSha": "17e8a9e7b9ebc8d9ace7ca5439ae3feca981893f",
-        "generationProvider": "Adobe Firefly image_generate",
-        "generationRequestId": "c724894d-4bae-4170-95e0-79a2d81dbe80",
-        "remoteSourceUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:826e8113-6a7f-43ca-b74f-f1f9145a0963",
-        "requestedDimensions": [
-          1024,
-          1024
-        ],
-        "format": "PNG",
-        "producerPixelCheck": "PASS",
-        "producerFinding": "Actual pixels show plush cloud volume, unmistakable bed geometry, mattress depth, soft upholstery and restrained galaxy-lit bedding in a three-quarter collectible presentation; no text/UI/persons are present.",
-        "intendedRepositoryPath": "/assets/catalog-candidates/w02-beds-20260921-b01/beds-2-w02-v1.png",
-        "repositoryPath": "public/assets/catalog-candidates/w02-beds-20260921-b01/beds-2-w02-v1.png",
-        "assetPath": "/assets/catalog-candidates/w02-beds-20260921-b01/beds-2-w02-v1.png",
-        "gitBlobSha": "67a0fe2874f975cedb1b4b994e0237ac55d2fb3e",
-        "sha256": "e3cd4e02aa6a1f1dda5ed7f31213fcf340687cfd92ffc0d1fefdcd37a6708320",
-        "bytes": 825777,
-        "dimensions": [
-          1024,
-          1024
-        ],
-        "status": "READY_FOR_REVIEW_05",
-        "readback": "PASS",
-        "transformation": "None: exact producer-recorded Adobe Firefly PNG response bytes copied; no crop, resize, recompression, recolor, or regeneration"
+        "itemId":"beds-2","name":"Cloud Bed","tier":1,"theme":"Galaxy Glow",
+        "legacyPath":"/assets/catalog/beds-2.svg","legacyGitBlobSha":"17e8a9e7b9ebc8d9ace7ca5439ae3feca981893f",
+        "generationProvider":"Adobe Firefly image_generate","generationRequestId":"c724894d-4bae-4170-95e0-79a2d81dbe80",
+        "remoteSourceUrl":"https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:826e8113-6a7f-43ca-b74f-f1f9145a0963",
+        "repositoryPath":"public/assets/catalog-candidates/w02-beds-20260921-b01/beds-2-w02-v1.png","assetPath":"/assets/catalog-candidates/w02-beds-20260921-b01/beds-2-w02-v1.png",
+        "gitBlobSha":"67a0fe2874f975cedb1b4b994e0237ac55d2fb3e","sha256":"e3cd4e02aa6a1f1dda5ed7f31213fcf340687cfd92ffc0d1fefdcd37a6708320","bytes":825777,"dimensions":[1024,1024],"format":"PNG","readback":"PASS","status":"READY_FOR_REVIEW_05",
+        "producerFinding":"Plush cloud volume, unmistakable bed geometry, mattress depth, soft upholstery and restrained galaxy-lit bedding in a three-quarter collectible presentation."
       },
       {
-        "itemId": "beds-3",
-        "name": "Pixel Bunk",
-        "tier": 1,
-        "theme": "Sunny Pop",
-        "legacyPath": "/assets/catalog/beds-3.svg",
-        "legacyGitBlobSha": "6241049fede55ed533811d1cf90569313c8eb2f6",
-        "generationProvider": "Adobe Firefly image_generate",
-        "generationRequestId": "0c32bf55-8039-4db5-80a4-84725b710558",
-        "remoteSourceUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:cf13eedf-8473-451e-a391-7ba1548df800",
-        "requestedDimensions": [
-          1024,
-          1024
-        ],
-        "format": "PNG",
-        "producerPixelCheck": "PASS",
-        "producerFinding": "Actual pixels show two clearly stacked bunks, real ladder/rail/platform depth and chunky Sunny Pop yellow-blue construction; the bunk category now reads immediately instead of as a flat pixel emblem.",
-        "intendedRepositoryPath": "/assets/catalog-candidates/w02-beds-20260921-b01/beds-3-w02-v1.png",
-        "repositoryPath": "public/assets/catalog-candidates/w02-beds-20260921-b01/beds-3-w02-v1.png",
-        "assetPath": "/assets/catalog-candidates/w02-beds-20260921-b01/beds-3-w02-v1.png",
-        "gitBlobSha": "22b1d9f6802cc0b442c9226511ff96e8ea0bbacc",
-        "sha256": "5f33ceba9cce51f8ebe0e89c3e94e3766d3ad7e486d31a090c6c38de5a9ed8f4",
-        "bytes": 879492,
-        "dimensions": [
-          1024,
-          1024
-        ],
-        "status": "READY_FOR_REVIEW_05",
-        "readback": "PASS",
-        "transformation": "None: exact producer-recorded Adobe Firefly PNG response bytes copied; no crop, resize, recompression, recolor, or regeneration"
+        "itemId":"beds-3","name":"Pixel Bunk","tier":1,"theme":"Sunny Pop",
+        "legacyPath":"/assets/catalog/beds-3.svg","legacyGitBlobSha":"6241049fede55ed533811d1cf90569313c8eb2f6",
+        "generationProvider":"Adobe Firefly image_generate","generationRequestId":"0c32bf55-8039-4db5-80a4-84725b710558",
+        "remoteSourceUrl":"https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:cf13eedf-8473-451e-a391-7ba1548df800",
+        "repositoryPath":"public/assets/catalog-candidates/w02-beds-20260921-b01/beds-3-w02-v1.png","assetPath":"/assets/catalog-candidates/w02-beds-20260921-b01/beds-3-w02-v1.png",
+        "gitBlobSha":"22b1d9f6802cc0b442c9226511ff96e8ea0bbacc","sha256":"5f33ceba9cce51f8ebe0e89c3e94e3766d3ad7e486d31a090c6c38de5a9ed8f4","bytes":879492,"dimensions":[1024,1024],"format":"PNG","readback":"PASS","status":"READY_FOR_REVIEW_05",
+        "producerFinding":"Two clearly stacked bunks with real ladder/rail/platform depth and chunky Sunny Pop yellow-blue construction."
       },
       {
-        "itemId": "beds-4",
-        "name": "Berry Daybed",
-        "tier": 2,
-        "theme": "Aqua Wave",
-        "legacyPath": "/assets/catalog/beds-4.svg",
-        "legacyGitBlobSha": "e7c633d73a01b794c4d2e55a0806186727821340",
-        "generationProvider": "Adobe Firefly image_generate",
-        "generationRequestId": "4538066f-3177-45ca-84d3-0c8acf7b0dd6",
-        "remoteSourceUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:3270a937-a4b6-4f4a-b9ec-7fba21638638",
-        "requestedDimensions": [
-          1024,
-          1024
-        ],
-        "format": "PNG",
-        "producerPixelCheck": "PASS",
-        "producerFinding": "Actual pixels show a true upholstered daybed with mattress/side depth, aqua wave construction, berry accents, layered bolsters and richer Tier 2 material treatment. It remains card-readable and distinct from beds 1-3.",
-        "intendedRepositoryPath": "/assets/catalog-candidates/w02-beds-20260921-b01/beds-4-w02-v1.png",
-        "repositoryPath": "public/assets/catalog-candidates/w02-beds-20260921-b01/beds-4-w02-v1.png",
-        "assetPath": "/assets/catalog-candidates/w02-beds-20260921-b01/beds-4-w02-v1.png",
-        "gitBlobSha": "18fa8722d9831af1113e07c2103b373acc41c3c0",
-        "sha256": "21b08cbdf228d1a90338b4710ab625e39a18d323050555e8052f8ec443c4c295",
-        "bytes": 981252,
-        "dimensions": [
-          1024,
-          1024
-        ],
-        "status": "READY_FOR_REVIEW_05",
-        "readback": "PASS",
-        "transformation": "None: exact producer-recorded Adobe Firefly PNG response bytes copied; no crop, resize, recompression, recolor, or regeneration"
+        "itemId":"beds-4","name":"Berry Daybed","tier":2,"theme":"Aqua Wave",
+        "legacyPath":"/assets/catalog/beds-4.svg","legacyGitBlobSha":"e7c633d73a01b794c4d2e55a0806186727821340",
+        "generationProvider":"Adobe Firefly image_generate","generationRequestId":"4538066f-3177-45ca-84d3-0c8acf7b0dd6",
+        "remoteSourceUrl":"https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:3270a937-a4b6-4f4a-b9ec-7fba21638638",
+        "repositoryPath":"public/assets/catalog-candidates/w02-beds-20260921-b01/beds-4-w02-v1.png","assetPath":"/assets/catalog-candidates/w02-beds-20260921-b01/beds-4-w02-v1.png",
+        "gitBlobSha":"18fa8722d9831af1113e07c2103b373acc41c3c0","sha256":"21b08cbdf228d1a90338b4710ab625e39a18d323050555e8052f8ec443c4c295","bytes":981252,"dimensions":[1024,1024],"format":"PNG","readback":"PASS","status":"READY_FOR_REVIEW_05",
+        "producerFinding":"True upholstered daybed with mattress/side depth, aqua wave construction, berry accents, layered bolsters and richer Tier 2 material treatment."
       }
     ],
     "renderEvidence": {
-      "workflowRunId": 35671770098,
-      "artifactId": 10671012131,
-      "artifactName": "seating-2-3-recovery-evidence",
-      "artifactDigest": "sha256:07b7da381d584a08538754db0d8e97c4ed7434a4f23e8460f88ab73669fb3966",
-      "contactSheet": "artifacts/catalog-staged-art/staged-replacements/staged-replacements-contact-sheet.png",
-      "contactSheetSha256": "005780f5ae664771d8c3556356b00680d7cef09af0f883239d8a4433853bee07",
-      "exactBedDetailSha256": {
-        "beds-1": "121ae8f01de170dc3d6d14c9d85c9afc365107b9f55e10b9e670775963b0f220",
-        "beds-2": "ac3a13559998b132cc8f759722e986ef9ef66485cc25629b7eb8b1ec8f588815",
-        "beds-3": "c960d5482b697caa1379a7f4414289e5a8fa8a3762be794b5f1bbb941827be8a",
-        "beds-4": "45b5f6dc0060172ce1d378dbe80e19a56290528475ab4233911f1fbfd2d2c61c"
-      },
-      "status": "PASS_EXACT_HASH_CARD_AND_DETAIL_PIXELS_AVAILABLE_TO_REVIEWER_05",
-      "note": "This is render availability only, not producer self-approval. Reviewer 05 still owns each Bed disposition."
+      "workflowRunId":35671770098,"artifactId":10671012131,"artifactName":"seating-2-3-recovery-evidence","artifactDigest":"sha256:07b7da381d584a08538754db0d8e97c4ed7434a4f23e8460f88ab73669fb3966","contactSheet":"artifacts/catalog-staged-art/staged-replacements/staged-replacements-contact-sheet.png","contactSheetSha256":"005780f5ae664771d8c3556356b00680d7cef09af0f883239d8a4433853bee07",
+      "exactBedDetailSha256":{"beds-1":"121ae8f01de170dc3d6d14c9d85c9afc365107b9f55e10b9e670775963b0f220","beds-2":"ac3a13559998b132cc8f759722e986ef9ef66485cc25629b7eb8b1ec8f588815","beds-3":"c960d5482b697caa1379a7f4414289e5a8fa8a3762be794b5f1bbb941827be8a","beds-4":"45b5f6dc0060172ce1d378dbe80e19a56290528475ab4233911f1fbfd2d2c61c"},
+      "status":"PASS_EXACT_HASH_CARD_AND_DETAIL_PIXELS_AVAILABLE_TO_REVIEWER_05","note":"Render availability only; reviewer 05 owns each disposition."
     }
   },
   "staging": {
-    "status": "PASS_BEDS_1_4_EXACT_BYTES_STAGED",
-    "method": "Authorized GitHub Actions download from the producer-recorded Adobe HTTPS short URLs",
-    "exactByteReadback": "PASS_4_OF_4",
-    "metadata": "PASS_4_OF_4_AGAINST_CURRENT_GAME_MODEL",
-    "duplicateCandidateContent": 0,
-    "independentVisualReview": "PENDING_05",
-    "canonicalIntegration": "PENDING_08_AFTER_ACCEPT",
-    "sharedRenderEvidence": "PASS_BEDS_1_4_EXACT_HASH_CARD_AND_DETAIL_PIXELS_IN_ARTIFACT_10671012131"
-  },
-  "freeze": {
-    "replitTouched": false,
-    "flootTouched": false,
-    "mainMergedOrModified": false,
-    "canonicalManifestOrRuntimeTouched": false,
-    "playerDataTouched": false
+    "status":"PASS_BEDS_1_4_EXACT_BYTES_STAGED","exactByteReadback":"PASS_4_OF_4","metadata":"PASS_4_OF_4_AGAINST_CURRENT_GAME_MODEL","duplicateCandidateContent":0,"independentVisualReview":"PENDING_05","canonicalIntegration":"PENDING_08_AFTER_ACCEPT","sharedRenderEvidence":"PASS_BEDS_1_4_EXACT_HASH_CARD_AND_DETAIL_PIXELS_IN_ARTIFACT_10671012131"
   },
   "stagingHistory": [
     {
-      "status": "BLOCKED_BEFORE_GIT_BLOB_CREATION",
-      "attemptedSupportedPath": "Generated bytes were inspected successfully; attempted ChatGPT-file -> Adobe connector egress twice so the existing remote binary bridge could be used.",
-      "result": "BLOCKED_FILE_REFERENCE",
-      "exactBlocker": "Generated ChatGPT image file references are unavailable for connector egress in this run. The GitHub create_blob path requires raw/base64 bytes and cannot ingest a local file path or the generated-file reference directly.",
-      "falseClaimsAvoided": [
-        "No repository path is claimed staged",
-        "No Git blob SHA is claimed",
-        "No independent ACCEPT is claimed",
-        "No canonical mapping was edited"
-      ],
-      "nextSafeAction": "Use an authorized byte-transfer path to download each recorded remoteSourceUrl, write the exact PNG to its intendedRepositoryPath on screenshot-match-preproduction, read back the Git blob/bytes, then mark READY_FOR_REVIEW and hand exact hashes to reviewer 05. Do not regenerate these four unless reviewer 05 later returns REWORK."
+      "status":"BLOCKED_BEFORE_GIT_BLOB_CREATION","result":"BLOCKED_FILE_REFERENCE","note":"Historical transport blocker retained for audit; later cleared without regenerating the four Bed pilot images."
     },
     {
-      "status": "RENDER_EVIDENCE_AVAILABLE_AND_FRESH_SEATING_REVIEW_COMPLETE",
-      "sourceHead": "694384030e3c0ab1819960e35a43a2b86a55ee3e",
-      "result": "Shared staged-art artifact 10671012131 renders beds-1..4 exact hashes at contact-sheet/card and detail scale. Reviewer 02 independently ACCEPTed fresh Seating 2–3 exact replacement hashes; Beds remain PENDING_05.",
-      "falseClaimsAvoided": [
-        "No Bed self-approval",
-        "No canonical manifest/runtime edit",
-        "No deployment or main merge"
-      ],
-      "nextSafeAction": "Reviewer 05 can disposition Beds 1–4 directly from exact-hash artifact evidence. Workstream 02 should consume fresh Seating/Shoes review candidates first; do not scale Beds 5–8 until 05 dispositions this pilot."
+      "status":"RENDER_EVIDENCE_AVAILABLE_AND_FRESH_SEATING_REVIEW_COMPLETE","sourceHead":"694384030e3c0ab1819960e35a43a2b86a55ee3e","result":"Beds 1-4 exact-hash render evidence available; Seating 2-3 accepted; Beds remain PENDING_05."
+    },
+    {
+      "status":"SEATING_11_12_CURRENT_VERSION_INTEGRITY_BLOCKED_AND_SEATING_4_6_ARRIVED","sourceHead":"a4600faaa608310b91ff202bd58d54c83eab0693","result":"Reviewer 02 bound the true current Seating 11/12 candidate hashes from workflow/GitHub readback and blocked them on producer-ledger hash mismatch plus missing independent exact-current card/detail pixels. A new exact-byte Seating 4-6 batch is staged and its render workflow is still running; no premature disposition was made.","nextSafeAction":"Consume Seating 4-6 exact card/detail artifact as soon as the already-running workflow publishes it. Preserve Seating 11/12 bytes; correct metadata and render them rather than regenerate. Keep Beds 1-4 frozen pending reviewer 05."
     }
-  ]
+  ],
+  "freeze": {"replitTouched":false,"flootTouched":false,"mainMergedOrModified":false,"canonicalManifestOrRuntimeTouched":false,"playerDataTouched":false,"gameplayTouched":false,"curriculumTouched":false,"economyTouched":false,"testsWeakened":false}
 }
