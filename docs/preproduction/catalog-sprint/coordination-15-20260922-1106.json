@@ -1,0 +1,111 @@
+{
+  "schemaVersion": 1,
+  "phase": "ART_VISUALS_SPRINT",
+  "coordinationOwner": "15",
+  "repository": "P00NSMASHER/StarBlox",
+  "branch": "screenshot-match-preproduction",
+  "observedHeadBeforeCoordination": "6ea8374b45103d764f39806c04f1b787ea1c1dc2",
+  "authority": {
+    "allocation": "docs/preproduction/ART_VISUALS_SPRINT.json",
+    "factoryReadme": "docs/preproduction/art-factory/README.md",
+    "factoryContract": "docs/preproduction/art-factory/ART_FACTORY_V2.json",
+    "compatibleProtocol": "docs/preproduction/DELIVERY_PROTOCOL_V2.md",
+    "canonicalCatalogWriter": "08",
+    "crossWorkerAssignmentOwner": "15",
+    "artAndVisualsOnlyUntilComplete": true
+  },
+  "liveCatalog": {
+    "integrationSchema": 12,
+    "manifestVersion": 28,
+    "manifestRuntimeMappings": "164/164",
+    "finalPortableLabels": 157,
+    "interimNotVerified": 7,
+    "nonFinalRelativeToTarget": 35,
+    "canonicalAcceptedCurrentHashes": 91,
+    "newQualifiedAcceptsOutsideCanonicalSnapshot": 4,
+    "conservativeAcceptedCurrentHashes": 95,
+    "acceptedAwaitingCanonical": 4,
+    "strictAcceptedRemainingAtConservativeFloor": 97,
+    "catalogReleaseClearedIds": 0,
+    "canonicalEvidence": "docs/preproduction/catalog-sprint/integration.json",
+    "newAcceptEvidence": "docs/preproduction/catalog-sprint/chat-wall-1-4-w05-v2-review-14-to-08.json",
+    "note": "Counts are recomputed from v28 integration evidence plus four later exact-current Wall ACCEPTs. They are not a projection of future integration."
+  },
+  "oldestActionableDependency": {
+    "owner": "08",
+    "state": "QUALIFIED_EXACT_HASH_ACCEPTS_AWAITING_CANONICAL",
+    "producer": "05",
+    "reviewer": "14",
+    "scope": ["wall-1", "wall-2", "wall-3", "wall-4"],
+    "exactHashes": {
+      "wall-1": "9908e774b4012cb89d3c86eed9ca3d10ce3bffe4",
+      "wall-2": "febf517cd0db666f647962c0cb7d4e5af53d4b76",
+      "wall-3": "5ad5aff97c9d365221de8c2d888abf3a26db547e",
+      "wall-4": "bc38aee13c1c4840aa1e9657edfb67c8838a6a21"
+    },
+    "qualification": "Exact repo readback PASS 4/4, decode PASS 4/4, scoped StarBlox card/detail render PASS 4/4, independent reviewer14 ACCEPT 4/4. Shared workflow unrelated Desk failures remain visible and are not relabeled.",
+    "next": "08 performs normal exact mapping/file/decode/metadata/uniqueness checks and integrates only these four accepted hashes, preserving all existing canonical accepts."
+  },
+  "nextIndependentReview": {
+    "owner": "05",
+    "producer": "06",
+    "scope": ["companions-2", "companions-5", "companions-6", "companions-7"],
+    "state": "EXACT_CURRENT_CARD_DETAIL_RENDERED_AWAITING_REVIEW_05",
+    "evidence": "docs/preproduction/catalog-sprint/chat-companions-2-5-6-7-render-evidence-14-to-05.json",
+    "exactHashes": {
+      "companions-2": "88d10d6f8c412d0ab7fde6ac7a7ff202858077db",
+      "companions-5": "1ae7b431e519563ee1dbbdb0ae762bfee6f95ac0",
+      "companions-6": "28cb411201d8ec30dae2f70b740efe1e86985386",
+      "companions-7": "39d35ea40a0a138ae99ddcdc09f8f2a3683fa49d"
+    },
+    "qualification": "Lane current hash equals rendered actual blob 4/4; signature/safety/decode PASS 4/4; card and 800x800 detail pixels present/nonblank 4/4. Reviewer14 supplied evidence only and did not disposition this foreign partition.",
+    "next": "Reviewer05 independently ACCEPT/REWORK each exact current hash from actual pixels and routes each qualified ACCEPT immediately to 08."
+  },
+  "activeProduction": {
+    "09": {
+      "batch": "w09-decor-3-4-v3",
+      "state": "ACTIONABLE_REWORK_FACTORY_PILOT",
+      "reviewer": "14",
+      "scaleGate": "No Decor5-12 before exact-hash disposition of this pilot."
+    },
+    "13": {
+      "batch": "w13-home-bedroom-v4",
+      "state": "ACTIONABLE_SCENE_REWORK_FACTORY_PILOT",
+      "reviewers": ["01-art-fidelity", "14-composition-performance"],
+      "scaleGate": "One bounded scene repair only; no runtime/state wiring."
+    }
+  },
+  "fleetHealth": {
+    "sameOriginal15Required": true,
+    "sameOriginal15EnabledAfterCorrection": true,
+    "original13TaskId": "6ab137af3b24819189c2f09b63cc43c2",
+    "original13ObservedDisabledThisRun": true,
+    "original13ReenabledThisRun": true,
+    "newOrSubstituteStarBloxTasksCreated": 0,
+    "schedulesChanged": false
+  },
+  "preservedBlockers": {
+    "tops11_12_v7": "GENERATED_LOCAL receipts only; authoritative exact WEBP payload bytes remain unavailable. No regeneration/re-encoding/approximation.",
+    "headwear5_8": "Four preserved external derivatives remain unstaged because exact raw bytes remain unavailable. No repeated unchanged transport or regeneration.",
+    "storeMobile": "Actual Store/mobile visual proof remains blocked before Store content by the shared real-pointer navigation timeout in the latest canonical safeguard evidence.",
+    "generalCiWrapper": "Unrelated artPromptOptimizer test-collection/no-suite wrapper failure remains open while actual catalog/runtime assertions and v28 build evidence remain separately preserved."
+  },
+  "routingChangesThisRun": {
+    "08": "Wall1-4 exact ACCEPT batch is now the oldest canonical integration queue.",
+    "05": "Wall pilot closed at review level; Companions2/5/6/7 exact rendered hashes are now its oldest review queue.",
+    "14": "Wall review and Companion render are complete; do not repeat them. Next consume only genuinely new verified Decor/scene evidence.",
+    "13": "Original task ID restored to enabled status; continue only the already-open Home bedroom v4 bounded scene repair."
+  },
+  "freeze": {
+    "main": true,
+    "replit": true,
+    "floot": true,
+    "deployment": true,
+    "paidSettingsPurchases": true,
+    "secrets": true,
+    "realPlayerData": true,
+    "acceptedHashRegeneration": true
+  },
+  "artVisualsComplete": false,
+  "deploymentPermission": false
+}
