@@ -296,6 +296,7 @@ def apply_calibration(report: dict, calibration: dict | None) -> None:
         triggered = threshold_predict(float(value), direction, float(threshold))
         entry = {
             "feature": feature,
+            "targetFailureCodes": row.get("targetFailureCodes") or [],
             "value": value,
             "direction": direction,
             "threshold": threshold,
@@ -399,6 +400,7 @@ def self_test() -> None:
                 "sourceEntropyBits": {
                     "warningReady": True,
                     "blockingEnabled": False,
+                    "targetFailureCodes": ["SMALL_CARD_READABILITY"],
                     "candidate": {
                         "direction": "GE",
                         "threshold": 0.0,
@@ -420,6 +422,7 @@ def self_test() -> None:
         assert report["policy"]["thresholdsCalibrated"] is True
         assert report["policy"]["calibratedWarningsAreBlocking"] is False
         assert report["calibrationEvidence"]["triggeredWarningCount"] == 1
+        assert report["calibratedWarnings"][0]["targetFailureCodes"] == ["SMALL_CARD_READABILITY"]
         assert report["calibratedWarnings"][0]["blocking"] is False
         print("SELF_TEST=PASS")
 
