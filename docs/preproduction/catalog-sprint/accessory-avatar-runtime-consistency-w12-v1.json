@@ -1,0 +1,162 @@
+{
+  "schemaVersion": "1.0",
+  "workstream": "12",
+  "phase": "ART_AND_VISUALS_ONLY",
+  "status": "SPEC_ONLY_LIVE_RUNTIME_RECONCILIATION_NO_CANDIDATE_BYTES",
+  "branch": "screenshot-match-preproduction",
+  "evidenceHead": "eea10443e38e037187f55e7baaeb766b2b42990d",
+  "observedAt": "2026-09-22T12:21:35Z",
+  "scope": {
+    "acceptedExactHashItems": ["headwear-1", "headwear-2", "headwear-3", "headwear-4"],
+    "attachmentSurfacesInspected": ["headwear", "facegear", "backgear", "handgear"],
+    "newArtCandidatesCreated": 0,
+    "assetBytesChanged": 0,
+    "runtimeFilesChanged": 0,
+    "canonicalMappingsChanged": 0
+  },
+  "governance": {
+    "productionGate": "CLOSED_HEADWEAR_5_8_SCALE_GATE",
+    "headwear5_8": "PRESERVED_EXTERNAL_EXACT_BYTE_MATERIALIZATION_BLOCKED",
+    "headwear5_8TransportRetried": false,
+    "headwear9_12Started": false,
+    "otherAccessoryProductionStarted": false,
+    "canonicalWriter": "08",
+    "allocationOwner": "15",
+    "headwearFacegearReviewer": "01",
+    "backgearHandgearReviewer": "02",
+    "selfApproval": false
+  },
+  "acceptedHeadwear": {
+    "headwear-1": {"name": "Headband", "gitBlob": "4d4424962a49f5145422723b625778d6649a4b26", "storePath": "/assets/catalog/headwear-1-w12-v2.jpg"},
+    "headwear-2": {"name": "Cloud Clips", "gitBlob": "595c8fe9182f4aecd5355856f19947c7c83daa11", "storePath": "/assets/catalog/headwear-2-w12-v2.jpg"},
+    "headwear-3": {"name": "Pixel Cap", "gitBlob": "86db079b85360dc64e669aeca53cba874176c693", "storePath": "/assets/catalog/headwear-3-w12-v2.jpg"},
+    "headwear-4": {"name": "Berry Bow", "gitBlob": "4257b4a959153fba985fa2a97720c379b6d63e33", "storePath": "/assets/catalog/headwear-4-w12-v2.jpg"}
+  },
+  "materialFindings": [
+    {
+      "id": "HEADWEAR_V2_GEOMETRY_STALE",
+      "severity": "EVIDENCE_CORRECTION",
+      "finding": "The earlier headwear-1-4 avatar consistency v2 document does not match the live portable-headwear CSS. Live .headGear.portableHeadGear uses CSS background art at top -58px, 132x116 and z-index 9 on desktop; at <=720px it uses top -52px and 118x104. It does not use object-fit/object-position. The older spec's -34/-28 and z-index 5 values must not be used for future derivative fitting.",
+      "supersedesEvidenceField": "docs/preproduction/catalog-sprint/headwear-1-4-avatar-consistency-w12-v2.json#attachmentSurface",
+      "liveWitnesses": ["src/headwearAvatar.css@c52743ac7cdba37bfa1dca486dd8691f288c8214", "src/styles.css@d48c776450b34b967884be7a7843157bd35c5b28", "src/App.jsx@853595d231039ca1be357bf846b8fb7baf2dde7a"]
+    },
+    {
+      "id": "HEADWEAR_STORE_AVATAR_ART_MISMATCH_PERSISTS",
+      "severity": "TRY_ON_CONSISTENCY_DEFECT",
+      "finding": "Store/catalog runtime maps headwear-1..4 to the independently ACCEPTed w12-v2 JPGs, while active headwearAvatarRuntime maps those same IDs to legacy headwear-N.svg files. Buying/equipping an accepted Store item therefore does not yet guarantee the same wearable identity on the avatar.",
+      "storeRuntimeWitness": "src/catalogArtRuntime.js@ae2a30492538e818b258a28dd20fdec8bbe3560e",
+      "avatarRuntimeWitness": "src/headwearAvatarRuntime.js@d55c5fe19938db6ef9b7c53524a3b982b026db9f",
+      "mutationAuthorizedNow": false
+    },
+    {
+      "id": "ROLE12_RUNTIME_IMPORT_CHAIN_CONFIRMED",
+      "severity": "BASELINE",
+      "finding": "All four role-12 avatar accessory surfaces are live in the current entrypoint chain. main.jsx directly imports headwear/facegear runtimes and CSS; main.jsx also imports catalogArtRuntime, which transitively imports backgear/handgear runtimes and CSS. Backgear/Handgear must therefore not be treated as dormant merely because main.jsx lacks direct imports.",
+      "entrypointWitness": "src/main.jsx@5faface6e32284ff626f25930189907a6feb1cfb",
+      "transitiveWitness": "src/catalogArtRuntime.js@ae2a30492538e818b258a28dd20fdec8bbe3560e"
+    }
+  ],
+  "liveAttachmentGeometry": {
+    "coordinateSystem": "pixels relative to .avatarWrap before any item-image internal transparent padding; boxes below are CSS layout boxes, not visible-pixel bounds",
+    "avatarWrap": {"x": 0, "y": 0, "width": 180, "height": 300, "position": "relative", "overflowClaim": "NO_OVERFLOW_HIDDEN_DECLARED_ON_AVATARWRAP_IN_STYLES_WITNESS"},
+    "avatarHead": {"x": 55, "y": 38, "width": 70, "height": 70},
+    "avatarHairBack": {"x": 49, "y": 31, "width": 82, "height": 82},
+    "headwear": {
+      "domParent": ".avatarHead",
+      "runtime": "src/headwearAvatarRuntime.js@d55c5fe19938db6ef9b7c53524a3b982b026db9f",
+      "css": "src/headwearAvatar.css@c52743ac7cdba37bfa1dca486dd8691f288c8214",
+      "desktop": {"cssTop": -58, "cssLeft": "50%", "width": 132, "height": 116, "transform": "translateX(-50%)", "wrapBox": {"left": 24, "top": -20, "right": 156, "bottom": 96}, "zIndex": 9},
+      "mobileMax720": {"cssTop": -52, "width": 118, "height": 104, "wrapBox": {"left": 31, "top": -14, "right": 149, "bottom": 90}, "zIndex": 9},
+      "paintMethod": "background-image contain centered",
+      "fitImplication": "Visible wearable pixels need transparent padding/geometry that lands contact near the avatar head/hair inside these boxes. Opaque square Store JPGs are not avatar-safe overlays."
+    },
+    "facegear": {
+      "domParent": ".avatarHead",
+      "runtime": "src/facegearAvatarRuntime.js@9c05fb28ecc03b0e0b3cb587c370732feffe8ca2",
+      "css": "src/facegearAvatar.css@bb795d46f4c6f59f2db5130db9e2760b62df4e3c",
+      "desktop": {"cssTop": 26, "cssLeft": "50%", "width": 118, "height": 92, "transform": "translateX(-50%)", "wrapBox": {"left": 31, "top": 64, "right": 149, "bottom": 156}, "zIndex": 10},
+      "mobileMax720": {"cssTop": 29, "width": 106, "height": 84, "wrapBox": {"left": 37, "top": 67, "right": 143, "bottom": 151}, "zIndex": 10},
+      "paintMethod": "background-image contain centered",
+      "reviewStateNote": "Current catalog/avatar paths are legacy SVGs; no new Facegear candidate is authorized by the closed Headwear5-8 scale gate."
+    },
+    "backgear": {
+      "domParent": ".avatarWrap",
+      "runtime": "src/backgearAvatarRuntime.js@79ae4cbfe0428d010d28c9c91e819c8893a63696",
+      "css": "src/backgearAvatar.css@524c43ba7d394191d0a40d07b079f51aedc11199",
+      "basePositionWitness": "src/styles.css@d48c776450b34b967884be7a7843157bd35c5b28",
+      "desktop": {"left": 34, "top": 124, "width": 118, "height": 132, "wrapBox": {"left": 34, "top": 124, "right": 152, "bottom": 256}, "zIndex": 4},
+      "mobileMax720": {"left": 34, "top": 124, "width": 104, "height": 118, "wrapBox": {"left": 34, "top": 124, "right": 138, "bottom": 242}, "zIndex": 4},
+      "paintMethod": "background-image contain centered",
+      "reviewStateNote": "Current catalog/avatar paths are legacy SVGs; reviewer-02 prior lineage does not expose a newer accepted Backgear replacement in the current handoff."
+    },
+    "handgear": {
+      "domParent": ".avatarWrap",
+      "runtime": "src/handgearAvatarRuntime.js@0cd28bc17bbba16f8eaeb05f5030ea4b59dc4f5c",
+      "css": "src/handgearAvatar.css@77fa17d3b37b7ad00ad3aee71d961021ddbef6c0",
+      "desktop": {"right": -78, "top": 205, "width": 138, "height": 170, "preRotationWrapBox": {"left": 120, "top": 205, "right": 258, "bottom": 375}, "rotationDeg": -8, "transformOrigin": "50% 72%", "zIndex": 10},
+      "mobileMax720": {"right": -66, "top": 194, "width": 124, "height": 152, "preRotationWrapBox": {"left": 122, "top": 194, "right": 246, "bottom": 346}, "rotationDeg": -8, "transformOrigin": "50% 72%", "zIndex": 10},
+      "paintMethod": "background-image contain centered",
+      "fitImplication": "The held-object surface intentionally extends outside the 180x300 avatar box; future transparent derivatives must place the grip/hand-contact region near the inner-left portion of this rotated surface rather than center the object blindly.",
+      "reviewStateNote": "Current catalog/avatar paths are legacy SVGs; reviewer-02 prior lineage does not expose a newer accepted Handgear replacement in the current handoff."
+    }
+  },
+  "futureTryOnEvidenceRequirements": {
+    "authorizedNow": false,
+    "rule": "This file is attachment evidence only. It creates no candidate version and authorizes no shared/runtime mutation.",
+    "headwearAcceptedIdentityRule": "Any future avatar-safe Headwear1-4 derivative must be transparently isolated/reframed from the independently accepted exact Store identity, with explicit lineage; it must not redesign, retheme, or substitute the item.",
+    "mustVerifyBeforeAnyIntegration": [
+      "exact repository-staged derivative bytes and readback",
+      "transparent/background-safe raster behavior",
+      "actual StarBlox avatar pixels at desktop and <=720px surfaces",
+      "visible contact rather than float/clipping",
+      "independent reviewer-01 exact-hash disposition for Headwear/Facegear or reviewer-02 for Backgear/Handgear",
+      "08-controlled canonical/runtime integration only after qualifying review"
+    ],
+    "derivedGeometryIsNotPixelAcceptance": true
+  },
+  "counts": {
+    "headwear1_4AcceptedStoreHashesPreserved": 4,
+    "headwear5_8GeneratedExternal": 4,
+    "headwear5_8PreservedExternal": 4,
+    "headwear5_8RepositoryStaged": 0,
+    "headwear5_8AcceptedCurrentHash": 0,
+    "headwear5_8Canonical": 0,
+    "newAccessoryCandidateVersionsThisEvidenceRun": 0
+  },
+  "sourceWitnesses": [
+    "docs/preproduction/ART_VISUALS_SPRINT.json",
+    "docs/preproduction/art-factory/README.md",
+    "docs/preproduction/art-factory/ART_FACTORY_V2.json",
+    "docs/preproduction/art-factory/ACTIVE_BATCH.json",
+    "docs/preproduction/catalog-sprint/lane-12.json",
+    "docs/preproduction/catalog-sprint/headwear-5-8-transport-helper-04-to-12-01.json",
+    "docs/preproduction/catalog-sprint/reviews/01.json",
+    "docs/preproduction/catalog-sprint/reviews/02.json",
+    "docs/preproduction/catalog-sprint/integration.json",
+    "docs/preproduction/DELIVERY_PROTOCOL_V2.md",
+    "docs/preproduction/catalog-sprint/headwear-1-4-avatar-consistency-w12-v2.json",
+    "src/main.jsx",
+    "src/App.jsx",
+    "src/styles.css",
+    "src/catalogArtRuntime.js",
+    "src/headwearAvatarRuntime.js",
+    "src/headwearAvatar.css",
+    "src/facegearAvatarRuntime.js",
+    "src/facegearAvatar.css",
+    "src/backgearAvatarRuntime.js",
+    "src/backgearAvatar.css",
+    "src/handgearAvatarRuntime.js",
+    "src/handgearAvatar.css"
+  ],
+  "safeguards": {
+    "mainTouched": false,
+    "replitTouched": false,
+    "flootTouched": false,
+    "deploymentTouched": false,
+    "paidSettingsOrPurchasesTouched": false,
+    "secretsTouched": false,
+    "realPlayerDataTouched": false,
+    "acceptedAssetBytesTouched": false,
+    "testsWeakened": false
+  }
+}
