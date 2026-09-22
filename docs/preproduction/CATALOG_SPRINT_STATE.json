@@ -301,7 +301,7 @@
     "catalogGateStillRequiresAll192Accepted": true
   },
   "coordinationSnapshot": {
-    "observedHead": "e137f3957e9872cfd5d6dde18f91f16a602df101",
+    "observedHead": "788ae07324569ed7cec24ca015a14bac30c35ed6",
     "repositoryStagedAssignedCandidates": 82,
     "generatedLocalDeskCandidates": 3,
     "assignedIdsWithAnyRepositoryOrLocalCandidate": 85,
@@ -326,7 +326,7 @@
       "beds",
       "lighting"
     ],
-    "note": "Current conservative floor from immutable evidence: 180/192 unique IDs have at least one usable independent disposition; 35 current replacement hashes are independently ACCEPTed, 27 are canonical-wired, and Lighting 5-12 are the eight accepted-but-not-wired oldest dependency at this snapshot. Tops 7-10 v3 are branch-stored/rendered and awaiting reviewer 01. Rugs 5-8 are already generated externally but must be branch-stored/read back before reviewer 14.",
+    "note": "Current conservative floor: 180/192 unique IDs have usable independent disposition; 35 current replacement hashes are independently ACCEPTed and all 35 are canonical-wired through manifest v17. Tops 7-10 v3 are branch-stored/rendered awaiting reviewer 01. Rugs 5-8 are already generated externally but require branch storage/readback before reviewer 14. Desk remains the 12-ID review-coverage gap.",
     "storedReplacementCandidateVersions": 12,
     "replacementCandidateIds": [
       "tops-1",
@@ -347,18 +347,9 @@
     "independentReviewedUniqueIds": 180,
     "uniqueIdsWithoutUsableIndependentDisposition": 12,
     "minimumQualifiedCurrentReplacementAcceptsKnown": 35,
-    "canonicalAcceptedCurrentHashesWired": 27,
-    "acceptedCurrentHashesAwaitingCanonicalAtSnapshot": 8,
-    "acceptedAwaitingCanonicalIds": [
-      "lighting-5",
-      "lighting-6",
-      "lighting-7",
-      "lighting-8",
-      "lighting-9",
-      "lighting-10",
-      "lighting-11",
-      "lighting-12"
-    ],
+    "canonicalAcceptedCurrentHashesWired": 35,
+    "acceptedCurrentHashesAwaitingCanonicalAtSnapshot": 0,
+    "acceptedAwaitingCanonicalIds": [],
     "catalogReleaseClearedIds": 0,
     "currentNewStoredRenderedReviewQueue": [
       {
@@ -864,7 +855,7 @@
     "assignedIdsWithAnyRepositoryOrLocalCandidate": 85,
     "independentReviewedUniqueIds": 180,
     "independentAcceptedCurrentHashes": 0,
-    "canonicalV2WiredIds": 27,
+    "canonicalV2WiredIds": 35,
     "catalogReleaseClearedIds": 0,
     "branchStoredReplacementVersions": 12,
     "gitObjectOnlyRepairVersions": 4,
@@ -872,7 +863,11 @@
     "note": "Conservative current visual-sprint accounting. Generated/local/preserved-object/staged/accepted/canonical/release-cleared remain separate; do not inflate from status labels.",
     "uniqueIdsWithoutUsableIndependentDisposition": 12,
     "minimumQualifiedCurrentReplacementAcceptsKnown": 35,
-    "acceptedButNotWiredKnown": 8
+    "acceptedButNotWiredKnown": 0,
+    "canonicalManifestVersion": 17,
+    "canonicalMappings": 138,
+    "canonicalFinalPortableLabels": 122,
+    "canonicalInterimNotVerified": 16
   },
   "latestOptimization": {
     "at": "2026-09-21T20:18:00-04:00",
