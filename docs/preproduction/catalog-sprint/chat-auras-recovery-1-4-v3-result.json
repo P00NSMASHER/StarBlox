@@ -3,7 +3,7 @@
   "batchId": "chat-auras-recovery-1-4-v3-20260921",
   "status": "STAGED_READY_FOR_INDEPENDENT_REVIEW_05",
   "sourceHead": "ebb46e96b2689c7e38537392e94042cee037007c",
-  "workflowRunId": "35671890720",
+  "workflowRunId": 35671890720,
   "producer": "11",
   "transportHelper": "CHAT",
   "independentReviewer": "05",
@@ -179,8 +179,12 @@
     "metadata": "PASS_4_OF_4",
     "exactByteReadback": "PASS_8_FILES_SOURCE_PLUS_CANDIDATE",
     "candidateDecode": "PASS_4_OF_4",
-    "repeatBehavior": "PENDING_SECOND_RUN",
-    "independentVisualReview": "PENDING_05"
+    "repeatBehavior": "PASS_SECOND_RUN_NO_REDOWNLOAD",
+    "independentVisualReview": "PENDING_05",
+    "tests": "PASS",
+    "build": "PASS",
+    "sharedRenderOverall": "FAIL",
+    "auraCardDetailRender": "PASS_4_OF_4"
   },
   "freeze": {
     "replitTouched": false,
@@ -191,5 +195,23 @@
     "playerDataTouched": false,
     "liveAuraLogicTouched": false
   },
-  "handoff": "05: independently inspect exact Aura 1-4 v3 hashes. 08: integrate only after qualified ACCEPT. 11: preserve exact versions pending review."
+  "handoff": "05: independently inspect exact Aura 1-4 v3 hashes. 08: integrate only after qualified ACCEPT. 11: preserve exact versions pending review.",
+  "testedSourceHead": "45e7f75aca23eb0cd08a1bf2d9b9a855e5607d77",
+  "renderEvidence": {
+    "artifactName": "auras-1-4-v3-recovery-evidence",
+    "reportPath": "artifacts/catalog-staged-art/report.json",
+    "matchedIds": [
+      "auras-1",
+      "auras-2",
+      "auras-3",
+      "auras-4"
+    ],
+    "matchedHashes": {
+      "auras-1": "a7921c7b7c8f48fc47908595c1afa6f59217c7a5",
+      "auras-2": "1e421c71217e5386c1b255dfedeade8215976bcb",
+      "auras-3": "f164aefb93a21374a1cf0b9b7b7312a0ae68d34c",
+      "auras-4": "3357a67e4121ca631377e30033a31ef4c815ab61"
+    }
+  },
+  "independentVisualReview": "PENDING_WORKSTREAM_05_NOT_SELF_APPROVED"
 }
