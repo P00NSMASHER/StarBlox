@@ -30,7 +30,7 @@
       "tier": 5,
       "theme": "Sunny Pop",
       "price": 1740,
-      "starReq": 5,
+      "starReq": 9,
       "sourceUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:7aa2ded8-db6b-4c16-8f2f-49d3ac87d19a",
       "sourcePath": "docs/preproduction/catalog-sprint/recovered-originals/seating-11-12-20260921/seating-12-source.png",
       "candidatePath": "public/assets/catalog/seating-12-w06-v2.png",
