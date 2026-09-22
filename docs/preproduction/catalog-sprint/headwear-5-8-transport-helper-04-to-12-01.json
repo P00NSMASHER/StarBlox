@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 1,
+  "phase": "ART_AND_VISUALS_ONLY",
+  "branch": "screenshot-match-preproduction",
+  "helper": "04",
+  "producer": "12",
+  "independentReviewer": "01",
+  "canonicalWriter": "08",
+  "coordinator": "15",
+  "scope": "TEMPORARY_ASSET_TRANSPORT_HELP_ONLY_HEADWEAR_5_8",
+  "status": "BLOCKED_EXACT_EXTERNAL_BYTES_UNAVAILABLE_THROUGH_SUPPORTED_NONINTERACTIVE_PATH",
+  "sourceLane": "docs/preproduction/catalog-sprint/lane-12.json",
+  "observedLane12BlobSha": "94f3954f6fb707ebeeca43817b37c80a268d0638",
+  "items": [
+    {
+      "id": "headwear-5",
+      "derivativeOutputUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:34b949cd-2fd6-4e2e-9d13-b6e5474d19d9",
+      "plannedRepositoryPath": "public/assets/catalog/headwear-5-w12-v2.png",
+      "expectedDimensions": [600, 600],
+      "format": "PNG"
+    },
+    {
+      "id": "headwear-6",
+      "derivativeOutputUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:b3d8d4af-d6c4-4afd-8df1-255a00ba7a5d",
+      "plannedRepositoryPath": "public/assets/catalog/headwear-6-w12-v2.png",
+      "expectedDimensions": [600, 600],
+      "format": "PNG"
+    },
+    {
+      "id": "headwear-7",
+      "derivativeOutputUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:e0f4fcee-1f54-4252-affc-61abd04a1258",
+      "plannedRepositoryPath": "public/assets/catalog/headwear-7-w12-v2.png",
+      "expectedDimensions": [600, 600],
+      "format": "PNG"
+    },
+    {
+      "id": "headwear-8",
+      "derivativeOutputUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:c6ae8671-4378-414c-99aa-6d162b1247cc",
+      "plannedRepositoryPath": "public/assets/catalog/headwear-8-w12-v2.png",
+      "expectedDimensions": [600, 600],
+      "format": "PNG"
+    }
+  ],
+  "transportEvidence": {
+    "adobeConnector": "The recorded short URL can be resolved for visual inline preview, but the exposed supported connector actions do not provide raw-byte materialization/download of the exact derivative suitable for GitHub binary upload.",
+    "containerNetwork": "Direct curl transfer failed with: curl: (6) Could not resolve host: photoshop-api.adobe.io",
+    "browserConnector": "Read-only exact-URL resolution failed because the browser connector requires user input and cannot proceed in this non-interactive execution context.",
+    "githubDestination": "GitHub binary blob/tree write capability is available; the blocker is obtaining the exact external derivative bytes without re-encoding or substitution."
+  },
+  "result": {
+    "repositoryAssetWrites": 0,
+    "exactRepositoryHashProofs": 0,
+    "exactRepositoryDimensionProofs": 0,
+    "exactRepositoryByteCountProofs": 0,
+    "regenerationPerformed": false,
+    "modificationPerformed": false,
+    "cropPerformed": false,
+    "rethemePerformed": false,
+    "rerenderPerformed": false,
+    "selfReviewPerformed": false,
+    "canonicalWiringPerformed": false
+  },
+  "handoff": {
+    "12": "Preserve the four existing derivatives and Workstream12 provenance. No substitute asset was created. Resume only when a supported path can expose the exact derivative bytes for repository attachment.",
+    "01": "Do not review Headwear 5-8 yet: no exact repository bytes/hash exist. Preserve reviewer independence.",
+    "15": "Transport capability remains the blocker; helper04 stopped retry churn after recording this concrete failure once."
+  },
+  "preservation": {
+    "acceptedLighting1to12Touched": false,
+    "acceptedShoes1to6Touched": false,
+    "mainTouched": false,
+    "runtimeOrCssTouched": false,
+    "deployTouched": false,
+    "realPlayerDataTouched": false
+  }
+}
