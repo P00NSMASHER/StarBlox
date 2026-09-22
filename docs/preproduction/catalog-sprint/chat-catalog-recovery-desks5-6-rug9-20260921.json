@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "batchId": "chat-catalog-recovery-desks5-6-rug9-20260921",
+  "items": [
+    {
+      "id": "desks-5",
+      "assetId": "urn:aaid:sc:US:8962802a-f953-4cfe-bc19-c56fc7afcc74",
+      "producer": "03",
+      "independentReviewer": "05",
+      "renditionUrl": "https://at.adobe.com/Iha8aKnVJQlrZSxn",
+      "sourceUrl": "https://at.adobe.com/Dc6RLVhCC4jSK9CL",
+      "candidateRepositoryPath": "public/assets/catalog/desks-5-w03-recovered-v2.jpg"
+    },
+    {
+      "id": "desks-6",
+      "assetId": "urn:aaid:sc:US:bc5a80a0-b94a-4564-8360-9d521a05dde0",
+      "producer": "03",
+      "independentReviewer": "05",
+      "renditionUrl": "https://at.adobe.com/VnOWFQxAlEgNLjsr",
+      "sourceUrl": "https://at.adobe.com/M1IkehQ4HarpbQXH",
+      "candidateRepositoryPath": "public/assets/catalog/desks-6-w03-recovered-v2.jpg"
+    },
+    {
+      "id": "rugs-9",
+      "assetId": "urn:aaid:sc:US:b00a0244-56e8-4393-939f-1c14209bc561",
+      "producer": "07",
+      "independentReviewer": "14",
+      "renditionUrl": "https://at.adobe.com/3xYDx9kOWIWrCX5a",
+      "sourceUrl": "https://at.adobe.com/pbXXAjoOtGOjr0eh",
+      "candidateRepositoryPath": "public/assets/catalog/rugs-9-w07-v2.jpg"
+    }
+  ]
+}
