@@ -1,0 +1,63 @@
+name: StarBlox Art Factory Preflight
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: starblox-art-factory-preflight-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  preflight:
+    if: github.ref_name == 'screenshot-match-preproduction'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Checkout exact branch head
+        uses: actions/checkout@v4
+
+      - name: Use Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Verify prompt optimizer with the intended test runner
+        run: |
+          node --test scripts/artPromptOptimizer.test.mjs
+          node scripts/artPromptOptimizer.mjs validate --repo-root .
+
+      - name: Use Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install exact pinned accelerator revisions
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install \
+            "ImageHash @ git+https://github.com/JohannesBuchner/imagehash.git@7a405c9a27571ee8c998b661ce751639c34b7355" \
+            "PyMatting @ git+https://github.com/pymatting/pymatting.git@6d5c4a6bed0e5672abac0bad078e594423ffe4fd" \
+            "diffusers @ git+https://github.com/huggingface/diffusers.git@7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c"
+          git clone https://github.com/tencent-ailab/IP-Adapter.git /tmp/ip-adapter
+          git -C /tmp/ip-adapter checkout 62e4af9d0c1ac7d5f8dd386a0ccf2211346af1a2
+          test "$(git -C /tmp/ip-adapter rev-parse HEAD)" = "62e4af9d0c1ac7d5f8dd386a0ccf2211346af1a2"
+
+      - name: Run report-only accelerator pilot
+        env:
+          IP_ADAPTER_SOURCE_ROOT: /tmp/ip-adapter
+        run: |
+          python docs/preproduction/art-factory/pilot_art_accelerators.py \
+            --root . \
+            --output artifacts/art-factory-pilot
+
+      - name: Upload deterministic evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: starblox-art-factory-preflight-${{ github.sha }}
+          path: artifacts/art-factory-pilot/
+          retention-days: 14
+          if-no-files-found: error
