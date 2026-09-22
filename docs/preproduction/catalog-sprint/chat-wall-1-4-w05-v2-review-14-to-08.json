@@ -1,0 +1,167 @@
+{
+  "schemaVersion": 1,
+  "reviewer": "14",
+  "role": "independent Wall reviewer",
+  "phase": "ART_VISUALS_SPRINT",
+  "branch": "screenshot-match-preproduction",
+  "reviewedAt": "2026-09-22T10:35:56Z",
+  "reviewSourceHead": "eb5383eb66a8ee1f90382c67d31d452336d61893",
+  "producer": "05",
+  "canonicalWriter": "08",
+  "batchId": "w05-wall-1-4-20260922-b01",
+  "workflowRunId": 35711317749,
+  "workflowArtifactId": 10686148260,
+  "workflowArtifactName": "wall-1-4-w05-v2-recovery-evidence",
+  "scopeQualification": {
+    "exactByteReadback": "PASS_4_OF_4",
+    "candidateDecode": "PASS_4_OF_4",
+    "wallCardDetailRender": "PASS_4_OF_4",
+    "sharedStagedArtReportOverall": "FAIL_UNRELATED_DESKS_2_TO_4_LEGACY_WEBP_DECODE",
+    "overallRelabeled": false,
+    "note": "Only the exact Wall 1-4 scoped evidence is dispositioned. The shared staged-art report's unrelated failures are preserved and are not converted into a global PASS."
+  },
+  "provenanceQualification": {
+    "provider": "Adobe",
+    "tool": "image_generate",
+    "modelId": null,
+    "modelRevision": null,
+    "seed": null,
+    "recordingRule": "The active Art Factory runbook requires exact model/revision when exposed and explicitly requires null rather than invention when a runtime cannot expose a parameter. Producer evidence records these values as null with that limitation; this review does not infer or fabricate them.",
+    "modelCheckpointRightsBasis": "USER_ATTESTED_FULL_RIGHTS",
+    "separateTermsNotWaived": true
+  },
+  "evidence": {
+    "producerResult": "docs/preproduction/catalog-sprint/chat-wall-1-4-w05-v2-result.json",
+    "renderReport": "workflow:35711317749/artifact:10686148260/artifacts/catalog-staged-art/report.json",
+    "cardContactSheet": "workflow:35711317749/artifact:10686148260/artifacts/catalog-staged-art/staged-replacements/staged-replacements-contact-sheet.png#sha256=5eab3bff7446bf2aa2ce74b8882382aa0c923e7cec7b932f5ad1eb1f77f68e00"
+  },
+  "reviews": [
+    {
+      "itemId": "wall-1",
+      "name": "School Star Poster",
+      "tier": 1,
+      "theme": "Garden Glow",
+      "assetPath": "/assets/catalog/wall-1-w05-v2.png",
+      "repositoryPath": "public/assets/catalog/wall-1-w05-v2.png",
+      "assetHash": "9908e774b4012cb89d3c86eed9ca3d10ce3bffe4",
+      "sha256": "67c9beff2572a2066debd257a4757b9498a0b0850372c8bfd397925cb6f7dd35",
+      "hashAlgorithm": "git-blob-sha1",
+      "decision": "ACCEPT",
+      "evidenceRefs": [
+        "workflow:35711317749/artifact:10686148260/artifacts/catalog-staged-art/staged-replacements/detail/wall-1-9908e774.png#sha256=4486b5c672a10bb46aeb86687c1df84d073f25f0c92fbe62ad4d76f3af4b5c81",
+        "workflow:35711317749/artifact:10686148260/artifacts/catalog-staged-art/staged-replacements/staged-replacements-contact-sheet.png#sha256=5eab3bff7446bf2aa2ce74b8882382aa0c923e7cec7b932f5ad1eb1f77f68e00"
+      ],
+      "reason": "Exact rendered pixels are unmistakably a physical wall-mounted framed poster: substantial wood frame thickness/bevel, glazed-paper inset, visible top hanging loops, wall contact shadow, and dimensional corner construction. Garden Glow leaf/star identity is exact and remains legible at card size. It is attractive but appropriately restrained for Tier 1 and does not materially duplicate the later Skate Poster or other Wall silhouettes.",
+      "checks": {
+        "identity": "PASS",
+        "mountingDepth": "PASS",
+        "themeTier": "PASS",
+        "materialLighting": "PASS",
+        "cardReadability": "PASS",
+        "originality": "PASS",
+        "duplicateVisual": "PASS"
+      }
+    },
+    {
+      "itemId": "wall-2",
+      "name": "Cloud Wall Flag",
+      "tier": 1,
+      "theme": "Galaxy Glow",
+      "assetPath": "/assets/catalog/wall-2-w05-v2.png",
+      "repositoryPath": "public/assets/catalog/wall-2-w05-v2.png",
+      "assetHash": "febf517cd0db666f647962c0cb7d4e5af53d4b76",
+      "sha256": "2a768ebe8ef70a925894abf9d07c2280e9c7c6531eb000a3ff9aa227d24e0303",
+      "hashAlgorithm": "git-blob-sha1",
+      "decision": "ACCEPT",
+      "evidenceRefs": [
+        "workflow:35711317749/artifact:10686148260/artifacts/catalog-staged-art/staged-replacements/detail/wall-2-febf517c.png#sha256=7f0c46610221204522a4e6246af35adbbe4aed13b126ae14d618e8ce1a72077d",
+        "workflow:35711317749/artifact:10686148260/artifacts/catalog-staged-art/staged-replacements/staged-replacements-contact-sheet.png#sha256=5eab3bff7446bf2aa2ce74b8882382aa0c923e7cec7b932f5ad1eb1f77f68e00"
+      ],
+      "reason": "Exact rendered pixels clearly read as a suspended textile wall flag rather than a flat icon: woven cloth texture, stitched hems, fold curvature, dowel/end hardware, braided hanging cord and wall shadow create real mounting depth. Crescent/cloud/night imagery strongly matches Galaxy Glow and the silhouette remains immediately readable in the small card. Complexity is suitable for Tier 1 and the pennant construction is distinct from every other current Wall item.",
+      "checks": {
+        "identity": "PASS",
+        "mountingDepth": "PASS",
+        "themeTier": "PASS",
+        "materialLighting": "PASS",
+        "cardReadability": "PASS",
+        "originality": "PASS",
+        "duplicateVisual": "PASS"
+      }
+    },
+    {
+      "itemId": "wall-3",
+      "name": "Pixel Scoreboard",
+      "tier": 1,
+      "theme": "Sunny Pop",
+      "assetPath": "/assets/catalog/wall-3-w05-v2.png",
+      "repositoryPath": "public/assets/catalog/wall-3-w05-v2.png",
+      "assetHash": "5ad5aff97c9d365221de8c2d888abf3a26db547e",
+      "sha256": "8a07f0be4aec31859f5d679f039619d5e4ea5c7ff28e06d4d5a85e12dd1ff199",
+      "hashAlgorithm": "git-blob-sha1",
+      "decision": "ACCEPT",
+      "evidenceRefs": [
+        "workflow:35711317749/artifact:10686148260/artifacts/catalog-staged-art/staged-replacements/detail/wall-3-5ad5aff9.png#sha256=9c87613174e980b95b461f7c2db8ef41b0c7b28812011cf0f708534148df5a82",
+        "workflow:35711317749/artifact:10686148260/artifacts/catalog-staged-art/staged-replacements/staged-replacements-contact-sheet.png#sha256=5eab3bff7446bf2aa2ce74b8882382aa0c923e7cec7b932f5ad1eb1f77f68e00"
+      ],
+      "reason": "Exact rendered pixels establish a thick molded wall scoreboard with rounded housing, side depth, fasteners/mount details, recessed dark glass/display face and a clear wall shadow. Sunny Pop yellow/coral/aqua pixels and sun/star motifs remain strong at card size without collapsing into generic signage. Tier 1 treatment is simple and polished, and the physical housing/screen layout is materially distinct from Neon City Sign and the other Wall candidates.",
+      "checks": {
+        "identity": "PASS",
+        "mountingDepth": "PASS",
+        "themeTier": "PASS",
+        "materialLighting": "PASS",
+        "cardReadability": "PASS",
+        "originality": "PASS",
+        "duplicateVisual": "PASS"
+      }
+    },
+    {
+      "itemId": "wall-4",
+      "name": "Heart Gallery",
+      "tier": 2,
+      "theme": "Aqua Wave",
+      "assetPath": "/assets/catalog/wall-4-w05-v2.png",
+      "repositoryPath": "public/assets/catalog/wall-4-w05-v2.png",
+      "assetHash": "bc38aee13c1c4840aa1e9657edfb67c8838a6a21",
+      "sha256": "f1a3398c3b9b35e92db7ea6a146f8aa13d0df18427b4e7e10db69bb26ceecf8a",
+      "hashAlgorithm": "git-blob-sha1",
+      "decision": "ACCEPT",
+      "evidenceRefs": [
+        "workflow:35711317749/artifact:10686148260/artifacts/catalog-staged-art/staged-replacements/detail/wall-4-bc38aee1.png#sha256=947d0a5909d25cd45b8e446367d4d0f51ee5fdcc390a5a02bf7fcb950e9aa195",
+        "workflow:35711317749/artifact:10686148260/artifacts/catalog-staged-art/staged-replacements/staged-replacements-contact-sheet.png#sha256=5eab3bff7446bf2aa2ce74b8882382aa0c923e7cec7b932f5ad1eb1f77f68e00"
+      ],
+      "reason": "Exact rendered pixels read as a deliberately mounted multi-frame wall gallery: two thick metallic picture frames stand off a substantial backing plate and lower rail/bracket system, with consistent highlights and contact-depth cues. Aqua/white heart-wave artwork with restrained coral accents fits Aqua Wave, and the asymmetric two-frame silhouette survives card reduction. Its added layered construction is a credible Tier 2 step above the Tier 1 pieces and is sufficiently distinct from the generic four-panel Art Gallery Wall.",
+      "checks": {
+        "identity": "PASS",
+        "mountingDepth": "PASS",
+        "themeTier": "PASS",
+        "materialLighting": "PASS",
+        "cardReadability": "PASS",
+        "originality": "PASS",
+        "duplicateVisual": "PASS"
+      }
+    }
+  ],
+  "summary": {
+    "accepted": 4,
+    "rework": 0,
+    "blocked": 0,
+    "scaleGate": "WALL_1_TO_4_PILOT_VISUALLY_QUALIFIED",
+    "canonicalIntegrationAuthorizedForTheseExactHashesOnly": true
+  },
+  "handoff": {
+    "08": "Consume these four exact-hash Wall ACCEPTs immediately subject to 08's normal mapping/file/decode/uniqueness checks. Do not infer approval for Wall 5-12.",
+    "05": "Wall 1-4 v2 pilot has 4/4 independent ACCEPTs on the exact hashes above. Preserve these exact versions; any later changed hash requires a new independent review.",
+    "15": "Wall 1-4 fresh pilot disposition is complete. The shared staged-art report's unrelated failures remain visible; only Wall scoped evidence is accepted."
+  },
+  "freeze": {
+    "replitTouched": false,
+    "flootTouched": false,
+    "mainTouched": false,
+    "deployTouched": false,
+    "paidSettingsOrPurchasesTouched": false,
+    "canonicalMappingsTouched": false,
+    "catalogMetadataTouched": false,
+    "gameplayTouched": false,
+    "realPlayerDataTouched": false
+  }
+}
