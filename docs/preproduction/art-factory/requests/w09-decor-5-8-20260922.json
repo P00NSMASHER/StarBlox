@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 2,
+  "kind": "STARBLOX_ART_FACTORY_BATCH_REQUEST",
+  "producer": "09",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "05a9855fba6c262db1f900b8ade52b17404a24e2",
+  "batchId": "w09-decor-5-8-vnext",
+  "scope": ["decor-5", "decor-6", "decor-7", "decor-8"],
+  "reviewer": "14",
+  "variantsPerItem": 2,
+  "reviewedLegacy": {
+    "decor-5": {"hash": "0f7559a576177758d94dba1c3da27373a9151a2b", "decision": "REWORK"},
+    "decor-6": {"hash": "3a8d81ea490f8bac42ef2147797a3926d69df9ef", "decision": "REWORK"},
+    "decor-7": {"hash": "671c609625400bf5c2142daef73ab632bd1225a2", "decision": "REWORK"},
+    "decor-8": {"hash": "87e33d5190b7a7ef21e23ae875dda8ae1808c4be", "decision": "REWORK"}
+  },
+  "generationPolicy": {
+    "useArtPromptOptimizer": true,
+    "compileArtFactoryJobV2": true,
+    "authorizedGenerator": "ChatGPT image generation tool",
+    "sourcePixels": 1024,
+    "derivativePixels": 600,
+    "preserveSourceBytes": true,
+    "stageVersionedExactBytes": true,
+    "realCardDetailRenderRequired": true,
+    "independentReviewerRequired": "14",
+    "noCanonicalWiringByProducer": true
+  },
+  "rightsDomains": {
+    "modelCheckpoint": "USER_ATTESTED_FULL_RIGHTS",
+    "generatorService": "AUTHORIZED_CHATGPT_TOOL_RUNTIME; exact internal model revision not exposed to producer",
+    "repositoryCode": "SEPARATE_LICENSE_DOMAIN",
+    "conditioningReferences": "STARblox_ORIGINAL_ONLY",
+    "externalDatasets": "NONE",
+    "thirdPartyCharactersBrands": "PROHIBITED"
+  },
+  "freeze": {
+    "decor1To4": true,
+    "decor9To12": true,
+    "tops11To12V7Receipts": true,
+    "canonicalRuntime": true,
+    "gameplayEconomySaves": true
+  },
+  "note": "Factory preflight request for one bounded Decor 5-8 repair pilot only. The direct Art Prompt Optimizer workflow at commit 05a9855 exposed a review-discovery defect (reviewFiles=0); the art-factory preflight regeneration queue is also being run because it invokes artPromptOptimizer recommendations from the correctly normalized exact-hash corpus."
+}
