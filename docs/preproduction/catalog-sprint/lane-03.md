@@ -1,89 +1,68 @@
 # Catalog Sprint — Lane 03 Desks & Tech
 
-STATUS: **DESKS 2–4 REPOSITORY-STAGED / CURRENT-HASH RENDER PENDING FOR REVIEWER 05; DESKS 5–6 EXACT ADOBE RECOVERY LINKS RESOLVED / BYTE TRANSFER ESCALATED TO 15 AFTER SECOND BLOCKED CYCLE**
+STATUS: **DESKS 5–6 ACCEPTED — PRESERVE EXACT HASHES; DESKS 2–4 CURRENT PNG REPLACEMENTS PENDING REVIEWER 05; DESKS 7–12 HOLD — NO SPECULATIVE REPLACEMENT**
 
 Branch: `screenshot-match-preproduction`  
 Workstream: 03  
-Phase: `CATALOG_SPRINT`  
-Canonical manifest/runtime: **not changed**  
-Self-approval: **NO**  
-Independent review owner: **05**  
-Canonical integration owner: **08**
+Allocation: `ART_AND_VISUALS_ONLY`  
+Observed coordination head before this reconciliation: `59dc6137a2d6dbd55d4342083dd8ba5a224665d6`  
+Independent Desk reviewer: **05**  
+Canonical catalog writer: **08 only**  
+Cross-owner coordinator: **15 only**
 
-## Material progress this pass
+## Useful reconciliation this cycle
 
-The latest branch and current assignments were re-read before work. Workstream 03 still owns `desks-2..12`; `desks-1` remains preserved. No accepted or pending current desk was regenerated.
+Lane 03 was stale: it still described Desk 5–6 as upload-blocked/awaiting review and pointed Desk 2–4 at superseded invalid WebP candidates. I reconciled the lane to current exact-hash evidence instead of generating more art.
 
-The important changed dependency is now explicit: reviewer 05 has the current staged `desks-2-v1`, `desks-3-v1`, and `desks-4-v1` hashes queued as **PENDING_SHARED_RENDER**. The earlier blank/transparent finding belongs to obsolete `-w03-v1` hashes and was not transferred to these current versions. Workstream 14 must render the current lane paths before reviewer 05 can disposition them.
+Desk 5 and Desk 6 are now independently **ACCEPTED by reviewer 05**. Their exact repository bytes are present at the current paths and were re-read from the branch in this cycle. They are frozen from producer regeneration or stylistic churn.
 
-For `desks-5` and `desks-6`, I resolved the exact preserved Firefly assets through Adobe again and obtained current `at.adobe.com` source/download and rendition URLs. That is materially different from the earlier Photoshop short-URL-only handoff and matches the transport shape already proven by the successful Lighting 5–8 recovery. Both actual current renditions were re-inspected; Garden Book Desk remains a dimensional warm-wood book/plant study desk and Galaxy Gamer Setup remains a dimensional indigo/berry-magenta gaming desk with clear tech identity.
+Desk 2–4 now use the valid replacement PNGs created after the old WebP files failed signature/decode checks. The current PNG blobs were re-read from the branch and remain with reviewer 05. They are **not** being regenerated while that review is pending.
 
-I deliberately did **not** generate `desks-7..12` this cycle. The sprint rule is to finish a 2–4 item pilot through repository storage and independent review before scaling. Producing more local/remote art while `desks-5/6` cannot yet enter Git would only increase stranded inventory.
+Desk 7–12 are deliberately on hold. Latest coordination does not allow replacing them merely because older catalog status is stale. Lane 03 will start another 2–4 item repair batch only after an exact current REWORK or an explicit unfinished assignment from Workstream 15/current authoritative evidence.
 
-## Current exact staged candidates
+## Current Desk truth
 
-| ID | Exact item | Tier | Theme | Repository path | Git blob SHA | Bytes | Review state |
+| ID | Item | Tier | Theme | Current path | Git blob SHA | Size | Review state |
 |---|---|---:|---|---|---|---:|---|
-| `desks-2` | Cloud Study Desk | 1 | Candy Core | `public/assets/catalog/desks-2-v1.webp` | `357f4ba8385e737499f12409c0bea141f9bc5e6a` | 30,866 | READY_FOR_REVIEW / current render pending |
-| `desks-3` | Pixel Mini Setup | 1 | Adventure Club | `public/assets/catalog/desks-3-v1.webp` | `b3352961988d7e9c5ff48d1559fc4d2296d4eab3` | 36,084 | READY_FOR_REVIEW / current render pending |
-| `desks-4` | Berry Vanity Desk | 2 | Cloud Pop | `public/assets/catalog/desks-4-v1.webp` | `711feeb78e6d08351fc2fd2d3176ddb1a288e8f2` | 39,394 | READY_FOR_REVIEW / current render pending |
+| `desks-1` | Tiny Homework Desk | preserved | preserved | `/assets/catalog/desks-1.svg` | `1b39d2f14df20364ee908ed01fa48f0c82b66e6a` | 2,189 B | preserve existing |
+| `desks-2` | Cloud Study Desk | 1 | Candy Core | `public/assets/catalog/desks-2-chat-v2.png` | `277eb1e38e8a69caa0dab6d4d27bbb91796746f8` | 845,051 B | **PENDING reviewer 05** |
+| `desks-3` | Pixel Mini Setup | 1 | Adventure Club | `public/assets/catalog/desks-3-chat-v2.png` | `aeebeacdc4a95bf75af36583dae6e2391d9a1d9e` | 1,148,489 B | **PENDING reviewer 05** |
+| `desks-4` | Berry Vanity Desk | 2 | Cloud Pop | `public/assets/catalog/desks-4-chat-v2.png` | `6f87e1527ec7d9bf1a3f81e1f54320f462dbb025` | 1,043,349 B | **PENDING reviewer 05** |
+| `desks-5` | Garden Book Desk | 2 | Pixel Party | `public/assets/catalog/desks-5-w03-recovered-v2.jpg` | `95fe65632e4f40b76b23cce30071ee2fdc5b4399` | 51,545 B | **ACCEPT reviewer 05** |
+| `desks-6` | Galaxy Gamer Setup | 2 | Berry Blast | `public/assets/catalog/desks-6-w03-recovered-v2.jpg` | `52df05265de236911927b904b07e68dac7a17828` | 34,981 B | **ACCEPT reviewer 05** |
 
-Reviewer 05 explicitly says the stale fixture defect used obsolete desk hashes and must not be treated as a current decision. Workstream 14 owns correcting candidate selection/rendering for these three exact hashes.
+### Accepted evidence retained
 
-## Exact recoverable Firefly candidates
+Reviewer-05 commit `bccf05881847a8ff5ee63a7d7ca98a6f7630c457` binds the Desk 5–6 decisions to their exact current hashes. The review used workflow `35669227577`, artifact `10670532506`, with actual card/detail pixels and exact-hash binding for both assets.
 
-The exact current game-model metadata remains:
+Desk 5 acceptance finding: strong dimensional three-quarter furniture silhouette, rounded wood volume, drawers, book cubby, planter, articulated lamp, material depth and card readability appropriate to Tier 2 Pixel Party.
 
-- `desks-5` — **Garden Book Desk**, Tier 2, Pixel Party, price 181, star requirement 0.
-- `desks-6` — **Galaxy Gamer Setup**, Tier 2, Berry Blast, price 254, star requirement 0.
+Desk 6 acceptance finding: layered dimensional gaming setup with galaxy monitor, keyboard, speakers/controllers, orb light, beveled supports and Berry Blast magenta accents; material separation and card readability pass at Tier 2.
 
-### `desks-5`
+### Superseded Desk 2–4 files — never select for current review
 
-- GenAI asset: `urn:aaid:sc:US:8962802a-f953-4cfe-bc19-c56fc7afcc74`
-- Seed: `-244506822245710`
-- Adobe rendition URL resolved this pass: `https://at.adobe.com/erUtDmd1Tm6AK332`
-- Adobe source/download URL resolved this pass: `https://at.adobe.com/nNW24oiGxUt4gYTk`
-- Intended candidate path after byte recovery: `public/assets/catalog/desks-5-w03-recovered-v2.jpg`
-- Intended preserved source path: `docs/preproduction/catalog-sprint/recovered-originals/desks-5-6-20260921/desks-5-8962802a-f953-4cfe-bc19-c56fc7afcc74.ffgenimg`
-- Producer pixels: **PASS** — complete three-quarter warm-wood desk, book shelf, integrated planter, articulated lamp, books, stationery and rounded drawer pedestal; centered and unclipped.
+- `desks-2-v1.webp` — `357f4ba8385e737499f12409c0bea141f9bc5e6a`
+- `desks-3-v1.webp` — `b3352961988d7e9c5ff48d1559fc4d2296d4eab3`
+- `desks-4-v1.webp` — `711feeb78e6d08351fc2fd2d3176ddb1a288e8f2`
 
-### `desks-6`
+Those prior WebP blobs are preserved only for audit. They were superseded after invalid-signature/nondecoding evidence and must not be confused with the current PNG candidates above.
 
-- GenAI asset: `urn:aaid:sc:US:bc5a80a0-b94a-4564-8360-9d521a05dde0`
-- Seed: `3773566070365548`
-- Adobe rendition URL resolved this pass: `https://at.adobe.com/cNu2n27bdRVX6IdN`
-- Adobe source/download URL resolved this pass: `https://at.adobe.com/s1UsqTcWV9olEyMH`
-- Intended candidate path after byte recovery: `public/assets/catalog/desks-6-w03-recovered-v2.jpg`
-- Intended preserved source path: `docs/preproduction/catalog-sprint/recovered-originals/desks-5-6-20260921/desks-6-bc5a80a0-b94a-4564-8360-9d521a05dde0.ffgenimg`
-- Producer pixels: **PASS** — complete three-quarter gaming desk with galaxy monitor, speakers, keyboard/controllers, planet light, drawer pedestal and berry-magenta accents; centered and unclipped.
+## Checks performed this cycle
 
-These links are connector-resolved `at.adobe.com` URLs, the same URL class used by the already successful immutable Lighting byte-recovery path. They are a transport handoff, **not** repository delivery and not independent acceptance.
+- **PASS** — read `ART_VISUALS_SPRINT.json` before older mission text.
+- **PASS** — re-read latest branch before lane write.
+- **PASS** — exact branch readback of current Desk 2–6 repository paths; returned blobs match lane hashes.
+- **PASS** — reviewer-05 exact-hash ACCEPT evidence verified for Desk 5–6.
+- **PASS** — no accepted Desk was regenerated or modified.
+- **PASS** — no speculative Desk 7–12 generation started.
+- **NOT ATTEMPTED by design** — canonical wiring; owner 08 only.
+- **NOT ATTEMPTED by design** — shared Home runtime/CSS edits while Desk review remains active.
 
-## Checks actually performed
+## Handoff
 
-- **PASS** — latest sprint state still assigns `desks-2..12` to Workstream 03.
-- **PASS** — authoritative `src/gameModel.js` confirms exact Desks & Tech names; theme/tier derivation remains unchanged.
-- **PASS** — `desks-2..4` preserved; no regeneration of current staged hashes.
-- **PASS / changed dependency** — reviewer 05 currently lists `desks-2..4` as `PENDING_SHARED_RENDER`; stale blank renders belong to obsolete hashes only.
-- **PASS 2/2** — exact preserved `desks-5/6` Firefly assets rediscovered in Adobe and current pixels re-inspected.
-- **PASS 2/2** — connector-resolved `at.adobe.com` rendition plus source/download URLs obtained for central immutable recovery.
-- **BLOCKED in lane 03** — this producer does not own shared recovery workflow/script paths and therefore did not create another transport framework.
-- **PENDING** — Workstream 14 current-hash render for `desks-2..4`.
-- **PENDING** — reviewer 05 independent visual decisions.
-- **NOT RUN** — Workstream 08 canonical integration; correctly reserved for independently ACCEPTed staged hashes.
+1. **05:** disposition only the current Desk 2–4 PNG hashes above. Do not transfer any verdict from the superseded WebP files.
+2. **08:** Desk 5–6 exact ACCEPT hashes are eligible for normal metadata/file/content integration checks; 03 does not wire them.
+3. **03:** preserve Desk 5–6 and wait for Desk 2–4 exact decisions. Repair only a concrete current REWORK. Do not begin Desk 7–12 without exact current REWORK evidence or explicit 15 assignment.
+4. While waiting, 03 may record bounded Home reference/material/composition observations in its own lane, but must not touch shared runtime/CSS or claim final Home acceptance.
 
-## Blocker escalation
-
-This is the **second consecutive cycle** in which `desks-5/6` are finished premium images but cannot be written by Workstream 03 through its owned path alone. Per the anti-stall rule, the blocker is now escalated to Workstream 15 with everything needed for a one-time central transfer.
-
-Requested helper action: reuse the already-proven immutable Adobe recovery pattern for exactly `desks-5` and `desks-6`; verify current Store metadata, fetch only the exact source/rendition URLs above, store versioned candidate/source bytes, verify decode/dimensions/SHA-256/Git blob/readback and non-duplicate content, and publish with a normal non-force latest-head commit. No regeneration, recompression, recoloring or canonical wiring. Return the exact stored hashes to lane 03; reviewer 05 then judges them and 08 alone integrates accepted hashes.
-
-## Handoff / next productive action
-
-1. **14** — render the current `desks-2-v1`, `desks-3-v1`, `desks-4-v1` paths/hashes rather than the obsolete `-w03-v1` files.
-2. **05** — independently review those exact current pixels as soon as 14 publishes the corrected render artifact.
-3. **15 / authorized byte-transport helper** — perform the one-time immutable Adobe recovery for exact `desks-5/6` links above.
-4. **03** — consume the returned Git hashes, verify current-path readback, mark only those stored versions READY_FOR_REVIEW, and repair any concrete reviewer defect before further generation.
-5. Only after this pilot has repository delivery plus independent disposition should 03 continue the next 2–4 item batch with `desks-7..12`.
-
-**Replit/Floot were not touched. `main` was not merged or modified. Player data, 192 Store IDs, prices/unlocks, learning content, canonical manifest and runtime mappings were unchanged.**
+**Replit/Floot/main/deploy/paid settings were not touched. Player data, saves, learning, Store IDs, prices/unlocks, canonical manifest/runtime and original reference files were not changed.**
