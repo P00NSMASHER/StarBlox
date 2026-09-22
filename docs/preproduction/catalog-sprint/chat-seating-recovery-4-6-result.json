@@ -3,7 +3,7 @@
   "batchId": "chat-seating-recovery-4-6-20260922",
   "status": "STAGED_READY_FOR_INDEPENDENT_REVIEW",
   "sourceHead": "121323dc0001a41515a2b1030790a19a45bee0ae",
-  "workflowRunId": "35673301701",
+  "workflowRunId": 35673301701,
   "transportHelper": "CHAT",
   "canonicalWriter": "08",
   "newGenerations": 0,
@@ -130,7 +130,11 @@
     "metadata": "PASS_3_OF_3_FROM_CURRENT_GAME_MODEL",
     "exactByteReadback": "PASS_6_OF_6",
     "candidateDecode": "PASS_3_OF_3",
-    "independentVisualReview": "PENDING_ASSIGNED_REVIEWERS"
+    "independentVisualReview": "PENDING_ASSIGNED_REVIEWERS",
+    "tests": "PASS",
+    "build": "PASS",
+    "sharedRenderOverall": "FAIL",
+    "seatingCardDetailRender": "PASS_3_OF_3"
   },
   "freeze": {
     "replitTouched": false,
@@ -139,5 +143,21 @@
     "canonicalMappingsTouched": false,
     "gameplayChanged": false,
     "playerDataTouched": false
-  }
+  },
+  "testedSourceHead": "a4600faaa608310b91ff202bd58d54c83eab0693",
+  "renderEvidence": {
+    "artifactName": "seating-4-6-recovery-evidence",
+    "reportPath": "artifacts/catalog-staged-art/report.json",
+    "matchedIds": [
+      "seating-4",
+      "seating-5",
+      "seating-6"
+    ],
+    "matchedHashes": {
+      "seating-4": "55d1fb2edddb7638f87c5962bd03b6ac745a1f4b",
+      "seating-5": "252f0b24b3ede29d6abfbe7fc661a7da751de565",
+      "seating-6": "f4f00fb739aaae4ce970a4c4d1d738bca729ff40"
+    }
+  },
+  "independentVisualReview": "PENDING_WORKSTREAM_02_NOT_SELF_APPROVED"
 }
