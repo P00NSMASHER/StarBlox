@@ -60,7 +60,7 @@ jobs:
       - name: Install lightweight visual-preflight dependency
         run: python -m pip install --disable-pip-version-check Pillow==11.3.0
 
-      - name: Build current review corpus and calibration
+      - name: Build current review corpus, calibration, and neighbor cache
         run: |
           mkdir -p artifacts/catalog-staged-art/preflight
           node scripts/artReviewNormalizer.mjs \
@@ -70,6 +70,9 @@ jobs:
             --repo-root . \
             --corpus artifacts/catalog-staged-art/review-corpus.json \
             --output artifacts/catalog-staged-art/visual-calibration.json
+          python scripts/catalogVisualPreflight.py cache \
+            --neighbors public/assets/catalog \
+            --output artifacts/catalog-staged-art/preflight/catalog-neighbor-cache.json
 
       - name: Attach calibrated report-only preflight to exact rendered candidates
         run: |
@@ -82,6 +85,7 @@ jobs:
           root = pathlib.Path('.')
           report_path = pathlib.Path('artifacts/catalog-staged-art/report.json')
           calibration = pathlib.Path('artifacts/catalog-staged-art/visual-calibration.json')
+          neighbor_cache = pathlib.Path('artifacts/catalog-staged-art/preflight/catalog-neighbor-cache.json')
           if not report_path.exists():
               print('No staged-art report exists; calibrated attachment is not applicable.')
               raise SystemExit(0)
@@ -120,7 +124,7 @@ jobs:
                   'scripts/catalogVisualPreflight.py',
                   'scan',
                   '--input', repo_path,
-                  '--neighbors', 'public/assets/catalog',
+                  '--neighbor-cache', str(neighbor_cache),
                   '--calibration', str(calibration),
                   '--output', str(dest),
               ], check=True)
