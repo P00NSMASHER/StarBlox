@@ -60,6 +60,12 @@ Reviewer-05 Desk 2–4 evidence remains blocked for a concrete reason. The autho
 
 do **not** have valid WebP signatures. Older `-w03-v1.webp` files are stale and decode/paint unusably; they are not substitutes for the current hashes. Reviewer 05 therefore needs newly restaged valid bytes before disposition.
 
+## Active-content / external-dependency asset safety
+
+Direct exact-hash scan of the current reviewer-14 SVG surface is **PASS 26/26**: Wall 1–12, Rugs 9–12 and Decor 3–12 all matched the hashes recorded in `reviews/14.json` and contained no script elements, `foreignObject`, inline event handlers, JavaScript URLs, external HTTP(S)/protocol-relative hrefs, external CSS URLs, `@import`, or XML entity declarations. Current accepted Lighting 1–12, Rugs 1–8 and Decor 1–2 replacements are raster images and have no SVG active-content/external-resource surface.
+
+Commit `a9b349341cb9e150c2ce81b43dffcbf8ba5aebdc` adds the same check to the shared staged-art fixture so future SVG candidates are blocked before rendering if they contain active content or external dependencies. A post-guard workflow artifact is still **PENDING**, so the fixture-code change itself is not yet counted as executed artifact proof.
+
 ## Tests / build / Store evidence
 
 Runtime/assets advanced to manifest v17 through Workstream 08. That integration ran the full npm test workflow and Vite production build successfully. The Rugs 5–8 and Decor 1–2 recovery workflows also passed their scoped metadata/readback/decode checks, tests and production builds.
