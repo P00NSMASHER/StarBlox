@@ -64,6 +64,15 @@
 .sb-motion-ready .homeCustomizeItem[aria-selected="true"]{
   filter:brightness(1.04) saturate(1.04);
 }
+/* Selection/equip remains readable after motion settles: cyan selection, warm-gold equip. */
+.sb-motion-ready .storeCard.sbStoreSelected{
+  outline:2px solid rgba(138,233,255,.72);
+  outline-offset:1px;
+}
+.sb-motion-ready .storeCard.sbStoreEquipped{
+  outline:2px solid rgba(255,216,79,.84);
+  outline-offset:1px;
+}
 .sb-motion-ready .sbMotionEquip{
   animation:sbEquipPop 720ms var(--sb-motion-ease) both;
 }
@@ -99,21 +108,40 @@
   pointer-events:none;
   overflow:hidden;
 }
+/* Three depth/material bands keep sparks spatial rather than a flat repeated stamp. */
 .sbStarSpark{
+  --sb-spark-size:14px;
   position:fixed;
   display:block;
-  width:18px;
-  height:18px;
-  margin:-9px 0 0 -9px;
-  color:#ffd84f;
-  font-size:17px;
-  line-height:18px;
+  width:var(--sb-spark-size);
+  height:var(--sb-spark-size);
+  margin:calc(var(--sb-spark-size) / -2) 0 0 calc(var(--sb-spark-size) / -2);
+  color:#d6f8ff;
+  font-size:var(--sb-spark-size);
+  line-height:var(--sb-spark-size);
   text-align:center;
-  text-shadow:0 1px 0 #9d640b,0 0 8px rgba(255,216,79,.75);
+  text-shadow:0 1px 0 rgba(13,67,157,.72),0 0 7px rgba(138,233,255,.72);
   opacity:0;
   transform:translate3d(0,0,0) scale(.55) rotate(0deg);
   animation:sbSparkTravel 860ms var(--sb-motion-ease) var(--spark-delay,0ms) forwards;
   will-change:transform,opacity;
+}
+.sbStarSpark:nth-child(3n+1){
+  --sb-spark-size:9px;
+  color:#8ae9ff;
+  text-shadow:0 0 6px rgba(99,217,244,.8);
+  filter:blur(.15px);
+}
+.sbStarSpark:nth-child(3n+2){
+  --sb-spark-size:18px;
+  color:#ffd84f;
+  text-shadow:0 1px 0 #9d640b,0 0 9px rgba(255,216,79,.76);
+}
+.sbStarSpark:nth-child(3n){
+  --sb-spark-size:6px;
+  color:#d6f8ff;
+  text-shadow:0 0 5px rgba(214,248,255,.72);
+  filter:blur(.4px);
 }
 
 /* Static emphasis used by the runtime when reduced motion is active. */
@@ -203,5 +231,17 @@
   .sb-motion-ready .homeTierPreview.current{
     outline:3px solid rgba(214,248,255,.9);
     outline-offset:2px;
+  }
+  /* Static equivalents preserve state hierarchy without motion or travel. */
+  .sb-motion-ready .storeCard.sbStoreSelected{
+    outline-color:rgba(138,233,255,.95);
+  }
+  .sb-motion-ready .storeCard.sbStoreEquipped,
+  .sb-motion-ready .homeTierPreview.current{
+    outline-color:rgba(255,216,79,.94);
+  }
+  .sb-motion-ready .sbMotionCorrect .feedback{
+    outline-color:rgba(145,240,173,.96);
+    box-shadow:0 0 0 3px rgba(145,240,173,.32),0 0 18px rgba(53,204,106,.24);
   }
 }
