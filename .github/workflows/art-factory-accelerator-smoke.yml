@@ -1,0 +1,60 @@
+name: StarBlox Art Factory Accelerator Smoke
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [screenshot-match-preproduction]
+    paths:
+      - '.github/workflows/art-factory-accelerator-smoke.yml'
+      - 'docs/preproduction/art-factory/pilot_art_accelerators.py'
+      - 'docs/preproduction/art-factory/ART_FACTORY_V2.json'
+      - 'docs/preproduction/art-factory/12-art-infra-accelerators.md'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: starblox-art-factory-accelerator-smoke-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  accelerator-smoke:
+    if: github.ref_name == 'screenshot-match-preproduction'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Checkout exact branch head
+        uses: actions/checkout@v4
+
+      - name: Use Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install exact pinned accelerator revisions
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install \
+            "ImageHash @ git+https://github.com/JohannesBuchner/imagehash.git@7a405c9a27571ee8c998b661ce751639c34b7355" \
+            "PyMatting @ git+https://github.com/pymatting/pymatting.git@6d5c4a6bed0e5672abac0bad078e594423ffe4fd" \
+            "diffusers @ git+https://github.com/huggingface/diffusers.git@7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c"
+          git clone https://github.com/tencent-ailab/IP-Adapter.git /tmp/ip-adapter
+          git -C /tmp/ip-adapter checkout 62e4af9d0c1ac7d5f8dd386a0ccf2211346af1a2
+          test "$(git -C /tmp/ip-adapter rev-parse HEAD)" = "62e4af9d0c1ac7d5f8dd386a0ccf2211346af1a2"
+
+      - name: Run report-only accelerator pilot
+        env:
+          IP_ADAPTER_SOURCE_ROOT: /tmp/ip-adapter
+        run: |
+          python docs/preproduction/art-factory/pilot_art_accelerators.py \
+            --root . \
+            --output artifacts/art-factory-accelerator-smoke
+
+      - name: Upload accelerator evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: starblox-art-factory-accelerator-smoke-${{ github.sha }}
+          path: artifacts/art-factory-accelerator-smoke/
+          retention-days: 14
+          if-no-files-found: error
