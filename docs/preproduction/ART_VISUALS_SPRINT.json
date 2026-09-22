@@ -19,29 +19,29 @@
   "mainMergeAllowed": false,
   "deploymentRequiresSeparateUserApproval": true,
   "schedulePolicy": {
-    "preserveExistingSchedules": true,
+    "preserveExistingSchedules": false,
     "intervalHours": 1,
     "timezone": "America/New_York",
     "taskCount": 15,
     "newTasksCreated": 0,
     "minuteByWorkstream": {
-      "10": 55,
-      "11": 18,
-      "12": 45,
-      "13": 50,
-      "14": 22,
+      "10": 54,
+      "11": 21,
+      "12": 24,
+      "13": 27,
+      "14": 35,
       "15": 0,
-      "01": 27,
-      "02": 31,
-      "03": 3,
-      "04": 6,
-      "05": 35,
-      "06": 9,
-      "07": 12,
-      "08": 40,
-      "09": 15
+      "03": 6,
+      "04": 9,
+      "06": 12,
+      "07": 15,
+      "09": 18,
+      "05": 31,
+      "01": 39,
+      "02": 43,
+      "08": 48
     },
-    "note": "Start offsets are not completion order. Consume latest completed evidence; no rapid polling or redundant full jobs."
+    "note": "Optimized one-hour factory flow: director -> producers -> mixed reviewer/producer -> shared render QA -> independent partition reviews -> canonical integration -> mobile QA. Start offsets are not completion guarantees; every worker consumes latest completed hash-bound evidence and never polls."
   },
   "referenceEvidence": {
     "status": "ORIGINALS_STORED_AND_INTAKE_VERIFIED",
@@ -306,5 +306,16 @@
   "nonvisualGatePolicy": {
     "status": "DEFERRED_NOT_WAIVED_DURING_ART_VISUALS",
     "note": "Preserve executed regression/build/persistence/learning evidence. Do not reactivate exploratory nonvisual missions for 12/13 while ART_VISUALS_SPRINT is active. Any actual art-induced P0 is repaired narrowly and remains release-blocking until retested."
+  },
+  "artFactory": {
+    "status": "ACTIVE_V2",
+    "contract": "docs/preproduction/art-factory/ART_FACTORY_V2.json",
+    "runbook": "docs/preproduction/art-factory/README.md",
+    "activeBatch": "docs/preproduction/art-factory/ACTIVE_BATCH.json",
+    "jobCompiler": "scripts/artFactoryJob.mjs",
+    "promptOptimizer": "scripts/artPromptOptimizer.mjs",
+    "preflight": "docs/preproduction/art-factory/pilot_art_accelerators.py",
+    "modelCheckpointRights": "CLEARED_BY_USER_ATTESTATION",
+    "rule": "Only current assigned REWORK/unaccepted items may enter 2-4 variant generation; exact staging/readback + real render + independent exact-hash review remain mandatory."
   }
 }
