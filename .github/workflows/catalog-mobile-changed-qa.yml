@@ -7,6 +7,7 @@ on:
       - 'scripts/catalogMobileChangedQa.mjs'
       - 'src/App.jsx'
       - 'src/storeScreenshotMatchRuntime.js'
+      - 'src/mobileAccessibilityRuntime.js'
       - '.github/workflows/catalog-mobile-changed-qa.yml'
   workflow_run:
     workflows: ['Workstream 08 Catalog Integrate']
@@ -88,11 +89,33 @@ jobs:
           cp /tmp/catalog-mobile-scope.json artifacts/catalog-mobile-changed-qa/scope.json
           printf 'SKIPPED: canonical art paths unchanged from last Workstream-10 proof.\n' > artifacts/catalog-mobile-changed-qa/summary.txt
 
+      - name: Bind evidence to actual checked-out commit
+        if: always()
+        run: |
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          import {execFileSync} from 'node:child_process';
+          const testedHead=execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim();
+          for(const file of ['artifacts/catalog-mobile-changed-qa/scope.json','artifacts/catalog-mobile-changed-qa/report.json']){
+            if(!fs.existsSync(file)) continue;
+            const data=JSON.parse(fs.readFileSync(file,'utf8'));
+            data.triggeringSha=data.triggeringSha || data.sourceHead || process.env.GITHUB_SHA || null;
+            data.sourceHead=testedHead;
+            if(data.scope){
+              data.scope.triggeringSha=data.scope.triggeringSha || data.scope.sourceHead || process.env.GITHUB_SHA || null;
+              data.scope.sourceHead=testedHead;
+            }
+            fs.writeFileSync(file,JSON.stringify(data,null,2)+'\n');
+          }
+          fs.writeFileSync('artifacts/catalog-mobile-changed-qa/tested-head.txt',testedHead+'\n');
+          console.log(`TESTED_HEAD=${testedHead}`);
+          NODE
+
       - name: Print summary
         if: always()
         run: |
           cat artifacts/catalog-mobile-changed-qa/summary.txt || true
-          test ! -f artifacts/catalog-mobile-changed-qa/report.json || node -e "const r=require('./artifacts/catalog-mobile-changed-qa/report.json'); console.log(JSON.stringify({status:r.status,sourceHead:r.sourceHead,manifest:r.currentManifestBlobSha,runtime:r.runtimeBlobSha,scope:r.scope,releaseBlockingCount:r.releaseBlockingCount,failures:r.results.filter(x=>x.status==='FAIL').map(x=>({motion:x.motion,viewport:x.viewport,collection:x.collection,check:x.check,message:x.message}))},null,2))"
+          test ! -f artifacts/catalog-mobile-changed-qa/report.json || node -e "const r=require('./artifacts/catalog-mobile-changed-qa/report.json'); console.log(JSON.stringify({status:r.status,sourceHead:r.sourceHead,triggeringSha:r.triggeringSha,manifest:r.currentManifestBlobSha,runtime:r.runtimeBlobSha,scope:r.scope,releaseBlockingCount:r.releaseBlockingCount,failures:r.results.filter(x=>x.status==='FAIL').map(x=>({motion:x.motion,viewport:x.viewport,collection:x.collection,check:x.check,message:x.message}))},null,2))"
 
       - name: Upload changed-batch screenshots and evidence
         if: always()
