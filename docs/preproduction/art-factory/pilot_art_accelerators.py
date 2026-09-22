@@ -27,6 +27,8 @@ IMAGEHASH_COMMIT = "7a405c9a27571ee8c998b661ce751639c34b7355"
 PYMATTING_COMMIT = "6d5c4a6bed0e5672abac0bad078e594423ffe4fd"
 DIFFUSERS_COMMIT = "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c"
 IP_ADAPTER_COMMIT = "62e4af9d0c1ac7d5f8dd386a0ccf2211346af1a2"
+RIGHTS_BASIS = "USER_ATTESTED_FULL_RIGHTS"
+FACTORY_CONTRACT = "docs/preproduction/art-factory/ART_FACTORY_V2.json"
 RASTER_EXTS = {".png", ".jpg", ".jpeg", ".webp"}
 STORE_BG = (8, 25, 54, 255)
 ITEM_RE = re.compile(r"([a-z]+-\d+)", re.I)
@@ -224,7 +226,9 @@ def perceptual_pilot(root: Path) -> dict:
             })
     pairs.sort(key=lambda x: (x["normalizedMean"], x["phash"], x["dhash"], x["a"], x["b"]))
 
-    focus = [r for r in records if r["path"].startswith("public/assets/catalog/") and r["family"] in {"auras", "rugs"}]
+    # Current canonical catalog art is the most useful review-triage surface.
+    # Keep the metric report-only; broader coverage must never become automatic approval.
+    focus = [r for r in records if r["path"].startswith("public/assets/catalog/")]
     nearest = {}
     for a in focus:
         candidates = []
@@ -466,6 +470,7 @@ def generation_interface_smoke(root: Path) -> dict:
         "checks": checks,
         "deterministicSeed": seed,
         "deterministicLatentHash": hashlib.sha256(a.tobytes()).hexdigest(),
+        "modelCheckpointRights": RIGHTS_BASIS,
     }
 
 
@@ -500,6 +505,8 @@ def make_summary(report: dict) -> str:
         f"- Automatic perceptual threshold: **NOT ENABLED** (calibrated={str(p['thresholdCalibrated']).lower()}).",
         f"- Alpha refinement: **{a['status']}**; synthetic coarse-mask boundary MAE {a['synthetic']['metrics']['coarseMaskBoundaryMAE']} -> refined {a['synthetic']['metrics']['refinedBoundaryMAE']}.",
         f"- Generation integration surface: **{g['status']}**; FLUX/SDXL/ControlNet/IP-Adapter source/API smoke only, no CPU-runner production pixel inference.",
+        f"- Model/checkpoint rights basis: `{report['safety']['modelCheckpointRights']}`.",
+        f"- Run fingerprint: `{report['runFingerprintSha256']}`.",
         "- Canonical art/gameplay writes: **none**.",
         "",
         "## Closest non-identical perceptual pairs (evidence only)",
@@ -536,18 +543,30 @@ def main():
         "schemaVersion": 1,
         "sourceHead": source_head,
         "branch": "screenshot-match-preproduction",
+        "factoryContract": FACTORY_CONTRACT,
         "safety": {
             "reportOnlyPerceptualMetrics": True,
             "canonicalArtModified": False,
             "gameplayModified": False,
             "secretsUsed": False,
             "paidApiUsed": False,
+            "modelCheckpointRights": RIGHTS_BASIS,
         },
         "provenance": provenance_checks(),
         "perceptual": perceptual_pilot(root),
         "alpha": alpha_pilot(root),
         "generationInterface": generation_interface_smoke(root),
     }
+    fingerprint_payload = {
+        "sourceHead": source_head,
+        "factoryContract": FACTORY_CONTRACT,
+        "expectedCommits": report["provenance"]["expectedCommits"],
+        "ipAdapterCommit": IP_ADAPTER_COMMIT,
+        "rightsBasis": RIGHTS_BASIS,
+    }
+    report["runFingerprintSha256"] = hashlib.sha256(
+        json.dumps(fingerprint_payload, sort_keys=True, separators=(",", ":")).encode()
+    ).hexdigest()
     report["overallPass"] = (
         all(report["provenance"]["exactRevisionMatch"].values())
         and report["perceptual"]["status"] == "PASS"
