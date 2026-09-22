@@ -1,3 +1,9 @@
+## V2 canonical increment — Beds 1-4 + Desks 5-6 + Auras 1-4 v3 exact-hash ACCEPTs
+
+Prepared from `9493c4c614161fdf61abd27cf4441ffa3c6ec850` using exact hash-bound reviewer 05 ACCEPT evidence. 10 items passed repository-byte, Store metadata, decode/safety, reviewer-independence and canonical uniqueness checks. Full tests/build/Store-mobile smoke are required before publication.
+
+Exact IDs: `beds-1`, `beds-2`, `beds-3`, `beds-4`, `desks-5`, `desks-6`, `auras-1`, `auras-2`, `auras-3`, `auras-4`.
+
 ## V2 canonical increment — Seating 2-6 exact-hash ACCEPTs
 
 Prepared from `d977323a353d8755c821c8166c54f83ef3b2c365` using exact hash-bound reviewer 02 ACCEPT evidence. 5 items passed repository-byte, Store metadata, decode/safety, reviewer-independence and canonical uniqueness checks. Full tests/build/Store-mobile smoke are required before publication.
