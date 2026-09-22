@@ -9,7 +9,7 @@ on:
       - 'src/storeScreenshotMatchRuntime.js'
       - '.github/workflows/catalog-mobile-changed-qa.yml'
   workflow_run:
-    workflows: ['StarBlox Workstream 08 Exact-Hash Integration']
+    workflows: ['Workstream 08 Catalog Integrate']
     types: [completed]
     branches: [screenshot-match-preproduction]
   workflow_dispatch:
