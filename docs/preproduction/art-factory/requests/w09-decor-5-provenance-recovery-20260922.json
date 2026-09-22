@@ -1,0 +1,121 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_DECOR5_PROVENANCE_RECOVERY",
+  "branch": "screenshot-match-preproduction",
+  "producer": "09",
+  "reviewer": "14",
+  "technicalGate": "06",
+  "canonicalWriter": "08",
+  "reconciledHeadBeforeWrite": "cd1cd430b08c1b4c27e4918c3d96a2e711e7e64d",
+  "item": {
+    "id": "decor-5",
+    "name": "Plant Wall",
+    "collection": "Room Decor",
+    "tier": 2,
+    "theme": "Pixel Party",
+    "price": 181,
+    "starReq": 0
+  },
+  "currentCandidate": {
+    "path": "public/assets/catalog/decor-5-w09-v2.webp",
+    "gitBlobSha1": "b8ff7b9d6bec11fe8e836952f7a0c5b844e34b6e",
+    "sha256": "386debb9a397519324ca5efb74bc0c761a4df545f7e6cb4075e4c2e7ed33ed1b",
+    "bytes": 15678,
+    "dimensions": [600, 600],
+    "format": "WEBP",
+    "mode": "RGB",
+    "safeDecode": "PASS_LOCAL_EXACT_RECONSTRUCTION_MATCHING_CURRENT_GIT_BLOB",
+    "status": "PRESERVE_EXACT_BYTES__NO_REGENERATION"
+  },
+  "sourceOriginal": {
+    "conversationFileId": "file_00000000bba482308fd302921ecd3d36",
+    "runtimePath": "/mnt/data/pixel_cute_modular_vertical_garden_shelf.png",
+    "generationId": "0a2b2c60-ac57-4c56-b00b-4320722072de",
+    "sha256": "c237a7ad23a5226517f4d738da88b6527115355f70588e2a4990c29896be54e5",
+    "expectedGitBlobSha1IfStoredUnchanged": "ac9f739e32811cb083bd6f6f35ae9b9e0c655a93",
+    "bytes": 1906911,
+    "dimensions": [1254, 1254],
+    "format": "PNG",
+    "mode": "RGB",
+    "retention": "CURRENT_AUTOMATION_RUNTIME_AND_CONVERSATION_ATTACHMENT__NOT_REPRESENTED_AS_REPOSITORY_STAGED_SOURCE"
+  },
+  "generation": {
+    "provider": "OpenAI image_gen",
+    "serviceIdentity": "ChatGPT image generation tool",
+    "generationId": "0a2b2c60-ac57-4c56-b00b-4320722072de",
+    "actualPrompt": "StarBlox catalog source art for decor-5, Plant Wall — Variant B-READABILITY. Exact live Store identity: Room Decor, Tier 2, Pixel Party. Create a visually distinct compact stepped vertical garden with chunky pixel-block planter cubes, one strong central frame, fewer but larger leaf masses, obvious shelves/support rails and a broad weighted base. Three-quarter product view with pronounced thickness, clean silhouette at 600x600, readable front/side planes, material contrast between wood, metal, plastic planters, and leaves, and a grounded cast shadow. Premium kid-friendly dimensional 3D game asset. Pixel Party theme should come from modular construction and playful geometric material accents, not flat decals. Isolated subject on a clean premium neutral background. No UI, text, logos, watermarks, brands, characters, third-party IP, promotional board, or flat-vector treatment.",
+    "actualPromptSha256": "d5119159caad986404ca9579dc28712be723d5e8ee0d564f09cb73c3d6b96430",
+    "modelId": null,
+    "modelRevision": null,
+    "modelUnavailableReason": "The image_gen response did not expose a model/checkpoint identifier or revision; null is recorded rather than invented.",
+    "executedServiceSeed": null,
+    "executedSeedUnavailableReason": "The authoritative image_gen response metadata returned seed=null; the service-executed seed is not exposed.",
+    "plannerSeedPromotedToExecutedSeed": false,
+    "optimizerExecutedBeforeGeneration": false,
+    "optimizerRecoveryRule": "Do not retroactively claim optimizer execution. This remains the only known provenance-stage defect requiring coordinator06/15 disposition for the preserved exact blob."
+  },
+  "derivativeLineage": {
+    "parentSha256": "c237a7ad23a5226517f4d738da88b6527115355f70588e2a4990c29896be54e5",
+    "tool": "Pillow",
+    "toolVersionObservedDuringRecovery": "12.3.0",
+    "transform": {
+      "colorMode": "RGB",
+      "resize": {
+        "from": [1254, 1254],
+        "to": [600, 600],
+        "resampler": "Image.Resampling.LANCZOS"
+      },
+      "encode": {
+        "format": "WEBP",
+        "quality": 20,
+        "method": 6
+      },
+      "crop": null,
+      "alpha": null
+    },
+    "reconstructionResult": {
+      "sha256": "386debb9a397519324ca5efb74bc0c761a4df545f7e6cb4075e4c2e7ed33ed1b",
+      "gitBlobSha1": "b8ff7b9d6bec11fe8e836952f7a0c5b844e34b6e",
+      "bytes": 15678,
+      "dimensions": [600, 600],
+      "matchesCurrentRepositoryCandidateBlob": true
+    }
+  },
+  "rightsDomains": {
+    "repositoryCode": "UNCHANGED",
+    "datasetOrReference": "NO_THIRD_PARTY_REFERENCE_ASSET_USED_IN_THIS_GENERATION_CALL",
+    "apiService": "OpenAI image_gen; service terms remain a separate domain",
+    "customNode": null,
+    "modelCheckpoint": "USER_ATTESTED_FULL_RIGHTS; exact service model/revision not exposed and therefore not invented"
+  },
+  "qualificationImpact": {
+    "recovered": [
+      "exact candidate SHA-256",
+      "exact byte count",
+      "safe raster decode and dimensions",
+      "exact source-original SHA-256/bytes/dimensions",
+      "exact generation ID",
+      "exact actual prompt and prompt SHA-256",
+      "authoritative seed-unavailable record",
+      "model/revision-unavailable record",
+      "exact source-to-derivative transform",
+      "exact derivative reconstruction matching the current Git blob"
+    ],
+    "stillNotClaimed": [
+      "optimizer execution before the historical generation",
+      "repository-staged source-original bytes",
+      "independent review of the current candidate",
+      "canonical integration"
+    ],
+    "next": "06 re-evaluates this same exact blob using this recovered evidence. If optimizer-before-generation remains a hard blocker, coordinator15 decides whether the preserved candidate may be exception-qualified or must be replaced through a fully compliant future plan. 09 does not regenerate or self-approve."
+  },
+  "preservation": {
+    "candidateBytesChanged": false,
+    "acceptedHashesChanged": false,
+    "canonicalMappingsChanged": false,
+    "runtimeChanged": false,
+    "ciOrWorkflowChanged": false,
+    "gameplayLearningPersistenceEconomyChanged": false,
+    "decor7Changed": false
+  }
+}
