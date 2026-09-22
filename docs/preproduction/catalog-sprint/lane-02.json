@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "workstream": "02",
   "phase": "CATALOG_SPRINT",
-  "sourceHead": "d688f9dcc2836ef04e0e99279d55b5c2e84ce3a6",
-  "status": "BEDS_1_4_STAGED_READY_FOR_REVIEW_05",
+  "sourceHead": "694384030e3c0ab1819960e35a43a2b86a55ee3e",
+  "status": "SEATING_2_3_ACCEPTED_BEDS_1_4_RENDERED_READY_FOR_REVIEW_05",
   "reviewPartition": {
     "collections": [
       "shoes",
@@ -12,8 +12,31 @@
       "seating"
     ],
     "legacyCoverage": "48_OF_48_REVIEWED",
-    "freshReplacementCheck": "NO_REPOSITORY_STAGED_SEATING_OR_SHOE_REPLACEMENT_HASH_READY_THIS_RUN",
-    "note": "Remote/generated-only shoe repairs are not reviewable until repository-staged and rendered. No source inspection was called a visual PASS."
+    "freshReplacementCheck": "SEATING_2_3_EXACT_HASH_ACCEPTED_THIS_RUN; SHOES_1_6_AND_SEATING_7_10_ACCEPT_EVIDENCE_REUSED_UNCHANGED",
+    "note": "Legacy 48/48 REWORK decisions remain hash-bound. Fresh exact-hash ACCEPTs now cover Shoes 1–6 and Seating 2–3/7–10. Next review priority is fresh Seating 4–6/11–12 and Shoes 7–12, then Backgear/Handgear replacements.",
+    "latestFreshReview": {
+      "reviewedIds": [
+        "seating-2",
+        "seating-3"
+      ],
+      "reviewer": "02",
+      "producer": "01",
+      "decision": "ACCEPT_2_OF_2",
+      "exactHashes": {
+        "seating-2": "c3d4705b7182b1be735b1a762b2ae79d58928aa5",
+        "seating-3": "5d69a2f6adf1e4cf9b4ec413dbeedba84c41813b"
+      },
+      "evidenceArtifact": {
+        "workflowRunId": 35671770098,
+        "artifactId": 10671012131,
+        "artifactName": "seating-2-3-recovery-evidence",
+        "digest": "sha256:07b7da381d584a08538754db0d8e97c4ed7434a4f23e8460f88ab73669fb3966",
+        "contactSheetSha256": "005780f5ae664771d8c3556356b00680d7cef09af0f883239d8a4433853bee07"
+      },
+      "reviewLedger": "docs/preproduction/catalog-sprint/reviews/02.json",
+      "reviewCommit": "3fc9cece0f42286ba1c0bc9737dbb0d18a896a50",
+      "note": "Actual card/contact-sheet and exact-hash detail pixels were inspected; no source-only quality inference."
+    }
   },
   "productionAssignment": {
     "collection": "beds",
@@ -171,7 +194,23 @@
         "readback": "PASS",
         "transformation": "None: exact producer-recorded Adobe Firefly PNG response bytes copied; no crop, resize, recompression, recolor, or regeneration"
       }
-    ]
+    ],
+    "renderEvidence": {
+      "workflowRunId": 35671770098,
+      "artifactId": 10671012131,
+      "artifactName": "seating-2-3-recovery-evidence",
+      "artifactDigest": "sha256:07b7da381d584a08538754db0d8e97c4ed7434a4f23e8460f88ab73669fb3966",
+      "contactSheet": "artifacts/catalog-staged-art/staged-replacements/staged-replacements-contact-sheet.png",
+      "contactSheetSha256": "005780f5ae664771d8c3556356b00680d7cef09af0f883239d8a4433853bee07",
+      "exactBedDetailSha256": {
+        "beds-1": "121ae8f01de170dc3d6d14c9d85c9afc365107b9f55e10b9e670775963b0f220",
+        "beds-2": "ac3a13559998b132cc8f759722e986ef9ef66485cc25629b7eb8b1ec8f588815",
+        "beds-3": "c960d5482b697caa1379a7f4414289e5a8fa8a3762be794b5f1bbb941827be8a",
+        "beds-4": "45b5f6dc0060172ce1d378dbe80e19a56290528475ab4233911f1fbfd2d2c61c"
+      },
+      "status": "PASS_EXACT_HASH_CARD_AND_DETAIL_PIXELS_AVAILABLE_TO_REVIEWER_05",
+      "note": "This is render availability only, not producer self-approval. Reviewer 05 still owns each Bed disposition."
+    }
   },
   "staging": {
     "status": "PASS_BEDS_1_4_EXACT_BYTES_STAGED",
@@ -180,7 +219,8 @@
     "metadata": "PASS_4_OF_4_AGAINST_CURRENT_GAME_MODEL",
     "duplicateCandidateContent": 0,
     "independentVisualReview": "PENDING_05",
-    "canonicalIntegration": "PENDING_08_AFTER_ACCEPT"
+    "canonicalIntegration": "PENDING_08_AFTER_ACCEPT",
+    "sharedRenderEvidence": "PASS_BEDS_1_4_EXACT_HASH_CARD_AND_DETAIL_PIXELS_IN_ARTIFACT_10671012131"
   },
   "freeze": {
     "replitTouched": false,
@@ -202,6 +242,17 @@
         "No canonical mapping was edited"
       ],
       "nextSafeAction": "Use an authorized byte-transfer path to download each recorded remoteSourceUrl, write the exact PNG to its intendedRepositoryPath on screenshot-match-preproduction, read back the Git blob/bytes, then mark READY_FOR_REVIEW and hand exact hashes to reviewer 05. Do not regenerate these four unless reviewer 05 later returns REWORK."
+    },
+    {
+      "status": "RENDER_EVIDENCE_AVAILABLE_AND_FRESH_SEATING_REVIEW_COMPLETE",
+      "sourceHead": "694384030e3c0ab1819960e35a43a2b86a55ee3e",
+      "result": "Shared staged-art artifact 10671012131 renders beds-1..4 exact hashes at contact-sheet/card and detail scale. Reviewer 02 independently ACCEPTed fresh Seating 2–3 exact replacement hashes; Beds remain PENDING_05.",
+      "falseClaimsAvoided": [
+        "No Bed self-approval",
+        "No canonical manifest/runtime edit",
+        "No deployment or main merge"
+      ],
+      "nextSafeAction": "Reviewer 05 can disposition Beds 1–4 directly from exact-hash artifact evidence. Workstream 02 should consume fresh Seating/Shoes review candidates first; do not scale Beds 5–8 until 05 dispositions this pilot."
     }
   ]
 }
