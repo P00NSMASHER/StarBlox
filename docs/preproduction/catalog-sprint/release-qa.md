@@ -81,6 +81,8 @@ Attempted deterministic comparison run **35670445111** verified the reference in
 
 A completed capture must be produced on the exact current candidate runtime/assets and reviewed side-by-side with region-level observations. Real state/content differences and safety substitutions must remain explicit.
 
+Reference-report semantics were tightened in commit `ad9175c80160ff16fe304e194d07ac1b19f9ca9b`: automation PASS/FAIL is now explicitly separate from `referenceVisualStatus`; non-strict pixel comparison reports `DIAGNOSTIC_ONLY_NOT_VISUAL_APPROVAL`; `referenceVisualApproval` remains false; and only the three supplied desktop 1408×1056 originals count as expected pixel references. Tablet/phone captures remain responsive-composition evidence rather than fake missing-reference failures. A post-fix capture artifact is still **PENDING**, so this code change is not itself screenshot-parity evidence.
+
 ## Exact blockers
 
 1. 192/192 current final hashes are not yet independently accepted and canonically wired.
