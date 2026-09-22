@@ -1,13 +1,7 @@
-name: Workstream 08 Catalog Integrate
+name: Workstream 08 Legacy Manual Catalog Integrate
 
 on:
-  push:
-    branches: [screenshot-match-preproduction]
-    paths:
-      - 'docs/preproduction/catalog-sprint/workstream08-plan.json'
-      - 'scripts/workstream08Integrate.mjs'
-      - 'scripts/workstream08NormalizeManifestMetadata.mjs'
-      - '.github/workflows/workstream08-catalog-integrate.yml'
+  workflow_dispatch:
 
 permissions:
   contents: write
