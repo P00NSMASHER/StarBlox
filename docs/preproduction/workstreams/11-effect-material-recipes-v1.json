@@ -1,0 +1,228 @@
+{
+  "schemaVersion": 1,
+  "workstream": "11",
+  "scope": "ART_AND_VISUALS_ONLY_SPECIFICATION",
+  "branch": "screenshot-match-preproduction",
+  "sourceHeadBeforeWrite": "ca4a0131ada252bb7333bf87cc1643c73336d1d4",
+  "status": "SPEC_READY_NO_RUNTIME_WRITE",
+  "ownership": {
+    "auraProducer": "11",
+    "auraReviewer": "05",
+    "canonicalCatalogWriter": "08",
+    "sharedEntrypointCoordinator": "15"
+  },
+  "auraFreeze": {
+    "status": "CLOSED_ACCEPTED_CANONICAL_12_OF_12",
+    "dreamAuroraPath": "/assets/catalog/auras-11-w11-v3.jpg",
+    "dreamAuroraGitBlobSha": "7f3372c1584e07f18a3abfc7818013190fff1560",
+    "rule": "Do not regenerate, alter, remap or re-review any Aura unless a later exact-hash defect is recorded."
+  },
+  "referenceBasis": {
+    "manifestPath": "docs/preproduction/reference-screenshots/original-reference-manifest.json",
+    "manifestBlobSha": "63956763934f17613a3f98889f8085051a78a0b6",
+    "designContractPath": "docs/preproduction/DESIGN_SYSTEM_CONTRACT.md",
+    "designContractBlobSha": "b3b8a0cdf7eb298bcb60702b0c941238b75010fa",
+    "desktopComparisonSize": [1408, 1056],
+    "originals": {
+      "home": {
+        "path": "docs/preproduction/reference-screenshots/originals/home-1448x1086.jpeg",
+        "sha256": "6a4b110aeaf12a6ab0c629f9181cc6cfa8d4f55a518d4f2a6adb3ac6e756c457"
+      },
+      "store": {
+        "path": "docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg",
+        "sha256": "b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d"
+      },
+      "quest": {
+        "path": "docs/preproduction/reference-screenshots/originals/quest-1448x1086.jpeg",
+        "sha256": "70f1b952709a85c77bb11851ffe9ae704acf8b97640355e908b6ec537b5c73c9"
+      }
+    },
+    "mobileReferencePixelsProvided": false
+  },
+  "materialTokens": {
+    "deepNavy": "#051741",
+    "panelNavy": "#0A2D73",
+    "chromeBlue": "#0D439D",
+    "brightBlue": "#1266CF",
+    "cyanRim": "#63D9F4",
+    "strongCyanRim": "#8AE9FF",
+    "iceHighlight": "#D6F8FF",
+    "gold": "#FFD84F",
+    "goldHighlight": "#FFF09A",
+    "success": "#35CC6A",
+    "successHighlight": "#91F0AD",
+    "personalityPink": "#FF78B7",
+    "lilac": "#A77AF3",
+    "warmSceneSupport": ["#F3AFC4", "#F6C28F", "#C9A7F2", "#9EDFFF", "#FFF0D2", "#70B86F"]
+  },
+  "layerStack": [
+    {
+      "order": 0,
+      "name": "scene-atmosphere",
+      "purpose": "Warm environmental depth behind chrome",
+      "motionRule": "Static by default; no full-screen persistent particle canvas"
+    },
+    {
+      "order": 1,
+      "name": "stable-chrome",
+      "purpose": "Dimensional cobalt/navy panel body, rim, bevel and shadow",
+      "motionRule": "Never animate layout geometry, border width or large blur kernels"
+    },
+    {
+      "order": 2,
+      "name": "selected-active-material",
+      "purpose": "Localized cyan/ice emphasis on true selected/equipped/current state",
+      "motionRule": "One local destination halo maximum; state remains readable without motion"
+    },
+    {
+      "order": 3,
+      "name": "event-accent",
+      "purpose": "Short-lived Star Sparks/glints for valid semantic events",
+      "motionRule": "Bounded, presentation-only, deterministic cleanup"
+    },
+    {
+      "order": 4,
+      "name": "text-control-protection",
+      "purpose": "Labels, prices, answer copy, semantic badges and focus outlines",
+      "motionRule": "Always visually above decorative effects"
+    }
+  ],
+  "globalBudgets": {
+    "persistentHaloSpillDesktopPx": [10, 18],
+    "screenEntryDurationMs": [300, 420],
+    "screenEntryTranslatePx": [2, 6],
+    "selectionDurationMs": [520, 760],
+    "equipDurationMs": [620, 820],
+    "correctDurationMs": [760, 980],
+    "roomRevealDurationMs": [650, 850],
+    "movingParticleCap": 14,
+    "recommendedPersistentAmbientAnchorsPerScreen": [0, 2],
+    "performanceIntent": [
+      "Favor transform and opacity for moving elements",
+      "Avoid animated backdrop-filter on scrolling or large surfaces",
+      "Do not animate card/panel dimensions or layout position",
+      "No effect may block pointer, focus, navigation, answer availability or scroll"
+    ]
+  },
+  "recipes": {
+    "home": {
+      "allowedAmbientAnchors": ["room-progress", "dream-goal"],
+      "protectedRegions": ["avatar-face", "daily-quests-copy", "customize-controls", "learning-copy"],
+      "roomReveal": {
+        "normal": "All true room tiles exist immediately; optional shallow opacity/translate settle with true current-tier gold emphasis.",
+        "reducedMotion": "All true tiles immediately visible in final positions with identical truthful current/locked materials.",
+        "forbidden": ["fake unlocks", "fake progress", "withholding interaction until animation ends"]
+      },
+      "avatarBuddy": {
+        "normal": "Tiny wrapper-only drift/sway, visually subordinate to room art and copy.",
+        "reducedMotion": "No transform loop; preserve fixed rim light, contact shadow and static Buddy highlight.",
+        "forbidden": ["layout movement", "face occlusion", "continuous synchronized motion across all panels"]
+      }
+    },
+    "store": {
+      "selected": {
+        "normal": "Persistent stronger cyan/ice selected rim plus one short art-area-to-destination spark path after real selection state is true.",
+        "reducedMotion": "Persistent selected rim plus fixed destination halo; no travel, scale, bounce or pulse."
+      },
+      "equipped": {
+        "normal": "Persistent equipped semantic cue plus one local 8-12 particle destination burst after real equip state is true.",
+        "reducedMotion": "Persistent equipped cue plus fixed 3-5 star cluster outside face/item-critical detail."
+      },
+      "scroll": {
+        "rule": "Dense grid and collection strip receive no per-card persistent animation or large animated filter.",
+        "cleanup": "Transient local overlays are removed or clipped before/while grid scrolls."
+      },
+      "forbidden": ["whole-grid animation", "fake purchase/equip success", "price/ownership/save changes", "particle paths through item-name/price bands"]
+    },
+    "quest": {
+      "unanswered": {
+        "normal": "Central learning body is a low-motion sanctuary with neutral choices.",
+        "reducedMotion": "Identical calm static hierarchy.",
+        "forbidden": ["answer hinting", "pulsing choice bias", "countdown", "urgency", "FOMO"]
+      },
+      "correct": {
+        "trigger": "Reliable existing semantic correct state only",
+        "normal": "Static green success edge plus one bounded 8-14 particle gold/ice burst; geometry remains stationary and next action remains available.",
+        "reducedMotion": "Instant green success keyline plus small fixed gold/ice star cluster outside answer copy."
+      },
+      "wrongClueRetry": {
+        "normal": "Instructional feedback only.",
+        "reducedMotion": "Same instructional treatment.",
+        "forbidden": ["Star Sparks", "gold reward flare", "success bloom", "celebratory bounce", "assisted-as-independent visual treatment"]
+      },
+      "cleanup": "Remove all success decoration before next unanswered frame, retry, screen navigation or reduced-motion preference transition."
+    }
+  },
+  "particleMaterial": {
+    "primitiveShapes": ["original-five-point-star", "diamond-glint", "round-light-mote"],
+    "palette": ["#F8FDFF", "#D6F8FF", "#63D9F4", "#FFD84F"],
+    "near": {"sizePx": [8, 12], "opacityClass": "high"},
+    "mid": {"sizePx": [5, 8], "opacityClass": "medium"},
+    "far": {"sizePx": [2, 4], "opacityClass": "low"},
+    "rules": [
+      "Use scale hierarchy and depth staggering rather than identical dots",
+      "Keep text, prices, answer copy, avatar face and equipped item unobscured",
+      "No emoji, confetti glyphs, third-party IP or baked-in UI labels"
+    ]
+  },
+  "staticReducedMotionAcceptance": {
+    "home": [
+      "Five truthful room tiles visible immediately",
+      "True current tier emphasized without pulse",
+      "Avatar and Buddy still but dimensional",
+      "No motion-dependent information"
+    ],
+    "store": [
+      "Selected card remains obvious before and after scroll",
+      "Equipped state remains obvious without motion",
+      "No traveling particles or ambient animated grid filters"
+    ],
+    "quest": [
+      "Unanswered choices remain neutral",
+      "Correct has static green plus restrained gold/ice cue",
+      "Wrong/clue/retry contain no success cue",
+      "Next question begins with zero stale success decoration"
+    ]
+  },
+  "laterEvidenceRequired": {
+    "owner": "14 after 15 coordinates implementation",
+    "viewports": [[1408,1056],[1024,768],[390,844],[320,568]],
+    "desktopOriginalPixelAuthorityOnly": true,
+    "captureStates": [
+      "home-room-reveal-normal-and-reduced",
+      "store-selection-pre-peak-settled-scroll-cleanup-normal-and-reduced",
+      "store-equip-pre-peak-settled-cleanup-normal-and-reduced",
+      "quest-unanswered-correct-wrong-clue-retry-next-cleanup-normal-and-reduced",
+      "avatar-buddy-idle-bounded-amplitude-normal-and-static-reduced"
+    ],
+    "profileChecks": [
+      "actual paint/composite behavior during Store selection/equip",
+      "actual scrolling with selected/equipped state visible",
+      "no layout shift or scroll-position jump from effects",
+      "no orphan effect layer after navigation/state change/reduced-motion change"
+    ],
+    "status": "OPEN_NOT_EXECUTED"
+  },
+  "releaseGateClaims": {
+    "normalMotionRenderQA": "OPEN_NOT_EXECUTED",
+    "reducedMotionRenderQA": "OPEN_NOT_EXECUTED",
+    "paintCompositeScrollProfiling": "OPEN_NOT_EXECUTED",
+    "artVisualsComplete": false,
+    "deploymentAuthorized": false
+  },
+  "freeze": {
+    "catalogAssetsChanged": false,
+    "canonicalMappingsChangedBy11": false,
+    "sharedRuntimeChanged": false,
+    "gameplayChanged": false,
+    "learningChanged": false,
+    "persistenceChanged": false,
+    "economyChanged": false,
+    "playerDataChanged": false,
+    "mainTouched": false,
+    "replitTouched": false,
+    "flootTouched": false,
+    "deploymentTouched": false,
+    "paidSettingsTouched": false
+  }
+}
