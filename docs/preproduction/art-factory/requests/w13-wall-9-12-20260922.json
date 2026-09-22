@@ -1,0 +1,304 @@
+{
+  "schemaVersion": 2,
+  "kind": "STARBLOX_ART_FACTORY_BATCH_REQUEST",
+  "planner": "12",
+  "producer": "13",
+  "reviewer": "14",
+  "renderOwner": "14",
+  "integrationOwner": "08",
+  "coordinationOwner": "15",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "43775530ecccf65ec5ef0a182e5c34adabd528c0",
+  "manifestVersion": 33,
+  "liveFallbackCount": 19,
+  "batchId": "w13-wall-9-12-vnext",
+  "scope": [
+    "wall-9",
+    "wall-10",
+    "wall-11",
+    "wall-12"
+  ],
+  "state": "OPTIMIZER_INPUT_READY_NOT_GENERATED",
+  "routingBasis": {
+    "activeBatch": "docs/preproduction/art-factory/ACTIVE_BATCH.json",
+    "activeBatchBlobSha": "640f7ec2be636e3f701283759f58d5f8b4139ff9",
+    "assignmentState": "ACTIONABLE_REWORK_FACTORY_PILOT",
+    "strictBlockerKind": "VISIBLE_GENERIC_FALLBACK_ART",
+    "note": "Coordinator15 assigns Wall 9-12 to producer13 with reviewer14. No wall request exists in the current art-factory request directory and no wall-9..12 candidate directory exists under public/assets/catalog-candidates at this source head."
+  },
+  "metadataSource": {
+    "path": "src/gameModel.js",
+    "gitBlobSha": "79fdb8c3bed4d715e0b1c770f34db0037a7f7c3b",
+    "derivation": "Exact current Store metadata from collections/itemKinds/prices/theme/tier/starReq logic; preserve IDs/names/category/theme/tier/price/unlock."
+  },
+  "reviewSource": {
+    "path": "docs/preproduction/catalog-sprint/reviews/14.json",
+    "reviewSourceHead": "d0bee12ccdc85b6c22915500c8b1a8afaadf6190",
+    "decision": "REWORK",
+    "note": "Reviewer14 states Wall 9-12 unchanged legacy hashes remain REWORK. Planner12 does not alter or transfer that verdict."
+  },
+  "factoryPolicy": {
+    "optimizerFirst": true,
+    "optimizer": "scripts/artPromptOptimizer.mjs",
+    "jobCompilerAfterOptimizer": "scripts/artFactoryJob.mjs",
+    "variantsPerItem": 2,
+    "providerNeutral": true,
+    "sourcePixels": 1024,
+    "derivativePixels": 600,
+    "transparentBackground": "ONLY_IF_OPTIMIZER_AND_TARGET_SURFACE_REQUIRE_IT; wall-mounted product read is primary",
+    "stageVersionedExactBytes": true,
+    "verifyWith": "docs/preproduction/art-factory/verify_staged_output.py",
+    "realStarBloxCardDetailRenderRequired": true,
+    "independentExactHashReviewRequired": "14",
+    "canonicalIntegrationOwner": "08",
+    "perceptualSignals": "REPORT_ONLY_NEVER_DECISION",
+    "freezeAfterStagingUntilDisposition": true
+  },
+  "provenanceRequirements": {
+    "prompt": [
+      "optimizer input text+sha256",
+      "optimizer output text+sha256",
+      "variant id",
+      "seed"
+    ],
+    "runtime": [
+      "generator/provider",
+      "API/service identity",
+      "exposed model/checkpoint ID",
+      "exposed revision",
+      "runtime/tool revision"
+    ],
+    "lineage": [
+      "source repository path",
+      "source sha256",
+      "source git-blob sha1",
+      "source bytes",
+      "source dimensions",
+      "derivative path",
+      "derivative sha256",
+      "derivative git-blob sha1",
+      "derivative bytes",
+      "derivative dimensions",
+      "source->derivative transform"
+    ],
+    "conditioning": [
+      "all reference paths",
+      "exact reference hashes",
+      "reference role"
+    ],
+    "rightsDomainsKeptSeparate": [
+      "repository-code",
+      "dataset/reference",
+      "API/service",
+      "custom-node",
+      "model/checkpoint"
+    ],
+    "checkpointRule": "User attests full StarBlox model/checkpoint rights. Record exact model/checkpoint ID+revision only when exposed; never invent unavailable metadata."
+  },
+  "references": {
+    "originalStoreReference": {
+      "requiredBeforeGeneration": true,
+      "pathAndHash": null,
+      "rule": "Producer13 must resolve the currently verified original Store reference path and exact hash at optimizer/job compile time. Planner12 does not invent an unavailable hash."
+    },
+    "legacyAssets": "Current legacy SVGs are rejection/context evidence only and must not be imitated as a style target."
+  },
+  "items": {
+    "wall-9": {
+      "exactStoreMetadata": {
+        "name": "Art Gallery Wall",
+        "collection": "Wall Decor",
+        "tier": 3,
+        "theme": "Adventure Club",
+        "price": 667,
+        "starReq": 2
+      },
+      "currentLegacy": {
+        "path": "/assets/catalog/wall-9.svg",
+        "gitBlobSha1": "0a83f6684de27c0ac31057d600bb24e2a3e5a183",
+        "reviewDecision": "REWORK",
+        "normalizedFailureTaxonomy": [
+          "VISIBLE_GENERIC_FALLBACK_ART",
+          "LEGACY_EXACT_HASH_REWORK",
+          "WALL_MOUNT_DEPTH_DEFICIT"
+        ],
+        "plannerSourceEvidence": "Legacy flat framed collage sits on a baked card/stage background and lacks convincing wall-mount hardware, object depth and premium gallery construction."
+      },
+      "optimizerStage": {
+        "required": true,
+        "status": "NOT_RUN_BY_PLANNER",
+        "inputRule": "Feed each variant base brief through the existing artPromptOptimizer before artFactoryJob compilation. Final generation prompt and prompt SHA must come from optimizer output; these base hashes are not generation-output hashes."
+      },
+      "seedBase": 2136484253,
+      "variants": [
+        {
+          "variantId": "A-GALLERY-RAIL",
+          "seed": 2136484253,
+          "optimizerInput": "Art Gallery Wall, Wall Decor, Tier 3, Adventure Club. Design a genuine wall-mounted modular gallery system in three-quarter product view: warm oak mounting rail with visible brass wall cleats and standoffs, three mixed-depth framed art panels plus one shallow shadowbox, small adventure-map and trail-inspired abstract motifs with no readable text or logos, restrained brass hardware, layered paper/canvas/glass materials, believable frame thickness and cast shadows onto a neutral wall plane. Strong asymmetrical silhouette, premium but playful, full product unobscured, readable at 600x600.",
+          "optimizerInputSha256": "f05999278e9b5ac4c540f953d710c8df8675543ed2045ff8f21d99d09dd4cb67",
+          "finalOptimizedPrompt": null,
+          "finalPromptSha256": null
+        },
+        {
+          "variantId": "B-SHADOWBOX-TRIPTYCH",
+          "seed": 2136484254,
+          "optimizerInput": "Art Gallery Wall, Wall Decor, Tier 3, Adventure Club. Create a wall-hung triptych gallery with a substantial painted-wood backboard, visible hidden-cleat reveal, three dimensional box frames of different sizes, one narrow display ledge physically attached beneath, pinned abstract travel sketches and colorful geometric art only, leather-tab and brass accent details, glass reflections and real frame bevels. Three-quarter wall-mounted presentation with clear rear-to-wall contact, grounded wall shadows, no floor stand, no text, no collage sheet.",
+          "optimizerInputSha256": "57b7c1b9dfa14956a34090ebf617ba307fc2d14e659bad200fc7434b4da95c80",
+          "finalOptimizedPrompt": null,
+          "finalPromptSha256": null
+        }
+      ]
+    },
+    "wall-10": {
+      "exactStoreMetadata": {
+        "name": "Neon City Sign",
+        "collection": "Wall Decor",
+        "tier": 4,
+        "theme": "Cloud Pop",
+        "price": 928,
+        "starReq": 5
+      },
+      "currentLegacy": {
+        "path": "/assets/catalog/wall-10.svg",
+        "gitBlobSha1": "df566297cc638fbcf1673d799a7ffb9e1f586927",
+        "reviewDecision": "REWORK",
+        "normalizedFailureTaxonomy": [
+          "VISIBLE_GENERIC_FALLBACK_ART",
+          "LEGACY_EXACT_HASH_REWORK",
+          "WALL_MOUNT_DEPTH_DEFICIT"
+        ],
+        "plannerSourceEvidence": "Legacy flat rectangular neon panel is generic vector signage on a baked stage; it lacks dimensional acrylic/metal construction, wall standoffs and Tier-4 material depth."
+      },
+      "optimizerStage": {
+        "required": true,
+        "status": "NOT_RUN_BY_PLANNER",
+        "inputRule": "Feed each variant base brief through the existing artPromptOptimizer before artFactoryJob compilation. Final generation prompt and prompt SHA must come from optimizer output; these base hashes are not generation-output hashes."
+      },
+      "seedBase": 1824723780,
+      "variants": [
+        {
+          "variantId": "A-ACRYLIC-SKYLINE",
+          "seed": 1824723780,
+          "optimizerInput": "Neon City Sign, Wall Decor, Tier 4, Cloud Pop. Build a premium wall-mounted sign from a translucent cloud-shaped acrylic backplate with brushed-metal standoffs and a layered abstract city skyline made from bent cyan, soft-pink and white luminous tubing. Include visible tube clips, cable channel hidden behind the plate, beveled acrylic edges and controlled bloom, with real depth between wall, backplate and light tubes. Three-quarter product view against a simple wall plane, no readable words, no logos, no freestanding base.",
+          "optimizerInputSha256": "0955b14bbcf4fe951510570f595c6358a161dfc9b6c7950087504072428a83aa",
+          "finalOptimizedPrompt": null,
+          "finalPromptSha256": null
+        },
+        {
+          "variantId": "B-LAYERED-CLOUD-CITY",
+          "seed": 1824723781,
+          "optimizerInput": "Neon City Sign, Wall Decor, Tier 4, Cloud Pop. Design a sculptural wall fixture with stacked powder-coated metal cloud layers framing a compact geometric city silhouette, edge-lit frosted acrylic windows and one sweeping neon-like arc integrated into the structure. Show mounting keyholes/standoffs through a slight three-quarter angle, rich metal/acrylic separation, premium cyan-magenta rim light and restrained glow. Strong recognizable wall-sign silhouette at card size, no typography, no floor contact, no generic flat rectangle.",
+          "optimizerInputSha256": "e52095364e0f6df5e70e3c0f707ccbb389f7b0060167afd9cc23f24037b0a031",
+          "finalOptimizedPrompt": null,
+          "finalPromptSha256": null
+        }
+      ]
+    },
+    "wall-11": {
+      "exactStoreMetadata": {
+        "name": "Star Mirror",
+        "collection": "Wall Decor",
+        "tier": 4,
+        "theme": "Pixel Party",
+        "price": 1276,
+        "starReq": 5
+      },
+      "currentLegacy": {
+        "path": "/assets/catalog/wall-11.svg",
+        "gitBlobSha1": "d0609238147f8d63e58662efe9755abbaecc39e1",
+        "reviewDecision": "REWORK",
+        "normalizedFailureTaxonomy": [
+          "VISIBLE_GENERIC_FALLBACK_ART",
+          "LEGACY_EXACT_HASH_REWORK",
+          "WALL_MOUNT_DEPTH_DEFICIT"
+        ],
+        "plannerSourceEvidence": "Legacy star badge/mirror is a flat vector emblem on a baked stage with no convincing hanging/backplate logic, frame depth or Tier-4 mirror material response."
+      },
+      "optimizerStage": {
+        "required": true,
+        "status": "NOT_RUN_BY_PLANNER",
+        "inputRule": "Feed each variant base brief through the existing artPromptOptimizer before artFactoryJob compilation. Final generation prompt and prompt SHA must come from optimizer output; these base hashes are not generation-output hashes."
+      },
+      "seedBase": 1974603600,
+      "variants": [
+        {
+          "variantId": "A-PIXEL-BEVEL-MIRROR",
+          "seed": 1974603600,
+          "optimizerInput": "Star Mirror, Wall Decor, Tier 4, Pixel Party. Create a substantial wall-hung star mirror with a beveled silver-blue glass center and chunky stepped pixel-frame segments in violet, aqua and warm gold enamel. Use a deep rear backplate, visible side thickness, discrete top hanging cleat and small spacer pads so the mirror clearly floats a few centimeters from the wall. Realistic mirrored reflections without showing people, crisp bevel highlights, material-rich three-quarter wall presentation, no floor stand, no text.",
+          "optimizerInputSha256": "5b55657c1536b4045d35b35c6e8121734a005d70ac9b73b7a3c647d916b38549",
+          "finalOptimizedPrompt": null,
+          "finalPromptSha256": null
+        },
+        {
+          "variantId": "B-MOSAIC-STAR-MIRROR",
+          "seed": 1974603601,
+          "optimizerInput": "Star Mirror, Wall Decor, Tier 4, Pixel Party. Build an asymmetrical pixel-mosaic star mirror: central polished mirror star surrounded by interlocking raised square frame blocks, some translucent aqua resin and some anodized violet/gold metal, with tiny mechanical joints and a concealed but legible rear mounting bracket revealed by the three-quarter angle. Premium depth, subtle LED edge accent rather than flat glow, strong star silhouette at 600x600, wall-contact shadow, no standalone badge look.",
+          "optimizerInputSha256": "697a3afd730775910e8c06a747cf4fb03f18c0570770dbc543c20e1c32101553",
+          "finalOptimizedPrompt": null,
+          "finalPromptSha256": null
+        }
+      ]
+    },
+    "wall-12": {
+      "exactStoreMetadata": {
+        "name": "Golden Crest",
+        "collection": "Wall Decor",
+        "tier": 5,
+        "theme": "Berry Blast",
+        "price": 1740,
+        "starReq": 9
+      },
+      "currentLegacy": {
+        "path": "/assets/catalog/wall-12.svg",
+        "gitBlobSha1": "84a7eeb0f909572fe9e896b912b675990187ae48",
+        "reviewDecision": "REWORK",
+        "normalizedFailureTaxonomy": [
+          "VISIBLE_GENERIC_FALLBACK_ART",
+          "LEGACY_EXACT_HASH_REWORK",
+          "WALL_MOUNT_DEPTH_DEFICIT"
+        ],
+        "plannerSourceEvidence": "Legacy shield/crest is a flat vector badge on a baked stage and does not deliver Tier-5 relief, mount logic, gemstone/enamel material spectacle or believable wall-object depth."
+      },
+      "optimizerStage": {
+        "required": true,
+        "status": "NOT_RUN_BY_PLANNER",
+        "inputRule": "Feed each variant base brief through the existing artPromptOptimizer before artFactoryJob compilation. Final generation prompt and prompt SHA must come from optimizer output; these base hashes are not generation-output hashes."
+      },
+      "seedBase": 978865382,
+      "variants": [
+        {
+          "variantId": "A-JEWELED-RELIEF-CREST",
+          "seed": 978865382,
+          "optimizerInput": "Golden Crest, Wall Decor, Tier 5, Berry Blast. Create a lavish wall-mounted gilded crest with deep sculpted relief: layered brushed-gold metal shield, berry-magenta translucent enamel insets, central faceted star gemstone held by visible prongs, small pearl-like berry clusters and engraved leaf flourishes with no text or logos. Include a substantial rear mounting plate and top hanger visible from a slight three-quarter view, realistic metal thickness, gemstone refraction, controlled luxury sparkle and wall-cast shadow. Heroic premium silhouette without resembling a brand emblem.",
+          "optimizerInputSha256": "69482a1033fc08a98041427b8bbcd79e2967deb8cf84ff272aba199227db8a12",
+          "finalOptimizedPrompt": null,
+          "finalPromptSha256": null
+        },
+        {
+          "variantId": "B-SCULPTED-BERRY-HERALDRY",
+          "seed": 978865383,
+          "optimizerInput": "Golden Crest, Wall Decor, Tier 5, Berry Blast. Design an ornate but original wall crest built from interlocking gold ribbons and sculpted berry-inspired jewel forms around a raised central star medallion. Use layered metal relief, ruby-pink glass cabochons, tiny prongs, satin-gold versus polished-gold contrast, a deep dark-magenta enamel backing and explicit concealed-cleat spacing from the wall. Three-quarter museum-quality product presentation, richer spectacle than lower tiers, crisp card readability, no readable text, no floor support.",
+          "optimizerInputSha256": "4fc1ab11db7fdfb269d786a503724e3cdbbf6a33f7076053aefd22068b34f3c4",
+          "finalOptimizedPrompt": null,
+          "finalPromptSha256": null
+        }
+      ]
+    }
+  },
+  "targetPathConvention": "public/assets/catalog-candidates/w13-wall-9-12/<itemId>-w13-vnext-<variantId>-original.png; create 600px derivative only after preserving exact source bytes and recording lineage.",
+  "stopConditions": [
+    "Planner12 does not generate images or stage candidate pixels.",
+    "Do not create a second Wall9-12 plan while this request remains current or producer13 has a pending candidate.",
+    "Do not regenerate Wall8; preserve Wall1-7 accepted hashes and all Wall8 blocked/preserved candidates.",
+    "After producer13 stages exact verified bytes, renderer14 produces actual StarBlox card/detail pixels and reviewer14 independently dispositions those exact hashes.",
+    "Only workstream08 may canonical-wire accepted assets."
+  ],
+  "freeze": {
+    "wall1To7AcceptedExactHashes": true,
+    "wall8AllPreservedCandidates": true,
+    "canonicalManifestAndRuntime": true,
+    "gameplayLearningPersistenceEconomy": true,
+    "mainReplitFlootDeployPaidSettingsSecretsRealPlayerData": true,
+    "ciWorkflowConfiguration": true
+  }
+}
