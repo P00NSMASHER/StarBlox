@@ -1,0 +1,90 @@
+{
+  "schemaVersion": 1,
+  "phase": "ART_AND_VISUALS_ONLY",
+  "coordinationOwner": "15",
+  "repository": "P00NSMASHER/StarBlox",
+  "branch": "screenshot-match-preproduction",
+  "observedHeadBeforeCoordination": "ff9a7949851fd4cf1962430f8b4fd212a122138c",
+  "activeBatchCommit": "ff9a7949851fd4cf1962430f8b4fd212a122138c",
+  "authority": {
+    "allocation": "docs/preproduction/ART_VISUALS_SPRINT.json",
+    "factoryReadme": "docs/preproduction/art-factory/README.md",
+    "factoryContract": "docs/preproduction/art-factory/ART_FACTORY_V2.json",
+    "compatibleProtocol": "docs/preproduction/DELIVERY_PROTOCOL_V2.md",
+    "canonicalCatalogWriter": "08",
+    "crossWorkerAssignmentOwner": "15",
+    "sameExistingAutomationRequired": true,
+    "newOrSubstituteTaskCreated": false,
+    "scheduleChanged": false
+  },
+  "liveCatalog": {
+    "integrationSchema": 15,
+    "manifestVersion": 30,
+    "manifestRuntimeMappings": "170/170",
+    "finalPortableLabels": 163,
+    "interimNotVerified": 7,
+    "nonFinalRelativeToTarget": 29,
+    "strictIndependentlyAcceptedCanonical": 93,
+    "strictAcceptedCurrentIncludingAwaitingCanonical": 97,
+    "acceptedAwaitingCanonical": 4,
+    "strictUnacceptedCurrent": 95,
+    "catalogReleaseClearedIds": 0,
+    "evidence": [
+      "docs/preproduction/catalog-sprint/integration.json",
+      "docs/preproduction/catalog-sprint/reviews/01.json",
+      "docs/preproduction/catalog-sprint/chat-headwear-5-8-w12-result.json"
+    ]
+  },
+  "materialChanges": [
+    "Workstream08 integrated Decor3-4 exact reviewer14 ACCEPTs into manifest v30, raising strict accepted+canonical from 91 to 93.",
+    "The former Headwear5-8 raw-byte transport blocker is resolved: four exact PNG candidates are repository-staged/readback-proven, have qualified real card/detail evidence, and reviewer01 independently ACCEPTed all four exact hashes.",
+    "Headwear5-8 therefore form a qualified four-item accepted-awaiting-canonical backlog for Workstream08; no regeneration or repeat transport is permitted.",
+    "Because Decor3-4 completed the full factory-to-canonical cycle and reviewer14 still records exact-current REWORK for Decor5-12, producer09 is opened only on bounded Decor5-8 next pilot while Tops11-12 remain frozen on unavailable authoritative bytes."
+  ],
+  "oldestNextTransitions": [
+    {
+      "priority": 1,
+      "owner": "08",
+      "scope": ["headwear-5", "headwear-6", "headwear-7", "headwear-8"],
+      "state": "QUALIFIED_ACCEPT_AWAITING_CANONICAL",
+      "next": "Validate current path/hash/metadata/decode/uniqueness and integrate this exact four-item ACCEPT batch without waiting for unrelated Store/mobile or Seating evidence."
+    },
+    {
+      "priority": 2,
+      "owner": "14_then_02",
+      "scope": ["seating-7", "seating-8", "seating-9", "seating-10"],
+      "state": "CURRENT_BYTES_PRESERVED_AWAITING_CONSUMABLE_EXACT_HASH_CARD_DETAIL_EVIDENCE",
+      "next": "Do not regenerate; package/reuse exact-current card/detail proof, then reviewer02 records the first genuine exact-hash art decision."
+    },
+    {
+      "priority": 3,
+      "owner": "09_then_14",
+      "scope": ["decor-5", "decor-6", "decor-7", "decor-8"],
+      "state": "ACTIONABLE_REWORK_FACTORY_PILOT",
+      "next": "Run optimizer plus deterministic bounded factory pilot, authorized generation, exact staging/readback verification, then real card/detail evidence and reviewer14 disposition. Do not scale to Decor9-12 first."
+    }
+  ],
+  "activeProduction": [
+    "05: Wall5-8 bounded repair pilot -> reviewer14",
+    "06: Companions2/5/6/7 bounded theme-specific repair pilot -> reviewer05",
+    "09: Decor5-8 bounded repair pilot -> reviewer14",
+    "13: Home bedroom v4 bounded scene repair -> reviewer01/14"
+  ],
+  "preservedBlockers": {
+    "tops11_12_v7": "Generated-local receipt states remain frozen because authoritative exact WEBP payload bytes are unavailable; no regeneration, re-encoding or approximate reconstruction.",
+    "storeMobile": "Actual Store/mobile visual proof remains open under the shared real-pointer navigation blocker until newer exact-run evidence supersedes it; accepted catalog art is not rolled back.",
+    "seating7_10": "Existing mappings remain preserved but the four IDs stay outside strict ACCEPT counts pending genuine reviewer02 current-hash pixel decisions."
+  },
+  "safety": {
+    "mainTouched": false,
+    "replitTouched": false,
+    "flootTouched": false,
+    "deploymentPerformed": false,
+    "paidSettingsOrPurchasesTouched": false,
+    "secretsTouched": false,
+    "realPlayerDataTouched": false,
+    "canonicalManifestOrRuntimeWrittenBy15": false
+  },
+  "artVisualsComplete": false,
+  "deploymentPermission": false
+}
