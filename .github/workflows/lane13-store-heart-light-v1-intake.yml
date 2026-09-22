@@ -1,0 +1,166 @@
+name: Lane 13 Store Heart Light v1 Intake
+
+on:
+  push:
+    branches: [screenshot-match-preproduction]
+    paths:
+      - 'docs/preproduction/visuals/lane-13-store-heart-light-v1-seed.json'
+
+permissions:
+  contents: write
+
+jobs:
+  intake:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: screenshot-match-preproduction
+          fetch-depth: 0
+
+      - name: Download bounded Store heart-light candidate
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p docs/preproduction/visuals/recovered-originals public/assets/visuals/lane-13
+          curl -L --fail --retry 5 --retry-all-errors --connect-timeout 30 --max-time 240 'https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:46b58de3-cfdf-4e68-8362-bfe5915228e9' -o docs/preproduction/visuals/recovered-originals/store-heart-wall-light-w13-v1-source.png
+          curl -L --fail --retry 5 --retry-all-errors --connect-timeout 30 --max-time 240 'https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:822e7bd5-d023-42ef-a282-36d262874f54' -o public/assets/visuals/lane-13/store-heart-wall-light-w13-v1-full.png
+          curl -L --fail --retry 5 --retry-all-errors --connect-timeout 30 --max-time 240 'https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:4e7a90d9-e7f3-4aef-bfef-f87710666eb1' -o public/assets/visuals/lane-13/store-heart-wall-light-w13-v1-1024.png
+
+      - name: Validate PNG dimensions alpha and compute manifest
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 <<'PY'
+          import json, hashlib, struct, zlib
+          specs = [
+            dict(role='source', path='docs/preproduction/visuals/recovered-originals/store-heart-wall-light-w13-v1-source.png', width=2048, height=2048, alpha=False),
+            dict(role='full', path='public/assets/visuals/lane-13/store-heart-wall-light-w13-v1-full.png', width=2048, height=2048, alpha=True),
+            dict(role='optimized', path='public/assets/visuals/lane-13/store-heart-wall-light-w13-v1-1024.png', width=1024, height=1024, alpha=True),
+          ]
+          def paeth(a,b,c):
+            p=a+b-c; pa=abs(p-a); pb=abs(p-b); pc=abs(p-c)
+            return a if pa<=pb and pa<=pc else b if pb<=pc else c
+          def png_info(path, need_alpha):
+            data=open(path,'rb').read()
+            if data[:8] != b'\x89PNG\r\n\x1a\n': raise SystemExit(f'{path}: not PNG')
+            pos=8; idat=[]; trns=None; ihdr=None
+            while pos < len(data):
+              n=struct.unpack('>I',data[pos:pos+4])[0]; typ=data[pos+4:pos+8]; chunk=data[pos+8:pos+8+n]; pos += 12+n
+              if typ==b'IHDR': ihdr=chunk
+              elif typ==b'IDAT': idat.append(chunk)
+              elif typ==b'tRNS': trns=chunk
+              elif typ==b'IEND': break
+            w,h,bit_depth,color_type,comp,flt,interlace=struct.unpack('>IIBBBBB',ihdr)
+            if bit_depth!=8 or interlace!=0: raise SystemExit(f'{path}: unsupported PNG bitDepth={bit_depth} interlace={interlace}')
+            alpha_stats=None
+            if need_alpha:
+              channels={0:1,2:3,3:1,4:2,6:4}.get(color_type)
+              if channels is None: raise SystemExit(f'{path}: unsupported color type {color_type}')
+              raw=zlib.decompress(b''.join(idat)); stride=w*channels; prev=bytearray(stride); off=0
+              clear=semi=opaque=0; mn=255; mx=0
+              for _ in range(h):
+                f=raw[off]; off+=1; cur=bytearray(raw[off:off+stride]); off+=stride
+                for i in range(stride):
+                  a=cur[i-channels] if i>=channels else 0; b=prev[i]; c=prev[i-channels] if i>=channels else 0
+                  if f==1: cur[i]=(cur[i]+a)&255
+                  elif f==2: cur[i]=(cur[i]+b)&255
+                  elif f==3: cur[i]=(cur[i]+((a+b)//2))&255
+                  elif f==4: cur[i]=(cur[i]+paeth(a,b,c))&255
+                  elif f!=0: raise SystemExit(f'{path}: unknown filter {f}')
+                if color_type==6: vals=cur[3::4]
+                elif color_type==4: vals=cur[1::2]
+                elif color_type==3:
+                  if trns is None: raise SystemExit(f'{path}: indexed PNG has no tRNS alpha')
+                  vals=[trns[x] if x < len(trns) else 255 for x in cur]
+                else: raise SystemExit(f'{path}: no alpha channel colorType={color_type}')
+                for av in vals:
+                  mn=min(mn,av); mx=max(mx,av)
+                  if av==0: clear+=1
+                  elif av==255: opaque+=1
+                  else: semi+=1
+                prev=cur
+              if not (mn==0 and mx==255 and clear>0 and opaque>0): raise SystemExit(f'{path}: alpha not meaningful min={mn} max={mx} clear={clear} opaque={opaque}')
+              alpha_stats=dict(min=mn,max=mx,clear=clear,semi=semi,opaque=opaque)
+            return data, dict(format='png',width=w,height=h,bitDepth=bit_depth,colorType=color_type,hasAlpha=color_type in (4,6) or (color_type==3 and trns is not None)), alpha_stats
+          out=[]
+          for s in specs:
+            b,meta,alpha_stats=png_info(s['path'],s['alpha'])
+            if meta['width']!=s['width'] or meta['height']!=s['height']: raise SystemExit(f"{s['path']}: expected {s['width']}x{s['height']}, got {meta['width']}x{meta['height']}")
+            out.append({**s,'bytes':len(b),'sha256':hashlib.sha256(b).hexdigest(),'metadata':meta,'meaningfulAlpha': True if s['alpha'] else None,'alphaStats':alpha_stats})
+          open('/tmp/lane13-store-heart-light-local-manifest.json','w').write(json.dumps(out,indent=2))
+          print(json.dumps(out,indent=2))
+          PY
+
+      - name: Commit versioned asset bytes only
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add docs/preproduction/visuals/recovered-originals/store-heart-wall-light-w13-v1-source.png public/assets/visuals/lane-13/store-heart-wall-light-w13-v1-full.png public/assets/visuals/lane-13/store-heart-wall-light-w13-v1-1024.png
+          if ! git diff --cached --quiet; then
+            git commit -m 'visuals(13): stage Store heart wall-light v1 bytes'
+            git pull --rebase origin screenshot-match-preproduction
+            git push origin HEAD:screenshot-match-preproduction
+          fi
+          echo "ASSET_COMMIT=$(git rev-parse HEAD)" >> "$GITHUB_ENV"
+
+      - name: Exact repository readback and evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          git pull --rebase origin screenshot-match-preproduction
+          python3 <<'PY'
+          import json, hashlib, subprocess, os, datetime
+          local=json.load(open('/tmp/lane13-store-heart-light-local-manifest.json'))
+          commit=os.environ['ASSET_COMMIT']; checks=[]
+          for item in local:
+            remote=subprocess.check_output(['git','show',f"{commit}:{item['path']}"])
+            sha=hashlib.sha256(remote).hexdigest()
+            checks.append(dict(path=item['path'],role=item['role'],expectedBytes=item['bytes'],readbackBytes=len(remote),expectedSha256=item['sha256'],readbackSha256=sha,exactBytes=(len(remote)==item['bytes'] and sha==item['sha256'])))
+          if not all(x['exactBytes'] for x in checks): raise SystemExit('repository readback mismatch')
+          seed=json.load(open('docs/preproduction/visuals/lane-13-store-heart-light-v1-seed.json'))
+          evidence=dict(schemaVersion=1,branch='screenshot-match-preproduction',lane='13',candidate='store-heart-wall-light-w13-v1',candidateType='transparent-environment-prop-layer',targetScreen='Store',status='STAGED_READY_FOR_INDEPENDENT_REVIEW',assetCommit=commit,sourceSeed='docs/preproduction/visuals/lane-13-store-heart-light-v1-seed.json',reference=seed['reference'],runningRenderEvidence=seed['runningRenderEvidence'],observedDefect=seed['observedDefect'],provenance=seed['provenance'],assets=local,repositoryReadback=dict(status='PASS_3_OF_3_EXACT_SHA256_AND_BYTE_LENGTH',checks=checks),producerDecision='STAGED_NOT_APPROVED',requiredIndependentReview=['01 art/visual judgment','14 composition/performance judgment','15 coordination before any runtime wiring or 09 handoff'],runtimeWired=False,physicalDeviceTest=False,screenshotParityClaim=False,canonicalCatalogMappingsEdited=False,workstream06AssetsEdited=False,workstream09AssetsEdited=False,generatedAtUtc=datetime.datetime.now(datetime.timezone.utc).isoformat())
+          open('docs/preproduction/visuals/lane-13-store-heart-light-v1-intake.json','w').write(json.dumps(evidence,indent=2)+'\n')
+          print(json.dumps(evidence,indent=2))
+          PY
+
+      - name: Sync Lane 13 ledgers without approval
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 <<'PY'
+          import json
+          lane_path='docs/preproduction/visuals/lane-13.json'; md_path='docs/preproduction/visuals/lane-13.md'
+          e=json.load(open('docs/preproduction/visuals/lane-13-store-heart-light-v1-intake.json'))
+          assets={a['role']:a for a in e['assets']}; lane=json.load(open(lane_path))
+          entry={
+            'candidateId':'store-heart-wall-light-w13-v1','candidateType':'transparent-environment-prop-layer','targetScreen':'Store','status':'STAGED_READY_FOR_INDEPENDENT_REVIEW',
+            'observedDefect':e['observedDefect'],'reference':e['reference'],'runningRenderEvidence':e['runningRenderEvidence'],
+            'sourcePath':assets['source']['path'],'sourceDimensions':[assets['source']['width'],assets['source']['height']],'sourceBytes':assets['source']['bytes'],'sourceSha256':assets['source']['sha256'],
+            'fullPath':assets['full']['path'],'fullDimensions':[assets['full']['width'],assets['full']['height']],'fullBytes':assets['full']['bytes'],'fullSha256':assets['full']['sha256'],
+            'optimizedPath':assets['optimized']['path'],'optimizedDimensions':[assets['optimized']['width'],assets['optimized']['height']],'optimizedBytes':assets['optimized']['bytes'],'optimizedSha256':assets['optimized']['sha256'],
+            'intakeEvidence':'docs/preproduction/visuals/lane-13-store-heart-light-v1-intake.json','originReadback':'PASS_3_OF_3_EXACT_SHA256_AND_BYTE_LENGTH','assetCommit':e['assetCommit'],'runtimeWired':False,'canonicalCatalogTouched':False,'workstream06AvatarFilesTouched':False,'workstream09EnvironmentFilesTouched':False,'independentArtReview':'PENDING_01','compositionPerformanceReview':'PENDING_14','runtimeCoordination':'PENDING_15','physicalDeviceTested':False,'screenshotParityClaimed':False
+          }
+          arr=lane.setdefault('parallelCandidates',[])
+          if not any(x.get('candidateId')==entry['candidateId'] for x in arr): arr.append(entry)
+          lane['latestStorePropCandidate']={'candidateId':entry['candidateId'],'status':entry['status'],'intakeEvidence':entry['intakeEvidence'],'assetCommit':entry['assetCommit'],'producerDecision':'STAGED_NOT_APPROVED','requiredReviews':['01','14','15']}
+          open(lane_path,'w').write(json.dumps(lane,indent=2)+'\n')
+          marker='## Store heart wall-light v1'
+          text=open(md_path).read()
+          if marker not in text:
+            text += f'''\n\n{marker}\n\n- Candidate: `store-heart-wall-light-w13-v1` — isolated transparent Store scene prop; producer-staged only, not approved or runtime-wired.\n- Visual gap: the verified original Store uses a dimensional luminous pink heart accent in the try-on environment, while the inspected current Store render remains materially flat in that zone. Existing Store background/stage candidates are preserved; this is a separate optional prop layer, not a replacement or flattened screen.\n- Source: `{assets['source']['path']}` — {assets['source']['width']}x{assets['source']['height']}, SHA-256 `{assets['source']['sha256']}`.\n- Full transparent: `{assets['full']['path']}` — {assets['full']['width']}x{assets['full']['height']}, SHA-256 `{assets['full']['sha256']}`.\n- Optimized transparent: `{assets['optimized']['path']}` — {assets['optimized']['width']}x{assets['optimized']['height']}, SHA-256 `{assets['optimized']['sha256']}`.\n- Exact repository readback: `PASS_3_OF_3_EXACT_SHA256_AND_BYTE_LENGTH`; evidence `{entry['intakeEvidence']}`; asset commit `{entry['assetCommit']}`.\n- The first direct resize of the transparent cutout was producer-rejected for visible alpha/stretch artifacts; the staged 1024 derivative was instead made by resizing the opaque source first and then removing its background.\n- Scope safety: no UI/text/buttons, no catalog mapping, gameplay/learning/persistence/economy/save change, no Workstream 06/09 file mutation, no runtime wiring, no physical-device or screenshot-parity claim. Reviewer 01 judges art, 14 composition/performance, and 15 coordinates any future 09 handoff/wiring.\n'''
+            open(md_path,'w').write(text)
+          PY
+
+      - name: Commit evidence and Lane 13 handoff
+        shell: bash
+        run: |
+          set -euo pipefail
+          git add docs/preproduction/visuals/lane-13-store-heart-light-v1-intake.json docs/preproduction/visuals/lane-13.json docs/preproduction/visuals/lane-13.md
+          if ! git diff --cached --quiet; then
+            git commit -m 'visuals(13): record Store heart wall-light v1 handoff'
+            git pull --rebase origin screenshot-match-preproduction
+            git push origin HEAD:screenshot-match-preproduction
+          fi
