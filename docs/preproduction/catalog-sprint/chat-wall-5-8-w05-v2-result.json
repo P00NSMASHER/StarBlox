@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "batchId": "w05-wall-5-8-v2",
-  "status": "STAGED_READBACK_PASS__RENDER_PENDING",
+  "status": "READY_FOR_REVIEW_14",
   "sourceHead": "45ec6e6e1e0c808dad93c32a16605413c0fde075",
   "producer": "05",
   "independentReviewer": "14",
@@ -323,10 +323,11 @@
   "checks": {
     "exactByteReadback": "PASS_4_OF_4",
     "candidateDecode": "PASS_4_OF_4",
-    "tests": "PENDING",
-    "build": "PENDING",
-    "sharedRenderOverall": "PENDING",
-    "wallCardDetailRender": "PENDING"
+    "tests": "PASS",
+    "build": "PASS",
+    "sharedRenderOverall": "FAIL",
+    "wallCardDetailRender": "PASS_4_OF_4",
+    "typecheck": "NOT_APPLICABLE_NO_APP_SOURCE_CHANGES"
   },
   "freeze": {
     "replitTouched": false,
@@ -338,5 +339,57 @@
     "playerDataTouched": false,
     "paidSettingsTouched": false
   },
-  "handoff": "14: independently review only these exact staged Wall5-8 hashes after actual card/detail render evidence. 08: integrate only independently accepted exact hashes. 05: do not self-approve and do not start Wall9-12 until reviewer14 dispositions are published."
+  "handoff": "14: independently review only these exact staged Wall5-8 hashes after actual card/detail render evidence. 08: integrate only independently accepted exact hashes. 05: do not self-approve and do not start Wall9-12 until reviewer14 dispositions are published.",
+  "testedSourceHead": "7e4aefe2b4e034f10c96580a1d5efacd1cd99a8d",
+  "workflowRunId": 35731413321,
+  "renderEvidence": {
+    "artifactName": "wall-5-8-w05-v2-recovery-evidence",
+    "reportPath": "artifacts/catalog-staged-art/report.json",
+    "matchedIds": [
+      "wall-5",
+      "wall-6",
+      "wall-7",
+      "wall-8"
+    ],
+    "matchedHashes": {
+      "wall-5": "4213df82736052e6a43da21be625d97ee6d8519b",
+      "wall-6": "c20f3b40f40a3e2be919dd10373ffa5cec90cd7e",
+      "wall-7": "13acacfd78a2d4203bb4d4ce9683fbcf1515d9e7",
+      "wall-8": "f6a9440a4d46ea84da14cc550270081b7e590d83"
+    },
+    "screenshots": {
+      "wall-5": {
+        "blobSha": "4213df82736052e6a43da21be625d97ee6d8519b",
+        "screenshot": true,
+        "status": 200,
+        "naturalWidth": 1024,
+        "naturalHeight": 1024,
+        "errors": []
+      },
+      "wall-6": {
+        "blobSha": "c20f3b40f40a3e2be919dd10373ffa5cec90cd7e",
+        "screenshot": true,
+        "status": 200,
+        "naturalWidth": 1024,
+        "naturalHeight": 1024,
+        "errors": []
+      },
+      "wall-7": {
+        "blobSha": "13acacfd78a2d4203bb4d4ce9683fbcf1515d9e7",
+        "screenshot": true,
+        "status": 200,
+        "naturalWidth": 1024,
+        "naturalHeight": 1024,
+        "errors": []
+      },
+      "wall-8": {
+        "blobSha": "f6a9440a4d46ea84da14cc550270081b7e590d83",
+        "screenshot": true,
+        "status": 200,
+        "naturalWidth": 1024,
+        "naturalHeight": 1024,
+        "errors": []
+      }
+    }
+  }
 }
