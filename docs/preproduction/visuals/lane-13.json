@@ -1,8 +1,8 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "workstream": "13",
   "focus": "SCENE_CHARACTER_ART",
-  "status": "READY_FOR_REVIEW",
+  "status": "READY_FOR_REVIEW_MULTIPLE_SCENE_CANDIDATES",
   "branch": "screenshot-match-preproduction",
   "candidateId": "home-bedroom-w13-v2",
   "candidateType": "environment-background",
@@ -53,7 +53,10 @@
     {
       "path": "public/assets/visuals/lane-13/home-bedroom-w13-v2-full.png",
       "format": "PNG",
-      "dimensions": [2320, 1808],
+      "dimensions": [
+        2320,
+        1808
+      ],
       "bytes": 3808983,
       "sha256": "d6f1936fc51ee7afd92a261a24015d02d93228cb7ae110fde9d7f12c0782c2cb",
       "gitBlobSha": "daa6069209ec438c6fc5e2e20788c33f7534d426",
@@ -62,7 +65,10 @@
     {
       "path": "public/assets/visuals/lane-13/home-bedroom-w13-v2-1408x1056.png",
       "format": "PNG",
-      "dimensions": [1408, 1056],
+      "dimensions": [
+        1408,
+        1056
+      ],
       "bytes": 1394961,
       "sha256": "954d3d6e55b578506df87d787aa7d3aa7005f759b78cdd06b65603469ffc9251",
       "gitBlobSha": "2806e8282923efb1b0dc467cbae7139b8d3f339b",
@@ -94,8 +100,72 @@
     "mainTouched": false
   },
   "reviewHandoff": {
-    "01": "Independently judge the exact v2 pixels against the immutable Home reference and the prior measurable rework contract. ACCEPT/REWORK must bind to the exact desktop/full hashes above.",
     "14": "Independently judge overlay-safe composition, format/performance and real-browser suitability. Do not composition-approve from producer notes alone.",
-    "15": "Only after independent acceptance, coordinate any approved environment handoff to Workstream 09. No runtime integration is authorized by this candidate."
-  }
+    "15": "Only after independent acceptance, coordinate any approved environment handoff to Workstream 09. No runtime integration is authorized by these candidates.",
+    "01": "Independently judge Home v2 and Quest v1 exact pixels against their immutable references; bind every decision to the exact hashes in parallelCandidates/intake evidence."
+  },
+  "parallelCandidates": [
+    {
+      "candidateId": "home-bedroom-w13-v2",
+      "targetScreen": "Home",
+      "status": "STAGED_READY_FOR_INDEPENDENT_REVIEW",
+      "intakeEvidence": "docs/preproduction/visuals/lane-13-home-v2-intake.json",
+      "desktopPath": "public/assets/visuals/lane-13/home-bedroom-w13-v2-1408x1056.png",
+      "desktopSha256": "954d3d6e55b578506df87d787aa7d3aa7005f759b78cdd06b65603469ffc9251",
+      "fullPath": "public/assets/visuals/lane-13/home-bedroom-w13-v2-full.png",
+      "fullSha256": "d6f1936fc51ee7afd92a261a24015d02d93228cb7ae110fde9d7f12c0782c2cb",
+      "runtimeWired": false,
+      "independentReview": "PENDING"
+    },
+    {
+      "candidateId": "quest-learning-room-w13-v1",
+      "candidateType": "environment-background",
+      "targetScreen": "Quest",
+      "status": "STAGED_READY_FOR_INDEPENDENT_REVIEW",
+      "reference": {
+        "path": "docs/preproduction/reference-screenshots/originals/quest-1448x1086.jpeg",
+        "sha256": "70f1b952709a85c77bb11851ffe9ae704acf8b97640355e908b6ec537b5c73c9"
+      },
+      "runningRenderEvidence": {
+        "workflowRunId": 35663655650,
+        "artifactId": 10668287632,
+        "renderHead": "b187186e62519ffa77bd0f7b166c601c90bdc416",
+        "file": "quest-desktop-1408x1056.png"
+      },
+      "observedDefect": "Current Quest environment is substantially flatter/darker and less materially layered than the immutable Quest reference. The separate candidate adds warm wood, lilac/blush light, believable shelves/furniture/plants and depth while reserving calm center/right overlay zones.",
+      "desktopPath": "public/assets/visuals/lane-13/quest-learning-room-w13-v1-1408x1056.png",
+      "desktopDimensions": [
+        1408,
+        1056
+      ],
+      "desktopBytes": 1372053,
+      "desktopSha256": "00b1d96b463decf882193c27d433b313510069ca294706e56f77ff8ed948ff90",
+      "desktopGitBlobSha": "221add1864fce420bc347182bef4edfd6dfa0589",
+      "fullPath": "public/assets/visuals/lane-13/quest-learning-room-w13-v1-full.png",
+      "fullDimensions": [
+        2304,
+        1792
+      ],
+      "fullBytes": 3727227,
+      "fullSha256": "2c25bf254a6aed8810d84ffb72eaa4096bd3c4eae69b92dfceffcaaed5dce1db",
+      "fullGitBlobSha": "d7b39a38406c257c168a9c65fe8c4496e76ed320",
+      "intakeEvidence": "docs/preproduction/visuals/lane-13-quest-v1-intake.json",
+      "originReadback": "PASS_2_OF_2_EXACT_SHA256",
+      "sourceHeadAfterBinaryPush": "e6b8385aedef6cd2fca378cff5fdee7ebb4614f8",
+      "provenance": {
+        "generator": "Adobe image_generate",
+        "generationRequestId": "9b3ba95e-a56f-4cdf-bfbc-3a30ff696c4f",
+        "sourceAdobeUrn": "urn:aaid:ps:US:2421a763-1b79-4f14-8ab7-d824858e83f2",
+        "sourceFireflyAssetId": "urn:aaid:sc:US:7dcb3850-8107-408f-a009-921994e2e9cf",
+        "optimizedDerivative": "Adobe image_crop_and_resize",
+        "cropRequestId": "cf534922-622d-4397-8a89-375eb8c8568e",
+        "desktopAdobeUrn": "urn:aaid:ps:US:88f82721-0ce6-48ed-bf41-eeb09fb6a95b"
+      },
+      "runtimeWired": false,
+      "canonicalCatalogTouched": false,
+      "workstream06AvatarTouched": false,
+      "workstream09ActiveEnvironmentTouched": false,
+      "independentReview": "PENDING"
+    }
+  ]
 }
