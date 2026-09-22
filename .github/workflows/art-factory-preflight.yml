@@ -83,25 +83,21 @@ jobs:
           change_source = 'workflow-dispatch'
           if os.environ.get('GITHUB_EVENT_NAME') == 'push' and before and set(before) != {'0'}:
               commits = event.get('commits') or []
-              try:
-                  expected_commit_count = int(event.get('size'))
-              except (TypeError, ValueError):
-                  expected_commit_count = -1
 
-              # GitHub push payloads already contain per-commit added/modified/removed
-              # paths. Use them when the payload is complete, avoiding a second fetch.
-              payload_complete = (
-                  expected_commit_count >= 0
-                  and len(commits) == expected_commit_count
+              # The common worker case is one commit per push. When that commit
+              # is exactly the Actions head, its file lists are complete for the
+              # range we need and no second Git fetch is necessary.
+              single_head_commit = (
+                  len(commits) == 1
+                  and str(commits[0].get('id') or '') == head
               )
-              if payload_complete:
+              if single_head_commit:
                   changed = sorted({
                       p
-                      for commit in commits
                       for key in ('added','modified','removed')
-                      for p in (commit.get(key) or [])
+                      for p in (commits[0].get(key) or [])
                   })
-                  change_source = 'push-payload'
+                  change_source = 'push-payload-single-commit'
               else:
                   subprocess.run(
                       ['git','-c','protocol.version=2','fetch','--no-tags','--depth=1','--filter=blob:none','origin',before],
