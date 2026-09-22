@@ -1,6 +1,6 @@
 # Catalog Sprint — Lane 11 Auras
 
-STATUS: **AURAS 1–4 + 6–8 ACCEPTED / AURAS 5, 9, 10, 12 V3 PENDING 05 / AURA 11 V3 GIT-OBJECT-ONLY, BRANCH ATTACH BLOCKED**
+STATUS: **AURAS 1–4 + 6–8 ACCEPTED / AURAS 5, 9, 10, 11, 12 V3 STAGED + PENDING 05**
 
 Branch: `screenshot-match-preproduction`  
 Workstream: 11  
@@ -28,9 +28,9 @@ Reviewer 05's current shard independently **ACCEPTS the exact v3 hashes for Aura
 
 Auras 5, 9, 10 and 12 retain their existing staged v3 hashes and remain **PENDING independent reviewer-05 decisions**; they were not regenerated in this pass.
 
-## Dream Aurora v3 — producer repair
+## Dream Aurora v3 — staged exact bytes
 
-`auras-11` is the only Aura that entered this pass as exact-hash REWORK without a newer candidate. Exact Store metadata was preserved: **Dream Aurora — Tier 4 / Art Attack**. The legacy reviewed hash remains `ddb2c81b49db8e6ea6369c8f70cb720228feb73c` and is not overwritten.
+`auras-11` entered the prior producer pass as exact-hash REWORK without a newer candidate. Exact Store metadata was preserved: **Dream Aurora — Tier 4 / Art Attack**. The legacy reviewed hash remains `ddb2c81b49db8e6ea6369c8f70cb720228feb73c` and is not overwritten.
 
 A new original was generated specifically against reviewer 05's defect: translucent curtain depth, painterly material interaction and luminous atmosphere. The producer-inspected result uses cyan/violet/magenta translucent aurora ribbons at clearly separated near/mid/far depth, crystalline highlight fragments, controlled bloom, atmospheric occlusion and a large open center for card-scale readability. It is item-specific rather than a flat ring/palette swap and contains no baked UI text or third-party IP.
 
@@ -39,13 +39,13 @@ Source preservation/provenance:
 - full-quality source: PNG, **1254×1254**, **2,232,873 bytes**, SHA-256 `cc58a3dd7499147cf9a9600800a3ad8e83647145f14719bc3eba06636229b413`;
 - optimized review candidate: JPEG, **600×600**, **18,443 bytes**, SHA-256 `0a06996522c9cb999e82b8ba028e94bfe2cb8d16e043c94999065e0ae8ce1dc2`;
 - candidate Git blob: `7f3372c1584e07f18a3abfc7818013190fff1560`;
-- intended repository path: `public/assets/catalog/auras-11-w11-v3.jpg` (`/assets/catalog/auras-11-w11-v3.jpg`).
+- repository path: `public/assets/catalog/auras-11-w11-v3.jpg` (`/assets/catalog/auras-11-w11-v3.jpg`).
 
-### Honest repository status
+### Repository/readback status
 
-The candidate bytes are stored as an exact Git blob, but **not yet attached to the branch tree**. Multiple non-force fast-forward attachment attempts correctly failed because other visual workers advanced `screenshot-match-preproduction` between parent read and ref update. No force push was used. Therefore Aura 11 is **GIT_OBJECT_ONLY / ATTACH_BLOCKED**, not staged and not READY_FOR_REVIEW.
+The prior attachment blocker is resolved. The candidate is now attached at the intended versioned branch path, and branch readback returns the exact Git blob SHA **`7f3372c1584e07f18a3abfc7818013190fff1560`**. This upgrades Aura 11 from Git-object-only to **STAGED / READBACK VERIFIED**.
 
-This is actual produced art plus a real stored Git object, not status-only churn. Workstream 15 should attach blob `7f3372c1584e07f18a3abfc7818013190fff1560` to `public/assets/catalog/auras-11-w11-v3.jpg` from a fresh branch head without changing the bytes. After exact path/hash readback, reviewer 05 owns the decision and 08 alone may wire an exact ACCEPT.
+It is **not self-approved**. Current-hash render QA is still required before reviewer 05 should issue an independent decision; the old `ddb2c81b...` REWORK must not transfer to this candidate. Workstream 08 alone may wire it after an exact-hash reviewer-05 ACCEPT.
 
 ## Current Aura lane
 
@@ -54,16 +54,16 @@ This is actual produced art plus a real stored Git object, not status-only churn
 - `auras-6..8`: **independent ACCEPT + canonical**, preserve exactly.
 - `auras-9`: v3 `9331e516a7a1a2fa32abafaf3bbf0932c3ca792d`, staged/rendered, reviewer 05 pending.
 - `auras-10`: v3 `6f07fe7f5c8be236f3c17df5f55afc550888f52e`, staged/rendered, reviewer 05 pending.
-- `auras-11`: new v3 Git blob `7f3372c1584e07f18a3abfc7818013190fff1560`; **branch attachment pending**, so no review claim.
+- `auras-11`: v3 `7f3372c1584e07f18a3abfc7818013190fff1560`, **staged/readback verified; current-hash render QA + reviewer 05 pending**.
 - `auras-12`: v3 `d0fcf528ff4ee91e56760932fdcf357ab264dd3d`, staged/rendered, reviewer 05 pending.
 
-Qualified Aura exact-hash ACCEPTs: **7 / 12**. Canonical Aura replacements currently confirmed from Workstream-08 evidence: **3 / 12**. No pending candidate was regenerated and no accepted hash was modified.
+Qualified Aura exact-hash ACCEPTs: **7 / 12**. Canonical Aura replacements currently confirmed from Workstream-08 evidence: **3 / 12**. All five unfinished Aura IDs now have newer staged candidates, so **zero Aura REWORK IDs are eligible for regeneration until a fresh exact-hash reviewer decision arrives**.
 
 ## Handoff
 
-**15:** attach the exact Aura-11 blob to the intended versioned path from a fresh branch head; do not regenerate or alter bytes. Preserve all accepted/pending Aura hashes.  
-**05:** review Aura 11 only after branch path/hash readback exists; continue exact-hash review of existing Auras 5/9/10/12 without transferring old verdicts.  
-**08:** preserve canonical Auras 6–8 and integrate Auras 1–4 only by their accepted exact hashes after normal metadata/file/content checks. Aura 11 remains ineligible until branch attachment + reviewer-05 ACCEPT.  
-**11:** do not regenerate Auras 1–10 or 12 while accepted/pending. Wait for fresh reviewer decisions or successful Aura-11 attachment; remain on art/visuals only.
+**15:** Aura-11 branch attachment is resolved. Preserve exact hashes and coordinate the shared render/review entrypoints; there is no eligible Aura regeneration batch while current candidates remain pending.  
+**05:** preserve exact ACCEPTs for Auras 1–4 and 6–8. Continue exact-hash review of Auras 5/9/10/12. For Aura 11, review only staged hash `7f3372c1584e07f18a3abfc7818013190fff1560` after current-hash render evidence; do not inherit the legacy verdict.  
+**08:** preserve canonical Auras 6–8 and integrate Auras 1–4 only by their accepted exact hashes after normal metadata/file/content checks. Aura 11 remains ineligible until reviewer-05 ACCEPT.  
+**11:** do not regenerate any accepted or pending Aura candidate. Repair only a candidate that receives a fresh exact-hash REWORK; remain on art/visuals only.
 
 General motion/game-feel work remains deferred because `ART_VISUALS_SPRINT` / catalog critical path is still active. No deployment action was taken.
