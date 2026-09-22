@@ -140,3 +140,29 @@ None of the three staged scene candidates, avatar-headset layer or buddy-stage l
 - **15:** only after independent acceptance, coordinate environment handoff to Workstream 09 and character/buddy presentation handoff to the appropriate owner.
 
 Workstream 13 must not self-approve or wire this candidate.
+
+## Foreground avatar/buddy grounding layer — `home-avatar-stage-w13-v1`
+
+The current Home desktop render from workflow run `35663655650` was inspected beside the immutable Home reference before production. The visible foreground gap is grounding: the running avatar/buddy read flatter and less physically planted than the target's dimensional plush rug/contact-depth treatment. Lane 13 therefore produced a **separate foreground staging layer** rather than changing Workstream 06 avatar assets or Workstream 09 environment assets.
+
+Composition intent:
+
+- plush pink/lilac/cream star-cloud platform with restrained cyan piping and tiny warm-gold accents;
+- broad uncluttered center reserved for the separately composited equipped avatar and player-selected buddy;
+- warm dappled window-light cues and tactile depth to bridge the dimensional gap visible in the reference;
+- no people, creatures, UI, text, buttons, logos, furniture, branded imagery or third-party IP;
+- no runtime wiring, catalog mapping, save/schema/reward/curriculum change, Replit/Floot use, deployment or `main` change.
+
+### Exact staged foreground assets
+
+- Preserved source: `public/assets/visuals/lane-13/home-avatar-stage-w13-v1-source.png` — **1536×1536**, 2,229,996 bytes, SHA-256 `71f27c10973f9cc654f2ecb91913922b305e7a58311a411aa52a40d879425d29`, Git blob `e0d509b0a29132a5cf3b12277fa49f04f76b27ea`.
+- Full transparent layer: `public/assets/visuals/lane-13/home-avatar-stage-w13-v1-full.png` — **1536×1536**, 1,111,039 bytes, SHA-256 `66736c6156d29b3efe4c525af2dd23ce64623aa842b4c2d0f29529895f46e395`, Git blob `42e7e34d2da6730476840df861ef90491dbf9779`; alpha bbox `[34, 598, 1488, 1372]`.
+- Optimized transparent derivative: `public/assets/visuals/lane-13/home-avatar-stage-w13-v1-768.png` — **768×768**, 348,059 bytes, SHA-256 `e2ec060dcbfa54004646826dc04b7f25dfd8850fe31e0fc68f0373871f398afa`, Git blob `803ecf040f7382fb3fcbdb27482b52baaa1f1ee9`; alpha bbox `[17, 299, 744, 686]`.
+- Exact origin readback: **PASS 3/3 exact SHA-256**; intake evidence: `docs/preproduction/visuals/lane-13-home-avatar-stage-v1-intake.json`.
+
+Provenance: Adobe generation request `61fc0ea8-925b-4bf4-bfa7-6e5d701eef39`, center-fill edit request `d8e3db7e-9208-4b5b-a5e6-12c0def9a642`, background-removal request `c12b8574-7643-433a-a893-f70e4e328ca6`, optimized-resize request `540026d2-da28-49bc-b1a3-ae7478790d5d`. The immutable Home source remains `docs/preproduction/reference-screenshots/originals/home-1448x1086.jpeg` at SHA-256 `6a4b110aeaf12a6ab0c629f9181cc6cfa8d4f55a518d4f2a6adb3ac6e756c457`.
+
+### Review state
+
+This is **producer-staged only**. Reviewer 01 must independently judge art quality against the exact reference pixels; reviewer 14 must independently judge responsive composition, alpha/occlusion behavior and performance. Reviewer 15 may coordinate runtime wiring only after those acceptances and must keep Workstreams 06/09 authoritative for their in-flight avatar/environment assets. No physical-device test or screenshot-parity claim has been made. Existing regression/build/release blockers remain open for their assigned owners.
+
