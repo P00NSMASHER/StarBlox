@@ -1,0 +1,86 @@
+{
+  "schemaVersion": 1,
+  "branch": "screenshot-match-preproduction",
+  "lane": "13",
+  "candidateId": "store-heart-wall-light-w13-v1",
+  "candidateType": "transparent-environment-prop-layer",
+  "targetScreen": "Store",
+  "sourceHeadBeforeProduction": "5227122d9dc4ddd36b467b1fbe9d0384edaa3be9",
+  "reference": {
+    "path": "docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg",
+    "sha256": "b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d",
+    "actualPixelsInspected": true
+  },
+  "runningRenderEvidence": {
+    "workflowRunId": 35663655650,
+    "artifactId": 10668287632,
+    "renderHead": "b187186e62519ffa77bd0f7b166c601c90bdc416",
+    "file": "store-desktop-1408x1056.png",
+    "actualPixelsInspected": true
+  },
+  "observedDefect": "In the verified original Store pixels, the avatar try-on zone is integrated into a polished boutique with a luminous dimensional pink-heart accent, warm gold trim and layered material light. In the inspected current Store render, that right-side zone is comparatively flat and abstract. Existing store-boutique-w13-v1 and store-avatar-stage-w13-v1 candidates remain preserved and pending; this candidate is a separate optional wall-light prop layer to add dimensional material/lighting fidelity without baking UI or replacing those scenes.",
+  "promptRecipe": {
+    "positivePrompt": "Create one original StarBlox-style boutique wall-light prop as an isolated asset for a child-friendly game scene. A dimensional heart-shaped neon/acrylic wall lamp with a strong hot-pink outer tube, dark plum inner backing, slim warm-gold mounting trim, plus 2–3 tiny rounded star bulbs integrated into the same compact fixture. Premium toy-game materials: glossy translucent acrylic, soft emissive bloom, rounded beveled edges, subtle cyan rim reflection and warm blush bounce light. Slight three-quarter perspective, crisp silhouette, polished 3D game-art quality. Center the single fixture on a plain neutral matte studio backdrop for clean background removal. No room, no furniture, no character, no clothing, no text, no logo, no UI, no brand, no third-party IP.",
+    "negativePrompt": "photorealistic bedroom, people, avatar, mannequin, clothing, catalog item cards, words, letters, signage, logo, buttons, HUD, interface, room scene, furniture, busy background, flat vector icon, emoji, trademark, brand mark, Roblox, Brookhaven",
+    "outputFileType": "png",
+    "size": "2048x2048",
+    "promptReasoner": "quality",
+    "variations": 1
+  },
+  "provenance": {
+    "generator": "Adobe Firefly image_generate",
+    "generationRequestId": "692af793-5767-44d2-ac29-d0503885a935",
+    "sourceAdobeShortUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:46b58de3-cfdf-4e68-8362-bfe5915228e9",
+    "sourceActualPixelsInspected": true,
+    "backgroundRemoval": {
+      "tool": "Adobe image_remove_background",
+      "requestId": "045469f4-2279-4453-91d0-c18b97b3d85e",
+      "fullTransparentAdobeShortUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:822e7bd5-d023-42ef-a282-36d262874f54",
+      "actualPixelsInspected": true
+    },
+    "rejectedDerivative": {
+      "reason": "Direct resize of the already-transparent cutout showed visible alpha/stretch artifacts during producer pixel inspection and is not staged.",
+      "resizeRequestId": "46e61c8e-8139-4392-a2f6-21547a6f50ca",
+      "adobeShortUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:77dbf4e5-bd5c-41b5-98d1-7ea063bafd4d",
+      "actualPixelsInspected": true
+    },
+    "optimizedDerivative": {
+      "method": "Resize opaque source to 1024x1024, inspect, then remove background; avoids the rejected direct-transparent resize artifact path.",
+      "resizeRequestId": "8b14e1cd-2aa4-4f3f-9645-36a1128330cc",
+      "resizedOpaqueAdobeShortUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:6fdea355-e91e-4e28-ada4-e98c39620c96",
+      "backgroundRemovalRequestId": "0dc410b6-6d08-4c75-91c7-33df77168068",
+      "optimizedTransparentAdobeShortUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:4e7a90d9-e7f3-4aef-bfef-f87710666eb1",
+      "actualPixelsInspected": true
+    }
+  },
+  "producerVisualInspection": {
+    "status": "PASS_PRODUCER_INSPECTION_ONLY",
+    "notes": [
+      "Single original dimensional heart wall-light fixture only; no room, character, outfit, UI, text, buttons, counters, logo or third-party IP is baked in.",
+      "Hot-pink emissive tube, plum backing, warm gold trim and subtle cyan edge response materially match the reference palette without copying a branded object.",
+      "Full and clean optimized cutouts retain a readable toy-game silhouette suitable for independent compositional review.",
+      "This is not an acceptance decision, runtime-wiring decision, physical-device result or screenshot-parity claim."
+    ]
+  },
+  "scopeSafety": {
+    "separateFrom192CatalogPipeline": true,
+    "canonicalCatalogMappingsEdited": false,
+    "stableCatalogMetadataEdited": false,
+    "workstream06AssetsEdited": false,
+    "workstream09AssetsEdited": false,
+    "runtimeWired": false,
+    "gameplayEdited": false,
+    "learningEdited": false,
+    "persistenceEdited": false,
+    "economyEdited": false,
+    "playerDataEdited": false,
+    "mainTouched": false,
+    "deploymentTouched": false,
+    "replitOrFlootTouched": false
+  },
+  "requiredIndependentReview": [
+    "01 art/visual judgment",
+    "14 composition/performance judgment",
+    "15 coordination before any runtime wiring or Workstream 09 handoff"
+  ]
+}
