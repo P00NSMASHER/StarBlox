@@ -1,0 +1,263 @@
+name: Lane 13 Avatar Home v3 Repair Intake
+
+on:
+  push:
+    branches: [screenshot-match-preproduction]
+    paths:
+      - 'docs/preproduction/visuals/lane-13-v3-repairs-seed.json'
+      - '.github/workflows/lane13-v3-repairs-intake-20260922.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  intake:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: screenshot-match-preproduction
+          fetch-depth: 0
+
+      - name: Download bounded v3 repair candidates
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p docs/preproduction/visuals/recovered-originals public/assets/visuals/lane-13
+          python3 <<'PY'
+          import json, subprocess
+          seed=json.load(open('docs/preproduction/visuals/lane-13-v3-repairs-seed.json'))
+          specs=seed['avatarV3']['artifacts']+seed['homeV3']['artifacts']
+          for s in specs:
+            cmd=['curl','-L','--fail','--retry','5','--retry-all-errors','--connect-timeout','30','--max-time','240',s['sourceUrl'],'-o',s['path']]
+            print('download', s['role'], s['path'])
+            subprocess.run(cmd,check=True)
+          PY
+
+      - name: Validate PNG dimensions alpha and compute manifests
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 <<'PY'
+          import json, hashlib, struct, zlib
+          seed=json.load(open('docs/preproduction/visuals/lane-13-v3-repairs-seed.json'))
+
+          def paeth(a,b,c):
+            p=a+b-c; pa=abs(p-a); pb=abs(p-b); pc=abs(p-c)
+            return a if pa<=pb and pa<=pc else b if pb<=pc else c
+
+          def png_info(path, need_alpha):
+            data=open(path,'rb').read()
+            if data[:8] != b'\x89PNG\r\n\x1a\n': raise SystemExit(f'{path}: not PNG')
+            pos=8; idat=[]; trns=None; ihdr=None
+            while pos < len(data):
+              n=struct.unpack('>I',data[pos:pos+4])[0]; typ=data[pos+4:pos+8]; chunk=data[pos+8:pos+8+n]; pos += 12+n
+              if typ==b'IHDR': ihdr=chunk
+              elif typ==b'IDAT': idat.append(chunk)
+              elif typ==b'tRNS': trns=chunk
+              elif typ==b'IEND': break
+            if ihdr is None: raise SystemExit(f'{path}: missing IHDR')
+            w,h,bit_depth,color_type,comp,flt,interlace=struct.unpack('>IIBBBBB',ihdr)
+            if bit_depth!=8 or interlace!=0: raise SystemExit(f'{path}: unsupported PNG bitDepth={bit_depth} interlace={interlace}')
+            alpha_stats=None
+            if need_alpha:
+              channels={0:1,2:3,3:1,4:2,6:4}.get(color_type)
+              if channels is None: raise SystemExit(f'{path}: unsupported color type {color_type}')
+              raw=zlib.decompress(b''.join(idat)); stride=w*channels; prev=bytearray(stride); off=0; alphas=[]
+              for _ in range(h):
+                f=raw[off]; off+=1; cur=bytearray(raw[off:off+stride]); off+=stride
+                for i in range(stride):
+                  a=cur[i-channels] if i>=channels else 0; b=prev[i]; c=prev[i-channels] if i>=channels else 0
+                  if f==1: cur[i]=(cur[i]+a)&255
+                  elif f==2: cur[i]=(cur[i]+b)&255
+                  elif f==3: cur[i]=(cur[i]+((a+b)//2))&255
+                  elif f==4: cur[i]=(cur[i]+paeth(a,b,c))&255
+                  elif f!=0: raise SystemExit(f'{path}: unknown filter {f}')
+                if color_type==6: alphas.extend(cur[3::4])
+                elif color_type==4: alphas.extend(cur[1::2])
+                elif color_type==3:
+                  if trns is None: raise SystemExit(f'{path}: indexed PNG has no tRNS alpha')
+                  alphas.extend((trns[x] if x < len(trns) else 255) for x in cur)
+                else: raise SystemExit(f'{path}: no alpha channel colorType={color_type}')
+                prev=cur
+              mn=min(alphas); mx=max(alphas); clear=sum(a==0 for a in alphas); opaque=sum(a==255 for a in alphas); semi=len(alphas)-clear-opaque
+              if not (mn==0 and mx==255 and clear>0 and opaque>0): raise SystemExit(f'{path}: alpha not meaningful min={mn} max={mx} clear={clear} opaque={opaque}')
+              alpha_stats=dict(min=mn,max=mx,clear=clear,semi=semi,opaque=opaque)
+            meta=dict(format='png',width=w,height=h,bitDepth=bit_depth,colorType=color_type,hasAlpha=color_type in (4,6) or (color_type==3 and trns is not None))
+            return data, meta, alpha_stats
+
+          def validate(group):
+            out=[]
+            for s in group:
+              b,meta,alpha_stats=png_info(s['path'],s['requiresAlpha'])
+              ew,eh=s['expectedDimensions']
+              if meta['width']!=ew or meta['height']!=eh: raise SystemExit(f"{s['path']}: expected {ew}x{eh}, got {meta['width']}x{meta['height']}")
+              out.append({
+                'role':s['role'],'path':s['path'],'width':meta['width'],'height':meta['height'],'alpha':s['requiresAlpha'],
+                'bytes':len(b),'sha256':hashlib.sha256(b).hexdigest(),'metadata':meta,
+                'meaningfulAlpha': True if s['requiresAlpha'] else None,'alphaStats':alpha_stats
+              })
+            return out
+
+          avatar=validate(seed['avatarV3']['artifacts'])
+          home=validate(seed['homeV3']['artifacts'])
+          open('/tmp/lane13-avatar-v3-local.json','w').write(json.dumps(avatar,indent=2))
+          open('/tmp/lane13-home-v3-local.json','w').write(json.dumps(home,indent=2))
+          print(json.dumps({'avatar':avatar,'home':home},indent=2))
+          PY
+
+      - name: Commit versioned asset bytes only
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git pull --rebase origin screenshot-match-preproduction
+          git add \
+            docs/preproduction/visuals/recovered-originals/avatar-keyart-fullbody-w13-v3-source.png \
+            public/assets/visuals/lane-13/avatar-keyart-fullbody-w13-v3-full.png \
+            public/assets/visuals/lane-13/avatar-keyart-fullbody-w13-v3-896.png \
+            docs/preproduction/visuals/recovered-originals/home-bedroom-w13-v3-source.png \
+            public/assets/visuals/lane-13/home-bedroom-w13-v3-1408x1056.png \
+            public/assets/visuals/lane-13/home-bedroom-w13-v3-phone-390x844.png
+          if git diff --cached --quiet; then
+            echo 'No binary asset changes to commit.'
+          else
+            git commit -m 'visuals(13): stage bounded avatar and Home v3 repair bytes'
+            for attempt in 1 2 3; do
+              if git push origin HEAD:screenshot-match-preproduction; then break; fi
+              git pull --rebase origin screenshot-match-preproduction
+              if [ "$attempt" = 3 ]; then exit 1; fi
+            done
+          fi
+          echo "ASSET_COMMIT=$(git rev-parse HEAD)" >> "$GITHUB_ENV"
+
+      - name: Exact repository readback and independent-review evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 <<'PY'
+          import json, hashlib, subprocess, os, datetime
+          commit=os.environ['ASSET_COMMIT']
+          seed=json.load(open('docs/preproduction/visuals/lane-13-v3-repairs-seed.json'))
+          now=datetime.datetime.now(datetime.timezone.utc).isoformat()
+
+          def evidence(candidate, local_path, review_source, extra):
+            local=json.load(open(local_path)); checks=[]
+            for item in local:
+              remote=subprocess.check_output(['git','show',f"{commit}:{item['path']}"])
+              sha=hashlib.sha256(remote).hexdigest()
+              checks.append(dict(path=item['path'],role=item['role'],expectedBytes=item['bytes'],readbackBytes=len(remote),expectedSha256=item['sha256'],readbackSha256=sha,exactBytes=(len(remote)==item['bytes'] and sha==item['sha256'])))
+            if not all(x['exactBytes'] for x in checks): raise SystemExit(f'{candidate}: repository readback mismatch')
+            return dict(
+              schemaVersion=1,branch='screenshot-match-preproduction',lane='13',candidate=candidate,
+              status='STAGED_READY_FOR_INDEPENDENT_REVIEW',assetCommit=commit,
+              sourceSeed='docs/preproduction/visuals/lane-13-v3-repairs-seed.json',reviewRepairSource=review_source,
+              assets=local,repositoryReadback=dict(status='PASS_3_OF_3_EXACT_SHA256_AND_BYTE_LENGTH',checks=checks),
+              producerDecision='STAGED_NOT_APPROVED',requiredIndependentReview=['01 art/visual judgment','14 composition/performance judgment','15 coordination before any runtime wiring'],
+              runtimeWired=False,physicalDeviceTest=False,screenshotParityClaim=False,canonicalCatalogMappingsEdited=False,
+              workstream06AssetsEdited=False,workstream09AssetsEdited=False,gameplayStateEdited=False,
+              generatedAtUtc=now,**extra)
+
+          avatar=evidence('avatar-keyart-fullbody-w13-v3','/tmp/lane13-avatar-v3-local.json',seed['reviewSources']['avatar'],{
+            'repairScope':'hair-length-only bounded repair from v2 review; clothing remains noncanonical visual guidance only'
+          })
+          home=evidence('home-bedroom-w13-v3','/tmp/lane13-home-v3-local.json',seed['reviewSources']['home'],{
+            'repairScope':'lower hero corridor and purposeful phone crop only; no UI/state baked into environment'
+          })
+          open('docs/preproduction/visuals/lane-13-avatar-keyart-fullbody-v3-intake.json','w').write(json.dumps(avatar,indent=2)+'\n')
+          open('docs/preproduction/visuals/lane-13-home-bedroom-v3-intake.json','w').write(json.dumps(home,indent=2)+'\n')
+          open('/tmp/lane13-v3-both.json','w').write(json.dumps({'avatar':avatar,'home':home},indent=2))
+          print(json.dumps({'avatar':avatar,'home':home},indent=2))
+          PY
+
+      - name: Sync Lane 13 ledgers and explicit reviewer handoff without approval
+        shell: bash
+        run: |
+          set -euo pipefail
+          git pull --rebase origin screenshot-match-preproduction
+          python3 <<'PY'
+          import json, datetime
+          lane_path='docs/preproduction/visuals/lane-13.json'
+          md_path='docs/preproduction/visuals/lane-13.md'
+          av=json.load(open('docs/preproduction/visuals/lane-13-avatar-keyart-fullbody-v3-intake.json'))
+          hm=json.load(open('docs/preproduction/visuals/lane-13-home-bedroom-v3-intake.json'))
+          lane=json.load(open(lane_path))
+          aa={a['role']:a for a in av['assets']}; ha={a['role']:a for a in hm['assets']}
+
+          avatar_entry={
+            'candidateId':'avatar-keyart-fullbody-w13-v3','candidateType':'transparent-fullbody-avatar-keyart-guidance',
+            'targetScreens':['Home','Store','Quest'],'status':'STAGED_READY_FOR_INDEPENDENT_REVIEW',
+            'reviewRepairSource':av['reviewRepairSource'],
+            'observedDefect':'Reviewer 01 accepted v2 proportions, face, headset and materials but found authoritative-reference hair materially longer than v2.',
+            'repair':'Preserve v2 identity/material/pose cues while extending layered medium-brown hair to waist/upper-hip.',
+            'sourcePath':aa['source']['path'],'sourceDimensions':[aa['source']['width'],aa['source']['height']],'sourceBytes':aa['source']['bytes'],'sourceSha256':aa['source']['sha256'],
+            'fullPath':aa['full']['path'],'fullDimensions':[aa['full']['width'],aa['full']['height']],'fullBytes':aa['full']['bytes'],'fullSha256':aa['full']['sha256'],
+            'optimizedPath':aa['optimized']['path'],'optimizedDimensions':[aa['optimized']['width'],aa['optimized']['height']],'optimizedBytes':aa['optimized']['bytes'],'optimizedSha256':aa['optimized']['sha256'],
+            'intakeEvidence':'docs/preproduction/visuals/lane-13-avatar-keyart-fullbody-v3-intake.json','originReadback':'PASS_3_OF_3_EXACT_SHA256_AND_BYTE_LENGTH','assetCommit':av['assetCommit'],
+            'equipmentSafety':{'clothingNoncanonicalGuidanceOnly':True,'ownedEquippedChoicesChanged':False,'runtimeWired':False},
+            'independentArtReview':'PENDING_01','compositionPerformanceReview':'PENDING_14','runtimeCoordination':'PENDING_15','producerDecision':'STAGED_NOT_APPROVED'
+          }
+          chars=lane.setdefault('characterCandidates',[])
+          if not any(x.get('candidateId')==avatar_entry['candidateId'] for x in chars): chars.append(avatar_entry)
+
+          home_entry={
+            'candidateId':'home-bedroom-w13-v3','candidateType':'responsive-environment-background','targetScreens':['Home'],
+            'status':'STAGED_READY_FOR_INDEPENDENT_REVIEW','reviewRepairSource':hm['reviewRepairSource'],
+            'observedDefect':'Reviewer 14 found v2 lower hero corridor and phone center-cover obstructed by bed/plant/chair silhouettes.',
+            'repair':'Keep left-side light and bed-left/desk-right language while opening x≈36-64% lower corridor and adding a purposeful 390x844 phone derivative.',
+            'sourcePath':ha['source']['path'],'sourceDimensions':[ha['source']['width'],ha['source']['height']],'sourceBytes':ha['source']['bytes'],'sourceSha256':ha['source']['sha256'],
+            'desktopPath':ha['desktop']['path'],'desktopDimensions':[ha['desktop']['width'],ha['desktop']['height']],'desktopBytes':ha['desktop']['bytes'],'desktopSha256':ha['desktop']['sha256'],
+            'phonePath':ha['phone']['path'],'phoneDimensions':[ha['phone']['width'],ha['phone']['height']],'phoneBytes':ha['phone']['bytes'],'phoneSha256':ha['phone']['sha256'],
+            'intakeEvidence':'docs/preproduction/visuals/lane-13-home-bedroom-v3-intake.json','originReadback':'PASS_3_OF_3_EXACT_SHA256_AND_BYTE_LENGTH','assetCommit':hm['assetCommit'],
+            'bakedUiOrState':False,'runtimeWired':False,'independentArtReview':'PENDING_01','compositionPerformanceReview':'PENDING_14','runtimeCoordination':'PENDING_15','producerDecision':'STAGED_NOT_APPROVED'
+          }
+          env=lane.setdefault('environmentCandidates',[])
+          if not any(x.get('candidateId')==home_entry['candidateId'] for x in env): env.append(home_entry)
+          lane['latestAvatarKeyartV3Candidate']={'candidateId':avatar_entry['candidateId'],'status':avatar_entry['status'],'intakeEvidence':avatar_entry['intakeEvidence'],'assetCommit':avatar_entry['assetCommit'],'producerDecision':'STAGED_NOT_APPROVED','requiredReviews':['01','14','15']}
+          lane['latestHomeBedroomV3Candidate']={'candidateId':home_entry['candidateId'],'status':home_entry['status'],'intakeEvidence':home_entry['intakeEvidence'],'assetCommit':home_entry['assetCommit'],'producerDecision':'STAGED_NOT_APPROVED','requiredReviews':['01','14','15']}
+          open(lane_path,'w').write(json.dumps(lane,indent=2)+'\n')
+
+          text=open(md_path).read()
+          if '## Avatar key-art fullbody v3 bounded hair repair' not in text:
+            text += f'''\n\n## Avatar key-art fullbody v3 bounded hair repair\n\n- Candidate: `avatar-keyart-fullbody-w13-v3` — producer-staged only. Reviewer 01, reviewer 14 and Workstream 15 remain gates.\n- Source: `{aa['source']['path']}` — {aa['source']['width']}x{aa['source']['height']}, SHA-256 `{aa['source']['sha256']}`.\n- Full transparent: `{aa['full']['path']}` — {aa['full']['width']}x{aa['full']['height']}, SHA-256 `{aa['full']['sha256']}`.\n- Optimized transparent: `{aa['optimized']['path']}` — {aa['optimized']['width']}x{aa['optimized']['height']}, SHA-256 `{aa['optimized']['sha256']}`.\n- Exact repository readback: `PASS_3_OF_3_EXACT_SHA256_AND_BYTE_LENGTH`; evidence `docs/preproduction/visuals/lane-13-avatar-keyart-fullbody-v3-intake.json`; asset commit `{av['assetCommit']}`.\n- Bounded repair: preserve v2 square head/chunky body/wave/wink/open-smile/headset/material cues; extend medium-brown layered hair to approximately waist/upper-hip. Clothing is noncanonical guidance only.\n'''
+          if '## Home bedroom v3 corridor + phone repair' not in text:
+            text += f'''\n\n## Home bedroom v3 corridor + phone repair\n\n- Candidate: `home-bedroom-w13-v3` — producer-staged only. Reviewer 01, reviewer 14 and Workstream 15 remain gates.\n- Source: `{ha['source']['path']}` — {ha['source']['width']}x{ha['source']['height']}, SHA-256 `{ha['source']['sha256']}`.\n- Desktop derivative: `{ha['desktop']['path']}` — {ha['desktop']['width']}x{ha['desktop']['height']}, SHA-256 `{ha['desktop']['sha256']}`.\n- Purposeful phone derivative: `{ha['phone']['path']}` — {ha['phone']['width']}x{ha['phone']['height']}, SHA-256 `{ha['phone']['sha256']}`.\n- Exact repository readback: `PASS_3_OF_3_EXACT_SHA256_AND_BYTE_LENGTH`; evidence `docs/preproduction/visuals/lane-13-home-bedroom-v3-intake.json`; asset commit `{hm['assetCommit']}`.\n- Bounded repair: preserve warm left-side light and bed-left/desk-right language while clearing the lower x≈36-64% hero corridor; phone crop centers the cleared wall/floor and leaves furniture at edges. No UI/state is baked into the background.\n'''
+          open(md_path,'w').write(text)
+
+          handoff={
+            'schemaVersion':1,'branch':'screenshot-match-preproduction','lane':'13','status':'REQUEST_INDEPENDENT_REVIEW',
+            'producerDecision':'STAGED_NOT_APPROVED','runtimeWired':False,
+            'requests':[
+              {'reviewer':'01','candidate':'avatar-keyart-fullbody-w13-v3','evidence':'docs/preproduction/visuals/lane-13-avatar-keyart-fullbody-v3-intake.json','judge':['hair length/flow against authoritative references','preservation of v2 face/headset/proportions/material quality','originality/no third-party IP']},
+              {'reviewer':'14','candidate':'avatar-keyart-fullbody-w13-v3','evidence':'docs/preproduction/visuals/lane-13-avatar-keyart-fullbody-v3-intake.json','judge':['composition silhouette','alpha edges','payload/performance']},
+              {'reviewer':'01','candidate':'home-bedroom-w13-v3','evidence':'docs/preproduction/visuals/lane-13-home-bedroom-v3-intake.json','judge':['reference fidelity','materials/lighting/architecture','art quality']},
+              {'reviewer':'14','candidate':'home-bedroom-w13-v3','evidence':'docs/preproduction/visuals/lane-13-home-bedroom-v3-intake.json','judge':['x≈36-64 lower hero corridor','1408x1056 composition','purposeful 390x844 phone composition','payload/performance']}
+            ],
+            'coordination':'Workstream 15 required before any runtime wiring or shared-entrypoint change.',
+            'generatedAtUtc':datetime.datetime.now(datetime.timezone.utc).isoformat()
+          }
+          open('docs/preproduction/visuals/lane-13-v3-review-request.json','w').write(json.dumps(handoff,indent=2)+'\n')
+          PY
+
+      - name: Commit evidence and review handoff
+        shell: bash
+        run: |
+          set -euo pipefail
+          git add \
+            docs/preproduction/visuals/lane-13-avatar-keyart-fullbody-v3-intake.json \
+            docs/preproduction/visuals/lane-13-home-bedroom-v3-intake.json \
+            docs/preproduction/visuals/lane-13-v3-review-request.json \
+            docs/preproduction/visuals/lane-13.json \
+            docs/preproduction/visuals/lane-13.md
+          if git diff --cached --quiet; then
+            echo 'No evidence/ledger changes to commit.'
+          else
+            git commit -m 'visuals(13): hand off avatar and Home v3 repairs for review'
+            for attempt in 1 2 3; do
+              if git push origin HEAD:screenshot-match-preproduction; then break; fi
+              git pull --rebase origin screenshot-match-preproduction
+              if [ "$attempt" = 3 ]; then exit 1; fi
+            done
+          fi
