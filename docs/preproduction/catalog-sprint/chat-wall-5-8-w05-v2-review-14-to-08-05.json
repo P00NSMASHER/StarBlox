@@ -1,0 +1,151 @@
+{
+  "schemaVersion": 1,
+  "reviewer": "14",
+  "role": "independent catalog reviewer for Lighting/Wall/Rugs/Decor",
+  "branch": "screenshot-match-preproduction",
+  "liveBranchHeadObservedBeforeWrite": "d0bee12ccdc85b6c22915500c8b1a8afaadf6190",
+  "batchId": "w05-wall-5-8-v2",
+  "producer": "05",
+  "canonicalWriter": "08",
+  "sourceEvidence": "docs/preproduction/catalog-sprint/chat-wall-5-8-w05-v2-result.json",
+  "renderWorkflowRunId": 35731413321,
+  "renderArtifact": "wall-5-8-w05-v2-recovery-evidence",
+  "renderTestedSourceHead": "7e4aefe2b4e034f10c96580a1d5efacd1cd99a8d",
+  "scope": {
+    "items": ["wall-5", "wall-6", "wall-7", "wall-8"],
+    "freshExactHashReviewOnly": true,
+    "legacySvgVerdictsTransferred": false,
+    "actualCardPixelsInspected": true,
+    "actualDetailPixelsInspected": true,
+    "rerenderedByReviewer14": false
+  },
+  "evidenceIntegrity": {
+    "exactByteReadback": "PASS_4_OF_4",
+    "candidateDecode": "PASS_4_OF_4",
+    "wallCardDetailRender": "PASS_4_OF_4",
+    "tests": "PASS",
+    "build": "PASS",
+    "sharedRenderOverall": "FAIL",
+    "sharedRenderCaveat": "The enclosing shared workflow is not relabeled PASS. These dispositions rely only on the exact scoped Wall 5-8 bindings and usable real-pixel card/detail evidence.",
+    "hashBinding": {
+      "wall-5": "4213df82736052e6a43da21be625d97ee6d8519b",
+      "wall-6": "c20f3b40f40a3e2be919dd10373ffa5cec90cd7e",
+      "wall-7": "13acacfd78a2d4203bb4d4ce9683fbcf1515d9e7",
+      "wall-8": "f6a9440a4d46ea84da14cc550270081b7e590d83"
+    },
+    "detailEvidencePaths": {
+      "wall-5": "workflow:35731413321/artifact:wall-5-8-w05-v2-recovery-evidence/artifacts/catalog-staged-art/staged-replacements/detail/wall-5-4213df82.png",
+      "wall-6": "workflow:35731413321/artifact:wall-5-8-w05-v2-recovery-evidence/artifacts/catalog-staged-art/staged-replacements/detail/wall-6-c20f3b40.png",
+      "wall-7": "workflow:35731413321/artifact:wall-5-8-w05-v2-recovery-evidence/artifacts/catalog-staged-art/staged-replacements/detail/wall-7-13acacfd.png",
+      "wall-8": "workflow:35731413321/artifact:wall-5-8-w05-v2-recovery-evidence/artifacts/catalog-staged-art/staged-replacements/detail/wall-8-f6a9440a.png"
+    },
+    "cardEvidencePath": "workflow:35731413321/artifact:wall-5-8-w05-v2-recovery-evidence/artifacts/catalog-staged-art/staged-replacements/staged-replacements-contact-sheet.png"
+  },
+  "decisions": [
+    {
+      "itemId": "wall-5",
+      "name": "Garden Garland",
+      "tier": 2,
+      "theme": "Art Attack",
+      "assetPath": "/assets/catalog/wall-5-w05-v2.png",
+      "gitBlobSha": "4213df82736052e6a43da21be625d97ee6d8519b",
+      "sha256": "9c4e94e76a3fdd4aae3713af8db81a386347471a287b1c6cbda7a0bc085bf040",
+      "decision": "ACCEPT",
+      "checks": {
+        "physicalWallMountedIdentity": "PASS",
+        "thicknessBackingFrameReliefMountingDepth": "PASS",
+        "materialsLight": "PASS",
+        "exactThemeTier": "PASS",
+        "cardReadability": "PASS",
+        "originality": "PASS",
+        "nearDuplicateRisk": "PASS"
+      },
+      "reason": "Actual detail pixels show two visible wall hooks, braided cord, layered painted-wood/paper/fabric pieces, clips and strong separated cast shadows. The handmade dimensional construction unmistakably reads as wall decor, Art Attack is carried by tactile craft materials rather than a palette swap, and the asymmetric garland silhouette remains legible in the actual Store card."
+    },
+    {
+      "itemId": "wall-6",
+      "name": "Planet Map",
+      "tier": 2,
+      "theme": "Star Luxe",
+      "assetPath": "/assets/catalog/wall-6-w05-v2.png",
+      "gitBlobSha": "c20f3b40f40a3e2be919dd10373ffa5cec90cd7e",
+      "sha256": "2b0b4f02a064d6e50e225e5fc587fc5b79b3789caf4c3a3c013825a05c0e6cf2",
+      "decision": "ACCEPT",
+      "checks": {
+        "physicalWallMountedIdentity": "PASS",
+        "thicknessBackingFrameReliefMountingDepth": "PASS",
+        "materialsLight": "PASS",
+        "exactThemeTier": "PASS",
+        "cardReadability": "PASS",
+        "originality": "PASS",
+        "nearDuplicateRisk": "PASS"
+      },
+      "reason": "Actual pixels show a deep rigid midnight plaque/frame with obvious side thickness, mounting/standoff hardware, raised brass orbital rings, pearl-like planets and a clear wall cast shadow. Star Luxe reads through restrained polished metal, dark gloss and pearlescent detail while staying card-readable and distinct from the other Wall items."
+    },
+    {
+      "itemId": "wall-7",
+      "name": "Skate Poster",
+      "tier": 3,
+      "theme": "Midnight Neon",
+      "assetPath": "/assets/catalog/wall-7-w05-v2.png",
+      "gitBlobSha": "13acacfd78a2d4203bb4d4ce9683fbcf1515d9e7",
+      "sha256": "6fb4f4ba19ad08e24737f21cf9945510051efcba53f0cf35e39f77c017fe0eb3",
+      "decision": "ACCEPT",
+      "checks": {
+        "physicalWallMountedIdentity": "PASS",
+        "thicknessBackingFrameReliefMountingDepth": "PASS",
+        "materialsLight": "PASS",
+        "exactThemeTier": "PASS",
+        "cardReadability": "PASS",
+        "originality": "PASS",
+        "nearDuplicateRisk": "PASS"
+      },
+      "reason": "The real-pixel detail has a thick dimensional navy frame, visible hanging brackets/hardware, glazing/inset depth and a strong wall shadow. The no-text skateboard/half-pipe graphic has high neon contrast that survives the Store card scale, fits Midnight Neon Tier 3, and is visually distinct from the plaque, garland and window concepts."
+    },
+    {
+      "itemId": "wall-8",
+      "name": "Ocean Window",
+      "tier": 3,
+      "theme": "Candy Core",
+      "assetPath": "/assets/catalog/wall-8-w05-v2.png",
+      "gitBlobSha": "f6a9440a4d46ea84da14cc550270081b7e590d83",
+      "sha256": "0bcaea337244dbce8c6785ff37564e8832854342d7ea0e7025974997ae7bf5ee",
+      "decision": "REWORK",
+      "checks": {
+        "physicalWallMountedIdentity": "FAIL",
+        "thicknessBackingFrameReliefMountingDepth": "PARTIAL_PASS",
+        "materialsLight": "PASS",
+        "exactThemeTier": "PASS",
+        "cardReadability": "PASS",
+        "originality": "PASS",
+        "nearDuplicateRisk": "PASS"
+      },
+      "reason": "The Candy Core enamel, fasteners, thick nested glass/jamb layers, water depth and card readability are strong, but the exact pixels do not unmistakably read as a wall-mounted/recessed window. In both card and detail views the unit appears supported by a horizontal floor/table plane with a long ground-contact shadow, so it can read as a freestanding aquarium/window module instead of architecture mounted into a vertical wall.",
+      "rework": "Preserve the current Candy Core material palette, rounded thick frame, fasteners and layered ocean/glass depth. Change only the mounting/composition defect: show the unit visibly embedded in or attached to a continuous vertical wall plane, with wall-normal recess/standoff/contact shadow and no supporting horizontal surface or floor-contact shadow. Keep the same Tier-3 richness and small-card silhouette."
+    }
+  ],
+  "summary": {
+    "accepted": 3,
+    "rework": 1,
+    "blocked": 0,
+    "acceptedIds": ["wall-5", "wall-6", "wall-7"],
+    "reworkIds": ["wall-8"]
+  },
+  "handoff": {
+    "08": "Consume Wall 5/6/7 only at the exact ACCEPTed hashes above, subject to 08's normal mapping/file/decode/uniqueness checks. Do not integrate Wall 8 from this batch.",
+    "05": "Preserve Wall 5/6/7 exact accepted bytes. Repair only Wall 8's mounting/read defect as specified; do not churn the accepted trio and do not transfer the legacy SVG verdict to any future exact hash.",
+    "15": "Fresh Wall 5-8 W05 v2 disposition is 3 ACCEPT / 1 REWORK. The enclosing workflow remains globally FAIL; only the scoped exact Wall evidence is qualified here."
+  },
+  "freeze": {
+    "mainTouched": false,
+    "replitTouched": false,
+    "flootTouched": false,
+    "deployTouched": false,
+    "paidSettingsOrPurchasesTouched": false,
+    "secretsTouched": false,
+    "realPlayerDataTouched": false,
+    "canonicalManifestOrRuntimeTouched": false,
+    "catalogMetadataTouched": false,
+    "gameplayTouched": false
+  }
+}
