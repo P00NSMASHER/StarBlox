@@ -1,4 +1,5 @@
-name: Art Prompt Optimizer
+name: Art Prompt + Regeneration Planner
+
 on:
   push:
     branches: [screenshot-match-preproduction]
@@ -6,37 +7,59 @@ on:
       - '.github/workflows/art-prompt-optimizer.yml'
       - 'scripts/artPromptOptimizer*.mjs'
       - 'scripts/artReviewNormalizer*.mjs'
+      - 'scripts/artRegenerationQueue*.mjs'
       - 'docs/preproduction/art-prompt-optimizer/**'
       - 'docs/preproduction/catalog-sprint/reviews/*.json'
+      - 'docs/preproduction/catalog-sprint/lane-*.json'
       - 'src/gameModel.js'
   workflow_dispatch:
+
 permissions:
   contents: read
+
+concurrency:
+  group: starblox-art-prompt-regeneration-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
-  optimizer:
+  planner:
     runs-on: ubuntu-24.04
-    timeout-minutes: 5
+    timeout-minutes: 6
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Test optimizer core and review normalizer
+
+      - name: Test optimizer, review normalization, and stale-safe queue
         run: |
           node --test \
             scripts/artPromptOptimizer.node-test.mjs \
-            scripts/artReviewNormalizer.node-test.mjs
+            scripts/artReviewNormalizer.node-test.mjs \
+            scripts/artRegenerationQueue.node-test.mjs
+
       - name: Validate exact-hash learning corpus
         run: node scripts/artPromptOptimizer.mjs validate --repo-root .
-      - name: Build prompt model and current repair queue
+
+      - name: Build prompt model, normalized corpus, and stale-safe regeneration plan
         run: |
           mkdir -p artifacts/art-prompt-optimizer
-          node scripts/artPromptOptimizer.mjs train --repo-root . --output artifacts/art-prompt-optimizer/model.json
-          node scripts/artPromptOptimizer.mjs recommend --repo-root . --all-rework --variants 4 --output artifacts/art-prompt-optimizer/recommendations.json
-      - name: Preserve optimizer evidence
+          node scripts/artPromptOptimizer.mjs \
+            train \
+            --repo-root . \
+            --output artifacts/art-prompt-optimizer/model.json
+          node scripts/artReviewNormalizer.mjs \
+            --repo-root . \
+            --output artifacts/art-prompt-optimizer/review-corpus.json
+          node scripts/artRegenerationQueue.mjs \
+            --repo-root . \
+            --output artifacts/art-prompt-optimizer/regeneration-queue.json
+
+      - name: Preserve planner evidence
         uses: actions/upload-artifact@v4
         with:
-          name: art-prompt-optimizer-${{ github.sha }}
+          name: art-prompt-regeneration-${{ github.sha }}
           path: artifacts/art-prompt-optimizer/
           retention-days: 7
           if-no-files-found: error
