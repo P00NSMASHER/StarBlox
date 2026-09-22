@@ -1,30 +1,31 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "scope": "ART_AND_VISUALS_ONLY",
   "branch": "screenshot-match-preproduction",
   "coordinationOwner": "15",
   "canonicalWriter": "08",
-  "observedHead": "6bf28983c52a84f93e7f5ccfae12deecf55d873e",
+  "observedHead": "2afe95f21a8b2a2a143ea081ed24a7af73b08bb4",
   "phase": "CATALOG_SPRINT",
   "counts": {
     "catalogTarget": 192,
     "independentReviewCoverageFloor": 182,
     "independentlyAcceptedCurrentHashesFloor": 74,
-    "canonicalAcceptedCurrentHashesWired": 35,
-    "acceptedCurrentHashesAwaitingCanonical": 39,
+    "canonicalAcceptedCurrentHashesWired": 57,
+    "acceptedCurrentHashesAwaitingCanonical": 17,
     "repositoryStoredReadbackCurrentCandidateFloor": 84,
     "externallyGeneratedPreservedNotRepositoryStored": 4,
     "catalogReleaseClearedIds": 0
   },
   "countNotes": {
     "accepted": "Disjoint reviewer partitions: reviewer01 18, reviewer02 15, reviewer05 17, reviewer14 24 after the Rugs 9-12 supplemental review.",
+    "canonical": "Current Workstream08 integration evidence reports manifest v19 and strictAcceptedCanonical 57 after integrating the exact-hash Tops 7-10, Bottoms 1-4 and Headwear 1-4 batch on top of manifest v18.",
     "storedFloor": "Conservative floor only: 74 accepted repo-stored hashes plus Desk 2-4, Tops 11-12, Rugs 11-12, Seating 11-12 and newly attached Aura 11 current branch candidates. Other legacy/rework/staged assets are not added without a fresh exact accounting pass.",
     "externalPreserved": "Headwear 5-8 are generated/preserved in Adobe with derivatives but do not yet have repository bytes/hashes; do not count them as staged or accepted."
   },
   "oldestReleaseCriticalDependency": {
     "owner": "08",
-    "action": "Integrate the live exact-hash ACCEPT backlog immediately in bounded coherent batches after current metadata/file/hash/decode/independence checks. Recompute the delta against current manifest v17 before every write; do not trust stale expectedStrictCanonicalBefore values in prepared batch files.",
-    "currentBacklogFloor": 39
+    "action": "Integrate the remaining live exact-hash ACCEPT backlog immediately in bounded coherent batches after current metadata/file/hash/decode/independence checks. Recompute the exact delta against manifest v19 before every write.",
+    "currentBacklogFloor": 17
   },
   "activeMicroBatchesAndHandoffs": {
     "05": {
