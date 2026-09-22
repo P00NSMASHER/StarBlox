@@ -1,0 +1,110 @@
+name: StarBlox Lane 13 Home Foreground Ledger Sync
+
+on:
+  push:
+    branches: [screenshot-match-preproduction]
+    paths:
+      - '.github/workflows/lane13-home-foreground-ledger-sync.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: starblox-lane13-home-foreground-ledger-sync
+  cancel-in-progress: false
+
+jobs:
+  sync-ledgers:
+    if: github.ref == 'refs/heads/screenshot-match-preproduction'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: screenshot-match-preproduction
+          fetch-depth: 0
+      - name: Append exact-hash candidate to Lane 13 ledgers
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+
+          intake_path=Path('docs/preproduction/visuals/lane-13-home-foreground-depth-v1-intake.json')
+          ledger_path=Path('docs/preproduction/visuals/lane-13.json')
+          md_path=Path('docs/preproduction/visuals/lane-13.md')
+          intake=json.loads(intake_path.read_text())
+          if intake['checks']['exactRepositoryReadback']!='PASS_3_OF_3_EXACT_SHA256_AND_BYTE_LENGTH':
+              raise RuntimeError('refusing ledger publication before exact remote readback PASS')
+
+          source=intake['assets']['source']; full=intake['assets']['full']; opt=intake['assets']['optimized']
+          ledger=json.loads(ledger_path.read_text())
+          candidate={
+            'candidateId':intake['candidateId'],
+            'candidateType':'transparent-home-foreground-furniture-depth-layer',
+            'targetScreen':'Home',
+            'status':'STAGED_READY_FOR_INDEPENDENT_REVIEW',
+            'observedDefect':intake['referenceEvidence']['observedDefect'],
+            'reference':{
+              'path':intake['referenceEvidence']['originalReferencePath'],
+              'manifest':intake['referenceEvidence']['originalReferenceManifest']
+            },
+            'runningRenderEvidence':{
+              'workflowRunId':intake['referenceEvidence']['currentRenderWorkflowRun'],
+              'artifact':intake['referenceEvidence']['currentRenderArtifact']
+            },
+            'sourcePath':source['path'],'sourceDimensions':source['dimensions'],'sourceBytes':source['bytes'],'sourceSha256':source['sha256'],'sourceGitBlobSha':source['gitBlobSha'],
+            'fullPath':full['path'],'fullDimensions':full['dimensions'],'fullBytes':full['bytes'],'fullSha256':full['sha256'],'fullGitBlobSha':full['gitBlobSha'],'fullAlphaBounds':full['alphaBounds'],
+            'optimizedPath':opt['path'],'optimizedDimensions':opt['dimensions'],'optimizedBytes':opt['bytes'],'optimizedSha256':opt['sha256'],'optimizedGitBlobSha':opt['gitBlobSha'],'optimizedAlphaBounds':opt['alphaBounds'],
+            'intakeEvidence':str(intake_path),
+            'originReadback':intake['checks']['exactRepositoryReadback'],
+            'remoteReadbackHead':intake['remoteReadback']['remoteHead'],
+            'responsiveIntent':intake['responsiveIntent'],
+            'runtimeWired':False,
+            'canonicalCatalogTouched':False,
+            'workstream06AvatarTouched':False,
+            'workstream09ActiveEnvironmentTouched':False,
+            'physicalDeviceTested':False,
+            'screenshotParityClaimed':False,
+            'independentArtReview':'PENDING_01',
+            'compositionPerformanceReview':'PENDING_14',
+            'runtimeCoordination':'PENDING_15'
+          }
+          arr=ledger.setdefault('foregroundLayerCandidates',[])
+          existing=[i for i,x in enumerate(arr) if x.get('candidateId')==candidate['candidateId']]
+          if existing: arr[existing[0]]=candidate
+          else: arr.append(candidate)
+          ledger['schemaVersion']=max(int(ledger.get('schemaVersion',1)),8)
+          ledger['status']='READY_FOR_REVIEW_SCENES_CHARACTER_BUDDY_AND_HOME_FOREGROUND_DEPTH'
+          ledger['latestForegroundReviewHandoff']={
+            'candidateId':candidate['candidateId'],
+            '01':'Independently judge exact full/optimized pixels as art against the immutable Home reference; producer inspection and exact readback are not art acceptance.',
+            '14':'Independently judge responsive composition, alpha quality, foreground occlusion/readability risk and runtime/performance suitability.',
+            '15':'Do not runtime-wire until 01/14 acceptance; if accepted, coordinate any wiring so this separate Lane 13 foreground layer does not replace Workstream 06 avatar or Workstream 09 environment assets.'
+          }
+          ledger['releaseGateNote']='Existing regression/build failures remain visible release gates for 08/14/15; this visual candidate does not change or pass them.'
+          ledger_path.write_text(json.dumps(ledger,indent=2)+'\n')
+
+          md=md_path.read_text()
+          marker='## Home foreground depth layer — `home-foreground-depth-w13-v1`'
+          section=f'''\n\n{marker}\n\nAfter inspecting the current Home render beside the immutable original, the remaining high-impact scene defect is weak foreground furniture/contact depth around the avatar/buddy stage. Lane 13 therefore staged a **separate transparent foreground furniture layer** rather than another flattened screen or a replacement for Workstream 09's environment. The center and upper-center remain open for owned/equipped avatar, buddy, and UI composition.\n\n### Exact staged foreground-depth assets\n\n- Preserved source: `{source['path']}` — **{source['dimensions'][0]}×{source['dimensions'][1]}**, {source['bytes']:,} bytes, SHA-256 `{source['sha256']}`, Git blob `{source['gitBlobSha']}`.\n- Full transparent layer: `{full['path']}` — **{full['dimensions'][0]}×{full['dimensions'][1]}**, {full['bytes']:,} bytes, SHA-256 `{full['sha256']}`, Git blob `{full['gitBlobSha']}`; alpha bounds `{full['alphaBounds']}`.\n- Optimized transparent derivative: `{opt['path']}` — **{opt['dimensions'][0]}×{opt['dimensions'][1]}**, {opt['bytes']:,} bytes, SHA-256 `{opt['sha256']}`, Git blob `{opt['gitBlobSha']}`; alpha bounds `{opt['alphaBounds']}`.\n- Exact supported repository readback: **PASS 3/3 exact SHA-256 + byte length**. Intake evidence: `{intake_path}`.\n\nThis candidate contains no avatar, buddy, UI, text, buttons, logos or third-party IP. It is **not runtime-wired**, does not change canonical catalog mappings or player/save state, and does not touch Workstream 06 avatar assets or Workstream 09 environment paths. Reviewer **01** art judgment and reviewer **14** composition/performance judgment remain pending; coordinator **15** must gate any later runtime wiring. No physical-device test or screenshot-parity claim is made. Existing regression/build failures remain release gates for 08/14/15.\n'''
+          if marker not in md:
+              md += section
+          md=md.replace('STATUS: **READY_FOR_REVIEW — Home v2 + Quest v1 + Store v1 scenes, avatar-headset v1 and buddy-stage v1 staged with exact origin readback; none runtime-wired**','STATUS: **READY_FOR_REVIEW — scene/character/buddy candidates plus Home foreground depth v1 staged with exact readback; none runtime-wired**')
+          md_path.write_text(md)
+          PY
+      - name: Publish Lane 13 ledger handoff without force-push
+        run: |
+          set -eu
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- docs/preproduction/visuals/lane-13.json docs/preproduction/visuals/lane-13.md
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'visuals: record Lane 13 Home foreground depth handoff'
+          for attempt in 1 2 3; do
+            if git push origin HEAD:refs/heads/screenshot-match-preproduction; then exit 0; fi
+            git fetch origin screenshot-match-preproduction
+            git rebase origin/screenshot-match-preproduction
+          done
+          echo 'ledger publication blocked by concurrent conflict; no force push' >&2
+          exit 1
