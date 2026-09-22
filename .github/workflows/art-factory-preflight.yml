@@ -21,13 +21,14 @@ on:
       - 'scripts/artWorkflowAudit.node-test.mjs'
       - 'scripts/catalogVisualPreflight.py'
       - 'scripts/catalogVisualCalibration.py'
-      - 'docs/preproduction/art-factory/**'
+      - 'docs/preproduction/art-factory/verify_staged_output.py'
       - 'docs/preproduction/catalog-sprint/reviews/*.json'
       - 'docs/preproduction/catalog-sprint/lane-*.json'
       - 'public/assets/catalog/**'
       - 'public/assets/catalog-candidates/**'
       - 'catalog-art-manifest.json'
       - 'src/gameModel.js'
+      - 'src/catalogArtRuntime.js'
 
 permissions:
   contents: read
@@ -130,7 +131,10 @@ jobs:
           raster_change = any(raster.match(p) for p in changed)
           visual_script_change = any(p in visual_code for p in changed)
           python_needed = dispatch or review_change or raster_change or visual_script_change
-          calibrate = dispatch or review_change or raster_change or visual_script_change
+          # Unlabeled candidate bytes do not change the calibration training set.
+          # Recalibrate only when review labels or visual-calibration code changes,
+          # or on an explicit workflow dispatch.
+          calibrate = dispatch or review_change or visual_script_change
 
           # Hydrate image blobs only when this run will actually execute visual work.
           # Node-only queue/audit changes keep the initial blobless sparse checkout.
@@ -272,7 +276,7 @@ jobs:
           outdir = pathlib.Path('artifacts/art-factory-preflight/changed-raster-preflight')
           outdir.mkdir(parents=True, exist_ok=True)
           cal_path = pathlib.Path('artifacts/art-factory-preflight/visual-calibration.json')
-          cal = json.loads(cal_path.read_text())
+          cal = json.loads(cal_path.read_text()) if cal_path.exists() else {}
           ready = {
               feature for feature, row in (cal.get('warningCandidates') or {}).items()
               if row.get('warningReady')
@@ -287,9 +291,10 @@ jobs:
               cmd = [
                   sys.executable, 'scripts/catalogVisualPreflight.py', 'scan',
                   '--input', rel,
-                  '--calibration', str(cal_path),
                   '--output', str(dest),
               ]
+              if cal_path.exists():
+                  cmd += ['--calibration', str(cal_path)]
               if any(feature.startswith('nearest') for feature in ready):
                   cmd += ['--neighbors', 'public/assets']
               subprocess.run(cmd, check=True)
