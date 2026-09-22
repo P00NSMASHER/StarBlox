@@ -301,7 +301,22 @@ try {
 }
 
 const referenceComparisons = results.filter(r => r.check === 'reference-pixel-diff');
-const referencePresentCount = referenceComparisons.filter(r => r.metrics?.status !== 'REFERENCE_MISSING_NOT_TESTED').length;
+const authoritativeReferenceViewport = 'desktop-1408x1056';
+const authoritativeReferenceComparisons = referenceComparisons.filter(r => r.viewport === authoritativeReferenceViewport);
+const referencePresentCount = authoritativeReferenceComparisons.filter(r => r.metrics?.status !== 'REFERENCE_MISSING_NOT_TESTED').length;
+const referenceExpectedCount = screens.length;
+const automationStatus = releaseBlockingCount === 0 ? 'PASS' : 'FAIL';
+const strictReferenceFailures = authoritativeReferenceComparisons.filter(r => r.status === 'FAIL').length;
+const strictReferencePasses = authoritativeReferenceComparisons.filter(r => r.status === 'PASS').length;
+const referenceVisualStatus = !strictDiff
+  ? 'DIAGNOSTIC_ONLY_NOT_VISUAL_APPROVAL'
+  : referencePresentCount < referenceExpectedCount
+    ? 'NOT_TESTED_MISSING_AUTHORITATIVE_DESKTOP_REFERENCE'
+    : strictReferenceFailures > 0
+      ? 'FAIL_STRICT_PIXEL_GATE'
+      : strictReferencePasses === referenceExpectedCount
+        ? 'PASS_STRICT_PIXEL_GATE_REQUIRES_INDEPENDENT_VISUAL_REVIEW'
+        : 'NOT_TESTED_STRICT_PIXEL_GATE_INCOMPLETE';
 const summary = {
   generatedAt: new Date().toISOString(),
   sourceHead,
@@ -314,15 +329,21 @@ const summary = {
   strictDiff,
   maxDiffRatio,
   referenceComparisonMode: strictDiff ? 'STRICT_RELEASE_GATE' : 'DIAGNOSTIC_ONLY_NOT_VISUAL_APPROVAL',
+  authoritativeReferenceViewport,
+  authoritativeReferencePolicy: 'Only the supplied 1408x1056 desktop originals are authoritative pixel references. Tablet/phone captures are responsive-composition evidence and are never counted as missing pixel references.',
   referencePresentCount,
-  referenceExpectedCount: viewports.length * screens.length,
+  referenceExpectedCount,
+  referenceVisualStatus,
+  referenceVisualApproval: false,
   releaseBlockingCount,
-  status: releaseBlockingCount === 0 ? 'PASS' : 'FAIL',
+  status: automationStatus,
+  automationStatus,
   results
 };
 await fs.writeFile(path.join(outputDir, 'report.json'), JSON.stringify(summary, null, 2));
-await fs.writeFile(path.join(outputDir, 'summary.txt'), `${summary.status}: ${releaseBlockingCount} release-blocking deterministic screenshot/accessibility checks; references present ${referencePresentCount}/${summary.referenceExpectedCount}.\n`);
+await fs.writeFile(path.join(outputDir, 'summary.txt'), `Automation ${automationStatus}: ${releaseBlockingCount} release-blocking deterministic screenshot/accessibility checks. Authoritative desktop references present ${referencePresentCount}/${referenceExpectedCount}. Reference visual status: ${referenceVisualStatus}; independent visual approval is still required.\n`);
 console.log(`REFERENCE_SCREENSHOT_QA_STATUS=${summary.status}`);
+console.log(`REFERENCE_SCREENSHOT_QA_REFERENCE_VISUAL_STATUS=${referenceVisualStatus}`);
 console.log(`REFERENCE_SCREENSHOT_QA_RELEASE_BLOCKING_COUNT=${releaseBlockingCount}`);
 console.log(`REFERENCE_SCREENSHOT_QA_REFERENCES_PRESENT=${referencePresentCount}/${summary.referenceExpectedCount}`);
 if (releaseBlockingCount > 0) process.exitCode = 1;
