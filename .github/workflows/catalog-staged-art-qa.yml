@@ -48,6 +48,8 @@ jobs:
           npx playwright install --with-deps chromium
 
       - name: Render reviewer collections and every repository-staged replacement hash
+        id: render
+        continue-on-error: true
         run: node scripts/catalog-staged-art-qa.mjs
 
       - name: Use Python 3.12
@@ -61,8 +63,13 @@ jobs:
       - name: Build current review corpus and calibration
         run: |
           mkdir -p artifacts/catalog-staged-art/preflight
-          node scripts/artReviewNormalizer.mjs             --repo-root .             --output artifacts/catalog-staged-art/review-corpus.json
-          python scripts/catalogVisualCalibration.py             --repo-root .             --corpus artifacts/catalog-staged-art/review-corpus.json             --output artifacts/catalog-staged-art/visual-calibration.json
+          node scripts/artReviewNormalizer.mjs \
+            --repo-root . \
+            --output artifacts/catalog-staged-art/review-corpus.json
+          python scripts/catalogVisualCalibration.py \
+            --repo-root . \
+            --corpus artifacts/catalog-staged-art/review-corpus.json \
+            --output artifacts/catalog-staged-art/visual-calibration.json
 
       - name: Attach calibrated report-only preflight to exact rendered candidates
         run: |
@@ -75,17 +82,37 @@ jobs:
           root = pathlib.Path('.')
           report_path = pathlib.Path('artifacts/catalog-staged-art/report.json')
           calibration = pathlib.Path('artifacts/catalog-staged-art/visual-calibration.json')
+          if not report_path.exists():
+              print('No staged-art report exists; calibrated attachment is not applicable.')
+              raise SystemExit(0)
           report = json.loads(report_path.read_text())
           items = report.get('sets', {}).get('staged-replacements', {}).get('items', [])
           out_dir = pathlib.Path('artifacts/catalog-staged-art/preflight')
           out_dir.mkdir(parents=True, exist_ok=True)
 
           summary = []
+          raster_exts = {'.png', '.jpg', '.jpeg', '.webp'}
           for item in items:
               repo_path = item.get('repositoryPath')
               item_id = item.get('id')
               blob_sha = item.get('blobSha')
               if not repo_path or not item_id or item.get('status') != 200:
+                  continue
+              suffix = pathlib.Path(repo_path).suffix.lower()
+              if suffix not in raster_exts:
+                  summary.append({
+                      'itemId': item_id,
+                      'blobSha': blob_sha,
+                      'repositoryPath': repo_path,
+                      'preflightPath': None,
+                      'calibrationApplicable': False,
+                      'preflightState': 'SKIPPED_NON_RASTER_SOURCE',
+                      'reason': 'Raster calibration is not transferred onto vector source metrics; exact rendered pixel evidence remains authoritative.',
+                      'warningReadyFeatureCount': 0,
+                      'triggeredWarningCount': 0,
+                      'triggeredWarnings': [],
+                      'blocking': False,
+                  })
                   continue
               dest = out_dir / f"{item_id}-{str(blob_sha or '')[:8]}.json"
               subprocess.run([
@@ -107,6 +134,8 @@ jobs:
                   'blobSha': blob_sha,
                   'repositoryPath': repo_path,
                   'preflightPath': str(dest),
+                  'calibrationApplicable': True,
+                  'preflightState': 'RASTER_CALIBRATION_ATTACHED',
                   'warningReadyFeatureCount': preflight.get('calibrationEvidence', {}).get('warningReadyFeatureCount', 0),
                   'triggeredWarningCount': len(triggered),
                   'triggeredWarnings': [
@@ -125,6 +154,8 @@ jobs:
           report['calibratedPreflight'] = {
               'policy': 'REPORT_ONLY_HUMAN_EXACT_HASH_REVIEW_REMAINS_AUTHORITATIVE',
               'candidateCount': len(summary),
+              'rasterCalibratedCount': sum(1 for row in summary if row.get('calibrationApplicable')),
+              'nonRasterSkippedCount': sum(1 for row in summary if not row.get('calibrationApplicable')),
               'items': summary,
               'blockingEnabled': False,
           }
@@ -147,3 +178,13 @@ jobs:
           path: artifacts/catalog-staged-art
           if-no-files-found: error
           retention-days: 14
+
+      - name: Enforce renderer gate after preserving evidence
+        if: always()
+        env:
+          RENDER_OUTCOME: ${{ steps.render.outcome }}
+        run: |
+          if [ "$RENDER_OUTCOME" != "success" ]; then
+            echo "Renderer gate failed; diagnostic and calibration evidence were preserved above." >&2
+            exit 1
+          fi
