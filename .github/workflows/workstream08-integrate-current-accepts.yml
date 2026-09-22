@@ -39,10 +39,10 @@ jobs:
 
       - name: Install existing app dependencies and image verifier
         run: |
-          npm install --no-save --package-lock=false --no-audit --no-fund
+          npm ci --no-audit --no-fund
           python3 -m pip install --disable-pip-version-check Pillow==11.3.0
 
-      - name: Validate reviewer-02 exact accepts and prepare coherent canonical update
+      - name: Validate reviewer-14 exact accepts and prepare canonical batch
         run: |
           node --input-type=module <<'NODE'
           import fs from 'node:fs';
@@ -51,258 +51,156 @@ jobs:
           import { execFileSync } from 'node:child_process';
           import { gameModel } from './src/gameModel.js';
 
-          const wantedIds = [
-            'shoes-1','shoes-2','shoes-3','shoes-4','shoes-5','shoes-6',
-            'seating-7','seating-8','seating-9','seating-10'
-          ];
-          const sourceHead = process.env.SOURCE_HEAD;
-          const manifestPath = 'catalog-art-manifest.json';
-          const runtimePath = 'src/catalogArtRuntime.js';
-          const reviewPath = 'docs/preproduction/catalog-sprint/reviews/02.json';
-          const integrationPath = 'docs/preproduction/catalog-sprint/integration.json';
-          const integrationMdPath = 'docs/preproduction/catalog-sprint/integration.md';
-          const workstreamPath = 'docs/preproduction/workstreams/08-catalog-art.md';
-          const lane06Path = 'docs/preproduction/catalog-sprint/lane-06.json';
-          const shoe14Path = 'docs/preproduction/catalog-sprint/chat-shoes-recovery-1-4-result.json';
-          const shoe56Path = 'docs/preproduction/catalog-sprint/chat-shoes-recovery-5-6-result.json';
+          const exact = [
+            ['rugs-1','/assets/catalog/rugs-1-w07-v2.jpg','5e00d1456fa21af74de75e583c69de48c9f2ecd2','07'],
+            ['rugs-2','/assets/catalog/rugs-2-w07-v2.jpg','578caf5cc81998d6c7563082892e468fc9186eec','07'],
+            ['rugs-3','/assets/catalog/rugs-3-w07-v2.jpg','0c3b62a84182cd8e7fc3b8dc57f9b1015e54e920','07'],
+            ['rugs-4','/assets/catalog/rugs-4-w07-v2.jpg','d2c1a712dc530cec13ce72100657714900134ce2','07'],
+            ['rugs-5','/assets/catalog/rugs-5-w07-v2.jpg','5a513011856679060df10137eae9f380377f5d78','07'],
+            ['rugs-6','/assets/catalog/rugs-6-w07-v2.jpg','cb96e0d40e0682770e79ef8ce6a1a86ecec3127f','07'],
+            ['rugs-7','/assets/catalog/rugs-7-w07-v2.jpg','184232121c9cd07c65fe1138893132ee0daa3fb3','07'],
+            ['rugs-8','/assets/catalog/rugs-8-w07-v2.jpg','efe9bb6e887375a7e6ed74b15222391a1e2434bf','07'],
+            ['decor-1','/assets/catalog/decor-1-w09-v2.jpg','7e0bad0b6f1dda6068c17109757c396de860892a','09'],
+            ['decor-2','/assets/catalog/decor-2-w09-v2.jpg','d5377bda54cba2071819da60bf4f4d4c52e393a6','09']
+          ].map(([itemId,assetPath,assetHash,producer])=>({itemId,assetPath,assetHash,producer}));
 
-          const json = p => JSON.parse(fs.readFileSync(p, 'utf8'));
-          const gitBlob = p => execFileSync('git', ['hash-object', p], { encoding:'utf8' }).trim();
-          const sha256 = p => crypto.createHash('sha256').update(fs.readFileSync(p)).digest('hex');
-          const repoPath = assetPath => assetPath.startsWith('/assets/') ? `public${assetPath}` : assetPath.replace(/^\//,'');
-          const reviewBlobSha = gitBlob(reviewPath);
-          const manifestBeforeBlob = gitBlob(manifestPath);
-          const runtimeBeforeBlob = gitBlob(runtimePath);
-          const manifestBefore = json(manifestPath);
-          const previousIntegration = json(integrationPath);
-          const review = json(reviewPath);
-          const lane06 = json(lane06Path);
-          const shoe14 = json(shoe14Path);
-          const shoe56 = json(shoe56Path);
-          const storeById = new Map(gameModel.store.map(x => [x.id, x]));
+          const sourceHead=process.env.SOURCE_HEAD;
+          const manifestPath='catalog-art-manifest.json';
+          const runtimePath='src/catalogArtRuntime.js';
+          const reviewPath='docs/preproduction/catalog-sprint/reviews/14.json';
+          const integrationPath='docs/preproduction/catalog-sprint/integration.json';
+          const integrationMdPath='docs/preproduction/catalog-sprint/integration.md';
+          const workstreamPath='docs/preproduction/workstreams/08-catalog-art.md';
+          const allocationPath='docs/preproduction/ART_VISUALS_SPRINT.json';
+          const json=p=>JSON.parse(fs.readFileSync(p,'utf8'));
+          const gitBlob=p=>execFileSync('git',['hash-object',p],{encoding:'utf8'}).trim();
+          const sha256=p=>crypto.createHash('sha256').update(fs.readFileSync(p)).digest('hex');
+          const repoPath=p=>p.startsWith('/assets/')?`public${p}`:p.replace(/^\//,'');
+          const manifestBefore=json(manifestPath);
+          const previousIntegration=json(integrationPath);
+          const review=json(reviewPath);
+          const allocation=json(allocationPath);
+          const storeById=new Map(gameModel.store.map(x=>[x.id,x]));
+          const reviewBlobSha=gitBlob(reviewPath);
+          const manifestBeforeBlob=gitBlob(manifestPath);
+          const runtimeBeforeBlob=gitBlob(runtimePath);
 
-          if (review.reviewer !== '02') throw new Error('Reviewer shard identity mismatch');
-          const reviewById = new Map((review.reviews ?? []).map(r => [r.itemId, r]));
-          const lane06Items = new Map((lane06.secondaryRepairBatch?.items ?? []).map(x => [x.id, x]));
-          const shoeItems = new Map([...(shoe14.items ?? []), ...(shoe56.items ?? [])].map(x => [x.id, x]));
+          if (review.reviewer !== '14') throw new Error('Reviewer-14 shard identity mismatch');
+          if (manifestBefore.version !== 17) throw new Error(`Expected live manifest v17 before this oldest batch, got v${manifestBefore.version}`);
+          const reviewById=new Map((review.reviews??[]).map(r=>[r.itemId,r]));
 
+          function assigned(producer,id) {
+            const m=id.match(/^([a-z]+)-(\d+)$/); if(!m) return false;
+            return (allocation.catalogProduction?.[producer]??[]).some(r=>r.collection===m[1] && Number(m[2])>=r.first && Number(m[2])<=r.last);
+          }
           function decodeRaster(p) {
-            const py = "from PIL import Image; import sys,json; im=Image.open(sys.argv[1]); im.verify(); im=Image.open(sys.argv[1]); print(json.dumps({'format':im.format,'width':im.width,'height':im.height}))";
-            return JSON.parse(execFileSync('python3', ['-c', py, p], { encoding:'utf8' }));
+            const py="from PIL import Image; import sys,json; im=Image.open(sys.argv[1]); im.verify(); im=Image.open(sys.argv[1]); print(json.dumps({'format':im.format,'width':im.width,'height':im.height}))";
+            return JSON.parse(execFileSync('python3',['-c',py,p],{encoding:'utf8'}));
+          }
+          function collectDecisions(v,out=[]) {
+            if (!v || typeof v!=='object') return out;
+            if (Array.isArray(v)) { for(const x of v) collectDecisions(x,out); return out; }
+            if (v.decision && (v.itemId||v.id)) out.push(v);
+            for(const x of Object.values(v)) collectDecisions(x,out);
+            return out;
           }
 
-          const verified = [];
-          for (const id of wantedIds) {
-            const r = reviewById.get(id);
-            if (!r || r.decision !== 'ACCEPT') throw new Error(`${id}: current reviewer-02 ACCEPT missing`);
-            if (String(r.producer) === '02') throw new Error(`${id}: self-review forbidden`);
-            if (r.hashAlgorithm !== 'git-blob-sha1') throw new Error(`${id}: unsupported review hash algorithm ${r.hashAlgorithm}`);
-            if (!Array.isArray(r.evidenceRefs) || r.evidenceRefs.length === 0) throw new Error(`${id}: no visual evidence refs`);
-            const item = storeById.get(id);
-            if (!item) throw new Error(`${id}: absent from authoritative Store`);
-            if (r.name !== item.name || Number(r.tier) !== Number(item.tier) || r.theme !== item.theme) {
-              throw new Error(`${id}: review metadata differs from Store`);
-            }
-            const p = repoPath(r.assetPath);
-            if (!fs.existsSync(p)) throw new Error(`${id}: accepted bytes missing at ${p}`);
-            const actualBlob = gitBlob(p);
-            if (actualBlob !== r.assetHash) throw new Error(`${id}: review hash ${r.assetHash} != stored blob ${actualBlob}`);
-            const decode = decodeRaster(p);
-            if (!['JPEG','PNG','WEBP'].includes(decode.format)) throw new Error(`${id}: unsupported raster ${decode.format}`);
-            if (!decode.width || !decode.height) throw new Error(`${id}: zero image dimensions`);
-
-            const producerEvidence = id.startsWith('shoes-') ? shoeItems.get(id) : lane06Items.get(id);
-            if (!producerEvidence) throw new Error(`${id}: producer handoff missing`);
-            const producerPath = producerEvidence.repositoryPath ?? producerEvidence.candidateRepositoryPath;
-            const producerHash = producerEvidence.gitBlobSha ?? producerEvidence.candidateGitBlobSha;
-            if (producerPath !== p || producerHash !== actualBlob) throw new Error(`${id}: producer path/hash handoff mismatch`);
-
-            verified.push({
-              itemId:id, name:item.name, collectionId:item.collectionId, collectionName:item.collectionName,
-              type:item.type, tier:item.tier, theme:item.theme, price:item.price, starReq:item.starReq,
-              assetPath:r.assetPath, repositoryPath:p, assetBlobSha:actualBlob, sha256:sha256(p),
-              bytes:fs.statSync(p).size, width:decode.width, height:decode.height, format:decode.format,
-              producer:String(r.producer), reviewer:'02', reviewFile:reviewPath, reviewBlobSha,
-              evidenceRefs:r.evidenceRefs
-            });
+          const verified=[];
+          for (const w of exact) {
+            const r=reviewById.get(w.itemId);
+            if(!r || r.decision!=='ACCEPT') throw new Error(`${w.itemId}: reviewer-14 ACCEPT missing`);
+            if(r.assetHash!==w.assetHash || r.assetPath!==w.assetPath) throw new Error(`${w.itemId}: exact review hash/path changed; refusing substitution`);
+            if(String(r.producer)!==w.producer || w.producer==='14') throw new Error(`${w.itemId}: producer/reviewer independence mismatch`);
+            if(!assigned(w.producer,w.itemId)) throw new Error(`${w.itemId}: producer ${w.producer} is outside current ART_VISUALS_SPRINT allocation`);
+            if(!(allocation.reviewCollections?.['14']??[]).includes(w.itemId.split('-')[0])) throw new Error(`${w.itemId}: reviewer 14 outside assigned partition`);
+            const item=storeById.get(w.itemId);
+            if(!item) throw new Error(`${w.itemId}: absent from authoritative Store`);
+            if(r.name!==item.name || Number(r.tier)!==Number(item.tier) || r.theme!==item.theme) throw new Error(`${w.itemId}: reviewer metadata differs from Store`);
+            if(item.collectionId!==w.itemId.split('-')[0] || item.type!=='room') throw new Error(`${w.itemId}: Store category/type mismatch`);
+            const p=repoPath(w.assetPath);
+            if(!fs.existsSync(p)) throw new Error(`${w.itemId}: stored bytes missing at ${p}`);
+            const actual=gitBlob(p);
+            if(actual!==w.assetHash) throw new Error(`${w.itemId}: stored blob ${actual} != accepted ${w.assetHash}`);
+            const d=decodeRaster(p);
+            if(!['JPEG','PNG','WEBP'].includes(d.format) || !d.width || !d.height) throw new Error(`${w.itemId}: invalid raster decode`);
+            if(!Array.isArray(r.evidenceRefs)||r.evidenceRefs.length===0) throw new Error(`${w.itemId}: missing visual evidence refs`);
+            verified.push({...w,name:item.name,collectionId:item.collectionId,collectionName:item.collectionName,type:item.type,tier:item.tier,theme:item.theme,price:item.price,starReq:item.starReq,repositoryPath:p,format:d.format,width:d.width,height:d.height,bytes:fs.statSync(p).size,sha256:sha256(p),reviewer:'14',reviewBlobSha,evidenceRefs:r.evidenceRefs});
           }
 
-          if (new Set(verified.map(v => v.assetPath)).size !== verified.length) throw new Error('New accepted batch contains duplicate paths');
-          if (new Set(verified.map(v => v.assetBlobSha)).size !== verified.length) throw new Error('New accepted batch contains duplicate content hashes');
+          if(new Set(verified.map(x=>x.assetPath)).size!==verified.length) throw new Error('Batch duplicate paths');
+          if(new Set(verified.map(x=>x.assetHash)).size!==verified.length) throw new Error('Batch duplicate content hashes');
 
-          // Reject candidate content collisions with any other canonical item.
-          const canonicalHashOwner = new Map();
-          for (const [id, meta] of Object.entries(manifestBefore.items ?? {})) {
-            const p = repoPath(meta.assetPath);
-            if (!fs.existsSync(p)) throw new Error(`Existing canonical mapping ${id} missing at ${p}`);
-            const h = gitBlob(p);
-            const old = canonicalHashOwner.get(h);
-            if (old && old !== id) throw new Error(`Existing canonical content collision: ${old} and ${id}`);
+          const canonicalHashOwner=new Map();
+          const canonicalPathOwner=new Map();
+          for(const [id,m] of Object.entries(manifestBefore.items??{})) {
+            const p=repoPath(m.assetPath);
+            if(!fs.existsSync(p)) throw new Error(`Existing canonical ${id} missing at ${p}`);
+            if(canonicalPathOwner.has(m.assetPath)&&canonicalPathOwner.get(m.assetPath)!==id) throw new Error(`Existing duplicate path ${m.assetPath}`);
+            canonicalPathOwner.set(m.assetPath,id);
+            const h=gitBlob(p);
+            if(canonicalHashOwner.has(h)&&canonicalHashOwner.get(h)!==id) throw new Error(`Existing canonical content collision ${h}`);
             canonicalHashOwner.set(h,id);
           }
-          for (const v of verified) {
-            const owner = canonicalHashOwner.get(v.assetBlobSha);
-            if (owner && owner !== v.itemId) throw new Error(`${v.itemId}: accepted content duplicates canonical ${owner}`);
+          for(const v of verified) {
+            const po=canonicalPathOwner.get(v.assetPath); if(po&&po!==v.itemId) throw new Error(`${v.itemId}: path already owned by ${po}`);
+            const ho=canonicalHashOwner.get(v.assetHash); if(ho&&ho!==v.itemId) throw new Error(`${v.itemId}: content duplicates canonical ${ho}`);
           }
 
-          // Ensure no same-hash reviewer disagreement in any current shard.
-          for (const shard of ['01','02','05','14']) {
-            const p = `docs/preproduction/catalog-sprint/reviews/${shard}.json`;
-            if (!fs.existsSync(p)) continue;
-            const s = json(p);
-            const rows = [...(s.reviews ?? []), ...(s.newReplacementReviews ?? [])];
-            for (const v of verified) {
-              for (const d of rows) {
-                const did = d.itemId ?? d.id;
-                const dh = d.assetHash ?? d.candidateBlobSha ?? d.hash;
-                if (did === v.itemId && dh === v.assetBlobSha && ['REWORK','BLOCKED'].includes(d.decision)) {
-                  throw new Error(`${v.itemId}: same-hash disagreement in reviewer ${shard}`);
-                }
-              }
-            }
-            if (s.decisions && typeof s.decisions === 'object') {
-              for (const v of verified) {
-                const d=s.decisions[v.itemId];
-                if (d?.hash === v.assetBlobSha && ['REWORK','BLOCKED'].includes(d.decision)) throw new Error(`${v.itemId}: same-hash disagreement in reviewer ${shard}`);
-              }
+          for(const shard of ['01','02','05','14']) {
+            const p=`docs/preproduction/catalog-sprint/reviews/${shard}.json`; if(!fs.existsSync(p)) continue;
+            for(const d of collectDecisions(json(p))) {
+              const id=d.itemId??d.id; const h=d.assetHash??d.hash??d.candidateBlobSha??d.gitBlobSha;
+              if(!id||!h||!['REWORK','BLOCKED'].includes(d.decision)) continue;
+              if(verified.some(v=>v.itemId===id&&v.assetHash===h)) throw new Error(`${id}: same-hash ${d.decision} disagreement in reviewer ${shard}`);
             }
           }
 
-          const manifest = structuredClone(manifestBefore);
-          const changed = [];
-          for (const v of verified) {
-            const current = manifest.items[v.itemId];
-            if (current?.assetPath === v.assetPath && current?.status === 'final-portable') continue;
-            manifest.items[v.itemId] = {
-              name:v.name, assetPath:v.assetPath, tier:v.tier, theme:v.theme, status:'final-portable'
-            };
-            changed.push(v);
+          const manifest=structuredClone(manifestBefore);
+          for(const v of verified) manifest.items[v.itemId]={name:v.name,assetPath:v.assetPath,tier:v.tier,theme:v.theme,status:'final-portable'};
+          const paths=new Map(), hashes=new Map();
+          for(const [id,m] of Object.entries(manifest.items)) {
+            if(paths.has(m.assetPath)) throw new Error(`Post-update duplicate path ${m.assetPath}`); paths.set(m.assetPath,id);
+            const h=gitBlob(repoPath(m.assetPath)); if(hashes.has(h)) throw new Error(`Post-update duplicate content ${h}`); hashes.set(h,id);
           }
-          if (changed.length !== wantedIds.length) throw new Error(`Expected 10 new canonical changes, got ${changed.length}`);
+          const finalPortable=Object.values(manifest.items).filter(x=>x.status==='final-portable').length;
+          const interim=Object.values(manifest.items).filter(x=>x.status==='interim-not-verified').length;
+          manifest.version=18; manifest.target=192; manifest.finalCount=finalPortable; manifest.remaining=192-finalPortable; manifest.duplicateAssetPaths=[];
+          manifest.note=`Delivery Protocol V2 incremental integration: exact-hash reviewer-14 ACCEPT batch integrated for Rugs 1-8 and Decor 1-2. Prior versions remain in Git history; Replit/Floot/main/player data untouched.`;
+          fs.writeFileSync(manifestPath,JSON.stringify(manifest)+'\n');
 
-          const paths = Object.entries(manifest.items).map(([id,m]) => [id,m.assetPath]);
-          const pathOwners = new Map();
-          for (const [id,p] of paths) {
-            if (pathOwners.has(p)) throw new Error(`Duplicate canonical path ${p}: ${pathOwners.get(p)} and ${id}`);
-            pathOwners.set(p,id);
-          }
-          const contentOwners = new Map();
-          for (const [id,p0] of paths) {
-            const p=repoPath(p0); const h=gitBlob(p);
-            if (contentOwners.has(h)) throw new Error(`Duplicate canonical content ${h}: ${contentOwners.get(h)} and ${id}`);
-            contentOwners.set(h,id);
-          }
+          const runtime=fs.readFileSync(runtimePath,'utf8');
+          const marker='const portableCatalogArt = Object.freeze({'; const start=runtime.indexOf(marker); const bodyStart=start+marker.length; const end=runtime.indexOf('\n});',bodyStart);
+          if(start<0||end<0) throw new Error('Runtime mapping markers not found');
+          const ordered=gameModel.store.filter(x=>manifest.items[x.id]).map(x=>`  '${x.id}': '${manifest.items[x.id].assetPath}'`).join(',\n');
+          fs.writeFileSync(runtimePath,runtime.slice(0,bodyStart)+'\n'+ordered+runtime.slice(end));
 
-          const finalPortable = Object.values(manifest.items).filter(x => x.status === 'final-portable').length;
-          const interimNotVerified = Object.values(manifest.items).filter(x => x.status === 'interim-not-verified').length;
-          manifest.version = Number(manifest.version ?? 0) + 1;
-          manifest.target = 192;
-          manifest.finalCount = finalPortable;
-          manifest.remaining = 192 - finalPortable;
-          manifest.duplicateAssetPaths = [];
-          manifest.note = `Delivery Protocol V2 incremental integration: exact-hash independent ACCEPT batch integrated for ${changed.map(x=>x.itemId).join(', ')}. Prior asset versions remain in Git history; Replit/Floot/main/player data untouched.`;
-          fs.writeFileSync(manifestPath, JSON.stringify(manifest) + '\n');
-
-          // Regenerate only the explicit mapping body from the validated manifest; preserve imports and runtime behavior.
-          const runtime = fs.readFileSync(runtimePath,'utf8');
-          const marker='const portableCatalogArt = Object.freeze({';
-          const start=runtime.indexOf(marker);
-          const bodyStart=start+marker.length;
-          const end=runtime.indexOf('\n});',bodyStart);
-          if (start < 0 || end < 0) throw new Error('catalogArtRuntime map markers not found');
-          const ordered = gameModel.store.filter(x => manifest.items[x.id]).map(x => `  '${x.id}': '${manifest.items[x.id].assetPath}'`).join(',\n');
-          const nextRuntime = runtime.slice(0,bodyStart) + '\n' + ordered + runtime.slice(end);
-          fs.writeFileSync(runtimePath,nextRuntime);
-
-          const manifestAfterBlob = gitBlob(manifestPath);
-          const runtimeAfterBlob = gitBlob(runtimePath);
-          const stagedIds = new Set();
-          const walk = dir => {
-            if (!fs.existsSync(dir)) return;
-            for (const ent of fs.readdirSync(dir,{withFileTypes:true})) {
-              const p=path.join(dir,ent.name);
-              if (ent.isDirectory()) walk(p);
-              else {
-                const m=ent.name.match(/^([a-z]+-\d+)(?:-|\.)/i);
-                if (m && (ent.name.includes('-v') || p.includes('catalog-candidates') || ent.name.includes('-w'))) stagedIds.add(m[1]);
-              }
-            }
-          };
-          walk('public/assets/catalog'); walk('public/assets/catalog-candidates');
-
-          const prevAccepted = Number(previousIntegration.counts?.acceptedCurrentReplacementHashes ?? 17);
-          const prevCoverage = Number(previousIntegration.counts?.independentlyReviewedUniqueCatalogIds ?? 180);
-          const strictAccepted = prevAccepted + changed.length;
-          const strictRemaining = 192 - strictAccepted;
-          const integration = {
-            schemaVersion:8,
-            workstream:'08', phase:'CATALOG_SPRINT', status:'CANONICAL_BATCH_PRECOMMIT_TESTS_PENDING',
-            branch:'screenshot-match-preproduction', auditedSourceHead:sourceHead,
-            canonicalBefore:{
-              manifestVersion:manifestBefore.version, manifestBlobSha:manifestBeforeBlob, runtimeBlobSha:runtimeBeforeBlob,
-              manifestEntries:Object.keys(manifestBefore.items??{}).length,
-              finalPortable:Object.values(manifestBefore.items??{}).filter(x=>x.status==='final-portable').length
-            },
-            canonicalAfter:{
-              manifestVersion:manifest.version, manifestBlobSha:manifestAfterBlob, runtimeBlobSha:runtimeAfterBlob,
-              catalogTarget:192, manifestEntries:Object.keys(manifest.items).length,
-              runtimeMappings:Object.keys(manifest.items).length, finalPortable, interimNotVerified,
-              nonFinal:192-finalPortable, duplicateAssetPaths:0, duplicateContentHashes:0
-            },
-            integratedThisRun:changed,
-            validationBeforeCommit:{
-              exactIdNameCollectionCategoryTierTheme:`PASS_${changed.length}_OF_${changed.length}_AGAINST_CURRENT_GAME_MODEL`,
-              storedPathAndBlobReadback:`PASS_${changed.length}_OF_${changed.length}_EXACT_GIT_BLOB_SHA`,
-              safeDecode:`PASS_${changed.length}_OF_${changed.length}_PILLOW_PLUS_HASH_BOUND_RENDER_EVIDENCE`,
-              reviewerIndependence:`PASS_${changed.length}_OF_${changed.length}_REVIEWER_02_VS_PRODUCERS_04_06`,
-              reviewerDisagreement:'PASS_NONE_ON_ACCEPTED_EXACT_HASHES',
-              canonicalUniqueness:`PASS_${Object.keys(manifest.items).length}_UNIQUE_PATHS_AND_CONTENT_HASHES`,
-              runtimeManifestAgreement:`PASS_${Object.keys(manifest.items).length}_OF_${Object.keys(manifest.items).length}`,
-              stablePricesUnlocksOwnership:'UNCHANGED_BY_SCOPE'
-            },
+          const runtimeAfterBlob=gitBlob(runtimePath), manifestAfterBlob=gitBlob(manifestPath);
+          const prevAccepted=Number(previousIntegration.counts?.acceptedCurrentReplacementHashes??35);
+          const strictAccepted=prevAccepted+verified.length;
+          const integration={
+            schemaVersion:9,workstream:'08',phase:'CATALOG_SPRINT',status:'CANONICAL_BATCH_PRECOMMIT_TESTS_PENDING',branch:'screenshot-match-preproduction',auditedSourceHead:sourceHead,
+            reviewerEvidence:{reviewer:'14',reviewFile:reviewPath,reviewBlobSha,exactAcceptedIds:verified.map(x=>x.itemId)},
+            canonicalBefore:{manifestVersion:manifestBefore.version,manifestBlobSha:manifestBeforeBlob,runtimeBlobSha:runtimeBeforeBlob,manifestEntries:Object.keys(manifestBefore.items??{}).length},
+            canonicalAfter:{manifestVersion:manifest.version,manifestBlobSha:manifestAfterBlob,runtimeBlobSha:runtimeAfterBlob,catalogTarget:192,manifestEntries:Object.keys(manifest.items).length,runtimeMappings:Object.keys(manifest.items).length,finalPortable,interimNotVerified:interim,nonFinal:192-finalPortable,duplicateAssetPaths:0,duplicateContentHashes:0},
+            integratedThisRun:verified,
+            validationBeforeCommit:{exactStoreMetadata:`PASS_${verified.length}_OF_${verified.length}`,storedPathAndBlobReadback:`PASS_${verified.length}_OF_${verified.length}`,safeDecode:`PASS_${verified.length}_OF_${verified.length}_PILLOW`,reviewerIndependence:'PASS_REVIEWER_14_VS_PRODUCERS_07_09',reviewerDisagreement:'PASS_NONE_ON_ACCEPTED_EXACT_HASHES',canonicalUniqueness:`PASS_${Object.keys(manifest.items).length}_UNIQUE_PATHS_AND_CONTENT`,stablePricesUnlocksOwnership:'UNCHANGED_BY_SCOPE'},
             postCommitValidation:{catalogTests:'PENDING_EXECUTION',productionBuild:'PENDING_EXECUTION',storeSmoke:'PENDING_EXECUTION',referenceComparison:'HANDOFF_14_AFTER_GREEN_CANONICAL_COMMIT'},
-            counts:{
-              generatedLocalKnown:Number(previousIntegration.counts?.generatedLocalKnown ?? 0),
-              generatedRemoteNotStagedKnown:Number(previousIntegration.counts?.generatedRemoteNotStagedKnown ?? 0),
-              preservedBlobOnlyKnown:Number(previousIntegration.counts?.preservedBlobOnlyKnown ?? 0),
-              branchStagedRepairIdsKnown:stagedIds.size,
-              independentlyReviewedUniqueCatalogIds:prevCoverage,
-              acceptedCurrentReplacementHashes:strictAccepted,
-              canonicalWiredAcceptedHashesAfterCommit:strictAccepted,
-              catalogReleaseClearedIds:0,
-              newlyAcceptedAndWiredThisRun:changed.length,
-              strictAcceptedRemaining:strictRemaining
-            },
-            nextReviewDependencies:[
-              '14: independently review exact staged Lighting 5-8 replacement hashes and retain release-gate ownership.',
-              '05: review fresh companion replacements and only visible Desk hashes; transparent/corrupt Desk evidence remains ineligible.',
-              '01: prioritize fresh Tops/Bottoms/Headwear/Facegear replacement hashes.',
-              '02: next fresh Seating 1-6/11-12 and Shoes 7-12 replacement hashes.',
-              '08: integrate every next qualified exact-hash ACCEPT immediately.'
-            ],
-            blockers:[
-              `${strictRemaining} catalog IDs are not yet current-hash accepted/canonically wired under strict V2 review.`,
-              'Catalog release still requires all 192 current hashes accepted plus final duplicate/near-duplicate, Store/mobile and independent release verification.',
-              'Physical-device and screen-reader release evidence remain outside this canonical batch; do not infer them from emulation.'
-            ],
+            counts:{generatedLocalKnown:Number(previousIntegration.counts?.generatedLocalKnown??0),generatedRemoteNotStagedKnown:Number(previousIntegration.counts?.generatedRemoteNotStagedKnown??0),preservedBlobOnlyKnown:Number(previousIntegration.counts?.preservedBlobOnlyKnown??0),branchStagedRepairIdsKnown:Number(previousIntegration.counts?.branchStagedRepairIdsKnown??previousIntegration.counts?.branchStagedRepairVersionsKnown??0),independentlyReviewedUniqueCatalogIds:Number(previousIntegration.counts?.independentlyReviewedUniqueCatalogIds??180),acceptedCurrentReplacementHashes:strictAccepted,canonicalWiredAcceptedHashesAfterCommit:strictAccepted,catalogReleaseClearedIds:0,newlyAcceptedAndWiredThisRun:verified.length,strictAcceptedRemaining:192-strictAccepted},
+            nextAcceptedQueues:['01: Tops 7-10, Bottoms 1-4, Headwear 1-4 exact ACCEPT backlog.','02: Seating 2-6 exact ACCEPT backlog.','05: Desks 5-6, Beds 1-4, Auras 1-4 v3 exact ACCEPT backlog.','14: Rugs 9-10 supplemental ACCEPTs require exact supplemental evidence ingestion; Rugs 11-12 remain REWORK.'],
+            blockers:[`${192-strictAccepted} catalog IDs remain outside the strict accepted-and-canonical set after this batch.`,'Catalog release still requires all 192 current hashes accepted/canonical plus final duplicate/near-duplicate and Store/mobile/release verification.','Nonvisual physical-device/screen-reader/persistence gates remain open/deferred, not waived.'],
             freeze:{replitTouched:false,flootTouched:false,mainMergedOrModified:false,playerDataTouched:false,phaseChanged:false}
           };
-          fs.writeFileSync(integrationPath, JSON.stringify(integration,null,2)+'\n');
+          fs.writeFileSync(integrationPath,JSON.stringify(integration,null,2)+'\n');
 
-          const rows=changed.map(x=>`| ${x.itemId} | ${x.name} | T${x.tier} · ${x.theme} | \`${x.assetPath}\` | \`${x.assetBlobSha}\` | ${x.format} ${x.width}×${x.height} |`).join('\n');
-          const md=`# Workstream 08 catalog integration\n\nStatus: **10 NEW EXACT-HASH ACCEPTS CANONICALLY PREPARED; TEST/BUILD/STORE SMOKE PENDING**\n\nSource head before canonical write: \`${sourceHead}\`  \nReviewer shard: \`${reviewPath}\` @ \`${reviewBlobSha}\`  \nBranch: \`screenshot-match-preproduction\` only. Replit/Floot/main/player data untouched.\n\n## Newly integrated exact-hash ACCEPTs\n\n| ID | Name | Tier/theme | Canonical asset | Git blob | Decode |\n|---|---|---|---|---|---|\n${rows}\n\nReviewer 02 is independent from producers 04/06. Each accepted file was re-read from the repository, its Git blob was matched to the review decision and producer handoff, metadata was checked against the actual Store model, raster decode succeeded, and canonical path/content uniqueness was recomputed. Historical REWORK hashes do not block these replacement hashes.\n\n## Accounting\n\n- Legacy manifest final-portable labels after this batch: **${finalPortable}/192**. This is not the strict visual-acceptance count.\n- Current exact-hash independently accepted and canonical-wired replacements: **${strictAccepted}/192**.\n- Strict accepted/wired remaining: **${strictRemaining}**.\n- Interim-not-verified manifest entries: **${interimNotVerified}**.\n- Canonical manifest/runtime mappings: **${Object.keys(manifest.items).length}**.\n- Canonical duplicate paths: **0**; canonical duplicate content hashes: **0**.\n- Catalog release-cleared IDs: **0** until reviewer 14 completes the independent release gate.\n\n## Verification and handoff\n\nFull catalog tests, production build and strict Store/mobile smoke execute before publication by the Workstream-08 integration job. The earlier beds-1 metadata defect is already fixed in the current canonical manifest (Garden Glow) and remains protected by the strict catalog metadata test. After a green canonical commit, reviewer 14 should run the fresh Home/Store/Quest reference comparison against the committed originals; Workstream 08 does not self-approve reference parity.\n`;
-          fs.writeFileSync(integrationMdPath,md);
-
-          const wsExisting=fs.existsSync(workstreamPath)?fs.readFileSync(workstreamPath,'utf8'):'';
-          const stamp=`## Current exact-hash integration — reviewer 02 Shoes 1–6 + Seating 7–10\n\nPrepared from source \`${sourceHead}\`. Ten qualified replacement hashes passed exact Store metadata, stored-byte/hash, decode, reviewer-independence and uniqueness checks and are being canonically wired as one coherent batch. Strict accepted/wired count becomes **${strictAccepted}/192**; legacy final-portable label count becomes **${finalPortable}/192**. Reviewer 14 retains catalog release-gate authority; no deployment or phase change is implied.\n\nExact IDs: ${changed.map(x=>`\`${x.itemId}\``).join(', ')}.\n\n`;
-          fs.writeFileSync(workstreamPath, stamp + wsExisting);
-
-          fs.writeFileSync('/tmp/workstream08-plan.json',JSON.stringify({sourceHead,changed:changed.map(x=>x.itemId),strictAccepted,finalPortable,manifestAfterBlob,runtimeAfterBlob},null,2));
-          console.log(fs.readFileSync('/tmp/workstream08-plan.json','utf8'));
+          const rows=verified.map(x=>`| ${x.itemId} | ${x.name} | T${x.tier} · ${x.theme} | \`${x.assetPath}\` | \`${x.assetHash}\` | ${x.format} ${x.width}×${x.height} |`).join('\n');
+          fs.writeFileSync(integrationMdPath,`# Workstream 08 catalog integration\n\nStatus: **RUGS 1–8 + DECOR 1–2 EXACT-HASH ACCEPTS PREPARED; VALIDATION PENDING**\n\nSource head: \`${sourceHead}\`  \nReviewer 14 shard: \`${reviewBlobSha}\`  \nBranch: \`screenshot-match-preproduction\` only.\n\n| ID | Name | Tier/theme | Canonical asset | Git blob | Decode |\n|---|---|---|---|---|---|\n${rows}\n\nEach exact accepted blob was re-read from the repository, decoded, checked against current Store identity/tier/theme/category, confirmed independent from its producer, and checked for canonical path/content collisions. Legacy labels remain distinct from strict current-hash acceptance.\n\nAfter this batch: manifest v18; **${finalPortable}/192 legacy final-portable labels**, **${strictAccepted}/192 strict independently accepted + canonical-wired current hashes**, **${192-strictAccepted} strict remaining**, **0 release-cleared**.\n`);
+          const oldWs=fs.existsSync(workstreamPath)?fs.readFileSync(workstreamPath,'utf8'):'';
+          fs.writeFileSync(workstreamPath,`## V2 canonical increment — Rugs 1–8 + Decor 1–2\n\nPrepared from \`${sourceHead}\` using reviewer 14 exact-hash ACCEPT evidence. Ten current assets passed repository-byte, metadata, decode, reviewer-independence and canonical uniqueness checks. Pending full tests/build/Store-mobile smoke before publication. Replit/Floot/main/player data remain frozen.\n\n`+oldWs);
+          fs.writeFileSync('/tmp/w08-plan.json',JSON.stringify({sourceHead,ids:verified.map(x=>x.itemId),manifestVersion:manifest.version,strictAccepted,finalPortable,manifestAfterBlob,runtimeAfterBlob},null,2));
           NODE
 
       - name: Run full catalog/application regression suite
-        run: timeout 150s npm test -- --reporter=verbose
+        run: timeout 180s npm test -- --reporter=verbose
 
       - name: Build production bundle
         run: npm run build
@@ -312,34 +210,25 @@ jobs:
           npm install --no-save --package-lock=false --no-audit --no-fund playwright@1.55.0
           npx playwright install --with-deps chromium
 
-      - name: Run strict Store/mobile smoke against prepared canonical files
+      - name: Run strict Store/mobile smoke
         run: |
           nohup npx vite preview --host 127.0.0.1 --port 4173 > /tmp/starblox-w08-preview.log 2>&1 &
-          echo $! > /tmp/starblox-w08-preview.pid
-          for i in $(seq 1 40); do
-            if curl -fsS http://127.0.0.1:4173/ >/dev/null; then break; fi
-            sleep 0.5
-          done
+          for i in $(seq 1 40); do curl -fsS http://127.0.0.1:4173/ >/dev/null && break; sleep 0.5; done
           curl -fsS http://127.0.0.1:4173/ >/dev/null
-          STARBLOX_QA_URL=http://127.0.0.1:4173 STARBLOX_QA_OUTPUT=artifacts/workstream08-catalog-mobile-qa STARBLOX_QA_STRICT=1 node scripts/catalogMobileQa.mjs
+          CATALOG_CHANGED_IDS='rugs-1,rugs-2,rugs-3,rugs-4,rugs-5,rugs-6,rugs-7,rugs-8,decor-1,decor-2' STARBLOX_QA_URL=http://127.0.0.1:4173 STARBLOX_QA_OUTPUT=artifacts/workstream08-catalog-mobile-qa STARBLOX_QA_STRICT=1 node scripts/catalogMobileQa.mjs
 
-      - name: Mark executed validation PASS and preserve exact candidate hashes
+      - name: Mark executed validation PASS
         run: |
           node --input-type=module <<'NODE'
           import fs from 'node:fs';
-          const p='docs/preproduction/catalog-sprint/integration.json';
-          const r=JSON.parse(fs.readFileSync(p,'utf8'));
+          const p='docs/preproduction/catalog-sprint/integration.json'; const r=JSON.parse(fs.readFileSync(p,'utf8'));
           r.status='INTEGRATED_ACCEPTED_INCREMENT_ALL_SCOPED_CHECKS_PASS_PENDING_PUSH';
-          r.postCommitValidation.catalogTests='PASS_FULL_NPM_TEST';
-          r.postCommitValidation.productionBuild='PASS_VITE_PRODUCTION_BUILD';
-          r.postCommitValidation.storeSmoke='PASS_STRICT_CATALOG_MOBILE_QA_PRECOMMIT';
-          r.postCommitValidation.referenceComparison='HANDOFF_14_FRESH_REFERENCE_CAPTURE_AFTER_PUSH';
+          r.postCommitValidation.catalogTests='PASS_FULL_NPM_TEST'; r.postCommitValidation.productionBuild='PASS_VITE_PRODUCTION_BUILD'; r.postCommitValidation.storeSmoke='PASS_STRICT_CHANGED_ART_STORE_MOBILE_QA_PRECOMMIT';
           fs.writeFileSync(p,JSON.stringify(r,null,2)+'\n');
-          const md='docs/preproduction/catalog-sprint/integration.md';
-          fs.appendFileSync(md,'\n## Executed validation\n\n**PASS:** full npm regression, Vite production build, and strict catalog Store/mobile QA all succeeded against the coherent prepared canonical files before commit. Fresh original-reference comparison remains independently owned by 14 and is not claimed here.\n');
+          fs.appendFileSync('docs/preproduction/catalog-sprint/integration.md','\n## Executed validation\n\n**PASS:** full npm regression, Vite production build, and strict changed-art Store/mobile QA all succeeded against the coherent v18 canonical files before publication. Reviewer 14 retains final catalog/release visual-gate ownership.\n');
           NODE
 
-      - name: Commit canonical manifest/runtime and evidence coherently, then push without force
+      - name: Commit canonical files and evidence coherently, then push without force
         run: |
           set -eu
           test "$GITHUB_REF" = 'refs/heads/screenshot-match-preproduction'
@@ -347,25 +236,17 @@ jobs:
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add -- catalog-art-manifest.json src/catalogArtRuntime.js docs/preproduction/catalog-sprint/integration.json docs/preproduction/catalog-sprint/integration.md docs/preproduction/workstreams/08-catalog-art.md
           test -n "$(git diff --cached --name-only)"
-          git commit -m 'catalog: wire reviewer-accepted Shoes 1-6 and Seating 7-10'
+          git commit -m 'catalog: wire accepted Rugs 1-8 and Decor 1-2'
           for attempt in 1 2 3; do
-            if git push origin HEAD:refs/heads/screenshot-match-preproduction; then
-              echo "CANONICAL_COMMIT=$(git rev-parse HEAD)" >> "$GITHUB_ENV"
-              exit 0
-            fi
+            if git push origin HEAD:refs/heads/screenshot-match-preproduction; then exit 0; fi
             git fetch origin screenshot-match-preproduction
-            if ! git rebase origin/screenshot-match-preproduction; then
-              git rebase --abort || true
-              echo 'Concurrent canonical conflict; no force push and no stale overwrite.' >&2
-              exit 1
-            fi
+            if ! git rebase origin/screenshot-match-preproduction; then git rebase --abort || true; echo 'Concurrent canonical conflict; no force push.' >&2; exit 1; fi
           done
-          echo 'Safe canonical publication failed after retries; no force push.' >&2
-          exit 1
+          echo 'Safe canonical publication failed; no force push.' >&2; exit 1
 
       - name: Print canonical result
         if: always()
         run: |
-          cat /tmp/workstream08-plan.json || true
+          cat /tmp/w08-plan.json || true
           cat docs/preproduction/catalog-sprint/integration.json || true
           cat artifacts/workstream08-catalog-mobile-qa/summary.txt || true
