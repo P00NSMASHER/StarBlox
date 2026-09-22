@@ -1,31 +1,24 @@
 {
-  "schemaVersion": 3,
-  "expectedManifestVersion": 18,
-  "expectedStrictCanonicalBefore": 45,
-  "reviewer": "01",
-  "batchLabel": "Tops 7-10 + Bottoms 1-4 + Headwear 1-4 exact-hash ACCEPTs",
+  "schemaVersion": 4,
+  "expectedManifestVersion": 19,
+  "expectedStrictCanonicalBefore": 57,
+  "reviewer": "02",
+  "batchLabel": "Seating 2-6 exact-hash ACCEPTs",
   "reviewEvidence": [
-    {"blobSha":"f155210fcf47bf1a34b7469f4eaebde1967a796d"}
+    {"blobSha":"0c05422c55b3241517012e4d5f0e893a381f83bf"},
+    {"blobSha":"3195757960e035e21bb26a404730c788dcbcc23d"}
   ],
   "items": [
-    {"itemId":"tops-7","assetPath":"/assets/catalog/tops-7-w09-v3.jpg","assetHash":"1c85689d80f3457bb30b2508386d3e1ea387c029","producer":"09"},
-    {"itemId":"tops-8","assetPath":"/assets/catalog/tops-8-w09-v3.jpg","assetHash":"58aadd95fb9bdd3bb461a9fec9d458d9bf5df79e","producer":"09"},
-    {"itemId":"tops-9","assetPath":"/assets/catalog/tops-9-w09-v3.jpg","assetHash":"9011648da2461f63a4ac9e203833cf70eb1d6fe0","producer":"09"},
-    {"itemId":"tops-10","assetPath":"/assets/catalog/tops-10-w09-v3.jpg","assetHash":"5449283ed30dbfade70290cc976f85bace94fa0a","producer":"09"},
-    {"itemId":"bottoms-1","assetPath":"/assets/catalog/bottoms-1-w05-v2.png","assetHash":"8af6b7c9d2f10c41c5abf2cba0368dda6c9c412c","producer":"05"},
-    {"itemId":"bottoms-2","assetPath":"/assets/catalog/bottoms-2-w05-v2.png","assetHash":"17031c030198b20867aeeffeab67ad60e99397e1","producer":"05"},
-    {"itemId":"bottoms-3","assetPath":"/assets/catalog/bottoms-3-w05-v2.png","assetHash":"b7025444f62bd6e65325835ecf51a5bbe6cee897","producer":"05"},
-    {"itemId":"bottoms-4","assetPath":"/assets/catalog/bottoms-4-w05-v2.png","assetHash":"b618e3990a0e4b049278f5a748325d57cb81955e","producer":"05"},
-    {"itemId":"headwear-1","assetPath":"/assets/catalog/headwear-1-w12-v2.jpg","assetHash":"4d4424962a49f5145422723b625778d6649a4b26","producer":"12"},
-    {"itemId":"headwear-2","assetPath":"/assets/catalog/headwear-2-w12-v2.jpg","assetHash":"595c8fe9182f4aecd5355856f19947c7c83daa11","producer":"12"},
-    {"itemId":"headwear-3","assetPath":"/assets/catalog/headwear-3-w12-v2.jpg","assetHash":"86db079b85360dc64e669aeca53cba874176c693","producer":"12"},
-    {"itemId":"headwear-4","assetPath":"/assets/catalog/headwear-4-w12-v2.jpg","assetHash":"4257b4a959153fba985fa2a97720c379b6d63e33","producer":"12"}
+    {"itemId":"seating-2","assetPath":"/assets/catalog/seating-2-w01-recovered-v2.jpg","assetHash":"c3d4705b7182b1be735b1a762b2ae79d58928aa5","producer":"01"},
+    {"itemId":"seating-3","assetPath":"/assets/catalog/seating-3-w01-recovered-v2.jpg","assetHash":"5d69a2f6adf1e4cf9b4ec413dbeedba84c41813b","producer":"01"},
+    {"itemId":"seating-4","assetPath":"/assets/catalog/seating-4-chat-v2.png","assetHash":"55d1fb2edddb7638f87c5962bd03b6ac745a1f4b","producer":"01"},
+    {"itemId":"seating-5","assetPath":"/assets/catalog/seating-5-chat-v2.png","assetHash":"252f0b24b3ede29d6abfbe7fc661a7da751de565","producer":"01"},
+    {"itemId":"seating-6","assetPath":"/assets/catalog/seating-6-chat-v2.png","assetHash":"f4f00fb739aaae4ce970a4c4d1d738bca729ff40","producer":"01"}
   ],
   "nextAcceptedQueues": [
-    "02: Seating 2-6 exact ACCEPT backlog.",
-    "05: Desks 5-6, Beds 1-4, Auras 1-4 v3 exact ACCEPT backlog.",
+    "05: Beds 1-4, Desks 5-6, Auras 1-4 v3 exact ACCEPT backlog.",
     "14: supplemental Rugs 9-10 exact ACCEPTs; Rugs 11-12 remain REWORK.",
     "01: Tops 11 remains BLOCKED on decode and Tops 12 remains REWORK on current v3 hashes."
   ],
-  "commitMessage": "catalog: wire accepted apparel replacements"
+  "commitMessage": "catalog: wire accepted seating replacements"
 }
