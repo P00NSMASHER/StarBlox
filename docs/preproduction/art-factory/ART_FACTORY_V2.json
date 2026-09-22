@@ -103,6 +103,7 @@
   "stages": [
     "LIVE_RECONCILIATION",
     "PROMPT_OPTIMIZATION",
+    "DETERMINISTIC_JOB_PLAN",
     "BOUNDED_GENERATION_2_TO_4",
     "VERSIONED_DERIVATIVES",
     "REPORT_ONLY_MACHINE_PREFLIGHT",
@@ -168,5 +169,17 @@
     "07": "Owned Tops1-6/Rugs production and progression art after catalog work is closed.",
     "08": "Only canonical catalog writer; consumes independent exact-hash ACCEPTs.",
     "09": "Owned Tops7-12/Decor production and environment finishing only after explicit handoff."
+  },
+  "jobCompiler": {
+    "script": "scripts/artFactoryJob.mjs",
+    "test": "scripts/artFactoryJob.node-test.mjs",
+    "purpose": "Compile exact review-driven prompt variants into deterministic provider-neutral generation jobs before any image generation.",
+    "enforced": [
+      "2_TO_4_VARIANTS",
+      "UNIQUE_DETERMINISTIC_SEEDS",
+      "EXACT_MODEL_ID_REVISION",
+      "USER_ATTESTED_FULL_RIGHTS",
+      "NO_PREFILLED_OUTPUT_HASHES"
+    ]
   }
 }
