@@ -2,6 +2,9 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import process from 'node:process';
 import { chromium } from 'playwright';
+import '../src/questionQualityRuntime.js';
+import '../src/semanticQuestionGuardRuntime.js';
+import '../src/diagnosticQuestionGuardRuntime.js';
 import { gameModel } from '../src/gameModel.js';
 
 const BASE_URL = process.env.STARBLOX_QA_URL || 'http://127.0.0.1:4173';
