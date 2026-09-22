@@ -185,6 +185,15 @@ jobs:
             --repo-root . \
             --output artifacts/art-factory-preflight/workflow-audit.json
 
+      - name: Restore exact-hash visual metric cache
+        if: steps.scope.outputs.python == 'true'
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: artifacts/art-factory-cache/visual-metrics.json
+          key: starblox-art-metrics-v1-${{ hashFiles('scripts/catalogVisualPreflight.py') }}-${{ github.sha }}
+          restore-keys: |
+            starblox-art-metrics-v1-${{ hashFiles('scripts/catalogVisualPreflight.py') }}-
+
       - name: Hydrate only current exact-hash reviewed rasters
         id: hydrate
         if: steps.scope.outputs.python == 'true'
@@ -199,7 +208,15 @@ jobs:
           changed = (outdir / 'changed-files.txt').read_text().splitlines()
           raster = re.compile(r'^public/assets/(?:catalog|catalog-candidates)/.*\.(?:png|jpe?g|webp)$', re.I)
 
+          cache_path = pathlib.Path('artifacts/art-factory-cache/visual-metrics.json')
+          try:
+              cache = json.loads(cache_path.read_text()) if cache_path.is_file() else {}
+          except Exception:
+              cache = {}
+          cached_hashes = set((cache.get('metricsByGitBlobSha') or {}).keys())
+
           paths = set()
+          cached_review_rows = 0
           for row in corpus.get('current') or []:
               if not row.get('independent'):
                   continue
@@ -208,9 +225,15 @@ jobs:
               p = str(row.get('assetPath') or '').replace('\\','/').lstrip('/')
               if p.startswith('assets/'):
                   p = 'public/' + p
+              h = str(row.get('assetHash') or '').lower()
+              if h and h in cached_hashes:
+                  cached_review_rows += 1
+                  continue
               if raster.match(p):
                   paths.add(p)
 
+          # Changed raster bytes are always hydrated so the current candidate itself
+          # can be preflighted even before a reviewer adds it to the calibration corpus.
           for p in changed:
               if raster.match(p):
                   paths.add(p)
@@ -218,7 +241,9 @@ jobs:
           path_file = pathlib.Path('/tmp/art-factory-current-raster-paths.txt')
           path_file.write_text('\n'.join(sorted(paths)) + ('\n' if paths else ''))
           print(json.dumps({
-              'currentReviewedRasterCount': len(paths),
+              'uncachedReviewedRasterCount': len(paths),
+              'cachedReviewedRows': cached_review_rows,
+              'metricCacheEntries': len(cached_hashes),
           }, indent=2))
           PY
 
@@ -258,7 +283,40 @@ jobs:
           python scripts/catalogVisualCalibration.py \
             --repo-root . \
             --corpus artifacts/art-factory-preflight/review-corpus.json \
+            --metric-cache artifacts/art-factory-cache/visual-metrics.json \
+            --write-metric-cache artifacts/art-factory-cache/visual-metrics.json \
             --output artifacts/art-factory-preflight/visual-calibration.json
+          python - <<'PY'
+          import json, pathlib
+          cal = json.loads(pathlib.Path('artifacts/art-factory-preflight/visual-calibration.json').read_text())
+          entries = []
+          for row in cal.get('measured') or []:
+              metrics = row.get('metrics') or {}
+              source = metrics.get('source') or {}
+              if not source.get('aHash') or not source.get('dHash'):
+                  continue
+              entries.append({
+                  'path': row.get('assetPath'),
+                  'itemId': row.get('itemId'),
+                  'collectionId': row.get('collectionId'),
+                  'sha256': metrics.get('sha256'),
+                  'aHash': source.get('aHash'),
+                  'dHash': source.get('dHash'),
+              })
+          cache = {
+              'schemaVersion': 1,
+              'kind': 'STARBLOX_VISUAL_NEIGHBOR_CACHE',
+              'sourceDirectory': 'review-corpus-cache',
+              'entries': entries,
+              'errors': [],
+          }
+          dest = pathlib.Path('artifacts/art-factory-preflight/neighbor-cache.json')
+          dest.write_text(json.dumps(cache, indent=2) + '\n')
+          print(json.dumps({
+              'metricCache': cal.get('metricCache'),
+              'neighborCacheEntries': len(entries),
+          }, indent=2))
+          PY
 
       - name: Prove calibrated warnings round-trip
         if: steps.scope.outputs.calibrate == 'true'
@@ -285,7 +343,7 @@ jobs:
               '--output', str(output),
           ]
           if any(feature.startswith('nearest') for feature in ready):
-              cmd += ['--neighbors', 'public/assets']
+              cmd += ['--neighbor-cache', 'artifacts/art-factory-preflight/neighbor-cache.json']
           subprocess.run(cmd, check=True)
 
           report = json.loads(output.read_text())
@@ -376,6 +434,7 @@ jobs:
               lines += [
                   f"- Visual calibration samples: ACCEPT **{ready.get('acceptedRasterSamples','?')}**, REWORK **{ready.get('reworkRasterSamples','?')}**",
                   f"- Warning-ready visual features: **{ready.get('warningCandidateCount','?')}**",
+                  f"- Metric cache hits/misses: **{cal.get('metricCache',{}).get('hits','?')} / {cal.get('metricCache',{}).get('misses','?')}**",
                   '- Visual thresholds: **report-only / non-blocking**',
               ]
           errors = audit.get('errors') or []

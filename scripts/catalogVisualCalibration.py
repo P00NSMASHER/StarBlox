@@ -316,9 +316,15 @@ def calibrate_warning_candidates(
     return out
 
 
-def build_calibration(repo_root: Path, corpus: dict) -> dict:
+def build_calibration(repo_root: Path, corpus: dict, metric_cache: dict | None = None) -> dict:
     measured = []
     skipped = []
+    metric_cache = metric_cache if isinstance(metric_cache, dict) else {}
+    metric_cache.setdefault("schemaVersion", 1)
+    metric_cache.setdefault("kind", "STARBLOX_VISUAL_METRIC_CACHE")
+    metrics_by_hash = metric_cache.setdefault("metricsByGitBlobSha", {})
+    cache_hits = 0
+    cache_misses = 0
     labeled_total = sum(
         1
         for r in corpus.get("current", [])
@@ -347,26 +353,56 @@ def build_calibration(repo_root: Path, corpus: dict) -> dict:
                 }
             )
             continue
-        if not path.is_file():
-            skipped.append(
-                {
-                    "itemId": row.get("itemId"),
-                    "assetPath": repo_path,
-                    "reason": "MISSING_FILE",
+        asset_hash = str(row.get("assetHash") or "").lower()
+        cached = metrics_by_hash.get(asset_hash) if asset_hash else None
+        metric_source = "CACHE" if isinstance(cached, dict) and isinstance(cached.get("metrics"), dict) else "SCAN"
+
+        if metric_source == "CACHE":
+            metrics = cached["metrics"]
+            cache_hits += 1
+        else:
+            cache_misses += 1
+            if not path.is_file():
+                skipped.append(
+                    {
+                        "itemId": row.get("itemId"),
+                        "assetPath": repo_path,
+                        "reason": "MISSING_FILE_AND_CACHE_MISS",
+                    }
+                )
+                continue
+            try:
+                metrics = scan_one(path)
+            except Exception as exc:
+                skipped.append(
+                    {
+                        "itemId": row.get("itemId"),
+                        "assetPath": repo_path,
+                        "reason": type(exc).__name__ + ": " + str(exc),
+                    }
+                )
+                continue
+
+            actual_blob = str(metrics.get("gitBlobSha") or "").lower()
+            if asset_hash and len(asset_hash) == 40 and actual_blob != asset_hash:
+                skipped.append(
+                    {
+                        "itemId": row.get("itemId"),
+                        "assetPath": repo_path,
+                        "reason": "REVIEW_HASH_MISMATCH",
+                        "reviewHash": asset_hash,
+                        "actualGitBlobSha": actual_blob,
+                    }
+                )
+                continue
+            if asset_hash:
+                metrics_by_hash[asset_hash] = {
+                    "repoPath": repo_path,
+                    "gitBlobSha": actual_blob,
+                    "sha256": metrics.get("sha256"),
+                    "metrics": metrics,
                 }
-            )
-            continue
-        try:
-            metrics = scan_one(path)
-        except Exception as exc:
-            skipped.append(
-                {
-                    "itemId": row.get("itemId"),
-                    "assetPath": repo_path,
-                    "reason": type(exc).__name__ + ": " + str(exc),
-                }
-            )
-            continue
+
         measured.append(
             {
                 "itemId": row["itemId"],
@@ -375,6 +411,7 @@ def build_calibration(repo_root: Path, corpus: dict) -> dict:
                 "failureCodes": row.get("failureCodes") or [],
                 "assetPath": repo_path,
                 "assetHash": row.get("assetHash"),
+                "metricSource": metric_source,
                 "metrics": metrics,
             }
         )
@@ -469,6 +506,11 @@ def build_calibration(repo_root: Path, corpus: dict) -> dict:
         "nearestNeighbors": nearest,
         "distributions": distributions,
         "reworkFailureCodeCoverage": by_failure_code,
+        "metricCache": {
+            "hits": cache_hits,
+            "misses": cache_misses,
+            "entryCount": len(metrics_by_hash),
+        },
     }
 
 
@@ -567,6 +609,16 @@ def self_test() -> None:
         depth_row = report["warningCandidates"]["sourceEntropyBits"]
         assert "WEAK_DEPTH" in depth_row["targetFailureCodes"]
         assert depth_row["samples"]["REWORK"] == 1
+
+        cache = {"schemaVersion": 1, "metricsByGitBlobSha": {}}
+        first = build_calibration(root, {"current": current}, metric_cache=cache)
+        assert first["metricCache"]["misses"] == 4
+        for path in asset_dir.iterdir():
+            path.unlink()
+        second = build_calibration(root, {"current": current}, metric_cache=cache)
+        assert len(second["measured"]) == 4
+        assert second["metricCache"]["hits"] == 4
+        assert second["metricCache"]["misses"] == 0
         print("SELF_TEST=PASS")
 
 
@@ -575,6 +627,8 @@ def main() -> None:
     ap.add_argument("--repo-root", default=".")
     ap.add_argument("--corpus")
     ap.add_argument("--output")
+    ap.add_argument("--metric-cache")
+    ap.add_argument("--write-metric-cache")
     ap.add_argument("--self-test", action="store_true")
     args = ap.parse_args()
     if args.self_test:
@@ -584,7 +638,17 @@ def main() -> None:
         raise SystemExit("--corpus is required unless --self-test is used")
     root = Path(args.repo_root).resolve()
     corpus = json.loads(Path(args.corpus).read_text())
-    report = build_calibration(root, corpus)
+    metric_cache = {}
+    if args.metric_cache and Path(args.metric_cache).is_file():
+        try:
+            metric_cache = json.loads(Path(args.metric_cache).read_text())
+        except Exception:
+            metric_cache = {}
+    report = build_calibration(root, corpus, metric_cache=metric_cache)
+    if args.write_metric_cache:
+        cache_path = Path(args.write_metric_cache)
+        cache_path.parent.mkdir(parents=True, exist_ok=True)
+        cache_path.write_text(json.dumps(metric_cache, indent=2) + "\n")
     text = json.dumps(report, indent=2) + "\n"
     if args.output:
         dest = Path(args.output)
