@@ -3,7 +3,7 @@
   "batchId": "chat-tops-recovery-7-10-20260921",
   "status": "STAGED_READY_FOR_INDEPENDENT_REVIEW_01",
   "sourceHead": "41d13c0e4ea1a1ab8f0c83b59747e612f77b0778",
-  "workflowRunId": "35671172749",
+  "workflowRunId": 35671172749,
   "producer": "09",
   "transportHelper": "CHAT",
   "independentReviewer": "01",
@@ -170,7 +170,11 @@
     "metadata": "PASS_4_OF_4",
     "exactByteReadback": "PASS_8_OF_8",
     "candidateDecode": "PASS_4_OF_4",
-    "independentVisualReview": "PENDING_01"
+    "independentVisualReview": "PENDING_01",
+    "tests": "PASS",
+    "build": "PASS",
+    "sharedRenderOverall": "FAIL",
+    "topsCardDetailRender": "PASS_4_OF_4"
   },
   "freeze": {
     "replitTouched": false,
@@ -179,5 +183,23 @@
     "canonicalMappingsTouched": false,
     "gameplayChanged": false,
     "playerDataTouched": false
-  }
+  },
+  "testedSourceHead": "26d5ef5a3d6e38f33feab9c4170e562987d5efc5",
+  "renderEvidence": {
+    "artifactName": "tops-7-10-recovery-evidence",
+    "reportPath": "artifacts/catalog-staged-art/report.json",
+    "matchedIds": [
+      "tops-10",
+      "tops-7",
+      "tops-8",
+      "tops-9"
+    ],
+    "matchedHashes": {
+      "tops-10": "5449283ed30dbfade70290cc976f85bace94fa0a",
+      "tops-7": "1c85689d80f3457bb30b2508386d3e1ea387c029",
+      "tops-8": "58aadd95fb9bdd3bb461a9fec9d458d9bf5df79e",
+      "tops-9": "9011648da2461f63a4ac9e203833cf70eb1d6fe0"
+    }
+  },
+  "independentVisualReview": "PENDING_WORKSTREAM_01_NOT_SELF_APPROVED"
 }
