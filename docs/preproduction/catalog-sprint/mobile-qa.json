@@ -1,93 +1,117 @@
 {
-  "schemaVersion": 6,
+  "schemaVersion": 7,
   "workstream": "10",
   "phase": "ART_VISUALS_SPRINT",
-  "status": "PARTIAL_CANONICAL_V24_RESPONSIVE_EXECUTION_IN_PROGRESS",
+  "status": "BLOCKED_CURRENT_CANONICAL_RESPONSIVE_STORE_ENTRY_AFTER_TWO_UNCHANGED_CYCLES",
   "catalogGateApproved": false,
   "branch": "screenshot-match-preproduction",
-  "auditedBranchHeadBeforeReport": "557068a467d3ff45f8d360bfaa8544e5ab5b04fe",
+  "auditedBranchHeadBeforeReport": "dd1603a937f9aad31874cdacd52b340412743e7c",
+  "reportedAt": "2026-09-22T05:52:56Z",
   "contracts": {
     "artVisualsSprint": "docs/preproduction/ART_VISUALS_SPRINT.json",
     "commandCenter": "docs/preproduction/COMMAND_CENTER.md",
     "deliveryProtocol": "docs/preproduction/DELIVERY_PROTOCOL_V2.md"
   },
   "changeAwareDecision": {
-    "reason": "Canonical catalog advanced to manifest v24 with Seating 1/11/12 exact-hash ACCEPTs. Prior browser proof is reusable only for unchanged hashes and responsive safeguards; it is not generalized to the v24 Seating hashes. Workstream 10 did not start a schedule-only duplicate full matrix.",
-    "canonicalChangedCollections": ["seating"],
+    "reason": "Canonical catalog advanced beyond the last responsive-browser-proven baseline. Workstream 10 reused unchanged proof only for unchanged hashes and did not rerun the full 16-collection matrix. The two newest canonical batches each hit the same shared real-pointer Store-entry timeout before any changed or stable-control cards rendered.",
+    "canonicalChangedCollections": ["shoes", "auras"],
     "stableControl": "tops",
     "requiredViewports": ["1408x1056", "1024x768", "390x844", "320x568"],
     "requiredMotionModes": ["normal", "reduced"],
-    "scopeRule": "Changed collections plus stable control; the harness may expand to a coherent catch-up matrix only when the delta from the last browser-proven canonical baseline crosses its threshold.",
-    "freshCanonicalStoreExecution": "IN_PROGRESS_NOT_CLAIMED_AS_PASS_OR_FAIL",
-    "activeRun": {
-      "workflow": "StarBlox Catalog Changed-Batch Mobile QA",
-      "workflowRunId": 35687790334,
-      "jobId": 106618237485,
-      "triggerHead": "5c7af5f68b5fc229c250702f6d26b6fa4dacebbb",
-      "observedStatus": "IN_PROGRESS",
-      "observedStep": "Run changed collections plus stable control in normal and reduced motion",
-      "completedPrerequisites": ["scope", "dependencies", "Playwright install", "production build", "local production preview"],
-      "evidenceRule": "No responsive PASS/FAIL is recorded until the browser step finishes and the bound artifact exists."
-    }
+    "freshCanonicalStoreExecution": "BLOCKED_BEFORE_STORE_CONTENT",
+    "fullMatrixRerun": "NOT_RUN_INTENTIONALLY_HASH_UNCHANGED_FOR_PRIOR_COVERAGE"
   },
   "canonicalIntegration": {
-    "manifestVersion": 24,
-    "manifestBlobSha": "1da7f25e408e24b5130b4bb07af3a507ae8a46ff",
-    "runtimeBlobSha": "bdb28c0c5f445adf99879f62425ef896e22249ac",
-    "manifestEntries": 162,
-    "strictAcceptedCanonical": 84,
-    "changedIds": ["seating-1", "seating-11", "seating-12"],
+    "manifestVersion": 27,
+    "manifestBlobSha": "27c77919cfbc5cf52570bf91871338b59cded055",
+    "runtimeBlobSha": "a3b5b2b98a8507f5226191959a3cd91ef6729bdb",
+    "manifestEntries": 163,
+    "runtimeMappings": 163,
+    "strictAcceptedCanonical": 90,
+    "strictAcceptedRemaining": 102,
+    "catalogReleaseClearedIds": 0,
+    "changedIds": ["shoes-7", "shoes-8", "shoes-9", "shoes-10", "auras-11"],
     "changedAssets": [
-      {"id":"seating-1","name":"Floor Cushion","path":"/assets/catalog/seating-1-w01-v2.svg","blobSha":"50d5e16c2bd2647be4701e0c10b3ff9d786f41e1","format":"SVG","reviewer":"02","decision":"ACCEPT"},
-      {"id":"seating-11","name":"Moon Chair","path":"/assets/catalog/seating-11-w06-v2.png","blobSha":"5126e9abcec4a09ef281dccb33aac6ba59b38b94","dimensions":"768x768","format":"PNG","reviewer":"02","decision":"ACCEPT"},
-      {"id":"seating-12","name":"Throne Chair","path":"/assets/catalog/seating-12-w06-v2.png","blobSha":"793b32f60ed10fffa80b549e75b66858ac0d7e4f","dimensions":"768x768","format":"PNG","reviewer":"02","decision":"ACCEPT"}
+      {"id":"shoes-7","name":"Chunky Sneakers","collection":"shoes","path":"/assets/catalog/shoes-7-w06-v3.png","blobSha":"cb8f02aaa4844d1a19a013edc3d0d1a15c0620a2","sha256":"e6bd15334f64537dbb6d7f73331a67a5bd4416c96589c1003286f5586321526d","reviewer":"02","decision":"ACCEPT"},
+      {"id":"shoes-8","name":"Trainers","collection":"shoes","path":"/assets/catalog/shoes-8-w06-v3.png","blobSha":"1aa21e1156f7645fc218402c337d2eebe95d81f8","sha256":"7cc864e736057c024f010c044755e5001c5c4418173f83ce6309fee94ba47cd3","reviewer":"02","decision":"ACCEPT"},
+      {"id":"shoes-9","name":"Paint Kicks","collection":"shoes","path":"/assets/catalog/shoes-9-w06-v3.png","blobSha":"ff5e914eb935194a1541cebf5421264e5da2d543","sha256":"6db39a0e3820ddae6ce493880693e1998ff270a38f17b66253056b61d0c4190f","reviewer":"02","decision":"ACCEPT"},
+      {"id":"shoes-10","name":"Light Shoes","collection":"shoes","path":"/assets/catalog/shoes-10-w06-v3.png","blobSha":"489e37f25644d13a4ca9518f4047ebfb35747a47","sha256":"72b01fba8c88704de5ad98020bf163fd42229c237b92be5decb9892e0ccbdfad","reviewer":"02","decision":"ACCEPT"},
+      {"id":"auras-11","name":"Dream Aurora","collection":"auras","path":"/assets/catalog/auras-11-w11-v3.jpg","blobSha":"7f3372c1584e07f18a3abfc7818013190fff1560","sha256":"0a06996522c9cb999e82b8ba028e94bfe2cb8d16e043c94999065e0ae8ce1dc2","dimensions":"600x600","reviewer":"05","decision":"ACCEPT"}
     ],
     "integrationValidation": {
-      "exactStoreMetadata": "PASS_3_OF_3",
-      "storedPathAndBlobReadback": "PASS_3_OF_3",
-      "safeDecodeOrRender": "PASS_3_OF_3",
-      "catalogManifestAssertions": "PASS_4_OF_4",
-      "storeRuntimeTests": "PASS_3_OF_3",
-      "productionBuild": "PASS_EXACT_CANONICAL_HEAD",
-      "ownershipPricesUnlocksChanged": false
-    },
-    "priorResponsiveFailure": {
-      "workflowRunId": 35685092749,
-      "artifactId": 10677200113,
-      "status": "FAIL_SHARED_STORE_NAV_BEFORE_ITEM_CONTENT",
-      "finding": "All attempted Store-entry pointer controls timed out before catalog content was reached. This is a shared navigation interaction blocker, not evidence that the Seating images themselves failed loading or rendering.",
-      "structuredLabel": "STORE_ENTRY_POINTER_TIMEOUT_BEFORE_CATALOG_CONTENT"
+      "storedPathBlobReadback": "PASS_5_OF_5_BY_08",
+      "exactStoreMetadata": "PASS_5_OF_5_BY_08",
+      "safeDecodeRenderEvidence": "PASS_5_OF_5_BY_08",
+      "runtimeManifestAgreement": "PASS_163_OF_163_BY_08",
+      "stableIdsPricesUnlocksOwnership": "UNCHANGED_BY_SCOPE"
     }
   },
-  "stagedAcceptedNotCanonical": {
-    "collection": "shoes",
-    "reviewOwner": "02",
-    "producer": "06",
-    "workflowRunId": 35687207417,
-    "artifactId": 10676873799,
-    "cardScale": "210px high shared staged fixture, object-fit contain",
-    "scopeStatus": "EXACT_HASH_CARD_DETAIL_PIXELS_ACCEPTED_BY_REVIEWER_02_NOT_YET_CANONICAL_STORE_PROOF",
-    "items": [
-      {"id":"shoes-7","name":"Chunky Sneakers","assetHash":"cb8f02aaa4844d1a19a013edc3d0d1a15c0620a2","decision":"ACCEPT_BY_02","smallCardReadability":"PASS","mobileResponsiveStore":"NOT_APPLICABLE_UNTIL_08_CANONICAL_INTEGRATION"},
-      {"id":"shoes-8","name":"Trainers","assetHash":"1aa21e1156f7645fc218402c337d2eebe95d81f8","decision":"ACCEPT_BY_02","smallCardReadability":"PASS","mobileResponsiveStore":"NOT_APPLICABLE_UNTIL_08_CANONICAL_INTEGRATION"},
-      {"id":"shoes-9","name":"Paint Kicks","assetHash":"ff5e914eb935194a1541cebf5421264e5da2d543","decision":"ACCEPT_BY_02","smallCardReadability":"PASS","mobileResponsiveStore":"NOT_APPLICABLE_UNTIL_08_CANONICAL_INTEGRATION"},
-      {"id":"shoes-10","name":"Light Shoes","assetHash":"489e37f25644d13a4ca9518f4047ebfb35747a47","decision":"ACCEPT_BY_02","smallCardReadability":"PASS","mobileResponsiveStore":"NOT_APPLICABLE_UNTIL_08_CANONICAL_INTEGRATION"}
+  "canonicalResponsiveStore": {
+    "status": "BLOCKED",
+    "structuredLabel": "CANONICAL_STORE_ENTRY_POINTER_TIMEOUT_BEFORE_CARD_RENDER",
+    "legacyAlias": "STORE_ENTRY_POINTER_TIMEOUT_BEFORE_CATALOG_CONTENT",
+    "unchangedCycles": 2,
+    "observedRuns": [
+      {
+        "workflowRunId": 35689825441,
+        "artifactId": 10677978587,
+        "sourceHead": "04eb1f4c4a6f9efcd0e6bea9d33e7580740dcfd4",
+        "batch": "shoes-7..10",
+        "productionBuild": "PASS",
+        "responsiveResult": "BLOCKED_6_OF_6_BEFORE_STORE_CONTENT"
+      },
+      {
+        "workflowRunId": 35690236073,
+        "artifactId": 10678253907,
+        "sourceHead": "ad8867efc70d1b123cbc5e2f157766bec58e510d",
+        "batch": "auras-11",
+        "productionBuild": "PASS",
+        "responsiveResult": "BLOCKED_6_OF_6_BEFORE_STORE_CONTENT"
+      }
     ],
-    "workstream10Disposition": "NO_SELF_APPROVAL_AND_NO_CANONICAL_MAPPING_CHANGE"
-  },
-  "stagedBlockedSignals": {
-    "collection": "tops",
-    "reviewOwner": "01",
-    "producer": "09",
-    "workflowRunId": 35687207417,
-    "rerunArtifactId": 10677595359,
-    "status": "BLOCKED_BY_REVIEWER_01_PIXEL_EVIDENCE_UNAVAILABLE",
-    "items": [
-      {"id":"tops-11","name":"Cloud Jacket","assetHash":"061a749472ad71e61732ac3a9629c42d54b4e580","decision":"BLOCKED_BY_01","structuredLabel":"SHARED_SIGNATURE_GATE_FAIL_NO_QUALIFIED_CARD_DETAIL_PIXELS","mobileResponsiveStore":"NOT_TESTED_NOT_CANONICAL"},
-      {"id":"tops-12","name":"Star Coat","assetHash":"e9d462cb222c2ff20e220e237cb3890e1e6eb76c","decision":"BLOCKED_BY_01","structuredLabel":"SHARED_SIGNATURE_GATE_FAIL_NO_QUALIFIED_CARD_DETAIL_PIXELS","mobileResponsiveStore":"NOT_TESTED_NOT_CANONICAL"}
+    "observedBehavior": "At 1408x1056, 1024x768, 390x844 and 320x568 reduced-motion cases, plus the 1024 and 390 normal-motion controls, the Store nav button was located and reported visible/enabled/stable, scrolled into view, then Playwright pointer click timed out before Store content rendered.",
+    "notClaimed": [
+      "changed-card silhouette/crop/contain in actual canonical Store",
+      "actual Store detail-panel composition for changed hashes",
+      "changed-collection 390px or 320px two-column rendering",
+      "changed-collection image loading/alternatives/intrinsic dimensions in Store",
+      "changed-collection full-scroll reachability/layout stability/scroll cost",
+      "normal-motion or reduced-motion art behavior for changed hashes",
+      "stable-control comparison"
     ],
-    "note": "Both v6 hashes were blocked on evidence, not visually rejected. The shared signature gate failed and two render attempts produced no qualified card/detail pixels. Workstream 10 does not transfer the old v5 visual findings to these new hashes."
+    "policy": "No forced DOM click, skipped assertion or keyboard continuation is allowed to convert this pointer failure into responsive PASS."
   },
+  "workstream10PixelDiagnostic": {
+    "status": "PASS_DIAGNOSTIC_ONLY_NOT_REAL_STORE_RESPONSIVE_PROOF",
+    "sourceArtifact": {
+      "workflowRunId": 35687207417,
+      "artifactId": 10676873799,
+      "cardContactSheetSha256": "b869165362828b7ebfab2f601a227276fd2d375843bc6c03b05fe67dec14fad2"
+    },
+    "method": "Workstream 10 directly inspected the exact-hash staged card/detail pixels for Shoes 7-10 and Dream Aurora, including diagnostic reductions to 140px and 110px square. These reductions are only small-card legibility diagnostics and are not substitutes for actual 390/320 Store screenshots.",
+    "items": [
+      {"id":"shoes-7","hash":"cb8f02aaa4844d1a19a013edc3d0d1a15c0620a2","silhouetteAt110_140":"PASS","premiumDetailAt110_140":"PASS_CHUNKY_SOLE_AND_CLOUD_MOTIF_REMAIN_READABLE","cropOrEdgeIssueObserved":false},
+      {"id":"shoes-8","hash":"1aa21e1156f7645fc218402c337d2eebe95d81f8","silhouetteAt110_140":"PASS","premiumDetailAt110_140":"PASS_PANELING_PIXEL_MARK_AND_COLOR_SPLIT_REMAIN_READABLE","cropOrEdgeIssueObserved":false},
+      {"id":"shoes-9","hash":"ff5e914eb935194a1541cebf5421264e5da2d543","silhouetteAt110_140":"PASS","premiumDetailAt110_140":"PASS_PAINT_SPLASH_IDENTITY_REMAINS_READABLE","cropOrEdgeIssueObserved":false},
+      {"id":"shoes-10","hash":"489e37f25644d13a4ca9518f4047ebfb35747a47","silhouetteAt110_140":"PASS","premiumDetailAt110_140":"PASS_EMISSIVE_PANELS_AND_GARDEN_LEAF_DETAIL_REMAIN_READABLE","cropOrEdgeIssueObserved":false},
+      {"id":"auras-11","hash":"7f3372c1584e07f18a3abfc7818013190fff1560","silhouetteAt110_140":"PASS","premiumDetailAt110_140":"PASS_AURORA_CURTAINS_RING_AND_STAR_CRYSTAL_ACCENTS_REMAIN_READABLE","cropOrEdgeIssueObserved":false}
+    ],
+    "newArtFailureLabels": []
+  },
+  "stagedEvidenceBlockers": [
+    {
+      "items": ["tops-11", "tops-12"],
+      "structuredLabel": "SHARED_SIGNATURE_GATE_FAIL_NO_QUALIFIED_CARD_DETAIL_PIXELS",
+      "status": "BLOCKED_NOT_VISUALLY_REJECTED",
+      "note": "Current v6 hashes still have no qualified exact-hash card/detail pixels; prior v5 visual findings do not transfer."
+    },
+    {
+      "items": ["headwear-5", "headwear-6", "headwear-7", "headwear-8"],
+      "structuredLabel": "EXTERNAL_ONLY_NO_REPOSITORY_HASH_NO_QUALIFIED_CARD_STORE_PROOF",
+      "status": "BLOCKED_ON_EXACT_BYTE_TRANSFER",
+      "note": "Producer 12 preserved external 600x600 PNG derivatives, but repository paths/hashes are absent, so Workstream 10 cannot treat external previews as current staged or canonical proof."
+    }
+  ],
   "reusedHistoricalBrowserProof": {
     "status": "REUSED_ONLY_FOR_UNCHANGED_HASHES_AND_RESPONSIVE_GUARDS",
     "sourceHead": "8a2c53aa2133baef23e263d8dda8b2a180dffe19",
@@ -96,35 +120,25 @@
     "artifactId": 10667595844,
     "artifactDigest": "sha256:7a5d1cb254d00086f95889dc316087116dfb7d245cda02755c42705efabc1607",
     "coverage": "16 collections at 1408x1056, 1024x768, 390x844 and 320x568 in headless Chromium, including two-column phone layout, keyboard/focus, no horizontal page overflow, full-scroll reachability, reduced motion, normal-motion controls and scroll/layout probes.",
-    "warning": "Not proof for manifest-v24 newly integrated Seating hashes."
+    "warning": "Not proof for any catalog hash integrated after this evidence head."
   },
-  "currentChecks": {
-    "manifestV24ActualStore1408": "IN_PROGRESS_NOT_YET_CLAIMED",
-    "manifestV24ActualStore1024": "IN_PROGRESS_NOT_YET_CLAIMED",
-    "manifestV24ActualStore390": "IN_PROGRESS_NOT_YET_CLAIMED",
-    "manifestV24ActualStore320": "IN_PROGRESS_NOT_YET_CLAIMED",
-    "manifestV24TwoColumnPhoneGrid": "IN_PROGRESS_NOT_YET_CLAIMED",
-    "manifestV24CanonicalCropContain": "IN_PROGRESS_NOT_YET_CLAIMED",
-    "manifestV24CanonicalDetailPanelComposition": "IN_PROGRESS_NOT_YET_CLAIMED",
-    "manifestV24CanonicalScrollAndLayoutStability": "IN_PROGRESS_NOT_YET_CLAIMED",
-    "manifestV24CanonicalNormalMotion": "IN_PROGRESS_NOT_YET_CLAIMED",
-    "manifestV24CanonicalReducedMotion": "IN_PROGRESS_NOT_YET_CLAIMED",
-    "measuredRenderedContrast": "NOT_TESTED_CURRENT_HASHES",
+  "evidenceBoundary": {
+    "headlessChromium": "AVAILABLE_FOR_PRIOR_HASHES_AND_CURRENT_BLOCKER_ONLY",
     "physicalDevice": "NOT_TESTED",
-    "screenReader": "NOT_TESTED"
-  },
-  "referenceScreenshots": {
-    "status": "PRESENT_AND_AUTHORITATIVE",
-    "directory": "docs/preproduction/reference-screenshots/originals",
-    "screens": ["home-1448x1086.jpeg", "store-1448x1086.jpeg", "quest-1448x1086.jpeg"],
-    "storeSha256": "b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d",
-    "note": "Desktop originals remain the visual reference. Tablet/phone are responsive usability targets only."
+    "screenReader": "NOT_TESTED",
+    "actualCurrentCanonicalStoreCards": "NOT_REACHED_FOR_V26_V27_CHANGED_HASHES",
+    "desktopReference": "docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg",
+    "desktopReferenceSha256": "b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d"
   },
   "handoff": {
-    "workstream15": "Shared Store pointer entry remains the known release-blocking interaction path until the active Workstream-10 run proves otherwise. If it persists, coordinate the shared-entrypoint repair; Workstream 10 will not mask it with forced DOM clicks.",
-    "workstream08": "Only Workstream 08 may canonical-wire Shoes 7-10, and only at reviewer-02 accepted exact hashes. Workstream 10 responsive Store proof starts after canonical integration.",
-    "reviewer01Producer09": "Tops 11-12 v6 remain evidence-BLOCKED at their exact hashes. Repair/export new signature-valid bytes and obtain fresh qualified pixels; do not transfer v5 judgments.",
-    "workstream14": "Keep staged fixture pixels separate from actual canonical responsive Store evidence. Reuse exact-hash staged artifacts where appropriate, but do not call responsive PASS from them."
+    "workstream15": {
+      "status": "REQUIRED_AFTER_TWO_UNCHANGED_CYCLES",
+      "structuredLabel": "CANONICAL_STORE_ENTRY_POINTER_TIMEOUT_BEFORE_CARD_RENDER",
+      "request": "Coordinate the shared Store entry/fixture repair. Preserve the real pointer assertion; do not mask the failure with forced DOM clicks or static-image substitution. Once repaired, rerun only changed Shoes/Aura plus a stable control at 1408/1024/390/320 in normal/reduced modes."
+    },
+    "workstream14": "Keep staged card/detail evidence distinct from actual canonical responsive Store evidence. Current exact-hash staged pixels are useful art-direction evidence but not a 390/320 Store PASS.",
+    "workstream08": "No Workstream-10 canonical mapping edits. Manifest v27 exact accepted mappings remain owned by Workstream 08.",
+    "reviewOwners": "No self-approval. Preserve reviewer-02 Shoes and reviewer-05 Aura 11 decisions; Tops 11-12 and Headwear 5-8 evidence blockers remain with their assigned producers/reviewers/coordinator."
   },
   "freeze": {
     "sharedUiChanged": false,
@@ -135,6 +149,7 @@
     "replitTouched": false,
     "flootTouched": false,
     "mainMergedOrModified": false,
-    "deploymentTouched": false
+    "deploymentTouched": false,
+    "paidSettingsOrPurchasesTouched": false
   }
 }
