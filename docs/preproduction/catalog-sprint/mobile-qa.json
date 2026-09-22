@@ -1,40 +1,76 @@
 {
-  "schemaVersion": 8,
+  "schemaVersion": 9,
   "workstream": "10",
   "phase": "ART_VISUALS_SPRINT",
-  "status": "BLOCKED_CURRENT_CANONICAL_RESPONSIVE_STORE_ENTRY_AFTER_TWO_UNCHANGED_CYCLES",
+  "status": "BLOCKED_CURRENT_CANONICAL_RESPONSIVE_STORE_ENTRY_REPRODUCED_ON_RUGS12_V28",
   "catalogGateApproved": false,
   "branch": "screenshot-match-preproduction",
-  "auditedBranchHeadBeforeReport": "5227122d9dc4ddd36b467b1fbe9d0384edaa3be9",
-  "reportedAt": "2026-09-22T06:56:55Z",
+  "auditedBranchHeadBeforeReport": "7be62a229f68f99713f821e63c30d8e1bdeba3f3",
+  "reportedAt": "2026-09-22T08:59:30Z",
   "contracts": {
     "artVisualsSprint": "docs/preproduction/ART_VISUALS_SPRINT.json",
     "commandCenter": "docs/preproduction/COMMAND_CENTER.md",
     "deliveryProtocol": "docs/preproduction/DELIVERY_PROTOCOL_V2.md"
   },
   "changeAwareDecision": {
-    "canonicalManifestVersion": 27,
-    "canonicalManifestChangedSincePriorWorkstream10Evidence": false,
+    "canonicalManifestVersion": 28,
+    "canonicalManifestChangedSincePriorWorkstream10Evidence": true,
     "sharedStoreEntryChangedSinceSecondBlocker": false,
-    "decision": "DO_NOT_RERUN_IDENTICAL_BLOCKED_CANONICAL_STORE_MATRIX",
-    "reason": "The canonical catalog remains manifest v27 and the shared Store entry path has not changed since the second identical real-pointer blocker. DELIVERY_PROTOCOL_V2 therefore reuses the exact blocker evidence instead of spending another run on the same unreachable Store. This cycle closes a genuinely new staged-art small-card case: independently accepted rugs-12 v3, compared against accepted rugs-11 as a stable visual control.",
-    "requiredResponsiveWidthsWhenExecutable": ["1408x1056", "1024x768", "390x844", "320x568"],
-    "requiredMotionModesWhenExecutable": ["normal", "reduced"]
+    "decision": "USE_FRESH_V28_CHANGED_BATCH_RUN_AND_DO_NOT_RERUN_AN_IDENTICAL_MATRIX",
+    "reason": "Workstream 08 canonically wired independently accepted rugs-12 v3, so the existing changed-batch workflow legitimately exercised the real Store again. The run reproduced the same real-pointer Store-entry timeout before any catalog card rendered at all four responsive widths. The exact rugs-12 staged small-card proof is reused because its bytes are unchanged. No additional identical browser rerun is justified until Workstream 15 changes the shared Store-entry path.",
+    "requiredResponsiveWidths": ["1408x1056", "1024x768", "390x844", "320x568"],
+    "requiredMotionModes": ["normal", "reduced"]
   },
   "canonicalIntegration": {
-    "manifestVersion": 27,
-    "manifestBlobSha": "27c77919cfbc5cf52570bf91871338b59cded055",
-    "runtimeBlobSha": "a3b5b2b98a8507f5226191959a3cd91ef6729bdb",
-    "manifestEntries": 163,
-    "runtimeMappings": 163,
-    "latestResponsiveUnprovenCanonicalChangedIds": ["shoes-7", "shoes-8", "shoes-9", "shoes-10", "auras-11"],
+    "manifestVersion": 28,
+    "manifestBlobSha": "7933d7e0b1a7fd94a804b135ced83ae4e045c8f4",
+    "manifestFinalCount": 157,
+    "manifestTarget": 192,
+    "manifestRemaining": 35,
+    "runtimeBlobSha": "b44d1bad174f36167ff2909d37463f256c5cc50c",
+    "runtimeMappings": 164,
+    "changedIds": ["rugs-12"],
+    "changedAsset": {
+      "id": "rugs-12",
+      "name": "Luxe Star Rug",
+      "assetPath": "/assets/catalog/rugs-12-w07-v3.png",
+      "gitBlobSha": "eea2fc5b78c1186342f91f597bc792160ab8f8fe",
+      "sha256": "21a2f71224d9a7d4e0e60a672867cc629f21a481c3310fee6b1cac1c1be071b3",
+      "independentReviewer": "14",
+      "independentDecision": "ACCEPT"
+    },
     "workstream10CanonicalMappingEdits": false
   },
+  "currentHeadBinding": {
+    "canonicalIntegrationHead": "6666f15536ac8d5cacedcd0a282ad24364abf146",
+    "auditedBranchHead": "7be62a229f68f99713f821e63c30d8e1bdeba3f3",
+    "runtimeOrManifestChangesAfterIntegrationHead": false,
+    "note": "The five commits after the rugs-12 integration changed lane/review documentation and a Home visual board only; catalog-art-manifest.json, src/catalogArtRuntime.js and the Store entry path did not change. The v28 run is therefore hash-valid for the current catalog runtime state."
+  },
   "canonicalResponsiveStore": {
-    "status": "BLOCKED_REUSED_EXACT_PRIOR_EVIDENCE",
+    "status": "BLOCKED_CURRENT_V28_REAL_POINTER_ENTRY",
     "structuredLabel": "CANONICAL_STORE_ENTRY_POINTER_TIMEOUT_BEFORE_CARD_RENDER",
-    "unchangedCycles": 2,
-    "observedRuns": [
+    "priorUnchangedCycles": 2,
+    "totalCanonicalBatchReproductions": 3,
+    "freshRun": {
+      "workflow": "StarBlox Catalog Mobile QA",
+      "workflowRunId": 35707148100,
+      "jobId": 106678715888,
+      "sourceHead": "6666f15536ac8d5cacedcd0a282ad24364abf146",
+      "batch": "rugs-12 v3 canonical integration / manifest v28",
+      "environment": "GitHub Actions ubuntu-24.04; Node 22.23.2; Playwright 1.55; Chromium 140.0.7339.16 headless",
+      "productionBuild": "PASS",
+      "reducedMotionWidths": ["1408x1056", "1024x768", "390x844", "320x568"],
+      "normalMotionControls": ["1024x768 Tops", "390x844 Tops"],
+      "responsiveResult": "FAIL_6_OF_6_BEFORE_STORE_CONTENT",
+      "releaseBlockingCount": 6,
+      "artifactId": 10684444909,
+      "artifactName": "catalog-mobile-qa",
+      "artifactDigest": "sha256:2350c5784c2944f6c5c421fa4582b2196d95a041d20b631c29c3c33b78b008c6",
+      "screenshotsProduced": false,
+      "failure": "The Store button resolved and was visible, enabled and stable; Playwright scrolled it into view and began the real pointer click, then locator.click timed out after 30000ms before Store content rendered."
+    },
+    "priorRuns": [
       {
         "workflowRunId": 35689825441,
         "artifactId": 10677978587,
@@ -52,37 +88,27 @@
         "responsiveResult": "BLOCKED_6_OF_6_BEFORE_STORE_CONTENT"
       }
     ],
-    "observedBehavior": "At 1408x1056, 1024x768, 390x844 and 320x568 reduced-motion probes, plus 1024 and 390 normal-motion controls, the Store nav control was visible/enabled/stable but the real pointer click timed out before Store content rendered.",
     "policy": "Do not use forced DOM clicks, skipped assertions, keyboard substitution or static-image overlays to claim a responsive Store PASS.",
     "handoffOwner": "15"
   },
-  "newStagedSmallCardDiagnostic": {
+  "reusedExactHashSmallCardDiagnostic": {
     "status": "PASS_DIAGNOSTIC_ONLY_NOT_CANONICAL_RESPONSIVE_STORE_PROOF",
-    "scope": ["rugs-11 stable control", "rugs-12 newly independently accepted staged candidate"],
+    "reasonForReuse": "rugs-11 and rugs-12 exact asset hashes are unchanged from the prior staged fixture inspection, so DELIVERY_PROTOCOL_V2 reuses that pixel proof instead of rerendering identical staged cards.",
     "sourceArtifact": {
       "workflow": "StarBlox Staged Catalog Art QA",
       "workflowRunId": 35690027258,
       "runHead": "7515a016c43870f906ae173c1d440bc102bc7b73",
-      "runConclusion": "failure",
-      "scopedQualification": "The enclosing workflow failed elsewhere, while the exact rugs-12 selected binding, signature/safety, decode, card image, detail screenshot and scoped report entries are present and clean.",
       "artifactId": 10677768162,
       "artifactName": "catalog-staged-art-review",
       "artifactDigest": "sha256:fd733e0ab24793a71bc267c75cd0f95e5dd291d38ddb7dda048050e1550a5165",
-      "rugContactSheet": "rugs/rugs-contact-sheet.png",
       "rugContactSheetSha256": "8bb20a752ad3b1382dcf3aa418b8b1b5b7bf366c70bac53180859fb782bba639"
     },
-    "method": "Inspected exact-hash staged card/detail pixels and diagnostic reductions to 140px and 110px. These reductions test silhouette/premium-detail survival only and are not substitutes for the real 390/320 Store grid or detail panel.",
     "items": [
       {
         "id": "rugs-11",
-        "name": "Dream Cloud Rug",
         "role": "STABLE_ACCEPTED_CONTROL",
         "gitBlobSha": "2c93f18fb5960f7056819c341a3da8f7fff3fb9d",
-        "repositoryPath": "public/assets/catalog/rugs-11-w07-v3.png",
         "naturalDimensions": [1024, 1024],
-        "signatureSafetyDecode": "PASS",
-        "detailScreenshot": "rugs/detail/rugs-11-2c93f18f.png",
-        "detailScreenshotSha256": "f2eb8fd8150be3e6731efae29d9924161e1aa1ddb60ff253052dede224b3507c",
         "silhouetteAt210_140_110": "PASS",
         "contrastAtSmallCard": "PASS_PRIMARY_MOON_CLOUD_FORM_REMAINS_DISTINCT",
         "cropContain": "PASS_NO_CLIPPING_OBSERVED",
@@ -91,17 +117,9 @@
       },
       {
         "id": "rugs-12",
-        "name": "Luxe Star Rug",
-        "role": "NEWLY_ACCEPTED_STAGED_PENDING_08_CANONICAL_WIRING",
-        "reviewer": "14",
-        "independentDecision": "ACCEPT",
+        "role": "NOW_CANONICAL_IN_V28_EXACT_HASH_UNCHANGED_FROM_STAGED_ACCEPT",
         "gitBlobSha": "eea2fc5b78c1186342f91f597bc792160ab8f8fe",
-        "sha256": "21a2f71224d9a7d4e0e60a672867cc629f21a481c3310fee6b1cac1c1be071b3",
-        "repositoryPath": "public/assets/catalog/rugs-12-w07-v3.png",
         "naturalDimensions": [1024, 1024],
-        "signatureSafetyDecode": "PASS_PNG_RASTER_SELF_CONTAINED_HTTP_200",
-        "detailScreenshot": "rugs/detail/rugs-12-eea2fc5b.png",
-        "detailScreenshotSha256": "5a7a0f4b3ee1a9d11ce173ae32fd8f9755e9075e1a5b2746b2a3e75dfdf4b8d8",
         "silhouetteAt210_140_110": "PASS",
         "contrastAtSmallCard": "PASS_WARM_STAR_BODY_AND_DARK_OUTER_FORM_REMAIN_DISTINCT",
         "cropContain": "PASS_TASSELS_AND_STAR_POINTS_REMAIN_INSIDE_FRAME",
@@ -109,26 +127,40 @@
         "premiumDetailRetention": "PASS_STAR_SILHOUETTE_TASSEL_EXTENSIONS_CENTER_DETAIL_AND_TIER5_RICHNESS_SURVIVE_110PX"
       }
     ],
-    "newStructuredFailureLabels": [],
+    "newArtworkFailureLabels": [],
     "selfApprovalClaimed": false
   },
-  "responsiveEvidenceForRugs": {
-    "rugs11ActualStoreCurrentCycle": "NOT_RETESTED_INTENTIONALLY_SHARED_ENTRY_UNCHANGED",
-    "rugs12ActualStoreCurrentCycle": "NOT_TESTED_NOT_CANONICAL_YET",
-    "desktop1408": "NOT_TESTED_FOR_RUGS12_UNTIL_08_CANONICAL_WIRING_AND_15_STORE_ENTRY_REPAIR",
-    "tablet1024": "NOT_TESTED_FOR_RUGS12_UNTIL_08_CANONICAL_WIRING_AND_15_STORE_ENTRY_REPAIR",
-    "phone390": "NOT_TESTED_FOR_RUGS12_UNTIL_08_CANONICAL_WIRING_AND_15_STORE_ENTRY_REPAIR",
-    "phone320": "NOT_TESTED_FOR_RUGS12_UNTIL_08_CANONICAL_WIRING_AND_15_STORE_ENTRY_REPAIR",
-    "normalMotion": "NOT_TESTED_CURRENT_RUGS12_REAL_STORE",
-    "reducedMotion": "NOT_TESTED_CURRENT_RUGS12_REAL_STORE",
-    "reason": "Workstream 10 does not alter canonical mappings; rugs-12 is accepted staged evidence awaiting Workstream 08 integration, and the shared real-pointer Store entry blocker remains unresolved."
+  "responsiveEvidenceForRugs12": {
+    "desktop1408": "NOT_TESTED_BEYOND_STORE_ENTRY_FAILURE",
+    "tablet1024": "NOT_TESTED_BEYOND_STORE_ENTRY_FAILURE",
+    "phone390": "NOT_TESTED_BEYOND_STORE_ENTRY_FAILURE",
+    "phone320": "NOT_TESTED_BEYOND_STORE_ENTRY_FAILURE",
+    "normalMotion": "STORE_ENTRY_FAILED_AT_1024_AND_390_BEFORE_RUGS_RENDER",
+    "reducedMotion": "STORE_ENTRY_FAILED_AT_1408_1024_390_320_BEFORE_RUGS_RENDER",
+    "silhouetteRecognitionInActualStore": "NOT_TESTED",
+    "contrastInActualStore": "NOT_TESTED",
+    "cropContainInActualStore": "NOT_TESTED",
+    "transparentEdgesInActualStore": "NOT_TESTED",
+    "detailPanelComposition": "NOT_TESTED",
+    "scrollingAndLayoutStability": "NOT_TESTED",
+    "imageLoadingDecodeAndIntrinsicDimensions": "NOT_TESTED_IN_ACTUAL_STORE",
+    "premiumDetailAtActualResponsiveCardScale": "NOT_TESTED",
+    "reason": "The real pointer Store entry failed before any catalog card rendered."
+  },
+  "regressionGateContext": {
+    "sourceHead": "6666f15536ac8d5cacedcd0a282ad24364abf146",
+    "starBloxCiRunId": 35707148157,
+    "status": "FAIL_UNRELATED_TEST_DISCOVERY_GATE_NOT_WAIVED",
+    "testsPassed": 99,
+    "failedSuite": "scripts/artPromptOptimizer.test.mjs",
+    "failure": "Vitest reported 'No test suite found' for scripts/artPromptOptimizer.test.mjs; 22 test files and 99 tests passed, but the CI build step was skipped because the test command failed.",
+    "note": "Workstream 10 did not weaken, skip or repair this separate shared/art-learning test gate."
   },
   "stagedEvidenceBlockers": [
     {
       "items": ["tops-11", "tops-12"],
       "structuredLabel": "V7_EXACT_BYTES_UNAVAILABLE_NO_CURRENT_REPOSITORY_CARD_DETAIL_PIXELS",
-      "status": "BLOCKED_NOT_VISUALLY_REJECTED",
-      "note": "Current v7 generation receipts exist, but authoritative WEBP payload bytes are unavailable in the repository/runtime. v6 failed signature validation and prior v5 visual findings do not transfer."
+      "status": "BLOCKED_NOT_VISUALLY_REJECTED"
     },
     {
       "items": ["headwear-5", "headwear-6", "headwear-7", "headwear-8"],
@@ -142,10 +174,10 @@
     "workflowRunId": 35659760652,
     "artifactId": 10667595844,
     "coverage": "16 collections at 1408x1056, 1024x768, 390x844 and 320x568 in headless Chromium, including two-column phone layout, focus/keyboard, no horizontal overflow, full-scroll reachability, reduced motion, normal-motion controls and scroll/layout probes.",
-    "warning": "Not proof for any catalog hash integrated after this evidence head."
+    "warning": "Not proof for rugs-12 or any catalog hash integrated after this evidence head."
   },
   "evidenceBoundary": {
-    "headlessChromium": "AVAILABLE_FOR_PRIOR_HASHES_AND_CURRENT_BLOCKER_ONLY",
+    "headlessChromium": "AVAILABLE_FOR_CURRENT_STORE_ENTRY_FAILURE_AND_PRIOR_HASH_BOUND_PROOF",
     "stagedCardDetailPixels": "AVAILABLE_FOR_EXACT_RUGS_11_12_HASHES_ABOVE",
     "physicalDevice": "NOT_TESTED",
     "screenReader": "NOT_TESTED",
@@ -153,10 +185,10 @@
     "desktopReferenceSha256": "b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d"
   },
   "handoff": {
-    "workstream08": "rugs-12 exact hash eea2fc5b78c1186342f91f597bc792160ab8f8fe is independently accepted and small-card diagnostic-clean; Workstream 08 alone may wire it canonically. After wiring, Workstream 10 needs real Store responsive proof for Rugs plus a stable control.",
-    "workstream15": "The shared Store entry blocker remains CANONICAL_STORE_ENTRY_POINTER_TIMEOUT_BEFORE_CARD_RENDER after two unchanged cycles. No new identical rerun was performed. Repair/coordinate the real pointer path without weakening the assertion.",
-    "workstream14": "Keep the accepted staged rugs-12 card/detail evidence distinct from responsive canonical Store proof; Workstream 10 added no approval decision.",
-    "nextExecutableResponsiveScope": "After both prerequisites change, test Rugs changed collection plus stable control only at 1408/1024/390/320 in normal/reduced modes, including card/detail readability, crop/contain, image loading/dimensions, scrolling/layout stability, touch/focus/keyboard and overflow."
+    "workstream15": "The shared Store entry blocker CANONICAL_STORE_ENTRY_POINTER_TIMEOUT_BEFORE_CARD_RENDER has now reproduced on a third canonical batch, including manifest v28 with rugs-12. Repair/coordinate the real pointer path without forced DOM clicks, keyboard substitution or assertion weakening. After the entry path changes, Workstream 10 should rerun only Rugs plus one stable control at 1408/1024/390/320 in normal and reduced modes.",
+    "workstream14": "Reviewer-14 exact-hash ACCEPT for rugs-12 is preserved. Workstream 10 reused unchanged staged small-card proof and made no approval decision.",
+    "renderQaLearner": "No rugs-12 artwork defect label is emitted from this cycle because actual Store pixels never rendered and the unchanged exact-hash staged card/detail proof remains clean. Keep the shared-entry blocker separate from artwork quality learning.",
+    "nextExecutableResponsiveScope": "After Workstream 15 changes the shared real-pointer Store entry path, test Rugs changed collection plus a stable control only at 1408/1024/390/320 in normal/reduced modes, including silhouette, contrast, crop/contain, transparent edges, detail composition, loading/decode/dimensions, scrolling/layout stability, touch/focus/keyboard, fixed HUD/dock reachability and overflow."
   },
   "freeze": {
     "sharedUiChanged": false,
