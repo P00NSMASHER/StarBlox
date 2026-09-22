@@ -304,3 +304,35 @@
   .questScreenshotMatch *:before,
   .questScreenshotMatch *:after{scroll-behavior:auto!important;transition:none!important;animation:none!important}
 }
+
+
+/* Desktop geometry corrections from strict 1408x1056 reference QA. */
+@media(min-width:1280px){
+  .questScreenshotMatch>.questTop{
+    height:71px!important;
+    min-height:71px!important;
+    margin-bottom:73px!important;
+    padding:6px 12px!important;
+  }
+  .questScreenshotMatch .questPhaseStrip{
+    top:139px!important;
+  }
+  .questScreenshotMatch .questCharacterStage{
+    left:-4px!important;
+    bottom:68px!important;
+    width:368px!important;
+  }
+  .questScreenshotMatch .questionCard{
+    min-height:662px!important;
+  }
+  .questScreenshotMatch .questEvidenceRail{
+    width:216px!important;
+    bottom:128px!important;
+  }
+  .questScreenshotMatch .questEarnedBar{
+    left:454px!important;
+    bottom:20px!important;
+    width:385px!important;
+    min-height:97px!important;
+  }
+}
