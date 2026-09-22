@@ -1,0 +1,101 @@
+{
+  "schemaVersion": 1,
+  "batchId": "chat-headwear-5-8-w12-20260922",
+  "purpose": "Recover already-generated Headwear 5-8 art into exact repository bytes without new image generation.",
+  "transferMode": "EXISTING_FIREFLY_SOURCE_TO_RESIZE_ONLY_PNG_DERIVATIVE",
+  "newGenerations": 0,
+  "items": [
+    {
+      "id": "headwear-5",
+      "assetId": "urn:aaid:sc:US:77f50381-8f34-4611-924d-703009f479cc",
+      "producer": "12",
+      "independentReviewer": "01",
+      "renditionUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:0675d87f-1fa8-44b2-9dac-10e18426ed05",
+      "sourceUrl": "https://at.adobe.com/k4QYUs3lCHUGp2jk",
+      "candidateRepositoryPath": "public/assets/catalog/headwear-5-w12-v2.png",
+      "recoveryProvenance": {
+        "operation": "ADOBE_RESIZE_ONLY",
+        "requestId": "388ff04d-b5d8-45a0-8f85-94ec30b9c451",
+        "reportedSourceDimensions": [
+          600,
+          600
+        ],
+        "reportedOutputDimensions": [
+          600,
+          600
+        ],
+        "crop": null,
+        "newGeneration": false
+      }
+    },
+    {
+      "id": "headwear-6",
+      "assetId": "urn:aaid:sc:US:1163131b-1ea4-4759-9efe-98e5c88bf240",
+      "producer": "12",
+      "independentReviewer": "01",
+      "renditionUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:f4228571-8857-4107-94fd-f6341d04081a",
+      "sourceUrl": "https://at.adobe.com/Yy04gr0FyePxZAtM",
+      "candidateRepositoryPath": "public/assets/catalog/headwear-6-w12-v2.png",
+      "recoveryProvenance": {
+        "operation": "ADOBE_RESIZE_ONLY",
+        "requestId": "c038a4cd-836c-492a-b29b-297075dee214",
+        "reportedSourceDimensions": [
+          600,
+          600
+        ],
+        "reportedOutputDimensions": [
+          600,
+          600
+        ],
+        "crop": null,
+        "newGeneration": false
+      }
+    },
+    {
+      "id": "headwear-7",
+      "assetId": "urn:aaid:sc:US:834210c4-c55e-4a9e-b9d0-bc3bbdb0f483",
+      "producer": "12",
+      "independentReviewer": "01",
+      "renditionUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:bdafc522-9663-4680-a50e-37d98529d6b3",
+      "sourceUrl": "https://at.adobe.com/95zU0H74SjDAwFQl",
+      "candidateRepositoryPath": "public/assets/catalog/headwear-7-w12-v2.png",
+      "recoveryProvenance": {
+        "operation": "ADOBE_RESIZE_ONLY",
+        "requestId": "62ed98d7-d3d0-42fc-bd50-341bc09e1dea",
+        "reportedSourceDimensions": [
+          600,
+          600
+        ],
+        "reportedOutputDimensions": [
+          600,
+          600
+        ],
+        "crop": null,
+        "newGeneration": false
+      }
+    },
+    {
+      "id": "headwear-8",
+      "assetId": "urn:aaid:sc:US:176bd0de-812f-4d61-9ba5-d26e1ab12774",
+      "producer": "12",
+      "independentReviewer": "01",
+      "renditionUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:e8987458-056b-4378-bd92-4e637578712b",
+      "sourceUrl": "https://at.adobe.com/6NAlPAy0BzDcoPPK",
+      "candidateRepositoryPath": "public/assets/catalog/headwear-8-w12-v2.png",
+      "recoveryProvenance": {
+        "operation": "ADOBE_RESIZE_ONLY",
+        "requestId": "d0820a89-8258-4c52-877d-48cc4d992be6",
+        "reportedSourceDimensions": [
+          600,
+          600
+        ],
+        "reportedOutputDimensions": [
+          600,
+          600
+        ],
+        "crop": null,
+        "newGeneration": false
+      }
+    }
+  ]
+}
