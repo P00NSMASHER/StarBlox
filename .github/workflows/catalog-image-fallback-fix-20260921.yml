@@ -1,0 +1,137 @@
+name: StarBlox Catalog Missing-Art Fallback Repair
+
+on:
+  push:
+    branches: [screenshot-match-preproduction]
+    paths:
+      - '.github/workflows/catalog-image-fallback-fix-20260921.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: starblox-catalog-image-fallback-repair
+  cancel-in-progress: false
+
+jobs:
+  repair-and-verify:
+    if: github.ref == 'refs/heads/screenshot-match-preproduction'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - name: Checkout latest preproduction
+        uses: actions/checkout@v4
+        with:
+          ref: screenshot-match-preproduction
+          fetch-depth: 0
+
+      - name: Use Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Apply exact narrow visual fallback repair
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+
+          app=Path('src/App.jsx')
+          text=app.read_text()
+          old="""function ItemArt({item}){
+            const initials = item.name.split(' ').slice(0,2).map(part => part[0]).join('');
+            return (
+              <div className={'itemArt visual-' + item.collectionId + ' tierVisual' + item.tier} aria-hidden=\"true\">
+                {item.image ? <img src={item.image} alt=\"\" loading=\"lazy\" /> : <span>{initials}</span>}
+                <i>{item.theme.split(' ')[0]}</i>
+              </div>
+            );
+          }
+          """
+          new="""function ItemArt({item}){
+            const [imageFailed,setImageFailed] = useState(false);
+            const initials = item.name.split(' ').slice(0,2).map(part => part[0]).join('');
+
+            useEffect(() => {
+              setImageFailed(false);
+            },[item.image]);
+
+            return (
+              <div className={'itemArt visual-' + item.collectionId + ' tierVisual' + item.tier} aria-hidden=\"true\">
+                {item.image && !imageFailed
+                  ? <img src={item.image} alt=\"\" loading=\"lazy\" onError={() => setImageFailed(true)} />
+                  : <span className=\"itemArtFallback\">{initials}</span>}
+                <i>{item.theme.split(' ')[0]}</i>
+              </div>
+            );
+          }
+          """
+          if old not in text:
+            raise SystemExit('App ItemArt exact source changed; refusing stale shared-file overwrite')
+          app.write_text(text.replace(old,new,1))
+
+          runtime=Path('src/storeScreenshotMatchRuntime.js')
+          text=runtime.read_text()
+          old="""function artMarkup(item){
+            if(item.image){
+              return `<img src=\"${escapeHtml(item.image)}\" alt=\"\" loading=\"lazy\">`;
+            }
+            const initials = item.name.split(' ').slice(0,2).map(part => part[0]).join('');
+            return `<span class=\"sbStoreFallbackArt\" aria-hidden=\"true\"><b>${escapeHtml(initials)}</b><small>${escapeHtml(item.collectionName)}</small></span>`;
+          }
+          """
+          new="""function fallbackArtMarkup(item){
+            const initials = item.name.split(' ').slice(0,2).map(part => part[0]).join('');
+            return `<span class=\"sbStoreFallbackArt\" aria-hidden=\"true\"><b>${escapeHtml(initials)}</b><small>${escapeHtml(item.collectionName)}</small></span>`;
+          }
+
+          function artMarkup(item){
+            if(item.image){
+              return `<img src=\"${escapeHtml(item.image)}\" alt=\"\" loading=\"lazy\">`;
+            }
+            return fallbackArtMarkup(item);
+          }
+
+          function bindArtFallback(container,item){
+            const image = container?.querySelector('img');
+            if(!image) return;
+            image.addEventListener('error',() => {
+              container.innerHTML = fallbackArtMarkup(item);
+              container.dataset.imageFallback = 'true';
+            },{once:true});
+          }
+          """
+          if old not in text:
+            raise SystemExit('Store artMarkup exact source changed; refusing stale shared-file overwrite')
+          text=text.replace(old,new,1)
+          needle='  preview.innerHTML = artMarkup(item);\n'
+          if needle not in text:
+            raise SystemExit('Store preview binding source changed; refusing stale shared-file overwrite')
+          text=text.replace(needle,needle+'  bindArtFallback(preview,item);\n',1)
+          runtime.write_text(text)
+          PY
+
+      - name: Install dependencies
+        run: npm install --no-save --package-lock=false --no-audit --no-fund
+
+      - name: Run full regression suite
+        run: npm test -- --reporter=verbose
+
+      - name: Build production bundle
+        run: npm run build
+
+      - name: Publish verified repair without force push
+        run: |
+          set -eu
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- src/App.jsx src/storeScreenshotMatchRuntime.js
+          git diff --cached --check
+          git commit -m 'fix: show deterministic fallback when catalog art fails to load'
+          for attempt in 1 2 3; do
+            if git push origin HEAD:refs/heads/screenshot-match-preproduction; then exit 0; fi
+            git fetch origin screenshot-match-preproduction
+            git rebase origin/screenshot-match-preproduction
+          done
+          echo 'Safe publication blocked by concurrent changes; no force push' >&2
+          exit 1
