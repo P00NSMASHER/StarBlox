@@ -1,0 +1,183 @@
+{
+  "schemaVersion": 1,
+  "batchId": "chat-headwear-recovery-1-4-20260921",
+  "status": "STAGED_READY_FOR_INDEPENDENT_REVIEW_01",
+  "sourceHead": "056e53b9a1deb13391310e192844d969c2d4d6d3",
+  "workflowRunId": "35671072150",
+  "producer": "12",
+  "transportHelper": "CHAT",
+  "independentReviewer": "01",
+  "canonicalWriter": "08",
+  "newGenerations": 0,
+  "storedCandidateCount": 4,
+  "storedOriginalCount": 4,
+  "duplicateCandidateContent": 0,
+  "items": [
+    {
+      "id": "headwear-1",
+      "name": "Headband",
+      "collectionId": "headwear",
+      "collectionName": "Hair & Hats",
+      "type": "avatar",
+      "tier": 1,
+      "theme": "Midnight Neon",
+      "price": 30,
+      "starReq": 0,
+      "format": "JPEG",
+      "dimensions": [
+        768,
+        768
+      ],
+      "bytes": 71308,
+      "sha256": "97ccf9c42fe0d790351b1dcb0e179a334c722d694f118382b146031c6cf20298",
+      "gitBlobSha": "4d4424962a49f5145422723b625778d6649a4b26",
+      "producer": "12",
+      "transportHelper": "CHAT",
+      "independentReviewer": "01",
+      "repositoryPath": "public/assets/catalog/headwear-1-w12-v2.jpg",
+      "assetPath": "/assets/catalog/headwear-1-w12-v2.jpg",
+      "sourceAssetId": "urn:aaid:sc:US:88bdb79e-e661-4166-b124-af2069279ed6",
+      "status": "READY_FOR_REVIEW_01",
+      "readback": "PASS",
+      "original": {
+        "format": "PNG",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "bytes": 883028,
+        "sha256": "43097d2b03e25adcc93d9c7966ba64588c8faa3de9e6536d80fb3fd6a9aa45f3",
+        "gitBlobSha": "ebf1b9589a08f9b22c1c231bd302dad8efe068a0",
+        "repositoryPath": "docs/preproduction/catalog-sprint/recovered-originals/headwear-1-4-20260921/headwear-1-88bdb79e-e661-4166-b124-af2069279ed6.png"
+      }
+    },
+    {
+      "id": "headwear-2",
+      "name": "Cloud Clips",
+      "collectionId": "headwear",
+      "collectionName": "Hair & Hats",
+      "type": "avatar",
+      "tier": 1,
+      "theme": "Candy Core",
+      "price": 45,
+      "starReq": 0,
+      "format": "JPEG",
+      "dimensions": [
+        768,
+        768
+      ],
+      "bytes": 64660,
+      "sha256": "f94aa00764d69a5310e1e11736f42cca90a7314862f7b7496684bdefbc67bb09",
+      "gitBlobSha": "595c8fe9182f4aecd5355856f19947c7c83daa11",
+      "producer": "12",
+      "transportHelper": "CHAT",
+      "independentReviewer": "01",
+      "repositoryPath": "public/assets/catalog/headwear-2-w12-v2.jpg",
+      "assetPath": "/assets/catalog/headwear-2-w12-v2.jpg",
+      "sourceAssetId": "urn:aaid:sc:US:ef0e1bfc-6d79-4f5c-9a03-b323abd5e234",
+      "status": "READY_FOR_REVIEW_01",
+      "readback": "PASS",
+      "original": {
+        "format": "PNG",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "bytes": 947944,
+        "sha256": "6ab45638d0b28e66ca0036f8054cb7778cd7d87dba548cebd31a264afc4a3830",
+        "gitBlobSha": "0895ab6db3ad5de161b6cb3dc78a517bf8112d71",
+        "repositoryPath": "docs/preproduction/catalog-sprint/recovered-originals/headwear-1-4-20260921/headwear-2-ef0e1bfc-6d79-4f5c-9a03-b323abd5e234.png"
+      }
+    },
+    {
+      "id": "headwear-3",
+      "name": "Pixel Cap",
+      "collectionId": "headwear",
+      "collectionName": "Hair & Hats",
+      "type": "avatar",
+      "tier": 1,
+      "theme": "Adventure Club",
+      "price": 65,
+      "starReq": 0,
+      "format": "JPEG",
+      "dimensions": [
+        768,
+        768
+      ],
+      "bytes": 82362,
+      "sha256": "02a868ae9874871d07260496f1bbe97f0bbcd0f15522ede109142988e294558c",
+      "gitBlobSha": "86db079b85360dc64e669aeca53cba874176c693",
+      "producer": "12",
+      "transportHelper": "CHAT",
+      "independentReviewer": "01",
+      "repositoryPath": "public/assets/catalog/headwear-3-w12-v2.jpg",
+      "assetPath": "/assets/catalog/headwear-3-w12-v2.jpg",
+      "sourceAssetId": "urn:aaid:sc:US:98e87f77-e672-4b3c-8b07-ebdec7dc4925",
+      "status": "READY_FOR_REVIEW_01",
+      "readback": "PASS",
+      "original": {
+        "format": "PNG",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "bytes": 1232035,
+        "sha256": "324602674f6ab4f21f8d10d4322b23d85f69016ce5286f1356258281b19c1b29",
+        "gitBlobSha": "069ae92ea6de5bb7b0f867d82e75191d3ded0d3d",
+        "repositoryPath": "docs/preproduction/catalog-sprint/recovered-originals/headwear-1-4-20260921/headwear-3-98e87f77-e672-4b3c-8b07-ebdec7dc4925.png"
+      }
+    },
+    {
+      "id": "headwear-4",
+      "name": "Berry Bow",
+      "collectionId": "headwear",
+      "collectionName": "Hair & Hats",
+      "type": "avatar",
+      "tier": 2,
+      "theme": "Cloud Pop",
+      "price": 85,
+      "starReq": 0,
+      "format": "JPEG",
+      "dimensions": [
+        768,
+        768
+      ],
+      "bytes": 98614,
+      "sha256": "1320b0bb0000a9c2635ed3a4819df272d4b7c0cebf9e4bf5ca791c18998b0ef4",
+      "gitBlobSha": "4257b4a959153fba985fa2a97720c379b6d63e33",
+      "producer": "12",
+      "transportHelper": "CHAT",
+      "independentReviewer": "01",
+      "repositoryPath": "public/assets/catalog/headwear-4-w12-v2.jpg",
+      "assetPath": "/assets/catalog/headwear-4-w12-v2.jpg",
+      "sourceAssetId": "urn:aaid:sc:US:f0b1dc3a-2dc4-4c62-8442-ace1f8ba7fd8",
+      "status": "READY_FOR_REVIEW_01",
+      "readback": "PASS",
+      "original": {
+        "format": "PNG",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "bytes": 1227128,
+        "sha256": "9dc2b6114063ecdecec3445a2c58b3bbe60043ac82c1abe9b5c0d3a3601e50d9",
+        "gitBlobSha": "5c3def29ad770428ebd68edb98d801904ccb02ea",
+        "repositoryPath": "docs/preproduction/catalog-sprint/recovered-originals/headwear-1-4-20260921/headwear-4-f0b1dc3a-2dc4-4c62-8442-ace1f8ba7fd8.png"
+      }
+    }
+  ],
+  "checks": {
+    "metadata": "PASS_4_OF_4",
+    "exactByteReadback": "PASS_8_OF_8",
+    "candidateDecode": "PASS_4_OF_4",
+    "independentVisualReview": "PENDING_01"
+  },
+  "freeze": {
+    "replitTouched": false,
+    "flootTouched": false,
+    "mainTouched": false,
+    "canonicalMappingsTouched": false,
+    "gameplayChanged": false,
+    "playerDataTouched": false
+  }
+}
