@@ -4,9 +4,20 @@
   "workstream": "01",
   "phase": "CATALOG_SPRINT",
   "branch": "screenshot-match-preproduction",
-  "status": "SEATING_2_3_STAGING_BLOCKED_SECOND_CYCLE_ESCALATED_HOME_SCENE_V1_REWORK_REVIEWED",
-  "reviewPartition": ["tops", "bottoms", "headwear", "facegear"],
-  "producerRepairAssignment": ["seating-2", "seating-3", "seating-4", "seating-5", "seating-6"],
+  "status": "SEATING_2_3_STAGED_READY_FOR_REVIEW_02_HOME_SCENE_V1_REWORK_REVIEWED",
+  "reviewPartition": [
+    "tops",
+    "bottoms",
+    "headwear",
+    "facegear"
+  ],
+  "producerRepairAssignment": [
+    "seating-2",
+    "seating-3",
+    "seating-4",
+    "seating-5",
+    "seating-6"
+  ],
   "independentReviewer": "02",
   "selfApproved": false,
   "canonicalManifestChanged": false,
@@ -19,7 +30,7 @@
   "generatedRepairBatch": {
     "batch": 1,
     "count": 2,
-    "status": "GENERATED_ADOBE_NOT_REPOSITORY_STAGED",
+    "status": "STAGED_READY_FOR_REVIEW_02",
     "assets": [
       {
         "id": "seating-2",
@@ -29,12 +40,25 @@
         "sourceRejectedHash": "84c1cc571840d32e3683f70a4fa318f953087a67",
         "intendedRepositoryPath": "/assets/catalog/seating-2-w01-v2.png",
         "format": "png",
-        "dimensions": [1024, 1024],
+        "dimensions": [
+          1024,
+          1024
+        ],
         "adobeGenAIAssetId": "urn:aaid:sc:US:8897a93d-8960-4229-89a1-74f978302fc5",
         "adobeStoredBytes": 983793,
         "producerPixelInspection": "PASS_THREE_QUARTER_PLUSH_CLOUD_LOBES_UPHOLSTERY_SEAM_ART_ATTACK_BRUSH_ACCENTS_GROUNDED_CAST_SHADOW",
-        "repositoryReadback": "BLOCKED_BINARY_TRANSFER_NOT_AVAILABLE_IN_THIS_RUN",
-        "status": "GENERATED_ADOBE_STAGING_BLOCKED"
+        "repositoryReadback": "PASS",
+        "status": "READY_FOR_REVIEW_02",
+        "repositoryPath": "public/assets/catalog/seating-2-w01-recovered-v2.jpg",
+        "assetPath": "/assets/catalog/seating-2-w01-recovered-v2.jpg",
+        "gitBlobSha": "c3d4705b7182b1be735b1a762b2ae79d58928aa5",
+        "sha256": "12f40b8c0dae3594f91ce34baa8ed98ed44d31aaf17dafb2bf606e1cf15b7942",
+        "bytes": 41405,
+        "candidateDimensions": [
+          600,
+          600
+        ],
+        "transformation": "None: exact Adobe rendition response bytes copied; no crop, resize, recompression, recolor, or regeneration"
       },
       {
         "id": "seating-3",
@@ -44,20 +68,34 @@
         "sourceRejectedHash": "2f97c3a2fa59ff46298a9b846aa4755b31bbfcd3",
         "intendedRepositoryPath": "/assets/catalog/seating-3-w01-v2.png",
         "format": "png",
-        "dimensions": [1024, 1024],
+        "dimensions": [
+          1024,
+          1024
+        ],
         "adobeGenAIAssetId": "urn:aaid:sc:US:61cbf6f7-0f86-491a-9aed-9a5632964f6b",
         "adobeStoredBytes": 933672,
         "producerPixelInspection": "PASS_THREE_QUARTER_STUFFED_BEANBAG_VOLUME_PANEL_SEAMS_GOLD_STAR_PIPING_PIXEL_EMBROIDERY_GROUNDED_CAST_SHADOW",
-        "repositoryReadback": "BLOCKED_BINARY_TRANSFER_NOT_AVAILABLE_IN_THIS_RUN",
-        "status": "GENERATED_ADOBE_STAGING_BLOCKED"
+        "repositoryReadback": "PASS",
+        "status": "READY_FOR_REVIEW_02",
+        "repositoryPath": "public/assets/catalog/seating-3-w01-recovered-v2.jpg",
+        "assetPath": "/assets/catalog/seating-3-w01-recovered-v2.jpg",
+        "gitBlobSha": "5d69a2f6adf1e4cf9b4ec413dbeedba84c41813b",
+        "sha256": "7c832d49d238ba450af495cd14566b11456980106fadbb14439a60cb9cc6f5a4",
+        "bytes": 44494,
+        "candidateDimensions": [
+          600,
+          600
+        ],
+        "transformation": "None: exact Adobe rendition response bytes copied; no crop, resize, recompression, recolor, or regeneration"
       }
-    ]
+    ],
+    "repositoryStoredCount": 2
   },
   "binaryStagingBlocker": {
-    "status": "SECOND_CYCLE_ESCALATED_TO_15",
-    "detail": "The exact seating-2/3 Firefly assets are still present and inspectable, but Workstream 01 still lacks a permitted raw-byte bridge from Adobe storage to GitHub binary staging. This is the second cycle with the same transport-only blocker, so Workstream 01 did not repeat the failed container/browser transfer calls and did not regenerate the assets.",
-    "requiredResolution": "15 should use the already-proven coordination-owned Adobe-to-Git recovery path to attach these two existing asset URNs to their intended versioned repository paths, then return exact Git blob hashes/readback for reviewer 02. No new generation is needed.",
-    "security": "Only stable Adobe GenAI asset URNs are recorded; no temporary/presigned Adobe URLs are committed."
+    "status": "CLEARED_SEATING_2_3",
+    "resolution": "Authorized coordination-owned Adobe-to-Git recovery staged exact existing rendition/source bytes with immutable readback.",
+    "independentReview": "PENDING_02",
+    "canonicalIntegration": "PENDING_08_AFTER_ACCEPT"
   },
   "sceneDirectionReview": {
     "reviewFile": "docs/preproduction/visuals/reviews/01.json",
@@ -74,8 +112,8 @@
     "exactMetadata": "PASS_2_OF_2",
     "producerActualPixelInspection": "PASS_2_OF_2",
     "premiumDimensionalDirection": "PASS_2_OF_2_PRODUCER_CHECK_ONLY",
-    "repositoryPersistence": "BLOCKED_0_OF_2_STAGED",
-    "independentReview": "NOT_STARTED_NO_REPOSITORY_HASH",
+    "repositoryPersistence": "PASS_2_OF_2_STAGED_READBACK",
+    "independentReview": "PENDING_02_EXACT_HASH",
     "lane13IndependentSceneArtReview": "PASS_ACTUAL_PIXELS_REVIEWED_REWORK_ISSUED",
     "canonicalIntegration": "NOT_PERFORMED_BY_01",
     "learningEconomyTouched": false,
@@ -84,10 +122,10 @@
     "mainTouched": false
   },
   "handoff": {
-    "02": "Do not review or accept seating-2/3 from producer previews. Wait for exact versioned repository paths and Git blob hashes, then use real staged card/detail pixels.",
+    "02": "Seating 2-3 exact replacement bytes are now repository-staged and hash-bound. Review these exact current hashes at card/detail scale; legacy REWORK does not transfer.",
     "13": "Home environment v1 is independently REWORK. Preserve its strong material depth and bed-left/desk-right composition, but move/diffuse the central window hotspot, increase side-zone environmental density, and push the room toward chunkier saturated toy-game stylization. Exact repair contract is in docs/preproduction/visuals/reviews/01.json.",
     "14": "Do not composition-approve home-bedroom-w13-v1 for runtime wiring; review the revised Workstream-13 candidate after it is staged.",
-    "15": "Second-cycle seating byte-transfer blocker is now formally escalated. Use the proven coordination-owned Adobe-to-Git bridge for seating-2/3 rather than requesting regeneration. No runtime handoff is recommended for Workstream-13 Home v1.",
+    "15": "Seating 2-3 byte-transfer blocker cleared; no regeneration needed. Reviewer 02 owns the next decision.",
     "01Next": "Do not regenerate seating-2/3. Fresh staged replacement hashes in Tops/Bottoms/Headwear/Facegear remain first review priority; otherwise inspect the next Workstream-13 scene/character candidate or continue only after the seating bridge returns exact repository hashes."
   },
   "freeze": {

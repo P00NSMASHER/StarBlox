@@ -1,0 +1,114 @@
+{
+  "schemaVersion": 1,
+  "batchId": "chat-seating-recovery-2-3-20260921",
+  "status": "STAGED_READY_FOR_INDEPENDENT_REVIEW_02",
+  "sourceHead": "4875767c4363463ded89f475336e6d441b39ba56",
+  "workflowRunId": "35671770098",
+  "producer": "01",
+  "transportHelper": "CHAT",
+  "independentReviewer": "02",
+  "canonicalWriter": "08",
+  "newGenerations": 0,
+  "storedCandidateCount": 2,
+  "storedOriginalCount": 2,
+  "duplicateCandidateContent": 0,
+  "metadataSource": "src/gameModel.js store export",
+  "items": [
+    {
+      "id": "seating-2",
+      "name": "Cloud Pouf",
+      "collectionId": "seating",
+      "collectionName": "Seating",
+      "type": "room",
+      "tier": 1,
+      "theme": "Art Attack",
+      "price": 65,
+      "starReq": 0,
+      "format": "JPEG",
+      "dimensions": [
+        600,
+        600
+      ],
+      "bytes": 41405,
+      "sha256": "12f40b8c0dae3594f91ce34baa8ed98ed44d31aaf17dafb2bf606e1cf15b7942",
+      "gitBlobSha": "c3d4705b7182b1be735b1a762b2ae79d58928aa5",
+      "producer": "01",
+      "transportHelper": "CHAT",
+      "independentReviewer": "02",
+      "assetId": "urn:aaid:sc:US:8897a93d-8960-4229-89a1-74f978302fc5",
+      "repositoryPath": "public/assets/catalog/seating-2-w01-recovered-v2.jpg",
+      "assetPath": "/assets/catalog/seating-2-w01-recovered-v2.jpg",
+      "status": "READY_FOR_REVIEW_02",
+      "readback": "PASS",
+      "transformation": "None: exact Adobe rendition response bytes copied; no crop, resize, recompression, recolor, or regeneration",
+      "original": {
+        "format": "PNG",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "bytes": 938760,
+        "sha256": "8eb46ff2b8627ca5c02ac48e458d0b7d12b8a85cd82c8ed8e26e71a9de5554e4",
+        "gitBlobSha": "349c7c502ba528fdb8f82c585b1ec3463b8f05c0",
+        "validation": "DECODED_IMAGE_PASS",
+        "repositoryPath": "docs/preproduction/catalog-sprint/recovered-originals/seating-2-3-20260921/seating-2-8897a93d-8960-4229-89a1-74f978302fc5.png"
+      }
+    },
+    {
+      "id": "seating-3",
+      "name": "Pixel Beanbag",
+      "collectionId": "seating",
+      "collectionName": "Seating",
+      "type": "room",
+      "tier": 1,
+      "theme": "Star Luxe",
+      "price": 94,
+      "starReq": 0,
+      "format": "JPEG",
+      "dimensions": [
+        600,
+        600
+      ],
+      "bytes": 44494,
+      "sha256": "7c832d49d238ba450af495cd14566b11456980106fadbb14439a60cb9cc6f5a4",
+      "gitBlobSha": "5d69a2f6adf1e4cf9b4ec413dbeedba84c41813b",
+      "producer": "01",
+      "transportHelper": "CHAT",
+      "independentReviewer": "02",
+      "assetId": "urn:aaid:sc:US:61cbf6f7-0f86-491a-9aed-9a5632964f6b",
+      "repositoryPath": "public/assets/catalog/seating-3-w01-recovered-v2.jpg",
+      "assetPath": "/assets/catalog/seating-3-w01-recovered-v2.jpg",
+      "status": "READY_FOR_REVIEW_02",
+      "readback": "PASS",
+      "transformation": "None: exact Adobe rendition response bytes copied; no crop, resize, recompression, recolor, or regeneration",
+      "original": {
+        "format": "PNG",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "bytes": 885518,
+        "sha256": "c54fd0b392a00238c388e59d274e2100b80362c12f7319871fe1634873aa39b2",
+        "gitBlobSha": "459a71bd7ab58a779b7c4b4095fae9feb87b8a82",
+        "validation": "DECODED_IMAGE_PASS",
+        "repositoryPath": "docs/preproduction/catalog-sprint/recovered-originals/seating-2-3-20260921/seating-3-61cbf6f7-0f86-491a-9aed-9a5632964f6b.png"
+      }
+    }
+  ],
+  "checks": {
+    "metadata": "PASS_2_OF_2",
+    "exactByteReadback": "PASS_4_FILES_CANDIDATE_PLUS_ORIGINAL",
+    "candidateDecode": "PASS_2_OF_2",
+    "repeatBehavior": "PENDING_SECOND_RUN",
+    "independentVisualReview": "PENDING_02"
+  },
+  "freeze": {
+    "replitTouched": false,
+    "flootTouched": false,
+    "mainTouched": false,
+    "canonicalMappingsTouched": false,
+    "gameplayChanged": false,
+    "playerDataTouched": false
+  },
+  "handoff": "02: independently inspect exact Seating 2-3 current hashes. 08: integrate only after qualified ACCEPT. 01: preserve these exact versions pending review."
+}
