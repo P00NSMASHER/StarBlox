@@ -1,14 +1,15 @@
 {
-  "schemaVersion": 9,
+  "schemaVersion": 10,
   "lane": "11",
   "workstream": "11",
   "phase": "CATALOG_SPRINT",
   "branch": "screenshot-match-preproduction",
-  "status": "AURAS_1_4_6_8_ACCEPTED__AURAS_5_9_10_11_12_V3_STAGED_PENDING_05",
+  "status": "AURAS_1_10_12_ACCEPTED_CANONICAL__AURA_11_RENDER_QA_PASS_PENDING_05",
   "policy": "docs/preproduction/DELIVERY_PROTOCOL_V2.md",
   "visualSprint": "docs/preproduction/ART_VISUALS_SPRINT.json",
   "independentReviewer": "05",
   "integrationOwner": "08",
+  "coordinationOwner": "15",
   "assignment": [
     "auras-1",
     "auras-2",
@@ -23,115 +24,94 @@
     "auras-11",
     "auras-12"
   ],
-  "auditedBranchHeadBeforeWrite": "ad06b08fe0489b3abd482176c47c748023ef9e1b",
+  "auditedBranchHeadBeforeWrite": "a08ddaf64ab3335d98bef4809509274acfa7f28a",
   "historyRefs": [
     {
-      "priorLaneBlobSha": "21305034a9b2202d230d80573a2aefcd408e0a15",
-      "scope": "Complete Lane-11 history through Auras 1-4 v3 staging and Auras 5/9/10/12 v3 staged-art render evidence."
+      "priorLaneBlobSha": "5c96cbad8eea1aa13fec2bfeed2691f032954472",
+      "scope": "Lane-11 history through Dream Aurora v3 branch attachment and the prior pending-render state."
     },
     {
-      "reviewer05SourceHead": "281f8ba54229ac5c07320d79b5a31a8a45f9140b",
-      "scope": "Fresh independent reviewer-05 current shard."
+      "reviewer05SourceHead": "46d6bb67f986fb432a14afd0d749ea6697e12a26",
+      "scope": "Latest reviewer-05 shard read before this write; Auras 1-10 and 12 accepted, Aura 11 still pending exact-current render review."
+    },
+    {
+      "integrationBlobSha": "current branch integration.json schemaVersion 10 / manifest v23",
+      "scope": "Current Workstream-08 canonical state plus Workstream-15 coordination confirms Auras 1-10 and 12 accepted/canonical."
     }
   ],
-  "reviewState": {
-    "freshReviewer05Cycle": {
-      "scope": ["auras-1", "auras-2", "auras-3", "auras-4"],
-      "result": "ACCEPT_4_OF_4",
-      "workflowRunId": 35671890720,
-      "artifactId": 10670972588,
-      "actualCardPixelsReviewed": true,
-      "actualDetailPixelsReviewed": true,
-      "oldV2DecisionsTransferred": false
-    },
-    "acceptedCurrent": [
-      {"id":"auras-1","name":"Soft Sparkles","hash":"a7921c7b7c8f48fc47908595c1afa6f59217c7a5","path":"/assets/catalog/auras-1-w11-v3.png","canonical":"PENDING_08"},
-      {"id":"auras-2","name":"Cloud Puffs","hash":"1e421c71217e5386c1b255dfedeade8215976bcb","path":"/assets/catalog/auras-2-w11-v3.png","canonical":"PENDING_08"},
-      {"id":"auras-3","name":"Pixel Bits","hash":"f164aefb93a21374a1cf0b9b7b7312a0ae68d34c","path":"/assets/catalog/auras-3-w11-v3.png","canonical":"PENDING_08"},
-      {"id":"auras-4","name":"Berry Hearts","hash":"3357a67e4121ca631377e30033a31ef4c815ab61","path":"/assets/catalog/auras-4-w11-v3.png","canonical":"PENDING_08"},
-      {"id":"auras-6","name":"Galaxy Orbit","hash":"ce4b155c7fb5469fde415ab9d744cab41027fe4d","path":"/assets/catalog/auras-6-v2.svg","canonical":"PASS_08"},
-      {"id":"auras-7","name":"Sunny Rays","hash":"c451e7479e142f1eca89cc5282b352c2d2ca2d4b","path":"/assets/catalog/auras-7-v2.svg","canonical":"PASS_08"},
-      {"id":"auras-8","name":"Aqua Bubbles","hash":"6884668fe721f3b26a562e11924237a32c656db6","path":"/assets/catalog/auras-8-v2.svg","canonical":"PASS_08"}
-    ],
-    "pendingReviewer05Current": [
-      {"id":"auras-5","name":"Garden Fireflies","hash":"ae3bef6cbbf4333aa740dc9a3fddf4f2b5540192","path":"/assets/catalog/auras-5-w11-v3.jpg","renderEvidence":"PASS_EXACT_HASH"},
-      {"id":"auras-9","name":"Art Confetti","hash":"9331e516a7a1a2fa32abafaf3bbf0932c3ca792d","path":"/assets/catalog/auras-9-w11-v3.jpg","renderEvidence":"PASS_EXACT_HASH"},
-      {"id":"auras-10","name":"Neon Trail","hash":"6f07fe7f5c8be236f3c17df5f55afc550888f52e","path":"/assets/catalog/auras-10-w11-v3.jpg","renderEvidence":"PASS_EXACT_HASH"},
-      {"id":"auras-11","name":"Dream Aurora","hash":"7f3372c1584e07f18a3abfc7818013190fff1560","path":"/assets/catalog/auras-11-w11-v3.jpg","renderEvidence":"PENDING_RENDER_QA_EXACT_HASH"},
-      {"id":"auras-12","name":"Luxe Starstorm","hash":"d0fcf528ff4ee91e56760932fdcf357ab264dd3d","path":"/assets/catalog/auras-12-w11-v3.jpg","renderEvidence":"PASS_EXACT_HASH"}
-    ],
-    "legacyAura11Rework": {
-      "id": "auras-11",
-      "name": "Dream Aurora",
-      "hash": "ddb2c81b49db8e6ea6369c8f70cb720228feb73c",
-      "decision": "REWORK",
-      "reason": "Needs translucent curtain depth, painterly material interaction and luminous atmosphere."
-    }
-  },
-  "aura11Repair": {
+  "acceptedCanonicalCurrent": [
+    {"id":"auras-1","name":"Soft Sparkles","hash":"a7921c7b7c8f48fc47908595c1afa6f59217c7a5","path":"/assets/catalog/auras-1-w11-v3.png"},
+    {"id":"auras-2","name":"Cloud Puffs","hash":"1e421c71217e5386c1b255dfedeade8215976bcb","path":"/assets/catalog/auras-2-w11-v3.png"},
+    {"id":"auras-3","name":"Pixel Bits","hash":"f164aefb93a21374a1cf0b9b7b7312a0ae68d34c","path":"/assets/catalog/auras-3-w11-v3.png"},
+    {"id":"auras-4","name":"Berry Hearts","hash":"3357a67e4121ca631377e30033a31ef4c815ab61","path":"/assets/catalog/auras-4-w11-v3.png"},
+    {"id":"auras-5","name":"Garden Fireflies","hash":"ae3bef6cbbf4333aa740dc9a3fddf4f2b5540192","path":"/assets/catalog/auras-5-w11-v3.jpg"},
+    {"id":"auras-6","name":"Galaxy Orbit","hash":"ce4b155c7fb5469fde415ab9d744cab41027fe4d","path":"/assets/catalog/auras-6-v2.svg"},
+    {"id":"auras-7","name":"Sunny Rays","hash":"c451e7479e142f1eca89cc5282b352c2d2ca2d4b","path":"/assets/catalog/auras-7-v2.svg"},
+    {"id":"auras-8","name":"Aqua Bubbles","hash":"6884668fe721f3b26a562e11924237a32c656db6","path":"/assets/catalog/auras-8-v2.svg"},
+    {"id":"auras-9","name":"Art Confetti","hash":"9331e516a7a1a2fa32abafaf3bbf0932c3ca792d","path":"/assets/catalog/auras-9-w11-v3.jpg"},
+    {"id":"auras-10","name":"Neon Trail","hash":"6f07fe7f5c8be236f3c17df5f55afc550888f52e","path":"/assets/catalog/auras-10-w11-v3.jpg"},
+    {"id":"auras-12","name":"Luxe Starstorm","hash":"d0fcf528ff4ee91e56760932fdcf357ab264dd3d","path":"/assets/catalog/auras-12-w11-v3.jpg"}
+  ],
+  "aura11Current": {
     "id": "auras-11",
     "name": "Dream Aurora",
     "tier": 4,
     "theme": "Art Attack",
     "producer": "11",
-    "status": "BRANCH_STAGED_READBACK_VERIFIED_PENDING_RENDER_QA_AND_05",
-    "repairIntent": "Layered translucent aurora curtains with painterly color interaction, cyan/violet/magenta luminous atmosphere, clearly separated near/mid/far depth, crystalline highlight fragments, controlled bloom, atmospheric occlusion and an open avatar/card center.",
-    "generation": {
-      "tool": "OpenAI image generation",
-      "sourceAttachmentFileId": "file_00000000c41c71f5ae06b626fa05427a",
-      "sourceFormat": "PNG",
-      "sourceDimensions": [1254, 1254],
-      "sourceBytes": 2232873,
-      "sourceSha256": "cc58a3dd7499147cf9a9600800a3ad8e83647145f14719bc3eba06636229b413",
-      "producerPixelInspection": "PASS_VISUAL_GENERATION_ONLY"
+    "assetPath": "/assets/catalog/auras-11-w11-v3.jpg",
+    "repositoryPath": "public/assets/catalog/auras-11-w11-v3.jpg",
+    "gitBlobSha": "7f3372c1584e07f18a3abfc7818013190fff1560",
+    "format": "JPEG",
+    "dimensions": [600, 600],
+    "bytes": 18443,
+    "sha256": "0a06996522c9cb999e82b8ba028e94bfe2cb8d16e043c94999065e0ae8ce1dc2",
+    "branchReadback": "PASS_EXACT_HASH",
+    "renderQA": {
+      "status": "PASS_EXACT_HASH_RENDER_EVIDENCE_READY_FOR_REVIEWER_05",
+      "workflowRunId": 35678437306,
+      "workflowHead": "6bf28983c52a84f93e7f5ccfae12deecf55d873e",
+      "artifactId": 10673089422,
+      "artifactDigest": "sha256:126cf396d01cec7f0e19832ac3202f565ceec7332d740cafac9bd8b5c91c47aa",
+      "reportSha256": "fbf8111402aa479271853c5bc5005c519525951b6dc3fb7e0521d11b9d3e6480",
+      "detailPath": "staged-replacements/detail/auras-11-7f3372c1.png",
+      "detailDimensions": [800, 800],
+      "detailSha256": "e175fcd79c8f0c8decf254748fd83d71103795fee717899bea76655de0350f73",
+      "contactSheetPath": "staged-replacements/staged-replacements-contact-sheet.png",
+      "contactSheetDimensions": [1200, 7381],
+      "contactSheetSha256": "1dff84d3e8827eea89a88ad496e08a4e3608d39d1797358abbaebf820a434294",
+      "reportItemChecks": {
+        "httpStatus": 200,
+        "naturalWidth": 600,
+        "naturalHeight": 600,
+        "opaqueFraction": 1,
+        "screenshot": true,
+        "errors": []
+      },
+      "workflowOverall": "FAIL_UNRELATED_TO_SCOPED_AURA11_RENDER_REPORT",
+      "scopedReportErrors": [],
+      "scopedReportWarnings": []
     },
-    "candidate": {
-      "intendedRepositoryPath": "public/assets/catalog/auras-11-w11-v3.jpg",
-      "assetPath": "/assets/catalog/auras-11-w11-v3.jpg",
-      "format": "JPEG",
-      "dimensions": [600, 600],
-      "bytes": 18443,
-      "sha256": "0a06996522c9cb999e82b8ba028e94bfe2cb8d16e043c94999065e0ae8ce1dc2",
-      "gitBlobSha": "7f3372c1584e07f18a3abfc7818013190fff1560",
-      "gitObjectWrite": "PASS",
-      "branchPathAttachment": "PASS",
-      "branchReadback": "PASS_EXACT_GIT_BLOB_SHA1_AT_HEAD_ad06b08fe0489b3abd482176c47c748023ef9e1b",
-      "independentReview": "PENDING_NOT_REVIEWED_CURRENT_HASH",
-      "canonicalIntegration": "BLOCKED_UNTIL_05_ACCEPT_AND_08_ONLY"
-    },
-    "attachmentAttempts": {
-      "forcePushUsed": false,
-      "priorResult": "NON_FORCE_FAST_FORWARD_REF_UPDATE_REJECTED_AFTER_CONCURRENT_VISUAL_COMMITS",
-      "resolved": true,
-      "action": "Exact candidate bytes are now attached at the intended versioned path. Do not regenerate; route exact hash to render QA and reviewer 05."
-    }
+    "independentReview": "PENDING_REVIEWER_05_CURRENT_HASH",
+    "canonicalIntegration": "BLOCKED_UNTIL_05_ACCEPT_AND_08_ONLY",
+    "regenerationEligibility": "NO_DO_NOT_REGENERATE_UNLESS_05_REWORKS_THIS_EXACT_HASH"
   },
-  "currentAuraState": [
-    {"id":"auras-1","status":"V3_ACCEPT_05_PENDING_08","hash":"a7921c7b7c8f48fc47908595c1afa6f59217c7a5"},
-    {"id":"auras-2","status":"V3_ACCEPT_05_PENDING_08","hash":"1e421c71217e5386c1b255dfedeade8215976bcb"},
-    {"id":"auras-3","status":"V3_ACCEPT_05_PENDING_08","hash":"f164aefb93a21374a1cf0b9b7b7312a0ae68d34c"},
-    {"id":"auras-4","status":"V3_ACCEPT_05_PENDING_08","hash":"3357a67e4121ca631377e30033a31ef4c815ab61"},
-    {"id":"auras-5","status":"V3_STAGED_RENDERED_PENDING_05","hash":"ae3bef6cbbf4333aa740dc9a3fddf4f2b5540192"},
-    {"id":"auras-6","status":"V2_ACCEPTED_CANONICAL","hash":"ce4b155c7fb5469fde415ab9d744cab41027fe4d"},
-    {"id":"auras-7","status":"V2_ACCEPTED_CANONICAL","hash":"c451e7479e142f1eca89cc5282b352c2d2ca2d4b"},
-    {"id":"auras-8","status":"V2_ACCEPTED_CANONICAL","hash":"6884668fe721f3b26a562e11924237a32c656db6"},
-    {"id":"auras-9","status":"V3_STAGED_RENDERED_PENDING_05","hash":"9331e516a7a1a2fa32abafaf3bbf0932c3ca792d"},
-    {"id":"auras-10","status":"V3_STAGED_RENDERED_PENDING_05","hash":"6f07fe7f5c8be236f3c17df5f55afc550888f52e"},
-    {"id":"auras-11","status":"V3_STAGED_READBACK_PENDING_RENDER_QA_AND_05","hash":"7f3372c1584e07f18a3abfc7818013190fff1560"},
-    {"id":"auras-12","status":"V3_STAGED_RENDERED_PENDING_05","hash":"d0fcf528ff4ee91e56760932fdcf357ab264dd3d"}
-  ],
+  "legacyAura11Rework": {
+    "hash": "ddb2c81b49db8e6ea6369c8f70cb720228feb73c",
+    "decision": "REWORK_SUPERSEDED_HASH_ONLY",
+    "verdictTransfer": false
+  },
   "counts": {
-    "qualifiedExactHashAccepts": 7,
-    "confirmedCanonicalAuraReplacements": 3,
-    "stagedPendingReviewer05": 5,
-    "gitObjectOnlyPendingBranchAttachment": 0,
-    "regeneratedAcceptedOrPendingAssetsThisPass": 0
+    "acceptedCanonicalAuras": 11,
+    "pendingReviewer05": 1,
+    "eligibleForRegeneration": 0,
+    "assetsRegeneratedThisPass": 0,
+    "acceptedAssetsChangedThisPass": 0
   },
   "handoff": {
-    "15": "Aura 11 branch attachment is resolved. Preserve exact Aura hashes and coordinate shared render/review entrypoints only; no further producer regeneration is eligible while current candidates are pending.",
-    "05": "Preserve exact ACCEPTs for Auras 1-4 and 6-8. Continue current-hash review of staged Auras 5/9/10/12. Aura 11 is now branch-staged at exact hash 7f3372c1584e07f18a3abfc7818013190fff1560 and should receive a fresh decision only after current-hash render evidence; do not inherit ddb2c81b... REWORK.",
-    "08": "Preserve canonical Auras 6-8. Auras 1-4 are exact-hash ACCEPT and are eligible only after normal metadata/file/content checks. Aura 11 remains ineligible until reviewer-05 exact-hash ACCEPT.",
-    "11": "Do not regenerate accepted or pending Aura hashes. All unfinished Auras now have newer staged candidates; await render/reviewer decisions and repair only a newly rejected exact candidate."
+    "05": "Exact current Dream Aurora hash 7f3372c1584e07f18a3abfc7818013190fff1560 now has preserved card/detail render evidence in workflow 35678437306 artifact 10673089422. Issue a fresh exact-hash ACCEPT/REWORK; do not transfer the legacy ddb2c81b... verdict.",
+    "08": "Auras 1-10 and 12 are preserved accepted/canonical. Aura 11 remains ineligible until reviewer-05 ACCEPT on exact hash 7f3372c1584e07f18a3abfc7818013190fff1560; 08 alone may wire it afterward.",
+    "15": "No Aura production is currently eligible. Hold Lane 11 on Aura 11 review; if exact hash is ACCEPT, route to 08 then reassign 11. If REWORK, authorize only an Aura-11 versioned micro-repair from the concrete finding.",
+    "11": "Do not regenerate or alter any Aura while Aura 11 exact-current review is pending. Preserve all accepted hashes."
   },
   "freeze": {
     "replitTouched": false,
