@@ -26,7 +26,7 @@ jobs:
 
       - name: Verify prompt optimizer with the intended test runner
         run: |
-          node --test scripts/artPromptOptimizer.test.mjs
+          node --test scripts/artPromptOptimizer.node-test.mjs scripts/artFactoryJob.node-test.mjs
           node scripts/artPromptOptimizer.mjs validate --repo-root .
 
       - name: Use Python 3.12
