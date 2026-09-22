@@ -10,6 +10,10 @@ on:
       - 'scripts/referenceScreenshotCapture.mjs'
       - '.github/workflows/reference-screenshot-capture.yml'
       - 'docs/preproduction/reference-screenshots/**'
+  workflow_run:
+    workflows: ['Workstream 08 Catalog Integrate']
+    types: [completed]
+    branches: [screenshot-match-preproduction]
   workflow_dispatch:
 
 concurrency:
@@ -18,11 +22,14 @@ concurrency:
 
 jobs:
   deterministic-capture:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
-      - name: Checkout
+      - name: Checkout latest preproduction
         uses: actions/checkout@v4
+        with:
+          ref: screenshot-match-preproduction
 
       - name: Use Node 22
         uses: actions/setup-node@v4
