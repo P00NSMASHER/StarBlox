@@ -1,0 +1,131 @@
+{
+  "schemaVersion": 1,
+  "phase": "ART_VISUALS_SPRINT",
+  "coordinationOwner": "15",
+  "repository": "P00NSMASHER/StarBlox",
+  "branch": "screenshot-match-preproduction",
+  "observedHeadBeforeCoordination": "2f3200e2601cc7c8c5b269074f343389e1ba5ebb",
+  "authority": {
+    "allocation": "docs/preproduction/ART_VISUALS_SPRINT.json",
+    "factoryReadme": "docs/preproduction/art-factory/README.md",
+    "factoryContract": "docs/preproduction/art-factory/ART_FACTORY_V2.json",
+    "compatibleProtocol": "docs/preproduction/DELIVERY_PROTOCOL_V2.md",
+    "same15ExistingTaskIdsRequired": true,
+    "same15ExistingTaskIdsVerifiedEnabledThisRun": true,
+    "newOrSubstituteStarBloxTasksCreated": 0,
+    "schedulesChanged": false,
+    "artAndVisualsOnlyUntilComplete": true,
+    "canonicalCatalogWriter": "08",
+    "crossWorkerAssignmentOwner": "15"
+  },
+  "verifiedOriginalTaskIds": {
+    "01": "6ab137a6d6408191bd062700415a912a",
+    "02": "6ab137a76a24819189d3f3ca959036c7",
+    "03": "6ab137a808e88191945281a219fd5d7a",
+    "04": "6ab137a8a58c8191b36fb8ef7acf3abd",
+    "05": "6ab137a9b7008191a3448f767b586d6c",
+    "06": "6ab137aa52b48191a5e477921fafd3da",
+    "07": "6ab137ab0f9c81919de95cf036fef0ac",
+    "08": "6ab137abb53c8191b4f48260735f6705",
+    "09": "6ab137ac693c8191aacefba42a080470",
+    "10": "6ab137ad08388191a69b90d716fdfc66",
+    "11": "6ab137adaa708191a5dc955e0b5d089f",
+    "12": "6ab137ae4c0c81919983c1ff69020447",
+    "13": "6ab137af3b24819189c2f09b63cc43c2",
+    "14": "6ab137b081c481919f034ec3938ea0b9",
+    "15": "6ab137b12ca08191ab01334816325eff"
+  },
+  "liveCatalog": {
+    "integrationSchema": 12,
+    "manifestVersion": 28,
+    "manifestRuntimeMappings": "164/164",
+    "finalPortableLabels": 157,
+    "interimNotVerified": 7,
+    "nonFinalRelativeToTarget": 35,
+    "independentlyAcceptedCurrentHashes": 91,
+    "canonicalAcceptedCurrentHashes": 91,
+    "acceptedAwaitingCanonical": 0,
+    "strictAcceptedRemaining": 101,
+    "catalogReleaseClearedIds": 0,
+    "evidence": "docs/preproduction/catalog-sprint/integration.json",
+    "note": "Rugs 12 is canonical in v28. No later qualified ACCEPT was found in the live reviewer evidence consumed by this run."
+  },
+  "oldestActionableDependency": {
+    "owner": "14",
+    "batchId": "w05-wall-1-4-20260922-b01",
+    "state": "STAGED_READY_FOR_INDEPENDENT_REVIEW_14",
+    "producer": "05",
+    "workflowRunId": 35711317749,
+    "scope": ["wall-1", "wall-2", "wall-3", "wall-4"],
+    "exactHashes": {
+      "wall-1": "9908e774b4012cb89d3c86eed9ca3d10ce3bffe4",
+      "wall-2": "febf517cd0db666f647962c0cb7d4e5af53d4b76",
+      "wall-3": "5ad5aff97c9d365221de8c2d888abf3a26db547e",
+      "wall-4": "bc38aee13c1c4840aa1e9657edfb67c8838a6a21"
+    },
+    "evidenceState": "Exact repo readback PASS 4/4, decode PASS 4/4, tests PASS, build PASS, scoped Wall card/detail render PASS 4/4. The enclosing shared render overall is not globally PASS; reviewer must use the exact scoped Wall evidence and actual pixels rather than converting the global result into approval.",
+    "next": "Reviewer14 exact-hash ACCEPT/REWORK now. Every qualified ACCEPT routes immediately to 08. Producer05 freezes Wall1-4 and must not scale to Wall5+ before disposition."
+  },
+  "activeFactoryBatches": {
+    "source": "docs/preproduction/art-factory/ACTIVE_BATCH.json",
+    "producer09": {
+      "batch": "w09-decor-3-4-v3",
+      "scope": ["decor-3", "decor-4"],
+      "reviewer": "14",
+      "status": "ACTIONABLE_REWORK_FACTORY_PILOT",
+      "reason": "Tops11-12 v7 exact-byte transport remains unchanged-blocked; explicit anti-stall direction opens only Decor3-4. Decor1-2 accepted hashes remain frozen; Decor3-12 legacy current hashes are reviewer14 REWORK.",
+      "scaleGate": "No Decor5-12 production until reviewer14 independently dispositions the pilot."
+    },
+    "producer13": {
+      "batch": "w13-home-bedroom-v4",
+      "scope": ["home-bedroom"],
+      "reviewers": ["01-art-fidelity", "14-composition-performance"],
+      "status": "ACTIONABLE_SCENE_REWORK_FACTORY_PILOT",
+      "reason": "Reviewer01 independently REWORKed Home bedroom v3 for room identity/fidelity while explicitly preserving its central corridor and macro-layout gains.",
+      "scaleGate": "One scene repair batch only; no avatar regeneration or runtime wiring."
+    }
+  },
+  "nextRenderQueue": {
+    "owner": "14",
+    "afterWall": {
+      "scope": ["companions-2", "companions-5", "companions-6", "companions-7"],
+      "producer": "06",
+      "reviewer": "05",
+      "exactHashes": {
+        "companions-2": "88d10d6f8c412d0ab7fde6ac7a7ff202858077db",
+        "companions-5": "1ae7b431e519563ee1dbbdb0ae762bfee6f95ac0",
+        "companions-6": "28cb411201d8ec30dae2f70b740efe1e86985386",
+        "companions-7": "39d35ea40a0a138ae99ddcdc09f8f2a3683fa49d"
+      },
+      "action": "Render exact current StarBlox card/detail evidence only; reviewer14 must not disposition another partition. Route evidence to reviewer05. Do not regenerate existing repository candidates."
+    }
+  },
+  "preservedBlockers": {
+    "tops11_12_v7": "GENERATED_LOCAL_RECEIPT_ONLY. Authoritative exact 22,824-byte/30,026-byte WEBP payloads remain unavailable; expected Git blobs 0641cd1563cd9f683d685231c52a28c9f66424be and 9f13c65b0310a70be3fb1e6464baf22dabe75ce1. Do not regenerate, re-encode or approximate.",
+    "headwear5_8": "Four generated/preserved external derivatives remain unstaged because exact raw bytes are unavailable. Do not regenerate or repeat unchanged failed transport.",
+    "storeMobile": "Changed-art Store/mobile proof remains blocked before Store content by the shared real-pointer navigation click timeout; do not roll back accepted art or call this PASS.",
+    "generalCiWrapper": "The current integration evidence records an unrelated scripts/artPromptOptimizer.test.mjs no-test-suite collection failure while 99 actual assertions pass and catalog/build safeguards pass. Do not weaken assertions; fix/isolate only through the owning test/harness path."
+  },
+  "sceneEvidence": {
+    "homeV3": "REWORK_BY_01_ART_FIDELITY at commit 1bfc2a56fa17fab226e44dc4ca78a10a85d71bd2; exact package remains preserved and not runtime-wired.",
+    "homeV4Contract": "Preserve quiet center corridor and bed-left/desk-right layout; restore unmistakable bed, explicit left window, 4-7 side/perimeter reference props, material separation, controlled stronger accents, purposeful 390x844 derivative; no baked UI/avatar/state.",
+    "avatar": "No new generation assignment this run; preserve current accepted/review-pending exact assets and avoid parallel producer13 batches."
+  },
+  "routingChangesThisRun": {
+    "14": "Wall1-4 exact review first; then render Companions2/5/6/7 for reviewer05.",
+    "09": "Decor3-4 factory pilot explicitly opened while Tops v7 exact-byte blocker is unchanged; no Decor5+ scaling.",
+    "13": "Home bedroom v4 bounded factory repair opened from fresh reviewer01 v3 REWORK; no other producer13 generation in parallel.",
+    "activeBatch": "ACTIVE_BATCH.json updated to make the two active production pilots and pending review queues explicit."
+  },
+  "freeze": {
+    "main": true,
+    "replit": true,
+    "floot": true,
+    "deployment": true,
+    "paidSettingsPurchases": true,
+    "realPlayerData": true,
+    "acceptedHashRegeneration": true
+  },
+  "artVisualsComplete": false,
+  "deploymentPermission": false
+}
