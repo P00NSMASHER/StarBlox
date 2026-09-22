@@ -58,3 +58,42 @@
 @media(max-width:767px){.marketPage.sbStoreMatch{padding:132px 9px 92px;gap:8px;background:linear-gradient(145deg,#f7c6da,#e2c9f5 58%,#ffe0bd)}.marketPage.sbStoreMatch .marketHero{padding:11px 12px;min-height:0}.marketPage.sbStoreMatch .marketHero h1{font-size:29px}.marketPage.sbStoreMatch .marketHero .heroMark{width:54px;height:54px;flex-basis:54px}.sbStoreEncouragement{font-size:10px;white-space:normal}.marketPage.sbStoreMatch .dreamBanner{grid-template-columns:1fr;gap:6px}.marketPage.sbStoreMatch .sbStoreCategoryRow{grid-auto-columns:84px}.marketPage.sbStoreMatch .sbStoreCategoryRow button{min-height:61px}.marketPage.sbStoreMatch .sbStoreTierRow button{min-height:44px}.sbStoreRightRail{grid-template-columns:1fr}.sbStoreAvatarStage{height:265px}.sbStoreAvatarStage .sbStoreAvatar{left:38%;bottom:-20px;transform:translateX(-50%) scale(.77)}.sbStorePreviewArt{right:20px;width:91px;height:96px;bottom:53px}.sbStorePreviewLabel{right:14px}.sbStoreSelectedDetail{min-height:0;padding:11px}.sbStoreDetailHead b{font-size:20px}.sbStoreDetailActions button{min-height:48px}.marketPage.sbStoreMatch .storeGrid{grid-template-columns:repeat(2,minmax(0,1fr));max-height:none;overflow:visible;scrollbar-gutter:auto;padding:5px;gap:7px}.marketPage.sbStoreMatch .storeCard{height:160px}.marketPage.sbStoreMatch .storeCard .itemArt{height:98px}.marketPage.sbStoreMatch .storeCard .itemCopy h3{font-size:11.5px}.sbStoreCollectionsHeading{align-items:start;flex-direction:column}.sbStoreCollectionsHeading small{text-align:left}.sbStoreCollectionCards{grid-template-columns:1fr 1fr}.sbStoreCollectionCard{height:164px}.sbStoreCollectionArt{height:91px}.sbStoreValueCard{min-height:120px}.sbStoreValueCard b{font-size:19px}}
 @media(max-width:389px){.marketPage.sbStoreMatch{padding-left:7px;padding-right:7px}.marketPage.sbStoreMatch .marketHero h1{font-size:26px}.marketPage.sbStoreMatch .marketHero p{font-size:11.5px}.marketPage.sbStoreMatch .marketHero .heroMark{display:none}.marketPage.sbStoreMatch .sbStoreCategoryRow{grid-auto-columns:78px}.marketPage.sbStoreMatch .storeGrid{gap:6px}.marketPage.sbStoreMatch .storeCard{height:157px}.marketPage.sbStoreMatch .storeCard .itemArt{height:95px}.sbStoreStateBadge{font-size:7.5px}.sbStoreDetailActions{grid-template-columns:1fr}.sbStoreDream{grid-column:auto}.sbStoreCollectionCards{grid-template-columns:1fr}.sbStoreCollectionCard{height:154px}.sbStoreCollectionArt{height:84px}.sbStoreCollectionArt i{height:67px}}
 @media(prefers-reduced-motion:reduce){.marketPage.sbStoreMatch .storeCard,.sbStoreAvatarStage .sbStoreAvatar{animation:none!important;transition:none!important}}
+
+
+/* Desktop geometry corrections from strict 1408x1056 reference QA. */
+@media(min-width:1280px){
+  .marketPage.sbStoreMatch .storeGrid{
+    min-height:286px;
+    max-height:286px;
+  }
+  .sbStoreAvatarStage{
+    width:378px;
+    height:470px;
+  }
+  .sbStoreSelectedDetail{
+    min-height:212px;
+    max-height:212px;
+    padding:8px 10px;
+    overflow:hidden;
+  }
+  .sbStoreSelectedDetail .sbStoreDetailHead b{font-size:19px}
+  .sbStoreSelectedDetail .sbStoreMeta{margin-top:3px}
+  .sbStoreSelectedDetail .sbStorePrice{margin:5px 0 3px;padding:4px 7px}
+  .sbStoreSelectedDetail .sbStorePermanent{margin:3px 0 5px;line-height:1.15}
+  .sbStoreSelectedDetail .sbStoreDetailActions{gap:5px}
+  .sbStoreSelectedDetail .sbStoreDetailActions button{min-height:38px}
+  .sbStoreSelectedDetail .sbStoreDream{min-height:34px!important}
+  .sbStoreCollections{
+    margin-left:-168px;
+    width:calc(100% + 168px);
+    grid-template-columns:minmax(0,1088px) 296px;
+    column-gap:4px;
+  }
+  .sbStoreCollectionCard{height:216px}
+  .sbStoreCollectionArt{height:126px}
+  .sbStoreCollectionArt i{height:106px}
+  .sbStoreValueCard{
+    height:198px;
+    margin-top:18px;
+  }
+}
