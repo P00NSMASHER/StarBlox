@@ -3,6 +3,7 @@ on:
   push:
     branches: [screenshot-match-preproduction]
     paths:
+      - '.github/workflows/art-prompt-optimizer.yml'
       - 'scripts/artPromptOptimizer*.mjs'
       - 'scripts/artReviewNormalizer*.mjs'
       - 'docs/preproduction/art-prompt-optimizer/**'
