@@ -70,13 +70,14 @@ The legacy Aura-11 hash `ddb2c81b49db8e6ea6369c8f70cb720228feb73c` remains histo
 
 ## Spare-capacity visual deliverables
 
-Per Workstream-15 direction, Lane 11 did **not** claim another catalog family or edit shared runtime/state. The current bounded visual-finishing handoff now consists of three mutually consistent artifacts:
+Per Workstream-15 direction, Lane 11 did **not** claim another catalog family or edit shared runtime/state. The bounded visual-finishing handoff now consists of four mutually consistent artifacts:
 
 1. `docs/preproduction/workstreams/11-motion-game-feel.md` — narrative motion/game-feel recipes, event semantics, cleanup and later evidence plan.
 2. `docs/preproduction/workstreams/11-reference-effect-zones.md` — reference-coordinate effect masks, protection zones, compositing rules and static reduced-motion frames.
-3. `docs/preproduction/workstreams/11-effect-material-recipes-v1.json` — machine-readable visual contract, Git blob `2bdeb9eb873f87922b65392070bb5b386ef23073`, committed at `70ddefa85504c6fe54ae640eb5aa810f28c45a51`.
+3. `docs/preproduction/workstreams/11-effect-material-recipes-v1.json` — machine-readable material/motion contract, Git blob `2bdeb9eb873f87922b65392070bb5b386ef23073`.
+4. `docs/preproduction/workstreams/11-static-reduced-motion-capture-contract-v1.json` — deterministic static reduced-motion capture/acceptance packet, Git blob `8ab37c518ab105c9982857879241170a1e299bbb`, created at commit `6e51bbf65375148ac2418def9fe20a05a3b343bc`.
 
-The new machine-readable contract pins the verified Home/Store/Quest reference hashes and design-contract blob, defines the shared material palette and visual layer stack, gives bounded timing/particle/halo budgets, specifies Home room/avatar behavior, Store selection/equip/scroll behavior, Quest correct-vs-wrong/clue/retry behavior, and supplies explicit static reduced-motion equivalents. It also records the later Workstream-14 capture/profile packet without claiming any render or performance PASS.
+The new reduced-motion capture contract pins the verified Home/Store/Quest reference hashes and converts the existing visual recipes into screen/state/viewport still-image acceptance criteria. It defines Home truthful five-tier/no-motion composition, Store selected/equipped/after-scroll states, Quest unanswered/correct/wrong-clue-retry/next-clean states, 1408×1056 reference geometry, responsive rules for 1024×768 / 390×844 / 320×568, static material hierarchy, protected text/face/item zones, explicit fail conditions, and a Workstream-14 render-QA handoff. Responsive captures remain readability/hierarchy evidence only because no tablet/phone reference pixels exist.
 
 This remains **SPEC ONLY**. No motion runtime implementation, rendered-motion proof, paint/composite profiling, reduced-motion browser proof, catalog asset change, canonical mapping change, or new release clearance is claimed.
 
@@ -84,10 +85,10 @@ This remains **SPEC ONLY**. No motion runtime implementation, rendered-motion pr
 
 **05:** Aura family review is closed at the current hashes. Preserve all 12 ACCEPT decisions; re-review only if a later exact-hash defect or new asset hash is presented.  
 **08:** Aura 11 is already canonical. Preserve current Aura mappings unless a later exact-hash defect is recorded.  
-**14:** After 15 coordinates shared implementation, use the machine-readable recipe and reference-zone spec to capture actual normal/reduced states and paint/composite/scroll evidence. Open gates remain open until that execution exists.  
-**15:** Aura production is complete and Lane 11 claims no other catalog family. The narrative, coordinate-zoning and machine-readable visual-finishing specs are ready; explicitly coordinate/reassign Workstream 11 before any new catalog family or shared runtime-entrypoint implementation.  
+**14:** After 15 coordinates shared implementation, use the material recipe, reference-zone spec and deterministic reduced-motion capture contract to capture actual normal/reduced pixels and paint/composite/scroll evidence. Source/CSS inspection does not close the render gates.  
+**15:** Aura production is complete and Lane 11 claims no other catalog family. The narrative, zoning, machine-readable material and deterministic reduced-motion capture specs are ready; explicitly coordinate/reassign Workstream 11 before any new catalog family or shared runtime-entrypoint implementation.  
 **11:** Preserve accepted Aura bytes. Stay `ART_AND_VISUALS_ONLY`; no catalog-family expansion or shared runtime/state changes without Workstream-15 ownership coordination.
 
 Current counts: **12/12 exact-hash ACCEPT; 12/12 canonical; 0 pending reviewer-05 Aura hashes; 0 Aura regeneration IDs; 0 new catalog-family claims.**
 
-Global catalog/release gates remain open where not executed. Normal/reduced motion render QA and paint/composite/scroll profiling remain **OPEN / NOT EXECUTED**. No deployment action was taken.
+Global catalog/release gates remain open where not executed. Normal/reduced motion render QA, reference parity and paint/composite/scroll profiling remain **OPEN / NOT EXECUTED**. No deployment action was taken.
