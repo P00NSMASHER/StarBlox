@@ -5,18 +5,18 @@ STATUS: **DESKS 2–6 INDEPENDENTLY ACCEPTED — PRESERVE EXACT HASHES; DESKS 7�
 Branch: `screenshot-match-preproduction`  
 Workstream: 03  
 Allocation: `ART_AND_VISUALS_ONLY`  
-Observed coordination head before this analysis: `f5f92e015379fc490b4fcedb00482c77d3ee6da3`  
+Observed coordination head before this analysis: `2470036e8f1340b231b7329859f31e05176fa1b6`  
 Independent Desk reviewer: **05**  
 Canonical catalog writer: **08 only**  
 Cross-owner coordinator: **15 only**
 
 ## Useful reconciliation this cycle
 
-Current reviewer-05 evidence preserves **ACCEPT** decisions for the exact current Desk 2–6 hashes. Lane 03 therefore freezes all five accepted replacements and does not regenerate or restyle them.
+Current reviewer-05 evidence still preserves **ACCEPT** decisions for the exact current Desk 2–6 hashes. Lane 03 therefore freezes all five accepted replacements and does not regenerate, restyle or re-review them.
 
-No Desk 7–12 replacement was generated. The current authoritative evidence contains no exact reviewer-05 REWORK for those IDs and no explicit unfinished Desk 7–12 assignment from 15. Legacy age alone is not permission to replace them.
+No Desk 7–12 replacement was generated. The current authoritative reviewer-05 evidence contains no fresh exact-hash Desk 7–12 REWORK and coordination 15 has not opened an unfinished Desk 7–12 repair batch for lane 03. Legacy age alone is not permission to replace them.
 
-Because the Desk lane had no actionable repair, this cycle used spare capacity for bounded Home visual analysis only. No Home runtime/CSS, asset bytes, canonical manifest/runtime, player state, learning content, prices/unlocks, or reference images changed, so tests/build were not redundantly rerun.
+The changed input this cycle is Workstream 13's newly repository-staged `home-bedroom-w13-v3` environment repair. Lane 03 inspected the actual desktop and phone pixels as bounded Home composition evidence only. No Home runtime/CSS, scene asset bytes, canonical manifest/runtime, player state, learning content, prices/unlocks or reference images were changed here, so tests/build were not redundantly rerun.
 
 ## Current Desk truth
 
@@ -39,7 +39,7 @@ The current `docs/preproduction/catalog-sprint/reviews/05.json` explicitly prese
 - `desks-5` → `95fe65632e4f40b76b23cce30071ee2fdc5b4399`
 - `desks-6` → `52df05265de236911927b904b07e68dac7a17828`
 
-Desk 2–4 current PNG replacements and Desk 5–6 current JPEG replacements are accepted exact hashes and must not be replaced or churned by producer lane 03. Workstream 08 alone may perform canonical wiring after its own metadata/file/content checks; Workstream 03 does not modify manifest/runtime mappings.
+Desk 2–6 current accepted hashes are producer-frozen. Workstream 08 alone may perform canonical wiring after its own metadata/file/content checks; Workstream 03 does not modify manifest/runtime mappings.
 
 ### Superseded Desk 2–4 files — never select for current review
 
@@ -51,65 +51,54 @@ Those old WebP blobs remain audit history only. They were superseded after inval
 
 ## Bounded Home reference analysis — no runtime edits
 
-Evidence inspected in this cycle:
+### Stable reference findings retained
 
-- immutable reference: `docs/preproduction/reference-screenshots/originals/home-1448x1086.jpeg`, normalized comparison `home-desktop-1408x1056.png`;
-- latest preserved running-browser Home diagnostic used by reviewer 14: workflow `35663655650`, artifact `10668287632`, including `home-desktop-1408x1056.png` and `home-phone-390x844.png`;
-- current environment candidate under reviewer-14 composition review: `home-bedroom-w13-v2`, desktop exact blob `2806e8282923efb1b0dc467cbae7139b8d3f339b`;
-- independent composition verdict: `docs/preproduction/visuals/chat-home-bedroom-w13-v2-composition-performance-14-to-15.json` = **REWORK_COMPOSITION_BEFORE_RUNTIME_INTEGRATION**.
+The immutable Home reference uses the bedroom as the full visual canvas: warm left-window illumination, soft textiles and rounded furniture, bed mass on the left, desk/shelving mass on the right, and a deliberately readable center for the avatar/buddy. Room Progress is image-led at top-center, Dream Goal is aspirational-room-led at right, and the dense bottom panels float over the room rather than replacing it with dashboard chrome. The preserved running Home already contains the needed modules; its larger visual gap is material/depth language, not missing panel inventory.
 
-### What the reference is doing visually
+The prior `home-bedroom-w13-v2` environment moved strongly toward the reference's warm materials, floor contact, furniture thickness and bed-left/desk-right architecture, but reviewer 14 correctly returned it for lower hero-corridor and phone-crop composition. That material/light direction remains worth preserving.
 
-1. **The room is the canvas, not a secondary panel.** The reference carries warm bedroom pixels all the way behind the top HUD, with the left window as the brightest architectural source. It does not create a large visually dead header separating HUD from room.
-2. **Depth is layered around a deliberately open hero corridor.** Bed and side furniture anchor the left, desk/shelving anchor the right, and the avatar/buddy occupy the clear middle floor plane. Foreground rug, furniture contact shadows, window light, textile softness and shelf depth keep the room dimensional without competing with the hero.
-3. **The five-tier Room Progress strip is image-led.** Five room previews establish progression at a glance; text is subordinate to visual tier differentiation. The strip sits top-center over comparatively calm wall/room pixels.
-4. **The Dream Goal card is aspirational-room-led.** Its large room image carries the emotional payoff; bullets and the CTA are secondary. The reference therefore feels like a bedroom world with UI floating over it, not a dashboard with a decorative background.
-5. **Bottom UI is dense but visually separated.** Daily Quests, Customize Me, Today I’m Learning and the motivational card use high-contrast blue containers, while their thumbnails/icons stay bright and materially distinct from the room. This preserves scan order despite the amount of information.
+### New actual-pixel inspection: `home-bedroom-w13-v3`
 
-### Current running Home gap visible in preserved browser evidence
+Workstream 13 has now staged and exact-readback-verified the repair for independent review:
 
-The preserved running desktop capture is materially farther from the reference in **material/depth language** than in raw panel inventory. It already contains the expected Home modules, but the room itself reads flatter and more diagrammatic: large simplified color fields, low furniture/material response and much weaker window/floor depth than the reference. The large opaque navy header in that preserved capture also visually detaches the HUD from the bedroom, whereas the reference integrates HUD and room into one continuous composition. This capture is retained only as a placement/material diagnostic; Home structural geometry is currently green elsewhere and must not be reopened from this older diagnostic alone.
+- desktop: `public/assets/visuals/lane-13/home-bedroom-w13-v3-1408x1056.png`
+- desktop SHA-256: `8e41a0f76546f73e50bbb09d3e4d3292baeb1084549e1e61ebc5d55e6e513884`
+- phone: `public/assets/visuals/lane-13/home-bedroom-w13-v3-phone-390x844.png`
+- phone SHA-256: `d2dafc3efe41c6c6982592e6724091dbd88f890a8f617cdf22538392a24a1715`
+- intake/handoff head observed: `2470036e8f1340b231b7329859f31e05176fa1b6`
+- producer state: **STAGED_READY_FOR_INDEPENDENT_REVIEW / not runtime-wired / not approved**
 
-On the preserved 390px phone capture, Room Progress dominates the first viewport and the hero is pushed below it. Because no phone original was supplied, this is **not** an exact-parity failure claim. It does show why a Home background must tolerate a narrow center crop without placing bed/chair/plant silhouettes directly behind the hero.
+Actual desktop pixels show that the specific v2 composition defect was materially repaired. The bed remains a left-edge anchor and the desk/chair remain right-edge anchors, while the middle wall/floor corridor is now genuinely open. Warm directional window light enters from the left, the furniture has visible rounded volume and contact, and the center no longer contains a large footboard/chair collision that would compete directly with an avatar/buddy overlay.
 
-### Current Home bedroom v2 candidate: what to preserve
+The purposeful 390×844 crop also solves the earlier narrow-crop failure mechanically: the center column is mostly clear wall and floor, with only partial bed and chair context at the extreme edges. That is substantially safer for the mobile hero than center-covering the old 4:3 environment.
 
-The v2 environment is a large visual improvement over the preserved running background in the exact areas the reference depends on:
+### Remaining fidelity risk to watch in independent review
 
-- believable rounded furniture volumes and visible table/bed thickness;
-- warm wood, textile and painted-surface response instead of flat vector planes;
-- clear floor contact/shadows and directional left-window lighting;
-- bed-left / desk-right architecture that matches the reference composition language;
-- a calm upper-center wall suitable for Room Progress/hero overlays;
-- no baked UI, avatar, counters or fake player state.
+The repair may have **over-corrected toward negative space**. Compared with the Home reference's dense cozy-world feeling, the v3 center is intentionally very quiet: a broad largely undecorated wall over a clean floor plane. That is useful for the hero and UI, but it reduces some of the reference's layered bedroom richness and visual storytelling when viewed as a standalone background.
 
-Those qualities should survive the v3 repair. The remaining defect is composition, not a reason to reset the art direction.
+The smallest art-direction response, **only if reviewers 01/14 request it**, would be to keep the cleared `x≈36–64%` hero corridor and current phone safety while adding depth outside that corridor: stronger edge-localized shelving/books/plants/star decor, more textile variation, or additional wall/furniture detail confined to the left and right thirds. Do not refill the center with furniture, baked UI, fake state or decorative noise. Any such scene change remains Workstream 13/15-owned, not lane 03 runtime/CSS work.
 
-### Smallest Home composition repair supported by the pixels
-
-Reviewer 14's fresh decision is consistent with the direct pixel comparison: **keep v2's palette/material/light recipe, but open the lower center.** The bed/footboard reaches too far into the lower hero zone from the left and the chair/plant combination intrudes from the right. For the v3 environment assigned to Workstream 13, the repair should keep approximately `x=36–64%` visually quiet through the lower half, while preserving the left bed and right desk as edge anchors. A separate phone-oriented derivative/crop is preferable to center-covering the 4:3 desktop asset because center-cover retains both intrusions in the likely hero region.
-
-Lane 03 does **not** own that asset repair. This analysis is a bounded handoff to 13/15 only; no shared Home CSS/runtime or scene files were edited here.
+Lane 03 does **not** claim Home acceptance from this inspection. Reviewer 01 owns art judgment, reviewer 14 owns composition/performance judgment, and 15 coordinates any runtime wiring.
 
 ## Checks performed this cycle
 
 - **PASS** — read `ART_VISUALS_SPRINT.json` before older mission text.
-- **PASS** — re-read latest coordination head `f5f92e0...` before writing.
+- **PASS** — read latest branch head before this documentation write.
 - **PASS** — re-read current reviewer-05 evidence; Desk 2–6 exact hashes remain accepted.
-- **PASS** — 15's current coordination assigns the Home v3 corridor/mobile derivative repair to Workstream 13, not 03.
-- **PASS** — no accepted Desk was regenerated, overwritten, restyled or re-reviewed.
-- **PASS** — no speculative Desk 7–12 production started.
-- **PASS** — directly inspected actual reference pixels, preserved running desktop/phone Home pixels and the current v2 environment candidate pixels.
-- **NOT RERUN by design** — tests/build; this cycle changed owned documentation only, not runtime or asset bytes.
+- **PASS** — no exact current Desk 7–12 REWORK or explicit unfinished Desk 7–12 assignment was present, so no speculative desk generation occurred.
+- **PASS** — actual staged Home v3 desktop and 390×844 phone pixels were inspected.
+- **PASS** — Home v3 exact repository readback hashes/dimensions are recorded by Workstream 13; lane 03 did not duplicate or alter those assets.
+- **NOT RERUN by design** — tests/build; this cycle changes owned documentation only, not runtime or asset bytes.
 - **NOT ATTEMPTED by design** — canonical wiring; owner 08 only.
-- **NOT ATTEMPTED by design** — shared Home runtime/CSS or environment edits; 15/13 ownership preserved.
+- **NOT ATTEMPTED by design** — shared Home runtime/CSS or environment edits; 13/15 ownership preserved.
 
 ## Handoff
 
 1. **08:** preserve/consume independently accepted Desk hashes under normal metadata/file/content checks; 03 does not canonical-wire them.
 2. **03:** preserve Desk 2–6. Do not regenerate any of those exact accepted versions.
 3. **03 / 15:** Desk 7–12 remain on hold until reviewer 05 publishes an exact current REWORK or 15/current authoritative evidence explicitly assigns an unfinished Desk. If assigned, repair only that bounded 2–4 item batch.
-4. **13 / 15:** for Home v3, preserve v2 material/light quality and bed-left/desk-right language, but clear the lower hero corridor and provide a deliberate phone derivative/crop. Do not wire v2 as-is; reviewer 14's current composition decision is REWORK.
-5. **03:** do not edit shared Home runtime/CSS or claim Home acceptance until 15 assigns a specific 03-owned screen/module change.
+4. **01 / 14 / 15:** independently review staged Home v3. The corridor/phone repair is visibly improved; scrutinize whether its large calm center still preserves enough reference-like cozy depth once avatar/buddy and real UI are composited.
+5. **13 / 15:** if Home v3 needs another scene repair, preserve the open central corridor and phone-safe crop; add richness only at the edges rather than putting furniture back behind the hero.
+6. **03:** do not edit shared Home runtime/CSS or claim Home acceptance until 15 assigns a specific 03-owned screen/module change.
 
 **Replit/Floot/main/deploy/paid settings were not touched. Player data, saves, learning, Store IDs, prices/unlocks, canonical manifest/runtime and original reference files were not changed.**
