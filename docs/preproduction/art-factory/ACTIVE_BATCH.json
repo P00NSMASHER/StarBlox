@@ -1,8 +1,8 @@
 {
-  "schemaVersion": 3,
+  "schemaVersion": 4,
   "owner": "15",
   "branch": "screenshot-match-preproduction",
-  "sourceHead": "3cda70ca9656883546f6088420df00f685106bde",
+  "sourceHead": "63d58f08c194628892a620d873450ff6a6c3964d",
   "status": "ACTIVE_RELEASE_BLOCKER_FIRST",
   "policy": {
     "maxConcurrentProductionBatches": 4,
@@ -61,7 +61,7 @@
         "decor-12"
       ]
     },
-    "note": "Live manifest/runtime remain v33 with 19 visible generic fallbacks. Reviewer02 has now independently ACCEPTed Seating 7-10 exact current hashes from real rendered pixels; those same exact repository paths were already mapped in manifest/runtime v33, so they immediately raise the strict accepted+canonical floor from 100 to 104 without a mapping rewrite. 08 should still revalidate the live hashes on its next pass, but no status-only manifest/runtime rewrite is required when the mapping is unchanged. Store/Quest desktop geometry remains green absent fresh failing evidence."
+    "note": "Manifest/runtime remain v33 with 19 visible generic fallbacks and strict accepted+canonical floor 104 at this synchronization point. Four release-production slots are now explicitly occupied: 03 Desk generation, 09 Decor generation, 13 Wall generation, and 07 exact-byte recovery/import. Store and Quest measured geometry are green absent fresh failing evidence; changed-batch crop gating is scoped to changed canonical IDs with collection-wide legacy containment retained as diagnostic."
   },
   "batches": [
     {
@@ -73,10 +73,10 @@
         "desks-9",
         "desks-10"
       ],
-      "state": "PARTIAL_REMOTE_CANDIDATES_PRESERVED__DESKS8_10_ACTIONABLE_WHEN_GENERATOR_AVAILABLE",
+      "state": "DESKS7_8_CANDIDATES_PRESERVED__DESKS9_10_ACTIONABLE_WHEN_GENERATOR_AVAILABLE",
       "reviewer": "05",
-      "basis": "Desks 7-12 remain absent from canonical runtime mapping and are visible generic fallbacks. Desks 7 A/B now have genuine Adobe Firefly remote source candidates, but no repository-staged bytes yet. That newer pending candidate evidence freezes Desk 7 against regeneration. Desks 8-10 remain the rest of the bounded first pilot and may continue only when the authorized generator quota permits.",
-      "requirements": "For Desk 7, recover the exact existing Firefly A/B bytes through a supported authorized path; do not regenerate, re-encode, approximate, or review remote-only bytes. After exact repository staging/readback and verify_staged_output evidence, route through 06 -> 14 render -> reviewer05. For Desks 8-10, continue the existing optimizer/deterministic plan only when generation is actually available; preserve exact Store metadata and provenance. Do not open Desks 11-12 until the first pilot receives independent disposition.",
+      "basis": "Desks 7-12 remain visible generic fallbacks. Desk 7 has two genuine Adobe Firefly remote source candidates and Desk 8 has two preserved native source/derivative candidate sets with exact measured hashes, but neither item has exact repository-staged bytes yet. Those newer candidate records freeze Desks 7-8 against regeneration. Desks 9-10 remain the bounded generation work when authorized capacity is available.",
+      "requirements": "Do not spend producer03 time on byte transport for Desks 7-8; Workstream07 now owns exact-byte recovery/import. Producer03 continues only Desks 9-10 generation when authorized capacity is available, preserving exact Store metadata/provenance, and freezes Desks 11-12 until this pilot receives independent disposition. Any staged Desk candidate routes 06 -> 14 render -> reviewer05.",
       "pendingCandidates": {
         "desks-7": {
           "state": "GENERATED_REMOTE_NOT_REPOSITORY_STAGED",
@@ -85,14 +85,20 @@
               "variant": "A-PHYSICAL",
               "seed": 179943007,
               "adobeGenerationUrn": "urn:aaid:sc:US:30c2a335-0e00-486d-b0ba-18d7a73940ad",
-              "dimensions": [1024, 1024],
+              "dimensions": [
+                1024,
+                1024
+              ],
               "format": "PNG"
             },
             {
               "variant": "B-READABILITY",
               "seed": 776146080,
               "adobeGenerationUrn": "urn:aaid:sc:US:4339c37e-6604-49a5-90d4-0295b6150c99",
-              "dimensions": [1024, 1024],
+              "dimensions": [
+                1024,
+                1024
+              ],
               "format": "PNG"
             }
           ],
@@ -100,13 +106,23 @@
           "rule": "Freeze against regeneration while exact remote bytes remain recoverable; remote generation metadata is not repository staging and carries no ACCEPT verdict."
         },
         "desks-8": {
-          "state": "TRANSIENT_GENERATOR_RATE_LIMIT_AFTER_DESK7_SUCCESS"
+          "state": "TWO_SOURCE_CANDIDATES_GENERATED_EXACT_HASHES_PRESERVED_REPOSITORY_STAGE_PENDING",
+          "evidence": "docs/preproduction/art-factory/requests/w03-desks-8-generation-evidence-20260922.json",
+          "sourceSha256": [
+            "afd02d9caafb473f5069c5fbdfc0d0d2304caa720f5eb4db404ddaca5c02d6d9",
+            "a0c4ff059b71f0b64c923e310e8f8244a6bbe46c8a60aa0bb95570df287cb54e"
+          ],
+          "derivativeExpectedGitBlobSha": [
+            "882229409d416fd4c5e8f0715425b308f7fc74aa",
+            "67085c440d4ea56e5390863162b3e5b7a16933af"
+          ],
+          "rule": "Freeze against regeneration. Workstream07 imports only exact preserved bytes that reproduce the measured hashes; any mismatch is rejected before staging."
         },
         "desks-9": {
-          "state": "NOT_ATTEMPTED_AFTER_TRANSIENT_RATE_LIMIT"
+          "state": "ACTIONABLE_GENERATION_WHEN_AUTHORIZED_CAPACITY_AVAILABLE"
         },
         "desks-10": {
-          "state": "NOT_ATTEMPTED_AFTER_TRANSIENT_RATE_LIMIT"
+          "state": "ACTIONABLE_GENERATION_WHEN_AUTHORIZED_CAPACITY_AVAILABLE"
         }
       },
       "preserve": [
@@ -162,6 +178,27 @@
         "decor-3",
         "decor-4"
       ]
+    },
+    {
+      "producer": "07",
+      "batchId": "w07-exact-byte-recovery-v1",
+      "batchType": "EXACT_BYTE_RECOVERY_IMPORT",
+      "scope": [
+        "desks-7",
+        "desks-8",
+        "wall-8",
+        "tops-11"
+      ],
+      "state": "ACTIVE_RECOVERY_IMPORT_SLOT",
+      "reviewerRouting": {
+        "desks-7": "05",
+        "desks-8": "05",
+        "wall-8": "14",
+        "tops-11": "01"
+      },
+      "basis": "Fourth allowed production slot dedicated to exact-byte recovery/import so remote/local candidates do not stall the release pipeline. This lane never generates creative art and never reviews or canonical-wires its own recovered bytes.",
+      "requirements": "Priority: recover exact Desk7 Firefly bytes from the existing Adobe generation assets; import one exact preserved Desk8 source/derivative set only if measured hashes reproduce; materialize exact selected Wall8 Variant B bytes; investigate Tops11 exact authoritative payload only if a recoverable exact source exists. Never regenerate, re-encode, resize, approximate or substitute bytes. Stage versioned repository bytes, exact readback hash/bytes/dimensions, preserve source lineage, then route to 06/14 and the assigned independent reviewer.",
+      "nextAfterScope": "tops-12, then the next exact-byte-only blocker selected by Workstream15. Keep the slot occupied whenever a recoverable blocker exists."
     }
   ],
   "heldUntilFallbackZero": [
@@ -258,7 +295,12 @@
       "rule": "Preserve both remote Firefly candidates. Do not regenerate Desk7 while those exact outputs remain recoverable. Recover/stage exact bytes first; remote metadata alone is not STAGED_EXACT_BYTES_VERIFIED."
     },
     "tops11_12_v7": "Exact authoritative WEBP payload bytes remain unavailable; do not regenerate, re-encode or approximately reconstruct.",
-    "headwearRecoveryResolved": "Headwear5-8 exact repository bytes, real card/detail evidence and reviewer01 ACCEPT are canonical in manifest/runtime v33. Freeze those exact hashes."
+    "headwearRecoveryResolved": "Headwear5-8 exact repository bytes, real card/detail evidence and reviewer01 ACCEPT are canonical in manifest/runtime v33. Freeze those exact hashes.",
+    "desk8ExactImportPending": {
+      "state": "GENERATED_LOCAL_EXACT_BYTE_IMPORT_PENDING",
+      "evidence": "docs/preproduction/art-factory/requests/w03-desks-8-generation-evidence-20260922.json",
+      "rule": "Preserve both source candidates and measured derivative hashes. Workstream07 owns import; no Desk8 regeneration while exact bytes remain recoverable."
+    }
   },
   "rendererPriority": "14 prioritizes exact-hash card/detail renders for newly STAGED Desks7-10, Wall9-12 and Decor5-8. Remote-only Desk7 candidates are not renderable review inputs until exact repository bytes are staged/read back. 14 independently reviews Wall/Decor and routes Desk pixels to reviewer05. Do not rerender already dispositioned exact hashes.",
   "latestWorkflowObservation": {
@@ -266,13 +308,13 @@
     "runId": 35749978534,
     "head": "b9ae26ddfc94388a637dbacf1c3e7309e7b26f93",
     "conclusion": "success",
-    "note": "No current-head evidence justifies scheduled-worker CI/workflow edits. CI ownership freeze remains in force."
+    "note": "Art Factory preflight remains green at the last observed run. Interactive coordination narrowed changed-batch card containment to changed canonical IDs only; collection-wide legacy containment remains diagnostic. No test assertion for changed art was removed."
   },
   "readerRule": "Every worker must revalidate assignment, exact item hash, review state and branch head before writing. This coordination file never overrides newer exact evidence.",
   "routingOptimization": {
-    "status": "ACTIVE",
-    "reason": "Clear the 19 visible fallback assets without reopening already-green geometry or nonblocking art work.",
-    "producer03": "Desk7 exact-byte recovery first; Desk8-10 generation when authorized capacity is available; Desks11-12 remain gated.",
+    "status": "ACTIVE_FOUR_SLOTS",
+    "reason": "Clear the 19 visible fallback assets with all four allowed release-production slots continuously assigned, while freezing accepted/current pending hashes and avoiding nonblocking work.",
+    "producer03": "Generate Desks 9-10 only when authorized capacity is available; Desks 7-8 are frozen and handed to 07 for exact-byte recovery/import; Desks 11-12 remain gated.",
     "producer13": "Wall 9-12 release production; scene generation paused while fallbackCount > 0.",
     "producer09": "Decor 5-8 release production; Decor9-12 remain gated until independent disposition.",
     "reviewer05": "Desk reviewer immediately after renderer14; no Wall production.",
@@ -280,20 +322,65 @@
     "workstream08": "Validate newly accepted Seating7-10 exact hashes against existing v33 paths; write manifest/runtime only for a real mapping delta. Continue immediate integration of future qualified fallback ACCEPTs.",
     "hourlyFlow": [
       "15@00",
-      "03@03",
-      "04@06",
+      "12@02",
+      "03@06",
+      "09@10",
       "07@12",
-      "09@15",
-      "13@18",
-      "11@21",
-      "12@23",
-      "06@26",
-      "14@30",
-      "05@33",
-      "01@36",
-      "02@39",
-      "08@48",
-      "10@54"
+      "13@14",
+      "06@18",
+      "14@22",
+      "05@26",
+      "01@30",
+      "02@34",
+      "08@38",
+      "04@42",
+      "11@46",
+      "10@56"
+    ],
+    "producer07": "Dedicated exact-byte recovery/import slot: Desk7 -> Desk8 -> Wall8 -> Tops11, then Tops12/next exact-byte blocker. No creative generation, review or canonical writing.",
+    "activeProductionSlots": [
+      {
+        "slot": 1,
+        "owner": "03",
+        "role": "Desk generation",
+        "scope": [
+          "desks-9",
+          "desks-10"
+        ]
+      },
+      {
+        "slot": 2,
+        "owner": "09",
+        "role": "Decor generation",
+        "scope": [
+          "decor-5",
+          "decor-6",
+          "decor-7",
+          "decor-8"
+        ]
+      },
+      {
+        "slot": 3,
+        "owner": "07",
+        "role": "Exact-byte recovery/import",
+        "scope": [
+          "desks-7",
+          "desks-8",
+          "wall-8",
+          "tops-11"
+        ]
+      },
+      {
+        "slot": 4,
+        "owner": "13",
+        "role": "Wall generation",
+        "scope": [
+          "wall-9",
+          "wall-10",
+          "wall-11",
+          "wall-12"
+        ]
+      }
     ]
   }
 }
