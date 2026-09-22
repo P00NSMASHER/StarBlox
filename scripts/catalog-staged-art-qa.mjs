@@ -108,6 +108,24 @@ function dataUriForPath(p){
   return `data:${mimeForPath(p)};base64,${bytes.toString('base64')}`;
 }
 function readLane(p){try{return JSON.parse(fs.readFileSync(p,'utf8'));}catch{return {};}}
+function decidedExactHashSet(){
+  const decided=new Set(),dir='docs/preproduction/catalog-sprint/reviews';
+  if(!fs.existsSync(dir)) return decided;
+  for(const name of fs.readdirSync(dir).filter(x=>/^\d+\.json$/.test(x)).sort()){
+    let data;try{data=JSON.parse(fs.readFileSync(path.join(dir,name),'utf8'));}catch{continue;}
+    const reviewer=String(data.reviewer??'');
+    const add=(itemId,hash,decision,producer)=>{
+      const d=String(decision??'').toUpperCase();
+      if(!itemId||!hash||!['ACCEPT','REWORK'].includes(d)) return;
+      const p=producer==null?'':String(producer);
+      if(reviewer&&p&&reviewer===p) return;
+      decided.add(`${itemId}|${String(hash).toLowerCase()}`);
+    };
+    for(const row of data.reviews??[]) add(row.itemId,row.assetHash,row.decision,row.producer);
+    for(const [itemId,row] of Object.entries(data.decisions??{})) add(itemId,row?.hash,row?.decision,row?.producer);
+  }
+  return decided;
+}
 function laneMetaById(){
   const map=new Map();
   for(const lanePath of producerLanes){
@@ -301,7 +319,17 @@ try{
   for(const [collection,def] of Object.entries(definitions)){
     const lane=readLane(def.lane);const items=def.names.map((name,i)=>{const id=`${collection}-${i+1}`,fallback=`public/assets/catalog/${id}.svg`,repositoryPath=selectOwnCollectionPath(lane,id,fallback,report);if(!fs.existsSync(repositoryPath))throw new Error(`${id}: no staged file at ${repositoryPath}`);return{id,name,tier:tierFor(i),theme:themes[(i+def.offset)%themes.length],repositoryPath,blobSha:blobSha(repositoryPath)};});await renderSet(browser,collection,items,report);
   }
-  const replacements=selectCurrentReplacementCandidates(report);await renderSet(browser,'staged-replacements',replacements,report);report.replacementCount=replacements.length;report.replacementIds=replacements.map(x=>`${x.id}:${x.blobSha}:${x.repositoryPath}`);report.replacementExactDuplicateGroups=duplicateHashGroups(replacements);
+  const discoveredReplacements=selectCurrentReplacementCandidates(report);
+  const terminalDecisions=decidedExactHashSet();
+  const frozenReviewedReplacements=discoveredReplacements.filter(x=>terminalDecisions.has(`${x.id}|${String(x.blobSha).toLowerCase()}`));
+  const replacements=discoveredReplacements.filter(x=>!terminalDecisions.has(`${x.id}|${String(x.blobSha).toLowerCase()}`));
+  report.replacementDiscoveredCount=discoveredReplacements.length;
+  report.frozenReviewedReplacementCount=frozenReviewedReplacements.length;
+  report.frozenReviewedReplacements=frozenReviewedReplacements.map(x=>({id:x.id,blobSha:x.blobSha,repositoryPath:x.repositoryPath,reason:'INDEPENDENT_TERMINAL_EXACT_HASH_DECISION_ALREADY_EXISTS'}));
+  await renderSet(browser,'staged-replacements',replacements,report);
+  report.replacementCount=replacements.length;
+  report.replacementIds=replacements.map(x=>`${x.id}:${x.blobSha}:${x.repositoryPath}`);
+  report.replacementExactDuplicateGroups=duplicateHashGroups(replacements);
   const visuals=selectVisualCandidates(report);await renderSet(browser,'visual-assets',visuals,report,{width:1408,height:1056});report.visualAssetCount=visuals.length;report.visualAssetIds=visuals.map(x=>`${x.id}:${x.blobSha}:${x.repositoryPath}`);report.visualExactDuplicateGroups=duplicateHashGroups(visuals);
 }catch(error){report.errors.push(String(error));}finally{await browser.close();fs.writeFileSync(path.join(artifactRoot,'report.json'),JSON.stringify(report,null,2));}
 const failures=[...report.errors,...Object.entries(report.sets).flatMap(([name,set])=>[...set.contactSheetErrors.map(e=>`${name}: ${e}`),...set.items.flatMap(i=>(i.status!==200||!i.screenshot||!i.naturalWidth||i.errors.length)?[`${name}/${i.id}/${i.blobSha}: ${JSON.stringify(i)}`]:[])])];
