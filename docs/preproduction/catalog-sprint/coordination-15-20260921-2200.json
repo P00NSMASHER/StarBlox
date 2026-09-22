@@ -1,10 +1,10 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "scope": "ART_AND_VISUALS_ONLY",
   "branch": "screenshot-match-preproduction",
   "coordinationOwner": "15",
   "canonicalWriter": "08",
-  "observedHead": "142f21b5d2ea60800191f1b83e838f79b44bc6df",
+  "observedHead": "6bf28983c52a84f93e7f5ccfae12deecf55d873e",
   "phase": "CATALOG_SPRINT",
   "counts": {
     "catalogTarget": 192,
@@ -12,13 +12,13 @@
     "independentlyAcceptedCurrentHashesFloor": 74,
     "canonicalAcceptedCurrentHashesWired": 35,
     "acceptedCurrentHashesAwaitingCanonical": 39,
-    "repositoryStoredReadbackCurrentCandidateFloor": 83,
+    "repositoryStoredReadbackCurrentCandidateFloor": 84,
     "externallyGeneratedPreservedNotRepositoryStored": 4,
     "catalogReleaseClearedIds": 0
   },
   "countNotes": {
     "accepted": "Disjoint reviewer partitions: reviewer01 18, reviewer02 15, reviewer05 17, reviewer14 24 after the Rugs 9-12 supplemental review.",
-    "storedFloor": "Conservative floor only: 74 accepted repo-stored hashes plus Desk 2-4, Tops 11-12, Rugs 11-12 and Seating 11-12 current branch candidates. Other legacy/rework/staged assets are not added without a fresh exact accounting pass.",
+    "storedFloor": "Conservative floor only: 74 accepted repo-stored hashes plus Desk 2-4, Tops 11-12, Rugs 11-12, Seating 11-12 and newly attached Aura 11 current branch candidates. Other legacy/rework/staged assets are not added without a fresh exact accounting pass.",
     "externalPreserved": "Headwear 5-8 are generated/preserved in Adobe with derivatives but do not yet have repository bytes/hashes; do not count them as staged or accepted."
   },
   "oldestReleaseCriticalDependency": {
@@ -52,6 +52,11 @@
       ],
       "reviewer": "14"
     },
+    "11": {
+      "priority": "Aura 11 Dream Aurora v3 preserved Git blob is now branch-attached without byte changes. Do not regenerate. Route exact current path/hash through card/detail render, then reviewer 05.",
+      "item": {"id":"auras-11","path":"/assets/catalog/auras-11-w11-v3.jpg","hash":"7f3372c1584e07f18a3abfc7818013190fff1560","attachmentCommit":"6bf28983c52a84f93e7f5ccfae12deecf55d873e","readback":"PASS"},
+      "reviewer": "05"
+    },
     "12": {
       "priority": "Do not generate more accessories. Preserve Headwear 5-8 generated assets and close repository byte transfer/readback first.",
       "items": ["headwear-5","headwear-6","headwear-7","headwear-8"],
@@ -62,7 +67,7 @@
       "temporaryTransportHelper": "Assist Workstream 12 with transfer of the already-generated Headwear 5-8 derivatives from the exact provenance/URLs recorded in lane-12.json into their planned versioned GitHub paths. Do not regenerate, change producer provenance, self-review, or canonical-wire. Return exact repo hashes/readback to 12/01. After handoff, resume Store screenshot-match support."
     },
     "14": {
-      "priority": "Rugs 9-12 review and Desk 2-4 render handoff are complete. Next close Seating 11-12 exact-current card/detail evidence if current producer ledger/path hashes reconcile; otherwise continue actual Home/Store/Quest reference QA. Do not churn unchanged Wall/Decor legacy hashes."
+      "priority": "Rugs 9-12 review and Desk 2-4 render handoff are complete. Next close Seating 11-12 exact-current card/detail evidence if current producer ledger/path hashes reconcile. After that, render attached Aura 11 exact hash for reviewer 05. Do not churn unchanged Wall/Decor legacy hashes."
     }
   },
   "currentAcceptedDeltasSincePriorCoordination": {
@@ -75,6 +80,12 @@
     "13": "Scene/character visual asset production remains allowed in exclusive versioned paths. Current Home foreground-depth candidate is staged only, not runtime-wired or independently accepted.",
     "04AfterTransport": "Store screenshot-match analysis remains visual-only until 15 assigns a concrete runtime/CSS change.",
     "10": "Continue deterministic responsive visual/reference evidence without inventing mobile reference parity."
+  },
+  "automationReconciliation": {
+    "sameOriginal15IdsPreserved": true,
+    "unauthorizedReplacementTaskDisabled": "6ab1e24b6e8c8191b050a0a2c1b00e3a",
+    "originalAccessoryTaskReenabled": "6ab137ae4c0c81919983c1ff69020447",
+    "note": "No unrelated task was altered. Original hourly StarBlox IDs remain the active visual workforce."
   },
   "releaseAndSafety": {
     "originalReferencePixelsAccessible": true,
