@@ -21,14 +21,13 @@ on:
       - 'scripts/artWorkflowAudit.node-test.mjs'
       - 'scripts/catalogVisualPreflight.py'
       - 'scripts/catalogVisualCalibration.py'
-      - 'docs/preproduction/art-factory/verify_staged_output.py'
+      - 'docs/preproduction/art-factory/**'
       - 'docs/preproduction/catalog-sprint/reviews/*.json'
       - 'docs/preproduction/catalog-sprint/lane-*.json'
       - 'public/assets/catalog/**'
       - 'public/assets/catalog-candidates/**'
       - 'catalog-art-manifest.json'
       - 'src/gameModel.js'
-      - 'src/catalogArtRuntime.js'
 
 permissions:
   contents: read
@@ -61,7 +60,7 @@ jobs:
           /catalog-art-manifest.json
           /src/gameModel.js
           EOF
-          git -c protocol.version=2 fetch --no-tags --depth=2 --filter=blob:none origin "${GITHUB_SHA}"
+          git -c protocol.version=2 fetch --no-tags --depth=1 --filter=blob:none origin "${GITHUB_SHA}"
           git checkout --detach FETCH_HEAD
           test "$(git rev-parse HEAD)" = "${GITHUB_SHA}"
 
@@ -105,20 +104,14 @@ jobs:
                       single_head_commit = False
 
               if not single_head_commit:
-                  parent_is_local = subprocess.run(
-                      ['git','cat-file','-e',f'{before}^{{commit}}'],
-                      stdout=subprocess.DEVNULL,
-                      stderr=subprocess.DEVNULL,
-                  ).returncode == 0
-                  if not parent_is_local:
-                      subprocess.run(
-                          ['git','-c','protocol.version=2','fetch','--no-tags','--depth=1','--filter=blob:none','origin',before],
-                          check=True,
-                      )
+                  subprocess.run(
+                      ['git','-c','protocol.version=2','fetch','--no-tags','--depth=1','--filter=blob:none','origin',before],
+                      check=True,
+                  )
                   changed = subprocess.check_output(
                       ['git','diff','--name-only',before,head], text=True
                   ).splitlines()
-                  change_source = 'git-diff-local-depth2' if parent_is_local else 'git-diff-network-fallback'
+                  change_source = 'git-diff-fallback'
           else:
               changed = ['__workflow_dispatch__']
 
@@ -129,21 +122,15 @@ jobs:
           visual_code = {
               'scripts/catalogVisualPreflight.py',
               'scripts/catalogVisualCalibration.py',
-              'scripts/artReviewNormalizer.mjs',
               'docs/preproduction/art-factory/verify_staged_output.py',
               'requirements-art-factory-ci.txt',
               '.github/workflows/art-factory-preflight.yml',
-              'src/gameModel.js',
           }
           review_change = any(p.startswith('docs/preproduction/catalog-sprint/reviews/') for p in changed)
           raster_change = any(raster.match(p) for p in changed)
           visual_script_change = any(p in visual_code for p in changed)
           python_needed = dispatch or review_change or raster_change or visual_script_change
-          # New unlabeled raster bytes do not change the calibration training set.
-          # Recalibrate only when labels or calibration/preflight code change, or
-          # on an explicit workflow dispatch. Raster-only pushes get lightweight
-          # candidate preflight without rehydrating the full reviewed corpus.
-          calibrate = dispatch or review_change or visual_script_change
+          calibrate = dispatch or review_change or raster_change or visual_script_change
 
           # Hydrate image blobs only when this run will actually execute visual work.
           # Node-only queue/audit changes keep the initial blobless sparse checkout.
@@ -285,89 +272,12 @@ jobs:
           outdir = pathlib.Path('artifacts/art-factory-preflight/changed-raster-preflight')
           outdir.mkdir(parents=True, exist_ok=True)
           cal_path = pathlib.Path('artifacts/art-factory-preflight/visual-calibration.json')
-          cal = json.loads(cal_path.read_text()) if cal_path.exists() else {}
+          cal = json.loads(cal_path.read_text())
           ready = {
               feature for feature, row in (cal.get('warningCandidates') or {}).items()
               if row.get('warningReady')
           }
-          raster = re.compile(r'^public/assets/(?:catalog|catalog-candidates)/.*\.(?:png|jpe?g|webp)          changed = pathlib.Path('artifacts/art-factory-preflight/changed-files.txt').read_text().splitlines()
-          count = 0
-          for rel in changed:
-              if not raster.match(rel) or not pathlib.Path(rel).is_file():
-                  continue
-              dest = outdir / (rel.replace('/','__') + '.json')
-              cmd = [
-                  sys.executable, 'scripts/catalogVisualPreflight.py', 'scan',
-                  '--input', rel,
-                  '--output', str(dest),
-              ]
-              if cal_path.exists():
-                  cmd += ['--calibration', str(cal_path)]
-              if any(feature.startswith('nearest') for feature in ready):
-                  cmd += ['--neighbors', 'public/assets']
-              subprocess.run(cmd, check=True)
-              count += 1
-          print(f'CHANGED_RASTER_PREFLIGHT_COUNT={count}')
-          PY
-
-      - name: Publish factory summary
-        if: always()
-        run: |
-          python3 - <<'PY'
-          import json, os, pathlib
-
-          root = pathlib.Path('artifacts/art-factory-preflight')
-          def load(name):
-              path = root / name
-              if not path.exists():
-                  return {}
-              try:
-                  return json.loads(path.read_text())
-              except Exception:
-                  return {}
-
-          audit = load('workflow-audit.json')
-          fallback = load('fallback-backlog.json')
-          queue = load('regeneration-queue.json')
-          cal = load('visual-calibration.json')
-          changed = (root / 'changed-files.txt').read_text().splitlines() if (root / 'changed-files.txt').exists() else []
-
-          lines = [
-              '# StarBlox Art Factory Preflight',
-              '',
-              f"- Head: `{os.environ.get('GITHUB_SHA','unknown')}`",
-              f"- Workflow audit: **{audit.get('status','NOT_RUN')}**",
-              f"- Changed files: **{len(changed)}**",
-              f"- Fallback count: **{fallback.get('fallbackCount','?')}**",
-              f"- Production backlog: **{fallback.get('summary',{}).get('productionCount','?')}**",
-              f"- Accepted awaiting canonical: **{fallback.get('summary',{}).get('acceptedAwaitingCanonicalCount','?')}**",
-              f"- Regeneration selected: **{queue.get('counts',{}).get('selected','?')}**",
-              f"- Pending newer candidates: **{queue.get('counts',{}).get('pending','?')}**",
-          ]
-          if cal:
-              ready = cal.get('readiness',{})
-              lines += [
-                  f"- Visual calibration samples: ACCEPT **{ready.get('acceptedRasterSamples','?')}**, REWORK **{ready.get('reworkRasterSamples','?')}**",
-                  f"- Warning-ready visual features: **{ready.get('warningCandidateCount','?')}**",
-                  '- Visual thresholds: **report-only / non-blocking**',
-              ]
-          errors = audit.get('errors') or []
-          warnings = audit.get('warnings') or []
-          lines += [f"- Audit errors: **{len(errors)}**", f"- Audit warnings: **{len(warnings)}**"]
-          pathlib.Path(os.environ['GITHUB_STEP_SUMMARY']).write_text('\n'.join(lines) + '\n')
-          print('\n'.join(lines))
-          PY
-
-      - name: Upload deterministic evidence
-        if: always() && (steps.scope.outputs.python == 'true' || failure())
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
-        with:
-          name: starblox-art-factory-preflight-${{ github.sha }}
-          path: artifacts/art-factory-preflight/
-          retention-days: 14
-          if-no-files-found: error
-          compression-level: 0
-, re.I)
+          raster = re.compile(r'^public/assets/(?:catalog|catalog-candidates)/.*\.(?:png|jpe?g|webp)$', re.I)
           changed = pathlib.Path('artifacts/art-factory-preflight/changed-files.txt').read_text().splitlines()
           count = 0
           for rel in changed:
