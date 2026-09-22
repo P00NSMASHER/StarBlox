@@ -1,0 +1,107 @@
+{
+  "schemaVersion": 1,
+  "batchId": "chat-decor-recovery-1-2-20260921",
+  "status": "STAGED_READY_FOR_INDEPENDENT_REVIEW_14",
+  "sourceHead": "45b102a99f17c8be1d0cd45bd0f29a1574b007cb",
+  "workflowRunId": "35671542628",
+  "producer": "09",
+  "transportHelper": "CHAT",
+  "independentReviewer": "14",
+  "canonicalWriter": "08",
+  "newGenerations": 0,
+  "storedCandidateCount": 2,
+  "storedOriginalCount": 2,
+  "duplicateCandidateContent": 0,
+  "items": [
+    {
+      "id": "decor-1",
+      "name": "Book Crate",
+      "collectionId": "decor",
+      "collectionName": "Room Decor",
+      "type": "room",
+      "tier": 1,
+      "theme": "Midnight Neon",
+      "price": 44,
+      "starReq": 0,
+      "format": "JPEG",
+      "dimensions": [
+        600,
+        600
+      ],
+      "bytes": 64740,
+      "sha256": "741ae87a7f619c53028e687ba1d569d0290aa723150b77e1e2f77c84c992509b",
+      "gitBlobSha": "7e0bad0b6f1dda6068c17109757c396de860892a",
+      "producer": "09",
+      "transportHelper": "CHAT",
+      "independentReviewer": "14",
+      "repositoryPath": "public/assets/catalog/decor-1-w09-v2.jpg",
+      "assetPath": "/assets/catalog/decor-1-w09-v2.jpg",
+      "assetId": "urn:aaid:sc:US:acf980d3-05f0-47bd-8949-55f729654a37",
+      "status": "READY_FOR_REVIEW_14",
+      "readback": "PASS",
+      "original": {
+        "format": "PNG",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "bytes": 1010332,
+        "sha256": "6275d6fa4cce593c5f4e64ec0b2d530203037a43e459e545318fe2c46de21cab",
+        "gitBlobSha": "c844b555d0718e08b1e566fee70f1ffc00b701e8",
+        "repositoryPath": "docs/preproduction/catalog-sprint/recovered-originals/decor-1-2-20260921/decor-1-acf980d3-05f0-47bd-8949-55f729654a37.png"
+      }
+    },
+    {
+      "id": "decor-2",
+      "name": "Cloud Shelf",
+      "collectionId": "decor",
+      "collectionName": "Room Decor",
+      "type": "room",
+      "tier": 1,
+      "theme": "Candy Core",
+      "price": 65,
+      "starReq": 0,
+      "format": "JPEG",
+      "dimensions": [
+        600,
+        600
+      ],
+      "bytes": 30539,
+      "sha256": "a6b31ceb3f4c46edb702d59950c180504b73be254162fc7a77a074e0fcea8997",
+      "gitBlobSha": "d5377bda54cba2071819da60bf4f4d4c52e393a6",
+      "producer": "09",
+      "transportHelper": "CHAT",
+      "independentReviewer": "14",
+      "repositoryPath": "public/assets/catalog/decor-2-w09-v2.jpg",
+      "assetPath": "/assets/catalog/decor-2-w09-v2.jpg",
+      "assetId": "urn:aaid:sc:US:712c6b0d-d36b-482d-8d69-6fee92742ec7",
+      "status": "READY_FOR_REVIEW_14",
+      "readback": "PASS",
+      "original": {
+        "format": "PNG",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "bytes": 873269,
+        "sha256": "f633c3912dd7ee27a64cf9314722c5768ab304865c2c4dd1ae51aeaa4697943c",
+        "gitBlobSha": "cddf61f5bc481ec1fd35e28f5f5cebda73db1a08",
+        "repositoryPath": "docs/preproduction/catalog-sprint/recovered-originals/decor-1-2-20260921/decor-2-712c6b0d-d36b-482d-8d69-6fee92742ec7.png"
+      }
+    }
+  ],
+  "checks": {
+    "metadata": "PASS_2_OF_2",
+    "exactByteReadback": "PASS_4_OF_4",
+    "candidateDecode": "PASS_2_OF_2",
+    "independentVisualReview": "PENDING_14"
+  },
+  "freeze": {
+    "replitTouched": false,
+    "flootTouched": false,
+    "mainTouched": false,
+    "canonicalMappingsTouched": false,
+    "gameplayChanged": false,
+    "playerDataTouched": false
+  }
+}
