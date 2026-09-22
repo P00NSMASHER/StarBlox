@@ -1,0 +1,130 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_DESK_PRODUCER_GENERATION_EVIDENCE",
+  "producer": "03",
+  "branch": "screenshot-match-preproduction",
+  "observedHeadBeforeWrite": "850904cbfa94668a9a544a3545d55bb3e5080eeb",
+  "batchId": "w03-desks-9-10-v1",
+  "activeFallbackCountObserved": 19,
+  "scope": ["desks-9", "desks-10"],
+  "reviewer": "05",
+  "renderOwner": "14",
+  "integrationOwner": "08",
+  "coordinationOwner": "15",
+  "exactStoreMetadata": {
+    "desks-9": {"name": "Art Maker Table", "collection": "Desks & Tech", "tier": 3, "theme": "Sunny Pop", "price": 667, "starReq": 2},
+    "desks-10": {"name": "Neon Streaming Desk", "collection": "Desks & Tech", "tier": 4, "theme": "Aqua Wave", "price": 928, "starReq": 5}
+  },
+  "generationBasis": "docs/preproduction/art-factory/requests/w03-desks-7-10-20260922.json#variantPlan",
+  "producerPolicy": {
+    "noSelfApproval": true,
+    "noCanonicalWrite": true,
+    "noReviewHandoffBeforeRepositoryByteVerification": true,
+    "desks11To12RemainFrozen": true
+  },
+  "adobeFireflyCandidates": {
+    "desks-9": [
+      {
+        "variant": "A-PHYSICAL",
+        "seed": 309172941,
+        "assetId": "urn:aaid:sc:US:97f64c0f-6a05-4340-9bd6-84d6257e34cb",
+        "provider": "Adobe Firefly via Adobe image_generate connector",
+        "exposedModelIdentity": null,
+        "exposedModelRevision": null,
+        "producerVisualCheck": "PASS_REMOTE_ONLY: isolated three-quarter maker table with thick pale-maple top, visible braced supports and joints, attached side storage, peg/tool rail, yellow task lamp, Sunny Pop yellow/coral/cyan accents, clear material separation and grounded shadow; no chair/person/grid/logo.",
+        "stageState": "GENERATED_REMOTE_NOT_REPOSITORY_STAGED"
+      },
+      {
+        "variant": "B-READABILITY",
+        "seed": 309172942,
+        "assetId": "urn:aaid:sc:US:bef9f044-3bf8-433c-847f-adfe76012996",
+        "provider": "Adobe Firefly via Adobe image_generate connector",
+        "exposedModelIdentity": null,
+        "exposedModelRevision": null,
+        "producerVisualCheck": "PASS_REMOTE_ONLY: isolated split-level drafting table with real hinge geometry, splayed supports plus compact pedestal, paper/tool storage, controlled Sunny Pop palette, readable negative-space silhouette and grounded shadow.",
+        "stageState": "GENERATED_REMOTE_NOT_REPOSITORY_STAGED"
+      }
+    ],
+    "desks-10": [
+      {
+        "variant": "A-PHYSICAL",
+        "seed": 310584701,
+        "assetId": "urn:aaid:sc:US:35411489-6af3-4cf2-85df-23c564720c02",
+        "provider": "Adobe Firefly via Adobe image_generate connector",
+        "exposedModelIdentity": null,
+        "exposedModelRevision": null,
+        "producerVisualCheck": "PASS_REMOTE_ONLY: isolated premium graphite streaming desk with thick top, structural A-frame supports, attached vented equipment cabinet, raised monitor bridge, clamp-mounted mic, aqua edge insert and restrained Tier-4 Aqua Wave glow.",
+        "stageState": "GENERATED_REMOTE_NOT_REPOSITORY_STAGED"
+      },
+      {
+        "variant": "B-THEME-TIER",
+        "seed": 310584702,
+        "assetId": "urn:aaid:sc:US:c542e250-1ade-4e7d-8fe0-1789d29d74ac",
+        "provider": "Adobe Firefly via Adobe image_generate connector",
+        "exposedModelIdentity": null,
+        "exposedModelRevision": null,
+        "producerVisualCheck": "PASS_REMOTE_ONLY: isolated Tier-4 command-style desk with layered graphite top, dual pedestal architecture, translucent aqua wave inlay, mounted mic, compact speakers/control surface and controlled cyan-violet material response.",
+        "stageState": "GENERATED_REMOTE_NOT_REPOSITORY_STAGED"
+      }
+    ]
+  },
+  "nativeMountedCandidates": {
+    "desks-9": [
+      {
+        "variant": "A-PHYSICAL",
+        "fileId": "file_0000000032388243b3e09b705e8d18e6",
+        "localPath": "/mnt/data/a_clean_colorful_stylized_3d_cgi_render_of_a_nea.png",
+        "dimensions": [1254, 1254],
+        "bytes": 1867779,
+        "sha256": "a2b62d1b2a71b874c7746ddef7c4772e55755f1be407e83bb4ceae8eabda9d37",
+        "producerVisualCheck": "PASS_LOCAL_SOURCE: dimensional maker-table construction, exact Sunny Pop identity, strong three-quarter furniture silhouette; retained only as source evidence until exact repo byte transport is available.",
+        "stageState": "GENERATED_LOCAL_NOT_REPOSITORY_STAGED"
+      },
+      {
+        "variant": "B-READABILITY",
+        "fileId": "file_0000000099f0820ab2a0af3804f77e06",
+        "localPath": "/mnt/data/a_clean_stylized_3d_cgi_illustration_of_a_colorfu.png",
+        "dimensions": [1254, 1254],
+        "bytes": 1707088,
+        "sha256": "dca89b5684387c046a592bc289c5897cf855292b8513abe5d308c6a430922737",
+        "producerVisualCheck": "PASS_LOCAL_SOURCE: split drafting geometry, substantial supports/storage, high card readability and exact Sunny Pop palette; retained only as source evidence until exact repo byte transport is available.",
+        "stageState": "GENERATED_LOCAL_NOT_REPOSITORY_STAGED"
+      }
+    ],
+    "desks-10": [
+      {
+        "variant": "A-PHYSICAL",
+        "fileId": "file_000000000a2881f6a8c7538b458d1c7c",
+        "localPath": "/mnt/data/a_clean_high_quality_3d_cgi_studio_render_of_a_fu.png",
+        "dimensions": [1254, 1254],
+        "bytes": 2027906,
+        "sha256": "85e1af2016084cfbb40491f37009df6cfd1aafaf013c81ce69c0db159c17cd76",
+        "producerVisualCheck": "PASS_LOCAL_SOURCE: premium graphite streaming-desk construction, real support/cabinet massing, attached boom mic, Aqua Wave display/edge treatment and strong Tier-4 silhouette.",
+        "stageState": "GENERATED_LOCAL_NOT_REPOSITORY_STAGED"
+      }
+    ],
+    "rejectedNativeAttempts": [
+      {
+        "fileId": "file_00000000fc1c822fb88bb971b0f124d5",
+        "sha256": "18018ae78fc76322c5b99e3a33e94c66e6215e2405ff936c68d25cb285cb20c1",
+        "reason": "REJECTED_PRE_STAGE: room-scene-first study furniture with chair, shelves and readable text; wrong product identity for desks-10."
+      },
+      {
+        "fileId": "file_00000000970881f48375a48af40a208a",
+        "sha256": "5bfc51da8f117e53d4d39f44e248270556b8d912213a18ffce8aa5be128c9e80",
+        "reason": "REJECTED_PRE_STAGE: split promo composite with two desk scenes, chairs and readable text; violates isolated exact-ID product contract."
+      }
+    ]
+  },
+  "repositoryTransport": {
+    "state": "BLOCKED_BEFORE_TREE_COMMIT",
+    "detail": "The connected GitHub blob API requires inline base64 content. A transport probe did not reproduce the locally measured expected blob identity, so it was rejected before any tree/ref update. No generated image bytes from this run are referenced by the branch tree and no false STAGED status is recorded.",
+    "safeNextAction": "Use a supported exact-byte file transport path for the preserved local source files or recover the exact Firefly asset bytes; verify dimensions, bytes, sha256 and Git blob SHA by repository readback before any 06/14/reviewer05 handoff."
+  },
+  "handoff": {
+    "renderer06": "NOT_SENT",
+    "renderer14": "NOT_SENT",
+    "reviewer05": "NOT_SENT",
+    "reason": "No exact repository-staged current Desk9/10 bytes yet."
+  }
+}
