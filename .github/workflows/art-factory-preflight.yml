@@ -88,6 +88,52 @@ jobs:
             --corpus artifacts/art-factory-pilot/review-corpus.json \
             --output artifacts/art-factory-pilot/visual-calibration.json
 
+      - name: Prove calibrated warnings round-trip into preflight
+        run: |
+          python - <<'PY'
+          import json
+          import pathlib
+          import subprocess
+          import sys
+
+          calibration_path = pathlib.Path('artifacts/art-factory-pilot/visual-calibration.json')
+          calibration = json.loads(calibration_path.read_text())
+          measured = calibration.get('measured') or []
+          if not measured:
+              raise SystemExit('Calibration produced no measurable reviewed rasters.')
+
+          target = measured[0]['assetPath']
+          output = pathlib.Path('artifacts/art-factory-pilot/calibrated-preflight-sample.json')
+          subprocess.run([
+              sys.executable,
+              'scripts/catalogVisualPreflight.py',
+              'scan',
+              '--input', target,
+              '--neighbors', 'public/assets/catalog',
+              '--calibration', str(calibration_path),
+              '--output', str(output),
+          ], check=True)
+
+          report = json.loads(output.read_text())
+          if report['policy']['reportOnly'] is not True:
+              raise SystemExit('Calibrated preflight must remain report-only.')
+          if report['policy']['calibratedWarningsAreBlocking'] is not False:
+              raise SystemExit('Calibrated warnings unexpectedly became blocking.')
+          if report['calibrationEvidence']['blockingEnabled'] is not False:
+              raise SystemExit('Calibration evidence unexpectedly enables blocking.')
+          for warning in report.get('calibratedWarnings', []):
+              if warning.get('blocking') is not False:
+                  raise SystemExit('A calibrated warning unexpectedly became blocking.')
+              if warning.get('targetFailureCodes') is None:
+                  raise SystemExit('Calibrated warning is missing failure-code provenance.')
+          print(json.dumps({
+              'target': target,
+              'warningReadyFeatureCount': report['calibrationEvidence']['warningReadyFeatureCount'],
+              'triggeredWarningCount': report['calibrationEvidence']['triggeredWarningCount'],
+              'blockingEnabled': report['calibrationEvidence']['blockingEnabled'],
+          }, indent=2))
+          PY
+
       - name: Run report-only accelerator pilot
         env:
           IP_ADAPTER_SOURCE_ROOT: /tmp/ip-adapter
