@@ -43,7 +43,7 @@ test('known rework remains production work and is never treated as accepted',()=
   const report=buildFallbackBacklog({
     items:[items[1]],
     manifest:{items:{}},
-    reviewCorpus:{current:[{itemId:'wall-5',decision:'REWORK',assetHash:'old',reviewer:'14',producer:'05',failureCodes:['WEAK_DEPTH']}]
+    reviewCorpus:{current:[{itemId:'wall-5',decision:'REWORK',assetHash:'old',reviewer:'14',producer:'05',failureCodes:['WEAK_DEPTH']}]}
   });
   assert.equal(report.productionQueue.length,1);
   assert.equal(report.productionQueue[0].state,'REWORK_NEEDS_PRODUCTION');
