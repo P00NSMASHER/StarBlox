@@ -1,3 +1,9 @@
+## V2 canonical increment — Seating 2-6 exact-hash ACCEPTs
+
+Prepared from `d977323a353d8755c821c8166c54f83ef3b2c365` using exact hash-bound reviewer 02 ACCEPT evidence. 5 items passed repository-byte, Store metadata, decode/safety, reviewer-independence and canonical uniqueness checks. Full tests/build/Store-mobile smoke are required before publication.
+
+Exact IDs: `seating-2`, `seating-3`, `seating-4`, `seating-5`, `seating-6`.
+
 ## V2 canonical increment — Tops 7-10 + Bottoms 1-4 + Headwear 1-4 exact-hash ACCEPTs
 
 Prepared from `bda51b8b17c088d4bdc4a5d37ecded732205cb1f` using exact hash-bound reviewer 01 ACCEPT evidence. 12 items passed repository-byte, Store metadata, decode/safety, reviewer-independence and canonical uniqueness checks. Full tests/build/Store-mobile smoke are required before publication.
