@@ -1,0 +1,81 @@
+{
+  "schemaVersion": 1,
+  "workstream": "11",
+  "phase": "ART_VISUALS_SPRINT",
+  "branch": "screenshot-match-preproduction",
+  "purpose": "Hash-bound browser evidence handoff for Workstream 10 after Workstream 11 Store/effect polish. This is evidence only and does not close unrelated release or visual-art gates.",
+  "testedMotionCommit": "43775530ecccf65ec5ef0a182e5c34adabd528c0",
+  "currentHeadBeforeHandoff": "b9ae26ddfc94388a637dbacf1c3e7309e7b26f93",
+  "hashBinding": {
+    "motionCssGitBlob": "d8797842f969973f81af2c56ec44d63ea54480ba",
+    "motionRuntimeGitBlob": "c701cf3ce96478f46e245a1e4f01e1d79084b586",
+    "sameAtTestedCommitAndCurrentHead": true,
+    "compare43775530ToCurrentHead": {
+      "motionFilesChanged": false,
+      "changedPaths": [
+        "docs/preproduction/art-factory/requests/w13-wall-9-12-20260922.json",
+        "docs/preproduction/art-factory/requests/w13-wall-9-12-factory-readiness-20260922.json",
+        "docs/preproduction/catalog-sprint/reviews/02.json",
+        "scripts/catalogMobileChangedQa.mjs"
+      ]
+    },
+    "reuseRule": "Browser evidence below transfers only to the unchanged Workstream-11 motion CSS/runtime hashes, not to unrelated catalog-art or release state."
+  },
+  "catalogMobileQa": {
+    "workflow": "StarBlox Catalog Mobile QA",
+    "runId": 35742954871,
+    "jobId": 106797153699,
+    "sourceHead": "43775530ecccf65ec5ef0a182e5c34adabd528c0",
+    "status": "PASS",
+    "releaseBlockingCount": 0,
+    "environment": "Playwright 1.55 / Chromium 140.0.7339.16 headless / GitHub Actions ubuntu-24.04 / Node 22.23.2",
+    "reducedMotion": {
+      "viewports": ["1408x1056", "1024x768", "390x844", "320x568"],
+      "activeAnimations": 0,
+      "longestFiniteAnimationMs": 0,
+      "runtimeErrors": 0,
+      "performance": {
+        "1408x1056": {"avgFrameMs": 16.4, "framesOver34Ms": "0/61", "cls": 0.0016},
+        "1024x768": {"avgFrameMs": 16.2, "framesOver34Ms": "0/61", "cls": 0.0},
+        "390x844": {"avgFrameMs": 16.1, "framesOver34Ms": "0/61", "cls": 0.0},
+        "320x568": {"avgFrameMs": 16.2, "framesOver34Ms": "0/61", "cls": 0.0}
+      }
+    },
+    "normalMotionControls": {
+      "1024x768": {"avgFrameMs": 16.6, "framesOver34Ms": "0/61", "horizontalOverflowPx": 0, "runtimeErrors": 0},
+      "390x844": {"avgFrameMs": 16.5, "framesOver34Ms": "0/61", "horizontalOverflowPx": 0, "runtimeErrors": 0}
+    },
+    "artifact": {
+      "id": 10699808718,
+      "name": "catalog-mobile-qa",
+      "zipSha256": "b7a0ea9fb8daa1146b0cb7ebbdc89160140c357067adc6adb1b1c8b7edd7b4e0",
+      "sizeBytes": 20477726
+    },
+    "limitations": [
+      "Browser emulation only; this is not physical-device performance evidence.",
+      "This is not VoiceOver/TalkBack/NVDA evidence.",
+      "State-specific Home and Quest reduced-motion screenshot acceptance remains open for Workstream 10/14; do not infer it from the Store/catalog matrix."
+    ]
+  },
+  "preproductionVisualQa": {
+    "workflow": "StarBlox Preproduction Visual QA",
+    "runId": 35742954829,
+    "sourceHead": "43775530ecccf65ec5ef0a182e5c34adabd528c0",
+    "overallStatus": "FAIL_UNRELATED_CATALOG_FALLBACK_ART",
+    "motionRelevantResult": "Home/Store/Quest production-preview navigation returned across 1408x1056, 1024x768, 390x844 and 320x568 with no Store runtime-error or navigation-hang reproduction.",
+    "unrelatedFailure": "Desktop Store reported 19 visible generic fallback-art instances. This remains a catalog-art completeness blocker and is not waived by Workstream 11."
+  },
+  "handoff": {
+    "to": "Workstream10",
+    "reuse": "Reuse the exact hash-bound Store/catalog normal-motion and reduced-motion browser evidence above while the two motion file blobs remain unchanged.",
+    "nextNeeded": "Capture state-specific Home/Quest normal and reduced-motion visual evidence when those surfaces are next exercised; keep physical-device, screen-reader, contrast and any unrelated release gates open unless separately executed.",
+    "doNotRerun": "Do not repeat the cleared Store observer/hang investigation unless a fresh current-head failure reproduces on unchanged motion hashes or those hashes change."
+  },
+  "freeze": {
+    "auraAssetsChanged": false,
+    "catalogManifestOrRuntimeMappingChangedBy11": false,
+    "gameplayOrAccessibilityLogicChanged": false,
+    "ciWorkflowOrCacheConfigChanged": false,
+    "mainReplitFlootDeployPaidSettingsSecretsPlayerDataTouched": false
+  }
+}
