@@ -1,0 +1,212 @@
+{
+  "schemaVersion": 1,
+  "producer": "EXT09",
+  "branch": "screenshot-match-preproduction",
+  "planId": "ext09-avatar-buddy-compositing-plan-20260922",
+  "planType": "NON_CATALOG_VISUAL_PREPRODUCTION_ONLY",
+  "observedLiveState": {
+    "activeBatchSourceHead": "edc55728e562207e5316e2fa8ad5663dcc32d755",
+    "activeBatchBlobSha": "2baa3e26a4348a01501e490670670d3b42e9a606",
+    "activeBatchStatus": "ACTIVE_RELEASE_BLOCKER_FIRST",
+    "manifestVersion": 33,
+    "visibleFallbackCount": 19,
+    "lane13BlobSha": "ff20951ad075e703de295a9e5175b4c6a10316a3",
+    "lane13SchemaVersion": 8,
+    "lane13Status": "READY_FOR_REVIEW_SCENES_CHARACTER_BUDDY_AND_HOME_FOREGROUND_DEPTH",
+    "reviewer01V2BlobSha": "34b6f107c126b4adc69fd93306fdc4e9ee9e2fd6",
+    "reviewer01V2Decision": "REWORK"
+  },
+  "selectedComponent": "REUSABLE_AVATAR_BUDDY_COMPOSITING_AND_ATTACHMENT_CONTRACT",
+  "selectedItemIds": [],
+  "generationAuthorization": "HELD",
+  "generationFields": {
+    "finalPrompt": null,
+    "promptSha256": null,
+    "promptRecipeVersion": null,
+    "executedSeed": null,
+    "runtimeId": null,
+    "runtimeRevisionOrCommit": null,
+    "modelId": null,
+    "modelRevision": null,
+    "rule": "Null by design: this run creates no pixels and must not be represented as a generation attempt."
+  },
+  "frozenPendingCandidates": [
+    {
+      "candidateId": "avatar-keyart-fullbody-w13-v3",
+      "exactSha256": "9d115163c520d932a3022acdc6ee698e1f01b847b0fcf20d641975055719e263",
+      "reason": "Current long-hair repair is staged and pending reviewer 01/14/15; do not generate v4."
+    },
+    {
+      "candidateId": "avatar-headset-w13-v1",
+      "exactSha256": "e14ffd9436d9d85606bf074fee4da22e93b4fab3b21504c44619e1341ebfcec1",
+      "reason": "Current head-layer candidate is staged and pending independent review."
+    },
+    {
+      "candidateId": "buddy-stage-w13-v1",
+      "exactSha256": "20e22e48891c63512ada3be5e843885e7ae884937884276313739440afce55c4",
+      "reason": "Identity-neutral Buddy stage is staged and pending independent review; do not duplicate it."
+    },
+    {
+      "candidateId": "home-avatar-stage-w13-v1",
+      "exactSha256": "66736c6156d29b3efe4c525af2dd23ce64623aa842b4c2d0f29529895f46e395",
+      "reason": "Home grounding layer is staged and pending independent review."
+    },
+    {
+      "candidateId": "store-avatar-stage-w13-v1",
+      "exactSha256": "8fb0a4a3f4db4e1e8b8bb8628c13664f0dcc58a4a52cb3dc1d58dc474083e745",
+      "reason": "Store try-on stage is staged and pending independent review."
+    }
+  ],
+  "authoritativeReferences": [
+    {
+      "screen": "Home",
+      "path": "docs/preproduction/reference-screenshots/originals/home-1448x1086.jpeg",
+      "sha256": "6a4b110aeaf12a6ab0c629f9181cc6cfa8d4f55a518d4f2a6adb3ac6e756c457"
+    },
+    {
+      "screen": "Store",
+      "path": "docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg",
+      "sha256": "b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d"
+    },
+    {
+      "screen": "Quest",
+      "path": "docs/preproduction/reference-screenshots/originals/quest-1448x1086.jpeg",
+      "sha256": "70f1b952709a85c77bb11851ffe9ae704acf8b97640355e908b6ec537b5c73c9"
+    }
+  ],
+  "identityAndStateBoundaries": [
+    "The reference cat called Lily is visual relationship evidence, not canonical runtime identity.",
+    "The player-selected companion item remains authoritative; never bake a fixed Buddy into a reusable avatar or scene layer.",
+    "Owned/equipped headwear, facegear, backgear and handgear remain authoritative and must replace preview-only components at render time.",
+    "Avatar key art remains noncanonical guidance until independently accepted and explicitly adapted by the primary coordinator.",
+    "No Buddy bond, ownership, progress, curriculum, economy or player-state mutation is permitted."
+  ],
+  "componentContract": {
+    "requiredSemanticAnchors": [
+      "avatar.head_crown",
+      "avatar.face_bridge",
+      "avatar.back_harness",
+      "avatar.hand_primary_grip",
+      "avatar.feet_ground",
+      "buddy.feet_ground",
+      "buddy.face_focus",
+      "buddy.speech_origin"
+    ],
+    "calibrationRule": "Resolve anchor coordinates from the accepted runtime avatar and selected Buddy bounds; do not hardcode coordinates from pending key art.",
+    "layerOrderBackToFront": [
+      "environment",
+      "aura_back",
+      "buddy_stage",
+      "backgear_rear",
+      "avatar_body_and_equipped_outfit",
+      "backgear_front_occlusion_if_required",
+      "headwear_rear",
+      "hair_rear",
+      "face_and_hair_front",
+      "headwear_front",
+      "facegear",
+      "handgear",
+      "buddy_identity_selected_at_runtime",
+      "contact_shadows_and_foreground_depth",
+      "runtime_ui"
+    ],
+    "occlusionRules": [
+      "Backgear straps may pass in front of torso while the bag/body remains behind the avatar.",
+      "Headwear rear structures pass behind hair; front bands, clips and crowns pass above the front hair mask.",
+      "Facegear bridges and lenses sit above face pixels but below intentional front hair strands.",
+      "Handgear must meet the primary-grip anchor and may not float outside the hand silhouette.",
+      "Buddy must retain a visible ground contact and may not overlap the avatar face, primary handgear, or Store item-detail UI."
+    ],
+    "screenComposition": {
+      "Home": [
+        "Place the selected Buddy near the avatar lower-left or lower-right with readable eye-line and a shared grounding zone.",
+        "Keep Buddy speech/name presentation outside both silhouettes and outside navigation/Dream Goal panels.",
+        "Preserve the reference's close, supportive avatar-Buddy relationship without copying Lily as a fixed identity."
+      ],
+      "Store": [
+        "Keep the avatar as the try-on subject; show the selected Buddy only as a secondary companion unless the companion collection is active.",
+        "Try-on swaps only the targeted equipment category and preserves every unrelated equipped category.",
+        "Do not bake item cards, prices, labels or buttons into avatar/Buddy art."
+      ],
+      "Quest": [
+        "Use the Buddy as an encouragement companion, not a replacement for lesson content or feedback.",
+        "Keep character layers clear of story text, answer choices, hint/result areas and reward summaries.",
+        "Allow a reusable duo vignette only when both avatar and selected Buddy remain runtime-composited components."
+      ]
+    }
+  },
+  "validationMatrix": [
+    {
+      "case": "Headwear try-on",
+      "verify": [
+        "rear/front hair occlusion",
+        "crown support reads wearable",
+        "Buddy unchanged"
+      ]
+    },
+    {
+      "case": "Facegear try-on",
+      "verify": [
+        "bridge/arms aligned",
+        "eyes and expression readable",
+        "Buddy unchanged"
+      ]
+    },
+    {
+      "case": "Backgear try-on",
+      "verify": [
+        "strap/body split",
+        "no torso clipping",
+        "Buddy not occluded"
+      ]
+    },
+    {
+      "case": "Handgear try-on",
+      "verify": [
+        "grip contact",
+        "no floating prop",
+        "speech/UI clearance"
+      ]
+    },
+    {
+      "case": "Buddy swap",
+      "verify": [
+        "ground contact",
+        "face focus",
+        "speech origin",
+        "avatar equipment unchanged"
+      ]
+    },
+    {
+      "case": "Narrow mobile crop",
+      "verify": [
+        "avatar and Buddy remain distinct",
+        "no center-panel occlusion",
+        "no baked UI"
+      ]
+    },
+    {
+      "case": "Reduced motion",
+      "verify": [
+        "static composition remains readable",
+        "no state conveyed only by animation"
+      ]
+    }
+  ],
+  "releaseGates": [
+    "ACTIVE_BATCH explicitly releases non-catalog character work.",
+    "Reviewer 01 independently disposes avatar-keyart-fullbody-w13-v3 and buddy-stage-w13-v1 exact hashes.",
+    "Reviewer 14 completes composition/performance review for the selected screen layer.",
+    "Primary coordinator assigns runtime adaptation ownership.",
+    "A runtime render test proves equipped-state preservation for all four accessory families."
+  ],
+  "nextAction": "Wait for exact-hash dispositions. On release, implement one bounded render-only compositing proof using existing accepted components and runtime-selected Buddy/equipment state; create no new character pixels unless explicitly reassigned.",
+  "prohibitedActions": [
+    "No runtime or CSS edits",
+    "No gameplay, curriculum, economy or persistence edits",
+    "No canonical manifest/runtime writes",
+    "No self-approval",
+    "No fixed Lily identity substitution",
+    "No regeneration of pending candidates"
+  ]
+}
