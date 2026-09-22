@@ -32,6 +32,17 @@ test('normalized failure codes override ambiguous prose in prompt repair',()=>{
  assert(r.blocks.includes('silhouette'));
 });
 
+test('prompt variants carry exact normalized failure taxonomy and reviewer reason',()=>{
+ const rec=recommend(item,{decision:'REWORK',assetHash:'bad',reason:'exact theme mismatch',failureCodes:['THEME_MISMATCH']},train(),2);
+ assert.equal(rec.variants.length,2);
+ for(const variant of rec.variants){
+  assert.deepEqual(variant.failureCodes,['THEME_MISMATCH']);
+  assert.match(variant.promptText,/Exact-hash reviewer failure taxonomy: THEME_MISMATCH/);
+  assert.match(variant.promptText,/Human reviewer reason: exact theme mismatch/);
+  assert.match(variant.promptText,/preserving qualities that were not implicated/i);
+ }
+});
+
 test('unknown supplied failure codes are ignored and prose fallback still works',()=>{
  const r=inferRepair({decision:'REWORK',reason:'flat ring',failureCodes:['NOT_A_REAL_CODE']});
  assert(r.failureCodes.includes('FLAT_COMPOSITION'));
