@@ -143,6 +143,8 @@ Rules retained:
 
 The next acceptable proof is one completed deterministic capture of the exact current candidate runtime/assets, followed by side-by-side and region-level visual observations.
 
+Commit `ad9175c80160ff16fe304e194d07ac1b19f9ca9b` makes the report semantics explicit: the workflow's automation status is separate from reference visual status, non-strict comparison is always `DIAGNOSTIC_ONLY_NOT_VISUAL_APPROVAL`, `referenceVisualApproval=false`, and the expected-reference count is the three supplied desktop originals—not the nine intentionally unsupplied tablet/phone images. The workflow also already binds preserved evidence to the actual checked-out Git head. **Post-fix executed capture evidence remains PENDING.**
+
 ## Release blockers
 
 1. **Catalog completeness:** 192/192 current hashes are not independently accepted + canonical.
