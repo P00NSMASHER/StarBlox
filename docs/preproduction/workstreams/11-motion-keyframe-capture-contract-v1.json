@@ -1,0 +1,227 @@
+{
+  "schemaVersion": 1,
+  "workstream": "11",
+  "scope": "ART_AND_VISUALS_ONLY_MOTION_KEYFRAME_CAPTURE_SPECIFICATION",
+  "branch": "screenshot-match-preproduction",
+  "sourceHeadObservedBeforeWrite": "2d588c1bd097500ec7af080300bd0ed38f2630a7",
+  "status": "SPEC_READY_NO_RUNTIME_WRITE_NO_GATE_CLOSURE",
+  "purpose": "Turn the existing Workstream-11 motion/material recipes into deterministic normal-motion keyframe and trace windows for later Workstream-15-coordinated implementation and Workstream-14 rendered QA. This file creates no gameplay state and does not claim that any motion currently renders on branch.",
+  "ownership": {
+    "motionVisualSpec": "11",
+    "sharedEntrypointCoordinator": "15",
+    "renderAndPerformanceQa": "14",
+    "learningSemanticVerifier": "12",
+    "canonicalCatalogWriter": "08"
+  },
+  "auraFreeze": {
+    "status": "CLOSED_ACCEPTED_CANONICAL_12_OF_12",
+    "dreamAuroraPath": "/assets/catalog/auras-11-w11-v3.jpg",
+    "dreamAuroraGitBlobSha": "7f3372c1584e07f18a3abfc7818013190fff1560",
+    "rule": "No Aura regeneration, alteration, remap or re-review unless a later exact-hash defect is recorded."
+  },
+  "referenceBasis": {
+    "manifestPath": "docs/preproduction/reference-screenshots/original-reference-manifest.json",
+    "manifestBlobSha": "63956763934f17613a3f98889f8085051a78a0b6",
+    "homeOriginalSha256": "6a4b110aeaf12a6ab0c629f9181cc6cfa8d4f55a518d4f2a6adb3ac6e756c457",
+    "storeOriginalSha256": "b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d",
+    "questOriginalSha256": "70f1b952709a85c77bb11851ffe9ae704acf8b97640355e908b6ec537b5c73c9",
+    "desktopAuthority": [1408, 1056],
+    "responsiveQaOnly": [[1024,768],[390,844],[320,568]],
+    "mobileReferencePixelsProvided": false
+  },
+  "upstreamVisualContracts": {
+    "materialRecipePath": "docs/preproduction/workstreams/11-effect-material-recipes-v1.json",
+    "materialRecipeBlobSha": "2bdeb9eb873f87922b65392070bb5b386ef23073",
+    "staticReducedMotionPath": "docs/preproduction/workstreams/11-static-reduced-motion-capture-contract-v1.json",
+    "staticReducedMotionBlobSha": "8ab37c518ab105c9982857879241170a1e299bbb",
+    "referenceZonePath": "docs/preproduction/workstreams/11-reference-effect-zones.md",
+    "referenceZoneBlobSha": "81eb089d0fdf374cef3a38b66047008286590080",
+    "narrativePath": "docs/preproduction/workstreams/11-motion-game-feel.md",
+    "rule": "This contract narrows capture timing only. If it conflicts with semantic, accessibility, protected-zone or cleanup rules in upstream contracts, the stricter upstream rule wins."
+  },
+  "captureClock": {
+    "t0": "The first animation-frame opportunity after the existing semantic state is already true and the destination remains interactive.",
+    "preEvent": "Capture immediately before the semantic state change where the fixture supports it.",
+    "settled": "Transient movement has ended; persistent truthful state material remains.",
+    "cleanup": "Transient overlays are absent after superseding state, navigation, reduced-motion preference change or the bounded cleanup deadline.",
+    "interactionRule": "No visual effect may delay mount, focus, pointer input, scrolling, answer availability, equip availability, navigation or screen-reader exposure.",
+    "qaDeterminism": "QA fixtures may use a fixed visual-only seed so particle positions are reproducible. The QA seed must not alter gameplay, rewards, learning, ownership, saves or persistence."
+  },
+  "normalMotionKeyframes": {
+    "screenEntry": {
+      "targetDurationMs": 360,
+      "allowedEnvelopeMs": [300,420],
+      "captureMs": [0,90,220,360],
+      "visualStoryboard": {
+        "0": "Destination content is mounted, readable and interactive in its truthful state; optional entry wrapper may begin slightly translucent and 2-6 px from final position.",
+        "90": "Chrome/scene is visibly settling; no content is withheld and no focus/pointer layer is blocked.",
+        "220": "Most opacity/translate delta is resolved; geometry remains unchanged.",
+        "360": "Final static composition exactly matches the persistent visual state; entry wrapper has no residual transform."
+      },
+      "reducedMotion": "Capture final truthful state at t0; no entrance opacity/translate sequence."
+    },
+    "storeSelection": {
+      "semanticPrerequisite": "Existing selected-item state is true before t0.",
+      "targetDurationMs": 640,
+      "allowedEnvelopeMs": [520,760],
+      "particleBudget": [6,9],
+      "captureMs": [0,120,320,480,640,820],
+      "visualStoryboard": {
+        "0": "Selected card receives its persistent stronger cyan/ice rim immediately; detail/try-on content is already available.",
+        "120": "Local spark path has begun outside name/price bands; no card resize or grid reflow.",
+        "320": "Mid-travel frame shows near/mid/far scale hierarchy without obscuring item art or avatar face.",
+        "480": "Destination emphasis is at or near peak while selected semantics remain readable without motion.",
+        "640": "Travel has ended; persistent selected rim and restrained destination halo remain.",
+        "820": "All transient particles are gone. Persistent selected material remains until real state changes."
+      },
+      "reducedMotion": "At t0 show persistent selected rim plus fixed destination halo only; no travel, pulse, bounce or scale animation."
+    },
+    "storeEquip": {
+      "semanticPrerequisite": "Existing equipped state is true before t0; never infer success from click intent alone.",
+      "targetDurationMs": 720,
+      "allowedEnvelopeMs": [620,820],
+      "particleBudget": [8,12],
+      "captureMs": [0,140,360,520,720,920],
+      "visualStoryboard": {
+        "0": "Persistent equipped cue is already visible on the truthful equipped destination.",
+        "140": "Local destination burst begins around, not over, the equipped art/face.",
+        "360": "Depth-staggered star/mote field expands locally; no full-grid animation or purchase-state implication.",
+        "520": "Peak emissive/glint moment remains bounded to the destination surface.",
+        "720": "Burst has settled; equipped semantic cue remains independently legible.",
+        "920": "Transient burst is fully removed; no detached overlay survives scrolling or navigation."
+      },
+      "reducedMotion": "At t0 use persistent equipped cue plus fixed three-to-five-star cluster outside critical detail; no traveling particles."
+    },
+    "questCorrect": {
+      "semanticPrerequisite": "Reliable existing semantic correct state is true before t0; Workstream 12 semantics remain authoritative.",
+      "targetDurationMs": 860,
+      "allowedEnvelopeMs": [760,980],
+      "particleBudget": [8,14],
+      "captureMs": [0,140,420,680,860],
+      "visualStoryboard": {
+        "0": "Green success keyline appears immediately without moving answer geometry; next available action is not delayed.",
+        "140": "Gold/ice spark burst starts outside answer copy.",
+        "420": "Peak celebration is local, legible and clearly post-correctness; no answer text is covered.",
+        "680": "Particle density is decaying while static green success remains.",
+        "860": "Transient particles are gone or visually negligible; persistent truthful success styling may remain only while the correct state remains active."
+      },
+      "hardForbidStates": ["wrong","clue","retry","unanswered"],
+      "reducedMotion": "At t0 show instant static green success keyline plus a small fixed gold/ice star cluster outside answer copy."
+    },
+    "questWrongClueRetry": {
+      "captureMs": [0,300,900],
+      "visualStoryboard": "All sampled frames contain instructional feedback only: zero Star Sparks, gold reward flare, success bloom, celebratory bounce or answer-hinting emphasis.",
+      "reducedMotion": "Identical non-celebratory instructional treatment.",
+      "cleanupRequirement": "Any prior correct-state decoration must be absent by the first frame judged as wrong, clue, retry or next unanswered."
+    },
+    "homeRoomReveal": {
+      "semanticPrerequisite": "Real room progression is already loaded before t0.",
+      "targetDurationMs": 760,
+      "allowedEnvelopeMs": [650,850],
+      "captureMs": [0,180,420,760],
+      "visualStoryboard": {
+        "0": "All five truthful room-tier previews are already present, readable and interactive; optional visual settle starts from a shallow opacity/translate delta only.",
+        "180": "Tiles may differ slightly in settle phase, but none may be hidden or semantically withheld.",
+        "420": "Current true tier carries warm-gold emphasis; locked tiers remain truthfully locked.",
+        "760": "All five previews are fully settled in final geometry with zero reveal dependency left."
+      },
+      "reducedMotion": "All five truthful tiles render immediately in final positions at t0 with the same current/locked materials."
+    },
+    "avatarBuddyVisualLife": {
+      "scope": "Optional wrapper-only ambient life after layout is stable; never required for state comprehension.",
+      "activeMicroCycleMs": 1800,
+      "minimumStaticDwellBetweenCyclesMs": 1800,
+      "maxWrapperTranslationPx": 3,
+      "captureMsWithinCycle": [0,450,900,1350,1800],
+      "visualStoryboard": "One subtle drift/sway cycle returns exactly to rest, then holds static before another optional cycle. Avatar and Buddy should not share identical phase. No face occlusion or layout movement.",
+      "phoneRule": "At 390x844 and 320x568, omit the ambient cycle whenever it competes with reading or critical controls.",
+      "reducedMotion": "No transform loop; preserve fixed rim light, contact shadow and static Buddy highlight."
+    }
+  },
+  "viewportRestraint": {
+    "1408x1056": "Use authoritative desktop composition/material hierarchy. Keep event accents local to the reference-defined effect zones.",
+    "1024x768": "Keep the same timing but reduce halo spread and protect dense labels; do not enlarge effects to compensate for tighter space.",
+    "390x844": "Keep timing bounded; reduce decorative spread/scale before reducing semantic clarity. Optional ambient avatar/Buddy cycle may be omitted.",
+    "320x568": "Use minimum spectacle compatible with the normal-motion recipe. State clarity, answer copy, labels, prices and focus cues outrank decorative effects."
+  },
+  "protectedVisualRegions": [
+    "avatar face",
+    "equipped item silhouette",
+    "Store item name and price bands",
+    "Quest passage and answer copy",
+    "semantic badges",
+    "focus outlines",
+    "primary navigation and CTA labels"
+  ],
+  "cleanupTriggers": [
+    "screen navigation",
+    "component unmount",
+    "selected item changes",
+    "equipped item changes",
+    "Quest advances to next question",
+    "Quest enters wrong/clue/retry",
+    "prefers-reduced-motion changes",
+    "new same-surface event supersedes the old one"
+  ],
+  "renderQaPacket": {
+    "owner": "14 after 15 coordinates implementation",
+    "requiredViewports": [[1408,1056],[1024,768],[390,844],[320,568]],
+    "normalMotionEvidence": [
+      "Capture the listed exact keyframes for Store selection and equip, Quest correct, Home room reveal and screen entry.",
+      "Capture Quest wrong/clue/retry at all listed samples and verify zero celebration material.",
+      "Capture one optional avatar/Buddy micro-cycle only where present; verify exact return to rest and the required static dwell.",
+      "After Store selection/equip, perform a meaningful grid scroll only after transient particles are cleaned; verify persistent selected/equipped cues remain attached to the correct surface."
+    ],
+    "traceWindows": {
+      "event": "Record browser paint/composite behavior from one frame before t0 through at least 300 ms after the settled frame.",
+      "scroll": "Record one Store scroll with persistent selected/equipped state visible and with no transient particle layer alive.",
+      "preferenceTransition": "Toggle to reduced motion while a fixture event is active and verify transient motion layers are synchronously removed without changing semantic state."
+    },
+    "measureAndReport": [
+      "actual paint/composite behavior",
+      "unexpected layout shifts",
+      "scroll-position jumps",
+      "orphan effect layers",
+      "text/face/item occlusion",
+      "main-thread long tasks observed during the bounded event",
+      "whether reduced-motion final state preserves equal semantic readability"
+    ],
+    "automaticVisualMetricPolicy": "pHash, dHash, color-hash and SSIM may be reported for inspection prioritization only and may not approve or reject motion/effect quality automatically.",
+    "status": "OPEN_NOT_EXECUTED"
+  },
+  "failConditions": [
+    "Any effect delays learning, navigation, selection, equip, focus, pointer input or scrolling.",
+    "Any success effect appears on Quest wrong/clue/retry/unanswered.",
+    "Any effect visually hints the correct answer before correctness is established.",
+    "Any room tile is hidden or made non-interactive until its reveal completes.",
+    "Any particle/halo obscures protected text, avatar face or equipped-item detail.",
+    "Any transient layer survives its cleanup trigger or becomes detached during scrolling.",
+    "Reduced motion removes the only visible selected/equipped/correct/current-tier cue.",
+    "A responsive capture is represented as pixel parity without an authoritative mobile reference."
+  ],
+  "releaseGateClaims": {
+    "normalMotionRenderQa": "OPEN_NOT_EXECUTED",
+    "reducedMotionRenderQa": "OPEN_NOT_EXECUTED",
+    "paintCompositeScrollProfiling": "OPEN_NOT_EXECUTED",
+    "referenceParity": "OPEN_NOT_CLEARED",
+    "artVisualsComplete": false,
+    "deploymentAuthorized": false
+  },
+  "freeze": {
+    "catalogAssetsChanged": false,
+    "acceptedAuraHashesChanged": false,
+    "canonicalMappingsChangedBy11": false,
+    "sharedRuntimeChanged": false,
+    "gameplayChanged": false,
+    "learningChanged": false,
+    "accessibilityLogicChanged": false,
+    "persistenceChanged": false,
+    "economyChanged": false,
+    "playerDataChanged": false,
+    "mainTouched": false,
+    "replitTouched": false,
+    "flootTouched": false,
+    "deploymentTouched": false,
+    "paidSettingsTouched": false
+  }
+}
