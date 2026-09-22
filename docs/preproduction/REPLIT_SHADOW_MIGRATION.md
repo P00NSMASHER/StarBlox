@@ -40,3 +40,21 @@ Use the daily Replit budget for large coherent migration increments, not repeate
 ## Current boundary
 
 The GitHub catalog is still in accelerated finishing. The shadow build may be updated ahead of release, but unresolved/pending art must not be represented as final or used to overwrite accepted exact hashes.
+
+
+## Shadow sync ledger
+
+### 2026-09-22 — initial workspace sync
+- Requested source baseline: `a01af6a1227997b35d27738f8576ec3b97147852`.
+- Replit workspace update started in unpublished shadow mode.
+- Published deployment remained `success` at `https://star-blox.replit.app`.
+
+### 2026-09-22 — incremental runtime delta
+- GitHub advanced to `812a05b27210da6ebd2e7fc21c5d4195fde15b08`, four commits beyond the initial migration baseline.
+- Production-relevant runtime delta: reduced-motion sticky press-state fix in the motion/game-feel runtime plus its regression coverage.
+- Replit shadow update instructed to reuse already-synchronized content and apply only the production-relevant delta rather than retransferring unchanged files.
+- Replit Agent turn remains in `updating` phase; shadow preview/build verification is still pending.
+- No publish/redeploy action was requested or authorized.
+
+### Next migration action
+When the current Replit Agent turn is no longer busy/updating, verify the unpublished preview/build state and record the exact synchronized source head. Then continue with the next coherent GitHub delta only; do not publish until the full StarBlox release gates pass and the user explicitly approves deployment.
