@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" role="img" aria-label="Dream Goal aspirational visual">
+<title>Dream Goal</title><desc>A luminous aspirational room-vision portal with a star path toward a bright future home, intentionally free of counters or expiry cues.</desc>
+<defs>
+ <radialGradient id="skyD" cx="54%" cy="37%" r="78%"><stop stop-color="#fff8d2"/><stop offset=".25" stop-color="#f8cfff"/><stop offset=".62" stop-color="#8bc9ff"/><stop offset="1" stop-color="#4f5fb6"/></radialGradient>
+ <linearGradient id="floorD" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f2d7c5"/><stop offset="1" stop-color="#9f78a8"/></linearGradient>
+ <linearGradient id="glassD" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ffffff" stop-opacity=".92"/><stop offset="1" stop-color="#b9e8ff" stop-opacity=".54"/></linearGradient>
+ <linearGradient id="goldD" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff7a1"/><stop offset=".45" stop-color="#ffd452"/><stop offset="1" stop-color="#f2a829"/></linearGradient>
+ <filter id="shD" x="-30%" y="-30%" width="160%" height="180%"><feDropShadow dx="0" dy="10" stdDeviation="10" flood-color="#302550" flood-opacity=".35"/></filter>
+ <filter id="glD"><feGaussianBlur stdDeviation="12"/></filter>
+</defs>
+<rect width="640" height="360" rx="26" fill="url(#skyD)"/>
+<circle cx="493" cy="68" r="54" fill="#fff8b8" opacity=".35" filter="url(#glD)"/><path d="M0 254L640 205V360H0Z" fill="url(#floorD)"/>
+<g filter="url(#shD)"><path d="M338 119l105-65 129 45-107 67z" fill="url(#glassD)" stroke="#fff" stroke-width="7"/><path d="M338 119l127 47v112l-127-48z" fill="#f9eaff" fill-opacity=".8" stroke="#fff" stroke-width="7"/><path d="M465 166l107-67v113l-107 66z" fill="#d9eaff" fill-opacity=".72" stroke="#fff" stroke-width="7"/><path d="M392 140l0 109M438 157l0 109M512 137v107" stroke="#ffffff" stroke-width="5" opacity=".75"/><path d="M369 222l53-18 28 11-54 20z" fill="#8f75cf"/><path d="M495 220l47-29 0 18-47 28z" fill="#e493b9"/><circle cx="526" cy="173" r="12" fill="#7bd58a"/><path d="M516 184h22v24h-22z" fill="#d59c71"/><path d="M456 102l8 16 18 3-13 13 3 18-16-8-17 8 4-18-13-13 18-3z" fill="url(#goldD)"/></g>
+<path d="M72 310C155 276 231 275 312 235c57-29 90-68 129-104" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" opacity=".55"/>
+<g fill="url(#goldD)" filter="url(#shD)"><path d="M94 280l9 17 19 3-14 13 4 19-18-9-17 9 3-19-13-13 19-3z"/><path d="M207 252l7 14 16 2-12 11 3 16-14-8-14 8 3-16-12-11 16-2z"/><path d="M302 213l7 14 16 2-12 11 3 16-14-8-14 8 3-16-12-11 16-2z"/></g>
+<g filter="url(#shD)"><path d="M39 64l211-13 24 158-215 21z" fill="#fff" fill-opacity=".94" stroke="#fff" stroke-width="7"/><path d="M63 87l70-4 8 54-72 6z" fill="#9bdcff"/><path d="M151 81l73-4 7 55-73 5z" fill="#ffc1d9"/><path d="M72 158l66-5 8 46-68 7z" fill="#fff0a4"/><path d="M158 150l73-6 8 46-75 8z" fill="#b9a7f2"/><path d="M87 126l12-18 12 13 10-15 8 23z" fill="#6ebf82"/><path d="M174 120l14-19 15 20" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round"/><path d="M100 174l8 15 17 2-12 12 3 17-16-8-15 8 3-17-12-12 17-2z" fill="#ffd45c"/><circle cx="196" cy="171" r="13" fill="#7f6ed3"/><path d="M180 192h33" stroke="#fff" stroke-width="6" stroke-linecap="round"/></g>
+<g fill="#fff8b2"><circle cx="287" cy="73" r="5"/><circle cx="604" cy="59" r="5"/><circle cx="597" cy="284" r="4"/><path d="M301 46l5 12 12 5-12 5-5 12-5-12-12-5 12-5z"/><path d="M585 110l5 11 11 5-11 5-5 11-5-11-11-5 11-5z"/></g>
+</svg>
