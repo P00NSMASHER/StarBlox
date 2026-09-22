@@ -1,0 +1,162 @@
+name: StarBlox Art Factory Plan Current Batch
+
+on:
+  workflow_dispatch:
+    inputs:
+      producer:
+        description: 'Producer/workstream ID, e.g. 03, 05, 06, 09'
+        required: true
+        type: string
+      model_id:
+        description: 'Exact base-model repository/model ID'
+        required: true
+        type: string
+      model_revision:
+        description: 'Exact base-model revision/commit'
+        required: true
+        type: string
+      reference_sha256:
+        description: 'Optional exact StarBlox-owned reference-image SHA-256 bound into every job'
+        required: false
+        type: string
+      adapter_scale:
+        description: 'Optional IP-Adapter scale recorded in jobs'
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  plan-current:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: screenshot-match-preproduction
+          fetch-depth: 1
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Normalize current review corpus
+        run: |
+          mkdir -p artifacts/art-factory-plan
+          node scripts/artReviewNormalizer.mjs \
+            --repo-root . \
+            --output artifacts/art-factory-plan/review-corpus.json
+
+      - name: Build stale-safe current regeneration queue
+        run: |
+          node scripts/artRegenerationQueue.mjs \
+            --repo-root . \
+            --output artifacts/art-factory-plan/regeneration-queue.json
+
+      - name: Audit factory state before planning
+        run: |
+          node scripts/artWorkflowAudit.mjs \
+            --repo-root . \
+            --output artifacts/art-factory-plan/workflow-audit.json
+          node - <<'NODE'
+          const fs=require('fs');
+          const audit=JSON.parse(fs.readFileSync('artifacts/art-factory-plan/workflow-audit.json','utf8'));
+          if (audit.status && audit.status !== 'PASS') {
+            throw new Error('Art workflow audit is not PASS: '+JSON.stringify(audit.errors||[]));
+          }
+          NODE
+
+      - name: Compile deterministic jobs for selected producer
+        env:
+          PRODUCER: ${{ inputs.producer }}
+          MODEL_ID: ${{ inputs.model_id }}
+          MODEL_REVISION: ${{ inputs.model_revision }}
+          REFERENCE_SHA256: ${{ inputs.reference_sha256 }}
+          ADAPTER_SCALE: ${{ inputs.adapter_scale }}
+        run: |
+          set -euo pipefail
+          args=(
+            plan-batch
+            --repo-root .
+            --queue artifacts/art-factory-plan/regeneration-queue.json
+            --producer "$PRODUCER"
+            --model-id "$MODEL_ID"
+            --model-revision "$MODEL_REVISION"
+            --output-dir artifacts/art-factory-plan/jobs
+          )
+          if [ -n "${REFERENCE_SHA256:-}" ]; then
+            args+=(--reference-sha256 "$REFERENCE_SHA256")
+          fi
+          if [ -n "${ADAPTER_SCALE:-}" ]; then
+            args+=(--adapter-scale "$ADAPTER_SCALE")
+          fi
+          node scripts/artFactoryJob.mjs "${args[@]}"
+
+      - name: Dry-run every generation request
+        run: |
+          python - <<'PY'
+          import json, pathlib, re, subprocess, sys
+
+          jobs = pathlib.Path('artifacts/art-factory-plan/jobs')
+          index = json.loads((jobs / 'batch-index.json').read_text())
+          failures = []
+          validated = []
+          for entry in index.get('jobs', []):
+              item = entry['itemId']
+              job_path = jobs / f'{item}.json'
+              job = json.loads(job_path.read_text())
+              for attempt in job.get('attempts', []):
+                  producer = str(attempt['producer'])
+                  version = 9000 + len(validated)
+                  repo_path = f"public/assets/catalog/{item}-w{int(producer):02d}-v{version}.png" if producer.isdigit() else f"public/assets/catalog/{item}-w{producer}-v{version}.png"
+                  receipt = pathlib.Path('artifacts/art-factory-plan/dry-run') / f"{attempt['attemptId']}.json"
+                  receipt.parent.mkdir(parents=True, exist_ok=True)
+                  cmd = [
+                      sys.executable, 'scripts/artFactoryDiffusers.py', 'dry-run',
+                      '--repo-root', '.',
+                      '--job', str(job_path),
+                      '--attempt-id', attempt['attemptId'],
+                      '--repo-path', repo_path,
+                      '--receipt', str(receipt),
+                  ]
+                  proc = subprocess.run(cmd, text=True, capture_output=True)
+                  if proc.returncode:
+                      failures.append({
+                          'attemptId': attempt['attemptId'],
+                          'stderr': proc.stderr,
+                          'stdout': proc.stdout,
+                      })
+                  else:
+                      validated.append({
+                          'attemptId': attempt['attemptId'],
+                          'repoPath': repo_path,
+                          'receipt': str(receipt),
+                      })
+          report = {
+              'schemaVersion': 1,
+              'producer': index.get('producer'),
+              'itemCount': index.get('itemCount'),
+              'jobCount': len(index.get('jobs', [])),
+              'attemptsValidated': len(validated),
+              'failures': failures,
+              'validated': validated,
+          }
+          pathlib.Path('artifacts/art-factory-plan/dry-run-report.json').write_text(json.dumps(report, indent=2)+'\n')
+          if failures:
+              raise SystemExit(json.dumps(failures, indent=2))
+          print(json.dumps(report, indent=2))
+          PY
+
+      - name: Upload deterministic plan artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: starblox-art-factory-plan-w${{ inputs.producer }}-${{ github.sha }}
+          path: artifacts/art-factory-plan/
+          retention-days: 14
+          if-no-files-found: error
+          compression-level: 0
