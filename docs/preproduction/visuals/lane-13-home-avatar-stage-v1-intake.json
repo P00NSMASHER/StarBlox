@@ -1,0 +1,122 @@
+{
+  "schemaVersion": 1,
+  "candidateId": "home-avatar-stage-w13-v1",
+  "candidateType": "foreground-avatar-buddy-grounding-layer",
+  "producer": "13",
+  "targetScreen": "Home",
+  "status": "STAGED_PENDING_ORIGIN_READBACK_AND_INDEPENDENT_REVIEW",
+  "defectBasis": {
+    "currentRenderArtifactRun": 35663655650,
+    "currentRenderPath": "home-desktop-1408x1056.png",
+    "observedGap": "Current Home avatar/buddy staging reads flatter and less physically grounded than the immutable Home reference; the reference uses a dimensional plush foreground/rug, contact depth and warm window-light cues.",
+    "referencePath": "docs/preproduction/reference-screenshots/originals/home-1448x1086.jpeg",
+    "referenceSha256": "6a4b110aeaf12a6ab0c629f9181cc6cfa8d4f55a518d4f2a6adb3ac6e756c457"
+  },
+  "provenance": {
+    "generationRequestId": "61fc0ea8-925b-4bf4-bfa7-6e5d701eef39",
+    "generationAdobeUrn": "urn:aaid:ps:US:578ac5e4-3d0c-47f9-8a15-d3ab88a88472",
+    "centerFillEditRequestId": "d8e3db7e-9208-4b5b-a5e6-12c0def9a642",
+    "sourceAdobeUrn": "urn:aaid:ps:US:9d28d4f5-bc51-4a78-8197-78f7a0ab712d",
+    "backgroundRemovalRequestId": "c12b8574-7643-433a-a893-f70e4e328ca6",
+    "fullAdobeUrn": "urn:aaid:ps:US:44657112-e552-477e-ac1f-96248f019544",
+    "optimizedResizeRequestId": "540026d2-da28-49bc-b1a3-ae7478790d5d",
+    "optimizedAdobeUrn": "urn:aaid:ps:US:a47cb555-7037-4785-a1f5-a4e0f58b1265"
+  },
+  "compositionIntent": [
+    "separate foreground layer only; no flattened Home screen",
+    "broad uncluttered center for separately composited equipped avatar and selected buddy",
+    "pink/lilac/cream plush materials with restrained cyan piping and tiny warm-gold star accents",
+    "dappled warm window-light cues echo the immutable reference without copying its exact pixels",
+    "no people, creatures, UI, text, buttons, logos, furniture, branded imagery or third-party IP"
+  ],
+  "files": [
+    {
+      "role": "source",
+      "path": "public/assets/visuals/lane-13/home-avatar-stage-w13-v1-source.png",
+      "format": "PNG",
+      "dimensions": [
+        1536,
+        1536
+      ],
+      "bytes": 2229996,
+      "sha256": "71f27c10973f9cc654f2ecb91913922b305e7a58311a411aa52a40d879425d29",
+      "variance64": [
+        820.6363487243652,
+        722.6734685897827,
+        421.6722249984741
+      ],
+      "alphaExtrema": [
+        255,
+        255
+      ],
+      "alphaBbox": [
+        0,
+        0,
+        1536,
+        1536
+      ]
+    },
+    {
+      "role": "full",
+      "path": "public/assets/visuals/lane-13/home-avatar-stage-w13-v1-full.png",
+      "format": "PNG",
+      "dimensions": [
+        1536,
+        1536
+      ],
+      "bytes": 1111039,
+      "sha256": "66736c6156d29b3efe4c525af2dd23ce64623aa842b4c2d0f29529895f46e395",
+      "variance64": [
+        1028.0532758235931,
+        1682.5462713241577,
+        1353.9289497733116
+      ],
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "alphaBbox": [
+        34,
+        598,
+        1488,
+        1372
+      ]
+    },
+    {
+      "role": "optimized",
+      "path": "public/assets/visuals/lane-13/home-avatar-stage-w13-v1-768.png",
+      "format": "PNG",
+      "dimensions": [
+        768,
+        768
+      ],
+      "bytes": 348059,
+      "sha256": "e2ec060dcbfa54004646826dc04b7f25dfd8850fe31e0fc68f0373871f398afa",
+      "variance64": [
+        1791.969348371029,
+        2671.673140466213,
+        2374.0968854427338
+      ],
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "alphaBbox": [
+        17,
+        299,
+        744,
+        686
+      ]
+    }
+  ],
+  "producerVisualInspection": "PASS_PRODUCER_ONLY_NOT_INDEPENDENT_ACCEPT",
+  "runtimeWired": false,
+  "canonicalCatalogTouched": false,
+  "workstream06AvatarTouched": false,
+  "workstream09ActiveEnvironmentTouched": false,
+  "replitOrFlootTouched": false,
+  "mainTouched": false,
+  "physicalDeviceTested": false,
+  "screenshotParityClaimed": false,
+  "originReadback": "PENDING"
+}
