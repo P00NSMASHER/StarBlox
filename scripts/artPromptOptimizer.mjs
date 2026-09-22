@@ -41,20 +41,7 @@ const FAILURE_BLOCKS=Object.freeze({
   EXCESSIVE_BLOOM:['bloom','card'],
   UNKNOWN_REWORK:[]
 });
-const DEFECTS=[
- [/flat|icon|emblem|sticker|vector|badge/i,['physical','material','camera','depth']],
- [/silhouette|identity|recogniz|category/i,['category','silhouette','original']],
- [/material|lighting|depth|dimensional|volume|construction/i,['physical','material','depth']],
- [/glow|bloom|emissive|washed/i,['bloom','card']],
- [/card|small|readab|contrast|thumbnail/i,['silhouette','card']],
- [/theme|tier|premium|spectacle|step.?up/i,['theme','tier']],
- [/duplicate|recolor|palette|generic|clone|original/i,['original','theme']],
- [/rug|floor textile|textile|carpet/i,['textile','category']],
- [/wall|mounted/i,['wall','depth']],
- [/aura|ring|particle/i,['aura','bloom','depth']],
- [/lamp|light|chandelier|luminaire/i,['light','bloom','material']],
- [/companion|character|animal|buddy/i,['companion','silhouette','material']]
-];
+
 export const sha=s=>crypto.createHash('sha256').update(String(s)).digest('hex');
 const band=t=>Number(t)<=2?'starter':Number(t)<=3?'mid':'luxe';
 const uniq=a=>[...new Set(a.filter(Boolean))];
@@ -63,7 +50,6 @@ export function inferRepair(review={}){
  const text=[review.reason,review.reasonCode,...(review.defects||[])].filter(Boolean).join(' '), blocks=[];
  const failureCodes=classifyFailure(review);
  for(const code of failureCodes) blocks.push(...(FAILURE_BLOCKS[code]||[]));
- for(const [rx,b] of DEFECTS) if(rx.test(text)) blocks.push(...b);
  const f=Object.entries(review.checks||{}).filter(([,v])=>['FAIL','PARTIAL','REWORK','BLOCKED'].includes(String(v).toUpperCase())).map(([k])=>k);
  if(f.some(x=>/identity|silhouette/i.test(x))) blocks.push('category','silhouette');
  if(f.some(x=>/materialLighting|material|lighting/i.test(x))) blocks.push('physical','material','depth');

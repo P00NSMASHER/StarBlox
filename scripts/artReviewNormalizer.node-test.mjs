@@ -28,3 +28,20 @@ test('corpus marks self review non-independent and summarizes collection',()=>{
 });
 
 test('unknown rework remains explicit',()=>assert.deepEqual(classifyFailure({decision:'REWORK',reason:'needs work'}),['UNKNOWN_REWORK']));
+
+test('positive review language does not become a failure',()=>{
+  const reason='Actual pixels strongly sell Pebble Turtle: the stone shell has varied rock color/roughness, the body has rounded toy volume, and the silhouette survives card scale. The exact Galaxy Glow theme is missing, however. This is a theme-specific REWORK, not a dimensional-quality failure.';
+  const codes=classifyFailure({decision:'REWORK',reason,checks:{identity:'PASS',themeTier:'FAIL',silhouette:'PASS',materialLighting:'PASS',cardReadability:'PASS',originality:'PASS',duplicateVisual:'PASS'}});
+  assert.deepEqual(codes,['THEME_MISMATCH']);
+});
+
+test('missing theme is not a missing-file technical defect',()=>{
+  const codes=classifyFailure({decision:'REWORK',reason:'The exact Galaxy Glow theme is missing.',checks:{themeTier:'FAIL'}});
+  assert(codes.includes('THEME_MISMATCH'));
+  assert(!codes.includes('TECHNICAL_INTEGRITY'));
+});
+
+test('structured PASS overrides contradictory positive keyword matches',()=>{
+  const codes=classifyFailure({decision:'REWORK',reason:'Strong volume, material lighting and card readability all survive reduction; theme mismatch remains.',checks:{identity:'PASS',themeTier:'FAIL',silhouette:'PASS',materialLighting:'PASS',cardReadability:'PASS',originality:'PASS',duplicateVisual:'PASS'}});
+  assert.deepEqual(codes,['THEME_MISMATCH']);
+});

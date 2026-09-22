@@ -18,17 +18,17 @@ export const FAILURE_CODES = Object.freeze({
 });
 
 const RULES = [
-  ['TECHNICAL_INTEGRITY', /corrupt|signature|decode|blank|transparent failure|missing(?: file| asset)?|404|wrong mime|readback|hash mismatch|invalid[- ]file|broken/i],
-  ['FLAT_COMPOSITION', /\bflat\b|flat circular|flat ring|ring topology|icon|sticker|diagrammatic|vector[- ]?like|floating emblem|badge/i],
-  ['WEAK_DEPTH', /depth|volum|parallax|near\/far|near[- ]?mid[- ]?far|foreground|background|occlusion|overlap|spatial|grounded|contact shadow|depth staggering/i],
-  ['WEAK_MATERIAL_LIGHTING', /material|lighting|light spill|glow|emissive|specular|transluc|reflection|refraction|highlight|shadow|surface response|fabric folds|weave|pile|thickness/i],
-  ['THEME_MISMATCH', /theme mismatch|theme.*(?:weak|generic|missing|fail)|generic theme|specificity.*weak|palette[- ]only|palette swap|exact theme/i],
-  ['TIER_INSUFFICIENT', /tier.*(?:weak|fail|needs|requires|insufficient)|premium.*(?:weak|needs)|spectacle|step[- ]?up|luxe.*(?:needs|weak)/i],
-  ['SMALL_CARD_READABILITY', /card readability|small[- ]card|card scale|thumbnail|contrast|reduction|legib|readab|crop/i],
-  ['NEAR_DUPLICATE_TEMPLATE', /duplicate|near[- ]duplicate|template|recolor|palette swap|clone|repeated silhouette|interchangeable/i],
-  ['WEAK_SILHOUETTE_IDENTITY', /silhouette.*(?:weak|unclear|fail)|identity.*(?:weak|unclear|fail)|category.*(?:unclear|fail)|recogniz/i],
-  ['EXCESSIVE_BLOOM', /excessive bloom|washed out|bloom.*(?:too|excess)|glow.*wash/i]
-];
+  ['TECHNICAL_INTEGRITY', /corrupt(?: file| image)?|(?:invalid|bad)[- ](?:file|signature|decode)|signature (?:fail|mismatch|error)|decode (?:fail|error)|blank (?:image|asset)|transparent failure|missing (?:file|asset)|\b404\b|wrong mime|readback (?:fail|mismatch)|hash mismatch|broken (?:file|asset)/i],
+  ['FLAT_COMPOSITION', /\bflat\b|flat circular|flat ring|ring topology|icon[- ]?like|sticker[- ]?like|diagrammatic|vector[- ]?like|floating emblem/i],
+  ['WEAK_DEPTH', /(?:weak|insufficient|missing|lacks?|lacking|needs?|no)\b.{0,48}\b(?:depth|volume|parallax|near\/far|near[- ]?mid[- ]?far|foreground|background|occlusion|overlap|spatial|grounded|contact shadow|depth staggering)/i],
+  ['WEAK_MATERIAL_LIGHTING', /(?:weak|insufficient|missing|lacks?|lacking|needs?|no)\b.{0,48}\b(?:material|lighting|light spill|glow|emissive|specular|transluc|reflection|refraction|highlight|shadow|surface response|fabric folds|weave|pile|thickness)/i],
+  ['THEME_MISMATCH', /theme (?:is )?(?:missing|mismatch|wrong|generic|weak)|(?:missing|wrong|generic|weak)\b.{0,28}\btheme|palette[- ]only|palette swap|exact theme (?:is )?missing|does not (?:read|feel) as .*theme/i],
+  ['TIER_INSUFFICIENT', /tier\b.{0,32}\b(?:insufficient|weak|needs|requires|fails?|underpowered)|(?:insufficient|weak|underpowered)\b.{0,32}\btier|lacks?\b.{0,24}\bpremium|needs?\b.{0,24}\bspectacle|not rich enough/i],
+  ['SMALL_CARD_READABILITY', /(?:poor|weak|low|insufficient|missing|fails?|does not|doesn't|lost|unreadable|illegible)\b.{0,40}\b(?:card|thumbnail|small[- ]?card|contrast|readab|legib)|(?:card|thumbnail|small[- ]?card).{0,40}(?:poor|weak|fail|unreadable|illegible|lost)/i],
+  ['NEAR_DUPLICATE_TEMPLATE', /near[- ]duplicate|duplicate visual|template reuse|recolor[- ]only|palette swap|clone|repeated template|repeated silhouette|interchangeable/i],
+  ['WEAK_SILHOUETTE_IDENTITY', /(?:silhouette|identity|category)\b.{0,32}\b(?:weak|unclear|fails?|missing|generic)|(?:weak|unclear|generic)\b.{0,32}\b(?:silhouette|identity|category)|hard to recogniz/i],
+  ['EXCESSIVE_BLOOM', /excessive bloom|washed out|bloom\b.{0,24}\b(?:too|excess|wash)|glow\b.{0,24}\bwash/i]
+]
 
 const uniq = values => [...new Set(values.filter(Boolean))];
 const upper = value => String(value || '').trim().toUpperCase();
@@ -39,8 +39,11 @@ function checkFailureCodes(checks = {}) {
     const state = upper(raw);
     if (!['FAIL', 'PARTIAL', 'REWORK', 'BLOCKED'].includes(state)) continue;
     if (/identity|silhouette/i.test(key)) codes.push('WEAK_SILHOUETTE_IDENTITY');
-    if (/theme/i.test(key)) codes.push('THEME_MISMATCH');
-    if (/tier/i.test(key)) codes.push('TIER_INSUFFICIENT');
+    if (/^themeTier$/i.test(key)) codes.push('THEME_MISMATCH');
+    else {
+      if (/theme/i.test(key)) codes.push('THEME_MISMATCH');
+      if (/tier/i.test(key)) codes.push('TIER_INSUFFICIENT');
+    }
     if (/material|lighting/i.test(key)) codes.push('WEAK_MATERIAL_LIGHTING');
     if (/depth|volume|spatial/i.test(key)) codes.push('WEAK_DEPTH');
     if (/card|readab|contrast/i.test(key)) codes.push('SMALL_CARD_READABILITY');
@@ -50,6 +53,20 @@ function checkFailureCodes(checks = {}) {
   return codes;
 }
 
+function applyStructuredPassOverrides(codes, checks = {}) {
+  const out = new Set(codes);
+  const state = key => upper(checks?.[key]);
+  if (state('identity') === 'PASS' && state('silhouette') === 'PASS') out.delete('WEAK_SILHOUETTE_IDENTITY');
+  if (state('materialLighting') === 'PASS') out.delete('WEAK_MATERIAL_LIGHTING');
+  if (state('cardReadability') === 'PASS') out.delete('SMALL_CARD_READABILITY');
+  if (state('originality') === 'PASS' && state('duplicateVisual') === 'PASS') out.delete('NEAR_DUPLICATE_TEMPLATE');
+  if (state('themeTier') === 'PASS') {
+    out.delete('THEME_MISMATCH');
+    out.delete('TIER_INSUFFICIENT');
+  }
+  return [...out];
+}
+
 export function classifyFailure(review = {}) {
   const decision = upper(review.decision);
   if (decision === 'ACCEPT') return [];
@@ -57,7 +74,7 @@ export function classifyFailure(review = {}) {
   const codes = [];
   for (const [code, rx] of RULES) if (rx.test(text)) codes.push(code);
   codes.push(...checkFailureCodes(review.checks));
-  const unique = uniq(codes);
+  const unique = applyStructuredPassOverrides(uniq(codes), review.checks);
   if ((decision === 'REWORK' || decision === 'BLOCKED') && unique.length === 0) unique.push('UNKNOWN_REWORK');
   return unique;
 }
