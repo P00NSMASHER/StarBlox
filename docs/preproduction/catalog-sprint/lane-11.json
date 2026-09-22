@@ -347,8 +347,9 @@
   ],
   "handoff": {
     "11": "Do not regenerate any staged v3 Aura while review is pending. Aura 11 is now the only remaining exact-hash REWORK without a newer staged candidate.",
+    "14": "Run 35672325902 proves the new Aura v3 exact hashes render correctly, but the shared staged-art workflow remains red from the already-known stale desks-2/3/4 -w03-v1.webp decode defect. Keep that release-visible and repair fixture selection under Workstream 14 ownership; Lane 11 did not change the shared harness.",
     "15": "Aura 1-4 v3 transport is cleared and staged. Lane 11 has now also staged a bounded v3 pilot for Auras 5/9/10/12. Preserve all pending hashes; no regeneration while independent review is pending.",
-    "05": "Independently review exact current v3 hashes for Auras 1-5, 9, 10 and 12. The fresh Lane-11 pilot is 5/9/10/12 at latestPilotBatch paths/hashes. Do not inherit old v2 verdicts to new hashes. Preserve 6/7/8 ACCEPT.",
+    "05": "Independent review evidence is ready for Aura v3 hashes. Use artifact 10671442777 from workflow run 35672325902: staged-replacements contact sheet plus exact detail renders for Auras 5/9/10/12 listed in latestPilotBatch.renderEvidence. All four Aura entries rendered HTTP 200 at 600x600 with screenshots and zero per-item errors. The workflow is red only because the existing stale desks-2/3/4 fixture entries fail decode; do not transfer that unrelated failure to Aura decisions.",
     "08": "Auras 6/7/8 remain canonical. Do not wire any v3 Aura unless reviewer 05 ACCEPTs that exact hash and normal metadata/file/content checks pass."
   },
   "freeze": {
@@ -479,7 +480,72 @@
       "repositoryWrite": "PASS_4_OF_4",
       "repositoryHashReadback": "PASS_4_OF_4_EXACT_GIT_BLOB_SHA",
       "independentReview": "PENDING_REVIEWER_05",
-      "canonicalIntegration": "BLOCKED_UNTIL_05_ACCEPT_AND_08_ONLY"
+      "canonicalIntegration": "BLOCKED_UNTIL_05_ACCEPT_AND_08_ONLY",
+      "sharedRender": "PASS_4_OF_4_EXACT_HASH_600x600_HTTP200_SCREENSHOT_TRUE",
+      "sharedRunOverall": "FAIL_UNRELATED_DESKS_2_4_STALE_DECODE_REMAINS_RELEASE_VISIBLE"
+    },
+    "renderEvidence": {
+      "workflow": "StarBlox Staged Catalog Art QA",
+      "workflowRunId": 35672325902,
+      "workflowHead": "f15ae12806627976a67ccd63be1371542039bcd9",
+      "workflowConclusion": "FAILURE_UNRELATED_STALE_DESKS_2_4_DECODE",
+      "artifactId": 10671442777,
+      "artifactName": "catalog-staged-art-review",
+      "artifactBytes": 59314180,
+      "artifactDigest": "sha256:190e080af412f1aa7cd73a523a6bd1a231b5fb6a9bd62cc0fd8bbd40aaa2ddf8",
+      "contactSheet": "staged-replacements/staged-replacements-contact-sheet.png",
+      "itemRenders": [
+        {
+          "id": "auras-5",
+          "hash": "ae3bef6cbbf4333aa740dc9a3fddf4f2b5540192",
+          "detail": "staged-replacements/detail/auras-5-ae3bef6c.png",
+          "httpStatus": 200,
+          "naturalDimensions": [
+            600,
+            600
+          ],
+          "screenshot": true,
+          "errors": []
+        },
+        {
+          "id": "auras-9",
+          "hash": "9331e516a7a1a2fa32abafaf3bbf0932c3ca792d",
+          "detail": "staged-replacements/detail/auras-9-9331e516.png",
+          "httpStatus": 200,
+          "naturalDimensions": [
+            600,
+            600
+          ],
+          "screenshot": true,
+          "errors": []
+        },
+        {
+          "id": "auras-10",
+          "hash": "6f07fe7f5c8be236f3c17df5f55afc550888f52e",
+          "detail": "staged-replacements/detail/auras-10-6f07fe7f.png",
+          "httpStatus": 200,
+          "naturalDimensions": [
+            600,
+            600
+          ],
+          "screenshot": true,
+          "errors": []
+        },
+        {
+          "id": "auras-12",
+          "hash": "d0fcf528ff4ee91e56760932fdcf357ab264dd3d",
+          "detail": "staged-replacements/detail/auras-12-d0fcf528.png",
+          "httpStatus": 200,
+          "naturalDimensions": [
+            600,
+            600
+          ],
+          "screenshot": true,
+          "errors": []
+        }
+      ],
+      "auraBatchResult": "PASS_RENDER_4_OF_4_EXACT_HASHES",
+      "unrelatedFailure": "Shared run also selected obsolete desks-2/3/4 -w03-v1.webp files that fail decode; this existing fixture defect makes the workflow red but does not invalidate the four Aura renders."
     }
   }
 }
