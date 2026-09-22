@@ -1,75 +1,140 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "workstream": "11",
   "phase": "ART_VISUALS_SPRINT",
   "branch": "screenshot-match-preproduction",
-  "purpose": "Hash-bound browser evidence handoff for Workstream 10 after Workstream 11 Store/effect polish. This is evidence only and does not close unrelated release or visual-art gates.",
-  "testedMotionCommit": "43775530ecccf65ec5ef0a182e5c34adabd528c0",
-  "currentHeadBeforeHandoff": "b9ae26ddfc94388a637dbacf1c3e7309e7b26f93",
-  "hashBinding": {
+  "purpose": "Hash-bound browser evidence handoff for Workstream 10 covering Workstream 11 motion/effect runtime. Evidence is exact-hash scoped and does not close unrelated catalog-art, physical-device, screen-reader, or release gates.",
+  "currentEvidenceHeadBeforeHandoff": "0419f503fce41704d1494b39bb826950db578c9f",
+  "currentHashBinding": {
+    "testedMotionCommit": "168441331cd38983ba41c2f31dd81195ea5d85c2",
+    "motionRuntimeGitBlob": "d3cae3a116ad5b13e1a3f80c455c7c58b18aa557",
     "motionCssGitBlob": "d8797842f969973f81af2c56ec44d63ea54480ba",
-    "motionRuntimeGitBlob": "c701cf3ce96478f46e245a1e4f01e1d79084b586",
-    "sameAtTestedCommitAndCurrentHead": true,
-    "compare43775530ToCurrentHead": {
-      "motionFilesChanged": false,
-      "changedPaths": [
-        "docs/preproduction/art-factory/requests/w13-wall-9-12-20260922.json",
-        "docs/preproduction/art-factory/requests/w13-wall-9-12-factory-readiness-20260922.json",
-        "docs/preproduction/catalog-sprint/reviews/02.json",
-        "scripts/catalogMobileChangedQa.mjs"
-      ]
-    },
-    "reuseRule": "Browser evidence below transfers only to the unchanged Workstream-11 motion CSS/runtime hashes, not to unrelated catalog-art or release state."
+    "sameMotionHashesAtTestedCommitAndCurrentEvidenceHead": true,
+    "compareTestedCommitToCurrentEvidenceHeadChangedPaths": [
+      "docs/preproduction/COORDINATION.md",
+      "docs/preproduction/art-factory/ACTIVE_BATCH.json",
+      "docs/preproduction/art-factory/requests/w03-decor-6-8-provenance-repair-20260922.json",
+      "docs/preproduction/art-factory/requests/w09-decor-5-8-20260922.json",
+      "docs/preproduction/art-factory/requests/w13-runtime-provider-probe-20260922.json"
+    ],
+    "motionFilesChangedAfterTestedCommit": false,
+    "reuseRule": "This browser evidence transfers only while src/motionGameFeelRuntime.js and src/motionGameFeel.css retain the exact blobs above. A changed motion hash requires fresh targeted evidence."
+  },
+  "semanticQuestFix": {
+    "commit": "168441331cd38983ba41c2f31dd81195ea5d85c2",
+    "intent": "Bind Quest celebration to semantic .feedback.good success, exclude .feedback.learn, and use .answerButton.correctChoice as the spark origin without changing gameplay state.",
+    "starBloxCi": {
+      "runId": 35769947763,
+      "status": "PASS"
+    }
   },
   "catalogMobileQa": {
     "workflow": "StarBlox Catalog Mobile QA",
-    "runId": 35742954871,
-    "jobId": 106797153699,
-    "sourceHead": "43775530ecccf65ec5ef0a182e5c34adabd528c0",
+    "runId": 35769947798,
+    "jobId": 106888849266,
+    "sourceHead": "168441331cd38983ba41c2f31dd81195ea5d85c2",
     "status": "PASS",
     "releaseBlockingCount": 0,
-    "environment": "Playwright 1.55 / Chromium 140.0.7339.16 headless / GitHub Actions ubuntu-24.04 / Node 22.23.2",
+    "collectionCount": 16,
+    "environment": "Playwright 1.55 Chromium headless on GitHub Actions ubuntu-24.04; browser emulation, not physical-device or screen-reader performance.",
+    "artifact": {
+      "id": 10712964481,
+      "name": "catalog-mobile-qa",
+      "digest": "sha256:a0463b319be7a60cee2bf948c1338695a0b3ee9a0552bb14f70c52b53eeaf45e",
+      "sizeBytes": 20480047
+    },
     "reducedMotion": {
-      "viewports": ["1408x1056", "1024x768", "390x844", "320x568"],
+      "viewports": [
+        "1408x1056",
+        "1024x768",
+        "390x844",
+        "320x568"
+      ],
       "activeAnimations": 0,
       "longestFiniteAnimationMs": 0,
       "runtimeErrors": 0,
       "performance": {
-        "1408x1056": {"avgFrameMs": 16.4, "framesOver34Ms": "0/61", "cls": 0.0016},
-        "1024x768": {"avgFrameMs": 16.2, "framesOver34Ms": "0/61", "cls": 0.0},
-        "390x844": {"avgFrameMs": 16.1, "framesOver34Ms": "0/61", "cls": 0.0},
-        "320x568": {"avgFrameMs": 16.2, "framesOver34Ms": "0/61", "cls": 0.0}
+        "1408x1056": {
+          "avgFrameMs": 16.3721,
+          "framesOver34Ms": "0/61",
+          "cls": 0.0015571
+        },
+        "1024x768": {
+          "avgFrameMs": 16.2066,
+          "framesOver34Ms": "0/61",
+          "cls": 0.0
+        },
+        "390x844": {
+          "avgFrameMs": 16.3902,
+          "framesOver34Ms": "0/61",
+          "cls": 0.0
+        },
+        "320x568": {
+          "avgFrameMs": 16.2574,
+          "framesOver34Ms": "0/61",
+          "cls": 0.0
+        }
       }
     },
     "normalMotionControls": {
-      "1024x768": {"avgFrameMs": 16.6, "framesOver34Ms": "0/61", "horizontalOverflowPx": 0, "runtimeErrors": 0},
-      "390x844": {"avgFrameMs": 16.5, "framesOver34Ms": "0/61", "horizontalOverflowPx": 0, "runtimeErrors": 0}
-    },
-    "artifact": {
-      "id": 10699808718,
-      "name": "catalog-mobile-qa",
-      "zipSha256": "b7a0ea9fb8daa1146b0cb7ebbdc89160140c357067adc6adb1b1c8b7edd7b4e0",
-      "sizeBytes": 20477726
-    },
-    "limitations": [
-      "Browser emulation only; this is not physical-device performance evidence.",
-      "This is not VoiceOver/TalkBack/NVDA evidence.",
-      "State-specific Home and Quest reduced-motion screenshot acceptance remains open for Workstream 10/14; do not infer it from the Store/catalog matrix."
-    ]
+      "1024x768": {
+        "activeAnimationCount": 1,
+        "longestFiniteAnimationMs": 5800,
+        "avgFrameMs": 16.6426,
+        "framesOver34Ms": "0/61",
+        "horizontalOverflowPx": 0,
+        "runtimeErrors": 0
+      },
+      "390x844": {
+        "activeAnimationCount": 1,
+        "longestFiniteAnimationMs": 5800,
+        "avgFrameMs": 16.623,
+        "framesOver34Ms": "0/61",
+        "horizontalOverflowPx": 0,
+        "runtimeErrors": 0
+      }
+    }
+  },
+  "storeObserverDiagnostic": {
+    "workflow": "StarBlox Store Observer Diagnostic",
+    "runId": 35769947709,
+    "jobId": 106888845805,
+    "sourceHead": "168441331cd38983ba41c2f31dd81195ea5d85c2",
+    "status": "PASS",
+    "sourceModuleDiagnostic": "PASS",
+    "productionPreviewDiagnostic": "PASS",
+    "note": "The semantic Quest runtime change did not reintroduce the previously cleared Store observer/mutation hang."
   },
   "preproductionVisualQa": {
     "workflow": "StarBlox Preproduction Visual QA",
-    "runId": 35742954829,
-    "sourceHead": "43775530ecccf65ec5ef0a182e5c34adabd528c0",
+    "runId": 35769947849,
+    "jobId": 106888845125,
+    "sourceHead": "168441331cd38983ba41c2f31dd81195ea5d85c2",
     "overallStatus": "FAIL_UNRELATED_CATALOG_FALLBACK_ART",
-    "motionRelevantResult": "Home/Store/Quest production-preview navigation returned across 1408x1056, 1024x768, 390x844 and 320x568 with no Store runtime-error or navigation-hang reproduction.",
-    "unrelatedFailure": "Desktop Store reported 19 visible generic fallback-art instances. This remains a catalog-art completeness blocker and is not waived by Workstream 11."
+    "artifact": {
+      "id": 10713259181,
+      "name": "preproduction-visual-qa",
+      "digest": "sha256:4ddd1872a187845fad0fa0b9d93ec42b4f0d296167d4d99e61f8747a1d72eb39",
+      "sizeBytes": 5759496
+    },
+    "motionRelevantResult": "Home, Store, and Quest each mounted successfully with no page-level horizontal overflow and no pageerror/console.error at 1408x1056, 1024x768, 390x844, and 320x568.",
+    "onlyReleaseBlockingFailure": "Desktop 1408x1056 Store visible-final-art-fallbacks: 19 generic fallback art instances in the current default category.",
+    "failureOwnedByWorkstream11": false
+  },
+  "priorHashBoundEvidence": {
+    "testedMotionCommit": "43775530ecccf65ec5ef0a182e5c34adabd528c0",
+    "motionRuntimeGitBlob": "c701cf3ce96478f46e245a1e4f01e1d79084b586",
+    "motionCssGitBlob": "d8797842f969973f81af2c56ec44d63ea54480ba",
+    "catalogMobileQaRunId": 35742954871,
+    "catalogMobileQaStatus": "PASS",
+    "releaseBlockingCount": 0,
+    "note": "Retained for provenance only. It does not transfer across the later motion runtime hash change to d3cae3a116ad5b13e1a3f80c455c7c58b18aa557."
   },
   "handoff": {
     "to": "Workstream10",
-    "reuse": "Reuse the exact hash-bound Store/catalog normal-motion and reduced-motion browser evidence above while the two motion file blobs remain unchanged.",
-    "nextNeeded": "Capture state-specific Home/Quest normal and reduced-motion visual evidence when those surfaces are next exercised; keep physical-device, screen-reader, contrast and any unrelated release gates open unless separately executed.",
-    "doNotRerun": "Do not repeat the cleared Store observer/hang investigation unless a fresh current-head failure reproduces on unchanged motion hashes or those hashes change."
+    "reuse": "Treat run 35769947798 plus Store diagnostic 35769947709 as exact-hash browser proof for the current Workstream-11 motion runtime/CSS blobs while those blobs remain unchanged.",
+    "nextNeeded": "State-specific Quest semantic correct versus wrong/clue/retry browser pixels and Home state-specific reduced-motion stills remain open unless separately captured. Physical-device and screen-reader testing remain open.",
+    "doNotRerun": "Do not repeat the Store observer/hang investigation unless a fresh current-head failure reproduces or either motion hash changes."
   },
   "freeze": {
     "auraAssetsChanged": false,
