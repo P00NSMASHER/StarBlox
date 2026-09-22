@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_PINNED_GENERATION_RUNTIME",
+  "status": "PINNED_READY_WHEN_EXECUTION_RUNTIME_AVAILABLE",
+  "repository": "P00NSMASHER/StarBlox",
+  "branch": "screenshot-match-preproduction",
+  "sourceEvidence": "docs/preproduction/art-factory/requests/w13-runtime-provider-probe-20260922.json",
+  "rightsBasis": "USER_ATTESTED_FULL_RIGHTS",
+  "runtime": {
+    "repo": "huggingface/diffusers",
+    "commit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c"
+  },
+  "baseModel": {
+    "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+    "revision": "462165984030d82259a11f4367a4eed129e94a7b"
+  },
+  "executionPolicy": {
+    "realGenerationRequiresAvailableAuthorizedRuntime": true,
+    "gpuOrEquivalentAccelerationRecommended": true,
+    "neverInventProviderMetadata": true,
+    "recordExactExecutedSeed": true,
+    "sourceBytesMustBePreserved": true,
+    "outputMustPassStagedVerifier": true,
+    "outputMustPassRealRender": true,
+    "outputRequiresIndependentExactHashReview": true,
+    "generatorMayNotWriteCanonicalCatalog": true
+  },
+  "currentPriority": {
+    "catalogTarget": 192,
+    "manifestVersionObserved": 33,
+    "finalPortableObserved": 166,
+    "remainingObserved": 26,
+    "runtimeMappingGapObserved": 19,
+    "activeGenerationLane": "Wall 9-12 when compliant execution runtime is available"
+  }
+}
