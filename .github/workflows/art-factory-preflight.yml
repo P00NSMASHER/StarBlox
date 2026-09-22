@@ -92,13 +92,18 @@ jobs:
                   and str(commits[0].get('id') or '') == head
               )
               if single_head_commit:
-                  changed = sorted({
+                  payload_paths = sorted({
                       p
                       for key in ('added','modified','removed')
                       for p in (commits[0].get(key) or [])
                   })
-                  change_source = 'push-payload-single-commit'
-              else:
+                  if payload_paths:
+                      changed = payload_paths
+                      change_source = 'push-payload-single-commit'
+                  else:
+                      single_head_commit = False
+
+              if not single_head_commit:
                   subprocess.run(
                       ['git','-c','protocol.version=2','fetch','--no-tags','--depth=1','--filter=blob:none','origin',before],
                       check=True,
