@@ -1,11 +1,11 @@
 {
-  "schemaVersion": 8,
+  "schemaVersion": 9,
   "lane": "09",
   "workstream": "09",
   "phase": "ART_AND_VISUALS_ONLY",
   "protocol": "DELIVERY_PROTOCOL_V2",
   "branch": "screenshot-match-preproduction",
-  "status": "TOPS_11_12_V5_READY_FOR_REVIEWER_01",
+  "status": "TOPS_11_12_V6_REPOSITORY_STAGED_AWAITING_PIXEL_RENDER_AND_REVIEWER_01",
   "assignmentSource": "docs/preproduction/ART_VISUALS_SPRINT.json",
   "reviewOwner": "01",
   "integrationOwner": "08",
@@ -18,22 +18,25 @@
     "realPlayerDataChanged": false
   },
   "latestReviewer01": {
-    "reviewBlobSha": "9057d433d53b7e799ba0e1d4470dea5deffa5095",
+    "reviewBlobSha": "2f8fc97cfd755b6d1513c0258eaf74477273a0f6",
     "tops11": {
-      "previousPath": "/assets/catalog/tops-11-w09-v4.svg",
-      "previousBlob": "0f25972d3656ebca111083739660e4ddc0204fb8",
+      "previousPath": "/assets/catalog/tops-11-w09-v5.svg",
+      "previousBlob": "43a850ecdc0b7e8861870f7c277f2544f6c87405",
       "decision": "REWORK",
-      "reasonCode": "PREMIUM_DIMENSIONAL_MATERIAL_DEPTH_INSUFFICIENT"
+      "reasonCode": "V5_THREE_QUARTER_IMPROVED_BUT_CARD_SCALE_MATERIAL_VOLUME_BELOW_PREMIUM_BAR",
+      "repairTarget": "Keep v5 asymmetry, Candy Core identity, zipper/pockets and silhouette; replace flat panel rendering with tactile padded cloth volume, curved baffles, seam compression, recessed hood opening, attached sleeve volume, material roughness/highlights and contact/form lighting."
     },
     "tops12": {
-      "previousPath": "/assets/catalog/tops-12-w09-v4.svg",
-      "previousBlob": "0732bbcf7dd4dae4e291f4109fc9686918ffceef",
+      "previousPath": "/assets/catalog/tops-12-w09-v5.svg",
+      "previousBlob": "73339e6c9e472283f481ff18b1e6ba821856f617",
       "decision": "REWORK",
-      "reasonCode": "COAT_SILHOUETTE_AND_TIER5_DIMENSIONALITY_INSUFFICIENT"
+      "reasonCode": "V5_IDENTITY_STRONG_BUT_TIER5_COAT_DEPTH_AND_MATERIAL_FIDELITY_BELOW_ACCEPTED_COLLECTION_BAR",
+      "repairTarget": "Preserve Adventure Club palette, compass/star identity, belt and pockets; rebuild as unmistakable long Tier-5 outerwear with three-quarter torso depth, overlapping yoke/storm layers, quilted loft, woven drape/fold tension, material-specific metal highlights and cast/contact shadow."
     }
   },
   "currentRepairBatch": {
-    "status": "READY_FOR_REVIEW",
+    "status": "REPOSITORY_STAGED_AWAITING_SHARED_PIXEL_QA",
+    "sourceAssetCommit": "0e59daad65faf9f4af6a017b62fa193b4db851e4",
     "items": [
       {
         "id": "tops-11",
@@ -41,14 +44,16 @@
         "category": "Tops",
         "tier": 4,
         "theme": "Candy Core",
-        "candidatePath": "/assets/catalog/tops-11-w09-v5.svg",
-        "repoPath": "public/assets/catalog/tops-11-w09-v5.svg",
-        "candidateBlob": "43a850ecdc0b7e8861870f7c277f2544f6c87405",
-        "format": "svg",
-        "dimensions": [600,600],
-        "provenance": "Original StarBlox self-contained product art authored for this exact repair; no external image references or third-party IP.",
-        "construction": "three-quarter puffer with visible side plane, foreshortened far sleeve, rounded quilt loft, rib-knit cuffs/hem, zipper/pocket hardware, Candy Core cloud/star details, fabric texture, warm key/cool rim and grounded shadow",
-        "status": "READY_FOR_REVIEW"
+        "candidatePath": "/assets/catalog/tops-11-w09-v6.jpg",
+        "repoPath": "public/assets/catalog/tops-11-w09-v6.jpg",
+        "candidateBlob": "061a749472ad71e61732ac3a9629c42d54b4e580",
+        "sha256": "ed9c8f99d904a3d980684f2f67f94b52eb6906c14a058c79794de3226694d2db",
+        "format": "JPEG",
+        "dimensions": [600, 600],
+        "bytes": 49502,
+        "provenance": "Original StarBlox repair artwork produced with image generation for this exact item, then isolated/exported to a clean 600x600 JPEG derivative; no third-party brands, characters, Roblox/Brookhaven assets or copied screenshot pixels.",
+        "construction": "Dimensional Candy Core puffer jacket with visibly inflated torso/sleeve chambers, seam compression, recessed padded hood opening, attached sleeve volume, glossy-shell versus knit material separation, zipper/pocket hardware, controlled warm/cool form light and grounded product shadow.",
+        "status": "STAGED_PENDING_PIXEL_QA"
       },
       {
         "id": "tops-12",
@@ -56,62 +61,49 @@
         "category": "Tops",
         "tier": 5,
         "theme": "Adventure Club",
-        "candidatePath": "/assets/catalog/tops-12-w09-v5.svg",
-        "repoPath": "public/assets/catalog/tops-12-w09-v5.svg",
-        "candidateBlob": "73339e6c9e472283f481ff18b1e6ba821856f617",
-        "format": "svg",
-        "dimensions": [600,600],
-        "provenance": "Original StarBlox self-contained product art authored for this exact repair; no external image references or third-party IP.",
-        "construction": "coat-length silhouette with long tails, three-quarter body turn, layered storm yoke, quilted inner layer, woven side planes, reinforced sleeves, deep utility pockets, belt/buckles, star-compass hardware, fabric texture, warm key/cool rim and grounded shadow",
-        "status": "READY_FOR_REVIEW"
+        "candidatePath": "/assets/catalog/tops-12-w09-v6.jpg",
+        "repoPath": "public/assets/catalog/tops-12-w09-v6.jpg",
+        "candidateBlob": "e9d462cb222c2ff20e220e237cb3890e1e6eb76c",
+        "sha256": "c14905d41ba51e10cc2a96dabdfdb5183aff563b2d738a5031a774bb6b79db26",
+        "format": "JPEG",
+        "dimensions": [600, 600],
+        "bytes": 61020,
+        "provenance": "Original StarBlox repair artwork produced with image generation for this exact item, then isolated/exported to a clean 600x600 JPEG derivative; no third-party brands, characters, Roblox/Brookhaven assets or copied screenshot pixels.",
+        "construction": "Long Adventure Club Tier-5 coat with unmistakable below-hip/tail silhouette, deep three-quarter torso, overlapping storm/yoke construction, padded hood, layered woven panels, fold/drape tension, belt and utility pockets, compass/star hardware, distinct metal highlights and cast/contact shadow.",
+        "status": "STAGED_PENDING_PIXEL_QA"
       }
     ]
   },
   "readback": {
-    "tops11": {"path":"public/assets/catalog/tops-11-w09-v5.svg","blobSha":"43a850ecdc0b7e8861870f7c277f2544f6c87405","result":"PASS_EXACT_BRANCH_BLOB"},
-    "tops12": {"path":"public/assets/catalog/tops-12-w09-v5.svg","blobSha":"73339e6c9e472283f481ff18b1e6ba821856f617","result":"PASS_EXACT_BRANCH_BLOB"}
-  },
-  "pixelEvidence": {
-    "workflowRun": 35681227316,
-    "workflowHead": "288103b2fae24862d8fe733d6b64964fc24d06d9",
-    "artifactId": 10674362796,
-    "artifactDigest": "sha256:af564c231b473f2aa11628e8e8f672191cc84348221cdcd40495606415b946e7",
     "tops11": {
-      "detail": "staged-replacements/detail/tops-11-43a850ec.png",
-      "card": "staged-replacements/staged-replacements-contact-sheet.png",
-      "httpStatus": 200,
-      "naturalWidth": 600,
-      "naturalHeight": 600,
-      "opaqueFraction": 1,
-      "signature": "PASS_SVG",
-      "safety": "PASS_SELF_CONTAINED_NO_ACTIVE_CONTENT",
-      "renderErrors": []
+      "path": "public/assets/catalog/tops-11-w09-v6.jpg",
+      "blobSha": "061a749472ad71e61732ac3a9629c42d54b4e580",
+      "sha256": "ed9c8f99d904a3d980684f2f67f94b52eb6906c14a058c79794de3226694d2db",
+      "result": "PASS_EXACT_BRANCH_BLOB"
     },
     "tops12": {
-      "detail": "staged-replacements/detail/tops-12-73339e6c.png",
-      "card": "staged-replacements/staged-replacements-contact-sheet.png",
-      "httpStatus": 200,
-      "naturalWidth": 600,
-      "naturalHeight": 600,
-      "opaqueFraction": 1,
-      "signature": "PASS_SVG",
-      "safety": "PASS_SELF_CONTAINED_NO_ACTIVE_CONTENT",
-      "renderErrors": []
-    },
-    "workflowConclusion": "FAILURE_OUTSIDE_THESE_TWO_ITEMS; report.errors empty and both exact v5 items rendered cleanly"
+      "path": "public/assets/catalog/tops-12-w09-v6.jpg",
+      "blobSha": "e9d462cb222c2ff20e220e237cb3890e1e6eb76c",
+      "sha256": "c14905d41ba51e10cc2a96dabdfdb5183aff563b2d738a5031a774bb6b79db26",
+      "result": "PASS_EXACT_BRANCH_BLOB"
+    }
+  },
+  "pixelEvidence": {
+    "status": "PENDING_POST_LANE_POINTER_RENDER",
+    "note": "Asset push triggered shared QA before lane-09 pointed at v6, so run 35686953352 correctly rendered the prior v5 rows. This lane update makes v6 authoritative for the next shared card/detail render; do not transfer v5 pixel evidence to v6."
   },
   "tests": {
-    "sourceIntegrity": "PASS_SELF_CONTAINED_600x600_SVG",
-    "sharedStagedArtQAForTheseItems": "PASS",
-    "cardRender": "PASS_CONTACT_SHEET",
-    "detailRender": "PASS_EXACT_HASH_DETAIL",
+    "repositoryBinaryPersistence": "PASS",
+    "jpegDecodeLocal": "PASS",
+    "dimensionsLocal": "PASS_600x600",
+    "sharedStagedArtQAForV6": "PENDING",
     "canonicalWiring": "NOT_TOUCHED"
   },
   "handoff": {
     "reviewer": "01",
-    "condition": "Fresh independent actual-pixel decision required on these exact v5 hashes; producer render success is not acceptance.",
+    "condition": "After the shared staged-art fixture captures these exact v6 hashes at card and detail scale, issue a fresh independent ACCEPT/REWORK. No v5 decision transfers.",
     "integrationOwner": "08",
     "selfApproval": false
   },
-  "decorGate": "Tops 11-12 now have clean new hashes and reviewer-01 handoff. Do not take Decor work until current coordination permits it; preserve existing Decor candidates until exact reviewer-14-driven repair action."
+  "decorGate": "Do not start Decor. Tops 11-12 v6 must first obtain clean exact-hash card/detail evidence and reviewer-01 disposition."
 }
