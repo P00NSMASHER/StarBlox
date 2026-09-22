@@ -1,11 +1,11 @@
 # Catalog Sprint Lane 04 — Lighting / Shoes Repair
 
-STATUS: **ALL 18 ASSIGNED CURRENT HASHES INDEPENDENTLY ACCEPTED; SHOES 1–6 CANONICAL V16; LIGHTING 5–12 AWAIT WORKSTREAM 08 INTEGRATION**
+STATUS: **ALL 18 ASSIGNED CURRENT HASHES INDEPENDENTLY ACCEPTED AND CANONICAL; LIGHTING 1–12 PRESENT IN MANIFEST V17; SHOES 1–6 REMAIN CANONICAL**
 
 Repository: `P00NSMASHER/StarBlox`  
 Branch: `screenshot-match-preproduction`  
 Phase: `CATALOG_SPRINT`  
-Observed source head before this documentation sync: `384481ae03bfd12028f6405dd1160a6cf32c5bf6`  
+Observed source head before this documentation sync: `7642028062c341ccc3ebd7325c9491f1b888aaae`  
 Lighting review shard: `docs/preproduction/catalog-sprint/reviews/14.json` @ `4c0b5863be0d4b674a9a707e932a746b2811078b`  
 Shoes review shard: `docs/preproduction/catalog-sprint/reviews/02.json` @ `ad4d8c9892a5e4c9c2a33553d5ab50f89b03b036`  
 Canonical manifest/runtime: Workstream 08 only  
@@ -24,20 +24,24 @@ Reviewer 14 has now independently accepted **all 12 current Lighting hashes**. N
 | lighting-3 | `public/assets/catalog/lighting-3-v2.jpg` | `fc21ddf5a608ee393410ff9682cf2ef87a56c46d` | ACCEPTED_CANONICAL |
 | lighting-4 | `public/assets/catalog/lighting-4-v2.jpg` | `7975e490a9fb97574f03081acf9fc871c22224f3` | ACCEPTED_CANONICAL |
 
-`lighting-5..12` are repository-stored 600×600 JPEG derivatives with preserved 1024×1024 originals. Reviewer 14 accepted these exact hashes after rendered pixel inspection; they now await Workstream 08's canonical metadata/file/content checks and wiring.
+`lighting-5..12` are repository-stored 600×600 JPEG derivatives with preserved 1024×1024 originals. Reviewer 14 accepted these exact hashes after rendered pixel inspection, and Workstream 08 canonically integrated the same versions in manifest v17 at commit `e137f3957e9872cfd5d6dde18f91f16a602df101`.
 
 | ID | Accepted candidate path | Git blob | Bytes | State |
 |---|---|---|---:|---|
-| lighting-5 | `public/assets/catalog/lighting-5-w04-recovered-v2.jpg` | `a9e03e73c7080fdc2effd884bb0965999954d90c` | 70,274 | ACCEPTED_PENDING_08_INTEGRATION |
-| lighting-6 | `public/assets/catalog/lighting-6-w04-recovered-v2.jpg` | `d8d8fca7cda78451860377bfdfd257b4a450aa9c` | 40,517 | ACCEPTED_PENDING_08_INTEGRATION |
-| lighting-7 | `public/assets/catalog/lighting-7-w04-recovered-v2.jpg` | `7ce162a18ab641df7ab73f380557aad5aa64b24d` | 54,969 | ACCEPTED_PENDING_08_INTEGRATION |
-| lighting-8 | `public/assets/catalog/lighting-8-w04-recovered-v2.jpg` | `9073a049ec9116cf3e4408adf068be48f1ad00f1` | 59,051 | ACCEPTED_PENDING_08_INTEGRATION |
-| lighting-9 | `public/assets/catalog/lighting-9-w04-recovered-v2.jpg` | `d9a0e461a1a8ace589cf6be1ec93e61972ba7faf` | 54,235 | ACCEPTED_PENDING_08_INTEGRATION |
-| lighting-10 | `public/assets/catalog/lighting-10-w04-recovered-v2.jpg` | `e4ca304730d4c330711534c2c7c52da218c9acfa` | 59,730 | ACCEPTED_PENDING_08_INTEGRATION |
-| lighting-11 | `public/assets/catalog/lighting-11-w04-recovered-v2.jpg` | `995b6ae729b3daa9e1199dd032b24e128db0b61b` | 44,462 | ACCEPTED_PENDING_08_INTEGRATION |
-| lighting-12 | `public/assets/catalog/lighting-12-w04-recovered-v2.jpg` | `ddb71949f485348a45e00c5105eb336ad55a010a` | 86,386 | ACCEPTED_PENDING_08_INTEGRATION |
+| lighting-5 | `public/assets/catalog/lighting-5-w04-recovered-v2.jpg` | `a9e03e73c7080fdc2effd884bb0965999954d90c` | 70,274 | ACCEPTED_CANONICAL_V17 |
+| lighting-6 | `public/assets/catalog/lighting-6-w04-recovered-v2.jpg` | `d8d8fca7cda78451860377bfdfd257b4a450aa9c` | 40,517 | ACCEPTED_CANONICAL_V17 |
+| lighting-7 | `public/assets/catalog/lighting-7-w04-recovered-v2.jpg` | `7ce162a18ab641df7ab73f380557aad5aa64b24d` | 54,969 | ACCEPTED_CANONICAL_V17 |
+| lighting-8 | `public/assets/catalog/lighting-8-w04-recovered-v2.jpg` | `9073a049ec9116cf3e4408adf068be48f1ad00f1` | 59,051 | ACCEPTED_CANONICAL_V17 |
+| lighting-9 | `public/assets/catalog/lighting-9-w04-recovered-v2.jpg` | `d9a0e461a1a8ace589cf6be1ec93e61972ba7faf` | 54,235 | ACCEPTED_CANONICAL_V17 |
+| lighting-10 | `public/assets/catalog/lighting-10-w04-recovered-v2.jpg` | `e4ca304730d4c330711534c2c7c52da218c9acfa` | 59,730 | ACCEPTED_CANONICAL_V17 |
+| lighting-11 | `public/assets/catalog/lighting-11-w04-recovered-v2.jpg` | `995b6ae729b3daa9e1199dd032b24e128db0b61b` | 44,462 | ACCEPTED_CANONICAL_V17 |
+| lighting-12 | `public/assets/catalog/lighting-12-w04-recovered-v2.jpg` | `ddb71949f485348a45e00c5105eb336ad55a010a` | 86,386 | ACCEPTED_CANONICAL_V17 |
 
 Lighting 5–8 retain isolated card/detail render evidence from run `35665938359`. Lighting 9–12 were rendered and independently reviewed from their exact current hashes in run `35669695516`, artifact `10670588502`. Reviewer 14 records `ACCEPT_12_OF_12` for the current Lighting family. No image bytes were regenerated or changed in this pass.
+
+## Integration-readiness verification
+
+At branch head `cae7fac2865410694794b5d65599a4f5d9d7d7b5`, Lane 04 re-read the exact current reviewer-14 decisions and repository file table for `lighting-5..12`. All eight repository blob SHAs matched the accepted review hashes byte-for-byte at their versioned paths, recorded 600×600 dimensions remained present, and the Lane-04 name/theme/tier/price/star requirement metadata matched current `src/gameModel.js` (`79fdb8c3bed4d715e0b1c770f34db0037a7f7c3b`). During that verification, Workstream 08 integrated the same exact versions in manifest v17 at `e137f3957e9872cfd5d6dde18f91f16a602df101`. No asset regeneration or runtime wiring was performed by Lane 04.
 
 ## Shoes 1–6
 
@@ -56,9 +60,9 @@ All six preserve their existing Store IDs, names, tiers, themes, prices and unlo
 
 ## Current handoff
 
-**08:** Consume `lighting-5..12` from reviewer 14's exact-hash ACCEPT decisions after the normal canonical metadata/file/content checks. Preserve `lighting-1..4` and `shoes-1..6` accepted mappings.
+**08:** Preserve all 12 accepted Lighting mappings now canonical in manifest v17 and all six accepted Shoes mappings. Lane 04 has no pending catalog asset for integration.
 
-**15:** Lane 04 has no producer repair left: all 18 assigned catalog assets are repository-stored and independently accepted. Shoes 1–6 are canonical v16; Lighting 1–4 are canonical v15; Lighting 5–12 are accepted and pending 08 integration at this snapshot. Assign a specific non-conflicting visual task if additional producer capacity is useful. Otherwise keep 04 parked until the overall catalog gate passes, then return it to Store visual finishing.
+**15:** Lane 04 has no producer or integration work left: all 18 assigned catalog assets are repository-stored, independently accepted, and canonical. Lighting 1–12 are present in manifest v17; Shoes 1–6 remain canonical. Assign a specific non-conflicting visual task if useful, otherwise keep 04 parked until the overall catalog gate passes and then return it to Store visual finishing.
 
 **04 next pass:** Do not regenerate any of these accepted hashes. Act only on a future exact-hash REWORK or an explicit reassignment from Workstream 15. Do not resume Store screen changes while phase remains `CATALOG_SPRINT`.
 
