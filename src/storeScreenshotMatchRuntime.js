@@ -192,12 +192,25 @@ function ensureRightRail(page){
   return rail;
 }
 
+function fallbackArtMarkup(item){
+  const initials = item.name.split(' ').slice(0,2).map(part => part[0]).join('');
+  return `<span class="sbStoreFallbackArt" aria-hidden="true"><b>${escapeHtml(initials)}</b><small>${escapeHtml(item.collectionName)}</small></span>`;
+}
+
 function artMarkup(item){
   if(item.image){
     return `<img src="${escapeHtml(item.image)}" alt="" loading="lazy">`;
   }
-  const initials = item.name.split(' ').slice(0,2).map(part => part[0]).join('');
-  return `<span class="sbStoreFallbackArt" aria-hidden="true"><b>${escapeHtml(initials)}</b><small>${escapeHtml(item.collectionName)}</small></span>`;
+  return fallbackArtMarkup(item);
+}
+
+function bindArtFallback(container,item){
+  const image = container?.querySelector('img');
+  if(!image) return;
+  image.addEventListener('error',() => {
+    container.innerHTML = fallbackArtMarkup(item);
+    container.dataset.imageFallback = 'true';
+  },{once:true});
 }
 
 function updateRightRail(page,currency){
@@ -221,6 +234,7 @@ function updateRightRail(page,currency){
   detail.dataset.signature = signature;
 
   preview.innerHTML = artMarkup(item);
+  bindArtFallback(preview,item);
   preview.dataset.tier = String(item.tier);
   previewLabel.textContent = `Previewing ${item.name}`;
 

@@ -132,10 +132,18 @@ function Avatar({equipped}){
 }
 
 function ItemArt({item}){
+  const [imageFailed,setImageFailed] = useState(false);
   const initials = item.name.split(' ').slice(0,2).map(part => part[0]).join('');
+
+  useEffect(() => {
+    setImageFailed(false);
+  },[item.image]);
+
   return (
     <div className={'itemArt visual-' + item.collectionId + ' tierVisual' + item.tier} aria-hidden="true">
-      {item.image ? <img src={item.image} alt="" loading="lazy" /> : <span>{initials}</span>}
+      {item.image && !imageFailed
+        ? <img src={item.image} alt="" loading="lazy" onError={() => setImageFailed(true)} />
+        : <span className="itemArtFallback">{initials}</span>}
       <i>{item.theme.split(' ')[0]}</i>
     </div>
   );
