@@ -1,6 +1,6 @@
 # Catalog Sprint — Lane 11 Auras
 
-STATUS: **AURAS 6–8 ACCEPTED + CANONICAL / AURAS 1–4 V3 GENERATED REMOTE BUT UPLOAD-BLOCKED / AURAS 5 + 9–12 REWORK**
+STATUS: **AURAS 6–8 ACCEPTED + CANONICAL / AURAS 1–5, 9, 10, 12 V3 STAGED + PENDING 05 / AURA 11 REWORK**
 
 Branch: `screenshot-match-preproduction`  
 Workstream: 11  
@@ -42,7 +42,7 @@ The exact generation/resize request IDs and Adobe output URLs are preserved in `
 
 ### Honest transport status
 
-These four v3 candidates are **GENERATED_REMOTE / UPLOAD_BLOCKED**, not staged and not READY_FOR_REVIEW. The current Lane-11 tool path can generate and inspect the Adobe bytes, but it does not expose the binary payload needed by GitHub’s blob writer. Writing a new shared import workflow would violate the current ownership rule because shared harness/import changes belong to 14/15.
+These four v3 candidates are now **STAGED / READY_FOR_REVIEW_05** after coordination-owned exact-byte recovery. The current Lane-11 tool path can generate and inspect the Adobe bytes, but it does not expose the binary payload needed by GitHub’s blob writer. Writing a new shared import workflow would violate the current ownership rule because shared harness/import changes belong to 14/15.
 
 Therefore:
 
@@ -56,7 +56,7 @@ This is the **first recorded cycle** for this exact v3 binary-transport blocker.
 
 ## Current Aura lane
 
-- `auras-1..4`: second-repair v3 generated and visually checked; repository transport blocked.
+- `auras-1..4`: second-repair v3 repository-staged and READY_FOR_REVIEW_05.
 - `auras-5`: v2 exact-hash REWORK; future bounded repair required.
 - `auras-6..8`: **independent ACCEPT + canonical integration complete**; preserve exactly.
 - `auras-9..12`: v2 exact-hash REWORK; future bounded repair required.
@@ -65,12 +65,36 @@ This is the **first recorded cycle** for this exact v3 binary-transport blocker.
 
 ## Handoff
 
-**15:** route the exact Auras 1–4 v3 Adobe source/candidate outputs through an existing coordinator-owned binary intake path if available. Do not regenerate them. If this same transport blocker is unchanged for the next Lane-11 cycle, it becomes eligible for the V2 two-cycle escalation rule.
+**15:** Aura 1–4 transport is cleared. Preserve their staged hashes and coordinate the newly staged 5/9/10/12 pilot without regeneration.
 
-**05:** preserve the accepted `auras-6/7/8` hashes. The v3 repair pixels for `auras-1..4` are not review-eligible until repository paths/hashes exist. `auras-5` and `auras-9..12` remain current exact-hash REWORK.
+**05:** preserve accepted `auras-6/7/8`. Auras 1–5, 9, 10 and 12 now have newer staged v3 hashes that require independent actual-pixel review; do not transfer v2 verdicts.
 
-**08:** no new Aura candidate from this pass is integration-eligible. Keep the already integrated `auras-6/7/8` exact hashes.
+**08:** keep integrated `auras-6/7/8`. No v3 Aura is integration-eligible until reviewer 05 accepts its exact current hash.
 
-**11:** do not regenerate pending v3 Auras 1–4. If transport remains pending, the next non-conflicting production batch is a bounded repair of `auras-5` plus a subset of `auras-9..12`, unless 15 changes ownership.
+**11:** do not regenerate staged v3 candidates. Aura 11 is the only remaining REWORK Aura without a newer staged replacement.
 
 General motion/game-feel work remains paused because the phase is still `CATALOG_SPRINT`. No deployment action was taken.
+
+
+## Third repair pilot — Auras 5, 9, 10, 12
+
+A bounded four-item pilot is now staged as new versioned bytes. Accepted Auras 6–8 remain untouched.
+
+| ID | Exact metadata | New candidate | Measured dimensions / bytes | Git blob | Review state |
+| --- | --- | --- | --- | --- | --- |
+| `auras-5` | Garden Fireflies — T2 / Pixel Party | `/assets/catalog/auras-5-w11-v3.jpg` | 600×600 JPEG / 66,937 B | `ae3bef6cbbf4333aa740dc9a3fddf4f2b5540192` | PENDING independent 05 |
+| `auras-9` | Art Confetti — T3 / Sunny Pop | `/assets/catalog/auras-9-w11-v3.jpg` | 600×600 JPEG / 109,330 B | `9331e516a7a1a2fa32abafaf3bbf0932c3ca792d` | PENDING independent 05 |
+| `auras-10` | Neon Trail — T4 / Aqua Wave | `/assets/catalog/auras-10-w11-v3.jpg` | 600×600 JPEG / 129,235 B | `6f07fe7f5c8be236f3c17df5f55afc550888f52e` | PENDING independent 05 |
+| `auras-12` | Luxe Starstorm — T5 / Star Luxe | `/assets/catalog/auras-12-w11-v3.jpg` | 600×600 JPEG / 142,496 B | `d0fcf528ff4ee91e56760932fdcf357ab264dd3d` | PENDING independent 05 |
+
+The full-quality originals remain preserved as Adobe GenAI assets by exact URN/request ID in `lane-11.json`. The exact quality-96 600×600 JPEG bytes inspected during generation were committed to the branch and read back with matching Git blob SHAs.
+
+Repair targets:
+- `auras-5` Garden Fireflies / Pixel Party: true near/mid/far firefly depth, translucent foliage, occlusion and pixel-cube accents instead of a flat wreath.
+- `auras-9` Art Confetti / Sunny Pop: spatial foreground/background scatter, glossy ribbons/confetti and Tier-3 material depth.
+- `auras-10` Neon Trail / Aqua Wave: refractive volumetric aqua ribbons, true depth crossings and layered Tier-4 light spill.
+- `auras-12` Luxe Starstorm / Star Luxe: faceted crystalline hero stars, prismatic/gold luxury materials and strong near/far Tier-5 storm depth.
+
+These files are **staged, not accepted**. Reviewer 05 owns the independent exact-hash decision and Workstream 08 alone owns canonical wiring. Old v2 REWORK decisions do not transfer to these new hashes. Do not regenerate them while review is pending.
+
+Aura 11 is now the only remaining rejected Aura without a newer staged replacement. No learning, economy, save, live player state, deployment, Replit/Floot, or `main` changes were made.
