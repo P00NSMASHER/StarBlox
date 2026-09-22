@@ -1,0 +1,137 @@
+name: StarBlox Aura 1-4 V3 Exact Recovery
+
+on:
+  push:
+    branches: [screenshot-match-preproduction]
+    paths:
+      - '.github/workflows/auras-recovery-1-4-v3-20260921.yml'
+      - 'scripts/importAurasRecovery1to4V3_20260921.py'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: starblox-auras-recovery-1-4-v3
+  cancel-in-progress: false
+
+jobs:
+  recover-existing-aura-art:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: screenshot-match-preproduction
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: python3 -m pip install --disable-pip-version-check Pillow==11.3.0
+      - name: Recover exact Aura 1-4 v3 bytes
+        run: |
+          python3 -m py_compile scripts/importAurasRecovery1to4V3_20260921.py
+          python3 scripts/importAurasRecovery1to4V3_20260921.py
+          python3 scripts/importAurasRecovery1to4V3_20260921.py
+      - name: Publish exact candidate/source bytes and owned handoff
+        id: publish
+        run: |
+          set -eu
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --             public/assets/catalog/auras-1-w11-v3.png public/assets/catalog/auras-2-w11-v3.png             public/assets/catalog/auras-3-w11-v3.png public/assets/catalog/auras-4-w11-v3.png             docs/preproduction/catalog-sprint/recovered-originals/auras-1-4-v3-20260921             docs/preproduction/catalog-sprint/lane-11.json             docs/preproduction/catalog-sprint/chat-auras-recovery-1-4-v3-result.json
+          if ! git diff --cached --quiet; then
+            git commit -m 'catalog: stage exact Aura 1-4 v3 replacement bytes'
+            for attempt in 1 2 3; do
+              if git push origin HEAD:refs/heads/screenshot-match-preproduction; then break; fi
+              git fetch origin screenshot-match-preproduction
+              git rebase origin/screenshot-match-preproduction
+              if [ "$attempt" -eq 3 ]; then exit 1; fi
+            done
+          fi
+          echo "TESTED_SOURCE_HEAD=$(git rev-parse HEAD)" >> "$GITHUB_ENV"
+      - run: npm install --no-save --package-lock=false --no-audit --no-fund
+      - name: Run full regression suite
+        id: tests
+        continue-on-error: true
+        run: timeout 150s npm test -- --reporter=verbose
+      - name: Build app
+        id: build
+        continue-on-error: true
+        run: npm run build
+      - name: Install Playwright
+        run: |
+          npm install --no-save --package-lock=false --no-audit --no-fund playwright@1.55.0
+          npx playwright install --with-deps chromium
+      - name: Render staged art
+        id: render
+        continue-on-error: true
+        run: node scripts/catalog-staged-art-qa.mjs
+        env:
+          GITHUB_SHA: ${{ env.TESTED_SOURCE_HEAD }}
+      - name: Record scoped Aura evidence
+        if: always() && steps.publish.outcome == 'success'
+        env:
+          TEST_OUTCOME: ${{ steps.tests.outcome }}
+          BUILD_OUTCOME: ${{ steps.build.outcome }}
+          RENDER_OUTCOME: ${{ steps.render.outcome }}
+        run: |
+          python3 - <<'PY'
+          import json, os
+          from pathlib import Path
+          p=Path('docs/preproduction/catalog-sprint/chat-auras-recovery-1-4-v3-result.json')
+          r=json.loads(p.read_text())
+          def state(v): return {'success':'PASS','failure':'FAIL','skipped':'NOT_RUN','cancelled':'CANCELLED'}.get(v,'NOT_RUN')
+          r['testedSourceHead']=os.environ['TESTED_SOURCE_HEAD']
+          r['workflowRunId']=int(os.environ['GITHUB_RUN_ID'])
+          r['checks'].update({'repeatBehavior':'PASS_SECOND_RUN_NO_REDOWNLOAD','tests':state(os.environ['TEST_OUTCOME']),'build':state(os.environ['BUILD_OUTCOME']),'sharedRenderOverall':state(os.environ['RENDER_OUTCOME'])})
+          render=Path('artifacts/catalog-staged-art/report.json'); seen=set()
+          if render.exists():
+              e=json.loads(render.read_text()); wanted={i['id']:i['gitBlobSha'] for i in r['items']}
+              matches=[i for s in e.get('sets',{}).values() for i in s.get('items',[]) if wanted.get(i.get('id'))==i.get('blobSha')]
+              seen={i['id'] for i in matches if i.get('screenshot') and i.get('status')==200 and i.get('naturalWidth') and not i.get('errors')}
+              r['renderEvidence']={'artifactName':'auras-1-4-v3-recovery-evidence','reportPath':'artifacts/catalog-staged-art/report.json','matchedIds':sorted(seen),'matchedHashes':{i:wanted[i] for i in sorted(seen)}}
+          r['checks']['auraCardDetailRender']='PASS_4_OF_4' if len(seen)==4 else f'INCOMPLETE_{len(seen)}_OF_4'
+          r['independentVisualReview']='PENDING_WORKSTREAM_05_NOT_SELF_APPROVED'
+          p.write_text(json.dumps(r,indent=2)+'\n')
+          PY
+      - name: Publish executed evidence
+        if: always() && steps.publish.outcome == 'success'
+        run: |
+          set -eu
+          git add docs/preproduction/catalog-sprint/chat-auras-recovery-1-4-v3-result.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'catalog: record Aura 1-4 v3 regression build and render evidence'
+          for attempt in 1 2 3; do
+            if git push origin HEAD:refs/heads/screenshot-match-preproduction; then exit 0; fi
+            git fetch origin screenshot-match-preproduction
+            git rebase origin/screenshot-match-preproduction
+          done
+          exit 1
+      - name: Retain evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: auras-1-4-v3-recovery-evidence
+          retention-days: 14
+          if-no-files-found: warn
+          path: |
+            docs/preproduction/catalog-sprint/chat-auras-recovery-1-4-v3-result.json
+            public/assets/catalog/auras-1-w11-v3.png
+            public/assets/catalog/auras-2-w11-v3.png
+            public/assets/catalog/auras-3-w11-v3.png
+            public/assets/catalog/auras-4-w11-v3.png
+            artifacts/catalog-staged-art
+      - name: Fail honestly if scoped Aura gates fail
+        if: always() && steps.publish.outcome == 'success'
+        env:
+          TEST_OUTCOME: ${{ steps.tests.outcome }}
+          BUILD_OUTCOME: ${{ steps.build.outcome }}
+        run: |
+          test "$TEST_OUTCOME" = success
+          test "$BUILD_OUTCOME" = success
+          python3 - <<'PY'
+          import json
+          r=json.load(open('docs/preproduction/catalog-sprint/chat-auras-recovery-1-4-v3-result.json'))
+          assert r['checks'].get('auraCardDetailRender') == 'PASS_4_OF_4', r['checks']
+          PY
