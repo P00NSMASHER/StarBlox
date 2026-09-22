@@ -1,12 +1,12 @@
 {
-  "schemaVersion": 6,
+  "schemaVersion": 7,
   "lane": "03",
   "workstream": "03",
   "phase": "CATALOG_SPRINT",
   "branch": "screenshot-match-preproduction",
-  "observedCoordinationHead": "59dc6137a2d6dbd55d4342083dd8ba5a224665d6",
+  "observedCoordinationHead": "6fc0680b0c6be4554fccc97dda72f855ce4c6714",
   "allocationAuthority": "docs/preproduction/ART_VISUALS_SPRINT.json",
-  "status": "DESKS_5_6_ACCEPTED_PRESERVE__DESKS_2_4_CURRENT_PNG_PENDING_REVIEWER_05__DESKS_7_12_HOLD_NO_SPECULATIVE_REPLACEMENT",
+  "status": "DESKS_2_6_ACCEPTED_PRESERVE_EXACT_HASHES__DESKS_7_12_HOLD_NO_SPECULATIVE_REPLACEMENT",
   "selfApproved": false,
   "reviewOwner": "05",
   "integrationOwner": "08",
@@ -38,8 +38,9 @@
       "producer": "03",
       "provenance": "Adobe Firefly via interactive chat repair; docs/preproduction/catalog-sprint/chat-desks-recovery-2-4-result.json",
       "producerCheck": "PASS_DIMENSIONAL_DESK_AND_EXACT_BRANCH_READBACK",
-      "reviewStatus": "PENDING_REVIEWER_05_CURRENT_PNG",
-      "action": "PRESERVE_NO_REGENERATION"
+      "reviewStatus": "ACCEPTED_EXACT_HASH_REVIEWER_05",
+      "reviewEvidence": "docs/preproduction/catalog-sprint/reviews/05.json preservedAcceptedCurrentHashes",
+      "action": "PRESERVE_ACCEPTED_HASH"
     },
     {
       "id": "desks-3",
@@ -59,8 +60,9 @@
       "producer": "03",
       "provenance": "Adobe Firefly via interactive chat repair; docs/preproduction/catalog-sprint/chat-desks-recovery-2-4-result.json",
       "producerCheck": "PASS_DIMENSIONAL_DESK_AND_EXACT_BRANCH_READBACK",
-      "reviewStatus": "PENDING_REVIEWER_05_CURRENT_PNG",
-      "action": "PRESERVE_NO_REGENERATION"
+      "reviewStatus": "ACCEPTED_EXACT_HASH_REVIEWER_05",
+      "reviewEvidence": "docs/preproduction/catalog-sprint/reviews/05.json preservedAcceptedCurrentHashes",
+      "action": "PRESERVE_ACCEPTED_HASH"
     },
     {
       "id": "desks-4",
@@ -80,8 +82,9 @@
       "producer": "03",
       "provenance": "Adobe Firefly via interactive chat repair; docs/preproduction/catalog-sprint/chat-desks-recovery-2-4-result.json",
       "producerCheck": "PASS_DIMENSIONAL_DESK_AND_EXACT_BRANCH_READBACK",
-      "reviewStatus": "PENDING_REVIEWER_05_CURRENT_PNG",
-      "action": "PRESERVE_NO_REGENERATION"
+      "reviewStatus": "ACCEPTED_EXACT_HASH_REVIEWER_05",
+      "reviewEvidence": "docs/preproduction/catalog-sprint/reviews/05.json preservedAcceptedCurrentHashes",
+      "action": "PRESERVE_ACCEPTED_HASH"
     },
     {
       "id": "desks-5",
@@ -128,32 +131,45 @@
       "action": "PRESERVE_ACCEPTED_HASH"
     }
   ],
+  "reviewer05CurrentEvidence": {
+    "path": "docs/preproduction/catalog-sprint/reviews/05.json",
+    "sourceHead": "46d6bb67f986fb432a14afd0d749ea6697e12a26",
+    "statement": "Reviewer 05 preserved exact current ACCEPT decisions for Desks 2-6. No Desk 2-6 hash is pending review now.",
+    "acceptedHashes": {
+      "desks-2": "277eb1e38e8a69caa0dab6d4d27bbb91796746f8",
+      "desks-3": "aeebeacdc4a95bf75af36583dae6e2391d9a1d9e",
+      "desks-4": "6f87e1527ec7d9bf1a3f81e1f54320f462dbb025",
+      "desks-5": "95fe65632e4f40b76b23cce30071ee2fdc5b4399",
+      "desks-6": "52df05265de236911927b904b07e68dac7a17828"
+    }
+  },
   "supersededBrokenCandidates": [
     {"id":"desks-2","repositoryPath":"public/assets/catalog/desks-2-v1.webp","gitBlobSha":"357f4ba8385e737499f12409c0bea141f9bc5e6a","status":"SUPERSEDED_INVALID_SIGNATURE"},
     {"id":"desks-3","repositoryPath":"public/assets/catalog/desks-3-v1.webp","gitBlobSha":"b3352961988d7e9c5ff48d1559fc4d2296d4eab3","status":"SUPERSEDED_INVALID_SIGNATURE"},
     {"id":"desks-4","repositoryPath":"public/assets/catalog/desks-4-v1.webp","gitBlobSha":"711feeb78e6d08351fc2fd2d3176ddb1a288e8f2","status":"SUPERSEDED_INVALID_SIGNATURE"}
   ],
   "holdIds": ["desks-7","desks-8","desks-9","desks-10","desks-11","desks-12"],
-  "holdReason": "Latest coordination forbids speculative replacement of Desk 7-12 from legacy age alone. Workstream 03 will create a bounded 2-4 item repair batch only after an exact current REWORK or explicit unfinished assignment from 15/current authoritative evidence.",
+  "holdReason": "No exact current reviewer-05 REWORK or explicit unfinished Desk 7-12 assignment from 15 is present in the authoritative evidence read this cycle. Legacy age alone is not permission to regenerate.",
   "changedDependencies": {
-    "reviewer05": "Desk 5-6 exact hashes are independently ACCEPTED and must be preserved. Desk 2-4 current PNG replacements are branch-stored/readback-verified and awaiting reviewer 05 disposition; do not regenerate while pending.",
-    "workstream08": "Only 08 may canonical-wire accepted desk hashes.",
-    "workstream15": "Only 15 coordinates cross-owner/shared-entrypoint changes and any explicit next Desk 7-12 repair assignment."
+    "reviewer05": "Current reviewer evidence now preserves exact-hash ACCEPT for Desk 2-6. All five hashes are frozen from producer regeneration.",
+    "workstream08": "Only 08 may canonical-wire the accepted Desk 2-6 hashes after its own metadata/file/content checks.",
+    "workstream15": "Only 15 coordinates any explicit next Desk 7-12 repair assignment or shared Home entrypoint work."
   },
   "checks": {
     "artVisualsAllocationReadFirst": "PASS",
-    "latestHeadReadBeforeWrite": "PASS_59dc6137",
-    "desk2BranchReadback": "PASS_277eb1e38e8a69caa0dab6d4d27bbb91796746f8",
-    "desk3BranchReadback": "PASS_aeebeacdc4a95bf75af36583dae6e2391d9a1d9e",
-    "desk4BranchReadback": "PASS_6f87e1527ec7d9bf1a3f81e1f54320f462dbb025",
-    "desk5BranchReadback": "PASS_95fe65632e4f40b76b23cce30071ee2fdc5b4399",
-    "desk6BranchReadback": "PASS_52df05265de236911927b904b07e68dac7a17828",
-    "desk5Desk6IndependentReview": "PASS_ACCEPTED_REVIEWER_05",
-    "newGenerationThisCycle": "NONE_INTENTIONAL",
+    "latestHeadReadBeforeWrite": "PASS_6fc0680b",
+    "reviewer05CurrentEvidenceReread": "PASS_DESKS_2_6_EXACT_HASH_ACCEPTED",
+    "desk2AcceptedHash": "PASS_277eb1e38e8a69caa0dab6d4d27bbb91796746f8",
+    "desk3AcceptedHash": "PASS_aeebeacdc4a95bf75af36583dae6e2391d9a1d9e",
+    "desk4AcceptedHash": "PASS_6f87e1527ec7d9bf1a3f81e1f54320f462dbb025",
+    "desk5AcceptedHash": "PASS_95fe65632e4f40b76b23cce30071ee2fdc5b4399",
+    "desk6AcceptedHash": "PASS_52df05265de236911927b904b07e68dac7a17828",
+    "newGenerationThisCycle": "NONE_INTENTIONAL_NO_CURRENT_REWORK_OR_ASSIGNMENT",
+    "testsBuildThisCycle": "NOT_RERUN_DOC_ONLY_RECONCILIATION_NO_RUNTIME_OR_ASSET_BYTES_CHANGED",
     "runtimeCssEdited": false,
     "canonicalIntegrationAttempted": false
   },
-  "nextAction": "Wait for reviewer 05 decision on exact current Desk 2-4 PNG hashes. Preserve Desk 5-6 ACCEPT hashes. Do not produce Desk 7-12 unless an exact current REWORK or explicit unfinished assignment is published by 15/current authoritative evidence. While waiting, only bounded Home reference analysis may be recorded in lane 03; no shared runtime/CSS edits.",
+  "nextAction": "Preserve exact accepted Desk 2-6 hashes and do not regenerate them. Await 08 canonical integration independently. Do not produce Desk 7-12 unless reviewer 05 publishes an exact current REWORK or 15/current authoritative evidence explicitly assigns an unfinished Desk. While waiting, only bounded Home reference analysis may be recorded in lane 03; no shared runtime/CSS edits or final-acceptance claim.",
   "freeze": {
     "replitTouched": false,
     "flootTouched": false,
