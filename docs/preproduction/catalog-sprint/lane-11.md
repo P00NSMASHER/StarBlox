@@ -1,118 +1,69 @@
 # Catalog Sprint — Lane 11 Auras
 
-STATUS: **AURAS 6–8 ACCEPTED + CANONICAL / AURAS 1–5, 9, 10, 12 V3 STAGED + PENDING 05 / AURA 11 REWORK**
+STATUS: **AURAS 1–4 + 6–8 ACCEPTED / AURAS 5, 9, 10, 12 V3 PENDING 05 / AURA 11 V3 GIT-OBJECT-ONLY, BRANCH ATTACH BLOCKED**
 
 Branch: `screenshot-match-preproduction`  
 Workstream: 11  
 Phase: `CATALOG_SPRINT`  
 Independent reviewer: **05**  
 Canonical integrator: **08**  
-Replit/Floot: **untouched**  
-`main`: **untouched**  
+Replit/Floot/main/deploy: **untouched**  
 Player state / learning / economy / live Aura logic: **unchanged**
 
-## Fresh reviewer-05 decisions consumed
+Full prior Lane-11 production/render history is preserved in Git blob `21305034a9b2202d230d80573a2aefcd408e0a15`; this file is the current compact handoff.
 
-Reviewer 05 has now independently reviewed the current v2 replacements for all twelve Aura IDs. The fresh result is **ACCEPT 3 / REWORK 9 / BLOCKED 0**.
+## Fresh reviewer-05 state
 
-The accepted exact hashes are preserved and must not be regenerated:
+Reviewer 05's current shard independently **ACCEPTS the exact v3 hashes for Auras 1–4** from rendered card/detail pixels. Preserve those pixels; old v2 REWORK verdicts do not transfer. The previously accepted Auras 6–8 remain preserved and canonical.
 
-| ID | Item | Exact accepted hash | Canonical status |
-| --- | --- | --- | --- |
-| `auras-6` | Galaxy Orbit | `ce4b155c7fb5469fde415ab9d744cab41027fe4d` | integrated by 08 |
-| `auras-7` | Sunny Rays | `c451e7479e142f1eca89cc5282b352c2d2ca2d4b` | integrated by 08 |
-| `auras-8` | Aqua Bubbles | `6884668fe721f3b26a562e11924237a32c656db6` | integrated by 08 |
+| ID | State | Exact hash |
+| --- | --- | --- |
+| `auras-1` Soft Sparkles | ACCEPT reviewer 05, awaiting 08 canonical follow-through | `a7921c7b7c8f48fc47908595c1afa6f59217c7a5` |
+| `auras-2` Cloud Puffs | ACCEPT reviewer 05, awaiting 08 canonical follow-through | `1e421c71217e5386c1b255dfedeade8215976bcb` |
+| `auras-3` Pixel Bits | ACCEPT reviewer 05, awaiting 08 canonical follow-through | `f164aefb93a21374a1cf0b9b7b7312a0ae68d34c` |
+| `auras-4` Berry Hearts | ACCEPT reviewer 05, awaiting 08 canonical follow-through | `3357a67e4121ca631377e30033a31ef4c815ab61` |
+| `auras-6` Galaxy Orbit | ACCEPT + canonical | `ce4b155c7fb5469fde415ab9d744cab41027fe4d` |
+| `auras-7` Sunny Rays | ACCEPT + canonical | `c451e7479e142f1eca89cc5282b352c2d2ca2d4b` |
+| `auras-8` Aqua Bubbles | ACCEPT + canonical | `6884668fe721f3b26a562e11924237a32c656db6` |
 
-Workstream 08’s current integration report records those same three Aura hashes in manifest version 15 after metadata/file/reviewer checks. They are no longer Lane-11 repair work.
+Auras 5, 9, 10 and 12 retain their existing staged v3 hashes and remain **PENDING independent reviewer-05 decisions**; they were not regenerated in this pass.
 
-The current exact-hash REWORK set is `auras-1..5` plus `auras-9..12`. Reviewer defects remain specific: volumetric depth/material-lighting for 1–4; weak Pixel Party spatial depth for Garden Fireflies; spatial scatter/material depth for Art Confetti; volumetric ribbon/light spill for Neon Trail; translucent curtain/painterly light interaction for Dream Aurora; and crystalline near/far luxury storm depth for Luxe Starstorm.
+## Dream Aurora v3 — producer repair
 
-## Second repair pilot — Auras 1–4
+`auras-11` is the only Aura that entered this pass as exact-hash REWORK without a newer candidate. Exact Store metadata was preserved: **Dream Aurora — Tier 4 / Art Attack**. The legacy reviewed hash remains `ddb2c81b49db8e6ea6369c8f70cb720228feb73c` and is not overwritten.
 
-A new four-item second-repair pilot was generated from the reviewer-05 defects using Adobe Firefly. These are **new pixels**, not relabeled v2 SVGs. Full-size sources are 1024×1024 PNG outputs; 768×768 PNG candidates were then produced with resize-only processing and visually inspected again.
+A new original was generated specifically against reviewer 05's defect: translucent curtain depth, painterly material interaction and luminous atmosphere. The producer-inspected result uses cyan/violet/magenta translucent aurora ribbons at clearly separated near/mid/far depth, crystalline highlight fragments, controlled bloom, atmospheric occlusion and a large open center for card-scale readability. It is item-specific rather than a flat ring/palette swap and contains no baked UI text or third-party IP.
 
-| ID | Exact item | Tier / theme | Source asset | Producer visual result |
-| --- | --- | --- | --- | --- |
-| `auras-1` | Soft Sparkles | T1 / Midnight Neon | `urn:aaid:sc:US:96e36bd6-1803-401c-ba42-5640d7780b8d` | faceted crystal star sparks at multiple apparent depths, luminous dust, curved cyan/magenta trails; materially richer while still Starter-simple |
-| `auras-2` | Cloud Puffs | T1 / Candy Core | `urn:aaid:sc:US:3f30d527-cb7d-46aa-9afc-f14d13f1df26` | overlapping candy-colored cloud volumes with soft internal scattering, occlusion and suspended motes |
-| `auras-3` | Pixel Bits | T1 / Adventure Club | `urn:aaid:sc:US:f89c3b68-841a-49f9-a5cf-2f39b5aff489` | chunky beveled voxel cluster, gold/teal/berry palette and perspective segmented paths with obvious 3D parallax |
-| `auras-4` | Berry Hearts | T2 / Cloud Pop | `urn:aaid:sc:US:a7fbf1ae-ba43-4942-aec0-459342422483` | glossy berry hearts, volumetric white/pink clouds, pearl droplets and layered light trails with an open card-readable center |
+Source preservation/provenance:
+- generator: OpenAI image generation, source attachment `file_00000000c41c71f5ae06b626fa05427a`;
+- full-quality source: PNG, **1254×1254**, **2,232,873 bytes**, SHA-256 `cc58a3dd7499147cf9a9600800a3ad8e83647145f14719bc3eba06636229b413`;
+- optimized review candidate: JPEG, **600×600**, **18,443 bytes**, SHA-256 `0a06996522c9cb999e82b8ba028e94bfe2cb8d16e043c94999065e0ae8ce1dc2`;
+- candidate Git blob: `7f3372c1584e07f18a3abfc7818013190fff1560`;
+- intended repository path: `public/assets/catalog/auras-11-w11-v3.jpg` (`/assets/catalog/auras-11-w11-v3.jpg`).
 
-The exact generation/resize request IDs and Adobe output URLs are preserved in `lane-11.json`. All four 1024px outputs and all four 768px candidates were actually previewed after generation; no clipping or unreadable framing was observed.
+### Honest repository status
 
-### Honest transport status
+The candidate bytes are stored as an exact Git blob, but **not yet attached to the branch tree**. Multiple non-force fast-forward attachment attempts correctly failed because other visual workers advanced `screenshot-match-preproduction` between parent read and ref update. No force push was used. Therefore Aura 11 is **GIT_OBJECT_ONLY / ATTACH_BLOCKED**, not staged and not READY_FOR_REVIEW.
 
-These four v3 candidates are now **STAGED / READY_FOR_REVIEW_05** after coordination-owned exact-byte recovery. The current Lane-11 tool path can generate and inspect the Adobe bytes, but it does not expose the binary payload needed by GitHub’s blob writer. Writing a new shared import workflow would violate the current ownership rule because shared harness/import changes belong to 14/15.
-
-Therefore:
-
-- intended paths are `public/assets/catalog/auras-1-w11-v3.png` through `auras-4-w11-v3.png`;
-- repository byte counts and Git blob hashes do **not** exist yet and are not fabricated;
-- reviewer 05 must not review these v3s until exact repository bytes exist;
-- Workstream 08 must not integrate them until reviewer-05 exact-hash ACCEPT exists;
-- Workstream 11 must not regenerate them while transport is pending.
-
-This is the **first recorded cycle** for this exact v3 binary-transport blocker. Workstream 15 is handed the exact source/candidate identifiers so it can route the bytes through an already-authorized coordinator-owned import path if one exists, without regenerating or changing the pixels.
+This is actual produced art plus a real stored Git object, not status-only churn. Workstream 15 should attach blob `7f3372c1584e07f18a3abfc7818013190fff1560` to `public/assets/catalog/auras-11-w11-v3.jpg` from a fresh branch head without changing the bytes. After exact path/hash readback, reviewer 05 owns the decision and 08 alone may wire an exact ACCEPT.
 
 ## Current Aura lane
 
-- `auras-1..4`: second-repair v3 repository-staged and READY_FOR_REVIEW_05.
-- `auras-5`: v2 exact-hash REWORK; future bounded repair required.
-- `auras-6..8`: **independent ACCEPT + canonical integration complete**; preserve exactly.
-- `auras-9..12`: v2 exact-hash REWORK; future bounded repair required.
-- Qualified current Aura ACCEPTs: **3**.
-- Canonical Aura replacements: **3**.
+- `auras-1..4`: **independent ACCEPT**, preserve exact v3 hashes; pending 08 canonical integration.
+- `auras-5`: v3 `ae3bef6cbbf4333aa740dc9a3fddf4f2b5540192`, staged/rendered, reviewer 05 pending.
+- `auras-6..8`: **independent ACCEPT + canonical**, preserve exactly.
+- `auras-9`: v3 `9331e516a7a1a2fa32abafaf3bbf0932c3ca792d`, staged/rendered, reviewer 05 pending.
+- `auras-10`: v3 `6f07fe7f5c8be236f3c17df5f55afc550888f52e`, staged/rendered, reviewer 05 pending.
+- `auras-11`: new v3 Git blob `7f3372c1584e07f18a3abfc7818013190fff1560`; **branch attachment pending**, so no review claim.
+- `auras-12`: v3 `d0fcf528ff4ee91e56760932fdcf357ab264dd3d`, staged/rendered, reviewer 05 pending.
+
+Qualified Aura exact-hash ACCEPTs: **7 / 12**. Canonical Aura replacements currently confirmed from Workstream-08 evidence: **3 / 12**. No pending candidate was regenerated and no accepted hash was modified.
 
 ## Handoff
 
-**15:** Aura 1–4 transport is cleared. Preserve their staged hashes and coordinate the newly staged 5/9/10/12 pilot without regeneration.
+**15:** attach the exact Aura-11 blob to the intended versioned path from a fresh branch head; do not regenerate or alter bytes. Preserve all accepted/pending Aura hashes.  
+**05:** review Aura 11 only after branch path/hash readback exists; continue exact-hash review of existing Auras 5/9/10/12 without transferring old verdicts.  
+**08:** preserve canonical Auras 6–8 and integrate Auras 1–4 only by their accepted exact hashes after normal metadata/file/content checks. Aura 11 remains ineligible until branch attachment + reviewer-05 ACCEPT.  
+**11:** do not regenerate Auras 1–10 or 12 while accepted/pending. Wait for fresh reviewer decisions or successful Aura-11 attachment; remain on art/visuals only.
 
-**05:** preserve accepted `auras-6/7/8`. Auras 1–5, 9, 10 and 12 now have newer staged v3 hashes that require independent actual-pixel review; do not transfer v2 verdicts.
-
-**08:** keep integrated `auras-6/7/8`. No v3 Aura is integration-eligible until reviewer 05 accepts its exact current hash.
-
-**11:** do not regenerate staged v3 candidates. Aura 11 is the only remaining REWORK Aura without a newer staged replacement.
-
-General motion/game-feel work remains paused because the phase is still `CATALOG_SPRINT`. No deployment action was taken.
-
-
-## Third repair pilot — Auras 5, 9, 10, 12
-
-A bounded four-item pilot is now staged as new versioned bytes. Accepted Auras 6–8 remain untouched.
-
-| ID | Exact metadata | New candidate | Measured dimensions / bytes | Git blob | Review state |
-| --- | --- | --- | --- | --- | --- |
-| `auras-5` | Garden Fireflies — T2 / Pixel Party | `/assets/catalog/auras-5-w11-v3.jpg` | 600×600 JPEG / 66,937 B | `ae3bef6cbbf4333aa740dc9a3fddf4f2b5540192` | PENDING independent 05 |
-| `auras-9` | Art Confetti — T3 / Sunny Pop | `/assets/catalog/auras-9-w11-v3.jpg` | 600×600 JPEG / 109,330 B | `9331e516a7a1a2fa32abafaf3bbf0932c3ca792d` | PENDING independent 05 |
-| `auras-10` | Neon Trail — T4 / Aqua Wave | `/assets/catalog/auras-10-w11-v3.jpg` | 600×600 JPEG / 129,235 B | `6f07fe7f5c8be236f3c17df5f55afc550888f52e` | PENDING independent 05 |
-| `auras-12` | Luxe Starstorm — T5 / Star Luxe | `/assets/catalog/auras-12-w11-v3.jpg` | 600×600 JPEG / 142,496 B | `d0fcf528ff4ee91e56760932fdcf357ab264dd3d` | PENDING independent 05 |
-
-The full-quality originals remain preserved as Adobe GenAI assets by exact URN/request ID in `lane-11.json`. The exact quality-96 600×600 JPEG bytes inspected during generation were committed to the branch and read back with matching Git blob SHAs.
-
-Repair targets:
-- `auras-5` Garden Fireflies / Pixel Party: true near/mid/far firefly depth, translucent foliage, occlusion and pixel-cube accents instead of a flat wreath.
-- `auras-9` Art Confetti / Sunny Pop: spatial foreground/background scatter, glossy ribbons/confetti and Tier-3 material depth.
-- `auras-10` Neon Trail / Aqua Wave: refractive volumetric aqua ribbons, true depth crossings and layered Tier-4 light spill.
-- `auras-12` Luxe Starstorm / Star Luxe: faceted crystalline hero stars, prismatic/gold luxury materials and strong near/far Tier-5 storm depth.
-
-These files are **staged, not accepted**. Reviewer 05 owns the independent exact-hash decision and Workstream 08 alone owns canonical wiring. Old v2 REWORK decisions do not transfer to these new hashes. Do not regenerate them while review is pending.
-
-Aura 11 is now the only remaining rejected Aura without a newer staged replacement. No learning, economy, save, live player state, deployment, Replit/Floot, or `main` changes were made.
-
-
-## Exact-hash staged-art render evidence — pilot 5/9/10/12
-
-The existing shared staged-art fixture selected the new Aura v3 hashes and produced actual screenshots in workflow run **35672325902**, artifact **10671442777** (`catalog-staged-art-review`, SHA-256 `190e080af412f1aa7cd73a523a6bd1a231b5fb6a9bd62cc0fd8bbd40aaa2ddf8`).
-
-All four Lane-11 pilot entries passed the render-level checks needed before independent visual judgment:
-
-- `auras-5@ae3bef6c...`: HTTP 200, natural 600×600, screenshot produced, zero per-item errors.
-- `auras-9@9331e516...`: HTTP 200, natural 600×600, screenshot produced, zero per-item errors.
-- `auras-10@6f07fe7f...`: HTTP 200, natural 600×600, screenshot produced, zero per-item errors.
-- `auras-12@d0fcf528...`: HTTP 200, natural 600×600, screenshot produced, zero per-item errors.
-
-Reviewer 05 should use `staged-replacements/staged-replacements-contact-sheet.png` plus the exact detail renders named in `lane-11.json.latestPilotBatch.renderEvidence`.
-
-The workflow's overall conclusion is still **failure**, but the failure is not an Aura decode/render failure: the same run hit the already-known stale `desks-2/3/4-w03-v1.webp` decode defect in the shared fixture. That release-visible failure remains owned by Workstream 14 and was not waived or hidden. Lane 11 did not modify the fixture.
-
-No self-approval was recorded. The four new Aura hashes remain PENDING independent reviewer-05 decisions and cannot be wired by anyone except 08 after an exact-hash ACCEPT.
+General motion/game-feel work remains deferred because `ART_VISUALS_SPRINT` / catalog critical path is still active. No deployment action was taken.
