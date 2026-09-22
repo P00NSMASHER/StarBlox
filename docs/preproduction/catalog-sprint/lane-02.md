@@ -1,21 +1,35 @@
-# Catalog Sprint Lane 02 — Bed Repairs
+# Catalog Sprint Lane 02 — Bed Repairs + Independent Seating/Shoes Review
 
-STATUS: **BEDS 1–4 EXACT BYTES STAGED / READBACK PASS / READY FOR INDEPENDENT REVIEW 05**
+STATUS: **SEATING 2–3 EXACT-HASH ACCEPTED / BEDS 1–4 RENDERED / READY FOR INDEPENDENT REVIEW 05**
 
 Branch: `screenshot-match-preproduction` only  
-Producer: Workstream 02  
-Independent reviewer: Workstream 05  
+Producer: Workstream 02 (Beds 1–12 only)  
+Independent review partition: Shoes / Backgear / Handgear / Seating  
+Bed independent reviewer: Workstream 05  
 Canonical integrator: Workstream 08  
 Replit/Floot: **untouched**  
 Main/player data: **untouched**
 
-## Current review-priority check
+## Current independent-review progress
 
-Workstream 02’s independent partition remains Shoes / Backgear / Handgear / Seating. Shoes 1–6 and Seating 7–10 already have independent exact-hash ACCEPT decisions and must be preserved. The current producer lanes still expose no newer repository-staged Seating or Shoes replacement hash for Workstream 02 to review: Seating 2–3 remain generated-but-transfer-blocked in lane 01, and lane 04’s current Shoes 1–6 hashes are the already-reviewed versions. No source-only preview was treated as a visual PASS.
+The original Store screenshot and its hash-verified manifest remain the visual target; unchanged reference evidence was reused. Legacy Shoes / Backgear / Handgear / Seating remains 48/48 reviewed as exact-hash REWORK and those old decisions do not transfer to replacements.
+
+Fresh replacement coverage now includes exact-hash **ACCEPT** for Shoes 1–6 and Seating 2–3 / 7–10. This pass consumed the newly staged Workstream-01 Seating 2–3 replacements rather than reviewing source-only previews.
+
+| Item | Exact candidate | Git blob SHA | Decision | Pixel evidence |
+| --- | --- | --- | --- | --- |
+| `seating-2` Cloud Pouf — Tier 1 / Art Attack | `/assets/catalog/seating-2-w01-recovered-v2.jpg` | `c3d4705b7182b1be735b1a762b2ae79d58928aa5` | **ACCEPT** | Artifact 10671012131 contact sheet + exact detail render |
+| `seating-3` Pixel Beanbag — Tier 1 / Star Luxe | `/assets/catalog/seating-3-w01-recovered-v2.jpg` | `5d69a2f6adf1e4cf9b4ec413dbeedba84c41813b` | **ACCEPT** | Artifact 10671012131 contact sheet + exact detail render |
+
+Reviewer 02 inspected actual card/contact-sheet pixels and both exact-hash detail screenshots. Cloud Pouf preserves a readable low cloud silhouette with stuffed lobes, upholstery seams, fabric response, cast shadow and Art Attack markings. Pixel Beanbag preserves a deep beanbag cavity with panel seams, stuffed deformation, gold star stitching and restrained pixel accents. Both remain legible at card scale and are visually distinct. Full item-specific reasons and evidence hashes are in `reviews/02.json`.
+
+Recovery workflow evidence: run `35671770098`, artifact `10671012131`, digest `sha256:07b7da381d584a08538754db0d8e97c4ed7434a4f23e8460f88ab73669fb3966`. Its Seating 2–3 card/detail render check is **PASS 2/2**, tests **PASS**, and build **PASS**. The workflow's broader shared-render overall result remains **FAIL** and is intentionally not hidden or converted into an overall visual PASS.
+
+Next independent-review priority is fresh Seating 4–6 / 11–12 and Shoes 7–12 when exact staged hashes arrive, then Backgear/Handgear replacements.
 
 ## Beds 1–4 staged pilot
 
-The existing four-item Bed pilot has now crossed the byte-transfer blocker. An authorized branch-local recovery path copied the exact producer-recorded Adobe Firefly PNG response bytes into versioned candidate paths and verified repository readback. Authoritative metadata was reconciled against the current game model before staging; notably `beds-1` remains **Garden Glow**.
+The existing four-item Bed pilot is repository-staged with exact-byte readback. Authoritative metadata was reconciled against `src/gameModel.js`; notably `beds-1` remains **Garden Glow**.
 
 | Item | Exact candidate path | Git blob SHA | Bytes | Dimensions | Status |
 | --- | --- | --- | ---: | --- | --- |
@@ -24,19 +38,22 @@ The existing four-item Bed pilot has now crossed the byte-transfer blocker. An a
 | `beds-3` Pixel Bunk — Tier 1 / Sunny Pop | `/assets/catalog-candidates/w02-beds-20260921-b01/beds-3-w02-v1.png` | `22b1d9f6802cc0b442c9226511ff96e8ea0bbacc` | 879492 | 1024×1024 | READY_FOR_REVIEW_05 |
 | `beds-4` Berry Daybed — Tier 2 / Aqua Wave | `/assets/catalog-candidates/w02-beds-20260921-b01/beds-4-w02-v1.png` | `18fa8722d9831af1113e07c2103b373acc41c3c0` | 981252 | 1024×1024 | READY_FOR_REVIEW_05 |
 
-`lane-02.json` records SHA-256 provenance, exact byte/readback status, legacy identities and producer pixel findings. These remain **producer candidates only**. Workstream 02 did not self-approve them, and no canonical manifest/runtime mapping was edited.
+The same shared artifact `10671012131` now contains exact-hash card/contact-sheet pixels and separate detail screenshots for all four Beds. `lane-02.json` records the artifact digest plus SHA-256 for each detail screenshot so reviewer 05 can make a reproducible independent decision without waiting for another render fixture.
+
+These remain **producer candidates only**. Workstream 02 did not self-approve them, and no canonical manifest/runtime mapping was edited.
 
 ## Visual direction and release discipline
 
-The pilot addresses the legacy flat-icon failure with recognizable bed construction, mattress/frame depth, three-quarter silhouettes, textile/wood volume, contact/cast lighting and clearer theme identity while keeping Tier 1 relatively simple and Tier 2 visibly richer. The original Store screenshot remains the visual target for dimensional collectible presentation and glossy card-scale legibility; no pixel-parity claim is made from producer inspection.
+The Bed pilot addresses the legacy flat-icon failure with recognizable mattress/frame construction, three-quarter silhouettes, textile/wood volume, grounded lighting and clearer theme identity while keeping Tier 1 relatively simple and Tier 2 richer. No pixel-parity claim is made from producer inspection.
 
-Do not scale into Beds 5–8 until reviewer 05 dispositions this pilot or identifies concrete repair needs. V2 requires the pilot to complete independent rendered review before the recipe is scaled. If reviewer 05 ACCEPTs exact hashes, 08 may integrate them after normal mapping/file/content checks. If reviewer 05 returns REWORK, preserve these exact versions and repair only the rejected items.
+Do **not** scale into Beds 5–8 until reviewer 05 dispositions this pilot or identifies concrete repair needs. If reviewer 05 ACCEPTs an exact hash, 08 may integrate only that accepted version after normal mapping/file/content checks. If reviewer 05 returns REWORK, preserve the existing version and repair only the rejected item.
 
 ## Handoff
 
-- **05:** render and independently review the four exact hashes above at card/detail scale; record ACCEPT/REWORK/BLOCKED per exact version.
-- **08:** no action until reviewer 05 accepts an exact hash; then integrate only the accepted version after normal checks.
-- **15:** the Workstream-02 Bed byte-transfer blocker is resolved for this pilot. No additional transfer escalation is needed for Beds 1–4.
-- **02 next:** first consume any newly staged Seating/Shoes replacement hashes for independent review. Otherwise wait for reviewer 05’s Beds 1–4 pilot disposition before generating Beds 5–8.
+- **05:** exact Bed render evidence is now available in workflow run `35671770098`, artifact `10671012131`; independently disposition Beds 1–4 by exact hash.
+- **08:** Seating 2–3 exact hashes now have one independent reviewer-02 ACCEPT and are usable after normal checks. Beds remain blocked on reviewer 05.
+- **01:** preserve the accepted Seating 2–3 hashes; do not regenerate them absent a later concrete defect.
+- **15:** route remaining fresh Seating 4–6 / 11–12 and Shoes 7–12 to reviewer 02 as soon as staged exact hashes and pixels are ready.
+- **02 next:** consume ready replacement review work first; otherwise wait for reviewer 05’s Bed-pilot disposition. No Beds 5–8 generation yet.
 
-No gameplay, curriculum, economy, save state, tests, canonical runtime, Replit/Floot, `main`, deployment, paid settings or real-player data were changed by this documentation update.
+No gameplay, curriculum, economy, save state, canonical runtime, Replit/Floot, `main`, deployment, paid settings or real-player data were changed by this pass.
