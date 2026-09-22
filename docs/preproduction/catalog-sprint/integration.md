@@ -1,31 +1,38 @@
 # Workstream 08 catalog integration
 
-Status: **Rugs 12 exact-hash reviewer-14 ACCEPT integrated; catalog checks and production build pass; Store/mobile release proof remains blocked before Store content by the shared navigation click timeout.**
+Status: **Wall 1–4 exact-current-hash reviewer-14 ACCEPTs integrated as manifest v29; exact-commit validation is running; release proof is not cleared.**
 
-Canonical art integration commit: `6666f15536ac8d5cacedcd0a282ad24364abf146` on `screenshot-match-preproduction`. Evidence re-audited through branch head `6596caadf5b48099c6026f91ecf86860afe94aeb`. Replit/Floot/main/deploy/paid settings/player data untouched.
+Canonical art integration commit: `b91a8a9bf7806911d74e6f0972acf019f7056eaf` on `screenshot-match-preproduction`. Replit/Floot/main/deploy/paid settings/player data remain untouched.
 
 ## Newly integrated accepted increment
 
-`rugs-12` **Luxe Star Rug** is now canonical at `/assets/catalog/rugs-12-w07-v3.png`, Git blob `eea2fc5b78c1186342f91f597bc792160ab8f8fe`, SHA256 `21a2f71224d9a7d4e0e60a672867cc629f21a481c3310fee6b1cac1c1be071b3`, 1,039,033-byte 1024×1024 PNG. Reviewer 14 independently ACCEPTED the exact current hash from actual card/detail pixels; producer 07 did not self-review. The current reviewer-14 shard also synchronizes this exact hash as ACCEPT.
+Reviewer 14 independently reviewed actual current card/detail pixels from producer 05 and ACCEPTED the exact repository hashes for:
 
-Before wiring, Workstream 08 verified exact live repository blob/path, authoritative Store identity `Luxe Star Rug` / Rugs / Tier 5 / Sunny Pop, PNG decode evidence, reviewer independence, no disagreement for the current hash, and uniqueness of the exact Git blob in the current repository tree. Existing accepted mappings and older asset versions remain preserved in Git history. IDs, prices, unlocks, ownership, saves and gameplay metadata were not changed.
+- `wall-1` **School Star Poster** — `/assets/catalog/wall-1-w05-v2.png` — blob `9908e774b4012cb89d3c86eed9ca3d10ce3bffe4` — Garden Glow / Tier 1.
+- `wall-2` **Cloud Wall Flag** — `/assets/catalog/wall-2-w05-v2.png` — blob `febf517cd0db666f647962c0cb7d4e5af53d4b76` — Galaxy Glow / Tier 1.
+- `wall-3` **Pixel Scoreboard** — `/assets/catalog/wall-3-w05-v2.png` — blob `5ad5aff97c9d365221de8c2d888abf3a26db547e` — Sunny Pop / Tier 1.
+- `wall-4` **Heart Gallery** — `/assets/catalog/wall-4-w05-v2.png` — blob `bc38aee13c1c4840aa1e9657edfb67c8838a6a21` — Aqua Wave / Tier 2.
+
+Before wiring, Workstream 08 verified exact live repository blobs/paths, authoritative `gameModel` names/tier/theme, scoped 1024×1024 PNG decode/render evidence, reviewer independence, and current catalog path/content uniqueness. The shared staged-art workflow's unrelated Desk decode failures were not relabeled as a global pass. Existing mappings and prior asset versions remain preserved; stable IDs, prices, unlocks, ownership, saves and gameplay metadata were not changed.
+
+## Strict-count reconciliation
+
+Reviewer 02's live schema-10 evidence audit now records `seating-7` through `seating-10` as **BLOCKED_EVIDENCE_NOT_DECISION**: producer lane text claimed reviewer acceptance, but reviewer 02's authored review lineage has no qualifying visual decision and the required consumable current-hash card/detail pixels were absent. This is **not** a visual REWORK decision. Their canonical mappings are therefore retained, but the four items are removed from the strict independent-ACCEPT count until reviewer 02 performs a real exact-hash pixel review.
+
+That reconciliation corrects the validated pre-Wall strict floor from 91 to **87**. Integrating the four qualified Wall ACCEPTs returns the strict accepted+canonical count to **91/192**, rather than 95.
 
 ## Current counts
 
-Manifest v28 now has **164 canonical mappings**, **157 legacy `final-portable`**, **7 legacy interim-not-verified**, and **35 IDs outside the legacy final set** relative to the 192 target. The stricter V2 count is **91/192 independently accepted current hashes canonically wired**, leaving **101 strict remaining**. Release-cleared remains **0/192**. Duplicate canonical paths introduced by this increment: **0**; the integrated exact content blob occurs once in the current tree.
+Manifest v29 has **168 canonical mappings**, **161 legacy `final-portable`**, **7 legacy interim-not-verified**, and **31 IDs outside the legacy final set** relative to the 192 target. The stricter V2 count is **91/192 independently accepted current hashes canonically wired**, leaving **101 strict remaining**. Release-cleared remains **0/192**.
 
-Generated-local this run: 0. Preserved-blob-only this run: 0. Newly branch-staged this run: 0. Qualified ACCEPTs consumed: 1. Strict canonical delta: +1.
+Generated-local this run: 0. Preserved-blob-only this run: 0. Newly branch-staged this run: 0. Qualified ACCEPTs consumed: 4. Strict canonical delta from the reconciled floor: +4.
 
 ## Validation
 
-On canonical commit `6666f15536ac8d5cacedcd0a282ad24364abf146`, `src/catalogManifestQa.test.js` passed **4/4** and catalog runtime/Store tests passed. The enclosing CI wrapper remains red only because unrelated `scripts/artPromptOptimizer.test.mjs` is collected without a test suite; overall execution showed **99 tests passed, 2 skipped**, and no catalog assertion was weakened or bypassed.
+The canonical push triggered the exact-commit workflow set for `b91a8a9bf7806911d74e6f0972acf019f7056eaf`; affected catalog/build/visual results were still queued or running at the evidence write, so no new PASS claim is made yet. The prior shared Store/mobile release blocker — pointer-click timeout on Store navigation before Store content — remains preserved unless the exact-commit run proves otherwise. No harness assertion was weakened and no accepted Wall mapping is rolled back merely because a shared navigation fixture remains blocked.
 
-The production Vite build passed in Catalog Mobile QA run `35707148100`. The strict changed-art Store/mobile safeguard then reproduced the known shared blocker in all six controls: Playwright resolves the visible Store button, but the pointer click times out before Store content opens at desktop, tablet, both phone viewports, and both normal-motion controls. Artifact: `10684444909`. Store proof is therefore **BLOCKED**, not passed, and the valid Rugs 12 mapping was not rolled back.
+## Live review queue
 
-Deterministic reference run `35707148121` has verified the committed desktop reference inputs and passed its production build; its Home/Store/Quest capture step was still in progress at the last verified read. No reference-parity or release-clearance claim is made.
+Reviewer 05 has fresh exact-current-hash card/detail evidence for Companions 2/5/6/7 routed by Workstream 14, but no reviewer-05 disposition is present yet, so none is integration-eligible. Reviewer 02 has no new qualified ACCEPT and Seating 7–10 remain evidence-blocked rather than visually rejected. Reviewer 14's four Wall ACCEPTs are consumed by v29.
 
-## Live reviewer recheck
-
-Reviewer 01 has no newer qualified ACCEPT: Tops 11-12 v6 remain evidence-BLOCKED on the shared signature/card-detail path and Headwear 5-8 remain unqualified. Reviewer 02 has no new ACCEPT beyond already-canonical Shoes/Seating hashes. Reviewer 05 has no new ACCEPT beyond already-canonical Aura 11 and its preserved assigned accepts. Reviewer 14's current Rugs 12 `eea2fc5b…` ACCEPT is now consumed and canonical; no newer qualified exact-hash ACCEPT is present.
-
-Only Workstream 15 may declare visual completion or change phase. Catalog/art completion does not authorize deployment.
+Only Workstream 15 may declare ART_VISUALS_COMPLETE or change phase. Catalog/art completion does not authorize deployment.

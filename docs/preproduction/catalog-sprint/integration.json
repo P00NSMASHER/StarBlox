@@ -1,33 +1,82 @@
 {
-  "schemaVersion": 12,
+  "schemaVersion": 13,
   "workstream": "08",
   "phase": "ART_AND_VISUALS_ONLY",
-  "status": "RUGS12_EXACT_HASH_ACCEPT_INTEGRATED_CATALOG_CHECKS_PASS_BUILD_PASS_STORE_MOBILE_BLOCKED_ON_SHARED_NAV",
+  "status": "WALL_1_TO_4_EXACT_HASH_ACCEPTS_INTEGRATED_VALIDATION_RUNNING_RELEASE_NOT_CLEARED",
   "branch": "screenshot-match-preproduction",
-  "auditedSourceHead": "6596caadf5b48099c6026f91ecf86860afe94aeb",
-  "canonicalIntegrationCommit": "6666f15536ac8d5cacedcd0a282ad24364abf146",
-  "batchLabel": "Rugs 12 qualified reviewer-14 exact-hash ACCEPT",
-  "canonicalBefore": {"manifestVersion":27,"manifestEntries":163,"finalPortable":156,"interimNotVerified":7,"strictAcceptedCanonical":90,"strictAcceptedRemaining":102,"catalogReleaseClearedIds":0},
-  "canonicalAfter": {"manifestVersion":28,"manifestBlobSha":"7933d7e0b1a7fd94a804b135ced83ae4e045c8f4","runtimeBlobSha":"b44d1bad174f36167ff2909d37463f256c5cc50c","catalogTarget":192,"manifestEntries":164,"runtimeMappings":164,"finalPortable":157,"interimNotVerified":7,"legacyNonFinalRelativeToTarget":35,"duplicateAssetPaths":0,"duplicateContentHashesForIntegratedBlob":0,"strictAcceptedCanonical":91,"strictAcceptedRemaining":101,"catalogReleaseClearedIds":0},
-  "integratedThisRun": [{"itemId":"rugs-12","name":"Luxe Star Rug","collectionId":"rugs","type":"room","tier":5,"theme":"Sunny Pop","assetPath":"/assets/catalog/rugs-12-w07-v3.png","repositoryPath":"public/assets/catalog/rugs-12-w07-v3.png","assetBlobSha":"eea2fc5b78c1186342f91f597bc792160ab8f8fe","sha256":"21a2f71224d9a7d4e0e60a672867cc629f21a481c3310fee6b1cac1c1be071b3","bytes":1039033,"width":1024,"height":1024,"format":"PNG","producer":"07","reviewer":"14","reviewSource":"docs/preproduction/catalog-sprint/chat-rugs-12-v3-reconciled-review-14-to-08.json","normalizedShard":"docs/preproduction/catalog-sprint/reviews/14.json","decision":"ACCEPT"}],
-  "validation": {
-    "livePathBlobReadback":"PASS_EXACT_GIT_BLOB_EEA2FC5B78C1186342F91F597BC792160AB8F8FE",
-    "authoritativeStoreMetadata":"PASS_LUXE_STAR_RUG_RUGS_TIER5_SUNNY_POP",
-    "safeDecode":"PASS_PNG_1024X1024_1039033_BYTES",
-    "reviewerIndependence":"PASS_REVIEWER_14_INDEPENDENT_OF_PRODUCER_07",
-    "reviewerDisagreement":"PASS_NONE_FOR_CURRENT_EEA2FC5B_HASH",
-    "contentUniqueness":"PASS_EXACT_GIT_BLOB_OCCURS_ONCE_IN_CURRENT_REPOSITORY_TREE",
-    "runtimeManifestAgreement":"PASS_164_OF_164",
-    "stableIdsPricesUnlocksOwnership":"UNCHANGED_BY_SCOPE",
-    "catalogManifestQa":"PASS_4_OF_4_ON_CANONICAL_COMMIT_6666F15536AC8D5CACEDCD0A282AD24364ABF146",
-    "catalogRuntimeTests":"PASS_ON_CANONICAL_COMMIT_6666F15536AC8D5CACEDCD0A282AD24364ABF146",
-    "generalCiWrapper":"FAIL_UNRELATED_scripts_artPromptOptimizer_test_mjs_NO_TEST_SUITE; 99_TESTS_PASS_2_SKIPPED; ASSERTIONS_NOT_WEAKENED",
-    "productionBuild":"PASS_VITE_BUILD_IN_CATALOG_MOBILE_QA_RUN_35707148100",
-    "storeMobileSafeguard":"BLOCKED_6_OF_6_BY_SHARED_STORE_NAV_CLICK_TIMEOUT_BEFORE_STORE_CONTENT; RUN_35707148100_ARTIFACT_10684444909",
-    "referenceCapture":"RUN_35707148121_REFERENCE_INPUT_AND_BUILD_PASS; DETERMINISTIC_CAPTURE_STILL_IN_PROGRESS_AT_LAST_VERIFIED_READ; NO_PARITY_CLAIM"
+  "auditedSourceHead": "b91a8a9bf7806911d74e6f0972acf019f7056eaf",
+  "canonicalIntegrationCommit": "b91a8a9bf7806911d74e6f0972acf019f7056eaf",
+  "batchLabel": "Wall 1-4 qualified reviewer-14 exact-hash ACCEPTs",
+  "canonicalBefore": {
+    "manifestVersion": 28,
+    "manifestEntries": 164,
+    "finalPortable": 157,
+    "interimNotVerified": 7,
+    "strictAcceptedCanonicalPreviouslyReported": 91,
+    "strictAcceptedCanonicalReconciled": 87,
+    "strictAcceptedRemainingReconciled": 105,
+    "catalogReleaseClearedIds": 0
   },
-  "counts": {"generatedLocalThisRun":0,"preservedBlobOnlyThisRun":0,"newlyBranchStagedThisRun":0,"qualifiedAcceptedConsumedThisRun":1,"acceptedCurrentReplacementHashes":91,"canonicalWiredAcceptedHashesAfterRun":91,"catalogReleaseClearedIds":0,"strictAcceptedRemaining":101},
-  "liveReviewRecheck": {"reviewer01":"NO_NEW_ACCEPT; Tops 11-12 v6 BLOCKED on qualified card/detail/signature evidence; Headwear 5-8 not repository-qualified","reviewer02":"NO_NEW_ACCEPT_BEYOND_ALREADY_CANONICAL_SHOES_AND_SEATING_HASHES","reviewer05":"NO_NEW_ACCEPT_BEYOND_ALREADY_CANONICAL_AURA11_AND_PRESERVED_ASSIGNED_HASHES","reviewer14":"RUGS12_CURRENT_EEA2FC5B_ACCEPT_CONSUMED_AND_CANONICAL; NO_NEWER_QUALIFIED_ACCEPT_PRESENT"},
-  "blockers": ["Changed-art Store/mobile release proof is blocked before Store content by the shared Store sidebar click timeout in all six controls; accepted Rugs 12 mapping remains canonical and release-cleared stays 0.","101 catalog IDs remain outside the strict independently accepted-and-canonical current-hash set.","Tops 11-12 v6 remain evidence-blocked and Headwear 5-8 remain unqualified for current exact-hash integration."],
+  "strictAcceptanceReconciliation": {
+    "reason": "Reviewer 02 schema-10 provenance audit records Seating 7-10 as BLOCKED_EVIDENCE_NOT_DECISION and explicitly says producer lane text is not reviewer acceptance. These four current canonical mappings are retained because there is no visual REWORK decision, but they are excluded from strict independent-ACCEPT counts until reviewer 02 inspects consumable current-hash card/detail pixels and records an exact-hash decision.",
+    "items": ["seating-7", "seating-8", "seating-9", "seating-10"],
+    "mappingRollbackPerformed": false,
+    "visualReworkInferred": false,
+    "strictCountCorrection": -4
+  },
+  "canonicalAfter": {
+    "manifestVersion": 29,
+    "manifestBlobSha": "237abc2c0b5ec1ea8a1262b3d76bc4e1d05d7b92",
+    "runtimeBlobSha": "ae2a30492538e818b258a28dd20fdec8bbe3560e",
+    "catalogTarget": 192,
+    "manifestEntries": 168,
+    "runtimeMappings": 168,
+    "finalPortable": 161,
+    "interimNotVerified": 7,
+    "legacyNonFinalRelativeToTarget": 31,
+    "duplicateAssetPaths": 0,
+    "strictAcceptedCanonical": 91,
+    "strictAcceptedRemaining": 101,
+    "catalogReleaseClearedIds": 0
+  },
+  "integratedThisRun": [
+    {"itemId":"wall-1","name":"School Star Poster","collectionId":"wall","type":"room","tier":1,"theme":"Garden Glow","assetPath":"/assets/catalog/wall-1-w05-v2.png","repositoryPath":"public/assets/catalog/wall-1-w05-v2.png","assetBlobSha":"9908e774b4012cb89d3c86eed9ca3d10ce3bffe4","sha256":"67c9beff2572a2066debd257a4757b9498a0b0850372c8bfd397925cb6f7dd35","width":1024,"height":1024,"format":"PNG","producer":"05","reviewer":"14","reviewSource":"docs/preproduction/catalog-sprint/chat-wall-1-4-w05-v2-review-14-to-08.json","decision":"ACCEPT"},
+    {"itemId":"wall-2","name":"Cloud Wall Flag","collectionId":"wall","type":"room","tier":1,"theme":"Galaxy Glow","assetPath":"/assets/catalog/wall-2-w05-v2.png","repositoryPath":"public/assets/catalog/wall-2-w05-v2.png","assetBlobSha":"febf517cd0db666f647962c0cb7d4e5af53d4b76","sha256":"2a768ebe8ef70a925894abf9d07c2280e9c7c6531eb000a3ff9aa227d24e0303","width":1024,"height":1024,"format":"PNG","producer":"05","reviewer":"14","reviewSource":"docs/preproduction/catalog-sprint/chat-wall-1-4-w05-v2-review-14-to-08.json","decision":"ACCEPT"},
+    {"itemId":"wall-3","name":"Pixel Scoreboard","collectionId":"wall","type":"room","tier":1,"theme":"Sunny Pop","assetPath":"/assets/catalog/wall-3-w05-v2.png","repositoryPath":"public/assets/catalog/wall-3-w05-v2.png","assetBlobSha":"5ad5aff97c9d365221de8c2d888abf3a26db547e","sha256":"8a07f0be4aec31859f5d679f039619d5e4ea5c7ff28e06d4d5a85e12dd1ff199","width":1024,"height":1024,"format":"PNG","producer":"05","reviewer":"14","reviewSource":"docs/preproduction/catalog-sprint/chat-wall-1-4-w05-v2-review-14-to-08.json","decision":"ACCEPT"},
+    {"itemId":"wall-4","name":"Heart Gallery","collectionId":"wall","type":"room","tier":2,"theme":"Aqua Wave","assetPath":"/assets/catalog/wall-4-w05-v2.png","repositoryPath":"public/assets/catalog/wall-4-w05-v2.png","assetBlobSha":"bc38aee13c1c4840aa1e9657edfb67c8838a6a21","sha256":"f1a3398c3b9b35e92db7ea6a146f8aa13d0df18427b4e7e10db69bb26ceecf8a","width":1024,"height":1024,"format":"PNG","producer":"05","reviewer":"14","reviewSource":"docs/preproduction/catalog-sprint/chat-wall-1-4-w05-v2-review-14-to-08.json","decision":"ACCEPT"}
+  ],
+  "validation": {
+    "livePathBlobReadback": "PASS_4_OF_4_EXACT_CURRENT_GIT_BLOBS",
+    "authoritativeStoreMetadata": "PASS_4_OF_4_GAME_MODEL_MATCH",
+    "safeDecodeAndRenderEvidence": "PASS_4_OF_4_PNG_1024X1024_SCOPED_CARD_DETAIL_EVIDENCE",
+    "reviewerIndependence": "PASS_REVIEWER_14_INDEPENDENT_OF_PRODUCER_05",
+    "contentAndPathUniqueness": "PASS_4_OF_4_CURRENT_CATALOG_TREE",
+    "runtimeManifestAgreementPrepared": "PASS_168_OF_168_BY_COHERENT_WRITE",
+    "stableIdsPricesUnlocksOwnership": "UNCHANGED_BY_SCOPE",
+    "affectedCatalogTests": "PENDING_EXACT_COMMIT_PUSH_WORKFLOWS_TRIGGERED",
+    "productionBuild": "PENDING_EXACT_COMMIT_PUSH_WORKFLOWS_TRIGGERED",
+    "storeMobileSafeguard": "PENDING_EXACT_COMMIT_RUN; PRIOR_SHARED_STORE_NAV_POINTER_CLICK_TIMEOUT_REMAINS_A_RELEASE_BLOCKER_UNLESS_NEW_EVIDENCE_PROVES_OTHERWISE",
+    "referenceCapture": "PENDING_EXACT_COMMIT_RUN; NO_PARITY_CLAIM"
+  },
+  "counts": {
+    "generatedLocalThisRun": 0,
+    "preservedBlobOnlyThisRun": 0,
+    "newlyBranchStagedThisRun": 0,
+    "qualifiedAcceptedConsumedThisRun": 4,
+    "acceptedCurrentReplacementHashesValidatedAfterReconciliation": 91,
+    "canonicalWiredAcceptedHashesAfterRun": 91,
+    "catalogReleaseClearedIds": 0,
+    "strictAcceptedRemaining": 101
+  },
+  "liveReviewRecheck": {
+    "reviewer02": "NO_NEW_QUALIFIED_ACCEPT; Seating 7-10 are BLOCKED_EVIDENCE_NOT_DECISION and remain mapped but excluded from strict count pending real independent current-hash pixel review.",
+    "reviewer05": "NO_NEW_QUALIFIED_ACCEPT_BEYOND_ALREADY_CANONICAL_EVIDENCE; Companion 2/5/6/7 now have current exact-hash render evidence routed to reviewer 05 but no reviewer-05 decision yet.",
+    "reviewer14": "WALL_1_TO_4_CURRENT_EXACT_HASH_ACCEPTS_CONSUMED_AND_CANONICAL."
+  },
+  "blockers": [
+    "101 catalog IDs remain outside the strict independently accepted-and-canonical current-hash set.",
+    "Seating 7-10 need consumable exact-current-hash card/detail evidence plus a genuine reviewer-02 disposition before they can re-enter the strict accepted count; current mappings are preserved because no visual REWORK exists.",
+    "Changed-art Store/mobile and reference validation on canonical commit b91a8a9bf7806911d74e6f0972acf019f7056eaf is running; release-cleared remains 0 and prior shared Store-navigation timeout is not waived."
+  ],
   "freeze": {"replitTouched":false,"flootTouched":false,"mainMergedOrModified":false,"deploymentPerformed":false,"paidSettingsOrPurchasesTouched":false,"playerDataTouched":false,"phaseChanged":false}
 }
