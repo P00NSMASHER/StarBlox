@@ -1,10 +1,11 @@
 {
-  "schemaVersion": 10,
+  "schemaVersion": 11,
   "lane": "11",
   "workstream": "11",
   "phase": "CATALOG_SPRINT",
+  "visualFocus": "ART_AND_VISUALS_ONLY",
   "branch": "screenshot-match-preproduction",
-  "status": "AURAS_1_10_12_ACCEPTED_CANONICAL__AURA_11_RENDER_QA_PASS_PENDING_05",
+  "status": "AURAS_1_12_EXACT_HASH_ACCEPTED_CANONICAL__NO_CATALOG_REASSIGNMENT__VISUAL_SPEC_READY",
   "policy": "docs/preproduction/DELIVERY_PROTOCOL_V2.md",
   "visualSprint": "docs/preproduction/ART_VISUALS_SPRINT.json",
   "independentReviewer": "05",
@@ -24,19 +25,25 @@
     "auras-11",
     "auras-12"
   ],
-  "auditedBranchHeadBeforeWrite": "a08ddaf64ab3335d98bef4809509274acfa7f28a",
+  "auditedBranchHeadBeforeWrite": "e7f315f3e09c93a5bb954a557307f6ffe3bddee3",
   "historyRefs": [
     {
-      "priorLaneBlobSha": "5c96cbad8eea1aa13fec2bfeed2691f032954472",
-      "scope": "Lane-11 history through Dream Aurora v3 branch attachment and the prior pending-render state."
+      "priorLaneBlobSha": "cac3d9cf34cc61346a6a2f55e3cc18c200696b89",
+      "scope": "Lane-11 history through Aura 11 exact-hash render QA pending reviewer 05."
     },
     {
-      "reviewer05SourceHead": "46d6bb67f986fb432a14afd0d749ea6697e12a26",
-      "scope": "Latest reviewer-05 shard read before this write; Auras 1-10 and 12 accepted, Aura 11 still pending exact-current render review."
+      "reviewer05BlobSha": "d038b469dc46337c8a2b2c1fb7015748d54a7c09",
+      "sourceHead": "be7fe6eae1ab92f475383b113f1c8efc961fe70a",
+      "scope": "Schema-9 independent review closes Dream Aurora v3 ACCEPT and preserves current exact-hash ACCEPT decisions for Auras 1-12."
     },
     {
-      "integrationBlobSha": "current branch integration.json schemaVersion 10 / manifest v23",
-      "scope": "Current Workstream-08 canonical state plus Workstream-15 coordination confirms Auras 1-10 and 12 accepted/canonical."
+      "canonicalIntegrationCommit": "ad8867efc70d1b123cbc5e2f157766bec58e510d",
+      "scope": "Workstream-08 canonical wiring commit for reviewed Aura 11; prior versions remain in Git history."
+    },
+    {
+      "manifestBlobSha": "27c77919cfbc5cf52570bf91871338b59cded055",
+      "runtimeBlobSha": "a3b5b2b98a8507f5226191959a3cd91ef6729bdb",
+      "scope": "Current manifest v27 and runtime mapping both point auras-11 to /assets/catalog/auras-11-w11-v3.jpg."
     }
   ],
   "acceptedCanonicalCurrent": [
@@ -50,9 +57,10 @@
     {"id":"auras-8","name":"Aqua Bubbles","hash":"6884668fe721f3b26a562e11924237a32c656db6","path":"/assets/catalog/auras-8-v2.svg"},
     {"id":"auras-9","name":"Art Confetti","hash":"9331e516a7a1a2fa32abafaf3bbf0932c3ca792d","path":"/assets/catalog/auras-9-w11-v3.jpg"},
     {"id":"auras-10","name":"Neon Trail","hash":"6f07fe7f5c8be236f3c17df5f55afc550888f52e","path":"/assets/catalog/auras-10-w11-v3.jpg"},
+    {"id":"auras-11","name":"Dream Aurora","hash":"7f3372c1584e07f18a3abfc7818013190fff1560","path":"/assets/catalog/auras-11-w11-v3.jpg"},
     {"id":"auras-12","name":"Luxe Starstorm","hash":"d0fcf528ff4ee91e56760932fdcf357ab264dd3d","path":"/assets/catalog/auras-12-w11-v3.jpg"}
   ],
-  "aura11Current": {
+  "aura11Closure": {
     "id": "auras-11",
     "name": "Dream Aurora",
     "tier": 4,
@@ -66,52 +74,81 @@
     "bytes": 18443,
     "sha256": "0a06996522c9cb999e82b8ba028e94bfe2cb8d16e043c94999065e0ae8ce1dc2",
     "branchReadback": "PASS_EXACT_HASH",
-    "renderQA": {
-      "status": "PASS_EXACT_HASH_RENDER_EVIDENCE_READY_FOR_REVIEWER_05",
-      "workflowRunId": 35678437306,
-      "workflowHead": "6bf28983c52a84f93e7f5ccfae12deecf55d873e",
-      "artifactId": 10673089422,
-      "artifactDigest": "sha256:126cf396d01cec7f0e19832ac3202f565ceec7332d740cafac9bd8b5c91c47aa",
-      "reportSha256": "fbf8111402aa479271853c5bc5005c519525951b6dc3fb7e0521d11b9d3e6480",
+    "independentReview": {
+      "reviewer": "05",
+      "reviewBlobSha": "d038b469dc46337c8a2b2c1fb7015748d54a7c09",
+      "schemaVersion": 9,
+      "decision": "ACCEPT",
+      "reviewedAt": "2026-09-22T04:34:43Z",
+      "actualCardScalePixelsReviewed": true,
+      "actualDetailPixelsReviewed": true,
+      "legacyDecisionTransferred": false,
+      "workflowRunId": 35682911760,
+      "artifactId": 10675401829,
       "detailPath": "staged-replacements/detail/auras-11-7f3372c1.png",
-      "detailDimensions": [800, 800],
       "detailSha256": "e175fcd79c8f0c8decf254748fd83d71103795fee717899bea76655de0350f73",
       "contactSheetPath": "staged-replacements/staged-replacements-contact-sheet.png",
-      "contactSheetDimensions": [1200, 7381],
-      "contactSheetSha256": "1dff84d3e8827eea89a88ad496e08a4e3608d39d1797358abbaebf820a434294",
-      "reportItemChecks": {
-        "httpStatus": 200,
-        "naturalWidth": 600,
-        "naturalHeight": 600,
-        "opaqueFraction": 1,
-        "screenshot": true,
-        "errors": []
-      },
-      "workflowOverall": "FAIL_UNRELATED_TO_SCOPED_AURA11_RENDER_REPORT",
-      "scopedReportErrors": [],
-      "scopedReportWarnings": []
+      "contactSheetSha256": "98b0e9b5021f3239cdd9021a596fe8d56785d403704898db7c9be77915f6ba05"
     },
-    "independentReview": "PENDING_REVIEWER_05_CURRENT_HASH",
-    "canonicalIntegration": "BLOCKED_UNTIL_05_ACCEPT_AND_08_ONLY",
-    "regenerationEligibility": "NO_DO_NOT_REGENERATE_UNLESS_05_REWORKS_THIS_EXACT_HASH"
+    "canonicalIntegration": {
+      "owner": "08",
+      "status": "PASS_CANONICAL_MANIFEST_AND_RUNTIME",
+      "commit": "ad8867efc70d1b123cbc5e2f157766bec58e510d",
+      "manifestVersion": 27,
+      "manifestBlobSha": "27c77919cfbc5cf52570bf91871338b59cded055",
+      "runtimeBlobSha": "a3b5b2b98a8507f5226191959a3cd91ef6729bdb",
+      "mappedPath": "/assets/catalog/auras-11-w11-v3.jpg"
+    },
+    "regenerationEligibility": "CLOSED_DO_NOT_REGENERATE_UNLESS_LATER_EXACT_HASH_DEFECT"
   },
   "legacyAura11Rework": {
     "hash": "ddb2c81b49db8e6ea6369c8f70cb720228feb73c",
     "decision": "REWORK_SUPERSEDED_HASH_ONLY",
     "verdictTransfer": false
   },
+  "visualFinishingPrep": {
+    "status": "SPEC_READY_NO_RUNTIME_WRITE",
+    "document": "docs/preproduction/workstreams/11-motion-game-feel.md",
+    "documentBlobAfterWrite": "b39bf37f1e74fb3ddf31e2b4b8e9319e74ba3365",
+    "authoritativeReferenceManifest": "docs/preproduction/reference-screenshots/original-reference-manifest.json",
+    "referenceManifestBlobSha": "63956763934f17613a3f98889f8085051a78a0b6",
+    "screens": ["Home", "Store", "Quest"],
+    "preparedRecipes": [
+      "premium-panel-energy",
+      "bounded-star-sparks",
+      "selection-equip-material",
+      "correct-answer-material",
+      "room-progress-reveal",
+      "avatar-buddy-visual-life",
+      "gentle-screen-transitions",
+      "static-reduced-motion-equivalents",
+      "later-performance-material-budgets"
+    ],
+    "runtimeImplementation": "NOT_AUTHORIZED_THIS_PASS_SHARED_ENTRYPOINT_COORDINATION_15",
+    "newBrowserPerformanceEvidence": "NOT_EXECUTED",
+    "newRenderedMotionEvidence": "NOT_EXECUTED"
+  },
   "counts": {
-    "acceptedCanonicalAuras": 11,
-    "pendingReviewer05": 1,
+    "acceptedExactHashAuras": 12,
+    "canonicalAuras": 12,
+    "pendingReviewer05": 0,
     "eligibleForRegeneration": 0,
     "assetsRegeneratedThisPass": 0,
-    "acceptedAssetsChangedThisPass": 0
+    "acceptedAssetsChangedThisPass": 0,
+    "newCatalogFamiliesClaimed": 0
   },
   "handoff": {
-    "05": "Exact current Dream Aurora hash 7f3372c1584e07f18a3abfc7818013190fff1560 now has preserved card/detail render evidence in workflow 35678437306 artifact 10673089422. Issue a fresh exact-hash ACCEPT/REWORK; do not transfer the legacy ddb2c81b... verdict.",
-    "08": "Auras 1-10 and 12 are preserved accepted/canonical. Aura 11 remains ineligible until reviewer-05 ACCEPT on exact hash 7f3372c1584e07f18a3abfc7818013190fff1560; 08 alone may wire it afterward.",
-    "15": "No Aura production is currently eligible. Hold Lane 11 on Aura 11 review; if exact hash is ACCEPT, route to 08 then reassign 11. If REWORK, authorize only an Aura-11 versioned micro-repair from the concrete finding.",
-    "11": "Do not regenerate or alter any Aura while Aura 11 exact-current review is pending. Preserve all accepted hashes."
+    "05": "Aura family closed at review level. Preserve exact current ACCEPT decisions for Auras 1-12; re-review only if a later exact-hash defect/new hash is presented.",
+    "08": "Aura 11 is already canonically wired at commit ad8867efc70d1b123cbc5e2f157766bec58e510d. Preserve all Aura mappings/hashes unless a later exact-hash defect is recorded.",
+    "15": "Aura production is complete. Workstream 11 claims no other catalog family. A reference-grounded motion/lighting/static-reduced-motion finishing spec is ready in docs/preproduction/workstreams/11-motion-game-feel.md; coordinate any shared runtime entrypoint implementation and provide explicit reassignment before new catalog production.",
+    "11": "Hold accepted Aura bytes. Stay ART_AND_VISUALS_ONLY; do not alter shared runtime/state or claim another catalog family without Workstream-15 coordination."
+  },
+  "releaseGates": {
+    "catalogGlobal192Gate": "OPEN_NOT_WORKSTREAM11_CLOSED_BY_AURA_COMPLETION",
+    "motionNormalRenderQA": "OPEN_NOT_EXECUTED_THIS_PASS",
+    "motionReducedRenderQA": "OPEN_NOT_EXECUTED_THIS_PASS",
+    "paintCompositeScrollProfiling": "OPEN_NOT_EXECUTED_THIS_PASS",
+    "deployment": "FROZEN_PENDING_SEPARATE_FINAL_APPROVAL"
   },
   "freeze": {
     "replitTouched": false,
@@ -119,9 +156,10 @@
     "mainMergedOrModified": false,
     "deploymentTouched": false,
     "paidSettingsTouched": false,
-    "canonicalManifestOrRuntimeTouched": false,
+    "canonicalManifestOrRuntimeTouchedBy11": false,
     "playerDataTouched": false,
     "learningEconomySaveLogicTouched": false,
-    "liveAuraLogicTouched": false
+    "liveAuraLogicTouched": false,
+    "sharedRuntimeTouchedThisPass": false
   }
 }
