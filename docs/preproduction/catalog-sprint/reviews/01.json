@@ -1,31 +1,23 @@
 {
-  "schemaVersion": 7,
-  "previousRevisionBlobSha": "505483331d57704b1382a3a7d38a87ac8c50ffbc",
+  "schemaVersion": 8,
+  "previousRevisionBlobSha": "f155210fcf47bf1a34b7469f4eaebde1967a796d",
   "reviewer": "01",
   "role": "Visual Target Director / independent catalog reviewer",
   "phase": "CATALOG_SPRINT",
   "branch": "screenshot-match-preproduction",
-  "sourceHead": "49b9a466f209dc798848fc0a55ef8f3e0d5ad3b4",
-  "assignedCollections": ["tops", "bottoms", "headwear", "facegear"],
+  "sourceHead": "989753a9a958a9968ee6cc91cf73cca5dfa3fa14",
+  "assignedCollections": [
+    "tops",
+    "bottoms",
+    "headwear",
+    "facegear"
+  ],
   "assignedCount": 48,
   "historyRefs": [
     {
-      "blobSha": "505483331d57704b1382a3a7d38a87ac8c50ffbc",
-      "scope": "Prior Workstream-01 review shard, including full 48/48 legacy partition review and prior replacement decisions.",
-      "note": "Exact-hash history remains immutable; older REWORK decisions do not transfer to newer replacement hashes."
-    },
-    {
-      "scope": "tops-1..6",
-      "disposition": "ACCEPT unchanged",
-      "hashes": {
-        "tops-1": "5fd9544999694ec27c9b6247aaffeca1c0c7b484",
-        "tops-2": "428450782feb314535163b54d0405f9af8b7cd65",
-        "tops-3": "b4a834586feae169e102f43aeceaaaf11893ec11",
-        "tops-4": "26d03c5ba26c565e79e809f825db87c9be1dba21",
-        "tops-5": "78c5c89270be2f505f77d033f340c72cf0ff80a8",
-        "tops-6": "44d88aa84246f9d8a76b3f22c408653eb28176aa"
-      },
-      "note": "Preserved without re-review because the accepted hashes are unchanged."
+      "blobSha": "f155210fcf47bf1a34b7469f4eaebde1967a796d",
+      "scope": "Immediate prior reviewer-01 shard with detailed evidence for preserved ACCEPTs: Tops 1-10, Bottoms 1-4, Headwear 1-4, plus immutable historical review links.",
+      "note": "Preserved unchanged. This revision does not re-review those exact hashes."
     }
   ],
   "contractEvidence": {
@@ -33,260 +25,89 @@
     "deliveryProtocol": "docs/preproduction/DELIVERY_PROTOCOL_V2.md",
     "originalReferenceManifest": "docs/preproduction/reference-screenshots/original-reference-manifest.json",
     "originalReferenceStatus": "ORIGINALS_STORED_AND_INTAKE_VERIFIED",
-    "rule": "Actual rendered card/detail pixels and exact hashes are required; source validity or filenames alone are not acceptance."
+    "rule": "Actual rendered Store-card/detail pixels and exact current hashes are required. A decode failure is BLOCKED; corrupted rendered pixels are REWORK, regardless of filename/version label."
   },
   "renderEvidence": {
-    "workflowRunId": 35671172749,
-    "artifactId": 10671315820,
-    "artifactName": "tops-7-10-recovery-evidence",
-    "artifactDigest": "sha256:cc7b5faa0b60daa96dc5aa7d6fd4290af6bed439b7484e86a60ed0734fe53fb9",
-    "renderSourceHead": "41d13c0e4ea1a1ab8f0c83b59747e612f77b0778",
-    "contactSheet": {
-      "path": "artifacts/catalog-staged-art/staged-replacements/staged-replacements-contact-sheet.png",
-      "sha256": "ff1d209dbfad2d52cf7385d29e0c22c317d46368d05f2b2bf6f412a6750c4c04"
+    "workflow": "Catalog Staged Art QA",
+    "workflowRunId": 35676190280,
+    "artifactId": 10672639784,
+    "artifactName": "catalog-staged-art-review-9cfe1967",
+    "artifactZipSha256": "c8375e94c7e89429f2482d9f0a3d814585548f5c3b854b1a3c944a0f937ecc01",
+    "renderSourceHead": "9cfe19679527bd0a3ace2d76d4a88967a65509a7",
+    "evidenceGeneratedAt": "2026-09-22T01:34:13.012Z",
+    "report": {
+      "path": "report.json",
+      "sha256": "22d5309e22fc3c7eb81a4e2270d21caf186a6a9dc7666d1f1413940b15b99b1d"
     },
-    "continuityCheck": "Compared render source head 41d13c0e4ea1a1ab8f0c83b59747e612f77b0778 through current inspected head 49b9a466f209dc798848fc0a55ef8f3e0d5ad3b4. Tops 7-10 remain the same listed blob SHAs; Bottoms 1-4 and Headwear 1-4 were not modified in that range."
+    "contactSheet": {
+      "path": "staged-replacements/staged-replacements-contact-sheet.png",
+      "sha256": "15c998e520fbe82503eee3e2a36f6ed4963949304bb03e6f66082e2f7388fa11"
+    },
+    "qaContext": "Tests PASS and build PASS. Staged-art render job failed because tops-11 could not decode; artifact upload succeeded and preserved the actual card/detail evidence."
   },
   "reviews": [
     {
-      "itemId": "tops-7",
-      "name": "Colorblock Hoodie",
-      "tier": 3,
-      "theme": "Aqua Wave",
-      "assetPath": "/assets/catalog/tops-7-w09-v3.jpg",
-      "assetHash": "1c85689d80f3457bb30b2508386d3e1ea387c029",
-      "hashAlgorithm": "git-blob-sha1",
-      "sourceHead": "49b9a466f209dc798848fc0a55ef8f3e0d5ad3b4",
-      "producer": "09",
-      "decision": "ACCEPT",
-      "reviewedAt": "2026-09-22T00:26:35Z",
-      "evidenceRefs": [
-        "docs/preproduction/catalog-sprint/chat-tops-recovery-7-10-result.json",
-        "artifact:10671315820/artifacts/catalog-staged-art/staged-replacements/staged-replacements-contact-sheet.png#sha256=ff1d209dbfad2d52cf7385d29e0c22c317d46368d05f2b2bf6f412a6750c4c04",
-        "artifact:10671315820/artifacts/catalog-staged-art/staged-replacements/detail/tops-7-1c85689d.png#sha256=bdb4207a435821fc671115c4e92aacc60ad77ce5fce02ded418d04fbe3023d6a"
-      ],
-      "reason": "The v3 replacement genuinely fixes the former flat-vector defect: the hoodie has a clear three-quarter torso, thick hood cavity, ribbed cuffs/hem, stitched kangaroo pocket, believable soft fabric folds and grounded lighting. Aqua/teal color blocking is strong but controlled, and the silhouette remains immediately readable at Store-card scale.",
-      "checks": {"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"PASS","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
-    },
-    {
-      "itemId": "tops-8",
-      "name": "Puffer Vest",
-      "tier": 3,
-      "theme": "Art Attack",
-      "assetPath": "/assets/catalog/tops-8-w09-v3.jpg",
-      "assetHash": "58aadd95fb9bdd3bb461a9fec9d458d9bf5df79e",
-      "hashAlgorithm": "git-blob-sha1",
-      "sourceHead": "49b9a466f209dc798848fc0a55ef8f3e0d5ad3b4",
-      "producer": "09",
-      "decision": "ACCEPT",
-      "reviewedAt": "2026-09-22T00:26:35Z",
-      "evidenceRefs": [
-        "docs/preproduction/catalog-sprint/chat-tops-recovery-7-10-result.json",
-        "artifact:10671315820/artifacts/catalog-staged-art/staged-replacements/staged-replacements-contact-sheet.png#sha256=ff1d209dbfad2d52cf7385d29e0c22c317d46368d05f2b2bf6f412a6750c4c04",
-        "artifact:10671315820/artifacts/catalog-staged-art/staged-replacements/detail/tops-8-58aadd95.png#sha256=53d09a99449cd33e856bd981283c860224fd51bb107ccdcbdede6d7cdb2bc550"
-      ],
-      "reason": "The vest now reads as real quilted outerwear with inflated baffles, deep armholes, padded collar, zipper teeth/pulls, pocket hardware and fabric sheen. Painted coral/yellow/green strokes are integrated onto the garment rather than pasted on, giving the Art Attack theme a clear identity while preserving card-scale readability.",
-      "checks": {"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"PASS","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
-    },
-    {
-      "itemId": "tops-9",
-      "name": "Art Smock",
-      "tier": 3,
-      "theme": "Star Luxe",
-      "assetPath": "/assets/catalog/tops-9-w09-v3.jpg",
-      "assetHash": "9011648da2461f63a4ac9e203833cf70eb1d6fe0",
-      "hashAlgorithm": "git-blob-sha1",
-      "sourceHead": "49b9a466f209dc798848fc0a55ef8f3e0d5ad3b4",
-      "producer": "09",
-      "decision": "ACCEPT",
-      "reviewedAt": "2026-09-22T00:26:35Z",
-      "evidenceRefs": [
-        "docs/preproduction/catalog-sprint/chat-tops-recovery-7-10-result.json",
-        "artifact:10671315820/artifacts/catalog-staged-art/staged-replacements/staged-replacements-contact-sheet.png#sha256=ff1d209dbfad2d52cf7385d29e0c22c317d46368d05f2b2bf6f412a6750c4c04",
-        "artifact:10671315820/artifacts/catalog-staged-art/staged-replacements/detail/tops-9-9011648d.png#sha256=a9465309ed76d87c93bb11150c66bbe87d04118a421eea12899d4ba814b033f1"
-      ],
-      "reason": "The replacement resolves the prior construction-depth failure: layered apron/smock panels, rolled sleeves, tool pockets with brushes, tie straps, seams and gold hardware read as a physical garment. Soft lilac fabric plus metallic star details support Star Luxe without overwhelming the art-smock identity, and the asymmetrical tools remain legible on the card.",
-      "checks": {"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"PASS","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
-    },
-    {
-      "itemId": "tops-10",
-      "name": "Star Bomber",
+      "itemId": "tops-11",
+      "name": "Cloud Jacket",
       "tier": 4,
-      "theme": "Midnight Neon",
-      "assetPath": "/assets/catalog/tops-10-w09-v3.jpg",
-      "assetHash": "5449283ed30dbfade70290cc976f85bace94fa0a",
-      "hashAlgorithm": "git-blob-sha1",
-      "sourceHead": "49b9a466f209dc798848fc0a55ef8f3e0d5ad3b4",
-      "producer": "09",
-      "decision": "ACCEPT",
-      "reviewedAt": "2026-09-22T00:26:35Z",
-      "evidenceRefs": [
-        "docs/preproduction/catalog-sprint/chat-tops-recovery-7-10-result.json",
-        "artifact:10671315820/artifacts/catalog-staged-art/staged-replacements/staged-replacements-contact-sheet.png#sha256=ff1d209dbfad2d52cf7385d29e0c22c317d46368d05f2b2bf6f412a6750c4c04",
-        "artifact:10671315820/artifacts/catalog-staged-art/staged-replacements/detail/tops-10-5449283e.png#sha256=1e868977cd3a35eb40ae535dbb8382a00e09e091790dff5d0ef72b4d0564f4fc"
-      ],
-      "reason": "Tier 4 now has the missing bomber volume and premium step-up: padded satin/leather-like panels, ribbed collar/cuffs/hem, dimensional zipper and sleeve hardware, neon pocket inserts, star details, cyan/magenta rim light and reflected floor spill. The Midnight Neon theme is unmistakable and materially richer than Tier 3 without losing jacket readability.",
-      "checks": {"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"PASS","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
-    },
-    {
-      "itemId": "bottoms-1",
-      "name": "Jeans",
-      "tier": 1,
-      "theme": "Garden Glow",
-      "assetPath": "/assets/catalog/bottoms-1-w05-v2.png",
-      "assetHash": "8af6b7c9d2f10c41c5abf2cba0368dda6c9c412c",
-      "hashAlgorithm": "git-blob-sha1",
-      "sourceHead": "49b9a466f209dc798848fc0a55ef8f3e0d5ad3b4",
-      "producer": "05",
-      "decision": "ACCEPT",
-      "reviewedAt": "2026-09-22T00:26:35Z",
-      "evidenceRefs": [
-        "docs/preproduction/catalog-sprint/chat-bottoms-recovery-1-4-result.json",
-        "artifact:10671315820/artifacts/catalog-staged-art/staged-replacements/staged-replacements-contact-sheet.png#sha256=ff1d209dbfad2d52cf7385d29e0c22c317d46368d05f2b2bf6f412a6750c4c04",
-        "artifact:10671315820/artifacts/catalog-staged-art/staged-replacements/detail/bottoms-1-8af6b7c9.png#sha256=6c2ea8ae4d3fb4495d8b1b003d719e97d155c9f10479fd38b71ff2a67ed6d219"
-      ],
-      "reason": "Jeans identity is immediate through denim weave, belt loops, five-pocket construction, metal button/rivets, contrast topstitching and natural leg shaping. Embroidered leaf/vine accents carry Garden Glow while remaining restrained enough for Tier 1, and the silhouette stays clear when reduced to the Store card.",
-      "checks": {"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"PASS","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
-    },
-    {
-      "itemId": "bottoms-2",
-      "name": "Joggers",
-      "tier": 1,
-      "theme": "Galaxy Glow",
-      "assetPath": "/assets/catalog/bottoms-2-w05-v2.png",
-      "assetHash": "17031c030198b20867aeeffeab67ad60e99397e1",
-      "hashAlgorithm": "git-blob-sha1",
-      "sourceHead": "49b9a466f209dc798848fc0a55ef8f3e0d5ad3b4",
-      "producer": "05",
-      "decision": "ACCEPT",
-      "reviewedAt": "2026-09-22T00:26:35Z",
-      "evidenceRefs": [
-        "docs/preproduction/catalog-sprint/chat-bottoms-recovery-1-4-result.json",
-        "artifact:10671315820/artifacts/catalog-staged-art/staged-replacements/staged-replacements-contact-sheet.png#sha256=ff1d209dbfad2d52cf7385d29e0c22c317d46368d05f2b2bf6f412a6750c4c04",
-        "artifact:10671315820/artifacts/catalog-staged-art/staged-replacements/detail/bottoms-2-17031c03.png#sha256=825553269086d0fe7e4ce82591aef388f518afc188fc05a90c636a6373ed02d1"
-      ],
-      "reason": "The jogger silhouette is physically convincing with ribbed waistband/cuffs, drawcord hardware, pockets, soft folds and gathered ankles. The violet galaxy gradient, embedded star field and luminous side piping communicate Galaxy Glow as part of the fabric treatment rather than a flat decal, while Tier 1 remains wearable and uncluttered.",
-      "checks": {"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"PASS","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
-    },
-    {
-      "itemId": "bottoms-3",
-      "name": "Cargo Pants",
-      "tier": 1,
-      "theme": "Sunny Pop",
-      "assetPath": "/assets/catalog/bottoms-3-w05-v2.png",
-      "assetHash": "b7025444f62bd6e65325835ecf51a5bbe6cee897",
-      "hashAlgorithm": "git-blob-sha1",
-      "sourceHead": "49b9a466f209dc798848fc0a55ef8f3e0d5ad3b4",
-      "producer": "05",
-      "decision": "ACCEPT",
-      "reviewedAt": "2026-09-22T00:26:35Z",
-      "evidenceRefs": [
-        "docs/preproduction/catalog-sprint/chat-bottoms-recovery-1-4-result.json",
-        "artifact:10671315820/artifacts/catalog-staged-art/staged-replacements/staged-replacements-contact-sheet.png#sha256=ff1d209dbfad2d52cf7385d29e0c22c317d46368d05f2b2bf6f412a6750c4c04",
-        "artifact:10671315820/artifacts/catalog-staged-art/staged-replacements/detail/bottoms-3-b7025444.png#sha256=a6c61fdcf6ce5f45f0193f95abe5b54bf338f3c6f31609fcf1fb413292d525da"
-      ],
-      "reason": "Cargo identity reads cleanly from layered flap pockets, knee patches, belt loops, button/zipper construction, panel seams and substantial cloth volume. Warm yellow-gold lighting with pale aqua utility accents gives Sunny Pop a distinct cheerful palette without inflating this Tier-1 item into a higher-tier spectacle.",
-      "checks": {"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"PASS","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
-    },
-    {
-      "itemId": "bottoms-4",
-      "name": "Pleat Skirt",
-      "tier": 2,
-      "theme": "Aqua Wave",
-      "assetPath": "/assets/catalog/bottoms-4-w05-v2.png",
-      "assetHash": "b618e3990a0e4b049278f5a748325d57cb81955e",
-      "hashAlgorithm": "git-blob-sha1",
-      "sourceHead": "49b9a466f209dc798848fc0a55ef8f3e0d5ad3b4",
-      "producer": "05",
-      "decision": "ACCEPT",
-      "reviewedAt": "2026-09-22T00:26:35Z",
-      "evidenceRefs": [
-        "docs/preproduction/catalog-sprint/chat-bottoms-recovery-1-4-result.json",
-        "artifact:10671315820/artifacts/catalog-staged-art/staged-replacements/staged-replacements-contact-sheet.png#sha256=ff1d209dbfad2d52cf7385d29e0c22c317d46368d05f2b2bf6f412a6750c4c04",
-        "artifact:10671315820/artifacts/catalog-staged-art/staged-replacements/detail/bottoms-4-b618e399.png#sha256=ea27b1cb38f8df6e84f377b08de3212c79cb88ff404e2817e6edbb6c71a28d54"
-      ],
-      "reason": "The skirt has real pleat thickness, overlapping folds, waistband construction, belt loops, pearl-like fasteners and stitched hem bands with believable cloth shading. Aqua Wave reads through the saturated teal/aqua treatment and flowing fold rhythm; the Tier-2 finish is richer than the Tier-1 bottoms while remaining simple at card scale.",
-      "checks": {"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"PASS","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
-    },
-    {
-      "itemId": "headwear-1",
-      "name": "Headband",
-      "tier": 1,
-      "theme": "Midnight Neon",
-      "assetPath": "/assets/catalog/headwear-1-w12-v2.jpg",
-      "assetHash": "4d4424962a49f5145422723b625778d6649a4b26",
-      "hashAlgorithm": "git-blob-sha1",
-      "sourceHead": "49b9a466f209dc798848fc0a55ef8f3e0d5ad3b4",
-      "producer": "12",
-      "decision": "ACCEPT",
-      "reviewedAt": "2026-09-22T00:26:35Z",
-      "evidenceRefs": [
-        "docs/preproduction/catalog-sprint/chat-headwear-recovery-1-4-result.json",
-        "artifact:10671315820/artifacts/catalog-staged-art/staged-replacements/staged-replacements-contact-sheet.png#sha256=ff1d209dbfad2d52cf7385d29e0c22c317d46368d05f2b2bf6f412a6750c4c04",
-        "artifact:10671315820/artifacts/catalog-staged-art/staged-replacements/detail/headwear-1-4d442496.png#sha256=a727ca6ef397d3401aade1c45c4559c92e5ff1fa9a2ff102e26acbd5f9ac17a2"
-      ],
-      "reason": "The padded curved band has believable fabric thickness, stitched end tabs and dimensional star hardware. Dark navy construction with restrained cyan/magenta edge glow clearly communicates Midnight Neon without overdecorating a Tier-1 accessory, and the silhouette remains recognizable at card size.",
-      "checks": {"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"PASS","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
-    },
-    {
-      "itemId": "headwear-2",
-      "name": "Cloud Clips",
-      "tier": 1,
       "theme": "Candy Core",
-      "assetPath": "/assets/catalog/headwear-2-w12-v2.jpg",
-      "assetHash": "595c8fe9182f4aecd5355856f19947c7c83daa11",
+      "assetPath": "/assets/catalog/tops-11-w09-v3.jpg",
+      "repositoryPath": "public/assets/catalog/tops-11-w09-v3.jpg",
+      "assetHash": "4b854298242b2b108edf43b92a98f9678841e89e",
       "hashAlgorithm": "git-blob-sha1",
-      "sourceHead": "49b9a466f209dc798848fc0a55ef8f3e0d5ad3b4",
-      "producer": "12",
-      "decision": "ACCEPT",
-      "reviewedAt": "2026-09-22T00:26:35Z",
+      "producer": "09",
+      "decision": "BLOCKED",
+      "reasonCode": "IMAGE_DECODE_FAILED_CURRENT_HASH",
       "evidenceRefs": [
-        "docs/preproduction/catalog-sprint/chat-headwear-recovery-1-4-result.json",
-        "artifact:10671315820/artifacts/catalog-staged-art/staged-replacements/staged-replacements-contact-sheet.png#sha256=ff1d209dbfad2d52cf7385d29e0c22c317d46368d05f2b2bf6f412a6750c4c04",
-        "artifact:10671315820/artifacts/catalog-staged-art/staged-replacements/detail/headwear-2-595c8fe9.png#sha256=ecaefca8b3d7caf28b0635e820b1f6a10ff04a93d5d19edee5c6c347b9cad360"
+        "artifact:10672639784/report.json#sha256=22d5309e22fc3c7eb81a4e2270d21caf186a6a9dc7666d1f1413940b15b99b1d",
+        "artifact:10672639784/staged-replacements/staged-replacements-contact-sheet.png#sha256=15c998e520fbe82503eee3e2a36f6ed4963949304bb03e6f66082e2f7388fa11"
       ],
-      "reason": "Two distinct cloud-shaped clips are physically constructed with glossy candy-like shells, raised dots and reflective metal clip hardware. The pink/cream/lilac confection finish makes Candy Core specific, while the paired clip identity survives reduction and stays appropriately modest for Tier 1.",
-      "checks": {"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"PASS","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
+      "actualPixelFinding": "The exact current JPEG does not decode in the staged renderer (naturalWidth=0, naturalHeight=0). The card evidence shows a broken-image/alt-text state and no judgeable garment pixels, so identity, material depth, Tier-4 finish, framing and originality cannot be qualified.",
+      "checks": {
+        "decode": "FAIL",
+        "cardPixels": "BLOCKED",
+        "detailPixels": "BLOCKED",
+        "identity": "BLOCKED",
+        "themeTier": "BLOCKED",
+        "silhouette": "BLOCKED",
+        "materialLighting": "BLOCKED",
+        "cardReadability": "FAIL",
+        "originality": "BLOCKED",
+        "duplicateVisual": "BLOCKED"
+      },
+      "repairForProducer09": "Re-export Cloud Jacket as a clean decodable 600x600 raster while preserving Candy Core and Tier 4. Keep the intended dimensional jacket construction; verify the exact file loads at both 200x160 card and 520x520 detail scales before returning a new hash. Do not reuse this broken hash."
     },
     {
-      "itemId": "headwear-3",
-      "name": "Pixel Cap",
-      "tier": 1,
+      "itemId": "tops-12",
+      "name": "Star Coat",
+      "tier": 5,
       "theme": "Adventure Club",
-      "assetPath": "/assets/catalog/headwear-3-w12-v2.jpg",
-      "assetHash": "86db079b85360dc64e669aeca53cba874176c693",
+      "assetPath": "/assets/catalog/tops-12-w09-v3.jpg",
+      "repositoryPath": "public/assets/catalog/tops-12-w09-v3.jpg",
+      "assetHash": "5a5b3eae82027d7cf172a67089d77f7b14b8d638",
       "hashAlgorithm": "git-blob-sha1",
-      "sourceHead": "49b9a466f209dc798848fc0a55ef8f3e0d5ad3b4",
-      "producer": "12",
-      "decision": "ACCEPT",
-      "reviewedAt": "2026-09-22T00:26:35Z",
+      "producer": "09",
+      "decision": "REWORK",
+      "reasonCode": "RENDER_PIXEL_CORRUPTION",
       "evidenceRefs": [
-        "docs/preproduction/catalog-sprint/chat-headwear-recovery-1-4-result.json",
-        "artifact:10671315820/artifacts/catalog-staged-art/staged-replacements/staged-replacements-contact-sheet.png#sha256=ff1d209dbfad2d52cf7385d29e0c22c317d46368d05f2b2bf6f412a6750c4c04",
-        "artifact:10671315820/artifacts/catalog-staged-art/staged-replacements/detail/headwear-3-86db079b.png#sha256=556b5713b486421ccd23e373838055b6401c2746e032b651e31fa47dc2bd68a1"
+        "artifact:10672639784/report.json#sha256=22d5309e22fc3c7eb81a4e2270d21caf186a6a9dc7666d1f1413940b15b99b1d",
+        "artifact:10672639784/staged-replacements/staged-replacements-contact-sheet.png#sha256=15c998e520fbe82503eee3e2a36f6ed4963949304bb03e6f66082e2f7388fa11",
+        "artifact:10672639784/staged-replacements/detail/tops-12-5a5b3eae.png#sha256=c7693a3087fd1a2fcb55cca51e35fe66a995ecd4f6be21b36a940415f432706a"
       ],
-      "reason": "The cap has a convincing six-panel crown, curved stitched brim, ventilation buttons, fabric grain and a raised block-pixel badge rather than a flat icon. The practical cream/navy field palette fits a low-tier Adventure Club wearable while the pixel badge carries the item identity; it is distinct and highly readable on the card.",
-      "checks": {"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"PASS","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
-    },
-    {
-      "itemId": "headwear-4",
-      "name": "Berry Bow",
-      "tier": 2,
-      "theme": "Cloud Pop",
-      "assetPath": "/assets/catalog/headwear-4-w12-v2.jpg",
-      "assetHash": "4257b4a959153fba985fa2a97720c379b6d63e33",
-      "hashAlgorithm": "git-blob-sha1",
-      "sourceHead": "49b9a466f209dc798848fc0a55ef8f3e0d5ad3b4",
-      "producer": "12",
-      "decision": "ACCEPT",
-      "reviewedAt": "2026-09-22T00:26:35Z",
-      "evidenceRefs": [
-        "docs/preproduction/catalog-sprint/chat-headwear-recovery-1-4-result.json",
-        "artifact:10671315820/artifacts/catalog-staged-art/staged-replacements/staged-replacements-contact-sheet.png#sha256=ff1d209dbfad2d52cf7385d29e0c22c317d46368d05f2b2bf6f412a6750c4c04",
-        "artifact:10671315820/artifacts/catalog-staged-art/staged-replacements/detail/headwear-4-4257b4a9.png#sha256=4c3f44303874a3fa21595df6fb51e592139320b7673108aca22316a6b5d64c5b"
-      ],
-      "reason": "The oversized bow has deep satin folds, stitched edges, a wrapped plush center, visible band support and a small berry-jewel accent. Soft cyan padded inner accents add Cloud Pop volume against the berry-pink satin, creating a clear Tier-2 step above the simpler clips/headband while retaining strong card readability.",
-      "checks": {"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"PASS","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
+      "actualPixelFinding": "The exact current file decodes at 600x600, but the actual card and 520x520 detail render are visibly corrupted: a large opaque gray block obscures roughly the lower half of the coat, with stray dark-green shapes and a bright colored strip. The upper coat suggests dimensional collar/hardware, but the corruption prevents a valid Tier-5 Adventure Club/material/framing judgment and makes the asset unusable.",
+      "checks": {
+        "decode": "PASS",
+        "cardPixels": "FAIL",
+        "detailPixels": "FAIL",
+        "identity": "PARTIAL_FAIL",
+        "themeTier": "BLOCKED_BY_CORRUPTION",
+        "silhouette": "FAIL",
+        "materialLighting": "BLOCKED_BY_CORRUPTION",
+        "cardReadability": "FAIL",
+        "originality": "BLOCKED_BY_CORRUPTION",
+        "duplicateVisual": "BLOCKED_BY_CORRUPTION"
+      },
+      "repairForProducer09": "Re-export a clean, corruption-free 600x600 Star Coat preserving Adventure Club and Tier 5, then rerender the exact new hash at 200x160 and 520x520. Keep the dimensional coat construction/hardware visible in the surviving upper portion, but ensure the full silhouette, hem, materials and lighting are intact with no opaque blocks or stray color artifacts."
     }
   ],
   "currentReplacementDisposition": {
@@ -303,9 +124,11 @@
         "tops-9": "9011648da2461f63a4ac9e203833cf70eb1d6fe0",
         "tops-10": "5449283ed30dbfade70290cc976f85bace94fa0a"
       },
+      "BLOCKED": {
+        "tops-11": "4b854298242b2b108edf43b92a98f9678841e89e"
+      },
       "REWORK": {
-        "tops-11": "9e29094190a1c1867e94d44ef1c4134140447191",
-        "tops-12": "1788cfb30ffd70d71bf182f01f137f9d241200fa"
+        "tops-12": "5a5b3eae82027d7cf172a67089d77f7b14b8d638"
       }
     },
     "bottoms": {
@@ -327,20 +150,17 @@
   },
   "summary": {
     "uniqueCatalogIdsReviewedHistorically": 48,
-    "reviewedThisRun": 12,
-    "newAcceptsThisRun": 12,
-    "newReworkThisRun": 0,
-    "newBlockedThisRun": 0,
-    "usableBy08Now": [
-      "tops-7","tops-8","tops-9","tops-10",
-      "bottoms-1","bottoms-2","bottoms-3","bottoms-4",
-      "headwear-1","headwear-2","headwear-3","headwear-4"
-    ]
+    "reviewedThisRun": 2,
+    "newAcceptsThisRun": 0,
+    "newReworkThisRun": 1,
+    "newBlockedThisRun": 1,
+    "newUsableBy08Now": [],
+    "preservedAcceptedHashes": "Tops 1-10, Bottoms 1-4, Headwear 1-4 remain unchanged and are not re-reviewed."
   },
   "handoff": {
-    "08": "Consume these exact 12 ACCEPT hashes immediately through normal metadata/file/content checks; do not wait for the rest of each family. Preserve prior Tops 1-6 ACCEPTs. Tops 11-12 remain ineligible on their unchanged older REWORK hashes.",
-    "15": "No repair routing is needed for this 12-item batch. Keep Tops 11-12 on producer 09 repair queue and continue routing fresh Bottoms/Headwear/Facegear replacements to reviewer 01 by exact hash.",
-    "next01Review": "Prefer the next repository-stored, rendered replacement hashes in Bottoms/Headwear/Facegear or newer Tops 11-12. If no older ready review dependency exists, return to assigned Seating 1-6 production stewardship; reviewer 02 remains the only seating approver."
+    "08": "No new ACCEPT from this pass. Preserve and continue canonical handling of the already accepted exact hashes; do not consume Tops 11-12 current v3 hashes.",
+    "15": "Route exact producer-09 repair: Tops 11 current v3 hash is BLOCKED by decode failure; Tops 12 current v3 hash is REWORK due visible card/detail pixel corruption. Return only a new repo-stored hash with successful card/detail renders.",
+    "next01Review": "A fresh Tops/Bottoms/Headwear/Facegear exact-hash candidate still preempts Seating production. If none is ready after this review, continue the preserved premium Seating-1 repair candidate toward repo storage/readback, with reviewer 02 as the only approver."
   },
   "freeze": {
     "replitTouched": false,
