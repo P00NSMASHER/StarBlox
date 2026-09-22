@@ -54,6 +54,7 @@ The remaining dependency is no longer the GitHub transport primitive itself; it 
 - Lookup of expected blob `9f13c65b0310a70be3fb1e6464baf22dabe75ce1` returned **not found**.
 - Current runtime storage, conversation files and Library were checked for the exact v7 filenames/receipts; no checksum-matching 22,824-byte or 30,026-byte WEBP payload was available.
 - A reconstruction search against the preserved source generation did not reproduce either authoritative SHA-256, so no approximation was accepted and no blob was attached.
+- A newly available run-specific GitHub Actions artifact-download path was tested against staged-art run `35688873663`, artifact `10677797142`. The artifact downloaded successfully but contains only prior v5 rendered evidence (`tops-11-43a850ec.png`, `tops-12-73339e6c.png`, report/summary) and **no v7 WEBP payload**. This recovery path therefore did not justify a branch attachment.
 
 ### Exact next action
 
@@ -67,6 +68,42 @@ Restore/mount the original v7 WEBP bytes or have an approved helper deliver thos
 
 Do **not** regenerate, recompress, approximately reconstruct, reuse v6, attach mismatched orphan blobs or self-approve. Reviewer 01 alone decides ACCEPT/REWORK; Workstream 08 alone canonical-wires an independently accepted exact hash.
 
+## Reference-grounded Decor 3–4 specification — PLANNING ONLY
+
+This is a non-production art-planning increment prepared while the Tops gate remains closed. No Decor candidate was generated, staged, reviewed or wired.
+
+Reviewer 14’s latest family finding now preserves `decor-1` and `decor-2` as **ACCEPT** and leaves `decor-3..12` **REWORK**. The accepted first two items are frozen. The first future repair pilot is therefore `decor-3` and `decor-4`, but generation remains gated until Tops 11–12 have valid repository hashes, clean card/detail pixels and Reviewer 01 disposition.
+
+### Actual Store reference consumed
+
+The stored original Store screenshot was recovered from the verified reference-intake artifact and inspected at full resolution:
+
+- `docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg`
+- 1448×1086, 771,971 bytes
+- SHA-256 `4e21df57778c17ce2c10958b61cb8a5c14f8bccdc703f8f0f6b57de8aa36829d`
+
+The target is not flat icon art. The reference uses a premium toy-like boutique presentation: soft pink/lilac architecture, warm peach key light, glossy fixture highlights, dimensional fabric/object shading, clean silhouettes, restrained negative space, distinct material response and believable contact shadows. Future Decor art should inherit that physical polish while preserving each item’s own theme.
+
+### Shared future card/detail contract
+
+- Camera: consistent three-quarter product view with a slight downward pitch, exposing front plus a meaningful side/top plane.
+- Framing: one physical object/group with breathing room; silhouette and function must remain legible at 220×220 card scale and support 600×600 detail review.
+- Light: soft warm upper-left key, gentle cool/pink ambient fill, material-specific specular response, grounded contact/cast shadow.
+- Background: simple boutique-compatible lilac/pink neutral field with soft depth only; no promotional sheet, text, UI chrome, logos, characters or unrelated props.
+- Material rule: hard surfaces need bevel thickness/specular rolloff; textiles need seams, nap/compression and soft highlights; metal/glass need restrained reflections. Do not solve depth with heavier outlines or extra SVG decoration.
+
+### `decor-3` — Arcade Mini
+
+Exact Store metadata from the live game model: Room Decor / `Arcade Mini` / Tier 1 / `Adventure Club` / 94 coins / 0 stars. Current legacy candidate: `/assets/catalog/decor-3.svg`, blob `4fc2f591915f53b249956c20c50693ad22e3a1bb`. Planned next version stem only: `/assets/catalog/decor-3-w09-v3`.
+
+Future visual construction: a compact functional tabletop arcade cabinet, unmistakably readable as an arcade machine. Use an Adventure Club navy/teal shell with cream/brass accents; a beveled cabinet body; inset glass screen with an original abstract star-navigation game; separate joystick/button deck; recessed speaker/coin-detail area; visible side thickness; rubber feet; and a soft grounded shadow. Keep Tier 1 attractive through proportion and believable materials rather than excessive ornament. No third-party game imagery, logos or text.
+
+### `decor-4` — Plush Stack
+
+Exact Store metadata from the live game model: Room Decor / `Plush Stack` / Tier 2 / `Cloud Pop` / 123 coins / 0 stars. Current legacy candidate: `/assets/catalog/decor-4.svg`, blob `cb4bc4cfca9bdd4764905fdf94aa8291605f1ce0`. Planned next version stem only: `/assets/catalog/decor-4-w09-v3`.
+
+Future visual construction: a physically stacked trio of original Cloud Pop plush decor pieces with distinct silhouettes rather than recolored blobs—a broad cloud cushion base, rounded sleepy plush center and smaller star/cloud accent top. Show textile nap, stitched panel seams, embroidered detail, edge piping, compression where pieces contact, subtle squash at the base and soft self-shadowing between layers. Tier 2 should feel richer than Starter through tactile construction while staying cozy and uncluttered. No branded-character likenesses or emoji treatment.
+
 ## Scope freeze
 
-Decor remains unopened until Tops 11–12 are independently dispositioned. Tops 1–10 and all historical Tops 11–12 versions are preserved. No Replit/Floot, `main`, deployment, paid settings/services, canonical runtime/manifest, gameplay, saves, economy, learning state, scene work or real-player data was changed.
+Decor **production** remains unopened until Tops 11–12 are independently dispositioned; the Decor 3–4 section above is specification only. Tops 1–10, accepted Decor 1–2 and all historical Tops 11–12 versions are preserved. No Replit/Floot, `main`, deployment, paid settings/services, canonical runtime/manifest, gameplay, saves, economy, learning state, scene implementation or real-player data was changed.
