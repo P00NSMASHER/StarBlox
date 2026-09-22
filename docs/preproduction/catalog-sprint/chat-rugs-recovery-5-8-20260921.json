@@ -1,0 +1,65 @@
+{
+  "schemaVersion": 1,
+  "batchId": "chat-rugs-recovery-5-8-20260921",
+  "producer": "07",
+  "transportHelper": "CHAT",
+  "independentReviewer": "14",
+  "items": [
+    {
+      "id": "rugs-5",
+      "name": "Leaf Rug",
+      "collectionId": "rugs",
+      "type": "room",
+      "tier": 2,
+      "theme": "Candy Core",
+      "price": 181,
+      "starReq": 0,
+      "assetId": "urn:aaid:sc:US:c25cb861-5324-40aa-9fc5-b48167719c1d",
+      "renditionUrl": "https://at.adobe.com/CfyGQyOp8TcxfXM5",
+      "sourceUrl": "https://at.adobe.com/LweUmezrFbsZK2zh",
+      "candidateRepositoryPath": "public/assets/catalog/rugs-5-w07-v2.jpg"
+    },
+    {
+      "id": "rugs-6",
+      "name": "Orbit Rug",
+      "collectionId": "rugs",
+      "type": "room",
+      "tier": 2,
+      "theme": "Adventure Club",
+      "price": 254,
+      "starReq": 0,
+      "assetId": "urn:aaid:sc:US:0fe30bbd-402c-4695-9ae7-4f534358a411",
+      "renditionUrl": "https://at.adobe.com/yPpTTOqAocBG1fgy",
+      "sourceUrl": "https://at.adobe.com/EHhdg7tXTuip7MWU",
+      "candidateRepositoryPath": "public/assets/catalog/rugs-6-w07-v2.jpg"
+    },
+    {
+      "id": "rugs-7",
+      "name": "Checker Rug",
+      "collectionId": "rugs",
+      "type": "room",
+      "tier": 3,
+      "theme": "Cloud Pop",
+      "price": 348,
+      "starReq": 2,
+      "assetId": "urn:aaid:sc:US:3b6aec5a-8de8-4d2f-ad1f-3a5e342b0b1d",
+      "renditionUrl": "https://at.adobe.com/lxFmiyYDAqBzbmLq",
+      "sourceUrl": "https://at.adobe.com/kf0CwaA6DhgGCfCD",
+      "candidateRepositoryPath": "public/assets/catalog/rugs-7-w07-v2.jpg"
+    },
+    {
+      "id": "rugs-8",
+      "name": "Wave Rug",
+      "collectionId": "rugs",
+      "type": "room",
+      "tier": 3,
+      "theme": "Pixel Party",
+      "price": 479,
+      "starReq": 2,
+      "assetId": "urn:aaid:sc:US:b1036a27-8e1c-49ba-97f0-93e7bcc133e2",
+      "renditionUrl": "https://at.adobe.com/HR8fNZobFFXBe5Yf",
+      "sourceUrl": "https://at.adobe.com/kLSA6Ofr73fPeSBm",
+      "candidateRepositoryPath": "public/assets/catalog/rugs-8-w07-v2.jpg"
+    }
+  ]
+}
