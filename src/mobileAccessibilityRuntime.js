@@ -107,6 +107,17 @@ function decorateStore(root){
     if(label) card.setAttribute('aria-label',label);
   });
 
+  // App.jsx already replaces a failed Store thumbnail with readable initials.
+  // Mark that existing fallback with the Store visual contract class so the
+  // canonical card and right-rail fallback paths are treated consistently.
+  // This changes no ownership/economy state and keeps the card's accessible
+  // name on the surrounding focusable card rather than duplicating speech.
+  page.querySelectorAll('.storeCard .itemArtFallback').forEach(fallback => {
+    fallback.classList.add('sbStoreFallbackArt');
+    fallback.setAttribute('aria-hidden','true');
+    fallback.closest('.itemArt')?.setAttribute('data-image-fallback','true');
+  });
+
   // Catalog thumbnails are square. Explicit intrinsic dimensions reserve space
   // before lazy-loaded SVGs decode, reducing layout movement without changing art.
   page.querySelectorAll('.storeCard .itemArt img,.sbStorePreviewArt img').forEach(image => {
