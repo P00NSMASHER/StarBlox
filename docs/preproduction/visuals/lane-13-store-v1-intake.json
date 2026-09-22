@@ -4,7 +4,7 @@
   "candidateType": "environment-background",
   "producer": "13",
   "targetScreen": "Store",
-  "status": "STAGED_PENDING_ORIGIN_READBACK_AND_INDEPENDENT_REVIEW",
+  "status": "STAGED_READY_FOR_INDEPENDENT_REVIEW",
   "reference": {
     "path": "docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg",
     "sha256": "b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d"
@@ -48,7 +48,9 @@
         2573.710761010647,
         1649.921875,
         1417.980209350586
-      ]
+      ],
+      "originReadbackSha256": "01fd80f63e0deda237b1e19df4cb307c8380347beb2c69868114fd13709cd444",
+      "gitBlobSha": "b05d3be93b49f0e8f06359bfd524bde8a1e8d17d"
     },
     {
       "role": "desktop",
@@ -64,7 +66,9 @@
         2597.418356359005,
         1662.729721069336,
         1417.9229535460472
-      ]
+      ],
+      "originReadbackSha256": "04d0a2660dc5109aa2cdcea956f807baa01c6eb6b998598f656dfce83d3d0fe8",
+      "gitBlobSha": "c0959df22e8f67ab9812c791e679acad224045ba"
     }
   ],
   "producerVisualInspection": "PASS_PRODUCER_ONLY_NOT_INDEPENDENT_ACCEPT",
@@ -74,5 +78,6 @@
   "workstream09ActiveEnvironmentTouched": false,
   "replitOrFlootTouched": false,
   "mainTouched": false,
-  "originReadback": "PENDING"
+  "originReadback": "PASS_2_OF_2_EXACT_SHA256",
+  "sourceHeadAfterBinaryPush": "707dad359bc88eb520fe20aa818bc5c7f5dd378c"
 }
