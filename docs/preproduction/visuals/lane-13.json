@@ -1,8 +1,8 @@
 {
-  "schemaVersion": 4,
+  "schemaVersion": 5,
   "workstream": "13",
   "focus": "SCENE_CHARACTER_ART",
-  "status": "READY_FOR_REVIEW_THREE_SCENE_CANDIDATES",
+  "status": "READY_FOR_REVIEW_SCENES_AND_CHARACTER",
   "branch": "screenshot-match-preproduction",
   "candidateId": "home-bedroom-w13-v2",
   "candidateType": "environment-background",
@@ -100,9 +100,9 @@
     "mainTouched": false
   },
   "reviewHandoff": {
-    "14": "Independently judge overlay-safe composition, format/performance and real-browser suitability for all three scene candidates. Do not composition-approve from producer notes alone.",
-    "15": "Only after independent acceptance, coordinate any approved environment handoff to Workstream 09. No runtime integration is authorized by these candidates.",
-    "01": "Independently judge Home v2, Quest v1 and Store v1 exact pixels against their immutable references; bind every decision to the exact hashes in parallelCandidates/intake evidence."
+    "14": "Independently judge overlay-safe composition, alpha/cutout quality, format/performance and real-browser suitability. Do not composition-approve from producer notes alone.",
+    "15": "Only after independent acceptance, coordinate any approved environment handoff to Workstream 09 and character handoff to the avatar owner. No runtime integration is authorized by these candidates.",
+    "01": "Independently judge Home v2, Quest v1, Store v1 and avatar-headset v1 exact pixels against immutable references; bind every decision to the exact hashes in lane-13 evidence."
   },
   "parallelCandidates": [
     {
@@ -215,6 +215,76 @@
       "canonicalCatalogTouched": false,
       "workstream06AvatarTouched": false,
       "workstream09ActiveEnvironmentTouched": false,
+      "independentReview": "PENDING"
+    }
+  ],
+  "characterCandidates": [
+    {
+      "candidateId": "avatar-headset-w13-v1",
+      "candidateType": "transparent-character-head-layer",
+      "targetScreens": [
+        "Home",
+        "Store",
+        "Quest"
+      ],
+      "status": "STAGED_READY_FOR_INDEPENDENT_REVIEW",
+      "observedDefect": "Across current Home/Store/Quest renders, the avatar is flatter and less expressive than the immutable references. This candidate addresses face/hair/headset presentation only and leaves owned/equipped clothing authoritative.",
+      "sourcePath": "public/assets/visuals/lane-13/avatar-headset-w13-v1-source.png",
+      "sourceDimensions": [
+        2048,
+        2048
+      ],
+      "sourceBytes": 3488922,
+      "sourceSha256": "c20cda5ddcf1168579f86e9ae3f76b47a57cf3d5eafb5ceaa99d3133169cd319",
+      "sourceGitBlobSha": "e1edc56e25a4a3ac3ee0d0aa3a65e91148960096",
+      "fullPath": "public/assets/visuals/lane-13/avatar-headset-w13-v1-full.png",
+      "fullDimensions": [
+        2048,
+        2048
+      ],
+      "fullBytes": 1973818,
+      "fullSha256": "e14ffd9436d9d85606bf074fee4da22e93b4fab3b21504c44619e1341ebfcec1",
+      "fullGitBlobSha": "8ad973728f1ee5d164420f52ae1795137259ff75",
+      "fullAlphaBBox": [
+        344,
+        182,
+        1728,
+        1938
+      ],
+      "optimizedPath": "public/assets/visuals/lane-13/avatar-headset-w13-v1-1024.png",
+      "optimizedDimensions": [
+        1024,
+        1024
+      ],
+      "optimizedBytes": 675538,
+      "optimizedSha256": "19b7dbc3e0e1f40681954b63ad570bd2d5aabfa9b5957a8f24ab4f24e6ff1a01",
+      "optimizedGitBlobSha": "adfb7ec4919b281ab84bcd63cfaf8bae265c9fd4",
+      "optimizedAlphaBBox": [
+        172,
+        92,
+        864,
+        969
+      ],
+      "intakeEvidence": "docs/preproduction/visuals/lane-13-avatar-headset-v1-intake.json",
+      "originReadback": "PASS_3_OF_3_EXACT_SHA256",
+      "sourceHeadAfterBinaryPush": "88d580613fc60f56d5754567ad78c88ac87446c5",
+      "provenance": {
+        "generator": "Adobe image_generate",
+        "generationRequestId": "9b0023e7-5c93-4b5d-971a-5518470944fe",
+        "sourceAdobeUrn": "urn:aaid:ps:US:d1fc0dbd-fbe4-420d-b27c-ddbe16ca35da",
+        "sourceFireflyAssetId": "urn:aaid:sc:US:50b86f8e-d219-40f8-bf2a-3cf38effc5f3",
+        "backgroundRemovalRequestId": "079eaf22-9c13-4d9e-9611-1768f38fc415",
+        "transparentAdobeUrn": "urn:aaid:ps:US:53d3d41d-a20a-44f8-98dc-5f596b6f3879",
+        "resizeRequestId": "cb037264-0787-4024-830a-85f51b4e68c8",
+        "optimizedAdobeUrn": "urn:aaid:ps:US:3148abfc-d194-4292-97c2-36c9d116e6bd"
+      },
+      "equipmentSafety": {
+        "outerwearBaked": false,
+        "ownedEquippedChoicesChanged": false,
+        "neutralUnderlayerOnly": true,
+        "runtimeWired": false
+      },
+      "workstream06AvatarFilesTouched": false,
       "independentReview": "PENDING"
     }
   ]
