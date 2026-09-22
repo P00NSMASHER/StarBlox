@@ -1,0 +1,342 @@
+{
+  "schemaVersion": 2,
+  "batchId": "w05-wall-5-8-v2",
+  "status": "STAGED_READBACK_PASS__RENDER_PENDING",
+  "sourceHead": "45ec6e6e1e0c808dad93c32a16605413c0fde075",
+  "producer": "05",
+  "independentReviewer": "14",
+  "canonicalWriter": "08",
+  "storedCandidateCount": 4,
+  "skippedExistingCandidateCount": 0,
+  "items": [
+    {
+      "id": "wall-5",
+      "name": "Garden Garland",
+      "tier": 2,
+      "theme": "Art Attack",
+      "price": 181,
+      "starReq": 0,
+      "legacyBlobSha": "e9db285a837784a875642c0b56a7964873d79a5d",
+      "sourceGenerationRequestId": "811f4eaf-37d4-41d4-9b12-0a5bfcd5468f",
+      "sourceUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:47d643cf-cdde-47a3-ac2f-fae9c1f4a3b6",
+      "generatorAssetId": "urn:aaid:sc:US:715d7248-57cb-42b1-a78b-159845b4a2ef",
+      "seed": 1007452349,
+      "promptSha256": "b3010f77351b812c23b7c9dc78c34a7502699ca58784c2b97e1770eb371426c4",
+      "negativePromptSha256": "7548f6d0fbfe73283733c37957ccee9542d65f02b5efca124bfbc50d9de3b0f6",
+      "prompt": "StarBlox catalog asset for exact item Garden Garland, Wall category, Tier 2, Art Attack theme. Create a premium original physical wall-mounted handmade garland in a three-quarter collectible product presentation: a real braided cord/twine hanging in a relaxed arc from two visible mounting hooks, layered dimensional leaves, stars and small craft shapes with paper, painted wood and stitched fabric material variation, tiny clips/beads, overlapping pieces and believable cast/contact shadows. Express Art Attack through playful hand-painted brush marks, color-blocked craft pieces and tactile maker details, not through text. Warm studio wall backdrop, controlled soft key light, strong card-scale silhouette, tasteful Tier-2 richness, centered object, no UI.",
+      "negativePrompt": "text, letters, numbers, logos, watermark, brand, copyrighted character, badge, tier label, UI panel, flat vector, sticker, emoji, thin 2D icon, front-facing poster, generic crest, duplicated template, human, cluttered room",
+      "producerPixelCheck": "PASS \u2014 actual selected pixels show braided cord on two hooks, layered painted-wood/paper/fabric craft pieces, clips/stitching, strong object thickness and separated cast shadows. Art Attack now reads through handmade material variation rather than palette alone.",
+      "variants": [
+        {
+          "label": "A",
+          "seed": 789639783,
+          "requestId": "41098445-492c-4d4f-93a5-0017eb05f507",
+          "assetId": "urn:aaid:sc:US:063fbf8e-1b4c-44ae-b601-0556f44e26f3",
+          "sourceUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:c66f9192-3dff-4c6f-a41f-29ecd84fbeb4",
+          "promptSha256": "b3010f77351b812c23b7c9dc78c34a7502699ca58784c2b97e1770eb371426c4",
+          "disposition": "NOT_SELECTED__SPARSER_AND_LESS_ART_ATTACK_SPECIFIC"
+        },
+        {
+          "label": "B",
+          "seed": 1007452349,
+          "requestId": "811f4eaf-37d4-41d4-9b12-0a5bfcd5468f",
+          "assetId": "urn:aaid:sc:US:715d7248-57cb-42b1-a78b-159845b4a2ef",
+          "sourceUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:47d643cf-cdde-47a3-ac2f-fae9c1f4a3b6",
+          "promptSha256": "b3010f77351b812c23b7c9dc78c34a7502699ca58784c2b97e1770eb371426c4",
+          "disposition": "SELECTED_FOR_STAGING"
+        },
+        {
+          "label": "C",
+          "seed": 1382794417,
+          "requestId": "88f3a4c4-2faa-45a3-beab-e5c3148497f2",
+          "assetId": "urn:aaid:sc:US:ef2973b0-4fc9-4d2d-9dab-f921488b571b",
+          "sourceUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:51c11d6b-9d64-4372-916d-b4555c439ee2",
+          "promptSha256": "7719cda7134de90f186f69daf3deb3a4039deaf0e2832054a38cb996b4f514dd",
+          "disposition": "NOT_SELECTED__STRONG_CRAFT_DEPTH_BUT_MORE_WOODLAND_AND_LESS_COLORFUL_THAN_B"
+        }
+      ],
+      "collectionId": "wall",
+      "collectionName": "Wall Decor",
+      "type": "room",
+      "format": "PNG",
+      "repositoryPath": "public/assets/catalog/wall-5-w05-v2.png",
+      "assetPath": "/assets/catalog/wall-5-w05-v2.png",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "bytes": 1274121,
+      "sha256": "9c4e94e76a3fdd4aae3713af8db81a386347471a287b1c6cbda7a0bc085bf040",
+      "gitBlobSha": "4213df82736052e6a43da21be625d97ee6d8519b",
+      "producer": "05",
+      "independentReviewer": "14",
+      "status": "READY_FOR_REVIEW_14",
+      "readback": "PASS",
+      "provenance": {
+        "provider": "Adobe",
+        "tool": "image_generate",
+        "generatorAssetId": "urn:aaid:sc:US:715d7248-57cb-42b1-a78b-159845b4a2ef",
+        "modelId": null,
+        "modelRevision": null,
+        "seed": 1007452349,
+        "outputFileType": "png",
+        "sourceDimensions": [
+          1024,
+          1024
+        ],
+        "modelDisclosure": "Adobe connector did not expose exact model/checkpoint revision; null is preserved rather than invented."
+      }
+    },
+    {
+      "id": "wall-6",
+      "name": "Planet Map",
+      "tier": 2,
+      "theme": "Star Luxe",
+      "price": 254,
+      "starReq": 0,
+      "legacyBlobSha": "d31b39482cce122c9030e8105592d89be3f6fd33",
+      "sourceGenerationRequestId": "495a3833-a920-4b3a-9ebf-92417c0c7f79",
+      "sourceUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:59772ef8-d97b-4205-9736-8485af213105",
+      "generatorAssetId": "urn:aaid:sc:US:b40161af-e767-417f-9a07-ba7a9e6b2a91",
+      "seed": 106333798,
+      "promptSha256": "264e4ab4c7735bd7eaa2d8ac5e74f90aa3e0c570d5d1f2cd3571c7e465f00eb2",
+      "negativePromptSha256": "7ac2f469af288bf1e2a635b60032ba6c446fab7b5ff25de0efffc46adebb3e2b",
+      "prompt": "StarBlox catalog asset for exact item Planet Map, Wall category, Tier 2, Star Luxe theme. Create a premium original physical wall-mounted celestial map/plaque in a three-quarter collectible product presentation: deep midnight-blue rigid plaque with visible beveled thickness and rear mounting standoffs, raised brass/pearl orbital rings, small sculpted planets and constellation markers, inset glossy map surface, crisp metallic edge highlights and believable wall contact shadow. Star Luxe must read through restrained gold/brass, pearlescent inlays and polished premium surface response, not text. Keep Tier 2 elegant rather than over-spectacular, centered with a strong small-card silhouette on a soft studio wall backdrop.",
+      "negativePrompt": "text, labels, letters, numbers, logos, watermark, brand, copyrighted character, badge, tier label, UI, flat vector, sticker, emoji, thin 2D icon, front-facing poster, generic scoreboard, repeated frame template, human, cluttered room",
+      "producerPixelCheck": "PASS \u2014 actual selected pixels show a thick midnight plaque with beveled edge, metallic raised orbital rings, sculpted pearl planets, inset glossy field, mount depth and wall shadow. Star Luxe now has premium metal/glass response while staying restrained at Tier 2.",
+      "variants": [
+        {
+          "label": "A",
+          "seed": 467956889,
+          "requestId": "27993ef1-591c-402e-af88-54fa45f0bfd7",
+          "assetId": "urn:aaid:sc:US:f3aee9bf-e223-4efd-a7f0-0e1574a64778",
+          "sourceUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:f035943c-6973-4ec4-a065-78eed3c2e9fe",
+          "promptSha256": "264e4ab4c7735bd7eaa2d8ac5e74f90aa3e0c570d5d1f2cd3571c7e465f00eb2",
+          "disposition": "NOT_SELECTED__MORE_ORNATE_INNER_FRAME"
+        },
+        {
+          "label": "B",
+          "seed": 106333798,
+          "requestId": "495a3833-a920-4b3a-9ebf-92417c0c7f79",
+          "assetId": "urn:aaid:sc:US:b40161af-e767-417f-9a07-ba7a9e6b2a91",
+          "sourceUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:59772ef8-d97b-4205-9736-8485af213105",
+          "promptSha256": "264e4ab4c7735bd7eaa2d8ac5e74f90aa3e0c570d5d1f2cd3571c7e465f00eb2",
+          "disposition": "SELECTED_FOR_STAGING"
+        },
+        {
+          "label": "C",
+          "seed": 973261402,
+          "requestId": "8fccd7a6-8e75-4d31-9fd1-2c85a81e6ba3",
+          "assetId": "urn:aaid:sc:US:542ce912-8065-4f79-b584-26169b9b2bd0",
+          "sourceUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:633bbdcc-139b-4454-8c8b-5e5fc2ddae24",
+          "promptSha256": "f343e92fdd456511080d037e862546d6f45d3ba283361e2059fb995b8dc5948f",
+          "disposition": "NOT_SELECTED__STRONG_LUXE_OBJECT_BUT_BOTTOM_CONTACT_READS_MORE_FREESTANDING"
+        }
+      ],
+      "collectionId": "wall",
+      "collectionName": "Wall Decor",
+      "type": "room",
+      "format": "PNG",
+      "repositoryPath": "public/assets/catalog/wall-6-w05-v2.png",
+      "assetPath": "/assets/catalog/wall-6-w05-v2.png",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "bytes": 1064758,
+      "sha256": "2b0b4f02a064d6e50e225e5fc587fc5b79b3789caf4c3a3c013825a05c0e6cf2",
+      "gitBlobSha": "c20f3b40f40a3e2be919dd10373ffa5cec90cd7e",
+      "producer": "05",
+      "independentReviewer": "14",
+      "status": "READY_FOR_REVIEW_14",
+      "readback": "PASS",
+      "provenance": {
+        "provider": "Adobe",
+        "tool": "image_generate",
+        "generatorAssetId": "urn:aaid:sc:US:b40161af-e767-417f-9a07-ba7a9e6b2a91",
+        "modelId": null,
+        "modelRevision": null,
+        "seed": 106333798,
+        "outputFileType": "png",
+        "sourceDimensions": [
+          1024,
+          1024
+        ],
+        "modelDisclosure": "Adobe connector did not expose exact model/checkpoint revision; null is preserved rather than invented."
+      }
+    },
+    {
+      "id": "wall-7",
+      "name": "Skate Poster",
+      "tier": 3,
+      "theme": "Midnight Neon",
+      "price": 348,
+      "starReq": 2,
+      "legacyBlobSha": "f291c8368d4218603e3afe957662c3d37c5ca62a",
+      "sourceGenerationRequestId": "dfd6e1b5-97e4-42d5-be64-d66fb372e2c5",
+      "sourceUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:33f83978-370c-436f-a2a2-de22e73dcc3b",
+      "generatorAssetId": "urn:aaid:sc:US:b3140ee7-8b0d-4f0b-8187-a413dbfb8aec",
+      "seed": 1916001742,
+      "promptSha256": "b8b7140fd53d90dc39d6d11e70907b9e81c276452282b304302c3af2d8240a6f",
+      "negativePromptSha256": "3f628d96db35a75bf1c072247dbf1f0595919d29ca050762dac895abae3fb849",
+      "prompt": "StarBlox catalog asset for exact item Skate Poster, Wall category, Tier 3, Midnight Neon theme. Create a premium original physical framed skate poster as a wall-mounted collectible in three-quarter product presentation. Use a deep charcoal/navy dimensional frame with visible thickness, glazing and paper inset, real hanging/mounting hardware and a cast wall shadow. Inside, show one original stylized skateboard silhouette crossing abstract half-pipe arcs made only from bold fluorescent cyan, magenta and violet painted shapes, with restrained neon edge accents. Absolutely no writing or typography anywhere. Tier 3 should feel richer than a starter poster through layered glass reflections, metallic corner hardware, luminous ink/neon spill and material depth while remaining card-readable and clearly a poster.",
+      "negativePrompt": "text, typography, letters, words, numbers, captions, fake writing, logos, watermark, brand, copyrighted character, badge, tier label, UI, flat vector, sticker, emoji, plain front-facing rectangle, generic city sign, human skater, copied skateboard brand, cluttered room",
+      "producerPixelCheck": "PASS \u2014 actual selected pixels show a deep physical frame, visible side thickness/corner hardware, glazed reflections, original skateboard/half-pipe graphic, clean no-text treatment, neon material spill and wall shadow. Midnight Neon reads clearly at Tier 3.",
+      "variants": [
+        {
+          "label": "A",
+          "seed": 1627744890,
+          "requestId": "18410689-dc3a-4020-b364-0c8a32530838",
+          "assetId": "urn:aaid:sc:US:9cf7eb93-56bc-46ba-8f5c-62b984cfec74",
+          "sourceUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:20603d03-ec53-4a31-bd6a-6c5b3c56a914",
+          "promptSha256": "bed9e81ae87468a155025a8453b62a17321adc86c5f954eec5a3cff88f9cdf4d",
+          "disposition": "NOT_SELECTED__TINY_TEXT_LIKE_MARKS"
+        },
+        {
+          "label": "B",
+          "seed": 1916001742,
+          "requestId": "dfd6e1b5-97e4-42d5-be64-d66fb372e2c5",
+          "assetId": "urn:aaid:sc:US:b3140ee7-8b0d-4f0b-8187-a413dbfb8aec",
+          "sourceUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:33f83978-370c-436f-a2a2-de22e73dcc3b",
+          "promptSha256": "b8b7140fd53d90dc39d6d11e70907b9e81c276452282b304302c3af2d8240a6f",
+          "disposition": "SELECTED_FOR_STAGING"
+        }
+      ],
+      "collectionId": "wall",
+      "collectionName": "Wall Decor",
+      "type": "room",
+      "format": "PNG",
+      "repositoryPath": "public/assets/catalog/wall-7-w05-v2.png",
+      "assetPath": "/assets/catalog/wall-7-w05-v2.png",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "bytes": 1177194,
+      "sha256": "6fb4f4ba19ad08e24737f21cf9945510051efcba53f0cf35e39f77c017fe0eb3",
+      "gitBlobSha": "13acacfd78a2d4203bb4d4ce9683fbcf1515d9e7",
+      "producer": "05",
+      "independentReviewer": "14",
+      "status": "READY_FOR_REVIEW_14",
+      "readback": "PASS",
+      "provenance": {
+        "provider": "Adobe",
+        "tool": "image_generate",
+        "generatorAssetId": "urn:aaid:sc:US:b3140ee7-8b0d-4f0b-8187-a413dbfb8aec",
+        "modelId": null,
+        "modelRevision": null,
+        "seed": 1916001742,
+        "outputFileType": "png",
+        "sourceDimensions": [
+          1024,
+          1024
+        ],
+        "modelDisclosure": "Adobe connector did not expose exact model/checkpoint revision; null is preserved rather than invented."
+      }
+    },
+    {
+      "id": "wall-8",
+      "name": "Ocean Window",
+      "tier": 3,
+      "theme": "Candy Core",
+      "price": 479,
+      "starReq": 2,
+      "legacyBlobSha": "d50201ae8eb39ea26cffc8b7c85686cf6b4b7baa",
+      "sourceGenerationRequestId": "0491e021-02f4-4588-890f-4c96d6e22894",
+      "sourceUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:17c83863-a861-476a-925d-0dcfa88be1b7",
+      "generatorAssetId": "urn:aaid:sc:US:254b0a1b-b62f-4007-8b5e-76fbbe85f80c",
+      "seed": 1854681775,
+      "promptSha256": "286e6b4016634aee79705eebce7da53c004c72f56ee9bf56d5bf6fe62ec9610f",
+      "negativePromptSha256": "62095645ffa6eaf18ef0922215229846799ab4bde0b9f3acebc6dc67ab2f3d47",
+      "prompt": "StarBlox catalog asset for exact item Ocean Window, Wall category, Tier 3, Candy Core theme. Create a premium original physical recessed ocean window clearly mounted into a wall, shown in three-quarter collectible product presentation. The object must visibly sit inside a wall opening with a thick rounded candy-colored frame, glossy pastel coral, aqua and pink enamel accents, a deep recessed jamb, metal/glass edge construction, visible fasteners and believable cast/contact shadow on the wall. Behind thick reflective glass, show layered blue water, fish silhouettes, bubbles and caustic light with convincing refraction and foreground/mid/background depth. Candy Core reads through playful glossy pastel material treatment, no text. Tier 3 richness, clean strong card silhouette, no floor-standing object.",
+      "negativePrompt": "text, letters, numbers, logos, watermark, brand, copyrighted character, badge, tier label, UI, flat vector, sticker, emoji, thin 2D window icon, freestanding aquarium, portable object, floor-standing frame, generic poster, human, cluttered room",
+      "producerPixelCheck": "PASS \u2014 actual selected pixels show thick candy-enamel frame construction, recessed multi-layer jamb, visible fasteners, reflective glass, layered water/fish depth and strong contact shadow. Candy Core is physical and playful rather than a flat recolor.",
+      "variants": [
+        {
+          "label": "A",
+          "seed": 239320889,
+          "requestId": "9a805e49-22c6-45fc-9d45-87033bfede10",
+          "assetId": "urn:aaid:sc:US:be14319c-4c08-4359-9cca-e82304fd4631",
+          "sourceUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:dc85df61-efc8-4aa2-93d5-ee83eb006e49",
+          "promptSha256": "87111e677bd9ec2ea97ad61da40eeb50703277f40547393e6f0a3f7c8b198125",
+          "disposition": "NOT_SELECTED__READS_TOO_FREESTANDING_PORTABLE"
+        },
+        {
+          "label": "B",
+          "seed": 1854681775,
+          "requestId": "0491e021-02f4-4588-890f-4c96d6e22894",
+          "assetId": "urn:aaid:sc:US:254b0a1b-b62f-4007-8b5e-76fbbe85f80c",
+          "sourceUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:17c83863-a861-476a-925d-0dcfa88be1b7",
+          "promptSha256": "286e6b4016634aee79705eebce7da53c004c72f56ee9bf56d5bf6fe62ec9610f",
+          "disposition": "SELECTED_FOR_STAGING"
+        }
+      ],
+      "collectionId": "wall",
+      "collectionName": "Wall Decor",
+      "type": "room",
+      "format": "PNG",
+      "repositoryPath": "public/assets/catalog/wall-8-w05-v2.png",
+      "assetPath": "/assets/catalog/wall-8-w05-v2.png",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "bytes": 1195134,
+      "sha256": "0bcaea337244dbce8c6785ff37564e8832854342d7ea0e7025974997ae7bf5ee",
+      "gitBlobSha": "f6a9440a4d46ea84da14cc550270081b7e590d83",
+      "producer": "05",
+      "independentReviewer": "14",
+      "status": "READY_FOR_REVIEW_14",
+      "readback": "PASS",
+      "provenance": {
+        "provider": "Adobe",
+        "tool": "image_generate",
+        "generatorAssetId": "urn:aaid:sc:US:254b0a1b-b62f-4007-8b5e-76fbbe85f80c",
+        "modelId": null,
+        "modelRevision": null,
+        "seed": 1854681775,
+        "outputFileType": "png",
+        "sourceDimensions": [
+          1024,
+          1024
+        ],
+        "modelDisclosure": "Adobe connector did not expose exact model/checkpoint revision; null is preserved rather than invented."
+      }
+    }
+  ],
+  "skipped": [],
+  "factoryV2": {
+    "activeBatchValidated": true,
+    "promptOptimizer": "PASS",
+    "optimizerRecommendationSha256": "a8eb8d574d192c349f725f446a7296ab037ac063ff8496b45d9e40a4bc975e6c",
+    "artFactoryJobContractTests": "PASS",
+    "artFactoryJobPlan": "NOT_SERIALIZED__PROVIDER_EXACT_MODEL_REVISION_UNEXPOSED",
+    "artFactoryJobReason": "scripts/artFactoryJob.mjs correctly requires exact modelId+revision; Adobe connector did not expose these values, so no fake identity/revision was supplied.",
+    "boundedVariantCounts": {
+      "wall-5": 3,
+      "wall-6": 3,
+      "wall-7": 2,
+      "wall-8": 2
+    },
+    "selectedFromActualPixelInspection": true
+  },
+  "checks": {
+    "exactByteReadback": "PASS_4_OF_4",
+    "candidateDecode": "PASS_4_OF_4",
+    "tests": "PENDING",
+    "build": "PENDING",
+    "sharedRenderOverall": "PENDING",
+    "wallCardDetailRender": "PENDING"
+  },
+  "freeze": {
+    "replitTouched": false,
+    "flootTouched": false,
+    "mainTouched": false,
+    "canonicalMappingsTouched": false,
+    "gameplayChanged": false,
+    "learningChanged": false,
+    "playerDataTouched": false,
+    "paidSettingsTouched": false
+  },
+  "handoff": "14: independently review only these exact staged Wall5-8 hashes after actual card/detail render evidence. 08: integrate only independently accepted exact hashes. 05: do not self-approve and do not start Wall9-12 until reviewer14 dispositions are published."
+}
