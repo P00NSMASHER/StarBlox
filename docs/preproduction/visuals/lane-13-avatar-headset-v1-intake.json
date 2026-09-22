@@ -1,0 +1,147 @@
+{
+  "schemaVersion": 1,
+  "candidateId": "avatar-headset-w13-v1",
+  "candidateType": "transparent-character-head-layer",
+  "producer": "13",
+  "targetScreens": [
+    "Home",
+    "Store",
+    "Quest"
+  ],
+  "status": "STAGED_PENDING_ORIGIN_READBACK_AND_INDEPENDENT_REVIEW",
+  "referenceSet": [
+    {
+      "screen": "Home",
+      "path": "docs/preproduction/reference-screenshots/originals/home-1448x1086.jpeg",
+      "sha256": "6a4b110aeaf12a6ab0c629f9181cc6cfa8d4f55a518d4f2a6adb3ac6e756c457"
+    },
+    {
+      "screen": "Store",
+      "path": "docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg",
+      "sha256": "b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d"
+    },
+    {
+      "screen": "Quest",
+      "path": "docs/preproduction/reference-screenshots/originals/quest-1448x1086.jpeg",
+      "sha256": "70f1b952709a85c77bb11851ffe9ae704acf8b97640355e908b6ec537b5c73c9"
+    }
+  ],
+  "runningRenderEvidence": {
+    "workflowRunId": 35663655650,
+    "artifactId": 10668287632,
+    "renderHead": "b187186e62519ffa77bd0f7b166c601c90bdc416",
+    "files": [
+      "home-desktop-1408x1056.png",
+      "store-desktop-1408x1056.png",
+      "quest-desktop-1408x1056.png"
+    ]
+  },
+  "observedDefect": "Across current Home/Store/Quest renders, the avatar treatment is flatter and less expressive than the immutable references. This candidate addresses only face/hair/headset presentation as a separate transparent layer so owned/equipped clothing remains authoritative.",
+  "provenance": {
+    "sourceMethod": "Adobe image_generate after actual Home/Store/Quest pixel inspection; original StarBlox character direction only",
+    "generationRequestId": "9b0023e7-5c93-4b5d-971a-5518470944fe",
+    "sourceAdobeUrn": "urn:aaid:ps:US:d1fc0dbd-fbe4-420d-b27c-ddbe16ca35da",
+    "sourceFireflyAssetId": "urn:aaid:sc:US:50b86f8e-d219-40f8-bf2a-3cf38effc5f3",
+    "backgroundRemovalRequestId": "079eaf22-9c13-4d9e-9611-1768f38fc415",
+    "transparentAdobeUrn": "urn:aaid:ps:US:53d3d41d-a20a-44f8-98dc-5f596b6f3879",
+    "optimizedDerivativeMethod": "Adobe image_crop_and_resize resize-only 2048x2048 to 1024x1024",
+    "resizeRequestId": "cb037264-0787-4024-830a-85f51b4e68c8",
+    "optimizedAdobeUrn": "urn:aaid:ps:US:3148abfc-d194-4292-97c2-36c9d116e6bd"
+  },
+  "characterContract": [
+    "Original friendly brown-haired StarBlox face with expressive eyes/brows and subtle freckles.",
+    "Original over-ear blush/lilac headset with small rounded cat-ear attachments and selective cyan accents; no copied brand or third-party character design.",
+    "Head, hair, headset, neck and minimal shoulders only; plain neutral lavender crew-neck underlayer is non-authoritative and intended to be covered/replaced by owned/equipped clothing.",
+    "No baked outerwear, dress, jewelry, logo, UI, text or gameplay state.",
+    "Transparent cutout is a review candidate only; no runtime character/equipment mapping is changed."
+  ],
+  "files": [
+    {
+      "role": "source",
+      "path": "public/assets/visuals/lane-13/avatar-headset-w13-v1-source.png",
+      "format": "PNG",
+      "dimensions": [
+        2048,
+        2048
+      ],
+      "bytes": 3488922,
+      "sha256": "c20cda5ddcf1168579f86e9ae3f76b47a57cf3d5eafb5ceaa99d3133169cd319",
+      "variance64": [
+        1396.1871604919434,
+        2232.254909515381,
+        3105.1999387145042
+      ],
+      "alphaExtrema": [
+        255,
+        255
+      ],
+      "alphaBBox": [
+        0,
+        0,
+        2048,
+        2048
+      ]
+    },
+    {
+      "role": "full",
+      "path": "public/assets/visuals/lane-13/avatar-headset-w13-v1-full.png",
+      "format": "PNG",
+      "dimensions": [
+        2048,
+        2048
+      ],
+      "bytes": 1973818,
+      "sha256": "e14ffd9436d9d85606bf074fee4da22e93b4fab3b21504c44619e1341ebfcec1",
+      "variance64": [
+        1815.013736486435,
+        3528.5887982845306,
+        4127.427411496639
+      ],
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "alphaBBox": [
+        344,
+        182,
+        1728,
+        1938
+      ]
+    },
+    {
+      "role": "optimized",
+      "path": "public/assets/visuals/lane-13/avatar-headset-w13-v1-1024.png",
+      "format": "PNG",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "bytes": 675538,
+      "sha256": "19b7dbc3e0e1f40681954b63ad570bd2d5aabfa9b5957a8f24ab4f24e6ff1a01",
+      "variance64": [
+        1768.1020410060883,
+        3280.2108764648438,
+        3887.7294442653656
+      ],
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "alphaBBox": [
+        172,
+        92,
+        864,
+        969
+      ]
+    }
+  ],
+  "producerVisualInspection": "PASS_PRODUCER_ONLY_NOT_INDEPENDENT_ACCEPT",
+  "runtimeWired": false,
+  "canonicalCatalogTouched": false,
+  "workstream06AvatarFilesTouched": false,
+  "workstream09EnvironmentTouched": false,
+  "ownedEquippedChoicesChanged": false,
+  "replitOrFlootTouched": false,
+  "mainTouched": false,
+  "originReadback": "PENDING"
+}
