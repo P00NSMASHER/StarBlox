@@ -1,11 +1,11 @@
 {
-  "schemaVersion": 13,
+  "schemaVersion": 14,
   "lane": "09",
   "workstream": "09",
   "phase": "ART_AND_VISUALS_ONLY",
   "protocol": "DELIVERY_PROTOCOL_V2",
   "branch": "screenshot-match-preproduction",
-  "status": "DECOR_3_4_V3_STAGED_EXACT_BYTES_PENDING_REVIEW14_CARD_DETAIL_PIXELS_TOPS11_12_V7_RECEIPTS_FROZEN",
+  "status": "DECOR_3_4_V3_REAL_CARD_DETAIL_EVIDENCE_READY_PENDING_REVIEW14_DECISION_TOPS11_12_V7_RECEIPTS_FROZEN",
   "assignmentSource": "docs/preproduction/ART_VISUALS_SPRINT.json",
   "activeBatchSource": "docs/preproduction/art-factory/ACTIVE_BATCH.json",
   "coordinator": "15",
@@ -36,8 +36,9 @@
   },
   "decor3_4FactoryPilot": {
     "batchId": "w09-decor-3-4-v3",
-    "state": "STAGED_EXACT_BYTES_PENDING_REVIEW14_RENDER_AND_DECISION",
+    "state": "STAGED_EXACT_BYTES_REAL_CARD_DETAIL_EVIDENCE_READY_PENDING_REVIEW14_DECISION",
     "sourceHead": "a8cc58c8bcf14ae66388a571c672c4aec23cc88c",
+    "stagingCommit": "b0a35343773b2ebbfdba3b5a3f99263b6c824e83",
     "legacyReviewBases": {
       "decor-3": {"path": "/assets/catalog/decor-3.svg", "blob": "4fc2f591915f53b249956c20c50693ad22e3a1bb", "decision": "REWORK", "reviewer": "14", "reasonCode": "FLAT_PRODUCT_ICON"},
       "decor-4": {"path": "/assets/catalog/decor-4.svg", "blob": "cb4bc4cfca9bdd4764905fdf94aa8291605f1ce0", "decision": "REWORK", "reviewer": "14", "reasonCode": "FLAT_PRODUCT_ICON"}
@@ -46,6 +47,20 @@
     "factoryCode": {"artPromptOptimizerBlob": "7d9155fb60533d5e5134a18a444130a9f3b9567f", "artFactoryJobBlob": "75cf3db80cfead3b6818de1cbdb6640627459e70", "verifyStagedOutputBlob": "cd5a33bd80af44e0b53bd0fb3782509d0eb2929d", "activeBatchBlob": "dffb1d6883926777e03317c679878f4c44dcdfff"},
     "rightsDomains": {"starBloxReference": "FIRST_PARTY_PROJECT_SOURCE", "generatedOutput": "AUTHORIZED_OPENAI_IMAGE_GEN_SERVICE_OUTPUT_FOR_USER_PROJECT", "serviceModelCheckpoint": "SERVICE_GOVERNED_REVISION_UNEXPOSED_BY_TOOL", "thirdPartyBrandsOrCharacters": "NONE"},
     "generationProvenance": {"generator": "openai/image_gen", "runtime": "openai/image_gen-tool", "modelRevision": "UNEXPOSED_BY_TOOL", "executionSeed": null, "seedExposure": "UNEXPOSED_BY_TOOL", "jobSeedPolicy": "Compiled deterministic seeds are recorded but are not falsely claimed as confirmed service execution seeds.", "conditioningReferenceSha256": "4e21df57778c17ce2c10958b61cb8a5c14f8bccdc703f8f0f6b57de8aa36829d"},
+    "renderEvidence": {
+      "workflow": "StarBlox Staged Catalog Art QA",
+      "workflowRunId": 35722505018,
+      "workflowHead": "b0a35343773b2ebbfdba3b5a3f99263b6c824e83",
+      "artifactId": 10691708297,
+      "artifactName": "catalog-staged-art-review",
+      "artifactDigest": "sha256:cd050d2fd3ae0902d6641415381e003c05dfef4b206093716d70cfbc840ca685",
+      "reportGeneratedAt": "2026-09-22T11:38:32.493Z",
+      "overallWorkflowConclusion": "failure",
+      "overallFailureScope": "Unrelated staged desks-2/desks-3/desks-4 image-decode failures; Decor 3-4 exact candidates themselves rendered cleanly.",
+      "cardEvidence": {"path": "staged-replacements/staged-replacements-contact-sheet.png", "dimensions": [1200,8777], "bytes": 5635752, "sha256": "86ef359851369a3699b125bbd21d4ca0f16842688bf911fc16d762095b546190"},
+      "decor-3": {"detailPath": "staged-replacements/detail/decor-3-5c9e3ad9.png", "detailDimensions": [800,800], "detailBytes": 612882, "detailSha256": "0a0194b3669f3af6025784fa717bb667cf4702c25a377ac39486211be302ffda", "httpStatus": 200, "naturalDimensions": [600,600], "signature": "webp", "safety": "raster-self-contained", "opaqueFraction": 1, "screenshot": true, "errors": []},
+      "decor-4": {"detailPath": "staged-replacements/detail/decor-4-8393d0b8.png", "detailDimensions": [800,800], "detailBytes": 449965, "detailSha256": "24378c5cbd7bd778a3746ec89fdf239d203a6e0223f0411ddc41d7ce883ea2d8", "httpStatus": 200, "naturalDimensions": [600,600], "signature": "webp", "safety": "raster-self-contained", "opaqueFraction": 1, "screenshot": true, "errors": []}
+    },
     "items": [
       {
         "id": "decor-3", "name": "Arcade Mini", "collection": "Room Decor", "tier": 1, "theme": "Adventure Club", "price": 94, "starReq": 0,
@@ -56,7 +71,7 @@
         ],
         "derivative": {"path": "/assets/catalog/decor-3-w09-v3.webp", "repoPath": "public/assets/catalog/decor-3-w09-v3.webp", "format": "WEBP", "dimensions": [600,600], "bytes": 15054, "sha256": "f8af8283fca711a4173d86b3a7bee713514ab9189baffe3818619286704447ea", "gitBlob": "5c9e3ad9b88b29c8ffb67d262f828f38d24763be", "derivativeOfSha256": "10c02ef422932af856a0393d54c3accf8dea22f209fc8d0f1083433084213dca", "derivation": "Lanczos 600x600 + WebP quality 20 method 6"},
         "verify": {"status": "STAGED_EXACT_BYTES_VERIFIED", "reviewer": "14", "recordSha256": "b3d5c84021c8d310e183274a8369002c3c6bb54446326abb6e2ccb4c62ddbe36"},
-        "review": {"state": "PENDING_ACTUAL_PIXEL_REVIEW", "reviewer": "14"}
+        "review": {"state": "PENDING_INDEPENDENT_DECISION_RENDER_EVIDENCE_READY", "reviewer": "14", "evidenceRef": "artifact:10691708297/staged-replacements/detail/decor-3-5c9e3ad9.png"}
       },
       {
         "id": "decor-4", "name": "Plush Stack", "collection": "Room Decor", "tier": 2, "theme": "Cloud Pop", "price": 123, "starReq": 0,
@@ -67,10 +82,10 @@
         ],
         "derivative": {"path": "/assets/catalog/decor-4-w09-v3.webp", "repoPath": "public/assets/catalog/decor-4-w09-v3.webp", "format": "WEBP", "dimensions": [600,600], "bytes": 8142, "sha256": "33fae2db0be4246cf0763f7572731dc679f896b064e60aee085944c5e1d8b5ce", "gitBlob": "8393d0b8108dfcc6882a75a9e50293f26d8f6989", "derivativeOfSha256": "957bf29cf6e2f8fbb9e8aed1c92b10c6187b21d138bbd890c3f448e46a9ea822", "derivation": "Lanczos 600x600 + WebP quality 20 method 6"},
         "verify": {"status": "STAGED_EXACT_BYTES_VERIFIED", "reviewer": "14", "recordSha256": "2f6e02bf86bebe27605a5f03dabd3c4b9bf2d03404cea60fb012127165af2fd0"},
-        "review": {"state": "PENDING_ACTUAL_PIXEL_REVIEW", "reviewer": "14"}
+        "review": {"state": "PENDING_INDEPENDENT_DECISION_RENDER_EVIDENCE_READY", "reviewer": "14", "evidenceRef": "artifact:10691708297/staged-replacements/detail/decor-4-8393d0b8.png"}
       }
     ]
   },
-  "handoff": {"reviewer": "14", "items": {"decor-3": "5c9e3ad9b88b29c8ffb67d262f828f38d24763be", "decor-4": "8393d0b8108dfcc6882a75a9e50293f26d8f6989"}, "request": "Render real StarBlox Store card/detail evidence for these exact hashes and issue independent ACCEPT/REWORK.", "integrationOwner": "08", "selfApproval": false},
+  "handoff": {"reviewer": "14", "items": {"decor-3": "5c9e3ad9b88b29c8ffb67d262f828f38d24763be", "decor-4": "8393d0b8108dfcc6882a75a9e50293f26d8f6989"}, "request": "Inspect existing real StarBlox card/detail pixels in artifact 10691708297 for these exact hashes and issue independent ACCEPT/REWORK; no producer regeneration while pending.", "integrationOwner": "08", "selfApproval": false},
   "nextGate": "Do not start Decor5-12 or another producer batch until Reviewer14 independently dispositions this exact Decor3-4 pilot."
 }
