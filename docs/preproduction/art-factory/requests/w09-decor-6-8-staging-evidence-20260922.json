@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "kind": "STARBLOX_W09_DECOR_6_8_STAGING_EVIDENCE",
   "producer": "09",
   "reviewer": "14",
@@ -8,14 +8,15 @@
   "coordinationOwner": "15",
   "repository": "P00NSMASHER/StarBlox",
   "branch": "screenshot-match-preproduction",
-  "sourceHead": "76066845016990c404f911602ea6416695a4cad7",
+  "stagingHead": "9984d6b76d28838e9ee7c3bd82c495981589507d",
+  "reconciledAgainstHead": "99c7eccb714a46bd69a301469bb1a97f87f39ea7",
   "scope": [
     "decor-6",
     "decor-8"
   ],
   "batchContext": {
     "batchId": "w09-decor-5-8-vnext",
-    "fallbackCount": 19,
+    "fallbackCountAtGeneration": 19,
     "activeBatchPath": "docs/preproduction/art-factory/ACTIVE_BATCH.json",
     "plannerRequestPath": "docs/preproduction/art-factory/requests/w09-decor-5-8-20260922.json",
     "reviewPath": "docs/preproduction/catalog-sprint/reviews/14.json",
@@ -28,12 +29,15 @@
     "decor-5": {
       "state": "NEWER_REPOSITORY_CANDIDATE_EXISTS_FREEZE_NO_DUPLICATE",
       "path": "public/assets/catalog/decor-5-w09-v2.webp",
-      "note": "Do not produce another Decor5 candidate while this exact version remains pending qualified render/review."
+      "blobSha": "b8ff7b9d6bec11fe8e836952f7a0c5b844e34b6e",
+      "note": "Do not produce another Decor 5 candidate while this exact version remains pending an independent exact-hash disposition."
     },
     "decor-7": {
-      "state": "HOLD_NO_STAGE_THIS_RUN",
+      "state": "HOLD_PROVENANCE_INCOMPLETE_NO_STAGE",
       "legacyHash": "671c609625400bf5c2142daef73ab632bd1225a2",
-      "reason": "Existing local generated variants depict roller-skate storage, while the current deterministic planner variants specify skateboard-deck storage. No false planner-conformance claim; no Decor7 candidate attached."
+      "plannerIdentity": "Skate Rack; Room Decor; Tier 3; Garden Glow",
+      "plannerCorrectionHead": "99c7eccb714a46bd69a301469bb1a97f87f39ea7",
+      "reason": "The current planner identity is now correctly a roller-skate rack, so the prior semantic mismatch is resolved. Existing generated roller-skate variants are not staged because their generator receipts do not expose the exact model revision/checkpoint and service seed required by the current ART_FACTORY_V2 provenance contract. Do not invent those fields, weaken the gate, or regenerate merely to bypass provenance."
     }
   },
   "items": {
@@ -69,7 +73,7 @@
           "bytes": 1861760,
           "sha256": "2ca38a0527f30b4873630f01475a1ff6c7f1bcf953d88d91feb4b7f5176f9cea",
           "gitBlobShaIfExactImported": "66bc760a23eac155f24ebb9ffc978ea6729753fc",
-          "persistence": "GENERATOR_RECEIPT_PLUS_RUNTIME_LOCAL_SOURCE__NOT_REPOSITORY_STAGED"
+          "persistence": "GENERATOR_RECEIPT_PLUS_PRIOR_RUNTIME_LOCAL_SOURCE__SOURCE_NOT_REPOSITORY_STAGED"
         }
       },
       "derivative": {
@@ -80,7 +84,21 @@
         "bytes": 9294,
         "sha256": "61a12cba7ffb85d9e8666d4b984d26bdab95fb3759aa00abdda872ac3d04849a",
         "gitBlobSha": "842c3089e86d5a2d190875526f94f6b63ccdf02c",
-        "transform": "RGB conversion; 600x600 Lanczos resample; WEBP quality=10 method=6"
+        "transform": "RGB conversion; 600x600 Lanczos resample; WEBP quality=10 method=6",
+        "branchReadback": "PASS_EXACT_GIT_BLOB"
+      },
+      "sharedRender": {
+        "signature": "webp",
+        "safety": "raster-self-contained",
+        "bindingHashOk": true,
+        "httpStatus": 200,
+        "naturalWidth": 600,
+        "naturalHeight": 600,
+        "opaqueFraction": 1,
+        "screenshot": true,
+        "errors": [],
+        "detailArtifactPath": "staged-replacements/detail/decor-6-842c3089.png",
+        "detailPngSha256": "30a02f7050e6f0d36b5ffb22d1cd07a823521600bebe44d19e79a00b47f5e5c6"
       }
     },
     "decor-8": {
@@ -115,7 +133,7 @@
           "bytes": 2166968,
           "sha256": "effd9b56720c7b988434e00ca525010b715ac0f9ab5684a04714a6b9605e8ecf",
           "gitBlobShaIfExactImported": "c449bcb3a50eb78a8ac786fab24a1e7cdc8f970f",
-          "persistence": "GENERATOR_RECEIPT_PLUS_RUNTIME_LOCAL_SOURCE__NOT_REPOSITORY_STAGED"
+          "persistence": "GENERATOR_RECEIPT_PLUS_PRIOR_RUNTIME_LOCAL_SOURCE__SOURCE_NOT_REPOSITORY_STAGED"
         }
       },
       "derivative": {
@@ -126,11 +144,54 @@
         "bytes": 13402,
         "sha256": "eda7946fcae74d1da202061276d33d62ca0446c4bdfd6fa1069a96bf9773db6d",
         "gitBlobSha": "0d264aff9155f99b17db82138f4546deca8323d5",
-        "transform": "RGB conversion; 600x600 Lanczos resample; WEBP quality=10 method=6"
+        "transform": "RGB conversion; 600x600 Lanczos resample; WEBP quality=10 method=6",
+        "branchReadback": "PASS_EXACT_GIT_BLOB"
+      },
+      "sharedRender": {
+        "signature": "webp",
+        "safety": "raster-self-contained",
+        "bindingHashOk": true,
+        "httpStatus": 200,
+        "naturalWidth": 600,
+        "naturalHeight": 600,
+        "opaqueFraction": 1,
+        "screenshot": true,
+        "errors": [],
+        "detailArtifactPath": "staged-replacements/detail/decor-8-0d264aff.png",
+        "detailPngSha256": "4e4eca4b9853b80b7e837669a4a9b1bfb14a4e50ff3857912f8e8ef769556806"
       }
     }
   },
+  "sharedCardDetailQA": {
+    "workflow": "StarBlox Staged Catalog Art QA",
+    "runId": 35757803263,
+    "jobId": 106847902253,
+    "headSha": "9984d6b76d28838e9ee7c3bd82c495981589507d",
+    "status": "COMPLETED_SUCCESS",
+    "renderStep": "PASS",
+    "rendererGate": "PASS",
+    "artifact": {
+      "id": 10708779308,
+      "name": "catalog-staged-art-review",
+      "sizeBytes": 69962931,
+      "digest": "sha256:ffb835a12426fdf0deaa9ddd179ff617968cf0ab989e7c604c34b663c5730be0",
+      "expired": false
+    },
+    "contactSheet": {
+      "artifactPath": "staged-replacements/staged-replacements-contact-sheet.png",
+      "sha256": "6c3672e995b45a9d785f8b9ec1c39fb8d75dcdaea681dbe9e4c4f2fb2a918f59"
+    },
+    "note": "The shared report binds the exact staged Decor 6 and Decor 8 blob hashes to successful 600x600 WEBP detail renders and the shared card-scale staged-replacements contact sheet. Report-only visual metrics do not confer approval."
+  },
+  "reviewer14StateAtReconciliation": {
+    "reviewSourceHead": "d0bee12ccdc85b6c22915500c8b1a8afaadf6190",
+    "decor6ExactCandidateDecision": "NONE_FOR_842c3089e86d5a2d190875526f94f6b63ccdf02c",
+    "decor8ExactCandidateDecision": "NONE_FOR_0d264aff9155f99b17db82138f4546deca8323d5",
+    "legacyHashesRemain": "REWORK",
+    "producerSelfApproval": false
+  },
   "provenance": {
+    "status": "INCOMPLETE_UNDER_CURRENT_ART_FACTORY_V2",
     "rightsDomains": {
       "repositoryCode": "USER_AUTHORIZED_STARBLOX_REPOSITORY_SCOPE",
       "datasetReference": "FIRST_PARTY_STARBLOX_ORIGINAL_REFERENCE",
@@ -139,21 +200,29 @@
       "modelCheckpoint": "UNEXPOSED_BY_SERVICE__NO_REVISION_INVENTED"
     },
     "optimizerLineageClaim": false,
-    "note": "Current planner B concepts/seeds are recorded as compatibility targets. The existing generation service did not expose a controllable seed/model checkpoint revision, and these pixels are not falsely represented as artPromptOptimizer/artFactoryJob output."
+    "missingRequiredGenerationFields": [
+      "exact modelId/model revision or checkpoint revision exposed by the generation service",
+      "service-executed deterministic seed matching the deterministic job record"
+    ],
+    "note": "These already-staged pixels are not falsely represented as fully deterministic artFactoryJob output. Current ART_FACTORY_V2 requires exact generation provenance before final review qualification; Workstream 09 will not invent missing values or weaken that gate."
   },
   "byteVerification": {
-    "localDecode": "PASS",
-    "localDimensions": "PASS_600x600_WEBP",
+    "localDecodeAtDerivativeCreation": "PASS",
+    "localDimensionsAtDerivativeCreation": "PASS_600x600_WEBP",
     "githubCreateBlobExactMatch": {
       "decor-6": true,
       "decor-8": true
     },
-    "branchReadback": "PENDING_COMMIT_AND_READBACK"
+    "branchReadback": {
+      "decor-6": "PASS_BLOB_842c3089e86d5a2d190875526f94f6b63ccdf02c",
+      "decor-8": "PASS_BLOB_0d264aff9155f99b17db82138f4546deca8323d5"
+    },
+    "sharedRenderer": "PASS_EXACT_HASHES"
   },
   "routing": {
-    "workstream06": "PREFLIGHT_REQUIRED_FOR_PROVENANCE_AND_STAGED_OUTPUT_GATE",
-    "reviewer14": "AFTER_06_QUALIFIES_CURRENT_EXACT_HASHES__REAL_STORE_CARD_DETAIL_PIXELS_REQUIRED",
-    "workstream08": "NO_ACTION_UNLESS_REVIEWER14_ACCEPTS_EXACT_HASHES"
+    "workstream06": "QUALIFY_OR_REJECT_CURRENT_PROVENANCE_GATE_WITHOUT_WEAKENING_ART_FACTORY_V2",
+    "reviewer14": "EXACT_HASH_CARD_DETAIL_PIXEL_EVIDENCE_EXISTS; INDEPENDENT DISPOSITION ONLY AFTER CURRENT PROVENANCE QUALIFICATION REQUIREMENT IS SATISFIED OR COORDINATOR RECORDS AN AUTHORIZED COMPATIBLE RESOLUTION",
+    "workstream08": "NO_ACTION_UNLESS_REVIEWER14_ACCEPTS_THE_SAME_EXACT_HASH"
   },
   "safety": {
     "selfApproved": false,
@@ -166,5 +235,5 @@
     "economyEdited": false,
     "realPlayerDataEdited": false
   },
-  "state": "EXACT_BLOBS_CREATED__PENDING_SINGLE_BRANCH_COMMIT_AND_READBACK"
+  "state": "EXACT_BRANCH_BYTES_AND_SHARED_PIXELS_VERIFIED__CURRENT_PROVENANCE_GATE_REMAINS_UNRESOLVED__NO_INDEPENDENT_EXACT_HASH_DECISION_YET"
 }
