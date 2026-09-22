@@ -43,13 +43,13 @@
       "path": "docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg",
       "sha256": "b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d",
       "gitBlobSha": "383baa877d3af86fa92e3583740212000592b3d6",
-      "dimensions": [1448,1086]
+      "dimensions": [1448, 1086]
     },
     "usage": "Original-reference bytes/manifests were used as the screenshot visual target; no mobile reference pixels were invented."
   },
   "evidenceSets": {
     "freshSeating4To6": {
-      "producers": ["01","coordination recovery"],
+      "producers": ["01", "coordination recovery"],
       "workflowRunId": 35673301701,
       "artifactId": 10671653000,
       "artifactName": "seating-4-6-recovery-evidence",
@@ -76,6 +76,94 @@
       "visualInspection": "Reviewer 02 inspected exact replacement pixels at detail and card scale. The three candidates materially exceed the rejected flat/front-facing legacy direction and preserve the screenshot target's saturated toy-game depth, strong silhouettes, soft cast lighting and readable materials."
     }
   },
+  "latestEvidenceAudit": {
+    "observedBranchHead": "7d30265638ea83677544c361510ba0b730ae243d",
+    "scope": ["Shoes", "Backgear", "Handgear", "Seating"],
+    "laneEvidenceChecked": [
+      "docs/preproduction/catalog-sprint/lane-04.json",
+      "docs/preproduction/catalog-sprint/lane-06.json",
+      "docs/preproduction/catalog-sprint/lane-12.json"
+    ],
+    "result": "NO_NEW_ELIGIBLE_REVIEW_DECISION",
+    "reason": "No new in-partition candidate currently satisfies the reviewer gate of exact current repository hash plus real card/detail render proof. Accepted hashes remain frozen; no legacy churn is warranted.",
+    "shoes": {
+      "status": "NO_NEW_CURRENT_REVIEWABLE_DELTA",
+      "evidence": "Lane 04 reports Shoes 1-6 already independently accepted/current/canonical; no newer exact-hash Shoes candidate with card/detail proof is surfaced for reviewer 02."
+    },
+    "backgearHandgear": {
+      "status": "NO_CURRENT_REVIEWABLE_DELTA_SURFACED",
+      "evidence": "Current lane 12 evidence is an active Headwear 5-8 batch owned/reviewed outside reviewer-02's Backgear/Handgear partition and does not surface a new exact-hash Backgear/Handgear candidate for 02."
+    },
+    "seating": {
+      "status": "WAITING_FOR_REAL_CARD_DETAIL_PROOF",
+      "candidates": [
+        {
+          "itemId": "seating-11",
+          "name": "Moon Chair",
+          "tier": 4,
+          "theme": "Galaxy Glow",
+          "assetPath": "/assets/catalog/seating-11-w06-v2.png",
+          "assetHash": "5126e9abcec4a09ef281dccb33aac6ba59b38b94",
+          "contentSha256": "2bf8b90027f58f24323121305d675edc91ccb996605cd10ca73ccbe077645c47",
+          "dimensions": [768, 768],
+          "bytes": 579001,
+          "producerStatus": "READY_FOR_REVIEW_02",
+          "reviewerStatus": "BLOCKED_EVIDENCE_NOT_DECISION",
+          "missing": "Workstream-14 real shared-fixture card/detail render pixels tied to this exact hash"
+        },
+        {
+          "itemId": "seating-12",
+          "name": "Throne Chair",
+          "tier": 5,
+          "theme": "Sunny Pop",
+          "assetPath": "/assets/catalog/seating-12-w06-v2.png",
+          "assetHash": "793b32f60ed10fffa80b549e75b66858ac0d7e4f",
+          "contentSha256": "5891818da864e528aaceb598f93d2b3426cb91c3eb1acd0375e4f57cbe7d69df",
+          "dimensions": [768, 768],
+          "bytes": 577216,
+          "producerStatus": "READY_FOR_REVIEW_02",
+          "reviewerStatus": "BLOCKED_EVIDENCE_NOT_DECISION",
+          "missing": "Workstream-14 real shared-fixture card/detail render pixels tied to this exact hash"
+        }
+      ],
+      "integrityRule": "Do not emit ACCEPT or REWORK from producer descriptions, raw candidate metadata, or superseded hashes. Review only the exact hashes above after actual card/detail proof exists."
+    },
+    "reviewLearnerGate": {
+      "qualifiedLabelsThisAudit": 0,
+      "blockedIsNotRework": true,
+      "requiredDecisionChecks": [
+        "physicalConstruction",
+        "silhouette",
+        "materialLighting",
+        "themeTierSpecificity",
+        "smallCardReadability",
+        "originalityNearDuplicateRisk",
+        "technicalIntegrity"
+      ]
+    }
+  },
+  "collectionReviewRecipes": {
+    "Shoes": [
+      "Require upper/outsole/closure construction to read as separate physical parts, not a hue-swapped shoe icon.",
+      "At card scale preserve a distinctive lateral/three-quarter silhouette and grounded contact shadow.",
+      "Theme and tier must be carried by construction/material detail as well as palette or glow."
+    ],
+    "Backgear": [
+      "Require believable avatar attachment logic, body depth and straps/hardware where the item calls for them.",
+      "The rear silhouette must remain identifiable at card scale without relying on text, branding or a flat panel graphic.",
+      "Reject near-duplicates whose only meaningful change is palette, decals or background VFX."
+    ],
+    "Handgear": [
+      "Require grip/handle/body or head separation and plausible hand attachment/orientation.",
+      "Preserve a distinct compact silhouette at card scale with material response on the held object itself.",
+      "Tier richness should come from physical construction, hardware, material layering and controlled lighting rather than flat recolor."
+    ],
+    "Seating": [
+      "Require readable seat/back/base or leg construction with credible thickness and support; avoid bean-like undifferentiated blobs.",
+      "Separate upholstery, frame, wood/metal/plastic and trim through texture/highlight response plus cast/contact shadow.",
+      "Higher tiers must visibly add construction/material richness while keeping the chair silhouette readable in Store-card framing."
+    ]
+  },
   "reviews": [
     {
       "itemId": "seating-4",
@@ -94,7 +182,15 @@
         "docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg#sha256=b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d"
       ],
       "reason": "Heart silhouette survives card reduction immediately. Deep upholstered lobes, cushion thickness, piping, wood legs and grounded cast shadow make the chair physically credible; cyan/magenta rim light over a dark violet body communicates Midnight Neon through material and lighting rather than a flat recolor. Tier-2 richness is clear without over-spectacle.",
-      "checks": {"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"PASS","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
+      "checks": {
+        "identity": "PASS",
+        "themeTier": "PASS",
+        "silhouette": "PASS",
+        "materialLighting": "PASS",
+        "cardReadability": "PASS",
+        "originality": "PASS",
+        "duplicateVisual": "PASS"
+      }
     },
     {
       "itemId": "seating-5",
@@ -113,7 +209,15 @@
         "docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg#sha256=b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d"
       ],
       "reason": "The broad rolled reading-chair silhouette remains readable at card scale and gains substantial cushion volume, seams, piping, rounded arms, small book attachment and cast shadow. Cream, blush and mint upholstery produces a tactile Candy Core identity instead of a palette-only icon treatment, with an appropriate Tier-2 step above the simpler seating.",
-      "checks": {"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"PASS","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
+      "checks": {
+        "identity": "PASS",
+        "themeTier": "PASS",
+        "silhouette": "PASS",
+        "materialLighting": "PASS",
+        "cardReadability": "PASS",
+        "originality": "PASS",
+        "duplicateVisual": "PASS"
+      }
     },
     {
       "itemId": "seating-6",
@@ -132,19 +236,39 @@
         "docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg#sha256=b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d"
       ],
       "reason": "High-back racing-chair construction is clear at card scale with bolsters, headrest, neck pillow, armrests, reclining hardware, pedestal and casters. Dark upholstery, green panels and warm orange/tan trim give the Adventure Club theme a rugged physical treatment; material seams, highlights and cast shadow provide the required dimensional upgrade.",
-      "checks": {"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"PASS","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
+      "checks": {
+        "identity": "PASS",
+        "themeTier": "PASS",
+        "silhouette": "PASS",
+        "materialLighting": "PASS",
+        "cardReadability": "PASS",
+        "originality": "PASS",
+        "duplicateVisual": "PASS"
+      }
     }
   ],
   "integrationEligibleDelta": [
-    {"itemId":"seating-4","assetHash":"55d1fb2edddb7638f87c5962bd03b6ac745a1f4b","decision":"ACCEPT"},
-    {"itemId":"seating-5","assetHash":"252f0b24b3ede29d6abfbe7fc661a7da751de565","decision":"ACCEPT"},
-    {"itemId":"seating-6","assetHash":"f4f00fb739aaae4ce970a4c4d1d738bca729ff40","decision":"ACCEPT"}
+    {
+      "itemId": "seating-4",
+      "assetHash": "55d1fb2edddb7638f87c5962bd03b6ac745a1f4b",
+      "decision": "ACCEPT"
+    },
+    {
+      "itemId": "seating-5",
+      "assetHash": "252f0b24b3ede29d6abfbe7fc661a7da751de565",
+      "decision": "ACCEPT"
+    },
+    {
+      "itemId": "seating-6",
+      "assetHash": "f4f00fb739aaae4ce970a4c4d1d738bca729ff40",
+      "decision": "ACCEPT"
+    }
   ],
   "handoff": {
-    "08": "Seating 4-6 are independently ACCEPTED only at the exact hashes recorded here and may enter normal integration checks. Reviewer 02 did not modify canonical manifest/runtime wiring.",
+    "08": "Seating 4-6 remain independently ACCEPTED only at the exact hashes recorded here and may enter normal integration checks. No new qualified ACCEPT was issued in the latest evidence audit. Seating 11-12 must not integrate until Workstream 14 supplies real card/detail proof and reviewer 02 records an exact-hash ACCEPT.",
     "01": "Preserve Seating 4-6 exact accepted bytes; do not regenerate or downgrade them.",
     "05": "Beds 1-4 remain independently accepted by reviewer 05 at its recorded exact hashes; reviewer 02 did not self-approve Beds.",
-    "15": "Reviewer 02 closed the ready Seating 4-6 recovery batch with exact-hash ACCEPT decisions. Continue routing fresh Shoes 7-12 and Backgear/Handgear repair evidence here before untouched legacy work."
+    "15": "Reviewer 02 found no new review-eligible Shoes/Backgear/Handgear candidate. Seating 11-12 exact current hashes are present but remain evidence-blocked pending Workstream-14 shared-fixture card/detail renders; do not treat BLOCKED_EVIDENCE_NOT_DECISION as REWORK."
   },
   "freeze": {
     "mainTouched": false,
