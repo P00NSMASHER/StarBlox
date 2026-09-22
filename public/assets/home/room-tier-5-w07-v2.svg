@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" role="img" aria-label="Star Mansion room-tier preview">
+<title>Star Mansion</title><desc>Spectacular Star Mansion suite with monumental night-sky glazing, architectural columns, layered canopy bed, luminous creator console, sculptural lounge, starburst chandelier, polished mixed-material floor and richly woven star rug.</desc>
+<defs>
+ <linearGradient id="wall5" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#faf7ff"/><stop offset=".44" stop-color="#e7edff"/><stop offset="1" stop-color="#ffe9ce"/></linearGradient>
+ <linearGradient id="night5" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#253770"/><stop offset=".48" stop-color="#5965ad"/><stop offset="1" stop-color="#d18ab8"/></linearGradient>
+ <linearGradient id="floor5" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ead9c8"/><stop offset=".34" stop-color="#b88d73"/><stop offset=".72" stop-color="#75565a"/><stop offset="1" stop-color="#46384a"/></linearGradient>
+ <linearGradient id="bed5" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fffefa"/><stop offset=".4" stop-color="#ead9ff"/><stop offset=".72" stop-color="#c7a5f1"/><stop offset="1" stop-color="#8f6bc1"/></linearGradient>
+ <linearGradient id="gold5" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff0a5"/><stop offset=".48" stop-color="#e5bd58"/><stop offset="1" stop-color="#99671f"/></linearGradient>
+ <linearGradient id="console5" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#272b55"/><stop offset=".55" stop-color="#4b4191"/><stop offset="1" stop-color="#6c4c8f"/></linearGradient>
+ <linearGradient id="screen5" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#6af4dc"/><stop offset=".42" stop-color="#6088ff"/><stop offset="1" stop-color="#e16bbd"/></linearGradient>
+ <linearGradient id="rug5" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#4f438e"/><stop offset=".52" stop-color="#8c68d0"/><stop offset="1" stop-color="#d6b3ff"/></linearGradient>
+ <linearGradient id="velvet5" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#8069ad"/><stop offset="1" stop-color="#443d78"/></linearGradient>
+ <filter id="sh5" x="-30%" y="-35%" width="170%" height="195%"><feDropShadow dx="0" dy="9" stdDeviation="7" flood-color="#241b37" flood-opacity=".36"/></filter>
+ <filter id="glow5" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="7"/></filter>
+ <pattern id="marble5" width="34" height="24" patternUnits="userSpaceOnUse"><path d="M-4 19c12-9 18-17 42-17M-7 5c14 5 21 14 45 13" fill="none" stroke="#fff" stroke-opacity=".16" stroke-width="1.2"/></pattern>
+ <pattern id="weave5" width="7" height="7" patternUnits="userSpaceOnUse"><path d="M0 1.5h7M0 5.5h7M1.5 0v7M5.5 0v7" stroke="#fff" stroke-opacity=".14" stroke-width=".65"/></pattern>
+</defs>
+<rect width="640" height="360" rx="26" fill="url(#wall5)"/>
+<path d="M0 232L640 194V360H0Z" fill="url(#floor5)"/>
+<path d="M0 232L640 194V360H0Z" fill="url(#marble5)" opacity=".8"/>
+<g filter="url(#sh5)">
+ <path d="M332 26h268c18 0 32 14 32 32v119H332z" fill="#fffdfb" stroke="url(#gold5)" stroke-width="7"/>
+ <path d="M345 40h255c10 0 19 8 19 19v105H345z" fill="url(#night5)"/>
+ <circle cx="564" cy="70" r="20" fill="#fff0a7"/><circle cx="564" cy="70" r="31" fill="#fff0a7" opacity=".14" filter="url(#glow5)"/>
+ <g fill="#fff7d9"><circle cx="376" cy="65" r="2"/><circle cx="397" cy="87" r="1.7"/><circle cx="421" cy="58" r="1.6"/><circle cx="455" cy="77" r="2.2"/><circle cx="489" cy="55" r="1.5"/><circle cx="527" cy="94" r="1.7"/><circle cx="593" cy="103" r="1.8"/></g>
+ <g fill="#5e5d88"><path d="M345 132h19V95h17v37h14v-55h23v55h17v-31h17v31h15V84h27v48h13v-41h20v41h12v-63h25v63h15v-35h20v35h20v32H345z"/></g>
+ <g fill="#ffd66b" opacity=".74"><path d="M401 88h4v5h-4zm8 0h4v5h-4zm51 7h4v5h-4zm9 0h4v5h-4zm64-13h4v5h-4zm9 0h4v5h-4zm39 24h4v5h-4z"/></g>
+ <path d="M430 40v124M515 40v124M345 109h274" stroke="#fff" stroke-width="4.5" opacity=".79"/>
+ <path d="M332 176h300" stroke="#9c7437" stroke-width="5"/>
+</g>
+<g filter="url(#sh5)">
+ <path d="M17 213l209-10v83L17 306z" fill="#4d4264"/>
+ <path d="M18 184l208-7v70L18 269z" fill="url(#bed5)"/>
+ <path d="M31 185l64-2 12 40-70 4z" fill="#fffefc" stroke="#e6dbef" stroke-width="2"/>
+ <path d="M104 182l69-2 13 38-75 4z" fill="#faf6ff" stroke="#ddcfec" stroke-width="2"/>
+ <path d="M18 232c64 14 135 7 208-25" fill="none" stroke="#f4e8ff" stroke-width="6" opacity=".7"/>
+ <path d="M20 247l199-16v24L20 276z" fill="#d7b55a" opacity=".72"/>
+ <path d="M6 167v142M228 162v128" stroke="url(#gold5)" stroke-width="9" stroke-linecap="round"/>
+ <path d="M7 169c0-35 27-61 62-61h98c34 0 61 27 61 61" fill="none" stroke="url(#gold5)" stroke-width="9"/>
+ <path d="M18 127h201" stroke="#fff5c8" stroke-width="4" opacity=".8"/>
+ <path d="M24 134c20 12 38 12 58 0 20 12 39 12 59 0 20 12 40 12 61 0" fill="none" stroke="#d8c5ff" stroke-width="3" opacity=".75"/>
+</g>
+<g filter="url(#sh5)">
+ <path d="M246 202l198-7 13 18-212 10z" fill="#5f4552" stroke="#d4b66b" stroke-width="2"/>
+ <path d="M258 220h12l-4 80h-13zM431 213h12l9 74h-13z" fill="#5e6075"/>
+ <path d="M284 117h142c9 0 16 7 16 16v61H268v-61c0-9 7-16 16-16z" fill="url(#console5)" stroke="url(#gold5)" stroke-width="5"/>
+ <rect x="279" y="128" width="152" height="53" rx="8" fill="url(#screen5)"/>
+ <path d="M298 164c20-25 39-27 55-8 13-19 30-20 48-4" fill="none" stroke="#a0ffe9" stroke-width="5" stroke-linecap="round"/>
+ <circle cx="355" cy="153" r="13" fill="none" stroke="#ffe27b" stroke-width="4"/>
+ <path d="M318 194h76v10h-76z" fill="#4c4b65"/>
+ <rect x="301" y="208" width="105" height="7" rx="4" fill="#e1d8f0"/>
+ <circle cx="427" cy="209" r="7" fill="#f2ca62"/>
+ <path d="M251 141v43" stroke="#544a62" stroke-width="4"/><path d="M242 138l9-17 9 17-9 7z" fill="#ffd76b" stroke="#675467" stroke-width="3"/>
+</g>
+<g filter="url(#sh5)">
+ <path d="M463 229c0-34 16-54 43-54 29 0 47 21 47 55v49h-90z" fill="url(#velvet5)"/>
+ <path d="M475 189c18-12 42-11 64 3v42h-64z" fill="#9a80c8"/>
+ <path d="M483 204c15-8 31-8 44 2" fill="none" stroke="#c8b3e9" stroke-width="4"/>
+ <path d="M477 242h66" stroke="#c7a9db" stroke-width="4" opacity=".6"/>
+ <path d="M507 278v31M483 311h48M488 311l-18 13M526 311l18 13" stroke="#414355" stroke-width="6" stroke-linecap="round"/>
+</g>
+<g filter="url(#sh5)">
+ <path d="M229 289c55-29 176-31 245-8 25 8 30 29 8 41-55 29-184 30-252 6-26-9-26-27-1-39z" fill="url(#rug5)"/>
+ <path d="M246 292c50-21 157-22 216-4 17 5 21 17 5 26-52 22-161 22-220 4-18-5-18-18-1-26z" fill="url(#weave5)"/>
+ <path d="M354 286l10 15 18 2-13 12 4 17-19-9-18 9 4-17-13-12 18-2z" fill="#f6d66e" opacity=".95"/>
+ <path d="M283 299c26-9 53-12 78-11M387 290c19 1 39 4 57 9" fill="none" stroke="#eadcff" stroke-width="4" opacity=".56"/>
+</g>
+<g filter="url(#sh5)">
+ <rect x="57" y="41" width="138" height="68" rx="14" fill="#fffefb" stroke="url(#gold5)" stroke-width="5"/>
+ <path d="M79 91l24-29 21 22 20-26 27 35" fill="none" stroke="#8067c2" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+ <circle cx="113" cy="65" r="8" fill="#f2c95e"/>
+ <path d="M211 48h73" stroke="#d5b45c" stroke-width="5" stroke-linecap="round"/><path d="M216 70h62" stroke="#70d5e1" stroke-width="5" stroke-linecap="round"/><path d="M221 92h53" stroke="#ce87c4" stroke-width="5" stroke-linecap="round"/>
+</g>
+<g filter="url(#sh5)">
+ <path d="M577 229h34l-4 66h-26z" fill="#7864a3"/><path d="M594 230v-52" stroke="#756577" stroke-width="4"/><path d="M594 180c-13-9-12-21-4-31 12 3 18 14 13 26 6-13 18-18 29-12-2 15-12 22-26 21" fill="#64b77f"/>
+ <path d="M568 318h54" stroke="#d3b55f" stroke-width="5" stroke-linecap="round"/>
+</g>
+<g>
+ <circle cx="319" cy="33" r="11" fill="#fff0a5"/><circle cx="319" cy="33" r="28" fill="#ffe991" opacity=".18" filter="url(#glow5)"/>
+ <path d="M319 5v15M319 46v15M291 33h15M332 33h15M300 14l11 11M327 40l11 11M338 14l-11 11M311 40l-11 11" stroke="#d5ac43" stroke-width="4" stroke-linecap="round"/>
+ <path d="M319 33l4 7 8 1-6 6 2 8-8-4-8 4 2-8-6-6 8-1z" fill="#fff8d1"/>
+</g>
+<g opacity=".34"><path d="M235 26h54M349 20h53" stroke="#b497e0" stroke-width="3" stroke-linecap="round"/><circle cx="244" cy="26" r="4" fill="#6fdde8"/><circle cx="278" cy="26" r="4" fill="#ffd766"/><circle cx="359" cy="20" r="4" fill="#f07eb2"/><circle cx="392" cy="20" r="4" fill="#9b82ea"/></g>
+</svg>
