@@ -153,3 +153,31 @@ This closes the factory chain as: **review defect → optimizer → deterministi
 Manual preflight workflow: `.github/workflows/art-factory-preflight.yml`.
 
 It verifies the prompt optimizer independently with Node's test runner, installs the exact pinned accelerator code revisions, runs the report-only perceptual/matting/provenance pilot, and uploads evidence. It intentionally does not run paid APIs, deploy, or infer production pixels on a CPU-only runner.
+
+
+## Structured review corpus
+
+Before prompt learning or regeneration decisions, normalize the independent exact-hash review ledgers:
+
+```bash
+node scripts/artReviewNormalizer.mjs \
+  --repo-root . \
+  --output artifacts/art-factory-pilot/review-corpus.json
+```
+
+The corpus preserves the human reason and exact asset hash while deriving a small machine-readable failure taxonomy such as `FLAT_COMPOSITION`, `WEAK_DEPTH`, `THEME_MISMATCH`, `SMALL_CARD_READABILITY`, and `NEAR_DUPLICATE_TEMPLATE`. These labels are learning inputs only: they never replace the reviewer's prose and never transfer an old verdict to a new hash. Self-review is explicitly marked non-independent and must not train the prompt optimizer.
+
+## Provider-independent visual preflight
+
+Run objective image evidence before spending reviewer time:
+
+```bash
+python scripts/catalogVisualPreflight.py self-test
+
+python scripts/catalogVisualPreflight.py scan \
+  --input public/assets/catalog/<candidate>.png \
+  --neighbors public/assets/catalog \
+  --output artifacts/art-factory-pilot/<candidate>-preflight.json
+```
+
+The preflight records source/thumbnail luminance range, entropy, edge density, alpha/content coverage, exact hashes, aHash/dHash signatures and nearest perceptual neighbors. It is deliberately **report-only** until thresholds are calibrated against enough independently labeled ACCEPT/REWORK examples. Exact byte identity remains authoritative for duplicate identity; perceptual metrics can warn but cannot ACCEPT or REWORK artwork.
