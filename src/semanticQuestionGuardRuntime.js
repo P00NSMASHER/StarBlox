@@ -1,4 +1,4 @@
-import { gameModel } from './gameModel';
+import { gameModel } from './gameModel.js';
 
 const HFW_CLOZE = Object.freeze({
   put:{prompt:'Which word completes the sentence so it tells someone to place a book? “Please _____ your book on the desk.”',choices:['put','find','see']},
