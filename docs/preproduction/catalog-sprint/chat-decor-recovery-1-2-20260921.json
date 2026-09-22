@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "batchId": "chat-decor-recovery-1-2-20260921",
+  "producer": "09",
+  "transportHelper": "CHAT",
+  "independentReviewer": "14",
+  "items": [
+    {
+      "id": "decor-1",
+      "name": "Book Crate",
+      "collectionId": "decor",
+      "type": "room",
+      "tier": 1,
+      "theme": "Midnight Neon",
+      "price": 44,
+      "starReq": 0,
+      "assetId": "urn:aaid:sc:US:acf980d3-05f0-47bd-8949-55f729654a37",
+      "renditionUrl": "https://at.adobe.com/twsf6iggFmyAH9Gk",
+      "sourceUrl": "https://at.adobe.com/0u5Jisqzyhg4JAkA",
+      "candidateRepositoryPath": "public/assets/catalog/decor-1-w09-v2.jpg"
+    },
+    {
+      "id": "decor-2",
+      "name": "Cloud Shelf",
+      "collectionId": "decor",
+      "type": "room",
+      "tier": 1,
+      "theme": "Candy Core",
+      "price": 65,
+      "starReq": 0,
+      "assetId": "urn:aaid:sc:US:712c6b0d-d36b-482d-8d69-6fee92742ec7",
+      "renditionUrl": "https://at.adobe.com/4DGzGL1O8Hdwzf3M",
+      "sourceUrl": "https://at.adobe.com/YswyZQ2jG8c6HqXP",
+      "candidateRepositoryPath": "public/assets/catalog/decor-2-w09-v2.jpg"
+    }
+  ]
+}
