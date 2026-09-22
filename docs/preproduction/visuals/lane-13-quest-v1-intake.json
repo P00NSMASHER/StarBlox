@@ -1,0 +1,79 @@
+{
+  "schemaVersion": 1,
+  "candidateId": "quest-learning-room-w13-v1",
+  "candidateType": "environment-background",
+  "producer": "13",
+  "targetScreen": "Quest",
+  "status": "STAGED_PENDING_ORIGIN_READBACK_AND_INDEPENDENT_REVIEW",
+  "reference": {
+    "path": "docs/preproduction/reference-screenshots/originals/quest-1448x1086.jpeg",
+    "sha256": "70f1b952709a85c77bb11851ffe9ae704acf8b97640355e908b6ec537b5c73c9"
+  },
+  "runningRenderEvidence": {
+    "workflowRunId": 35663655650,
+    "artifactId": 10668287632,
+    "renderHead": "b187186e62519ffa77bd0f7b166c601c90bdc416",
+    "file": "quest-desktop-1408x1056.png"
+  },
+  "observedDefect": "Current Quest background reads as a dark shallow blue shell behind the learning UI, while the immutable reference uses a warmer layered library/study environment with believable shelves, furniture, plants and light depth. This candidate addresses only the separate environment layer; it does not replace Quest UI, character, learning content or runtime state.",
+  "provenance": {
+    "sourceMethod": "Adobe image_generate from actual immutable Quest reference inspection plus current branch-local Quest render comparison; no reference pixels copied into output",
+    "generationRequestId": "9b3ba95e-a56f-4cdf-bfbc-3a30ff696c4f",
+    "sourceAdobeUrn": "urn:aaid:ps:US:2421a763-1b79-4f14-8ab7-d824858e83f2",
+    "sourceFireflyAssetId": "urn:aaid:sc:US:7dcb3850-8107-408f-a009-921994e2e9cf",
+    "desktopDerivativeMethod": "Adobe image_crop_and_resize center reframe only; source 2304x1792 crop y=32 height=1728 to exact 1408x1056",
+    "cropRequestId": "cf534922-622d-4397-8a89-375eb8c8568e",
+    "desktopAdobeUrn": "urn:aaid:ps:US:88f82721-0ce6-48ed-bf41-eeb09fb6a95b"
+  },
+  "compositionContract": [
+    "No people, avatars, buddy, UI, text, counters, buttons, logos or third-party IP baked into the background.",
+    "Warm amber wood with blush/lilac ambient light and selective cobalt/cyan accents to bridge reference warmth with current StarBlox chrome.",
+    "Peripheral bookcase/desk/plant/lamp depth concentrated at far left and far right.",
+    "Central-left floor kept usable for separately composited avatar staging.",
+    "Center and center-right kept comparatively low-frequency for the interactive learning/question panel.",
+    "Far-right kept calmer for mastery and today-learning overlays.",
+    "Original StarBlox/Brightside identity retained; reference is art-direction guidance only."
+  ],
+  "files": [
+    {
+      "role": "full",
+      "path": "public/assets/visuals/lane-13/quest-learning-room-w13-v1-full.png",
+      "format": "PNG",
+      "dimensions": [
+        2304,
+        1792
+      ],
+      "bytes": 3727227,
+      "sha256": "2c25bf254a6aed8810d84ffb72eaa4096bd3c4eae69b92dfceffcaaed5dce1db",
+      "variance64": [
+        753.5243988037109,
+        1480.8265842795372,
+        2742.7331704497337
+      ]
+    },
+    {
+      "role": "desktop",
+      "path": "public/assets/visuals/lane-13/quest-learning-room-w13-v1-1408x1056.png",
+      "format": "PNG",
+      "dimensions": [
+        1408,
+        1056
+      ],
+      "bytes": 1372053,
+      "sha256": "00b1d96b463decf882193c27d433b313510069ca294706e56f77ff8ed948ff90",
+      "variance64": [
+        772.2901704311371,
+        1498.404787003994,
+        2768.3432959914207
+      ]
+    }
+  ],
+  "producerVisualInspection": "PASS_PRODUCER_ONLY_NOT_INDEPENDENT_ACCEPT",
+  "runtimeWired": false,
+  "canonicalCatalogTouched": false,
+  "workstream06AvatarTouched": false,
+  "workstream09ActiveEnvironmentTouched": false,
+  "replitOrFlootTouched": false,
+  "mainTouched": false,
+  "originReadback": "PENDING"
+}
