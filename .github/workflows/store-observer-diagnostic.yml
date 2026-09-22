@@ -1,0 +1,77 @@
+name: StarBlox Store Observer Diagnostic
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [screenshot-match-preproduction]
+    paths:
+      - '.github/workflows/store-observer-diagnostic.yml'
+      - 'scripts/storeObserverDiagnostic.mjs'
+      - 'src/storeScreenshotMatchRuntime.js'
+      - 'src/mobileAccessibilityRuntime.js'
+      - 'src/motionGameFeelRuntime.js'
+      - 'src/shellChromeRuntime.js'
+      - 'src/avatarBuddyRuntime.js'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: starblox-store-observer-diagnostic-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  diagnose:
+    if: github.ref_name == 'screenshot-match-preproduction'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install app and browser tooling
+        run: |
+          npm install --no-save --package-lock=false --no-audit --no-fund
+          npm install --no-save --package-lock=false --no-audit --no-fund playwright@1.55.0
+          npx playwright install --with-deps chromium
+
+      - name: Diagnose source-module dev runtime
+        run: |
+          nohup npx vite --host 127.0.0.1 --port 4173 > /tmp/starblox-store-diag-dev.log 2>&1 &
+          echo $! > /tmp/starblox-store-diag-dev.pid
+          for i in $(seq 1 40); do
+            if curl -fsS http://127.0.0.1:4173/ >/dev/null; then break; fi
+            sleep 0.5
+          done
+          STARBLOX_QA_URL=http://127.0.0.1:4173 \
+          STARBLOX_QA_OUTPUT=artifacts/store-observer-diagnostic/dev \
+          node scripts/storeObserverDiagnostic.mjs
+          kill "$(cat /tmp/starblox-store-diag-dev.pid)" || true
+
+      - name: Build production bundle
+        run: npm run build
+
+      - name: Diagnose production preview
+        run: |
+          nohup npx vite preview --host 127.0.0.1 --port 4173 > /tmp/starblox-store-diag-preview.log 2>&1 &
+          echo $! > /tmp/starblox-store-diag-preview.pid
+          for i in $(seq 1 40); do
+            if curl -fsS http://127.0.0.1:4173/ >/dev/null; then break; fi
+            sleep 0.5
+          done
+          STARBLOX_QA_URL=http://127.0.0.1:4173 \
+          STARBLOX_QA_OUTPUT=artifacts/store-observer-diagnostic/preview \
+          node scripts/storeObserverDiagnostic.mjs
+          kill "$(cat /tmp/starblox-store-diag-preview.pid)" || true
+
+      - name: Upload diagnostic evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: store-observer-diagnostic-${{ github.sha }}
+          path: artifacts/store-observer-diagnostic/
+          retention-days: 7
+          if-no-files-found: error
