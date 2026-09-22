@@ -348,7 +348,11 @@ try{
     await page.evaluate(key => localStorage.removeItem(key),SAVE_KEY);
     await page.reload({waitUntil:'networkidle'});
     const recovered = await waitForSave(page,value => value.owned?.includes('future-no-art-999') && value.equipped?.back === 'future-no-art-999',[],5000);
-    assert(recovered.coins === before.coins && recovered.xp === before.xp && recovered.stars === before.stars,'IndexedDB recovery changed currency/XP');
+    assert(
+      recovered.coins === before.coins && recovered.xp === before.xp && recovered.stars === before.stars,
+      'IndexedDB recovery changed currency/XP',
+      {before:critical(before),backup:backup ? critical(backup) : null,recovered:critical(recovered)}
+    );
     assert(recovered.roomDecor.includes('future-no-art-room') && recovered.dreamGoalId === 'future-no-art-goal','IndexedDB recovery pruned no-art placement/Dream Goal');
     return {before:critical(before),recovered:critical(recovered)};
   },page);
