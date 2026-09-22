@@ -1,0 +1,299 @@
+{
+  "schemaVersion": 1,
+  "workstream": "11",
+  "scope": "ART_AND_VISUALS_ONLY_STATIC_REDUCED_MOTION_SPECIFICATION",
+  "branch": "screenshot-match-preproduction",
+  "sourceHeadBeforeWrite": "d505893c1c48dd5dc4b97881a9b74683ac3b609c",
+  "status": "SPEC_READY_NO_RUNTIME_WRITE_NO_GATE_CLOSURE",
+  "ownership": {
+    "auraProducer": "11",
+    "auraReviewer": "05",
+    "canonicalCatalogWriter": "08",
+    "sharedEntrypointCoordinator": "15",
+    "renderQaOwnerAfterImplementation": "14"
+  },
+  "auraFreeze": {
+    "status": "CLOSED_ACCEPTED_CANONICAL_12_OF_12",
+    "dreamAuroraPath": "/assets/catalog/auras-11-w11-v3.jpg",
+    "dreamAuroraGitBlobSha": "7f3372c1584e07f18a3abfc7818013190fff1560",
+    "rule": "No Aura regeneration, alteration, remap or re-review unless a later exact-hash defect is recorded."
+  },
+  "referenceBasis": {
+    "manifestPath": "docs/preproduction/reference-screenshots/original-reference-manifest.json",
+    "manifestBlobSha": "63956763934f17613a3f98889f8085051a78a0b6",
+    "designContractPath": "docs/preproduction/DESIGN_SYSTEM_CONTRACT.md",
+    "desktopReferenceAuthority": {
+      "home": {
+        "path": "docs/preproduction/reference-screenshots/originals/home-1448x1086.jpeg",
+        "sha256": "6a4b110aeaf12a6ab0c629f9181cc6cfa8d4f55a518d4f2a6adb3ac6e756c457",
+        "normalizedComparison": "docs/preproduction/reference-screenshots/home-desktop-1408x1056.png"
+      },
+      "store": {
+        "path": "docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg",
+        "sha256": "b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d",
+        "normalizedComparison": "docs/preproduction/reference-screenshots/store-desktop-1408x1056.png"
+      },
+      "quest": {
+        "path": "docs/preproduction/reference-screenshots/originals/quest-1448x1086.jpeg",
+        "sha256": "70f1b952709a85c77bb11851ffe9ae704acf8b97640355e908b6ec537b5c73c9",
+        "normalizedComparison": "docs/preproduction/reference-screenshots/quest-desktop-1408x1056.png"
+      }
+    },
+    "desktopComparisonSize": [1408, 1056],
+    "responsiveQaViewports": [[1024,768],[390,844],[320,568]],
+    "mobileReferencePixelsProvided": false,
+    "mobileRule": "Responsive captures prove hierarchy/readability/static-state quality only; never claim mobile pixel parity."
+  },
+  "purpose": "Give Workstream 15 an implementation target and Workstream 14 a deterministic still-capture acceptance packet for reduced-motion visual quality without creating runtime state or closing any gate by source inspection.",
+  "globalStaticRules": {
+    "mustRemainVisibleWithoutMotion": [
+      "selected state",
+      "equipped state",
+      "semantic correct state",
+      "true current room tier",
+      "locked room tiers",
+      "focus outlines",
+      "prices and item names",
+      "answer copy and instructional feedback"
+    ],
+    "mustBeAbsent": [
+      "traveling particles",
+      "idle transform loops",
+      "pulsing halos",
+      "staggered visibility dependencies",
+      "motion-only state indicators",
+      "animated backdrop filters on dense or scrolling surfaces",
+      "celebratory treatment on wrong, clue or retry states"
+    ],
+    "materialLanguage": {
+      "stableChrome": ["#051741", "#071E57", "#0A2D73", "#0D439D", "#1266CF"],
+      "rim": ["#63D9F4", "#8AE9FF", "#D6F8FF"],
+      "success": ["#35CC6A", "#91F0AD"],
+      "achievement": ["#FFD84F", "#FFF09A"],
+      "rule": "Use fixed rim/keyline/contact-shadow/material contrast to preserve premium depth when motion is disabled."
+    },
+    "effectLayerOrder": [
+      "scene-atmosphere",
+      "stable-chrome",
+      "selected-or-semantic-state-material",
+      "static-event-accent-if-authorized",
+      "text-controls-focus-semantic-badges"
+    ],
+    "occlusion": [
+      "Avatar face and equipped item silhouette stay unobscured.",
+      "Item names, prices, answer copy, CTA text and focus rings stay above decorative effects.",
+      "Static stars/glints must sit outside critical text bands.",
+      "No decorative layer may intercept pointer or focus input."
+    ]
+  },
+  "captureSets": {
+    "home": {
+      "desktopReferenceRegions": {
+        "roomProgress": [520,84,1130,250],
+        "avatarHero": [520,260,930,825],
+        "dreamGoal": [1138,118,1395,680],
+        "dailyQuests": [14,705,425,1034],
+        "customize": [442,822,1045,1035],
+        "todayLearning": [1062,772,1396,930]
+      },
+      "requiredStillStates": [
+        {
+          "id": "home-reduced-static-final",
+          "semanticPrerequisite": "ordinary Home state with real room progression loaded",
+          "visualRequirements": [
+            "All five truthful room-tier previews are visible immediately in final positions.",
+            "Only the true current tier may receive warm-gold emphasis; locked tiers preserve truthful lock treatment.",
+            "Room Progress and Dream Goal may carry fixed cyan/ice depth; no pulse.",
+            "Avatar and Buddy are completely still but retain fixed contact shadow/rim light.",
+            "Daily Quests, Customize and learning copy remain calmer than hero anchors and fully readable."
+          ],
+          "failIf": [
+            "Any tile waits for an animation callback to become visible.",
+            "Fake unlock/progress material is introduced.",
+            "Static effect treatment covers the avatar face or instructional copy.",
+            "Reduced-motion mode merely removes depth and makes premium anchors visually flat."
+          ]
+        }
+      ],
+      "viewportAdaptation": {
+        "1408x1056": "Use normalized reference geometry as the desktop authority.",
+        "1024x768": "Preserve hero hierarchy; effects remain localized to Room Progress/Dream Goal, never expanded to compensate for tighter space.",
+        "390x844": "Suppress any optional decorative star cluster that would collide with copy; state cues rely on rim/keyline/contact shadow.",
+        "320x568": "Maximum restraint: no decorative cluster is required; truthful room/current-state material and readable avatar/copy take priority."
+      }
+    },
+    "store": {
+      "desktopReferenceRegions": {
+        "grid": [178,79,1020,808],
+        "tryOn": [1030,160,1408,630],
+        "selectedDetail": [1035,630,1398,842],
+        "collectionStrip": [10,832,1098,1048],
+        "valuePanel": [1102,850,1398,1048]
+      },
+      "requiredStillStates": [
+        {
+          "id": "store-reduced-selected",
+          "semanticPrerequisite": "existing selected item state is true",
+          "visualRequirements": [
+            "Exact selected card has a persistent stronger cyan/ice rim without resizing or shifting neighbors.",
+            "Try-on/detail destination has one fixed soft halo.",
+            "No card-to-stage travel path, scale bounce or pulse exists.",
+            "Item name, price and selected/equipped semantic cues remain above decoration."
+          ],
+          "failIf": [
+            "Selection is only understandable from an animation that is absent.",
+            "Fixed halo washes neighboring card labels or prices.",
+            "Grid geometry changes when reduced motion is enabled."
+          ]
+        },
+        {
+          "id": "store-reduced-equipped",
+          "semanticPrerequisite": "existing equipped state is true",
+          "visualRequirements": [
+            "Persistent equipped cue remains the primary source of truth.",
+            "Optional fixed three-to-five-star cluster sits near destination art but outside face/item-critical detail.",
+            "No success implication is shown before the existing equip state is true."
+          ],
+          "failIf": [
+            "Equipped state depends on particle motion.",
+            "Static cluster obscures the avatar face or newly equipped object.",
+            "Reduced-motion style changes ownership, price, purchase or save semantics."
+          ]
+        },
+        {
+          "id": "store-reduced-selected-after-scroll",
+          "semanticPrerequisite": "selected/equipped state remains true after one meaningful grid scroll",
+          "visualRequirements": [
+            "Persistent selected/equipped material remains legible before and after scroll.",
+            "No orphan particle or animated filter layer appears during scroll.",
+            "Scroll position is not changed by effect material."
+          ],
+          "failIf": [
+            "Selection glow changes intensity because the grid moved.",
+            "A decorative overlay detaches from its owning card/stage.",
+            "Scrolling becomes visually muddy from large soft filters."
+          ]
+        }
+      ],
+      "viewportAdaptation": {
+        "1408x1056": "Reference-density target remains six columns by three full rows; static effect treatment cannot reduce density.",
+        "1024x768": "Selected/equipped cue must remain visible without increasing blur spill into adjacent cards.",
+        "390x844": "Prefer outline/keyline over halo spread; optional star cluster may be omitted if it competes with item art or text.",
+        "320x568": "Use the strongest non-motion semantic cue and minimal decorative glow; never trade label/price readability for spectacle."
+      }
+    },
+    "quest": {
+      "desktopReferenceRegions": {
+        "header": [390,82,1172,153],
+        "phaseStrip": [390,153,1172,224],
+        "avatarZone": [12,205,380,960],
+        "learningBody": [384,238,1173,900],
+        "masteryRail": [1182,222,1398,900],
+        "earnedSummary": [470,925,855,1022]
+      },
+      "requiredStillStates": [
+        {
+          "id": "quest-reduced-unanswered",
+          "semanticPrerequisite": "existing unanswered state",
+          "visualRequirements": [
+            "Central learning body is visually calm and all answer choices remain neutral.",
+            "No choice receives gold, green success or attention-steering sparkle.",
+            "Avatar/mastery chrome may keep static depth but no urgency treatment."
+          ],
+          "failIf": [
+            "Any visual cue hints at the correct answer before correctness is established.",
+            "A pulsing or motion-derived emphasis has been replaced by an equally biasing static glow.",
+            "Countdown, streak-loss or FOMO visual language appears."
+          ]
+        },
+        {
+          "id": "quest-reduced-correct",
+          "semanticPrerequisite": "reliable existing semantic correct state",
+          "visualRequirements": [
+            "Correct state uses an instant static green success keyline.",
+            "Optional small fixed gold/ice star cluster sits outside answer copy.",
+            "Question/answer geometry does not move and next action remains immediately available."
+          ],
+          "failIf": [
+            "Correct styling depends on a transient animation.",
+            "Static decoration covers passage or answer text.",
+            "Success appears before the existing correct semantic state is true."
+          ]
+        },
+        {
+          "id": "quest-reduced-wrong-clue-retry",
+          "semanticPrerequisite": "existing wrong, clue or retry state",
+          "visualRequirements": [
+            "Instructional feedback remains readable.",
+            "There is zero gold reward flare, Star Spark cluster, success bloom or celebratory avatar reaction.",
+            "Assisted/clue treatment remains visibly distinct from independent correct success where existing semantics provide that distinction."
+          ],
+          "failIf": [
+            "Wrong/clue/retry can be mistaken for success.",
+            "Celebration material survives from a previous correct state.",
+            "Static treatment reveals the answer rather than preserving existing instructional semantics."
+          ]
+        },
+        {
+          "id": "quest-reduced-next-clean",
+          "semanticPrerequisite": "advance from a prior correct state to the next unanswered state",
+          "visualRequirements": [
+            "All previous success decoration is gone before the new unanswered frame is judged.",
+            "New answer choices are neutral and visually equivalent absent existing semantic differences."
+          ],
+          "failIf": [
+            "Any green/gold success residue survives into the next question.",
+            "A stale effect layer changes focus, geometry or answer salience."
+          ]
+        }
+      ],
+      "viewportAdaptation": {
+        "1408x1056": "Use normalized reference hierarchy and keep the central lesson/question body the calmest large region.",
+        "1024x768": "Maintain state contrast with keylines rather than larger glow fields.",
+        "390x844": "Prefer zero decorative stars if needed to protect answer readability; correct/wrong distinction must survive through static color/material cues.",
+        "320x568": "No optional spectacle is required; neutral unanswered choices and unmistakable non-celebratory wrong/clue/retry states are mandatory."
+      }
+    }
+  },
+  "renderQaHandoff": {
+    "owner": "14 after 15 coordinates shared implementation",
+    "capturePolicy": "Capture actual rendered pixels for every required still state at the listed viewports. Source/CSS inspection cannot close the gate.",
+    "requiredViewports": [[1408,1056],[1024,768],[390,844],[320,568]],
+    "comparisonPolicy": {
+      "desktop": "Compare composition/material hierarchy against the normalized authoritative desktop reference while accounting for truthful state/content differences.",
+      "responsive": "Judge readability, hierarchy, occlusion, cleanup and effect restraint only; no invented mobile parity claim."
+    },
+    "stateIntegrityChecks": [
+      "No motion-only information disappears in reduced motion.",
+      "No success decoration appears in Quest wrong/clue/retry.",
+      "No stale success decoration remains on the next unanswered Quest frame.",
+      "Store selected/equipped cues remain visible after scroll without changing scroll position.",
+      "Home room tiles are all available immediately and remain truthful to real state.",
+      "No decorative overlay blocks pointer, focus, text or critical illustration detail."
+    ],
+    "status": "OPEN_NOT_EXECUTED"
+  },
+  "releaseGateClaims": {
+    "normalMotionRenderQa": "OPEN_NOT_EXECUTED",
+    "reducedMotionRenderQa": "OPEN_NOT_EXECUTED",
+    "paintCompositeScrollProfiling": "OPEN_NOT_EXECUTED",
+    "referenceParity": "OPEN_NOT_CLEARED",
+    "artVisualsComplete": false,
+    "deploymentAuthorized": false
+  },
+  "freeze": {
+    "catalogAssetsChanged": false,
+    "canonicalMappingsChangedBy11": false,
+    "sharedRuntimeChanged": false,
+    "gameplayChanged": false,
+    "learningChanged": false,
+    "persistenceChanged": false,
+    "economyChanged": false,
+    "playerDataChanged": false,
+    "mainTouched": false,
+    "replitTouched": false,
+    "flootTouched": false,
+    "deploymentTouched": false,
+    "paidSettingsTouched": false
+  }
+}
