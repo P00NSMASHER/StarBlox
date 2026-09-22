@@ -3,6 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import {pathToFileURL} from 'node:url';
 import {buildReviewCorpus} from './artReviewNormalizer.mjs';
+import {recommend,train} from './artPromptOptimizer.mjs';
 
 const PENDING_RX = /READY_FOR_REVIEW|READY_FOR_FRESH_REVIEW|STAGED|PENDING_(?:REVIEW|\d+)|AWAITING_(?:REVIEW|RENDER)|EXACT_BYTES_VERIFIED|RENDER_EVIDENCE_READY|GENERATED|REVIEW_REQUEST/i;
 const HASH_KEYS = ['assetHash','gitBlobSha','candidateBlobSha','blobSha','hash'];
@@ -107,14 +108,38 @@ export function buildRegenerationQueue({corpus,laneDocuments=[]}){
   };
 }
 
+export function attachPromptRecommendations(queue,{items=[],reviewDocs=[]}={}){
+  const byId=new Map(items.map(item=>[item.id,item]));
+  const model=train({reviewDocs});
+  return {
+    ...queue,
+    selected:queue.selected.map(row=>{
+      const item=byId.get(row.itemId);
+      if(!item) return {...row,promptRecommendation:{action:'HOLD_NOT_REGEN',reason:'ITEM_METADATA_MISSING'}};
+      const review={
+        itemId:row.itemId,
+        assetHash:row.reviewedHash,
+        producer:row.producer,
+        reviewer:row.reviewer,
+        decision:'REWORK',
+        reason:row.humanReason,
+        failureCodes:row.failureCodes
+      };
+      return {...row,promptRecommendation:recommend(item,review,model,4)};
+    }),
+    policy:{...queue.policy,promptRecommendationsIncluded:true}
+  };
+}
+
 function args(argv){const out={};for(let i=0;i<argv.length;i++){const x=argv[i];if(!x.startsWith('--'))continue;const k=x.slice(2),v=argv[i+1];if(v&&!v.startsWith('--')){out[k]=v;i++}else out[k]=true}return out}
 async function main(){
   const a=args(process.argv.slice(2)),root=path.resolve(a['repo-root']||'.');
   const mod=await import(pathToFileURL(path.join(root,'src/gameModel.js')).href+`?regen=${Date.now()}`);
   const items=mod.store||mod.gameModel?.store||[];
-  const corpus=buildReviewCorpus({docs:reviewDocs(root),items});
+  const reviews=reviewDocs(root);
+  const corpus=buildReviewCorpus({docs:reviews,items});
   if(corpus.conflicts.length) throw Error('review conflicts prevent queue generation');
-  const queue=buildRegenerationQueue({corpus,laneDocuments:laneDocs(root)});
+  const queue=attachPromptRecommendations(buildRegenerationQueue({corpus,laneDocuments:laneDocs(root)}),{items,reviewDocs:reviews});
   const text=JSON.stringify(queue,null,2)+'\n';
   if(a.output){const dest=path.resolve(a.output);fs.mkdirSync(path.dirname(dest),{recursive:true});fs.writeFileSync(dest,text)}else process.stdout.write(text);
 }
