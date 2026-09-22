@@ -1,811 +1,121 @@
 {
-  "schemaVersion": 5,
+  "schemaVersion": 6,
   "reviewer": "14",
   "role": "Visual Release QA / independent catalog reviewer",
-  "phase": "CATALOG_SPRINT",
+  "phase": "ART_VISUALS_SPRINT",
   "branch": "screenshot-match-preproduction",
-  "reviewSourceHead": "8d7db7286346a72932bc7ee7c56953eda5e5cd48",
-  "recordedOnHead": "4a4a78be58acf8474652947e51ea43c8b12e0658",
-  "previousRevisionBlobSha": "4c0b5863be0d4b674a9a707e932a746b2811078b",
-  "assignedCollections": [
-    "lighting",
-    "wall",
-    "rugs",
-    "decor"
-  ],
+  "reviewSourceHead": "1446282c8a09239aa63d9a500cf01b6c386b1c43",
+  "previousRevisionBlobSha": "50fabe748ec59e08acc6970c0867399a402dba3b",
+  "assignedCollections": ["lighting", "wall", "rugs", "decor"],
   "assignedCount": 48,
   "reviewed": 48,
   "remainingUnreviewed": 0,
-  "accepted": 22,
-  "rework": 26,
+  "accepted": 26,
+  "rework": 22,
   "blocked": 0,
+  "synchronizationOnly": true,
+  "synchronizationNote": "No new pixel judgment was made here. This revision normalizes previously qualified exact-hash Rugs 9-12 decisions into the reviewer-14 shard. Direct evidence remains authoritative and prior detailed shard history remains immutable at previousRevisionBlobSha.",
   "evidence": {
-    "baselinePartition": {
-      "workflowRunId": 35656393329,
-      "artifactId": 10665735307,
-      "artifactDigest": "sha256:ad8d2da6f5553eb922616956515b85a16c89d80b34574e6679dfd6716c6f3233"
-    },
-    "lighting5To8": {
-      "workflowRunId": 35665938359,
-      "artifactId": 10668723285,
-      "artifactDigest": "sha256:9a3e1a3a90752a3f60de0679dbfb05e4398080c3bd49bd2625c2437a1db473d3",
-      "result": "PASS_4_OF_4_EXACT_HASH_CARD_DETAIL_RENDER_AND_INDEPENDENT_PIXEL_REVIEW"
-    },
-    "lighting9To12": {
-      "workflowRunId": 35669695516,
-      "workflowHead": "4ad15b615907c4a3b3180db127ae8cac4acb2e91",
-      "artifactId": 10670588502,
-      "artifactDigest": "sha256:931d44eb5e0ca99b6046faca1dd7c395955e975143bd49392aaf8dc6d7d987f5",
-      "workflowConclusion": "CANCELLED_AFTER_ARTIFACT_DUE_TO_NEWER_RUN",
-      "lightingSubsetResult": "PASS_4_OF_4_HTTP200_DECODE_600X600_OPAQUE_SCREENSHOT_NO_ITEM_ERRORS",
-      "contactSheetSha256": "27135f72c3630586cf0527d14b34117747d7a584c0fcbfbf2e2dce2408dc235e",
-      "note": "Overall staged-replacements set contained stale Desk 2-4 failures; those cross-partition failures do not invalidate the clean Lighting set and are not dispositioned by reviewer 14."
-    },
-    "rugs1To8AndDecor1To2": {
-      "workflowRunId": 35671542628,
-      "workflowHead": "8d7db7286346a72932bc7ee7c56953eda5e5cd48",
-      "artifactId": 10671346458,
-      "artifactDigest": "sha256:fae4585a8bfa051389ecdffa2e3c983cac4bf7be98677a2a8c7d1e57f1e4827e",
-      "reportSha256": "639a367eb0c5d02bba8d70c1733e498a08f9a4dbb55a76c88d5235182d9366d0",
-      "contactSheetSha256": "8782be685e0984b767e806edba445f5f1fd57e4d7ebfc1bc68afaba03faa075e",
-      "result": "PASS_10_OF_10_EXACT_HASH_CARD_DETAIL_RENDER_AND_INDEPENDENT_PIXEL_REVIEW"
-    }
+    "baselinePartition": "workflow:35656393329/artifact:10665735307",
+    "lighting5To8": "workflow:35665938359/artifact:10668723285",
+    "lighting9To12": "workflow:35669695516/artifact:10670588502",
+    "rugs1To8AndDecor1To2": "workflow:35671542628/artifact:10671346458",
+    "rugs9To12V2Review": "docs/preproduction/catalog-sprint/chat-rugs-9-12-review-14.json",
+    "rugs11V3Review": "docs/preproduction/catalog-sprint/chat-rugs-11-12-v3-review-14-to-08.json",
+    "rugs12V3ReconciledReview": "docs/preproduction/catalog-sprint/chat-rugs-12-v3-reconciled-review-14-to-08.json"
   },
   "acceptanceBasis": {
     "actualPixelsReviewed": true,
     "sourceOnlyApprovalAllowed": false,
-    "metadataChecked": "exact item ID/name/tier/theme from current lane/game model evidence",
-    "originalReferencePixels": "AVAILABLE_FOR_SCREEN_REFERENCE_QA; catalog-item acceptance uses exact metadata plus actual candidate pixels, not raw screenshot parity",
     "familyFindings": {
-      "lighting": "12/12 current replacement hashes ACCEPT.",
-      "wall": "12/12 current hashes REWORK.",
-      "rugs": "8/12 current hashes ACCEPT; rugs-9..12 remain REWORK at prior reviewed hashes.",
-      "decor": "2/12 current hashes ACCEPT; decor-3..12 remain REWORK at prior reviewed hashes."
-    },
-    "duplicateChecks": {
-      "exactContent": "PASS_48_UNIQUE_CURRENT_DECISION_GIT_BLOB_HASHES",
-      "manualNearDuplicate": "PASS_NO_IDENTITY_COLLISION_ACROSS_ACCEPTED_LIGHTING_RUGS_DECOR; legacy Wall/Rugs9-12/Decor3-12 similarity remains a quality defect, not accepted final content"
+      "lighting": "12/12 current accepted exact hashes preserved.",
+      "wall": "12/12 unchanged current hashes remain REWORK; no re-review.",
+      "rugs": "12/12 current exact hashes ACCEPT; Rugs 9-12 are normalized from existing direct exact-hash evidence, not re-reviewed.",
+      "decor": "2/12 current accepted exact hashes preserved; Decor 3-12 unchanged hashes remain REWORK."
     }
   },
   "decisions": {
-    "lighting-1": {
-      "hash": "9d8aa142fa53f06dbad9ce59e9c8d34c1096ddc3",
-      "path": "/assets/catalog/lighting-1-v2.jpg",
-      "producer": "04",
-      "decision": "ACCEPT",
-      "reasonCode": "DIMENSIONAL_REPLACEMENT_PASS"
+    "lighting-1": {"hash":"9d8aa142fa53f06dbad9ce59e9c8d34c1096ddc3","path":"/assets/catalog/lighting-1-v2.jpg","producer":"04","decision":"ACCEPT"},
+    "lighting-2": {"hash":"8c10fe689d6d7e398e85b24eb1ca1323cee07ea3","path":"/assets/catalog/lighting-2-v2.jpg","producer":"04","decision":"ACCEPT"},
+    "lighting-3": {"hash":"fc21ddf5a608ee393410ff9682cf2ef87a56c46d","path":"/assets/catalog/lighting-3-v2.jpg","producer":"04","decision":"ACCEPT"},
+    "lighting-4": {"hash":"7975e490a9fb97574f03081acf9fc871c22224f3","path":"/assets/catalog/lighting-4-v2.jpg","producer":"04","decision":"ACCEPT"},
+    "lighting-5": {"hash":"a9e03e73c7080fdc2effd884bb0965999954d90c","path":"/assets/catalog/lighting-5-w04-recovered-v2.jpg","producer":"04","decision":"ACCEPT"},
+    "lighting-6": {"hash":"d8d8fca7cda78451860377bfdfd257b4a450aa9c","path":"/assets/catalog/lighting-6-w04-recovered-v2.jpg","producer":"04","decision":"ACCEPT"},
+    "lighting-7": {"hash":"7ce162a18ab641df7ab73f380557aad5aa64b24d","path":"/assets/catalog/lighting-7-w04-recovered-v2.jpg","producer":"04","decision":"ACCEPT"},
+    "lighting-8": {"hash":"9073a049ec9116cf3e4408adf068be48f1ad00f1","path":"/assets/catalog/lighting-8-w04-recovered-v2.jpg","producer":"04","decision":"ACCEPT"},
+    "lighting-9": {"hash":"d9a0e461a1a8ace589cf6be1ec93e61972ba7faf","path":"/assets/catalog/lighting-9-w04-recovered-v2.jpg","producer":"04","decision":"ACCEPT"},
+    "lighting-10": {"hash":"e4ca304730d4c330711534c2c7c52da218c9acfa","path":"/assets/catalog/lighting-10-w04-recovered-v2.jpg","producer":"04","decision":"ACCEPT"},
+    "lighting-11": {"hash":"995b6ae729b3daa9e1199dd032b24e128db0b61b","path":"/assets/catalog/lighting-11-w04-recovered-v2.jpg","producer":"04","decision":"ACCEPT"},
+    "lighting-12": {"hash":"ddb71949f485348a45e00c5105eb336ad55a010a","path":"/assets/catalog/lighting-12-w04-recovered-v2.jpg","producer":"04","decision":"ACCEPT"},
+    "wall-1": {"hash":"aedaec3bbb44bd966e62d897ea0ccc5a64b14bd8","path":"/assets/catalog/wall-1.svg","producer":"05","decision":"REWORK"},
+    "wall-2": {"hash":"2dd6f4f09bd201e1e03582cb2b8990930f934d39","path":"/assets/catalog/wall-2.svg","producer":"05","decision":"REWORK"},
+    "wall-3": {"hash":"3419da96bd482ef0300acce28363662ec45abddf","path":"/assets/catalog/wall-3.svg","producer":"05","decision":"REWORK"},
+    "wall-4": {"hash":"269b888dffce8aa2ac6cc9f885960d7c5e3d70b5","path":"/assets/catalog/wall-4.svg","producer":"05","decision":"REWORK"},
+    "wall-5": {"hash":"e9db285a837784a875642c0b56a7964873d79a5d","path":"/assets/catalog/wall-5.svg","producer":"05","decision":"REWORK"},
+    "wall-6": {"hash":"d31b39482cce122c9030e8105592d89be3f6fd33","path":"/assets/catalog/wall-6.svg","producer":"05","decision":"REWORK"},
+    "wall-7": {"hash":"f291c8368d4218603e3afe957662c3d37c5ca62a","path":"/assets/catalog/wall-7.svg","producer":"05","decision":"REWORK"},
+    "wall-8": {"hash":"d50201ae8eb39ea26cffc8b7c85686cf6b4b7baa","path":"/assets/catalog/wall-8.svg","producer":"05","decision":"REWORK"},
+    "wall-9": {"hash":"0a83f6684de27c0ac31057d600bb24e2a3e5a183","path":"/assets/catalog/wall-9.svg","producer":"05","decision":"REWORK"},
+    "wall-10": {"hash":"df566297cc638fbcf1673d799a7ffb9e1f586927","path":"/assets/catalog/wall-10.svg","producer":"05","decision":"REWORK"},
+    "wall-11": {"hash":"d0609238147f8d63e58662efe9755abbaecc39e1","path":"/assets/catalog/wall-11.svg","producer":"05","decision":"REWORK"},
+    "wall-12": {"hash":"84a7eeb0f909572fe9e896b912b675990187ae48","path":"/assets/catalog/wall-12.svg","producer":"05","decision":"REWORK"},
+    "rugs-1": {"hash":"5e00d1456fa21af74de75e583c69de48c9f2ecd2","path":"/assets/catalog/rugs-1-w07-v2.jpg","producer":"07","decision":"ACCEPT"},
+    "rugs-2": {"hash":"578caf5cc81998d6c7563082892e468fc9186eec","path":"/assets/catalog/rugs-2-w07-v2.jpg","producer":"07","decision":"ACCEPT"},
+    "rugs-3": {"hash":"0c3b62a84182cd8e7fc3b8dc57f9b1015e54e920","path":"/assets/catalog/rugs-3-w07-v2.jpg","producer":"07","decision":"ACCEPT"},
+    "rugs-4": {"hash":"d2c1a712dc530cec13ce72100657714900134ce2","path":"/assets/catalog/rugs-4-w07-v2.jpg","producer":"07","decision":"ACCEPT"},
+    "rugs-5": {"hash":"5a513011856679060df10137eae9f380377f5d78","path":"/assets/catalog/rugs-5-w07-v2.jpg","producer":"07","decision":"ACCEPT"},
+    "rugs-6": {"hash":"cb96e0d40e0682770e79ef8ce6a1a86ecec3127f","path":"/assets/catalog/rugs-6-w07-v2.jpg","producer":"07","decision":"ACCEPT"},
+    "rugs-7": {"hash":"184232121c9cd07c65fe1138893132ee0daa3fb3","path":"/assets/catalog/rugs-7-w07-v2.jpg","producer":"07","decision":"ACCEPT"},
+    "rugs-8": {"hash":"efe9bb6e887375a7e6ed74b15222391a1e2434bf","path":"/assets/catalog/rugs-8-w07-v2.jpg","producer":"07","decision":"ACCEPT"},
+    "rugs-9": {"hash":"9eef1db116e871d31c62de680d261cfbeccf49b3","path":"/assets/catalog/rugs-9-w07-v2.jpg","producer":"07","decision":"ACCEPT"},
+    "rugs-10": {"hash":"e9ff2aabc5bfa90c7411d0b8a5c48f297d2d270d","path":"/assets/catalog/rugs-10-chat-v2.png","producer":"07","decision":"ACCEPT"},
+    "rugs-11": {"hash":"2c93f18fb5960f7056819c341a3da8f7fff3fb9d","path":"/assets/catalog/rugs-11-w07-v3.png","producer":"07","decision":"ACCEPT"},
+    "rugs-12": {"hash":"eea2fc5b78c1186342f91f597bc792160ab8f8fe","path":"/assets/catalog/rugs-12-w07-v3.png","producer":"07","decision":"ACCEPT"},
+    "decor-1": {"hash":"7e0bad0b6f1dda6068c17109757c396de860892a","path":"/assets/catalog/decor-1-w09-v2.jpg","producer":"09","decision":"ACCEPT"},
+    "decor-2": {"hash":"d5377bda54cba2071819da60bf4f4d4c52e393a6","path":"/assets/catalog/decor-2-w09-v2.jpg","producer":"09","decision":"ACCEPT"},
+    "decor-3": {"hash":"4fc2f591915f53b249956c20c50693ad22e3a1bb","path":"/assets/catalog/decor-3.svg","producer":"09","decision":"REWORK"},
+    "decor-4": {"hash":"cb4bc4cfca9bdd4764905fdf94aa8291605f1ce0","path":"/assets/catalog/decor-4.svg","producer":"09","decision":"REWORK"},
+    "decor-5": {"hash":"0f7559a576177758d94dba1c3da27373a9151a2b","path":"/assets/catalog/decor-5.svg","producer":"09","decision":"REWORK"},
+    "decor-6": {"hash":"3a8d81ea490f8bac42ef2147797a3926d69df9ef","path":"/assets/catalog/decor-6.svg","producer":"09","decision":"REWORK"},
+    "decor-7": {"hash":"671c609625400bf5c2142daef73ab632bd1225a2","path":"/assets/catalog/decor-7.svg","producer":"09","decision":"REWORK"},
+    "decor-8": {"hash":"87e33d5190b7a7ef21e23ae875dda8ae1808c4be","path":"/assets/catalog/decor-8.svg","producer":"09","decision":"REWORK"},
+    "decor-9": {"hash":"5c95b853da763f7ff2e9e332169ea5841ac1885e","path":"/assets/catalog/decor-9.svg","producer":"09","decision":"REWORK"},
+    "decor-10": {"hash":"f390a4a237605f8768111efc65c85d059529a690","path":"/assets/catalog/decor-10.svg","producer":"09","decision":"REWORK"},
+    "decor-11": {"hash":"250aad2e72917036ae03c1db3e9071ae6c7aa983","path":"/assets/catalog/decor-11.svg","producer":"09","decision":"REWORK"},
+    "decor-12": {"hash":"903e0f5d45dd6874c4352493db3e3e3346e0b39c","path":"/assets/catalog/decor-12.svg","producer":"09","decision":"REWORK"}
+  },
+  "reviews": [
+    {
+      "itemId":"rugs-9","assetPath":"/assets/catalog/rugs-9-w07-v2.jpg","assetHash":"9eef1db116e871d31c62de680d261cfbeccf49b3","hashAlgorithm":"git-blob-sha1","producer":"07","decision":"ACCEPT","evidenceRefs":["docs/preproduction/catalog-sprint/chat-rugs-9-12-review-14.json"],"reason":"Synchronized from the already-qualified exact-hash card/detail review; no new review performed.","checks":{"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"PASS","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
     },
-    "lighting-2": {
-      "hash": "8c10fe689d6d7e398e85b24eb1ca1323cee07ea3",
-      "path": "/assets/catalog/lighting-2-v2.jpg",
-      "producer": "04",
-      "decision": "ACCEPT",
-      "reasonCode": "DIMENSIONAL_REPLACEMENT_PASS"
+    {
+      "itemId":"rugs-10","assetPath":"/assets/catalog/rugs-10-chat-v2.png","assetHash":"e9ff2aabc5bfa90c7411d0b8a5c48f297d2d270d","hashAlgorithm":"git-blob-sha1","producer":"07","decision":"ACCEPT","evidenceRefs":["docs/preproduction/catalog-sprint/chat-rugs-9-12-review-14.json"],"reason":"Synchronized from the already-qualified exact-hash card/detail review; no new review performed.","checks":{"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"PASS","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
     },
-    "lighting-3": {
-      "hash": "fc21ddf5a608ee393410ff9682cf2ef87a56c46d",
-      "path": "/assets/catalog/lighting-3-v2.jpg",
-      "producer": "04",
-      "decision": "ACCEPT",
-      "reasonCode": "DIMENSIONAL_REPLACEMENT_PASS"
+    {
+      "itemId":"rugs-11","assetPath":"/assets/catalog/rugs-11-w07-v3.png","assetHash":"2c93f18fb5960f7056819c341a3da8f7fff3fb9d","hashAlgorithm":"git-blob-sha1","producer":"07","decision":"ACCEPT","evidenceRefs":["docs/preproduction/catalog-sprint/chat-rugs-11-12-v3-review-14-to-08.json"],"reason":"Synchronized from the already-qualified v3 exact-hash card/detail review; no new review performed.","checks":{"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"PASS","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
     },
-    "lighting-4": {
-      "hash": "7975e490a9fb97574f03081acf9fc871c22224f3",
-      "path": "/assets/catalog/lighting-4-v2.jpg",
-      "producer": "04",
-      "decision": "ACCEPT",
-      "reasonCode": "DIMENSIONAL_REPLACEMENT_PASS"
-    },
-    "lighting-5": {
-      "hash": "a9e03e73c7080fdc2effd884bb0965999954d90c",
-      "path": "/assets/catalog/lighting-5-w04-recovered-v2.jpg",
-      "producer": "04",
-      "decision": "ACCEPT",
-      "reasonCode": "DIMENSIONAL_REPLACEMENT_PASS"
-    },
-    "lighting-6": {
-      "hash": "d8d8fca7cda78451860377bfdfd257b4a450aa9c",
-      "path": "/assets/catalog/lighting-6-w04-recovered-v2.jpg",
-      "producer": "04",
-      "decision": "ACCEPT",
-      "reasonCode": "DIMENSIONAL_REPLACEMENT_PASS"
-    },
-    "lighting-7": {
-      "hash": "7ce162a18ab641df7ab73f380557aad5aa64b24d",
-      "path": "/assets/catalog/lighting-7-w04-recovered-v2.jpg",
-      "producer": "04",
-      "decision": "ACCEPT",
-      "reasonCode": "DIMENSIONAL_REPLACEMENT_PASS"
-    },
-    "lighting-8": {
-      "hash": "9073a049ec9116cf3e4408adf068be48f1ad00f1",
-      "path": "/assets/catalog/lighting-8-w04-recovered-v2.jpg",
-      "producer": "04",
-      "decision": "ACCEPT",
-      "reasonCode": "DIMENSIONAL_REPLACEMENT_PASS"
-    },
-    "lighting-9": {
-      "hash": "d9a0e461a1a8ace589cf6be1ec93e61972ba7faf",
-      "path": "/assets/catalog/lighting-9-w04-recovered-v2.jpg",
-      "producer": "04",
-      "decision": "ACCEPT",
-      "reasonCode": "DIMENSIONAL_REPLACEMENT_PASS"
-    },
-    "lighting-10": {
-      "hash": "e4ca304730d4c330711534c2c7c52da218c9acfa",
-      "path": "/assets/catalog/lighting-10-w04-recovered-v2.jpg",
-      "producer": "04",
-      "decision": "ACCEPT",
-      "reasonCode": "DIMENSIONAL_REPLACEMENT_PASS"
-    },
-    "lighting-11": {
-      "hash": "995b6ae729b3daa9e1199dd032b24e128db0b61b",
-      "path": "/assets/catalog/lighting-11-w04-recovered-v2.jpg",
-      "producer": "04",
-      "decision": "ACCEPT",
-      "reasonCode": "DIMENSIONAL_REPLACEMENT_PASS"
-    },
-    "lighting-12": {
-      "hash": "ddb71949f485348a45e00c5105eb336ad55a010a",
-      "path": "/assets/catalog/lighting-12-w04-recovered-v2.jpg",
-      "producer": "04",
-      "decision": "ACCEPT",
-      "reasonCode": "DIMENSIONAL_REPLACEMENT_PASS"
-    },
-    "wall-1": {
-      "hash": "aedaec3bbb44bd966e62d897ea0ccc5a64b14bd8",
-      "path": "/assets/catalog/wall-1.svg",
-      "producer": "05",
-      "decision": "REWORK",
-      "reasonCode": "FLAT_MOUNTED_EMBLEM"
-    },
-    "wall-2": {
-      "hash": "2dd6f4f09bd201e1e03582cb2b8990930f934d39",
-      "path": "/assets/catalog/wall-2.svg",
-      "producer": "05",
-      "decision": "REWORK",
-      "reasonCode": "FLAT_MOUNTED_EMBLEM"
-    },
-    "wall-3": {
-      "hash": "3419da96bd482ef0300acce28363662ec45abddf",
-      "path": "/assets/catalog/wall-3.svg",
-      "producer": "05",
-      "decision": "REWORK",
-      "reasonCode": "FLAT_MOUNTED_EMBLEM"
-    },
-    "wall-4": {
-      "hash": "269b888dffce8aa2ac6cc9f885960d7c5e3d70b5",
-      "path": "/assets/catalog/wall-4.svg",
-      "producer": "05",
-      "decision": "REWORK",
-      "reasonCode": "FLAT_MOUNTED_EMBLEM"
-    },
-    "wall-5": {
-      "hash": "e9db285a837784a875642c0b56a7964873d79a5d",
-      "path": "/assets/catalog/wall-5.svg",
-      "producer": "05",
-      "decision": "REWORK",
-      "reasonCode": "FLAT_MOUNTED_EMBLEM"
-    },
-    "wall-6": {
-      "hash": "d31b39482cce122c9030e8105592d89be3f6fd33",
-      "path": "/assets/catalog/wall-6.svg",
-      "producer": "05",
-      "decision": "REWORK",
-      "reasonCode": "FLAT_MOUNTED_EMBLEM"
-    },
-    "wall-7": {
-      "hash": "f291c8368d4218603e3afe957662c3d37c5ca62a",
-      "path": "/assets/catalog/wall-7.svg",
-      "producer": "05",
-      "decision": "REWORK",
-      "reasonCode": "FLAT_MOUNTED_EMBLEM"
-    },
-    "wall-8": {
-      "hash": "d50201ae8eb39ea26cffc8b7c85686cf6b4b7baa",
-      "path": "/assets/catalog/wall-8.svg",
-      "producer": "05",
-      "decision": "REWORK",
-      "reasonCode": "FLAT_MOUNTED_EMBLEM"
-    },
-    "wall-9": {
-      "hash": "0a83f6684de27c0ac31057d600bb24e2a3e5a183",
-      "path": "/assets/catalog/wall-9.svg",
-      "producer": "05",
-      "decision": "REWORK",
-      "reasonCode": "FLAT_MOUNTED_EMBLEM"
-    },
-    "wall-10": {
-      "hash": "df566297cc638fbcf1673d799a7ffb9e1f586927",
-      "path": "/assets/catalog/wall-10.svg",
-      "producer": "05",
-      "decision": "REWORK",
-      "reasonCode": "FLAT_MOUNTED_EMBLEM"
-    },
-    "wall-11": {
-      "hash": "d0609238147f8d63e58662efe9755abbaecc39e1",
-      "path": "/assets/catalog/wall-11.svg",
-      "producer": "05",
-      "decision": "REWORK",
-      "reasonCode": "FLAT_MOUNTED_EMBLEM"
-    },
-    "wall-12": {
-      "hash": "84a7eeb0f909572fe9e896b912b675990187ae48",
-      "path": "/assets/catalog/wall-12.svg",
-      "producer": "05",
-      "decision": "REWORK",
-      "reasonCode": "FLAT_MOUNTED_EMBLEM"
-    },
-    "rugs-1": {
-      "hash": "5e00d1456fa21af74de75e583c69de48c9f2ecd2",
-      "path": "/assets/catalog/rugs-1-w07-v2.jpg",
-      "producer": "07",
-      "decision": "ACCEPT",
-      "reasonCode": "DIMENSIONAL_REPLACEMENT_PASS"
-    },
-    "rugs-2": {
-      "hash": "578caf5cc81998d6c7563082892e468fc9186eec",
-      "path": "/assets/catalog/rugs-2-w07-v2.jpg",
-      "producer": "07",
-      "decision": "ACCEPT",
-      "reasonCode": "DIMENSIONAL_REPLACEMENT_PASS"
-    },
-    "rugs-3": {
-      "hash": "0c3b62a84182cd8e7fc3b8dc57f9b1015e54e920",
-      "path": "/assets/catalog/rugs-3-w07-v2.jpg",
-      "producer": "07",
-      "decision": "ACCEPT",
-      "reasonCode": "DIMENSIONAL_REPLACEMENT_PASS"
-    },
-    "rugs-4": {
-      "hash": "d2c1a712dc530cec13ce72100657714900134ce2",
-      "path": "/assets/catalog/rugs-4-w07-v2.jpg",
-      "producer": "07",
-      "decision": "ACCEPT",
-      "reasonCode": "DIMENSIONAL_REPLACEMENT_PASS"
-    },
-    "rugs-5": {
-      "hash": "5a513011856679060df10137eae9f380377f5d78",
-      "path": "/assets/catalog/rugs-5-w07-v2.jpg",
-      "producer": "07",
-      "decision": "ACCEPT",
-      "reasonCode": "DIMENSIONAL_REPLACEMENT_PASS"
-    },
-    "rugs-6": {
-      "hash": "cb96e0d40e0682770e79ef8ce6a1a86ecec3127f",
-      "path": "/assets/catalog/rugs-6-w07-v2.jpg",
-      "producer": "07",
-      "decision": "ACCEPT",
-      "reasonCode": "DIMENSIONAL_REPLACEMENT_PASS"
-    },
-    "rugs-7": {
-      "hash": "184232121c9cd07c65fe1138893132ee0daa3fb3",
-      "path": "/assets/catalog/rugs-7-w07-v2.jpg",
-      "producer": "07",
-      "decision": "ACCEPT",
-      "reasonCode": "DIMENSIONAL_REPLACEMENT_PASS"
-    },
-    "rugs-8": {
-      "hash": "efe9bb6e887375a7e6ed74b15222391a1e2434bf",
-      "path": "/assets/catalog/rugs-8-w07-v2.jpg",
-      "producer": "07",
-      "decision": "ACCEPT",
-      "reasonCode": "DIMENSIONAL_REPLACEMENT_PASS"
-    },
-    "rugs-9": {
-      "hash": "3b6f3de23334a43a85b99165280fba82fd8c3431",
-      "path": "/assets/catalog/rugs-9.svg",
-      "producer": "07",
-      "decision": "REWORK",
-      "reasonCode": "NOT_FLOOR_TEXTILE"
-    },
-    "rugs-10": {
-      "hash": "2a12b492144b9de33e454c18cbc1d0d4e64c28f5",
-      "path": "/assets/catalog/rugs-10.svg",
-      "producer": "07",
-      "decision": "REWORK",
-      "reasonCode": "NOT_FLOOR_TEXTILE"
-    },
-    "rugs-11": {
-      "hash": "1c09f5503a2f42d550b3abe60182ae6c54cdda9d",
-      "path": "/assets/catalog/rugs-11.svg",
-      "producer": "07",
-      "decision": "REWORK",
-      "reasonCode": "NOT_FLOOR_TEXTILE"
-    },
-    "rugs-12": {
-      "hash": "718227d632a1a85fa3386f1d9ef1e407a7e5a115",
-      "path": "/assets/catalog/rugs-12.svg",
-      "producer": "07",
-      "decision": "REWORK",
-      "reasonCode": "NOT_FLOOR_TEXTILE"
-    },
-    "decor-1": {
-      "hash": "7e0bad0b6f1dda6068c17109757c396de860892a",
-      "path": "/assets/catalog/decor-1-w09-v2.jpg",
-      "producer": "09",
-      "decision": "ACCEPT",
-      "reasonCode": "DIMENSIONAL_REPLACEMENT_PASS"
-    },
-    "decor-2": {
-      "hash": "d5377bda54cba2071819da60bf4f4d4c52e393a6",
-      "path": "/assets/catalog/decor-2-w09-v2.jpg",
-      "producer": "09",
-      "decision": "ACCEPT",
-      "reasonCode": "DIMENSIONAL_REPLACEMENT_PASS"
-    },
-    "decor-3": {
-      "hash": "4fc2f591915f53b249956c20c50693ad22e3a1bb",
-      "path": "/assets/catalog/decor-3.svg",
-      "producer": "09",
-      "decision": "REWORK",
-      "reasonCode": "FLAT_PRODUCT_ICON"
-    },
-    "decor-4": {
-      "hash": "cb4bc4cfca9bdd4764905fdf94aa8291605f1ce0",
-      "path": "/assets/catalog/decor-4.svg",
-      "producer": "09",
-      "decision": "REWORK",
-      "reasonCode": "FLAT_PRODUCT_ICON"
-    },
-    "decor-5": {
-      "hash": "0f7559a576177758d94dba1c3da27373a9151a2b",
-      "path": "/assets/catalog/decor-5.svg",
-      "producer": "09",
-      "decision": "REWORK",
-      "reasonCode": "FLAT_PRODUCT_ICON"
-    },
-    "decor-6": {
-      "hash": "3a8d81ea490f8bac42ef2147797a3926d69df9ef",
-      "path": "/assets/catalog/decor-6.svg",
-      "producer": "09",
-      "decision": "REWORK",
-      "reasonCode": "FLAT_PRODUCT_ICON"
-    },
-    "decor-7": {
-      "hash": "671c609625400bf5c2142daef73ab632bd1225a2",
-      "path": "/assets/catalog/decor-7.svg",
-      "producer": "09",
-      "decision": "REWORK",
-      "reasonCode": "FLAT_PRODUCT_ICON"
-    },
-    "decor-8": {
-      "hash": "87e33d5190b7a7ef21e23ae875dda8ae1808c4be",
-      "path": "/assets/catalog/decor-8.svg",
-      "producer": "09",
-      "decision": "REWORK",
-      "reasonCode": "FLAT_PRODUCT_ICON"
-    },
-    "decor-9": {
-      "hash": "5c95b853da763f7ff2e9e332169ea5841ac1885e",
-      "path": "/assets/catalog/decor-9.svg",
-      "producer": "09",
-      "decision": "REWORK",
-      "reasonCode": "FLAT_PRODUCT_ICON"
-    },
-    "decor-10": {
-      "hash": "f390a4a237605f8768111efc65c85d059529a690",
-      "path": "/assets/catalog/decor-10.svg",
-      "producer": "09",
-      "decision": "REWORK",
-      "reasonCode": "FLAT_PRODUCT_ICON"
-    },
-    "decor-11": {
-      "hash": "250aad2e72917036ae03c1db3e9071ae6c7aa983",
-      "path": "/assets/catalog/decor-11.svg",
-      "producer": "09",
-      "decision": "REWORK",
-      "reasonCode": "FLAT_PRODUCT_ICON"
-    },
-    "decor-12": {
-      "hash": "903e0f5d45dd6874c4352493db3e3e3346e0b39c",
-      "path": "/assets/catalog/decor-12.svg",
-      "producer": "09",
-      "decision": "REWORK",
-      "reasonCode": "FLAT_PRODUCT_ICON"
+    {
+      "itemId":"rugs-12","name":"Luxe Star Rug","tier":5,"theme":"Sunny Pop","assetPath":"/assets/catalog/rugs-12-w07-v3.png","assetHash":"eea2fc5b78c1186342f91f597bc792160ab8f8fe","sha256":"21a2f71224d9a7d4e0e60a672867cc629f21a481c3310fee6b1cac1c1be071b3","hashAlgorithm":"git-blob-sha1","sourceHead":"e7e0bb5e485d1cb256d88eee296938b27bbf92f4","producer":"07","decision":"ACCEPT","evidenceRefs":["docs/preproduction/catalog-sprint/chat-rugs-12-v3-reconciled-review-14-to-08.json","workflow:35690027258/artifact:10677768162/rugs/detail/rugs-12-eea2fc5b.png#sha256=5a7a0f4b3ee1a9d11ce173ae32fd8f9755e9075e1a5b2746b2a3e75dfdf4b8d8"],"reason":"Synchronized from the already-qualified reconciled exact-current-hash card/detail ACCEPT; no new review performed and the obsolete 85007bbb declaration is not transferred.","checks":{"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"PASS","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
     }
-  },
-  "crossPartitionRenderHandoff": {
-    "decisionAuthority": "NONE_BY_14",
-    "artifactId": 10671346458,
-    "note": "Shared artifact renders cross-partition candidates including current Headwear 1-4; reviewer 14 dispositions only Lighting/Wall/Rugs/Decor. Other families remain owned by 01/02/05.",
-    "deskCurrentEvidence": "Current lane-03 Desk 2-4 authoritative paths desks-2/3/4-v1.webp have exact hashes 357f4ba8..., b3352961..., 711feeb7... but fail WebP signature checks. Older -w03-v1 alternates are not valid substitutes; fixture authority guard was committed at e1ed7fec6ca78c964723261f9d569e5b20fb6d7d so stale alternates cannot hide an invalid current binding.",
-    "fixtureGuardStatus": "COMMITTED_EXECUTED_ARTIFACT_PENDING"
-  },
+  ],
   "handoff": {
-    "15": "Reviewer-14 partition is 22 ACCEPT / 26 REWORK / 0 BLOCKED. Lighting 1-12, Rugs 1-8 and Decor 1-2 exact replacement hashes are independently ACCEPT. Wall 1-12, Rugs 9-12 and Decor 3-12 remain REWORK.",
-    "08": "Rugs 1-8 and Decor 1-2 exact hashes are newly independently ACCEPT and eligible for small canonical integration after normal metadata/file/content checks; Lighting 1-12 acceptance remains valid by unchanged hashes.",
-    "04": "Preserve lighting-1..12 accepted exact hashes; do not regenerate.",
-    "05": "Wall 1-12 remain REWORK. Separately, reviewer-05 Desk 2-4 review is BLOCKED because the authoritative current lane-03 WebP bytes fail signature checks; do not transfer verdicts from stale -w03-v1 alternates.",
-    "07": "Preserve accepted Rugs 1-8 exact v2 hashes. Continue only Rugs 9-12 in a bounded versioned replacement batch; do not regenerate accepted 1-8.",
-    "09": "Preserve accepted Decor 1-2 exact v2 hashes. Continue Decor 3-12 in bounded versioned batches using the new dimensional physical-object recipe."
+    "08":"Rugs 1-12 are frozen at reviewer-14 current review level; Rugs12 direct exact-hash ACCEPT already qualified independently of this normalization.",
+    "15":"Reviewer-14 shard is synchronized to current Rug exact-hash evidence: partition snapshot 26 ACCEPT / 22 REWORK / 0 BLOCKED. No unchanged Wall/Decor/Lighting hash was re-reviewed.",
+    "07":"Preserve Rugs 1-12 current exact hashes; catalog production is frozen absent a later exact-hash defect or reassignment."
   },
   "freeze": {
     "replitTouched": false,
     "flootTouched": false,
     "mainMergedOrModified": false,
     "canonicalManifestOrRuntimeTouched": false,
+    "catalogMetadataTouched": false,
+    "gameplayTouched": false,
     "playerDataTouched": false
   },
-  "history": "Prior detailed review prose remains in immutable Git history at 4c0b5863be0d4b674a9a707e932a746b2811078b. This revision replaces legacy Rugs 1-8 and Decor 1-2 REWORK hashes with independently pixel-reviewed exact replacement ACCEPTs and records the Desk authoritative-binding fixture guard.",
-  "reviews": [
-    {
-      "itemId": "lighting-9",
-      "name": "Color Lamp",
-      "tier": 3,
-      "theme": "Star Luxe",
-      "assetPath": "/assets/catalog/lighting-9-w04-recovered-v2.jpg",
-      "assetHash": "d9a0e461a1a8ace589cf6be1ec93e61972ba7faf",
-      "hashAlgorithm": "git-blob-sha1",
-      "sourceHead": "4ad15b615907c4a3b3180db127ae8cac4acb2e91",
-      "producer": "04",
-      "decision": "ACCEPT",
-      "reviewedAt": "2026-09-22T00:03:30Z",
-      "evidenceRefs": [
-        "workflow:35669695516/artifact:10670588502/artifacts/catalog-staged-art/lighting/lighting-contact-sheet.png#sha256=27135f72c3630586cf0527d14b34117747d7a584c0fcbfbf2e2dce2408dc235e",
-        "workflow:35669695516/artifact:10670588502/artifacts/catalog-staged-art/lighting/detail/lighting-9-d9a0e461.png#sha256=090e016baaa6063fef85b42b762087b8b4e1a4d73d6774090b15992c3bd95ab3"
-      ],
-      "reason": "Faceted translucent crystal shade, warm internal emitter, substantial metallic pedestal and visible switch read as a physical premium lamp. Rainbow dispersion supports Star Luxe without obscuring the silhouette at card size.",
-      "checks": {
-        "identity": "PASS",
-        "themeTier": "PASS",
-        "silhouette": "PASS",
-        "materialLighting": "PASS",
-        "cardReadability": "PASS",
-        "originality": "PASS",
-        "duplicateVisual": "PASS"
-      }
-    },
-    {
-      "itemId": "lighting-10",
-      "name": "Neon Strip Tower",
-      "tier": 4,
-      "theme": "Midnight Neon",
-      "assetPath": "/assets/catalog/lighting-10-w04-recovered-v2.jpg",
-      "assetHash": "e4ca304730d4c330711534c2c7c52da218c9acfa",
-      "hashAlgorithm": "git-blob-sha1",
-      "sourceHead": "4ad15b615907c4a3b3180db127ae8cac4acb2e91",
-      "producer": "04",
-      "decision": "ACCEPT",
-      "reviewedAt": "2026-09-22T00:03:30Z",
-      "evidenceRefs": [
-        "workflow:35669695516/artifact:10670588502/artifacts/catalog-staged-art/lighting/lighting-contact-sheet.png#sha256=27135f72c3630586cf0527d14b34117747d7a584c0fcbfbf2e2dce2408dc235e",
-        "workflow:35669695516/artifact:10670588502/artifacts/catalog-staged-art/lighting/detail/lighting-10-e4ca3047.png#sha256=d958387b58249869152ce2ca98665831b282df6b7759bba45e52ca90863438bd"
-      ],
-      "reason": "Beveled dark tower chassis with inset cyan/magenta strips, floor spill and clear panel depth reads as a dimensional Tier-4 Midnight Neon light, not a flat icon.",
-      "checks": {
-        "identity": "PASS",
-        "themeTier": "PASS",
-        "silhouette": "PASS",
-        "materialLighting": "PASS",
-        "cardReadability": "PASS",
-        "originality": "PASS",
-        "duplicateVisual": "PASS"
-      }
-    },
-    {
-      "itemId": "lighting-11",
-      "name": "Aurora Light",
-      "tier": 4,
-      "theme": "Candy Core",
-      "assetPath": "/assets/catalog/lighting-11-w04-recovered-v2.jpg",
-      "assetHash": "995b6ae729b3daa9e1199dd032b24e128db0b61b",
-      "hashAlgorithm": "git-blob-sha1",
-      "sourceHead": "4ad15b615907c4a3b3180db127ae8cac4acb2e91",
-      "producer": "04",
-      "decision": "ACCEPT",
-      "reviewedAt": "2026-09-22T00:03:30Z",
-      "evidenceRefs": [
-        "workflow:35669695516/artifact:10670588502/artifacts/catalog-staged-art/lighting/lighting-contact-sheet.png#sha256=27135f72c3630586cf0527d14b34117747d7a584c0fcbfbf2e2dce2408dc235e",
-        "workflow:35669695516/artifact:10670588502/artifacts/catalog-staged-art/lighting/detail/lighting-11-995b6ae7.png#sha256=6ee9366364a0401877e0c8c55066f6f108b706358d4899bad435290fc3269914"
-      ],
-      "reason": "Intertwined translucent aurora ribbons wrap a warm central emitter above a physical metallic base; layered refraction and bloom support Candy Core while remaining legible at card scale.",
-      "checks": {
-        "identity": "PASS",
-        "themeTier": "PASS",
-        "silhouette": "PASS",
-        "materialLighting": "PASS",
-        "cardReadability": "PASS",
-        "originality": "PASS",
-        "duplicateVisual": "PASS"
-      }
-    },
-    {
-      "itemId": "lighting-12",
-      "name": "Crystal Chandelier",
-      "tier": 5,
-      "theme": "Adventure Club",
-      "assetPath": "/assets/catalog/lighting-12-w04-recovered-v2.jpg",
-      "assetHash": "ddb71949f485348a45e00c5105eb336ad55a010a",
-      "hashAlgorithm": "git-blob-sha1",
-      "sourceHead": "4ad15b615907c4a3b3180db127ae8cac4acb2e91",
-      "producer": "04",
-      "decision": "ACCEPT",
-      "reviewedAt": "2026-09-22T00:03:30Z",
-      "evidenceRefs": [
-        "workflow:35669695516/artifact:10670588502/artifacts/catalog-staged-art/lighting/lighting-contact-sheet.png#sha256=27135f72c3630586cf0527d14b34117747d7a584c0fcbfbf2e2dce2408dc235e",
-        "workflow:35669695516/artifact:10670588502/artifacts/catalog-staged-art/lighting/detail/lighting-12-ddb71949.png#sha256=da250ce1514e28f5d8805c82f2dc97c41ada6b7f13f608b3a82cf0523d2eb708"
-      ],
-      "reason": "Suspended antique-gold multi-arm fixture, warm candle bulbs, chain hierarchy and layered faceted crystals create unmistakable chandelier identity and Tier-5 spectacle with strong material/light depth.",
-      "checks": {
-        "identity": "PASS",
-        "themeTier": "PASS",
-        "silhouette": "PASS",
-        "materialLighting": "PASS",
-        "cardReadability": "PASS",
-        "originality": "PASS",
-        "duplicateVisual": "PASS"
-      }
-    },
-    {
-      "itemId": "rugs-1",
-      "name": "Starter Mat",
-      "tier": 1,
-      "theme": "Aqua Wave",
-      "assetPath": "/assets/catalog/rugs-1-w07-v2.jpg",
-      "assetHash": "5e00d1456fa21af74de75e583c69de48c9f2ecd2",
-      "hashAlgorithm": "git-blob-sha1",
-      "sourceHead": "8d7db7286346a72932bc7ee7c56953eda5e5cd48",
-      "producer": "07",
-      "decision": "ACCEPT",
-      "reviewedAt": "2026-09-22T00:18:00Z",
-      "evidenceRefs": [
-        "workflow:35671542628/artifact:10671346458/artifacts/catalog-staged-art/staged-replacements/staged-replacements-contact-sheet.png#sha256=8782be685e0984b767e806edba445f5f1fd57e4d7ebfc1bc68afaba03faa075e",
-        "workflow:35671542628/artifact:10671346458/artifacts/catalog-staged-art/staged-replacements/detail/rugs-1-5e00d145.png#sha256=45ff07f3b1b0372af0630cfc28f0da7deef9823f9e5398232ad3bc9e08f15e65"
-      ],
-      "reason": "Low three-quarter woven aqua mat with bound edge, visible backing thickness and floor contact reads immediately as a real starter rug; simple construction is appropriate for Tier 1 and remains distinct at card scale.",
-      "checks": {
-        "identity": "PASS",
-        "themeTier": "PASS",
-        "silhouette": "PASS",
-        "materialLighting": "PASS",
-        "cardReadability": "PASS",
-        "originality": "PASS",
-        "duplicateVisual": "PASS"
-      }
-    },
-    {
-      "itemId": "rugs-2",
-      "name": "Cloud Rug",
-      "tier": 1,
-      "theme": "Art Attack",
-      "assetPath": "/assets/catalog/rugs-2-w07-v2.jpg",
-      "assetHash": "578caf5cc81998d6c7563082892e468fc9186eec",
-      "hashAlgorithm": "git-blob-sha1",
-      "sourceHead": "8d7db7286346a72932bc7ee7c56953eda5e5cd48",
-      "producer": "07",
-      "decision": "ACCEPT",
-      "reviewedAt": "2026-09-22T00:18:00Z",
-      "evidenceRefs": [
-        "workflow:35671542628/artifact:10671346458/artifacts/catalog-staged-art/staged-replacements/staged-replacements-contact-sheet.png#sha256=8782be685e0984b767e806edba445f5f1fd57e4d7ebfc1bc68afaba03faa075e",
-        "workflow:35671542628/artifact:10671346458/artifacts/catalog-staged-art/staged-replacements/detail/rugs-2-578caf5c.png#sha256=59a35909ddaaed3bda8b1b6b8e1946762bf5d6ff720fd06ee4d69651c24dbeae"
-      ],
-      "reason": "Clustered cloud silhouette, plush tufting, stitched/bound perimeter and grounded low profile establish a novelty floor textile; soft lilac-white art-toy treatment is coherent for the Tier-1 Art Attack slot and stays legible as a card.",
-      "checks": {
-        "identity": "PASS",
-        "themeTier": "PASS",
-        "silhouette": "PASS",
-        "materialLighting": "PASS",
-        "cardReadability": "PASS",
-        "originality": "PASS",
-        "duplicateVisual": "PASS"
-      }
-    },
-    {
-      "itemId": "rugs-3",
-      "name": "Pixel Grid Rug",
-      "tier": 1,
-      "theme": "Star Luxe",
-      "assetPath": "/assets/catalog/rugs-3-w07-v2.jpg",
-      "assetHash": "0c3b62a84182cd8e7fc3b8dc57f9b1015e54e920",
-      "hashAlgorithm": "git-blob-sha1",
-      "sourceHead": "8d7db7286346a72932bc7ee7c56953eda5e5cd48",
-      "producer": "07",
-      "decision": "ACCEPT",
-      "reviewedAt": "2026-09-22T00:18:00Z",
-      "evidenceRefs": [
-        "workflow:35671542628/artifact:10671346458/artifacts/catalog-staged-art/staged-replacements/staged-replacements-contact-sheet.png#sha256=8782be685e0984b767e806edba445f5f1fd57e4d7ebfc1bc68afaba03faa075e",
-        "workflow:35671542628/artifact:10671346458/artifacts/catalog-staged-art/staged-replacements/detail/rugs-3-0c3b62a8.png#sha256=210a5bb17a097e57383a6f521874e673b8658cfe2cfb6b8344e6e99369bda42b"
-      ],
-      "reason": "Tufted purple pixel-grid field with cyan blocks, restrained gold star accents, bound edge and visible backing creates a clear floor-rug identity while adding enough Star Luxe detail without overshooting Tier 1.",
-      "checks": {
-        "identity": "PASS",
-        "themeTier": "PASS",
-        "silhouette": "PASS",
-        "materialLighting": "PASS",
-        "cardReadability": "PASS",
-        "originality": "PASS",
-        "duplicateVisual": "PASS"
-      }
-    },
-    {
-      "itemId": "rugs-4",
-      "name": "Heart Rug",
-      "tier": 2,
-      "theme": "Midnight Neon",
-      "assetPath": "/assets/catalog/rugs-4-w07-v2.jpg",
-      "assetHash": "d2c1a712dc530cec13ce72100657714900134ce2",
-      "hashAlgorithm": "git-blob-sha1",
-      "sourceHead": "8d7db7286346a72932bc7ee7c56953eda5e5cd48",
-      "producer": "07",
-      "decision": "ACCEPT",
-      "reviewedAt": "2026-09-22T00:18:00Z",
-      "evidenceRefs": [
-        "workflow:35671542628/artifact:10671346458/artifacts/catalog-staged-art/staged-replacements/staged-replacements-contact-sheet.png#sha256=8782be685e0984b767e806edba445f5f1fd57e4d7ebfc1bc68afaba03faa075e",
-        "workflow:35671542628/artifact:10671346458/artifacts/catalog-staged-art/staged-replacements/detail/rugs-4-d2c1a712.png#sha256=8c9a7713c0e5c47961322757d7c3237226eef33b26d47b6134a13f303cb8c72f"
-      ],
-      "reason": "Thick heart-shaped plush rug with layered tufting, dark violet body, cyan-magenta neon piping and grounded shadow has strong Midnight Neon identity and a materially richer Tier-2 read.",
-      "checks": {
-        "identity": "PASS",
-        "themeTier": "PASS",
-        "silhouette": "PASS",
-        "materialLighting": "PASS",
-        "cardReadability": "PASS",
-        "originality": "PASS",
-        "duplicateVisual": "PASS"
-      }
-    },
-    {
-      "itemId": "rugs-5",
-      "name": "Leaf Rug",
-      "tier": 2,
-      "theme": "Candy Core",
-      "assetPath": "/assets/catalog/rugs-5-w07-v2.jpg",
-      "assetHash": "5a513011856679060df10137eae9f380377f5d78",
-      "hashAlgorithm": "git-blob-sha1",
-      "sourceHead": "8d7db7286346a72932bc7ee7c56953eda5e5cd48",
-      "producer": "07",
-      "decision": "ACCEPT",
-      "reviewedAt": "2026-09-22T00:18:00Z",
-      "evidenceRefs": [
-        "workflow:35671542628/artifact:10671346458/artifacts/catalog-staged-art/staged-replacements/staged-replacements-contact-sheet.png#sha256=8782be685e0984b767e806edba445f5f1fd57e4d7ebfc1bc68afaba03faa075e",
-        "workflow:35671542628/artifact:10671346458/artifacts/catalog-staged-art/staged-replacements/detail/rugs-5-5a513011.png#sha256=87397ac3a93262d41e047825bb9af88bec6c58c1b28ee4004bf6ee7cb08f1a62"
-      ],
-      "reason": "Leaf-shaped plush textile uses raised vein channels, pink/mint/cream candy palette, stitched edge thickness and a clear floor shadow; silhouette and construction are distinct from every other current rug.",
-      "checks": {
-        "identity": "PASS",
-        "themeTier": "PASS",
-        "silhouette": "PASS",
-        "materialLighting": "PASS",
-        "cardReadability": "PASS",
-        "originality": "PASS",
-        "duplicateVisual": "PASS"
-      }
-    },
-    {
-      "itemId": "rugs-6",
-      "name": "Orbit Rug",
-      "tier": 2,
-      "theme": "Adventure Club",
-      "assetPath": "/assets/catalog/rugs-6-w07-v2.jpg",
-      "assetHash": "cb96e0d40e0682770e79ef8ce6a1a86ecec3127f",
-      "hashAlgorithm": "git-blob-sha1",
-      "sourceHead": "8d7db7286346a72932bc7ee7c56953eda5e5cd48",
-      "producer": "07",
-      "decision": "ACCEPT",
-      "reviewedAt": "2026-09-22T00:18:00Z",
-      "evidenceRefs": [
-        "workflow:35671542628/artifact:10671346458/artifacts/catalog-staged-art/staged-replacements/staged-replacements-contact-sheet.png#sha256=8782be685e0984b767e806edba445f5f1fd57e4d7ebfc1bc68afaba03faa075e",
-        "workflow:35671542628/artifact:10671346458/artifacts/catalog-staged-art/staged-replacements/detail/rugs-6-cb96e0d4.png#sha256=d73271a233aa3a0a1625f93fb3b5890c6ec49ef08cf0ff678048829074aad6f3"
-      ],
-      "reason": "Round navy/teal plush rug has substantial braided/tufted edge, stitched orbital paths and gold exploration/star motifs. The physical textile depth and map-like space-adventure motif support Tier 2 Adventure Club.",
-      "checks": {
-        "identity": "PASS",
-        "themeTier": "PASS",
-        "silhouette": "PASS",
-        "materialLighting": "PASS",
-        "cardReadability": "PASS",
-        "originality": "PASS",
-        "duplicateVisual": "PASS"
-      }
-    },
-    {
-      "itemId": "rugs-7",
-      "name": "Checker Rug",
-      "tier": 3,
-      "theme": "Cloud Pop",
-      "assetPath": "/assets/catalog/rugs-7-w07-v2.jpg",
-      "assetHash": "184232121c9cd07c65fe1138893132ee0daa3fb3",
-      "hashAlgorithm": "git-blob-sha1",
-      "sourceHead": "8d7db7286346a72932bc7ee7c56953eda5e5cd48",
-      "producer": "07",
-      "decision": "ACCEPT",
-      "reviewedAt": "2026-09-22T00:18:00Z",
-      "evidenceRefs": [
-        "workflow:35671542628/artifact:10671346458/artifacts/catalog-staged-art/staged-replacements/staged-replacements-contact-sheet.png#sha256=8782be685e0984b767e806edba445f5f1fd57e4d7ebfc1bc68afaba03faa075e",
-        "workflow:35671542628/artifact:10671346458/artifacts/catalog-staged-art/staged-replacements/detail/rugs-7-18423212.png#sha256=0067313ccd25218f546c58f2df07f3335d87bfde3de1e8c48f89ef4270a9bdc1"
-      ],
-      "reason": "Raised checker tufting, pale sky/cloud palette, stitched plaid binding, backing thickness and low grounded perspective create a tactile Tier-3 rug rather than a flat checker icon; card silhouette stays readable.",
-      "checks": {
-        "identity": "PASS",
-        "themeTier": "PASS",
-        "silhouette": "PASS",
-        "materialLighting": "PASS",
-        "cardReadability": "PASS",
-        "originality": "PASS",
-        "duplicateVisual": "PASS"
-      }
-    },
-    {
-      "itemId": "rugs-8",
-      "name": "Wave Rug",
-      "tier": 3,
-      "theme": "Pixel Party",
-      "assetPath": "/assets/catalog/rugs-8-w07-v2.jpg",
-      "assetHash": "efe9bb6e887375a7e6ed74b15222391a1e2434bf",
-      "hashAlgorithm": "git-blob-sha1",
-      "sourceHead": "8d7db7286346a72932bc7ee7c56953eda5e5cd48",
-      "producer": "07",
-      "decision": "ACCEPT",
-      "reviewedAt": "2026-09-22T00:18:00Z",
-      "evidenceRefs": [
-        "workflow:35671542628/artifact:10671346458/artifacts/catalog-staged-art/staged-replacements/staged-replacements-contact-sheet.png#sha256=8782be685e0984b767e806edba445f5f1fd57e4d7ebfc1bc68afaba03faa075e",
-        "workflow:35671542628/artifact:10671346458/artifacts/catalog-staged-art/staged-replacements/detail/rugs-8-efe9bb6e.png#sha256=93f985e93bcbbd4bd2540cea1b006eb676727e23196b2d88e2a5895825dc0536"
-      ],
-      "reason": "Asymmetric wave-cut floor textile combines cyan/violet bands, stepped pixel bars, raised ribbed wave edge and visible thickness. It is strongly differentiated and reads as a richer Tier-3 Pixel Party rug at both scales.",
-      "checks": {
-        "identity": "PASS",
-        "themeTier": "PASS",
-        "silhouette": "PASS",
-        "materialLighting": "PASS",
-        "cardReadability": "PASS",
-        "originality": "PASS",
-        "duplicateVisual": "PASS"
-      }
-    },
-    {
-      "itemId": "decor-1",
-      "name": "Book Crate",
-      "tier": 1,
-      "theme": "Midnight Neon",
-      "assetPath": "/assets/catalog/decor-1-w09-v2.jpg",
-      "assetHash": "7e0bad0b6f1dda6068c17109757c396de860892a",
-      "hashAlgorithm": "git-blob-sha1",
-      "sourceHead": "8d7db7286346a72932bc7ee7c56953eda5e5cd48",
-      "producer": "09",
-      "decision": "ACCEPT",
-      "reviewedAt": "2026-09-22T00:18:00Z",
-      "evidenceRefs": [
-        "workflow:35671542628/artifact:10671346458/artifacts/catalog-staged-art/staged-replacements/staged-replacements-contact-sheet.png#sha256=8782be685e0984b767e806edba445f5f1fd57e4d7ebfc1bc68afaba03faa075e",
-        "workflow:35671542628/artifact:10671346458/artifacts/catalog-staged-art/staged-replacements/detail/decor-1-7e0bad0b.png#sha256=fb526f28be78eac3eb1653cdadea22ecc9f656900c8e4b252f71ab936391dc91"
-      ],
-      "reason": "Actual wooden book crate with deep slatted construction, metal corner protectors, visible book page blocks and restrained cyan/magenta edge light replaces the flat-icon treatment while keeping Tier-1 simplicity and Midnight Neon identity.",
-      "checks": {
-        "identity": "PASS",
-        "themeTier": "PASS",
-        "silhouette": "PASS",
-        "materialLighting": "PASS",
-        "cardReadability": "PASS",
-        "originality": "PASS",
-        "duplicateVisual": "PASS"
-      }
-    },
-    {
-      "itemId": "decor-2",
-      "name": "Cloud Shelf",
-      "tier": 1,
-      "theme": "Candy Core",
-      "assetPath": "/assets/catalog/decor-2-w09-v2.jpg",
-      "assetHash": "d5377bda54cba2071819da60bf4f4d4c52e393a6",
-      "hashAlgorithm": "git-blob-sha1",
-      "sourceHead": "8d7db7286346a72932bc7ee7c56953eda5e5cd48",
-      "producer": "09",
-      "decision": "ACCEPT",
-      "reviewedAt": "2026-09-22T00:18:00Z",
-      "evidenceRefs": [
-        "workflow:35671542628/artifact:10671346458/artifacts/catalog-staged-art/staged-replacements/staged-replacements-contact-sheet.png#sha256=8782be685e0984b767e806edba445f5f1fd57e4d7ebfc1bc68afaba03faa075e",
-        "workflow:35671542628/artifact:10671346458/artifacts/catalog-staged-art/staged-replacements/detail/decor-2-d5377bda.png#sha256=05dc6390b3e98246b50e63081925e5fcca1013b524401557fe9d2af9da9e70d4"
-      ],
-      "reason": "Layered cloud wall body, real projecting wood shelf, brackets/mount points, cast wall shadow and pastel candy materials give clear physical depth and useful room-decor identity at an appropriate Tier-1 complexity.",
-      "checks": {
-        "identity": "PASS",
-        "themeTier": "PASS",
-        "silhouette": "PASS",
-        "materialLighting": "PASS",
-        "cardReadability": "PASS",
-        "originality": "PASS",
-        "duplicateVisual": "PASS"
-      }
-    }
+  "historyRefs": [
+    "git-blob:50fabe748ec59e08acc6970c0867399a402dba3b",
+    "docs/preproduction/catalog-sprint/chat-rugs-9-12-review-14.json",
+    "docs/preproduction/catalog-sprint/chat-rugs-11-12-v3-review-14-to-08.json",
+    "docs/preproduction/catalog-sprint/chat-rugs-12-v3-reconciled-review-14-to-08.json"
   ]
 }
