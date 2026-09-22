@@ -22,3 +22,18 @@ test('positive companion language does not trigger technical or readability repa
  assert(!r.blocks.includes('card'));
  assert(!r.blocks.includes('depth'));
 });
+
+
+test('normalized failure codes override ambiguous prose in prompt repair',()=>{
+ const r=inferRepair({decision:'REWORK',reason:'needs refinement',failureCodes:['THEME_MISMATCH','NEAR_DUPLICATE_TEMPLATE']});
+ assert.deepEqual(r.failureCodes,['THEME_MISMATCH','NEAR_DUPLICATE_TEMPLATE']);
+ assert(r.blocks.includes('theme'));
+ assert(r.blocks.includes('original'));
+ assert(r.blocks.includes('silhouette'));
+});
+
+test('unknown supplied failure codes are ignored and prose fallback still works',()=>{
+ const r=inferRepair({decision:'REWORK',reason:'flat ring',failureCodes:['NOT_A_REAL_CODE']});
+ assert(r.failureCodes.includes('FLAT_COMPOSITION'));
+ assert(!r.failureCodes.includes('NOT_A_REAL_CODE'));
+});
