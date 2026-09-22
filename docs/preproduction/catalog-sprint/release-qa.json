@@ -4,7 +4,7 @@
   "phase": "CATALOG_SPRINT",
   "branch": "screenshot-match-preproduction",
   "status": "FAIL_CATALOG_NOT_RELEASE_READY",
-  "auditedEvidenceHead": "ad9175c80160ff16fe304e194d07ac1b19f9ca9b",
+  "auditedEvidenceHead": "4fc16cc24aa698d827fb429f3c86c41bc4ec2b95",
   "releaseDecision": "NOT_READY_FOR_SINGLE_REPLIT_INTEGRATION",
   "canonical": {
     "catalogTarget": 192,
@@ -78,6 +78,13 @@
       "result": "PASS_10_OF_10_RUGS1_8_DECOR1_2_EXACT_HASH_CARD_DETAIL_RENDER_AND_INDEPENDENT_PIXEL_REVIEW",
       "exactContentUniqueness": "PASS",
       "manualNearDuplicate": "PASS_NO_IDENTITY_COLLISION"
+    },
+    "activeContentExternalDependencyAudit": {
+      "status": "PASS_CURRENT_26_OF_26_SVG_HASHES",
+      "scope": "Wall 1-12, Rugs 9-12, Decor 3-12 current reviewed SVG hashes",
+      "hashBinding": "PASS_26_OF_26_GIT_BLOB_SHA_MATCH",
+      "findings": "NONE_FOR_SCRIPT_FOREIGNOBJECT_EVENT_HANDLER_JAVASCRIPT_URL_EXTERNAL_HREF_EXTERNAL_CSS_URL_CSS_IMPORT_XML_ENTITY",
+      "rasterNote": "Lighting 1-12, Rugs 1-8 and Decor 1-2 current accepted replacements are raster and have no SVG active-content/external-resource surface."
     }
   },
   "crossPartitionFixture": {
@@ -99,6 +106,11 @@
       "commit": "e1ed7fec6ca78c964723261f9d569e5b20fb6d7d",
       "status": "FIX_COMMITTED_EXECUTION_ARTIFACT_PENDING",
       "behavior": "When an authoritative lane-declared staged binding exists, invalid current bytes now block that ID instead of falling back to an older versioned file."
+    },
+    "activeContentGuard": {
+      "commit": "a9b349341cb9e150c2ce81b43dffcbf8ba5aebdc",
+      "policy": "SVG candidates are blocked for active content or external dependencies before pixel rendering; raster formats are treated as self-contained image bytes.",
+      "postGuardExecutionArtifact": "PENDING_NOT_CONVERTED_TO_PASS"
     }
   },
   "persistenceEconomy": {
@@ -142,7 +154,8 @@
     "screenReaderSmokeVoiceOverTalkBackNVDA": "NOT_TESTED",
     "finalFrozenCandidateFullReleaseProof": "NOT_TESTED",
     "reviewer14RugsCurrentHashes": "PASS_ACCEPT_8_REWORK_4",
-    "reviewer14DecorCurrentHashes": "PASS_ACCEPT_2_REWORK_10"
+    "reviewer14DecorCurrentHashes": "PASS_ACCEPT_2_REWORK_10",
+    "currentReviewer14AssetActiveContentExternalDependencyScan": "PASS_26_OF_26_CURRENT_SVGS_PLUS_RASTER_NO_SVG_SURFACE"
   },
   "blockers": [
     "All 192 current final asset hashes are not yet independently accepted and canonically wired; catalog gate remains FAIL.",
