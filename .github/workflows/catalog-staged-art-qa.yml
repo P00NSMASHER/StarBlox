@@ -19,6 +19,9 @@ on:
       - 'docs/preproduction/catalog-sprint/lane-12.json'
       - 'docs/preproduction/visuals/lane-13.json'
       - 'scripts/catalog-staged-art-qa.mjs'
+      - 'scripts/artReviewNormalizer.mjs'
+      - 'scripts/catalogVisualPreflight.py'
+      - 'scripts/catalogVisualCalibration.py'
       - '.github/workflows/catalog-staged-art-qa.yml'
   workflow_dispatch:
 
@@ -29,7 +32,7 @@ concurrency:
 jobs:
   render-assigned-candidates:
     runs-on: ubuntu-24.04
-    timeout-minutes: 20
+    timeout-minutes: 25
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -47,11 +50,96 @@ jobs:
       - name: Render reviewer collections and every repository-staged replacement hash
         run: node scripts/catalog-staged-art-qa.mjs
 
+      - name: Use Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install lightweight visual-preflight dependency
+        run: python -m pip install --disable-pip-version-check Pillow==11.3.0
+
+      - name: Build current review corpus and calibration
+        run: |
+          mkdir -p artifacts/catalog-staged-art/preflight
+          node scripts/artReviewNormalizer.mjs             --repo-root .             --output artifacts/catalog-staged-art/review-corpus.json
+          python scripts/catalogVisualCalibration.py             --repo-root .             --corpus artifacts/catalog-staged-art/review-corpus.json             --output artifacts/catalog-staged-art/visual-calibration.json
+
+      - name: Attach calibrated report-only preflight to exact rendered candidates
+        run: |
+          python - <<'PY'
+          import json
+          import pathlib
+          import subprocess
+          import sys
+
+          root = pathlib.Path('.')
+          report_path = pathlib.Path('artifacts/catalog-staged-art/report.json')
+          calibration = pathlib.Path('artifacts/catalog-staged-art/visual-calibration.json')
+          report = json.loads(report_path.read_text())
+          items = report.get('sets', {}).get('staged-replacements', {}).get('items', [])
+          out_dir = pathlib.Path('artifacts/catalog-staged-art/preflight')
+          out_dir.mkdir(parents=True, exist_ok=True)
+
+          summary = []
+          for item in items:
+              repo_path = item.get('repositoryPath')
+              item_id = item.get('id')
+              blob_sha = item.get('blobSha')
+              if not repo_path or not item_id or item.get('status') != 200:
+                  continue
+              dest = out_dir / f"{item_id}-{str(blob_sha or '')[:8]}.json"
+              subprocess.run([
+                  sys.executable,
+                  'scripts/catalogVisualPreflight.py',
+                  'scan',
+                  '--input', repo_path,
+                  '--neighbors', 'public/assets/catalog',
+                  '--calibration', str(calibration),
+                  '--output', str(dest),
+              ], check=True)
+              preflight = json.loads(dest.read_text())
+              triggered = [
+                  row for row in preflight.get('calibratedWarnings', [])
+                  if row.get('triggered')
+              ]
+              summary.append({
+                  'itemId': item_id,
+                  'blobSha': blob_sha,
+                  'repositoryPath': repo_path,
+                  'preflightPath': str(dest),
+                  'warningReadyFeatureCount': preflight.get('calibrationEvidence', {}).get('warningReadyFeatureCount', 0),
+                  'triggeredWarningCount': len(triggered),
+                  'triggeredWarnings': [
+                      {
+                          'feature': row.get('feature'),
+                          'value': row.get('value'),
+                          'threshold': row.get('threshold'),
+                          'direction': row.get('direction'),
+                          'targetFailureCodes': row.get('targetFailureCodes', []),
+                      }
+                      for row in triggered
+                  ],
+                  'blocking': False,
+              })
+
+          report['calibratedPreflight'] = {
+              'policy': 'REPORT_ONLY_HUMAN_EXACT_HASH_REVIEW_REMAINS_AUTHORITATIVE',
+              'candidateCount': len(summary),
+              'items': summary,
+              'blockingEnabled': False,
+          }
+          report_path.write_text(json.dumps(report, indent=2) + '\n')
+          pathlib.Path('artifacts/catalog-staged-art/preflight/index.json').write_text(
+              json.dumps(report['calibratedPreflight'], indent=2) + '\n'
+          )
+          print(json.dumps(report['calibratedPreflight'], indent=2))
+          PY
+
       - name: Print staged-art summary
         if: always()
         run: cat artifacts/catalog-staged-art/report.json || true
 
-      - name: Upload staged-art screenshots and report
+      - name: Upload staged-art screenshots, hashes, calibration, and preflight evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -59,4 +147,3 @@ jobs:
           path: artifacts/catalog-staged-art
           if-no-files-found: error
           retention-days: 14
-
