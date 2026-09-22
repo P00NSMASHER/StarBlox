@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 1,
+  "candidateId": "home-foreground-depth-w13-v1",
+  "producer": "13",
+  "independentArtReviewer": "01",
+  "compositionPerformanceReviewer": "14",
+  "runtimeCoordinator": "15",
+  "branch": "screenshot-match-preproduction",
+  "purpose": "Add a separate dimensional Home foreground furniture/contact-depth layer after direct pixel comparison of the current Home render with the immutable original Home reference. This is a staged visual candidate only; it is not runtime-wired or approved.",
+  "referenceEvidence": {
+    "originalReferencePath": "docs/preproduction/reference-screenshots/originals/home-original.jpg",
+    "originalReferenceManifest": "docs/preproduction/reference-screenshots/originals/original-reference-manifest.json",
+    "currentRenderWorkflowRun": 35663655650,
+    "currentRenderArtifact": "preproduction-visual-qa",
+    "observedDefect": "Current Home remains materially flatter than the reference, with weak foreground furniture/contact depth and insufficient dimensional grounding around the avatar/buddy stage."
+  },
+  "assets": {
+    "source": {
+      "url": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:b8a3b932-37e2-414f-9791-f9f0d8b66222",
+      "path": "docs/preproduction/visuals/recovered-originals/home-foreground-depth-w13-v1-source.png",
+      "expectedDimensions": [2016, 1152],
+      "expectedFormat": "PNG",
+      "transparentRequired": false
+    },
+    "full": {
+      "url": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:e04f8450-15e5-4fc4-be2c-8a5f7f084256",
+      "path": "public/assets/visuals/lane-13/home-foreground-depth-w13-v1-full.png",
+      "expectedDimensions": [2016, 1152],
+      "expectedFormat": "PNG",
+      "transparentRequired": true
+    },
+    "optimized": {
+      "url": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:e828dc6c-b980-439e-9c7d-bc439a08ad5a",
+      "path": "public/assets/visuals/lane-13/home-foreground-depth-w13-v1-1008.png",
+      "expectedDimensions": [1008, 576],
+      "expectedFormat": "PNG",
+      "transparentRequired": true
+    }
+  },
+  "producerPixelCheck": "PASS_PREUPLOAD: polished dimensional pink/lilac/cream U-shaped foreground furniture cluster with plush left seating, rounded side furniture, low right shelving/vanity details, rug/contact-shadow treatment, and a deliberately open center for owned/equipped avatar plus buddy staging. No people, animals, UI, text, buttons, logos, or third-party IP. Candidate is a separate layer, not a flattened Home screen.",
+  "responsiveIntent": "Keep central and upper-center panel/readability zones open; foreground mass is biased to lower/outer edges and is intended to tolerate responsive crop without carrying any UI semantics.",
+  "ownershipIsolation": {
+    "touchesWorkstream06AvatarAssets": false,
+    "touchesWorkstream09EnvironmentPaths": false,
+    "exclusiveLane13Paths": true,
+    "runtimeWiringPerformed": false,
+    "canonicalCatalogMappingsTouched": false
+  },
+  "freeze": {
+    "replitTouched": false,
+    "flootTouched": false,
+    "mainTouched": false,
+    "deployPerformed": false,
+    "paidSettingsTouched": false,
+    "playerDataTouched": false,
+    "saveSchemaTouched": false,
+    "rewardOrCurriculumTouched": false
+  }
+}
