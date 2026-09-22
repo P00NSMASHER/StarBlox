@@ -1,32 +1,31 @@
 {
-  "schemaVersion": 2,
-  "expectedManifestVersion": 17,
-  "expectedStrictCanonicalBefore": 35,
-  "reviewer": "14",
-  "batchLabel": "Rugs 1-8 + Decor 1-2 exact-hash ACCEPTs",
+  "schemaVersion": 3,
+  "expectedManifestVersion": 18,
+  "expectedStrictCanonicalBefore": 45,
+  "reviewer": "01",
+  "batchLabel": "Tops 7-10 + Bottoms 1-4 + Headwear 1-4 exact-hash ACCEPTs",
   "reviewEvidence": [
-    {
-      "path": "docs/preproduction/catalog-sprint/reviews/14.json",
-      "expectedBlobSha": "50fabe748ec59e08acc6970c0867399a402dba3b"
-    }
+    {"blobSha":"f155210fcf47bf1a34b7469f4eaebde1967a796d"}
   ],
   "items": [
-    {"itemId":"rugs-1","assetPath":"/assets/catalog/rugs-1-w07-v2.jpg","assetHash":"5e00d1456fa21af74de75e583c69de48c9f2ecd2","producer":"07"},
-    {"itemId":"rugs-2","assetPath":"/assets/catalog/rugs-2-w07-v2.jpg","assetHash":"578caf5cc81998d6c7563082892e468fc9186eec","producer":"07"},
-    {"itemId":"rugs-3","assetPath":"/assets/catalog/rugs-3-w07-v2.jpg","assetHash":"0c3b62a84182cd8e7fc3b8dc57f9b1015e54e920","producer":"07"},
-    {"itemId":"rugs-4","assetPath":"/assets/catalog/rugs-4-w07-v2.jpg","assetHash":"d2c1a712dc530cec13ce72100657714900134ce2","producer":"07"},
-    {"itemId":"rugs-5","assetPath":"/assets/catalog/rugs-5-w07-v2.jpg","assetHash":"5a513011856679060df10137eae9f380377f5d78","producer":"07"},
-    {"itemId":"rugs-6","assetPath":"/assets/catalog/rugs-6-w07-v2.jpg","assetHash":"cb96e0d40e0682770e79ef8ce6a1a86ecec3127f","producer":"07"},
-    {"itemId":"rugs-7","assetPath":"/assets/catalog/rugs-7-w07-v2.jpg","assetHash":"184232121c9cd07c65fe1138893132ee0daa3fb3","producer":"07"},
-    {"itemId":"rugs-8","assetPath":"/assets/catalog/rugs-8-w07-v2.jpg","assetHash":"efe9bb6e887375a7e6ed74b15222391a1e2434bf","producer":"07"},
-    {"itemId":"decor-1","assetPath":"/assets/catalog/decor-1-w09-v2.jpg","assetHash":"7e0bad0b6f1dda6068c17109757c396de860892a","producer":"09"},
-    {"itemId":"decor-2","assetPath":"/assets/catalog/decor-2-w09-v2.jpg","assetHash":"d5377bda54cba2071819da60bf4f4d4c52e393a6","producer":"09"}
+    {"itemId":"tops-7","assetPath":"/assets/catalog/tops-7-w09-v3.jpg","assetHash":"1c85689d80f3457bb30b2508386d3e1ea387c029","producer":"09"},
+    {"itemId":"tops-8","assetPath":"/assets/catalog/tops-8-w09-v3.jpg","assetHash":"58aadd95fb9bdd3bb461a9fec9d458d9bf5df79e","producer":"09"},
+    {"itemId":"tops-9","assetPath":"/assets/catalog/tops-9-w09-v3.jpg","assetHash":"9011648da2461f63a4ac9e203833cf70eb1d6fe0","producer":"09"},
+    {"itemId":"tops-10","assetPath":"/assets/catalog/tops-10-w09-v3.jpg","assetHash":"5449283ed30dbfade70290cc976f85bace94fa0a","producer":"09"},
+    {"itemId":"bottoms-1","assetPath":"/assets/catalog/bottoms-1-w05-v2.png","assetHash":"8af6b7c9d2f10c41c5abf2cba0368dda6c9c412c","producer":"05"},
+    {"itemId":"bottoms-2","assetPath":"/assets/catalog/bottoms-2-w05-v2.png","assetHash":"17031c030198b20867aeeffeab67ad60e99397e1","producer":"05"},
+    {"itemId":"bottoms-3","assetPath":"/assets/catalog/bottoms-3-w05-v2.png","assetHash":"b7025444f62bd6e65325835ecf51a5bbe6cee897","producer":"05"},
+    {"itemId":"bottoms-4","assetPath":"/assets/catalog/bottoms-4-w05-v2.png","assetHash":"b618e3990a0e4b049278f5a748325d57cb81955e","producer":"05"},
+    {"itemId":"headwear-1","assetPath":"/assets/catalog/headwear-1-w12-v2.jpg","assetHash":"4d4424962a49f5145422723b625778d6649a4b26","producer":"12"},
+    {"itemId":"headwear-2","assetPath":"/assets/catalog/headwear-2-w12-v2.jpg","assetHash":"595c8fe9182f4aecd5355856f19947c7c83daa11","producer":"12"},
+    {"itemId":"headwear-3","assetPath":"/assets/catalog/headwear-3-w12-v2.jpg","assetHash":"86db079b85360dc64e669aeca53cba874176c693","producer":"12"},
+    {"itemId":"headwear-4","assetPath":"/assets/catalog/headwear-4-w12-v2.jpg","assetHash":"4257b4a959153fba985fa2a97720c379b6d63e33","producer":"12"}
   ],
   "nextAcceptedQueues": [
-    "01: Tops 7-10, Bottoms 1-4, Headwear 1-4 exact ACCEPT backlog.",
     "02: Seating 2-6 exact ACCEPT backlog.",
     "05: Desks 5-6, Beds 1-4, Auras 1-4 v3 exact ACCEPT backlog.",
-    "14: supplemental Rugs 9-10 exact ACCEPTs; Rugs 11-12 remain REWORK."
+    "14: supplemental Rugs 9-10 exact ACCEPTs; Rugs 11-12 remain REWORK.",
+    "01: Tops 11 remains BLOCKED on decode and Tops 12 remains REWORK on current v3 hashes."
   ],
-  "commitMessage": "catalog: wire accepted Rugs 1-8 and Decor 1-2"
+  "commitMessage": "catalog: wire accepted apparel replacements"
 }
