@@ -1,67 +1,57 @@
 # Catalog Sprint — Workstream 10 Small-Card / Mobile Visual QA
 
-STATUS: **BLOCKED — MANIFEST v27 CHANGED ART CANNOT REACH THE REAL STORE; SAME POINTER-ENTRY FAILURE FOR TWO CONSECUTIVE CANONICAL BATCHES**
+STATUS: **BLOCKED — current canonical responsive Store entry remains unreachable after two unchanged real-pointer cycles; no identical rerun this cycle**
 
 Branch: `screenshot-match-preproduction`  
-Audited branch head before this report: `dd1603a937f9aad31874cdacd52b340412743e7c`  
+Audited branch head before this cycle: `5227122d9dc4ddd36b467b1fbe9d0384edaa3be9`  
 Phase: `ART_VISUALS_SPRINT`  
 Catalog gate: **NOT APPROVED by Workstream 10**  
 Replit/Floot/main/deployment/player data: **untouched**
 
-## Current canonical delta
+## Change-aware decision
 
-Workstream 08 advanced the canonical Store to **manifest v27** (`27c77919cfbc5cf52570bf91871338b59cded055`) / runtime `a3b5b2b98a8507f5226191959a3cd91ef6729bdb`, with **90 strict accepted canonical hashes**. The latest change-aware scope is Shoes 7–10 plus Aura 11; unchanged full-matrix proof was intentionally reused only for unchanged hashes.
+The canonical Store remains **manifest v27** (`27c77919cfbc5cf52570bf91871338b59cded055`) / runtime `a3b5b2b98a8507f5226191959a3cd91ef6729bdb`. The shared Store entry path has not changed since the second consecutive `CANONICAL_STORE_ENTRY_POINTER_TIMEOUT_BEFORE_CARD_RENDER` result, so DELIVERY_PROTOCOL_V2 does **not** justify another identical 1408/1024/390/320 browser run. The prior real-pointer blocker is reused exactly rather than converted into a PASS through a forced DOM click, keyboard substitution, skipped assertion or static-image overlay.
 
-| Item | Exact Git blob | Independent decision | Staged exact-hash pixels | Actual responsive Store |
-| --- | --- | --- | --- | --- |
-| `shoes-7` Chunky Sneakers | `cb8f02aaa4844d1a19a013edc3d0d1a15c0620a2` | Reviewer 02 ACCEPT | PASS | **BLOCKED before Store render** |
-| `shoes-8` Trainers | `1aa21e1156f7645fc218402c337d2eebe95d81f8` | Reviewer 02 ACCEPT | PASS | **BLOCKED before Store render** |
-| `shoes-9` Paint Kicks | `ff5e914eb935194a1541cebf5421264e5da2d543` | Reviewer 02 ACCEPT | PASS | **BLOCKED before Store render** |
-| `shoes-10` Light Shoes | `489e37f25644d13a4ca9518f4047ebfb35747a47` | Reviewer 02 ACCEPT | PASS | **BLOCKED before Store render** |
-| `auras-11` Dream Aurora | `7f3372c1584e07f18a3abfc7818013190fff1560` | Reviewer 05 ACCEPT | PASS | **BLOCKED before Store render** |
+The new useful work this cycle is a genuinely untested staged-art case: independently accepted `rugs-12` v3, compared against accepted `rugs-11` as a stable small-card visual control.
 
-Workstream 08 independently verified stored-path/blob readback, metadata, safe decode/render evidence and runtime/manifest agreement for all five. Workstream 10 did not edit those mappings or decisions.
+## Newly accepted staged art — Rugs 12
 
-## Real responsive Store result — blocker confirmed twice
+Reviewer 14 independently accepted **Luxe Star Rug (`rugs-12`)** at exact Git blob `eea2fc5b78c1186342f91f597bc792160ab8f8fe`, SHA-256 `21a2f71224d9a7d4e0e60a672867cc629f21a481c3310fee6b1cac1c1be071b3`. Workstream 10 did not make or alter that approval. Workstream 08 remains the only canonical-mapping owner.
 
-Structured handoff label: **`CANONICAL_STORE_ENTRY_POINTER_TIMEOUT_BEFORE_CARD_RENDER`**  
-Legacy equivalent: `STORE_ENTRY_POINTER_TIMEOUT_BEFORE_CATALOG_CONTENT`
+I inspected the preserved exact-hash staged fixture from workflow run `35690027258`, artifact `10677768162`, digest `sha256:fd733e0ab24793a71bc267c75cd0f95e5dd291d38ddb7dda048050e1550a5165`. The enclosing workflow failed elsewhere, but the scoped Rugs evidence is clean: selected binding, PNG signature/safety, HTTP/decode, card image and detail screenshot are present with no scoped errors. The Rugs contact sheet hash is `8bb20a752ad3b1382dcf3aa418b8b1b5b7bf366c70bac53180859fb782bba639`.
 
-The same real-pointer failure occurred on two consecutive canonical art cycles:
+| Item | Role | Exact blob | Small-card finding |
+| --- | --- | --- | --- |
+| `rugs-11` Dream Cloud Rug | stable accepted control | `2c93f18fb5960f7056819c341a3da8f7fff3fb9d` | PASS diagnostic — moon/cloud silhouette and soft depth remain distinct at 210/140/110px; fine star/cloud texture becomes subordinate at 110px without collapsing the object. No clipping/edge artifact observed. |
+| `rugs-12` Luxe Star Rug | newly accepted staged candidate, pending 08 wiring | `eea2fc5b78c1186342f91f597bc792160ab8f8fe` | PASS diagnostic — star silhouette, warm center, contrasting outer form and tassel extensions remain recognizable at 210/140/110px; Tier-5 richness survives reduction. Star points/tassels remain inside frame; no edge artifact observed. |
+
+Detail screenshot hashes: Rugs 11 `f2eb8fd8150be3e6731efae29d9924161e1aa1ddb60ff253052dede224b3507c`; Rugs 12 `5a7a0f4b3ee1a9d11ce173ae32fd8f9755e9075e1a5b2746b2a3e75dfdf4b8d8`.
+
+These are **staged-fixture diagnostics only**. They do not establish actual Store grid/detail behavior at 1408×1056, 1024×768, 390×844 or 320×568, nor normal/reduced-motion scrolling performance. `rugs-12` is not canonical yet, and Workstream 10 will not edit the manifest to make it testable.
+
+## Real responsive Store blocker — unchanged, not rerun
+
+Structured handoff label: **`CANONICAL_STORE_ENTRY_POINTER_TIMEOUT_BEFORE_CARD_RENDER`**.
+
+The same failure was already reproduced twice on consecutive canonical batches:
 
 - Shoes 7–10: run `35689825441`, artifact `10677978587`, source head `04eb1f4c4a6f9efcd0e6bea9d33e7580740dcfd4`.
 - Aura 11: run `35690236073`, artifact `10678253907`, source head `ad8867efc70d1b123cbc5e2f157766bec58e510d`.
 
-Both production builds passed. In the browser gate, the Store nav control was found and reported visible, enabled and stable, scrolled into view, then the pointer click timed out before Store content appeared. The failure affected the reduced-motion probes at `1408×1056`, `1024×768`, `390×844`, and `320×568`, plus the normal-motion controls at tablet and 390px phone widths. Because no changed cards rendered, Workstream 10 makes **no claim** for current-hash two-column phone layout, crop/contain, detail-panel composition, image dimensions/alternatives, long-scroll reachability, layout stability, scroll cost or normal/reduced-motion art behavior.
+Both builds passed, but Playwright found the Store control visible/enabled/stable and then the **real pointer click timed out before any catalog card rendered**. That covered reduced-motion probes at 1408×1056, 1024×768, 390×844 and 320×568 plus normal-motion controls at 1024 and 390. Workstream 15 already owns coordination of this shared-entry blocker after the required two unchanged cycles.
 
-This is now the second unchanged cycle, so the exact shared-entry blocker is handed to **Workstream 15**. Workstream 10 will not hide it with a forced DOM click, skipped assertion, static overlay or a shared UI patch. Once the entry path is repaired, the next run should be only **changed Shoes/Aura + stable Tops control** at 1408/1024/390/320, not another unchanged 16-collection sweep.
+Because the shared entrypoint has not changed, this cycle intentionally does **not** spend another browser run repeating the same failure. Once 15 repairs/co-ordinates the real pointer path and 08 canonically wires the next accepted batch, Workstream 10 should run only the changed collection plus a stable control at 1408/1024/390/320 in normal and reduced-motion modes.
 
-## Workstream-10 direct small-card pixel diagnostic
+## Other current evidence blockers
 
-I directly inspected the exact-hash staged card/detail pixels from staged-art run `35687207417`, artifact `10676873799`, including diagnostic square reductions to **140px and 110px**. This is useful reduction evidence, but it is explicitly **not** a substitute for real 390/320 Store screenshots.
+`tops-11` / `tops-12`: **`V7_EXACT_BYTES_UNAVAILABLE_NO_CURRENT_REPOSITORY_CARD_DETAIL_PIXELS`**. The v7 receipts exist, but the authoritative WEBP payload bytes are not currently repository-backed; v6 failed signature validation and v5 visual judgments do not transfer.
 
-No new artwork-level failure was observed in this diagnostic:
+`headwear-5..8`: **`EXTERNAL_ONLY_NO_REPOSITORY_HASH_NO_QUALIFIED_CARD_STORE_PROOF`** remains in force until exact repository-backed bytes/hashes exist.
 
-- `shoes-7`: chunky sole silhouette and cloud motif survive reduction.
-- `shoes-8`: paneling, pixel mark and cyan/magenta split remain distinct.
-- `shoes-9`: paint-splash identity remains visible at the smallest diagnostic size.
-- `shoes-10`: emissive sole/side panels and garden-leaf detail remain readable; premium treatment survives reduction.
-- `auras-11`: mirrored aurora curtains, open center, floor ring and star/crystal accents remain recognizable and materially richer than a flat ring.
+## Evidence boundary
 
-These observations do **not** self-approve any art; Shoes retain reviewer-02 authority and Aura 11 reviewer-05 authority.
+The historical full responsive matrix remains run `35659760652`, artifact `10667595844`, source head `8a2c53aa2133baef23e263d8dda8b2a180dffe19`. It is valid only for unchanged hashes and responsive guards; it is not proof for later art.
 
-## Current structured evidence blockers
+Physical iPhone/iPad/Android performance and VoiceOver/TalkBack/NVDA remain **NOT TESTED**. Headless Chromium, staged fixture pixels and local diagnostic reductions are not physical-device/screen-reader evidence. The authoritative desktop Store target remains `docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg`, SHA-256 `b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d`.
 
-**`SHARED_SIGNATURE_GATE_FAIL_NO_QUALIFIED_CARD_DETAIL_PIXELS`** — Tops 11–12 v6 remain evidence-BLOCKED rather than visually rejected. Their prior v5 visual findings do not transfer to the current hashes.
-
-**`EXTERNAL_ONLY_NO_REPOSITORY_HASH_NO_QUALIFIED_CARD_STORE_PROOF`** — Headwear 5–8 currently exist only as preserved external 600×600 derivatives. Their planned repository paths have no exact current blob/hash, so external previews cannot be treated as staged or canonical small-card proof.
-
-## Reused proof boundary
-
-The last complete Workstream-10 browser matrix remains run `35659760652`, artifact `10667595844`, source head `8a2c53aa2133baef23e263d8dda8b2a180dffe19`. It covered all 16 collections at 1408/1024/390/320 in headless Chromium, including phone two-column layout, focus/keyboard, overflow, full-scroll reachability, reduced motion, normal-motion controls and scroll/layout probes. It is reused **only for unchanged hashes and responsive guards**, never as proof for later art.
-
-Physical iPhone/iPad/Android performance and VoiceOver/TalkBack/NVDA remain **NOT TESTED**. Browser emulation is not physical-device or screen-reader evidence.
-
-The authoritative desktop Store visual target remains `docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg`, SHA-256 `b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d`. Tablet and phone widths remain responsive-usability targets, not invented reference screenshots.
-
-No shared UI, canonical manifest, producer art, item metadata, gameplay, learning, persistence, economy, real player data, Replit, Floot, `main`, deployment, purchase or paid setting was changed by Workstream 10.
+No shared UI, canonical mapping, producer art, catalog metadata, gameplay, learning, persistence, economy, real player data, Replit, Floot, `main`, deployment, purchases or paid settings were changed by Workstream 10.
