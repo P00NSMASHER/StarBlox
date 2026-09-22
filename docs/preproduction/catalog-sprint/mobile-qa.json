@@ -1,116 +1,130 @@
 {
-  "schemaVersion": 4,
+  "schemaVersion": 5,
   "workstream": "10",
-  "phase": "CATALOG_SPRINT",
-  "status": "PASS_FIRST_V2_CANONICAL_ART_BATCH_BROWSER_EMULATION",
+  "phase": "ART_VISUALS_SPRINT",
+  "status": "PARTIAL_CURRENT_EVIDENCE_REAL_STORE_RESPONSIVE_RERUN_NOT_TESTED",
   "catalogGateApproved": false,
-  "auditedRuntimeHead": "8a2c53aa2133baef23e263d8dda8b2a180dffe19",
+  "branch": "screenshot-match-preproduction",
+  "auditedBranchHead": "e11d4b4e2f379fc0e1e27090c56357ee9da24b69",
   "changeAwareDecision": {
-    "reasonForRun": "Workstream 08 changed the canonical manifest/runtime for the first independently accepted V2 art batch. This is a coherent catalog milestone, so the full 16-collection matrix was appropriate rather than relying on the previous unchanged-hash proof.",
-    "changedCollection": "companions",
-    "stableControl": "tops",
-    "futurePolicy": "For later small canonical batches, test changed collection(s) plus one stable control at 1408/1024/390/320 and reserve another full 16-collection sweep for a coherent milestone or final gate."
+    "reason": "Canonical catalog advanced to manifest v23 with seven newly accepted exact hashes. Prior Workstream-10 browser proof is reusable only for unchanged hashes/protections and is not generalized to the new art. No redundant full 16-collection matrix was run.",
+    "canonicalChangedCollections": ["desks", "auras"],
+    "stableControlForNextRealStoreRun": "tops",
+    "requiredRealStoreViewports": ["1408x1056", "1024x768", "390x844", "320x568"],
+    "requiredMotionModes": ["normal", "reduced"],
+    "freshCanonicalStoreExecution": "NOT_TESTED_THIS_CYCLE",
+    "reasonExecutionNotClaimed": "No fresh change-aware browser artifact for the manifest-v23 exact hashes was available/executable in this run. Staged fixture proof is kept separate from canonical responsive Store proof."
   },
   "canonicalIntegration": {
-    "manifestVersion": 13,
-    "manifestBlobSha": "54fb26beca9b8da5f17472193831ee8248ffd3a4",
-    "canonicalRuntimeBlobSha": "b350940b703ea2934062e183c5529ad9f9b7f810",
-    "catalogTarget": 192,
-    "finalPortable": 103,
-    "interimNotVerified": 19,
-    "changedIds": ["companions-3", "companions-4", "companions-10", "companions-11"],
+    "manifestVersion": 23,
+    "manifestBlobSha": "93fa3434711ddedd87ff8bdd00030f62b6b770b6",
+    "runtimeBlobSha": "6a407b95dc15e5de6046d335ecd3a12239833dba",
+    "manifestEntries": 160,
+    "strictAcceptedCanonical": 81,
+    "changedIds": ["desks-2", "desks-3", "desks-4", "auras-5", "auras-9", "auras-10", "auras-12"],
     "changedAssets": [
-      {"id":"companions-3","path":"/assets/catalog-candidates/chat-20260921-intake01/companions-3-detail.webp","blobSha":"adba95dc769e603337dc4ac38b9a513ce9914b10","bytes":58902,"format":"WEBP","dimensions":"768x768"},
-      {"id":"companions-4","path":"/assets/catalog-candidates/chat-20260921-intake01/companions-4-detail.webp","blobSha":"b382339e76ed9d4aeae72b1c8cccc904abf85b57","bytes":53770,"format":"WEBP","dimensions":"768x768"},
-      {"id":"companions-10","path":"/assets/catalog-candidates/chat-20260921-intake01/companions-10-detail.webp","blobSha":"2b09d950b08083bb3a9ec5e2073ae23d88411cf4","bytes":63032,"format":"WEBP","dimensions":"768x768"},
-      {"id":"companions-11","path":"/assets/catalog-candidates/chat-20260921-intake01/companions-11-detail.webp","blobSha":"465fe45abbe4d9b4355444cb3f75a49927b604e9","bytes":63886,"format":"WEBP","dimensions":"768x768"}
+      {"id":"desks-2","path":"/assets/catalog/desks-2-chat-v2.png","blobSha":"277eb1e38e8a69caa0dab6d4d27bbb91796746f8","dimensions":"1024x1024","format":"PNG"},
+      {"id":"desks-3","path":"/assets/catalog/desks-3-chat-v2.png","blobSha":"aeebeacdc4a95bf75af36583dae6e2391d9a1d9e","dimensions":"1024x1024","format":"PNG"},
+      {"id":"desks-4","path":"/assets/catalog/desks-4-chat-v2.png","blobSha":"6f87e1527ec7d9bf1a3f81e1f54320f462dbb025","dimensions":"1024x1024","format":"PNG"},
+      {"id":"auras-5","path":"/assets/catalog/auras-5-w11-v3.jpg","blobSha":"ae3bef6cbbf4333aa740dc9a3fddf4f2b5540192","dimensions":"600x600","format":"JPEG"},
+      {"id":"auras-9","path":"/assets/catalog/auras-9-w11-v3.jpg","blobSha":"9331e516a7a1a2fa32abafaf3bbf0932c3ca792d","dimensions":"600x600","format":"JPEG"},
+      {"id":"auras-10","path":"/assets/catalog/auras-10-w11-v3.jpg","blobSha":"6f07fe7f5c8be236f3c17df5f55afc550888f52e","dimensions":"600x600","format":"JPEG"},
+      {"id":"auras-12","path":"/assets/catalog/auras-12-w11-v3.jpg","blobSha":"d0fcf528ff4ee91e56760932fdcf357ab264dd3d","dimensions":"600x600","format":"JPEG"}
     ],
     "ownershipPricesUnlocksChanged": false
   },
-  "evidence": {
+  "stagedFixtureEvidenceForCurrentCanonicalBatch": {
+    "status": "PASS_EXACT_HASH_CARD_DETAIL_RENDER_ONLY",
+    "sourceHead": "9cfe19679527bd0a3ace2d76d4a88967a65509a7",
+    "artifactId": 10672639784,
+    "targetRows": "7/7 HTTP 200, screenshot present, no per-item render errors",
+    "reportErrors": [],
+    "reportWarnings": [],
+    "scopeWarning": "This is staged fixture evidence, not actual responsive canonical Store evidence.",
+    "observations": {
+      "desks": "Desks 2-4 remain centered and silhouette-distinct at fixture card/detail scale with no visible clipping in the preserved staged evidence.",
+      "auras": "Auras 5/9/10/12 remain visually distinct at fixture card scale. Current files are fully opaque JPEGs, so transparent-edge/alpha compositing is not exercised by these assets.",
+      "alphaLabel": "OPAQUE_FULL_FRAME_ALPHA_NOT_EXERCISED_INFORMATIONAL"
+    }
+  },
+  "stagedNotCanonicalSignals": {
+    "sourceLane": "09",
+    "reviewOwner": "01",
+    "integrationOwner": "08",
+    "artifactId": 10674362796,
+    "workflowRun": 35681227316,
+    "workflowHead": "288103b2fae24862d8fe733d6b64964fc24d06d9",
+    "artifactDigest": "sha256:af564c231b473f2aa11628e8e8f672191cc84348221cdcd40495606415b946e7",
+    "items": [
+      {
+        "id": "tops-11",
+        "name": "Cloud Jacket",
+        "path": "/assets/catalog/tops-11-w09-v5.svg",
+        "blobSha": "43a850ecdc0b7e8861870f7c277f2544f6c87405",
+        "render": "PASS_EXACT_HASH_CARD_DETAIL",
+        "mobileVisualSignal": "CARD_SCALE_PREMIUM_DEPTH_WEAK",
+        "finding": "Identity and silhouette remain readable and unclipped in the staged card render, but the premium padded/material depth is still weak after reduction. This is a Workstream-10 small-card signal only, not an ACCEPT/REWORK decision."
+      },
+      {
+        "id": "tops-12",
+        "name": "Star Coat",
+        "path": "/assets/catalog/tops-12-w09-v5.svg",
+        "blobSha": "73339e6c9e472283f481ff18b1e6ba821856f617",
+        "render": "PASS_EXACT_HASH_CARD_DETAIL",
+        "mobileVisualSignal": "TIER5_COAT_LENGTH_AMBIGUOUS_AT_CARD_SCALE",
+        "finding": "At staged card scale the silhouette is readable as outerwear but still reads short-jacket/bomber-like rather than unmistakably coat-length. This is routed to reviewer 01/producer 09 and does not change review disposition."
+      }
+    ],
+    "canonicalStoreResponsiveStatus": "NOT_APPLICABLE_UNTIL_ACCEPTED_AND_CANONICALLY_WIRED"
+  },
+  "reusedHistoricalBrowserProof": {
+    "status": "REUSED_ONLY_FOR_UNCHANGED_HASHES_AND_RESPONSIVE_GUARDS",
+    "sourceHead": "8a2c53aa2133baef23e263d8dda8b2a180dffe19",
     "workflowRunId": 35659760652,
     "jobId": 106532044131,
     "artifactId": 10667595844,
     "artifactDigest": "sha256:7a5d1cb254d00086f95889dc316087116dfb7d245cda02755c42705efabc1607",
-    "artifactFileCount": 36,
-    "artifactZipBytes": 17010331,
-    "mobileAccessibilityBlobSha": "272fb9b6a95a38eba4696c7d732d805621a52f49",
-    "accessibilityCssBlobSha": "d1bf7ac11815a59baee4ccf45b58ec2ad40b6694",
-    "qaScriptBlobSha": "3a563274fc4a069fe57062f9fcb0574a324a5533",
-    "mobileAccessibilityTestBlobSha": "b0fe447b8b7bd2637b4d5865d66992f7f23f34d7"
+    "coverage": "16 collections at 1408x1056, 1024x768, 390x844 and 320x568 in headless Chromium, with reduced-motion plus normal-motion controls, two-column phone grid, keyboard/focus, overflow, reachability and scroll/layout probes.",
+    "warning": "Not proof for manifest-v23 newly integrated asset hashes."
   },
-  "scope": {
-    "browser": "Playwright 1.55 Chromium headless on GitHub Actions ubuntu-24.04",
-    "build": "Vite 8.3.0 production build; 1613 modules; CSS 167.39 kB / 35.69 kB gzip; JS 304.31 kB / 93.39 kB gzip",
-    "reducedMotionViewports": ["1408x1056", "1024x768", "390x844", "320x568"],
-    "normalMotionControlViewports": ["1024x768", "390x844"],
-    "collections": ["tops","bottoms","shoes","headwear","facegear","backgear","handgear","auras","companions","beds","seating","desks","lighting","wall","rugs","decor"],
-    "physicalDevicePerformanceTested": false,
-    "screenReaderTested": false,
-    "measuredContrast": "NOT_TESTED_AMBIGUOUS_RENDERED_BACKGROUNDS"
+  "currentChecks": {
+    "manifestV23StagedExactHashDecode": "PASS_7_OF_7",
+    "manifestV23StagedCardDetailRender": "PASS_7_OF_7",
+    "manifestV23ActualStore1408": "NOT_TESTED",
+    "manifestV23ActualStore1024": "NOT_TESTED",
+    "manifestV23ActualStore390": "NOT_TESTED",
+    "manifestV23ActualStore320": "NOT_TESTED",
+    "manifestV23TwoColumnPhoneGrid": "NOT_TESTED_CURRENT_HASHES",
+    "manifestV23CanonicalCropContain": "NOT_TESTED_CURRENT_HASHES",
+    "manifestV23CanonicalDetailPanelComposition": "NOT_TESTED_CURRENT_HASHES",
+    "manifestV23CanonicalScrollAndLayoutStability": "NOT_TESTED_CURRENT_HASHES",
+    "manifestV23CanonicalNormalMotion": "NOT_TESTED_CURRENT_HASHES",
+    "manifestV23CanonicalReducedMotion": "NOT_TESTED_CURRENT_HASHES",
+    "measuredRenderedContrast": "NOT_TESTED",
+    "physicalDevice": "NOT_TESTED",
+    "screenReader": "NOT_TESTED"
   },
-  "result": {
-    "releaseBlockingCount": 0,
-    "checks": {
-      "categoryNavigation": "64/64 PASS",
-      "horizontalOverflow": "64/64 PASS",
-      "touchTargets": "64/64 PASS",
-      "cardReadableState": "64/64 PASS",
-      "cardSemantics": "64/64 PASS",
-      "imageLoadingAndAlternatives": "64/64 PASS",
-      "explicitImageDimensions": "64/64 PASS_OR_NO_IMAGE_BACKED_CARD_YET",
-      "focusVisible": "64/64 PASS",
-      "reducedMotionContext": "64/64 PASS",
-      "keyboardCardActivation": "64/64 PASS",
-      "phoneTwoColumnGrid": "32/32 PASS",
-      "keyboardTraversal": "4/4 PASS",
-      "lastCardKeyboardReachability": "4/4 PASS",
-      "reducedMotionBehavior": "4/4 PASS",
-      "runtimeErrors": "4/4 PASS",
-      "longScrollProbe": "4/4 PASS",
-      "layoutStabilityProbe": "4/4 PASS",
-      "normalMotionControl": "2/2 PASS",
-      "computedContrast": "NOT_TESTED_4_OF_4"
-    },
-    "changedCollectionEvidence": {
-      "companions": "12 visible cards at all four reduced-motion viewports; all 12 image-backed cards loaded, had alternative semantics, explicit width/height, readable state, focus-visible behavior and keyboard activation; phone grids were 2 columns at 390px and 320px.",
-      "stableControlTops": "12 visible cards at all four reduced-motion viewports with the same loading, intrinsic-dimension, focus, keyboard, readability and phone-grid checks passing."
-    },
-    "longScroll": [
-      {"viewport":"desktop-1408x1056","maxScrollY":169,"frames":61,"avgFrameMs":16.1,"slowFramesOver34ms":0,"catalogResourceCount":168,"cls":0.0016},
-      {"viewport":"tablet-1024x768","maxScrollY":612,"frames":61,"avgFrameMs":16.3,"slowFramesOver34ms":0,"catalogResourceCount":140,"cls":0.0040},
-      {"viewport":"phone-390x844","maxScrollY":2029,"frames":61,"avgFrameMs":16.3,"slowFramesOver34ms":0,"catalogResourceCount":128,"cls":0.0},
-      {"viewport":"phone-320x568","maxScrollY":2663,"frames":61,"avgFrameMs":16.2,"slowFramesOver34ms":0,"catalogResourceCount":128,"cls":0.0}
-    ],
-    "normalMotion": [
-      {"viewport":"tablet-1024x768","firstRowColumns":4,"horizontalOverflowPx":0,"frames":61,"avgFrameMs":16.4,"slowFramesOver34ms":0,"runtimeErrors":0},
-      {"viewport":"phone-390x844","firstRowColumns":2,"horizontalOverflowPx":0,"frames":61,"avgFrameMs":16.4,"slowFramesOver34ms":0,"runtimeErrors":0}
-    ],
-    "contrast": {
-      "status": "NOT_TESTED",
-      "reason": "Catalog text is composited over gradients/images/translucent layers, so the existing solid-background sampler cannot produce defensible ratios. Screenshot/device-aware contrast remains a final manual/tool-assisted gate."
-    },
-    "screenshotsAndArtifacts": {
-      "artifactId": 10667595844,
-      "fileCount": 36,
-      "coverage": "All 16 canonical collections retained at desktop 1408x1056 and phone 390x844; tablet 1024x768 and phone 320x568 were measured by the same strict gate."
-    }
+  "referenceScreenshots": {
+    "status": "PRESENT_AND_AUTHORITATIVE",
+    "directory": "docs/preproduction/reference-screenshots/originals",
+    "screens": ["home-1448x1086.jpeg", "store-1448x1086.jpeg", "quest-1448x1086.jpeg"],
+    "note": "The prior missing-reference blocker is stale and must not be reused. Desktop originals are the reference; phone/tablet remain responsive usability targets."
   },
-  "deterministicReferenceCapture": {
-    "workflowPath": ".github/workflows/reference-screenshot-capture.yml",
-    "scriptPath": "scripts/referenceScreenshotCapture.mjs",
-    "status": "PIPELINE_PREPARED_REFERENCE_PIXELS_ABSENT",
-    "targetScreens": ["Home", "Store", "Quest"],
-    "referenceDirectory": "docs/preproduction/reference-screenshots",
-    "referenceDirectoryPresent": false,
-    "note": "The capture/diff workflow is prepared, but the original user reference image files are not repository-accessible. Generated promotional collages must not be used as substitutes."
+  "handoff": {
+    "reviewer01Producer09": "Review Tops 11-12 v5 exact hashes independently. Workstream 10 specifically flags weak premium-depth survival for Tops 11 and coat-length ambiguity for Tops 12 at staged card scale; these signals do not self-approve or alter reviewer authority.",
+    "workstream08And15": "Manifest-v23 Desks/Auras have clean exact-hash staged card/detail renders but still require a fresh change-aware actual Store run at 1408/1024/390/320 before Workstream 10 can call the new canonical batch responsive PASS.",
+    "workstream14": "May reuse artifact 10672639784 for exact-hash staged card/detail evidence, but not as responsive Store viewport proof.",
+    "nextWorkstream10": "When execution is available, run only changed collections desks+auras plus stable control tops at 1408/1024/390/320, normal and reduced motion, recording loading/decode, crop/contain, detail composition, scroll/layout stability, overflow, keyboard/focus and objective screenshot evidence."
   },
-  "limitations": [
-    "This PASS is headless Chromium browser-emulation evidence, not physical iPhone/iPad/Android performance evidence.",
-    "VoiceOver/TalkBack/NVDA remain NOT TESTED; browser semantics, focusability, labels, keyboard activation and reachability were verified.",
-    "Exact rendered color contrast remains NOT TESTED because the existing automated sampler cannot resolve layered visual backgrounds defensibly.",
-    "The catalog gate remains unapproved because only 4/192 current hashes are canonically accepted and final release QA is separate."
-  ],
-  "nextAction": "After the next small Workstream-08 canonical integration, test only changed collection(s) plus a stable control at 1408/1024/390/320 with normal and reduced-motion evidence. Run the next full 16-collection sweep only at a coherent catalog milestone or final gate. Continue deterministic Home/Store/Quest capture support; final pixel-diff requires the original reference files to be made repository-accessible.",
-  "freeze": {"replitTouched":false,"flootTouched":false,"mainMergedOrModified":false}
+  "freeze": {
+    "sharedUiChanged": false,
+    "canonicalManifestChangedBy10": false,
+    "producerArtChangedBy10": false,
+    "gameplayLearningPersistenceEconomyChanged": false,
+    "realPlayerDataUsed": false,
+    "replitTouched": false,
+    "flootTouched": false,
+    "mainMergedOrModified": false,
+    "deploymentTouched": false
+  }
 }
