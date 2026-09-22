@@ -4,9 +4,9 @@
   "workstream": "03",
   "phase": "CATALOG_SPRINT",
   "branch": "screenshot-match-preproduction",
-  "observedCoordinationHead": "6fc0680b0c6be4554fccc97dda72f855ce4c6714",
+  "observedCoordinationHead": "044c93510cca67fe1939f9052ee9d4e569b08d9e",
   "allocationAuthority": "docs/preproduction/ART_VISUALS_SPRINT.json",
-  "status": "DESKS_2_6_ACCEPTED_PRESERVE_EXACT_HASHES__DESKS_7_12_HOLD_NO_SPECULATIVE_REPLACEMENT",
+  "status": "DESKS_2_6_ACCEPTED_PRESERVE_EXACT_HASHES__DESKS_7_10_ASSIGNED_RELEASE_PILOT__DESKS_11_12_GATED_PENDING_REVIEW",
   "selfApproved": false,
   "reviewOwner": "05",
   "integrationOwner": "08",
@@ -33,7 +33,10 @@
       "gitBlobSha": "277eb1e38e8a69caa0dab6d4d27bbb91796746f8",
       "sha256": "5d284040198504227b9cb8ed4eedf729166d157d266912cf3a89c71dc823bcee",
       "bytes": 845051,
-      "dimensions": [1024, 1024],
+      "dimensions": [
+        1024,
+        1024
+      ],
       "format": "PNG",
       "producer": "03",
       "provenance": "Adobe Firefly via interactive chat repair; docs/preproduction/catalog-sprint/chat-desks-recovery-2-4-result.json",
@@ -55,7 +58,10 @@
       "gitBlobSha": "aeebeacdc4a95bf75af36583dae6e2391d9a1d9e",
       "sha256": "a2e00219721cdb340fd35383845608f2a19ccd9fd65c759ddbe6c891a48b872c",
       "bytes": 1148489,
-      "dimensions": [1024, 1024],
+      "dimensions": [
+        1024,
+        1024
+      ],
       "format": "PNG",
       "producer": "03",
       "provenance": "Adobe Firefly via interactive chat repair; docs/preproduction/catalog-sprint/chat-desks-recovery-2-4-result.json",
@@ -77,7 +83,10 @@
       "gitBlobSha": "6f87e1527ec7d9bf1a3f81e1f54320f462dbb025",
       "sha256": "ed21e581b9cd986c4b51ce4dccd32f495fdb0b64ed197401ee8e7078b1374dd9",
       "bytes": 1043349,
-      "dimensions": [1024, 1024],
+      "dimensions": [
+        1024,
+        1024
+      ],
       "format": "PNG",
       "producer": "03",
       "provenance": "Adobe Firefly via interactive chat repair; docs/preproduction/catalog-sprint/chat-desks-recovery-2-4-result.json",
@@ -99,7 +108,10 @@
       "gitBlobSha": "95fe65632e4f40b76b23cce30071ee2fdc5b4399",
       "sha256": "19be1b31799b00bfbf6eb540f0a9d128460985daebd9ce3c508695632a49d6f4",
       "bytes": 51545,
-      "dimensions": [600, 600],
+      "dimensions": [
+        600,
+        600
+      ],
       "format": "JPEG",
       "producer": "03",
       "provenance": "Exact preserved Adobe Firefly asset urn:aaid:sc:US:8962802a-f953-4cfe-bc19-c56fc7afcc74 recovered without regeneration",
@@ -121,7 +133,10 @@
       "gitBlobSha": "52df05265de236911927b904b07e68dac7a17828",
       "sha256": "c0037a3a56a5b477fd714fbaf2419d4ffa9197721421bd1c0e20f99d99eac991",
       "bytes": 34981,
-      "dimensions": [600, 600],
+      "dimensions": [
+        600,
+        600
+      ],
       "format": "JPEG",
       "producer": "03",
       "provenance": "Exact preserved Adobe Firefly asset urn:aaid:sc:US:bc5a80a0-b94a-4564-8360-9d521a05dde0 recovered without regeneration",
@@ -144,16 +159,34 @@
     }
   },
   "supersededBrokenCandidates": [
-    {"id":"desks-2","repositoryPath":"public/assets/catalog/desks-2-v1.webp","gitBlobSha":"357f4ba8385e737499f12409c0bea141f9bc5e6a","status":"SUPERSEDED_INVALID_SIGNATURE"},
-    {"id":"desks-3","repositoryPath":"public/assets/catalog/desks-3-v1.webp","gitBlobSha":"b3352961988d7e9c5ff48d1559fc4d2296d4eab3","status":"SUPERSEDED_INVALID_SIGNATURE"},
-    {"id":"desks-4","repositoryPath":"public/assets/catalog/desks-4-v1.webp","gitBlobSha":"711feeb78e6d08351fc2fd2d3176ddb1a288e8f2","status":"SUPERSEDED_INVALID_SIGNATURE"}
+    {
+      "id": "desks-2",
+      "repositoryPath": "public/assets/catalog/desks-2-v1.webp",
+      "gitBlobSha": "357f4ba8385e737499f12409c0bea141f9bc5e6a",
+      "status": "SUPERSEDED_INVALID_SIGNATURE"
+    },
+    {
+      "id": "desks-3",
+      "repositoryPath": "public/assets/catalog/desks-3-v1.webp",
+      "gitBlobSha": "b3352961988d7e9c5ff48d1559fc4d2296d4eab3",
+      "status": "SUPERSEDED_INVALID_SIGNATURE"
+    },
+    {
+      "id": "desks-4",
+      "repositoryPath": "public/assets/catalog/desks-4-v1.webp",
+      "gitBlobSha": "711feeb78e6d08351fc2fd2d3176ddb1a288e8f2",
+      "status": "SUPERSEDED_INVALID_SIGNATURE"
+    }
   ],
-  "holdIds": ["desks-7","desks-8","desks-9","desks-10","desks-11","desks-12"],
-  "holdReason": "No exact current reviewer-05 REWORK or explicit unfinished Desk 7-12 assignment from 15 is present in the authoritative evidence read this cycle. Legacy age alone is not permission to regenerate.",
+  "holdIds": [
+    "desks-11",
+    "desks-12"
+  ],
+  "holdReason": "Desks 7-10 are explicitly assigned by coordinator15 and ACTIVE_BATCH as an unfilled release-blocking pilot because strict visual QA/fallback backlog prove they are missing canonical art. Desks 11-12 remain gated until reviewer05 dispositions Desks 7-10; no legacy REWORK verdict is invented.",
   "changedDependencies": {
-    "reviewer05": "Current reviewer evidence now preserves exact-hash ACCEPT for Desk 2-6. All five hashes are frozen from producer regeneration.",
-    "workstream08": "Only 08 may canonical-wire the accepted Desk 2-6 hashes after its own metadata/file/content checks.",
-    "workstream15": "Only 15 coordinates any explicit next Desk 7-12 repair assignment or shared Home entrypoint work."
+    "reviewer05": "Reviewer05 remains independent reviewer. Desks 7-10 are unfilled targets, not inherited REWORK; first verdict occurs only after exact staged pixels exist.",
+    "workstream08": "Only 08 may canonical-wire qualified exact-hash ACCEPTs after its own metadata/file/decode/uniqueness checks.",
+    "workstream15": "ACTIVE_BATCH now explicitly assigns Desks 7-10 as a release-blocking unfilled pilot; this supersedes the prior all-Desk7-12 hold."
   },
   "checks": {
     "artVisualsAllocationReadFirst": "PASS",
@@ -164,12 +197,14 @@
     "desk4AcceptedHash": "PASS_6f87e1527ec7d9bf1a3f81e1f54320f462dbb025",
     "desk5AcceptedHash": "PASS_95fe65632e4f40b76b23cce30071ee2fdc5b4399",
     "desk6AcceptedHash": "PASS_52df05265de236911927b904b07e68dac7a17828",
-    "newGenerationThisCycle": "NONE_INTENTIONAL_NO_CURRENT_REWORK_OR_ASSIGNMENT",
-    "testsBuildThisCycle": "NOT_RERUN_DOC_ONLY_RECONCILIATION_NO_RUNTIME_OR_ASSET_BYTES_CHANGED",
+    "newGenerationThisCycle": "PLANNING_OPEN_DESKS_7_10_NO_OUTPUT_BYTES_YET",
+    "testsBuildThisCycle": "NOT_RERUN_DOC_ONLY_COORDINATION_CHANGE",
     "runtimeCssEdited": false,
-    "canonicalIntegrationAttempted": false
+    "canonicalIntegrationAttempted": false,
+    "latestCoordinatorAssignment": "PASS_ACTIVE_BATCH_W03_DESKS_7_10_RELEASE_PILOT",
+    "strictVisualFallbackEvidence": "PASS_DESKS_7_12_INCLUDED_IN_22_MISSING_CANONICAL_ART"
   },
-  "nextAction": "Preserve exact accepted Desk 2-6 hashes and do not regenerate them. Await 08 canonical integration independently. Do not produce Desk 7-12 unless reviewer 05 publishes an exact current REWORK or 15/current authoritative evidence explicitly assigns an unfinished Desk. While waiting, only bounded Home reference analysis may be recorded in lane 03; no shared runtime/CSS edits or final-acceptance claim.",
+  "nextAction": "Generate only Desks 7-10 through the bounded Art Factory pilot using exact Store metadata and the releasePilot visual contract. Stage/read back/verify exact bytes, publish real card/detail pixels via renderer14, and route exact hashes to independent reviewer05. Preserve Desks 1-6 accepted hashes. Do not start Desks 11-12 until the pilot is dispositioned.",
   "freeze": {
     "replitTouched": false,
     "flootTouched": false,
@@ -179,5 +214,51 @@
     "canonicalManifestTouched": false,
     "canonicalRuntimeTouched": false,
     "playerDataTouched": false
+  },
+  "releasePilot": {
+    "batchId": "w03-desks-7-10-v1",
+    "scope": [
+      "desks-7",
+      "desks-8",
+      "desks-9",
+      "desks-10"
+    ],
+    "state": "ACTIONABLE_UNFILLED_RELEASE_FACTORY_PILOT",
+    "reviewer": "05",
+    "renderOwner": "14",
+    "generationPolicy": "2-4 deterministic variants per item, exact model/runtime provenance, source/derivative lineage, exact-byte staging/readback before render/review",
+    "visualContract": "Substantial three-quarter desk construction; visible supports/joints/top thickness/storage/hardware; believable wood/plastic/metal material separation; contact/cast shadow and grounded weight; exact Store theme/tier expressed through construction/material/light; strong 600x600 card silhouette; no text/UI/logos/watermarks.",
+    "exactStoreMetadata": {
+      "desks-7": {
+        "name": "Sunny Creator Desk",
+        "tier": 3,
+        "theme": "Garden Glow",
+        "price": 348,
+        "starReq": 2
+      },
+      "desks-8": {
+        "name": "Aqua Study Station",
+        "tier": 3,
+        "theme": "Galaxy Glow",
+        "price": 479,
+        "starReq": 2
+      },
+      "desks-9": {
+        "name": "Art Maker Table",
+        "tier": 3,
+        "theme": "Sunny Pop",
+        "price": 667,
+        "starReq": 2
+      },
+      "desks-10": {
+        "name": "Neon Streaming Desk",
+        "tier": 4,
+        "theme": "Aqua Wave",
+        "price": 928,
+        "starReq": 5
+      }
+    },
+    "sourceAuthority": "docs/preproduction/art-factory/ACTIVE_BATCH.json strictVisualBlocker + catalogFallbackBacklog",
+    "scaleGate": "Do not start desks-11/12 until reviewer05 independently dispositions exact current hashes for desks-7/10."
   }
 }
