@@ -1,43 +1,138 @@
 {
-  "schemaVersion": 1,
-  "userDirection": "Dedicate the full 15 active scheduled tasks to completing the art and visuals",
+  "schemaVersion": 2,
+  "updatedDate": "2026-09-22",
+  "userDirection": "Finish improving the StarBlox art-factory path, then upgrade and optimize the 15 active scheduled tasks.",
   "allocationPath": "docs/preproduction/ART_VISUALS_SPRINT.json",
-  "allocationBlobReadback": "b9f04c7d0ff68a96489309a35c7f67a1def3d76c",
-  "operation": "Updated existing prompts and titles; preserved all existing hourly staggered schedules; explicitly enabled the same 15 tasks",
+  "artFactory": {
+    "runbook": "docs/preproduction/art-factory/README.md",
+    "contract": "docs/preproduction/art-factory/ART_FACTORY_V2.json",
+    "acceleratorPilot": "docs/preproduction/art-factory/pilot_art_accelerators.py",
+    "preflightWorkflow": ".github/workflows/art-factory-preflight.yml",
+    "modelCheckpointRights": "USER_ATTESTED_FULL_RIGHTS",
+    "note": "Exact model/revision provenance remains required; repository-code, data/reference, API/service and custom-node terms remain separate."
+  },
+  "operation": "Optimized prompts/titles on the same 15 active automation IDs. No substitute tasks created. Existing staggered hourly schedules preserved.",
   "updateResults": {
     "requested": 15,
     "confirmedSuccessful": 15,
-    "confirmedEnabledInUpdateResponses": 15,
+    "confirmedEnabledBeforeUpdate": 15,
     "newTasksCreated": 0,
     "schedulesModified": 0,
-    "unrelatedTasksModified": 0
+    "idsReplaced": 0
   },
-  "tasks": [
-    {"workstream":"01","id":"6ab137a6d6408191bd062700415a912a","title":"01 Art Direction Seating","minute":27},
-    {"workstream":"02","id":"6ab137a76a24819189d3f3ca959036c7","title":"02 Beds Gear Review","minute":31},
-    {"workstream":"03","id":"6ab137a808e88191945281a219fd5d7a","title":"03 Desks Home Art","minute":3},
-    {"workstream":"04","id":"6ab137a8a58c8191b36fb8ef7acf3abd","title":"04 Lighting Store Art","minute":6},
-    {"workstream":"05","id":"6ab137a9b7008191a3448f767b586d6c","title":"05 Clothing Wall Review","minute":35},
-    {"workstream":"06","id":"6ab137aa52b48191a5e477921fafd3da","title":"06 Companion Seating Art","minute":9},
-    {"workstream":"07","id":"6ab137ab0f9c81919de95cf036fef0ac","title":"07 Tops Rug Art","minute":12},
-    {"workstream":"08","id":"6ab137abb53c8191b4f48260735f6705","title":"08 Art Integration","minute":40},
-    {"workstream":"09","id":"6ab137ac693c8191aacefba42a080470","title":"09 Tops Decor Art","minute":15},
-    {"workstream":"10","id":"6ab137ad08388191a69b90d716fdfc66","title":"10 Mobile Visual Match","minute":55},
-    {"workstream":"11","id":"6ab137adaa708191a5dc955e0b5d089f","title":"11 Aura Effects Art","minute":18},
-    {"workstream":"12","id":"6ab137ae4c0c81919983c1ff69020447","title":"12 Accessory Art","minute":45},
-    {"workstream":"13","id":"6ab137af3b24819189c2f09b63cc43c2","title":"13 Scene Character Art","minute":50},
-    {"workstream":"14","id":"6ab137b081c481919f034ec3938ea0b9","title":"14 Visual Render QA","minute":22},
-    {"workstream":"15","id":"6ab137b12ca08191ab01334816325eff","title":"15 Art Visuals Director","minute":0}
+  "promptOptimization": [
+    "Every worker recomputes live state from branch evidence instead of trusting hard-coded manifest counts or stale blocker snapshots.",
+    "Every actionable generation uses the v2 factory contract: optimizer -> 2-4 bounded variants -> exact provenance -> repo staging/readback -> real render -> independent exact-hash review -> 08 integration.",
+    "Perceptual metrics remain report-only and cannot approve or reject art automatically.",
+    "Accepted exact hashes are preserved; unchanged transport/generation/review failures are not repeated for activity.",
+    "01/02/05/14 remain disjoint independent catalog reviewers; 08 remains the only canonical writer; 15 remains allocation owner.",
+    "Blocked/idle workers redirect to non-conflicting art evidence/specification rather than status-only churn."
   ],
-  "changedMissions": {
-    "12": "Learning audit allocation replaced with Headwear/Facegear/Backgear/Handgear art production; existing learning tests and pending release obligations retained.",
-    "13": "Persistence development allocation replaced with scene and character art; existing persistence tests/evidence and pending release obligations retained.",
-    "all": "Remain art/visual-focused after catalog completion until scenes, characters, screens and mobile visual fidelity are accepted. No automatic premature return to nonvisual development."
+  "tasks": [
+    {
+      "workstream": "01",
+      "id": "6ab137a6d6408191bd062700415a912a",
+      "title": "01 Exact-Hash Art Reviewer",
+      "minute": 27
+    },
+    {
+      "workstream": "02",
+      "id": "6ab137a76a24819189d3f3ca959036c7",
+      "title": "02 Gear & Seating Reviewer",
+      "minute": 31
+    },
+    {
+      "workstream": "03",
+      "id": "6ab137a808e88191945281a219fd5d7a",
+      "title": "03 Desk Home Art Producer",
+      "minute": 3
+    },
+    {
+      "workstream": "04",
+      "id": "6ab137a8a58c8191b36fb8ef7acf3abd",
+      "title": "04 Lighting Store Art Producer",
+      "minute": 6
+    },
+    {
+      "workstream": "05",
+      "id": "6ab137a9b7008191a3448f767b586d6c",
+      "title": "05 Wall Producer & Art Reviewer",
+      "minute": 35
+    },
+    {
+      "workstream": "06",
+      "id": "6ab137aa52b48191a5e477921fafd3da",
+      "title": "06 Avatar Buddy Factory",
+      "minute": 9
+    },
+    {
+      "workstream": "07",
+      "id": "6ab137ab0f9c81919de95cf036fef0ac",
+      "title": "07 Rug Tops Art Factory",
+      "minute": 12
+    },
+    {
+      "workstream": "08",
+      "id": "6ab137abb53c8191b4f48260735f6705",
+      "title": "08 Canonical Art Integrator",
+      "minute": 40
+    },
+    {
+      "workstream": "09",
+      "id": "6ab137ac693c8191aacefba42a080470",
+      "title": "09 Decor Tops Art Factory",
+      "minute": 15
+    },
+    {
+      "workstream": "10",
+      "id": "6ab137ad08388191a69b90d716fdfc66",
+      "title": "10 Mobile Visual QA",
+      "minute": 55
+    },
+    {
+      "workstream": "11",
+      "id": "6ab137adaa708191a5dc955e0b5d089f",
+      "title": "11 Aura Effects Factory",
+      "minute": 18
+    },
+    {
+      "workstream": "12",
+      "id": "6ab137ae4c0c81919983c1ff69020447",
+      "title": "12 Accessory Consistency Factory",
+      "minute": 45
+    },
+    {
+      "workstream": "13",
+      "id": "6ab137af3b24819189c2f09b63cc43c2",
+      "title": "13 Scene Character Factory",
+      "minute": 50
+    },
+    {
+      "workstream": "14",
+      "id": "6ab137b081c481919f034ec3938ea0b9",
+      "title": "14 Render & Visual QA",
+      "minute": 22
+    },
+    {
+      "workstream": "15",
+      "id": "6ab137b12ca08191ab01334816325eff",
+      "title": "15 Art Factory Director",
+      "minute": 0
+    }
+  ],
+  "schedulePolicy": {
+    "preserved": true,
+    "cadence": "hourly",
+    "timezone": "America/New_York",
+    "reason": "Existing minute staggering already limits simultaneous branch writes; this optimization targeted mission quality and dynamic coordination rather than introducing schedule churn."
   },
-  "referenceAccess": "Original three user screenshots have verified stored bytes and comparison derivatives under docs/preproduction/reference-screenshots; all prompts identify the resolved reference-access blocker.",
-  "knownCurrentTestFailureHandedTo08": "beds-1 theme metadata mismatch in catalogManifestQa.test.js; observed 98 passed and 1 failed, not an all-green candidate.",
-  "noNewCatalogFinalsClaimedByReallocation": true,
-  "replitFlootMainTouched": false,
-  "newTaskRunsClaimedComplete": false,
-  "note": "These receipts confirm saved task configuration, not future execution or finished artwork. The active sprint owner reconciles subsequent progress from actual assets/tests and does not infer completion from schedules."
+  "safety": {
+    "branchOnly": "screenshot-match-preproduction",
+    "mainTouched": false,
+    "replitFlootTouched": false,
+    "deployAuthorized": false,
+    "purchasesOrPaidSettings": false,
+    "realPlayerData": false
+  },
+  "note": "This file records task configuration and factory policy, not future execution or finished artwork. Live branch evidence always overrides stale snapshots."
 }
