@@ -1,57 +1,37 @@
 # Catalog Sprint — Workstream 10 Small-Card / Mobile Visual QA
 
-STATUS: **BLOCKED — current canonical responsive Store entry remains unreachable after two unchanged real-pointer cycles; no identical rerun this cycle**
+STATUS: **BLOCKED — manifest v28 / canonical Rugs 12 reached the real responsive browser gate, but Store entry failed before any catalog card rendered**
 
 Branch: `screenshot-match-preproduction`  
-Audited branch head before this cycle: `5227122d9dc4ddd36b467b1fbe9d0384edaa3be9`  
+Audited branch head before report: `7be62a229f68f99713f821e63c30d8e1bdeba3f3`  
 Phase: `ART_VISUALS_SPRINT`  
 Catalog gate: **NOT APPROVED by Workstream 10**  
 Replit/Floot/main/deployment/player data: **untouched**
 
-## Change-aware decision
+## Change-aware result
 
-The canonical Store remains **manifest v27** (`27c77919cfbc5cf52570bf91871338b59cded055`) / runtime `a3b5b2b98a8507f5226191959a3cd91ef6729bdb`. The shared Store entry path has not changed since the second consecutive `CANONICAL_STORE_ENTRY_POINTER_TIMEOUT_BEFORE_CARD_RENDER` result, so DELIVERY_PROTOCOL_V2 does **not** justify another identical 1408/1024/390/320 browser run. The prior real-pointer blocker is reused exactly rather than converted into a PASS through a forced DOM click, keyboard substitution, skipped assertion or static-image overlay.
+Workstream 08 has now canonically wired the independently accepted **Luxe Star Rug (`rugs-12`)**. Current catalog evidence is manifest **v28**, blob `7933d7e0b1a7fd94a804b135ced83ae4e045c8f4`, with `finalCount: 157 / 192`, and catalog runtime blob `b44d1bad174f36167ff2909d37463f256c5cc50c`. The exact Rugs 12 asset remains `/assets/catalog/rugs-12-w07-v3.png`, Git blob `eea2fc5b78c1186342f91f597bc792160ab8f8fe`, SHA-256 `21a2f71224d9a7d4e0e60a672867cc629f21a481c3310fee6b1cac1c1be071b3`. Reviewer 14 owns the independent ACCEPT; Workstream 10 did not self-approve or alter the mapping.
 
-The new useful work this cycle is a genuinely untested staged-art case: independently accepted `rugs-12` v3, compared against accepted `rugs-11` as a stable small-card visual control.
+Because this was a real canonical change, the existing changed-batch workflow legitimately ran again instead of reusing the old blocked result. `StarBlox Catalog Mobile QA` run `35707148100`, job `106678715888`, source head `6666f15536ac8d5cacedcd0a282ad24364abf146`, built the production bundle successfully and exercised headless Chromium on GitHub Actions Ubuntu 24.04 using Playwright 1.55 / Chromium 140.0.7339.16. The artifact is `10684444909`, digest `sha256:2350c5784c2944f6c5c421fa4582b2196d95a041d20b631c29c3c33b78b008c6`.
 
-## Newly accepted staged art — Rugs 12
+The responsive result is **FAIL / BLOCKED 6 of 6 before Store content**. In reduced-motion mode, 1408×1056, 1024×768, 390×844 and 320×568 all resolved the Store button as visible, enabled and stable, scrolled it into view, began the real pointer click, and then timed out after 30 seconds before any Store card rendered. Normal-motion controls at 1024×768 and 390×844 failed the same way. No forced DOM click, keyboard substitute, skipped assertion or static screenshot was used.
 
-Reviewer 14 independently accepted **Luxe Star Rug (`rugs-12`)** at exact Git blob `eea2fc5b78c1186342f91f597bc792160ab8f8fe`, SHA-256 `21a2f71224d9a7d4e0e60a672867cc629f21a481c3310fee6b1cac1c1be071b3`. Workstream 10 did not make or alter that approval. Workstream 08 remains the only canonical-mapping owner.
+Structured blocker: **`CANONICAL_STORE_ENTRY_POINTER_TIMEOUT_BEFORE_CARD_RENDER`**. This is now reproduced across three canonical batches: Shoes 7–10, Aura 11, and current Rugs 12 / manifest v28. Workstream 15 remains the shared-entrypoint owner. Five commits after the Rugs 12 integration changed only lane/review documentation and a Home visual board; manifest, catalog runtime and Store entry did not change, so the v28 failure remains hash-valid for the current catalog runtime state.
 
-I inspected the preserved exact-hash staged fixture from workflow run `35690027258`, artifact `10677768162`, digest `sha256:fd733e0ab24793a71bc267c75cd0f95e5dd291d38ddb7dda048050e1550a5165`. The enclosing workflow failed elsewhere, but the scoped Rugs evidence is clean: selected binding, PNG signature/safety, HTTP/decode, card image and detail screenshot are present with no scoped errors. The Rugs contact sheet hash is `8bb20a752ad3b1382dcf3aa418b8b1b5b7bf366c70bac53180859fb782bba639`.
+## Rugs 12 visual evidence boundary
 
-| Item | Role | Exact blob | Small-card finding |
-| --- | --- | --- | --- |
-| `rugs-11` Dream Cloud Rug | stable accepted control | `2c93f18fb5960f7056819c341a3da8f7fff3fb9d` | PASS diagnostic — moon/cloud silhouette and soft depth remain distinct at 210/140/110px; fine star/cloud texture becomes subordinate at 110px without collapsing the object. No clipping/edge artifact observed. |
-| `rugs-12` Luxe Star Rug | newly accepted staged candidate, pending 08 wiring | `eea2fc5b78c1186342f91f597bc792160ab8f8fe` | PASS diagnostic — star silhouette, warm center, contrasting outer form and tassel extensions remain recognizable at 210/140/110px; Tier-5 richness survives reduction. Star points/tassels remain inside frame; no edge artifact observed. |
+The exact Rugs 12 bytes are unchanged from the previously inspected staged fixture, so DELIVERY_PROTOCOL_V2 reuses that proof rather than rerendering identical staged cards. In the staged 210/140/110px diagnostics, Rugs 12 retained its star silhouette, warm center, dark outer form, tassel extensions, contain framing and Tier-5 richness; accepted Rugs 11 remained the stable control. No new artwork-quality failure label is warranted from unchanged staged pixels.
 
-Detail screenshot hashes: Rugs 11 `f2eb8fd8150be3e6731efae29d9924161e1aa1ddb60ff253052dede224b3507c`; Rugs 12 `5a7a0f4b3ee1a9d11ce173ae32fd8f9755e9075e1a5b2746b2a3e75dfdf4b8d8`.
+That staged result is **not** a responsive Store PASS. Because the real Store never opened, current Rugs 12 silhouette recognition, card/detail contrast, crop/contain behavior, transparent edges, detail-panel composition, image decode/intrinsic dimensions, scrolling/layout stability, premium-detail retention, HUD/dock reachability and overflow at 1408/1024/390/320 are all **NOT TESTED beyond the Store-entry failure**. No screenshot of the current canonical Rugs grid/detail was produced by this run.
 
-These are **staged-fixture diagnostics only**. They do not establish actual Store grid/detail behavior at 1408×1056, 1024×768, 390×844 or 320×568, nor normal/reduced-motion scrolling performance. `rugs-12` is not canonical yet, and Workstream 10 will not edit the manifest to make it testable.
+## Regression gates remain visible
 
-## Real responsive Store blocker — unchanged, not rerun
+The same integration head also has a red `StarBlox CI` run `35707148157`. The catalog manifest invariants, learning, persistence/economy, accessibility helper and Store screenshot-match tests all passed; in total **99 tests passed**. CI is still correctly red because Vitest found `scripts/artPromptOptimizer.test.mjs` but reported **“No test suite found”** for that file, causing the later CI build step to be skipped. Workstream 10 did not weaken or bypass that separate art-learning/shared regression gate.
 
-Structured handoff label: **`CANONICAL_STORE_ENTRY_POINTER_TIMEOUT_BEFORE_CARD_RENDER`**.
+## Handoff
 
-The same failure was already reproduced twice on consecutive canonical batches:
+Workstream 15: repair or coordinate the real Store pointer-entry path without weakening the assertion or substituting another activation mechanism. Once that shared path actually changes, Workstream 10 should run **Rugs + one stable control only** at 1408×1056, 1024×768, 390×844 and 320×568 in normal/reduced-motion modes, covering silhouette, contrast, crop/contain, transparent edges, detail composition, loading/decode/dimensions, scrolling/layout stability, touch/focus/keyboard, fixed HUD/dock clearance and overflow. Do not rerun the same full matrix while the entrypoint remains byte-for-byte unchanged.
 
-- Shoes 7–10: run `35689825441`, artifact `10677978587`, source head `04eb1f4c4a6f9efcd0e6bea9d33e7580740dcfd4`.
-- Aura 11: run `35690236073`, artifact `10678253907`, source head `ad8867efc70d1b123cbc5e2f157766bec58e510d`.
+Physical iPhone/iPad/Android performance and VoiceOver/TalkBack/NVDA remain **NOT TESTED**. Headless Chromium and staged fixture evidence are not physical-device or screen-reader proof. The authoritative desktop Store target remains `docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg`, SHA-256 `b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d`.
 
-Both builds passed, but Playwright found the Store control visible/enabled/stable and then the **real pointer click timed out before any catalog card rendered**. That covered reduced-motion probes at 1408×1056, 1024×768, 390×844 and 320×568 plus normal-motion controls at 1024 and 390. Workstream 15 already owns coordination of this shared-entry blocker after the required two unchanged cycles.
-
-Because the shared entrypoint has not changed, this cycle intentionally does **not** spend another browser run repeating the same failure. Once 15 repairs/co-ordinates the real pointer path and 08 canonically wires the next accepted batch, Workstream 10 should run only the changed collection plus a stable control at 1408/1024/390/320 in normal and reduced-motion modes.
-
-## Other current evidence blockers
-
-`tops-11` / `tops-12`: **`V7_EXACT_BYTES_UNAVAILABLE_NO_CURRENT_REPOSITORY_CARD_DETAIL_PIXELS`**. The v7 receipts exist, but the authoritative WEBP payload bytes are not currently repository-backed; v6 failed signature validation and v5 visual judgments do not transfer.
-
-`headwear-5..8`: **`EXTERNAL_ONLY_NO_REPOSITORY_HASH_NO_QUALIFIED_CARD_STORE_PROOF`** remains in force until exact repository-backed bytes/hashes exist.
-
-## Evidence boundary
-
-The historical full responsive matrix remains run `35659760652`, artifact `10667595844`, source head `8a2c53aa2133baef23e263d8dda8b2a180dffe19`. It is valid only for unchanged hashes and responsive guards; it is not proof for later art.
-
-Physical iPhone/iPad/Android performance and VoiceOver/TalkBack/NVDA remain **NOT TESTED**. Headless Chromium, staged fixture pixels and local diagnostic reductions are not physical-device/screen-reader evidence. The authoritative desktop Store target remains `docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg`, SHA-256 `b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d`.
-
-No shared UI, canonical mapping, producer art, catalog metadata, gameplay, learning, persistence, economy, real player data, Replit, Floot, `main`, deployment, purchases or paid settings were changed by Workstream 10.
+No shared UI, canonical mapping, producer art, stable item metadata, gameplay, learning, persistence, economy, real player data, Replit, Floot, `main`, deployment, purchases, paid settings or secrets were changed by Workstream 10.
