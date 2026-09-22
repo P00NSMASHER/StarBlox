@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "kind": "ART_PROMPT_OPTIMIZER_REQUEST",
+  "producer": "09",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "4e19e973ace509739cac68f5d289fd79aeb90c4b",
+  "scope": ["decor-5", "decor-6", "decor-7", "decor-8"],
+  "reviewer": "14",
+  "variantsPerItem": 2,
+  "currentReview": {
+    "decor-5": {"path": "/assets/catalog/decor-5.svg", "hash": "0f7559a576177758d94dba1c3da27373a9151a2b", "decision": "REWORK"},
+    "decor-6": {"path": "/assets/catalog/decor-6.svg", "hash": "3a8d81ea490f8bac42ef2147797a3926d69df9ef", "decision": "REWORK"},
+    "decor-7": {"path": "/assets/catalog/decor-7.svg", "hash": "671c609625400bf5c2142daef73ab632bd1225a2", "decision": "REWORK"},
+    "decor-8": {"path": "/assets/catalog/decor-8.svg", "hash": "87e33d5190b7a7ef21e23ae875dda8ae1808c4be", "decision": "REWORK"}
+  },
+  "catalogIdentity": {
+    "decor-5": {"name": "Plant Wall", "collectionId": "decor", "type": "decor", "tier": 2, "theme": "Cloud Pop"},
+    "decor-6": {"name": "Telescope", "collectionId": "decor", "type": "decor", "tier": 2, "theme": "Berry Blast"},
+    "decor-7": {"name": "Skate Rack", "collectionId": "decor", "type": "decor", "tier": 3, "theme": "Garden Glow"},
+    "decor-8": {"name": "Mini Aquarium", "collectionId": "decor", "type": "decor", "tier": 3, "theme": "Galaxy Glow"}
+  },
+  "rightsDomains": {
+    "modelCheckpoint": "USER_ATTESTED_FULL_RIGHTS",
+    "repositoryCode": "SEPARATE_LICENSE_DOMAIN",
+    "conditioningReferences": "STARblox_ORIGINAL_ONLY",
+    "externalApis": "NONE_REQUESTED",
+    "thirdPartyCharactersBrands": "PROHIBITED"
+  },
+  "notes": "Trigger the repository artPromptOptimizer workflow against the live exact-hash REWORK state. This request is provenance/input only, not generation, review, approval, or canonical wiring. Decor 1-4 remain frozen; Decor 9-12 remain unopened; Tops 11-12 v7 receipts remain frozen."
+}
