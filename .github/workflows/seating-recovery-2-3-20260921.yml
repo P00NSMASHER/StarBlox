@@ -1,0 +1,173 @@
+name: StarBlox Seating 2-3 Exact Recovery
+
+on:
+  push:
+    branches: [screenshot-match-preproduction]
+    paths:
+      - '.github/workflows/seating-recovery-2-3-20260921.yml'
+      - 'scripts/importSeatingRecovery2to3_20260921.py'
+      - 'docs/preproduction/catalog-sprint/chat-seating-recovery-2-3-20260921.json'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: starblox-seating-recovery-2-3-20260921
+  cancel-in-progress: false
+
+jobs:
+  recover-existing-seating-art:
+    if: github.ref == 'refs/heads/screenshot-match-preproduction'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: screenshot-match-preproduction
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install image validation dependency
+        run: python3 -m pip install --disable-pip-version-check Pillow==11.3.0
+
+      - name: Recover exact existing Seating 2-3 bytes and verify Store metadata
+        run: |
+          python3 -m py_compile scripts/importSeatingRecovery2to3_20260921.py
+          python3 scripts/importSeatingRecovery2to3_20260921.py
+          python3 scripts/importSeatingRecovery2to3_20260921.py
+
+      - name: Publish only Seating 2-3 candidate bytes, source bytes, and owned handoff
+        id: publish
+        run: |
+          set -eu
+          test "$GITHUB_REF" = refs/heads/screenshot-match-preproduction
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --             public/assets/catalog/seating-2-w01-recovered-v2.jpg             public/assets/catalog/seating-3-w01-recovered-v2.jpg             docs/preproduction/catalog-sprint/recovered-originals/seating-2-3-20260921             docs/preproduction/catalog-sprint/lane-01.json             docs/preproduction/catalog-sprint/chat-seating-recovery-2-3-result.json
+          if ! git diff --cached --quiet; then
+            git commit -m 'catalog: stage exact Seating 2-3 replacement bytes'
+            for attempt in 1 2 3; do
+              if git push origin HEAD:refs/heads/screenshot-match-preproduction; then break; fi
+              git fetch origin screenshot-match-preproduction
+              git rebase origin/screenshot-match-preproduction
+              if [ "$attempt" -eq 3 ]; then
+                echo 'Concurrent branch changes prevented safe publication; no force push.' >&2
+                exit 1
+              fi
+            done
+          fi
+          echo "TESTED_SOURCE_HEAD=$(git rev-parse HEAD)" >> "$GITHUB_ENV"
+
+      - name: Install existing game dependencies
+        run: npm install --no-save --package-lock=false --no-audit --no-fund
+
+      - name: Run full regression suite
+        id: tests
+        continue-on-error: true
+        run: timeout 150s npm test -- --reporter=verbose
+
+      - name: Build actual preproduction application
+        id: build
+        continue-on-error: true
+        run: npm run build
+
+      - name: Install existing staged-art browser tooling
+        run: |
+          npm install --no-save --package-lock=false --no-audit --no-fund playwright@1.55.0
+          npx playwright install --with-deps chromium
+
+      - name: Render all staged review candidates with the shared file-backed fixture
+        id: render
+        continue-on-error: true
+        run: node scripts/catalog-staged-art-qa.mjs
+        env:
+          GITHUB_SHA: ${{ env.TESTED_SOURCE_HEAD }}
+
+      - name: Record scoped Seating 2-3 evidence without hiding unrelated fixture failures
+        if: always() && steps.publish.outcome == 'success'
+        env:
+          TEST_OUTCOME: ${{ steps.tests.outcome }}
+          BUILD_OUTCOME: ${{ steps.build.outcome }}
+          RENDER_OUTCOME: ${{ steps.render.outcome }}
+        run: |
+          python3 - <<'PY'
+          import json, os
+          from pathlib import Path
+          p=Path('docs/preproduction/catalog-sprint/chat-seating-recovery-2-3-result.json')
+          r=json.loads(p.read_text())
+          def state(v):
+              return {'success':'PASS','failure':'FAIL','skipped':'NOT_RUN','cancelled':'CANCELLED'}.get(v,'NOT_RUN')
+          r['testedSourceHead']=os.environ['TESTED_SOURCE_HEAD']
+          r['workflowRunId']=int(os.environ['GITHUB_RUN_ID'])
+          r['checks'].update({
+              'repeatBehavior':'PASS_SECOND_RUN_NO_REDOWNLOAD',
+              'tests':state(os.environ['TEST_OUTCOME']),
+              'build':state(os.environ['BUILD_OUTCOME']),
+              'sharedRenderOverall':state(os.environ['RENDER_OUTCOME']),
+              'typecheck':'NOT_APPLICABLE_NO_TYPESCRIPT_APP_CHANGES'
+          })
+          render=Path('artifacts/catalog-staged-art/report.json')
+          seen=set()
+          if render.exists():
+              evidence=json.loads(render.read_text())
+              wanted={i['id']:i['gitBlobSha'] for i in r['items']}
+              matches=[i for s in evidence.get('sets',{}).values() for i in s.get('items',[]) if wanted.get(i.get('id'))==i.get('blobSha')]
+              seen={i['id'] for i in matches if i.get('screenshot') and i.get('status')==200 and i.get('naturalWidth') and not i.get('errors')}
+              r['renderEvidence']={
+                  'artifactName':'seating-2-3-recovery-evidence',
+                  'reportPath':'artifacts/catalog-staged-art/report.json',
+                  'matchedIds':sorted(seen),
+                  'matchedHashes':{i:wanted[i] for i in sorted(seen)}
+              }
+          r['checks']['seatingCardDetailRender']='PASS_2_OF_2' if len(seen)==2 else f'INCOMPLETE_{len(seen)}_OF_2'
+          r['independentVisualReview']='PENDING_WORKSTREAM_02_NOT_SELF_APPROVED'
+          p.write_text(json.dumps(r,indent=2)+'\n')
+          print(json.dumps({'checks':r['checks'],'renderEvidence':r.get('renderEvidence')},indent=2))
+          PY
+
+      - name: Publish executed evidence safely
+        if: always() && steps.publish.outcome == 'success'
+        run: |
+          set -eu
+          git add -- docs/preproduction/catalog-sprint/chat-seating-recovery-2-3-result.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'catalog: record Seating 2-3 regression build and render evidence'
+          for attempt in 1 2 3; do
+            if git push origin HEAD:refs/heads/screenshot-match-preproduction; then exit 0; fi
+            git fetch origin screenshot-match-preproduction
+            git rebase origin/screenshot-match-preproduction
+          done
+          echo 'Evidence publication blocked by concurrent changes; no force push.' >&2
+          exit 1
+
+      - name: Retain candidates and browser evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: seating-2-3-recovery-evidence
+          retention-days: 14
+          if-no-files-found: warn
+          path: |
+            docs/preproduction/catalog-sprint/chat-seating-recovery-2-3-result.json
+            docs/preproduction/catalog-sprint/recovered-originals/seating-2-3-20260921
+            public/assets/catalog/seating-2-w01-recovered-v2.jpg
+            public/assets/catalog/seating-3-w01-recovered-v2.jpg
+            artifacts/catalog-staged-art
+
+      - name: Fail honestly if scoped Seating gates did not pass
+        if: always() && steps.publish.outcome == 'success'
+        env:
+          TEST_OUTCOME: ${{ steps.tests.outcome }}
+          BUILD_OUTCOME: ${{ steps.build.outcome }}
+        run: |
+          test "$TEST_OUTCOME" = success
+          test "$BUILD_OUTCOME" = success
+          python3 - <<'PY'
+          import json
+          r=json.load(open('docs/preproduction/catalog-sprint/chat-seating-recovery-2-3-result.json'))
+          assert r['checks'].get('seatingCardDetailRender') == 'PASS_2_OF_2', r['checks']
+          PY
