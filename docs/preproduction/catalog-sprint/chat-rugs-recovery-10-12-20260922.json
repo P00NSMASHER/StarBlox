@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "batchId": "chat-rugs-recovery-10-12-20260922",
+  "items": [
+    {
+      "id": "rugs-10",
+      "assetId": "urn:aaid:ps:US:0216b0a2-ee7c-4a5c-8697-dbcf137d6448",
+      "producer": "CHAT",
+      "independentReviewer": "14",
+      "renditionUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:0216b0a2-ee7c-4a5c-8697-dbcf137d6448",
+      "sourceUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:0216b0a2-ee7c-4a5c-8697-dbcf137d6448",
+      "candidateRepositoryPath": "public/assets/catalog/rugs-10-chat-v2.png"
+    },
+    {
+      "id": "rugs-11",
+      "assetId": "urn:aaid:ps:US:9432d2e6-197f-4e13-b6fd-79ec8ee4a798",
+      "producer": "CHAT",
+      "independentReviewer": "14",
+      "renditionUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:9432d2e6-197f-4e13-b6fd-79ec8ee4a798",
+      "sourceUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:9432d2e6-197f-4e13-b6fd-79ec8ee4a798",
+      "candidateRepositoryPath": "public/assets/catalog/rugs-11-chat-v2.png"
+    },
+    {
+      "id": "rugs-12",
+      "assetId": "urn:aaid:ps:US:0da4f61f-5f16-450e-89f5-41295d4aed61",
+      "producer": "CHAT",
+      "independentReviewer": "14",
+      "renditionUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:0da4f61f-5f16-450e-89f5-41295d4aed61",
+      "sourceUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:0da4f61f-5f16-450e-89f5-41295d4aed61",
+      "candidateRepositoryPath": "public/assets/catalog/rugs-12-chat-v2.png"
+    }
+  ]
+}
