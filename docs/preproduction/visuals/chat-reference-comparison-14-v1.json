@@ -1,0 +1,102 @@
+{
+  "schemaVersion": 1,
+  "phase": "ART_VISUALS_SPRINT",
+  "branch": "screenshot-match-preproduction",
+  "reviewer": "14",
+  "coordinationOwner": "15",
+  "scope": "Independent Home/Store/Quest reference-comparison and non-destructive mobile composition diagnostics",
+  "sourceHeadCheckedBeforeWrite": "db15bc04a7168d22e8fd123ec1c6f1153069cd48",
+  "referenceEvidence": {
+    "workflowRunId": 35663779668,
+    "artifactId": 10668417625,
+    "artifactDigest": "sha256:545625a72ccc3b2156183db335bff5c5f97eaefe1c19a4df2d0886421b644b",
+    "files": [
+      "originals/home-1448x1086.jpeg",
+      "originals/store-1448x1086.jpeg",
+      "originals/quest-1448x1086.jpeg",
+      "home-desktop-1408x1056.png",
+      "store-desktop-1408x1056.png",
+      "quest-desktop-1408x1056.png"
+    ],
+    "normalization": "Stored reference artifact; 1408x1056 comparison images are uniform-scale normalizations of the exact originals."
+  },
+  "runningCaptureEvidence": {
+    "workflowRunId": 35663655650,
+    "artifactId": 10668287632,
+    "renderHead": "b187186e62519ffa77bd0f7b166c601c90bdc416",
+    "viewports": ["1408x1056", "1024x768", "390x844", "320x568"],
+    "screens": ["Home", "Store", "Quest"],
+    "captureType": "deterministic headless Chromium evidence",
+    "physicalDeviceClaimed": false,
+    "screenReaderClaimed": false,
+    "currentHeadParityClaimed": false,
+    "note": "This artifact is an exact historical render at its recorded head and is used for visual diagnosis only. It is not relabeled as a current-head or physical-device PASS."
+  },
+  "rawPixelDiffDiagnosticOnly": {
+    "method": "Mean absolute RGB difference between same-size 1408x1056 normalized reference and exact running capture; no acceptance threshold is assigned.",
+    "homeMAE": 76.71,
+    "storeMAE": 85.90,
+    "questMAE": 78.12,
+    "status": "DIAGNOSTIC_ONLY_NOT_A_PARITY_GATE"
+  },
+  "desktopFindings": {
+    "Home": {
+      "decision": "REWORK_COMPOSITION_FIDELITY_PRESERVE_EXISTING_HOME_V2_REWORK",
+      "findings": [
+        "The reference is a warm, richly layered bedroom with strong material depth, luminous window light, dense side-zone props and a large expressive avatar occupying the visual center. The running capture is materially flatter, more abstract and more sparsely staged even though its real controls and state remain visible.",
+        "The current navy header and large progress chrome claim substantially more visual weight than the reference's top status strip, reducing the bedroom/character share of the viewport.",
+        "The lane-13 Home v2 material/palette/light improvements remain directionally correct, but reviewer-14's existing lower hero-corridor/phone-crop REWORK still controls; do not integrate v2 until that conflict is repaired."
+      ],
+      "repairPriority": "Keep the richer warm material/light language while clearing the lower-center avatar corridor and producing a deliberate phone crop/derivative; do not flatten UI or fake state to chase the reference."
+    },
+    "Store": {
+      "decision": "REWORK_VISUAL_FIDELITY_AND_SELECTED_ITEM_COMPOSITION",
+      "findings": [
+        "The reference makes the boutique and avatar try-on zone a major visual attraction: dimensional shelves/lighting, a large character, a luminous pink-heart accent and merchandise cards share the screen. The running capture is much more UI-dominant and architecturally flat, with the avatar confined to a comparatively small right-side stage.",
+        "The reference keeps the selected product action area visually tied to the large avatar and boutique scene. In the running capture the catalog grid, dream-goal band and heavy blue chrome compete strongly with try-on and selected-item presence.",
+        "Lane-13's separate boutique/background, avatar-stage and heart-wall-light component strategy is compositionally appropriate because it can restore depth without baking controls or prices into art."
+      ],
+      "repairPriority": "Increase boutique/try-on visual depth and avatar prominence while preserving the real catalog grid, selection state and purchase controls as separate live UI."
+    },
+    "Quest": {
+      "decision": "REWORK_VISUAL_FIDELITY_PRESERVE_LEARNING_CONTENT",
+      "findings": [
+        "The reference is a warm, storybook-like learning room with dense shelf/material detail, expressive character art and a visually rich story/question panel. The running capture preserves a clear real question/answer workflow but is substantially darker, flatter and more spatially empty around the learning panel.",
+        "The current white mission panel is readable, but the surrounding environment and character presentation do not approach the reference's warmth, depth or authored classroom/story context.",
+        "Any scene upgrade must remain behind the existing real prompt, answer options, hint and mastery state; no generated scene may encode an answer or substitute for learning content."
+      ],
+      "repairPriority": "Use separate dimensional environment/character components to restore warm room depth and visual storytelling while keeping the real learning panel and answer semantics untouched."
+    }
+  },
+  "mobileDiagnostics": {
+    "evidence": ["home-phone-390x844.png", "home-phone-320x568.png", "store-phone-390x844.png", "store-phone-320x568.png", "quest-phone-390x844.png", "quest-phone-320x568.png"],
+    "Home": [
+      "At 390x844 the room-progress panel consumes most of the initial upper viewport and the avatar/buddy are only partly established before the lower navigation; at 320x568 the hero is pushed even farther below the dominant progress card.",
+      "The progress controls remain legible, but the reference's character-first emotional hierarchy is weak on phone. Repair by compacting/composing the progress area and using an art-directed environment/hero crop rather than hiding live controls."
+    ],
+    "Store": [
+      "At 390x844 the dream-goal and category controls precede the try-on stage; at 320x568 the initial viewport is almost entirely header, dream-goal and category chrome, so avatar/selected-item spectacle falls below the fold.",
+      "Category buttons remain large/readable, but the 320px view exposes only part of the horizontal category sequence at once. Preserve genuine scrolling/controls while giving the selected item/try-on composition an earlier visual foothold."
+    ],
+    "Quest": [
+      "At both phone widths the character intro and large skill-mission card consume the initial viewport, while answer choices are below the fold. The prompt is readable, but the question-to-action loop is visually separated.",
+      "Reduce nonessential scene/hero vertical consumption on phone and keep prompt/answers spatially closer without altering wording, answer ordering, hint behavior or mastery logic."
+    ],
+    "status": "HEADLESS_BROWSER_COMPOSITION_DIAGNOSTIC_ONLY"
+  },
+  "handoff": {
+    "15": "Use these exact artifact-bound comparisons to prioritize Store selected-item/try-on depth, Quest warm material/context depth, and Home hero-corridor repair. Raw pixel diff remains diagnostic-only.",
+    "13": "Continue separate environment/character/prop components, not flattened UI. Home v2 remains blocked by the existing lower-center hero corridor/phone crop issue; Store and Quest can continue with separable depth layers against these findings.",
+    "10": "Mobile findings are visual composition diagnostics from headless Chromium only; do not convert them into physical-device or accessibility PASS claims."
+  },
+  "freeze": {
+    "replitTouched": false,
+    "flootTouched": false,
+    "mainMergedOrModified": false,
+    "deployTouched": false,
+    "paidSettingsTouched": false,
+    "canonicalCatalogTouched": false,
+    "gameplayOrLearningLogicTouched": false,
+    "realPlayerDataTouched": false
+  }
+}
