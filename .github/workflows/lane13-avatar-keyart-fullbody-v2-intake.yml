@@ -1,0 +1,164 @@
+name: Lane 13 Avatar Keyart Fullbody v2 Intake
+
+on:
+  push:
+    branches: [screenshot-match-preproduction]
+    paths:
+      - 'docs/preproduction/visuals/lane-13-avatar-keyart-fullbody-v2-seed.json'
+      - '.github/workflows/lane13-avatar-keyart-fullbody-v2-intake.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  intake:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: screenshot-match-preproduction
+          fetch-depth: 0
+
+      - name: Download bounded v2 candidate
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p docs/preproduction/visuals/recovered-originals public/assets/visuals/lane-13
+          curl -L --fail --retry 5 --retry-all-errors --connect-timeout 30 --max-time 240 \
+            'https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:b1be76d5-7ab8-4af4-86f6-7ca911ca7099' \
+            -o docs/preproduction/visuals/recovered-originals/avatar-keyart-fullbody-w13-v2-source.png
+          curl -L --fail --retry 5 --retry-all-errors --connect-timeout 30 --max-time 240 \
+            'https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:99758612-174e-4e52-8370-91b130588d7b' \
+            -o public/assets/visuals/lane-13/avatar-keyart-fullbody-w13-v2-full.png
+          curl -L --fail --retry 5 --retry-all-errors --connect-timeout 30 --max-time 240 \
+            'https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:d1d1205b-2c5e-459b-ba3e-0c330495daf4' \
+            -o public/assets/visuals/lane-13/avatar-keyart-fullbody-w13-v2-896.png
+
+      - name: Validate PNG dimensions alpha and compute manifest
+        run: |
+          npm ci --silent
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          import crypto from 'node:crypto';
+          import sharp from 'sharp';
+
+          const specs = [
+            {role:'source', path:'docs/preproduction/visuals/recovered-originals/avatar-keyart-fullbody-w13-v2-source.png', width:1344, height:1728, alpha:false},
+            {role:'full', path:'public/assets/visuals/lane-13/avatar-keyart-fullbody-w13-v2-full.png', width:1344, height:1728, alpha:true},
+            {role:'optimized', path:'public/assets/visuals/lane-13/avatar-keyart-fullbody-w13-v2-896.png', width:896, height:1152, alpha:true},
+          ];
+          const out = [];
+          for (const s of specs) {
+            const b = fs.readFileSync(s.path);
+            const im = sharp(b);
+            const meta = await im.metadata();
+            if (meta.format !== 'png' || meta.width !== s.width || meta.height !== s.height) {
+              throw new Error(`${s.path}: expected PNG ${s.width}x${s.height}, got ${meta.format} ${meta.width}x${meta.height}`);
+            }
+            let meaningfulAlpha = null;
+            let alphaBounds = null;
+            if (s.alpha) {
+              if (!meta.hasAlpha) throw new Error(`${s.path}: alpha channel missing`);
+              const {data, info} = await im.ensureAlpha().raw().toBuffer({resolveWithObject:true});
+              let minX=info.width, minY=info.height, maxX=-1, maxY=-1, semi=0, clear=0, opaque=0;
+              for (let y=0; y<info.height; y++) for (let x=0; x<info.width; x++) {
+                const a = data[(y*info.width+x)*4+3];
+                if (a === 0) clear++; else if (a === 255) opaque++; else semi++;
+                if (a > 0) { minX=Math.min(minX,x); minY=Math.min(minY,y); maxX=Math.max(maxX,x); maxY=Math.max(maxY,y); }
+              }
+              meaningfulAlpha = clear > 0 && opaque > 0;
+              if (!meaningfulAlpha) throw new Error(`${s.path}: alpha is not meaningful clear=${clear} opaque=${opaque} semi=${semi}`);
+              alphaBounds = {minX,minY,maxX,maxY,clear,semi,opaque};
+            }
+            out.push({
+              ...s,
+              bytes:b.length,
+              sha256:crypto.createHash('sha256').update(b).digest('hex'),
+              metadata:{format:meta.format,width:meta.width,height:meta.height,hasAlpha:meta.hasAlpha},
+              meaningfulAlpha,
+              alphaBounds
+            });
+          }
+          fs.writeFileSync('/tmp/lane13-v2-local-manifest.json', JSON.stringify(out,null,2));
+          console.log(JSON.stringify(out,null,2));
+          NODE
+
+      - name: Commit versioned asset bytes only
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add \
+            docs/preproduction/visuals/recovered-originals/avatar-keyart-fullbody-w13-v2-source.png \
+            public/assets/visuals/lane-13/avatar-keyart-fullbody-w13-v2-full.png \
+            public/assets/visuals/lane-13/avatar-keyart-fullbody-w13-v2-896.png
+          if git diff --cached --quiet; then
+            echo 'No binary asset changes to commit.'
+          else
+            git commit -m 'visuals(13): stage avatar key-art fullbody v2 bytes'
+            git push origin HEAD:screenshot-match-preproduction
+          fi
+          echo "ASSET_COMMIT=$(git rev-parse HEAD)" >> "$GITHUB_ENV"
+
+      - name: Exact repository readback and evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          import crypto from 'node:crypto';
+          import {execFileSync} from 'node:child_process';
+          const local = JSON.parse(fs.readFileSync('/tmp/lane13-v2-local-manifest.json','utf8'));
+          const commit = process.env.ASSET_COMMIT;
+          const checks = [];
+          for (const item of local) {
+            const remote = execFileSync('git',['show',`${commit}:${item.path}`],{encoding:null,maxBuffer:20*1024*1024});
+            const remoteSha256 = crypto.createHash('sha256').update(remote).digest('hex');
+            checks.push({
+              path:item.path,
+              role:item.role,
+              expectedBytes:item.bytes,
+              readbackBytes:remote.length,
+              expectedSha256:item.sha256,
+              readbackSha256:remoteSha256,
+              exactBytes:remote.length===item.bytes && remoteSha256===item.sha256
+            });
+          }
+          if (checks.some(x=>!x.exactBytes)) throw new Error(`repository readback mismatch: ${JSON.stringify(checks)}`);
+          const evidence = {
+            schemaVersion:1,
+            branch:'screenshot-match-preproduction',
+            lane:'13',
+            candidate:'avatar-keyart-fullbody-w13-v2',
+            status:'STAGED_READY_FOR_INDEPENDENT_REVIEW',
+            assetCommit:commit,
+            sourceSeed:'docs/preproduction/visuals/lane-13-avatar-keyart-fullbody-v2-seed.json',
+            assets:local,
+            repositoryReadback:{status:'PASS_3_OF_3_EXACT_SHA256_AND_BYTE_LENGTH',checks},
+            producerDecision:'STAGED_NOT_APPROVED',
+            requiredIndependentReview:['01 art/visual judgment','14 composition/performance judgment','15 coordination before any runtime wiring'],
+            runtimeWired:false,
+            physicalDeviceTest:false,
+            screenshotParityClaim:false,
+            canonicalCatalogMappingsEdited:false,
+            workstream06AssetsEdited:false,
+            workstream09AssetsEdited:false,
+            generatedAtUtc:new Date().toISOString()
+          };
+          fs.writeFileSync('docs/preproduction/visuals/lane-13-avatar-keyart-fullbody-v2-intake.json',JSON.stringify(evidence,null,2)+'\n');
+          console.log(JSON.stringify(evidence,null,2));
+          NODE
+
+      - name: Commit evidence handoff
+        shell: bash
+        run: |
+          set -euo pipefail
+          git add docs/preproduction/visuals/lane-13-avatar-keyart-fullbody-v2-intake.json
+          if git diff --cached --quiet; then
+            echo 'No evidence changes to commit.'
+          else
+            git commit -m 'visuals(13): record avatar key-art v2 readback handoff'
+            git push origin HEAD:screenshot-match-preproduction
+          fi
