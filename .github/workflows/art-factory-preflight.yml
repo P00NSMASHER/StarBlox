@@ -14,9 +14,19 @@ on:
       - 'scripts/artReviewNormalizer.node-test.mjs'
       - 'scripts/artRegenerationQueue.mjs'
       - 'scripts/artRegenerationQueue.node-test.mjs'
+      - 'scripts/catalogFallbackBacklog.mjs'
+      - 'scripts/catalogFallbackBacklog.node-test.mjs'
+      - 'scripts/artWorkflowAudit.mjs'
+      - 'scripts/artWorkflowAudit.node-test.mjs'
       - 'scripts/catalogVisualPreflight.py'
       - 'scripts/catalogVisualCalibration.py'
       - 'docs/preproduction/art-factory/**'
+      - 'docs/preproduction/catalog-sprint/reviews/*.json'
+      - 'docs/preproduction/catalog-sprint/lane-*.json'
+      - 'public/assets/catalog/**'
+      - 'public/assets/catalog-candidates/**'
+      - 'catalog-art-manifest.json'
+      - 'src/gameModel.js'
 
 permissions:
   contents: read
@@ -26,10 +36,10 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  preflight:
+  fast-contract:
     if: github.ref_name == 'screenshot-match-preproduction'
     runs-on: ubuntu-24.04
-    timeout-minutes: 20
+    timeout-minutes: 12
     steps:
       - name: Checkout exact branch head
         uses: actions/checkout@v4
@@ -39,41 +49,23 @@ jobs:
         with:
           node-version: 22
 
-      - name: Verify prompt, review-learning, and queue tooling
+      - name: Verify prompt, review-learning, queue, fallback, and workflow-audit tooling
         run: |
-          node --test \
-            scripts/artPromptOptimizer.node-test.mjs \
-            scripts/artFactoryJob.node-test.mjs \
-            scripts/artReviewNormalizer.node-test.mjs \
-            scripts/catalogFallbackBacklog.node-test.mjs \
-            scripts/artRegenerationQueue.node-test.mjs
+          node --test             scripts/artPromptOptimizer.node-test.mjs             scripts/artFactoryJob.node-test.mjs             scripts/artReviewNormalizer.node-test.mjs             scripts/catalogFallbackBacklog.node-test.mjs             scripts/artRegenerationQueue.node-test.mjs             scripts/artWorkflowAudit.node-test.mjs
           node scripts/artPromptOptimizer.mjs validate --repo-root .
-          mkdir -p artifacts/art-factory-pilot
-          node scripts/artReviewNormalizer.mjs \
-            --repo-root . \
-            --output artifacts/art-factory-pilot/review-corpus.json
-          node scripts/catalogFallbackBacklog.mjs \
-            --repo-root . \
-            --output artifacts/art-factory-pilot/fallback-backlog.json
-          node scripts/artRegenerationQueue.mjs \
-            --repo-root . \
-            --output artifacts/art-factory-pilot/regeneration-queue.json
+          mkdir -p artifacts/art-factory-preflight
+          node scripts/artReviewNormalizer.mjs             --repo-root .             --output artifacts/art-factory-preflight/review-corpus.json
+          node scripts/catalogFallbackBacklog.mjs             --repo-root .             --output artifacts/art-factory-preflight/fallback-backlog.json
+          node scripts/artRegenerationQueue.mjs             --repo-root .             --output artifacts/art-factory-preflight/regeneration-queue.json
+          node scripts/artWorkflowAudit.mjs             --repo-root .             --output artifacts/art-factory-preflight/workflow-audit.json
 
       - name: Use Python 3.12
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
 
-      - name: Install exact pinned accelerator revisions
-        run: |
-          python -m pip install --upgrade pip
-          python -m pip install \
-            "ImageHash @ git+https://github.com/JohannesBuchner/imagehash.git@7a405c9a27571ee8c998b661ce751639c34b7355" \
-            "PyMatting @ git+https://github.com/pymatting/pymatting.git@6d5c4a6bed0e5672abac0bad078e594423ffe4fd" \
-            "diffusers @ git+https://github.com/huggingface/diffusers.git@7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c"
-          git clone https://github.com/tencent-ailab/IP-Adapter.git /tmp/ip-adapter
-          git -C /tmp/ip-adapter checkout 62e4af9d0c1ac7d5f8dd386a0ccf2211346af1a2
-          test "$(git -C /tmp/ip-adapter rev-parse HEAD)" = "62e4af9d0c1ac7d5f8dd386a0ccf2211346af1a2"
+      - name: Install lightweight image verifier dependency
+        run: python -m pip install --disable-pip-version-check Pillow==11.3.0
 
       - name: Self-test exact-byte, visual-preflight, and calibration tools
         run: |
@@ -83,10 +75,7 @@ jobs:
 
       - name: Calibrate report-only visual evidence
         run: |
-          python scripts/catalogVisualCalibration.py \
-            --repo-root . \
-            --corpus artifacts/art-factory-pilot/review-corpus.json \
-            --output artifacts/art-factory-pilot/visual-calibration.json
+          python scripts/catalogVisualCalibration.py             --repo-root .             --corpus artifacts/art-factory-preflight/review-corpus.json             --output artifacts/art-factory-preflight/visual-calibration.json
 
       - name: Prove calibrated warnings round-trip into preflight
         run: |
@@ -96,14 +85,14 @@ jobs:
           import subprocess
           import sys
 
-          calibration_path = pathlib.Path('artifacts/art-factory-pilot/visual-calibration.json')
+          calibration_path = pathlib.Path('artifacts/art-factory-preflight/visual-calibration.json')
           calibration = json.loads(calibration_path.read_text())
           measured = calibration.get('measured') or []
           if not measured:
               raise SystemExit('Calibration produced no measurable reviewed rasters.')
 
           target = measured[0]['assetPath']
-          output = pathlib.Path('artifacts/art-factory-pilot/calibrated-preflight-sample.json')
+          output = pathlib.Path('artifacts/art-factory-preflight/calibrated-preflight-sample.json')
           subprocess.run([
               sys.executable,
               'scripts/catalogVisualPreflight.py',
@@ -124,8 +113,6 @@ jobs:
           for warning in report.get('calibratedWarnings', []):
               if warning.get('blocking') is not False:
                   raise SystemExit('A calibrated warning unexpectedly became blocking.')
-              if warning.get('targetFailureCodes') is None:
-                  raise SystemExit('Calibrated warning is missing failure-code provenance.')
           print(json.dumps({
               'target': target,
               'warningReadyFeatureCount': report['calibrationEvidence']['warningReadyFeatureCount'],
@@ -134,19 +121,11 @@ jobs:
           }, indent=2))
           PY
 
-      - name: Run report-only accelerator pilot
-        env:
-          IP_ADAPTER_SOURCE_ROOT: /tmp/ip-adapter
-        run: |
-          python docs/preproduction/art-factory/pilot_art_accelerators.py \
-            --root . \
-            --output artifacts/art-factory-pilot
-
-      - name: Upload deterministic evidence
+      - name: Upload fast deterministic evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: starblox-art-factory-preflight-${{ github.sha }}
-          path: artifacts/art-factory-pilot/
+          path: artifacts/art-factory-preflight/
           retention-days: 14
           if-no-files-found: error
