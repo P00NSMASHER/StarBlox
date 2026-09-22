@@ -4,7 +4,7 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import {execFileSync} from 'node:child_process';
 import {pathToFileURL} from 'node:url';
-import {recommend,sha,train} from './artPromptOptimizer.mjs';
+import {optimizeBrief,recommend,sha,train} from './artPromptOptimizer.mjs';
 
 export const FACTORY_BRANCH='screenshot-match-preproduction';
 export const RIGHTS_BASIS='USER_ATTESTED_FULL_RIGHTS';
@@ -131,6 +131,117 @@ export function buildBatchPlans({
   return {index,plans};
 }
 
+
+export function buildRequestPlans({
+  request,requestPath=null,items,producer,sourceHead,modelId,modelRevision,model,
+  runtime=DEFAULT_RUNTIME,referenceAssetSha256=null,controlImageSha256=null,adapterScale=null
+}){
+  if(request?.kind!=='STARBLOX_ART_FACTORY_BATCH_REQUEST') throw Error('request kind must be STARBLOX_ART_FACTORY_BATCH_REQUEST');
+  if(request?.branch!==FACTORY_BRANCH) throw Error(`request branch must be ${FACTORY_BRANCH}`);
+  if(String(request?.producer)!==String(producer)) throw Error(`request producer ${request?.producer} does not match --producer ${producer}`);
+  const scope=Array.isArray(request?.scope)?request.scope:[];
+  if(scope.length<1||scope.length>4) throw Error('request scope must contain 1-4 item IDs');
+  if(new Set(scope).size!==scope.length) throw Error('request scope contains duplicate item IDs');
+  if(!model?.stats||!model?.current) throw Error('trained prompt model required');
+
+  const contextReferences=[];
+  const storeRef=request?.references?.originalStoreReference;
+  if(storeRef?.requiredBeforeGeneration){
+    if(!storeRef.repositoryPath||!storeRef.sha256||!storeRef.gitBlobSha) throw Error('required original Store reference path/hash/blob is unresolved');
+    contextReferences.push({
+      role:storeRef.role||'VISUAL_DIRECTION_CONTEXT',
+      repositoryPath:storeRef.repositoryPath,
+      sha256:storeRef.sha256,
+      gitBlobSha:storeRef.gitBlobSha,
+      dimensions:storeRef.dimensions||null,
+      sourceManifest:storeRef.sourceManifest||null
+    });
+  }
+
+  const byId=new Map(items.map(item=>[item.id,item]));
+  const plans=scope.map(itemId=>{
+    const item=byId.get(itemId);
+    if(!item) throw Error(`unknown request item ${itemId}`);
+    const reqItem=request?.items?.[itemId];
+    if(!reqItem) throw Error(`request missing item payload ${itemId}`);
+    const variants=Array.isArray(reqItem.variants)?reqItem.variants:[];
+    if(variants.length<2||variants.length>4) throw Error(`${itemId} request must contain 2-4 variants`);
+
+    const current=model.current.get(itemId);
+    const review={
+      decision:current?.decision||reqItem?.currentLegacy?.reviewDecision||request?.reviewSource?.decision||'UNREVIEWED',
+      assetHash:current?.assetHash||reqItem?.currentLegacy?.gitBlobSha1||null,
+      reason:current?.reason||reqItem?.currentLegacy?.plannerSourceEvidence||'',
+      reasonCode:current?.reasonCode,
+      checks:current?.checks||{},
+      failureCodes:reqItem?.currentLegacy?.normalizedFailureTaxonomy||[]
+    };
+    if(String(review.decision).toUpperCase()==='ACCEPT') throw Error(`${itemId} is already ACCEPTed; structured request is stale`);
+
+    const optimized=variants.map(v=>{
+      const input=String(v?.optimizerInput||'').trim();
+      if(!input) throw Error(`${itemId}/${v?.variantId||'variant'} optimizerInput missing`);
+      if(v?.optimizerInputSha256&&sha(input)!==v.optimizerInputSha256) throw Error(`${itemId}/${v?.variantId||'variant'} optimizerInputSha256 mismatch`);
+      return optimizeBrief(item,input,review,model,String(v?.variantId||'REQUEST'));
+    });
+    const recommendation={sourceReviewHash:review.assetHash||null,variants:optimized};
+    const plan=buildJobPlan({
+      item,recommendation,producer:String(producer),sourceHead,modelId,modelRevision,runtime,
+      referenceAssetSha256,controlImageSha256,adapterScale,
+      promptRecipeVersion:`artPromptOptimizer-request-v1:${request.batchId||'unversioned'}`
+    });
+    const plannerVariants=variants.map((v,index)=>({
+      variantId:v.variantId||optimized[index].variant,
+      plannerSeed:v.seed??null,
+      optimizerInputSha256:v.optimizerInputSha256||sha(String(v.optimizerInput||'').trim()),
+      compiledPromptSha256:optimized[index].promptSha256,
+      compiledSeed:plan.attempts[index].seed
+    }));
+    delete plan.planSha256;
+    plan.requestContext={
+      requestPath,
+      batchId:request.batchId||null,
+      requestSourceHead:request.sourceHead||null,
+      requestRecordSha256:sha(JSON.stringify(request)),
+      planner:request.planner||null,
+      reviewer:request.reviewer||null,
+      renderOwner:request.renderOwner||null,
+      integrationOwner:request.integrationOwner||null,
+      contextReferences,
+      plannerVariants
+    };
+    plan.planSha256=sha(JSON.stringify(plan));
+    return plan;
+  });
+
+  const index={
+    schemaVersion:1,
+    kind:'STARBLOX_ART_FACTORY_REQUEST_BATCH_PLAN',
+    repository:'P00NSMASHER/StarBlox',
+    branch:FACTORY_BRANCH,
+    sourceHead,
+    producer:String(producer),
+    request:{
+      path:requestPath,
+      batchId:request.batchId||null,
+      sourceHead:request.sourceHead||null,
+      recordSha256:sha(JSON.stringify(request))
+    },
+    contextReferences,
+    model:{modelId,revision:modelRevision,rightsBasis:RIGHTS_BASIS},
+    runtime:{repo:runtime.repo,commit:runtime.commit},
+    itemCount:plans.length,
+    jobs:plans.map(plan=>({
+      itemId:plan.item.id,
+      sourceReviewHash:plan.sourceReviewHash,
+      planSha256:plan.planSha256,
+      attempts:plan.attempts.length
+    }))
+  };
+  index.batchSha256=sha(JSON.stringify(index));
+  return {index,plans};
+}
+
 async function main(){
   const a=parseArgs(process.argv.slice(2)),cmd=a._[0]||'validate',root=path.resolve(a['repo-root']||'.');
   if(cmd==='validate'){
@@ -140,10 +251,35 @@ async function main(){
     console.log(JSON.stringify({valid:true,itemId:plan.item.id,attempts:plan.attempts.length,planSha256:plan.planSha256},null,2));
     return;
   }
-  if(!['plan','plan-batch'].includes(cmd)) throw Error('commands: plan | plan-batch | validate');
+  if(!['plan','plan-batch','plan-request'].includes(cmd)) throw Error('commands: plan | plan-batch | plan-request | validate');
   for(const k of ['producer','model-id','model-revision']) if(!a[k]) throw Error(`--${k} required`);
   const mod=await import(pathToFileURL(path.join(root,'src/gameModel.js')).href+`?t=${Date.now()}`);
   const items=mod.store||mod.gameModel?.store||[];
+
+  if(cmd==='plan-request'){
+    if(!a.request) throw Error('--request required');
+    if(!a['output-dir']) throw Error('--output-dir required');
+    const requestPath=path.resolve(a.request);
+    const request=JSON.parse(fs.readFileSync(requestPath,'utf8'));
+    const model=train({reviewDocs:reviewDocs(root)});
+    const batch=buildRequestPlans({
+      request,requestPath:path.relative(root,requestPath),items,producer:a.producer,sourceHead:head(root),
+      modelId:a['model-id'],modelRevision:a['model-revision'],model,
+      runtime:{repo:a['runtime-repo']||DEFAULT_RUNTIME.repo,commit:a['runtime-commit']||DEFAULT_RUNTIME.commit},
+      referenceAssetSha256:a['reference-sha256']||null,
+      controlImageSha256:a['control-sha256']||null,
+      adapterScale:a['adapter-scale']===undefined?null:Number(a['adapter-scale'])
+    });
+    const outDir=path.resolve(a['output-dir']);
+    fs.mkdirSync(outDir,{recursive:true});
+    for(const plan of batch.plans){
+      const errors=validateJobPlan(plan); if(errors.length) throw Error(`${plan.item.id}: ${errors.join('; ')}`);
+      fs.writeFileSync(path.join(outDir,`${plan.item.id}.json`),JSON.stringify(plan,null,2)+'\n');
+    }
+    fs.writeFileSync(path.join(outDir,'batch-index.json'),JSON.stringify(batch.index,null,2)+'\n');
+    console.log(JSON.stringify({planned:true,mode:'request',producer:String(a.producer),requestBatchId:request.batchId||null,itemCount:batch.plans.length,batchSha256:batch.index.batchSha256,outputDir:outDir},null,2));
+    return;
+  }
 
   if(cmd==='plan-batch'){
     if(!a.queue) throw Error('--queue required');
