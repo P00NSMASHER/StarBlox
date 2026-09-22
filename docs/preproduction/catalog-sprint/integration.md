@@ -1,6 +1,6 @@
 # Workstream 08 catalog integration
 
-Status: **manifest v24 published; Seating 1/11/12 exact-hash ACCEPTs canonically wired. Catalog assertions and production build pass. Store/mobile evidence still not release-cleared.**
+Status: **manifest v24 published; Seating 1/11/12 exact-hash ACCEPTs canonically wired. Catalog assertions and production build pass. Changed-art Store/mobile safeguard is blocked by the existing shared Store-navigation click failure before Store content.**
 
 Canonical catalog commit: `30089f73e38a18b746dd1ae981041c4c181caa3a`  
 Runtime-only precursor: `09da46794c604d40ef43b855590c442d98c07770`  
@@ -15,7 +15,7 @@ Branch: `screenshot-match-preproduction` only. Replit/Floot/main/deploy/player d
 | `seating-11` | Moon Chair | 4 / Galaxy Glow | `/assets/catalog/seating-11-w06-v2.png` | `5126e9abcec4a09ef281dccb33aac6ba59b38b94` | 02 (producer 06) |
 | `seating-12` | Throne Chair | 5 / Sunny Pop | `/assets/catalog/seating-12-w06-v2.png` | `793b32f60ed10fffa80b549e75b66858ac0d7e4f` | 02 (producer 06) |
 
-All three current repository objects matched the independent reviewer-02 decisions and authoritative Store name/type/tier/theme metadata. The two PNGs are valid 768×768 images; the SVG was rendered through the shared candidate fixture. Reviewer independence passed, no current-hash disagreement was present, and the new paths/content are distinct. No prices, unlocks, ownership, saves or other gameplay metadata changed.
+All three current repository objects matched reviewer-02's independent current-hash decisions and authoritative Store name/type/tier/theme metadata. The PNGs are valid 768×768 images; the SVG was rendered through the shared candidate fixture. Reviewer independence passed, there was no current-hash disagreement, and the new paths/content are distinct. No prices, unlocks, ownership, saves or other gameplay metadata changed.
 
 ## Canonical state
 
@@ -42,14 +42,14 @@ GitHub Actions checked out exact commit `30089f73...`.
 - `src/catalogAssetSafety.test.js`: **PASS**.
 - Store runtime tests: **PASS 3/3**.
 - Executed test assertions: **99 PASS / 0 assertion failures**.
-- General CI wrapper: **FAIL**, solely because `scripts/artPromptOptimizer.test.mjs` was collected as a test file but declares no test suite. Workstream 08 did not weaken or edit that unrelated harness.
-- Vite production build: **PASS** on the exact canonical commit in Preproduction Visual QA run `35685092735`; Catalog Mobile QA run `35685092749` also completed its build step successfully.
-- Preproduction Visual QA run `35685092735`: **FAIL** with 10 release blockers. Store navigation times out while clicking the visible Store nav before Store content is reached at desktop, landscape, 390px and 320px. Six existing Quest desktop geometry checks also fail. Home structural checks pass. Artifact: `10676830427`.
-- Changed-art Catalog Mobile QA run `35685092749`: **still executing its Store/mobile gate at last verified read**; do not claim Store smoke PASS yet.
-- Reference-capture run `35685092811`: fresh exact-head capture was triggered; final result was not yet verified at this snapshot.
+- General CI wrapper: **FAIL**, solely because unrelated `scripts/artPromptOptimizer.test.mjs` was collected as a test file but declares no test suite. Workstream 08 did not weaken or edit that harness.
+- Vite production build: **PASS** on the exact canonical commit in Preproduction Visual QA run `35685092735` and Catalog Mobile QA run `35685092749`.
+- Preproduction Visual QA run `35685092735`: **FAIL / 10 release blockers**. Store navigation times out while clicking the visible Store nav before Store content is reached at desktop, landscape, 390px and 320px. Six existing Quest desktop geometry checks also fail. Home structural checks pass. Artifact `10676830427`.
+- Changed-art Catalog Mobile QA run `35685092749`: **FAIL / 6 release blockers**. The four reduced-motion viewports plus tablet and phone normal-motion controls all time out clicking the visible Store navigation before Store content is reached. Artifact `10677200113`. This is the same shared Store-entry defect already seen before this increment, not evidence of an item decode or mapping failure.
+- Reference-capture run `35685092811`: build and reference-input verification passed; deterministic capture was still running at the last verified read.
 
-The shared Store navigation timeout is outside Workstream 08's catalog ownership, so canonical accepted mappings remain intact while 14/15 own the shared visual/navigation evidence path.
+The shared Store navigation timeout is outside Workstream 08's catalog ownership, so the independently accepted canonical mappings remain intact while 14/15 own shared navigation/reference visual proof.
 
 ## Handoff
 
-Continue consuming reviewers 01/02/05/14 from the live head and integrate only newly qualified current exact-hash ACCEPTs. Do not re-integrate the 84 already canonical accepted hashes. Current remaining catalog risk is **108 strict items**, plus completion of Store/mobile visual proof and the final release duplicate/near-duplicate gate. Only Workstream 15 may change phase or declare visual completion; no catalog state authorizes deployment.
+Continue consuming reviewers 01/02/05/14 from the live head and integrate only newly qualified current exact-hash ACCEPTs. Do not re-integrate the 84 already canonical accepted hashes. Current remaining catalog risk is **108 strict items**, plus successful Store/mobile visual entry/proof and the final release duplicate/near-duplicate gate. Only Workstream 15 may change phase or declare visual completion; no catalog state authorizes deployment.
