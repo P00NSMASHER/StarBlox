@@ -1,12 +1,97 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "workstream": "08",
   "phase": "CATALOG_SPRINT",
   "branch": "screenshot-match-preproduction",
-  "purpose": "Integrate the next newly qualified exact-hash ACCEPT micro-batch after Tops 1-6 and Lighting 1-4 became canonical.",
+  "purpose": "Integrate the independently accepted Lighting 5-12 exact-hash replacement batch immediately; preserve all prior accepted canonical mappings.",
   "acceptedBatch": [
-    {"itemId":"auras-6","name":"Galaxy Orbit","tier":2,"theme":"Berry Blast","assetPath":"/assets/catalog/auras-6-v2.svg","assetBlobSha":"ce4b155c7fb5469fde415ab9d744cab41027fe4d","producer":"11","reviewer":"05","reviewFile":"docs/preproduction/catalog-sprint/reviews/05.json"},
-    {"itemId":"auras-7","name":"Sunny Rays","tier":3,"theme":"Garden Glow","assetPath":"/assets/catalog/auras-7-v2.svg","assetBlobSha":"c451e7479e142f1eca89cc5282b352c2d2ca2d4b","producer":"11","reviewer":"05","reviewFile":"docs/preproduction/catalog-sprint/reviews/05.json"},
-    {"itemId":"auras-8","name":"Aqua Bubbles","tier":3,"theme":"Galaxy Glow","assetPath":"/assets/catalog/auras-8-v2.svg","assetBlobSha":"6884668fe721f3b26a562e11924237a32c656db6","producer":"11","reviewer":"05","reviewFile":"docs/preproduction/catalog-sprint/reviews/05.json"}
+    {
+      "itemId": "lighting-5",
+      "name": "Vine Light",
+      "tier": 2,
+      "theme": "Galaxy Glow",
+      "assetPath": "/assets/catalog/lighting-5-w04-recovered-v2.jpg",
+      "assetBlobSha": "a9e03e73c7080fdc2effd884bb0965999954d90c",
+      "producer": "04",
+      "reviewer": "14",
+      "reviewFile": "docs/preproduction/catalog-sprint/reviews/14.json"
+    },
+    {
+      "itemId": "lighting-6",
+      "name": "Planet Lamp",
+      "tier": 2,
+      "theme": "Sunny Pop",
+      "assetPath": "/assets/catalog/lighting-6-w04-recovered-v2.jpg",
+      "assetBlobSha": "d8d8fca7cda78451860377bfdfd257b4a450aa9c",
+      "producer": "04",
+      "reviewer": "14",
+      "reviewFile": "docs/preproduction/catalog-sprint/reviews/14.json"
+    },
+    {
+      "itemId": "lighting-7",
+      "name": "Sun Lamp",
+      "tier": 3,
+      "theme": "Aqua Wave",
+      "assetPath": "/assets/catalog/lighting-7-w04-recovered-v2.jpg",
+      "assetBlobSha": "7ce162a18ab641df7ab73f380557aad5aa64b24d",
+      "producer": "04",
+      "reviewer": "14",
+      "reviewFile": "docs/preproduction/catalog-sprint/reviews/14.json"
+    },
+    {
+      "itemId": "lighting-8",
+      "name": "Bubble Lamp",
+      "tier": 3,
+      "theme": "Art Attack",
+      "assetPath": "/assets/catalog/lighting-8-w04-recovered-v2.jpg",
+      "assetBlobSha": "9073a049ec9116cf3e4408adf068be48f1ad00f1",
+      "producer": "04",
+      "reviewer": "14",
+      "reviewFile": "docs/preproduction/catalog-sprint/reviews/14.json"
+    },
+    {
+      "itemId": "lighting-9",
+      "name": "Color Lamp",
+      "tier": 3,
+      "theme": "Star Luxe",
+      "assetPath": "/assets/catalog/lighting-9-w04-recovered-v2.jpg",
+      "assetBlobSha": "d9a0e461a1a8ace589cf6be1ec93e61972ba7faf",
+      "producer": "04",
+      "reviewer": "14",
+      "reviewFile": "docs/preproduction/catalog-sprint/reviews/14.json"
+    },
+    {
+      "itemId": "lighting-10",
+      "name": "Neon Strip Tower",
+      "tier": 4,
+      "theme": "Midnight Neon",
+      "assetPath": "/assets/catalog/lighting-10-w04-recovered-v2.jpg",
+      "assetBlobSha": "e4ca304730d4c330711534c2c7c52da218c9acfa",
+      "producer": "04",
+      "reviewer": "14",
+      "reviewFile": "docs/preproduction/catalog-sprint/reviews/14.json"
+    },
+    {
+      "itemId": "lighting-11",
+      "name": "Aurora Light",
+      "tier": 4,
+      "theme": "Candy Core",
+      "assetPath": "/assets/catalog/lighting-11-w04-recovered-v2.jpg",
+      "assetBlobSha": "995b6ae729b3daa9e1199dd032b24e128db0b61b",
+      "producer": "04",
+      "reviewer": "14",
+      "reviewFile": "docs/preproduction/catalog-sprint/reviews/14.json"
+    },
+    {
+      "itemId": "lighting-12",
+      "name": "Crystal Chandelier",
+      "tier": 5,
+      "theme": "Adventure Club",
+      "assetPath": "/assets/catalog/lighting-12-w04-recovered-v2.jpg",
+      "assetBlobSha": "ddb71949f485348a45e00c5105eb336ad55a010a",
+      "producer": "04",
+      "reviewer": "14",
+      "reviewFile": "docs/preproduction/catalog-sprint/reviews/14.json"
+    }
   ]
 }
