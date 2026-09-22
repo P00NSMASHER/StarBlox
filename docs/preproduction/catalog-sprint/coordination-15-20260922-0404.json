@@ -1,0 +1,109 @@
+{
+  "schemaVersion": 1,
+  "workstream": "15",
+  "phase": "ART_AND_VISUALS_ONLY",
+  "branch": "screenshot-match-preproduction",
+  "observedHeadBeforeCoordination": "0fd0dde362da3dd9a9105c74fc33944d13a72a2e",
+  "policy": {
+    "allocation": "docs/preproduction/ART_VISUALS_SPRINT.json",
+    "compatibleDeliveryProtocol": "docs/preproduction/DELIVERY_PROTOCOL_V2.md",
+    "same15ExistingTaskIdsRequired": true,
+    "substituteTasksAllowed": false,
+    "canonicalCatalogWriter": "08",
+    "crossWorkerCoordinator": "15",
+    "replitAllowed": false,
+    "flootAllowed": false,
+    "mainMergeAllowed": false,
+    "deploymentAllowed": false,
+    "paidSettingsOrPurchasesAllowed": false,
+    "realPlayerDataAllowed": false
+  },
+  "liveCatalogSnapshot": {
+    "manifestVersion": 27,
+    "manifestEntries": 163,
+    "runtimeMappings": 163,
+    "finalPortableLabels": 156,
+    "interimNotVerified": 7,
+    "nonFinal": 36,
+    "strictAcceptedCanonical": 90,
+    "qualifiedAcceptedCurrentFloor": 91,
+    "acceptedAwaitingCanonical": 1,
+    "acceptedAwaitingCanonicalIds": [
+      {
+        "itemId": "rugs-12",
+        "assetPath": "/assets/catalog/rugs-12-w07-v3.png",
+        "assetBlobSha": "eea2fc5b78c1186342f91f597bc792160ab8f8fe",
+        "sha256": "21a2f71224d9a7d4e0e60a672867cc629f21a481c3310fee6b1cac1c1be071b3",
+        "reviewer": "14",
+        "evidence": "docs/preproduction/catalog-sprint/chat-rugs-12-v3-reconciled-review-14-to-08.json"
+      }
+    ],
+    "repositoryStoredReadbackFloor": 91,
+    "generatedLocalReceiptOnly": [
+      {
+        "itemId": "tops-11",
+        "expectedBlob": "0641cd1563cd9f683d685231c52a28c9f66424be"
+      },
+      {
+        "itemId": "tops-12",
+        "expectedBlob": "9f13c65b0310a70be3fb1e6464baf22dabe75ce1"
+      }
+    ],
+    "preservedExternalNotStaged": [
+      "headwear-5",
+      "headwear-6",
+      "headwear-7",
+      "headwear-8"
+    ],
+    "catalogReleaseClearedIds": 0,
+    "note": "The 91 accepted floor is 90 strict accepted+canonical exact hashes from integration schema11 plus reviewer14's later exact-current Rugs12 ACCEPT. No newer manifest/runtime integration was present at the observed branch head. Repository-stored/readback floor is conservatively not claimed above the independently accepted current floor."
+  },
+  "oldestDependency": {
+    "owner": "08",
+    "action": "Integrate Rugs12 exact accepted hash immediately after normal metadata/file/content checks. Direct qualified exact-hash evidence is sufficient under V2; no stale rollup is a prerequisite.",
+    "status": "AWAITING_NEWER_CANONICAL_EVIDENCE"
+  },
+  "reconciledCatalogProduction": {
+    "05": {
+      "activeBatch": ["wall-1", "wall-2", "wall-3", "wall-4"],
+      "reviewer": "14",
+      "basis": "Reviewer14 current exact-hash decisions mark Wall1-12 REWORK. Bottoms1-4 are already accepted and frozen. Repair the flat-mounted-emblem defect with physical mounted-object construction/material depth. Do not scale beyond Wall1-4 before independent disposition."
+    },
+    "09": {
+      "activeBatch": ["decor-3", "decor-4"],
+      "reviewer": "14",
+      "basis": "Tops11-12 v7 exact payload transport is materially blocked and frozen against regeneration. Reviewer14 current exact-hash decisions mark Decor3-12 REWORK while Decor1-2 are accepted. Anti-stall policy therefore opens only Decor3-4 as the sole active producer09 batch. Do not scale before independent disposition."
+    },
+    "12": {
+      "activeBatch": ["headwear-5", "headwear-6", "headwear-7", "headwear-8"],
+      "status": "PRESERVED_EXTERNAL_TRANSFER_BLOCKED",
+      "action": "Do not regenerate or repeat unchanged failed transport. Stage only if a materially new supported exact-byte materialization path becomes available."
+    },
+    "07": {
+      "catalogStatus": "RUGS_AND_TOPS1_6_CLOSED_AT_CURRENT_REVIEW_LEVEL",
+      "action": "No catalog regeneration. Spare capacity may stay on non-conflicting progression/room visual work."
+    },
+    "11": {
+      "catalogStatus": "AURAS1_12_CLOSED_AT_CURRENT_REVIEW_LEVEL",
+      "action": "No Aura regeneration. Spare capacity may stay on motion/lighting/static reduced-motion visual specifications."
+    }
+  },
+  "reviewRouting": {
+    "14": "When NEW exact repo-stored/readback Wall1-4 or Decor3-4 candidates have real card/detail pixels, independently disposition those hashes first. Preserve Lighting1-12, Rugs1-12 and Decor1-2 accepted hashes. Do not churn unchanged Wall/Decor legacy hashes.",
+    "01": "Preserve current accepted Tops1-10, Bottoms1-4, Headwear1-4. Tops11-12 remain unreviewable until exact v7 payload bytes are repo-staged/read back and rendered; Headwear5-8 remain unreviewable until exact repo bytes exist.",
+    "02": "Consume only genuinely fresh current Shoes/Backgear/Handgear/Seating exact hashes with real card/detail evidence; preserve accepted versions.",
+    "05": "Consume only genuinely fresh Beds/Desks/Companions/Auras exact hashes with real card/detail evidence; all Auras are closed accepted at current review level."
+  },
+  "visualParallelWork": {
+    "13": "Continue exclusive versioned avatar/environment repairs only; no runtime/state edits without 15 handoff.",
+    "home": "Structural geometry remains green unless new evidence changes it. Current environment v2 composition remains REWORK for lower hero corridor/phone crop; preserve its successful material/light direction in v3.",
+    "store": "Actual Store/mobile visual proof remains blocked before Store content by the shared real-pointer navigation click timeout; do not roll back accepted catalog art or claim Store proof passed.",
+    "quest": "Measured geometry blockers remain open for later visual finishing; reference/material studies do not clear them."
+  },
+  "completion": {
+    "artVisualsComplete": false,
+    "catalogComplete": false,
+    "releaseComplete": false,
+    "deploymentPermission": false
+  }
+}
