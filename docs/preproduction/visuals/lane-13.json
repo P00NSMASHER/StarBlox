@@ -1,8 +1,8 @@
 {
-  "schemaVersion": 3,
+  "schemaVersion": 4,
   "workstream": "13",
   "focus": "SCENE_CHARACTER_ART",
-  "status": "READY_FOR_REVIEW_MULTIPLE_SCENE_CANDIDATES",
+  "status": "READY_FOR_REVIEW_THREE_SCENE_CANDIDATES",
   "branch": "screenshot-match-preproduction",
   "candidateId": "home-bedroom-w13-v2",
   "candidateType": "environment-background",
@@ -100,9 +100,9 @@
     "mainTouched": false
   },
   "reviewHandoff": {
-    "14": "Independently judge overlay-safe composition, format/performance and real-browser suitability. Do not composition-approve from producer notes alone.",
+    "14": "Independently judge overlay-safe composition, format/performance and real-browser suitability for all three scene candidates. Do not composition-approve from producer notes alone.",
     "15": "Only after independent acceptance, coordinate any approved environment handoff to Workstream 09. No runtime integration is authorized by these candidates.",
-    "01": "Independently judge Home v2 and Quest v1 exact pixels against their immutable references; bind every decision to the exact hashes in parallelCandidates/intake evidence."
+    "01": "Independently judge Home v2, Quest v1 and Store v1 exact pixels against their immutable references; bind every decision to the exact hashes in parallelCandidates/intake evidence."
   },
   "parallelCandidates": [
     {
@@ -160,6 +160,56 @@
         "optimizedDerivative": "Adobe image_crop_and_resize",
         "cropRequestId": "cf534922-622d-4397-8a89-375eb8c8568e",
         "desktopAdobeUrn": "urn:aaid:ps:US:88f82721-0ce6-48ed-bf41-eeb09fb6a95b"
+      },
+      "runtimeWired": false,
+      "canonicalCatalogTouched": false,
+      "workstream06AvatarTouched": false,
+      "workstream09ActiveEnvironmentTouched": false,
+      "independentReview": "PENDING"
+    },
+    {
+      "candidateId": "store-boutique-w13-v1",
+      "candidateType": "environment-background",
+      "targetScreen": "Store",
+      "status": "STAGED_READY_FOR_INDEPENDENT_REVIEW",
+      "reference": {
+        "path": "docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg",
+        "sha256": "b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d"
+      },
+      "runningRenderEvidence": {
+        "workflowRunId": 35663655650,
+        "artifactId": 10668287632,
+        "renderHead": "b187186e62519ffa77bd0f7b166c601c90bdc416",
+        "file": "store-desktop-1408x1056.png"
+      },
+      "observedDefect": "Current Store environment is much flatter and more UI-dominant than the immutable reference, with limited boutique architecture/material depth around the catalog and try-on area.",
+      "desktopPath": "public/assets/visuals/lane-13/store-boutique-w13-v1-1408x1056.png",
+      "desktopDimensions": [
+        1408,
+        1056
+      ],
+      "desktopBytes": 1679187,
+      "desktopSha256": "04d0a2660dc5109aa2cdcea956f807baa01c6eb6b998598f656dfce83d3d0fe8",
+      "desktopGitBlobSha": "c0959df22e8f67ab9812c791e679acad224045ba",
+      "fullPath": "public/assets/visuals/lane-13/store-boutique-w13-v1-full.png",
+      "fullDimensions": [
+        2304,
+        1792
+      ],
+      "fullBytes": 4511635,
+      "fullSha256": "01fd80f63e0deda237b1e19df4cb307c8380347beb2c69868114fd13709cd444",
+      "fullGitBlobSha": "b05d3be93b49f0e8f06359bfd524bde8a1e8d17d",
+      "intakeEvidence": "docs/preproduction/visuals/lane-13-store-v1-intake.json",
+      "originReadback": "PASS_2_OF_2_EXACT_SHA256",
+      "sourceHeadAfterBinaryPush": "707dad359bc88eb520fe20aa818bc5c7f5dd378c",
+      "provenance": {
+        "generator": "Adobe image_generate",
+        "generationRequestId": "1f92b4a4-ed9d-41ec-9694-2a535d91055d",
+        "sourceAdobeUrn": "urn:aaid:ps:US:a9ec14ce-2dad-497c-894f-29a0bdd00445",
+        "sourceFireflyAssetId": "urn:aaid:sc:US:88cb4349-d511-413c-917d-0367c14afa5d",
+        "optimizedDerivative": "Adobe image_crop_and_resize",
+        "cropRequestId": "3a6253e1-5209-438d-9204-b67beec5e50b",
+        "desktopAdobeUrn": "urn:aaid:ps:US:4adfdc54-b2ab-4699-86ef-054220181f16"
       },
       "runtimeWired": false,
       "canonicalCatalogTouched": false,
