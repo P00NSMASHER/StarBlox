@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 1,
+  "branch": "screenshot-match-preproduction",
+  "lane": "13",
+  "candidate": "avatar-keyart-fullbody-w13-v2",
+  "status": "SOURCE_PINNED_FOR_INTAKE",
+  "reviewRequest": {
+    "source": "docs/preproduction/visuals/reviews/01.json",
+    "decision": "REWORK_BEFORE_RUNTIME_INTEGRATION",
+    "requestedRepair": "Make the avatar unmistakably StarBlox/block-world: larger head, thicker rectangular limbs, more toy-like hands/feet, longer hair, brighter hot-pink/dark headset, higher-contrast face."
+  },
+  "referencePixelsInspected": {
+    "manifest": "docs/preproduction/reference-screenshots/originals/original-reference-manifest.json",
+    "home": {"path": "docs/preproduction/reference-screenshots/originals/home-1448x1086.jpeg", "sha256": "6a4b110aeaf12a6ab0c629f9181cc6cfa8d4f55a518d4f2a6adb3ac6e756c457"},
+    "store": {"path": "docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg", "sha256": "b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d"},
+    "quest": {"path": "docs/preproduction/reference-screenshots/originals/quest-1448x1086.jpeg", "sha256": "70f1b952709a85c77bb11851ffe9ae704acf8b97640355e908b6ec537b5c73c9"}
+  },
+  "currentRenderInspected": {
+    "workflowRunId": 35663655650,
+    "artifact": "current-render-evidence",
+    "paths": ["home-desktop-1408x1056.png", "store-desktop-1408x1056.png", "quest-desktop-1408x1056.png"],
+    "note": "Latest available deterministic Home/Store/Quest render evidence inspected beside immutable originals before production; no runtime-wiring parity claim."
+  },
+  "generation": {
+    "provider": "Adobe Firefly via connected Adobe image generation tools",
+    "selectedRequestId": "7d997164-bc47-484b-84b2-79951750237a",
+    "selectedSeed": 908224,
+    "rejectedRequestId": "e1fbf4c7-81f6-4fd3-b19f-b2679126d358",
+    "rejectedReason": "Hair too short and microphone boom diverged from reference identity cues; not staged.",
+    "promptRecipe": "Original premium 3D toy/block-world game avatar key art; single child-friendly girl avatar; very long medium-brown hair; chunky rectangular toy proportions; simple high-contrast wink/open-smile face; hot-pink cat-ear over-ear headphones with dark charcoal earcups and cyan accents; no mic boom; neutral noncanonical lavender/navy underlayer; no background scene/UI/text/logo/companion/props/third-party likeness.",
+    "sourceUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:b1be76d5-7ab8-4af4-86f6-7ca911ca7099",
+    "sourceAssetId": "urn:aaid:sc:US:283e4875-a6fa-45d4-bc00-01fa3da202d4",
+    "fullTransparentUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:99758612-174e-4e52-8370-91b130588d7b",
+    "fullBackgroundRemovalRequestId": "4243a273-a302-4a6f-9edb-14b64b8a2b5e",
+    "optimizedPreCutoutUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:88311676-f2b0-4788-a9ae-322be0d199ad",
+    "resizeRequestId": "4500dbb4-afcc-46f2-bb69-ea6202bdf160",
+    "optimizedTransparentUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:d1d1205b-2c5e-459b-ba3e-0c330495daf4",
+    "optimizedBackgroundRemovalRequestId": "fd078186-e2fb-4c24-9b68-cd6b194bafc6"
+  },
+  "artifacts": [
+    {"role": "source", "path": "docs/preproduction/visuals/recovered-originals/avatar-keyart-fullbody-w13-v2-source.png", "sourceUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:b1be76d5-7ab8-4af4-86f6-7ca911ca7099", "expectedDimensions": [1344, 1728], "requiresAlpha": false},
+    {"role": "full", "path": "public/assets/visuals/lane-13/avatar-keyart-fullbody-w13-v2-full.png", "sourceUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:99758612-174e-4e52-8370-91b130588d7b", "expectedDimensions": [1344, 1728], "requiresAlpha": true},
+    {"role": "optimized", "path": "public/assets/visuals/lane-13/avatar-keyart-fullbody-w13-v2-896.png", "sourceUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:d1d1205b-2c5e-459b-ba3e-0c330495daf4", "expectedDimensions": [896, 1152], "requiresAlpha": true}
+  ],
+  "producerPixelCheck": {
+    "selectedCandidateInspected": true,
+    "fullCutoutInspected": true,
+    "optimizedCutoutInspected": true,
+    "findings": "Selected v2 materially increases block-world silhouette fidelity versus v1: larger toy head, thicker rectangular arms/legs, oversized toy shoes, bright hot-pink/dark cat-ear headset, high-contrast wink/open smile, and longer brown hair. Clothing remains simple noncanonical guidance only. Independent acceptance intentionally pending."
+  },
+  "constraints": {
+    "separateFromCatalog192": true,
+    "referenceOutfitMayNotOverrideOwnedEquippedState": true,
+    "noCanonicalCatalogMappingEdit": true,
+    "no06AssetMutation": true,
+    "no09AssetMutation": true,
+    "runtimeWiring": false,
+    "producerSelfApproval": false,
+    "thirdPartyIP": false
+  }
+}
