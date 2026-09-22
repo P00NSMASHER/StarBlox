@@ -239,9 +239,11 @@ const syntheticSeed = {
 const browser = await chromium.launch({headless:true});
 const browserVersion = browser.version();
 const context = await browser.newContext({viewport:{width:1408,height:1056}});
-await context.addInitScript(({key,seed}) => {
+await context.addInitScript(({key,seed,marker}) => {
+  if(sessionStorage.getItem(marker)) return;
   if(!localStorage.getItem(key)) localStorage.setItem(key,JSON.stringify(seed));
-},{key:SAVE_KEY,seed:syntheticSeed});
+  sessionStorage.setItem(marker,'1');
+},{key:SAVE_KEY,seed:syntheticSeed,marker:'starblox-persistence-seed-once'});
 const page = await context.newPage();
 page.on('console',message => { if(message.type() === 'error') results.push({name:'browser-console-error',status:'FAIL',text:message.text()}); });
 page.on('pageerror',error => results.push({name:'browser-pageerror',status:'FAIL',text:error.message}));
