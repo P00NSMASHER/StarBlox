@@ -1,115 +1,183 @@
 {
-  "schemaVersion": 10,
+  "schemaVersion": 11,
   "workstream": "08",
   "phase": "CATALOG_SPRINT",
-  "status": "INTEGRATED_ACCEPTED_INCREMENT_CATALOG_TESTS_BUILD_PASS_STORE_SMOKE_BLOCKED_PENDING_PUSH",
+  "status": "INTEGRATED_FIVE_QUALIFIED_ACCEPTS_CATALOG_ASSERTIONS_PASS_BUILDS_PASS_STORE_MOBILE_BLOCKED_ON_SHARED_NAV",
   "branch": "screenshot-match-preproduction",
-  "auditedSourceHead": "187068cec23a87ecc256fd32010bf2d178da6065",
-  "batchLabel": "Rug 11 v3 qualified exact-hash ACCEPT",
-  "reviewerEvidence": [
-    {
-      "reviewer": "14",
-      "source": "docs/preproduction/catalog-sprint/review-normalization-14-rugs-11-v3.json",
-      "blobSha": "f2ba646501311d7f8ac4074b177e4cc6de30be4c"
-    }
-  ],
+  "auditedSourceHead": "ad8867efc70d1b123cbc5e2f157766bec58e510d",
+  "batchLabel": "Shoes 7-10 + Aura 11 qualified exact-hash ACCEPT backlog",
   "canonicalBefore": {
-    "manifestVersion": 24,
-    "manifestBlobSha": "1da7f25e408e24b5130b4bb07af3a507ae8a46ff",
-    "runtimeBlobSha": "bdb28c0c5f445adf99879f62425ef896e22249ac",
-    "manifestEntries": 162,
-    "strictAcceptedCanonical": 84
-  },
-  "canonicalAfter": {
     "manifestVersion": 25,
     "manifestBlobSha": "7d95b3b9a92e3c0e14d80afeeddd894ddada7ae1",
     "runtimeBlobSha": "bb08a7555e71c370a07e7c276d5f621b73046505",
+    "manifestEntries": 163,
+    "strictAcceptedCanonical": 85
+  },
+  "canonicalAfter": {
+    "manifestVersion": 27,
+    "manifestBlobSha": "27c77919cfbc5cf52570bf91871338b59cded055",
+    "runtimeBlobSha": "a3b5b2b98a8507f5226191959a3cd91ef6729bdb",
     "catalogTarget": 192,
     "manifestEntries": 163,
     "runtimeMappings": 163,
-    "finalPortable": 155,
-    "interimNotVerified": 8,
-    "nonFinal": 37,
+    "finalPortable": 156,
+    "interimNotVerified": 7,
+    "nonFinal": 36,
     "duplicateAssetPaths": 0,
     "duplicateContentHashes": 0,
-    "strictAcceptedCanonical": 85
+    "strictAcceptedCanonical": 90,
+    "strictAcceptedRemaining": 102,
+    "catalogReleaseClearedIds": 0
   },
-  "integratedThisRun": [
+  "integrationCommits": [
     {
-      "itemId": "rugs-11",
-      "name": "Dream Cloud Rug",
-      "collectionId": "rugs",
-      "collectionName": "Rugs",
-      "type": "room",
-      "tier": 4,
-      "theme": "Galaxy Glow",
-      "price": 1276,
-      "starReq": 5,
-      "assetPath": "/assets/catalog/rugs-11-w07-v3.png",
-      "repositoryPath": "public/assets/catalog/rugs-11-w07-v3.png",
-      "assetBlobSha": "2c93f18fb5960f7056819c341a3da8f7fff3fb9d",
-      "sha256": "cb5bea407b241c79887f07f8b37136b64f2336de23683fdafc6007aa23fefdfd",
-      "bytes": 1206852,
-      "width": 1024,
-      "height": 1024,
-      "format": "PNG",
-      "producer": "07",
-      "reviewer": "14",
-      "reviewEvidence": "docs/preproduction/catalog-sprint/review-normalization-14-rugs-11-v3.json",
-      "reviewBlobSha": "f2ba646501311d7f8ac4074b177e4cc6de30be4c",
-      "evidenceRefs": [
-        "source:docs/preproduction/catalog-sprint/chat-rugs-11-12-v3-review-14-to-08.json@8eb339cf5702f48fad1946183efbb8d5799f64d3",
-        "workflow:35682911760/artifact:10675401829",
-        "reviewer14:QUALIFIED_ACCEPT_FOR_08_CANONICAL_WIRING_ONLY"
-      ]
+      "commit": "04eb1f4c4a6f9efcd0e6bea9d33e7580740dcfd4",
+      "parent": "65bed4330d8c9e21b2ebd2254d10ebe01cead15a",
+      "label": "Shoes 7-10",
+      "manifestVersion": 26
+    },
+    {
+      "commit": "ad8867efc70d1b123cbc5e2f157766bec58e510d",
+      "parent": "d33e7b9a41742a3547413105b593b7e9ff36546a",
+      "label": "Aura 11",
+      "manifestVersion": 27
     }
   ],
-  "validationBeforeCommit": {
-    "exactStoreMetadata": "PASS_1_OF_1",
-    "storedPathAndBlobReadback": "PASS_1_OF_1",
-    "safeDecode": "PASS_1_OF_1",
-    "reviewerIndependence": "PASS_REVIEWER_14",
-    "reviewerDisagreement": "PASS_NONE_ON_ACCEPTED_EXACT_HASHES",
-    "canonicalUniqueness": "PASS_163_UNIQUE_PATHS_AND_CONTENT",
+  "integratedThisRun": [
+    {
+      "itemId": "shoes-7",
+      "name": "Chunky Sneakers",
+      "collectionId": "shoes",
+      "type": "avatar",
+      "tier": 3,
+      "theme": "Cloud Pop",
+      "assetPath": "/assets/catalog/shoes-7-w06-v3.png",
+      "assetBlobSha": "cb8f02aaa4844d1a19a013edc3d0d1a15c0620a2",
+      "sha256": "e6bd15334f64537dbb6d7f73331a67a5bd4416c96589c1003286f5586321526d",
+      "producer": "06",
+      "reviewer": "02",
+      "reviewSource": "docs/preproduction/catalog-sprint/reviews/02.json",
+      "reviewSchema": 9,
+      "workflowRunId": 35687207417,
+      "artifactId": 10676873799
+    },
+    {
+      "itemId": "shoes-8",
+      "name": "Trainers",
+      "collectionId": "shoes",
+      "type": "avatar",
+      "tier": 3,
+      "theme": "Pixel Party",
+      "assetPath": "/assets/catalog/shoes-8-w06-v3.png",
+      "assetBlobSha": "1aa21e1156f7645fc218402c337d2eebe95d81f8",
+      "sha256": "7cc864e736057c024f010c044755e5001c5c4418173f83ce6309fee94ba47cd3",
+      "producer": "06",
+      "reviewer": "02",
+      "reviewSource": "docs/preproduction/catalog-sprint/reviews/02.json",
+      "reviewSchema": 9,
+      "workflowRunId": 35687207417,
+      "artifactId": 10676873799
+    },
+    {
+      "itemId": "shoes-9",
+      "name": "Paint Kicks",
+      "collectionId": "shoes",
+      "type": "avatar",
+      "tier": 3,
+      "theme": "Berry Blast",
+      "assetPath": "/assets/catalog/shoes-9-w06-v3.png",
+      "assetBlobSha": "ff5e914eb935194a1541cebf5421264e5da2d543",
+      "sha256": "6db39a0e3820ddae6ce493880693e1998ff270a38f17b66253056b61d0c4190f",
+      "producer": "06",
+      "reviewer": "02",
+      "reviewSource": "docs/preproduction/catalog-sprint/reviews/02.json",
+      "reviewSchema": 9,
+      "workflowRunId": 35687207417,
+      "artifactId": 10676873799
+    },
+    {
+      "itemId": "shoes-10",
+      "name": "Light Shoes",
+      "collectionId": "shoes",
+      "type": "avatar",
+      "tier": 4,
+      "theme": "Garden Glow",
+      "assetPath": "/assets/catalog/shoes-10-w06-v3.png",
+      "assetBlobSha": "489e37f25644d13a4ca9518f4047ebfb35747a47",
+      "sha256": "72b01fba8c88704de5ad98020bf163fd42229c237b92be5decb9892e0ccbdfad",
+      "producer": "06",
+      "reviewer": "02",
+      "reviewSource": "docs/preproduction/catalog-sprint/reviews/02.json",
+      "reviewSchema": 9,
+      "workflowRunId": 35687207417,
+      "artifactId": 10676873799
+    },
+    {
+      "itemId": "auras-11",
+      "name": "Dream Aurora",
+      "collectionId": "auras",
+      "type": "avatar",
+      "tier": 4,
+      "theme": "Art Attack",
+      "assetPath": "/assets/catalog/auras-11-w11-v3.jpg",
+      "assetBlobSha": "7f3372c1584e07f18a3abfc7818013190fff1560",
+      "sha256": "0a06996522c9cb999e82b8ba028e94bfe2cb8d16e043c94999065e0ae8ce1dc2",
+      "bytes": 18443,
+      "width": 600,
+      "height": 600,
+      "format": "JPEG",
+      "producer": "11",
+      "reviewer": "05",
+      "reviewSource": "docs/preproduction/catalog-sprint/reviews/05.json",
+      "reviewSchema": 9,
+      "renderEvidence": "docs/preproduction/catalog-sprint/chat-aura-11-render-evidence-14-to-05.json"
+    }
+  ],
+  "validation": {
+    "storedPathBlobReadback": "PASS_5_OF_5",
+    "exactStoreMetadata": "PASS_5_OF_5",
+    "safeDecodeRenderEvidence": "PASS_5_OF_5",
+    "reviewerIndependence": "PASS_REVIEWERS_02_AND_05_INDEPENDENT_OF_PRODUCERS_06_AND_11",
+    "reviewerDisagreement": "PASS_NONE_ON_THE_FIVE_INTEGRATED_EXACT_HASHES",
+    "newHashUniqueness": "PASS_5_DISTINCT_CONTENT_HASHES_NO_CANONICAL_PATH_OR_CONTENT_COLLISION",
     "runtimeManifestAgreement": "PASS_163_OF_163",
-    "stablePricesUnlocksOwnership": "UNCHANGED_BY_SCOPE"
-  },
-  "postCommitValidation": {
-    "catalogTests": "PASS_AFFECTED_CATALOG_MAPPING_CONTENT_TESTS",
-    "productionBuild": "PASS_VITE_PRODUCTION_BUILD",
-    "storeSmoke": "BLOCKED_SHARED_NAV_POINTER_CLICK_TIMEOUT_BEFORE_STORE_CONTENT_VALIDATION",
-    "referenceComparison": "HANDOFF_14_FRESH_REFERENCE_CAPTURE_AFTER_CANONICAL_PUSH",
-    "storeSmokeRun": "Prior reproduction: workflow 35677596792 failed across all six viewports/controls while Playwright was performing the Store sidebar pointer click, before changed Store content was reached.",
-    "fullSuiteCurrentHead": "BLOCKED_UNRELATED_ART_PROMPT_OPTIMIZER_TEST_HARNESS_RUN_35677462826_NO_TEST_SUITE"
+    "stableIdsPricesUnlocksOwnership": "UNCHANGED_BY_SCOPE",
+    "shoesCommitCatalogTests": "PASS_4_CATALOG_MANIFEST_INVARIANTS_PLUS_ASSET_SAFETY_AND_STORE_RUNTIME_3_OF_3; 99_ASSERTIONS_PASS",
+    "auraCommitCatalogTests": "PASS_4_CATALOG_MANIFEST_INVARIANTS_PLUS_ASSET_SAFETY_AND_STORE_RUNTIME_3_OF_3; 99_ASSERTIONS_PASS",
+    "generalCiWrapper": "FAIL_UNRELATED_scripts_artPromptOptimizer_test_mjs_NO_TEST_SUITE; ASSERTIONS_NOT_WEAKENED",
+    "shoesProductionBuild": "PASS_VITE_BUILD_IN_CATALOG_MOBILE_QA_RUN_35689825441",
+    "auraProductionBuild": "PASS_VITE_BUILD_IN_CATALOG_MOBILE_QA_RUN_35690236073",
+    "shoesStoreMobileSafeguard": "BLOCKED_6_OF_6_BY_SHARED_STORE_NAV_CLICK_TIMEOUT_BEFORE_STORE_CONTENT; RUN_35689825441_ARTIFACT_10677978587",
+    "auraStoreMobileSafeguard": "BLOCKED_6_OF_6_BY_SAME_SHARED_STORE_NAV_CLICK_TIMEOUT_BEFORE_STORE_CONTENT; RUN_35690236073_ARTIFACT_10678253907",
+    "referenceCapture": "TRIGGERED_FOR_AURA_CANONICAL_COMMIT_35690236105; NO_STORE_PARITY_CLAIM"
   },
   "counts": {
-    "generatedLocalKnown": 0,
-    "generatedRemoteNotStagedKnown": 0,
-    "preservedBlobOnlyKnown": 0,
-    "branchStagedRepairIdsKnown": 0,
-    "independentlyReviewedUniqueCatalogIds": 0,
-    "acceptedCurrentReplacementHashes": 85,
-    "canonicalWiredAcceptedHashesAfterCommit": 85,
+    "generatedLocalThisRun": 0,
+    "preservedBlobOnlyThisRun": 0,
+    "newlyBranchStagedThisRun": 0,
+    "qualifiedAcceptedConsumedThisRun": 5,
+    "acceptedCurrentReplacementHashes": 90,
+    "canonicalWiredAcceptedHashesAfterRun": 90,
     "catalogReleaseClearedIds": 0,
-    "newlyAcceptedAndWiredThisRun": 1,
-    "strictAcceptedRemaining": 107
+    "strictAcceptedRemaining": 102
   },
-  "nextAcceptedQueues": [
-    "02: Shoes 7-10 current exact hashes are qualified ACCEPTs and should be consumed in the next bounded batch if still pending after this Rug 11 integration.",
-    "05: Aura 11 exact render evidence is available; consume only if reviewer 05's current exact-hash ACCEPT remains qualified and pending.",
-    "14: Rugs 12 remains BLOCKED because the declared accepted-candidate hash does not match the current tree hash; never wire it without fresh exact-current review.",
-    "01: Tops 11-12 v6 are BLOCKED on qualified pixel evidence and are not eligible."
-  ],
+  "liveReviewRecheck": {
+    "reviewer01": "NO_NEW_ACCEPT; Tops 11-12 current v6 candidates BLOCKED on qualified pixel/signature evidence; Headwear 5-8 not repository-qualified",
+    "reviewer02": "NO_NEW_ACCEPT_BEYOND_SHOES_7_TO_10_NOW_CANONICAL",
+    "reviewer05": "NO_NEW_ACCEPT_BEYOND_AURA_11_NOW_CANONICAL",
+    "reviewer14": "NO_NEW_CURRENT_QUALIFIED_ACCEPT; shard still carries prior Rugs 12 REWORK hash and does not qualify current Rugs 12 for wiring"
+  },
   "blockers": [
-    "Changed-art Store/mobile safeguard is blocked in the shared navigation fixture before Store content is reached; canonical V2 exact-hash integration is retained but catalog release clearance stays 0.",
-    "107 catalog IDs remain outside the strict accepted-and-canonical set after this batch.",
-    "Catalog release still requires all 192 current hashes accepted/canonical plus final duplicate/near-duplicate and Store/mobile/release verification.",
-    "Nonvisual release gates remain open/deferred, not waived."
+    "Changed-art Store/mobile release proof is blocked before Store content by the shared Store sidebar pointer-click timeout on both current integration commits; accepted mappings remain canonical and release-cleared stays 0.",
+    "102 catalog IDs remain outside the strict independently accepted-and-canonical current-hash set.",
+    "Rugs 12 remains unwired until exact-current provenance/reviewer evidence resolves; Tops 11-12 and Headwear 5-8 remain unqualified."
   ],
   "freeze": {
     "replitTouched": false,
     "flootTouched": false,
     "mainMergedOrModified": false,
+    "deploymentPerformed": false,
+    "paidSettingsOrPurchasesTouched": false,
     "playerDataTouched": false,
     "phaseChanged": false
   }
