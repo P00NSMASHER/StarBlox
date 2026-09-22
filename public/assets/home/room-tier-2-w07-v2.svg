@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" role="img" aria-label="Cozy Loft room-tier preview">
+<title>Cozy Loft</title><desc>Warm loft room with raised sleeping nook, ladder, layered textiles, reading chair, plants and amber lighting.</desc>
+<defs>
+ <linearGradient id="wall2" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff0f3"/><stop offset=".54" stop-color="#eadfff"/><stop offset="1" stop-color="#c9d7f1"/></linearGradient>
+ <linearGradient id="floor2" x1="0" y1="0" x2="1" y2=".5"><stop stop-color="#c89471"/><stop offset="1" stop-color="#8c5b47"/></linearGradient>
+ <linearGradient id="loft2" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#e4b178"/><stop offset="1" stop-color="#8d5d3f"/></linearGradient>
+ <linearGradient id="blanket2" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ffb5c8"/><stop offset=".55" stop-color="#e98fd3"/><stop offset="1" stop-color="#a47de1"/></linearGradient>
+ <linearGradient id="window2" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#8bd9ff"/><stop offset="1" stop-color="#f8e4ff"/></linearGradient>
+ <filter id="sh2" x="-30%" y="-30%" width="160%" height="180%"><feDropShadow dx="0" dy="8" stdDeviation="7" flood-color="#3a3158" flood-opacity=".28"/></filter>
+ <pattern id="rug2" width="16" height="16" patternUnits="userSpaceOnUse"><path d="M0 8h16M8 0v16" stroke="#fff" stroke-opacity=".18" stroke-width="2"/></pattern>
+</defs>
+<rect width="640" height="360" rx="26" fill="url(#wall2)"/><path d="M0 235L640 195V360H0Z" fill="url(#floor2)"/>
+<g filter="url(#sh2)"><rect x="450" y="35" width="136" height="126" rx="18" fill="#fff8ff" stroke="#fff" stroke-width="7"/><rect x="459" y="44" width="118" height="108" rx="10" fill="url(#window2)"/><path d="M459 128c35-31 60-22 83-3 15-16 26-15 35-10v37H459z" fill="#88d29a"/><path d="M518 44v108" stroke="#fff" stroke-width="5" opacity=".85"/></g>
+<g><path d="M372 0v61" stroke="#735274" stroke-width="4"/><circle cx="372" cy="71" r="22" fill="#ffd66f" opacity=".24"/><circle cx="372" cy="71" r="11" fill="#ffd66f"/><path d="M420 0v39" stroke="#735274" stroke-width="4"/><circle cx="420" cy="49" r="18" fill="#ffb1ce" opacity=".24"/><circle cx="420" cy="49" r="9" fill="#ffc2d7"/></g>
+<g filter="url(#sh2)"><path d="M51 125l281-18 24 18-288 22z" fill="url(#loft2)"/><path d="M68 147l287-22v18L70 166z" fill="#86533b"/><path d="M85 162h16l-8 132H77zM315 146h16l12 126h-16z" fill="#7a4b36"/>
+<path d="M95 82l194-10 13 48-208 13z" fill="#f7f2ff"/><path d="M102 87l190-9 9 38-197 11z" fill="url(#blanket2)"/><path d="M110 77l63-4 10 34-68 4z" fill="#fff"/><path d="M184 73l61-3 10 34-62 4z" fill="#fff4f7"/>
+<path d="M294 149l44 122M316 147l44 119M308 188l41-4M318 220l43-5M329 252l41-5" fill="none" stroke="#ad7654" stroke-width="9" stroke-linecap="round"/></g>
+<g filter="url(#sh2)"><path d="M405 216c0-41 23-63 61-63 39 0 62 23 62 63v44h-123z" fill="#bd8bd9"/><path d="M418 213c0-27 14-42 48-42 33 0 48 15 48 42v34h-96z" fill="#d8b2e9"/><path d="M414 254h113l11 36H403z" fill="#9765b9"/><path d="M428 289l-7 35M515 289l8 35" stroke="#78505e" stroke-width="9" stroke-linecap="round"/><path d="M556 166v111" stroke="#815c46" stroke-width="7"/><path d="M531 164h51l-11-35h-28z" fill="#ffe2a6"/><ellipse cx="556" cy="278" rx="31" ry="8" fill="#815c46"/></g>
+<g filter="url(#sh2)"><ellipse cx="300" cy="300" rx="151" ry="42" fill="#f7d2df"/><ellipse cx="300" cy="300" rx="132" ry="34" fill="#b899e4"/><ellipse cx="300" cy="300" rx="132" ry="34" fill="url(#rug2)"/><path d="M186 300h229" stroke="#eddcff" stroke-width="4" stroke-dasharray="8 7"/></g>
+<g filter="url(#sh2)"><path d="M565 253c-20-36-10-69 14-66 18 3 18 28 10 45 18-31 42-28 39-7-3 23-24 34-43 36" fill="#6ec47d"/><path d="M557 252h49l-7 51h-35z" fill="#d89867"/><circle cx="381" cy="287" r="18" fill="#ffd0df"/><path d="M373 278l8-14 8 14 15 2-11 11 3 15-15-8-14 8 3-15-11-11z" fill="#fff1a1"/></g>
+<path d="M41 39c79 25 168 1 258 24 52 13 91 15 126 3" fill="none" stroke="#fff4b2" stroke-width="3"/><g fill="#ffd765"><circle cx="68" cy="45" r="5"/><circle cx="135" cy="54" r="5"/><circle cx="204" cy="50" r="5"/><circle cx="273" cy="60" r="5"/><circle cx="342" cy="67" r="5"/><circle cx="407" cy="67" r="5"/></g>
+</svg>
