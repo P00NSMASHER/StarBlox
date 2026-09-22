@@ -1,6 +1,6 @@
 # Catalog Sprint — Lane 11 Auras
 
-STATUS: **AURAS 1–12 EXACT-HASH ACCEPTED + CANONICAL / AURA PRODUCTION CLOSED / WAITING ON WORKSTREAM-15 REASSIGNMENT**
+STATUS: **AURAS 1–12 EXACT-HASH ACCEPTED + CANONICAL / AURA PRODUCTION CLOSED / ART-ONLY VISUAL SPECS READY**
 
 Branch: `screenshot-match-preproduction`  
 Workstream: 11  
@@ -15,15 +15,15 @@ Player state / learning / persistence / economy / live Aura logic: **unchanged**
 
 Aura production is closed. Reviewer 05's schema-9 shard independently ACCEPTS **Dream Aurora v3** at exact Git blob `7f3372c1584e07f18a3abfc7818013190fff1560` after actual card/detail pixel review. The same reviewer evidence preserves current exact-hash ACCEPT decisions for **Auras 1–12**, with no pending Aura hashes.
 
-Workstream 08 then canonically wired Aura 11. Current branch evidence shows:
+Workstream 08 then canonically wired Aura 11. Preserved integration evidence shows:
 
 - canonical integration commit: `ad8867efc70d1b123cbc5e2f157766bec58e510d` — `catalog: integrate reviewed Aura 11`
-- manifest: version **27**, blob `27c77919cfbc5cf52570bf91871338b59cded055`
-- runtime mapping blob: `a3b5b2b98a8507f5226191959a3cd91ef6729bdb`
-- both canonical mapping surfaces point `auras-11` to `/assets/catalog/auras-11-w11-v3.jpg`
+- manifest evidence: version **27**, blob `27c77919cfbc5cf52570bf91871338b59cded055`
+- runtime mapping evidence blob: `a3b5b2b98a8507f5226191959a3cd91ef6729bdb`
+- both mapping surfaces point `auras-11` to `/assets/catalog/auras-11-w11-v3.jpg`
 - manifest status for Aura 11: `final-portable`
 
-The older `integration.json` snapshot predates this later canonical commit and is not used to roll back the current manifest/runtime state.
+No accepted Aura bytes were regenerated, rewritten, re-reviewed, or remapped by Workstream 11.
 
 ## Preserved current accepted hashes
 
@@ -41,8 +41,6 @@ The older `integration.json` snapshot predates this later canonical commit and i
 | auras-10 | Neon Trail | `6f07fe7f5c8be236f3c17df5f55afc550888f52e` | `/assets/catalog/auras-10-w11-v3.jpg` |
 | auras-11 | Dream Aurora | `7f3372c1584e07f18a3abfc7818013190fff1560` | `/assets/catalog/auras-11-w11-v3.jpg` |
 | auras-12 | Luxe Starstorm | `d0fcf528ff4ee91e56760932fdcf357ab264dd3d` | `/assets/catalog/auras-12-w11-v3.jpg` |
-
-No accepted Aura bytes were regenerated, rewritten, or re-reviewed in this pass.
 
 ## Dream Aurora closure evidence
 
@@ -70,23 +68,26 @@ Reviewer 05 current evidence:
 
 The legacy Aura-11 hash `ddb2c81b49db8e6ea6369c8f70cb720228feb73c` remains historical REWORK evidence only. Its verdict did not transfer to v3.
 
-## Spare-capacity visual deliverable
+## Spare-capacity visual deliverables
 
-Per the latest Workstream-15 direction, Lane 11 did **not** claim another catalog family or edit shared runtime/state. Instead, Workstream 11 prepared a bounded reference-grounded motion/lighting/effect-material specification at:
+Per Workstream-15 direction, Lane 11 did **not** claim another catalog family or edit shared runtime/state. The current bounded visual-finishing handoff now consists of three mutually consistent artifacts:
 
-`docs/preproduction/workstreams/11-motion-game-feel.md`
+1. `docs/preproduction/workstreams/11-motion-game-feel.md` — narrative motion/game-feel recipes, event semantics, cleanup and later evidence plan.
+2. `docs/preproduction/workstreams/11-reference-effect-zones.md` — reference-coordinate effect masks, protection zones, compositing rules and static reduced-motion frames.
+3. `docs/preproduction/workstreams/11-effect-material-recipes-v1.json` — machine-readable visual contract, Git blob `2bdeb9eb873f87922b65392070bb5b386ef23073`, committed at `70ddefa85504c6fe54ae640eb5aa810f28c45a51`.
 
-That specification is anchored to the verified original Home/Store/Quest screenshots and the measured design-system contract. It covers panel energy, bounded Star Sparks, selection/equip materials, correct-answer visuals, room reveal, avatar/Buddy visual life, gentle transitions, static reduced-motion equivalents, and later paint/composite/scroll measurement constraints.
+The new machine-readable contract pins the verified Home/Store/Quest reference hashes and design-contract blob, defines the shared material palette and visual layer stack, gives bounded timing/particle/halo budgets, specifies Home room/avatar behavior, Store selection/equip/scroll behavior, Quest correct-vs-wrong/clue/retry behavior, and supplies explicit static reduced-motion equivalents. It also records the later Workstream-14 capture/profile packet without claiming any render or performance PASS.
 
-This is **SPEC ONLY** in this pass. No new motion runtime implementation, rendered-motion proof, paint/composite profiling, or reduced-motion browser proof is claimed.
+This remains **SPEC ONLY**. No motion runtime implementation, rendered-motion proof, paint/composite profiling, reduced-motion browser proof, catalog asset change, canonical mapping change, or new release clearance is claimed.
 
 ## Handoff
 
 **05:** Aura family review is closed at the current hashes. Preserve all 12 ACCEPT decisions; re-review only if a later exact-hash defect or new asset hash is presented.  
 **08:** Aura 11 is already canonical. Preserve current Aura mappings unless a later exact-hash defect is recorded.  
-**15:** Aura production is complete and Lane 11 claims no other catalog family. The visual-finishing spec is ready; explicitly coordinate/reassign Workstream 11 before any new catalog family or shared runtime-entrypoint implementation.  
+**14:** After 15 coordinates shared implementation, use the machine-readable recipe and reference-zone spec to capture actual normal/reduced states and paint/composite/scroll evidence. Open gates remain open until that execution exists.  
+**15:** Aura production is complete and Lane 11 claims no other catalog family. The narrative, coordinate-zoning and machine-readable visual-finishing specs are ready; explicitly coordinate/reassign Workstream 11 before any new catalog family or shared runtime-entrypoint implementation.  
 **11:** Preserve accepted Aura bytes. Stay `ART_AND_VISUALS_ONLY`; no catalog-family expansion or shared runtime/state changes without Workstream-15 ownership coordination.
 
 Current counts: **12/12 exact-hash ACCEPT; 12/12 canonical; 0 pending reviewer-05 Aura hashes; 0 Aura regeneration IDs; 0 new catalog-family claims.**
 
-Global catalog/release gates remain open where not executed. No deployment action was taken.
+Global catalog/release gates remain open where not executed. Normal/reduced motion render QA and paint/composite/scroll profiling remain **OPEN / NOT EXECUTED**. No deployment action was taken.
