@@ -1,0 +1,37 @@
+name: Art Prompt Optimizer
+on:
+  push:
+    branches: [screenshot-match-preproduction]
+    paths:
+      - 'scripts/artPromptOptimizer*.mjs'
+      - 'docs/preproduction/art-prompt-optimizer/**'
+      - 'docs/preproduction/catalog-sprint/reviews/*.json'
+      - 'src/gameModel.js'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  optimizer:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Test optimizer core
+        run: node --test scripts/artPromptOptimizer.test.mjs
+      - name: Validate exact-hash learning corpus
+        run: node scripts/artPromptOptimizer.mjs validate --repo-root .
+      - name: Build prompt model and current repair queue
+        run: |
+          mkdir -p artifacts/art-prompt-optimizer
+          node scripts/artPromptOptimizer.mjs train --repo-root . --output artifacts/art-prompt-optimizer/model.json
+          node scripts/artPromptOptimizer.mjs recommend --repo-root . --all-rework --variants 4 --output artifacts/art-prompt-optimizer/recommendations.json
+      - name: Preserve optimizer evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: art-prompt-optimizer-${{ github.sha }}
+          path: artifacts/art-prompt-optimizer/
+          retention-days: 7
+          if-no-files-found: error
