@@ -6,8 +6,33 @@
   "branch": "screenshot-match-preproduction",
   "policyObserved": "docs/preproduction/DELIVERY_PROTOCOL_V2.md",
   "artSprintState": "docs/preproduction/ART_VISUALS_SPRINT.json",
-  "status": "COMPANION_SECOND_BATCH_PENDING_05_SEATING_7_10_ACCEPTED_SEATING_11_12_READY_02",
-  "productionAssignment": ["companions-1","companions-2","companions-3","companions-4","companions-5","companions-6","companions-7","companions-8","companions-9","companions-10","companions-11","companions-12","seating-7","seating-8","seating-9","seating-10","seating-11","seating-12","shoes-7","shoes-8","shoes-9","shoes-10","shoes-11","shoes-12"],
+  "status": "COMPANION_SECOND_BATCH_PENDING_05__SEATING_7_10_ACCEPTED__SEATING_11_12_HASH_RECONCILED_READY_02",
+  "productionAssignment": [
+    "companions-1",
+    "companions-2",
+    "companions-3",
+    "companions-4",
+    "companions-5",
+    "companions-6",
+    "companions-7",
+    "companions-8",
+    "companions-9",
+    "companions-10",
+    "companions-11",
+    "companions-12",
+    "seating-7",
+    "seating-8",
+    "seating-9",
+    "seating-10",
+    "seating-11",
+    "seating-12",
+    "shoes-7",
+    "shoes-8",
+    "shoes-9",
+    "shoes-10",
+    "shoes-11",
+    "shoes-12"
+  ],
   "companionIndependentReviewer": "05",
   "secondaryIndependentReviewer": "02",
   "integrationOwner": "08",
@@ -27,10 +52,66 @@
   "acceptedReplacementBatch": {
     "reviewResult": "ACCEPT_4_OF_4_AND_OBSERVED_INTEGRATED",
     "items": [
-      {"id":"companions-3","name":"Berry Bunny","tier":1,"theme":"Berry Blast","candidateRepositoryPath":"public/assets/catalog-candidates/chat-20260921-intake01/companions-3-detail.webp","candidateGitBlobSha":"adba95dc769e603337dc4ac38b9a513ce9914b10","bytes":58902,"dimensions":[768,768],"independentDecision":"ACCEPT_05","status":"PRESERVE_ACCEPTED_BYTES"},
-      {"id":"companions-4","name":"Sunny Bird","tier":2,"theme":"Garden Glow","candidateRepositoryPath":"public/assets/catalog-candidates/chat-20260921-intake01/companions-4-detail.webp","candidateGitBlobSha":"b382339e76ed9d4aeae72b1c8cccc904abf85b57","bytes":53770,"dimensions":[768,768],"independentDecision":"ACCEPT_05","status":"PRESERVE_ACCEPTED_BYTES"},
-      {"id":"companions-10","name":"Pixel Bot","tier":4,"theme":"Midnight Neon","candidateRepositoryPath":"public/assets/catalog-candidates/chat-20260921-intake01/companions-10-detail.webp","candidateGitBlobSha":"2b09d950b08083bb3a9ec5e2073ae23d88411cf4","bytes":63032,"dimensions":[768,768],"independentDecision":"ACCEPT_05","status":"PRESERVE_ACCEPTED_BYTES"},
-      {"id":"companions-11","name":"Dream Dragon","tier":4,"theme":"Candy Core","candidateRepositoryPath":"public/assets/catalog-candidates/chat-20260921-intake01/companions-11-detail.webp","candidateGitBlobSha":"465fe45abbe4d9b4355444cb3f75a49927b604e9","bytes":63886,"dimensions":[768,768],"independentDecision":"ACCEPT_05","status":"PRESERVE_ACCEPTED_BYTES"}
+      {
+        "id": "companions-3",
+        "name": "Berry Bunny",
+        "tier": 1,
+        "theme": "Berry Blast",
+        "candidateRepositoryPath": "public/assets/catalog-candidates/chat-20260921-intake01/companions-3-detail.webp",
+        "candidateGitBlobSha": "adba95dc769e603337dc4ac38b9a513ce9914b10",
+        "bytes": 58902,
+        "dimensions": [
+          768,
+          768
+        ],
+        "independentDecision": "ACCEPT_05",
+        "status": "PRESERVE_ACCEPTED_BYTES"
+      },
+      {
+        "id": "companions-4",
+        "name": "Sunny Bird",
+        "tier": 2,
+        "theme": "Garden Glow",
+        "candidateRepositoryPath": "public/assets/catalog-candidates/chat-20260921-intake01/companions-4-detail.webp",
+        "candidateGitBlobSha": "b382339e76ed9d4aeae72b1c8cccc904abf85b57",
+        "bytes": 53770,
+        "dimensions": [
+          768,
+          768
+        ],
+        "independentDecision": "ACCEPT_05",
+        "status": "PRESERVE_ACCEPTED_BYTES"
+      },
+      {
+        "id": "companions-10",
+        "name": "Pixel Bot",
+        "tier": 4,
+        "theme": "Midnight Neon",
+        "candidateRepositoryPath": "public/assets/catalog-candidates/chat-20260921-intake01/companions-10-detail.webp",
+        "candidateGitBlobSha": "2b09d950b08083bb3a9ec5e2073ae23d88411cf4",
+        "bytes": 63032,
+        "dimensions": [
+          768,
+          768
+        ],
+        "independentDecision": "ACCEPT_05",
+        "status": "PRESERVE_ACCEPTED_BYTES"
+      },
+      {
+        "id": "companions-11",
+        "name": "Dream Dragon",
+        "tier": 4,
+        "theme": "Candy Core",
+        "candidateRepositoryPath": "public/assets/catalog-candidates/chat-20260921-intake01/companions-11-detail.webp",
+        "candidateGitBlobSha": "465fe45abbe4d9b4355444cb3f75a49927b604e9",
+        "bytes": 63886,
+        "dimensions": [
+          768,
+          768
+        ],
+        "independentDecision": "ACCEPT_05",
+        "status": "PRESERVE_ACCEPTED_BYTES"
+      }
     ],
     "producerAction": "Do not regenerate, overwrite, or downgrade these accepted exact hashes. Canonical wiring remains Workstream 08 only."
   },
@@ -39,16 +120,95 @@
     "method": "Reuse repository-stored rich candidates only for exact legacy-REWORK IDs and require fresh independent actual-pixel review before any canonical use.",
     "status": "READY_FOR_REVIEW_PENDING_05",
     "items": [
-      {"id":"companions-2","name":"Moon Cat","tier":1,"theme":"Pixel Party","candidateRepositoryPath":"public/assets/catalog-candidates/chat-20260921-intake01/companions-2-detail.webp","candidateGitBlobSha":"88d10d6f8c412d0ab7fde6ac7a7ff202858077db","bytes":55566,"dimensions":[768,768],"sourcePath":"public/assets/catalog-candidates/chat-20260921-intake01/companions-2-source.png","sourceGitBlobSha":"bfbc3eb92064335185a8a21c0a7cabfca0b2fa26","cardPath":"public/assets/catalog-candidates/chat-20260921-intake01/companions-2-card.webp","cardGitBlobSha":"5bcdffbdb2e71d217abf9ae3c5ae1e3c53b90136","independentDecision":"PENDING_05"},
-      {"id":"companions-5","name":"Pebble Turtle","tier":2,"theme":"Galaxy Glow","candidateRepositoryPath":"public/assets/catalog-candidates/chat-20260921-intake01/companions-5-detail.webp","candidateGitBlobSha":"1ae7b431e519563ee1dbbdb0ae762bfee6f95ac0","bytes":61302,"dimensions":[768,768],"sourcePath":"public/assets/catalog-candidates/chat-20260921-intake01/companions-5-source.png","sourceGitBlobSha":"c0e158e8035d9d8a6d8db207cfa38829d1a194f2","cardPath":"public/assets/catalog-candidates/chat-20260921-intake01/companions-5-card.webp","cardGitBlobSha":"fc6026d0d16a09315e8e98e978be36f47a1aec8b","independentDecision":"PENDING_05"},
-      {"id":"companions-6","name":"Comet Fox","tier":2,"theme":"Sunny Pop","candidateRepositoryPath":"public/assets/catalog-candidates/chat-20260921-intake01/companions-6-detail.webp","candidateGitBlobSha":"28cb411201d8ec30dae2f70b740efe1e86985386","bytes":69582,"dimensions":[768,768],"sourcePath":"public/assets/catalog-candidates/chat-20260921-intake01/companions-6-source.png","sourceGitBlobSha":"ca9f39e3ae3d9b15f3b1e2db5091e4b990b72b1f","cardPath":"public/assets/catalog-candidates/chat-20260921-intake01/companions-6-card.webp","cardGitBlobSha":"c8d5c071e0d9434be59a3e2ca1b28ea261229a86","independentDecision":"PENDING_05"},
-      {"id":"companions-7","name":"Story Owl","tier":3,"theme":"Aqua Wave","candidateRepositoryPath":"public/assets/catalog-candidates/chat-20260921-intake01/companions-7-detail.webp","candidateGitBlobSha":"39d35ea40a0a138ae99ddcdc09f8f2a3683fa49d","bytes":69614,"dimensions":[768,768],"sourcePath":"public/assets/catalog-candidates/chat-20260921-intake01/companions-7-source.png","sourceGitBlobSha":"0d370a965ef527f502b13dc8256cbcaaf148ca0f","cardPath":"public/assets/catalog-candidates/chat-20260921-intake01/companions-7-card.webp","cardGitBlobSha":"34603f5288726378309407227a000dca18743c61","independentDecision":"PENDING_05"}
+      {
+        "id": "companions-2",
+        "name": "Moon Cat",
+        "tier": 1,
+        "theme": "Pixel Party",
+        "candidateRepositoryPath": "public/assets/catalog-candidates/chat-20260921-intake01/companions-2-detail.webp",
+        "candidateGitBlobSha": "88d10d6f8c412d0ab7fde6ac7a7ff202858077db",
+        "bytes": 55566,
+        "dimensions": [
+          768,
+          768
+        ],
+        "sourcePath": "public/assets/catalog-candidates/chat-20260921-intake01/companions-2-source.png",
+        "sourceGitBlobSha": "bfbc3eb92064335185a8a21c0a7cabfca0b2fa26",
+        "cardPath": "public/assets/catalog-candidates/chat-20260921-intake01/companions-2-card.webp",
+        "cardGitBlobSha": "5bcdffbdb2e71d217abf9ae3c5ae1e3c53b90136",
+        "independentDecision": "PENDING_05"
+      },
+      {
+        "id": "companions-5",
+        "name": "Pebble Turtle",
+        "tier": 2,
+        "theme": "Galaxy Glow",
+        "candidateRepositoryPath": "public/assets/catalog-candidates/chat-20260921-intake01/companions-5-detail.webp",
+        "candidateGitBlobSha": "1ae7b431e519563ee1dbbdb0ae762bfee6f95ac0",
+        "bytes": 61302,
+        "dimensions": [
+          768,
+          768
+        ],
+        "sourcePath": "public/assets/catalog-candidates/chat-20260921-intake01/companions-5-source.png",
+        "sourceGitBlobSha": "c0e158e8035d9d8a6d8db207cfa38829d1a194f2",
+        "cardPath": "public/assets/catalog-candidates/chat-20260921-intake01/companions-5-card.webp",
+        "cardGitBlobSha": "fc6026d0d16a09315e8e98e978be36f47a1aec8b",
+        "independentDecision": "PENDING_05"
+      },
+      {
+        "id": "companions-6",
+        "name": "Comet Fox",
+        "tier": 2,
+        "theme": "Sunny Pop",
+        "candidateRepositoryPath": "public/assets/catalog-candidates/chat-20260921-intake01/companions-6-detail.webp",
+        "candidateGitBlobSha": "28cb411201d8ec30dae2f70b740efe1e86985386",
+        "bytes": 69582,
+        "dimensions": [
+          768,
+          768
+        ],
+        "sourcePath": "public/assets/catalog-candidates/chat-20260921-intake01/companions-6-source.png",
+        "sourceGitBlobSha": "ca9f39e3ae3d9b15f3b1e2db5091e4b990b72b1f",
+        "cardPath": "public/assets/catalog-candidates/chat-20260921-intake01/companions-6-card.webp",
+        "cardGitBlobSha": "c8d5c071e0d9434be59a3e2ca1b28ea261229a86",
+        "independentDecision": "PENDING_05"
+      },
+      {
+        "id": "companions-7",
+        "name": "Story Owl",
+        "tier": 3,
+        "theme": "Aqua Wave",
+        "candidateRepositoryPath": "public/assets/catalog-candidates/chat-20260921-intake01/companions-7-detail.webp",
+        "candidateGitBlobSha": "39d35ea40a0a138ae99ddcdc09f8f2a3683fa49d",
+        "bytes": 69614,
+        "dimensions": [
+          768,
+          768
+        ],
+        "sourcePath": "public/assets/catalog-candidates/chat-20260921-intake01/companions-7-source.png",
+        "sourceGitBlobSha": "0d370a965ef527f502b13dc8256cbcaaf148ca0f",
+        "cardPath": "public/assets/catalog-candidates/chat-20260921-intake01/companions-7-card.webp",
+        "cardGitBlobSha": "34603f5288726378309407227a000dca18743c61",
+        "independentDecision": "PENDING_05"
+      }
     ]
   },
   "remainingCompanionRepairQueue": {
-    "richCandidateThemeHold": ["companions-8","companions-12"],
-    "noRichImportedCandidate": ["companions-1","companions-9"],
-    "acceptedPreserve": ["companions-3","companions-4","companions-10","companions-11"],
+    "richCandidateThemeHold": [
+      "companions-8",
+      "companions-12"
+    ],
+    "noRichImportedCandidate": [
+      "companions-1",
+      "companions-9"
+    ],
+    "acceptedPreserve": [
+      "companions-3",
+      "companions-4",
+      "companions-10",
+      "companions-11"
+    ],
     "rule": "Wait for reviewer-05 decision on companions-2/5/6/7. Preserve every reviewed hash and repair only exact REWORK IDs."
   },
   "seatingAcceptedBatch": {
@@ -56,10 +216,94 @@
     "reviewer": "02",
     "reviewResult": "ACCEPT_4_OF_4",
     "items": [
-      {"id":"seating-7","name":"Lounge Chair","tier":3,"theme":"Cloud Pop","candidateRepositoryPath":"public/assets/catalog/seating-7-w06-v2.png","candidateGitBlobSha":"91457eddbb3ae915867d717eec72632ea6a183be","bytes":547583,"dimensions":[768,768],"sourcePath":"docs/preproduction/catalog-sprint/recovered-originals/seating-7-10-20260921/seating-7-source.png","sourceGitBlobSha":"17dc2de515dcdceca4e55aeff420dfdaae5c05ef","sourceBytes":903382,"sourceDimensions":[1024,1024],"independentDecision":"ACCEPT_02","status":"PRESERVE_ACCEPTED_BYTES"},
-      {"id":"seating-8","name":"Bubble Seat","tier":3,"theme":"Pixel Party","candidateRepositoryPath":"public/assets/catalog/seating-8-w06-v2.png","candidateGitBlobSha":"23c02ab51249ab373aab264a17778a090d023eb4","bytes":566882,"dimensions":[768,768],"sourcePath":"docs/preproduction/catalog-sprint/recovered-originals/seating-7-10-20260921/seating-8-source.png","sourceGitBlobSha":"b01a8d8167ed1ac2c2e89062ef1549cd973fa01f","sourceBytes":997229,"sourceDimensions":[1024,1024],"independentDecision":"ACCEPT_02","status":"PRESERVE_ACCEPTED_BYTES"},
-      {"id":"seating-9","name":"Art Stool","tier":3,"theme":"Berry Blast","candidateRepositoryPath":"public/assets/catalog/seating-9-w06-v2.png","candidateGitBlobSha":"7fcdea13121a8820dd8dc64e8982637acb2c5819","bytes":527794,"dimensions":[768,768],"sourcePath":"docs/preproduction/catalog-sprint/recovered-originals/seating-7-10-20260921/seating-9-source.png","sourceGitBlobSha":"e0fbc363c52919ad0415e21e88bb69fd72b4f2a2","sourceBytes":883748,"sourceDimensions":[1024,1024],"independentDecision":"ACCEPT_02","status":"PRESERVE_ACCEPTED_BYTES"},
-      {"id":"seating-10","name":"Pod Chair","tier":4,"theme":"Garden Glow","candidateRepositoryPath":"public/assets/catalog/seating-10-w06-v2.png","candidateGitBlobSha":"9aa53664cbc8ee24283ea44830f1f3037c576340","bytes":591815,"dimensions":[768,768],"sourcePath":"docs/preproduction/catalog-sprint/recovered-originals/seating-7-10-20260921/seating-10-source.png","sourceGitBlobSha":"4da4339ee3b1fa16bef7cf8e779701c5a1a8c01d","sourceBytes":1003354,"sourceDimensions":[1024,1024],"independentDecision":"ACCEPT_02","status":"PRESERVE_ACCEPTED_BYTES"}
+      {
+        "id": "seating-7",
+        "name": "Lounge Chair",
+        "tier": 3,
+        "theme": "Cloud Pop",
+        "candidateRepositoryPath": "public/assets/catalog/seating-7-w06-v2.png",
+        "candidateGitBlobSha": "91457eddbb3ae915867d717eec72632ea6a183be",
+        "bytes": 547583,
+        "dimensions": [
+          768,
+          768
+        ],
+        "sourcePath": "docs/preproduction/catalog-sprint/recovered-originals/seating-7-10-20260921/seating-7-source.png",
+        "sourceGitBlobSha": "17dc2de515dcdceca4e55aeff420dfdaae5c05ef",
+        "sourceBytes": 903382,
+        "sourceDimensions": [
+          1024,
+          1024
+        ],
+        "independentDecision": "ACCEPT_02",
+        "status": "PRESERVE_ACCEPTED_BYTES"
+      },
+      {
+        "id": "seating-8",
+        "name": "Bubble Seat",
+        "tier": 3,
+        "theme": "Pixel Party",
+        "candidateRepositoryPath": "public/assets/catalog/seating-8-w06-v2.png",
+        "candidateGitBlobSha": "23c02ab51249ab373aab264a17778a090d023eb4",
+        "bytes": 566882,
+        "dimensions": [
+          768,
+          768
+        ],
+        "sourcePath": "docs/preproduction/catalog-sprint/recovered-originals/seating-7-10-20260921/seating-8-source.png",
+        "sourceGitBlobSha": "b01a8d8167ed1ac2c2e89062ef1549cd973fa01f",
+        "sourceBytes": 997229,
+        "sourceDimensions": [
+          1024,
+          1024
+        ],
+        "independentDecision": "ACCEPT_02",
+        "status": "PRESERVE_ACCEPTED_BYTES"
+      },
+      {
+        "id": "seating-9",
+        "name": "Art Stool",
+        "tier": 3,
+        "theme": "Berry Blast",
+        "candidateRepositoryPath": "public/assets/catalog/seating-9-w06-v2.png",
+        "candidateGitBlobSha": "7fcdea13121a8820dd8dc64e8982637acb2c5819",
+        "bytes": 527794,
+        "dimensions": [
+          768,
+          768
+        ],
+        "sourcePath": "docs/preproduction/catalog-sprint/recovered-originals/seating-7-10-20260921/seating-9-source.png",
+        "sourceGitBlobSha": "e0fbc363c52919ad0415e21e88bb69fd72b4f2a2",
+        "sourceBytes": 883748,
+        "sourceDimensions": [
+          1024,
+          1024
+        ],
+        "independentDecision": "ACCEPT_02",
+        "status": "PRESERVE_ACCEPTED_BYTES"
+      },
+      {
+        "id": "seating-10",
+        "name": "Pod Chair",
+        "tier": 4,
+        "theme": "Garden Glow",
+        "candidateRepositoryPath": "public/assets/catalog/seating-10-w06-v2.png",
+        "candidateGitBlobSha": "9aa53664cbc8ee24283ea44830f1f3037c576340",
+        "bytes": 591815,
+        "dimensions": [
+          768,
+          768
+        ],
+        "sourcePath": "docs/preproduction/catalog-sprint/recovered-originals/seating-7-10-20260921/seating-10-source.png",
+        "sourceGitBlobSha": "4da4339ee3b1fa16bef7cf8e779701c5a1a8c01d",
+        "sourceBytes": 1003354,
+        "sourceDimensions": [
+          1024,
+          1024
+        ],
+        "independentDecision": "ACCEPT_02",
+        "status": "PRESERVE_ACCEPTED_BYTES"
+      }
     ],
     "producerAction": "Freeze exact accepted bytes; only Workstream 08 may integrate canonical paths."
   },
@@ -73,18 +317,68 @@
     "assetCommit": "efe5551ad0f42e23bb4524578f367a42e9a6b4cb",
     "items": [
       {
-        "id":"seating-11","name":"Moon Chair","tier":4,"theme":"Galaxy Glow","type":"room","price":1276,"starReq":5,
-        "sourcePath":"docs/preproduction/catalog-sprint/recovered-originals/seating-11-12-20260921/seating-11-source.png","sourceGitBlobSha":"117f0fd52f9870b90fd27b1f4d084b239674d288","sourceSha256":"db820aef4582442ff30031f9b46e9c5f2dd674c450e54ab9c0f35a4db429e577","sourceBytes":1055128,"sourceDimensions":[1024,1024],
-        "candidateRepositoryPath":"public/assets/catalog/seating-11-w06-v2.png","candidateGitBlobSha":"5126e9db42ed26b15ddf7229218337753b1868a8","candidateSha256":"2bf8cbeac3824cd34c60c98d7c4d56d586ba7039cebe8e9d14122934a7819599","bytes":579001,"dimensions":[768,768],
-        "producerPixelCheck":"PASS: actual generated pixels show a distinct crescent-moon chair with dimensional purple upholstery, galaxy/star shell detailing, luminous trim, readable chair anatomy, rim/cast lighting and no text/UI/third-party IP.",
-        "repositoryReadback":"PASS_EXACT_GIT_BLOB_AND_BYTES_AT_CURRENT_BRANCH_TREE","independentDecision":"PENDING_02","status":"READY_FOR_REVIEW"
+        "id": "seating-11",
+        "name": "Moon Chair",
+        "tier": 4,
+        "theme": "Galaxy Glow",
+        "type": "room",
+        "price": 1276,
+        "starReq": 5,
+        "sourcePath": "docs/preproduction/catalog-sprint/recovered-originals/seating-11-12-20260921/seating-11-source.png",
+        "sourceGitBlobSha": "117f0fd52f9870b90fd27b1f4d084b239674d288",
+        "sourceSha256": "db820aef4582442ff30031f9b46e9c5f2dd674c450e54ab9c0f35a4db429e577",
+        "sourceBytes": 1055128,
+        "sourceDimensions": [
+          1024,
+          1024
+        ],
+        "candidateRepositoryPath": "public/assets/catalog/seating-11-w06-v2.png",
+        "candidateGitBlobSha": "5126e9abcec4a09ef281dccb33aac6ba59b38b94",
+        "candidateSha256": "2bf8b90027f58f24323121305d675edc91ccb996605cd10ca73ccbe077645c47",
+        "bytes": 579001,
+        "dimensions": [
+          768,
+          768
+        ],
+        "producerPixelCheck": "PASS: actual generated pixels show a distinct crescent-moon chair with dimensional purple upholstery, galaxy/star shell detailing, luminous trim, readable chair anatomy, rim/cast lighting and no text/UI/third-party IP.",
+        "repositoryReadback": "PASS_EXACT_GITHUB_BLOB_AND_WORKFLOW_SHA256",
+        "independentDecision": "PENDING_02_EXACT_CURRENT_HASH",
+        "status": "READY_FOR_REVIEW_02",
+        "gitBlobSha": "5126e9abcec4a09ef281dccb33aac6ba59b38b94",
+        "sha256": "2bf8b90027f58f24323121305d675edc91ccb996605cd10ca73ccbe077645c47",
+        "reviewStatus": "READY_FOR_REVIEW_02"
       },
       {
-        "id":"seating-12","name":"Throne Chair","tier":5,"theme":"Sunny Pop","type":"room","price":1740,"starReq":9,
-        "sourcePath":"docs/preproduction/catalog-sprint/recovered-originals/seating-11-12-20260921/seating-12-source.png","sourceGitBlobSha":"eab756b66bbd4c7aa2520379543879d4962033a7","sourceSha256":"2a52fd1ecb3e3ec08f89440041164859b1311ff51ed3ed07b01d63cddab7046e","sourceBytes":1108644,"sourceDimensions":[1024,1024],
-        "candidateRepositoryPath":"public/assets/catalog/seating-12-w06-v2.png","candidateGitBlobSha":"793b32568f2089eaadf33853992864775a7e90d1","candidateSha256":"589181f736b7837d1cfb6e9adf16446f908cb8ff02d62027bc37c826f5b3d83e","bytes":577216,"dimensions":[768,768],
-        "producerPixelCheck":"PASS: actual generated pixels show a distinct high-backed sunburst throne with layered plush upholstery, gold/cream/coral/sky-blue material separation, stronger Tier-5 finish, rim/cast lighting and no text/UI/third-party IP.",
-        "repositoryReadback":"PASS_EXACT_GIT_BLOB_AND_BYTES_AT_CURRENT_BRANCH_TREE","independentDecision":"PENDING_02","status":"READY_FOR_REVIEW"
+        "id": "seating-12",
+        "name": "Throne Chair",
+        "tier": 5,
+        "theme": "Sunny Pop",
+        "type": "room",
+        "price": 1740,
+        "starReq": 9,
+        "sourcePath": "docs/preproduction/catalog-sprint/recovered-originals/seating-11-12-20260921/seating-12-source.png",
+        "sourceGitBlobSha": "eab756b66bbd4c7aa2520379543879d4962033a7",
+        "sourceSha256": "2a52fd1ecb3e3ec08f89440041164859b1311ff51ed3ed07b01d63cddab7046e",
+        "sourceBytes": 1108644,
+        "sourceDimensions": [
+          1024,
+          1024
+        ],
+        "candidateRepositoryPath": "public/assets/catalog/seating-12-w06-v2.png",
+        "candidateGitBlobSha": "793b32f60ed10fffa80b549e75b66858ac0d7e4f",
+        "candidateSha256": "5891818da864e528aaceb598f93d2b3426cb91c3eb1acd0375e4f57cbe7d69df",
+        "bytes": 577216,
+        "dimensions": [
+          768,
+          768
+        ],
+        "producerPixelCheck": "PASS: actual generated pixels show a distinct high-backed sunburst throne with layered plush upholstery, gold/cream/coral/sky-blue material separation, stronger Tier-5 finish, rim/cast lighting and no text/UI/third-party IP.",
+        "repositoryReadback": "PASS_EXACT_GITHUB_BLOB_AND_WORKFLOW_SHA256",
+        "independentDecision": "PENDING_02_EXACT_CURRENT_HASH",
+        "status": "READY_FOR_REVIEW_02",
+        "gitBlobSha": "793b32f60ed10fffa80b549e75b66858ac0d7e4f",
+        "sha256": "5891818da864e528aaceb598f93d2b3426cb91c3eb1acd0375e4f57cbe7d69df",
+        "reviewStatus": "READY_FOR_REVIEW_02"
       }
     ],
     "checks": {
@@ -100,7 +394,14 @@
   },
   "secondaryRepairCapacity": {
     "seatingRemaining": [],
-    "shoes": ["shoes-7","shoes-8","shoes-9","shoes-10","shoes-11","shoes-12"],
+    "shoes": [
+      "shoes-7",
+      "shoes-8",
+      "shoes-9",
+      "shoes-10",
+      "shoes-11",
+      "shoes-12"
+    ],
     "reviewer": "02",
     "rule": "Do not alter accepted Seating 7-10. Reviewer 02 must independently decide Seating 11-12. On a later bounded cycle, if companion/seating review remains pending and state still assigns Shoes 7-12, advance only the next 2-4 exact Shoe IDs."
   },
@@ -111,21 +412,23 @@
     "companionSecondBatchFreshIndependentReview": "PENDING_05",
     "seating7To10IndependentReview": "PASS_ACCEPT_4_OF_4_02",
     "seating11To12Storage": "PASS_2_OF_2",
-    "seating11To12Readback": "PASS_4_OF_4_SOURCE_PLUS_DERIVATIVE",
-    "seating11To12IndependentReview": "PENDING_02",
+    "seating11To12Readback": "PASS_2_OF_2_EXACT_GITHUB_BLOB_PLUS_WORKFLOW_SHA256",
+    "seating11To12IndependentReview": "PENDING_02_EXACT_CURRENT_HASH",
     "existingAssetsOverwrittenThisRun": 0,
     "canonicalFilesTouched": false,
-    "playerDataTouched": false
+    "playerDataTouched": false,
+    "seating11To12LedgerIntegrity": "PASS_RECONCILED_TO_ACTUAL_REPOSITORY_BYTES"
   },
   "blockers": [
     "Reviewer 05 has not yet issued exact-hash decisions for companions-2/5/6/7.",
-    "Reviewer 02 has not yet issued independent actual-pixel decisions for seating-11/12 exact candidate hashes."
+    "Reviewer 02 must inspect exact current Seating-11/12 hashes after Workstream-14 publishes card/detail pixels; no regeneration is required."
   ],
   "nextActions": [
-    "05: independently review companions-2/5/6/7 exact rich hashes; do not transfer legacy SVG REWORK decisions.",
-    "02: independently review seating-11 and seating-12 exact staged PNG hashes at card/detail scale.",
-    "08: remain sole owner of canonical catalog manifest/runtime wiring.",
-    "06: preserve all accepted hashes; on the next bounded cycle consume new reviewer decisions first, then repair only exact REWORK IDs or advance Shoes 7-12 if current state still assigns them."
+    "14: render Seating-11 blob 5126e9abcec4a09ef281dccb33aac6ba59b38b94 and Seating-12 blob 793b32f60ed10fffa80b549e75b66858ac0d7e4f through the shared staged-art fixture.",
+    "02: independently review those exact current hashes; prior BLOCKED verdicts were evidence-integrity blockers, not visual REWORK.",
+    "06: preserve Seating-7..12 current staged bytes; do not regenerate solely for review-evidence issues.",
+    "05: continue independent Companion review on current exact hashes.",
+    "08: integrate Seating-11/12 only after reviewer-02 exact-hash ACCEPT."
   ],
   "freeze": {
     "replitTouched": false,
@@ -137,5 +440,23 @@
     "equippedIdsTouched": false,
     "buddyBondTouched": false,
     "learningProgressTouched": false
-  }
+  },
+  "seatingHashReconciliationHistory": [
+    {
+      "id": "seating-11",
+      "candidateGitBlobSha": "5126e9db42ed26b15ddf7229218337753b1868a8",
+      "candidateSha256": "2bf8cbeac3824cd34c60c98d7c4d56d586ba7039cebe8e9d14122934a7819599",
+      "status": "READY_FOR_REVIEW",
+      "repositoryReadback": "PASS_EXACT_GIT_BLOB_AND_BYTES_AT_CURRENT_BRANCH_TREE",
+      "disposition": "SUPERSEDED_LEDGER_HASH_MISMATCH_PRESERVED_FOR_AUDIT"
+    },
+    {
+      "id": "seating-12",
+      "candidateGitBlobSha": "793b32568f2089eaadf33853992864775a7e90d1",
+      "candidateSha256": "589181f736b7837d1cfb6e9adf16446f908cb8ff02d62027bc37c826f5b3d83e",
+      "status": "READY_FOR_REVIEW",
+      "repositoryReadback": "PASS_EXACT_GIT_BLOB_AND_BYTES_AT_CURRENT_BRANCH_TREE",
+      "disposition": "SUPERSEDED_LEDGER_HASH_MISMATCH_PRESERVED_FOR_AUDIT"
+    }
+  ]
 }
