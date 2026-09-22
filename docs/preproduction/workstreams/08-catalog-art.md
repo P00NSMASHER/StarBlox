@@ -1,3 +1,9 @@
+## V2 canonical increment — Desks 2-4 plus Auras 5/9/10/12 exact-hash ACCEPTs
+
+Prepared from `45d930cc61b1d798b8a1a90f5d138260ce3cb708` using exact hash-bound reviewer 05 ACCEPT evidence. 7 items passed repository-byte, Store metadata, decode/safety, reviewer-independence and canonical uniqueness checks. Full tests/build/Store-mobile smoke are required before publication.
+
+Exact IDs: `desks-2`, `desks-3`, `desks-4`, `auras-5`, `auras-9`, `auras-10`, `auras-12`.
+
 ## V2 canonical increment — Rugs 9-10 exact-hash ACCEPTs
 
 Prepared from `9517ee8531e9a51cfbb23499b230b84f1576a663` using exact hash-bound reviewer 14 ACCEPT evidence. 2 items passed repository-byte, Store metadata, decode/safety, reviewer-independence and canonical uniqueness checks. Full tests/build/Store-mobile smoke are required before publication.
