@@ -1,44 +1,42 @@
-# Catalog Sprint Lane 07 — Rugs 11–12 v3 review handoff
+# Catalog Sprint Lane 07 — Rugs 12 exact-tree reconciliation
 
-STATUS: **READY FOR REVIEWER 14 — Rugs 11–12 v3 exact hashes**
+STATUS: **READY FOR REVIEWER 14 — Rugs 12 exact current hash only**
 
 Branch: `screenshot-match-preproduction`  
 Authority: `docs/preproduction/ART_VISUALS_SPRINT.json` + `docs/preproduction/DELIVERY_PROTOCOL_V2.md`  
+Source head checked before this write: `7515a016c43870f906ae173c1d440bc102bc7b73`  
 Replit/Floot/main/deploy/paid settings/player data: **untouched**
 
 ## Preserve accepted work
 
-Rugs 1–10 are independently ACCEPTed at their current exact hashes. They were not regenerated, re-uploaded, or edited in this increment. Tops 1–6 also remain preserved at their already accepted/canonical versions. Workstream 07 will not replace any accepted hash without a new exact-hash reviewer defect.
+Rugs 1–10 remain independently ACCEPTed at their preserved exact hashes. Reviewer 14 has now independently ACCEPTed `rugs-11` Dream Cloud Rug at `/assets/catalog/rugs-11-w07-v3.png`, exact Git blob `2c93f18fb5960f7056819c341a3da8f7fff3fb9d`; Workstream 07 preserves it unchanged and leaves canonical wiring to 08.
 
-## Triggering reviewer-14 REWORK
+No Rugs 1–11 asset was regenerated, re-uploaded, or edited in this increment. Prior rejected versions remain preserved.
 
-| ID | Exact rejected v2 | Finding |
-|---|---|---|
-| `rugs-11` Dream Cloud Rug, Tier 4, Galaxy Glow | `/assets/catalog/rugs-11-chat-v2.png` — `cfff5c4d235295c0f3e0efc0ef34bfcbf629c916` | Heavy plush lobes/sidewalls read as a floor cushion or ottoman and create near-duplicate risk with the accepted Cloud Rug. |
-| `rugs-12` Luxe Star Rug, Tier 5, Sunny Pop | `/assets/catalog/rugs-12-chat-v2.png` — `e008d4b097caadd5e246d2d023e61179d543da3e` | Heavy quilting, raised star and padded rim read as a padded playmat/floor cushion instead of a rug. |
+## Rugs 12 reconciliation
 
-Those v2 files remain preserved. No self-approval is implied.
+Reviewer 14 correctly blocked the prior handoff because Lane 07 declared `85007bbb5e31a5545cf006f9cf43f25167ffb37f` while the current tree contained `eea2fc5b78c1186342f91f597bc792160ab8f8fe`.
 
-## Current two-item v3 repair batch
+The discrepancy is producer metadata, not a later art mutation:
 
-The replacement pixels had already been generated, so this increment **did not duplicate generation**. They were recovered through supported Adobe/Photoshop rendition URLs and committed as new versioned repository bytes in staging commit `92af6c535460423ac78b0a6715d3928caa49a2a2`.
+- Staging commit `92af6c535460423ac78b0a6715d3928caa49a2a2` itself created `public/assets/catalog/rugs-12-w07-v3.png` with Git blob `eea2fc5b78c1186342f91f597bc792160ab8f8fe`.
+- The latest commit touching that path is still `92af6c535460423ac78b0a6715d3928caa49a2a2`; no later asset replacement occurred.
+- Recovery workflow `35679955267`, job `106594548155`, measured the staged source bytes as PNG, 1024×1024, 1,039,033 bytes, SHA-256 `21a2f71224d9a7d4e0e60a672867cc629f21a481c3310fee6b1cac1c1be071b3` before commit/push.
+- Original Adobe/Photoshop rendition provenance remains `https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:b0c14964-700b-4814-aa57-a2e9823147b3`.
+- The rejected v2 remains preserved at `/assets/catalog/rugs-12-chat-v2.png`, Git blob `e008d4b097caadd5e246d2d023e61179d543da3e`.
 
-| ID | Current candidate | Exact Git blob | Format / dimensions | Bytes | SHA-256 |
+Therefore the existing current-tree bytes are now the authoritative v3 candidate; **no binary regeneration or re-upload was performed**.
+
+| ID | Authoritative candidate | Exact Git blob | Format / dimensions | Bytes | SHA-256 |
 |---|---|---|---|---:|---|
-| `rugs-11` Dream Cloud Rug | `/assets/catalog/rugs-11-w07-v3.png` | `2c93f18fb5960f7056819c341a3da8f7fff3fb9d` | PNG 1024×1024 | 1,206,852 | `cb5bea407b241c79887f07f8b37136b64f2336de23683fdafc6007aa23fefdfd` |
-| `rugs-12` Luxe Star Rug | `/assets/catalog/rugs-12-w07-v3.png` | `85007bbb5e31a5545cf006f9cf43f25167ffb37f` | PNG 1024×1024 | 1,039,033 | `21a2f71224d9a7d4e0e60a672867cc629f21a481c3310fee6b1cac1c1be071b3` |
-
-Producer recovery evidence: workflow `35679955267`, job `106594548155`. The job verified PNG signatures, exact 1024×1024 dimensions, byte counts and SHA-256 values before committing and pushing both files. Binary-only recovery did not alter runtime code, so no new test/build claim is made for this increment.
-
-Provenance:
-- Rugs 11 rendition: `https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:fe1a242b-38f6-49af-a84e-24886f323129`
-- Rugs 12 rendition: `https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:b0c14964-700b-4814-aa57-a2e9823147b3`
+| `rugs-12` Luxe Star Rug — Tier 5, Sunny Pop | `/assets/catalog/rugs-12-w07-v3.png` | `eea2fc5b78c1186342f91f597bc792160ab8f8fe` | PNG 1024×1024 | 1,039,033 | `21a2f71224d9a7d4e0e60a672867cc629f21a481c3310fee6b1cac1c1be071b3` |
 
 ## Exact reviewer-14 handoff
 
-Reviewer 14 now owns independent card/detail rendering and disposition of these exact current hashes:
+Reviewer 14 should freshly render and judge only this exact candidate:
 
-- `rugs-11` — `/assets/catalog/rugs-11-w07-v3.png` — `2c93f18fb5960f7056819c341a3da8f7fff3fb9d`
-- `rugs-12` — `/assets/catalog/rugs-12-w07-v3.png` — `85007bbb5e31a5545cf006f9cf43f25167ffb37f`
+`rugs-12` — `/assets/catalog/rugs-12-w07-v3.png` — Git blob `eea2fc5b78c1186342f91f597bc792160ab8f8fe`
 
-If reviewer 14 issues an exact-hash REWORK on either v3 candidate, Workstream 07 repairs only that ID. If both are ACCEPTed, Workstream 08 alone may canonical-wire the accepted versions and Workstream 07 holds for Workstream 15 reassignment. No manifest/runtime wiring was changed here.
+No ACCEPT or REWORK is claimed by Workstream 07. If reviewer 14 returns REWORK on this exact hash, repair only `rugs-12`. If reviewer 14 ACCEPTs it, 08 alone may canonical-wire it.
+
+Producer checks for this reconciliation: current/staging Git blob readback PASS; PNG signature PASS; 1024×1024 PASS; 1,039,033-byte measurement PASS; SHA-256 measurement PASS. Tests/build were not rerun because this increment changes documentation only and leaves the binary/runtime unchanged.
