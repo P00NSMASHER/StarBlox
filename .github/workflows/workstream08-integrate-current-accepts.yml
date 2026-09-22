@@ -10,7 +10,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: starblox-workstream08-exact-hash-integration
+  group: starblox-workstream08-canonical-writer
   cancel-in-progress: false
 
 jobs:
@@ -69,6 +69,7 @@ jobs:
       - name: Record executed validation without masking visual-smoke failures
         env:
           STORE_SMOKE_OUTCOME: ${{ steps.store_smoke.outcome }}
+          GITHUB_RUN_ID: ${{ github.run_id }}
         run: |
           node --input-type=module <<'NODE'
           import fs from 'node:fs';
@@ -83,8 +84,7 @@ jobs:
           r.postCommitValidation.storeSmoke=smoke==='success'
             ? 'PASS_STRICT_CHANGED_ART_STORE_MOBILE_QA_PRECOMMIT'
             : 'BLOCKED_SHARED_NAV_POINTER_CLICK_TIMEOUT_BEFORE_STORE_CONTENT_VALIDATION';
-          r.postCommitValidation.storeSmokeRun='Prior reproduction: workflow 35677596792 failed across all six viewports/controls while Playwright was performing the Store sidebar pointer click, before changed Store content was reached.';
-          r.postCommitValidation.fullSuiteCurrentHead='BLOCKED_UNRELATED_ART_PROMPT_OPTIMIZER_TEST_HARNESS_RUN_35677462826_NO_TEST_SUITE';
+          r.postCommitValidation.storeSmokeRun='CURRENT_WORKFLOW_'+process.env.GITHUB_RUN_ID;
           r.postCommitValidation.referenceComparison='HANDOFF_14_FRESH_REFERENCE_CAPTURE_AFTER_CANONICAL_PUSH';
           if(smoke!=='success') r.blockers.unshift('Changed-art Store/mobile safeguard is blocked in the shared navigation fixture before Store content is reached; canonical V2 exact-hash integration is retained but catalog release clearance stays 0.');
           fs.writeFileSync(p,JSON.stringify(r,null,2)+'\n');
@@ -115,6 +115,13 @@ jobs:
           done
           echo 'Safe canonical publication failed after retries; no force push.' >&2
           exit 1
+
+      - name: Run end-to-end art workflow audit before publication
+        run: |
+          mkdir -p artifacts/workstream08
+          node scripts/artWorkflowAudit.mjs \
+            --repo-root . \
+            --output artifacts/workstream08/workflow-audit.json
 
       - name: Print canonical result
         if: always()
