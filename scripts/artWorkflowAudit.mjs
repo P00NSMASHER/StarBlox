@@ -135,7 +135,7 @@ export function auditWorkflow({items=[],manifest={items:{}},corpus={current:[],o
 function parseArgs(argv){const o={};for(let i=0;i<argv.length;i++){const t=argv[i];if(!t.startsWith('--'))continue;const k=t.slice(2),n=argv[i+1];if(n&&!n.startsWith('--')){o[k]=n;i++;}else o[k]=true;}return o;}
 function reviewDocs(root){const d=path.join(root,'docs/preproduction/catalog-sprint/reviews');return fs.readdirSync(d).filter(x=>/^\d+\.json$/.test(x)).sort().map(name=>({path:path.relative(root,path.join(d,name)),data:JSON.parse(fs.readFileSync(path.join(d,name),'utf8'))}));}
 function laneDocs(root){const d=path.join(root,'docs/preproduction/catalog-sprint');return fs.readdirSync(d).filter(x=>/^lane-(?:\d+|CHAT)\.json$/i.test(x)).sort().map(name=>({path:path.relative(root,path.join(d,name)),data:JSON.parse(fs.readFileSync(path.join(d,name),'utf8'))}));}
-function blobMap(root,paths){const out={};for(const rel of uniq(paths.map(normalizeAssetPath).filter(Boolean))){const abs=path.join(root,rel);if(!fs.existsSync(abs))continue;try{out[rel]=execFileSync('git',['hash-object',rel],{cwd:root,encoding:'utf8'}).trim();}catch{}}return out;}
+function blobMap(root,paths){const out={};for(const rel of uniq(paths.map(normalizeAssetPath).filter(Boolean))){try{out[rel]=execFileSync('git',['rev-parse',`HEAD:${rel}`],{cwd:root,encoding:'utf8'}).trim();}catch{}}return out;}
 
 async function main(){
   const args=parseArgs(process.argv.slice(2)),root=path.resolve(args['repo-root']||'.');
