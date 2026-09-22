@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "workstream": "02",
   "phase": "CATALOG_SPRINT",
-  "sourceHead": "694384030e3c0ab1819960e35a43a2b86a55ee3e",
+  "sourceHead": "1a4df4ec25ff16da5f65aca7905a465b7d5c1da0",
   "status": "SEATING_2_3_ACCEPTED_BEDS_1_4_RENDERED_READY_FOR_REVIEW_05",
   "reviewPartition": {
     "collections": [
@@ -12,8 +12,8 @@
       "seating"
     ],
     "legacyCoverage": "48_OF_48_REVIEWED",
-    "freshReplacementCheck": "SEATING_2_3_EXACT_HASH_ACCEPTED_THIS_RUN; SHOES_1_6_AND_SEATING_7_10_ACCEPT_EVIDENCE_REUSED_UNCHANGED",
-    "note": "Legacy 48/48 REWORK decisions remain hash-bound. Fresh exact-hash ACCEPTs now cover Shoes 1–6 and Seating 2–3/7–10. Next review priority is fresh Seating 4–6/11–12 and Shoes 7–12, then Backgear/Handgear replacements.",
+    "freshReplacementCheck": "SEATING_2_3_EXACT_HASH_ACCEPTED_THIS_RUN; SEATING_11_EXACT_HASH_BLOCKED_FIRST_CYCLE_ON_INSPECTABLE_RENDER_EVIDENCE; SHOES_1_6_AND_SEATING_7_10_ACCEPT_EVIDENCE_REUSED_UNCHANGED",
+    "note": "Legacy 48/48 REWORK decisions remain hash-bound. Fresh exact-hash ACCEPTs cover Shoes 1–6 and Seating 2–3/7–10. Seating-11 is BLOCKED on evidence access only, not visually rejected. Next review priority is fresh Seating 4–6/12 and Shoes 7–12, then Backgear/Handgear replacements.",
     "latestFreshReview": {
       "reviewedIds": [
         "seating-2",
@@ -36,6 +36,23 @@
       "reviewLedger": "docs/preproduction/catalog-sprint/reviews/02.json",
       "reviewCommit": "3fc9cece0f42286ba1c0bc9737dbb0d18a896a50",
       "note": "Actual card/contact-sheet and exact-hash detail pixels were inspected; no source-only quality inference."
+    },
+    "latestBlockedReview": {
+      "itemId": "seating-11",
+      "name": "Moon Chair",
+      "tier": 4,
+      "theme": "Galaxy Glow",
+      "producer": "06",
+      "decision": "BLOCKED",
+      "sourceAssetPath": "/assets/catalog-candidates/chat-20260921-intake01/seating-11-source.png",
+      "sourceGitBlobSha": "b0b4ee954ce5af414ee90fecda374f84d551c3e5",
+      "cardAssetPath": "/assets/catalog-candidates/chat-20260921-intake01/seating-11-card.png",
+      "cardGitBlobSha": "9e777c1844140ea09eb0a304c4f103d5e6da9fcb",
+      "blockerCycle": 1,
+      "exactBlocker": "Shared staged-art artifact omits seating-11. Browser fallback returned only an inaccessible browser-local HTML evidence path, so reviewer 02 still lacks independently inspectable exact-hash card/detail pixels.",
+      "fixtureRequestOwner": "14",
+      "fixtureRequest": "Render the exact source/card hashes into the branch-local staged-art fixture and emit card/contact-sheet plus separate detail screenshot evidence. Do not regenerate the candidate solely for this blocker.",
+      "reviewLedgerCommit": "1a4df4ec25ff16da5f65aca7905a465b7d5c1da0"
     }
   },
   "productionAssignment": {
