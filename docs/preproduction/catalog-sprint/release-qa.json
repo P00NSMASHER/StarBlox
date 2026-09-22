@@ -1,135 +1,129 @@
 {
-  "schemaVersion": 3,
+  "schemaVersion": 4,
   "workstream": "14",
   "phase": "CATALOG_SPRINT",
   "branch": "screenshot-match-preproduction",
   "status": "FAIL_CATALOG_NOT_RELEASE_READY",
-  "auditedEvidenceHead": "9d64486f85e8779faaabb87214af0bdf2f998ece",
-  "canonicalManifestVersion": 13,
+  "auditedEvidenceHead": "791e581856ec301d168e7aedc888e4de8ca1b8f3",
   "releaseDecision": "NOT_READY_FOR_SINGLE_REPLIT_INTEGRATION",
-  "evidence": {
-    "latestCiRunId": 35663779638,
-    "latestCiHead": "a7003fb7715b1515b660a21670a2ec9c53f94511",
-    "latestCiJobId": 106544831585,
-    "tests": "FAIL_98_PASS_1_FAIL_OF_99",
-    "testFailure": "catalog-art-manifest.json beds-1 theme is Aqua Wave but current gameModel metadata is Garden Glow",
-    "productionBuild": "NOT_RUN_LATEST_CI_STOPPED_AFTER_METADATA_TEST_FAILURE",
-    "priorRuntimePersistenceBuildProof": "PASS_REUSED_BY_HASH_WHERE_UNCHANGED",
-    "stagedArtDiagnosticRunId": 35663502757,
-    "stagedArtHead": "60e0f9a5cddfaf4925aae4800dd96816690a98ae",
-    "stagedArtArtifactId": 10668875135,
-    "stagedArtArtifactDigest": "sha256:a17eaf3d70986b473fa017cbdef1119ba2f86dbc9d15b6969262cec30ab81f54",
-    "stagedArtFixture": "PASS_DIAGNOSTIC_FRAMEWORK_CURRENT_BATCH_FAILS_VISUAL_BYTE_CHECK_FOR_DESKS_2_TO_4",
-    "deskAliasDefects": {
-      "desks-2-v1.webp": "INVALID_WEBP_SIGNATURE",
-      "desks-3-v1.webp": "INVALID_WEBP_SIGNATURE",
-      "desks-4-v1.webp": "INVALID_WEBP_SIGNATURE"
-    },
-    "deskSelectedReplacementDefects": {
-      "desks-2-w03-v1.webp": "WEBP_DECODES_512X512_BUT_OPAQUE_FRACTION_0_VISUALLY_BLANK",
-      "desks-3-w03-v1.webp": "WEBP_DECODES_512X512_BUT_OPAQUE_FRACTION_0_VISUALLY_BLANK",
-      "desks-4-w03-v1.webp": "WEBP_DECODES_512X512_BUT_OPAQUE_FRACTION_0_VISUALLY_BLANK"
-    },
-    "referencePixels": {
-      "status": "PASS_ORIGINAL_BYTES_NOW_REPOSITORY_ACCESSIBLE",
-      "manifest": "docs/preproduction/reference-screenshots/original-reference-manifest.json",
-      "homeOriginalSha256": "6a4b110aeaf12a6ab0c629f9181cc6cfa8d4f55a518d4f2a6adb3ac6e756c457",
-      "storeOriginalSha256": "b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d",
-      "questOriginalSha256": "70f1b952709a85c77bb11851ffe9ae704acf8b97640355e908b6ec537b5c73c9",
-      "normalizedDesktopComparisons": "PASS_3_OF_3_AT_1408X1056",
-      "gamePixelParity": "NOT_TESTED_LATEST_COMPARE_WORKFLOW_STOPPED_AT_CI_METADATA_FAILURE"
-    }
-  },
   "canonical": {
     "catalogTarget": 192,
     "actualStoreUniqueIds": "PASS_192",
-    "manifestFinalPortableCount": 103,
-    "manifestVersion": 13,
-    "newAcceptedCanonicalPromotions": ["companions-3", "companions-4", "companions-10", "companions-11"],
-    "duplicateManifestPaths": 0,
-    "exactMetadataForWiredEntries": "FAIL_BEDS_1_THEME_MISMATCH",
-    "uniqueExistingPathPerWiredEntry": "PASS_LATEST_CI",
+    "manifestVersion": 16,
+    "manifestEntries": 130,
+    "runtimeMappings": 130,
+    "finalPortable": 114,
+    "interimNotVerified": 16,
+    "nonFinal": 78,
+    "duplicateAssetPaths": 0,
+    "duplicateContentHashes": 0,
+    "exactMetadataForWiredEntries": "PASS_LATEST_INTEGRATION_V16",
+    "runtimeManifestAgreement": "PASS_130_OF_130",
+    "canonicalWiredAcceptedHashes": 27,
     "complete192AcceptedFinalMappings": "FAIL"
   },
+  "currentAutomatedEvidence": {
+    "latestReusableCiRunId": 35670445113,
+    "latestReusableCiHead": "aee2bfdcf63c23e4775b7c8ed93e0a8bc752ee30",
+    "tests": "PASS",
+    "productionBuild": "PASS",
+    "integrationV16Tests": "PASS_FULL_NPM_TEST",
+    "integrationV16Build": "PASS_VITE_PRODUCTION_BUILD",
+    "integrationV16StoreMobileSmoke": "PASS_STRICT_CATALOG_MOBILE_QA_PRECOMMIT_HEADLESS_EMULATION",
+    "note": "Reviewer-14 changes after these checks are documentation/review disposition only and do not change runtime or asset bytes."
+  },
   "reviewCoverage": {
-    "disjointUniqueItemIdsWithAtLeastOneReviewedHash": 180,
-    "reviewer01ReviewedIds": 48,
-    "reviewer02ReviewedIds": 48,
-    "reviewer05ReviewedIds": 36,
-    "reviewer14ReviewedIds": 48,
+    "disjointUniqueItemIdsWithAtLeastOneIndependentDisposition": 180,
     "uniqueIdsStillWithoutUsableIndependentVisualDisposition": 12,
-    "remainingFamily": "desks",
-    "qualifiedAcceptedReplacementHashesKnown": 14,
-    "acceptedReplacementIds": [
-      "tops-1", "tops-2", "tops-3", "tops-4", "tops-5", "tops-6",
-      "companions-3", "companions-4", "companions-10", "companions-11",
-      "lighting-1", "lighting-2", "lighting-3", "lighting-4"
+    "remainingCoverageFamily": "desks",
+    "canonicalWiredAcceptedHashes": 27,
+    "minimumQualifiedCurrentReplacementAcceptsKnownNow": 35,
+    "newReviewer14AcceptsNotYetCanonicalAtThisSnapshot": [
+      "lighting-5", "lighting-6", "lighting-7", "lighting-8",
+      "lighting-9", "lighting-10", "lighting-11", "lighting-12"
     ],
-    "note": "180 unique IDs have at least one independent rendered review. Legacy REWORK decisions can coexist with later accepted replacement hashes; only current exact-hash ACCEPTs count toward release. Desk replacements are not reviewable because current staged bytes are corrupt or fully transparent."
+    "minimumCurrentHashAcceptanceRemaining": 157,
+    "note": "The 35 count is a conservative floor: canonical v16 has 27 exact accepted hashes wired, and reviewer 14 has eight later Lighting accepts not present in that integration snapshot. Other concurrent reviewer shards may advance independently."
   },
   "reviewer14": {
     "partition": ["lighting", "wall", "rugs", "decor"],
     "reviewedCount": 48,
-    "acceptedCount": 4,
-    "reworkCount": 44,
+    "acceptedCount": 12,
+    "reworkCount": 36,
     "blockedCount": 0,
-    "acceptedHashes": {
-      "lighting-1": "9d8aa142fa53f06dbad9ce59e9c8d34c1096ddc3",
-      "lighting-2": "8c10fe689d6d7e398e85b24eb1ca1323cee07ea3",
-      "lighting-3": "fc21ddf5a608ee393410ff9682cf2ef87a56c46d",
-      "lighting-4": "7975e490a9fb97574f03081acf9fc871c22224f3"
-    },
-    "reworkFamilies": {"lighting5To12": 8, "wall": 12, "rugs": 12, "decor": 12},
-    "exactContentUniqueness": "PASS_48_UNIQUE_GIT_BLOB_HASHES",
-    "renderedNearDuplicateReview": "PASS_NO_IDENTITY_COLLISION_SHARED_FLAT_TEMPLATES_REMAIN_QUALITY_DEFECTS"
+    "lightingCurrentHashes": "ACCEPT_12_OF_12",
+    "wallCurrentHashes": "REWORK_12_OF_12",
+    "rugsCurrentHashes": "REWORK_12_OF_12",
+    "decorCurrentHashes": "REWORK_12_OF_12",
+    "lighting9To12Evidence": {
+      "workflowRunId": 35669695516,
+      "artifactId": 10670588502,
+      "artifactDigest": "sha256:931d44eb5e0ca99b6046faca1dd7c395955e975143bd49392aaf8dc6d7d987f5",
+      "workflowHead": "4ad15b615907c4a3b3180db127ae8cac4acb2e91",
+      "result": "PASS_4_OF_4_EXACT_HASH_HTTP200_DECODE_OPAQUE_CARD_DETAIL_SCREENSHOTS_AND_INDEPENDENT_PIXEL_REVIEW",
+      "exactContentUniqueness": "PASS",
+      "manualNearDuplicate": "PASS_NO_IDENTITY_COLLISION"
+    }
+  },
+  "crossPartitionFixture": {
+    "singleFramework": "PASS_REUSED_EXISTING_PLAYWRIGHT_GITHUB_ACTIONS_FIXTURE",
+    "supportedFormats": ["SVG", "PNG", "JPG", "JPEG", "WEBP"],
+    "hashBoundCardAnd800Detail": true,
+    "artifactId": 10670588502,
+    "artifactDigest": "sha256:931d44eb5e0ca99b6046faca1dd7c395955e975143bd49392aaf8dc6d7d987f5",
+    "lightingSet": "PASS_12_OF_12",
+    "crossPartitionDispositionBy14": "NONE",
+    "deskEvidence": "NOT_CURRENT_FOR_DESKS_2_TO_4: artifact rendered stale -w03-v1 paths; current lane-03 points at different exact hashes and requires a fresh current-path render before reviewer 05 disposition. Desk 5-6 have separate clean scoped browser evidence but remain reviewer-05 decisions."
   },
   "persistenceEconomy": {
     "status": "PASS_REAL_BROWSER_PERSISTENCE_ECONOMY_MATRIX",
-    "broadBrowserRunId": 35660627560,
-    "recoveryRunId": 35660997658,
-    "questTimingRunId": 35662516044,
-    "purchaseEquipRoomReload": "PASS",
-    "multiTabExactlyOnce": "PASS",
-    "malformedImport": "PASS",
-    "indexedDbRecovery": "PASS",
-    "questWrongRetryRapidFinalRefresh": "PASS",
     "realPlayerDataUsed": false,
     "releaseBlockers": []
   },
+  "referenceEvidence": {
+    "originalReferencePixelsAccessible": "PASS",
+    "manifest": "docs/preproduction/reference-screenshots/original-reference-manifest.json",
+    "desktopOriginals": "PASS_3_OF_3",
+    "mobileTabletOriginals": "NOT_PROVIDED_DO_NOT_INVENT",
+    "freshReferenceCaptureRunId": 35670445111,
+    "freshReferenceCaptureStatusAtAudit": "IN_PROGRESS_AFTER_REFERENCE_INPUT_VERIFY_AND_BUILD_PASS",
+    "pixelIdenticalReferenceParity": "NOT_TESTED_UNTIL_CAPTURE_AND_DIAGNOSTIC_REVIEW_COMPLETE",
+    "rawPixelDiffPolicy": "DIAGNOSTIC_ONLY_NOT_VISUAL_APPROVAL"
+  },
   "gates": {
     "catalog192UniqueIds": "PASS",
-    "canonicalMetadataAndPathIntegrity": "FAIL_BEDS_1_THEME_MISMATCH",
-    "reviewer14PartitionFullyDispositioned": "PASS",
+    "canonicalMetadataAndPathIntegrity": "PASS_LATEST_INTEGRATION_V16",
+    "reviewer14PartitionFullyDispositioned": "PASS_48_OF_48",
+    "reviewer14LightingCurrentHashes": "PASS_ACCEPT_12_OF_12",
     "independentReviewCoverage": "PASS_180_OF_192_IDS_DESKS_REMAIN",
     "all192CurrentFinalHashesIndependentlyAccepted": "FAIL",
     "all192CurrentFinalHashesCanonicallyWired": "FAIL",
-    "fullFinalSetExactContentDuplicateScan": "NOT_TESTED_FINAL_SET_INCOMPLETE",
-    "fullFinalSetRenderedNearDuplicateReview": "NOT_TESTED_FINAL_SET_INCOMPLETE",
-    "postIntegrationDesktopPhoneStoreArtCheck": "NOT_TESTED_CURRENT_CANONICAL_BATCH_NOT_RELEASE_CLEAN",
-    "catalogInducedLearningP0": "PASS_NO_P0_FOUND_IN_LATEST_EXECUTED_TESTS",
+    "fullFinalSetExactContentDuplicateScan": "NOT_TESTED_FINAL_ACCEPTED_SET_INCOMPLETE",
+    "fullFinalSetRenderedNearDuplicateReview": "NOT_TESTED_FINAL_ACCEPTED_SET_INCOMPLETE",
+    "postIntegrationDesktopPhoneStoreArtCheck": "PASS_FOR_INTEGRATION_V16_HEADLESS_EMULATION_NOT_FINAL_192_SET",
+    "catalogInducedLearningP0": "PASS_NO_P0_IN_LATEST_EXECUTED_CI",
     "realBrowserPersistenceTimingConcurrency": "PASS",
-    "physicalDevicePerformance": "NOT_TESTED",
-    "screenReaderSmoke": "NOT_TESTED",
     "originalReferencePixelsAccessible": "PASS",
-    "pixelIdenticalReferenceParity": "NOT_TESTED_COMPARE_BLOCKED_BY_CURRENT_CI_METADATA_FAILURE"
+    "actualReferenceComparison": "IN_PROGRESS_NOT_PASS",
+    "physicalDevicePerformance": "NOT_TESTED",
+    "screenReaderSmokeVoiceOverTalkBackNVDA": "NOT_TESTED",
+    "finalFrozenCandidateFullReleaseProof": "NOT_TESTED"
   },
   "blockers": [
-    "Workstream 08 must repair the canonical beds-1 metadata mismatch: manifest theme Aqua Wave vs gameModel Garden Glow, then rerun affected CI/build.",
-    "Workstream 03 must replace/restage desks-2..4 with visible image bytes; current -v1 aliases have invalid WebP signatures and current -w03-v1 WebPs decode but are fully transparent (opaqueFraction 0). Reviewer 05 cannot honestly disposition them.",
-    "The Desk family is the remaining 12-ID independent-review coverage gap.",
-    "Only 14 exact replacement hashes are independently accepted; most reviewed legacy/current versions remain REWORK and need new premium replacement hashes.",
-    "Tops 1-6 and Lighting 1-4 have qualified ACCEPTs but are not yet canonical in manifest v13; Workstream 08 should integrate them after current metadata/build gate is repaired.",
-    "The eventual 192 accepted set still needs complete exact-content and rendered near-duplicate checks plus final integrated desktop/phone Store verification.",
-    "Original Home/Store/Quest pixels are now available, but the first honest game comparison could not execute because CI stopped on the beds-1 metadata failure."
+    "All 192 current final asset hashes are not yet independently accepted and canonically wired; catalog gate remains FAIL.",
+    "Wall 1-12, Rugs 1-12 and Decor 1-12 remain REWORK in reviewer 14's partition and need new versioned premium replacements.",
+    "Desk remains the 12-ID independent-review coverage gap. The shared artifact used stale Desk 2-4 paths; current exact Desk 2-4 hashes require fresh shared-fixture rendering before reviewer 05 can disposition them. Desk 5-6 are browser-rendered but still await reviewer 05.",
+    "Lighting 5-12 have qualified reviewer-14 ACCEPTs after canonical manifest v16 and still require Workstream 08 metadata/file/content checks and integration if not already consumed by a newer integration commit.",
+    "The eventual complete accepted set still needs full exact-content and rendered near-duplicate scans plus final integrated desktop/phone Store verification.",
+    "Fresh Home/Store/Quest reference capture is running, but reference parity remains NOT TESTED until artifacts complete and are reviewed; raw pixel diff alone cannot clear the visual gate.",
+    "Physical-device performance and VoiceOver/TalkBack/NVDA evidence remain NOT TESTED."
   ],
   "nextActions": [
-    "08: correct beds-1 manifest metadata to exact gameModel value and rerun the catalog manifest test/build; do not weaken the metadata assertion.",
-    "03: stage genuinely visible desks-2..4 replacement bytes and continue remaining desks; 14 fixture will reject transparent/corrupt images before reviewer 05 sees them.",
-    "05: review Desk exact hashes only after the shared fixture reports visible card/detail pixels.",
-    "08: integrate qualified Tops 1-6 and Lighting 1-4 exact ACCEPTs when canonical metadata/build gate is clean; preserve already integrated accepted Companions 3/4/10/11.",
-    "04/05/07/09/11/06: continue bounded replacements for current REWORK families; replacement hashes require fresh independent decisions.",
-    "14: keep the single fixture current, review only Lighting/Wall/Rugs/Decor replacements, and run final duplicate/near-duplicate/Store/reference gates at coherent milestones.",
-    "15: keep phase CATALOG_SPRINT until all 192 current hashes are stored, correct, independently accepted, canonically wired and Store-verified."
+    "08: consume lighting-5..12 exact ACCEPTs immediately after normal metadata/file/content checks and preserve all prior accepted mappings.",
+    "03/14/05: render current exact Desk 2-4 paths through the existing shared fixture, then let reviewer 05 decide; do not transfer stale blank/corrupt verdicts across hashes.",
+    "05/07/09 producers: replace Wall/Rugs/Decor REWORK hashes in bounded versioned batches for fresh reviewer-14 pixel decisions.",
+    "14: inspect fresh reference-capture artifacts when complete and keep strict visual interpretation separate from raw diff status.",
+    "15: keep phase CATALOG_SPRINT until all 192 current hashes are stored, unique, independently accepted, canonically wired and Store-verified."
   ],
-  "freeze": {"replitTouched": false, "flootTouched": false, "mainMergedOrModified": false, "playerDataTouched": false}
+  "freeze": {"replitTouched":false,"flootTouched":false,"mainMergedOrModified":false,"playerDataTouched":false}
 }
