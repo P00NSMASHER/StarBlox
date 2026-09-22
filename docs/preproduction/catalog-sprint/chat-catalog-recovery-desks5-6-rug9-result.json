@@ -3,7 +3,7 @@
   "batchId": "chat-catalog-recovery-desks5-6-rug9-20260921",
   "status": "STAGED_READY_FOR_INDEPENDENT_REVIEW",
   "sourceHead": "7ea3a2d7ed6f1e3296576c4a75bbb592ed52ff63",
-  "workflowRunId": "35672408714",
+  "workflowRunId": 35672609543,
   "transportHelper": "CHAT",
   "canonicalWriter": "08",
   "newGenerations": 0,
@@ -130,7 +130,11 @@
     "metadata": "PASS_3_OF_3_FROM_CURRENT_GAME_MODEL",
     "exactByteReadback": "PASS_6_OF_6",
     "candidateDecode": "PASS_3_OF_3",
-    "independentVisualReview": "PENDING_ASSIGNED_REVIEWERS"
+    "independentVisualReview": "PENDING_ASSIGNED_REVIEWERS",
+    "tests": "PASS",
+    "build": "PASS",
+    "sharedRenderOverall": "FAIL",
+    "scopedCardDetailRender": "PASS_3_OF_3"
   },
   "freeze": {
     "replitTouched": false,
@@ -139,5 +143,21 @@
     "canonicalMappingsTouched": false,
     "gameplayChanged": false,
     "playerDataTouched": false
-  }
+  },
+  "testedSourceHead": "0e9e5b22a3635761b22fab337ca3fbd69aabf6fe",
+  "renderEvidence": {
+    "artifactName": "desks5-6-rug9-recovery-evidence",
+    "reportPath": "artifacts/catalog-staged-art/report.json",
+    "matchedIds": [
+      "desks-5",
+      "desks-6",
+      "rugs-9"
+    ],
+    "matchedHashes": {
+      "desks-5": "95fe65632e4f40b76b23cce30071ee2fdc5b4399",
+      "desks-6": "52df05265de236911927b904b07e68dac7a17828",
+      "rugs-9": "9eef1db116e871d31c62de680d261cfbeccf49b3"
+    }
+  },
+  "independentVisualReview": "PENDING_05_DESKS_AND_14_RUG"
 }
