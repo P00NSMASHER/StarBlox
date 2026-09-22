@@ -1,13 +1,16 @@
 {
-  "schemaVersion": 7,
+  "schemaVersion": 8,
   "workstream": "12",
   "phase": "ART_AND_VISUALS_ONLY",
   "branch": "screenshot-match-preproduction",
   "status": "HEADWEAR_1_4_ACCEPTED_PRESERVED__HEADWEAR_5_8_GENERATED_PRESERVED_EXTERNAL__EXACT_BYTE_TRANSFER_BLOCKED__HEADWEAR_9_12_PREP_ONLY",
-  "inputHead": "335cd882389fae5edce21ca96ea49cdddb12b718",
+  "inputHead": "18c7f2deeafd8f17332f7eb52bb2921d5e9dc6fa",
   "protocol": "docs/preproduction/DELIVERY_PROTOCOL_V2.md",
   "allocation": "docs/preproduction/ART_VISUALS_SPRINT.json",
+  "artFactoryReadme": "docs/preproduction/art-factory/README.md",
+  "artFactoryContract": "docs/preproduction/art-factory/ART_FACTORY_V2.json",
   "coordinationEvidence": "docs/preproduction/catalog-sprint/coordination-15-20260922-0705.json",
+  "coordinationEvidenceBlobSha": "a0d6712fd5709e35fa8858e2611512ccf294bec9",
   "ownership": {
     "producer": "12",
     "transportHelper": "04",
@@ -31,11 +34,24 @@
   "reference": {
     "storePath": "docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg",
     "sha256": "b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d",
+    "gitBlobSha": "383baa877d3af86fa92e3583740212000592b3d6",
+    "dimensions": [1448,1086],
+    "bytes": 775979,
+    "manifest": "docs/preproduction/reference-screenshots/original-reference-manifest.json",
     "targetNotes": "Bright polished magical-school Store; dimensional fashion/accessory product renders, tactile materials, three-quarter presentation, warm key plus cool rim light, lilac/pink studio depth, restrained sparkle/bokeh and clear card-scale silhouette."
+  },
+  "provenanceTermsSeparation": {
+    "repositoryCode": "No repository code imported or changed by this lane in this cycle; runtime/save/economy/learning code remains frozen.",
+    "datasetAndReference": "Store art direction is grounded in the user-provided original StarBlox Store reference identified above; no third-party dataset is asserted by this lane.",
+    "apiService": "Existing Headwear 5-8 sources/derivatives were produced through Adobe Firefly/Adobe image service calls recorded below. Service-use terms remain separate from repository code/reference provenance.",
+    "modelCheckpoint": "The preserved original generation receipts identify Adobe Firefly as generator but do not expose an exact model/checkpoint ID or revision. This lane records that field as unavailable rather than inventing one.",
+    "customNodes": "No custom-node workflow was used for the preserved Headwear 5-8 external assets; custom-node terms are not applicable to this batch."
   },
   "activeBatch": {
     "batchId": "w12-headwear-5-8-v2",
     "legacyReview": "REWORK_4_OF_4_AT_GENERATION_START",
+    "factoryCompatibility": "PREDATES_ART_FACTORY_V2_RECEIPT_REQUIREMENTS__PRESERVE_EXACT_ART__DO_NOT_REGENERATE_ONLY_TO_BACKFILL_METADATA",
+    "modelCheckpointEvidence": {"generatorLabel":"Adobe Firefly","modelId":null,"checkpointId":null,"revision":null,"status":"NOT_EXPOSED_IN_PRESERVED_ORIGINAL_RECEIPT_DO_NOT_INVENT"},
     "items": [
       {
         "id": "headwear-5",
@@ -45,27 +61,8 @@
         "price": 125,
         "starReq": 0,
         "legacyAssetHash": "08f46960b9b6ca7fde58c1ed43676273b8b057cd",
-        "provenance": {
-          "generator": "Adobe Firefly",
-          "generationRequestId": "6c022fa5-5dd7-4140-a94e-18209a0f3357",
-          "creativeCloudAssetId": "urn:aaid:sc:US:77f50381-8f34-4611-924d-703009f479cc",
-          "creativeCloudContainerBytes": 1071940,
-          "sourceDimensions": [1024, 1024],
-          "sourceFormat": "PNG",
-          "sourceOutputUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:3f053825-7ba3-40d4-82d5-e53f60dce1ec"
-        },
-        "phoneDerivative": {
-          "resizeRequestId": "fc134853-70a7-4ccc-b1d6-c2020bb57514",
-          "dimensions": [600, 600],
-          "format": "PNG",
-          "outputUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:34b949cd-2fd6-4e2e-9d13-b6e5474d19d9",
-          "plannedRepositoryPath": "public/assets/catalog/headwear-5-w12-v2.png",
-          "repositoryBytes": null,
-          "sha256": null,
-          "gitBlobSha": null,
-          "repositoryReadback": "ABSENT_404_AT_335CD882",
-          "externalDerivativePreview": "PASS_ADOBE_INLINE_PREVIEW_CURRENT_CYCLE"
-        },
+        "provenance": {"generator":"Adobe Firefly","generationRequestId":"6c022fa5-5dd7-4140-a94e-18209a0f3357","creativeCloudAssetId":"urn:aaid:sc:US:77f50381-8f34-4611-924d-703009f479cc","creativeCloudContainerBytes":1071940,"sourceDimensions":[1024,1024],"sourceFormat":"PNG","sourceOutputUrl":"https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:3f053825-7ba3-40d4-82d5-e53f60dce1ec"},
+        "phoneDerivative": {"resizeRequestId":"fc134853-70a7-4ccc-b1d6-c2020bb57514","dimensions":[600,600],"format":"PNG","outputUrl":"https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:34b949cd-2fd6-4e2e-9d13-b6e5474d19d9","plannedRepositoryPath":"public/assets/catalog/headwear-5-w12-v2.png","repositoryBytes":null,"sha256":null,"gitBlobSha":null,"repositoryReadback":"ABSENT_404_AT_18C7F2DE","externalDerivativePreview":"PASS_ADOBE_INLINE_PREVIEW_CURRENT_CYCLE"},
         "producerVisualCheck": "PASS_DIMENSIONAL_BAND_LAYERED_TEXTILE_FLOWERS_PIXEL_GEM_CENTERS_CARD_READABLE",
         "deliveryStatus": "GENERATED_PRESERVED_EXTERNAL_TRANSFER_PENDING_HELPER04",
         "reviewStatus": "NOT_READY_FOR_REVIEW_NO_EXACT_REPOSITORY_HASH"
@@ -78,27 +75,8 @@
         "price": 175,
         "starReq": 0,
         "legacyAssetHash": "f1fafa67d3358292a4c55ad46174f84f63f0b343",
-        "provenance": {
-          "generator": "Adobe Firefly",
-          "generationRequestId": "0491e505-01d7-4dad-abc8-242cbfe858dd",
-          "creativeCloudAssetId": "urn:aaid:sc:US:1163131b-1ea4-4759-9efe-98e5c88bf240",
-          "creativeCloudContainerBytes": 1209806,
-          "sourceDimensions": [1024, 1024],
-          "sourceFormat": "PNG",
-          "sourceOutputUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:9c64b603-1849-417c-b23e-19a77b9328be"
-        },
-        "phoneDerivative": {
-          "resizeRequestId": "9e17dc76-0612-4128-b62f-77c1ef835c59",
-          "dimensions": [600, 600],
-          "format": "PNG",
-          "outputUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:b3d8d4af-d6c4-4afd-8df1-255a00ba7a5d",
-          "plannedRepositoryPath": "public/assets/catalog/headwear-6-w12-v2.png",
-          "repositoryBytes": null,
-          "sha256": null,
-          "gitBlobSha": null,
-          "repositoryReadback": "ABSENT_404_AT_335CD882",
-          "externalDerivativePreview": "PASS_PREVIOUS_VERIFIED_EXTERNAL_DERIVATIVE"
-        },
+        "provenance": {"generator":"Adobe Firefly","generationRequestId":"0491e505-01d7-4dad-abc8-242cbfe858dd","creativeCloudAssetId":"urn:aaid:sc:US:1163131b-1ea4-4759-9efe-98e5c88bf240","creativeCloudContainerBytes":1209806,"sourceDimensions":[1024,1024],"sourceFormat":"PNG","sourceOutputUrl":"https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:9c64b603-1849-417c-b23e-19a77b9328be"},
+        "phoneDerivative": {"resizeRequestId":"9e17dc76-0612-4128-b62f-77c1ef835c59","dimensions":[600,600],"format":"PNG","outputUrl":"https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:b3d8d4af-d6c4-4afd-8df1-255a00ba7a5d","plannedRepositoryPath":"public/assets/catalog/headwear-6-w12-v2.png","repositoryBytes":null,"sha256":null,"gitBlobSha":null,"repositoryReadback":"ABSENT_404_AT_18C7F2DE","externalDerivativePreview":"PASS_PREVIOUS_VERIFIED_EXTERNAL_DERIVATIVE"},
         "producerVisualCheck": "PASS_PADDED_BAND_CUSHIONS_EARCUPS_HINGES_BOOM_MIC_BERRY_BLAST_CARD_READABLE",
         "deliveryStatus": "GENERATED_PRESERVED_EXTERNAL_TRANSFER_PENDING_HELPER04",
         "reviewStatus": "NOT_READY_FOR_REVIEW_NO_EXACT_REPOSITORY_HASH"
@@ -111,27 +89,8 @@
         "price": 240,
         "starReq": 2,
         "legacyAssetHash": "8352f9ff4b58c27c0f3b47ec3cce90a8e8eec962",
-        "provenance": {
-          "generator": "Adobe Firefly",
-          "generationRequestId": "5af1bdfd-721b-4e77-b6a7-fb62f08def85",
-          "creativeCloudAssetId": "urn:aaid:sc:US:834210c4-c55e-4a9e-b9d0-bc3bbdb0f483",
-          "creativeCloudContainerBytes": 1225503,
-          "sourceDimensions": [1024, 1024],
-          "sourceFormat": "PNG",
-          "sourceOutputUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:4f969061-6e6f-444d-a68f-fd14bb05e732"
-        },
-        "phoneDerivative": {
-          "resizeRequestId": "440045e8-7935-4de1-b478-7eb0dbdddea3",
-          "dimensions": [600, 600],
-          "format": "PNG",
-          "outputUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:e0f4fcee-1f54-4252-affc-61abd04a1258",
-          "plannedRepositoryPath": "public/assets/catalog/headwear-7-w12-v2.png",
-          "repositoryBytes": null,
-          "sha256": null,
-          "gitBlobSha": null,
-          "repositoryReadback": "ABSENT_404_AT_335CD882",
-          "externalDerivativePreview": "PASS_PREVIOUS_VERIFIED_EXTERNAL_DERIVATIVE"
-        },
+        "provenance": {"generator":"Adobe Firefly","generationRequestId":"5af1bdfd-721b-4e77-b6a7-fb62f08def85","creativeCloudAssetId":"urn:aaid:sc:US:834210c4-c55e-4a9e-b9d0-bc3bbdb0f483","creativeCloudContainerBytes":1225503,"sourceDimensions":[1024,1024],"sourceFormat":"PNG","sourceOutputUrl":"https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:4f969061-6e6f-444d-a68f-fd14bb05e732"},
+        "phoneDerivative": {"resizeRequestId":"440045e8-7935-4de1-b478-7eb0dbdddea3","dimensions":[600,600],"format":"PNG","outputUrl":"https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:e0f4fcee-1f54-4252-affc-61abd04a1258","plannedRepositoryPath":"public/assets/catalog/headwear-7-w12-v2.png","repositoryBytes":null,"sha256":null,"gitBlobSha":null,"repositoryReadback":"ABSENT_404_AT_18C7F2DE","externalDerivativePreview":"PASS_PREVIOUS_VERIFIED_EXTERNAL_DERIVATIVE"},
         "producerVisualCheck": "PASS_CANVAS_CROWN_SEAMS_EYELET_QUILTED_BRIM_EMBROIDERED_GARDEN_BAND_CARD_READABLE",
         "deliveryStatus": "GENERATED_PRESERVED_EXTERNAL_TRANSFER_PENDING_HELPER04",
         "reviewStatus": "NOT_READY_FOR_REVIEW_NO_EXACT_REPOSITORY_HASH"
@@ -144,27 +103,8 @@
         "price": 330,
         "starReq": 2,
         "legacyAssetHash": "83b098c4bdd4bc3e578bf6b0f06c6354d0b459d3",
-        "provenance": {
-          "generator": "Adobe Firefly",
-          "generationRequestId": "a589b20f-3ff5-4d05-aff2-4f554f8b770d",
-          "creativeCloudAssetId": "urn:aaid:sc:US:176bd0de-812f-4d61-9ba5-d26e1ab12774",
-          "creativeCloudContainerBytes": 1276903,
-          "sourceDimensions": [1024, 1024],
-          "sourceFormat": "PNG",
-          "sourceOutputUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:309fc366-85db-46df-9bfe-33dbc82aa062"
-        },
-        "phoneDerivative": {
-          "resizeRequestId": "4b2d8b3f-0414-4ea3-a61c-03ab11cc1483",
-          "dimensions": [600, 600],
-          "format": "PNG",
-          "outputUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:c6ae8671-4378-414c-99aa-6d162b1247cc",
-          "plannedRepositoryPath": "public/assets/catalog/headwear-8-w12-v2.png",
-          "repositoryBytes": null,
-          "sha256": null,
-          "gitBlobSha": null,
-          "repositoryReadback": "ABSENT_404_AT_335CD882",
-          "externalDerivativePreview": "PASS_PREVIOUS_VERIFIED_EXTERNAL_DERIVATIVE"
-        },
+        "provenance": {"generator":"Adobe Firefly","generationRequestId":"a589b20f-3ff5-4d05-aff2-4f554f8b770d","creativeCloudAssetId":"urn:aaid:sc:US:176bd0de-812f-4d61-9ba5-d26e1ab12774","creativeCloudContainerBytes":1276903,"sourceDimensions":[1024,1024],"sourceFormat":"PNG","sourceOutputUrl":"https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:309fc366-85db-46df-9bfe-33dbc82aa062"},
+        "phoneDerivative": {"resizeRequestId":"4b2d8b3f-0414-4ea3-a61c-03ab11cc1483","dimensions":[600,600],"format":"PNG","outputUrl":"https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:c6ae8671-4378-414c-99aa-6d162b1247cc","plannedRepositoryPath":"public/assets/catalog/headwear-8-w12-v2.png","repositoryBytes":null,"sha256":null,"gitBlobSha":null,"repositoryReadback":"ABSENT_404_AT_18C7F2DE","externalDerivativePreview":"PASS_PREVIOUS_VERIFIED_EXTERNAL_DERIVATIVE"},
         "producerVisualCheck": "PASS_LAYERED_TRANSLUCENT_STARS_VISIBLE_BARRETTE_HARDWARE_FACETED_GEMS_CARD_READABLE",
         "deliveryStatus": "GENERATED_PRESERVED_EXTERNAL_TRANSFER_PENDING_HELPER04",
         "reviewStatus": "NOT_READY_FOR_REVIEW_NO_EXACT_REPOSITORY_HASH"
@@ -173,7 +113,7 @@
     "batchChecks": {
       "fullQualityGenerationsPreserved": "PASS_4_OF_4_ADOBE_CC_ASSETS",
       "phoneDerivativesGenerated": "PASS_4_OF_4_600x600_PNG",
-      "plannedRepositoryPathsAtInputHead": "ABSENT_4_OF_4_404",
+      "plannedRepositoryPathsAtInputHead": "ABSENT_4_OF_4_404_AT_18C7F2DE",
       "repositoryByteUpload": "BLOCKED_PENDING_EXACT_BYTE_MATERIALIZATION",
       "exactRepositoryReadback": "NOT_TESTED_NO_STAGED_BYTES",
       "reviewer01": "NOT_READY_NO_REPOSITORY_HASH",
@@ -187,12 +127,12 @@
     "helperEvidencePath": "docs/preproduction/catalog-sprint/headwear-5-8-transport-helper-04-to-12-01.json",
     "helperEvidenceBlobSha": "e18f2276f582ddd3c473492c67cec89e419ae418",
     "newEvidenceThisCycle": [
-      "Latest coordinator evidence coordination-15-20260922-0705.json explicitly preserves headwear5_8 as PRESERVED_EXTERNAL_NOT_STAGED and forbids regeneration or repeated unchanged failed transport; no later Workstream12 batch is opened.",
-      "All four planned repository paths remained 404 at input head 335cd882389fae5edce21ca96ea49cdddb12b718, so staged remains 0 and reviewer01 still has no current repository hash to disposition.",
-      "Adobe asset_inline_preview successfully resolved the exact preserved Headwear5 600x600 derivative again, confirming the existing external asset is live; the tool result surfaced only visual inspection and no reusable raw PNG/base64 payload for byte-identical GitHub attachment.",
-      "The exposed Adobe presigned-URL resolver is ACP/Lightroom-asset scoped and is not a generic Photoshop short-URL resolver; no callable exact-byte short-URL downloader is exposed in the current connector surface.",
-      "One genuinely new read-only public-browser resolution attempt on the exact Headwear5 short URL failed immediately in non-interactive execution with RuntimeError: User input required but current turn is running in a non-interactive mode. The same route was not repeated for Headwear6-8.",
-      "The earlier supported curl -L path remains blocked by curl error 6: Could not resolve host: photoshop-api.adobe.io. No duplicate transfer probes were run."
+      "Current coordinator evidence coordination-15-20260922-0705.json still classifies headwear5_8 as PRESERVED_EXTERNAL_NOT_STAGED and forbids regeneration/repeated unchanged transport; it does not open a later Workstream12 batch.",
+      "All four planned repository paths were reread at live input head 18c7f2deeafd8f17332f7eb52bb2921d5e9dc6fa and returned 404, so staged=0 and reviewer01 still has no current repository hash to disposition.",
+      "Adobe asset_inline_preview resolved the exact preserved Headwear5 600x600 derivative in this cycle, confirming the external asset is still live, but the exposed result did not provide reusable raw PNG/base64 bytes.",
+      "A genuinely new Adobe service-to-service materialization probe used asset_openai_file_upload on the exact preserved Headwear5 short URL. Direct URL input failed with runtime error 'no file or image tokens found'; a URL-object form was schema-rejected because the action requires a connector file-reference token. No asset was modified and the same failed bridge was not repeated for Headwear6-8.",
+      "Connector discovery confirms asset_download_file / generic Photoshop-short-URL byte download is not exposed in the current callable Adobe surface. This limitation was recorded once and will not be re-probed unchanged.",
+      "GitHub binary-safe blob/tree/commit/ref write capability is available. Therefore the remaining blocker is source-side exact byte materialization, not the GitHub destination; once exact bytes exist they can be staged without re-encoding."
     ],
     "smallestNextAction": "When helper04 or another coordinator-approved supported tool exposes the exact existing derivative bytes, attach those bytes unchanged to the four planned versioned repository paths. Workstream12 then rereads each path, records exact Git blob/content hash, dimensions and byte size, and hands those exact hashes to reviewer01."
   },
@@ -205,87 +145,29 @@
     "headwear5_8Canonical": 0,
     "headwear9_12PrepOnly": 4,
     "headwear9_12Generated": 0,
-    "headwear9_12RepositoryStaged": 0
+    "headwear9_12RepositoryStaged": 0,
+    "headwear9_12Accepted": 0,
+    "headwear9_12Canonical": 0
   },
   "nextMicroBatchPreparation": {
     "status": "PREP_ONLY_NOT_GENERATED_NOT_CLAIMED_FOR_PRODUCTION",
     "reason": "Latest coordinator evidence preserves Headwear5-8 as Workstream12's blocked bounded pilot and does not open another accessory batch.",
-    "metadataSources": [
-      "src/gameModel.js",
-      "reviewer01 historical exact-hash evidence",
-      "current repository legacy paths",
-      "docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg"
-    ],
-    "sharedRecipe": "Future generation only after the gate opens: isolated wearable product, no avatar or new character identity; true three-quarter presentation; visible support/band/hinge/setting construction; tactile differentiated materials; bright polished magical-school Store studio with warm key plus cool rim and restrained lilac/pink depth; strong silhouette at phone-card scale; exact item identity/theme/tier; no text, logos, third-party characters, generic recolor or flat icon treatment; preserve a full-quality square source before a measured phone-friendly derivative.",
+    "optimizerStatus": "NOT_RUN_PREP_ONLY_NOT_ACTIONABLE__RUN_ART_PROMPT_OPTIMIZER_FIRST_IF_15_OPENS_BATCH",
+    "referenceConditioningSha256": "b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d",
+    "metadataSources": ["src/gameModel.js","reviewer01 historical exact-hash evidence","current repository legacy paths","docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg"],
     "items": [
-      {
-        "id": "headwear-9",
-        "name": "Pencil Crown",
-        "tier": 3,
-        "theme": "Sunny Pop",
-        "price": 460,
-        "starReq": 2,
-        "currentLegacyPath": "public/assets/catalog/headwear-9.svg",
-        "currentLegacyGitBlobSha": "6c8185bbd18ab124f90b24238e7505abb2f77c5e",
-        "reviewer01CurrentLegacyDecision": "REWORK",
-        "promptRecipe": "Premium dimensional Pencil Crown wearable at a three-quarter product angle: a real curved padded headband/crown base supporting layered sharpened art pencils with visible lacquered wood bodies, graphite tips, metal ferrules and soft erasers; deliberate staggered crown silhouette, stitched/metal attachment points and believable overlap/occlusion. Sunny Pop uses cheerful sun-yellow, warm coral and small aqua accents in the materials, not as a flat background. Tier 3 should feel crafted and collectible but clearly simpler than Tier 4-5 hero pieces."
-      },
-      {
-        "id": "headwear-10",
-        "name": "Cat Ears",
-        "tier": 4,
-        "theme": "Aqua Wave",
-        "price": 640,
-        "starReq": 5,
-        "currentLegacyPath": "public/assets/catalog/headwear-10.svg",
-        "currentLegacyGitBlobSha": "6721c9726231ef050d08c9c447e900b067be8ad3",
-        "reviewer01CurrentLegacyDecision": "REWORK",
-        "promptRecipe": "Premium dimensional Cat Ears headband, standalone wearable with no character head: thick curved band, sculpted/sewn ear shells, plush inner-ear panels, visible seams and attachment hardware. Aqua Wave should come from layered teal/cyan/pearl materials with subtle wave-like iridescence, reflective edge highlights and controlled cool glow. Three-quarter angle must show band thickness and ear depth; Tier 4 needs materially richer construction than Tier 3 without obscuring the simple cat-ear identity."
-      },
-      {
-        "id": "headwear-11",
-        "name": "Halo Headband",
-        "tier": 4,
-        "theme": "Art Attack",
-        "price": 880,
-        "starReq": 5,
-        "currentLegacyPath": "public/assets/catalog/headwear-11.svg",
-        "currentLegacyGitBlobSha": "0f09b1cd5fa56bb289e3217b2c5c3eaec2ddf8ef",
-        "reviewer01CurrentLegacyDecision": "REWORK",
-        "promptRecipe": "Premium Halo Headband as an engineered wearable rather than a floating ring: padded headband with visible slim support arms/suspension brackets holding a dimensional translucent halo ring above it. Art Attack identity comes from tasteful painted enamel/splatter accents, small color-block inserts and mixed brushed-metal/acrylic materials integrated into the hardware. Three-quarter angle must make the support system, ring thickness and reflections obvious; Tier 4 lighting uses controlled luminous edges without turning the piece into a generic neon icon."
-      },
-      {
-        "id": "headwear-12",
-        "name": "Crystal Crown",
-        "tier": 5,
-        "theme": "Star Luxe",
-        "price": 1200,
-        "starReq": 9,
-        "currentLegacyPath": "public/assets/catalog/headwear-12.svg",
-        "currentLegacyGitBlobSha": "a21261baa8a6dea45df4ba10a042efab805a85ed",
-        "reviewer01CurrentLegacyDecision": "REWORK",
-        "promptRecipe": "Tier-5 Crystal Crown hero collectible, three-quarter wearable product render: dimensional crown band and rising prongs in polished pale-gold/silver metal, real gemstone settings, faceted clear/lilac/aqua crystals with controlled refraction, layered depth, filigree and a restrained star-luxe centerpiece. Show setting thickness, prong hardware, gemstone facets and cast/reflected light; luxurious and child-appropriate, never a flat crown silhouette or generic sparkle overlay."
-      }
+      {"id":"headwear-9","name":"Pencil Crown","tier":3,"theme":"Sunny Pop","price":460,"starReq":2,"currentLegacyPath":"public/assets/catalog/headwear-9.svg","currentLegacyGitBlobSha":"6c8185bbd18ab124f90b24238e7505abb2f77c5e","reviewer01CurrentLegacyDecision":"REWORK","promptRecipe":"Premium dimensional Pencil Crown wearable at a three-quarter product angle: a real curved padded headband/crown base supporting layered sharpened art pencils with visible lacquered wood bodies, graphite tips, metal ferrules and soft erasers; deliberate staggered crown silhouette, stitched/metal attachment points and believable overlap/occlusion. Sunny Pop uses cheerful sun-yellow, warm coral and small aqua accents in the materials, not as a flat background. Tier 3 should feel crafted and collectible but clearly simpler than Tier 4-5 hero pieces.","promptSha256":"78cba9041de82ad254390b435c5d54db513691c30d08aca80c07f3cb709d1ea5"},
+      {"id":"headwear-10","name":"Cat Ears","tier":4,"theme":"Aqua Wave","price":640,"starReq":5,"currentLegacyPath":"public/assets/catalog/headwear-10.svg","currentLegacyGitBlobSha":"6721c9726231ef050d08c9c447e900b067be8ad3","reviewer01CurrentLegacyDecision":"REWORK","promptRecipe":"Premium dimensional Cat Ears headband, standalone wearable with no character head: thick curved band, sculpted/sewn ear shells, plush inner-ear panels, visible seams and attachment hardware. Aqua Wave should come from layered teal/cyan/pearl materials with subtle wave-like iridescence, reflective edge highlights and controlled cool glow. Three-quarter angle must show band thickness and ear depth; Tier 4 needs materially richer construction than Tier 3 without obscuring the simple cat-ear identity.","promptSha256":"163c48793b0635f76c43b8406e06068af98038a3535b03649bd99059adecd9a9"},
+      {"id":"headwear-11","name":"Halo Headband","tier":4,"theme":"Art Attack","price":880,"starReq":5,"currentLegacyPath":"public/assets/catalog/headwear-11.svg","currentLegacyGitBlobSha":"0f09b1cd5fa56bb289e3217b2c5c3eaec2ddf8ef","reviewer01CurrentLegacyDecision":"REWORK","promptRecipe":"Premium Halo Headband as an engineered wearable rather than a floating ring: padded headband with visible slim support arms/suspension brackets holding a dimensional translucent halo ring above it. Art Attack identity comes from tasteful painted enamel/splatter accents, small color-block inserts and mixed brushed-metal/acrylic materials integrated into the hardware. Three-quarter angle must make the support system, ring thickness and reflections obvious; Tier 4 lighting uses controlled luminous edges without turning the piece into a generic neon icon.","promptSha256":"f9b17bb37710b040d3e30c4a2bc0b90a19b072d42690e203abf88d7a2ef63f72"},
+      {"id":"headwear-12","name":"Crystal Crown","tier":5,"theme":"Star Luxe","price":1200,"starReq":9,"currentLegacyPath":"public/assets/catalog/headwear-12.svg","currentLegacyGitBlobSha":"a21261baa8a6dea45df4ba10a042efab805a85ed","reviewer01CurrentLegacyDecision":"REWORK","promptRecipe":"Tier-5 Crystal Crown hero collectible, three-quarter wearable product render: dimensional crown band and rising prongs in polished pale-gold/silver metal, real gemstone settings, faceted clear/lilac/aqua crystals with controlled refraction, layered depth, filigree and a restrained star-luxe centerpiece. Show setting thickness, prong hardware, gemstone facets and cast/reflected light; luxurious and child-appropriate, never a flat crown silhouette or generic sparkle overlay.","promptSha256":"5c2faf6c5874bb47da424dd55cd73d2ac396a6b3447ce9306f9d184224cd8df6"}
     ],
-    "productionGate": "DO_NOT_GENERATE. Wait for Headwear5-8 exact repository readback plus reviewer01 dispositions and Workstream15 authorization of the next bounded batch."
+    "productionGate": "DO_NOT_GENERATE. Wait for Headwear5-8 exact repository readback plus reviewer01 dispositions and Workstream15 authorization of the next bounded batch. If opened, run artPromptOptimizer upstream before the 2-4 variant factory pilot."
   },
   "handoff": {
     "04": "Transport only: preserve producer=12 provenance; attach the exact existing Headwear5-8 600x600 derivative bytes to the planned paths without modifying art, reviewing or canonical-wiring when a supported exact-byte path becomes available.",
     "01": "Do not review Headwear5-8 until exact repository hashes exist. Preserve Headwear1-4 ACCEPTs. Headwear9-12 preparation is prompt/metadata only and is not reviewable art.",
     "08": "Preserve Headwear1-4 canonical handling. No Headwear5-8 mapping change until reviewer01 ACCEPTs exact repository hashes. No Headwear9-12 candidate exists.",
-    "15": "Latest coordination-15-20260922-0705 explicitly preserves Headwear5-8 external-not-staged blocker and opens no later Workstream12 accessory batch."
+    "15": "Current coordination-15-20260922-0705 preserves Headwear5-8 external-not-staged blocker and opens no later Workstream12 accessory batch."
   },
-  "freeze": {
-    "replitTouched": false,
-    "flootTouched": false,
-    "mainTouched": false,
-    "deploymentTouched": false,
-    "canonicalMappingsTouchedBy12": false,
-    "gameplayTouched": false,
-    "learningTouched": false,
-    "economyTouched": false,
-    "saveCodeTouched": false,
-    "testsChanged": false,
-    "realPlayerDataTouched": false
-  }
+  "freeze": {"replitTouched":false,"flootTouched":false,"mainTouched":false,"deploymentTouched":false,"paidSettingsOrPurchasesTouched":false,"secretsTouched":false,"canonicalMappingsTouchedBy12":false,"gameplayTouched":false,"learningTouched":false,"economyTouched":false,"saveCodeTouched":false,"testsChanged":false,"realPlayerDataTouched":false}
 }
