@@ -1,0 +1,86 @@
+{
+  "schemaVersion": 1,
+  "branch": "screenshot-match-preproduction",
+  "lane": "13",
+  "status": "SOURCE_PINNED_FOR_INTAKE",
+  "scope": "ART_AND_VISUALS_ONLY",
+  "reviewSources": {
+    "avatar": "docs/preproduction/visuals/reviews/01-avatar-keyart-fullbody-v2.json",
+    "home": "docs/preproduction/visuals/chat-home-bedroom-w13-v2-composition-performance-14-to-15.json"
+  },
+  "referencePixelsInspected": {
+    "manifest": "docs/preproduction/reference-screenshots/originals/original-reference-manifest.json",
+    "home": {"path": "docs/preproduction/reference-screenshots/originals/home-1448x1086.jpeg", "sha256": "6a4b110aeaf12a6ab0c629f9181cc6cfa8d4f55a518d4f2a6adb3ac6e756c457"},
+    "store": {"path": "docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg", "sha256": "b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d"},
+    "quest": {"path": "docs/preproduction/reference-screenshots/originals/quest-1448x1086.jpeg", "sha256": "70f1b952709a85c77bb11851ffe9ae704acf8b97640355e908b6ec537b5c73c9"}
+  },
+  "currentRenderInspected": {
+    "workflowRunId": 35663655650,
+    "artifactId": 10668287632,
+    "artifact": "current-render-evidence",
+    "paths": ["home-desktop-1408x1056.png", "home-phone-390x844.png", "store-desktop-1408x1056.png", "quest-desktop-1408x1056.png"],
+    "finding": "Current Home still shows a flat central environment and phone composition strongly dominated by overlays; v3 environment is kept unwired and only staged for independent review."
+  },
+  "avatarV3": {
+    "candidate": "avatar-keyart-fullbody-w13-v3",
+    "repairContract": "Preserve v2 square head, chunky body, waving pose, wink/open smile, hot-pink cat-ear headset, materials and lighting as closely as practical; extend medium-brown layered/slightly-wavy hair below shoulders to waist/upper-hip while keeping face/headset readable.",
+    "generation": {
+      "provider": "Adobe Photoshop generative edit after image-generation preflight",
+      "editRequestId": "4ade8379-3ed3-4890-b71a-fa4a053ee0de",
+      "editedSourceUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:46f12961-f8d7-4656-b37d-9b1dd16b3e08",
+      "fullTransparentUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:70280c25-9b92-4f3f-9ac8-cea530506741",
+      "fullBackgroundRemovalRequestId": "081dc0d3-63cb-476e-bb17-3e380e95fe70",
+      "optimizedTransparentUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:61f4ad12-a524-484d-9a3e-d368f6f992a8",
+      "optimizedResizeRequestId": "283540f3-9fc0-4530-9f5e-642d714e3286",
+      "optimizedBackgroundRemovalRequestId": "aded7d57-303c-4d68-a9ec-2b083361a3a4"
+    },
+    "artifacts": [
+      {"role": "source", "path": "docs/preproduction/visuals/recovered-originals/avatar-keyart-fullbody-w13-v3-source.png", "sourceUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:46f12961-f8d7-4656-b37d-9b1dd16b3e08", "expectedDimensions": [1360,1744], "requiresAlpha": false},
+      {"role": "full", "path": "public/assets/visuals/lane-13/avatar-keyart-fullbody-w13-v3-full.png", "sourceUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:70280c25-9b92-4f3f-9ac8-cea530506741", "expectedDimensions": [1360,1744], "requiresAlpha": true},
+      {"role": "optimized", "path": "public/assets/visuals/lane-13/avatar-keyart-fullbody-w13-v3-896.png", "sourceUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:61f4ad12-a524-484d-9a3e-d368f6f992a8", "expectedDimensions": [896,1149], "requiresAlpha": true}
+    ],
+    "producerPixelCheck": {
+      "selectedCandidateInspected": true,
+      "fullCutoutInspected": true,
+      "optimizedCutoutInspected": true,
+      "findings": "The selected repair retains the v2 square-head/chunky-body/wave/wink/open-smile/headset/material identity while extending brown hair as layered rear locks to approximately waist/upper-hip. Clothing remains noncanonical visual guidance only."
+    }
+  },
+  "homeV3": {
+    "candidate": "home-bedroom-w13-v3",
+    "repairContract": "Preserve warm pink/lilac materials, strong left-side warm light, bed-left/desk-right language and depth; open the lower hero corridor approximately x=36-64%; provide a 1408x1056 desktop derivative plus a purposeful 390x844 phone crop with edge-only furniture intrusion.",
+    "generation": {
+      "provider": "Adobe Firefly image generation after bounded image-generation composition preflight",
+      "generationRequestId": "3e432da7-31c8-4ffb-8150-ae9cb16dfb87",
+      "sourceUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:81903400-6889-483b-9523-f38c1f727367",
+      "desktopUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:fb1e7a88-e4f2-4446-8014-2cf999a6501f",
+      "desktopCropRequestId": "04d7e29e-e475-44b9-89cc-5ff37dedf6da",
+      "phoneUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:b9a11d1c-2cb5-4f17-830e-f380d357c73a",
+      "phoneCropRequestId": "e8c147bb-a2d5-4d58-be89-0e6aad8d0540"
+    },
+    "artifacts": [
+      {"role": "source", "path": "docs/preproduction/visuals/recovered-originals/home-bedroom-w13-v3-source.png", "sourceUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:81903400-6889-483b-9523-f38c1f727367", "expectedDimensions": [1728,1344], "requiresAlpha": false},
+      {"role": "desktop", "path": "public/assets/visuals/lane-13/home-bedroom-w13-v3-1408x1056.png", "sourceUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:fb1e7a88-e4f2-4446-8014-2cf999a6501f", "expectedDimensions": [1408,1056], "requiresAlpha": false},
+      {"role": "phone", "path": "public/assets/visuals/lane-13/home-bedroom-w13-v3-phone-390x844.png", "sourceUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:b9a11d1c-2cb5-4f17-830e-f380d357c73a", "expectedDimensions": [390,844], "requiresAlpha": false}
+    ],
+    "producerPixelCheck": {
+      "sourceInspected": true,
+      "desktopDerivativeInspected": true,
+      "phoneDerivativeInspected": true,
+      "findings": "Warm left-side light and bed-left/desk-right language remain; desktop has a broad quiet central floor/wall corridor. The purposeful phone crop is centered on the cleared wall/floor, with bed and chair reduced to edge context rather than occupying the hero center."
+    }
+  },
+  "constraints": {
+    "separateFromCatalog192": true,
+    "referenceOutfitMayNotOverrideOwnedEquippedState": true,
+    "noCanonicalCatalogMappingEdit": true,
+    "no06AssetMutation": true,
+    "no09AssetMutation": true,
+    "noRuntimeCssOrStateEdit": true,
+    "runtimeWiring": false,
+    "producerSelfApproval": false,
+    "thirdPartyIP": false,
+    "physicalDeviceTest": false,
+    "screenshotParityClaim": false
+  }
+}
