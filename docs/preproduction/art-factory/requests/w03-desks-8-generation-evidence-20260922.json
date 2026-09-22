@@ -1,0 +1,102 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_DESK_PRODUCER_GENERATION_EVIDENCE",
+  "producer": "03",
+  "branch": "screenshot-match-preproduction",
+  "parentBatchRequest": "docs/preproduction/art-factory/requests/w03-desks-7-10-20260922.json",
+  "observedBranchHeadBeforeWrite": "adf73f45faebda8399b18907702d0614f39e0ce0",
+  "item": {
+    "id": "desks-8",
+    "name": "Aqua Study Station",
+    "collection": "Desks & Tech",
+    "tier": 3,
+    "theme": "Galaxy Glow",
+    "price": 479,
+    "starReq": 2
+  },
+  "state": "TWO_SOURCE_CANDIDATES_GENERATED__EXACT_SOURCE_AND_DERIVATIVE_HASHES_PRESERVED__REPOSITORY_BINARY_STAGE_PENDING",
+  "generator": {
+    "provider": "OpenAI image_gen",
+    "exposedModelIdentity": null,
+    "exposedModelRevision": null,
+    "exposedSeed": null,
+    "exposedPromptText": null,
+    "note": "The native generator exposed no stable model/checkpoint, seed, or provider prompt text for these outputs in this run. Null is recorded rather than invented. Generation directives were taken from the exact desks-8 variantPlan in the parent request."
+  },
+  "candidates": [
+    {
+      "variant": "A-PHYSICAL",
+      "directiveBasis": "Aqua Study Station, Tier 3 Galaxy Glow; curved pale-aqua study desk, substantial top thickness, believable metal supports/joints, attached storage/cable bay, elevated display/book bridge, restrained galaxy-light identity, isolated three-quarter furniture product.",
+      "source": {
+        "localRuntimePath": "/mnt/data/a_crisp_stylized_3d_cg_render_of_a_modern_futuri.png",
+        "format": "PNG",
+        "dimensions": [1254, 1254],
+        "bytes": 1703536,
+        "sha256": "afd02d9caafb473f5069c5fbdfc0d0d2304caa720f5eb4db404ddaca5c02d6d9",
+        "gitBlobShaIfExactBytesAreImported": "735954877f050c290380dcd501dd4a4b688b1310"
+      },
+      "measuredDerivative": {
+        "localRuntimePath": "/mnt/data/desks-8-w03-v1-A-384q82.webp",
+        "format": "WEBP",
+        "dimensions": [384, 384],
+        "bytes": 17486,
+        "sha256": "31da73815204af1cdfa3fe4562ac836bf3222094e104cd1046da09c2e8fdb319",
+        "gitBlobShaIfExactBytesAreImported": "882229409d416fd4c5e8f0715425b308f7fc74aa",
+        "lineage": {
+          "sourceSha256": "afd02d9caafb473f5069c5fbdfc0d0d2304caa720f5eb4db404ddaca5c02d6d9",
+          "operation": "RGB resize 1254x1254 to 384x384 with LANCZOS; WEBP quality 82; method 6",
+          "tool": "Pillow 12.3.0"
+        }
+      },
+      "producerVisualCheck": "CANDIDATE_ONLY_NOT_ACCEPTANCE: unmistakable dimensional study furniture with visible top thickness and metal support frame; attached drawer/cable/storage mass; elevated display bridge; pale-aqua/indigo material separation; cyan-violet Galaxy Glow lighting; grounded contact shadow; strong small-card silhouette; no promo grid or fabricated item label.",
+      "repositoryStageState": "NOT_STAGED"
+    },
+    {
+      "variant": "B-THEME-TIER",
+      "directiveBasis": "Aqua Study Station, Tier 3 Galaxy Glow; architecturally distinct pale-aqua study console with rounded attached storage support, dark-indigo bracing, compact display/tablet workspace, luminous orbit-light identity, isolated three-quarter furniture product.",
+      "source": {
+        "localRuntimePath": "/mnt/data/a_highly_stylized_futuristic_sci_fi_gaming_creati.png",
+        "format": "PNG",
+        "dimensions": [1254, 1254],
+        "bytes": 1954405,
+        "sha256": "a0c4ff059b71f0b64c923e310e8f8244a6bbe46c8a60aa0bb95570df287cb54e",
+        "gitBlobShaIfExactBytesAreImported": "5bf02e89d116ff5cf9bf4e9e6e0eff9bd8e794b5"
+      },
+      "measuredDerivative": {
+        "localRuntimePath": "/mnt/data/desks-8-w03-v1-B-384q82.webp",
+        "format": "WEBP",
+        "dimensions": [384, 384],
+        "bytes": 22296,
+        "sha256": "85b5a1f966351847adbcbc8a2f288b4346c395b0a3fe438df8cdd7bc0262e3ec",
+        "gitBlobShaIfExactBytesAreImported": "67085c440d4ea56e5390863162b3e5b7a16933af"
+      },
+      "producerVisualCheck": "CANDIDATE_ONLY_NOT_ACCEPTANCE: distinct architectural console silhouette with substantial top, rounded physically supporting storage mass, dark metal bracing, premium aqua/graphite/glass response, restrained luminous Galaxy Glow treatment, and grounded studio shadow; no promo grid or fabricated item label.",
+      "repositoryStageState": "NOT_STAGED"
+    }
+  ],
+  "binaryStageAttempts": {
+    "unreferencedBlobAttemptsCreated": true,
+    "result": "REJECTED_BEFORE_TREE_COMMIT",
+    "reason": "Two direct base64 blob-transfer attempts did not reproduce the locally measured git blob SHAs exactly, so neither blob was referenced by a tree or commit. No false STAGED claim was made.",
+    "expectedDerivativeBlobShas": [
+      "882229409d416fd4c5e8f0715425b308f7fc74aa",
+      "67085c440d4ea56e5390863162b3e5b7a16933af"
+    ]
+  },
+  "handoffState": "NOT_ROUTED_TO_06_14_OR_REVIEWER05_UNTIL_EXACT_REPOSITORY_BYTES_EXIST_AND_READ_BACK",
+  "freeze": {
+    "desks-8": "FREEZE_CURRENT_TWO_SOURCE_CANDIDATES_FROM_REGENERATION_WHILE_EXACT_BYTE_IMPORT_IS_PENDING",
+    "desks-9": "DO_NOT_PROMOTE_NATIVE_ROOM_SCENE_ATTEMPTS; THEY WERE REJECTED_PRE_STAGE",
+    "desks-10": "NOT_OPENED_THIS_RUN",
+    "desks-11-12": "FROZEN_UNTIL_CURRENT_PILOT_DISPOSITION"
+  },
+  "safety": {
+    "selfApproved": false,
+    "canonicalManifestTouched": false,
+    "catalogRuntimeTouched": false,
+    "ciWorkflowTouched": false,
+    "gameplayLearningPersistenceEconomyTouched": false,
+    "mainReplitFlootDeployPaidSettingsSecretsPlayerDataTouched": false
+  },
+  "nextRequiredAction": "Import one of the exact preserved Desk 8 source/derivative byte sets through a supported repository binary path, verify Git blob/readback SHA and dimensions, then route those exact hashes to 06/14 and independent reviewer05. Do not transfer any verdict across hashes."
+}
