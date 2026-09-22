@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "expectedManifestVersion": 17,
+  "expectedStrictCanonicalBefore": 35,
+  "reviewer": "14",
+  "batchLabel": "Rugs 1-8 + Decor 1-2 exact-hash ACCEPTs",
+  "reviewEvidence": [
+    {
+      "path": "docs/preproduction/catalog-sprint/reviews/14.json",
+      "expectedBlobSha": "50fabe748ec59e08acc6970c0867399a402dba3b"
+    }
+  ],
+  "items": [
+    {"itemId":"rugs-1","assetPath":"/assets/catalog/rugs-1-w07-v2.jpg","assetHash":"5e00d1456fa21af74de75e583c69de48c9f2ecd2","producer":"07"},
+    {"itemId":"rugs-2","assetPath":"/assets/catalog/rugs-2-w07-v2.jpg","assetHash":"578caf5cc81998d6c7563082892e468fc9186eec","producer":"07"},
+    {"itemId":"rugs-3","assetPath":"/assets/catalog/rugs-3-w07-v2.jpg","assetHash":"0c3b62a84182cd8e7fc3b8dc57f9b1015e54e920","producer":"07"},
+    {"itemId":"rugs-4","assetPath":"/assets/catalog/rugs-4-w07-v2.jpg","assetHash":"d2c1a712dc530cec13ce72100657714900134ce2","producer":"07"},
+    {"itemId":"rugs-5","assetPath":"/assets/catalog/rugs-5-w07-v2.jpg","assetHash":"5a513011856679060df10137eae9f380377f5d78","producer":"07"},
+    {"itemId":"rugs-6","assetPath":"/assets/catalog/rugs-6-w07-v2.jpg","assetHash":"cb96e0d40e0682770e79ef8ce6a1a86ecec3127f","producer":"07"},
+    {"itemId":"rugs-7","assetPath":"/assets/catalog/rugs-7-w07-v2.jpg","assetHash":"184232121c9cd07c65fe1138893132ee0daa3fb3","producer":"07"},
+    {"itemId":"rugs-8","assetPath":"/assets/catalog/rugs-8-w07-v2.jpg","assetHash":"efe9bb6e887375a7e6ed74b15222391a1e2434bf","producer":"07"},
+    {"itemId":"decor-1","assetPath":"/assets/catalog/decor-1-w09-v2.jpg","assetHash":"7e0bad0b6f1dda6068c17109757c396de860892a","producer":"09"},
+    {"itemId":"decor-2","assetPath":"/assets/catalog/decor-2-w09-v2.jpg","assetHash":"d5377bda54cba2071819da60bf4f4d4c52e393a6","producer":"09"}
+  ],
+  "nextAcceptedQueues": [
+    "01: Tops 7-10, Bottoms 1-4, Headwear 1-4 exact ACCEPT backlog.",
+    "02: Seating 2-6 exact ACCEPT backlog.",
+    "05: Desks 5-6, Beds 1-4, Auras 1-4 v3 exact ACCEPT backlog.",
+    "14: supplemental Rugs 9-10 exact ACCEPTs; Rugs 11-12 remain REWORK."
+  ],
+  "commitMessage": "catalog: wire accepted Rugs 1-8 and Decor 1-2"
+}
