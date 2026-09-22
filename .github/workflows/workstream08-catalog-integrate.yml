@@ -13,13 +13,13 @@ permissions:
   contents: write
 
 concurrency:
-  group: workstream08-catalog-integrate-${{ github.ref }}
-  cancel-in-progress: true
+  group: starblox-workstream08-canonical-writer
+  cancel-in-progress: false
 
 jobs:
   integrate:
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
     steps:
       - name: Checkout current integration branch
         uses: actions/checkout@v4
@@ -27,13 +27,20 @@ jobs:
           ref: screenshot-match-preproduction
           fetch-depth: 0
 
+      - name: Fast-forward to latest branch head without force
+        run: |
+          set -eu
+          git fetch origin screenshot-match-preproduction
+          git merge --ff-only origin/screenshot-match-preproduction
+          echo "SOURCE_HEAD=$(git rev-parse HEAD)" >> "$GITHUB_ENV"
+
       - name: Use Node 22
         uses: actions/setup-node@v4
         with:
           node-version: '22'
 
       - name: Install dependencies
-        run: npm install --no-audit --no-fund
+        run: npm install --no-save --package-lock=false --no-audit --no-fund
 
       - name: Reconcile canonical metadata to current Store model
         run: node scripts/workstream08NormalizeManifestMetadata.mjs
@@ -50,8 +57,14 @@ jobs:
       - name: Finalize integration evidence
         run: node scripts/workstream08Integrate.mjs --finalize-tests
 
-      - name: Commit canonical accepted batch
+      - name: Run end-to-end art workflow audit before publication
         run: |
+          mkdir -p artifacts/workstream08
+          node scripts/artWorkflowAudit.mjs             --repo-root .             --output artifacts/workstream08/workflow-audit.json
+
+      - name: Commit canonical accepted batch and push without force
+        run: |
+          set -eu
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add catalog-art-manifest.json src/catalogArtRuntime.js docs/preproduction/catalog-sprint/integration.json docs/preproduction/catalog-sprint/integration.md docs/preproduction/workstreams/08-catalog-art.md
@@ -59,7 +72,24 @@ jobs:
             echo "No canonical changes to commit"
             exit 0
           fi
-          git commit -m "catalog: integrate accepted tops and lighting"
-          git fetch origin screenshot-match-preproduction
-          git rebase origin/screenshot-match-preproduction
-          git push origin HEAD:screenshot-match-preproduction
+          git commit -m "catalog: integrate qualified exact-hash accepts"
+          for attempt in 1 2 3; do
+            if git push origin HEAD:refs/heads/screenshot-match-preproduction; then exit 0; fi
+            git fetch origin screenshot-match-preproduction
+            if ! git rebase origin/screenshot-match-preproduction; then
+              git rebase --abort || true
+              echo "Concurrent canonical conflict; no force push and no stale overwrite." >&2
+              exit 1
+            fi
+          done
+          echo "Safe canonical publication failed after retries; no force push." >&2
+          exit 1
+
+      - name: Upload integration audit evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: workstream08-canonical-audit-${{ github.sha }}
+          path: artifacts/workstream08/
+          if-no-files-found: warn
+          retention-days: 14
