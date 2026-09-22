@@ -102,11 +102,14 @@
   ],
   "stages": [
     "LIVE_RECONCILIATION",
+    "STRUCTURED_REVIEW_CORPUS",
+    "STALE_SAFE_REGENERATION_QUEUE",
     "PROMPT_OPTIMIZATION",
     "DETERMINISTIC_JOB_PLAN",
     "BOUNDED_GENERATION_2_TO_4",
     "VERSIONED_DERIVATIVES",
     "REPORT_ONLY_MACHINE_PREFLIGHT",
+    "REPORT_ONLY_VISUAL_CALIBRATION",
     "GITHUB_EXACT_BYTE_STAGING_AND_READBACK",
     "STAGED_OUTPUT_VERIFICATION",
     "REAL_CARD_DETAIL_OR_SURFACE_RENDER",
@@ -205,5 +208,58 @@
       "WRITE_CATALOG_RUNTIME",
       "CHANGE_GAMEPLAY"
     ]
+  },
+  "reviewNormalizer": {
+    "script": "scripts/artReviewNormalizer.mjs",
+    "test": "scripts/artReviewNormalizer.node-test.mjs",
+    "purpose": "Normalize current independent exact-hash reviewer evidence into a shared failure taxonomy without replacing the human reason or transferring verdicts across hashes.",
+    "emits": "artifacts/art-factory-pilot/review-corpus.json",
+    "invariants": [
+      "HUMAN_REASON_PRESERVED",
+      "OLD_VERDICT_NEVER_TRANSFERS_ACROSS_HASH",
+      "SELF_REVIEW_MARKED_NON_INDEPENDENT",
+      "FAILURE_CODES_DERIVED_NOT_AUTHORITATIVE"
+    ]
+  },
+  "regenerationQueue": {
+    "script": "scripts/artRegenerationQueue.mjs",
+    "test": "scripts/artRegenerationQueue.node-test.mjs",
+    "purpose": "Derive live bounded art-regeneration work from current independent REWORK evidence while freezing ACCEPTs, excluding technical blockers, and suppressing stale work when a newer candidate is already pending.",
+    "emits": "artifacts/art-factory-pilot/regeneration-queue.json",
+    "maxItemsPerProducerBatch": 4,
+    "cannot": [
+      "REGENERATE_ACCEPTED_EXACT_HASH",
+      "REGENERATE_BLOCKED_EVIDENCE_STATE",
+      "REGENERATE_WHEN_NEWER_CANDIDATE_PENDING",
+      "AUTO_APPROVE_ART"
+    ]
+  },
+  "visualPreflight": {
+    "script": "scripts/catalogVisualPreflight.py",
+    "purpose": "Record provider-independent objective image metrics and perceptual-neighbor evidence before human review.",
+    "status": "REPORT_ONLY",
+    "metrics": [
+      "SHA256_AND_GIT_BLOB",
+      "AHASH",
+      "DHASH",
+      "LUMINANCE_RANGE",
+      "ENTROPY",
+      "EDGE_DENSITY",
+      "ALPHA_AND_CONTENT_COVERAGE",
+      "SOURCE_AND_THUMBNAIL_METRICS"
+    ],
+    "automaticDecision": false
+  },
+  "visualCalibration": {
+    "script": "scripts/catalogVisualCalibration.py",
+    "purpose": "Compare report-only visual metrics against current independent ACCEPT/REWORK labels and measure whether any metric has enough evidence to become a warning signal.",
+    "emits": "artifacts/art-factory-pilot/visual-calibration.json",
+    "automaticThresholdActivation": false,
+    "blockingThresholds": [],
+    "minimumRecommendedSamples": {
+      "ACCEPT": 20,
+      "REWORK": 12
+    },
+    "furtherRequirement": "Even after sample-count readiness, false-positive calibration plus reviewer sign-off are required before any metric can become blocking."
   }
 }
