@@ -1,6 +1,6 @@
-# Catalog Sprint — Lane 09 Tops 11–12 Repair Handoff
+# Catalog Sprint — Lane 09 Tops 11–12 v6 Repair Handoff
 
-STATUS: **TOPS 11–12 V5 — CLEAN REPOSITORY READBACK + CARD/DETAIL RENDERS — READY FOR REVIEWER 01**
+STATUS: **TOPS 11–12 V6 — REPOSITORY-STAGED, EXACT READBACK PASS, SHARED PIXEL QA PENDING**
 
 Branch: `screenshot-match-preproduction`  
 Phase: `ART_AND_VISUALS_ONLY`  
@@ -9,68 +9,53 @@ Canonical integration owner: **08 only**
 Independent review owner: **01 only**  
 Self-approval: **NO**
 
-## Review input consumed
+## Reviewer input consumed
 
-Reviewer 01 rejected the previous v4 exact hashes after actual-pixel inspection:
+Reviewer 01 independently REWORKED both current v5 hashes after actual card/detail inspection. These were visual-quality failures, not decode failures:
 
-- `tops-11` Cloud Jacket — `/assets/catalog/tops-11-w09-v4.svg`, blob `0f25972d3656ebca111083739660e4ddc0204fb8` — **REWORK** for insufficient dimensional/material depth.
-- `tops-12` Star Coat — `/assets/catalog/tops-12-w09-v4.svg`, blob `0732bbcf7dd4dae4e291f4109fc9686918ffceef` — **REWORK** for weak coat silhouette and Tier-5 dimensionality.
+- `tops-11` Cloud Jacket — `/assets/catalog/tops-11-w09-v5.svg`, blob `43a850ecdc0b7e8861870f7c277f2544f6c87405` — **REWORK** because card-scale volume/material response remained too flat for Tier 4 despite improved silhouette/hardware.
+- `tops-12` Star Coat — `/assets/catalog/tops-12-w09-v5.svg`, blob `73339e6c9e472283f481ff18b1e6ba821856f617` — **REWORK** because the long-coat read and Tier-5 physical/material depth remained below accepted Tops 7–10.
 
-The v4 files and all older versions remain preserved. No bad hash was reused.
+All v5 and older candidates remain preserved. No rejected hash was reused.
 
-## New exact candidates
+## New exact v6 candidates
 
 ### Tops 11 — Cloud Jacket
 
-- Store identity preserved: `Cloud Jacket`, Tops, Tier 4, `Candy Core`.
-- New path: `/assets/catalog/tops-11-w09-v5.svg`.
-- Exact Git blob: `43a850ecdc0b7e8861870f7c277f2544f6c87405`.
-- Native render size: **600×600**.
-- Construction changes: visible side body plane; foreshortened far sleeve; rounded puffer/quilt loft; layered hood/collar; rib-knit cuffs/hem; zipper and pocket hardware; Candy Core cloud/star treatment; fabric texture; warm key/cool rim separation and grounded shadow.
-- Provenance: original StarBlox self-contained SVG; no external image references, third-party brands/characters, or copied IP.
+- Identity preserved: `Cloud Jacket`, Tops, Tier 4, `Candy Core`.
+- New path: `/assets/catalog/tops-11-w09-v6.jpg`.
+- Exact Git blob: `061a749472ad71e61732ac3a9629c42d54b4e580`.
+- SHA-256: `ed9c8f99d904a3d980684f2f67f94b52eb6906c14a058c79794de3226694d2db`.
+- Format/dimensions/bytes: **JPEG / 600×600 / 49,502 bytes**.
+- Construction target realized: visibly inflated torso/sleeve chambers, seam compression, recessed padded hood, attached sleeve volume, glossy-shell versus knit separation, zipper/pocket hardware, controlled warm/cool form lighting and grounded shadow.
+- Provenance: original StarBlox image-generation repair exported as a clean repository JPEG; no copied screenshot pixels, third-party brands/characters, or Roblox/Brookhaven art.
 
 ### Tops 12 — Star Coat
 
-- Store identity preserved: `Star Coat`, Tops, Tier 5, `Adventure Club`.
-- New path: `/assets/catalog/tops-12-w09-v5.svg`.
-- Exact Git blob: `73339e6c9e472283f481ff18b1e6ba821856f617`.
-- Native render size: **600×600**.
-- Construction changes: unmistakable long-coat silhouette and tails; three-quarter body turn; layered storm yoke; quilted inner layer; differentiated navy/burgundy/sand materials; reinforced sleeves; deep utility pockets; belt/buckles; premium zipper/hardware; restrained star-compass identity; fabric texture; warm key/cool rim separation and grounded shadow.
-- Provenance: original StarBlox self-contained SVG; no external image references, third-party brands/characters, or copied IP.
+- Identity preserved: `Star Coat`, Tops, Tier 5, `Adventure Club`.
+- New path: `/assets/catalog/tops-12-w09-v6.jpg`.
+- Exact Git blob: `e9d462cb222c2ff20e220e237cb3890e1e6eb76c`.
+- SHA-256: `c14905d41ba51e10cc2a96dabdfdb5183aff563b2d738a5031a774bb6b79db26`.
+- Format/dimensions/bytes: **JPEG / 600×600 / 61,020 bytes**.
+- Construction target realized: unmistakable long outerwear silhouette, deep three-quarter torso, overlapping storm/yoke layers, padded hood, layered woven panels with fold/drape tension, belt and utility pockets, compass/star hardware, distinct metal highlights and cast/contact shadow.
+- Provenance: original StarBlox image-generation repair exported as a clean repository JPEG; no copied screenshot pixels, third-party brands/characters, or Roblox/Brookhaven art.
 
-## Exact readback + actual-pixel evidence
+## Repository persistence/readback
 
-Shared staged-art QA run **35681227316** rendered the exact v5 hashes from head `288103b2fae24862d8fe733d6b64964fc24d06d9`.
+Asset commit: `0e59daad65faf9f4af6a017b62fa193b4db851e4`.
 
-Artifact: `10674362796`  
-Artifact digest: `sha256:af564c231b473f2aa11628e8e8f672191cc84348221cdcd40495606415b946e7`
+Both 600×600 JPEGs were written as Git blobs and read back from `screenshot-match-preproduction` at their exact versioned paths. Repository blob identity matches the values above. The local export/decode/dimension checks pass.
 
-Both exact candidates returned:
+The first shared QA push after the asset commit ran before lane-09 was pointed at v6, so run `35686953352` correctly rendered the previous v5 rows. That evidence is **not** transferred to v6. This lane update makes the two v6 paths authoritative inputs for the next shared staged-art card/detail capture.
 
-- HTTP **200**;
-- SVG signature **PASS**;
-- self-contained / no-active-content safety **PASS**;
-- natural dimensions **600×600**;
-- opaque fraction **1.0**;
-- screenshot present;
-- item render error list **empty**.
+## Required next evidence + handoff
 
-Evidence paths:
+**Shared staged-art QA:** render the exact v6 hashes at Store-card and detail scale, recording natural dimensions, HTTP/decode status, screenshot paths and per-item errors.
 
-- Tops 11 detail: `staged-replacements/detail/tops-11-43a850ec.png`.
-- Tops 12 detail: `staged-replacements/detail/tops-12-73339e6c.png`.
-- Card-scale evidence for both: `staged-replacements/staged-replacements-contact-sheet.png`.
+**01:** after that exact v6 pixel evidence exists, independently issue ACCEPT or REWORK for `061a7494...` and `e9d462cb...`. Do not transfer the v5 verdicts.
 
-The workflow job concluded failure because the shared batch contains other failing candidates; `report.json` has **no render error for Tops 11 or Tops 12**, so that unrelated overall job conclusion is not transferred onto these exact hashes.
+**08:** do not canonical-wire either asset until Reviewer 01 accepts that exact v6 hash.
 
-Producer inspection only establishes clean renderability and absence of the previous decode/corruption failure. It is **not** visual acceptance. Reviewer 01 must independently decide whether the new construction/material depth is sufficient against the premium reference target.
+**09:** preserve these v6 candidates while review is pending. Do **not** start Decor until Tops 11–12 v6 receive clean card/detail evidence and reviewer-01 disposition.
 
-## Handoff
-
-**01:** independently review exact hashes `43a850ec...` and `73339e6c...` from the preserved card/detail artifact and issue ACCEPT or REWORK. Do not transfer the v4 verdicts.
-
-**08:** do not wire either item until Reviewer 01 accepts that exact hash.
-
-**09:** preserve both v5 candidates while review is pending. Do not regenerate either pending hash and do not begin unrelated scene work. Decor remains behind current coordination/reviewer-14-driven repair ordering.
-
-No Replit/Floot, `main`, deployment, paid setting/service purchase, canonical runtime/manifest, player state, saves, economy, learning logic, or existing accepted asset was changed.
+No Replit/Floot, `main`, deployment, paid settings/services, canonical runtime/manifest, player state, saves, economy, learning logic, scene work, or existing accepted asset was changed.
