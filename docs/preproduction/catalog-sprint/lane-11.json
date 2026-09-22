@@ -1,11 +1,11 @@
 {
-  "schemaVersion": 11,
+  "schemaVersion": 12,
   "lane": "11",
   "workstream": "11",
   "phase": "CATALOG_SPRINT",
   "visualFocus": "ART_AND_VISUALS_ONLY",
   "branch": "screenshot-match-preproduction",
-  "status": "AURAS_1_12_EXACT_HASH_ACCEPTED_CANONICAL__NO_CATALOG_REASSIGNMENT__VISUAL_SPEC_READY",
+  "status": "AURAS_1_12_EXACT_HASH_ACCEPTED_CANONICAL__NO_CATALOG_REASSIGNMENT__VISUAL_SPECS_READY",
   "policy": "docs/preproduction/DELIVERY_PROTOCOL_V2.md",
   "visualSprint": "docs/preproduction/ART_VISUALS_SPRINT.json",
   "independentReviewer": "05",
@@ -25,7 +25,7 @@
     "auras-11",
     "auras-12"
   ],
-  "auditedBranchHeadBeforeWrite": "e7f315f3e09c93a5bb954a557307f6ffe3bddee3",
+  "auditedBranchHeadBeforeWrite": "70ddefa85504c6fe54ae640eb5aa810f28c45a51",
   "historyRefs": [
     {
       "priorLaneBlobSha": "cac3d9cf34cc61346a6a2f55e3cc18c200696b89",
@@ -43,7 +43,7 @@
     {
       "manifestBlobSha": "27c77919cfbc5cf52570bf91871338b59cded055",
       "runtimeBlobSha": "a3b5b2b98a8507f5226191959a3cd91ef6729bdb",
-      "scope": "Current manifest v27 and runtime mapping both point auras-11 to /assets/catalog/auras-11-w11-v3.jpg."
+      "scope": "Manifest v27/runtime integration evidence points auras-11 to /assets/catalog/auras-11-w11-v3.jpg."
     }
   ],
   "acceptedCanonicalCurrent": [
@@ -108,10 +108,14 @@
   },
   "visualFinishingPrep": {
     "status": "SPEC_READY_NO_RUNTIME_WRITE",
-    "document": "docs/preproduction/workstreams/11-motion-game-feel.md",
-    "documentBlobAfterWrite": "b39bf37f1e74fb3ddf31e2b4b8e9319e74ba3365",
+    "narrativeDocument": "docs/preproduction/workstreams/11-motion-game-feel.md",
+    "referenceZoneDocument": "docs/preproduction/workstreams/11-reference-effect-zones.md",
+    "machineReadableRecipe": "docs/preproduction/workstreams/11-effect-material-recipes-v1.json",
+    "machineReadableRecipeBlobSha": "2bdeb9eb873f87922b65392070bb5b386ef23073",
+    "machineReadableRecipeCommit": "70ddefa85504c6fe54ae640eb5aa810f28c45a51",
     "authoritativeReferenceManifest": "docs/preproduction/reference-screenshots/original-reference-manifest.json",
     "referenceManifestBlobSha": "63956763934f17613a3f98889f8085051a78a0b6",
+    "designContractBlobSha": "b3b8a0cdf7eb298bcb60702b0c941238b75010fa",
     "screens": ["Home", "Store", "Quest"],
     "preparedRecipes": [
       "premium-panel-energy",
@@ -122,7 +126,10 @@
       "avatar-buddy-visual-life",
       "gentle-screen-transitions",
       "static-reduced-motion-equivalents",
-      "later-performance-material-budgets"
+      "effect-layer-stack-and-occlusion",
+      "deterministic-effect-cleanup",
+      "later-performance-material-budgets",
+      "machine-readable-normal-vs-reduced-acceptance-contract"
     ],
     "runtimeImplementation": "NOT_AUTHORIZED_THIS_PASS_SHARED_ENTRYPOINT_COORDINATION_15",
     "newBrowserPerformanceEvidence": "NOT_EXECUTED",
@@ -135,12 +142,14 @@
     "eligibleForRegeneration": 0,
     "assetsRegeneratedThisPass": 0,
     "acceptedAssetsChangedThisPass": 0,
-    "newCatalogFamiliesClaimed": 0
+    "newCatalogFamiliesClaimed": 0,
+    "newArtOnlySpecificationArtifactsThisPass": 1
   },
   "handoff": {
     "05": "Aura family closed at review level. Preserve exact current ACCEPT decisions for Auras 1-12; re-review only if a later exact-hash defect/new hash is presented.",
     "08": "Aura 11 is already canonically wired at commit ad8867efc70d1b123cbc5e2f157766bec58e510d. Preserve all Aura mappings/hashes unless a later exact-hash defect is recorded.",
-    "15": "Aura production is complete. Workstream 11 claims no other catalog family. A reference-grounded motion/lighting/static-reduced-motion finishing spec is ready in docs/preproduction/workstreams/11-motion-game-feel.md; coordinate any shared runtime entrypoint implementation and provide explicit reassignment before new catalog production.",
+    "14": "When 15 authorizes shared visual implementation, consume the machine-readable Workstream-11 effect recipe plus the existing reference-zone spec to capture normal/reduced states and actual paint/composite/scroll evidence. No PASS is implied before execution.",
+    "15": "Aura production is complete. Workstream 11 claims no other catalog family. Reference-grounded narrative, zoning and machine-readable motion/lighting/static-reduced-motion specifications are ready; coordinate any shared runtime entrypoint implementation and provide explicit reassignment before new catalog production.",
     "11": "Hold accepted Aura bytes. Stay ART_AND_VISUALS_ONLY; do not alter shared runtime/state or claim another catalog family without Workstream-15 coordination."
   },
   "releaseGates": {
