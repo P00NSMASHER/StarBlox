@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="600" viewBox="0 0 600 600" role="img" aria-labelledby="title desc">
+<title id="title">Cloud Jacket</title><desc id="desc">Candy Core tier four dimensional three-quarter puffer jacket product art.</desc>
+<defs>
+ <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff7fb"/><stop offset=".5" stop-color="#f7eaff"/><stop offset="1" stop-color="#e8f2ff"/></linearGradient>
+ <radialGradient id="halo" cx="46%" cy="38%" r="58%"><stop stop-color="#fff" stop-opacity=".96"/><stop offset=".58" stop-color="#ffd9ee" stop-opacity=".26"/><stop offset="1" stop-color="#a8bcff" stop-opacity="0"/></radialGradient>
+ <linearGradient id="pink" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ffd5e9"/><stop offset=".24" stop-color="#ff9fd0"/><stop offset=".58" stop-color="#ea73ba"/><stop offset="1" stop-color="#bb4d9d"/></linearGradient>
+ <linearGradient id="pinkSide" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#d960aa"/><stop offset=".55" stop-color="#b84692"/><stop offset="1" stop-color="#7b2f72"/></linearGradient>
+ <linearGradient id="cream" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fffefd"/><stop offset=".62" stop-color="#f9e8f1"/><stop offset="1" stop-color="#dcc9dd"/></linearGradient>
+ <linearGradient id="lilac" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#e9ddff"/><stop offset=".5" stop-color="#bca4f4"/><stop offset="1" stop-color="#826dcc"/></linearGradient>
+ <linearGradient id="blue" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#dcf4ff"/><stop offset=".5" stop-color="#9ed0ff"/><stop offset="1" stop-color="#6f9edc"/></linearGradient>
+ <linearGradient id="metal" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff4b0"/><stop offset=".3" stop-color="#f8c95e"/><stop offset=".64" stop-color="#d98f27"/><stop offset="1" stop-color="#8a4e0d"/></linearGradient>
+ <linearGradient id="rib" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#6e54b6"/><stop offset=".28" stop-color="#b095ef"/><stop offset=".5" stop-color="#ff98c8"/><stop offset=".72" stop-color="#b095ef"/><stop offset="1" stop-color="#6650aa"/></linearGradient>
+ <pattern id="ribbing" width="8" height="8" patternUnits="userSpaceOnUse"><rect width="8" height="8" fill="url(#rib)"/><path d="M2 0v8M6 0v8" stroke="#fff" stroke-opacity=".23"/></pattern>
+ <filter id="drop" x="-35%" y="-35%" width="180%" height="190%"><feGaussianBlur in="SourceAlpha" stdDeviation="10" result="b"/><feOffset dx="8" dy="15" result="o"/><feColorMatrix in="o" type="matrix" values="0 0 0 0 .22 0 0 0 0 .12 0 0 0 0 .38 0 0 0 .28 0"/><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+ <filter id="fabric" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="7" result="n"/><feColorMatrix in="n" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 .055 0" result="t"/><feBlend in="SourceGraphic" in2="t" mode="soft-light"/></filter>
+ <filter id="soft"><feGaussianBlur stdDeviation="10"/></filter>
+</defs>
+<rect width="600" height="600" rx="42" fill="url(#bg)"/><rect width="600" height="600" rx="42" fill="url(#halo)"/>
+<ellipse cx="305" cy="520" rx="170" ry="28" fill="#5d3d88" opacity=".16" filter="url(#soft)"/>
+<g filter="url(#drop)">
+ <!-- hood, clearly turned three-quarter -->
+ <path d="M188 171c20-77 76-116 142-106 56 9 95 50 98 106l-42 45-164-6z" fill="url(#pink)" stroke="#ba5b9e" stroke-width="4"/>
+ <path d="M222 167c20-47 58-70 102-64 38 5 68 31 80 68l-27 24-132-5z" fill="#8e6cc9" opacity=".58"/>
+ <path d="M240 155c18-29 44-42 77-38 32 4 58 22 74 48-27-9-52-12-77-9-25 2-49 9-74 19z" fill="#ffe0ef"/>
+ <!-- rear/side body plane -->
+ <path d="M336 170c48 7 85 24 108 55l20 225c4 42-19 69-57 76l-69-12-12-329z" fill="url(#pinkSide)" stroke="#7d2e70" stroke-width="5"/>
+ <!-- front torso plane -->
+ <path d="M181 189c35-26 83-36 151-23l19 340c-56 17-110 17-163 1-30-9-46-34-42-68z" fill="url(#cream)" stroke="#b98dad" stroke-width="5" filter="url(#fabric)"/>
+ <!-- near sleeve, larger and forward -->
+ <path d="M189 203c-58 14-96 55-115 117-13 43-17 87-14 132 2 31 22 49 50 52l51 5 34-49 27-226z" fill="url(#pink)" stroke="#b7579d" stroke-width="5" filter="url(#fabric)"/>
+ <!-- far sleeve, foreshortened -->
+ <path d="M424 215c38 11 62 40 75 82 12 37 15 75 12 112-3 25-18 40-39 42l-36 2-28-36-16-183z" fill="url(#pinkSide)" stroke="#7d2f73" stroke-width="5"/>
+ <!-- rounded puffer loft cells on front -->
+ <path d="M197 202c39-19 84-24 135-13l5 73c-24-11-49-12-74-4-23 7-42 21-57 42-8-32-11-65-9-98z" fill="url(#pink)" stroke="#d16aaf" stroke-width="3"/>
+ <path d="M199 271c26-14 54-17 82-8 21 7 37 19 49 37l7 77c-25-15-51-20-78-14-23 5-42 17-56 36-4-41-6-84-4-128z" fill="url(#lilac)" stroke="#8870cc" stroke-width="3"/>
+ <path d="M202 373c29-14 58-16 86-7 20 7 38 18 52 35l4 87c-47 12-94 12-141-1z" fill="url(#blue)" stroke="#6f9bd2" stroke-width="3"/>
+ <!-- side puffer bands -->
+ <path d="M350 207c29 3 55 12 76 29l6 75c-30-15-56-18-78-9z" fill="#cf65aa" stroke="#9a3c83" stroke-width="3"/>
+ <path d="M355 314c30-10 55-7 79 9l7 72c-27-13-53-13-79-1z" fill="#9a83dc" stroke="#6d56ae" stroke-width="3"/>
+ <path d="M364 405c27-11 53-11 76 1l7 71c-27 10-51 10-73 1z" fill="#7dadde" stroke="#628bc0" stroke-width="3"/>
+ <!-- seam compression highlights -->
+ <path d="M194 258c45 15 92 16 143 3M198 362c43 15 91 17 142 4M208 457c41 13 85 13 132 2" fill="none" stroke="#fff" stroke-opacity=".48" stroke-width="6" stroke-linecap="round"/>
+ <path d="M128 267c-21 45-28 99-22 162M457 267c13 38 15 77 6 116" fill="none" stroke="#fff" stroke-opacity=".34" stroke-width="5" stroke-linecap="round"/>
+ <!-- front zipper and hardware -->
+ <path d="M316 167l18 338" stroke="#7257a9" stroke-width="20" stroke-linecap="round"/>
+ <path d="M319 171l11 329" stroke="url(#metal)" stroke-width="7" stroke-linecap="round"/>
+ <path d="M326 229l16 12-5 24-20 1-7-22z" fill="url(#metal)" stroke="#9f6319" stroke-width="3"/>
+ <!-- utility pockets -->
+ <path d="M216 338l73-10 11 31-56 44-32-18z" fill="#e888be" stroke="#b45a98" stroke-width="4"/>
+ <path d="M363 341l57 5 4 27-43 31-27-18z" fill="#bf5e9f" stroke="#843674" stroke-width="4"/>
+ <circle cx="269" cy="351" r="6" fill="url(#metal)"/><circle cx="393" cy="358" r="5" fill="url(#metal)"/>
+ <!-- rib knit -->
+ <path d="M67 447l90 7-5 54-46-4c-27-3-42-22-39-57z" fill="url(#ribbing)" stroke="#6850aa" stroke-width="4"/>
+ <path d="M469 410l43-4-4 47-38 4z" fill="url(#ribbing)" stroke="#5f469d" stroke-width="4"/>
+ <path d="M196 487c49 14 99 14 149 1l5 34c-54 12-105 12-156-1z" fill="url(#ribbing)" stroke="#6650a9" stroke-width="4"/>
+ <!-- Candy Core cloud appliques and small stars -->
+ <g fill="#fffafc" stroke="#e3c7df" stroke-width="2">
+  <path d="M221 239c-8 0-15 7-15 15 0 9 7 15 17 15h39c10 0 17-6 17-14 0-7-5-13-13-14-3-11-12-18-22-18-10 0-18 6-23 16z"/>
+  <path d="M370 250c-7 0-12 5-12 12s6 12 13 12h28c8 0 13-5 13-11 0-6-4-11-11-12-2-8-8-13-16-13-7 0-12 4-15 12z"/>
+ </g>
+ <g fill="url(#metal)" stroke="#fff0b0" stroke-width="2">
+  <path d="M248 288l8 16 18 3-13 12 3 18-16-8-16 8 3-18-13-12 18-3z"/>
+  <path d="M401 293l6 12 13 2-10 9 2 13-11-6-11 6 2-13-9-9 13-2z"/>
+ </g>
+ <!-- form-defining warm key / cool rim -->
+ <path d="M203 193c37-20 76-25 116-16M99 278c-15 35-19 71-14 109" fill="none" stroke="#fff7df" stroke-width="8" stroke-linecap="round" opacity=".66"/>
+ <path d="M435 232c23 15 37 38 43 69M447 381c5 20 5 40 0 60" fill="none" stroke="#bfe7ff" stroke-width="7" stroke-linecap="round" opacity=".68"/>
+</g>
+</svg>
