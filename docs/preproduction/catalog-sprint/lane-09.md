@@ -1,6 +1,6 @@
 # Catalog Sprint — Lane 09 Decor 3–4 v3 Factory Pilot
 
-STATUS: **DECOR 3–4 V3 EXACT BYTES STAGED / PENDING REVIEWER 14 CARD+DETAIL PIXELS**
+STATUS: **DECOR 3–4 V3 EXACT BYTES + REAL CARD/DETAIL EVIDENCE READY / PENDING REVIEWER 14 DECISION**
 
 Branch: `screenshot-match-preproduction` · Phase: `ART_AND_VISUALS_ONLY` · 08 alone canonical-wires · Reviewer 14 alone judges Decor · no self-approval.
 
@@ -32,9 +32,19 @@ Generation used the authorized OpenAI image-generation service. Its service chec
 
 Producer inspection only—not approval—confirms the flat-icon failure was materially replaced: Arcade Mini is a physical tabletop cabinet with visible front/side thickness, inset screen, controls, hardware/feet, differentiated Adventure Club materials and contact shadow; Plush Stack has a broad cloud cushion base, sleepy rounded center, star/cloud accent, seams, textile nap, compression and layer shadows. No text/logo/third-party character appears.
 
+## Real StarBlox card/detail render evidence
+
+The branch-local `StarBlox Staged Catalog Art QA` automatically rendered the staging commit `b0a35343773b2ebbfdba3b5a3f99263b6c824e83` in workflow run `35722505018`. Its uploaded `catalog-staged-art-review` artifact is ID `10691708297`, digest `sha256:cd050d2fd3ae0902d6641415381e003c05dfef4b206093716d70cfbc840ca685`. The workflow's overall conclusion is failure because unrelated `desks-2`, `desks-3`, and `desks-4` staged WEBPs failed image decode; neither Decor candidate contributed an error.
+
+For exact blob `5c9e3ad9b88b29c8ffb67d262f828f38d24763be`, the report records HTTP 200, valid WEBP signature, self-contained raster safety, natural 600×600 dimensions, opaque fraction 1, screenshot present, and no per-item errors. Detail evidence `staged-replacements/detail/decor-3-5c9e3ad9.png` is 800×800 PNG / 612,882 bytes / SHA-256 `0a0194b3669f3af6025784fa717bb667cf4702c25a377ac39486211be302ffda`.
+
+For exact blob `8393d0b8108dfcc6882a75a9e50293f26d8f6989`, the report records HTTP 200, valid WEBP signature, self-contained raster safety, natural 600×600 dimensions, opaque fraction 1, screenshot present, and no per-item errors. Detail evidence `staged-replacements/detail/decor-4-8393d0b8.png` is 800×800 PNG / 449,965 bytes / SHA-256 `24378c5cbd7bd778a3746ec89fdf239d203a6e0223f0411ddc41d7ce883ea2d8`.
+
+Card-scale evidence is in `staged-replacements/staged-replacements-contact-sheet.png`, 1200×8777 PNG / 5,635,752 bytes / SHA-256 `86ef359851369a3699b125bbd21d4ca0f16842688bf911fc16d762095b546190`. This closes the producer-side missing render-evidence dependency; it does **not** constitute visual acceptance.
+
 ## Reviewer 14 handoff
 
-Render real StarBlox card/detail pixels for these **exact branch hashes** and issue independent ACCEPT/REWORK:
+Inspect the existing real StarBlox card/detail pixels in artifact `10691708297` for these **exact branch hashes** and issue independent ACCEPT/REWORK:
 
 - `decor-3` → `5c9e3ad9b88b29c8ffb67d262f828f38d24763be`
 - `decor-4` → `8393d0b8108dfcc6882a75a9e50293f26d8f6989`
