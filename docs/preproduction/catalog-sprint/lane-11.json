@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 13,
+  "schemaVersion": 14,
   "lane": "11",
   "workstream": "11",
   "phase": "CATALOG_SPRINT",
@@ -25,7 +25,7 @@
     "auras-11",
     "auras-12"
   ],
-  "auditedBranchHeadBeforeWrite": "6e51bbf65375148ac2418def9fe20a05a3b343bc",
+  "auditedBranchHeadBeforeWrite": "2f3200e2601cc7c8c5b269074f343389e1ba5ebb",
   "historyRefs": [
     {
       "priorLaneBlobSha": "cac3d9cf34cc61346a6a2f55e3cc18c200696b89",
@@ -44,6 +44,11 @@
       "manifestBlobSha": "27c77919cfbc5cf52570bf91871338b59cded055",
       "runtimeBlobSha": "a3b5b2b98a8507f5226191959a3cd91ef6729bdb",
       "scope": "Manifest v27/runtime integration evidence points auras-11 to /assets/catalog/auras-11-w11-v3.jpg."
+    },
+    {
+      "motionKeyframeContractCommit": "fac5263fe02063d229c637de14abd4a3097a8f20",
+      "motionKeyframeContractBlobSha": "fe8e89d8ea0032f94f7cc5caa0bdaa911c255d8c",
+      "scope": "Art-only deterministic normal-motion keyframe and browser-trace capture packet; no runtime implementation or release gate closure."
     }
   ],
   "acceptedCanonicalCurrent": [
@@ -116,6 +121,9 @@
     "staticReducedMotionCaptureContract": "docs/preproduction/workstreams/11-static-reduced-motion-capture-contract-v1.json",
     "staticReducedMotionCaptureContractBlobSha": "8ab37c518ab105c9982857879241170a1e299bbb",
     "staticReducedMotionCaptureContractCommit": "6e51bbf65375148ac2418def9fe20a05a3b343bc",
+    "normalMotionKeyframeCaptureContract": "docs/preproduction/workstreams/11-motion-keyframe-capture-contract-v1.json",
+    "normalMotionKeyframeCaptureContractBlobSha": "fe8e89d8ea0032f94f7cc5caa0bdaa911c255d8c",
+    "normalMotionKeyframeCaptureContractCommit": "fac5263fe02063d229c637de14abd4a3097a8f20",
     "authoritativeReferenceManifest": "docs/preproduction/reference-screenshots/original-reference-manifest.json",
     "referenceManifestBlobSha": "63956763934f17613a3f98889f8085051a78a0b6",
     "designContractBlobSha": "b3b8a0cdf7eb298bcb60702b0c941238b75010fa",
@@ -133,7 +141,8 @@
       "deterministic-effect-cleanup",
       "later-performance-material-budgets",
       "machine-readable-normal-vs-reduced-acceptance-contract",
-      "deterministic-static-reduced-motion-capture-packet-by-screen-state-and-viewport"
+      "deterministic-static-reduced-motion-capture-packet-by-screen-state-and-viewport",
+      "deterministic-normal-motion-keyframe-and-trace-capture-packet"
     ],
     "runtimeImplementation": "NOT_AUTHORIZED_THIS_PASS_SHARED_ENTRYPOINT_COORDINATION_15",
     "newBrowserPerformanceEvidence": "NOT_EXECUTED",
@@ -147,13 +156,13 @@
     "assetsRegeneratedThisPass": 0,
     "acceptedAssetsChangedThisPass": 0,
     "newCatalogFamiliesClaimed": 0,
-    "newArtOnlySpecificationArtifactsThisPass": 2
+    "newArtOnlySpecificationArtifactsThisPass": 1
   },
   "handoff": {
     "05": "Aura family closed at review level. Preserve exact current ACCEPT decisions for Auras 1-12; re-review only if a later exact-hash defect/new hash is presented.",
     "08": "Aura 11 is already canonically wired at commit ad8867efc70d1b123cbc5e2f157766bec58e510d. Preserve all Aura mappings/hashes unless a later exact-hash defect is recorded.",
-    "14": "When 15 authorizes shared visual implementation, consume the Workstream-11 material recipe, reference-zone spec and deterministic static reduced-motion capture contract. Capture actual normal/reduced pixels at 1408x1056, 1024x768, 390x844 and 320x568; source/CSS inspection cannot close render or performance gates.",
-    "15": "Aura production is complete. Workstream 11 claims no other catalog family. Reference-grounded narrative, zoning, material and deterministic reduced-motion capture specifications are ready; coordinate any shared runtime entrypoint implementation and provide explicit reassignment before new catalog production.",
+    "14": "When 15 authorizes shared visual implementation, consume the Workstream-11 material recipe, reference-zone spec, static reduced-motion contract and normal-motion keyframe/trace capture contract. Capture actual normal/reduced pixels at 1408x1056, 1024x768, 390x844 and 320x568 and measure paint/composite/scroll behavior; source/CSS inspection cannot close render or performance gates.",
+    "15": "Aura production is complete. Workstream 11 claims no other catalog family. Reference-grounded narrative, zoning, material, deterministic reduced-motion and deterministic normal-motion keyframe/trace specifications are ready; coordinate any shared runtime entrypoint implementation and provide explicit reassignment before new catalog production.",
     "11": "Hold accepted Aura bytes. Stay ART_AND_VISUALS_ONLY; do not alter shared runtime/state or claim another catalog family without Workstream-15 coordination."
   },
   "releaseGates": {
