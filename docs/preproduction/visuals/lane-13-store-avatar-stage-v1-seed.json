@@ -1,0 +1,82 @@
+{
+  "schemaVersion": 1,
+  "candidateId": "store-avatar-stage-w13-v1",
+  "producer": "13",
+  "independentArtReviewer": "01",
+  "compositionPerformanceReviewer": "14",
+  "runtimeCoordinator": "15",
+  "branch": "screenshot-match-preproduction",
+  "purpose": "Stage a separate dimensional Store try-on platform/alcove component after direct pixel inspection of the verified original Store reference and the actual deterministic Store desktop render. This candidate contains no avatar, catalog item, UI, text, counters, buttons, or state and is not runtime-wired or approved.",
+  "referenceEvidence": {
+    "originalReferencePath": "docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg",
+    "originalReferenceSha256": "b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d",
+    "originalReferenceManifest": "docs/preproduction/reference-screenshots/original-reference-manifest.json",
+    "currentRenderWorkflowRun": 35663655650,
+    "currentRenderArtifact": "preproduction-visual-qa",
+    "currentRenderPathInArtifact": "store-desktop-1408x1056.png",
+    "currentRenderSha256": "a7a10171ada1ec7fbdb500e4ce0cfef05f757a8411e60d459dc6b763df2dc34d",
+    "currentRenderDimensions": [1408, 1056],
+    "comparisonValidity": "The inspected render is from branch head b187186e62519ffa77bd0f7b166c601c90bdc416. A compare through the pre-intake current head showed no Store runtime/layout source-file changes; intervening changes are catalog art/evidence, visual candidate assets, reference intake, and QA infrastructure. The try-on stage defect is therefore still structurally applicable; no screenshot-parity claim is made for the newer head.",
+    "observedDefect": "The original Store presents the right-side avatar inside a warm, dimensional boutique room with layered furniture, lighting and a convincing physical display zone. The current render's try-on area is a flat pink/lilac rectangle with a blocky avatar and almost no physical grounding, making the preview surface one of the largest remaining reference-fidelity gaps. This Lane 13 candidate addresses only the physical stage/environment layer and leaves avatar ownership to the assigned character lane."
+  },
+  "provenance": {
+    "generationAssetUrn": "urn:aaid:sc:US:65fb1b5e-4552-429f-93f5-e065ab001065",
+    "generationAssetName": "Original premium 3D toy-game bou 130913 hYz.ffgenimg",
+    "generationCreatedAt": "2026-09-22T02:14:44.181Z",
+    "sourcePixelInspection": "PASS: original premium toy-game display stage, blush/pink/lilac materials, cyan piping, rose-gold arch, two warm globe lamps, shallow star details, centered open avatar corridor, no third-party IP or text.",
+    "processing": [
+      "Adobe Firefly generation already produced in the immediately prior Lane 13 attempt; recovered rather than regenerated.",
+      "Adobe Photoshop crop/resize generated a full-resolution 2048x2048 PNG rendering of the Firefly source without changing framing.",
+      "Adobe Photoshop background removal produced the 2048x2048 transparent full layer.",
+      "The first transparent-resize attempt was visually rejected for alpha artifacts and is not staged.",
+      "A clean 1024x1024 derivative was instead produced by resizing the source first and then removing its background; it was visually verified before staging."
+    ]
+  },
+  "assets": {
+    "source": {
+      "url": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:4e5dd0ba-fb14-405f-90bf-a7b893a06a88",
+      "path": "docs/preproduction/visuals/recovered-originals/store-avatar-stage-w13-v1-source.png",
+      "expectedDimensions": [2048, 2048],
+      "expectedFormat": "PNG",
+      "transparentRequired": false
+    },
+    "full": {
+      "url": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:c45a81d9-3950-4250-b081-e7b32d7ecb1d",
+      "path": "public/assets/visuals/lane-13/store-avatar-stage-w13-v1-full.png",
+      "expectedDimensions": [2048, 2048],
+      "expectedFormat": "PNG",
+      "transparentRequired": true
+    },
+    "optimized": {
+      "url": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:28426b17-5967-4741-a265-a60c61772e1e",
+      "path": "public/assets/visuals/lane-13/store-avatar-stage-w13-v1-1024.png",
+      "expectedDimensions": [1024, 1024],
+      "expectedFormat": "PNG",
+      "transparentRequired": true
+    }
+  },
+  "producerPixelCheck": "PASS_PREUPLOAD_ONLY: The isolated stage is materially more dimensional than the current flat try-on backdrop and matches the original Store's warm boutique/display intent without copying its avatar, UI, wording, catalog products, or room screenshot. The platform uses soft blush/lilac volume, cyan edge light, rose-gold arch, warm side lamps and shallow gold star accents. The central corridor remains empty for the real equipped avatar and the selected item preview. This is producer inspection, not independent acceptance.",
+  "responsiveIntent": "Treat as a separate try-on scene component. Preserve the center for the real avatar, keep upper center visually quiet enough for the existing TRY IT ON header, and keep lower-right detail/card controls completely outside the baked asset. Responsive integration must scale/crop the stage independently rather than baking UI into it.",
+  "ownershipIsolation": {
+    "touchesWorkstream06AvatarAssets": false,
+    "touchesWorkstream09EnvironmentOrCatalogPaths": false,
+    "exclusiveLane13Paths": true,
+    "runtimeWiringPerformed": false,
+    "canonicalCatalogMappingsTouched": false,
+    "coordinationBasis": "lane-15-coordination.json assigns Workstream 13 character/environment scene composition in versioned assets and reserves 06/09 in-flight catalog/character ownership. This candidate is an environment platform only and does not edit their assets."
+  },
+  "freeze": {
+    "replitTouched": false,
+    "flootTouched": false,
+    "mainTouched": false,
+    "deployPerformed": false,
+    "paidSettingsTouched": false,
+    "secretsTouched": false,
+    "playerDataTouched": false,
+    "saveSchemaTouched": false,
+    "gameplayTouched": false,
+    "learningTouched": false,
+    "economyTouched": false,
+    "rewardOrCurriculumTouched": false
+  }
+}
