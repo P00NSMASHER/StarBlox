@@ -1,10 +1,10 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "kind": "STARBLOX_ART_FACTORY_TECHNICAL_QUALIFICATION",
   "role": "06-single-technical-qualification-gate",
   "branch": "screenshot-match-preproduction",
-  "sourceHead": "bafc067821c2c6acea7e362a3831dced82771c33",
-  "observedAt": "2026-09-22T22:43:44Z",
+  "sourceHead": "2220cf6a1147f20d0ed597f6991ae11c9774914c",
+  "observedAt": "2026-09-22T23:40:30Z",
   "item": {
     "id": "decor-5",
     "name": "Plant Wall",
@@ -18,21 +18,21 @@
     "producer": "09",
     "path": "public/assets/catalog/decor-5-w09-v2.webp",
     "gitBlobSha1": "b8ff7b9d6bec11fe8e836952f7a0c5b844e34b6e",
-    "sha256": null,
+    "sha256": "386debb9a397519324ca5efb74bc0c761a4df545f7e6cb4075e4c2e7ed33ed1b",
     "bytes": 15678,
-    "structuralHeaderReadback": {
-      "container": "RIFF/WEBP",
-      "codecChunk": "VP8",
-      "declaredDimensions": [600, 600],
-      "scope": "STRUCTURAL_HEADER_ONLY",
-      "safeDecode": "NOT_EVIDENCED"
-    },
-    "introducedByCommit": "15288eaa22b67e8061830f1a2c5aeb82b2da0a10"
+    "dimensions": [600, 600],
+    "format": "WEBP",
+    "mode": "RGB",
+    "safeDecode": "PASS_RECOVERED_EXACT_RECONSTRUCTION_MATCHING_CURRENT_GIT_BLOB",
+    "introducedByCommit": "15288eaa22b67e8061830f1a2c5aeb82b2da0a10",
+    "bytesMutatedDuringQualification": false
   },
   "authority": {
     "activeBatch": "docs/preproduction/art-factory/ACTIVE_BATCH.json",
-    "activeBatchState": "REPOSITORY_STAGED_CURRENT_CANDIDATE__06_QUALIFICATION_PENDING",
+    "activeBatchState": "DECOR5_BLOCKED_PROVENANCE_AND_STAGED_READBACK__PRESERVE_EXACT_BYTES",
     "producerRequest": "docs/preproduction/art-factory/requests/w09-decor-5-8-20260922.json",
+    "producerRecoveryEvidence": "docs/preproduction/art-factory/requests/w09-decor-5-provenance-recovery-20260922.json",
+    "factoryContract": "docs/preproduction/art-factory/ART_FACTORY_V2.json",
     "reviewer": "14",
     "renderOwner": "14",
     "canonicalWriter": "08"
@@ -40,49 +40,93 @@
   "exactHashReconciliation": {
     "activeBatchMatchesCandidateBlob": true,
     "producerRequestMatchesCandidatePathAndBlob": true,
+    "recoveredSha256BoundToSameBlob": true,
     "newerPendingCandidateObserved": false,
-    "duplicateQualificationRecordObserved": false,
-    "verdictTransferPerformed": false
+    "staleCandidateRisk": "NONE_OBSERVED",
+    "duplicateCandidateRisk": "NONE_OBSERVED",
+    "verdictTransferPerformed": false,
+    "artQualityJudgmentPerformed": false
+  },
+  "recoveredEvidence": {
+    "exactByteIdentity": "PASS",
+    "safeDecodeAndDimensions": "PASS",
+    "sourceOriginal": {
+      "conversationFileId": "file_00000000bba482308fd302921ecd3d36",
+      "runtimePath": "/mnt/data/pixel_cute_modular_vertical_garden_shelf.png",
+      "sha256": "c237a7ad23a5226517f4d738da88b6527115355f70588e2a4990c29896be54e5",
+      "bytes": 1906911,
+      "dimensions": [1254, 1254],
+      "format": "PNG",
+      "repositoryStaged": false
+    },
+    "generation": {
+      "provider": "OpenAI image_gen",
+      "serviceIdentity": "ChatGPT image generation tool",
+      "generationId": "0a2b2c60-ac57-4c56-b00b-4320722072de",
+      "actualPromptSha256": "d5119159caad986404ca9579dc28712be723d5e8ee0d564f09cb73c3d6b96430",
+      "modelId": null,
+      "modelRevision": null,
+      "modelUnavailableReason": "Authoritative image_gen response did not expose model/checkpoint identity or revision; null is preserved rather than invented.",
+      "executedServiceSeed": null,
+      "executedSeedUnavailableReason": "Authoritative image_gen response metadata returned seed=null; no planner seed was promoted to an executed seed.",
+      "optimizerExecutedBeforeGeneration": false
+    },
+    "derivativeLineage": {
+      "parentSha256": "c237a7ad23a5226517f4d738da88b6527115355f70588e2a4990c29896be54e5",
+      "tool": "Pillow",
+      "toolVersion": "12.3.0",
+      "resizeFrom": [1254, 1254],
+      "resizeTo": [600, 600],
+      "resampler": "Image.Resampling.LANCZOS",
+      "encodeFormat": "WEBP",
+      "quality": 20,
+      "method": 6,
+      "reconstructionSha256": "386debb9a397519324ca5efb74bc0c761a4df545f7e6cb4075e4c2e7ed33ed1b",
+      "reconstructionGitBlobSha1": "b8ff7b9d6bec11fe8e836952f7a0c5b844e34b6e",
+      "matchesCurrentRepositoryCandidateBlob": true
+    }
   },
   "qualification": {
-    "status": "BLOCKED_PROVENANCE_AND_STAGED_READBACK",
+    "status": "BLOCKED_ART_FACTORY_V2_PROVENANCE",
+    "previousStatus": "BLOCKED_PROVENANCE_AND_STAGED_READBACK",
+    "stateTransition": "EXACT_HASH_SAFE_DECODE_AND_DERIVATIVE_READBACK_RECOVERED__PROVENANCE_STILL_FAIL_CLOSED",
     "qualifiedForRenderer14": false,
     "artQualityJudgment": "NOT_PERFORMED",
+    "stagedOutputReadback": {
+      "status": "PASS_RECOVERED_EQUIVALENT",
+      "basis": "Producer09 reconstructed the derivative from the recovered source with the recorded Pillow transform; the reconstruction SHA-256 and Git blob SHA-1 match the current repository candidate exactly.",
+      "verifyStagedOutputScriptRun": false,
+      "reasonScriptNotRepeated": "This is an unchanged historical candidate hash. Exact recovered readback now binds the current bytes; repeating an unchanged blocked-hash transport/preflight action would add no new evidence."
+    },
     "visualPreflight": {
       "status": "NOT_RUN",
-      "reason": "ART_FACTORY_V2 provenance and exact staged-output readback prerequisites are incomplete; report-only visual signals must not imply qualification."
+      "reason": "The exact bytes are unchanged and the candidate remains fail-closed on mandatory ART_FACTORY_V2 provenance. Do not repeat report-only preflight for an unchanged blocked hash."
     },
+    "resolvedDefects": [
+      "Exact candidate SHA-256 is now bound to the current Git blob.",
+      "Safe raster decode, dimensions, format, mode and byte count are now bound to the same exact bytes.",
+      "Source-original hash/bytes/dimensions and exact source-to-derivative transform are recovered.",
+      "Generation ID, actual prompt hash, authoritative seed-unavailable record and model/revision-unavailable record are recovered without invention."
+    ],
     "blockingDefects": [
-      "No exact SHA-256 for the current repository candidate is bound into producer/staged evidence.",
-      "No full safe-decode/readback verification is bound to this exact Git blob; only the WEBP structural header was independently read.",
-      "No verify_staged_output.py or equivalent exact staged-output verification record is bound to this blob.",
-      "The producer request records optimizerStage.status=NOT_RUN_BY_PLANNER and leaves finalOptimizedPrompt/finalPromptSha256 null for Decor 5.",
-      "No actual generation model/checkpoint identity plus exposed revision is bound to this candidate.",
-      "No executed generation seed is bound to this candidate, and no authoritative seed-unavailable record is present. Planner seeds are planning inputs only.",
-      "No exact retained source-original path/hash/bytes/dimensions and source-to-derivative transform are bound to this 600x600 derivative.",
-      "No generator/API-service/runtime identity plus runtime revision/commit is bound to the actual generation attempt."
+      "ART_FACTORY_V2 PROMPT_OPTIMIZATION remains unsatisfied for this generation: producer09 explicitly records optimizerExecutedBeforeGeneration=false, so no executed optimizer output/prompt-recipe evidence can be truthfully bound to the historical bytes.",
+      "ART_FACTORY_V2 runtime provenance remains incomplete: no exact runtimeRepo/runtimeCommit or equivalent generator runtime revision/commit is bound to the actual generation attempt.",
+      "The recovered source-original is not durably repository-staged, so required source-preservation evidence is incomplete for the factory lineage contract even though its exact hash/bytes/dimensions are known."
     ]
   },
   "requiredRepair": {
     "owner": ["09", "15"],
-    "rule": "Recover and record authoritative evidence for the existing exact bytes without mutating or regenerating them when possible. If authoritative provenance cannot be recovered, coordinator15 decides the next compliant producer action; workstream06 does not generate while fallbackCount remains above zero.",
-    "mustBindToExactBlob": [
-      "sha256",
-      "full safe decode and dimensions/bytes readback",
-      "verify_staged_output.py or equivalent exact staged-output verification",
-      "final optimized prompt and prompt SHA-256 from the executed optimizer path",
-      "generator/provider and API/service identity",
-      "model/checkpoint ID and revision when exposed",
-      "runtime/tool identity and revision/commit",
-      "executed seed, or an explicitly policy-permitted authoritative seed-unavailable record",
-      "retained source-original exact path/hash/bytes/dimensions",
-      "source-to-derivative transform"
+    "rule": "Do not mutate or regenerate this exact blob merely to satisfy bookkeeping. Recover authoritative missing provenance/source-preservation evidence if it actually exists. If optimizer-before-generation or runtime revision cannot be truthfully recovered, coordinator15 decides whether to replace the candidate through a future fully compliant factory attempt; workstream06 does not create that replacement while fallbackCount remains above zero.",
+    "remainingEvidenceNeeded": [
+      "executed optimizer output/prompt-recipe evidence that genuinely preceded the generation, if such evidence exists",
+      "exact generation runtime/tool repository+revision/commit or policy-authorized equivalent runtime revision evidence",
+      "durable exact source-original preservation bound to the recovered source hash, if recoverable without changing the candidate"
     ]
   },
   "routing": {
-    "current": "RETURN_TO_PRODUCER09_AND_COORDINATOR15",
-    "renderer14": "HOLD_UNTIL_06_QUALIFIED",
-    "reviewer14": "HOLD_UNTIL_RENDERED_EXACT_HASH_EVIDENCE_EXISTS",
+    "current": "RETURN_TO_PRODUCER09_AND_COORDINATOR15_FOR_REMAINING_PROVENANCE_DISPOSITION",
+    "renderer14": "HOLD__DO_NOT_RENDER_UNCHANGED_BLOCKED_HASH",
+    "reviewer14": "HOLD__NO_TECHNICALLY_QUALIFIED_RENDER",
     "integration08": "NO_ACTION"
   },
   "preservation": {
@@ -90,6 +134,7 @@
     "canonicalMappingsChanged": false,
     "runtimeChanged": false,
     "ciOrWorkflowChanged": false,
-    "gameplayStateEconomyChanged": false
+    "gameplayLearningPersistenceEconomyChanged": false,
+    "mainReplitFlootDeployTouched": false
   }
 }
