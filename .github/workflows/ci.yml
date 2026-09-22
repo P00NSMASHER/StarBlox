@@ -28,5 +28,7 @@ jobs:
         run: npm install --no-audit --no-fund
       - name: Run tests
         run: timeout 120s npm test -- --reporter=verbose
+      - name: Run art factory contract tests
+        run: node --test scripts/artPromptOptimizer.node-test.mjs scripts/artFactoryJob.node-test.mjs
       - name: Build production bundle
         run: npm run build
