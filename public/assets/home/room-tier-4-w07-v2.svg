@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" role="img" aria-label="Skyline Penthouse room-tier preview">
+<title>Skyline Penthouse</title><desc>Premium city-view bedroom scene with broad skyline glazing, layered tailored bedding, walnut-and-metal creator desk, sculpted lounge seating, woven rug and warm architectural lighting.</desc>
+<defs>
+ <linearGradient id="wall4" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#efeaff"/><stop offset=".48" stop-color="#dbe5ff"/><stop offset="1" stop-color="#c8d0ea"/></linearGradient>
+ <linearGradient id="sky4" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#79c9ff"/><stop offset=".52" stop-color="#9fb9ff"/><stop offset="1" stop-color="#efb7da"/></linearGradient>
+ <linearGradient id="floor4" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#a66f54"/><stop offset=".5" stop-color="#754e48"/><stop offset="1" stop-color="#493842"/></linearGradient>
+ <linearGradient id="bed4" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fbf9ff"/><stop offset=".42" stop-color="#d7c8ff"/><stop offset="1" stop-color="#9d83df"/></linearGradient>
+ <linearGradient id="throw4" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#55cbd4"/><stop offset="1" stop-color="#387ea8"/></linearGradient>
+ <linearGradient id="wood4" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#9c694d"/><stop offset="1" stop-color="#4f3542"/></linearGradient>
+ <linearGradient id="screen4" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#5fe4ef"/><stop offset=".48" stop-color="#6d83ff"/><stop offset="1" stop-color="#d665c9"/></linearGradient>
+ <linearGradient id="rug4" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f2d985"/><stop offset=".55" stop-color="#d9b561"/><stop offset="1" stop-color="#9d6c4f"/></linearGradient>
+ <linearGradient id="metal4" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f4f0ff"/><stop offset=".45" stop-color="#9ba7c4"/><stop offset="1" stop-color="#565f79"/></linearGradient>
+ <filter id="sh4" x="-30%" y="-35%" width="170%" height="190%"><feDropShadow dx="0" dy="8" stdDeviation="6" flood-color="#241f3d" flood-opacity=".34"/></filter>
+ <filter id="soft4"><feGaussianBlur stdDeviation="7"/></filter>
+ <pattern id="weave4" width="8" height="8" patternUnits="userSpaceOnUse"><path d="M0 2h8M0 6h8M2 0v8M6 0v8" stroke="#fff" stroke-opacity=".13" stroke-width=".7"/></pattern>
+</defs>
+<rect width="640" height="360" rx="26" fill="url(#wall4)"/>
+<path d="M0 235L640 196V360H0Z" fill="url(#floor4)"/>
+<g opacity=".16"><path d="M0 264l640-39M0 295l640-41M0 328l640-44" stroke="#f5d9c6" stroke-width="2"/><path d="M100 229l56 131M220 221l48 139M350 213l39 147M490 204l30 156" stroke="#2d2231" stroke-width="1"/></g>
+<g filter="url(#sh4)">
+ <path d="M337 28h262c17 0 30 13 30 30v120H337z" fill="#fafbff" stroke="#f7f7ff" stroke-width="7"/>
+ <rect x="348" y="39" width="270" height="127" rx="12" fill="url(#sky4)"/>
+ <circle cx="578" cy="68" r="19" fill="#fff2a8" opacity=".96"/>
+ <g fill="#5f668b"><path d="M350 128h20V91h18v37h12v-55h26v55h15v-36h19v36h13V82h31v46h13v-26h20v26h12v-64h28v64h15v-41h25v41h21v38H350z"/></g>
+ <g fill="#ffd86e" opacity=".72"><path d="M407 84h5v6h-5zm9 0h5v6h-5zm69 9h5v6h-5zm10 0h5v6h-5zm50-17h5v6h-5zm10 0h5v6h-5zm31 22h5v6h-5z"/></g>
+ <path d="M438 39v127M527 39v127M348 105h270" stroke="#fff" stroke-width="5" opacity=".8"/>
+</g>
+<g filter="url(#sh4)">
+ <path d="M29 223l192-11v77L29 307z" fill="#53475f"/>
+ <path d="M29 195l191-7v69L29 276z" fill="url(#bed4)"/>
+ <path d="M31 241c60 15 125 8 188-21" fill="none" stroke="#efe9ff" stroke-width="6" opacity=".72"/>
+ <path d="M102 192l79-2 11 41-85 4z" fill="#fbfbff" stroke="#ddd5ee" stroke-width="2"/>
+ <path d="M40 196l59-2 11 42-64 4z" fill="#fff" stroke="#e1d9ef" stroke-width="2"/>
+ <path d="M33 251l180-15v31L33 286z" fill="url(#throw4)" opacity=".9"/>
+ <path d="M47 254l153-13" stroke="#aee9ec" stroke-width="3" opacity=".55"/>
+ <path d="M18 185v123M222 181v102" stroke="#5a4a66" stroke-width="10" stroke-linecap="round"/>
+ <path d="M19 188c0-29 22-51 51-51h102c28 0 50 22 50 50" fill="none" stroke="#8870ba" stroke-width="10"/>
+ <path d="M30 158h182" stroke="#c1a7ee" stroke-width="3"/>
+</g>
+<g filter="url(#sh4)">
+ <path d="M235 201l198-7 12 17-210 10z" fill="url(#wood4)"/>
+ <path d="M249 218h12l-5 83h-13zM421 211h12l10 74h-13z" fill="url(#metal4)"/>
+ <path d="M281 121h126c8 0 14 6 14 14v58H267v-58c0-8 6-14 14-14z" fill="#343448" stroke="#dde4ff" stroke-width="5"/>
+ <rect x="276" y="130" width="136" height="53" rx="7" fill="url(#screen4)"/>
+ <path d="M300 168c23-30 44-33 61-9 11-16 27-19 42-5" fill="none" stroke="#8af5e3" stroke-width="5" stroke-linecap="round" opacity=".9"/>
+ <path d="M310 193h68v10h-68z" fill="#454961"/>
+ <rect x="292" y="207" width="94" height="7" rx="4" fill="#d4daeb"/>
+ <circle cx="405" cy="207" r="7" fill="#ef77b6"/>
+ <path d="M257 145v42" stroke="#4a445b" stroke-width="4"/><circle cx="257" cy="137" r="9" fill="#ffd96d" stroke="#5e5565" stroke-width="3"/><path d="M250 169h14" stroke="#4a445b" stroke-width="4"/>
+</g>
+<g filter="url(#sh4)">
+ <path d="M462 230c0-30 17-49 43-49 27 0 44 20 44 50v46h-87z" fill="#6a5d95"/>
+ <path d="M474 192c18-11 41-10 61 3v40h-61z" fill="#927fd0"/>
+ <path d="M481 206c13-7 28-7 42 2" fill="none" stroke="#bcaeed" stroke-width="4"/>
+ <path d="M505 275v32M483 309h44M488 309l-17 14M522 309l17 14" stroke="#414458" stroke-width="6" stroke-linecap="round"/>
+</g>
+<g filter="url(#sh4)">
+ <path d="M245 290c48-27 153-32 219-10 24 8 29 31 7 43-49 25-165 28-229 5-28-10-26-26 3-38z" fill="url(#rug4)"/>
+ <path d="M257 293c44-20 143-24 198-7 16 5 20 18 5 26-47 21-148 22-204 5-18-6-17-17 1-24z" fill="url(#weave4)"/>
+ <path d="M282 299c35-12 108-13 150-2" fill="none" stroke="#fff2bd" stroke-width="4" opacity=".55"/>
+</g>
+<g filter="url(#sh4)">
+ <rect x="69" y="52" width="126" height="69" rx="14" fill="#fbfaff" stroke="#b99ede" stroke-width="5"/>
+ <path d="M87 98c16-30 36-33 54-12 10-17 23-20 38-8" fill="none" stroke="#6f91d8" stroke-width="7" stroke-linecap="round"/>
+ <circle cx="106" cy="78" r="9" fill="#ffd56a"/>
+ <rect x="209" y="56" width="66" height="10" rx="5" fill="#8f77b8"/>
+ <rect x="215" y="81" width="58" height="8" rx="4" fill="#68cfe0"/>
+ <rect x="219" y="103" width="48" height="8" rx="4" fill="#dda75f"/>
+</g>
+<g><path d="M290 27h130" stroke="#f3c873" stroke-width="4"/><path d="M290 27h130" stroke="#f3c873" stroke-width="15" opacity=".16" filter="url(#soft4)"/><circle cx="309" cy="27" r="4" fill="#fff0ad"/><circle cx="355" cy="27" r="4" fill="#fff0ad"/><circle cx="401" cy="27" r="4" fill="#fff0ad"/></g>
+<g filter="url(#sh4)"><path d="M583 223h28l-3 65h-22z" fill="#806e9c"/><path d="M594 225v-48" stroke="#6f627a" stroke-width="4"/><path d="M594 177c-13-7-14-19-6-28 12 3 18 14 14 25 5-13 16-18 27-13-1 14-11 22-24 21" fill="#67b884"/></g>
+</svg>
