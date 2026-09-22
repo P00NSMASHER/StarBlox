@@ -1,96 +1,169 @@
-# Workstream 14 — Visual Release QA
+# Workstream 14 — Visual QA / Release Gate
 
-STATUS: **CATALOG_SPRINT / REVIEWER-14 LIGHTING 12/12 ACCEPT / WALL-RUGS-DECOR 36 REWORK / 180 OF 192 IDS INDEPENDENTLY DISPOSITIONED / CATALOG GATE FAIL**
-
+**Phase: ART_VISUALS_SPRINT / CATALOG_SPRINT**  
+**Gate: FAIL — not ready for deployment or single Replit integration**  
 Branch: `screenshot-match-preproduction` only  
-Delivery policy: `docs/preproduction/DELIVERY_PROTOCOL_V2.md`  
-Replit/Floot: **untouched**  
-Main: **not merged or modified**  
-Real player data: **not used**
+Audited through: `8b636f60f448f20678f9fa5cdeb21c5d9e90cfec`
 
-## Release decision
+Replit/Floot/main/deploy/paid settings: **untouched**. Real player data: **not used**.
 
-**READY FOR SINGLE REPLIT INTEGRATION: NO.**
+## What changed this cycle
 
-This pass materially advanced Workstream 14's own partition. The exact current replacement hashes for **Lighting 9–12** were independently reviewed from real card/detail pixels and accepted, bringing Lighting to **12/12 current hashes ACCEPT**. Wall, Rugs and Decor remain **12/12 REWORK each** at their reviewed hashes. Workstream 14 therefore stands at **48 reviewed / 12 ACCEPT / 36 REWORK / 0 BLOCKED**.
+Workstream 14 performed actual pixel review, fixed two shared-fixture selection defects, and reconciled release status to the current manifest-v17 state. No unrelated feature/learning/persistence development was performed.
 
-The catalog is still the release-critical phase. Canonical manifest v16 has **27 exact accepted hashes wired**; current reviewer evidence establishes a conservative minimum of **35 qualified exact replacement ACCEPTs**, because Lighting 5–12 were accepted after that integration snapshot. This is not 35 release-cleared items: all 192 must ultimately be current-hash accepted, canonical, unique and Store-verified.
+### Independent reviewer-14 partition
 
-## Shared staged-art fixture and exact evidence
+Current exact disposition is:
 
-The existing Playwright/GitHub Actions staged-art fixture remains the single framework. It supports SVG/PNG/JPG/JPEG/WEBP, computes Git blob identity, renders card sheets plus 800×800 detail captures, rejects invalid/blank imagery and preserves compact workflow artifacts. No production Store wiring or Replit preview is required for candidate review.
+- **Lighting:** 12 ACCEPT / 0 REWORK
+- **Wall:** 0 ACCEPT / 12 REWORK
+- **Rugs:** 8 ACCEPT / 4 REWORK
+- **Decor:** 2 ACCEPT / 10 REWORK
+- **Total:** **22 ACCEPT / 26 REWORK / 0 BLOCKED, 48/48 dispositioned**
 
-For Lighting 9–12, the exact reusable evidence is:
+New accepts are hash-bound in `docs/preproduction/catalog-sprint/reviews/14.json`.
 
-- workflow run **35669695516** on `4ad15b615907c4a3b3180db127ae8cac4acb2e91`;
-- artifact **10670588502**, digest `sha256:931d44eb5e0ca99b6046faca1dd7c395955e975143bd49392aaf8dc6d7d987f5`;
-- Lighting set: **12/12 HTTP 200, decoded, opaque, screenshot captured, no item errors**;
-- contact sheet SHA-256 `27135f72c3630586cf0527d14b34117747d7a584c0fcbfbf2e2dce2408dc235e`.
+#### Rugs 1–8
 
-The overall workflow run was later cancelled after artifact publication because a newer run superseded it. That does **not** convert failed cross-partition Desk evidence to PASS; it also does not invalidate the already-complete, exact-hash Lighting subset. The artifact report is preserved and the four Lighting detail captures were independently inspected.
-
-## Lighting 9–12 decisions
-
-| ID | Exact current Git blob | Decision | Pixel finding |
+| ID | Current Git blob | Decision | Pixel finding |
 |---|---|---|---|
-| `lighting-9` Color Lamp | `d9a0e461a1a8ace589cf6be1ec93e61972ba7faf` | **ACCEPT** | Faceted translucent crystal shade, warm emitter, substantial metallic pedestal and rainbow dispersion read as physical Star Luxe lighting at card/detail scale. |
-| `lighting-10` Neon Strip Tower | `e4ca304730d4c330711534c2c7c52da218c9acfa` | **ACCEPT** | Beveled dark chassis, embedded cyan/magenta strips and floor spill produce clear Tier-4 Midnight Neon depth. |
-| `lighting-11` Aurora Light | `995b6ae729b3daa9e1199dd032b24e128db0b61b` | **ACCEPT** | Layered translucent aurora ribbons, warm core and metallic base provide distinct Candy Core material/light response. |
-| `lighting-12` Crystal Chandelier | `ddb71949f485348a45e00c5105eb336ad55a010a` | **ACCEPT** | Suspended antique-gold arms, candle emitters, chain hierarchy and faceted crystals give unmistakable Tier-5 chandelier identity. |
+| rugs-1 | `5e00d1456fa21af74de75e583c69de48c9f2ecd2` | **ACCEPT** | Low woven Aqua Wave starter mat; bound edge, backing thickness and floor contact are visible. |
+| rugs-2 | `578caf5cc81998d6c7563082892e468fc9186eec` | **ACCEPT** | Plush cloud silhouette with stitched perimeter and grounded low profile; readable as a novelty floor textile. |
+| rugs-3 | `0c3b62a84182cd8e7fc3b8dc57f9b1015e54e920` | **ACCEPT** | Tufted pixel grid, cyan blocks and restrained gold-star detail with bound edge/backing. |
+| rugs-4 | `d2c1a712dc530cec13ce72100657714900134ce2` | **ACCEPT** | Thick heart rug with layered pile and cyan/magenta Midnight Neon piping. |
+| rugs-5 | `5a513011856679060df10137eae9f380377f5d78` | **ACCEPT** | Leaf-shaped plush rug; raised veins, candy palette, visible stitched edge and contact shadow. |
+| rugs-6 | `cb96e0d40e0682770e79ef8ce6a1a86ecec3127f` | **ACCEPT** | Round orbital map rug with deep tufted border, stitched paths and gold exploration motifs. |
+| rugs-7 | `184232121c9cd07c65fe1138893132ee0daa3fb3` | **ACCEPT** | Raised Cloud Pop checker pile, stitched binding and low grounded perspective. |
+| rugs-8 | `efe9bb6e887375a7e6ed74b15222391a1e2434bf` | **ACCEPT** | Asymmetric cyan/violet wave rug with stepped pixel bars, ribbed edge and visible thickness. |
 
-All four pass identity, theme/tier, silhouette, material/light, card readability, originality and near-duplicate checks. Combined with prior Lighting 1–8 decisions, the current Lighting set has no identity-level near-duplicate collision. Exact decisions and screenshot hashes are in `catalog-sprint/reviews/14.json`.
+Rugs 9–12 remain **REWORK** on their prior reviewed legacy hashes and require new versioned premium replacements.
 
-## Cross-partition rendering boundary
+#### Decor 1–2
 
-Workstream 14 renders other producers' candidates but does not disposition their families. Reviewers 01/02/05 remain the only decision owners for those partitions.
+| ID | Current Git blob | Decision | Pixel finding |
+|---|---|---|---|
+| decor-1 | `7e0bad0b6f1dda6068c17109757c396de860892a` | **ACCEPT** | Real slatted wood crate, deep book volume, metal corners and restrained cyan/magenta edge light. |
+| decor-2 | `d5377bda54cba2071819da60bf4f4d4c52e393a6` | **ACCEPT** | Layered cloud wall body, projecting shelf, brackets/mount points and cast wall shadow. |
 
-The cited staged-art artifact rendered stale `desks-2..4-w03-v1.webp` paths and correctly found them unusable. **Do not transfer that verdict to current Desk hashes.** Current `lane-03.json` points at different exact Desk 2–4 versions, so those current hashes require a fresh shared-fixture render before reviewer 05 can decide. Desk 5–6 have separate clean scoped browser evidence and likewise remain reviewer-05 decisions.
+Decor 3–12 remain **REWORK** on their current reviewed hashes.
 
-Independent unique-ID review coverage therefore remains **180/192**, with Desk still the 12-ID coverage gap until current exact hashes receive usable rendered evidence and review.
+### Exact visual evidence
 
-## Canonical integration and automated safeguards
+Primary mixed-batch review evidence:
 
-Current integration snapshot is manifest **v16**:
+- workflow run: **35671542628**
+- workflow head: `8d7db7286346a72932bc7ee7c56953eda5e5cd48`
+- artifact: **10671346458**
+- artifact digest: `sha256:fae4585a8bfa051389ecdffa2e3c983cac4bf7be98677a2a8c7d1e57f1e4827e`
+- report SHA-256: `639a367eb0c5d02bba8d70c1733e498a08f9a4dbb55a76c88d5235182d9366d0`
+- staged-replacement contact sheet SHA-256: `8782be685e0984b767e806edba445f5f1fd57e4d7ebfc1bc68afaba03faa075e`
 
-- target IDs: **192**;
-- manifest/runtime mappings: **130**;
-- `finalPortable`: **114**;
-- interim-not-verified: **16**;
-- non-final: **78**;
-- exact accepted hashes canonically wired: **27**;
-- duplicate canonical paths: **0**;
-- duplicate canonical content hashes: **0**;
-- runtime/manifest agreement: **PASS 130/130**.
+All ten newly accepted items were inspected at contact-sheet card scale and 800×800 detail scale. Exact-content duplicate groups for the staged replacement set were empty. A reviewer-side 256-bit dHash sanity check across the 22 accepted Lighting/Rugs/Decor detail renders found **no hash collisions**; the nearest pair still differed by 63/256 bits. That heuristic is triage only; human near-duplicate/identity review remains authoritative and found no accepted-item identity collision.
 
-The v16 integration ran full tests and production build successfully and passed strict catalog mobile QA in headless emulation. Latest reusable full CI run **35670445113** on `aee2bfdcf63c23e4775b7c8ed93e0a8bc752ee30` also completed **SUCCESS**. This Workstream-14 review update changes documentation/decisions only, so unchanged runtime/build proof is reused rather than launching another redundant heavy suite.
+## Shared staged-art fixture
 
-The earlier `beds-1` metadata mismatch is **resolved**; do not carry that stale blocker forward.
+The existing Playwright/GitHub Actions fixture remains the one shared framework. It supports SVG/PNG/JPG/JPEG/WEBP, records computed Git blob identity, creates card contact sheets and 800×800 detail captures, checks decode/opacity, and preserves compact artifacts.
 
-## Reference fidelity
+### Fix 1 — authoritative current binding wins over stale alternate
 
-Authoritative Home/Store/Quest original pixels are repository-accessible and verified. Missing-reference is no longer a blocker. A fresh deterministic reference-capture run **35670445111** passed reference-input verification and production build and was actively capturing Home/Store/Quest at this audit checkpoint.
+Commit `e1ed7fec6ca78c964723261f9d569e5b20fb6d7d`.
 
-Reference parity remains **NOT TESTED / NOT CLEARED** until that run completes and its artifacts are inspected. A raw pixel-diff status is diagnostic only; it cannot by itself prove visual acceptance. No tablet/phone originals exist, so responsive layouts are judged for usability/composition rather than invented pixel parity.
+Before this change, if a lane-declared current replacement had bad bytes, the generic versioned-file scan could choose an older valid-signature file for the same ID. That made stale art appear in the current review sheet.
 
-## Other retained release evidence
+The selector now treats a lane-declared `READY_FOR_REVIEW` / staged binding as authoritative. If those bytes fail signature/decode, that ID blocks instead of silently substituting an older version.
 
-- Real-browser persistence/economy matrix: **PASS**, synthetic profiles only, no real player data.
-- Latest catalog-induced learning P0 check: **PASS / none found** in current executed CI.
-- Physical-device performance: **NOT TESTED**.
-- VoiceOver/TalkBack/NVDA smoke: **NOT TESTED**.
-- Final 192-item exact-content duplicate scan: **NOT TESTED — final accepted set incomplete**.
-- Final rendered near-duplicate review: **NOT TESTED — final accepted set incomplete**.
-- Home structural geometry: retain **PASS** unless new evidence reopens it.
-- Store 4 / Quest 6 geometry backlog remains deferred to GAME_FINISHING and does not block catalog completion.
+**Execution artifact after this exact fix: PENDING.** The code change is not being counted as an executed PASS until a post-fix artifact is preserved.
 
-## Exact current blockers / handoff
+### Desk 2–4 blocker clarified
 
-1. **08 — Lighting integration:** consume exact ACCEPTs for Lighting 5–12 after normal metadata/file/content checks; preserve Lighting 1–4 and all other accepted canonical mappings.
-2. **03 / 14 / 05 — Desk evidence:** render the current exact Desk 2–4 paths through the existing shared fixture and let reviewer 05 decide; do not reuse the stale-path failure. Continue current Desk candidates without weakening blank/signature checks.
-3. **05 — Wall production:** Wall 1–12 remain REWORK and need physical mounted-object replacements.
-4. **07 — Rugs production:** Rugs 1–12 remain REWORK and must read as floor textiles with perspective/pile/edge/contact.
-5. **09 — Decor production:** Decor 1–12 remain REWORK and need dimensional product/object replacements.
-6. **14 — reference QA:** inspect fresh Home/Store/Quest capture artifacts when complete; report region-level differences and keep raw diff separate from visual approval.
-7. **15 — phase:** remain in `CATALOG_SPRINT` until 192/192 current hashes are stored, correct, unique, independently accepted, canonical and Store-verified.
+The actual current lane-03 paths are:
 
-**Catalog gate remains FAIL. Art progress is material, but it is not deployment permission. Replit/Floot/main remain untouched.**
+- `public/assets/catalog/desks-2-v1.webp` — `357f4ba8385e737499f12409c0bea141f9bc5e6a`
+- `public/assets/catalog/desks-3-v1.webp` — `b3352961988d7e9c5ff48d1559fc4d2296d4eab3`
+- `public/assets/catalog/desks-4-v1.webp` — `711feeb78e6d08351fc2fd2d3176ddb1a288e8f2`
+
+Their file bytes do **not** begin with valid RIFF/WEBP signatures. Older `desks-2..4-w03-v1.webp` files are stale and also fail actual browser rendering. Reviewer 05 must not transfer a verdict across these hashes. Workstream 03/15 must restage genuinely valid current image bytes, then the shared fixture can render and reviewer 05 can decide.
+
+### Fix 2 — nested lane-13 scene/character candidates
+
+Commit `f15ae12806627976a67ccd63be1371542039bcd9`.
+
+The fixture previously rendered only `lane-13.json -> assets[]`, which covered the Home environment but missed newly staged candidates stored in `parallelCandidates`, including the Quest environment.
+
+The same fixture now recursively discovers and deduplicates every existing `public/assets/visuals/**` path declared anywhere in lane 13. This keeps Home plus new Quest/scene/character visual candidates in the same hash-bound render path without a second framework.
+
+**Post-fix Home/Quest visual artifact: PENDING.** Scene/screen composition is therefore not marked accepted from source notes alone.
+
+### Cross-partition boundary
+
+The fixture already proved automatic discovery/rendering of current Headwear 1–4 replacement JPGs in preserved artifacts. Reviewer 01, not reviewer 14, owns those item decisions. Reviewer 14 will judge scene/screen composition after the exact scene pixels are rendered; reviewer 01 retains art-direction/scene-art authority.
+
+## Canonical integration state
+
+Workstream 08 advanced the canonical catalog to **manifest v17**:
+
+- catalog target: 192 IDs
+- manifest/runtime mappings: **138 / 138**
+- `final-portable`: **122**
+- interim-not-verified: **16**
+- non-final: **70**
+- duplicate canonical asset paths: **0**
+- duplicate canonical content hashes: **0**
+- runtime/manifest agreement: **PASS 138/138**
+- independently accepted exact hashes already canonical: conservative **35**
+
+Lighting 5–12 are now consumed in v17. The newly accepted Rugs 1–8 and Decor 1–2 are **not** counted as canonical until Workstream 08 independently performs its metadata/file/content checks and integrates their exact hashes.
+
+## Automated evidence
+
+- Manifest-v17 integration tests: **PASS — full npm test workflow**
+- Manifest-v17 production build: **PASS — Vite production build**
+- Rugs 5–8 recovery metadata/readback/decode/tests/build: **PASS** in run **35671441228**
+- Decor 1–2 recovery metadata/readback/decode/tests/build: **PASS** in run **35671542628**
+- Catalog-induced safety/learning P0 in executed v17 checks: **none observed**
+- Manifest-v17 desktop/phone Store visual smoke: **NOT TESTED / pending**
+- Physical-device visual/performance gate: **NOT TESTED**
+- VoiceOver/TalkBack/NVDA release gate: **NOT TESTED**
+
+No redundant full CI was launched for review/documentation-only commits.
+
+## Original reference QA
+
+The original Home/Store/Quest screenshots are present and hash-verified. The stale “reference pixels unavailable” blocker remains removed.
+
+Run **35670445111** passed reference-input verification and the production build but was **cancelled during deterministic screenshot capture**. It has no reusable artifact. Therefore exact reference comparison remains **NOT TESTED**.
+
+Rules retained:
+
+- originals remain unmodified;
+- raw pixel diff is diagnostic only;
+- no static screenshot overlays or hidden controls;
+- real balance/learning-content differences and safety substitutions must be disclosed rather than faked;
+- no mobile/tablet pixel-identical claims because no mobile/tablet originals were supplied.
+
+The next acceptable proof is one completed deterministic capture of the exact current candidate runtime/assets, followed by side-by-side and region-level visual observations.
+
+## Release blockers
+
+1. **Catalog completeness:** 192/192 current hashes are not independently accepted + canonical.
+2. **Reviewer-14 production backlog:** Wall 1–12, Rugs 9–12, Decor 3–12 still need replacement art.
+3. **Desk evidence:** Desk 2–4 current bytes fail WebP signature validation; reviewer-05 disposition is blocked until valid current bytes are restaged/rendered.
+4. **Canonical follow-through:** Rugs 1–8 and Decor 1–2 exact ACCEPTs need Workstream-08 integration checks.
+5. **Store visual safeguard:** v17 desktop/phone Store art smoke is pending.
+6. **Final duplicate gate:** complete accepted-set exact-content + rendered near-duplicate audit cannot finish before all 192 current final hashes exist.
+7. **Reference fidelity:** no completed exact-current Home/Store/Quest capture artifact yet.
+8. **Deferred nonvisual release checks:** physical-device performance and screen-reader smoke remain unresolved.
+
+Home structural geometry retains prior **PASS** unless new evidence reopens it. Store 4 / Quest 6 measured geometry blockers remain an ART/VISUALS finishing backlog after catalog clearance; they do not block catalog production.
+
+## Handoff
+
+- **08:** integrate Rugs 1–8 and Decor 1–2 only by the accepted exact hashes after metadata/file/content checks; run affected Store visual safeguards.
+- **03 / 15:** repair current Desk 2–4 bytes; do not use stale `-w03-v1` art as review evidence.
+- **05:** continue Wall replacement production; independently review valid Desk hashes once rendered.
+- **07:** preserve accepted Rugs 1–8; continue only Rugs 9–12 replacement work.
+- **09:** preserve accepted Decor 1–2; continue Decor 3–12 in bounded premium batches.
+- **10 / 14:** obtain a completed current-head deterministic Home/Store/Quest capture and review region-level composition/reference differences.
+- **15:** alone controls phase/readiness; remain in ART_VISUALS/CATALOG until the actual gates clear.
+
+**ART_VISUALS_COMPLETE = NO. No deployment permission exists.**
