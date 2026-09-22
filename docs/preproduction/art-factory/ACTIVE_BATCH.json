@@ -1,8 +1,8 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "owner": "15",
   "branch": "screenshot-match-preproduction",
-  "sourceHead": "6ea8374b45103d764f39806c04f1b787ea1c1dc2",
+  "sourceHead": "9ce41d9b714125adfdcc5f67bb6ffd58914f3919",
   "status": "ACTIVE_REVALIDATE_LIVE_BEFORE_WRITE",
   "policy": {
     "maxConcurrentProductionBatches": 4,
@@ -14,16 +14,40 @@
     "canonicalWriter": "08",
     "updateOnlyOnMaterialChange": true
   },
+  "liveCanonical": {
+    "integrationSchema": 14,
+    "manifestVersion": 29,
+    "manifestEntries": 168,
+    "runtimeMappings": 168,
+    "finalPortable": 161,
+    "interimNotVerified": 7,
+    "nonFinalRelativeToTarget": 31,
+    "strictAcceptedCanonical": 91,
+    "strictAcceptedRemaining": 101,
+    "acceptedAwaitingCanonical": 0,
+    "releaseCleared": 0,
+    "note": "Wall 1-4 are integrated and validated. Seating 7-10 remain mapped but are excluded from strict independent-ACCEPT counts until reviewer02 consumes real exact-current-hash card/detail pixels and records a decision."
+  },
   "batches": [
     {
-      "producer": "09",
-      "batchId": "w09-decor-3-4-v3",
-      "scope": ["decor-3", "decor-4"],
+      "producer": "05",
+      "batchId": "w05-wall-5-8-v2",
+      "scope": ["wall-5", "wall-6", "wall-7", "wall-8"],
       "state": "ACTIONABLE_REWORK_FACTORY_PILOT",
       "reviewer": "14",
-      "basis": "Reviewer14 preserves Decor1-2 ACCEPT and exact legacy Decor3-12 REWORK. Tops11-12 v7 exact payload transport remains unchanged-blocked, so only Decor3-4 is open as producer09's bounded anti-stall pilot.",
-      "requirements": "Use artPromptOptimizer and artFactoryJob v2 before generation; produce only 2-4 distinct variants with prompt SHA/seed/runtime/model revision/conditioning hashes, stage versioned source+derivative bytes, exact-readback and verify them, render actual StarBlox card/detail pixels, then route exact hashes to reviewer14. Do not scale Decor5-12 before independent disposition.",
-      "preserve": ["decor-1", "decor-2", "tops-1..10", "tops-11..12-v7 receipts"]
+      "basis": "Wall 1-4 v2 completed the full exact-byte/render/reviewer14 ACCEPT/canonical cycle. Reviewer14 still has exact-current legacy REWORK decisions for Wall 5-12, so producer05 may scale only one bounded four-item batch to Wall 5-8 using the accepted physical/material-depth recipe as evidence rather than regenerating accepted Wall 1-4.",
+      "requirements": "Use artPromptOptimizer and artFactoryJob v2 against the exact Wall5-8 metadata and existing reviewer14 defects; generate only 2-4 planned variants per item through an authorized generator; preserve source/derivative lineage and exact model/runtime provenance; stage/read back and verify exact bytes; then route real StarBlox card/detail pixels to reviewer14. Do not start Wall9-12 until this batch is independently dispositioned.",
+      "preserve": ["wall-1", "wall-2", "wall-3", "wall-4"]
+    },
+    {
+      "producer": "06",
+      "batchId": "w06-companions-2-5-6-7-vnext",
+      "scope": ["companions-2", "companions-5", "companions-6", "companions-7"],
+      "state": "ACTIONABLE_REWORK_FACTORY_PILOT",
+      "reviewer": "05",
+      "basis": "Reviewer05 independently inspected exact-current card/detail pixels and issued REWORK 4/4. Identity, dimensionality and card readability largely passed; exact themes failed on all four, with near-duplicate/template risk additionally observed for Companions 2 and 6.",
+      "requirements": "Repair only the concrete reviewer05 defects via artPromptOptimizer + deterministic 2-4 variant factory plans. Preserve successful anatomy/silhouette/material depth. Make Moon Cat unmistakably Pixel Party at Tier1 with reduced spectacle; Pebble Turtle unmistakably Galaxy Glow; Comet Fox unmistakably Sunny Pop with staging differentiated from Moon Cat; Story Owl unmistakably Aqua Wave. Stage/read back and verify exact bytes, render real card/detail pixels, then route changed exact hashes back to reviewer05. No old verdict transfers.",
+      "preserve": ["companions-3", "companions-4", "companions-10", "companions-11"]
     },
     {
       "producer": "13",
@@ -31,47 +55,67 @@
       "scope": ["home-bedroom"],
       "state": "ACTIONABLE_SCENE_REWORK_FACTORY_PILOT",
       "reviewer": "01-art-fidelity + 14-composition-performance",
-      "basis": "Reviewer01 independently REWORKed exact Home bedroom v3 for room identity/fidelity while preserving the central corridor and broad composition gains.",
+      "basis": "Reviewer01 independently REWORKed exact Home bedroom v3 for room identity/fidelity while preserving the central corridor and broad composition gains; no newer branch evidence supersedes that assignment.",
       "requirements": "Preserve v3 quiet center corridor, left warm light and bed-left/desk-right macro-layout; make the bed unmistakable, restore a visible left window, add 4-7 reference-grounded side/perimeter props, increase material separation and controlled accent saturation, and keep a purposeful 390x844 derivative. Use factory-v2 provenance; no baked UI/avatar/state and no runtime wiring.",
       "preserve": ["home-bedroom-w13-v2", "home-bedroom-w13-v3", "accepted-avatar-keyart-current-hash"]
     }
   ],
-  "acceptedAwaitingCanonical": [
+  "pendingRenderReview": [
     {
-      "producer": "05",
+      "priority": 1,
+      "producer": "09",
+      "batchId": "w09-decor-3-4-v3",
+      "scope": ["decor-3", "decor-4"],
+      "state": "STAGED_EXACT_BYTES_VERIFIED_AWAITING_REAL_CARD_DETAIL_RENDER_AND_REVIEW_14",
+      "renderOwner": "14",
       "reviewer": "14",
-      "batchId": "w05-wall-1-4-v2",
-      "scope": ["wall-1", "wall-2", "wall-3", "wall-4"],
-      "state": "INDEPENDENT_ACCEPT_4_OF_4_AWAITING_08",
-      "evidence": "docs/preproduction/catalog-sprint/chat-wall-1-4-w05-v2-review-14-to-08.json",
       "exactHashes": {
-        "wall-1": "9908e774b4012cb89d3c86eed9ca3d10ce3bffe4",
-        "wall-2": "febf517cd0db666f647962c0cb7d4e5af53d4b76",
-        "wall-3": "5ad5aff97c9d365221de8c2d888abf3a26db547e",
-        "wall-4": "bc38aee13c1c4840aa1e9657edfb67c8838a6a21"
+        "decor-3": "5c9e3ad9b88b29c8ffb67d262f828f38d24763be",
+        "decor-4": "8393d0b8108dfcc6882a75a9e50293f26d8f6989"
       },
-      "next": "08 performs normal exact mapping/file/decode/metadata/uniqueness checks and canonically integrates only these hashes. Producer05 freezes the accepted versions; no Wall5+ scale before explicit new allocation."
+      "sha256": {
+        "decor-3": "f8af8283fca711a4173d86b3a7bee713514ab9189baffe3818619286704447ea",
+        "decor-4": "33fae2db0be4246cf0763f7572731dc679f896b064e60aee085944c5e1d8b5ce"
+      },
+      "evidence": "docs/preproduction/catalog-sprint/lane-09.json",
+      "next": "Reviewer14 uses the shared fixture to render actual StarBlox card/detail pixels for these exact branch hashes, then independently ACCEPT/REWORK. Producer09 must not generate Decor5-12 while this pilot is pending."
+    },
+    {
+      "priority": 2,
+      "producer": "06",
+      "batchId": "lane06-seating-7-10-evidence-recovery",
+      "scope": ["seating-7", "seating-8", "seating-9", "seating-10"],
+      "state": "CURRENT_BYTES_PRESERVED_AWAITING_CONSUMABLE_EXACT_HASH_CARD_DETAIL_EVIDENCE",
+      "renderOwner": "14",
+      "reviewer": "02",
+      "exactHashes": {
+        "seating-7": "91457eddbb3ae915867d717eec72632ea6a183be",
+        "seating-8": "23c02ab51249ab373aab264a17778a090d023eb4",
+        "seating-9": "7fcdea13121a8820dd8dc64e8982637acb2c5819",
+        "seating-10": "9aa53664cbc8ee24283ea44830f1f3037c576340"
+      },
+      "evidence": "docs/preproduction/catalog-sprint/reviews/02.json",
+      "next": "Do not regenerate. Workstream14 should reuse any hash-stable renderer evidence if available or produce one consumable current-hash card/detail proof package, then reviewer02 makes the first genuine art-quality decision. These four stay excluded from the strict accepted count until that decision."
     }
   ],
-  "pendingReviewNotProduction": [
+  "acceptedAwaitingCanonical": [],
+  "completedOrClosedThisReconciliation": [
     {
-      "producer": "06",
-      "batchId": "companion-existing-rich-2-5-6-7",
+      "scope": ["wall-1", "wall-2", "wall-3", "wall-4"],
+      "state": "INDEPENDENT_ACCEPT_AND_CANONICAL_V29_VALIDATED",
+      "integrationCommit": "b91a8a9bf7806911d74e6f0972acf019f7056eaf"
+    },
+    {
       "scope": ["companions-2", "companions-5", "companions-6", "companions-7"],
-      "state": "EXACT_CURRENT_CARD_DETAIL_RENDERED_AWAITING_REVIEW_05",
-      "evidence": "docs/preproduction/catalog-sprint/chat-companions-2-5-6-7-render-evidence-14-to-05.json",
-      "exactHashes": {
-        "companions-2": "88d10d6f8c412d0ab7fde6ac7a7ff202858077db",
-        "companions-5": "1ae7b431e519563ee1dbbdb0ae762bfee6f95ac0",
-        "companions-6": "28cb411201d8ec30dae2f70b740efe1e86985386",
-        "companions-7": "39d35ea40a0a138ae99ddcdc09f8f2a3683fa49d"
-      },
-      "rule": "Do not regenerate or transfer legacy SVG verdicts. Reviewer05 independently judges the exact rendered current pixels and routes each qualified ACCEPT to 08."
+      "state": "PRIOR_RENDER_REVIEW_COMPLETE_REWORK_4_OF_4",
+      "reviewer": "05",
+      "evidence": "docs/preproduction/catalog-sprint/reviews/05.json"
     }
   ],
   "blockedPreserved": {
-    "tops11_12_v7": "Exact authoritative WEBP payload bytes remain unavailable; do not regenerate/re-encode/reconstruct approximately.",
-    "headwear5_8": "Four generated external derivatives remain unstaged because exact raw bytes are unavailable; do not repeat unchanged transport attempts or regenerate."
+    "tops11_12_v7": "Exact authoritative WEBP payload bytes remain unavailable; expected Git blobs 0641cd1563cd9f683d685231c52a28c9f66424be and 9f13c65b0310a70be3fb1e6464baf22dabe75ce1. Do not regenerate, re-encode or approximately reconstruct.",
+    "headwear5_8": "Four generated external derivatives remain unstaged because exact raw bytes are unavailable; do not repeat unchanged transport attempts or regenerate.",
+    "storeMobile": "Real Store/mobile visual proof remains blocked before Store content by six shared real-pointer navigation click timeouts on the current validated Wall integration run. Preserve catalog art and keep this visual release gate open."
   },
-  "readerRule": "Every worker must revalidate assignment, exact item hash, review state and branch head before writing. This file coordinates work and never overrides newer exact evidence."
+  "readerRule": "Every worker must revalidate assignment, exact item hash, review state and branch head before writing. This coordination file never overrides newer exact evidence."
 }
