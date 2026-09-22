@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
 """Calibrate StarBlox report-only visual metrics against independent review labels.
 
-This script measures whether objective image metrics separate ACCEPT from REWORK
-in the current exact-hash corpus. It never activates blocking thresholds.
+The calibration learns candidate *warning* thresholds from the growing exact-hash
+ACCEPT/REWORK corpus. It deliberately does not activate blocking thresholds.
+Candidate thresholds must survive leave-one-out evaluation with a low false
+positive rate before they are even marked as warning-ready.
 """
 from __future__ import annotations
 
@@ -12,6 +14,7 @@ import math
 import statistics
 import tempfile
 from pathlib import Path
+from typing import Iterable
 
 from PIL import Image, ImageDraw
 
@@ -28,6 +31,7 @@ METRIC_PATHS = {
     "nonTransparentRatio": ("source", "nonTransparentRatio"),
     "contentBoundsRatio": ("source", "contentBoundsRatio"),
 }
+NEIGHBOR_FEATURES = ("nearestAnyDistance", "nearestSameCollectionDistance")
 
 
 def normalize_repo_path(value: str | None) -> str | None:
@@ -68,9 +72,9 @@ def describe(values: list[float]) -> dict:
     }
 
 
-def get_metric(row: dict, path: tuple[str, str]) -> float | None:
+def get_metric(row: dict, metric_path: tuple[str, str]) -> float | None:
     value = row
-    for key in path:
+    for key in metric_path:
         if not isinstance(value, dict) or key not in value:
             return None
         value = value[key]
@@ -85,27 +89,198 @@ def nearest_distances(rows: list[dict]) -> list[dict]:
         for j, other in enumerate(rows):
             if i == j or row["itemId"] == other["itemId"]:
                 continue
-            distance = hamming_hex(row["metrics"]["source"]["aHash"], other["metrics"]["source"]["aHash"]) + hamming_hex(
-                row["metrics"]["source"]["dHash"], other["metrics"]["source"]["dHash"]
+            distance = hamming_hex(
+                row["metrics"]["source"]["aHash"],
+                other["metrics"]["source"]["aHash"],
+            ) + hamming_hex(
+                row["metrics"]["source"]["dHash"],
+                other["metrics"]["source"]["dHash"],
             )
-            candidate = {"itemId": other["itemId"], "collectionId": other["collectionId"], "distance": distance}
+            candidate = {
+                "itemId": other["itemId"],
+                "collectionId": other["collectionId"],
+                "distance": distance,
+            }
             if best is None or distance < best["distance"]:
                 best = candidate
-            if row["collectionId"] == other["collectionId"] and (same_collection is None or distance < same_collection["distance"]):
+            if (
+                row["collectionId"] == other["collectionId"]
+                and (same_collection is None or distance < same_collection["distance"])
+            ):
                 same_collection = candidate
-        out.append({
-            "itemId": row["itemId"],
-            "decision": row["decision"],
-            "collectionId": row["collectionId"],
-            "nearestAny": best,
-            "nearestSameCollection": same_collection,
-        })
+        out.append(
+            {
+                "itemId": row["itemId"],
+                "decision": row["decision"],
+                "collectionId": row["collectionId"],
+                "nearestAny": best,
+                "nearestSameCollection": same_collection,
+            }
+        )
+    return out
+
+
+def confusion(labels: list[str], predictions: list[bool]) -> dict:
+    tp = fp = tn = fn = 0
+    for label, pred in zip(labels, predictions):
+        positive = label == "REWORK"
+        if pred and positive:
+            tp += 1
+        elif pred and not positive:
+            fp += 1
+        elif not pred and positive:
+            fn += 1
+        else:
+            tn += 1
+    recall = tp / (tp + fn) if tp + fn else 0.0
+    fpr = fp / (fp + tn) if fp + tn else 0.0
+    specificity = tn / (tn + fp) if tn + fp else 0.0
+    precision = tp / (tp + fp) if tp + fp else 0.0
+    balanced = (recall + specificity) / 2 if (tp + fn) and (tn + fp) else 0.0
+    return {
+        "tp": tp,
+        "fp": fp,
+        "tn": tn,
+        "fn": fn,
+        "recall": round(recall, 6),
+        "falsePositiveRate": round(fpr, 6),
+        "specificity": round(specificity, 6),
+        "precision": round(precision, 6),
+        "balancedAccuracy": round(balanced, 6),
+    }
+
+
+def predict(value: float, direction: str, threshold: float) -> bool:
+    if direction == "LE":
+        return value <= threshold
+    if direction == "GE":
+        return value >= threshold
+    raise ValueError(f"unknown direction {direction}")
+
+
+def threshold_grid(values: Iterable[float]) -> list[float]:
+    xs = sorted(set(float(x) for x in values))
+    if not xs:
+        return []
+    if len(xs) == 1:
+        return [xs[0]]
+    span = max(1e-9, xs[-1] - xs[0])
+    eps = span * 1e-6
+    mids = [(a + b) / 2 for a, b in zip(xs, xs[1:])]
+    return [xs[0] - eps, *mids, xs[-1] + eps]
+
+
+def fit_threshold_candidate(pairs: list[tuple[float, str]]) -> dict | None:
+    labels = [label for _, label in pairs]
+    if len(set(labels)) < 2:
+        return None
+    if labels.count("ACCEPT") < 2 or labels.count("REWORK") < 2:
+        return None
+    best = None
+    for direction in ("LE", "GE"):
+        for threshold in threshold_grid(value for value, _ in pairs):
+            predictions = [predict(value, direction, threshold) for value, _ in pairs]
+            metrics = confusion(labels, predictions)
+            rank = (
+                metrics["balancedAccuracy"],
+                -metrics["falsePositiveRate"],
+                metrics["recall"],
+                metrics["precision"],
+            )
+            row = {
+                "direction": direction,
+                "threshold": round(float(threshold), 8),
+                "fit": metrics,
+                "_rank": rank,
+            }
+            if best is None or row["_rank"] > best["_rank"]:
+                best = row
+    if best is None:
+        return None
+    best.pop("_rank", None)
+    return best
+
+
+def leave_one_out_threshold(pairs: list[tuple[float, str]]) -> dict:
+    labels = []
+    predictions = []
+    skipped = 0
+    for index, (value, label) in enumerate(pairs):
+        train = pairs[:index] + pairs[index + 1 :]
+        candidate = fit_threshold_candidate(train)
+        if candidate is None:
+            skipped += 1
+            continue
+        labels.append(label)
+        predictions.append(predict(value, candidate["direction"], candidate["threshold"]))
+    metrics = confusion(labels, predictions) if labels else confusion([], [])
+    return {
+        "evaluated": len(labels),
+        "skipped": skipped,
+        **metrics,
+    }
+
+
+def feature_pairs(
+    measured: list[dict],
+    nearest_by_item: dict[str, dict],
+    feature_name: str,
+) -> list[tuple[float, str]]:
+    pairs = []
+    for row in measured:
+        value = None
+        if feature_name in METRIC_PATHS:
+            value = get_metric(row["metrics"], METRIC_PATHS[feature_name])
+        elif feature_name == "nearestAnyDistance":
+            value = (nearest_by_item.get(row["itemId"]) or {}).get("nearestAny", {}).get("distance")
+        elif feature_name == "nearestSameCollectionDistance":
+            value = (nearest_by_item.get(row["itemId"]) or {}).get("nearestSameCollection", {}).get("distance")
+        if isinstance(value, (int, float)):
+            pairs.append((float(value), row["decision"]))
+    return pairs
+
+
+def calibrate_warning_candidates(
+    measured: list[dict],
+    nearest: list[dict],
+    sample_count_ready: bool,
+) -> dict:
+    nearest_by_item = {row["itemId"]: row for row in nearest}
+    out = {}
+    for feature in [*METRIC_PATHS, *NEIGHBOR_FEATURES]:
+        pairs = feature_pairs(measured, nearest_by_item, feature)
+        candidate = fit_threshold_candidate(pairs)
+        loo = leave_one_out_threshold(pairs)
+        accept_n = sum(1 for _, label in pairs if label == "ACCEPT")
+        rework_n = sum(1 for _, label in pairs if label == "REWORK")
+        evidence_ready = (
+            sample_count_ready
+            and candidate is not None
+            and loo["evaluated"] >= max(20, int(len(pairs) * 0.8))
+            and loo["falsePositiveRate"] <= 0.10
+            and loo["recall"] >= 0.35
+            and loo["balancedAccuracy"] >= 0.65
+        )
+        out[feature] = {
+            "samples": {"ACCEPT": accept_n, "REWORK": rework_n, "total": len(pairs)},
+            "candidate": candidate,
+            "leaveOneOut": loo,
+            "warningReady": evidence_ready,
+            "status": "REPORT_ONLY_WARNING_CANDIDATE" if evidence_ready else "INSUFFICIENT_EVIDENCE",
+            "blockingEnabled": False,
+        }
     return out
 
 
 def build_calibration(repo_root: Path, corpus: dict) -> dict:
     measured = []
     skipped = []
+    labeled_total = sum(
+        1
+        for r in corpus.get("current", [])
+        if r.get("independent") and r.get("decision") in {"ACCEPT", "REWORK"}
+    )
+
     for row in corpus.get("current", []):
         if not row.get("independent") or row.get("decision") not in {"ACCEPT", "REWORK"}:
             continue
@@ -120,25 +295,45 @@ def build_calibration(repo_root: Path, corpus: dict) -> dict:
             skipped.append({"itemId": row.get("itemId"), "reason": "PATH_ESCAPE"})
             continue
         if path.suffix.lower() not in RASTER_EXTS:
-            skipped.append({"itemId": row.get("itemId"), "assetPath": repo_path, "reason": "NON_RASTER_CURRENT_ASSET"})
+            skipped.append(
+                {
+                    "itemId": row.get("itemId"),
+                    "assetPath": repo_path,
+                    "reason": "NON_RASTER_CURRENT_ASSET",
+                }
+            )
             continue
         if not path.is_file():
-            skipped.append({"itemId": row.get("itemId"), "assetPath": repo_path, "reason": "MISSING_FILE"})
+            skipped.append(
+                {
+                    "itemId": row.get("itemId"),
+                    "assetPath": repo_path,
+                    "reason": "MISSING_FILE",
+                }
+            )
             continue
         try:
             metrics = scan_one(path)
         except Exception as exc:
-            skipped.append({"itemId": row.get("itemId"), "assetPath": repo_path, "reason": type(exc).__name__ + ": " + str(exc)})
+            skipped.append(
+                {
+                    "itemId": row.get("itemId"),
+                    "assetPath": repo_path,
+                    "reason": type(exc).__name__ + ": " + str(exc),
+                }
+            )
             continue
-        measured.append({
-            "itemId": row["itemId"],
-            "collectionId": row.get("collectionId"),
-            "decision": row["decision"],
-            "failureCodes": row.get("failureCodes") or [],
-            "assetPath": repo_path,
-            "assetHash": row.get("assetHash"),
-            "metrics": metrics,
-        })
+        measured.append(
+            {
+                "itemId": row["itemId"],
+                "collectionId": row.get("collectionId"),
+                "decision": row["decision"],
+                "failureCodes": row.get("failureCodes") or [],
+                "assetPath": repo_path,
+                "assetHash": row.get("assetHash"),
+                "metrics": metrics,
+            }
+        )
 
     by_decision = {"ACCEPT": [], "REWORK": []}
     for row in measured:
@@ -155,7 +350,11 @@ def build_calibration(repo_root: Path, corpus: dict) -> dict:
     for scope_key in ("nearestAny", "nearestSameCollection"):
         distributions[scope_key + "Distance"] = {}
         for decision in ("ACCEPT", "REWORK"):
-            values = [row[scope_key]["distance"] for row in nearest if row["decision"] == decision and row[scope_key] is not None]
+            values = [
+                row[scope_key]["distance"]
+                for row in nearest
+                if row["decision"] == decision and row[scope_key] is not None
+            ]
             distributions[scope_key + "Distance"][decision] = describe(values)
 
     by_failure_code = {}
@@ -169,20 +368,38 @@ def build_calibration(repo_root: Path, corpus: dict) -> dict:
 
     accept_n = len(by_decision["ACCEPT"])
     rework_n = len(by_decision["REWORK"])
-    raster_coverage = len(measured) / max(1, sum(1 for r in corpus.get("current", []) if r.get("independent") and r.get("decision") in {"ACCEPT", "REWORK"}))
+    raster_coverage = len(measured) / max(1, labeled_total)
+    sample_count_ready = accept_n >= 20 and rework_n >= 12
+    warning_candidates = calibrate_warning_candidates(measured, nearest, sample_count_ready)
+    warning_ready = [
+        feature for feature, row in warning_candidates.items() if row["warningReady"]
+    ]
+
     readiness = {
         "acceptedRasterSamples": accept_n,
         "reworkRasterSamples": rework_n,
         "rasterCoverage": round(raster_coverage, 4),
         "minimumRecommendedSamples": {"ACCEPT": 20, "REWORK": 12},
-        "sampleCountReady": accept_n >= 20 and rework_n >= 12,
+        "sampleCountReady": sample_count_ready,
+        "warningCandidateCount": len(warning_ready),
+        "warningReadyFeatures": warning_ready,
         "automaticThresholdActivation": False,
         "blockingThresholds": [],
-        "note": "Metrics remain report-only even when sample-count readiness is met; false-positive calibration and reviewer sign-off are still required.",
+        "promotionRule": {
+            "minimumLeaveOneOutEvaluated": "max(20, 80% of feature samples)",
+            "maximumFalsePositiveRate": 0.10,
+            "minimumRecall": 0.35,
+            "minimumBalancedAccuracy": 0.65,
+            "requiresIndependentReviewerSignoff": True,
+        },
+        "note": (
+            "Candidate thresholds are report-only. Meeting evidence criteria marks a metric "
+            "as warning-ready, never blocking; reviewer sign-off is still required."
+        ),
     }
 
     return {
-        "schemaVersion": 1,
+        "schemaVersion": 2,
         "kind": "STARBLOX_VISUAL_PREFLIGHT_CALIBRATION",
         "policy": {
             "humanReviewAuthoritative": True,
@@ -190,8 +407,10 @@ def build_calibration(repo_root: Path, corpus: dict) -> dict:
             "automaticAccept": False,
             "automaticRework": False,
             "exactHashReviewRequired": True,
+            "blockingThresholdActivation": False,
         },
         "readiness": readiness,
+        "warningCandidates": warning_candidates,
         "measured": measured,
         "skipped": skipped,
         "nearestNeighbors": nearest,
@@ -201,6 +420,17 @@ def build_calibration(repo_root: Path, corpus: dict) -> dict:
 
 
 def self_test() -> None:
+    obvious = [(80 + i, "ACCEPT") for i in range(20)] + [
+        (5 + i, "REWORK") for i in range(12)
+    ]
+    candidate = fit_threshold_candidate(obvious)
+    assert candidate is not None
+    assert candidate["direction"] == "LE"
+    loo = leave_one_out_threshold(obvious)
+    assert loo["falsePositiveRate"] == 0.0
+    assert loo["recall"] == 1.0
+    assert loo["balancedAccuracy"] == 1.0
+
     with tempfile.TemporaryDirectory() as td:
         root = Path(td)
         asset_dir = root / "public/assets/catalog"
@@ -209,8 +439,15 @@ def self_test() -> None:
         def make(name: str, base: tuple[int, int, int], variant: int) -> None:
             im = Image.new("RGB", (128, 128), base)
             draw = ImageDraw.Draw(im)
-            draw.rectangle((20 + variant, 18, 100, 108 - variant), outline=(250, 250, 250), width=5)
-            draw.ellipse((40, 35 + variant, 90, 85 + variant), fill=(20 + variant * 8, 90, 220))
+            draw.rectangle(
+                (20 + variant, 18, 100, 108 - variant),
+                outline=(250, 250, 250),
+                width=5,
+            )
+            draw.ellipse(
+                (40, 35 + variant, 90, 85 + variant),
+                fill=(20 + variant * 8, 90, 220),
+            )
             im.save(asset_dir / name)
 
         make("a.png", (15, 20, 40), 0)
@@ -219,17 +456,57 @@ def self_test() -> None:
         make("d.png", (220, 200, 20), 12)
 
         current = [
-            {"itemId": "wall-1", "collectionId": "wall", "decision": "ACCEPT", "independent": True, "assetPath": "/assets/catalog/a.png", "assetHash": "a", "failureCodes": []},
-            {"itemId": "wall-2", "collectionId": "wall", "decision": "ACCEPT", "independent": True, "assetPath": "/assets/catalog/b.png", "assetHash": "b", "failureCodes": []},
-            {"itemId": "wall-3", "collectionId": "wall", "decision": "REWORK", "independent": True, "assetPath": "/assets/catalog/c.png", "assetHash": "c", "failureCodes": ["THEME_MISMATCH"]},
-            {"itemId": "wall-4", "collectionId": "wall", "decision": "REWORK", "independent": True, "assetPath": "/assets/catalog/d.png", "assetHash": "d", "failureCodes": ["WEAK_DEPTH"]},
+            {
+                "itemId": "wall-1",
+                "collectionId": "wall",
+                "decision": "ACCEPT",
+                "independent": True,
+                "assetPath": "/assets/catalog/a.png",
+                "assetHash": "a",
+                "failureCodes": [],
+            },
+            {
+                "itemId": "wall-2",
+                "collectionId": "wall",
+                "decision": "ACCEPT",
+                "independent": True,
+                "assetPath": "/assets/catalog/b.png",
+                "assetHash": "b",
+                "failureCodes": [],
+            },
+            {
+                "itemId": "wall-3",
+                "collectionId": "wall",
+                "decision": "REWORK",
+                "independent": True,
+                "assetPath": "/assets/catalog/c.png",
+                "assetHash": "c",
+                "failureCodes": ["THEME_MISMATCH"],
+            },
+            {
+                "itemId": "wall-4",
+                "collectionId": "wall",
+                "decision": "REWORK",
+                "independent": True,
+                "assetPath": "/assets/catalog/d.png",
+                "assetHash": "d",
+                "failureCodes": ["WEAK_DEPTH"],
+            },
         ]
         report = build_calibration(root, {"current": current})
         assert len(report["measured"]) == 4
         assert report["readiness"]["automaticThresholdActivation"] is False
+        assert report["policy"]["blockingThresholdActivation"] is False
         assert report["distributions"]["sourceEntropyBits"]["ACCEPT"]["count"] == 2
         assert report["reworkFailureCodeCoverage"]["THEME_MISMATCH"]["count"] == 1
-        assert all(row["nearestSameCollection"] is not None for row in report["nearestNeighbors"])
+        assert all(
+            row["nearestSameCollection"] is not None
+            for row in report["nearestNeighbors"]
+        )
+        assert all(
+            row["blockingEnabled"] is False
+            for row in report["warningCandidates"].values()
+        )
         print("SELF_TEST=PASS")
 
 
