@@ -126,12 +126,24 @@ function selectCurrentReplacementCandidates(report){
   const selected=[]; report.skippedCandidates=[];
   for(const [id,list] of candidates.entries()){
     const dedup=[...new Map(list.map(x=>[`${x.repositoryPath}:${x.blobSha}`,x])).values()];
-    const valid=dedup.filter(x=>x.signature.ok);
-    const laneValid=valid.filter(x=>x.discovery==='lane-reviewable');
-    const pick=laneValid.at(-1)??valid.sort((a,b)=>b.repositoryPath.localeCompare(a.repositoryPath))[0];
+    // A lane-declared READY_FOR_REVIEW/STAGED binding is authoritative for that ID.
+    // Never let an older versioned file silently replace it merely because the
+    // authoritative bytes fail signature/decode checks; that would make stale art
+    // look like the current candidate in reviewer evidence.
+    const laneBound=dedup.filter(x=>x.discovery==='lane-reviewable');
+    const pool=laneBound.length?laneBound:dedup;
+    const valid=pool.filter(x=>x.signature.ok);
+    const pick=laneBound.length?valid.at(-1):valid.sort((a,b)=>b.repositoryPath.localeCompare(a.repositoryPath))[0];
     if(pick) selected.push(pick);
-    for(const c of dedup) if(!pick||c.repositoryPath!==pick.repositoryPath||c.blobSha!==pick.blobSha) report.skippedCandidates.push({id,repositoryPath:c.repositoryPath,blobSha:c.blobSha,signature:c.signature,reason:c.signature.ok?'alternate-version-not-selected':'invalid-file-signature'});
-    if(!pick) report.errors.push(`${id}: no valid staged replacement among ${dedup.map(x=>x.repositoryPath).join(', ')}`);
+    for(const c of dedup){
+      if(pick&&c.repositoryPath===pick.repositoryPath&&c.blobSha===pick.blobSha) continue;
+      const reason=!c.signature.ok?'invalid-file-signature':laneBound.length&&c.discovery!=='lane-reviewable'?'stale-alternate-not-selected-authoritative-lane-binding-present':'alternate-version-not-selected';
+      report.skippedCandidates.push({id,repositoryPath:c.repositoryPath,blobSha:c.blobSha,signature:c.signature,reason});
+    }
+    if(!pick){
+      const detail=pool.map(x=>`${x.repositoryPath}@${x.blobSha} signature=${x.signature.ok?'PASS':'FAIL'}`).join(', ');
+      report.errors.push(`${id}: authoritative staged replacement is not renderable (${detail}); stale alternates were not substituted`);
+    }
   }
   return selected.sort((a,b)=>a.id.localeCompare(b.id));
 }
