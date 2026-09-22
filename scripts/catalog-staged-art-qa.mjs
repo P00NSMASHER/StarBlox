@@ -46,7 +46,7 @@ function candidatePathFromObject(o) {
   return null;
 }
 function blobSha(p) { return execFileSync('git',['hash-object',p],{encoding:'utf8'}).trim(); }
-function stateText(o) { return ['status','decision','reviewStatus','candidateStatus','repositoryStatus','deliveryStatus'].map(k => String(o?.[k] ?? '').toUpperCase()).join(' '); }
+function stateText(o) { return ['status','decision','reviewStatus','candidateStatus','repositoryStatus','deliveryStatus','independentDecision'].map(k => String(o?.[k] ?? '').toUpperCase()).join(' '); }
 function declaredHash(o) {
   for (const key of ['gitBlobSha','candidateBlobSha','assetHash','blobSha']) {
     const value=String(o?.[key] ?? '').trim().toLowerCase();
@@ -56,7 +56,7 @@ function declaredHash(o) {
 }
 function looksReviewable(o) {
   const s = stateText(o);
-  return s.includes('READY_FOR_REVIEW') || s.includes('READY_FOR_FRESH_REVIEW') || s.includes('READY_FOR_FRESH_INDEPENDENT_PIXEL_REVIEW') || s.includes('STAGED');
+  return s.includes('READY_FOR_REVIEW') || s.includes('READY_FOR_FRESH_REVIEW') || s.includes('READY_FOR_FRESH_INDEPENDENT_PIXEL_REVIEW') || s.includes('STAGED') || /\bPENDING_(?:01|02|05|14)\b/.test(s);
 }
 function looksAccepted(o) {
   const s=stateText(o);
