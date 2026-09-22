@@ -8,12 +8,14 @@ on:
         required: true
         type: string
       model_id:
-        description: 'Exact base-model repository/model ID'
+        description: 'Exact base-model repository/model ID; defaults to the pinned StarBlox SDXL runtime'
         required: true
+        default: 'stabilityai/stable-diffusion-xl-base-1.0'
         type: string
       model_revision:
-        description: 'Exact base-model revision/commit'
+        description: 'Exact base-model revision/commit; defaults to the pinned StarBlox SDXL revision'
         required: true
+        default: '462165984030d82259a11f4367a4eed129e94a7b'
         type: string
       reference_sha256:
         description: 'Optional exact StarBlox-owned reference-image SHA-256 bound into every job'
@@ -44,6 +46,36 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+
+      - name: Validate pinned generation runtime evidence
+        env:
+          MODEL_ID: ${{ inputs.model_id }}
+          MODEL_REVISION: ${{ inputs.model_revision }}
+        run: |
+          node - <<'NODE'
+          const fs=require('fs');
+          const p='docs/preproduction/art-factory/PINNED_GENERATION_RUNTIME.json';
+          const policy=JSON.parse(fs.readFileSync(p,'utf8'));
+          if(policy.runtime?.repo!=='huggingface/diffusers') throw new Error('unexpected pinned runtime repo');
+          if(policy.runtime?.commit!=='7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c') throw new Error('unexpected pinned Diffusers revision');
+          if(!process.env.MODEL_ID||!process.env.MODEL_REVISION) throw new Error('exact model identity/revision required');
+          const isPinned=
+            process.env.MODEL_ID===policy.baseModel?.modelId &&
+            process.env.MODEL_REVISION===policy.baseModel?.revision;
+          fs.mkdirSync('artifacts/art-factory-plan',{recursive:true});
+          fs.writeFileSync(
+            'artifacts/art-factory-plan/runtime-selection.json',
+            JSON.stringify({
+              schemaVersion:1,
+              rightsBasis:policy.rightsBasis,
+              runtime:policy.runtime,
+              selectedModel:{modelId:process.env.MODEL_ID,revision:process.env.MODEL_REVISION},
+              selection:isPinned?'PINNED_DEFAULT':'EXPLICIT_EXACT_OVERRIDE',
+              policySource:p
+            },null,2)+'\n'
+          );
+          console.log(isPinned?'PINNED_RUNTIME_SELECTION=PASS':'EXACT_MODEL_OVERRIDE_RECORDED=PASS');
+          NODE
 
       - name: Normalize current review corpus
         run: |
