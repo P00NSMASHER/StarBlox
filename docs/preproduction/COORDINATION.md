@@ -20,6 +20,35 @@ Acceleration routing while visible fallback art remains:
 
 Workstream 15 keeps these four release slots non-overlapping and reassigns an idle slot after one blocked cycle without bypassing the 2–4 item pilot rule or independent review.
 
+## Dual-account acceleration — 25-task pipeline
+
+The user has added **10 external art-production tasks on a second account**. Those tasks are producer capacity only; this primary account remains the authority for technical intake, independent review, canonical integration, runtime fixes and release QA.
+
+External production ownership, unless a newer `ACTIVE_BATCH.json` explicitly overrides it:
+- EXT01 Tops 11–12
+- EXT02 unaccepted Bottoms backlog
+- EXT03 Headwear 9–12
+- EXT04 Facegear backlog
+- EXT05 Backgear backlog
+- EXT06 Handgear backlog
+- EXT07 unaccepted Beds backlog
+- EXT08 reviewer-02 tail such as Shoes 11–12 / Seating 11–12
+- EXT09 Avatar/Buddy preproduction while non-catalog generation is held
+- EXT10 Home/Store/Quest visual preproduction while non-catalog generation is held
+
+Primary-account flow is now optimized for **produced bytes → qualification → rendered evidence → independent review → canonical wiring → release proof**, not duplicate generation:
+
+`15@00 → 07@02 → 13@05 → 03@07 → 09@11 → external producer wave → 12@41 → 06@43 → 14@45 → 01@48 → 05@50 → 02@52 → 08@55 → 04@56 → 11@57 → 10@59`
+
+Rules:
+- `ACTIVE_BATCH.json` wins every ownership conflict.
+- Primary reviewers 01/02/05 are review-only while external production is active.
+- Primary tasks do not regenerate external-owned IDs unless 15 explicitly reclaims an ID after confirming no newer pending candidate exists.
+- 12 is the cross-account intake/router; 06 is the single provenance/staged-output technical gate; 14 is the shared real-pixel renderer.
+- 08 dynamically integrates every newly qualified independent ACCEPT in the same cycle when possible.
+- 04/11/10 run release evidence continuously after integration waves; final QA does not wait for catalog 192/192.
+- If a primary lane makes no material transition for one full cycle, 15 reassigns it to the next non-overlapping live release blocker.
+
 ## Active priority — catalog first
 
 User direction (2026-09-21): finish the catalog first, then return to normal development and finish the game. Read `docs/preproduction/CATALOG_SPRINT_STATE.json` and `docs/preproduction/CATALOG_SPRINT.md` before normal workstream instructions. While phase is `CATALOG_SPRINT`, use the temporary exclusive assignments there: eight art-production lanes, independent quality review, single-writer manifest integration, safety guards, and Command Center. Do not continue unrelated screen redesigns or take another lane's items. Only 15 changes the phase after the verified 192-item catalog gate; all tasks then resume their normal roles automatically. A raw `finalCount: 192` does not satisfy the gate. Keep existing schedules; do not create replacement tasks. A missing/unreadable control file is BLOCKED, not permission to deploy or guess the phase.
