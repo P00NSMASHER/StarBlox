@@ -1,0 +1,128 @@
+{
+  "schemaVersion": 1,
+  "owner": "01",
+  "phase": "ART_AND_VISUALS_ONLY",
+  "branch": "screenshot-match-preproduction",
+  "inputHead": "ca4a0131ada252bb7333bf87cc1643c73336d1d4",
+  "status": "GUIDANCE_ONLY_NOT_A_REVIEW_OR_ACCEPTANCE",
+  "purpose": "Use idle reviewer-01 capacity to make the next bounded Tops/Headwear repair and exact-hash review less subjective without churning unchanged hashes or producing art.",
+  "authority": {
+    "artSprint": "docs/preproduction/ART_VISUALS_SPRINT.json",
+    "deliveryProtocol": "docs/preproduction/DELIVERY_PROTOCOL_V2.md",
+    "reviewPartition": ["tops", "bottoms", "headwear", "facegear"],
+    "producerIndependence": "Reviewer 01 does not produce or self-approve these catalog assets.",
+    "canonicalWriter": "08",
+    "coordinationOwner": "15"
+  },
+  "currentQueueSnapshot": {
+    "tops11_12_v7": "GENERATED_LOCAL_RECEIPT_ONLY_CURRENT_RUNTIME; no repository hashes/readback/card-detail evidence, therefore not reviewable.",
+    "headwear5_8": "PRESERVED_EXTERNAL_NOT_REPOSITORY_STAGED; no exact repository hashes/card-detail evidence, therefore not reviewable.",
+    "preserveAccepted": {
+      "tops-1": "5fd9544999694ec27c9b6247aaffeca1c0c7b484",
+      "tops-2": "428450782feb314535163b54d0405f9af8b7cd65",
+      "tops-3": "b4a834586feae169e102f43aeceaaaf11893ec11",
+      "tops-4": "26d03c5ba26c565e79e809f825db87c9be1dba21",
+      "tops-5": "78c5c89270be2f505f77d033f340c72cf0ff80a8",
+      "tops-6": "44d88aa84246f9d8a76b3f22c408653eb28176aa",
+      "tops-7": "1c85689d80f3457bb30b2508386d3e1ea387c029",
+      "tops-8": "58aadd95fb9bdd3bb461a9fec9d458d9bf5df79e",
+      "tops-9": "9011648da2461f63a4ac9e203833cf70eb1d6fe0",
+      "tops-10": "5449283ed30dbfade70290cc976f85bace94fa0a",
+      "bottoms-1": "8af6b7c9d2f10c41c5abf2cba0368dda6c9c412c",
+      "bottoms-2": "17031c030198b20867aeeffeab67ad60e99397e1",
+      "bottoms-3": "b7025444f62bd6e65325835ecf51a5bbe6cee897",
+      "bottoms-4": "b618e3990a0e4b049278f5a748325d57cb81955e",
+      "headwear-1": "4d4424962a49f5145422723b625778d6649a4b26",
+      "headwear-2": "595c8fe9182f4aecd5355856f19947c7c83daa11",
+      "headwear-3": "86db079b85360dc64e669aeca53cba874176c693",
+      "headwear-4": "4257b4a959153fba985fa2a97720c379b6d63e33"
+    }
+  },
+  "benchmarkEvidence": {
+    "source": "Historical reviewer-01 exact-hash ACCEPT shard blob f155210fcf47bf1a34b7469f4eaebde1967a796d",
+    "renderArtifact": "GitHub Actions artifact 10671315820, contact-sheet sha256 ff1d209dbfad2d52cf7385d29e0c22c317d46368d05f2b2bf6f412a6750c4c04",
+    "referenceLightingAnchor": "Prior actual Store-reference inspection records premium toy-boutique language: warm key, gentle cool/pink fill, dimensional material response, clean silhouettes and physically grounded contact shadows. This file does not claim a new reference-pixel inspection."
+  },
+  "acceptedTopsCalibration": {
+    "tier3Minimum": [
+      "Garment identity must be readable before theme decoration: hoodie/vest/smock construction cannot depend on color or motif alone.",
+      "A true three-quarter read must expose front plus a meaningful side/depth plane, not a frontal poster shape with rim lighting added afterward.",
+      "Fabric must show category-specific structure such as folds, baffles, ribbing, seams, pockets, armholes, ties or layered panels; at least one construction feature must create self-shadow/occlusion.",
+      "Theme marks must behave as material treatment or attached construction, not as a flat graphic pasted over a generic garment.",
+      "At Store-card scale the outer silhouette and one or two identity-defining construction cues must remain legible without relying on detail-view inspection."
+    ],
+    "tier4Minimum": [
+      "Must visibly step above accepted Tier-3 Tops 7-9 in material richness or construction complexity, not merely in glow strength or ornament count.",
+      "Accepted Tops-10 benchmark combines padded panel volume, ribbed trim, zipper/sleeve hardware, material-specific specular response and controlled cyan/magenta reflected light while preserving bomber readability.",
+      "Padding/quilt recipes need local compression at seams and changing highlight width across curved baffles; evenly spaced flat bands are insufficient.",
+      "Hard hardware and soft textile surfaces must not share the same highlight model; zippers/pulls/snaps should read harder and sharper than cloth."
+    ],
+    "tier5Minimum": [
+      "Tier-5 silhouette must advertise the step-up before fine detail: longer or more architected outerwear, layered construction and stronger depth hierarchy are expected.",
+      "Premium complexity should come from physically plausible layers, drape, quilting, closures, pockets and selective metal/acrylic details rather than uniform sparkle/noise.",
+      "At least three distinct depth zones should survive the detail render: foreground hardware/edge, primary garment shell, and recessed/overlapped inner layer or cavity.",
+      "Lighting may be richer than Tier 4 but cannot substitute for cloth thickness, fold tension, seam compression or garment length."
+    ]
+  },
+  "tops11RepairThresholdIfV7LaterFails": {
+    "item": "Cloud Jacket",
+    "tier": 4,
+    "theme": "Candy Core",
+    "doNotRegenerateNow": true,
+    "reviewFirstRule": "The exact v7 asset must first be repository-staged/read back and rendered at card/detail scale. No verdict transfers from v5/v6.",
+    "boundedRepairThreshold": [
+      "Preserve an unmistakable jacket body and attached sleeve volume; avoid a torso made of parallel graphic stripes.",
+      "Padded baffles should wrap around the torso/sleeve curvature with seam compression and changing light across each inflated section.",
+      "Show a recessed hood/collar cavity plus zipper and pocket hardware that clearly separates hard surfaces from padded textile.",
+      "Candy Core should come from confection-like pink/cream/lilac material accents integrated into panels/piping/hardware, not a candy-colored flat overlay.",
+      "At card scale the jacket must read as more materially sophisticated than accepted Tops-8 Puffer Vest while still clearly different from Tops-10 Star Bomber."
+    ]
+  },
+  "tops12RepairThresholdIfV7LaterFails": {
+    "item": "Star Coat",
+    "tier": 5,
+    "theme": "Adventure Club",
+    "doNotRegenerateNow": true,
+    "reviewFirstRule": "The exact v7 asset must first be repository-staged/read back and rendered at card/detail scale. No verdict transfers from v5/v6.",
+    "boundedRepairThreshold": [
+      "Coat length must be obvious at card scale; the silhouette should extend materially below a standard jacket hem and retain a coherent lower-body drape.",
+      "Three-quarter construction should expose overlapping storm/yoke or front-panel layers, side depth and a recessed inner opening rather than a flat symmetrical front.",
+      "Quilted or padded zones need loft plus seam compression while woven coat zones need softer fold tension; do not render every surface as the same smooth plastic.",
+      "Adventure Club identity should come from functional explorer-like details such as belt, pockets, compass-inspired hardware, reinforced panels or straps without copying third-party IP.",
+      "Tier-5 spectacle should be selective: premium metal highlights, layered materials and grounded shadow/reflection, while coat silhouette and construction remain the first read."
+    ]
+  },
+  "acceptedHeadwearCalibration": {
+    "tier1Minimum": [
+      "Even Starter headwear needs real wearable construction: band thickness, clip hardware, panel seams, brim curvature or visible fasteners as appropriate.",
+      "Theme-specific finish must be restrained enough that the item category remains the first read.",
+      "Paired/small accessories need separated silhouettes and hardware that survive card reduction."
+    ],
+    "tier2PlusMinimum": [
+      "Tier progression should introduce deeper folds/volume, richer support construction or materially richer settings—not just a larger shape or brighter gradient.",
+      "Accepted Headwear-4 Berry Bow demonstrates deep satin folds, stitched edges, wrapped center, visible band support and a jewel accent while remaining readable at card scale.",
+      "Future crowns/ears/halo pieces must show how they physically attach to the wearer: bands, clips, supports, prongs, seams or brackets cannot be implied away."
+    ]
+  },
+  "exactHashReviewChecklist": [
+    "Confirm repository-stored bytes and exact candidate hash; local/external-only receipts are not reviewable.",
+    "Inspect actual shared card and detail pixels for that exact hash; no source-only approval.",
+    "Judge identity before theme decoration, then silhouette/depth, material response, construction/hardware, tier progression, card readability, originality and near-duplicate risk.",
+    "Compare Tier-4/5 candidates against accepted lower-tier benchmarks so higher tier is visually richer for construction/material reasons rather than glow alone.",
+    "Do not transfer any REWORK/BLOCKED verdict to a new hash; record a new independent decision from the new pixels.",
+    "Every qualified ACCEPT is handed to 08 immediately; reviewer 01 never canonical-wires."
+  ],
+  "nextAction": "Wait for a genuinely fresh repo-stored/rendered Tops/Bottoms/Headwear/Facegear exact hash. Tops 11-12 v7 and Headwear 5-8 remain unreviewable at this snapshot. Use this calibration only as future review/repair guidance; it changes no asset, verdict, canonical mapping or runtime state.",
+  "freeze": {
+    "replitTouched": false,
+    "flootTouched": false,
+    "mainTouched": false,
+    "deploymentTouched": false,
+    "canonicalCatalogTouched": false,
+    "runtimeTouched": false,
+    "learningEconomyTouched": false,
+    "playerDataTouched": false,
+    "assetsProduced": false,
+    "selfApproved": false
+  }
+}
