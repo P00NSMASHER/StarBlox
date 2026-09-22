@@ -24,10 +24,12 @@ jobs:
         with:
           node-version: 22
 
-      - name: Verify prompt optimizer with the intended test runner
+      - name: Verify prompt optimizer and review corpus
         run: |
-          node --test scripts/artPromptOptimizer.node-test.mjs scripts/artFactoryJob.node-test.mjs
+          node --test             scripts/artPromptOptimizer.node-test.mjs             scripts/artFactoryJob.node-test.mjs             scripts/artReviewNormalizer.node-test.mjs
           node scripts/artPromptOptimizer.mjs validate --repo-root .
+          mkdir -p artifacts/art-factory-pilot
+          node scripts/artReviewNormalizer.mjs             --repo-root .             --output artifacts/art-factory-pilot/review-corpus.json
 
       - name: Use Python 3.12
         uses: actions/setup-python@v5
@@ -37,25 +39,21 @@ jobs:
       - name: Install exact pinned accelerator revisions
         run: |
           python -m pip install --upgrade pip
-          python -m pip install \
-            "ImageHash @ git+https://github.com/JohannesBuchner/imagehash.git@7a405c9a27571ee8c998b661ce751639c34b7355" \
-            "PyMatting @ git+https://github.com/pymatting/pymatting.git@6d5c4a6bed0e5672abac0bad078e594423ffe4fd" \
-            "diffusers @ git+https://github.com/huggingface/diffusers.git@7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c"
+          python -m pip install             "ImageHash @ git+https://github.com/JohannesBuchner/imagehash.git@7a405c9a27571ee8c998b661ce751639c34b7355"             "PyMatting @ git+https://github.com/pymatting/pymatting.git@6d5c4a6bed0e5672abac0bad078e594423ffe4fd"             "diffusers @ git+https://github.com/huggingface/diffusers.git@7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c"
           git clone https://github.com/tencent-ailab/IP-Adapter.git /tmp/ip-adapter
           git -C /tmp/ip-adapter checkout 62e4af9d0c1ac7d5f8dd386a0ccf2211346af1a2
           test "$(git -C /tmp/ip-adapter rev-parse HEAD)" = "62e4af9d0c1ac7d5f8dd386a0ccf2211346af1a2"
 
-      - name: Self-test staged-output verifier
+      - name: Self-test exact-byte and visual preflight tools
         run: |
           python docs/preproduction/art-factory/verify_staged_output.py self-test
+          python scripts/catalogVisualPreflight.py self-test
 
       - name: Run report-only accelerator pilot
         env:
           IP_ADAPTER_SOURCE_ROOT: /tmp/ip-adapter
         run: |
-          python docs/preproduction/art-factory/pilot_art_accelerators.py \
-            --root . \
-            --output artifacts/art-factory-pilot
+          python docs/preproduction/art-factory/pilot_art_accelerators.py             --root .             --output artifacts/art-factory-pilot
 
       - name: Upload deterministic evidence
         if: always()
