@@ -134,7 +134,7 @@ export function validateExperiment(e){
 
 function args(argv){const o={_:[]};for(let i=0;i<argv.length;i++){const x=argv[i];if(x.startsWith('--')){const k=x.slice(2),n=argv[i+1];if(n&&!n.startsWith('--')){o[k]=n;i++}else o[k]=true}else o._.push(x)}return o}
 function jsonl(f){return fs.existsSync(f)?fs.readFileSync(f,'utf8').split(/\r?\n/).map(x=>x.trim()).filter(Boolean).map(JSON.parse):[]}
-function reviewDocs(root){const d=path.join(root,'docs/preproduction/catalog-sprint/reviews');return fs.readdirSync(d).filter(x=>/^\\d+\\.json$/.test(x)).sort().map(n=>({path:path.relative(root,path.join(d,n)),data:JSON.parse(fs.readFileSync(path.join(d,n),'utf8'))}))}
+function reviewDocs(root){const d=path.join(root,'docs/preproduction/catalog-sprint/reviews');return fs.readdirSync(d).filter(x=>/^\d+\.json$/.test(x)).sort().map(n=>({path:path.relative(root,path.join(d,n)),data:JSON.parse(fs.readFileSync(path.join(d,n),'utf8'))}))}
 async function main(){
  const a=args(process.argv.slice(2)),cmd=a._[0]||'validate',root=path.resolve(a['repo-root']||'.'),ledger=path.join(root,'docs/preproduction/art-prompt-optimizer/attempts.jsonl');
  const mod=await import(pathToFileURL(path.join(root,'src/gameModel.js')).href+`?t=${Date.now()}`),items=mod.store||mod.gameModel?.store||[],byId=new Map(items.map(x=>[x.id,x])),experiments=jsonl(ledger),docs=reviewDocs(root);

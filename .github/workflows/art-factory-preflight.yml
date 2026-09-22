@@ -196,7 +196,25 @@ jobs:
       - name: Verify fast factory contract
         run: |
           node --test             scripts/artPromptOptimizer.node-test.mjs             scripts/artFactoryJob.node-test.mjs             scripts/artReviewNormalizer.node-test.mjs             scripts/catalogFallbackBacklog.node-test.mjs             scripts/artRegenerationQueue.node-test.mjs             scripts/artWorkflowAudit.node-test.mjs
-          node scripts/artPromptOptimizer.mjs validate --repo-root .
+          node scripts/artPromptOptimizer.mjs validate \
+            --repo-root . \
+            --output artifacts/art-factory-preflight/prompt-optimizer-validation.json
+          node - <<'NODE'
+          const fs = require('fs');
+          const p = 'artifacts/art-factory-preflight/prompt-optimizer-validation.json';
+          const data = JSON.parse(fs.readFileSync(p,'utf8'));
+          if (!(data.reviewFiles > 0)) {
+            throw new Error('artPromptOptimizer discovered zero review files; refusing under-informed prompt learning.');
+          }
+          if (!(data.reviewObservations > 0)) {
+            throw new Error('artPromptOptimizer discovered zero review observations; refusing under-informed prompt learning.');
+          }
+          console.log(JSON.stringify({
+            reviewFiles:data.reviewFiles,
+            reviewObservations:data.reviewObservations,
+            trainingExamples:data.trainingExamples
+          }, null, 2));
+          NODE
           node scripts/artReviewNormalizer.mjs             --repo-root .             --output artifacts/art-factory-preflight/review-corpus.json
           node scripts/catalogFallbackBacklog.mjs             --repo-root .             --output artifacts/art-factory-preflight/fallback-backlog.json
           node scripts/artRegenerationQueue.mjs             --repo-root .             --output artifacts/art-factory-preflight/regeneration-queue.json
