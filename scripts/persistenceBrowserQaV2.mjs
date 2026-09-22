@@ -101,7 +101,12 @@ async function solveCorrect(page,{rapid=false,waitForAdvance=true}={}){
   return {questionId:q.id,skill:q.skill,before:critical(before),after:critical(after)};
 }
 async function exerciseWrongRetry(page){
-  const q=await currentQuestion(page); const counter=(await page.locator('.qCounter').textContent())?.trim(); const wrong=q.choices.find(choice=>choice!==q.answer); assert(wrong,'Question lacks wrong choice',{id:q.id});
+  const q=await currentQuestion(page); const counter=(await page.locator('.qCounter').textContent())?.trim();
+  const visibleChoices=await page.locator('.answerButton, .answerBtn, .choiceButton, .questionCard button').evaluateAll(nodes =>
+    nodes.map(node => node.textContent?.trim()).filter(Boolean)
+  );
+  const wrong=visibleChoices.find(choice=>choice!==q.answer && !/Try again with the clue|Read aloud/i.test(choice));
+  assert(wrong,'Rendered Quest lacks a visible wrong choice',{id:q.id,answer:q.answer,visibleChoices});
   const before=await readSave(page); const old=before.stats?.[q.skill]||{wrong:0};
   await clickAnswer(page,wrong);
   const afterFirst=await waitForSave(page,(value,args)=>{ const [skill,target]=args; return (value.stats?.[skill]?.wrong||0)>=target; },[q.skill,(old.wrong||0)+1],1500);
