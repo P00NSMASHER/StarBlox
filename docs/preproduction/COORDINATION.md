@@ -1,5 +1,25 @@
 # Screenshot-Match Preproduction Coordination
 
+## Live state authority — accelerated finishing
+
+While `docs/preproduction/art-factory/ACTIVE_BATCH.json` has an active release-blocker status, current execution state is resolved in this order:
+
+1. the current `screenshot-match-preproduction` branch head;
+2. `catalog-art-manifest.json` and `src/catalogArtRuntime.js`;
+3. `docs/preproduction/art-factory/ACTIVE_BATCH.json`;
+4. exact current-hash review, provenance, render, and handoff evidence.
+
+Older rollups such as `COMMAND_CENTER.md`, `CATALOG_SPRINT_STATE.json`, `catalog-sprint/integration.json`, `catalog-sprint/release-qa.json`, and `catalog-sprint/mobile-qa.json` are historical evidence unless their recorded source head / manifest version explicitly matches the live branch. They must not override the live manifest or ACTIVE_BATCH assignments and workers should not spend cycles reconciling stale counts.
+
+Acceleration routing while visible fallback art remains:
+- 07: exact-byte recovery/import for already-generated fallback assets;
+- 09: Decor 5/7 only;
+- 03: one provenance-compliant replacement version for Decor 6/8 after a compliant generator runtime is available;
+- 13: revision/provenance-capable generation-runtime unblock, then Wall 9-12 production;
+- 10: final browser/mobile/reference QA continuously in parallel rather than waiting for catalog completion.
+
+Workstream 15 keeps these four release slots non-overlapping and reassigns an idle slot after one blocked cycle without bypassing the 2–4 item pilot rule or independent review.
+
 ## Active priority — catalog first
 
 User direction (2026-09-21): finish the catalog first, then return to normal development and finish the game. Read `docs/preproduction/CATALOG_SPRINT_STATE.json` and `docs/preproduction/CATALOG_SPRINT.md` before normal workstream instructions. While phase is `CATALOG_SPRINT`, use the temporary exclusive assignments there: eight art-production lanes, independent quality review, single-writer manifest integration, safety guards, and Command Center. Do not continue unrelated screen redesigns or take another lane's items. Only 15 changes the phase after the verified 192-item catalog gate; all tasks then resume their normal roles automatically. A raw `finalCount: 192` does not satisfy the gate. Keep existing schedules; do not create replacement tasks. A missing/unreadable control file is BLOCKED, not permission to deploy or guess the phase.
