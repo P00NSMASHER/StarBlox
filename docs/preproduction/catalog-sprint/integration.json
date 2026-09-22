@@ -1,11 +1,12 @@
 {
-  "schemaVersion": 13,
+  "schemaVersion": 14,
   "workstream": "08",
   "phase": "ART_AND_VISUALS_ONLY",
-  "status": "WALL_1_TO_4_EXACT_HASH_ACCEPTS_INTEGRATED_VALIDATION_RUNNING_RELEASE_NOT_CLEARED",
+  "status": "WALL_1_TO_4_EXACT_HASH_ACCEPTS_INTEGRATED_VALIDATED_STORE_MOBILE_BLOCKED_RELEASE_NOT_CLEARED",
   "branch": "screenshot-match-preproduction",
   "auditedSourceHead": "b91a8a9bf7806911d74e6f0972acf019f7056eaf",
   "canonicalIntegrationCommit": "b91a8a9bf7806911d74e6f0972acf019f7056eaf",
+  "evidenceRefreshHead": "7cf46b2a19af7f9de283b1b3ee68d5473e23bf97",
   "batchLabel": "Wall 1-4 qualified reviewer-14 exact-hash ACCEPTs",
   "canonicalBefore": {
     "manifestVersion": 28,
@@ -19,7 +20,12 @@
   },
   "strictAcceptanceReconciliation": {
     "reason": "Reviewer 02 schema-10 provenance audit records Seating 7-10 as BLOCKED_EVIDENCE_NOT_DECISION and explicitly says producer lane text is not reviewer acceptance. These four current canonical mappings are retained because there is no visual REWORK decision, but they are excluded from strict independent-ACCEPT counts until reviewer 02 inspects consumable current-hash card/detail pixels and records an exact-hash decision.",
-    "items": ["seating-7", "seating-8", "seating-9", "seating-10"],
+    "items": [
+      "seating-7",
+      "seating-8",
+      "seating-9",
+      "seating-10"
+    ],
     "mappingRollbackPerformed": false,
     "visualReworkInferred": false,
     "strictCountCorrection": -4
@@ -40,10 +46,82 @@
     "catalogReleaseClearedIds": 0
   },
   "integratedThisRun": [
-    {"itemId":"wall-1","name":"School Star Poster","collectionId":"wall","type":"room","tier":1,"theme":"Garden Glow","assetPath":"/assets/catalog/wall-1-w05-v2.png","repositoryPath":"public/assets/catalog/wall-1-w05-v2.png","assetBlobSha":"9908e774b4012cb89d3c86eed9ca3d10ce3bffe4","sha256":"67c9beff2572a2066debd257a4757b9498a0b0850372c8bfd397925cb6f7dd35","width":1024,"height":1024,"format":"PNG","producer":"05","reviewer":"14","reviewSource":"docs/preproduction/catalog-sprint/chat-wall-1-4-w05-v2-review-14-to-08.json","decision":"ACCEPT"},
-    {"itemId":"wall-2","name":"Cloud Wall Flag","collectionId":"wall","type":"room","tier":1,"theme":"Galaxy Glow","assetPath":"/assets/catalog/wall-2-w05-v2.png","repositoryPath":"public/assets/catalog/wall-2-w05-v2.png","assetBlobSha":"febf517cd0db666f647962c0cb7d4e5af53d4b76","sha256":"2a768ebe8ef70a925894abf9d07c2280e9c7c6531eb000a3ff9aa227d24e0303","width":1024,"height":1024,"format":"PNG","producer":"05","reviewer":"14","reviewSource":"docs/preproduction/catalog-sprint/chat-wall-1-4-w05-v2-review-14-to-08.json","decision":"ACCEPT"},
-    {"itemId":"wall-3","name":"Pixel Scoreboard","collectionId":"wall","type":"room","tier":1,"theme":"Sunny Pop","assetPath":"/assets/catalog/wall-3-w05-v2.png","repositoryPath":"public/assets/catalog/wall-3-w05-v2.png","assetBlobSha":"5ad5aff97c9d365221de8c2d888abf3a26db547e","sha256":"8a07f0be4aec31859f5d679f039619d5e4ea5c7ff28e06d4d5a85e12dd1ff199","width":1024,"height":1024,"format":"PNG","producer":"05","reviewer":"14","reviewSource":"docs/preproduction/catalog-sprint/chat-wall-1-4-w05-v2-review-14-to-08.json","decision":"ACCEPT"},
-    {"itemId":"wall-4","name":"Heart Gallery","collectionId":"wall","type":"room","tier":2,"theme":"Aqua Wave","assetPath":"/assets/catalog/wall-4-w05-v2.png","repositoryPath":"public/assets/catalog/wall-4-w05-v2.png","assetBlobSha":"bc38aee13c1c4840aa1e9657edfb67c8838a6a21","sha256":"f1a3398c3b9b35e92db7ea6a146f8aa13d0df18427b4e7e10db69bb26ceecf8a","width":1024,"height":1024,"format":"PNG","producer":"05","reviewer":"14","reviewSource":"docs/preproduction/catalog-sprint/chat-wall-1-4-w05-v2-review-14-to-08.json","decision":"ACCEPT"}
+    {
+      "itemId": "wall-1",
+      "name": "School Star Poster",
+      "collectionId": "wall",
+      "type": "room",
+      "tier": 1,
+      "theme": "Garden Glow",
+      "assetPath": "/assets/catalog/wall-1-w05-v2.png",
+      "repositoryPath": "public/assets/catalog/wall-1-w05-v2.png",
+      "assetBlobSha": "9908e774b4012cb89d3c86eed9ca3d10ce3bffe4",
+      "sha256": "67c9beff2572a2066debd257a4757b9498a0b0850372c8bfd397925cb6f7dd35",
+      "width": 1024,
+      "height": 1024,
+      "format": "PNG",
+      "producer": "05",
+      "reviewer": "14",
+      "reviewSource": "docs/preproduction/catalog-sprint/chat-wall-1-4-w05-v2-review-14-to-08.json",
+      "decision": "ACCEPT"
+    },
+    {
+      "itemId": "wall-2",
+      "name": "Cloud Wall Flag",
+      "collectionId": "wall",
+      "type": "room",
+      "tier": 1,
+      "theme": "Galaxy Glow",
+      "assetPath": "/assets/catalog/wall-2-w05-v2.png",
+      "repositoryPath": "public/assets/catalog/wall-2-w05-v2.png",
+      "assetBlobSha": "febf517cd0db666f647962c0cb7d4e5af53d4b76",
+      "sha256": "2a768ebe8ef70a925894abf9d07c2280e9c7c6531eb000a3ff9aa227d24e0303",
+      "width": 1024,
+      "height": 1024,
+      "format": "PNG",
+      "producer": "05",
+      "reviewer": "14",
+      "reviewSource": "docs/preproduction/catalog-sprint/chat-wall-1-4-w05-v2-review-14-to-08.json",
+      "decision": "ACCEPT"
+    },
+    {
+      "itemId": "wall-3",
+      "name": "Pixel Scoreboard",
+      "collectionId": "wall",
+      "type": "room",
+      "tier": 1,
+      "theme": "Sunny Pop",
+      "assetPath": "/assets/catalog/wall-3-w05-v2.png",
+      "repositoryPath": "public/assets/catalog/wall-3-w05-v2.png",
+      "assetBlobSha": "5ad5aff97c9d365221de8c2d888abf3a26db547e",
+      "sha256": "8a07f0be4aec31859f5d679f039619d5e4ea5c7ff28e06d4d5a85e12dd1ff199",
+      "width": 1024,
+      "height": 1024,
+      "format": "PNG",
+      "producer": "05",
+      "reviewer": "14",
+      "reviewSource": "docs/preproduction/catalog-sprint/chat-wall-1-4-w05-v2-review-14-to-08.json",
+      "decision": "ACCEPT"
+    },
+    {
+      "itemId": "wall-4",
+      "name": "Heart Gallery",
+      "collectionId": "wall",
+      "type": "room",
+      "tier": 2,
+      "theme": "Aqua Wave",
+      "assetPath": "/assets/catalog/wall-4-w05-v2.png",
+      "repositoryPath": "public/assets/catalog/wall-4-w05-v2.png",
+      "assetBlobSha": "bc38aee13c1c4840aa1e9657edfb67c8838a6a21",
+      "sha256": "f1a3398c3b9b35e92db7ea6a146f8aa13d0df18427b4e7e10db69bb26ceecf8a",
+      "width": 1024,
+      "height": 1024,
+      "format": "PNG",
+      "producer": "05",
+      "reviewer": "14",
+      "reviewSource": "docs/preproduction/catalog-sprint/chat-wall-1-4-w05-v2-review-14-to-08.json",
+      "decision": "ACCEPT"
+    }
   ],
   "validation": {
     "livePathBlobReadback": "PASS_4_OF_4_EXACT_CURRENT_GIT_BLOBS",
@@ -53,10 +131,11 @@
     "contentAndPathUniqueness": "PASS_4_OF_4_CURRENT_CATALOG_TREE",
     "runtimeManifestAgreementPrepared": "PASS_168_OF_168_BY_COHERENT_WRITE",
     "stableIdsPricesUnlocksOwnership": "UNCHANGED_BY_SCOPE",
-    "affectedCatalogTests": "PENDING_EXACT_COMMIT_PUSH_WORKFLOWS_TRIGGERED",
-    "productionBuild": "PENDING_EXACT_COMMIT_PUSH_WORKFLOWS_TRIGGERED",
-    "storeMobileSafeguard": "PENDING_EXACT_COMMIT_RUN; PRIOR_SHARED_STORE_NAV_POINTER_CLICK_TIMEOUT_REMAINS_A_RELEASE_BLOCKER_UNLESS_NEW_EVIDENCE_PROVES_OTHERWISE",
-    "referenceCapture": "PENDING_EXACT_COMMIT_RUN; NO_PARITY_CLAIM"
+    "affectedCatalogTests": "PASS_STAR_BLOX_CI_RUN_35720030954_JOB_106720519290_22_TEST_FILES_99_TESTS; CATALOG_MANIFEST_QA_4_OF_4_PASS; CATALOG_ASSET_SAFETY_PASS; STORE_RUNTIME_3_OF_3_PASS",
+    "artFactoryContractTests": "PASS_12_OF_12_IN_STAR_BLOX_CI_RUN_35720030954",
+    "productionBuild": "PASS_STAR_BLOX_CI_RUN_35720030954_JOB_106720519290; VITE_8_3_0_1613_MODULES",
+    "storeMobileSafeguard": "BLOCKED_RUN_35720030949_JOB_106720518752_ARTIFACT_10690563316; 6_RELEASE_BLOCKING_STORE_NAV_CLICK_TIMEOUTS_BEFORE_STORE_CONTENT_AT_1408x1056_1024x768_390x844_320x568_PLUS_1024x768_AND_390x844_NORMAL_MOTION; PRODUCTION_BUILD_BEFORE_GATE_PASS; ACCEPTED_WALL_ART_NOT_ROLLED_BACK",
+    "referenceCapture": "NO_SEPARATE_REFERENCE_CAPTURE_PASS_RECORDED_BY_08_FOR_THIS_EXACT_COMMIT; NO_SCREENSHOT_PARITY_CLAIM"
   },
   "counts": {
     "generatedLocalThisRun": 0,
@@ -69,14 +148,24 @@
     "strictAcceptedRemaining": 101
   },
   "liveReviewRecheck": {
-    "reviewer02": "NO_NEW_QUALIFIED_ACCEPT; Seating 7-10 are BLOCKED_EVIDENCE_NOT_DECISION and remain mapped but excluded from strict count pending real independent current-hash pixel review.",
-    "reviewer05": "NO_NEW_QUALIFIED_ACCEPT_BEYOND_ALREADY_CANONICAL_EVIDENCE; Companion 2/5/6/7 now have current exact-hash render evidence routed to reviewer 05 but no reviewer-05 decision yet.",
-    "reviewer14": "WALL_1_TO_4_CURRENT_EXACT_HASH_ACCEPTS_CONSUMED_AND_CANONICAL."
+    "reviewer01": "NO_NEW_QUALIFIED_ACCEPT; Tops 11-12 v6 are BLOCKED on qualified pixel evidence/signature gate and are not integration-eligible.",
+    "reviewer02": "NO_NEW_QUALIFIED_ACCEPT; Seating 7-10 are BLOCKED_EVIDENCE_NOT_DECISION and remain mapped but excluded from strict count pending genuine reviewer-02 current-hash pixel review.",
+    "reviewer05": "NO_NEW_QUALIFIED_ACCEPT; Companions 2/5/6/7 current exact hashes were independently reviewed from card/detail pixels and are REWORK_4_OF_4, so none is integration-eligible.",
+    "reviewer14": "NO_NEW_QUALIFIED_ACCEPT_BEYOND_WALL_1_TO_4_ALREADY_CONSUMED_AND_CANONICAL; Wall 5-12 and legacy Decor 3-12 decisions remain REWORK unless superseded by new exact-hash evidence."
   },
   "blockers": [
     "101 catalog IDs remain outside the strict independently accepted-and-canonical current-hash set.",
     "Seating 7-10 need consumable exact-current-hash card/detail evidence plus a genuine reviewer-02 disposition before they can re-enter the strict accepted count; current mappings are preserved because no visual REWORK exists.",
-    "Changed-art Store/mobile and reference validation on canonical commit b91a8a9bf7806911d74e6f0972acf019f7056eaf is running; release-cleared remains 0 and prior shared Store-navigation timeout is not waived."
+    "Changed-art Store/mobile proof is BLOCKED on exact canonical commit b91a8a9bf7806911d74e6f0972acf019f7056eaf: six Store navigation click timeouts occur before Store content opens. This is retained as a release blocker; no assertion is weakened and accepted Wall art remains canonical.",
+    "No separate screenshot-parity PASS is claimed by Workstream 08 for the Wall batch."
   ],
-  "freeze": {"replitTouched":false,"flootTouched":false,"mainMergedOrModified":false,"deploymentPerformed":false,"paidSettingsOrPurchasesTouched":false,"playerDataTouched":false,"phaseChanged":false}
+  "freeze": {
+    "replitTouched": false,
+    "flootTouched": false,
+    "mainMergedOrModified": false,
+    "deploymentPerformed": false,
+    "paidSettingsOrPurchasesTouched": false,
+    "playerDataTouched": false,
+    "phaseChanged": false
+  }
 }

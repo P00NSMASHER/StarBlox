@@ -32,14 +32,16 @@ Accordingly, the previously reported strict floor of 91 is corrected to **87 bef
 - strict remaining: **101**
 - release-cleared: **0 / 192**
 
-Generated-local this run: 0; preserved-blob-only: 0; newly staged: 0; qualified ACCEPTs consumed: 4; strict canonical delta from reconciled floor: +4.
+Generated-local this increment: 0; preserved-blob-only: 0; newly staged: 0; qualified ACCEPTs consumed: 4; strict canonical delta from reconciled floor: +4.
 
-### Validation
+### Exact-commit validation now complete
 
-The canonical push triggered the exact-commit workflow set for `b91a8a9bf7806911d74e6f0972acf019f7056eaf`. At this evidence write the affected test/build/reference/visual jobs were queued or running, so Workstream 08 makes no new test, Store, or parity PASS claim yet. The known shared Store-navigation pointer-click timeout remains a release blocker unless fresh exact-commit evidence proves otherwise; no assertion is weakened and valid accepted art is not rolled back for that unrelated fixture failure.
+StarBlox CI run `35720030954` / job `106720519290` on canonical commit `b91a8a9bf7806911d74e6f0972acf019f7056eaf` is **PASS**. It reports **22 test files / 99 tests passed**, including `catalogManifestQa` 4/4, catalog asset safety, Store runtime 3/3, and the retained learning/persistence/economy gates. Art-factory contract tests pass **12/12**. The production Vite build passes with 1,613 modules transformed.
+
+StarBlox Catalog Mobile QA run `35720030949` / job `106720518752` successfully built and started the preview, then remained **BLOCKED/FAIL** at the Store-navigation safeguard. Artifact `10690563316` records six release-blocking click timeouts before Store content opens across the four reduced-motion viewports and two normal-motion controls. No Store visual PASS or screenshot-parity PASS is claimed, no assertion is weakened, and valid accepted Wall art remains canonical.
 
 ### Current review queue
 
-Workstream 14 has supplied exact-current-hash card/detail render evidence for Companions 2/5/6/7 to reviewer 05, but reviewer 05 has not yet recorded a decision on those hashes. They remain pending and are not canonically promoted. Seating 7–10 remain mapped but review-evidence blocked. Reviewer 14's Wall 1–4 ACCEPTs are fully consumed by v29.
+No newer qualified exact-hash ACCEPT exists in reviewer 01/02/05/14 at the evidence refresh head. Reviewer 01 has Tops 11–12 v6 BLOCKED on qualified pixel/signature evidence. Reviewer 02 has Seating 7–10 `BLOCKED_EVIDENCE_NOT_DECISION`. Reviewer 05 has now returned **REWORK 4/4** for current Companions 2/5/6/7 exact hashes after real card/detail inspection. Reviewer 14's Wall 1–4 ACCEPTs are fully consumed by v29.
 
 Only Workstream 15 may declare ART_VISUALS_COMPLETE or change phase. No catalog/art completion authorizes deployment. Replit, Floot, `main`, deployment, paid settings and real player data remain untouched.
