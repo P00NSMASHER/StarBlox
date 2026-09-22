@@ -1,0 +1,95 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_TECHNICAL_QUALIFICATION",
+  "role": "06-single-technical-qualification-gate",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "bafc067821c2c6acea7e362a3831dced82771c33",
+  "observedAt": "2026-09-22T22:43:44Z",
+  "item": {
+    "id": "decor-5",
+    "name": "Plant Wall",
+    "category": "Room Decor",
+    "tier": 2,
+    "theme": "Pixel Party",
+    "price": 181,
+    "starReq": 0
+  },
+  "candidate": {
+    "producer": "09",
+    "path": "public/assets/catalog/decor-5-w09-v2.webp",
+    "gitBlobSha1": "b8ff7b9d6bec11fe8e836952f7a0c5b844e34b6e",
+    "sha256": null,
+    "bytes": 15678,
+    "structuralHeaderReadback": {
+      "container": "RIFF/WEBP",
+      "codecChunk": "VP8",
+      "declaredDimensions": [600, 600],
+      "scope": "STRUCTURAL_HEADER_ONLY",
+      "safeDecode": "NOT_EVIDENCED"
+    },
+    "introducedByCommit": "15288eaa22b67e8061830f1a2c5aeb82b2da0a10"
+  },
+  "authority": {
+    "activeBatch": "docs/preproduction/art-factory/ACTIVE_BATCH.json",
+    "activeBatchState": "REPOSITORY_STAGED_CURRENT_CANDIDATE__06_QUALIFICATION_PENDING",
+    "producerRequest": "docs/preproduction/art-factory/requests/w09-decor-5-8-20260922.json",
+    "reviewer": "14",
+    "renderOwner": "14",
+    "canonicalWriter": "08"
+  },
+  "exactHashReconciliation": {
+    "activeBatchMatchesCandidateBlob": true,
+    "producerRequestMatchesCandidatePathAndBlob": true,
+    "newerPendingCandidateObserved": false,
+    "duplicateQualificationRecordObserved": false,
+    "verdictTransferPerformed": false
+  },
+  "qualification": {
+    "status": "BLOCKED_PROVENANCE_AND_STAGED_READBACK",
+    "qualifiedForRenderer14": false,
+    "artQualityJudgment": "NOT_PERFORMED",
+    "visualPreflight": {
+      "status": "NOT_RUN",
+      "reason": "ART_FACTORY_V2 provenance and exact staged-output readback prerequisites are incomplete; report-only visual signals must not imply qualification."
+    },
+    "blockingDefects": [
+      "No exact SHA-256 for the current repository candidate is bound into producer/staged evidence.",
+      "No full safe-decode/readback verification is bound to this exact Git blob; only the WEBP structural header was independently read.",
+      "No verify_staged_output.py or equivalent exact staged-output verification record is bound to this blob.",
+      "The producer request records optimizerStage.status=NOT_RUN_BY_PLANNER and leaves finalOptimizedPrompt/finalPromptSha256 null for Decor 5.",
+      "No actual generation model/checkpoint identity plus exposed revision is bound to this candidate.",
+      "No executed generation seed is bound to this candidate, and no authoritative seed-unavailable record is present. Planner seeds are planning inputs only.",
+      "No exact retained source-original path/hash/bytes/dimensions and source-to-derivative transform are bound to this 600x600 derivative.",
+      "No generator/API-service/runtime identity plus runtime revision/commit is bound to the actual generation attempt."
+    ]
+  },
+  "requiredRepair": {
+    "owner": ["09", "15"],
+    "rule": "Recover and record authoritative evidence for the existing exact bytes without mutating or regenerating them when possible. If authoritative provenance cannot be recovered, coordinator15 decides the next compliant producer action; workstream06 does not generate while fallbackCount remains above zero.",
+    "mustBindToExactBlob": [
+      "sha256",
+      "full safe decode and dimensions/bytes readback",
+      "verify_staged_output.py or equivalent exact staged-output verification",
+      "final optimized prompt and prompt SHA-256 from the executed optimizer path",
+      "generator/provider and API/service identity",
+      "model/checkpoint ID and revision when exposed",
+      "runtime/tool identity and revision/commit",
+      "executed seed, or an explicitly policy-permitted authoritative seed-unavailable record",
+      "retained source-original exact path/hash/bytes/dimensions",
+      "source-to-derivative transform"
+    ]
+  },
+  "routing": {
+    "current": "RETURN_TO_PRODUCER09_AND_COORDINATOR15",
+    "renderer14": "HOLD_UNTIL_06_QUALIFIED",
+    "reviewer14": "HOLD_UNTIL_RENDERED_EXACT_HASH_EVIDENCE_EXISTS",
+    "integration08": "NO_ACTION"
+  },
+  "preservation": {
+    "candidateBytesMutated": false,
+    "canonicalMappingsChanged": false,
+    "runtimeChanged": false,
+    "ciOrWorkflowChanged": false,
+    "gameplayStateEconomyChanged": false
+  }
+}
