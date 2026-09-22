@@ -1,0 +1,183 @@
+{
+  "schemaVersion": 1,
+  "batchId": "chat-rugs-recovery-1-4-20260921",
+  "status": "STAGED_READY_FOR_INDEPENDENT_REVIEW_14",
+  "sourceHead": "824afc34f160c9275d6ec13b38967769c6b1fce1",
+  "workflowRunId": "35670969723",
+  "producer": "07",
+  "transportHelper": "CHAT",
+  "independentReviewer": "14",
+  "canonicalWriter": "08",
+  "newGenerations": 0,
+  "storedCandidateCount": 4,
+  "storedOriginalCount": 4,
+  "duplicateCandidateContent": 0,
+  "items": [
+    {
+      "id": "rugs-1",
+      "name": "Starter Mat",
+      "collectionId": "rugs",
+      "collectionName": "Rugs",
+      "type": "room",
+      "tier": 1,
+      "theme": "Aqua Wave",
+      "price": 44,
+      "starReq": 0,
+      "format": "JPEG",
+      "dimensions": [
+        600,
+        600
+      ],
+      "bytes": 24968,
+      "sha256": "491683b6f25da6744a771021770e41843033bdc4b63f9a2c656e7b3f17622c9a",
+      "gitBlobSha": "5e00d1456fa21af74de75e583c69de48c9f2ecd2",
+      "producer": "07",
+      "transportHelper": "CHAT",
+      "independentReviewer": "14",
+      "repositoryPath": "public/assets/catalog/rugs-1-w07-v2.jpg",
+      "assetPath": "/assets/catalog/rugs-1-w07-v2.jpg",
+      "assetId": "urn:aaid:sc:US:a1e701b2-ec20-4699-8f3e-8b0fa45044f8",
+      "status": "READY_FOR_REVIEW_14",
+      "readback": "PASS",
+      "original": {
+        "format": "PNG",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "bytes": 766159,
+        "sha256": "a464e461b1602eb116dd6173d54a9c1a7c591396d618e4b84d17c97f9923be61",
+        "gitBlobSha": "b4b8897398e9cb7a2483f386f0093f4f26f4929d",
+        "repositoryPath": "docs/preproduction/catalog-sprint/recovered-originals/rugs-1-4-20260921/rugs-1-a1e701b2-ec20-4699-8f3e-8b0fa45044f8.png"
+      }
+    },
+    {
+      "id": "rugs-2",
+      "name": "Cloud Rug",
+      "collectionId": "rugs",
+      "collectionName": "Rugs",
+      "type": "room",
+      "tier": 1,
+      "theme": "Art Attack",
+      "price": 65,
+      "starReq": 0,
+      "format": "JPEG",
+      "dimensions": [
+        600,
+        600
+      ],
+      "bytes": 28082,
+      "sha256": "9d6fdef0ed83fe385cef91b052e4eaa65e8b5b863bd080c6ffa2bb6271f286cd",
+      "gitBlobSha": "578caf5cc81998d6c7563082892e468fc9186eec",
+      "producer": "07",
+      "transportHelper": "CHAT",
+      "independentReviewer": "14",
+      "repositoryPath": "public/assets/catalog/rugs-2-w07-v2.jpg",
+      "assetPath": "/assets/catalog/rugs-2-w07-v2.jpg",
+      "assetId": "urn:aaid:sc:US:7059212c-2223-4a70-b84c-4989dc692661",
+      "status": "READY_FOR_REVIEW_14",
+      "readback": "PASS",
+      "original": {
+        "format": "PNG",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "bytes": 768074,
+        "sha256": "33efa5740001bb15bb9526442b0e52679f0bff3080e4b4b0f68ac5418bf1dc9e",
+        "gitBlobSha": "f5209599c1f9f7f920cc0c4004742f2031411151",
+        "repositoryPath": "docs/preproduction/catalog-sprint/recovered-originals/rugs-1-4-20260921/rugs-2-7059212c-2223-4a70-b84c-4989dc692661.png"
+      }
+    },
+    {
+      "id": "rugs-3",
+      "name": "Pixel Grid Rug",
+      "collectionId": "rugs",
+      "collectionName": "Rugs",
+      "type": "room",
+      "tier": 1,
+      "theme": "Star Luxe",
+      "price": 94,
+      "starReq": 0,
+      "format": "JPEG",
+      "dimensions": [
+        600,
+        600
+      ],
+      "bytes": 40252,
+      "sha256": "d2e34dd8d801504df5b64d4a6822069d85c9b2782de72730dee41887176fbfab",
+      "gitBlobSha": "0c3b62a84182cd8e7fc3b8dc57f9b1015e54e920",
+      "producer": "07",
+      "transportHelper": "CHAT",
+      "independentReviewer": "14",
+      "repositoryPath": "public/assets/catalog/rugs-3-w07-v2.jpg",
+      "assetPath": "/assets/catalog/rugs-3-w07-v2.jpg",
+      "assetId": "urn:aaid:sc:US:1ad22d63-a119-431e-98e0-37431189dc3e",
+      "status": "READY_FOR_REVIEW_14",
+      "readback": "PASS",
+      "original": {
+        "format": "PNG",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "bytes": 890634,
+        "sha256": "029830bdcb8855ce7b5b69142c7674ec1cb9a57f601f1c35679014b6a45a2bfd",
+        "gitBlobSha": "eaa3fde63e478c35b4f1c925f8401327b09be84c",
+        "repositoryPath": "docs/preproduction/catalog-sprint/recovered-originals/rugs-1-4-20260921/rugs-3-1ad22d63-a119-431e-98e0-37431189dc3e.png"
+      }
+    },
+    {
+      "id": "rugs-4",
+      "name": "Heart Rug",
+      "collectionId": "rugs",
+      "collectionName": "Rugs",
+      "type": "room",
+      "tier": 2,
+      "theme": "Midnight Neon",
+      "price": 123,
+      "starReq": 0,
+      "format": "JPEG",
+      "dimensions": [
+        600,
+        600
+      ],
+      "bytes": 51129,
+      "sha256": "19d2ee370b67a51c3422ed6309d537dcb8847b7e574d785a1d6296a9bf256cb4",
+      "gitBlobSha": "d2c1a712dc530cec13ce72100657714900134ce2",
+      "producer": "07",
+      "transportHelper": "CHAT",
+      "independentReviewer": "14",
+      "repositoryPath": "public/assets/catalog/rugs-4-w07-v2.jpg",
+      "assetPath": "/assets/catalog/rugs-4-w07-v2.jpg",
+      "assetId": "urn:aaid:sc:US:11a1ec20-e664-463c-9fb6-4efaef419723",
+      "status": "READY_FOR_REVIEW_14",
+      "readback": "PASS",
+      "original": {
+        "format": "PNG",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "bytes": 952680,
+        "sha256": "5ec90581de9d4d63d21485cec0ba52af3313fb0c5713de3a439d6ffe0b5c097b",
+        "gitBlobSha": "b9e90c8d267e2766a5649ffb2411f8cb994994df",
+        "repositoryPath": "docs/preproduction/catalog-sprint/recovered-originals/rugs-1-4-20260921/rugs-4-11a1ec20-e664-463c-9fb6-4efaef419723.png"
+      }
+    }
+  ],
+  "checks": {
+    "metadata": "PASS_4_OF_4",
+    "exactByteReadback": "PASS_8_OF_8",
+    "candidateDecode": "PASS_4_OF_4",
+    "independentVisualReview": "PENDING_14"
+  },
+  "freeze": {
+    "replitTouched": false,
+    "flootTouched": false,
+    "mainTouched": false,
+    "canonicalMappingsTouched": false,
+    "gameplayChanged": false,
+    "playerDataTouched": false
+  }
+}
