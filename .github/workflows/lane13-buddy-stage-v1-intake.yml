@@ -1,0 +1,183 @@
+name: StarBlox Lane 13 Buddy Stage v1 Intake
+
+on:
+  push:
+    branches: [screenshot-match-preproduction]
+    paths:
+      - '.github/workflows/lane13-buddy-stage-v1-intake.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: starblox-lane13-buddy-stage-v1-intake
+  cancel-in-progress: false
+
+jobs:
+  stage-buddy-layer:
+    if: github.ref == 'refs/heads/screenshot-match-preproduction'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: screenshot-match-preproduction
+          fetch-depth: 0
+
+      - name: Install image verifier
+        run: python3 -m pip install --disable-pip-version-check Pillow==11.3.0
+
+      - name: Stage exact Adobe outputs or verify existing identical bytes
+        env:
+          SOURCE_URL: 'https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:fff9a594-ebbd-4aa2-bfcd-1844cd4452b4'
+          FULL_URL: 'https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:e4b6bff4-99c2-498d-8271-1fa5b7589701'
+          OPT_URL: 'https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:a2674ccc-6ed8-403f-8b21-8ac1db749c4b'
+        run: |
+          set -eu
+          mkdir -p public/assets/visuals/lane-13 docs/preproduction/visuals
+          SOURCE='public/assets/visuals/lane-13/buddy-stage-w13-v1-source.png'
+          FULL='public/assets/visuals/lane-13/buddy-stage-w13-v1-full.png'
+          OPT='public/assets/visuals/lane-13/buddy-stage-w13-v1-768.png'
+          if [ ! -f "$SOURCE" ]; then curl -fL --retry 2 "$SOURCE_URL" -o "$SOURCE"; fi
+          if [ ! -f "$FULL" ]; then curl -fL --retry 2 "$FULL_URL" -o "$FULL"; fi
+          if [ ! -f "$OPT" ]; then curl -fL --retry 2 "$OPT_URL" -o "$OPT"; fi
+          python3 - <<'PY'
+          from PIL import Image, ImageStat
+          from pathlib import Path
+          import hashlib, json
+
+          specs=[
+            ('source','public/assets/visuals/lane-13/buddy-stage-w13-v1-source.png',(1536,1536),False),
+            ('full','public/assets/visuals/lane-13/buddy-stage-w13-v1-full.png',(1536,1536),True),
+            ('optimized','public/assets/visuals/lane-13/buddy-stage-w13-v1-768.png',(768,768),True),
+          ]
+          out=[]
+          for role,p,expected,require_alpha in specs:
+            b=Path(p).read_bytes()
+            im=Image.open(p); im.load()
+            if im.format != 'PNG': raise SystemExit(f'{p}: expected PNG, got {im.format}')
+            if im.size != expected: raise SystemExit(f'{p}: expected {expected}, got {im.size}')
+            rgba=im.convert('RGBA')
+            stat=ImageStat.Stat(rgba.convert('RGB').resize((64,64)))
+            if max(stat.var) < 10: raise SystemExit(f'{p}: image variance too low')
+            alpha=rgba.getchannel('A')
+            alpha_extrema=alpha.getextrema()
+            alpha_bbox=alpha.getbbox()
+            if require_alpha:
+              if alpha_extrema[0] != 0 or alpha_extrema[1] != 255:
+                raise SystemExit(f'{p}: expected transparent cutout alpha with 0..255 extrema, got {alpha_extrema}')
+              if not alpha_bbox:
+                raise SystemExit(f'{p}: missing nontransparent layer')
+              x0,y0,x1,y1=alpha_bbox
+              coverage=((x1-x0)*(y1-y0))/(im.size[0]*im.size[1])
+              if coverage < 0.08 or coverage > 0.95:
+                raise SystemExit(f'{p}: suspicious alpha bbox coverage {coverage:.3f}')
+            out.append({
+              'role':role,'path':p,'format':'PNG','dimensions':list(im.size),
+              'bytes':len(b),'sha256':hashlib.sha256(b).hexdigest(),
+              'variance64':stat.var,'alphaExtrema':list(alpha_extrema),
+              'alphaBBox':list(alpha_bbox) if alpha_bbox else None
+            })
+          if out[2]['bytes'] >= out[1]['bytes']:
+            raise SystemExit('optimized derivative must be smaller than full cutout')
+
+          report={
+            'schemaVersion':1,
+            'candidateId':'buddy-stage-w13-v1',
+            'candidateType':'transparent-buddy-stage-layer',
+            'producer':'13',
+            'targetScreens':['Home','Quest'],
+            'status':'STAGED_PENDING_ORIGIN_READBACK_AND_INDEPENDENT_REVIEW',
+            'referenceSet':[
+              {'screen':'Home','path':'docs/preproduction/reference-screenshots/originals/home-1448x1086.jpeg','sha256':'6a4b110aeaf12a6ab0c629f9181cc6cfa8d4f55a518d4f2a6adb3ac6e756c457'},
+              {'screen':'Quest','path':'docs/preproduction/reference-screenshots/originals/quest-1448x1086.jpeg','sha256':'70f1b952709a85c77bb11851ffe9ae704acf8b97640355e908b6ec537b5c73c9'}
+            ],
+            'runningRenderEvidence':{
+              'workflowRunId':35663655650,
+              'artifactId':10668287632,
+              'renderHead':'b187186e62519ffa77bd0f7b166c601c90bdc416',
+              'files':['home-desktop-1408x1056.png','quest-desktop-1408x1056.png']
+            },
+            'observedDefect':'Reference scenes give the buddy a deliberate visual stage near the avatar, while current renders do not yet have an equally coherent reusable buddy presentation layer. This candidate is only a pedestal/glow stage and contains no buddy identity, so the player-selected buddy remains authoritative.',
+            'provenance':{
+              'sourceMethod':'Adobe image_generate after actual Home/Quest pixel inspection; original StarBlox staging effect only',
+              'generationRequestId':'7a8d4166-af69-4ee2-80e4-3a6be3e8dec9',
+              'sourceAdobeUrn':'urn:aaid:ps:US:fff9a594-ebbd-4aa2-bfcd-1844cd4452b4',
+              'sourceFireflyAssetId':'urn:aaid:sc:US:8a7316d5-4ab6-4d58-b5c9-4f6c92c01a97',
+              'backgroundRemovalRequestId':'1390d0c7-9e03-49c2-b01c-66ff11e6bff9',
+              'transparentAdobeUrn':'urn:aaid:ps:US:e4b6bff4-99c2-498d-8271-1fa5b7589701',
+              'optimizedDerivativeMethod':'Adobe image_crop_and_resize resize-only 1536x1536 to 768x768',
+              'resizeRequestId':'c5a476e0-1684-4f2d-b6f6-024fcd708e4c',
+              'optimizedAdobeUrn':'urn:aaid:ps:US:a2674ccc-6ed8-403f-8b21-8ac1db749c4b'
+            },
+            'stagingContract':[
+              'No buddy creature, avatar, text, UI, logo, button or third-party IP is baked into the layer.',
+              'Small rounded pedestal with star inset, lilac/cyan translucent rim, blush/gold accents, subtle halo/sparkle treatment and contact shadow.',
+              'Designed so any existing player-selected buddy can be composited above it without changing buddy identity or Bond state.',
+              'Transparent cutout is a review candidate only; no buddy ID, ownership, Bond progress or runtime mapping is changed.'
+            ],
+            'files':out,
+            'producerVisualInspection':'PASS_PRODUCER_ONLY_NOT_INDEPENDENT_ACCEPT',
+            'runtimeWired':False,
+            'canonicalCatalogTouched':False,
+            'workstream06BuddyFilesTouched':False,
+            'buddyIdentityChanged':False,
+            'buddyBondStateChanged':False,
+            'workstream09EnvironmentTouched':False,
+            'replitOrFlootTouched':False,
+            'mainTouched':False,
+            'originReadback':'PENDING'
+          }
+          Path('docs/preproduction/visuals/lane-13-buddy-stage-v1-intake.json').write_text(json.dumps(report,indent=2)+'\n')
+          PY
+
+      - name: Commit candidate bytes and intake evidence only
+        run: |
+          set -eu
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- public/assets/visuals/lane-13/buddy-stage-w13-v1-source.png public/assets/visuals/lane-13/buddy-stage-w13-v1-full.png public/assets/visuals/lane-13/buddy-stage-w13-v1-768.png docs/preproduction/visuals/lane-13-buddy-stage-v1-intake.json
+          if ! git diff --cached --quiet; then
+            git commit -m 'visuals: stage buddy presentation layer v1 candidate'
+            for attempt in 1 2 3; do
+              if git push origin HEAD:refs/heads/screenshot-match-preproduction; then break; fi
+              git fetch origin screenshot-match-preproduction
+              git rebase origin/screenshot-match-preproduction
+              if [ "$attempt" -eq 3 ]; then echo 'safe publish blocked; no force push' >&2; exit 1; fi
+            done
+          fi
+
+      - name: Verify exact origin readback and publish PASS evidence
+        run: |
+          set -eu
+          git fetch origin screenshot-match-preproduction
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib, json, subprocess
+
+          p=Path('docs/preproduction/visuals/lane-13-buddy-stage-v1-intake.json')
+          r=json.loads(p.read_text())
+          for f in r['files']:
+            data=subprocess.check_output(['git','show',f"origin/screenshot-match-preproduction:{f['path']}"])
+            got=hashlib.sha256(data).hexdigest()
+            if got != f['sha256']:
+              raise SystemExit(f"origin readback mismatch {f['path']}: {got} != {f['sha256']}")
+            f['originReadbackSha256']=got
+            f['gitBlobSha']=subprocess.check_output(['git','rev-parse',f"origin/screenshot-match-preproduction:{f['path']}"]).decode().strip()
+          r['originReadback']='PASS_3_OF_3_EXACT_SHA256'
+          r['status']='STAGED_READY_FOR_INDEPENDENT_REVIEW'
+          r['sourceHeadAfterBinaryPush']=subprocess.check_output(['git','rev-parse','origin/screenshot-match-preproduction']).decode().strip()
+          p.write_text(json.dumps(r,indent=2)+'\n')
+          PY
+          git add -- docs/preproduction/visuals/lane-13-buddy-stage-v1-intake.json
+          if ! git diff --cached --quiet; then
+            git commit -m 'visuals: record exact buddy layer origin readback'
+            for attempt in 1 2 3; do
+              if git push origin HEAD:refs/heads/screenshot-match-preproduction; then exit 0; fi
+              git fetch origin screenshot-match-preproduction
+              git rebase origin/screenshot-match-preproduction
+            done
+            echo 'readback evidence publication blocked; no force push' >&2
+            exit 1
+          fi
