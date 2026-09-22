@@ -1,141 +1,161 @@
 {
-  "schemaVersion": 9,
+  "schemaVersion": 10,
   "reviewer": "02",
   "role": "independent reviewer for Shoes/Backgear/Handgear/Seating",
   "phase": "ART_VISUALS_SPRINT",
   "branch": "screenshot-match-preproduction",
   "policy": "docs/preproduction/DELIVERY_PROTOCOL_V2.md",
   "visualSprint": "docs/preproduction/ART_VISUALS_SPRINT.json",
-  "referenceManifest": "docs/preproduction/reference-screenshots/original-reference-manifest.json",
-  "sourceHead": "08b8240d0ea03d954fc3b8c521bd8078d70bc4e3",
+  "sourceHead": "faf330e1f1306e8f17ba1345ddad7940b8720792",
   "priorReviewShard": {
-    "blobSha": "268e3bf3f16bcdb8b82bd1301a37d6bcadeeca98",
-    "schemaVersion": 8,
-    "scope": "All earlier reviewer-02 exact-hash Shoes/Backgear/Handgear/Seating decisions, recipes, evidence audits, accepted-hash freezes, and Seating 1/11/12 accepts",
+    "blobSha": "05df3c1e0da130077a8b8594b36df56e94c8035c",
+    "schemaVersion": 9,
+    "scope": "All earlier reviewer-02 exact-hash Shoes/Backgear/Handgear/Seating decisions, recipes, evidence audits and accepted-hash freezes.",
     "disposition": "PRESERVE_IMMUTABLY",
-    "rule": "This schema-9 file is an append-only shard rollover. Every exact-hash decision in the prior blob and its referenced prior shards remains authoritative unless a later review names the same item with a different exact asset hash."
+    "rule": "This schema-10 file is an append-only evidence-integrity shard. Every exact-hash decision in the prior blob and its referenced prior shards remains authoritative unless a later independent reviewer-02 decision names the same item with a different exact asset hash."
   },
-  "referenceEvidence": {
-    "storeOriginalPath": "docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg",
-    "storeOriginalSha256": "b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d",
-    "usage": "Original Store reference remains the visual target; no reference bytes, gameplay state, or geometry were changed."
-  },
-  "candidateBatch": {
+  "reviewBatch": {
+    "batchId": "lane06-seating-7-10-20260921-evidence-integrity",
     "producer": "06",
-    "batchId": "w06-shoes-7-10-20260922",
-    "stagingCommit": "1fea4dbf8dc28c778f133cc2974101e9f52b0092",
-    "manifestPath": "public/assets/catalog-candidates/w06-shoes-20260922/manifest.json",
-    "manifestBlobSha": "dabb072b70f8f307fa55cb9d629516faa30b8e7a",
-    "provenance": "Adobe Firefly generation followed by subject-preserving square resize; repository-staged review derivatives were independently hash-read back before this review."
-  },
-  "renderEvidence": {
-    "workflowRunId": 35687207417,
-    "workflowJobId": 106616477950,
-    "artifactId": 10676873799,
-    "artifactName": "catalog-staged-art-review",
-    "artifactDigest": "sha256:2230029c3fe8cc1de76f166b8e98d6c2cf0b60925c1f4d45cb7bb47bbc39e7fb",
-    "workflowHead": "ca1c5b339f00c5df465b1eb43b05af569368f23c",
-    "workflowOverallConclusion": "failure",
-    "scopeBoundary": "The enclosing workflow is not treated as a pass. Its global failures were unrelated Tops 11/12 invalid signatures plus Desk 2-4 contact-sheet decode failures. Each reviewed Shoes item below had an exact selected blob, PNG signature PASS, raster safety PASS, 768x768 decode, opaqueFraction 1, successful detail screenshot, and empty scoped errors.",
-    "reportPath": "artifact:10676873799/report.json",
-    "reportSha256": "24814fa572553def1aceaaf426169214db90277104feb912f53182c730eb73c7",
-    "cardContactSheetPath": "artifact:10676873799/staged-replacements/staged-replacements-contact-sheet.png",
-    "cardContactSheetSha256": "b869165362828b7ebfab2f601a227276fd2d375843bc6c03b05fe67dec14fad2",
-    "cardScale": "shared fixture renders images at 210px height with object-fit contain",
-    "actualPixelsReviewed": true,
-    "items": {
-      "shoes-7": {
-        "detailPath": "artifact:10676873799/staged-replacements/detail/shoes-7-cb8f02aa.png",
-        "detailSha256": "e9ec654027b6ccc90b5085e2316563be43bc1a5f8c889e54184804f027693909",
-        "detailDimensions": [800, 800],
-        "scopedErrors": []
+    "canonicalWriter": "08",
+    "candidateIntake": "docs/preproduction/catalog-sprint/lane-06-seating-7-10-intake.json",
+    "producerLane": "docs/preproduction/catalog-sprint/lane-06.json",
+    "runtimeObserved": "src/catalogArtRuntime.js",
+    "status": "BLOCKED_EVIDENCE_NOT_DECISION",
+    "reason": "Producer-owned lane-06 claims reviewer-02 ACCEPT_4_OF_4 for Seating 7-10, but reviewer-02's persisted schema-9 lineage contains no Seating 7-10 decisions. The producer intake itself still records independentAcceptsThisIntake=0 and PENDING_02. Its referenced card/detail render paths are not present in the current branch, so reviewer-02 cannot consume the actual pixels required for an independent visual decision. Current runtime already points Seating 7-10 at these candidates, creating a review-integrity risk; reviewer-02 does not alter canonical mappings.",
+    "actualPixelsReviewed": false,
+    "artQualityDecisionMade": false,
+    "integrationEligibleDelta": [],
+    "reviews": [
+      {
+        "itemId": "seating-7",
+        "name": "Lounge Chair",
+        "tier": 3,
+        "theme": "Cloud Pop",
+        "price": 348,
+        "starReq": 2,
+        "assetPath": "public/assets/catalog/seating-7-w06-v2.png",
+        "assetHash": "91457eddbb3ae915867d717eec72632ea6a183be",
+        "contentSha256": "0b04752c2ad25da0152cd0353a30504a3673f105cbed7d33fa7379ac33c46985",
+        "producer": "06",
+        "decision": "BLOCKED_EVIDENCE_NOT_DECISION",
+        "expectedDetailRenderPath": "artifacts/lane06-seating-7-10/detail/seating-7-91457edd.png",
+        "expectedDetailRenderSha256": "e8ebfa1aa420ee7f50ba67816f2b1adcaed1a7f727ee813888a5b357b362c5ae",
+        "checks": {
+          "identity": "NOT_JUDGED",
+          "physicalConstruction": "NOT_JUDGED",
+          "silhouette": "NOT_JUDGED",
+          "materialLighting": "NOT_JUDGED",
+          "themeTierSpecificity": "NOT_JUDGED",
+          "smallCardReadability": "NOT_JUDGED",
+          "originalityNearDuplicateRisk": "NOT_JUDGED",
+          "technicalIntegrity": "BLOCKED — candidate hash metadata exists, but required reviewer-consumable real card/detail render proof is absent"
+        },
+        "learnerLabel": "BLOCKED_EVIDENCE_NOT_DECISION",
+        "reason": "No art-quality inference is made from producer prose, filenames, hashes, or metadata. A future independent decision must inspect real current-hash card/detail pixels."
       },
-      "shoes-8": {
-        "detailPath": "artifact:10676873799/staged-replacements/detail/shoes-8-1aa21e11.png",
-        "detailSha256": "a49380122954a5b07340e3fddcdf0a7c52c5438bbd258cb3902b60c688707a0a",
-        "detailDimensions": [800, 800],
-        "scopedErrors": []
+      {
+        "itemId": "seating-8",
+        "name": "Bubble Seat",
+        "tier": 3,
+        "theme": "Pixel Party",
+        "price": 479,
+        "starReq": 2,
+        "assetPath": "public/assets/catalog/seating-8-w06-v2.png",
+        "assetHash": "23c02ab51249ab373aab264a17778a090d023eb4",
+        "contentSha256": "05472fdb7a2372e31ddaba77cf5bd7bf4c3205be5d284a817c7aa8e0dbd05396",
+        "producer": "06",
+        "decision": "BLOCKED_EVIDENCE_NOT_DECISION",
+        "expectedDetailRenderPath": "artifacts/lane06-seating-7-10/detail/seating-8-23c02ab5.png",
+        "expectedDetailRenderSha256": "84efc31030e7785eeb9da81e60cc986c40b7eb07ea81a64f245005650073848a",
+        "checks": {
+          "identity": "NOT_JUDGED",
+          "physicalConstruction": "NOT_JUDGED",
+          "silhouette": "NOT_JUDGED",
+          "materialLighting": "NOT_JUDGED",
+          "themeTierSpecificity": "NOT_JUDGED",
+          "smallCardReadability": "NOT_JUDGED",
+          "originalityNearDuplicateRisk": "NOT_JUDGED",
+          "technicalIntegrity": "BLOCKED — candidate hash metadata exists, but required reviewer-consumable real card/detail render proof is absent"
+        },
+        "learnerLabel": "BLOCKED_EVIDENCE_NOT_DECISION",
+        "reason": "No art-quality inference is made from producer prose, filenames, hashes, or metadata. A future independent decision must inspect real current-hash card/detail pixels."
       },
-      "shoes-9": {
-        "detailPath": "artifact:10676873799/staged-replacements/detail/shoes-9-ff5e914e.png",
-        "detailSha256": "1b8b3010cd17be60dc778bd8faacd05ab11a8cf301cb447212e939669bb1c819",
-        "detailDimensions": [800, 800],
-        "scopedErrors": []
+      {
+        "itemId": "seating-9",
+        "name": "Art Stool",
+        "tier": 3,
+        "theme": "Berry Blast",
+        "price": 667,
+        "starReq": 2,
+        "assetPath": "public/assets/catalog/seating-9-w06-v2.png",
+        "assetHash": "7fcdea13121a8820dd8dc64e8982637acb2c5819",
+        "contentSha256": "6d211ad03c47323794d4dc5f55bffb69937a24f137ece00fc79ad412e4e935f9",
+        "producer": "06",
+        "decision": "BLOCKED_EVIDENCE_NOT_DECISION",
+        "expectedDetailRenderPath": "artifacts/lane06-seating-7-10/detail/seating-9-7fcdea13.png",
+        "expectedDetailRenderSha256": "34a6974c3b798236c9a429b0748178f7f4fa4b49aecdef361ac6c77f890a90ee",
+        "checks": {
+          "identity": "NOT_JUDGED",
+          "physicalConstruction": "NOT_JUDGED",
+          "silhouette": "NOT_JUDGED",
+          "materialLighting": "NOT_JUDGED",
+          "themeTierSpecificity": "NOT_JUDGED",
+          "smallCardReadability": "NOT_JUDGED",
+          "originalityNearDuplicateRisk": "NOT_JUDGED",
+          "technicalIntegrity": "BLOCKED — candidate hash metadata exists, but required reviewer-consumable real card/detail render proof is absent"
+        },
+        "learnerLabel": "BLOCKED_EVIDENCE_NOT_DECISION",
+        "reason": "No art-quality inference is made from producer prose, filenames, hashes, or metadata. A future independent decision must inspect real current-hash card/detail pixels."
       },
-      "shoes-10": {
-        "detailPath": "artifact:10676873799/staged-replacements/detail/shoes-10-489e37f2.png",
-        "detailSha256": "c0928ebba87bc1c99eee5b1d24c210f7501885f90cc1768b661bd9bca033fcdc",
-        "detailDimensions": [800, 800],
-        "scopedErrors": []
+      {
+        "itemId": "seating-10",
+        "name": "Pod Chair",
+        "tier": 4,
+        "theme": "Garden Glow",
+        "price": 928,
+        "starReq": 5,
+        "assetPath": "public/assets/catalog/seating-10-w06-v2.png",
+        "assetHash": "9aa53664cbc8ee24283ea44830f1f3037c576340",
+        "contentSha256": "c2af9cd66d2e0e214eb79129c420a6cbc3ecf09c7c86f0e1e571867439ae714c",
+        "producer": "06",
+        "decision": "BLOCKED_EVIDENCE_NOT_DECISION",
+        "expectedDetailRenderPath": "artifacts/lane06-seating-7-10/detail/seating-10-9aa53664.png",
+        "expectedDetailRenderSha256": "ce5397be1d08cb78d2a67692dd963fae995e4cd69f045ccf2a561363ccfbd044",
+        "checks": {
+          "identity": "NOT_JUDGED",
+          "physicalConstruction": "NOT_JUDGED",
+          "silhouette": "NOT_JUDGED",
+          "materialLighting": "NOT_JUDGED",
+          "themeTierSpecificity": "NOT_JUDGED",
+          "smallCardReadability": "NOT_JUDGED",
+          "originalityNearDuplicateRisk": "NOT_JUDGED",
+          "technicalIntegrity": "BLOCKED — candidate hash metadata exists, but required reviewer-consumable real card/detail render proof is absent"
+        },
+        "learnerLabel": "BLOCKED_EVIDENCE_NOT_DECISION",
+        "reason": "No art-quality inference is made from producer prose, filenames, hashes, or metadata. A future independent decision must inspect real current-hash card/detail pixels."
       }
-    }
-  },
-  "authoritativeMetadataAudit": {
-    "gameModelPath": "src/gameModel.js",
-    "rule": "Names, tiers, themes, prices and unlock requirements were read from existing gameModel logic and were not changed.",
-    "items": {
-      "shoes-7": {"name":"Chunky Sneakers","tier":3,"theme":"Cloud Pop","price":240,"starReq":2},
-      "shoes-8": {"name":"Trainers","tier":3,"theme":"Pixel Party","price":330,"starReq":2},
-      "shoes-9": {"name":"Paint Kicks","tier":3,"theme":"Berry Blast","price":460,"starReq":2},
-      "shoes-10": {"name":"Light Shoes","tier":4,"theme":"Garden Glow","price":640,"starReq":5}
-    }
-  },
-  "eligibilityAudit": {
-    "Shoes": "Shoes 7-10 are current repository-staged exact-hash replacements with real shared-fixture card/detail proof and are reviewed below.",
-    "Backgear": "No newer exact-hash Backgear candidate with qualifying current card/detail proof surfaced in this pass.",
-    "Handgear": "No newer exact-hash Handgear candidate with qualifying current card/detail proof surfaced in this pass.",
-    "Seating": "No newer Seating hash supersedes the preserved prior reviewer-02 accepts in the prior shard.",
-    "legacyChurn": false
-  },
-  "reviews": [
-    {
-      "itemId":"shoes-7","name":"Chunky Sneakers","tier":3,"theme":"Cloud Pop","price":240,"starReq":2,"assetPath":"/assets/catalog/shoes-7-w06-v3.png","assetHash":"cb8f02aaa4844d1a19a013edc3d0d1a15c0620a2","contentSha256":"e6bd15334f64537dbb6d7f73331a67a5bd4416c96589c1003286f5586321526d","hashAlgorithm":"git-blob-sha1","producer":"06","decision":"ACCEPT","reviewedAt":"2026-09-22T04:39:27Z",
-      "evidenceRefs":["workflow:35687207417/artifact:10676873799","artifact:10676873799/staged-replacements/staged-replacements-contact-sheet.png#sha256=b869165362828b7ebfab2f601a227276fd2d375843bc6c03b05fe67dec14fad2","artifact:10676873799/staged-replacements/detail/shoes-7-cb8f02aa.png#sha256=e9ec654027b6ccc90b5085e2316563be43bc1a5f8c889e54184804f027693909","public/assets/catalog-candidates/w06-shoes-20260922/manifest.json","src/gameModel.js","docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg#sha256=b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d"],
-      "reason":"The exact current Chunky Sneakers are a materially constructed Tier-3 pair: padded layered uppers, stitched eyestays, textured laces, perforated toes, heel loops and a deeply sculpted cloud/wave outsole all read as separate physical parts. Pale cloud forms and cool lavender/cyan cast light make Cloud Pop specific without branding. The bulky cloud sole remains unmistakable in the real 210px Store-card render and is not a recolor of the earlier Aqua Wave Sneakers.",
-      "checks":{"identity":"PASS","physicalConstruction":"PASS — padded upper panels, laces/eyestays, toe perforations, heel loops and multi-level sculpted outsole read as coherent wearable shoes","silhouette":"PASS — exaggerated cloud/wave sole and chunky paired three-quarter profile remain distinctive at detail and card scale","materialLighting":"PASS — matte leather-like panels, textile laces/collars, stitch seams, soft cool rim light and grounded contact shadows separate surfaces clearly","themeTierSpecificity":"PASS — raised cloud motifs and sculpted cloud/wave sole carry Cloud Pop physically; layered construction is visibly richer than Tier-1/2 Shoes","smallCardReadability":"PASS — laced pair, cloud side forms and thick rolling outsole survive the shared 210px card render","originalityNearDuplicateRisk":"PASS — low near-duplicate risk versus Shoes 1-6 and Shoes 8-10; distinctive cloud architecture, sole profile and paired volume are not palette-only changes","technicalIntegrity":"PASS — current branch readback Git blob cb8f02aaa4844d1a19a013edc3d0d1a15c0620a2; shared renderer selected the same blob, decoded 768x768 PNG, safety passed, opaqueFraction 1, detail screenshot succeeded, scoped errors empty"}
-    },
-    {
-      "itemId":"shoes-8","name":"Trainers","tier":3,"theme":"Pixel Party","price":330,"starReq":2,"assetPath":"/assets/catalog/shoes-8-w06-v3.png","assetHash":"1aa21e1156f7645fc218402c337d2eebe95d81f8","contentSha256":"7cc864e736057c024f010c044755e5001c5c4418173f83ce6309fee94ba47cd3","hashAlgorithm":"git-blob-sha1","producer":"06","decision":"ACCEPT","reviewedAt":"2026-09-22T04:39:27Z",
-      "evidenceRefs":["workflow:35687207417/artifact:10676873799","artifact:10676873799/staged-replacements/staged-replacements-contact-sheet.png#sha256=b869165362828b7ebfab2f601a227276fd2d375843bc6c03b05fe67dec14fad2","artifact:10676873799/staged-replacements/detail/shoes-8-1aa21e11.png#sha256=a49380122954a5b07340e3fddcdf0a7c52c5438bbd258cb3902b60c688707a0a","public/assets/catalog-candidates/w06-shoes-20260922/manifest.json","src/gameModel.js","docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg#sha256=b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d"],
-      "reason":"The exact Trainers use a credible technical-running build with mesh toe/tongue zones, synthetic overlay cage, laces, padded collars and a segmented outsole. Teal/navy/purple material separation plus a raised pixel-cluster side motif gives Pixel Party a specific physical identity. The low athletic silhouette remains crisp at card scale and, despite sharing the broad running-shoe category with Shoes-6, its panel architecture, pixel badge, outsole and lighting are clearly different rather than a near-duplicate.",
-      "checks":{"identity":"PASS","physicalConstruction":"PASS — breathable mesh zones, overlay cage, laces, padded collar and segmented sole read as functional trainer construction","silhouette":"PASS — low technical-runner profile, layered heel and segmented sole read cleanly at both scales","materialLighting":"PASS — woven mesh, smoother synthetic overlays and rubber-like sole show distinct texture/specular response with cyan/magenta cast light and contact shadow","themeTierSpecificity":"PASS — raised pixel cluster and digital teal-purple treatment make Pixel Party specific while Tier-3 layering exceeds simpler prior shoes","smallCardReadability":"PASS — paired trainer silhouette, light laces, dark mesh fields and pixel side badge remain readable in the real shared card render","originalityNearDuplicateRisk":"PASS — Shoes-6 is also athletic but differs materially in silhouette, panel map, color/light response and motif; no recolor-only or same-render reuse observed","technicalIntegrity":"PASS — current branch readback Git blob 1aa21e1156f7645fc218402c337d2eebe95d81f8; shared renderer selected the same blob, decoded 768x768 PNG, safety passed, opaqueFraction 1, detail screenshot succeeded, scoped errors empty"}
-    },
-    {
-      "itemId":"shoes-9","name":"Paint Kicks","tier":3,"theme":"Berry Blast","price":460,"starReq":2,"assetPath":"/assets/catalog/shoes-9-w06-v3.png","assetHash":"ff5e914eb935194a1541cebf5421264e5da2d543","contentSha256":"6db39a0e3820ddae6ce493880693e1998ff270a38f17b66253056b61d0c4190f","hashAlgorithm":"git-blob-sha1","producer":"06","decision":"ACCEPT","reviewedAt":"2026-09-22T04:39:27Z",
-      "evidenceRefs":["workflow:35687207417/artifact:10676873799","artifact:10676873799/staged-replacements/staged-replacements-contact-sheet.png#sha256=b869165362828b7ebfab2f601a227276fd2d375843bc6c03b05fe67dec14fad2","artifact:10676873799/staged-replacements/detail/shoes-9-ff5e914e.png#sha256=1b8b3010cd17be60dc778bd8faacd05ab11a8cf301cb447212e939669bb1c819","public/assets/catalog-candidates/w06-shoes-20260922/manifest.json","src/gameModel.js","docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg#sha256=b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d"],
-      "reason":"The exact Paint Kicks are a substantial lace-up sneaker rather than a flat themed icon: layered toe/quarter panels, textured laces, padded collars, heel loops, stitched overlays and a deep outsole are all visible. Berry-pink/crimson materials and raised glossy drip/splash forms make the Berry Blast palette tactile while also supporting the Paint Kicks name. The warm/cool cast lighting and grounded shadow preserve depth, and the red splash silhouette remains readable in the actual Store card.",
-      "checks":{"identity":"PASS","physicalConstruction":"PASS — lace-up upper, stitched multi-panel body, padded collar/tongue, heel pull loops and thick segmented sole form a plausible pair","silhouette":"PASS — tall chunky lace-up profile with visible heel loops and sculpted outsole is stable and distinct at card reduction","materialLighting":"PASS — textile laces, smooth/padded panels, glossy raised splash forms and rubber sole separate under warm key plus cool floor light","themeTierSpecificity":"PASS — berry/crimson palette and raised jam/paint-like splash details give Berry Blast a tactile motif while the multi-layer Tier-3 build prevents palette-only treatment","smallCardReadability":"PASS — pink pair, white/berry panel contrast, laces and red splash accents remain visible in the shared 210px card render","originalityNearDuplicateRisk":"PASS — low duplicate risk versus the preceding six Shoes and current batch; splash/paint surface construction and berry color blocking are unique rather than a recolor","technicalIntegrity":"PASS — current branch readback Git blob ff5e914eb935194a1541cebf5421264e5da2d543; shared renderer selected the same blob, decoded 768x768 PNG, safety passed, opaqueFraction 1, detail screenshot succeeded, scoped errors empty"}
-    },
-    {
-      "itemId":"shoes-10","name":"Light Shoes","tier":4,"theme":"Garden Glow","price":640,"starReq":5,"assetPath":"/assets/catalog/shoes-10-w06-v3.png","assetHash":"489e37f25644d13a4ca9518f4047ebfb35747a47","contentSha256":"72b01fba8c88704de5ad98020bf163fd42229c237b92be5decb9892e0ccbdfad","hashAlgorithm":"git-blob-sha1","producer":"06","decision":"ACCEPT","reviewedAt":"2026-09-22T04:39:27Z",
-      "evidenceRefs":["workflow:35687207417/artifact:10676873799","artifact:10676873799/staged-replacements/staged-replacements-contact-sheet.png#sha256=b869165362828b7ebfab2f601a227276fd2d375843bc6c03b05fe67dec14fad2","artifact:10676873799/staged-replacements/detail/shoes-10-489e37f2.png#sha256=c0928ebba87bc1c99eee5b1d24c210f7501885f90cc1768b661bd9bca033fcdc","public/assets/catalog-candidates/w06-shoes-20260922/manifest.json","src/gameModel.js","docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg#sha256=b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d"],
-      "reason":"The exact Light Shoes deliver a clear Tier-4 jump: layered cream/sage uppers, stitched panels, laces through metal-like eyelets, heel loops and a sculpted outsole incorporate multiple luminous windows plus raised leaf details. Botanical side motifs and green foliage geometry make Garden Glow construction-specific, while amber and green emitted light visibly spills onto the shoe and ground. The illuminated windows, leaves and thick sole remain legible at Store-card scale.",
-      "checks":{"identity":"PASS","physicalConstruction":"PASS — laced layered upper, eyelet hardware, padded tongue/collar, heel loop and deeply built illuminated sole form a coherent wearable pair","silhouette":"PASS — high-volume sole with luminous windows and leaf protrusions gives a premium profile distinct from all lower-tier Shoes","materialLighting":"PASS — cream/sage synthetic panels, metallic eyelets, translucent/glowing inserts, botanical relief and strong green/amber cast light create clear material separation","themeTierSpecificity":"PASS — leaf/vine motifs plus emitted garden-green and warm glow physically embody Garden Glow; multiple lighting/material systems support Tier 4","smallCardReadability":"PASS — bright sole windows, botanical panel, paired laces and thick silhouette remain immediately readable in the actual shared card render","originalityNearDuplicateRisk":"PASS — no current Shoes asset shares the botanical illuminated-window sole construction; not a recolor or near-copy of Shoes 1-9","technicalIntegrity":"PASS — current branch readback Git blob 489e37f25644d13a4ca9518f4047ebfb35747a47; shared renderer selected the same blob, decoded 768x768 PNG, safety passed, opaqueFraction 1, detail screenshot succeeded, scoped errors empty"}
-    }
-  ],
-  "reviewLearner": {
-    "qualifiedLabelsThisShard":4,
-    "labels":[
-      {"itemId":"shoes-7","assetHash":"cb8f02aaa4844d1a19a013edc3d0d1a15c0620a2","decision":"ACCEPT","physicalConstruction":"PASS","silhouette":"PASS","materialLighting":"PASS","themeTierSpecificity":"PASS","smallCardReadability":"PASS","originalityNearDuplicateRisk":"PASS","technicalIntegrity":"PASS"},
-      {"itemId":"shoes-8","assetHash":"1aa21e1156f7645fc218402c337d2eebe95d81f8","decision":"ACCEPT","physicalConstruction":"PASS","silhouette":"PASS","materialLighting":"PASS","themeTierSpecificity":"PASS","smallCardReadability":"PASS","originalityNearDuplicateRisk":"PASS","technicalIntegrity":"PASS"},
-      {"itemId":"shoes-9","assetHash":"ff5e914eb935194a1541cebf5421264e5da2d543","decision":"ACCEPT","physicalConstruction":"PASS","silhouette":"PASS","materialLighting":"PASS","themeTierSpecificity":"PASS","smallCardReadability":"PASS","originalityNearDuplicateRisk":"PASS","technicalIntegrity":"PASS"},
-      {"itemId":"shoes-10","assetHash":"489e37f25644d13a4ca9518f4047ebfb35747a47","decision":"ACCEPT","physicalConstruction":"PASS","silhouette":"PASS","materialLighting":"PASS","themeTierSpecificity":"PASS","smallCardReadability":"PASS","originalityNearDuplicateRisk":"PASS","technicalIntegrity":"PASS"}
-    ],
-    "blockedIsNotRework":true,
-    "featureOrder":["physicalConstruction","silhouette","materialLighting","themeTierSpecificity","smallCardReadability","originalityNearDuplicateRisk","technicalIntegrity"]
-  },
-  "integrationHandoff": {
-    "owner":"08",
-    "status":"READY_TO_CONSUME_4_EXACT_ACCEPTS",
-    "instruction":"Re-read each candidate path and require the exact Git blob below before canonical promotion. An ACCEPT never transfers to changed bytes.",
-    "items":[
-      {"itemId":"shoes-7","assetHash":"cb8f02aaa4844d1a19a013edc3d0d1a15c0620a2"},
-      {"itemId":"shoes-8","assetHash":"1aa21e1156f7645fc218402c337d2eebe95d81f8"},
-      {"itemId":"shoes-9","assetHash":"ff5e914eb935194a1541cebf5421264e5da2d543"},
-      {"itemId":"shoes-10","assetHash":"489e37f25644d13a4ca9518f4047ebfb35747a47"}
     ]
   },
-  "safeguards": {
-    "canonicalMappingsChanged":false,"runtimeChanged":false,"gameplayChanged":false,"learningChanged":false,"persistenceChanged":false,"economyChanged":false,"testsWeakened":false,"realPlayerDataChanged":false,"deploymentTouched":false,"mainTouched":false,"replitOrFlootTouched":false,"selfApproval":false
+  "routing": {
+    "workstream08": "Treat Seating 7-10 as NOT independently accepted by reviewer-02 until current exact-hash card/detail render pixels are consumable and reviewer-02 records an exact-hash ACCEPT. Do not infer reviewer acceptance from producer lane text. Reviewer-02 does not modify canonical mappings.",
+    "workstream06": "Preserve these exact candidate bytes and provenance. Do not regenerate or create v+1 absent a concrete visual defect. Restore/commit consumable exact-hash card/detail proof or route stable workflow-artifact evidence that reviewer-02 can actually inspect.",
+    "workstream14": "If shared renderer evidence already exists outside the branch, make the exact current-hash card/detail proof consumable without changing candidate bytes; avoid rerender loops with unchanged transport failures."
+  },
+  "preservation": {
+    "acceptedPriorHashesPreserved": true,
+    "candidateBytesChanged": false,
+    "canonicalMappingsChanged": false,
+    "runtimeChanged": false,
+    "gameplayChanged": false,
+    "learningChanged": false,
+    "persistenceChanged": false,
+    "economyChanged": false,
+    "testsWeakened": false,
+    "realPlayerDataChanged": false,
+    "deploymentTouched": false,
+    "mainTouched": false,
+    "replitOrFlootTouched": false,
+    "selfApproval": false
   }
 }
