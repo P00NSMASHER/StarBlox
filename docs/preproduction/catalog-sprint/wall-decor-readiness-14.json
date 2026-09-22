@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "scope": "ART_AND_VISUALS_ONLY",
+  "phase": "CATALOG_SPRINT",
+  "branch": "screenshot-match-preproduction",
+  "reviewer": "14",
+  "coordinationOwner": "15",
+  "canonicalWriter": "08",
+  "observedHeadBeforeWrite": "df88ece3a1cf9c70a1a4d4e6a31814a871323fe9",
+  "purpose": "Continue Wall/Decor reference-comparison QA after current Rugs and Desk dependencies without re-reviewing unchanged legacy hashes.",
+  "wall": {
+    "authoritativeProducerLane": "05",
+    "currentCandidateSet": "wall-1..12",
+    "newHashesSinceReviewer14PriorDisposition": false,
+    "finding": "Lane-05 still binds the same wall-1..12 SVG blob hashes already dispositioned by reviewer 14. No versioned Wall replacement recovery/render handoff is present in the current catalog-sprint handoff set.",
+    "action": "NO_REVIEW_CHURN",
+    "nextReviewGate": "A new versioned Wall hash set must be repository-stored/read back/decoded and exact-hash card/detail rendered before reviewer 14 performs another disposition."
+  },
+  "decor": {
+    "authoritativeProducerLane": "09",
+    "preservedAcceptedExactHashes": [
+      "decor-1",
+      "decor-2"
+    ],
+    "reReviewedAcceptedHashes": false,
+    "decor3To12NewRepositoryStagedHashesReady": false,
+    "finding": "Lane-09 still preserves Decor 3-12 legacy SVG candidates and records generated work as not repository staged. No new exact repository hashes plus card/detail evidence are ready for reviewer-14 disposition for Decor 3-12.",
+    "action": "NO_REVIEW_CHURN",
+    "nextReviewGate": "For Decor 3-12, require new versioned repository paths/hashes, readback/signature/decode checks and exact-hash card/detail pixels before independent visual disposition."
+  },
+  "referenceComparisonGuardrailsForNextReadyBatch": [
+    "physical dimensional construction rather than flat product-icon treatment",
+    "clear wall-mounted or freestanding category read at card scale",
+    "believable material response, thickness/contact or mounting depth, and lighting",
+    "exact theme/tier identity",
+    "silhouette separation and small-card readability",
+    "originality and near-duplicate risk against already accepted catalog art"
+  ],
+  "result": "NO_NEW_WALL_OR_DECOR_3_TO_12_HASHES_READY_FOR_DISPOSITION__UNCHANGED_HASHES_NOT_REVIEWED",
+  "freeze": {
+    "replitTouched": false,
+    "flootTouched": false,
+    "mainMergedOrModified": false,
+    "canonicalManifestOrRuntimeTouched": false,
+    "gameplayOrCatalogMetadataEdited": false,
+    "playerDataTouched": false
+  }
+}
