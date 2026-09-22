@@ -173,21 +173,39 @@ function selectOwnCollectionPath(lane,id,fallback,report){
 }
 function selectVisualCandidates(report){
   const out=[];
+  const seen=new Set();
   for(const lanePath of visualLanes){
     if(!fs.existsSync(lanePath)) continue;
     const lane=readLane(lanePath);
-    const candidateId=String(lane.candidateId??path.basename(lanePath,'.json'));
-    let n=0;
-    for(const asset of Array.isArray(lane.assets)?lane.assets:[]){
-      const repositoryPath=normalizeRepoPath(asset.path);
-      if(!repositoryPath||!fs.existsSync(repositoryPath)) continue;
-      const signature=signatureCheck(repositoryPath);
-      if(!signature.ok){report.warnings.push(`${candidateId}: ignored invalid visual asset ${repositoryPath} (${signature.reason})`);continue;}
-      n+=1;
-      out.push({id:`${candidateId}-${n}`,name:`${candidateId} ${n}`,tier:null,theme:lane.targetScreen??lane.candidateType??null,producerLane:lanePath,discovery:'visual-lane',repositoryPath,blobSha:blobSha(repositoryPath),signature,declaredDimensions:asset.dimensions??null,candidateId,candidateType:lane.candidateType??null,targetScreen:lane.targetScreen??null});
+    const counters=new Map();
+    // Visual lanes may hold multiple simultaneous scene/character candidates in
+    // nested handoff structures (for example parallelCandidates). Discover every
+    // declared branch-stored visual path rather than only the lane's top-level
+    // assets array so fresh scene art cannot be hidden by an older primary entry.
+    for(const o of allObjects(lane)){
+      const candidateId=String(o?.candidateId??lane.candidateId??path.basename(lanePath,'.json'));
+      const candidateType=o?.candidateType??lane.candidateType??null;
+      const targetScreen=o?.targetScreen??lane.targetScreen??null;
+      const pathFields=[
+        ['path',o?.dimensions??null],
+        ['desktopPath',o?.desktopDimensions??null],
+        ['fullPath',o?.fullDimensions??null],
+        ['optimizedPath',o?.optimizedDimensions??null]
+      ];
+      for(const [field,declaredDimensions] of pathFields){
+        const repositoryPath=normalizeRepoPath(o?.[field]);
+        if(!repositoryPath||!repositoryPath.startsWith('public/assets/visuals/')||!fs.existsSync(repositoryPath)) continue;
+        const actualBlobSha=blobSha(repositoryPath), key=`${repositoryPath}:${actualBlobSha}`;
+        if(seen.has(key)) continue;
+        seen.add(key);
+        const signature=signatureCheck(repositoryPath);
+        if(!signature.ok){report.warnings.push(`${candidateId}: ignored invalid visual asset ${repositoryPath} (${signature.reason})`);continue;}
+        const n=(counters.get(candidateId)??0)+1;counters.set(candidateId,n);
+        out.push({id:`${candidateId}-${n}`,name:`${candidateId} ${n}`,tier:null,theme:targetScreen??candidateType,producerLane:lanePath,discovery:'visual-lane-recursive',repositoryPath,blobSha:actualBlobSha,signature,declaredDimensions,candidateId,candidateType,targetScreen});
+      }
     }
   }
-  return out;
+  return out.sort((a,b)=>a.id.localeCompare(b.id)||a.repositoryPath.localeCompare(b.repositoryPath));
 }
 
 async function settleImages(page,timeoutMs=7000){
