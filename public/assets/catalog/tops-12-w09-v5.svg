@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="600" viewBox="0 0 600 600" role="img" aria-labelledby="title desc">
+<title id="title">Star Coat</title><desc id="desc">Adventure Club tier five long coat product art with three-quarter construction and premium materials.</desc>
+<defs>
+ <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fbf3f7"/><stop offset=".5" stop-color="#eee7fb"/><stop offset="1" stop-color="#dce5f5"/></linearGradient>
+ <radialGradient id="halo" cx="47%" cy="38%" r="60%"><stop stop-color="#fff9ea" stop-opacity=".9"/><stop offset=".6" stop-color="#d69ab9" stop-opacity=".2"/><stop offset="1" stop-color="#695487" stop-opacity="0"/></radialGradient>
+ <linearGradient id="navy" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#415483"/><stop offset=".3" stop-color="#2b3964"/><stop offset=".66" stop-color="#1a2548"/><stop offset="1" stop-color="#10172e"/></linearGradient>
+ <linearGradient id="navySide" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#25335d"/><stop offset=".55" stop-color="#172342"/><stop offset="1" stop-color="#0a1024"/></linearGradient>
+ <linearGradient id="burg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#bd638a"/><stop offset=".38" stop-color="#8f3f69"/><stop offset=".72" stop-color="#65284e"/><stop offset="1" stop-color="#401934"/></linearGradient>
+ <linearGradient id="sand" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff2da"/><stop offset=".48" stop-color="#e4c5a0"/><stop offset="1" stop-color="#ad825d"/></linearGradient>
+ <linearGradient id="lining" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff7e8"/><stop offset=".5" stop-color="#e9d1ac"/><stop offset="1" stop-color="#b78d65"/></linearGradient>
+ <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff4ad"/><stop offset=".28" stop-color="#f5c755"/><stop offset=".62" stop-color="#d38b24"/><stop offset="1" stop-color="#75410b"/></linearGradient>
+ <pattern id="quilt" width="34" height="34" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="34" height="34" fill="#7e315b"/><path d="M0 17h34M17 0v34" stroke="#d085a2" stroke-opacity=".3" stroke-width="2"/><circle cx="17" cy="17" r="2" fill="#f4c96d" opacity=".45"/></pattern>
+ <filter id="drop" x="-35%" y="-35%" width="180%" height="190%"><feGaussianBlur in="SourceAlpha" stdDeviation="10" result="b"/><feOffset dx="9" dy="15" result="o"/><feColorMatrix in="o" type="matrix" values="0 0 0 0 .13 0 0 0 0 .09 0 0 0 0 .22 0 0 0 .34 0"/><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+ <filter id="fabric" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency=".55" numOctaves="3" seed="12" result="n"/><feColorMatrix in="n" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 .07 0" result="t"/><feBlend in="SourceGraphic" in2="t" mode="soft-light"/></filter>
+ <filter id="soft"><feGaussianBlur stdDeviation="10"/></filter>
+</defs>
+<rect width="600" height="600" rx="42" fill="url(#bg)"/><rect width="600" height="600" rx="42" fill="url(#halo)"/>
+<ellipse cx="305" cy="535" rx="178" ry="27" fill="#241a38" opacity=".18" filter="url(#soft)"/>
+<g filter="url(#drop)">
+ <!-- high collar / inner lining turned to camera -->
+ <path d="M191 147c19-58 65-91 119-86 54 5 95 39 111 93l-33 58-171-9z" fill="url(#burg)" stroke="#55213f" stroke-width="5"/>
+ <path d="M224 145c20-36 48-52 82-49 32 2 58 19 77 50l-25 42-111-6z" fill="url(#lining)" stroke="#a77a55" stroke-width="4"/>
+ <path d="M248 140c16-21 36-30 59-28 23 2 42 13 56 33l-16 25-86-5z" fill="#67264c"/>
+ <!-- far rear body plane -->
+ <path d="M337 157c49 9 87 31 108 68l35 262c5 39-16 67-52 77l-83-8-27-382z" fill="url(#navySide)" stroke="#0c1429" stroke-width="6" filter="url(#fabric)"/>
+ <!-- coat front, intentionally long and asymmetric -->
+ <path d="M172 177c36-28 87-36 157-18l24 387c-60 18-119 17-177-3-31-11-48-40-43-78z" fill="url(#navy)" stroke="#17213f" stroke-width="6" filter="url(#fabric)"/>
+ <!-- burgundy side/storm panels -->
+ <path d="M181 190c24-14 48-24 74-28l-16 372c-27 4-49 1-66-6-26-11-39-34-34-64z" fill="url(#burg)" stroke="#582142" stroke-width="4"/>
+ <path d="M327 164c18 2 38 8 58 18l34 363c-25 10-49 13-72 9z" fill="#54213f" stroke="#3b1730" stroke-width="4"/>
+ <!-- open center reveals quilted insulated layer -->
+ <path d="M255 159c23-5 47-5 73 1l19 387c-35 5-70 4-104-4z" fill="url(#quilt)" stroke="#55203f" stroke-width="4"/>
+ <!-- layered storm yoke -->
+ <path d="M175 180c38-28 82-37 132-30 44 6 82 24 111 53l-19 74c-33-21-67-32-104-35-35-3-70 4-106 20z" fill="url(#burg)" stroke="#5b2344" stroke-width="5"/>
+ <path d="M194 187c31-20 66-27 106-22 38 4 71 18 98 40l-10 38c-30-16-60-24-91-26-31-2-63 4-95 18z" fill="#d17b9c" opacity=".26"/>
+ <!-- near sleeve, substantial and forward -->
+ <path d="M183 203c-57 16-94 55-112 115-14 46-18 96-13 149 3 32 24 50 54 54l46 6 37-52 27-239z" fill="url(#navy)" stroke="#17213f" stroke-width="5" filter="url(#fabric)"/>
+ <!-- far sleeve foreshortened -->
+ <path d="M416 219c41 13 66 44 79 88 10 35 13 71 9 107-3 25-18 39-39 42l-37 2-30-39-13-184z" fill="url(#navySide)" stroke="#0d152b" stroke-width="5"/>
+ <!-- reinforced sleeve materials -->
+ <path d="M88 300c29-18 58-23 87-13l-11 81c-26-13-51-11-76 5z" fill="url(#sand)" stroke="#a77d57" stroke-width="4"/>
+ <path d="M75 386c29-15 58-15 86 1l-8 75c-29-11-56-10-82 5z" fill="url(#burg)" stroke="#582140" stroke-width="4"/>
+ <path d="M451 290c19-8 36-6 52 6l4 66c-18-9-35-8-52 1z" fill="url(#sand)" stroke="#9f7652" stroke-width="3"/>
+ <!-- unmistakable coat tails -->
+ <path d="M162 445c43 18 87 24 132 19l-13 88c-42 4-80-1-112-15-24-11-35-32-30-58z" fill="url(#burg)" stroke="#55213f" stroke-width="4"/>
+ <path d="M309 455c42 4 85-2 128-18l19 82c-38 19-79 29-123 28z" fill="url(#navySide)" stroke="#0b1429" stroke-width="4"/>
+ <path d="M170 517c45 15 92 18 142 8M320 526c42 0 82-8 119-24" fill="none" stroke="#d3b182" stroke-width="7" opacity=".72"/>
+ <!-- deep utility pockets -->
+ <path d="M201 326l67-4 15 105-76 12z" fill="url(#sand)" stroke="#9d7653" stroke-width="4"/>
+ <path d="M213 314l54-3 15 30-69 8z" fill="url(#navy)" stroke="#14213e" stroke-width="4"/>
+ <path d="M349 332l61 5-6 105-68-9z" fill="#c9a27c" stroke="#8d6848" stroke-width="4"/>
+ <path d="M349 320l49 4 13 31-65-7z" fill="#1a2748" stroke="#10182f" stroke-width="4"/>
+ <!-- belt / tabs / buckles -->
+ <path d="M205 290l81-7 3 37-82 8z" fill="#1a2748" stroke="#111a34" stroke-width="4"/>
+ <path d="M399 300l-75-12-1 36 80 13z" fill="#182443" stroke="#10182f" stroke-width="4"/>
+ <rect x="263" y="287" width="40" height="31" rx="7" fill="none" stroke="url(#gold)" stroke-width="7"/>
+ <rect x="310" y="292" width="40" height="31" rx="7" fill="none" stroke="url(#gold)" stroke-width="7"/>
+ <!-- zipper / storm hardware -->
+ <path d="M318 160l20 382" stroke="#151f3d" stroke-width="19" stroke-linecap="round"/>
+ <path d="M323 165l10 371" stroke="url(#gold)" stroke-width="7" stroke-linecap="round"/>
+ <g fill="url(#gold)" stroke="#75440f" stroke-width="2"><rect x="339" y="223" width="31" height="14" rx="7"/><rect x="341" y="265" width="31" height="14" rx="7"/><rect x="347" y="430" width="31" height="14" rx="7"/></g>
+ <!-- Adventure Club compass / star identity -->
+ <g><circle cx="389" cy="250" r="31" fill="#28365e" stroke="url(#gold)" stroke-width="5"/><circle cx="389" cy="250" r="18" fill="#7b2e58" stroke="#efc55a" stroke-width="2"/><path d="M389 217l8 25 25 8-25 8-8 25-8-25-25-8 25-8z" fill="url(#gold)" stroke="#fff1aa" stroke-width="2"/><path d="M389 231l4 15 15 4-15 4-4 15-4-15-15-4 15-4z" fill="#fff7d3"/></g>
+ <g fill="url(#gold)" stroke="#fff0a7" stroke-width="1.5"><path d="M229 468l7 14 16 2-12 11 3 16-14-7-14 7 3-16-12-11 16-2z"/><path d="M389 474l6 12 13 2-10 9 3 13-12-6-12 6 3-13-10-9 13-2z"/></g>
+ <!-- tactile seam/fold/tension cues -->
+ <path d="M207 216c30-15 61-21 94-18M206 356c20 7 40 9 61 7M367 372c15 6 30 8 45 7M153 276c-16 38-21 84-15 137" fill="none" stroke="#fff4df" stroke-opacity=".44" stroke-width="6" stroke-linecap="round"/>
+ <path d="M441 246c21 18 33 44 36 77M434 370c8 24 10 47 7 69" fill="none" stroke="#b7d8ff" stroke-opacity=".58" stroke-width="7" stroke-linecap="round"/>
+ <path d="M230 182l-12 337M378 187l33 339M275 175l-15 357" fill="none" stroke="#e2b364" stroke-opacity=".52" stroke-width="2" stroke-dasharray="5 7"/>
+ <!-- premium collar/hem thickness -->
+ <path d="M217 150c29-43 88-61 155 0" fill="none" stroke="#ffe6c0" stroke-opacity=".8" stroke-width="8" stroke-linecap="round"/>
+ <path d="M151 523c51 21 107 27 169 15M324 541c39-1 77-10 112-26" fill="none" stroke="#6d492c" stroke-opacity=".45" stroke-width="4"/>
+</g>
+</svg>
