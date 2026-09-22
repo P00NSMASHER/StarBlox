@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "batchId": "chat-seating-recovery-2-3-20260921",
+  "producer": "01",
+  "transportHelper": "CHAT",
+  "reviewer": "02",
+  "canonicalWriter": "08",
+  "branch": "screenshot-match-preproduction",
+  "items": [
+    {
+      "id": "seating-2",
+      "assetId": "urn:aaid:sc:US:8897a93d-8960-4229-89a1-74f978302fc5",
+      "renditionUrl": "https://at.adobe.com/hvVgB6v9uwirZLhO",
+      "sourceUrl": "https://at.adobe.com/EUY6DeMpw8SyBl1A",
+      "candidateRepositoryPath": "public/assets/catalog/seating-2-w01-recovered-v2.jpg"
+    },
+    {
+      "id": "seating-3",
+      "assetId": "urn:aaid:sc:US:61cbf6f7-0f86-491a-9aed-9a5632964f6b",
+      "renditionUrl": "https://at.adobe.com/sCtUDtzLGNXwNwxM",
+      "sourceUrl": "https://at.adobe.com/xsuP6gEUYqPLTBsC",
+      "candidateRepositoryPath": "public/assets/catalog/seating-3-w01-recovered-v2.jpg"
+    }
+  ],
+  "note": "Temporary connector-resolved Adobe URLs are used only by the authorized one-batch recovery workflow. Stable Firefly asset URNs remain the long-lived provenance identifiers."
+}
