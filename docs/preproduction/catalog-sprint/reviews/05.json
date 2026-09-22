@@ -1,132 +1,71 @@
 {
-  "schemaVersion": 8,
+  "schemaVersion": 9,
   "reviewer": "05",
   "role": "independent catalog reviewer for beds/desks/companions/auras",
-  "phase": "CATALOG_SPRINT",
+  "phase": "ART_VISUALS_SPRINT",
   "branch": "screenshot-match-preproduction",
-  "sourceHead": "46d6bb67f986fb432a14afd0d749ea6697e12a26",
+  "sourceHead": "be7fe6eae1ab92f475383b113f1c8efc961fe70a",
   "policy": "docs/preproduction/DELIVERY_PROTOCOL_V2.md",
   "visualSprint": "docs/preproduction/ART_VISUALS_SPRINT.json",
   "referenceManifest": "docs/preproduction/reference-screenshots/original-reference-manifest.json",
   "assignedCollections": ["beds", "desks", "companions", "auras"],
   "priorShard": {
-    "blobSha": "ad2163bca298d12ca0a6eeecbf70afb804631196",
-    "preserves": "All prior exact-hash review history through the Desk 2-4 current-PNG ACCEPT cycle, including accepted Beds 1-4, Desks 2-6, Auras 1-4 v3/6-8, Companions 3/4/10/11 and all superseded/obsolete evidence."
+    "blobSha": "983fc455c39b5152c754c43c0ec7bd627ec74010",
+    "preserves": "All exact-hash review history through the prior Auras 5/9/10/12 ACCEPT cycle, including accepted Beds 1-4, Desks 2-6, Companions 3/4/10/11, Auras 1-10/12, superseded legacy decisions and obsolete Desk WebP evidence."
   },
   "currentCycle": {
-    "scope": ["auras-5", "auras-9", "auras-10", "auras-12"],
-    "version": "current v3 JPEG hashes",
-    "result": "ACCEPT_4_OF_4",
+    "scope": ["auras-11"],
+    "version": "Dream Aurora current v3 JPEG exact hash",
+    "result": "ACCEPT_1_OF_1",
     "actualCardScalePixelsReviewed": true,
     "actualDetailPixelsReviewed": true,
-    "oldV2DecisionsTransferred": false
+    "legacyDecisionTransferred": false
   },
   "renderEvidence": {
+    "handoffPath": "docs/preproduction/catalog-sprint/chat-aura-11-render-evidence-14-to-05.json",
     "producerLane": "docs/preproduction/catalog-sprint/lane-11.json",
-    "producerLaneBlobSha": "5c96cbad8eea1aa13fec2bfeed2691f032954472",
-    "primaryWorkflowRunId": 35672325902,
-    "primaryArtifactId": 10671442777,
-    "primaryWorkflowHead": "f15ae12806627976a67ccd63be1371542039bcd9",
-    "primaryAuraBatchResult": "PASS_RENDER_4_OF_4_EXACT_HASHES",
-    "corroboratingWorkflowRunId": 35676190280,
-    "corroboratingArtifactId": 10672639784,
-    "corroboratingReport": "Exact current full hashes, JPEG signature safety, HTTP 200 decode and 600x600 screenshots confirmed for Auras 5/9/10/12; the staged contact sheet and exact detail pixels were independently inspected by 05.",
+    "workflowRunId": 35682911760,
+    "artifactId": 10675401829,
+    "workflowHead": "e89d5121cb629c56301a04c5de69b442813de01c",
+    "scopedResult": "PASS_EXACT_HASH_SIGNATURE_DECODE_HTTP200_600x600_OPAQUE_CARD_DETAIL",
+    "detailPath": "staged-replacements/detail/auras-11-7f3372c1.png",
+    "detailSha256": "e175fcd79c8f0c8decf254748fd83d71103795fee717899bea76655de0350f73",
     "contactSheetPath": "staged-replacements/staged-replacements-contact-sheet.png",
-    "contactSheetSha256": "15c998e520fbe82503eee3e2a36f6ed4963949304bb03e6f66082e2f7388fa11",
-    "unrelatedWorkflowFailuresExcluded": "Older shared-run failures from stale Desk fixture entries or unrelated Tops decode are outside these exact Aura hashes and do not invalidate their scoped render evidence."
+    "contactSheetSha256": "98b0e9b5021f3239cdd9021a596fe8d56785d403704898db7c9be77915f6ba05",
+    "workflowOverallFailureExcluded": "The enclosing workflow failure was outside the scoped Aura 11 evidence; Workstream 14 supplied zero scoped Aura 11 errors and exact current hash binding."
   },
   "reviews": [
     {
-      "itemId": "auras-5",
-      "name": "Garden Fireflies",
+      "itemId": "auras-11",
+      "name": "Dream Aurora",
       "collection": "Auras",
-      "theme": "Pixel Party",
-      "tier": 2,
-      "producer": "11",
-      "assetPath": "/assets/catalog/auras-5-w11-v3.jpg",
-      "assetHash": "ae3bef6cbbf4333aa740dc9a3fddf4f2b5540192",
-      "hashAlgorithm": "git-blob-sha1",
-      "bytes": 66937,
-      "dimensions": [600, 600],
-      "sourceHead": "46d6bb67f986fb432a14afd0d749ea6697e12a26",
-      "decision": "ACCEPT",
-      "reviewedAt": "2026-09-22T02:34:00Z",
-      "evidenceRefs": [
-        "artifact:10671442777/staged-replacements/detail/auras-5-ae3bef6c.png",
-        "artifact:10672639784/staged-replacements/detail/auras-5-ae3bef6c.png#sha256=e62f05c72083316fe7e5d6bf86192817e04339913f1f59008477422ff53517ab",
-        "artifact:10672639784/staged-replacements/staged-replacements-contact-sheet.png#sha256=15c998e520fbe82503eee3e2a36f6ed4963949304bb03e6f66082e2f7388fa11"
-      ],
-      "reason": "Current v3 pixels resolve the flat-ring defect: near/mid/far fireflies have luminous bodies and translucent wings, dimensional vines and foliage overlap around an open center, and floating beveled pixel cubes give the exact Pixel Party theme a specific visual cue. The lighting and spatial hierarchy are premium enough for Tier 2 while the firefly-ring silhouette remains readable at card scale.",
-      "checks": {"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"PASS","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
-    },
-    {
-      "itemId": "auras-9",
-      "name": "Art Confetti",
-      "collection": "Auras",
-      "theme": "Sunny Pop",
-      "tier": 3,
-      "producer": "11",
-      "assetPath": "/assets/catalog/auras-9-w11-v3.jpg",
-      "assetHash": "9331e516a7a1a2fa32abafaf3bbf0932c3ca792d",
-      "hashAlgorithm": "git-blob-sha1",
-      "bytes": 109330,
-      "dimensions": [600, 600],
-      "sourceHead": "46d6bb67f986fb432a14afd0d749ea6697e12a26",
-      "decision": "ACCEPT",
-      "reviewedAt": "2026-09-22T02:34:00Z",
-      "evidenceRefs": [
-        "artifact:10671442777/staged-replacements/detail/auras-9-9331e516.png",
-        "artifact:10672639784/staged-replacements/detail/auras-9-9331e516.png#sha256=c7db45f78ee3150c73a8fcf7c2e4c735df7833a18247f7cca96faa86ba78e793",
-        "artifact:10672639784/staged-replacements/staged-replacements-contact-sheet.png#sha256=15c998e520fbe82503eee3e2a36f6ed4963949304bb03e6f66082e2f7388fa11"
-      ],
-      "reason": "The current replacement turns the old flat confetti ring into a true perspective burst: curled ribbons have visible thickness and specular response, paper pieces and stars scatter across near/mid/far depth, and a warm luminous center reinforces Sunny Pop. The richer overlap, shadowing and material variation create a credible Tier-3 step-up without losing card-scale readability.",
-      "checks": {"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"PASS","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
-    },
-    {
-      "itemId": "auras-10",
-      "name": "Neon Trail",
-      "collection": "Auras",
-      "theme": "Aqua Wave",
+      "theme": "Art Attack",
       "tier": 4,
       "producer": "11",
-      "assetPath": "/assets/catalog/auras-10-w11-v3.jpg",
-      "assetHash": "6f07fe7f5c8be236f3c17df5f55afc550888f52e",
+      "assetPath": "/assets/catalog/auras-11-w11-v3.jpg",
+      "assetHash": "7f3372c1584e07f18a3abfc7818013190fff1560",
       "hashAlgorithm": "git-blob-sha1",
-      "bytes": 129235,
+      "sha256": "0a06996522c9cb999e82b8ba028e94bfe2cb8d16e043c94999065e0ae8ce1dc2",
+      "bytes": 18443,
       "dimensions": [600, 600],
-      "sourceHead": "46d6bb67f986fb432a14afd0d749ea6697e12a26",
+      "sourceHead": "be7fe6eae1ab92f475383b113f1c8efc961fe70a",
       "decision": "ACCEPT",
-      "reviewedAt": "2026-09-22T02:34:00Z",
+      "reviewedAt": "2026-09-22T04:34:43Z",
       "evidenceRefs": [
-        "artifact:10671442777/staged-replacements/detail/auras-10-6f07fe7f.png",
-        "artifact:10672639784/staged-replacements/detail/auras-10-6f07fe7f.png#sha256=3a9d15430ca3327a22b52845718f31b02375c3cd51fc4a63ce9adf5cecdaa3a4",
-        "artifact:10672639784/staged-replacements/staged-replacements-contact-sheet.png#sha256=15c998e520fbe82503eee3e2a36f6ed4963949304bb03e6f66082e2f7388fa11"
+        "docs/preproduction/catalog-sprint/chat-aura-11-render-evidence-14-to-05.json",
+        "artifact:10675401829/staged-replacements/detail/auras-11-7f3372c1.png#sha256=e175fcd79c8f0c8decf254748fd83d71103795fee717899bea76655de0350f73",
+        "artifact:10675401829/staged-replacements/staged-replacements-contact-sheet.png#sha256=98b0e9b5021f3239cdd9021a596fe8d56785d403704898db7c9be77915f6ba05"
       ],
-      "reason": "Large translucent aqua ribbons now cross in front of and behind the center with convincing wave curvature, layered highlights, refractive-looking edge light, internal texture and bubble accents. The result reads as a luminous moving Neon Trail/Aqua Wave rather than a diagrammatic line treatment, with enough material spectacle and depth for Tier 4.",
-      "checks": {"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"PASS","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
-    },
-    {
-      "itemId": "auras-12",
-      "name": "Luxe Starstorm",
-      "collection": "Auras",
-      "theme": "Star Luxe",
-      "tier": 5,
-      "producer": "11",
-      "assetPath": "/assets/catalog/auras-12-w11-v3.jpg",
-      "assetHash": "d0fcf528ff4ee91e56760932fdcf357ab264dd3d",
-      "hashAlgorithm": "git-blob-sha1",
-      "bytes": 142496,
-      "dimensions": [600, 600],
-      "sourceHead": "46d6bb67f986fb432a14afd0d749ea6697e12a26",
-      "decision": "ACCEPT",
-      "reviewedAt": "2026-09-22T02:34:00Z",
-      "evidenceRefs": [
-        "artifact:10671442777/staged-replacements/detail/auras-12-d0fcf528.png",
-        "artifact:10672639784/staged-replacements/detail/auras-12-d0fcf528.png#sha256=cc6c3f544a672cfa1cb27c7200ec35d2138aaf014cd654db52052cb0722dc1bb",
-        "artifact:10672639784/staged-replacements/staged-replacements-contact-sheet.png#sha256=15c998e520fbe82503eee3e2a36f6ed4963949304bb03e6f66082e2f7388fa11"
-      ],
-      "reason": "This replacement supplies the missing Tier-5 hero treatment: large faceted crystalline stars with polished gold frames, prismatic shards, glittering micro-stars and sweeping layered ribbons create clear near/far storm depth. Material contrast, specular highlights and jewel-like refraction make Star Luxe unmistakably premium while the open center keeps the effect usable around an avatar.",
-      "checks": {"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"PASS","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
+      "reason": "The current v3 pixels are a qualified Tier-4 Dream Aurora: two layered cyan-violet aurora curtains twist through clear near/mid/far depth around an open avatar center, with luminous floor-ring perspective, emissive bloom, star points and refractive crystal shards providing strong material/light response. The painterly multicolor ribbons support Art Attack without relying on text or branding, and the silhouette remains clear at card scale. Near-duplicate risk is acceptable: unlike Aura 10's broad horizontal aqua wave ribbons and bubbles, Aura 11 is a vertically staged mirrored aurora portal with crystal/star accents and a distinct circular base composition.",
+      "checks": {
+        "identity": "PASS",
+        "themeTier": "PASS",
+        "silhouette": "PASS",
+        "materialLighting": "PASS",
+        "cardReadability": "PASS",
+        "originality": "PASS",
+        "duplicateVisual": "PASS"
+      }
     }
   ],
   "preservedAcceptedCurrentHashes": [
@@ -140,6 +79,7 @@
     {"itemId":"auras-8","assetHash":"6884668fe721f3b26a562e11924237a32c656db6","decision":"ACCEPT"},
     {"itemId":"auras-9","assetHash":"9331e516a7a1a2fa32abafaf3bbf0932c3ca792d","decision":"ACCEPT"},
     {"itemId":"auras-10","assetHash":"6f07fe7f5c8be236f3c17df5f55afc550888f52e","decision":"ACCEPT"},
+    {"itemId":"auras-11","assetHash":"7f3372c1584e07f18a3abfc7818013190fff1560","decision":"ACCEPT"},
     {"itemId":"auras-12","assetHash":"d0fcf528ff4ee91e56760932fdcf357ab264dd3d","decision":"ACCEPT"},
     {"itemId":"companions-3","assetHash":"adba95dc769e603337dc4ac38b9a513ce9914b10","decision":"ACCEPT"},
     {"itemId":"companions-4","assetHash":"b382339e76ed9d4aeae72b1c8cccc904abf85b57","decision":"ACCEPT"},
@@ -155,23 +95,27 @@
     {"itemId":"beds-3","assetHash":"22b1d9f6802cc0b442c9226511ff96e8ea0bbacc","decision":"ACCEPT"},
     {"itemId":"beds-4","assetHash":"18fa8722d9831af1113e07c2103b373acc41c3c0","decision":"ACCEPT"}
   ],
-  "pendingCurrentHashes": [
-    {"itemId":"auras-11","assetPath":"/assets/catalog/auras-11-w11-v3.jpg","assetHash":"7f3372c1584e07f18a3abfc7818013190fff1560","status":"PENDING_EXACT_CURRENT_RENDER_QA__DO_NOT_TRANSFER_LEGACY_REWORK"}
-  ],
-  "supersededEvidenceExcluded": [
-    {"itemId":"auras-5","assetHash":"16416de7ab535af16c59aa40e4d8f5a85a2958bf","reason":"obsolete v2 REWORK; verdict not transferred"},
-    {"itemId":"auras-9","assetHash":"f88be0c4b5fdb36df870ffa113c08f8ec668363c","reason":"obsolete v2 REWORK; verdict not transferred"},
-    {"itemId":"auras-10","assetHash":"cbc767e6b29db880535d7fd99741debdadbcf6c5","reason":"obsolete v2 REWORK; verdict not transferred"},
-    {"itemId":"auras-12","assetHash":"93b33a82e9a5045e1e070ab7561bab08ce5ae947","reason":"obsolete v2 REWORK; verdict not transferred"},
-    {"itemId":"desks-2","assetHash":"357f4ba8385e737499f12409c0bea141f9bc5e6a","reason":"obsolete invalid-signature WebP; verdict not transferred"},
-    {"itemId":"desks-3","assetHash":"b3352961988d7e9c5ff48d1559fc4d2296d4eab3","reason":"obsolete invalid-signature WebP; verdict not transferred"},
-    {"itemId":"desks-4","assetHash":"711feeb78e6d08351fc2fd2d3176ddb1a288e8f2","reason":"obsolete invalid-signature WebP; verdict not transferred"}
-  ],
+  "pendingCurrentHashes": [],
   "handoff": {
-    "workstream08": "Auras 5/9/10/12 exact current v3 JPEG hashes are independently ACCEPTED and may be integrated immediately after normal metadata/file/content checks. Desk 2-4 current PNG ACCEPTs from the prior shard remain valid. 05 does not edit canonical mappings.",
-    "workstream11": "Preserve Auras 5/9/10/12 exact accepted bytes; do not regenerate. Aura 11 remains pending exact-current render QA and must receive a fresh hash-bound review when ready.",
-    "workstream15": "Desk 2-4 dependency is closed from prior shard. This cycle closes Auras 5/9/10/12 with 4 ACCEPT; Aura 11 is the only newer staged Aura still waiting on current-hash render evidence."
+    "workstream08": "Aura 11 Dream Aurora exact current hash 7f3372c1584e07f18a3abfc7818013190fff1560 is independently ACCEPTED from actual card/detail pixels and may be canonical-wired immediately after normal metadata/file/content checks. All prior accepted current hashes remain preserved; 05 does not edit canonical mappings.",
+    "workstream11": "Preserve Aura 11 exact accepted bytes; do not regenerate this hash. Auras 1-12 now all have preserved current exact-hash ACCEPT decisions in reviewer 05 evidence.",
+    "workstream15": "Aura 11 current exact hash is closed ACCEPT. No fresh in-partition Beds/Desks/Companions/Auras candidate was identified in this pass; do not churn unchanged legacy hashes."
   },
-  "summary": {"totalVersionsReviewed":33,"accepted":24,"rework":9,"blocked":0,"thisCycle":{"reviewed":4,"accepted":4,"rework":0,"blocked":0}},
-  "freeze": {"selfApproved":false,"canonicalMappingsTouched":false,"gameplayOrLearningTouched":false,"playerDataTouched":false,"replitTouched":false,"flootTouched":false,"mainTouched":false,"deploymentTouched":false}
+  "summary": {
+    "totalVersionsReviewed": 34,
+    "accepted": 25,
+    "rework": 9,
+    "blocked": 0,
+    "thisCycle": {"reviewed":1,"accepted":1,"rework":0,"blocked":0}
+  },
+  "freeze": {
+    "selfApproved": false,
+    "canonicalMappingsTouched": false,
+    "gameplayOrLearningTouched": false,
+    "playerDataTouched": false,
+    "replitTouched": false,
+    "flootTouched": false,
+    "mainTouched": false,
+    "deploymentTouched": false
+  }
 }
