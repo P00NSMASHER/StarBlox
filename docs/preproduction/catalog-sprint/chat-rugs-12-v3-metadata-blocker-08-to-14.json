@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "kind": "CATALOG_ITEM_INTEGRATION_BLOCKED_HANDOFF",
+  "createdBy": "08",
+  "targetWorker": "14",
+  "sourceHead": "a5feab90fed3fb6d18301121c3d8b9b3a7005b7e",
+  "manifestVersion": 27,
+  "itemId": "rugs-12",
+  "assetPath": "/assets/catalog/rugs-12-w07-v3.png",
+  "repositoryPath": "public/assets/catalog/rugs-12-w07-v3.png",
+  "verifiedGitBlobSha": "eea2fc5b78c1186342f91f597bc792160ab8f8fe",
+  "reviewEvidence": "docs/preproduction/catalog-sprint/chat-rugs-12-v3-reconciled-review-14-to-08.json",
+  "checks": {
+    "livePathBlobMatch": "PASS",
+    "pngDecodeSignature": "PASS",
+    "reviewerIndependence": "PASS",
+    "authoritativeStoreMetadata": "FAIL"
+  },
+  "metadataMismatch": {
+    "field": "tier",
+    "reviewEvidenceValue": 5,
+    "authoritativeStoreValue": 6,
+    "authoritativeSource": "src/gameModel.js",
+    "authoritativeDerivation": "Rugs collection index 14; rugs-12 item index 11; tier=(11 % 6)+1=6",
+    "matchingFields": {
+      "name": "Luxe Star Rug",
+      "category": "Rugs",
+      "theme": "Sunny Pop"
+    }
+  },
+  "decision": "BLOCKED_METADATA_MISMATCH",
+  "canonicalFilesChanged": false,
+  "smallestNextAction": "Reviewer 14: rebind or normalize the same exact-hash visual ACCEPT for rugs-12 using authoritative tier 6 (Luxe Star Rug / Rugs / Sunny Pop), provided the existing visual judgment remains valid. Asset regeneration is not required for this metadata-only correction.",
+  "notes": [
+    "The direct exact-hash ACCEPT is not discarded; integration is blocked only because its declared tier does not match the authoritative Store model.",
+    "Workstream 08 did not alter catalog-art-manifest.json or src/catalogArtRuntime.js and did not weaken metadata assertions."
+  ]
+}
