@@ -1,0 +1,143 @@
+{
+  "schemaVersion": 1,
+  "reviewer": "01",
+  "role": "Visual Target Director / independent character-art reviewer",
+  "phase": "ART_AND_VISUALS_ONLY",
+  "branch": "screenshot-match-preproduction",
+  "reviewedAt": "2026-09-22T02:26:25-04:00",
+  "sourceHeadBeforeReview": "75a4cf0dc2c9a318ff4be367ad5da813bd4ce1da",
+  "candidateId": "avatar-keyart-fullbody-w13-v2",
+  "candidateType": "transparent-fullbody-avatar-keyart-guidance",
+  "producer": "13",
+  "scope": "Independent art/identity judgment only. No catalog/runtime approval, no screenshot-parity claim, no composition/performance authority.",
+  "catalogPriorityCheck": {
+    "tops11_12_v7": "NOT_REVIEWABLE: public/assets/catalog/tops-11-w09-v7.webp is still absent from the branch; lane-09 remains GENERATED_LOCAL_RECEIPT_ONLY with exact payload unavailable.",
+    "headwear5_8": "NOT_REVIEWABLE: public/assets/catalog/headwear-5-w12-v2.png is still absent from the branch; lane-12 still records Headwear 5-8 as external-only with no exact repository hashes.",
+    "result": "No fresh in-partition catalog candidate was ready, so parallel Lane13 character-art review was allowed."
+  },
+  "referenceEvidence": {
+    "manifest": "docs/preproduction/reference-screenshots/original-reference-manifest.json",
+    "actualPixelsInspected": true,
+    "artifact": {
+      "workflowRunId": 35663779668,
+      "artifactId": 10668417625,
+      "artifactName": "original-reference-intake"
+    },
+    "references": [
+      {
+        "screen": "Home",
+        "path": "docs/preproduction/reference-screenshots/originals/home-1448x1086.jpeg",
+        "sha256": "6a4b110aeaf12a6ab0c629f9181cc6cfa8d4f55a518d4f2a6adb3ac6e756c457",
+        "identityCuesObserved": "Very long medium-brown hair extending well below the shoulders toward the waist/hips; chunky toy/block-world body with squared limbs and oversized shoes; one high-contrast black oval eye plus wink; wide open joyful mouth and cheek blush; hot-pink cat-ear headset with dark earcup contrast; polished dimensional toy materials."
+      },
+      {
+        "screen": "Store",
+        "path": "docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg",
+        "sha256": "b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d",
+        "identityCuesObserved": "Same long brown hair, wink/open-smile face, hot-pink/dark cat headset, blocky forearms/hands and broad toy shoes; warmer pink key light with glossy dimensional response."
+      },
+      {
+        "screen": "Quest",
+        "path": "docs/preproduction/reference-screenshots/originals/quest-1448x1086.jpeg",
+        "sha256": "70f1b952709a85c77bb11851ffe9ae704acf8b97640355e908b6ec537b5c73c9",
+        "identityCuesObserved": "Same cross-screen avatar language: very long brown hair, high-contrast wink/black eye and open smile, bright cat-ear headset, chunky toy limbs, premium rounded-bevel/block materials."
+      }
+    ]
+  },
+  "priorVersion": {
+    "candidateId": "avatar-keyart-fullbody-w13-v1",
+    "assetGitBlobSha": "4904d4e910292b0b049f73f5d2c3785913fb2af3",
+    "decision": "REWORK",
+    "decisionTransferredToV2": false,
+    "historicalDefects": [
+      "Generic rounded chibi/human proportions instead of the reference block-world body.",
+      "Brown-irised soft face instead of the reference wink/high-contrast black-eye/open-smile language.",
+      "Pastel headset materials weaker than the reference hot-pink/dark headset identity."
+    ]
+  },
+  "candidateEvidence": {
+    "intake": "docs/preproduction/visuals/lane-13-avatar-keyart-fullbody-v2-intake.json",
+    "candidateCommit": "c0cae5823382393517bf82c7efbcac6773e5c470",
+    "repositoryReadback": "PASS_3_OF_3_EXACT_SHA256_AND_BYTE_LENGTH",
+    "full": {
+      "path": "public/assets/visuals/lane-13/avatar-keyart-fullbody-w13-v2-full.png",
+      "gitBlobSha": "02f32a167fc0c6c3e69d0cbd88570be9fc248cd6",
+      "sha256": "2ada9fe3e8102c178ff841ea2f3aac4cb283f8d639458e93b31fb887764ab7d2",
+      "bytes": 989998,
+      "dimensions": [1344, 1728]
+    },
+    "optimized": {
+      "path": "public/assets/visuals/lane-13/avatar-keyart-fullbody-w13-v2-896.png",
+      "gitBlobSha": "86963c5d5addd2f050830eac63b251ae13091b7a",
+      "sha256": "1137959f1c25a0a9b46631139de62ee665076d908fa2c4ece499f0c884aad277",
+      "bytes": 526497,
+      "dimensions": [896, 1152]
+    },
+    "actualPixelRender": {
+      "workflow": "StarBlox Staged Catalog Art QA",
+      "workflowRunId": 35694316406,
+      "artifactId": 10679098800,
+      "artifactName": "catalog-staged-art-review",
+      "artifactDigest": "sha256:2d269da2703a8e7faaf013037c76dba30918abb85383d017fa9b50ebc6980940",
+      "renderHead": "3ade8a2b282a066ce220d2113c2c25f1b644a4fc",
+      "fullDetailScreenshot": "visual-assets/detail/avatar-keyart-fullbody-w13-v2-1-02f32a16.png",
+      "optimizedDetailScreenshot": "visual-assets/detail/avatar-keyart-fullbody-w13-v2-2-86963c5d.png",
+      "fullHttpStatus": 200,
+      "optimizedHttpStatus": 200,
+      "fullNaturalDimensions": [1344, 1728],
+      "optimizedNaturalDimensions": [896, 1152],
+      "fullErrors": [],
+      "optimizedErrors": []
+    }
+  },
+  "decision": "REWORK",
+  "checks": {
+    "newHashReviewedIndependently": "PASS",
+    "blockWorldBodyProportions": "PASS",
+    "faceIdentityConsistency": "PASS",
+    "hotPinkDarkCatHeadsetIdentity": "PASS",
+    "brownHairColorContinuity": "PASS",
+    "referenceHairLengthAndFlow": "REWORK",
+    "dimensionalCharacterQuality": "PASS",
+    "materialAndLightingQuality": "PASS",
+    "silhouette": "PASS",
+    "childAppropriateStyling": "PASS",
+    "separableCharacterComponent": "PASS",
+    "equippedStateSafety": "PASS_AS_NONCANONICAL_GUIDANCE_ONLY",
+    "thirdPartyIpOrLogoReuse": "PASS"
+  },
+  "strengths": [
+    "V2 genuinely fixes the major V1 identity defects instead of inheriting its verdict: the actual rendered pixels now use a large squared toy head, thick rectangular forearms/legs, blocky hands and oversized toy shoes that closely track the Home/Store/Quest body language.",
+    "The face now matches the authoritative recurring expression far better: one high-contrast near-black oval eye, one wink, stronger cheek marks and a wide open cheerful mouth remain readable at both full and optimized scale.",
+    "The headset is now unmistakably closer to the reference identity, with saturated hot-pink cat-ear structure, dark earcup sections and small cyan accents rather than the pale consumer-headphone treatment of V1.",
+    "Materials and lighting remain premium and dimensional: rounded bevels, contact shading, hair highlights, warm key and cyan rim response preserve the polished toy-game look without reverting to flat vector art.",
+    "Both exact repository-bound renders remain clean, child-appropriate and separable from any scene/UI. The visible lavender/navy clothing can stay noncanonical visual guidance and is not being approved to override equipped state."
+  ],
+  "reworkReasons": [
+    "The bounded V2 repair regresses one of the strongest cross-screen identity markers that V1 had already preserved: hair length. In all three authoritative references, the medium-brown hair is visibly very long, layered and wavy, extending far below the shoulders toward the waist/hips. In the actual V2 pixels, most visible hair terminates around the shoulders/upper chest and reads closer to a shoulder-length toy bob/lob.",
+    "Because the face/body/headset repair is otherwise successful, this remaining mismatch is narrow but identity-level: accepting the current exact hash would establish a shorter-hair base character that is visibly inconsistent with Home, Store and Quest."
+  ],
+  "boundedRepairContract": [
+    "Preserve the current V2 head shape, block-world body proportions, wink/open-smile face, hot-pink/dark/cyan cat headset, pose, clean transparent component architecture, material response and lighting. Do not redesign those accepted aspects.",
+    "Extend the medium-brown hair materially below the shoulders toward the waist/upper-hip region, with layered slightly wavy side/back masses comparable to the authoritative Home/Store/Quest avatar. Keep the face unobscured and retain the readable headset silhouette.",
+    "Do not add microphone booms, branded hardware, text, UI, props, scene pixels or third-party IP. Keep visible clothing noncanonical guidance only and do not bake equipped catalog state into runtime authority.",
+    "Stage a NEW versioned exact repository hash, verify readback, and obtain fresh actual-pixel fixture renders for independent reviewer-01 judgment. The V2 REWORK verdict must not automatically transfer to the new hash."
+  ],
+  "handoff": {
+    "13": "Produce one bounded V3 identity repair that changes hair length/flow only as much as needed; preserve the successful V2 face/body/headset/material treatment.",
+    "14": "No composition/performance decision is made here. Reviewer 14 retains separate authority if/when the repaired candidate is staged.",
+    "15": "Record V2 as independent art REWORK only; do not runtime-wire it and do not treat this as screenshot parity. No ownership changes requested.",
+    "08": "No catalog-canonical action; this candidate is outside the 192-item catalog and is noncanonical character guidance."
+  },
+  "freeze": {
+    "runtimeTouched": false,
+    "canonicalCatalogTouched": false,
+    "learningEconomyTouched": false,
+    "playerDataTouched": false,
+    "replitOrFlootTouched": false,
+    "mainTouched": false,
+    "deployTouched": false,
+    "paidSettingsTouched": false,
+    "purchasesMade": false
+  }
+}
