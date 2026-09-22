@@ -1,0 +1,170 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_W09_DECOR_6_8_STAGING_EVIDENCE",
+  "producer": "09",
+  "reviewer": "14",
+  "preflightOwner": "06",
+  "integrationOwner": "08",
+  "coordinationOwner": "15",
+  "repository": "P00NSMASHER/StarBlox",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "76066845016990c404f911602ea6416695a4cad7",
+  "scope": [
+    "decor-6",
+    "decor-8"
+  ],
+  "batchContext": {
+    "batchId": "w09-decor-5-8-vnext",
+    "fallbackCount": 19,
+    "activeBatchPath": "docs/preproduction/art-factory/ACTIVE_BATCH.json",
+    "plannerRequestPath": "docs/preproduction/art-factory/requests/w09-decor-5-8-20260922.json",
+    "reviewPath": "docs/preproduction/catalog-sprint/reviews/14.json",
+    "reference": {
+      "path": "docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg",
+      "sha256": "b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d"
+    }
+  },
+  "freeze": {
+    "decor-5": {
+      "state": "NEWER_REPOSITORY_CANDIDATE_EXISTS_FREEZE_NO_DUPLICATE",
+      "path": "public/assets/catalog/decor-5-w09-v2.webp",
+      "note": "Do not produce another Decor5 candidate while this exact version remains pending qualified render/review."
+    },
+    "decor-7": {
+      "state": "HOLD_NO_STAGE_THIS_RUN",
+      "legacyHash": "671c609625400bf5c2142daef73ab632bd1225a2",
+      "reason": "Existing local generated variants depict roller-skate storage, while the current deterministic planner variants specify skateboard-deck storage. No false planner-conformance claim; no Decor7 candidate attached."
+    }
+  },
+  "items": {
+    "decor-6": {
+      "store": {
+        "name": "Telescope",
+        "collection": "Room Decor",
+        "tier": 2,
+        "theme": "Berry Blast",
+        "price": 254,
+        "starReq": 0
+      },
+      "legacyReview": {
+        "hash": "3a8d81ea490f8bac42ef2147797a3926d69df9ef",
+        "decision": "REWORK"
+      },
+      "planner": {
+        "variant": "B-READABILITY",
+        "seed": 975755716,
+        "optimizerInputSha256": "470bed53b1332823891a0a035734c53cb1f9500fcd935e8e1ef1935a7a657bc8"
+      },
+      "generation": {
+        "provider": "OpenAI image_gen",
+        "generationId": "e8154c62-6814-48a0-a5e2-9d9fcf4edba4",
+        "actualPromptSha256": "68b23856c60d348f83fc9f1ac3e2c3dd844bb1d3e3727cd559751ac5565f89f4",
+        "modelId": null,
+        "checkpointRevision": null,
+        "serviceSeed": null,
+        "source": {
+          "format": "PNG",
+          "width": 1254,
+          "height": 1254,
+          "bytes": 1861760,
+          "sha256": "2ca38a0527f30b4873630f01475a1ff6c7f1bcf953d88d91feb4b7f5176f9cea",
+          "gitBlobShaIfExactImported": "66bc760a23eac155f24ebb9ffc978ea6729753fc",
+          "persistence": "GENERATOR_RECEIPT_PLUS_RUNTIME_LOCAL_SOURCE__NOT_REPOSITORY_STAGED"
+        }
+      },
+      "derivative": {
+        "path": "public/assets/catalog/decor-6-w09-v2.webp",
+        "format": "WEBP",
+        "width": 600,
+        "height": 600,
+        "bytes": 9294,
+        "sha256": "61a12cba7ffb85d9e8666d4b984d26bdab95fb3759aa00abdda872ac3d04849a",
+        "gitBlobSha": "842c3089e86d5a2d190875526f94f6b63ccdf02c",
+        "transform": "RGB conversion; 600x600 Lanczos resample; WEBP quality=10 method=6"
+      }
+    },
+    "decor-8": {
+      "store": {
+        "name": "Mini Aquarium",
+        "collection": "Room Decor",
+        "tier": 3,
+        "theme": "Galaxy Glow",
+        "price": 479,
+        "starReq": 2
+      },
+      "legacyReview": {
+        "hash": "87e33d5190b7a7ef21e23ae875dda8ae1808c4be",
+        "decision": "REWORK"
+      },
+      "planner": {
+        "variant": "B-READABILITY",
+        "seed": 1735572564,
+        "optimizerInputSha256": "cd3bf3e068ff499ed84a1977e033ef6c59e4f2045a85815fda061b893b630330"
+      },
+      "generation": {
+        "provider": "OpenAI image_gen",
+        "generationId": "bbf27f53-d4fe-48a5-87c5-26d5057eeb4e",
+        "actualPromptSha256": "f167601bf53ac360126e6a8ac9da6f3e1590f2bebc8655a50d51b53219c4147c",
+        "modelId": null,
+        "checkpointRevision": null,
+        "serviceSeed": null,
+        "source": {
+          "format": "PNG",
+          "width": 1254,
+          "height": 1254,
+          "bytes": 2166968,
+          "sha256": "effd9b56720c7b988434e00ca525010b715ac0f9ab5684a04714a6b9605e8ecf",
+          "gitBlobShaIfExactImported": "c449bcb3a50eb78a8ac786fab24a1e7cdc8f970f",
+          "persistence": "GENERATOR_RECEIPT_PLUS_RUNTIME_LOCAL_SOURCE__NOT_REPOSITORY_STAGED"
+        }
+      },
+      "derivative": {
+        "path": "public/assets/catalog/decor-8-w09-v2.webp",
+        "format": "WEBP",
+        "width": 600,
+        "height": 600,
+        "bytes": 13402,
+        "sha256": "eda7946fcae74d1da202061276d33d62ca0446c4bdfd6fa1069a96bf9773db6d",
+        "gitBlobSha": "0d264aff9155f99b17db82138f4546deca8323d5",
+        "transform": "RGB conversion; 600x600 Lanczos resample; WEBP quality=10 method=6"
+      }
+    }
+  },
+  "provenance": {
+    "rightsDomains": {
+      "repositoryCode": "USER_AUTHORIZED_STARBLOX_REPOSITORY_SCOPE",
+      "datasetReference": "FIRST_PARTY_STARBLOX_ORIGINAL_REFERENCE",
+      "apiService": "AUTHORIZED_OPENAI_IMAGE_GEN",
+      "customNode": null,
+      "modelCheckpoint": "UNEXPOSED_BY_SERVICE__NO_REVISION_INVENTED"
+    },
+    "optimizerLineageClaim": false,
+    "note": "Current planner B concepts/seeds are recorded as compatibility targets. The existing generation service did not expose a controllable seed/model checkpoint revision, and these pixels are not falsely represented as artPromptOptimizer/artFactoryJob output."
+  },
+  "byteVerification": {
+    "localDecode": "PASS",
+    "localDimensions": "PASS_600x600_WEBP",
+    "githubCreateBlobExactMatch": {
+      "decor-6": true,
+      "decor-8": true
+    },
+    "branchReadback": "PENDING_COMMIT_AND_READBACK"
+  },
+  "routing": {
+    "workstream06": "PREFLIGHT_REQUIRED_FOR_PROVENANCE_AND_STAGED_OUTPUT_GATE",
+    "reviewer14": "AFTER_06_QUALIFIES_CURRENT_EXACT_HASHES__REAL_STORE_CARD_DETAIL_PIXELS_REQUIRED",
+    "workstream08": "NO_ACTION_UNLESS_REVIEWER14_ACCEPTS_EXACT_HASHES"
+  },
+  "safety": {
+    "selfApproved": false,
+    "canonicalMappingWritten": false,
+    "workflowOrCiEdited": false,
+    "testsWeakened": false,
+    "gameplayEdited": false,
+    "learningEdited": false,
+    "persistenceEdited": false,
+    "economyEdited": false,
+    "realPlayerDataEdited": false
+  },
+  "state": "EXACT_BLOBS_CREATED__PENDING_SINGLE_BRANCH_COMMIT_AND_READBACK"
+}
