@@ -33,6 +33,25 @@ METRIC_PATHS = {
 }
 NEIGHBOR_FEATURES = ("nearestAnyDistance", "nearestSameCollectionDistance")
 
+# Only calibrate a metric against failure modes it can plausibly observe.
+# Unrelated REWORK rows (for example a pure theme mismatch) are excluded from
+# that metric's positive class instead of teaching a spurious pixel threshold.
+FEATURE_FAILURE_CODES = {
+    "sourceLuminanceContrastRange": ("SMALL_CARD_READABILITY", "EXCESSIVE_BLOOM"),
+    "sourceEntropyBits": ("FLAT_COMPOSITION", "WEAK_DEPTH"),
+    "sourceEdgeDensity": ("FLAT_COMPOSITION", "SMALL_CARD_READABILITY"),
+    "thumbnailLuminanceContrastRange": ("SMALL_CARD_READABILITY", "EXCESSIVE_BLOOM"),
+    "thumbnailEntropyBits": ("SMALL_CARD_READABILITY", "FLAT_COMPOSITION"),
+    "thumbnailEdgeDensity": ("SMALL_CARD_READABILITY", "FLAT_COMPOSITION"),
+    "nonTransparentRatio": ("WEAK_SILHOUETTE_IDENTITY", "SMALL_CARD_READABILITY"),
+    "contentBoundsRatio": ("WEAK_SILHOUETTE_IDENTITY", "SMALL_CARD_READABILITY"),
+    "nearestAnyDistance": ("NEAR_DUPLICATE_TEMPLATE",),
+    "nearestSameCollectionDistance": ("NEAR_DUPLICATE_TEMPLATE",),
+}
+MIN_ACCEPT_SAMPLES = 20
+MIN_GLOBAL_REWORK_SAMPLES = 12
+MIN_TARGETED_REWORK_SAMPLES = 6
+
 
 def normalize_repo_path(value: str | None) -> str | None:
     if not value:
@@ -227,6 +246,7 @@ def feature_pairs(
     feature_name: str,
 ) -> list[tuple[float, str]]:
     pairs = []
+    target_codes = set(FEATURE_FAILURE_CODES.get(feature_name, ()))
     for row in measured:
         value = None
         if feature_name in METRIC_PATHS:
@@ -235,8 +255,19 @@ def feature_pairs(
             value = (nearest_by_item.get(row["itemId"]) or {}).get("nearestAny", {}).get("distance")
         elif feature_name == "nearestSameCollectionDistance":
             value = (nearest_by_item.get(row["itemId"]) or {}).get("nearestSameCollection", {}).get("distance")
-        if isinstance(value, (int, float)):
-            pairs.append((float(value), row["decision"]))
+        if not isinstance(value, (int, float)):
+            continue
+
+        decision = row["decision"]
+        if decision == "ACCEPT":
+            pairs.append((float(value), "ACCEPT"))
+            continue
+
+        # A REWORK row is a positive example only when its normalized failure
+        # taxonomy says this metric is relevant. Unrelated REWORKs are omitted.
+        failure_codes = set(row.get("failureCodes") or [])
+        if decision == "REWORK" and target_codes.intersection(failure_codes):
+            pairs.append((float(value), "REWORK"))
     return pairs
 
 
@@ -246,6 +277,7 @@ def calibrate_warning_candidates(
     sample_count_ready: bool,
 ) -> dict:
     nearest_by_item = {row["itemId"]: row for row in nearest}
+    total_rework = sum(1 for row in measured if row["decision"] == "REWORK")
     out = {}
     for feature in [*METRIC_PATHS, *NEIGHBOR_FEATURES]:
         pairs = feature_pairs(measured, nearest_by_item, feature)
@@ -253,8 +285,13 @@ def calibrate_warning_candidates(
         loo = leave_one_out_threshold(pairs)
         accept_n = sum(1 for _, label in pairs if label == "ACCEPT")
         rework_n = sum(1 for _, label in pairs if label == "REWORK")
+        targeted_ready = (
+            accept_n >= MIN_ACCEPT_SAMPLES
+            and rework_n >= MIN_TARGETED_REWORK_SAMPLES
+        )
         evidence_ready = (
             sample_count_ready
+            and targeted_ready
             and candidate is not None
             and loo["evaluated"] >= max(20, int(len(pairs) * 0.8))
             and loo["falsePositiveRate"] <= 0.10
@@ -262,7 +299,14 @@ def calibrate_warning_candidates(
             and loo["balancedAccuracy"] >= 0.65
         )
         out[feature] = {
-            "samples": {"ACCEPT": accept_n, "REWORK": rework_n, "total": len(pairs)},
+            "targetFailureCodes": list(FEATURE_FAILURE_CODES.get(feature, ())),
+            "samples": {
+                "ACCEPT": accept_n,
+                "REWORK": rework_n,
+                "total": len(pairs),
+                "unrelatedReworkExcluded": max(0, total_rework - rework_n),
+            },
+            "targetedSampleCountReady": targeted_ready,
             "candidate": candidate,
             "leaveOneOut": loo,
             "warningReady": evidence_ready,
@@ -369,7 +413,10 @@ def build_calibration(repo_root: Path, corpus: dict) -> dict:
     accept_n = len(by_decision["ACCEPT"])
     rework_n = len(by_decision["REWORK"])
     raster_coverage = len(measured) / max(1, labeled_total)
-    sample_count_ready = accept_n >= 20 and rework_n >= 12
+    sample_count_ready = (
+        accept_n >= MIN_ACCEPT_SAMPLES
+        and rework_n >= MIN_GLOBAL_REWORK_SAMPLES
+    )
     warning_candidates = calibrate_warning_candidates(measured, nearest, sample_count_ready)
     warning_ready = [
         feature for feature, row in warning_candidates.items() if row["warningReady"]
@@ -379,7 +426,12 @@ def build_calibration(repo_root: Path, corpus: dict) -> dict:
         "acceptedRasterSamples": accept_n,
         "reworkRasterSamples": rework_n,
         "rasterCoverage": round(raster_coverage, 4),
-        "minimumRecommendedSamples": {"ACCEPT": 20, "REWORK": 12},
+        "minimumRecommendedSamples": {
+            "ACCEPT": MIN_ACCEPT_SAMPLES,
+            "GLOBAL_REWORK": MIN_GLOBAL_REWORK_SAMPLES,
+            "TARGETED_REWORK_PER_FEATURE": MIN_TARGETED_REWORK_SAMPLES,
+        },
+        "featureFailureCodeTargets": FEATURE_FAILURE_CODES,
         "sampleCountReady": sample_count_ready,
         "warningCandidateCount": len(warning_ready),
         "warningReadyFeatures": warning_ready,
@@ -393,8 +445,9 @@ def build_calibration(repo_root: Path, corpus: dict) -> dict:
             "requiresIndependentReviewerSignoff": True,
         },
         "note": (
-            "Candidate thresholds are report-only. Meeting evidence criteria marks a metric "
-            "as warning-ready, never blocking; reviewer sign-off is still required."
+            "Candidate thresholds are report-only and failure-specific. Unrelated REWORK "
+            "labels are excluded from each metric's calibration set. Meeting evidence criteria "
+            "marks a metric as warning-ready, never blocking; reviewer sign-off is still required."
         ),
     }
 
@@ -507,6 +560,13 @@ def self_test() -> None:
             row["blockingEnabled"] is False
             for row in report["warningCandidates"].values()
         )
+        duplicate_row = report["warningCandidates"]["nearestSameCollectionDistance"]
+        assert duplicate_row["targetFailureCodes"] == ["NEAR_DUPLICATE_TEMPLATE"]
+        assert duplicate_row["samples"]["REWORK"] == 0
+        assert duplicate_row["samples"]["unrelatedReworkExcluded"] == 2
+        depth_row = report["warningCandidates"]["sourceEntropyBits"]
+        assert "WEAK_DEPTH" in depth_row["targetFailureCodes"]
+        assert depth_row["samples"]["REWORK"] == 1
         print("SELF_TEST=PASS")
 
 
