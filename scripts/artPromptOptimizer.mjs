@@ -103,11 +103,18 @@ function score(model,item,b){
  const mean=s?(((c?.mean??prior)*(c?.support||0)+(t?.mean??prior)*(t?.support||0))/s):prior, support=(g?.support||0)+s;
  return mean+.06/Math.sqrt(1+support);
 }
-export function compose(item,blocks,variant='A'){
+export function compose(item,blocks,variant='A',repairContext={}){
  const ids=uniq([...BASE,...blocks]).filter(x=>BLOCKS[x]);
  const metadata=`Exact metadata: ${item.id} — ${item.name}; collection ${item.collectionId}; type ${item.type}; tier ${item.tier}; theme ${item.theme}.`;
- const text=[`STARBLOX CATALOG ART — ${variant}`,'Create one premium, kid-friendly 2D game catalog asset with polished dimensional quality.',metadata,...ids.map(x=>BLOCKS[x]),'Output a production-worthy source image for exact-byte staging, card/detail rendering and independent review. Do not claim approval; the reviewer decides from rendered pixels.'].join('\n\n');
- return {variant,promptBlocks:ids,promptText:text,promptSha256:sha(text)};
+ const failureCodes=uniq((repairContext.failureCodes||[]).filter(code=>Object.prototype.hasOwnProperty.call(FAILURE_CODES,code)));
+ const repair=[];
+ if(failureCodes.length){
+  repair.push(`Exact-hash reviewer failure taxonomy: ${failureCodes.join(', ')}.`);
+  if(repairContext.humanReason) repair.push(`Human reviewer reason: ${String(repairContext.humanReason).trim()}`);
+  repair.push('Repair the documented failure codes while preserving qualities that were not implicated. Do not erase successful identity, silhouette, material depth, or readability merely to make a different image.');
+ }
+ const text=[`STARBLOX CATALOG ART — ${variant}`,'Create one premium, kid-friendly 2D game catalog asset with polished dimensional quality.',metadata,...repair,...ids.map(x=>BLOCKS[x]),'Output a production-worthy source image for exact-byte staging, card/detail rendering and independent review. Do not claim approval; the reviewer decides from rendered pixels.'].join('\n\n');
+ return {variant,promptBlocks:ids,promptText:text,promptSha256:sha(text),failureCodes};
 }
 export function recommend(item,review,model,count=4){
  const decision=String(review?.decision||'UNREVIEWED').toUpperCase(), repair=inferRepair(review||{});
@@ -116,7 +123,7 @@ export function recommend(item,review,model,count=4){
  if(!['REWORK','UNREVIEWED'].includes(decision))return{itemId:item.id,action:'HOLD_NOT_REGEN',assetHash:review?.assetHash||null,decision,reason:'Current review state is not an independent art-quality REWORK.'};
  const r=uniq([...repair.blocks,...defaults(item.collectionId)]), learned=Object.keys(BLOCKS).filter(x=>!BASE.includes(x)&&!r.includes(x)).sort((a,b)=>score(model,item,b)-score(model,item,a)).slice(0,4);
  const plans=[['A-PHYSICAL',['physical','material','camera','depth']],['B-READABILITY',['silhouette','card','original','bloom']],['C-THEME-TIER',['theme','tier','original','material']],['D-REPAIR',[...r,...learned]]].slice(0,Math.max(2,Math.min(4,Number(count)||4)));
- return {itemId:item.id,name:item.name,collectionId:item.collectionId,tier:item.tier,theme:item.theme,decision,sourceReviewHash:review?.assetHash||null,failureCodes:repair.failureCodes,repairBlocks:r,variants:plans.map(([id,b])=>compose(item,[...r,...b],id))};
+ return {itemId:item.id,name:item.name,collectionId:item.collectionId,tier:item.tier,theme:item.theme,decision,sourceReviewHash:review?.assetHash||null,failureCodes:repair.failureCodes,repairBlocks:r,variants:plans.map(([id,b])=>compose(item,[...r,...b],id,{failureCodes:repair.failureCodes,humanReason:review?.reason||review?.reasonCode||''}))};
 }
 export function validateExperiment(e){
  const errors=[]; for(const k of ['attemptId','itemId','assetHash','producer'])if(!e?.[k])errors.push(`missing ${k}`);
