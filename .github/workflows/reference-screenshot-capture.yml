@@ -7,6 +7,14 @@ on:
     paths:
       - 'catalog-art-manifest.json'
       - 'src/catalogArtRuntime.js'
+      - 'src/mobileAccessibilityRuntime.js'
+      - 'src/mobileAccessibility.css'
+      - 'src/homeScreenshotMatchRuntime.js'
+      - 'src/homeScreenshotMatch.css'
+      - 'src/storeScreenshotMatchRuntime.js'
+      - 'src/storeScreenshotMatch.css'
+      - 'src/questScreenshotMatchRuntime.js'
+      - 'src/questScreenshotMatch.css'
       - 'scripts/referenceScreenshotCapture.mjs'
       - '.github/workflows/reference-screenshot-capture.yml'
       - 'docs/preproduction/reference-screenshots/**'
@@ -92,12 +100,32 @@ jobs:
           STARBLOX_REFERENCE_REQUIRED: '0'
           STARBLOX_REFERENCE_STRICT_DIFF: '0'
 
+      - name: Bind capture evidence to actual checked-out commit
+        if: always()
+        run: |
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          import {execFileSync} from 'node:child_process';
+          const dir='artifacts/reference-screenshot-capture';
+          fs.mkdirSync(dir,{recursive:true});
+          const testedHead=execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim();
+          const reportPath=`${dir}/report.json`;
+          if(fs.existsSync(reportPath)){
+            const data=JSON.parse(fs.readFileSync(reportPath,'utf8'));
+            data.triggeringSha=data.triggeringSha || data.sourceHead || process.env.GITHUB_SHA || null;
+            data.sourceHead=testedHead;
+            fs.writeFileSync(reportPath,JSON.stringify(data,null,2)+'\n');
+          }
+          fs.writeFileSync(`${dir}/tested-head.txt`,testedHead+'\n');
+          console.log(`TESTED_HEAD=${testedHead}`);
+          NODE
+
       - name: Print capture summary
         if: always()
         run: |
           cat artifacts/reference-screenshot-capture/summary.txt || true
           if [ -f artifacts/reference-screenshot-capture/report.json ]; then
-            node -e "const r=require('./artifacts/reference-screenshot-capture/report.json'); console.log(JSON.stringify({status:r.status,sourceHead:r.sourceHead,releaseBlockingCount:r.releaseBlockingCount,referencePresentCount:r.referencePresentCount,referenceExpectedCount:r.referenceExpectedCount,desktopDiffs:r.results.filter(x=>x.check==='reference-pixel-diff'&&x.viewport==='desktop-1408x1056').map(x=>({screen:x.screen,status:x.status,message:x.message,metrics:x.metrics})),contrast:r.results.filter(x=>x.check==='rendered-color-contrast').map(x=>({viewport:x.viewport,screen:x.screen,status:x.status,message:x.message})),keyboard:r.results.filter(x=>x.check==='keyboard-focus-reachability').map(x=>({viewport:x.viewport,screen:x.screen,status:x.status,message:x.message}))},null,2))"
+            node -e "const r=require('./artifacts/reference-screenshot-capture/report.json'); console.log(JSON.stringify({status:r.status,sourceHead:r.sourceHead,triggeringSha:r.triggeringSha,releaseBlockingCount:r.releaseBlockingCount,referencePresentCount:r.referencePresentCount,referenceExpectedCount:r.referenceExpectedCount,desktopDiffs:r.results.filter(x=>x.check==='reference-pixel-diff'&&x.viewport==='desktop-1408x1056').map(x=>({screen:x.screen,status:x.status,message:x.message,metrics:x.metrics})),contrast:r.results.filter(x=>x.check==='rendered-color-contrast').map(x=>({viewport:x.viewport,screen:x.screen,status:x.status,message:x.message})),keyboard:r.results.filter(x=>x.check==='keyboard-focus-reachability').map(x=>({viewport:x.viewport,screen:x.screen,status:x.status,message:x.message}))},null,2))"
           fi
 
       - name: Upload deterministic screenshots and diffs
