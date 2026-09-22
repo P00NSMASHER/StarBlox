@@ -1,65 +1,184 @@
 {
-  "schemaVersion": 9,
+  "schemaVersion": 10,
   "reviewer": "05",
   "role": "independent catalog reviewer for beds/desks/companions/auras",
   "phase": "ART_VISUALS_SPRINT",
   "branch": "screenshot-match-preproduction",
-  "sourceHead": "be7fe6eae1ab92f475383b113f1c8efc961fe70a",
+  "sourceHead": "b0a35343773b2ebbfdba3b5a3f99263b6c824e83",
   "policy": "docs/preproduction/DELIVERY_PROTOCOL_V2.md",
   "visualSprint": "docs/preproduction/ART_VISUALS_SPRINT.json",
   "referenceManifest": "docs/preproduction/reference-screenshots/original-reference-manifest.json",
-  "assignedCollections": ["beds", "desks", "companions", "auras"],
+  "assignedCollections": [
+    "beds",
+    "desks",
+    "companions",
+    "auras"
+  ],
   "priorShard": {
-    "blobSha": "983fc455c39b5152c754c43c0ec7bd627ec74010",
-    "preserves": "All exact-hash review history through the prior Auras 5/9/10/12 ACCEPT cycle, including accepted Beds 1-4, Desks 2-6, Companions 3/4/10/11, Auras 1-10/12, superseded legacy decisions and obsolete Desk WebP evidence."
+    "blobSha": "d038b469dc46337c8a2b2c1fb7015748d54a7c09",
+    "preserves": "All exact-hash review history through Aura 11 ACCEPT, including accepted Beds 1-4, Desks 2-6, Companions 3/4/10/11, Auras 1-12, superseded legacy decisions and obsolete Desk WebP evidence."
   },
   "currentCycle": {
-    "scope": ["auras-11"],
-    "version": "Dream Aurora current v3 JPEG exact hash",
-    "result": "ACCEPT_1_OF_1",
+    "scope": [
+      "companions-2",
+      "companions-5",
+      "companions-6",
+      "companions-7"
+    ],
+    "version": "producer06 repository-stored rich replacement exact current WebP hashes",
+    "result": "REWORK_4_OF_4",
     "actualCardScalePixelsReviewed": true,
     "actualDetailPixelsReviewed": true,
     "legacyDecisionTransferred": false
   },
   "renderEvidence": {
-    "handoffPath": "docs/preproduction/catalog-sprint/chat-aura-11-render-evidence-14-to-05.json",
-    "producerLane": "docs/preproduction/catalog-sprint/lane-11.json",
-    "workflowRunId": 35682911760,
-    "artifactId": 10675401829,
-    "workflowHead": "e89d5121cb629c56301a04c5de69b442813de01c",
-    "scopedResult": "PASS_EXACT_HASH_SIGNATURE_DECODE_HTTP200_600x600_OPAQUE_CARD_DETAIL",
-    "detailPath": "staged-replacements/detail/auras-11-7f3372c1.png",
-    "detailSha256": "e175fcd79c8f0c8decf254748fd83d71103795fee717899bea76655de0350f73",
+    "handoffPath": "docs/preproduction/catalog-sprint/chat-companions-2-5-6-7-render-evidence-14-to-05.json",
+    "producerLane": "docs/preproduction/catalog-sprint/lane-06.json",
+    "workflowRunId": 35717973603,
+    "artifactId": 10690338702,
+    "artifactDigest": "sha256:dabc7ae69d1624d87b47a14c25f828a77a4e704cda4bd21b9e933fee8c23916c",
+    "workflowHead": "faf330e1f1306e8f17ba1345ddad7940b8720792",
+    "scopedResult": "PASS_EXACT_LANE_HASH_TO_RENDERED_BLOB_4_OF_4_SIGNATURE_SAFETY_DECODE_CARD_DETAIL_NONBLANK",
+    "detailPaths": [
+      "staged-replacements/detail/companions-2-88d10d6f.png",
+      "staged-replacements/detail/companions-5-1ae7b431.png",
+      "staged-replacements/detail/companions-6-28cb4112.png",
+      "staged-replacements/detail/companions-7-39d35ea4.png"
+    ],
     "contactSheetPath": "staged-replacements/staged-replacements-contact-sheet.png",
-    "contactSheetSha256": "98b0e9b5021f3239cdd9021a596fe8d56785d403704898db7c9be77915f6ba05",
-    "workflowOverallFailureExcluded": "The enclosing workflow failure was outside the scoped Aura 11 evidence; Workstream 14 supplied zero scoped Aura 11 errors and exact current hash binding."
+    "contactSheetSha256": "6f1260c9985238ef64f853b84b45e363a5268155475d3ea55e1e349665957581",
+    "workflowOverallFailureExcluded": "The enclosing fixture remained FAILURE only because of unrelated legacy Desk decode problems. Reviewer 05 used the scoped Companion 2/5/6/7 exact-current pixels supplied by 14 and did not relabel the full workflow."
   },
   "reviews": [
     {
-      "itemId": "auras-11",
-      "name": "Dream Aurora",
-      "collection": "Auras",
-      "theme": "Art Attack",
-      "tier": 4,
-      "producer": "11",
-      "assetPath": "/assets/catalog/auras-11-w11-v3.jpg",
-      "assetHash": "7f3372c1584e07f18a3abfc7818013190fff1560",
+      "itemId": "companions-2",
+      "name": "Moon Cat",
+      "collection": "Companions",
+      "theme": "Pixel Party",
+      "tier": 1,
+      "producer": "06",
+      "assetPath": "/assets/catalog-candidates/chat-20260921-intake01/companions-2-detail.webp",
+      "assetHash": "88d10d6f8c412d0ab7fde6ac7a7ff202858077db",
       "hashAlgorithm": "git-blob-sha1",
-      "sha256": "0a06996522c9cb999e82b8ba028e94bfe2cb8d16e043c94999065e0ae8ce1dc2",
-      "bytes": 18443,
-      "dimensions": [600, 600],
-      "sourceHead": "be7fe6eae1ab92f475383b113f1c8efc961fe70a",
-      "decision": "ACCEPT",
-      "reviewedAt": "2026-09-22T04:34:43Z",
-      "evidenceRefs": [
-        "docs/preproduction/catalog-sprint/chat-aura-11-render-evidence-14-to-05.json",
-        "artifact:10675401829/staged-replacements/detail/auras-11-7f3372c1.png#sha256=e175fcd79c8f0c8decf254748fd83d71103795fee717899bea76655de0350f73",
-        "artifact:10675401829/staged-replacements/staged-replacements-contact-sheet.png#sha256=98b0e9b5021f3239cdd9021a596fe8d56785d403704898db7c9be77915f6ba05"
+      "bytes": 55566,
+      "dimensions": [
+        768,
+        768
       ],
-      "reason": "The current v3 pixels are a qualified Tier-4 Dream Aurora: two layered cyan-violet aurora curtains twist through clear near/mid/far depth around an open avatar center, with luminous floor-ring perspective, emissive bloom, star points and refractive crystal shards providing strong material/light response. The painterly multicolor ribbons support Art Attack without relying on text or branding, and the silhouette remains clear at card scale. Near-duplicate risk is acceptable: unlike Aura 10's broad horizontal aqua wave ribbons and bubbles, Aura 11 is a vertically staged mirrored aurora portal with crystal/star accents and a distinct circular base composition.",
+      "sourceHead": "b0a35343773b2ebbfdba3b5a3f99263b6c824e83",
+      "decision": "REWORK",
+      "reviewedAt": "2026-09-22T11:47:55Z",
+      "evidenceRefs": [
+        "docs/preproduction/catalog-sprint/chat-companions-2-5-6-7-render-evidence-14-to-05.json",
+        "artifact:10690338702/staged-replacements/detail/companions-2-88d10d6f.png#sha256=11b2a44c01c4ceaa14eb11ebd1478ab532afc87d1b6a3b3589b354fa9ee6d655",
+        "artifact:10690338702/staged-replacements/staged-replacements-contact-sheet.png#sha256=6f1260c9985238ef64f853b84b45e363a5268155475d3ea55e1e349665957581"
+      ],
+      "reason": "Actual detail and card pixels are polished, dimensional and highly readable, and the cat/moon identity is clear. The exact Store theme does not match: the art is a soft celestial lavender/yellow moon-and-stars scene with no meaningful Pixel Party construction, pixel-grid, voxel, arcade or digital-party language. As a Tier-1 item it is also staged with near-luxe bloom, star jewelry and portal-like spectacle comparable to the Tier-2 Comet Fox. The shared purple-blue starfield, glowing ring/star medallion and large glossy face treatment create a meaningful near-duplicate/template risk with Companion 6. Repair should preserve the appealing Moon Cat anatomy while making Pixel Party unmistakable and simplifying Tier-1 spectacle.",
       "checks": {
         "identity": "PASS",
-        "themeTier": "PASS",
+        "themeTier": "FAIL",
+        "silhouette": "PASS",
+        "materialLighting": "PASS",
+        "cardReadability": "PASS",
+        "originality": "PASS",
+        "duplicateVisual": "FAIL"
+      }
+    },
+    {
+      "itemId": "companions-5",
+      "name": "Pebble Turtle",
+      "collection": "Companions",
+      "theme": "Galaxy Glow",
+      "tier": 2,
+      "producer": "06",
+      "assetPath": "/assets/catalog-candidates/chat-20260921-intake01/companions-5-detail.webp",
+      "assetHash": "1ae7b431e519563ee1dbbdb0ae762bfee6f95ac0",
+      "hashAlgorithm": "git-blob-sha1",
+      "bytes": 61302,
+      "dimensions": [
+        768,
+        768
+      ],
+      "sourceHead": "b0a35343773b2ebbfdba3b5a3f99263b6c824e83",
+      "decision": "REWORK",
+      "reviewedAt": "2026-09-22T11:47:55Z",
+      "evidenceRefs": [
+        "docs/preproduction/catalog-sprint/chat-companions-2-5-6-7-render-evidence-14-to-05.json",
+        "artifact:10690338702/staged-replacements/detail/companions-5-1ae7b431.png#sha256=db20b39b939579b5754a754b3ee6b4d1d4eee134dc3a1b2acbaa0870ed9e1783",
+        "artifact:10690338702/staged-replacements/staged-replacements-contact-sheet.png#sha256=6f1260c9985238ef64f853b84b45e363a5268155475d3ea55e1e349665957581"
+      ],
+      "reason": "Actual pixels strongly sell Pebble Turtle: the stone shell has varied rock color/roughness, the body has rounded toy volume, and the silhouette survives card scale. The exact Galaxy Glow theme is missing, however. The dominant scene is bright garden daylight with foliage, flowers, blocky pastel cliffs and a warm yellow star backdrop; the shell reads earthy/natural rather than cosmic or emissive, with no dark-sky, nebula, orbital, iridescent or galaxy-light material cue. This is a theme-specific REWORK, not a dimensional-quality failure.",
+      "checks": {
+        "identity": "PASS",
+        "themeTier": "FAIL",
+        "silhouette": "PASS",
+        "materialLighting": "PASS",
+        "cardReadability": "PASS",
+        "originality": "PASS",
+        "duplicateVisual": "PASS"
+      }
+    },
+    {
+      "itemId": "companions-6",
+      "name": "Comet Fox",
+      "collection": "Companions",
+      "theme": "Sunny Pop",
+      "tier": 2,
+      "producer": "06",
+      "assetPath": "/assets/catalog-candidates/chat-20260921-intake01/companions-6-detail.webp",
+      "assetHash": "28cb411201d8ec30dae2f70b740efe1e86985386",
+      "hashAlgorithm": "git-blob-sha1",
+      "bytes": 69582,
+      "dimensions": [
+        768,
+        768
+      ],
+      "sourceHead": "b0a35343773b2ebbfdba3b5a3f99263b6c824e83",
+      "decision": "REWORK",
+      "reviewedAt": "2026-09-22T11:47:55Z",
+      "evidenceRefs": [
+        "docs/preproduction/catalog-sprint/chat-companions-2-5-6-7-render-evidence-14-to-05.json",
+        "artifact:10690338702/staged-replacements/detail/companions-6-28cb4112.png#sha256=e4f2467418cff7579d4412ab214b4582f8da3bbd923e907130ef44678fe4b341",
+        "artifact:10690338702/staged-replacements/staged-replacements-contact-sheet.png#sha256=6f1260c9985238ef64f853b84b45e363a5268155475d3ea55e1e349665957581"
+      ],
+      "reason": "Actual detail/card pixels have excellent fox volume, readable comet-tail motion, emissive star particles and strong card contrast, so the Comet Fox identity itself works. The exact Sunny Pop theme does not: the image is overwhelmingly cobalt/violet cosmic-night neon with galaxy sparkles, not sunny warm daylight/pop color language. It also repeats Companion 2's purple-blue starfield, glowing circular halo, yellow star medallion, glossy oversized face and centered collectible staging closely enough to create a near-duplicate/template-family concern. Rework should keep the comet-tail idea but translate it into unmistakable Sunny Pop light/color/material language and differentiate the staging.",
+      "checks": {
+        "identity": "PASS",
+        "themeTier": "FAIL",
+        "silhouette": "PASS",
+        "materialLighting": "PASS",
+        "cardReadability": "PASS",
+        "originality": "PASS",
+        "duplicateVisual": "FAIL"
+      }
+    },
+    {
+      "itemId": "companions-7",
+      "name": "Story Owl",
+      "collection": "Companions",
+      "theme": "Aqua Wave",
+      "tier": 3,
+      "producer": "06",
+      "assetPath": "/assets/catalog-candidates/chat-20260921-intake01/companions-7-detail.webp",
+      "assetHash": "39d35ea40a0a138ae99ddcdc09f8f2a3683fa49d",
+      "hashAlgorithm": "git-blob-sha1",
+      "bytes": 69614,
+      "dimensions": [
+        768,
+        768
+      ],
+      "sourceHead": "b0a35343773b2ebbfdba3b5a3f99263b6c824e83",
+      "decision": "REWORK",
+      "reviewedAt": "2026-09-22T11:47:55Z",
+      "evidenceRefs": [
+        "docs/preproduction/catalog-sprint/chat-companions-2-5-6-7-render-evidence-14-to-05.json",
+        "artifact:10690338702/staged-replacements/detail/companions-7-39d35ea4.png#sha256=51dcdf92778579936181ad2bb9d1c698838ced6d6911b4f800c1fd1a6cf44e47",
+        "artifact:10690338702/staged-replacements/staged-replacements-contact-sheet.png#sha256=6f1260c9985238ef64f853b84b45e363a5268155475d3ea55e1e349665957581"
+      ],
+      "reason": "Actual pixels clearly communicate Story Owl through glasses, books, satchel and a warm library setting; feather layering, leather/metal response and card readability are strong. But the exact Aqua Wave theme is not visually present. Brown/cream plumage, amber lighting, purple shelving and gold star accents dominate, with no aqua palette, water/wave form, translucent aquatic material or blue-green light behavior. Tier-3 craft quality is sufficient, but exact theme identity is a hard miss, so this exact hash requires rework rather than canonical integration.",
+      "checks": {
+        "identity": "PASS",
+        "themeTier": "FAIL",
         "silhouette": "PASS",
         "materialLighting": "PASS",
         "cardReadability": "PASS",
@@ -69,44 +188,149 @@
     }
   ],
   "preservedAcceptedCurrentHashes": [
-    {"itemId":"auras-1","assetHash":"a7921c7b7c8f48fc47908595c1afa6f59217c7a5","decision":"ACCEPT"},
-    {"itemId":"auras-2","assetHash":"1e421c71217e5386c1b255dfedeade8215976bcb","decision":"ACCEPT"},
-    {"itemId":"auras-3","assetHash":"f164aefb93a21374a1cf0b9b7b7312a0ae68d34c","decision":"ACCEPT"},
-    {"itemId":"auras-4","assetHash":"3357a67e4121ca631377e30033a31ef4c815ab61","decision":"ACCEPT"},
-    {"itemId":"auras-5","assetHash":"ae3bef6cbbf4333aa740dc9a3fddf4f2b5540192","decision":"ACCEPT"},
-    {"itemId":"auras-6","assetHash":"ce4b155c7fb5469fde415ab9d744cab41027fe4d","decision":"ACCEPT"},
-    {"itemId":"auras-7","assetHash":"c451e7479e142f1eca89cc5282b352c2d2ca2d4b","decision":"ACCEPT"},
-    {"itemId":"auras-8","assetHash":"6884668fe721f3b26a562e11924237a32c656db6","decision":"ACCEPT"},
-    {"itemId":"auras-9","assetHash":"9331e516a7a1a2fa32abafaf3bbf0932c3ca792d","decision":"ACCEPT"},
-    {"itemId":"auras-10","assetHash":"6f07fe7f5c8be236f3c17df5f55afc550888f52e","decision":"ACCEPT"},
-    {"itemId":"auras-11","assetHash":"7f3372c1584e07f18a3abfc7818013190fff1560","decision":"ACCEPT"},
-    {"itemId":"auras-12","assetHash":"d0fcf528ff4ee91e56760932fdcf357ab264dd3d","decision":"ACCEPT"},
-    {"itemId":"companions-3","assetHash":"adba95dc769e603337dc4ac38b9a513ce9914b10","decision":"ACCEPT"},
-    {"itemId":"companions-4","assetHash":"b382339e76ed9d4aeae72b1c8cccc904abf85b57","decision":"ACCEPT"},
-    {"itemId":"companions-10","assetHash":"2b09d950b08083bb3a9ec5e2073ae23d88411cf4","decision":"ACCEPT"},
-    {"itemId":"companions-11","assetHash":"465fe45abbe4d9b4355444cb3f75a49927b604e9","decision":"ACCEPT"},
-    {"itemId":"desks-2","assetHash":"277eb1e38e8a69caa0dab6d4d27bbb91796746f8","decision":"ACCEPT"},
-    {"itemId":"desks-3","assetHash":"aeebeacdc4a95bf75af36583dae6e2391d9a1d9e","decision":"ACCEPT"},
-    {"itemId":"desks-4","assetHash":"6f87e1527ec7d9bf1a3f81e1f54320f462dbb025","decision":"ACCEPT"},
-    {"itemId":"desks-5","assetHash":"95fe65632e4f40b76b23cce30071ee2fdc5b4399","decision":"ACCEPT"},
-    {"itemId":"desks-6","assetHash":"52df05265de236911927b904b07e68dac7a17828","decision":"ACCEPT"},
-    {"itemId":"beds-1","assetHash":"0b9f4213f84c9cde0de5ede646345c0ebc851127","decision":"ACCEPT"},
-    {"itemId":"beds-2","assetHash":"67a0fe2874f975cedb1b4b994e0237ac55d2fb3e","decision":"ACCEPT"},
-    {"itemId":"beds-3","assetHash":"22b1d9f6802cc0b442c9226511ff96e8ea0bbacc","decision":"ACCEPT"},
-    {"itemId":"beds-4","assetHash":"18fa8722d9831af1113e07c2103b373acc41c3c0","decision":"ACCEPT"}
+    {
+      "itemId": "auras-1",
+      "assetHash": "a7921c7b7c8f48fc47908595c1afa6f59217c7a5",
+      "decision": "ACCEPT"
+    },
+    {
+      "itemId": "auras-2",
+      "assetHash": "1e421c71217e5386c1b255dfedeade8215976bcb",
+      "decision": "ACCEPT"
+    },
+    {
+      "itemId": "auras-3",
+      "assetHash": "f164aefb93a21374a1cf0b9b7b7312a0ae68d34c",
+      "decision": "ACCEPT"
+    },
+    {
+      "itemId": "auras-4",
+      "assetHash": "3357a67e4121ca631377e30033a31ef4c815ab61",
+      "decision": "ACCEPT"
+    },
+    {
+      "itemId": "auras-5",
+      "assetHash": "ae3bef6cbbf4333aa740dc9a3fddf4f2b5540192",
+      "decision": "ACCEPT"
+    },
+    {
+      "itemId": "auras-6",
+      "assetHash": "ce4b155c7fb5469fde415ab9d744cab41027fe4d",
+      "decision": "ACCEPT"
+    },
+    {
+      "itemId": "auras-7",
+      "assetHash": "c451e7479e142f1eca89cc5282b352c2d2ca2d4b",
+      "decision": "ACCEPT"
+    },
+    {
+      "itemId": "auras-8",
+      "assetHash": "6884668fe721f3b26a562e11924237a32c656db6",
+      "decision": "ACCEPT"
+    },
+    {
+      "itemId": "auras-9",
+      "assetHash": "9331e516a7a1a2fa32abafaf3bbf0932c3ca792d",
+      "decision": "ACCEPT"
+    },
+    {
+      "itemId": "auras-10",
+      "assetHash": "6f07fe7f5c8be236f3c17df5f55afc550888f52e",
+      "decision": "ACCEPT"
+    },
+    {
+      "itemId": "auras-11",
+      "assetHash": "7f3372c1584e07f18a3abfc7818013190fff1560",
+      "decision": "ACCEPT"
+    },
+    {
+      "itemId": "auras-12",
+      "assetHash": "d0fcf528ff4ee91e56760932fdcf357ab264dd3d",
+      "decision": "ACCEPT"
+    },
+    {
+      "itemId": "companions-3",
+      "assetHash": "adba95dc769e603337dc4ac38b9a513ce9914b10",
+      "decision": "ACCEPT"
+    },
+    {
+      "itemId": "companions-4",
+      "assetHash": "b382339e76ed9d4aeae72b1c8cccc904abf85b57",
+      "decision": "ACCEPT"
+    },
+    {
+      "itemId": "companions-10",
+      "assetHash": "2b09d950b08083bb3a9ec5e2073ae23d88411cf4",
+      "decision": "ACCEPT"
+    },
+    {
+      "itemId": "companions-11",
+      "assetHash": "465fe45abbe4d9b4355444cb3f75a49927b604e9",
+      "decision": "ACCEPT"
+    },
+    {
+      "itemId": "desks-2",
+      "assetHash": "277eb1e38e8a69caa0dab6d4d27bbb91796746f8",
+      "decision": "ACCEPT"
+    },
+    {
+      "itemId": "desks-3",
+      "assetHash": "aeebeacdc4a95bf75af36583dae6e2391d9a1d9e",
+      "decision": "ACCEPT"
+    },
+    {
+      "itemId": "desks-4",
+      "assetHash": "6f87e1527ec7d9bf1a3f81e1f54320f462dbb025",
+      "decision": "ACCEPT"
+    },
+    {
+      "itemId": "desks-5",
+      "assetHash": "95fe65632e4f40b76b23cce30071ee2fdc5b4399",
+      "decision": "ACCEPT"
+    },
+    {
+      "itemId": "desks-6",
+      "assetHash": "52df05265de236911927b904b07e68dac7a17828",
+      "decision": "ACCEPT"
+    },
+    {
+      "itemId": "beds-1",
+      "assetHash": "0b9f4213f84c9cde0de5ede646345c0ebc851127",
+      "decision": "ACCEPT"
+    },
+    {
+      "itemId": "beds-2",
+      "assetHash": "67a0fe2874f975cedb1b4b994e0237ac55d2fb3e",
+      "decision": "ACCEPT"
+    },
+    {
+      "itemId": "beds-3",
+      "assetHash": "22b1d9f6802cc0b442c9226511ff96e8ea0bbacc",
+      "decision": "ACCEPT"
+    },
+    {
+      "itemId": "beds-4",
+      "assetHash": "18fa8722d9831af1113e07c2103b373acc41c3c0",
+      "decision": "ACCEPT"
+    }
   ],
   "pendingCurrentHashes": [],
   "handoff": {
-    "workstream08": "Aura 11 Dream Aurora exact current hash 7f3372c1584e07f18a3abfc7818013190fff1560 is independently ACCEPTED from actual card/detail pixels and may be canonical-wired immediately after normal metadata/file/content checks. All prior accepted current hashes remain preserved; 05 does not edit canonical mappings.",
-    "workstream11": "Preserve Aura 11 exact accepted bytes; do not regenerate this hash. Auras 1-12 now all have preserved current exact-hash ACCEPT decisions in reviewer 05 evidence.",
-    "workstream15": "Aura 11 current exact hash is closed ACCEPT. No fresh in-partition Beds/Desks/Companions/Auras candidate was identified in this pass; do not churn unchanged legacy hashes."
+    "workstream06": "Companions 2/5/6/7 exact current rich hashes are independently REWORK. Preserve these exact bytes/evidence; repair only these rejected IDs in a bounded 2-4 item pilot. Primary defect is exact-theme mismatch for all four, plus near-duplicate/template risk between Moon Cat and Comet Fox. Do not regenerate accepted Companions 3/4/10/11.",
+    "workstream08": "No new qualified ACCEPT exists in this cycle, so there is nothing new for canonical integration from reviewer 05. Preserve all previously accepted current hashes and do not wire Companion 2/5/6/7 exact hashes.",
+    "workstream15": "Reviewer05 closed the oldest ready Companion 2/5/6/7 exact-current batch as REWORK 4/4 from actual card/detail pixels. No legacy SVG verdict was transferred; item-specific current defects are recorded for producer06."
   },
   "summary": {
-    "totalVersionsReviewed": 34,
+    "totalVersionsReviewed": 38,
     "accepted": 25,
-    "rework": 9,
+    "rework": 13,
     "blocked": 0,
-    "thisCycle": {"reviewed":1,"accepted":1,"rework":0,"blocked":0}
+    "thisCycle": {
+      "reviewed": 4,
+      "accepted": 0,
+      "rework": 4,
+      "blocked": 0
+    }
   },
   "freeze": {
     "selfApproved": false,
