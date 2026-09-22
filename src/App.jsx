@@ -151,7 +151,9 @@ function ItemArt({item}){
 
 export function App(){
   const [screen,setScreen] = useState('world');
-  const [save,setSave] = useState(() => migrateSave(loadLocalSnapshot()));
+  const [initialLocalSnapshot] = useState(() => loadLocalSnapshot());
+  const [save,setSave] = useState(() => migrateSave(initialLocalSnapshot));
+  const [storageHydrated,setStorageHydrated] = useState(() => Boolean(initialLocalSnapshot));
   const [quest,setQuest] = useState([]);
   const [qIndex,setQIndex] = useState(0);
   const [feedback,setFeedback] = useState(null);
@@ -167,15 +169,27 @@ export function App(){
   const questReceiptRef = useRef('');
 
   useEffect(() => {
-    if(loadLocalSnapshot()) return;
+    if(initialLocalSnapshot){
+      setStorageHydrated(true);
+      return;
+    }
+
+    let active = true;
     readIndexedDbBackup().then(raw => {
+      if(!active) return;
       if(raw) setSave(migrateSave(raw));
+      setStorageHydrated(true);
     });
-  },[]);
+
+    return () => {
+      active = false;
+    };
+  },[initialLocalSnapshot]);
 
   useEffect(() => {
+    if(!storageHydrated) return;
     persistSnapshot(save);
-  },[save]);
+  },[save,storageHydrated]);
 
   useEffect(() => {
     const today = dayKey();
