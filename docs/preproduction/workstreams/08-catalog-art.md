@@ -1,61 +1,44 @@
-## V2 canonical increment — Desks 2-4 plus Auras 5/9/10/12 exact-hash ACCEPTs
+## Workstream 08 — canonical catalog art integration
 
-Prepared from `45d930cc61b1d798b8a1a90f5d138260ce3cb708` using exact hash-bound reviewer 05 ACCEPT evidence. 7 items passed repository-byte, Store metadata, decode/safety, reviewer-independence and canonical uniqueness checks. Full tests/build/Store-mobile smoke are required before publication.
+Phase remains **ART_VISUALS_SPRINT / CATALOG_SPRINT**. Workstream 08 is the sole canonical writer for `catalog-art-manifest.json` and `src/catalogArtRuntime.js`; it does not generate art, change gameplay metadata, switch phase, or authorize deployment. Replit/Floot/main/player data remain untouched.
 
-Exact IDs: `desks-2`, `desks-3`, `desks-4`, `auras-5`, `auras-9`, `auras-10`, `auras-12`.
+## V2 canonical increment — Seating 1 / 11 / 12
 
-## V2 canonical increment — Rugs 9-10 exact-hash ACCEPTs
+Published canonical commit: `30089f73e38a18b746dd1ae981041c4c181caa3a`.
 
-Prepared from `9517ee8531e9a51cfbb23499b230b84f1576a663` using exact hash-bound reviewer 14 ACCEPT evidence. 2 items passed repository-byte, Store metadata, decode/safety, reviewer-independence and canonical uniqueness checks. Full tests/build/Store-mobile smoke are required before publication.
+Reviewer 02 independently accepted the exact current hashes for:
 
-Exact IDs: `rugs-9`, `rugs-10`.
+- `seating-1` — Floor Cushion — `/assets/catalog/seating-1-w01-v2.svg` — blob `50d5e16c2bd2647be4701e0c10b3ff9d786f41e1` — producer 01.
+- `seating-11` — Moon Chair — `/assets/catalog/seating-11-w06-v2.png` — blob `5126e9abcec4a09ef281dccb33aac6ba59b38b94` — producer 06.
+- `seating-12` — Throne Chair — `/assets/catalog/seating-12-w06-v2.png` — blob `793b32f60ed10fffa80b549e75b66858ac0d7e4f` — producer 06.
 
-## V2 canonical increment — Beds 1-4 + Desks 5-6 + Auras 1-4 v3 exact-hash ACCEPTs
+Each current asset passed repository readback, exact Store name/type/tier/theme reconciliation, render/decode evidence, reviewer-independence and duplicate checks. No stale seating-12 hash was substituted. Existing mappings and prior versions remain available through Git history for rollback.
 
-Prepared from `9493c4c614161fdf61abd27cf4441ffa3c6ec850` using exact hash-bound reviewer 05 ACCEPT evidence. 10 items passed repository-byte, Store metadata, decode/safety, reviewer-independence and canonical uniqueness checks. Full tests/build/Store-mobile smoke are required before publication.
+### Canonical counts after manifest v24
 
-Exact IDs: `beds-1`, `beds-2`, `beds-3`, `beds-4`, `desks-5`, `desks-6`, `auras-1`, `auras-2`, `auras-3`, `auras-4`.
+- catalog target: **192 IDs**
+- manifest/runtime mappings: **162 / 162**
+- legacy `final-portable`: **154**
+- legacy interim-not-verified: **8**
+- legacy non-final/unmapped: **38**
+- independently accepted current hashes canonically wired: **84 / 192**
+- strict remaining: **108**
+- release-cleared: **0 / 192**
+- duplicate canonical paths: **0**
+- duplicate exact canonical content: **0 known**
 
-## V2 canonical increment — Seating 2-6 exact-hash ACCEPTs
+Do not treat the legacy 154 `final-portable` label as 154 independent visual accepts. The strict accepted/current-hash canonical count is 84.
 
-Prepared from `d977323a353d8755c821c8166c54f83ef3b2c365` using exact hash-bound reviewer 02 ACCEPT evidence. 5 items passed repository-byte, Store metadata, decode/safety, reviewer-independence and canonical uniqueness checks. Full tests/build/Store-mobile smoke are required before publication.
+### Validation
 
-Exact IDs: `seating-2`, `seating-3`, `seating-4`, `seating-5`, `seating-6`.
+On exact canonical commit `30089f73...`, all four catalog-manifest invariants passed, catalog asset-safety passed, Store runtime tests passed 3/3, and **99 executed assertions passed with zero assertion failures**. The general CI wrapper remains red because unrelated `scripts/artPromptOptimizer.test.mjs` is collected as a test file but contains no test suite; Workstream 08 did not weaken or change that harness.
 
-## V2 canonical increment — Tops 7-10 + Bottoms 1-4 + Headwear 1-4 exact-hash ACCEPTs
+The production Vite build passed on the exact commit in Preproduction Visual QA run `35685092735`; Catalog Mobile QA run `35685092749` also completed its production-build step successfully.
 
-Prepared from `bda51b8b17c088d4bdc4a5d37ecded732205cb1f` using exact hash-bound reviewer 01 ACCEPT evidence. 12 items passed repository-byte, Store metadata, decode/safety, reviewer-independence and canonical uniqueness checks. Full tests/build/Store-mobile smoke are required before publication.
+Preproduction Visual QA run `35685092735` still fails the known shared visual path: Store navigation click times out before Store content is reached at all tested viewports. It also reports the existing six Quest desktop geometry blockers; Home structural checks remain green. This is shared 14/15 visual work, not a reason to roll back independently accepted catalog hashes.
 
-Exact IDs: `tops-7`, `tops-8`, `tops-9`, `tops-10`, `bottoms-1`, `bottoms-2`, `bottoms-3`, `bottoms-4`, `headwear-1`, `headwear-2`, `headwear-3`, `headwear-4`.
+Changed-art Catalog Mobile QA run `35685092749` was still executing at the last verified read, so **Store/mobile changed-art PASS is not claimed**. Catalog release clearance therefore remains zero.
 
-## V2 canonical increment — Rugs 1-8 + Decor 1-2 exact-hash ACCEPTs
+## Current handoff
 
-Prepared from `328ea99adbd69a38096698629be66204f0b19bdc` using exact hash-bound reviewer 14 ACCEPT evidence. 10 items passed repository-byte, Store metadata, decode/safety, reviewer-independence and canonical uniqueness checks. Full tests/build/Store-mobile smoke are required before publication.
-
-Exact IDs: `rugs-1`, `rugs-2`, `rugs-3`, `rugs-4`, `rugs-5`, `rugs-6`, `rugs-7`, `rugs-8`, `decor-1`, `decor-2`.
-
-# Workstream 08 — Catalog Integration
-
-STATUS: **INTEGRATED_ACCEPTED_INCREMENT_TESTS_PASS_STORE_SMOKE_PENDING**
-
-Branch: `screenshot-match-preproduction` only. Replit/Floot/main/player data remain untouched.
-
-## This integration
-
-Integrated 8 newly qualified exact-hash replacements: `lighting-5`, `lighting-6`, `lighting-7`, `lighting-8`, `lighting-9`, `lighting-10`, `lighting-11`, `lighting-12`. Exact repository bytes/hashes, current Store metadata, supported decode, canonical path/content uniqueness and reviewer independence were all validated before wiring.
-
-Canonical manifest is now v17: **122 final-portable / 16 interim / 70 non-final**, with 138 canonical entries and 138 runtime mappings. Legacy labels remain distinct from the strict accepted-current-hash count.
-
-Strict current replacement state: **35 accepted / 35 canonical-wired / 0 release-cleared**.
-
-## Validation
-
-- metadata: PASS_8_OF_8_AGAINST_CURRENT_GAME_MODEL
-- exact stored bytes: PASS_8_OF_8_EXACT_GIT_BLOB_SHA
-- safe decode/render evidence: PASS_8_OF_8_SUPPORTED_FORMAT_PLUS_INDEPENDENT_RENDER_EVIDENCE
-- canonical uniqueness: PASS_138_UNIQUE_PATHS_AND_CONTENT_HASHES
-- npm tests: PASS_FULL_NPM_TEST_WORKFLOW
-- production build: PASS_VITE_PRODUCTION_BUILD_WORKFLOW
-- Store/mobile smoke: PENDING_AUTOMATIC_CATALOG_MOBILE_QA_ON_CANONICAL_COMMIT
-
-Next: consume every fresh exact-hash ACCEPT immediately; never wire REWORK or producer-only claims.
+Every future run must reread reviewers 01/02/05/14 against the live branch and integrate only newly qualified current exact-hash ACCEPTs. Never re-integrate the existing 84 accepted/canonical hashes, transfer verdicts across changed hashes, or accept producer self-review. Exact Store/mobile proof, final accepted-set duplicate/near-duplicate review and the remaining 108 strict catalog items are still open. Only Workstream 15 may declare art completion or change phase, and no catalog completion authorizes deployment.
