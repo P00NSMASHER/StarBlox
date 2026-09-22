@@ -1,8 +1,8 @@
 {
-  "schemaVersion": 7,
+  "schemaVersion": 8,
   "workstream": "13",
   "focus": "SCENE_CHARACTER_ART",
-  "status": "READY_FOR_REVIEW_SCENES_CHARACTER_BUDDY_AND_HOME_STAGE",
+  "status": "READY_FOR_REVIEW_SCENES_CHARACTER_BUDDY_AND_HOME_FOREGROUND_DEPTH",
   "branch": "screenshot-match-preproduction",
   "candidateId": "home-bedroom-w13-v2",
   "candidateType": "environment-background",
@@ -416,12 +416,77 @@
       "physicalDeviceTested": false,
       "screenshotParityClaimed": false,
       "independentReview": "PENDING"
+    },
+    {
+      "candidateId": "home-foreground-depth-w13-v1",
+      "candidateType": "transparent-home-foreground-furniture-depth-layer",
+      "targetScreen": "Home",
+      "status": "STAGED_READY_FOR_INDEPENDENT_REVIEW",
+      "observedDefect": "Current Home remains materially flatter than the reference, with weak foreground furniture/contact depth and insufficient dimensional grounding around the avatar/buddy stage.",
+      "reference": {
+        "path": "docs/preproduction/reference-screenshots/originals/home-original.jpg",
+        "manifest": "docs/preproduction/reference-screenshots/originals/original-reference-manifest.json"
+      },
+      "runningRenderEvidence": {
+        "workflowRunId": 35663655650,
+        "artifact": "preproduction-visual-qa"
+      },
+      "sourcePath": "docs/preproduction/visuals/recovered-originals/home-foreground-depth-w13-v1-source.png",
+      "sourceDimensions": [
+        2016,
+        1152
+      ],
+      "sourceBytes": 1933442,
+      "sourceSha256": "0e65297e0678b5f504ec8a284470be0e9c4c2223dceb420f8f1773f52a8aabf7",
+      "sourceGitBlobSha": "ec73d2ae6f7fa334ef63026af89856e720e2632c",
+      "fullPath": "public/assets/visuals/lane-13/home-foreground-depth-w13-v1-full.png",
+      "fullDimensions": [
+        2016,
+        1152
+      ],
+      "fullBytes": 1123100,
+      "fullSha256": "716a1c43d103b08ade3ac2fb462cbd18d742df53edcccbee401df58fb9b99366",
+      "fullGitBlobSha": "d975422c7ab9c3a9e067ff2e25ae011e6ece8042",
+      "fullAlphaBounds": [
+        212,
+        157,
+        1894,
+        1072
+      ],
+      "optimizedPath": "public/assets/visuals/lane-13/home-foreground-depth-w13-v1-1008.png",
+      "optimizedDimensions": [
+        1008,
+        576
+      ],
+      "optimizedBytes": 410577,
+      "optimizedSha256": "eb4583ccb869b5040f007a556e7220c9276732809de18d7302afdf16ba5252ed",
+      "optimizedGitBlobSha": "7679247376adaa69a28006b2a515489431b6a9bc",
+      "optimizedAlphaBounds": [
+        106,
+        78,
+        947,
+        536
+      ],
+      "intakeEvidence": "docs/preproduction/visuals/lane-13-home-foreground-depth-v1-intake.json",
+      "originReadback": "PASS_3_OF_3_EXACT_SHA256_AND_BYTE_LENGTH",
+      "remoteReadbackHead": "a55f82b41b55b7aef90d12b6ed44c910edd1af7d",
+      "responsiveIntent": "Keep central and upper-center panel/readability zones open; foreground mass is biased to lower/outer edges and is intended to tolerate responsive crop without carrying any UI semantics.",
+      "runtimeWired": false,
+      "canonicalCatalogTouched": false,
+      "workstream06AvatarTouched": false,
+      "workstream09ActiveEnvironmentTouched": false,
+      "physicalDeviceTested": false,
+      "screenshotParityClaimed": false,
+      "independentArtReview": "PENDING_01",
+      "compositionPerformanceReview": "PENDING_14",
+      "runtimeCoordination": "PENDING_15"
     }
   ],
   "latestForegroundReviewHandoff": {
-    "candidateId": "home-avatar-stage-w13-v1",
-    "01": "Judge the exact full/optimized pixels as art against the immutable Home reference; producer inspection is not acceptance.",
-    "14": "Judge responsive composition, alpha quality, foreground occlusion risk and runtime/performance suitability.",
-    "15": "Do not runtime-wire until 01/14 acceptance; if accepted, coordinate with 06/09 so this separate grounding layer does not replace their in-flight avatar/environment assets."
-  }
+    "candidateId": "home-foreground-depth-w13-v1",
+    "01": "Independently judge exact full/optimized pixels as art against the immutable Home reference; producer inspection and exact readback are not art acceptance.",
+    "14": "Independently judge responsive composition, alpha quality, foreground occlusion/readability risk and runtime/performance suitability.",
+    "15": "Do not runtime-wire until 01/14 acceptance; if accepted, coordinate any wiring so this separate Lane 13 foreground layer does not replace Workstream 06 avatar or Workstream 09 environment assets."
+  },
+  "releaseGateNote": "Existing regression/build failures remain visible release gates for 08/14/15; this visual candidate does not change or pass them."
 }

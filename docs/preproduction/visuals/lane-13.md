@@ -1,6 +1,6 @@
 # Workstream 13 — Scene / Character Art
 
-STATUS: **READY_FOR_REVIEW — Home v2 + Quest v1 + Store v1 scenes, avatar-headset v1 and buddy-stage v1 staged with exact origin readback; none runtime-wired**
+STATUS: **READY_FOR_REVIEW — scene/character/buddy candidates plus Home foreground depth v1 staged with exact readback; none runtime-wired**
 
 ## Concrete visual defect and v1 disposition
 
@@ -166,3 +166,17 @@ Provenance: Adobe generation request `61fc0ea8-925b-4bf4-bfa7-6e5d701eef39`, cen
 
 This is **producer-staged only**. Reviewer 01 must independently judge art quality against the exact reference pixels; reviewer 14 must independently judge responsive composition, alpha/occlusion behavior and performance. Reviewer 15 may coordinate runtime wiring only after those acceptances and must keep Workstreams 06/09 authoritative for their in-flight avatar/environment assets. No physical-device test or screenshot-parity claim has been made. Existing regression/build/release blockers remain open for their assigned owners.
 
+
+
+## Home foreground depth layer — `home-foreground-depth-w13-v1`
+
+After inspecting the current Home render beside the immutable original, the remaining high-impact scene defect is weak foreground furniture/contact depth around the avatar/buddy stage. Lane 13 therefore staged a **separate transparent foreground furniture layer** rather than another flattened screen or a replacement for Workstream 09's environment. The center and upper-center remain open for owned/equipped avatar, buddy, and UI composition.
+
+### Exact staged foreground-depth assets
+
+- Preserved source: `docs/preproduction/visuals/recovered-originals/home-foreground-depth-w13-v1-source.png` — **2016×1152**, 1,933,442 bytes, SHA-256 `0e65297e0678b5f504ec8a284470be0e9c4c2223dceb420f8f1773f52a8aabf7`, Git blob `ec73d2ae6f7fa334ef63026af89856e720e2632c`.
+- Full transparent layer: `public/assets/visuals/lane-13/home-foreground-depth-w13-v1-full.png` — **2016×1152**, 1,123,100 bytes, SHA-256 `716a1c43d103b08ade3ac2fb462cbd18d742df53edcccbee401df58fb9b99366`, Git blob `d975422c7ab9c3a9e067ff2e25ae011e6ece8042`; alpha bounds `[212, 157, 1894, 1072]`.
+- Optimized transparent derivative: `public/assets/visuals/lane-13/home-foreground-depth-w13-v1-1008.png` — **1008×576**, 410,577 bytes, SHA-256 `eb4583ccb869b5040f007a556e7220c9276732809de18d7302afdf16ba5252ed`, Git blob `7679247376adaa69a28006b2a515489431b6a9bc`; alpha bounds `[106, 78, 947, 536]`.
+- Exact supported repository readback: **PASS 3/3 exact SHA-256 + byte length**. Intake evidence: `docs/preproduction/visuals/lane-13-home-foreground-depth-v1-intake.json`.
+
+This candidate contains no avatar, buddy, UI, text, buttons, logos or third-party IP. It is **not runtime-wired**, does not change canonical catalog mappings or player/save state, and does not touch Workstream 06 avatar assets or Workstream 09 environment paths. Reviewer **01** art judgment and reviewer **14** composition/performance judgment remain pending; coordinator **15** must gate any later runtime wiring. No physical-device test or screenshot-parity claim is made. Existing regression/build failures remain release gates for 08/14/15.
