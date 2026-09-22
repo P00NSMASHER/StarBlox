@@ -1,57 +1,40 @@
 {
-  "schemaVersion": 3,
+  "schemaVersion": 4,
   "workstream": "12",
   "phase": "ART_VISUALS_ONLY",
   "branch": "screenshot-match-preproduction",
-  "status": "HEADWEAR_1_4_ACCEPTED_PRESERVED__HEADWEAR_5_8_GENERATED_PRESERVED_TRANSFER_BLOCKED_ESCALATED_15",
-  "inputHead": "497f3c4a24ecef3a83263ea71a7e718728f456d3",
-  "historyRefs": [
-    {
-      "laneBlobSha": "852d9dc91a46f676d51c10838e5780c4397cb8d0",
-      "scope": "Preserves full Headwear 1-4 generation, derivative, transport, staging and exact-readback evidence."
-    },
-    {
-      "reviewPath": "docs/preproduction/catalog-sprint/reviews/01.json",
-      "reviewerSourceHead": "989753a9a958a9968ee6cc91cf73cca5dfa3fa14",
-      "scope": "Reviewer 01 preserves exact-hash ACCEPT for Headwear 1-4."
-    }
-  ],
-  "reference": {
-    "storePath": "docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg",
-    "sha256": "b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d",
-    "visualInspection": "PASS_ACTUAL_REFERENCE_ARTIFACT_VIEWED_THIS_CYCLE",
-    "targetNotes": "Bright polished magical-school Store; dimensional fashion/accessory product renders, tactile materials, three-quarter presentation, warm key plus cool rim light, lilac/pink studio depth, restrained sparkle/bokeh and clear card-scale silhouette."
-  },
+  "status": "HEADWEAR_1_4_ACCEPTED_PRESERVED__HEADWEAR_5_8_EXTERNAL_DERIVATIVES_LIVE__HELPER04_REPOSITORY_TRANSFER_PENDING",
+  "inputHead": "7d30265638ea83677544c361510ba0b730ae243d",
+  "protocol": "docs/preproduction/DELIVERY_PROTOCOL_V2.md",
+  "allocation": "docs/preproduction/ART_VISUALS_SPRINT.json",
   "ownership": {
     "producer": "12",
+    "transportHelper": "04",
     "activeCollection": "headwear",
     "activeItemIds": ["headwear-5", "headwear-6", "headwear-7", "headwear-8"],
     "independentReviewer": "01",
     "canonicalWriter": "08",
     "coordinator": "15",
-    "nonOverlapReconciledAtInputHead": true,
-    "writeScope": [
-      "owned candidate paths",
-      "docs/preproduction/catalog-sprint/lane-12.json",
-      "docs/preproduction/catalog-sprint/lane-12.md"
-    ]
+    "scaleGate": "DO_NOT_GENERATE_OR_START_ANOTHER_ACCESSORY_BATCH_UNTIL_HEADWEAR_5_8_ARE_REPOSITORY_STORED_READ_BACK_AND_REVIEWER_01_DISPOSITIONS_THEM"
   },
   "preservedAcceptedPriorBatch": {
     "status": "ACCEPT_4_OF_4_DO_NOT_REGENERATE_OR_SELF_REVIEW",
-    "canonicalState": "QUEUED_TO_08_NOT_CLAIMED_CANONICAL_BY_12",
     "items": [
       {"id":"headwear-1","name":"Headband","gitBlobSha":"4d4424962a49f5145422723b625778d6649a4b26","reviewer":"01","decision":"ACCEPT"},
       {"id":"headwear-2","name":"Cloud Clips","gitBlobSha":"595c8fe9182f4aecd5355856f19947c7c83daa11","reviewer":"01","decision":"ACCEPT"},
       {"id":"headwear-3","name":"Pixel Cap","gitBlobSha":"86db079b85360dc64e669aeca53cba874176c693","reviewer":"01","decision":"ACCEPT"},
       {"id":"headwear-4","name":"Berry Bow","gitBlobSha":"4257b4a959153fba985fa2a97720c379b6d63e33","reviewer":"01","decision":"ACCEPT"}
-    ]
+    ],
+    "canonicalOwner": "08"
+  },
+  "reference": {
+    "storePath": "docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg",
+    "sha256": "b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d",
+    "targetNotes": "Bright polished magical-school Store; dimensional fashion/accessory product renders, tactile materials, three-quarter presentation, warm key plus cool rim light, lilac/pink studio depth, restrained sparkle/bokeh and clear card-scale silhouette."
   },
   "activeBatch": {
     "batchId": "w12-headwear-5-8-v2",
-    "boundedPilot": true,
-    "scaleGate": "DO_NOT_START_HEADWEAR_9_12_OR_ANOTHER_ACCESSORY_FAMILY_UNTIL_REVIEWER_01_DISPOSITIONS_HEADWEAR_5_8",
-    "legacyReview": "REWORK_4_OF_4_CURRENT_LEGACY_HASHES_NO_NEWER_STAGED_CANDIDATE_AT_GENERATION_START",
-    "repositoryProbeAfterGeneration": "headwear-5-w12-v2.png ABSENT_AT_497f3c4; no conflicting 5-8 candidate observed before this documentation write",
+    "legacyReview": "REWORK_4_OF_4_AT_GENERATION_START",
     "items": [
       {
         "id": "headwear-5",
@@ -61,8 +44,6 @@
         "price": 125,
         "starReq": 0,
         "legacyAssetHash": "08f46960b9b6ca7fde58c1ed43676273b8b057cd",
-        "legacyDecision": "REWORK",
-        "legacyDefect": "Sticker-like flowers on a simple arc lacked petal/leaf volume, dimensional band construction, overlap and richer Pixel Party material detail.",
         "provenance": {
           "generator": "Adobe Firefly",
           "generationRequestId": "6c022fa5-5dd7-4140-a94e-18209a0f3357",
@@ -81,18 +62,11 @@
           "repositoryBytes": null,
           "sha256": null,
           "gitBlobSha": null,
-          "readback": "NOT_TESTED_NO_REPOSITORY_BYTES"
+          "repositoryReadback": "ABSENT_404_AT_INPUT_HEAD",
+          "externalDerivativePreview": "PASS_ADOBE_INLINE_PREVIEW_CURRENT_CYCLE"
         },
-        "producerVisualCheck": {
-          "identity": "PASS",
-          "themeTier": "PASS",
-          "dimensionalConstruction": "PASS",
-          "materialLighting": "PASS",
-          "cardScaleFraming": "PASS",
-          "originality": "PASS",
-          "observed": "Curved lavender fabric band with layered textile petals/leaves, visible overlap and cyan/magenta/gold square gem centers; physical depth and Pixel Party detail remain legible at 600px."
-        },
-        "deliveryStatus": "GENERATED_PRESERVED_EXTERNAL_TRANSFER_BLOCKED",
+        "producerVisualCheck": "PASS_DIMENSIONAL_BAND_LAYERED_TEXTILE_FLOWERS_PIXEL_GEM_CENTERS_CARD_READABLE",
+        "deliveryStatus": "GENERATED_PRESERVED_EXTERNAL_TRANSFER_PENDING_HELPER04",
         "reviewStatus": "NOT_READY_FOR_REVIEW_NO_EXACT_REPOSITORY_HASH"
       },
       {
@@ -103,8 +77,6 @@
         "price": 175,
         "starReq": 0,
         "legacyAssetHash": "f1fafa67d3358292a4c55ad46174f84f63f0b343",
-        "legacyDecision": "REWORK",
-        "legacyDefect": "Simplified icon lacked cushion thickness, earcup depth, hinges/hardware, mixed plastic/soft materials and purposeful berry detailing.",
         "provenance": {
           "generator": "Adobe Firefly",
           "generationRequestId": "0491e505-01d7-4dad-abc8-242cbfe858dd",
@@ -123,18 +95,11 @@
           "repositoryBytes": null,
           "sha256": null,
           "gitBlobSha": null,
-          "readback": "NOT_TESTED_NO_REPOSITORY_BYTES"
+          "repositoryReadback": "ABSENT_404_AT_INPUT_HEAD",
+          "externalDerivativePreview": "PASS_ADOBE_INLINE_PREVIEW_CURRENT_CYCLE"
         },
-        "producerVisualCheck": {
-          "identity": "PASS",
-          "themeTier": "PASS",
-          "dimensionalConstruction": "PASS",
-          "materialLighting": "PASS",
-          "cardScaleFraming": "PASS",
-          "originality": "PASS",
-          "observed": "Deep raspberry over-ear headset with thick padded headband/cushions, molded earcups, visible sliders and hinges, cream accent ring and flexible boom mic; clear Berry Blast product silhouette."
-        },
-        "deliveryStatus": "GENERATED_PRESERVED_EXTERNAL_TRANSFER_BLOCKED",
+        "producerVisualCheck": "PASS_PADDED_BAND_CUSHIONS_EARCUPS_HINGES_BOOM_MIC_BERRY_BLAST_CARD_READABLE",
+        "deliveryStatus": "GENERATED_PRESERVED_EXTERNAL_TRANSFER_PENDING_HELPER04",
         "reviewStatus": "NOT_READY_FOR_REVIEW_NO_EXACT_REPOSITORY_HASH"
       },
       {
@@ -145,8 +110,6 @@
         "price": 240,
         "starReq": 2,
         "legacyAssetHash": "8352f9ff4b58c27c0f3b47ec3cce90a8e8eec962",
-        "legacyDecision": "REWORK",
-        "legacyDefect": "Readable but flattened hat lacked brim thickness, crown folds, seams, soft textile response and dimensional Garden Glow details.",
         "provenance": {
           "generator": "Adobe Firefly",
           "generationRequestId": "5af1bdfd-721b-4e77-b6a7-fb62f08def85",
@@ -165,18 +128,11 @@
           "repositoryBytes": null,
           "sha256": null,
           "gitBlobSha": null,
-          "readback": "NOT_TESTED_NO_REPOSITORY_BYTES"
+          "repositoryReadback": "ABSENT_404_AT_INPUT_HEAD",
+          "externalDerivativePreview": "PASS_ADOBE_INLINE_PREVIEW_CURRENT_CYCLE"
         },
-        "producerVisualCheck": {
-          "identity": "PASS",
-          "themeTier": "PASS",
-          "dimensionalConstruction": "PASS",
-          "materialLighting": "PASS",
-          "cardScaleFraming": "PASS",
-          "originality": "PASS",
-          "observed": "Soft canvas bucket hat with stitched crown panels, eyelet, visibly thick quilted pale-green brim and embroidered leafy vine/blossom band with warm-gold thread; stronger Tier-3 Garden Glow craft."
-        },
-        "deliveryStatus": "GENERATED_PRESERVED_EXTERNAL_TRANSFER_BLOCKED",
+        "producerVisualCheck": "PASS_CANVAS_CROWN_SEAMS_EYELET_QUILTED_BRIM_EMBROIDERED_GARDEN_BAND_CARD_READABLE",
+        "deliveryStatus": "GENERATED_PRESERVED_EXTERNAL_TRANSFER_PENDING_HELPER04",
         "reviewStatus": "NOT_READY_FOR_REVIEW_NO_EXACT_REPOSITORY_HASH"
       },
       {
@@ -187,8 +143,6 @@
         "price": 330,
         "starReq": 2,
         "legacyAssetHash": "83b098c4bdd4bc3e578bf6b0f06c6354d0b459d3",
-        "legacyDecision": "REWORK",
-        "legacyDefect": "Floating star shapes hid clip construction and lacked hardware, gem/star depth, asymmetry, reflections, glow and real occlusion.",
         "provenance": {
           "generator": "Adobe Firefly",
           "generationRequestId": "a589b20f-3ff5-4d05-aff2-4f554f8b770d",
@@ -207,30 +161,20 @@
           "repositoryBytes": null,
           "sha256": null,
           "gitBlobSha": null,
-          "readback": "NOT_TESTED_NO_REPOSITORY_BYTES"
+          "repositoryReadback": "ABSENT_404_AT_INPUT_HEAD",
+          "externalDerivativePreview": "PASS_ADOBE_INLINE_PREVIEW_CURRENT_CYCLE"
         },
-        "producerVisualCheck": {
-          "identity": "PASS",
-          "themeTier": "PASS",
-          "dimensionalConstruction": "PASS",
-          "materialLighting": "PASS",
-          "cardScaleFraming": "PASS",
-          "originality": "PASS",
-          "observed": "Three asymmetric layered translucent star ornaments with visible metal spring/barrette hardware, faceted gem centers, beveled edges and lavender/cyan galaxy reflections; hardware remains visible in the 600px derivative."
-        },
-        "deliveryStatus": "GENERATED_PRESERVED_EXTERNAL_TRANSFER_BLOCKED",
+        "producerVisualCheck": "PASS_LAYERED_TRANSLUCENT_STARS_VISIBLE_BARRETTE_HARDWARE_FACETED_GEMS_CARD_READABLE",
+        "deliveryStatus": "GENERATED_PRESERVED_EXTERNAL_TRANSFER_PENDING_HELPER04",
         "reviewStatus": "NOT_READY_FOR_REVIEW_NO_EXACT_REPOSITORY_HASH"
       }
     ],
     "batchChecks": {
-      "actualStoreReferenceInspected": "PASS",
-      "currentStoreMetadataReconciled": "PASS_4_OF_4_FROM_CURRENT_GAME_MODEL",
-      "legacyReviewer01ReworkConfirmed": "PASS_4_OF_4",
-      "conflictingNewerCandidateAtStart": "NONE_FOUND",
       "fullQualityGenerationsPreserved": "PASS_4_OF_4_ADOBE_CC_ASSETS",
       "phoneDerivativesGenerated": "PASS_4_OF_4_600x600_PNG",
-      "phoneDerivativesVisuallyVerified": "PASS_4_OF_4",
-      "repositoryByteUpload": "BLOCKED",
+      "phoneDerivativeOutputUrlsLive": "PASS_4_OF_4_ADOBE_INLINE_PREVIEW_CURRENT_CYCLE",
+      "plannedRepositoryPaths": "ABSENT_4_OF_4_404_AT_INPUT_HEAD",
+      "repositoryByteUpload": "BLOCKED_PENDING_HELPER04",
       "exactRepositoryReadback": "NOT_TESTED_NO_STAGED_BYTES",
       "reviewer01": "NOT_READY_NO_REPOSITORY_HASH",
       "tests": "NOT_RUN_NO_RUNTIME_CANONICAL_LEARNING_SAVE_OR_ECONOMY_CHANGE",
@@ -239,21 +183,19 @@
   },
   "transportBlocker": {
     "id": "W12-ADOBE-BYTE-TRANSFER",
-    "state": "ESCALATED_TO_15_AND_AUTOMATION_BLOCKING",
+    "state": "HELPER04_ASSIGNED__PENDING_REPOSITORY_ATTACHMENT",
     "newEvidenceThisCycle": [
-      "Adobe GenAI assets for all four full-quality generations were rediscovered with stable Creative Cloud asset IDs and container-size metadata.",
-      "Adobe presigned resolution succeeded for all four assets, but the returned download/preview links remain at at.adobe.com.",
-      "The execution container cannot resolve at.adobe.com or photoshop-api.adobe.io DNS, so it cannot obtain bytes for GitHub create_blob.",
-      "Both available public Browser Use connections require interactive user input in this non-interactive run, so redirect resolution cannot be used as a byte bridge.",
-      "Workstream 12 did not create or edit a shared recovery workflow because its explicit write scope is owned candidate paths plus lane-12 evidence files."
+      "All four exact 600x600 derivative output URLs were successfully fetched and visually decoded through Adobe asset_inline_preview, proving the preserved derivatives are still live and readable; no regeneration occurred.",
+      "All four planned GitHub paths returned 404 on screenshot-match-preproduction at input head 7d30265638ea83677544c361510ba0b730ae243d, so helper04 has not yet landed repository bytes.",
+      "The derivative short URLs are fetchable inside the Adobe connector but this lane still lacks a supported raw-byte handoff suitable for GitHub binary upload; no duplicate generation or alternate derivative was created."
     ],
-    "missingCapability": "A coordination-owned Adobe output URL/asset ID to raw-byte bridge (or attachment of these already-generated 600x600 PNG derivatives) so Workstream 12 can stage exact bytes and perform GitHub readback.",
-    "handoffTo15": "Recover the exact existing derivative bytes for Headwear 5-8; stage only those exact bytes at the planned versioned paths or expose them to Workstream 12 for direct Git blob creation. Do not regenerate. Return exact repository blob SHA/bytes/dimensions so reviewer 01 can judge the current hashes."
+    "smallestNextAction": "Helper04 transfers the exact existing derivative bytes from the recorded output URLs to the four planned versioned repository paths. Workstream12 then rereads each path, records exact Git blob/content hash, dimensions and byte size, and hands those exact hashes to reviewer01."
   },
   "handoff": {
-    "01": "Headwear 5-8 are NOT READY FOR REVIEW until exact repository paths and hashes exist. Preserve Headwear 1-4 ACCEPTs.",
-    "08": "Preserve/complete Headwear 1-4 canonical integration from reviewer-01 ACCEPTs. No action on Headwear 5-8 until independent review of repository-staged exact hashes.",
-    "15": "Resolve W12-ADOBE-BYTE-TRANSFER for the four already-generated Headwear 5-8 derivatives; no more generation is needed for this pilot."
+    "04": "Transport only: preserve producer=12 provenance; attach the exact existing 600x600 derivative bytes to the planned paths without modifying art, reviewing, or canonical-wiring.",
+    "01": "Do not review Headwear 5-8 until exact repository hashes exist. Preserve Headwear 1-4 ACCEPTs.",
+    "08": "Preserve Headwear 1-4 canonical handling. No Headwear 5-8 mapping change until reviewer01 ACCEPTs exact repository hashes.",
+    "15": "Transfer remains the only W12 blocker. If helper04 cannot bridge Adobe output URLs to repository bytes, resolve/replace the transport capability; do not authorize regeneration."
   },
   "freeze": {
     "replitTouched": false,
