@@ -58,3 +58,28 @@ test('queue passes normalized failure taxonomy directly into prompt compiler',()
   assert(rec.repairBlocks.includes('original'));
   assert(rec.repairBlocks.includes('silhouette'));
 });
+
+
+test('unfilled release fallback enters queue without fabricated review',()=>{
+  const fallbackBacklog={productionQueue:[{
+    itemId:'desks-7',collectionId:'desks',name:'Sunny Creator Desk',tier:3,theme:'Garden Glow',
+    state:'UNFILLED_NEEDS_PRODUCTION',route:{producer:'03',reviewer:'05'}
+  }]};
+  const baseQueue=buildRegenerationQueue({corpus:{observations:[],current:[]},fallbackBacklog});
+  assert.equal(baseQueue.selected.length,1);
+  assert.equal(baseQueue.selected[0].sourceState,'UNFILLED_RELEASE_BLOCKER');
+  assert.equal(baseQueue.selected[0].releaseBlocking,true);
+  assert.equal(baseQueue.selected[0].reviewedHash,null);
+  assert.equal(baseQueue.selected[0].producer,'03');
+  assert.equal(baseQueue.selected[0].reviewer,'05');
+
+  const queue=attachPromptRecommendations(baseQueue,{
+    items:[{id:'desks-7',collectionId:'desks',name:'Sunny Creator Desk',type:'room',tier:3,theme:'Garden Glow'}],
+    reviewDocs:[]
+  });
+  const rec=queue.selected[0].promptRecommendation;
+  assert.equal(rec.decision,'UNREVIEWED');
+  assert.equal(rec.sourceReviewHash,null);
+  assert.equal(rec.variants.length,4);
+  assert(rec.variants.every(v=>v.promptText.includes('desks-7')));
+});
