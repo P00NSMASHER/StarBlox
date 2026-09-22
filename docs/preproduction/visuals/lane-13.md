@@ -180,3 +180,16 @@ After inspecting the current Home render beside the immutable original, the rema
 - Exact supported repository readback: **PASS 3/3 exact SHA-256 + byte length**. Intake evidence: `docs/preproduction/visuals/lane-13-home-foreground-depth-v1-intake.json`.
 
 This candidate contains no avatar, buddy, UI, text, buttons, logos or third-party IP. It is **not runtime-wired**, does not change canonical catalog mappings or player/save state, and does not touch Workstream 06 avatar assets or Workstream 09 environment paths. Reviewer **01** art judgment and reviewer **14** composition/performance judgment remain pending; coordinator **15** must gate any later runtime wiring. No physical-device test or screenshot-parity claim is made. Existing regression/build failures remain release gates for 08/14/15.
+
+## Store avatar stage v1 — staged candidate
+
+- Candidate: `store-avatar-stage-w13-v1` — producer-staged only; not approved and not runtime-wired.
+- Gap addressed: current Store try-on region is materially flatter than the verified original; this separate platform/alcove adds dimensional physical grounding without baking avatar, catalog item, UI, text, counters, buttons or state.
+- Independent review: 01 art; 14 composition/performance; 15 coordination before any runtime wiring.
+- Exact remote readback: `PASS_3_OF_3_EXACT_SHA256_AND_BYTE_LENGTH`.
+- Assets:
+  - source: `docs/preproduction/visuals/recovered-originals/store-avatar-stage-w13-v1-source.png` — 2048x2048, 2377362 bytes, SHA-256 `9402fa5f43b665184362b3ba47b5f024f0c5a835ccb8a18691659a7ce65d739c`, Git blob `cabea3275c6000017edd9fb0d2438a3c7d4ca02a`
+  - full: `public/assets/visuals/lane-13/store-avatar-stage-w13-v1-full.png` — 2048x2048, 1452552 bytes, SHA-256 `8fb0a4a3f4db4e1e8b8bb8628c13664f0dcc58a4a52cb3dc1d58dc474083e745`, Git blob `55fba17791c8bb3ad0976ec5495d58195ba3e85e`
+  - optimized: `public/assets/visuals/lane-13/store-avatar-stage-w13-v1-1024.png` — 1024x1024, 421139 bytes, SHA-256 `884c90e2c9a0740a427e851319599a7caac5818352282a98758b42770dadbf13`, Git blob `5ad610928fd6db5e9bdeb2036388025989c0b833`
+
+- No physical-device test or screenshot-parity claim was performed by producer 13.

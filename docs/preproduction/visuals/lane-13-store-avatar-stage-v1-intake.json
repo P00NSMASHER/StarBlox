@@ -135,7 +135,7 @@
     "optimizedTransparency": "PASS_MEANINGFUL_ALPHA",
     "separateLayerNotFlattenedScreen": "PASS_BY_ASSET_SCOPE_AND_PRODUCER_PIXEL_INSPECTION",
     "uiTextButtonsAbsent": "PASS_BY_PRODUCER_PIXEL_INSPECTION",
-    "exactRepositoryReadback": "PENDING_REMOTE_READBACK",
+    "exactRepositoryReadback": "PASS_3_OF_3_EXACT_SHA256_AND_BYTE_LENGTH",
     "independentArtReview": "PENDING_01",
     "compositionPerformanceReview": "PENDING_14",
     "runtimeIntegration": "NOT_PERFORMED",
@@ -147,5 +147,29 @@
     "14": "PENDING_COMPOSITION_PERFORMANCE_REVIEW",
     "15": "PENDING_COORDINATION_BEFORE_ANY_RUNTIME_WIRING"
   },
-  "releaseGates": "Existing regression/build/device/accessibility/parity gates remain external release gates for 08/14/15 and are not changed by this visual intake."
+  "releaseGates": "Existing regression/build/device/accessibility/parity gates remain external release gates for 08/14/15 and are not changed by this visual intake.",
+  "remoteReadback": {
+    "remoteRef": "origin/screenshot-match-preproduction",
+    "remoteHead": "20de8748bbe447441bc1fd9ebc6e1c621b7b0678",
+    "assets": {
+      "source": {
+        "path": "docs/preproduction/visuals/recovered-originals/store-avatar-stage-w13-v1-source.png",
+        "bytes": 2377362,
+        "sha256": "9402fa5f43b665184362b3ba47b5f024f0c5a835ccb8a18691659a7ce65d739c",
+        "matchesStagedBytes": true
+      },
+      "full": {
+        "path": "public/assets/visuals/lane-13/store-avatar-stage-w13-v1-full.png",
+        "bytes": 1452552,
+        "sha256": "8fb0a4a3f4db4e1e8b8bb8628c13664f0dcc58a4a52cb3dc1d58dc474083e745",
+        "matchesStagedBytes": true
+      },
+      "optimized": {
+        "path": "public/assets/visuals/lane-13/store-avatar-stage-w13-v1-1024.png",
+        "bytes": 421139,
+        "sha256": "884c90e2c9a0740a427e851319599a7caac5818352282a98758b42770dadbf13",
+        "matchesStagedBytes": true
+      }
+    }
+  }
 }

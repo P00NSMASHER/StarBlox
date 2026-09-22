@@ -488,5 +488,107 @@
     "14": "Independently judge responsive composition, alpha quality, foreground occlusion/readability risk and runtime/performance suitability.",
     "15": "Do not runtime-wire until 01/14 acceptance; if accepted, coordinate any wiring so this separate Lane 13 foreground layer does not replace Workstream 06 avatar or Workstream 09 environment assets."
   },
-  "releaseGateNote": "Existing regression/build failures remain visible release gates for 08/14/15; this visual candidate does not change or pass them."
+  "releaseGateNote": "Existing regression/build failures remain visible release gates for 08/14/15; this visual candidate does not change or pass them.",
+  "latestStoreAvatarStageCandidate": {
+    "candidateId": "store-avatar-stage-w13-v1",
+    "status": "STAGED_READY_FOR_INDEPENDENT_REVIEW",
+    "runtimeWired": false,
+    "intakeEvidence": "docs/preproduction/visuals/lane-13-store-avatar-stage-v1-intake.json",
+    "assets": {
+      "source": {
+        "label": "source",
+        "path": "docs/preproduction/visuals/recovered-originals/store-avatar-stage-w13-v1-source.png",
+        "bytes": 2377362,
+        "dimensions": [
+          2048,
+          2048
+        ],
+        "format": "PNG",
+        "mode": "RGB",
+        "sha256": "9402fa5f43b665184362b3ba47b5f024f0c5a835ccb8a18691659a7ce65d739c",
+        "gitBlobSha": "cabea3275c6000017edd9fb0d2438a3c7d4ca02a",
+        "alphaBounds": null,
+        "alphaExtrema": null,
+        "transparentRequired": false
+      },
+      "full": {
+        "label": "full",
+        "path": "public/assets/visuals/lane-13/store-avatar-stage-w13-v1-full.png",
+        "bytes": 1452552,
+        "dimensions": [
+          2048,
+          2048
+        ],
+        "format": "PNG",
+        "mode": "RGBA",
+        "sha256": "8fb0a4a3f4db4e1e8b8bb8628c13664f0dcc58a4a52cb3dc1d58dc474083e745",
+        "gitBlobSha": "55fba17791c8bb3ad0976ec5495d58195ba3e85e",
+        "alphaBounds": [
+          57,
+          176,
+          1985,
+          1875
+        ],
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "transparentRequired": true
+      },
+      "optimized": {
+        "label": "optimized",
+        "path": "public/assets/visuals/lane-13/store-avatar-stage-w13-v1-1024.png",
+        "bytes": 421139,
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "format": "PNG",
+        "mode": "RGBA",
+        "sha256": "884c90e2c9a0740a427e851319599a7caac5818352282a98758b42770dadbf13",
+        "gitBlobSha": "5ad610928fd6db5e9bdeb2036388025989c0b833",
+        "alphaBounds": [
+          28,
+          88,
+          993,
+          938
+        ],
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "transparentRequired": true
+      }
+    },
+    "remoteReadback": {
+      "remoteRef": "origin/screenshot-match-preproduction",
+      "remoteHead": "20de8748bbe447441bc1fd9ebc6e1c621b7b0678",
+      "assets": {
+        "source": {
+          "path": "docs/preproduction/visuals/recovered-originals/store-avatar-stage-w13-v1-source.png",
+          "bytes": 2377362,
+          "sha256": "9402fa5f43b665184362b3ba47b5f024f0c5a835ccb8a18691659a7ce65d739c",
+          "matchesStagedBytes": true
+        },
+        "full": {
+          "path": "public/assets/visuals/lane-13/store-avatar-stage-w13-v1-full.png",
+          "bytes": 1452552,
+          "sha256": "8fb0a4a3f4db4e1e8b8bb8628c13664f0dcc58a4a52cb3dc1d58dc474083e745",
+          "matchesStagedBytes": true
+        },
+        "optimized": {
+          "path": "public/assets/visuals/lane-13/store-avatar-stage-w13-v1-1024.png",
+          "bytes": 421139,
+          "sha256": "884c90e2c9a0740a427e851319599a7caac5818352282a98758b42770dadbf13",
+          "matchesStagedBytes": true
+        }
+      }
+    },
+    "reviews": {
+      "01": "PENDING_INDEPENDENT_ART_REVIEW",
+      "14": "PENDING_COMPOSITION_PERFORMANCE_REVIEW",
+      "15": "PENDING_COORDINATION_BEFORE_ANY_RUNTIME_WIRING"
+    },
+    "note": "Producer-staged only. Reviewer 01 judges art; reviewer 14 judges composition/performance; 15 gates any runtime wiring. No self-approval."
+  }
 }
