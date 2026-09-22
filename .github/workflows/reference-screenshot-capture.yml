@@ -5,6 +5,8 @@ on:
     branches:
       - screenshot-match-preproduction
     paths:
+      - 'catalog-art-manifest.json'
+      - 'src/catalogArtRuntime.js'
       - 'scripts/referenceScreenshotCapture.mjs'
       - '.github/workflows/reference-screenshot-capture.yml'
       - 'docs/preproduction/reference-screenshots/**'
@@ -26,6 +28,29 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
+
+      - name: Verify authoritative desktop reference inputs
+        run: |
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          import crypto from 'node:crypto';
+          const manifestPath='docs/preproduction/reference-screenshots/original-reference-manifest.json';
+          const manifest=JSON.parse(fs.readFileSync(manifestPath,'utf8'));
+          const expected=['home','store','quest'];
+          for (const screen of expected) {
+            const row=manifest.images.find(x=>x.screen===screen);
+            if (!row) throw new Error(`${screen}: missing from authoritative reference manifest`);
+            for (const [pathKey,hashKey] of [['originalRepositoryPath','originalSha256'],['comparisonRepositoryPath','comparisonSha256']]) {
+              const p=row[pathKey];
+              if (!p || !fs.existsSync(p)) throw new Error(`${screen}: required reference file missing at ${p}`);
+              const actual=crypto.createHash('sha256').update(fs.readFileSync(p)).digest('hex');
+              if (actual!==row[hashKey]) throw new Error(`${screen}: ${pathKey} SHA-256 mismatch`);
+            }
+            if (JSON.stringify(row.originalDimensions)!=='[1448,1086]') throw new Error(`${screen}: unexpected original dimensions`);
+            if (JSON.stringify(row.comparisonDimensions)!=='[1408,1056]') throw new Error(`${screen}: unexpected comparison dimensions`);
+          }
+          console.log('PASS: authoritative Home/Store/Quest originals and 1408x1056 comparison PNG hashes verified.');
+          NODE
 
       - name: Install project dependencies
         run: npm install --no-audit --no-fund
@@ -65,7 +90,7 @@ jobs:
         run: |
           cat artifacts/reference-screenshot-capture/summary.txt || true
           if [ -f artifacts/reference-screenshot-capture/report.json ]; then
-            node -e "const r=require('./artifacts/reference-screenshot-capture/report.json'); console.log(JSON.stringify({status:r.status,sourceHead:r.sourceHead,releaseBlockingCount:r.releaseBlockingCount,referencePresentCount:r.referencePresentCount,referenceExpectedCount:r.referenceExpectedCount,contrast:r.results.filter(x=>x.check==='rendered-color-contrast').map(x=>({viewport:x.viewport,screen:x.screen,status:x.status,message:x.message})),keyboard:r.results.filter(x=>x.check==='keyboard-focus-reachability').map(x=>({viewport:x.viewport,screen:x.screen,status:x.status,message:x.message}))},null,2))"
+            node -e "const r=require('./artifacts/reference-screenshot-capture/report.json'); console.log(JSON.stringify({status:r.status,sourceHead:r.sourceHead,releaseBlockingCount:r.releaseBlockingCount,referencePresentCount:r.referencePresentCount,referenceExpectedCount:r.referenceExpectedCount,desktopDiffs:r.results.filter(x=>x.check==='reference-pixel-diff'&&x.viewport==='desktop-1408x1056').map(x=>({screen:x.screen,status:x.status,message:x.message,metrics:x.metrics})),contrast:r.results.filter(x=>x.check==='rendered-color-contrast').map(x=>({viewport:x.viewport,screen:x.screen,status:x.status,message:x.message})),keyboard:r.results.filter(x=>x.check==='keyboard-focus-reachability').map(x=>({viewport:x.viewport,screen:x.screen,status:x.status,message:x.message}))},null,2))"
           fi
 
       - name: Upload deterministic screenshots and diffs
