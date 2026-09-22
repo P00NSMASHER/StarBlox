@@ -19,6 +19,7 @@ const normalMotionControls = [
 const collectionIds = ['tops','bottoms','shoes','headwear','facegear','backgear','handgear','auras','companions','beds','seating','desks','lighting','wall','rugs','decor'];
 const results=[];
 let releaseBlockingCount=0;
+let lastNavPointerEvidence=null;
 await fs.mkdir(outputDir,{recursive:true});
 
 function record(entry){
@@ -34,7 +35,33 @@ async function clickNav(page,label){
     const text=(await b.innerText().catch(()=>'' )).trim();
     const aria=(await b.getAttribute('aria-label').catch(()=>''))||'';
     if(text.toLowerCase()===label.toLowerCase()||aria.toLowerCase()===label.toLowerCase()){
-      await b.click();
+      await b.scrollIntoViewIfNeeded();
+      const box=await b.boundingBox();
+      if(!box) throw new Error(`Navigation ${label} has no clickable bounding box.`);
+      const point={x:box.x+box.width/2,y:box.y+box.height/2};
+      const hit=await page.evaluate(({x,y})=>{
+        const element=document.elementFromPoint(x,y);
+        const nav=element?.closest?.('.sidebar .navBtn');
+        return nav ? {
+          tag:nav.tagName,
+          text:(nav.textContent||'').replace(/\s+/g,' ').trim(),
+          aria:nav.getAttribute('aria-label')||'',
+          nav:nav.getAttribute('data-sb-nav')||'',
+          sourceNav:nav.getAttribute('data-sb-source-nav')||''
+        } : null;
+      },point);
+      const expectedNav=(await b.getAttribute('data-sb-nav'))||'';
+      const hitMatches=Boolean(hit)&&(
+        expectedNav ? hit.nav===expectedNav : (hit.aria||hit.text).toLowerCase()===label.toLowerCase()
+      );
+      lastNavPointerEvidence={label,point,expectedNav,hit};
+      if(!hitMatches){
+        throw new Error(`Navigation ${label} pointer center is intercepted before click: ${JSON.stringify(lastNavPointerEvidence)}.`);
+      }
+      // Use a real browser pointer at the verified hit-tested center. This preserves
+      // pointer semantics while avoiding locator.click() waiting indefinitely after
+      // dispatch if the application enters a post-click render/microtask stall.
+      await page.mouse.click(point.x,point.y);
       await page.waitForTimeout(120);
       return true;
     }
@@ -44,8 +71,12 @@ async function clickNav(page,label){
 
 async function openStore(page){
   if(!await clickNav(page,'Store')) return false;
-  await page.waitForSelector('.marketPage.sbStoreMatch',{state:'attached',timeout:8000});
-  await page.waitForSelector('.marketPage.sbStoreMatch .storeGrid',{state:'attached',timeout:8000});
+  try{
+    await page.waitForSelector('.marketPage.sbStoreMatch',{state:'attached',timeout:8000});
+    await page.waitForSelector('.marketPage.sbStoreMatch .storeGrid',{state:'attached',timeout:8000});
+  }catch(error){
+    throw new Error(`Store did not render after verified real-pointer navigation; navEvidence=${JSON.stringify(lastNavPointerEvidence)}; ${String(error?.message||error)}`);
+  }
   await page.waitForTimeout(160);
   return true;
 }
