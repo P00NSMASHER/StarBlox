@@ -3,7 +3,7 @@
   "batchId": "chat-desks-recovery-2-4-20260922",
   "status": "STAGED_READY_FOR_INDEPENDENT_REVIEW",
   "sourceHead": "e4a629a8621edc1e623c788818440e670122ba59",
-  "workflowRunId": "35672877587",
+  "workflowRunId": 35672877587,
   "transportHelper": "CHAT",
   "canonicalWriter": "08",
   "newGenerations": 0,
@@ -130,7 +130,11 @@
     "metadata": "PASS_3_OF_3_FROM_CURRENT_GAME_MODEL",
     "exactByteReadback": "PASS_6_OF_6",
     "candidateDecode": "PASS_3_OF_3",
-    "independentVisualReview": "PENDING_ASSIGNED_REVIEWERS"
+    "independentVisualReview": "PENDING_ASSIGNED_REVIEWERS",
+    "tests": "PASS",
+    "build": "PASS",
+    "sharedRenderOverall": "FAIL",
+    "deskRepairCardDetailRender": "INCOMPLETE_0_OF_3"
   },
   "freeze": {
     "replitTouched": false,
@@ -139,5 +143,13 @@
     "canonicalMappingsTouched": false,
     "gameplayChanged": false,
     "playerDataTouched": false
-  }
+  },
+  "testedSourceHead": "4fc16cc24aa698d827fb429f3c86c41bc4ec2b95",
+  "renderEvidence": {
+    "artifactName": "desks-2-4-repair-evidence",
+    "reportPath": "artifacts/catalog-staged-art/report.json",
+    "matchedIds": [],
+    "matchedHashes": {}
+  },
+  "independentVisualReview": "PENDING_WORKSTREAM_05_NOT_SELF_APPROVED"
 }
