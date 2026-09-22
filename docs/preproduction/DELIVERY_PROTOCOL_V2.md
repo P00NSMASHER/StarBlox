@@ -10,11 +10,17 @@ Inspected baseline: 32330fe91417d7aaf87e785a218ffad5a5a286aa. Workstream 08's in
 
 ## Cadence and output discipline
 
-Reuse the same 15 automation IDs, now once per hour, staggered in America/New_York. Target minute order: 15 at :00; 03 :02; 04 :05; 06 :08; 07 :11; 09 :14; 11 :17; 01 :20; 02 :24; 05 :28; 14 :32; 08 :40; 12 :44; 13 :48; 10 :52. Offsets reduce contention; they do NOT guarantee completion order or make jobs run continuously. Consume the latest completed hash-bound output, including the previous cycle, rather than sleeping for another task.
+Reuse the same 15 automation IDs once per hour, staggered in America/New_York as a single factory flow: 15 :00; 03 :06; 04 :09; 06 :12; 07 :15; 09 :18; 11 :21; 12 :24; 13 :27; 05 :31; 14 :35; 01 :39; 02 :43; 08 :48; 10 :54. The order is director -> bounded producers -> mixed reviewer/producer -> shared render QA -> independent reviewers -> canonical integration -> mobile QA. Offsets reduce contention; they do NOT guarantee completion order. Consume the latest completed hash-bound output, including the previous cycle, rather than polling or sleeping for another task.
 
 Start with branch head, phase, own report, changed dependencies and current rejection/approval records. Cache stable design/source documents by hash instead of rereading the whole repository every pass. Each productive run must yield a saved usable asset, actual per-item visual decisions, tested integration, verified defect fix, or previously missing test evidence. Scheduling changes, generated promotional posters, source inspection alone, and repeating a handoff are not completion.
 
 One active micro-batch per producer, usually 2–6 items and never more than 12. Prefer a finished, uploaded, reviewed increment over a large uncommitted batch. Reviewers normally handle 12–24 actual images per pass, only as many as they can inspect properly. A target quantity never forces approval. Do not regenerate a READY_FOR_REVIEW item while waiting. Check its hash; complete its evidence or fix an actual review defect.
+
+## Art Factory v2 execution path
+
+The art factory at `docs/preproduction/art-factory/` is the shared production path. Every producer first reconciles live ownership/review state, then uses `scripts/artPromptOptimizer.mjs` and `scripts/artFactoryJob.mjs` for an actionable REWORK/unaccepted item before generation. The job compiler enforces 2–4 distinct prompt variants, stable seeds, exact runtime/model revisions and the user-attested model/checkpoint rights basis. Repository code/data/API/custom-node rights remain separate.
+
+Generation never implies acceptance. Preserve source and derivative bytes, stage/read back exact repository bytes, run report-only perceptual/alpha preflight where applicable, render the real StarBlox card/detail or target surface, and require the assigned independent reviewer to bind a decision to the exact current hash. pHash/dHash/color hash/SSIM prioritize inspection only; they never auto-accept or auto-rework. Workstream 15 maintains `docs/preproduction/art-factory/ACTIVE_BATCH.json` only on material assignment changes, with at most four concurrent production micro-batches and one per producer. Workers revalidate it against newer branch/review evidence before writing.
 
 ## Single ownership and concurrency
 
