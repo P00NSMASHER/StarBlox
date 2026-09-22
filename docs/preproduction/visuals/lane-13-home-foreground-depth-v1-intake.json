@@ -1,0 +1,123 @@
+{
+  "schemaVersion": 1,
+  "candidateId": "home-foreground-depth-w13-v1",
+  "producer": "13",
+  "independentArtReviewer": "01",
+  "compositionPerformanceReviewer": "14",
+  "runtimeCoordinator": "15",
+  "branch": "screenshot-match-preproduction",
+  "status": "STAGED_READY_FOR_INDEPENDENT_REVIEW",
+  "runtimeWired": false,
+  "sourceHeadBeforeStaging": "328ea99adbd69a38096698629be66204f0b19bdc",
+  "referenceEvidence": {
+    "originalReferencePath": "docs/preproduction/reference-screenshots/originals/home-original.jpg",
+    "originalReferenceManifest": "docs/preproduction/reference-screenshots/originals/original-reference-manifest.json",
+    "currentRenderWorkflowRun": 35663655650,
+    "currentRenderArtifact": "preproduction-visual-qa",
+    "observedDefect": "Current Home remains materially flatter than the reference, with weak foreground furniture/contact depth and insufficient dimensional grounding around the avatar/buddy stage."
+  },
+  "producerPixelCheck": "PASS_PREUPLOAD: polished dimensional pink/lilac/cream U-shaped foreground furniture cluster with plush left seating, rounded side furniture, low right shelving/vanity details, rug/contact-shadow treatment, and a deliberately open center for owned/equipped avatar plus buddy staging. No people, animals, UI, text, buttons, logos, or third-party IP. Candidate is a separate layer, not a flattened Home screen.",
+  "responsiveIntent": "Keep central and upper-center panel/readability zones open; foreground mass is biased to lower/outer edges and is intended to tolerate responsive crop without carrying any UI semantics.",
+  "ownershipIsolation": {
+    "touchesWorkstream06AvatarAssets": false,
+    "touchesWorkstream09EnvironmentPaths": false,
+    "exclusiveLane13Paths": true,
+    "runtimeWiringPerformed": false,
+    "canonicalCatalogMappingsTouched": false
+  },
+  "freeze": {
+    "replitTouched": false,
+    "flootTouched": false,
+    "mainTouched": false,
+    "deployPerformed": false,
+    "paidSettingsTouched": false,
+    "playerDataTouched": false,
+    "saveSchemaTouched": false,
+    "rewardOrCurriculumTouched": false
+  },
+  "assets": {
+    "source": {
+      "label": "source",
+      "path": "docs/preproduction/visuals/recovered-originals/home-foreground-depth-w13-v1-source.png",
+      "bytes": 1933442,
+      "dimensions": [
+        2016,
+        1152
+      ],
+      "format": "PNG",
+      "mode": "RGB",
+      "sha256": "0e65297e0678b5f504ec8a284470be0e9c4c2223dceb420f8f1773f52a8aabf7",
+      "gitBlobSha": "ec73d2ae6f7fa334ef63026af89856e720e2632c",
+      "alphaBounds": null,
+      "alphaExtrema": null,
+      "transparentRequired": false
+    },
+    "full": {
+      "label": "full",
+      "path": "public/assets/visuals/lane-13/home-foreground-depth-w13-v1-full.png",
+      "bytes": 1123100,
+      "dimensions": [
+        2016,
+        1152
+      ],
+      "format": "PNG",
+      "mode": "RGBA",
+      "sha256": "716a1c43d103b08ade3ac2fb462cbd18d742df53edcccbee401df58fb9b99366",
+      "gitBlobSha": "d975422c7ab9c3a9e067ff2e25ae011e6ece8042",
+      "alphaBounds": [
+        212,
+        157,
+        1894,
+        1072
+      ],
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "transparentRequired": true
+    },
+    "optimized": {
+      "label": "optimized",
+      "path": "public/assets/visuals/lane-13/home-foreground-depth-w13-v1-1008.png",
+      "bytes": 410577,
+      "dimensions": [
+        1008,
+        576
+      ],
+      "format": "PNG",
+      "mode": "RGBA",
+      "sha256": "eb4583ccb869b5040f007a556e7220c9276732809de18d7302afdf16ba5252ed",
+      "gitBlobSha": "7679247376adaa69a28006b2a515489431b6a9bc",
+      "alphaBounds": [
+        106,
+        78,
+        947,
+        536
+      ],
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "transparentRequired": true
+    }
+  },
+  "checks": {
+    "sourceDecode": "PASS_PNG_2016x1152",
+    "fullDecode": "PASS_PNG_2016x1152",
+    "optimizedDecode": "PASS_PNG_1008x576",
+    "fullTransparency": "PASS_MEANINGFUL_ALPHA",
+    "optimizedTransparency": "PASS_MEANINGFUL_ALPHA",
+    "separateLayerNotFlattenedScreen": "PASS_BY_ASSET_SCOPE_AND_PIXEL_INSPECTION",
+    "uiTextButtonsAbsent": "PASS_BY_PRODUCER_PIXEL_INSPECTION",
+    "exactRepositoryReadback": "PENDING_REMOTE_READBACK",
+    "independentArtReview": "PENDING_01",
+    "compositionPerformanceReview": "PENDING_14",
+    "runtimeIntegration": "NOT_PERFORMED"
+  },
+  "reviews": {
+    "01": "PENDING_INDEPENDENT_ART_REVIEW",
+    "14": "PENDING_COMPOSITION_PERFORMANCE_REVIEW",
+    "15": "PENDING_COORDINATION_BEFORE_ANY_RUNTIME_WIRING"
+  },
+  "releaseGates": "Existing regression/build failures remain external release gates for 08/14/15 and are not changed by this visual intake."
+}
