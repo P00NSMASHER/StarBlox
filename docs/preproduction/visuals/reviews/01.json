@@ -2,11 +2,11 @@
   "schemaVersion": 1,
   "reviewer": "01",
   "role": "Visual Target Director / independent scene-art reviewer",
-  "phase": "CATALOG_SPRINT",
+  "phase": "ART_AND_VISUALS_ONLY",
   "branch": "screenshot-match-preproduction",
-  "sourceHead": "8ab7f69f30279827f11a94fa0ed4b63da615769e",
-  "reviewedAt": "2026-09-21T23:26:00-04:00",
-  "scope": "Workstream-13 scene/character art direction only; no runtime wiring authority",
+  "sourceHead": "42afcd1eb4cd97f94c95312cfa3893edb37540bf",
+  "reviewedAt": "2026-09-22T01:36:00-04:00",
+  "scope": "Independent Workstream-13 scene/character art direction only; no runtime wiring or catalog-canonical authority",
   "reference": {
     "screen": "Home",
     "path": "docs/preproduction/reference-screenshots/originals/home-1448x1086.jpeg",
@@ -14,6 +14,29 @@
     "adobeAssetId": "urn:aaid:sc:US:12ec85e5-0ee5-4871-b864-5664180dd47b",
     "actualPixelsInspected": true
   },
+  "referenceSet": [
+    {
+      "screen": "Home",
+      "path": "docs/preproduction/reference-screenshots/originals/home-1448x1086.jpeg",
+      "sha256": "6a4b110aeaf12a6ab0c629f9181cc6cfa8d4f55a518d4f2a6adb3ac6e756c457",
+      "gitBlobSha": "cd4905ff1a8b97d784698ae1b0f8c3521937711e",
+      "actualPixelsInspected": true
+    },
+    {
+      "screen": "Store",
+      "path": "docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg",
+      "sha256": "b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d",
+      "gitBlobSha": "383baa877d3af86fa92e3583740212000592b3d6",
+      "actualPixelsInspected": true
+    },
+    {
+      "screen": "Quest",
+      "path": "docs/preproduction/reference-screenshots/originals/quest-1448x1086.jpeg",
+      "sha256": "70f1b952709a85c77bb11851ffe9ae704acf8b97640355e908b6ec537b5c73c9",
+      "gitBlobSha": "52ce6c21f08acd34070e1e692c2c436f77a3e420",
+      "actualPixelsInspected": true
+    }
+  ],
   "reviews": [
     {
       "candidateId": "home-bedroom-w13-v1",
@@ -60,6 +83,68 @@
         "14": "Do not composition-approve v1 for runtime wiring; review v2 for overlay-safe zones, format/performance and real-browser composition after Workstream 13 stages it.",
         "15": "No runtime handoff is recommended for v1. Keep Workstream 09 active environment unchanged until a revised independently accepted candidate exists."
       }
+    },
+    {
+      "candidateId": "avatar-keyart-fullbody-w13-v1",
+      "candidateType": "full-body-avatar-key-art",
+      "producer": "13",
+      "assetPath": "public/assets/visuals/lane-13/avatar-keyart-fullbody-w13-v1-full.png",
+      "assetSha256": "3c6d71689d604b16e4ad0d4998abcea0916ebc671e42329889a9c0202228db35",
+      "assetGitBlobSha": "4904d4e910292b0b049f73f5d2c3785913fb2af3",
+      "assetDimensions": [1360, 1744],
+      "optimizedCompanion": {
+        "path": "public/assets/visuals/lane-13/avatar-keyart-fullbody-w13-v1-896.png",
+        "sha256": "88869744dc91ccc3b4684d9b0c2269ea0669ad992e0a8040f988b9a61bfaa35e",
+        "gitBlobSha": "76a4be6c4ca63d65aecde4f136227bd2e8abc1da",
+        "dimensions": [896, 1149],
+        "actualPixelsInspected": true
+      },
+      "intakeEvidence": "docs/preproduction/visuals/lane-13-avatar-keyart-fullbody-v1-intake.json",
+      "intakeWorkflowRun": 35689262031,
+      "intakeArtifactId": 10678266815,
+      "actualPixelsInspected": true,
+      "referencePixelsInspected": ["Home", "Store", "Quest"],
+      "decision": "REWORK",
+      "checks": {
+        "longBrownHairContinuity": "PASS",
+        "catEarHeadsetContinuity": "PASS_WITH_COLOR_MATERIAL_DRIFT",
+        "faceIdentityConsistency": "REWORK",
+        "blockWorldBodyProportions": "REWORK",
+        "dimensionalCharacterQuality": "PASS",
+        "materialAndLightingQuality": "PASS",
+        "silhouetteAtFullAndOptimizedScale": "PASS",
+        "childAppropriateStyling": "PASS",
+        "separableFromSceneAlpha": "PASS",
+        "equippedStateSafety": "PASS_AS_GUIDANCE_ONLY_NOT_RUNTIME",
+        "obviousThirdPartyIpOrLogoReuse": "PASS"
+      },
+      "strengths": [
+        "The exact staged pixels are polished and genuinely dimensional: hair, jacket, denim, headset and shoes have readable volume, soft material response and controlled cyan/warm rim lighting rather than flat vector treatment.",
+        "Long brown hair and cat-ear headset preserve the two strongest high-level identity markers from all three original reference screens.",
+        "The full and 896px companion retain a clean, child-appropriate silhouette with verified transparent surround, so the figure can be composited separately from scene backgrounds.",
+        "No baked UI, text, counters, logos or scene pixels are present; the candidate remains isolated key art rather than a fake running-game screenshot."
+      ],
+      "reworkReasons": [
+        "The authoritative Home/Store/Quest avatar has a chunky block-world/toy-game silhouette with squared forearms and hands, broad rectangular legs and oversized blocky shoes. This candidate changes that core identity into a generic rounded chibi figure with articulated fingers, narrower limbs and conventional human proportions.",
+        "The face reads as a different character despite the matching hair/headset cues: the references use very high-contrast black oval eyes or a wink, pronounced cheek marks and a wide open joyful mouth, while this candidate uses brown irises, softer realistic eyelids and a small closed smile.",
+        "The headset silhouette is directionally correct, but its pale lavender earcups and soft pastel construction drift from the reference’s stronger hot-pink/black cat-headset identity, reducing instant cross-screen recognition.",
+        "Because the jacket, shirt, jeans and shoes are flattened into this one character layer, the image is safe only as noncanonical visual guidance/key art. It must never become a runtime avatar substitute that overrides the player’s equipped catalog state."
+      ],
+      "repairContract": [
+        "Preserve the current transparent full-body architecture, clean cutout, long brown hair, premium material depth and controlled cyan/warm key lighting.",
+        "Move the base body silhouette materially closer to the originals: chunkier block-world proportions, squared/boxier forearms and hands, thicker rectangular legs and larger toy-like shoes while keeping the pose readable.",
+        "Restore the reference facial language: larger high-contrast near-black oval eyes, stronger cheek/blush marks and a wider open cheerful expression; keep enough facial simplicity to read consistently beside the Home, Store and Quest avatar at UI scale.",
+        "Push the cat-ear headset toward the reference identity with stronger hot-pink outer structure and darker earcup/accent contrast; preserve the cat-ear silhouette and avoid realistic consumer-brand detailing.",
+        "Keep all visible clothing/accessories explicitly noncanonical guidance. If this art is ever adapted for runtime use, wardrobe/accessories must be separate/swappable components driven by equipped state rather than baked into the avatar layer."
+      ],
+      "handoff": {
+        "13": "Produce a bounded v2 avatar key-art candidate that keeps v1's material/lighting quality but repairs face identity and block-world body proportions. Do not treat the visible outfit as canonical.",
+        "14": "Composition/performance ownership remains with reviewer 14; this reviewer-01 verdict is art/identity only and makes no screenshot-parity claim.",
+        "15": "Keep v1 out of runtime/canonical wiring. Route a new exact repo-stored hash back to reviewer 01 only after the bounded identity/proportion repair is staged with readback evidence."
+      },
+      "runtimeAuthority": false,
+      "screenshotParityClaim": false,
+      "outfitAuthority": "NONCANONICAL_VISUAL_GUIDANCE_ONLY_DO_NOT_OVERRIDE_EQUIPPED_STATE"
     }
   ],
   "freeze": {
