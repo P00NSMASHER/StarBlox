@@ -43,14 +43,20 @@ jobs:
           const r=JSON.parse(fs.readFileSync('artifacts/mastery-shadow/simulation.json','utf8'));
           if(r.mode!=='SHADOW_ONLY_NO_RUNTIME_SELECTION_CHANGE') throw new Error('shadow safety marker missing');
           if(!(r.questionCount>0&&r.skillCount>0)) throw new Error('empty question/skill corpus');
-          if(!Array.isArray(r.scenarios)||r.scenarios.length<2) throw new Error('insufficient shadow scenarios');
+          if(!Array.isArray(r.scenarios)||r.scenarios.length<3) throw new Error('insufficient shadow scenarios');
+          if(r.summary?.expectationPassCount!==r.summary?.scenarioCount) throw new Error('shadow scenario expectation mismatch');
+          if(!(r.summary?.nonNullMicroChallengeCount>0)) throw new Error('shadow benchmark failed to exercise an eligible micro-challenge');
+          if(!(r.summary?.nullMicroChallengeCount>0)) throw new Error('shadow benchmark failed to exercise empty/suppressed selection');
           console.log(JSON.stringify({
             questionCount:r.questionCount,
             skillCount:r.skillCount,
+            summary:r.summary,
             scenarios:r.scenarios.map(x=>({
               id:x.id,
               currentSkills:x.currentHeuristic.map(q=>q.skill),
-              microChallenge:x.microChallenge?.skill??null
+              microChallenge:x.microChallenge?.skill??null,
+              expectedMicroSkill:x.expectedMicroSkill,
+              expectationPass:x.expectationPass
             }))
           },null,2));
           NODE
