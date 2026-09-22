@@ -74,6 +74,27 @@ function signatureCheck(p) {
     return {ok:false,reason:`unsupported-${ext}`};
   } catch(error) { return {ok:false,reason:String(error)}; }
 }
+function assetSafetyCheck(p) {
+  try {
+    const ext=path.extname(p).toLowerCase();
+    if(ext!=='.svg') return {ok:true,reason:'raster-self-contained'};
+    const text=fs.readFileSync(p,'utf8');
+    const patterns=[
+      ['script-element',/<script\b/i],
+      ['foreign-object',/<foreignObject\b/i],
+      ['event-handler',/\son[a-z][\w:-]*\s*=/i],
+      ['javascript-url',/\b(?:href|xlink:href)\s*=\s*["']\s*javascript:/i],
+      ['external-href',/\b(?:href|xlink:href)\s*=\s*["']\s*(?:https?:)?\/\//i],
+      ['external-css-url',/url\(\s*["']?\s*(?:https?:)?\/\//i],
+      ['css-import',/@import\b/i],
+      ['xml-entity',/<!ENTITY\b/i]
+    ];
+    const findings=patterns.filter(([,re])=>re.test(text)).map(([name])=>name);
+    return {ok:findings.length===0,reason:findings.length?findings.join(','):'svg-self-contained-no-active-content',findings};
+  } catch(error) {
+    return {ok:false,reason:String(error),findings:['safety-scan-error']};
+  }
+}
 function mimeForPath(p){
   const ext=path.extname(p).toLowerCase();
   if(ext==='.svg') return 'image/svg+xml';
@@ -104,12 +125,12 @@ function laneMetaById(){
 function selectCurrentReplacementCandidates(report){
   const meta=laneMetaById(), candidates=new Map();
   const add=c=>{
-    const actualBlobSha=blobSha(c.repositoryPath), signature=signatureCheck(c.repositoryPath);
+    const actualBlobSha=blobSha(c.repositoryPath), signature=signatureCheck(c.repositoryPath), safety=assetSafetyCheck(c.repositoryPath);
     if(c.declaredBlobSha && c.declaredBlobSha!==actualBlobSha){
       report.warnings.push(`${c.id}: skipped stale lane binding ${c.repositoryPath}; declared ${c.declaredBlobSha} != actual ${actualBlobSha}`);
       return;
     }
-    const item={...c,blobSha:actualBlobSha,signature};
+    const item={...c,blobSha:actualBlobSha,signature,safety};
     const list=candidates.get(c.id)??[];list.push(item);candidates.set(c.id,list);
   };
   for(const [id,objects] of meta.entries()) for(const o of objects){
@@ -132,17 +153,17 @@ function selectCurrentReplacementCandidates(report){
     // look like the current candidate in reviewer evidence.
     const laneBound=dedup.filter(x=>x.discovery==='lane-reviewable');
     const pool=laneBound.length?laneBound:dedup;
-    const valid=pool.filter(x=>x.signature.ok);
+    const valid=pool.filter(x=>x.signature.ok&&x.safety.ok);
     const pick=laneBound.length?valid.at(-1):valid.sort((a,b)=>b.repositoryPath.localeCompare(a.repositoryPath))[0];
     if(pick) selected.push(pick);
     for(const c of dedup){
       if(pick&&c.repositoryPath===pick.repositoryPath&&c.blobSha===pick.blobSha) continue;
-      const reason=!c.signature.ok?'invalid-file-signature':laneBound.length&&c.discovery!=='lane-reviewable'?'stale-alternate-not-selected-authoritative-lane-binding-present':'alternate-version-not-selected';
-      report.skippedCandidates.push({id,repositoryPath:c.repositoryPath,blobSha:c.blobSha,signature:c.signature,reason});
+      const reason=!c.signature.ok?'invalid-file-signature':!c.safety.ok?'unsafe-or-external-svg-content':laneBound.length&&c.discovery!=='lane-reviewable'?'stale-alternate-not-selected-authoritative-lane-binding-present':'alternate-version-not-selected';
+      report.skippedCandidates.push({id,repositoryPath:c.repositoryPath,blobSha:c.blobSha,signature:c.signature,safety:c.safety,reason});
     }
     if(!pick){
-      const detail=pool.map(x=>`${x.repositoryPath}@${x.blobSha} signature=${x.signature.ok?'PASS':'FAIL'}`).join(', ');
-      report.errors.push(`${id}: authoritative staged replacement is not renderable (${detail}); stale alternates were not substituted`);
+      const detail=pool.map(x=>`${x.repositoryPath}@${x.blobSha} signature=${x.signature.ok?'PASS':'FAIL'} safety=${x.safety.ok?'PASS':'FAIL:'+x.safety.reason}`).join(', ');
+      report.errors.push(`${id}: authoritative staged replacement is not renderable/safe (${detail}); stale alternates were not substituted`);
     }
   }
   return selected.sort((a,b)=>a.id.localeCompare(b.id));
@@ -153,22 +174,25 @@ function selectOwnCollectionPath(lane,id,fallback,report){
   for(let i=0;i<matches.length;i++){
     const o=matches[i], p=candidatePathFromObject(o);
     if(!p) continue;
-    const sig=signatureCheck(p);
+    const sig=signatureCheck(p), safety=assetSafetyCheck(p);
     if(!sig.ok){report.warnings.push(`${id}: ignored invalid lane candidate ${p} (${sig.reason})`);continue;}
+    if(!safety.ok){report.warnings.push(`${id}: ignored unsafe/external-content lane candidate ${p} (${safety.reason})`);continue;}
     const actual=blobSha(p), declared=declaredHash(o);
     if(declared && declared!==actual){report.warnings.push(`${id}: ignored stale lane binding ${p}; declared ${declared} != actual ${actual}`);continue;}
     const replacement=isReplacementPath(id,p);
     const score=(looksReviewable(o)&&replacement)?40:(looksAccepted(o)&&replacement)?30:replacement?20:(looksReviewable(o)?10:0);
-    viable.push({p,actual,declared,state:stateText(o),score,index:i});
+    viable.push({p,actual,declared,state:stateText(o),score,index:i,safety});
   }
   viable.sort((a,b)=>b.score-a.score||b.index-a.index);
   const pick=viable[0];
   if(pick){
-    report.selectedBindings.push({id,repositoryPath:pick.p,blobSha:pick.actual,declaredBlobSha:pick.declared,state:pick.state,selectionScore:pick.score});
+    report.selectedBindings.push({id,repositoryPath:pick.p,blobSha:pick.actual,declaredBlobSha:pick.declared,state:pick.state,selectionScore:pick.score,safety:pick.safety});
     return pick.p;
   }
   const actual=fs.existsSync(fallback)?blobSha(fallback):null;
-  report.selectedBindings.push({id,repositoryPath:fallback,blobSha:actual,declaredBlobSha:null,state:'FALLBACK',selectionScore:-1});
+  const fallbackSafety=fs.existsSync(fallback)?assetSafetyCheck(fallback):{ok:false,reason:'missing-fallback'};
+  report.selectedBindings.push({id,repositoryPath:fallback,blobSha:actual,declaredBlobSha:null,state:'FALLBACK',selectionScore:-1,safety:fallbackSafety});
+  if(!fallbackSafety.ok) report.errors.push(`${id}: fallback asset failed active-content/external-dependency safety scan: ${fallbackSafety.reason}`);
   return fallback;
 }
 function selectVisualCandidates(report){
@@ -198,10 +222,11 @@ function selectVisualCandidates(report){
         const actualBlobSha=blobSha(repositoryPath), key=`${repositoryPath}:${actualBlobSha}`;
         if(seen.has(key)) continue;
         seen.add(key);
-        const signature=signatureCheck(repositoryPath);
+        const signature=signatureCheck(repositoryPath), safety=assetSafetyCheck(repositoryPath);
         if(!signature.ok){report.warnings.push(`${candidateId}: ignored invalid visual asset ${repositoryPath} (${signature.reason})`);continue;}
+        if(!safety.ok){report.errors.push(`${candidateId}: blocked unsafe/external-content visual asset ${repositoryPath} (${safety.reason})`);continue;}
         const n=(counters.get(candidateId)??0)+1;counters.set(candidateId,n);
-        out.push({id:`${candidateId}-${n}`,name:`${candidateId} ${n}`,tier:null,theme:targetScreen??candidateType,producerLane:lanePath,discovery:'visual-lane-recursive',repositoryPath,blobSha:actualBlobSha,signature,declaredDimensions,candidateId,candidateType,targetScreen});
+        out.push({id:`${candidateId}-${n}`,name:`${candidateId} ${n}`,tier:null,theme:targetScreen??candidateType,producerLane:lanePath,discovery:'visual-lane-recursive',repositoryPath,blobSha:actualBlobSha,signature,safety,declaredDimensions,candidateId,candidateType,targetScreen});
       }
     }
   }
