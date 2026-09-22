@@ -138,9 +138,9 @@
     "independentVisualReview": "PENDING_05",
     "tests": "PASS",
     "build": "PASS",
-    "sharedRenderOverall": "FAIL",
+    "sharedRenderOverall": "FAIL_ONLY_UNRELATED_BROKEN_DESKS_2_4",
     "typecheck": "NOT_APPLICABLE_NO_TYPESCRIPT_APP_CHANGES",
-    "bedsCardDetailRender": "INCOMPLETE_0_OF_4"
+    "bedsCardDetailRender": "PASS_4_OF_4_RUN_35670173939_ARTIFACT_10669903568"
   },
   "freeze": {
     "replitTouched": false,
@@ -150,13 +150,23 @@
     "gameplayChanged": false,
     "playerDataTouched": false
   },
-  "handoff": "05: independently inspect exact Bed 1-4 hashes at card/detail scale. 08: integrate only after qualified ACCEPT. 02: preserve these exact versions pending review.",
+  "handoff": "05: independently review the four exact Bed replacement hashes using run 35670173939 artifact 10669903568; do not inherit legacy Bed REWORK. 08: integrate only after qualified ACCEPT. 02: preserve these exact versions pending review.",
   "testedSourceHead": "71cb45613552296e25637d152088179ee9590101",
   "renderEvidence": {
-    "artifactName": "beds-1-4-recovery-evidence",
-    "reportPath": "artifacts/catalog-staged-art/report.json",
-    "matchedIds": [],
-    "matchedHashes": {}
+    "workflowRunId": 35670173939,
+    "artifactId": 10669903568,
+    "artifactName": "catalog-staged-art-review",
+    "artifactDigest": "sha256:e61277737c96d83617b1b476d624db06249044e5059b9113cfe25be8ce52f163",
+    "sourceHead": "7f572db31f924c40b0827e63a738f4df44d5f8e7",
+    "contactSheet": "staged-replacements/staged-replacements-contact-sheet.png",
+    "detailPaths": {
+      "beds-1": "staged-replacements/detail/beds-1-0b9f4213.png",
+      "beds-2": "staged-replacements/detail/beds-2-67a0fe28.png",
+      "beds-3": "staged-replacements/detail/beds-3-22b1d9f6.png",
+      "beds-4": "staged-replacements/detail/beds-4-18fa8722.png"
+    },
+    "scopedResult": "PASS_4_OF_4_HTTP_DECODE_NONBLANK_SCREENSHOT_NO_ITEM_ERRORS",
+    "unrelatedGlobalFailure": "Known broken Desk 2-4 candidate hashes remain invalid and are separately assigned for repair."
   },
   "independentVisualReview": "PENDING_WORKSTREAM_05_NOT_SELF_APPROVED"
 }
