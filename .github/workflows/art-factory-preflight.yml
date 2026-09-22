@@ -123,11 +123,9 @@ jobs:
           visual_code = {
               'scripts/catalogVisualPreflight.py',
               'scripts/catalogVisualCalibration.py',
-              'scripts/artReviewNormalizer.mjs',
               'docs/preproduction/art-factory/verify_staged_output.py',
               'requirements-art-factory-ci.txt',
               '.github/workflows/art-factory-preflight.yml',
-              'src/gameModel.js',
           }
           review_change = any(p.startswith('docs/preproduction/catalog-sprint/reviews/') for p in changed)
           raster_change = any(raster.match(p) for p in changed)
@@ -178,7 +176,6 @@ jobs:
               f.write(f"calibrate={'true' if calibrate else 'false'}\n")
               f.write(f"changed_rasters={'true' if raster_change else 'false'}\n")
               f.write(f"review_change={'true' if review_change else 'false'}\n")
-              f.write(f"visual_tools_changed={'true' if visual_script_change else 'false'}\n")
           print(json.dumps({
               'changedCount': len(changed),
               'hydratedRasterCount': len(asset_paths),
@@ -195,7 +192,6 @@ jobs:
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: 22
-          package-manager-cache: false
 
       - name: Verify fast factory contract
         run: |
@@ -229,13 +225,15 @@ jobs:
         uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: '3.12'
+          cache: pip
+          cache-dependency-path: requirements-art-factory-ci.txt
 
       - name: Install image verifier dependency
         if: steps.scope.outputs.python == 'true'
-        run: python -m pip install --disable-pip-version-check --no-input --no-compile --only-binary=:all: -r requirements-art-factory-ci.txt
+        run: python -m pip install --disable-pip-version-check --no-input --no-compile -r requirements-art-factory-ci.txt
 
       - name: Self-test exact-byte and visual tooling
-        if: steps.scope.outputs.visual_tools_changed == 'true' || github.event_name == 'workflow_dispatch'
+        if: steps.scope.outputs.python == 'true'
         run: |
           python docs/preproduction/art-factory/verify_staged_output.py self-test
           python scripts/catalogVisualPreflight.py self-test
