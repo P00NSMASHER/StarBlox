@@ -1,6 +1,6 @@
 # Art + Visuals Sprint — Lane 06 Companions / Seating / Shoes
 
-STATUS: **COMPANION 2/5/6/7 PENDING REVIEWER 05 · SEATING 7–10 ACCEPTED · SEATING 11–12 READY FOR REVIEWER 02**
+STATUS: **COMPANION 2/5/6/7 PENDING REVIEWER 05 · SEATING 7–10 ACCEPTED · SEATING 11–12 READY FOR WS14 RENDER / REVIEWER 02 BLOCKED ON PIXELS · SHOES 7–10 GENERATED REMOTELY / REPOSITORY UPLOAD BLOCKED**
 
 Branch: `screenshot-match-preproduction`  
 Workstream: 06  
@@ -47,45 +47,51 @@ Reviewer 02 accepted all four previously staged exact hashes. They are producer-
 | `seating-9` | Art Stool | T3 / Berry Blast | `7fcdea13121a8820dd8dc64e8982637acb2c5819` |
 | `seating-10` | Pod Chair | T4 / Garden Glow | `9aa53664cbc8ee24283ea44830f1f3037c576340` |
 
-## Material increment this pass — Seating 11–12 premium pilot
+## Seating 11–12 — exact evidence reconciled, no regeneration
 
-Because the companion batch remains review-blocked and Seating 7–10 has passed reviewer 02, Workstream 06 advanced only the two remaining assigned Seating IDs. Existing legacy SVGs and the earlier low-resolution Seating-11 chat-intake crop were preserved rather than relabeled.
-
-Both new items use original premium dimensional product art with distinct silhouettes/materials, no third-party character geometry, no Store-ID changes, and no canonical wiring. Exact current Store metadata was checked before staging.
+The current candidate bytes were preserved exactly. Direct branch readback and reviewer-02 evidence agree on the two candidate identities below; prior producer-ledger hashes were stale bookkeeping only and are preserved in `lane-06.json` reconciliation history rather than reused as review evidence.
 
 | ID | Store identity | Candidate path | Exact Git blob | SHA-256 | Bytes | Dimensions |
 | --- | --- | --- | --- | --- | ---: | --- |
-| `seating-11` | Moon Chair · T4 · Galaxy Glow · 1276 · 5★ | `public/assets/catalog/seating-11-w06-v2.png` | `5126e9db42ed26b15ddf7229218337753b1868a8` | `2bf8cbeac3824cd34c60c98d7c4d56d586ba7039cebe8e9d14122934a7819599` | 579,001 | 768×768 |
-| `seating-12` | Throne Chair · T5 · Sunny Pop · 1740 · 9★ | `public/assets/catalog/seating-12-w06-v2.png` | `793b32568f2089eaadf33853992864775a7e90d1` | `589181f736b7837d1cfb6e9adf16446f908cb8ff02d62027bc37c826f5b3d83e` | 577,216 | 768×768 |
+| `seating-11` | Moon Chair · T4 · Galaxy Glow · 1276 · 5★ | `public/assets/catalog/seating-11-w06-v2.png` | `5126e9abcec4a09ef281dccb33aac6ba59b38b94` | `2bf8b90027f58f24323121305d675edc91ccb996605cd10ca73ccbe077645c47` | 579,001 | 768×768 |
+| `seating-12` | Throne Chair · T5 · Sunny Pop · 1740 · 9★ | `public/assets/catalog/seating-12-w06-v2.png` | `793b32f60ed10fffa80b549e75b66858ac0d7e4f` | `5891818da864e528aaceb598f93d2b3426cb91c3eb1acd0375e4f57cbe7d69df` | 577,216 | 768×768 |
 
-Full-resolution retained sources:
+Full-resolution retained sources remain at their existing paths. Their current Git blob identities were re-read directly from the branch:
 
-| ID | Source path | Exact Git blob | SHA-256 | Bytes | Dimensions |
-| --- | --- | --- | --- | ---: | --- |
-| `seating-11` | `docs/preproduction/catalog-sprint/recovered-originals/seating-11-12-20260921/seating-11-source.png` | `117f0fd52f9870b90fd27b1f4d084b239674d288` | `db820aef4582442ff30031f9b46e9c5f2dd674c450e54ab9c0f35a4db429e577` | 1,055,128 | 1024×1024 |
-| `seating-12` | `docs/preproduction/catalog-sprint/recovered-originals/seating-11-12-20260921/seating-12-source.png` | `eab756b66bbd4c7aa2520379543879d4962033a7` | `2a52fd1ecb3e3ec08f89440041164859b1311ff51ed3ed07b01d63cddab7046e` | 1,108,644 | 1024×1024 |
+| ID | Source path | Exact current Git blob | Dimensions |
+| --- | --- | --- | --- |
+| `seating-11` | `docs/preproduction/catalog-sprint/recovered-originals/seating-11-12-20260921/seating-11-source.png` | `117f0bf64ef102b981e270add770b124e9ed4ba0` | 1024×1024 |
+| `seating-12` | `docs/preproduction/catalog-sprint/recovered-originals/seating-11-12-20260921/seating-12-source.png` | `eab756cac2821ad2c77c549988f5ef371ce1574d` | 1024×1024 |
 
-### Actual checks completed
+### Independent-render handoff
 
-- **PASS 2/2 — current Store metadata:** name, collection, type, tier, theme, price and star requirement checked against the exported Store model before any asset commit.
-- **PASS 2/2 — full-resolution source decode:** PNG, 1024×1024.
-- **PASS 2/2 — optimized review derivative decode:** PNG, 768×768.
-- **PASS 2/2 — unique candidate content.**
-- **PASS 4/4 — post-push repository readback:** source and candidate blobs at exact current-branch paths/hashes/byte sizes.
-- **PASS 2/2 — producer actual-pixel inspection:** Moon Chair reads as a dimensional crescent seat with Galaxy Glow treatment; Throne Chair reads as a materially richer sunburst high-back throne with Sunny Pop treatment. Both are child-friendly, accessory/material-distinct, text-free and unbranded.
-- **PENDING — independent actual-pixel acceptance:** reviewer 02 must decide the exact two candidate hashes above.
+Reviewer 02 currently records both exact candidate hashes as **`BLOCKED_EVIDENCE_NOT_DECISION`**, because the shared staged-art fixture has not yet emitted real card/detail pixels for these exact versions. Workstream 14 should render `/assets/catalog/seating-11-w06-v2.png` at blob `5126e9abcec4a09ef281dccb33aac6ba59b38b94` and `/assets/catalog/seating-12-w06-v2.png` at blob `793b32f60ed10fffa80b549e75b66858ac0d7e4f`; reviewer 02 then independently decides ACCEPT/REWORK from those pixels. No regeneration is warranted for this evidence-only blocker.
+
+## Shoes 7–10 — bounded production attempt, not staged
+
+Reviewer 02 still has the exact legacy shoe SVGs in **REWORK**, and the current branch tree contains no newer `shoes-7-w*` through `shoes-10-w*` candidate paths. Workstream 06 therefore used the assigned 4-item production slot and produced visually inspected premium dimensional candidates for the exact Store identities: `shoes-7` Skate Shoe / T3 / Cloud Pop, `shoes-8` Chunky Sneaker / T3 / Pixel Party, `shoes-9` Light-Up Shoe / T3 / Berry Blast, and `shoes-10` Trail Boot / T4 / Garden Glow.
+
+The generated pixels show full footwear pairs with materially distinct construction: Skate Shoe uses stitched pastel textile/suede panels, real laces and layered soles; Chunky Sneaker uses exaggerated stacked tread, lace cage and cyan/magenta pixel hardware; Light-Up Shoe uses berry/plum layered uppers and embedded luminous sole bars; Trail Boot uses deep lug soles, reinforced toes, padded collars, speed hooks and Garden Glow leaf detailing. All four passed producer visual inspection for distinct silhouette, material depth, pair completeness, child-friendly presentation and no text/branding/third-party IP.
+
+**Repository status: `GENERATED_REMOTE / UPLOAD_BLOCKED / NOT_STAGED / NOT_REVIEWABLE`.** The generation/edit service returned only remote image outputs in this runtime, and the working container could not resolve those output hosts to obtain exact binary bytes. Therefore no source/candidate path, Git blob, SHA-256, byte count, repository readback or READY_FOR_REVIEW claim has been invented; the current legacy SVGs remain untouched. A later run may stage these exact visual concepts only after supported binary transfer is available, or regenerate a bounded batch if the remote outputs cannot be recovered.
+
+## Current checks and boundaries
+
+- **PASS — Seating 11–12 exact candidate identity:** direct branch/reviewer evidence matches the coordination hashes above.
+- **PASS — Seating retained-source Git identity:** both source blob IDs were re-read directly and stale ledger values identified.
+- **PENDING — Seating 11–12 independent pixel acceptance:** WS14 render evidence first, reviewer 02 decision second.
+- **PASS — Shoes 7–10 eligibility:** current exact legacy hashes remain reviewer-02 REWORK and no newer staged candidate paths were present in the current branch tree before generation.
+- **PASS — Shoes 7–10 producer visual inspection:** four distinct dimensional footwear concepts generated and inspected.
+- **BLOCKED — Shoes 7–10 repository staging:** exact binary transfer/readback unavailable in this runtime; no staging claim made.
 - **NOT PERFORMED — canonical integration:** Workstream 08 only.
-
-Asset staging workflow run: `35672223467`  
-Asset commit: `efe5551ad0f42e23bb4524578f367a42e9a6b4cb`
-
-Temporary intake tooling removed itself after the asset commit; the current branch retains only the intended versioned assets/sources plus this lane handoff.
+- **UNCHANGED — player saves/equipped IDs, ownership, Buddy Bond, learning progress, Store IDs/economy, regression tests, original reference images, Replit/Floot/main/deployment.**
 
 ## Next bounded work
 
-1. **05:** independently review `companions-2/5/6/7` current exact rich hashes; do not transfer legacy SVG REWORK decisions.
-2. **02:** independently review `seating-11` and `seating-12` exact staged PNG hashes at card/detail scale.
-3. **08:** remain sole owner of canonical catalog manifest/runtime integration.
-4. **06:** consume new reviewer decisions first. Preserve accepted bytes; repair only exact REWORK IDs. If reviews remain pending and `ART_VISUALS_SPRINT.json` still assigns the secondary lane, advance only the next 2–4 IDs from `shoes-7..12` rather than repeating companion/seating work.
+1. **14:** render the exact current Seating-11/12 hashes above at card/detail scale through the shared staged-art fixture.
+2. **02:** independently decide Seating-11/12 from that exact render evidence; independently review Shoes 7–10 only after repository-staged exact binaries exist.
+3. **06:** preserve all accepted Companion/Seating/Shoes versions; on the next run, first consume new reviewer decisions, then retry supported binary staging for the bounded Shoes 7–10 concepts if no newer candidate has appeared. Do not move to Shoes 11–12 until this 7–10 pilot has actual repository evidence/review.
+4. **05:** continue independent Companion review on current exact hashes.
+5. **08:** remain sole owner of canonical catalog manifest/runtime integration after exact-hash acceptance.
 
 **No player save, equipment/item ID, ownership, Buddy Bond, learning progress, pricing/economy, canonical manifest/runtime, Replit, Floot, deployment, or `main` was changed.**
