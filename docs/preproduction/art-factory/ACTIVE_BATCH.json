@@ -2,23 +2,65 @@
   "schemaVersion": 1,
   "owner": "15",
   "branch": "screenshot-match-preproduction",
-  "sourceHead": "353cb72391e453a028f374f4ba7551ed823a2c3f",
-  "status": "RECONCILE_LIVE_BEFORE_USE",
+  "sourceHead": "1bfc2a56fa17fab226e44dc4ca78a10a85d71bd2",
+  "status": "ACTIVE_REVALIDATE_LIVE_BEFORE_WRITE",
   "policy": {
     "maxConcurrentProductionBatches": 4,
     "maxItemsPerBatch": 4,
     "oneBatchPerProducer": true,
     "preserveAcceptedExactHashes": true,
     "preservePendingReviewCandidates": true,
-    "reviewersRemainIndependent": [
-      "01",
-      "02",
-      "05",
-      "14"
-    ],
+    "reviewersRemainIndependent": ["01", "02", "05", "14"],
     "canonicalWriter": "08",
     "updateOnlyOnMaterialChange": true
   },
-  "batches": [],
+  "batches": [
+    {
+      "producer": "09",
+      "batchId": "w09-decor-3-4-v3",
+      "scope": ["decor-3", "decor-4"],
+      "state": "ACTIONABLE_REWORK_FACTORY_PILOT",
+      "reviewer": "14",
+      "basis": "Reviewer 14 preserves Decor 1-2 ACCEPT and exact legacy Decor 3-12 REWORK. Tops 11-12 v7 exact payload transport remains unchanged-blocked, so the user's anti-stall direction opens only Decor 3-4 as producer 09's bounded active production pilot.",
+      "requirements": "Use artPromptOptimizer and artFactoryJob v2 before generation; produce only a bounded 2-4 variant plan, record prompt SHA/seed/runtime/model revision/conditioning hashes, stage versioned source+derivative bytes, exact-readback them, render actual StarBlox card/detail pixels, then route exact hashes to reviewer 14. Do not scale to Decor 5-12 before independent disposition.",
+      "preserve": ["decor-1", "decor-2", "tops-1..10", "tops-11..12-v7 receipts"]
+    },
+    {
+      "producer": "13",
+      "batchId": "w13-home-bedroom-v4",
+      "scope": ["home-bedroom"],
+      "state": "ACTIONABLE_SCENE_REWORK_FACTORY_PILOT",
+      "reviewer": "01-art-fidelity + 14-composition-performance",
+      "basis": "Reviewer 01 independently REWORKed the exact Home bedroom v3 package at commit 1bfc2a56fa17fab226e44dc4ca78a10a85d71bd2 for room identity/fidelity while preserving its central corridor and broad composition gains.",
+      "requirements": "Preserve v3 quiet center corridor, left warm light and bed-left/desk-right macro-layout; make the left object unmistakably a bed, restore a visible left window, add 4-7 reference-grounded side/perimeter props, increase material separation and controlled accent saturation, and keep a purposeful 390x844 derivative. Use the factory v2 provenance chain; no baked UI/avatar/state and no runtime wiring.",
+      "preserve": ["home-bedroom-w13-v2", "home-bedroom-w13-v3", "accepted-avatar-keyart-current-hash"]
+    }
+  ],
+  "pendingReviewNotProduction": [
+    {
+      "producer": "05",
+      "batchId": "w05-wall-1-4-v2",
+      "scope": ["wall-1", "wall-2", "wall-3", "wall-4"],
+      "state": "STAGED_RENDERED_AWAITING_REVIEW_14",
+      "exactHashes": {
+        "wall-1": "9908e774b4012cb89d3c86eed9ca3d10ce3bffe4",
+        "wall-2": "febf517cd0db666f647962c0cb7d4e5af53d4b76",
+        "wall-3": "5ad5aff97c9d365221de8c2d888abf3a26db547e",
+        "wall-4": "bc38aee13c1c4840aa1e9657edfb67c8838a6a21"
+      },
+      "rule": "Producer 05 must not scale to Wall 5+ or regenerate Wall 1-4 while exact current review is pending."
+    },
+    {
+      "producer": "06",
+      "batchId": "companion-existing-rich-2-5-6-7",
+      "scope": ["companions-2", "companions-5", "companions-6", "companions-7"],
+      "state": "REPOSITORY_CANDIDATES_AWAITING_SHARED_RENDER_HANDOFF_TO_05",
+      "rule": "Do not regenerate. Workstream 14 should render exact current candidate hashes after the older Wall 1-4 review dependency, then reviewer 05 decides them."
+    }
+  ],
+  "blockedPreserved": {
+    "tops11_12_v7": "Exact authoritative WEBP payload bytes remain unavailable; do not regenerate/re-encode/reconstruct approximately.",
+    "headwear5_8": "Four generated external derivatives remain unstaged because exact raw bytes are unavailable; do not repeat unchanged transport attempts or regenerate."
+  },
   "readerRule": "Every worker must revalidate assignment, item hash, review state, and branch head before writing. This file coordinates work; it never overrides newer exact evidence."
 }
