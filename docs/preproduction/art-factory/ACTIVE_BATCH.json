@@ -2,7 +2,7 @@
   "schemaVersion": 3,
   "owner": "15",
   "branch": "screenshot-match-preproduction",
-  "sourceHead": "2b938d2b39fab9c697a91296bd8035a7e6b2460e",
+  "sourceHead": "3cda70ca9656883546f6088420df00f685106bde",
   "status": "ACTIVE_RELEASE_BLOCKER_FIRST",
   "policy": {
     "maxConcurrentProductionBatches": 4,
@@ -28,9 +28,9 @@
     "nonFinalRelativeToTarget": 26,
     "integrationSchema": null,
     "integrationSchemaNote": "The branch-local integration.json is older than manifest v33, so no newer schema number is asserted here. Exact manifest/runtime state is authoritative.",
-    "strictAcceptedCanonicalFloor": 100,
-    "strictAcceptedCurrentFloorIncludingAwaitingCanonical": 100,
-    "strictAcceptedRemainingToAcceptAtMost": 92,
+    "strictAcceptedCanonicalFloor": 104,
+    "strictAcceptedCurrentFloorIncludingAwaitingCanonical": 104,
+    "strictAcceptedRemainingToAcceptAtMost": 88,
     "acceptedAwaitingCanonical": 0,
     "acceptedAwaitingCanonicalIds": [],
     "runtimeMappingGapToTarget": 19,
@@ -61,7 +61,7 @@
         "decor-12"
       ]
     },
-    "note": "Manifest/runtime v33 canonically contain the independently accepted Headwear 5-8 replacements and v32 Wall 5-7 replacements. The qualified ACCEPT backlog observed by coordinator15 is therefore zero. Store/Quest desktop geometry remains green on the newest strict contract evidence; do not reopen it without a fresh failure. The remaining strict visual blocker is 19 visible generic fallbacks."
+    "note": "Live manifest/runtime remain v33 with 19 visible generic fallbacks. Reviewer02 has now independently ACCEPTed Seating 7-10 exact current hashes from real rendered pixels; those same exact repository paths were already mapped in manifest/runtime v33, so they immediately raise the strict accepted+canonical floor from 100 to 104 without a mapping rewrite. 08 should still revalidate the live hashes on its next pass, but no status-only manifest/runtime rewrite is required when the mapping is unchanged. Store/Quest desktop geometry remains green absent fresh failing evidence."
   },
   "batches": [
     {
@@ -73,10 +73,42 @@
         "desks-9",
         "desks-10"
       ],
-      "state": "ACTIONABLE_UNFILLED_RELEASE_FACTORY_PILOT",
+      "state": "PARTIAL_REMOTE_CANDIDATES_PRESERVED__DESKS8_10_ACTIONABLE_WHEN_GENERATOR_AVAILABLE",
       "reviewer": "05",
-      "basis": "Desks 7-12 are still absent from canonical runtime mapping and remain visible generic fallbacks. Desks 7-10 are the bounded first production pilot.",
-      "requirements": "Use exact Store metadata and artPromptOptimizer plus deterministic 2-4 variant planning. Require substantial three-quarter furniture construction, supports/joints/top thickness/storage/hardware/material separation/contact shadow, exact theme/tier identity and small-card silhouette. Stage/read back/verify real bytes, then renderer14 supplies exact-hash card/detail pixels and reviewer05 independently dispositions. Freeze pending review. Do not open Desks11-12 until Desks7-10 are dispositioned.",
+      "basis": "Desks 7-12 remain absent from canonical runtime mapping and are visible generic fallbacks. Desks 7 A/B now have genuine Adobe Firefly remote source candidates, but no repository-staged bytes yet. That newer pending candidate evidence freezes Desk 7 against regeneration. Desks 8-10 remain the rest of the bounded first pilot and may continue only when the authorized generator quota permits.",
+      "requirements": "For Desk 7, recover the exact existing Firefly A/B bytes through a supported authorized path; do not regenerate, re-encode, approximate, or review remote-only bytes. After exact repository staging/readback and verify_staged_output evidence, route through 06 -> 14 render -> reviewer05. For Desks 8-10, continue the existing optimizer/deterministic plan only when generation is actually available; preserve exact Store metadata and provenance. Do not open Desks 11-12 until the first pilot receives independent disposition.",
+      "pendingCandidates": {
+        "desks-7": {
+          "state": "GENERATED_REMOTE_NOT_REPOSITORY_STAGED",
+          "variants": [
+            {
+              "variant": "A-PHYSICAL",
+              "seed": 179943007,
+              "adobeGenerationUrn": "urn:aaid:sc:US:30c2a335-0e00-486d-b0ba-18d7a73940ad",
+              "dimensions": [1024, 1024],
+              "format": "PNG"
+            },
+            {
+              "variant": "B-READABILITY",
+              "seed": 776146080,
+              "adobeGenerationUrn": "urn:aaid:sc:US:4339c37e-6604-49a5-90d4-0295b6150c99",
+              "dimensions": [1024, 1024],
+              "format": "PNG"
+            }
+          ],
+          "evidence": "docs/preproduction/art-factory/requests/w03-desks-7-10-20260922.json",
+          "rule": "Freeze against regeneration while exact remote bytes remain recoverable; remote generation metadata is not repository staging and carries no ACCEPT verdict."
+        },
+        "desks-8": {
+          "state": "TRANSIENT_GENERATOR_RATE_LIMIT_AFTER_DESK7_SUCCESS"
+        },
+        "desks-9": {
+          "state": "NOT_ATTEMPTED_AFTER_TRANSIENT_RATE_LIMIT"
+        },
+        "desks-10": {
+          "state": "NOT_ATTEMPTED_AFTER_TRANSIENT_RATE_LIMIT"
+        }
+      },
       "preserve": [
         "desks-1",
         "desks-2",
@@ -97,7 +129,7 @@
       ],
       "state": "ACTIONABLE_REWORK_FACTORY_PILOT",
       "reviewer": "14",
-      "basis": "Wall 9-12 remain exact-current REWORK with no newer Workstream05 candidate staged. To remove the mixed producer/reviewer bottleneck, coordinator15 temporarily reassigns this bounded release batch to producer13 while Workstream05 becomes a dedicated independent Desk reviewer. Reviewer14 remains independent.",
+      "basis": "Wall 9-12 remain exact-current REWORK and visible generic fallbacks. Producer13 owns this bounded release batch while scene generation is parked. The current request has exact Store metadata, legacy REWORK hashes and two deterministic optimizer-input variants per item pinned; no newer staged Wall 9-12 candidate exists yet.",
       "requirements": "Producer13 creates only Wall9-12 as one bounded four-item repair pilot from exact Store metadata. Reuse successful dimensional/material lessons from accepted Wall5-7 and avoid Wall8's freestanding/support-plane defect. Require genuine wall-mounted construction, category-correct depth/materials, exact theme/tier identity and strong card silhouette. Use optimizer + deterministic job plan + exact model/revision provenance; stage/read back/verify; Workstream06 may preflight evidence; renderer14 produces real card/detail pixels and independently reviews exact hashes. Do not regenerate Wall8 or touch accepted Wall1-7.",
       "preserve": [
         "wall-1",
@@ -122,7 +154,7 @@
       ],
       "state": "ACTIONABLE_REWORK_FACTORY_PILOT",
       "reviewer": "14",
-      "basis": "Decor 3-4 completed exact staging, independent reviewer14 ACCEPT and canonical integration. Decor 5-12 remain visible generic fallbacks and reviewer14 REWORK work; Decor5-8 stay the bounded first pilot.",
+      "basis": "Decor 3-4 are accepted+canonical. Decor 5-12 remain visible generic fallbacks and exact-current reviewer14 REWORK items. Decor 5-8 remain the bounded first pilot; the current request is provider-authorized but has no staged new bytes yet.",
       "requirements": "Use current optimizer/taxonomy and deterministic 2-4 variant plans for Decor5-8 with exact Store metadata. Record exact generation provenance, preserve source/derivative lineage, stage/read back/verify real bytes, then route actual Store card/detail pixels to reviewer14. Do not start Decor9-12 before independent disposition of this pilot.",
       "preserve": [
         "decor-1",
@@ -153,31 +185,27 @@
       "reason": "Preserve all existing scene bytes/reviews. New scene generation remains parked while visible missing catalog art is the sole strict visual blocker."
     }
   ],
-  "pendingRenderReview": [
+  "pendingRenderReview": [],
+  "acceptedAwaitingCanonical": [],
+  "completedOrClosedThisReconciliation": [
     {
-      "priority": "AFTER_FALLBACK_CANDIDATE_RENDER_QUEUE",
-      "producer": "06",
-      "batchId": "lane06-seating-7-10-evidence-recovery",
       "scope": [
         "seating-7",
         "seating-8",
         "seating-9",
         "seating-10"
       ],
-      "state": "CURRENT_BYTES_PRESERVED_AWAITING_CONSUMABLE_EXACT_HASH_CARD_DETAIL_EVIDENCE",
-      "renderOwner": "14",
-      "reviewer": "02",
+      "state": "INDEPENDENT_ACCEPT_ON_EXISTING_CANONICAL_V33_PATHS",
+      "reviewCommit": "b9ae26ddfc94388a637dbacf1c3e7309e7b26f93",
+      "reviewEvidence": "docs/preproduction/catalog-sprint/reviews/02.json",
       "exactHashes": {
         "seating-7": "91457eddbb3ae915867d717eec72632ea6a183be",
         "seating-8": "23c02ab51249ab373aab264a17778a090d023eb4",
         "seating-9": "7fcdea13121a8820dd8dc64e8982637acb2c5819",
         "seating-10": "9aa53664cbc8ee24283ea44830f1f3037c576340"
       },
-      "next": "Do not regenerate. Renderer14 reuses/provides exact-current card/detail proof only after the fallback-clearing render queue has priority, then reviewer02 records the first genuine art-quality decision."
-    }
-  ],
-  "acceptedAwaitingCanonical": [],
-  "completedOrClosedThisReconciliation": [
+      "canonicalBasis": "Manifest/runtime v33 already map seating-7..10 to the exact accepted repository paths. No mapping delta exists; 08 validates live hash stability on its next pass instead of manufacturing a status-only rewrite."
+    },
     {
       "scope": [
         "headwear-5",
@@ -224,18 +252,32 @@
       "intendedRepositoryPath": "public/assets/catalog/wall-8-w05-v3.png",
       "rule": "Do not regenerate, re-encode, approximately reconstruct or self-approve. Resume only when exact selected output bytes can be materialized into the repository and verified/read back."
     },
+    "desk7FireflyCandidates": {
+      "state": "GENERATED_REMOTE_EXACT_BYTE_IMPORT_PENDING",
+      "evidence": "docs/preproduction/art-factory/requests/w03-desks-7-10-20260922.json",
+      "rule": "Preserve both remote Firefly candidates. Do not regenerate Desk7 while those exact outputs remain recoverable. Recover/stage exact bytes first; remote metadata alone is not STAGED_EXACT_BYTES_VERIFIED."
+    },
     "tops11_12_v7": "Exact authoritative WEBP payload bytes remain unavailable; do not regenerate, re-encode or approximately reconstruct.",
-    "adobeFireflyDirectDesk7Pilot": "Prior interactive Desk7 generation was rate-limited and created no output bytes; do not repeat that unchanged failed path. Authorized scheduled generation paths remain eligible.",
     "headwearRecoveryResolved": "Headwear5-8 exact repository bytes, real card/detail evidence and reviewer01 ACCEPT are canonical in manifest/runtime v33. Freeze those exact hashes."
   },
-  "rendererPriority": "14 prioritizes exact-hash card/detail renders for newly staged Desks7-10, Wall9-12 and Decor5-8, then independently reviews Wall/Decor and routes Desks to reviewer05. Do not rerender already dispositioned exact hashes.",
+  "rendererPriority": "14 prioritizes exact-hash card/detail renders for newly STAGED Desks7-10, Wall9-12 and Decor5-8. Remote-only Desk7 candidates are not renderable review inputs until exact repository bytes are staged/read back. 14 independently reviews Wall/Decor and routes Desk pixels to reviewer05. Do not rerender already dispositioned exact hashes.",
+  "latestWorkflowObservation": {
+    "workflow": "StarBlox Art Factory Preflight",
+    "runId": 35749978534,
+    "head": "b9ae26ddfc94388a637dbacf1c3e7309e7b26f93",
+    "conclusion": "success",
+    "note": "No current-head evidence justifies scheduled-worker CI/workflow edits. CI ownership freeze remains in force."
+  },
   "readerRule": "Every worker must revalidate assignment, exact item hash, review state and branch head before writing. This coordination file never overrides newer exact evidence.",
   "routingOptimization": {
     "status": "ACTIVE",
-    "reason": "Remove Workstream05 mixed Wall-producer/Desk-reviewer serial bottleneck.",
+    "reason": "Clear the 19 visible fallback assets without reopening already-green geometry or nonblocking art work.",
+    "producer03": "Desk7 exact-byte recovery first; Desk8-10 generation when authorized capacity is available; Desks11-12 remain gated.",
     "producer13": "Wall 9-12 release production; scene generation paused while fallbackCount > 0.",
+    "producer09": "Decor 5-8 release production; Decor9-12 remain gated until independent disposition.",
     "reviewer05": "Desk reviewer immediately after renderer14; no Wall production.",
     "worker06": "Report-only candidate preflight/provenance handoff before renderer14.",
+    "workstream08": "Validate newly accepted Seating7-10 exact hashes against existing v33 paths; write manifest/runtime only for a real mapping delta. Continue immediate integration of future qualified fallback ACCEPTs.",
     "hourlyFlow": [
       "15@00",
       "03@03",
