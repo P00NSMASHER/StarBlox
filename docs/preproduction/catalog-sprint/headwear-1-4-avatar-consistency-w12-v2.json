@@ -1,0 +1,118 @@
+{
+  "schemaVersion": "2.0",
+  "workstream": "12",
+  "status": "SPEC_ONLY_NO_CANDIDATE_BYTES",
+  "branch": "screenshot-match-preproduction",
+  "evidenceHead": "4a24e83f0f7beb25c48f3d4f167364a6fc0e7db9",
+  "scope": ["headwear-1", "headwear-2", "headwear-3", "headwear-4"],
+  "governance": {
+    "productionGate": "CLOSED_HEADWEAR_5_8_SCALE_GATE",
+    "runtimeMutationAllowed": false,
+    "canonicalWriter": "08",
+    "allocationOwner": "15",
+    "reviewer": "01"
+  },
+  "acceptedStoreHashes": {
+    "headwear-1": {"name": "Headband", "gitBlob": "4d4424962a49f5145422723b625778d6649a4b26"},
+    "headwear-2": {"name": "Cloud Clips", "gitBlob": "595c8fe9182f4aecd5355856f19947c7c83daa11"},
+    "headwear-3": {"name": "Pixel Cap", "gitBlob": "86db079b85360dc64e669aeca53cba874176c693"},
+    "headwear-4": {"name": "Berry Bow", "gitBlob": "4257b4a959153fba985fa2a97720c379b6d63e33"}
+  },
+  "activeRuntimeEvidence": {
+    "entrypoint": "src/main.jsx",
+    "imports": ["./headwearAvatar.css", "./headwearAvatarRuntime.js"],
+    "installCall": "installHeadwearAvatarRuntime()",
+    "runtime": "src/headwearAvatarRuntime.js",
+    "currentEquippedArtMapping": {
+      "headwear-1": "/src/assets/catalog/headwear-1.svg",
+      "headwear-2": "/src/assets/catalog/headwear-2.svg",
+      "headwear-3": "/src/assets/catalog/headwear-3.svg",
+      "headwear-4": "/src/assets/catalog/headwear-4.svg"
+    },
+    "mismatch": "The accepted exact Store hashes for headwear-1..4 are current independently accepted art, while the active equipped-avatar runtime still maps those IDs to legacy SVGs. This document is evidence/specification only and does not authorize runtime or canonical changes."
+  },
+  "attachmentSurface": {
+    "domEvidence": "src/App.jsx",
+    "domLayer": ".avatarWrap > img.avatar.headGear",
+    "parent": {"widthPx": 180, "heightPx": 300, "position": "relative"},
+    "cssEvidence": ["src/headwearAvatar.css", "src/styles.css"],
+    "desktop": {
+      "topPx": -34,
+      "left": "50%",
+      "widthPx": 132,
+      "heightPx": 116,
+      "transform": "translateX(-50%)",
+      "objectFit": "contain",
+      "objectPosition": "center bottom",
+      "zIndex": 5,
+      "pointerEvents": "none"
+    },
+    "mobile": {
+      "maxViewportWidthPx": 720,
+      "topPx": -28,
+      "widthPx": 118,
+      "heightPx": 104
+    },
+    "layerOrdering": "headwearAvatarRuntime ensures the headwear layer is immediately before .head when both nodes exist"
+  },
+  "futureTryOnDerivativeContract": {
+    "authorizedNow": false,
+    "candidateBytesCreated": 0,
+    "mustNotReuseOpaqueCardJpgDirectly": true,
+    "reason": "Accepted card presentation JPGs are opaque square presentation art; direct avatar use would introduce card/background pixels rather than a clean wearable overlay.",
+    "requiredBackground": "transparent outside the wearable geometry",
+    "identityRule": "Any later avatar-safe derivative may isolate/reframe the accepted wearable geometry only; it may not redesign, retheme, rename or manufacture a new item identity.",
+    "requiredLineage": [
+      "accepted exact current Store hash",
+      "separate avatar-safe derivative source",
+      "transparent derivative",
+      "exact repository staging and readback",
+      "actual StarBlox avatar render evidence",
+      "reviewer01 independent exact-hash disposition",
+      "workstream08 canonical/runtime integration if authorized"
+    ],
+    "fitRules": [
+      "Preserve recognizable physical attachment/contact logic appropriate to the wearable.",
+      "Keep the silhouette legible at both 132x116 desktop and 118x104 mobile attachment surfaces.",
+      "Use the verified center-bottom attachment contract unless item-specific validated geometry later requires a documented offset.",
+      "Avoid accidental clipping or floating geometry; intentional silhouette protrusions must still preserve clear head contact."
+    ]
+  },
+  "itemAttachmentSpecs": [
+    {"id": "headwear-1", "name": "Headband", "contact": "Forehead/temple band must visibly span and contact both sides rather than float above the head.", "anchor": "center-bottom"},
+    {"id": "headwear-2", "name": "Cloud Clips", "contact": "Paired hair/temple clips must retain clip/contact logic; clouds must not read as unsupported floating symbols.", "anchor": "center-bottom"},
+    {"id": "headwear-3", "name": "Pixel Cap", "contact": "Cap crown sits on the head top and brim reads forward; silhouette must remain readable at mobile scale.", "anchor": "center-bottom"},
+    {"id": "headwear-4", "name": "Berry Bow", "contact": "Bow/clip knot mounts to the head/hair with attachment implied or visible; bow must not float independently.", "anchor": "center-bottom"}
+  ],
+  "counts": {
+    "acceptedStore": 4,
+    "avatarDerivativeGenerated": 0,
+    "avatarDerivativeStaged": 0,
+    "avatarDerivativeAccepted": 0,
+    "avatarDerivativeCanonical": 0
+  },
+  "headwear5_8State": {
+    "generatedExternal": 4,
+    "preservedExternal": 4,
+    "staged": 0,
+    "acceptedCurrentHash": 0,
+    "canonical": 0
+  },
+  "sourceWitnesses": [
+    "docs/preproduction/ART_VISUALS_SPRINT.json",
+    "docs/preproduction/art-factory/README.md",
+    "docs/preproduction/art-factory/ART_FACTORY_V2.json",
+    "docs/preproduction/art-factory/ACTIVE_BATCH.json",
+    "docs/preproduction/catalog-sprint/lane-12.json",
+    "docs/preproduction/catalog-sprint/reviews/01.json",
+    "docs/preproduction/catalog-sprint/headwear-5-8-transport-helper-04-to-12-01.json",
+    "docs/preproduction/DELIVERY_PROTOCOL_V2.md",
+    "src/main.jsx",
+    "src/App.jsx",
+    "src/headwearAvatarRuntime.js",
+    "src/headwearAvatar.css",
+    "src/styles.css"
+  ],
+  "noRuntimeFilesChanged": true,
+  "noAssetFilesChanged": true
+}
