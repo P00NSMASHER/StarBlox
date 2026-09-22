@@ -1,0 +1,65 @@
+{
+  "schemaVersion": 1,
+  "batchId": "chat-tops-recovery-7-10-20260921",
+  "producer": "09",
+  "transportHelper": "CHAT",
+  "independentReviewer": "01",
+  "items": [
+    {
+      "id": "tops-7",
+      "name": "Colorblock Hoodie",
+      "collectionId": "tops",
+      "type": "avatar",
+      "tier": 3,
+      "theme": "Aqua Wave",
+      "price": 240,
+      "starReq": 2,
+      "assetId": "urn:aaid:sc:US:a146737a-008b-4662-8e45-07fdc29254ad",
+      "renditionUrl": "https://at.adobe.com/KJEqlcVNKuGX6PNz",
+      "sourceUrl": "https://at.adobe.com/Cuf4QWlOEDRzYczn",
+      "candidateRepositoryPath": "public/assets/catalog/tops-7-w09-v3.jpg"
+    },
+    {
+      "id": "tops-8",
+      "name": "Puffer Vest",
+      "collectionId": "tops",
+      "type": "avatar",
+      "tier": 3,
+      "theme": "Art Attack",
+      "price": 330,
+      "starReq": 2,
+      "assetId": "urn:aaid:sc:US:a89505f7-417e-4449-b346-365f707a9618",
+      "renditionUrl": "https://at.adobe.com/z29p5rHIXG0fxD2m",
+      "sourceUrl": "https://at.adobe.com/uwstreg5ezLgcZ18",
+      "candidateRepositoryPath": "public/assets/catalog/tops-8-w09-v3.jpg"
+    },
+    {
+      "id": "tops-9",
+      "name": "Art Smock",
+      "collectionId": "tops",
+      "type": "avatar",
+      "tier": 3,
+      "theme": "Star Luxe",
+      "price": 460,
+      "starReq": 2,
+      "assetId": "urn:aaid:sc:US:177bdebd-f68a-4742-8d51-e576d41570d1",
+      "renditionUrl": "https://at.adobe.com/qBk1krdLtME9VFQd",
+      "sourceUrl": "https://at.adobe.com/QEgbJjYGCZGiPxcq",
+      "candidateRepositoryPath": "public/assets/catalog/tops-9-w09-v3.jpg"
+    },
+    {
+      "id": "tops-10",
+      "name": "Star Bomber",
+      "collectionId": "tops",
+      "type": "avatar",
+      "tier": 4,
+      "theme": "Midnight Neon",
+      "price": 640,
+      "starReq": 5,
+      "assetId": "urn:aaid:sc:US:61864223-7124-4bf1-afc1-20e679aa4ec5",
+      "renditionUrl": "https://at.adobe.com/gG55FxTTL5o2lhvp",
+      "sourceUrl": "https://at.adobe.com/5MjHtdDseybVeowM",
+      "candidateRepositoryPath": "public/assets/catalog/tops-10-w09-v3.jpg"
+    }
+  ]
+}
