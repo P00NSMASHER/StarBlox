@@ -1,0 +1,179 @@
+name: StarBlox Lane 13 Home Avatar Stage v1 Intake
+
+on:
+  push:
+    branches: [screenshot-match-preproduction]
+    paths:
+      - '.github/workflows/lane13-home-avatar-stage-v1-intake.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: starblox-lane13-home-avatar-stage-v1-intake
+  cancel-in-progress: false
+
+jobs:
+  stage-layer:
+    if: github.repository == 'P00NSMASHER/StarBlox' && github.ref == 'refs/heads/screenshot-match-preproduction'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: screenshot-match-preproduction
+          fetch-depth: 0
+
+      - name: Install verification dependency only
+        run: python3 -m pip install --disable-pip-version-check Pillow==11.3.0
+
+      - name: Stage exact Adobe outputs and verify visual-file invariants
+        env:
+          SOURCE_URL: 'https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:9d28d4f5-bc51-4a78-8197-78f7a0ab712d'
+          FULL_URL: 'https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:44657112-e552-477e-ac1f-96248f019544'
+          OPT_URL: 'https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:a47cb555-7037-4785-a1f5-a4e0f58b1265'
+        run: |
+          set -eu
+          mkdir -p public/assets/visuals/lane-13 docs/preproduction/visuals
+          SOURCE='public/assets/visuals/lane-13/home-avatar-stage-w13-v1-source.png'
+          FULL='public/assets/visuals/lane-13/home-avatar-stage-w13-v1-full.png'
+          OPT='public/assets/visuals/lane-13/home-avatar-stage-w13-v1-768.png'
+          [ -f "$SOURCE" ] || curl -fL --retry 2 "$SOURCE_URL" -o "$SOURCE"
+          [ -f "$FULL" ] || curl -fL --retry 2 "$FULL_URL" -o "$FULL"
+          [ -f "$OPT" ] || curl -fL --retry 2 "$OPT_URL" -o "$OPT"
+          python3 - <<'PY'
+          from PIL import Image, ImageStat
+          from pathlib import Path
+          import hashlib, json
+
+          specs=[
+            ('source','public/assets/visuals/lane-13/home-avatar-stage-w13-v1-source.png',(1536,1536),False),
+            ('full','public/assets/visuals/lane-13/home-avatar-stage-w13-v1-full.png',(1536,1536),True),
+            ('optimized','public/assets/visuals/lane-13/home-avatar-stage-w13-v1-768.png',(768,768),True),
+          ]
+          out=[]
+          for role,p,expected,needs_alpha in specs:
+            b=Path(p).read_bytes()
+            im=Image.open(p); im.load()
+            if im.format != 'PNG': raise SystemExit(f'{p}: expected PNG, got {im.format}')
+            if im.size != expected: raise SystemExit(f'{p}: expected {expected}, got {im.size}')
+            rgba=im.convert('RGBA')
+            rgb=rgba.convert('RGB')
+            stat=ImageStat.Stat(rgb.resize((64,64)))
+            if max(stat.var) < 10: raise SystemExit(f'{p}: image variance too low')
+            alpha=rgba.getchannel('A')
+            alpha_extrema=alpha.getextrema()
+            alpha_bbox=alpha.getbbox()
+            if needs_alpha:
+              if alpha_extrema[0] != 0 or alpha_extrema[1] != 255:
+                raise SystemExit(f'{p}: expected real transparent-to-opaque alpha range, got {alpha_extrema}')
+              if alpha_bbox is None:
+                raise SystemExit(f'{p}: empty alpha content')
+              corners=[alpha.getpixel((0,0)),alpha.getpixel((im.width-1,0)),alpha.getpixel((0,im.height-1)),alpha.getpixel((im.width-1,im.height-1))]
+              if any(c != 0 for c in corners):
+                raise SystemExit(f'{p}: transparent-canvas corner invariant failed: {corners}')
+            out.append({
+              'role':role,'path':p,'format':'PNG','dimensions':list(im.size),'bytes':len(b),
+              'sha256':hashlib.sha256(b).hexdigest(),'variance64':stat.var,
+              'alphaExtrema':list(alpha_extrema),'alphaBbox':list(alpha_bbox) if alpha_bbox else None
+            })
+
+          report={
+            'schemaVersion':1,
+            'candidateId':'home-avatar-stage-w13-v1',
+            'candidateType':'foreground-avatar-buddy-grounding-layer',
+            'producer':'13',
+            'targetScreen':'Home',
+            'status':'STAGED_PENDING_ORIGIN_READBACK_AND_INDEPENDENT_REVIEW',
+            'defectBasis':{
+              'currentRenderArtifactRun':35663655650,
+              'currentRenderPath':'home-desktop-1408x1056.png',
+              'observedGap':'Current Home avatar/buddy staging reads flatter and less physically grounded than the immutable Home reference; the reference uses a dimensional plush foreground/rug, contact depth and warm window-light cues.',
+              'referencePath':'docs/preproduction/reference-screenshots/originals/home-1448x1086.jpeg',
+              'referenceSha256':'6a4b110aeaf12a6ab0c629f9181cc6cfa8d4f55a518d4f2a6adb3ac6e756c457'
+            },
+            'provenance':{
+              'generationRequestId':'61fc0ea8-925b-4bf4-bfa7-6e5d701eef39',
+              'generationAdobeUrn':'urn:aaid:ps:US:578ac5e4-3d0c-47f9-8a15-d3ab88a88472',
+              'centerFillEditRequestId':'d8e3db7e-9208-4b5b-a5e6-12c0def9a642',
+              'sourceAdobeUrn':'urn:aaid:ps:US:9d28d4f5-bc51-4a78-8197-78f7a0ab712d',
+              'backgroundRemovalRequestId':'c12b8574-7643-433a-a893-f70e4e328ca6',
+              'fullAdobeUrn':'urn:aaid:ps:US:44657112-e552-477e-ac1f-96248f019544',
+              'optimizedResizeRequestId':'540026d2-da28-49bc-b1a3-ae7478790d5d',
+              'optimizedAdobeUrn':'urn:aaid:ps:US:a47cb555-7037-4785-a1f5-a4e0f58b1265'
+            },
+            'compositionIntent':[
+              'separate foreground layer only; no flattened Home screen',
+              'broad uncluttered center for separately composited equipped avatar and selected buddy',
+              'pink/lilac/cream plush materials with restrained cyan piping and tiny warm-gold star accents',
+              'dappled warm window-light cues echo the immutable reference without copying its exact pixels',
+              'no people, creatures, UI, text, buttons, logos, furniture, branded imagery or third-party IP'
+            ],
+            'files':out,
+            'producerVisualInspection':'PASS_PRODUCER_ONLY_NOT_INDEPENDENT_ACCEPT',
+            'runtimeWired':False,
+            'canonicalCatalogTouched':False,
+            'workstream06AvatarTouched':False,
+            'workstream09ActiveEnvironmentTouched':False,
+            'replitOrFlootTouched':False,
+            'mainTouched':False,
+            'physicalDeviceTested':False,
+            'screenshotParityClaimed':False,
+            'originReadback':'PENDING'
+          }
+          Path('docs/preproduction/visuals/lane-13-home-avatar-stage-v1-intake.json').write_text(json.dumps(report,indent=2)+'\n')
+          PY
+
+      - name: Commit candidate bytes and intake evidence only
+        run: |
+          set -eu
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- \
+            public/assets/visuals/lane-13/home-avatar-stage-w13-v1-source.png \
+            public/assets/visuals/lane-13/home-avatar-stage-w13-v1-full.png \
+            public/assets/visuals/lane-13/home-avatar-stage-w13-v1-768.png \
+            docs/preproduction/visuals/lane-13-home-avatar-stage-v1-intake.json
+          if ! git diff --cached --quiet; then
+            git commit -m 'visuals: stage Home avatar grounding layer v1'
+            for attempt in 1 2 3; do
+              if git push origin HEAD:refs/heads/screenshot-match-preproduction; then break; fi
+              git fetch origin screenshot-match-preproduction
+              git rebase origin/screenshot-match-preproduction
+              if [ "$attempt" -eq 3 ]; then echo 'safe publish blocked; no force push' >&2; exit 1; fi
+            done
+          fi
+
+      - name: Verify exact origin readback and publish PASS evidence
+        run: |
+          set -eu
+          git fetch origin screenshot-match-preproduction
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib, json, subprocess
+          p=Path('docs/preproduction/visuals/lane-13-home-avatar-stage-v1-intake.json')
+          r=json.loads(p.read_text())
+          for f in r['files']:
+            data=subprocess.check_output(['git','show',f"origin/screenshot-match-preproduction:{f['path']}"])
+            got=hashlib.sha256(data).hexdigest()
+            if got != f['sha256']:
+              raise SystemExit(f"origin readback mismatch {f['path']}: {got} != {f['sha256']}")
+            f['originReadbackSha256']=got
+            f['gitBlobSha']=subprocess.check_output(['git','rev-parse',f"origin/screenshot-match-preproduction:{f['path']}"]).decode().strip()
+          r['originReadback']='PASS_3_OF_3_EXACT_SHA256'
+          r['status']='STAGED_READY_FOR_INDEPENDENT_REVIEW'
+          r['sourceHeadAfterBinaryPush']=subprocess.check_output(['git','rev-parse','origin/screenshot-match-preproduction']).decode().strip()
+          p.write_text(json.dumps(r,indent=2)+'\n')
+          PY
+          git add -- docs/preproduction/visuals/lane-13-home-avatar-stage-v1-intake.json
+          if ! git diff --cached --quiet; then
+            git commit -m 'visuals: record exact Home avatar-stage origin readback'
+            for attempt in 1 2 3; do
+              if git push origin HEAD:refs/heads/screenshot-match-preproduction; then exit 0; fi
+              git fetch origin screenshot-match-preproduction
+              git rebase origin/screenshot-match-preproduction
+            done
+            echo 'readback evidence publication blocked; no force push' >&2
+            exit 1
+          fi
