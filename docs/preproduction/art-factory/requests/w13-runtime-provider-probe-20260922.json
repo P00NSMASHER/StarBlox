@@ -1,0 +1,64 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_W13_RUNTIME_PROVIDER_PROBE",
+  "producer": "13",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "a313c7c64d5bdc4a163d975ae4d6b44a070d0507",
+  "liveState": {
+    "manifestVersion": 33,
+    "finalPortable": 166,
+    "runtimeMappingGapToTarget": 19,
+    "fallbackCount": 19,
+    "activeBatch": "w13-runtime-unblock-wall-9-12-v1",
+    "scope": ["wall-9", "wall-10", "wall-11", "wall-12"],
+    "reviewer": "14",
+    "canonicalWriter": "08"
+  },
+  "factoryPins": {
+    "runtimeRepo": "huggingface/diffusers",
+    "runtimeCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+    "modelRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "referenceSha256": "b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d",
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+  },
+  "probeResults": {
+    "remoteDeterministicRunner": {
+      "deviceName": "PAAM-L044",
+      "status": "OFFLINE",
+      "lastSeenUtc": "2026-09-18T11:51:14.213+00:00",
+      "authTokenState": "valid",
+      "result": "UNAVAILABLE_THIS_RUN"
+    },
+    "adobeFirefly": {
+      "purpose": "Shortest already-authorized alternative path probe for a seedable generator before any Wall candidate generation.",
+      "probeSeed": 12345,
+      "requestedVariants": 1,
+      "requestedResolution": "1MP",
+      "result": "RATE_LIMITED_BEFORE_OUTPUT",
+      "providerMessage": "Rate limit exceeded. Your quota resets at midnight GMT.",
+      "outputProduced": false,
+      "authoritativeModelIdentityObserved": false,
+      "authoritativeModelRevisionObserved": false,
+      "runtimeRevisionObserved": false,
+      "candidateStatus": "NO_CANDIDATE_CREATED"
+    }
+  },
+  "actionableHandoffTo15": {
+    "state": "RUNTIME_EXECUTION_BLOCKED__DO_NOT_REPEAT_UNCHANGED_PROBES",
+    "next": [
+      "Do not retry the Adobe generation path before its stated midnight-GMT quota reset.",
+      "After quota reset, perform exactly one metadata-capability probe before any Wall candidate production. Accept that path only if the provider response exposes authoritative model/checkpoint identity plus revision and sufficient runtime/tool identity to satisfy ART_FACTORY_V2; otherwise mark the Adobe path noncompliant and do not use its pixels for factory output.",
+      "If PAAM-L044 returns online first, prefer the pinned deterministic Diffusers path and execute the existing ACTIVE_BATCH optimizerCommand then compilerCommand with the pinned SDXL and Diffusers revisions.",
+      "Generate only wall-9 through wall-12 after a compliant runtime is actually available; preserve source bytes and exact provenance, stage/read back/verify, then route 06 -> 14 -> 08 on independent ACCEPT.",
+      "Do not modify CI/workflows, canonical catalog mappings, runtime mappings, Store metadata, gameplay/state, accepted Wall 1-7 hashes, or the preserved Wall 8 materialization evidence."
+    ]
+  },
+  "claims": {
+    "generatedWallPixels": false,
+    "stagedCandidateBytes": false,
+    "repoReadbackOfNewPixels": false,
+    "selfApproval": false,
+    "canonicalIntegration": false
+  }
+}
