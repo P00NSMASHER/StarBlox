@@ -2,7 +2,8 @@
   "schemaVersion": 9,
   "owner": "15",
   "branch": "screenshot-match-preproduction",
-  "sourceHead": "c6416cfb0c733c97e0cf8a32b87cf8bc852f218a",
+  "sourceHead": "d49c14870897e500a42832033d48c6d7e0be7c1e",
+  "updatedAt": "2026-09-22T19:58:00Z",
   "status": "ACTIVE_RELEASE_BLOCKER_FIRST",
   "policy": {
     "maxConcurrentProductionBatches": 4,
@@ -37,16 +38,36 @@
       "fallbackCount": 19,
       "ids": ["desks-7", "desks-8", "desks-9", "desks-10", "desks-11", "desks-12", "wall-8", "wall-9", "wall-10", "wall-11", "wall-12", "decor-5", "decor-6", "decor-7", "decor-8", "decor-9", "decor-10", "decor-11", "decor-12"]
     },
-    "note": "Live execution authority refreshed at sourceHead c6416cfb0c. Manifest/runtime remain v33 with 173/192 mappings, 19 visible generic fallbacks, strict accepted+canonical floor 104, and 0 qualified ACCEPTs awaiting 08. Producer13 completed a new provider probe: PAAM-L044 remains offline and Adobe Firefly was rate-limited before output, so no Wall candidate was created and that unchanged Adobe path must not be retried before its stated midnight-GMT quota reset. Decor6/8 old exact hashes remain BLOCKED_PROVENANCE and retired from recheck; producer03 owns one new compliant replacement per item only after a revision-reporting runtime exists. Producer09 owns Decor5/7 only. Producer07 owns Desk7-10 exact-byte recovery, then Wall8. Final browser/mobile/reference QA runs continuously via 10."
+    "note": "Live execution authority refreshed at sourceHead d49c1487089. Manifest/runtime remain v33 with 173/192 mappings, 19 visible generic fallbacks, strict accepted+canonical floor 104, and 0 qualified ACCEPTs awaiting 08. Workstream12 has now produced the single live-routing-aligned deterministic request for producer03 Decor6/8 replacement planning; no pixels were generated and exact model/runtime/executed-seed fields remain intentionally null until an authorized revision-reporting runtime is executable. Workstream04 also handed the hash-stable Store geometry proof to independent Workstream10 QA; the four assigned Store geometry checks are PASS and must not be reopened without fresh failing evidence. Producer13 remains generation-runtime blocked for Wall9-12 and the unchanged Adobe path must not be retried before its stated midnight-GMT reset."
   },
   "batches": [
     {
       "producer": "03",
       "batchId": "w03-decor-6-8-provenance-repair-v1",
       "scope": ["decor-6", "decor-8"],
-      "state": "WAITING_REVISION_REPORTING_RUNTIME__ONE_NEW_COMPLIANT_VERSION_PER_ITEM",
+      "state": "WAITING_REVISION_REPORTING_RUNTIME__DETERMINISTIC_REQUEST_READY__NO_GENERATION",
       "reviewer": "14",
-      "requirements": "Do not re-check, rerender, review, or canonicalize the old Decor6/8 blocked hashes. Once Workstream13/15 exposes an authorized generation path that records exact model identity/revision, runtime repo/commit, executed deterministic seed, final prompt/hash and source-byte provenance, producer03 makes at most one new compliant replacement version for Decor6 and one for Decor8. Route 06 provenance/staged-output gate -> 14 real card/detail render+independent review -> 08 on ACCEPT. Until runtime is genuinely executable, validate the plans once and make no status-only commits.",
+      "requirements": "Preserve the old Decor6/8 blocked hashes and their shared render evidence. The current deterministic planner request is ready but generation is not authorized until an executable runtime can record exact model/checkpoint ID+revision, runtime identity+revision/commit, final optimized prompt+hash, and executed deterministic seed or an explicitly policy-permitted authoritative seed-unavailable service record. When runtime becomes executable, producer03 runs the chosen bounded attempt through current artPromptOptimizer first, then artFactoryJob, then generates at most one newly staged replacement hash per item from this repair cycle. Route 06 exact provenance/staged-output verification -> 14 real card/detail render+independent exact-hash review -> 08 on ACCEPT. No old verdict transfers.",
+      "deterministicRequest": {
+        "state": "PLANNER_INPUTS_READY__NO_GENERATION",
+        "evidence": "docs/preproduction/art-factory/requests/w03-decor-6-8-provenance-repair-20260922.json",
+        "planner": "12",
+        "producer": "03",
+        "plannedVariantsPerItem": 2,
+        "referencePath": "docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg",
+        "referenceSha256": "b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d",
+        "decor6": {
+          "name": "Telescope",
+          "variantPlannerSeeds": [1682699524, 1488756795],
+          "optimizerInputSha256": ["0d8f37c9bf47cd80886e230adcc5d5a9572bef57304bab3bba85a9cad1d61130", "470bed53b1332823891a0a035734c53cb1f9500fcd935e8e1ef1935a7a657bc8"]
+        },
+        "decor8": {
+          "name": "Mini Aquarium",
+          "variantPlannerSeeds": [1679065055, 1156790120],
+          "optimizerInputSha256": ["f71381816d236d08e2c0668e910e5c05f2ccaae67372102b92325a7dca52c2f4", "cd3bf3e068ff499ed84a1977e033ef6c59e4f2045a85815fda061b893b630330"]
+        },
+        "executionRule": "Planner seeds are planning inputs only. Do not promote them to executed seeds. finalOptimizedPrompt/finalPromptSha256/modelId/modelRevision/runtimeId/runtimeRevisionOrCommit/executedSeed remain null until the authorized runtime actually exposes them."
+      },
       "blockedPriorHashes": {
         "decor-6": {
           "state": "BLOCKED_PROVENANCE__EXACT_BRANCH_BYTES_AND_SHARED_PIXELS_PRESERVED",
@@ -56,9 +77,9 @@
           "dimensions": [600, 600],
           "bytes": 9294,
           "producerEvidence": "docs/preproduction/art-factory/requests/w09-decor-6-8-staging-evidence-20260922.json",
-          "next": "Recover already-existing authoritative provider provenance only; otherwise preserve blocked hash. No rerender, review, or canonical integration.",
           "sharedRender": {"runId": 35757803263, "jobId": 106847902253, "detailPngSha256": "30a02f7050e6f0d36b5ffb22d1cd07a823521600bebe44d19e79a00b47f5e5c6"},
-          "provenanceEvidence": "docs/preproduction/art-factory/requests/w06-decor-6-8-provenance-readback-20260922.json"
+          "provenanceEvidence": "docs/preproduction/art-factory/requests/w06-decor-6-8-provenance-readback-20260922.json",
+          "rule": "Preserve exact bytes and render evidence; no rerender, re-review, canonicalization or mutation of this unchanged blocked hash."
         },
         "decor-8": {
           "state": "BLOCKED_PROVENANCE__EXACT_BRANCH_BYTES_AND_SHARED_PIXELS_PRESERVED",
@@ -68,9 +89,9 @@
           "dimensions": [600, 600],
           "bytes": 13402,
           "producerEvidence": "docs/preproduction/art-factory/requests/w09-decor-6-8-staging-evidence-20260922.json",
-          "next": "Recover already-existing authoritative provider provenance only; otherwise preserve blocked hash. No rerender, review, or canonical integration.",
           "sharedRender": {"runId": 35757803263, "jobId": 106847902253, "detailPngSha256": "4e4eca4b9853b80b7e837669a4a9b1bfb14a4e50ff3857912f8e8ef769556806"},
-          "provenanceEvidence": "docs/preproduction/art-factory/requests/w06-decor-6-8-provenance-readback-20260922.json"
+          "provenanceEvidence": "docs/preproduction/art-factory/requests/w06-decor-6-8-provenance-readback-20260922.json",
+          "rule": "Preserve exact bytes and render evidence; no rerender, re-review, canonicalization or mutation of this unchanged blocked hash."
         }
       },
       "preservedDeskGenerationEvidence": {
@@ -86,7 +107,7 @@
       "scope": ["decor-5", "decor-7"],
       "state": "DECOR5_QUALIFICATION_OPEN__DECOR7_PROVENANCE_COMPLIANT_PATH_ONLY",
       "reviewer": "14",
-      "requirements": "Own Decor5 and Decor7 only. Decor5: finish exact staging/provenance qualification and route to 06/14. Decor7: preserve Roller-Skate Rack / Garden Glow identity and create/stage only through a provenance-compliant current plan; no invented metadata. Do not touch Decor6/8, now assigned to producer03 for one new compliant replacement each after runtime unblock. Do not open Decor9-12 until ACTIVE_BATCH advances the pilot after independent disposition.",
+      "requirements": "Own Decor5 and Decor7 only. Decor5: finish exact staging/provenance qualification and route to 06/14. Decor7: preserve Roller-Skate Rack / Garden Glow identity and create/stage only through a provenance-compliant current plan; no invented metadata. Do not touch Decor6/8. Do not open Decor9-12 until ACTIVE_BATCH advances the pilot after independent disposition.",
       "pendingCandidates": {
         "decor-5": {"state": "REPOSITORY_STAGED_CURRENT_CANDIDATE__06_QUALIFICATION_PENDING", "path": "public/assets/catalog/decor-5-w09-v2.webp", "gitBlobSha": "b8ff7b9d6bec11fe8e836952f7a0c5b844e34b6e", "next": "06 exact provenance/staging qualification -> 14 real card/detail render+review"},
         "decor-7": {"state": "CORRECTED_ROLLER_SKATE_IDENTITY__LOCAL_VARIANTS_PROVENANCE_INCOMPLETE__HOLD_NO_STAGE", "request": "docs/preproduction/art-factory/requests/w09-decor-5-8-20260922.json", "exactIdentity": "Skate Rack; Room Decor; Tier 3; Garden Glow; roller-skate storage", "rule": "Preserve existing local roller-skate variants. Do not stage, regenerate, or invent missing model revision/seed merely to bypass provenance."}
@@ -114,7 +135,7 @@
       "scope": ["wall-9", "wall-10", "wall-11", "wall-12"],
       "state": "RUNTIME_PROVIDER_PROBE_BLOCKED__PLAN_COMPILE_VALIDATE_WHILE_WAITING__GENERATE_ON_COMPLIANT_RUNTIME",
       "reviewer": "14",
-      "requirements": "The latest exact provider probe found PAAM-L044 offline and Adobe Firefly rate-limited before output; no candidate exists. Do not repeat the unchanged Adobe generation path before the provider's stated midnight-GMT quota reset. While generation is blocked, complete the already-owned optimizer -> deterministic job-plan compile/validate transition for Wall9-12 if no current hash-stable plan output is preserved; this creates no pixels and must keep the 2-4 pilot plus pinned model/runtime/reference provenance. If PAAM-L044 returns online first, prefer the pinned Diffusers path. After the Adobe reset, perform exactly one metadata-capability probe before candidate production and use that path only if it exposes authoritative model/checkpoint identity+revision and sufficient runtime/tool identity for ART_FACTORY_V2. Generate only Wall9-12 after a compliant runtime exists, preserve source bytes/provenance, stage/read back/verify, then route 06 -> 14 independent review -> 08 on ACCEPT. No CI/workflow edits, no invented provenance and no repeated readiness churn.",
+      "requirements": "Latest exact provider probe found PAAM-L044 offline and Adobe Firefly rate-limited before output; no Wall candidate exists. Do not repeat the unchanged Adobe generation path before the provider's stated midnight-GMT quota reset. While generation is blocked, complete the owned optimizer -> deterministic job-plan compile/validate transition once if no hash-stable plan output is preserved. If PAAM-L044 returns first, prefer pinned Diffusers. After reset, perform exactly one metadata-capability probe before candidate production and use that path only if it exposes authoritative model/checkpoint identity+revision and sufficient runtime/tool identity for ART_FACTORY_V2. Generate only Wall9-12 after a compliant runtime exists, then 06 -> 14 -> 08 on ACCEPT.",
       "toolingHandoff": {
         "optimizerCommand": "node scripts/artPromptOptimizerBriefQueue.mjs compile --repo-root . --request docs/preproduction/art-factory/requests/w13-wall-9-12-20260922.json --output artifacts/art-factory-jobs/w13-wall-9-12-optimized-queue.json",
         "compilerCommand": "node scripts/artFactoryJob.mjs plan-batch --repo-root . --queue artifacts/art-factory-jobs/w13-wall-9-12-optimized-queue.json --producer 13 --model-id stabilityai/stable-diffusion-xl-base-1.0 --model-revision 462165984030d82259a11f4367a4eed129e94a7b --runtime-repo huggingface/diffusers --runtime-commit 7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c --reference-sha256 b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d --output-dir artifacts/art-factory-jobs/w13-wall-9-12",
@@ -124,7 +145,7 @@
       "runtimeBlockerEvidence": "docs/preproduction/art-factory/requests/w13-runtime-provider-probe-20260922.json",
       "alternateScopeCheck": {
         "result": "NO_SAFE_NONOVERLAPPING_FALLBACK_REASSIGNMENT_THIS_HEAD",
-        "reason": "Wall8 is frozen on a newer selected exact-byte candidate and reserved for 07 recovery; Desks11-12 are gated until the Desk7-10 pilot is independently dispositioned; Decor9-12 are gated until the Decor5-8 pilot is independently dispositioned; Decor5/7 belong to 09 and Decor6/8 belong to 03. Reassigning 13 now would duplicate ownership, regenerate a frozen item, or violate a 2-4 pilot gate."
+        "reason": "Wall8 is frozen on a newer selected exact-byte candidate and reserved for 07 recovery; Desks11-12 are gated until Desk7-10 independent disposition; Decor9-12 are gated until the Decor5-8 pilot is independently dispositioned; Decor5/7 belong to 09 and Decor6/8 belong to 03."
       }
     }
   ],
@@ -143,13 +164,13 @@
     "tops11_12_v7": "Exact authoritative WEBP payload bytes remain unavailable; do not regenerate, re-encode or approximately reconstruct.",
     "desk9ExactImportPending": {"state": "GENERATED_REMOTE_AND_LOCAL_EXACT_BYTE_IMPORT_PENDING", "evidence": "docs/preproduction/art-factory/requests/w03-desks-9-10-generation-evidence-20260922.json", "rule": "Preserve exact candidate bytes; 07 owns import, no regeneration."},
     "desk10ExactImportPending": {"state": "GENERATED_REMOTE_AND_LOCAL_EXACT_BYTE_IMPORT_PENDING", "evidence": "docs/preproduction/art-factory/requests/w03-desks-9-10-generation-evidence-20260922.json", "rule": "Preserve exact candidate bytes; 07 owns import, no regeneration."},
-    "decor6_8Provenance": {"state": "BLOCKED_PROVENANCE_RETIRED_FROM_RECHECK", "evidence": "docs/preproduction/art-factory/requests/w06-decor-6-8-provenance-readback-20260922.json", "rule": "Old exact hashes stay preserved as historical blocked candidates. 06 does one final provider metadata recovery pass only; if missing, never re-check these unchanged hashes. Producer03 makes one new compliant replacement per item after runtime unblock."},
+    "decor6_8Provenance": {"state": "BLOCKED_PROVENANCE_RETIRED_FROM_RECHECK", "evidence": "docs/preproduction/art-factory/requests/w06-decor-6-8-provenance-readback-20260922.json", "replacementPlan": "docs/preproduction/art-factory/requests/w03-decor-6-8-provenance-repair-20260922.json", "rule": "Old exact hashes stay preserved historical blocked candidates. Producer03 may create one new compliant replacement per item only after runtime unblock and current optimizer/job compilation."},
     "wall9To12RuntimeProviderProbe": {
       "state": "RUNTIME_EXECUTION_BLOCKED__NO_WALL_CANDIDATE_CREATED",
       "evidence": "docs/preproduction/art-factory/requests/w13-runtime-provider-probe-20260922.json",
       "remoteRunner": "PAAM-L044 OFFLINE",
       "adobeFirefly": "RATE_LIMITED_BEFORE_OUTPUT__DO_NOT_RETRY_BEFORE_STATED_MIDNIGHT_GMT_RESET",
-      "rule": "Preserve the probe as current exact blocker evidence. No output exists to render/review/integrate. Complete deterministic plan compile/validation while blocked, then generate only after a compliant runtime becomes available."
+      "rule": "Preserve probe as current blocker evidence. No output exists to render/review/integrate. Complete deterministic plan compile/validation while blocked, then generate only after a compliant runtime is available."
     }
   },
   "toolingResolution": {
@@ -158,37 +179,50 @@
       "priorBlocker": "docs/preproduction/art-factory/requests/w13-wall-9-12-compiler-contract-blocker-20260922.json",
       "changedTool": "scripts/artPromptOptimizerBriefQueue.mjs",
       "test": "scripts/artPromptOptimizerBriefQueue.node-test.mjs",
-      "behavior": "The adapter calls the existing artPromptOptimizer recommend() upstream for current-review eligibility, failure taxonomy and quality/repair blocks; validates 2-4 request variants and any supplied optimizerInput SHA-256; binds each explicit planner brief into the final optimized prompt with a new prompt SHA; and emits the existing queue.selected[*].promptRecommendation shape consumed by artFactoryJob plan-batch.",
-      "safeguards": ["Existing artPromptOptimizer remains the upstream optimizer and its ACCEPT/BLOCKED/non-REWORK holds remain authoritative.", "Tampered planner brief hashes fail closed.", "Existing artFactoryJob still derives deterministic unique seeds from final prompt SHA and records exact model/runtime revisions.", "No review, canonical, CI workflow or release gate is bypassed."]
+      "behavior": "Adapter calls existing artPromptOptimizer recommend() upstream, validates the bounded request and supplied optimizerInput SHA-256, binds each explicit planner brief into final optimized prompt with new prompt SHA, and emits the existing artFactoryJob plan-batch queue shape.",
+      "safeguards": ["Existing artPromptOptimizer remains authoritative upstream.", "Tampered planner brief hashes fail closed.", "artFactoryJob derives deterministic unique seeds and records exact model/runtime revisions.", "No review, canonical, CI workflow or release gate is bypassed."]
     }
   },
-  "rendererPriority": "Do not rerender Decor6/8: shared exact-hash card/detail evidence already passes and 06 has formally marked the hashes BLOCKED_PROVENANCE. Decor5 remains the next Decor qualification/render target. Desk7-10 exact-byte recovery/import is the highest-throughput release path because all four have preserved generated candidates but none are repository-staged; after any exact import, route 06 -> 14 render -> 05 review. Wall8 follows as exact-byte recovery. Wall9-12 remain planned but generation is currently blocked: PAAM-L044 is offline and Adobe Firefly was rate-limited before output. Do not retry the unchanged Adobe path before its stated midnight-GMT reset; 13 should compile/validate deterministic Wall plans meanwhile, then generate only on a compliant runtime.",
+  "parallelQaHandoff": {
+    "owner": "10",
+    "state": "STORE_GEOMETRY_HASH_STABLE_PASS_HANDOFF_READY__INDEPENDENT_FINAL_QA_CONTINUES",
+    "evidence": "docs/preproduction/workstreams/04-store-geometry-verification-handoff-v1.json",
+    "storeGeometry": {
+      "assignedChecks": ["avatarTryOnStage", "selectedDetail", "collectionStrip", "valuePanel"],
+      "disposition": "PASS",
+      "storeCssGitBlobSha": "a6cd659cd181c4901ec90eec344cd91f441eadd1",
+      "storeRuntimeGitBlobSha": "96b31f1b01f310422123666146438a7302457632",
+      "responsiveQa": "PASS_NO_RELEASE_BLOCKERS_IN_SCOPE"
+    },
+    "rule": "Do not reopen Store or Quest desktop geometry absent a fresh current-byte browser failure. Workstream10 continues executable final browser/mobile/reference/persistence QA in parallel; catalog fallbackCount remains a separate release blocker."
+  },
+  "rendererPriority": "Do not rerender old Decor6/8 blocked hashes. Decor5 remains next Decor qualification/render target. Desk7-10 exact-byte recovery/import remains highest-throughput catalog path; after exact import, route 06 -> 14 render -> 05 review. Wall8 follows recovery. Wall9-12 remain generation blocked; do not retry unchanged Adobe before reset. Workstream10 consumes the new Store geometry handoff in parallel without reopening geometry absent fresh failing evidence.",
   "latestWorkflowObservation": {
     "workflow": "StarBlox Art Factory Preflight",
     "runId": 35749978534,
     "head": "b9ae26ddfc94388a637dbacf1c3e7309e7b26f93",
     "conclusion": "success",
-    "note": "Last observed preflight remains green. No workflow/CI files are changed by this scheduled coordination run."
+    "note": "Last observed preflight remains green. Current head exposes no combined-status entries. No workflow/CI files are changed by this scheduled coordination run."
   },
   "readerRule": "Every worker must revalidate assignment, exact item hash, review state and branch head before writing. This coordination file never overrides newer exact evidence.",
   "routingOptimization": {
     "status": "ACTIVE_MAX_THROUGHPUT_FOUR_SLOTS_PLUS_PARALLEL_FINAL_QA",
-    "reason": "Use all four non-overlapping release slots continuously while final browser/mobile/reference QA runs in parallel. The latest Wall provider probe creates a temporary generation block, but no safe alternate fallback scope exists without duplicating ownership, regenerating a frozen candidate, or violating the current Desk/Decor pilot gates; slot 13 therefore advances deterministic Wall plan compilation/validation until runtime capability changes.",
+    "reason": "Use all four non-overlapping release slots continuously while final browser/mobile/reference QA runs in parallel. Slot03 now has one current deterministic Decor6/8 planner request but remains generation-blocked until a revision-reporting runtime exists. Slot13 remains runtime-blocked but can compile/validate its deterministic Wall plan. No safe alternate fallback scope exists without duplicating ownership, regenerating frozen candidates or violating Desk/Decor pilot gates.",
     "liveStateAuthority": "branch head -> live manifest/runtime -> ACTIVE_BATCH -> exact current-hash evidence",
-    "producer03": "Decor6/8 one-new-version provenance repair only after revision-reporting runtime is available; old blocked hashes are not rechecked.",
+    "producer03": "Decor6/8: deterministic request exists; generate one new compliant replacement per item only after revision-reporting runtime is executable and current optimizer/artFactoryJob steps complete. Old blocked hashes are not rechecked.",
     "producer09": "Decor5/7 only; no Decor6/8 work and no Decor9-12 scale until pilot disposition.",
     "producer07": "Exact-byte recovery/import: Desk7 -> Desk8 -> Desk9 -> Desk10 -> Wall8.",
-    "producer13": "Wall9-12 owner. Current runtime evidence: PAAM-L044 offline; Adobe Firefly rate-limited before output. Do not repeat Adobe before reset. Compile/validate the deterministic Wall plans while blocked, then generate immediately when a compliant runtime becomes available.",
-    "worker06": "One final authoritative provider provenance recovery pass for old Decor6/8, then never recheck unchanged hashes; prioritize Decor5/7 and new recovered bytes.",
+    "producer13": "Wall9-12 owner. PAAM-L044 offline; Adobe Firefly rate-limited before output. No retry before reset. Compile/validate deterministic Wall plans while blocked, then generate immediately on compliant runtime.",
+    "worker06": "Prioritize Decor5/7 and newly recovered bytes; old Decor6/8 hashes remain retired from recheck.",
     "reviewer14": "Review only provenance-qualified current Wall/Decor exact hashes; render Desk imports for reviewer05; never review old blocked Decor6/8 hashes.",
     "reviewer05": "Independently review recovered Desk exact hashes after renderer14.",
     "workstream08": "Integrate every new qualified exact-hash ACCEPT immediately; write manifest/runtime only for real mapping deltas.",
-    "workstream10": "Run executable final browser/mobile/reference/persistence QA in parallel on each material head; reuse unchanged hash-bound evidence.",
-    "coordinator15": "If any release slot makes no material progress for one cycle, immediately reassign it to the next non-overlapping visible-fallback/provenance/import task while preserving pilot/reviewer rules. On this head no eligible alternate exists for slot13, so do not manufacture overlap; keep the Wall plan/runtime transition explicit.",
+    "workstream10": "Consume Workstream04's hash-stable Store geometry handoff and run executable final browser/mobile/reference/persistence QA in parallel on each material head; reuse unchanged evidence and do not reopen green geometry without fresh failure.",
+    "coordinator15": "If any release slot makes no material progress for one cycle, reassign only to the next non-overlapping visible-fallback/provenance/import task that does not violate pilot/reviewer rules. Current gates leave no safe alternate for 03 or 13, so keep their plan/runtime transition explicit instead of manufacturing overlap.",
     "activeProductionSlots": [
       {"slot": 1, "owner": "07", "role": "Exact-byte recovery/import", "scope": ["desks-7", "desks-8", "desks-9", "desks-10"], "state": "ACTIONABLE"},
       {"slot": 2, "owner": "09", "role": "Decor5/7 production/qualification", "scope": ["decor-5", "decor-7"], "state": "ACTIONABLE_OR_GATE_BOUND"},
-      {"slot": 3, "owner": "03", "role": "Decor6/8 compliant replacement", "scope": ["decor-6", "decor-8"], "state": "WAITING_RUNTIME_THEN_ACTIONABLE"},
+      {"slot": 3, "owner": "03", "role": "Decor6/8 provenance-compliant replacement", "scope": ["decor-6", "decor-8"], "state": "DETERMINISTIC_REQUEST_READY__WAITING_REVISION_REPORTING_RUNTIME"},
       {"slot": 4, "owner": "13", "role": "Wall9-12 deterministic plan validation then generation on compliant runtime", "scope": ["wall-9", "wall-10", "wall-11", "wall-12"], "state": "GENERATION_BLOCKED__PLAN_COMPILE_VALIDATE_ACTIONABLE"}
     ],
     "parallelQaOwner": "10"
