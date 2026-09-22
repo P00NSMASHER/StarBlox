@@ -1,8 +1,8 @@
 {
-  "schemaVersion": 5,
+  "schemaVersion": 6,
   "workstream": "13",
   "focus": "SCENE_CHARACTER_ART",
-  "status": "READY_FOR_REVIEW_SCENES_AND_CHARACTER",
+  "status": "READY_FOR_REVIEW_SCENES_CHARACTER_BUDDY_STAGE",
   "branch": "screenshot-match-preproduction",
   "candidateId": "home-bedroom-w13-v2",
   "candidateType": "environment-background",
@@ -101,8 +101,8 @@
   },
   "reviewHandoff": {
     "14": "Independently judge overlay-safe composition, alpha/cutout quality, format/performance and real-browser suitability. Do not composition-approve from producer notes alone.",
-    "15": "Only after independent acceptance, coordinate any approved environment handoff to Workstream 09 and character handoff to the avatar owner. No runtime integration is authorized by these candidates.",
-    "01": "Independently judge Home v2, Quest v1, Store v1 and avatar-headset v1 exact pixels against immutable references; bind every decision to the exact hashes in lane-13 evidence."
+    "15": "Only after independent acceptance, coordinate environment handoff to Workstream 09 and character/buddy presentation handoff to the appropriate owner. No runtime integration is authorized by these candidates.",
+    "01": "Independently judge Home v2, Quest v1, Store v1, avatar-headset v1 and buddy-stage v1 exact pixels against immutable references; bind every decision to exact hashes in lane-13 evidence."
   },
   "parallelCandidates": [
     {
@@ -285,6 +285,74 @@
         "runtimeWired": false
       },
       "workstream06AvatarFilesTouched": false,
+      "independentReview": "PENDING"
+    }
+  ],
+  "buddyStageCandidates": [
+    {
+      "candidateId": "buddy-stage-w13-v1",
+      "candidateType": "transparent-buddy-stage-layer",
+      "targetScreens": [
+        "Home",
+        "Quest"
+      ],
+      "status": "STAGED_READY_FOR_INDEPENDENT_REVIEW",
+      "observedDefect": "Reference scenes give the buddy a deliberate visual stage near the avatar; current renders do not yet have an equally coherent reusable presentation layer. This asset contains no buddy identity.",
+      "sourcePath": "public/assets/visuals/lane-13/buddy-stage-w13-v1-source.png",
+      "sourceDimensions": [
+        1536,
+        1536
+      ],
+      "sourceBytes": 1441961,
+      "sourceSha256": "e400e0ff17c28181a9f6223dd9fd55a07d70b4cbce5ab2e297d42711055f0d8f",
+      "sourceGitBlobSha": "40dfb0eb242d7c2739bbba0fc102ea80baa3bf6e",
+      "fullPath": "public/assets/visuals/lane-13/buddy-stage-w13-v1-full.png",
+      "fullDimensions": [
+        1536,
+        1536
+      ],
+      "fullBytes": 337414,
+      "fullSha256": "20e22e48891c63512ada3be5e843885e7ae884937884276313739440afce55c4",
+      "fullGitBlobSha": "897e1a1aa86db4accd831872a37f678d38c4b75e",
+      "fullAlphaBBox": [
+        270,
+        516,
+        1249,
+        1177
+      ],
+      "optimizedPath": "public/assets/visuals/lane-13/buddy-stage-w13-v1-768.png",
+      "optimizedDimensions": [
+        768,
+        768
+      ],
+      "optimizedBytes": 136010,
+      "optimizedSha256": "add4696b3da9c5d7664f4e03c13f91498bb269902b5ab70336d21ece2b3c79f2",
+      "optimizedGitBlobSha": "503788fcbdc250770fd4fcaa0c706856496ee0d9",
+      "optimizedAlphaBBox": [
+        135,
+        258,
+        625,
+        589
+      ],
+      "intakeEvidence": "docs/preproduction/visuals/lane-13-buddy-stage-v1-intake.json",
+      "originReadback": "PASS_3_OF_3_EXACT_SHA256",
+      "sourceHeadAfterBinaryPush": "b2db735a284aa01436d1e85bf4514762c374de79",
+      "provenance": {
+        "generator": "Adobe image_generate",
+        "generationRequestId": "7a8d4166-af69-4ee2-80e4-3a6be3e8dec9",
+        "sourceAdobeUrn": "urn:aaid:ps:US:fff9a594-ebbd-4aa2-bfcd-1844cd4452b4",
+        "sourceFireflyAssetId": "urn:aaid:sc:US:8a7316d5-4ab6-4d58-b5c9-4f6c92c01a97",
+        "backgroundRemovalRequestId": "1390d0c7-9e03-49c2-b01c-66ff11e6bff9",
+        "transparentAdobeUrn": "urn:aaid:ps:US:e4b6bff4-99c2-498d-8271-1fa5b7589701",
+        "resizeRequestId": "c5a476e0-1684-4f2d-b6f6-024fcd708e4c",
+        "optimizedAdobeUrn": "urn:aaid:ps:US:a2674ccc-6ed8-403f-8b21-8ac1db749c4b"
+      },
+      "stateSafety": {
+        "buddyIdentityChanged": false,
+        "buddyBondStateChanged": false,
+        "runtimeWired": false
+      },
+      "workstream06BuddyFilesTouched": false,
       "independentReview": "PENDING"
     }
   ]
