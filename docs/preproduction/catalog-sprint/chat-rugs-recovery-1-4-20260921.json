@@ -4,6 +4,8 @@
   "producer": "07",
   "transportHelper": "CHAT",
   "independentReviewer": "14",
+  "requestedAtHead": "ebb46e96b2689c7e38537392e94042cee037007c",
+  "triggerReason": "ALL_ART_VISUALS_SPRINT_EXACT_BYTE_RECOVERY_NO_REGENERATION",
   "items": [
     {
       "id": "rugs-1",
