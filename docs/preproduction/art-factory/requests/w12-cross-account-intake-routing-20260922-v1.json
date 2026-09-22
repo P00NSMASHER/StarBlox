@@ -1,0 +1,112 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_CROSS_ACCOUNT_ART_INTAKE_ROUTING",
+  "role": "12-intake-router",
+  "branch": "screenshot-match-preproduction",
+  "observedHeadBeforeWrite": "906ba64bc2c399d5edf268aa9aa275862450306c",
+  "liveAuthority": {
+    "manifestVersion": 33,
+    "manifestBlobSha1": "3ce8dd5d16674ff556764402b712d215d3d22457",
+    "runtimeBlobSha1": "68dc4944988ee2850e634eb8966613b9663c163c",
+    "activeBatchBlobSha1": "371bab2860fc4083ca9c91ebfdc6f8527c4dd6a5",
+    "activeFallbackCount": 19
+  },
+  "scan": {
+    "baseHead": "bafc067821c2c6acea7e362a3831dced82771c33",
+    "headInspected": "906ba64bc2c399d5edf268aa9aa275862450306c",
+    "externalScopesInspected": [
+      "EXT01 Tops11-12",
+      "EXT02 Bottoms backlog",
+      "EXT03 Headwear9-12",
+      "EXT04 Facegear",
+      "EXT05 Backgear",
+      "EXT06 Handgear",
+      "EXT07 Beds",
+      "EXT08 reviewer-02 tail",
+      "EXT09 Avatar/Buddy preproduction",
+      "EXT10 Home/Store/Quest visual preproduction"
+    ],
+    "newExternalCandidateEvents": [],
+    "externalObservation": "No EXT01-EXT10 candidate or handoff file changed in the inspected commit delta. External scopes remain protected from primary-account duplicate production.",
+    "newPrimaryCandidateEvents": ["decor-5 qualification state transition"]
+  },
+  "routingEvents": [
+    {
+      "itemId": "decor-5",
+      "name": "Plant Wall",
+      "producer": "09",
+      "sourceLane": "primary fallback pipeline",
+      "reviewerFamily": "14",
+      "candidate": {
+        "path": "public/assets/catalog/decor-5-w09-v2.webp",
+        "gitBlobSha1": "b8ff7b9d6bec11fe8e836952f7a0c5b844e34b6e",
+        "sha256": "386debb9a397519324ca5efb74bc0c761a4df545f7e6cb4075e4c2e7ed33ed1b",
+        "bytes": 15678,
+        "dimensions": [600, 600],
+        "format": "WEBP",
+        "repositoryStaged": true,
+        "newerCandidateObserved": false
+      },
+      "activeBatchReservation": {
+        "reserved": true,
+        "producer": "09",
+        "batchId": "w09-decor-5-7-vnext",
+        "scopeContainsItem": true
+      },
+      "exactEvidence": {
+        "producerRecoveryPath": "docs/preproduction/art-factory/requests/w09-decor-5-provenance-recovery-20260922.json",
+        "producerRecoveryBlobSha1": "ac051a2f66da8788cdbe6b74d5be8815d5c6d89f",
+        "qualificationPath": "docs/preproduction/art-factory/requests/w06-decor-5-qualification-20260922.json",
+        "qualificationBlobSha1": "cc18227c3a8402132f7e7a2e4a86dc2c80228e21",
+        "qualificationCommit": "3760a84b04dcb7dcf7986139659ac90481b5400e"
+      },
+      "stagedOutputStatus": {
+        "candidateExactByteIdentity": "PASS",
+        "safeDecodeAndDimensions": "PASS",
+        "exactDerivativeReadback": "PASS_RECOVERED_EQUIVALENT",
+        "sourceOriginalRepositoryStaged": false
+      },
+      "provenanceStatus": "BLOCKED_ART_FACTORY_V2_PROVENANCE",
+      "remainingBlockers": [
+        "No executed optimizer output or prompt-recipe evidence can be truthfully bound as having preceded this historical generation; producer09 records optimizerExecutedBeforeGeneration=false.",
+        "No exact generation runtime/tool repository plus revision/commit, or policy-authorized equivalent runtime revision evidence, is bound to the actual generation attempt.",
+        "The recovered source-original is not durably repository-staged, so source-preservation evidence remains incomplete even though exact source hash, bytes and dimensions are known."
+      ],
+      "routerDisposition": {
+        "queueTo06": false,
+        "reasonNotQueuedTo06": "Workstream06 already requalified this exact current blob after provenance recovery and fail-closed it on the remaining provenance defects.",
+        "returnToProducer": ["09", "15"],
+        "renderer14": "HOLD_DO_NOT_RENDER_UNCHANGED_BLOCKED_HASH",
+        "reviewer14": "HOLD_NO_TECHNICALLY_QUALIFIED_RENDER",
+        "integrator08": "NO_ACTION"
+      },
+      "staleOrSupersededEvidence": [
+        {
+          "path": "docs/preproduction/art-factory/requests/w09-decor-5-provenance-recovery-20260922.json",
+          "field": "qualificationImpact.next",
+          "status": "SUPERSEDED_BY_NEWER_EXACT_W06_QUALIFICATION",
+          "note": "The producer recovery record says 06 should re-evaluate the blob; that re-evaluation has now occurred at commit 3760a84b04dcb7dcf7986139659ac90481b5400e."
+        },
+        {
+          "path": "docs/preproduction/art-factory/ACTIVE_BATCH.json",
+          "field": "batches[producer=09].pendingCandidates.decor-5.state",
+          "status": "RESERVATION_CURRENT__BLOCKER_LABEL_NARROWED_BY_NEWER_EXACT_EVIDENCE",
+          "note": "Producer09 ownership/reservation remains authoritative. The older BLOCKED_PROVENANCE_AND_STAGED_READBACK label is narrowed by the newer W06 exact evidence: staged readback is recovered; mandatory provenance remains fail-closed."
+        }
+      ]
+    }
+  ],
+  "eligibleFor06": [],
+  "missingProvenanceReturnQueue": ["decor-5"],
+  "overlapsOrStaleHashes": [],
+  "preservation": {
+    "imageBytesChanged": false,
+    "reviewerDecisionsChanged": false,
+    "activeBatchChanged": false,
+    "canonicalMappingsChanged": false,
+    "runtimeMappingsChanged": false,
+    "ciOrWorkflowChangedByRouter": false,
+    "gameplayLearningPersistenceEconomyChanged": false,
+    "mainReplitFlootDeployPaidSecretsPlayerDataTouched": false
+  }
+}
