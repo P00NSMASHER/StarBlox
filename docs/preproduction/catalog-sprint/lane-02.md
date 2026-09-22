@@ -1,6 +1,6 @@
 # Catalog Sprint Lane 02 — Bed Repairs
 
-STATUS: **BEDS 1–4 GENERATED / ACTUAL PIXELS INSPECTED / REPOSITORY STAGING BLOCKED**
+STATUS: **BEDS 1–4 EXACT BYTES STAGED / READBACK PASS / READY FOR INDEPENDENT REVIEW 05**
 
 Branch: `screenshot-match-preproduction` only  
 Producer: Workstream 02  
@@ -9,35 +9,34 @@ Canonical integrator: Workstream 08
 Replit/Floot: **untouched**  
 Main/player data: **untouched**
 
-## Review-priority check
+## Current review-priority check
 
-Workstream 02’s independent partition remains Shoes / Backgear / Handgear / Seating. The legacy partition is already 48/48 reviewed. This run rechecked the current producer lanes before doing Bed work: no fresh **repository-staged** Seating or Shoes replacement hash was ready for actual-pixel independent review. Generated-remote/upload-pending assets were not treated as reviewable and source inspection was not called a visual PASS.
+Workstream 02’s independent partition remains Shoes / Backgear / Handgear / Seating. Shoes 1–6 and Seating 7–10 already have independent exact-hash ACCEPT decisions and must be preserved. The current producer lanes still expose no newer repository-staged Seating or Shoes replacement hash for Workstream 02 to review: Seating 2–3 remain generated-but-transfer-blocked in lane 01, and lane 04’s current Shoes 1–6 hashes are the already-reviewed versions. No source-only preview was treated as a visual PASS.
 
-## Produced batch
+## Beds 1–4 staged pilot
 
-Generated and visually inspected a bounded four-item replacement batch against reviewer 05’s legacy Bed defects:
+The existing four-item Bed pilot has now crossed the byte-transfer blocker. An authorized branch-local recovery path copied the exact producer-recorded Adobe Firefly PNG response bytes into versioned candidate paths and verified repository readback. Authoritative metadata was reconciled against the current game model before staging; notably `beds-1` remains **Garden Glow**.
 
-- `beds-1` **Starter Bed** — Tier 1 / Garden Glow. Three-quarter wood frame, visible mattress and rails, soft mint/cream textiles, sprout identity and contact shadow. Producer pixel check: **PASS**.
-- `beds-2` **Cloud Bed** — Tier 1 / Galaxy Glow. Plush cloud volume, visible bed/mattress depth, restrained galaxy bedding and dimensional upholstery. Producer pixel check: **PASS**.
-- `beds-3` **Pixel Bunk** — Tier 1 / Sunny Pop. Two readable stacked bunks with ladder, guard rail, platform depth and chunky yellow/blue pixel construction. Producer pixel check: **PASS**.
-- `beds-4` **Berry Daybed** — Tier 2 / Aqua Wave. True upholstered daybed geometry with mattress/side depth, aqua-wave construction, berry accents, bolsters and richer Tier-2 material treatment. Producer pixel check: **PASS**.
+| Item | Exact candidate path | Git blob SHA | Bytes | Dimensions | Status |
+| --- | --- | --- | ---: | --- | --- |
+| `beds-1` Starter Bed — Tier 1 / Garden Glow | `/assets/catalog-candidates/w02-beds-20260921-b01/beds-1-w02-v1.png` | `0b9f4213f84c9cde0de5ede646345c0ebc851127` | 673746 | 1024×1024 | READY_FOR_REVIEW_05 |
+| `beds-2` Cloud Bed — Tier 1 / Galaxy Glow | `/assets/catalog-candidates/w02-beds-20260921-b01/beds-2-w02-v1.png` | `67a0fe2874f975cedb1b4b994e0237ac55d2fb3e` | 825777 | 1024×1024 | READY_FOR_REVIEW_05 |
+| `beds-3` Pixel Bunk — Tier 1 / Sunny Pop | `/assets/catalog-candidates/w02-beds-20260921-b01/beds-3-w02-v1.png` | `22b1d9f6802cc0b442c9226511ff96e8ea0bbacc` | 879492 | 1024×1024 | READY_FOR_REVIEW_05 |
+| `beds-4` Berry Daybed — Tier 2 / Aqua Wave | `/assets/catalog-candidates/w02-beds-20260921-b01/beds-4-w02-v1.png` | `18fa8722d9831af1113e07c2103b373acc41c3c0` | 981252 | 1024×1024 | READY_FOR_REVIEW_05 |
 
-The exact generation request IDs, remote source URLs, legacy blob identities, intended versioned repository paths and item-specific findings are recorded in `lane-02.json`. These are **producer candidates only**; Workstream 02 did not self-approve them.
+`lane-02.json` records SHA-256 provenance, exact byte/readback status, legacy identities and producer pixel findings. These remain **producer candidates only**. Workstream 02 did not self-approve them, and no canonical manifest/runtime mapping was edited.
 
-## Staging result
+## Visual direction and release discipline
 
-The required repository byte handoff is the current blocker. The generated pixels were available for inspection, but the supported ChatGPT-file → Adobe connector transfer was attempted twice and returned the exact error `BLOCKED_FILE_REFERENCE`. GitHub’s binary `create_blob` path requires the raw/base64 bytes and cannot consume the generated local file reference directly in this run.
+The pilot addresses the legacy flat-icon failure with recognizable bed construction, mattress/frame depth, three-quarter silhouettes, textile/wood volume, contact/cast lighting and clearer theme identity while keeping Tier 1 relatively simple and Tier 2 visibly richer. The original Store screenshot remains the visual target for dimensional collectible presentation and glossy card-scale legibility; no pixel-parity claim is made from producer inspection.
 
-Therefore:
+Do not scale into Beds 5–8 until reviewer 05 dispositions this pilot or identifies concrete repair needs. V2 requires the pilot to complete independent rendered review before the recipe is scaled. If reviewer 05 ACCEPTs exact hashes, 08 may integrate them after normal mapping/file/content checks. If reviewer 05 returns REWORK, preserve these exact versions and repair only the rejected items.
 
-- no Bed replacement is falsely labeled `STAGED`;
-- no Git blob SHA is invented;
-- no `READY_FOR_REVIEW` status is claimed;
-- no manifest/runtime mapping is changed;
-- no regeneration is requested yet.
+## Handoff
 
-The safe handoff is to use an authorized binary transfer path to download the four `remoteSourceUrl` values recorded in `lane-02.json`, write the exact PNG bytes to the intended versioned candidate paths, verify Git readback, and then send those exact hashes to reviewer 05. If reviewer 05 later returns REWORK, repair only the rejected item rather than regenerating the whole batch.
+- **05:** render and independently review the four exact hashes above at card/detail scale; record ACCEPT/REWORK/BLOCKED per exact version.
+- **08:** no action until reviewer 05 accepts an exact hash; then integrate only the accepted version after normal checks.
+- **15:** the Workstream-02 Bed byte-transfer blocker is resolved for this pilot. No additional transfer escalation is needed for Beds 1–4.
+- **02 next:** first consume any newly staged Seating/Shoes replacement hashes for independent review. Otherwise wait for reviewer 05’s Beds 1–4 pilot disposition before generating Beds 5–8.
 
-## Next lane action
-
-Do not create Beds 5–8 while Beds 1–4 remain unable to leave producer storage; that would increase stranded work. On the next cycle, first consume any newly staged Seating/Shoes replacement hash for independent review. Otherwise retry the Bed 1–4 byte handoff once through whatever authorized bridge Command Center has made available. Escalate again to Workstream 15 if the same transfer blocker remains unchanged for the second cycle.
+No gameplay, curriculum, economy, save state, tests, canonical runtime, Replit/Floot, `main`, deployment, paid settings or real-player data were changed by this documentation update.
