@@ -1,92 +1,87 @@
 {
-  "schemaVersion": 3,
+  "schemaVersion": 4,
   "scope": "ART_AND_VISUALS_ONLY",
   "branch": "screenshot-match-preproduction",
   "coordinationOwner": "15",
   "canonicalWriter": "08",
-  "observedHead": "2afe95f21a8b2a2a143ea081ed24a7af73b08bb4",
+  "observedHeadBeforeCoordinationWrite": "fc05130f7f017090056d48a1d00661b1382d2e22",
   "phase": "CATALOG_SPRINT",
   "counts": {
     "catalogTarget": 192,
     "independentReviewCoverageFloor": 182,
-    "independentlyAcceptedCurrentHashesFloor": 74,
-    "canonicalAcceptedCurrentHashesWired": 57,
-    "acceptedCurrentHashesAwaitingCanonical": 17,
+    "independentlyAcceptedCurrentHashesFloor": 81,
+    "canonicalAcceptedCurrentHashesWired": 81,
+    "acceptedCurrentHashesAwaitingCanonical": 0,
     "repositoryStoredReadbackCurrentCandidateFloor": 84,
     "externallyGeneratedPreservedNotRepositoryStored": 4,
-    "catalogReleaseClearedIds": 0
+    "catalogReleaseClearedIds": 0,
+    "canonicalManifestVersion": 23,
+    "canonicalMappings": 160,
+    "canonicalFinalPortableLabels": 152,
+    "canonicalInterimNotVerified": 8,
+    "canonicalNonFinal": 40
   },
   "countNotes": {
-    "accepted": "Disjoint reviewer partitions: reviewer01 18, reviewer02 15, reviewer05 17, reviewer14 24 after the Rugs 9-12 supplemental review.",
-    "canonical": "Current Workstream08 integration evidence reports manifest v19 and strictAcceptedCanonical 57 after integrating the exact-hash Tops 7-10, Bottoms 1-4 and Headwear 1-4 batch on top of manifest v18.",
-    "storedFloor": "Conservative floor only: 74 accepted repo-stored hashes plus Desk 2-4, Tops 11-12, Rugs 11-12, Seating 11-12 and newly attached Aura 11 current branch candidates. Other legacy/rework/staged assets are not added without a fresh exact accounting pass.",
-    "externalPreserved": "Headwear 5-8 are generated/preserved in Adobe with derivatives but do not yet have repository bytes/hashes; do not count them as staged or accepted."
+    "acceptedCanonical": "Workstream 08 integration schema 10 reports manifest v23 strictAcceptedCanonical 81 after integrating Desks 2-4 plus Auras 5/9/10/12 on top of prior accepted batches. At that snapshot the qualified ACCEPT backlog is cleared; recompute live reviewer deltas before every subsequent canonical write.",
+    "reviewCoverage": "182/192 is retained only as a conservative unique-ID coverage floor from the last reconciled partition accounting. Do not derive current-hash acceptance from legacy coverage labels.",
+    "storedFloor": "Conservative unique-ID floor. New Tops 11-12 v5 and Rugs 11-12 v3 replace already-counted pending IDs rather than increasing the unique-ID floor. Other staged/rework/legacy assets are excluded without a fresh exact accounting pass.",
+    "externalPreserved": "Headwear 5-8 remain generated/preserved 600x600 Adobe derivatives but are not repository-staged and therefore are not counted as staged, accepted or canonical."
   },
-  "oldestReleaseCriticalDependency": {
-    "owner": "08",
-    "action": "Integrate the remaining live exact-hash ACCEPT backlog immediately in bounded coherent batches after current metadata/file/hash/decode/independence checks. Recompute the exact delta against manifest v19 before every write.",
-    "currentBacklogFloor": 17
-  },
-  "activeMicroBatchesAndHandoffs": {
-    "05": {
-      "priority": "Independently disposition Desk 2-4 exact current PNG hashes now that Workstream 14 closed the card/detail evidence gap.",
-      "evidence": "docs/preproduction/catalog-sprint/chat-desks-2-4-render-evidence-14-to-05.json",
+  "oldestReleaseCriticalDependencies": [
+    {
+      "owner": "01",
+      "action": "Independently review Tops 11-12 v5 exact hashes from actual card/detail pixels. Old v4 REWORK does not transfer.",
       "items": [
-        {"id":"desks-2","path":"/assets/catalog/desks-2-chat-v2.png","hash":"277eb1e38e8a69caa0dab6d4d27bbb91796746f8"},
-        {"id":"desks-3","path":"/assets/catalog/desks-3-chat-v2.png","hash":"aeebeacdc4a95bf75af36583dae6e2391d9a1d9e"},
-        {"id":"desks-4","path":"/assets/catalog/desks-4-chat-v2.png","hash":"6f87e1527ec7d9bf1a3f81e1f54320f462dbb025"}
+        {"id":"tops-11","path":"/assets/catalog/tops-11-w09-v5.svg","hash":"43a850ecdc0b7e8861870f7c277f2544f6c87405"},
+        {"id":"tops-12","path":"/assets/catalog/tops-12-w09-v5.svg","hash":"73339e6c9e472283f481ff18b1e6ba821856f617"}
+      ],
+      "renderEvidence": "workflow 35681227316 / artifact 10674362796; both exact hashes HTTP 200, 600x600, card/detail rendered with no per-item errors"
+    },
+    {
+      "owner": "14",
+      "action": "Render and independently review Rugs 11-12 v3 exact hashes. Old v2 REWORK does not transfer.",
+      "items": [
+        {"id":"rugs-11","path":"/assets/catalog/rugs-11-w07-v3.png","hash":"2c93f18fb5960f7056819c341a3da8f7fff3fb9d"},
+        {"id":"rugs-12","path":"/assets/catalog/rugs-12-w07-v3.png","hash":"85007bbb5e31a5545cf006f9cf43f25167ffb37f"}
       ]
     },
-    "09": {
-      "priority": "Repair only Tops 11-12 current v3 failures before Decor scaling.",
+    {
+      "owner": "14->02",
+      "action": "Close exact-current Seating 11-12 card/detail render evidence; reviewer 02 alone dispositions the Seating hashes.",
       "items": [
-        {"id":"tops-11","hash":"4b854298242b2b108edf43b92a98f9678841e89e","decision":"BLOCKED","defect":"current JPEG fails decode; re-export clean new hash"},
-        {"id":"tops-12","hash":"5a5b3eae82027d7cf172a67089d77f7b14b8d638","decision":"REWORK","defect":"actual card/detail pixels visibly corrupted; re-export clean new hash"}
-      ],
-      "reviewer": "01"
+        {"id":"seating-11","path":"/assets/catalog/seating-11-w06-v2.png","hash":"5126e9abcec4a09ef281dccb33aac6ba59b38b94"},
+        {"id":"seating-12","path":"/assets/catalog/seating-12-w06-v2.png","hash":"793b32f60ed10fffa80b549e75b66858ac0d7e4f"}
+      ]
     },
-    "07": {
-      "priority": "Preserve Rugs 9-10 ACCEPT; repair only Rugs 11-12 current exact REWORK in one bounded two-item batch.",
-      "items": [
-        {"id":"rugs-11","hash":"cfff5c4d235295c0f3e0efc0ef34bfcbf629c916","defect":"reads as floor cushion/ottoman and near-duplicates Cloud Rug"},
-        {"id":"rugs-12","hash":"e008d4b097caadd5e246d2d023e61179d543da3e","defect":"reads as padded playmat/floor cushion rather than rug"}
-      ],
-      "reviewer": "14"
+    {
+      "owner": "14->05",
+      "action": "Render Aura 11 Dream Aurora v3 exact current hash; reviewer 05 alone dispositions it and no old verdict transfers.",
+      "item": {"id":"auras-11","path":"/assets/catalog/auras-11-w11-v3.jpg","hash":"7f3372c1584e07f18a3abfc7818013190fff1560"}
     },
-    "11": {
-      "priority": "Aura 11 Dream Aurora v3 preserved Git blob is now branch-attached without byte changes. Do not regenerate. Route exact current path/hash through card/detail render, then reviewer 05.",
-      "item": {"id":"auras-11","path":"/assets/catalog/auras-11-w11-v3.jpg","hash":"7f3372c1584e07f18a3abfc7818013190fff1560","attachmentCommit":"6bf28983c52a84f93e7f5ccfae12deecf55d873e","readback":"PASS"},
-      "reviewer": "05"
-    },
-    "12": {
-      "priority": "Do not generate more accessories. Preserve Headwear 5-8 generated assets and close repository byte transfer/readback first.",
+    {
+      "owner": "12+04",
+      "action": "Transfer the four already-generated Headwear 5-8 derivatives to their planned versioned repository paths without regeneration or byte modification; prove readback, then reviewer 01 reviews exact repo hashes.",
       "items": ["headwear-5","headwear-6","headwear-7","headwear-8"],
-      "status": "GENERATED_PRESERVED_EXTERNAL_TRANSFER_BLOCKED",
-      "reviewer": "01"
-    },
-    "04": {
-      "temporaryTransportHelper": "Assist Workstream 12 with transfer of the already-generated Headwear 5-8 derivatives from the exact provenance/URLs recorded in lane-12.json into their planned versioned GitHub paths. Do not regenerate, change producer provenance, self-review, or canonical-wire. Return exact repo hashes/readback to 12/01. After handoff, resume Store screenshot-match support."
-    },
-    "14": {
-      "priority": "Rugs 9-12 review and Desk 2-4 render handoff are complete. Next close Seating 11-12 exact-current card/detail evidence if current producer ledger/path hashes reconcile. After that, render attached Aura 11 exact hash for reviewer 05. Do not churn unchanged Wall/Decor legacy hashes."
+      "status": "GENERATED_PRESERVED_EXTERNAL_NOT_REPOSITORY_STAGED"
     }
-  },
-  "currentAcceptedDeltasSincePriorCoordination": {
-    "seating-4-6": 3,
-    "auras-1-4-v3": 4,
-    "rugs-9-10": 2,
-    "totalNewAccepts": 9
+  ],
+  "integrationPolicy": {
+    "08": "Integrate every new qualified exact-hash ACCEPT immediately after current metadata/file/hash/decode/uniqueness/independence checks. Manifest v23 already wires the 81 accepted-current floor; never reintegrate unchanged hashes.",
+    "producers": "Do not regenerate Tops 11-12 v5, Rugs 11-12 v3 or Aura 11 v3 while their independent evidence/review is pending. Preserve prior versions.",
+    "reviewers": "01/02/05/14 keep disjoint partitions and never approve their own artwork. Actual current card/detail pixels plus exact hash are required.",
+    "noChurn": "Do not re-review unchanged Wall/Decor legacy hashes or expand a rejected/undispositioned recipe merely to create activity."
   },
   "visualParallelWork": {
-    "13": "Scene/character visual asset production remains allowed in exclusive versioned paths. Current Home foreground-depth candidate is staged only, not runtime-wired or independently accepted.",
-    "04AfterTransport": "Store screenshot-match analysis remains visual-only until 15 assigns a concrete runtime/CSS change.",
-    "10": "Continue deterministic responsive visual/reference evidence without inventing mobile reference parity."
+    "13": "May continue original character/environment/scene assets against stored originals only in exclusive versioned paths, with no runtime/state changes. Current Store avatar-stage visual intake/readback work remains staged evidence, not catalog acceptance or runtime integration.",
+    "10": "Continue deterministic desktop/tablet/390/320 visual/readability evidence using real game renders; do not invent mobile reference parity.",
+    "04AfterTransport": "After Headwear byte transport is complete or concretely blocked, resume Store reference-match analysis only; shared runtime/CSS edits require a specific Workstream 15 handoff."
   },
   "automationReconciliation": {
     "sameOriginal15IdsPreserved": true,
     "unauthorizedReplacementTaskDisabled": "6ab1e24b6e8c8191b050a0a2c1b00e3a",
     "originalAccessoryTaskReenabled": "6ab137ae4c0c81919983c1ff69020447",
-    "note": "No unrelated task was altered. Original hourly StarBlox IDs remain the active visual workforce."
+    "schedulesChangedThisReconciliation": false,
+    "note": "The original accessory-art task 12 is active again on its preserved schedule. No substitute StarBlox task was created and no unrelated automation was altered."
   },
   "releaseAndSafety": {
     "originalReferencePixelsAccessible": true,
