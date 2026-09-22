@@ -4,289 +4,44 @@
   "role": "independent catalog reviewer for beds/desks/companions/auras",
   "phase": "CATALOG_SPRINT",
   "branch": "screenshot-match-preproduction",
-  "sourceHead": "1e5f9e6fd1e475362e756973bc871e6a79463235",
+  "sourceHead": "121323dc0001a41515a2b1030790a19a45bee0ae",
   "policy": "docs/preproduction/DELIVERY_PROTOCOL_V2.md",
+  "visualSprint": "docs/preproduction/ART_VISUALS_SPRINT.json",
+  "referenceManifest": "docs/preproduction/reference-screenshots/original-reference-manifest.json",
   "assignedCollections": ["beds", "desks", "companions", "auras"],
   "assignedCount": 48,
   "historyRefs": [
-    {
-      "reviewBlobSha": "d9066630eeae3bddb184d06c0fa0bbcf17c7d57b",
-      "scope": "legacy Companions 1-12 and Beds 1-12 exact-hash reviews",
-      "result": "REWORK_24_OF_24"
-    },
-    {
-      "reviewBlobSha": "9d855d01e7f0132e999850a7c616cfd1239eb015",
-      "scope": "legacy Auras 1-12 exact-hash review",
-      "result": "REWORK_12_OF_12"
-    },
-    {
-      "reviewBlobSha": "cc78e6521dfeb300a9f751b486356a1755610e75",
-      "scope": "replacement Auras 1-4 plus Companions 3/4/10/11",
-      "result": "ACCEPT_4_REWORK_4"
-    }
+    {"reviewBlobSha":"d9066630eeae3bddb184d06c0fa0bbcf17c7d57b","scope":"legacy Companions 1-12 and Beds 1-12 exact-hash reviews","result":"REWORK_24_OF_24"},
+    {"reviewBlobSha":"9d855d01e7f0132e999850a7c616cfd1239eb015","scope":"legacy Auras 1-12 exact-hash review","result":"REWORK_12_OF_12"},
+    {"reviewBlobSha":"cc78e6521dfeb300a9f751b486356a1755610e75","scope":"replacement Auras 1-4 plus Companions 3/4/10/11","result":"ACCEPT_4_REWORK_4"}
   ],
-  "legacyUniqueIdCoverage": {
-    "auras": 12,
-    "companions": 12,
-    "beds": 12,
-    "desks": 0,
-    "totalUniqueIdsReviewed": 36
-  },
-  "currentReplacementBatch": {
-    "reviewedVersions": 16,
-    "accepted": 7,
-    "rework": 9,
-    "blocked": 0,
-    "result": "ACCEPT_7_REWORK_9",
-    "priority": "Fresh replacement hashes were reviewed before untouched legacy work."
-  },
+  "legacyUniqueIdCoverage": {"auras":12,"companions":12,"beds":12,"desks":0,"totalUniqueIdsReviewed":36},
+  "currentReplacementBatch": {"reviewedVersions":18,"accepted":9,"rework":9,"blocked":0,"result":"ACCEPT_9_REWORK_9","priority":"Fresh replacement hashes were reviewed before untouched legacy work."},
   "renderEvidence": [
-    {
-      "workflow": "StarBlox Staged Catalog Art QA",
-      "workflowRunId": 35654620624,
-      "artifactId": 10663298893,
-      "artifactDigest": "sha256:f2c0d3d3aa251f5e1934017a7c61acf644e8876ab1e1a5b0c37e7f06ffb8e9db",
-      "artifactSourceHead": "acbc6035da9d57bc88043604caa5ec0b6352398e",
-      "scope": "Auras 1-4 v2 and Companions 3/4/10/11 replacements",
-      "actualPixelsReviewed": true
-    },
-    {
-      "workflow": "StarBlox Staged Catalog Art QA",
-      "workflowRunId": 35663120602,
-      "artifactId": 10667309738,
-      "artifactDigest": "sha256:1f3ff8b11989bc9a6e2133170fb8548482e062616615575ad150ddeda948a887",
-      "artifactSourceHead": "d0e4522bddc9742d7317d0f43d8bd3baffdec162",
-      "scope": "Auras 5-12 v2 exact current hashes",
-      "contactSheet": "staged-replacements/staged-replacements-contact-sheet.png",
-      "actualPixelsReviewed": true,
-      "httpDecode": "PASS_AURAS_5_TO_12"
-    }
+    {"workflow":"StarBlox Staged Catalog Art QA","workflowRunId":35654620624,"artifactId":10663298893,"artifactDigest":"sha256:f2c0d3d3aa251f5e1934017a7c61acf644e8876ab1e1a5b0c37e7f06ffb8e9db","artifactSourceHead":"acbc6035da9d57bc88043604caa5ec0b6352398e","scope":"Auras 1-4 v2 and Companions 3/4/10/11 replacements","actualPixelsReviewed":true},
+    {"workflow":"StarBlox Staged Catalog Art QA","workflowRunId":35663120602,"artifactId":10667309738,"artifactDigest":"sha256:1f3ff8b11989bc9a6e2133170fb8548482e062616615575ad150ddeda948a887","artifactSourceHead":"d0e4522bddc9742d7317d0f43d8bd3baffdec162","scope":"Auras 5-12 v2 exact current hashes","contactSheet":"staged-replacements/staged-replacements-contact-sheet.png","actualPixelsReviewed":true,"httpDecode":"PASS_AURAS_5_TO_12"},
+    {"workflow":"Desk 5-6 Recovery Evidence","workflowRunId":35669227577,"artifactId":10670532506,"artifactDigest":"sha256:1a4db65bb5f583601021323704717c957f34e6d15a81d7af1fa8462050ef3cfb","artifactSourceHead":"c37b2e46761cb38a4cd1ee22bd73f2687df0100c","scope":"Desks 5-6 exact current replacement hashes","contactSheet":"artifacts/desks-5-6-recovery/desks-5-6-card-contact-sheet.png","contactSheetSha256":"2d1b6bb3c1b0251cb23521044bec98d0b51b3a6631fb1437be2c324d9f73b5db","actualPixelsReviewed":true,"detailPixelsReviewed":true,"exactHashBinding":"PASS_2_OF_2"},
+    {"workflow":"StarBlox Staged Catalog Art QA","workflowRunId":35673126046,"artifactId":10671254408,"artifactDigest":"sha256:ffc8a32bf66771e1bd700f71128f25b994599e9ce5632bf1213d7d9eba25cd5e","artifactSourceHead":"897d76196a8e10be7748292c58b4666cdecc4d28","scope":"Desk 2-6 staged reconciliation","result":"FAIL_DESKS_2_TO_4_CURRENT_HASHES_INVALID_SIGNATURE","actualPixelsReviewedFor":["desks-5","desks-6"],"blockedCurrentHashes":[{"itemId":"desks-2","assetHash":"357f4ba8385e737499f12409c0bea141f9bc5e6a","reason":"invalid-file-signature"},{"itemId":"desks-3","assetHash":"b3352961988d7e9c5ff48d1559fc4d2296d4eab3","reason":"invalid-file-signature"},{"itemId":"desks-4","assetHash":"711feeb78e6d08351fc2fd2d3176ddb1a288e8f2","reason":"invalid-file-signature"}],"note":"No visual disposition transferred from obsolete blank/transparent Desk 2-4 versions."}
   ],
   "reviews": [
-    {
-      "itemId": "auras-1",
-      "name": "Soft Sparkles",
-      "tier": 1,
-      "theme": "Midnight Neon",
-      "producer": "11",
-      "assetPath": "/assets/catalog/auras-1-v2.svg",
-      "assetHash": "48639f1262052350660127bbc5d3d25de34d61e3",
-      "hashAlgorithm": "git-blob-sha1",
-      "decision": "REWORK",
-      "evidenceRefs": ["artifact:10663298893/staged-replacements/staged-replacements-contact-sheet.png", "artifact:10663298893/staged-replacements/detail/auras-1-48639f12.png"],
-      "reason": "Contrast and Midnight Neon cues improve over legacy, but the sparse dashed ring and flat star sprites still lack volumetric particle depth, foreground/background layering and convincing emissive falloff.",
-      "checks": {"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"FAIL","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
-    },
-    {
-      "itemId": "auras-2",
-      "name": "Cloud Puffs",
-      "tier": 1,
-      "theme": "Candy Core",
-      "producer": "11",
-      "assetPath": "/assets/catalog/auras-2-v2.svg",
-      "assetHash": "c2be24c165f3e28995d5d2eb946dbdde983afe2a",
-      "hashAlgorithm": "git-blob-sha1",
-      "decision": "REWORK",
-      "evidenceRefs": ["artifact:10663298893/staged-replacements/staged-replacements-contact-sheet.png", "artifact:10663298893/staged-replacements/detail/auras-2-c2be24c1.png"],
-      "reason": "Candy palette and cloud identity read, but repeated flat cloud shapes still behave like icons rather than a spatial aura; puff volume, atmospheric overlap and depth staggering are missing.",
-      "checks": {"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"FAIL","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
-    },
-    {
-      "itemId": "auras-3",
-      "name": "Pixel Bits",
-      "tier": 1,
-      "theme": "Adventure Club",
-      "producer": "11",
-      "assetPath": "/assets/catalog/auras-3-v2.svg",
-      "assetHash": "9b682148eb26898ec5f56ac11eac635e7c93c8fc",
-      "hashAlgorithm": "git-blob-sha1",
-      "decision": "REWORK",
-      "evidenceRefs": ["artifact:10663298893/staged-replacements/staged-replacements-contact-sheet.png", "artifact:10663298893/staged-replacements/detail/auras-3-9b682148.png"],
-      "reason": "Pixel blocks have improved glow and shading, but remain on a flat elliptical orbit around a generic star; Adventure Club specificity and true 3D parallax remain too weak.",
-      "checks": {"identity":"PASS","themeTier":"PARTIAL","silhouette":"PASS","materialLighting":"PARTIAL","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
-    },
-    {
-      "itemId": "auras-4",
-      "name": "Berry Hearts",
-      "tier": 2,
-      "theme": "Cloud Pop",
-      "producer": "11",
-      "assetPath": "/assets/catalog/auras-4-v2.svg",
-      "assetHash": "3059eae7ab68c125f1af1696305fdf5689131455",
-      "hashAlgorithm": "git-blob-sha1",
-      "decision": "REWORK",
-      "evidenceRefs": ["artifact:10663298893/staged-replacements/staged-replacements-contact-sheet.png", "artifact:10663298893/staged-replacements/detail/auras-4-3059eae7.png"],
-      "reason": "Berry-heart and Cloud Pop cues are clear, but hearts/cloud remain sticker-like around a broad ring; Tier 2 needs more layered depth, volumetric cloud treatment and convincing glow/occlusion.",
-      "checks": {"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"FAIL","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
-    },
-    {
-      "itemId": "auras-5",
-      "name": "Garden Fireflies",
-      "tier": 2,
-      "theme": "Pixel Party",
-      "producer": "11",
-      "assetPath": "/assets/catalog/auras-5-v2.svg",
-      "assetHash": "16416de7ab535af16c59aa40e4d8f5a85a2958bf",
-      "hashAlgorithm": "git-blob-sha1",
-      "decision": "REWORK",
-      "evidenceRefs": ["artifact:10667309738/staged-replacements/staged-replacements-contact-sheet.png", "artifact:10667309738/staged-replacements/detail/auras-5-16416de7.png"],
-      "reason": "Glowing fireflies, leaves and the dark card are readable, but the effect is still primarily a flat circular ring of vector leaves/lights. Pixel Party specificity is weak and Tier-2 spatial particle depth/material lighting are not yet premium.",
-      "checks": {"identity":"PASS","themeTier":"PARTIAL","silhouette":"PASS","materialLighting":"PARTIAL","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
-    },
-    {
-      "itemId": "auras-6",
-      "name": "Galaxy Orbit",
-      "tier": 2,
-      "theme": "Berry Blast",
-      "producer": "11",
-      "assetPath": "/assets/catalog/auras-6-v2.svg",
-      "assetHash": "ce4b155c7fb5469fde415ab9d744cab41027fe4d",
-      "hashAlgorithm": "git-blob-sha1",
-      "decision": "ACCEPT",
-      "evidenceRefs": ["artifact:10667309738/staged-replacements/staged-replacements-contact-sheet.png", "artifact:10667309738/staged-replacements/detail/auras-6-ce4b155c.png"],
-      "reason": "Fresh pixels provide clear crossing orbital depth, glossy berry-planets, layered neon paths, highlights and directional motion. The Berry Blast/Galaxy identity is distinctive, card-readable and materially richer while remaining appropriate for Tier 2.",
-      "checks": {"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"PASS","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
-    },
-    {
-      "itemId": "auras-7",
-      "name": "Sunny Rays",
-      "tier": 3,
-      "theme": "Garden Glow",
-      "producer": "11",
-      "assetPath": "/assets/catalog/auras-7-v2.svg",
-      "assetHash": "c451e7479e142f1eca89cc5282b352c2d2ca2d4b",
-      "hashAlgorithm": "git-blob-sha1",
-      "decision": "ACCEPT",
-      "evidenceRefs": ["artifact:10667309738/staged-replacements/staged-replacements-contact-sheet.png", "artifact:10667309738/staged-replacements/detail/auras-7-c451e747.png"],
-      "reason": "The dimensional gold sun/star center, raised rays, leaves, gradient metal response and cast/contact shadow produce a clear Garden Glow aura with strong card readability and a credible Tier-3 material step-up.",
-      "checks": {"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"PASS","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
-    },
-    {
-      "itemId": "auras-8",
-      "name": "Aqua Bubbles",
-      "tier": 3,
-      "theme": "Galaxy Glow",
-      "producer": "11",
-      "assetPath": "/assets/catalog/auras-8-v2.svg",
-      "assetHash": "6884668fe721f3b26a562e11924237a32c656db6",
-      "hashAlgorithm": "git-blob-sha1",
-      "decision": "ACCEPT",
-      "evidenceRefs": ["artifact:10667309738/staged-replacements/staged-replacements-contact-sheet.png", "artifact:10667309738/staged-replacements/detail/auras-8-6884668f.png"],
-      "reason": "Multiple glossy translucent bubbles use strong specular highlights, internal galaxy color, size/depth hierarchy and a dark field to create convincing spatial volume. The exact Aqua Bubbles/Galaxy Glow identity is premium and readable at card scale for Tier 3.",
-      "checks": {"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"PASS","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
-    },
-    {
-      "itemId": "auras-9",
-      "name": "Art Confetti",
-      "tier": 3,
-      "theme": "Sunny Pop",
-      "producer": "11",
-      "assetPath": "/assets/catalog/auras-9-v2.svg",
-      "assetHash": "f88be0c4b5fdb36df870ffa113c08f8ec668363c",
-      "hashAlgorithm": "git-blob-sha1",
-      "decision": "REWORK",
-      "evidenceRefs": ["artifact:10667309738/staged-replacements/staged-replacements-contact-sheet.png", "artifact:10667309738/staged-replacements/detail/auras-9-f88be0c4.png"],
-      "reason": "Colorful ribbons/stars/confetti are lively, but the composition remains a flat circular graphic with limited depth hierarchy or material response. Art Confetti/Sunny Pop needs more spatial scatter, foreground/background overlap and premium Tier-3 lighting.",
-      "checks": {"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"FAIL","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
-    },
-    {
-      "itemId": "auras-10",
-      "name": "Neon Trail",
-      "tier": 4,
-      "theme": "Aqua Wave",
-      "producer": "11",
-      "assetPath": "/assets/catalog/auras-10-v2.svg",
-      "assetHash": "cbc767e6b29db880535d7fd99741debdadbcf6c5",
-      "hashAlgorithm": "git-blob-sha1",
-      "decision": "REWORK",
-      "evidenceRefs": ["artifact:10667309738/staged-replacements/staged-replacements-contact-sheet.png", "artifact:10667309738/staged-replacements/detail/auras-10-cbc767e6.png"],
-      "reason": "Aqua/cyan trail identity and glow are clear, but the thick curves and white wave lines remain diagrammatic and flat. Tier 4 requires substantially more volumetric ribbon depth, layered light spill and material/spectacle richness.",
-      "checks": {"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"FAIL","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
-    },
-    {
-      "itemId": "auras-11",
-      "name": "Dream Aurora",
-      "tier": 4,
-      "theme": "Art Attack",
-      "producer": "11",
-      "assetPath": "/assets/catalog/auras-11-v2.svg",
-      "assetHash": "ddb2c81b49db8e6ea6369c8f70cb720228feb73c",
-      "hashAlgorithm": "git-blob-sha1",
-      "decision": "REWORK",
-      "evidenceRefs": ["artifact:10667309738/staged-replacements/staged-replacements-contact-sheet.png", "artifact:10667309738/staged-replacements/detail/auras-11-ddb2c81b.png"],
-      "reason": "Layered purple/pink aurora ribbons improve silhouette and color, but still read as graphic arches rather than a volumetric curtain of light. Tier 4 Art Attack needs richer translucent depth, painterly material interaction and controlled luminous atmosphere.",
-      "checks": {"identity":"PASS","themeTier":"PARTIAL","silhouette":"PASS","materialLighting":"FAIL","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
-    },
-    {
-      "itemId": "auras-12",
-      "name": "Luxe Starstorm",
-      "tier": 5,
-      "theme": "Star Luxe",
-      "producer": "11",
-      "assetPath": "/assets/catalog/auras-12-v2.svg",
-      "assetHash": "93b33a82e9a5045e1e070ab7561bab08ce5ae947",
-      "hashAlgorithm": "git-blob-sha1",
-      "decision": "REWORK",
-      "evidenceRefs": ["artifact:10667309738/staged-replacements/staged-replacements-contact-sheet.png", "artifact:10667309738/staged-replacements/detail/auras-12-93b33a82.png"],
-      "reason": "Crossing pastel/gold rings, bright stars and jewel-like nodes increase spectacle, but major stars/ribbons still read as flat stickers. Tier 5 needs true crystalline/faceted hero forms, stronger near/far storm depth and more luxurious light/material response.",
-      "checks": {"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"FAIL","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
-    },
-    {
-      "itemId": "companions-3",
-      "name": "Berry Bunny",
-      "tier": 1,
-      "theme": "Berry Blast",
-      "producer": "06",
-      "assetPath": "public/assets/catalog-candidates/chat-20260921-intake01/companions-3-detail.webp",
-      "assetHash": "adba95dc769e603337dc4ac38b9a513ce9914b10",
-      "hashAlgorithm": "git-blob-sha1",
-      "decision": "ACCEPT",
-      "evidenceRefs": ["artifact:10663298893/staged-replacements/staged-replacements-contact-sheet.png", "artifact:10663298893/staged-replacements/detail/companions-3-adba95dc.png"],
-      "reason": "Rounded toy/plush anatomy, strong ear/body depth, believable surface light/shadow and clear berry identity fix the legacy flat-mascot defect while remaining appropriate for Tier 1.",
-      "checks": {"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"PASS","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
-    },
-    {
-      "itemId": "companions-4",
-      "name": "Sunny Bird",
-      "tier": 2,
-      "theme": "Garden Glow",
-      "producer": "06",
-      "assetPath": "public/assets/catalog-candidates/chat-20260921-intake01/companions-4-detail.webp",
-      "assetHash": "b382339e76ed9d4aeae72b1c8cccc904abf85b57",
-      "hashAlgorithm": "git-blob-sha1",
-      "decision": "ACCEPT",
-      "evidenceRefs": ["artifact:10663298893/staged-replacements/staged-replacements-contact-sheet.png", "artifact:10663298893/staged-replacements/detail/companions-4-b382339e.png"],
-      "reason": "Rounded body volume, layered feather forms, contact shadow, warm directional lighting and unmistakable garden/sun identity create a credible Tier-2 dimensional step-up.",
-      "checks": {"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"PASS","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
-    },
-    {
-      "itemId": "companions-10",
-      "name": "Pixel Bot",
-      "tier": 4,
-      "theme": "Midnight Neon",
-      "producer": "06",
-      "assetPath": "public/assets/catalog-candidates/chat-20260921-intake01/companions-10-detail.webp",
-      "assetHash": "2b09d950b08083bb3a9ec5e2073ae23d88411cf4",
-      "hashAlgorithm": "git-blob-sha1",
-      "decision": "ACCEPT",
-      "evidenceRefs": ["artifact:10663298893/staged-replacements/staged-replacements-contact-sheet.png", "artifact:10663298893/staged-replacements/detail/companions-10-2b09d950.png"],
-      "reason": "Molded robot anatomy, joints, beveled panels, glossy material separation, pixel-face display and teal/magenta neon lighting resolve the legacy flat treatment with Tier-4 richness.",
-      "checks": {"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"PASS","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
-    },
-    {
-      "itemId": "companions-11",
-      "name": "Dream Dragon",
-      "tier": 4,
-      "theme": "Candy Core",
-      "producer": "06",
-      "assetPath": "public/assets/catalog-candidates/chat-20260921-intake01/companions-11-detail.webp",
-      "assetHash": "465fe45abbe4d9b4355444cb3f75a49927b604e9",
-      "hashAlgorithm": "git-blob-sha1",
-      "decision": "ACCEPT",
-      "evidenceRefs": ["artifact:10663298893/staged-replacements/staged-replacements-contact-sheet.png", "artifact:10663298893/staged-replacements/detail/companions-11-465fe45a.png"],
-      "reason": "Three-quarter dragon anatomy, dimensional limbs/head/horns, translucent iridescent wings and controlled pastel glow create a distinct premium Tier-4 replacement.",
-      "checks": {"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"PASS","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
-    }
+    {"itemId":"auras-1","name":"Soft Sparkles","tier":1,"theme":"Midnight Neon","producer":"11","assetPath":"/assets/catalog/auras-1-v2.svg","assetHash":"48639f1262052350660127bbc5d3d25de34d61e3","hashAlgorithm":"git-blob-sha1","decision":"REWORK","evidenceRefs":["artifact:10663298893/staged-replacements/staged-replacements-contact-sheet.png","artifact:10663298893/staged-replacements/detail/auras-1-48639f12.png"],"reason":"Contrast and Midnight Neon cues improve over legacy, but the sparse dashed ring and flat star sprites still lack volumetric particle depth, foreground/background layering and convincing emissive falloff.","checks":{"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"FAIL","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}},
+    {"itemId":"auras-2","name":"Cloud Puffs","tier":1,"theme":"Candy Core","producer":"11","assetPath":"/assets/catalog/auras-2-v2.svg","assetHash":"c2be24c165f3e28995d5d2eb946dbdde983afe2a","hashAlgorithm":"git-blob-sha1","decision":"REWORK","evidenceRefs":["artifact:10663298893/staged-replacements/staged-replacements-contact-sheet.png","artifact:10663298893/staged-replacements/detail/auras-2-c2be24c1.png"],"reason":"Candy palette and cloud identity read, but repeated flat cloud shapes still behave like icons rather than a spatial aura; puff volume, atmospheric overlap and depth staggering are missing.","checks":{"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"FAIL","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}},
+    {"itemId":"auras-3","name":"Pixel Bits","tier":1,"theme":"Adventure Club","producer":"11","assetPath":"/assets/catalog/auras-3-v2.svg","assetHash":"9b682148eb26898ec5f56ac11eac635e7c93c8fc","hashAlgorithm":"git-blob-sha1","decision":"REWORK","evidenceRefs":["artifact:10663298893/staged-replacements/staged-replacements-contact-sheet.png","artifact:10663298893/staged-replacements/detail/auras-3-9b682148.png"],"reason":"Pixel blocks have improved glow and shading, but remain on a flat elliptical orbit around a generic star; Adventure Club specificity and true 3D parallax remain too weak.","checks":{"identity":"PASS","themeTier":"PARTIAL","silhouette":"PASS","materialLighting":"PARTIAL","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}},
+    {"itemId":"auras-4","name":"Berry Hearts","tier":2,"theme":"Cloud Pop","producer":"11","assetPath":"/assets/catalog/auras-4-v2.svg","assetHash":"3059eae7ab68c125f1af1696305fdf5689131455","hashAlgorithm":"git-blob-sha1","decision":"REWORK","evidenceRefs":["artifact:10663298893/staged-replacements/staged-replacements-contact-sheet.png","artifact:10663298893/staged-replacements/detail/auras-4-3059eae7.png"],"reason":"Berry-heart and Cloud Pop cues are clear, but hearts/cloud remain sticker-like around a broad ring; Tier 2 needs more layered depth, volumetric cloud treatment and convincing glow/occlusion.","checks":{"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"FAIL","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}},
+    {"itemId":"auras-5","name":"Garden Fireflies","tier":2,"theme":"Pixel Party","producer":"11","assetPath":"/assets/catalog/auras-5-v2.svg","assetHash":"16416de7ab535af16c59aa40e4d8f5a85a2958bf","hashAlgorithm":"git-blob-sha1","decision":"REWORK","evidenceRefs":["artifact:10667309738/staged-replacements/staged-replacements-contact-sheet.png","artifact:10667309738/staged-replacements/detail/auras-5-16416de7.png"],"reason":"Glowing fireflies, leaves and the dark card are readable, but the effect is still primarily a flat circular ring of vector leaves/lights. Pixel Party specificity is weak and Tier-2 spatial particle depth/material lighting are not yet premium.","checks":{"identity":"PASS","themeTier":"PARTIAL","silhouette":"PASS","materialLighting":"PARTIAL","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}},
+    {"itemId":"auras-6","name":"Galaxy Orbit","tier":2,"theme":"Berry Blast","producer":"11","assetPath":"/assets/catalog/auras-6-v2.svg","assetHash":"ce4b155c7fb5469fde415ab9d744cab41027fe4d","hashAlgorithm":"git-blob-sha1","decision":"ACCEPT","evidenceRefs":["artifact:10667309738/staged-replacements/staged-replacements-contact-sheet.png","artifact:10667309738/staged-replacements/detail/auras-6-ce4b155c.png"],"reason":"Fresh pixels provide clear crossing orbital depth, glossy berry-planets, layered neon paths, highlights and directional motion. The Berry Blast/Galaxy identity is distinctive, card-readable and materially richer while remaining appropriate for Tier 2.","checks":{"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"PASS","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}},
+    {"itemId":"auras-7","name":"Sunny Rays","tier":3,"theme":"Garden Glow","producer":"11","assetPath":"/assets/catalog/auras-7-v2.svg","assetHash":"c451e7479e142f1eca89cc5282b352c2d2ca2d4b","hashAlgorithm":"git-blob-sha1","decision":"ACCEPT","evidenceRefs":["artifact:10667309738/staged-replacements/staged-replacements-contact-sheet.png","artifact:10667309738/staged-replacements/detail/auras-7-c451e747.png"],"reason":"The dimensional gold sun/star center, raised rays, leaves, gradient metal response and cast/contact shadow produce a clear Garden Glow aura with strong card readability and a credible Tier-3 material step-up.","checks":{"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"PASS","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}},
+    {"itemId":"auras-8","name":"Aqua Bubbles","tier":3,"theme":"Galaxy Glow","producer":"11","assetPath":"/assets/catalog/auras-8-v2.svg","assetHash":"6884668fe721f3b26a562e11924237a32c656db6","hashAlgorithm":"git-blob-sha1","decision":"ACCEPT","evidenceRefs":["artifact:10667309738/staged-replacements/staged-replacements-contact-sheet.png","artifact:10667309738/staged-replacements/detail/auras-8-6884668f.png"],"reason":"Multiple glossy translucent bubbles use strong specular highlights, internal galaxy color, size/depth hierarchy and a dark field to create convincing spatial volume. The exact Aqua Bubbles/Galaxy Glow identity is premium and readable at card scale for Tier 3.","checks":{"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"PASS","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}},
+    {"itemId":"auras-9","name":"Art Confetti","tier":3,"theme":"Sunny Pop","producer":"11","assetPath":"/assets/catalog/auras-9-v2.svg","assetHash":"f88be0c4b5fdb36df870ffa113c08f8ec668363c","hashAlgorithm":"git-blob-sha1","decision":"REWORK","evidenceRefs":["artifact:10667309738/staged-replacements/staged-replacements-contact-sheet.png","artifact:10667309738/staged-replacements/detail/auras-9-f88be0c4.png"],"reason":"Colorful ribbons/stars/confetti are lively, but the composition remains a flat circular graphic with limited depth hierarchy or material response. Art Confetti/Sunny Pop needs more spatial scatter, foreground/background overlap and premium Tier-3 lighting.","checks":{"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"FAIL","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}},
+    {"itemId":"auras-10","name":"Neon Trail","tier":4,"theme":"Aqua Wave","producer":"11","assetPath":"/assets/catalog/auras-10-v2.svg","assetHash":"cbc767e6b29db880535d7fd99741debdadbcf6c5","hashAlgorithm":"git-blob-sha1","decision":"REWORK","evidenceRefs":["artifact:10667309738/staged-replacements/staged-replacements-contact-sheet.png","artifact:10667309738/staged-replacements/detail/auras-10-cbc767e6.png"],"reason":"Aqua/cyan trail identity and glow are clear, but the thick curves and white wave lines remain diagrammatic and flat. Tier 4 requires substantially more volumetric ribbon depth, layered light spill and material/spectacle richness.","checks":{"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"FAIL","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}},
+    {"itemId":"auras-11","name":"Dream Aurora","tier":4,"theme":"Art Attack","producer":"11","assetPath":"/assets/catalog/auras-11-v2.svg","assetHash":"ddb2c81b49db8e6ea6369c8f70cb720228feb73c","hashAlgorithm":"git-blob-sha1","decision":"REWORK","evidenceRefs":["artifact:10667309738/staged-replacements/staged-replacements-contact-sheet.png","artifact:10667309738/staged-replacements/detail/auras-11-ddb2c81b.png"],"reason":"Layered purple/pink aurora ribbons improve silhouette and color, but still read as graphic arches rather than a volumetric curtain of light. Tier 4 Art Attack needs richer translucent depth, painterly material interaction and controlled luminous atmosphere.","checks":{"identity":"PASS","themeTier":"PARTIAL","silhouette":"PASS","materialLighting":"FAIL","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}},
+    {"itemId":"auras-12","name":"Luxe Starstorm","tier":5,"theme":"Star Luxe","producer":"11","assetPath":"/assets/catalog/auras-12-v2.svg","assetHash":"93b33a82e9a5045e1e070ab7561bab08ce5ae947","hashAlgorithm":"git-blob-sha1","decision":"REWORK","evidenceRefs":["artifact:10667309738/staged-replacements/staged-replacements-contact-sheet.png","artifact:10667309738/staged-replacements/detail/auras-12-93b33a82.png"],"reason":"Crossing pastel/gold rings, bright stars and jewel-like nodes increase spectacle, but major stars/ribbons still read as flat stickers. Tier 5 needs true crystalline/faceted hero forms, stronger near/far storm depth and more luxurious light/material response.","checks":{"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"FAIL","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}},
+    {"itemId":"companions-3","name":"Berry Bunny","tier":1,"theme":"Berry Blast","producer":"06","assetPath":"public/assets/catalog-candidates/chat-20260921-intake01/companions-3-detail.webp","assetHash":"adba95dc769e603337dc4ac38b9a513ce9914b10","hashAlgorithm":"git-blob-sha1","decision":"ACCEPT","evidenceRefs":["artifact:10663298893/staged-replacements/staged-replacements-contact-sheet.png","artifact:10663298893/staged-replacements/detail/companions-3-adba95dc.png"],"reason":"Rounded toy/plush anatomy, strong ear/body depth, believable surface light/shadow and clear berry identity fix the legacy flat-mascot defect while remaining appropriate for Tier 1.","checks":{"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"PASS","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}},
+    {"itemId":"companions-4","name":"Sunny Bird","tier":2,"theme":"Garden Glow","producer":"06","assetPath":"public/assets/catalog-candidates/chat-20260921-intake01/companions-4-detail.webp","assetHash":"b382339e76ed9d4aeae72b1c8cccc904abf85b57","hashAlgorithm":"git-blob-sha1","decision":"ACCEPT","evidenceRefs":["artifact:10663298893/staged-replacements/staged-replacements-contact-sheet.png","artifact:10663298893/staged-replacements/detail/companions-4-b382339e.png"],"reason":"Rounded body volume, layered feather forms, contact shadow, warm directional lighting and unmistakable garden/sun identity create a credible Tier-2 dimensional step-up.","checks":{"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"PASS","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}},
+    {"itemId":"companions-10","name":"Pixel Bot","tier":4,"theme":"Midnight Neon","producer":"06","assetPath":"public/assets/catalog-candidates/chat-20260921-intake01/companions-10-detail.webp","assetHash":"2b09d950b08083bb3a9ec5e2073ae23d88411cf4","hashAlgorithm":"git-blob-sha1","decision":"ACCEPT","evidenceRefs":["artifact:10663298893/staged-replacements/staged-replacements-contact-sheet.png","artifact:10663298893/staged-replacements/detail/companions-10-2b09d950.png"],"reason":"Molded robot anatomy, joints, beveled panels, glossy material separation, pixel-face display and teal/magenta neon lighting resolve the legacy flat treatment with Tier-4 richness.","checks":{"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"PASS","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}},
+    {"itemId":"companions-11","name":"Dream Dragon","tier":4,"theme":"Candy Core","producer":"06","assetPath":"public/assets/catalog-candidates/chat-20260921-intake01/companions-11-detail.webp","assetHash":"465fe45abbe4d9b4355444cb3f75a49927b604e9","hashAlgorithm":"git-blob-sha1","decision":"ACCEPT","evidenceRefs":["artifact:10663298893/staged-replacements/staged-replacements-contact-sheet.png","artifact:10663298893/staged-replacements/detail/companions-11-465fe45a.png"],"reason":"Three-quarter dragon anatomy, dimensional limbs/head/horns, translucent iridescent wings and controlled pastel glow create a distinct premium Tier-4 replacement.","checks":{"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"PASS","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}},
+    {"itemId":"desks-5","name":"Garden Book Desk","tier":2,"theme":"Pixel Party","producer":"03","assetPath":"/assets/catalog/desks-5-w03-recovered-v2.jpg","assetHash":"95fe65632e4f40b76b23cce30071ee2fdc5b4399","hashAlgorithm":"git-blob-sha1","contentSha256":"19be1b31799b00bfbf6eb540f0a9d128460985daebd9ce3c508695632a49d6f4","sourceHead":"594088a1f06d87c56228157ba37b9e6c38d1092b","decision":"ACCEPT","evidenceRefs":["artifact:10670532506/artifacts/desks-5-6-recovery/desks-5-6-card-contact-sheet.png#sha256=2d1b6bb3c1b0251cb23521044bec98d0b51b3a6631fb1437be2c324d9f73b5db","artifact:10670532506/artifacts/desks-5-6-recovery/desks-5-95fe6563-detail.png#sha256=bc6e60a1f56f3623e8f7402b640b2e346645075acc63529b841a07d0d8ee3be4"],"reason":"Exact current pixels show a strong three-quarter furniture silhouette with rounded wood volume, drawers, book cubby, planter and articulated lamp. Warm/cool lighting, bevels and contact shadows fix the flat legacy defect; the study/garden identity stays clear at real card scale and the playful saturated treatment is appropriate to Tier 2 Pixel Party.","checks":{"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"PASS","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}},
+    {"itemId":"desks-6","name":"Galaxy Gamer Setup","tier":2,"theme":"Berry Blast","producer":"03","assetPath":"/assets/catalog/desks-6-w03-recovered-v2.jpg","assetHash":"52df05265de236911927b904b07e68dac7a17828","hashAlgorithm":"git-blob-sha1","contentSha256":"c0037a3a56a5b477fd714fbaf2419d4ffa9197721421bd1c0e20f99d99eac991","sourceHead":"594088a1f06d87c56228157ba37b9e6c38d1092b","decision":"ACCEPT","evidenceRefs":["artifact:10670532506/artifacts/desks-5-6-recovery/desks-5-6-card-contact-sheet.png#sha256=2d1b6bb3c1b0251cb23521044bec98d0b51b3a6631fb1437be2c324d9f73b5db","artifact:10670532506/artifacts/desks-5-6-recovery/desks-6-52df0526-detail.png#sha256=639fd2b8bdc9704444864618fa07d27cc2afa5188b5b69df82041f99a5272e21"],"reason":"Exact current pixels show a layered three-quarter gaming desk with a glossy galaxy monitor, keyboard, speakers, controllers, orb light, beveled supports and magenta trim. Blue-violet lighting and Berry Blast accents preserve a readable silhouette at card scale while detail view shows credible material separation and Tier-2 dimensionality.","checks":{"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"PASS","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}}
   ],
   "integrationEligible": [
     {"itemId":"companions-3","assetHash":"adba95dc769e603337dc4ac38b9a513ce9914b10","decision":"ACCEPT"},
@@ -295,7 +50,9 @@
     {"itemId":"companions-11","assetHash":"465fe45abbe4d9b4355444cb3f75a49927b604e9","decision":"ACCEPT"},
     {"itemId":"auras-6","assetHash":"ce4b155c7fb5469fde415ab9d744cab41027fe4d","decision":"ACCEPT"},
     {"itemId":"auras-7","assetHash":"c451e7479e142f1eca89cc5282b352c2d2ca2d4b","decision":"ACCEPT"},
-    {"itemId":"auras-8","assetHash":"6884668fe721f3b26a562e11924237a32c656db6","decision":"ACCEPT"}
+    {"itemId":"auras-8","assetHash":"6884668fe721f3b26a562e11924237a32c656db6","decision":"ACCEPT"},
+    {"itemId":"desks-5","assetHash":"95fe65632e4f40b76b23cce30071ee2fdc5b4399","decision":"ACCEPT"},
+    {"itemId":"desks-6","assetHash":"52df05265de236911927b904b07e68dac7a17828","decision":"ACCEPT"}
   ],
   "notIntegrationEligible": [
     {"itemId":"auras-1","assetHash":"48639f1262052350660127bbc5d3d25de34d61e3","decision":"REWORK"},
@@ -310,15 +67,15 @@
   ],
   "pendingCurrentHashes": {
     "desks": [
-      {"itemId":"desks-2","assetPath":"/assets/catalog/desks-2-v1.webp","assetHash":"357f4ba8385e737499f12409c0bea141f9bc5e6a","status":"PENDING_SHARED_RENDER"},
-      {"itemId":"desks-3","assetPath":"/assets/catalog/desks-3-v1.webp","assetHash":"b3352961988d7e9c5ff48d1559fc4d2296d4eab3","status":"PENDING_SHARED_RENDER"},
-      {"itemId":"desks-4","assetPath":"/assets/catalog/desks-4-v1.webp","assetHash":"711feeb78e6d08351fc2fd2d3176ddb1a288e8f2","status":"PENDING_SHARED_RENDER"}
+      {"itemId":"desks-2","assetPath":"/assets/catalog/desks-2-v1.webp","assetHash":"357f4ba8385e737499f12409c0bea141f9bc5e6a","status":"BLOCKED_INVALID_FILE_SIGNATURE_NEEDS_PRODUCER_RESTAGE","latestEvidence":"workflow:35673126046/artifact:10671254408"},
+      {"itemId":"desks-3","assetPath":"/assets/catalog/desks-3-v1.webp","assetHash":"b3352961988d7e9c5ff48d1559fc4d2296d4eab3","status":"BLOCKED_INVALID_FILE_SIGNATURE_NEEDS_PRODUCER_RESTAGE","latestEvidence":"workflow:35673126046/artifact:10671254408"},
+      {"itemId":"desks-4","assetPath":"/assets/catalog/desks-4-v1.webp","assetHash":"711feeb78e6d08351fc2fd2d3176ddb1a288e8f2","status":"BLOCKED_INVALID_FILE_SIGNATURE_NEEDS_PRODUCER_RESTAGE","latestEvidence":"workflow:35673126046/artifact:10671254408"}
     ],
     "beds": [
-      {"itemId":"beds-1","status":"GENERATED_REMOTE_UPLOAD_PENDING"},
-      {"itemId":"beds-2","status":"GENERATED_REMOTE_UPLOAD_PENDING"},
-      {"itemId":"beds-3","status":"GENERATED_REMOTE_UPLOAD_PENDING"},
-      {"itemId":"beds-4","status":"GENERATED_REMOTE_UPLOAD_PENDING"}
+      {"itemId":"beds-1","status":"RECOVERY_RESULT_PRESENT_AWAITING_CURRENT_RENDER_REVIEW"},
+      {"itemId":"beds-2","status":"RECOVERY_RESULT_PRESENT_AWAITING_CURRENT_RENDER_REVIEW"},
+      {"itemId":"beds-3","status":"RECOVERY_RESULT_PRESENT_AWAITING_CURRENT_RENDER_REVIEW"},
+      {"itemId":"beds-4","status":"RECOVERY_RESULT_PRESENT_AWAITING_CURRENT_RENDER_REVIEW"}
     ]
   },
   "staleFixtureDefects": {
@@ -331,27 +88,21 @@
       {"itemId":"desks-3","assetHash":"51d9862a76f6d49a5737b37083758940945aa0b5","result":"VISUALLY_BLANK_STALE_HASH"},
       {"itemId":"desks-4","assetHash":"c6e196f82b5c397695ca1675a1425457b32e840a","result":"VISUALLY_BLANK_STALE_HASH"}
     ],
-    "requiredAction": "Workstream 14 must select and render the current lane-03 paths/hashes above before reviewer 05 dispositions desks-2..4."
+    "latestCurrentHashEvidence": {"workflowRunId":35673126046,"artifactId":10671254408,"result":"CURRENT_HASHES_357f4ba8/b3352961/711feeb7_FAIL_FILE_SIGNATURE_AND_HAVE_NO_RENDERABLE_PIXELS","requiredAction":"Producer lane 03 / renderer 14 must restage valid image bytes for the same intended Desk 2-4 records, then publish new exact hashes and card/detail renders. Reviewer 05 must judge the new hashes only."}
   },
   "nextPriority": [
-    "Review current desks-2-v1 through desks-4-v1 immediately after Workstream 14 publishes exact-hash card/detail renders.",
-    "Review beds-1 through beds-4 after Workstream 02 stages the already-generated exact bytes and Workstream 14 renders them.",
-    "Review the next companion replacement batch before untouched legacy work.",
-    "Use producer capacity for Bottoms only when no review-ready replacement hashes are available."
+    "Workstream 08 may integrate Desk 5 and Desk 6 exact ACCEPT hashes immediately after normal metadata/file/content checks.",
+    "Desk 2-4 cannot receive a visual decision at blobs 357f4ba8/b3352961/711feeb7 because workflow 35673126046 proves invalid file signatures; wait for producer restage and fresh exact-hash card/detail renders.",
+    "Review Beds 1-4 after their current exact recovery hashes have completed card/detail render proof.",
+    "Review the next companion/aura replacement hashes before untouched legacy work.",
+    "Use producer capacity for Bottoms only when no review-ready replacement hashes are available; Wall repairs require reviewer-14 exact REWORK."
   ],
   "handoff": {
-    "08": "New qualified ACCEPT micro-batch: auras-6, auras-7 and auras-8 exact hashes may be integrated immediately after normal metadata/file/content checks. Previously accepted companions-3/4/10/11 remain valid at their exact hashes.",
-    "11": "Preserve auras-6-v2, auras-7-v2 and auras-8-v2 exactly; they are ACCEPTed. Repair auras-5-v2 and auras-9-v2 through auras-12-v2 from the item-specific findings above; auras-1-v2 through auras-4-v2 already require second repair.",
-    "03": "Do not regenerate current desks-2-v1/desks-3-v1/desks-4-v1. Their current exact hashes are staged/readback-verified and only need corrected shared rendering before reviewer disposition.",
-    "14": "Fix staged replacement selection for desks-2..4 so the fixture renders current lane-03 paths/hashes, not obsolete -w03-v1 files. Render newly staged beds as soon as Workstream 02 supplies repository hashes.",
-    "02": "Beds 1-4 are not reviewable yet because generated bytes remain remote/upload-pending. Preserve those generations; stage exact bytes and obtain readback hashes before requesting reviewer 05.",
-    "15": "Workstream 05 added three new Aura ACCEPTs (6/7/8) and identified a stale-desk-fixture selection bug without transferring stale blank-image failures to current desk hashes. Route 08 to integrate the Aura micro-batch and 14 to render current desks."
+    "08": "New qualified ACCEPT micro-batch: desks-5 blob 95fe65632e4f40b76b23cce30071ee2fdc5b4399 and desks-6 blob 52df05265de236911927b904b07e68dac7a17828 may be integrated immediately after normal metadata/file/content checks. Previously accepted companions-3/4/10/11 and auras-6/7/8 remain valid only at their recorded exact hashes.",
+    "03": "Preserve Desk 5-6 accepted bytes exactly. Desk 2-4 current blobs 357f4ba8/b3352961/711feeb7 are not visually rejected; workflow 35673126046 shows invalid file signatures, so restage valid intended bytes and publish fresh exact hashes rather than reusing obsolete blank decisions.",
+    "14": "Desk 5-6 review is complete. Desk 2-4 remain unreviewable at their current blobs because the latest staged QA reports invalid file signatures. Once valid replacement/current bytes are staged, publish exact-hash card/detail renders for reviewer 05. Then render Beds 1-4 current recovery hashes.",
+    "02": "Beds 1-4 recovery result is present; reviewer 05 will act only after exact current card/detail render proof is complete.",
+    "15": "Workstream 05 independently ACCEPTED Desk 5 and Desk 6 from exact artifact pixels and recorded them for immediate 08 integration. Desk 2-4 are concretely blocked by invalid current file signatures in run 35673126046, not by the obsolete blank-image decision."
   },
-  "freeze": {
-    "replitTouched": false,
-    "flootTouched": false,
-    "mainMergedOrModified": false,
-    "canonicalManifestOrRuntimeTouched": false,
-    "learningOrPlayerStateTouched": false
-  }
+  "freeze": {"replitTouched":false,"flootTouched":false,"mainMergedOrModified":false,"canonicalManifestOrRuntimeTouched":false,"learningOrPlayerStateTouched":false}
 }
