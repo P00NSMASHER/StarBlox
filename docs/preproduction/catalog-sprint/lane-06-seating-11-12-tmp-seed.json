@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "batchId": "lane06-seating-11-12-20260921",
+  "producer": "06",
+  "independentReviewer": "02",
+  "canonicalWriter": "08",
+  "branch": "screenshot-match-preproduction",
+  "items": [
+    {
+      "id": "seating-11",
+      "name": "Moon Chair",
+      "collectionId": "seating",
+      "collectionName": "Seating",
+      "type": "Room",
+      "tier": 4,
+      "theme": "Galaxy Glow",
+      "price": 1276,
+      "starReq": 80,
+      "sourceUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:1b62923c-92b8-4f7c-b043-c27e5d9d8fd4",
+      "sourcePath": "docs/preproduction/catalog-sprint/recovered-originals/seating-11-12-20260921/seating-11-source.png",
+      "candidatePath": "public/assets/catalog/seating-11-w06-v2.png",
+      "producerPixelCheck": "PASS: dimensional crescent-moon shell, layered purple upholstery, galaxy/star surface treatment, luminous trim, grounded cast/rim lighting; exact Moon Chair/Galaxy Glow identity; no text/UI/IP."
+    },
+    {
+      "id": "seating-12",
+      "name": "Throne Chair",
+      "collectionId": "seating",
+      "collectionName": "Seating",
+      "type": "Room",
+      "tier": 5,
+      "theme": "Sunny Pop",
+      "price": 1740,
+      "starReq": 80,
+      "sourceUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:7aa2ded8-db6b-4c16-8f2f-49d3ac87d19a",
+      "sourcePath": "docs/preproduction/catalog-sprint/recovered-originals/seating-11-12-20260921/seating-12-source.png",
+      "candidatePath": "public/assets/catalog/seating-12-w06-v2.png",
+      "producerPixelCheck": "PASS: high-backed sunburst throne, layered plush upholstery, gold/cream/coral/sky-blue material separation, premium Tier-5 finish, cast/rim lighting; exact Throne Chair/Sunny Pop identity; no text/UI/IP."
+    }
+  ]
+}
