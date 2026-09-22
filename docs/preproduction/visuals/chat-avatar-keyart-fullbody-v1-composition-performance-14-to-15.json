@@ -1,0 +1,115 @@
+{
+  "schemaVersion": 1,
+  "phase": "ART_VISUALS_SPRINT",
+  "branch": "screenshot-match-preproduction",
+  "reviewer": "14",
+  "role": "composition/performance review only",
+  "recipient": "15",
+  "independentArtReviewer": "01",
+  "candidateId": "avatar-keyart-fullbody-w13-v1",
+  "sourceHeadCheckedBeforeWrite": "3b355cd6a0156c136d7b928d971c55bf763abf37",
+  "producerEvidence": "docs/preproduction/visuals/lane-13-avatar-keyart-fullbody-v1-intake.json",
+  "scopeLimits": {
+    "characterArtQualityApproved": false,
+    "outfitCanonicalEquippedState": false,
+    "runtimeWiringAuthorized": false,
+    "physicalDeviceParityClaimed": false,
+    "screenshotParityClaimed": false
+  },
+  "exactAssets": {
+    "full": {
+      "path": "public/assets/visuals/lane-13/avatar-keyart-fullbody-w13-v1-full.png",
+      "gitBlobSha": "4904d4e910292b0b049f73f5d2c3785913fb2af3",
+      "sha256": "3c6d71689d604b16e4ad0d4998abcea0916ebc671e42329889a9c0202228db35",
+      "bytes": 836136,
+      "dimensions": [1360, 1744],
+      "alphaBounds": [318, 177, 938, 1659],
+      "fixtureDetailScreenshot": "visual-assets/detail/home-bedroom-w13-v2-7-4904d4e9.png",
+      "fixtureDetailScreenshotSha256": "66779e7abd583473a35d79d53fce43c7c6a7e1b04f6e7a0a01641e4fe3d73b89"
+    },
+    "optimized": {
+      "path": "public/assets/visuals/lane-13/avatar-keyart-fullbody-w13-v1-896.png",
+      "gitBlobSha": "76a4be6c4ca63d65aecde4f136227bd2e8abc1da",
+      "sha256": "88869744dc91ccc3b4684d9b0c2269ea0669ad992e0a8040f988b9a61bfaa35e",
+      "bytes": 438049,
+      "dimensions": [896, 1149],
+      "alphaBounds": [209, 116, 617, 1094],
+      "fixtureDetailScreenshot": "visual-assets/detail/home-bedroom-w13-v2-8-76a4be6c.png",
+      "fixtureDetailScreenshotSha256": "73d7a16e3bd087d056183b905eda9b838b907646859cabb89b4216bf5a96ebba"
+    }
+  },
+  "renderEvidence": {
+    "workflow": "StarBlox Staged Catalog Art QA",
+    "runId": 35690027258,
+    "runHead": "7515a016c43870f906ae173c1d440bc102bc7b73",
+    "artifactId": 10677768162,
+    "artifactDigest": "sha256:fd733e0ab24793a71bc267c75cd0f95e5dd291d38ddb7dda048050e1550a5165",
+    "reportSha256": "f1f3540d00107d03aea3c4adbc598031085f13302bbae68590dcdc8e0196b49e",
+    "visualAssetsContactSheet": "visual-assets/visual-assets-contact-sheet.png",
+    "visualAssetsContactSheetSha256": "4f554a16169565a1d2a99a49a7655a78ed99c8af6a66dfb4e7614d0f2ec4a8f8",
+    "fullExactPathBlobBound": true,
+    "optimizedExactPathBlobBound": true,
+    "fullStatus": 200,
+    "optimizedStatus": 200,
+    "fullNaturalDimensions": [1360, 1744],
+    "optimizedNaturalDimensions": [896, 1149],
+    "fullOpaqueFractionInFixture": 0.2743055555555556,
+    "optimizedOpaqueFractionInFixture": 0.2921006944444444,
+    "fullErrors": [],
+    "optimizedErrors": [],
+    "fixtureMetadataCaveat": "The recursive visual fixture inherited the lane's home-bedroom candidateId/type labels for these two files. The review binds by exact repository path plus exact Git blob and does not treat that inherited label as candidate identity evidence."
+  },
+  "referenceContext": {
+    "immutableHomeReference": "docs/preproduction/reference-screenshots/originals/home-1448x1086.jpeg",
+    "homeAvatarSafeCorridorFromIndependentReferenceReview": "approximately x=36-64% and y=18-88% of the 1408x1056 frame",
+    "persistentCrossScreenCharacterCues": "friendly dimensional long-brown-haired avatar, expressive face, cat-ear headset styling and premium toy-game materials",
+    "parityQualification": "This review evaluates whether the isolated component can support the reference composition. It does not claim a current-head composite or screenshot match."
+  },
+  "decision": "ACCEPT_COMPOSITION_PERFORMANCE_SUITABILITY_ONLY",
+  "checks": {
+    "transparencyAndCrop": {
+      "result": "PASS",
+      "finding": "Actual staged pixels preserve the entire cat-ear headset, long hair, raised hand/fingers, lower hand and both shoes with meaningful transparency and no visible clipping. The alpha bounds leave deliberate breathing room on all sides."
+    },
+    "responsiveCompositionPotential": {
+      "result": "PASS_WITH_INTEGRATION_CAUTION",
+      "finding": "The mostly frontal vertical pose keeps the visual mass compact while the single raised hand adds expression without making the silhouette excessively wide. The visible figure can fit comfortably inside the established Home hero corridor when scaled by height/visible bounds. Large transparent side margins give placement flexibility but mean future integration should not infer visible character scale from canvas width alone."
+    },
+    "referenceRelativeScalePose": {
+      "result": "PASS_AS_GUIDANCE_NOT_PARITY",
+      "finding": "The full-body proportion, frontal stance and friendly wave are compatible with the recurring center-hero role and preserve a readable face/headset at reduced scale. This is composition potential only; a current-head Home/Store/Quest composite rerender remains required before any parity or runtime acceptance claim."
+    },
+    "edgeQuality": {
+      "result": "PASS",
+      "finding": "On the fixture's dark backing, hair, headset ears, hand/finger, jacket and shoe silhouettes remain clean with no obvious rectangular matte, bright halo or coarse edge breakup."
+    },
+    "phoneTabletReadability": {
+      "result": "PASS_WITH_SIZE_BUDGET",
+      "finding": "The face, headset, hair mass, raised-hand gesture and full-body silhouette remain legible in the small contact-sheet rendition. The 896x1149 derivative is the sensible lower-cost candidate for moderate phone presentation; the 1360x1744 version preserves more effective visible-pixel density for larger tablet/high-DPI hero use."
+    },
+    "performanceSuitability": {
+      "result": "PASS_WITH_CAUTION",
+      "finding": "The optimized derivative cuts payload from 836136 bytes to 438049 bytes while retaining the same composition. Because the alpha-visible figure occupies only about 46% of canvas width, some decoded/transfer budget is transparent padding; preserve the padding for composition unless a later measured runtime pass proves a tighter crop is preferable. No runtime change is authorized here."
+    },
+    "separableComponent": {
+      "result": "PASS",
+      "finding": "The staged deliverables are transparent character-only PNGs with no scene, UI, navigation, cards or text flattened into them, so they remain independently compositable."
+    }
+  },
+  "handoff": {
+    "15": "Composition/performance suitability is accepted for coordination purposes only. Do not runtime-wire from this review alone; preserve Workstream 06 equipped-state authority and require reviewer 01's separate character-art decision plus a current-head composite rerender before any parity claim.",
+    "01": "No character-art quality disposition is made by reviewer 14; exact staged pixels were assessed only for crop, alpha, composition and performance suitability."
+  },
+  "freeze": {
+    "runtimeTouched": false,
+    "canonicalCatalogTouched": false,
+    "gameplayTouched": false,
+    "mainTouched": false,
+    "deployTouched": false,
+    "replitTouched": false,
+    "flootTouched": false,
+    "paidSettingsTouched": false,
+    "purchasesMade": false,
+    "playerDataTouched": false
+  }
+}
