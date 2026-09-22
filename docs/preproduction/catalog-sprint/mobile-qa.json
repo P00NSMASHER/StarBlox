@@ -1,25 +1,25 @@
 {
-  "schemaVersion": 7,
+  "schemaVersion": 8,
   "workstream": "10",
   "phase": "ART_VISUALS_SPRINT",
   "status": "BLOCKED_CURRENT_CANONICAL_RESPONSIVE_STORE_ENTRY_AFTER_TWO_UNCHANGED_CYCLES",
   "catalogGateApproved": false,
   "branch": "screenshot-match-preproduction",
-  "auditedBranchHeadBeforeReport": "dd1603a937f9aad31874cdacd52b340412743e7c",
-  "reportedAt": "2026-09-22T05:52:56Z",
+  "auditedBranchHeadBeforeReport": "5227122d9dc4ddd36b467b1fbe9d0384edaa3be9",
+  "reportedAt": "2026-09-22T06:56:55Z",
   "contracts": {
     "artVisualsSprint": "docs/preproduction/ART_VISUALS_SPRINT.json",
     "commandCenter": "docs/preproduction/COMMAND_CENTER.md",
     "deliveryProtocol": "docs/preproduction/DELIVERY_PROTOCOL_V2.md"
   },
   "changeAwareDecision": {
-    "reason": "Canonical catalog advanced beyond the last responsive-browser-proven baseline. Workstream 10 reused unchanged proof only for unchanged hashes and did not rerun the full 16-collection matrix. The two newest canonical batches each hit the same shared real-pointer Store-entry timeout before any changed or stable-control cards rendered.",
-    "canonicalChangedCollections": ["shoes", "auras"],
-    "stableControl": "tops",
-    "requiredViewports": ["1408x1056", "1024x768", "390x844", "320x568"],
-    "requiredMotionModes": ["normal", "reduced"],
-    "freshCanonicalStoreExecution": "BLOCKED_BEFORE_STORE_CONTENT",
-    "fullMatrixRerun": "NOT_RUN_INTENTIONALLY_HASH_UNCHANGED_FOR_PRIOR_COVERAGE"
+    "canonicalManifestVersion": 27,
+    "canonicalManifestChangedSincePriorWorkstream10Evidence": false,
+    "sharedStoreEntryChangedSinceSecondBlocker": false,
+    "decision": "DO_NOT_RERUN_IDENTICAL_BLOCKED_CANONICAL_STORE_MATRIX",
+    "reason": "The canonical catalog remains manifest v27 and the shared Store entry path has not changed since the second identical real-pointer blocker. DELIVERY_PROTOCOL_V2 therefore reuses the exact blocker evidence instead of spending another run on the same unreachable Store. This cycle closes a genuinely new staged-art small-card case: independently accepted rugs-12 v3, compared against accepted rugs-11 as a stable visual control.",
+    "requiredResponsiveWidthsWhenExecutable": ["1408x1056", "1024x768", "390x844", "320x568"],
+    "requiredMotionModesWhenExecutable": ["normal", "reduced"]
   },
   "canonicalIntegration": {
     "manifestVersion": 27,
@@ -27,29 +27,12 @@
     "runtimeBlobSha": "a3b5b2b98a8507f5226191959a3cd91ef6729bdb",
     "manifestEntries": 163,
     "runtimeMappings": 163,
-    "strictAcceptedCanonical": 90,
-    "strictAcceptedRemaining": 102,
-    "catalogReleaseClearedIds": 0,
-    "changedIds": ["shoes-7", "shoes-8", "shoes-9", "shoes-10", "auras-11"],
-    "changedAssets": [
-      {"id":"shoes-7","name":"Chunky Sneakers","collection":"shoes","path":"/assets/catalog/shoes-7-w06-v3.png","blobSha":"cb8f02aaa4844d1a19a013edc3d0d1a15c0620a2","sha256":"e6bd15334f64537dbb6d7f73331a67a5bd4416c96589c1003286f5586321526d","reviewer":"02","decision":"ACCEPT"},
-      {"id":"shoes-8","name":"Trainers","collection":"shoes","path":"/assets/catalog/shoes-8-w06-v3.png","blobSha":"1aa21e1156f7645fc218402c337d2eebe95d81f8","sha256":"7cc864e736057c024f010c044755e5001c5c4418173f83ce6309fee94ba47cd3","reviewer":"02","decision":"ACCEPT"},
-      {"id":"shoes-9","name":"Paint Kicks","collection":"shoes","path":"/assets/catalog/shoes-9-w06-v3.png","blobSha":"ff5e914eb935194a1541cebf5421264e5da2d543","sha256":"6db39a0e3820ddae6ce493880693e1998ff270a38f17b66253056b61d0c4190f","reviewer":"02","decision":"ACCEPT"},
-      {"id":"shoes-10","name":"Light Shoes","collection":"shoes","path":"/assets/catalog/shoes-10-w06-v3.png","blobSha":"489e37f25644d13a4ca9518f4047ebfb35747a47","sha256":"72b01fba8c88704de5ad98020bf163fd42229c237b92be5decb9892e0ccbdfad","reviewer":"02","decision":"ACCEPT"},
-      {"id":"auras-11","name":"Dream Aurora","collection":"auras","path":"/assets/catalog/auras-11-w11-v3.jpg","blobSha":"7f3372c1584e07f18a3abfc7818013190fff1560","sha256":"0a06996522c9cb999e82b8ba028e94bfe2cb8d16e043c94999065e0ae8ce1dc2","dimensions":"600x600","reviewer":"05","decision":"ACCEPT"}
-    ],
-    "integrationValidation": {
-      "storedPathBlobReadback": "PASS_5_OF_5_BY_08",
-      "exactStoreMetadata": "PASS_5_OF_5_BY_08",
-      "safeDecodeRenderEvidence": "PASS_5_OF_5_BY_08",
-      "runtimeManifestAgreement": "PASS_163_OF_163_BY_08",
-      "stableIdsPricesUnlocksOwnership": "UNCHANGED_BY_SCOPE"
-    }
+    "latestResponsiveUnprovenCanonicalChangedIds": ["shoes-7", "shoes-8", "shoes-9", "shoes-10", "auras-11"],
+    "workstream10CanonicalMappingEdits": false
   },
   "canonicalResponsiveStore": {
-    "status": "BLOCKED",
+    "status": "BLOCKED_REUSED_EXACT_PRIOR_EVIDENCE",
     "structuredLabel": "CANONICAL_STORE_ENTRY_POINTER_TIMEOUT_BEFORE_CARD_RENDER",
-    "legacyAlias": "STORE_ENTRY_POINTER_TIMEOUT_BEFORE_CATALOG_CONTENT",
     "unchangedCycles": 2,
     "observedRuns": [
       {
@@ -69,76 +52,111 @@
         "responsiveResult": "BLOCKED_6_OF_6_BEFORE_STORE_CONTENT"
       }
     ],
-    "observedBehavior": "At 1408x1056, 1024x768, 390x844 and 320x568 reduced-motion cases, plus the 1024 and 390 normal-motion controls, the Store nav button was located and reported visible/enabled/stable, scrolled into view, then Playwright pointer click timed out before Store content rendered.",
-    "notClaimed": [
-      "changed-card silhouette/crop/contain in actual canonical Store",
-      "actual Store detail-panel composition for changed hashes",
-      "changed-collection 390px or 320px two-column rendering",
-      "changed-collection image loading/alternatives/intrinsic dimensions in Store",
-      "changed-collection full-scroll reachability/layout stability/scroll cost",
-      "normal-motion or reduced-motion art behavior for changed hashes",
-      "stable-control comparison"
-    ],
-    "policy": "No forced DOM click, skipped assertion or keyboard continuation is allowed to convert this pointer failure into responsive PASS."
+    "observedBehavior": "At 1408x1056, 1024x768, 390x844 and 320x568 reduced-motion probes, plus 1024 and 390 normal-motion controls, the Store nav control was visible/enabled/stable but the real pointer click timed out before Store content rendered.",
+    "policy": "Do not use forced DOM clicks, skipped assertions, keyboard substitution or static-image overlays to claim a responsive Store PASS.",
+    "handoffOwner": "15"
   },
-  "workstream10PixelDiagnostic": {
-    "status": "PASS_DIAGNOSTIC_ONLY_NOT_REAL_STORE_RESPONSIVE_PROOF",
+  "newStagedSmallCardDiagnostic": {
+    "status": "PASS_DIAGNOSTIC_ONLY_NOT_CANONICAL_RESPONSIVE_STORE_PROOF",
+    "scope": ["rugs-11 stable control", "rugs-12 newly independently accepted staged candidate"],
     "sourceArtifact": {
-      "workflowRunId": 35687207417,
-      "artifactId": 10676873799,
-      "cardContactSheetSha256": "b869165362828b7ebfab2f601a227276fd2d375843bc6c03b05fe67dec14fad2"
+      "workflow": "StarBlox Staged Catalog Art QA",
+      "workflowRunId": 35690027258,
+      "runHead": "7515a016c43870f906ae173c1d440bc102bc7b73",
+      "runConclusion": "failure",
+      "scopedQualification": "The enclosing workflow failed elsewhere, while the exact rugs-12 selected binding, signature/safety, decode, card image, detail screenshot and scoped report entries are present and clean.",
+      "artifactId": 10677768162,
+      "artifactName": "catalog-staged-art-review",
+      "artifactDigest": "sha256:fd733e0ab24793a71bc267c75cd0f95e5dd291d38ddb7dda048050e1550a5165",
+      "rugContactSheet": "rugs/rugs-contact-sheet.png",
+      "rugContactSheetSha256": "8bb20a752ad3b1382dcf3aa418b8b1b5b7bf366c70bac53180859fb782bba639"
     },
-    "method": "Workstream 10 directly inspected the exact-hash staged card/detail pixels for Shoes 7-10 and Dream Aurora, including diagnostic reductions to 140px and 110px square. These reductions are only small-card legibility diagnostics and are not substitutes for actual 390/320 Store screenshots.",
+    "method": "Inspected exact-hash staged card/detail pixels and diagnostic reductions to 140px and 110px. These reductions test silhouette/premium-detail survival only and are not substitutes for the real 390/320 Store grid or detail panel.",
     "items": [
-      {"id":"shoes-7","hash":"cb8f02aaa4844d1a19a013edc3d0d1a15c0620a2","silhouetteAt110_140":"PASS","premiumDetailAt110_140":"PASS_CHUNKY_SOLE_AND_CLOUD_MOTIF_REMAIN_READABLE","cropOrEdgeIssueObserved":false},
-      {"id":"shoes-8","hash":"1aa21e1156f7645fc218402c337d2eebe95d81f8","silhouetteAt110_140":"PASS","premiumDetailAt110_140":"PASS_PANELING_PIXEL_MARK_AND_COLOR_SPLIT_REMAIN_READABLE","cropOrEdgeIssueObserved":false},
-      {"id":"shoes-9","hash":"ff5e914eb935194a1541cebf5421264e5da2d543","silhouetteAt110_140":"PASS","premiumDetailAt110_140":"PASS_PAINT_SPLASH_IDENTITY_REMAINS_READABLE","cropOrEdgeIssueObserved":false},
-      {"id":"shoes-10","hash":"489e37f25644d13a4ca9518f4047ebfb35747a47","silhouetteAt110_140":"PASS","premiumDetailAt110_140":"PASS_EMISSIVE_PANELS_AND_GARDEN_LEAF_DETAIL_REMAIN_READABLE","cropOrEdgeIssueObserved":false},
-      {"id":"auras-11","hash":"7f3372c1584e07f18a3abfc7818013190fff1560","silhouetteAt110_140":"PASS","premiumDetailAt110_140":"PASS_AURORA_CURTAINS_RING_AND_STAR_CRYSTAL_ACCENTS_REMAIN_READABLE","cropOrEdgeIssueObserved":false}
+      {
+        "id": "rugs-11",
+        "name": "Dream Cloud Rug",
+        "role": "STABLE_ACCEPTED_CONTROL",
+        "gitBlobSha": "2c93f18fb5960f7056819c341a3da8f7fff3fb9d",
+        "repositoryPath": "public/assets/catalog/rugs-11-w07-v3.png",
+        "naturalDimensions": [1024, 1024],
+        "signatureSafetyDecode": "PASS",
+        "detailScreenshot": "rugs/detail/rugs-11-2c93f18f.png",
+        "detailScreenshotSha256": "f2eb8fd8150be3e6731efae29d9924161e1aa1ddb60ff253052dede224b3507c",
+        "silhouetteAt210_140_110": "PASS",
+        "contrastAtSmallCard": "PASS_PRIMARY_MOON_CLOUD_FORM_REMAINS_DISTINCT",
+        "cropContain": "PASS_NO_CLIPPING_OBSERVED",
+        "transparentEdgeArtifact": "NONE_OBSERVED_IN_RENDERED_FIXTURE",
+        "premiumDetailRetention": "PASS_PRIMARY_MOON_CLOUD_AND_SOFT_DEPTH_SURVIVE; FINE_STARS_TEXTURE_NATURALLY_SUBORDINATE_AT_110PX"
+      },
+      {
+        "id": "rugs-12",
+        "name": "Luxe Star Rug",
+        "role": "NEWLY_ACCEPTED_STAGED_PENDING_08_CANONICAL_WIRING",
+        "reviewer": "14",
+        "independentDecision": "ACCEPT",
+        "gitBlobSha": "eea2fc5b78c1186342f91f597bc792160ab8f8fe",
+        "sha256": "21a2f71224d9a7d4e0e60a672867cc629f21a481c3310fee6b1cac1c1be071b3",
+        "repositoryPath": "public/assets/catalog/rugs-12-w07-v3.png",
+        "naturalDimensions": [1024, 1024],
+        "signatureSafetyDecode": "PASS_PNG_RASTER_SELF_CONTAINED_HTTP_200",
+        "detailScreenshot": "rugs/detail/rugs-12-eea2fc5b.png",
+        "detailScreenshotSha256": "5a7a0f4b3ee1a9d11ce173ae32fd8f9755e9075e1a5b2746b2a3e75dfdf4b8d8",
+        "silhouetteAt210_140_110": "PASS",
+        "contrastAtSmallCard": "PASS_WARM_STAR_BODY_AND_DARK_OUTER_FORM_REMAIN_DISTINCT",
+        "cropContain": "PASS_TASSELS_AND_STAR_POINTS_REMAIN_INSIDE_FRAME",
+        "transparentEdgeArtifact": "NONE_OBSERVED_IN_RENDERED_FIXTURE",
+        "premiumDetailRetention": "PASS_STAR_SILHOUETTE_TASSEL_EXTENSIONS_CENTER_DETAIL_AND_TIER5_RICHNESS_SURVIVE_110PX"
+      }
     ],
-    "newArtFailureLabels": []
+    "newStructuredFailureLabels": [],
+    "selfApprovalClaimed": false
+  },
+  "responsiveEvidenceForRugs": {
+    "rugs11ActualStoreCurrentCycle": "NOT_RETESTED_INTENTIONALLY_SHARED_ENTRY_UNCHANGED",
+    "rugs12ActualStoreCurrentCycle": "NOT_TESTED_NOT_CANONICAL_YET",
+    "desktop1408": "NOT_TESTED_FOR_RUGS12_UNTIL_08_CANONICAL_WIRING_AND_15_STORE_ENTRY_REPAIR",
+    "tablet1024": "NOT_TESTED_FOR_RUGS12_UNTIL_08_CANONICAL_WIRING_AND_15_STORE_ENTRY_REPAIR",
+    "phone390": "NOT_TESTED_FOR_RUGS12_UNTIL_08_CANONICAL_WIRING_AND_15_STORE_ENTRY_REPAIR",
+    "phone320": "NOT_TESTED_FOR_RUGS12_UNTIL_08_CANONICAL_WIRING_AND_15_STORE_ENTRY_REPAIR",
+    "normalMotion": "NOT_TESTED_CURRENT_RUGS12_REAL_STORE",
+    "reducedMotion": "NOT_TESTED_CURRENT_RUGS12_REAL_STORE",
+    "reason": "Workstream 10 does not alter canonical mappings; rugs-12 is accepted staged evidence awaiting Workstream 08 integration, and the shared real-pointer Store entry blocker remains unresolved."
   },
   "stagedEvidenceBlockers": [
     {
       "items": ["tops-11", "tops-12"],
-      "structuredLabel": "SHARED_SIGNATURE_GATE_FAIL_NO_QUALIFIED_CARD_DETAIL_PIXELS",
+      "structuredLabel": "V7_EXACT_BYTES_UNAVAILABLE_NO_CURRENT_REPOSITORY_CARD_DETAIL_PIXELS",
       "status": "BLOCKED_NOT_VISUALLY_REJECTED",
-      "note": "Current v6 hashes still have no qualified exact-hash card/detail pixels; prior v5 visual findings do not transfer."
+      "note": "Current v7 generation receipts exist, but authoritative WEBP payload bytes are unavailable in the repository/runtime. v6 failed signature validation and prior v5 visual findings do not transfer."
     },
     {
       "items": ["headwear-5", "headwear-6", "headwear-7", "headwear-8"],
       "structuredLabel": "EXTERNAL_ONLY_NO_REPOSITORY_HASH_NO_QUALIFIED_CARD_STORE_PROOF",
-      "status": "BLOCKED_ON_EXACT_BYTE_TRANSFER",
-      "note": "Producer 12 preserved external 600x600 PNG derivatives, but repository paths/hashes are absent, so Workstream 10 cannot treat external previews as current staged or canonical proof."
+      "status": "BLOCKED_ON_EXACT_BYTE_TRANSFER"
     }
   ],
   "reusedHistoricalBrowserProof": {
     "status": "REUSED_ONLY_FOR_UNCHANGED_HASHES_AND_RESPONSIVE_GUARDS",
     "sourceHead": "8a2c53aa2133baef23e263d8dda8b2a180dffe19",
     "workflowRunId": 35659760652,
-    "jobId": 106532044131,
     "artifactId": 10667595844,
-    "artifactDigest": "sha256:7a5d1cb254d00086f95889dc316087116dfb7d245cda02755c42705efabc1607",
-    "coverage": "16 collections at 1408x1056, 1024x768, 390x844 and 320x568 in headless Chromium, including two-column phone layout, keyboard/focus, no horizontal page overflow, full-scroll reachability, reduced motion, normal-motion controls and scroll/layout probes.",
+    "coverage": "16 collections at 1408x1056, 1024x768, 390x844 and 320x568 in headless Chromium, including two-column phone layout, focus/keyboard, no horizontal overflow, full-scroll reachability, reduced motion, normal-motion controls and scroll/layout probes.",
     "warning": "Not proof for any catalog hash integrated after this evidence head."
   },
   "evidenceBoundary": {
     "headlessChromium": "AVAILABLE_FOR_PRIOR_HASHES_AND_CURRENT_BLOCKER_ONLY",
+    "stagedCardDetailPixels": "AVAILABLE_FOR_EXACT_RUGS_11_12_HASHES_ABOVE",
     "physicalDevice": "NOT_TESTED",
     "screenReader": "NOT_TESTED",
-    "actualCurrentCanonicalStoreCards": "NOT_REACHED_FOR_V26_V27_CHANGED_HASHES",
     "desktopReference": "docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg",
     "desktopReferenceSha256": "b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d"
   },
   "handoff": {
-    "workstream15": {
-      "status": "REQUIRED_AFTER_TWO_UNCHANGED_CYCLES",
-      "structuredLabel": "CANONICAL_STORE_ENTRY_POINTER_TIMEOUT_BEFORE_CARD_RENDER",
-      "request": "Coordinate the shared Store entry/fixture repair. Preserve the real pointer assertion; do not mask the failure with forced DOM clicks or static-image substitution. Once repaired, rerun only changed Shoes/Aura plus a stable control at 1408/1024/390/320 in normal/reduced modes."
-    },
-    "workstream14": "Keep staged card/detail evidence distinct from actual canonical responsive Store evidence. Current exact-hash staged pixels are useful art-direction evidence but not a 390/320 Store PASS.",
-    "workstream08": "No Workstream-10 canonical mapping edits. Manifest v27 exact accepted mappings remain owned by Workstream 08.",
-    "reviewOwners": "No self-approval. Preserve reviewer-02 Shoes and reviewer-05 Aura 11 decisions; Tops 11-12 and Headwear 5-8 evidence blockers remain with their assigned producers/reviewers/coordinator."
+    "workstream08": "rugs-12 exact hash eea2fc5b78c1186342f91f597bc792160ab8f8fe is independently accepted and small-card diagnostic-clean; Workstream 08 alone may wire it canonically. After wiring, Workstream 10 needs real Store responsive proof for Rugs plus a stable control.",
+    "workstream15": "The shared Store entry blocker remains CANONICAL_STORE_ENTRY_POINTER_TIMEOUT_BEFORE_CARD_RENDER after two unchanged cycles. No new identical rerun was performed. Repair/coordinate the real pointer path without weakening the assertion.",
+    "workstream14": "Keep the accepted staged rugs-12 card/detail evidence distinct from responsive canonical Store proof; Workstream 10 added no approval decision.",
+    "nextExecutableResponsiveScope": "After both prerequisites change, test Rugs changed collection plus stable control only at 1408/1024/390/320 in normal/reduced modes, including card/detail readability, crop/contain, image loading/dimensions, scrolling/layout stability, touch/focus/keyboard and overflow."
   },
   "freeze": {
     "sharedUiChanged": false,
