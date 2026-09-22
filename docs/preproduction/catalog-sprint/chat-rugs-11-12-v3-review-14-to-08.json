@@ -1,0 +1,99 @@
+{
+  "schemaVersion": 1,
+  "phase": "ART_VISUALS_SPRINT",
+  "branch": "screenshot-match-preproduction",
+  "reviewer": "14",
+  "recipient": "08",
+  "coordinationOwner": "15",
+  "scope": "Rugs 11-12 v3 exact-hash independent pixel review",
+  "sourceHeadCheckedBeforeWrite": "a825d28ad1fec905e743fb24df5d6ca05717a800",
+  "lane07BlobChecked": "4cc591d7fbfdeb9c0f0b3b1274d0cdc3c3bdd648",
+  "renderEvidence": {
+    "workflow": "StarBlox Staged Catalog Art QA",
+    "runId": 35682911760,
+    "runHead": "e89d5121cb629c56301a04c5de69b442813de01c",
+    "artifactId": 10675401829,
+    "artifactName": "catalog-staged-art-review",
+    "reportSha256": "840f06468aa3254787421b41eaa36d6ba11b012e3113492d0f4efd0418c2e01d",
+    "rugContactSheetSha256": "5d3e1f700c4c3e5471e7820a02e2fec5147f329c1b5aa432c4b35b3ff3c53278",
+    "stagedReplacementContactSheetSha256": "98b0e9b5021f3239cdd9021a596fe8d56785d403704898db7c9be77915f6ba05",
+    "scopedReportErrors": []
+  },
+  "reviews": [
+    {
+      "id": "rugs-11",
+      "name": "Dream Cloud Rug",
+      "tier": 4,
+      "theme": "Galaxy Glow",
+      "runtimePath": "/assets/catalog/rugs-11-w07-v3.png",
+      "repositoryPath": "public/assets/catalog/rugs-11-w07-v3.png",
+      "declaredGitBlobSha": "2c93f18fb5960f7056819c341a3da8f7fff3fb9d",
+      "currentTreeGitBlobSha": "2c93f18fb5960f7056819c341a3da8f7fff3fb9d",
+      "sha256": "cb5bea407b241c79887f07f8b37136b64f2336de23683fdafc6007aa23fefdfd",
+      "renderBinding": {
+        "discovery": "lane-reviewable",
+        "declaredEqualsActual": true,
+        "signature": "PASS_PNG",
+        "assetSafety": "PASS_RASTER_SELF_CONTAINED",
+        "httpStatus": 200,
+        "naturalDimensions": [1024, 1024],
+        "opaqueFraction": 1,
+        "detailScreenshot": "staged-replacements/detail/rugs-11-2c93f18f.png",
+        "detailScreenshotSha256": "f2eb8fd8150be3e6731efae29d9924161e1aa1ddb60ff253052dede224b3507c",
+        "cardPixels": "rugs/rugs-contact-sheet.png",
+        "cardPixelsSha256": "5d3e1f700c4c3e5471e7820a02e2fec5147f329c1b5aa432c4b35b3ff3c53278",
+        "screenshot": true,
+        "errors": []
+      },
+      "decision": "ACCEPT",
+      "oldV2DecisionTransferred": false,
+      "independentFindings": [
+        "Unmistakable floor-textile identity: the object reads as a rug rather than a cushion, ottoman or padded playmat.",
+        "Low floor-plane profile is preserved with a thin bound edge, visible textile surface and grounded contact shadow.",
+        "Galaxy Glow theme is immediately legible through the night-sky palette, crescent moons and star field without obscuring material identity.",
+        "Tier-4 richness is present while the silhouette and motif remain readable at catalog-card scale.",
+        "Exact-current comparison against the preserved accepted Rugs 1-10 set shows adequate originality and no disqualifying near-duplicate risk."
+      ],
+      "handoff": "QUALIFIED_ACCEPT_FOR_08_CANONICAL_WIRING_ONLY"
+    },
+    {
+      "id": "rugs-12",
+      "name": "Luxe Star Rug",
+      "tier": 5,
+      "theme": "Sunny Pop",
+      "runtimePath": "/assets/catalog/rugs-12-w07-v3.png",
+      "repositoryPath": "public/assets/catalog/rugs-12-w07-v3.png",
+      "declaredGitBlobSha": "85007bbb5e31a5545cf006f9cf43f25167ffb37f",
+      "declaredSha256": "21a2f71224d9a7d4e0e60a672867cc629f21a481c3310fee6b1cac1c1be071b3",
+      "currentTreeGitBlobSha": "eea2fc5b78c1186342f91f597bc792160ab8f8fe",
+      "renderEvidenceIntegrity": {
+        "targetExactHashRendered": false,
+        "fixtureWarning": "declared 85007bbb5e31a5545cf006f9cf43f25167ffb37f != actual eea2fc5b78c1186342f91f597bc792160ab8f8fe",
+        "stagedReplacementRenderedBlobSha": "eea2fc5b78c1186342f91f597bc792160ab8f8fe",
+        "ownCollectionFallbackBlobSha": "718227d632a1a85fa3386f1d9ef1e407a7e5a115",
+        "ownCollectionFallbackPath": "public/assets/catalog/rugs-12.svg",
+        "invalidSignatureSubstitution": false,
+        "staleHashSubstitutionBlockedByFixture": true
+      },
+      "decision": "BLOCKED_EXACT_HASH_EVIDENCE_INTEGRITY",
+      "oldV2DecisionTransferred": false,
+      "explicitNonDisposition": "No ACCEPT or REWORK is issued for blob 85007bbb5e31a5545cf006f9cf43f25167ffb37f because actual card/detail pixels bound to that exact hash are not present in current evidence.",
+      "requiredRepair": "Producer 07 / coordinator 15 must either restore the declared 85007bbb5e31a5545cf006f9cf43f25167ffb37f bytes at the declared path and rerender, or publish a new authoritative exact-current hash/sha256 handoff. Reviewer 14 will judge only that exact repaired hash."
+    }
+  ],
+  "preservation": {
+    "lighting1to12AcceptedUnchanged": true,
+    "rugs1to10AcceptedUnchanged": true,
+    "decor1to2AcceptedUnchanged": true,
+    "wallDecorUnchangedHashesNotRereviewed": true,
+    "canonicalWiringTouched": false,
+    "catalogMetadataTouched": false,
+    "gameplayTouched": false,
+    "mainTouched": false,
+    "deployTouched": false,
+    "replitTouched": false,
+    "flootTouched": false,
+    "paidSettingsTouched": false,
+    "playerDataTouched": false
+  }
+}
