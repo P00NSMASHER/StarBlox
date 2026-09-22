@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "batchId": "chat-desks-recovery-2-4-20260922",
+  "items": [
+    {
+      "id": "desks-2",
+      "assetId": "urn:aaid:ps:US:3e9212c2-7bd4-42ad-a1aa-5a53e375bcf7",
+      "producer": "CHAT",
+      "independentReviewer": "05",
+      "renditionUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:3e9212c2-7bd4-42ad-a1aa-5a53e375bcf7",
+      "sourceUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:3e9212c2-7bd4-42ad-a1aa-5a53e375bcf7",
+      "candidateRepositoryPath": "public/assets/catalog/desks-2-chat-v2.png"
+    },
+    {
+      "id": "desks-3",
+      "assetId": "urn:aaid:ps:US:d09b3ea9-7239-42f8-9d2d-c22353b661e6",
+      "producer": "CHAT",
+      "independentReviewer": "05",
+      "renditionUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:d09b3ea9-7239-42f8-9d2d-c22353b661e6",
+      "sourceUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:d09b3ea9-7239-42f8-9d2d-c22353b661e6",
+      "candidateRepositoryPath": "public/assets/catalog/desks-3-chat-v2.png"
+    },
+    {
+      "id": "desks-4",
+      "assetId": "urn:aaid:ps:US:cb05b83e-87d7-4076-a127-ca6f92824bce",
+      "producer": "CHAT",
+      "independentReviewer": "05",
+      "renditionUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:cb05b83e-87d7-4076-a127-ca6f92824bce",
+      "sourceUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:cb05b83e-87d7-4076-a127-ca6f92824bce",
+      "candidateRepositoryPath": "public/assets/catalog/desks-4-chat-v2.png"
+    }
+  ]
+}
