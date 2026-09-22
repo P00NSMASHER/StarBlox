@@ -1,9 +1,9 @@
 {
-  "version": 32,
+  "version": 33,
   "target": 192,
   "finalCount": 166,
   "remaining": 26,
-  "note": "Delivery Protocol V2 incremental integration: independently ACCEPTed exact current Wall 5-7 W05 v2 hashes integrated after reviewer14 exact-hash card/detail review. Wall 8 remains REWORK and is not mapped. Prior accepted mappings and rejected versions remain in repository history. Replit/Floot/main/player data remain untouched.",
+  "note": "Delivery Protocol V2 incremental integration: independently ACCEPTed exact current Headwear 5-8 W12 v2 hashes integrated after reviewer01 exact-hash card/detail review. Prior accepted mappings including Wall 5-7 and rejected versions remain in repository history. Replit/Floot/main/player data remain untouched.",
   "duplicateAssetPaths": [],
   "items": {
     "tops-1": {
@@ -288,28 +288,28 @@
     },
     "headwear-5": {
       "name": "Flower Crown",
-      "assetPath": "/assets/catalog/headwear-5.svg",
+      "assetPath": "/assets/catalog/headwear-5-w12-v2.png",
       "tier": 2,
       "theme": "Pixel Party",
       "status": "final-portable"
     },
     "headwear-6": {
       "name": "Gamer Headset",
-      "assetPath": "/assets/catalog/headwear-6.svg",
+      "assetPath": "/assets/catalog/headwear-6-w12-v2.png",
       "tier": 2,
       "theme": "Berry Blast",
       "status": "final-portable"
     },
     "headwear-7": {
       "name": "Bucket Hat",
-      "assetPath": "/assets/catalog/headwear-7.svg",
+      "assetPath": "/assets/catalog/headwear-7-w12-v2.png",
       "tier": 3,
       "theme": "Garden Glow",
       "status": "final-portable"
     },
     "headwear-8": {
       "name": "Star Clips",
-      "assetPath": "/assets/catalog/headwear-8.svg",
+      "assetPath": "/assets/catalog/headwear-8-w12-v2.png",
       "tier": 3,
       "theme": "Galaxy Glow",
       "status": "final-portable"
