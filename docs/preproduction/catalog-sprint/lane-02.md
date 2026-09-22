@@ -25,7 +25,15 @@ Reviewer 02 inspected actual card/contact-sheet pixels and both exact-hash detai
 
 Recovery workflow evidence: run `35671770098`, artifact `10671012131`, digest `sha256:07b7da381d584a08538754db0d8e97c4ed7434a4f23e8460f88ab73669fb3966`. Its Seating 2–3 card/detail render check is **PASS 2/2**, tests **PASS**, and build **PASS**. The workflow's broader shared-render overall result remains **FAIL** and is intentionally not hidden or converted into an overall visual PASS.
 
-Next independent-review priority is fresh Seating 4–6 / 11–12 and Shoes 7–12 when exact staged hashes arrive, then Backgear/Handgear replacements.
+Next independent-review priority is the Seating 11 exact-hash fixture response, fresh Seating 4–6 / 12 and Shoes 7–12 when staged hashes arrive, then Backgear/Handgear replacements.
+
+
+### Seating 11 evidence blocker
+
+`seating-11` Moon Chair (Tier 4 / Galaxy Glow) is **BLOCKED**, not REWORK, for exact source blob `b0b4ee954ce5af414ee90fecda374f84d551c3e5`. Its staged 256px card blob is `9e777c1844140ea09eb0a304c4f103d5e6da9fcb`. The shared staged-art artifact does not currently render this candidate. A supported public-browser fallback opened the exact raw URLs, but its completed run returned only a browser-local HTML evidence path rather than reviewer-inspectable pixels. No visual PASS was inferred.
+
+This is blocker cycle 1. Workstream 14 has a reproducible fixture request: render those exact source/card hashes in the branch-local staged-art fixture and emit a card/contact-sheet image plus separate detail screenshot bound to the source hash. Workstream 06 should preserve the candidate; no regeneration is requested solely because of evidence access.
+
 
 ## Beds 1–4 staged pilot
 
@@ -53,7 +61,7 @@ Do **not** scale into Beds 5–8 until reviewer 05 dispositions this pilot or id
 - **05:** exact Bed render evidence is now available in workflow run `35671770098`, artifact `10671012131`; independently disposition Beds 1–4 by exact hash.
 - **08:** Seating 2–3 exact hashes now have one independent reviewer-02 ACCEPT and are usable after normal checks. Beds remain blocked on reviewer 05.
 - **01:** preserve the accepted Seating 2–3 hashes; do not regenerate them absent a later concrete defect.
-- **15:** route remaining fresh Seating 4–6 / 11–12 and Shoes 7–12 to reviewer 02 as soon as staged exact hashes and pixels are ready.
+- **14:** add Seating 11 exact source/card hashes to the staged-art fixture and emit inspectable card/detail evidence; this is blocker cycle 1, so no escalation-to-15 claim is made yet.\n- **15:** route remaining fresh Seating 4–6 / 12 and Shoes 7–12 to reviewer 02 as soon as staged exact hashes and pixels are ready.
 - **02 next:** consume ready replacement review work first; otherwise wait for reviewer 05’s Bed-pilot disposition. No Beds 5–8 generation yet.
 
 No gameplay, curriculum, economy, save state, canonical runtime, Replit/Floot, `main`, deployment, paid settings or real-player data were changed by this pass.
