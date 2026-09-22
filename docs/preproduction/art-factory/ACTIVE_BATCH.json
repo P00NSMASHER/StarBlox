@@ -1,8 +1,8 @@
 {
-  "schemaVersion": 4,
+  "schemaVersion": 5,
   "owner": "15",
   "branch": "screenshot-match-preproduction",
-  "sourceHead": "63d58f08c194628892a620d873450ff6a6c3964d",
+  "sourceHead": "d77a12454cff9a9f13ee32bf87e46602b3a7c83d",
   "status": "ACTIVE_RELEASE_BLOCKER_FIRST",
   "policy": {
     "maxConcurrentProductionBatches": 4,
@@ -61,22 +61,20 @@
         "decor-12"
       ]
     },
-    "note": "Manifest/runtime remain v33 with 19 visible generic fallbacks and strict accepted+canonical floor 104 at this synchronization point. Four release-production slots are now explicitly occupied: 03 Desk generation, 09 Decor generation, 13 Wall generation, and 07 exact-byte recovery/import. Store and Quest measured geometry are green absent fresh failing evidence; changed-batch crop gating is scoped to changed canonical IDs with collection-wide legacy containment retained as diagnostic."
+    "note": "Manifest/runtime remain v33 with 19 visible generic fallbacks and strict accepted+canonical floor 104 at this synchronization point. Four release-production slots are explicitly occupied without overlapping item scopes: 03 Desk9-10 generation, 09 Decor5-8 generation, 13 Wall9-12 generation, and 07 exact-byte recovery/import for Desk7-8/Wall8/Tops11. Store and Quest measured geometry are green absent fresh failing evidence; changed-batch crop gating is scoped to changed canonical IDs with collection-wide legacy containment retained as diagnostic."
   },
   "batches": [
     {
       "producer": "03",
-      "batchId": "w03-desks-7-10-v1",
+      "batchId": "w03-desks-9-10-v1",
       "scope": [
-        "desks-7",
-        "desks-8",
         "desks-9",
         "desks-10"
       ],
-      "state": "DESKS7_8_CANDIDATES_PRESERVED__DESKS9_10_ACTIONABLE_WHEN_GENERATOR_AVAILABLE",
+      "state": "DESKS9_10_ACTIONABLE__DESKS7_8_TRANSFER_OWNED_BY_07",
       "reviewer": "05",
-      "basis": "Desks 7-12 remain visible generic fallbacks. Desk 7 has two genuine Adobe Firefly remote source candidates and Desk 8 has two preserved native source/derivative candidate sets with exact measured hashes, but neither item has exact repository-staged bytes yet. Those newer candidate records freeze Desks 7-8 against regeneration. Desks 9-10 remain the bounded generation work when authorized capacity is available.",
-      "requirements": "Do not spend producer03 time on byte transport for Desks 7-8; Workstream07 now owns exact-byte recovery/import. Producer03 continues only Desks 9-10 generation when authorized capacity is available, preserving exact Store metadata/provenance, and freezes Desks 11-12 until this pilot receives independent disposition. Any staged Desk candidate routes 06 -> 14 render -> reviewer05.",
+      "basis": "Desks 7-12 remain visible generic fallbacks. Desk 7 has two genuine Adobe Firefly remote source candidates and Desk 8 has two preserved native source/derivative candidate sets with exact measured hashes, but neither item has exact repository-staged bytes yet. Those newer candidate records freeze Desks 7-8 against regeneration and are owned by Workstream07 for exact-byte recovery/import. Desks 9-10 are Workstream03's bounded generation scope when authorized capacity is available.",
+      "requirements": "Do not spend producer03 time on byte transport for Desks 7-8; Workstream07 owns exact-byte recovery/import. Producer03 continues only Desks 9-10 generation when authorized capacity is available, preserving exact Store metadata/provenance, and freezes Desks 11-12 until this pilot receives independent disposition. Any staged Desk candidate routes 06 -> 14 render -> reviewer05.",
       "pendingCandidates": {
         "desks-7": {
           "state": "GENERATED_REMOTE_NOT_REPOSITORY_STAGED",
@@ -103,7 +101,7 @@
             }
           ],
           "evidence": "docs/preproduction/art-factory/requests/w03-desks-7-10-20260922.json",
-          "rule": "Freeze against regeneration while exact remote bytes remain recoverable; remote generation metadata is not repository staging and carries no ACCEPT verdict."
+          "rule": "Read-only context for producer03. Freeze against regeneration while Workstream07 owns exact-byte recovery/import; remote generation metadata is not repository staging and carries no ACCEPT verdict."
         },
         "desks-8": {
           "state": "TWO_SOURCE_CANDIDATES_GENERATED_EXACT_HASHES_PRESERVED_REPOSITORY_STAGE_PENDING",
@@ -116,7 +114,7 @@
             "882229409d416fd4c5e8f0715425b308f7fc74aa",
             "67085c440d4ea56e5390863162b3e5b7a16933af"
           ],
-          "rule": "Freeze against regeneration. Workstream07 imports only exact preserved bytes that reproduce the measured hashes; any mismatch is rejected before staging."
+          "rule": "Read-only context for producer03. Freeze against regeneration while Workstream07 imports only exact preserved bytes that reproduce the measured hashes; any mismatch is rejected before staging."
         },
         "desks-9": {
           "state": "ACTIONABLE_GENERATION_WHEN_AUTHORIZED_CAPACITY_AVAILABLE"
