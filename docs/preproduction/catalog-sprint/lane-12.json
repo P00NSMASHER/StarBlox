@@ -1,12 +1,13 @@
 {
-  "schemaVersion": 5,
+  "schemaVersion": 6,
   "workstream": "12",
   "phase": "ART_AND_VISUALS_ONLY",
   "branch": "screenshot-match-preproduction",
-  "status": "HEADWEAR_1_4_ACCEPTED_PRESERVED__HEADWEAR_5_8_EXTERNAL_DERIVATIVES_LIVE__EXACT_BYTE_TRANSFER_BLOCKED__HEADWEAR_9_12_PREP_ONLY",
-  "inputHead": "557068a467d3ff45f8d360bfaa8544e5ab5b04fe",
+  "status": "HEADWEAR_1_4_ACCEPTED_PRESERVED__HEADWEAR_5_8_GENERATED_PRESERVED_EXTERNAL__EXACT_BYTE_TRANSFER_BLOCKED__HEADWEAR_9_12_PREP_ONLY",
+  "inputHead": "cc0de0b5dd675b98a2bf8f7525de0b10e299a5c0",
   "protocol": "docs/preproduction/DELIVERY_PROTOCOL_V2.md",
   "allocation": "docs/preproduction/ART_VISUALS_SPRINT.json",
+  "coordinationEvidence": "docs/preproduction/catalog-sprint/coordination-15-20260922T0107Z.json",
   "ownership": {
     "producer": "12",
     "transportHelper": "04",
@@ -62,8 +63,8 @@
           "repositoryBytes": null,
           "sha256": null,
           "gitBlobSha": null,
-          "repositoryReadback": "ABSENT_404_AT_INPUT_HEAD",
-          "externalDerivativePreview": "PASS_ADOBE_INLINE_PREVIEW_CURRENT_CYCLE"
+          "repositoryReadback": "ABSENT_404_AT_CC0DE0B5",
+          "externalDerivativePreview": "PASS_ADOBE_INLINE_PREVIEW"
         },
         "producerVisualCheck": "PASS_DIMENSIONAL_BAND_LAYERED_TEXTILE_FLOWERS_PIXEL_GEM_CENTERS_CARD_READABLE",
         "deliveryStatus": "GENERATED_PRESERVED_EXTERNAL_TRANSFER_PENDING_HELPER04",
@@ -95,8 +96,8 @@
           "repositoryBytes": null,
           "sha256": null,
           "gitBlobSha": null,
-          "repositoryReadback": "ABSENT_404_AT_INPUT_HEAD",
-          "externalDerivativePreview": "PASS_ADOBE_INLINE_PREVIEW_CURRENT_CYCLE"
+          "repositoryReadback": "ABSENT_404_AT_CC0DE0B5",
+          "externalDerivativePreview": "PASS_PREVIOUS_VERIFIED_EXTERNAL_DERIVATIVE"
         },
         "producerVisualCheck": "PASS_PADDED_BAND_CUSHIONS_EARCUPS_HINGES_BOOM_MIC_BERRY_BLAST_CARD_READABLE",
         "deliveryStatus": "GENERATED_PRESERVED_EXTERNAL_TRANSFER_PENDING_HELPER04",
@@ -128,8 +129,8 @@
           "repositoryBytes": null,
           "sha256": null,
           "gitBlobSha": null,
-          "repositoryReadback": "ABSENT_404_AT_INPUT_HEAD",
-          "externalDerivativePreview": "PASS_ADOBE_INLINE_PREVIEW_CURRENT_CYCLE"
+          "repositoryReadback": "ABSENT_404_AT_CC0DE0B5",
+          "externalDerivativePreview": "PASS_PREVIOUS_VERIFIED_EXTERNAL_DERIVATIVE"
         },
         "producerVisualCheck": "PASS_CANVAS_CROWN_SEAMS_EYELET_QUILTED_BRIM_EMBROIDERED_GARDEN_BAND_CARD_READABLE",
         "deliveryStatus": "GENERATED_PRESERVED_EXTERNAL_TRANSFER_PENDING_HELPER04",
@@ -161,8 +162,8 @@
           "repositoryBytes": null,
           "sha256": null,
           "gitBlobSha": null,
-          "repositoryReadback": "ABSENT_404_AT_INPUT_HEAD",
-          "externalDerivativePreview": "PASS_ADOBE_INLINE_PREVIEW_CURRENT_CYCLE"
+          "repositoryReadback": "ABSENT_404_AT_CC0DE0B5",
+          "externalDerivativePreview": "PASS_PREVIOUS_VERIFIED_EXTERNAL_DERIVATIVE"
         },
         "producerVisualCheck": "PASS_LAYERED_TRANSLUCENT_STARS_VISIBLE_BARRETTE_HARDWARE_FACETED_GEMS_CARD_READABLE",
         "deliveryStatus": "GENERATED_PRESERVED_EXTERNAL_TRANSFER_PENDING_HELPER04",
@@ -172,9 +173,8 @@
     "batchChecks": {
       "fullQualityGenerationsPreserved": "PASS_4_OF_4_ADOBE_CC_ASSETS",
       "phoneDerivativesGenerated": "PASS_4_OF_4_600x600_PNG",
-      "phoneDerivativeOutputUrlsLive": "PASS_4_OF_4_ADOBE_INLINE_PREVIEW_CURRENT_CYCLE",
-      "plannedRepositoryPaths": "ABSENT_4_OF_4_404_AT_INPUT_HEAD",
-      "repositoryByteUpload": "BLOCKED_PENDING_HELPER04",
+      "plannedRepositoryPathsAtInputHead": "ABSENT_4_OF_4_404",
+      "repositoryByteUpload": "BLOCKED_PENDING_EXACT_BYTE_MATERIALIZATION",
       "exactRepositoryReadback": "NOT_TESTED_NO_STAGED_BYTES",
       "reviewer01": "NOT_READY_NO_REPOSITORY_HASH",
       "tests": "NOT_RUN_NO_RUNTIME_CANONICAL_LEARNING_SAVE_OR_ECONOMY_CHANGE",
@@ -187,9 +187,11 @@
     "helperEvidencePath": "docs/preproduction/catalog-sprint/headwear-5-8-transport-helper-04-to-12-01.json",
     "helperEvidenceBlobSha": "e18f2276f582ddd3c473492c67cec89e419ae418",
     "newEvidenceThisCycle": [
-      "A newly exposed supported Adobe asset_inline_preview path was exercised on the exact preserved Headwear 5 derivative and confirmed the derivative still resolves visually without regeneration, but the action exposes a rendered preview rather than a reusable raw-byte/base64 stream suitable for GitHub attachment.",
-      "A read-only Browser_Use attempt to resolve the same exact Adobe short URL did not yield a final direct image URL or bytes because the browser/auth bootstrap path was unavailable in this noninteractive run.",
-      "GitHub binary blob/tree write support is available; the unresolved step remains exact raw-byte materialization of the preserved external PNG without re-encoding, substitution or recreation."
+      "Adobe connector initialization explicitly documents direct curl -L download for Adobe tool output URLs, so that supported path was tested once against the exact preserved Headwear5 600x600 short URL.",
+      "The exact curl attempt failed before any bytes transferred with curl error 6: Could not resolve host: photoshop-api.adobe.io. Because all four derivative URLs share that host, the same host-level failure was not redundantly repeated for Headwear6-8.",
+      "Adobe asset_inline_preview still resolves the exact Headwear5 derivative visually, proving the preserved external asset remains live; the preview response does not expose a reusable lossless raw-byte/base64 payload.",
+      "GitHub exact binary creation remains possible once bytes/base64 exist; the missing capability is still exact raw-byte materialization of the preserved PNG without re-encoding, substitution, recreation, or art modification.",
+      "All four planned repository paths were reread at input head cc0de0b5dd675b98a2bf8f7525de0b10e299a5c0 and returned 404, so staged remains 0 and reviewer01 still has no current repository hash to disposition."
     ],
     "smallestNextAction": "When helper04 or another coordinator-approved supported tool exposes the exact existing derivative bytes, attach those bytes unchanged to the four planned versioned repository paths. Workstream12 then rereads each path, records exact Git blob/content hash, dimensions and byte size, and hands those exact hashes to reviewer01."
   },
@@ -206,11 +208,12 @@
   },
   "nextMicroBatchPreparation": {
     "status": "PREP_ONLY_NOT_GENERATED_NOT_CLAIMED_FOR_PRODUCTION",
-    "reason": "Live allocation still assigns Headwear to Workstream12, but Workstream15 has not opened a bounded production batch beyond Headwear5-8 and the active scale gate forbids generation until Headwear5-8 are repository-stored/read back and reviewer01 dispositions them.",
+    "reason": "Latest coordinator evidence still assigns Workstream12 to preserve Headwear1-4 and operate Headwear5-8; it does not open a bounded batch beyond Headwear5-8. The scale gate therefore remains active.",
     "metadataSources": [
       "src/gameModel.js",
-      "reviewer01 historical exact-hash evidence blob f2701fc7c9116d0eb2f1da7d84e128d27b832fff",
-      "current repository legacy paths read at input head"
+      "reviewer01 historical exact-hash evidence",
+      "current repository legacy paths",
+      "docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg"
     ],
     "sharedRecipe": "Future generation only after the gate opens: isolated wearable product, no avatar or new character identity; true three-quarter presentation; visible support/band/hinge/setting construction; tactile differentiated materials; bright polished magical-school Store studio with warm key plus cool rim and restrained lilac/pink depth; strong silhouette at phone-card scale; exact item identity/theme/tier; no text, logos, third-party characters, generic recolor or flat icon treatment; preserve a full-quality square source before a measured phone-friendly derivative.",
     "items": [
@@ -269,7 +272,7 @@
     "04": "Transport only: preserve producer=12 provenance; attach the exact existing Headwear5-8 600x600 derivative bytes to the planned paths without modifying art, reviewing, or canonical-wiring when a supported exact-byte path becomes available.",
     "01": "Do not review Headwear5-8 until exact repository hashes exist. Preserve Headwear1-4 ACCEPTs. Headwear9-12 preparation is prompt/metadata only and is not reviewable art.",
     "08": "Preserve Headwear1-4 canonical handling. No Headwear5-8 mapping change until reviewer01 ACCEPTs exact repository hashes. No Headwear9-12 candidate exists.",
-    "15": "Exact-byte materialization remains the only active Headwear5-8 blocker. Headwear9-12 metadata/prompt recipes are prepared but generation remains gated; authorize a bounded next batch only after the active pilot closes."
+    "15": "Latest coordination still assigns Headwear5-8 as Workstream12's bounded pilot. Exact-byte materialization remains its blocker; no later accessory batch was opened."
   },
   "freeze": {
     "replitTouched": false,
