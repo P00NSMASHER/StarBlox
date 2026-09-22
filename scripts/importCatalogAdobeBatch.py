@@ -14,8 +14,8 @@ def blob(b): return hashlib.sha1(b'blob '+str(len(b)).encode()+b'\0'+b).hexdiges
 
 def fetch(url):
     p=urllib.parse.urlparse(url)
-    if p.scheme!='https' or p.hostname!='at.adobe.com':
-        raise ValueError('Only resolved Adobe HTTPS URLs are allowed')
+    if p.scheme!='https' or p.hostname not in {'at.adobe.com','photoshop-api.adobe.io'}:
+        raise ValueError('Only resolved Adobe or producer-recorded Photoshop HTTPS URLs are allowed')
     req=urllib.request.Request(url,headers={'User-Agent':'StarBlox-Asset-Intake/1.0'})
     with urllib.request.urlopen(req,timeout=60) as r:
         data=r.read(MAX+1)
