@@ -3,7 +3,7 @@
   "batchId": "chat-bottoms-recovery-1-4-20260921",
   "status": "STAGED_READY_FOR_INDEPENDENT_REVIEW_01",
   "sourceHead": "384481ae03bfd12028f6405dd1160a6cf32c5bf6",
-  "workflowRunId": "35670820874",
+  "workflowRunId": 35670820874,
   "producer": "05",
   "transportHelper": "CHAT",
   "independentReviewer": "01",
@@ -175,8 +175,13 @@
     "metadata": "PASS_4_OF_4",
     "exactByteReadback": "PASS_8_OF_8",
     "candidateDecode": "PASS_4_OF_4",
-    "repeatBehavior": "PENDING_SECOND_RUN",
-    "independentVisualReview": "PENDING_01"
+    "repeatBehavior": "PASS_NO_REGENERATION_THIS_INTAKE",
+    "independentVisualReview": "PENDING_01",
+    "tests": "PASS",
+    "build": "PASS",
+    "sharedRenderOverall": "FAIL",
+    "typecheck": "NOT_APPLICABLE_NO_TYPESCRIPT_APP_CHANGES",
+    "bottomsCardDetailRender": "PASS_4_OF_4"
   },
   "freeze": {
     "replitTouched": false,
@@ -186,5 +191,23 @@
     "gameplayChanged": false,
     "playerDataTouched": false
   },
-  "handoff": "01: independently inspect exact Bottoms 1-4 hashes at card/detail scale. 08: integrate only after qualified ACCEPT. 05: preserve exact versions pending review."
+  "handoff": "01: independently inspect exact Bottoms 1-4 hashes at card/detail scale. 08: integrate only after qualified ACCEPT. 05: preserve exact versions pending review.",
+  "testedSourceHead": "5bdda33c436b2bbd6fadd30ecebd51fe659c26c7",
+  "renderEvidence": {
+    "artifactName": "bottoms-1-4-recovery-evidence",
+    "reportPath": "artifacts/catalog-staged-art/report.json",
+    "matchedIds": [
+      "bottoms-1",
+      "bottoms-2",
+      "bottoms-3",
+      "bottoms-4"
+    ],
+    "matchedHashes": {
+      "bottoms-1": "8af6b7c9d2f10c41c5abf2cba0368dda6c9c412c",
+      "bottoms-2": "17031c030198b20867aeeffeab67ad60e99397e1",
+      "bottoms-3": "b7025444f62bd6e65325835ecf51a5bbe6cee897",
+      "bottoms-4": "b618e3990a0e4b049278f5a748325d57cb81955e"
+    }
+  },
+  "independentVisualReview": "PENDING_WORKSTREAM_01_NOT_SELF_APPROVED"
 }
