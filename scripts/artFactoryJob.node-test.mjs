@@ -1,11 +1,11 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import {createHash} from 'node:crypto';
 import {buildJobPlan,deriveSeed,validateJobPlan,RIGHTS_BASIS} from './artFactoryJob.mjs';
 
 const item={id:'decor-3',name:'Arcade Mini',collectionId:'decor',type:'room',tier:3,theme:'Arcade Pop'};
 const variants=['A-PHYSICAL','B-READABILITY','C-THEME-TIER','D-REPAIR'].map((variant,i)=>{
   const promptText=`prompt-${i}-${variant}`;
-  const {createHash}=await import('node:crypto');
   return {variant,promptBlocks:['physical','card'],promptText,promptSha256:createHash('sha256').update(promptText).digest('hex')};
 });
 const recommendation={sourceReviewHash:'bad-hash',variants};
