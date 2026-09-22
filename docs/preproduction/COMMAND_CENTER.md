@@ -1,6 +1,6 @@
 # StarBlox Art + Visuals Command Center
 
-STATUS: **ART_VISUALS_SPRINT / CATALOG CRITICAL PATH / 35 ACCEPTED FLOOR / 27 CANONICAL-WIRED / NOT READY FOR REPLIT**
+STATUS: **ART_VISUALS_SPRINT / CATALOG CRITICAL PATH / 35 ACCEPTED / 35 CANONICAL-WIRED / NOT READY FOR REPLIT**
 
 Branch: `screenshot-match-preproduction` only  
 Observed coordination head before this update: `a2edafea67c1398c54143d97386105d62bea64a8`  
@@ -20,21 +20,20 @@ These counts intentionally separate review coverage from accepted/current/canoni
 - Unique IDs with at least one usable independent visual disposition: **180 / 192**
 - Remaining independent-review coverage gap: **12 IDs — Desks**
 - Conservative floor of independently **ACCEPTED current replacement hashes: 35**
-- Accepted current hashes already **canonical-wired: 27**
-- Known accepted-but-not-yet-wired at the current coordination snapshot: **8 — Lighting 5–12**
+- Accepted current hashes already **canonical-wired: 35**
+- Known accepted-but-not-yet-wired at the current coordination snapshot: **0**
 - Catalog release-cleared IDs: **0 / 192** — release clearance waits for the complete accepted/wired/unique/Store-verified set, not status labels.
-- Current canonical manifest: **v16**, **130 mappings**, **114 final-portable labels**, **16 interim-not-verified**, **78 non-final**, **0 duplicate paths**, **0 duplicate content hashes** in the latest integration evidence.
+- Current canonical manifest: **v17**, **138 mappings**, **122 final-portable labels**, **16 interim-not-verified**, **70 non-final**, with the latest integration evidence preserving zero duplicate paths/content for the accepted batch.
 
 Legacy `final-portable` labels are not independent screenshot-quality acceptance. No percentage is increased merely because an asset was generated, stored, reviewed, or labeled ready.
 
 ## Immediate critical path
 
-1. **08 — integrate Lighting 5–12:** Reviewer 14 independently ACCEPTed all eight exact current hashes after actual card/detail rendering. They are the oldest accepted-but-not-wired dependency. 08 has been explicitly handed the verified hashes/paths and an immediate run was requested; only 08 may change `catalog-art-manifest.json` / `src/catalogArtRuntime.js`.
-2. **01 — Tops 7–10 v3 review:** Four new JPG replacements are branch-stored, exact-readback verified and actual card/detail rendered. Exact blobs: Tops 7 `1c85689d...`, 8 `58aadd95...`, 9 `9011648d...`, 10 `5449283e...`. Reviewer 01 must decide these new hashes independently; old v2 REWORK verdicts do not transfer.
-3. **07 — Rugs 5–8 delivery:** These four owned repairs are already generated as exact Adobe assets and must **not** be regenerated. 07 must transfer the existing bytes to versioned GitHub paths, read them back, record exact hashes/dimensions/bytes, then hand them to 14. Do not scale to Rugs 9–12 until the pilot receives current-hash review.
-4. **14 → 05 — Desks:** The only remaining 12-ID review-coverage family is Desks. Current Desk 2–4 exact paths/hashes require fresh shared-fixture rendering because prior blank/corrupt evidence referred to obsolete paths. Desk 5–6 already have separate browser render evidence but still require reviewer-05 disposition.
-5. **12 — accessory art:** Continue Headwear / Facegear / Backgear / Handgear premium repair pilots. Reviewer ownership remains 01 for Headwear/Facegear and 02 for Backgear/Handgear; 12 never self-approves.
-6. **13 — scenes/character art in parallel:** Continue versioned Home/Store/Quest character/environment/component art against the stored original references without changing saves, economy, curriculum, gameplay metadata or the reference files.
+1. **01 — Tops 7–10 v3 review:** Four new JPG replacements are branch-stored, exact-readback verified and actual card/detail rendered. Exact blobs: Tops 7 `1c85689d...`, 8 `58aadd95...`, 9 `9011648d...`, 10 `5449283e...`. Reviewer 01 must decide these new hashes independently; old v2 REWORK verdicts do not transfer.
+2. **07 — Rugs 5–8 delivery:** These four owned repairs are already generated as exact Adobe assets and must **not** be regenerated. 07 must transfer the existing bytes to versioned GitHub paths, read them back, record exact hashes/dimensions/bytes, then hand them to 14. Do not scale to Rugs 9–12 until the pilot receives current-hash review.
+3. **14 → 05 — Desks:** The only remaining 12-ID review-coverage family is Desks. Current Desk 2–4 exact paths/hashes require fresh shared-fixture rendering because prior blank/corrupt evidence referred to obsolete paths. Desk 5–6 already have separate browser render evidence but still require reviewer-05 disposition.
+4. **12 — accessory art:** Continue Headwear / Facegear / Backgear / Handgear premium repair pilots. Reviewer ownership remains 01 for Headwear/Facegear and 02 for Backgear/Handgear; 12 never self-approves.
+5. **13 — scenes/character art in parallel:** Continue versioned Home/Store/Quest character/environment/component art against the stored original references without changing saves, economy, curriculum, gameplay metadata or the reference files.
 
 ## Independent reviewer partitions
 
@@ -45,7 +44,7 @@ Legacy `final-portable` labels are not independent screenshot-quality acceptance
 
 One valid independent exact-hash ACCEPT plus required file/metadata/content checks allows 08 to integrate immediately. Old monolithic rollups and a second universal reviewer are not integration prerequisites. Reviewers may not approve their own art.
 
-Reviewer 14's current partition evidence is **12 ACCEPT / 36 REWORK**: Lighting 1–12 are accepted; Wall 1–12, Rugs 1–12 legacy/current reviewed hashes, and Decor 1–12 remain REWORK until replacement versions earn new decisions.
+Reviewer 14's current partition evidence is **12 ACCEPT / 36 REWORK**: Lighting 1–12 are accepted and all 12 Lighting mappings are canonical by manifest v17; Wall 1–12, Rugs 1–12 legacy/current reviewed hashes, and Decor 1–12 remain REWORK until replacement versions earn new decisions.
 
 ## Latest replacement evidence
 
