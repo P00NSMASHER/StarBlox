@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "kind": "STARBLOX_ART_FACTORY_BATCH_REQUEST",
   "producer": "03",
   "branch": "screenshot-match-preproduction",
@@ -58,12 +58,68 @@
   },
   "targetPathConvention": "public/assets/catalog-candidates/desks/<itemId>-w03-v1-<variant>-original.png with a measured 600px derivative only after exact source bytes are preserved",
   "provenanceRequirement": "Record exact generator/provider, exposed model identity/revision, seed, prompt text+sha256, sourceHead, repoPath, sha256, gitBlobSha, bytes, dimensions and derivative lineage for every real candidate. Do not create attempt-ledger rows until real bytes are staged/read back.",
+  "currentGenerationEvidence": {
+    "state": "DESKS_7_TWO_REMOTE_SOURCE_CANDIDATES_GENERATED__REPOSITORY_BYTE_IMPORT_PENDING",
+    "observedBranchHeadBeforeGeneration": "382ae7d65bbf27e742d2969db939d5fc90d00ad5",
+    "generationProvider": "Adobe Firefly via Adobe image_generate connector",
+    "exposedModelIdentity": null,
+    "exposedModelRevision": null,
+    "note": "Adobe connector does not expose a model/checkpoint revision in this run; null is recorded rather than invented. Generation is not acceptance and remote Adobe storage is not repository staging.",
+    "desks-7": {
+      "id": "desks-7",
+      "name": "Sunny Creator Desk",
+      "collection": "Desks & Tech",
+      "tier": 3,
+      "theme": "Garden Glow",
+      "candidates": [
+        {
+          "variant": "A-PHYSICAL",
+          "seed": 179943007,
+          "requestId": "1499f16a-397e-4401-a030-76ce108122a3",
+          "adobeGenerationUrn": "urn:aaid:sc:US:30c2a335-0e00-486d-b0ba-18d7a73940ad",
+          "adobeCreatedAt": "2026-09-22T15:47:36.785Z",
+          "dimensions": [1024, 1024],
+          "format": "PNG",
+          "remoteDownloadContentLengthObserved": 1147075,
+          "repositoryPathTarget": "public/assets/catalog-candidates/desks/desks-7-w03-v1-A-PHYSICAL-original.png",
+          "repositorySha256": null,
+          "repositoryGitBlobSha": null,
+          "repositoryBytes": null,
+          "producerVisualCheck": "PASS_GENERATED_REMOTE_ONLY: premium isolated three-quarter desk; thick honey-oak top; visible crossed timber support joinery; rounded physically supported three-drawer pedestal with metal pulls; integrated planter shelf/trailing greenery; articulated green/brass lamp; notebook, pencil cup and tablet stand; distinct wood/metal/ceramic material response; grounded contact/cast shadow; no chair/person/text/logo/grid.",
+          "stageState": "GENERATED_REMOTE_NOT_REPOSITORY_STAGED"
+        },
+        {
+          "variant": "B-READABILITY",
+          "seed": 776146080,
+          "requestId": "531f9195-68a0-4d0a-9736-66f5e829e9b1",
+          "adobeGenerationUrn": "urn:aaid:sc:US:4339c37e-6604-49a5-90d4-0295b6150c99",
+          "adobeCreatedAt": "2026-09-22T15:48:07.460Z",
+          "dimensions": [1024, 1024],
+          "format": "PNG",
+          "adobeAssetRecordBytes": 983315,
+          "repositoryPathTarget": "public/assets/catalog-candidates/desks/desks-7-w03-v1-B-READABILITY-original.png",
+          "repositorySha256": null,
+          "repositoryGitBlobSha": null,
+          "repositoryBytes": null,
+          "producerVisualCheck": "PASS_GENERATED_REMOTE_ONLY: isolated broad creator desk with thick warm-wood slab, two sturdy dark metal trestle supports with visible fasteners, attached cylindrical wood/metal storage pod, raised tool rail, articulated copper task light, sparse sculptural planters and clean negative-space silhouette; grounded shadow; no chair/person/text/logo/grid.",
+          "stageState": "GENERATED_REMOTE_NOT_REPOSITORY_STAGED"
+        }
+      ],
+      "producerDecision": "PRESERVE_BOTH_REMOTE_CANDIDATES_AND_RECOVER_EXACT_BYTES_BEFORE_ANY_REGENERATION_OR_REVIEW"
+    },
+    "desks-8": {
+      "state": "GENERATION_NOT_COMPLETED",
+      "lastAttempt": "Adobe Firefly rate limit returned twice for A-PHYSICAL after Desk 7 succeeded; per connector rules no further identical retries were made this run."
+    },
+    "desks-9": {"state": "NOT_ATTEMPTED_AFTER_TRANSIENT_RATE_LIMIT"},
+    "desks-10": {"state": "NOT_ATTEMPTED_AFTER_TRANSIENT_RATE_LIMIT"}
+  },
   "currentGeneratorBlocker": {
-    "state": "TRANSIENT_GENERATION_CAPACITY_BLOCKED_NO_ASSET_STAGED",
-    "adobeFirefly": "Adobe image_generate returned rate-limit exceeded twice; quota reports reset at midnight GMT.",
-    "nativeImageGen": "Two scoped attempts produced multi-item promotional grids with fabricated labels instead of isolated exact-ID assets; both were rejected before staging and must not be repurposed.",
-    "alternateProvider": "A connected alternate generator reported no credits; no purchase or paid-setting change was attempted.",
-    "safetyAction": "Do not stage invalid grids, do not lower quality, do not buy capacity, and do not start desks-11/12. Resume this exact request when a compliant authorized generator is available."
+    "state": "PARTIAL_TRANSIENT_GENERATION_AND_BYTE_TRANSPORT_BLOCK",
+    "adobeFirefly": "Desk 7 A/B generation succeeded and is preserved by stable Firefly generation URN. Desk 8 A then hit the documented Adobe quota/rate limit twice; no paid-capacity change was attempted.",
+    "repositoryByteTransport": "The connected Adobe tools expose stable generation URNs and time-limited download URLs but not a repository-writable binary file handle/base64 payload. Browser-based direct byte extraction was attempted read-only; the connected browser project then reported insufficient credits, and another connection required interactive input unavailable to this scheduled run. No purchase was attempted. Exact Desk 7 bytes therefore remain remote and are NOT marked STAGED.",
+    "nativeImageGenHistory": "Earlier native-image attempts produced prohibited promo grids and remain rejected; they were not repurposed.",
+    "safetyAction": "Do not regenerate Desk 7 while its two exact Firefly candidates remain recoverable. First recover/stage those exact bytes through a supported authorized path, verify exact readback hashes/bytes/dimensions, then route to 06/14 and reviewer05. Resume Desk 8-10 generation only when the transient generator quota allows it. Do not start desks-11/12."
   },
   "freeze": {
     "desks1To6AcceptedHashes": true,
