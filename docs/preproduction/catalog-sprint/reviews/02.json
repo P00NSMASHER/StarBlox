@@ -1,8 +1,13 @@
 {
   "schemaVersion": 5,
   "reviewer": "02",
-  "partition": ["shoes", "backgear", "handgear", "seating"],
-  "inspectedSourceHead": "12d2ca18bd22faabe26a1c408d703293de02f97a",
+  "partition": [
+    "shoes",
+    "backgear",
+    "handgear",
+    "seating"
+  ],
+  "inspectedSourceHead": "453ead1a6b07089862d2bbe402a0a17005f29c26",
   "historyRefs": [
     {
       "type": "prior-review-shard",
@@ -41,17 +46,47 @@
         "seating-10": "ce5397be1d08cb78d2a67692dd963fae995e4cd69f045ccf2a561363ccfbd044"
       },
       "checks": "PASS_4_OF_4_METADATA_DECODE_UNIQUE_READBACK_AND_ISOLATED_BROWSER_RENDER"
+    },
+    "freshSeating2To3": {
+      "producer": "01",
+      "source": "docs/preproduction/catalog-sprint/chat-seating-recovery-2-3-result.json",
+      "gameModelBlobSha": "79fdb8c3bed4d715e0b1c770f34db0037a7f7c3b",
+      "workflowRunId": 35671770098,
+      "artifactId": 10671012131,
+      "artifactName": "seating-2-3-recovery-evidence",
+      "artifactDigest": "sha256:07b7da381d584a08538754db0d8e97c4ed7434a4f23e8460f88ab73669fb3966",
+      "contactSheet": "artifacts/catalog-staged-art/staged-replacements/staged-replacements-contact-sheet.png",
+      "contactSheetSha256": "005780f5ae664771d8c3556356b00680d7cef09af0f883239d8a4433853bee07",
+      "detailSha256": {
+        "seating-2": "1ed3edf7b6e9ca0888d9efad7ca019a1c0853160773b66252cc0a8bfe80833c3",
+        "seating-3": "b6345b9fddc9810ca814e271a61dd4eda3ac869819997f09c129cb03ef54c2d8"
+      },
+      "checks": "PASS_2_OF_2_METADATA; PASS_4_FILES_EXACT_BYTE_READBACK; PASS_2_OF_2_CANDIDATE_DECODE; PASS_2_OF_2_SEATING_CARD_DETAIL_RENDER",
+      "visualInspection": "Reviewer 02 inspected actual staged-replacement card pixels in the shared contact sheet and both exact-hash detail screenshots; no source-only inference was used."
     }
   },
   "summary": {
     "legacyPartitionReviewed": 48,
     "legacyRework": 48,
-    "freshReplacementReviewedThisPass": 10,
-    "freshAcceptThisPass": 10,
+    "freshReplacementReviewedThisPass": 12,
+    "freshAcceptThisPass": 12,
     "freshReworkThisPass": 0,
     "freshBlockedThisPass": 0,
-    "usableBy08Now": ["shoes-1", "shoes-2", "shoes-3", "shoes-4", "shoes-5", "shoes-6", "seating-7", "seating-8", "seating-9", "seating-10"],
-    "nextReviewPriority": "Any newer exact hashes for these items supersede these decisions. Next prioritize fresh Seating 1-6/11-12 and Shoes 7-12, then Backgear/Handgear replacements."
+    "usableBy08Now": [
+      "shoes-1",
+      "shoes-2",
+      "shoes-3",
+      "shoes-4",
+      "shoes-5",
+      "shoes-6",
+      "seating-7",
+      "seating-8",
+      "seating-9",
+      "seating-10",
+      "seating-2",
+      "seating-3"
+    ],
+    "nextReviewPriority": "Any newer exact hashes supersede these decisions. Next prioritize fresh Seating 4-6/11-12 and Shoes 7-12, then Backgear/Handgear replacements."
   },
   "reviews": [
     {
@@ -66,9 +101,20 @@
       "producer": "04",
       "decision": "ACCEPT",
       "reviewedAt": "2026-09-21T23:39:00Z",
-      "evidenceRefs": ["docs/preproduction/catalog-sprint/chat-shoes-recovery-1-4-result.json", "adobe-asset:urn:aaid:sc:US:4f905a5b-73a9-4338-881f-ed50f5b1d16a"],
+      "evidenceRefs": [
+        "docs/preproduction/catalog-sprint/chat-shoes-recovery-1-4-result.json",
+        "adobe-asset:urn:aaid:sc:US:4f905a5b-73a9-4338-881f-ed50f5b1d16a"
+      ],
       "reason": "Paired three-quarter sneakers remain clear at card scale; layered chunky soles, laces, stitching, iridescent panels and raised aqua wave accents create convincing material depth while keeping Tier 1 simple and readable.",
-      "checks": {"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"PASS","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
+      "checks": {
+        "identity": "PASS",
+        "themeTier": "PASS",
+        "silhouette": "PASS",
+        "materialLighting": "PASS",
+        "cardReadability": "PASS",
+        "originality": "PASS",
+        "duplicateVisual": "PASS"
+      }
     },
     {
       "itemId": "shoes-2",
@@ -82,9 +128,20 @@
       "producer": "04",
       "decision": "ACCEPT",
       "reviewedAt": "2026-09-21T23:39:00Z",
-      "evidenceRefs": ["docs/preproduction/catalog-sprint/chat-shoes-recovery-1-4-result.json", "adobe-asset:urn:aaid:sc:US:0c4d62d9-c5d2-4e8e-9aea-fcb08b5acfbb"],
+      "evidenceRefs": [
+        "docs/preproduction/catalog-sprint/chat-shoes-recovery-1-4-result.json",
+        "adobe-asset:urn:aaid:sc:US:0c4d62d9-c5d2-4e8e-9aea-fcb08b5acfbb"
+      ],
       "reason": "Canvas slip-on identity is immediate; stitched uppers and sole depth are tangible, while raised multicolor buttons and drawn paint marks communicate Art Attack without becoming a flat badge. The pair stays distinct and legible at card size.",
-      "checks": {"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"PASS","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
+      "checks": {
+        "identity": "PASS",
+        "themeTier": "PASS",
+        "silhouette": "PASS",
+        "materialLighting": "PASS",
+        "cardReadability": "PASS",
+        "originality": "PASS",
+        "duplicateVisual": "PASS"
+      }
     },
     {
       "itemId": "shoes-3",
@@ -98,9 +155,20 @@
       "producer": "04",
       "decision": "ACCEPT",
       "reviewedAt": "2026-09-21T23:39:00Z",
-      "evidenceRefs": ["docs/preproduction/catalog-sprint/chat-shoes-recovery-1-4-result.json", "adobe-asset:urn:aaid:sc:US:68ea78e2-c7d7-4196-82bb-d3feb682d707"],
+      "evidenceRefs": [
+        "docs/preproduction/catalog-sprint/chat-shoes-recovery-1-4-result.json",
+        "adobe-asset:urn:aaid:sc:US:68ea78e2-c7d7-4196-82bb-d3feb682d707"
+      ],
       "reason": "Tall padded high-top silhouette, laces, panel seams and layered soles read physically at both scales. Purple leather-like panels, metallic toe treatment and restrained gold star hardware communicate Star Luxe without excessive tier spectacle.",
-      "checks": {"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"PASS","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
+      "checks": {
+        "identity": "PASS",
+        "themeTier": "PASS",
+        "silhouette": "PASS",
+        "materialLighting": "PASS",
+        "cardReadability": "PASS",
+        "originality": "PASS",
+        "duplicateVisual": "PASS"
+      }
     },
     {
       "itemId": "shoes-4",
@@ -114,9 +182,20 @@
       "producer": "04",
       "decision": "ACCEPT",
       "reviewedAt": "2026-09-21T23:39:00Z",
-      "evidenceRefs": ["docs/preproduction/catalog-sprint/chat-shoes-recovery-1-4-result.json", "adobe-asset:urn:aaid:sc:US:01f92b75-fb85-403d-9822-d51a83e5d83a"],
+      "evidenceRefs": [
+        "docs/preproduction/catalog-sprint/chat-shoes-recovery-1-4-result.json",
+        "adobe-asset:urn:aaid:sc:US:01f92b75-fb85-403d-9822-d51a83e5d83a"
+      ],
       "reason": "Large satin bows remain readable over structured dark uppers, while cyan/magenta inset sole lighting and floor spill give real Midnight Neon depth. The shoe pair is physically coherent, distinct from the other replacements and card-readable.",
-      "checks": {"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"PASS","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
+      "checks": {
+        "identity": "PASS",
+        "themeTier": "PASS",
+        "silhouette": "PASS",
+        "materialLighting": "PASS",
+        "cardReadability": "PASS",
+        "originality": "PASS",
+        "duplicateVisual": "PASS"
+      }
     },
     {
       "itemId": "shoes-5",
@@ -130,9 +209,20 @@
       "producer": "04",
       "decision": "ACCEPT",
       "reviewedAt": "2026-09-21T23:39:00Z",
-      "evidenceRefs": ["docs/preproduction/catalog-sprint/chat-shoes-recovery-5-6-result.json", "adobe-asset:urn:aaid:sc:US:79816d31-2e7b-45e5-8b43-5691fded8309"],
+      "evidenceRefs": [
+        "docs/preproduction/catalog-sprint/chat-shoes-recovery-5-6-result.json",
+        "adobe-asset:urn:aaid:sc:US:79816d31-2e7b-45e5-8b43-5691fded8309"
+      ],
       "reason": "Chunky ankle-boot construction, deep tread, padded collars, laces/eyelets and layered panels are convincing. Pastel synthetic-leather surfaces and translucent candy-like hardware make Candy Core specific while preserving clean card-scale recognition.",
-      "checks": {"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"PASS","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
+      "checks": {
+        "identity": "PASS",
+        "themeTier": "PASS",
+        "silhouette": "PASS",
+        "materialLighting": "PASS",
+        "cardReadability": "PASS",
+        "originality": "PASS",
+        "duplicateVisual": "PASS"
+      }
     },
     {
       "itemId": "shoes-6",
@@ -146,9 +236,20 @@
       "producer": "04",
       "decision": "ACCEPT",
       "reviewedAt": "2026-09-21T23:39:00Z",
-      "evidenceRefs": ["docs/preproduction/catalog-sprint/chat-shoes-recovery-5-6-result.json", "adobe-asset:urn:aaid:sc:US:1f5493d8-3baa-4a8f-a0fa-3691d2660566"],
+      "evidenceRefs": [
+        "docs/preproduction/catalog-sprint/chat-shoes-recovery-5-6-result.json",
+        "adobe-asset:urn:aaid:sc:US:1f5493d8-3baa-4a8f-a0fa-3691d2660566"
+      ],
       "reason": "Rugged runner identity is immediate: breathable mesh, reinforced overlays, real lacing and deep cushioned tread provide material depth. Muted trail colors and subtle compass/map geometry communicate Adventure Club without relying on a flat emblem.",
-      "checks": {"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"PASS","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
+      "checks": {
+        "identity": "PASS",
+        "themeTier": "PASS",
+        "silhouette": "PASS",
+        "materialLighting": "PASS",
+        "cardReadability": "PASS",
+        "originality": "PASS",
+        "duplicateVisual": "PASS"
+      }
     },
     {
       "itemId": "seating-7",
@@ -162,9 +263,20 @@
       "producer": "06",
       "decision": "ACCEPT",
       "reviewedAt": "2026-09-21T23:39:00Z",
-      "evidenceRefs": ["artifact:10669643556/artifacts/lane06-seating-7-10/seating-7-10-card-contact-sheet.png", "artifact:10669643556/detail#sha256=e8ebfa1aa420ee7f50ba67816f2b1adcaed1a7f727ee813888a5b357b362c5ae"],
+      "evidenceRefs": [
+        "artifact:10669643556/artifacts/lane06-seating-7-10/seating-7-10-card-contact-sheet.png",
+        "artifact:10669643556/detail#sha256=e8ebfa1aa420ee7f50ba67816f2b1adcaed1a7f727ee813888a5b357b362c5ae"
+      ],
       "reason": "Rounded lounge-chair silhouette is unmistakable at card scale; segmented cushioning, upholstery seams, wood legs and contact shadow provide convincing soft-body/material depth. The ivory-lilac Cloud Pop treatment remains distinct and appropriately richer for Tier 3.",
-      "checks": {"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"PASS","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
+      "checks": {
+        "identity": "PASS",
+        "themeTier": "PASS",
+        "silhouette": "PASS",
+        "materialLighting": "PASS",
+        "cardReadability": "PASS",
+        "originality": "PASS",
+        "duplicateVisual": "PASS"
+      }
     },
     {
       "itemId": "seating-8",
@@ -178,9 +290,20 @@
       "producer": "06",
       "decision": "ACCEPT",
       "reviewedAt": "2026-09-21T23:39:00Z",
-      "evidenceRefs": ["artifact:10669643556/artifacts/lane06-seating-7-10/seating-7-10-card-contact-sheet.png", "artifact:10669643556/detail#sha256=84efc31030e7785eeb9da81e60cc986c40b7eb07ea81a64f245005650073848a"],
+      "evidenceRefs": [
+        "artifact:10669643556/artifacts/lane06-seating-7-10/seating-7-10-card-contact-sheet.png",
+        "artifact:10669643556/detail#sha256=84efc31030e7785eeb9da81e60cc986c40b7eb07ea81a64f245005650073848a"
+      ],
       "reason": "Transparent spherical shell, dimensional blue cushions and a pixel-lit physical base make the Bubble Seat category obvious and Pixel Party specific. Refraction, occlusion and grounded lighting survive card reduction and differ clearly from the other chairs.",
-      "checks": {"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"PASS","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
+      "checks": {
+        "identity": "PASS",
+        "themeTier": "PASS",
+        "silhouette": "PASS",
+        "materialLighting": "PASS",
+        "cardReadability": "PASS",
+        "originality": "PASS",
+        "duplicateVisual": "PASS"
+      }
     },
     {
       "itemId": "seating-9",
@@ -194,9 +317,20 @@
       "producer": "06",
       "decision": "ACCEPT",
       "reviewedAt": "2026-09-21T23:39:00Z",
-      "evidenceRefs": ["artifact:10669643556/artifacts/lane06-seating-7-10/seating-7-10-card-contact-sheet.png", "artifact:10669643556/detail#sha256=34a6974c3b798236c9a429b0748178f7f4fa4b49aecdef361ac6c77f890a90ee"],
+      "evidenceRefs": [
+        "artifact:10669643556/artifacts/lane06-seating-7-10/seating-7-10-card-contact-sheet.png",
+        "artifact:10669643556/detail#sha256=34a6974c3b798236c9a429b0748178f7f4fa4b49aecdef361ac6c77f890a90ee"
+      ],
       "reason": "Adjustable stool construction reads immediately through the round upholstered seat, spring/hardware and tripod supports. Berry-red fabric and berry embossing deliver Berry Blast without losing the functional stool silhouette; materials and lighting are dimensional at both scales.",
-      "checks": {"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"PASS","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
+      "checks": {
+        "identity": "PASS",
+        "themeTier": "PASS",
+        "silhouette": "PASS",
+        "materialLighting": "PASS",
+        "cardReadability": "PASS",
+        "originality": "PASS",
+        "duplicateVisual": "PASS"
+      }
     },
     {
       "itemId": "seating-10",
@@ -210,17 +344,85 @@
       "producer": "06",
       "decision": "ACCEPT",
       "reviewedAt": "2026-09-21T23:39:00Z",
-      "evidenceRefs": ["artifact:10669643556/artifacts/lane06-seating-7-10/seating-7-10-card-contact-sheet.png", "artifact:10669643556/detail#sha256=ce5397be1d08cb78d2a67692dd963fae995e4cd69f045ccf2a561363ccfbd044"],
+      "evidenceRefs": [
+        "artifact:10669643556/artifacts/lane06-seating-7-10/seating-7-10-card-contact-sheet.png",
+        "artifact:10669643556/detail#sha256=ce5397be1d08cb78d2a67692dd963fae995e4cd69f045ccf2a561363ccfbd044"
+      ],
       "reason": "Deep egg/pod shell, wood interior, layered sage cushions and built-in light establish a convincing Tier-4 chair. Floral/vine details communicate Garden Glow through structure and materials rather than background color; silhouette is unique and card-readable.",
-      "checks": {"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"PASS","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
+      "checks": {
+        "identity": "PASS",
+        "themeTier": "PASS",
+        "silhouette": "PASS",
+        "materialLighting": "PASS",
+        "cardReadability": "PASS",
+        "originality": "PASS",
+        "duplicateVisual": "PASS"
+      }
+    },
+    {
+      "itemId": "seating-2",
+      "name": "Cloud Pouf",
+      "tier": 1,
+      "theme": "Art Attack",
+      "assetPath": "/assets/catalog/seating-2-w01-recovered-v2.jpg",
+      "assetHash": "c3d4705b7182b1be735b1a762b2ae79d58928aa5",
+      "hashAlgorithm": "git-blob-sha1",
+      "sourceHead": "453ead1a6b07089862d2bbe402a0a17005f29c26",
+      "producer": "01",
+      "decision": "ACCEPT",
+      "reviewedAt": "2026-09-22T00:25:16Z",
+      "evidenceRefs": [
+        "docs/preproduction/catalog-sprint/chat-seating-recovery-2-3-result.json",
+        "artifact:10671012131/artifacts/catalog-staged-art/staged-replacements/staged-replacements-contact-sheet.png#sha256=005780f5ae664771d8c3556356b00680d7cef09af0f883239d8a4433853bee07",
+        "artifact:10671012131/artifacts/catalog-staged-art/staged-replacements/detail/seating-2-c3d4705b.png#sha256=1ed3edf7b6e9ca0888d9efad7ca019a1c0853160773b66252cc0a8bfe80833c3"
+      ],
+      "reason": "Cloud Pouf is unmistakable at card scale: the low clustered cloud silhouette survives reduction while the detail render shows deep stuffed lobes, seam/piping construction, soft fabric response and grounded cast shadow. Pastel brush strokes and doodle-like marks establish Art Attack without readable text or branding; the treatment stays appropriately simple for Tier 1 and is visually distinct from the other seating replacements.",
+      "checks": {
+        "identity": "PASS",
+        "themeTier": "PASS",
+        "silhouette": "PASS",
+        "materialLighting": "PASS",
+        "cardReadability": "PASS",
+        "originality": "PASS",
+        "duplicateVisual": "PASS"
+      }
+    },
+    {
+      "itemId": "seating-3",
+      "name": "Pixel Beanbag",
+      "tier": 1,
+      "theme": "Star Luxe",
+      "assetPath": "/assets/catalog/seating-3-w01-recovered-v2.jpg",
+      "assetHash": "5d69a2f6adf1e4cf9b4ec413dbeedba84c41813b",
+      "hashAlgorithm": "git-blob-sha1",
+      "sourceHead": "453ead1a6b07089862d2bbe402a0a17005f29c26",
+      "producer": "01",
+      "decision": "ACCEPT",
+      "reviewedAt": "2026-09-22T00:25:16Z",
+      "evidenceRefs": [
+        "docs/preproduction/catalog-sprint/chat-seating-recovery-2-3-result.json",
+        "artifact:10671012131/artifacts/catalog-staged-art/staged-replacements/staged-replacements-contact-sheet.png#sha256=005780f5ae664771d8c3556356b00680d7cef09af0f883239d8a4433853bee07",
+        "artifact:10671012131/artifacts/catalog-staged-art/staged-replacements/detail/seating-3-5d69a2f6.png#sha256=b6345b9fddc9810ca814e271a61dd4eda3ac869819997f09c129cb03ef54c2d8"
+      ],
+      "reason": "Pixel Beanbag keeps an immediate deep-beanbag silhouette in the card contact sheet, and the detail render shows a real seating cavity, stuffed deformation, panel seams and controlled warm/cool volume lighting. Gold star stitching plus restrained magenta pixel blocks communicate Star Luxe without becoming a flat emblem; Tier 1 spectacle is controlled and the shape/palette do not near-duplicate Cloud Pouf or the accepted Seating 7–10 set.",
+      "checks": {
+        "identity": "PASS",
+        "themeTier": "PASS",
+        "silhouette": "PASS",
+        "materialLighting": "PASS",
+        "cardReadability": "PASS",
+        "originality": "PASS",
+        "duplicateVisual": "PASS"
+      }
     }
   ],
   "handoff": {
-    "08": "These ten exact replacement hashes have one qualified independent reviewer-02 ACCEPT and may be integrated immediately after normal metadata/file/content checks. Legacy REWORK decisions remain bound only to their old hashes.",
-    "15": "Fresh Shoes 1-6 and Seating 7-10 have cleared independent visual review. Route remaining fresh replacement production without assigning review of Workstream-02-authored Beds back to reviewer 02.",
+    "15": "Fresh Shoes 1–6 and Seating 2–3/7–10 have cleared independent visual review. Route remaining fresh Seating 4–6/11–12 and Shoes 7–12 without assigning review of Workstream-02-authored Beds back to reviewer 02.",
+    "08": "These twelve exact replacement hashes now have one qualified independent reviewer-02 ACCEPT and may be integrated immediately after normal metadata/file/content checks. Legacy REWORK decisions remain bound only to their old hashes.",
     "04": "Preserve Shoes 1-6 exact accepted hashes; do not regenerate or overwrite them unless a later concrete defect is found.",
     "06": "Preserve Seating 7-10 exact accepted hashes. The four-item recipe passed independent review, so Seating 11-12 may proceed under the current assignment.",
-    "05": "Reviewer 05 remains responsible for any Workstream-02 Bed replacement exact hashes after they are repository-staged."
+    "05": "Reviewer 05 remains responsible for any Workstream-02 Bed replacement exact hashes after they are repository-staged.",
+    "01": "Preserve Seating 2–3 exact accepted hashes c3d4705b7182b1be735b1a762b2ae79d58928aa5 and 5d69a2f6adf1e4cf9b4ec413dbeedba84c41813b; do not regenerate them unless a later concrete defect is found. Continue only the still-unaccepted seating IDs under current sprint ownership."
   },
   "freeze": {
     "replitTouched": false,
