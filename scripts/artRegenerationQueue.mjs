@@ -4,6 +4,7 @@ import path from 'node:path';
 import {pathToFileURL} from 'node:url';
 import {buildReviewCorpus} from './artReviewNormalizer.mjs';
 import {recommend,train} from './artPromptOptimizer.mjs';
+import {buildFallbackBacklog} from './catalogFallbackBacklog.mjs';
 
 const PENDING_RX = /READY_FOR_REVIEW|READY_FOR_FRESH_REVIEW|STAGED|PENDING_(?:REVIEW|\d+)|AWAITING_(?:REVIEW|RENDER)|EXACT_BYTES_VERIFIED|RENDER_EVIDENCE_READY|GENERATED|REVIEW_REQUEST/i;
 const HASH_KEYS = ['assetHash','gitBlobSha','candidateBlobSha','blobSha','hash'];
@@ -52,9 +53,10 @@ function priorityScore(row,corpus){
   const duplicate=row.failureCodes.includes('NEAR_DUPLICATE_TEMPLATE')?8:0;
   const theme=row.failureCodes.includes('THEME_MISMATCH')?6:0;
   const depth=row.failureCodes.includes('WEAK_DEPTH')||row.failureCodes.includes('FLAT_COMPOSITION')?5:0;
-  return failures*100+tier*10+duplicate+theme+depth;
+  const releaseBlocker=row.sourceState==='UNFILLED_RELEASE_BLOCKER'?10000:0;
+  return releaseBlocker+failures*100+tier*10+duplicate+theme+depth;
 }
-export function buildRegenerationQueue({corpus,laneDocuments=[]}){
+export function buildRegenerationQueue({corpus,laneDocuments=[],fallbackBacklog=null}){
   const actionable=[],blocked=[],pending=[],preserve=[];
   for(const row of corpus.current){
     if(!row.independent){ preserve.push({itemId:row.itemId,reason:'CURRENT_REVIEW_NOT_INDEPENDENT'}); continue; }
@@ -80,6 +82,34 @@ export function buildRegenerationQueue({corpus,laneDocuments=[]}){
       priority:priorityScore(row,corpus)
     });
   }
+
+  const currentIds=new Set(corpus.current.map(row=>row.itemId));
+  for(const row of fallbackBacklog?.productionQueue||[]){
+    if(row.state!=='UNFILLED_NEEDS_PRODUCTION' || currentIds.has(row.itemId)) continue;
+    const newer=pendingForItem(row.itemId,null,laneDocuments);
+    if(newer.length){
+      pending.push({itemId:row.itemId,reviewedHash:null,pendingCandidates:newer,reason:'UNFILLED_ITEM_HAS_NEWER_CANDIDATE_PENDING_RENDER_OR_REVIEW'});
+      continue;
+    }
+    const route=row.route||{};
+    const queued={
+      itemId:row.itemId,
+      collectionId:row.collectionId,
+      name:row.name,
+      tier:row.tier,
+      theme:row.theme,
+      reviewedHash:null,
+      reviewer:String(route.reviewer||''),
+      producer:String(route.producer||PRODUCER_BY_COLLECTION[row.collectionId]||''),
+      failureCodes:[],
+      humanReason:'Missing canonical art; first independent verdict occurs only after exact staged pixels exist.',
+      independentReworkCount:0,
+      sourceState:'UNFILLED_RELEASE_BLOCKER',
+      releaseBlocking:true
+    };
+    queued.priority=priorityScore(queued,corpus);
+    actionable.push(queued);
+  }
   actionable.sort((a,b)=>b.priority-a.priority || String(a.producer).localeCompare(String(b.producer)) || a.itemId.localeCompare(b.itemId));
   const oneBatchPerProducer=new Map(), selected=[];
   for(const row of actionable){
@@ -97,7 +127,9 @@ export function buildRegenerationQueue({corpus,laneDocuments=[]}){
       newerPendingCandidatesExcluded:true,
       independentReviewRequired:true,
       maxItemsPerProducerBatch:4,
-      automaticGeneration:false
+      automaticGeneration:false,
+      unfilledFallbacksAllowed:true,
+      unfilledFallbacksDoNotFabricateReview:true
     },
     counts:{actionable:actionable.length,selected: selected.length,pending:pending.length,blocked:blocked.length,preserve:preserve.length},
     selected,
@@ -116,7 +148,7 @@ export function attachPromptRecommendations(queue,{items=[],reviewDocs=[]}={}){
     selected:queue.selected.map(row=>{
       const item=byId.get(row.itemId);
       if(!item) return {...row,promptRecommendation:{action:'HOLD_NOT_REGEN',reason:'ITEM_METADATA_MISSING'}};
-      const review={
+      const review=row.sourceState==='UNFILLED_RELEASE_BLOCKER'?null:{
         itemId:row.itemId,
         assetHash:row.reviewedHash,
         producer:row.producer,
@@ -139,7 +171,9 @@ async function main(){
   const reviews=reviewDocs(root);
   const corpus=buildReviewCorpus({docs:reviews,items});
   if(corpus.conflicts.length) throw Error('review conflicts prevent queue generation');
-  const queue=attachPromptRecommendations(buildRegenerationQueue({corpus,laneDocuments:laneDocs(root)}),{items,reviewDocs:reviews});
+  const manifest=JSON.parse(fs.readFileSync(path.join(root,'catalog-art-manifest.json'),'utf8'));
+  const fallbackBacklog=buildFallbackBacklog({items,manifest,reviewCorpus:corpus});
+  const queue=attachPromptRecommendations(buildRegenerationQueue({corpus,laneDocuments:laneDocs(root),fallbackBacklog}),{items,reviewDocs:reviews});
   const text=JSON.stringify(queue,null,2)+'\n';
   if(a.output){const dest=path.resolve(a.output);fs.mkdirSync(path.dirname(dest),{recursive:true});fs.writeFileSync(dest,text)}else process.stdout.write(text);
 }
