@@ -1,22 +1,33 @@
 {
-  "schemaVersion": 10,
+  "schemaVersion": 11,
   "orchestrationVersion": 2,
   "lane": "07",
   "workstream": "07",
   "phase": "ART_VISUALS_SPRINT",
   "branch": "screenshot-match-preproduction",
-  "sourceHeadCheckedBeforeWrite": "04eb1f4c4a6f9efcd0e6bea9d33e7580740dcfd4",
+  "sourceHeadCheckedBeforeWrite": "3c7a39b8c0d09917fcb65421ccee7db1638de9a1",
   "deliveryProtocol": "docs/preproduction/DELIVERY_PROTOCOL_V2.md",
   "allocation": "docs/preproduction/ART_VISUALS_SPRINT.json",
-  "status": "READY_FOR_REVIEW_14_RUGS_12_V3_EXACT_TREE_RECONCILED",
+  "status": "CATALOG_PRODUCTION_CLOSED_CURRENT_REVIEW_LEVEL_HOME_TIER_PREVIEWS_STAGED",
   "owners": {
     "phaseAndSharedCoordination": "15",
     "manifestRuntimeIntegration": "08",
     "rugIndependentReview": "14"
   },
   "selfApproved": false,
+  "catalogProduction": {
+    "assignment": "NONE_PENDING_NEW_EXACT_HASH_DEFECT_OR_WS15_REASSIGNMENT",
+    "tops1To6Frozen": true,
+    "rugs1To12Frozen": true,
+    "rule": "Do not regenerate, alter, rereview or re-reconcile accepted exact hashes without a later exact-hash defect. Do not claim another catalog family without Workstream 15 reassignment."
+  },
   "preservedAccepted": {
-    "rule": "Do not regenerate or replace accepted exact hashes without a new exact-hash reviewer defect.",
+    "tops-1": "5fd9544999694ec27c9b6247aaffeca1c0c7b484",
+    "tops-2": "428450782feb314535163b54d0405f9af8b7cd65",
+    "tops-3": "b4a834586feae169e102f43aeceaaaf11893ec11",
+    "tops-4": "26d03c5ba26c565e79e809f825db87c9be1dba21",
+    "tops-5": "78c5c89270be2f505f77d033f340c72cf0ff80a8",
+    "tops-6": "44d88aa84246f9d8a76b3f22c408653eb28176aa",
     "rugs-1": "5e00d1456fa21af74de75e583c69de48c9f2ecd2",
     "rugs-2": "578caf5cc81998d6c7563082892e468fc9186eec",
     "rugs-3": "0c3b62a84182cd8e7fc3b8dc57f9b1015e54e920",
@@ -27,83 +38,100 @@
     "rugs-8": "efe9bb6e887375a7e6ed74b15222391a1e2434bf",
     "rugs-9": "9eef1db116e871d31c62de680d261cfbeccf49b3",
     "rugs-10": "e9ff2aabc5bfa90c7411d0b8a5c48f297d2d270d",
-    "rugs-11": "2c93f18fb5960f7056819c341a3da8f7fff3fb9d"
+    "rugs-11": "2c93f18fb5960f7056819c341a3da8f7fff3fb9d",
+    "rugs-12": "eea2fc5b78c1186342f91f597bc792160ab8f8fe"
   },
   "rugs11Review": {
-    "id": "rugs-11",
     "path": "/assets/catalog/rugs-11-w07-v3.png",
     "gitBlobSha": "2c93f18fb5960f7056819c341a3da8f7fff3fb9d",
     "reviewer": "14",
     "decision": "ACCEPT",
-    "evidence": "docs/preproduction/catalog-sprint/chat-rugs-11-12-v3-review-14-to-08.json",
+    "producerAction": "PRESERVE_UNCHANGED"
+  },
+  "rugs12Review": {
+    "path": "/assets/catalog/rugs-12-w07-v3.png",
+    "gitBlobSha": "eea2fc5b78c1186342f91f597bc792160ab8f8fe",
+    "sha256": "21a2f71224d9a7d4e0e60a672867cc629f21a481c3310fee6b1cac1c1be071b3",
+    "format": "PNG",
+    "dimensions": [1024, 1024],
+    "bytes": 1039033,
+    "reviewer": "14",
+    "decision": "ACCEPT",
+    "evidence": "docs/preproduction/catalog-sprint/chat-rugs-12-v3-reconciled-review-14-to-08.json",
+    "supersededErroneousDeclaredGitBlobSha": "85007bbb5e31a5545cf006f9cf43f25167ffb37f",
     "handoff": "QUALIFIED_ACCEPT_FOR_08_CANONICAL_WIRING_ONLY",
     "producerAction": "PRESERVE_UNCHANGED"
   },
-  "triggeringReworkHistory": [
-    {
-      "id": "rugs-11",
-      "name": "Dream Cloud Rug",
-      "tier": 4,
-      "theme": "Galaxy Glow",
-      "rejectedPath": "/assets/catalog/rugs-11-chat-v2.png",
-      "rejectedGitBlobSha": "cfff5c4d235295c0f3e0efc0ef34bfcbf629c916",
-      "reviewer": "14",
-      "decision": "REWORK",
-      "finding": "Heavy plush lobes and upholstered sidewalls read as a floor cushion/ottoman and create near-duplicate risk with accepted Cloud Rug."
+  "homeVisualPilot": {
+    "scope": "Standalone versioned room-tier preview art only; no UI screenshot flattening and no runtime/state wiring.",
+    "reference": {
+      "manifest": "docs/preproduction/reference-screenshots/original-reference-manifest.json",
+      "homeOriginal": "docs/preproduction/reference-screenshots/originals/home-1448x1086.jpeg",
+      "homeOriginalGitBlobSha": "cd4905ff1a8b97d784698ae1b0f8c3521937711e",
+      "homeOriginalSha256": "6a4b110aeaf12a6ab0c629f9181cc6cfa8d4f55a518d4f2a6adb3ac6e756c457"
     },
-    {
-      "id": "rugs-12",
-      "name": "Luxe Star Rug",
-      "tier": 5,
-      "theme": "Sunny Pop",
-      "rejectedPath": "/assets/catalog/rugs-12-chat-v2.png",
-      "rejectedGitBlobSha": "e008d4b097caadd5e246d2d023e61179d543da3e",
-      "reviewer": "14",
-      "decision": "REWORK",
-      "finding": "Heavy quilting, raised star and padded rim read as a playmat/floor cushion rather than a rug."
-    }
-  ],
-  "rugs12Reconciliation": {
-    "id": "rugs-12",
-    "name": "Luxe Star Rug",
-    "tier": 5,
-    "theme": "Sunny Pop",
-    "runtimePath": "/assets/catalog/rugs-12-w07-v3.png",
-    "repositoryPath": "public/assets/catalog/rugs-12-w07-v3.png",
-    "format": "PNG",
-    "dimensions": [
-      1024,
-      1024
+    "existingPreserved": [
+      {
+        "tier": 1,
+        "name": "Tiny Starter Studio",
+        "path": "/assets/home/room-tier-1-w07-v2.svg",
+        "gitBlobSha": "2d3060ac1e260a53fd1ced809e7cf3bc760c5490"
+      },
+      {
+        "tier": 2,
+        "name": "Cozy Loft",
+        "path": "/assets/home/room-tier-2-w07-v2.svg",
+        "gitBlobSha": "21410fe2456a1605e044939118d9f2edf100b441"
+      },
+      {
+        "tier": 3,
+        "name": "Creator Bedroom",
+        "path": "/assets/home/room-tier-3-w07-v2.svg",
+        "gitBlobSha": "87cded45608fed8525c95cf48f60e51fb5c1811e"
+      },
+      {
+        "name": "Dream Goal",
+        "path": "/assets/home/dream-goal-w07-v2.svg",
+        "gitBlobSha": "e894c6bca103fd506ad61173a39c2df05de3277b"
+      }
     ],
-    "bytes": 1039033,
-    "sha256": "21a2f71224d9a7d4e0e60a672867cc629f21a481c3310fee6b1cac1c1be071b3",
-    "authoritativeGitBlobSha": "eea2fc5b78c1186342f91f597bc792160ab8f8fe",
-    "supersededErroneousDeclaredGitBlobSha": "85007bbb5e31a5545cf006f9cf43f25167ffb37f",
-    "sourceRendition": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:b0c14964-700b-4814-aa57-a2e9823147b3",
-    "stagingCommit": "92af6c535460423ac78b0a6715d3928caa49a2a2",
-    "recoveryWorkflowRunId": 35679955267,
-    "recoveryWorkflowJobId": 106594548155,
-    "reconciliationFinding": "The asset bytes were not replaced after staging. Commit 92af6c535460423ac78b0a6715d3928caa49a2a2 created this exact path with Git blob eea2fc5b78c1186342f91f597bc792160ab8f8fe. Recovery job 106594548155 measured these same source bytes as PNG 1024x1024, 1039033 bytes, SHA-256 21a2f71224d9a7d4e0e60a672867cc629f21a481c3310fee6b1cac1c1be071b3. The prior lane declaration 85007bbb... was metadata error, not evidence of a later asset mutation.",
-    "currentPathLatestTouchCommit": "92af6c535460423ac78b0a6715d3928caa49a2a2",
-    "duplicateGenerationAvoided": true,
-    "binaryReuploadPerformed": false,
-    "status": "READY_FOR_REVIEW_14_EXACT_CURRENT_HASH"
+    "stagedThisRun": [
+      {
+        "tier": 4,
+        "name": "Skyline Penthouse",
+        "repositoryPath": "public/assets/home/room-tier-4-w07-v2.svg",
+        "runtimeCandidatePath": "/assets/home/room-tier-4-w07-v2.svg",
+        "gitBlobSha": "9963a3abdc2426608b717e9d7eff0dd87b43cae8",
+        "format": "SVG",
+        "dimensions": [640, 360],
+        "bytes": 6761,
+        "provenance": "Original Workstream 07 StarBlox vector scene study, reference-directed from the authoritative Home screenshot manifest and the established room-tier v2 visual language.",
+        "producerChecks": ["REPOSITORY_READBACK_PASS", "VIEWBOX_640x360_PASS", "SELF_CONTAINED_VECTOR_PASS"],
+        "status": "PRODUCER_STAGED_NOT_INTEGRATED"
+      },
+      {
+        "tier": 5,
+        "name": "Star Mansion",
+        "repositoryPath": "public/assets/home/room-tier-5-w07-v2.svg",
+        "runtimeCandidatePath": "/assets/home/room-tier-5-w07-v2.svg",
+        "gitBlobSha": "c5eb44f34604737e085adfb7ad8c5d5e99087bb5",
+        "format": "SVG",
+        "dimensions": [640, 360],
+        "bytes": 8267,
+        "provenance": "Original Workstream 07 StarBlox vector scene study, reference-directed from the authoritative Home screenshot manifest and the established room-tier v2 visual language.",
+        "producerChecks": ["REPOSITORY_READBACK_PASS", "VIEWBOX_640x360_PASS", "SELF_CONTAINED_VECTOR_PASS"],
+        "status": "PRODUCER_STAGED_NOT_INTEGRATED"
+      }
+    ],
+    "visualIntent": {
+      "tier4": "Premium but restrained penthouse: broad skyline glazing, tailored layered bedding, walnut-and-metal creator desk, sculpted lounge seating, woven floor rug, warm architectural lighting.",
+      "tier5": "Spectacular mansion suite: monumental night-sky glazing, architectural gold trim, layered canopy bed, luminous creator console, velvet lounge, starburst chandelier, mixed-material floor and richly woven star rug.",
+      "stateClaims": "NONE; artwork contains no counters, mastery claims, streaks, prices, ownership claims or fabricated reward state."
+    },
+    "rasterPixelReview": "NOT_CLAIMED_BY_PRODUCER",
+    "integrationOwner": "15_SHARED_VISUAL_INTEGRATION"
   },
-  "producerChecks": {
-    "currentTreeBlobReadback": "PASS_eea2fc5b78c1186342f91f597bc792160ab8f8fe",
-    "stagingCommitBlobReadback": "PASS_eea2fc5b78c1186342f91f597bc792160ab8f8fe",
-    "pngSignature": "PASS",
-    "dimensions": "PASS_1024x1024",
-    "bytes": "PASS_1039033",
-    "sha256": "PASS_21a2f71224d9a7d4e0e60a672867cc629f21a481c3310fee6b1cac1c1be071b3",
-    "latestPathTouch": "PASS_92af6c535460423ac78b0a6715d3928caa49a2a2",
-    "independentCardDetailReview": "PENDING_REVIEWER_14_FOR_EXACT_BLOB_eea2fc5b78c1186342f91f597bc792160ab8f8fe",
-    "testsBuild": "NOT_RERUN_DOCS_ONLY_RECONCILIATION_BINARY_UNCHANGED"
-  },
-  "reviewer14Handoff": [
-    "rugs-12 /assets/catalog/rugs-12-w07-v3.png eea2fc5b78c1186342f91f597bc792160ab8f8fe"
-  ],
-  "nextAction": "Reviewer 14 should render and judge only rugs-12 at exact current blob eea2fc5b78c1186342f91f597bc792160ab8f8fe. Workstream 07 must not regenerate unless reviewer 14 returns REWORK on that exact hash. Rugs 1-11 remain frozen; Workstream 08 alone may canonical-wire independently accepted hashes.",
+  "nextAction": "No catalog producer action unless a later exact-hash defect or Workstream 15 reassignment arrives. Preserve all accepted Tops 1-6 and Rugs 1-12. Workstream 15 may coordinate independent visual finishing and any eventual wiring of the standalone Home tier preview assets; Workstream 07 should continue only non-conflicting versioned progression/Home art studies in its own paths.",
   "freeze": {
     "replitTouched": false,
     "flootTouched": false,
@@ -111,6 +139,7 @@
     "deployed": false,
     "paidSettingsTouched": false,
     "manifestRuntimeTouchedBy07": false,
+    "sharedRuntimeCssTouchedBy07": false,
     "playerDataTouched": false
   }
 }
