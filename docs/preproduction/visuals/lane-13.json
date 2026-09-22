@@ -216,6 +216,58 @@
       "workstream06AvatarTouched": false,
       "workstream09ActiveEnvironmentTouched": false,
       "independentReview": "PENDING"
+    },
+    {
+      "candidateId": "store-heart-wall-light-w13-v1",
+      "candidateType": "transparent-environment-prop-layer",
+      "targetScreen": "Store",
+      "status": "STAGED_READY_FOR_INDEPENDENT_REVIEW",
+      "observedDefect": "In the verified original Store pixels, the avatar try-on zone is integrated into a polished boutique with a luminous dimensional pink-heart accent, warm gold trim and layered material light. In the inspected current Store render, that right-side zone is comparatively flat and abstract. Existing store-boutique-w13-v1 and store-avatar-stage-w13-v1 candidates remain preserved and pending; this candidate is a separate optional wall-light prop layer to add dimensional material/lighting fidelity without baking UI or replacing those scenes.",
+      "reference": {
+        "path": "docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg",
+        "sha256": "b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d",
+        "actualPixelsInspected": true
+      },
+      "runningRenderEvidence": {
+        "workflowRunId": 35663655650,
+        "artifactId": 10668287632,
+        "renderHead": "b187186e62519ffa77bd0f7b166c601c90bdc416",
+        "file": "store-desktop-1408x1056.png",
+        "actualPixelsInspected": true
+      },
+      "sourcePath": "docs/preproduction/visuals/recovered-originals/store-heart-wall-light-w13-v1-source.png",
+      "sourceDimensions": [
+        2048,
+        2048
+      ],
+      "sourceBytes": 3977304,
+      "sourceSha256": "8749f32183e3d8714ac63428d799664e5993eae9a25dad5f199dc2f0b600b7fa",
+      "fullPath": "public/assets/visuals/lane-13/store-heart-wall-light-w13-v1-full.png",
+      "fullDimensions": [
+        2048,
+        2048
+      ],
+      "fullBytes": 1899612,
+      "fullSha256": "ade49f237afef596a9f78702caa0f4a8321676487cd1abb5f326528c2fe6665f",
+      "optimizedPath": "public/assets/visuals/lane-13/store-heart-wall-light-w13-v1-1024.png",
+      "optimizedDimensions": [
+        1024,
+        1024
+      ],
+      "optimizedBytes": 578623,
+      "optimizedSha256": "6c0329d994523c0c14f7027051ff4d2cb437d4e5410d113c1f3c42a72bc6c7bc",
+      "intakeEvidence": "docs/preproduction/visuals/lane-13-store-heart-light-v1-intake.json",
+      "originReadback": "PASS_3_OF_3_EXACT_SHA256_AND_BYTE_LENGTH",
+      "assetCommit": "e588d83b8ac9340f1f180e5a21b8035d048ce952",
+      "runtimeWired": false,
+      "canonicalCatalogTouched": false,
+      "workstream06AvatarFilesTouched": false,
+      "workstream09EnvironmentFilesTouched": false,
+      "independentArtReview": "PENDING_01",
+      "compositionPerformanceReview": "PENDING_14",
+      "runtimeCoordination": "PENDING_15",
+      "physicalDeviceTested": false,
+      "screenshotParityClaimed": false
     }
   ],
   "characterCandidates": [
@@ -849,6 +901,18 @@
     "status": "STAGED_READY_FOR_INDEPENDENT_REVIEW",
     "intakeEvidence": "docs/preproduction/visuals/lane-13-avatar-keyart-fullbody-v2-intake.json",
     "assetCommit": "c0cae5823382393517bf82c7efbcac6773e5c470",
+    "producerDecision": "STAGED_NOT_APPROVED",
+    "requiredReviews": [
+      "01",
+      "14",
+      "15"
+    ]
+  },
+  "latestStorePropCandidate": {
+    "candidateId": "store-heart-wall-light-w13-v1",
+    "status": "STAGED_READY_FOR_INDEPENDENT_REVIEW",
+    "intakeEvidence": "docs/preproduction/visuals/lane-13-store-heart-light-v1-intake.json",
+    "assetCommit": "e588d83b8ac9340f1f180e5a21b8035d048ce952",
     "producerDecision": "STAGED_NOT_APPROVED",
     "requiredReviews": [
       "01",

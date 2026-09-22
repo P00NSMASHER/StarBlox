@@ -231,3 +231,15 @@ This candidate contains no avatar, buddy, UI, text, buttons, logos or third-part
 - Optimized transparent: `public/assets/visuals/lane-13/avatar-keyart-fullbody-w13-v2-896.png` — 896x1152, SHA-256 `1137959f1c25a0a9b46631139de62ee665076d908fa2c4ece499f0c884aad277`.
 - Exact repository readback: `PASS_3_OF_3_EXACT_SHA256_AND_BYTE_LENGTH`; evidence `docs/preproduction/visuals/lane-13-avatar-keyart-fullbody-v2-intake.json`; asset commit `c0cae5823382393517bf82c7efbcac6773e5c470`.
 - Scope safety: no canonical catalog mapping, gameplay/learning/persistence/economy/save change, no Workstream 06/09 file mutation, clothing is noncanonical visual guidance only, no runtime wiring, no physical-device or screenshot-parity claim.
+
+
+## Store heart wall-light v1
+
+- Candidate: `store-heart-wall-light-w13-v1` — isolated transparent Store scene prop; producer-staged only, not approved or runtime-wired.
+- Visual gap: the verified original Store uses a dimensional luminous pink heart accent in the try-on environment, while the inspected current Store render remains materially flat in that zone. Existing Store background/stage candidates are preserved; this is a separate optional prop layer, not a replacement or flattened screen.
+- Source: `docs/preproduction/visuals/recovered-originals/store-heart-wall-light-w13-v1-source.png` — 2048x2048, SHA-256 `8749f32183e3d8714ac63428d799664e5993eae9a25dad5f199dc2f0b600b7fa`.
+- Full transparent: `public/assets/visuals/lane-13/store-heart-wall-light-w13-v1-full.png` — 2048x2048, SHA-256 `ade49f237afef596a9f78702caa0f4a8321676487cd1abb5f326528c2fe6665f`.
+- Optimized transparent: `public/assets/visuals/lane-13/store-heart-wall-light-w13-v1-1024.png` — 1024x1024, SHA-256 `6c0329d994523c0c14f7027051ff4d2cb437d4e5410d113c1f3c42a72bc6c7bc`.
+- Exact repository readback: `PASS_3_OF_3_EXACT_SHA256_AND_BYTE_LENGTH`; evidence `docs/preproduction/visuals/lane-13-store-heart-light-v1-intake.json`; asset commit `e588d83b8ac9340f1f180e5a21b8035d048ce952`.
+- The first direct resize of the transparent cutout was producer-rejected for visible alpha/stretch artifacts; the staged 1024 derivative was instead made by resizing the opaque source first and then removing its background.
+- Scope safety: no UI/text/buttons, no catalog mapping, gameplay/learning/persistence/economy/save change, no Workstream 06/09 file mutation, no runtime wiring, no physical-device or screenshot-parity claim. Reviewer 01 judges art, 14 composition/performance, and 15 coordinates any future 09 handoff/wiring.

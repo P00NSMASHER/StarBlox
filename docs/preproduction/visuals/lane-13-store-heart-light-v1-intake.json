@@ -1,0 +1,166 @@
+{
+  "schemaVersion": 1,
+  "branch": "screenshot-match-preproduction",
+  "lane": "13",
+  "candidate": "store-heart-wall-light-w13-v1",
+  "candidateType": "transparent-environment-prop-layer",
+  "targetScreen": "Store",
+  "status": "STAGED_READY_FOR_INDEPENDENT_REVIEW",
+  "assetCommit": "e588d83b8ac9340f1f180e5a21b8035d048ce952",
+  "sourceSeed": "docs/preproduction/visuals/lane-13-store-heart-light-v1-seed.json",
+  "reference": {
+    "path": "docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg",
+    "sha256": "b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d",
+    "actualPixelsInspected": true
+  },
+  "runningRenderEvidence": {
+    "workflowRunId": 35663655650,
+    "artifactId": 10668287632,
+    "renderHead": "b187186e62519ffa77bd0f7b166c601c90bdc416",
+    "file": "store-desktop-1408x1056.png",
+    "actualPixelsInspected": true
+  },
+  "observedDefect": "In the verified original Store pixels, the avatar try-on zone is integrated into a polished boutique with a luminous dimensional pink-heart accent, warm gold trim and layered material light. In the inspected current Store render, that right-side zone is comparatively flat and abstract. Existing store-boutique-w13-v1 and store-avatar-stage-w13-v1 candidates remain preserved and pending; this candidate is a separate optional wall-light prop layer to add dimensional material/lighting fidelity without baking UI or replacing those scenes.",
+  "provenance": {
+    "generator": "Adobe Firefly image_generate",
+    "generationRequestId": "692af793-5767-44d2-ac29-d0503885a935",
+    "sourceAdobeShortUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:46b58de3-cfdf-4e68-8362-bfe5915228e9",
+    "sourceActualPixelsInspected": true,
+    "backgroundRemoval": {
+      "tool": "Adobe image_remove_background",
+      "requestId": "045469f4-2279-4453-91d0-c18b97b3d85e",
+      "fullTransparentAdobeShortUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:822e7bd5-d023-42ef-a282-36d262874f54",
+      "actualPixelsInspected": true
+    },
+    "rejectedDerivative": {
+      "reason": "Direct resize of the already-transparent cutout showed visible alpha/stretch artifacts during producer pixel inspection and is not staged.",
+      "resizeRequestId": "46e61c8e-8139-4392-a2f6-21547a6f50ca",
+      "adobeShortUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:77dbf4e5-bd5c-41b5-98d1-7ea063bafd4d",
+      "actualPixelsInspected": true
+    },
+    "optimizedDerivative": {
+      "method": "Resize opaque source to 1024x1024, inspect, then remove background; avoids the rejected direct-transparent resize artifact path.",
+      "resizeRequestId": "8b14e1cd-2aa4-4f3f-9645-36a1128330cc",
+      "resizedOpaqueAdobeShortUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:6fdea355-e91e-4e28-ada4-e98c39620c96",
+      "backgroundRemovalRequestId": "0dc410b6-6d08-4c75-91c7-33df77168068",
+      "optimizedTransparentAdobeShortUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:4e7a90d9-e7f3-4aef-bfef-f87710666eb1",
+      "actualPixelsInspected": true
+    }
+  },
+  "assets": [
+    {
+      "role": "source",
+      "path": "docs/preproduction/visuals/recovered-originals/store-heart-wall-light-w13-v1-source.png",
+      "width": 2048,
+      "height": 2048,
+      "alpha": false,
+      "bytes": 3977304,
+      "sha256": "8749f32183e3d8714ac63428d799664e5993eae9a25dad5f199dc2f0b600b7fa",
+      "metadata": {
+        "format": "png",
+        "width": 2048,
+        "height": 2048,
+        "bitDepth": 8,
+        "colorType": 2,
+        "hasAlpha": false
+      },
+      "meaningfulAlpha": null,
+      "alphaStats": null
+    },
+    {
+      "role": "full",
+      "path": "public/assets/visuals/lane-13/store-heart-wall-light-w13-v1-full.png",
+      "width": 2048,
+      "height": 2048,
+      "alpha": true,
+      "bytes": 1899612,
+      "sha256": "ade49f237afef596a9f78702caa0f4a8321676487cd1abb5f326528c2fe6665f",
+      "metadata": {
+        "format": "png",
+        "width": 2048,
+        "height": 2048,
+        "bitDepth": 8,
+        "colorType": 6,
+        "hasAlpha": true
+      },
+      "meaningfulAlpha": true,
+      "alphaStats": {
+        "min": 0,
+        "max": 255,
+        "clear": 2684556,
+        "semi": 18876,
+        "opaque": 1490872
+      }
+    },
+    {
+      "role": "optimized",
+      "path": "public/assets/visuals/lane-13/store-heart-wall-light-w13-v1-1024.png",
+      "width": 1024,
+      "height": 1024,
+      "alpha": true,
+      "bytes": 578623,
+      "sha256": "6c0329d994523c0c14f7027051ff4d2cb437d4e5410d113c1f3c42a72bc6c7bc",
+      "metadata": {
+        "format": "png",
+        "width": 1024,
+        "height": 1024,
+        "bitDepth": 8,
+        "colorType": 6,
+        "hasAlpha": true
+      },
+      "meaningfulAlpha": true,
+      "alphaStats": {
+        "min": 0,
+        "max": 255,
+        "clear": 670452,
+        "semi": 7549,
+        "opaque": 370575
+      }
+    }
+  ],
+  "repositoryReadback": {
+    "status": "PASS_3_OF_3_EXACT_SHA256_AND_BYTE_LENGTH",
+    "checks": [
+      {
+        "path": "docs/preproduction/visuals/recovered-originals/store-heart-wall-light-w13-v1-source.png",
+        "role": "source",
+        "expectedBytes": 3977304,
+        "readbackBytes": 3977304,
+        "expectedSha256": "8749f32183e3d8714ac63428d799664e5993eae9a25dad5f199dc2f0b600b7fa",
+        "readbackSha256": "8749f32183e3d8714ac63428d799664e5993eae9a25dad5f199dc2f0b600b7fa",
+        "exactBytes": true
+      },
+      {
+        "path": "public/assets/visuals/lane-13/store-heart-wall-light-w13-v1-full.png",
+        "role": "full",
+        "expectedBytes": 1899612,
+        "readbackBytes": 1899612,
+        "expectedSha256": "ade49f237afef596a9f78702caa0f4a8321676487cd1abb5f326528c2fe6665f",
+        "readbackSha256": "ade49f237afef596a9f78702caa0f4a8321676487cd1abb5f326528c2fe6665f",
+        "exactBytes": true
+      },
+      {
+        "path": "public/assets/visuals/lane-13/store-heart-wall-light-w13-v1-1024.png",
+        "role": "optimized",
+        "expectedBytes": 578623,
+        "readbackBytes": 578623,
+        "expectedSha256": "6c0329d994523c0c14f7027051ff4d2cb437d4e5410d113c1f3c42a72bc6c7bc",
+        "readbackSha256": "6c0329d994523c0c14f7027051ff4d2cb437d4e5410d113c1f3c42a72bc6c7bc",
+        "exactBytes": true
+      }
+    ]
+  },
+  "producerDecision": "STAGED_NOT_APPROVED",
+  "requiredIndependentReview": [
+    "01 art/visual judgment",
+    "14 composition/performance judgment",
+    "15 coordination before any runtime wiring or 09 handoff"
+  ],
+  "runtimeWired": false,
+  "physicalDeviceTest": false,
+  "screenshotParityClaim": false,
+  "canonicalCatalogMappingsEdited": false,
+  "workstream06AssetsEdited": false,
+  "workstream09AssetsEdited": false,
+  "generatedAtUtc": "2026-09-22T07:05:18.831181+00:00"
+}
