@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {buildRegenerationQueue} from './artRegenerationQueue.mjs';
+import {attachPromptRecommendations,buildRegenerationQueue} from './artRegenerationQueue.mjs';
 
 const base={observations:[],current:[]};
 test('freezes accepted hashes',()=>{
@@ -23,4 +23,18 @@ test('selects bounded highest-priority work per producer',()=>{
   const rows=Array.from({length:6},(_,i)=>({itemId:'wall-'+(i+5),collectionId:'wall',assetHash:'h'+i,decision:'REWORK',independent:true,failureCodes:['WEAK_DEPTH'],reviewer:'14',producer:'05',tier:i%5+1,name:'x',theme:'y'}));
   const q=buildRegenerationQueue({corpus:{observations:rows,current:rows}});
   assert.equal(q.selected.length,4); assert(q.selected[0].priority>=q.selected[1].priority);
+});
+
+test('selected work carries reviewer-derived prompt variants',()=>{
+  const row={itemId:'wall-5',collectionId:'wall',assetHash:'old',decision:'REWORK',independent:true,failureCodes:['WEAK_DEPTH','THEME_MISMATCH'],reviewer:'14',producer:'05',tier:2,name:'Vine Wall Art',theme:'Galaxy Glow',reason:'theme weak and depth too flat'};
+  const baseQueue=buildRegenerationQueue({corpus:{observations:[row],current:[row]}});
+  const queue=attachPromptRecommendations(baseQueue,{
+    items:[{id:'wall-5',collectionId:'wall',name:'Vine Wall Art',type:'room',tier:2,theme:'Galaxy Glow'}],
+    reviewDocs:[{path:'14.json',data:{reviewer:'14',reviews:[{itemId:'wall-5',assetHash:'old',producer:'05',decision:'REWORK',reason:'theme weak and depth too flat'}]}}]
+  });
+  assert.equal(queue.selected.length,1);
+  assert.equal(queue.selected[0].promptRecommendation.decision,'REWORK');
+  assert.equal(queue.selected[0].promptRecommendation.variants.length,4);
+  assert(queue.selected[0].promptRecommendation.failureCodes.includes('THEME_MISMATCH'));
+  assert(queue.selected[0].promptRecommendation.variants.every(v=>v.promptText.includes('wall-5')));
 });
