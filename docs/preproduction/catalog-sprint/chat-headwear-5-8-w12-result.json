@@ -3,7 +3,7 @@
   "batchId": "chat-headwear-5-8-w12-20260922",
   "status": "STAGED_READY_FOR_INDEPENDENT_REVIEW",
   "sourceHead": "9e973e2097aa157a3ffcc7ded6425b4bcb023157",
-  "workflowRunId": "35730197493",
+  "workflowRunId": 35730197493,
   "transportHelper": "CHAT",
   "canonicalWriter": "08",
   "newGenerations": 0,
@@ -168,7 +168,11 @@
     "metadata": "PASS_4_OF_4_FROM_CURRENT_GAME_MODEL",
     "exactByteReadback": "PASS_8_OF_8",
     "candidateDecode": "PASS_4_OF_4",
-    "independentVisualReview": "PENDING_ASSIGNED_REVIEWERS"
+    "independentVisualReview": "PENDING_ASSIGNED_REVIEWERS",
+    "tests": "PASS",
+    "build": "PASS",
+    "sharedRenderOverall": "FAIL",
+    "scopedCardDetailRender": "PASS_4_OF_4"
   },
   "freeze": {
     "replitTouched": false,
@@ -177,5 +181,86 @@
     "canonicalMappingsTouched": false,
     "gameplayChanged": false,
     "playerDataTouched": false
-  }
+  },
+  "testedSourceHead": "39c9d0529f4b08ac432fcb91a8c5ed6802ba19f4",
+  "recoveryContext": {
+    "mode": "EXISTING_FIREFLY_SOURCE_TO_RESIZE_ONLY_PNG_DERIVATIVE",
+    "newGenerations": 0,
+    "note": "Recovered from preserved Firefly generation assets through Adobe resize-only 600x600 -> 600x600 outputs; no crop and no new image generation.",
+    "items": {
+      "headwear-5": {
+        "operation": "ADOBE_RESIZE_ONLY",
+        "requestId": "388ff04d-b5d8-45a0-8f85-94ec30b9c451",
+        "reportedSourceDimensions": [
+          600,
+          600
+        ],
+        "reportedOutputDimensions": [
+          600,
+          600
+        ],
+        "crop": null,
+        "newGeneration": false
+      },
+      "headwear-6": {
+        "operation": "ADOBE_RESIZE_ONLY",
+        "requestId": "c038a4cd-836c-492a-b29b-297075dee214",
+        "reportedSourceDimensions": [
+          600,
+          600
+        ],
+        "reportedOutputDimensions": [
+          600,
+          600
+        ],
+        "crop": null,
+        "newGeneration": false
+      },
+      "headwear-7": {
+        "operation": "ADOBE_RESIZE_ONLY",
+        "requestId": "62ed98d7-d3d0-42fc-bd50-341bc09e1dea",
+        "reportedSourceDimensions": [
+          600,
+          600
+        ],
+        "reportedOutputDimensions": [
+          600,
+          600
+        ],
+        "crop": null,
+        "newGeneration": false
+      },
+      "headwear-8": {
+        "operation": "ADOBE_RESIZE_ONLY",
+        "requestId": "d0820a89-8258-4c52-877d-48cc4d992be6",
+        "reportedSourceDimensions": [
+          600,
+          600
+        ],
+        "reportedOutputDimensions": [
+          600,
+          600
+        ],
+        "crop": null,
+        "newGeneration": false
+      }
+    }
+  },
+  "renderEvidence": {
+    "artifactName": "headwear-5-8-w12-recovery-evidence",
+    "reportPath": "artifacts/catalog-staged-art/report.json",
+    "matchedIds": [
+      "headwear-5",
+      "headwear-6",
+      "headwear-7",
+      "headwear-8"
+    ],
+    "matchedHashes": {
+      "headwear-5": "b26e0c50a466afac74e3013da3d092ac54d7a273",
+      "headwear-6": "6babf7112c050ba4c2a6a3c60630b3b35f88bb3d",
+      "headwear-7": "4463b180a1d8c0321d6086c28f078329ced5fb9b",
+      "headwear-8": "c2cd9cddba03a8eae55e9eb8b3197e82ee3af415"
+    }
+  },
+  "independentVisualReview": "PENDING_01_HEADWEAR_5_TO_8_EXACT_HASH_REVIEW"
 }
