@@ -45,6 +45,10 @@ jobs:
           git -C /tmp/ip-adapter checkout 62e4af9d0c1ac7d5f8dd386a0ccf2211346af1a2
           test "$(git -C /tmp/ip-adapter rev-parse HEAD)" = "62e4af9d0c1ac7d5f8dd386a0ccf2211346af1a2"
 
+      - name: Self-test staged-output verifier
+        run: |
+          python docs/preproduction/art-factory/verify_staged_output.py self-test
+
       - name: Run report-only accelerator pilot
         env:
           IP_ADAPTER_SOURCE_ROOT: /tmp/ip-adapter
