@@ -181,3 +181,31 @@ python scripts/catalogVisualPreflight.py scan \
 ```
 
 The preflight records source/thumbnail luminance range, entropy, edge density, alpha/content coverage, exact hashes, aHash/dHash signatures and nearest perceptual neighbors. It is deliberately **report-only** until thresholds are calibrated against enough independently labeled ACCEPT/REWORK examples. Exact byte identity remains authoritative for duplicate identity; perceptual metrics can warn but cannot ACCEPT or REWORK artwork.
+
+
+## Stale-safe regeneration queue
+
+Generate current art-production work from the normalized review corpus and producer-lane evidence:
+
+```bash
+node scripts/artRegenerationQueue.mjs \
+  --repo-root . \
+  --output artifacts/art-factory-pilot/regeneration-queue.json
+```
+
+The queue only selects current independent `REWORK` items. It freezes current `ACCEPT` hashes, excludes technical/evidence blockers, and suppresses stale work when a newer candidate is already staged, generated, awaiting render, or pending review. It also caps each producer at four selected items per batch. The queue is advisory orchestration only; it never generates, reviews, or canonically integrates artwork.
+
+## Review-grounded visual calibration
+
+Use the current independent review corpus to measure whether objective image metrics are actually predictive:
+
+```bash
+python scripts/catalogVisualCalibration.py --self-test
+
+python scripts/catalogVisualCalibration.py \
+  --repo-root . \
+  --corpus artifacts/art-factory-pilot/review-corpus.json \
+  --output artifacts/art-factory-pilot/visual-calibration.json
+```
+
+The calibration report compares ACCEPT vs REWORK distributions for luminance range, entropy, edge density, alpha/content coverage, thumbnail metrics, and perceptual-neighbor distance. It also reports raster coverage and sample-count readiness. **No blocking threshold is activated automatically.** Even when sample counts are sufficient, false-positive calibration plus independent reviewer sign-off are required before any metric can become a blocking warning.
