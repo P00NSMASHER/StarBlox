@@ -92,9 +92,44 @@ function parseArgs(argv){const o={_:[]};for(let i=0;i<argv.length;i++){const x=a
 function reviewDocs(root){
   const dir=path.join(root,'docs/preproduction/catalog-sprint/reviews');
   if(!fs.existsSync(dir)) return [];
-  return fs.readdirSync(dir).filter(x=>x.endsWith('.json')).sort().map(n=>({path:path.relative(root,path.join(dir,n)),data:JSON.parse(fs.readFileSync(path.join(dir,n),'utf8'))}));
+  return fs.readdirSync(dir).filter(x=>/^\\d+\\.json$/.test(x)).sort().map(n=>({path:path.relative(root,path.join(dir,n)),data:JSON.parse(fs.readFileSync(path.join(dir,n),'utf8'))}));
 }
 function head(root){return execFileSync('git',['rev-parse','HEAD'],{cwd:root,encoding:'utf8'}).trim()}
+
+export function buildBatchPlans({
+  queue,items,producer,sourceHead,modelId,modelRevision,
+  runtime=DEFAULT_RUNTIME,referenceAssetSha256=null,controlImageSha256=null,adapterScale=null
+}){
+  if(!queue?.selected||!Array.isArray(queue.selected)) throw Error('queue.selected required');
+  const byId=new Map(items.map(item=>[item.id,item]));
+  const selected=queue.selected.filter(row=>String(row.producer)===String(producer));
+  if(!selected.length) throw Error(`no selected queue items for producer ${producer}`);
+  if(selected.length>4) throw Error('producer batch exceeds 4 items');
+  const plans=selected.map(row=>{
+    const item=byId.get(row.itemId);
+    if(!item) throw Error(`unknown item ${row.itemId}`);
+    const recommendation=row.promptRecommendation;
+    if(!Array.isArray(recommendation?.variants)) throw Error(`queue item ${row.itemId} missing promptRecommendation variants`);
+    return buildJobPlan({
+      item,recommendation,producer:String(producer),sourceHead,modelId,modelRevision,runtime,
+      referenceAssetSha256,controlImageSha256,adapterScale
+    });
+  });
+  const index={
+    schemaVersion:1,
+    kind:'STARBLOX_ART_FACTORY_BATCH_PLAN',
+    repository:'P00NSMASHER/StarBlox',
+    branch:FACTORY_BRANCH,
+    sourceHead,
+    producer:String(producer),
+    model:{modelId,revision:modelRevision,rightsBasis:RIGHTS_BASIS},
+    runtime:{repo:runtime.repo,commit:runtime.commit},
+    itemCount:plans.length,
+    jobs:plans.map(plan=>({itemId:plan.item.id,sourceReviewHash:plan.sourceReviewHash,planSha256:plan.planSha256,attempts:plan.attempts.length}))
+  };
+  index.batchSha256=sha(JSON.stringify(index));
+  return {index,plans};
+}
 
 async function main(){
   const a=parseArgs(process.argv.slice(2)),cmd=a._[0]||'validate',root=path.resolve(a['repo-root']||'.');
@@ -105,10 +140,36 @@ async function main(){
     console.log(JSON.stringify({valid:true,itemId:plan.item.id,attempts:plan.attempts.length,planSha256:plan.planSha256},null,2));
     return;
   }
-  if(cmd!=='plan') throw Error('commands: plan | validate');
-  for(const k of ['item','producer','model-id','model-revision']) if(!a[k]) throw Error(`--${k} required`);
+  if(!['plan','plan-batch'].includes(cmd)) throw Error('commands: plan | plan-batch | validate');
+  for(const k of ['producer','model-id','model-revision']) if(!a[k]) throw Error(`--${k} required`);
   const mod=await import(pathToFileURL(path.join(root,'src/gameModel.js')).href+`?t=${Date.now()}`);
-  const items=mod.store||mod.gameModel?.store||[], item=items.find(x=>x.id===a.item);
+  const items=mod.store||mod.gameModel?.store||[];
+
+  if(cmd==='plan-batch'){
+    if(!a.queue) throw Error('--queue required');
+    if(!a['output-dir']) throw Error('--output-dir required');
+    const queue=JSON.parse(fs.readFileSync(path.resolve(a.queue),'utf8'));
+    const batch=buildBatchPlans({
+      queue,items,producer:a.producer,sourceHead:head(root),
+      modelId:a['model-id'],modelRevision:a['model-revision'],
+      runtime:{repo:a['runtime-repo']||DEFAULT_RUNTIME.repo,commit:a['runtime-commit']||DEFAULT_RUNTIME.commit},
+      referenceAssetSha256:a['reference-sha256']||null,
+      controlImageSha256:a['control-sha256']||null,
+      adapterScale:a['adapter-scale']===undefined?null:Number(a['adapter-scale'])
+    });
+    const outDir=path.resolve(a['output-dir']);
+    fs.mkdirSync(outDir,{recursive:true});
+    for(const plan of batch.plans){
+      const errors=validateJobPlan(plan); if(errors.length) throw Error(`${plan.item.id}: ${errors.join('; ')}`);
+      fs.writeFileSync(path.join(outDir,`${plan.item.id}.json`),JSON.stringify(plan,null,2)+'\n');
+    }
+    fs.writeFileSync(path.join(outDir,'batch-index.json'),JSON.stringify(batch.index,null,2)+'\n');
+    console.log(JSON.stringify({planned:true,producer:String(a.producer),itemCount:batch.plans.length,batchSha256:batch.index.batchSha256,outputDir:outDir},null,2));
+    return;
+  }
+
+  if(!a.item) throw Error('--item required');
+  const item=items.find(x=>x.id===a.item);
   if(!item) throw Error(`unknown item ${a.item}`);
   const model=train({reviewDocs:reviewDocs(root)});
   const rec=recommend(item,model.current.get(item.id),model,a.variants||4);
