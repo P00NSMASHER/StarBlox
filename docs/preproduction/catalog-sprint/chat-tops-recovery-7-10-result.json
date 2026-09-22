@@ -1,0 +1,183 @@
+{
+  "schemaVersion": 1,
+  "batchId": "chat-tops-recovery-7-10-20260921",
+  "status": "STAGED_READY_FOR_INDEPENDENT_REVIEW_01",
+  "sourceHead": "41d13c0e4ea1a1ab8f0c83b59747e612f77b0778",
+  "workflowRunId": "35671172749",
+  "producer": "09",
+  "transportHelper": "CHAT",
+  "independentReviewer": "01",
+  "canonicalWriter": "08",
+  "newGenerations": 0,
+  "storedCandidateCount": 4,
+  "storedOriginalCount": 4,
+  "duplicateCandidateContent": 0,
+  "items": [
+    {
+      "id": "tops-7",
+      "name": "Colorblock Hoodie",
+      "collectionId": "tops",
+      "collectionName": "Tops",
+      "type": "avatar",
+      "tier": 3,
+      "theme": "Aqua Wave",
+      "price": 240,
+      "starReq": 2,
+      "format": "JPEG",
+      "dimensions": [
+        600,
+        600
+      ],
+      "bytes": 55104,
+      "sha256": "e11a8c3bd3d803cce6b766af6ac79beba8e4f13daa7e3d4b41d1582cc28d4247",
+      "gitBlobSha": "1c85689d80f3457bb30b2508386d3e1ea387c029",
+      "producer": "09",
+      "transportHelper": "CHAT",
+      "independentReviewer": "01",
+      "repositoryPath": "public/assets/catalog/tops-7-w09-v3.jpg",
+      "assetPath": "/assets/catalog/tops-7-w09-v3.jpg",
+      "assetId": "urn:aaid:sc:US:a146737a-008b-4662-8e45-07fdc29254ad",
+      "status": "READY_FOR_REVIEW_01",
+      "readback": "PASS",
+      "original": {
+        "format": "PNG",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "bytes": 985385,
+        "sha256": "ff4bfe0a996621323ff687baa31742fd0a28c5c75a31492b57ac15e8fc5b6b28",
+        "gitBlobSha": "a81db471125b9403c9789fcdf4198facea39ab55",
+        "repositoryPath": "docs/preproduction/catalog-sprint/recovered-originals/tops-7-10-20260921/tops-7-a146737a-008b-4662-8e45-07fdc29254ad.png"
+      }
+    },
+    {
+      "id": "tops-8",
+      "name": "Puffer Vest",
+      "collectionId": "tops",
+      "collectionName": "Tops",
+      "type": "avatar",
+      "tier": 3,
+      "theme": "Art Attack",
+      "price": 330,
+      "starReq": 2,
+      "format": "JPEG",
+      "dimensions": [
+        600,
+        600
+      ],
+      "bytes": 71010,
+      "sha256": "21d1ad1b7450a6bee9a151860e8c5dd50ced7eb26f1707eb71a42a104a729f88",
+      "gitBlobSha": "58aadd95fb9bdd3bb461a9fec9d458d9bf5df79e",
+      "producer": "09",
+      "transportHelper": "CHAT",
+      "independentReviewer": "01",
+      "repositoryPath": "public/assets/catalog/tops-8-w09-v3.jpg",
+      "assetPath": "/assets/catalog/tops-8-w09-v3.jpg",
+      "assetId": "urn:aaid:sc:US:a89505f7-417e-4449-b346-365f707a9618",
+      "status": "READY_FOR_REVIEW_01",
+      "readback": "PASS",
+      "original": {
+        "format": "PNG",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "bytes": 1147229,
+        "sha256": "e0f70f0897eb2bc5644cc4ed558fe8a846f1424c5a0eed1c1caf1723aec91b79",
+        "gitBlobSha": "46a296e2b511f12ff7a0fec93d757aaafd6bf21c",
+        "repositoryPath": "docs/preproduction/catalog-sprint/recovered-originals/tops-7-10-20260921/tops-8-a89505f7-417e-4449-b346-365f707a9618.png"
+      }
+    },
+    {
+      "id": "tops-9",
+      "name": "Art Smock",
+      "collectionId": "tops",
+      "collectionName": "Tops",
+      "type": "avatar",
+      "tier": 3,
+      "theme": "Star Luxe",
+      "price": 460,
+      "starReq": 2,
+      "format": "JPEG",
+      "dimensions": [
+        600,
+        600
+      ],
+      "bytes": 50216,
+      "sha256": "4a58055e3b20d72db12f8c0b767e828c51036bf1f3756965ac5c803756ddb7e4",
+      "gitBlobSha": "9011648da2461f63a4ac9e203833cf70eb1d6fe0",
+      "producer": "09",
+      "transportHelper": "CHAT",
+      "independentReviewer": "01",
+      "repositoryPath": "public/assets/catalog/tops-9-w09-v3.jpg",
+      "assetPath": "/assets/catalog/tops-9-w09-v3.jpg",
+      "assetId": "urn:aaid:sc:US:177bdebd-f68a-4742-8d51-e576d41570d1",
+      "status": "READY_FOR_REVIEW_01",
+      "readback": "PASS",
+      "original": {
+        "format": "PNG",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "bytes": 1057153,
+        "sha256": "f291f9a65ddf59ac512204b0ec215a176433ac58e9f35b3c9e0c51dea9b9568e",
+        "gitBlobSha": "c7fb4d8c0e2cf5f67b9ef082f1363dda2bdc16bd",
+        "repositoryPath": "docs/preproduction/catalog-sprint/recovered-originals/tops-7-10-20260921/tops-9-177bdebd-f68a-4742-8d51-e576d41570d1.png"
+      }
+    },
+    {
+      "id": "tops-10",
+      "name": "Star Bomber",
+      "collectionId": "tops",
+      "collectionName": "Tops",
+      "type": "avatar",
+      "tier": 4,
+      "theme": "Midnight Neon",
+      "price": 640,
+      "starReq": 5,
+      "format": "JPEG",
+      "dimensions": [
+        600,
+        600
+      ],
+      "bytes": 67284,
+      "sha256": "3061ce0c1de903d02dd2b41cd1470c6b99bf9cb65848ff370a72f5b4b6de37a7",
+      "gitBlobSha": "5449283ed30dbfade70290cc976f85bace94fa0a",
+      "producer": "09",
+      "transportHelper": "CHAT",
+      "independentReviewer": "01",
+      "repositoryPath": "public/assets/catalog/tops-10-w09-v3.jpg",
+      "assetPath": "/assets/catalog/tops-10-w09-v3.jpg",
+      "assetId": "urn:aaid:sc:US:61864223-7124-4bf1-afc1-20e679aa4ec5",
+      "status": "READY_FOR_REVIEW_01",
+      "readback": "PASS",
+      "original": {
+        "format": "PNG",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "bytes": 1316675,
+        "sha256": "b1017dd382c14aad561b03087f4ec2cd264f8bb8567c3ebb7f28e0bd2718a411",
+        "gitBlobSha": "0a16929d3f16627b05e2ba8843a0621fab7178d6",
+        "repositoryPath": "docs/preproduction/catalog-sprint/recovered-originals/tops-7-10-20260921/tops-10-61864223-7124-4bf1-afc1-20e679aa4ec5.png"
+      }
+    }
+  ],
+  "checks": {
+    "metadata": "PASS_4_OF_4",
+    "exactByteReadback": "PASS_8_OF_8",
+    "candidateDecode": "PASS_4_OF_4",
+    "independentVisualReview": "PENDING_01"
+  },
+  "freeze": {
+    "replitTouched": false,
+    "flootTouched": false,
+    "mainTouched": false,
+    "canonicalMappingsTouched": false,
+    "gameplayChanged": false,
+    "playerDataTouched": false
+  }
+}
