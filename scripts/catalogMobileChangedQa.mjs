@@ -63,18 +63,45 @@ const {chromium}=await import('playwright');
 const manifest=loadJson('catalog-art-manifest.json');
 const results=[];let releaseBlockingCount=0;
 function record(x){results.push(x);if(x.releaseBlocking)releaseBlockingCount++;console.log(`[${x.status}] ${x.motion||''} ${x.viewport||''} ${x.collection||''} ${x.check}: ${x.message}`);}
+let lastNavPointerEvidence=null;
 async function navButton(page,label){const bs=page.locator('.sidebar .navBtn');for(let i=0;i<await bs.count();i++){const b=bs.nth(i),t=(await b.innerText().catch(()=>'' )).trim(),a=(await b.getAttribute('aria-label').catch(()=>''))||'';if(t.toLowerCase()===label.toLowerCase()||a.toLowerCase()===label.toLowerCase())return b;}return null;}
+async function clickNavRealPointer(page,label){
+  const b=await navButton(page,label);
+  if(!b)return false;
+  await b.scrollIntoViewIfNeeded();
+  const box=await b.boundingBox();
+  if(!box)throw new Error(`Navigation ${label} has no clickable bounding box.`);
+  const point={x:box.x+box.width/2,y:box.y+box.height/2};
+  const hit=await page.evaluate(({x,y})=>{
+    const element=document.elementFromPoint(x,y);
+    const nav=element?.closest?.('.sidebar .navBtn');
+    return nav?{text:(nav.textContent||'').replace(/\s+/g,' ').trim(),aria:nav.getAttribute('aria-label')||'',nav:nav.getAttribute('data-sb-nav')||'',sourceNav:nav.getAttribute('data-sb-source-nav')||''}:null;
+  },point);
+  const expectedNav=(await b.getAttribute('data-sb-nav'))||'';
+  const hitMatches=Boolean(hit)&&(expectedNav?hit.nav===expectedNav:(hit.aria||hit.text).toLowerCase()===label.toLowerCase());
+  lastNavPointerEvidence={label,point,expectedNav,hit};
+  if(!hitMatches)throw new Error(`Navigation ${label} pointer center is intercepted before click: ${JSON.stringify(lastNavPointerEvidence)}.`);
+  await page.mouse.click(point.x,point.y);
+  return true;
+}
 async function storeIsOpen(page){return (await page.locator('.marketPage.sbStoreMatch .storeGrid').count().catch(()=>0))>0;}
 async function openStore(page){
   const b=await navButton(page,'Store');
-  if(!b)return{opened:false,pointerStatus:'MISSING',keyboardStatus:'NOT_ATTEMPTED',pointerError:'Store navigation button missing'};
+  if(!b)return{opened:false,pointerStatus:'MISSING',keyboardStatus:'NOT_ATTEMPTED',pointerError:'Store navigation button missing',pointerEvidence:lastNavPointerEvidence};
   let pointerStatus='PASS',pointerError=null,keyboardStatus='NOT_NEEDED';
-  try{await b.click({timeout:2500});}catch(e){pointerStatus='TIMEOUT_OR_FAILURE';pointerError=String(e.message||e).split('\n')[0];}
-  if(await storeIsOpen(page)){await page.waitForTimeout(120);return{opened:true,pointerStatus,keyboardStatus,pointerError};}
+  try{
+    if(!await clickNavRealPointer(page,'Store'))throw new Error('Store navigation button missing');
+    await page.waitForSelector('.marketPage.sbStoreMatch .storeGrid',{state:'attached',timeout:8000});
+    await page.waitForTimeout(120);
+  }catch(e){
+    pointerStatus='TIMEOUT_OR_FAILURE';
+    pointerError=String(e.message||e).split('\n')[0];
+  }
+  if(await storeIsOpen(page))return{opened:true,pointerStatus,keyboardStatus,pointerError,pointerEvidence:lastNavPointerEvidence};
   keyboardStatus='FAIL';
-  try{await b.focus();await b.press('Enter',{timeout:2500});await page.waitForSelector('.marketPage.sbStoreMatch .storeGrid',{timeout:3500});keyboardStatus='PASS_DIAGNOSTIC_CONTINUATION';}catch(e){keyboardStatus=`FAIL:${String(e.message||e).split('\n')[0]}`;}
+  try{await b.focus();await b.press('Enter',{timeout:2500});await page.waitForSelector('.marketPage.sbStoreMatch .storeGrid',{state:'attached',timeout:3500});keyboardStatus='PASS_DIAGNOSTIC_CONTINUATION';}catch(e){keyboardStatus=`FAIL:${String(e.message||e).split('\n')[0]}`;}
   const opened=await storeIsOpen(page);if(opened)await page.waitForTimeout(120);
-  return{opened,pointerStatus,keyboardStatus,pointerError};
+  return{opened,pointerStatus,keyboardStatus,pointerError,pointerEvidence:lastNavPointerEvidence};
 }
 async function activate(page,id){const b=page.locator(`.sbStoreCategoryRow button[data-collection-id="${id}"]`).first();if(!await b.count())return false;await b.click({timeout:5000});await page.waitForTimeout(80);return true;}
 async function settle(page){await page.evaluate(async()=>{if(document.fonts?.ready)await document.fonts.ready;const imgs=[...document.images];await Promise.all(imgs.map(i=>i.complete?Promise.resolve():new Promise(r=>{i.addEventListener('load',r,{once:true});i.addEventListener('error',r,{once:true});setTimeout(r,4000);})));await Promise.all(imgs.map(i=>i.decode?.().catch(()=>{})||Promise.resolve()));await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));});}
