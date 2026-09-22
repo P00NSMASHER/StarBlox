@@ -1,0 +1,125 @@
+{
+  "schemaVersion": 1,
+  "branch": "screenshot-match-preproduction",
+  "lane": "13",
+  "candidate": "avatar-keyart-fullbody-w13-v2",
+  "status": "STAGED_READY_FOR_INDEPENDENT_REVIEW",
+  "assetCommit": "b37683e24d29dcff47dbfd7dc6cb3bb7c4757d34",
+  "sourceSeed": "docs/preproduction/visuals/lane-13-avatar-keyart-fullbody-v2-seed.json",
+  "assets": [
+    {
+      "role": "source",
+      "path": "docs/preproduction/visuals/recovered-originals/avatar-keyart-fullbody-w13-v2-source.png",
+      "width": 1344,
+      "height": 1728,
+      "alpha": false,
+      "bytes": 1991492,
+      "sha256": "9ed1ca7d9bac283e816ec8d1231d5540bfd5f465c28de0724245b3ded1bc65a8",
+      "metadata": {
+        "format": "png",
+        "width": 1344,
+        "height": 1728,
+        "bitDepth": 8,
+        "colorType": 2,
+        "hasAlpha": false
+      },
+      "meaningfulAlpha": null,
+      "alphaStats": null
+    },
+    {
+      "role": "full",
+      "path": "public/assets/visuals/lane-13/avatar-keyart-fullbody-w13-v2-full.png",
+      "width": 1344,
+      "height": 1728,
+      "alpha": true,
+      "bytes": 989998,
+      "sha256": "2ada9fe3e8102c178ff841ea2f3aac4cb283f8d639458e93b31fb887764ab7d2",
+      "metadata": {
+        "format": "png",
+        "width": 1344,
+        "height": 1728,
+        "bitDepth": 8,
+        "colorType": 6,
+        "hasAlpha": true
+      },
+      "meaningfulAlpha": true,
+      "alphaStats": {
+        "min": 0,
+        "max": 255,
+        "clear": 1321491,
+        "semi": 22152,
+        "opaque": 978789
+      }
+    },
+    {
+      "role": "optimized",
+      "path": "public/assets/visuals/lane-13/avatar-keyart-fullbody-w13-v2-896.png",
+      "width": 896,
+      "height": 1152,
+      "alpha": true,
+      "bytes": 526497,
+      "sha256": "1137959f1c25a0a9b46631139de62ee665076d908fa2c4ece499f0c884aad277",
+      "metadata": {
+        "format": "png",
+        "width": 896,
+        "height": 1152,
+        "bitDepth": 8,
+        "colorType": 6,
+        "hasAlpha": true
+      },
+      "meaningfulAlpha": true,
+      "alphaStats": {
+        "min": 0,
+        "max": 255,
+        "clear": 585702,
+        "semi": 14566,
+        "opaque": 431924
+      }
+    }
+  ],
+  "repositoryReadback": {
+    "status": "PASS_3_OF_3_EXACT_SHA256_AND_BYTE_LENGTH",
+    "checks": [
+      {
+        "path": "docs/preproduction/visuals/recovered-originals/avatar-keyart-fullbody-w13-v2-source.png",
+        "role": "source",
+        "expectedBytes": 1991492,
+        "readbackBytes": 1991492,
+        "expectedSha256": "9ed1ca7d9bac283e816ec8d1231d5540bfd5f465c28de0724245b3ded1bc65a8",
+        "readbackSha256": "9ed1ca7d9bac283e816ec8d1231d5540bfd5f465c28de0724245b3ded1bc65a8",
+        "exactBytes": true
+      },
+      {
+        "path": "public/assets/visuals/lane-13/avatar-keyart-fullbody-w13-v2-full.png",
+        "role": "full",
+        "expectedBytes": 989998,
+        "readbackBytes": 989998,
+        "expectedSha256": "2ada9fe3e8102c178ff841ea2f3aac4cb283f8d639458e93b31fb887764ab7d2",
+        "readbackSha256": "2ada9fe3e8102c178ff841ea2f3aac4cb283f8d639458e93b31fb887764ab7d2",
+        "exactBytes": true
+      },
+      {
+        "path": "public/assets/visuals/lane-13/avatar-keyart-fullbody-w13-v2-896.png",
+        "role": "optimized",
+        "expectedBytes": 526497,
+        "readbackBytes": 526497,
+        "expectedSha256": "1137959f1c25a0a9b46631139de62ee665076d908fa2c4ece499f0c884aad277",
+        "readbackSha256": "1137959f1c25a0a9b46631139de62ee665076d908fa2c4ece499f0c884aad277",
+        "exactBytes": true
+      }
+    ]
+  },
+  "producerDecision": "STAGED_NOT_APPROVED",
+  "requiredIndependentReview": [
+    "01 art/visual judgment",
+    "14 composition/performance judgment",
+    "15 coordination before any runtime wiring"
+  ],
+  "runtimeWired": false,
+  "physicalDeviceTest": false,
+  "screenshotParityClaim": false,
+  "canonicalCatalogMappingsEdited": false,
+  "workstream06AssetsEdited": false,
+  "workstream09AssetsEdited": false,
+  "generatedAtUtc": "2026-09-22T06:07:00.609728+00:00"
+}
