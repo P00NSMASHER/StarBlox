@@ -83,7 +83,11 @@ async function currentQuestion(page){
   return question;
 }
 async function clickAnswer(page,choice,{rapid=false}={}){
-  const button=page.getByRole('button',{name:choice,exact:true}).first();
+  const buttons=page.locator('.answerButton:visible');
+  const labels=(await buttons.allTextContents()).map(text=>text.trim());
+  const index=labels.findIndex(label=>label===choice);
+  assert(index>=0,'Rendered Quest answer not found',{choice,labels});
+  const button=buttons.nth(index);
   if(rapid)await button.evaluate(el=>{el.click();el.click();}); else await button.click();
   await page.locator('.feedback').waitFor({state:'visible'});
 }
@@ -102,9 +106,7 @@ async function solveCorrect(page,{rapid=false,waitForAdvance=true}={}){
 }
 async function exerciseWrongRetry(page){
   const q=await currentQuestion(page); const counter=(await page.locator('.qCounter').textContent())?.trim();
-  const visibleChoices=await page.locator('.answerButton, .answerBtn, .choiceButton, .questionCard button').evaluateAll(nodes =>
-    nodes.map(node => node.textContent?.trim()).filter(Boolean)
-  );
+  const visibleChoices=(await page.locator('.answerButton:visible').allTextContents()).map(text=>text.trim()).filter(Boolean);
   const wrong=visibleChoices.find(choice=>choice!==q.answer && !/Try again with the clue|Read aloud/i.test(choice));
   assert(wrong,'Rendered Quest lacks a visible wrong choice',{id:q.id,answer:q.answer,visibleChoices});
   const before=await readSave(page); const old=before.stats?.[q.skill]||{wrong:0};
