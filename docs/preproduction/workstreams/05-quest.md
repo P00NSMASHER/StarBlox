@@ -78,3 +78,43 @@ Branch: `screenshot-match-preproduction`
 - Workstream 14 / Command Center must run `npm test`, `npm run build`, and rendered screenshot comparison before marking Quest visually complete.
 
 **Replit remains untouched.**
+
+## ART_AND_VISUALS_ONLY reference composition specification — 2026-09-22
+
+This section is a **visual review specification only**. It does not change Quest runtime, learning content, answer behavior, rewards, state, economy, shared entrypoints, or release gates. The authoritative source is the preserved original Quest screenshot at `docs/preproduction/reference-screenshots/originals/quest-1448x1086.jpeg` (SHA-256 `70f1b952709a85c77bb11851ffe9ae704acf8b97640355e908b6ec537b5c73c9`) and its uniform, uncropped 1408×1056 comparison derivative (SHA-256 `359ee4b24dbe2a3a3ef89327115fc70927d3d3eab1fb349c43d5c1020ea0ba8d`). Measurements below are **target envelopes read from the reference**, not claims about current runtime geometry.
+
+### Six composition targets at the 1408×1056 reference size
+
+| Region | Reference target envelope | Visual requirement |
+| --- | --- | --- |
+| Quest header | approximately `x 375–1145`, `y 78–149` | Deep cobalt/navy identity band with clear Quest title, compact secondary context, cyan edge light and restrained gold/star accents. It must remain visually subordinate to the global HUD rather than collide with it. |
+| Stage strip | approximately `x 375–1145`, `y 150–222` | Four-stage Diagnose → Practice → Review → Transfer progression immediately under the header; active state must read in one glance without stealing vertical space from the lesson. |
+| Avatar stage | approximately `x 0–375`, `y 490–1056` | Large, expressive lower-left character vignette with face/hands readable, no important clipping, and no overlap into passage or answer controls. Keep navigation legible above/alongside it. |
+| Learning body | approximately `x 372–1143`, `y 231–900` | Dominant light/white reading surface. Preserve a roughly 58/42 lesson-to-answer split, generous passage leading, high-contrast answer controls and one clear focal hierarchy. Environmental art must never sit directly behind instructional text at competing contrast. |
+| Mastery / learning rail | approximately `x 1148–1368`, `y 216–625`, with encouragement below | Narrow right rail for mastery and current learning evidence. Keep the rail visually dense but structurally separate so it does not squeeze or darken the main learning surface. |
+| Earned summary | approximately `x 460–845`, `y 904–1000` | Compact earned-state summary anchored below the learning body. It must reflect real earned state only and must not obscure the avatar vignette or imply rewards that were not earned. |
+
+These envelopes intentionally preserve the reference's strong three-column read: character/world on the left, bright learning work in the center, evidence/progression on the right. Later runtime matching should solve spacing/cropping inside these envelopes rather than flattening the screen into one full-width card.
+
+### Current Quest environment candidates — actual-pixel review
+
+The current visual QA artifact `10678720279` contains two 1408×1056 Workstream-13 Quest room candidates that were inspected at actual pixels:
+
+- `quest-learning-room-w13-v1-1-221add18.png` — SHA-256 `29ac951ad39ae5fd10ed77db407e4a05726dde58607efec58d79363112e22cd9`. **Preferred composition base.** It has coherent three-dimensional bookshelf depth on both sides, a soft chair/reading nook at lower left, a small desk and plant at lower right, two luminous star pendants, a bright right window, and a deliberately quiet central rounded panel. The warm clay/orange material family is cohesive and readable, while cyan tape/accent details provide small StarBlox-compatible contrast. Use it as an environmental/background layer only; do not replace the interactive light lesson surface with the room image.
+- `quest-learning-room-w13-v1-2-d7b39a38.png` — SHA-256 `de22102a291e8da9f0847ee8b90ce4485b29a1a5d41827f61a2c621b165f6615`. **Hold for crop/edge repair if selected.** Its room construction is similarly strong, but actual pixels contain dark navy vertical bars at both extreme edges and a tighter crop. Those bars are not present in the intended warm room construction and should not survive into a full-bleed Quest scene. This is a scene-composition finding only, not a catalog disposition.
+
+Recommended use: let shelving, window light, chair, desk and plant create peripheral depth around the UI; keep the central lesson body visually light and clean. The room's orange illumination should not wash the white reading surface or reduce answer contrast. Star pendants can echo the game's star identity, but should remain background accents rather than compete with the Quest header or earned-state stars.
+
+### Fidelity safeguards for the next actual runtime render
+
+1. Preserve the exact five-action source-grounded Quest flow, read-aloud, clue-after-first-miss/retry behavior, correct keys, and independent-versus-assisted evidence. This visual spec does not authorize content or scoring changes.
+2. Do **not** reproduce the reference screenshot's illustrated question/answer wording, displayed balances, or reward amounts. Use the screenshot for geometry, hierarchy, materials and lighting only.
+3. Do **not** add a decorative **Check My Answer** button over the existing immediate-scoring interaction. A visible control must perform the real action it promises.
+4. Keep wrong-answer feedback non-celebratory and non-punitive; earned-summary visuals must bind to actual earned state.
+5. At 1408×1056, the header, stage strip, learning body, mastery rail and earned summary must have visible breathing room and no overlaps; the avatar must remain fully staged at left without covering instructional content.
+6. At narrower desktop/tablet/phone sizes, preserve readable passage/answers and touch-safe controls by reflowing, not by shrinking the full desktop composition or cropping essential controls. There are no authoritative mobile reference screenshots, so mobile acceptance must be based on readability and coherent StarBlox visual hierarchy rather than invented pixel parity.
+7. Full visual PASS still requires a real current-runtime render against the reference plus affected tests/build. This documentation pass does not mark any deferred release gate as passed.
+
+### Current catalog-review intake note
+
+A newly surfaced Workstream-06 Companion batch is hash-bound on the branch for `companions-2` (`88d10d6f8c412d0ab7fde6ac7a7ff202858077db`), `companions-5` (`1ae7b431e519563ee1dbbdb0ae762bfee6f95ac0`), `companions-6` (`28cb411201d8ec30dae2f70b740efe1e86985386`) and `companions-7` (`39d35ea40a0a138ae99ddcdc09f8f2a3683fa49d`). Their branch card derivatives are also hash-bound, but the inspected shared render artifacts do not currently expose these four exact candidates, and the available public-browser fallback is unavailable in this non-interactive run. **No ACCEPT/REWORK was recorded without independent actual-pixel inspection.** Workstream 14/15's smallest next action is to expose these already-stored exact detail/card pixels through the shared inspectable render artifact; do not regenerate the images or transfer legacy Companion verdicts.
