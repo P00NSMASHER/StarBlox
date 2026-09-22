@@ -232,7 +232,10 @@
       "REGENERATE_BLOCKED_EVIDENCE_STATE",
       "REGENERATE_WHEN_NEWER_CANDIDATE_PENDING",
       "AUTO_APPROVE_ART"
-    ]
+    ],
+    "taxonomyFlow": "artReviewNormalizer.failureCodes -> artRegenerationQueue.selected -> artPromptOptimizer.recommend -> prompt variants",
+    "promptCarriesFailureCodes": true,
+    "promptCarriesHumanReviewerReason": true
   },
   "visualPreflight": {
     "script": "scripts/catalogVisualPreflight.py",
@@ -258,8 +261,52 @@
     "blockingThresholds": [],
     "minimumRecommendedSamples": {
       "ACCEPT": 20,
-      "REWORK": 12
+      "GLOBAL_REWORK": 12,
+      "TARGETED_REWORK_PER_FEATURE": 6
     },
-    "furtherRequirement": "Even after sample-count readiness, false-positive calibration plus reviewer sign-off are required before any metric can become blocking."
+    "furtherRequirement": "Even after sample-count readiness, false-positive calibration plus reviewer sign-off are required before any metric can become blocking.",
+    "calibrationScope": "FAILURE_SPECIFIC",
+    "featureFailureCodeTargets": {
+      "sourceLuminanceContrastRange": [
+        "SMALL_CARD_READABILITY",
+        "EXCESSIVE_BLOOM"
+      ],
+      "sourceEntropyBits": [
+        "FLAT_COMPOSITION",
+        "WEAK_DEPTH"
+      ],
+      "sourceEdgeDensity": [
+        "FLAT_COMPOSITION",
+        "SMALL_CARD_READABILITY"
+      ],
+      "thumbnailLuminanceContrastRange": [
+        "SMALL_CARD_READABILITY",
+        "EXCESSIVE_BLOOM"
+      ],
+      "thumbnailEntropyBits": [
+        "SMALL_CARD_READABILITY",
+        "FLAT_COMPOSITION"
+      ],
+      "thumbnailEdgeDensity": [
+        "SMALL_CARD_READABILITY",
+        "FLAT_COMPOSITION"
+      ],
+      "nonTransparentRatio": [
+        "WEAK_SILHOUETTE_IDENTITY",
+        "SMALL_CARD_READABILITY"
+      ],
+      "contentBoundsRatio": [
+        "WEAK_SILHOUETTE_IDENTITY",
+        "SMALL_CARD_READABILITY"
+      ],
+      "nearestAnyDistance": [
+        "NEAR_DUPLICATE_TEMPLATE"
+      ],
+      "nearestSameCollectionDistance": [
+        "NEAR_DUPLICATE_TEMPLATE"
+      ]
+    },
+    "unrelatedReworkExcludedFromMetricTraining": true,
+    "preflightConsumption": "WARNING_READY_THRESHOLDS_ANNOTATE_CANDIDATES_REPORT_ONLY"
   }
 }
