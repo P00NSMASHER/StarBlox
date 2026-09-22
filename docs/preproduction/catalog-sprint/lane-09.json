@@ -1,11 +1,11 @@
 {
-  "schemaVersion": 11,
+  "schemaVersion": 12,
   "lane": "09",
   "workstream": "09",
   "phase": "ART_AND_VISUALS_ONLY",
   "protocol": "DELIVERY_PROTOCOL_V2",
   "branch": "screenshot-match-preproduction",
-  "status": "TOPS_11_12_V7_EXACT_BYTES_UNAVAILABLE_CURRENT_RUNTIME_RAW_BLOB_PATH_CONFIRMED",
+  "status": "TOPS_11_12_V7_EXACT_BYTES_UNAVAILABLE_CURRENT_RUNTIME_RAW_BLOB_PATH_CONFIRMED_DECOR_3_4_REFERENCE_PLAN_READY_GATED",
   "assignmentSource": "docs/preproduction/ART_VISUALS_SPRINT.json",
   "reviewOwner": "01",
   "integrationOwner": "08",
@@ -102,9 +102,81 @@
       "finding": "Both expected exact Git blob lookups returned not found, so the authoritative v7 payload is not already recoverable from repository object storage."
     },
     "payloadRecoveryCheck": "Current runtime, conversation files and Library were checked for the exact v7 filenames/receipts; no checksum-matching 22,824-byte or 30,026-byte WEBP payload is available. A local reconstruction search against the preserved source generation did not produce the authoritative SHA-256 values and was not accepted as a substitute.",
+    "actionsArtifactRecovery": {
+      "materiallyNewSupportedSourceTested": true,
+      "workflowRunId": 35688873663,
+      "artifactId": 10677797142,
+      "artifactName": "catalog-staged-art-review",
+      "result": "NO_V7_PAYLOAD",
+      "contentsRelevantToLane09": [
+        "screenshots/tops-11-43a850ec.png",
+        "screenshots/tops-12-73339e6c.png",
+        "staged-art-report.json",
+        "summary.md"
+      ],
+      "finding": "Run-specific GitHub Actions artifact download is a supported recovery path, but this artifact contains only prior v5 rendered evidence and no authoritative v7 WEBP bytes. No further attachment attempt was made."
+    },
     "attemptedBranchAttachment": false,
     "requiredNextAction": "Restore or mount the exact original 22,824-byte tops-11 v7 WEBP and 30,026-byte tops-12 v7 WEBP payloads, or have an approved helper transfer those exact bytes. Then create raw Git blobs and require returned blob SHAs to equal 0641cd1563cd9f683d685231c52a28c9f66424be and 9f13c65b0310a70be3fb1e6464baf22dabe75ce1 before attaching either path. After branch attachment, 09 must reread each path and verify SHA-256/bytes/600x600 decode, then run shared card/detail QA and hand only those exact hashes to reviewer01.",
     "doNot": "Do not regenerate, recompress, reconstruct approximately, reuse v6, attach mismatched orphan blobs, or self-approve."
+  },
+  "referenceGroundedDecorPlanning": {
+    "status": "PLANNING_ONLY_NOT_GENERATED_NOT_STAGED_GATE_CLOSED",
+    "purpose": "Use spare art-only capacity without opening Decor production while Tops 11-12 remain unresolved.",
+    "sourceOfTruth": {
+      "storeReferencePath": "docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg",
+      "manifestPath": "docs/preproduction/reference-screenshots/original-reference-manifest.json",
+      "dimensions": [1448, 1086],
+      "bytes": 771971,
+      "sha256": "4e21df57778c17ce2c10958b61cb8a5c14f8bccdc703f8f0f6b57de8aa36829d",
+      "actualPixelsInspected": true,
+      "observedTarget": "Premium toy-like boutique presentation with soft pink/lilac architecture, warm peach key light, glossy fixture highlights, dimensional fabric/object shading, clean silhouettes, restrained negative space and physically believable contact shadows/material separation."
+    },
+    "reviewer14Current": {
+      "reviewSourceHead": "8d7db7286346a72932bc7ee7c56953eda5e5cd48",
+      "familyFinding": "decor-1 and decor-2 current replacement hashes ACCEPT; decor-3 through decor-12 remain REWORK at prior reviewed hashes.",
+      "preserveAcceptedDecor": ["decor-1", "decor-2"]
+    },
+    "sharedCardContract": {
+      "camera": "Consistent three-quarter product view with slight downward pitch; show front face plus one meaningful side/top plane so construction reads without rotation.",
+      "framing": "Single physical object/group centered with clear silhouette and breathing room; primary mass should remain readable at 220x220 card scale and support 600x600 detail inspection.",
+      "lighting": "Soft warm upper-left key, gentle cool/pink ambient fill, controlled specular response by material, and a grounded contact/cast shadow; no flat outline-only shading.",
+      "background": "Simple boutique-compatible lilac/pink neutral field with soft depth only; no promotional sheet, text, UI chrome, logos, characters or competing props.",
+      "materialRule": "Material identity must survive card scale: painted/molded hard surfaces show edge bevels and specular rolloff; textiles show seams, nap/compression and soft highlights; metal/glass show restrained reflections.",
+      "gate": "Specification only. Do not generate or stage until Tops 11-12 have valid repository hashes, clean card/detail evidence and reviewer01 disposition."
+    },
+    "pilot": [
+      {
+        "id": "decor-3",
+        "name": "Arcade Mini",
+        "collection": "Room Decor",
+        "tier": 1,
+        "theme": "Adventure Club",
+        "price": 94,
+        "starReq": 0,
+        "currentPath": "/assets/catalog/decor-3.svg",
+        "currentBlob": "4fc2f591915f53b249956c20c50693ad22e3a1bb",
+        "currentDisposition": "REWORK_BY_REVIEWER14_FAMILY_FINDING",
+        "plannedVersionStem": "/assets/catalog/decor-3-w09-v3",
+        "state": "PLANNING_ONLY",
+        "visualSpec": "Compact functional tabletop arcade cabinet, unmistakably readable as an arcade machine: beveled Adventure Club navy/teal shell with cream/brass accents, inset glass screen showing an original abstract star-navigation game, separate joystick and button deck, recessed speaker/coin-detail area, visible cabinet side thickness, rubber feet and soft floor/table contact shadow. Keep Tier 1 appealing through clean proportions and material quality rather than excessive ornament; no third-party game imagery, logos or text."
+      },
+      {
+        "id": "decor-4",
+        "name": "Plush Stack",
+        "collection": "Room Decor",
+        "tier": 2,
+        "theme": "Cloud Pop",
+        "price": 123,
+        "starReq": 0,
+        "currentPath": "/assets/catalog/decor-4.svg",
+        "currentBlob": "cb4bc4cfca9bdd4764905fdf94aa8291605f1ce0",
+        "currentDisposition": "REWORK_BY_REVIEWER14_FAMILY_FINDING",
+        "plannedVersionStem": "/assets/catalog/decor-4-w09-v3",
+        "state": "PLANNING_ONLY",
+        "visualSpec": "A physically stacked trio of original Cloud Pop plush decor pieces with distinct silhouettes, not recolored blobs: broad cloud cushion base, rounded sleepy plush center, smaller star/cloud accent top. Show textile nap, stitched panel seams, embroidered details, edge piping, compression where pieces touch, subtle squash at the base and soft self-shadowing between layers. Tier 2 should feel richer than Starter through construction and tactile detail while staying cozy and uncluttered; no branded character likenesses or emoji treatment."
+      }
+    ]
   },
   "handoff": {
     "reviewer": "01",
@@ -112,5 +184,5 @@
     "integrationOwner": "08",
     "selfApproval": false
   },
-  "decorGate": "Do not start Decor until Tops 11-12 obtain valid new repository hashes, clean card/detail evidence and reviewer-01 disposition."
+  "decorGate": "Do not start Decor production until Tops 11-12 obtain valid new repository hashes, clean card/detail evidence and reviewer-01 disposition. Reference-grounded Decor specifications may be prepared while this gate is closed, but are not generated assets and are not reviewable candidates."
 }
