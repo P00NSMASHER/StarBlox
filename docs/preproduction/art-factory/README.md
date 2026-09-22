@@ -118,6 +118,19 @@ See `ART_FACTORY_V2.json` for pinned revisions and reuse status. Current preferr
 - When no owned candidate is actionable, improve evidence, calibration, tooling, or a non-overlapping visual study in the worker's assigned scope.
 - Status-only commits are not progress.
 
+## Deterministic job compiler
+
+Before invoking any generator for an actionable REWORK/unaccepted item, compile the optimizer recommendation into a provider-neutral job manifest:
+
+```bash
+node scripts/artFactoryJob.mjs plan --repo-root . --item decor-3 --producer 09 \\
+  --model-id <exact-model-id> --model-revision <exact-revision> --variants 4 \\
+  --output artifacts/art-factory-jobs/decor-3.json
+node scripts/artFactoryJob.mjs validate --job artifacts/art-factory-jobs/decor-3.json
+```
+
+The compiler refuses ACCEPTed/non-generating recommendations, enforces the 2–4 variant pilot, derives stable unique seeds from item+prompt+variant, binds the user-attested model-rights basis, records exact runtime/model revisions, and emits no fake output hashes before generation. The job manifest is the handoff into Diffusers/IP-Adapter, InvokeAI, an authorized image tool, or another approved generator; after real bytes exist, normal exact-byte staging/readback/render/review rules apply.
+
 ## Validation
 
 Manual preflight workflow: `.github/workflows/art-factory-preflight.yml`.
