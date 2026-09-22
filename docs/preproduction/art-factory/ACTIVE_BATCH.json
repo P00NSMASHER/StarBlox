@@ -2,7 +2,7 @@
   "schemaVersion": 3,
   "owner": "15",
   "branch": "screenshot-match-preproduction",
-  "sourceHead": "46675e32b00f4da650e280d01a4885ac1dd62d9a",
+  "sourceHead": "67eeb80aaa6c632f17fcc4af6e2b961e905eeecd",
   "status": "ACTIVE_RELEASE_BLOCKER_FIRST",
   "policy": {
     "maxConcurrentProductionBatches": 4,
@@ -15,19 +15,19 @@
     "updateOnlyOnMaterialChange": true
   },
   "liveCanonical": {
-    "manifestVersion": 32,
+    "manifestVersion": 33,
     "manifestEntries": 173,
     "runtimeMappings": 173,
     "finalPortable": 166,
     "interimNotVerified": 7,
     "nonFinalRelativeToTarget": 26,
     "integrationSchema": null,
-    "integrationSchemaNote": "The branch-local integration.json is older than manifest v32, so no newer schema number is asserted here. Exact manifest/runtime state is authoritative.",
-    "strictAcceptedCanonicalFloor": 96,
+    "integrationSchemaNote": "The branch-local integration.json is older than manifest v33, so no newer schema number is asserted here. Exact manifest/runtime state is authoritative.",
+    "strictAcceptedCanonicalFloor": 100,
     "strictAcceptedCurrentFloorIncludingAwaitingCanonical": 100,
     "strictAcceptedRemainingToAcceptAtMost": 92,
-    "acceptedAwaitingCanonical": 4,
-    "acceptedAwaitingCanonicalIds": ["headwear-5", "headwear-6", "headwear-7", "headwear-8"],
+    "acceptedAwaitingCanonical": 0,
+    "acceptedAwaitingCanonicalIds": [],
     "runtimeMappingGapToTarget": 19,
     "releaseCleared": 0,
     "strictVisualBlocker": {
@@ -40,7 +40,7 @@
         "decor-5", "decor-6", "decor-7", "decor-8", "decor-9", "decor-10", "decor-11", "decor-12"
       ]
     },
-    "note": "Live manifest/runtime v32 canonically map Wall 5/6/7, so they are removed from the strict visible-fallback set. Store/Quest desktop geometry remains green on the newest strict contract evidence; do not reopen it without a fresh failure. Headwear 5-8 remain qualified exact-hash ACCEPTs awaiting 08 but do not block fallback-clearing production."
+    "note": "Manifest/runtime v33 canonically contain the independently accepted Headwear 5-8 replacements and v32 Wall 5-7 replacements. The qualified ACCEPT backlog observed by coordinator15 is therefore zero. Store/Quest desktop geometry remains green on the newest strict contract evidence; do not reopen it without a fresh failure. The remaining strict visual blocker is 19 visible generic fallbacks."
   },
   "batches": [
     {
@@ -59,7 +59,7 @@
       "scope": ["wall-9", "wall-10", "wall-11", "wall-12"],
       "state": "ACTIONABLE_REWORK_FACTORY_PILOT",
       "reviewer": "14",
-      "basis": "Wall 5-8 pilot received independent disposition: Wall 5/6/7 ACCEPT and are now canonical in v32; Wall 8 REWORK has a generated remote repair candidate but exact repository-byte materialization is currently blocked. Anti-stall policy therefore moves producer05 to the next four visible fallback Wall IDs while preserving Wall 8 bytes/evidence unchanged.",
+      "basis": "Wall 5-8 pilot received independent disposition: Wall 5/6/7 ACCEPT and are canonical; Wall 8 REWORK has a generated remote repair candidate but exact repository-byte materialization is currently blocked. Anti-stall policy therefore moves producer05 to the next four visible fallback Wall IDs while preserving Wall 8 bytes/evidence unchanged.",
       "requirements": "Produce only Wall9-12 as one bounded four-item pilot from exact Store metadata. Reuse successful dimensional/material lessons from accepted Wall5-7 but do not copy Wall8's freestanding/support-plane defect. Each item must read as genuine wall-mounted decor with category-correct construction, tier/theme identity and strong card silhouette. Use optimizer + deterministic job plan + exact model/revision provenance; stage/read back/verify; renderer14 produces real card/detail pixels and independently reviews exact hashes. Do not regenerate Wall8 or touch accepted Wall1-7.",
       "preserve": ["wall-1", "wall-2", "wall-3", "wall-4", "wall-5", "wall-6", "wall-7", "wall-8-w05-v2", "wall-8-w05-v3-remote-candidates"]
     },
@@ -106,24 +106,13 @@
       "next": "Do not regenerate. Renderer14 reuses/provides exact-current card/detail proof only after the fallback-clearing render queue has priority, then reviewer02 records the first genuine art-quality decision."
     }
   ],
-  "acceptedAwaitingCanonical": [
-    {
-      "reviewer": "01",
-      "producer": "12",
-      "scope": ["headwear-5", "headwear-6", "headwear-7", "headwear-8"],
-      "state": "QUALIFIED_EXACT_HASH_ACCEPT_AWAITING_08",
-      "reviewEvidence": "docs/preproduction/catalog-sprint/reviews/01.json",
-      "producerEvidence": "docs/preproduction/catalog-sprint/chat-headwear-5-8-w12-result.json",
-      "items": {
-        "headwear-5": {"path": "/assets/catalog/headwear-5-w12-v2.png", "gitBlobSha": "b26e0c50a466afac74e3013da3d092ac54d7a273", "sha256": "503b2b6edc092e22fb6bbda4c3c20d57bfb9e9674b72dcf20ab3b63f686e9a71"},
-        "headwear-6": {"path": "/assets/catalog/headwear-6-w12-v2.png", "gitBlobSha": "6babf7112c050ba4c2a6a3c60630b3b35f88bb3d", "sha256": "a6e684921f41f4c6dec171db9a96bbc0ce45bd0c25e0cca52daa233d1b64b5a8"},
-        "headwear-7": {"path": "/assets/catalog/headwear-7-w12-v2.png", "gitBlobSha": "4463b180a1d8c0321d6086c28f078329ced5fb9b", "sha256": "4c38267b3ef9ab001ea946ec1972b8950a419edb6687b530228dd58d25954499"},
-        "headwear-8": {"path": "/assets/catalog/headwear-8-w12-v2.png", "gitBlobSha": "c2cd9cddba03a8eae55e9eb8b3197e82ee3af415", "sha256": "86f2ee74794c929bd7182d5d53b1b6e9a2e3de30131ed6ac8b0ee982ec840b53"}
-      },
-      "next": "Workstream08 validates current path/hash/metadata/decode/uniqueness and canonically wires these four qualified ACCEPTs. This integration must not stall the active fallback-clearing producers."
-    }
-  ],
+  "acceptedAwaitingCanonical": [],
   "completedOrClosedThisReconciliation": [
+    {
+      "scope": ["headwear-5", "headwear-6", "headwear-7", "headwear-8"],
+      "state": "INDEPENDENT_ACCEPT_AND_CANONICAL_V33",
+      "integrationCommit": "4f80e2519c69ffcbb29f9e19d03f7b3f4fac0eb6"
+    },
     {
       "scope": ["wall-5", "wall-6", "wall-7"],
       "state": "INDEPENDENT_ACCEPT_AND_CANONICAL_V32",
@@ -150,7 +139,7 @@
     },
     "tops11_12_v7": "Exact authoritative WEBP payload bytes remain unavailable; do not regenerate, re-encode or approximately reconstruct.",
     "adobeFireflyDirectDesk7Pilot": "Prior interactive Desk7 generation was rate-limited and created no output bytes; do not repeat that unchanged failed path. Authorized scheduled generation paths remain eligible.",
-    "headwearRecoveryResolved": "Headwear5-8 exact repository bytes and real card/detail evidence exist and reviewer01 ACCEPTed all four; freeze those exact hashes pending 08."
+    "headwearRecoveryResolved": "Headwear5-8 exact repository bytes, real card/detail evidence and reviewer01 ACCEPT are canonical in manifest/runtime v33. Freeze those exact hashes."
   },
   "rendererPriority": "14 prioritizes exact-hash card/detail renders for newly staged Desks7-10, Wall9-12 and Decor5-8, then independently reviews Wall/Decor and routes Desks to reviewer05. Do not rerender already dispositioned exact hashes.",
   "readerRule": "Every worker must revalidate assignment, exact item hash, review state and branch head before writing. This coordination file never overrides newer exact evidence."
