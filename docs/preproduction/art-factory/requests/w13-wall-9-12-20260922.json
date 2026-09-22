@@ -18,7 +18,7 @@
     "wall-11",
     "wall-12"
   ],
-  "state": "OPTIMIZER_INPUT_READY_NOT_GENERATED",
+  "state": "REFERENCE_RESOLVED__OPTIMIZER_INPUT_READY_NOT_GENERATED",
   "routingBasis": {
     "activeBatch": "docs/preproduction/art-factory/ACTIVE_BATCH.json",
     "activeBatchBlobSha": "640f7ec2be636e3f701283759f58d5f8b4139ff9",
@@ -98,8 +98,16 @@
   "references": {
     "originalStoreReference": {
       "requiredBeforeGeneration": true,
-      "pathAndHash": null,
-      "rule": "Producer13 must resolve the currently verified original Store reference path and exact hash at optimizer/job compile time. Planner12 does not invent an unavailable hash."
+      "repositoryPath": "docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg",
+      "sha256": "b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d",
+      "gitBlobSha": "383baa877d3af86fa92e3583740212000592b3d6",
+      "dimensions": [
+        1448,
+        1086
+      ],
+      "role": "VISUAL_DIRECTION_CONTEXT_NOT_AUTOMATIC_IP_ADAPTER_CONDITIONING",
+      "sourceManifest": "docs/preproduction/reference-screenshots/original-reference-manifest.json",
+      "rule": "Bind this exact StarBlox-owned Store reference as contextual provenance at optimizer/job compile time. Do not silently reinterpret it as runtime image conditioning; IP-Adapter conditioning requires a separate explicit job binding."
     },
     "legacyAssets": "Current legacy SVGs are rejection/context evidence only and must not be imitated as a style target."
   },
