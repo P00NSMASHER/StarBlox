@@ -1,0 +1,94 @@
+{
+  "schemaVersion": 1,
+  "phase": "ART_VISUALS_SPRINT",
+  "branch": "screenshot-match-preproduction",
+  "producer": "05",
+  "independentReviewer": "14",
+  "canonicalWriter": "08",
+  "batchId": "w05-wall-8-v3",
+  "status": "GENERATED_REMOTE_STAGING_BLOCKED",
+  "sourceHeadObservedBeforeWrite": "6a40d0ec352b1dacfe4f2db23c88febb1997e647",
+  "item": {
+    "id": "wall-8",
+    "name": "Ocean Window",
+    "tier": 3,
+    "theme": "Candy Core",
+    "price": 479,
+    "starReq": 2,
+    "parentAssetPath": "/assets/catalog/wall-8-w05-v2.png",
+    "parentGitBlobSha": "f6a9440a4d46ea84da14cc550270081b7e590d83",
+    "parentSha256": "0bcaea337244dbce8c6785ff37564e8832854342d7ea0e7025974997ae7bf5ee",
+    "parentGenerationAssetId": "urn:aaid:sc:US:254b0a1b-b62f-4007-8b5e-76fbbe85f80c",
+    "parentSourceUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:17c83863-a861-476a-925d-0dcfa88be1b7",
+    "reviewEvidence": "docs/preproduction/catalog-sprint/chat-wall-5-8-w05-v2-review-14-to-08-05.json",
+    "exactDefect": "Reviewer14 found that the v2 object could read as a freestanding aquarium/module because a horizontal floor/table plane and long ground-contact shadow visually supported it. Repair is restricted to mounting/composition while preserving the accepted Candy Core object materials, frame, fasteners, layered glass/ocean depth and Tier-3 richness."
+  },
+  "variants": [
+    {
+      "label": "A",
+      "method": "Adobe image_instruct_edit",
+      "requestId": "698129fb-f727-4576-92fc-c8447313efee",
+      "generationAssetId": "urn:aaid:sc:US:17edfbb6-4c4c-4cd5-bea5-9b5844e81429",
+      "seed": 2026092208,
+      "outputFileType": "png",
+      "resolutionLevel": "1MP",
+      "outputUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:90650a5e-58b1-480a-91e8-babac5a4afba",
+      "promptSha256": "d14bbacb446ec824a84f19af66e7b5e15f0ff6967dff5c029faef02858c69987",
+      "prompt": "Keep the Ocean Window object itself unchanged: preserve its glossy rounded coral/aqua Candy Core enamel frame, fasteners, thick layered glass and ocean scene. Repair only the mounting/background composition. Replace the visible horizontal floor/table plane, diagonal wall-floor seam, and long ground-contact shadow with one continuous vertical interior wall surface behind and around the object. Make the window unmistakably recessed into or mounted on that vertical wall, with a shallow wall-normal recess/standoff and soft contact/cast shadows falling only on the vertical wall around the frame. No tabletop, floor support, shelf, pedestal, base feet, ground plane or freestanding aquarium reading. Maintain the same three-quarter product angle, Tier-3 richness, card silhouette and lighting.",
+      "producerActualPixelCheck": "PASS_REPAIR_TARGET — actual pixels show one continuous vertical wall, no floor/table plane, preserved glossy coral/aqua frame/fasteners/glass/ocean depth and wall-normal contact/cast shadow. Reads wall-mounted rather than floor-supported.",
+      "browserByteProbe": {
+        "downloaded": true,
+        "isolatedPath": "outputs/download.png",
+        "pngDimensions": [1024, 1024],
+        "bytes": 1154328,
+        "sha256": "8bff39ae3388376c450b1cb1a0cbd1a25228863d59dbf75c81631233ecb12732",
+        "repositoryMaterialized": false
+      },
+      "disposition": "VALID_ALTERNATE__NOT_SELECTED"
+    },
+    {
+      "label": "B",
+      "method": "Adobe image_instruct_edit",
+      "requestId": "9fe01c0d-a414-4bac-88b3-dc608653bb49",
+      "generationAssetId": "urn:aaid:sc:US:e7a12bb8-51b5-4216-b2c4-24ce0b6b6533",
+      "seed": 2026092218,
+      "outputFileType": "png",
+      "resolutionLevel": "1MP",
+      "outputUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:b9142628-80a5-46ce-9af6-d3776daddbae",
+      "downloadShortUrl": "https://at.adobe.com/Dgz0SxGTFGgqUu02",
+      "promptSha256": "412525a6720e03ad75bbfc28ba0ebb84d2e46b71271c35e783ac2f6d11ffa405",
+      "prompt": "Preserve the Ocean Window collectible itself exactly in identity and materials: the glossy rounded coral/aqua Candy Core enamel frame, corner fasteners, layered transparent glass/jamb and deep blue ocean scene. Repair only the mounting defect. Make the unit visibly recessed into one continuous vertical interior wall plane, with the outer frame sitting flush/near-flush to the wall and a believable shallow reveal around its back edge. Remove every horizontal floor/table/support plane, wall-floor seam, base foot and ground-contact shadow. All shadows must be short contact/cast shadows on the vertical wall around the frame. Keep the same three-quarter collectible camera, clean card silhouette, controlled Tier-3 lighting and no text/UI.",
+      "producerActualPixelCheck": "PASS_REPAIR_TARGET_PREFERRED — actual pixels preserve the exact Ocean Window identity and Candy Core material system while replacing the floor/table support read with a continuous vertical wall and short left/lower wall-cast shadow. The shallow side reveal and three-quarter frame thickness make the mount physically credible and card-readable.",
+      "repositoryMaterialized": false,
+      "disposition": "SELECTED_FOR_STAGING_WHEN_BYTES_MATERIALIZE"
+    }
+  ],
+  "selectionReason": "Variant B is preferred from actual-pixel comparison because its mounting read is cleaner and more architectural: no horizontal support plane remains, the left-side frame depth is clear, and the lower shadow reads as a short wall-cast shadow rather than ground contact. Variant A is retained as a provenance-preserved alternate.",
+  "staging": {
+    "intendedRepositoryPath": "public/assets/catalog/wall-8-w05-v3.png",
+    "exactByteReadback": "NOT_RUN_NO_REPOSITORY_BYTES",
+    "candidateDecode": "NOT_RUN_NO_REPOSITORY_BYTES",
+    "cardDetailRender": "NOT_RUN_NO_REPOSITORY_BYTES",
+    "independentReview14": "NOT_READY",
+    "canonicalPromotion": "NOT_ELIGIBLE",
+    "blocker": "The Adobe outputs are remotely inspectable and Variant A was independently byte-probed by the public browser, but this runtime cannot materialize the browser-isolated downloaded PNG into the GitHub/container byte path. Browser project credits were exhausted before a second-candidate byte export. No approximate reconstruction, re-encode, fake readback, or self-approval was substituted."
+  },
+  "preserve": {
+    "acceptedWallExactHashes": {
+      "wall-1": "9908e774b4012cb89d3c86eed9ca3d10ce3bffe4",
+      "wall-2": "febf517cd0db666f647962c0cb7d4e5af53d4b76",
+      "wall-3": "5ad5aff97c9d365221de8c2d888abf3a26db547e",
+      "wall-4": "bc38aee13c1c4840aa1e9657edfb67c8838a6a21",
+      "wall-5": "4213df82736052e6a43da21be625d97ee6d8519b",
+      "wall-6": "c20f3b40f40a3e2be919dd10373ffa5cec90cd7e",
+      "wall-7": "13acacfd78a2d4203bb4d4ce9683fbcf1515d9e7"
+    },
+    "wall9To12NotOpened": true,
+    "canonicalMappingsTouched": false,
+    "runtimeOrGameplayTouched": false,
+    "learningPersistenceEconomyTouched": false,
+    "mainReplitFlootDeployPaidPlayerDataTouched": false,
+    "selfApproved": false
+  },
+  "handoff": "05 next run: materialize exact selected Variant B PNG bytes, stage/read back/decode at the intended versioned path, render real Store card/detail pixels, and then route only that exact repository hash to reviewer14. Do not review it yourself and do not open Wall9-12 until reviewer14 dispositions Wall8 v3. Reviewer14/08 must ignore this remote-only candidate until exact repository bytes and render evidence exist."
+}
