@@ -80,14 +80,37 @@ jobs:
           dispatch = event.get('ref') is None and os.environ.get('GITHUB_EVENT_NAME') == 'workflow_dispatch'
 
           changed = []
+          change_source = 'workflow-dispatch'
           if os.environ.get('GITHUB_EVENT_NAME') == 'push' and before and set(before) != {'0'}:
-              subprocess.run(
-                  ['git','-c','protocol.version=2','fetch','--no-tags','--depth=1','--filter=blob:none','origin',before],
-                  check=True,
+              commits = event.get('commits') or []
+              try:
+                  expected_commit_count = int(event.get('size'))
+              except (TypeError, ValueError):
+                  expected_commit_count = -1
+
+              # GitHub push payloads already contain per-commit added/modified/removed
+              # paths. Use them when the payload is complete, avoiding a second fetch.
+              payload_complete = (
+                  expected_commit_count >= 0
+                  and len(commits) == expected_commit_count
               )
-              changed = subprocess.check_output(
-                  ['git','diff','--name-only',before,head], text=True
-              ).splitlines()
+              if payload_complete:
+                  changed = sorted({
+                      p
+                      for commit in commits
+                      for key in ('added','modified','removed')
+                      for p in (commit.get(key) or [])
+                  })
+                  change_source = 'push-payload'
+              else:
+                  subprocess.run(
+                      ['git','-c','protocol.version=2','fetch','--no-tags','--depth=1','--filter=blob:none','origin',before],
+                      check=True,
+                  )
+                  changed = subprocess.check_output(
+                      ['git','diff','--name-only',before,head], text=True
+                  ).splitlines()
+                  change_source = 'git-diff-fallback'
           else:
               changed = ['__workflow_dispatch__']
 
@@ -156,6 +179,7 @@ jobs:
               'changedRasters': raster_change,
               'reviewChange': review_change,
               'rasterHydrationSkipped': not bool(asset_paths),
+              'changeSource': change_source,
           }, indent=2))
           PY
 
