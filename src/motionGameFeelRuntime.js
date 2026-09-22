@@ -157,8 +157,8 @@ function syncEquippedCards(page){
 
 function onPointerDown(event){
   const target = event.target.closest?.(INTERACTIVE_SELECTOR);
-  if(!target) return;
-  restartClass(target,'sbMotionPressed',motionDurationFor('press',prefersReducedMotion()));
+  if(!target || prefersReducedMotion()) return;
+  restartClass(target,'sbMotionPressed',motionDurationFor('press',false));
 }
 
 function onClick(event){

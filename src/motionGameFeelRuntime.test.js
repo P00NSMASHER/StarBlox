@@ -20,6 +20,21 @@ describe('motion game-feel helpers', () => {
     expect(motionDurationFor('selection', true)).toBe(0);
   });
 
+  it('does not leave pressed motion state on controls when reduced motion is requested', () => {
+    const previousMatchMedia = window.matchMedia;
+    try {
+      window.matchMedia = () => ({ matches: true });
+      const button = document.createElement('button');
+      button.className = 'primaryButton';
+      document.body.appendChild(button);
+      button.dispatchEvent(new Event('pointerdown', { bubbles: true }));
+      expect(button.classList.contains('sbMotionPressed')).toBe(false);
+      button.remove();
+    } finally {
+      window.matchMedia = previousMatchMedia;
+    }
+  });
+
   it('recognizes positive answer feedback without celebrating negative feedback', () => {
     expect(isPositiveFeedback('Correct! Nice work.')).toBe(true);
     expect(isPositiveFeedback('You got it — great job!')).toBe(true);
