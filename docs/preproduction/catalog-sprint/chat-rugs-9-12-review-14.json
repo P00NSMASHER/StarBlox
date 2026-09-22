@@ -1,0 +1,164 @@
+{
+  "schemaVersion": 1,
+  "scope": "ART_AND_VISUALS_ONLY",
+  "phase": "CATALOG_SPRINT",
+  "branch": "screenshot-match-preproduction",
+  "reviewer": "14",
+  "coordinationOwner": "15",
+  "canonicalWriter": "08",
+  "reviewSourceHead": "9cfe19679527bd0a3ace2d76d4a88967a65509a7",
+  "reviewedAt": "2026-09-22T01:20:33Z",
+  "freshCurrentHashReview": true,
+  "noLegacyDispositionTransfer": true,
+  "noCanonicalWriteBy14": true,
+  "preservedUnchangedAccepts": {
+    "lighting": "1-12",
+    "rugs": "1-8",
+    "decor": "1-2",
+    "reReviewed": false
+  },
+  "reviewCriteria": [
+    "floor-textile perspective",
+    "pile/edge/contact depth",
+    "material/light",
+    "exact theme/tier",
+    "card readability",
+    "originality",
+    "near-duplicate risk"
+  ],
+  "sourceEvidence": {
+    "rugs9": {
+      "workflowRunId": 35672609543,
+      "artifactId": 10672151462,
+      "exactHashReadback": true,
+      "decode": "PASS",
+      "cardDetailRendered": "PASS"
+    },
+    "rugs10To12": {
+      "workflowRunId": 35672649596,
+      "artifactId": 10671188644,
+      "exactHashReadback": true,
+      "decode": "PASS_3_OF_3",
+      "cardDetailRendered": "PASS_3_OF_3"
+    }
+  },
+  "decisions": [
+    {
+      "itemId": "rugs-9",
+      "name": "Splash Rug",
+      "tier": 3,
+      "theme": "Berry Blast",
+      "assetPath": "/assets/catalog/rugs-9-w07-v2.jpg",
+      "assetHash": "9eef1db116e871d31c62de680d261cfbeccf49b3",
+      "hashAlgorithm": "git-blob-sha1",
+      "decision": "ACCEPT",
+      "reasonCode": "FLOOR_TEXTILE_PASS",
+      "reason": "Plush asymmetrical berry-splash silhouette reads immediately as a floor rug; pile, edge thickness and contact shadow are believable, the pink/magenta/purple palette fits Berry Blast tier 3, and the raspberry/seed detailing stays legible at card size without duplicating the accepted Rugs 1-8 set.",
+      "checks": {
+        "floorTextilePerspective": "PASS",
+        "pileEdgeContactDepth": "PASS",
+        "materialLighting": "PASS",
+        "themeTier": "PASS",
+        "cardReadability": "PASS",
+        "originality": "PASS",
+        "nearDuplicateRisk": "PASS"
+      }
+    },
+    {
+      "itemId": "rugs-10",
+      "name": "Neon Grid Rug",
+      "tier": 4,
+      "theme": "Garden Glow",
+      "assetPath": "/assets/catalog/rugs-10-chat-v2.png",
+      "assetHash": "e9ff2aabc5bfa90c7411d0b8a5c48f297d2d270d",
+      "hashAlgorithm": "git-blob-sha1",
+      "decision": "ACCEPT",
+      "reasonCode": "FLOOR_TEXTILE_PASS",
+      "reason": "Low flat green/teal textile body, cyan/lime grid-vine lines and glow points preserve a clear rug read; the folded front edge establishes textile thickness/underside and floor contact, Garden Glow tier 4 is coherent, and the silhouette/pattern is distinct from accepted Rugs 1-9.",
+      "checks": {
+        "floorTextilePerspective": "PASS",
+        "pileEdgeContactDepth": "PASS",
+        "materialLighting": "PASS",
+        "themeTier": "PASS",
+        "cardReadability": "PASS",
+        "originality": "PASS",
+        "nearDuplicateRisk": "PASS"
+      }
+    },
+    {
+      "itemId": "rugs-11",
+      "name": "Dream Cloud Rug",
+      "tier": 4,
+      "theme": "Galaxy Glow",
+      "assetPath": "/assets/catalog/rugs-11-chat-v2.png",
+      "assetHash": "cfff5c4d235295c0f3e0efc0ef34bfcbf629c916",
+      "hashAlgorithm": "git-blob-sha1",
+      "decision": "REWORK",
+      "reasonCode": "FLOOR_CUSHION_READ_AND_CLOUD_NEAR_DUPLICATE",
+      "reason": "This exact hash is newly reviewed, not a carried legacy verdict. Heavy plush lobes and tall upholstered sidewalls make the object read as a floor cushion/ottoman instead of a rug, and the cloud/lobed concept creates avoidable near-duplicate risk against already accepted Rugs-2 Cloud Rug.",
+      "checks": {
+        "floorTextilePerspective": "REWORK",
+        "pileEdgeContactDepth": "REWORK_EXCESSIVE_SIDEWALL_DEPTH",
+        "materialLighting": "PASS",
+        "themeTier": "PASS",
+        "cardReadability": "REWORK_CATEGORY_READ",
+        "originality": "REWORK",
+        "nearDuplicateRisk": "REWORK"
+      }
+    },
+    {
+      "itemId": "rugs-12",
+      "name": "Luxe Star Rug",
+      "tier": 5,
+      "theme": "Sunny Pop",
+      "assetPath": "/assets/catalog/rugs-12-chat-v2.png",
+      "assetHash": "e008d4b097caadd5e246d2d023e61179d543da3e",
+      "hashAlgorithm": "git-blob-sha1",
+      "decision": "REWORK",
+      "reasonCode": "PADDED_PLAYMAT_STAR_CUSHION_READ",
+      "reason": "This exact hash is newly reviewed, not a carried legacy verdict. Theme, tier, lighting and originality are strong, but the heavy quilting, cyan plush rim and very raised central star/sun padding read as a padded playmat/floor cushion rather than a rug and fail floor-textile category readability.",
+      "checks": {
+        "floorTextilePerspective": "REWORK",
+        "pileEdgeContactDepth": "REWORK_EXCESSIVE_PADDING",
+        "materialLighting": "PASS",
+        "themeTier": "PASS",
+        "cardReadability": "REWORK_CATEGORY_READ",
+        "originality": "PASS",
+        "nearDuplicateRisk": "PASS"
+      }
+    }
+  ],
+  "qualifiedAcceptsFor08": [
+    {
+      "itemId": "rugs-9",
+      "assetPath": "/assets/catalog/rugs-9-w07-v2.jpg",
+      "assetHash": "9eef1db116e871d31c62de680d261cfbeccf49b3"
+    },
+    {
+      "itemId": "rugs-10",
+      "assetPath": "/assets/catalog/rugs-10-chat-v2.png",
+      "assetHash": "e9ff2aabc5bfa90c7411d0b8a5c48f297d2d270d"
+    }
+  ],
+  "reviewer14PartitionAfterThisDelta": {
+    "assigned": 48,
+    "reviewed": 48,
+    "accepted": 24,
+    "rework": 24,
+    "blocked": 0,
+    "rugs": "10/12 ACCEPT; 2/12 REWORK"
+  },
+  "handoff": {
+    "08": "Rugs-9 and Rugs-10 exact current hashes are independently ACCEPT and may proceed through canonical-writer metadata/file/content checks. Rugs-11 and Rugs-12 are not eligible.",
+    "15": "Reviewer-14 current-hash Rugs 9-12 pass is complete: ACCEPT 9/10, REWORK 11/12. Unchanged Lighting 1-12, Rugs 1-8 and Decor 1-2 were preserved without re-review.",
+    "07": "Preserve Rugs-9 and Rugs-10 exact accepted hashes. Rework only Rugs-11 and Rugs-12 against the new-hash defects recorded here."
+  },
+  "freeze": {
+    "replitTouched": false,
+    "flootTouched": false,
+    "mainMergedOrModified": false,
+    "canonicalManifestOrRuntimeTouched": false,
+    "gameplayOrCatalogMetadataEdited": false,
+    "playerDataTouched": false
+  }
+}
