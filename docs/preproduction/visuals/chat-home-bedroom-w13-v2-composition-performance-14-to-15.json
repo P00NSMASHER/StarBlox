@@ -1,0 +1,114 @@
+{
+  "schemaVersion": 1,
+  "reviewer": "14",
+  "phase": "ART_AND_VISUALS_ONLY",
+  "branch": "screenshot-match-preproduction",
+  "sourceHeadCheckedBeforeWrite": "75a4cf0dc2c9a318ff4be367ad5da813bd4ce1da",
+  "candidateId": "home-bedroom-w13-v2",
+  "candidateType": "environment-background",
+  "targetScreen": "Home",
+  "scope": "Independent composition/performance/mobile-fit review only. This is not scene-art approval, canonical wiring authority, physical-device evidence, screen-reader evidence, or exact screenshot-parity proof.",
+  "catalogPriorityCheck": {
+    "ownPartition": ["lighting", "wall", "rugs", "decor"],
+    "freshExactCandidateReady": false,
+    "evidence": "docs/preproduction/catalog-sprint/lane-07.json declares catalog production closed at the current review level and Rugs 1-12 frozen; unchanged accepted Lighting/Rugs/Decor and unchanged Wall/Decor were not re-reviewed."
+  },
+  "producerEvidence": {
+    "lane": "docs/preproduction/visuals/lane-13.json",
+    "full": {
+      "path": "public/assets/visuals/lane-13/home-bedroom-w13-v2-full.png",
+      "gitBlobSha": "daa6069209ec438c6fc5e2e20788c33f7534d426",
+      "sha256": "d6f1936fc51ee7afd92a261a24015d02d93228cb7ae110fde9d7f12c0782c2cb",
+      "dimensions": [2320, 1808],
+      "bytes": 3808983,
+      "originReadback": "PASS_EXACT_SHA256"
+    },
+    "desktop": {
+      "path": "public/assets/visuals/lane-13/home-bedroom-w13-v2-1408x1056.png",
+      "gitBlobSha": "2806e8282923efb1b0dc467cbae7139b8d3f339b",
+      "sha256": "954d3d6e55b578506df87d787aa7d3aa7005f759b78cdd06b65603469ffc9251",
+      "dimensions": [1408, 1056],
+      "bytes": 1394961,
+      "originReadback": "PASS_EXACT_SHA256"
+    }
+  },
+  "renderEvidence": {
+    "workflowRunId": 35694316406,
+    "artifactId": 10679098800,
+    "artifactName": "catalog-staged-art-review",
+    "artifactSourceHead": "3ade8a2b282a066ce220d2113c2c25f1b644a4fc",
+    "artifactReport": {
+      "errors": [],
+      "warnings": [],
+      "desktopBinding": "home-bedroom-w13-v2-2:2806e8282923efb1b0dc467cbae7139b8d3f339b:public/assets/visuals/lane-13/home-bedroom-w13-v2-1408x1056.png",
+      "desktopSignature": "PASS_PNG",
+      "desktopSafety": "PASS_RASTER_SELF_CONTAINED",
+      "desktopDecode": "PASS_1408x1056",
+      "desktopOpaqueFraction": 1.0,
+      "desktopPixelRender": "PASS_COMPLETE_NONBLANK"
+    },
+    "runningHomeComparison": {
+      "workflowRunId": 35663655650,
+      "artifactId": 10668287632,
+      "renderHead": "b187186e62519ffa77bd0f7b166c601c90bdc416",
+      "filesInspected": [
+        "home-desktop-1408x1056.png",
+        "home-phone-390x844.png"
+      ],
+      "purpose": "Real-browser placement/context diagnostic only; candidate is not wired into these captures."
+    }
+  },
+  "referenceBasis": {
+    "immutableHomeReference": "docs/preproduction/reference-screenshots/originals/home-1448x1086.jpeg",
+    "sha256": "6a4b110aeaf12a6ab0c629f9181cc6cfa8d4f55a518d4f2a6adb3ac6e756c457",
+    "directExactPixelParityClaimedBy14": false,
+    "reviewer01PixelDerivedRepairContract": "docs/preproduction/visuals/reviews/01.json",
+    "contractUsed": [
+      "Avatar-safe corridor approximately x=36-64% and y=18-88%.",
+      "Dominant architectural hotspot must stay out of that corridor.",
+      "Preserve bed-left / desk-right anchors and clean center floor for separate character composition.",
+      "Top-center and far-right overlay zones should remain comparatively calm."
+    ]
+  },
+  "decision": "REWORK_COMPOSITION_BEFORE_RUNTIME_INTEGRATION",
+  "checks": {
+    "exactHashPixelBinding": "PASS",
+    "formatDecodeNonblank": "PASS",
+    "separateEnvironmentComponent": "PASS",
+    "noBakedUiCharacterCountersOrCards": "PASS",
+    "dominantHotspotMovedLeftOfHeroCorridor": "PASS",
+    "materialDepthAndLightingSuitability": "PASS",
+    "desktopOverlaySafeUpperCenter": "PASS",
+    "cleanLowerHeroCorridor": "REWORK",
+    "phoneCoverCropRobustness": "REWORK",
+    "runtimePayloadSuitability": "PASS_WITH_DERIVATIVE_CONDITION",
+    "physicalDeviceEvidence": "NOT_CLAIMED",
+    "exactScreenshotParity": "NOT_CLAIMED"
+  },
+  "observations": [
+    "The v2 repair clearly fixes the v1 hotspot problem: the strongest window/daylight source is confined to the far-left side, while the upper central wall is comparatively calm and gives UI/character layers useful contrast.",
+    "The rendered pixels have materially stronger depth cues than the current running Home background: rounded furniture volumes, floor contact, textile response, bevel highlights, shelf depth and directional warm light all read cleanly without baked UI.",
+    "The lower avatar corridor is not actually clean enough for integration. The bed/footboard extends from the left into roughly the middle of the x=36-64% contract corridor, while the plant/chair intrude from the right edge of that same corridor. The remaining lower-center gap is too narrow for the large separate avatar presentation visible in the real Home browser capture.",
+    "A deterministic center-cover diagnostic of the exact 1408x1056 asset at 390x844 corresponds to an uncropped-source window of approximately x=460-948 across the full source height. That slice retains the bed edge on the left and plant/chair on the right, putting competing silhouettes directly behind the likely phone hero area. At 320x568 the center-cover source window is approximately x=407-1001 and has the same conflict. These are diagnostic crops, not claims about the final runtime CSS.",
+    "The 1408x1056 derivative is a reasonable desktop/tablet candidate payload at 1,394,961 bytes for preproduction evaluation. The 3,808,983-byte full source should not be the default phone runtime asset; a purpose-built phone derivative/crop would improve both composition and transfer cost. No measured network/FPS claim is made."
+  ],
+  "smallestUsefulRepair": {
+    "owner": "13",
+    "request": "Keep v2's exact palette, left-side light source, bed-left/desk-right language and material depth, but produce a versioned mobile-safe/environment revision with a genuinely open lower hero corridor. Move the bed foot farther left and the plant/chair farther right (or reduce their intrusion) so x=36-64% stays visually quiet through the lower half. Preserve a separate background layer with no UI/character/state baked in. Provide a phone-oriented derivative or documented art-direction crop rather than relying on center-cover of the 4:3 desktop asset."
+  },
+  "handoff": {
+    "13": "REWORK_COMPOSITION only; art-quality ownership remains with reviewer 01. Preserve this v2 exact hash for comparison and stage a new versioned exact hash if repairing.",
+    "15": "Do not route Home v2 to runtime integration yet. The asset is strong enough to preserve as a comparison baseline, but reviewer14 blocks composition integration until the lower hero corridor/mobile crop conflict is repaired or an independently evidenced placement strategy avoids it.",
+    "09": "No change to the active environment is authorized by this review."
+  },
+  "freeze": {
+    "runtimeWired": false,
+    "canonicalCatalogTouched": false,
+    "sharedRuntimeCssTouched": false,
+    "mainTouched": false,
+    "deploymentTouched": false,
+    "replitOrFlootTouched": false,
+    "paidSettingsTouched": false,
+    "playerDataTouched": false
+  }
+}
