@@ -1,0 +1,95 @@
+{
+  "schemaVersion": 1,
+  "phase": "ART_VISUALS_SPRINT",
+  "coordinationOwner": "15",
+  "repository": "P00NSMASHER/StarBlox",
+  "branch": "screenshot-match-preproduction",
+  "observedHeadBeforeCoordination": "422834f2a605d1f97483acb5b82ac692282bd0c1",
+  "authority": {
+    "allocation": "docs/preproduction/ART_VISUALS_SPRINT.json",
+    "compatibleProtocol": "docs/preproduction/DELIVERY_PROTOCOL_V2.md",
+    "same15ExistingTaskIdsRequired": true,
+    "artAndVisualsOnlyUntilComplete": true,
+    "canonicalCatalogWriter": "08",
+    "crossWorkerAssignmentOwner": "15"
+  },
+  "liveCatalogFloor": {
+    "manifestVersion": 27,
+    "manifestRuntimeMappings": "163/163",
+    "finalPortableLabels": 156,
+    "interimNotVerified": 7,
+    "nonFinal": 36,
+    "independentlyAcceptedCurrentHashes": 91,
+    "canonicalAcceptedCurrentHashes": 90,
+    "acceptedAwaitingCanonical": 1,
+    "strictAcceptedRemainingAfterCurrentQualifiedAccepts": 101,
+    "releaseCleared": 0,
+    "accountingNote": "91 is a conservative exact-hash floor: v27 integration proves 90 accepted+canonical; reviewer14 subsequently qualified Rugs12 exact-current hash. Generated-local/external-only candidates are excluded from accepted/canonical counts."
+  },
+  "oldestReleaseCriticalDependency": {
+    "owner": "08",
+    "action": "Integrate the single qualified Rugs12 exact-current ACCEPT after normal live hash/metadata/decode/uniqueness checks.",
+    "itemId": "rugs-12",
+    "runtimePath": "/assets/catalog/rugs-12-w07-v3.png",
+    "repositoryPath": "public/assets/catalog/rugs-12-w07-v3.png",
+    "gitBlobSha": "eea2fc5b78c1186342f91f597bc792160ab8f8fe",
+    "sha256": "21a2f71224d9a7d4e0e60a672867cc629f21a481c3310fee6b1cac1c1be071b3",
+    "bytes": 1039033,
+    "dimensions": [1024, 1024],
+    "reviewer": "14",
+    "evidence": "docs/preproduction/catalog-sprint/chat-rugs-12-v3-reconciled-review-14-to-08.json",
+    "supersedesErroneousDeclaredBlob": "85007bbb5e31a5545cf006f9cf43f25167ffb37f"
+  },
+  "reconciledDependencies": {
+    "07": {
+      "status": "RUGS_CURRENT_REVIEW_LEVEL_CLOSED",
+      "instruction": "Preserve Rugs1-12 current accepted hashes; no regeneration or rereview. Rugs12 wiring belongs to 08. Do not claim another catalog family without 15 reassignment."
+    },
+    "09": {
+      "status": "RESTORED_SAME_EXISTING_TASK_ID_ART_ONLY",
+      "instruction": "Tops11-12 v7 remain GENERATED_LOCAL_RECEIPT_ONLY. Do not regenerate/re-encode. Exact authoritative payload bytes are absent; only attach if a genuinely new exact-byte source appears and returned Git blobs equal receipts 0641cd1563cd9f683d685231c52a28c9f66424be and 9f13c65b0310a70be3fb1e6464baf22dabe75ce1. Decor remains gated until Tops11-12 are stored/rendered/reviewed."
+    },
+    "12": {
+      "status": "HEADWEAR5_8_PRESERVED_EXTERNAL_NOT_STAGED",
+      "instruction": "Do not regenerate. Do not repeat unchanged failed photoshop-api.adobe.io transport; retry only if tool/connectivity surface materially changes. Headwear9-12 stays prep-only while the active pilot is unresolved."
+    },
+    "13": {
+      "status": "PARALLEL_EXCLUSIVE_VERSIONED_SCENE_CHARACTER_WORK_ALLOWED",
+      "instruction": "Continue isolated character/environment candidates without runtime/state wiring. New v2 intake work does not preempt the catalog integration dependency."
+    },
+    "14": {
+      "status": "RUGS12_ACCEPT_COMPLETE",
+      "instruction": "Do not churn Rugs12 or unchanged Wall/Decor. When no fresh own-partition catalog hash exists, continue independent reference/composition/performance evidence."
+    }
+  },
+  "candidateStateSeparation": {
+    "tops11_12_v7": "GENERATED_LOCAL_RECEIPT_ONLY_NOT_STAGED_NOT_REVIEWED_NOT_CANONICAL",
+    "headwear5_8": "PRESERVED_EXTERNAL_NOT_STAGED_NOT_REVIEWED_NOT_CANONICAL",
+    "rugs12": "REPO_STORED_READBACK_RENDERED_INDEPENDENTLY_ACCEPTED_NOT_YET_CANONICAL_AT_THIS_SNAPSHOT"
+  },
+  "visualSafeguards": {
+    "originalReferencePixelsAccessible": true,
+    "storeMobileCanonicalProof": "BLOCKED_SHARED_REAL_POINTER_STORE_ENTRY_TIMEOUT_BEFORE_CONTENT",
+    "catalogAssertionsBuildV27": "PASS",
+    "homeStructuralGeometry": "PRESERVE_CURRENT_GREEN_UNLESS_NEW_REGRESSION",
+    "questMeasuredGeometry": "OPEN_FOR_LATER_VISUAL_FINISHING",
+    "nonvisualReleaseEvidence": "DEFERRED_OPEN_NOT_WAIVED"
+  },
+  "automationReconciliation": {
+    "sameExistingStarBloxTaskIds": true,
+    "newStarBloxTasksCreated": 0,
+    "task09ExistingIdRestoredEnabled": true,
+    "substituteTasksCreated": false,
+    "schedulesChanged": false
+  },
+  "freeze": {
+    "replit": true,
+    "floot": true,
+    "mainMerge": true,
+    "deployment": true,
+    "paidSettingsPurchases": true,
+    "realPlayerData": true
+  },
+  "artVisualsComplete": false,
+  "deploymentPermission": false
+}
