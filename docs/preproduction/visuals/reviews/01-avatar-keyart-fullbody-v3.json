@@ -1,0 +1,132 @@
+{
+  "schemaVersion": 1,
+  "reviewer": "01",
+  "role": "Visual Target Director / independent character-art reviewer",
+  "phase": "ART_AND_VISUALS_ONLY",
+  "branch": "screenshot-match-preproduction",
+  "reviewedAt": "2026-09-22T08:24:45Z",
+  "sourceHeadBeforeReview": "bd012e95cb7cc1060570964a402049cfeca3dee2",
+  "candidateId": "avatar-keyart-fullbody-w13-v3",
+  "candidateType": "transparent-fullbody-avatar-keyart-guidance",
+  "producer": "13",
+  "scope": "Independent art/identity judgment only. No catalog/runtime approval, no screenshot-parity claim, and no composition/performance authority.",
+  "catalogPriorityCheck": {
+    "tops11_12_v7": "NOT_REVIEWABLE: lane-09 remains GENERATED_LOCAL_RECEIPT_ONLY; exact repository payload/readback plus shared card/detail evidence are still absent.",
+    "headwear5_8": "NOT_REVIEWABLE: lane-12 remains external-only; exact repository bytes/hashes plus shared card/detail evidence are still absent.",
+    "acceptedCatalogPreserved": "Tops1-10, Bottoms1-4 and Headwear1-4 remain preserved exactly; no unchanged catalog hash was churned.",
+    "result": "No fresh in-partition catalog candidate was ready, so the user-authorized parallel Lane13 character-art review proceeded."
+  },
+  "referenceEvidence": {
+    "manifest": "docs/preproduction/reference-screenshots/original-reference-manifest.json",
+    "unchangedVerifiedOriginals": true,
+    "priorIndependentPixelReviewReusedByExactReferenceHash": "docs/preproduction/visuals/reviews/01-avatar-keyart-fullbody-v2.json",
+    "references": [
+      {
+        "screen": "Home",
+        "path": "docs/preproduction/reference-screenshots/originals/home-1448x1086.jpeg",
+        "sha256": "6a4b110aeaf12a6ab0c629f9181cc6cfa8d4f55a518d4f2a6adb3ac6e756c457",
+        "gitBlobSha": "cd4905ff1a8b97d784698ae1b0f8c3521937711e",
+        "identityCue": "Very long medium-brown hair extending materially below the shoulders toward waist/hips, with chunky block-world body, wink/open-smile face and hot-pink/dark cat headset."
+      },
+      {
+        "screen": "Store",
+        "path": "docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg",
+        "sha256": "b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d",
+        "gitBlobSha": "383baa877d3af86fa92e3583740212000592b3d6",
+        "identityCue": "Same long brown hair, high-contrast wink/open smile, bright hot-pink/dark headset, blocky toy limbs and glossy dimensional material response."
+      },
+      {
+        "screen": "Quest",
+        "path": "docs/preproduction/reference-screenshots/originals/quest-1448x1086.jpeg",
+        "sha256": "70f1b952709a85c77bb11851ffe9ae704acf8b97640355e908b6ec537b5c73c9",
+        "gitBlobSha": "52ce6c21f08acd34070e1e692c2c436f77a3e420",
+        "identityCue": "Same cross-screen avatar language: very long brown hair, high-contrast wink/black eye and open smile, cat-ear headset, chunky toy body and rounded-bevel premium materials."
+      }
+    ]
+  },
+  "priorVersion": {
+    "candidateId": "avatar-keyart-fullbody-w13-v2",
+    "fullGitBlobSha": "02f32a167fc0c6c3e69d0cbd88570be9fc248cd6",
+    "optimizedGitBlobSha": "86963c5d5addd2f050830eac63b251ae13091b7a",
+    "decision": "REWORK",
+    "decisionTransferredToV3": false,
+    "onlyRemainingDefect": "Hair ended around shoulders/upper chest rather than materially below shoulders toward waist/upper-hip.",
+    "acceptedAspectsToPreserve": [
+      "chunky block-world body proportions",
+      "wink plus high-contrast black eye and wide open smile",
+      "hot-pink/dark/cyan cat-ear headset identity",
+      "waving pose and readable silhouette",
+      "premium rounded-bevel material response and warm/cyan dimensional lighting",
+      "clean separable transparent character component"
+    ]
+  },
+  "candidateEvidence": {
+    "intake": "docs/preproduction/visuals/lane-13-avatar-keyart-fullbody-v3-intake.json",
+    "repairSeed": "docs/preproduction/visuals/lane-13-v3-repairs-seed.json",
+    "candidateCommit": "6a8689e457eeaa65733547f72f76758b9adda405",
+    "repositoryReadback": "PASS_3_OF_3_EXACT_SHA256_AND_BYTE_LENGTH",
+    "full": {
+      "path": "public/assets/visuals/lane-13/avatar-keyart-fullbody-w13-v3-full.png",
+      "gitBlobSha": "f5cd001ccd84755c2b279b8446d7692359bb8b3d",
+      "sha256": "9d115163c520d932a3022acdc6ee698e1f01b847b0fcf20d641975055719e263",
+      "bytes": 1198367,
+      "dimensions": [1360, 1744]
+    },
+    "optimized": {
+      "path": "public/assets/visuals/lane-13/avatar-keyart-fullbody-w13-v3-896.png",
+      "gitBlobSha": "14ae9a6d47c9c5c0b5179a113426917b1ae7f658",
+      "sha256": "5fd0b208bcf845ce651df98d9664266f469422e7b23d027b1fd7690b8777b5b2",
+      "bytes": 625779,
+      "dimensions": [896, 1149]
+    },
+    "actualPixelInspection": {
+      "fullInspected": true,
+      "optimizedInspected": true,
+      "v2OptimizedComparisonInspected": true,
+      "method": "Direct model visual inspection of producer-pinned Adobe transparent renditions corresponding to the repository-staged candidate, cross-checked against exact repository intake hashes and the prior v2 identity review.",
+      "finding": "V3 adds a distinct layered/slightly-wavy medium-brown rear hair mass extending from behind the shoulders down to approximately the bottom of the lavender shirt/top of the pants, i.e. the waist/upper-hip region. The face and headset remain unobscured. The square toy head, thick block limbs, raised waving hand, wink/black-eye/open-smile face, hot-pink cat-ear headset with dark earcups and cyan accents, rounded toy materials, warm left key and cyan right rim all remain visually consistent with the successful v2 treatment. No clipping, corruption, stray text/logo, third-party IP or new silhouette defect is visible."
+    }
+  },
+  "decision": "ACCEPT",
+  "checks": {
+    "newExactHashReviewedIndependently": "PASS",
+    "v2VerdictNotTransferred": "PASS",
+    "referenceHairLengthAndFlow": "PASS",
+    "brownHairColorContinuity": "PASS",
+    "blockWorldBodyProportions": "PASS",
+    "faceIdentityConsistency": "PASS",
+    "hotPinkDarkCatHeadsetIdentity": "PASS",
+    "poseContinuity": "PASS",
+    "dimensionalCharacterQuality": "PASS",
+    "materialAndLightingQuality": "PASS",
+    "silhouette": "PASS",
+    "childAppropriateStyling": "PASS",
+    "separableCharacterComponent": "PASS",
+    "equippedStateSafety": "PASS_AS_NONCANONICAL_GUIDANCE_ONLY",
+    "thirdPartyIpOrLogoReuse": "PASS",
+    "newVisibleRegression": "NONE_OBSERVED"
+  },
+  "acceptReasons": [
+    "The only v2 identity defect is genuinely fixed on the new v3 pixels: the medium-brown hair now extends materially below the shoulders as layered rear locks to roughly waist/upper-hip, matching the authoritative cross-screen length cue closely enough for independent character-art acceptance.",
+    "The bounded repair did not trade away the successful v2 identity. The chunky block-world body, one-eye-plus-wink/open-smile face, bright hot-pink/dark/cyan cat headset, waving pose and broad toy-foot silhouette remain immediately recognizable.",
+    "The premium dimensional treatment remains intact: rounded-bevel toy surfaces, warm key light, cyan rim response, hair highlights and contact shading preserve depth without flattening into icon/vector treatment.",
+    "The character remains a clean separable transparent component. The visible lavender/navy clothing is accepted only as noncanonical visual guidance and gains no authority over equipped catalog state."
+  ],
+  "handoff": {
+    "13": "Reviewer 01 has no further bounded art/identity repair request for this exact v3 hash. Preserve this accepted candidate unless a genuinely new visual defect is found.",
+    "14": "Composition/performance authority remains entirely with reviewer 14; this ACCEPT does not pre-approve runtime composition or performance.",
+    "15": "Record this exact v3 candidate as reviewer-01 art/identity ACCEPT only. Coordinate any later shared-entrypoint/runtime action under the existing ownership rules; no screenshot-parity claim is made here.",
+    "08": "No catalog action. This character key-art candidate is outside the 192-item catalog and does not change canonical catalog mappings."
+  },
+  "freeze": {
+    "runtimeTouched": false,
+    "canonicalCatalogTouched": false,
+    "learningEconomyTouched": false,
+    "playerDataTouched": false,
+    "replitOrFlootTouched": false,
+    "mainTouched": false,
+    "deployTouched": false,
+    "paidSettingsTouched": false,
+    "purchasesMade": false
+  }
+}
