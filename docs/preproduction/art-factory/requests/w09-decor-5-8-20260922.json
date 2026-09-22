@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 4,
+  "schemaVersion": 5,
   "kind": "STARBLOX_ART_FACTORY_BATCH_REQUEST",
   "planner": "12",
   "producer": "09",
@@ -8,7 +8,7 @@
   "integrationOwner": "08",
   "coordinationOwner": "15",
   "branch": "screenshot-match-preproduction",
-  "sourceHead": "9984d6b76d28838e9ee7c3bd82c495981589507d",
+  "sourceHead": "168441331cd38983ba41c2f31dd81195ea5d85c2",
   "manifestVersion": 33,
   "liveFallbackCount": 19,
   "batchId": "w09-decor-5-8-vnext",
@@ -18,20 +18,21 @@
     "decor-7",
     "decor-8"
   ],
-  "state": "EXISTING_BATCH_REFRESHED__DECOR7_IDENTITY_CORRECTED__NO_SECOND_PLAN_CREATED",
+  "state": "EXISTING_BATCH_RECONCILED__DECOR5_QUALIFICATION_PENDING__DECOR6_8_BLOCKED_PROVENANCE__DECOR7_LOCAL_PROVENANCE_BLOCKED__NO_SECOND_PLAN_CREATED",
   "routingBasis": {
     "activeBatch": "docs/preproduction/art-factory/ACTIVE_BATCH.json",
-    "activeBatchBlobSha": "dca5d3d3094dbd23381a36711a1fe1eae9b31f79",
-    "assignmentState": "ACTIONABLE_REWORK_FACTORY_PILOT",
+    "activeBatchBlobSha": "add40affbc3a51aa219f32cd5f86bd9e118959bf",
+    "assignmentState": "DECOR5_QUALIFICATION_PENDING__DECOR6_8_BLOCKED_PROVENANCE__DECOR7_LOCAL_PROVENANCE_BLOCKED",
     "strictBlockerKind": "VISIBLE_GENERIC_FALLBACK_ART",
     "candidateState": {
-      "decor-5": "NEWER_REPOSITORY_CANDIDATE_EXISTS_FREEZE_NO_DUPLICATE",
-      "decor-6": "EXACT_GIT_BLOB_CREATED_NOT_BRANCH_STAGED__READBACK_PENDING",
-      "decor-7": "NO_BRANCH_STAGED_CANDIDATE__PRIOR_LOCAL_ROLLER_SKATE_VARIANTS_HELD_FOR_PLAN_IDENTITY_MISMATCH",
-      "decor-8": "EXACT_GIT_BLOB_CREATED_NOT_BRANCH_STAGED__READBACK_PENDING"
+      "decor-5": "REPOSITORY_STAGED_CURRENT_CANDIDATE__06_QUALIFICATION_PENDING",
+      "decor-6": "BLOCKED_PROVENANCE__EXACT_BRANCH_BYTES_AND_SHARED_PIXELS_PRESERVED",
+      "decor-7": "CORRECTED_ROLLER_SKATE_IDENTITY__LOCAL_VARIANTS_PROVENANCE_INCOMPLETE__HOLD_NO_STAGE",
+      "decor-8": "BLOCKED_PROVENANCE__EXACT_BRANCH_BYTES_AND_SHARED_PIXELS_PRESERVED"
     },
     "candidateEvidence": "docs/preproduction/art-factory/requests/w09-decor-6-8-staging-evidence-20260922.json",
-    "note": "Coordinator15 keeps Decor 5-8 as producer09's bounded first fallback-clearing pilot. Decor 9-12 remain gated until independent disposition. This refresh updates the existing request only; it does not create a second batch, stage pixels, or transfer any verdict."
+    "provenanceEvidence": "docs/preproduction/art-factory/requests/w06-decor-6-8-provenance-readback-20260922.json",
+    "note": "Coordinator15 keeps Decor 5-8 as producer09's bounded first fallback-clearing pilot. Decor5 is the only immediate qualification target. Decor6/8 exact branch bytes and shared render pixels are preserved but fail closed on missing authoritative model/revision and executed seed evidence. Decor7 local roller-skate variants remain provenance-incomplete. Decor9-12 remain gated until independent pilot disposition."
   },
   "metadataSource": {
     "path": "src/gameModel.js",
@@ -41,7 +42,7 @@
     "path": "docs/preproduction/catalog-sprint/reviews/14.json",
     "reviewSourceHead": "d0bee12ccdc85b6c22915500c8b1a8afaadf6190",
     "decision": "REWORK",
-    "note": "Reviewer14 preserves Decor 5-8 exact current legacy hashes as REWORK. Planner12 does not review pixels, self-approve, or transfer verdicts across hashes."
+    "note": "Reviewer14 preserves Decor 5-8 exact legacy hashes as REWORK. No verdict transfers to newer candidate hashes."
   },
   "reference": {
     "path": "docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg",
@@ -51,7 +52,7 @@
       1448,
       1086
     ],
-    "role": "FIRST_PARTY_STAR_BLOX_STORE_ART_DIRECTION"
+    "role": "FIRST_PARTY_STARBLOX_STORE_ART_DIRECTION"
   },
   "factoryPolicy": {
     "optimizerFirst": true,
@@ -72,7 +73,7 @@
   },
   "seedDerivation": {
     "method": "SHA256(batchId + '|' + itemId + '|' + variantId), first 8 hex interpreted unsigned then masked with 0x7fffffff",
-    "purpose": "Deterministic planner seeds for the bounded two-variant request. The later job compiler/runtime must record the exact compiled/executed seed actually used; never claim an unexposed service seed."
+    "purpose": "Planner seeds only. The compiler/runtime must record the exact compiled/executed seed; never promote a planner seed to an unexposed service seed."
   },
   "provenanceRequirements": {
     "prompt": [
@@ -134,7 +135,7 @@
           "VISIBLE_GENERIC_FALLBACK_ART",
           "LEGACY_EXACT_HASH_REWORK"
         ],
-        "humanReviewerReason": "Current reviewer14 shard preserves this exact legacy hash as REWORK but has no item-specific prose reason for this legacy Decor ID; do not invent or transfer a more specific failure code from another item."
+        "humanReviewerReason": "Reviewer14 preserves this exact legacy hash as REWORK without item-specific prose for this legacy Decor ID; do not invent or transfer a more specific failure code."
       },
       "optimizerStage": {
         "required": true,
@@ -159,7 +160,13 @@
           "finalPromptSha256": null
         }
       ],
-      "freezeState": "EXISTING_NEWER_REPOSITORY_CANDIDATE__DO_NOT_GENERATE_DUPLICATE"
+      "freezeState": "REPOSITORY_STAGED_CURRENT_CANDIDATE__06_QUALIFICATION_PENDING__DO_NOT_GENERATE_DUPLICATE",
+      "existingDerivativeEvidence": {
+        "path": "public/assets/catalog/decor-5-w09-v2.webp",
+        "gitBlobSha": "b8ff7b9d6bec11fe8e836952f7a0c5b844e34b6e",
+        "branchState": "STAGED_CURRENT_CANDIDATE",
+        "next": "06 exact provenance/staging qualification -> 14 real card/detail render+review"
+      }
     },
     "decor-6": {
       "exactStoreMetadata": {
@@ -178,7 +185,7 @@
           "VISIBLE_GENERIC_FALLBACK_ART",
           "LEGACY_EXACT_HASH_REWORK"
         ],
-        "humanReviewerReason": "Current reviewer14 shard preserves this exact legacy hash as REWORK but has no item-specific prose reason for this legacy Decor ID; do not invent or transfer a more specific failure code from another item."
+        "humanReviewerReason": "Reviewer14 preserves this exact legacy hash as REWORK without item-specific prose for this legacy Decor ID; do not invent or transfer a more specific failure code."
       },
       "optimizerStage": {
         "required": true,
@@ -203,7 +210,7 @@
           "finalPromptSha256": null
         }
       ],
-      "freezeState": "EXACT_GIT_BLOB_EXISTS__NOT_BRANCH_STAGED__DO_NOT_GENERATE_DUPLICATE",
+      "freezeState": "BLOCKED_PROVENANCE__EXACT_BRANCH_BYTES_AND_SHARED_PIXELS_PRESERVED__DO_NOT_REGENERATE_RERENDER_REVIEW_OR_INTEGRATE",
       "existingDerivativeEvidence": {
         "path": "public/assets/catalog/decor-6-w09-v2.webp",
         "sha256": "61a12cba7ffb85d9e8666d4b984d26bdab95fb3759aa00abdda872ac3d04849a",
@@ -213,7 +220,25 @@
           600,
           600
         ],
-        "branchReadback": "PENDING"
+        "branchReadback": "PASS_EXACT_GIT_BLOB",
+        "sharedRender": {
+          "workflowRunId": 35757803263,
+          "jobId": 106847902253,
+          "detailPngSha256": "30a02f7050e6f0d36b5ffb22d1cd07a823521600bebe44d19e79a00b47f5e5c6"
+        }
+      },
+      "provenanceBlock": {
+        "status": "BLOCKED_PROVENANCE",
+        "provider": "OpenAI image_gen",
+        "generationId": "e8154c62-6814-48a0-a5e2-9d9fcf4edba4",
+        "actualPromptSha256": "68b23856c60d348f83fc9f1ac3e2c3dd844bb1d3e3727cd559751ac5565f89f4",
+        "plannerSeed": 975755716,
+        "plannerSeedIsGenerationSeed": false,
+        "modelId": null,
+        "modelRevisionOrCheckpointRevision": null,
+        "executedServiceSeed": null,
+        "executedSeedUnavailableReason": null,
+        "evidence": "docs/preproduction/art-factory/requests/w06-decor-6-8-provenance-readback-20260922.json"
       }
     },
     "decor-7": {
@@ -233,7 +258,7 @@
           "VISIBLE_GENERIC_FALLBACK_ART",
           "LEGACY_EXACT_HASH_REWORK"
         ],
-        "humanReviewerReason": "Current reviewer14 shard preserves this exact legacy hash as REWORK but has no item-specific prose reason for this legacy Decor ID; do not invent or transfer a more specific failure code from another item."
+        "humanReviewerReason": "Reviewer14 preserves this exact legacy hash as REWORK without item-specific prose for this legacy Decor ID; do not invent or transfer a more specific failure code."
       },
       "optimizerStage": {
         "required": true,
@@ -258,12 +283,13 @@
           "finalPromptSha256": null
         }
       ],
+      "freezeState": "CORRECTED_ROLLER_SKATE_IDENTITY__LOCAL_VARIANTS_PROVENANCE_INCOMPLETE__HOLD_NO_STAGE_OR_REGENERATION",
       "identityCorrection": {
         "basisPath": "public/assets/catalog/decor-7.svg",
         "basisGitBlobSha1": "671c609625400bf5c2142daef73ab632bd1225a2",
-        "basisObservation": "The exact current legacy asset labeled Garden Glow Skate Rack depicts boot-shaped skates with wheels stored in a rack; it does not depict skateboard decks.",
-        "plannerCorrection": "Interpret Skate Rack as roller-skate storage for this item. The prior skateboard-deck prompt variants are retired and must not be used for new generation.",
-        "existingLocalGeneratedVariants": "PRESERVE_AS_UNSTAGED_EVIDENCE_ONLY_UNTIL_PRODUCER09_RECONCILES_PROVENANCE_WITH_THIS_CORRECTED_PLAN__NO_RETROACTIVE_CONFORMANCE_CLAIM"
+        "basisObservation": "The exact legacy asset labeled Garden Glow Skate Rack depicts boot-shaped skates with wheels stored in a rack; it does not depict skateboard decks.",
+        "plannerCorrection": "Interpret Skate Rack as roller-skate storage. Retire prior skateboard-deck prompts.",
+        "existingLocalGeneratedVariants": "PRESERVE_UNSTAGED__PROVENANCE_INCOMPLETE__NO_RETROACTIVE_CONFORMANCE_CLAIM"
       }
     },
     "decor-8": {
@@ -283,7 +309,7 @@
           "VISIBLE_GENERIC_FALLBACK_ART",
           "LEGACY_EXACT_HASH_REWORK"
         ],
-        "humanReviewerReason": "Current reviewer14 shard preserves this exact legacy hash as REWORK but has no item-specific prose reason for this legacy Decor ID; do not invent or transfer a more specific failure code from another item."
+        "humanReviewerReason": "Reviewer14 preserves this exact legacy hash as REWORK without item-specific prose for this legacy Decor ID; do not invent or transfer a more specific failure code."
       },
       "optimizerStage": {
         "required": true,
@@ -308,7 +334,7 @@
           "finalPromptSha256": null
         }
       ],
-      "freezeState": "EXACT_GIT_BLOB_EXISTS__NOT_BRANCH_STAGED__DO_NOT_GENERATE_DUPLICATE",
+      "freezeState": "BLOCKED_PROVENANCE__EXACT_BRANCH_BYTES_AND_SHARED_PIXELS_PRESERVED__DO_NOT_REGENERATE_RERENDER_REVIEW_OR_INTEGRATE",
       "existingDerivativeEvidence": {
         "path": "public/assets/catalog/decor-8-w09-v2.webp",
         "sha256": "eda7946fcae74d1da202061276d33d62ca0446c4bdfd6fa1069a96bf9773db6d",
@@ -318,7 +344,25 @@
           600,
           600
         ],
-        "branchReadback": "PENDING"
+        "branchReadback": "PASS_EXACT_GIT_BLOB",
+        "sharedRender": {
+          "workflowRunId": 35757803263,
+          "jobId": 106847902253,
+          "detailPngSha256": "4e4eca4b9853b80b7e837669a4a9b1bfb14a4e50ff3857912f8e8ef769556806"
+        }
+      },
+      "provenanceBlock": {
+        "status": "BLOCKED_PROVENANCE",
+        "provider": "OpenAI image_gen",
+        "generationId": "bbf27f53-d4fe-48a5-87c5-26d5057eeb4e",
+        "actualPromptSha256": "f167601bf53ac360126e6a8ac9da6f3e1590f2bebc8655a50d51b53219c4147c",
+        "plannerSeed": 1735572564,
+        "plannerSeedIsGenerationSeed": false,
+        "modelId": null,
+        "modelRevisionOrCheckpointRevision": null,
+        "executedServiceSeed": null,
+        "executedSeedUnavailableReason": null,
+        "evidence": "docs/preproduction/art-factory/requests/w06-decor-6-8-provenance-readback-20260922.json"
       }
     }
   },
@@ -326,7 +370,8 @@
     "decor1To4AcceptedCanonical": true,
     "decor9To12UntilReviewer14Disposition": true,
     "decor5ExistingCandidateNoDuplicate": true,
-    "decor6And8ExistingExactGitBlobsNoDuplicate": true,
+    "decor6And8ExactBranchBytesBlockedProvenance": true,
+    "decor7LocalVariantsProvenanceIncompleteNoStage": true,
     "canonicalManifestAndRuntime": true,
     "gameplayLearningPersistenceEconomy": true,
     "mainReplitFlootDeployPaidSettingsSecretsPlayerData": true
@@ -337,7 +382,7 @@
     "canonicalWiringChanged": false,
     "ciWorkflowChanged": false,
     "secondPlanCreated": false,
-    "materialChange": "Corrected Decor7 item identity from skateboard storage to roller-skate storage using exact current legacy asset evidence, while freezing all existing Decor5/6/8 candidate evidence and preserving deterministic seeds.",
-    "note": "Planner12 refreshed the existing Decor 5-8 request only. No provider pixels, review verdicts, canonical mappings, ACTIVE_BATCH, ART_FACTORY_V2, workflow/CI, runtime, gameplay, learning, persistence, economy, secrets, paid settings, deployment, or player data were changed."
+    "materialChange": "Reconciled the existing Decor5-8 request to live exact branch evidence: Decor6/8 are now exact-branch-staged with successful shared pixel renders but fail closed as BLOCKED_PROVENANCE; Decor5 remains the sole immediate qualification target; Decor7 local roller-skate variants remain provenance-incomplete and held.",
+    "note": "No provider pixels, review verdicts, canonical mappings, ACTIVE_BATCH, ART_FACTORY_V2, workflow/CI, runtime, gameplay, learning, persistence, economy, secrets, paid settings, deployment, or player data changed."
   }
 }
