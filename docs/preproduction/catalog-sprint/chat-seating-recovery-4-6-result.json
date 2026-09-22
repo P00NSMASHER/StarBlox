@@ -1,0 +1,143 @@
+{
+  "schemaVersion": 1,
+  "batchId": "chat-seating-recovery-4-6-20260922",
+  "status": "STAGED_READY_FOR_INDEPENDENT_REVIEW",
+  "sourceHead": "121323dc0001a41515a2b1030790a19a45bee0ae",
+  "workflowRunId": "35673301701",
+  "transportHelper": "CHAT",
+  "canonicalWriter": "08",
+  "newGenerations": 0,
+  "storedCandidateCount": 3,
+  "storedOriginalCount": 3,
+  "duplicateCandidateContent": 0,
+  "items": [
+    {
+      "id": "seating-4",
+      "name": "Heart Chair",
+      "collectionId": "seating",
+      "collectionName": "Seating",
+      "type": "room",
+      "tier": 2,
+      "theme": "Midnight Neon",
+      "price": 123,
+      "starReq": 0,
+      "format": "PNG",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "bytes": 914302,
+      "sha256": "ed23dbccfd3501122c20b3fff77bb8d3f4273cb902e4df745e66fdbfa2c86710",
+      "gitBlobSha": "55d1fb2edddb7638f87c5962bd03b6ac745a1f4b",
+      "producer": "CHAT",
+      "transportHelper": "CHAT",
+      "independentReviewer": "02",
+      "repositoryPath": "public/assets/catalog/seating-4-chat-v2.png",
+      "assetPath": "/assets/catalog/seating-4-chat-v2.png",
+      "assetId": "urn:aaid:ps:US:3ea38f81-6e6d-4b53-b469-cc94b00ed7ac",
+      "status": "READY_FOR_REVIEW_02",
+      "readback": "PASS",
+      "original": {
+        "format": "PNG",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "bytes": 914302,
+        "sha256": "ed23dbccfd3501122c20b3fff77bb8d3f4273cb902e4df745e66fdbfa2c86710",
+        "gitBlobSha": "55d1fb2edddb7638f87c5962bd03b6ac745a1f4b",
+        "repositoryPath": "docs/preproduction/catalog-sprint/recovered-originals/chat-seating-recovery-4-6-20260922/seating-4-3ea38f81-6e6d-4b53-b469-cc94b00ed7ac.png"
+      }
+    },
+    {
+      "id": "seating-5",
+      "name": "Reading Chair",
+      "collectionId": "seating",
+      "collectionName": "Seating",
+      "type": "room",
+      "tier": 2,
+      "theme": "Candy Core",
+      "price": 181,
+      "starReq": 0,
+      "format": "PNG",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "bytes": 1050854,
+      "sha256": "817b9316d3b1d4ccf2c3fc488732fc17831f4c00797185b5b09bfebe590af657",
+      "gitBlobSha": "252f0b24b3ede29d6abfbe7fc661a7da751de565",
+      "producer": "CHAT",
+      "transportHelper": "CHAT",
+      "independentReviewer": "02",
+      "repositoryPath": "public/assets/catalog/seating-5-chat-v2.png",
+      "assetPath": "/assets/catalog/seating-5-chat-v2.png",
+      "assetId": "urn:aaid:ps:US:523062a8-44f7-4a5d-9333-89ea2811d762",
+      "status": "READY_FOR_REVIEW_02",
+      "readback": "PASS",
+      "original": {
+        "format": "PNG",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "bytes": 1050854,
+        "sha256": "817b9316d3b1d4ccf2c3fc488732fc17831f4c00797185b5b09bfebe590af657",
+        "gitBlobSha": "252f0b24b3ede29d6abfbe7fc661a7da751de565",
+        "repositoryPath": "docs/preproduction/catalog-sprint/recovered-originals/chat-seating-recovery-4-6-20260922/seating-5-523062a8-44f7-4a5d-9333-89ea2811d762.png"
+      }
+    },
+    {
+      "id": "seating-6",
+      "name": "Gamer Chair",
+      "collectionId": "seating",
+      "collectionName": "Seating",
+      "type": "room",
+      "tier": 2,
+      "theme": "Adventure Club",
+      "price": 254,
+      "starReq": 0,
+      "format": "PNG",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "bytes": 941578,
+      "sha256": "d3e8e8d96beec53a6f4a094d3cf1717c0790b9b9ae56fee26df6672e20e4f01e",
+      "gitBlobSha": "f4f00fb739aaae4ce970a4c4d1d738bca729ff40",
+      "producer": "CHAT",
+      "transportHelper": "CHAT",
+      "independentReviewer": "02",
+      "repositoryPath": "public/assets/catalog/seating-6-chat-v2.png",
+      "assetPath": "/assets/catalog/seating-6-chat-v2.png",
+      "assetId": "urn:aaid:ps:US:3e52d0a5-b69b-4577-a4e3-320b5963025b",
+      "status": "READY_FOR_REVIEW_02",
+      "readback": "PASS",
+      "original": {
+        "format": "PNG",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "bytes": 941578,
+        "sha256": "d3e8e8d96beec53a6f4a094d3cf1717c0790b9b9ae56fee26df6672e20e4f01e",
+        "gitBlobSha": "f4f00fb739aaae4ce970a4c4d1d738bca729ff40",
+        "repositoryPath": "docs/preproduction/catalog-sprint/recovered-originals/chat-seating-recovery-4-6-20260922/seating-6-3e52d0a5-b69b-4577-a4e3-320b5963025b.png"
+      }
+    }
+  ],
+  "checks": {
+    "metadata": "PASS_3_OF_3_FROM_CURRENT_GAME_MODEL",
+    "exactByteReadback": "PASS_6_OF_6",
+    "candidateDecode": "PASS_3_OF_3",
+    "independentVisualReview": "PENDING_ASSIGNED_REVIEWERS"
+  },
+  "freeze": {
+    "replitTouched": false,
+    "flootTouched": false,
+    "mainTouched": false,
+    "canonicalMappingsTouched": false,
+    "gameplayChanged": false,
+    "playerDataTouched": false
+  }
+}
