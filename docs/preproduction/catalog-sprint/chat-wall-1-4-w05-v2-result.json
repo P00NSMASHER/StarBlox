@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "batchId": "w05-wall-1-4-20260922-b01",
-  "status": "STAGED_READBACK_PASS__RENDER_PENDING",
+  "status": "STAGED_READY_FOR_INDEPENDENT_REVIEW_14",
   "sourceHead": "2404cbd1500d626d0feade6b65ac469be37b6b83",
   "producer": "05",
   "independentReviewer": "14",
@@ -190,10 +190,11 @@
   "checks": {
     "exactByteReadback": "PASS_4_OF_4",
     "candidateDecode": "PASS_4_OF_4",
-    "tests": "PENDING",
-    "build": "PENDING",
-    "sharedRenderOverall": "PENDING",
-    "wallCardDetailRender": "PENDING"
+    "tests": "PASS",
+    "build": "PASS",
+    "sharedRenderOverall": "FAIL",
+    "wallCardDetailRender": "PASS_4_OF_4",
+    "typecheck": "NOT_APPLICABLE_NO_APP_SOURCE_CHANGES"
   },
   "freeze": {
     "replitTouched": false,
@@ -204,5 +205,58 @@
     "learningChanged": false,
     "playerDataTouched": false
   },
-  "handoff": "14: independently review exact current Wall pilot hashes only after actual card/detail render evidence. 08: integrate only after qualified independent ACCEPT. 05: do not self-approve or scale beyond Wall 1-4 before reviewer14 disposition."
+  "handoff": "14: independently review exact current Wall pilot hashes only after actual card/detail render evidence. 08: integrate only after qualified independent ACCEPT. 05: do not self-approve or scale beyond Wall 1-4 before reviewer14 disposition.",
+  "testedSourceHead": "7a0040914b067524d846d0902f723a85764fc4f6",
+  "workflowRunId": 35711317749,
+  "renderEvidence": {
+    "artifactName": "wall-1-4-w05-v2-recovery-evidence",
+    "reportPath": "artifacts/catalog-staged-art/report.json",
+    "matchedIds": [
+      "wall-1",
+      "wall-2",
+      "wall-3",
+      "wall-4"
+    ],
+    "matchedHashes": {
+      "wall-1": "9908e774b4012cb89d3c86eed9ca3d10ce3bffe4",
+      "wall-2": "febf517cd0db666f647962c0cb7d4e5af53d4b76",
+      "wall-3": "5ad5aff97c9d365221de8c2d888abf3a26db547e",
+      "wall-4": "bc38aee13c1c4840aa1e9657edfb67c8838a6a21"
+    },
+    "screenshots": {
+      "wall-1": {
+        "blobSha": "9908e774b4012cb89d3c86eed9ca3d10ce3bffe4",
+        "screenshot": true,
+        "status": 200,
+        "naturalWidth": 1024,
+        "naturalHeight": 1024,
+        "errors": []
+      },
+      "wall-2": {
+        "blobSha": "febf517cd0db666f647962c0cb7d4e5af53d4b76",
+        "screenshot": true,
+        "status": 200,
+        "naturalWidth": 1024,
+        "naturalHeight": 1024,
+        "errors": []
+      },
+      "wall-3": {
+        "blobSha": "5ad5aff97c9d365221de8c2d888abf3a26db547e",
+        "screenshot": true,
+        "status": 200,
+        "naturalWidth": 1024,
+        "naturalHeight": 1024,
+        "errors": []
+      },
+      "wall-4": {
+        "blobSha": "bc38aee13c1c4840aa1e9657edfb67c8838a6a21",
+        "screenshot": true,
+        "status": 200,
+        "naturalWidth": 1024,
+        "naturalHeight": 1024,
+        "errors": []
+      }
+    }
+  },
+  "independentVisualReview": "PENDING_WORKSTREAM_14_NOT_SELF_APPROVED"
 }
