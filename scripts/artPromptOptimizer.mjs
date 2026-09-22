@@ -125,7 +125,8 @@ export function compose(item,blocks,variant='A'){
 export function recommend(item,review,model,count=4){
  const decision=String(review?.decision||'UNREVIEWED').toUpperCase(), repair=inferRepair(review||{});
  if(decision==='ACCEPT')return{itemId:item.id,action:'PRESERVE_ACCEPTED_HASH',assetHash:review.assetHash||null};
- if(decision==='BLOCKED'||repair.technical)return{itemId:item.id,action:'TECHNICAL_REPAIR_NOT_PROMPT_REGEN',assetHash:review?.assetHash||null,reason:review?.reason||review?.reasonCode||'technical blocker'};
+ if(decision.startsWith('BLOCKED')||repair.technical)return{itemId:item.id,action:'TECHNICAL_REPAIR_NOT_PROMPT_REGEN',assetHash:review?.assetHash||null,reason:review?.reason||review?.reasonCode||'technical blocker'};
+ if(!['REWORK','UNREVIEWED'].includes(decision))return{itemId:item.id,action:'HOLD_NOT_REGEN',assetHash:review?.assetHash||null,decision,reason:'Current review state is not an independent art-quality REWORK.'};
  const r=uniq([...repair.blocks,...defaults(item.collectionId)]), learned=Object.keys(BLOCKS).filter(x=>!BASE.includes(x)&&!r.includes(x)).sort((a,b)=>score(model,item,b)-score(model,item,a)).slice(0,4);
  const plans=[['A-PHYSICAL',['physical','material','camera','depth']],['B-READABILITY',['silhouette','card','original','bloom']],['C-THEME-TIER',['theme','tier','original','material']],['D-REPAIR',[...r,...learned]]].slice(0,Math.max(2,Math.min(4,Number(count)||4)));
  return {itemId:item.id,name:item.name,collectionId:item.collectionId,tier:item.tier,theme:item.theme,decision,sourceReviewHash:review?.assetHash||null,failureCodes:repair.failureCodes,repairBlocks:r,variants:plans.map(([id,b])=>compose(item,[...r,...b],id))};
