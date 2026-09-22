@@ -1,440 +1,160 @@
 {
-  "schemaVersion": 6,
+  "schemaVersion": 7,
   "reviewer": "02",
-  "partition": [
-    "shoes",
-    "backgear",
-    "handgear",
-    "seating"
-  ],
-  "inspectedSourceHead": "b6e1fe076ddca8f475756c0f4bf4bcbb9b8cb975",
-  "historyRefs": [
-    {
-      "type": "prior-review-shard",
-      "blobSha": "c643fa96785dbff73677b2582d359e0c3084ce12",
-      "scope": "Complete legacy Shoes/Backgear/Handgear/Seating partition, 48/48 exact legacy hashes",
-      "disposition": "0 ACCEPT / 48 REWORK / 0 BLOCKED",
-      "note": "Immutable prior shard preserves every item-specific legacy decision and evidence. Those REWORK decisions apply only to their exact old hashes and do not transfer to the new replacements below."
-    }
-  ],
-  "evidenceSets": {
-    "freshShoes1To4": {
-      "producer": "04",
-      "source": "docs/preproduction/catalog-sprint/chat-shoes-recovery-1-4-result.json",
-      "workflowRunId": 35666743775,
-      "metadataAndReadback": "PASS_4_OF_4_METADATA; PASS_8_OF_8_SOURCE_PLUS_CANDIDATE_EXACT_BYTE_READBACK",
-      "visualInspection": "Exact Adobe rendition pixels corresponding byte-for-byte to the stored 600x600 JPEG candidates were independently inspected by reviewer 02 at 600px detail scale and 220px card proxy scale."
+  "role": "independent reviewer for Shoes/Backgear/Handgear/Seating",
+  "phase": "ART_VISUALS_SPRINT",
+  "branch": "screenshot-match-preproduction",
+  "policy": "docs/preproduction/DELIVERY_PROTOCOL_V2.md",
+  "visualSprint": "docs/preproduction/ART_VISUALS_SPRINT.json",
+  "referenceManifest": "docs/preproduction/reference-screenshots/original-reference-manifest.json",
+  "sourceHead": "23b50f37f7c3cea7daa51f25e4b151ae33d6bc3c",
+  "gameModel": {
+    "path": "src/gameModel.js",
+    "blobSha": "79fdb8c3bed4d715e0b1c770f34db0037a7f7c3b",
+    "authoritativeSeatingMetadataChecked": true,
+    "authoritativeBedsMetadataChecked": true,
+    "bedsThemeSequence": {
+      "beds-1": "Garden Glow",
+      "beds-2": "Galaxy Glow",
+      "beds-3": "Sunny Pop",
+      "beds-4": "Aqua Wave",
+      "beds-5": "Art Attack",
+      "beds-6": "Star Luxe",
+      "beds-7": "Midnight Neon",
+      "beds-8": "Candy Core",
+      "beds-9": "Adventure Club",
+      "beds-10": "Cloud Pop",
+      "beds-11": "Pixel Party",
+      "beds-12": "Berry Blast"
     },
-    "freshShoes5To6": {
-      "producer": "04",
-      "source": "docs/preproduction/catalog-sprint/chat-shoes-recovery-5-6-result.json",
-      "workflowRunId": 35666988858,
-      "metadataAndReadback": "PASS_2_OF_2_METADATA; PASS_4_OF_4_SOURCE_PLUS_CANDIDATE_EXACT_BYTE_READBACK",
-      "visualInspection": "Exact Adobe rendition pixels corresponding byte-for-byte to the stored 600x600 JPEG candidates were independently inspected by reviewer 02 at 600px detail scale and 220px card proxy scale."
-    },
-    "freshSeating7To10": {
-      "producer": "06",
-      "workflowRunId": 35667087896,
-      "artifactId": 10669643556,
-      "artifactName": "lane06-seating-7-10-review-evidence",
-      "artifactDigest": "sha256:00ba02a7f5081fa88e8b3520ffcdb59ebe6bc01ce2d51760f5b8702deeb94982",
-      "contactSheet": "artifacts/lane06-seating-7-10/seating-7-10-card-contact-sheet.png",
-      "detailSha256": {
-        "seating-7": "e8ebfa1aa420ee7f50ba67816f2b1adcaed1a7f727ee813888a5b357b362c5ae",
-        "seating-8": "84efc31030e7785eeb9da81e60cc986c40b7eb07ea81a64f245005650073848a",
-        "seating-9": "34a6974c3b798236c9a429b0748178f7f4fa4b49aecdef361ac6c77f890a90ee",
-        "seating-10": "ce5397be1d08cb78d2a67692dd963fae995e4cd69f045ccf2a561363ccfbd044"
-      },
-      "checks": "PASS_4_OF_4_METADATA_DECODE_UNIQUE_READBACK_AND_ISOLATED_BROWSER_RENDER"
-    },
-    "freshSeating2To3": {
-      "producer": "01",
-      "source": "docs/preproduction/catalog-sprint/chat-seating-recovery-2-3-result.json",
-      "gameModelBlobSha": "79fdb8c3bed4d715e0b1c770f34db0037a7f7c3b",
-      "workflowRunId": 35671770098,
-      "artifactId": 10671012131,
-      "artifactName": "seating-2-3-recovery-evidence",
-      "artifactDigest": "sha256:07b7da381d584a08538754db0d8e97c4ed7434a4f23e8460f88ab73669fb3966",
-      "contactSheet": "artifacts/catalog-staged-art/staged-replacements/staged-replacements-contact-sheet.png",
-      "contactSheetSha256": "005780f5ae664771d8c3556356b00680d7cef09af0f883239d8a4433853bee07",
-      "detailSha256": {
-        "seating-2": "1ed3edf7b6e9ca0888d9efad7ca019a1c0853160773b66252cc0a8bfe80833c3",
-        "seating-3": "b6345b9fddc9810ca814e271a61dd4eda3ac869819997f09c129cb03ef54c2d8"
-      },
-      "checks": "PASS_2_OF_2_METADATA; PASS_4_FILES_EXACT_BYTE_READBACK; PASS_2_OF_2_CANDIDATE_DECODE; PASS_2_OF_2_SEATING_CARD_DETAIL_RENDER",
-      "visualInspection": "Reviewer 02 inspected actual staged-replacement card pixels in the shared contact sheet and both exact-hash detail screenshots; no source-only inference was used."
-    },
-    "freshSeating11To12IntegrityAudit": {
-      "producer": "06",
-      "sourceSeed": "docs/preproduction/catalog-sprint/lane-06-seating-11-12-tmp-seed.json@f868cd84b6a170b4d7a4a9ef1e5abcc442f0b915",
-      "workflowRunId": 35672223467,
-      "workflowJobId": 106571013165,
-      "assetCommit": "efe5551ad0f42e23bb4524578f367a42e9a6b4cb",
-      "workflowArtifacts": "NONE",
-      "actualExactHashes": {
-        "seating-11": {
-          "sourceGitBlobSha": "117f0bf64ef102b981e270add770b124e9ed4ba0",
-          "sourceSha256": "db820b387f584be46e963e038c8c39494f02d23f3360c9b45c0a568ddde80362",
-          "candidateGitBlobSha": "5126e9abcec4a09ef281dccb33aac6ba59b38b94",
-          "candidateSha256": "2bf8b90027f58f24323121305d675edc91ccb996605cd10ca73ccbe077645c47",
-          "candidateDimensions": [768, 768],
-          "candidateBytes": 579001
-        },
-        "seating-12": {
-          "sourceGitBlobSha": "eab756cac2821ad2c77c549988f5ef371ce1574d",
-          "sourceSha256": "2a52b5324d7f4a68ac3a0930859ffc6fde91d744460ea79a3ed8b731a2057e61",
-          "candidateGitBlobSha": "793b32f60ed10fffa80b549e75b66858ac0d7e4f",
-          "candidateSha256": "5891818da864e528aaceb598f93d2b3426cb91c3eb1acd0375e4f57cbe7d69df",
-          "candidateDimensions": [768, 768],
-          "candidateBytes": 577216
-        }
-      },
-      "githubReadback": "PASS_BOTH_CANDIDATE_PATHS_EXIST_AND_GITHUB_CONTENT_SHA_MATCHES_WORKFLOW_GIT_BLOB",
-      "producerLedgerIntegrity": "FAIL_LANE06_RECORDED_NEAR_BUT_NONMATCHING_GIT_BLOB_AND_SHA256_VALUES_FOR_BOTH_ITEMS",
-      "independentPixelEvidence": "BLOCKED: staging workflow produced no downloadable card/detail artifact. Browser fallback resolved the seating-11 source URL but exposed only a browser-local report rather than reusable exact-current-candidate card/detail pixels; seating-12 source fallback failed with a tunnel error. No quality ACCEPT/REWORK was inferred from producer prose.",
-      "decision": "BLOCK_EXACT_CURRENT_VERSIONS_ON_EVIDENCE_INTEGRITY_NOT_VISUAL_QUALITY"
-    }
+    "beds1MismatchDisposition": "Confirmed authoritative Store theme is Garden Glow. Lane 02 did not change gameModel or catalog metadata; Workstream 08 owns mapping correction."
   },
-  "summary": {
-    "legacyPartitionReviewed": 48,
-    "legacyRework": 48,
-    "freshReplacementVersionsReviewed": 15,
-    "freshAccept": 12,
-    "freshRework": 0,
-    "freshBlockedVersions": 3,
-    "usableBy08Now": [
-      "shoes-1",
-      "shoes-2",
-      "shoes-3",
-      "shoes-4",
-      "shoes-5",
-      "shoes-6",
-      "seating-7",
-      "seating-8",
-      "seating-9",
-      "seating-10",
-      "seating-2",
-      "seating-3"
-    ],
-    "currentBlockedExactHashes": {
-      "seating-11": "5126e9abcec4a09ef281dccb33aac6ba59b38b94",
-      "seating-12": "793b32f60ed10fffa80b549e75b66858ac0d7e4f"
+  "priorReviewShard": {
+    "blobSha": "0c05422c55b3241517012e4d5f0e893a381f83bf",
+    "schemaVersion": 6,
+    "scope": "All earlier reviewer-02 exact-hash Shoes/Backgear/Handgear/Seating decisions and evidence",
+    "disposition": "PRESERVE_IMMUTABLY",
+    "rule": "This schema-7 file is an append-only shard rollover. Every exact-hash decision in the prior blob remains authoritative unless a later review names the same item with a different exact asset hash."
+  },
+  "referenceEvidence": {
+    "originalsPath": "docs/preproduction/reference-screenshots/originals/",
+    "manifestBlobSha": "63956763934f17613a3f98889f8085051a78a0b6",
+    "storeOriginal": {
+      "path": "docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg",
+      "sha256": "b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d",
+      "gitBlobSha": "383baa877d3af86fa92e3583740212000592b3d6",
+      "dimensions": [1448,1086]
     },
-    "nextReviewPriority": "Workstream 06 must correct the Seating 11-12 ledger hashes to the workflow/GitHub exact values without regenerating; Workstream 14 then exposes exact current candidate card/detail renders. Reviewer 02 can immediately decide those exact versions. Otherwise prioritize fresh Seating 4-6 and Shoes 7-12, then Backgear/Handgear replacements."
+    "usage": "Original-reference bytes/manifests were used as the screenshot visual target; no mobile reference pixels were invented."
+  },
+  "evidenceSets": {
+    "freshSeating4To6": {
+      "producers": ["01","coordination recovery"],
+      "workflowRunId": 35673301701,
+      "artifactId": 10671653000,
+      "artifactName": "seating-4-6-recovery-evidence",
+      "actualPixelsReviewed": true,
+      "detailScale": "1024x1024 exact-hash browser screenshots",
+      "cardScale": "independent downscale/contact-sheet inspection",
+      "decode": "PASS_3_OF_3_PNG",
+      "dimensions": "PASS_3_OF_3_1024x1024",
+      "detailSha256": {
+        "seating-4": "27619a41beeaccdd1d676c084eec815afeafb21d34ac98bdb1d86c054fc47443",
+        "seating-5": "08c778c13fb575e486fee718e44791d5b5db286155994897e3df2d0c917c6568",
+        "seating-6": "01e3650bfe049d008e9f593207b4de015db1dde35cf86a6e771cf3202381445f"
+      },
+      "candidateSha256": {
+        "seating-4": "ed23dbccfd3501122c20b3fff77bb8d3f4273cb902e4df745e66fdbfa2c86710",
+        "seating-5": "817b9316d3b1d4ccf2c3fc488732fc17831f4c00797185b5b09bfebe590af657",
+        "seating-6": "d3e8e8d96beec53a6f4a094d3cf1717c0790b9b9ae56fee26df6672e20e4f01e"
+      },
+      "candidateGitBlobSha": {
+        "seating-4": "55d1fb2edddb7638f87c5962bd03b6ac745a1f4b",
+        "seating-5": "252f0b24b3ede29d6abfbe7fc661a7da751de565",
+        "seating-6": "f4f00fb739aaae4ce970a4c4d1d738bca729ff40"
+      },
+      "visualInspection": "Reviewer 02 inspected exact replacement pixels at detail and card scale. The three candidates materially exceed the rejected flat/front-facing legacy direction and preserve the screenshot target's saturated toy-game depth, strong silhouettes, soft cast lighting and readable materials."
+    }
   },
   "reviews": [
     {
-      "itemId": "shoes-1",
-      "name": "Sneakers",
-      "tier": 1,
-      "theme": "Aqua Wave",
-      "assetPath": "/assets/catalog/shoes-1-w04-recovered-v2.jpg",
-      "assetHash": "1a0351a733c7639ecdf4d90d41e4e5159bd7e8ad",
-      "hashAlgorithm": "git-blob-sha1",
-      "sourceHead": "12d2ca18bd22faabe26a1c408d703293de02f97a",
-      "producer": "04",
-      "decision": "ACCEPT",
-      "reviewedAt": "2026-09-21T23:39:00Z",
-      "evidenceRefs": [
-        "docs/preproduction/catalog-sprint/chat-shoes-recovery-1-4-result.json",
-        "adobe-asset:urn:aaid:sc:US:4f905a5b-73a9-4338-881f-ed50f5b1d16a"
-      ],
-      "reason": "Paired three-quarter sneakers remain clear at card scale; layered chunky soles, laces, stitching, iridescent panels and raised aqua wave accents create convincing material depth while keeping Tier 1 simple and readable.",
-      "checks": {"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"PASS","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
-    },
-    {
-      "itemId": "shoes-2",
-      "name": "Slip-Ons",
-      "tier": 1,
-      "theme": "Art Attack",
-      "assetPath": "/assets/catalog/shoes-2-w04-recovered-v2.jpg",
-      "assetHash": "4377e9c6b996a154db67feae1adb924715364f54",
-      "hashAlgorithm": "git-blob-sha1",
-      "sourceHead": "12d2ca18bd22faabe26a1c408d703293de02f97a",
-      "producer": "04",
-      "decision": "ACCEPT",
-      "reviewedAt": "2026-09-21T23:39:00Z",
-      "evidenceRefs": [
-        "docs/preproduction/catalog-sprint/chat-shoes-recovery-1-4-result.json",
-        "adobe-asset:urn:aaid:sc:US:0c4d62d9-c5d2-4e8e-9aea-fcb08b5acfbb"
-      ],
-      "reason": "Canvas slip-on identity is immediate; stitched uppers and sole depth are tangible, while raised multicolor buttons and drawn paint marks communicate Art Attack without becoming a flat badge. The pair stays distinct and legible at card size.",
-      "checks": {"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"PASS","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
-    },
-    {
-      "itemId": "shoes-3",
-      "name": "High-Tops",
-      "tier": 1,
-      "theme": "Star Luxe",
-      "assetPath": "/assets/catalog/shoes-3-w04-recovered-v2.jpg",
-      "assetHash": "995c65c304af6acc85fad2a98cfe07029b486472",
-      "hashAlgorithm": "git-blob-sha1",
-      "sourceHead": "12d2ca18bd22faabe26a1c408d703293de02f97a",
-      "producer": "04",
-      "decision": "ACCEPT",
-      "reviewedAt": "2026-09-21T23:39:00Z",
-      "evidenceRefs": [
-        "docs/preproduction/catalog-sprint/chat-shoes-recovery-1-4-result.json",
-        "adobe-asset:urn:aaid:sc:US:68ea78e2-c7d7-4196-82bb-d3feb682d707"
-      ],
-      "reason": "Tall padded high-top silhouette, laces, panel seams and layered soles read physically at both scales. Purple leather-like panels, metallic toe treatment and restrained gold star hardware communicate Star Luxe without excessive tier spectacle.",
-      "checks": {"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"PASS","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
-    },
-    {
-      "itemId": "shoes-4",
-      "name": "Bow Shoes",
+      "itemId": "seating-4",
+      "name": "Heart Chair",
       "tier": 2,
       "theme": "Midnight Neon",
-      "assetPath": "/assets/catalog/shoes-4-w04-recovered-v2.jpg",
-      "assetHash": "121bd48007f74a2df4c760fa4650e7075138cffb",
+      "producer": "01",
+      "assetPath": "/assets/catalog/seating-4-chat-v2.png",
+      "assetHash": "55d1fb2edddb7638f87c5962bd03b6ac745a1f4b",
+      "contentSha256": "ed23dbccfd3501122c20b3fff77bb8d3f4273cb902e4df745e66fdbfa2c86710",
       "hashAlgorithm": "git-blob-sha1",
-      "sourceHead": "12d2ca18bd22faabe26a1c408d703293de02f97a",
-      "producer": "04",
       "decision": "ACCEPT",
-      "reviewedAt": "2026-09-21T23:39:00Z",
       "evidenceRefs": [
-        "docs/preproduction/catalog-sprint/chat-shoes-recovery-1-4-result.json",
-        "adobe-asset:urn:aaid:sc:US:01f92b75-fb85-403d-9822-d51a83e5d83a"
+        "workflow:35673301701/artifact:10671653000",
+        "artifact:10671653000/artifacts/catalog-staged-art/staged-replacements/detail/seating-4-55d1fb2e.png#sha256=27619a41beeaccdd1d676c084eec815afeafb21d34ac98bdb1d86c054fc47443",
+        "docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg#sha256=b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d"
       ],
-      "reason": "Large satin bows remain readable over structured dark uppers, while cyan/magenta inset sole lighting and floor spill give real Midnight Neon depth. The shoe pair is physically coherent, distinct from the other replacements and card-readable.",
+      "reason": "Heart silhouette survives card reduction immediately. Deep upholstered lobes, cushion thickness, piping, wood legs and grounded cast shadow make the chair physically credible; cyan/magenta rim light over a dark violet body communicates Midnight Neon through material and lighting rather than a flat recolor. Tier-2 richness is clear without over-spectacle.",
       "checks": {"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"PASS","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
     },
     {
-      "itemId": "shoes-5",
-      "name": "Boots",
+      "itemId": "seating-5",
+      "name": "Reading Chair",
       "tier": 2,
       "theme": "Candy Core",
-      "assetPath": "/assets/catalog/shoes-5-w04-v2.jpg",
-      "assetHash": "eaac23dcecf94ac3875adb61017f2436cf4d1d0c",
+      "producer": "01",
+      "assetPath": "/assets/catalog/seating-5-chat-v2.png",
+      "assetHash": "252f0b24b3ede29d6abfbe7fc661a7da751de565",
+      "contentSha256": "817b9316d3b1d4ccf2c3fc488732fc17831f4c00797185b5b09bfebe590af657",
       "hashAlgorithm": "git-blob-sha1",
-      "sourceHead": "12d2ca18bd22faabe26a1c408d703293de02f97a",
-      "producer": "04",
       "decision": "ACCEPT",
-      "reviewedAt": "2026-09-21T23:39:00Z",
       "evidenceRefs": [
-        "docs/preproduction/catalog-sprint/chat-shoes-recovery-5-6-result.json",
-        "adobe-asset:urn:aaid:sc:US:79816d31-2e7b-45e5-8b43-5691fded8309"
+        "workflow:35673301701/artifact:10671653000",
+        "artifact:10671653000/artifacts/catalog-staged-art/staged-replacements/detail/seating-5-252f0b24.png#sha256=08c778c13fb575e486fee718e44791d5b5db286155994897e3df2d0c917c6568",
+        "docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg#sha256=b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d"
       ],
-      "reason": "Chunky ankle-boot construction, deep tread, padded collars, laces/eyelets and layered panels are convincing. Pastel synthetic-leather surfaces and translucent candy-like hardware make Candy Core specific while preserving clean card-scale recognition.",
+      "reason": "The broad rolled reading-chair silhouette remains readable at card scale and gains substantial cushion volume, seams, piping, rounded arms, small book attachment and cast shadow. Cream, blush and mint upholstery produces a tactile Candy Core identity instead of a palette-only icon treatment, with an appropriate Tier-2 step above the simpler seating.",
       "checks": {"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"PASS","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
     },
     {
-      "itemId": "shoes-6",
-      "name": "Runners",
+      "itemId": "seating-6",
+      "name": "Gamer Chair",
       "tier": 2,
       "theme": "Adventure Club",
-      "assetPath": "/assets/catalog/shoes-6-w04-v2.jpg",
-      "assetHash": "2622d23d9a24e689c669292671c531a91b355221",
-      "hashAlgorithm": "git-blob-sha1",
-      "sourceHead": "12d2ca18bd22faabe26a1c408d703293de02f97a",
-      "producer": "04",
-      "decision": "ACCEPT",
-      "reviewedAt": "2026-09-21T23:39:00Z",
-      "evidenceRefs": [
-        "docs/preproduction/catalog-sprint/chat-shoes-recovery-5-6-result.json",
-        "adobe-asset:urn:aaid:sc:US:1f5493d8-3baa-4a8f-a0fa-3691d2660566"
-      ],
-      "reason": "Rugged runner identity is immediate: breathable mesh, reinforced overlays, real lacing and deep cushioned tread provide material depth. Muted trail colors and subtle compass/map geometry communicate Adventure Club without relying on a flat emblem.",
-      "checks": {"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"PASS","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
-    },
-    {
-      "itemId": "seating-7",
-      "name": "Lounge Chair",
-      "tier": 3,
-      "theme": "Cloud Pop",
-      "assetPath": "/assets/catalog/seating-7-w06-v2.png",
-      "assetHash": "91457eddbb3ae915867d717eec72632ea6a183be",
-      "hashAlgorithm": "git-blob-sha1",
-      "sourceHead": "f39d7bc9e42248b514b046ed3ee6548d2b35d128",
-      "producer": "06",
-      "decision": "ACCEPT",
-      "reviewedAt": "2026-09-21T23:39:00Z",
-      "evidenceRefs": [
-        "artifact:10669643556/artifacts/lane06-seating-7-10/seating-7-10-card-contact-sheet.png",
-        "artifact:10669643556/detail#sha256=e8ebfa1aa420ee7f50ba67816f2b1adcaed1a7f727ee813888a5b357b362c5ae"
-      ],
-      "reason": "Rounded lounge-chair silhouette is unmistakable at card scale; segmented cushioning, upholstery seams, wood legs and contact shadow provide convincing soft-body/material depth. The ivory-lilac Cloud Pop treatment remains distinct and appropriately richer for Tier 3.",
-      "checks": {"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"PASS","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
-    },
-    {
-      "itemId": "seating-8",
-      "name": "Bubble Seat",
-      "tier": 3,
-      "theme": "Pixel Party",
-      "assetPath": "/assets/catalog/seating-8-w06-v2.png",
-      "assetHash": "23c02ab51249ab373aab264a17778a090d023eb4",
-      "hashAlgorithm": "git-blob-sha1",
-      "sourceHead": "f39d7bc9e42248b514b046ed3ee6548d2b35d128",
-      "producer": "06",
-      "decision": "ACCEPT",
-      "reviewedAt": "2026-09-21T23:39:00Z",
-      "evidenceRefs": [
-        "artifact:10669643556/artifacts/lane06-seating-7-10/seating-7-10-card-contact-sheet.png",
-        "artifact:10669643556/detail#sha256=84efc31030e7785eeb9da81e60cc986c40b7eb07ea81a64f245005650073848a"
-      ],
-      "reason": "Transparent spherical shell, dimensional blue cushions and a pixel-lit physical base make the Bubble Seat category obvious and Pixel Party specific. Refraction, occlusion and grounded lighting survive card reduction and differ clearly from the other chairs.",
-      "checks": {"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"PASS","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
-    },
-    {
-      "itemId": "seating-9",
-      "name": "Art Stool",
-      "tier": 3,
-      "theme": "Berry Blast",
-      "assetPath": "/assets/catalog/seating-9-w06-v2.png",
-      "assetHash": "7fcdea13121a8820dd8dc64e8982637acb2c5819",
-      "hashAlgorithm": "git-blob-sha1",
-      "sourceHead": "f39d7bc9e42248b514b046ed3ee6548d2b35d128",
-      "producer": "06",
-      "decision": "ACCEPT",
-      "reviewedAt": "2026-09-21T23:39:00Z",
-      "evidenceRefs": [
-        "artifact:10669643556/artifacts/lane06-seating-7-10/seating-7-10-card-contact-sheet.png",
-        "artifact:10669643556/detail#sha256=34a6974c3b798236c9a429b0748178f7f4fa4b49aecdef361ac6c77f890a90ee"
-      ],
-      "reason": "Adjustable stool construction reads immediately through the round upholstered seat, spring/hardware and tripod supports. Berry-red fabric and berry embossing deliver Berry Blast without losing the functional stool silhouette; materials and lighting are dimensional at both scales.",
-      "checks": {"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"PASS","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
-    },
-    {
-      "itemId": "seating-10",
-      "name": "Pod Chair",
-      "tier": 4,
-      "theme": "Garden Glow",
-      "assetPath": "/assets/catalog/seating-10-w06-v2.png",
-      "assetHash": "9aa53664cbc8ee24283ea44830f1f3037c576340",
-      "hashAlgorithm": "git-blob-sha1",
-      "sourceHead": "f39d7bc9e42248b514b046ed3ee6548d2b35d128",
-      "producer": "06",
-      "decision": "ACCEPT",
-      "reviewedAt": "2026-09-21T23:39:00Z",
-      "evidenceRefs": [
-        "artifact:10669643556/artifacts/lane06-seating-7-10/seating-7-10-card-contact-sheet.png",
-        "artifact:10669643556/detail#sha256=ce5397be1d08cb78d2a67692dd963fae995e4cd69f045ccf2a561363ccfbd044"
-      ],
-      "reason": "Deep egg/pod shell, wood interior, layered sage cushions and built-in light establish a convincing Tier-4 chair. Floral/vine details communicate Garden Glow through structure and materials rather than background color; silhouette is unique and card-readable.",
-      "checks": {"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"PASS","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
-    },
-    {
-      "itemId": "seating-2",
-      "name": "Cloud Pouf",
-      "tier": 1,
-      "theme": "Art Attack",
-      "assetPath": "/assets/catalog/seating-2-w01-recovered-v2.jpg",
-      "assetHash": "c3d4705b7182b1be735b1a762b2ae79d58928aa5",
-      "hashAlgorithm": "git-blob-sha1",
-      "sourceHead": "453ead1a6b07089862d2bbe402a0a17005f29c26",
       "producer": "01",
+      "assetPath": "/assets/catalog/seating-6-chat-v2.png",
+      "assetHash": "f4f00fb739aaae4ce970a4c4d1d738bca729ff40",
+      "contentSha256": "d3e8e8d96beec53a6f4a094d3cf1717c0790b9b9ae56fee26df6672e20e4f01e",
+      "hashAlgorithm": "git-blob-sha1",
       "decision": "ACCEPT",
-      "reviewedAt": "2026-09-22T00:25:16Z",
       "evidenceRefs": [
-        "docs/preproduction/catalog-sprint/chat-seating-recovery-2-3-result.json",
-        "artifact:10671012131/artifacts/catalog-staged-art/staged-replacements/staged-replacements-contact-sheet.png#sha256=005780f5ae664771d8c3556356b00680d7cef09af0f883239d8a4433853bee07",
-        "artifact:10671012131/artifacts/catalog-staged-art/staged-replacements/detail/seating-2-c3d4705b.png#sha256=1ed3edf7b6e9ca0888d9efad7ca019a1c0853160773b66252cc0a8bfe80833c3"
+        "workflow:35673301701/artifact:10671653000",
+        "artifact:10671653000/artifacts/catalog-staged-art/staged-replacements/detail/seating-6-f4f00fb7.png#sha256=01e3650bfe049d008e9f593207b4de015db1dde35cf86a6e771cf3202381445f",
+        "docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg#sha256=b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d"
       ],
-      "reason": "Cloud Pouf is unmistakable at card scale: the low clustered cloud silhouette survives reduction while the detail render shows deep stuffed lobes, seam/piping construction, soft fabric response and grounded cast shadow. Pastel brush strokes and doodle-like marks establish Art Attack without readable text or branding; the treatment stays appropriately simple for Tier 1 and is visually distinct from the other seating replacements.",
+      "reason": "High-back racing-chair construction is clear at card scale with bolsters, headrest, neck pillow, armrests, reclining hardware, pedestal and casters. Dark upholstery, green panels and warm orange/tan trim give the Adventure Club theme a rugged physical treatment; material seams, highlights and cast shadow provide the required dimensional upgrade.",
       "checks": {"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"PASS","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
-    },
-    {
-      "itemId": "seating-3",
-      "name": "Pixel Beanbag",
-      "tier": 1,
-      "theme": "Star Luxe",
-      "assetPath": "/assets/catalog/seating-3-w01-recovered-v2.jpg",
-      "assetHash": "5d69a2f6adf1e4cf9b4ec413dbeedba84c41813b",
-      "hashAlgorithm": "git-blob-sha1",
-      "sourceHead": "453ead1a6b07089862d2bbe402a0a17005f29c26",
-      "producer": "01",
-      "decision": "ACCEPT",
-      "reviewedAt": "2026-09-22T00:25:16Z",
-      "evidenceRefs": [
-        "docs/preproduction/catalog-sprint/chat-seating-recovery-2-3-result.json",
-        "artifact:10671012131/artifacts/catalog-staged-art/staged-replacements/staged-replacements-contact-sheet.png#sha256=005780f5ae664771d8c3556356b00680d7cef09af0f883239d8a4433853bee07",
-        "artifact:10671012131/artifacts/catalog-staged-art/staged-replacements/detail/seating-3-5d69a2f6.png#sha256=b6345b9fddc9810ca814e271a61dd4eda3ac869819997f09c129cb03ef54c2d8"
-      ],
-      "reason": "Pixel Beanbag keeps an immediate deep-beanbag silhouette in the card contact sheet, and the detail render shows a real seating cavity, stuffed deformation, panel seams and controlled warm/cool volume lighting. Gold star stitching plus restrained magenta pixel blocks communicate Star Luxe without becoming a flat emblem; Tier 1 spectacle is controlled and the shape/palette do not near-duplicate Cloud Pouf or the accepted Seating 7–10 set.",
-      "checks": {"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"PASS","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
-    },
-    {
-      "itemId": "seating-11",
-      "name": "Moon Chair",
-      "tier": 4,
-      "theme": "Galaxy Glow",
-      "assetPath": "/assets/catalog-candidates/chat-20260921-intake01/seating-11-source.png",
-      "assetHash": "b0b4ee954ce5af414ee90fecda374f84d551c3e5",
-      "hashAlgorithm": "git-blob-sha1",
-      "sourceHead": "935e0b7a0079ac60237bfb7c908e8995dc858cdb",
-      "producer": "06",
-      "decision": "BLOCKED",
-      "reviewedAt": "2026-09-22T00:27:00Z",
-      "evidenceRefs": [
-        "public/assets/catalog-candidates/chat-20260921-intake01/seating-11-source.png#git-blob=b0b4ee954ce5af414ee90fecda374f84d551c3e5",
-        "public/assets/catalog-candidates/chat-20260921-intake01/seating-11-card.png#git-blob=9e777c1844140ea09eb0a304c4f103d5e6da9fcb",
-        "commit:3188204700c41b0196da112b55a0a74631198d65",
-        "browser-use:run:1d059db1-ea1d-4dba-a1dd-c8efd67540f1"
-      ],
-      "reason": "Exact source/card hashes are staged and marked review-ready, but the shared staged-art artifact does not render seating-11. A read-only public-browser attempt opened the exact raw candidates but returned only an inaccessible browser-local HTML evidence path rather than inspectable reviewer pixels. Without independently visible card/detail evidence, Workstream 02 cannot make a quality verdict. This is a visual-access blocker, not a REWORK judgment.",
-      "checks": {"identity":"BLOCKED_NO_INSPECTABLE_PIXEL_EVIDENCE","themeTier":"BLOCKED_NO_INSPECTABLE_PIXEL_EVIDENCE","silhouette":"BLOCKED_NO_INSPECTABLE_PIXEL_EVIDENCE","materialLighting":"BLOCKED_NO_INSPECTABLE_PIXEL_EVIDENCE","cardReadability":"BLOCKED_NO_INSPECTABLE_PIXEL_EVIDENCE","originality":"BLOCKED_NO_INSPECTABLE_PIXEL_EVIDENCE","duplicateVisual":"BLOCKED_NO_INSPECTABLE_PIXEL_EVIDENCE"}
-    },
-    {
-      "itemId": "seating-11",
-      "name": "Moon Chair",
-      "tier": 4,
-      "theme": "Galaxy Glow",
-      "assetPath": "/assets/catalog/seating-11-w06-v2.png",
-      "assetHash": "5126e9abcec4a09ef281dccb33aac6ba59b38b94",
-      "sha256": "2bf8b90027f58f24323121305d675edc91ccb996605cd10ca73ccbe077645c47",
-      "hashAlgorithm": "git-blob-sha1",
-      "sourceHead": "b6e1fe076ddca8f475756c0f4bf4bcbb9b8cb975",
-      "producer": "06",
-      "decision": "BLOCKED",
-      "reviewedAt": "2026-09-22T00:38:23Z",
-      "evidenceRefs": [
-        "workflow:35672223467/job:106571013165",
-        "commit:efe5551ad0f42e23bb4524578f367a42e9a6b4cb",
-        "public/assets/catalog/seating-11-w06-v2.png#git-blob=5126e9abcec4a09ef281dccb33aac6ba59b38b94",
-        "source@f868cd84b6a170b4d7a4a9ef1e5abcc442f0b915:docs/preproduction/catalog-sprint/lane-06-seating-11-12-tmp-seed.json",
-        "browser-use:run:875708a1-e0bf-4399-bcfa-e2a10abd5199"
-      ],
-      "reason": "The newer Seating-11 candidate is branch-staged and GitHub readback confirms blob 5126e9ab..., while the staging workflow independently computed candidate SHA-256 2bf8b900.... Lane-06 currently records different near-match blob/SHA-256 values, so its ledger is not exact-hash trustworthy for this version. The staging run emitted no card/detail artifact; the browser fallback resolved the source image but only exposed an inaccessible browser-local report rather than reusable exact-current-candidate card/detail pixels. BLOCKED on evidence integrity and independent pixel access, not visually rejected. Do not regenerate solely for this blocker.",
-      "checks": {"identity":"BLOCKED_NO_EXACT_CURRENT_CARD_DETAIL_PIXELS","themeTier":"BLOCKED_NO_EXACT_CURRENT_CARD_DETAIL_PIXELS","silhouette":"BLOCKED_NO_EXACT_CURRENT_CARD_DETAIL_PIXELS","materialLighting":"BLOCKED_NO_EXACT_CURRENT_CARD_DETAIL_PIXELS","cardReadability":"BLOCKED_NO_EXACT_CURRENT_CARD_DETAIL_PIXELS","originality":"BLOCKED_NO_EXACT_CURRENT_CARD_DETAIL_PIXELS","duplicateVisual":"BLOCKED_NO_EXACT_CURRENT_CARD_DETAIL_PIXELS","metadataIntegrity":"FAIL_PRODUCER_LEDGER_HASH_MISMATCH"}
-    },
-    {
-      "itemId": "seating-12",
-      "name": "Throne Chair",
-      "tier": 5,
-      "theme": "Sunny Pop",
-      "assetPath": "/assets/catalog/seating-12-w06-v2.png",
-      "assetHash": "793b32f60ed10fffa80b549e75b66858ac0d7e4f",
-      "sha256": "5891818da864e528aaceb598f93d2b3426cb91c3eb1acd0375e4f57cbe7d69df",
-      "hashAlgorithm": "git-blob-sha1",
-      "sourceHead": "b6e1fe076ddca8f475756c0f4bf4bcbb9b8cb975",
-      "producer": "06",
-      "decision": "BLOCKED",
-      "reviewedAt": "2026-09-22T00:38:23Z",
-      "evidenceRefs": [
-        "workflow:35672223467/job:106571013165",
-        "commit:efe5551ad0f42e23bb4524578f367a42e9a6b4cb",
-        "public/assets/catalog/seating-12-w06-v2.png#git-blob=793b32f60ed10fffa80b549e75b66858ac0d7e4f",
-        "source@f868cd84b6a170b4d7a4a9ef1e5abcc442f0b915:docs/preproduction/catalog-sprint/lane-06-seating-11-12-tmp-seed.json"
-      ],
-      "reason": "Seating-12 is branch-staged and GitHub readback confirms blob 793b32f6..., while the staging workflow independently computed candidate SHA-256 5891818d.... Lane-06 currently records different near-match blob/SHA-256 values, so its ledger is not exact-hash trustworthy for this version. The staging run emitted no independent card/detail artifact and the public-browser fallback for its source URL failed with ERR_TUNNEL_CONNECTION_FAILED. BLOCKED on evidence integrity and independent pixel access, not visually rejected. Do not regenerate solely for this blocker.",
-      "checks": {"identity":"BLOCKED_NO_EXACT_CURRENT_CARD_DETAIL_PIXELS","themeTier":"BLOCKED_NO_EXACT_CURRENT_CARD_DETAIL_PIXELS","silhouette":"BLOCKED_NO_EXACT_CURRENT_CARD_DETAIL_PIXELS","materialLighting":"BLOCKED_NO_EXACT_CURRENT_CARD_DETAIL_PIXELS","cardReadability":"BLOCKED_NO_EXACT_CURRENT_CARD_DETAIL_PIXELS","originality":"BLOCKED_NO_EXACT_CURRENT_CARD_DETAIL_PIXELS","duplicateVisual":"BLOCKED_NO_EXACT_CURRENT_CARD_DETAIL_PIXELS","metadataIntegrity":"FAIL_PRODUCER_LEDGER_HASH_MISMATCH"}
     }
   ],
+  "integrationEligibleDelta": [
+    {"itemId":"seating-4","assetHash":"55d1fb2edddb7638f87c5962bd03b6ac745a1f4b","decision":"ACCEPT"},
+    {"itemId":"seating-5","assetHash":"252f0b24b3ede29d6abfbe7fc661a7da751de565","decision":"ACCEPT"},
+    {"itemId":"seating-6","assetHash":"f4f00fb739aaae4ce970a4c4d1d738bca729ff40","decision":"ACCEPT"}
+  ],
   "handoff": {
-    "14": "Render the exact current Seating-11 blob 5126e9abcec4a09ef281dccb33aac6ba59b38b94 and Seating-12 blob 793b32f60ed10fffa80b549e75b66858ac0d7e4f through the branch-local staged-art fixture. Publish reproducible card/contact-sheet plus separate detail screenshots bound to those hashes; do not regenerate either candidate solely for this evidence blocker.",
-    "15": "Fresh Shoes 1-6 and Seating 2-3/7-10 remain accepted. Seating-11/12 current v2 bytes are staged but blocked on producer-ledger hash mismatch plus missing independently inspectable exact-current card/detail evidence. Route the corrected hashes/render evidence back to reviewer 02; never assign Workstream-02-authored Beds back to reviewer 02.",
-    "08": "The twelve previously accepted replacement hashes remain usable after normal metadata/file/content checks. Do not integrate Seating-11/12 v2 until lane-06 exact hash records are corrected and reviewer 02 gives an actual-pixel ACCEPT for those exact current hashes.",
-    "04": "Preserve Shoes 1-6 exact accepted hashes; do not regenerate or overwrite them unless a later concrete defect is found.",
-    "06": "Correct Seating-11/12 ledger metadata to the exact workflow/GitHub values recorded here; do not regenerate. Seating-11 candidate blob is 5126e9abcec4a09ef281dccb33aac6ba59b38b94 (sha256 2bf8b90027f58f24323121305d675edc91ccb996605cd10ca73ccbe077645c47). Seating-12 candidate blob is 793b32f60ed10fffa80b549e75b66858ac0d7e4f (sha256 5891818da864e528aaceb598f93d2b3426cb91c3eb1acd0375e4f57cbe7d69df). Then expose exact card/detail pixels through 14.",
-    "05": "Reviewer 05 remains responsible for any Workstream-02 Bed replacement exact hashes after they are repository-staged; Workstream 02 does not self-approve Beds.",
-    "01": "Preserve Seating 2-3 exact accepted hashes c3d4705b7182b1be735b1a762b2ae79d58928aa5 and 5d69a2f6adf1e4cf9b4ec413dbeedba84c41813b; do not regenerate them unless a later concrete defect is found. Continue only the still-unaccepted seating IDs under current sprint ownership."
+    "08": "Seating 4-6 are independently ACCEPTED only at the exact hashes recorded here and may enter normal integration checks. Reviewer 02 did not modify canonical manifest/runtime wiring.",
+    "01": "Preserve Seating 4-6 exact accepted bytes; do not regenerate or downgrade them.",
+    "05": "Beds 1-4 remain independently accepted by reviewer 05 at its recorded exact hashes; reviewer 02 did not self-approve Beds.",
+    "15": "Reviewer 02 closed the ready Seating 4-6 recovery batch with exact-hash ACCEPT decisions. Continue routing fresh Shoes 7-12 and Backgear/Handgear repair evidence here before untouched legacy work."
   },
   "freeze": {
+    "mainTouched": false,
+    "deploymentTouched": false,
+    "canonicalManifestOrRuntimeTouched": false,
+    "learningEconomyTouched": false,
+    "playerDataTouched": false,
+    "testsWeakened": false,
     "replitTouched": false,
     "flootTouched": false,
-    "mainMergedOrModified": false,
-    "productionAssetsTouched": false,
-    "canonicalManifestOrRuntimeTouched": false,
-    "playerDataTouched": false
+    "servicePurchases": false
   }
 }
