@@ -98,6 +98,12 @@ The same fixture now recursively discovers and deduplicates every existing `publ
 
 The fixture already proved automatic discovery/rendering of current Headwear 1–4 replacement JPGs in preserved artifacts. Reviewer 01, not reviewer 14, owns those item decisions. Reviewer 14 will judge scene/screen composition after the exact scene pixels are rendered; reviewer 01 retains art-direction/scene-art authority.
 
+## Active-content / external-dependency asset safety
+
+Direct exact-hash scan of the current reviewer-14 SVG surface is **PASS 26/26**: Wall 1–12, Rugs 9–12 and Decor 3–12 all matched the hashes recorded in `reviews/14.json` and contained no script elements, `foreignObject`, inline event handlers, JavaScript URLs, external HTTP(S)/protocol-relative hrefs, external CSS URLs, `@import`, or XML entity declarations. Current accepted Lighting 1–12, Rugs 1–8 and Decor 1–2 replacements are raster images and have no SVG active-content/external-resource surface.
+
+Commit `a9b349341cb9e150c2ce81b43dffcbf8ba5aebdc` adds the same check to the shared staged-art fixture so future SVG candidates are blocked before rendering if they contain active content or external dependencies. A post-guard workflow artifact is still **PENDING**, so the fixture-code change itself is not yet counted as executed artifact proof.
+
 ## Canonical integration state
 
 Workstream 08 advanced the canonical catalog to **manifest v17**:
