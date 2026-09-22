@@ -1,0 +1,198 @@
+{
+  "schemaVersion": 1,
+  "candidateId": "avatar-keyart-fullbody-w13-v1",
+  "producer": "13",
+  "independentArtReviewer": "01",
+  "compositionPerformanceReviewer": "14",
+  "runtimeCoordinator": "15",
+  "branch": "screenshot-match-preproduction",
+  "status": "STAGED_READY_FOR_INDEPENDENT_REVIEW",
+  "runtimeWired": false,
+  "sourceHeadBeforeStaging": "6c2a9d67f40e575c6b83b05a89ff9d28a174638c",
+  "referenceEvidence": {
+    "manifestPath": "docs/preproduction/reference-screenshots/original-reference-manifest.json",
+    "originalReferences": [
+      {
+        "screen": "home",
+        "path": "docs/preproduction/reference-screenshots/originals/home-1448x1086.jpeg",
+        "sha256": "6a4b110aeaf12a6ab0c629f9181cc6cfa8d4f55a518d4f2a6adb3ac6e756c457"
+      },
+      {
+        "screen": "store",
+        "path": "docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg",
+        "sha256": "b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d"
+      },
+      {
+        "screen": "quest",
+        "path": "docs/preproduction/reference-screenshots/originals/quest-1448x1086.jpeg",
+        "sha256": "70f1b952709a85c77bb11851ffe9ae704acf8b97640355e908b6ec537b5c73c9"
+      }
+    ],
+    "currentRenderWorkflowRun": 35663655650,
+    "currentRenderArtifact": "preproduction-visual-qa",
+    "currentRenderHead": "b187186e62519ffa77bd0f7b166c601c90bdc416",
+    "currentRenders": [
+      {
+        "screen": "home",
+        "pathInArtifact": "home-desktop-1408x1056.png",
+        "sha256": "ddc222e8e9ee43774eefcbeac348e9490dbeb81cc4dc3b97ac6cb82deef62d03",
+        "dimensions": [
+          1408,
+          1056
+        ]
+      },
+      {
+        "screen": "store",
+        "pathInArtifact": "store-desktop-1408x1056.png",
+        "sha256": "a7a10171ada1ec7fbdb500e4ce0cfef05f757a8411e60d459dc6b763df2dc34d",
+        "dimensions": [
+          1408,
+          1056
+        ]
+      },
+      {
+        "screen": "quest",
+        "pathInArtifact": "quest-desktop-1408x1056.png",
+        "sha256": "15bccde0c04e28cd4dc7fc488f0b921e3690325fc383109bde75cf6c4de71b20",
+        "dimensions": [
+          1408,
+          1056
+        ]
+      }
+    ],
+    "comparisonValidity": "The actual original Home/Store/Quest pixels and actual branch render artifact were inspected before production. The branch has advanced substantially since the render with catalog/art/evidence work, so this candidate is a bounded character-key-art response to the persistent visual-language gap only; it is not a current-head screenshot-parity claim and must be re-rendered before any runtime acceptance.",
+    "observedDefect": "Across the verified originals, the recurring character language is a dimensional, friendly long-brown-haired avatar with an expressive face, polished toy materials and cat-ear headset styling. The inspected current Home/Store/Quest renders remain substantially flatter/blockier and the Quest render is visually inconsistent with that cross-screen identity. Existing avatar-headset-w13-v1 covers only the face/hair/headset layer and remains pending review. This separate full-body key-art candidate targets body proportion, material, pose and silhouette guidance without replacing Workstream 06 equipment ownership or real equipped state."
+  },
+  "provenance": {
+    "recipeId": "lane13-character-keyart-fullbody-v1",
+    "generationTool": "Adobe Firefly image generation plus bounded instruct edit",
+    "generationRequestId": "25d835cf-910d-4020-bcea-9c0a9f5d8bc7",
+    "instructEditRequestId": "320eb03c-f3e7-44dd-bfa3-b1197339e45e",
+    "fullBackgroundRemovalRequestId": "e85d90e1-5b1d-496e-a477-25e0cfa35f99",
+    "optimizedResizeRequestId": "c276754e-07c7-417f-8ac0-7997e2af2dad",
+    "optimizedBackgroundRemovalRequestId": "1103acb0-99c2-4b66-a460-6ba0517b3d85",
+    "promptSummary": "Original premium child-friendly 3D toy-game full-body brown-haired avatar, expressive warm face, pink/lilac cat-ear headset, one-hand-raised pose, polished dimensional materials and warm/cyan edge lighting. Simple lavender/cream/jeans/sneakers clothing is explicitly noncanonical visual guidance only. No scene, UI, text, logos, brands or third-party IP.",
+    "negativePromptSummary": "No Roblox/Brookhaven/Minecraft/anime-franchise/copyrighted character, UI/text/logo, blocky body, cropped body, extra anatomy or busy scene.",
+    "processing": [
+      "Initial full-body generation was actual-pixel inspected and rejected pre-staging because the hairstyle was too short relative to the consistent long-brown-hair reference cue.",
+      "A bounded instruct edit changed only the hairstyle to long, soft, wavy brown hair while preserving the original face, pose, headset, lighting and neutral noncanonical clothing.",
+      "The edited 1360x1744 source was actual-pixel inspected before any staging.",
+      "Background removal produced the 1360x1744 transparent full layer; producer inspection confirmed complete hair, headset, hands and feet with a clean silhouette.",
+      "The source was resized before cutout for the optimized derivative, then background removal produced an 896x1149 transparent derivative; producer inspection rejected no visible alpha/stretch defect in this final derivative."
+    ]
+  },
+  "producerPixelCheck": "PASS_PREUPLOAD_ONLY: The bounded final source and both transparent outputs were visually inspected. The character has long warm-brown wavy hair, a friendly expressive face, pink/lilac cat-ear headset, readable full-body silhouette, polished dimensional toy materials and coherent warm/cyan lighting. No UI, text, scene, logo, branded mark or third-party IP is baked in. This is producer inspection only and is not independent acceptance.",
+  "responsiveIntent": "Character key art/reference component only. It must not be treated as an authoritative equipped outfit. Any future runtime adaptation must preserve actual owned/equipped choices and be coordinated with Workstream 06 and 15; use this asset only for proportions, face/hair/headset language, material response, pose and staging guidance unless independent reviewers explicitly accept a concrete runtime use.",
+  "ownershipIsolation": {
+    "touchesWorkstream06AvatarEquipmentAssets": false,
+    "touchesWorkstream09EnvironmentPaths": false,
+    "exclusiveLane13Paths": true,
+    "runtimeWiringPerformed": false,
+    "canonicalCatalogMappingsTouched": false,
+    "coordinationBasis": "ART_VISUALS_SPRINT assigns Workstream 13 original character key art while Workstream 06 owns avatar equipment/true try-on and Workstream 15 coordinates shared visual integration. Current lane/15 coordination evidence was read before production; this candidate uses exclusive Lane 13 versioned paths and edits no 06/09 asset."
+  },
+  "freeze": {
+    "replitTouched": false,
+    "flootTouched": false,
+    "mainTouched": false,
+    "deployPerformed": false,
+    "purchasesMade": false,
+    "paidSettingsTouched": false,
+    "secretsTouched": false,
+    "playerDataTouched": false,
+    "saveSchemaTouched": false,
+    "gameplayTouched": false,
+    "learningTouched": false,
+    "persistenceTouched": false,
+    "economyTouched": false,
+    "rewardOrCurriculumTouched": false
+  },
+  "assets": {
+    "source": {
+      "label": "source",
+      "path": "docs/preproduction/visuals/recovered-originals/avatar-keyart-fullbody-w13-v1-source.png",
+      "bytes": 1875024,
+      "dimensions": [
+        1360,
+        1744
+      ],
+      "format": "PNG",
+      "mode": "RGB",
+      "sha256": "d72882cc97dcb389184629034b7cc608eb310f5a7d3e5fef45205164740cb04d",
+      "gitBlobSha": "00cfcda924dce72c18aa11e4cccb57e6ce4d3e6c",
+      "alphaBounds": null,
+      "alphaExtrema": null,
+      "transparentRequired": false
+    },
+    "full": {
+      "label": "full",
+      "path": "public/assets/visuals/lane-13/avatar-keyart-fullbody-w13-v1-full.png",
+      "bytes": 836136,
+      "dimensions": [
+        1360,
+        1744
+      ],
+      "format": "PNG",
+      "mode": "RGBA",
+      "sha256": "3c6d71689d604b16e4ad0d4998abcea0916ebc671e42329889a9c0202228db35",
+      "gitBlobSha": "4904d4e910292b0b049f73f5d2c3785913fb2af3",
+      "alphaBounds": [
+        318,
+        177,
+        938,
+        1659
+      ],
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "transparentRequired": true
+    },
+    "optimized": {
+      "label": "optimized",
+      "path": "public/assets/visuals/lane-13/avatar-keyart-fullbody-w13-v1-896.png",
+      "bytes": 438049,
+      "dimensions": [
+        896,
+        1149
+      ],
+      "format": "PNG",
+      "mode": "RGBA",
+      "sha256": "88869744dc91ccc3b4684d9b0c2269ea0669ad992e0a8040f988b9a61bfaa35e",
+      "gitBlobSha": "76a4be6c4ca63d65aecde4f136227bd2e8abc1da",
+      "alphaBounds": [
+        209,
+        116,
+        617,
+        1094
+      ],
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "transparentRequired": true
+    }
+  },
+  "checks": {
+    "sourceDecode": "PASS_PNG_1360x1744",
+    "fullDecode": "PASS_PNG_1360x1744",
+    "optimizedDecode": "PASS_PNG_896x1149",
+    "fullTransparency": "PASS_MEANINGFUL_ALPHA",
+    "optimizedTransparency": "PASS_MEANINGFUL_ALPHA",
+    "separateCharacterComponentNotFlattenedScreen": "PASS_BY_ASSET_SCOPE_AND_PRODUCER_PIXEL_INSPECTION",
+    "uiTextButtonsAbsent": "PASS_BY_PRODUCER_PIXEL_INSPECTION",
+    "outfitAuthority": "NONCANONICAL_VISUAL_GUIDANCE_ONLY_DO_NOT_OVERRIDE_EQUIPPED_STATE",
+    "exactRepositoryReadback": "PENDING_REMOTE_READBACK",
+    "independentArtReview": "PENDING_01",
+    "compositionPerformanceReview": "PENDING_14",
+    "runtimeIntegration": "NOT_PERFORMED",
+    "screenshotParity": "NOT_CLAIMED",
+    "physicalDevice": "NOT_PERFORMED"
+  },
+  "reviews": {
+    "01": "PENDING_INDEPENDENT_ART_REVIEW",
+    "14": "PENDING_COMPOSITION_PERFORMANCE_REVIEW",
+    "15": "PENDING_COORDINATION_BEFORE_ANY_RUNTIME_WIRING"
+  },
+  "releaseGates": "Existing regression/build/device/accessibility/parity gates remain external release gates and are not changed or passed by this visual intake."
+}
