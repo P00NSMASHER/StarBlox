@@ -209,3 +209,10 @@ python scripts/catalogVisualCalibration.py \
 ```
 
 The calibration report compares ACCEPT vs REWORK distributions for luminance range, entropy, edge density, alpha/content coverage, thumbnail metrics, and perceptual-neighbor distance. It also reports raster coverage and sample-count readiness. **No blocking threshold is activated automatically.** Even when sample counts are sufficient, false-positive calibration plus independent reviewer sign-off are required before any metric can become a blocking warning.
+
+
+### Calibrated warning promotion rule
+
+`catalogVisualCalibration.py` learns only **candidate warning thresholds** from current independent exact-hash ACCEPT/REWORK raster evidence. A feature is marked `warningReady` only when the current corpus has at least 20 ACCEPT and 12 REWORK raster samples and leave-one-out evaluation covers at least max(20, 80% of that feature's samples), with false-positive rate <= 10%, recall >= 35%, and balanced accuracy >= 65%.
+
+Even then, the threshold remains **report-only**. `catalogVisualPreflight.py --calibration <visual-calibration.json>` may emit `REPORT_ONLY_WARNING` entries, but it cannot block, ACCEPT, or REWORK a candidate. Promoting any warning to a blocking gate requires a separate explicit reviewer-approved policy change backed by current held-out evidence.
