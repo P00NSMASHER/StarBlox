@@ -181,7 +181,9 @@ const portableCatalogArt = Object.freeze({
   'rugs-11': '/assets/catalog/rugs-11-w07-v3.png',
   'rugs-12': '/assets/catalog/rugs-12-w07-v3.png',
   'decor-1': '/assets/catalog/decor-1-w09-v2.jpg',
-  'decor-2': '/assets/catalog/decor-2-w09-v2.jpg'
+  'decor-2': '/assets/catalog/decor-2-w09-v2.jpg',
+  'decor-3': '/assets/catalog/decor-3-w09-v3.webp',
+  'decor-4': '/assets/catalog/decor-4-w09-v3.webp'
 });
 
 for (const item of gameModel.store) {
