@@ -1,91 +1,45 @@
 # Workstream 12 — Art Infrastructure Accelerator Handoff
 
-Scope: `screenshot-match-preproduction` only. This is a tooling handoff, not gameplay or canonical-art authority. Workstream 08 remains the only canonical catalog writer; producers/reviewers keep current exact-hash independence rules.
+Scope: `screenshot-match-preproduction` only. This is production tooling, not gameplay or canonical-art authority. Workstream 08 remains the only canonical catalog writer; reviewers keep exact-hash independence rules.
 
-## What changed
-A public-GitHub rights-clean infrastructure sweep found a practical stack that maps cleanly onto the existing `artPromptOptimizer` -> exact-byte staging -> real Store render -> independent review pipeline.
+## Current decision
 
-### Pilot now — perceptual preflight
-Use **JohannesBuchner/imagehash@7a405c9a27571ee8c998b661ce751639c34b7355** (permissive BSD-style license) as the first external accelerator. It has tested pHash/dHash/color/crop-resistant hashing and requires no model weights.
+The previous model/checkpoint rights hold is **cleared for StarBlox by explicit user attestation of full model/checkpoint rights**. Exact model IDs/revisions still must be recorded in provenance. Repository code licenses, datasets/reference assets, APIs/services and custom-node terms remain independent and must not be conflated with model rights.
 
-Pilot contract:
-1. Run only after candidate bytes pass existing signature/decode/readback checks.
-2. Exact SHA-256/Git blob equality remains the hard duplicate check.
-3. Normalize candidates to the same Store-card canvas used by staged-art QA.
-4. Compute pHash + dHash + color hash against:
-   - every accepted canonical catalog asset;
-   - same-family accepted assets;
-   - all candidates in the current batch.
-5. Emit the five nearest neighbors and distances into staged-art evidence.
-6. **REPORT ONLY** at first. Do not block or auto-REWORK from a perceptual threshold until thresholds are calibrated against existing exact-hash ACCEPT/REWORK history.
-7. Feed only the warning/evidence to the independent reviewer and review learner; never let this metric approve an image.
+The authoritative implementation contract is now:
+- `docs/preproduction/art-factory/README.md`
+- `docs/preproduction/art-factory/ART_FACTORY_V2.json`
+- `docs/preproduction/art-factory/pilot_art_accelerators.py`
+- `.github/workflows/art-factory-preflight.yml`
 
-Optional independent second signal: `scikit-image/scikit-image@2dff163516e1a7c528b48d5eda8cf40788f0ade3` SSIM (BSD family). Prefer a sidecar/offline QA dependency, not application runtime. Combine with pHash rather than treating SSIM as truth.
+## Preferred production stack
 
-### Pilot now — alpha edge refinement
-**pymatting/pymatting@6d5c4a6bed0e5672abac0bad078e594423ffe4fd** is MIT and its core classical matting path does not require a learned model checkpoint. For a non-canonical candidate that already has a foreground mask, generate a trimap by erode/dilate boundary expansion, refine alpha, preserve both source and derivative hashes, and compare actual Store-card halo/edge quality. Do not overwrite source bytes.
+1. **Generation** — `huggingface/diffusers@7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c` (Apache-2.0 code).
+2. **Reference consistency** — `tencent-ailab/IP-Adapter@62e4af9d0c1ac7d5f8dd386a0ccf2211346af1a2` (Apache-2.0 code), plus ControlNet surfaces available through Diffusers.
+3. **Perceptual triage** — `JohannesBuchner/imagehash@7a405c9a27571ee8c998b661ce751639c34b7355` (BSD-style) and optional `scikit-image@2dff163516e1a7c528b48d5eda8cf40788f0ade3` SSIM. Metrics remain report-only.
+4. **Alpha refinement** — `pymatting/pymatting@6d5c4a6bed0e5672abac0bad078e594423ffe4fd` (MIT).
+5. **Optional alpha/background paths** — `danielgatis/rembg@202e42649a8492a7c49f808de36608a7d1cbbfe3` (MIT) and `lllyasviel/LayerDiffuse_DiffusersCLI@3061d9aed52a6c52a13fcf2b196c0fef4d727824` (Apache-2.0 code).
+6. **Optional restoration/upscale** — `xinntao/Real-ESRGAN@a4abfb2979a7bbff3f69f58f58ae324608821e27` (BSD-3-Clause code); preserve the original and treat output as a derivative.
+7. **Scale-up orchestration** — `invoke-ai/InvokeAI@9e1540962bcca7f8fa668d7d8e02cf79d75fda3b` (Apache-2.0).
+8. **Alternate isolated workflow authoring** — `Comfy-Org/ComfyUI@e638023d54497dbe0579565e5de4bb7076899592` (GPL-3.0 code); custom-node/model terms remain separate.
 
-### Generation foundation — rights gate first
-Preferred runtime: **huggingface/diffusers@7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c** (Apache-2.0), with **tencent-ailab/IP-Adapter@62e4af9d0c1ac7d5f8dd386a0ccf2211346af1a2** (Apache-2.0) and ControlNet where a reference asset/structure is useful.
+## Production rules
 
-Do not generate production candidates until the **exact model checkpoint/revision license** is separately recorded. Repository code licensing does not cover FLUX/SDXL/base/refiner/ControlNet/IP-Adapter weights.
+- Existing `scripts/artPromptOptimizer.mjs` stays upstream of every new generation attempt.
+- Generate only an unfinished/REWORK candidate, never an independently ACCEPTed exact current hash.
+- Pilot 2–4 variants, stage/read back exact bytes, render actual StarBlox card/detail or target surface, then obtain independent exact-hash review before scaling.
+- Preserve source plus every derivative hash. Matting, background removal and super-resolution never overwrite the source.
+- pHash/dHash/color hash/SSIM can prioritize review and flag suspicious similarity; they cannot approve or reject art automatically.
+- Every source generation records prompt SHA, deterministic seed, runtime commit, exact model/checkpoint revision, conditioning/reference hashes, output dimensions and exact hashes.
+- Do not preserve secrets/private data, leaked/confidential material, exploit paths or unauthorized-access material in any prompt, artifact or provenance record.
 
-Minimum provider-neutral generation provenance record:
-```json
-{
-  "itemId": "auras-N",
-  "attemptId": "unique-id",
-  "promptSha256": "...",
-  "promptRecipeVersion": "...",
-  "seed": 12345,
-  "runtime": {
-    "repo": "huggingface/diffusers",
-    "commit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c"
-  },
-  "models": [
-    {
-      "modelId": "exact model repo/id",
-      "revision": "exact revision",
-      "licenseReviewed": true,
-      "licenseReference": "stored evidence path"
-    }
-  ],
-  "conditioning": {
-    "referenceAssetHash": null,
-    "controlImageHash": null,
-    "adapterScale": null
-  },
-  "output": {
-    "width": 1024,
-    "height": 1024,
-    "format": "png",
-    "sha256": "...",
-    "gitBlobSha": "..."
-  }
-}
-```
+## Concrete first pilots
 
-The existing `scripts/artPromptOptimizer.mjs` already creates differentiated exact-metadata repair variants and should remain upstream of generation. Do not fork prompt logic into a model-provider-specific prompt store.
-
-### Transparent-background options
-- **danielgatis/rembg@202e42649a8492a7c49f808de36608a7d1cbbfe3**: MIT code; useful local batch/CLI background removal, alpha matting and decontamination. Its downloaded segmentation model is a separate rights gate.
-- **lllyasviel/LayerDiffuse_DiffusersCLI@3061d9aed52a6c52a13fcf2b196c0fef4d727824**: Apache-2.0 code, native transparent SDXL generation, fixed-seed example. The LayerDiffuse safetensors and example base-model weights are separate rights domains and are not cleared by this handoff.
-- Recommended experiment after weight clearance: native LayerDiffuse alpha versus local segmentation + PyMatting on the same four synthetic/non-canonical prompts, judged on checkerboard plus actual Store card/detail backgrounds.
-
-### Optional postprocess
-**xinntao/Real-ESRGAN@a4abfb2979a7bbff3f69f58f58ae324608821e27** is BSD-3-Clause code with tested alpha-aware/tiled inference. Its pretrained weights remain separate. Use only as an optional source-restoration derivative, preserve original bytes, and adopt only if independent Store-card review improves.
-
-### Scale-up orchestration
-If local generation becomes persistent/high-volume, evaluate **invoke-ai/InvokeAI@9e1540962bcca7f8fa668d7d8e02cf79d75fda3b** (Apache-2.0) for its tested batch queue/API/workflow layer rather than inventing another queue service.
-
-**Comfy-Org/ComfyUI@e638023d54497dbe0579565e5de4bb7076899592** has mature `/prompt` + websocket workflow execution and tests, but its public code license is GPL-3.0 and custom-node/model licenses vary. It is not the preferred first foundation; keep it as an isolated workflow-authoring/architecture option if later justified.
-
-## Order of operations
-1. Add report-only perceptual-neighbor evidence to staged-art QA.
-2. Correlate warnings with existing/new independent reviewer originality failures; calibrate, do not guess, a threshold.
-3. Run the PyMatting non-canonical alpha-edge pilot.
-4. Select and rights-review one exact generation checkpoint.
-5. Run one four-variant Diffusers/IP-Adapter bounded pilot from a current prompt-optimizer recommendation.
-6. Only then decide whether InvokeAI/ComfyUI orchestration or LayerDiffuse/Real-ESRGAN postprocessing measurably improves throughput/acceptance.
+1. Run the manual **StarBlox Art Factory Preflight** workflow and preserve its report-only evidence.
+2. Use one current assigned REWORK item (not an ACCEPTed hash) for a 2–4 variant Diffusers/IP-Adapter or equivalent authorized-model pilot.
+3. Pass candidates through source-preserving alpha/matting only if transparency helps that exact item.
+4. Stage/read back exact bytes and render card/detail evidence through the existing fixture.
+5. Let the correct independent reviewer decide the exact hashes.
+6. Feed the outcome back into `artPromptOptimizer`; scale the recipe only if the bounded pilot improves acceptance/readability/reference fidelity.
 
 No main/deploy/Replit/Floot/paid settings/purchases/secrets/real player data changes are authorized by this handoff.
