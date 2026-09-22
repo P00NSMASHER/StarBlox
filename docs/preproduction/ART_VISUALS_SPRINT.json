@@ -281,32 +281,22 @@
     "method": "Expanded every collection range and checked uniqueness and producer-reviewer separation in the interactive session. This validates allocation only, not item art or game readiness."
   },
   "currentCatalogSnapshot": {
-    "observedHead": "ba6753e6527e0f1e4c2cbe8d3686bc7a50b28761",
+    "observedHead": "5b3454b079250884a4b550d462cbf5298f058482",
     "reviewCoverageUniqueIds": 180,
     "remainingReviewCoverageIds": 12,
     "remainingReviewCoverageFamily": "desks",
     "minimumQualifiedCurrentReplacementAcceptsKnown": 35,
-    "canonicalAcceptedCurrentHashesWired": 27,
-    "acceptedCurrentHashesAwaitingCanonical": 8,
-    "acceptedAwaitingCanonicalIds": [
-      "lighting-5",
-      "lighting-6",
-      "lighting-7",
-      "lighting-8",
-      "lighting-9",
-      "lighting-10",
-      "lighting-11",
-      "lighting-12"
-    ],
+    "canonicalAcceptedCurrentHashesWired": 35,
+    "acceptedCurrentHashesAwaitingCanonical": 0,
+    "acceptedAwaitingCanonicalIds": [],
     "catalogReleaseClearedIds": 0,
-    "canonicalManifestVersion": 16,
-    "canonicalMappings": 130,
-    "canonicalFinalPortableLabels": 114,
+    "canonicalManifestVersion": 17,
+    "canonicalMappings": 138,
+    "canonicalFinalPortableLabels": 122,
     "canonicalInterimNotVerified": 16,
-    "note": "Conservative floor from current immutable integration/review evidence. Accepted/stored/wired/release-cleared remain separate."
+    "note": "Current conservative floor: 35 current replacement hashes are independently ACCEPTed and all 35 are canonical-wired through manifest v17. Review coverage is 180/192 unique IDs; Desk remains the 12-ID coverage gap."
   },
   "currentCriticalPath": [
-    "08: integrate independently accepted Lighting 5-12 exact hashes immediately after normal metadata/file/content checks.",
     "01: review branch-stored/rendered Tops 7-10 v3 exact hashes; old v2 REWORK does not transfer.",
     "07: transfer already-generated Rugs 5-8 Adobe bytes to versioned GitHub paths and exact-readback them; do not regenerate or scale to Rugs 9-12 before reviewer-14 pilot disposition.",
     "14->05: render current exact Desk 2-4 paths through the shared fixture, then reviewer 05 decides them; Desk remains the 12-ID review-coverage gap.",
