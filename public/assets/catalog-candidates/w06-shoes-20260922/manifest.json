@@ -1,0 +1,112 @@
+{
+  "batchId": "w06-shoes-7-10-20260922",
+  "status": "READY_FOR_REVIEWER02",
+  "canonicalManifestChanged": false,
+  "runtimeChanged": false,
+  "playerDataChanged": false,
+  "reviewer": "02",
+  "integrator": "08",
+  "provenance": "Adobe Firefly generation followed by Adobe subject-preserving square resize; exact bytes downloaded by this branch-scoped intake and hash-verified before commit.",
+  "items": [
+    {
+      "itemId": "shoes-7",
+      "name": "Chunky Sneakers",
+      "tier": 3,
+      "theme": "Cloud Pop",
+      "source": {
+        "path": "public/assets/catalog-candidates/w06-shoes-20260922/shoes-7-source-v3.png",
+        "sha256": "ee0bf0589488042065eb63600cd7f4b6c890a1760d2b662971daa5cf0e26d719",
+        "bytes": 930973,
+        "dimensions": [
+          1024,
+          1024
+        ]
+      },
+      "review": {
+        "path": "public/assets/catalog/shoes-7-w06-v3.png",
+        "sha256": "e6bd15334f64537dbb6d7f73331a67a5bd4416c96589c1003286f5586321526d",
+        "bytes": 584655,
+        "dimensions": [
+          768,
+          768
+        ]
+      },
+      "status": "READY_FOR_REVIEWER02"
+    },
+    {
+      "itemId": "shoes-8",
+      "name": "Trainers",
+      "tier": 3,
+      "theme": "Pixel Party",
+      "source": {
+        "path": "public/assets/catalog-candidates/w06-shoes-20260922/shoes-8-source-v3.png",
+        "sha256": "d31f423443de4025fce4be22e677b9f78d6a58493482060ff064e039ca0ceb41",
+        "bytes": 1176027,
+        "dimensions": [
+          1024,
+          1024
+        ]
+      },
+      "review": {
+        "path": "public/assets/catalog/shoes-8-w06-v3.png",
+        "sha256": "7cc864e736057c024f010c044755e5001c5c4418173f83ce6309fee94ba47cd3",
+        "bytes": 691091,
+        "dimensions": [
+          768,
+          768
+        ]
+      },
+      "status": "READY_FOR_REVIEWER02"
+    },
+    {
+      "itemId": "shoes-9",
+      "name": "Paint Kicks",
+      "tier": 3,
+      "theme": "Berry Blast",
+      "source": {
+        "path": "public/assets/catalog-candidates/w06-shoes-20260922/shoes-9-source-v3.png",
+        "sha256": "8118fe1525f6853f26b61038607d1fd3ec7fbc36d769495e37a71edc400df025",
+        "bytes": 1048867,
+        "dimensions": [
+          1024,
+          1024
+        ]
+      },
+      "review": {
+        "path": "public/assets/catalog/shoes-9-w06-v3.png",
+        "sha256": "6db39a0e3820ddae6ce493880693e1998ff270a38f17b66253056b61d0c4190f",
+        "bytes": 637380,
+        "dimensions": [
+          768,
+          768
+        ]
+      },
+      "status": "READY_FOR_REVIEWER02"
+    },
+    {
+      "itemId": "shoes-10",
+      "name": "Light Shoes",
+      "tier": 4,
+      "theme": "Garden Glow",
+      "source": {
+        "path": "public/assets/catalog-candidates/w06-shoes-20260922/shoes-10-source-v3.png",
+        "sha256": "09ed7f9d597f1406e2737d07b5f90263f047a03d2ae62ed9fc26205e2e944f88",
+        "bytes": 1073812,
+        "dimensions": [
+          1024,
+          1024
+        ]
+      },
+      "review": {
+        "path": "public/assets/catalog/shoes-10-w06-v3.png",
+        "sha256": "72b01fba8c88704de5ad98020bf163fd42229c237b92be5decb9892e0ccbdfad",
+        "bytes": 653159,
+        "dimensions": [
+          768,
+          768
+        ]
+      },
+      "status": "READY_FOR_REVIEWER02"
+    }
+  ]
+}
