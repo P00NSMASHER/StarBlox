@@ -1,0 +1,142 @@
+{
+  "schemaVersion": 1,
+  "phase": "ART_AND_VISUALS_ONLY",
+  "workstream": "04",
+  "recipient": "10",
+  "branch": "screenshot-match-preproduction",
+  "observedHeadBeforeWrite": "bf56c3940b5a8d95a8a30442bfc87cf4d00670fb",
+  "transition": "STORE_REFERENCE_GEOMETRY_4_BLOCKERS_TO_VERIFIED_PASS",
+  "scope": "Exact evidence handoff for avatar try-on stage sizing/placement, selected-detail height, collection-strip placement/width, and value-panel vertical position. This does not claim full Store release readiness.",
+  "authority": {
+    "catalogCanonicalWriter": "08",
+    "sharedCoordinator": "15",
+    "independentVerifier": "10",
+    "storeOwner": "04"
+  },
+  "currentRelevantByteIdentity": {
+    "storeCss": {
+      "path": "src/storeScreenshotMatch.css",
+      "gitBlobSha": "a6cd659cd181c4901ec90eec344cd91f441eadd1",
+      "sameAsGeometryQaHead397cff": true
+    },
+    "storeRuntime": {
+      "path": "src/storeScreenshotMatchRuntime.js",
+      "gitBlobSha": "96b31f1b01f310422123666146438a7302457632",
+      "sameAsGeometryQaHead397cff": true
+    },
+    "shellChromeRuntime": {
+      "path": "src/shellChromeRuntime.js",
+      "gitBlobSha": "e7ddd84ed4c5d55762d7b0e7c41208c967c3979a",
+      "sameAsResponsiveQaHead168441": true
+    },
+    "motionGameFeelRuntime": {
+      "path": "src/motionGameFeelRuntime.js",
+      "gitBlobSha": "d3cae3a116ad5b13e1a3f80c455c7c58b18aa557",
+      "sameAsResponsiveQaHead168441": true
+    }
+  },
+  "desktopGeometryProof": {
+    "workflow": "StarBlox Preproduction Visual QA",
+    "runId": 35733475511,
+    "jobId": 106764638800,
+    "sourceHead": "397cff5e3dd2652045011444c08854d8073a56ee",
+    "sourceCommitMessage": "Finish Store desktop geometry alignment",
+    "artifact": {
+      "id": 10696762056,
+      "name": "preproduction-visual-qa",
+      "zipSha256": "95cac1620bf8a76bcbd1a38d93cff340f39106e77a0015ba17973b04510e98f3",
+      "reportSha256": "d8fccb3ccd17c734b427548459678c8dd15fdb570a3c41f5948856d02a2c1372"
+    },
+    "viewport": [1408, 1056],
+    "checks": {
+      "avatarTryOnStage": {
+        "status": "PASS",
+        "actual": {"x": 1032, "y": 174, "width": 378, "height": 470},
+        "target": {"x": 1030, "y": 160, "width": 378, "height": 470},
+        "delta": {"x": 2, "y": 14, "width": 0, "height": 0}
+      },
+      "selectedDetail": {
+        "status": "PASS",
+        "actual": {"x": 1032, "y": 630, "width": 363, "height": 212},
+        "target": {"x": 1035, "y": 630, "width": 363, "height": 212},
+        "delta": {"x": -3, "y": 0, "width": 0, "height": 0}
+      },
+      "collectionStrip": {
+        "status": "PASS",
+        "actual": {"x": 10, "y": 822, "width": 1082, "height": 216},
+        "target": {"x": 10, "y": 832, "width": 1088, "height": 216},
+        "delta": {"x": 0, "y": -10, "width": -6, "height": 0}
+      },
+      "valuePanel": {
+        "status": "PASS",
+        "actual": {"x": 1096, "y": 840, "width": 296, "height": 198},
+        "target": {"x": 1102, "y": 850, "width": 296, "height": 198},
+        "delta": {"x": -6, "y": -10, "width": 0, "height": 0}
+      }
+    },
+    "storeNavigation": "PASS",
+    "storeHorizontalOverflow": "PASS",
+    "storeRuntimeErrors": "PASS",
+    "storeScreenshots": {
+      "desktop1408x1056": {"sha256": "1ff3e5931a2b4fc2a666ae3ba4542ead9b74b79b483a7f2280c9b43c14cca9dc", "dimensions": [1408, 1056]},
+      "landscape1024x768": {"sha256": "3e00747a47258fbca758217e11295773d0092fffc4ea118fe1c471aafed48ab0", "dimensions": [1024, 768]},
+      "phone390x844": {"sha256": "c0d983bdf6156128eadd3f891ef32c59e02c8eb0c4ad918c103071756888d9d4", "dimensions": [390, 844]},
+      "phone320x568": {"sha256": "8572522720858803548ad1d0d0d908fe0c9ca415ee5f4f45888056e34a7e59ae", "dimensions": [320, 568]}
+    },
+    "importantQualification": "The workflow conclusion was FAIL because of 22 visible generic Store fallback-art instances plus two Quest geometry failures. None of those three release blockers was one of the four Store geometry checks above."
+  },
+  "responsiveCurrentRuntimeProof": {
+    "workflow": "StarBlox Catalog Mobile QA",
+    "runId": 35769947798,
+    "jobId": 106888849266,
+    "sourceHead": "168441331cd38983ba41c2f31dd81195ea5d85c2",
+    "status": "PASS",
+    "releaseBlockingCount": 0,
+    "artifact": {
+      "id": 10712964481,
+      "name": "catalog-mobile-qa",
+      "zipSha256": "a0463b319be7a60cee2bf948c1338695a0b3ee9a0552bb14f70c52b53eeaf45e"
+    },
+    "reducedMotionMatrix": [
+      [1408, 1056],
+      [1024, 768],
+      [390, 844],
+      [320, 568]
+    ],
+    "normalMotionControls": [
+      [1024, 768],
+      [390, 844]
+    ],
+    "storeRelevantResults": {
+      "horizontalOverflow": "PASS_ALL_TARGETS",
+      "runtimeErrors": "PASS_ALL_TARGETS",
+      "touchAndKeyboardAccessibility": "PASS_ALL_TARGETS",
+      "phone390CatalogColumns": 2,
+      "phone320CatalogColumns": 2
+    }
+  },
+  "liveCatalogContext": {
+    "manifestVersion": 33,
+    "target": 192,
+    "finalCount": 166,
+    "remaining": 26,
+    "canonicalCatalogTouchedBy04": false
+  },
+  "handoffTo10": {
+    "disposition": "The four assigned Store reference-geometry/composition blockers are verified PASS under the exact Store CSS/runtime bytes still present at the observed live head. No further 04 layout change is justified without a fresh current-hash browser failure.",
+    "independentCheck": "Workstream10 may independently re-run the real-pointer Store matrix at a later head; if any of the four geometry checks or responsive safety checks fails after a relevant Store/shell/motion byte change, route the smallest concrete defect back to 04 (or 11/15 for motion-specific cause).",
+    "doNotInfer": "Do not infer full Store release readiness from this handoff. Catalog final-art coverage remains a separate live integration concern owned outside 04."
+  },
+  "safety": {
+    "mainTouched": false,
+    "replitTouched": false,
+    "flootTouched": false,
+    "deployTouched": false,
+    "paidSettingsOrPurchasesTouched": false,
+    "secretsTouched": false,
+    "realPlayerDataTouched": false,
+    "catalogManifestOrRuntimeMappingTouched": false,
+    "workflowOrCiConfigTouched": false,
+    "testsWeakened": false
+  }
+}
