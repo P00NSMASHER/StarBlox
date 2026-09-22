@@ -103,9 +103,10 @@ function score(model,item,b){
  const mean=s?(((c?.mean??prior)*(c?.support||0)+(t?.mean??prior)*(t?.support||0))/s):prior, support=(g?.support||0)+s;
  return mean+.06/Math.sqrt(1+support);
 }
-export function compose(item,blocks,variant='A',repairContext={}){
+export function compose(item,blocks,variant='A',repairContext={},basePrompt=''){
  const ids=uniq([...BASE,...blocks]).filter(x=>BLOCKS[x]);
  const metadata=`Exact metadata: ${item.id} — ${item.name}; collection ${item.collectionId}; type ${item.type}; tier ${item.tier}; theme ${item.theme}.`;
+ const brief=String(basePrompt||'').trim();
  const failureCodes=uniq((repairContext.failureCodes||[]).filter(code=>Object.prototype.hasOwnProperty.call(FAILURE_CODES,code)));
  const repair=[];
  if(failureCodes.length){
@@ -113,8 +114,30 @@ export function compose(item,blocks,variant='A',repairContext={}){
   if(repairContext.humanReason) repair.push(`Human reviewer reason: ${String(repairContext.humanReason).trim()}`);
   repair.push('Repair the documented failure codes while preserving qualities that were not implicated. Do not erase successful identity, silhouette, material depth, or readability merely to make a different image.');
  }
- const text=[`STARBLOX CATALOG ART — ${variant}`,'Create one premium, kid-friendly 2D game catalog asset with polished dimensional quality.',metadata,...repair,...ids.map(x=>BLOCKS[x]),'Output a production-worthy source image for exact-byte staging, card/detail rendering and independent review. Do not claim approval; the reviewer decides from rendered pixels.'].join('\n\n');
- return {variant,promptBlocks:ids,promptText:text,promptSha256:sha(text),failureCodes};
+ const text=[`STARBLOX CATALOG ART — ${variant}`,'Create one premium, kid-friendly 2D game catalog asset with polished dimensional quality.',metadata,...(brief?[`Authoritative item-specific design brief:\n${brief}`]:[]),...repair,...ids.map(x=>BLOCKS[x]),'Output a production-worthy source image for exact-byte staging, card/detail rendering and independent review. Do not claim approval; the reviewer decides from rendered pixels.'].join('\n\n');
+ return {variant,promptBlocks:ids,promptText:text,promptSha256:sha(text),failureCodes,optimizerInputSha256:brief?sha(brief):null};
+}
+export function optimizeBrief(item,basePrompt,review,model,variant='REQUEST'){
+ const brief=String(basePrompt||'').trim();
+ if(!item?.id) throw Error('item.id required');
+ if(!brief) throw Error(`item ${item.id} base prompt required`);
+ const decision=String(review?.decision||'UNREVIEWED').toUpperCase();
+ const repair=inferRepair(review||{});
+ if(decision==='ACCEPT') throw Error(`item ${item.id} is already ACCEPTed; refuse request regeneration`);
+ if(decision.startsWith('BLOCKED')||repair.technical) throw Error(`item ${item.id} has a technical/blocking review; prompt regeneration is not the remedy`);
+ if(!['REWORK','UNREVIEWED'].includes(decision)) throw Error(`item ${item.id} review state ${decision} is not eligible for request planning`);
+ const required=uniq([...repair.blocks,...defaults(item.collectionId)]);
+ const learned=Object.keys(BLOCKS)
+   .filter(x=>!BASE.includes(x)&&!required.includes(x))
+   .sort((a,b)=>score(model,item,b)-score(model,item,a))
+   .slice(0,4);
+ return compose(
+   item,
+   [...required,...learned],
+   variant,
+   {failureCodes:repair.failureCodes,humanReason:review?.reason||review?.reasonCode||''},
+   brief
+ );
 }
 export function recommend(item,review,model,count=4){
  const decision=String(review?.decision||'UNREVIEWED').toUpperCase(), repair=inferRepair(review||{});
