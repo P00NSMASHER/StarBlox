@@ -1,0 +1,143 @@
+{
+  "schemaVersion": 1,
+  "batchId": "chat-desks-recovery-2-4-20260922",
+  "status": "STAGED_READY_FOR_INDEPENDENT_REVIEW",
+  "sourceHead": "e4a629a8621edc1e623c788818440e670122ba59",
+  "workflowRunId": "35672877587",
+  "transportHelper": "CHAT",
+  "canonicalWriter": "08",
+  "newGenerations": 0,
+  "storedCandidateCount": 3,
+  "storedOriginalCount": 3,
+  "duplicateCandidateContent": 0,
+  "items": [
+    {
+      "id": "desks-2",
+      "name": "Cloud Study Desk",
+      "collectionId": "desks",
+      "collectionName": "Desks & Tech",
+      "type": "room",
+      "tier": 1,
+      "theme": "Candy Core",
+      "price": 65,
+      "starReq": 0,
+      "format": "PNG",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "bytes": 845051,
+      "sha256": "5d284040198504227b9cb8ed4eedf729166d157d266912cf3a89c71dc823bcee",
+      "gitBlobSha": "277eb1e38e8a69caa0dab6d4d27bbb91796746f8",
+      "producer": "CHAT",
+      "transportHelper": "CHAT",
+      "independentReviewer": "05",
+      "repositoryPath": "public/assets/catalog/desks-2-chat-v2.png",
+      "assetPath": "/assets/catalog/desks-2-chat-v2.png",
+      "assetId": "urn:aaid:ps:US:3e9212c2-7bd4-42ad-a1aa-5a53e375bcf7",
+      "status": "READY_FOR_REVIEW_05",
+      "readback": "PASS",
+      "original": {
+        "format": "PNG",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "bytes": 845051,
+        "sha256": "5d284040198504227b9cb8ed4eedf729166d157d266912cf3a89c71dc823bcee",
+        "gitBlobSha": "277eb1e38e8a69caa0dab6d4d27bbb91796746f8",
+        "repositoryPath": "docs/preproduction/catalog-sprint/recovered-originals/chat-desks-recovery-2-4-20260922/desks-2-3e9212c2-7bd4-42ad-a1aa-5a53e375bcf7.png"
+      }
+    },
+    {
+      "id": "desks-3",
+      "name": "Pixel Mini Setup",
+      "collectionId": "desks",
+      "collectionName": "Desks & Tech",
+      "type": "room",
+      "tier": 1,
+      "theme": "Adventure Club",
+      "price": 94,
+      "starReq": 0,
+      "format": "PNG",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "bytes": 1148489,
+      "sha256": "a2e00219721cdb340fd35383845608f2a19ccd9fd65c759ddbe6c891a48b872c",
+      "gitBlobSha": "aeebeacdc4a95bf75af36583dae6e2391d9a1d9e",
+      "producer": "CHAT",
+      "transportHelper": "CHAT",
+      "independentReviewer": "05",
+      "repositoryPath": "public/assets/catalog/desks-3-chat-v2.png",
+      "assetPath": "/assets/catalog/desks-3-chat-v2.png",
+      "assetId": "urn:aaid:ps:US:d09b3ea9-7239-42f8-9d2d-c22353b661e6",
+      "status": "READY_FOR_REVIEW_05",
+      "readback": "PASS",
+      "original": {
+        "format": "PNG",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "bytes": 1148489,
+        "sha256": "a2e00219721cdb340fd35383845608f2a19ccd9fd65c759ddbe6c891a48b872c",
+        "gitBlobSha": "aeebeacdc4a95bf75af36583dae6e2391d9a1d9e",
+        "repositoryPath": "docs/preproduction/catalog-sprint/recovered-originals/chat-desks-recovery-2-4-20260922/desks-3-d09b3ea9-7239-42f8-9d2d-c22353b661e6.png"
+      }
+    },
+    {
+      "id": "desks-4",
+      "name": "Berry Vanity Desk",
+      "collectionId": "desks",
+      "collectionName": "Desks & Tech",
+      "type": "room",
+      "tier": 2,
+      "theme": "Cloud Pop",
+      "price": 123,
+      "starReq": 0,
+      "format": "PNG",
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "bytes": 1043349,
+      "sha256": "ed21e581b9cd986c4b51ce4dccd32f495fdb0b64ed197401ee8e7078b1374dd9",
+      "gitBlobSha": "6f87e1527ec7d9bf1a3f81e1f54320f462dbb025",
+      "producer": "CHAT",
+      "transportHelper": "CHAT",
+      "independentReviewer": "05",
+      "repositoryPath": "public/assets/catalog/desks-4-chat-v2.png",
+      "assetPath": "/assets/catalog/desks-4-chat-v2.png",
+      "assetId": "urn:aaid:ps:US:cb05b83e-87d7-4076-a127-ca6f92824bce",
+      "status": "READY_FOR_REVIEW_05",
+      "readback": "PASS",
+      "original": {
+        "format": "PNG",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "bytes": 1043349,
+        "sha256": "ed21e581b9cd986c4b51ce4dccd32f495fdb0b64ed197401ee8e7078b1374dd9",
+        "gitBlobSha": "6f87e1527ec7d9bf1a3f81e1f54320f462dbb025",
+        "repositoryPath": "docs/preproduction/catalog-sprint/recovered-originals/chat-desks-recovery-2-4-20260922/desks-4-cb05b83e-87d7-4076-a127-ca6f92824bce.png"
+      }
+    }
+  ],
+  "checks": {
+    "metadata": "PASS_3_OF_3_FROM_CURRENT_GAME_MODEL",
+    "exactByteReadback": "PASS_6_OF_6",
+    "candidateDecode": "PASS_3_OF_3",
+    "independentVisualReview": "PENDING_ASSIGNED_REVIEWERS"
+  },
+  "freeze": {
+    "replitTouched": false,
+    "flootTouched": false,
+    "mainTouched": false,
+    "canonicalMappingsTouched": false,
+    "gameplayChanged": false,
+    "playerDataTouched": false
+  }
+}
