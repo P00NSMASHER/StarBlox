@@ -146,7 +146,15 @@ function selectCurrentReplacementCandidates(report){
   }
   const selected=[]; report.skippedCandidates=[];
   for(const [id,list] of candidates.entries()){
-    const dedup=[...new Map(list.map(x=>[`${x.repositoryPath}:${x.blobSha}`,x])).values()];
+    // Keep the first occurrence for an identical path/hash. Explicit lane metadata
+    // is added before the loose directory scan; allowing the later scan entry to
+    // overwrite it erases READY_FOR_REVIEW authority and can resurrect stale files.
+    const dedupMap=new Map();
+    for(const x of list){
+      const key=`${x.repositoryPath}:${x.blobSha}`;
+      if(!dedupMap.has(key)) dedupMap.set(key,x);
+    }
+    const dedup=[...dedupMap.values()];
     // A lane-declared READY_FOR_REVIEW/STAGED binding is authoritative for that ID.
     // Never let an older versioned file silently replace it merely because the
     // authoritative bytes fail signature/decode checks; that would make stale art
