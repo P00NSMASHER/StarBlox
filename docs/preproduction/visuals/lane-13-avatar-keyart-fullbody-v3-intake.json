@@ -1,0 +1,128 @@
+{
+  "schemaVersion": 1,
+  "branch": "screenshot-match-preproduction",
+  "lane": "13",
+  "candidate": "avatar-keyart-fullbody-w13-v3",
+  "status": "STAGED_READY_FOR_INDEPENDENT_REVIEW",
+  "assetCommit": "6a8689e457eeaa65733547f72f76758b9adda405",
+  "sourceSeed": "docs/preproduction/visuals/lane-13-v3-repairs-seed.json",
+  "reviewRepairSource": "docs/preproduction/visuals/reviews/01-avatar-keyart-fullbody-v2.json",
+  "assets": [
+    {
+      "role": "source",
+      "path": "docs/preproduction/visuals/recovered-originals/avatar-keyart-fullbody-w13-v3-source.png",
+      "width": 1360,
+      "height": 1744,
+      "alpha": false,
+      "bytes": 1407115,
+      "sha256": "40ba83d176c4a3bd3b902272e18a8e9170610633adf250e0b7d53dc8a64f020c",
+      "metadata": {
+        "format": "png",
+        "width": 1360,
+        "height": 1744,
+        "bitDepth": 8,
+        "colorType": 2,
+        "hasAlpha": false
+      },
+      "meaningfulAlpha": null,
+      "alphaStats": null
+    },
+    {
+      "role": "full",
+      "path": "public/assets/visuals/lane-13/avatar-keyart-fullbody-w13-v3-full.png",
+      "width": 1360,
+      "height": 1744,
+      "alpha": true,
+      "bytes": 1198367,
+      "sha256": "9d115163c520d932a3022acdc6ee698e1f01b847b0fcf20d641975055719e263",
+      "metadata": {
+        "format": "png",
+        "width": 1360,
+        "height": 1744,
+        "bitDepth": 8,
+        "colorType": 6,
+        "hasAlpha": true
+      },
+      "meaningfulAlpha": true,
+      "alphaStats": {
+        "min": 0,
+        "max": 255,
+        "clear": 1249979,
+        "semi": 23410,
+        "opaque": 1098451
+      }
+    },
+    {
+      "role": "optimized",
+      "path": "public/assets/visuals/lane-13/avatar-keyart-fullbody-w13-v3-896.png",
+      "width": 896,
+      "height": 1149,
+      "alpha": true,
+      "bytes": 625779,
+      "sha256": "5fd0b208bcf845ce651df98d9664266f469422e7b23d027b1fd7690b8777b5b2",
+      "metadata": {
+        "format": "png",
+        "width": 896,
+        "height": 1149,
+        "bitDepth": 8,
+        "colorType": 6,
+        "hasAlpha": true
+      },
+      "meaningfulAlpha": true,
+      "alphaStats": {
+        "min": 0,
+        "max": 255,
+        "clear": 541605,
+        "semi": 14773,
+        "opaque": 473126
+      }
+    }
+  ],
+  "repositoryReadback": {
+    "status": "PASS_3_OF_3_EXACT_SHA256_AND_BYTE_LENGTH",
+    "checks": [
+      {
+        "path": "docs/preproduction/visuals/recovered-originals/avatar-keyart-fullbody-w13-v3-source.png",
+        "role": "source",
+        "expectedBytes": 1407115,
+        "readbackBytes": 1407115,
+        "expectedSha256": "40ba83d176c4a3bd3b902272e18a8e9170610633adf250e0b7d53dc8a64f020c",
+        "readbackSha256": "40ba83d176c4a3bd3b902272e18a8e9170610633adf250e0b7d53dc8a64f020c",
+        "exactBytes": true
+      },
+      {
+        "path": "public/assets/visuals/lane-13/avatar-keyart-fullbody-w13-v3-full.png",
+        "role": "full",
+        "expectedBytes": 1198367,
+        "readbackBytes": 1198367,
+        "expectedSha256": "9d115163c520d932a3022acdc6ee698e1f01b847b0fcf20d641975055719e263",
+        "readbackSha256": "9d115163c520d932a3022acdc6ee698e1f01b847b0fcf20d641975055719e263",
+        "exactBytes": true
+      },
+      {
+        "path": "public/assets/visuals/lane-13/avatar-keyart-fullbody-w13-v3-896.png",
+        "role": "optimized",
+        "expectedBytes": 625779,
+        "readbackBytes": 625779,
+        "expectedSha256": "5fd0b208bcf845ce651df98d9664266f469422e7b23d027b1fd7690b8777b5b2",
+        "readbackSha256": "5fd0b208bcf845ce651df98d9664266f469422e7b23d027b1fd7690b8777b5b2",
+        "exactBytes": true
+      }
+    ]
+  },
+  "producerDecision": "STAGED_NOT_APPROVED",
+  "requiredIndependentReview": [
+    "01 art/visual judgment",
+    "14 composition/performance judgment",
+    "15 coordination before any runtime wiring"
+  ],
+  "runtimeWired": false,
+  "physicalDeviceTest": false,
+  "screenshotParityClaim": false,
+  "canonicalCatalogMappingsEdited": false,
+  "workstream06AssetsEdited": false,
+  "workstream09AssetsEdited": false,
+  "gameplayStateEdited": false,
+  "generatedAtUtc": "2026-09-22T08:06:26.796092+00:00",
+  "repairScope": "hair-length-only bounded repair from v2 review; clothing remains noncanonical visual guidance only"
+}

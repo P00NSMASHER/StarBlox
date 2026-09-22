@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "branch": "screenshot-match-preproduction",
+  "lane": "13",
+  "status": "REQUEST_INDEPENDENT_REVIEW",
+  "producerDecision": "STAGED_NOT_APPROVED",
+  "runtimeWired": false,
+  "requests": [
+    {
+      "reviewer": "01",
+      "candidate": "avatar-keyart-fullbody-w13-v3",
+      "evidence": "docs/preproduction/visuals/lane-13-avatar-keyart-fullbody-v3-intake.json",
+      "judge": [
+        "hair length/flow against authoritative references",
+        "preservation of v2 face/headset/proportions/material quality",
+        "originality/no third-party IP"
+      ]
+    },
+    {
+      "reviewer": "14",
+      "candidate": "avatar-keyart-fullbody-w13-v3",
+      "evidence": "docs/preproduction/visuals/lane-13-avatar-keyart-fullbody-v3-intake.json",
+      "judge": [
+        "composition silhouette",
+        "alpha edges",
+        "payload/performance"
+      ]
+    },
+    {
+      "reviewer": "01",
+      "candidate": "home-bedroom-w13-v3",
+      "evidence": "docs/preproduction/visuals/lane-13-home-bedroom-v3-intake.json",
+      "judge": [
+        "reference fidelity",
+        "materials/lighting/architecture",
+        "art quality"
+      ]
+    },
+    {
+      "reviewer": "14",
+      "candidate": "home-bedroom-w13-v3",
+      "evidence": "docs/preproduction/visuals/lane-13-home-bedroom-v3-intake.json",
+      "judge": [
+        "x\u224836-64 lower hero corridor",
+        "1408x1056 composition",
+        "purposeful 390x844 phone composition",
+        "payload/performance"
+      ]
+    }
+  ],
+  "coordination": "Workstream 15 required before any runtime wiring or shared-entrypoint change.",
+  "generatedAtUtc": "2026-09-22T08:06:27.156503+00:00"
+}

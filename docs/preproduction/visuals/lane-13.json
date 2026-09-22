@@ -386,6 +386,52 @@
       "runtimeCoordination": "PENDING_15",
       "physicalDeviceTested": false,
       "screenshotParityClaimed": false
+    },
+    {
+      "candidateId": "avatar-keyart-fullbody-w13-v3",
+      "candidateType": "transparent-fullbody-avatar-keyart-guidance",
+      "targetScreens": [
+        "Home",
+        "Store",
+        "Quest"
+      ],
+      "status": "STAGED_READY_FOR_INDEPENDENT_REVIEW",
+      "reviewRepairSource": "docs/preproduction/visuals/reviews/01-avatar-keyart-fullbody-v2.json",
+      "observedDefect": "Reviewer 01 accepted v2 proportions, face, headset and materials but found authoritative-reference hair materially longer than v2.",
+      "repair": "Preserve v2 identity/material/pose cues while extending layered medium-brown hair to waist/upper-hip.",
+      "sourcePath": "docs/preproduction/visuals/recovered-originals/avatar-keyart-fullbody-w13-v3-source.png",
+      "sourceDimensions": [
+        1360,
+        1744
+      ],
+      "sourceBytes": 1407115,
+      "sourceSha256": "40ba83d176c4a3bd3b902272e18a8e9170610633adf250e0b7d53dc8a64f020c",
+      "fullPath": "public/assets/visuals/lane-13/avatar-keyart-fullbody-w13-v3-full.png",
+      "fullDimensions": [
+        1360,
+        1744
+      ],
+      "fullBytes": 1198367,
+      "fullSha256": "9d115163c520d932a3022acdc6ee698e1f01b847b0fcf20d641975055719e263",
+      "optimizedPath": "public/assets/visuals/lane-13/avatar-keyart-fullbody-w13-v3-896.png",
+      "optimizedDimensions": [
+        896,
+        1149
+      ],
+      "optimizedBytes": 625779,
+      "optimizedSha256": "5fd0b208bcf845ce651df98d9664266f469422e7b23d027b1fd7690b8777b5b2",
+      "intakeEvidence": "docs/preproduction/visuals/lane-13-avatar-keyart-fullbody-v3-intake.json",
+      "originReadback": "PASS_3_OF_3_EXACT_SHA256_AND_BYTE_LENGTH",
+      "assetCommit": "6a8689e457eeaa65733547f72f76758b9adda405",
+      "equipmentSafety": {
+        "clothingNoncanonicalGuidanceOnly": true,
+        "ownedEquippedChoicesChanged": false,
+        "runtimeWired": false
+      },
+      "independentArtReview": "PENDING_01",
+      "compositionPerformanceReview": "PENDING_14",
+      "runtimeCoordination": "PENDING_15",
+      "producerDecision": "STAGED_NOT_APPROVED"
     }
   ],
   "buddyStageCandidates": [
@@ -913,6 +959,73 @@
     "status": "STAGED_READY_FOR_INDEPENDENT_REVIEW",
     "intakeEvidence": "docs/preproduction/visuals/lane-13-store-heart-light-v1-intake.json",
     "assetCommit": "e588d83b8ac9340f1f180e5a21b8035d048ce952",
+    "producerDecision": "STAGED_NOT_APPROVED",
+    "requiredReviews": [
+      "01",
+      "14",
+      "15"
+    ]
+  },
+  "environmentCandidates": [
+    {
+      "candidateId": "home-bedroom-w13-v3",
+      "candidateType": "responsive-environment-background",
+      "targetScreens": [
+        "Home"
+      ],
+      "status": "STAGED_READY_FOR_INDEPENDENT_REVIEW",
+      "reviewRepairSource": "docs/preproduction/visuals/chat-home-bedroom-w13-v2-composition-performance-14-to-15.json",
+      "observedDefect": "Reviewer 14 found v2 lower hero corridor and phone center-cover obstructed by bed/plant/chair silhouettes.",
+      "repair": "Keep left-side light and bed-left/desk-right language while opening x\u224836-64% lower corridor and adding a purposeful 390x844 phone derivative.",
+      "sourcePath": "docs/preproduction/visuals/recovered-originals/home-bedroom-w13-v3-source.png",
+      "sourceDimensions": [
+        1728,
+        1344
+      ],
+      "sourceBytes": 1948858,
+      "sourceSha256": "c8a22488f038a2796b172ea4bf50835a30c00f1828cfb73d4ccc6965f8bf144c",
+      "desktopPath": "public/assets/visuals/lane-13/home-bedroom-w13-v3-1408x1056.png",
+      "desktopDimensions": [
+        1408,
+        1056
+      ],
+      "desktopBytes": 1237683,
+      "desktopSha256": "8e41a0f76546f73e50bbb09d3e4d3292baeb1084549e1e61ebc5d55e6e513884",
+      "phonePath": "public/assets/visuals/lane-13/home-bedroom-w13-v3-phone-390x844.png",
+      "phoneDimensions": [
+        390,
+        844
+      ],
+      "phoneBytes": 258283,
+      "phoneSha256": "d2dafc3efe41c6c6982592e6724091dbd88f890a8f617cdf22538392a24a1715",
+      "intakeEvidence": "docs/preproduction/visuals/lane-13-home-bedroom-v3-intake.json",
+      "originReadback": "PASS_3_OF_3_EXACT_SHA256_AND_BYTE_LENGTH",
+      "assetCommit": "6a8689e457eeaa65733547f72f76758b9adda405",
+      "bakedUiOrState": false,
+      "runtimeWired": false,
+      "independentArtReview": "PENDING_01",
+      "compositionPerformanceReview": "PENDING_14",
+      "runtimeCoordination": "PENDING_15",
+      "producerDecision": "STAGED_NOT_APPROVED"
+    }
+  ],
+  "latestAvatarKeyartV3Candidate": {
+    "candidateId": "avatar-keyart-fullbody-w13-v3",
+    "status": "STAGED_READY_FOR_INDEPENDENT_REVIEW",
+    "intakeEvidence": "docs/preproduction/visuals/lane-13-avatar-keyart-fullbody-v3-intake.json",
+    "assetCommit": "6a8689e457eeaa65733547f72f76758b9adda405",
+    "producerDecision": "STAGED_NOT_APPROVED",
+    "requiredReviews": [
+      "01",
+      "14",
+      "15"
+    ]
+  },
+  "latestHomeBedroomV3Candidate": {
+    "candidateId": "home-bedroom-w13-v3",
+    "status": "STAGED_READY_FOR_INDEPENDENT_REVIEW",
+    "intakeEvidence": "docs/preproduction/visuals/lane-13-home-bedroom-v3-intake.json",
+    "assetCommit": "6a8689e457eeaa65733547f72f76758b9adda405",
     "producerDecision": "STAGED_NOT_APPROVED",
     "requiredReviews": [
       "01",

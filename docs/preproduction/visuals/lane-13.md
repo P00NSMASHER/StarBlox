@@ -243,3 +243,23 @@ This candidate contains no avatar, buddy, UI, text, buttons, logos or third-part
 - Exact repository readback: `PASS_3_OF_3_EXACT_SHA256_AND_BYTE_LENGTH`; evidence `docs/preproduction/visuals/lane-13-store-heart-light-v1-intake.json`; asset commit `e588d83b8ac9340f1f180e5a21b8035d048ce952`.
 - The first direct resize of the transparent cutout was producer-rejected for visible alpha/stretch artifacts; the staged 1024 derivative was instead made by resizing the opaque source first and then removing its background.
 - Scope safety: no UI/text/buttons, no catalog mapping, gameplay/learning/persistence/economy/save change, no Workstream 06/09 file mutation, no runtime wiring, no physical-device or screenshot-parity claim. Reviewer 01 judges art, 14 composition/performance, and 15 coordinates any future 09 handoff/wiring.
+
+
+## Avatar key-art fullbody v3 bounded hair repair
+
+- Candidate: `avatar-keyart-fullbody-w13-v3` — producer-staged only. Reviewer 01, reviewer 14 and Workstream 15 remain gates.
+- Source: `docs/preproduction/visuals/recovered-originals/avatar-keyart-fullbody-w13-v3-source.png` — 1360x1744, SHA-256 `40ba83d176c4a3bd3b902272e18a8e9170610633adf250e0b7d53dc8a64f020c`.
+- Full transparent: `public/assets/visuals/lane-13/avatar-keyart-fullbody-w13-v3-full.png` — 1360x1744, SHA-256 `9d115163c520d932a3022acdc6ee698e1f01b847b0fcf20d641975055719e263`.
+- Optimized transparent: `public/assets/visuals/lane-13/avatar-keyart-fullbody-w13-v3-896.png` — 896x1149, SHA-256 `5fd0b208bcf845ce651df98d9664266f469422e7b23d027b1fd7690b8777b5b2`.
+- Exact repository readback: `PASS_3_OF_3_EXACT_SHA256_AND_BYTE_LENGTH`; evidence `docs/preproduction/visuals/lane-13-avatar-keyart-fullbody-v3-intake.json`; asset commit `6a8689e457eeaa65733547f72f76758b9adda405`.
+- Bounded repair: preserve v2 square head/chunky body/wave/wink/open-smile/headset/material cues; extend medium-brown layered hair to approximately waist/upper-hip. Clothing is noncanonical guidance only.
+
+
+## Home bedroom v3 corridor + phone repair
+
+- Candidate: `home-bedroom-w13-v3` — producer-staged only. Reviewer 01, reviewer 14 and Workstream 15 remain gates.
+- Source: `docs/preproduction/visuals/recovered-originals/home-bedroom-w13-v3-source.png` — 1728x1344, SHA-256 `c8a22488f038a2796b172ea4bf50835a30c00f1828cfb73d4ccc6965f8bf144c`.
+- Desktop derivative: `public/assets/visuals/lane-13/home-bedroom-w13-v3-1408x1056.png` — 1408x1056, SHA-256 `8e41a0f76546f73e50bbb09d3e4d3292baeb1084549e1e61ebc5d55e6e513884`.
+- Purposeful phone derivative: `public/assets/visuals/lane-13/home-bedroom-w13-v3-phone-390x844.png` — 390x844, SHA-256 `d2dafc3efe41c6c6982592e6724091dbd88f890a8f617cdf22538392a24a1715`.
+- Exact repository readback: `PASS_3_OF_3_EXACT_SHA256_AND_BYTE_LENGTH`; evidence `docs/preproduction/visuals/lane-13-home-bedroom-v3-intake.json`; asset commit `6a8689e457eeaa65733547f72f76758b9adda405`.
+- Bounded repair: preserve warm left-side light and bed-left/desk-right language while clearing the lower x≈36-64% hero corridor; phone crop centers the cleared wall/floor and leaves furniture at edges. No UI/state is baked into the background.

@@ -1,0 +1,116 @@
+{
+  "schemaVersion": 1,
+  "branch": "screenshot-match-preproduction",
+  "lane": "13",
+  "candidate": "home-bedroom-w13-v3",
+  "status": "STAGED_READY_FOR_INDEPENDENT_REVIEW",
+  "assetCommit": "6a8689e457eeaa65733547f72f76758b9adda405",
+  "sourceSeed": "docs/preproduction/visuals/lane-13-v3-repairs-seed.json",
+  "reviewRepairSource": "docs/preproduction/visuals/chat-home-bedroom-w13-v2-composition-performance-14-to-15.json",
+  "assets": [
+    {
+      "role": "source",
+      "path": "docs/preproduction/visuals/recovered-originals/home-bedroom-w13-v3-source.png",
+      "width": 1728,
+      "height": 1344,
+      "alpha": false,
+      "bytes": 1948858,
+      "sha256": "c8a22488f038a2796b172ea4bf50835a30c00f1828cfb73d4ccc6965f8bf144c",
+      "metadata": {
+        "format": "png",
+        "width": 1728,
+        "height": 1344,
+        "bitDepth": 8,
+        "colorType": 2,
+        "hasAlpha": false
+      },
+      "meaningfulAlpha": null,
+      "alphaStats": null
+    },
+    {
+      "role": "desktop",
+      "path": "public/assets/visuals/lane-13/home-bedroom-w13-v3-1408x1056.png",
+      "width": 1408,
+      "height": 1056,
+      "alpha": false,
+      "bytes": 1237683,
+      "sha256": "8e41a0f76546f73e50bbb09d3e4d3292baeb1084549e1e61ebc5d55e6e513884",
+      "metadata": {
+        "format": "png",
+        "width": 1408,
+        "height": 1056,
+        "bitDepth": 8,
+        "colorType": 2,
+        "hasAlpha": false
+      },
+      "meaningfulAlpha": null,
+      "alphaStats": null
+    },
+    {
+      "role": "phone",
+      "path": "public/assets/visuals/lane-13/home-bedroom-w13-v3-phone-390x844.png",
+      "width": 390,
+      "height": 844,
+      "alpha": false,
+      "bytes": 258283,
+      "sha256": "d2dafc3efe41c6c6982592e6724091dbd88f890a8f617cdf22538392a24a1715",
+      "metadata": {
+        "format": "png",
+        "width": 390,
+        "height": 844,
+        "bitDepth": 8,
+        "colorType": 2,
+        "hasAlpha": false
+      },
+      "meaningfulAlpha": null,
+      "alphaStats": null
+    }
+  ],
+  "repositoryReadback": {
+    "status": "PASS_3_OF_3_EXACT_SHA256_AND_BYTE_LENGTH",
+    "checks": [
+      {
+        "path": "docs/preproduction/visuals/recovered-originals/home-bedroom-w13-v3-source.png",
+        "role": "source",
+        "expectedBytes": 1948858,
+        "readbackBytes": 1948858,
+        "expectedSha256": "c8a22488f038a2796b172ea4bf50835a30c00f1828cfb73d4ccc6965f8bf144c",
+        "readbackSha256": "c8a22488f038a2796b172ea4bf50835a30c00f1828cfb73d4ccc6965f8bf144c",
+        "exactBytes": true
+      },
+      {
+        "path": "public/assets/visuals/lane-13/home-bedroom-w13-v3-1408x1056.png",
+        "role": "desktop",
+        "expectedBytes": 1237683,
+        "readbackBytes": 1237683,
+        "expectedSha256": "8e41a0f76546f73e50bbb09d3e4d3292baeb1084549e1e61ebc5d55e6e513884",
+        "readbackSha256": "8e41a0f76546f73e50bbb09d3e4d3292baeb1084549e1e61ebc5d55e6e513884",
+        "exactBytes": true
+      },
+      {
+        "path": "public/assets/visuals/lane-13/home-bedroom-w13-v3-phone-390x844.png",
+        "role": "phone",
+        "expectedBytes": 258283,
+        "readbackBytes": 258283,
+        "expectedSha256": "d2dafc3efe41c6c6982592e6724091dbd88f890a8f617cdf22538392a24a1715",
+        "readbackSha256": "d2dafc3efe41c6c6982592e6724091dbd88f890a8f617cdf22538392a24a1715",
+        "exactBytes": true
+      }
+    ]
+  },
+  "producerDecision": "STAGED_NOT_APPROVED",
+  "requiredIndependentReview": [
+    "01 art/visual judgment",
+    "14 composition/performance judgment",
+    "15 coordination before any runtime wiring"
+  ],
+  "runtimeWired": false,
+  "physicalDeviceTest": false,
+  "screenshotParityClaim": false,
+  "canonicalCatalogMappingsEdited": false,
+  "workstream06AssetsEdited": false,
+  "workstream09AssetsEdited": false,
+  "gameplayStateEdited": false,
+  "generatedAtUtc": "2026-09-22T08:06:26.796092+00:00",
+  "repairScope": "lower hero corridor and purposeful phone crop only; no UI/state baked into environment"
+}
