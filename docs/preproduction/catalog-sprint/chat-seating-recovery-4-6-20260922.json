@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "batchId": "chat-seating-recovery-4-6-20260922",
+  "items": [
+    {
+      "id": "seating-4",
+      "assetId": "urn:aaid:ps:US:3ea38f81-6e6d-4b53-b469-cc94b00ed7ac",
+      "producer": "CHAT",
+      "independentReviewer": "02",
+      "renditionUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:3ea38f81-6e6d-4b53-b469-cc94b00ed7ac",
+      "sourceUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:3ea38f81-6e6d-4b53-b469-cc94b00ed7ac",
+      "candidateRepositoryPath": "public/assets/catalog/seating-4-chat-v2.png"
+    },
+    {
+      "id": "seating-5",
+      "assetId": "urn:aaid:ps:US:523062a8-44f7-4a5d-9333-89ea2811d762",
+      "producer": "CHAT",
+      "independentReviewer": "02",
+      "renditionUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:523062a8-44f7-4a5d-9333-89ea2811d762",
+      "sourceUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:523062a8-44f7-4a5d-9333-89ea2811d762",
+      "candidateRepositoryPath": "public/assets/catalog/seating-5-chat-v2.png"
+    },
+    {
+      "id": "seating-6",
+      "assetId": "urn:aaid:ps:US:3e52d0a5-b69b-4577-a4e3-320b5963025b",
+      "producer": "CHAT",
+      "independentReviewer": "02",
+      "renditionUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:3e52d0a5-b69b-4577-a4e3-320b5963025b",
+      "sourceUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:3e52d0a5-b69b-4577-a4e3-320b5963025b",
+      "candidateRepositoryPath": "public/assets/catalog/seating-6-chat-v2.png"
+    }
+  ]
+}
