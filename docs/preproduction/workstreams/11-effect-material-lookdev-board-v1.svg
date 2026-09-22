@@ -1,0 +1,207 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="960" viewBox="0 0 1440 960" role="img" aria-labelledby="title desc">
+  <title id="title">StarBlox Workstream 11 Effect Material Lookdev Board v1</title>
+  <desc id="desc">Art-only look-development board for Home, Store and Quest motion, lighting and reduced-motion effect materials. It does not implement runtime behavior or gameplay state.</desc>
+  <metadata>
+    {
+      "schemaVersion":1,
+      "workstream":"11",
+      "scope":"ART_AND_VISUALS_ONLY_LOOKDEV",
+      "branch":"screenshot-match-preproduction",
+      "sourceHeadBeforeWrite":"dd05c0371534b773ef54e30cb87d6cb5bdf98d97",
+      "generationMethod":"hand-authored repository SVG; no image-generation model used",
+      "modelCheckpoint":{"id":null,"revision":null,"reason":"not applicable; no model invocation"},
+      "rightsSeparation":{"repositoryCode":"not copied into this artifact","datasetReference":"user-authorized StarBlox original Home/Store/Quest reference pixels only","apiService":"none","customNodes":"none"},
+      "referenceManifest":{"path":"docs/preproduction/reference-screenshots/original-reference-manifest.json","blob":"63956763934f17613a3f98889f8085051a78a0b6"},
+      "referenceSha256":{"home":"6a4b110aeaf12a6ab0c629f9181cc6cfa8d4f55a518d4f2a6adb3ac6e756c457","store":"b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d","quest":"70f1b952709a85c77bb11851ffe9ae704acf8b97640355e908b6ec537b5c73c9"},
+      "recipeSource":{"path":"docs/preproduction/workstreams/11-effect-material-recipes-v1.json","blob":"2bdeb9eb873f87922b65392070bb5b386ef23073"},
+      "auraFreeze":"Auras 1-12 accepted/canonical; no Aura bytes altered",
+      "runtimeStatus":"NOT_IMPLEMENTED",
+      "reviewStatus":"LOOKDEV_SOURCE_ONLY__NO_RELEASE_GATE_CLAIM"
+    }
+  </metadata>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#03102F"/>
+      <stop offset="0.55" stop-color="#051741"/>
+      <stop offset="1" stop-color="#0A2D73"/>
+    </linearGradient>
+    <linearGradient id="panel" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0D439D" stop-opacity="0.96"/>
+      <stop offset="0.18" stop-color="#0A2D73" stop-opacity="0.98"/>
+      <stop offset="1" stop-color="#051741" stop-opacity="1"/>
+    </linearGradient>
+    <linearGradient id="iceRim" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#D6F8FF"/>
+      <stop offset="0.35" stop-color="#8AE9FF"/>
+      <stop offset="0.72" stop-color="#63D9F4"/>
+      <stop offset="1" stop-color="#1266CF"/>
+    </linearGradient>
+    <linearGradient id="successRim" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#91F0AD"/>
+      <stop offset="0.55" stop-color="#35CC6A"/>
+      <stop offset="1" stop-color="#0D439D"/>
+    </linearGradient>
+    <linearGradient id="warmScene" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#F3AFC4" stop-opacity="0.34"/>
+      <stop offset="0.34" stop-color="#F6C28F" stop-opacity="0.26"/>
+      <stop offset="0.67" stop-color="#9EDFFF" stop-opacity="0.26"/>
+      <stop offset="1" stop-color="#C9A7F2" stop-opacity="0.32"/>
+    </linearGradient>
+    <radialGradient id="cyanHalo">
+      <stop offset="0" stop-color="#D6F8FF" stop-opacity="0.64"/>
+      <stop offset="0.28" stop-color="#8AE9FF" stop-opacity="0.30"/>
+      <stop offset="0.7" stop-color="#63D9F4" stop-opacity="0.12"/>
+      <stop offset="1" stop-color="#63D9F4" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="goldHalo">
+      <stop offset="0" stop-color="#FFF09A" stop-opacity="0.72"/>
+      <stop offset="0.32" stop-color="#FFD84F" stop-opacity="0.34"/>
+      <stop offset="1" stop-color="#FFD84F" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="softBloom" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="7"/>
+    </filter>
+    <filter id="microBloom" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="3"/>
+    </filter>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="10" stdDeviation="14" flood-color="#02091E" flood-opacity="0.56"/>
+    </filter>
+    <symbol id="sbx-star" viewBox="-12 -12 24 24">
+      <path d="M0-11 2.8-3.8 10.5-3.4 4.5 1.5 6.7 9 0 4.8-6.7 9-4.5 1.5-10.5-3.4-2.8-3.8Z" fill="currentColor"/>
+    </symbol>
+    <symbol id="sbx-diamond" viewBox="-12 -12 24 24">
+      <path d="M0-11 4-4 11 0 4 4 0 11-4 4-11 0-4-4Z" fill="currentColor"/>
+    </symbol>
+    <symbol id="sbx-mote" viewBox="-12 -12 24 24">
+      <circle r="5.5" fill="currentColor"/>
+      <circle r="9" fill="none" stroke="currentColor" stroke-opacity="0.28" stroke-width="1.5"/>
+    </symbol>
+  </defs>
+
+  <rect width="1440" height="960" fill="url(#bg)"/>
+  <circle cx="133" cy="93" r="180" fill="#63D9F4" opacity="0.055" filter="url(#softBloom)"/>
+  <circle cx="1305" cy="128" r="230" fill="#A77AF3" opacity="0.055" filter="url(#softBloom)"/>
+
+  <g font-family="Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">
+    <text x="70" y="72" fill="#D6F8FF" font-size="34" font-weight="760" letter-spacing="0.5">WORKSTREAM 11 · EFFECT MATERIAL LOOKDEV</text>
+    <text x="70" y="106" fill="#8AE9FF" font-size="17" font-weight="600">Home · Store · Quest · normal motion + static reduced-motion equivalents</text>
+    <text x="1370" y="72" fill="#63D9F4" font-size="15" font-weight="700" text-anchor="end">v1 · ART ONLY</text>
+
+    <!-- HOME -->
+    <g transform="translate(70 150)" filter="url(#shadow)">
+      <rect width="405" height="540" rx="34" fill="url(#panel)" stroke="#1266CF" stroke-width="2"/>
+      <rect x="19" y="19" width="367" height="502" rx="25" fill="none" stroke="#63D9F4" stroke-opacity="0.24"/>
+      <text x="30" y="48" fill="#D6F8FF" font-size="20" font-weight="760">HOME · room / avatar life</text>
+      <text x="30" y="75" fill="#8AE9FF" font-size="13" font-weight="600">quiet center · warm depth · bounded peripheral sparkle</text>
+      <g transform="translate(35 104)">
+        <rect width="335" height="245" rx="24" fill="#061A49"/>
+        <rect x="14" y="14" width="307" height="217" rx="20" fill="url(#warmScene)" opacity="0.82"/>
+        <ellipse cx="168" cy="208" rx="118" ry="24" fill="#02091E" opacity="0.35"/>
+        <path d="M31 196 Q88 118 140 143 T246 137 T307 188 L307 219 L31 219Z" fill="#9EDFFF" opacity="0.11"/>
+        <path d="M47 187 Q103 135 147 160 T245 151 T289 184" fill="none" stroke="#F6C28F" stroke-opacity="0.23" stroke-width="12" stroke-linecap="round"/>
+        <rect x="114" y="63" width="106" height="138" rx="44" fill="#0A2D73" stroke="#63D9F4" stroke-opacity="0.38" stroke-width="2"/>
+        <circle cx="167" cy="99" r="31" fill="#D6F8FF" opacity="0.11"/>
+        <rect x="138" y="131" width="58" height="52" rx="22" fill="#1266CF" opacity="0.34"/>
+        <ellipse cx="168" cy="203" rx="67" ry="13" fill="#63D9F4" opacity="0.10"/>
+        <g color="#FFF09A"><use href="#sbx-star" x="55" y="49" width="12" height="12"/><use href="#sbx-star" x="279" y="81" width="8" height="8" opacity="0.7"/></g>
+        <g color="#D6F8FF"><use href="#sbx-diamond" x="289" y="46" width="10" height="10"/><use href="#sbx-mote" x="74" y="154" width="7" height="7" opacity="0.55"/></g>
+        <rect x="104" y="52" width="127" height="163" rx="53" fill="none" stroke="#D6F8FF" stroke-opacity="0.16" stroke-dasharray="4 8"/>
+      </g>
+      <text x="35" y="384" fill="#D6F8FF" font-size="14" font-weight="700">Normal motion intent</text>
+      <text x="35" y="409" fill="#9EDFFF" font-size="13">• 650–850 ms shallow room settle</text>
+      <text x="35" y="431" fill="#9EDFFF" font-size="13">• avatar/Buddy drift stays wrapper-only</text>
+      <text x="35" y="453" fill="#9EDFFF" font-size="13">• 0–2 persistent ambient anchors</text>
+      <text x="35" y="482" fill="#D6F8FF" font-size="14" font-weight="700">Reduced motion</text>
+      <text x="35" y="507" fill="#9EDFFF" font-size="13">Static rim, contact shadow, truthful tier cue</text>
+    </g>
+
+    <!-- STORE -->
+    <g transform="translate(518 150)" filter="url(#shadow)">
+      <rect width="405" height="540" rx="34" fill="url(#panel)" stroke="#1266CF" stroke-width="2"/>
+      <rect x="19" y="19" width="367" height="502" rx="25" fill="none" stroke="#63D9F4" stroke-opacity="0.24"/>
+      <text x="30" y="48" fill="#D6F8FF" font-size="20" font-weight="760">STORE · select / equip material</text>
+      <text x="30" y="75" fill="#8AE9FF" font-size="13" font-weight="600">strong small-card state · no whole-grid animation</text>
+      <g transform="translate(45 108)">
+        <rect width="315" height="246" rx="22" fill="#061A49"/>
+        <ellipse cx="157" cy="122" rx="128" ry="102" fill="url(#cyanHalo)" opacity="0.72"/>
+        <ellipse cx="157" cy="122" rx="100" ry="78" fill="none" stroke="url(#iceRim)" stroke-width="4"/>
+        <ellipse cx="157" cy="122" rx="93" ry="71" fill="none" stroke="#D6F8FF" stroke-opacity="0.20" stroke-width="1.5"/>
+        <rect x="100" y="60" width="114" height="124" rx="30" fill="#0A2D73" stroke="#1266CF" stroke-width="2"/>
+        <path d="M121 102 Q157 72 193 102 L185 144 Q157 165 129 144Z" fill="#1266CF" opacity="0.50"/>
+        <ellipse cx="157" cy="189" rx="70" ry="14" fill="#63D9F4" opacity="0.12"/>
+        <g color="#D6F8FF">
+          <use href="#sbx-star" x="63" y="59" width="14" height="14"/>
+          <use href="#sbx-diamond" x="240" y="72" width="10" height="10"/>
+          <use href="#sbx-mote" x="261" y="158" width="7" height="7" opacity="0.65"/>
+        </g>
+        <g color="#FFD84F">
+          <use href="#sbx-star" x="74" y="171" width="10" height="10"/>
+          <use href="#sbx-diamond" x="225" y="191" width="8" height="8" opacity="0.8"/>
+        </g>
+      </g>
+      <text x="35" y="390" fill="#D6F8FF" font-size="14" font-weight="700">Normal motion intent</text>
+      <text x="35" y="415" fill="#9EDFFF" font-size="13">• selection 520–760 ms; equip 620–820 ms</text>
+      <text x="35" y="437" fill="#9EDFFF" font-size="13">• one local destination halo + 8–12 sparks max</text>
+      <text x="35" y="459" fill="#9EDFFF" font-size="13">• cleanup before / during grid scroll</text>
+      <text x="35" y="488" fill="#D6F8FF" font-size="14" font-weight="700">Reduced motion</text>
+      <text x="35" y="513" fill="#9EDFFF" font-size="13">Persistent rim + fixed 3–5 star cluster; no travel</text>
+    </g>
+
+    <!-- QUEST -->
+    <g transform="translate(966 150)" filter="url(#shadow)">
+      <rect width="405" height="540" rx="34" fill="url(#panel)" stroke="#1266CF" stroke-width="2"/>
+      <rect x="19" y="19" width="367" height="502" rx="25" fill="none" stroke="#63D9F4" stroke-opacity="0.24"/>
+      <text x="30" y="48" fill="#D6F8FF" font-size="20" font-weight="760">QUEST · correct-only celebration</text>
+      <text x="30" y="75" fill="#8AE9FF" font-size="13" font-weight="600">learning body stays calm · wrong/clue/retry never sparkle</text>
+      <g transform="translate(38 108)">
+        <rect width="329" height="246" rx="22" fill="#061A49"/>
+        <rect x="27" y="28" width="275" height="190" rx="20" fill="#0A2D73" stroke="url(#successRim)" stroke-width="4"/>
+        <rect x="51" y="58" width="227" height="18" rx="9" fill="#D6F8FF" opacity="0.18"/>
+        <rect x="51" y="88" width="182" height="12" rx="6" fill="#9EDFFF" opacity="0.14"/>
+        <rect x="51" y="126" width="227" height="28" rx="10" fill="#1266CF" opacity="0.28"/>
+        <rect x="51" y="165" width="227" height="28" rx="10" fill="#1266CF" opacity="0.18"/>
+        <ellipse cx="48" cy="42" rx="48" ry="48" fill="url(#goldHalo)" opacity="0.42"/>
+        <ellipse cx="286" cy="210" rx="48" ry="48" fill="url(#cyanHalo)" opacity="0.45"/>
+        <g color="#FFD84F">
+          <use href="#sbx-star" x="17" y="18" width="17" height="17"/>
+          <use href="#sbx-diamond" x="58" y="29" width="10" height="10"/>
+          <use href="#sbx-star" x="24" y="69" width="8" height="8" opacity="0.75"/>
+        </g>
+        <g color="#D6F8FF">
+          <use href="#sbx-star" x="286" y="188" width="12" height="12"/>
+          <use href="#sbx-diamond" x="302" y="215" width="8" height="8" opacity="0.8"/>
+          <use href="#sbx-mote" x="275" y="223" width="7" height="7" opacity="0.62"/>
+        </g>
+      </g>
+      <text x="35" y="390" fill="#D6F8FF" font-size="14" font-weight="700">Normal motion intent</text>
+      <text x="35" y="415" fill="#9EDFFF" font-size="13">• correct only: 760–980 ms, 8–14 particles</text>
+      <text x="35" y="437" fill="#9EDFFF" font-size="13">• action availability and geometry never blocked</text>
+      <text x="35" y="459" fill="#9EDFFF" font-size="13">• clear all success decoration before next/retry</text>
+      <text x="35" y="488" fill="#D6F8FF" font-size="14" font-weight="700">Reduced motion</text>
+      <text x="35" y="513" fill="#9EDFFF" font-size="13">Instant green keyline + restrained fixed gold/ice stars</text>
+    </g>
+
+    <!-- SOURCE PRIMITIVES -->
+    <g transform="translate(70 735)">
+      <rect width="1300" height="160" rx="28" fill="#061A49" stroke="#1266CF" stroke-width="2"/>
+      <text x="28" y="38" fill="#D6F8FF" font-size="17" font-weight="760">Reusable original effect primitives · report-only lookdev source</text>
+      <text x="28" y="63" fill="#8AE9FF" font-size="12" font-weight="600">near / mid / far scale hierarchy · controlled bloom under a sharp core · protected copy/face/item zones remain visually above effects</text>
+      <g transform="translate(30 88)">
+        <g color="#FFF09A"><use href="#sbx-star" width="28" height="28"/><use href="#sbx-star" x="38" y="4" width="19" height="19" opacity="0.78"/><use href="#sbx-star" x="70" y="8" width="12" height="12" opacity="0.56"/></g>
+        <text x="98" y="18" fill="#9EDFFF" font-size="12">five-point star · 8–12 / 5–8 / 2–4 px target depth classes</text>
+      </g>
+      <g transform="translate(530 88)">
+        <g color="#D6F8FF"><use href="#sbx-diamond" width="28" height="28"/><use href="#sbx-diamond" x="39" y="4" width="19" height="19" opacity="0.78"/><use href="#sbx-diamond" x="72" y="8" width="12" height="12" opacity="0.56"/></g>
+        <text x="101" y="18" fill="#9EDFFF" font-size="12">diamond glint · crisp center, bloom never replaces silhouette</text>
+      </g>
+      <g transform="translate(1000 88)">
+        <g color="#63D9F4"><use href="#sbx-mote" width="28" height="28"/><use href="#sbx-mote" x="39" y="4" width="19" height="19" opacity="0.78"/><use href="#sbx-mote" x="72" y="8" width="12" height="12" opacity="0.56"/></g>
+        <text x="101" y="18" fill="#9EDFFF" font-size="12">light mote · low-opacity far depth only</text>
+      </g>
+    </g>
+
+    <text x="70" y="930" fill="#63D9F4" font-size="12">NOT RUNTIME-WIRED · NOT A REVIEW VERDICT · NO RELEASE GATE CLOSED · AURAS 1–12 PRESERVED</text>
+    <text x="1370" y="930" fill="#63D9F4" font-size="12" text-anchor="end">handoff: 15 coordinates implementation · 14 captures actual normal/reduced pixels + paint/composite/scroll evidence</text>
+  </g>
+</svg>
