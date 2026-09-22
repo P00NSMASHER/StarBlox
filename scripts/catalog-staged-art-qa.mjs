@@ -112,11 +112,13 @@ function laneMetaById(){
   const map=new Map();
   for(const lanePath of producerLanes){
     if(!fs.existsSync(lanePath)) continue;
-    for(const o of allObjects(readLane(lanePath))){
+    const lane=readLane(lanePath);
+    const currentItems=new Set(Array.isArray(lane.currentItems)?lane.currentItems:[]);
+    for(const o of allObjects(lane)){
       const id=o?.id??o?.itemId;
       if(!id||!/^[a-z]+-\d+$/.test(id)) continue;
       const list=map.get(id)??[];
-      list.push({...o,id,producerLane:lanePath});
+      list.push({...o,id,producerLane:lanePath,currentBinding:currentItems.has(o)});
       map.set(id,list);
     }
   }
@@ -126,17 +128,26 @@ function selectCurrentReplacementCandidates(report){
   const meta=laneMetaById(), candidates=new Map();
   const add=c=>{
     const actualBlobSha=blobSha(c.repositoryPath), signature=signatureCheck(c.repositoryPath), safety=assetSafetyCheck(c.repositoryPath);
-    if(c.declaredBlobSha && c.declaredBlobSha!==actualBlobSha){
-      report.warnings.push(`${c.id}: skipped stale lane binding ${c.repositoryPath}; declared ${c.declaredBlobSha} != actual ${actualBlobSha}`);
-      return;
+    const bindingHashOk=!c.declaredBlobSha||c.declaredBlobSha===actualBlobSha;
+    if(!bindingHashOk){
+      report.warnings.push(`${c.id}: authoritative lane binding hash mismatch ${c.repositoryPath}; declared ${c.declaredBlobSha} != actual ${actualBlobSha}`);
     }
-    const item={...c,blobSha:actualBlobSha,signature,safety};
+    const item={...c,blobSha:actualBlobSha,signature,safety,bindingHashOk};
     const list=candidates.get(c.id)??[];list.push(item);candidates.set(c.id,list);
   };
-  for(const [id,objects] of meta.entries()) for(const o of objects){
-    const repositoryPath=candidatePathFromObject(o);
-    if(!repositoryPath||!isReplacementPath(id,repositoryPath)||!looksReviewable(o)) continue;
-    add({id,name:o.name??id,tier:o.tier??null,theme:o.theme??null,producerLane:o.producerLane,discovery:'lane-reviewable',repositoryPath,declaredBlobSha:declaredHash(o)});
+  for(const [id,objects] of meta.entries()){
+    const reviewable=objects.filter(o=>looksReviewable(o));
+    const current=objects.filter(o=>o.currentBinding);
+    // New pending review work outranks the lane's current binding. When no newer
+    // reviewable candidate exists, currentItems is the exact authority even when
+    // that current asset is already ACCEPTed. Loose directory discovery is only
+    // used when the lane has neither kind of authoritative binding.
+    const authoritative=reviewable.length?reviewable:current;
+    for(const o of authoritative){
+      const repositoryPath=candidatePathFromObject(o);
+      if(!repositoryPath||!isReplacementPath(id,repositoryPath)) continue;
+      add({id,name:o.name??id,tier:o.tier??null,theme:o.theme??null,producerLane:o.producerLane,discovery:looksReviewable(o)?'lane-reviewable':'lane-current',repositoryPath,declaredBlobSha:declaredHash(o)});
+    }
   }
   const root='public/assets/catalog';
   if(fs.existsSync(root)) for(const file of fs.readdirSync(root).sort()){
@@ -155,22 +166,20 @@ function selectCurrentReplacementCandidates(report){
       if(!dedupMap.has(key)) dedupMap.set(key,x);
     }
     const dedup=[...dedupMap.values()];
-    // A lane-declared READY_FOR_REVIEW/STAGED binding is authoritative for that ID.
-    // Never let an older versioned file silently replace it merely because the
-    // authoritative bytes fail signature/decode checks; that would make stale art
-    // look like the current candidate in reviewer evidence.
-    const laneBound=dedup.filter(x=>x.discovery==='lane-reviewable');
+    // Pending review and explicit currentItems bindings are authoritative. Never
+    // substitute a loose historical file when those bytes/hash/safety checks fail.
+    const laneBound=dedup.filter(x=>x.discovery==='lane-reviewable'||x.discovery==='lane-current');
     const pool=laneBound.length?laneBound:dedup;
-    const valid=pool.filter(x=>x.signature.ok&&x.safety.ok);
+    const valid=pool.filter(x=>x.bindingHashOk!==false&&x.signature.ok&&x.safety.ok);
     const pick=laneBound.length?valid.at(-1):valid.sort((a,b)=>b.repositoryPath.localeCompare(a.repositoryPath))[0];
     if(pick) selected.push(pick);
     for(const c of dedup){
       if(pick&&c.repositoryPath===pick.repositoryPath&&c.blobSha===pick.blobSha) continue;
-      const reason=!c.signature.ok?'invalid-file-signature':!c.safety.ok?'unsafe-or-external-svg-content':laneBound.length&&c.discovery!=='lane-reviewable'?'stale-alternate-not-selected-authoritative-lane-binding-present':'alternate-version-not-selected';
+      const reason=c.bindingHashOk===false?'declared-hash-mismatch':!c.signature.ok?'invalid-file-signature':!c.safety.ok?'unsafe-or-external-svg-content':laneBound.length&&!['lane-reviewable','lane-current'].includes(c.discovery)?'stale-alternate-not-selected-authoritative-lane-binding-present':'alternate-version-not-selected';
       report.skippedCandidates.push({id,repositoryPath:c.repositoryPath,blobSha:c.blobSha,signature:c.signature,safety:c.safety,reason});
     }
     if(!pick){
-      const detail=pool.map(x=>`${x.repositoryPath}@${x.blobSha} signature=${x.signature.ok?'PASS':'FAIL'} safety=${x.safety.ok?'PASS':'FAIL:'+x.safety.reason}`).join(', ');
+      const detail=pool.map(x=>`${x.repositoryPath}@${x.blobSha} hashBinding=${x.bindingHashOk===false?'FAIL':'PASS'} signature=${x.signature.ok?'PASS':'FAIL'} safety=${x.safety.ok?'PASS':'FAIL:'+x.safety.reason}`).join(', ');
       report.errors.push(`${id}: authoritative staged replacement is not renderable/safe (${detail}); stale alternates were not substituted`);
     }
   }
