@@ -71,8 +71,10 @@
     height:470px;
   }
   .sbStoreSelectedDetail{
+    width:363px;
     min-height:212px;
     max-height:212px;
+    margin-top:-23px;
     padding:8px 10px;
     overflow:hidden;
   }
@@ -84,6 +86,7 @@
   .sbStoreSelectedDetail .sbStoreDetailActions button{min-height:38px}
   .sbStoreSelectedDetail .sbStoreDream{min-height:34px!important}
   .sbStoreCollections{
+    margin-top:-12px;
     margin-left:-168px;
     width:calc(100% + 168px);
     grid-template-columns:minmax(0,1088px) 296px;
