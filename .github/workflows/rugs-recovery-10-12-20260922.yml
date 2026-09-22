@@ -1,0 +1,164 @@
+name: StarBlox Rugs 10-12 Exact Recovery
+
+on:
+  push:
+    branches: [screenshot-match-preproduction]
+    paths:
+      - '.github/workflows/rugs-recovery-10-12-20260922.yml'
+      - 'scripts/importCatalogAdobeBatch.py'
+      - 'docs/preproduction/catalog-sprint/chat-rugs-recovery-10-12-20260922.json'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: starblox-rugs-recovery-10-12-20260922
+  cancel-in-progress: false
+
+jobs:
+  recover-rugs:
+    if: github.ref == 'refs/heads/screenshot-match-preproduction'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: screenshot-match-preproduction
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install image verifier
+        run: python3 -m pip install --disable-pip-version-check Pillow==11.3.0
+
+      - name: Recover exact Rugs 10-12 bytes
+        env:
+          STAR_BLOX_RECOVERY_REQUEST: docs/preproduction/catalog-sprint/chat-rugs-recovery-10-12-20260922.json
+          STAR_BLOX_RECOVERY_REPORT: docs/preproduction/catalog-sprint/chat-rugs-recovery-10-12-result.json
+        run: |
+          python3 -m py_compile scripts/importCatalogAdobeBatch.py
+          python3 scripts/importCatalogAdobeBatch.py
+
+      - name: Publish only Rugs 10-12 and evidence
+        id: publish
+        run: |
+          set -eu
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --             public/assets/catalog/rugs-10-chat-v2.png             public/assets/catalog/rugs-11-chat-v2.png             public/assets/catalog/rugs-12-chat-v2.png             docs/preproduction/catalog-sprint/recovered-originals/chat-rugs-recovery-10-12-20260922             docs/preproduction/catalog-sprint/chat-rugs-recovery-10-12-result.json
+          if ! git diff --cached --quiet; then
+            git commit -m 'catalog: stage exact Rugs 10-12 replacements'
+            for attempt in 1 2 3; do
+              if git push origin HEAD:refs/heads/screenshot-match-preproduction; then break; fi
+              git fetch origin screenshot-match-preproduction
+              git rebase origin/screenshot-match-preproduction
+              if [ "$attempt" -eq 3 ]; then exit 1; fi
+            done
+          fi
+          echo "TESTED_SOURCE_HEAD=$(git rev-parse HEAD)" >> "$GITHUB_ENV"
+
+      - name: Install app and browser QA dependencies
+        run: |
+          npm install --no-save --package-lock=false --no-audit --no-fund
+          npm install --no-save --package-lock=false --no-audit --no-fund playwright@1.55.0
+          npx playwright install --with-deps chromium
+
+      - name: Run regression suite
+        id: tests
+        continue-on-error: true
+        run: timeout 120s npm test -- --reporter=verbose
+
+      - name: Build app
+        id: build
+        continue-on-error: true
+        run: npm run build
+
+      - name: Render staged art
+        id: render
+        continue-on-error: true
+        run: node scripts/catalog-staged-art-qa.mjs
+        env:
+          GITHUB_SHA: ${{ env.TESTED_SOURCE_HEAD }}
+
+      - name: Record scoped Rugs 10-12 evidence
+        if: always() && steps.publish.outcome == 'success'
+        env:
+          TEST_OUTCOME: ${{ steps.tests.outcome }}
+          BUILD_OUTCOME: ${{ steps.build.outcome }}
+          RENDER_OUTCOME: ${{ steps.render.outcome }}
+        run: |
+          python3 - <<'PY'
+          import json,os
+          from pathlib import Path
+          p=Path('docs/preproduction/catalog-sprint/chat-rugs-recovery-10-12-result.json')
+          r=json.loads(p.read_text())
+          st=lambda x:{'success':'PASS','failure':'FAIL','skipped':'NOT_RUN','cancelled':'CANCELLED'}.get(x,'NOT_RUN')
+          r['testedSourceHead']=os.environ['TESTED_SOURCE_HEAD']
+          r['workflowRunId']=int(os.environ['GITHUB_RUN_ID'])
+          r['checks'].update({
+              'tests':st(os.environ['TEST_OUTCOME']),
+              'build':st(os.environ['BUILD_OUTCOME']),
+              'sharedRenderOverall':st(os.environ['RENDER_OUTCOME'])
+          })
+          ev=Path('artifacts/catalog-staged-art/report.json')
+          seen=set()
+          if ev.exists():
+              data=json.loads(ev.read_text())
+              wanted={i['id']:i['gitBlobSha'] for i in r['items']}
+              matches=[i for s in data.get('sets',{}).values() for i in s.get('items',[]) if wanted.get(i.get('id'))==i.get('blobSha')]
+              seen={i['id'] for i in matches if i.get('screenshot') and i.get('status')==200 and i.get('naturalWidth') and not i.get('errors')}
+              r['renderEvidence']={
+                  'artifactName':'rugs-10-12-recovery-evidence',
+                  'reportPath':'artifacts/catalog-staged-art/report.json',
+                  'matchedIds':sorted(seen),
+                  'matchedHashes':{i:wanted[i] for i in sorted(seen)}
+              }
+          r['checks']['rugsCardDetailRender']='PASS_3_OF_3' if len(seen)==3 else f'INCOMPLETE_{len(seen)}_OF_3'
+          r['independentVisualReview']='PENDING_WORKSTREAM_14_NOT_SELF_APPROVED'
+          p.write_text(json.dumps(r,indent=2)+'\n')
+          PY
+
+      - name: Publish executed evidence safely
+        if: always() && steps.publish.outcome == 'success'
+        run: |
+          set -eu
+          git add -- docs/preproduction/catalog-sprint/chat-rugs-recovery-10-12-result.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'catalog: record Rugs 10-12 regression and render evidence'
+          for attempt in 1 2 3; do
+            if git push origin HEAD:refs/heads/screenshot-match-preproduction; then exit 0; fi
+            git fetch origin screenshot-match-preproduction
+            git rebase origin/screenshot-match-preproduction
+          done
+          exit 1
+
+      - name: Retain review artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rugs-10-12-recovery-evidence
+          retention-days: 14
+          if-no-files-found: warn
+          path: |
+            docs/preproduction/catalog-sprint/chat-rugs-recovery-10-12-result.json
+            public/assets/catalog/rugs-10-chat-v2.png
+            public/assets/catalog/rugs-11-chat-v2.png
+            public/assets/catalog/rugs-12-chat-v2.png
+            artifacts/catalog-staged-art
+
+      - name: Fail honestly if scoped gates are incomplete
+        if: always() && steps.publish.outcome == 'success'
+        env:
+          TEST_OUTCOME: ${{ steps.tests.outcome }}
+          BUILD_OUTCOME: ${{ steps.build.outcome }}
+        run: |
+          test "$TEST_OUTCOME" = success
+          test "$BUILD_OUTCOME" = success
+          python3 - <<'PY'
+          import json
+          r=json.load(open('docs/preproduction/catalog-sprint/chat-rugs-recovery-10-12-result.json'))
+          assert r['checks'].get('rugsCardDetailRender') == 'PASS_3_OF_3', r['checks']
+          PY
