@@ -1,5 +1,25 @@
 let queued = false;
 
+function setAttrIfChanged(node,name,value){
+  if(!node) return false;
+  const next=String(value);
+  if(node.getAttribute(name) === next) return false;
+  node.setAttribute(name,next);
+  return true;
+}
+
+function removeAttrIfPresent(node,name){
+  if(!node?.hasAttribute?.(name)) return false;
+  node.removeAttribute(name);
+  return true;
+}
+
+function addClassIfMissing(node,className){
+  if(!node?.classList || node.classList.contains(className)) return false;
+  node.classList.add(className);
+  return true;
+}
+
 export function parseXpProgress(value){
   const match = String(value || '').match(/(\d+)\s*\/\s*(\d+)\s*XP/i);
   if(!match) return null;
@@ -93,18 +113,18 @@ function decorateStore(root){
 
   const grid = page.querySelector('.storeGrid');
   if(grid){
-    grid.setAttribute('role','group');
-    grid.setAttribute('aria-label','Store items');
+    setAttrIfChanged(grid,'role','group');
+    setAttrIfChanged(grid,'aria-label','Store items');
   }
 
   page.querySelectorAll('.storeCard').forEach(card => {
-    card.setAttribute('role','button');
+    setAttrIfChanged(card,'role','button');
     if(!card.hasAttribute('tabindex')) card.tabIndex = 0;
     const selected = card.classList.contains('sbStoreSelected') || card.getAttribute('aria-selected') === 'true';
-    card.setAttribute('aria-pressed',String(selected));
-    card.removeAttribute('aria-selected');
+    setAttrIfChanged(card,'aria-pressed',String(selected));
+    removeAttrIfPresent(card,'aria-selected');
     const label = storeCardAccessibleLabel(card);
-    if(label) card.setAttribute('aria-label',label);
+    if(label) setAttrIfChanged(card,'aria-label',label);
   });
 
   // App.jsx already replaces a failed Store thumbnail with readable initials.
@@ -113,9 +133,10 @@ function decorateStore(root){
   // This changes no ownership/economy state and keeps the card's accessible
   // name on the surrounding focusable card rather than duplicating speech.
   page.querySelectorAll('.storeCard .itemArtFallback').forEach(fallback => {
-    fallback.classList.add('sbStoreFallbackArt');
-    fallback.setAttribute('aria-hidden','true');
-    fallback.closest('.itemArt')?.setAttribute('data-image-fallback','true');
+    addClassIfMissing(fallback,'sbStoreFallbackArt');
+    setAttrIfChanged(fallback,'aria-hidden','true');
+    const art=fallback.closest('.itemArt');
+    if(art) setAttrIfChanged(art,'data-image-fallback','true');
   });
 
   // Catalog thumbnails are square. Explicit intrinsic dimensions reserve space
@@ -128,25 +149,26 @@ function decorateStore(root){
 
   const categoryRow = page.querySelector('.sbStoreCategoryRow');
   if(categoryRow){
-    categoryRow.setAttribute('role','group');
-    categoryRow.setAttribute('aria-label','Store categories');
+    setAttrIfChanged(categoryRow,'role','group');
+    setAttrIfChanged(categoryRow,'aria-label','Store categories');
     categoryRow.querySelectorAll('button').forEach(button => {
-      button.setAttribute('aria-pressed',String(button.classList.contains('selectedFilter')));
+      setAttrIfChanged(button,'aria-pressed',String(button.classList.contains('selectedFilter')));
     });
   }
 
   const tierRow = page.querySelector('.sbStoreTierRow');
   if(tierRow){
-    tierRow.setAttribute('role','group');
-    tierRow.setAttribute('aria-label','Store tiers');
+    setAttrIfChanged(tierRow,'role','group');
+    setAttrIfChanged(tierRow,'aria-label','Store tiers');
     tierRow.querySelectorAll('button').forEach(button => {
-      button.setAttribute('aria-pressed',String(button.classList.contains('selectedFilter')));
+      setAttrIfChanged(button,'aria-pressed',String(button.classList.contains('selectedFilter')));
     });
   }
 
-  page.querySelector('.sbStoreRightRail')?.setAttribute('aria-label','Selected item preview and actions');
+  const rightRail=page.querySelector('.sbStoreRightRail');
+  if(rightRail) setAttrIfChanged(rightRail,'aria-label','Selected item preview and actions');
   page.querySelectorAll('.sbStoreDetailActions button').forEach(button => {
-    button.type = 'button';
+    if(button.type !== 'button') button.type = 'button';
   });
 }
 

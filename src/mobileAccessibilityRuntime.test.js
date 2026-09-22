@@ -35,6 +35,41 @@ describe('mobile accessibility helpers',() => {
     expect(category.getAttribute('aria-pressed')).toBe('true');
   });
 
+  it('does not rewrite stable Store accessibility state on a second pass',() => {
+    document.body.innerHTML = `
+      <section class="marketPage sbStoreMatch">
+        <div class="sbStoreCategoryRow"><button class="selectedFilter">All</button></div>
+        <div class="sbStoreTierRow"><button class="selectedFilter">All tiers</button></div>
+        <div class="storeGrid">
+          <article class="storeCard sbStoreSelected" aria-selected="true">
+            <div class="itemArt"><span class="itemArtFallback">SH</span></div>
+            <div class="itemCopy"><h3>Star Hoodie</h3></div>
+            <span class="price">120 Coins</span>
+            <span class="sbStoreStateBadge">Available</span>
+          </article>
+        </div>
+      </section>`;
+
+    applyMobileAccessibility(document);
+
+    const page=document.querySelector('.marketPage');
+    const card=document.querySelector('.storeCard');
+    const fallback=document.querySelector('.itemArtFallback');
+    const category=document.querySelector('.sbStoreCategoryRow button');
+
+    let mutations=0;
+    const observer=new MutationObserver(records => { mutations += records.length; });
+    observer.observe(page,{subtree:true,attributes:true,childList:true,characterData:true});
+
+    applyMobileAccessibility(document);
+
+    expect(card.getAttribute('aria-pressed')).toBe('true');
+    expect(category.getAttribute('aria-pressed')).toBe('true');
+    expect(fallback.classList.contains('sbStoreFallbackArt')).toBe(true);
+    expect(mutations).toBe(0);
+    observer.disconnect();
+  });
+
   it('reveals keyboard-focused Store filters within their horizontal tray only',() => {
     document.body.innerHTML = '<div class="sbStoreCategoryRow"><button>Room Decor</button></div>';
     const row = document.querySelector('.sbStoreCategoryRow');
