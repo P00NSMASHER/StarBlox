@@ -1,0 +1,170 @@
+name: StarBlox Bottoms 1-4 Exact Recovery
+
+on:
+  push:
+    branches: [screenshot-match-preproduction]
+    paths:
+      - '.github/workflows/bottoms-recovery-1-4-20260921.yml'
+      - 'scripts/importBottomsRecovery1to4_20260921.py'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: starblox-bottoms-recovery-1-4-20260921
+  cancel-in-progress: false
+
+jobs:
+  recover-existing-bottoms-art:
+    if: github.ref == 'refs/heads/screenshot-match-preproduction'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: screenshot-match-preproduction
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install image validation dependency
+        run: python3 -m pip install --disable-pip-version-check Pillow==11.3.0
+
+      - name: Recover exact existing Bottoms 1-4 bytes and verify Store metadata
+        run: |
+          python3 -m py_compile scripts/importBottomsRecovery1to4_20260921.py
+          python3 scripts/importBottomsRecovery1to4_20260921.py
+
+      - name: Publish only Bottoms 1-4 candidates, originals, lane handoff and report
+        id: publish
+        run: |
+          set -eu
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- \
+            public/assets/catalog/bottoms-1-w05-v2.png \
+            public/assets/catalog/bottoms-2-w05-v2.png \
+            public/assets/catalog/bottoms-3-w05-v2.png \
+            public/assets/catalog/bottoms-4-w05-v2.png \
+            docs/preproduction/catalog-sprint/recovered-originals/bottoms-1-4-20260921 \
+            docs/preproduction/catalog-sprint/lane-05.json \
+            docs/preproduction/catalog-sprint/chat-bottoms-recovery-1-4-result.json
+          if ! git diff --cached --quiet; then
+            git commit -m 'catalog: stage exact Bottoms 1-4 replacement bytes'
+            for attempt in 1 2 3; do
+              if git push origin HEAD:refs/heads/screenshot-match-preproduction; then break; fi
+              git fetch origin screenshot-match-preproduction
+              git rebase origin/screenshot-match-preproduction
+              if [ "$attempt" -eq 3 ]; then
+                echo 'Concurrent branch changes prevented safe publication; no force push.' >&2
+                exit 1
+              fi
+            done
+          fi
+          echo "TESTED_SOURCE_HEAD=$(git rev-parse HEAD)" >> "$GITHUB_ENV"
+
+      - name: Install app and Playwright dependencies
+        run: |
+          npm install --no-save --package-lock=false --no-audit --no-fund
+          npm install --no-save --package-lock=false --no-audit --no-fund playwright@1.55.0
+          npx playwright install --with-deps chromium
+
+      - name: Run full regression suite
+        id: tests
+        continue-on-error: true
+        run: timeout 120s npm test -- --reporter=verbose
+
+      - name: Build actual preproduction application
+        id: build
+        continue-on-error: true
+        run: npm run build
+
+      - name: Render staged candidates with shared file-backed fixture
+        id: render
+        continue-on-error: true
+        run: node scripts/catalog-staged-art-qa.mjs
+        env:
+          GITHUB_SHA: ${{ env.TESTED_SOURCE_HEAD }}
+
+      - name: Record scoped Bottoms evidence honestly
+        if: always() && steps.publish.outcome == 'success'
+        env:
+          TEST_OUTCOME: ${{ steps.tests.outcome }}
+          BUILD_OUTCOME: ${{ steps.build.outcome }}
+          RENDER_OUTCOME: ${{ steps.render.outcome }}
+        run: |
+          python3 - <<'PY'
+          import json, os
+          from pathlib import Path
+          p=Path('docs/preproduction/catalog-sprint/chat-bottoms-recovery-1-4-result.json')
+          r=json.loads(p.read_text())
+          def state(x): return {'success':'PASS','failure':'FAIL','skipped':'NOT_RUN','cancelled':'CANCELLED'}.get(x,'NOT_RUN')
+          r['testedSourceHead']=os.environ['TESTED_SOURCE_HEAD']
+          r['workflowRunId']=int(os.environ['GITHUB_RUN_ID'])
+          r['checks'].update({
+              'repeatBehavior':'PASS_NO_REGENERATION_THIS_INTAKE',
+              'tests':state(os.environ['TEST_OUTCOME']),
+              'build':state(os.environ['BUILD_OUTCOME']),
+              'sharedRenderOverall':state(os.environ['RENDER_OUTCOME']),
+              'typecheck':'NOT_APPLICABLE_NO_TYPESCRIPT_APP_CHANGES'
+          })
+          report=Path('artifacts/catalog-staged-art/report.json')
+          seen=set()
+          if report.exists():
+              ev=json.loads(report.read_text())
+              wanted={i['id']:i['gitBlobSha'] for i in r['items']}
+              matches=[i for s in ev.get('sets',{}).values() for i in s.get('items',[]) if wanted.get(i.get('id'))==i.get('blobSha')]
+              seen={i['id'] for i in matches if i.get('screenshot') and i.get('status')==200 and i.get('naturalWidth') and not i.get('errors')}
+              r['renderEvidence']={'artifactName':'bottoms-1-4-recovery-evidence','reportPath':'artifacts/catalog-staged-art/report.json',
+                                   'matchedIds':sorted(seen),'matchedHashes':{i:wanted[i] for i in sorted(seen)}}
+          r['checks']['bottomsCardDetailRender']='PASS_4_OF_4' if len(seen)==4 else f'INCOMPLETE_{len(seen)}_OF_4'
+          r['independentVisualReview']='PENDING_WORKSTREAM_01_NOT_SELF_APPROVED'
+          p.write_text(json.dumps(r,indent=2)+'\n')
+          print(json.dumps({'checks':r['checks'],'renderEvidence':r.get('renderEvidence')},indent=2))
+          PY
+
+      - name: Publish executed evidence safely
+        if: always() && steps.publish.outcome == 'success'
+        run: |
+          set -eu
+          git add -- docs/preproduction/catalog-sprint/chat-bottoms-recovery-1-4-result.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'catalog: record Bottoms 1-4 regression build and render evidence'
+          for attempt in 1 2 3; do
+            if git push origin HEAD:refs/heads/screenshot-match-preproduction; then exit 0; fi
+            git fetch origin screenshot-match-preproduction
+            git rebase origin/screenshot-match-preproduction
+          done
+          exit 1
+
+      - name: Retain candidates and render evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bottoms-1-4-recovery-evidence
+          retention-days: 14
+          if-no-files-found: warn
+          path: |
+            docs/preproduction/catalog-sprint/chat-bottoms-recovery-1-4-result.json
+            public/assets/catalog/bottoms-1-w05-v2.png
+            public/assets/catalog/bottoms-2-w05-v2.png
+            public/assets/catalog/bottoms-3-w05-v2.png
+            public/assets/catalog/bottoms-4-w05-v2.png
+            artifacts/catalog-staged-art
+
+      - name: Fail honestly if scoped gates did not pass
+        if: always() && steps.publish.outcome == 'success'
+        env:
+          TEST_OUTCOME: ${{ steps.tests.outcome }}
+          BUILD_OUTCOME: ${{ steps.build.outcome }}
+        run: |
+          test "$TEST_OUTCOME" = success
+          test "$BUILD_OUTCOME" = success
+          python3 - <<'PY'
+          import json
+          r=json.load(open('docs/preproduction/catalog-sprint/chat-bottoms-recovery-1-4-result.json'))
+          assert r['checks'].get('bottomsCardDetailRender') == 'PASS_4_OF_4', r['checks']
+          PY
