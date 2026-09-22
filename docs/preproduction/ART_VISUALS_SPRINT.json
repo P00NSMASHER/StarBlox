@@ -24,7 +24,23 @@
     "timezone": "America/New_York",
     "taskCount": 15,
     "newTasksCreated": 0,
-    "minuteByWorkstream": {"01":27,"02":31,"03":3,"04":6,"05":35,"06":9,"07":12,"08":40,"09":15,"10":55,"11":18,"12":45,"13":50,"14":22,"15":0},
+    "minuteByWorkstream": {
+      "10": 55,
+      "11": 18,
+      "12": 45,
+      "13": 50,
+      "14": 22,
+      "15": 0,
+      "01": 27,
+      "02": 31,
+      "03": 3,
+      "04": 6,
+      "05": 35,
+      "06": 9,
+      "07": 12,
+      "08": 40,
+      "09": 15
+    },
     "note": "Start offsets are not completion order. Consume latest completed evidence; no rapid polling or redundant full jobs."
   },
   "referenceEvidence": {
@@ -32,54 +48,197 @@
     "manifestPath": "docs/preproduction/reference-screenshots/original-reference-manifest.json",
     "manifestBlobSha": "63956763934f17613a3f98889f8085051a78a0b6",
     "originalDirectory": "docs/preproduction/reference-screenshots/originals",
-    "originalFiles": ["home-1448x1086.jpeg", "store-1448x1086.jpeg", "quest-1448x1086.jpeg"],
+    "originalFiles": [
+      "home-1448x1086.jpeg",
+      "store-1448x1086.jpeg",
+      "quest-1448x1086.jpeg"
+    ],
     "comparisonDirectory": "docs/preproduction/reference-screenshots",
-    "comparisonFiles": ["home-desktop-1408x1056.png", "store-desktop-1408x1056.png", "quest-desktop-1408x1056.png"],
+    "comparisonFiles": [
+      "home-desktop-1408x1056.png",
+      "store-desktop-1408x1056.png",
+      "quest-desktop-1408x1056.png"
+    ],
     "workflowRunId": 35663779668,
     "successfulIntakeJobId": 106544831661,
-    "originalDimensions": [1448,1086],
-    "comparisonDimensions": [1408,1056],
+    "originalDimensions": [
+      1448,
+      1086
+    ],
+    "comparisonDimensions": [
+      1408,
+      1056
+    ],
     "normalization": "Uniform scale only, no cropping or creative edits; exact original bytes preserved separately.",
     "mobileOriginalsProvided": false,
     "staleMissingReferenceBlockerResolved": true,
-    "visualParity": "NOT_CLEARED_BY_REFERENCE_IMPORT"
+    "visualParity": "ORIGINALS_ACCESSIBLE_REFERENCE_COMPARISON_NOT_YET_CLEARED"
   },
   "latestObservedIntegrationBlocker": {
-    "status": "RECHECK_AND_REPAIR_WITHOUT_WEAKENING_ASSERTION",
-    "owner": "08",
-    "ciRunId": 35663779638,
-    "ciJobId": 106544831585,
-    "test": "src/catalogManifestQa.test.js: maps every manifest entry to the exact stable Store item metadata",
-    "failure": "beds-1 manifest theme Aqua Wave disagrees with authoritative Store theme Garden Glow",
-    "impact": "99-test run had 98 passing and 1 failing; production build and reference comparison were skipped. Do not repeat historical all-green claims for this candidate.",
-    "requiredAction": "Inspect current manifest and real Store metadata; correct the verified mapping defect without renaming/retheming the item or silently accepting mismatched artwork. Rerun affected/full checks and reference capture; keep any art/theme mismatch in REWORK."
+    "status": "RESOLVED_CURRENT_EVIDENCE",
+    "historicalCiRunId": 35663779638,
+    "historicalCiJobId": 106544831585,
+    "historicalFailure": "beds-1 manifest theme Aqua Wave disagreed with authoritative Store theme Garden Glow",
+    "currentEvidence": "catalog-art-manifest.json v16 maps beds-1 to authoritative Garden Glow. Later integration-v16 tests and production build PASS. Do not repeat this historical failure unless a fresh current-head regression reproduces it.",
+    "requiredAction": "NONE unless a new current-head metadata regression appears; never weaken the assertion."
   },
   "catalogProduction": {
-    "01": [{"collection":"seating","first":1,"last":6}],
-    "02": [{"collection":"beds","first":1,"last":12}],
-    "03": [{"collection":"desks","first":1,"last":12}],
-    "04": [{"collection":"lighting","first":1,"last":12},{"collection":"shoes","first":1,"last":6}],
-    "05": [{"collection":"bottoms","first":1,"last":12},{"collection":"wall","first":1,"last":12}],
-    "06": [{"collection":"companions","first":1,"last":12},{"collection":"seating","first":7,"last":12},{"collection":"shoes","first":7,"last":12}],
-    "07": [{"collection":"tops","first":1,"last":6},{"collection":"rugs","first":1,"last":12}],
-    "09": [{"collection":"tops","first":7,"last":12},{"collection":"decor","first":1,"last":12}],
-    "11": [{"collection":"auras","first":1,"last":12}],
-    "12": [{"collection":"headwear","first":1,"last":12},{"collection":"facegear","first":1,"last":12},{"collection":"backgear","first":1,"last":12},{"collection":"handgear","first":1,"last":12}]
+    "11": [
+      {
+        "collection": "auras",
+        "first": 1,
+        "last": 12
+      }
+    ],
+    "12": [
+      {
+        "collection": "headwear",
+        "first": 1,
+        "last": 12
+      },
+      {
+        "collection": "facegear",
+        "first": 1,
+        "last": 12
+      },
+      {
+        "collection": "backgear",
+        "first": 1,
+        "last": 12
+      },
+      {
+        "collection": "handgear",
+        "first": 1,
+        "last": 12
+      }
+    ],
+    "01": [
+      {
+        "collection": "seating",
+        "first": 1,
+        "last": 6
+      }
+    ],
+    "02": [
+      {
+        "collection": "beds",
+        "first": 1,
+        "last": 12
+      }
+    ],
+    "03": [
+      {
+        "collection": "desks",
+        "first": 1,
+        "last": 12
+      }
+    ],
+    "04": [
+      {
+        "collection": "lighting",
+        "first": 1,
+        "last": 12
+      },
+      {
+        "collection": "shoes",
+        "first": 1,
+        "last": 6
+      }
+    ],
+    "05": [
+      {
+        "collection": "bottoms",
+        "first": 1,
+        "last": 12
+      },
+      {
+        "collection": "wall",
+        "first": 1,
+        "last": 12
+      }
+    ],
+    "06": [
+      {
+        "collection": "companions",
+        "first": 1,
+        "last": 12
+      },
+      {
+        "collection": "seating",
+        "first": 7,
+        "last": 12
+      },
+      {
+        "collection": "shoes",
+        "first": 7,
+        "last": 12
+      }
+    ],
+    "07": [
+      {
+        "collection": "tops",
+        "first": 1,
+        "last": 6
+      },
+      {
+        "collection": "rugs",
+        "first": 1,
+        "last": 12
+      }
+    ],
+    "09": [
+      {
+        "collection": "tops",
+        "first": 7,
+        "last": 12
+      },
+      {
+        "collection": "decor",
+        "first": 1,
+        "last": 12
+      }
+    ]
   },
   "productionAssignmentSemantics": "Ranges assign stewardship of exact existing IDs, not permission to regenerate every entry. Preserve independently accepted versions and good finals. Work only unfinished items or versions with an evidenced defect. Reconcile in-flight output before claiming; historical CHAT versions remain preserved, not competing active production assignments.",
   "reviewCollections": {
-    "01": ["tops","bottoms","headwear","facegear"],
-    "02": ["shoes","backgear","handgear","seating"],
-    "05": ["beds","desks","companions","auras"],
-    "14": ["lighting","wall","rugs","decor"]
+    "14": [
+      "lighting",
+      "wall",
+      "rugs",
+      "decor"
+    ],
+    "01": [
+      "tops",
+      "bottoms",
+      "headwear",
+      "facegear"
+    ],
+    "02": [
+      "shoes",
+      "backgear",
+      "handgear",
+      "seating"
+    ],
+    "05": [
+      "beds",
+      "desks",
+      "companions",
+      "auras"
+    ]
   },
   "visualSurfaceOwnership": {
-    "13": "While catalog production dominates, produce versioned Home/Store/Quest environment and original character key art using real references; no changes to saves, economy, curriculum or actual reference files. Stage component assets rather than flattened fake UI. Reviewer 01 judges art; 14 judges composition. Reconcile any in-flight 06 avatar/09 scene work with 15 before overlapping assets.",
     "10": "Mobile visual composition, readable art/text, cropping, focus/contrast, touch-safe layouts, scroll/render performance and reference screenshot evidence.",
+    "13": "While catalog production dominates, produce versioned Home/Store/Quest environment and original character key art using real references; no changes to saves, economy, curriculum or actual reference files. Stage component assets rather than flattened fake UI. Reviewer 01 judges art; 14 judges composition. Reconcile any in-flight 06 avatar/09 scene work with 15 before overlapping assets.",
     "14": "Shared candidate render fixture, independent room-art reviews, content/near-duplicate checks and reference-based visual QA.",
     "15": "Art direction, non-overlapping assignment resolution, shared visual integration and screenshot-fidelity acceptance; no nonvisual feature expansion."
   },
   "afterCatalogVisualRoles": {
+    "10": "Mobile visual/readability/contrast and screenshot comparison",
+    "11": "Motion, particles, lighting effects and static reduced-motion equivalents",
+    "12": "Wearable/accessory polish and item-to-avatar visual consistency",
+    "13": "Character key art, scene composition and remaining assigned visual gaps",
+    "14": "Reference render/diff, independent visual QA and existing release safeguards",
+    "15": "Art/visual integration and final visual acceptance",
     "01": "Reference art direction, independent material/lighting/typography/character review",
     "02": "HUD, logo, pictorial navigation and visual chrome",
     "03": "Home composition and visual fidelity",
@@ -88,13 +247,7 @@
     "06": "Avatar equipment layers, true try-on presentation and buddy art",
     "07": "Five Home-tier previews, Dream Goal and progression-widget art",
     "08": "Catalog art wiring, metadata, optimization and integrity",
-    "09": "Environment/room-tier scene finishing following explicit handoff from 13",
-    "10": "Mobile visual/readability/contrast and screenshot comparison",
-    "11": "Motion, particles, lighting effects and static reduced-motion equivalents",
-    "12": "Wearable/accessory polish and item-to-avatar visual consistency",
-    "13": "Character key art, scene composition and remaining assigned visual gaps",
-    "14": "Reference render/diff, independent visual QA and existing release safeguards",
-    "15": "Art/visual integration and final visual acceptance"
+    "09": "Environment/room-tier scene finishing following explicit handoff from 13"
   },
   "deliveryRules": [
     "Use the real original reference pixels, exact Store item metadata and existing design contracts together; never copy incorrect screenshot answers, fake balances or unsafe sale messaging into game logic.",
@@ -126,5 +279,42 @@
     "overlappingProductionIds": 0,
     "selfReviewPartitions": 0,
     "method": "Expanded every collection range and checked uniqueness and producer-reviewer separation in the interactive session. This validates allocation only, not item art or game readiness."
+  },
+  "currentCatalogSnapshot": {
+    "observedHead": "ba6753e6527e0f1e4c2cbe8d3686bc7a50b28761",
+    "reviewCoverageUniqueIds": 180,
+    "remainingReviewCoverageIds": 12,
+    "remainingReviewCoverageFamily": "desks",
+    "minimumQualifiedCurrentReplacementAcceptsKnown": 35,
+    "canonicalAcceptedCurrentHashesWired": 27,
+    "acceptedCurrentHashesAwaitingCanonical": 8,
+    "acceptedAwaitingCanonicalIds": [
+      "lighting-5",
+      "lighting-6",
+      "lighting-7",
+      "lighting-8",
+      "lighting-9",
+      "lighting-10",
+      "lighting-11",
+      "lighting-12"
+    ],
+    "catalogReleaseClearedIds": 0,
+    "canonicalManifestVersion": 16,
+    "canonicalMappings": 130,
+    "canonicalFinalPortableLabels": 114,
+    "canonicalInterimNotVerified": 16,
+    "note": "Conservative floor from current immutable integration/review evidence. Accepted/stored/wired/release-cleared remain separate."
+  },
+  "currentCriticalPath": [
+    "08: integrate independently accepted Lighting 5-12 exact hashes immediately after normal metadata/file/content checks.",
+    "01: review branch-stored/rendered Tops 7-10 v3 exact hashes; old v2 REWORK does not transfer.",
+    "07: transfer already-generated Rugs 5-8 Adobe bytes to versioned GitHub paths and exact-readback them; do not regenerate or scale to Rugs 9-12 before reviewer-14 pilot disposition.",
+    "14->05: render current exact Desk 2-4 paths through the shared fixture, then reviewer 05 decides them; Desk remains the 12-ID review-coverage gap.",
+    "12: continue 2-4 item accessory repair pilots with reviewer 01/02 independence.",
+    "13: continue separate scene/character assets against stored original references in parallel without gameplay changes."
+  ],
+  "nonvisualGatePolicy": {
+    "status": "DEFERRED_NOT_WAIVED_DURING_ART_VISUALS",
+    "note": "Preserve executed regression/build/persistence/learning evidence. Do not reactivate exploratory nonvisual missions for 12/13 while ART_VISUALS_SPRINT is active. Any actual art-induced P0 is repaired narrowly and remains release-blocking until retested."
   }
 }
