@@ -1,4 +1,4 @@
-import { gameModel } from './gameModel';
+import { gameModel } from './gameModel.js';
 
 const HFW_USE_ITEMS = {
   put:{prompt:'Which sentence tells someone where to place a book?',choices:['Please put the book on the shelf.','Please find the book on the shelf.','Please read the book on the shelf.'],answer:'Please put the book on the shelf.'},
