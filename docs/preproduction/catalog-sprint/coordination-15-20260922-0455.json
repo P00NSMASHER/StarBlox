@@ -1,0 +1,107 @@
+{
+  "schemaVersion": 1,
+  "workstream": "15",
+  "phase": "ART_AND_VISUALS_ONLY",
+  "branch": "screenshot-match-preproduction",
+  "observedHeadBeforeCoordination": "1c01b80f903e7aee9c9ef5d6e6bd79f3719df842",
+  "policy": {
+    "allocation": "docs/preproduction/ART_VISUALS_SPRINT.json",
+    "compatibleDeliveryProtocol": "docs/preproduction/DELIVERY_PROTOCOL_V2.md",
+    "same15ExistingTaskIdsRequired": true,
+    "same15ExistingTaskIdsVerifiedEnabled": true,
+    "enabledStarBloxTaskCount": 15,
+    "enabledSubstituteStarBloxTasks": 0,
+    "canonicalCatalogWriter": "08",
+    "crossWorkerCoordinator": "15",
+    "replitAllowed": false,
+    "flootAllowed": false,
+    "mainMergeAllowed": false,
+    "deploymentAllowed": false,
+    "paidSettingsOrPurchasesAllowed": false,
+    "realPlayerDataAllowed": false
+  },
+  "liveCatalogSnapshot": {
+    "manifestVersion": 28,
+    "manifestEntries": 164,
+    "runtimeMappings": 164,
+    "finalPortableLabels": 157,
+    "interimNotVerified": 7,
+    "nonFinal": 35,
+    "strictAcceptedCanonical": 91,
+    "qualifiedAcceptedCurrentFloor": 91,
+    "acceptedAwaitingCanonical": 0,
+    "catalogReleaseClearedIds": 0,
+    "integrationCommit": "6666f15536ac8d5cacedcd0a282ad24364abf146",
+    "newlyCanonical": {
+      "itemId": "rugs-12",
+      "assetPath": "/assets/catalog/rugs-12-w07-v3.png",
+      "assetBlobSha": "eea2fc5b78c1186342f91f597bc792160ab8f8fe",
+      "sha256": "21a2f71224d9a7d4e0e60a672867cc629f21a481c3310fee6b1cac1c1be071b3",
+      "reviewer": "14"
+    },
+    "note": "Manifest/runtime at v28 supersede the older schema11 integration.json snapshot. No newer qualified catalog ACCEPT outside v28 was observed before this coordination write."
+  },
+  "v28SafeguardEvidence": {
+    "standardCiRunId": 35707148157,
+    "standardCiJobId": 106678715294,
+    "status": "FAIL_UNRELATED_TEST_COLLECTION_BLOCKER",
+    "assertions": "PASS_99_OF_99",
+    "catalogManifestAssertions": "PASS",
+    "failure": "scripts/artPromptOptimizer.test.mjs was collected by Vitest but contains no test suite",
+    "productionBuildInStandardCi": "SKIPPED_AFTER_TEST_STEP_FAILURE",
+    "classification": "Not an observed Rugs12/catalog-art regression. Keep the generic CI gate open; do not weaken assertions or claim a v28 production-build pass without separate evidence.",
+    "storeMobileVisualProof": "BLOCKED_BEFORE_STORE_CONTENT_BY_PREEXISTING_REAL_POINTER_NAVIGATION_TIMEOUT",
+    "acceptedArtRollbackRequired": false
+  },
+  "activeCatalogProduction": {
+    "05": {
+      "activeBatch": ["wall-1", "wall-2", "wall-3", "wall-4"],
+      "reviewer": "14",
+      "gate": "Do not scale beyond the pilot before repo readback, real card/detail render and reviewer14 exact-hash disposition."
+    },
+    "09": {
+      "activeBatch": ["decor-3", "decor-4"],
+      "reviewer": "14",
+      "gate": "Do not scale beyond the pilot before repo readback, real card/detail render and reviewer14 exact-hash disposition. Tops11-12 v7 remain frozen GENERATED_LOCAL receipt-only while exact payload bytes are unavailable."
+    },
+    "12": {
+      "activeBatch": ["headwear-5", "headwear-6", "headwear-7", "headwear-8"],
+      "status": "PRESERVED_EXTERNAL_TRANSFER_BLOCKED",
+      "gate": "Do not regenerate, re-encode or repeat the unchanged failed transport path."
+    }
+  },
+  "parallelVisuals": {
+    "avatarV3": {
+      "candidate": "avatar-keyart-fullbody-w13-v3",
+      "reviewer01ArtIdentity": "ACCEPT",
+      "fullBlob": "f5cd001ccd84755c2b279b8446d7692359bb8b3d",
+      "optimizedBlob": "14ae9a6d47c9c5c0b5179a113426917b1ae7f658",
+      "reviewer14CompositionPerformance": "PENDING",
+      "runtimeWired": false,
+      "action": "Preserve exact v3; no v4 unless a concrete new defect is independently recorded."
+    },
+    "homeV3": {
+      "candidate": "home-bedroom-w13-v3",
+      "repositoryReadback": "PASS_3_OF_3",
+      "desktopSha256": "8e41a0f76546f73e50bbb09d3e4d3292baeb1084549e1e61ebc5d55e6e513884",
+      "phoneSha256": "d2dafc3efe41c6c6982592e6724091dbd88f890a8f617cdf22538392a24a1715",
+      "reviewer01ArtFidelity": "PENDING",
+      "reviewer14CompositionPerformance": "PENDING",
+      "runtimeWired": false,
+      "action": "Preserve staged v3 and await exact independent decisions; no v4 while review is pending."
+    }
+  },
+  "reviewRouting": {
+    "14": "Fresh Wall1-4/Decor3-4 exact catalog pixels first when ready; otherwise close pending Lane13 avatar/home v3 composition/performance reviews.",
+    "01": "Fresh in-partition catalog hashes first; avatar v3 art is frozen ACCEPT; if no catalog candidate is ready, decide Home v3 art/fidelity.",
+    "02": "Only genuinely fresh Shoes/Backgear/Handgear/Seating exact hashes with real card/detail evidence; preserve accepted versions.",
+    "05": "Only genuinely fresh Beds/Desks/Companions/Auras exact hashes with real card/detail evidence; preserve accepted versions.",
+    "08": "Reconcile stale integration report to v28 once, then integrate only genuinely newer qualified exact-hash ACCEPTs."
+  },
+  "completion": {
+    "artVisualsComplete": false,
+    "catalogComplete": false,
+    "releaseComplete": false,
+    "deploymentPermission": false
+  }
+}
