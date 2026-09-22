@@ -30,7 +30,7 @@ jobs:
           node-version: '22'
 
       - name: Install app dependencies
-        run: npm ci --no-audit --no-fund
+        run: npm install --no-audit --no-fund
 
       - name: Run mastery shadow tests
         run: npx vitest run src/masteryShadowModel.test.js
