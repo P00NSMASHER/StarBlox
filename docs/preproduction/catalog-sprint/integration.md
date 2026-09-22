@@ -1,39 +1,31 @@
 # Workstream 08 catalog integration
 
-Status: **Five qualified exact-hash ACCEPTs integrated; catalog assertions and production builds pass; Store/mobile release proof remains blocked before Store content by the shared navigation click defect.**
+Status: **Rugs 12 exact-hash reviewer-14 ACCEPT integrated; catalog checks and production build pass; Store/mobile release proof remains blocked before Store content by the shared navigation click timeout.**
 
-Current canonical head: `ad8867efc70d1b123cbc5e2f157766bec58e510d` on `screenshot-match-preproduction`. Replit/Floot/main/deploy/paid settings/player data untouched.
+Canonical art integration commit: `6666f15536ac8d5cacedcd0a282ad24364abf146` on `screenshot-match-preproduction`. Evidence re-audited through branch head `6596caadf5b48099c6026f91ecf86860afe94aeb`. Replit/Floot/main/deploy/paid settings/player data untouched.
 
-## Integrated accepted increments
+## Newly integrated accepted increment
 
-| ID | Name | Tier · theme | Canonical asset | Git blob | Independent reviewer |
-|---|---|---|---|---|---|
-| shoes-7 | Chunky Sneakers | T3 · Cloud Pop | `/assets/catalog/shoes-7-w06-v3.png` | `cb8f02aaa4844d1a19a013edc3d0d1a15c0620a2` | 02 |
-| shoes-8 | Trainers | T3 · Pixel Party | `/assets/catalog/shoes-8-w06-v3.png` | `1aa21e1156f7645fc218402c337d2eebe95d81f8` | 02 |
-| shoes-9 | Paint Kicks | T3 · Berry Blast | `/assets/catalog/shoes-9-w06-v3.png` | `ff5e914eb935194a1541cebf5421264e5da2d543` | 02 |
-| shoes-10 | Light Shoes | T4 · Garden Glow | `/assets/catalog/shoes-10-w06-v3.png` | `489e37f25644d13a4ca9518f4047ebfb35747a47` | 02 |
-| auras-11 | Dream Aurora | T4 · Art Attack | `/assets/catalog/auras-11-w11-v3.jpg` | `7f3372c1584e07f18a3abfc7818013190fff1560` | 05 |
+`rugs-12` **Luxe Star Rug** is now canonical at `/assets/catalog/rugs-12-w07-v3.png`, Git blob `eea2fc5b78c1186342f91f597bc792160ab8f8fe`, SHA256 `21a2f71224d9a7d4e0e60a672867cc629f21a481c3310fee6b1cac1c1be071b3`, 1,039,033-byte 1024×1024 PNG. Reviewer 14 independently ACCEPTED the exact current hash from actual card/detail pixels; producer 07 did not self-review. The current reviewer-14 shard also synchronizes this exact hash as ACCEPT.
 
-Shoes 7-10 were published as bounded manifest v26 commit `04eb1f4c4a6f9efcd0e6bea9d33e7580740dcfd4`. Aura 11 was then published separately as manifest v27 commit `ad8867efc70d1b123cbc5e2f157766bec58e510d` after rebasing over unrelated documentation work without force push or stale whole-file overwrite.
-
-Each accepted asset passed stored-byte/blob readback, exact authoritative Store name/type/tier/theme reconciliation, decode/render evidence, reviewer independence and path/content uniqueness. Existing accepted mappings and prior asset versions remain preserved in Git history.
+Before wiring, Workstream 08 verified exact live repository blob/path, authoritative Store identity `Luxe Star Rug` / Rugs / Tier 5 / Sunny Pop, PNG decode evidence, reviewer independence, no disagreement for the current hash, and uniqueness of the exact Git blob in the current repository tree. Existing accepted mappings and older asset versions remain preserved in Git history. IDs, prices, unlocks, ownership, saves and gameplay metadata were not changed.
 
 ## Current counts
 
-Manifest v27 has **163/163 canonical mappings**, **156 legacy `final-portable`**, **7 legacy interim-not-verified**, and **36 target IDs outside the legacy final set**. The stricter V2 count is **90/192 independently accepted current hashes canonically wired**, leaving **102 strict remaining**. Release-cleared remains **0/192**. Duplicate canonical paths/content introduced by this run: **0**.
+Manifest v28 now has **164 canonical mappings**, **157 legacy `final-portable`**, **7 legacy interim-not-verified**, and **35 IDs outside the legacy final set** relative to the 192 target. The stricter V2 count is **91/192 independently accepted current hashes canonically wired**, leaving **101 strict remaining**. Release-cleared remains **0/192**. Duplicate canonical paths introduced by this increment: **0**; the integrated exact content blob occurs once in the current tree.
 
-Generated-local this run: 0. Preserved-blob-only this run: 0. Newly branch-staged this run: 0. Qualified accepted evidence consumed: 5. Canonical strict count delta: +5.
+Generated-local this run: 0. Preserved-blob-only this run: 0. Newly branch-staged this run: 0. Qualified ACCEPTs consumed: 1. Strict canonical delta: +1.
 
 ## Validation
 
-For both canonical increments the catalog manifest invariants, asset-safety checks and Store runtime tests passed; the suites executed **99 passing assertions with no assertion failure**. The generic CI wrapper still reports the unrelated existing `scripts/artPromptOptimizer.test.mjs` collection problem (`No test suite found`); no assertion was weakened or bypassed.
+On canonical commit `6666f15536ac8d5cacedcd0a282ad24364abf146`, `src/catalogManifestQa.test.js` passed **4/4** and catalog runtime/Store tests passed. The enclosing CI wrapper remains red only because unrelated `scripts/artPromptOptimizer.test.mjs` is collected without a test suite; overall execution showed **99 tests passed, 2 skipped**, and no catalog assertion was weakened or bypassed.
 
-Production Vite build passed for Shoes 7-10 in Catalog Mobile QA run `35689825441` and passed again for Aura 11 in Catalog Mobile QA run `35690236073`. The strict changed-art Store/mobile safeguard reproduced the same pre-existing shared blocker on both commits: all six controls resolve the visible Store nav button, then time out during the click before Store content is reached. Shoes artifact: `10677978587`; Aura artifact: `10678253907`. Store proof is therefore **BLOCKED**, not passed, and release-cleared remains 0.
+The production Vite build passed in Catalog Mobile QA run `35707148100`. The strict changed-art Store/mobile safeguard then reproduced the known shared blocker in all six controls: Playwright resolves the visible Store button, but the pointer click times out before Store content opens at desktop, tablet, both phone viewports, and both normal-motion controls. Artifact: `10684444909`. Store proof is therefore **BLOCKED**, not passed, and the valid Rugs 12 mapping was not rolled back.
 
-A fresh reference screenshot workflow was triggered for the Aura 11 canonical commit (`35690236105`). Reference import/capture is evidence only, not a parity or release-clearance claim.
+Deterministic reference run `35707148121` has verified the committed desktop reference inputs and passed its production build; its Home/Store/Quest capture step was still in progress at the last verified read. No reference-parity or release-clearance claim is made.
 
-## Live review recheck
+## Live reviewer recheck
 
-Reviewer 01 has no new qualified ACCEPT: Tops 11-12 current v6 candidates remain BLOCKED on qualified pixel/signature evidence and Headwear 5-8 are not repository-qualified. Reviewer 02 has no new ACCEPT beyond Shoes 7-10 now canonical. Reviewer 05 has no new ACCEPT beyond Aura 11 now canonical. Reviewer 14's live shard still does not provide a qualified current-hash Rugs 12 ACCEPT, so Rugs 12 remains unwired.
+Reviewer 01 has no newer qualified ACCEPT: Tops 11-12 v6 remain evidence-BLOCKED on the shared signature/card-detail path and Headwear 5-8 remain unqualified. Reviewer 02 has no new ACCEPT beyond already-canonical Shoes/Seating hashes. Reviewer 05 has no new ACCEPT beyond already-canonical Aura 11 and its preserved assigned accepts. Reviewer 14's current Rugs 12 `eea2fc5b…` ACCEPT is now consumed and canonical; no newer qualified exact-hash ACCEPT is present.
 
 Only Workstream 15 may declare visual completion or change phase. Catalog/art completion does not authorize deployment.
