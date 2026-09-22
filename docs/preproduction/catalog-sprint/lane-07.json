@@ -1,14 +1,14 @@
 {
-  "schemaVersion": 7,
+  "schemaVersion": 8,
   "orchestrationVersion": 2,
   "lane": "07",
   "workstream": "07",
   "phase": "CATALOG_SPRINT",
   "branch": "screenshot-match-preproduction",
-  "sourceHeadCheckedThisRun": "caf82697888541fe28ac3f1f83656e18c4d11182",
+  "sourceHeadCheckedThisRun": "453ead1a6b07089862d2bbe402a0a17005f29c26",
   "deliveryProtocol": "docs/preproduction/DELIVERY_PROTOCOL_V2.md",
   "allocation": "docs/preproduction/ART_VISUALS_SPRINT.json",
-  "status": "TOPS_1_6_ACCEPTED_AND_CANONICAL__RUGS_1_9_GENERATED_ADOBE_PENDING_BINARY_ATTACHMENT__LEGACY_RUGS_REWORK_12_OF_12",
+  "status": "TOPS_1_6_ACCEPTED_CANONICAL_CURRENT_HASHES_VERIFIED__RUGS_1_4_REPOSITORY_STAGED_READY_FOR_REVIEW_14__RUGS_5_9_GENERATED_PRESERVED__RUGS_10_12_HOLD",
   "productionAssignment": ["tops-1","tops-2","tops-3","tops-4","tops-5","tops-6","rugs-1","rugs-2","rugs-3","rugs-4","rugs-5","rugs-6","rugs-7","rugs-8","rugs-9","rugs-10","rugs-11","rugs-12"],
   "owners": {
     "phaseAndReassignment": "15",
@@ -20,16 +20,17 @@
   "tops1to6": {
     "status": "INDEPENDENT_ACCEPT_6_OF_6_AND_CANONICAL_MANIFEST_V15",
     "reviewer": "01",
-    "canonicalEvidence": "catalog-art-manifest.json version 15 maps tops-1..6 to the exact Workstream-07 v2 JPEG paths",
+    "currentReadbackVerifiedThisRun": true,
+    "canonicalEvidence": "catalog-art-manifest.json version 15 maps tops-1..6 to the exact Workstream-07 v2 JPEG paths; this run directly re-read all six branch files and confirmed their current Git blob hashes are unchanged.",
     "candidates": [
-      {"id":"tops-1","name":"Hoodie","tier":1,"theme":"Cloud Pop","repositoryPath":"public/assets/catalog/tops-1-w07-v2.jpg","gitBlobSha":"5fd9544999694ec27c9b6247aaffeca1c0c7b484","bytes":22951,"status":"ACCEPTED_CANONICAL"},
-      {"id":"tops-2","name":"Zip Hoodie","tier":1,"theme":"Pixel Party","repositoryPath":"public/assets/catalog/tops-2-w07-v2.jpg","gitBlobSha":"428450782feb314535163b54d0405f9af8b7cd65","bytes":27448,"status":"ACCEPTED_CANONICAL"},
-      {"id":"tops-3","name":"Varsity Tee","tier":1,"theme":"Berry Blast","repositoryPath":"public/assets/catalog/tops-3-w07-v2.jpg","gitBlobSha":"b4a834586feae169e102f43aeceaaaf11893ec11","bytes":22414,"status":"ACCEPTED_CANONICAL"},
-      {"id":"tops-4","name":"Bow Cardigan","tier":2,"theme":"Garden Glow","repositoryPath":"public/assets/catalog/tops-4-w07-v2.jpg","gitBlobSha":"26d03c5ba26c565e79e809f825db87c9be1dba21","bytes":31644,"status":"ACCEPTED_CANONICAL"},
-      {"id":"tops-5","name":"Crewneck","tier":2,"theme":"Galaxy Glow","repositoryPath":"public/assets/catalog/tops-5-w07-v2.jpg","gitBlobSha":"78c5c89270be2f505f77d033f340c72cf0ff80a8","bytes":21739,"status":"ACCEPTED_CANONICAL"},
-      {"id":"tops-6","name":"Gamer Jacket","tier":2,"theme":"Sunny Pop","repositoryPath":"public/assets/catalog/tops-6-w07-v2.jpg","gitBlobSha":"44d88aa84246f9d8a76b3f22c408653eb28176aa","bytes":31238,"status":"ACCEPTED_CANONICAL"}
+      {"id":"tops-1","name":"Hoodie","tier":1,"theme":"Cloud Pop","repositoryPath":"public/assets/catalog/tops-1-w07-v2.jpg","gitBlobSha":"5fd9544999694ec27c9b6247aaffeca1c0c7b484","bytes":22951,"status":"ACCEPTED_CANONICAL_VERIFIED"},
+      {"id":"tops-2","name":"Zip Hoodie","tier":1,"theme":"Pixel Party","repositoryPath":"public/assets/catalog/tops-2-w07-v2.jpg","gitBlobSha":"428450782feb314535163b54d0405f9af8b7cd65","bytes":27448,"status":"ACCEPTED_CANONICAL_VERIFIED"},
+      {"id":"tops-3","name":"Varsity Tee","tier":1,"theme":"Berry Blast","repositoryPath":"public/assets/catalog/tops-3-w07-v2.jpg","gitBlobSha":"b4a834586feae169e102f43aeceaaaf11893ec11","bytes":22414,"status":"ACCEPTED_CANONICAL_VERIFIED"},
+      {"id":"tops-4","name":"Bow Cardigan","tier":2,"theme":"Garden Glow","repositoryPath":"public/assets/catalog/tops-4-w07-v2.jpg","gitBlobSha":"26d03c5ba26c565e79e809f825db87c9be1dba21","bytes":31644,"status":"ACCEPTED_CANONICAL_VERIFIED"},
+      {"id":"tops-5","name":"Crewneck","tier":2,"theme":"Galaxy Glow","repositoryPath":"public/assets/catalog/tops-5-w07-v2.jpg","gitBlobSha":"78c5c89270be2f505f77d033f340c72cf0ff80a8","bytes":21739,"status":"ACCEPTED_CANONICAL_VERIFIED"},
+      {"id":"tops-6","name":"Gamer Jacket","tier":2,"theme":"Sunny Pop","repositoryPath":"public/assets/catalog/tops-6-w07-v2.jpg","gitBlobSha":"44d88aa84246f9d8a76b3f22c408653eb28176aa","bytes":31238,"status":"ACCEPTED_CANONICAL_VERIFIED"}
     ],
-    "action": "Preserve these exact versions. Do not regenerate without a new exact-hash defect."
+    "action": "Preserve these exact versions. Do not regenerate or re-upload without a new exact-hash defect."
   },
   "legacyRugReview": {
     "reviewer": "14",
@@ -37,46 +38,82 @@
     "accepted": 0,
     "rework": 12,
     "blocked": 0,
-    "sharedDefect": "Legacy/current rug hashes read as upright floating badges/signs instead of grounded floor textiles. Replacements require floor-plane three-quarter perspective, visible pile/weave, edge thickness, floor contact, item/theme-specific construction and material-driven tier progression."
+    "sharedDefect": "Legacy rug SVG hashes read as upright floating badges/signs instead of grounded floor textiles. Replacements require floor-plane three-quarter perspective, visible pile/weave, edge thickness, floor contact, item/theme-specific construction and material-driven tier progression.",
+    "note": "This legacy disposition does not automatically transfer to the new v2 JPG hashes."
   },
-  "rugRepairCandidates": [
-    {"id":"rugs-1","name":"Starter Mat","tier":1,"theme":"Aqua Wave","adobeGenAIAssetId":"urn:aaid:sc:US:a1e701b2-ec20-4699-8f3e-8b0fa45044f8","generationRequestId":"272cb2ac-71e2-469c-9977-53d209a56683","format":"image/png","dimensions":[1024,1024],"visualCheck":"PASS_DIRECTIONAL: low woven aqua floor mat, bound edge, visible thickness and contact shadow.","repositoryPath":null,"gitBlobSha":null,"repositoryBytes":null,"status":"GENERATED_NOT_STAGED"},
-    {"id":"rugs-2","name":"Cloud Rug","tier":1,"theme":"Art Attack","adobeGenAIAssetId":"urn:aaid:sc:US:7059212c-2223-4a70-b84c-4989dc692661","generationRequestId":"e33265a7-8617-4075-83a5-d02ec792cecf","format":"image/png","dimensions":[1024,1024],"visualCheck":"PASS_DIRECTIONAL: plush tufted cloud floor rug with stitched edge and grounded contact; reviewer must still judge Art Attack theme strength.","repositoryPath":null,"gitBlobSha":null,"repositoryBytes":null,"status":"GENERATED_NOT_STAGED"},
-    {"id":"rugs-3","name":"Pixel Grid Rug","tier":1,"theme":"Star Luxe","adobeGenAIAssetId":"urn:aaid:sc:US:1ad22d63-a119-431e-98e0-37431189dc3e","generationRequestId":"bc257735-8765-4cc9-9d56-ac9defbb8df8","format":"image/png","dimensions":[1024,1024],"visualCheck":"PASS_DIRECTIONAL: tufted pixel-grid floor textile with bound edge, violet/cyan fibers, restrained gold accents and contact shadow.","repositoryPath":null,"gitBlobSha":null,"repositoryBytes":null,"status":"GENERATED_NOT_STAGED"},
-    {"id":"rugs-4","name":"Heart Rug","tier":2,"theme":"Midnight Neon","adobeGenAIAssetId":"urn:aaid:sc:US:11a1ec20-e664-463c-9fb6-4efaef419723","generationRequestId":"b837d13d-68e0-4987-b2fd-f9406c09a9d9","format":"image/png","dimensions":[1024,1024],"visualCheck":"PASS_DIRECTIONAL: heart-shaped plush floor rug with thick tufting, midnight purple/navy material, cyan-magenta piping and contact shadow.","repositoryPath":null,"gitBlobSha":null,"repositoryBytes":null,"status":"GENERATED_NOT_STAGED"},
-    {"id":"rugs-5","name":"Leaf Rug","tier":2,"theme":"Candy Core","adobeGenAIAssetId":"urn:aaid:sc:US:c25cb861-5324-40aa-9fc5-b48167719c1d","generationRequestId":"5de1e5e1-1532-44ce-9de1-7fbf825f573c","format":"image/png","dimensions":[1024,1024],"visualCheck":"PASS_DIRECTIONAL: leaf-shaped plush floor rug with pink/mint/cream tufted vein construction and visible bound edge.","repositoryPath":null,"gitBlobSha":null,"repositoryBytes":null,"status":"GENERATED_NOT_STAGED"},
-    {"id":"rugs-6","name":"Orbit Rug","tier":2,"theme":"Adventure Club","adobeGenAIAssetId":"urn:aaid:sc:US:0fe30bbd-402c-4695-9ae7-4f534358a411","generationRequestId":"8df89ac5-3567-4949-9617-b0c01b7f4dad","format":"image/png","dimensions":[1024,1024],"visualCheck":"PASS_DIRECTIONAL: round navy/teal rug with thick tufted edge, orbital stitched paths, gold planet/star motifs and floor contact.","repositoryPath":null,"gitBlobSha":null,"repositoryBytes":null,"status":"GENERATED_NOT_STAGED"},
-    {"id":"rugs-7","name":"Checker Rug","tier":3,"theme":"Cloud Pop","adobeGenAIAssetId":"urn:aaid:sc:US:3b6aec5a-8de8-4d2f-ad1f-3a5e342b0b1d","generationRequestId":"56c9f689-286f-49b3-91d2-518932ddffe5","format":"image/png","dimensions":[1024,1024],"visualCheck":"PASS_DIRECTIONAL: grounded low three-quarter rug with plush cloud-white/sky-blue checker construction, raised tufted squares, stitched bound edge, backing thickness and contact shadow; intentionally richer Tier-3 construction.","repositoryPath":null,"gitBlobSha":null,"repositoryBytes":null,"status":"GENERATED_NOT_STAGED"},
-    {"id":"rugs-8","name":"Wave Rug","tier":3,"theme":"Pixel Party","adobeGenAIAssetId":"urn:aaid:sc:US:b1036a27-8e1c-49ba-97f0-93e7bcc133e2","generationRequestId":"34491c78-666e-497b-81ed-16c67181d813","format":"image/png","dimensions":[1024,1024],"visualCheck":"PASS_DIRECTIONAL: asymmetrical wave-shaped floor textile with cyan/violet layered bands, stepped pixel accents, raised tufted wave ridges, visible edge thickness and grounded shadow.","repositoryPath":null,"gitBlobSha":null,"repositoryBytes":null,"status":"GENERATED_NOT_STAGED"},
-    {"id":"rugs-9","name":"Splash Rug","tier":3,"theme":"Berry Blast","adobeGenAIAssetId":"urn:aaid:sc:US:b00a0244-56e8-4393-939f-1c14209bc561","generationRequestId":"bb683a4f-9602-438c-846c-fe7ea1462320","format":"image/png","dimensions":[1024,1024],"visualCheck":"PASS_DIRECTIONAL: dimensional berry-splash floor silhouette with dense raspberry/pink/magenta tufting, cream stitched seed accents, bound edge thickness and clear floor contact.","repositoryPath":null,"gitBlobSha":null,"repositoryBytes":null,"status":"GENERATED_NOT_STAGED"}
+  "rugRecoveryPilot1to4": {
+    "status": "REPOSITORY_STAGED_READY_FOR_INDEPENDENT_REVIEW_14",
+    "newGenerations": 0,
+    "recoveryWorkflowRunId": 35670969723,
+    "testedSourceHead": "179d94f8af462cd0bbf9cff09a861bd952bbde54",
+    "provenance": "Exact previously generated Adobe Firefly assets recovered through the supported Adobe HTTPS rendition/source path; originals preserved byte-for-byte and no duplicate generation performed.",
+    "artifact": {
+      "name": "rugs-1-4-recovery-evidence",
+      "artifactId": 10671335458,
+      "bytes": 44894361,
+      "digest": "sha256:0959864c21c125b4395b7c6c9f6bbdfbba88c4dffa5c113e072c0e63a82f5177"
+    },
+    "checks": {
+      "metadata": "PASS_4_OF_4",
+      "exactByteReadback": "PASS_8_OF_8",
+      "candidateDecode": "PASS_4_OF_4",
+      "tests": "PASS_22_FILES_99_TESTS",
+      "build": "PASS",
+      "rugsCardDetailRender": "PASS_4_OF_4",
+      "sharedRenderOverall": "FAIL_UNRELATED_DESKS_2_4_DECODE",
+      "evidencePublication": "LOCAL_EVIDENCE_COMMIT_CREATED_BUT_REMOTE_PUSH_RACED_WITH_CONCURRENT_BRANCH_WRITES; ARTIFACT_PRESERVED",
+      "independentVisualReview": "PENDING_14_NOT_SELF_APPROVED"
+    },
+    "candidates": [
+      {
+        "id":"rugs-1","name":"Starter Mat","tier":1,"theme":"Aqua Wave","assetId":"urn:aaid:sc:US:a1e701b2-ec20-4699-8f3e-8b0fa45044f8","repositoryPath":"public/assets/catalog/rugs-1-w07-v2.jpg","format":"JPEG","dimensions":[600,600],"bytes":24968,"sha256":"491683b6f25da6744a771021770e41843033bdc4b63f9a2c656e7b3f17622c9a","gitBlobSha":"5e00d1456fa21af74de75e583c69de48c9f2ecd2","status":"READY_FOR_REVIEW_14","readback":"PASS","original":{"repositoryPath":"docs/preproduction/catalog-sprint/recovered-originals/rugs-1-4-20260921/rugs-1-a1e701b2-ec20-4699-8f3e-8b0fa45044f8.png","format":"PNG","dimensions":[1024,1024],"bytes":766159,"sha256":"a464e461b1602eb116dd6173d54a9c1a7c591396d618e4b84d17c97f9923be61","gitBlobSha":"b4b8897398e9cb7a2483f386f0093f4f26f4929d"}
+      },
+      {
+        "id":"rugs-2","name":"Cloud Rug","tier":1,"theme":"Art Attack","assetId":"urn:aaid:sc:US:7059212c-2223-4a70-b84c-4989dc692661","repositoryPath":"public/assets/catalog/rugs-2-w07-v2.jpg","format":"JPEG","dimensions":[600,600],"bytes":28082,"sha256":"9d6fdef0ed83fe385cef91b052e4eaa65e8b5b863bd080c6ffa2bb6271f286cd","gitBlobSha":"578caf5cc81998d6c7563082892e468fc9186eec","status":"READY_FOR_REVIEW_14","readback":"PASS","original":{"repositoryPath":"docs/preproduction/catalog-sprint/recovered-originals/rugs-1-4-20260921/rugs-2-7059212c-2223-4a70-b84c-4989dc692661.png","format":"PNG","dimensions":[1024,1024],"bytes":768074,"sha256":"33efa5740001bb15bb9526442b0e52679f0bff3080e4b4b0f68ac5418bf1dc9e","gitBlobSha":"f5209599c1f9f7f920cc0c4004742f2031411151"}
+      },
+      {
+        "id":"rugs-3","name":"Pixel Grid Rug","tier":1,"theme":"Star Luxe","assetId":"urn:aaid:sc:US:1ad22d63-a119-431e-98e0-37431189dc3e","repositoryPath":"public/assets/catalog/rugs-3-w07-v2.jpg","format":"JPEG","dimensions":[600,600],"bytes":40252,"sha256":"d2e34dd8d801504df5b64d4a6822069d85c9b2782de72730dee41887176fbfab","gitBlobSha":"0c3b62a84182cd8e7fc3b8dc57f9b1015e54e920","status":"READY_FOR_REVIEW_14","readback":"PASS","original":{"repositoryPath":"docs/preproduction/catalog-sprint/recovered-originals/rugs-1-4-20260921/rugs-3-1ad22d63-a119-431e-98e0-37431189dc3e.png","format":"PNG","dimensions":[1024,1024],"bytes":890634,"sha256":"029830bdcb8855ce7b5b69142c7674ec1cb9a57f601f1c35679014b6a45a2bfd","gitBlobSha":"eaa3fde63e478c35b4f1c925f8401327b09be84c"}
+      },
+      {
+        "id":"rugs-4","name":"Heart Rug","tier":2,"theme":"Midnight Neon","assetId":"urn:aaid:sc:US:11a1ec20-e664-463c-9fb6-4efaef419723","repositoryPath":"public/assets/catalog/rugs-4-w07-v2.jpg","format":"JPEG","dimensions":[600,600],"bytes":51129,"sha256":"19d2ee370b67a51c3422ed6309d537dcb8847b7e574d785a1d6296a9bf256cb4","gitBlobSha":"d2c1a712dc530cec13ce72100657714900134ce2","status":"READY_FOR_REVIEW_14","readback":"PASS","original":{"repositoryPath":"docs/preproduction/catalog-sprint/recovered-originals/rugs-1-4-20260921/rugs-4-11a1ec20-e664-463c-9fb6-4efaef419723.png","format":"PNG","dimensions":[1024,1024],"bytes":952680,"sha256":"5ec90581de9d4d63d21485cec0ba52af3313fb0c5713de3a439d6ffe0b5c097b","gitBlobSha":"b9e90c8d267e2766a5649ffb2411f8cb994994df"}
+      }
+    ],
+    "reviewer14Handoff": [
+      "rugs-1 public/assets/catalog/rugs-1-w07-v2.jpg 5e00d1456fa21af74de75e583c69de48c9f2ecd2",
+      "rugs-2 public/assets/catalog/rugs-2-w07-v2.jpg 578caf5cc81998d6c7563082892e468fc9186eec",
+      "rugs-3 public/assets/catalog/rugs-3-w07-v2.jpg 0c3b62a84182cd8e7fc3b8dc57f9b1015e54e920",
+      "rugs-4 public/assets/catalog/rugs-4-w07-v2.jpg d2c1a712dc530cec13ce72100657714900134ce2"
+    ]
+  },
+  "rugRepairCandidates5to9": [
+    {"id":"rugs-5","name":"Leaf Rug","tier":2,"theme":"Candy Core","adobeGenAIAssetId":"urn:aaid:sc:US:c25cb861-5324-40aa-9fc5-b48167719c1d","generationRequestId":"5de1e5e1-1532-44ce-9de1-7fbf825f573c","format":"image/png","dimensions":[1024,1024],"visualCheck":"PASS_DIRECTIONAL: leaf-shaped plush floor rug with pink/mint/cream tufted vein construction and visible bound edge.","repositoryPath":null,"gitBlobSha":null,"repositoryBytes":null,"status":"GENERATED_PRESERVED_NOT_STAGED"},
+    {"id":"rugs-6","name":"Orbit Rug","tier":2,"theme":"Adventure Club","adobeGenAIAssetId":"urn:aaid:sc:US:0fe30bbd-402c-4695-9ae7-4f534358a411","generationRequestId":"8df89ac5-3567-4949-9617-b0c01b7f4dad","format":"image/png","dimensions":[1024,1024],"visualCheck":"PASS_DIRECTIONAL: round navy/teal rug with thick tufted edge, orbital stitched paths, gold planet/star motifs and floor contact.","repositoryPath":null,"gitBlobSha":null,"repositoryBytes":null,"status":"GENERATED_PRESERVED_NOT_STAGED"},
+    {"id":"rugs-7","name":"Checker Rug","tier":3,"theme":"Cloud Pop","adobeGenAIAssetId":"urn:aaid:sc:US:3b6aec5a-8de8-4d2f-ad1f-3a5e342b0b1d","generationRequestId":"56c9f689-286f-49b3-91d2-518932ddffe5","format":"image/png","dimensions":[1024,1024],"visualCheck":"PASS_DIRECTIONAL: plush cloud-white/sky-blue checker construction with raised tufted squares, stitched edge/backing thickness and low floor camera.","repositoryPath":null,"gitBlobSha":null,"repositoryBytes":null,"status":"GENERATED_PRESERVED_NOT_STAGED"},
+    {"id":"rugs-8","name":"Wave Rug","tier":3,"theme":"Pixel Party","adobeGenAIAssetId":"urn:aaid:sc:US:b1036a27-8e1c-49ba-97f0-93e7bcc133e2","generationRequestId":"34491c78-666e-497b-81ed-16c67181d813","format":"image/png","dimensions":[1024,1024],"visualCheck":"PASS_DIRECTIONAL: asymmetrical wave silhouette, cyan/violet bands, stepped pixel accents, raised tufted ridges and grounded shadow.","repositoryPath":null,"gitBlobSha":null,"repositoryBytes":null,"status":"GENERATED_PRESERVED_NOT_STAGED"},
+    {"id":"rugs-9","name":"Splash Rug","tier":3,"theme":"Berry Blast","adobeGenAIAssetId":"urn:aaid:sc:US:b00a0244-56e8-4393-939f-1c14209bc561","generationRequestId":"bb683a4f-9602-438c-846c-fe7ea1462320","format":"image/png","dimensions":[1024,1024],"visualCheck":"PASS_DIRECTIONAL: berry-splash floor silhouette with dense raspberry/pink/magenta pile, cream seed stitching, edge thickness and floor contact.","repositoryPath":null,"gitBlobSha":null,"repositoryBytes":null,"status":"GENERATED_PRESERVED_NOT_STAGED"}
   ],
   "repositoryTransferBlocker": {
-    "status": "OPEN_ESCALATED_TO_15",
-    "detail": "Workstream 07 can resolve and visually inspect exact Firefly generations but still lacks a raw binary/base64 handle accepted by GitHub create_blob. Rugs 1-9 therefore remain generated-only: not branch-staged, not READY_FOR_REVIEW and not eligible for canonical integration.",
-    "exactAssetsToPreserveWithoutRegeneration": [
-      "urn:aaid:sc:US:a1e701b2-ec20-4699-8f3e-8b0fa45044f8",
-      "urn:aaid:sc:US:7059212c-2223-4a70-b84c-4989dc692661",
-      "urn:aaid:sc:US:1ad22d63-a119-431e-98e0-37431189dc3e",
-      "urn:aaid:sc:US:11a1ec20-e664-463c-9fb6-4efaef419723",
+    "status": "PARTIALLY_CLEARED",
+    "detail": "Exact-byte repository delivery is solved for Rugs 1-4 through the supported recovery workflow, including preserved 1024px originals and 600px versioned JPG candidates. Rugs 5-9 remain generated/preserved but not repository-staged. Do not regenerate them to solve transport.",
+    "remainingExactAssetsToPreserveWithoutRegeneration": [
       "urn:aaid:sc:US:c25cb861-5324-40aa-9fc5-b48167719c1d",
       "urn:aaid:sc:US:0fe30bbd-402c-4695-9ae7-4f534358a411",
       "urn:aaid:sc:US:3b6aec5a-8de8-4d2f-ad1f-3a5e342b0b1d",
       "urn:aaid:sc:US:b1036a27-8e1c-49ba-97f0-93e7bcc133e2",
       "urn:aaid:sc:US:b00a0244-56e8-4393-939f-1c14209bc561"
-    ],
-    "nextTransferAction": "Workstream 15 should use the already-proven Adobe-generation-to-Git recovery path to attach these exact assets to versioned rug paths with normal non-force commits and return exact path/blob/byte readback. Do not regenerate them to solve transport."
+    ]
   },
   "antiScaleGate": {
-    "status": "HOLD_RUGS_10_12_GENERATION",
-    "reason": "Protocol requires a small repair recipe to pass actual repository save/readback/render/independent review before scaling further. Rugs 1-9 are preserved generated candidates, but none has repository-staged exact-hash review yet. Do not generate rugs-10..12 until reviewer 14 evaluates staged repair pixels or 15 explicitly reassigns/overrides after reconciling evidence."
+    "status": "WAITING_REVIEWER_14_ON_STAGED_PILOT",
+    "reason": "Rugs 1-4 now satisfy repository save/readback and scoped card/detail render evidence. Protocol still requires independent reviewer-14 exact-hash ACCEPT/REWORK before scaling the recipe to Rugs 10-12. Preserve Rugs 5-9 without duplicate generation while waiting for that decision."
   },
   "nextActions": [
-    "15: attach the exact nine generated Rug assets to versioned repository paths through the proven recovery path; return exact hash/bytes/readback to 07 and 14.",
-    "14: independently review the first staged repair micro-batch at actual card/detail scale and record exact-hash ACCEPT/REWORK. Legacy REWORK does not transfer to new hashes.",
-    "07: preserve all Tops 1-6 and Rug 1-9 candidates; repair only exact new-hash REWORK. Hold Rugs 10-12 until the repair recipe receives staged independent evidence.",
-    "08: Tops 1-6 already appear canonical in manifest v15; no Workstream-07 Tops wiring backlog remains."
+    "14: independently inspect the exact Rugs 1-4 v2 JPG hashes at actual card/detail scale and record ACCEPT/REWORK against those exact hashes.",
+    "07: if any v2 pilot hash is REWORK, repair only that ID/version; do not touch accepted Tops or other rug candidates.",
+    "07/15: after the pilot gate is cleared, attach preserved exact Rugs 5-9 through supported byte recovery without regeneration; only then scale generation to Rugs 10-12 if protocol permits.",
+    "08: do not wire Rugs 1-4 until reviewer 14 independently ACCEPTs the exact staged hashes. Tops 1-6 remain canonical with no Workstream-07 wiring backlog."
   ],
-  "testsBuildThisRun": "NOT_RUN_NO_RUNTIME_OR_CANONICAL_CHANGE_BY_07",
+  "testsBuildThisRun": "RUGS_1_4_RECOVERY: npm test PASS 22 files/99 tests; npm build PASS; exact Rugs 1-4 card/detail render PASS_4_OF_4. Shared staged-art runner returned nonzero only for unrelated Lane-03 desks-2..4 WebP decode failures; do not treat shared render as globally green.",
   "freeze": {
     "replitTouched": false,
     "flootTouched": false,
