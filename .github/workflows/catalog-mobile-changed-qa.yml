@@ -1,0 +1,106 @@
+name: StarBlox Catalog Changed-Batch Mobile QA
+
+on:
+  push:
+    branches: [screenshot-match-preproduction]
+    paths:
+      - 'scripts/catalogMobileChangedQa.mjs'
+      - '.github/workflows/catalog-mobile-changed-qa.yml'
+  workflow_run:
+    workflows: ['StarBlox Workstream 08 Exact-Hash Integration']
+    types: [completed]
+    branches: [screenshot-match-preproduction]
+  workflow_dispatch:
+
+concurrency:
+  group: starblox-catalog-changed-mobile-qa
+  cancel-in-progress: true
+
+jobs:
+  changed-catalog-mobile-accessibility:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - name: Checkout latest preproduction with history
+        uses: actions/checkout@v4
+        with:
+          ref: screenshot-match-preproduction
+          fetch-depth: 0
+
+      - name: Use Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Determine canonical hash delta before heavy browser work
+        id: scope
+        run: |
+          node scripts/catalogMobileChangedQa.mjs --scope-only > /tmp/catalog-mobile-scope.json
+          cat /tmp/catalog-mobile-scope.json
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          const s=JSON.parse(fs.readFileSync('/tmp/catalog-mobile-scope.json','utf8'));
+          fs.appendFileSync(process.env.GITHUB_OUTPUT,`changed=${s.changed?'true':'false'}\n`);
+          fs.appendFileSync(process.env.GITHUB_OUTPUT,`collections=${(s.collections||[]).join(',')}\n`);
+          fs.appendFileSync(process.env.GITHUB_OUTPUT,`changed_ids=${(s.changedIds||[]).join(',')}\n`);
+          NODE
+
+      - name: Install project dependencies
+        if: steps.scope.outputs.changed == 'true'
+        run: npm install --no-audit --no-fund
+
+      - name: Install Playwright without changing package metadata
+        if: steps.scope.outputs.changed == 'true'
+        run: |
+          npm install --no-save --no-audit --no-fund playwright@1.55.0
+          npx playwright install --with-deps chromium
+
+      - name: Build production bundle
+        if: steps.scope.outputs.changed == 'true'
+        run: npm run build
+
+      - name: Start local production preview
+        if: steps.scope.outputs.changed == 'true'
+        run: |
+          nohup npx vite preview --host 127.0.0.1 --port 4173 > /tmp/starblox-catalog-changed-preview.log 2>&1 &
+          for i in $(seq 1 40); do
+            if curl -fsS http://127.0.0.1:4173/ >/dev/null; then exit 0; fi
+            sleep 0.5
+          done
+          cat /tmp/starblox-catalog-changed-preview.log
+          exit 1
+
+      - name: Run changed collections plus stable control in normal and reduced motion
+        if: steps.scope.outputs.changed == 'true'
+        run: node scripts/catalogMobileChangedQa.mjs
+        env:
+          STARBLOX_QA_URL: http://127.0.0.1:4173
+          STARBLOX_QA_OUTPUT: artifacts/catalog-mobile-changed-qa
+          STARBLOX_QA_STRICT: '1'
+
+      - name: Record unchanged skip evidence
+        if: steps.scope.outputs.changed != 'true'
+        run: |
+          mkdir -p artifacts/catalog-mobile-changed-qa
+          cp /tmp/catalog-mobile-scope.json artifacts/catalog-mobile-changed-qa/scope.json
+          printf 'SKIPPED: canonical manifest hash unchanged from last Workstream-10 proof.\n' > artifacts/catalog-mobile-changed-qa/summary.txt
+
+      - name: Print summary
+        if: always()
+        run: |
+          cat artifacts/catalog-mobile-changed-qa/summary.txt || true
+          test ! -f artifacts/catalog-mobile-changed-qa/report.json || node -e "const r=require('./artifacts/catalog-mobile-changed-qa/report.json'); console.log(JSON.stringify({status:r.status,sourceHead:r.sourceHead,manifest:r.currentManifestBlobSha,runtime:r.runtimeBlobSha,scope:r.scope,releaseBlockingCount:r.releaseBlockingCount,failures:r.results.filter(x=>x.status==='FAIL').map(x=>({motion:x.motion,viewport:x.viewport,collection:x.collection,check:x.check,message:x.message}))},null,2))"
+
+      - name: Upload changed-batch screenshots and evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: catalog-mobile-changed-qa
+          path: artifacts/catalog-mobile-changed-qa
+          if-no-files-found: warn
+          retention-days: 7
+
+      - name: Print preview log on failure
+        if: failure() && steps.scope.outputs.changed == 'true'
+        run: cat /tmp/starblox-catalog-changed-preview.log || true
