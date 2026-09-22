@@ -1,14 +1,14 @@
 {
-  "schemaVersion": 9,
+  "schemaVersion": 10,
   "orchestrationVersion": 2,
   "lane": "07",
   "workstream": "07",
   "phase": "ART_VISUALS_SPRINT",
   "branch": "screenshot-match-preproduction",
-  "sourceHeadCheckedBeforeWrite": "45d930cc61b1d798b8a1a90f5d138260ce3cb708",
+  "sourceHeadCheckedBeforeWrite": "04eb1f4c4a6f9efcd0e6bea9d33e7580740dcfd4",
   "deliveryProtocol": "docs/preproduction/DELIVERY_PROTOCOL_V2.md",
   "allocation": "docs/preproduction/ART_VISUALS_SPRINT.json",
-  "status": "READY_FOR_REVIEW_14_RUGS_11_12_V3",
+  "status": "READY_FOR_REVIEW_14_RUGS_12_V3_EXACT_TREE_RECONCILED",
   "owners": {
     "phaseAndSharedCoordination": "15",
     "manifestRuntimeIntegration": "08",
@@ -26,9 +26,20 @@
     "rugs-7": "184232121c9cd07c65fe1138893132ee0daa3fb3",
     "rugs-8": "efe9bb6e887375a7e6ed74b15222391a1e2434bf",
     "rugs-9": "9eef1db116e871d31c62de680d261cfbeccf49b3",
-    "rugs-10": "e9ff2aabc5bfa90c7411d0b8a5c48f297d2d270d"
+    "rugs-10": "e9ff2aabc5bfa90c7411d0b8a5c48f297d2d270d",
+    "rugs-11": "2c93f18fb5960f7056819c341a3da8f7fff3fb9d"
   },
-  "triggeringRework": [
+  "rugs11Review": {
+    "id": "rugs-11",
+    "path": "/assets/catalog/rugs-11-w07-v3.png",
+    "gitBlobSha": "2c93f18fb5960f7056819c341a3da8f7fff3fb9d",
+    "reviewer": "14",
+    "decision": "ACCEPT",
+    "evidence": "docs/preproduction/catalog-sprint/chat-rugs-11-12-v3-review-14-to-08.json",
+    "handoff": "QUALIFIED_ACCEPT_FOR_08_CANONICAL_WIRING_ONLY",
+    "producerAction": "PRESERVE_UNCHANGED"
+  },
+  "triggeringReworkHistory": [
     {
       "id": "rugs-11",
       "name": "Dream Cloud Rug",
@@ -52,59 +63,47 @@
       "finding": "Heavy quilting, raised star and padded rim read as a playmat/floor cushion rather than a rug."
     }
   ],
-  "currentRepairBatch": {
-    "newGenerationThisRun": 0,
-    "duplicateGenerationAvoided": true,
+  "rugs12Reconciliation": {
+    "id": "rugs-12",
+    "name": "Luxe Star Rug",
+    "tier": 5,
+    "theme": "Sunny Pop",
+    "runtimePath": "/assets/catalog/rugs-12-w07-v3.png",
+    "repositoryPath": "public/assets/catalog/rugs-12-w07-v3.png",
+    "format": "PNG",
+    "dimensions": [
+      1024,
+      1024
+    ],
+    "bytes": 1039033,
+    "sha256": "21a2f71224d9a7d4e0e60a672867cc629f21a481c3310fee6b1cac1c1be071b3",
+    "authoritativeGitBlobSha": "eea2fc5b78c1186342f91f597bc792160ab8f8fe",
+    "supersededErroneousDeclaredGitBlobSha": "85007bbb5e31a5545cf006f9cf43f25167ffb37f",
+    "sourceRendition": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:b0c14964-700b-4814-aa57-a2e9823147b3",
     "stagingCommit": "92af6c535460423ac78b0a6715d3928caa49a2a2",
     "recoveryWorkflowRunId": 35679955267,
     "recoveryWorkflowJobId": 106594548155,
-    "provenance": "Previously generated Adobe repair pixels recovered through supported Adobe/Photoshop rendition URLs and committed as new versioned repository assets; rejected v2 files remain preserved.",
-    "producerValidation": {
-      "pngSignature": "PASS_2_OF_2",
-      "dimensions": "PASS_2_OF_2_1024x1024",
-      "exactByteMetadata": "PASS_2_OF_2",
-      "repositoryCommit": "PASS",
-      "independentCardDetailReview": "PENDING_REVIEWER_14",
-      "testsBuild": "NOT_RERUN_BINARY_ONLY_NO_RUNTIME_CHANGE"
-    },
-    "candidates": [
-      {
-        "id": "rugs-11",
-        "name": "Dream Cloud Rug",
-        "tier": 4,
-        "theme": "Galaxy Glow",
-        "runtimePath": "/assets/catalog/rugs-11-w07-v3.png",
-        "repositoryPath": "public/assets/catalog/rugs-11-w07-v3.png",
-        "format": "PNG",
-        "dimensions": [1024, 1024],
-        "bytes": 1206852,
-        "sha256": "cb5bea407b241c79887f07f8b37136b64f2336de23683fdafc6007aa23fefdfd",
-        "gitBlobSha": "2c93f18fb5960f7056819c341a3da8f7fff3fb9d",
-        "sourceRendition": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:fe1a242b-38f6-49af-a84e-24886f323129",
-        "status": "READY_FOR_REVIEW_14"
-      },
-      {
-        "id": "rugs-12",
-        "name": "Luxe Star Rug",
-        "tier": 5,
-        "theme": "Sunny Pop",
-        "runtimePath": "/assets/catalog/rugs-12-w07-v3.png",
-        "repositoryPath": "public/assets/catalog/rugs-12-w07-v3.png",
-        "format": "PNG",
-        "dimensions": [1024, 1024],
-        "bytes": 1039033,
-        "sha256": "21a2f71224d9a7d4e0e60a672867cc629f21a481c3310fee6b1cac1c1be071b3",
-        "gitBlobSha": "85007bbb5e31a5545cf006f9cf43f25167ffb37f",
-        "sourceRendition": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:b0c14964-700b-4814-aa57-a2e9823147b3",
-        "status": "READY_FOR_REVIEW_14"
-      }
-    ]
+    "reconciliationFinding": "The asset bytes were not replaced after staging. Commit 92af6c535460423ac78b0a6715d3928caa49a2a2 created this exact path with Git blob eea2fc5b78c1186342f91f597bc792160ab8f8fe. Recovery job 106594548155 measured these same source bytes as PNG 1024x1024, 1039033 bytes, SHA-256 21a2f71224d9a7d4e0e60a672867cc629f21a481c3310fee6b1cac1c1be071b3. The prior lane declaration 85007bbb... was metadata error, not evidence of a later asset mutation.",
+    "currentPathLatestTouchCommit": "92af6c535460423ac78b0a6715d3928caa49a2a2",
+    "duplicateGenerationAvoided": true,
+    "binaryReuploadPerformed": false,
+    "status": "READY_FOR_REVIEW_14_EXACT_CURRENT_HASH"
+  },
+  "producerChecks": {
+    "currentTreeBlobReadback": "PASS_eea2fc5b78c1186342f91f597bc792160ab8f8fe",
+    "stagingCommitBlobReadback": "PASS_eea2fc5b78c1186342f91f597bc792160ab8f8fe",
+    "pngSignature": "PASS",
+    "dimensions": "PASS_1024x1024",
+    "bytes": "PASS_1039033",
+    "sha256": "PASS_21a2f71224d9a7d4e0e60a672867cc629f21a481c3310fee6b1cac1c1be071b3",
+    "latestPathTouch": "PASS_92af6c535460423ac78b0a6715d3928caa49a2a2",
+    "independentCardDetailReview": "PENDING_REVIEWER_14_FOR_EXACT_BLOB_eea2fc5b78c1186342f91f597bc792160ab8f8fe",
+    "testsBuild": "NOT_RERUN_DOCS_ONLY_RECONCILIATION_BINARY_UNCHANGED"
   },
   "reviewer14Handoff": [
-    "rugs-11 /assets/catalog/rugs-11-w07-v3.png 2c93f18fb5960f7056819c341a3da8f7fff3fb9d",
-    "rugs-12 /assets/catalog/rugs-12-w07-v3.png 85007bbb5e31a5545cf006f9cf43f25167ffb37f"
+    "rugs-12 /assets/catalog/rugs-12-w07-v3.png eea2fc5b78c1186342f91f597bc792160ab8f8fe"
   ],
-  "nextAction": "Reviewer 14 independently renders and judges the exact v3 hashes at card/detail scale. If an exact v3 hash is REWORK, repair only that ID. If both ACCEPT, Workstream 08 alone may canonical-wire them and Workstream 07 holds for Workstream 15 reassignment.",
+  "nextAction": "Reviewer 14 should render and judge only rugs-12 at exact current blob eea2fc5b78c1186342f91f597bc792160ab8f8fe. Workstream 07 must not regenerate unless reviewer 14 returns REWORK on that exact hash. Rugs 1-11 remain frozen; Workstream 08 alone may canonical-wire independently accepted hashes.",
   "freeze": {
     "replitTouched": false,
     "flootTouched": false,
