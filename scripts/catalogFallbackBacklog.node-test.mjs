@@ -24,7 +24,7 @@ test('routes release-critical families to the right producer and reviewer',()=>{
   const report=buildFallbackBacklog({items:[items[0],items[1],items[2]],manifest:{items:{}},reviewCorpus:{current:[]}});
   const byId=new Map(report.allMissing.map(x=>[x.itemId,x]));
   assert.deepEqual(byId.get('desks-7').route,{producer:'03',reviewer:'05'});
-  assert.deepEqual(byId.get('wall-5').route,{producer:'05',reviewer:'14'});
+  assert.deepEqual(byId.get('wall-5').route,{producer:'13',reviewer:'14'});
   assert.deepEqual(byId.get('decor-5').route,{producer:'09',reviewer:'14'});
 });
 

@@ -161,15 +161,15 @@
     "10": "Mobile/tablet visual rendering/readability/performance evidence.",
     "11": "Aura production/effects and reduced-motion static equivalents.",
     "12": "Accessory production and item-to-avatar consistency.",
-    "13": "Scene/character generation and environment composition.",
+    "13": "Temporary release-critical Wall producer while visible catalog fallbacks remain; owns Wall repair/unfilled batches, reviewer14 judges. New scene/character generation stays deferred until fallbackCount reaches zero.",
     "14": "Shared render fixture, perceptual evidence, independent Lighting/Wall/Rugs/Decor review and composition/performance review.",
     "15": "Factory director; live ownership reconciliation, non-overlap, bottleneck routing and final visual acceptance coordination.",
     "01": "Independent Tops/Bottoms/Headwear/Facegear reviewer first; when that fresh review queue is empty, producer for Seating 1-6, which reviewer 02 must judge. Also art/identity/reference-fidelity review for explicitly assigned scene/character art.",
     "02": "Independent Shoes/Backgear/Handgear/Seating reviewer first; when that fresh review queue is empty, producer for Beds 1-12, which reviewer 05 must judge. HUD/logo/pictorial-navigation visual evidence only when neither queue is actionable.",
     "03": "Owned Desk/Home art production; use factory only for exact REWORK/unaccepted assignments.",
     "04": "Owned Lighting/Store art production and staged Store composition work.",
-    "05": "Owned Bottoms/Wall production and independent Beds/Desks/Companions/Auras review.",
-    "06": "Owned Companion/Seating/Shoes production plus avatar/buddy studies when assigned catalog work is closed.",
+    "05": "Independent Beds/Desks/Companions/Auras reviewer first and Bottoms producer when safe. During strict fallback clearing, do not produce Wall art; consume renderer14 Desk pixels quickly and route ACCEPTs to 08.",
+    "06": "During strict fallback clearing, act as report-only candidate preflight/provenance courier for newly staged Desk/Wall/Decor bytes, detecting stale/duplicate/pending evidence before renderer14. Resume Companion/Seating/Shoes production after fallbackCount reaches zero or coordinator15 reopens it.",
     "07": "Owned Tops1-6/Rugs production and progression art after catalog work is closed.",
     "08": "Only canonical catalog writer; consumes independent exact-hash ACCEPTs.",
     "09": "Owned Tops7-12/Decor production and environment finishing only after explicit handoff."
@@ -308,5 +308,38 @@
     },
     "unrelatedReworkExcludedFromMetricTraining": true,
     "preflightConsumption": "WARNING_READY_THRESHOLDS_ANNOTATE_CANDIDATES_REPORT_ONLY"
+  },
+  "releaseHourOptimization": {
+    "schemaVersion": 1,
+    "active": true,
+    "minuteByWorkstream": {
+      "10": 54,
+      "11": 21,
+      "12": 23,
+      "13": 18,
+      "14": 30,
+      "15": 0,
+      "03": 3,
+      "04": 6,
+      "07": 12,
+      "09": 15,
+      "06": 26,
+      "05": 33,
+      "01": 36,
+      "02": 39,
+      "08": 48
+    },
+    "sameHourTargets": {
+      "desks": "03 produce -> 06 preflight -> 14 render -> 05 review -> 08 integrate",
+      "decor": "09 produce -> 06 preflight -> 14 render+review -> 08 integrate",
+      "wall": "13 produce -> 06 preflight -> 14 render+review -> 08 integrate"
+    },
+    "safeguards": [
+      "No producer self-review.",
+      "08 remains sole canonical writer.",
+      "Report-only preflight never ACCEPTs/REWORKs.",
+      "Pending current candidates freeze duplicate generation.",
+      "Live exact-hash evidence overrides scheduled prompt text."
+    ]
   }
 }

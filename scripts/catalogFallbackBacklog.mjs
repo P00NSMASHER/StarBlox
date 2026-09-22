@@ -6,7 +6,7 @@ import {buildReviewCorpus} from './artReviewNormalizer.mjs';
 
 export const RELEASE_ROUTES=Object.freeze({
   desks:{producer:'03',reviewer:'05'},
-  wall:{producer:'05',reviewer:'14'},
+  wall:{producer:'13',reviewer:'14'},
   decor:{producer:'09',reviewer:'14'}
 });
 

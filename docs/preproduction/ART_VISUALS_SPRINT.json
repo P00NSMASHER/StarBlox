@@ -26,22 +26,22 @@
     "newTasksCreated": 0,
     "minuteByWorkstream": {
       "10": 54,
-      "11": 19,
-      "12": 22,
-      "13": 25,
+      "11": 21,
+      "12": 23,
+      "13": 18,
       "14": 30,
       "15": 0,
-      "03": 4,
-      "04": 7,
-      "06": 10,
-      "07": 13,
-      "09": 16,
-      "01": 35,
+      "03": 3,
+      "04": 6,
+      "07": 12,
+      "09": 15,
+      "06": 26,
+      "05": 33,
+      "01": 36,
       "02": 39,
-      "05": 43,
       "08": 48
     },
-    "note": "Optimized hourly factory flow matches the live 15-task fleet: director -> primary producers -> shared exact-byte render gate -> independent reviewers/mixed review-first workers -> canonical integration -> mobile visual proof. Downstream workers consume the newest valid current- or prior-cycle hash-bound evidence; never wait or poll."
+    "note": "Optimized release-hour flow: director -> release producers -> preflight/evidence courier -> shared render/review gate -> independent reviewers -> canonical integration -> browser proof. Wall production is temporarily split to 13 so 05 can review Desks immediately after renderer14, eliminating the mixed-role serial bottleneck."
   },
   "referenceEvidence": {
     "status": "ORIGINALS_STORED_AND_INTAKE_VERIFIED",
@@ -112,6 +112,13 @@
         "last": 12
       }
     ],
+    "13": [
+      {
+        "collection": "wall",
+        "first": 1,
+        "last": 12
+      }
+    ],
     "01": [
       {
         "collection": "seating",
@@ -148,11 +155,6 @@
     "05": [
       {
         "collection": "bottoms",
-        "first": 1,
-        "last": 12
-      },
-      {
-        "collection": "wall",
         "first": 1,
         "last": 12
       }
@@ -228,7 +230,7 @@
   },
   "visualSurfaceOwnership": {
     "10": "Mobile visual composition, readable art/text, cropping, focus/contrast, touch-safe layouts, scroll/render performance and reference screenshot evidence.",
-    "13": "While catalog production dominates, produce versioned Home/Store/Quest environment and original character key art using real references; no changes to saves, economy, curriculum or actual reference files. Stage component assets rather than flattened fake UI. Reviewer 01 judges art; 14 judges composition. Reconcile any in-flight 06 avatar/09 scene work with 15 before overlapping assets.",
+    "13": "TEMPORARY RELEASE ROLE while visible catalog fallbacks remain: produce Wall repair/unfilled batches only, with reviewer14 independence. Preserve scene candidates and references but create no new scene versions until fallbackCount reaches zero; then return to scene/character ownership.",
     "14": "Shared candidate render fixture, independent room-art reviews, content/near-duplicate checks and reference-based visual QA.",
     "15": "Art direction, non-overlapping assignment resolution, shared visual integration and screenshot-fidelity acceptance; no nonvisual feature expansion."
   },
@@ -297,11 +299,14 @@
     "note": "Current conservative floor: 35 current replacement hashes are independently ACCEPTed and all 35 are canonical-wired through manifest v17. Review coverage is 180/192 unique IDs; Desk remains the 12-ID coverage gap."
   },
   "currentCriticalPath": [
-    "01: review branch-stored/rendered Tops 7-10 v3 exact hashes; old v2 REWORK does not transfer.",
-    "07: transfer already-generated Rugs 5-8 Adobe bytes to versioned GitHub paths and exact-readback them; do not regenerate or scale to Rugs 9-12 before reviewer-14 pilot disposition.",
-    "14->05: render current exact Desk 2-4 paths through the shared fixture, then reviewer 05 decides them; Desk remains the 12-ID review-coverage gap.",
-    "12: continue 2-4 item accessory repair pilots with reviewer 01/02 independence.",
-    "13: continue separate scene/character assets against stored original references in parallel without gameplay changes."
+    "03: Desks 7-10 bounded production pilot, then 11-12 only after reviewer05 disposition.",
+    "09: Decor 5-8 bounded production pilot, then 9-12 only after reviewer14 disposition.",
+    "13: Wall 9-12 bounded repair pilot; preserve Wall 8 blocked remote materialization evidence and do not duplicate it.",
+    "06: preflight/evidence courier for newly staged fallback candidates before renderer14.",
+    "14: exact-hash card/detail render and independent Wall/Decor review; render-only handoff for Desks.",
+    "05: independent Desk review only during strict fallback clearing; no Wall production.",
+    "08: integrate every qualified exact-hash ACCEPT immediately.",
+    "10: verify browser/mobile visual gates after integration/runtime fixes."
   ],
   "nonvisualGatePolicy": {
     "status": "DEFERRED_NOT_WAIVED_DURING_ART_VISUALS",
