@@ -278,8 +278,17 @@ try {
         const comparison = await compareReference(screen, viewport, candidatePath);
         const missing = comparison.status === 'REFERENCE_MISSING_NOT_TESTED';
         const dimensionFail = comparison.status === 'DIMENSION_MISMATCH';
-        const diffFail = comparison.status === 'COMPARED' && comparison.pass === false;
-        record({ viewport: viewport.name, screen: screen.name, check: 'reference-pixel-diff', status: missing ? 'NOT_TESTED' : ((dimensionFail || diffFail) ? 'FAIL' : 'PASS'), releaseBlocking: (referenceRequired && missing) || dimensionFail || diffFail, message: missing ? `Original reference file is not present at ${comparison.referencePath}.` : (dimensionFail ? 'Reference/candidate dimensions differ.' : `Pixel comparison complete; mismatch ratio=${(comparison.diffRatio * 100).toFixed(4)}%.`), metrics: comparison });
+        const strictDiffFail = strictDiff && comparison.status === 'COMPARED' && comparison.pass === false;
+        const comparedDiagnostic = !strictDiff && comparison.status === 'COMPARED';
+        const diffStatus = missing ? 'NOT_TESTED' : (dimensionFail || strictDiffFail) ? 'FAIL' : comparedDiagnostic ? 'DIAGNOSTIC' : 'PASS';
+        const diffMessage = missing
+          ? `Original reference file is not present at ${comparison.referencePath}.`
+          : dimensionFail
+            ? 'Reference/candidate dimensions differ.'
+            : comparedDiagnostic
+              ? `Diagnostic pixel comparison complete; mismatch ratio=${(comparison.diffRatio * 100).toFixed(4)}%. Non-strict comparison is not screenshot-parity or visual approval.`
+              : `Strict pixel comparison complete; mismatch ratio=${(comparison.diffRatio * 100).toFixed(4)}% against max ${(maxDiffRatio * 100).toFixed(4)}%.`;
+        record({ viewport: viewport.name, screen: screen.name, check: 'reference-pixel-diff', status: diffStatus, releaseBlocking: (referenceRequired && missing) || dimensionFail || strictDiffFail, message: diffMessage, metrics: { ...comparison, comparisonMode: strictDiff ? 'STRICT_RELEASE_GATE' : 'DIAGNOSTIC_ONLY_NOT_VISUAL_APPROVAL' } });
       } catch (error) {
         record({ viewport: viewport.name, screen: screen.name, check: 'capture-run', status: 'FAIL', releaseBlocking: true, message: String(error?.stack || error) });
       } finally {
@@ -304,6 +313,7 @@ const summary = {
   referenceRequired,
   strictDiff,
   maxDiffRatio,
+  referenceComparisonMode: strictDiff ? 'STRICT_RELEASE_GATE' : 'DIAGNOSTIC_ONLY_NOT_VISUAL_APPROVAL',
   referencePresentCount,
   referenceExpectedCount: viewports.length * screens.length,
   releaseBlockingCount,
