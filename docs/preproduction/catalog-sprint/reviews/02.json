@@ -7,7 +7,7 @@
     "handgear",
     "seating"
   ],
-  "inspectedSourceHead": "453ead1a6b07089862d2bbe402a0a17005f29c26",
+  "inspectedSourceHead": "935e0b7a0079ac60237bfb7c908e8995dc858cdb",
   "historyRefs": [
     {
       "type": "prior-review-shard",
@@ -68,10 +68,10 @@
   "summary": {
     "legacyPartitionReviewed": 48,
     "legacyRework": 48,
-    "freshReplacementReviewedThisPass": 12,
+    "freshReplacementReviewedThisPass": 13,
     "freshAcceptThisPass": 12,
     "freshReworkThisPass": 0,
-    "freshBlockedThisPass": 0,
+    "freshBlockedThisPass": 1,
     "usableBy08Now": [
       "shoes-1",
       "shoes-2",
@@ -86,7 +86,7 @@
       "seating-2",
       "seating-3"
     ],
-    "nextReviewPriority": "Any newer exact hashes supersede these decisions. Next prioritize fresh Seating 4-6/11-12 and Shoes 7-12, then Backgear/Handgear replacements."
+    "nextReviewPriority": "Seating-11 exact hash is BLOCKED on inspectable card/detail evidence (first cycle); Workstream 14 fixture request is active. Otherwise prioritize fresh Seating 4-6/12 and Shoes 7-12, then Backgear/Handgear replacements."
   },
   "reviews": [
     {
@@ -414,13 +414,43 @@
         "originality": "PASS",
         "duplicateVisual": "PASS"
       }
+    },
+    {
+      "itemId": "seating-11",
+      "name": "Moon Chair",
+      "tier": 4,
+      "theme": "Galaxy Glow",
+      "assetPath": "/assets/catalog-candidates/chat-20260921-intake01/seating-11-source.png",
+      "assetHash": "b0b4ee954ce5af414ee90fecda374f84d551c3e5",
+      "hashAlgorithm": "git-blob-sha1",
+      "sourceHead": "935e0b7a0079ac60237bfb7c908e8995dc858cdb",
+      "producer": "06",
+      "decision": "BLOCKED",
+      "reviewedAt": "2026-09-22T00:27:00Z",
+      "evidenceRefs": [
+        "public/assets/catalog-candidates/chat-20260921-intake01/seating-11-source.png#git-blob=b0b4ee954ce5af414ee90fecda374f84d551c3e5",
+        "public/assets/catalog-candidates/chat-20260921-intake01/seating-11-card.png#git-blob=9e777c1844140ea09eb0a304c4f103d5e6da9fcb",
+        "commit:3188204700c41b0196da112b55a0a74631198d65",
+        "browser-use:run:1d059db1-ea1d-4dba-a1dd-c8efd67540f1"
+      ],
+      "reason": "Exact source/card hashes are staged and marked review-ready, but the shared staged-art artifact does not render seating-11. A read-only public-browser attempt opened the exact raw candidates but returned only an inaccessible browser-local HTML evidence path rather than inspectable reviewer pixels. Without independently visible card/detail evidence, Workstream 02 cannot make a quality verdict. This is a visual-access blocker, not a REWORK judgment.",
+      "checks": {
+        "identity": "BLOCKED_NO_INSPECTABLE_PIXEL_EVIDENCE",
+        "themeTier": "BLOCKED_NO_INSPECTABLE_PIXEL_EVIDENCE",
+        "silhouette": "BLOCKED_NO_INSPECTABLE_PIXEL_EVIDENCE",
+        "materialLighting": "BLOCKED_NO_INSPECTABLE_PIXEL_EVIDENCE",
+        "cardReadability": "BLOCKED_NO_INSPECTABLE_PIXEL_EVIDENCE",
+        "originality": "BLOCKED_NO_INSPECTABLE_PIXEL_EVIDENCE",
+        "duplicateVisual": "BLOCKED_NO_INSPECTABLE_PIXEL_EVIDENCE"
+      }
     }
   ],
   "handoff": {
+    "14": "Fixture request: include seating-11 exact source blob b0b4ee954ce5af414ee90fecda374f84d551c3e5 and card blob 9e777c1844140ea09eb0a304c4f103d5e6da9fcb in the branch-local staged-art renderer, with a reproducible card/contact-sheet image and separate detail screenshot bound to the source hash. The first supported browser fallback returned only a browser-local HTML path, so reviewer 02 did not call a visual PASS.",
     "15": "Fresh Shoes 1–6 and Seating 2–3/7–10 have cleared independent visual review. Route remaining fresh Seating 4–6/11–12 and Shoes 7–12 without assigning review of Workstream-02-authored Beds back to reviewer 02.",
     "08": "These twelve exact replacement hashes now have one qualified independent reviewer-02 ACCEPT and may be integrated immediately after normal metadata/file/content checks. Legacy REWORK decisions remain bound only to their old hashes.",
     "04": "Preserve Shoes 1-6 exact accepted hashes; do not regenerate or overwrite them unless a later concrete defect is found.",
-    "06": "Preserve Seating 7-10 exact accepted hashes. The four-item recipe passed independent review, so Seating 11-12 may proceed under the current assignment.",
+    "06": "Seating 2–3 and 7–10 accepted hashes must be preserved. Seating-11 source blob b0b4ee954ce5af414ee90fecda374f84d551c3e5 is not rejected; review is BLOCKED only until Workstream 14 exposes inspectable exact-hash card/detail pixels. Do not regenerate solely because of this access blocker.",
     "05": "Reviewer 05 remains responsible for any Workstream-02 Bed replacement exact hashes after they are repository-staged.",
     "01": "Preserve Seating 2–3 exact accepted hashes c3d4705b7182b1be735b1a762b2ae79d58928aa5 and 5d69a2f6adf1e4cf9b4ec413dbeedba84c41813b; do not regenerate them unless a later concrete defect is found. Continue only the still-unaccepted seating IDs under current sprint ownership."
   },
