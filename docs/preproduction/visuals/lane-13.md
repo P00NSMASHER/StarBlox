@@ -193,3 +193,17 @@ This candidate contains no avatar, buddy, UI, text, buttons, logos or third-part
   - optimized: `public/assets/visuals/lane-13/store-avatar-stage-w13-v1-1024.png` — 1024x1024, 421139 bytes, SHA-256 `884c90e2c9a0740a427e851319599a7caac5818352282a98758b42770dadbf13`, Git blob `5ad610928fd6db5e9bdeb2036388025989c0b833`
 
 - No physical-device test or screenshot-parity claim was performed by producer 13.
+
+## Quest study foreground v1 — staged candidate
+
+- Candidate: `quest-study-foreground-w13-v1` — producer-staged only; not approved and not runtime-wired.
+- Gap addressed: verified original Quest has tactile study furniture/material/contact depth around the character; the actual current deterministic render remains comparatively flat. This separate lower-left desk/chair layer restores dimensional staging while leaving real educational UI/state functional and unbaked.
+- One candidate only. A direct transparent-resize derivative was visually rejected for artifacts and was not staged; the accepted optimized derivative was resized before background removal.
+- Independent review: 01 art; 14 composition/performance; 15 coordination before any runtime wiring.
+- Exact remote readback: `PASS_3_OF_3_EXACT_SHA256_AND_BYTE_LENGTH`.
+- Assets:
+  - source: `docs/preproduction/visuals/recovered-originals/quest-study-foreground-w13-v1-source.png` — 2016x1152, 1477523 bytes, SHA-256 `04b935a021d5aae556f7b9c6ba12059400e8cf251eb033a6e7285ec5d1bba406`, Git blob `48cd6450f76057730caa6688e4f702576b51388c`
+  - full: `public/assets/visuals/lane-13/quest-study-foreground-w13-v1-full.png` — 2016x1152, 408594 bytes, SHA-256 `c006585abcc12c90e0eff367e6929f2db608190598067f73dc977af00b83f60e`, Git blob `9e6aad014dd091b04135e00a35af9f6aebf6aa70`
+  - optimized: `public/assets/visuals/lane-13/quest-study-foreground-w13-v1-1008.png` — 1008x576, 133292 bytes, SHA-256 `881302a212fff9d38ff52dd22c0749c43a1f033659d665cc9f8a494787b53193`, Git blob `ab48d418d68c5672a49f713a5e266f445eb1ed6e`
+
+- No physical-device test or screenshot-parity claim was performed by producer 13. Existing regression/build/accessibility/device gates remain open and unwaived.

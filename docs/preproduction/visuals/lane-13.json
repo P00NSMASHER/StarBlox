@@ -590,5 +590,107 @@
       "15": "PENDING_COORDINATION_BEFORE_ANY_RUNTIME_WIRING"
     },
     "note": "Producer-staged only. Reviewer 01 judges art; reviewer 14 judges composition/performance; 15 gates any runtime wiring. No self-approval."
+  },
+  "latestQuestStudyForegroundCandidate": {
+    "candidateId": "quest-study-foreground-w13-v1",
+    "status": "STAGED_READY_FOR_INDEPENDENT_REVIEW",
+    "runtimeWired": false,
+    "intakeEvidence": "docs/preproduction/visuals/lane-13-quest-study-foreground-v1-intake.json",
+    "assets": {
+      "source": {
+        "label": "source",
+        "path": "docs/preproduction/visuals/recovered-originals/quest-study-foreground-w13-v1-source.png",
+        "bytes": 1477523,
+        "dimensions": [
+          2016,
+          1152
+        ],
+        "format": "PNG",
+        "mode": "RGB",
+        "sha256": "04b935a021d5aae556f7b9c6ba12059400e8cf251eb033a6e7285ec5d1bba406",
+        "gitBlobSha": "48cd6450f76057730caa6688e4f702576b51388c",
+        "alphaBounds": null,
+        "alphaExtrema": null,
+        "transparentRequired": false
+      },
+      "full": {
+        "label": "full",
+        "path": "public/assets/visuals/lane-13/quest-study-foreground-w13-v1-full.png",
+        "bytes": 408594,
+        "dimensions": [
+          2016,
+          1152
+        ],
+        "format": "PNG",
+        "mode": "RGBA",
+        "sha256": "c006585abcc12c90e0eff367e6929f2db608190598067f73dc977af00b83f60e",
+        "gitBlobSha": "9e6aad014dd091b04135e00a35af9f6aebf6aa70",
+        "alphaBounds": [
+          20,
+          324,
+          866,
+          1028
+        ],
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "transparentRequired": true
+      },
+      "optimized": {
+        "label": "optimized",
+        "path": "public/assets/visuals/lane-13/quest-study-foreground-w13-v1-1008.png",
+        "bytes": 133292,
+        "dimensions": [
+          1008,
+          576
+        ],
+        "format": "PNG",
+        "mode": "RGBA",
+        "sha256": "881302a212fff9d38ff52dd22c0749c43a1f033659d665cc9f8a494787b53193",
+        "gitBlobSha": "ab48d418d68c5672a49f713a5e266f445eb1ed6e",
+        "alphaBounds": [
+          10,
+          162,
+          433,
+          514
+        ],
+        "alphaExtrema": [
+          0,
+          255
+        ],
+        "transparentRequired": true
+      }
+    },
+    "remoteReadback": {
+      "remoteRef": "origin/screenshot-match-preproduction",
+      "remoteHead": "e19e05289cf76dce9755da568fd80b3eca629060",
+      "assets": {
+        "source": {
+          "path": "docs/preproduction/visuals/recovered-originals/quest-study-foreground-w13-v1-source.png",
+          "bytes": 1477523,
+          "sha256": "04b935a021d5aae556f7b9c6ba12059400e8cf251eb033a6e7285ec5d1bba406",
+          "matchesStagedBytes": true
+        },
+        "full": {
+          "path": "public/assets/visuals/lane-13/quest-study-foreground-w13-v1-full.png",
+          "bytes": 408594,
+          "sha256": "c006585abcc12c90e0eff367e6929f2db608190598067f73dc977af00b83f60e",
+          "matchesStagedBytes": true
+        },
+        "optimized": {
+          "path": "public/assets/visuals/lane-13/quest-study-foreground-w13-v1-1008.png",
+          "bytes": 133292,
+          "sha256": "881302a212fff9d38ff52dd22c0749c43a1f033659d665cc9f8a494787b53193",
+          "matchesStagedBytes": true
+        }
+      }
+    },
+    "reviews": {
+      "01": "PENDING_INDEPENDENT_ART_REVIEW",
+      "14": "PENDING_COMPOSITION_PERFORMANCE_REVIEW",
+      "15": "PENDING_COORDINATION_BEFORE_ANY_RUNTIME_WIRING"
+    },
+    "note": "Producer-staged only. Reviewer 01 judges art; reviewer 14 judges composition/performance; 15 gates any runtime wiring. No self-approval."
   }
 }

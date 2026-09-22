@@ -158,7 +158,7 @@
     "separateLayerNotFlattenedScreen": "PASS_BY_ASSET_SCOPE_AND_PRODUCER_PIXEL_INSPECTION",
     "uiTextButtonsAbsent": "PASS_BY_PRODUCER_PIXEL_INSPECTION",
     "catalogMappingsUntouched": "PASS_BY_EXCLUSIVE_PATH_SCOPE",
-    "exactRepositoryReadback": "PENDING_REMOTE_READBACK",
+    "exactRepositoryReadback": "PASS_3_OF_3_EXACT_SHA256_AND_BYTE_LENGTH",
     "independentArtReview": "PENDING_01",
     "compositionPerformanceReview": "PENDING_14",
     "runtimeIntegration": "NOT_PERFORMED",
@@ -170,5 +170,29 @@
     "14": "PENDING_COMPOSITION_PERFORMANCE_REVIEW",
     "15": "PENDING_COORDINATION_BEFORE_ANY_RUNTIME_WIRING"
   },
-  "releaseGates": "Existing regression/build/device/accessibility/parity gates remain external release gates for 08/14/15 and are not changed by this visual intake."
+  "releaseGates": "Existing regression/build/device/accessibility/parity gates remain external release gates for 08/14/15 and are not changed by this visual intake.",
+  "remoteReadback": {
+    "remoteRef": "origin/screenshot-match-preproduction",
+    "remoteHead": "e19e05289cf76dce9755da568fd80b3eca629060",
+    "assets": {
+      "source": {
+        "path": "docs/preproduction/visuals/recovered-originals/quest-study-foreground-w13-v1-source.png",
+        "bytes": 1477523,
+        "sha256": "04b935a021d5aae556f7b9c6ba12059400e8cf251eb033a6e7285ec5d1bba406",
+        "matchesStagedBytes": true
+      },
+      "full": {
+        "path": "public/assets/visuals/lane-13/quest-study-foreground-w13-v1-full.png",
+        "bytes": 408594,
+        "sha256": "c006585abcc12c90e0eff367e6929f2db608190598067f73dc977af00b83f60e",
+        "matchesStagedBytes": true
+      },
+      "optimized": {
+        "path": "public/assets/visuals/lane-13/quest-study-foreground-w13-v1-1008.png",
+        "bytes": 133292,
+        "sha256": "881302a212fff9d38ff52dd22c0749c43a1f033659d665cc9f8a494787b53193",
+        "matchesStagedBytes": true
+      }
+    }
+  }
 }
