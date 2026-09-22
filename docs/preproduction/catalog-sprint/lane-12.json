@@ -1,10 +1,10 @@
 {
-  "schemaVersion": 4,
+  "schemaVersion": 5,
   "workstream": "12",
-  "phase": "ART_VISUALS_ONLY",
+  "phase": "ART_AND_VISUALS_ONLY",
   "branch": "screenshot-match-preproduction",
-  "status": "HEADWEAR_1_4_ACCEPTED_PRESERVED__HEADWEAR_5_8_EXTERNAL_DERIVATIVES_LIVE__HELPER04_REPOSITORY_TRANSFER_PENDING",
-  "inputHead": "7d30265638ea83677544c361510ba0b730ae243d",
+  "status": "HEADWEAR_1_4_ACCEPTED_PRESERVED__HEADWEAR_5_8_EXTERNAL_DERIVATIVES_LIVE__EXACT_BYTE_TRANSFER_BLOCKED__HEADWEAR_9_12_PREP_ONLY",
+  "inputHead": "557068a467d3ff45f8d360bfaa8544e5ab5b04fe",
   "protocol": "docs/preproduction/DELIVERY_PROTOCOL_V2.md",
   "allocation": "docs/preproduction/ART_VISUALS_SPRINT.json",
   "ownership": {
@@ -183,19 +183,93 @@
   },
   "transportBlocker": {
     "id": "W12-ADOBE-BYTE-TRANSFER",
-    "state": "HELPER04_ASSIGNED__PENDING_REPOSITORY_ATTACHMENT",
+    "state": "HELPER04_ASSIGNED__SUPPORTED_BYTE_MATERIALIZATION_STILL_UNAVAILABLE",
+    "helperEvidencePath": "docs/preproduction/catalog-sprint/headwear-5-8-transport-helper-04-to-12-01.json",
+    "helperEvidenceBlobSha": "e18f2276f582ddd3c473492c67cec89e419ae418",
     "newEvidenceThisCycle": [
-      "All four exact 600x600 derivative output URLs were successfully fetched and visually decoded through Adobe asset_inline_preview, proving the preserved derivatives are still live and readable; no regeneration occurred.",
-      "All four planned GitHub paths returned 404 on screenshot-match-preproduction at input head 7d30265638ea83677544c361510ba0b730ae243d, so helper04 has not yet landed repository bytes.",
-      "The derivative short URLs are fetchable inside the Adobe connector but this lane still lacks a supported raw-byte handoff suitable for GitHub binary upload; no duplicate generation or alternate derivative was created."
+      "A newly exposed supported Adobe asset_inline_preview path was exercised on the exact preserved Headwear 5 derivative and confirmed the derivative still resolves visually without regeneration, but the action exposes a rendered preview rather than a reusable raw-byte/base64 stream suitable for GitHub attachment.",
+      "A read-only Browser_Use attempt to resolve the same exact Adobe short URL did not yield a final direct image URL or bytes because the browser/auth bootstrap path was unavailable in this noninteractive run.",
+      "GitHub binary blob/tree write support is available; the unresolved step remains exact raw-byte materialization of the preserved external PNG without re-encoding, substitution or recreation."
     ],
-    "smallestNextAction": "Helper04 transfers the exact existing derivative bytes from the recorded output URLs to the four planned versioned repository paths. Workstream12 then rereads each path, records exact Git blob/content hash, dimensions and byte size, and hands those exact hashes to reviewer01."
+    "smallestNextAction": "When helper04 or another coordinator-approved supported tool exposes the exact existing derivative bytes, attach those bytes unchanged to the four planned versioned repository paths. Workstream12 then rereads each path, records exact Git blob/content hash, dimensions and byte size, and hands those exact hashes to reviewer01."
+  },
+  "counts": {
+    "headwear1_4PreservedAccepted": 4,
+    "headwear5_8GeneratedExternal": 4,
+    "headwear5_8PreservedExternal": 4,
+    "headwear5_8RepositoryStaged": 0,
+    "headwear5_8CurrentHashAccepted": 0,
+    "headwear5_8Canonical": 0,
+    "headwear9_12PrepOnly": 4,
+    "headwear9_12Generated": 0,
+    "headwear9_12RepositoryStaged": 0
+  },
+  "nextMicroBatchPreparation": {
+    "status": "PREP_ONLY_NOT_GENERATED_NOT_CLAIMED_FOR_PRODUCTION",
+    "reason": "Live allocation still assigns Headwear to Workstream12, but Workstream15 has not opened a bounded production batch beyond Headwear5-8 and the active scale gate forbids generation until Headwear5-8 are repository-stored/read back and reviewer01 dispositions them.",
+    "metadataSources": [
+      "src/gameModel.js",
+      "reviewer01 historical exact-hash evidence blob f2701fc7c9116d0eb2f1da7d84e128d27b832fff",
+      "current repository legacy paths read at input head"
+    ],
+    "sharedRecipe": "Future generation only after the gate opens: isolated wearable product, no avatar or new character identity; true three-quarter presentation; visible support/band/hinge/setting construction; tactile differentiated materials; bright polished magical-school Store studio with warm key plus cool rim and restrained lilac/pink depth; strong silhouette at phone-card scale; exact item identity/theme/tier; no text, logos, third-party characters, generic recolor or flat icon treatment; preserve a full-quality square source before a measured phone-friendly derivative.",
+    "items": [
+      {
+        "id": "headwear-9",
+        "name": "Pencil Crown",
+        "tier": 3,
+        "theme": "Sunny Pop",
+        "price": 460,
+        "starReq": 2,
+        "currentLegacyPath": "public/assets/catalog/headwear-9.svg",
+        "currentLegacyGitBlobSha": "6c8185bbd18ab124f90b24238e7505abb2f77c5e",
+        "reviewer01CurrentLegacyDecision": "REWORK",
+        "promptRecipe": "Premium dimensional Pencil Crown wearable at a three-quarter product angle: a real curved padded headband/crown base supporting layered sharpened art pencils with visible lacquered wood bodies, graphite tips, metal ferrules and soft erasers; deliberate staggered crown silhouette, stitched/metal attachment points and believable overlap/occlusion. Sunny Pop uses cheerful sun-yellow, warm coral and small aqua accents in the materials, not as a flat background. Tier 3 should feel crafted and collectible but clearly simpler than Tier 4-5 hero pieces."
+      },
+      {
+        "id": "headwear-10",
+        "name": "Cat Ears",
+        "tier": 4,
+        "theme": "Aqua Wave",
+        "price": 640,
+        "starReq": 5,
+        "currentLegacyPath": "public/assets/catalog/headwear-10.svg",
+        "currentLegacyGitBlobSha": "6721c9726231ef050d08c9c447e900b067be8ad3",
+        "reviewer01CurrentLegacyDecision": "REWORK",
+        "promptRecipe": "Premium dimensional Cat Ears headband, standalone wearable with no character head: thick curved band, sculpted/sewn ear shells, plush inner-ear panels, visible seams and attachment hardware. Aqua Wave should come from layered teal/cyan/pearl materials with subtle wave-like iridescence, reflective edge highlights and controlled cool glow. Three-quarter angle must show band thickness and ear depth; Tier 4 needs materially richer construction than Tier 3 without obscuring the simple cat-ear identity."
+      },
+      {
+        "id": "headwear-11",
+        "name": "Halo Headband",
+        "tier": 4,
+        "theme": "Art Attack",
+        "price": 880,
+        "starReq": 5,
+        "currentLegacyPath": "public/assets/catalog/headwear-11.svg",
+        "currentLegacyGitBlobSha": "0f09b1cd5fa56bb289e3217b2c5c3eaec2ddf8ef",
+        "reviewer01CurrentLegacyDecision": "REWORK",
+        "promptRecipe": "Premium Halo Headband as an engineered wearable rather than a floating ring: padded headband with visible slim support arms/suspension brackets holding a dimensional translucent halo ring above it. Art Attack identity comes from tasteful painted enamel/splatter accents, small color-block inserts and mixed brushed-metal/acrylic materials integrated into the hardware. Three-quarter angle must make the support system, ring thickness and reflections obvious; Tier 4 lighting uses controlled luminous edges without turning the piece into a generic neon icon."
+      },
+      {
+        "id": "headwear-12",
+        "name": "Crystal Crown",
+        "tier": 5,
+        "theme": "Star Luxe",
+        "price": 1200,
+        "starReq": 9,
+        "currentLegacyPath": "public/assets/catalog/headwear-12.svg",
+        "currentLegacyGitBlobSha": "a21261baa8a6dea45df4ba10a042efab805a85ed",
+        "reviewer01CurrentLegacyDecision": "REWORK",
+        "promptRecipe": "Tier-5 Crystal Crown hero collectible, three-quarter wearable product render: dimensional crown band and rising prongs in polished pale-gold/silver metal, real gemstone settings, faceted clear/lilac/aqua crystals with controlled refraction, layered depth, filigree and a restrained star-luxe centerpiece. Show setting thickness, prong hardware, gemstone facets and cast/reflected light; luxurious and child-appropriate, never a flat crown silhouette or generic sparkle overlay."
+      }
+    ],
+    "productionGate": "DO_NOT_GENERATE. Wait for Headwear5-8 exact repository readback plus reviewer01 dispositions and Workstream15 authorization of the next bounded batch."
   },
   "handoff": {
-    "04": "Transport only: preserve producer=12 provenance; attach the exact existing 600x600 derivative bytes to the planned paths without modifying art, reviewing, or canonical-wiring.",
-    "01": "Do not review Headwear 5-8 until exact repository hashes exist. Preserve Headwear 1-4 ACCEPTs.",
-    "08": "Preserve Headwear 1-4 canonical handling. No Headwear 5-8 mapping change until reviewer01 ACCEPTs exact repository hashes.",
-    "15": "Transfer remains the only W12 blocker. If helper04 cannot bridge Adobe output URLs to repository bytes, resolve/replace the transport capability; do not authorize regeneration."
+    "04": "Transport only: preserve producer=12 provenance; attach the exact existing Headwear5-8 600x600 derivative bytes to the planned paths without modifying art, reviewing, or canonical-wiring when a supported exact-byte path becomes available.",
+    "01": "Do not review Headwear5-8 until exact repository hashes exist. Preserve Headwear1-4 ACCEPTs. Headwear9-12 preparation is prompt/metadata only and is not reviewable art.",
+    "08": "Preserve Headwear1-4 canonical handling. No Headwear5-8 mapping change until reviewer01 ACCEPTs exact repository hashes. No Headwear9-12 candidate exists.",
+    "15": "Exact-byte materialization remains the only active Headwear5-8 blocker. Headwear9-12 metadata/prompt recipes are prepared but generation remains gated; authorize a bounded next batch only after the active pilot closes."
   },
   "freeze": {
     "replitTouched": false,
