@@ -6,9 +6,9 @@ Producer: **12** · transport helper: **04** · Headwear reviewer: **01** · can
 
 ## Live assignment
 
-`ART_VISUALS_SPRINT.json` remains authoritative. The newest coordination evidence read this cycle, `docs/preproduction/catalog-sprint/coordination-15-20260922-0705.json`, explicitly preserves `headwear5_8` as **PRESERVED_EXTERNAL_NOT_STAGED** and says not to regenerate or repeat unchanged failed transport; materialization is allowed only through a genuinely new exact-byte path. It does **not** open Headwear 9–12 or another accessory family for Workstream 12. `artVisualsComplete` is still false, so this task remains ART_AND_VISUALS_ONLY.
+`ART_VISUALS_SPRINT.json` remains authoritative. The newest coordinator evidence read this cycle, `docs/preproduction/catalog-sprint/coordination-15-20260922-0404.json`, explicitly keeps Workstream 12 on `headwear-5..8` with status **PRESERVED_EXTERNAL_TRANSFER_BLOCKED** and says: do not regenerate or repeat unchanged failed transport; stage only if a materially new supported exact-byte materialization path becomes available. It does **not** open Headwear 9–12 or another accessory family for Workstream 12. `artVisualsComplete` is still false, so this task remains ART_AND_VISUALS_ONLY.
 
-Input branch head before this evidence write: `5ad34b900d7ad1a6de74d8310242e918ae238571`.
+Input branch head for this reconciliation: `a5feab90fed3fb6d18301121c3d8b9b3a7005b7e`.
 
 ## Preserved accepted work
 
@@ -32,30 +32,31 @@ No art was regenerated, re-exported, cropped, rethemed, recompressed or substitu
 | `headwear-7` | Bucket Hat | 3 | Garden Glow | `public/assets/catalog/headwear-7-w12-v2.png` | external only; no repository hash |
 | `headwear-8` | Star Clips | 3 | Galaxy Glow | `public/assets/catalog/headwear-8-w12-v2.png` | external only; no repository hash |
 
-All four exact planned paths were reread on the current branch before this write and remained absent (404). Therefore the accounting remains **generated external 4 / preserved external 4 / repository-staged 0 / accepted-current-hash 0 / canonical 0**. Reviewer 01 still has no exact current repository hashes to disposition.
+All four exact planned paths were reread at input head `a5feab90fed3fb6d18301121c3d8b9b3a7005b7e` and still returned 404. Therefore accounting remains **generated external 4 / preserved external 4 / repository-staged 0 / accepted-current-hash 0 / canonical 0**. Reviewer 01 still has no exact current repository hashes to disposition.
 
-## New exact-transfer evidence
-
-This cycle did not repeat helper 04's prior failed probes. It tested only newly exposed/supported surfaces:
-
-1. The current Adobe connector exposes `asset_inline_preview` as a byte-fetch/inspection operation. Calling it on the exact preserved Headwear 5 600×600 derivative URL succeeds and renders the expected existing Flower Crown, confirming the preserved derivative is still live. However, the connector result surfaced to this worker still provides only the visual preview, not a reusable raw PNG/base64 payload that can be attached byte-for-byte to GitHub.
-2. The currently exposed Adobe presigned-URL resolver is restricted to ACP/Lightroom assets returned from Adobe search; it is not a generic resolver for these Photoshop short URLs. The connector documentation mentions download/short-URL capabilities, but no callable exact-byte resolver/downloader for this short URL is exposed in the current tool surface.
-3. One genuinely new read-only public-browser resolution attempt was made against the exact Headwear 5 short URL. In this non-interactive execution it failed immediately with `RuntimeError: User input required but current turn is running in a non-interactive mode.` No image bytes were materialized. The identical route was not repeated for Headwear 6–8.
-
-The older direct-download failure also remains valid: the supported `curl -L` route previously failed before receiving bytes with `curl: (6) Could not resolve host: photoshop-api.adobe.io`. Helper 04's transport record remains `docs/preproduction/catalog-sprint/headwear-5-8-transport-helper-04-to-12-01.json`.
-
-The blocker is therefore still narrowly defined as **materializing the exact preserved 600×600 PNG bytes without re-encoding, substitution, recreation, crop, resize or any art modification**. GitHub attachment/readback can proceed immediately once those exact bytes become available.
+No genuinely new supported exact-byte materialization path was available this cycle. The helper-04 blocker remains authoritative at `docs/preproduction/catalog-sprint/headwear-5-8-transport-helper-04-to-12-01.json`: the preserved Adobe derivatives can be visually resolved, but supported noninteractive tooling has not exposed their unchanged raw PNG bytes for exact GitHub attachment. The prior direct-download DNS failure and noninteractive browser failure were not repeated across all four assets. GitHub attachment/readback can proceed immediately once those exact bytes become available.
 
 ## Prep-only next micro-batch — Headwear 9–12
 
-No new production batch is authorized. Existing prep remains ready but unchanged:
+No new production batch is authorized. This cycle used the blocked capacity only to strengthen **prep evidence**, without generating anything. `src/gameModel.js` still resolves the exact metadata below, and the current legacy repository paths were reread at the current head; all four blob hashes still match the prepared reviewer-01 REWORK inputs.
 
-- `headwear-9` Pencil Crown · Tier 3 · Sunny Pop · 460 · 2★
-- `headwear-10` Cat Ears · Tier 4 · Aqua Wave · 640 · 5★
-- `headwear-11` Halo Headband · Tier 4 · Art Attack · 880 · 5★
-- `headwear-12` Crystal Crown · Tier 5 · Star Luxe · 1200 · 9★
+| ID | Exact item metadata | Current legacy blob | Current legacy construction finding |
+| --- | --- | --- | --- |
+| `headwear-9` | Pencil Crown · Tier 3 · Sunny Pop · 460 · 2★ | `6c8185bbd18ab124f90b24238e7505abb2f77c5e` | Current SVG is a generic crown silhouette with a gradient body and three separate tan triangular tips; it does not depict actual pencil bodies, graphite tips, ferrules, erasers or believable pencil-to-band attachment construction. |
+| `headwear-10` | Cat Ears · Tier 4 · Aqua Wave · 640 · 5★ | `6721c9726231ef050d08c9c447e900b067be8ad3` | Current SVG has a curved band plus two flat filled triangular ear shapes; there is no sewn/plush shell depth, seam structure, ear thickness or attachment hardware. |
+| `headwear-11` | Halo Headband · Tier 4 · Art Attack · 880 · 5★ | `0f09b1cd5fa56bb289e3217b2c5c3eaec2ddf8ef` | Current SVG renders the halo as an unsupported stroked ellipse floating above a separate headband curve; there are no support arms/brackets, ring thickness or engineered wearable connection. |
+| `headwear-12` | Crystal Crown · Tier 5 · Star Luxe · 1200 · 9★ | `a21261baa8a6dea45df4ba10a042efab805a85ed` | Current SVG is a flat crown polygon with simple flat crystal polygons/star treatment; it lacks gemstone settings, prongs, facet depth, refraction, layered metal construction and Tier-5 material spectacle. |
 
-Exact legacy hashes, reviewer-01 REWORK state and dimensional prompt recipes remain in `lane-12.json`. Accounting remains **prep-only 4 / generated 0 / staged 0** for Headwear 9–12. Do not generate them until Headwear 5–8 are repository-stored/read back, reviewer 01 dispositions those exact hashes, and Workstream 15 opens the next bounded batch.
+These findings are prep evidence only; they do **not** authorize replacement generation. If Workstream 15 later opens this batch, use the exact recipes below rather than inventing new metadata or retheming items:
+
+- **Pencil Crown — Tier 3 / Sunny Pop:** premium dimensional wearable at a true three-quarter product angle. Use a real curved padded headband/crown base supporting staggered sharpened art pencils with visible lacquered wood bodies, graphite tips, metal ferrules and soft erasers; visible stitched/metal attachment points and believable overlap/occlusion. Sunny Pop comes through cheerful sun-yellow, warm coral and small aqua material accents, not a flat background. Crafted/collectible but visibly simpler than Tier 4–5 pieces.
+- **Cat Ears — Tier 4 / Aqua Wave:** standalone wearable, no character head. Thick curved band, sculpted/sewn ear shells, plush inner-ear panels, visible seams and attachment hardware. Aqua Wave comes from layered teal/cyan/pearl materials with subtle wave-like iridescence, reflective edge highlights and controlled cool glow. Three-quarter angle must show band thickness and ear depth.
+- **Halo Headband — Tier 4 / Art Attack:** engineered wearable rather than a floating ring. Padded headband with slim visible support arms/suspension brackets holding a dimensional translucent halo ring. Integrate painted enamel/splatter accents, small color-block inserts and mixed brushed-metal/acrylic materials into the hardware. Three-quarter angle must show support system, ring thickness and reflections; use controlled luminous edges, not a generic neon icon.
+- **Crystal Crown — Tier 5 / Star Luxe:** hero collectible at three-quarter wearable-product angle. Dimensional crown band and rising prongs in polished pale-gold/silver metal, real gemstone settings, faceted clear/lilac/aqua crystals with controlled refraction, layered depth, filigree and a restrained star-luxe centerpiece. Show setting thickness, prong hardware, gemstone facets and cast/reflected light; luxurious and child-appropriate, never a flat crown silhouette or generic sparkle overlay.
+
+Shared future-production constraints remain unchanged: isolated wearable product; no avatar/new character identity; true three-quarter presentation; visible support/band/hinge/setting construction; differentiated tactile materials; Store-reference warm key plus cool rim and restrained lilac/pink depth; strong silhouette at phone-card scale; exact item identity/theme/tier; no text, logos, third-party characters, generic recolor or flat icon treatment; preserve a full-quality square source before a measured phone-friendly derivative.
+
+Accounting for Headwear 9–12 remains **prep-only 4 / generated 0 / repository-staged 0 / accepted 0 / canonical 0**. Do not generate them until Headwear 5–8 are repository-stored/read back, reviewer 01 dispositions those exact hashes, and Workstream 15 explicitly opens the next bounded batch.
 
 ## Exact next action
 
