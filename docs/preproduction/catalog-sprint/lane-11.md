@@ -98,3 +98,21 @@ Repair targets:
 These files are **staged, not accepted**. Reviewer 05 owns the independent exact-hash decision and Workstream 08 alone owns canonical wiring. Old v2 REWORK decisions do not transfer to these new hashes. Do not regenerate them while review is pending.
 
 Aura 11 is now the only remaining rejected Aura without a newer staged replacement. No learning, economy, save, live player state, deployment, Replit/Floot, or `main` changes were made.
+
+
+## Exact-hash staged-art render evidence — pilot 5/9/10/12
+
+The existing shared staged-art fixture selected the new Aura v3 hashes and produced actual screenshots in workflow run **35672325902**, artifact **10671442777** (`catalog-staged-art-review`, SHA-256 `190e080af412f1aa7cd73a523a6bd1a231b5fb6a9bd62cc0fd8bbd40aaa2ddf8`).
+
+All four Lane-11 pilot entries passed the render-level checks needed before independent visual judgment:
+
+- `auras-5@ae3bef6c...`: HTTP 200, natural 600×600, screenshot produced, zero per-item errors.
+- `auras-9@9331e516...`: HTTP 200, natural 600×600, screenshot produced, zero per-item errors.
+- `auras-10@6f07fe7f...`: HTTP 200, natural 600×600, screenshot produced, zero per-item errors.
+- `auras-12@d0fcf528...`: HTTP 200, natural 600×600, screenshot produced, zero per-item errors.
+
+Reviewer 05 should use `staged-replacements/staged-replacements-contact-sheet.png` plus the exact detail renders named in `lane-11.json.latestPilotBatch.renderEvidence`.
+
+The workflow's overall conclusion is still **failure**, but the failure is not an Aura decode/render failure: the same run hit the already-known stale `desks-2/3/4-w03-v1.webp` decode defect in the shared fixture. That release-visible failure remains owned by Workstream 14 and was not waived or hidden. Lane 11 did not modify the fixture.
+
+No self-approval was recorded. The four new Aura hashes remain PENDING independent reviewer-05 decisions and cannot be wired by anyone except 08 after an exact-hash ACCEPT.
