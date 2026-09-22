@@ -1,112 +1,204 @@
 {
-  "schemaVersion": 4,
+  "schemaVersion": 6,
   "reviewer": "05",
   "role": "independent catalog reviewer for beds/desks/companions/auras",
   "phase": "CATALOG_SPRINT",
   "branch": "screenshot-match-preproduction",
-  "sourceHead": "bccf05881847a8ff5ee63a7d7ca98a6f7630c457",
+  "sourceHead": "281f8ba54229ac5c07320d79b5a31a8a45f9140b",
   "policy": "docs/preproduction/DELIVERY_PROTOCOL_V2.md",
   "visualSprint": "docs/preproduction/ART_VISUALS_SPRINT.json",
   "referenceManifest": "docs/preproduction/reference-screenshots/original-reference-manifest.json",
-  "assignedCollections": ["beds", "desks", "companions", "auras"],
-  "assignedCount": 48,
-  "historyRefs": [
-    {"reviewBlobSha":"d9066630eeae3bddb184d06c0fa0bbcf17c7d57b","scope":"legacy Companions 1-12 and Beds 1-12 exact-hash reviews","result":"REWORK_24_OF_24"},
-    {"reviewBlobSha":"9d855d01e7f0132e999850a7c616cfd1239eb015","scope":"legacy Auras 1-12 exact-hash review","result":"REWORK_12_OF_12"},
-    {"reviewBlobSha":"cc78e6521dfeb300a9f751b486356a1755610e75","scope":"replacement Auras 1-4 plus Companions 3/4/10/11","result":"ACCEPT_4_REWORK_4"}
+  "assignedCollections": [
+    "beds",
+    "desks",
+    "companions",
+    "auras"
   ],
-  "legacyUniqueIdCoverage": {"auras":12,"companions":12,"beds":12,"desks":0,"totalUniqueIdsReviewed":36},
-  "currentReplacementBatch": {"reviewedVersions":22,"accepted":13,"rework":9,"blocked":0,"result":"ACCEPT_13_REWORK_9","priority":"Fresh replacement hashes were reviewed before untouched legacy work."},
-  "renderEvidence": [
-    {"workflow":"StarBlox Staged Catalog Art QA","workflowRunId":35654620624,"artifactId":10663298893,"artifactDigest":"sha256:f2c0d3d3aa251f5e1934017a7c61acf644e8876ab1e1a5b0c37e7f06ffb8e9db","artifactSourceHead":"acbc6035da9d57bc88043604caa5ec0b6352398e","scope":"Auras 1-4 v2 and Companions 3/4/10/11 replacements","actualPixelsReviewed":true},
-    {"workflow":"StarBlox Staged Catalog Art QA","workflowRunId":35663120602,"artifactId":10667309738,"artifactDigest":"sha256:1f3ff8b11989bc9a6e2133170fb8548482e062616615575ad150ddeda948a887","artifactSourceHead":"d0e4522bddc9742d7317d0f43d8bd3baffdec162","scope":"Auras 5-12 v2 exact current hashes","contactSheet":"staged-replacements/staged-replacements-contact-sheet.png","actualPixelsReviewed":true,"httpDecode":"PASS_AURAS_5_TO_12"},
-    {"workflow":"Desk 5-6 Recovery Evidence","workflowRunId":35669227577,"artifactId":10670532506,"artifactDigest":"sha256:1a4db65bb5f583601021323704717c957f34e6d15a81d7af1fa8462050ef3cfb","artifactSourceHead":"c37b2e46761cb38a4cd1ee22bd73f2687df0100c","scope":"Desks 5-6 exact current replacement hashes","contactSheet":"artifacts/desks-5-6-recovery/desks-5-6-card-contact-sheet.png","contactSheetSha256":"2d1b6bb3c1b0251cb23521044bec98d0b51b3a6631fb1437be2c324d9f73b5db","actualPixelsReviewed":true,"detailPixelsReviewed":true,"exactHashBinding":"PASS_2_OF_2"},
-    {"workflow":"StarBlox Staged Catalog Art QA","workflowRunId":35670173939,"artifactId":10669903568,"artifactDigest":"sha256:e61277737c96d83617b1b476d624db06249044e5059b9113cfe25be8ce52f163","artifactSourceHead":"7f572db31f924c40b0827e63a738f4df44d5f8e7","scope":"Beds 1-4 exact current replacement hashes","contactSheet":"staged-replacements/staged-replacements-contact-sheet.png","contactSheetSha256":"3c6a51c0bab0313b57d1b744e9a1f8beb4c66eda6afe08f83aef710818c2fe7b","actualPixelsReviewed":true,"detailPixelsReviewed":true,"exactHashBinding":"PASS_4_OF_4"},
-    {"workflow":"StarBlox Staged Catalog Art QA","workflowRunId":35673126046,"artifactId":10671254408,"artifactDigest":"sha256:ffc8a32bf66771e1bd700f71128f25b994599e9ce5632bf1213d7d9eba25cd5e","artifactSourceHead":"897d76196a8e10be7748292c58b4666cdecc4d28","scope":"Desk 2-6 staged reconciliation","result":"FAIL_DESKS_2_TO_4_CURRENT_HASHES_INVALID_SIGNATURE","actualPixelsReviewedFor":["desks-5","desks-6"],"blockedCurrentHashes":[{"itemId":"desks-2","assetHash":"357f4ba8385e737499f12409c0bea141f9bc5e6a","reason":"invalid-file-signature"},{"itemId":"desks-3","assetHash":"b3352961988d7e9c5ff48d1559fc4d2296d4eab3","reason":"invalid-file-signature"},{"itemId":"desks-4","assetHash":"711feeb78e6d08351fc2fd2d3176ddb1a288e8f2","reason":"invalid-file-signature"}],"note":"No visual disposition transferred from obsolete blank/transparent Desk 2-4 versions."}
-  ],
+  "priorShard": {
+    "blobSha": "879dd8fbfef4796ba0700ff83fcfeec058ece860",
+    "preserves": "All prior exact-hash review history through Desk 5-6 and Beds 1-4, including Aura 1-4 v2 REWORK and superseded Desk invalid-signature evidence."
+  },
+  "currentCycle": {
+    "scope": [
+      "auras-1",
+      "auras-2",
+      "auras-3",
+      "auras-4"
+    ],
+    "version": "v3",
+    "result": "ACCEPT_4_OF_4",
+    "actualCardPixelsReviewed": true,
+    "actualDetailPixelsReviewed": true,
+    "oldV2DecisionsTransferred": false
+  },
+  "renderEvidence": {
+    "workflowRunId": 35671890720,
+    "artifactId": 10670972588,
+    "artifactDigest": "sha256:5d397a49697745020c077da5f3ee3fbf149315fd4948585ad0b3f48c5a88139f",
+    "artifactSourceHead": "ebb46e96b2689c7e38537392e94042cee037007c",
+    "contactSheet": "artifacts/catalog-staged-art/staged-replacements/staged-replacements-contact-sheet.png",
+    "contactSheetSha256": "e517e04e617b66f5c0bebf792d064ab59683b97cfa9aa356f76cda796f6d5b95",
+    "exactHashBinding": "PASS_4_OF_4",
+    "metadataReadbackDecodeTestsBuild": "PASS"
+  },
   "reviews": [
-    {"itemId":"auras-1","name":"Soft Sparkles","tier":1,"theme":"Midnight Neon","producer":"11","assetPath":"/assets/catalog/auras-1-v2.svg","assetHash":"48639f1262052350660127bbc5d3d25de34d61e3","hashAlgorithm":"git-blob-sha1","decision":"REWORK","evidenceRefs":["artifact:10663298893/staged-replacements/staged-replacements-contact-sheet.png","artifact:10663298893/staged-replacements/detail/auras-1-48639f12.png"],"reason":"Contrast and Midnight Neon cues improve over legacy, but the sparse dashed ring and flat star sprites still lack volumetric particle depth, foreground/background layering and convincing emissive falloff.","checks":{"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"FAIL","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}},
-    {"itemId":"auras-2","name":"Cloud Puffs","tier":1,"theme":"Candy Core","producer":"11","assetPath":"/assets/catalog/auras-2-v2.svg","assetHash":"c2be24c165f3e28995d5d2eb946dbdde983afe2a","hashAlgorithm":"git-blob-sha1","decision":"REWORK","evidenceRefs":["artifact:10663298893/staged-replacements/staged-replacements-contact-sheet.png","artifact:10663298893/staged-replacements/detail/auras-2-c2be24c1.png"],"reason":"Candy palette and cloud identity read, but repeated flat cloud shapes still behave like icons rather than a spatial aura; puff volume, atmospheric overlap and depth staggering are missing.","checks":{"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"FAIL","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}},
-    {"itemId":"auras-3","name":"Pixel Bits","tier":1,"theme":"Adventure Club","producer":"11","assetPath":"/assets/catalog/auras-3-v2.svg","assetHash":"9b682148eb26898ec5f56ac11eac635e7c93c8fc","hashAlgorithm":"git-blob-sha1","decision":"REWORK","evidenceRefs":["artifact:10663298893/staged-replacements/staged-replacements-contact-sheet.png","artifact:10663298893/staged-replacements/detail/auras-3-9b682148.png"],"reason":"Pixel blocks have improved glow and shading, but remain on a flat elliptical orbit around a generic star; Adventure Club specificity and true 3D parallax remain too weak.","checks":{"identity":"PASS","themeTier":"PARTIAL","silhouette":"PASS","materialLighting":"PARTIAL","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}},
-    {"itemId":"auras-4","name":"Berry Hearts","tier":2,"theme":"Cloud Pop","producer":"11","assetPath":"/assets/catalog/auras-4-v2.svg","assetHash":"3059eae7ab68c125f1af1696305fdf5689131455","hashAlgorithm":"git-blob-sha1","decision":"REWORK","evidenceRefs":["artifact:10663298893/staged-replacements/staged-replacements-contact-sheet.png","artifact:10663298893/staged-replacements/detail/auras-4-3059eae7.png"],"reason":"Berry-heart and Cloud Pop cues are clear, but hearts/cloud remain sticker-like around a broad ring; Tier 2 needs more layered depth, volumetric cloud treatment and convincing glow/occlusion.","checks":{"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"FAIL","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}},
-    {"itemId":"auras-5","name":"Garden Fireflies","tier":2,"theme":"Pixel Party","producer":"11","assetPath":"/assets/catalog/auras-5-v2.svg","assetHash":"16416de7ab535af16c59aa40e4d8f5a85a2958bf","hashAlgorithm":"git-blob-sha1","decision":"REWORK","evidenceRefs":["artifact:10667309738/staged-replacements/staged-replacements-contact-sheet.png","artifact:10667309738/staged-replacements/detail/auras-5-16416de7.png"],"reason":"Glowing fireflies, leaves and the dark card are readable, but the effect is still primarily a flat circular ring of vector leaves/lights. Pixel Party specificity is weak and Tier-2 spatial particle depth/material lighting are not yet premium.","checks":{"identity":"PASS","themeTier":"PARTIAL","silhouette":"PASS","materialLighting":"PARTIAL","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}},
-    {"itemId":"auras-6","name":"Galaxy Orbit","tier":2,"theme":"Berry Blast","producer":"11","assetPath":"/assets/catalog/auras-6-v2.svg","assetHash":"ce4b155c7fb5469fde415ab9d744cab41027fe4d","hashAlgorithm":"git-blob-sha1","decision":"ACCEPT","evidenceRefs":["artifact:10667309738/staged-replacements/staged-replacements-contact-sheet.png","artifact:10667309738/staged-replacements/detail/auras-6-ce4b155c.png"],"reason":"Fresh pixels provide clear crossing orbital depth, glossy berry-planets, layered neon paths, highlights and directional motion. The Berry Blast/Galaxy identity is distinctive, card-readable and materially richer while remaining appropriate for Tier 2.","checks":{"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"PASS","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}},
-    {"itemId":"auras-7","name":"Sunny Rays","tier":3,"theme":"Garden Glow","producer":"11","assetPath":"/assets/catalog/auras-7-v2.svg","assetHash":"c451e7479e142f1eca89cc5282b352c2d2ca2d4b","hashAlgorithm":"git-blob-sha1","decision":"ACCEPT","evidenceRefs":["artifact:10667309738/staged-replacements/staged-replacements-contact-sheet.png","artifact:10667309738/staged-replacements/detail/auras-7-c451e747.png"],"reason":"The dimensional gold sun/star center, raised rays, leaves, gradient metal response and cast/contact shadow produce a clear Garden Glow aura with strong card readability and a credible Tier-3 material step-up.","checks":{"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"PASS","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}},
-    {"itemId":"auras-8","name":"Aqua Bubbles","tier":3,"theme":"Galaxy Glow","producer":"11","assetPath":"/assets/catalog/auras-8-v2.svg","assetHash":"6884668fe721f3b26a562e11924237a32c656db6","hashAlgorithm":"git-blob-sha1","decision":"ACCEPT","evidenceRefs":["artifact:10667309738/staged-replacements/staged-replacements-contact-sheet.png","artifact:10667309738/staged-replacements/detail/auras-8-6884668f.png"],"reason":"Multiple glossy translucent bubbles use strong specular highlights, internal galaxy color, size/depth hierarchy and a dark field to create convincing spatial volume. The exact Aqua Bubbles/Galaxy Glow identity is premium and readable at card scale for Tier 3.","checks":{"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"PASS","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}},
-    {"itemId":"auras-9","name":"Art Confetti","tier":3,"theme":"Sunny Pop","producer":"11","assetPath":"/assets/catalog/auras-9-v2.svg","assetHash":"f88be0c4b5fdb36df870ffa113c08f8ec668363c","hashAlgorithm":"git-blob-sha1","decision":"REWORK","evidenceRefs":["artifact:10667309738/staged-replacements/staged-replacements-contact-sheet.png","artifact:10667309738/staged-replacements/detail/auras-9-f88be0c4.png"],"reason":"Colorful ribbons/stars/confetti are lively, but the composition remains a flat circular graphic with limited depth hierarchy or material response. Art Confetti/Sunny Pop needs more spatial scatter, foreground/background overlap and premium Tier-3 lighting.","checks":{"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"FAIL","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}},
-    {"itemId":"auras-10","name":"Neon Trail","tier":4,"theme":"Aqua Wave","producer":"11","assetPath":"/assets/catalog/auras-10-v2.svg","assetHash":"cbc767e6b29db880535d7fd99741debdadbcf6c5","hashAlgorithm":"git-blob-sha1","decision":"REWORK","evidenceRefs":["artifact:10667309738/staged-replacements/staged-replacements-contact-sheet.png","artifact:10667309738/staged-replacements/detail/auras-10-cbc767e6.png"],"reason":"Aqua/cyan trail identity and glow are clear, but the thick curves and white wave lines remain diagrammatic and flat. Tier 4 requires substantially more volumetric ribbon depth, layered light spill and material/spectacle richness.","checks":{"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"FAIL","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}},
-    {"itemId":"auras-11","name":"Dream Aurora","tier":4,"theme":"Art Attack","producer":"11","assetPath":"/assets/catalog/auras-11-v2.svg","assetHash":"ddb2c81b49db8e6ea6369c8f70cb720228feb73c","hashAlgorithm":"git-blob-sha1","decision":"REWORK","evidenceRefs":["artifact:10667309738/staged-replacements/staged-replacements-contact-sheet.png","artifact:10667309738/staged-replacements/detail/auras-11-ddb2c81b.png"],"reason":"Layered purple/pink aurora ribbons improve silhouette and color, but still read as graphic arches rather than a volumetric curtain of light. Tier 4 Art Attack needs richer translucent depth, painterly material interaction and controlled luminous atmosphere.","checks":{"identity":"PASS","themeTier":"PARTIAL","silhouette":"PASS","materialLighting":"FAIL","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}},
-    {"itemId":"auras-12","name":"Luxe Starstorm","tier":5,"theme":"Star Luxe","producer":"11","assetPath":"/assets/catalog/auras-12-v2.svg","assetHash":"93b33a82e9a5045e1e070ab7561bab08ce5ae947","hashAlgorithm":"git-blob-sha1","decision":"REWORK","evidenceRefs":["artifact:10667309738/staged-replacements/staged-replacements-contact-sheet.png","artifact:10667309738/staged-replacements/detail/auras-12-93b33a82.png"],"reason":"Crossing pastel/gold rings, bright stars and jewel-like nodes increase spectacle, but major stars/ribbons still read as flat stickers. Tier 5 needs true crystalline/faceted hero forms, stronger near/far storm depth and more luxurious light/material response.","checks":{"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"FAIL","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}},
-    {"itemId":"companions-3","name":"Berry Bunny","tier":1,"theme":"Berry Blast","producer":"06","assetPath":"public/assets/catalog-candidates/chat-20260921-intake01/companions-3-detail.webp","assetHash":"adba95dc769e603337dc4ac38b9a513ce9914b10","hashAlgorithm":"git-blob-sha1","decision":"ACCEPT","evidenceRefs":["artifact:10663298893/staged-replacements/staged-replacements-contact-sheet.png","artifact:10663298893/staged-replacements/detail/companions-3-adba95dc.png"],"reason":"Rounded toy/plush anatomy, strong ear/body depth, believable surface light/shadow and clear berry identity fix the legacy flat-mascot defect while remaining appropriate for Tier 1.","checks":{"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"PASS","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}},
-    {"itemId":"companions-4","name":"Sunny Bird","tier":2,"theme":"Garden Glow","producer":"06","assetPath":"public/assets/catalog-candidates/chat-20260921-intake01/companions-4-detail.webp","assetHash":"b382339e76ed9d4aeae72b1c8cccc904abf85b57","hashAlgorithm":"git-blob-sha1","decision":"ACCEPT","evidenceRefs":["artifact:10663298893/staged-replacements/staged-replacements-contact-sheet.png","artifact:10663298893/staged-replacements/detail/companions-4-b382339e.png"],"reason":"Rounded body volume, layered feather forms, contact shadow, warm directional lighting and unmistakable garden/sun identity create a credible Tier-2 dimensional step-up.","checks":{"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"PASS","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}},
-    {"itemId":"companions-10","name":"Pixel Bot","tier":4,"theme":"Midnight Neon","producer":"06","assetPath":"public/assets/catalog-candidates/chat-20260921-intake01/companions-10-detail.webp","assetHash":"2b09d950b08083bb3a9ec5e2073ae23d88411cf4","hashAlgorithm":"git-blob-sha1","decision":"ACCEPT","evidenceRefs":["artifact:10663298893/staged-replacements/staged-replacements-contact-sheet.png","artifact:10663298893/staged-replacements/detail/companions-10-2b09d950.png"],"reason":"Molded robot anatomy, joints, beveled panels, glossy material separation, pixel-face display and teal/magenta neon lighting resolve the legacy flat treatment with Tier-4 richness.","checks":{"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"PASS","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}},
-    {"itemId":"companions-11","name":"Dream Dragon","tier":4,"theme":"Candy Core","producer":"06","assetPath":"public/assets/catalog-candidates/chat-20260921-intake01/companions-11-detail.webp","assetHash":"465fe45abbe4d9b4355444cb3f75a49927b604e9","hashAlgorithm":"git-blob-sha1","decision":"ACCEPT","evidenceRefs":["artifact:10663298893/staged-replacements/staged-replacements-contact-sheet.png","artifact:10663298893/staged-replacements/detail/companions-11-465fe45a.png"],"reason":"Three-quarter dragon anatomy, dimensional limbs/head/horns, translucent iridescent wings and controlled pastel glow create a distinct premium Tier-4 replacement.","checks":{"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"PASS","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}},
-    {"itemId":"desks-5","name":"Garden Book Desk","tier":2,"theme":"Pixel Party","producer":"03","assetPath":"/assets/catalog/desks-5-w03-recovered-v2.jpg","assetHash":"95fe65632e4f40b76b23cce30071ee2fdc5b4399","hashAlgorithm":"git-blob-sha1","contentSha256":"19be1b31799b00bfbf6eb540f0a9d128460985daebd9ce3c508695632a49d6f4","sourceHead":"594088a1f06d87c56228157ba37b9e6c38d1092b","decision":"ACCEPT","evidenceRefs":["artifact:10670532506/artifacts/desks-5-6-recovery/desks-5-6-card-contact-sheet.png#sha256=2d1b6bb3c1b0251cb23521044bec98d0b51b3a6631fb1437be2c324d9f73b5db","artifact:10670532506/artifacts/desks-5-6-recovery/desks-5-95fe6563-detail.png#sha256=bc6e60a1f56f3623e8f7402b640b2e346645075acc63529b841a07d0d8ee3be4"],"reason":"Exact current pixels show a strong three-quarter furniture silhouette with rounded wood volume, drawers, book cubby, planter and articulated lamp. Warm/cool lighting, bevels and contact shadows fix the flat legacy defect; the study/garden identity stays clear at real card scale and the playful saturated treatment is appropriate to Tier 2 Pixel Party.","checks":{"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"PASS","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}},
-    {"itemId":"desks-6","name":"Galaxy Gamer Setup","tier":2,"theme":"Berry Blast","producer":"03","assetPath":"/assets/catalog/desks-6-w03-recovered-v2.jpg","assetHash":"52df05265de236911927b904b07e68dac7a17828","hashAlgorithm":"git-blob-sha1","contentSha256":"c0037a3a56a5b477fd714fbaf2419d4ffa9197721421bd1c0e20f99d99eac991","sourceHead":"594088a1f06d87c56228157ba37b9e6c38d1092b","decision":"ACCEPT","evidenceRefs":["artifact:10670532506/artifacts/desks-5-6-recovery/desks-5-6-card-contact-sheet.png#sha256=2d1b6bb3c1b0251cb23521044bec98d0b51b3a6631fb1437be2c324d9f73b5db","artifact:10670532506/artifacts/desks-5-6-recovery/desks-6-52df0526-detail.png#sha256=639fd2b8bdc9704444864618fa07d27cc2afa5188b5b69df82041f99a5272e21"],"reason":"Exact current pixels show a layered three-quarter gaming desk with a glossy galaxy monitor, keyboard, speakers, controllers, orb light, beveled supports and magenta trim. Blue-violet lighting and Berry Blast accents preserve a readable silhouette at card scale while detail view shows credible material separation and Tier-2 dimensionality.","checks":{"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"PASS","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}},
-    {"itemId":"beds-1","name":"Starter Bed","tier":1,"theme":"Garden Glow","producer":"02","assetPath":"/assets/catalog-candidates/w02-beds-20260921-b01/beds-1-w02-v1.png","assetHash":"0b9f4213f84c9cde0de5ede646345c0ebc851127","hashAlgorithm":"git-blob-sha1","contentSha256":"fe1f4dbcb35a77b036b576c4c22659fc56027b8a4ed8ac240caa2a87d937cf47","sourceHead":"1e75908dd33fd258da82a133ff6e7cc65339d695","decision":"ACCEPT","evidenceRefs":["artifact:10669903568/staged-replacements/staged-replacements-contact-sheet.png#sha256=3c6a51c0bab0313b57d1b744e9a1f8beb4c66eda6afe08f83aef710818c2fe7b","artifact:10669903568/staged-replacements/detail/beds-1-0b9f4213.png#sha256=121ae8f01de170dc3d6d14c9d85c9afc365107b9f55e10b9e670775963b0f220"],"reason":"Exact pixels show a clean three-quarter wood bed with curved frame thickness, leaf relief, layered mattress/quilt/pillow volume and warm directional light. Garden Glow reads through the pale green textile and botanical detailing, while the restrained construction remains appropriate for Tier 1 and stays legible at card scale.","checks":{"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"PASS","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}},
-    {"itemId":"beds-2","name":"Cloud Bed","tier":1,"theme":"Galaxy Glow","producer":"02","assetPath":"/assets/catalog-candidates/w02-beds-20260921-b01/beds-2-w02-v1.png","assetHash":"67a0fe2874f975cedb1b4b994e0237ac55d2fb3e","hashAlgorithm":"git-blob-sha1","contentSha256":"e3cd4e02aa6a1f1dda5ed7f31213fcf340687cfd92ffc0d1fefdcd37a6708320","sourceHead":"1e75908dd33fd258da82a133ff6e7cc65339d695","decision":"ACCEPT","evidenceRefs":["artifact:10669903568/staged-replacements/staged-replacements-contact-sheet.png#sha256=3c6a51c0bab0313b57d1b744e9a1f8beb4c66eda6afe08f83aef710818c2fe7b","artifact:10669903568/staged-replacements/detail/beds-2-67a0fe28.png#sha256=ac3a13559998b132cc8f759722e986ef9ef66485cc25629b7eb8b1ec8f588815"],"reason":"The puffy cloud-frame silhouette remains unmistakable at card scale, while the detail render shows convincing upholstered lobes, piping, bedding folds and soft contact shadows. The galaxy-print blanket and star details make Galaxy Glow specific without overcomplicating the Tier-1 object.","checks":{"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"PASS","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}},
-    {"itemId":"beds-3","name":"Pixel Bunk","tier":1,"theme":"Sunny Pop","producer":"02","assetPath":"/assets/catalog-candidates/w02-beds-20260921-b01/beds-3-w02-v1.png","assetHash":"22b1d9f6802cc0b442c9226511ff96e8ea0bbacc","hashAlgorithm":"git-blob-sha1","contentSha256":"5f33ceba9cce51f8ebe0e89c3e94e3766d3ad7e486d31a090c6c38de5a9ed8f4","sourceHead":"1e75908dd33fd258da82a133ff6e7cc65339d695","decision":"ACCEPT","evidenceRefs":["artifact:10669903568/staged-replacements/staged-replacements-contact-sheet.png#sha256=3c6a51c0bab0313b57d1b744e9a1f8beb4c66eda6afe08f83aef710818c2fe7b","artifact:10669903568/staged-replacements/detail/beds-3-22b1d9f6.png#sha256=c960d5482b697caa1379a7f4414289e5a8fa8a3762be794b5f1bbb941827be8a"],"reason":"A chunky modular two-level silhouette, guard rails, ladder, visible joinery and block-like accent pieces make Pixel Bunk readable rather than generic. Sunny yellow with sky-blue accents gives clear Sunny Pop identity; dimensional construction and shadows are strong without exceeding Tier 1.","checks":{"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"PASS","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}},
-    {"itemId":"beds-4","name":"Berry Daybed","tier":2,"theme":"Aqua Wave","producer":"02","assetPath":"/assets/catalog-candidates/w02-beds-20260921-b01/beds-4-w02-v1.png","assetHash":"18fa8722d9831af1113e07c2103b373acc41c3c0","hashAlgorithm":"git-blob-sha1","contentSha256":"21b08cbdf228d1a90338b4710ab625e39a18d323050555e8052f8ec443c4c295","sourceHead":"1e75908dd33fd258da82a133ff6e7cc65339d695","decision":"ACCEPT","evidenceRefs":["artifact:10669903568/staged-replacements/staged-replacements-contact-sheet.png#sha256=3c6a51c0bab0313b57d1b744e9a1f8beb4c66eda6afe08f83aef710818c2fe7b","artifact:10669903568/staged-replacements/detail/beds-4-18fa8722.png#sha256=45b5f6dc0060172ce1d378dbe80e19a56290528475ab4233911f1fbfd2d2c61c"],"reason":"The daybed form is clear in three-quarter view with substantial curved upholstered arms, cushion depth, seams, piping and controlled trim highlights. Aqua upholstery plus flowing quilt contours establish Aqua Wave, while berry-magenta framing supplies the named accent and gives a credible Tier-2 material step-up.","checks":{"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"PASS","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}}
+    {
+      "itemId": "auras-1",
+      "name": "Soft Sparkles",
+      "tier": 1,
+      "theme": "Midnight Neon",
+      "producer": "11",
+      "assetPath": "/assets/catalog/auras-1-w11-v3.png",
+      "assetHash": "a7921c7b7c8f48fc47908595c1afa6f59217c7a5",
+      "hashAlgorithm": "git-blob-sha1",
+      "contentSha256": "f1cc40d91c8719b8a831a1d681a13d781134ed700320f40dc0427984ab818c52",
+      "sourceHead": "ebb46e96b2689c7e38537392e94042cee037007c",
+      "decision": "ACCEPT",
+      "reviewedAt": "2026-09-22T01:41:00Z",
+      "evidenceRefs": [
+        "artifacts/catalog-staged-art/staged-replacements/staged-replacements-contact-sheet.png#sha256=e517e04e617b66f5c0bebf792d064ab59683b97cfa9aa356f76cda796f6d5b95",
+        "artifacts/catalog-staged-art/staged-replacements/detail/auras-1-a7921c7b.png#sha256=ed6aca81dd924b935136c64d445ead1fa92e5d9c61fe6cc81475c41fc875f72b"
+      ],
+      "reason": "Faceted stars at varied depths, cyan-magenta emissive points and curved light trails create a true Midnight Neon aura with a clear avatar opening; the effect stays restrained enough for Tier 1 and reads cleanly at card scale.",
+      "checks": {
+        "identity": "PASS",
+        "themeTier": "PASS",
+        "silhouette": "PASS",
+        "materialLighting": "PASS",
+        "cardReadability": "PASS",
+        "originality": "PASS",
+        "duplicateVisual": "PASS"
+      }
+    },
+    {
+      "itemId": "auras-2",
+      "name": "Cloud Puffs",
+      "tier": 1,
+      "theme": "Candy Core",
+      "producer": "11",
+      "assetPath": "/assets/catalog/auras-2-w11-v3.png",
+      "assetHash": "1e421c71217e5386c1b255dfedeade8215976bcb",
+      "hashAlgorithm": "git-blob-sha1",
+      "contentSha256": "4840436aecc6fb510b2660c2a352783a096d2bd761a526c60e6080781faff595",
+      "sourceHead": "ebb46e96b2689c7e38537392e94042cee037007c",
+      "decision": "ACCEPT",
+      "reviewedAt": "2026-09-22T01:41:00Z",
+      "evidenceRefs": [
+        "artifacts/catalog-staged-art/staged-replacements/staged-replacements-contact-sheet.png#sha256=e517e04e617b66f5c0bebf792d064ab59683b97cfa9aa356f76cda796f6d5b95",
+        "artifacts/catalog-staged-art/staged-replacements/detail/auras-2-1e421c71.png#sha256=d772c69e988906162142ab783ec2749cb33db8e2b34711dcc8ad3bb3b0111d76"
+      ],
+      "reason": "Overlapping rounded cloud lobes, soft volume/light and pastel candy color separation fix the flat v2 icon treatment. Cloud Puffs/Candy Core is unmistakable and remains a readable Tier-1 mass at card scale.",
+      "checks": {
+        "identity": "PASS",
+        "themeTier": "PASS",
+        "silhouette": "PASS",
+        "materialLighting": "PASS",
+        "cardReadability": "PASS",
+        "originality": "PASS",
+        "duplicateVisual": "PASS"
+      }
+    },
+    {
+      "itemId": "auras-3",
+      "name": "Pixel Bits",
+      "tier": 1,
+      "theme": "Adventure Club",
+      "producer": "11",
+      "assetPath": "/assets/catalog/auras-3-w11-v3.png",
+      "assetHash": "f164aefb93a21374a1cf0b9b7b7312a0ae68d34c",
+      "hashAlgorithm": "git-blob-sha1",
+      "contentSha256": "6651e63e4d52bd538bd3597fb7800ae285defa340faf3243d8e55349ab7dea5d",
+      "sourceHead": "ebb46e96b2689c7e38537392e94042cee037007c",
+      "decision": "ACCEPT",
+      "reviewedAt": "2026-09-22T01:41:00Z",
+      "evidenceRefs": [
+        "artifacts/catalog-staged-art/staged-replacements/staged-replacements-contact-sheet.png#sha256=e517e04e617b66f5c0bebf792d064ab59683b97cfa9aa356f76cda796f6d5b95",
+        "artifacts/catalog-staged-art/staged-replacements/detail/auras-3-f164aefb.png#sha256=85c8aead4c50bb0bc5230ed1c457aca4289727ea44108a337917b47a36676d1d"
+      ],
+      "reason": "Beveled pixel blocks, earthy adventure palette, staggered orbit pieces, star points and haze create convincing near/far parallax instead of the flat v2 ring. Pixel Bits is distinct and still appropriately restrained for Tier 1.",
+      "checks": {
+        "identity": "PASS",
+        "themeTier": "PASS",
+        "silhouette": "PASS",
+        "materialLighting": "PASS",
+        "cardReadability": "PASS",
+        "originality": "PASS",
+        "duplicateVisual": "PASS"
+      }
+    },
+    {
+      "itemId": "auras-4",
+      "name": "Berry Hearts",
+      "tier": 2,
+      "theme": "Cloud Pop",
+      "producer": "11",
+      "assetPath": "/assets/catalog/auras-4-w11-v3.png",
+      "assetHash": "3357a67e4121ca631377e30033a31ef4c815ab61",
+      "hashAlgorithm": "git-blob-sha1",
+      "contentSha256": "3c2efe8bfefeedd71fac98f3cc0b43ecdd479523c6aca528061f8a334532ed58",
+      "sourceHead": "ebb46e96b2689c7e38537392e94042cee037007c",
+      "decision": "ACCEPT",
+      "reviewedAt": "2026-09-22T01:41:00Z",
+      "evidenceRefs": [
+        "artifacts/catalog-staged-art/staged-replacements/staged-replacements-contact-sheet.png#sha256=e517e04e617b66f5c0bebf792d064ab59683b97cfa9aa356f76cda796f6d5b95",
+        "artifacts/catalog-staged-art/staged-replacements/detail/auras-4-3357a67e.png#sha256=95957cf5b6bec96fbc72e0be6807a1bc5367284084fcfd6e820a7a8dafb70779"
+      ],
+      "reason": "Glossy translucent berry hearts, rounded clouds, pearl highlights and layered cyan-pink trails surround an open center with real depth. Cloud Pop identity is clear and the richer material response is a credible Tier-2 step-up.",
+      "checks": {
+        "identity": "PASS",
+        "themeTier": "PASS",
+        "silhouette": "PASS",
+        "materialLighting": "PASS",
+        "cardReadability": "PASS",
+        "originality": "PASS",
+        "duplicateVisual": "PASS"
+      }
+    }
   ],
-  "integrationEligible": [
-    {"itemId":"companions-3","assetHash":"adba95dc769e603337dc4ac38b9a513ce9914b10","decision":"ACCEPT"},
-    {"itemId":"companions-4","assetHash":"b382339e76ed9d4aeae72b1c8cccc904abf85b57","decision":"ACCEPT"},
-    {"itemId":"companions-10","assetHash":"2b09d950b08083bb3a9ec5e2073ae23d88411cf4","decision":"ACCEPT"},
-    {"itemId":"companions-11","assetHash":"465fe45abbe4d9b4355444cb3f75a49927b604e9","decision":"ACCEPT"},
-    {"itemId":"auras-6","assetHash":"ce4b155c7fb5469fde415ab9d744cab41027fe4d","decision":"ACCEPT"},
-    {"itemId":"auras-7","assetHash":"c451e7479e142f1eca89cc5282b352c2d2ca2d4b","decision":"ACCEPT"},
-    {"itemId":"auras-8","assetHash":"6884668fe721f3b26a562e11924237a32c656db6","decision":"ACCEPT"},
-    {"itemId":"desks-5","assetHash":"95fe65632e4f40b76b23cce30071ee2fdc5b4399","decision":"ACCEPT"},
-    {"itemId":"desks-6","assetHash":"52df05265de236911927b904b07e68dac7a17828","decision":"ACCEPT"},
-    {"itemId":"beds-1","assetHash":"0b9f4213f84c9cde0de5ede646345c0ebc851127","decision":"ACCEPT"},
-    {"itemId":"beds-2","assetHash":"67a0fe2874f975cedb1b4b994e0237ac55d2fb3e","decision":"ACCEPT"},
-    {"itemId":"beds-3","assetHash":"22b1d9f6802cc0b442c9226511ff96e8ea0bbacc","decision":"ACCEPT"},
-    {"itemId":"beds-4","assetHash":"18fa8722d9831af1113e07c2103b373acc41c3c0","decision":"ACCEPT"}
+  "preservedAcceptedCurrentHashes": [
+    {"itemId":"auras-6","assetHash":"ce4b155c7fb5469fde415ab9d744cab41027fe4d","decision":"ACCEPT","priorShardBlob":"879dd8fbfef4796ba0700ff83fcfeec058ece860"},
+    {"itemId":"auras-7","assetHash":"c451e7479e142f1eca89cc5282b352c2d2ca2d4b","decision":"ACCEPT","priorShardBlob":"879dd8fbfef4796ba0700ff83fcfeec058ece860"},
+    {"itemId":"auras-8","assetHash":"6884668fe721f3b26a562e11924237a32c656db6","decision":"ACCEPT","priorShardBlob":"879dd8fbfef4796ba0700ff83fcfeec058ece860"},
+    {"itemId":"companions-3","assetHash":"adba95dc769e603337dc4ac38b9a513ce9914b10","decision":"ACCEPT","priorShardBlob":"879dd8fbfef4796ba0700ff83fcfeec058ece860"},
+    {"itemId":"companions-4","assetHash":"b382339e76ed9d4aeae72b1c8cccc904abf85b57","decision":"ACCEPT","priorShardBlob":"879dd8fbfef4796ba0700ff83fcfeec058ece860"},
+    {"itemId":"companions-10","assetHash":"2b09d950b08083bb3a9ec5e2073ae23d88411cf4","decision":"ACCEPT","priorShardBlob":"879dd8fbfef4796ba0700ff83fcfeec058ece860"},
+    {"itemId":"companions-11","assetHash":"465fe45abbe4d9b4355444cb3f75a49927b604e9","decision":"ACCEPT","priorShardBlob":"879dd8fbfef4796ba0700ff83fcfeec058ece860"},
+    {"itemId":"desks-5","assetHash":"95fe65632e4f40b76b23cce30071ee2fdc5b4399","decision":"ACCEPT","priorShardBlob":"879dd8fbfef4796ba0700ff83fcfeec058ece860"},
+    {"itemId":"desks-6","assetHash":"52df05265de236911927b904b07e68dac7a17828","decision":"ACCEPT","priorShardBlob":"879dd8fbfef4796ba0700ff83fcfeec058ece860"},
+    {"itemId":"beds-1","assetHash":"0b9f4213f84c9cde0de5ede646345c0ebc851127","decision":"ACCEPT","priorShardBlob":"879dd8fbfef4796ba0700ff83fcfeec058ece860"},
+    {"itemId":"beds-2","assetHash":"67a0fe2874f975cedb1b4b994e0237ac55d2fb3e","decision":"ACCEPT","priorShardBlob":"879dd8fbfef4796ba0700ff83fcfeec058ece860"},
+    {"itemId":"beds-3","assetHash":"22b1d9f6802cc0b442c9226511ff96e8ea0bbacc","decision":"ACCEPT","priorShardBlob":"879dd8fbfef4796ba0700ff83fcfeec058ece860"},
+    {"itemId":"beds-4","assetHash":"18fa8722d9831af1113e07c2103b373acc41c3c0","decision":"ACCEPT","priorShardBlob":"879dd8fbfef4796ba0700ff83fcfeec058ece860"}
   ],
-  "notIntegrationEligible": [
-    {"itemId":"auras-1","assetHash":"48639f1262052350660127bbc5d3d25de34d61e3","decision":"REWORK"},
-    {"itemId":"auras-2","assetHash":"c2be24c165f3e28995d5d2eb946dbdde983afe2a","decision":"REWORK"},
-    {"itemId":"auras-3","assetHash":"9b682148eb26898ec5f56ac11eac635e7c93c8fc","decision":"REWORK"},
-    {"itemId":"auras-4","assetHash":"3059eae7ab68c125f1af1696305fdf5689131455","decision":"REWORK"},
-    {"itemId":"auras-5","assetHash":"16416de7ab535af16c59aa40e4d8f5a85a2958bf","decision":"REWORK"},
-    {"itemId":"auras-9","assetHash":"f88be0c4b5fdb36df870ffa113c08f8ec668363c","decision":"REWORK"},
-    {"itemId":"auras-10","assetHash":"cbc767e6b29db880535d7fd99741debdadbcf6c5","decision":"REWORK"},
-    {"itemId":"auras-11","assetHash":"ddb2c81b49db8e6ea6369c8f70cb720228feb73c","decision":"REWORK"},
-    {"itemId":"auras-12","assetHash":"93b33a82e9a5045e1e070ab7561bab08ce5ae947","decision":"REWORK"}
+  "preservedCurrentReworkHashes": [
+    {"itemId":"auras-5","assetHash":"16416de7ab535af16c59aa40e4d8f5a85a2958bf","decision":"REWORK","priorShardBlob":"879dd8fbfef4796ba0700ff83fcfeec058ece860"},
+    {"itemId":"auras-9","assetHash":"f88be0c4b5fdb36df870ffa113c08f8ec668363c","decision":"REWORK","priorShardBlob":"879dd8fbfef4796ba0700ff83fcfeec058ece860"},
+    {"itemId":"auras-10","assetHash":"cbc767e6b29db880535d7fd99741debdadbcf6c5","decision":"REWORK","priorShardBlob":"879dd8fbfef4796ba0700ff83fcfeec058ece860"},
+    {"itemId":"auras-11","assetHash":"ddb2c81b49db8e6ea6369c8f70cb720228feb73c","decision":"REWORK","priorShardBlob":"879dd8fbfef4796ba0700ff83fcfeec058ece860"},
+    {"itemId":"auras-12","assetHash":"93b33a82e9a5045e1e070ab7561bab08ce5ae947","decision":"REWORK","priorShardBlob":"879dd8fbfef4796ba0700ff83fcfeec058ece860"}
   ],
-  "pendingCurrentHashes": {
-    "desks": [
-      {"itemId":"desks-2","assetPath":"/assets/catalog/desks-2-v1.webp","assetHash":"357f4ba8385e737499f12409c0bea141f9bc5e6a","status":"BLOCKED_INVALID_FILE_SIGNATURE_NEEDS_PRODUCER_RESTAGE","latestEvidence":"workflow:35673126046/artifact:10671254408"},
-      {"itemId":"desks-3","assetPath":"/assets/catalog/desks-3-v1.webp","assetHash":"b3352961988d7e9c5ff48d1559fc4d2296d4eab3","status":"BLOCKED_INVALID_FILE_SIGNATURE_NEEDS_PRODUCER_RESTAGE","latestEvidence":"workflow:35673126046/artifact:10671254408"},
-      {"itemId":"desks-4","assetPath":"/assets/catalog/desks-4-v1.webp","assetHash":"711feeb78e6d08351fc2fd2d3176ddb1a288e8f2","status":"BLOCKED_INVALID_FILE_SIGNATURE_NEEDS_PRODUCER_RESTAGE","latestEvidence":"workflow:35673126046/artifact:10671254408"}
-    ],
-    "beds": []
-  },
-  "staleFixtureDefects": {
-    "workflowRunId": 35663502757,
-    "artifactId": 10668875135,
-    "artifactDigest": "sha256:a17eaf3d70986b473fa017cbdef1119ba2f86dbc9d15b6969262cec30ab81f54",
-    "finding": "The staged-art fixture selected obsolete desks-2..4 -w03-v1.webp hashes that rendered blank/transparent. Those stale exact hashes are not the current lane-03 candidates and no decision is transferred to current desks-2-v1/desks-3-v1/desks-4-v1 hashes.",
-    "obsoleteHashes": [
-      {"itemId":"desks-2","assetHash":"39820a7bb86da9663a886ec2c160aac72257c698","result":"VISUALLY_BLANK_STALE_HASH"},
-      {"itemId":"desks-3","assetHash":"51d9862a76f6d49a5737b37083758940945aa0b5","result":"VISUALLY_BLANK_STALE_HASH"},
-      {"itemId":"desks-4","assetHash":"c6e196f82b5c397695ca1675a1425457b32e840a","result":"VISUALLY_BLANK_STALE_HASH"}
-    ],
-    "latestCurrentHashEvidence": {"workflowRunId":35673126046,"artifactId":10671254408,"result":"CURRENT_HASHES_357f4ba8/b3352961/711feeb7_FAIL_FILE_SIGNATURE_AND_HAVE_NO_RENDERABLE_PIXELS","requiredAction":"Producer lane 03 / renderer 14 must restage valid image bytes for the same intended Desk 2-4 records, then publish new exact hashes and card/detail renders. Reviewer 05 must judge the new hashes only."}
-  },
-  "blockerTracking": {"desk2to4InvalidCurrentSignatures":{"firstObservedWorkflowRunId":35673126046,"consecutiveReviewCycles":1,"escalateTo15AfterUnchangedCycles":2}},
-  "nextPriority": [
-    "Workstream 08 may integrate Desk 5-6 and Beds 1-4 exact ACCEPT hashes immediately after normal metadata/file/content checks.",
-    "Desk 2-4 cannot receive a visual decision at blobs 357f4ba8/b3352961/711feeb7 because workflow 35673126046 proves invalid file signatures; wait for producer restage and fresh exact-hash card/detail renders.",
-    "Review the next companion/aura replacement hashes before untouched legacy work.",
-    "Use producer capacity for Bottoms only when no review-ready replacement hashes are available; Wall repairs require reviewer-14 exact REWORK."
+  "pendingCurrentHashes": [
+    {"itemId":"desks-2","assetPath":"/assets/catalog/desks-2-chat-v2.png","assetHash":"277eb1e38e8a69caa0dab6d4d27bbb91796746f8","metadataReadbackDecode":"PASS","cardDetailRender":"INCOMPLETE_0_OF_3","decision":"PENDING_NOT_REVIEWED"},
+    {"itemId":"desks-3","assetPath":"/assets/catalog/desks-3-chat-v2.png","assetHash":"aeebeacdc4a95bf75af36583dae6e2391d9a1d9e","metadataReadbackDecode":"PASS","cardDetailRender":"INCOMPLETE_0_OF_3","decision":"PENDING_NOT_REVIEWED"},
+    {"itemId":"desks-4","assetPath":"/assets/catalog/desks-4-chat-v2.png","assetHash":"6f87e1527ec7d9bf1a3f81e1f54320f462dbb025","metadataReadbackDecode":"PASS","cardDetailRender":"INCOMPLETE_0_OF_3","decision":"PENDING_NOT_REVIEWED"}
+  ],
+  "integrationEligibleNewThisCycle": [
+    {"itemId":"auras-1","assetHash":"a7921c7b7c8f48fc47908595c1afa6f59217c7a5","decision":"ACCEPT"},
+    {"itemId":"auras-2","assetHash":"1e421c71217e5386c1b255dfedeade8215976bcb","decision":"ACCEPT"},
+    {"itemId":"auras-3","assetHash":"f164aefb93a21374a1cf0b9b7b7312a0ae68d34c","decision":"ACCEPT"},
+    {"itemId":"auras-4","assetHash":"3357a67e4121ca631377e30033a31ef4c815ab61","decision":"ACCEPT"}
   ],
   "handoff": {
-    "08": "New qualified ACCEPT micro-batches: desks-5 blob 95fe65632e4f40b76b23cce30071ee2fdc5b4399, desks-6 blob 52df05265de236911927b904b07e68dac7a17828, beds-1 blob 0b9f4213f84c9cde0de5ede646345c0ebc851127, beds-2 blob 67a0fe2874f975cedb1b4b994e0237ac55d2fb3e, beds-3 blob 22b1d9f6802cc0b442c9226511ff96e8ea0bbacc and beds-4 blob 18fa8722d9831af1113e07c2103b373acc41c3c0 may be integrated immediately after normal metadata/file/content checks. Previously accepted companions-3/4/10/11 and auras-6/7/8 remain valid only at their recorded exact hashes.",
-    "03": "Preserve Desk 5-6 accepted bytes exactly. Desk 2-4 current blobs 357f4ba8/b3352961/711feeb7 are not visually rejected; workflow 35673126046 shows invalid file signatures, so restage valid intended bytes and publish fresh exact hashes rather than reusing obsolete blank decisions.",
-    "14": "Desk 5-6 and Beds 1-4 review are complete. Desk 2-4 remain unreviewable at their current blobs because the latest staged QA reports invalid file signatures. Once valid replacement/current bytes are staged, publish exact-hash card/detail renders for reviewer 05.",
-    "02": "Beds 1-4 exact hashes are independently ACCEPTED. Preserve those exact bytes; Workstream 08 may integrate them after normal metadata/file/content checks.",
-    "15": "Workstream 05 independently ACCEPTED Desk 5-6 and Beds 1-4 from exact artifact card/detail pixels and recorded all six for immediate 08 integration. Desk 2-4 remain a concrete first-cycle blocker because current blobs fail file-signature validation in run 35673126046; no stale blank-image decision was transferred."
+    "08": "Consume the four new Aura 1-4 v3 exact-hash ACCEPT records in reviews[] immediately after normal metadata/file/content checks; do not use their v2 REWORK hashes.",
+    "11": "Preserve Aura 1-4 v3 exact bytes; all four are independently ACCEPTED.",
+    "14": "Publish exact card/detail pixels for Desk 2-4 new PNG hashes 277eb1e3/aeebeacd/6f87e152; reviewer 05 must not decide them before those pixels exist.",
+    "15": "Aura 1-4 v3 review complete: 4 ACCEPT. Desk 2-4 old broken-WebP blocker is superseded; the new PNG hashes are pending only current-hash render evidence."
   },
-  "freeze": {"replitTouched":false,"flootTouched":false,"mainMergedOrModified":false,"canonicalManifestOrRuntimeTouched":false,"learningOrPlayerStateTouched":false}
+  "freeze": {
+    "replitTouched": false,
+    "flootTouched": false,
+    "mainMergedOrModified": false,
+    "canonicalManifestOrRuntimeTouched": false,
+    "learningOrPlayerStateTouched": false
+  }
 }
