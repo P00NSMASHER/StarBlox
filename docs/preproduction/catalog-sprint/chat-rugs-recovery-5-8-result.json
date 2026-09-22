@@ -1,0 +1,183 @@
+{
+  "schemaVersion": 1,
+  "batchId": "chat-rugs-recovery-5-8-20260921",
+  "status": "STAGED_READY_FOR_INDEPENDENT_REVIEW_14",
+  "sourceHead": "baa5fadad8c2a0f479adf40719f9d11870153e4a",
+  "workflowRunId": "35671441228",
+  "producer": "07",
+  "transportHelper": "CHAT",
+  "independentReviewer": "14",
+  "canonicalWriter": "08",
+  "newGenerations": 0,
+  "storedCandidateCount": 4,
+  "storedOriginalCount": 4,
+  "duplicateCandidateContent": 0,
+  "items": [
+    {
+      "id": "rugs-5",
+      "name": "Leaf Rug",
+      "collectionId": "rugs",
+      "collectionName": "Rugs",
+      "type": "room",
+      "tier": 2,
+      "theme": "Candy Core",
+      "price": 181,
+      "starReq": 0,
+      "format": "JPEG",
+      "dimensions": [
+        600,
+        600
+      ],
+      "bytes": 50674,
+      "sha256": "b6b67c02b7174ca76c172905177f403bb86b415b1f0e4deb0dc3ff344da9c185",
+      "gitBlobSha": "5a513011856679060df10137eae9f380377f5d78",
+      "producer": "07",
+      "transportHelper": "CHAT",
+      "independentReviewer": "14",
+      "repositoryPath": "public/assets/catalog/rugs-5-w07-v2.jpg",
+      "assetPath": "/assets/catalog/rugs-5-w07-v2.jpg",
+      "assetId": "urn:aaid:sc:US:c25cb861-5324-40aa-9fc5-b48167719c1d",
+      "status": "READY_FOR_REVIEW_14",
+      "readback": "PASS",
+      "original": {
+        "format": "PNG",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "bytes": 1101844,
+        "sha256": "8f415bf4603379a584cc598d623dbe01b5391bd8e67186292083a84d261c93ff",
+        "gitBlobSha": "a49466060bfbf14a65e83e8dd0ebf4b2fdeee2af",
+        "repositoryPath": "docs/preproduction/catalog-sprint/recovered-originals/rugs-5-8-20260921/rugs-5-c25cb861-5324-40aa-9fc5-b48167719c1d.png"
+      }
+    },
+    {
+      "id": "rugs-6",
+      "name": "Orbit Rug",
+      "collectionId": "rugs",
+      "collectionName": "Rugs",
+      "type": "room",
+      "tier": 2,
+      "theme": "Adventure Club",
+      "price": 254,
+      "starReq": 0,
+      "format": "JPEG",
+      "dimensions": [
+        600,
+        600
+      ],
+      "bytes": 79848,
+      "sha256": "5738104c417f447b2a15b312076d142b407bb456d0e52285dca1247000716523",
+      "gitBlobSha": "cb96e0d40e0682770e79ef8ce6a1a86ecec3127f",
+      "producer": "07",
+      "transportHelper": "CHAT",
+      "independentReviewer": "14",
+      "repositoryPath": "public/assets/catalog/rugs-6-w07-v2.jpg",
+      "assetPath": "/assets/catalog/rugs-6-w07-v2.jpg",
+      "assetId": "urn:aaid:sc:US:0fe30bbd-402c-4695-9ae7-4f534358a411",
+      "status": "READY_FOR_REVIEW_14",
+      "readback": "PASS",
+      "original": {
+        "format": "PNG",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "bytes": 1376547,
+        "sha256": "6333cf14ea3cc670e4fafa487b38848d75ecdd78352d4b862dbd5307f8de9bab",
+        "gitBlobSha": "e3f50e515c3a11bdf2d69ef0248465e615d485bb",
+        "repositoryPath": "docs/preproduction/catalog-sprint/recovered-originals/rugs-5-8-20260921/rugs-6-0fe30bbd-402c-4695-9ae7-4f534358a411.png"
+      }
+    },
+    {
+      "id": "rugs-7",
+      "name": "Checker Rug",
+      "collectionId": "rugs",
+      "collectionName": "Rugs",
+      "type": "room",
+      "tier": 3,
+      "theme": "Cloud Pop",
+      "price": 348,
+      "starReq": 2,
+      "format": "JPEG",
+      "dimensions": [
+        600,
+        600
+      ],
+      "bytes": 34385,
+      "sha256": "ee1fed85b9ef65a96ac0d4722d733a5d61e873afe7bb4905f0fb926b351d95ed",
+      "gitBlobSha": "184232121c9cd07c65fe1138893132ee0daa3fb3",
+      "producer": "07",
+      "transportHelper": "CHAT",
+      "independentReviewer": "14",
+      "repositoryPath": "public/assets/catalog/rugs-7-w07-v2.jpg",
+      "assetPath": "/assets/catalog/rugs-7-w07-v2.jpg",
+      "assetId": "urn:aaid:sc:US:3b6aec5a-8de8-4d2f-ad1f-3a5e342b0b1d",
+      "status": "READY_FOR_REVIEW_14",
+      "readback": "PASS",
+      "original": {
+        "format": "PNG",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "bytes": 969068,
+        "sha256": "c3f5f7e3cf31bda30cae34c9ce1c082907886a9250b248faf0d27e63308039aa",
+        "gitBlobSha": "2b564e844f65675d195b94ecbe29c31dd0e69dc5",
+        "repositoryPath": "docs/preproduction/catalog-sprint/recovered-originals/rugs-5-8-20260921/rugs-7-3b6aec5a-8de8-4d2f-ad1f-3a5e342b0b1d.png"
+      }
+    },
+    {
+      "id": "rugs-8",
+      "name": "Wave Rug",
+      "collectionId": "rugs",
+      "collectionName": "Rugs",
+      "type": "room",
+      "tier": 3,
+      "theme": "Pixel Party",
+      "price": 479,
+      "starReq": 2,
+      "format": "JPEG",
+      "dimensions": [
+        600,
+        600
+      ],
+      "bytes": 64258,
+      "sha256": "135ce6fabf3dc806330ab841a12a4e10d555e8ef2fc91589a0a6ed99fc29ee19",
+      "gitBlobSha": "efe9bb6e887375a7e6ed74b15222391a1e2434bf",
+      "producer": "07",
+      "transportHelper": "CHAT",
+      "independentReviewer": "14",
+      "repositoryPath": "public/assets/catalog/rugs-8-w07-v2.jpg",
+      "assetPath": "/assets/catalog/rugs-8-w07-v2.jpg",
+      "assetId": "urn:aaid:sc:US:b1036a27-8e1c-49ba-97f0-93e7bcc133e2",
+      "status": "READY_FOR_REVIEW_14",
+      "readback": "PASS",
+      "original": {
+        "format": "PNG",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "bytes": 1202252,
+        "sha256": "79ce19e63854bfb07bb0eae14d729a1d7233fb1c5827197681d0dec308092fbc",
+        "gitBlobSha": "9f59414e5ccba7cb2c5d0dafce49b1783c10c588",
+        "repositoryPath": "docs/preproduction/catalog-sprint/recovered-originals/rugs-5-8-20260921/rugs-8-b1036a27-8e1c-49ba-97f0-93e7bcc133e2.png"
+      }
+    }
+  ],
+  "checks": {
+    "metadata": "PASS_4_OF_4",
+    "exactByteReadback": "PASS_8_OF_8",
+    "candidateDecode": "PASS_4_OF_4",
+    "independentVisualReview": "PENDING_14"
+  },
+  "freeze": {
+    "replitTouched": false,
+    "flootTouched": false,
+    "mainTouched": false,
+    "canonicalMappingsTouched": false,
+    "gameplayChanged": false,
+    "playerDataTouched": false
+  }
+}
