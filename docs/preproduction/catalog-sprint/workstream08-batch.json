@@ -1,26 +1,27 @@
 {
-  "schemaVersion": 7,
-  "expectedManifestVersion": 22,
-  "expectedStrictCanonicalBefore": 74,
-  "reviewer": "05",
-  "batchLabel": "Desks 2-4 plus Auras 5/9/10/12 exact-hash ACCEPTs",
+  "schemaVersion": 8,
+  "expectedManifestVersion": 24,
+  "expectedStrictCanonicalBefore": 84,
+  "reviewer": "14",
+  "batchLabel": "Rug 11 v3 qualified exact-hash ACCEPT",
   "reviewEvidence": [
-    {"blobSha":"983fc455c39b5152c754c43c0ec7bd627ec74010"}
+    {
+      "path": "docs/preproduction/catalog-sprint/review-normalization-14-rugs-11-v3.json"
+    }
   ],
   "items": [
-    {"itemId":"desks-2","assetPath":"/assets/catalog/desks-2-chat-v2.png","assetHash":"277eb1e38e8a69caa0dab6d4d27bbb91796746f8","producer":"03"},
-    {"itemId":"desks-3","assetPath":"/assets/catalog/desks-3-chat-v2.png","assetHash":"aeebeacdc4a95bf75af36583dae6e2391d9a1d9e","producer":"03"},
-    {"itemId":"desks-4","assetPath":"/assets/catalog/desks-4-chat-v2.png","assetHash":"6f87e1527ec7d9bf1a3f81e1f54320f462dbb025","producer":"03"},
-    {"itemId":"auras-5","assetPath":"/assets/catalog/auras-5-w11-v3.jpg","assetHash":"ae3bef6cbbf4333aa740dc9a3fddf4f2b5540192","producer":"11"},
-    {"itemId":"auras-9","assetPath":"/assets/catalog/auras-9-w11-v3.jpg","assetHash":"9331e516a7a1a2fa32abafaf3bbf0932c3ca792d","producer":"11"},
-    {"itemId":"auras-10","assetPath":"/assets/catalog/auras-10-w11-v3.jpg","assetHash":"6f07fe7f5c8be236f3c17df5f55afc550888f52e","producer":"11"},
-    {"itemId":"auras-12","assetPath":"/assets/catalog/auras-12-w11-v3.jpg","assetHash":"d0fcf528ff4ee91e56760932fdcf357ab264dd3d","producer":"11"}
+    {
+      "itemId": "rugs-11",
+      "assetPath": "/assets/catalog/rugs-11-w07-v3.png",
+      "assetHash": "2c93f18fb5960f7056819c341a3da8f7fff3fb9d",
+      "producer": "07"
+    }
   ],
   "nextAcceptedQueues": [
-    "05: Aura 11 current exact hash remains pending fresh render/review; do not transfer legacy verdicts.",
-    "02: Seating 11-12 remain blocked pending exact current-hash card/detail proof.",
-    "01: Tops 11-12 current v4 hashes remain REWORK and are not eligible.",
-    "14: Rugs 11-12 and current unresolved Wall/Decor replacement work remain outside this accepted batch."
+    "02: Shoes 7-10 current exact hashes are qualified ACCEPTs and should be consumed in the next bounded batch if still pending after this Rug 11 integration.",
+    "05: Aura 11 exact render evidence is available; consume only if reviewer 05's current exact-hash ACCEPT remains qualified and pending.",
+    "14: Rugs 12 remains BLOCKED because the declared accepted-candidate hash does not match the current tree hash; never wire it without fresh exact-current review.",
+    "01: Tops 11-12 v6 are BLOCKED on qualified pixel evidence and are not eligible."
   ],
-  "commitMessage": "catalog: wire accepted desks 2-4 and aura replacements"
+  "commitMessage": "catalog: wire reviewer14 accepted Rug 11 v3"
 }
