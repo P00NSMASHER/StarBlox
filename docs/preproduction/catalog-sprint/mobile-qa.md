@@ -1,116 +1,98 @@
-# Catalog Sprint — Workstream 10 Mobile / Accessibility QA
+# Catalog Sprint — Workstream 10 Small-Card / Mobile Visual QA
 
-STATUS: **PASS — FIRST V2 CANONICAL ART BATCH / 0 MOBILE RELEASE BLOCKERS**
+STATUS: **PARTIAL — CURRENT EXACT-HASH STAGED ART CHECKED; MANIFEST-v23 RESPONSIVE STORE RERUN NOT TESTED**
 
 Branch: `screenshot-match-preproduction`  
-Audited runtime head: `8a2c53aa2133baef23e263d8dda8b2a180dffe19`  
-Catalog phase: `CATALOG_SPRINT`  
+Audited coordination head before this report: `e11d4b4e2f379fc0e1e27090c56357ee9da24b69`  
+Phase: `ART_VISUALS_SPRINT`  
 Catalog gate: **NOT APPROVED by Workstream 10**  
-Replit/Floot: **untouched**  
-`main`: **not merged or modified**
+Replit/Floot/main/deployment: **untouched**
 
-## Why this run was warranted
+## Change-aware decision
 
-The previous Workstream-10 PASS was tied to manifest v12/runtime hashes. Workstream 08 has now completed the first V2 exact-hash canonical art integration, so the canonical Store really changed and prior unchanged-hash proof was no longer sufficient.
+The canonical catalog advanced to manifest v23, so the prior Workstream-10 Store PASS cannot be generalized to the new asset hashes. I did **not** rerun the unchanged full 16-collection matrix. The next executable Store run should cover only changed collections **Desks + Auras** plus stable control **Tops** at `1408×1056`, `1024×768`, `390×844`, and `320×568`, in normal and reduced-motion modes.
 
-Manifest v13 promoted four independently accepted Companion replacements:
+A fresh actual-Store browser artifact for the manifest-v23 exact hashes was not available/executable in this cycle. Therefore the current canonical responsive Store checks are recorded as **NOT TESTED**, not PASS and not FAIL. Staged fixture evidence below is intentionally kept separate.
 
-- `companions-3` Berry Bunny → `/assets/catalog-candidates/chat-20260921-intake01/companions-3-detail.webp` (`adba95dc769e603337dc4ac38b9a513ce9914b10`)
-- `companions-4` Sunny Bird → `/assets/catalog-candidates/chat-20260921-intake01/companions-4-detail.webp` (`b382339e76ed9d4aeae72b1c8cccc904abf85b57`)
-- `companions-10` Pixel Bot → `/assets/catalog-candidates/chat-20260921-intake01/companions-10-detail.webp` (`2b09d950b08083bb3a9ec5e2073ae23d88411cf4`)
-- `companions-11` Dream Dragon → `/assets/catalog-candidates/chat-20260921-intake01/companions-11-detail.webp` (`465fe45abbe4d9b4355444cb3f75a49927b604e9`)
+## Manifest v23 changed canonical art
 
-All four are 768×768 WebP files. Stable IDs, prices, unlock rules, ownership, learning, economy and saves were not changed by the integration.
+Workstream 08 integrated seven independently accepted assets. Workstream 10 did not edit the manifest, runtime mapping, producer art, names, themes, tiers, prices, unlocks, ownership, economy, learning, persistence, or saves.
 
-Because this was the **first accepted V2 canonical art batch**, it was treated as a coherent catalog milestone and the full 16-collection browser matrix was run once. For later small batches Workstream 10 will return to the narrower rule: changed collection(s) plus one stable control at 1408/1024/390/320, reserving another full matrix for a coherent milestone or final gate.
+| Item | Exact Git blob | Size / format |
+| --- | --- | --- |
+| `desks-2` Cloud Study Desk | `277eb1e38e8a69caa0dab6d4d27bbb91796746f8` | 1024×1024 PNG |
+| `desks-3` Pixel Mini Setup | `aeebeacdc4a95bf75af36583dae6e2391d9a1d9e` | 1024×1024 PNG |
+| `desks-4` Berry Vanity Desk | `6f87e1527ec7d9bf1a3f81e1f54320f462dbb025` | 1024×1024 PNG |
+| `auras-5` Garden Fireflies | `ae3bef6cbbf4333aa740dc9a3fddf4f2b5540192` | 600×600 JPEG |
+| `auras-9` Art Confetti | `9331e516a7a1a2fa32abafaf3bbf0932c3ca792d` | 600×600 JPEG |
+| `auras-10` Neon Trail | `6f07fe7f5c8be236f3c17df5f55afc550888f52e` | 600×600 JPEG |
+| `auras-12` Luxe Starstorm | `d0fcf528ff4ee91e56760932fdcf357ab264dd3d` | 600×600 JPEG |
 
-## Exact evidence
+Canonical manifest v23 blob: `93fa3434711ddedd87ff8bdd00030f62b6b770b6`  
+Canonical runtime blob: `6a407b95dc15e5de6046d335ecd3a12239833dba`
 
-GitHub Actions run `35659760652`, job `106532044131`, artifact `10667595844` on source head `8a2c53aa2133baef23e263d8dda8b2a180dffe19`.
+## Exact-hash staged fixture evidence
 
-Artifact digest: `sha256:7a5d1cb254d00086f95889dc316087116dfb7d245cda02755c42705efabc1607`  
-Artifact: 36 files, 17,010,331-byte ZIP.
+Artifact `10672639784`, source head `9cfe19679527bd0a3ace2d76d4a88967a65509a7`, contains the current seven exact hashes at card/detail scale. All seven target rows returned HTTP 200, produced screenshots, and had no target-item render errors.
 
-Canonical hashes:
+Objective small-card observations:
 
-- manifest v13 blob: `54fb26beca9b8da5f17472193831ee8248ffd3a4`
-- catalog runtime blob: `b350940b703ea2934062e183c5529ad9f9b7f810`
-- Workstream-10 runtime: `272fb9b6a95a38eba4696c7d732d805621a52f49`
-- Workstream-10 CSS: `d1bf7ac11815a59baee4ccf45b58ec2ad40b6694`
-- catalog mobile QA script: `3a563274fc4a069fe57062f9fcb0574a324a5533`
+- **Desks 2–4:** distinct silhouettes, centered presentation, recognizable identity, and no visible clipping in the preserved card/detail fixture.
+- **Auras 5/9/10/12:** distinct motifs survive card reduction: firefly/foliage ring, confetti burst, flowing cyan ribbons, and star/crystal wreath respectively.
+- The four current Aura assets are fully opaque JPEGs. Transparent-edge/alpha compositing is therefore **not exercised by these assets**. This is an informational limitation, not an automatic defect.
 
-Production build inside the browser workflow: **PASS**, Vite 8.3.0, 1,613 modules, CSS 167.39 kB / 35.69 kB gzip, JS 304.31 kB / 93.39 kB gzip.
+This artifact is **staged/exact-hash render evidence only**. It does not prove two-column 390/320 Store browsing, canonical crop/contain behavior, real detail-panel composition, fixed-HUD clearance, scrolling, layout stability, focus, or runtime loading in the actual Store.
 
-## Browser result
+## Current staged Tops 11–12 v5 — mobile visual signals
 
-**CATALOG_MOBILE_QA_STATUS = PASS**  
-**release-blocking failures = 0**
+Producer 09 has two new exact v5 hashes staged for independent reviewer 01. Workstream 10 inspected the preserved card/detail renders but does **not** change their review status.
 
-Playwright 1.55 Chromium headless on GitHub Actions Ubuntu 24.04 exercised reduced-motion Store behavior at `1408×1056`, `1024×768`, `390×844`, and `320×568`, plus normal-motion controls at `1024×768` and `390×844`.
+- `tops-11` Cloud Jacket — blob `43a850ecdc0b7e8861870f7c277f2544f6c87405` — exact staged render PASS. Identity and silhouette remain readable and unclipped, but padded/material richness weakens noticeably after card reduction. Structured signal: **`CARD_SCALE_PREMIUM_DEPTH_WEAK`**.
+- `tops-12` Star Coat — blob `73339e6c9e472283f481ff18b1e6ba821856f617` — exact staged render PASS. At card scale the silhouette is readable as outerwear but still reads short-jacket/bomber-like rather than unmistakably coat-length. Structured signal: **`TIER5_COAT_LENGTH_AMBIGUOUS_AT_CARD_SCALE`**.
 
-| Check | Result |
+Evidence: staged-art workflow run `35681227316`, head `288103b2fae24862d8fe733d6b64964fc24d06d9`, artifact `10674362796`, digest `sha256:af564c231b473f2aa11628e8e8f672191cc84348221cdcd40495606415b946e7`. Both exact v5 items rendered cleanly; the workflow's overall failure was outside these two target rows. These signals are for reviewer 01 / producer 09 / coordinator 15 and are **not self-approval**.
+
+## Reused browser proof — scope limited
+
+The prior full Store matrix remains reusable only for unchanged responsive safeguards and unchanged hashes: run `35659760652`, job `106532044131`, artifact `10667595844`, source head `8a2c53aa2133baef23e263d8dda8b2a180dffe19`.
+
+That historical headless-Chromium run covered all 16 collections at `1408×1056`, `1024×768`, `390×844`, and `320×568`, including two-column phone layout, keyboard/focus, no horizontal page overflow, full-scroll reachability, reduced motion, normal-motion controls, and scroll/layout probes. It is **not proof for the newly integrated manifest-v23 Desks/Auras hashes**.
+
+## Current test status
+
+| Check | Current manifest-v23 result |
 | --- | --- |
-| Category navigation | **64/64 PASS** |
-| Page-level horizontal overflow | **64/64 PASS** |
-| Critical card/category/tier touch targets | **64/64 PASS** |
-| Readable names, prices and states | **64/64 PASS** |
-| Card semantics, focusability and accessible labels | **64/64 PASS** |
-| Image loading and alternatives | **64/64 PASS** |
-| Explicit intrinsic image dimensions | **64/64 PASS or no image-backed canonical card yet** |
-| Visible keyboard focus | **64/64 PASS** |
-| Reduced-motion context | **64/64 PASS** |
-| Enter-key card activation | **64/64 PASS** |
-| Phone two-column grid | **32/32 PASS** |
-| Tab traversal tiers → cards, no clipping/fixed-HUD obstruction | **4/4 PASS** |
-| Last-card keyboard reachability | **4/4 PASS** |
-| Reduced-motion active-animation check | **4/4 PASS; 0 active animations** |
-| Runtime `pageerror` / `console.error` | **4/4 PASS** |
+| Exact-hash staged decode/render, 7 changed assets | **PASS 7/7** |
+| Actual Store 1408×1056 | **NOT TESTED** |
+| Actual Store 1024×768 | **NOT TESTED** |
+| Actual Store 390×844 | **NOT TESTED** |
+| Actual Store 320×568 | **NOT TESTED** |
+| Current-hash two-column phone grid | **NOT TESTED** |
+| Current-hash crop/contain + detail composition | **NOT TESTED** |
+| Current-hash scrolling/layout stability | **NOT TESTED** |
+| Current-hash normal/reduced-motion behavior | **NOT TESTED** |
+| Measured rendered contrast | **NOT TESTED** |
+| Physical iPhone/iPad/Android | **NOT TESTED** |
+| VoiceOver/TalkBack/NVDA | **NOT TESTED** |
 
-### Changed Companions collection
+No UI patch was made to hide weak art or force a favorable screenshot.
 
-The canonical Companions collection now renders **12/12 image-backed cards** at every tested viewport. All 12 loaded successfully, exposed alternative semantics, declared intrinsic width/height, remained readable, showed visible keyboard focus, and supported Enter-key selection. At `390px` and `320px`, the first row remained exactly **2 columns** with no page-level horizontal overflow.
+## Reference screenshots
 
-### Stable control
+The stale “reference pixels missing” blocker is closed. The authoritative originals are present at:
 
-Tops was retained as the stable control and passed the same loading, intrinsic-dimension, readability, focus, keyboard and phone-grid checks at all four reduced-motion viewports.
+- `docs/preproduction/reference-screenshots/originals/home-1448x1086.jpeg`
+- `docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg`
+- `docs/preproduction/reference-screenshots/originals/quest-1448x1086.jpeg`
 
-## Scroll / layout stability
-
-These are **headless Chromium emulation measurements**, not physical-device performance claims.
-
-| Viewport | Max scroll | Avg frame | Frames >34ms | Catalog resources | CLS |
-| --- | ---: | ---: | ---: | ---: | ---: |
-| 1408×1056 | 169px | 16.1ms | 0/61 | 168 | 0.0016 |
-| 1024×768 | 612px | 16.3ms | 0/61 | 140 | 0.0040 |
-| 390×844 | 2029px | 16.3ms | 0/61 | 128 | 0.0000 |
-| 320×568 | 2663px | 16.2ms | 0/61 | 128 | 0.0000 |
-
-Normal-motion controls also passed: tablet `1024×768` stayed at four first-row columns and phone `390×844` at two, both with `0px` horizontal overflow, about `16.4ms` average frame time, `0/61` frames over 34ms and no runtime errors.
-
-## Contrast / assistive technology
-
-Exact rendered color contrast remains **NOT TESTED**. The existing automated sampler deliberately refuses to fabricate ratios where text is composited over gradients, images or translucent layers. Final screenshot/device-aware measurement is still required.
-
-Physical iPhone/iPad/Android performance remains **NOT TESTED**. VoiceOver, TalkBack and NVDA remain **NOT TESTED**. Browser semantics, focus, keyboard activation, reachability and reduced-motion behavior are directly verified, but they are not substitutes for physical-device or screen-reader evidence.
-
-## Deterministic screenshot capture support
-
-The final deterministic Home/Store/Quest capture path is prepared:
-
-- workflow: `.github/workflows/reference-screenshot-capture.yml`
-- script: `scripts/referenceScreenshotCapture.mjs`
-- controlled production build + Chromium preview
-- deterministic target viewports
-- screenshot artifacts, keyboard/focus checks, contrast tooling and optional pixel-diff support
-
-The expected source directory `docs/preproduction/reference-screenshots` is currently absent. Therefore **pixel-identical reference comparison remains BLOCKED on the original user reference image files becoming repository-accessible**. Generated promotional collages are not valid substitutes.
+Their verified manifest and uncropped comparison PNGs remain the reference source. Desktop originals are used for desktop comparison; tablet/phone are responsive usability targets, not invented exact-reference images.
 
 ## Handoff
 
-- Workstream 08 may treat this four-Companion canonical batch as **mobile/accessibility browser PASS** at the exact hashes above.
-- Workstream 14 may reuse artifact `10667595844` for canonical Store screenshots, while keeping visual-art acceptance and catalog release QA separate.
-- On the next small canonical integration, Workstream 10 should test only the changed collection(s) plus one stable control at all four viewports, normal + reduced motion as applicable.
-- Run another full 16-collection sweep only at a coherent catalog milestone or final release gate.
-- Do not approve the catalog gate from this result: only **4/192** current item hashes are canonically accepted, and final visual, persistence, physical accessibility and reference-parity gates remain separate.
+**Reviewer 01 / Producer 09:** independently review the current Tops 11–12 v5 exact hashes. Workstream 10 specifically flags weak premium-depth survival on Tops 11 and coat-length ambiguity on Tops 12 at small-card scale. These are objective visual QA signals only and do not alter reviewer authority.
 
-Replit/Floot and `main` remain untouched.
+**Workstreams 08 / 15:** manifest-v23 Desks/Auras have clean exact-hash staged card/detail renders, but Workstream 10 still requires a fresh change-aware actual Store run at 1408/1024/390/320 before calling this canonical batch responsive PASS.
+
+**Workstream 14:** artifact `10672639784` is reusable for exact-hash staged card/detail evidence, but not as responsive Store viewport proof.
+
+No canonical mappings, producer art, shared UI, gameplay, learning, economy, persistence, real player data, Replit, Floot, `main`, or deployment state were changed by Workstream 10.
