@@ -1,0 +1,105 @@
+{
+  "schemaVersion": 1,
+  "reviewer": "14",
+  "phase": "ART_AND_VISUALS_ONLY",
+  "branch": "screenshot-match-preproduction",
+  "reviewSourceHead": "f4dfb0399dd510689e309894bf1d066e73b727c0",
+  "producerLane": "09",
+  "integrationOwner": "08",
+  "scope": "Independent exact-hash actual-pixel review of the fresh Decor 3-4 W09 v3 pilot only.",
+  "renderEvidence": {
+    "workflow": "StarBlox Staged Catalog Art QA",
+    "workflowRunId": 35722505018,
+    "workflowHead": "b0a35343773b2ebbfdba3b5a3f99263b6c824e83",
+    "artifactId": 10691708297,
+    "artifactName": "catalog-staged-art-review",
+    "artifactDigest": "sha256:cd050d2fd3ae0902d6641415381e003c05dfef4b206093716d70cfbc840ca685",
+    "overallWorkflowConclusion": "failure",
+    "scopeCaveat": "The enclosing workflow failure is unrelated to Decor 3-4 and is not relabeled PASS; it came from staged desks-2/desks-3/desks-4 image-decode failures. This review relies only on the clean exact Decor 3-4 scoped card/detail evidence.",
+    "cardSheetPath": "staged-replacements/staged-replacements-contact-sheet.png",
+    "cardSheetSha256": "86ef359851369a3699b125bbd21d4ca0f16842688bf911fc16d762095b546190"
+  },
+  "reviews": [
+    {
+      "itemId": "decor-3",
+      "name": "Arcade Mini",
+      "tier": 1,
+      "theme": "Adventure Club",
+      "assetPath": "/assets/catalog/decor-3-w09-v3.webp",
+      "assetHash": "5c9e3ad9b88b29c8ffb67d262f828f38d24763be",
+      "sha256": "f8af8283fca711a4173d86b3a7bee713514ab9189baffe3818619286704447ea",
+      "hashAlgorithm": "git-blob-sha1",
+      "producer": "09",
+      "factoryVerify": "STAGED_EXACT_BYTES_VERIFIED",
+      "detailEvidence": {
+        "path": "staged-replacements/detail/decor-3-5c9e3ad9.png",
+        "dimensions": [800, 800],
+        "sha256": "0a0194b3669f3af6025784fa717bb667cf4702c25a377ac39486211be302ffda",
+        "sourceNaturalDimensions": [600, 600],
+        "signature": "webp",
+        "safety": "raster-self-contained",
+        "errors": []
+      },
+      "decision": "ACCEPT",
+      "reason": "Actual exact-hash card/detail pixels read unmistakably as a compact physical arcade cabinet rather than a flat icon: cabinet side planes, bezel, control deck, joystick/buttons, trim, fasteners, feet and grounded contact/shadow create convincing object thickness and construction. Navy/teal/gold star-and-orbit treatment remains coherent with Adventure Club while preserving the exact Arcade Mini identity; the silhouette and controls survive small-card scale. Materials/light have enough separation for a starter-tier object without looking placeholder-flat. No exact duplicate was reported in the staged replacement set and visual comparison against the other current Decor cards shows a distinct cabinet silhouette and function.",
+      "checks": {
+        "identity": "PASS",
+        "physicalDecorIdentity": "PASS",
+        "thicknessBackingFrameReliefMountingDepth": "PASS_NOT_WALL_MOUNTED_OBJECT_USES_CABINET_DEPTH",
+        "themeTier": "PASS",
+        "materialLighting": "PASS",
+        "cardReadability": "PASS",
+        "originality": "PASS",
+        "duplicateVisual": "PASS"
+      }
+    },
+    {
+      "itemId": "decor-4",
+      "name": "Plush Stack",
+      "tier": 2,
+      "theme": "Cloud Pop",
+      "assetPath": "/assets/catalog/decor-4-w09-v3.webp",
+      "assetHash": "8393d0b8108dfcc6882a75a9e50293f26d8f6989",
+      "sha256": "33fae2db0be4246cf0763f7572731dc679f896b064e60aee085944c5e1d8b5ce",
+      "hashAlgorithm": "git-blob-sha1",
+      "producer": "09",
+      "factoryVerify": "STAGED_EXACT_BYTES_VERIFIED",
+      "detailEvidence": {
+        "path": "staged-replacements/detail/decor-4-8393d0b8.png",
+        "dimensions": [800, 800],
+        "sha256": "24378c5cbd7bd778a3746ec89fdf239d203a6e0223f0411ddc41d7ce883ea2d8",
+        "sourceNaturalDimensions": [600, 600],
+        "signature": "webp",
+        "safety": "raster-self-contained",
+        "errors": []
+      },
+      "decision": "ACCEPT",
+      "reason": "Actual exact-hash card/detail pixels clearly read as a freestanding stacked plush decor object: the flower-like base cushion, rounded central plush, star/cloud top elements, stitched seams, pile/fuzz texture, overlap and floor contact provide convincing soft-material depth. The pink/lilac/cream cloud-star palette is strongly Cloud Pop, the richer stacked form appropriately steps above the Tier-1 starters without becoming overbusy, and the broad silhouette remains immediately legible at card size. It is visually/functionally distinct from the current Decor set and the staged replacement report contains no exact-duplicate group.",
+      "checks": {
+        "identity": "PASS",
+        "physicalDecorIdentity": "PASS",
+        "thicknessBackingFrameReliefMountingDepth": "PASS_FREESTANDING_SOFT_OBJECT_USES_LAYERED_PLUSH_DEPTH",
+        "themeTier": "PASS",
+        "materialLighting": "PASS",
+        "cardReadability": "PASS",
+        "originality": "PASS",
+        "duplicateVisual": "PASS"
+      }
+    }
+  ],
+  "handoff": {
+    "08": "Decor 3 and Decor 4 exact W09 v3 hashes are independently ACCEPTED and may be canonical-consumed immediately subject to 08's normal mapping/file/decode/uniqueness checks. Do not substitute legacy SVG hashes.",
+    "09": "Pilot disposition is 2/2 ACCEPT. Preserve these exact hashes; producer may proceed to the next bounded Decor repair batch under coordinator-15 ownership rules.",
+    "15": "Fresh Decor3-4 W09 v3 pilot is independently closed 2/2 ACCEPT from exact scoped card/detail evidence; enclosing shared workflow remains failure for unrelated Desk decode defects."
+  },
+  "prohibitionsObserved": {
+    "canonicalMappingsChanged": false,
+    "runtimeWiringChanged": false,
+    "mainTouched": false,
+    "replitOrFlootTouched": false,
+    "deployTouched": false,
+    "paidSettingsOrPurchasesTouched": false,
+    "secretsTouched": false,
+    "realPlayerDataTouched": false
+  }
+}
