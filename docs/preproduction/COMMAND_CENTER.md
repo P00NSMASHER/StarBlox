@@ -1,164 +1,106 @@
-# StarBlox Screenshot-Match Command Center
+# StarBlox Art + Visuals Command Center
 
-STATUS: **CATALOG_SPRINT / 119 HASH-BOUND REVIEWS ALL REWORK / REPLACEMENT RENDER PIPELINE ACTIVE / NOT READY FOR REPLIT**
+STATUS: **ART_VISUALS_SPRINT / CATALOG CRITICAL PATH / 35 ACCEPTED FLOOR / 27 CANONICAL-WIRED / NOT READY FOR REPLIT**
 
 Branch: `screenshot-match-preproduction` only  
-Observed coordination head before this update: `acbc6035da9d57bc88043604caa5ec0b6352398e`  
-Latest full game-runtime test/build proof: `da070b301e8ce57ca10d44bcb4ccd2078cfe4690`  
-Delivery policy: `docs/preproduction/DELIVERY_PROTOCOL_V2.md`  
-Phase authority: Workstream 15  
-Canonical catalog manifest/runtime writer: Workstream 08  
-Replit: **untouched**  
-Main: **not merged or modified**
+Observed coordination head before this update: `a2edafea67c1398c54143d97386105d62bea64a8`  
+Authoritative allocation: `docs/preproduction/ART_VISUALS_SPRINT.json`  
+Compatible delivery safeguards: `docs/preproduction/DELIVERY_PROTOCOL_V2.md`  
+Canonical catalog writer: **08 only**  
+Cross-worker/shared-entrypoint coordinator: **15 only**  
+Replit/Floot: **untouched**  
+`main`: **not merged or modified**  
+Deployment: **not authorized**
 
-The latest full game-runtime proof remains the inspected GitHub Actions run `35653350977`: **22/22 test files, 98/98 tests and the production Vite build PASS**. Since that runtime/public-asset candidate, subsequent changes relevant to this pass are preproduction review/QA documentation plus screenshot/render workflow/scripts; no canonical catalog mapping has been promoted. Reuse the proven runtime evidence until an actual runtime/canonical asset integration changes it.
+## Current visual accounting
 
-## Overall completion
+These counts intentionally separate review coverage from accepted/current/canonical completion.
 
-**Estimated coordinated screenshot-match completion: 78%.**
+- Permanent catalog target: **192 IDs**
+- Unique IDs with at least one usable independent visual disposition: **180 / 192**
+- Remaining independent-review coverage gap: **12 IDs — Desks**
+- Conservative floor of independently **ACCEPTED current replacement hashes: 35**
+- Accepted current hashes already **canonical-wired: 27**
+- Known accepted-but-not-yet-wired at the current coordination snapshot: **8 — Lighting 5–12**
+- Catalog release-cleared IDs: **0 / 192** — release clearance waits for the complete accepted/wired/unique/Store-verified set, not status labels.
+- Current canonical manifest: **v16**, **130 mappings**, **114 final-portable labels**, **16 interim-not-verified**, **78 non-final**, **0 duplicate paths**, **0 duplicate content hashes** in the latest integration evidence.
 
-The estimate is intentionally held. Review coverage increased materially, but **no current replacement hash has yet earned independent ACCEPT or canonical promotion**. Review/rework throughput is progress, but not release completion.
+Legacy `final-portable` labels are not independent screenshot-quality acceptance. No percentage is increased merely because an asset was generated, stored, reviewed, or labeled ready.
 
-**READY FOR SINGLE REPLIT INTEGRATION: NO.**
+## Immediate critical path
 
-## Completion matrix
+1. **08 — integrate Lighting 5–12:** Reviewer 14 independently ACCEPTed all eight exact current hashes after actual card/detail rendering. They are the oldest accepted-but-not-wired dependency. 08 has been explicitly handed the verified hashes/paths and an immediate run was requested; only 08 may change `catalog-art-manifest.json` / `src/catalogArtRuntime.js`.
+2. **01 — Tops 7–10 v3 review:** Four new JPG replacements are branch-stored, exact-readback verified and actual card/detail rendered. Exact blobs: Tops 7 `1c85689d...`, 8 `58aadd95...`, 9 `9011648d...`, 10 `5449283e...`. Reviewer 01 must decide these new hashes independently; old v2 REWORK verdicts do not transfer.
+3. **07 — Rugs 5–8 delivery:** These four owned repairs are already generated as exact Adobe assets and must **not** be regenerated. 07 must transfer the existing bytes to versioned GitHub paths, read them back, record exact hashes/dimensions/bytes, then hand them to 14. Do not scale to Rugs 9–12 until the pilot receives current-hash review.
+4. **14 → 05 — Desks:** The only remaining 12-ID review-coverage family is Desks. Current Desk 2–4 exact paths/hashes require fresh shared-fixture rendering because prior blank/corrupt evidence referred to obsolete paths. Desk 5–6 already have separate browser render evidence but still require reviewer-05 disposition.
+5. **12 — accessory art:** Continue Headwear / Facegear / Backgear / Handgear premium repair pilots. Reviewer ownership remains 01 for Headwear/Facegear and 02 for Backgear/Handgear; 12 never self-approves.
+6. **13 — scenes/character art in parallel:** Continue versioned Home/Store/Quest character/environment/component art against the stored original references without changing saves, economy, curriculum, gameplay metadata or the reference files.
 
-| Area | Completion | Gate state | Current assessment |
-| --- | ---: | --- | --- |
-| HUD / Shell | **82%** | Implemented / final fidelity pending | Shared HUD/nav is coherent; final logo/chrome/reference polish belongs to GAME_FINISHING. |
-| Home | **88%** | **Structural geometry PASS** / final fidelity pending | Latest measured Home geometry is green. Preserve it unless new evidence shows regression. |
-| Store | **78%** | Catalog critical path + 4 measured geometry blockers | Upper Store/grid works; avatar stage, selected-detail height and lower collection/value band still need GAME_FINISHING corrections. |
-| Quest | **88%** | Learning behavior green / 6 measured geometry blockers | Header, phase strip, avatar/body/mastery and earned-summary geometry remain later release work. |
-| Avatar / Buddy | **80%** | Implemented / replacement art + true try-on pending | Saved equipment/Buddy state remains protected; companion/aura art and final layered fidelity remain incomplete. |
-| Progression | **90%** | Automated state gate PASS / final render pending | Five tiers, Dream Goal, Daily/mastery and ownership-bound progress remain intact. |
-| Catalog Art | **52% legacy labels; 0 accepted replacement hashes** | **Primary blocker** | Legacy `final-portable` labels are not screenshot-quality proof. Independent review now covers 119 unique IDs and all 119 current/legacy hashes are REWORK. |
-| Environments | **82%** | Structurally implemented / fidelity+perf pending | Bedroom/learning/Store scenes exist; final dimensional material/depth/tier proof is GAME_FINISHING work. |
-| Mobile / Accessibility | **86%** | Headless browser + CI strong / physical proof pending | Canonical Store emulation is green across desktop/tablet/390/320; physical-device/screen-reader evidence remains open. |
-| Motion / Game Feel | **84%** | Automated helpers PASS / real perf pending | Reduced-motion helpers are green; real normal/reduced paint/composite proof remains. |
-| Learning Integrity | **96%** | **Automated PASS** | 200-question bank, five-action Quest and evidence/retry invariants remain green; latest learning QA verified the persistence refactor. |
-| Persistence / Economy | **88%** | Automated reload/replay PASS / real-browser stress open | Durable purchase and final-Quest exactly-once semantics pass automated evidence; synthetic real-browser timing/concurrency/recovery remains required. |
-| QA / Release | **65%** | Runtime CI green / replacement visual gate active | Review coverage and staged-art infrastructure improved; final accepted catalog, live persistence, physical accessibility and reference parity remain open. |
+## Independent reviewer partitions
 
-## Catalog accounting
+- **01:** Tops / Bottoms / Headwear / Facegear
+- **02:** Shoes / Backgear / Handgear / Seating
+- **05:** Beds / Desks / Companions / Auras
+- **14:** Lighting / Wall / Rugs / Decor
 
-Canonical manifest remains v12:
+One valid independent exact-hash ACCEPT plus required file/metadata/content checks allows 08 to integrate immediately. Old monolithic rollups and a second universal reviewer are not integration prerequisites. Reviewers may not approve their own art.
 
-- target permanent IDs: **192**;
-- legacy canonical `final-portable`: **99**;
-- canonical interim-not-verified: **23**;
-- canonical manifest/runtime mappings: **122**;
-- duplicate manifest paths recorded: **0**;
-- V2 current-hash canonical promotions: **0**.
+Reviewer 14's current partition evidence is **12 ACCEPT / 36 REWORK**: Lighting 1–12 are accepted; Wall 1–12, Rugs 1–12 legacy/current reviewed hashes, and Decor 1–12 remain REWORK until replacement versions earn new decisions.
 
-Replacement/prepared state at the start of this pass:
+## Latest replacement evidence
 
-- branch-stored replacement candidates awaiting fresh independent review: **12** — `tops-1..8`, `auras-1..4`;
-- preserved Git-object-only Lighting replacements pending owner path attachment/readback: **4** — `lighting-1..4`;
-- generated-local desk candidates pending repository staging: **3** — `desks-2..4`;
-- desks still needing candidates after that batch: **8** — `desks-5..12`.
+### Tops 7–10 v3
+Recovery workflow run **35671172749** produced branch-stored 600×600 JPG candidates and preserved 1024×1024 originals. Metadata/readback/decode/tests/build passed; card/detail rendering passed **4/4**. Reviewer 01 decision is pending.
 
-The binary Git/GitHub import-readback path is proven; binary transfer is no longer a project capability blocker.
+### Rugs 5–8
+The exact already-generated Adobe assets are recorded in `docs/preproduction/catalog-sprint/chat-rugs-recovery-5-8-20260921.json`. They remain **generated/external, not branch-staged** until 07 completes exact byte transfer/readback. This is not accepted or wired progress yet.
 
-## Independent visual review status
+### Desks
+Current Desk 2–4 versions are `desks-2-v1.webp` blob `357f4ba8...`, `desks-3-v1.webp` blob `b3352961...`, and `desks-4-v1.webp` blob `711feeb7...`. The shared renderer must capture those exact hashes before reviewer 05 decides them. Stale `-w03-v1` evidence is invalid for these current hashes.
 
-The four disjoint V2 review shards currently account for **119 / 192 unique item IDs**:
+## Original screenshot references
 
-- reviewer 01: **24** — Tops 12 + Bottoms 12;
-- reviewer 02: **23** — Seating 11 + Shoes 12;
-- reviewer 05: **36** — Auras 12 + Companions 12 + Beds 12;
-- reviewer 14: **36** — Lighting 12 + Wall 12 + Rugs 12.
+The stale “reference pixels unavailable” blocker is closed.
 
-Current disposition:
+Authoritative originals:
+- `docs/preproduction/reference-screenshots/originals/home-1448x1086.jpeg`
+- `docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg`
+- `docs/preproduction/reference-screenshots/originals/quest-1448x1086.jpeg`
 
-- **ACCEPT: 0**;
-- **REWORK: 119**;
-- **BLOCKED: 0**;
-- **unreviewed unique IDs: 73**.
+Verified SHA-256s are recorded in `original-reference-manifest.json`; uncropped 1408×1056 comparison PNGs are also stored. Import run **35663779668 / job 106544831661 passed**. These pixels are the authority for visual comparison. Generated promotional collages are not reference evidence.
 
-The repeated defect is now strongly evidenced across clothing, furniture, effects and pets: identities are generally readable, but legacy/current candidate art is too flat/front-facing/vector-like, with weak material response, three-quarter construction, contact/cast lighting and tier progression compared with the premium dimensional screenshot target. Legacy status labels must not be promoted as final visual acceptance.
+Exact reference parity is **not yet cleared**. Raw pixel difference alone is diagnostic; independent visual interpretation must account for state/content differences without copying unsafe sale/FOMO text or fake player state.
 
-Reviewer 14 also completed actual-pixel review of **Wall 1–12 and Rugs 1–12**; both families are REWORK. Wall assets read as UI-style emblems rather than physical mounted objects, while Rugs read as upright badges rather than floor textiles in three-quarter product/room perspective.
+## Screen visual status
 
-## Replacement render pipeline
+- **Home:** measured structural geometry currently **PASS**. Preserve it unless a new regression is observed.
+- **Store:** **4 measured geometry blockers** remain for post-catalog visual finishing: avatar try-on stage, selected-detail height, collection strip placement/width, value-panel vertical position.
+- **Quest:** **6 measured geometry blockers** remain: header, phase strip, avatar zone, learning body, mastery rail, earned summary.
+- After catalog reaches 192/192 accepted + canonical, **all 15 remain on ART AND VISUALS**. The next phase is visual finishing, not automatic return to general feature development.
 
-Workstream 14 has now generalized the existing staged-art QA workflow rather than creating a second framework. Commit `acbc6035da9d57bc88043604caa5ec0b6352398e` updates `.github/workflows/catalog-staged-art-qa.yml` to:
+## Regression safeguards retained
 
-- render assigned reviewer collections;
-- automatically discover versioned READY_FOR_REVIEW replacements from producer lane files;
-- support SVG/JPG/WEBP repository candidates;
-- emit hash-bound contact sheets plus 800×800 detail captures;
-- preserve exact replacement Git blob identity in the artifact report.
+Latest reusable integration evidence records:
 
-GitHub Actions run `35654620624` was launched on that exact commit to render all currently staged replacements. At Command Center inspection time it was **in progress**, so no reviewer may treat it as completed evidence yet. Reviewers 01 and 05 should consume the artifact immediately after a successful conclusion, prioritizing Tops 1–8 and Auras 1–4 replacement hashes before more untouched legacy review.
+- full test suite: **PASS**
+- production build: **PASS**
+- integration-v16 catalog checks: **PASS**
+- Store/mobile headless smoke for the integrated v16 batch: **PASS**
+- synthetic real-browser persistence/economy matrix: **PASS**, using no real player data
 
-A deterministic reference-screenshot capture workflow/script was also added in this cycle. It prepares final Home/Store/Quest capture at controlled viewports, but **the original user reference image pixels are still not repository-accessible**, so pixel-identical sign-off remains unavailable until those originals are supplied through an accessible path. Generated promotional collages remain invalid reference evidence.
+These are safeguards, not permission to restart nonvisual feature work. Physical-device performance and VoiceOver/TalkBack/NVDA evidence remain **OPEN / NOT TESTED** unless later evidence closes them.
 
-## Persistence / learning
+## Completion gates
 
-Automated transaction safety remains strong:
+`ART_VISUALS_COMPLETE` remains **NO**.
 
-- purchase durable receipt / reload / replay: **PASS automated**;
-- final Quest completion reward reload / replay: **PASS automated**;
-- IndexedDB hydration recovery: **PASS automated**;
-- rapid Buy/room/Quest duplicate-action guards: **PASS automated**;
-- unknown/no-art owned IDs survive recovery/import logic: **PASS automated**.
+It requires:
+1. **192/192** correct, unique, repository-stored current images;
+2. independent exact-hash visual ACCEPT for all 192;
+3. all 192 accepted versions canonically wired by 08;
+4. final Store desktop/phone image loading/scrolling/visual checks and duplicate-content/near-duplicate audit;
+5. independent acceptance of scoped Home/Store/Quest, avatar/try-on, room tiers, HUD/logo/icons, materials/lighting, mobile composition and motion;
+6. actual comparison to the stored original reference pixels with meaningful differences explicitly accounted for;
+7. relevant regression/build and real-browser visual proof.
 
-One release blocker remains: **PERSIST-REAL-BROWSER-TRANSACTION-STRESS**. Workstream 13 still needs isolated synthetic browser evidence for purchase/equip/place/reload, final-feedback refresh timing, multi-tab replay, malformed import and live localStorage/IndexedDB recovery. No real player data may be used.
-
-Learning QA on the current persistence refactor remains green; no catalog-induced learning P0 is recorded. Preserve five default actions, one defensible answer, source-bounded Grade-2 content, and independent-versus-assisted evidence separation.
-
-## Structural browser status retained for GAME_FINISHING
-
-Home currently passes its measured structural geometry contract.
-
-Store retains four measured blockers:
-
-1. avatar try-on stage undersized;
-2. selected-item detail too tall;
-3. collection strip too low/narrow;
-4. value panel too low.
-
-Quest retains six measured blockers:
-
-1. header too tall;
-2. phase strip too low;
-3. avatar zone offset/undersized;
-4. learning body too low/short;
-5. mastery rail too narrow/tall;
-6. earned summary too wide/low.
-
-These do not block catalog completion but must clear before final release readiness.
-
-## Protected invariants
-
-Every subsequent integration must preserve:
-
-- exactly **192** stable permanent Store IDs, prices and unlock rules;
-- Coins, XP, Mastery Stars, Star Worth/Home progress, owned/equipped IDs, room placement, Dream Goal, mastery/evidence, Buddy/Bond and valid daily state;
-- exactly five default Quest learning actions;
-- source-bounded Grade-2 content and one defensible keyed answer;
-- independent versus clue/retry evidence separation;
-- no wrong-answer progress/currency loss or reward farming;
-- unknown/no-art owned IDs across save/import/recovery;
-- no public child chat/profiles, stranger discovery, ads, loot boxes, FOMO or punitive streaks;
-- original StarBlox art only; no Roblox/Brookhaven or third-party branded/character assets.
-
-## Next critical path
-
-1. **14 — complete the running replacement render gate:** inspect run `35654620624`; if PASS, preserve artifact/digest and hand exact Tops/Aura replacement pixels to 01/05. If FAIL, repair only the concrete harness defect and rerun once.
-2. **01 / 05 — fresh replacement decisions:** review Tops 1–8 and Auras 1–4 exact replacement hashes immediately from the qualified artifact; old REWORK decisions never transfer across hashes.
-3. **04 — Lighting 1–4:** attach the four already-preserved Firefly blobs to versioned owned paths and verify exact readback; do not regenerate.
-4. **03 — desks:** stage existing `desks-2..4` producer-visible bytes through the proven binary path, then continue `desks-5..12` in bounded premium batches.
-5. **14 — finish its partition:** review Decor 1–12 after replacement fixture handoff; Wall/Rugs are now already dispositioned REWORK.
-6. **01 / 02 / 05 and assigned producers — parallel repair/review:** prioritize ready replacement hashes, then continue unreviewed Headwear/Facegear, Backgear/Handgear, Desks and remaining families. Never self-approve or double-assign.
-7. **08 — incremental integration:** integrate the first qualified exact-hash ACCEPT immediately after metadata/file/content checks; do not wait for all 192 or old monolithic rollups.
-8. **13 — real-browser persistence:** close the synthetic browser timing/recovery blocker using authorized branch-local/CI execution when available.
-9. **15 — catalog gate:** switch to GAME_FINISHING only at 192/192 correct, stored, unique, independently accepted, canonically wired and Store-verified assets with no catalog-induced learning/save/economy P0.
-
-## Catalog gate and final release
-
-`catalogGate.status` remains **NOT_STARTED** because **zero current replacement hashes are independently accepted**. Phase stays **CATALOG_SPRINT**.
-
-After catalog PASS, specialists automatically return to normal roles and finish Store/Quest geometry, avatar true try-on, environment/room-tier/logo quality, motion, mobile/accessibility, live persistence/reward stress, semantic learning and final reference/performance checks.
-
-Only an exact frozen candidate that passes full clean regression/build plus browser/reference/safety/accessibility/performance/persistence gates may be marked **READY FOR SINGLE REPLIT INTEGRATION: YES**. That is still **not deployment permission**. Replit and `main` remain untouched until separate user approval.
+Art/visual completion is **not** release completion. Any remaining physical accessibility, screen-reader or other nonvisual release evidence stays open afterward. `READY_FOR_SINGLE_REPLIT_INTEGRATION` is still **NO**, and even a future YES would not be deployment permission.
