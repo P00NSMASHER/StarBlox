@@ -1,0 +1,92 @@
+{
+  "schemaVersion": 1,
+  "phase": "ART_VISUALS_SPRINT",
+  "coordinationOwner": "15",
+  "repository": "P00NSMASHER/StarBlox",
+  "branch": "screenshot-match-preproduction",
+  "observedHeadBeforeCoordination": "5227122d9dc4ddd36b467b1fbe9d0384edaa3be9",
+  "authority": {
+    "allocation": "docs/preproduction/ART_VISUALS_SPRINT.json",
+    "compatibleProtocol": "docs/preproduction/DELIVERY_PROTOCOL_V2.md",
+    "same15ExistingTaskIdsRequired": true,
+    "same15ExistingTaskIdsVerifiedEnabledThisRun": true,
+    "newOrSubstituteStarBloxTasksCreated": 0,
+    "schedulesChanged": false,
+    "artAndVisualsOnlyUntilComplete": true,
+    "canonicalCatalogWriter": "08",
+    "crossWorkerAssignmentOwner": "15"
+  },
+  "liveCatalogFloor": {
+    "manifestVersion": 27,
+    "manifestRuntimeMappings": "163/163",
+    "finalPortableLabels": 156,
+    "interimNotVerified": 7,
+    "nonFinal": 36,
+    "canonicalAcceptedCurrentHashes": 90,
+    "independentlyAcceptedCurrentHashes": 91,
+    "acceptedAwaitingCanonical": 1,
+    "releaseCleared": 0,
+    "strictAcceptedRemainingAfterQualifiedRugs12": 101,
+    "accountingNote": "v27 integration proves 90 accepted+canonical. Reviewer14 direct exact-hash evidence subsequently ACCEPTed Rugs12. Generated-local and external-only candidates are excluded from staged/accepted/canonical counts."
+  },
+  "oldestReleaseCriticalDependency": {
+    "owner": "08",
+    "itemId": "rugs-12",
+    "action": "Consume the direct qualified reviewer14 exact-hash handoff immediately; stale reviewer rollup normalization is not a prerequisite under V2.",
+    "runtimePath": "/assets/catalog/rugs-12-w07-v3.png",
+    "repositoryPath": "public/assets/catalog/rugs-12-w07-v3.png",
+    "gitBlobSha": "eea2fc5b78c1186342f91f597bc792160ab8f8fe",
+    "sha256": "21a2f71224d9a7d4e0e60a672867cc629f21a481c3310fee6b1cac1c1be071b3",
+    "bytes": 1039033,
+    "dimensions": [1024, 1024],
+    "reviewer": "14",
+    "evidence": "docs/preproduction/catalog-sprint/chat-rugs-12-v3-reconciled-review-14-to-08.json",
+    "supersedes": "85007bbb5e31a5545cf006f9cf43f25167ffb37f"
+  },
+  "reviewEvidenceNormalization": {
+    "owner": "14",
+    "action": "If reviews/14.json still carries only the old Rugs12 REWORK hash, synchronize the already-qualified eea2fc5b... ACCEPT into the shard without rerendering or changing the decision. Do not make 08 wait for this sync."
+  },
+  "parallelVisualRepairs": {
+    "13": {
+      "avatarV3": {
+        "status": "BOUNDED_REPAIR_ASSIGNED",
+        "basis": "Reviewer01 independently REWORKed avatar-keyart-fullbody-w13-v2 only for hair length/flow after the v2 body, face, headset, materials and silhouette passed.",
+        "instruction": "Preserve v2 successful body/face/hot-pink-cat-headset/material/pose treatment; extend medium-brown layered/wavy hair below shoulders toward waist/upper hip; stage a new versioned exact hash; no equipped-state assumptions or runtime wiring."
+      },
+      "homeV3": {
+        "status": "BOUNDED_COMPOSITION_REPAIR_ASSIGNED",
+        "basis": "Reviewer14 REWORKed home-bedroom-w13-v2 composition before runtime integration despite good depth/lighting because the lower hero corridor and phone cover crop are obstructed.",
+        "instruction": "Preserve v2 palette, left light, bed-left/desk-right language and material depth; clear approximately x=36-64% lower hero corridor by reducing bed/plant/chair intrusion; provide 1408x1056 plus a purposeful phone-oriented derivative/crop; no baked UI/avatar/state."
+      }
+    }
+  },
+  "preservedBlockers": {
+    "tops11_12_v7": "GENERATED_LOCAL_RECEIPT_ONLY. Exact authoritative 22824-byte/30026-byte WEBP payloads are still unavailable; do not regenerate/recompress/reconstruct. Expected Git blobs remain 0641cd1563cd9f683d685231c52a28c9f66424be and 9f13c65b0310a70be3fb1e6464baf22dabe75ce1.",
+    "headwear5_8": "PRESERVED_EXTERNAL_NOT_STAGED. Do not regenerate or repeat unchanged failed transport; materialize only through a genuinely new exact-byte path.",
+    "storeMobile": "BLOCKED before Store content by shared real-pointer navigation click timeout on current canonical runs; accepted catalog art remains valid but Store/mobile proof is not PASS."
+  },
+  "frozenOrNoChurn": {
+    "rugs1_11": "preserve accepted current hashes",
+    "rugs12": "accepted exact hash; no rerender/regeneration; only 08 wiring remains",
+    "tops1_10": "preserve accepted current hashes",
+    "wallDecorUnchangedHashes": "do not churn",
+    "homeStructuralGeometry": "preserve current green result unless fresh regression evidence appears",
+    "questGeometry": "remains open for later visual finishing"
+  },
+  "automationPromptReconciliationThisRun": {
+    "08": "Direct exact-hash Rugs12 handoff explicitly sufficient under V2; no silent no-op.",
+    "14": "Normalize Rugs12 shard only if stale; no re-review; retain independent composition QA.",
+    "13": "Bounded Avatar v3 hair repair and Home v3 corridor/mobile derivative repair from fresh independent evidence."
+  },
+  "freeze": {
+    "replit": true,
+    "floot": true,
+    "mainMerge": true,
+    "deployment": true,
+    "paidSettingsPurchases": true,
+    "realPlayerData": true
+  },
+  "artVisualsComplete": false,
+  "deploymentPermission": false
+}
