@@ -181,6 +181,32 @@ function onClick(event){
   if(screen) markScreenEntrance(screen);
 }
 
+function classTokenSet(value = ''){
+  return new Set(String(value).trim().split(/\s+/).filter(Boolean));
+}
+
+function hasNonMotionClassDelta(previous = '', current = ''){
+  const before = classTokenSet(previous);
+  const after = classTokenSet(current);
+  const tokens = new Set([...before,...after]);
+  for(const token of tokens){
+    if(before.has(token) === after.has(token)) continue;
+    if(!token.startsWith('sbMotion')) return true;
+  }
+  return false;
+}
+
+export function shouldScheduleMotionScan(records = []){
+  return records.some(record => {
+    if(record.type === 'childList' || record.type === 'characterData') return true;
+    if(record.type !== 'attributes') return false;
+    if(record.attributeName === 'aria-pressed') return true;
+    if(record.attributeName !== 'class') return false;
+    const current = record.target?.getAttribute?.('class') || '';
+    return hasNonMotionClassDelta(record.oldValue || '',current);
+  });
+}
+
 let queued = false;
 function scan(){
   queued = false;
@@ -205,11 +231,14 @@ if(typeof document !== 'undefined'){
   else scheduleScan();
 
   const host = document.getElementById('root') || document.documentElement;
-  new MutationObserver(scheduleScan).observe(host,{
+  new MutationObserver(records => {
+    if(shouldScheduleMotionScan(records)) scheduleScan();
+  }).observe(host,{
     subtree:true,
     childList:true,
     characterData:true,
     attributes:true,
+    attributeOldValue:true,
     attributeFilter:['class','aria-pressed']
   });
 }
