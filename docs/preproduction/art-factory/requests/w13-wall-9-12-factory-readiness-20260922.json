@@ -1,0 +1,139 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_WALL_FACTORY_READINESS",
+  "producer": "13",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "2d21751cb6be18178cbb0c2e39d51e2dee183396",
+  "batchId": "w13-wall-9-12-vnext",
+  "state": "REFERENCE_AND_MODEL_PIN_READY_GENERATION_NOT_STARTED",
+  "assignment": {
+    "activeBatchPath": "docs/preproduction/art-factory/ACTIVE_BATCH.json",
+    "activeBatchBlobSha": "640f7ec2be636e3f701283759f58d5f8b4139ff9",
+    "state": "ACTIONABLE_REWORK_FACTORY_PILOT",
+    "scope": [
+      "wall-9",
+      "wall-10",
+      "wall-11",
+      "wall-12"
+    ],
+    "reviewer": "14",
+    "renderOwner": "14",
+    "integrationOwner": "08",
+    "coordinationOwner": "15",
+    "liveFallbackCountAtReconciliation": 19
+  },
+  "currentExactReviewState": {
+    "reviewPath": "docs/preproduction/catalog-sprint/reviews/14.json",
+    "reviewBlobSha": "80d1de1524a7ca50ba997ab849ce2ed26fefbc0d",
+    "wall-9": {
+      "path": "/assets/catalog/wall-9.svg",
+      "gitBlobSha1": "0a83f6684de27c0ac31057d600bb24e2a3e5a183",
+      "decision": "REWORK"
+    },
+    "wall-10": {
+      "path": "/assets/catalog/wall-10.svg",
+      "gitBlobSha1": "df566297cc638fbcf1673d799a7ffb9e1f586927",
+      "decision": "REWORK"
+    },
+    "wall-11": {
+      "path": "/assets/catalog/wall-11.svg",
+      "gitBlobSha1": "d0609238147f8d63e58662efe9755abbaecc39e1",
+      "decision": "REWORK"
+    },
+    "wall-12": {
+      "path": "/assets/catalog/wall-12.svg",
+      "gitBlobSha1": "84a7eeb0f909572fe9e896b912b675990187ae48",
+      "decision": "REWORK"
+    }
+  },
+  "plannerRequest": {
+    "path": "docs/preproduction/art-factory/requests/w13-wall-9-12-20260922.json",
+    "gitBlobSha1": "71c993fd6eebc417714384801235dd23fa6ade5e",
+    "state": "OPTIMIZER_INPUT_READY_NOT_GENERATED",
+    "variantsPerItem": 2,
+    "rule": "Preserve the planner's two bounded concepts per exact Wall item. Do not call them final generation prompts until the current artPromptOptimizer and artFactoryJob chain has emitted and validated the exact prompt/job records."
+  },
+  "referencePin": {
+    "role": "authoritative Store art-direction/reference conditioning only",
+    "path": "docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg",
+    "sha256": "b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d",
+    "gitBlobSha1": "383baa877d3af86fa92e3583740212000592b3d6",
+    "dimensions": [1448, 1086],
+    "bytes": 775979,
+    "manifestPath": "docs/preproduction/reference-screenshots/original-reference-manifest.json",
+    "manifestBlobSha": "63956763934f17613a3f98889f8085051a78a0b6",
+    "safety": "Reference pixels guide visual fidelity only. Do not bake screenshot balances, navigation, controls, answers or player state into catalog art."
+  },
+  "factoryPin": {
+    "promptOptimizer": {
+      "path": "scripts/artPromptOptimizer.mjs",
+      "gitBlobSha1": "6b3df00e0620019798c3c64b432a100f6a6f6d8c"
+    },
+    "jobCompiler": {
+      "path": "scripts/artFactoryJob.mjs",
+      "gitBlobSha1": "baf7f3735d6e9c1b1c19022ac954c474495c13b0"
+    },
+    "runtime": {
+      "repo": "huggingface/diffusers",
+      "revision": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+      "termsDomain": "repository-code"
+    },
+    "model": {
+      "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+      "revision": "462165984030d82259a11f4367a4eed129e94a7b",
+      "rightsBasis": "USER_ATTESTED_FULL_RIGHTS",
+      "termsDomain": "model/checkpoint",
+      "publicRevisionEvidence": "https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0/tree/462165984030d82259a11f4367a4eed129e94a7b",
+      "publicLicenseLabelObserved": "openrail++"
+    },
+    "conditioning": {
+      "referenceAssetSha256": "b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d",
+      "controlImageSha256": null,
+      "adapterScale": null
+    },
+    "termsSeparation": {
+      "repositoryCode": "Tracked independently by ART_FACTORY_V2 stack entries.",
+      "datasetReference": "Original StarBlox Store reference is project evidence; no third-party dataset assertion is made here.",
+      "apiService": "No API/service generation was invoked in this transition.",
+      "customNode": "No custom-node runtime was invoked in this transition.",
+      "modelCheckpoint": "Exact model ID/revision is pinned above under the user's model/checkpoint-rights attestation."
+    }
+  },
+  "generationGate": {
+    "status": "BLOCKED_BEFORE_GENERATION",
+    "reason": "No currently connected executable generation runtime can satisfy the factory-v2 exact model/revision plus deterministic-job and exact-byte return contract in this run.",
+    "observedRuntimeState": {
+      "remoteDeterministicRunner": "OFFLINE",
+      "remoteDevice": "PAAM-L044",
+      "unchangedFailedProviderPathRepeated": false,
+      "nonRevisionExposingGeneratorUsed": false
+    },
+    "requiredNextTransition": [
+      "Revalidate live branch head and ACTIVE_BATCH ownership.",
+      "Run the current artPromptOptimizer upstream against each exact Wall REWORK item and preserve the planner concept intent without inventing prompt output.",
+      "Compile and validate two deterministic artFactoryJob attempts per item with the pinned runtime/model/reference values above.",
+      "Generate no more than the assigned four Wall items in this batch.",
+      "Preserve source bytes; create measured 600px derivatives only after sources exist.",
+      "Stage versioned bytes under producer-owned catalog-candidate paths, read them back, and run verify_staged_output.py.",
+      "Route exact hashes to Workstream06 report-only preflight and Workstream14 real Store card/detail rendering plus independent review.",
+      "Do not write canonical mappings; Workstream08 remains the only canonical writer."
+    ]
+  },
+  "preserve": {
+    "acceptedWall1To7ExactHashes": true,
+    "wall8PendingRemoteMaterializationEvidence": true,
+    "canonicalManifestAndRuntime": true,
+    "gameplayLearningPersistenceEconomy": true,
+    "sceneAndCharacterGenerationWhileFallbackPositive": false,
+    "mainReplitFlootDeployPaidSettingsPurchasesSecretsRealPlayerData": true
+  },
+  "claims": {
+    "generatedPixels": false,
+    "stagedCandidateBytes": false,
+    "repoReadbackOfNewPixels": false,
+    "realCardDetailRender": false,
+    "independentReview": false,
+    "canonicalIntegration": false,
+    "selfApproval": false
+  }
+}
