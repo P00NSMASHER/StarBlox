@@ -2,15 +2,20 @@
   "schemaVersion": 3,
   "owner": "15",
   "branch": "screenshot-match-preproduction",
-  "sourceHead": "d2a52cd28fd3c2831fcb00370383f3488da7f404",
-  "status": "ACTIVE_REVALIDATE_LIVE_BEFORE_WRITE",
+  "sourceHead": "601c37be4edcc443b6d474b04e0400c40bbd0dfa",
+  "status": "ACTIVE_RELEASE_BLOCKER_FIRST",
   "policy": {
     "maxConcurrentProductionBatches": 4,
     "maxItemsPerBatch": 4,
     "oneBatchPerProducer": true,
     "preserveAcceptedExactHashes": true,
     "preservePendingReviewCandidates": true,
-    "reviewersRemainIndependent": ["01", "02", "05", "14"],
+    "reviewersRemainIndependent": [
+      "01",
+      "02",
+      "05",
+      "14"
+    ],
     "canonicalWriter": "08",
     "updateOnlyOnMaterialChange": true
   },
@@ -28,48 +33,120 @@
     "canonicalGapToTarget": 99,
     "acceptedAwaitingCanonical": 4,
     "releaseCleared": 0,
-    "note": "Decor 3-4 are integrated and validated in v30. Reviewer01 then independently ACCEPTed repository-staged/readback-proven Headwear 5-8 exact hashes from real card/detail pixels; those four are qualified and awaiting Workstream08 canonical integration. Seating 7-10 remain mapped but excluded from strict independent-ACCEPT counts until reviewer02 records a genuine exact-current-hash pixel decision."
+    "strictVisualBlocker": {
+      "count": 1,
+      "kind": "VISIBLE_GENERIC_FALLBACK_ART",
+      "fallbackCount": 22,
+      "ids": [
+        "desks-7",
+        "desks-8",
+        "desks-9",
+        "desks-10",
+        "desks-11",
+        "desks-12",
+        "wall-5",
+        "wall-6",
+        "wall-7",
+        "wall-8",
+        "wall-9",
+        "wall-10",
+        "wall-11",
+        "wall-12",
+        "decor-5",
+        "decor-6",
+        "decor-7",
+        "decor-8",
+        "decor-9",
+        "decor-10",
+        "decor-11",
+        "decor-12"
+      ]
+    },
+    "note": "Strict Store/Quest desktop geometry is within the current reference contract. The only strict visual blocker is 22 missing canonical catalog artworks. Headwear 5-8 remain qualified exact-hash ACCEPT awaiting Workstream08."
   },
   "batches": [
     {
       "producer": "05",
       "batchId": "w05-wall-5-8-v2",
-      "scope": ["wall-5", "wall-6", "wall-7", "wall-8"],
+      "scope": [
+        "wall-5",
+        "wall-6",
+        "wall-7",
+        "wall-8"
+      ],
       "state": "ACTIONABLE_REWORK_FACTORY_PILOT",
       "reviewer": "14",
-      "basis": "Wall 1-4 v2 completed the full exact-byte/render/reviewer14 ACCEPT/canonical cycle. Reviewer14 still records exact-current legacy REWORK for Wall 5-8.",
-      "requirements": "Use artPromptOptimizer and artFactoryJob v2 against exact Wall5-8 metadata and reviewer14 defects; generate only a bounded 2-4 variant plan through an authorized generator; preserve source/derivative lineage and exact model/runtime provenance; stage/read back and verify exact bytes; route real StarBlox card/detail pixels to reviewer14. Do not start Wall9-12 until this batch is independently dispositioned.",
-      "preserve": ["wall-1", "wall-2", "wall-3", "wall-4"]
+      "basis": "Wall 1-4 v2 completed exact-byte/render/reviewer14 ACCEPT/canonical integration. Reviewer14 still records exact-current REWORK for Wall 5-8, and all eight Wall 5-12 IDs are among the 22 strict visual fallback blockers.",
+      "requirements": "Use the current prompt optimizer/taxonomy and deterministic 2-4 variant factory plan against exact Wall5-8 metadata. Preserve source/derivative lineage and exact generation provenance; stage/read back and verify exact bytes; route real Store card/detail pixels to reviewer14. Do not start Wall9-12 until this pilot is independently dispositioned.",
+      "preserve": [
+        "wall-1",
+        "wall-2",
+        "wall-3",
+        "wall-4"
+      ]
     },
     {
-      "producer": "06",
-      "batchId": "w06-companions-2-5-6-7-vnext",
-      "scope": ["companions-2", "companions-5", "companions-6", "companions-7"],
-      "state": "ACTIONABLE_REWORK_FACTORY_PILOT",
+      "producer": "03",
+      "batchId": "w03-desks-7-10-v1",
+      "scope": [
+        "desks-7",
+        "desks-8",
+        "desks-9",
+        "desks-10"
+      ],
+      "state": "ACTIONABLE_UNFILLED_RELEASE_FACTORY_PILOT",
       "reviewer": "05",
-      "basis": "Reviewer05 independently inspected exact-current card/detail pixels and issued REWORK 4/4. Identity, dimensionality and card readability largely passed; exact themes failed on all four, with near-duplicate/template risk additionally observed for Companions 2 and 6.",
-      "requirements": "Repair only the concrete reviewer05 defects via artPromptOptimizer plus deterministic 2-4 variant factory plans. Preserve successful anatomy/silhouette/material depth; strengthen exact theme identity and differentiate Moon Cat versus Comet Fox staging. Stage/read back and verify exact bytes, render real card/detail pixels, then route changed exact hashes back to reviewer05. No old verdict transfers.",
-      "preserve": ["companions-3", "companions-4", "companions-10", "companions-11"]
-    },
-    {
-      "producer": "13",
-      "batchId": "w13-home-bedroom-v4",
-      "scope": ["home-bedroom"],
-      "state": "ACTIONABLE_SCENE_REWORK_FACTORY_PILOT",
-      "reviewer": "01-art-fidelity + 14-composition-performance",
-      "basis": "Reviewer01 independently REWORKed exact Home bedroom v3 for room identity/fidelity while preserving the central corridor and broad composition gains; no newer branch evidence supersedes that assignment.",
-      "requirements": "Preserve v3 quiet center corridor, left warm light and bed-left/desk-right macro-layout; make the bed unmistakable, restore a visible left window, add 4-7 reference-grounded side/perimeter props, increase material separation and controlled accent saturation, and keep a purposeful 390x844 derivative. Use factory-v2 provenance; no baked UI/avatar/state and no runtime wiring.",
-      "preserve": ["home-bedroom-w13-v2", "home-bedroom-w13-v3", "accepted-avatar-keyart-current-hash"]
+      "basis": "Strict visual QA and the fallback backlog prove Desks 7-12 are missing canonical art. Desks 7-10 are explicitly assigned by coordinator15 as an unfilled release pilot; no legacy REWORK verdict is invented or required for this first production.",
+      "requirements": "Produce only Desks 7-10 in a bounded pilot using exact Store metadata. Require substantial three-quarter furniture construction, supports/joints/top thickness/storage/hardware/material separation/contact shadow, exact theme/tier identity and small-card silhouette. Use deterministic 2-4 variant planning and exact provenance; stage/read back/verify real bytes; route exact-hash card/detail evidence through renderer14 to independent reviewer05. Freeze pending review. Do not open Desks11-12 until reviewer05 dispositions Desks7-10.",
+      "preserve": [
+        "desks-1",
+        "desks-2",
+        "desks-3",
+        "desks-4",
+        "desks-5",
+        "desks-6"
+      ]
     },
     {
       "producer": "09",
       "batchId": "w09-decor-5-8-vnext",
-      "scope": ["decor-5", "decor-6", "decor-7", "decor-8"],
+      "scope": [
+        "decor-5",
+        "decor-6",
+        "decor-7",
+        "decor-8"
+      ],
       "state": "ACTIONABLE_REWORK_FACTORY_PILOT",
       "reviewer": "14",
-      "basis": "Decor 3-4 v3 completed exact staging, real card/detail rendering, independent reviewer14 ACCEPT and Workstream08 canonical integration in manifest v30. Reviewer14 still records unchanged exact-current legacy REWORK for Decor 5-12, so only the next bounded Decor 5-8 pilot is opened while Tops 11-12 exact-byte recovery stays frozen.",
-      "requirements": "Use artPromptOptimizer and artFactoryJob v2 against exact Decor5-8 metadata and the reviewer14 material/depth defects. Generate only a bounded 2-4 variant plan per actionable item through an authorized generator; record exact model/checkpoint/runtime provenance and rights domains; preserve source/derivative lineage; stage/read back and verify exact bytes; route real card/detail pixels to reviewer14. Do not start Decor9-12 before independent disposition of this pilot.",
-      "preserve": ["decor-1", "decor-2", "decor-3", "decor-4"]
+      "basis": "Decor 3-4 completed exact staging, independent reviewer14 ACCEPT and canonical integration. Reviewer14 still records exact-current REWORK for Decor 5-12, and all eight Decor 5-12 IDs are among the 22 strict visual fallback blockers.",
+      "requirements": "Use the current prompt optimizer/taxonomy and deterministic 2-4 variant plans for Decor5-8. Record exact generation provenance, preserve source/derivative lineage, stage/read back/verify real bytes, then route actual Store card/detail pixels to reviewer14. Do not start Decor9-12 before independent disposition of this pilot.",
+      "preserve": [
+        "decor-1",
+        "decor-2",
+        "decor-3",
+        "decor-4"
+      ]
+    }
+  ],
+  "heldUntilFallbackZero": [
+    {
+      "producer": "06",
+      "scope": [
+        "companions-2",
+        "companions-5",
+        "companions-6",
+        "companions-7"
+      ],
+      "state": "HOLD_NONBLOCKING_REWORK",
+      "reason": "These exact-current items remain valid reviewer05 REWORK work, but they do not account for the 22 strict visible fallbacks. Preserve evidence and resume after fallbackCount reaches zero or coordinator15 reopens the lane."
+    },
+    {
+      "producer": "13",
+      "scope": [
+        "home-bedroom"
+      ],
+      "state": "HOLD_NONBLOCKING_SCENE_REWORK",
+      "reason": "Preserve all scene candidates/reviews. New scene generation is paused while missing catalog art is the sole strict visual blocker."
     }
   ],
   "pendingRenderReview": [
@@ -77,7 +154,12 @@
       "priority": 1,
       "producer": "06",
       "batchId": "lane06-seating-7-10-evidence-recovery",
-      "scope": ["seating-7", "seating-8", "seating-9", "seating-10"],
+      "scope": [
+        "seating-7",
+        "seating-8",
+        "seating-9",
+        "seating-10"
+      ],
       "state": "CURRENT_BYTES_PRESERVED_AWAITING_CONSUMABLE_EXACT_HASH_CARD_DETAIL_EVIDENCE",
       "renderOwner": "14",
       "reviewer": "02",
@@ -88,53 +170,82 @@
         "seating-10": "9aa53664cbc8ee24283ea44830f1f3037c576340"
       },
       "evidence": "docs/preproduction/catalog-sprint/reviews/02.json",
-      "next": "Do not regenerate. Workstream14 should reuse hash-stable renderer evidence if available or produce one consumable current-hash card/detail proof package, then reviewer02 makes the first genuine art-quality decision. These four stay excluded from the strict accepted count until that decision."
+      "next": "Do not regenerate. Renderer14 should provide one consumable current-hash card/detail proof package, then reviewer02 records the first genuine art-quality decision."
     }
   ],
   "acceptedAwaitingCanonical": [
     {
       "reviewer": "01",
       "producer": "12",
-      "scope": ["headwear-5", "headwear-6", "headwear-7", "headwear-8"],
+      "scope": [
+        "headwear-5",
+        "headwear-6",
+        "headwear-7",
+        "headwear-8"
+      ],
       "state": "QUALIFIED_EXACT_HASH_ACCEPT_AWAITING_08",
       "reviewEvidence": "docs/preproduction/catalog-sprint/reviews/01.json",
       "producerEvidence": "docs/preproduction/catalog-sprint/chat-headwear-5-8-w12-result.json",
       "items": {
-        "headwear-5": {"path": "/assets/catalog/headwear-5-w12-v2.png", "gitBlobSha": "b26e0c50a466afac74e3013da3d092ac54d7a273", "sha256": "503b2b6edc092e22fb6bbda4c3c20d57bfb9e9674b72dcf20ab3b63f686e9a71"},
-        "headwear-6": {"path": "/assets/catalog/headwear-6-w12-v2.png", "gitBlobSha": "6babf7112c050ba4c2a6a3c60630b3b35f88bb3d", "sha256": "a6e684921f41f4c6dec171db9a96bbc0ce45bd0c25e0cca52daa233d1b64b5a8"},
-        "headwear-7": {"path": "/assets/catalog/headwear-7-w12-v2.png", "gitBlobSha": "4463b180a1d8c0321d6086c28f078329ced5fb9b", "sha256": "4c38267b3ef9ab001ea946ec1972b8950a419edb6687b530228dd58d25954499"},
-        "headwear-8": {"path": "/assets/catalog/headwear-8-w12-v2.png", "gitBlobSha": "c2cd9cddba03a8eae55e9eb8b3197e82ee3af415", "sha256": "86f2ee74794c929bd7182d5d53b1b6e9a2e3de30131ed6ac8b0ee982ec840b53"}
+        "headwear-5": {
+          "path": "/assets/catalog/headwear-5-w12-v2.png",
+          "gitBlobSha": "b26e0c50a466afac74e3013da3d092ac54d7a273",
+          "sha256": "503b2b6edc092e22fb6bbda4c3c20d57bfb9e9674b72dcf20ab3b63f686e9a71"
+        },
+        "headwear-6": {
+          "path": "/assets/catalog/headwear-6-w12-v2.png",
+          "gitBlobSha": "6babf7112c050ba4c2a6a3c60630b3b35f88bb3d",
+          "sha256": "a6e684921f41f4c6dec171db9a96bbc0ce45bd0c25e0cca52daa233d1b64b5a8"
+        },
+        "headwear-7": {
+          "path": "/assets/catalog/headwear-7-w12-v2.png",
+          "gitBlobSha": "4463b180a1d8c0321d6086c28f078329ced5fb9b",
+          "sha256": "4c38267b3ef9ab001ea946ec1972b8950a419edb6687b530228dd58d25954499"
+        },
+        "headwear-8": {
+          "path": "/assets/catalog/headwear-8-w12-v2.png",
+          "gitBlobSha": "c2cd9cddba03a8eae55e9eb8b3197e82ee3af415",
+          "sha256": "86f2ee74794c929bd7182d5d53b1b6e9a2e3de30131ed6ac8b0ee982ec840b53"
+        }
       },
-      "next": "Workstream08 immediately validates current path/hash/metadata/decode/uniqueness and canonically wires only these qualified ACCEPTs in a bounded increment. Do not wait for unrelated Store/mobile or Seating evidence."
+      "next": "Workstream08 immediately validates current path/hash/metadata/decode/uniqueness and canonically wires only these qualified ACCEPTs."
     }
   ],
   "completedOrClosedThisReconciliation": [
     {
-      "scope": ["decor-3", "decor-4"],
+      "scope": [
+        "decor-3",
+        "decor-4"
+      ],
       "state": "INDEPENDENT_ACCEPT_AND_CANONICAL_V30_VALIDATED",
       "integrationCommit": "e0a43b7b5d04e6e440e185cf7092c56a5751f1cd"
     },
     {
-      "scope": ["headwear-5", "headwear-6", "headwear-7", "headwear-8"],
-      "state": "EXACT_BYTE_RECOVERY_RENDER_AND_INDEPENDENT_REVIEW_COMPLETE_ACCEPT_4_OF_4_AWAITING_CANONICAL",
-      "reviewCommit": "d2a52cd28fd3c2831fcb00370383f3488da7f404"
-    },
-    {
-      "scope": ["wall-1", "wall-2", "wall-3", "wall-4"],
+      "scope": [
+        "wall-1",
+        "wall-2",
+        "wall-3",
+        "wall-4"
+      ],
       "state": "INDEPENDENT_ACCEPT_AND_CANONICAL_V29_VALIDATED",
       "integrationCommit": "b91a8a9bf7806911d74e6f0972acf019f7056eaf"
     },
     {
-      "scope": ["companions-2", "companions-5", "companions-6", "companions-7"],
+      "scope": [
+        "companions-2",
+        "companions-5",
+        "companions-6",
+        "companions-7"
+      ],
       "state": "PRIOR_RENDER_REVIEW_COMPLETE_REWORK_4_OF_4",
       "reviewer": "05",
       "evidence": "docs/preproduction/catalog-sprint/reviews/05.json"
     }
   ],
   "blockedPreserved": {
-    "tops11_12_v7": "Exact authoritative WEBP payload bytes remain unavailable; expected Git blobs 0641cd1563cd9f683d685231c52a28c9f66424be and 9f13c65b0310a70be3fb1e6464baf22dabe75ce1. Do not regenerate, re-encode or approximately reconstruct.",
-    "storeMobile": "Real Store/mobile visual proof remains blocked before Store content by the shared real-pointer navigation click timeout until newer exact-run evidence supersedes it. Preserve accepted catalog art and keep this visual release gate open.",
-    "headwearRecoveryResolved": "The former Headwear5-8 raw-byte materialization blocker is resolved. Exact repository bytes, readback and real card/detail evidence exist and reviewer01 ACCEPTed all four; freeze those exact hashes and do not regenerate."
+    "tops11_12_v7": "Exact authoritative WEBP payload bytes remain unavailable; do not regenerate, re-encode or approximately reconstruct.",
+    "adobeFireflyDirectPilot": "Interactive Firefly generation attempt for Desk7 was rate-limited; no output bytes were created and no retry was performed. Scheduled/authorized generation paths remain eligible.",
+    "headwearRecoveryResolved": "Headwear5-8 exact repository bytes and real card/detail evidence exist and reviewer01 ACCEPTed all four; freeze those exact hashes."
   },
   "readerRule": "Every worker must revalidate assignment, exact item hash, review state and branch head before writing. This coordination file never overrides newer exact evidence."
 }
