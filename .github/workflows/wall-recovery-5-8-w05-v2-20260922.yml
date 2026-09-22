@@ -1,0 +1,371 @@
+name: StarBlox Wall 5-8 W05 v2 Recovery
+
+on:
+  push:
+    branches: [screenshot-match-preproduction]
+    paths:
+      - '.github/workflows/wall-recovery-5-8-w05-v2-20260922.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: starblox-wall-recovery-5-8-w05-v2-20260922
+  cancel-in-progress: false
+
+jobs:
+  recover-wall-pilot:
+    if: github.ref == 'refs/heads/screenshot-match-preproduction'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - name: Checkout preproduction only
+        uses: actions/checkout@v4
+        with:
+          ref: screenshot-match-preproduction
+          fetch-depth: 0
+
+      - name: Record inspected source head
+        run: echo "SOURCE_HEAD=$(git rev-parse HEAD)" >> "$GITHUB_ENV"
+
+      - name: Revalidate live W05 assignment and exact reviewer defects
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          active=json.loads(Path('docs/preproduction/art-factory/ACTIVE_BATCH.json').read_text())
+          batch=next((b for b in active.get('batches',[]) if b.get('producer')=='05'),None)
+          expected=['wall-5','wall-6','wall-7','wall-8']
+          if not batch or batch.get('batchId')!='w05-wall-5-8-v2' or batch.get('scope')!=expected:
+              raise SystemExit(f'W05 allocation changed; refusing write: {batch}')
+          if batch.get('reviewer')!='14' or batch.get('state')!='ACTIONABLE_REWORK_FACTORY_PILOT':
+              raise SystemExit(f'W05 batch no longer actionable: {batch}')
+          wanted={
+            'wall-5':'e9db285a837784a875642c0b56a7964873d79a5d',
+            'wall-6':'d31b39482cce122c9030e8105592d89be3f6fd33',
+            'wall-7':'f291c8368d4218603e3afe957662c3d37c5ca62a',
+            'wall-8':'d50201ae8eb39ea26cffc8b7c85686cf6b4b7baa',
+          }
+          text=Path('docs/preproduction/catalog-sprint/reviews/14.json').read_text()
+          for iid,blob in wanted.items():
+              if iid not in text or blob not in text:
+                  raise SystemExit(f'{iid}: exact legacy review hash changed; refusing write')
+          print(json.dumps({'batch':batch['batchId'],'scope':expected,'reviewHashes':wanted},indent=2))
+          PY
+
+      - name: Use Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Run prompt optimizer and factory-contract validation
+        run: |
+          mkdir -p artifacts/w05-wall-5-8
+          node scripts/artPromptOptimizer.mjs validate --repo-root .
+          node scripts/artPromptOptimizer.mjs train --repo-root . --output artifacts/w05-wall-5-8/optimizer-model.json
+          node scripts/artPromptOptimizer.mjs recommend --repo-root . --all-rework --variants 2 --output artifacts/w05-wall-5-8/optimizer-recommendations.json
+          node --test scripts/artFactoryJob.node-test.mjs
+          sha256sum artifacts/w05-wall-5-8/optimizer-recommendations.json > artifacts/w05-wall-5-8/optimizer-recommendations.sha256
+
+      - name: Download selected provider variants, validate, stage, and exact-readback Wall 5-8
+        id: stage
+        run: |
+          python3 - <<'PY'
+          from __future__ import annotations
+          import hashlib, json, os, struct, urllib.request, zlib
+          from pathlib import Path
+
+          ROOT=Path('.')
+          RESULT=ROOT/'docs/preproduction/catalog-sprint/chat-wall-5-8-w05-v2-result.json'
+          optimizer_path=ROOT/'artifacts/w05-wall-5-8/optimizer-recommendations.json'
+          optimizer_sha=hashlib.sha256(optimizer_path.read_bytes()).hexdigest()
+
+          items=[
+            dict(
+              id='wall-5',name='Garden Garland',tier=2,theme='Art Attack',price=181,starReq=0,
+              legacyBlobSha='e9db285a837784a875642c0b56a7964873d79a5d',
+              sourceGenerationRequestId='811f4eaf-37d4-41d4-9b12-0a5bfcd5468f',
+              sourceUrl='https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:47d643cf-cdde-47a3-ac2f-fae9c1f4a3b6',
+              generatorAssetId='urn:aaid:sc:US:715d7248-57cb-42b1-a78b-159845b4a2ef',
+              seed=1007452349,
+              promptSha256='b3010f77351b812c23b7c9dc78c34a7502699ca58784c2b97e1770eb371426c4',
+              negativePromptSha256='7548f6d0fbfe73283733c37957ccee9542d65f02b5efca124bfbc50d9de3b0f6',
+              prompt='StarBlox catalog asset for exact item Garden Garland, Wall category, Tier 2, Art Attack theme. Create a premium original physical wall-mounted handmade garland in a three-quarter collectible product presentation: a real braided cord/twine hanging in a relaxed arc from two visible mounting hooks, layered dimensional leaves, stars and small craft shapes with paper, painted wood and stitched fabric material variation, tiny clips/beads, overlapping pieces and believable cast/contact shadows. Express Art Attack through playful hand-painted brush marks, color-blocked craft pieces and tactile maker details, not through text. Warm studio wall backdrop, controlled soft key light, strong card-scale silhouette, tasteful Tier-2 richness, centered object, no UI.',
+              negativePrompt='text, letters, numbers, logos, watermark, brand, copyrighted character, badge, tier label, UI panel, flat vector, sticker, emoji, thin 2D icon, front-facing poster, generic crest, duplicated template, human, cluttered room',
+              producerPixelCheck='PASS — actual selected pixels show braided cord on two hooks, layered painted-wood/paper/fabric craft pieces, clips/stitching, strong object thickness and separated cast shadows. Art Attack now reads through handmade material variation rather than palette alone.',
+              variants=[
+                dict(label='A',seed=789639783,requestId='41098445-492c-4d4f-93a5-0017eb05f507',assetId='urn:aaid:sc:US:063fbf8e-1b4c-44ae-b601-0556f44e26f3',sourceUrl='https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:c66f9192-3dff-4c6f-a41f-29ecd84fbeb4',promptSha256='b3010f77351b812c23b7c9dc78c34a7502699ca58784c2b97e1770eb371426c4',disposition='NOT_SELECTED__SPARSER_AND_LESS_ART_ATTACK_SPECIFIC'),
+                dict(label='B',seed=1007452349,requestId='811f4eaf-37d4-41d4-9b12-0a5bfcd5468f',assetId='urn:aaid:sc:US:715d7248-57cb-42b1-a78b-159845b4a2ef',sourceUrl='https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:47d643cf-cdde-47a3-ac2f-fae9c1f4a3b6',promptSha256='b3010f77351b812c23b7c9dc78c34a7502699ca58784c2b97e1770eb371426c4',disposition='SELECTED_FOR_STAGING'),
+                dict(label='C',seed=1382794417,requestId='88f3a4c4-2faa-45a3-beab-e5c3148497f2',assetId='urn:aaid:sc:US:ef2973b0-4fc9-4d2d-9dab-f921488b571b',sourceUrl='https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:51c11d6b-9d64-4372-916d-b4555c439ee2',promptSha256='7719cda7134de90f186f69daf3deb3a4039deaf0e2832054a38cb996b4f514dd',disposition='NOT_SELECTED__STRONG_CRAFT_DEPTH_BUT_MORE_WOODLAND_AND_LESS_COLORFUL_THAN_B'),
+              ],
+            ),
+            dict(
+              id='wall-6',name='Planet Map',tier=2,theme='Star Luxe',price=254,starReq=0,
+              legacyBlobSha='d31b39482cce122c9030e8105592d89be3f6fd33',
+              sourceGenerationRequestId='495a3833-a920-4b3a-9ebf-92417c0c7f79',
+              sourceUrl='https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:59772ef8-d97b-4205-9736-8485af213105',
+              generatorAssetId='urn:aaid:sc:US:b40161af-e767-417f-9a07-ba7a9e6b2a91',
+              seed=106333798,
+              promptSha256='264e4ab4c7735bd7eaa2d8ac5e74f90aa3e0c570d5d1f2cd3571c7e465f00eb2',
+              negativePromptSha256='7ac2f469af288bf1e2a635b60032ba6c446fab7b5ff25de0efffc46adebb3e2b',
+              prompt='StarBlox catalog asset for exact item Planet Map, Wall category, Tier 2, Star Luxe theme. Create a premium original physical wall-mounted celestial map/plaque in a three-quarter collectible product presentation: deep midnight-blue rigid plaque with visible beveled thickness and rear mounting standoffs, raised brass/pearl orbital rings, small sculpted planets and constellation markers, inset glossy map surface, crisp metallic edge highlights and believable wall contact shadow. Star Luxe must read through restrained gold/brass, pearlescent inlays and polished premium surface response, not text. Keep Tier 2 elegant rather than over-spectacular, centered with a strong small-card silhouette on a soft studio wall backdrop.',
+              negativePrompt='text, labels, letters, numbers, logos, watermark, brand, copyrighted character, badge, tier label, UI, flat vector, sticker, emoji, thin 2D icon, front-facing poster, generic scoreboard, repeated frame template, human, cluttered room',
+              producerPixelCheck='PASS — actual selected pixels show a thick midnight plaque with beveled edge, metallic raised orbital rings, sculpted pearl planets, inset glossy field, mount depth and wall shadow. Star Luxe now has premium metal/glass response while staying restrained at Tier 2.',
+              variants=[
+                dict(label='A',seed=467956889,requestId='27993ef1-591c-402e-af88-54fa45f0bfd7',assetId='urn:aaid:sc:US:f3aee9bf-e223-4efd-a7f0-0e1574a64778',sourceUrl='https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:f035943c-6973-4ec4-a065-78eed3c2e9fe',promptSha256='264e4ab4c7735bd7eaa2d8ac5e74f90aa3e0c570d5d1f2cd3571c7e465f00eb2',disposition='NOT_SELECTED__MORE_ORNATE_INNER_FRAME'),
+                dict(label='B',seed=106333798,requestId='495a3833-a920-4b3a-9ebf-92417c0c7f79',assetId='urn:aaid:sc:US:b40161af-e767-417f-9a07-ba7a9e6b2a91',sourceUrl='https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:59772ef8-d97b-4205-9736-8485af213105',promptSha256='264e4ab4c7735bd7eaa2d8ac5e74f90aa3e0c570d5d1f2cd3571c7e465f00eb2',disposition='SELECTED_FOR_STAGING'),
+                dict(label='C',seed=973261402,requestId='8fccd7a6-8e75-4d31-9fd1-2c85a81e6ba3',assetId='urn:aaid:sc:US:542ce912-8065-4f79-b584-26169b9b2bd0',sourceUrl='https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:633bbdcc-139b-4454-8c8b-5e5fc2ddae24',promptSha256='f343e92fdd456511080d037e862546d6f45d3ba283361e2059fb995b8dc5948f',disposition='NOT_SELECTED__STRONG_LUXE_OBJECT_BUT_BOTTOM_CONTACT_READS_MORE_FREESTANDING'),
+              ],
+            ),
+            dict(
+              id='wall-7',name='Skate Poster',tier=3,theme='Midnight Neon',price=348,starReq=2,
+              legacyBlobSha='f291c8368d4218603e3afe957662c3d37c5ca62a',
+              sourceGenerationRequestId='dfd6e1b5-97e4-42d5-be64-d66fb372e2c5',
+              sourceUrl='https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:33f83978-370c-436f-a2a2-de22e73dcc3b',
+              generatorAssetId='urn:aaid:sc:US:b3140ee7-8b0d-4f0b-8187-a413dbfb8aec',
+              seed=1916001742,
+              promptSha256='b8b7140fd53d90dc39d6d11e70907b9e81c276452282b304302c3af2d8240a6f',
+              negativePromptSha256='3f628d96db35a75bf1c072247dbf1f0595919d29ca050762dac895abae3fb849',
+              prompt='StarBlox catalog asset for exact item Skate Poster, Wall category, Tier 3, Midnight Neon theme. Create a premium original physical framed skate poster as a wall-mounted collectible in three-quarter product presentation. Use a deep charcoal/navy dimensional frame with visible thickness, glazing and paper inset, real hanging/mounting hardware and a cast wall shadow. Inside, show one original stylized skateboard silhouette crossing abstract half-pipe arcs made only from bold fluorescent cyan, magenta and violet painted shapes, with restrained neon edge accents. Absolutely no writing or typography anywhere. Tier 3 should feel richer than a starter poster through layered glass reflections, metallic corner hardware, luminous ink/neon spill and material depth while remaining card-readable and clearly a poster.',
+              negativePrompt='text, typography, letters, words, numbers, captions, fake writing, logos, watermark, brand, copyrighted character, badge, tier label, UI, flat vector, sticker, emoji, plain front-facing rectangle, generic city sign, human skater, copied skateboard brand, cluttered room',
+              producerPixelCheck='PASS — actual selected pixels show a deep physical frame, visible side thickness/corner hardware, glazed reflections, original skateboard/half-pipe graphic, clean no-text treatment, neon material spill and wall shadow. Midnight Neon reads clearly at Tier 3.',
+              variants=[
+                dict(label='A',seed=1627744890,requestId='18410689-dc3a-4020-b364-0c8a32530838',assetId='urn:aaid:sc:US:9cf7eb93-56bc-46ba-8f5c-62b984cfec74',sourceUrl='https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:20603d03-ec53-4a31-bd6a-6c5b3c56a914',promptSha256='bed9e81ae87468a155025a8453b62a17321adc86c5f954eec5a3cff88f9cdf4d',disposition='NOT_SELECTED__TINY_TEXT_LIKE_MARKS'),
+                dict(label='B',seed=1916001742,requestId='dfd6e1b5-97e4-42d5-be64-d66fb372e2c5',assetId='urn:aaid:sc:US:b3140ee7-8b0d-4f0b-8187-a413dbfb8aec',sourceUrl='https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:33f83978-370c-436f-a2a2-de22e73dcc3b',promptSha256='b8b7140fd53d90dc39d6d11e70907b9e81c276452282b304302c3af2d8240a6f',disposition='SELECTED_FOR_STAGING'),
+              ],
+            ),
+            dict(
+              id='wall-8',name='Ocean Window',tier=3,theme='Candy Core',price=479,starReq=2,
+              legacyBlobSha='d50201ae8eb39ea26cffc8b7c85686cf6b4b7baa',
+              sourceGenerationRequestId='0491e021-02f4-4588-890f-4c96d6e22894',
+              sourceUrl='https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:17c83863-a861-476a-925d-0dcfa88be1b7',
+              generatorAssetId='urn:aaid:sc:US:254b0a1b-b62f-4007-8b5e-76fbbe85f80c',
+              seed=1854681775,
+              promptSha256='286e6b4016634aee79705eebce7da53c004c72f56ee9bf56d5bf6fe62ec9610f',
+              negativePromptSha256='62095645ffa6eaf18ef0922215229846799ab4bde0b9f3acebc6dc67ab2f3d47',
+              prompt='StarBlox catalog asset for exact item Ocean Window, Wall category, Tier 3, Candy Core theme. Create a premium original physical recessed ocean window clearly mounted into a wall, shown in three-quarter collectible product presentation. The object must visibly sit inside a wall opening with a thick rounded candy-colored frame, glossy pastel coral, aqua and pink enamel accents, a deep recessed jamb, metal/glass edge construction, visible fasteners and believable cast/contact shadow on the wall. Behind thick reflective glass, show layered blue water, fish silhouettes, bubbles and caustic light with convincing refraction and foreground/mid/background depth. Candy Core reads through playful glossy pastel material treatment, no text. Tier 3 richness, clean strong card silhouette, no floor-standing object.',
+              negativePrompt='text, letters, numbers, logos, watermark, brand, copyrighted character, badge, tier label, UI, flat vector, sticker, emoji, thin 2D window icon, freestanding aquarium, portable object, floor-standing frame, generic poster, human, cluttered room',
+              producerPixelCheck='PASS — actual selected pixels show thick candy-enamel frame construction, recessed multi-layer jamb, visible fasteners, reflective glass, layered water/fish depth and strong contact shadow. Candy Core is physical and playful rather than a flat recolor.',
+              variants=[
+                dict(label='A',seed=239320889,requestId='9a805e49-22c6-45fc-9d45-87033bfede10',assetId='urn:aaid:sc:US:be14319c-4c08-4359-9cca-e82304fd4631',sourceUrl='https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:dc85df61-efc8-4aa2-93d5-ee83eb006e49',promptSha256='87111e677bd9ec2ea97ad61da40eeb50703277f40547393e6f0a3f7c8b198125',disposition='NOT_SELECTED__READS_TOO_FREESTANDING_PORTABLE'),
+                dict(label='B',seed=1854681775,requestId='0491e021-02f4-4588-890f-4c96d6e22894',assetId='urn:aaid:sc:US:254b0a1b-b62f-4007-8b5e-76fbbe85f80c',sourceUrl='https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:17c83863-a861-476a-925d-0dcfa88be1b7',promptSha256='286e6b4016634aee79705eebce7da53c004c72f56ee9bf56d5bf6fe62ec9610f',disposition='SELECTED_FOR_STAGING'),
+              ],
+            ),
+          ]
+
+          def sha256(b): return hashlib.sha256(b).hexdigest()
+          def git_blob_sha(b):
+              h=hashlib.sha1(); h.update(f'blob {len(b)}\0'.encode()); h.update(b); return h.hexdigest()
+          def png_dimensions(data):
+              if data[:8] != b'\x89PNG\r\n\x1a\n': raise ValueError('not PNG')
+              pos=8; dims=None; ended=False
+              while pos < len(data):
+                  if pos+12>len(data): raise ValueError('truncated PNG')
+                  n=struct.unpack('>I',data[pos:pos+4])[0]; end=pos+12+n
+                  if end>len(data): raise ValueError('truncated PNG content')
+                  kind=data[pos+4:pos+8]; payload=data[pos+8:pos+8+n]
+                  expected=struct.unpack('>I',data[pos+8+n:end])[0]
+                  if zlib.crc32(kind+payload)&0xffffffff != expected: raise ValueError('PNG CRC mismatch')
+                  if kind==b'IHDR':
+                      if n!=13 or dims is not None: raise ValueError('invalid IHDR')
+                      dims=struct.unpack('>II',payload[:8])
+                  pos=end
+                  if kind==b'IEND': ended=True; break
+              if not ended or pos!=len(data) or dims is None: raise ValueError('invalid PNG structure')
+              return dims
+          def download(url,limit=8_000_000):
+              req=urllib.request.Request(url,headers={'User-Agent':'StarBlox-W05-Wall58-Recovery/1.0'})
+              with urllib.request.urlopen(req,timeout=90) as r:
+                  if not r.geturl().startswith('https://'): raise ValueError('non-HTTPS redirect')
+                  b=r.read(limit+1)
+              if len(b)>limit: raise ValueError('download too large')
+              return b
+
+          stored=[]; skipped=[]
+          for meta in items:
+              iid=meta['id']
+              target=ROOT/f"public/assets/catalog/{iid}-w05-v2.png"
+              other=sorted((ROOT/'public/assets/catalog').glob(f'{iid}-*.*'))
+              other=[p for p in other if p!=target]
+              if other and not target.exists():
+                  skipped.append({'id':iid,'reason':'EXISTING_VERSIONED_CANDIDATE_PRESERVED','paths':[p.as_posix() for p in other]})
+                  continue
+              data=download(meta['sourceUrl'])
+              dims=png_dimensions(data)
+              if dims!=(1024,1024): raise ValueError(f'{iid}: expected 1024x1024, got {dims}')
+              if target.exists() and target.read_bytes()!=data:
+                  raise ValueError(f'{iid}: refusing to overwrite differing staged candidate')
+              target.parent.mkdir(parents=True,exist_ok=True)
+              if not target.exists(): target.write_bytes(data)
+              rb=target.read_bytes()
+              if rb!=data or png_dimensions(rb)!=(1024,1024): raise ValueError(f'{iid}: readback mismatch')
+              rec={**meta,
+                   'collectionId':'wall','collectionName':'Wall Decor','type':'room','format':'PNG',
+                   'repositoryPath':target.as_posix(),'assetPath':'/'+target.as_posix().removeprefix('public/'),
+                   'dimensions':[1024,1024],'bytes':len(rb),'sha256':sha256(rb),'gitBlobSha':git_blob_sha(rb),
+                   'producer':'05','independentReviewer':'14','status':'READY_FOR_REVIEW_14','readback':'PASS',
+                   'provenance':{
+                     'provider':'Adobe','tool':'image_generate','generatorAssetId':meta['generatorAssetId'],
+                     'modelId':None,'modelRevision':None,'seed':meta['seed'],'outputFileType':'png','sourceDimensions':[1024,1024],
+                     'modelDisclosure':'Adobe connector did not expose exact model/checkpoint revision; null is preserved rather than invented.'
+                   }}
+              stored.append(rec)
+          if len({r['sha256'] for r in stored}) != len(stored): raise ValueError('duplicate selected Wall bytes in bounded pilot')
+
+          result={
+            'schemaVersion':2,'batchId':'w05-wall-5-8-v2','status':'STAGED_READBACK_PASS__RENDER_PENDING',
+            'sourceHead':os.environ.get('SOURCE_HEAD'),'producer':'05','independentReviewer':'14','canonicalWriter':'08',
+            'storedCandidateCount':len(stored),'skippedExistingCandidateCount':len(skipped),'items':stored,'skipped':skipped,
+            'factoryV2':{
+              'activeBatchValidated':True,
+              'promptOptimizer':'PASS',
+              'optimizerRecommendationSha256':optimizer_sha,
+              'artFactoryJobContractTests':'PASS',
+              'artFactoryJobPlan':'NOT_SERIALIZED__PROVIDER_EXACT_MODEL_REVISION_UNEXPOSED',
+              'artFactoryJobReason':'scripts/artFactoryJob.mjs correctly requires exact modelId+revision; Adobe connector did not expose these values, so no fake identity/revision was supplied.',
+              'boundedVariantCounts':{i['id']:len(i['variants']) for i in items},
+              'selectedFromActualPixelInspection':True
+            },
+            'checks':{
+              'exactByteReadback':f'PASS_{len(stored)}_OF_{len(stored)}',
+              'candidateDecode':f'PASS_{len(stored)}_OF_{len(stored)}',
+              'tests':'PENDING','build':'PENDING','sharedRenderOverall':'PENDING','wallCardDetailRender':'PENDING'
+            },
+            'freeze':{
+              'replitTouched':False,'flootTouched':False,'mainTouched':False,'canonicalMappingsTouched':False,
+              'gameplayChanged':False,'learningChanged':False,'playerDataTouched':False,'paidSettingsTouched':False
+            },
+            'handoff':'14: independently review only these exact staged Wall5-8 hashes after actual card/detail render evidence. 08: integrate only independently accepted exact hashes. 05: do not self-approve and do not start Wall9-12 until reviewer14 dispositions are published.'
+          }
+          RESULT.write_text(json.dumps(result,indent=2)+'\n')
+          print(json.dumps({'storedCandidateCount':len(stored),'skipped':skipped,'items':[{'id':r['id'],'sha256':r['sha256'],'gitBlobSha':r['gitBlobSha'],'bytes':r['bytes']} for r in stored]},indent=2))
+          PY
+
+      - name: Publish only produced Wall candidate bytes and intake evidence
+        id: publish
+        run: |
+          set -eu
+          test "$GITHUB_REF" = "refs/heads/screenshot-match-preproduction"
+          STORED=$(python3 - <<'PY'
+          import json
+          print(json.load(open('docs/preproduction/catalog-sprint/chat-wall-5-8-w05-v2-result.json'))['storedCandidateCount'])
+          PY
+          )
+          if [ "$STORED" -eq 0 ]; then
+            echo 'No new owned Wall bytes produced; preserving newer staged candidates.'
+            echo 'NO_ASSETS=true' >> "$GITHUB_ENV"
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for f in public/assets/catalog/wall-{5,6,7,8}-w05-v2.png; do test ! -f "$f" || git add -- "$f"; done
+          git add -- docs/preproduction/catalog-sprint/chat-wall-5-8-w05-v2-result.json
+          git commit -m 'catalog: stage physical Wall 5-8 W05 v2 pilot'
+          for attempt in 1 2 3; do
+            if git push origin HEAD:refs/heads/screenshot-match-preproduction; then break; fi
+            git fetch origin screenshot-match-preproduction
+            git rebase origin/screenshot-match-preproduction
+            if [ "$attempt" -eq 3 ]; then echo 'Concurrent branch changes prevented safe publication; no force push.' >&2; exit 1; fi
+          done
+          echo "TESTED_SOURCE_HEAD=$(git rev-parse HEAD)" >> "$GITHUB_ENV"
+
+      - name: Install app and Playwright dependencies
+        if: env.NO_ASSETS != 'true'
+        run: |
+          npm install --no-save --package-lock=false --no-audit --no-fund
+          npm install --no-save --package-lock=false --no-audit --no-fund playwright@1.55.0
+          npx playwright install --with-deps chromium
+
+      - name: Run full regression suite
+        if: env.NO_ASSETS != 'true'
+        id: tests
+        continue-on-error: true
+        run: timeout 120s npm test -- --reporter=verbose
+
+      - name: Build actual preproduction application
+        if: env.NO_ASSETS != 'true'
+        id: build
+        continue-on-error: true
+        run: npm run build
+
+      - name: Render staged candidates with shared file-backed fixture
+        if: env.NO_ASSETS != 'true'
+        id: render
+        continue-on-error: true
+        run: node scripts/catalog-staged-art-qa.mjs
+        env:
+          GITHUB_SHA: ${{ env.TESTED_SOURCE_HEAD }}
+
+      - name: Record scoped Wall evidence honestly
+        if: always() && steps.publish.outcome == 'success' && env.NO_ASSETS != 'true'
+        env:
+          TEST_OUTCOME: ${{ steps.tests.outcome }}
+          BUILD_OUTCOME: ${{ steps.build.outcome }}
+          RENDER_OUTCOME: ${{ steps.render.outcome }}
+        run: |
+          python3 - <<'PY'
+          import json, os
+          from pathlib import Path
+          p=Path('docs/preproduction/catalog-sprint/chat-wall-5-8-w05-v2-result.json')
+          r=json.loads(p.read_text())
+          def state(x): return {'success':'PASS','failure':'FAIL','skipped':'NOT_RUN','cancelled':'CANCELLED'}.get(x,'NOT_RUN')
+          r['testedSourceHead']=os.environ.get('TESTED_SOURCE_HEAD')
+          r['workflowRunId']=int(os.environ['GITHUB_RUN_ID'])
+          r['checks'].update({
+            'tests':state(os.environ['TEST_OUTCOME']),
+            'build':state(os.environ['BUILD_OUTCOME']),
+            'sharedRenderOverall':state(os.environ['RENDER_OUTCOME']),
+            'typecheck':'NOT_APPLICABLE_NO_APP_SOURCE_CHANGES'
+          })
+          report=Path('artifacts/catalog-staged-art/report.json')
+          seen={}; screenshots={}
+          if report.exists():
+              ev=json.loads(report.read_text())
+              wanted={i['id']:i['gitBlobSha'] for i in r['items']}
+              matches=[i for s in ev.get('sets',{}).values() for i in s.get('items',[]) if wanted.get(i.get('id'))==i.get('blobSha')]
+              for i in matches:
+                  if i.get('screenshot') and i.get('status')==200 and i.get('naturalWidth') and not i.get('errors'):
+                      seen[i['id']]=i['blobSha']
+                      screenshots[i['id']]={'blobSha':i['blobSha'],'screenshot':i.get('screenshot'),'status':i.get('status'),'naturalWidth':i.get('naturalWidth'),'naturalHeight':i.get('naturalHeight'),'errors':i.get('errors') or []}
+              r['renderEvidence']={
+                'artifactName':'wall-5-8-w05-v2-recovery-evidence',
+                'reportPath':'artifacts/catalog-staged-art/report.json',
+                'matchedIds':sorted(seen),
+                'matchedHashes':{i:seen[i] for i in sorted(seen)},
+                'screenshots':screenshots
+              }
+          expected=len(r['items'])
+          r['checks']['wallCardDetailRender']=f"PASS_{len(seen)}_OF_{expected}" if len(seen)==expected else f"INCOMPLETE_{len(seen)}_OF_{expected}"
+          r['status']='READY_FOR_REVIEW_14' if len(seen)==expected else 'STAGED_READBACK_PASS__RENDER_INCOMPLETE'
+          p.write_text(json.dumps(r,indent=2)+'\n')
+          print(json.dumps({'wallCardDetailRender':r['checks']['wallCardDetailRender'],'matched':seen,'overall':r['checks']['sharedRenderOverall']},indent=2))
+          PY
+
+      - name: Publish scoped evidence update without touching mappings
+        if: always() && steps.publish.outcome == 'success' && env.NO_ASSETS != 'true'
+        run: |
+          set -eu
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- docs/preproduction/catalog-sprint/chat-wall-5-8-w05-v2-result.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'catalog: record Wall 5-8 W05 v2 render evidence'
+          for attempt in 1 2 3; do
+            if git push origin HEAD:refs/heads/screenshot-match-preproduction; then break; fi
+            git fetch origin screenshot-match-preproduction
+            git rebase origin/screenshot-match-preproduction
+            if [ "$attempt" -eq 3 ]; then echo 'Concurrent branch changes prevented safe evidence publication; no force push.' >&2; exit 1; fi
+          done
+
+      - name: Upload Wall 5-8 evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: wall-5-8-w05-v2-recovery-evidence
+          path: |
+            docs/preproduction/catalog-sprint/chat-wall-5-8-w05-v2-result.json
+            artifacts/w05-wall-5-8/
+            artifacts/catalog-staged-art/
+          retention-days: 14
+          if-no-files-found: warn
