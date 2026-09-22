@@ -1,0 +1,143 @@
+{
+  "schemaVersion": 1,
+  "batchId": "chat-catalog-recovery-desks5-6-rug9-20260921",
+  "status": "STAGED_READY_FOR_INDEPENDENT_REVIEW",
+  "sourceHead": "7ea3a2d7ed6f1e3296576c4a75bbb592ed52ff63",
+  "workflowRunId": "35672408714",
+  "transportHelper": "CHAT",
+  "canonicalWriter": "08",
+  "newGenerations": 0,
+  "storedCandidateCount": 3,
+  "storedOriginalCount": 3,
+  "duplicateCandidateContent": 0,
+  "items": [
+    {
+      "id": "desks-5",
+      "name": "Garden Book Desk",
+      "collectionId": "desks",
+      "collectionName": "Desks & Tech",
+      "type": "room",
+      "tier": 2,
+      "theme": "Pixel Party",
+      "price": 181,
+      "starReq": 0,
+      "format": "JPEG",
+      "dimensions": [
+        600,
+        600
+      ],
+      "bytes": 51545,
+      "sha256": "19be1b31799b00bfbf6eb540f0a9d128460985daebd9ce3c508695632a49d6f4",
+      "gitBlobSha": "95fe65632e4f40b76b23cce30071ee2fdc5b4399",
+      "producer": "03",
+      "transportHelper": "CHAT",
+      "independentReviewer": "05",
+      "repositoryPath": "public/assets/catalog/desks-5-w03-recovered-v2.jpg",
+      "assetPath": "/assets/catalog/desks-5-w03-recovered-v2.jpg",
+      "assetId": "urn:aaid:sc:US:8962802a-f953-4cfe-bc19-c56fc7afcc74",
+      "status": "READY_FOR_REVIEW_05",
+      "readback": "PASS",
+      "original": {
+        "format": "PNG",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "bytes": 1031950,
+        "sha256": "785d48f6dc8f8cdafac5afab059e0ffbe7869eaa9357e420b2ae6892d6ae555e",
+        "gitBlobSha": "f27bcab010ec219a4231232be1f5af07917d5db8",
+        "repositoryPath": "docs/preproduction/catalog-sprint/recovered-originals/chat-catalog-recovery-desks5-6-rug9-20260921/desks-5-8962802a-f953-4cfe-bc19-c56fc7afcc74.png"
+      }
+    },
+    {
+      "id": "desks-6",
+      "name": "Galaxy Gamer Setup",
+      "collectionId": "desks",
+      "collectionName": "Desks & Tech",
+      "type": "room",
+      "tier": 2,
+      "theme": "Berry Blast",
+      "price": 254,
+      "starReq": 0,
+      "format": "JPEG",
+      "dimensions": [
+        600,
+        600
+      ],
+      "bytes": 34981,
+      "sha256": "c0037a3a56a5b477fd714fbaf2419d4ffa9197721421bd1c0e20f99d99eac991",
+      "gitBlobSha": "52df05265de236911927b904b07e68dac7a17828",
+      "producer": "03",
+      "transportHelper": "CHAT",
+      "independentReviewer": "05",
+      "repositoryPath": "public/assets/catalog/desks-6-w03-recovered-v2.jpg",
+      "assetPath": "/assets/catalog/desks-6-w03-recovered-v2.jpg",
+      "assetId": "urn:aaid:sc:US:bc5a80a0-b94a-4564-8360-9d521a05dde0",
+      "status": "READY_FOR_REVIEW_05",
+      "readback": "PASS",
+      "original": {
+        "format": "PNG",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "bytes": 908023,
+        "sha256": "86468a792cf823a68baf113b12031d3fecd63442e1d0018d4bcd0f8678a8b55c",
+        "gitBlobSha": "61a832be12d4b65df40d10ad9f3cd4b7edfef457",
+        "repositoryPath": "docs/preproduction/catalog-sprint/recovered-originals/chat-catalog-recovery-desks5-6-rug9-20260921/desks-6-bc5a80a0-b94a-4564-8360-9d521a05dde0.png"
+      }
+    },
+    {
+      "id": "rugs-9",
+      "name": "Splash Rug",
+      "collectionId": "rugs",
+      "collectionName": "Rugs",
+      "type": "room",
+      "tier": 3,
+      "theme": "Berry Blast",
+      "price": 667,
+      "starReq": 2,
+      "format": "JPEG",
+      "dimensions": [
+        600,
+        600
+      ],
+      "bytes": 79736,
+      "sha256": "b944487e47dab26ec095dcff9933521b34a8e3097c7663a855d129c0a744fc25",
+      "gitBlobSha": "9eef1db116e871d31c62de680d261cfbeccf49b3",
+      "producer": "07",
+      "transportHelper": "CHAT",
+      "independentReviewer": "14",
+      "repositoryPath": "public/assets/catalog/rugs-9-w07-v2.jpg",
+      "assetPath": "/assets/catalog/rugs-9-w07-v2.jpg",
+      "assetId": "urn:aaid:sc:US:b00a0244-56e8-4393-939f-1c14209bc561",
+      "status": "READY_FOR_REVIEW_14",
+      "readback": "PASS",
+      "original": {
+        "format": "PNG",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "bytes": 1436730,
+        "sha256": "418d7591d6d93deafe253c9796ffe75b268a7d266899d89752c78eae020f4ee6",
+        "gitBlobSha": "b052b8f604a6710218c9261b3e005dd9395ff47f",
+        "repositoryPath": "docs/preproduction/catalog-sprint/recovered-originals/chat-catalog-recovery-desks5-6-rug9-20260921/rugs-9-b00a0244-56e8-4393-939f-1c14209bc561.png"
+      }
+    }
+  ],
+  "checks": {
+    "metadata": "PASS_3_OF_3_FROM_CURRENT_GAME_MODEL",
+    "exactByteReadback": "PASS_6_OF_6",
+    "candidateDecode": "PASS_3_OF_3",
+    "independentVisualReview": "PENDING_ASSIGNED_REVIEWERS"
+  },
+  "freeze": {
+    "replitTouched": false,
+    "flootTouched": false,
+    "mainTouched": false,
+    "canonicalMappingsTouched": false,
+    "gameplayChanged": false,
+    "playerDataTouched": false
+  }
+}
