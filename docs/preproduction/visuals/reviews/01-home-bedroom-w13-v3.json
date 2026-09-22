@@ -1,0 +1,127 @@
+{
+  "schemaVersion": 1,
+  "reviewer": "01",
+  "role": "Visual Target Director / independent scene-art reviewer",
+  "phase": "ART_AND_VISUALS_ONLY",
+  "branch": "screenshot-match-preproduction",
+  "sourceHeadCheckedBeforeWrite": "2d588c1bd097500ec7af080300bd0ed38f2630a7",
+  "reviewedAt": "2026-09-22T05:39:00-04:00",
+  "candidateId": "home-bedroom-w13-v3",
+  "candidateType": "environment-background",
+  "targetScreen": "Home",
+  "producer": "13",
+  "scope": "Independent art/fidelity review only. This verdict does not grant phone/composition/performance authority, runtime wiring approval, screenshot-parity proof, catalog-canonical authority, physical-device evidence, or release clearance. Reviewer 14 separately owns composition/performance and Workstream 15 owns any later runtime handoff.",
+  "catalogPriorityCheck": {
+    "partition": ["tops", "bottoms", "headwear", "facegear"],
+    "freshExactCandidateReady": false,
+    "tops11_12": "lane-09 current v7 remains GENERATED_LOCAL receipt-only; exact repository payloads/blobs are absent, so there are no new repository-stored/rendered hashes to review.",
+    "headwear5_8": "lane-12 current batch remains preserved external with repositoryBytes/sha256/gitBlobSha null, so there are no exact repository hashes to review.",
+    "preservedAccepts": "Existing accepted catalog hashes are unchanged and were not re-reviewed or mutated."
+  },
+  "intakeEvidence": "docs/preproduction/visuals/lane-13-home-bedroom-v3-intake.json",
+  "producerRepairSeed": "docs/preproduction/visuals/lane-13-v3-repairs-seed.json",
+  "priorCompositionEvidencePreserved": "docs/preproduction/visuals/chat-home-bedroom-w13-v2-composition-performance-14-to-15.json",
+  "reference": {
+    "screen": "Home",
+    "path": "docs/preproduction/reference-screenshots/originals/home-1448x1086.jpeg",
+    "sha256": "6a4b110aeaf12a6ab0c629f9181cc6cfa8d4f55a518d4f2a6adb3ac6e756c457",
+    "gitBlobSha": "cd4905ff1a8b97d784698ae1b0f8c3521937711e",
+    "actualPixelsInspected": true
+  },
+  "candidatePackage": {
+    "source": {
+      "path": "docs/preproduction/visuals/recovered-originals/home-bedroom-w13-v3-source.png",
+      "gitBlobSha": "e00d7a9648917a5198f9bab9152236730c84a568",
+      "sha256": "c8a22488f038a2796b172ea4bf50835a30c00f1828cfb73d4ccc6965f8bf144c",
+      "dimensions": [1728, 1344]
+    },
+    "desktopPrimary": {
+      "path": "public/assets/visuals/lane-13/home-bedroom-w13-v3-1408x1056.png",
+      "gitBlobSha": "62e29779ef87d95fe9b369693825724eb6e25816",
+      "sha256": "8e41a0f76546f73e50bbb09d3e4d3292baeb1084549e1e61ebc5d55e6e513884",
+      "dimensions": [1408, 1056],
+      "bytes": 1237683,
+      "repositoryReadback": "PASS_EXACT"
+    },
+    "phoneCompanion": {
+      "path": "public/assets/visuals/lane-13/home-bedroom-w13-v3-phone-390x844.png",
+      "gitBlobSha": "0054b2bd5633289e36addbd2de378a226391f375",
+      "sha256": "d2dafc3efe41c6c6982592e6724091dbd88f890a8f617cdf22538392a24a1715",
+      "dimensions": [390, 844],
+      "bytes": 258283,
+      "repositoryReadback": "PASS_EXACT"
+    },
+    "assetCommit": "6a8689e457eeaa65733547f72f76758b9adda405",
+    "hashBindingRule": "This decision applies only to the exact package hashes above. Any changed source, desktop, or phone hash requires a fresh decision."
+  },
+  "pixelInspection": {
+    "actualCandidateDesktopPixelsInspected": true,
+    "actualReferencePixelsInspected": true,
+    "actualPhoneCompanionPixelsInspectedForAssetIntegrityOnly": true,
+    "inspectionMode": "Read-only public GitHub image inspection at rendered fit/full view; no repository or runtime state was changed during inspection.",
+    "phoneAuthorityBoundary": "Phone image was checked only for obvious asset-level corruption/unusability. Composition/mobile-fit authority remains with reviewer 14.",
+    "phoneAssetIntegrityFinding": "PASS_NO_OBVIOUS_CORRUPTION_OR_UNUSABLE_CROP_ARTIFACT"
+  },
+  "decision": "REWORK",
+  "checks": {
+    "exactHashPixelBinding": "PASS",
+    "referenceRoomIdentity": "PARTIAL",
+    "architectureAndSpatialLanguage": "PASS_WITH_SIMPLIFICATION",
+    "bedLeftDeskRightHierarchy": "PASS",
+    "recognizableBedroomFurnitureIdentity": "REWORK",
+    "referenceWindowLanguage": "REWORK",
+    "objectConstruction": "PASS_BUT_UNDERDETAILED",
+    "materialDepth": "PASS_FOUNDATION_BUT_REWORK_RICHNESS",
+    "lightingDirection": "PASS",
+    "referencePaletteFidelity": "REWORK",
+    "environmentDensity": "REWORK",
+    "premiumToyLikeQuality": "PASS",
+    "separateEnvironmentComponent": "PASS",
+    "noBakedUiCharacterOrState": "PASS",
+    "phoneAssetIntegrity": "PASS",
+    "phoneCompositionPerformance": "NOT_REVIEWED_OWNER_14",
+    "runtimeAuthority": "NOT_GRANTED",
+    "screenshotParity": "NOT_CLAIMED"
+  },
+  "strengths": [
+    "The exact v3 pixels preserve the broad Home spatial language: a large soft seating/bed-like mass remains on the left and the desk/lamp zone remains on the right, so the room still reads as the same basic bedroom layout rather than a different environment.",
+    "Warm light continues to enter from the left and the pink/lilac base with cyan/turquoise and gold accents is cohesive, attractive and child-appropriate.",
+    "Rounded furniture forms, clean matte surfaces and soft lighting provide a convincing premium toy/diorama foundation rather than the rejected flat-vector look.",
+    "The environment remains separable scene art with no baked avatar, UI, counters, cards, text or equipped-state assumptions.",
+    "The exact 390x844 derivative shows no obvious asset corruption, broken decode, pixel damage or unusable crop artifact at the image level; this does not pre-empt reviewer 14's phone composition/performance judgment."
+  ],
+  "reworkReasons": [
+    "The authoritative Home reference is materially richer and more recognizable as the same personalized bedroom: it has an explicit large left window, an unmistakable bed with pink bedding, shelves/books, wall art/posters, string/fairy lighting and numerous small decorative/activity objects. V3 strips too much of that authored identity away and reads as a sparse generic pastel room.",
+    "The left hero furniture reads more like a plush couch/daybed than the reference's clear bed. That furniture-type drift weakens immediate Home-room recognition even though the left/right layout remains correct.",
+    "The reference window is a visible architectural element with framing and a clear daylight source. V3 mostly implies the opening through warm light, so an important architecture cue has been lost.",
+    "Material separation is too uniform. V3 relies heavily on smooth matte treatment, while the reference layers textile bedding, harder shelf/furniture surfaces, metallic lighting/decor and varied small-object finishes. The current scene needs more tactile differentiation without becoming photorealistic.",
+    "Color is harmonized but too muted relative to the authoritative Home pixels. The reference carries stronger saturated pink/purple/blue/yellow accents and decorative light points; v3's quieter pastel treatment reduces the magical-school/game-world energy.",
+    "The previous reviewer-01 v1 contract explicitly required approximately 4-7 secondary environmental props and stronger game-specific density in the side zones. The v3 composition repair successfully prioritizes a quieter hero corridor, but it does not satisfy that art/fidelity density requirement; the two goals should be solved together rather than trading one for the other."
+  ],
+  "boundedRepairContract": [
+    "Preserve v3's successful lower/central quiet corridor, left-side warm light direction, bed-left/desk-right macro-layout and separate-background architecture. Do not solve fidelity by refilling the center hero corridor.",
+    "Make the left furniture unmistakably a bed: readable mattress/bedding volume, pillows and bed-frame/headboard language, while keeping its mass constrained to the left side so reviewer 14's composition repair is not undone.",
+    "Restore an explicit left-side window/opening with visible frame/depth and daylight, but keep its brightest hotspot outside the avatar-safe center corridor.",
+    "Add roughly 4-7 distinct reference-grounded secondary props only in side/perimeter zones: shelf/books, small collectibles, wall art/posters without readable text, fairy/string lights, and one or two activity/decor objects. Preserve calm overlay zones and no UI-like marks.",
+    "Increase material differentiation: visibly soft bedding/textiles, firmer painted/molded furniture with bevel response, restrained metal/glass highlights on lamp/decor, and grounded contact shadows. Keep the premium rounded toy-game style, not photorealism.",
+    "Lift accent saturation toward the reference with controlled pink/purple/blue/yellow highlights while retaining v3's coherent pink/lilac base and cyan/gold accents. Avoid neon wash or high-frequency clutter.",
+    "Preserve a purposeful 390x844 derivative and do not bake character, buddy, navigation, counters, cards, text or runtime state into any environment asset."
+  ],
+  "handoff": {
+    "13": "REWORK art/fidelity only on a new versioned exact hash using the bounded contract above. Preserve v3's composition gains rather than reverting to v1/v2 center clutter. Do not self-approve.",
+    "14": "Reviewer 14 retains composition/performance/mobile-fit authority. This art verdict intentionally does not overturn or pre-judge reviewer 14's v3 composition decision.",
+    "15": "Do not route the exact v3 package to runtime handoff as final Home art. Preserve all v2/v3 evidence and route only a NEW repo-stored/readback-proven version back to reviewer 01 for art/fidelity review.",
+    "08": "No catalog mapping action; this is noncatalog scene art."
+  },
+  "freeze": {
+    "runtimeWired": false,
+    "canonicalCatalogTouched": false,
+    "sharedRuntimeCssTouched": false,
+    "learningEconomyTouched": false,
+    "playerDataTouched": false,
+    "mainTouched": false,
+    "deploymentTouched": false,
+    "replitOrFlootTouched": false,
+    "purchasesOrPaidSettingsTouched": false
+  }
+}
