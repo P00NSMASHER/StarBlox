@@ -1,18 +1,14 @@
 {
-  "schemaVersion": 6,
+  "schemaVersion": 7,
   "lane": "09",
   "workstream": "09",
   "phase": "ART_AND_VISUALS_ONLY",
   "protocol": "DELIVERY_PROTOCOL_V2",
   "branch": "screenshot-match-preproduction",
-  "status": "TOPS_11_12_V4_PERSISTED_PENDING_PIXEL_QA",
+  "status": "TOPS_11_12_V5_STAGED_PENDING_SHARED_QA",
   "assignmentSource": "docs/preproduction/ART_VISUALS_SPRINT.json",
-  "primaryAssignment": ["decor-1","decor-2","decor-3","decor-4","decor-5","decor-6","decor-7","decor-8","decor-9","decor-10","decor-11","decor-12"],
-  "secondaryRepairAssignment": {
-    "ids": ["tops-7","tops-8","tops-9","tops-10","tops-11","tops-12"],
-    "reviewOwner": "01",
-    "integrationOwner": "08"
-  },
+  "reviewOwner": "01",
+  "integrationOwner": "08",
   "safeguards": {
     "selfApproved": false,
     "canonicalManifestChanged": false,
@@ -22,25 +18,22 @@
     "realPlayerDataChanged": false
   },
   "latestReviewer01": {
-    "reviewBlobSha": "e276d5678bc41a043a6aacdf8814030bfba85747",
-    "reviewSourceHead": "aeda9a52b6705335a2789782c154c488c05dbbba",
+    "reviewBlobSha": "9057d433d53b7e799ba0e1d4470dea5deffa5095",
     "tops11": {
-      "path": "/assets/catalog/tops-11-w09-v3.jpg",
-      "blobSha": "4b854298242b2b108edf43b92a98f9678841e89e",
-      "decision": "BLOCKED",
-      "finding": "JPEG does not decode in staged renderer"
+      "previousPath": "/assets/catalog/tops-11-w09-v4.svg",
+      "previousBlob": "0f25972d3656ebca111083739660e4ddc0204fb8",
+      "decision": "REWORK",
+      "reasonCode": "PREMIUM_DIMENSIONAL_MATERIAL_DEPTH_INSUFFICIENT"
     },
     "tops12": {
-      "path": "/assets/catalog/tops-12-w09-v3.jpg",
-      "blobSha": "5a5b3eae82027d7cf172a67089d77f7b14b8d638",
+      "previousPath": "/assets/catalog/tops-12-w09-v4.svg",
+      "previousBlob": "0732bbcf7dd4dae4e291f4109fc9686918ffceef",
       "decision": "REWORK",
-      "finding": "actual card/detail render contains visible pixel corruption/opaque blocking"
+      "reasonCode": "COAT_SILHOUETTE_AND_TIER5_DIMENSIONALITY_INSUFFICIENT"
     }
   },
   "currentRepairBatch": {
-    "status": "PERSISTED_PENDING_PIXEL_QA",
-    "reviewOwner": "01",
-    "integrationOwner": "08",
+    "status": "STAGED_PENDING_SHARED_QA",
     "items": [
       {
         "id": "tops-11",
@@ -48,16 +41,14 @@
         "category": "Tops",
         "tier": 4,
         "theme": "Candy Core",
-        "previousFailedPath": "/assets/catalog/tops-11-w09-v3.jpg",
-        "previousFailedBlob": "4b854298242b2b108edf43b92a98f9678841e89e",
-        "candidatePath": "/assets/catalog/tops-11-w09-v4.svg",
-        "repoPath": "public/assets/catalog/tops-11-w09-v4.svg",
-        "candidateBlob": "0f25972d3656ebca111083739660e4ddc0204fb8",
+        "candidatePath": "/assets/catalog/tops-11-w09-v5.svg",
+        "repoPath": "public/assets/catalog/tops-11-w09-v5.svg",
+        "candidateBlob": "43a850ecdc0b7e8861870f7c277f2544f6c87405",
         "format": "svg",
         "dimensions": [600,600],
-        "provenance": "Original StarBlox self-contained dimensional vector product art authored for this repair. No embedded external images, third-party brands, characters, or IP.",
-        "construction": "cloud puffer; sculpted quilt cells; rounded loft; layered hood/collar; zipper hardware; ribbed cuffs and hem; functional pockets; Candy Core cloud/star details; controlled dimensional lighting",
-        "status": "PERSISTED_PENDING_PIXEL_QA"
+        "provenance": "Original StarBlox self-contained product art authored for this exact repair; no external image references or third-party IP.",
+        "construction": "three-quarter puffer with visible side plane, foreshortened far sleeve, rounded quilt loft, rib-knit cuffs/hem, zipper/pocket hardware, Candy Core cloud/star details, fabric texture, warm key/cool rim and grounded shadow",
+        "status": "READY_FOR_SHARED_PIXEL_QA"
       },
       {
         "id": "tops-12",
@@ -65,55 +56,33 @@
         "category": "Tops",
         "tier": 5,
         "theme": "Adventure Club",
-        "previousFailedPath": "/assets/catalog/tops-12-w09-v3.jpg",
-        "previousFailedBlob": "5a5b3eae82027d7cf172a67089d77f7b14b8d638",
-        "candidatePath": "/assets/catalog/tops-12-w09-v4.svg",
-        "repoPath": "public/assets/catalog/tops-12-w09-v4.svg",
-        "candidateBlob": "0732bbcf7dd4dae4e291f4109fc9686918ffceef",
+        "candidatePath": "/assets/catalog/tops-12-w09-v5.svg",
+        "repoPath": "public/assets/catalog/tops-12-w09-v5.svg",
+        "candidateBlob": "73339e6c9e472283f481ff18b1e6ba821856f617",
         "format": "svg",
         "dimensions": [600,600],
-        "provenance": "Original StarBlox self-contained dimensional vector product art authored for this repair. No embedded external images, third-party brands, characters, or IP.",
-        "construction": "full-length adventure coat; structured high collar; layered storm panel; quilted center; reinforced sleeves/cuffs; deep utility pockets; waist tabs; premium zipper/snaps; restrained star-compass identity; rich Tier-5 material lighting",
-        "status": "PERSISTED_PENDING_PIXEL_QA"
+        "provenance": "Original StarBlox self-contained product art authored for this exact repair; no external image references or third-party IP.",
+        "construction": "unmistakable coat-length silhouette with long tails, three-quarter body turn, layered storm yoke, quilted inner layer, woven side planes, reinforced sleeves, deep utility pockets, belt/buckles, star-compass hardware, fabric texture, warm key/cool rim and grounded shadow",
+        "status": "READY_FOR_SHARED_PIXEL_QA"
       }
     ]
   },
-  "historicalGeneratedWork": {
-    "note": "Previous generated and repository-stored candidates remain preserved in git history and versioned asset paths. Do not reuse superseded failed hashes.",
-    "tops7_10": [
-      {"id":"tops-7","latestKnownPriorStatus":"generated/repaired; independent disposition required on exact current hash"},
-      {"id":"tops-8","latestKnownPriorStatus":"generated/repaired; independent disposition required on exact current hash"},
-      {"id":"tops-9","latestKnownPriorStatus":"generated/repaired; independent disposition required on exact current hash"},
-      {"id":"tops-10","latestKnownPriorStatus":"generated/repaired; independent disposition required on exact current hash"}
-    ],
-    "decor1_2": [
-      {"id":"decor-1","name":"Book Crate","status":"REWORK_BY_14; generated repair history preserved"},
-      {"id":"decor-2","name":"Cloud Shelf","status":"REWORK_BY_14; generated repair history preserved"}
-    ]
-  },
-  "decorDisposition": {
-    "reviewOwner": "14",
-    "status": "REWORK_12_OF_12",
-    "reasonCode": "FLAT_PRODUCT_ICON",
-    "rule": "Do not begin Decor 3-4 until Tops 11-12 have clean new hashes and reviewer-01 handoff. Repair Decor only from reviewer-14 exact findings."
-  },
   "readback": {
-    "tops11": {"path":"public/assets/catalog/tops-11-w09-v4.svg","blobSha":"0f25972d3656ebca111083739660e4ddc0204fb8","result":"PASS_EXACT_BRANCH_BLOB"},
-    "tops12": {"path":"public/assets/catalog/tops-12-w09-v4.svg","blobSha":"0732bbcf7dd4dae4e291f4109fc9686918ffceef","result":"PASS_EXACT_BRANCH_BLOB"}
+    "tops11": {"path":"public/assets/catalog/tops-11-w09-v5.svg","blobSha":"43a850ecdc0b7e8861870f7c277f2544f6c87405","result":"PASS_EXACT_BRANCH_BLOB"},
+    "tops12": {"path":"public/assets/catalog/tops-12-w09-v5.svg","blobSha":"73339e6c9e472283f481ff18b1e6ba821856f617","result":"PASS_EXACT_BRANCH_BLOB"}
   },
   "tests": {
-    "sourceIntegrity": "PASS_SELF_CONTAINED_600x600_SVG_NO_EXTERNAL_IMAGE_REFERENCES",
-    "sharedStagedArtQA": "PENDING_RERUN_AFTER_HANDOFF_UPDATE",
+    "sourceIntegrity": "PASS_SELF_CONTAINED_600x600_SVG",
+    "sharedStagedArtQA": "PENDING",
     "cardRender": "PENDING",
     "detailRender": "PENDING",
-    "runtimeBuild": "NOT_RUN_ISOLATED_UNINTEGRATED_ART",
     "canonicalWiring": "NOT_TOUCHED"
   },
   "handoff": {
     "reviewer": "01",
-    "condition": "Only after shared staged-art QA produces clean card and detail renders on the exact v4 hashes above",
+    "condition": "Independent decision only after exact v5 hashes have clean shared staged-art card/detail evidence.",
     "integrationOwner": "08",
     "selfApproval": false
   },
-  "nextAction": "Run shared staged-art QA for Tops 11-12 v4. On clean exact-hash card/detail evidence, update lane status to READY_FOR_REVIEW and hand to reviewer 01. Do not start Decor 3-4 before this handoff."
+  "decorGate": "Do not begin Decor 3-4 until Tops 11-12 v5 have clean new hashes and reviewer-01 handoff."
 }
