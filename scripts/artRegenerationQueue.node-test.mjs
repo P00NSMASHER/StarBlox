@@ -38,3 +38,23 @@ test('selected work carries reviewer-derived prompt variants',()=>{
   assert(queue.selected[0].promptRecommendation.failureCodes.includes('THEME_MISMATCH'));
   assert(queue.selected[0].promptRecommendation.variants.every(v=>v.promptText.includes('wall-5')));
 });
+
+
+test('queue passes normalized failure taxonomy directly into prompt compiler',()=>{
+  const row={
+    itemId:'decor-5',collectionId:'decor',assetHash:'old',decision:'REWORK',
+    independent:true,failureCodes:['THEME_MISMATCH','NEAR_DUPLICATE_TEMPLATE'],
+    reviewer:'14',producer:'09',tier:2,name:'Plant Wall',theme:'Galaxy Glow',
+    reason:'needs refinement'
+  };
+  const baseQueue=buildRegenerationQueue({corpus:{observations:[row],current:[row]}});
+  const queue=attachPromptRecommendations(baseQueue,{
+    items:[{id:'decor-5',collectionId:'decor',name:'Plant Wall',type:'room',tier:2,theme:'Galaxy Glow'}],
+    reviewDocs:[]
+  });
+  const rec=queue.selected[0].promptRecommendation;
+  assert.deepEqual(rec.failureCodes,['THEME_MISMATCH','NEAR_DUPLICATE_TEMPLATE']);
+  assert(rec.repairBlocks.includes('theme'));
+  assert(rec.repairBlocks.includes('original'));
+  assert(rec.repairBlocks.includes('silhouette'));
+});
