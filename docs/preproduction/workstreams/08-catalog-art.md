@@ -1,3 +1,9 @@
+## V2 canonical increment — Tops 7-10 + Bottoms 1-4 + Headwear 1-4 exact-hash ACCEPTs
+
+Prepared from `bda51b8b17c088d4bdc4a5d37ecded732205cb1f` using exact hash-bound reviewer 01 ACCEPT evidence. 12 items passed repository-byte, Store metadata, decode/safety, reviewer-independence and canonical uniqueness checks. Full tests/build/Store-mobile smoke are required before publication.
+
+Exact IDs: `tops-7`, `tops-8`, `tops-9`, `tops-10`, `bottoms-1`, `bottoms-2`, `bottoms-3`, `bottoms-4`, `headwear-1`, `headwear-2`, `headwear-3`, `headwear-4`.
+
 ## V2 canonical increment — Rugs 1-8 + Decor 1-2 exact-hash ACCEPTs
 
 Prepared from `328ea99adbd69a38096698629be66204f0b19bdc` using exact hash-bound reviewer 14 ACCEPT evidence. 10 items passed repository-byte, Store metadata, decode/safety, reviewer-independence and canonical uniqueness checks. Full tests/build/Store-mobile smoke are required before publication.
