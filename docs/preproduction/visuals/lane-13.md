@@ -221,3 +221,13 @@ This candidate contains no avatar, buddy, UI, text, buttons, logos or third-part
   - optimized: `public/assets/visuals/lane-13/avatar-keyart-fullbody-w13-v1-896.png` — 896x1149, 438049 bytes, SHA-256 `88869744dc91ccc3b4684d9b0c2269ea0669ad992e0a8040f988b9a61bfaa35e`, Git blob `76a4be6c4ca63d65aecde4f136227bd2e8abc1da`
 
 - No physical-device test or screenshot-parity claim was performed by producer 13.
+
+
+## Avatar key-art fullbody v2
+
+- Candidate: `avatar-keyart-fullbody-w13-v2` — producer-staged only; reviewer 01 / reviewer 14 / Workstream 15 still gate acceptance and runtime wiring.
+- Source: `docs/preproduction/visuals/recovered-originals/avatar-keyart-fullbody-w13-v2-source.png` — 1344x1728, SHA-256 `9ed1ca7d9bac283e816ec8d1231d5540bfd5f465c28de0724245b3ded1bc65a8`.
+- Full transparent: `public/assets/visuals/lane-13/avatar-keyart-fullbody-w13-v2-full.png` — 1344x1728, SHA-256 `2ada9fe3e8102c178ff841ea2f3aac4cb283f8d639458e93b31fb887764ab7d2`.
+- Optimized transparent: `public/assets/visuals/lane-13/avatar-keyart-fullbody-w13-v2-896.png` — 896x1152, SHA-256 `1137959f1c25a0a9b46631139de62ee665076d908fa2c4ece499f0c884aad277`.
+- Exact repository readback: `PASS_3_OF_3_EXACT_SHA256_AND_BYTE_LENGTH`; evidence `docs/preproduction/visuals/lane-13-avatar-keyart-fullbody-v2-intake.json`; asset commit `c0cae5823382393517bf82c7efbcac6773e5c470`.
+- Scope safety: no canonical catalog mapping, gameplay/learning/persistence/economy/save change, no Workstream 06/09 file mutation, clothing is noncanonical visual guidance only, no runtime wiring, no physical-device or screenshot-parity claim.

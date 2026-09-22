@@ -286,6 +286,54 @@
       },
       "workstream06AvatarFilesTouched": false,
       "independentReview": "PENDING"
+    },
+    {
+      "candidateId": "avatar-keyart-fullbody-w13-v2",
+      "candidateType": "transparent-fullbody-avatar-keyart-guidance",
+      "targetScreens": [
+        "Home",
+        "Store",
+        "Quest"
+      ],
+      "status": "STAGED_READY_FOR_INDEPENDENT_REVIEW",
+      "reviewRepairSource": "docs/preproduction/visuals/reviews/01.json",
+      "observedDefect": "Reviewer 01 found v1 too fashion-doll-like versus the block-world reference: head too small, limbs too narrow/organic, hands and boots too sculpted, headset too pale, facial contrast too weak.",
+      "sourcePath": "docs/preproduction/visuals/recovered-originals/avatar-keyart-fullbody-w13-v2-source.png",
+      "sourceDimensions": [
+        1344,
+        1728
+      ],
+      "sourceBytes": 1991492,
+      "sourceSha256": "9ed1ca7d9bac283e816ec8d1231d5540bfd5f465c28de0724245b3ded1bc65a8",
+      "fullPath": "public/assets/visuals/lane-13/avatar-keyart-fullbody-w13-v2-full.png",
+      "fullDimensions": [
+        1344,
+        1728
+      ],
+      "fullBytes": 989998,
+      "fullSha256": "2ada9fe3e8102c178ff841ea2f3aac4cb283f8d639458e93b31fb887764ab7d2",
+      "optimizedPath": "public/assets/visuals/lane-13/avatar-keyart-fullbody-w13-v2-896.png",
+      "optimizedDimensions": [
+        896,
+        1152
+      ],
+      "optimizedBytes": 526497,
+      "optimizedSha256": "1137959f1c25a0a9b46631139de62ee665076d908fa2c4ece499f0c884aad277",
+      "intakeEvidence": "docs/preproduction/visuals/lane-13-avatar-keyart-fullbody-v2-intake.json",
+      "originReadback": "PASS_3_OF_3_EXACT_SHA256_AND_BYTE_LENGTH",
+      "assetCommit": "c0cae5823382393517bf82c7efbcac6773e5c470",
+      "equipmentSafety": {
+        "clothingNoncanonicalGuidanceOnly": true,
+        "ownedEquippedChoicesChanged": false,
+        "runtimeWired": false
+      },
+      "workstream06AvatarFilesTouched": false,
+      "workstream09EnvironmentFilesTouched": false,
+      "independentArtReview": "PENDING_01",
+      "compositionPerformanceReview": "PENDING_14",
+      "runtimeCoordination": "PENDING_15",
+      "physicalDeviceTested": false,
+      "screenshotParityClaimed": false
     }
   ],
   "buddyStageCandidates": [
@@ -795,5 +843,17 @@
     },
     "outfitAuthority": "NONCANONICAL_VISUAL_GUIDANCE_ONLY_DO_NOT_OVERRIDE_EQUIPPED_STATE",
     "note": "Producer-staged full-body character key art only. Reviewer 01 judges art; reviewer 14 judges composition/performance; 15 coordinates with 06 before any runtime adaptation. No self-approval."
+  },
+  "latestAvatarKeyartV2Candidate": {
+    "candidateId": "avatar-keyart-fullbody-w13-v2",
+    "status": "STAGED_READY_FOR_INDEPENDENT_REVIEW",
+    "intakeEvidence": "docs/preproduction/visuals/lane-13-avatar-keyart-fullbody-v2-intake.json",
+    "assetCommit": "c0cae5823382393517bf82c7efbcac6773e5c470",
+    "producerDecision": "STAGED_NOT_APPROVED",
+    "requiredReviews": [
+      "01",
+      "14",
+      "15"
+    ]
   }
 }

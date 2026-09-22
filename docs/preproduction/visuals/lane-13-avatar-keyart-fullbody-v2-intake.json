@@ -4,7 +4,7 @@
   "lane": "13",
   "candidate": "avatar-keyart-fullbody-w13-v2",
   "status": "STAGED_READY_FOR_INDEPENDENT_REVIEW",
-  "assetCommit": "b37683e24d29dcff47dbfd7dc6cb3bb7c4757d34",
+  "assetCommit": "c0cae5823382393517bf82c7efbcac6773e5c470",
   "sourceSeed": "docs/preproduction/visuals/lane-13-avatar-keyart-fullbody-v2-seed.json",
   "assets": [
     {
@@ -121,5 +121,5 @@
   "canonicalCatalogMappingsEdited": false,
   "workstream06AssetsEdited": false,
   "workstream09AssetsEdited": false,
-  "generatedAtUtc": "2026-09-22T06:07:00.609728+00:00"
+  "generatedAtUtc": "2026-09-22T06:09:53.885692+00:00"
 }
