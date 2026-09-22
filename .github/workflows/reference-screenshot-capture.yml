@@ -19,7 +19,9 @@ on:
       - '.github/workflows/reference-screenshot-capture.yml'
       - 'docs/preproduction/reference-screenshots/**'
   workflow_run:
-    workflows: ['Workstream 08 Catalog Integrate']
+    workflows:
+      - 'Workstream 08 Catalog Integrate'
+      - 'StarBlox Workstream 08 Exact-Hash Integration'
     types: [completed]
     branches: [screenshot-match-preproduction]
   workflow_dispatch:
@@ -108,7 +110,7 @@ jobs:
           import {execFileSync} from 'node:child_process';
           const dir='artifacts/reference-screenshot-capture';
           fs.mkdirSync(dir,{recursive:true});
-          const testedHead=execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim();
+          const testedHead=execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8').trim();
           const reportPath=`${dir}/report.json`;
           if(fs.existsSync(reportPath)){
             const data=JSON.parse(fs.readFileSync(reportPath,'utf8'));
