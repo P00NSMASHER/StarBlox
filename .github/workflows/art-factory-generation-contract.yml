@@ -1,0 +1,52 @@
+name: StarBlox Art Factory Generation Contract
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [screenshot-match-preproduction]
+    paths:
+      - 'scripts/artFactoryDiffusers.py'
+      - 'scripts/test_artFactoryDiffusers.py'
+      - '.github/workflows/art-factory-generation-contract.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: starblox-art-factory-generation-contract-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  contract:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: screenshot-match-preproduction
+          fetch-depth: 1
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Verify generation adapter without GPU or model downloads
+        run: |
+          python scripts/artFactoryDiffusers.py self-test
+          python scripts/test_artFactoryDiffusers.py
+
+      - name: Prove heavy ML imports stay lazy
+        run: |
+          python - <<'PY'
+          import ast, pathlib
+          tree = ast.parse(pathlib.Path('scripts/artFactoryDiffusers.py').read_text())
+          top = []
+          for node in tree.body:
+              if isinstance(node, (ast.Import, ast.ImportFrom)):
+                  top.extend(alias.name for alias in node.names)
+          forbidden = {'torch', 'diffusers', 'PIL'}
+          bad = sorted(forbidden.intersection(top))
+          if bad:
+              raise SystemExit(f'heavy imports escaped lazy boundary: {bad}')
+          print('LAZY_IMPORT_BOUNDARY=PASS')
+          PY
