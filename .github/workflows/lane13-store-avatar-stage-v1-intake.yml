@@ -1,0 +1,237 @@
+name: StarBlox Lane 13 Store Avatar Stage V1 Intake
+
+on:
+  push:
+    branches: [screenshot-match-preproduction]
+    paths:
+      - '.github/workflows/lane13-store-avatar-stage-v1-intake.yml'
+      - 'docs/preproduction/visuals/lane-13-store-avatar-stage-v1-seed.json'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: starblox-lane13-store-avatar-stage-v1-intake
+  cancel-in-progress: false
+
+jobs:
+  stage-verify-readback:
+    if: github.ref == 'refs/heads/screenshot-match-preproduction'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: screenshot-match-preproduction
+          fetch-depth: 0
+
+      - name: Install image verifier only
+        run: python3 -m pip install --disable-pip-version-check Pillow==11.3.0
+
+      - name: Download exact processed bytes and build immutable intake evidence
+        run: |
+          python3 - <<'PY'
+          import hashlib, json, subprocess, urllib.request
+          from pathlib import Path
+          from PIL import Image
+
+          seed_path=Path('docs/preproduction/visuals/lane-13-store-avatar-stage-v1-seed.json')
+          seed=json.loads(seed_path.read_text())
+          result={
+            'schemaVersion':1,
+            'candidateId':seed['candidateId'],
+            'producer':seed['producer'],
+            'independentArtReviewer':seed['independentArtReviewer'],
+            'compositionPerformanceReviewer':seed['compositionPerformanceReviewer'],
+            'runtimeCoordinator':seed['runtimeCoordinator'],
+            'branch':seed['branch'],
+            'status':'STAGED_READY_FOR_INDEPENDENT_REVIEW',
+            'runtimeWired':False,
+            'sourceHeadBeforeStaging':subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),
+            'referenceEvidence':seed['referenceEvidence'],
+            'provenance':seed['provenance'],
+            'producerPixelCheck':seed['producerPixelCheck'],
+            'responsiveIntent':seed['responsiveIntent'],
+            'ownershipIsolation':seed['ownershipIsolation'],
+            'freeze':seed['freeze'],
+            'assets':{},
+            'checks':{},
+            'reviews':{
+              '01':'PENDING_INDEPENDENT_ART_REVIEW',
+              '14':'PENDING_COMPOSITION_PERFORMANCE_REVIEW',
+              '15':'PENDING_COORDINATION_BEFORE_ANY_RUNTIME_WIRING'
+            },
+            'releaseGates':'Existing regression/build/device/accessibility/parity gates remain external release gates for 08/14/15 and are not changed by this visual intake.'
+          }
+
+          def fetch(url):
+            req=urllib.request.Request(url,headers={'User-Agent':'StarBlox-Lane13-Visual-Intake/1.2'})
+            with urllib.request.urlopen(req,timeout=120) as r:
+              return r.read()
+
+          def stage(label,spec):
+            p=Path(spec['path'])
+            p.parent.mkdir(parents=True,exist_ok=True)
+            incoming=fetch(spec['url'])
+            if p.exists() and p.read_bytes()!=incoming:
+              raise RuntimeError(f'conflicting existing bytes at {p}')
+            if not p.exists():
+              p.write_bytes(incoming)
+            with Image.open(p) as im:
+              im.load()
+              dims=list(im.size); fmt=im.format; mode=im.mode
+              alpha_bbox=None; alpha_extrema=None
+              if 'A' in im.getbands():
+                alpha=im.getchannel('A')
+                alpha_bbox=list(alpha.getbbox()) if alpha.getbbox() else None
+                alpha_extrema=list(alpha.getextrema())
+            if dims!=spec['expectedDimensions'] or fmt!=spec['expectedFormat']:
+              raise RuntimeError(f'{p}: expected {spec["expectedFormat"]} {spec["expectedDimensions"]}, got {fmt} {dims}')
+            if spec['transparentRequired'] and (alpha_extrema is None or alpha_extrema[0]>=255 or alpha_extrema[1]!=255):
+              raise RuntimeError(f'{p}: expected meaningful alpha transparency, got {alpha_extrema}')
+            b=p.read_bytes()
+            return {
+              'label':label,'path':str(p),'bytes':len(b),'dimensions':dims,'format':fmt,'mode':mode,
+              'sha256':hashlib.sha256(b).hexdigest(),
+              'gitBlobSha':subprocess.check_output(['git','hash-object',str(p)],text=True).strip(),
+              'alphaBounds':alpha_bbox,'alphaExtrema':alpha_extrema,
+              'transparentRequired':spec['transparentRequired']
+            }
+
+          for label in ('source','full','optimized'):
+            result['assets'][label]=stage(label,seed['assets'][label])
+
+          result['checks']={
+            'sourceDecode':'PASS_PNG_2048x2048',
+            'fullDecode':'PASS_PNG_2048x2048',
+            'optimizedDecode':'PASS_PNG_1024x1024',
+            'fullTransparency':'PASS_MEANINGFUL_ALPHA',
+            'optimizedTransparency':'PASS_MEANINGFUL_ALPHA',
+            'separateLayerNotFlattenedScreen':'PASS_BY_ASSET_SCOPE_AND_PRODUCER_PIXEL_INSPECTION',
+            'uiTextButtonsAbsent':'PASS_BY_PRODUCER_PIXEL_INSPECTION',
+            'exactRepositoryReadback':'PENDING_REMOTE_READBACK',
+            'independentArtReview':'PENDING_01',
+            'compositionPerformanceReview':'PENDING_14',
+            'runtimeIntegration':'NOT_PERFORMED',
+            'screenshotParity':'NOT_CLAIMED',
+            'physicalDevice':'NOT_PERFORMED'
+          }
+          out=Path('docs/preproduction/visuals/lane-13-store-avatar-stage-v1-intake.json')
+          out.write_text(json.dumps(result,indent=2)+'\n')
+          print(json.dumps({'candidateId':result['candidateId'],'assets':result['assets'],'checks':result['checks']},indent=2))
+          PY
+
+      - name: Publish versioned Store stage bytes and first-pass evidence
+        run: |
+          set -eu
+          test "$GITHUB_REF" = 'refs/heads/screenshot-match-preproduction'
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- \
+            docs/preproduction/visuals/recovered-originals/store-avatar-stage-w13-v1-source.png \
+            public/assets/visuals/lane-13/store-avatar-stage-w13-v1-full.png \
+            public/assets/visuals/lane-13/store-avatar-stage-w13-v1-1024.png \
+            docs/preproduction/visuals/lane-13-store-avatar-stage-v1-intake.json
+          if ! git diff --cached --quiet; then
+            git commit -m 'visuals(13): stage Store avatar stage v1'
+            for attempt in 1 2 3; do
+              if git push origin HEAD:refs/heads/screenshot-match-preproduction; then break; fi
+              git fetch origin screenshot-match-preproduction
+              git rebase origin/screenshot-match-preproduction
+              if [ "$attempt" -eq 3 ]; then
+                echo 'safe publication blocked by concurrent changes; no force push' >&2
+                exit 1
+              fi
+            done
+          fi
+
+      - name: Prove exact remote repository readback and sync Lane 13 handoff
+        run: |
+          set -eu
+          git fetch origin screenshot-match-preproduction
+          git rebase origin/screenshot-match-preproduction
+          python3 - <<'PY'
+          import hashlib,json,subprocess
+          from pathlib import Path
+
+          intake_path=Path('docs/preproduction/visuals/lane-13-store-avatar-stage-v1-intake.json')
+          r=json.loads(intake_path.read_text())
+          remote='origin/screenshot-match-preproduction'
+          rb={}
+          for label,a in r['assets'].items():
+            data=subprocess.check_output(['git','show',f'{remote}:{a["path"]}'])
+            sha=hashlib.sha256(data).hexdigest()
+            ok=(sha==a['sha256'] and len(data)==a['bytes'])
+            rb[label]={'path':a['path'],'bytes':len(data),'sha256':sha,'matchesStagedBytes':ok}
+            if not ok:
+              raise RuntimeError(f'remote readback mismatch for {label}')
+          remote_head=subprocess.check_output(['git','rev-parse',remote],text=True).strip()
+          r['remoteReadback']={'remoteRef':remote,'remoteHead':remote_head,'assets':rb}
+          r['checks']['exactRepositoryReadback']='PASS_3_OF_3_EXACT_SHA256_AND_BYTE_LENGTH'
+          intake_path.write_text(json.dumps(r,indent=2)+'\n')
+
+          lane_path=Path('docs/preproduction/visuals/lane-13.json')
+          lane=json.loads(lane_path.read_text())
+          lane['latestStoreAvatarStageCandidate']={
+            'candidateId':r['candidateId'],
+            'status':r['status'],
+            'runtimeWired':False,
+            'intakeEvidence':str(intake_path),
+            'assets':r['assets'],
+            'remoteReadback':r['remoteReadback'],
+            'reviews':r['reviews'],
+            'note':'Producer-staged only. Reviewer 01 judges art; reviewer 14 judges composition/performance; 15 gates any runtime wiring. No self-approval.'
+          }
+          lane_path.write_text(json.dumps(lane,indent=2)+'\n')
+
+          md_path=Path('docs/preproduction/visuals/lane-13.md')
+          md=md_path.read_text()
+          marker='## Store avatar stage v1 — staged candidate'
+          if marker not in md:
+            lines=['',marker,'',
+              '- Candidate: `store-avatar-stage-w13-v1` — producer-staged only; not approved and not runtime-wired.',
+              '- Gap addressed: current Store try-on region is materially flatter than the verified original; this separate platform/alcove adds dimensional physical grounding without baking avatar, catalog item, UI, text, counters, buttons or state.',
+              '- Independent review: 01 art; 14 composition/performance; 15 coordination before any runtime wiring.',
+              '- Exact remote readback: `PASS_3_OF_3_EXACT_SHA256_AND_BYTE_LENGTH`.',
+              '- Assets:']
+            for label in ('source','full','optimized'):
+              a=r['assets'][label]
+              lines.append(f"  - {label}: `{a['path']}` — {a['dimensions'][0]}x{a['dimensions'][1]}, {a['bytes']} bytes, SHA-256 `{a['sha256']}`, Git blob `{a['gitBlobSha']}`")
+            lines += ['', '- No physical-device test or screenshot-parity claim was performed by producer 13.', '']
+            md_path.write_text(md.rstrip()+'\n'+'\n'.join(lines))
+          print(json.dumps(r['remoteReadback'],indent=2))
+          PY
+
+          git add -- \
+            docs/preproduction/visuals/lane-13-store-avatar-stage-v1-intake.json \
+            docs/preproduction/visuals/lane-13.json \
+            docs/preproduction/visuals/lane-13.md
+          if ! git diff --cached --quiet; then
+            git commit -m 'visuals(13): record Store avatar stage v1 readback handoff'
+            for attempt in 1 2 3; do
+              if git push origin HEAD:refs/heads/screenshot-match-preproduction; then exit 0; fi
+              git fetch origin screenshot-match-preproduction
+              if ! git rebase origin/screenshot-match-preproduction; then
+                echo 'Lane 13 handoff publication encountered a concurrent conflict; aborting without force push' >&2
+                git rebase --abort || true
+                exit 1
+              fi
+            done
+            echo 'readback/ledger evidence publication blocked; no force push' >&2
+            exit 1
+          fi
+
+      - name: Retain review package
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lane13-store-avatar-stage-v1-review-evidence
+          retention-days: 14
+          if-no-files-found: warn
+          path: |
+            docs/preproduction/visuals/lane-13-store-avatar-stage-v1-seed.json
+            docs/preproduction/visuals/lane-13-store-avatar-stage-v1-intake.json
+            docs/preproduction/visuals/recovered-originals/store-avatar-stage-w13-v1-source.png
+            public/assets/visuals/lane-13/store-avatar-stage-w13-v1-full.png
+            public/assets/visuals/lane-13/store-avatar-stage-w13-v1-1024.png
