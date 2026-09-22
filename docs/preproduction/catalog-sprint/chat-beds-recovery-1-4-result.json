@@ -3,7 +3,7 @@
   "batchId": "w02-beds-20260921-b01",
   "status": "STAGED_READY_FOR_INDEPENDENT_REVIEW_05",
   "sourceHead": "1e75908dd33fd258da82a133ff6e7cc65339d695",
-  "workflowRunId": "35670007481",
+  "workflowRunId": 35670007481,
   "producer": "02",
   "transportHelper": "CHAT",
   "independentReviewer": "05",
@@ -134,8 +134,13 @@
     "metadata": "PASS_4_OF_4",
     "exactByteReadback": "PASS_4_OF_4",
     "candidateDecode": "PASS_4_OF_4",
-    "repeatBehavior": "PENDING_SECOND_RUN",
-    "independentVisualReview": "PENDING_05"
+    "repeatBehavior": "PASS_SECOND_RUN_NO_REDOWNLOAD",
+    "independentVisualReview": "PENDING_05",
+    "tests": "PASS",
+    "build": "PASS",
+    "sharedRenderOverall": "FAIL",
+    "typecheck": "NOT_APPLICABLE_NO_TYPESCRIPT_APP_CHANGES",
+    "bedsCardDetailRender": "INCOMPLETE_0_OF_4"
   },
   "freeze": {
     "replitTouched": false,
@@ -145,5 +150,13 @@
     "gameplayChanged": false,
     "playerDataTouched": false
   },
-  "handoff": "05: independently inspect exact Bed 1-4 hashes at card/detail scale. 08: integrate only after qualified ACCEPT. 02: preserve these exact versions pending review."
+  "handoff": "05: independently inspect exact Bed 1-4 hashes at card/detail scale. 08: integrate only after qualified ACCEPT. 02: preserve these exact versions pending review.",
+  "testedSourceHead": "71cb45613552296e25637d152088179ee9590101",
+  "renderEvidence": {
+    "artifactName": "beds-1-4-recovery-evidence",
+    "reportPath": "artifacts/catalog-staged-art/report.json",
+    "matchedIds": [],
+    "matchedHashes": {}
+  },
+  "independentVisualReview": "PENDING_WORKSTREAM_05_NOT_SELF_APPROVED"
 }
