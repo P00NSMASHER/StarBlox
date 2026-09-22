@@ -326,6 +326,7 @@
     min-height:662px!important;
   }
   .questScreenshotMatch .questEvidenceRail{
+    right:-6px!important;
     width:216px!important;
     bottom:128px!important;
   }
@@ -333,6 +334,9 @@
     left:454px!important;
     bottom:20px!important;
     width:385px!important;
+    height:97px!important;
     min-height:97px!important;
+    max-height:97px!important;
+    overflow:hidden!important;
   }
 }
