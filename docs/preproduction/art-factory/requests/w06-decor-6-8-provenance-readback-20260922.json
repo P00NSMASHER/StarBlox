@@ -1,0 +1,137 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_W06_DECOR_6_8_PROVENANCE_READBACK",
+  "workstream": "06",
+  "role": "REPORT_ONLY_CANDIDATE_PREFLIGHT_PROVENANCE_COURIER",
+  "repository": "P00NSMASHER/StarBlox",
+  "branch": "screenshot-match-preproduction",
+  "observedHeadBeforeWrite": "8c5bc5f14879e647b0c52459383c0a2598a00414",
+  "coordinationSource": "docs/preproduction/art-factory/ACTIVE_BATCH.json",
+  "factoryContract": "docs/preproduction/art-factory/ART_FACTORY_V2.json",
+  "producerEvidence": "docs/preproduction/art-factory/requests/w09-decor-6-8-staging-evidence-20260922.json",
+  "producerEvidenceGitBlobSha": "485db93bf44587a81abddd76a88e6ac3e69b76d0",
+  "producerStagingCommit": "9984d6b76d28838e9ee7c3bd82c495981589507d",
+  "status": "BLOCKED_PROVENANCE",
+  "generatedOrModifiedRasterBytes": false,
+  "visualPreflightRerun": false,
+  "sharedRenderRerun": false,
+  "reviewDecisionMade": false,
+  "canonicalMappingWritten": false,
+  "items": {
+    "decor-6": {
+      "storeIdentity": {
+        "name": "Telescope",
+        "collection": "Room Decor",
+        "tier": 2,
+        "theme": "Berry Blast",
+        "price": 254,
+        "starReq": 0
+      },
+      "candidate": {
+        "path": "public/assets/catalog/decor-6-w09-v2.webp",
+        "gitBlobSha": "842c3089e86d5a2d190875526f94f6b63ccdf02c",
+        "sha256": "61a12cba7ffb85d9e8666d4b984d26bdab95fb3759aa00abdda872ac3d04849a",
+        "bytes": 9294,
+        "dimensions": [600, 600],
+        "format": "WEBP",
+        "branchReadback": "PASS_EXACT_GIT_BLOB",
+        "sharedExactHashRender": {
+          "state": "PASS_PRESERVED_NO_RERENDER",
+          "workflowRunId": 35757803263,
+          "workflowJobId": 106847902253,
+          "detailPngSha256": "30a02f7050e6f0d36b5ffb22d1cd07a823521600bebe44d19e79a00b47f5e5c6"
+        }
+      },
+      "generationReadback": {
+        "providerRecorded": "OpenAI image_gen",
+        "generationIdRecorded": "e8154c62-6814-48a0-a5e2-9d9fcf4edba4",
+        "actualPromptSha256": "68b23856c60d348f83fc9f1ac3e2c3dd844bb1d3e3727cd559751ac5565f89f4",
+        "plannerSeedRecorded": 975755716,
+        "plannerSeedIsGenerationSeed": false,
+        "modelId": null,
+        "modelRevisionOrCheckpointRevision": null,
+        "executedServiceSeed": null,
+        "executedSeedUnavailableReason": null,
+        "qualification": "FAIL_CLOSED"
+      },
+      "unresolvedRequiredFields": [
+        "generator.modelId",
+        "generator.modelRevisionOrCheckpointRevision",
+        "generator.executedSeedOrExplicitAuthoritativeSeedUnavailableReason"
+      ],
+      "renderer14Route": "BLOCKED_NO_RERENDER_REQUIRED_FOR_EXISTING_HASH",
+      "reviewer14Route": "NOT_ACTIONABLE_UNTIL_PROVENANCE_GATE_RESOLVED"
+    },
+    "decor-8": {
+      "storeIdentity": {
+        "name": "Mini Aquarium",
+        "collection": "Room Decor",
+        "tier": 3,
+        "theme": "Galaxy Glow",
+        "price": 479,
+        "starReq": 2
+      },
+      "candidate": {
+        "path": "public/assets/catalog/decor-8-w09-v2.webp",
+        "gitBlobSha": "0d264aff9155f99b17db82138f4546deca8323d5",
+        "sha256": "eda7946fcae74d1da202061276d33d62ca0446c4bdfd6fa1069a96bf9773db6d",
+        "bytes": 13402,
+        "dimensions": [600, 600],
+        "format": "WEBP",
+        "branchReadback": "PASS_EXACT_GIT_BLOB",
+        "sharedExactHashRender": {
+          "state": "PASS_PRESERVED_NO_RERENDER",
+          "workflowRunId": 35757803263,
+          "workflowJobId": 106847902253,
+          "detailPngSha256": "4e4eca4b9853b80b7e837669a4a9b1bfb14a4e50ff3857912f8e8ef769556806"
+        }
+      },
+      "generationReadback": {
+        "providerRecorded": "OpenAI image_gen",
+        "generationIdRecorded": "bbf27f53-d4fe-48a5-87c5-26d5057eeb4e",
+        "actualPromptSha256": "f167601bf53ac360126e6a8ac9da6f3e1590f2bebc8655a50d51b53219c4147c",
+        "plannerSeedRecorded": 1735572564,
+        "plannerSeedIsGenerationSeed": false,
+        "modelId": null,
+        "modelRevisionOrCheckpointRevision": null,
+        "executedServiceSeed": null,
+        "executedSeedUnavailableReason": null,
+        "qualification": "FAIL_CLOSED"
+      },
+      "unresolvedRequiredFields": [
+        "generator.modelId",
+        "generator.modelRevisionOrCheckpointRevision",
+        "generator.executedSeedOrExplicitAuthoritativeSeedUnavailableReason"
+      ],
+      "renderer14Route": "BLOCKED_NO_RERENDER_REQUIRED_FOR_EXISTING_HASH",
+      "reviewer14Route": "NOT_ACTIONABLE_UNTIL_PROVENANCE_GATE_RESOLVED"
+    }
+  },
+  "authoritativeEvidenceRead": [
+    "docs/preproduction/art-factory/ACTIVE_BATCH.json",
+    "docs/preproduction/art-factory/ART_FACTORY_V2.json",
+    "docs/preproduction/art-factory/requests/w09-decor-5-8-20260922.json",
+    "docs/preproduction/art-factory/requests/w09-decor-6-8-staging-evidence-20260922.json",
+    "commit:9984d6b76d28838e9ee7c3bd82c495981589507d",
+    "docs/preproduction/catalog-sprint/reviews/14.json"
+  ],
+  "dispositionBasis": "The repository preserves exact candidate bytes, producer generation IDs, prompt hashes, branch readback and successful exact-hash shared render evidence. It does not preserve an exposed model/checkpoint identity+revision nor an executed service seed or an authoritative explicit seed-unavailable reason for these exact generations. ART_FACTORY_V2 lists seed, modelId and modelRevision as required evidence. Planner seeds are compatibility-plan values and must not be promoted to executed generation seeds. The gate therefore fails closed without inventing provenance.",
+  "staleOrDuplicateRisk": "No duplicate candidate was produced and no v+1 was created. Exact Decor 6/8 bytes remain preserved unchanged. Existing successful exact-hash render evidence is reused rather than repeated.",
+  "blockerOwners": ["09", "15"],
+  "nextAction": "Producer09 or Coordinator15 must supply already-existing authoritative provider evidence that binds these exact generations to the required model/checkpoint identity+revision and executed seed, or an ART_FACTORY_V2-compatible authoritative explicit seed-unavailable record if the service truly did not expose a seed. Until then both exact candidates remain BLOCKED_PROVENANCE; renderer14 should not rerender them and reviewer14 must not disposition them.",
+  "safety": {
+    "selfApproved": false,
+    "reviewVerdictTransferredAcrossHash": false,
+    "gateWeakened": false,
+    "acceptedHashMutated": false,
+    "workflowOrCiEdited": false,
+    "canonicalManifestOrRuntimeEdited": false,
+    "gameplayEdited": false,
+    "learningEdited": false,
+    "persistenceEdited": false,
+    "economyEdited": false,
+    "realPlayerDataEdited": false,
+    "mainTouched": false,
+    "deploymentTouched": false
+  }
+}
