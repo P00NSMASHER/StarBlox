@@ -8,7 +8,7 @@
     "Store",
     "Quest"
   ],
-  "status": "STAGED_PENDING_ORIGIN_READBACK_AND_INDEPENDENT_REVIEW",
+  "status": "STAGED_READY_FOR_INDEPENDENT_REVIEW",
   "referenceSet": [
     {
       "screen": "Home",
@@ -80,7 +80,9 @@
         0,
         2048,
         2048
-      ]
+      ],
+      "originReadbackSha256": "c20cda5ddcf1168579f86e9ae3f76b47a57cf3d5eafb5ceaa99d3133169cd319",
+      "gitBlobSha": "e1edc56e25a4a3ac3ee0d0aa3a65e91148960096"
     },
     {
       "role": "full",
@@ -106,7 +108,9 @@
         182,
         1728,
         1938
-      ]
+      ],
+      "originReadbackSha256": "e14ffd9436d9d85606bf074fee4da22e93b4fab3b21504c44619e1341ebfcec1",
+      "gitBlobSha": "8ad973728f1ee5d164420f52ae1795137259ff75"
     },
     {
       "role": "optimized",
@@ -132,7 +136,9 @@
         92,
         864,
         969
-      ]
+      ],
+      "originReadbackSha256": "19b7dbc3e0e1f40681954b63ad570bd2d5aabfa9b5957a8f24ab4f24e6ff1a01",
+      "gitBlobSha": "adfb7ec4919b281ab84bcd63cfaf8bae265c9fd4"
     }
   ],
   "producerVisualInspection": "PASS_PRODUCER_ONLY_NOT_INDEPENDENT_ACCEPT",
@@ -143,5 +149,6 @@
   "ownedEquippedChoicesChanged": false,
   "replitOrFlootTouched": false,
   "mainTouched": false,
-  "originReadback": "PENDING"
+  "originReadback": "PASS_3_OF_3_EXACT_SHA256",
+  "sourceHeadAfterBinaryPush": "88d580613fc60f56d5754567ad78c88ac87446c5"
 }
