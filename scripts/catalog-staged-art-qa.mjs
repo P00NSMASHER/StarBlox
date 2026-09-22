@@ -47,9 +47,20 @@ function candidatePathFromObject(o) {
 }
 function blobSha(p) { return execFileSync('git',['hash-object',p],{encoding:'utf8'}).trim(); }
 function stateText(o) { return ['status','decision','reviewStatus','candidateStatus','repositoryStatus','deliveryStatus'].map(k => String(o?.[k] ?? '').toUpperCase()).join(' '); }
+function declaredHash(o) {
+  for (const key of ['gitBlobSha','candidateBlobSha','assetHash','blobSha']) {
+    const value=String(o?.[key] ?? '').trim().toLowerCase();
+    if (/^[0-9a-f]{40}$/.test(value)) return value;
+  }
+  return null;
+}
 function looksReviewable(o) {
   const s = stateText(o);
   return s.includes('READY_FOR_REVIEW') || s.includes('READY_FOR_FRESH_REVIEW') || s.includes('READY_FOR_FRESH_INDEPENDENT_PIXEL_REVIEW') || s.includes('STAGED');
+}
+function looksAccepted(o) {
+  const s=stateText(o);
+  return s.includes('ACCEPT') || s.includes('CANONICAL');
 }
 function replacementFileId(file) { return file.match(/^([a-z]+-\d+)-.+\.(?:svg|png|jpe?g|webp)$/i)?.[1] ?? null; }
 function isReplacementPath(id,p) { return p !== `public/assets/catalog/${id}.svg`; }
@@ -92,11 +103,19 @@ function laneMetaById(){
 }
 function selectCurrentReplacementCandidates(report){
   const meta=laneMetaById(), candidates=new Map();
-  const add=c=>{const item={...c,blobSha:blobSha(c.repositoryPath),signature:signatureCheck(c.repositoryPath)};const list=candidates.get(c.id)??[];list.push(item);candidates.set(c.id,list);};
+  const add=c=>{
+    const actualBlobSha=blobSha(c.repositoryPath), signature=signatureCheck(c.repositoryPath);
+    if(c.declaredBlobSha && c.declaredBlobSha!==actualBlobSha){
+      report.warnings.push(`${c.id}: skipped stale lane binding ${c.repositoryPath}; declared ${c.declaredBlobSha} != actual ${actualBlobSha}`);
+      return;
+    }
+    const item={...c,blobSha:actualBlobSha,signature};
+    const list=candidates.get(c.id)??[];list.push(item);candidates.set(c.id,list);
+  };
   for(const [id,objects] of meta.entries()) for(const o of objects){
     const repositoryPath=candidatePathFromObject(o);
     if(!repositoryPath||!isReplacementPath(id,repositoryPath)||!looksReviewable(o)) continue;
-    add({id,name:o.name??id,tier:o.tier??null,theme:o.theme??null,producerLane:o.producerLane,discovery:'lane-reviewable',repositoryPath});
+    add({id,name:o.name??id,tier:o.tier??null,theme:o.theme??null,producerLane:o.producerLane,discovery:'lane-reviewable',repositoryPath,declaredBlobSha:declaredHash(o)});
   }
   const root='public/assets/catalog';
   if(fs.existsSync(root)) for(const file of fs.readdirSync(root).sort()){
@@ -118,7 +137,26 @@ function selectCurrentReplacementCandidates(report){
 }
 function selectOwnCollectionPath(lane,id,fallback,report){
   const matches=allObjects(lane).filter(o=>o.id===id);
-  for(let i=matches.length-1;i>=0;i--){const p=candidatePathFromObject(matches[i]);if(!p)continue;const sig=signatureCheck(p);if(sig.ok)return p;report.warnings.push(`${id}: ignored invalid lane candidate ${p} (${sig.reason})`);}
+  const viable=[];
+  for(let i=0;i<matches.length;i++){
+    const o=matches[i], p=candidatePathFromObject(o);
+    if(!p) continue;
+    const sig=signatureCheck(p);
+    if(!sig.ok){report.warnings.push(`${id}: ignored invalid lane candidate ${p} (${sig.reason})`);continue;}
+    const actual=blobSha(p), declared=declaredHash(o);
+    if(declared && declared!==actual){report.warnings.push(`${id}: ignored stale lane binding ${p}; declared ${declared} != actual ${actual}`);continue;}
+    const replacement=isReplacementPath(id,p);
+    const score=(looksReviewable(o)&&replacement)?40:(looksAccepted(o)&&replacement)?30:replacement?20:(looksReviewable(o)?10:0);
+    viable.push({p,actual,declared,state:stateText(o),score,index:i});
+  }
+  viable.sort((a,b)=>b.score-a.score||b.index-a.index);
+  const pick=viable[0];
+  if(pick){
+    report.selectedBindings.push({id,repositoryPath:pick.p,blobSha:pick.actual,declaredBlobSha:pick.declared,state:pick.state,selectionScore:pick.score});
+    return pick.p;
+  }
+  const actual=fs.existsSync(fallback)?blobSha(fallback):null;
+  report.selectedBindings.push({id,repositoryPath:fallback,blobSha:actual,declaredBlobSha:null,state:'FALLBACK',selectionScore:-1});
   return fallback;
 }
 function selectVisualCandidates(report){
@@ -185,7 +223,7 @@ function duplicateHashGroups(items){
 }
 
 fs.mkdirSync(artifactRoot,{recursive:true});
-const report={sourceHead:process.env.GITHUB_SHA,generatedAt:new Date().toISOString(),sets:{},errors:[],warnings:[],skippedCandidates:[]};
+const report={sourceHead:process.env.GITHUB_SHA,generatedAt:new Date().toISOString(),sets:{},errors:[],warnings:[],skippedCandidates:[],selectedBindings:[]};
 const browser=await chromium.launch({headless:true});
 try{
   for(const [collection,def] of Object.entries(definitions)){
