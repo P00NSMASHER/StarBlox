@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 280" role="img" aria-label="Mastery decorative illustration">
+<title>Mastery</title><desc>Dimensional star medallion with layered ribbon, learning cards and a calm constellation. Decorative only; no star count or mastery-state claim.</desc>
+<defs>
+ <radialGradient id="msBg" cx="50%" cy="40%" r="75%"><stop stop-color="#fff8c9"/><stop offset=".36" stop-color="#e6f7ff"/><stop offset="1" stop-color="#cfcbff"/></radialGradient>
+ <linearGradient id="msGold" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff7a8"/><stop offset=".45" stop-color="#ffd84f"/><stop offset=".78" stop-color="#efb22a"/><stop offset="1" stop-color="#bb7613"/></linearGradient>
+ <linearGradient id="msRibbon" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#8d78e8"/><stop offset="1" stop-color="#5a3bbe"/></linearGradient>
+ <linearGradient id="msCard" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#ffffff"/><stop offset="1" stop-color="#e8f6ff"/></linearGradient>
+ <filter id="msShadow" x="-40%" y="-40%" width="190%" height="210%"><feDropShadow dx="0" dy="11" stdDeviation="9" flood-color="#17366b" flood-opacity=".27"/></filter>
+ <filter id="msGlow" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="10"/></filter>
+ <pattern id="msFacet" width="18" height="18" patternUnits="userSpaceOnUse"><path d="M0 18L18 0M-6 6L6-6M12 24L24 12" stroke="#fff" stroke-opacity=".11" stroke-width="1"/></pattern>
+</defs>
+<rect width="480" height="280" rx="28" fill="url(#msBg)"/>
+<circle cx="240" cy="133" r="103" fill="#ffd84f" opacity=".13" filter="url(#msGlow)"/>
+<ellipse cx="240" cy="233" rx="133" ry="23" fill="#334b82" opacity=".14"/>
+<g filter="url(#msShadow)" transform="translate(159 25)">
+ <path d="M44 142L18 232l49-23 31 39 23-91z" fill="url(#msRibbon)"/>
+ <path d="M118 142l27 90-49-23-31 39-24-91z" fill="#6653bf"/>
+ <circle cx="81" cy="101" r="78" fill="#f0b929" stroke="#fff4a0" stroke-width="8"/>
+ <circle cx="81" cy="101" r="62" fill="url(#msGold)" stroke="#fff" stroke-width="4"/>
+ <circle cx="81" cy="101" r="51" fill="url(#msFacet)" opacity=".9"/>
+ <path d="M81 55l14 29 32 5-23 23 5 32-28-15-29 15 6-32-24-23 32-5z" fill="#fff9dc" stroke="#fff" stroke-width="3"/>
+ <path d="M81 66l10 22 24 4-17 17 4 24-21-11-22 11 5-24-18-17 24-4z" fill="#ffd84f"/>
+</g>
+<g filter="url(#msShadow)">
+ <g transform="translate(38 63) rotate(-8)">
+  <path d="M0 10L104 0l10 91L10 103z" fill="url(#msCard)" stroke="#fff" stroke-width="4"/>
+  <rect x="18" y="22" width="54" height="9" rx="4.5" fill="#8acded"/>
+  <rect x="18" y="40" width="72" height="7" rx="3.5" fill="#c6dded"/>
+  <rect x="18" y="56" width="61" height="7" rx="3.5" fill="#c6dded"/>
+  <path d="M80 68l7 14 16 2-12 11 3 16-14-8-14 8 3-16-12-11 16-2z" fill="#35cc6a"/>
+ </g>
+ <g transform="translate(340 79) rotate(7)">
+  <path d="M0 0h91v92H0z" fill="url(#msCard)" stroke="#fff" stroke-width="4"/>
+  <path d="M18 67c13-25 29-39 50-43" fill="none" stroke="#8e66d3" stroke-width="7" stroke-linecap="round"/>
+  <circle cx="20" cy="67" r="7" fill="#8e66d3"/><circle cx="44" cy="41" r="7" fill="#8e66d3"/><circle cx="68" cy="24" r="7" fill="#ffd84f"/>
+ </g>
+</g>
+<g fill="#fff8b3"><circle cx="72" cy="39" r="4"/><circle cx="415" cy="47" r="4"/><path d="M118 24l4 9 9 4-9 4-4 9-4-9-9-4 9-4z"/><path d="M377 28l5 11 11 5-11 5-5 11-5-11-11-5 11-5z"/></g>
+<path d="M82 36c50-23 89-24 128-11M270 26c45-11 83-4 120 18" fill="none" stroke="#fff" stroke-width="3" stroke-dasharray="2 10" stroke-linecap="round" opacity=".75"/>
+</svg>

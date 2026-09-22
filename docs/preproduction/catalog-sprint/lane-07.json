@@ -1,14 +1,14 @@
 {
-  "schemaVersion": 11,
+  "schemaVersion": 12,
   "orchestrationVersion": 2,
   "lane": "07",
   "workstream": "07",
   "phase": "ART_VISUALS_SPRINT",
   "branch": "screenshot-match-preproduction",
-  "sourceHeadCheckedBeforeWrite": "3c7a39b8c0d09917fcb65421ccee7db1638de9a1",
+  "sourceHeadCheckedBeforeWrite": "b4561d2da60505e519a65493628eec20a0380e71",
   "deliveryProtocol": "docs/preproduction/DELIVERY_PROTOCOL_V2.md",
   "allocation": "docs/preproduction/ART_VISUALS_SPRINT.json",
-  "status": "CATALOG_PRODUCTION_CLOSED_CURRENT_REVIEW_LEVEL_HOME_TIER_PREVIEWS_STAGED",
+  "status": "CATALOG_PRODUCTION_CLOSED_PROGRESSION_ART_PILOT_STAGED",
   "owners": {
     "phaseAndSharedCoordination": "15",
     "manifestRuntimeIntegration": "08",
@@ -53,7 +53,10 @@
     "gitBlobSha": "eea2fc5b78c1186342f91f597bc792160ab8f8fe",
     "sha256": "21a2f71224d9a7d4e0e60a672867cc629f21a481c3310fee6b1cac1c1be071b3",
     "format": "PNG",
-    "dimensions": [1024, 1024],
+    "dimensions": [
+      1024,
+      1024
+    ],
     "bytes": 1039033,
     "reviewer": "14",
     "decision": "ACCEPT",
@@ -103,10 +106,17 @@
         "runtimeCandidatePath": "/assets/home/room-tier-4-w07-v2.svg",
         "gitBlobSha": "9963a3abdc2426608b717e9d7eff0dd87b43cae8",
         "format": "SVG",
-        "dimensions": [640, 360],
+        "dimensions": [
+          640,
+          360
+        ],
         "bytes": 6761,
         "provenance": "Original Workstream 07 StarBlox vector scene study, reference-directed from the authoritative Home screenshot manifest and the established room-tier v2 visual language.",
-        "producerChecks": ["REPOSITORY_READBACK_PASS", "VIEWBOX_640x360_PASS", "SELF_CONTAINED_VECTOR_PASS"],
+        "producerChecks": [
+          "REPOSITORY_READBACK_PASS",
+          "VIEWBOX_640x360_PASS",
+          "SELF_CONTAINED_VECTOR_PASS"
+        ],
         "status": "PRODUCER_STAGED_NOT_INTEGRATED"
       },
       {
@@ -116,22 +126,29 @@
         "runtimeCandidatePath": "/assets/home/room-tier-5-w07-v2.svg",
         "gitBlobSha": "c5eb44f34604737e085adfb7ad8c5d5e99087bb5",
         "format": "SVG",
-        "dimensions": [640, 360],
+        "dimensions": [
+          640,
+          360
+        ],
         "bytes": 8267,
         "provenance": "Original Workstream 07 StarBlox vector scene study, reference-directed from the authoritative Home screenshot manifest and the established room-tier v2 visual language.",
-        "producerChecks": ["REPOSITORY_READBACK_PASS", "VIEWBOX_640x360_PASS", "SELF_CONTAINED_VECTOR_PASS"],
+        "producerChecks": [
+          "REPOSITORY_READBACK_PASS",
+          "VIEWBOX_640x360_PASS",
+          "SELF_CONTAINED_VECTOR_PASS"
+        ],
         "status": "PRODUCER_STAGED_NOT_INTEGRATED"
       }
     ],
     "visualIntent": {
       "tier4": "Premium but restrained penthouse: broad skyline glazing, tailored layered bedding, walnut-and-metal creator desk, sculpted lounge seating, woven floor rug, warm architectural lighting.",
-      "tier5": "Spectacular mansion suite: monumental night-sky glazing, architectural gold trim, layered canopy bed, luminous creator console, velvet lounge, starburst chandelier, mixed-material floor and richly woven star rug.",
+      "tier5": "Spectacular mansion suite: monumental night-sky glazing, architectural gold trim, layered canopy bed, luminous creator console, velvet seating, starburst chandelier, mixed-material floor and richly woven star rug.",
       "stateClaims": "NONE; artwork contains no counters, mastery claims, streaks, prices, ownership claims or fabricated reward state."
     },
     "rasterPixelReview": "NOT_CLAIMED_BY_PRODUCER",
     "integrationOwner": "15_SHARED_VISUAL_INTEGRATION"
   },
-  "nextAction": "No catalog producer action unless a later exact-hash defect or Workstream 15 reassignment arrives. Preserve all accepted Tops 1-6 and Rugs 1-12. Workstream 15 may coordinate independent visual finishing and any eventual wiring of the standalone Home tier preview assets; Workstream 07 should continue only non-conflicting versioned progression/Home art studies in its own paths.",
+  "nextAction": "Catalog remains frozen for Workstream 07. Preserve Tops 1-6 and Rugs 1-12. Hand the four standalone progression art assets to Workstream 15 for non-conflicting visual-finishing evaluation; do not wire them or change real-state widget logic without coordinated ownership. If 15 assigns another W07-owned art gap, continue only that bounded visual scope.",
   "freeze": {
     "replitTouched": false,
     "flootTouched": false,
@@ -141,5 +158,91 @@
     "manifestRuntimeTouchedBy07": false,
     "sharedRuntimeCssTouchedBy07": false,
     "playerDataTouched": false
+  },
+  "progressionVisualPilot": {
+    "scope": "Four standalone versioned decorative assets for existing Home progression surfaces. Assets are not flattened UI screenshots and contain no live counters/state; no shared runtime/CSS wiring performed.",
+    "reference": {
+      "manifest": "docs/preproduction/reference-screenshots/original-reference-manifest.json",
+      "homeOriginal": "docs/preproduction/reference-screenshots/originals/home-1448x1086.jpeg",
+      "homeOriginalGitBlobSha": "cd4905ff1a8b97d784698ae1b0f8c3521937711e",
+      "homeOriginalSha256": "6a4b110aeaf12a6ab0c629f9181cc6cfa8d4f55a518d4f2a6adb3ac6e756c457",
+      "materialDirection": "Use the Home reference's bright image-led progression, warm bedroom aspiration and high-contrast blue/purple/gold visual language while remaining separate from the W13 environment repair."
+    },
+    "assets": [
+      {
+        "name": "Daily Quests decorative illustration",
+        "repositoryPath": "public/assets/home/progression-daily-quests-w07-v1.svg",
+        "runtimeCandidatePath": "/assets/home/progression-daily-quests-w07-v1.svg",
+        "gitBlobSha": "ca199e8368d0e6fde334dc364eea7babdba39d44",
+        "sha256": "26f0646c52ef3521b72070b3bce774e217ccb0cb1cb9e90de5e93dc5d7bc953f",
+        "format": "SVG",
+        "dimensions": [
+          480,
+          280
+        ],
+        "bytes": 4381,
+        "intent": "Exactly three neutral symbolic stations: Quest card, transfer bridge and reward parcel. Neutral bullets avoid implying completion.",
+        "stateClaims": "NONE"
+      },
+      {
+        "name": "Today Learning decorative illustration",
+        "repositoryPath": "public/assets/home/progression-today-learning-w07-v1.svg",
+        "runtimeCandidatePath": "/assets/home/progression-today-learning-w07-v1.svg",
+        "gitBlobSha": "568c78139c44a35fa93fa60312ea406ca9a74561",
+        "sha256": "29304865bcfb8f5f94dc22e66857a91cf02c02e2c5d636e8321af339091318f0",
+        "format": "SVG",
+        "dimensions": [
+          480,
+          280
+        ],
+        "bytes": 3893,
+        "intent": "Open book, pencil, geometry pieces and star path; no mastery percentage, answer, score or subject-progress claim.",
+        "stateClaims": "NONE"
+      },
+      {
+        "name": "Mastery decorative illustration",
+        "repositoryPath": "public/assets/home/progression-mastery-w07-v1.svg",
+        "runtimeCandidatePath": "/assets/home/progression-mastery-w07-v1.svg",
+        "gitBlobSha": "bd6f7de3538281cca15b81dc82138957481da337",
+        "sha256": "0091c7871949c9aa22f0debd5388995e843119ac96623c84ab38dbe19a6b20b6",
+        "format": "SVG",
+        "dimensions": [
+          480,
+          280
+        ],
+        "bytes": 3529,
+        "intent": "Dimensional star medallion and learning evidence cards; decorative only and does not imply a star count or mastered skill.",
+        "stateClaims": "NONE"
+      },
+      {
+        "name": "Rewards and Customization decorative illustration",
+        "repositoryPath": "public/assets/home/progression-reward-customization-w07-v1.svg",
+        "runtimeCandidatePath": "/assets/home/progression-reward-customization-w07-v1.svg",
+        "gitBlobSha": "8426e6af5829e225415d294f8cd1dd99019d97cb",
+        "sha256": "cef58b535376809c5727bd7234322abee7553a52960f9eda6c9a34178593db0e",
+        "format": "SVG",
+        "dimensions": [
+          480,
+          280
+        ],
+        "bytes": 4223,
+        "intent": "Dimensional wardrobe, room-style station, swatches and reward parcel without depicting a real catalog item ID, ownership count, price or earned-reward state.",
+        "stateClaims": "NONE"
+      }
+    ],
+    "producerChecks": [
+      "SVG_XML_PARSE_PASS_4_OF_4",
+      "LOCAL_RASTER_RENDER_PASS_4_OF_4_AT_960x560",
+      "LOCAL_CARD_SCALE_RASTER_PASS_4_OF_4_AT_240x140",
+      "NO_LIVE_COUNTERS_OR_PRICES_OR_OWNERSHIP_TEXT",
+      "DAILY_ART_USES_EXACTLY_THREE_NEUTRAL_STATIONS_NO_COMPLETION_CHECKMARKS"
+    ],
+    "independentPixelAcceptance": "NOT_CLAIMED",
+    "integrationOwner": "15_SHARED_VISUAL_INTEGRATION",
+    "runtimeStateOwner": "UNCHANGED_EXISTING_REAL_STATE_RUNTIME"
+  },
+  "changedDependencies": {
+    "homeComposition": "Latest W03 reference analysis preserves the W13 environment/material recipe but requires W13/15 to clear the lower-center hero corridor; W07 progression art stays separate from the environment and does not compete for that space.",
+    "catalogIntegration": "Current integration.json still predates Rugs-12 acceptance; W07 leaves canonical wiring entirely to 08 and makes no integration edit."
   }
 }

@@ -1,41 +1,37 @@
 # Workstream 07 — ART_AND_VISUALS only
 
-STATUS: **CATALOG PRODUCTION CLOSED AT CURRENT REVIEW LEVEL / HOME TIER PREVIEWS STAGED**
+STATUS: **CATALOG PRODUCTION CLOSED / FOUR PROGRESSION ART ASSETS STAGED**
 
 Branch: `screenshot-match-preproduction`  
 Authority: `docs/preproduction/ART_VISUALS_SPRINT.json` + compatible `docs/preproduction/DELIVERY_PROTOCOL_V2.md`  
-Source head checked before this write: `3ade8a2b282a066ce220d2113c2c25f1b644a4fc`  
+Source head checked before this write: `b4561d2da60505e519a65493628eec20a0380e71`  
 Replit/Floot/main/deploy/paid settings/player data/shared runtime: **untouched**
 
 ## Catalog freeze
 
-Tops 1–6 remain independently accepted at their preserved exact hashes and were not changed.
+Tops 1–6 and Rugs 1–12 remain frozen at their accepted exact hashes. Reviewer 14's current exact Rugs 12 ACCEPT is `/assets/catalog/rugs-12-w07-v3.png` blob `eea2fc5b78c1186342f91f597bc792160ab8f8fe`; the earlier `85007bbb...` producer value is superseded. Workstream 08 alone owns canonical wiring. Workstream 07 did not regenerate, alter, rereview or re-reconcile any catalog asset.
 
-Rugs 1–12 are closed for Workstream 07 production unless a later exact-hash defect is recorded. Reviewer 14 independently ACCEPTED the reconciled current Rugs 12 candidate from actual card/detail evidence:
+## Existing Home art preserved
 
-- `rugs-12` — `/assets/catalog/rugs-12-w07-v3.png`
-- exact Git blob `eea2fc5b78c1186342f91f597bc792160ab8f8fe`
-- PNG 1024×1024, 1,039,033 bytes
-- SHA-256 `21a2f71224d9a7d4e0e60a672867cc629f21a481c3310fee6b1cac1c1be071b3`
-- reviewer evidence: `docs/preproduction/catalog-sprint/chat-rugs-12-v3-reconciled-review-14-to-08.json`
+The five standalone W07 room-tier previews plus `dream-goal-w07-v2.svg` remain unchanged and unintegrated. Latest Home reference analysis from Workstream 03 reinforces that the room/environment must remain the canvas and that the lower-center hero corridor belongs to the W13/15 scene repair; this lane therefore kept the new progression visuals as separable component art rather than baking them into the room.
 
-The previously declared `85007bbb5e31a5545cf006f9cf43f25167ffb37f` is superseded as producer metadata error. Rugs 11 remains accepted at `2c93f18fb5960f7056819c341a3da8f7fff3fb9d`. Workstream 08 alone owns canonical wiring; Workstream 07 claims no further catalog family.
+## Bounded progression-art pilot
 
-## Bounded Home art increment
+Four new 480×280 versioned SVG illustrations were staged in Workstream 07-owned Home asset paths. They are decorative assets only, not flattened UI screenshots and not live-state widgets.
 
-With no producer repair assigned, Workstream 07 used its permitted art-only capacity to complete the remaining two standalone five-tier preview studies. These are separate reusable art assets, not flattened UI screenshots and not runtime/state wiring.
+| Surface | Repository asset | Exact Git blob | Bytes |
+|---|---|---|---:|
+| Daily Quests | `/assets/home/progression-daily-quests-w07-v1.svg` | `ca199e8368d0e6fde334dc364eea7babdba39d44` | 4,381 |
+| Today Learning | `/assets/home/progression-today-learning-w07-v1.svg` | `568c78139c44a35fa93fa60312ea406ca9a74561` | 3,893 |
+| Mastery | `/assets/home/progression-mastery-w07-v1.svg` | `bd6f7de3538281cca15b81dc82138957481da337` | 3,529 |
+| Rewards + Customization | `/assets/home/progression-reward-customization-w07-v1.svg` | `8426e6af5829e225415d294f8cd1dd99019d97cb` | 4,223 |
 
-| Tier | Asset | Exact Git blob | Format | Dimensions | Bytes | Status |
-|---|---|---|---|---|---:|---|
-| 4 — Skyline Penthouse | `/assets/home/room-tier-4-w07-v2.svg` | `9963a3abdc2426608b717e9d7eff0dd87b43cae8` | SVG | 640×360 | 6,761 | producer-staged, not integrated |
-| 5 — Star Mansion | `/assets/home/room-tier-5-w07-v2.svg` | `c5eb44f34604737e085adfb7ad8c5d5e99087bb5` | SVG | 640×360 | 8,267 | producer-staged, not integrated |
+The Daily illustration uses exactly three neutral stations matching the existing three-goal model: Quest card, transfer bridge and reward parcel. Its markers are neutral bullets, not completion checkmarks. Today Learning contains no answer/score/subject percentage. Mastery contains no star count or mastered-skill claim. Rewards/Customization contains no price, ownership count or earned-reward state and does not claim any catalog item ID.
 
-Both were read back from the branch at their exact paths. The Skyline Penthouse study adds broad city glazing, layered tailored bedding, walnut/metal workstation construction, sculpted seating, woven rug texture and architectural lighting. The Star Mansion study escalates material/scene richness with monumental night glazing, gold architectural trim, canopy construction, luminous creator console, velvet seating, starburst chandelier, mixed-material flooring and a woven star rug.
+Producer checks: XML parse 4/4; local raster render 4/4 at 960×560; local card-scale render 4/4 at 240×140; no live counters, prices, timers, ownership or fabricated completion state. These checks establish asset usability only; independent pixel acceptance, Home screenshot parity and actual 320/390 runtime reachability are **not claimed**.
 
-The art direction is grounded in the authoritative Home original recorded by `docs/preproduction/reference-screenshots/original-reference-manifest.json` and preserves the established 640×360 W07 tier-preview language. Neither asset contains counters, mastery claims, ownership, prices, streaks, timers or fabricated reward state. Producer readback/viewBox/self-contained-vector checks passed; independent raster/pixel approval is **not claimed**.
+Detailed asset/provenance/state-safety specification: `docs/preproduction/workstreams/07-progression-art-v1.json`.
 
-The W07 v2 preview set now has all five canonical Home tiers staged as standalone assets: Tiny Starter Studio, Cozy Loft, Creator Bedroom, Skyline Penthouse and Star Mansion, plus the existing Dream Goal study. Any shared wiring or visual-surface integration should be coordinated by Workstream 15.
+## Handoff
 
-## Next action
-
-Do not touch Tops 1–6 or Rugs 1–12 unless a later exact-hash defect arrives, and do not claim another catalog family without Workstream 15 reassignment. Continue only non-conflicting versioned Home/progression visual studies in Workstream 07-owned paths while ART_AND_VISUALS remains active.
+Workstream 15 may evaluate these four exact assets for the later visual-finishing integration phase. They must remain bound to existing real counters/state if used; do not replace live data with artwork. Do not touch another catalog family or wire shared Home runtime/CSS without explicit coordination. If a later exact-hash catalog defect is assigned back to 07, that repair retakes priority.

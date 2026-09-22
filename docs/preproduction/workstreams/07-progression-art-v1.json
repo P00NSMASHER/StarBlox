@@ -1,0 +1,93 @@
+{
+  "schemaVersion": 1,
+  "workstream": "07",
+  "phase": "ART_VISUALS_SPRINT",
+  "branch": "screenshot-match-preproduction",
+  "scope": "Standalone progression visual assets only; no runtime/CSS/state wiring.",
+  "reference": {
+    "manifest": "docs/preproduction/reference-screenshots/original-reference-manifest.json",
+    "homeOriginal": "docs/preproduction/reference-screenshots/originals/home-1448x1086.jpeg",
+    "homeOriginalGitBlobSha": "cd4905ff1a8b97d784698ae1b0f8c3521937711e",
+    "homeOriginalSha256": "6a4b110aeaf12a6ab0c629f9181cc6cfa8d4f55a518d4f2a6adb3ac6e756c457"
+  },
+  "designIntent": {
+    "sharedLanguage": "Bright image-led progression art using the established Home blue/purple/gold palette, soft depth, white edge highlights and grounded shadows.",
+    "sceneConstraint": "Keep art self-contained and separable from the W13 environment asset; do not bake these illustrations into the room background or lower-center hero corridor.",
+    "responsiveConstraint": "Illustrations must retain identity at approximately 240x140 card scale. Actual 320/390 Home reachability remains an integration test owned by the screen/mobile finishing lanes.",
+    "stateConstraint": "All counters, owned state, mastery evidence and daily completion remain live runtime data; the art is decorative and neutral."
+  },
+  "assets": [
+    {
+      "name": "Daily Quests decorative illustration",
+      "repositoryPath": "public/assets/home/progression-daily-quests-w07-v1.svg",
+      "runtimeCandidatePath": "/assets/home/progression-daily-quests-w07-v1.svg",
+      "gitBlobSha": "ca199e8368d0e6fde334dc364eea7babdba39d44",
+      "sha256": "26f0646c52ef3521b72070b3bce774e217ccb0cb1cb9e90de5e93dc5d7bc953f",
+      "format": "SVG",
+      "dimensions": [480, 280],
+      "bytes": 4381,
+      "intent": "Exactly three neutral symbolic stations: Quest card, transfer bridge and reward parcel. Neutral bullets avoid implying completion.",
+      "stateClaims": "NONE"
+    },
+    {
+      "name": "Today Learning decorative illustration",
+      "repositoryPath": "public/assets/home/progression-today-learning-w07-v1.svg",
+      "runtimeCandidatePath": "/assets/home/progression-today-learning-w07-v1.svg",
+      "gitBlobSha": "568c78139c44a35fa93fa60312ea406ca9a74561",
+      "sha256": "29304865bcfb8f5f94dc22e66857a91cf02c02e2c5d636e8321af339091318f0",
+      "format": "SVG",
+      "dimensions": [480, 280],
+      "bytes": 3893,
+      "intent": "Open book, pencil, geometry pieces and star path; no mastery percentage, answer, score or subject-progress claim.",
+      "stateClaims": "NONE"
+    },
+    {
+      "name": "Mastery decorative illustration",
+      "repositoryPath": "public/assets/home/progression-mastery-w07-v1.svg",
+      "runtimeCandidatePath": "/assets/home/progression-mastery-w07-v1.svg",
+      "gitBlobSha": "bd6f7de3538281cca15b81dc82138957481da337",
+      "sha256": "0091c7871949c9aa22f0debd5388995e843119ac96623c84ab38dbe19a6b20b6",
+      "format": "SVG",
+      "dimensions": [480, 280],
+      "bytes": 3529,
+      "intent": "Dimensional star medallion and learning evidence cards; decorative only and does not imply a star count or mastered skill.",
+      "stateClaims": "NONE"
+    },
+    {
+      "name": "Rewards and Customization decorative illustration",
+      "repositoryPath": "public/assets/home/progression-reward-customization-w07-v1.svg",
+      "runtimeCandidatePath": "/assets/home/progression-reward-customization-w07-v1.svg",
+      "gitBlobSha": "8426e6af5829e225415d294f8cd1dd99019d97cb",
+      "sha256": "cef58b535376809c5727bd7234322abee7553a52960f9eda6c9a34178593db0e",
+      "format": "SVG",
+      "dimensions": [480, 280],
+      "bytes": 4223,
+      "intent": "Dimensional wardrobe, room-style station, swatches and reward parcel without depicting a real catalog item ID, ownership count, price or earned-reward state.",
+      "stateClaims": "NONE"
+    }
+  ],
+  "producerChecks": [
+    "SVG_XML_PARSE_PASS_4_OF_4",
+    "LOCAL_RASTER_RENDER_PASS_4_OF_4_AT_960x560",
+    "LOCAL_CARD_SCALE_RASTER_PASS_4_OF_4_AT_240x140",
+    "NO_LIVE_COUNTERS_OR_PRICES_OR_OWNERSHIP_TEXT",
+    "DAILY_ART_USES_EXACTLY_THREE_NEUTRAL_STATIONS_NO_COMPLETION_CHECKMARKS"
+  ],
+  "review": {
+    "producerSelfApproval": false,
+    "pixelAcceptance": "NOT_CLAIMED",
+    "coordinationOwner": "15",
+    "note": "15 may assign independent visual review/integration later. Asset presence does not imply Home parity or responsive acceptance."
+  },
+  "freeze": {
+    "catalogTouched": false,
+    "sharedRuntimeTouched": false,
+    "sharedCssTouched": false,
+    "playerDataTouched": false,
+    "replitTouched": false,
+    "flootTouched": false,
+    "mainTouched": false,
+    "deployed": false
+  },
+  "sourceHeadCheckedBeforeWrite": "b4561d2da60505e519a65493628eec20a0380e71"
+}
