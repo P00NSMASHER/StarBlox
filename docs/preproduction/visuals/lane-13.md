@@ -1,6 +1,6 @@
 # Workstream 13 — Scene / Character Art
 
-STATUS: **READY_FOR_REVIEW — Home v2 + Quest v1 + Store v1 scene candidates staged with exact origin readback; none runtime-wired**
+STATUS: **READY_FOR_REVIEW — Home v2 + Quest v1 + Store v1 scenes and avatar-headset v1 staged with exact origin readback; none runtime-wired**
 
 ## Concrete visual defect and v1 disposition
 
@@ -82,14 +82,38 @@ Provenance: Adobe generation request `1f92b4a4-ed9d-41ec-9694-2a535d91055d`; Ado
 - **Runtime:** none of the three scene candidates are wired. Workstream 09's active environment assets and Workstream 06 avatar implementation remain untouched.
 
 
+## Character layer candidate — `avatar-headset-w13-v1`
+
+The current Home/Store/Quest renders were inspected against the immutable references before character production. The cross-screen defect is that the live avatar treatment is much flatter and less expressive than the target character language. To avoid overriding owned/equipped choices, lane 13 produced **only a transparent head/face/hair/headset layer** plus a neutral minimal shoulder underlayer; no outer outfit is authoritative or runtime-wired.
+
+Character intent:
+
+- original friendly medium-brown hair with rounded layered locks;
+- expressive warm eyes/brows, subtle freckles and a small natural smile;
+- original blush/lilac over-ear headset with small rounded cat-ear attachments and selective cyan accents;
+- head, hair, headset, neck and minimal shoulders only;
+- plain neutral lavender crew-neck underlayer is explicitly non-authoritative and intended to be covered/replaced by owned/equipped clothing;
+- no logo, UI, text, jewelry, branded clothing, third-party likeness or copied character design.
+
+### Exact staged character assets
+
+- Source preservation: `public/assets/visuals/lane-13/avatar-headset-w13-v1-source.png` — **2048×2048**, 3,488,922 bytes, SHA-256 `c20cda5ddcf1168579f86e9ae3f76b47a57cf3d5eafb5ceaa99d3133169cd319`, Git blob `e1edc56e25a4a3ac3ee0d0aa3a65e91148960096`.
+- Full transparent cutout: `public/assets/visuals/lane-13/avatar-headset-w13-v1-full.png` — **2048×2048**, 1,973,818 bytes, SHA-256 `e14ffd9436d9d85606bf074fee4da22e93b4fab3b21504c44619e1341ebfcec1`, Git blob `8ad973728f1ee5d164420f52ae1795137259ff75`; alpha bbox `[344,182,1728,1938]` with 0..255 alpha extrema.
+- Optimized transparent derivative: `public/assets/visuals/lane-13/avatar-headset-w13-v1-1024.png` — **1024×1024**, 675,538 bytes, SHA-256 `19b7dbc3e0e1f40681954b63ad570bd2d5aabfa9b5957a8f24ab4f24e6ff1a01`, Git blob `adfb7ec4919b281ab84bcd63cfaf8bae265c9fd4`; alpha bbox `[172,92,864,969]`.
+- Exact origin readback: **PASS 3/3 exact SHA-256**; binary-push head recorded by the intake as `88d580613fc60f56d5754567ad78c88ac87446c5`.
+- Intake evidence: `docs/preproduction/visuals/lane-13-avatar-headset-v1-intake.json`.
+
+Provenance: Adobe generation request `9b0023e7-5c93-4b5d-971a-5518470944fe`; background-removal request `079eaf22-9c13-4d9e-9611-1768f38fc415`; resize request `cb037264-0787-4024-830a-85f51b4e68c8`. This is producer-staged art only, not an avatar-runtime or equipment-system change.
+
+
 ## Scope safety
 
-None of the three staged scene candidates edits Workstream 09's active environment, Workstream 06 avatar implementation, catalog manifest/runtime mappings, saves/economy/learning, Replit, Floot or `main`. They are versioned review candidates only.
+None of the three staged scene candidates or the separate avatar-headset layer edits Workstream 09's active environment, Workstream 06 avatar implementation, catalog manifest/runtime mappings, saves/economy/learning, Replit, Floot or `main`. They are versioned review candidates only.
 
 ## Independent review handoff
 
-- **01:** judge exact Home v2, Quest v1 and Store v1 pixels against their immutable references; every decision must bind to the exact hashes above/intake evidence.
-- **14:** judge overlay-safe composition, format/performance and real-browser suitability for all three candidates.
-- **15:** only after independent acceptance, coordinate any runtime handoff to Workstream 09.
+- **01:** judge exact Home v2, Quest v1, Store v1 and avatar-headset v1 pixels against their immutable references; every decision must bind to the exact hashes above/intake evidence.
+- **14:** judge overlay-safe composition, alpha/cutout quality, format/performance and real-browser suitability.
+- **15:** only after independent acceptance, coordinate environment handoff to Workstream 09 and character handoff to the avatar owner.
 
 Workstream 13 must not self-approve or wire this candidate.
