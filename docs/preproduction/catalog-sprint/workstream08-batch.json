@@ -1,24 +1,29 @@
 {
-  "schemaVersion": 4,
-  "expectedManifestVersion": 19,
-  "expectedStrictCanonicalBefore": 57,
-  "reviewer": "02",
-  "batchLabel": "Seating 2-6 exact-hash ACCEPTs",
+  "schemaVersion": 5,
+  "expectedManifestVersion": 20,
+  "expectedStrictCanonicalBefore": 62,
+  "reviewer": "05",
+  "batchLabel": "Beds 1-4 + Desks 5-6 + Auras 1-4 v3 exact-hash ACCEPTs",
   "reviewEvidence": [
-    {"blobSha":"0c05422c55b3241517012e4d5f0e893a381f83bf"},
-    {"blobSha":"3195757960e035e21bb26a404730c788dcbcc23d"}
+    {"blobSha":"879dd8fbfef4796ba0700ff83fcfeec058ece860"},
+    {"blobSha":"59f462e88b386978ca52eefc5a3c7e3872049406"}
   ],
   "items": [
-    {"itemId":"seating-2","assetPath":"/assets/catalog/seating-2-w01-recovered-v2.jpg","assetHash":"c3d4705b7182b1be735b1a762b2ae79d58928aa5","producer":"01"},
-    {"itemId":"seating-3","assetPath":"/assets/catalog/seating-3-w01-recovered-v2.jpg","assetHash":"5d69a2f6adf1e4cf9b4ec413dbeedba84c41813b","producer":"01"},
-    {"itemId":"seating-4","assetPath":"/assets/catalog/seating-4-chat-v2.png","assetHash":"55d1fb2edddb7638f87c5962bd03b6ac745a1f4b","producer":"01"},
-    {"itemId":"seating-5","assetPath":"/assets/catalog/seating-5-chat-v2.png","assetHash":"252f0b24b3ede29d6abfbe7fc661a7da751de565","producer":"01"},
-    {"itemId":"seating-6","assetPath":"/assets/catalog/seating-6-chat-v2.png","assetHash":"f4f00fb739aaae4ce970a4c4d1d738bca729ff40","producer":"01"}
+    {"itemId":"beds-1","assetPath":"/assets/catalog-candidates/w02-beds-20260921-b01/beds-1-w02-v1.png","assetHash":"0b9f4213f84c9cde0de5ede646345c0ebc851127","producer":"02"},
+    {"itemId":"beds-2","assetPath":"/assets/catalog-candidates/w02-beds-20260921-b01/beds-2-w02-v1.png","assetHash":"67a0fe2874f975cedb1b4b994e0237ac55d2fb3e","producer":"02"},
+    {"itemId":"beds-3","assetPath":"/assets/catalog-candidates/w02-beds-20260921-b01/beds-3-w02-v1.png","assetHash":"22b1d9f6802cc0b442c9226511ff96e8ea0bbacc","producer":"02"},
+    {"itemId":"beds-4","assetPath":"/assets/catalog-candidates/w02-beds-20260921-b01/beds-4-w02-v1.png","assetHash":"18fa8722d9831af1113e07c2103b373acc41c3c0","producer":"02"},
+    {"itemId":"desks-5","assetPath":"/assets/catalog/desks-5-w03-recovered-v2.jpg","assetHash":"95fe65632e4f40b76b23cce30071ee2fdc5b4399","producer":"03"},
+    {"itemId":"desks-6","assetPath":"/assets/catalog/desks-6-w03-recovered-v2.jpg","assetHash":"52df05265de236911927b904b07e68dac7a17828","producer":"03"},
+    {"itemId":"auras-1","assetPath":"/assets/catalog/auras-1-w11-v3.png","assetHash":"a7921c7b7c8f48fc47908595c1afa6f59217c7a5","producer":"11"},
+    {"itemId":"auras-2","assetPath":"/assets/catalog/auras-2-w11-v3.png","assetHash":"1e421c71217e5386c1b255dfedeade8215976bcb","producer":"11"},
+    {"itemId":"auras-3","assetPath":"/assets/catalog/auras-3-w11-v3.png","assetHash":"f164aefb93a21374a1cf0b9b7b7312a0ae68d34c","producer":"11"},
+    {"itemId":"auras-4","assetPath":"/assets/catalog/auras-4-w11-v3.png","assetHash":"3357a67e4121ca631377e30033a31ef4c815ab61","producer":"11"}
   ],
   "nextAcceptedQueues": [
-    "05: Beds 1-4, Desks 5-6, Auras 1-4 v3 exact ACCEPT backlog.",
     "14: supplemental Rugs 9-10 exact ACCEPTs; Rugs 11-12 remain REWORK.",
-    "01: Tops 11 remains BLOCKED on decode and Tops 12 remains REWORK on current v3 hashes."
+    "01: Tops 11 remains BLOCKED on decode and Tops 12 remains REWORK on current v3 hashes.",
+    "02: Seating 11-12 remain BLOCKED pending exact current-hash card/detail proof."
   ],
-  "commitMessage": "catalog: wire accepted seating replacements"
+  "commitMessage": "catalog: wire accepted room and aura replacements"
 }
