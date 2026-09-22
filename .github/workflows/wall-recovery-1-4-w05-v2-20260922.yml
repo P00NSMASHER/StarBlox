@@ -1,0 +1,281 @@
+name: StarBlox Wall 1-4 W05 v2 Recovery
+
+on:
+  push:
+    branches: [screenshot-match-preproduction]
+    paths:
+      - '.github/workflows/wall-recovery-1-4-w05-v2-20260922.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: starblox-wall-recovery-1-4-w05-v2-20260922
+  cancel-in-progress: false
+
+jobs:
+  recover-wall-pilot:
+    if: github.ref == 'refs/heads/screenshot-match-preproduction'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - name: Checkout preproduction only
+        uses: actions/checkout@v4
+        with:
+          ref: screenshot-match-preproduction
+          fetch-depth: 0
+
+      - name: Record inspected source head
+        run: echo "SOURCE_HEAD=$(git rev-parse HEAD)" >> "$GITHUB_ENV"
+
+      - name: Download, validate, stage, and exact-readback Wall 1-4
+        id: stage
+        run: |
+          python3 - <<'PY'
+          from __future__ import annotations
+          import hashlib, json, os, struct, urllib.request, zlib
+          from pathlib import Path
+
+          ROOT=Path('.')
+          RESULT=ROOT/'docs/preproduction/catalog-sprint/chat-wall-1-4-w05-v2-result.json'
+          items=[
+            dict(id='wall-1',name='School Star Poster',tier=1,theme='Garden Glow',price=44,starReq=0,
+                 legacyBlobSha='aedaec3bbb44bd966e62d897ea0ccc5a64b14bd8',
+                 sourceGenerationRequestId='78df995b-9b49-46c9-86ea-cb7b18ad3d1c',
+                 sourceUrl='https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:971b3b88-c2c5-471a-8507-968437ed25cf',
+                 generatorAssetId='urn:aaid:sc:US:46de9520-1a2e-4071-b8ae-8da59418a24c',
+                 promptSha256='136bccb48fc0913463b865c1a5a8d53734241dd4ddf71bea9b961c754433bf6d',
+                 producerPixelCheck='PASS — real wood frame depth/bevel, matte glazed paper, hanging hardware and contact shadow; star/leaf Garden Glow identity remains card-readable.'),
+            dict(id='wall-2',name='Cloud Wall Flag',tier=1,theme='Galaxy Glow',price=65,starReq=0,
+                 legacyBlobSha='2dd6f4f09bd201e1e03582cb2b8990930f934d39',
+                 sourceGenerationRequestId='32dee967-f4ba-4ddb-804b-b7de958bbce4',
+                 sourceUrl='https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:f67962a2-1ab7-45c2-834d-7cec18092bf0',
+                 generatorAssetId='urn:aaid:sc:US:a063cfaf-b148-425f-8d08-89516c3012ea',
+                 promptSha256='ca0104008b18db3a246cd34df573bed2b70e41ca302b71c1183cbb69aac71331',
+                 producerPixelCheck='PASS — woven pennant body, stitched hem, dowel/end hardware, braided cord, folds and wall shadow; Galaxy Glow cloud/night identity remains distinct.'),
+            dict(id='wall-3',name='Pixel Scoreboard',tier=1,theme='Sunny Pop',price=94,starReq=0,
+                 legacyBlobSha='3419da96bd482ef0300acce28363662ec45abddf',
+                 sourceGenerationRequestId='23f6b201-455c-45ec-ba14-eeeac689c08e',
+                 sourceUrl='https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:34030fa2-4848-4e8b-a604-2916c7a86c61',
+                 generatorAssetId='urn:aaid:sc:US:b9de2e40-a5ec-4e91-ab15-4529b7625875',
+                 promptSha256='92d99c92fdbdb58a2dc206a155f5056e2c6e229c72168ff4015652758b6e4ae7',
+                 producerPixelCheck='PASS — molded housing and side thickness, mount points, glass face and restrained LED/pixel material response; Sunny Pop silhouette reads as a physical scoreboard.'),
+            dict(id='wall-4',name='Heart Gallery',tier=2,theme='Aqua Wave',price=123,starReq=0,
+                 legacyBlobSha='269b888dffce8aa2ac6cc9f885960d7c5e3d70b5',
+                 sourceGenerationRequestId='a9490821-eda3-4626-a222-f89dbe0efd5c',
+                 sourceUrl='https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:d41829c0-fb0e-4b88-b1c3-baa5373185e1',
+                 generatorAssetId='urn:aaid:sc:US:17664e32-e0f2-41eb-85f9-920eee1ce952',
+                 promptSha256='a3ec12f02c11803fe6e1fff5c6582fd724a0d3797dc51f17850b6e1a81dfbb77',
+                 producerPixelCheck='PASS — cohesive multi-frame gallery with thick brushed-metal frames/rail, reflective cover, mounting spacers and contact shadows; richer Aqua Wave Tier-2 material hierarchy.'),
+          ]
+
+          def sha256(b): return hashlib.sha256(b).hexdigest()
+          def git_blob_sha(b):
+              h=hashlib.sha1(); h.update(f'blob {len(b)}\0'.encode()); h.update(b); return h.hexdigest()
+          def png_dimensions(data):
+              if data[:8] != b'\x89PNG\r\n\x1a\n': raise ValueError('not PNG')
+              pos=8; dims=None; ended=False
+              while pos < len(data):
+                  if pos+12>len(data): raise ValueError('truncated PNG')
+                  n=struct.unpack('>I',data[pos:pos+4])[0]; end=pos+12+n
+                  if end>len(data): raise ValueError('truncated PNG content')
+                  kind=data[pos+4:pos+8]; payload=data[pos+8:pos+8+n]
+                  expected=struct.unpack('>I',data[pos+8+n:end])[0]
+                  if zlib.crc32(kind+payload)&0xffffffff != expected: raise ValueError('PNG CRC mismatch')
+                  if kind==b'IHDR':
+                      if n!=13 or dims is not None: raise ValueError('invalid IHDR')
+                      dims=struct.unpack('>II',payload[:8])
+                  pos=end
+                  if kind==b'IEND': ended=True; break
+              if not ended or pos!=len(data) or dims is None: raise ValueError('invalid PNG structure')
+              return dims
+          def download(url,limit=8_000_000):
+              req=urllib.request.Request(url,headers={'User-Agent':'StarBlox-W05-Wall-Recovery/1.0'})
+              with urllib.request.urlopen(req,timeout=90) as r:
+                  if not r.geturl().startswith('https://'): raise ValueError('non-HTTPS redirect')
+                  b=r.read(limit+1)
+              if len(b)>limit: raise ValueError('download too large')
+              return b
+
+          stored=[]; skipped=[]
+          for meta in items:
+              iid=meta['id']
+              target=ROOT/f'public/assets/catalog/{iid}-w05-v2.png'
+              other=sorted((ROOT/'public/assets/catalog').glob(f'{iid}-*.*'))
+              other=[p for p in other if p!=target]
+              # Preserve any newer versioned candidate owned by another lane/worker.
+              if other and not target.exists():
+                  skipped.append({'id':iid,'reason':'EXISTING_VERSIONED_CANDIDATE_PRESERVED','paths':[p.as_posix() for p in other]})
+                  continue
+              data=download(meta['sourceUrl'])
+              dims=png_dimensions(data)
+              if dims!=(1024,1024): raise ValueError(f'{iid}: expected 1024x1024, got {dims}')
+              if target.exists() and target.read_bytes()!=data:
+                  raise ValueError(f'{iid}: refusing to overwrite differing staged candidate')
+              target.parent.mkdir(parents=True,exist_ok=True)
+              if not target.exists(): target.write_bytes(data)
+              rb=target.read_bytes()
+              if rb!=data or png_dimensions(rb)!=(1024,1024): raise ValueError(f'{iid}: readback mismatch')
+              rec={**meta,
+                   'collectionId':'wall','collectionName':'Wall Decor','type':'room','format':'PNG',
+                   'repositoryPath':target.as_posix(),'assetPath':'/'+target.as_posix().removeprefix('public/'),
+                   'dimensions':[1024,1024],'bytes':len(rb),'sha256':sha256(rb),'gitBlobSha':git_blob_sha(rb),
+                   'producer':'05','independentReviewer':'14','status':'READY_FOR_REVIEW_14','readback':'PASS',
+                   'provenance':{'provider':'Adobe','tool':'image_generate','modelId':None,'modelRevision':None,'seed':None,
+                                 'outputFileType':'png','sourceDimensions':[1024,1024],
+                                 'note':'Provider connector did not expose a model/checkpoint revision or deterministic seed; values are intentionally null.'}}
+              stored.append(rec)
+          if len({r['sha256'] for r in stored}) != len(stored): raise ValueError('duplicate Wall candidate bytes in bounded pilot')
+          result={
+            'schemaVersion':1,'batchId':'w05-wall-1-4-20260922-b01','status':'STAGED_READBACK_PASS__RENDER_PENDING',
+            'sourceHead':os.environ.get('SOURCE_HEAD'),'producer':'05','independentReviewer':'14','canonicalWriter':'08',
+            'storedCandidateCount':len(stored),'skippedExistingCandidateCount':len(skipped),'items':stored,'skipped':skipped,
+            'checks':{'exactByteReadback':f'PASS_{len(stored)}_OF_{len(stored)}','candidateDecode':f'PASS_{len(stored)}_OF_{len(stored)}','tests':'PENDING','build':'PENDING','sharedRenderOverall':'PENDING','wallCardDetailRender':'PENDING'},
+            'freeze':{'replitTouched':False,'flootTouched':False,'mainTouched':False,'canonicalMappingsTouched':False,'gameplayChanged':False,'learningChanged':False,'playerDataTouched':False},
+            'handoff':'14: independently review exact current Wall pilot hashes only after actual card/detail render evidence. 08: integrate only after qualified independent ACCEPT. 05: do not self-approve or scale beyond Wall 1-4 before reviewer14 disposition.'
+          }
+          RESULT.write_text(json.dumps(result,indent=2)+'\n')
+          print(json.dumps({'storedCandidateCount':len(stored),'skipped':skipped,'items':[{'id':r['id'],'sha256':r['sha256'],'gitBlobSha':r['gitBlobSha'],'bytes':r['bytes']} for r in stored]},indent=2))
+          PY
+
+      - name: Publish only produced Wall candidate bytes and intake evidence
+        id: publish
+        run: |
+          set -eu
+          test "$GITHUB_REF" = "refs/heads/screenshot-match-preproduction"
+          STORED=$(python3 - <<'PY'
+          import json
+          print(json.load(open('docs/preproduction/catalog-sprint/chat-wall-1-4-w05-v2-result.json'))['storedCandidateCount'])
+          PY
+          )
+          if [ "$STORED" -eq 0 ]; then
+            echo 'No new owned Wall asset bytes were produced; preserving newer staged candidates and making no status-only commit.'
+            echo 'NO_ASSETS=true' >> "$GITHUB_ENV"
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for f in public/assets/catalog/wall-{1,2,3,4}-w05-v2.png; do test ! -f "$f" || git add -- "$f"; done
+          git add -- docs/preproduction/catalog-sprint/chat-wall-1-4-w05-v2-result.json
+          git commit -m 'catalog: stage physical Wall 1-4 W05 v2 pilot'
+          for attempt in 1 2 3; do
+            if git push origin HEAD:refs/heads/screenshot-match-preproduction; then break; fi
+            git fetch origin screenshot-match-preproduction
+            git rebase origin/screenshot-match-preproduction
+            if [ "$attempt" -eq 3 ]; then echo 'Concurrent branch changes prevented safe publication; no force push.' >&2; exit 1; fi
+          done
+          echo "TESTED_SOURCE_HEAD=$(git rev-parse HEAD)" >> "$GITHUB_ENV"
+
+      - name: Use Node 22
+        if: env.NO_ASSETS != 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install app and Playwright dependencies
+        if: env.NO_ASSETS != 'true'
+        run: |
+          npm install --no-save --package-lock=false --no-audit --no-fund
+          npm install --no-save --package-lock=false --no-audit --no-fund playwright@1.55.0
+          npx playwright install --with-deps chromium
+
+      - name: Run full regression suite
+        if: env.NO_ASSETS != 'true'
+        id: tests
+        continue-on-error: true
+        run: timeout 120s npm test -- --reporter=verbose
+
+      - name: Build actual preproduction application
+        if: env.NO_ASSETS != 'true'
+        id: build
+        continue-on-error: true
+        run: npm run build
+
+      - name: Render staged candidates with shared file-backed fixture
+        if: env.NO_ASSETS != 'true'
+        id: render
+        continue-on-error: true
+        run: node scripts/catalog-staged-art-qa.mjs
+        env:
+          GITHUB_SHA: ${{ env.TESTED_SOURCE_HEAD }}
+
+      - name: Record scoped Wall evidence honestly
+        if: always() && steps.publish.outcome == 'success' && env.NO_ASSETS != 'true'
+        env:
+          TEST_OUTCOME: ${{ steps.tests.outcome }}
+          BUILD_OUTCOME: ${{ steps.build.outcome }}
+          RENDER_OUTCOME: ${{ steps.render.outcome }}
+        run: |
+          python3 - <<'PY'
+          import json, os
+          from pathlib import Path
+          p=Path('docs/preproduction/catalog-sprint/chat-wall-1-4-w05-v2-result.json')
+          r=json.loads(p.read_text())
+          def state(x): return {'success':'PASS','failure':'FAIL','skipped':'NOT_RUN','cancelled':'CANCELLED'}.get(x,'NOT_RUN')
+          r['testedSourceHead']=os.environ.get('TESTED_SOURCE_HEAD')
+          r['workflowRunId']=int(os.environ['GITHUB_RUN_ID'])
+          r['checks'].update({'tests':state(os.environ['TEST_OUTCOME']),'build':state(os.environ['BUILD_OUTCOME']),'sharedRenderOverall':state(os.environ['RENDER_OUTCOME']),'typecheck':'NOT_APPLICABLE_NO_APP_SOURCE_CHANGES'})
+          report=Path('artifacts/catalog-staged-art/report.json')
+          seen={}; screenshots={}
+          if report.exists():
+              ev=json.loads(report.read_text())
+              wanted={i['id']:i['gitBlobSha'] for i in r['items']}
+              matches=[i for s in ev.get('sets',{}).values() for i in s.get('items',[]) if wanted.get(i.get('id'))==i.get('blobSha')]
+              for i in matches:
+                  if i.get('screenshot') and i.get('status')==200 and i.get('naturalWidth') and not i.get('errors'):
+                      seen[i['id']]=i['blobSha']
+                      screenshots[i['id']]={'blobSha':i['blobSha'],'screenshot':i.get('screenshot'),'status':i.get('status'),'naturalWidth':i.get('naturalWidth'),'naturalHeight':i.get('naturalHeight'),'errors':i.get('errors') or []}
+              r['renderEvidence']={'artifactName':'wall-1-4-w05-v2-recovery-evidence','reportPath':'artifacts/catalog-staged-art/report.json','matchedIds':sorted(seen),'matchedHashes':{i:seen[i] for i in sorted(seen)},'screenshots':screenshots}
+          expected=len(r['items'])
+          r['checks']['wallCardDetailRender']=f'PASS_{expected}_OF_{expected}' if len(seen)==expected else f'INCOMPLETE_{len(seen)}_OF_{expected}'
+          r['status']='STAGED_READY_FOR_INDEPENDENT_REVIEW_14' if len(seen)==expected else 'STAGED_READBACK_PASS__RENDER_INCOMPLETE'
+          r['independentVisualReview']='PENDING_WORKSTREAM_14_NOT_SELF_APPROVED'
+          p.write_text(json.dumps(r,indent=2)+'\n')
+          print(json.dumps({'status':r['status'],'checks':r['checks'],'renderEvidence':r.get('renderEvidence')},indent=2))
+          PY
+
+      - name: Publish executed evidence safely
+        if: always() && steps.publish.outcome == 'success' && env.NO_ASSETS != 'true'
+        run: |
+          set -eu
+          git add -- docs/preproduction/catalog-sprint/chat-wall-1-4-w05-v2-result.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'catalog: record Wall 1-4 W05 v2 render evidence'
+          for attempt in 1 2 3; do
+            if git push origin HEAD:refs/heads/screenshot-match-preproduction; then exit 0; fi
+            git fetch origin screenshot-match-preproduction
+            git rebase origin/screenshot-match-preproduction
+          done
+          exit 1
+
+      - name: Retain exact Wall candidates and shared render evidence
+        if: always() && env.NO_ASSETS != 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: wall-1-4-w05-v2-recovery-evidence
+          retention-days: 14
+          if-no-files-found: warn
+          path: |
+            docs/preproduction/catalog-sprint/chat-wall-1-4-w05-v2-result.json
+            public/assets/catalog/wall-1-w05-v2.png
+            public/assets/catalog/wall-2-w05-v2.png
+            public/assets/catalog/wall-3-w05-v2.png
+            public/assets/catalog/wall-4-w05-v2.png
+            artifacts/catalog-staged-art
+
+      - name: Fail honestly if scoped gates did not pass
+        if: always() && steps.publish.outcome == 'success' && env.NO_ASSETS != 'true'
+        env:
+          TEST_OUTCOME: ${{ steps.tests.outcome }}
+          BUILD_OUTCOME: ${{ steps.build.outcome }}
+        run: |
+          test "$TEST_OUTCOME" = success
+          test "$BUILD_OUTCOME" = success
+          python3 - <<'PY'
+          import json
+          r=json.load(open('docs/preproduction/catalog-sprint/chat-wall-1-4-w05-v2-result.json'))
+          n=len(r['items'])
+          assert n > 0
+          assert r['checks'].get('wallCardDetailRender') == f'PASS_{n}_OF_{n}', r['checks']
+          PY
