@@ -1,10 +1,10 @@
 {
-  "schemaVersion": 8,
+  "schemaVersion": 9,
   "lane": "11",
   "workstream": "11",
   "phase": "CATALOG_SPRINT",
   "branch": "screenshot-match-preproduction",
-  "status": "AURAS_1_4_6_8_ACCEPTED__AURAS_5_9_10_12_V3_PENDING_05__AURA_11_V3_GIT_OBJECT_ONLY_ATTACH_BLOCKED",
+  "status": "AURAS_1_4_6_8_ACCEPTED__AURAS_5_9_10_11_12_V3_STAGED_PENDING_05",
   "policy": "docs/preproduction/DELIVERY_PROTOCOL_V2.md",
   "visualSprint": "docs/preproduction/ART_VISUALS_SPRINT.json",
   "independentReviewer": "05",
@@ -23,7 +23,7 @@
     "auras-11",
     "auras-12"
   ],
-  "auditedBranchHeadBeforeWrite": "5f41d4e62a89e0c809d12be863b11c57706e1a9f",
+  "auditedBranchHeadBeforeWrite": "ad06b08fe0489b3abd482176c47c748023ef9e1b",
   "historyRefs": [
     {
       "priorLaneBlobSha": "21305034a9b2202d230d80573a2aefcd408e0a15",
@@ -57,6 +57,7 @@
       {"id":"auras-5","name":"Garden Fireflies","hash":"ae3bef6cbbf4333aa740dc9a3fddf4f2b5540192","path":"/assets/catalog/auras-5-w11-v3.jpg","renderEvidence":"PASS_EXACT_HASH"},
       {"id":"auras-9","name":"Art Confetti","hash":"9331e516a7a1a2fa32abafaf3bbf0932c3ca792d","path":"/assets/catalog/auras-9-w11-v3.jpg","renderEvidence":"PASS_EXACT_HASH"},
       {"id":"auras-10","name":"Neon Trail","hash":"6f07fe7f5c8be236f3c17df5f55afc550888f52e","path":"/assets/catalog/auras-10-w11-v3.jpg","renderEvidence":"PASS_EXACT_HASH"},
+      {"id":"auras-11","name":"Dream Aurora","hash":"7f3372c1584e07f18a3abfc7818013190fff1560","path":"/assets/catalog/auras-11-w11-v3.jpg","renderEvidence":"PENDING_RENDER_QA_EXACT_HASH"},
       {"id":"auras-12","name":"Luxe Starstorm","hash":"d0fcf528ff4ee91e56760932fdcf357ab264dd3d","path":"/assets/catalog/auras-12-w11-v3.jpg","renderEvidence":"PASS_EXACT_HASH"}
     ],
     "legacyAura11Rework": {
@@ -73,7 +74,7 @@
     "tier": 4,
     "theme": "Art Attack",
     "producer": "11",
-    "status": "GIT_OBJECT_ONLY_ATTACH_BLOCKED_NOT_READY_FOR_REVIEW",
+    "status": "BRANCH_STAGED_READBACK_VERIFIED_PENDING_RENDER_QA_AND_05",
     "repairIntent": "Layered translucent aurora curtains with painterly color interaction, cyan/violet/magenta luminous atmosphere, clearly separated near/mid/far depth, crystalline highlight fragments, controlled bloom, atmospheric occlusion and an open avatar/card center.",
     "generation": {
       "tool": "OpenAI image generation",
@@ -93,15 +94,16 @@
       "sha256": "0a06996522c9cb999e82b8ba028e94bfe2cb8d16e043c94999065e0ae8ce1dc2",
       "gitBlobSha": "7f3372c1584e07f18a3abfc7818013190fff1560",
       "gitObjectWrite": "PASS",
-      "branchPathAttachment": "BLOCKED_CONCURRENT_HEAD_MOVEMENT",
-      "branchReadback": "NOT_AVAILABLE_UNTIL_ATTACHED",
-      "independentReview": "BLOCKED_UNTIL_BRANCH_ATTACHMENT_AND_EXACT_PATH_HASH_READBACK",
+      "branchPathAttachment": "PASS",
+      "branchReadback": "PASS_EXACT_GIT_BLOB_SHA1_AT_HEAD_ad06b08fe0489b3abd482176c47c748023ef9e1b",
+      "independentReview": "PENDING_NOT_REVIEWED_CURRENT_HASH",
       "canonicalIntegration": "BLOCKED_UNTIL_05_ACCEPT_AND_08_ONLY"
     },
     "attachmentAttempts": {
       "forcePushUsed": false,
-      "result": "NON_FORCE_FAST_FORWARD_REF_UPDATE_REJECTED_AFTER_CONCURRENT_VISUAL_COMMITS",
-      "action": "Workstream 15 should attach the already-stored exact Git blob to the intended path from a fresh head; do not regenerate or transform."
+      "priorResult": "NON_FORCE_FAST_FORWARD_REF_UPDATE_REJECTED_AFTER_CONCURRENT_VISUAL_COMMITS",
+      "resolved": true,
+      "action": "Exact candidate bytes are now attached at the intended versioned path. Do not regenerate; route exact hash to render QA and reviewer 05."
     }
   },
   "currentAuraState": [
@@ -115,21 +117,21 @@
     {"id":"auras-8","status":"V2_ACCEPTED_CANONICAL","hash":"6884668fe721f3b26a562e11924237a32c656db6"},
     {"id":"auras-9","status":"V3_STAGED_RENDERED_PENDING_05","hash":"9331e516a7a1a2fa32abafaf3bbf0932c3ca792d"},
     {"id":"auras-10","status":"V3_STAGED_RENDERED_PENDING_05","hash":"6f07fe7f5c8be236f3c17df5f55afc550888f52e"},
-    {"id":"auras-11","status":"V3_GIT_OBJECT_ONLY_ATTACH_BLOCKED","hash":"7f3372c1584e07f18a3abfc7818013190fff1560"},
+    {"id":"auras-11","status":"V3_STAGED_READBACK_PENDING_RENDER_QA_AND_05","hash":"7f3372c1584e07f18a3abfc7818013190fff1560"},
     {"id":"auras-12","status":"V3_STAGED_RENDERED_PENDING_05","hash":"d0fcf528ff4ee91e56760932fdcf357ab264dd3d"}
   ],
   "counts": {
     "qualifiedExactHashAccepts": 7,
     "confirmedCanonicalAuraReplacements": 3,
-    "stagedPendingReviewer05": 4,
-    "gitObjectOnlyPendingBranchAttachment": 1,
+    "stagedPendingReviewer05": 5,
+    "gitObjectOnlyPendingBranchAttachment": 0,
     "regeneratedAcceptedOrPendingAssetsThisPass": 0
   },
   "handoff": {
-    "15": "Attach existing blob 7f3372c1584e07f18a3abfc7818013190fff1560 to public/assets/catalog/auras-11-w11-v3.jpg from a fresh head without changing bytes; then exact readback enables reviewer 05.",
-    "05": "Preserve exact ACCEPTs for Auras 1-4 and 6-8. Continue current-hash review of staged Auras 5/9/10/12. Review Aura 11 only after branch path/hash readback exists.",
-    "08": "Preserve canonical Auras 6-8. Auras 1-4 are exact-hash ACCEPT and are eligible only after normal metadata/file/content checks. Aura 11 is not eligible until attached and independently accepted.",
-    "11": "Do not regenerate accepted or pending Aura hashes. Await fresh reviewer decisions or successful Aura-11 branch attachment; remain on ART_AND_VISUALS only."
+    "15": "Aura 11 branch attachment is resolved. Preserve exact Aura hashes and coordinate shared render/review entrypoints only; no further producer regeneration is eligible while current candidates are pending.",
+    "05": "Preserve exact ACCEPTs for Auras 1-4 and 6-8. Continue current-hash review of staged Auras 5/9/10/12. Aura 11 is now branch-staged at exact hash 7f3372c1584e07f18a3abfc7818013190fff1560 and should receive a fresh decision only after current-hash render evidence; do not inherit ddb2c81b... REWORK.",
+    "08": "Preserve canonical Auras 6-8. Auras 1-4 are exact-hash ACCEPT and are eligible only after normal metadata/file/content checks. Aura 11 remains ineligible until reviewer-05 exact-hash ACCEPT.",
+    "11": "Do not regenerate accepted or pending Aura hashes. All unfinished Auras now have newer staged candidates; await render/reviewer decisions and repair only a newly rejected exact candidate."
   },
   "freeze": {
     "replitTouched": false,
