@@ -5,6 +5,8 @@ on:
     branches: [screenshot-match-preproduction]
     paths:
       - 'scripts/catalogMobileChangedQa.mjs'
+      - 'src/App.jsx'
+      - 'src/storeScreenshotMatchRuntime.js'
       - '.github/workflows/catalog-mobile-changed-qa.yml'
   workflow_run:
     workflows: ['StarBlox Workstream 08 Exact-Hash Integration']
@@ -84,7 +86,7 @@ jobs:
         run: |
           mkdir -p artifacts/catalog-mobile-changed-qa
           cp /tmp/catalog-mobile-scope.json artifacts/catalog-mobile-changed-qa/scope.json
-          printf 'SKIPPED: canonical manifest hash unchanged from last Workstream-10 proof.\n' > artifacts/catalog-mobile-changed-qa/summary.txt
+          printf 'SKIPPED: canonical art paths unchanged from last Workstream-10 proof.\n' > artifacts/catalog-mobile-changed-qa/summary.txt
 
       - name: Print summary
         if: always()
