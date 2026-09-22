@@ -1,0 +1,181 @@
+{
+  "schemaVersion": 1,
+  "batchId": "chat-headwear-5-8-w12-20260922",
+  "status": "STAGED_READY_FOR_INDEPENDENT_REVIEW",
+  "sourceHead": "9e973e2097aa157a3ffcc7ded6425b4bcb023157",
+  "workflowRunId": "35730197493",
+  "transportHelper": "CHAT",
+  "canonicalWriter": "08",
+  "newGenerations": 0,
+  "storedCandidateCount": 4,
+  "storedOriginalCount": 4,
+  "duplicateCandidateContent": 0,
+  "items": [
+    {
+      "id": "headwear-5",
+      "name": "Flower Crown",
+      "collectionId": "headwear",
+      "collectionName": "Hair & Hats",
+      "type": "avatar",
+      "tier": 2,
+      "theme": "Pixel Party",
+      "price": 125,
+      "starReq": 0,
+      "format": "PNG",
+      "dimensions": [
+        600,
+        600
+      ],
+      "bytes": 242222,
+      "sha256": "503b2b6edc092e22fb6bbda4c3c20d57bfb9e9674b72dcf20ab3b63f686e9a71",
+      "gitBlobSha": "b26e0c50a466afac74e3013da3d092ac54d7a273",
+      "producer": "12",
+      "transportHelper": "CHAT",
+      "independentReviewer": "01",
+      "repositoryPath": "public/assets/catalog/headwear-5-w12-v2.png",
+      "assetPath": "/assets/catalog/headwear-5-w12-v2.png",
+      "assetId": "urn:aaid:sc:US:77f50381-8f34-4611-924d-703009f479cc",
+      "status": "READY_FOR_REVIEW_01",
+      "readback": "PASS",
+      "original": {
+        "format": "PNG",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "bytes": 1022470,
+        "sha256": "ac29e7ba6cbd1c8740e5df3d17a3f417130ac0bd0e13b9c92f20f8d5502621a4",
+        "gitBlobSha": "4a610325fd3e329af161a93adbb410f99f3af7a7",
+        "repositoryPath": "docs/preproduction/catalog-sprint/recovered-originals/chat-headwear-5-8-w12-20260922/headwear-5-77f50381-8f34-4611-924d-703009f479cc.png"
+      }
+    },
+    {
+      "id": "headwear-6",
+      "name": "Gamer Headset",
+      "collectionId": "headwear",
+      "collectionName": "Hair & Hats",
+      "type": "avatar",
+      "tier": 2,
+      "theme": "Berry Blast",
+      "price": 175,
+      "starReq": 0,
+      "format": "PNG",
+      "dimensions": [
+        600,
+        600
+      ],
+      "bytes": 283832,
+      "sha256": "a6e684921f41f4c6dec171db9a96bbc0ce45bd0c25e0cca52daa233d1b64b5a8",
+      "gitBlobSha": "6babf7112c050ba4c2a6a3c60630b3b35f88bb3d",
+      "producer": "12",
+      "transportHelper": "CHAT",
+      "independentReviewer": "01",
+      "repositoryPath": "public/assets/catalog/headwear-6-w12-v2.png",
+      "assetPath": "/assets/catalog/headwear-6-w12-v2.png",
+      "assetId": "urn:aaid:sc:US:1163131b-1ea4-4759-9efe-98e5c88bf240",
+      "status": "READY_FOR_REVIEW_01",
+      "readback": "PASS",
+      "original": {
+        "format": "PNG",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "bytes": 1147204,
+        "sha256": "17b6d72d6aee74b98ff51c6d31b314e62a8f301aedfeb3c426536bc727a0050c",
+        "gitBlobSha": "fa08d73daa405ce071b3f3739416de8b98139284",
+        "repositoryPath": "docs/preproduction/catalog-sprint/recovered-originals/chat-headwear-5-8-w12-20260922/headwear-6-1163131b-1ea4-4759-9efe-98e5c88bf240.png"
+      }
+    },
+    {
+      "id": "headwear-7",
+      "name": "Bucket Hat",
+      "collectionId": "headwear",
+      "collectionName": "Hair & Hats",
+      "type": "avatar",
+      "tier": 3,
+      "theme": "Garden Glow",
+      "price": 240,
+      "starReq": 2,
+      "format": "PNG",
+      "dimensions": [
+        600,
+        600
+      ],
+      "bytes": 287005,
+      "sha256": "4c38267b3ef9ab001ea946ec1972b8950a419edb6687b530228dd58d25954499",
+      "gitBlobSha": "4463b180a1d8c0321d6086c28f078329ced5fb9b",
+      "producer": "12",
+      "transportHelper": "CHAT",
+      "independentReviewer": "01",
+      "repositoryPath": "public/assets/catalog/headwear-7-w12-v2.png",
+      "assetPath": "/assets/catalog/headwear-7-w12-v2.png",
+      "assetId": "urn:aaid:sc:US:834210c4-c55e-4a9e-b9d0-bc3bbdb0f483",
+      "status": "READY_FOR_REVIEW_01",
+      "readback": "PASS",
+      "original": {
+        "format": "PNG",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "bytes": 1167742,
+        "sha256": "3a3ed4861e2368d0e09e496da53caaf4b979ee42909bed29e542cdc9551ab300",
+        "gitBlobSha": "a69c892f9b5d8ded7f1e7ae3f03da88cb1d4d7e8",
+        "repositoryPath": "docs/preproduction/catalog-sprint/recovered-originals/chat-headwear-5-8-w12-20260922/headwear-7-834210c4-c55e-4a9e-b9d0-bc3bbdb0f483.png"
+      }
+    },
+    {
+      "id": "headwear-8",
+      "name": "Star Clips",
+      "collectionId": "headwear",
+      "collectionName": "Hair & Hats",
+      "type": "avatar",
+      "tier": 3,
+      "theme": "Galaxy Glow",
+      "price": 330,
+      "starReq": 2,
+      "format": "PNG",
+      "dimensions": [
+        600,
+        600
+      ],
+      "bytes": 328828,
+      "sha256": "86f2ee74794c929bd7182d5d53b1b6e9a2e3de30131ed6ac8b0ee982ec840b53",
+      "gitBlobSha": "c2cd9cddba03a8eae55e9eb8b3197e82ee3af415",
+      "producer": "12",
+      "transportHelper": "CHAT",
+      "independentReviewer": "01",
+      "repositoryPath": "public/assets/catalog/headwear-8-w12-v2.png",
+      "assetPath": "/assets/catalog/headwear-8-w12-v2.png",
+      "assetId": "urn:aaid:sc:US:176bd0de-812f-4d61-9ba5-d26e1ab12774",
+      "status": "READY_FOR_REVIEW_01",
+      "readback": "PASS",
+      "original": {
+        "format": "PNG",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "bytes": 1207537,
+        "sha256": "b36f71c1ea283306e4a747ebc7a355943282d77872d13c0bea0b0da0361e7ff6",
+        "gitBlobSha": "fa71d55c7e9f4fc07cb3a585ab5c6fb2b574e963",
+        "repositoryPath": "docs/preproduction/catalog-sprint/recovered-originals/chat-headwear-5-8-w12-20260922/headwear-8-176bd0de-812f-4d61-9ba5-d26e1ab12774.png"
+      }
+    }
+  ],
+  "checks": {
+    "metadata": "PASS_4_OF_4_FROM_CURRENT_GAME_MODEL",
+    "exactByteReadback": "PASS_8_OF_8",
+    "candidateDecode": "PASS_4_OF_4",
+    "independentVisualReview": "PENDING_ASSIGNED_REVIEWERS"
+  },
+  "freeze": {
+    "replitTouched": false,
+    "flootTouched": false,
+    "mainTouched": false,
+    "canonicalMappingsTouched": false,
+    "gameplayChanged": false,
+    "playerDataTouched": false
+  }
+}
