@@ -2,7 +2,7 @@
   "schemaVersion": 3,
   "owner": "15",
   "branch": "screenshot-match-preproduction",
-  "sourceHead": "601c37be4edcc443b6d474b04e0400c40bbd0dfa",
+  "sourceHead": "2030548d4660fa73d3f1631eaf467a4d72d3ead6",
   "status": "ACTIVE_RELEASE_BLOCKER_FIRST",
   "policy": {
     "maxConcurrentProductionBatches": 4,
@@ -31,7 +31,7 @@
     "strictAcceptedCurrentIncludingAwaitingCanonical": 97,
     "strictAcceptedRemainingToAccept": 95,
     "canonicalGapToTarget": 99,
-    "acceptedAwaitingCanonical": 4,
+    "acceptedAwaitingCanonical": 7,
     "releaseCleared": 0,
     "strictVisualBlocker": {
       "count": 1,
@@ -62,27 +62,27 @@
         "decor-12"
       ]
     },
-    "note": "Strict Store/Quest desktop geometry is within the current reference contract. The only strict visual blocker is 22 missing canonical catalog artworks. Headwear 5-8 remain qualified exact-hash ACCEPT awaiting Workstream08."
+    "note": "Wall 5/6/7 are independently ACCEPTed exact hashes awaiting Workstream08; Wall 8 alone is current W05 REWORK. Headwear 5-8 remain qualified ACCEPT awaiting Workstream08. Strict visual geometry remains green; missing canonical catalog art is the visual release blocker."
   },
   "batches": [
     {
       "producer": "05",
-      "batchId": "w05-wall-5-8-v2",
+      "batchId": "w05-wall-8-v3",
       "scope": [
-        "wall-5",
-        "wall-6",
-        "wall-7",
         "wall-8"
       ],
-      "state": "ACTIONABLE_REWORK_FACTORY_PILOT",
+      "state": "ACTIONABLE_EXACT_HASH_REWORK",
       "reviewer": "14",
-      "basis": "Wall 1-4 v2 completed exact-byte/render/reviewer14 ACCEPT/canonical integration. Reviewer14 still records exact-current REWORK for Wall 5-8, and all eight Wall 5-12 IDs are among the 22 strict visual fallback blockers.",
-      "requirements": "Use the current prompt optimizer/taxonomy and deterministic 2-4 variant factory plan against exact Wall5-8 metadata. Preserve source/derivative lineage and exact generation provenance; stage/read back and verify exact bytes; route real Store card/detail pixels to reviewer14. Do not start Wall9-12 until this pilot is independently dispositioned.",
+      "basis": "Reviewer14 independently ACCEPTed Wall 5/6/7 W05 v2 exact hashes from real card/detail pixels and REWORKed Wall 8 only. Wall 8's exact current defect is mounting/read: the object can read as freestanding because of the supporting horizontal plane/ground-contact shadow.",
+      "requirements": "Preserve the current Candy Core palette, rounded thick frame, fasteners, layered ocean/glass depth and Tier-3 richness. Change only mounting/composition: visibly embed/attach the unit into a continuous vertical wall plane, with wall-normal recess/standoff/contact shadow and no floor/table/support plane or ground-contact shadow. Produce a bounded 2-4 variant repair, exact provenance, exact-byte staging/readback, real Store card/detail render, then independent reviewer14 exact-hash disposition. Do not churn Wall 5/6/7 and do not open Wall 9-12 until Wall 8 is dispositioned.",
       "preserve": [
         "wall-1",
         "wall-2",
         "wall-3",
-        "wall-4"
+        "wall-4",
+        "wall-5",
+        "wall-6",
+        "wall-7"
       ]
     },
     {
@@ -209,6 +209,36 @@
         }
       },
       "next": "Workstream08 immediately validates current path/hash/metadata/decode/uniqueness and canonically wires only these qualified ACCEPTs."
+    },
+    {
+      "reviewer": "14",
+      "producer": "05",
+      "scope": [
+        "wall-5",
+        "wall-6",
+        "wall-7"
+      ],
+      "state": "QUALIFIED_EXACT_HASH_ACCEPT_AWAITING_08",
+      "reviewEvidence": "docs/preproduction/catalog-sprint/chat-wall-5-8-w05-v2-review-14-to-08-05.json",
+      "producerEvidence": "docs/preproduction/catalog-sprint/chat-wall-5-8-w05-v2-result.json",
+      "items": {
+        "wall-5": {
+          "path": "/assets/catalog/wall-5-w05-v2.png",
+          "gitBlobSha": "4213df82736052e6a43da21be625d97ee6d8519b",
+          "sha256": "9c4e94e76a3fdd4aae3713af8db81a386347471a287b1c6cbda7a0bc085bf040"
+        },
+        "wall-6": {
+          "path": "/assets/catalog/wall-6-w05-v2.png",
+          "gitBlobSha": "c20f3b40f40a3e2be919dd10373ffa5cec90cd7e",
+          "sha256": "2b0b4f02a064d6e50e225e5fc587fc5b79b3789caf4c3a3c013825a05c0e6cf2"
+        },
+        "wall-7": {
+          "path": "/assets/catalog/wall-7-w05-v2.png",
+          "gitBlobSha": "13acacfd78a2d4203bb4d4ce9683fbcf1515d9e7",
+          "sha256": "6fb4f4ba19ad08e24737f21cf9945510051efcba53f0cf35e39f77c017fe0eb3"
+        }
+      },
+      "next": "Workstream08 validates exact current path/hash/metadata/decode/uniqueness and canonically wires only these three qualified ACCEPTs."
     }
   ],
   "completedOrClosedThisReconciliation": [
