@@ -195,6 +195,78 @@ def neighbor_files(directory: Path, exclude: Path | None = None) -> Iterable[Pat
     return sorted(items)
 
 
+def build_neighbor_cache(directory: Path, thumbnail_size: int = 160) -> dict:
+    entries = []
+    errors = []
+    for path in neighbor_files(directory):
+        try:
+            row = scan_one(path, thumbnail_size=thumbnail_size)
+        except Exception as exc:
+            errors.append({"path": path.as_posix(), "error": type(exc).__name__ + ": " + str(exc)})
+            continue
+        item_id = item_id_from_path(path)
+        entries.append({
+            "path": path.as_posix(),
+            "itemId": item_id,
+            "collectionId": collection_from_item_id(item_id),
+            "sha256": row["sha256"],
+            "aHash": row["source"]["aHash"],
+            "dHash": row["source"]["dHash"],
+        })
+    return {
+        "schemaVersion": 1,
+        "kind": "STARBLOX_VISUAL_NEIGHBOR_CACHE",
+        "sourceDirectory": directory.as_posix(),
+        "thumbnailSize": thumbnail_size,
+        "entries": entries,
+        "errors": errors,
+    }
+
+
+def compare_neighbor_cache(target: dict, target_path: Path, cache: dict, limit: int = 12) -> list[dict]:
+    rows = []
+    ta = target["source"]["aHash"]
+    td = target["source"]["dHash"]
+    target_item_id = item_id_from_path(target_path)
+    target_resolved = target_path.resolve()
+    for entry in cache.get("entries", []):
+        path_text = str(entry.get("path") or "")
+        if not path_text:
+            continue
+        try:
+            same_path = Path(path_text).resolve() == target_resolved
+        except Exception:
+            same_path = False
+        if same_path:
+            continue
+        other_item_id = entry.get("itemId")
+        if target_item_id and other_item_id == target_item_id:
+            continue
+        try:
+            ah = str(entry["aHash"])
+            dh = str(entry["dHash"])
+            distance_a = hamming_hex(ta, ah)
+            distance_d = hamming_hex(td, dh)
+        except Exception as exc:
+            rows.append({"path": path_text, "error": type(exc).__name__ + ": " + str(exc)})
+            continue
+        rows.append({
+            "path": path_text,
+            "itemId": other_item_id,
+            "collectionId": entry.get("collectionId"),
+            "sha256": entry.get("sha256"),
+            "exactByteDuplicate": entry.get("sha256") == target["sha256"],
+            "aHashDistance": distance_a,
+            "dHashDistance": distance_d,
+            "combinedDistance": distance_a + distance_d,
+        })
+    rows.extend(cache.get("errors", []))
+    good = [x for x in rows if "error" not in x]
+    bad = [x for x in rows if "error" in x]
+    good.sort(key=lambda x: (not x["exactByteDuplicate"], x["combinedDistance"], x["path"]))
+    return good[:limit] + bad[: max(0, limit - len(good[:limit]))]
+
+
 def compare_neighbors(target: dict, target_path: Path, paths: Iterable[Path], limit: int = 12) -> list[dict]:
     rows = []
     ta = target["source"]["aHash"]
@@ -332,6 +404,7 @@ def build_report(
     thumbnail_size: int = 160,
     limit: int = 12,
     calibration: dict | None = None,
+    neighbor_cache: dict | None = None,
 ) -> dict:
     if path.suffix.lower() not in ALLOWED:
         raise ValueError("preflight accepts PNG/JPEG/WebP only")
@@ -353,13 +426,28 @@ def build_report(
         "target": target,
         "nearestNeighbors": [],
     }
-    if neighbors:
+    if neighbor_cache is not None:
+        report["nearestNeighbors"] = compare_neighbor_cache(
+            target,
+            path,
+            neighbor_cache,
+            limit=limit,
+        )
+        report["neighborEvidence"] = {
+            "mode": "CACHE",
+            "entryCount": len(neighbor_cache.get("entries", [])),
+            "cacheErrorCount": len(neighbor_cache.get("errors", [])),
+        }
+    elif neighbors:
         report["nearestNeighbors"] = compare_neighbors(
             target,
             path,
             neighbor_files(neighbors, path),
             limit=limit,
         )
+        report["neighborEvidence"] = {"mode": "DIRECT_SCAN"}
+    else:
+        report["neighborEvidence"] = {"mode": "NONE"}
     apply_calibration(report, calibration)
     return report
 
@@ -384,7 +472,9 @@ def self_test() -> None:
         )
         b.save(p3)
 
-        baseline = build_report(p1, root)
+        cache = build_neighbor_cache(root)
+        baseline = build_report(p1, neighbor_cache=cache)
+        assert baseline["neighborEvidence"]["mode"] == "CACHE"
         assert baseline["policy"]["reportOnly"] is True
         assert baseline["target"]["source"]["width"] == 128
         assert baseline["target"]["source"]["hasAlpha"] is True
@@ -418,7 +508,7 @@ def self_test() -> None:
                 },
             },
         }
-        report = build_report(p1, root, calibration=calibration)
+        report = build_report(p1, calibration=calibration, neighbor_cache=cache)
         assert report["policy"]["thresholdsCalibrated"] is True
         assert report["policy"]["calibratedWarningsAreBlocking"] is False
         assert report["calibrationEvidence"]["triggeredWarningCount"] == 1
@@ -431,9 +521,14 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     sub = ap.add_subparsers(dest="command", required=True)
     sub.add_parser("self-test")
+    cache_cmd = sub.add_parser("cache")
+    cache_cmd.add_argument("--neighbors", required=True)
+    cache_cmd.add_argument("--thumbnail", type=int, default=160)
+    cache_cmd.add_argument("--output", required=True)
     scan = sub.add_parser("scan")
     scan.add_argument("--input", required=True)
     scan.add_argument("--neighbors")
+    scan.add_argument("--neighbor-cache")
     scan.add_argument("--calibration")
     scan.add_argument("--thumbnail", type=int, default=160)
     scan.add_argument("--limit", type=int, default=12)
@@ -442,10 +537,26 @@ def main() -> None:
     if args.command == "self-test":
         self_test()
         return
+    if args.command == "cache":
+        cache = build_neighbor_cache(Path(args.neighbors), thumbnail_size=args.thumbnail)
+        dest = Path(args.output)
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        dest.write_text(json.dumps(cache, indent=2) + "\n")
+        print(json.dumps({
+            "cached": len(cache["entries"]),
+            "errors": len(cache["errors"]),
+            "output": str(dest),
+        }, indent=2))
+        return
 
     calibration = (
         json.loads(Path(args.calibration).read_text())
         if args.calibration
+        else None
+    )
+    neighbor_cache = (
+        json.loads(Path(args.neighbor_cache).read_text())
+        if args.neighbor_cache
         else None
     )
     report = build_report(
@@ -454,6 +565,7 @@ def main() -> None:
         args.thumbnail,
         args.limit,
         calibration=calibration,
+        neighbor_cache=neighbor_cache,
     )
     text = json.dumps(report, indent=2) + "\n"
     if args.output:
