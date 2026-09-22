@@ -1,0 +1,70 @@
+name: Rugs 11-12 W07 v3 Recovery
+
+on:
+  push:
+    branches:
+      - screenshot-match-preproduction
+    paths:
+      - .github/workflows/rugs-recovery-11-12-w07-v3-20260922.yml
+
+permissions:
+  contents: write
+
+jobs:
+  recover:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact preproduction branch
+        uses: actions/checkout@v4
+        with:
+          ref: screenshot-match-preproduction
+          fetch-depth: 0
+
+      - name: Reconcile latest branch before asset write
+        run: |
+          git fetch origin screenshot-match-preproduction
+          git reset --hard origin/screenshot-match-preproduction
+
+      - name: Download exact Adobe producer candidates
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p public/assets/catalog
+          curl -fL --retry 3 --retry-delay 2 \
+            'https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:fe1a242b-38f6-49af-a84e-24886f323129' \
+            -o public/assets/catalog/rugs-11-w07-v3.png
+          curl -fL --retry 3 --retry-delay 2 \
+            'https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:b0c14964-700b-4814-aa57-a2e9823147b3' \
+            -o public/assets/catalog/rugs-12-w07-v3.png
+
+      - name: Validate actual PNG bytes and dimensions
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import hashlib, pathlib, struct
+          for name in ('rugs-11-w07-v3.png','rugs-12-w07-v3.png'):
+              p = pathlib.Path('public/assets/catalog') / name
+              data = p.read_bytes()
+              if data[:8] != b'\x89PNG\r\n\x1a\n':
+                  raise SystemExit(f'{name}: not PNG')
+              w, h = struct.unpack('>II', data[16:24])
+              if (w, h) != (1024, 1024):
+                  raise SystemExit(f'{name}: unexpected dimensions {w}x{h}')
+              print(f'{name} bytes={len(data)} dimensions={w}x{h} sha256={hashlib.sha256(data).hexdigest()}')
+          PY
+
+      - name: Commit only new versioned W07 rug assets
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add public/assets/catalog/rugs-11-w07-v3.png public/assets/catalog/rugs-12-w07-v3.png
+          if git diff --cached --quiet; then
+            echo 'No asset changes to commit.'
+            exit 0
+          fi
+          git commit -m 'art: stage rugs 11-12 w07 v3 candidates'
+          git pull --rebase origin screenshot-match-preproduction
+          git push origin HEAD:screenshot-match-preproduction
