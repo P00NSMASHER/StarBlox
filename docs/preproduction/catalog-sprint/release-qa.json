@@ -4,7 +4,7 @@
   "phase": "CATALOG_SPRINT",
   "branch": "screenshot-match-preproduction",
   "status": "FAIL_CATALOG_NOT_RELEASE_READY",
-  "auditedEvidenceHead": "3fc9cece0f42286ba1c0bc9737dbb0d18a896a50",
+  "auditedEvidenceHead": "ad9175c80160ff16fe304e194d07ac1b19f9ca9b",
   "releaseDecision": "NOT_READY_FOR_SINGLE_REPLIT_INTEGRATION",
   "canonical": {
     "catalogTarget": 192,
@@ -116,7 +116,12 @@
     "attemptedReferenceCaptureStatus": "CANCELLED_DURING_CAPTURE_NO_REUSABLE_ARTIFACT",
     "preCaptureSteps": "PASS_REFERENCE_INPUT_VERIFY_AND_BUILD",
     "pixelIdenticalReferenceParity": "NOT_TESTED_REQUIRES_COMPLETED_CURRENT_CANDIDATE_CAPTURE_AND_REGION_LEVEL_REVIEW",
-    "rawPixelDiffPolicy": "DIAGNOSTIC_ONLY_NOT_VISUAL_APPROVAL"
+    "rawPixelDiffPolicy": "DIAGNOSTIC_ONLY_NOT_VISUAL_APPROVAL",
+    "captureReportSemanticsFixCommit": "ad9175c80160ff16fe304e194d07ac1b19f9ca9b",
+    "captureReportSemantics": "Automation PASS/FAIL is now explicitly separate from referenceVisualStatus; non-strict comparisons report DIAGNOSTIC_ONLY_NOT_VISUAL_APPROVAL and referenceVisualApproval=false.",
+    "authoritativeReferenceCountPolicy": "3 supplied desktop 1408x1056 originals only; tablet/phone captures remain responsive-composition evidence and are not counted as missing reference pixels.",
+    "exactCheckedOutHeadBinding": "PASS_WORKFLOW_HAS_POST_CAPTURE_GIT_REV_PARSE_HEAD_BINDING",
+    "postSemanticsFixCaptureArtifact": "PENDING_NOT_CONVERTED_TO_PASS"
   },
   "gates": {
     "catalog192UniqueIds": "PASS",
@@ -132,7 +137,7 @@
     "catalogInducedLearningP0": "PASS_NO_P0_IN_EXECUTED_V17_TEST_BUILD",
     "realBrowserPersistenceTimingConcurrency": "PASS",
     "originalReferencePixelsAccessible": "PASS",
-    "actualReferenceComparison": "NOT_TESTED_PRIOR_RUN_CANCELLED_NO_ARTIFACT",
+    "actualReferenceComparison": "NOT_TESTED_POST_SEMANTICS_FIX_CAPTURE_ARTIFACT_PENDING",
     "physicalDevicePerformance": "NOT_TESTED",
     "screenReaderSmokeVoiceOverTalkBackNVDA": "NOT_TESTED",
     "finalFrozenCandidateFullReleaseProof": "NOT_TESTED",
@@ -145,16 +150,16 @@
     "Desk 2-4 current authoritative lane-03 files fail WebP signature checks. The older -w03-v1 blank/corrupt candidates are stale and are no longer allowed to substitute in the shared fixture; reviewer 05 requires valid current bytes before disposition. Desk 5-6 rendered cleanly but remain reviewer-05 decisions.",
     "Manifest v17 tests/build pass, but the v17 post-integration desktop/phone Store art smoke is still NOT TESTED/PENDING.",
     "The eventual complete accepted set still needs full exact-content and rendered near-duplicate scans plus final integrated desktop/phone Store verification.",
-    "Original Home/Store/Quest references are available, but attempted deterministic capture run 35670445111 was cancelled during capture and produced no reusable artifact; exact current-candidate reference comparison remains NOT TESTED.",
-    "Physical-device performance and VoiceOver/TalkBack/NVDA evidence remain NOT TESTED."
+    "Physical-device performance and VoiceOver/TalkBack/NVDA evidence remain NOT TESTED.",
+    "A post-ad9175c deterministic Home/Store/Quest capture artifact is still required. The report now prevents diagnostic pixel diffs or absent mobile/tablet references from being mislabeled as reference visual approval."
   ],
   "nextActions": [
     "08: consume reviewer-14 exact ACCEPTs for Rugs 1-8 and Decor 1-2 in small canonical batches after normal metadata/file/content checks; preserve Lighting 1-12 accepted mappings.",
     "03/15: repair/restage Desk 2-4 as genuinely valid image bytes at the authoritative lane paths or new versioned paths; do not reuse stale -w03-v1 evidence. Reviewer 05 decides only after exact-hash rendering.",
     "05/07/09 producers: continue Wall 1-12, Rugs 9-12 and Decor 3-12 in bounded versioned premium batches; preserve reviewer-14 accepted hashes unchanged.",
-    "10/14: produce one completed deterministic Home/Store/Quest capture on the exact current candidate runtime/assets, then inspect side-by-side and region-level differences against immutable originals. Raw diff alone is not approval.",
     "08/10: complete v17 Store desktop/phone visual smoke before treating that integration increment as visually verified.",
-    "15: remain in CATALOG_SPRINT / ART_VISUALS until all 192 current hashes are stored, unique, independently accepted, canonical and Store-verified."
+    "15: remain in CATALOG_SPRINT / ART_VISUALS until all 192 current hashes are stored, unique, independently accepted, canonical and Store-verified.",
+    "10/14: preserve the ad9175c report semantics and collect one completed exact-head capture artifact; independently review desktop side-by-side/region differences and responsive composition. Do not convert automation PASS or diagnostic diff to visual approval."
   ],
   "freeze": {
     "replitTouched": false,
