@@ -336,6 +336,7 @@ jobs:
           PY
 
       - name: Publish factory summary
+        id: summary
         if: always()
         run: |
           python3 - <<'PY'
@@ -379,7 +380,19 @@ jobs:
               ]
           errors = audit.get('errors') or []
           warnings = audit.get('warnings') or []
-          lines += [f"- Audit errors: **{len(errors)}**", f"- Audit warnings: **{len(warnings)}**"]
+          need_evidence = bool(
+              cal
+              or errors
+              or warnings
+              or os.environ.get('GITHUB_EVENT_NAME') == 'workflow_dispatch'
+          )
+          lines += [
+              f"- Audit errors: **{len(errors)}**",
+              f"- Audit warnings: **{len(warnings)}**",
+              f"- Evidence artifact: **{'upload' if need_evidence else 'skip clean Node-only run'}**",
+          ]
+          with pathlib.Path(os.environ['GITHUB_OUTPUT']).open('a') as f:
+              f.write(f"upload_evidence={'true' if need_evidence else 'false'}\n")
           pathlib.Path(os.environ['GITHUB_STEP_SUMMARY']).write_text('\n'.join(lines) + '\n')
           print('\n'.join(lines))
           PY
@@ -387,7 +400,7 @@ jobs:
           SCOPE_SOURCE: ${{ steps.scope.outputs.scope_source }}
 
       - name: Upload deterministic evidence
-        if: always()
+        if: ${{ always() && (failure() || steps.summary.outputs.upload_evidence == 'true') }}
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: starblox-art-factory-preflight-${{ github.sha }}
