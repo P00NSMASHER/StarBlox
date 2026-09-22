@@ -1,0 +1,179 @@
+{
+  "schemaVersion": 1,
+  "phase": "ART_AND_VISUALS_ONLY",
+  "workstream": "04",
+  "role": "Store visual composition support after accepted Lighting 1-12 and Shoes 1-6 closure",
+  "branch": "screenshot-match-preproduction",
+  "observedHeadBeforeWrite": "3f62dbf3a65bb603cc49dc2ff7e04f5531fe398e",
+  "scope": "Measured Store composition and asset-fit specification only. No shared runtime/CSS/catalog metadata edit is authorized or performed by this evidence file.",
+  "authority": {
+    "coordinationOwner": "15",
+    "canonicalCatalogWriter": "08",
+    "preserveAcceptedLighting1To12": true,
+    "preserveAcceptedShoes1To6": true,
+    "headwear5To8TransportRetry": false,
+    "headwearReason": "Existing exact-byte transport blocker is unchanged; no repeated curl/browser transfer and no substitute/regeneration is permitted."
+  },
+  "evidence": {
+    "referenceOriginal": {
+      "path": "docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg",
+      "dimensions": [1448, 1086],
+      "sha256": "b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d",
+      "gitBlobSha": "383baa877d3af86fa92e3583740212000592b3d6"
+    },
+    "referenceNormalized": {
+      "path": "docs/preproduction/reference-screenshots/store-desktop-1408x1056.png",
+      "dimensions": [1408, 1056],
+      "normalization": "uniform 1408/1448 = 0.9723756906077348 scale; same 4:3 aspect, no crop"
+    },
+    "storeCss": {
+      "path": "src/storeScreenshotMatch.css",
+      "gitBlobSha": "af7e771f768c11637393ee0ff4a85b1860084c21"
+    },
+    "storeRuntime": {
+      "path": "src/storeScreenshotMatchRuntime.js",
+      "gitBlobSha": "96b31f1b01f310422123666146438a7302457632"
+    },
+    "historicalPixelComparison": {
+      "path": "docs/preproduction/visuals/chat-reference-comparison-14-v1.json",
+      "runningRenderHead": "b187186e62519ffa77bd0f7b166c601c90bdc416",
+      "storeRawRgbMaeDiagnosticOnly": 85.90,
+      "reviewDecision": "REWORK_VISUAL_FIDELITY_AND_SELECTED_ITEM_COMPOSITION",
+      "currentHeadParityClaim": false
+    },
+    "latestActualCurrentRender": {
+      "status": "BLOCKED_BEFORE_STORE_CONTENT",
+      "reason": "Current coordinated Store/mobile proof remains blocked at real-pointer Store entry; no trustworthy latest-current Store screenshot is committed for pixel delta comparison.",
+      "rule": "Do not relabel the historical render as current and do not invent a current pixel delta."
+    }
+  },
+  "measuredCurrentCssComposition": {
+    "desktop1408x1056": {
+      "pagePaddingPx": {"top": 84, "right": 10, "bottom": 18, "left": 178},
+      "contentWidthPx": 1220,
+      "mainTrackWidthPx": 842,
+      "rightRailWidthPx": 360,
+      "columnGapPx": 12,
+      "unusedTrackRemainderPx": 6,
+      "mainTrackShareOfViewportWidthPct": 59.8011,
+      "rightRailShareOfViewportWidthPct": 25.5682,
+      "catalogGrid": {"widthPx": 842, "heightPxMax": 500, "columns": 6, "maxAreaPx2": 421000, "viewportAreaSharePct": 28.3149},
+      "tryOnStage": {"widthPx": 360, "heightPx": 455, "aspectWidthOverHeight": 0.791209, "areaPx2": 163800, "viewportAreaSharePct": 11.0166},
+      "catalogGridToTryOnStageAreaRatio": 2.5702,
+      "selectedDetailMinHeightPx": 224,
+      "finding": "The live composition allocates about 2.57x as much pixel area to the catalog grid as to the try-on stage. This numerically supports reviewer14's historical finding that catalog/chrome dominates while the reference treats the boutique/avatar try-on as a major attraction."
+    },
+    "tablet1024x768": {
+      "activeCssBreakpoints": ["max-width:1279px"],
+      "pagePaddingPx": {"top": 82, "right": 10, "bottom": 20, "left": 144},
+      "contentWidthPx": 870,
+      "rightRailWidthPx": 285,
+      "mainTrackWidthPx": 573,
+      "columnGapPx": 12,
+      "catalogGrid": {"widthPx": 573, "heightPxMax": 530, "columns": 4, "maxAreaPx2": 303690, "viewportAreaSharePct": 38.6162},
+      "tryOnStage": {"widthPx": 285, "heightPx": 410, "areaPx2": 116850, "viewportAreaSharePct": 14.8582},
+      "catalogGridToTryOnStageAreaRatio": 2.5990,
+      "finding": "At exactly 1024px wide the two-column desktop/tablet arrangement remains active; the grid-to-stage area imbalance is approximately 2.60:1."
+    },
+    "phone390x844": {
+      "activeCssBreakpoints": ["max-width:1023px", "max-width:767px"],
+      "pagePaddingPx": {"top": 132, "right": 9, "bottom": 92, "left": 9},
+      "contentWidthPx": 372,
+      "layoutOrder": ["hero", "dream", "categories", "tiers", "rail", "grid", "collections"],
+      "rightRailColumns": 1,
+      "tryOnStage": {"widthPxApprox": 372, "heightPx": 265},
+      "catalogColumns": 2,
+      "finding": "The try-on stage is structurally placed only after hero, Dream Goal, category and tier controls, matching the independent mobile diagnosis that selected-item spectacle has no early foothold in the initial phone viewport."
+    },
+    "phone320x568": {
+      "activeCssBreakpoints": ["max-width:1023px", "max-width:767px", "max-width:389px"],
+      "pagePaddingPx": {"top": 132, "right": 7, "bottom": 92, "left": 7},
+      "contentWidthPx": 306,
+      "layoutOrder": ["hero", "dream", "categories", "tiers", "rail", "grid", "collections"],
+      "tryOnStage": {"widthPxApprox": 306, "heightPx": 265},
+      "catalogColumns": 2,
+      "finding": "The same pre-stage control stack consumes an even larger fraction of the 568px viewport height; no control should be hidden or faked, but future authorized composition work needs to surface try-on/selected-item presence earlier."
+    }
+  },
+  "existingStoreComponentFit": {
+    "boutiqueBackgroundW13V1": {
+      "producer": "13",
+      "status": "STAGED_READY_FOR_INDEPENDENT_REVIEW_NOT_RUNTIME_WIRED",
+      "desktopAsset": {
+        "path": "public/assets/visuals/lane-13/store-boutique-w13-v1-1408x1056.png",
+        "dimensions": [1408, 1056],
+        "sha256": "04d0a2660dc5109aa2cdcea956f807baa01c6eb6b998598f656dfce83d3d0fe8",
+        "gitBlobSha": "c0959df22e8f67ab9812c791e679acad224045ba"
+      },
+      "fitMath": {
+        "desktop1408x1056": "exact dimensions; 0% crop",
+        "tablet1024x768": "same 4:3 aspect; uniform scale 0.7272727; 0% crop",
+        "phone390x844UsingCover": "rendered width about 1125.33px; about 65.34% of rendered/source width would be cropped",
+        "phone320x568UsingCover": "rendered width about 757.33px; about 57.75% of rendered/source width would be cropped"
+      },
+      "assetSpecification": "Do not assume the desktop boutique background can be generic-cover cropped on phones. A future authorized integration needs an art-directed phone crop/derivative or explicit background-position proof that preserves the avatar/display focal and does not put high-detail props behind live controls."
+    },
+    "avatarStageW13V1": {
+      "producer": "13",
+      "status": "STAGED_READY_FOR_INDEPENDENT_REVIEW_NOT_RUNTIME_WIRED",
+      "optimizedAsset": {
+        "path": "public/assets/visuals/lane-13/store-avatar-stage-w13-v1-1024.png",
+        "dimensions": [1024, 1024],
+        "sha256": "884c90e2c9a0740a427e851319599a7caac5818352282a98758b42770dadbf13",
+        "gitBlobSha": "5ad610928fd6db5e9bdeb2036388025989c0b833",
+        "alphaBoundsPx": [28, 88, 993, 938],
+        "alphaContentWidthPct": 94.2383,
+        "alphaContentHeightPct": 83.0078
+      },
+      "coverCropRisk": {
+        "desktop360x455": "square cover would crop about 20.88% of source width total",
+        "tablet285x410": "square cover would crop about 30.49% of source width total",
+        "phone390Slot372x265": "square cover would crop about 28.76% of source height total",
+        "phone320Slot306x265": "square cover would crop about 13.40% of source height total"
+      },
+      "assetSpecification": "Because meaningful alpha content spans about 94.24% of source width, generic object-fit:cover is high-risk for clipping the arch/side-light construction at desktop/tablet. Preserve the candidate pending independent review; if 15 later authorizes integration, prefer contain plus a separate environmental fill, or request art-directed aspect-family derivatives only after a rendered crop defect is proven."
+    },
+    "heartWallLightW13V1": {
+      "producer": "13",
+      "status": "STAGED_READY_FOR_INDEPENDENT_REVIEW_NOT_RUNTIME_WIRED",
+      "optimizedAsset": {
+        "path": "public/assets/visuals/lane-13/store-heart-wall-light-w13-v1-1024.png",
+        "dimensions": [1024, 1024],
+        "sha256": "6c0329d994523c0c14f7027051ff4d2cb437d4e5410d113c1f3c42a72bc6c7bc",
+        "bytes": 578623,
+        "nonClearPixelSharePct": 36.0607,
+        "clearPixelSharePct": 63.9393,
+        "semiTransparentPixelSharePct": 0.7199
+      },
+      "assetSpecification": "The prop is sparse enough to remain a separate focal light layer rather than a flattened scene. Keep it outside live text/actions and preserve it pending independent 01/14 disposition; do not treat producer inspection as acceptance."
+    }
+  },
+  "referenceDrivenVisualRequirements": [
+    "Boutique architecture, shelves, rails/platforms and lighting must supply real foreground/background depth rather than another flat gradient panel.",
+    "The avatar/try-on and selected-item composition must gain visual prominence relative to catalog/chrome without hiding or replacing real catalog selection, ownership, price or purchase controls.",
+    "The luminous pink-heart accent should function as an environmental focal, not as baked UI or a substitute for selected-item state.",
+    "Phone/tablet evidence is responsive-reflow QA, not invented reference parity; preserve genuine scrolling and minimum action target behavior.",
+    "No accepted catalog image should be regenerated solely to solve Store composition; use separately lineage-bound presentation derivatives only after a concrete rendered crop/anchor defect and the proper owner/reviewer route."
+  ],
+  "nextAuthorizedUse": {
+    "15": "Use the numeric grid/stage imbalance and component fit risks to assign the smallest shared Store composition handoff when current navigation/render entry is usable.",
+    "13": "Preserve existing Store components until independent review; if a later rendered integration proves crop loss, prefer deliberate desktop/tablet vs phone derivatives over blind cover scaling.",
+    "14": "When a current Store render is obtainable, compare exact current pixels against the authoritative normalized reference and verify stage prominence/crop; pHash/dHash/SSIM remain diagnostic only.",
+    "04": "Do not edit Store runtime/CSS/catalog metadata without a new explicit 15 module handoff. Continue art/specification-only work while the render-entry blocker remains."
+  },
+  "freeze": {
+    "mainTouched": false,
+    "replitTouched": false,
+    "flootTouched": false,
+    "deployTouched": false,
+    "paidSettingsPurchasesTouched": false,
+    "secretsTouched": false,
+    "realPlayerDataTouched": false,
+    "sharedRuntimeCssTouched": false,
+    "catalogMetadataTouched": false,
+    "canonicalCatalogTouched": false,
+    "acceptedLightingRegenerated": false,
+    "acceptedShoesRegenerated": false,
+    "headwearTransportRetried": false
+  }
+}
