@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 4,
+  "schemaVersion": 5,
   "lane": "03",
   "workstream": "03",
   "phase": "CATALOG_SPRINT",
@@ -7,7 +7,7 @@
   "sourceHeadReadBeforeRecovery": "631a5eb6fbaa0a3edfef6c40c8fe15d7cdc4b585",
   "assetStageBaseHead": "b88f688cc4575bef1e1ec676e4a510a6267a9ed5",
   "assetStageCommit": "264ca2d54e0cb09495d716512a9c6ad28bf0784f",
-  "sourceHeadRevalidatedBeforeHandoff": "5b2dec716e3c6ba80620a7c847d986a853080a17",
+  "sourceHeadRevalidatedBeforeHandoff": "b5ca5cca2914b43efeec37ee2498b4c624495f53",
   "assignment": [
     "desks-2",
     "desks-3",
@@ -21,18 +21,16 @@
     "desks-11",
     "desks-12"
   ],
-  "status": "DESKS_2_TO_4_READY_FOR_REVIEW_CURRENT_RENDER_PENDING_DESKS_5_TO_6_EXACT_ADOBE_RECOVERY_LINKS_RESOLVED_ESCALATED_TO_15",
+  "status": "DESKS_2_TO_6_STAGED_READY_FOR_REVIEW_05__DESKS_7_TO_12_NOT_GENERATED",
   "selfApproved": false,
   "reviewOwner": "05",
   "integrationOwner": "08",
-  "generatedOriginalCount": 5,
-  "repositoryStagedCount": 3,
-  "readyForReviewCount": 3,
-  "generatedRemoteNotStagedCount": 2,
-  "generatedRemoteIds": ["desks-5", "desks-6"],
+  "generatedOriginalCount": 8,
+  "repositoryStagedCount": 5,
+  "readyForReviewCount": 5,
+  "generatedRemoteNotStagedCount": 0,
+  "generatedRemoteIds": [],
   "remainingProductionIds": [
-    "desks-5",
-    "desks-6",
     "desks-7",
     "desks-8",
     "desks-9",
@@ -57,31 +55,45 @@
       "theme": "Candy Core",
       "price": 65,
       "starReq": 0,
-      "priorRepositoryAsset": null,
-      "repositoryPath": "public/assets/catalog/desks-2-v1.webp",
-      "runtimeCandidatePath": "/assets/catalog/desks-2-v1.webp",
-      "gitBlobSha": "357f4ba8385e737499f12409c0bea141f9bc5e6a",
+      "priorRepositoryAsset": "public/assets/catalog/desks-2-v1.webp",
+      "repositoryPath": "public/assets/catalog/desks-2-chat-v2.png",
+      "runtimeCandidatePath": "/assets/catalog/desks-2-chat-v2.png",
+      "gitBlobSha": "277eb1e38e8a69caa0dab6d4d27bbb91796746f8",
       "generation": {
-        "provider": "OpenAI image generation",
-        "generationId": "fb99c969-1ab6-4774-a934-5a2f4b45a93d",
-        "conversationFileId": "file_00000000c0cc81f585bd5dc1b19f8a78",
-        "originalDimensions": [1254, 1254],
+        "provider": "Adobe Firefly via interactive chat repair",
+        "assetId": "urn:aaid:ps:US:3e9212c2-7bd4-42ad-a1aa-5a53e375bcf7",
+        "requestSource": "docs/preproduction/catalog-sprint/chat-desks-recovery-2-4-result.json",
+        "originalDimensions": [
+          1024,
+          1024
+        ],
         "originalFormat": "PNG",
-        "originalBytes": 1759490,
-        "originalSha256": "806215b41e9c4c85864118e7b2361fc3aaf6167a22e3c25029c9dc8a719ca9b1"
+        "originalBytes": 845051,
+        "originalSha256": "5d284040198504227b9cb8ed4eedf729166d157d266912cf3a89c71dc823bcee"
       },
       "cardDerivative": {
-        "dimensions": [512, 512],
+        "dimensions": [
+          512,
+          512
+        ],
         "format": "WEBP",
         "quality": 90,
         "bytes": 30866,
         "sha256": "c0b887c400535d468b23f4f70e2e921d2b90f9bd320f06f8b8698c1c21020ae1"
       },
       "feature": "rounded cloud-shell study desk with twin pastel drawer stacks, cloud shelf/backboard, star lamp, plant, books and pencil cup",
-      "producerRenderCheck": "PASS_LOCAL_PIXELS — isolated desk is fully visible and card-readable; no person, UI, text, logo, clipping or malformed geometry observed",
+      "producerRenderCheck": "PASS_EXACT_BYTES_DECODED_AND_SCOPED_CARD_DETAIL_RENDER_EVIDENCE_PENDING_WORKFLOW_FINALIZATION",
       "repositoryStatus": "STAGED_READBACK_PASS",
-      "readbackGitBlobSha": "357f4ba8385e737499f12409c0bea141f9bc5e6a",
-      "reviewStatus": "READY_FOR_REVIEW"
+      "readbackGitBlobSha": "277eb1e38e8a69caa0dab6d4d27bbb91796746f8",
+      "reviewStatus": "READY_FOR_REVIEW_05",
+      "bytes": 845051,
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "format": "PNG",
+      "sha256": "5d284040198504227b9cb8ed4eedf729166d157d266912cf3a89c71dc823bcee",
+      "supersedesBrokenCandidate": true
     },
     {
       "id": "desks-3",
@@ -91,31 +103,45 @@
       "theme": "Adventure Club",
       "price": 94,
       "starReq": 0,
-      "priorRepositoryAsset": null,
-      "repositoryPath": "public/assets/catalog/desks-3-v1.webp",
-      "runtimeCandidatePath": "/assets/catalog/desks-3-v1.webp",
-      "gitBlobSha": "b3352961988d7e9c5ff48d1559fc4d2296d4eab3",
+      "priorRepositoryAsset": "public/assets/catalog/desks-3-v1.webp",
+      "repositoryPath": "public/assets/catalog/desks-3-chat-v2.png",
+      "runtimeCandidatePath": "/assets/catalog/desks-3-chat-v2.png",
+      "gitBlobSha": "aeebeacdc4a95bf75af36583dae6e2391d9a1d9e",
       "generation": {
-        "provider": "OpenAI image generation",
-        "generationId": "b108ca3b-cdf6-484d-b859-ce2d294c4645",
-        "conversationFileId": "file_0000000022cc81f78680bc8c6498dd06",
-        "originalDimensions": [1254, 1254],
+        "provider": "Adobe Firefly via interactive chat repair",
+        "assetId": "urn:aaid:ps:US:d09b3ea9-7239-42f8-9d2d-c22353b661e6",
+        "requestSource": "docs/preproduction/catalog-sprint/chat-desks-recovery-2-4-result.json",
+        "originalDimensions": [
+          1024,
+          1024
+        ],
         "originalFormat": "PNG",
-        "originalBytes": 1631052,
-        "originalSha256": "8c4b1c7cbfad56c6340e1d2a0b26d45e25408e738d02a12cddf94de4213bf9c4"
+        "originalBytes": 1148489,
+        "originalSha256": "a2e00219721cdb340fd35383845608f2a19ccd9fd65c759ddbe6c891a48b872c"
       },
       "cardDerivative": {
-        "dimensions": [512, 512],
+        "dimensions": [
+          512,
+          512
+        ],
         "format": "WEBP",
         "quality": 90,
         "bytes": 36084,
         "sha256": "50db3c540f7e807c5f8dc00ba96740f802a992a7c028608778fc2cc914ca0126"
       },
       "feature": "voxel-style compact tech desk with star monitor, pixel keyboard mat, controller, map board, cube lamp, books, plant and hanging headphones",
-      "producerRenderCheck": "PASS_LOCAL_PIXELS — distinct blocky silhouette and functional tech setup read clearly at 512px; no person, UI text, brand mark, clipping or malformed geometry observed",
+      "producerRenderCheck": "PASS_EXACT_BYTES_DECODED_AND_SCOPED_CARD_DETAIL_RENDER_EVIDENCE_PENDING_WORKFLOW_FINALIZATION",
       "repositoryStatus": "STAGED_READBACK_PASS",
-      "readbackGitBlobSha": "b3352961988d7e9c5ff48d1559fc4d2296d4eab3",
-      "reviewStatus": "READY_FOR_REVIEW"
+      "readbackGitBlobSha": "aeebeacdc4a95bf75af36583dae6e2391d9a1d9e",
+      "reviewStatus": "READY_FOR_REVIEW_05",
+      "bytes": 1148489,
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "format": "PNG",
+      "sha256": "a2e00219721cdb340fd35383845608f2a19ccd9fd65c759ddbe6c891a48b872c",
+      "supersedesBrokenCandidate": true
     },
     {
       "id": "desks-4",
@@ -125,31 +151,45 @@
       "theme": "Cloud Pop",
       "price": 123,
       "starReq": 0,
-      "priorRepositoryAsset": null,
-      "repositoryPath": "public/assets/catalog/desks-4-v1.webp",
-      "runtimeCandidatePath": "/assets/catalog/desks-4-v1.webp",
-      "gitBlobSha": "711feeb78e6d08351fc2fd2d3176ddb1a288e8f2",
+      "priorRepositoryAsset": "public/assets/catalog/desks-4-v1.webp",
+      "repositoryPath": "public/assets/catalog/desks-4-chat-v2.png",
+      "runtimeCandidatePath": "/assets/catalog/desks-4-chat-v2.png",
+      "gitBlobSha": "6f87e1527ec7d9bf1a3f81e1f54320f462dbb025",
       "generation": {
-        "provider": "OpenAI image generation",
-        "generationId": "e6cfd295-02b8-49ea-9ec5-f7ce70ae0501",
-        "conversationFileId": "file_000000001b6c81f5aaf6fa404e8bead2",
-        "originalDimensions": [1254, 1254],
+        "provider": "Adobe Firefly via interactive chat repair",
+        "assetId": "urn:aaid:ps:US:cb05b83e-87d7-4076-a127-ca6f92824bce",
+        "requestSource": "docs/preproduction/catalog-sprint/chat-desks-recovery-2-4-result.json",
+        "originalDimensions": [
+          1024,
+          1024
+        ],
         "originalFormat": "PNG",
-        "originalBytes": 1650928,
-        "originalSha256": "d3e053d07743a15d3bec5813c25d312ba1293f76e822cf0b666aa5901f60d918"
+        "originalBytes": 1043349,
+        "originalSha256": "ed21e581b9cd986c4b51ce4dccd32f495fdb0b64ed197401ee8e7078b1374dd9"
       },
       "cardDerivative": {
-        "dimensions": [512, 512],
+        "dimensions": [
+          512,
+          512
+        ],
         "format": "WEBP",
         "quality": 90,
         "bytes": 39394,
         "sha256": "ed9432f4dc9ac88544435621edc8d5ad8cd374f554b3ba9e828ce0d86bad3023"
       },
       "feature": "pastel berry vanity with illuminated heart mirror, strawberry lamp and brush cup, cloud side panels, jewelry tray and curved legs",
-      "producerRenderCheck": "PASS_LOCAL_PIXELS — vanity identity, mirror and berry/cloud signature details are clear and materially distinct from desks-2/3; no person, UI, text, brand mark or clipping observed",
+      "producerRenderCheck": "PASS_EXACT_BYTES_DECODED_AND_SCOPED_CARD_DETAIL_RENDER_EVIDENCE_PENDING_WORKFLOW_FINALIZATION",
       "repositoryStatus": "STAGED_READBACK_PASS",
-      "readbackGitBlobSha": "711feeb78e6d08351fc2fd2d3176ddb1a288e8f2",
-      "reviewStatus": "READY_FOR_REVIEW"
+      "readbackGitBlobSha": "6f87e1527ec7d9bf1a3f81e1f54320f462dbb025",
+      "reviewStatus": "READY_FOR_REVIEW_05",
+      "bytes": 1043349,
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "format": "PNG",
+      "sha256": "ed21e581b9cd986c4b51ce4dccd32f495fdb0b64ed197401ee8e7078b1374dd9",
+      "supersedesBrokenCandidate": true
     }
   ],
   "remoteGenerationCandidates": [
@@ -165,17 +205,32 @@
       "generationAssetId": "urn:aaid:sc:US:8962802a-f953-4cfe-bc19-c56fc7afcc74",
       "generationOutputUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:b3fc4208-edb6-4869-9104-9a62dd20e7cd",
       "seed": -244506822245710,
-      "requestedDimensions": [1024, 1024],
+      "requestedDimensions": [
+        1024,
+        1024
+      ],
       "qaRenditionOutputUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:cd72d5c6-47f0-439e-99af-e0f3a2a47052",
-      "qaRenditionDimensions": [512, 512],
+      "qaRenditionDimensions": [
+        512,
+        512
+      ],
       "adobeRecoveryRenditionUrl": "https://at.adobe.com/erUtDmd1Tm6AK332",
       "adobeRecoveryDownloadUrl": "https://at.adobe.com/nNW24oiGxUt4gYTk",
       "candidateRepositoryPath": "public/assets/catalog/desks-5-w03-recovered-v2.jpg",
       "sourceRepositoryPath": "docs/preproduction/catalog-sprint/recovered-originals/desks-5-6-20260921/desks-5-8962802a-f953-4cfe-bc19-c56fc7afcc74.ffgenimg",
       "feature": "warm-wood book-and-garden study desk with asymmetric built-in shelf, integrated leafy planter trough, articulated reading lamp, books, pencil cup and rounded drawer pedestal",
       "producerRenderCheck": "PASS_REMOTE_PIXELS — full desk is centered, dimensional and card-readable; coherent three-quarter construction/material lighting; no person, pet, UI, text, logo, clipping or malformed geometry observed",
-      "repositoryStatus": "GENERATED_REMOTE_NOT_STAGED",
-      "reviewStatus": "NOT_READY_FOR_REVIEW"
+      "repositoryStatus": "STAGED_READBACK_PASS",
+      "reviewStatus": "READY_FOR_REVIEW_05",
+      "gitBlobSha": "95fe65632e4f40b76b23cce30071ee2fdc5b4399",
+      "sha256": "19be1b31799b00bfbf6eb540f0a9d128460985daebd9ce3c508695632a49d6f4",
+      "bytes": 51545,
+      "dimensions": [
+        600,
+        600
+      ],
+      "readback": "PASS",
+      "recoveryEvidence": "docs/preproduction/catalog-sprint/chat-catalog-recovery-desks5-6-rug9-result.json"
     },
     {
       "id": "desks-6",
@@ -189,34 +244,50 @@
       "generationAssetId": "urn:aaid:sc:US:bc5a80a0-b94a-4564-8360-9d521a05dde0",
       "generationOutputUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:889b6d6f-7c2a-4620-b623-49999b3bf6e2",
       "seed": 3773566070365548,
-      "requestedDimensions": [1024, 1024],
+      "requestedDimensions": [
+        1024,
+        1024
+      ],
       "qaRenditionOutputUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:e1dc3b27-aa79-4163-930b-be3e4977393e",
-      "qaRenditionDimensions": [512, 512],
+      "qaRenditionDimensions": [
+        512,
+        512
+      ],
       "adobeRecoveryRenditionUrl": "https://at.adobe.com/cNu2n27bdRVX6IdN",
       "adobeRecoveryDownloadUrl": "https://at.adobe.com/s1UsqTcWV9olEyMH",
       "candidateRepositoryPath": "public/assets/catalog/desks-6-w03-recovered-v2.jpg",
       "sourceRepositoryPath": "docs/preproduction/catalog-sprint/recovered-originals/desks-5-6-20260921/desks-6-bc5a80a0-b94a-4564-8360-9d521a05dde0.ffgenimg",
       "feature": "indigo gaming desk with curved top, galaxy monitor, speaker pair, keyboard/controller setup, planet-orb lamp, drawer pedestal and berry-magenta material accents",
       "producerRenderCheck": "PASS_REMOTE_PIXELS — distinct gamer silhouette and functional tech setup remain visible at card scale; dimensional materials and controlled lighting; no person, pet, UI, text overlay, brand mark, clipping or malformed desk geometry observed",
-      "repositoryStatus": "GENERATED_REMOTE_NOT_STAGED",
-      "reviewStatus": "NOT_READY_FOR_REVIEW"
+      "repositoryStatus": "STAGED_READBACK_PASS",
+      "reviewStatus": "READY_FOR_REVIEW_05",
+      "gitBlobSha": "52df05265de236911927b904b07e68dac7a17828",
+      "sha256": "c0037a3a56a5b477fd714fbaf2419d4ffa9197721421bd1c0e20f99d99eac991",
+      "bytes": 34981,
+      "dimensions": [
+        600,
+        600
+      ],
+      "readback": "PASS",
+      "recoveryEvidence": "docs/preproduction/catalog-sprint/chat-catalog-recovery-desks5-6-rug9-result.json"
     }
   ],
   "changedDependencies": {
-    "reviewer05": "Current desks-2-v1/desks-3-v1/desks-4-v1 hashes are PENDING_SHARED_RENDER. Reviewer 05 explicitly rejected transfer of the stale blank-render finding from obsolete -w03-v1 hashes and requested Workstream 14 render the current lane-03 paths before disposition.",
+    "reviewer05": "Current Desk 2-6 exact hashes are branch-staged, readback-verified and eligible for independent exact-hash review. Desk 2-4 fresh repairs supersede broken/blank historical candidates; Desk 5-6 exact Firefly bytes were recovered without regeneration.",
     "reviewer05CurrentDeskHashes": {
-      "desks-2": "357f4ba8385e737499f12409c0bea141f9bc5e6a",
-      "desks-3": "b3352961988d7e9c5ff48d1559fc4d2296d4eab3",
-      "desks-4": "711feeb78e6d08351fc2fd2d3176ddb1a288e8f2"
+      "desks-2": "277eb1e38e8a69caa0dab6d4d27bbb91796746f8",
+      "desks-3": "aeebeacdc4a95bf75af36583dae6e2391d9a1d9e",
+      "desks-4": "6f87e1527ec7d9bf1a3f81e1f54320f462dbb025",
+      "desks-5": "95fe65632e4f40b76b23cce30071ee2fdc5b4399",
+      "desks-6": "52df05265de236911927b904b07e68dac7a17828"
     },
-    "workstream14": "Shared fixture defect remains open: it rendered obsolete desk candidate paths. No current desks-2..4 review decision exists yet."
+    "workstream14": "Shared staged-art renderer must select these current lane-bound Desk 2-6 paths. Historical Desk 2-4 candidates remain preserved but are superseded and ineligible for review."
   },
   "transportRecoveryAttempt": {
-    "cycle": 2,
-    "result": "EXACT_ADOBE_SOURCE_AND_RENDITION_LINKS_RESOLVED_BUT_BRANCH_BYTE_TRANSFER_REQUIRES_CENTRAL_HELPER",
-    "details": "Adobe asset resolution now provides at.adobe.com download and rendition URLs for the exact preserved Firefly generations, matching the successful Lighting recovery transport pattern. Workstream 03 remains restricted to owned asset paths and lane files and does not own shared recovery workflow/scripts. The blocker is therefore escalated to 15 rather than generating more unstaged desks or editing shared workflow infrastructure.",
-    "escalatedTo15": true,
-    "requestedHelperAction": "Use the proven immutable Adobe URL recovery pattern once for desks-5 and desks-6: validate current Store metadata, fetch only these exact at.adobe.com source/rendition URLs, store versioned candidate/source bytes, verify decode/dimensions/sha256/Git blob/readback and non-duplicate content, then publish a normal non-force latest-head commit. Return exact stored hashes to lane 03; reviewer 05 then reviews them and 08 alone integrates accepted hashes."
+    "cycle": 3,
+    "result": "RESOLVED_DESKS_2_TO_6_REPOSITORY_STAGED",
+    "details": "Desk 2-4 were replaced with fresh valid dimensional PNGs after broken/blank historical bytes were verified; Desk 5-6 exact existing Firefly generations were recovered through the authorized Adobe-to-Git path without regeneration.",
+    "escalatedTo15": false
   },
   "checks": {
     "assignmentRevalidatedBeforeWrite": "PASS",
@@ -224,18 +295,18 @@
     "preservePendingStagedAssets": "PASS_DESKS_2_TO_4_NOT_REGENERATED",
     "newFullQualityGeneration": "PASS_2_OF_2_DESKS_5_TO_6_PREVIOUS_CYCLE_PRESERVED",
     "newCardScaleVisualCheck": "PASS_2_OF_2_CURRENT_ADOBE_RENDITIONS_REINSPECTED",
-    "repositoryBinaryUploadExisting": "PASS_3_OF_3_DESKS_2_TO_4",
-    "repositoryReadbackHashExisting": "PASS_3_OF_3_DESKS_2_TO_4",
-    "repositoryBinaryUploadNew": "BLOCKED_THIS_LANE_SHARED_TRANSPORT_HELPER_REQUIRED_EXACT_ADOBE_URLS_NOW_RESOLVED",
-    "independentVisualReview": "PENDING_REVIEWER_05_AFTER_WORKSTREAM_14_CURRENT_HASH_RENDER",
-    "canonicalIntegration": "NOT_RUN_OWNER_08"
+    "repositoryBinaryUploadExisting": "PASS_5_OF_5_DESKS_2_TO_6",
+    "repositoryReadbackHashExisting": "PASS_5_OF_5_DESKS_2_TO_6",
+    "repositoryBinaryUploadNew": "PASS",
+    "independentVisualReview": "PENDING_REVIEWER_05_EXACT_HASH",
+    "canonicalIntegration": "NOT_RUN_OWNER_08_AFTER_ACCEPT",
+    "preserveHistoricalBrokenAssets": "PASS_DESKS_2_TO_4_OLD_HASHES_RETAINED_AS_SUPERSEDED"
   },
   "blocker": {
-    "code": "DESKS_5_6_REMOTE_BINARY_TRANSFER_ESCALATED_CYCLE_2",
-    "detail": "The exact Firefly assets are preserved and now have connector-resolved at.adobe.com source and rendition links suitable for the same recovery technique already proven on Lighting 5–8. Workstream 03 does not own shared recovery workflow/script paths, so it will not create another framework or edit those shared files. This is the second consecutive cycle of the byte-transfer blocker and is escalated to 15 with exact URLs and destinations instead of repeated generation.",
-    "ownerHandoff": "15 or its authorized transport helper performs the one-time immutable byte recovery; 03 only accepts returned exact hashes and updates owned lane files/asset versions."
+    "code": "NONE_CURRENT_DESKS_2_TO_6",
+    "detail": "No transport/decode blocker remains for Desk 2-6. Independent reviewer 05 must disposition current hashes before 08 integration. Desk 7-12 production remains intentionally gated on this pilot review."
   },
-  "nextAction": "Do not generate desks-7..12 yet. First: 14 renders current desks-2-v1/desks-3-v1/desks-4-v1 hashes for reviewer 05. In parallel, 15/authorized transport helper stages the exact desks-5/desks-6 Adobe bytes using the resolved at.adobe.com links above. After either review produces a concrete REWORK, repair that defect before more production; after desks-5/6 are staged and the pilot receives independent review, continue the next 2–4 item batch with desks-7 onward. 08 integrates only exact-hash ACCEPTed staged assets.",
+  "nextAction": "Reviewer 05: inspect current Desk 2-6 exact hashes at card/detail scale. Workstream 03: preserve these versions and wait for exact-hash ACCEPT/REWORK; after pilot acceptance, continue Desk 7-10 in a bounded batch. Workstream 08 integrates only accepted current hashes.",
   "freeze": {
     "replitTouched": false,
     "flootTouched": false,
@@ -243,5 +314,28 @@
     "canonicalManifestTouched": false,
     "canonicalRuntimeTouched": false,
     "playerDataTouched": false
-  }
+  },
+  "supersededCandidates": [
+    {
+      "id": "desks-2",
+      "repositoryPath": "public/assets/catalog/desks-2-v1.webp",
+      "gitBlobSha": "357f4ba8385e737499f12409c0bea141f9bc5e6a",
+      "status": "SUPERSEDED_BROKEN_OR_NONDECODING_CANDIDATE",
+      "reason": "Shared staged-art QA showed the previous Desk 2-4 bytes were invalid/nondecoding or visually blank. Preserved for audit; never select for current review."
+    },
+    {
+      "id": "desks-3",
+      "repositoryPath": "public/assets/catalog/desks-3-v1.webp",
+      "gitBlobSha": "b3352961988d7e9c5ff48d1559fc4d2296d4eab3",
+      "status": "SUPERSEDED_BROKEN_OR_NONDECODING_CANDIDATE",
+      "reason": "Shared staged-art QA showed the previous Desk 2-4 bytes were invalid/nondecoding or visually blank. Preserved for audit; never select for current review."
+    },
+    {
+      "id": "desks-4",
+      "repositoryPath": "public/assets/catalog/desks-4-v1.webp",
+      "gitBlobSha": "711feeb78e6d08351fc2fd2d3176ddb1a288e8f2",
+      "status": "SUPERSEDED_BROKEN_OR_NONDECODING_CANDIDATE",
+      "reason": "Shared staged-art QA showed the previous Desk 2-4 bytes were invalid/nondecoding or visually blank. Preserved for audit; never select for current review."
+    }
+  ]
 }
