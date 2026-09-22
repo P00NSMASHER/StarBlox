@@ -1,204 +1,154 @@
 {
-  "schemaVersion": 6,
+  "schemaVersion": 7,
   "reviewer": "05",
   "role": "independent catalog reviewer for beds/desks/companions/auras",
   "phase": "CATALOG_SPRINT",
   "branch": "screenshot-match-preproduction",
-  "sourceHead": "281f8ba54229ac5c07320d79b5a31a8a45f9140b",
+  "sourceHead": "d977323a353d8755c821c8166c54f83ef3b2c365",
   "policy": "docs/preproduction/DELIVERY_PROTOCOL_V2.md",
   "visualSprint": "docs/preproduction/ART_VISUALS_SPRINT.json",
   "referenceManifest": "docs/preproduction/reference-screenshots/original-reference-manifest.json",
-  "assignedCollections": [
-    "beds",
-    "desks",
-    "companions",
-    "auras"
-  ],
+  "assignedCollections": ["beds", "desks", "companions", "auras"],
   "priorShard": {
-    "blobSha": "879dd8fbfef4796ba0700ff83fcfeec058ece860",
-    "preserves": "All prior exact-hash review history through Desk 5-6 and Beds 1-4, including Aura 1-4 v2 REWORK and superseded Desk invalid-signature evidence."
+    "blobSha": "59f462e88b386978ca52eefc5a3c7e3872049406",
+    "preserves": "All prior exact-hash review history through Aura 1-4 v3, including preserved accepted Beds 1-4, Desks 5-6, Auras 1-4 v3/6-8, Companions 3/4/10/11 and obsolete/superseded evidence."
   },
   "currentCycle": {
-    "scope": [
-      "auras-1",
-      "auras-2",
-      "auras-3",
-      "auras-4"
-    ],
-    "version": "v3",
-    "result": "ACCEPT_4_OF_4",
-    "actualCardPixelsReviewed": true,
+    "scope": ["desks-2", "desks-3", "desks-4"],
+    "version": "current PNG chat-v2 hashes",
+    "result": "ACCEPT_3_OF_3",
+    "actualCardScalePixelsReviewed": true,
     "actualDetailPixelsReviewed": true,
-    "oldV2DecisionsTransferred": false
+    "obsoleteWebPVerdictsTransferred": false
   },
   "renderEvidence": {
-    "workflowRunId": 35671890720,
-    "artifactId": 10670972588,
-    "artifactDigest": "sha256:5d397a49697745020c077da5f3ee3fbf149315fd4948585ad0b3f48c5a88139f",
-    "artifactSourceHead": "ebb46e96b2689c7e38537392e94042cee037007c",
-    "contactSheet": "artifacts/catalog-staged-art/staged-replacements/staged-replacements-contact-sheet.png",
-    "contactSheetSha256": "e517e04e617b66f5c0bebf792d064ab59683b97cfa9aa356f76cda796f6d5b95",
-    "exactHashBinding": "PASS_4_OF_4",
-    "metadataReadbackDecodeTestsBuild": "PASS"
+    "handoffFile": "docs/preproduction/catalog-sprint/chat-desks-2-4-render-evidence-14-to-05.json",
+    "handoffBlobSha": "b09819c67e93a052053145529537de652a29e785",
+    "workflowRunId": 35676190280,
+    "artifactId": 10672639784,
+    "workflowHead": "9cfe19679527bd0a3ace2d76d4a88967a65509a7",
+    "exactHashBinding": "PASS_3_OF_3",
+    "signatureAssetSafety": "PASS_3_OF_3",
+    "decode": "PASS_3_OF_3",
+    "renderedCard": "PASS_3_OF_3",
+    "renderedDetail": "PASS_3_OF_3",
+    "blankArtifactCount": 0,
+    "contactSheetPath": "staged-replacements/staged-replacements-contact-sheet.png",
+    "contactSheetSha256": "15c998e520fbe82503eee3e2a36f6ed4963949304bb03e6f66082e2f7388fa11",
+    "overallWorkflowFailureIgnoredForScope": "Unrelated tops-11 decode failure; Workstream 14 scoped evidence explicitly validates Desk 2-4."
   },
   "reviews": [
     {
-      "itemId": "auras-1",
-      "name": "Soft Sparkles",
-      "tier": 1,
-      "theme": "Midnight Neon",
-      "producer": "11",
-      "assetPath": "/assets/catalog/auras-1-w11-v3.png",
-      "assetHash": "a7921c7b7c8f48fc47908595c1afa6f59217c7a5",
-      "hashAlgorithm": "git-blob-sha1",
-      "contentSha256": "f1cc40d91c8719b8a831a1d681a13d781134ed700320f40dc0427984ab818c52",
-      "sourceHead": "ebb46e96b2689c7e38537392e94042cee037007c",
-      "decision": "ACCEPT",
-      "reviewedAt": "2026-09-22T01:41:00Z",
-      "evidenceRefs": [
-        "artifacts/catalog-staged-art/staged-replacements/staged-replacements-contact-sheet.png#sha256=e517e04e617b66f5c0bebf792d064ab59683b97cfa9aa356f76cda796f6d5b95",
-        "artifacts/catalog-staged-art/staged-replacements/detail/auras-1-a7921c7b.png#sha256=ed6aca81dd924b935136c64d445ead1fa92e5d9c61fe6cc81475c41fc875f72b"
-      ],
-      "reason": "Faceted stars at varied depths, cyan-magenta emissive points and curved light trails create a true Midnight Neon aura with a clear avatar opening; the effect stays restrained enough for Tier 1 and reads cleanly at card scale.",
-      "checks": {
-        "identity": "PASS",
-        "themeTier": "PASS",
-        "silhouette": "PASS",
-        "materialLighting": "PASS",
-        "cardReadability": "PASS",
-        "originality": "PASS",
-        "duplicateVisual": "PASS"
-      }
-    },
-    {
-      "itemId": "auras-2",
-      "name": "Cloud Puffs",
-      "tier": 1,
+      "itemId": "desks-2",
+      "name": "Cloud Study Desk",
+      "collection": "Desks & Tech",
       "theme": "Candy Core",
-      "producer": "11",
-      "assetPath": "/assets/catalog/auras-2-w11-v3.png",
-      "assetHash": "1e421c71217e5386c1b255dfedeade8215976bcb",
-      "hashAlgorithm": "git-blob-sha1",
-      "contentSha256": "4840436aecc6fb510b2660c2a352783a096d2bd761a526c60e6080781faff595",
-      "sourceHead": "ebb46e96b2689c7e38537392e94042cee037007c",
-      "decision": "ACCEPT",
-      "reviewedAt": "2026-09-22T01:41:00Z",
-      "evidenceRefs": [
-        "artifacts/catalog-staged-art/staged-replacements/staged-replacements-contact-sheet.png#sha256=e517e04e617b66f5c0bebf792d064ab59683b97cfa9aa356f76cda796f6d5b95",
-        "artifacts/catalog-staged-art/staged-replacements/detail/auras-2-1e421c71.png#sha256=d772c69e988906162142ab783ec2749cb33db8e2b34711dcc8ad3bb3b0111d76"
-      ],
-      "reason": "Overlapping rounded cloud lobes, soft volume/light and pastel candy color separation fix the flat v2 icon treatment. Cloud Puffs/Candy Core is unmistakable and remains a readable Tier-1 mass at card scale.",
-      "checks": {
-        "identity": "PASS",
-        "themeTier": "PASS",
-        "silhouette": "PASS",
-        "materialLighting": "PASS",
-        "cardReadability": "PASS",
-        "originality": "PASS",
-        "duplicateVisual": "PASS"
-      }
-    },
-    {
-      "itemId": "auras-3",
-      "name": "Pixel Bits",
       "tier": 1,
-      "theme": "Adventure Club",
-      "producer": "11",
-      "assetPath": "/assets/catalog/auras-3-w11-v3.png",
-      "assetHash": "f164aefb93a21374a1cf0b9b7b7312a0ae68d34c",
+      "producer": "03",
+      "assetPath": "/assets/catalog/desks-2-chat-v2.png",
+      "assetHash": "277eb1e38e8a69caa0dab6d4d27bbb91796746f8",
       "hashAlgorithm": "git-blob-sha1",
-      "contentSha256": "6651e63e4d52bd538bd3597fb7800ae285defa340faf3243d8e55349ab7dea5d",
-      "sourceHead": "ebb46e96b2689c7e38537392e94042cee037007c",
+      "contentSha256": "5d284040198504227b9cb8ed4eedf729166d157d266912cf3a89c71dc823bcee",
+      "bytes": 845051,
+      "dimensions": [1024, 1024],
+      "sourceHead": "d977323a353d8755c821c8166c54f83ef3b2c365",
       "decision": "ACCEPT",
-      "reviewedAt": "2026-09-22T01:41:00Z",
+      "reviewedAt": "2026-09-22T02:24:00Z",
       "evidenceRefs": [
-        "artifacts/catalog-staged-art/staged-replacements/staged-replacements-contact-sheet.png#sha256=e517e04e617b66f5c0bebf792d064ab59683b97cfa9aa356f76cda796f6d5b95",
-        "artifacts/catalog-staged-art/staged-replacements/detail/auras-3-f164aefb.png#sha256=85c8aead4c50bb0bc5230ed1c457aca4289727ea44108a337917b47a36676d1d"
+        "artifact:10672639784/staged-replacements/detail/desks-2-277eb1e3.png#sha256=55b91fae05b6608e5b9a877b6aef583a0294bd446151cc2dcc9972d141353a1f",
+        "artifact:10672639784/staged-replacements/staged-replacements-contact-sheet.png#sha256=15c998e520fbe82503eee3e2a36f6ed4963949304bb03e6f66082e2f7388fa11",
+        "docs/preproduction/catalog-sprint/chat-desks-2-4-render-evidence-14-to-05.json#desks-2"
       ],
-      "reason": "Beveled pixel blocks, earthy adventure palette, staggered orbit pieces, star points and haze create convincing near/far parallax instead of the flat v2 ring. Pixel Bits is distinct and still appropriately restrained for Tier 1.",
-      "checks": {
-        "identity": "PASS",
-        "themeTier": "PASS",
-        "silhouette": "PASS",
-        "materialLighting": "PASS",
-        "cardReadability": "PASS",
-        "originality": "PASS",
-        "duplicateVisual": "PASS"
-      }
+      "reason": "Three-quarter cloud-top desk has convincing body volume, recessed work surface, rounded structural thickness, drawer hardware, polished/translucent material response, directional highlights and cast shadow. Candy Core identity is immediate and the restrained richness is appropriate for Tier 1; silhouette remains clean at card scale.",
+      "checks": {"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"PASS","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
     },
     {
-      "itemId": "auras-4",
-      "name": "Berry Hearts",
-      "tier": 2,
-      "theme": "Cloud Pop",
-      "producer": "11",
-      "assetPath": "/assets/catalog/auras-4-w11-v3.png",
-      "assetHash": "3357a67e4121ca631377e30033a31ef4c815ab61",
+      "itemId": "desks-3",
+      "name": "Pixel Mini Setup",
+      "collection": "Desks & Tech",
+      "theme": "Adventure Club",
+      "tier": 1,
+      "producer": "03",
+      "assetPath": "/assets/catalog/desks-3-chat-v2.png",
+      "assetHash": "aeebeacdc4a95bf75af36583dae6e2391d9a1d9e",
       "hashAlgorithm": "git-blob-sha1",
-      "contentSha256": "3c2efe8bfefeedd71fac98f3cc0b43ecdd479523c6aca528061f8a334532ed58",
-      "sourceHead": "ebb46e96b2689c7e38537392e94042cee037007c",
+      "contentSha256": "a2e00219721cdb340fd35383845608f2a19ccd9fd65c759ddbe6c891a48b872c",
+      "bytes": 1148489,
+      "dimensions": [1024, 1024],
+      "sourceHead": "d977323a353d8755c821c8166c54f83ef3b2c365",
       "decision": "ACCEPT",
-      "reviewedAt": "2026-09-22T01:41:00Z",
+      "reviewedAt": "2026-09-22T02:24:00Z",
       "evidenceRefs": [
-        "artifacts/catalog-staged-art/staged-replacements/staged-replacements-contact-sheet.png#sha256=e517e04e617b66f5c0bebf792d064ab59683b97cfa9aa356f76cda796f6d5b95",
-        "artifacts/catalog-staged-art/staged-replacements/detail/auras-4-3357a67e.png#sha256=95957cf5b6bec96fbc72e0be6807a1bc5367284084fcfd6e820a7a8dafb70779"
+        "artifact:10672639784/staged-replacements/detail/desks-3-aeebeacd.png#sha256=2ce0989e4831cf7c915d6a0c397579d998226e07632e1ebfc741dc6cab8b0aff",
+        "artifact:10672639784/staged-replacements/staged-replacements-contact-sheet.png#sha256=15c998e520fbe82503eee3e2a36f6ed4963949304bb03e6f66082e2f7388fa11",
+        "docs/preproduction/catalog-sprint/chat-desks-2-4-render-evidence-14-to-05.json#desks-3"
       ],
-      "reason": "Glossy translucent berry hearts, rounded clouds, pearl highlights and layered cyan-pink trails surround an open center with real depth. Cloud Pop identity is clear and the richer material response is a credible Tier-2 step-up.",
-      "checks": {
-        "identity": "PASS",
-        "themeTier": "PASS",
-        "silhouette": "PASS",
-        "materialLighting": "PASS",
-        "cardReadability": "PASS",
-        "originality": "PASS",
-        "duplicateVisual": "PASS"
-      }
+      "reason": "Block-built mini workstation reads as a physical collectible: thick top and legs, monitor, controller, lamp, drawer, cables and raised pixel-board pieces all have distinct depth, bevels, highlights and shadows. Adventure Club/pixel-creative identity is clear without third-party branding and remains legible at card scale for Tier 1.",
+      "checks": {"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"PASS","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
+    },
+    {
+      "itemId": "desks-4",
+      "name": "Berry Vanity Desk",
+      "collection": "Desks & Tech",
+      "theme": "Cloud Pop",
+      "tier": 2,
+      "producer": "03",
+      "assetPath": "/assets/catalog/desks-4-chat-v2.png",
+      "assetHash": "6f87e1527ec7d9bf1a3f81e1f54320f462dbb025",
+      "hashAlgorithm": "git-blob-sha1",
+      "contentSha256": "ed21e581b9cd986c4b51ce4dccd32f495fdb0b64ed197401ee8e7078b1374dd9",
+      "bytes": 1043349,
+      "dimensions": [1024, 1024],
+      "sourceHead": "d977323a353d8755c821c8166c54f83ef3b2c365",
+      "decision": "ACCEPT",
+      "reviewedAt": "2026-09-22T02:24:00Z",
+      "evidenceRefs": [
+        "artifact:10672639784/staged-replacements/detail/desks-4-6f87e152.png#sha256=5fa91e5a8c21852fd0fc213626671a94e9f3c4c066698c8d00c3e25e68cc3514",
+        "artifact:10672639784/staged-replacements/staged-replacements-contact-sheet.png#sha256=15c998e520fbe82503eee3e2a36f6ed4963949304bb03e6f66082e2f7388fa11",
+        "docs/preproduction/catalog-sprint/chat-desks-2-4-render-evidence-14-to-05.json#desks-4"
+      ],
+      "reason": "Curved vanity legs, layered tabletop edge, framed mirror, cloud forms, storage boxes/drawers and tray create strong physical depth. Gloss/satin response, edge highlights and grounded shadows make the Tier-2 Cloud Pop piece materially richer than Tier-1 desks while preserving a readable silhouette.",
+      "checks": {"identity":"PASS","themeTier":"PASS","silhouette":"PASS","materialLighting":"PASS","cardReadability":"PASS","originality":"PASS","duplicateVisual":"PASS"}
     }
   ],
   "preservedAcceptedCurrentHashes": [
-    {"itemId":"auras-6","assetHash":"ce4b155c7fb5469fde415ab9d744cab41027fe4d","decision":"ACCEPT","priorShardBlob":"879dd8fbfef4796ba0700ff83fcfeec058ece860"},
-    {"itemId":"auras-7","assetHash":"c451e7479e142f1eca89cc5282b352c2d2ca2d4b","decision":"ACCEPT","priorShardBlob":"879dd8fbfef4796ba0700ff83fcfeec058ece860"},
-    {"itemId":"auras-8","assetHash":"6884668fe721f3b26a562e11924237a32c656db6","decision":"ACCEPT","priorShardBlob":"879dd8fbfef4796ba0700ff83fcfeec058ece860"},
-    {"itemId":"companions-3","assetHash":"adba95dc769e603337dc4ac38b9a513ce9914b10","decision":"ACCEPT","priorShardBlob":"879dd8fbfef4796ba0700ff83fcfeec058ece860"},
-    {"itemId":"companions-4","assetHash":"b382339e76ed9d4aeae72b1c8cccc904abf85b57","decision":"ACCEPT","priorShardBlob":"879dd8fbfef4796ba0700ff83fcfeec058ece860"},
-    {"itemId":"companions-10","assetHash":"2b09d950b08083bb3a9ec5e2073ae23d88411cf4","decision":"ACCEPT","priorShardBlob":"879dd8fbfef4796ba0700ff83fcfeec058ece860"},
-    {"itemId":"companions-11","assetHash":"465fe45abbe4d9b4355444cb3f75a49927b604e9","decision":"ACCEPT","priorShardBlob":"879dd8fbfef4796ba0700ff83fcfeec058ece860"},
-    {"itemId":"desks-5","assetHash":"95fe65632e4f40b76b23cce30071ee2fdc5b4399","decision":"ACCEPT","priorShardBlob":"879dd8fbfef4796ba0700ff83fcfeec058ece860"},
-    {"itemId":"desks-6","assetHash":"52df05265de236911927b904b07e68dac7a17828","decision":"ACCEPT","priorShardBlob":"879dd8fbfef4796ba0700ff83fcfeec058ece860"},
-    {"itemId":"beds-1","assetHash":"0b9f4213f84c9cde0de5ede646345c0ebc851127","decision":"ACCEPT","priorShardBlob":"879dd8fbfef4796ba0700ff83fcfeec058ece860"},
-    {"itemId":"beds-2","assetHash":"67a0fe2874f975cedb1b4b994e0237ac55d2fb3e","decision":"ACCEPT","priorShardBlob":"879dd8fbfef4796ba0700ff83fcfeec058ece860"},
-    {"itemId":"beds-3","assetHash":"22b1d9f6802cc0b442c9226511ff96e8ea0bbacc","decision":"ACCEPT","priorShardBlob":"879dd8fbfef4796ba0700ff83fcfeec058ece860"},
-    {"itemId":"beds-4","assetHash":"18fa8722d9831af1113e07c2103b373acc41c3c0","decision":"ACCEPT","priorShardBlob":"879dd8fbfef4796ba0700ff83fcfeec058ece860"}
-  ],
-  "preservedCurrentReworkHashes": [
-    {"itemId":"auras-5","assetHash":"16416de7ab535af16c59aa40e4d8f5a85a2958bf","decision":"REWORK","priorShardBlob":"879dd8fbfef4796ba0700ff83fcfeec058ece860"},
-    {"itemId":"auras-9","assetHash":"f88be0c4b5fdb36df870ffa113c08f8ec668363c","decision":"REWORK","priorShardBlob":"879dd8fbfef4796ba0700ff83fcfeec058ece860"},
-    {"itemId":"auras-10","assetHash":"cbc767e6b29db880535d7fd99741debdadbcf6c5","decision":"REWORK","priorShardBlob":"879dd8fbfef4796ba0700ff83fcfeec058ece860"},
-    {"itemId":"auras-11","assetHash":"ddb2c81b49db8e6ea6369c8f70cb720228feb73c","decision":"REWORK","priorShardBlob":"879dd8fbfef4796ba0700ff83fcfeec058ece860"},
-    {"itemId":"auras-12","assetHash":"93b33a82e9a5045e1e070ab7561bab08ce5ae947","decision":"REWORK","priorShardBlob":"879dd8fbfef4796ba0700ff83fcfeec058ece860"}
-  ],
-  "pendingCurrentHashes": [
-    {"itemId":"desks-2","assetPath":"/assets/catalog/desks-2-chat-v2.png","assetHash":"277eb1e38e8a69caa0dab6d4d27bbb91796746f8","metadataReadbackDecode":"PASS","cardDetailRender":"INCOMPLETE_0_OF_3","decision":"PENDING_NOT_REVIEWED"},
-    {"itemId":"desks-3","assetPath":"/assets/catalog/desks-3-chat-v2.png","assetHash":"aeebeacdc4a95bf75af36583dae6e2391d9a1d9e","metadataReadbackDecode":"PASS","cardDetailRender":"INCOMPLETE_0_OF_3","decision":"PENDING_NOT_REVIEWED"},
-    {"itemId":"desks-4","assetPath":"/assets/catalog/desks-4-chat-v2.png","assetHash":"6f87e1527ec7d9bf1a3f81e1f54320f462dbb025","metadataReadbackDecode":"PASS","cardDetailRender":"INCOMPLETE_0_OF_3","decision":"PENDING_NOT_REVIEWED"}
-  ],
-  "integrationEligibleNewThisCycle": [
     {"itemId":"auras-1","assetHash":"a7921c7b7c8f48fc47908595c1afa6f59217c7a5","decision":"ACCEPT"},
     {"itemId":"auras-2","assetHash":"1e421c71217e5386c1b255dfedeade8215976bcb","decision":"ACCEPT"},
     {"itemId":"auras-3","assetHash":"f164aefb93a21374a1cf0b9b7b7312a0ae68d34c","decision":"ACCEPT"},
-    {"itemId":"auras-4","assetHash":"3357a67e4121ca631377e30033a31ef4c815ab61","decision":"ACCEPT"}
+    {"itemId":"auras-4","assetHash":"3357a67e4121ca631377e30033a31ef4c815ab61","decision":"ACCEPT"},
+    {"itemId":"auras-6","assetHash":"ce4b155c7fb5469fde415ab9d744cab41027fe4d","decision":"ACCEPT"},
+    {"itemId":"auras-7","assetHash":"c451e7479e142f1eca89cc5282b352c2d2ca2d4b","decision":"ACCEPT"},
+    {"itemId":"auras-8","assetHash":"6884668fe721f3b26a562e11924237a32c656db6","decision":"ACCEPT"},
+    {"itemId":"companions-3","assetHash":"adba95dc769e603337dc4ac38b9a513ce9914b10","decision":"ACCEPT"},
+    {"itemId":"companions-4","assetHash":"b382339e76ed9d4aeae72b1c8cccc904abf85b57","decision":"ACCEPT"},
+    {"itemId":"companions-10","assetHash":"2b09d950b08083bb3a9ec5e2073ae23d88411cf4","decision":"ACCEPT"},
+    {"itemId":"companions-11","assetHash":"465fe45abbe4d9b4355444cb3f75a49927b604e9","decision":"ACCEPT"},
+    {"itemId":"desks-2","assetHash":"277eb1e38e8a69caa0dab6d4d27bbb91796746f8","decision":"ACCEPT"},
+    {"itemId":"desks-3","assetHash":"aeebeacdc4a95bf75af36583dae6e2391d9a1d9e","decision":"ACCEPT"},
+    {"itemId":"desks-4","assetHash":"6f87e1527ec7d9bf1a3f81e1f54320f462dbb025","decision":"ACCEPT"},
+    {"itemId":"desks-5","assetHash":"95fe65632e4f40b76b23cce30071ee2fdc5b4399","decision":"ACCEPT"},
+    {"itemId":"desks-6","assetHash":"52df05265de236911927b904b07e68dac7a17828","decision":"ACCEPT"},
+    {"itemId":"beds-1","assetHash":"0b9f4213f84c9cde0de5ede646345c0ebc851127","decision":"ACCEPT"},
+    {"itemId":"beds-2","assetHash":"67a0fe2874f975cedb1b4b994e0237ac55d2fb3e","decision":"ACCEPT"},
+    {"itemId":"beds-3","assetHash":"22b1d9f6802cc0b442c9226511ff96e8ea0bbacc","decision":"ACCEPT"},
+    {"itemId":"beds-4","assetHash":"18fa8722d9831af1113e07c2103b373acc41c3c0","decision":"ACCEPT"}
+  ],
+  "supersededEvidenceExcluded": [
+    {"itemId":"desks-2","assetHash":"357f4ba8385e737499f12409c0bea141f9bc5e6a","reason":"obsolete invalid-signature WebP; verdict not transferred"},
+    {"itemId":"desks-3","assetHash":"b3352961988d7e9c5ff48d1559fc4d2296d4eab3","reason":"obsolete invalid-signature WebP; verdict not transferred"},
+    {"itemId":"desks-4","assetHash":"711feeb78e6d08351fc2fd2d3176ddb1a288e8f2","reason":"obsolete invalid-signature WebP; verdict not transferred"}
+  ],
+  "newReadyCandidatesAfterThisCycle": [
+    {"itemId":"auras-5","assetPath":"/assets/catalog/auras-5-w11-v3.png","assetHash":"ae3bef6ca8925283c96639a206634355fd850779","status":"NEXT_OLDEST_READY_CHANGED_HASH__REVIEW_PENDING_EXACT_STORE_METADATA_RECONCILIATION"},
+    {"itemId":"auras-9","assetPath":"/assets/catalog/auras-9-w11-v2.png","assetHash":"9331e51645fec1af4180f6b8cd30ac2460218093","status":"READY_AFTER_AURA_5"},
+    {"itemId":"auras-10","assetPath":"/assets/catalog/auras-10-w11-v2.png","assetHash":"6f07fe7fcfab11733f666c41cda6e84a9c45707d","status":"READY_AFTER_AURA_5"},
+    {"itemId":"auras-12","assetPath":"/assets/catalog/auras-12-w11-v2.png","assetHash":"d0fc908286897ea92cb33a83cf723b72e2600879","status":"READY_AFTER_AURA_5"}
   ],
   "handoff": {
-    "08": "Consume the four new Aura 1-4 v3 exact-hash ACCEPT records in reviews[] immediately after normal metadata/file/content checks; do not use their v2 REWORK hashes.",
-    "11": "Preserve Aura 1-4 v3 exact bytes; all four are independently ACCEPTED.",
-    "14": "Publish exact card/detail pixels for Desk 2-4 new PNG hashes 277eb1e3/aeebeacd/6f87e152; reviewer 05 must not decide them before those pixels exist.",
-    "15": "Aura 1-4 v3 review complete: 4 ACCEPT. Desk 2-4 old broken-WebP blocker is superseded; the new PNG hashes are pending only current-hash render evidence."
+    "workstream08": "Desk 2-4 exact current PNG hashes are independently ACCEPTED and may be integrated immediately as one micro-batch after normal metadata/file/content checks. 05 does not edit canonical mappings.",
+    "workstream15": "Desk 2-4 current-pixel dependency is closed. Continue coordination; Aura 5 changed hash is the next oldest ready partition candidate.",
+    "producer03": "Preserve Desk 2-4 accepted exact hashes; do not regenerate."
   },
-  "freeze": {
-    "replitTouched": false,
-    "flootTouched": false,
-    "mainMergedOrModified": false,
-    "canonicalManifestOrRuntimeTouched": false,
-    "learningOrPlayerStateTouched": false
-  }
+  "summary": {"totalVersionsReviewed":29,"accepted":20,"rework":9,"blocked":0,"thisCycle":{"reviewed":3,"accepted":3,"rework":0,"blocked":0}},
+  "freeze": {"selfApproved":false,"canonicalMappingsTouched":false,"gameplayOrLearningTouched":false,"playerDataTouched":false,"replitTouched":false,"flootTouched":false,"mainTouched":false,"deploymentTouched":false}
 }
