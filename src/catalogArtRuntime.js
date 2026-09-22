@@ -108,7 +108,7 @@ const portableCatalogArt = Object.freeze({
   'auras-8': '/assets/catalog/auras-8-v2.svg',
   'auras-9': '/assets/catalog/auras-9-w11-v3.jpg',
   'auras-10': '/assets/catalog/auras-10-w11-v3.jpg',
-  'auras-11': '/assets/catalog/auras-11.svg',
+  'auras-11': '/assets/catalog/auras-11-w11-v3.jpg',
   'auras-12': '/assets/catalog/auras-12-w11-v3.jpg',
   'companions-1': '/assets/catalog/companions-1.svg',
   'companions-2': '/assets/catalog/companions-2.svg',
