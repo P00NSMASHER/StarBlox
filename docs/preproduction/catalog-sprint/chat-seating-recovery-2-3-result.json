@@ -3,7 +3,7 @@
   "batchId": "chat-seating-recovery-2-3-20260921",
   "status": "STAGED_READY_FOR_INDEPENDENT_REVIEW_02",
   "sourceHead": "4875767c4363463ded89f475336e6d441b39ba56",
-  "workflowRunId": "35671770098",
+  "workflowRunId": 35671770098,
   "producer": "01",
   "transportHelper": "CHAT",
   "independentReviewer": "02",
@@ -99,8 +99,13 @@
     "metadata": "PASS_2_OF_2",
     "exactByteReadback": "PASS_4_FILES_CANDIDATE_PLUS_ORIGINAL",
     "candidateDecode": "PASS_2_OF_2",
-    "repeatBehavior": "PENDING_SECOND_RUN",
-    "independentVisualReview": "PENDING_02"
+    "repeatBehavior": "PASS_SECOND_RUN_NO_REDOWNLOAD",
+    "independentVisualReview": "PENDING_02",
+    "tests": "PASS",
+    "build": "PASS",
+    "sharedRenderOverall": "FAIL",
+    "typecheck": "NOT_APPLICABLE_NO_TYPESCRIPT_APP_CHANGES",
+    "seatingCardDetailRender": "PASS_2_OF_2"
   },
   "freeze": {
     "replitTouched": false,
@@ -110,5 +115,19 @@
     "gameplayChanged": false,
     "playerDataTouched": false
   },
-  "handoff": "02: independently inspect exact Seating 2-3 current hashes. 08: integrate only after qualified ACCEPT. 01: preserve these exact versions pending review."
+  "handoff": "02: independently inspect exact Seating 2-3 current hashes. 08: integrate only after qualified ACCEPT. 01: preserve these exact versions pending review.",
+  "testedSourceHead": "788ae07324569ed7cec24ca015a14bac30c35ed6",
+  "renderEvidence": {
+    "artifactName": "seating-2-3-recovery-evidence",
+    "reportPath": "artifacts/catalog-staged-art/report.json",
+    "matchedIds": [
+      "seating-2",
+      "seating-3"
+    ],
+    "matchedHashes": {
+      "seating-2": "c3d4705b7182b1be735b1a762b2ae79d58928aa5",
+      "seating-3": "5d69a2f6adf1e4cf9b4ec413dbeedba84c41813b"
+    }
+  },
+  "independentVisualReview": "PENDING_WORKSTREAM_02_NOT_SELF_APPROVED"
 }
