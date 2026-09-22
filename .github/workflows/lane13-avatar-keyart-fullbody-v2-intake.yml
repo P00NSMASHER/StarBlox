@@ -122,9 +122,71 @@ jobs:
           print(json.dumps(evidence,indent=2))
           PY
 
-      - name: Commit evidence handoff
+      - name: Sync Lane 13 ledgers without approval
         shell: bash
         run: |
           set -euo pipefail
-          git add docs/preproduction/visuals/lane-13-avatar-keyart-fullbody-v2-intake.json
-          if git diff --cached --quiet; then echo 'No evidence changes to commit.'; else git commit -m 'visuals(13): record avatar key-art v2 readback handoff'; git push origin HEAD:screenshot-match-preproduction; fi
+          python3 <<'PY'
+          import json
+          lane_path='docs/preproduction/visuals/lane-13.json'
+          md_path='docs/preproduction/visuals/lane-13.md'
+          evidence=json.load(open('docs/preproduction/visuals/lane-13-avatar-keyart-fullbody-v2-intake.json'))
+          assets={a['role']:a for a in evidence['assets']}
+          lane=json.load(open(lane_path))
+          entry={
+            'candidateId':'avatar-keyart-fullbody-w13-v2',
+            'candidateType':'transparent-fullbody-avatar-keyart-guidance',
+            'targetScreens':['Home','Store','Quest'],
+            'status':'STAGED_READY_FOR_INDEPENDENT_REVIEW',
+            'reviewRepairSource':'docs/preproduction/visuals/reviews/01.json',
+            'observedDefect':'Reviewer 01 found v1 too fashion-doll-like versus the block-world reference: head too small, limbs too narrow/organic, hands and boots too sculpted, headset too pale, facial contrast too weak.',
+            'sourcePath':assets['source']['path'],
+            'sourceDimensions':[assets['source']['width'],assets['source']['height']],
+            'sourceBytes':assets['source']['bytes'],
+            'sourceSha256':assets['source']['sha256'],
+            'fullPath':assets['full']['path'],
+            'fullDimensions':[assets['full']['width'],assets['full']['height']],
+            'fullBytes':assets['full']['bytes'],
+            'fullSha256':assets['full']['sha256'],
+            'optimizedPath':assets['optimized']['path'],
+            'optimizedDimensions':[assets['optimized']['width'],assets['optimized']['height']],
+            'optimizedBytes':assets['optimized']['bytes'],
+            'optimizedSha256':assets['optimized']['sha256'],
+            'intakeEvidence':'docs/preproduction/visuals/lane-13-avatar-keyart-fullbody-v2-intake.json',
+            'originReadback':'PASS_3_OF_3_EXACT_SHA256_AND_BYTE_LENGTH',
+            'assetCommit':evidence['assetCommit'],
+            'equipmentSafety':{'clothingNoncanonicalGuidanceOnly':True,'ownedEquippedChoicesChanged':False,'runtimeWired':False},
+            'workstream06AvatarFilesTouched':False,
+            'workstream09EnvironmentFilesTouched':False,
+            'independentArtReview':'PENDING_01',
+            'compositionPerformanceReview':'PENDING_14',
+            'runtimeCoordination':'PENDING_15',
+            'physicalDeviceTested':False,
+            'screenshotParityClaimed':False
+          }
+          chars=lane.setdefault('characterCandidates',[])
+          if not any(x.get('candidateId')==entry['candidateId'] for x in chars):
+            chars.append(entry)
+          lane['latestAvatarKeyartV2Candidate']={
+            'candidateId':entry['candidateId'],
+            'status':entry['status'],
+            'intakeEvidence':entry['intakeEvidence'],
+            'assetCommit':entry['assetCommit'],
+            'producerDecision':'STAGED_NOT_APPROVED',
+            'requiredReviews':['01','14','15']
+          }
+          open(lane_path,'w').write(json.dumps(lane,indent=2)+'\n')
+
+          marker='## Avatar key-art fullbody v2'
+          text=open(md_path).read()
+          if marker not in text:
+            text += f'''\n\n{marker}\n\n- Candidate: `avatar-keyart-fullbody-w13-v2` — producer-staged only; reviewer 01 / reviewer 14 / Workstream 15 still gate acceptance and runtime wiring.\n- Source: `{assets['source']['path']}` — {assets['source']['width']}x{assets['source']['height']}, SHA-256 `{assets['source']['sha256']}`.\n- Full transparent: `{assets['full']['path']}` — {assets['full']['width']}x{assets['full']['height']}, SHA-256 `{assets['full']['sha256']}`.\n- Optimized transparent: `{assets['optimized']['path']}` — {assets['optimized']['width']}x{assets['optimized']['height']}, SHA-256 `{assets['optimized']['sha256']}`.\n- Exact repository readback: `PASS_3_OF_3_EXACT_SHA256_AND_BYTE_LENGTH`; evidence `{entry['intakeEvidence']}`; asset commit `{entry['assetCommit']}`.\n- Scope safety: no canonical catalog mapping, gameplay/learning/persistence/economy/save change, no Workstream 06/09 file mutation, clothing is noncanonical visual guidance only, no runtime wiring, no physical-device or screenshot-parity claim.\n'''
+            open(md_path,'w').write(text)
+          PY
+
+      - name: Commit evidence and ledger handoff
+        shell: bash
+        run: |
+          set -euo pipefail
+          git add docs/preproduction/visuals/lane-13-avatar-keyart-fullbody-v2-intake.json docs/preproduction/visuals/lane-13.json docs/preproduction/visuals/lane-13.md
+          if git diff --cached --quiet; then echo 'No evidence/ledger changes to commit.'; else git commit -m 'visuals(13): record avatar key-art v2 review handoff'; git push origin HEAD:screenshot-match-preproduction; fi
