@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "owner": "15",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "353cb72391e453a028f374f4ba7551ed823a2c3f",
+  "status": "RECONCILE_LIVE_BEFORE_USE",
+  "policy": {
+    "maxConcurrentProductionBatches": 4,
+    "maxItemsPerBatch": 4,
+    "oneBatchPerProducer": true,
+    "preserveAcceptedExactHashes": true,
+    "preservePendingReviewCandidates": true,
+    "reviewersRemainIndependent": [
+      "01",
+      "02",
+      "05",
+      "14"
+    ],
+    "canonicalWriter": "08",
+    "updateOnlyOnMaterialChange": true
+  },
+  "batches": [],
+  "readerRule": "Every worker must revalidate assignment, item hash, review state, and branch head before writing. This file coordinates work; it never overrides newer exact evidence."
+}
