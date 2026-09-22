@@ -1,0 +1,190 @@
+{
+  "schemaVersion": 1,
+  "batchId": "chat-bottoms-recovery-1-4-20260921",
+  "status": "STAGED_READY_FOR_INDEPENDENT_REVIEW_01",
+  "sourceHead": "384481ae03bfd12028f6405dd1160a6cf32c5bf6",
+  "workflowRunId": "35670820874",
+  "producer": "05",
+  "transportHelper": "CHAT",
+  "independentReviewer": "01",
+  "canonicalWriter": "08",
+  "newGenerations": 0,
+  "storedCandidateCount": 4,
+  "storedOriginalCount": 4,
+  "duplicateCandidateContent": 0,
+  "metadataSource": "src/gameModel.js store export",
+  "items": [
+    {
+      "id": "bottoms-1",
+      "name": "Jeans",
+      "collectionId": "bottoms",
+      "collectionName": "Bottoms",
+      "type": "avatar",
+      "tier": 1,
+      "theme": "Garden Glow",
+      "price": 30,
+      "starReq": 0,
+      "format": "PNG",
+      "dimensions": [
+        768,
+        768
+      ],
+      "bytes": 615308,
+      "sha256": "d54ad0edabbab3a94f0b63b85f95a21b3af803e035ad6c135cd860c2c41e360a",
+      "gitBlobSha": "8af6b7c9d2f10c41c5abf2cba0368dda6c9c412c",
+      "producer": "05",
+      "transportHelper": "CHAT",
+      "independentReviewer": "01",
+      "repositoryPath": "public/assets/catalog/bottoms-1-w05-v2.png",
+      "assetPath": "/assets/catalog/bottoms-1-w05-v2.png",
+      "sourceGenerationRequestId": "5ae7c057-d4c7-4823-8dc8-f159360e3507",
+      "candidateResizeRequestId": "8d151490-edbb-4d19-8ef3-fc2a9e386271",
+      "status": "READY_FOR_REVIEW_01",
+      "readback": "PASS",
+      "original": {
+        "format": "PNG",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "bytes": 1086073,
+        "sha256": "d82d21e0770a455de3166a6cc566f5e90922f36401a53074bf9fa2987abd12dd",
+        "gitBlobSha": "f6203fbe28a617601aeca0e29d8d59cc9b71436c",
+        "repositoryPath": "docs/preproduction/catalog-sprint/recovered-originals/bottoms-1-4-20260921/bottoms-1-5ae7c057-d4c7-4823-8dc8-f159360e3507.png"
+      }
+    },
+    {
+      "id": "bottoms-2",
+      "name": "Joggers",
+      "collectionId": "bottoms",
+      "collectionName": "Bottoms",
+      "type": "avatar",
+      "tier": 1,
+      "theme": "Galaxy Glow",
+      "price": 45,
+      "starReq": 0,
+      "format": "PNG",
+      "dimensions": [
+        768,
+        768
+      ],
+      "bytes": 640272,
+      "sha256": "7bd11f359c273b83748daa776e0d712a823dfcaf595fe9ee86343b3fe56f1fde",
+      "gitBlobSha": "17031c030198b20867aeeffeab67ad60e99397e1",
+      "producer": "05",
+      "transportHelper": "CHAT",
+      "independentReviewer": "01",
+      "repositoryPath": "public/assets/catalog/bottoms-2-w05-v2.png",
+      "assetPath": "/assets/catalog/bottoms-2-w05-v2.png",
+      "sourceGenerationRequestId": "4f755b7a-4a2c-49e9-8bc9-ba1c75ca507b",
+      "candidateResizeRequestId": "5cf796fa-dfb0-4ebf-ac14-930141c23486",
+      "status": "READY_FOR_REVIEW_01",
+      "readback": "PASS",
+      "original": {
+        "format": "PNG",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "bytes": 1164769,
+        "sha256": "eed7d857eac8132219ef5d0ad74f95e0eb9d9653f6e1bf26883928afe36eaca7",
+        "gitBlobSha": "2ddaaa211bf0813dc2cfcf5fc12ab34e374b04c4",
+        "repositoryPath": "docs/preproduction/catalog-sprint/recovered-originals/bottoms-1-4-20260921/bottoms-2-4f755b7a-4a2c-49e9-8bc9-ba1c75ca507b.png"
+      }
+    },
+    {
+      "id": "bottoms-3",
+      "name": "Cargo Pants",
+      "collectionId": "bottoms",
+      "collectionName": "Bottoms",
+      "type": "avatar",
+      "tier": 1,
+      "theme": "Sunny Pop",
+      "price": 65,
+      "starReq": 0,
+      "format": "PNG",
+      "dimensions": [
+        768,
+        768
+      ],
+      "bytes": 602768,
+      "sha256": "0b4cf5122ca3c9ebc9deb56b0374933aee53218bd3d05568f0199455d2a8611e",
+      "gitBlobSha": "b7025444f62bd6e65325835ecf51a5bbe6cee897",
+      "producer": "05",
+      "transportHelper": "CHAT",
+      "independentReviewer": "01",
+      "repositoryPath": "public/assets/catalog/bottoms-3-w05-v2.png",
+      "assetPath": "/assets/catalog/bottoms-3-w05-v2.png",
+      "sourceGenerationRequestId": "d3cd9c95-19e0-49ca-a201-6df078a69086",
+      "candidateResizeRequestId": "ed818426-4ddf-43bb-9281-0d940014104b",
+      "status": "READY_FOR_REVIEW_01",
+      "readback": "PASS",
+      "original": {
+        "format": "PNG",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "bytes": 1040928,
+        "sha256": "9ff20a372932a93415158a7f9ac53a7abd3a32ee09fc52a070b1a49f65ea9df5",
+        "gitBlobSha": "1f068aa0b472898b25d3a42d5d6866debd9a1944",
+        "repositoryPath": "docs/preproduction/catalog-sprint/recovered-originals/bottoms-1-4-20260921/bottoms-3-d3cd9c95-19e0-49ca-a201-6df078a69086.png"
+      }
+    },
+    {
+      "id": "bottoms-4",
+      "name": "Pleat Skirt",
+      "collectionId": "bottoms",
+      "collectionName": "Bottoms",
+      "type": "avatar",
+      "tier": 2,
+      "theme": "Aqua Wave",
+      "price": 85,
+      "starReq": 0,
+      "format": "PNG",
+      "dimensions": [
+        768,
+        768
+      ],
+      "bytes": 653033,
+      "sha256": "690a50b7023106b413337805038fcccfaa7daf75b9829ed0a142b6fa32f25501",
+      "gitBlobSha": "b618e3990a0e4b049278f5a748325d57cb81955e",
+      "producer": "05",
+      "transportHelper": "CHAT",
+      "independentReviewer": "01",
+      "repositoryPath": "public/assets/catalog/bottoms-4-w05-v2.png",
+      "assetPath": "/assets/catalog/bottoms-4-w05-v2.png",
+      "sourceGenerationRequestId": "aa70c929-1c5e-488f-b866-f1d5857a9401",
+      "candidateResizeRequestId": "34496cd4-3561-4d28-a3fe-4aea252ae6c7",
+      "status": "READY_FOR_REVIEW_01",
+      "readback": "PASS",
+      "original": {
+        "format": "PNG",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "bytes": 1118109,
+        "sha256": "7331c7b98819f752cc87847eed8c1fa17bf15908e7c775381d009d7c83c12503",
+        "gitBlobSha": "f4dc62725213776a5a89587ed7faa9a70723ba98",
+        "repositoryPath": "docs/preproduction/catalog-sprint/recovered-originals/bottoms-1-4-20260921/bottoms-4-aa70c929-1c5e-488f-b866-f1d5857a9401.png"
+      }
+    }
+  ],
+  "checks": {
+    "metadata": "PASS_4_OF_4",
+    "exactByteReadback": "PASS_8_OF_8",
+    "candidateDecode": "PASS_4_OF_4",
+    "repeatBehavior": "PENDING_SECOND_RUN",
+    "independentVisualReview": "PENDING_01"
+  },
+  "freeze": {
+    "replitTouched": false,
+    "flootTouched": false,
+    "mainTouched": false,
+    "canonicalMappingsTouched": false,
+    "gameplayChanged": false,
+    "playerDataTouched": false
+  },
+  "handoff": "01: independently inspect exact Bottoms 1-4 hashes at card/detail scale. 08: integrate only after qualified ACCEPT. 05: preserve exact versions pending review."
+}
