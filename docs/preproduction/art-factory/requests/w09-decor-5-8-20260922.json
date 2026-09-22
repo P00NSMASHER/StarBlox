@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 3,
+  "schemaVersion": 4,
   "kind": "STARBLOX_ART_FACTORY_BATCH_REQUEST",
   "planner": "12",
   "producer": "09",
@@ -8,7 +8,7 @@
   "integrationOwner": "08",
   "coordinationOwner": "15",
   "branch": "screenshot-match-preproduction",
-  "sourceHead": "afc03187973cbfd3a6a3579cef7848770c542027",
+  "sourceHead": "9984d6b76d28838e9ee7c3bd82c495981589507d",
   "manifestVersion": 33,
   "liveFallbackCount": 19,
   "batchId": "w09-decor-5-8-vnext",
@@ -18,18 +18,24 @@
     "decor-7",
     "decor-8"
   ],
-  "state": "DETERMINISTIC_OPTIMIZER_INPUT_PLAN_READY_NOT_GENERATED",
+  "state": "EXISTING_BATCH_REFRESHED__DECOR7_IDENTITY_CORRECTED__NO_SECOND_PLAN_CREATED",
   "routingBasis": {
     "activeBatch": "docs/preproduction/art-factory/ACTIVE_BATCH.json",
-    "activeBatchBlobSha": "254d08b8de0aa78540f3de8748c3455f6e38e878",
+    "activeBatchBlobSha": "dca5d3d3094dbd23381a36711a1fe1eae9b31f79",
     "assignmentState": "ACTIONABLE_REWORK_FACTORY_PILOT",
     "strictBlockerKind": "VISIBLE_GENERIC_FALLBACK_ART",
-    "candidateState": "NO_REPOSITORY_STAGED_DECOR_5_8_BYTES_OBSERVED",
-    "note": "Coordinator15 keeps Decor 5-8 as producer09's bounded first fallback-clearing pilot. Decor 9-12 remain gated until independent disposition. This refresh replaces no candidate and creates no second batch."
+    "candidateState": {
+      "decor-5": "NEWER_REPOSITORY_CANDIDATE_EXISTS_FREEZE_NO_DUPLICATE",
+      "decor-6": "EXACT_GIT_BLOB_CREATED_NOT_BRANCH_STAGED__READBACK_PENDING",
+      "decor-7": "NO_BRANCH_STAGED_CANDIDATE__PRIOR_LOCAL_ROLLER_SKATE_VARIANTS_HELD_FOR_PLAN_IDENTITY_MISMATCH",
+      "decor-8": "EXACT_GIT_BLOB_CREATED_NOT_BRANCH_STAGED__READBACK_PENDING"
+    },
+    "candidateEvidence": "docs/preproduction/art-factory/requests/w09-decor-6-8-staging-evidence-20260922.json",
+    "note": "Coordinator15 keeps Decor 5-8 as producer09's bounded first fallback-clearing pilot. Decor 9-12 remain gated until independent disposition. This refresh updates the existing request only; it does not create a second batch, stage pixels, or transfer any verdict."
   },
   "metadataSource": {
     "path": "src/gameModel.js",
-    "derivation": "Exact current Store metadata from collections/itemKinds/prices/theme/tier/starReq logic at sourceHead; preserve IDs/names/category/theme/tier/price/unlock."
+    "derivation": "Exact current Store metadata from collections/itemKinds/prices/theme/tier/starReq logic; preserve IDs/names/category/theme/tier/price/unlock."
   },
   "reviewSource": {
     "path": "docs/preproduction/catalog-sprint/reviews/14.json",
@@ -41,7 +47,10 @@
     "path": "docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg",
     "sha256": "b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d",
     "gitBlobSha": "383baa877d3af86fa92e3583740212000592b3d6",
-    "dimensions": [1448, 1086],
+    "dimensions": [
+      1448,
+      1086
+    ],
     "role": "FIRST_PARTY_STAR_BLOX_STORE_ART_DIRECTION"
   },
   "factoryPolicy": {
@@ -66,25 +75,72 @@
     "purpose": "Deterministic planner seeds for the bounded two-variant request. The later job compiler/runtime must record the exact compiled/executed seed actually used; never claim an unexposed service seed."
   },
   "provenanceRequirements": {
-    "prompt": ["optimizer input text+sha256", "optimizer output text+sha256", "variant id", "seed"],
-    "runtime": ["generator/provider", "API/service identity", "exposed model/checkpoint ID", "exposed revision", "runtime/tool revision"],
-    "conditioning": ["reference path", "exact reference hash", "reference role"],
-    "lineage": ["source repo path", "source sha256", "source git-blob sha1", "source bytes", "source dimensions", "derivative repo path", "derivative sha256", "derivative git-blob sha1", "derivative bytes", "derivative dimensions", "source->derivative transform"],
-    "rightsDomainsKeptSeparate": ["repository-code", "dataset/reference", "API/service", "custom-node", "model/checkpoint"],
+    "prompt": [
+      "optimizer input text+sha256",
+      "optimizer output text+sha256",
+      "variant id",
+      "seed"
+    ],
+    "runtime": [
+      "generator/provider",
+      "API/service identity",
+      "exposed model/checkpoint ID",
+      "exposed revision",
+      "runtime/tool revision"
+    ],
+    "conditioning": [
+      "reference path",
+      "exact reference hash",
+      "reference role"
+    ],
+    "lineage": [
+      "source repo path",
+      "source sha256",
+      "source git-blob sha1",
+      "source bytes",
+      "source dimensions",
+      "derivative repo path",
+      "derivative sha256",
+      "derivative git-blob sha1",
+      "derivative bytes",
+      "derivative dimensions",
+      "source->derivative transform"
+    ],
+    "rightsDomainsKeptSeparate": [
+      "repository-code",
+      "dataset/reference",
+      "API/service",
+      "custom-node",
+      "model/checkpoint"
+    ],
     "checkpointRule": "User attests full StarBlox model/checkpoint rights. Record exact model/checkpoint ID+revision only when exposed; use null when unavailable and never invent it."
   },
   "targetPathConvention": "public/assets/catalog-candidates/decor/<itemId>-w09-vnext-<variant>-original.<ext>; preserve exact source before any 600px derivative and do not canonically wire from this request.",
   "items": {
     "decor-5": {
-      "exactStoreMetadata": {"name": "Plant Wall", "collection": "Room Decor", "tier": 2, "theme": "Pixel Party", "price": 181, "starReq": 0},
+      "exactStoreMetadata": {
+        "name": "Plant Wall",
+        "collection": "Room Decor",
+        "tier": 2,
+        "theme": "Pixel Party",
+        "price": 181,
+        "starReq": 0
+      },
       "currentLegacy": {
         "path": "/assets/catalog/decor-5.svg",
         "gitBlobSha1": "0f7559a576177758d94dba1c3da27373a9151a2b",
         "reviewDecision": "REWORK",
-        "normalizedFailureTaxonomy": ["VISIBLE_GENERIC_FALLBACK_ART", "LEGACY_EXACT_HASH_REWORK"],
+        "normalizedFailureTaxonomy": [
+          "VISIBLE_GENERIC_FALLBACK_ART",
+          "LEGACY_EXACT_HASH_REWORK"
+        ],
         "humanReviewerReason": "Current reviewer14 shard preserves this exact legacy hash as REWORK but has no item-specific prose reason for this legacy Decor ID; do not invent or transfer a more specific failure code from another item."
       },
-      "optimizerStage": {"required": true, "status": "NOT_RUN_BY_PLANNER", "inputRule": "Run each base brief through the existing artPromptOptimizer before artFactoryJob compilation. Final generation prompt/hash must come from optimizer output; planner input hashes are not generation-output hashes."},
+      "optimizerStage": {
+        "required": true,
+        "status": "NOT_RUN_BY_PLANNER",
+        "inputRule": "Run each base brief through the existing artPromptOptimizer before artFactoryJob compilation. Final generation prompt/hash must come from optimizer output; planner input hashes are not generation-output hashes."
+      },
       "variants": [
         {
           "variantId": "A-PHYSICAL",
@@ -102,18 +158,33 @@
           "finalOptimizedPrompt": null,
           "finalPromptSha256": null
         }
-      ]
+      ],
+      "freezeState": "EXISTING_NEWER_REPOSITORY_CANDIDATE__DO_NOT_GENERATE_DUPLICATE"
     },
     "decor-6": {
-      "exactStoreMetadata": {"name": "Telescope", "collection": "Room Decor", "tier": 2, "theme": "Berry Blast", "price": 254, "starReq": 0},
+      "exactStoreMetadata": {
+        "name": "Telescope",
+        "collection": "Room Decor",
+        "tier": 2,
+        "theme": "Berry Blast",
+        "price": 254,
+        "starReq": 0
+      },
       "currentLegacy": {
         "path": "/assets/catalog/decor-6.svg",
         "gitBlobSha1": "3a8d81ea490f8bac42ef2147797a3926d69df9ef",
         "reviewDecision": "REWORK",
-        "normalizedFailureTaxonomy": ["VISIBLE_GENERIC_FALLBACK_ART", "LEGACY_EXACT_HASH_REWORK"],
+        "normalizedFailureTaxonomy": [
+          "VISIBLE_GENERIC_FALLBACK_ART",
+          "LEGACY_EXACT_HASH_REWORK"
+        ],
         "humanReviewerReason": "Current reviewer14 shard preserves this exact legacy hash as REWORK but has no item-specific prose reason for this legacy Decor ID; do not invent or transfer a more specific failure code from another item."
       },
-      "optimizerStage": {"required": true, "status": "NOT_RUN_BY_PLANNER", "inputRule": "Run each base brief through the existing artPromptOptimizer before artFactoryJob compilation. Final generation prompt/hash must come from optimizer output; planner input hashes are not generation-output hashes."},
+      "optimizerStage": {
+        "required": true,
+        "status": "NOT_RUN_BY_PLANNER",
+        "inputRule": "Run each base brief through the existing artPromptOptimizer before artFactoryJob compilation. Final generation prompt/hash must come from optimizer output; planner input hashes are not generation-output hashes."
+      },
       "variants": [
         {
           "variantId": "A-PHYSICAL",
@@ -131,47 +202,94 @@
           "finalOptimizedPrompt": null,
           "finalPromptSha256": null
         }
-      ]
+      ],
+      "freezeState": "EXACT_GIT_BLOB_EXISTS__NOT_BRANCH_STAGED__DO_NOT_GENERATE_DUPLICATE",
+      "existingDerivativeEvidence": {
+        "path": "public/assets/catalog/decor-6-w09-v2.webp",
+        "sha256": "61a12cba7ffb85d9e8666d4b984d26bdab95fb3759aa00abdda872ac3d04849a",
+        "gitBlobSha": "842c3089e86d5a2d190875526f94f6b63ccdf02c",
+        "bytes": 9294,
+        "dimensions": [
+          600,
+          600
+        ],
+        "branchReadback": "PENDING"
+      }
     },
     "decor-7": {
-      "exactStoreMetadata": {"name": "Skate Rack", "collection": "Room Decor", "tier": 3, "theme": "Garden Glow", "price": 348, "starReq": 2},
+      "exactStoreMetadata": {
+        "name": "Skate Rack",
+        "collection": "Room Decor",
+        "tier": 3,
+        "theme": "Garden Glow",
+        "price": 348,
+        "starReq": 2
+      },
       "currentLegacy": {
         "path": "/assets/catalog/decor-7.svg",
         "gitBlobSha1": "671c609625400bf5c2142daef73ab632bd1225a2",
         "reviewDecision": "REWORK",
-        "normalizedFailureTaxonomy": ["VISIBLE_GENERIC_FALLBACK_ART", "LEGACY_EXACT_HASH_REWORK"],
+        "normalizedFailureTaxonomy": [
+          "VISIBLE_GENERIC_FALLBACK_ART",
+          "LEGACY_EXACT_HASH_REWORK"
+        ],
         "humanReviewerReason": "Current reviewer14 shard preserves this exact legacy hash as REWORK but has no item-specific prose reason for this legacy Decor ID; do not invent or transfer a more specific failure code from another item."
       },
-      "optimizerStage": {"required": true, "status": "NOT_RUN_BY_PLANNER", "inputRule": "Run each base brief through the existing artPromptOptimizer before artFactoryJob compilation. Final generation prompt/hash must come from optimizer output; planner input hashes are not generation-output hashes."},
+      "optimizerStage": {
+        "required": true,
+        "status": "NOT_RUN_BY_PLANNER",
+        "inputRule": "Run each base brief through the existing artPromptOptimizer before artFactoryJob compilation. Final generation prompt/hash must come from optimizer output; planner input hashes are not generation-output hashes."
+      },
       "variants": [
         {
           "variantId": "A-PHYSICAL",
           "seed": 413260152,
-          "optimizerInput": "Skate Rack, Room Decor, Tier 3, Garden Glow. Create a substantial freestanding skateboard storage rack in three-quarter product view: warm oak side frames joined by sage-green powder-coated crossbars, three real skateboard decks stored vertically in shaped slots with visible trucks and wheels, a physically attached lower shoe shelf and small upper helmet hook rail, subtle leaf-shaped metal cutouts and one tiny planter integrated into the side frame. Show convincing joinery, weight-bearing feet, wood grain, metal fasteners and grounded contact shadow. No brand logos, readable text, floating boards or room-scene-first composition.",
-          "optimizerInputSha256": "8b4f6bc90d871d7f19f41da6f6492ace81a8baeb58d0a452f7ce3bc9b9bd6dae",
+          "optimizerInput": "Skate Rack, Room Decor, Tier 3, Garden Glow. Create a substantial freestanding roller-skate storage rack in three-quarter product view: warm oak side frames joined by sage-green powder-coated crossbars, with two clearly recognizable pairs of quad roller skates stored heel-down in shaped cubbies, visible boot uppers, toe stops, trucks and four wheels per skate. Add a physically attached lower accessory shelf and small upper helmet hook rail, subtle leaf-shaped metal cutouts and one tiny planter integrated into the side frame. Show convincing joinery, weight-bearing feet, wood grain, metal fasteners and grounded contact shadow. No skateboards, brand logos, readable text, floating skates or room-scene-first composition.",
+          "optimizerInputSha256": "a31317444c4865267a98090caef8312f604798a7570eb1e8874c7a2e78ab73c3",
           "finalOptimizedPrompt": null,
           "finalPromptSha256": null
         },
         {
           "variantId": "B-READABILITY",
           "seed": 1380235418,
-          "optimizerInput": "Skate Rack, Room Decor, Tier 3, Garden Glow. Design a clean A-frame skate organizer with two sturdy green metal uprights, a thick wood base, four clearly separated board channels and two skateboards plus one helmet as scale cues, leaving open slots visible so the rack reads immediately. Use botanical green, honey wood and small brass hardware, with one vine trellis detail that is physically attached and does not obscure the function. Strong asymmetrical silhouette, premium isolated three-quarter render, no logos, text, collage or flat symbol treatment.",
-          "optimizerInputSha256": "e9d5d33c6bf73c48ed9063e3c2b7d51db03c66261deab3554d1d468487b6b1d3",
+          "optimizerInput": "Skate Rack, Room Decor, Tier 3, Garden Glow. Design a clean A-frame roller-skate organizer with two sturdy botanical-green metal uprights, a thick honey-wood base, four clearly separated skate bays, and three visible quad roller skates as scale cues, each with a readable boot silhouette, paired axles and four wheels. Leave one empty bay visible so the storage function reads immediately. Use small brass hardware and one physically attached vine-trellis detail that does not obscure the rack. Strong asymmetrical silhouette, premium isolated three-quarter render, no skateboards, logos, text, collage or flat symbol treatment.",
+          "optimizerInputSha256": "7a614a160c4a2dca5312ec7ae6c10ccd90fd41e1628e7d15fd32c032f6e35de4",
           "finalOptimizedPrompt": null,
           "finalPromptSha256": null
         }
-      ]
+      ],
+      "identityCorrection": {
+        "basisPath": "public/assets/catalog/decor-7.svg",
+        "basisGitBlobSha1": "671c609625400bf5c2142daef73ab632bd1225a2",
+        "basisObservation": "The exact current legacy asset labeled Garden Glow Skate Rack depicts boot-shaped skates with wheels stored in a rack; it does not depict skateboard decks.",
+        "plannerCorrection": "Interpret Skate Rack as roller-skate storage for this item. The prior skateboard-deck prompt variants are retired and must not be used for new generation.",
+        "existingLocalGeneratedVariants": "PRESERVE_AS_UNSTAGED_EVIDENCE_ONLY_UNTIL_PRODUCER09_RECONCILES_PROVENANCE_WITH_THIS_CORRECTED_PLAN__NO_RETROACTIVE_CONFORMANCE_CLAIM"
+      }
     },
     "decor-8": {
-      "exactStoreMetadata": {"name": "Mini Aquarium", "collection": "Room Decor", "tier": 3, "theme": "Galaxy Glow", "price": 479, "starReq": 2},
+      "exactStoreMetadata": {
+        "name": "Mini Aquarium",
+        "collection": "Room Decor",
+        "tier": 3,
+        "theme": "Galaxy Glow",
+        "price": 479,
+        "starReq": 2
+      },
       "currentLegacy": {
         "path": "/assets/catalog/decor-8.svg",
         "gitBlobSha1": "87e33d5190b7a7ef21e23ae875dda8ae1808c4be",
         "reviewDecision": "REWORK",
-        "normalizedFailureTaxonomy": ["VISIBLE_GENERIC_FALLBACK_ART", "LEGACY_EXACT_HASH_REWORK"],
+        "normalizedFailureTaxonomy": [
+          "VISIBLE_GENERIC_FALLBACK_ART",
+          "LEGACY_EXACT_HASH_REWORK"
+        ],
         "humanReviewerReason": "Current reviewer14 shard preserves this exact legacy hash as REWORK but has no item-specific prose reason for this legacy Decor ID; do not invent or transfer a more specific failure code from another item."
       },
-      "optimizerStage": {"required": true, "status": "NOT_RUN_BY_PLANNER", "inputRule": "Run each base brief through the existing artPromptOptimizer before artFactoryJob compilation. Final generation prompt/hash must come from optimizer output; planner input hashes are not generation-output hashes."},
+      "optimizerStage": {
+        "required": true,
+        "status": "NOT_RUN_BY_PLANNER",
+        "inputRule": "Run each base brief through the existing artPromptOptimizer before artFactoryJob compilation. Final generation prompt/hash must come from optimizer output; planner input hashes are not generation-output hashes."
+      },
       "variants": [
         {
           "variantId": "A-PHYSICAL",
@@ -189,12 +307,26 @@
           "finalOptimizedPrompt": null,
           "finalPromptSha256": null
         }
-      ]
+      ],
+      "freezeState": "EXACT_GIT_BLOB_EXISTS__NOT_BRANCH_STAGED__DO_NOT_GENERATE_DUPLICATE",
+      "existingDerivativeEvidence": {
+        "path": "public/assets/catalog/decor-8-w09-v2.webp",
+        "sha256": "eda7946fcae74d1da202061276d33d62ca0446c4bdfd6fa1069a96bf9773db6d",
+        "gitBlobSha": "0d264aff9155f99b17db82138f4546deca8323d5",
+        "bytes": 13402,
+        "dimensions": [
+          600,
+          600
+        ],
+        "branchReadback": "PENDING"
+      }
     }
   },
   "freeze": {
     "decor1To4AcceptedCanonical": true,
     "decor9To12UntilReviewer14Disposition": true,
+    "decor5ExistingCandidateNoDuplicate": true,
+    "decor6And8ExistingExactGitBlobsNoDuplicate": true,
     "canonicalManifestAndRuntime": true,
     "gameplayLearningPersistenceEconomy": true,
     "mainReplitFlootDeployPaidSettingsSecretsPlayerData": true
@@ -204,6 +336,8 @@
     "reviewedPixels": false,
     "canonicalWiringChanged": false,
     "ciWorkflowChanged": false,
-    "note": "Planner12 only refreshed the existing Decor 5-8 request because the prior request lacked exact Store metadata, differentiated optimizer inputs, deterministic seeds and full provenance/routing detail required by the current planner role."
+    "secondPlanCreated": false,
+    "materialChange": "Corrected Decor7 item identity from skateboard storage to roller-skate storage using exact current legacy asset evidence, while freezing all existing Decor5/6/8 candidate evidence and preserving deterministic seeds.",
+    "note": "Planner12 refreshed the existing Decor 5-8 request only. No provider pixels, review verdicts, canonical mappings, ACTIVE_BATCH, ART_FACTORY_V2, workflow/CI, runtime, gameplay, learning, persistence, economy, secrets, paid settings, deployment, or player data were changed."
   }
 }
