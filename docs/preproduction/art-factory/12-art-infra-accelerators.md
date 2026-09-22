@@ -10,6 +10,7 @@ The authoritative implementation contract is now:
 - `docs/preproduction/art-factory/README.md`
 - `docs/preproduction/art-factory/ART_FACTORY_V2.json`
 - `docs/preproduction/art-factory/pilot_art_accelerators.py`
+- `docs/preproduction/art-factory/verify_staged_output.py`
 - `.github/workflows/art-factory-preflight.yml`
 
 ## Preferred production stack
@@ -38,7 +39,7 @@ The authoritative implementation contract is now:
 1. Run the manual **StarBlox Art Factory Preflight** workflow and preserve its report-only evidence.
 2. Use one current assigned REWORK item (not an ACCEPTed hash) for a 2–4 variant Diffusers/IP-Adapter or equivalent authorized-model pilot.
 3. Pass candidates through source-preserving alpha/matting only if transparency helps that exact item.
-4. Stage/read back exact bytes and render card/detail evidence through the existing fixture.
+4. Stage/read back exact bytes, run `verify_staged_output.py` to bind hashes/dimensions/lineage/reviewer routing to the compiled attempt, then render card/detail evidence through the existing fixture.
 5. Let the correct independent reviewer decide the exact hashes.
 6. Feed the outcome back into `artPromptOptimizer`; scale the recipe only if the bounded pilot improves acceptance/readability/reference fidelity.
 
