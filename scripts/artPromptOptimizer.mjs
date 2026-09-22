@@ -3,7 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import {pathToFileURL} from 'node:url';
-import {classifyFailure} from './artReviewNormalizer.mjs';
+import {classifyFailure,FAILURE_CODES} from './artReviewNormalizer.mjs';
 
 export const BLOCKS={
  metadata:'Use the exact catalog ID/name/collection/tier/theme. Do not rename, recategorize, or substitute the item.',
@@ -48,7 +48,8 @@ const uniq=a=>[...new Set(a.filter(Boolean))];
 
 export function inferRepair(review={}){
  const text=[review.reason,review.reasonCode,...(review.defects||[])].filter(Boolean).join(' '), blocks=[];
- const failureCodes=classifyFailure(review);
+ const explicitFailureCodes=uniq((review.failureCodes||[]).filter(code=>Object.prototype.hasOwnProperty.call(FAILURE_CODES,code)));
+ const failureCodes=explicitFailureCodes.length?explicitFailureCodes:classifyFailure(review);
  for(const code of failureCodes) blocks.push(...(FAILURE_BLOCKS[code]||[]));
  const f=Object.entries(review.checks||{}).filter(([,v])=>['FAIL','PARTIAL','REWORK','BLOCKED'].includes(String(v).toUpperCase())).map(([k])=>k);
  if(f.some(x=>/identity|silhouette/i.test(x))) blocks.push('category','silhouette');
