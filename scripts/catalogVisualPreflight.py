@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """Report-only visual preflight for StarBlox catalog rasters.
 
-This tool never ACCEPTs or REWORKs art. It records objective image metrics and
-perceptual-neighbor evidence so human reviewers can spend less time on obvious
-technical/duplicate failures.
+This tool never ACCEPTs or REWORKs art. It records objective image metrics,
+perceptual-neighbor evidence, and (when supplied) calibrated warning signals.
+Calibrated signals remain warnings only; independent exact-hash human review is
+always authoritative.
 """
 from __future__ import annotations
 
@@ -11,6 +12,7 @@ import argparse
 import hashlib
 import json
 import math
+import re
 import tempfile
 from pathlib import Path
 from typing import Iterable
@@ -18,6 +20,17 @@ from typing import Iterable
 from PIL import Image, ImageChops, ImageFilter, ImageOps, ImageStat
 
 ALLOWED = {".png", ".jpg", ".jpeg", ".webp"}
+
+CALIBRATION_METRICS = {
+    "sourceLuminanceContrastRange": ("source", "luminanceContrastRange"),
+    "sourceEntropyBits": ("source", "entropyBits"),
+    "sourceEdgeDensity": ("source", "edgeDensity"),
+    "thumbnailLuminanceContrastRange": ("thumbnail", "luminanceContrastRange"),
+    "thumbnailEntropyBits": ("thumbnail", "entropyBits"),
+    "thumbnailEdgeDensity": ("thumbnail", "edgeDensity"),
+    "nonTransparentRatio": ("source", "nonTransparentRatio"),
+    "contentBoundsRatio": ("source", "contentBoundsRatio"),
+}
 
 
 def sha256_bytes(data: bytes) -> str:
@@ -158,6 +171,17 @@ def scan_one(path: Path, thumbnail_size: int = 160) -> dict:
     }
 
 
+def item_id_from_path(path: Path) -> str | None:
+    match = re.match(r"^([a-z]+-\d+)(?:-|\.|$)", path.name, re.I)
+    return match.group(1).lower() if match else None
+
+
+def collection_from_item_id(item_id: str | None) -> str | None:
+    if not item_id or "-" not in item_id:
+        return None
+    return item_id.split("-", 1)[0].lower()
+
+
 def neighbor_files(directory: Path, exclude: Path | None = None) -> Iterable[Path]:
     if not directory.exists():
         return []
@@ -171,36 +195,149 @@ def neighbor_files(directory: Path, exclude: Path | None = None) -> Iterable[Pat
     return sorted(items)
 
 
-def compare_neighbors(target: dict, paths: Iterable[Path], limit: int = 12) -> list[dict]:
+def compare_neighbors(target: dict, target_path: Path, paths: Iterable[Path], limit: int = 12) -> list[dict]:
     rows = []
     ta = target["source"]["aHash"]
     td = target["source"]["dHash"]
+    target_item_id = item_id_from_path(target_path)
     for path in paths:
+        other_item_id = item_id_from_path(path)
+        if target_item_id and other_item_id == target_item_id:
+            continue
         try:
             row = scan_one(path)
         except Exception as exc:
             rows.append({"path": path.as_posix(), "error": type(exc).__name__ + ": " + str(exc)})
             continue
-        rows.append({
-            "path": path.as_posix(),
-            "sha256": row["sha256"],
-            "exactByteDuplicate": row["sha256"] == target["sha256"],
-            "aHashDistance": hamming_hex(ta, row["source"]["aHash"]),
-            "dHashDistance": hamming_hex(td, row["source"]["dHash"]),
-            "combinedDistance": hamming_hex(ta, row["source"]["aHash"]) + hamming_hex(td, row["source"]["dHash"]),
-        })
+        rows.append(
+            {
+                "path": path.as_posix(),
+                "itemId": other_item_id,
+                "collectionId": collection_from_item_id(other_item_id),
+                "sha256": row["sha256"],
+                "exactByteDuplicate": row["sha256"] == target["sha256"],
+                "aHashDistance": hamming_hex(ta, row["source"]["aHash"]),
+                "dHashDistance": hamming_hex(td, row["source"]["dHash"]),
+                "combinedDistance": hamming_hex(ta, row["source"]["aHash"])
+                + hamming_hex(td, row["source"]["dHash"]),
+            }
+        )
     good = [x for x in rows if "error" not in x]
     bad = [x for x in rows if "error" in x]
     good.sort(key=lambda x: (not x["exactByteDuplicate"], x["combinedDistance"], x["path"]))
     return good[:limit] + bad[: max(0, limit - len(good[:limit]))]
 
 
-def build_report(path: Path, neighbors: Path | None = None, thumbnail_size: int = 160, limit: int = 12) -> dict:
+def nested_metric(target: dict, feature: str) -> float | None:
+    metric_path = CALIBRATION_METRICS.get(feature)
+    if not metric_path:
+        return None
+    value = target
+    for key in metric_path:
+        if not isinstance(value, dict) or key not in value:
+            return None
+        value = value[key]
+    return float(value) if isinstance(value, (int, float)) else None
+
+
+def neighbor_feature(report: dict, feature: str) -> float | None:
+    rows = [row for row in report.get("nearestNeighbors", []) if "error" not in row]
+    if not rows:
+        return None
+    if feature == "nearestAnyDistance":
+        values = [row["combinedDistance"] for row in rows]
+        return float(min(values)) if values else None
+    if feature == "nearestSameCollectionDistance":
+        collection = report.get("targetCollectionId")
+        values = [
+            row["combinedDistance"]
+            for row in rows
+            if collection and row.get("collectionId") == collection
+        ]
+        return float(min(values)) if values else None
+    return None
+
+
+def threshold_predict(value: float, direction: str, threshold: float) -> bool:
+    if direction == "LE":
+        return value <= threshold
+    if direction == "GE":
+        return value >= threshold
+    return False
+
+
+def apply_calibration(report: dict, calibration: dict | None) -> None:
+    report["calibratedWarnings"] = []
+    report["calibrationEvidence"] = {
+        "provided": bool(calibration),
+        "warningReadyFeatureCount": 0,
+        "evaluatedFeatureCount": 0,
+        "blockingEnabled": False,
+    }
+    if not calibration:
+        return
+
+    candidates = calibration.get("warningCandidates") or {}
+    for feature, row in sorted(candidates.items()):
+        if not row.get("warningReady") or row.get("blockingEnabled"):
+            continue
+        candidate = row.get("candidate") or {}
+        direction = candidate.get("direction")
+        threshold = candidate.get("threshold")
+        if direction not in {"LE", "GE"} or not isinstance(threshold, (int, float)):
+            continue
+
+        value = nested_metric(report["target"], feature)
+        if value is None:
+            value = neighbor_feature(report, feature)
+        if value is None:
+            continue
+
+        triggered = threshold_predict(float(value), direction, float(threshold))
+        entry = {
+            "feature": feature,
+            "value": value,
+            "direction": direction,
+            "threshold": threshold,
+            "triggered": triggered,
+            "leaveOneOut": row.get("leaveOneOut"),
+            "status": "REPORT_ONLY_WARNING" if triggered else "CALIBRATED_NO_WARNING",
+            "blocking": False,
+        }
+        report["calibratedWarnings"].append(entry)
+
+    report["calibrationEvidence"] = {
+        "provided": True,
+        "schemaVersion": calibration.get("schemaVersion"),
+        "warningReadyFeatureCount": sum(
+            1 for row in candidates.values() if row.get("warningReady")
+        ),
+        "evaluatedFeatureCount": len(report["calibratedWarnings"]),
+        "triggeredWarningCount": sum(
+            1 for row in report["calibratedWarnings"] if row["triggered"]
+        ),
+        "blockingEnabled": False,
+        "sourcePolicy": calibration.get("policy"),
+        "readiness": calibration.get("readiness"),
+    }
+    report["policy"]["thresholdsCalibrated"] = bool(
+        report["calibrationEvidence"]["warningReadyFeatureCount"]
+    )
+
+
+def build_report(
+    path: Path,
+    neighbors: Path | None = None,
+    thumbnail_size: int = 160,
+    limit: int = 12,
+    calibration: dict | None = None,
+) -> dict:
     if path.suffix.lower() not in ALLOWED:
         raise ValueError("preflight accepts PNG/JPEG/WebP only")
     target = scan_one(path, thumbnail_size=thumbnail_size)
+    item_id = item_id_from_path(path)
     report = {
-        "schemaVersion": 1,
+        "schemaVersion": 2,
         "kind": "STARBLOX_CATALOG_VISUAL_PREFLIGHT",
         "policy": {
             "reportOnly": True,
@@ -208,12 +345,21 @@ def build_report(path: Path, neighbors: Path | None = None, thumbnail_size: int 
             "automaticRework": False,
             "humanExactHashReviewRequired": True,
             "thresholdsCalibrated": False,
+            "calibratedWarningsAreBlocking": False,
         },
+        "targetItemId": item_id,
+        "targetCollectionId": collection_from_item_id(item_id),
         "target": target,
         "nearestNeighbors": [],
     }
     if neighbors:
-        report["nearestNeighbors"] = compare_neighbors(target, neighbor_files(neighbors, path), limit=limit)
+        report["nearestNeighbors"] = compare_neighbors(
+            target,
+            path,
+            neighbor_files(neighbors, path),
+            limit=limit,
+        )
+    apply_calibration(report, calibration)
     return report
 
 
@@ -224,23 +370,57 @@ def self_test() -> None:
         for x in range(28, 100):
             for y in range(20, 108):
                 a.putpixel((x, y), (60 + (x % 40), 120, 220, 255))
-        p1 = root / "a.png"
-        p2 = root / "same-different-compression.webp"
-        p3 = root / "different.png"
+        p1 = root / "auras-1-w11-v2.png"
+        p2 = root / "auras-2-w11-v2.webp"
+        p3 = root / "wall-1-w05-v2.png"
         a.save(p1)
         a.convert("RGB").save(p2, quality=82)
         b = Image.new("RGB", (128, 128), (245, 215, 40))
-        b = ImageChops.add(b, Image.new("RGB", (128, 128), (0, 20, 40)), scale=1.0)
+        b = ImageChops.add(
+            b,
+            Image.new("RGB", (128, 128), (0, 20, 40)),
+            scale=1.0,
+        )
         b.save(p3)
-        report = build_report(p1, root)
-        assert report["policy"]["reportOnly"] is True
-        assert report["target"]["source"]["width"] == 128
-        assert report["target"]["source"]["hasAlpha"] is True
-        assert len(report["nearestNeighbors"]) == 2
-        same = next(x for x in report["nearestNeighbors"] if x["path"].endswith("same-different-compression.webp"))
-        different = next(x for x in report["nearestNeighbors"] if x["path"].endswith("different.png"))
-        assert same["combinedDistance"] <= different["combinedDistance"]
-        assert same["exactByteDuplicate"] is False
+
+        baseline = build_report(p1, root)
+        assert baseline["policy"]["reportOnly"] is True
+        assert baseline["target"]["source"]["width"] == 128
+        assert baseline["target"]["source"]["hasAlpha"] is True
+        assert baseline["targetItemId"] == "auras-1"
+        # Same-item historical versions would be excluded; auras-2 and wall-1 remain.
+        assert len(baseline["nearestNeighbors"]) == 2
+
+        calibration = {
+            "schemaVersion": 2,
+            "policy": {"reportOnly": True, "blockingThresholdActivation": False},
+            "readiness": {"automaticThresholdActivation": False},
+            "warningCandidates": {
+                "sourceEntropyBits": {
+                    "warningReady": True,
+                    "blockingEnabled": False,
+                    "candidate": {
+                        "direction": "GE",
+                        "threshold": 0.0,
+                    },
+                    "leaveOneOut": {
+                        "falsePositiveRate": 0.05,
+                        "recall": 0.5,
+                        "balancedAccuracy": 0.7,
+                    },
+                },
+                "sourceEdgeDensity": {
+                    "warningReady": False,
+                    "blockingEnabled": False,
+                    "candidate": {"direction": "LE", "threshold": 0.2},
+                },
+            },
+        }
+        report = build_report(p1, root, calibration=calibration)
+        assert report["policy"]["thresholdsCalibrated"] is True
+        assert report["policy"]["calibratedWarningsAreBlocking"] is False
+        assert report["calibrationEvidence"]["triggeredWarningCount"] == 1
+        assert report["calibratedWarnings"][0]["blocking"] is False
         print("SELF_TEST=PASS")
 
 
@@ -251,6 +431,7 @@ def main() -> None:
     scan = sub.add_parser("scan")
     scan.add_argument("--input", required=True)
     scan.add_argument("--neighbors")
+    scan.add_argument("--calibration")
     scan.add_argument("--thumbnail", type=int, default=160)
     scan.add_argument("--limit", type=int, default=12)
     scan.add_argument("--output")
@@ -258,7 +439,19 @@ def main() -> None:
     if args.command == "self-test":
         self_test()
         return
-    report = build_report(Path(args.input), Path(args.neighbors) if args.neighbors else None, args.thumbnail, args.limit)
+
+    calibration = (
+        json.loads(Path(args.calibration).read_text())
+        if args.calibration
+        else None
+    )
+    report = build_report(
+        Path(args.input),
+        Path(args.neighbors) if args.neighbors else None,
+        args.thumbnail,
+        args.limit,
+        calibration=calibration,
+    )
     text = json.dumps(report, indent=2) + "\n"
     if args.output:
         dest = Path(args.output)
