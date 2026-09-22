@@ -1,13 +1,16 @@
 {
-  "schemaVersion": 12,
+  "schemaVersion": 13,
   "lane": "09",
   "workstream": "09",
   "phase": "ART_AND_VISUALS_ONLY",
   "protocol": "DELIVERY_PROTOCOL_V2",
   "branch": "screenshot-match-preproduction",
-  "status": "TOPS_11_12_V7_EXACT_BYTES_UNAVAILABLE_CURRENT_RUNTIME_RAW_BLOB_PATH_CONFIRMED_DECOR_3_4_REFERENCE_PLAN_READY_GATED",
+  "status": "DECOR_3_4_V3_STAGED_EXACT_BYTES_PENDING_REVIEW14_CARD_DETAIL_PIXELS_TOPS11_12_V7_RECEIPTS_FROZEN",
   "assignmentSource": "docs/preproduction/ART_VISUALS_SPRINT.json",
-  "reviewOwner": "01",
+  "activeBatchSource": "docs/preproduction/art-factory/ACTIVE_BATCH.json",
+  "coordinator": "15",
+  "currentReviewOwner": "14",
+  "topsReviewOwner": "01",
   "integrationOwner": "08",
   "safeguards": {
     "selfApproved": false,
@@ -17,172 +20,57 @@
     "replitOrFlootInvoked": false,
     "realPlayerDataChanged": false,
     "acceptedTops1Through10Preserved": true,
-    "decorStarted": false
+    "acceptedDecor1Through2Preserved": true,
+    "decor5Through12Started": false
   },
-  "latestReviewer01": {
-    "reviewBlobSha": "4a18fafa718781cfdc518fbfd9bab6d422cbcfd7",
-    "sourceHead": "6d07f54217b7f637499b83ff68c37fd950df477d",
-    "tops11": {
-      "path": "/assets/catalog/tops-11-w09-v6.jpg",
-      "blob": "061a749472ad71e61732ac3a9629c42d54b4e580",
-      "decision": "BLOCKED",
-      "reasonCode": "V6_NO_QUALIFIED_CARD_DETAIL_PIXELS_SHARED_SIGNATURE_GATE_FAIL_AFTER_TWO_RENDER_ATTEMPTS",
-      "visualQuality": "UNDECIDED"
+  "tops11_12Frozen": {
+    "rule": "Do not regenerate, re-encode, approximately reconstruct, reuse v6, or attach mismatched bytes. Preserve v7 receipts until the authoritative payload appears.",
+    "v6": {
+      "tops11": {"path": "/assets/catalog/tops-11-w09-v6.jpg", "blob": "061a749472ad71e61732ac3a9629c42d54b4e580", "decision": "BLOCKED_INVALID_SIGNATURE"},
+      "tops12": {"path": "/assets/catalog/tops-12-w09-v6.jpg", "blob": "e9d462cb222c2ff20e220e237cb3890e1e6eb76c", "decision": "BLOCKED_INVALID_SIGNATURE"}
     },
-    "tops12": {
-      "path": "/assets/catalog/tops-12-w09-v6.jpg",
-      "blob": "e9d462cb222c2ff20e220e237cb3890e1e6eb76c",
-      "decision": "BLOCKED",
-      "reasonCode": "V6_NO_QUALIFIED_CARD_DETAIL_PIXELS_SHARED_SIGNATURE_GATE_FAIL_AFTER_TWO_RENDER_ATTEMPTS",
-      "visualQuality": "UNDECIDED"
-    },
-    "sharedEvidence": {
-      "workflowRunId": 35687207417,
-      "rerunJobId": 106617438415,
-      "artifactId": 10677595359,
-      "finding": "Both exact v6 repository blobs were rejected by the shared staged-art signature gate before card/detail rendering."
+    "v7Receipts": {
+      "tops11": {"plannedPath": "/assets/catalog/tops-11-w09-v7.webp", "bytes": 22824, "dimensions": [600,600], "sha256": "b021eb2773dbe902debf39216eeeca51c5f8db7b7ef137a177a46969bb27a2fa", "expectedGitBlob": "0641cd1563cd9f683d685231c52a28c9f66424be", "state": "GENERATED_LOCAL_RECEIPT_ONLY_PAYLOAD_UNAVAILABLE"},
+      "tops12": {"plannedPath": "/assets/catalog/tops-12-w09-v7.webp", "bytes": 30026, "dimensions": [600,600], "sha256": "f0a76bcf14af0bc9d0ff9fb0ea5fb2980181a9873a1f034ab41f9633d8b1f94a", "expectedGitBlob": "9f13c65b0310a70be3fb1e6464baf22dabe75ce1", "state": "GENERATED_LOCAL_RECEIPT_ONLY_PAYLOAD_UNAVAILABLE"}
     }
   },
-  "v6ProducerReconciliation": {
-    "result": "CONFIRMED_SIGNATURE_MISMATCH",
-    "tops11Fetch": "GitHub base64 readback for the exact v6 path does not begin with a JPEG FF D8 signature despite the .jpg extension.",
-    "tops12": "Reviewer-01 shared evidence records the same invalid-signature class for the exact v6 blob.",
-    "action": "Do not reuse either v6 hash."
-  },
-  "currentRepairBatch": {
-    "version": "v7",
-    "status": "GENERATED_LOCAL_RECEIPT_PRESERVED_EXACT_PAYLOAD_NOT_MOUNTED_THIS_RUNTIME",
-    "sourceGenerationId": "183f523f-ccbb-4de7-ad41-185508d12295",
-    "note": "Do not regenerate or re-encode. The authoritative v7 receipt remains the exact byte/hash metadata below. Current execution storage does not contain the checksum-matching WEBP payloads, so no repository staging claim is made.",
+  "decor3_4FactoryPilot": {
+    "batchId": "w09-decor-3-4-v3",
+    "state": "STAGED_EXACT_BYTES_PENDING_REVIEW14_RENDER_AND_DECISION",
+    "sourceHead": "a8cc58c8bcf14ae66388a571c672c4aec23cc88c",
+    "legacyReviewBases": {
+      "decor-3": {"path": "/assets/catalog/decor-3.svg", "blob": "4fc2f591915f53b249956c20c50693ad22e3a1bb", "decision": "REWORK", "reviewer": "14", "reasonCode": "FLAT_PRODUCT_ICON"},
+      "decor-4": {"path": "/assets/catalog/decor-4.svg", "blob": "cb4bc4cfca9bdd4764905fdf94aa8291605f1ce0", "decision": "REWORK", "reviewer": "14", "reasonCode": "FLAT_PRODUCT_ICON"}
+    },
+    "reference": {"path": "docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg", "sha256": "4e21df57778c17ce2c10958b61cb8a5c14f8bccdc703f8f0f6b57de8aa36829d", "dimensions": [1448,1086]},
+    "factoryCode": {"artPromptOptimizerBlob": "7d9155fb60533d5e5134a18a444130a9f3b9567f", "artFactoryJobBlob": "75cf3db80cfead3b6818de1cbdb6640627459e70", "verifyStagedOutputBlob": "cd5a33bd80af44e0b53bd0fb3782509d0eb2929d", "activeBatchBlob": "dffb1d6883926777e03317c679878f4c44dcdfff"},
+    "rightsDomains": {"starBloxReference": "FIRST_PARTY_PROJECT_SOURCE", "generatedOutput": "AUTHORIZED_OPENAI_IMAGE_GEN_SERVICE_OUTPUT_FOR_USER_PROJECT", "serviceModelCheckpoint": "SERVICE_GOVERNED_REVISION_UNEXPOSED_BY_TOOL", "thirdPartyBrandsOrCharacters": "NONE"},
+    "generationProvenance": {"generator": "openai/image_gen", "runtime": "openai/image_gen-tool", "modelRevision": "UNEXPOSED_BY_TOOL", "executionSeed": null, "seedExposure": "UNEXPOSED_BY_TOOL", "jobSeedPolicy": "Compiled deterministic seeds are recorded but are not falsely claimed as confirmed service execution seeds.", "conditioningReferenceSha256": "4e21df57778c17ce2c10958b61cb8a5c14f8bccdc703f8f0f6b57de8aa36829d"},
     "items": [
       {
-        "id": "tops-11",
-        "name": "Cloud Jacket",
-        "category": "Tops",
-        "tier": 4,
-        "theme": "Candy Core",
-        "plannedPath": "/assets/catalog/tops-11-w09-v7.webp",
-        "format": "WEBP",
-        "dimensions": [600, 600],
-        "bytes": 22824,
-        "expectedGitBlobIfTransferredExactly": "0641cd1563cd9f683d685231c52a28c9f66424be",
-        "sha256": "b021eb2773dbe902debf39216eeeca51c5f8db7b7ef137a177a46969bb27a2fa",
-        "localDecodeAtCreation": "PASS",
-        "signature": "RIFF....WEBP",
-        "visualTarget": "Padded Candy Core jacket with wrapped torso/sleeve baffles, seam compression, recessed hood depth, attached sleeve volume, tactile textile response, zipper/pocket hardware and contact/form lighting.",
-        "state": "GENERATED_LOCAL_RECEIPT_ONLY_CURRENT_RUNTIME"
+        "id": "decor-3", "name": "Arcade Mini", "collection": "Room Decor", "tier": 1, "theme": "Adventure Club", "price": 94, "starReq": 0,
+        "planSha256": "b63e5a9e3d729ed82835c67e366c86569a83fde1d60b3816be05f5f2d1afa2de",
+        "attempts": [
+          {"variant": "A-PHYSICAL", "attemptId": "decor-3-w09-a-physical-f04a926ada", "promptSha256": "f04a926ada54131d343451f3e8eb958ec409caa4ca9503892917bc3c701f4db8", "seed": 63109166, "generationId": "827d46f5-a368-4439-bcaa-5df77fe58d69", "sourceSha256": "6e848a3453b8bd26bc3f603533326110a7e507d5558a42e2e56a2158c337c9a9", "sourceBytes": 2126243, "sourceDimensions": [1254,1254]},
+          {"variant": "B-READABILITY", "attemptId": "decor-3-w09-b-readability-3608359ae1", "promptSha256": "3608359ae1c828d508adf38bf1ef5ca029d0c00e05a48f21b2db7a395ea971db", "seed": 884418808, "generationId": "5a6d19d4-dd8b-4655-89b2-a7b9122a3949", "sourceSha256": "10c02ef422932af856a0393d54c3accf8dea22f209fc8d0f1083433084213dca", "sourceBytes": 1906296, "sourceDimensions": [1254,1254], "selected": true}
+        ],
+        "derivative": {"path": "/assets/catalog/decor-3-w09-v3.webp", "repoPath": "public/assets/catalog/decor-3-w09-v3.webp", "format": "WEBP", "dimensions": [600,600], "bytes": 15054, "sha256": "f8af8283fca711a4173d86b3a7bee713514ab9189baffe3818619286704447ea", "gitBlob": "5c9e3ad9b88b29c8ffb67d262f828f38d24763be", "derivativeOfSha256": "10c02ef422932af856a0393d54c3accf8dea22f209fc8d0f1083433084213dca", "derivation": "Lanczos 600x600 + WebP quality 20 method 6"},
+        "verify": {"status": "STAGED_EXACT_BYTES_VERIFIED", "reviewer": "14", "recordSha256": "b3d5c84021c8d310e183274a8369002c3c6bb54446326abb6e2ccb4c62ddbe36"},
+        "review": {"state": "PENDING_ACTUAL_PIXEL_REVIEW", "reviewer": "14"}
       },
       {
-        "id": "tops-12",
-        "name": "Star Coat",
-        "category": "Tops",
-        "tier": 5,
-        "theme": "Adventure Club",
-        "plannedPath": "/assets/catalog/tops-12-w09-v7.webp",
-        "format": "WEBP",
-        "dimensions": [600, 600],
-        "bytes": 30026,
-        "expectedGitBlobIfTransferredExactly": "9f13c65b0310a70be3fb1e6464baf22dabe75ce1",
-        "sha256": "f0a76bcf14af0bc9d0ff9fb0ea5fb2980181a9873a1f034ab41f9633d8b1f94a",
-        "localDecodeAtCreation": "PASS",
-        "signature": "RIFF....WEBP",
-        "visualTarget": "Long Tier-5 Adventure Club outerwear with three-quarter torso depth, overlapping storm/yoke layers, quilted loft, woven drape/fold tension, belt/pockets/compass hardware, material-specific metal highlights and grounded shadow.",
-        "state": "GENERATED_LOCAL_RECEIPT_ONLY_CURRENT_RUNTIME"
+        "id": "decor-4", "name": "Plush Stack", "collection": "Room Decor", "tier": 2, "theme": "Cloud Pop", "price": 123, "starReq": 0,
+        "planSha256": "10ee81341cf0e967ede41ea3ada985ee30497d182cfea9f2585d35da36934dcc",
+        "attempts": [
+          {"variant": "A-PHYSICAL", "attemptId": "decor-4-w09-a-physical-e66619f1d6", "promptSha256": "e66619f1d63b2c61f653d5dcf4e791f9b5a8ba75d0f549b25b21fe04b223d371", "seed": 825278190, "generationId": "dfd1b93c-b999-4b05-9d17-fc6056f327ec", "sourceSha256": "eb7e925ee8317f36dd2c68f24d18a5ee4ee5dbf4cd13dc54fe85edc2015ff8c6", "sourceBytes": 1665915, "sourceDimensions": [1254,1254]},
+          {"variant": "B-READABILITY", "attemptId": "decor-4-w09-b-readability-64e300b260", "promptSha256": "64e300b26037ebfa1754b03645ed86a1e2f754dbaa4e68da728b7b6fb6638267", "seed": 1698104804, "generationId": "07a6c57e-7fd5-42fe-aa1b-76b6dcb71335", "sourceSha256": "957bf29cf6e2f8fbb9e8aed1c92b10c6187b21d138bbd890c3f448e46a9ea822", "sourceBytes": 2234368, "sourceDimensions": [1254,1254], "selected": true}
+        ],
+        "derivative": {"path": "/assets/catalog/decor-4-w09-v3.webp", "repoPath": "public/assets/catalog/decor-4-w09-v3.webp", "format": "WEBP", "dimensions": [600,600], "bytes": 8142, "sha256": "33fae2db0be4246cf0763f7572731dc679f896b064e60aee085944c5e1d8b5ce", "gitBlob": "8393d0b8108dfcc6882a75a9e50293f26d8f6989", "derivativeOfSha256": "957bf29cf6e2f8fbb9e8aed1c92b10c6187b21d138bbd890c3f448e46a9ea822", "derivation": "Lanczos 600x600 + WebP quality 20 method 6"},
+        "verify": {"status": "STAGED_EXACT_BYTES_VERIFIED", "reviewer": "14", "recordSha256": "2f6e02bf86bebe27605a5f03dabd3c4b9bf2d03404cea60fb012127165af2fd0"},
+        "review": {"state": "PENDING_ACTUAL_PIXEL_REVIEW", "reviewer": "14"}
       }
     ]
   },
-  "transport": {
-    "status": "BLOCKED_AUTHORITATIVE_V7_PAYLOAD_UNAVAILABLE",
-    "newSupportedPath": "GitHub raw blob creation now supports caller-supplied base64 bytes without text transcoding. This is suitable for exact binary persistence once the authoritative v7 byte payload is available.",
-    "objectStoreCheck": {
-      "tops11ExpectedBlob": "0641cd1563cd9f683d685231c52a28c9f66424be",
-      "tops11ExpectedBlobPresent": false,
-      "tops12ExpectedBlob": "9f13c65b0310a70be3fb1e6464baf22dabe75ce1",
-      "tops12ExpectedBlobPresent": false,
-      "finding": "Both expected exact Git blob lookups returned not found, so the authoritative v7 payload is not already recoverable from repository object storage."
-    },
-    "payloadRecoveryCheck": "Current runtime, conversation files and Library were checked for the exact v7 filenames/receipts; no checksum-matching 22,824-byte or 30,026-byte WEBP payload is available. A local reconstruction search against the preserved source generation did not produce the authoritative SHA-256 values and was not accepted as a substitute.",
-    "actionsArtifactRecovery": {
-      "materiallyNewSupportedSourceTested": true,
-      "workflowRunId": 35688873663,
-      "artifactId": 10677797142,
-      "artifactName": "catalog-staged-art-review",
-      "result": "NO_V7_PAYLOAD",
-      "contentsRelevantToLane09": [
-        "screenshots/tops-11-43a850ec.png",
-        "screenshots/tops-12-73339e6c.png",
-        "staged-art-report.json",
-        "summary.md"
-      ],
-      "finding": "Run-specific GitHub Actions artifact download is a supported recovery path, but this artifact contains only prior v5 rendered evidence and no authoritative v7 WEBP bytes. No further attachment attempt was made."
-    },
-    "attemptedBranchAttachment": false,
-    "requiredNextAction": "Restore or mount the exact original 22,824-byte tops-11 v7 WEBP and 30,026-byte tops-12 v7 WEBP payloads, or have an approved helper transfer those exact bytes. Then create raw Git blobs and require returned blob SHAs to equal 0641cd1563cd9f683d685231c52a28c9f66424be and 9f13c65b0310a70be3fb1e6464baf22dabe75ce1 before attaching either path. After branch attachment, 09 must reread each path and verify SHA-256/bytes/600x600 decode, then run shared card/detail QA and hand only those exact hashes to reviewer01.",
-    "doNot": "Do not regenerate, recompress, reconstruct approximately, reuse v6, attach mismatched orphan blobs, or self-approve."
-  },
-  "referenceGroundedDecorPlanning": {
-    "status": "PLANNING_ONLY_NOT_GENERATED_NOT_STAGED_GATE_CLOSED",
-    "purpose": "Use spare art-only capacity without opening Decor production while Tops 11-12 remain unresolved.",
-    "sourceOfTruth": {
-      "storeReferencePath": "docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg",
-      "manifestPath": "docs/preproduction/reference-screenshots/original-reference-manifest.json",
-      "dimensions": [1448, 1086],
-      "bytes": 771971,
-      "sha256": "4e21df57778c17ce2c10958b61cb8a5c14f8bccdc703f8f0f6b57de8aa36829d",
-      "actualPixelsInspected": true,
-      "observedTarget": "Premium toy-like boutique presentation with soft pink/lilac architecture, warm peach key light, glossy fixture highlights, dimensional fabric/object shading, clean silhouettes, restrained negative space and physically believable contact shadows/material separation."
-    },
-    "reviewer14Current": {
-      "reviewSourceHead": "8d7db7286346a72932bc7ee7c56953eda5e5cd48",
-      "familyFinding": "decor-1 and decor-2 current replacement hashes ACCEPT; decor-3 through decor-12 remain REWORK at prior reviewed hashes.",
-      "preserveAcceptedDecor": ["decor-1", "decor-2"]
-    },
-    "sharedCardContract": {
-      "camera": "Consistent three-quarter product view with slight downward pitch; show front face plus one meaningful side/top plane so construction reads without rotation.",
-      "framing": "Single physical object/group centered with clear silhouette and breathing room; primary mass should remain readable at 220x220 card scale and support 600x600 detail inspection.",
-      "lighting": "Soft warm upper-left key, gentle cool/pink ambient fill, controlled specular response by material, and a grounded contact/cast shadow; no flat outline-only shading.",
-      "background": "Simple boutique-compatible lilac/pink neutral field with soft depth only; no promotional sheet, text, UI chrome, logos, characters or competing props.",
-      "materialRule": "Material identity must survive card scale: painted/molded hard surfaces show edge bevels and specular rolloff; textiles show seams, nap/compression and soft highlights; metal/glass show restrained reflections.",
-      "gate": "Specification only. Do not generate or stage until Tops 11-12 have valid repository hashes, clean card/detail evidence and reviewer01 disposition."
-    },
-    "pilot": [
-      {
-        "id": "decor-3",
-        "name": "Arcade Mini",
-        "collection": "Room Decor",
-        "tier": 1,
-        "theme": "Adventure Club",
-        "price": 94,
-        "starReq": 0,
-        "currentPath": "/assets/catalog/decor-3.svg",
-        "currentBlob": "4fc2f591915f53b249956c20c50693ad22e3a1bb",
-        "currentDisposition": "REWORK_BY_REVIEWER14_FAMILY_FINDING",
-        "plannedVersionStem": "/assets/catalog/decor-3-w09-v3",
-        "state": "PLANNING_ONLY",
-        "visualSpec": "Compact functional tabletop arcade cabinet, unmistakably readable as an arcade machine: beveled Adventure Club navy/teal shell with cream/brass accents, inset glass screen showing an original abstract star-navigation game, separate joystick and button deck, recessed speaker/coin-detail area, visible cabinet side thickness, rubber feet and soft floor/table contact shadow. Keep Tier 1 appealing through clean proportions and material quality rather than excessive ornament; no third-party game imagery, logos or text."
-      },
-      {
-        "id": "decor-4",
-        "name": "Plush Stack",
-        "collection": "Room Decor",
-        "tier": 2,
-        "theme": "Cloud Pop",
-        "price": 123,
-        "starReq": 0,
-        "currentPath": "/assets/catalog/decor-4.svg",
-        "currentBlob": "cb4bc4cfca9bdd4764905fdf94aa8291605f1ce0",
-        "currentDisposition": "REWORK_BY_REVIEWER14_FAMILY_FINDING",
-        "plannedVersionStem": "/assets/catalog/decor-4-w09-v3",
-        "state": "PLANNING_ONLY",
-        "visualSpec": "A physically stacked trio of original Cloud Pop plush decor pieces with distinct silhouettes, not recolored blobs: broad cloud cushion base, rounded sleepy plush center, smaller star/cloud accent top. Show textile nap, stitched panel seams, embroidered details, edge piping, compression where pieces touch, subtle squash at the base and soft self-shadowing between layers. Tier 2 should feel richer than Starter through construction and tactile detail while staying cozy and uncluttered; no branded character likenesses or emoji treatment."
-      }
-    ]
-  },
-  "handoff": {
-    "reviewer": "01",
-    "condition": "Only after exact v7 bytes are repository-stored/read back and shared staged-art card/detail pixels exist, review those NEW exact hashes independently.",
-    "integrationOwner": "08",
-    "selfApproval": false
-  },
-  "decorGate": "Do not start Decor production until Tops 11-12 obtain valid new repository hashes, clean card/detail evidence and reviewer-01 disposition. Reference-grounded Decor specifications may be prepared while this gate is closed, but are not generated assets and are not reviewable candidates."
+  "handoff": {"reviewer": "14", "items": {"decor-3": "5c9e3ad9b88b29c8ffb67d262f828f38d24763be", "decor-4": "8393d0b8108dfcc6882a75a9e50293f26d8f6989"}, "request": "Render real StarBlox Store card/detail evidence for these exact hashes and issue independent ACCEPT/REWORK.", "integrationOwner": "08", "selfApproval": false},
+  "nextGate": "Do not start Decor5-12 or another producer batch until Reviewer14 independently dispositions this exact Decor3-4 pilot."
 }
