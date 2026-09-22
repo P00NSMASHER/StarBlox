@@ -1,3 +1,64 @@
+# Workstream 02 — Current Gear & Seating Review Evidence
+
+STATUS: **EVIDENCE AUDIT ONLY — NO NEW ACCEPT/REWORK LABEL THIS PASS**
+
+Branch: `screenshot-match-preproduction` only  
+Independent review partition: Shoes / Backgear / Handgear / Seating  
+Authoritative structured decisions: `docs/preproduction/catalog-sprint/reviews/02.json`  
+Canonical integrator: Workstream 08  
+Shared-entrypoint / cross-lane coordinator: Workstream 15  
+Replit/Floot, `main`, gameplay, curriculum, economy, persistence, player data, deployment, purchases, paid settings, secrets and regression gates: **untouched**
+
+## Current audit at observed branch head
+
+Observed source head before this audit write: `4de3cedcb98dceb89b6d73ff73129f576e13a888`.
+
+No new in-partition producer candidate was eligible for a fresh `ACCEPT` or `REWORK`. The governing rule remains: an item-level decision requires the exact current candidate hash plus real card-scale and detail-scale render proof for those same bytes. Missing or mismatched proof is `BLOCKED_EVIDENCE_NOT_DECISION`, never a quality rejection.
+
+### Shoes
+
+The current reviewed PNG candidates for Shoes 7–10 still read back at the exact hashes already ACCEPTED in `reviews/02.json` schema 9:
+
+| Item | Reviewed candidate | Current Git blob | Current disposition |
+| --- | --- | --- | --- |
+| `shoes-7` Chunky Sneakers | `/assets/catalog/shoes-7-w06-v3.png` | `cb8f02aaa4844d1a19a013edc3d0d1a15c0620a2` | preserve existing ACCEPT |
+| `shoes-8` Trainers | `/assets/catalog/shoes-8-w06-v3.png` | `1aa21e1156f7645fc218402c337d2eebe95d81f8` | preserve existing ACCEPT |
+| `shoes-9` Paint Kicks | `/assets/catalog/shoes-9-w06-v3.png` | `ff5e914eb935194a1541cebf5421264e5da2d543` | preserve existing ACCEPT |
+| `shoes-10` Light Shoes | `/assets/catalog/shoes-10-w06-v3.png` | `489e37f25644d13a4ca9518f4047ebfb35747a47` | preserve existing ACCEPT |
+
+Later-added `.webp` derivative paths are different bytes and are **not** independently relabeled by reviewer 02 merely because they exist. A derivative or canonical-format change only inherits a reviewer decision when the governing evidence explicitly binds that exact hash; otherwise 08 must preserve the accepted candidate binding or obtain exact-current proof before treating changed bytes as accepted.
+
+No current Shoes 11–12 candidate with qualifying exact-hash card/detail proof surfaced in this audit.
+
+### Seating
+
+The stale historical text below predates later independent reviewer decisions. The authoritative `reviews/02.json` shard chain preserves the accepted current Seating decisions, including Seating 1, 4, 5, 6, 11 and 12. Reviewer 02 does not reopen or churn those accepted hashes without a newer exact candidate plus fresh matching card/detail evidence. No newer qualifying Seating candidate surfaced in this audit.
+
+### Backgear / Handgear
+
+No newer exact-hash Backgear or Handgear candidate with real card/detail proof surfaced. No label was emitted.
+
+## Review learner gate and collection recipes
+
+Every future decision must bind candidate provenance, exact Git blob identity, current item metadata, real card-scale pixels, real detail-scale pixels, the original Store reference, and the structured fields `physicalConstruction`, `silhouette`, `materialLighting`, `themeTierSpecificity`, `smallCardReadability`, `originalityNearDuplicateRisk`, and `technicalIntegrity`.
+
+- **Shoes:** outsole/midsole/upper/tongue/laces-or-straps/seams must read as physically joined footwear; paired shoes need coherent but not sticker-duplicated construction; contact/sole shadow and material separation should survive card size; tier progression must come from topology/material/detail, not hue alone; reject near-duplicate silhouettes even when palettes differ.
+- **Backgear:** straps/harness/anchor/wing-root/tank-frame attachment logic must be physically plausible; foreground/background layers need depth; material and cast/contact lighting must separate surfaces; the back-mounted silhouette must survive card size; no floating emblem/icon treatment; higher tiers need geometry/material escalation rather than recolor.
+- **Handgear:** grip point, handle/shaft and head must visibly connect; guards/ribbons/ornaments must be physically integrated; material response and cast light should distinguish parts; tier growth should add topology/detail; grip-to-head silhouette must remain legible at card scale; avoid same-wand/staff renders with palette swaps.
+- **Seating:** seat/back/base/legs-or-pedestal must form a plausible load path; cushions, seams, tufting, wood, metal or hard-shell construction should be dimensional; occupancy/contact logic and cast shadow should ground the object; theme/tier specificity must be expressed through geometry/materials; card silhouette must remain distinct from neighboring chairs.
+
+## Handoff
+
+**08:** there is **no new ACCEPT** and no new canonical mapping request from reviewer 02 in this audit. Preserve the existing exact-hash ACCEPT bindings. Do not infer acceptance for a different derivative hash without matching evidence.  
+**15:** no shared-entrypoint change is requested. Continue coordinating candidate/render ownership.  
+**Producers:** surface only current exact-hash candidates with real card/detail proof; do not regenerate accepted art to create work.
+
+---
+
+## Archived prior lane snapshot — historical only
+
+The material below is preserved verbatim as prior producer/reviewer evidence. Its status lines are **not** the current reviewer state; current decisions are governed by `reviews/02.json` and the audit above.
+
 # Catalog Sprint Lane 02 — Beds + Independent Shoes/Backgear/Handgear/Seating Review
 
 STATUS: **SEATING 11–12 CURRENT VERSIONS BLOCKED ON EVIDENCE INTEGRITY / SEATING 4–6 EXACT BYTES STAGED WITH RENDER WORKFLOW IN PROGRESS / BEDS 1–4 READY FOR REVIEW 05**
