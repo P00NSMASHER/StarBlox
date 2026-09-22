@@ -4,8 +4,8 @@
   "phase": "CATALOG_SPRINT",
   "repository": "P00NSMASHER/StarBlox",
   "branch": "screenshot-match-preproduction",
-  "observedHead": "cae7fac2865410694794b5d65599a4f5d9d7d7b5",
-  "status": "ALL_18_ASSIGNED_CURRENT_HASHES_INDEPENDENTLY_ACCEPTED; SHOES_1_6_CANONICAL_V16; LIGHTING_5_12_PENDING_08_INTEGRATION",
+  "observedHead": "7642028062c341ccc3ebd7325c9491f1b888aaae",
+  "status": "ALL_18_ASSIGNED_CURRENT_HASHES_INDEPENDENTLY_ACCEPTED_AND_CANONICAL",
   "assignment": [
     "lighting-1",
     "lighting-2",
@@ -49,20 +49,7 @@
       "decision": "ACCEPT_6_OF_6_CURRENT_HASHES"
     }
   },
-  "summary": {
-    "assigned": 18,
-    "repositoryStored": 18,
-    "independentlyAccepted": 18,
-    "repairRemaining": 0,
-    "lightingAssigned": 12,
-    "lightingAccepted": 12,
-    "lightingCanonical": 4,
-    "lightingAcceptedPending08Integration": 8,
-    "shoesAssigned": 6,
-    "shoesAccepted": 6,
-    "shoesCanonical": 6,
-    "newAssetsGeneratedThisRun": 0
-  },
+  "summary": "Lighting 1-12 and Shoes 1-6 are repository-stored, independently ACCEPTED on exact hashes, and canonically wired. Lighting 5-12 entered manifest v17 in e137f3957e9872cfd5d6dde18f91f16a602df101; no Lane-04 catalog repair or integration dependency remains.",
   "canonicalAcceptedLighting": [
     {
       "id": "lighting-1",
@@ -135,9 +122,7 @@
       "decision": "ACCEPT",
       "canonicalManifestVersion": 15,
       "status": "ACCEPTED_CANONICAL"
-    }
-  ],
-  "lightingAcceptedPendingIntegration": [
+    },
     {
       "id": "lighting-5",
       "name": "Vine Light",
@@ -163,7 +148,9 @@
       "reviewer": "14",
       "reviewShardBlobSha": "4c0b5863be0d4b674a9a707e932a746b2811078b",
       "decision": "ACCEPT",
-      "status": "ACCEPTED_PENDING_08_INTEGRATION"
+      "status": "ACCEPTED_CANONICAL_V17",
+      "currentCanonicalManifestVersion": 17,
+      "canonicalIntegrationCommit": "e137f3957e9872cfd5d6dde18f91f16a602df101"
     },
     {
       "id": "lighting-6",
@@ -190,7 +177,9 @@
       "reviewer": "14",
       "reviewShardBlobSha": "4c0b5863be0d4b674a9a707e932a746b2811078b",
       "decision": "ACCEPT",
-      "status": "ACCEPTED_PENDING_08_INTEGRATION"
+      "status": "ACCEPTED_CANONICAL_V17",
+      "currentCanonicalManifestVersion": 17,
+      "canonicalIntegrationCommit": "e137f3957e9872cfd5d6dde18f91f16a602df101"
     },
     {
       "id": "lighting-7",
@@ -217,7 +206,9 @@
       "reviewer": "14",
       "reviewShardBlobSha": "4c0b5863be0d4b674a9a707e932a746b2811078b",
       "decision": "ACCEPT",
-      "status": "ACCEPTED_PENDING_08_INTEGRATION"
+      "status": "ACCEPTED_CANONICAL_V17",
+      "currentCanonicalManifestVersion": 17,
+      "canonicalIntegrationCommit": "e137f3957e9872cfd5d6dde18f91f16a602df101"
     },
     {
       "id": "lighting-8",
@@ -244,7 +235,9 @@
       "reviewer": "14",
       "reviewShardBlobSha": "4c0b5863be0d4b674a9a707e932a746b2811078b",
       "decision": "ACCEPT",
-      "status": "ACCEPTED_PENDING_08_INTEGRATION"
+      "status": "ACCEPTED_CANONICAL_V17",
+      "currentCanonicalManifestVersion": 17,
+      "canonicalIntegrationCommit": "e137f3957e9872cfd5d6dde18f91f16a602df101"
     },
     {
       "id": "lighting-9",
@@ -271,7 +264,9 @@
       "reviewer": "14",
       "reviewShardBlobSha": "4c0b5863be0d4b674a9a707e932a746b2811078b",
       "decision": "ACCEPT",
-      "status": "ACCEPTED_PENDING_08_INTEGRATION"
+      "status": "ACCEPTED_CANONICAL_V17",
+      "currentCanonicalManifestVersion": 17,
+      "canonicalIntegrationCommit": "e137f3957e9872cfd5d6dde18f91f16a602df101"
     },
     {
       "id": "lighting-10",
@@ -298,7 +293,9 @@
       "reviewer": "14",
       "reviewShardBlobSha": "4c0b5863be0d4b674a9a707e932a746b2811078b",
       "decision": "ACCEPT",
-      "status": "ACCEPTED_PENDING_08_INTEGRATION"
+      "status": "ACCEPTED_CANONICAL_V17",
+      "currentCanonicalManifestVersion": 17,
+      "canonicalIntegrationCommit": "e137f3957e9872cfd5d6dde18f91f16a602df101"
     },
     {
       "id": "lighting-11",
@@ -325,7 +322,9 @@
       "reviewer": "14",
       "reviewShardBlobSha": "4c0b5863be0d4b674a9a707e932a746b2811078b",
       "decision": "ACCEPT",
-      "status": "ACCEPTED_PENDING_08_INTEGRATION"
+      "status": "ACCEPTED_CANONICAL_V17",
+      "currentCanonicalManifestVersion": 17,
+      "canonicalIntegrationCommit": "e137f3957e9872cfd5d6dde18f91f16a602df101"
     },
     {
       "id": "lighting-12",
@@ -352,9 +351,12 @@
       "reviewer": "14",
       "reviewShardBlobSha": "4c0b5863be0d4b674a9a707e932a746b2811078b",
       "decision": "ACCEPT",
-      "status": "ACCEPTED_PENDING_08_INTEGRATION"
+      "status": "ACCEPTED_CANONICAL_V17",
+      "currentCanonicalManifestVersion": 17,
+      "canonicalIntegrationCommit": "e137f3957e9872cfd5d6dde18f91f16a602df101"
     }
   ],
+  "lightingAcceptedPendingIntegration": [],
   "shoesAcceptedCanonical": [
     {
       "id": "shoes-1",
@@ -535,18 +537,18 @@
     "storeCodeTouched": false,
     "replitOrFlootTouched": false,
     "mainTouched": false,
-    "integrationReadinessLighting5To12": "PASS_ALREADY_CANONICAL"
+    "integrationReadinessLighting5To12": "PASS_ALREADY_CANONICAL",
+    "lighting5To12CanonicalIntegration": "PASS_MANIFEST_V17_COMMIT_E137F3957E9872CFD5D6DDE18F91F16A602DF101"
   },
   "dependencies": [
-    "Workstream 08 must consume lighting-5..12 exact ACCEPTs after normal metadata/file/content checks if a newer integration commit has not already done so.",
     "The overall catalog gate remains FAIL until all 192 current final hashes are accepted and canonically wired; Store visual finishing must not resume before phase owner 15 advances the phase."
   ],
   "handoff": {
-    "15": "All 18 Lane-04 assigned catalog assets are repository-stored and independently ACCEPTED. Shoes 1-6 are canonical v16; Lighting 1-4 are canonical v15; Lighting 5-12 await 08 integration at this snapshot. No Lane-04 producer repair remains. Assign a specific non-conflicting visual task if useful; otherwise keep 04 parked until catalog PASS, then return it to Store visual finishing.",
-    "08": "Lighting 5-12 are already present in the current canonical manifest snapshot; preserve exact accepted hashes and run normal downstream catalog/release verification.",
+    "15": "All 18 Lane-04 assigned catalog assets are repository-stored, independently ACCEPTED, and canonical. Lighting 1-12 are present in manifest v17; Shoes 1-6 remain canonical. No Lane-04 producer repair or 08 integration dependency remains. Reassign 04 only to a specific non-conflicting visual task, or return it to Store finishing after catalog PASS.",
+    "08": "Preserve all 12 accepted Lighting mappings now canonical in manifest v17; Lane 04 has no pending catalog asset for integration.",
     "04": "Do not regenerate accepted assets. Consume only a future exact-hash REWORK or explicit workstream-15 reassignment. Do not resume Store code until catalog PASS/GAME_FINISHING."
   },
-  "nextAction": "No Lane-04 catalog work remains. Await explicit Workstream 15 visual reassignment or catalog PASS/GAME_FINISHING; do not regenerate accepted assets.",
+  "nextAction": "No Lane-04 catalog work remains. Await explicit Workstream 15 visual reassignment or catalog PASS/GAME_FINISHING; do not regenerate accepted assets or resume Store code early.",
   "integrationReadinessEvidence": {
     "verifiedAtHead": "cae7fac2865410694794b5d65599a4f5d9d7d7b5",
     "manifestVersion": 17,
