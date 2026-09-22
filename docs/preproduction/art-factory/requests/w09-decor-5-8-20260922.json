@@ -1,45 +1,209 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "kind": "STARBLOX_ART_FACTORY_BATCH_REQUEST",
+  "planner": "12",
   "producer": "09",
-  "branch": "screenshot-match-preproduction",
-  "sourceHead": "05a9855fba6c262db1f900b8ade52b17404a24e2",
-  "batchId": "w09-decor-5-8-vnext",
-  "scope": ["decor-5", "decor-6", "decor-7", "decor-8"],
   "reviewer": "14",
-  "variantsPerItem": 2,
-  "reviewedLegacy": {
-    "decor-5": {"hash": "0f7559a576177758d94dba1c3da27373a9151a2b", "decision": "REWORK"},
-    "decor-6": {"hash": "3a8d81ea490f8bac42ef2147797a3926d69df9ef", "decision": "REWORK"},
-    "decor-7": {"hash": "671c609625400bf5c2142daef73ab632bd1225a2", "decision": "REWORK"},
-    "decor-8": {"hash": "87e33d5190b7a7ef21e23ae875dda8ae1808c4be", "decision": "REWORK"}
+  "renderOwner": "14",
+  "integrationOwner": "08",
+  "coordinationOwner": "15",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "afc03187973cbfd3a6a3579cef7848770c542027",
+  "manifestVersion": 33,
+  "liveFallbackCount": 19,
+  "batchId": "w09-decor-5-8-vnext",
+  "scope": [
+    "decor-5",
+    "decor-6",
+    "decor-7",
+    "decor-8"
+  ],
+  "state": "DETERMINISTIC_OPTIMIZER_INPUT_PLAN_READY_NOT_GENERATED",
+  "routingBasis": {
+    "activeBatch": "docs/preproduction/art-factory/ACTIVE_BATCH.json",
+    "activeBatchBlobSha": "254d08b8de0aa78540f3de8748c3455f6e38e878",
+    "assignmentState": "ACTIONABLE_REWORK_FACTORY_PILOT",
+    "strictBlockerKind": "VISIBLE_GENERIC_FALLBACK_ART",
+    "candidateState": "NO_REPOSITORY_STAGED_DECOR_5_8_BYTES_OBSERVED",
+    "note": "Coordinator15 keeps Decor 5-8 as producer09's bounded first fallback-clearing pilot. Decor 9-12 remain gated until independent disposition. This refresh replaces no candidate and creates no second batch."
   },
-  "generationPolicy": {
-    "useArtPromptOptimizer": true,
-    "compileArtFactoryJobV2": true,
-    "authorizedGenerator": "ChatGPT image generation tool",
+  "metadataSource": {
+    "path": "src/gameModel.js",
+    "derivation": "Exact current Store metadata from collections/itemKinds/prices/theme/tier/starReq logic at sourceHead; preserve IDs/names/category/theme/tier/price/unlock."
+  },
+  "reviewSource": {
+    "path": "docs/preproduction/catalog-sprint/reviews/14.json",
+    "reviewSourceHead": "d0bee12ccdc85b6c22915500c8b1a8afaadf6190",
+    "decision": "REWORK",
+    "note": "Reviewer14 preserves Decor 5-8 exact current legacy hashes as REWORK. Planner12 does not review pixels, self-approve, or transfer verdicts across hashes."
+  },
+  "reference": {
+    "path": "docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg",
+    "sha256": "b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d",
+    "gitBlobSha": "383baa877d3af86fa92e3583740212000592b3d6",
+    "dimensions": [1448, 1086],
+    "role": "FIRST_PARTY_STAR_BLOX_STORE_ART_DIRECTION"
+  },
+  "factoryPolicy": {
+    "optimizerFirst": true,
+    "optimizer": "scripts/artPromptOptimizer.mjs",
+    "jobCompilerAfterOptimizer": "scripts/artFactoryJob.mjs",
+    "variantsPerItem": 2,
+    "providerNeutral": true,
     "sourcePixels": 1024,
     "derivativePixels": 600,
     "preserveSourceBytes": true,
     "stageVersionedExactBytes": true,
-    "realCardDetailRenderRequired": true,
-    "independentReviewerRequired": "14",
-    "noCanonicalWiringByProducer": true
+    "verifyWith": "docs/preproduction/art-factory/verify_staged_output.py",
+    "realStarBloxCardDetailRenderRequired": true,
+    "independentExactHashReviewRequired": "14",
+    "canonicalIntegrationOwner": "08",
+    "perceptualSignals": "REPORT_ONLY_NEVER_DECISION",
+    "freezeAfterStagingUntilDisposition": true
   },
-  "rightsDomains": {
-    "modelCheckpoint": "USER_ATTESTED_FULL_RIGHTS",
-    "generatorService": "AUTHORIZED_CHATGPT_TOOL_RUNTIME; exact internal model revision not exposed to producer",
-    "repositoryCode": "SEPARATE_LICENSE_DOMAIN",
-    "conditioningReferences": "STARblox_ORIGINAL_ONLY",
-    "externalDatasets": "NONE",
-    "thirdPartyCharactersBrands": "PROHIBITED"
+  "seedDerivation": {
+    "method": "SHA256(batchId + '|' + itemId + '|' + variantId), first 8 hex interpreted unsigned then masked with 0x7fffffff",
+    "purpose": "Deterministic planner seeds for the bounded two-variant request. The later job compiler/runtime must record the exact compiled/executed seed actually used; never claim an unexposed service seed."
+  },
+  "provenanceRequirements": {
+    "prompt": ["optimizer input text+sha256", "optimizer output text+sha256", "variant id", "seed"],
+    "runtime": ["generator/provider", "API/service identity", "exposed model/checkpoint ID", "exposed revision", "runtime/tool revision"],
+    "conditioning": ["reference path", "exact reference hash", "reference role"],
+    "lineage": ["source repo path", "source sha256", "source git-blob sha1", "source bytes", "source dimensions", "derivative repo path", "derivative sha256", "derivative git-blob sha1", "derivative bytes", "derivative dimensions", "source->derivative transform"],
+    "rightsDomainsKeptSeparate": ["repository-code", "dataset/reference", "API/service", "custom-node", "model/checkpoint"],
+    "checkpointRule": "User attests full StarBlox model/checkpoint rights. Record exact model/checkpoint ID+revision only when exposed; use null when unavailable and never invent it."
+  },
+  "targetPathConvention": "public/assets/catalog-candidates/decor/<itemId>-w09-vnext-<variant>-original.<ext>; preserve exact source before any 600px derivative and do not canonically wire from this request.",
+  "items": {
+    "decor-5": {
+      "exactStoreMetadata": {"name": "Plant Wall", "collection": "Room Decor", "tier": 2, "theme": "Pixel Party", "price": 181, "starReq": 0},
+      "currentLegacy": {
+        "path": "/assets/catalog/decor-5.svg",
+        "gitBlobSha1": "0f7559a576177758d94dba1c3da27373a9151a2b",
+        "reviewDecision": "REWORK",
+        "normalizedFailureTaxonomy": ["VISIBLE_GENERIC_FALLBACK_ART", "LEGACY_EXACT_HASH_REWORK"],
+        "humanReviewerReason": "Current reviewer14 shard preserves this exact legacy hash as REWORK but has no item-specific prose reason for this legacy Decor ID; do not invent or transfer a more specific failure code from another item."
+      },
+      "optimizerStage": {"required": true, "status": "NOT_RUN_BY_PLANNER", "inputRule": "Run each base brief through the existing artPromptOptimizer before artFactoryJob compilation. Final generation prompt/hash must come from optimizer output; planner input hashes are not generation-output hashes."},
+      "variants": [
+        {
+          "variantId": "A-PHYSICAL",
+          "seed": 1824816542,
+          "optimizerInput": "Plant Wall, Room Decor, Tier 2, Pixel Party. Create a genuine wall-mounted living planter system in three-quarter product view: a substantial powder-coated violet metal backframe with visible keyhole mounting slots and spacer standoffs, four staggered square ceramic planter pods with crisp aqua, pink and warm-gold pixel-tile accents, real soil beds, varied leafy plants and short trailing vines, a shallow integrated drip tray and small irrigation channel physically attached to the frame. Show believable object thickness, frame-to-wall contact and cast shadow, tactile ceramic/metal/leaf materials, playful but controlled color, no text, logos, floor stand or flat icon treatment.",
+          "optimizerInputSha256": "eb28d7d44b94c54f27208ea7481f58ef912c5bf37de19b65c5be7d7454cdf91b",
+          "finalOptimizedPrompt": null,
+          "finalPromptSha256": null
+        },
+        {
+          "variantId": "B-READABILITY",
+          "seed": 41562170,
+          "optimizerInput": "Plant Wall, Room Decor, Tier 2, Pixel Party. Design a clean modular vertical planter with one sturdy wall rail, three large offset planter boxes and one smaller top pod, each formed from chunky beveled pixel-like blocks rather than printed squares. Use restrained violet, aqua and coral hardware, lush green foliage with distinct leaf silhouettes, visible bracket connections, real planter depth and a clear wall shadow. Keep the composition simple enough to read instantly at 600x600, with strong negative space between pods, no text, logo, collage, room-scene clutter or generic flat rectangle.",
+          "optimizerInputSha256": "1479d8fb2e4649f1d69594a7e9447f2fd72b15c10fca7ace97ed98797412ff44",
+          "finalOptimizedPrompt": null,
+          "finalPromptSha256": null
+        }
+      ]
+    },
+    "decor-6": {
+      "exactStoreMetadata": {"name": "Telescope", "collection": "Room Decor", "tier": 2, "theme": "Berry Blast", "price": 254, "starReq": 0},
+      "currentLegacy": {
+        "path": "/assets/catalog/decor-6.svg",
+        "gitBlobSha1": "3a8d81ea490f8bac42ef2147797a3926d69df9ef",
+        "reviewDecision": "REWORK",
+        "normalizedFailureTaxonomy": ["VISIBLE_GENERIC_FALLBACK_ART", "LEGACY_EXACT_HASH_REWORK"],
+        "humanReviewerReason": "Current reviewer14 shard preserves this exact legacy hash as REWORK but has no item-specific prose reason for this legacy Decor ID; do not invent or transfer a more specific failure code from another item."
+      },
+      "optimizerStage": {"required": true, "status": "NOT_RUN_BY_PLANNER", "inputRule": "Run each base brief through the existing artPromptOptimizer before artFactoryJob compilation. Final generation prompt/hash must come from optimizer output; planner input hashes are not generation-output hashes."},
+      "variants": [
+        {
+          "variantId": "A-PHYSICAL",
+          "seed": 550795704,
+          "optimizerInput": "Telescope, Room Decor, Tier 2, Berry Blast. Build a compact but believable freestanding refractor telescope in three-quarter product view: berry-magenta enamel optical tube with cream trim, glass objective lens, focus knob, eyepiece, alt-azimuth yoke mount, sturdy brushed-metal tripod with three fully visible articulated legs and a small triangular accessory tray. Add subtle berry-red rubber grips and one small star-shaped adjustment cap as a decorative accent only. Premium studio lighting, grounded contact shadow, clear metal/glass/rubber separation, no readable text, logo, people or floating parts.",
+          "optimizerInputSha256": "0d8f37c9bf47cd80886e230adcc5d5a9572bef57304bab3bba85a9cad1d61130",
+          "finalOptimizedPrompt": null,
+          "finalPromptSha256": null
+        },
+        {
+          "variantId": "B-READABILITY",
+          "seed": 975755716,
+          "optimizerInput": "Telescope, Room Decor, Tier 2, Berry Blast. Create a child-friendly premium tabletop-to-floor telescope with a short wide optical tube, oversized front lens hood, visible focuser, compact pivot mount and three splayed legs joined by a real center brace. Use a strong cream-and-berry silhouette with deep plum metal hardware and one translucent pink lens accent, keeping accessories minimal so the telescope remains unmistakable at card size. Three-quarter isolated product, grounded shadow, no astronomy text, branding, room scene, impossible joints or flat icon styling.",
+          "optimizerInputSha256": "470bed53b1332823891a0a035734c53cb1f9500fcd935e8e1ef1935a7a657bc8",
+          "finalOptimizedPrompt": null,
+          "finalPromptSha256": null
+        }
+      ]
+    },
+    "decor-7": {
+      "exactStoreMetadata": {"name": "Skate Rack", "collection": "Room Decor", "tier": 3, "theme": "Garden Glow", "price": 348, "starReq": 2},
+      "currentLegacy": {
+        "path": "/assets/catalog/decor-7.svg",
+        "gitBlobSha1": "671c609625400bf5c2142daef73ab632bd1225a2",
+        "reviewDecision": "REWORK",
+        "normalizedFailureTaxonomy": ["VISIBLE_GENERIC_FALLBACK_ART", "LEGACY_EXACT_HASH_REWORK"],
+        "humanReviewerReason": "Current reviewer14 shard preserves this exact legacy hash as REWORK but has no item-specific prose reason for this legacy Decor ID; do not invent or transfer a more specific failure code from another item."
+      },
+      "optimizerStage": {"required": true, "status": "NOT_RUN_BY_PLANNER", "inputRule": "Run each base brief through the existing artPromptOptimizer before artFactoryJob compilation. Final generation prompt/hash must come from optimizer output; planner input hashes are not generation-output hashes."},
+      "variants": [
+        {
+          "variantId": "A-PHYSICAL",
+          "seed": 413260152,
+          "optimizerInput": "Skate Rack, Room Decor, Tier 3, Garden Glow. Create a substantial freestanding skateboard storage rack in three-quarter product view: warm oak side frames joined by sage-green powder-coated crossbars, three real skateboard decks stored vertically in shaped slots with visible trucks and wheels, a physically attached lower shoe shelf and small upper helmet hook rail, subtle leaf-shaped metal cutouts and one tiny planter integrated into the side frame. Show convincing joinery, weight-bearing feet, wood grain, metal fasteners and grounded contact shadow. No brand logos, readable text, floating boards or room-scene-first composition.",
+          "optimizerInputSha256": "8b4f6bc90d871d7f19f41da6f6492ace81a8baeb58d0a452f7ce3bc9b9bd6dae",
+          "finalOptimizedPrompt": null,
+          "finalPromptSha256": null
+        },
+        {
+          "variantId": "B-READABILITY",
+          "seed": 1380235418,
+          "optimizerInput": "Skate Rack, Room Decor, Tier 3, Garden Glow. Design a clean A-frame skate organizer with two sturdy green metal uprights, a thick wood base, four clearly separated board channels and two skateboards plus one helmet as scale cues, leaving open slots visible so the rack reads immediately. Use botanical green, honey wood and small brass hardware, with one vine trellis detail that is physically attached and does not obscure the function. Strong asymmetrical silhouette, premium isolated three-quarter render, no logos, text, collage or flat symbol treatment.",
+          "optimizerInputSha256": "e9d5d33c6bf73c48ed9063e3c2b7d51db03c66261deab3554d1d468487b6b1d3",
+          "finalOptimizedPrompt": null,
+          "finalPromptSha256": null
+        }
+      ]
+    },
+    "decor-8": {
+      "exactStoreMetadata": {"name": "Mini Aquarium", "collection": "Room Decor", "tier": 3, "theme": "Galaxy Glow", "price": 479, "starReq": 2},
+      "currentLegacy": {
+        "path": "/assets/catalog/decor-8.svg",
+        "gitBlobSha1": "87e33d5190b7a7ef21e23ae875dda8ae1808c4be",
+        "reviewDecision": "REWORK",
+        "normalizedFailureTaxonomy": ["VISIBLE_GENERIC_FALLBACK_ART", "LEGACY_EXACT_HASH_REWORK"],
+        "humanReviewerReason": "Current reviewer14 shard preserves this exact legacy hash as REWORK but has no item-specific prose reason for this legacy Decor ID; do not invent or transfer a more specific failure code from another item."
+      },
+      "optimizerStage": {"required": true, "status": "NOT_RUN_BY_PLANNER", "inputRule": "Run each base brief through the existing artPromptOptimizer before artFactoryJob compilation. Final generation prompt/hash must come from optimizer output; planner input hashes are not generation-output hashes."},
+      "variants": [
+        {
+          "variantId": "A-PHYSICAL",
+          "seed": 576330139,
+          "optimizerInput": "Mini Aquarium, Room Decor, Tier 3, Galaxy Glow. Create a premium compact desktop aquarium in three-quarter product view: thick beveled glass tank with a dark-indigo structural base and matching lid, visible rear filter housing, small intake tube and soft concealed light strip. Inside, use layered dark gravel, translucent aqua stones, sculptural aquatic plants and a few abstract orbit-ring rock ornaments suggesting Galaxy Glow without text or branded imagery. Include realistic waterline, glass refraction, subtle bubbles, caustic light and grounded base shadow; keep the tank physically plausible and readable at 600x600.",
+          "optimizerInputSha256": "f71381816d236d08e2c0668e910e5c05f2ccaae67372102b92325a7dca52c2f4",
+          "finalOptimizedPrompt": null,
+          "finalPromptSha256": null
+        },
+        {
+          "variantId": "B-READABILITY",
+          "seed": 1735572564,
+          "optimizerInput": "Mini Aquarium, Room Decor, Tier 3, Galaxy Glow. Design a distinctive rounded-corner rectangular aquarium with a broad navy pedestal base, crystal-clear glass walls, one compact side filter and a simple moonlike rock arch over violet-blue gravel with three tall aquatic plants and a controlled bubble column. Add restrained cyan/violet galaxy rim lighting and tiny star-like highlights only as reflected light, not flat decals. Keep the silhouette clean, the interior uncluttered and the construction believable in three-quarter isolated product view, with no text, logos, fish characters, room scene or floating hardware.",
+          "optimizerInputSha256": "cd3bf3e068ff499ed84a1977e033ef6c59e4f2045a85815fda061b893b630330",
+          "finalOptimizedPrompt": null,
+          "finalPromptSha256": null
+        }
+      ]
+    }
   },
   "freeze": {
-    "decor1To4": true,
-    "decor9To12": true,
-    "tops11To12V7Receipts": true,
-    "canonicalRuntime": true,
-    "gameplayEconomySaves": true
+    "decor1To4AcceptedCanonical": true,
+    "decor9To12UntilReviewer14Disposition": true,
+    "canonicalManifestAndRuntime": true,
+    "gameplayLearningPersistenceEconomy": true,
+    "mainReplitFlootDeployPaidSettingsSecretsPlayerData": true
   },
-  "note": "Factory preflight request for one bounded Decor 5-8 repair pilot only. The direct Art Prompt Optimizer workflow at commit 05a9855 exposed a review-discovery defect (reviewFiles=0); the art-factory preflight regeneration queue is also being run because it invokes artPromptOptimizer recommendations from the correctly normalized exact-hash corpus."
+  "plannerActions": {
+    "generatedImages": false,
+    "reviewedPixels": false,
+    "canonicalWiringChanged": false,
+    "ciWorkflowChanged": false,
+    "note": "Planner12 only refreshed the existing Decor 5-8 request because the prior request lacked exact Store metadata, differentiated optimizer inputs, deterministic seeds and full provenance/routing detail required by the current planner role."
+  }
 }
