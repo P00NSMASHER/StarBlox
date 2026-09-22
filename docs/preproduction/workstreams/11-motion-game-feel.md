@@ -120,6 +120,73 @@ Keep visible-scene area roughly **22–35%** while retaining dense premium cards
 ### Quest
 Keep visible-scene area roughly **20–32%** and protect the light central passage/answer surfaces. The learning body should be the calmest large region. Correct-answer polish happens only after reliable correctness. Incorrect/clue/retry states get no celebratory material. Mastery/reward chrome may use static premium depth, but no urgency, countdown, streak-loss or FOMO treatment.
 
+## Implementation-ready state → visual contract — specification only
+
+This matrix is the handoff contract for a later Workstream-15-coordinated implementation. It does **not** create new gameplay state. It consumes only states that already exist and must remain visually truthful even when all motion is disabled.
+
+| Surface / semantic state | Normal-motion visual | Reduced-motion equivalent | Hard guard |
+| --- | --- | --- | --- |
+| Home — room progress becomes visible | Existing five real room tiles may settle in with a shallow opacity/translate reveal; current real tier may carry one warm-gold emphasis | All five tiles appear immediately in final positions with the same current-tier gold emphasis | Never fabricate tier progress, unlocks, room ownership or fake locked states |
+| Home — avatar/Buddy idle | Very small wrapper-only drift/sway, visually subordinate to room art and panels | No transform loop; retain fixed rim light, contact shadow and static Buddy highlight | No layout movement; no motion that obscures face/readability or competes with instructional copy |
+| Store — item selected | Selected card receives stronger cyan/ice rim plus one bounded card→detail spark path; detail art is available immediately | Instant strong selected rim + fixed destination halo; no traveling sparks | Selection state must already be true; do not animate the entire grid or delay interaction |
+| Store — item equipped | One short 8–12-particle destination burst around the real equipped avatar/item plus persistent equipped material/state cue | Persistent equipped outline/material cue + static three-to-five-star cluster | Never imply purchase/equip succeeded before existing state says it did; do not change price, ownership or save behavior |
+| Quest — unanswered / reading | Calm learning body; surrounding chrome may retain static depth but no celebratory pulse | Same calm static treatment | No answer hinting, no animated bias toward a choice, no countdown/urgency |
+| Quest — semantic correct | One green success edge plus a single bounded gold/ice spark burst; geometry stays fixed and next action remains immediately available | Instant green success keyline + small fixed gold-star cluster | Trigger only from reliable existing `correct` semantics; never from text scraping or generic phrase detection |
+| Quest — wrong / clue / retry | Instructional feedback only; no gold reward flare, bounce, Star Sparks or success bloom | Same non-celebratory static instructional treatment | Must never look equivalent to success; preserve assisted-vs-independent learning evidence rules |
+| Screen entry — Home/Store/Quest | Optional 300–420 ms opacity + 2–6 px settle after content is already mounted/interactive | Final state appears immediately | Never gate focus, pointer events, screen-reader exposure, answer availability or navigation |
+
+### Event cleanup contract
+
+Every transient visual effect needs a deterministic cleanup path independent of successful animation completion:
+
+- Selection/equip particles are removed when their bounded burst ends **or immediately** on screen change, item change, unmount, reduced-motion preference change, or a new event that supersedes the old one.
+- Correct-answer particles are removed before/when the Quest advances, retries, switches question, navigates away, or changes to reduced motion. A stale success layer must never survive into a wrong/clue/retry state.
+- Room reveal wrappers must end in normal static layout; no hidden tile may remain waiting for an animation callback.
+- Ambient panel energy is presentation-only and may never become a source of semantic state, pointer blocking, hit-target geometry or focus order.
+
+## Static reduced-motion acceptance frames
+
+These are the **minimum still-image states** that should be captured later so reduced-motion quality is judged as a designed visual mode rather than merely “animation off.” They remain proposed QA targets until actual branch rendering is executed.
+
+### Home reduced-motion frame
+- Five actual room-progress tiles visible immediately, with only the true current tier receiving the warm-gold emphasis.
+- Avatar and Buddy completely still but dimensional through fixed contact shadow/rim light.
+- Room Progress / Dream Goal may retain a fixed cyan/ice premium halo; no pulsing.
+- No hidden content or animation-dependent reveal state.
+
+### Store reduced-motion frames
+- **Selected:** exact selected card has a persistent cyan/white rim and the selected detail/try-on stage has one fixed destination halo.
+- **Equipped:** exact equipped item/avatar state has persistent non-motion state treatment and a restrained fixed three-to-five-star cluster; no traveling path.
+- Scrolling grid remains free of ambient animated filters/shadows; selection remains legible before and after a scroll.
+
+### Quest reduced-motion frames
+- **Unanswered:** calm light learning panel, no choice receives celebratory emphasis.
+- **Correct:** static green success keyline plus a small fixed gold/ice star cluster after reliable semantic correctness.
+- **Wrong / clue / retry:** no gold cluster, no success glow; only existing instructional state styling.
+- Advancing to the next question removes all prior success decoration before the new unanswered state is judged.
+
+## Render-QA capture packet for Workstream 14 — not yet executed
+
+When Workstream 15 authorizes shared visual integration, Workstream 14 can use this bounded capture plan to turn the above spec into actual evidence without relying on CSS/source inspection alone.
+
+**Required viewports where applicable:** `1408x1056`, `1024x768`, `390x844`, `320x568`. The repository has authoritative desktop originals only; phone/tablet captures are readability/performance evidence, **not** pixel-match references.
+
+**Normal-motion captures:**
+1. Store selection: pre-event frame → peak particle frame → settled selected state → after one viewport of scroll → cleanup after changing selection.
+2. Store equip: pre-equip → peak bounded burst → persistent equipped state → cleanup after navigation.
+3. Quest correct: unanswered → semantic correct peak → settled success → next-question clean state.
+4. Quest wrong/clue/retry: capture each state and verify zero celebratory gold/Star-Spark treatment.
+5. Home room reveal: first visible frame → reveal peak → final static five-tile state; verify interaction is available before the reveal ends.
+6. Avatar/Buddy idle: two separated steady-state frames sufficient to establish bounded amplitude without needing a long capture.
+
+**Reduced-motion captures:** mirror the same semantic states but require zero traveling particles, zero idle transform loops, zero staggered room reveal and zero entrance settle. The fixed non-motion cues above must remain visible and state-distinct.
+
+**Actual rendering/performance evidence to record later:**
+- DevTools/trace evidence for paint/composite behavior during one Store selection/equip event and one grid scroll with the selected state visible.
+- Cleanup verification: no orphan particle/halo layers after navigation, Quest advance, item change or `prefers-reduced-motion` transition.
+- Confirm transforms/opacity do not cause layout shifts or scroll-position jumps.
+- Record failures as exact screen/state/viewport findings; do not infer PASS from source declarations or animation-property names.
+
 ## Proposed performance/material budgets for later implementation
 
 These are constraints for the implementation owner and Workstream 14 measurement pass, not measured results:
@@ -138,6 +205,7 @@ These are constraints for the implementation owner and Workstream 14 measurement
 - **PASS — Aura exact-hash review closure:** reviewer 05 ACCEPT on Dream Aurora blob `7f3372c1584e07f18a3abfc7818013190fff1560`; Auras 1–12 now all have current exact-hash ACCEPT evidence.
 - **PASS — Aura 11 canonical mapping readback:** branch head `ad8867efc70d1b123cbc5e2f157766bec58e510d`; manifest v27 and `src/catalogArtRuntime.js` both map `auras-11` to `/assets/catalog/auras-11-w11-v3.jpg`.
 - **PASS — authoritative-reference provenance:** all three original 1448×1086 screenshots have verified repository hashes and normalized 1408×1056 comparison files.
+- **PASS — learning-state safety contract preserved:** Workstream 12’s current learning evidence keeps negative feedback non-celebratory, assisted retry separate from independent mastery/transfer, and reward/replay protections intact; this visual spec consumes those semantics without redefining them.
 - **NOT EXECUTED — new motion runtime implementation:** intentionally held because Workstream 15 owns shared entrypoint coordination and the user prohibited unrelated/shared runtime changes while catalog ownership is not reassigned.
 - **NOT EXECUTED — normal/reduced-motion browser profiling:** no claim of paint/composite/scroll performance is made by this specification-only pass.
 - **NOT EXECUTED — new rendered motion QA:** requires a coordinated later visual-finishing implementation and Workstream 14 evidence.
