@@ -108,36 +108,39 @@ jobs:
           python_needed = dispatch or review_change or raster_change or visual_script_change
           calibrate = dispatch or review_change or raster_change or visual_script_change
 
-          # Hydrate only raster bytes that current exact-hash reviews or this push can actually use.
+          # Hydrate image blobs only when this run will actually execute visual work.
+          # Node-only queue/audit changes keep the initial blobless sparse checkout.
           asset_paths = {p for p in changed if raster.match(p)}
-          review_dir = pathlib.Path('docs/preproduction/catalog-sprint/reviews')
-          if review_dir.exists():
-              def walk(value):
-                  if isinstance(value, dict):
-                      for v in value.values():
-                          yield from walk(v)
-                  elif isinstance(value, list):
-                      for v in value:
-                          yield from walk(v)
-                  elif isinstance(value, str):
-                      yield value
-              for file in review_dir.glob('*.json'):
-                  try:
-                      data = json.loads(file.read_text())
-                  except Exception:
-                      continue
-                  for value in walk(data):
-                      p = value.replace('\\','/').lstrip('/')
-                      if p.startswith('assets/'):
-                          p = 'public/' + p
-                      if raster.match(p):
-                          asset_paths.add(p)
+          if calibrate:
+              review_dir = pathlib.Path('docs/preproduction/catalog-sprint/reviews')
+              if review_dir.exists():
+                  def walk(value):
+                      if isinstance(value, dict):
+                          for v in value.values():
+                              yield from walk(v)
+                      elif isinstance(value, list):
+                          for v in value:
+                              yield from walk(v)
+                      elif isinstance(value, str):
+                          yield value
+                  for file in review_dir.glob('*.json'):
+                      try:
+                          data = json.loads(file.read_text())
+                      except Exception:
+                          continue
+                      for value in walk(data):
+                          p = value.replace('\\','/').lstrip('/')
+                          if p.startswith('assets/'):
+                              p = 'public/' + p
+                          if raster.match(p):
+                              asset_paths.add(p)
 
-          sparse = pathlib.Path('.git/info/sparse-checkout')
-          with sparse.open('a') as f:
-              for p in sorted(asset_paths):
-                  f.write('/' + p + '\n')
-          subprocess.run(['git','read-tree','-mu','HEAD'], check=True)
+          if asset_paths:
+              sparse = pathlib.Path('.git/info/sparse-checkout')
+              with sparse.open('a') as f:
+                  for p in sorted(asset_paths):
+                      f.write('/' + p + '\n')
+              subprocess.run(['git','read-tree','-mu','HEAD'], check=True)
 
           output = pathlib.Path(os.environ['GITHUB_OUTPUT'])
           with output.open('a') as f:
@@ -152,6 +155,7 @@ jobs:
               'calibrate': calibrate,
               'changedRasters': raster_change,
               'reviewChange': review_change,
+              'rasterHydrationSkipped': not bool(asset_paths),
           }, indent=2))
           PY
 
