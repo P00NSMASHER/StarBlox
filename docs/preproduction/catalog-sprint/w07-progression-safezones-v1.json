@@ -1,0 +1,140 @@
+{
+  "schemaVersion": 1,
+  "phase": "ART_AND_VISUALS_ONLY",
+  "owner": "07",
+  "branch": "screenshot-match-preproduction",
+  "observedHeadBeforeStudy": "2f3200e2601cc7c8c5b269074f343389e1ba5ebb",
+  "purpose": "Machine-readable composition/safe-zone study for already-staged W07 progression artwork. This is a non-runtime visual handoff for Workstream 15; it neither integrates assets nor changes gameplay/state.",
+  "authority": {
+    "allocation": "docs/preproduction/ART_VISUALS_SPRINT.json",
+    "artFactory": "docs/preproduction/art-factory/ART_FACTORY_V2.json",
+    "deliveryProtocol": "docs/preproduction/DELIVERY_PROTOCOL_V2.md",
+    "sharedIntegrationOwner": "15",
+    "catalogCanonicalWriter": "08"
+  },
+  "reference": {
+    "manifest": "docs/preproduction/reference-screenshots/original-reference-manifest.json",
+    "homeOriginal": "docs/preproduction/reference-screenshots/originals/home-1448x1086.jpeg",
+    "homeOriginalGitBlobSha": "cd4905ff1a8b97d784698ae1b0f8c3521937711e",
+    "homeOriginalSha256": "6a4b110aeaf12a6ab0c629f9181cc6cfa8d4f55a518d4f2a6adb3ac6e756c457",
+    "referenceBoundary": "Desktop Home original is authoritative. 390x844 and 320x568 are reachability/readability verification sizes only; no phone screenshot parity is claimed."
+  },
+  "catalogFreeze": {
+    "tops1To6": "PRESERVE_ACCEPTED_EXACT_HASHES",
+    "rugs1To12": "PRESERVE_ACCEPTED_EXACT_HASHES",
+    "rugs12CanonicalEvidence": "docs/preproduction/catalog-sprint/integration.json",
+    "rugs12CanonicalGitBlobSha": "eea2fc5b78c1186342f91f597bc792160ab8f8fe"
+  },
+  "coordinateSystem": {
+    "units": "source SVG viewBox pixels",
+    "viewBox": [0, 0, 480, 280],
+    "regionSemantics": {
+      "MUST_KEEP": "Do not crop this semantic group when the decorative asset is shown.",
+      "SUPPORTING": "May lose limited peripheral breathing room only after MUST_KEEP content remains intact.",
+      "OPTIONAL": "Ambient sparkle/glow/floor breathing room that may be reduced before stateful UI is compressed."
+    },
+    "measurementNote": "Bounds are producer composition guides derived from the versioned SVG geometry, with conservative padding around transformed groups. They are not machine approval thresholds and do not replace actual target-surface pixel review."
+  },
+  "globalIntegrationPolicy": {
+    "preferredObjectFit": "contain",
+    "forbiddenDefault": "cover",
+    "liveStatePriority": "Real labels, counters, mastery evidence, ownership, prices and actions stay outside decorative art and take layout priority over decoration.",
+    "narrowViewportRule": "If the available slot cannot show the complete MUST_KEEP union at readable scale, shrink or omit the decorative image rather than crop a semantic station or obscure live state.",
+    "overflowRule": "Artwork must remain inside its assigned panel and must not refill the W13/15 Home hero corridor or create horizontal overflow.",
+    "stateClaims": "NONE_IN_ART",
+    "perceptualMetrics": "REPORT_ONLY_NEVER_ACCEPT_REJECT"
+  },
+  "assets": [
+    {
+      "id": "daily-quests",
+      "runtimeCandidatePath": "/assets/home/progression-daily-quests-w07-v1.svg",
+      "repositoryPath": "public/assets/home/progression-daily-quests-w07-v1.svg",
+      "gitBlobSha": "ca199e8368d0e6fde334dc364eea7babdba39d44",
+      "sha256": "26f0646c52ef3521b72070b3bce774e217ccb0cb1cb9e90de5e93dc5d7bc953f",
+      "dimensions": [480, 280],
+      "semanticConstraint": "Exactly three neutral stations must remain legible; no station may be cropped into an apparent completed/selected state.",
+      "mustKeepUnion": [34, 50, 426, 194],
+      "regions": [
+        {"name": "quest-card-station", "importance": "MUST_KEEP", "bounds": [34, 104, 144, 140]},
+        {"name": "transfer-bridge-station", "importance": "MUST_KEEP", "bounds": [183, 94, 120, 130]},
+        {"name": "reward-parcel-station", "importance": "MUST_KEEP", "bounds": [328, 50, 132, 160]},
+        {"name": "path-and-floor-contact", "importance": "SUPPORTING", "bounds": [48, 82, 390, 183]},
+        {"name": "sparkles-and-ambient-glow", "importance": "OPTIONAL", "bounds": [118, 24, 322, 82]}
+      ],
+      "recommendedFocus": [0.51, 0.53],
+      "targetSurfaceChecks": ["ALL_THREE_STATIONS_VISIBLE", "NO_FAKE_CHECKMARKS", "NO_STATION_READS_AS_BUTTON", "REAL_DAILY_STATE_REMAINS_SEPARATE"]
+    },
+    {
+      "id": "today-learning",
+      "runtimeCandidatePath": "/assets/home/progression-today-learning-w07-v1.svg",
+      "repositoryPath": "public/assets/home/progression-today-learning-w07-v1.svg",
+      "gitBlobSha": "568c78139c44a35fa93fa60312ea406ca9a74561",
+      "sha256": "29304865bcfb8f5f94dc22e66857a91cf02c02e2c5d636e8321af339091318f0",
+      "dimensions": [480, 280],
+      "semanticConstraint": "Open-book learning metaphor remains dominant; geometry/pencil support it without implying a score, answer or subject percentage.",
+      "mustKeepUnion": [64, 30, 352, 198],
+      "regions": [
+        {"name": "open-book", "importance": "MUST_KEEP", "bounds": [64, 70, 352, 158]},
+        {"name": "pencil", "importance": "SUPPORTING", "bounds": [86, 30, 212, 70]},
+        {"name": "geometry-set", "importance": "SUPPORTING", "bounds": [266, 130, 182, 78]},
+        {"name": "corner-learning-tiles", "importance": "OPTIONAL", "bounds": [30, 36, 410, 184]},
+        {"name": "star-path-ambience", "importance": "OPTIONAL", "bounds": [34, 28, 340, 72]}
+      ],
+      "recommendedFocus": [0.50, 0.52],
+      "targetSurfaceChecks": ["BOOK_SPREAD_READS_AT_CARD_SCALE", "NO_NUMERIC_PROGRESS_CLAIM", "NO_ANSWER_OR_SCORE_IMPLIED", "LIVE_TODAY_COPY_REMAINS_PRIMARY"]
+    },
+    {
+      "id": "mastery",
+      "runtimeCandidatePath": "/assets/home/progression-mastery-w07-v1.svg",
+      "repositoryPath": "public/assets/home/progression-mastery-w07-v1.svg",
+      "gitBlobSha": "bd6f7de3538281cca15b81dc82138957481da337",
+      "sha256": "0091c7871949c9aa22f0debd5388995e843119ac96623c84ab38dbe19a6b20b6",
+      "dimensions": [480, 280],
+      "semanticConstraint": "Medallion is symbolic only; it must not visually substitute for the real mastered-skill or Mastery Star state.",
+      "mustKeepUnion": [30, 22, 408, 240],
+      "regions": [
+        {"name": "central-star-medallion-and-ribbon", "importance": "MUST_KEEP", "bounds": [150, 18, 180, 250]},
+        {"name": "left-learning-evidence-card", "importance": "SUPPORTING", "bounds": [30, 50, 132, 128]},
+        {"name": "right-learning-evidence-card", "importance": "SUPPORTING", "bounds": [328, 68, 110, 116]},
+        {"name": "constellation-ambience", "importance": "OPTIONAL", "bounds": [62, 20, 360, 60]},
+        {"name": "ground-shadow", "importance": "OPTIONAL", "bounds": [100, 206, 280, 50]}
+      ],
+      "recommendedFocus": [0.50, 0.48],
+      "targetSurfaceChecks": ["MEDALLION_REMAINS_DECORATIVE", "NO_STAR_COUNT_IMPLIED", "NO_PERCENT_COMPLETE_IMPLIED", "REAL_MASTERY_EVIDENCE_REMAINS_DISTINCT"]
+    },
+    {
+      "id": "rewards-customization",
+      "runtimeCandidatePath": "/assets/home/progression-reward-customization-w07-v1.svg",
+      "repositoryPath": "public/assets/home/progression-reward-customization-w07-v1.svg",
+      "gitBlobSha": "8426e6af5829e225415d294f8cd1dd99019d97cb",
+      "sha256": "cef58b535376809c5727bd7234322abee7553a52960f9eda6c9a34178593db0e",
+      "dimensions": [480, 280],
+      "semanticConstraint": "Wardrobe, room-style station and parcel remain a neutral customization/reward metaphor; no depicted swatch, garment or parcel becomes a claimed owned catalog item or earned reward.",
+      "mustKeepUnion": [40, 28, 391, 200],
+      "regions": [
+        {"name": "wardrobe-and-swatches", "importance": "MUST_KEEP", "bounds": [40, 40, 210, 188]},
+        {"name": "room-style-station", "importance": "MUST_KEEP", "bounds": [256, 78, 175, 148]},
+        {"name": "reward-parcel", "importance": "SUPPORTING", "bounds": [300, 28, 124, 140]},
+        {"name": "star-accent", "importance": "OPTIONAL", "bounds": [242, 58, 50, 50]},
+        {"name": "floor-and-contact-shadow", "importance": "OPTIONAL", "bounds": [0, 184, 480, 96]}
+      ],
+      "recommendedFocus": [0.50, 0.50],
+      "targetSurfaceChecks": ["WARDROBE_AND_ROOM_STATION_BOTH_READ", "NO_REAL_ITEM_ID_OR_PRICE_IMPLIED", "NO_OWNERSHIP_OR_EARNED_STATE_IMPLIED", "LIVE_REWARD_CUSTOMIZATION_STATE_REMAINS_SEPARATE"]
+    }
+  ],
+  "viewportGuidance": {
+    "1408x1056": "Show full decorative composition inside existing panel envelope; preserve reference hierarchy and keep W07 art subordinate to room/hero/Dream Goal.",
+    "1024x768": "Keep full MUST_KEEP union with contain-first scaling; reduce decorative height before live copy or controls.",
+    "390x844": "Do not convert to cover crop. If the art becomes too small to contribute, collapse/omit decoration while leaving live state/action reachable.",
+    "320x568": "Treat decoration as expendable. Never crop Daily into fewer than three stations, never hide real state, and never introduce horizontal scroll to preserve the image."
+  },
+  "handoff": {
+    "nextOwner": "15",
+    "use": "Shared visual-finishing evaluation and eventual integration planning only.",
+    "independentPixelAcceptance": "NOT_CLAIMED",
+    "runtimeWiring": "NOT_PERFORMED",
+    "sharedCssEdited": false,
+    "playerStateEdited": false,
+    "catalogReopened": false
+  }
+}
