@@ -1,26 +1,55 @@
 # Workstream 08 catalog integration
 
-Status: **Desks 2-4 plus Auras 5/9/10/12 exact-hash ACCEPTs PREPARED; VALIDATION PENDING**
+Status: **manifest v24 published; Seating 1/11/12 exact-hash ACCEPTs canonically wired. Catalog assertions and production build pass. Store/mobile evidence still not release-cleared.**
 
-Source head: `45d930cc61b1d798b8a1a90f5d138260ce3cb708`  
-Branch: `screenshot-match-preproduction` only. Replit/Floot/main/player data untouched.
+Canonical catalog commit: `30089f73e38a18b746dd1ae981041c4c181caa3a`  
+Runtime-only precursor: `09da46794c604d40ef43b855590c442d98c07770`  
+Audited source head before the batch: `edc84244f8563b7d4882a7bfbddd7209de57c27a`  
+Branch: `screenshot-match-preproduction` only. Replit/Floot/main/deploy/player data untouched.
 
-| ID | Name | Tier/theme | Canonical asset | Git blob | Decode |
+## Integrated V2 increment
+
+| ID | Name | Tier/theme | Canonical asset | Git blob | Reviewer |
 |---|---|---|---|---|---|
-| desks-2 | Cloud Study Desk | T1 · Candy Core | `/assets/catalog/desks-2-chat-v2.png` | `277eb1e38e8a69caa0dab6d4d27bbb91796746f8` | PNG 1024×1024 |
-| desks-3 | Pixel Mini Setup | T1 · Adventure Club | `/assets/catalog/desks-3-chat-v2.png` | `aeebeacdc4a95bf75af36583dae6e2391d9a1d9e` | PNG 1024×1024 |
-| desks-4 | Berry Vanity Desk | T2 · Cloud Pop | `/assets/catalog/desks-4-chat-v2.png` | `6f87e1527ec7d9bf1a3f81e1f54320f462dbb025` | PNG 1024×1024 |
-| auras-5 | Garden Fireflies | T2 · Pixel Party | `/assets/catalog/auras-5-w11-v3.jpg` | `ae3bef6cbbf4333aa740dc9a3fddf4f2b5540192` | JPEG 600×600 |
-| auras-9 | Art Confetti | T3 · Sunny Pop | `/assets/catalog/auras-9-w11-v3.jpg` | `9331e516a7a1a2fa32abafaf3bbf0932c3ca792d` | JPEG 600×600 |
-| auras-10 | Neon Trail | T4 · Aqua Wave | `/assets/catalog/auras-10-w11-v3.jpg` | `6f07fe7f5c8be236f3c17df5f55afc550888f52e` | JPEG 600×600 |
-| auras-12 | Luxe Starstorm | T5 · Star Luxe | `/assets/catalog/auras-12-w11-v3.jpg` | `d0fcf528ff4ee91e56760932fdcf357ab264dd3d` | JPEG 600×600 |
+| `seating-1` | Floor Cushion | 1 / Aqua Wave | `/assets/catalog/seating-1-w01-v2.svg` | `50d5e16c2bd2647be4701e0c10b3ff9d786f41e1` | 02 (producer 01) |
+| `seating-11` | Moon Chair | 4 / Galaxy Glow | `/assets/catalog/seating-11-w06-v2.png` | `5126e9abcec4a09ef281dccb33aac6ba59b38b94` | 02 (producer 06) |
+| `seating-12` | Throne Chair | 5 / Sunny Pop | `/assets/catalog/seating-12-w06-v2.png` | `793b32f60ed10fffa80b549e75b66858ac0d7e4f` | 02 (producer 06) |
 
-Every accepted blob was re-read from the repository, checked against authoritative Store identity/category/tier/theme, decoded/safety-checked, confirmed independent from its producer and checked for canonical path/content collisions.
+All three current repository objects matched the independent reviewer-02 decisions and authoritative Store name/type/tier/theme metadata. The two PNGs are valid 768×768 images; the SVG was rendered through the shared candidate fixture. Reviewer independence passed, no current-hash disagreement was present, and the new paths/content are distinct. No prices, unlocks, ownership, saves or other gameplay metadata changed.
 
-After this batch: manifest v23; **152/192 legacy final-portable labels**, **81/192 strict independently accepted + canonical-wired current hashes**, **111 strict remaining**, **0 release-cleared**.
+## Canonical state
 
-## Executed validation
+Manifest is **v24**, blob `1da7f25e408e24b5130b4bb07af3a507ae8a46ff`; runtime blob is `bdb28c0c5f445adf99879f62425ef896e22249ac`.
 
-Affected catalog mapping/content tests **PASS** and the Vite production build **PASS**. Strict changed-art Store/mobile QA was executed. It remains **BLOCKED** in the shared navigation fixture: Playwright times out while performing the visible Store sidebar pointer click before any changed Store artwork is reached. This does not convert any item to release-cleared; release clearance remains 0.
+- target: **192**
+- manifest/runtime mappings: **162 / 162**
+- legacy `final-portable`: **154**
+- legacy interim-not-verified: **8**
+- legacy non-final/unmapped: **38**
+- independently accepted current hashes canonically wired: **84 / 192**
+- strict accepted-and-canonical remaining: **108**
+- catalog release-cleared: **0 / 192**
+- canonical duplicate paths: **0**
+- canonical duplicate exact content: **0 known**
 
-The unrelated full-suite harness issue remains separate: run `35677462826` collected `scripts/artPromptOptimizer.test.mjs` as a test file with no test suite. No assertion was weakened.
+Legacy final labels are not treated as independent screenshot-quality acceptance.
+
+## Validation on exact canonical commit
+
+GitHub Actions checked out exact commit `30089f73...`.
+
+- `src/catalogManifestQa.test.js`: **PASS 4/4 catalog invariants**.
+- `src/catalogAssetSafety.test.js`: **PASS**.
+- Store runtime tests: **PASS 3/3**.
+- Executed test assertions: **99 PASS / 0 assertion failures**.
+- General CI wrapper: **FAIL**, solely because `scripts/artPromptOptimizer.test.mjs` was collected as a test file but declares no test suite. Workstream 08 did not weaken or edit that unrelated harness.
+- Vite production build: **PASS** on the exact canonical commit in Preproduction Visual QA run `35685092735`; Catalog Mobile QA run `35685092749` also completed its build step successfully.
+- Preproduction Visual QA run `35685092735`: **FAIL** with 10 release blockers. Store navigation times out while clicking the visible Store nav before Store content is reached at desktop, landscape, 390px and 320px. Six existing Quest desktop geometry checks also fail. Home structural checks pass. Artifact: `10676830427`.
+- Changed-art Catalog Mobile QA run `35685092749`: **still executing its Store/mobile gate at last verified read**; do not claim Store smoke PASS yet.
+- Reference-capture run `35685092811`: fresh exact-head capture was triggered; final result was not yet verified at this snapshot.
+
+The shared Store navigation timeout is outside Workstream 08's catalog ownership, so canonical accepted mappings remain intact while 14/15 own the shared visual/navigation evidence path.
+
+## Handoff
+
+Continue consuming reviewers 01/02/05/14 from the live head and integrate only newly qualified current exact-hash ACCEPTs. Do not re-integrate the 84 already canonical accepted hashes. Current remaining catalog risk is **108 strict items**, plus completion of Store/mobile visual proof and the final release duplicate/near-duplicate gate. Only Workstream 15 may change phase or declare visual completion; no catalog state authorizes deployment.
