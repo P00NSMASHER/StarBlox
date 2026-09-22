@@ -1,6 +1,6 @@
 # Workstream 13 — Scene / Character Art
 
-STATUS: **READY_FOR_REVIEW — Home v2 + Quest v1 + Store v1 scenes and avatar-headset v1 staged with exact origin readback; none runtime-wired**
+STATUS: **READY_FOR_REVIEW — Home v2 + Quest v1 + Store v1 scenes, avatar-headset v1 and buddy-stage v1 staged with exact origin readback; none runtime-wired**
 
 ## Concrete visual defect and v1 disposition
 
@@ -106,14 +106,37 @@ Character intent:
 Provenance: Adobe generation request `9b0023e7-5c93-4b5d-971a-5518470944fe`; background-removal request `079eaf22-9c13-4d9e-9611-1768f38fc415`; resize request `cb037264-0787-4024-830a-85f51b4e68c8`. This is producer-staged art only, not an avatar-runtime or equipment-system change.
 
 
+## Buddy presentation layer — `buddy-stage-w13-v1`
+
+The Home/Quest references give the buddy a deliberate visual stage near the avatar, while the current branch renders do not yet have an equally coherent reusable presentation layer. To avoid overriding buddy ownership/identity, lane 13 produced **only a transparent pedestal/glow staging asset**; it contains no creature and changes no Buddy/Bond state.
+
+Staging intent:
+
+- small rounded toy-game pedestal with a subtle star inset;
+- translucent lilac/cyan rim light with blush/gold accents;
+- faint halo, sparse sparkle particles and a soft contact shadow;
+- sized to sit beside a separately composited avatar and underneath any player-selected buddy;
+- no creature, avatar, text, UI, logo, buttons, third-party IP or baked gameplay state.
+
+### Exact staged buddy-stage assets
+
+- Source preservation: `public/assets/visuals/lane-13/buddy-stage-w13-v1-source.png` — **1536×1536**, 1,441,961 bytes, SHA-256 `e400e0ff17c28181a9f6223dd9fd55a07d70b4cbce5ab2e297d42711055f0d8f`, Git blob `40dfb0eb242d7c2739bbba0fc102ea80baa3bf6e`.
+- Full transparent cutout: `public/assets/visuals/lane-13/buddy-stage-w13-v1-full.png` — **1536×1536**, 337,414 bytes, SHA-256 `20e22e48891c63512ada3be5e843885e7ae884937884276313739440afce55c4`, Git blob `897e1a1aa86db4accd831872a37f678d38c4b75e`; alpha bbox `[270,516,1249,1177]`.
+- Optimized transparent derivative: `public/assets/visuals/lane-13/buddy-stage-w13-v1-768.png` — **768×768**, 136,010 bytes, SHA-256 `add4696b3da9c5d7664f4e03c13f91498bb269902b5ab70336d21ece2b3c79f2`, Git blob `503788fcbdc250770fd4fcaa0c706856496ee0d9`; alpha bbox `[135,258,625,589]`.
+- Exact origin readback: **PASS 3/3 exact SHA-256**; binary-push head recorded by the intake as `b2db735a284aa01436d1e85bf4514762c374de79`.
+- Intake evidence: `docs/preproduction/visuals/lane-13-buddy-stage-v1-intake.json`.
+
+Provenance: Adobe generation request `7a8d4166-af69-4ee2-80e4-3a6be3e8dec9`; background-removal request `1390d0c7-9e03-49c2-b01c-66ff11e6bff9`; resize request `c5a476e0-1684-4f2d-b6f6-024fcd708e4c`. Player-selected buddy identity and Bond progress remain authoritative and untouched.
+
+
 ## Scope safety
 
-None of the three staged scene candidates or the separate avatar-headset layer edits Workstream 09's active environment, Workstream 06 avatar implementation, catalog manifest/runtime mappings, saves/economy/learning, Replit, Floot or `main`. They are versioned review candidates only.
+None of the three staged scene candidates, avatar-headset layer or buddy-stage layer edits Workstream 09's active environment, Workstream 06 avatar/buddy implementation, catalog manifest/runtime mappings, saves/economy/learning, Buddy/Bond state, Replit, Floot or `main`. They are versioned review candidates only.
 
 ## Independent review handoff
 
-- **01:** judge exact Home v2, Quest v1, Store v1 and avatar-headset v1 pixels against their immutable references; every decision must bind to the exact hashes above/intake evidence.
+- **01:** judge exact Home v2, Quest v1, Store v1, avatar-headset v1 and buddy-stage v1 pixels against their immutable references; every decision must bind to the exact hashes above/intake evidence.
 - **14:** judge overlay-safe composition, alpha/cutout quality, format/performance and real-browser suitability.
-- **15:** only after independent acceptance, coordinate environment handoff to Workstream 09 and character handoff to the avatar owner.
+- **15:** only after independent acceptance, coordinate environment handoff to Workstream 09 and character/buddy presentation handoff to the appropriate owner.
 
 Workstream 13 must not self-approve or wire this candidate.
