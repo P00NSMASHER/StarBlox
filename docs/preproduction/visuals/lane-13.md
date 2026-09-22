@@ -1,6 +1,6 @@
 # Workstream 13 — Scene / Character Art
 
-STATUS: **READY_FOR_REVIEW — Home v2 + Quest learning-room v1 staged with exact origin readback; neither runtime-wired**
+STATUS: **READY_FOR_REVIEW — Home v2 + Quest v1 + Store v1 scene candidates staged with exact origin readback; none runtime-wired**
 
 ## Concrete visual defect and v1 disposition
 
@@ -51,21 +51,45 @@ Composition intent:
 
 Provenance: Adobe generation request `9b3ba95e-a56f-4cdf-bfbc-3a30ff696c4f`; Adobe crop request `cf534922-622d-4397-8a89-375eb8c8568e`. The immutable Quest source remains `docs/preproduction/reference-screenshots/originals/quest-1448x1086.jpeg` with SHA-256 `70f1b952709a85c77bb11851ffe9ae704acf8b97640355e908b6ec537b5c73c9`. The comparison used the existing branch-local render artifact from run `35663655650`; no screenshot-parity claim is made.
 
+## Parallel candidate — `store-boutique-w13-v1`
+
+The current branch-local Store render was inspected beside the immutable Store reference before production. The largest environment gap is that the live Store reads as a flatter UI shell with limited boutique architecture/material depth around the catalog and try-on zone. Lane 13 therefore staged a **separate boutique background only**; it does not include the avatar/mannequin, catalog cards, prices, item metadata, ownership/equipment state or runtime UI.
+
+Composition intent:
+
+- warm blush/lilac/cream architecture, warm wood and soft gold light with selective cobalt/cyan StarBlox accents;
+- wardrobe/vanity/shelving/rail/plant/lamp/pedestal depth concentrated around the outer edges;
+- broad center-left and center kept calmer behind the existing catalog/filter UI;
+- far-right try-on zone softly lit but uncluttered behind separately composited equipped-character rendering;
+- no people, mannequin, UI, text, prices, logos, branded garments, third-party IP or flattened fake-screen content;
+- reference outfit/merchandise remains visual guidance only and cannot override owned/equipped choices.
+
+### Exact staged Store assets
+
+- Full-quality: `public/assets/visuals/lane-13/store-boutique-w13-v1-full.png` — **2304×1792**, 4,511,635 bytes, SHA-256 `01fd80f63e0deda237b1e19df4cb307c8380347beb2c69868114fd13709cd444`, Git blob `b05d3be93b49f0e8f06359bfd524bde8a1e8d17d`.
+- Desktop derivative: `public/assets/visuals/lane-13/store-boutique-w13-v1-1408x1056.png` — **1408×1056**, 1,679,187 bytes, SHA-256 `04d0a2660dc5109aa2cdcea956f807baa01c6eb6b998598f656dfce83d3d0fe8`, Git blob `c0959df22e8f67ab9812c791e679acad224045ba`.
+- Exact origin readback: **PASS 2/2 exact SHA-256**; binary-push head recorded by the intake as `707dad359bc88eb520fe20aa818bc5c7f5dd378c`.
+- Intake evidence: `docs/preproduction/visuals/lane-13-store-v1-intake.json`.
+
+Provenance: Adobe generation request `1f92b4a4-ed9d-41ec-9694-2a535d91055d`; Adobe crop request `3a6253e1-5209-438d-9204-b67beec5e50b`. The immutable Store source remains `docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg` with SHA-256 `b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d`. The comparison used the existing branch-local render artifact from run `35663655650`; no screenshot-parity claim is made.
+
+
 ## Current review state
 
 - **Home v2:** still waiting on independent reviewer 01 art judgment and reviewer 14 composition/performance judgment. It was not regenerated while pending.
-- **Quest v1:** newly staged and waiting on the same independent review split. Producer inspection/readback is not acceptance.
-- **Runtime:** neither candidate is wired. Workstream 09's active environment assets and Workstream 06 avatar implementation remain untouched.
+- **Quest v1:** staged and waiting on the same independent review split. Producer inspection/readback is not acceptance.
+- **Store v1:** newly staged and waiting on independent art-direction plus composition/performance review.
+- **Runtime:** none of the three scene candidates are wired. Workstream 09's active environment assets and Workstream 06 avatar implementation remain untouched.
 
 
 ## Scope safety
 
-Neither staged candidate edits Workstream 09's active environment, Workstream 06 avatar implementation, catalog manifest/runtime mappings, saves/economy/learning, Replit, Floot or `main`. They are versioned review candidates only.
+None of the three staged scene candidates edits Workstream 09's active environment, Workstream 06 avatar implementation, catalog manifest/runtime mappings, saves/economy/learning, Replit, Floot or `main`. They are versioned review candidates only.
 
 ## Independent review handoff
 
-- **01:** judge exact Home v2 and Quest v1 pixels against their immutable references; every decision must bind to the exact hashes above/intake evidence.
-- **14:** judge overlay-safe composition, format/performance and real-browser suitability for both candidates.
+- **01:** judge exact Home v2, Quest v1 and Store v1 pixels against their immutable references; every decision must bind to the exact hashes above/intake evidence.
+- **14:** judge overlay-safe composition, format/performance and real-browser suitability for all three candidates.
 - **15:** only after independent acceptance, coordinate any runtime handoff to Workstream 09.
 
 Workstream 13 must not self-approve or wire this candidate.
