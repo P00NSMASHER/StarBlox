@@ -1,0 +1,36 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {buildJobPlan,deriveSeed,validateJobPlan,RIGHTS_BASIS} from './artFactoryJob.mjs';
+
+const item={id:'decor-3',name:'Arcade Mini',collectionId:'decor',type:'room',tier:3,theme:'Arcade Pop'};
+const variants=['A-PHYSICAL','B-READABILITY','C-THEME-TIER','D-REPAIR'].map((variant,i)=>{
+  const promptText=`prompt-${i}-${variant}`;
+  const {createHash}=await import('node:crypto');
+  return {variant,promptBlocks:['physical','card'],promptText,promptSha256:createHash('sha256').update(promptText).digest('hex')};
+});
+const recommendation={sourceReviewHash:'bad-hash',variants};
+
+test('factory job planning is deterministic and rights-bound',()=>{
+  const args={item,recommendation,producer:'09',sourceHead:'abc123',modelId:'model-x',modelRevision:'rev-y'};
+  const a=buildJobPlan(args),b=buildJobPlan(args);
+  assert.deepEqual(a,b);
+  assert.equal(a.rightsBasis,RIGHTS_BASIS);
+  assert.equal(new Set(a.attempts.map(x=>x.seed)).size,4);
+  assert.equal(validateJobPlan(a).length,0);
+});
+
+test('seed derives from item prompt and variant',()=>{
+  const x=deriveSeed('decor-3',variants[0].promptSha256,variants[0].variant);
+  const y=deriveSeed('decor-3',variants[0].promptSha256,variants[0].variant);
+  assert.equal(x,y); assert(x>0);
+});
+
+test('accepted or otherwise non-generating recommendations cannot become jobs',()=>{
+  assert.throws(()=>buildJobPlan({item,recommendation:{action:'PRESERVE_ACCEPTED_HASH'},producer:'09',sourceHead:'h',modelId:'m',modelRevision:'r'}),/not eligible/);
+});
+
+test('tampering with a prompt is detected',()=>{
+  const p=buildJobPlan({item,recommendation,producer:'09',sourceHead:'abc123',modelId:'m',modelRevision:'r'});
+  p.attempts[0].promptText+=' tampered';
+  assert(validateJobPlan(p).some(x=>x.includes('prompt hash mismatch')));
+});
