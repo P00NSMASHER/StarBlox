@@ -28,14 +28,14 @@ No new art was generated this cycle. The exact already-generated 600×600 PNG de
 
 The four full-quality 1024×1024 Firefly sources and their provenance remain preserved in `lane-12.json`. The scale gate remains unchanged: **do not start Headwear 9–12 or another accessory family until Headwear 5–8 are repository-stored/read back and reviewer 01 dispositions the exact current hashes.**
 
-## New transport evidence
+## Latest transport probe
 
-Input branch head checked: `7d30265638ea83677544c361510ba0b730ae243d`.
+Current branch head checked: `18cd3a0b7a3cb83f659fcf03d45adbf05db84b47`.
 
-- All four exact derivative output URLs were fetched through Adobe `asset_inline_preview` and decoded successfully. This is new evidence that the exact existing derivatives still exist; no duplicate generation occurred.
-- All four planned repository paths returned `404` on `screenshot-match-preproduction` at that input head.
-- Therefore helper 04 has **not yet landed the bytes**. This is a transport-only blocker, not an art-quality or provenance failure.
-- The Adobe connector can render the short-URL derivatives, but Workstream 12 still does not receive a supported raw-byte payload suitable for GitHub binary upload. No alternate resize, re-export, or replacement asset was created.
+- All four planned Headwear 5–8 repository paths still return `404` at this head; helper 04 has not yet attached the bytes.
+- Adobe asset search independently resolved the preserved Flower Crown source to the exact recorded Creative Cloud asset `urn:aaid:sc:US:77f50381-8f34-4611-924d-703009f479cc`, and Adobe returned fresh rendition/download handles. The recorded 600×600 derivative also still renders through Adobe, so the source/provenance is not lost.
+- Raw-byte transfer remains the blocker: the branch-local/container fetch path cannot resolve `photoshop-api.adobe.io` or `at.adobe.com`, so it cannot obtain the exact PNG bytes for `GitHub.create_blob`; the browser-transfer route is unavailable in this non-interactive execution context. No image was regenerated, re-exported, cropped, rethemed, or otherwise modified.
+- This is a transport-only failure. Producer provenance remains 12; helper 04 remains the only authorized transport helper for this batch.
 
 ## Exact next action
 
