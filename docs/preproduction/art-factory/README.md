@@ -131,6 +131,23 @@ node scripts/artFactoryJob.mjs validate --job artifacts/art-factory-jobs/decor-3
 
 The compiler refuses ACCEPTed/non-generating recommendations, enforces the 2–4 variant pilot, derives stable unique seeds from item+prompt+variant, binds the user-attested model-rights basis, records exact runtime/model revisions, and emits no fake output hashes before generation. The job manifest is the handoff into Diffusers/IP-Adapter, InvokeAI, an authorized image tool, or another approved generator; after real bytes exist, normal exact-byte staging/readback/render/review rules apply.
 
+## Verified staged-output handoff
+
+After a generator produces real bytes, bind them back to the deterministic job before render/review:
+
+```bash
+python docs/preproduction/art-factory/verify_staged_output.py verify \
+  --repo-root . \
+  --job artifacts/art-factory-jobs/decor-3.json \
+  --attempt-id <exact-attempt-id> \
+  --repo-path public/assets/catalog/decor-3-w09-v4.png \
+  --output artifacts/art-factory-outputs/decor-3-w09-v4.json
+```
+
+The verifier checks the compiled plan hash, branch, user-attested model-rights basis, exact attempt/item/producer binding, versioned catalog path, independent reviewer routing, raster decode, dimensions, byte count, SHA-256 and Git-blob SHA. It emits `STAGED_EXACT_BYTES_VERIFIED` with review still pending. It cannot ACCEPT/REWORK art and cannot write canonical catalog/runtime files. Source bytes remain preserved; derivatives must record their parent SHA-256.
+
+This closes the factory chain as: **review defect → optimizer → deterministic job → generation → exact-byte verifier → real render → independent exact-hash review → Workstream 08 canonical integration → outcome learning**.
+
 ## Validation
 
 Manual preflight workflow: `.github/workflows/art-factory-preflight.yml`.
