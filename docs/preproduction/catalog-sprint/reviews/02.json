@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 7,
+  "schemaVersion": 8,
   "reviewer": "02",
   "role": "independent reviewer for Shoes/Backgear/Handgear/Seating",
   "phase": "ART_VISUALS_SPRINT",
@@ -7,278 +7,217 @@
   "policy": "docs/preproduction/DELIVERY_PROTOCOL_V2.md",
   "visualSprint": "docs/preproduction/ART_VISUALS_SPRINT.json",
   "referenceManifest": "docs/preproduction/reference-screenshots/original-reference-manifest.json",
-  "sourceHead": "23b50f37f7c3cea7daa51f25e4b151ae33d6bc3c",
-  "gameModel": {
-    "path": "src/gameModel.js",
-    "blobSha": "79fdb8c3bed4d715e0b1c770f34db0037a7f7c3b",
-    "authoritativeSeatingMetadataChecked": true,
-    "authoritativeBedsMetadataChecked": true,
-    "bedsThemeSequence": {
-      "beds-1": "Garden Glow",
-      "beds-2": "Galaxy Glow",
-      "beds-3": "Sunny Pop",
-      "beds-4": "Aqua Wave",
-      "beds-5": "Art Attack",
-      "beds-6": "Star Luxe",
-      "beds-7": "Midnight Neon",
-      "beds-8": "Candy Core",
-      "beds-9": "Adventure Club",
-      "beds-10": "Cloud Pop",
-      "beds-11": "Pixel Party",
-      "beds-12": "Berry Blast"
-    },
-    "beds1MismatchDisposition": "Confirmed authoritative Store theme is Garden Glow. Lane 02 did not change gameModel or catalog metadata; Workstream 08 owns mapping correction."
-  },
+  "sourceHead": "89242c5691d273f628ab552c23bfbac207bfdc76",
   "priorReviewShard": {
-    "blobSha": "0c05422c55b3241517012e4d5f0e893a381f83bf",
-    "schemaVersion": 6,
-    "scope": "All earlier reviewer-02 exact-hash Shoes/Backgear/Handgear/Seating decisions and evidence",
+    "blobSha": "3195757960e035e21bb26a404730c788dcbcc23d",
+    "schemaVersion": 7,
+    "scope": "All earlier reviewer-02 exact-hash Shoes/Backgear/Handgear/Seating decisions, recipes, evidence audits and accepted-hash freezes",
     "disposition": "PRESERVE_IMMUTABLY",
-    "rule": "This schema-7 file is an append-only shard rollover. Every exact-hash decision in the prior blob remains authoritative unless a later review names the same item with a different exact asset hash."
+    "rule": "This schema-8 file is an append-only shard rollover. Every exact-hash decision in the prior blob and its referenced prior shards remains authoritative unless a later review names the same item with a different exact asset hash."
   },
   "referenceEvidence": {
     "originalsPath": "docs/preproduction/reference-screenshots/originals/",
-    "manifestBlobSha": "63956763934f17613a3f98889f8085051a78a0b6",
-    "storeOriginal": {
-      "path": "docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg",
-      "sha256": "b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d",
-      "gitBlobSha": "383baa877d3af86fa92e3583740212000592b3d6",
-      "dimensions": [1448, 1086]
-    },
-    "usage": "Original-reference bytes/manifests were used as the screenshot visual target; no mobile reference pixels were invented."
+    "storeOriginalPath": "docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg",
+    "storeOriginalSha256": "b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d",
+    "usage": "Original Store reference remains the visual target. No reference bytes or geometry were modified."
   },
-  "evidenceSets": {
-    "freshSeating4To6": {
-      "producers": ["01", "coordination recovery"],
-      "workflowRunId": 35673301701,
-      "artifactId": 10671653000,
-      "artifactName": "seating-4-6-recovery-evidence",
-      "actualPixelsReviewed": true,
-      "detailScale": "1024x1024 exact-hash browser screenshots",
-      "cardScale": "independent downscale/contact-sheet inspection",
-      "decode": "PASS_3_OF_3_PNG",
-      "dimensions": "PASS_3_OF_3_1024x1024",
-      "detailSha256": {
-        "seating-4": "27619a41beeaccdd1d676c084eec815afeafb21d34ac98bdb1d86c054fc47443",
-        "seating-5": "08c778c13fb575e486fee718e44791d5b5db286155994897e3df2d0c917c6568",
-        "seating-6": "01e3650bfe049d008e9f593207b4de015db1dde35cf86a6e771cf3202381445f"
+  "currentEvidence": {
+    "workflowRunId": 35682911760,
+    "artifactId": 10675401829,
+    "artifactName": "catalog-staged-art-review",
+    "workflowRunHead": "e89d5121cb629c56301a04c5de69b442813de01c",
+    "workflowOverallConclusion": "failure",
+    "scopeBoundary": "Reviewer 02 does not treat the enclosing workflow as a pass. Decisions below rely only on scoped exact-hash items whose report errors are empty and whose card/detail pixels were independently inspected.",
+    "reportSha256": "840f06468aa3254787421b41eaa36d6ba11b012e3113492d0f4efd0418c2e01d",
+    "cardContactSheet": "staged-replacements/staged-replacements-contact-sheet.png",
+    "cardContactSheetSha256": "98b0e9b5021f3239cdd9021a596fe8d56785d403704898db7c9be77915f6ba05",
+    "actualPixelsReviewed": true,
+    "localReadbackSha256Verified": true,
+    "committedHandoffForSeating11To12": "docs/preproduction/catalog-sprint/chat-seating-11-12-render-evidence-14-to-02.json",
+    "items": {
+      "seating-1": {
+        "name": "Floor Cushion",
+        "tier": 1,
+        "theme": "Aqua Wave",
+        "producer": "01",
+        "assetPath": "/assets/catalog/seating-1-w01-v2.svg",
+        "assetHash": "50d5e16c2bd2647be4701e0c10b3ff9d786f41e1",
+        "currentRepositoryReadback": "PASS_EXACT_BLOB_SHA",
+        "decode": "PASS_SVG_1024x1024",
+        "cardRender": "PASS_EXACT_HASH_PRESENT_IN_CONTACT_SHEET",
+        "detailRender": "staged-replacements/detail/seating-1-50d5e16c.png",
+        "detailRenderSha256": "e25bfbd642322ffd238a47af976ffad4cb9f6f26d56428e5336bcd67b141e7e2",
+        "scopedErrors": []
       },
-      "candidateSha256": {
-        "seating-4": "ed23dbccfd3501122c20b3fff77bb8d3f4273cb902e4df745e66fdbfa2c86710",
-        "seating-5": "817b9316d3b1d4ccf2c3fc488732fc17831f4c00797185b5b09bfebe590af657",
-        "seating-6": "d3e8e8d96beec53a6f4a094d3cf1717c0790b9b9ae56fee26df6672e20e4f01e"
+      "seating-11": {
+        "name": "Moon Chair",
+        "tier": 4,
+        "theme": "Galaxy Glow",
+        "producer": "06",
+        "assetPath": "/assets/catalog/seating-11-w06-v2.png",
+        "assetHash": "5126e9abcec4a09ef281dccb33aac6ba59b38b94",
+        "contentSha256": "2bf8b90027f58f24323121305d675edc91ccb996605cd10ca73ccbe077645c47",
+        "dimensions": [768, 768],
+        "bytes": 579001,
+        "declaredEqualsActual": true,
+        "decode": "PASS_PNG_768x768",
+        "cardRender": "PASS_EXACT_HASH_PRESENT_IN_CONTACT_SHEET",
+        "detailRender": "staged-replacements/detail/seating-11-5126e9ab.png",
+        "detailRenderSha256": "6165b0cdf40953a339dc77586997b4ab7d01e4d86af609f1725ad8fb01347378",
+        "scopedErrors": []
       },
-      "candidateGitBlobSha": {
-        "seating-4": "55d1fb2edddb7638f87c5962bd03b6ac745a1f4b",
-        "seating-5": "252f0b24b3ede29d6abfbe7fc661a7da751de565",
-        "seating-6": "f4f00fb739aaae4ce970a4c4d1d738bca729ff40"
-      },
-      "visualInspection": "Reviewer 02 inspected exact replacement pixels at detail and card scale. The three candidates materially exceed the rejected flat/front-facing legacy direction and preserve the screenshot target's saturated toy-game depth, strong silhouettes, soft cast lighting and readable materials."
+      "seating-12": {
+        "name": "Throne Chair",
+        "tier": 5,
+        "theme": "Sunny Pop",
+        "producer": "06",
+        "assetPath": "/assets/catalog/seating-12-w06-v2.png",
+        "assetHash": "793b32f60ed10fffa80b549e75b66858ac0d7e4f",
+        "contentSha256": "5891818da864e528aaceb598f93d2b3426cb91c3eb1acd0375e4f57cbe7d69df",
+        "dimensions": [768, 768],
+        "bytes": 577216,
+        "declaredEqualsActual": true,
+        "decode": "PASS_PNG_768x768",
+        "cardRender": "PASS_EXACT_HASH_PRESENT_IN_CONTACT_SHEET",
+        "detailRender": "staged-replacements/detail/seating-12-793b32f6.png",
+        "detailRenderSha256": "80ef6ec7c723d426c2722e107a2bd1aa0603af23108286161b239777672a978d",
+        "scopedErrors": []
+      }
     }
   },
-  "latestEvidenceAudit": {
-    "observedBranchHead": "7d30265638ea83677544c361510ba0b730ae243d",
-    "scope": ["Shoes", "Backgear", "Handgear", "Seating"],
-    "laneEvidenceChecked": [
-      "docs/preproduction/catalog-sprint/lane-04.json",
-      "docs/preproduction/catalog-sprint/lane-06.json",
-      "docs/preproduction/catalog-sprint/lane-12.json"
-    ],
-    "result": "NO_NEW_ELIGIBLE_REVIEW_DECISION",
-    "reason": "No new in-partition candidate currently satisfies the reviewer gate of exact current repository hash plus real card/detail render proof. Accepted hashes remain frozen; no legacy churn is warranted.",
-    "shoes": {
-      "status": "NO_NEW_CURRENT_REVIEWABLE_DELTA",
-      "evidence": "Lane 04 reports Shoes 1-6 already independently accepted/current/canonical; no newer exact-hash Shoes candidate with card/detail proof is surfaced for reviewer 02."
-    },
-    "backgearHandgear": {
-      "status": "NO_CURRENT_REVIEWABLE_DELTA_SURFACED",
-      "evidence": "Current lane 12 evidence is an active Headwear 5-8 batch owned/reviewed outside reviewer-02's Backgear/Handgear partition and does not surface a new exact-hash Backgear/Handgear candidate for 02."
-    },
-    "seating": {
-      "status": "WAITING_FOR_REAL_CARD_DETAIL_PROOF",
-      "candidates": [
-        {
-          "itemId": "seating-11",
-          "name": "Moon Chair",
-          "tier": 4,
-          "theme": "Galaxy Glow",
-          "assetPath": "/assets/catalog/seating-11-w06-v2.png",
-          "assetHash": "5126e9abcec4a09ef281dccb33aac6ba59b38b94",
-          "contentSha256": "2bf8b90027f58f24323121305d675edc91ccb996605cd10ca73ccbe077645c47",
-          "dimensions": [768, 768],
-          "bytes": 579001,
-          "producerStatus": "READY_FOR_REVIEW_02",
-          "reviewerStatus": "BLOCKED_EVIDENCE_NOT_DECISION",
-          "missing": "Workstream-14 real shared-fixture card/detail render pixels tied to this exact hash"
-        },
-        {
-          "itemId": "seating-12",
-          "name": "Throne Chair",
-          "tier": 5,
-          "theme": "Sunny Pop",
-          "assetPath": "/assets/catalog/seating-12-w06-v2.png",
-          "assetHash": "793b32f60ed10fffa80b549e75b66858ac0d7e4f",
-          "contentSha256": "5891818da864e528aaceb598f93d2b3426cb91c3eb1acd0375e4f57cbe7d69df",
-          "dimensions": [768, 768],
-          "bytes": 577216,
-          "producerStatus": "READY_FOR_REVIEW_02",
-          "reviewerStatus": "BLOCKED_EVIDENCE_NOT_DECISION",
-          "missing": "Workstream-14 real shared-fixture card/detail render pixels tied to this exact hash"
-        }
-      ],
-      "integrityRule": "Do not emit ACCEPT or REWORK from producer descriptions, raw candidate metadata, or superseded hashes. Review only the exact hashes above after actual card/detail proof exists."
-    },
-    "reviewLearnerGate": {
-      "qualifiedLabelsThisAudit": 0,
-      "blockedIsNotRework": true,
-      "requiredDecisionChecks": [
-        "physicalConstruction",
-        "silhouette",
-        "materialLighting",
-        "themeTierSpecificity",
-        "smallCardReadability",
-        "originalityNearDuplicateRisk",
-        "technicalIntegrity"
-      ]
-    }
-  },
-  "collectionReviewRecipes": {
-    "Shoes": [
-      "Require upper/outsole/closure construction to read as separate physical parts, not a hue-swapped shoe icon.",
-      "At card scale preserve a distinctive lateral/three-quarter silhouette and grounded contact shadow.",
-      "Theme and tier must be carried by construction/material detail as well as palette or glow."
-    ],
-    "Backgear": [
-      "Require believable avatar attachment logic, body depth and straps/hardware where the item calls for them.",
-      "The rear silhouette must remain identifiable at card scale without relying on text, branding or a flat panel graphic.",
-      "Reject near-duplicates whose only meaningful change is palette, decals or background VFX."
-    ],
-    "Handgear": [
-      "Require grip/handle/body or head separation and plausible hand attachment/orientation.",
-      "Preserve a distinct compact silhouette at card scale with material response on the held object itself.",
-      "Tier richness should come from physical construction, hardware, material layering and controlled lighting rather than flat recolor."
-    ],
-    "Seating": [
-      "Require readable seat/back/base or leg construction with credible thickness and support; avoid bean-like undifferentiated blobs.",
-      "Separate upholstery, frame, wood/metal/plastic and trim through texture/highlight response plus cast/contact shadow.",
-      "Higher tiers must visibly add construction/material richness while keeping the chair silhouette readable in Store-card framing."
-    ]
+  "eligibilityAudit": {
+    "Shoes": "No newer repository-staged exact-hash Shoes candidate with qualified card/detail proof. Lane 06 Shoes 7-10 remote outputs are explicitly not staged and therefore not reviewable.",
+    "Backgear": "No new exact-hash reviewable delta surfaced.",
+    "Handgear": "No new exact-hash reviewable delta surfaced.",
+    "Seating": "Seating 1, 11 and 12 now satisfy the exact-current-hash plus real card/detail pixel gate and are reviewed below.",
+    "legacyChurn": false
   },
   "reviews": [
     {
-      "itemId": "seating-4",
-      "name": "Heart Chair",
-      "tier": 2,
-      "theme": "Midnight Neon",
+      "itemId": "seating-1",
+      "name": "Floor Cushion",
+      "tier": 1,
+      "theme": "Aqua Wave",
       "producer": "01",
-      "assetPath": "/assets/catalog/seating-4-chat-v2.png",
-      "assetHash": "55d1fb2edddb7638f87c5962bd03b6ac745a1f4b",
-      "contentSha256": "ed23dbccfd3501122c20b3fff77bb8d3f4273cb902e4df745e66fdbfa2c86710",
+      "assetPath": "/assets/catalog/seating-1-w01-v2.svg",
+      "assetHash": "50d5e16c2bd2647be4701e0c10b3ff9d786f41e1",
       "hashAlgorithm": "git-blob-sha1",
       "decision": "ACCEPT",
       "evidenceRefs": [
-        "workflow:35673301701/artifact:10671653000",
-        "artifact:10671653000/artifacts/catalog-staged-art/staged-replacements/detail/seating-4-55d1fb2e.png#sha256=27619a41beeaccdd1d676c084eec815afeafb21d34ac98bdb1d86c054fc47443",
+        "workflow:35682911760/artifact:10675401829",
+        "artifact:10675401829/staged-replacements/staged-replacements-contact-sheet.png#sha256=98b0e9b5021f3239cdd9021a596fe8d56785d403704898db7c9be77915f6ba05",
+        "artifact:10675401829/staged-replacements/detail/seating-1-50d5e16c.png#sha256=e25bfbd642322ffd238a47af976ffad4cb9f6f26d56428e5336bcd67b141e7e2",
+        "docs/preproduction/catalog-sprint/lane-01.json",
         "docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg#sha256=b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d"
       ],
-      "reason": "Heart silhouette survives card reduction immediately. Deep upholstered lobes, cushion thickness, piping, wood legs and grounded cast shadow make the chair physically credible; cyan/magenta rim light over a dark violet body communicates Midnight Neon through material and lighting rather than a flat recolor. Tier-2 richness is clear without over-spectacle.",
+      "reason": "The exact current Floor Cushion reads as a real low round cushion at both detail and Store-card scale: the three-quarter body has visible gusset thickness, rim piping, stitched panels, four tuft depressions and a grounded shadow. Aqua highlights, wave embroidery and restrained pictorial trim carry Aqua Wave without branding; the simpler construction is appropriate for Tier 1. It is visually distinct from the later pod, bean and upholstered-chair silhouettes.",
       "checks": {
         "identity": "PASS",
-        "themeTier": "PASS",
-        "silhouette": "PASS",
-        "materialLighting": "PASS",
-        "cardReadability": "PASS",
-        "originality": "PASS",
-        "duplicateVisual": "PASS"
+        "physicalConstruction": "PASS — low padded top, thick side gusset, piping, seams and tufting form a coherent floor cushion rather than a flat icon",
+        "silhouette": "PASS — simple round three-quarter cushion remains immediately legible at card scale",
+        "materialLighting": "PASS — subtle woven/grain treatment, top-to-side falloff, rim highlights and contact shadow provide usable upholstery depth for Tier 1",
+        "themeTierSpecificity": "PASS — Aqua Wave is expressed through aqua material, restrained wave embroidery and trim without overbuilding the entry tier",
+        "smallCardReadability": "PASS — cushion body, tuft points and side depth survive the staged Store-card render",
+        "originalityNearDuplicateRisk": "PASS — low near-duplicate risk against current Seating; construction and silhouette are distinct rather than a recolor",
+        "technicalIntegrity": "PASS — current branch blob is 50d5e16c2bd2647be4701e0c10b3ff9d786f41e1; shared renderer decoded 1024x1024 SVG with no scoped errors and produced exact-hash card/detail proof"
       }
     },
     {
-      "itemId": "seating-5",
-      "name": "Reading Chair",
-      "tier": 2,
-      "theme": "Candy Core",
-      "producer": "01",
-      "assetPath": "/assets/catalog/seating-5-chat-v2.png",
-      "assetHash": "252f0b24b3ede29d6abfbe7fc661a7da751de565",
-      "contentSha256": "817b9316d3b1d4ccf2c3fc488732fc17831f4c00797185b5b09bfebe590af657",
+      "itemId": "seating-11",
+      "name": "Moon Chair",
+      "tier": 4,
+      "theme": "Galaxy Glow",
+      "producer": "06",
+      "assetPath": "/assets/catalog/seating-11-w06-v2.png",
+      "assetHash": "5126e9abcec4a09ef281dccb33aac6ba59b38b94",
+      "contentSha256": "2bf8b90027f58f24323121305d675edc91ccb996605cd10ca73ccbe077645c47",
       "hashAlgorithm": "git-blob-sha1",
       "decision": "ACCEPT",
       "evidenceRefs": [
-        "workflow:35673301701/artifact:10671653000",
-        "artifact:10671653000/artifacts/catalog-staged-art/staged-replacements/detail/seating-5-252f0b24.png#sha256=08c778c13fb575e486fee718e44791d5b5db286155994897e3df2d0c917c6568",
+        "docs/preproduction/catalog-sprint/chat-seating-11-12-render-evidence-14-to-02.json",
+        "workflow:35682911760/artifact:10675401829",
+        "artifact:10675401829/staged-replacements/staged-replacements-contact-sheet.png#sha256=98b0e9b5021f3239cdd9021a596fe8d56785d403704898db7c9be77915f6ba05",
+        "artifact:10675401829/staged-replacements/detail/seating-11-5126e9ab.png#sha256=6165b0cdf40953a339dc77586997b4ab7d01e4d86af609f1725ad8fb01347378",
         "docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg#sha256=b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d"
       ],
-      "reason": "The broad rolled reading-chair silhouette remains readable at card scale and gains substantial cushion volume, seams, piping, rounded arms, small book attachment and cast shadow. Cream, blush and mint upholstery produces a tactile Candy Core identity instead of a palette-only icon treatment, with an appropriate Tier-2 step above the simpler seating.",
+      "reason": "The exact Moon Chair has a strongly differentiated crescent-shell silhouette with a deep seat cavity, stacked upholstered back cushions, padded arm surfaces and a grounded bowl/base. Nebula/star shell material, textile cushions and cyan/pink cast lighting create real material separation and a premium Galaxy Glow identity. The crescent remains unmistakable in the staged Store card and materially exceeds a palette-only Tier-4 treatment.",
       "checks": {
         "identity": "PASS",
-        "themeTier": "PASS",
-        "silhouette": "PASS",
-        "materialLighting": "PASS",
-        "cardReadability": "PASS",
-        "originality": "PASS",
-        "duplicateVisual": "PASS"
+        "physicalConstruction": "PASS — crescent structural shell, inset seat, stacked back cushions, arm pads and stable base read as a buildable chair",
+        "silhouette": "PASS — crescent enclosure is distinctive and immediately recognizable at detail and card scale",
+        "materialLighting": "PASS — glossy galaxy shell, soft textile cushions, piping, specular highlights and cast cyan/pink light are visibly separated",
+        "themeTierSpecificity": "PASS — starfield/nebula construction and richer layered materials support Galaxy Glow and Tier 4 without relying on a flat recolor",
+        "smallCardReadability": "PASS — crescent profile, pale cushion stack and seat cavity remain clear in the actual Store-card render",
+        "originalityNearDuplicateRisk": "PASS — low near-duplicate risk; unlike Pod Chair or other shell seating, the open crescent geometry and internal cushion architecture remain unique",
+        "technicalIntegrity": "PASS — exact current Git blob 5126e9abcec4a09ef281dccb33aac6ba59b38b94 equals declared candidate; PNG decode, safety, card render and detail render all pass with no scoped errors"
       }
     },
     {
-      "itemId": "seating-6",
-      "name": "Gamer Chair",
-      "tier": 2,
-      "theme": "Adventure Club",
-      "producer": "01",
-      "assetPath": "/assets/catalog/seating-6-chat-v2.png",
-      "assetHash": "f4f00fb739aaae4ce970a4c4d1d738bca729ff40",
-      "contentSha256": "d3e8e8d96beec53a6f4a094d3cf1717c0790b9b9ae56fee26df6672e20e4f01e",
+      "itemId": "seating-12",
+      "name": "Throne Chair",
+      "tier": 5,
+      "theme": "Sunny Pop",
+      "producer": "06",
+      "assetPath": "/assets/catalog/seating-12-w06-v2.png",
+      "assetHash": "793b32f60ed10fffa80b549e75b66858ac0d7e4f",
+      "contentSha256": "5891818da864e528aaceb598f93d2b3426cb91c3eb1acd0375e4f57cbe7d69df",
       "hashAlgorithm": "git-blob-sha1",
       "decision": "ACCEPT",
       "evidenceRefs": [
-        "workflow:35673301701/artifact:10671653000",
-        "artifact:10671653000/artifacts/catalog-staged-art/staged-replacements/detail/seating-6-f4f00fb7.png#sha256=01e3650bfe049d008e9f593207b4de015db1dde35cf86a6e771cf3202381445f",
+        "docs/preproduction/catalog-sprint/chat-seating-11-12-render-evidence-14-to-02.json",
+        "workflow:35682911760/artifact:10675401829",
+        "artifact:10675401829/staged-replacements/staged-replacements-contact-sheet.png#sha256=98b0e9b5021f3239cdd9021a596fe8d56785d403704898db7c9be77915f6ba05",
+        "artifact:10675401829/staged-replacements/detail/seating-12-793b32f6.png#sha256=80ef6ec7c723d426c2722e107a2bd1aa0603af23108286161b239777672a978d",
         "docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg#sha256=b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d"
       ],
-      "reason": "High-back racing-chair construction is clear at card scale with bolsters, headrest, neck pillow, armrests, reclining hardware, pedestal and casters. Dark upholstery, green panels and warm orange/tan trim give the Adventure Club theme a rugged physical treatment; material seams, highlights and cast shadow provide the required dimensional upgrade.",
+      "reason": "The exact Throne Chair delivers a clear Tier-5 construction jump: tall architectural back, crown-like sunburst crest, tufted upholstery, rolled padded arms, star medallions, metallic frame and shaped feet all remain readable at Store-card scale. Warm orange/gold upholstery and sunlit metallic response give Sunny Pop a physical premium treatment, while cyan edge light keeps the StarBlox saturated toy-game depth without turning the chair into a flat icon.",
       "checks": {
         "identity": "PASS",
-        "themeTier": "PASS",
-        "silhouette": "PASS",
-        "materialLighting": "PASS",
-        "cardReadability": "PASS",
-        "originality": "PASS",
-        "duplicateVisual": "PASS"
+        "physicalConstruction": "PASS — tall framed back, crest, tufted pad, rolled arms, separate seat cushion, structural side rails and shaped feet form a coherent throne",
+        "silhouette": "PASS — crown/sunburst top and tall side spires create a premium silhouette that survives card reduction",
+        "materialLighting": "PASS — metal frame, tufted textile, piping, star medallions, warm cast light and cyan rim response are materially distinct",
+        "themeTierSpecificity": "PASS — Sunny Pop is carried by sunburst architecture, warm gold/orange materials and high-tier ornamental construction rather than palette alone",
+        "smallCardReadability": "PASS — crest, tall back, arm rolls and seat remain separated in the actual staged Store card",
+        "originalityNearDuplicateRisk": "PASS — low near-duplicate risk; no other current Seating item shares the crown-backed throne structure or ornament layout",
+        "technicalIntegrity": "PASS — exact current Git blob 793b32f60ed10fffa80b549e75b66858ac0d7e4f equals declared candidate; PNG decode, safety, card render and detail render all pass with no scoped errors"
       }
     }
   ],
+  "reviewLearner": {
+    "qualifiedLabelsThisShard": 3,
+    "labels": [
+      {"itemId": "seating-1", "assetHash": "50d5e16c2bd2647be4701e0c10b3ff9d786f41e1", "label": "ACCEPT"},
+      {"itemId": "seating-11", "assetHash": "5126e9abcec4a09ef281dccb33aac6ba59b38b94", "label": "ACCEPT"},
+      {"itemId": "seating-12", "assetHash": "793b32f60ed10fffa80b549e75b66858ac0d7e4f", "label": "ACCEPT"}
+    ],
+    "blockedIsNotRework": true
+  },
   "integrationEligibleDelta": [
-    {
-      "itemId": "seating-4",
-      "assetHash": "55d1fb2edddb7638f87c5962bd03b6ac745a1f4b",
-      "decision": "ACCEPT"
-    },
-    {
-      "itemId": "seating-5",
-      "assetHash": "252f0b24b3ede29d6abfbe7fc661a7da751de565",
-      "decision": "ACCEPT"
-    },
-    {
-      "itemId": "seating-6",
-      "assetHash": "f4f00fb739aaae4ce970a4c4d1d738bca729ff40",
-      "decision": "ACCEPT"
-    }
+    {"itemId": "seating-1", "assetHash": "50d5e16c2bd2647be4701e0c10b3ff9d786f41e1", "decision": "ACCEPT"},
+    {"itemId": "seating-11", "assetHash": "5126e9abcec4a09ef281dccb33aac6ba59b38b94", "decision": "ACCEPT"},
+    {"itemId": "seating-12", "assetHash": "793b32f60ed10fffa80b549e75b66858ac0d7e4f", "decision": "ACCEPT"}
   ],
   "handoff": {
-    "08": "Seating 4-6 remain independently ACCEPTED only at the exact hashes recorded here and may enter normal integration checks. No new qualified ACCEPT was issued in the latest evidence audit. Seating 11-12 must not integrate until Workstream 14 supplies real card/detail proof and reviewer 02 records an exact-hash ACCEPT.",
-    "01": "Preserve Seating 4-6 exact accepted bytes; do not regenerate or downgrade them.",
-    "05": "Beds 1-4 remain independently accepted by reviewer 05 at its recorded exact hashes; reviewer 02 did not self-approve Beds.",
-    "15": "Reviewer 02 found no new review-eligible Shoes/Backgear/Handgear candidate. Seating 11-12 exact current hashes are present but remain evidence-blocked pending Workstream-14 shared-fixture card/detail renders; do not treat BLOCKED_EVIDENCE_NOT_DECISION as REWORK."
+    "08": "IMMEDIATE INTEGRATION HANDOFF: reviewer 02 independently ACCEPTS Seating 1 at 50d5e16c2bd2647be4701e0c10b3ff9d786f41e1, Seating 11 at 5126e9abcec4a09ef281dccb33aac6ba59b38b94, and Seating 12 at 793b32f60ed10fffa80b549e75b66858ac0d7e4f. Only Workstream 08 may write canonical mappings; re-check these exact hashes before any promotion.",
+    "01": "Seating 1 exact hash is independently accepted. Preserve the accepted bytes and do not regenerate merely to create work.",
+    "06": "Seating 11-12 exact hashes are independently accepted. Preserve the accepted bytes. Shoes 7-10 remain non-reviewable until exact repository bytes and card/detail proof exist.",
+    "15": "Three new qualified reviewer-02 ACCEPT labels are available for coordination. No new Backgear/Handgear reviewable delta was surfaced, and no nonvisual scope was touched."
   },
   "freeze": {
     "mainTouched": false,
     "deploymentTouched": false,
     "canonicalManifestOrRuntimeTouched": false,
-    "learningEconomyTouched": false,
+    "stableItemMetadataTouched": false,
+    "originalReferenceScreenshotsTouched": false,
+    "gameplayTouched": false,
+    "learningTouched": false,
+    "persistenceTouched": false,
+    "economyTouched": false,
     "playerDataTouched": false,
     "testsWeakened": false,
     "replitTouched": false,
     "flootTouched": false,
-    "servicePurchases": false
+    "servicePurchases": false,
+    "paidSettingsTouched": false
   }
 }
