@@ -1,11 +1,11 @@
 {
-  "schemaVersion": 7,
+  "schemaVersion": 8,
   "lane": "09",
   "workstream": "09",
   "phase": "ART_AND_VISUALS_ONLY",
   "protocol": "DELIVERY_PROTOCOL_V2",
   "branch": "screenshot-match-preproduction",
-  "status": "TOPS_11_12_V5_STAGED_PENDING_SHARED_QA",
+  "status": "TOPS_11_12_V5_READY_FOR_REVIEWER_01",
   "assignmentSource": "docs/preproduction/ART_VISUALS_SPRINT.json",
   "reviewOwner": "01",
   "integrationOwner": "08",
@@ -33,7 +33,7 @@
     }
   },
   "currentRepairBatch": {
-    "status": "STAGED_PENDING_SHARED_QA",
+    "status": "READY_FOR_REVIEW",
     "items": [
       {
         "id": "tops-11",
@@ -48,7 +48,7 @@
         "dimensions": [600,600],
         "provenance": "Original StarBlox self-contained product art authored for this exact repair; no external image references or third-party IP.",
         "construction": "three-quarter puffer with visible side plane, foreshortened far sleeve, rounded quilt loft, rib-knit cuffs/hem, zipper/pocket hardware, Candy Core cloud/star details, fabric texture, warm key/cool rim and grounded shadow",
-        "status": "READY_FOR_SHARED_PIXEL_QA"
+        "status": "READY_FOR_REVIEW"
       },
       {
         "id": "tops-12",
@@ -62,8 +62,8 @@
         "format": "svg",
         "dimensions": [600,600],
         "provenance": "Original StarBlox self-contained product art authored for this exact repair; no external image references or third-party IP.",
-        "construction": "unmistakable coat-length silhouette with long tails, three-quarter body turn, layered storm yoke, quilted inner layer, woven side planes, reinforced sleeves, deep utility pockets, belt/buckles, star-compass hardware, fabric texture, warm key/cool rim and grounded shadow",
-        "status": "READY_FOR_SHARED_PIXEL_QA"
+        "construction": "coat-length silhouette with long tails, three-quarter body turn, layered storm yoke, quilted inner layer, woven side planes, reinforced sleeves, deep utility pockets, belt/buckles, star-compass hardware, fabric texture, warm key/cool rim and grounded shadow",
+        "status": "READY_FOR_REVIEW"
       }
     ]
   },
@@ -71,18 +71,47 @@
     "tops11": {"path":"public/assets/catalog/tops-11-w09-v5.svg","blobSha":"43a850ecdc0b7e8861870f7c277f2544f6c87405","result":"PASS_EXACT_BRANCH_BLOB"},
     "tops12": {"path":"public/assets/catalog/tops-12-w09-v5.svg","blobSha":"73339e6c9e472283f481ff18b1e6ba821856f617","result":"PASS_EXACT_BRANCH_BLOB"}
   },
+  "pixelEvidence": {
+    "workflowRun": 35681227316,
+    "workflowHead": "288103b2fae24862d8fe733d6b64964fc24d06d9",
+    "artifactId": 10674362796,
+    "artifactDigest": "sha256:af564c231b473f2aa11628e8e8f672191cc84348221cdcd40495606415b946e7",
+    "tops11": {
+      "detail": "staged-replacements/detail/tops-11-43a850ec.png",
+      "card": "staged-replacements/staged-replacements-contact-sheet.png",
+      "httpStatus": 200,
+      "naturalWidth": 600,
+      "naturalHeight": 600,
+      "opaqueFraction": 1,
+      "signature": "PASS_SVG",
+      "safety": "PASS_SELF_CONTAINED_NO_ACTIVE_CONTENT",
+      "renderErrors": []
+    },
+    "tops12": {
+      "detail": "staged-replacements/detail/tops-12-73339e6c.png",
+      "card": "staged-replacements/staged-replacements-contact-sheet.png",
+      "httpStatus": 200,
+      "naturalWidth": 600,
+      "naturalHeight": 600,
+      "opaqueFraction": 1,
+      "signature": "PASS_SVG",
+      "safety": "PASS_SELF_CONTAINED_NO_ACTIVE_CONTENT",
+      "renderErrors": []
+    },
+    "workflowConclusion": "FAILURE_OUTSIDE_THESE_TWO_ITEMS; report.errors empty and both exact v5 items rendered cleanly"
+  },
   "tests": {
     "sourceIntegrity": "PASS_SELF_CONTAINED_600x600_SVG",
-    "sharedStagedArtQA": "PENDING",
-    "cardRender": "PENDING",
-    "detailRender": "PENDING",
+    "sharedStagedArtQAForTheseItems": "PASS",
+    "cardRender": "PASS_CONTACT_SHEET",
+    "detailRender": "PASS_EXACT_HASH_DETAIL",
     "canonicalWiring": "NOT_TOUCHED"
   },
   "handoff": {
     "reviewer": "01",
-    "condition": "Independent decision only after exact v5 hashes have clean shared staged-art card/detail evidence.",
+    "condition": "Fresh independent actual-pixel decision required on these exact v5 hashes; producer render success is not acceptance.",
     "integrationOwner": "08",
     "selfApproval": false
   },
-  "decorGate": "Do not begin Decor 3-4 until Tops 11-12 v5 have clean new hashes and reviewer-01 handoff."
+  "decorGate": "Tops 11-12 now have clean new hashes and reviewer-01 handoff. Do not take Decor work until current coordination permits it; preserve existing Decor candidates until exact reviewer-14-driven repair action."
 }
