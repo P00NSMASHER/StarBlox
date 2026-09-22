@@ -21,16 +21,13 @@ on:
       - 'scripts/artWorkflowAudit.node-test.mjs'
       - 'scripts/catalogVisualPreflight.py'
       - 'scripts/catalogVisualCalibration.py'
-      - 'docs/preproduction/art-factory/*.json'
-      - 'docs/preproduction/art-factory/requests/**'
-      - 'docs/preproduction/art-factory/verify_staged_output.py'
+      - 'docs/preproduction/art-factory/**'
       - 'docs/preproduction/catalog-sprint/reviews/*.json'
       - 'docs/preproduction/catalog-sprint/lane-*.json'
       - 'public/assets/catalog/**'
       - 'public/assets/catalog-candidates/**'
       - 'catalog-art-manifest.json'
       - 'src/gameModel.js'
-      - 'src/catalogArtRuntime.js'
 
 permissions:
   contents: read
@@ -57,20 +54,17 @@ jobs:
           /.github/workflows/art-factory-preflight.yml
           /requirements-art-factory-ci.txt
           /scripts/
-          /docs/preproduction/art-factory/*.json
-          /docs/preproduction/art-factory/requests/
-          /docs/preproduction/art-factory/verify_staged_output.py
+          /docs/preproduction/art-factory/
           /docs/preproduction/catalog-sprint/reviews/
           /docs/preproduction/catalog-sprint/lane-*.json
           /catalog-art-manifest.json
           /src/gameModel.js
-          /src/catalogArtRuntime.js
           EOF
           git -c protocol.version=2 fetch --no-tags --depth=1 --filter=blob:none origin "${GITHUB_SHA}"
           git checkout --detach FETCH_HEAD
           test "$(git rev-parse HEAD)" = "${GITHUB_SHA}"
 
-      - name: Detect changed scope
+      - name: Detect scope and hydrate exact reviewed pixels
         id: scope
         shell: bash
         run: |
@@ -79,64 +73,93 @@ jobs:
           python3 - <<'PY'
           import json, os, pathlib, re, subprocess
 
+          root = pathlib.Path('.').resolve()
           event = json.loads(pathlib.Path(os.environ['GITHUB_EVENT_PATH']).read_text())
-          event_name = os.environ.get('GITHUB_EVENT_NAME')
           head = os.environ['GITHUB_SHA']
-          dispatch = event_name == 'workflow_dispatch'
-          changed = []
-          source = 'manual-dispatch'
+          before = event.get('before')
+          dispatch = event.get('ref') is None and os.environ.get('GITHUB_EVENT_NAME') == 'workflow_dispatch'
 
-          if dispatch:
-              changed = ['__workflow_dispatch__']
-          elif event_name == 'push':
+          changed = []
+          change_source = 'workflow-dispatch'
+          if os.environ.get('GITHUB_EVENT_NAME') == 'push' and before and set(before) != {'0'}:
               commits = event.get('commits') or []
-              total = event.get('size')
-              payload_complete = isinstance(total, int) and total <= len(commits)
-              if payload_complete:
+
+              # The common worker case is one commit per push. When that commit
+              # is exactly the Actions head, its file lists are complete for the
+              # range we need and no second Git fetch is necessary.
+              single_head_commit = (
+                  len(commits) == 1
+                  and str(commits[0].get('id') or '') == head
+              )
+              if single_head_commit:
                   changed = sorted({
                       p
-                      for commit in commits
                       for key in ('added','modified','removed')
-                      for p in (commit.get(key) or [])
+                      for p in (commits[0].get(key) or [])
                   })
-                  source = 'push-payload'
+                  change_source = 'push-payload-single-commit'
               else:
-                  before = event.get('before')
-                  if before and set(before) != {'0'}:
-                      subprocess.run(
-                          ['git','-c','protocol.version=2','fetch','--no-tags','--depth=1','--filter=blob:none','origin',before],
-                          check=True,
-                      )
-                      changed = subprocess.check_output(
-                          ['git','diff','--name-only',before,head], text=True
-                      ).splitlines()
-                      source = 'git-diff-fallback'
-                  else:
-                      changed = ['__unknown_push_scope__']
-                      source = 'unknown-push-conservative'
+                  subprocess.run(
+                      ['git','-c','protocol.version=2','fetch','--no-tags','--depth=1','--filter=blob:none','origin',before],
+                      check=True,
+                  )
+                  changed = subprocess.check_output(
+                      ['git','diff','--name-only',before,head], text=True
+                  ).splitlines()
+                  change_source = 'git-diff-fallback'
           else:
-              changed = ['__unknown_event_scope__']
-              source = 'unknown-event-conservative'
+              changed = ['__workflow_dispatch__']
 
           outdir = pathlib.Path('artifacts/art-factory-preflight')
           (outdir / 'changed-files.txt').write_text('\n'.join(changed) + '\n')
 
           raster = re.compile(r'^public/assets/(?:catalog|catalog-candidates)/.*\.(?:png|jpe?g|webp)$', re.I)
-          calibration_code = {
+          visual_code = {
               'scripts/catalogVisualPreflight.py',
               'scripts/catalogVisualCalibration.py',
-              'scripts/artReviewNormalizer.mjs',
               'docs/preproduction/art-factory/verify_staged_output.py',
               'requirements-art-factory-ci.txt',
               '.github/workflows/art-factory-preflight.yml',
-              'src/gameModel.js',
           }
           review_change = any(p.startswith('docs/preproduction/catalog-sprint/reviews/') for p in changed)
           raster_change = any(raster.match(p) for p in changed)
-          calibration_code_change = any(p in calibration_code for p in changed)
-          conservative = any(p.startswith('__') for p in changed)
-          python_needed = dispatch or conservative or review_change or raster_change or calibration_code_change
-          calibrate = python_needed
+          visual_script_change = any(p in visual_code for p in changed)
+          python_needed = dispatch or review_change or raster_change or visual_script_change
+          calibrate = dispatch or review_change or raster_change or visual_script_change
+
+          # Hydrate image blobs only when this run will actually execute visual work.
+          # Node-only queue/audit changes keep the initial blobless sparse checkout.
+          asset_paths = {p for p in changed if raster.match(p)}
+          if calibrate:
+              review_dir = pathlib.Path('docs/preproduction/catalog-sprint/reviews')
+              if review_dir.exists():
+                  def walk(value):
+                      if isinstance(value, dict):
+                          for v in value.values():
+                              yield from walk(v)
+                      elif isinstance(value, list):
+                          for v in value:
+                              yield from walk(v)
+                      elif isinstance(value, str):
+                          yield value
+                  for file in review_dir.glob('*.json'):
+                      try:
+                          data = json.loads(file.read_text())
+                      except Exception:
+                          continue
+                      for value in walk(data):
+                          p = value.replace('\\','/').lstrip('/')
+                          if p.startswith('assets/'):
+                              p = 'public/' + p
+                          if raster.match(p):
+                              asset_paths.add(p)
+
+          if asset_paths:
+              sparse = pathlib.Path('.git/info/sparse-checkout')
+              with sparse.open('a') as f:
+                  for p in sorted(asset_paths):
+                      f.write('/' + p + '\n')
+              subprocess.run(['git','read-tree','-mu','HEAD'], check=True)
 
           output = pathlib.Path(os.environ['GITHUB_OUTPUT'])
           with output.open('a') as f:
@@ -144,15 +167,15 @@ jobs:
               f.write(f"calibrate={'true' if calibrate else 'false'}\n")
               f.write(f"changed_rasters={'true' if raster_change else 'false'}\n")
               f.write(f"review_change={'true' if review_change else 'false'}\n")
-              f.write(f"scope_source={source}\n")
-
           print(json.dumps({
-              'scopeSource': source,
               'changedCount': len(changed),
+              'hydratedRasterCount': len(asset_paths),
               'python': python_needed,
               'calibrate': calibrate,
               'changedRasters': raster_change,
               'reviewChange': review_change,
+              'rasterHydrationSkipped': not bool(asset_paths),
+              'changeSource': change_source,
           }, indent=2))
           PY
 
@@ -163,99 +186,12 @@ jobs:
 
       - name: Verify fast factory contract
         run: |
-          node --test \
-            scripts/artPromptOptimizer.node-test.mjs \
-            scripts/artFactoryJob.node-test.mjs \
-            scripts/artReviewNormalizer.node-test.mjs \
-            scripts/catalogFallbackBacklog.node-test.mjs \
-            scripts/artRegenerationQueue.node-test.mjs \
-            scripts/artWorkflowAudit.node-test.mjs
+          node --test             scripts/artPromptOptimizer.node-test.mjs             scripts/artFactoryJob.node-test.mjs             scripts/artReviewNormalizer.node-test.mjs             scripts/catalogFallbackBacklog.node-test.mjs             scripts/artRegenerationQueue.node-test.mjs             scripts/artWorkflowAudit.node-test.mjs
           node scripts/artPromptOptimizer.mjs validate --repo-root .
-          node scripts/artReviewNormalizer.mjs \
-            --repo-root . \
-            --output artifacts/art-factory-preflight/review-corpus.json
-          node scripts/catalogFallbackBacklog.mjs \
-            --repo-root . \
-            --output artifacts/art-factory-preflight/fallback-backlog.json
-          node scripts/artRegenerationQueue.mjs \
-            --repo-root . \
-            --output artifacts/art-factory-preflight/regeneration-queue.json
-          node scripts/artWorkflowAudit.mjs \
-            --repo-root . \
-            --output artifacts/art-factory-preflight/workflow-audit.json
-
-      - name: Restore exact-hash visual metric cache
-        if: steps.scope.outputs.python == 'true'
-        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
-        with:
-          path: artifacts/art-factory-cache/visual-metrics.json
-          key: starblox-art-metrics-v1-${{ hashFiles('scripts/catalogVisualPreflight.py') }}-${{ github.sha }}
-          restore-keys: |
-            starblox-art-metrics-v1-${{ hashFiles('scripts/catalogVisualPreflight.py') }}-
-
-      - name: Hydrate only current exact-hash reviewed rasters
-        id: hydrate
-        if: steps.scope.outputs.python == 'true'
-        shell: bash
-        run: |
-          set -euo pipefail
-          python3 - <<'PY'
-          import json, pathlib, re
-
-          outdir = pathlib.Path('artifacts/art-factory-preflight')
-          corpus = json.loads((outdir / 'review-corpus.json').read_text())
-          changed = (outdir / 'changed-files.txt').read_text().splitlines()
-          raster = re.compile(r'^public/assets/(?:catalog|catalog-candidates)/.*\.(?:png|jpe?g|webp)$', re.I)
-
-          cache_path = pathlib.Path('artifacts/art-factory-cache/visual-metrics.json')
-          try:
-              cache = json.loads(cache_path.read_text()) if cache_path.is_file() else {}
-          except Exception:
-              cache = {}
-          cached_hashes = set((cache.get('metricsByGitBlobSha') or {}).keys())
-
-          paths = set()
-          cached_review_rows = 0
-          for row in corpus.get('current') or []:
-              if not row.get('independent'):
-                  continue
-              if str(row.get('decision') or '').upper() not in {'ACCEPT','REWORK'}:
-                  continue
-              p = str(row.get('assetPath') or '').replace('\\','/').lstrip('/')
-              if p.startswith('assets/'):
-                  p = 'public/' + p
-              h = str(row.get('assetHash') or '').lower()
-              if h and h in cached_hashes:
-                  cached_review_rows += 1
-                  continue
-              if raster.match(p):
-                  paths.add(p)
-
-          # Changed raster bytes are always hydrated so the current candidate itself
-          # can be preflighted even before a reviewer adds it to the calibration corpus.
-          for p in changed:
-              if raster.match(p):
-                  paths.add(p)
-
-          path_file = pathlib.Path('/tmp/art-factory-current-raster-paths.txt')
-          path_file.write_text('\n'.join(sorted(paths)) + ('\n' if paths else ''))
-          print(json.dumps({
-              'uncachedReviewedRasterCount': len(paths),
-              'cachedReviewedRows': cached_review_rows,
-              'metricCacheEntries': len(cached_hashes),
-          }, indent=2))
-          PY
-
-          count=0
-          if [[ -s /tmp/art-factory-current-raster-paths.txt ]]; then
-            while IFS= read -r rel; do
-              printf '/%s\n' "${rel}" >> .git/info/sparse-checkout
-              count=$((count+1))
-            done < /tmp/art-factory-current-raster-paths.txt
-            git read-tree -mu HEAD
-          fi
-          echo "count=${count}" >> "${GITHUB_OUTPUT}"
-          echo "HYDRATED_CURRENT_REVIEW_RASTERS=${count}"
+          node scripts/artReviewNormalizer.mjs             --repo-root .             --output artifacts/art-factory-preflight/review-corpus.json
+          node scripts/catalogFallbackBacklog.mjs             --repo-root .             --output artifacts/art-factory-preflight/fallback-backlog.json
+          node scripts/artRegenerationQueue.mjs             --repo-root .             --output artifacts/art-factory-preflight/regeneration-queue.json
+          node scripts/artWorkflowAudit.mjs             --repo-root .             --output artifacts/art-factory-preflight/workflow-audit.json
 
       - name: Use Python 3.12
         if: steps.scope.outputs.python == 'true'
@@ -267,7 +203,7 @@ jobs:
 
       - name: Install image verifier dependency
         if: steps.scope.outputs.python == 'true'
-        run: python -m pip install --disable-pip-version-check --no-input --no-compile --only-binary=:all: -r requirements-art-factory-ci.txt
+        run: python -m pip install --disable-pip-version-check --no-input --no-compile -r requirements-art-factory-ci.txt
 
       - name: Self-test exact-byte and visual tooling
         if: steps.scope.outputs.python == 'true'
@@ -279,43 +215,7 @@ jobs:
       - name: Calibrate report-only visual evidence
         if: steps.scope.outputs.calibrate == 'true'
         run: |
-          python scripts/catalogVisualCalibration.py \
-            --repo-root . \
-            --corpus artifacts/art-factory-preflight/review-corpus.json \
-            --metric-cache artifacts/art-factory-cache/visual-metrics.json \
-            --write-metric-cache artifacts/art-factory-cache/visual-metrics.json \
-            --output artifacts/art-factory-preflight/visual-calibration.json
-          python - <<'PY'
-          import json, pathlib
-          cal = json.loads(pathlib.Path('artifacts/art-factory-preflight/visual-calibration.json').read_text())
-          entries = []
-          for row in cal.get('measured') or []:
-              metrics = row.get('metrics') or {}
-              source = metrics.get('source') or {}
-              if not source.get('aHash') or not source.get('dHash'):
-                  continue
-              entries.append({
-                  'path': row.get('assetPath'),
-                  'itemId': row.get('itemId'),
-                  'collectionId': row.get('collectionId'),
-                  'sha256': metrics.get('sha256'),
-                  'aHash': source.get('aHash'),
-                  'dHash': source.get('dHash'),
-              })
-          cache = {
-              'schemaVersion': 1,
-              'kind': 'STARBLOX_VISUAL_NEIGHBOR_CACHE',
-              'sourceDirectory': 'review-corpus-cache',
-              'entries': entries,
-              'errors': [],
-          }
-          dest = pathlib.Path('artifacts/art-factory-preflight/neighbor-cache.json')
-          dest.write_text(json.dumps(cache, indent=2) + '\n')
-          print(json.dumps({
-              'metricCache': cal.get('metricCache'),
-              'neighborCacheEntries': len(entries),
-          }, indent=2))
-          PY
+          python scripts/catalogVisualCalibration.py             --repo-root .             --corpus artifacts/art-factory-preflight/review-corpus.json             --output artifacts/art-factory-preflight/visual-calibration.json
 
       - name: Prove calibrated warnings round-trip
         if: steps.scope.outputs.calibrate == 'true'
@@ -342,7 +242,7 @@ jobs:
               '--output', str(output),
           ]
           if any(feature.startswith('nearest') for feature in ready):
-              cmd += ['--neighbor-cache', 'artifacts/art-factory-preflight/neighbor-cache.json']
+              cmd += ['--neighbors', 'public/assets']
           subprocess.run(cmd, check=True)
 
           report = json.loads(output.read_text())
@@ -393,7 +293,6 @@ jobs:
           PY
 
       - name: Publish factory summary
-        id: summary
         if: always()
         run: |
           python3 - <<'PY'
@@ -421,7 +320,6 @@ jobs:
               f"- Head: `{os.environ.get('GITHUB_SHA','unknown')}`",
               f"- Workflow audit: **{audit.get('status','NOT_RUN')}**",
               f"- Changed files: **{len(changed)}**",
-              f"- Scope source: **{os.environ.get('SCOPE_SOURCE','see Detect changed scope')}**",
               f"- Fallback count: **{fallback.get('fallbackCount','?')}**",
               f"- Production backlog: **{fallback.get('summary',{}).get('productionCount','?')}**",
               f"- Accepted awaiting canonical: **{fallback.get('summary',{}).get('acceptedAwaitingCanonicalCount','?')}**",
@@ -433,32 +331,17 @@ jobs:
               lines += [
                   f"- Visual calibration samples: ACCEPT **{ready.get('acceptedRasterSamples','?')}**, REWORK **{ready.get('reworkRasterSamples','?')}**",
                   f"- Warning-ready visual features: **{ready.get('warningCandidateCount','?')}**",
-                  f"- Metric cache hits/misses: **{cal.get('metricCache',{}).get('hits','?')} / {cal.get('metricCache',{}).get('misses','?')}**",
                   '- Visual thresholds: **report-only / non-blocking**',
               ]
           errors = audit.get('errors') or []
           warnings = audit.get('warnings') or []
-          need_evidence = bool(
-              cal
-              or errors
-              or warnings
-              or os.environ.get('GITHUB_EVENT_NAME') == 'workflow_dispatch'
-          )
-          lines += [
-              f"- Audit errors: **{len(errors)}**",
-              f"- Audit warnings: **{len(warnings)}**",
-              f"- Evidence artifact: **{'upload' if need_evidence else 'skip clean Node-only run'}**",
-          ]
-          with pathlib.Path(os.environ['GITHUB_OUTPUT']).open('a') as f:
-              f.write(f"upload_evidence={'true' if need_evidence else 'false'}\n")
+          lines += [f"- Audit errors: **{len(errors)}**", f"- Audit warnings: **{len(warnings)}**"]
           pathlib.Path(os.environ['GITHUB_STEP_SUMMARY']).write_text('\n'.join(lines) + '\n')
           print('\n'.join(lines))
           PY
-        env:
-          SCOPE_SOURCE: ${{ steps.scope.outputs.scope_source }}
 
       - name: Upload deterministic evidence
-        if: ${{ always() && (failure() || steps.summary.outputs.upload_evidence == 'true') }}
+        if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: starblox-art-factory-preflight-${{ github.sha }}
