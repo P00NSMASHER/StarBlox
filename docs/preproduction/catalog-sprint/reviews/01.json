@@ -1,127 +1,174 @@
 {
-  "schemaVersion": 11,
-  "previousRevisionBlobSha": "2f8fc97cfd755b6d1513c0258eaf74477273a0f6",
+  "schemaVersion": 12,
+  "previousRevisionBlobSha": "4a18fafa718781cfdc518fbfd9bab6d422cbcfd7",
   "reviewer": "01",
   "role": "Visual Target Director / independent catalog reviewer",
   "phase": "ART_AND_VISUALS_ONLY",
   "branch": "screenshot-match-preproduction",
-  "sourceHead": "6d07f54217b7f637499b83ff68c37fd950df477d",
-  "assignedCollections": [
-    "tops",
-    "bottoms",
-    "headwear",
-    "facegear"
-  ],
+  "sourceHead": "cc0217e63d6bcfc341a63d85a75abca0386087de",
+  "assignedCollections": ["tops", "bottoms", "headwear", "facegear"],
   "assignedCount": 48,
   "historyRefs": [
     {
       "blobSha": "f155210fcf47bf1a34b7469f4eaebde1967a796d",
       "scope": "Detailed preserved ACCEPT evidence for Tops 1-10, Bottoms 1-4 and Headwear 1-4 plus immutable historical review links.",
-      "note": "Exact accepted hashes remain frozen and were not re-reviewed."
+      "note": "Those exact accepted hashes remain frozen and were not re-reviewed."
     },
     {
-      "blobSha": "2f8fc97cfd755b6d1513c0258eaf74477273a0f6",
-      "scope": "Immediate prior reviewer-01 shard containing independent Tops 11-12 v5 visual REWORK evidence.",
-      "note": "v5 REWORK decisions remain historical only and were not transferred to v6."
+      "blobSha": "4a18fafa718781cfdc518fbfd9bab6d422cbcfd7",
+      "scope": "Immediate prior reviewer-01 shard containing Tops 11-12 v6 evidence BLOCKED on invalid shared-signature/no qualified card-detail pixels.",
+      "note": "The v6 BLOCKED decisions remain historical evidence only. Tops 11-12 v7 receipt-only states are not reviewable and no old visual verdict transfers to a new hash."
     }
   ],
   "contractEvidence": {
     "artVisualsSprint": "docs/preproduction/ART_VISUALS_SPRINT.json",
+    "artFactoryRunbook": "docs/preproduction/art-factory/README.md",
+    "artFactoryContract": "docs/preproduction/art-factory/ART_FACTORY_V2.json",
     "deliveryProtocol": "docs/preproduction/DELIVERY_PROTOCOL_V2.md",
-    "originalReferenceManifest": "docs/preproduction/reference-screenshots/original-reference-manifest.json",
-    "originalReferenceStatus": "ORIGINALS_STORED_AND_INTAKE_VERIFIED",
-    "rule": "Judge each new exact repository hash from qualified actual Store-card/detail pixels. Source metadata, producer claims and local decode alone cannot establish premium-art acceptance."
+    "rule": "Judge each new exact repository hash from qualified actual Store-card/detail pixels. Source metadata, producer claims and decode alone cannot establish premium-art acceptance."
   },
   "currentCycle": {
-    "scope": [
-      "tops-11",
-      "tops-12"
-    ],
-    "version": "v6 JPEG exact repository hashes",
-    "result": "BLOCKED_2_OF_2_PIXEL_EVIDENCE_UNAVAILABLE",
-    "oldV5DecisionsTransferred": false,
-    "actualCardScalePixelsReviewed": false,
-    "actualDetailPixelsReviewed": false
+    "scope": ["headwear-5", "headwear-6", "headwear-7", "headwear-8"],
+    "version": "w12-v2 recovered PNG exact repository hashes",
+    "result": "ACCEPT_4_OF_4",
+    "oldVerdictsTransferred": false,
+    "actualCardScalePixelsReviewed": true,
+    "actualDetailPixelsReviewed": true,
+    "selfApprovalConflict": false
   },
   "renderEvidence": {
     "workflow": "StarBlox Staged Catalog Art QA",
-    "workflowRunId": 35687207417,
-    "originalRenderJobId": 106616477950,
-    "rerunRenderJobId": 106617438415,
-    "rerunArtifactId": 10677595359,
-    "rerunArtifactName": "catalog-staged-art-review",
-    "rerunArtifactDigest": "sha256:d486c907b8203df674c894aaaea579be2e760b23f11a5961651c93f43fd2c833",
-    "renderSourceHead": "ca1c5b339f00c5df465b1eb43b05af569368f23c",
-    "report": {
-      "path": "report.json",
-      "sha256": "9ef7fbdb9c1c1e2da5cfd6248844132a1d25645336f289b473cefbb4d9b07953"
+    "workflowRunId": 35730197493,
+    "artifactId": 10695091971,
+    "artifactName": "headwear-5-8-w12-recovery-evidence",
+    "artifactDigest": "sha256:523af3b004bd21913dcc5fb20b025b681a3dcb7a1096413833ac18316f5b178c",
+    "workflowHead": "9e973e2097aa157a3ffcc7ded6425b4bcb023157",
+    "reportPath": "artifacts/catalog-staged-art/report.json",
+    "cardEvidence": "artifacts/catalog-staged-art/staged-replacements/staged-replacements-contact-sheet.png",
+    "detailEvidence": {
+      "headwear-5": "artifacts/catalog-staged-art/staged-replacements/detail/headwear-5-b26e0c50.png",
+      "headwear-6": "artifacts/catalog-staged-art/staged-replacements/detail/headwear-6-6babf711.png",
+      "headwear-7": "artifacts/catalog-staged-art/staged-replacements/detail/headwear-7-4463b180.png",
+      "headwear-8": "artifacts/catalog-staged-art/staged-replacements/detail/headwear-8-c2cd9cdd.png"
     },
-    "qualifiedPixelResult": "NONE_FOR_TOPS_11_12_V6",
-    "technicalFindings": [
-      "The scoped Playwright renderer failed before card/detail capture in the original job and again in the rerun when Chromium headless shell exited by SIGKILL during browser launch.",
-      "The rerun aggregate artifact independently confirms both authoritative v6 files were excluded before visual rendering because the shared staged-art signature gate returned signature=FAIL and safety=PASS for each exact repository blob; stale alternates were not substituted.",
-      "Producer lane-09 reports exact repository readback and local JPEG decode PASS, but that producer-side result does not substitute for shared qualified card/detail pixels."
-    ],
-    "escalationRuleApplied": "Same evidence blocker persisted through two scoped render attempts; do not repeat the failed renderer call from reviewer 01. Escalate exact byte/signature/render mismatch through Workstream 15 to producer 09/helper ownership."
+    "technicalChecks": "HTTP 200, PNG signature PASS, raster-self-contained safety PASS, 600x600 natural dimensions, screenshot=true and no per-item render errors for all four exact hashes."
   },
   "reviews": [
     {
-      "itemId": "tops-11",
-      "name": "Cloud Jacket",
-      "tier": 4,
-      "theme": "Candy Core",
-      "assetPath": "/assets/catalog/tops-11-w09-v6.jpg",
-      "repositoryPath": "public/assets/catalog/tops-11-w09-v6.jpg",
-      "assetHash": "061a749472ad71e61732ac3a9629c42d54b4e580",
-      "sha256": "ed9c8f99d904a3d980684f2f67f94b52eb6906c14a058c79794de3226694d2db",
+      "itemId": "headwear-5",
+      "name": "Flower Crown",
+      "tier": 2,
+      "theme": "Pixel Party",
+      "assetPath": "/assets/catalog/headwear-5-w12-v2.png",
+      "repositoryPath": "public/assets/catalog/headwear-5-w12-v2.png",
+      "assetHash": "b26e0c50a466afac74e3013da3d092ac54d7a273",
+      "sha256": "503b2b6edc092e22fb6bbda4c3c20d57bfb9e9674b72dcf20ab3b63f686e9a71",
       "hashAlgorithm": "git-blob-sha1",
-      "producer": "09",
-      "decision": "BLOCKED",
-      "reasonCode": "V6_NO_QUALIFIED_CARD_DETAIL_PIXELS_SHARED_SIGNATURE_GATE_FAIL_AFTER_TWO_RENDER_ATTEMPTS",
+      "producer": "12",
+      "decision": "ACCEPT",
+      "reviewedAt": "2026-09-22T13:03:00Z",
       "evidenceRefs": [
-        "lane:docs/preproduction/catalog-sprint/lane-09.json#candidateBlob=061a749472ad71e61732ac3a9629c42d54b4e580",
-        "workflow:35687207417/job:106616477950",
-        "workflow:35687207417/job:106617438415",
-        "artifact:10677595359/report.json#sha256=9ef7fbdb9c1c1e2da5cfd6248844132a1d25645336f289b473cefbb4d9b07953"
+        "artifact:10695091971/staged-replacements/staged-replacements-contact-sheet.png",
+        "artifact:10695091971/staged-replacements/detail/headwear-5-b26e0c50.png",
+        "producer:docs/preproduction/catalog-sprint/chat-headwear-5-8-w12-result.json"
       ],
-      "technicalFinding": "The authoritative v6 Cloud Jacket exists at the stated repository hash, but the shared artifact lists that exact blob as invalid-file-signature (signature FAIL, safety PASS) and no v6 card/detail image exists. The scoped browser renderer also failed twice before capture. Visual quality therefore remains undecided; the prior v5 REWORK rationale is not transferred.",
+      "reason": "The card and detail pixels read immediately as a wearable floral crown/headband: a curved textile band carries layered fabric flowers with crisp pixel-gem centers, giving Pixel Party identity without losing physical construction. The three-quarter view, flower overlap, woven band, controlled warm/cool lighting and visible strap depth create convincing material separation. At Tier 2 it is decorative but not overbuilt, stays legible at Store-card scale, and is visually distinct from the accepted plain Headband, Cloud Clips, Pixel Cap and Berry Bow.",
       "checks": {
-        "repositoryReadbackProducer": "PASS_REPORTED_BY_09",
-        "sharedSignatureGate": "FAIL",
-        "sharedCardPixels": "BLOCKED_NOT_PRODUCED",
-        "sharedDetailPixels": "BLOCKED_NOT_PRODUCED",
-        "visualQuality": "UNDECIDED"
-      },
-      "repairForProducer09": "Preserve this artwork concept if desired, but rewrite/export clean repository bytes that pass the shared staged-art file-signature gate, verify exact branch readback against the resulting new blob hash, then obtain fresh card/detail renders. Return the NEW exact hash for independent visual review; do not reuse v5 evidence or claim acceptance from source appearance."
+        "identity": "PASS",
+        "themeTier": "PASS",
+        "silhouette": "PASS",
+        "materialLighting": "PASS",
+        "cardReadability": "PASS",
+        "originality": "PASS",
+        "duplicateVisual": "PASS"
+      }
     },
     {
-      "itemId": "tops-12",
-      "name": "Star Coat",
-      "tier": 5,
-      "theme": "Adventure Club",
-      "assetPath": "/assets/catalog/tops-12-w09-v6.jpg",
-      "repositoryPath": "public/assets/catalog/tops-12-w09-v6.jpg",
-      "assetHash": "e9d462cb222c2ff20e220e237cb3890e1e6eb76c",
-      "sha256": "c14905d41ba51e10cc2a96dabdfdb5183aff563b2d738a5031a774bb6b79db26",
+      "itemId": "headwear-6",
+      "name": "Gamer Headset",
+      "tier": 2,
+      "theme": "Berry Blast",
+      "assetPath": "/assets/catalog/headwear-6-w12-v2.png",
+      "repositoryPath": "public/assets/catalog/headwear-6-w12-v2.png",
+      "assetHash": "6babf7112c050ba4c2a6a3c60630b3b35f88bb3d",
+      "sha256": "a6e684921f41f4c6dec171db9a96bbc0ce45bd0c25e0cca52daa233d1b64b5a8",
       "hashAlgorithm": "git-blob-sha1",
-      "producer": "09",
-      "decision": "BLOCKED",
-      "reasonCode": "V6_NO_QUALIFIED_CARD_DETAIL_PIXELS_SHARED_SIGNATURE_GATE_FAIL_AFTER_TWO_RENDER_ATTEMPTS",
+      "producer": "12",
+      "decision": "ACCEPT",
+      "reviewedAt": "2026-09-22T13:03:00Z",
       "evidenceRefs": [
-        "lane:docs/preproduction/catalog-sprint/lane-09.json#candidateBlob=e9d462cb222c2ff20e220e237cb3890e1e6eb76c",
-        "workflow:35687207417/job:106616477950",
-        "workflow:35687207417/job:106617438415",
-        "artifact:10677595359/report.json#sha256=9ef7fbdb9c1c1e2da5cfd6248844132a1d25645336f289b473cefbb4d9b07953"
+        "artifact:10695091971/staged-replacements/staged-replacements-contact-sheet.png",
+        "artifact:10695091971/staged-replacements/detail/headwear-6-6babf711.png",
+        "producer:docs/preproduction/catalog-sprint/chat-headwear-5-8-w12-result.json"
       ],
-      "technicalFinding": "The authoritative v6 Star Coat exists at the stated repository hash, but the shared artifact lists that exact blob as invalid-file-signature (signature FAIL, safety PASS) and no v6 card/detail image exists. The scoped browser renderer also failed twice before capture. Visual quality therefore remains undecided; the prior v5 REWORK rationale is not transferred.",
+      "reason": "The exact pixels show an unmistakable over-ear gaming headset with padded earcups, articulated yokes, headband cushioning and a believable boom microphone. Berry Blast is carried through the berry/magenta palette while darker cups and light trim keep the form readable. The three-quarter construction has strong depth and material response, the silhouette remains clear at card size, and the Tier-2 complexity is richer than a starter accessory without competing with higher-tier spectacle.",
       "checks": {
-        "repositoryReadbackProducer": "PASS_REPORTED_BY_09",
-        "sharedSignatureGate": "FAIL",
-        "sharedCardPixels": "BLOCKED_NOT_PRODUCED",
-        "sharedDetailPixels": "BLOCKED_NOT_PRODUCED",
-        "visualQuality": "UNDECIDED"
-      },
-      "repairForProducer09": "Preserve this artwork concept if desired, but rewrite/export clean repository bytes that pass the shared staged-art file-signature gate, verify exact branch readback against the resulting new blob hash, then obtain fresh card/detail renders. Return the NEW exact hash for independent visual review; do not reuse v5 evidence or claim acceptance from source appearance."
+        "identity": "PASS",
+        "themeTier": "PASS",
+        "silhouette": "PASS",
+        "materialLighting": "PASS",
+        "cardReadability": "PASS",
+        "originality": "PASS",
+        "duplicateVisual": "PASS"
+      }
+    },
+    {
+      "itemId": "headwear-7",
+      "name": "Bucket Hat",
+      "tier": 3,
+      "theme": "Garden Glow",
+      "assetPath": "/assets/catalog/headwear-7-w12-v2.png",
+      "repositoryPath": "public/assets/catalog/headwear-7-w12-v2.png",
+      "assetHash": "4463b180a1d8c0321d6086c28f078329ced5fb9b",
+      "sha256": "4c38267b3ef9ab001ea946ec1972b8950a419edb6687b530228dd58d25954499",
+      "hashAlgorithm": "git-blob-sha1",
+      "producer": "12",
+      "decision": "ACCEPT",
+      "reviewedAt": "2026-09-22T13:03:00Z",
+      "evidenceRefs": [
+        "artifact:10695091971/staged-replacements/staged-replacements-contact-sheet.png",
+        "artifact:10695091971/staged-replacements/detail/headwear-7-4463b180.png",
+        "producer:docs/preproduction/catalog-sprint/chat-headwear-5-8-w12-result.json"
+      ],
+      "reason": "The bucket-hat identity is exact: soft crown, panel seams, ventilation eyelet and wide concentric-stitched brim all read clearly. The embroidered vine-and-flower band gives Garden Glow specificity rather than a palette swap, and the fabric folds plus warm/cool grazing light produce convincing cloth depth. Tier 3 is justified by embroidery and construction detail, yet the overall silhouette stays clean and readable in the Store card.",
+      "checks": {
+        "identity": "PASS",
+        "themeTier": "PASS",
+        "silhouette": "PASS",
+        "materialLighting": "PASS",
+        "cardReadability": "PASS",
+        "originality": "PASS",
+        "duplicateVisual": "PASS"
+      }
+    },
+    {
+      "itemId": "headwear-8",
+      "name": "Star Clips",
+      "tier": 3,
+      "theme": "Galaxy Glow",
+      "assetPath": "/assets/catalog/headwear-8-w12-v2.png",
+      "repositoryPath": "public/assets/catalog/headwear-8-w12-v2.png",
+      "assetHash": "c2cd9cddba03a8eae55e9eb8b3197e82ee3af415",
+      "sha256": "86f2ee74794c929bd7182d5d53b1b6e9a2e3de30131ed6ac8b0ee982ec840b53",
+      "hashAlgorithm": "git-blob-sha1",
+      "producer": "12",
+      "decision": "ACCEPT",
+      "reviewedAt": "2026-09-22T13:03:00Z",
+      "evidenceRefs": [
+        "artifact:10695091971/staged-replacements/staged-replacements-contact-sheet.png",
+        "artifact:10695091971/staged-replacements/detail/headwear-8-c2cd9cdd.png",
+        "producer:docs/preproduction/catalog-sprint/chat-headwear-5-8-w12-result.json"
+      ],
+      "reason": "The plural Star Clips concept is physically readable as a coordinated three-piece barrette set: the stars have visible clip/spring hardware rather than floating icon treatment. Layered translucent acrylic/crystal star forms, prismatic highlights and restrained sparkle fit Galaxy Glow while preserving the hardware silhouette. The large center clip plus two smaller companions reads clearly at card scale, provides suitable Tier-3 richness, and is not a near-duplicate of any accepted Headwear 1-7 piece.",
+      "checks": {
+        "identity": "PASS",
+        "themeTier": "PASS",
+        "silhouette": "PASS",
+        "materialLighting": "PASS",
+        "cardReadability": "PASS",
+        "originality": "PASS",
+        "duplicateVisual": "PASS"
+      }
     }
   ],
   "currentReplacementDisposition": {
@@ -156,28 +203,32 @@
         "headwear-1": "4d4424962a49f5145422723b625778d6649a4b26",
         "headwear-2": "595c8fe9182f4aecd5355856f19947c7c83daa11",
         "headwear-3": "86db079b85360dc64e669aeca53cba874176c693",
-        "headwear-4": "4257b4a959153fba985fa2a97720c379b6d63e33"
+        "headwear-4": "4257b4a959153fba985fa2a97720c379b6d63e33",
+        "headwear-5": "b26e0c50a466afac74e3013da3d092ac54d7a273",
+        "headwear-6": "6babf7112c050ba4c2a6a3c60630b3b35f88bb3d",
+        "headwear-7": "4463b180a1d8c0321d6086c28f078329ced5fb9b",
+        "headwear-8": "c2cd9cddba03a8eae55e9eb8b3197e82ee3af415"
       }
     }
   },
   "pendingDependencies": {
-    "headwear5_8": "Producer 12 still has no reviewable exact repository hashes plus qualified card/detail evidence for Headwear 5-8.",
-    "tops11_12_v6": "Blocked on clean shared-signature-valid repository bytes and qualified fresh card/detail evidence for new exact hashes."
+    "tops11_12_v7": "Producer 09 v7 remains GENERATED_LOCAL_RECEIPT_ONLY_PAYLOAD_UNAVAILABLE. Do not review until exact repository bytes/readback plus fresh card/detail evidence exist."
   },
   "summary": {
     "uniqueCatalogIdsReviewedHistorically": 48,
-    "reviewedThisRun": 2,
-    "newAcceptsThisRun": 0,
+    "reviewedThisRun": 4,
+    "newAcceptsThisRun": 4,
     "newReworkThisRun": 0,
-    "newBlockedThisRun": 2,
-    "newUsableBy08Now": [],
+    "newBlockedThisRun": 0,
+    "newUsableBy08Now": ["headwear-5", "headwear-6", "headwear-7", "headwear-8"],
     "preservedAcceptedHashes": "Tops 1-10, Bottoms 1-4 and Headwear 1-4 remain unchanged and were not re-reviewed."
   },
   "handoff": {
-    "08": "No new ACCEPT. Do not canonical-wire Tops 11-12 v6; preserve all prior accepted exact hashes.",
-    "09": "Both v6 exact hashes are BLOCKED on evidence, not visually rejected. Shared staged-art reports invalid file signatures and produced no qualified v6 card/detail pixels. Rewrite/export clean bytes to NEW exact hashes and rerender before returning them to reviewer 01.",
-    "15": "Escalation after two renderer cycles: original scoped job 106616477950 and rerun 106617438415 both failed before card/detail capture; rerun artifact 10677595359 additionally flags both authoritative v6 repository blobs signature=FAIL. Coordinate the producer09/helper byte-export/render repair instead of asking reviewer01 to repeat the same failed call.",
-    "next01Review": "Any fresh repo-stored/rendered Tops/Bottoms/Headwear/Facegear exact hash preempts other work. Headwear 5-8 remain unreviewable until exact repo hashes plus actual card/detail evidence exist."
+    "08": "Immediately validate and canonical-wire Headwear 5-8 exact ACCEPT hashes from this shard if current-path/hash/metadata/file/decode/uniqueness checks still pass: headwear-5 b26e0c50a466afac74e3013da3d092ac54d7a273; headwear-6 6babf7112c050ba4c2a6a3c60630b3b35f88bb3d; headwear-7 4463b180a1d8c0321d6086c28f078329ced5fb9b; headwear-8 c2cd9cddba03a8eae55e9eb8b3197e82ee3af415.",
+    "09": "Tops 11-12 v7 remain receipt-only and are not reviewable. Preserve the v7 receipts until authoritative repo bytes exist; do not infer a visual verdict from v5/v6.",
+    "12": "Headwear 5-8 w12-v2 are independently ACCEPTED on exact repository hashes; preserve these exact bytes and do not regenerate them.",
+    "15": "Headwear 5-8 cleared reviewer 01. Coordinator should treat these four as qualified ACCEPTs awaiting only Workstream 08 canonical integration checks.",
+    "next01Review": "Any fresh repo-stored/rendered Tops/Bottoms/Headwear/Facegear exact hash preempts other work."
   },
   "freeze": {
     "replitTouched": false,
