@@ -1,9 +1,9 @@
 {
-  "schemaVersion": 15,
+  "schemaVersion": 16,
   "owner": "15",
   "branch": "screenshot-match-preproduction",
-  "sourceHead": "aebd322150977436179404b50a5e87a226690a44",
-  "updatedAt": "2026-09-23T01:02:00Z",
+  "sourceHead": "e7d70d1dfc8cfad524b925d06d37253d25b5bad4",
+  "updatedAt": "2026-09-23T01:58:00Z",
   "status": "ACTIVE_RELEASE_BLOCKER_FIRST",
   "policy": {
     "maxConcurrentProductionBatches": 4,
@@ -40,7 +40,7 @@
         "decor-5", "decor-6", "decor-7", "decor-8", "decor-9", "decor-10", "decor-11", "decor-12"
       ]
     },
-    "note": "Manifest/runtime remain authoritative at v33 with 173/192 mappings and 19 visible generic fallbacks. No review or canonical files changed between the prior coordination basis and sourceHead, so accepted-awaiting-canonical remains zero. Workstream13 materially closed the tested Firefly generation-response surface for Wall9-12 because the successful response exposed no authoritative model/checkpoint revision, runtime/tool revision, or executed seed. Workstream11 then landed the Quest reduced-motion stale-success-state fix at sourceHead; Workstream10 final QA remains parallel."
+    "note": "Manifest/runtime remain authoritative at v33 with 173/192 mappings and 19 visible generic fallbacks. No review or canonical files changed through sourceHead, so accepted-awaiting-canonical remains zero. Workstream13 has now proven both the tested Firefly response surface and the Viewmax connector metadata surface insufficient for mandatory ART_FACTORY_V2 model-revision/runtime-revision/executed-seed provenance; neither surface may be retried for Wall9-12 unless its metadata contract materially changes. Workstream10 final QA remains parallel."
   },
   "batches": [
     {
@@ -86,15 +86,17 @@
       "producer": "13",
       "batchId": "w13-wall-9-12-runtime-unblock-v2",
       "scope": ["wall-9", "wall-10", "wall-11", "wall-12"],
-      "state": "FIREFLY_RESPONSE_PROVENANCE_PROVEN_NONCOMPLIANT__PINNED_DIFFUSERS_OR_EQUIVALENT_REVISION_REPORTING_RUNTIME_REQUIRED",
+      "state": "FIREFLY_AND_VIEWMAX_PROVENANCE_SURFACES_PROVEN_NONCOMPLIANT__PINNED_DIFFUSERS_OR_EQUIVALENT_REVISION_REPORTING_RUNTIME_REQUIRED",
       "batchType": "GENERATION_RUNTIME_UNBLOCK_THEN_BOUNDED_GENERATION",
       "reviewer": "14",
-      "requirements": "Do not spend more Wall9-12 quota through the tested Adobe image_generate response surface: the post-reset response succeeded but proved the required authoritative model/revision/runtime/executed-seed fields are absent. Recheck PAAM-L044 or another already-authorized revision-reporting deterministic runtime. Generate Wall9-12 only after that runtime can emit complete ART_FACTORY_V2 provenance; then preserve exact bytes and route 06 -> 14 -> 08. This lane made a material transition this cycle, so anti-stall reassignment is not triggered yet.",
+      "requirements": "Do not spend more Wall9-12 quota through the tested Adobe image_generate response surface or Viewmax generation surface under their current metadata contracts. Firefly exposed no authoritative model/revision/runtime/executed-seed fields; Viewmax exposes model identity but no immutable model revision, runtime/tool revision, executed seed, or authoritative seed-unavailable record. Recheck PAAM-L044 or another already-authorized revision-reporting deterministic runtime. Generate Wall9-12 only after that runtime can emit complete ART_FACTORY_V2 provenance; then preserve exact bytes and route 06 -> 14 -> 08. This lane made a material transition this cycle via the zero-credit Viewmax capability probe, so anti-stall reassignment is not triggered yet.",
       "evidence": [
         "docs/preproduction/art-factory/requests/w13-wall-9-12-20260922.json",
         "docs/preproduction/art-factory/requests/w13-runtime-provider-probe-20260922.json",
         "docs/preproduction/art-factory/requests/w13-runtime-metadata-capability-20260922.json",
         "docs/preproduction/art-factory/requests/w13-firefly-generation-response-provenance-probe-20260923.json",
+        "docs/preproduction/art-factory/requests/w13-viewmax-provenance-capability-20260923.json",
+        "docs/preproduction/art-factory/requests/w12-cross-account-intake-routing-20260923-v2.json",
         "docs/preproduction/art-factory/PINNED_GENERATION_RUNTIME.json"
       ]
     }
@@ -108,7 +110,7 @@
   "acceptedAwaitingCanonical": [],
   "externalArrivals": {
     "sincePreviousCoordinationBasis": [],
-    "note": "The delta from 996dc99ac7f14068d066374b12554c8ff86734a7 to sourceHead contains coordinator15 state, the Workstream13 Wall provenance probe, and Workstream11 Quest motion code/tests; no EXT01-EXT10 catalog candidate arrival is present in that delta."
+    "note": "The delta from prior coordinator sourceHead aebd322150977436179404b50a5e87a226690a44 through sourceHead contains coordinator state, Workstream13's zero-credit Viewmax provenance-capability probe, and Workstream12 routing evidence; no EXT01-EXT10 catalog candidate asset or handoff arrived, so protected scopes remain non-duplicated."
   },
   "blockedPreserved": {
     "decor5Qualification": {
@@ -139,10 +141,14 @@
       "replacementPlan": "docs/preproduction/art-factory/requests/w03-decor-6-8-provenance-repair-20260922.json"
     },
     "wall9To12RuntimeProviderProbe": {
-      "state": "FIREFLY_TESTED_RESPONSE_SURFACE_NONCOMPLIANT__NO_REPEAT_GENERATION",
-      "evidence": "docs/preproduction/art-factory/requests/w13-firefly-generation-response-provenance-probe-20260923.json",
-      "result": "Transport works, but response exposes only success/outputUrl/outputMediaType/requestId; authoritative model ID/revision, runtime revision, and executed seed are absent.",
-      "next": "Pinned Diffusers/SDXL or another already-authorized revision-reporting runtime only."
+      "state": "FIREFLY_AND_VIEWMAX_TESTED_SURFACES_NONCOMPLIANT__NO_REPEAT_GENERATION",
+      "evidence": [
+        "docs/preproduction/art-factory/requests/w13-firefly-generation-response-provenance-probe-20260923.json",
+        "docs/preproduction/art-factory/requests/w13-viewmax-provenance-capability-20260923.json",
+        "docs/preproduction/art-factory/requests/w12-cross-account-intake-routing-20260923-v2.json"
+      ],
+      "result": "Firefly transport works but omits authoritative model/revision/runtime/seed provenance. Viewmax exposes provider/model identity but omits immutable model revision, runtime/tool revision, executed seed, and an authoritative seed-unavailable record; no generation credits were spent on the Viewmax capability probe.",
+      "next": "Pinned Diffusers/SDXL or another already-authorized revision-reporting runtime only, unless one of the closed provider metadata contracts materially changes."
     },
     "tops11_12_v7": "EXT01 owns this scope; primary account must not duplicate it while exact authoritative external payload bytes remain pending."
   },
@@ -154,22 +160,22 @@
     "latestRuntimeFix": "Workstream11 clears stale Quest success treatment immediately when semantic feedback becomes wrong/clue/retry and adds regression coverage.",
     "rule": "Do not reopen already-green Store geometry absent fresh current-byte failure. Workstream10 continues final browser/mobile/reference/persistence QA on material heads, including this Quest motion change."
   },
-  "rendererPriority": "Highest-throughput path remains Desk7-10 exact-byte recovery by 07 -> 06 qualification -> 14 shared render -> reviewer05 -> 08. Wall8 follows the first Desk handoff. Decor5/6/8 replacements and Wall9-12 remain revision-reporting-runtime gated; the tested Firefly response surface is now closed rather than retried. Workstream10 final QA continues in parallel.",
+  "rendererPriority": "Highest-throughput path remains Desk7-10 exact-byte recovery by 07 -> 06 qualification -> 14 shared render -> reviewer05 -> 08. Wall8 follows the first Desk handoff. Decor5/6/8 replacements and Wall9-12 remain revision-reporting-runtime gated; both tested Firefly and Viewmax Wall provider surfaces are closed under their current metadata contracts. Workstream10 final QA continues in parallel.",
   "routingOptimization": {
     "status": "ACTIVE_25_TASK_DUAL_ACCOUNT_MAX_THROUGHPUT",
     "activeProductionSlots": [
       {"slot": 1, "owner": "07", "role": "Exact-byte recovery/import", "scope": ["desks-7", "desks-8", "desks-9", "desks-10"], "state": "ACTIONABLE__WALL8_NEXT_AFTER_FIRST_DESK_HANDOFF"},
       {"slot": 2, "owner": "09", "role": "Decor5 compliant replacement handoff + Decor7 provenance-compliant path", "scope": ["decor-5", "decor-7"], "state": "DECOR5_HISTORICAL_HASH_FAIL_CLOSED__12_PLAN_REPLACEMENT__DECOR7_GATE_BOUND"},
       {"slot": 3, "owner": "03", "role": "Decor6/8 provenance-compliant replacement", "scope": ["decor-6", "decor-8"], "state": "DETERMINISTIC_REQUEST_READY__WAITING_REVISION_REPORTING_RUNTIME"},
-      {"slot": 4, "owner": "13", "role": "Generation-runtime unblock then bounded Wall9-12 generation", "scope": ["wall-9", "wall-10", "wall-11", "wall-12"], "state": "FIREFLY_RESPONSE_SURFACE_CLOSED__WAITING_PINNED_OR_EQUIVALENT_REVISION_REPORTING_RUNTIME"}
+      {"slot": 4, "owner": "13", "role": "Generation-runtime unblock then bounded Wall9-12 generation", "scope": ["wall-9", "wall-10", "wall-11", "wall-12"], "state": "FIREFLY_AND_VIEWMAX_SURFACES_CLOSED__WAITING_PINNED_OR_EQUIVALENT_REVISION_REPORTING_RUNTIME"}
     ],
-    "antiStallDisposition": "No external catalog arrival appeared in the delta to sourceHead. Slot13 made a real material transition by proving the post-reset Firefly response surface noncompliant, so it is not reassigned this cycle; if it makes no further material transition for one full cycle, coordinator15 must reassign that capacity to the next non-overlapping live release blocker without violating pilot gates or ownership. Desk11-12 and Decor9-12 remain behind current pilot gates; Wall8 remains queued to 07 after a Desk handoff.",
+    "antiStallDisposition": "No external catalog arrival appeared through sourceHead. Slot13 made a real material transition this cycle by proving, without spending generation credits, that the Viewmax metadata surface is also insufficient for mandatory provenance; it is not reassigned this cycle. If it makes no further material transition for one full cycle, coordinator15 must reassign that capacity to the next non-overlapping live release blocker without violating pilot gates or external ownership. Desk11-12 and Decor9-12 remain behind current pilot gates; Wall8 remains queued to 07 after a Desk handoff.",
     "intakeRouter": "12 scans new material from both accounts, compiles deterministic bounded plans for current assignments, and routes exact candidate arrivals to 06.",
     "technicalGate": "06 qualifies each new hash once; unchanged blocked hashes are not repeatedly rechecked.",
     "renderGate": "14 renders all qualified hashes and independently reviews Wall/Decor; foreign partitions route to 01/02/05.",
     "workstream08": "Integrate every simultaneously eligible exact-hash ACCEPT dynamically in one canonical batch.",
     "parallelRelease": "04/11/10 continue release proof in parallel; final QA does not wait for 192/192.",
-    "planner12Priority": "Prepare the Decor5 vNext deterministic replacement plan; preserve the current Wall9-12 optimizer/job plan for the next provenance-compliant runtime rather than spending more Firefly quota."
+    "planner12Priority": "Prepare the Decor5 vNext deterministic replacement plan; preserve the current Wall9-12 optimizer/job plan for the next provenance-compliant runtime rather than spending quota on provider surfaces already proven provenance-incomplete."
   },
   "liveStateAuthority": {
     "order": [
