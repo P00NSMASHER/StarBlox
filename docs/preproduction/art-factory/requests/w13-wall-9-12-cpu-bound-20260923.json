@@ -1,0 +1,158 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_BATCH_REQUEST",
+  "planner": "12",
+  "producer": "13",
+  "preflightOwner": "06",
+  "reviewer": "02",
+  "renderOwner": "14",
+  "integrationOwner": "08",
+  "coordinationOwner": "15",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "0079db35c157cebaca2974dcf6608e7c4cdfeef5",
+  "manifestVersion": 33,
+  "batchId": "w13-wall-9-12-runtime-unblock-v2",
+  "scope": [
+    "wall-9",
+    "wall-10",
+    "wall-11",
+    "wall-12"
+  ],
+  "state": "CPU_QUEUE_ELIGIBLE__PROVEN_PINNED_RUNTIME__REVIEWER02_BOUND",
+  "assignmentAuthority": {
+    "path": "docs/preproduction/art-factory/ACTIVE_BATCH.json",
+    "assignedReviewer": "02",
+    "priorRequestPath": "docs/preproduction/art-factory/requests/w13-wall-9-12-20260922.json",
+    "runtimeProofPath": "docs/preproduction/art-factory/CPU_RUNTIME_PROOF.json",
+    "runtimeProofStatus": "PROVEN",
+    "runtimeProofRunId": 35878062823,
+    "runtimeProofOutputSha256": "4738232fa6c1b0cbe2669fd50ce0fe9d4ffd935be0cd972bc9660e0d63e5dcb1",
+    "runtimeCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+    "modelRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "note": "Reviewer14 in the historical request is superseded by ACTIVE_BATCH reviewer02. Immutable item/reference/prompt inputs are preserved; this request changes only current routing/runtime eligibility needed for queue consumption."
+  },
+  "references": {
+    "originalStoreReference": {
+      "requiredBeforeGeneration": true,
+      "repositoryPath": "docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg",
+      "sha256": "b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d",
+      "gitBlobSha": "383baa877d3af86fa92e3583740212000592b3d6",
+      "dimensions": [
+        1448,
+        1086
+      ],
+      "role": "FIRST_PARTY_STARBLOX_STORE_ART_DIRECTION"
+    }
+  },
+  "reviewSource": {
+    "decision": "REWORK",
+    "note": "Historical legacy-hash REWORK remains bound only to legacy hashes; no verdict transfers to new candidates."
+  },
+  "items": {
+    "wall-9": {
+      "currentLegacy": {
+        "path": "/assets/catalog/wall-9.svg",
+        "gitBlobSha1": "0a83f6684de27c0ac31057d600bb24e2a3e5a183",
+        "reviewDecision": "REWORK",
+        "normalizedFailureTaxonomy": [
+          "VISIBLE_GENERIC_FALLBACK_ART",
+          "LEGACY_EXACT_HASH_REWORK",
+          "WALL_MOUNT_DEPTH_DEFICIT"
+        ]
+      },
+      "variants": [
+        {
+          "variantId": "A-GALLERY-RAIL",
+          "optimizerInputSha256": "f05999278e9b5ac4c540f953d710c8df8675543ed2045ff8f21d99d09dd4cb67",
+          "optimizerInput": "Art Gallery Wall, Wall Decor, Tier 3, Adventure Club. Design a genuine wall-mounted modular gallery system in three-quarter product view: warm oak mounting rail with visible brass wall cleats and standoffs, three mixed-depth framed art panels plus one shallow shadowbox, small adventure-map and trail-inspired abstract motifs with no readable text or logos, restrained brass hardware, layered paper/canvas/glass materials, believable frame thickness and cast shadows onto a neutral wall plane. Strong asymmetrical silhouette, premium but playful, full product unobscured, readable at 600x600."
+        },
+        {
+          "variantId": "B-SHADOWBOX-TRIPTYCH",
+          "optimizerInputSha256": "57b7c1b9dfa14956a34090ebf617ba307fc2d14e659bad200fc7434b4da95c80",
+          "optimizerInput": "Art Gallery Wall, Wall Decor, Tier 3, Adventure Club. Create a wall-hung triptych gallery with a substantial painted-wood backboard, visible hidden-cleat reveal, three dimensional box frames of different sizes, one narrow display ledge physically attached beneath, pinned abstract travel sketches and colorful geometric art only, leather-tab and brass accent details, glass reflections and real frame bevels. Three-quarter wall-mounted presentation with clear rear-to-wall contact, grounded wall shadows, no floor stand, no text, no collage sheet."
+        }
+      ]
+    },
+    "wall-10": {
+      "currentLegacy": {
+        "path": "/assets/catalog/wall-10.svg",
+        "gitBlobSha1": "df566297cc638fbcf1673d799a7ffb9e1f586927",
+        "reviewDecision": "REWORK",
+        "normalizedFailureTaxonomy": [
+          "VISIBLE_GENERIC_FALLBACK_ART",
+          "LEGACY_EXACT_HASH_REWORK",
+          "WALL_MOUNT_DEPTH_DEFICIT"
+        ]
+      },
+      "variants": [
+        {
+          "variantId": "A-ACRYLIC-SKYLINE",
+          "optimizerInputSha256": "0955b14bbcf4fe951510570f595c6358a161dfc9b6c7950087504072428a83aa",
+          "optimizerInput": "Neon City Sign, Wall Decor, Tier 4, Cloud Pop. Build a premium wall-mounted sign from a translucent cloud-shaped acrylic backplate with brushed-metal standoffs and a layered abstract city skyline made from bent cyan, soft-pink and white luminous tubing. Include visible tube clips, cable channel hidden behind the plate, beveled acrylic edges and controlled bloom, with real depth between wall, backplate and light tubes. Three-quarter product view against a simple wall plane, no readable words, no logos, no freestanding base."
+        },
+        {
+          "variantId": "B-LAYERED-CLOUD-CITY",
+          "optimizerInputSha256": "e52095364e0f6df5e70e3c0f707ccbb389f7b0060167afd9cc23f24037b0a031",
+          "optimizerInput": "Neon City Sign, Wall Decor, Tier 4, Cloud Pop. Design a sculptural wall fixture with stacked powder-coated metal cloud layers framing a compact geometric city silhouette, edge-lit frosted acrylic windows and one sweeping neon-like arc integrated into the structure. Show mounting keyholes/standoffs through a slight three-quarter angle, rich metal/acrylic separation, premium cyan-magenta rim light and restrained glow. Strong recognizable wall-sign silhouette at card size, no typography, no floor contact, no generic flat rectangle."
+        }
+      ]
+    },
+    "wall-11": {
+      "currentLegacy": {
+        "path": "/assets/catalog/wall-11.svg",
+        "gitBlobSha1": "d0609238147f8d63e58662efe9755abbaecc39e1",
+        "reviewDecision": "REWORK",
+        "normalizedFailureTaxonomy": [
+          "VISIBLE_GENERIC_FALLBACK_ART",
+          "LEGACY_EXACT_HASH_REWORK",
+          "WALL_MOUNT_DEPTH_DEFICIT"
+        ]
+      },
+      "variants": [
+        {
+          "variantId": "A-PIXEL-BEVEL-MIRROR",
+          "optimizerInputSha256": "5b55657c1536b4045d35b35c6e8121734a005d70ac9b73b7a3c647d916b38549",
+          "optimizerInput": "Star Mirror, Wall Decor, Tier 4, Pixel Party. Create a substantial wall-hung star mirror with a beveled silver-blue glass center and chunky stepped pixel-frame segments in violet, aqua and warm gold enamel. Use a deep rear backplate, visible side thickness, discrete top hanging cleat and small spacer pads so the mirror clearly floats a few centimeters from the wall. Realistic mirrored reflections without showing people, crisp bevel highlights, material-rich three-quarter wall presentation, no floor stand, no text."
+        },
+        {
+          "variantId": "B-MOSAIC-STAR-MIRROR",
+          "optimizerInputSha256": "697a3afd730775910e8c06a747cf4fb03f18c0570770dbc543c20e1c32101553",
+          "optimizerInput": "Star Mirror, Wall Decor, Tier 4, Pixel Party. Build an asymmetrical pixel-mosaic star mirror: central polished mirror star surrounded by interlocking raised square frame blocks, some translucent aqua resin and some anodized violet/gold metal, with tiny mechanical joints and a concealed but legible rear mounting bracket revealed by the three-quarter angle. Premium depth, subtle LED edge accent rather than flat glow, strong star silhouette at 600x600, wall-contact shadow, no standalone badge look."
+        }
+      ]
+    },
+    "wall-12": {
+      "currentLegacy": {
+        "path": "/assets/catalog/wall-12.svg",
+        "gitBlobSha1": "84a7eeb0f909572fe9e896b912b675990187ae48",
+        "reviewDecision": "REWORK",
+        "normalizedFailureTaxonomy": [
+          "VISIBLE_GENERIC_FALLBACK_ART",
+          "LEGACY_EXACT_HASH_REWORK",
+          "WALL_MOUNT_DEPTH_DEFICIT"
+        ]
+      },
+      "variants": [
+        {
+          "variantId": "A-JEWELED-RELIEF-CREST",
+          "optimizerInputSha256": "69482a1033fc08a98041427b8bbcd79e2967deb8cf84ff272aba199227db8a12",
+          "optimizerInput": "Golden Crest, Wall Decor, Tier 5, Berry Blast. Create a lavish wall-mounted gilded crest with deep sculpted relief: layered brushed-gold metal shield, berry-magenta translucent enamel insets, central faceted star gemstone held by visible prongs, small pearl-like berry clusters and engraved leaf flourishes with no text or logos. Include a substantial rear mounting plate and top hanger visible from a slight three-quarter view, realistic metal thickness, gemstone refraction, controlled luxury sparkle and wall-cast shadow. Heroic premium silhouette without resembling a brand emblem."
+        },
+        {
+          "variantId": "B-SCULPTED-BERRY-HERALDRY",
+          "optimizerInputSha256": "4fc1ab11db7fdfb269d786a503724e3cdbbf6a33f7076053aefd22068b34f3c4",
+          "optimizerInput": "Golden Crest, Wall Decor, Tier 5, Berry Blast. Design an ornate but original wall crest built from interlocking gold ribbons and sculpted berry-inspired jewel forms around a raised central star medallion. Use layered metal relief, ruby-pink glass cabochons, tiny prongs, satin-gold versus polished-gold contrast, a deep dark-magenta enamel backing and explicit concealed-cleat spacing from the wall. Three-quarter museum-quality product presentation, richer spectacle than lower tiers, crisp card readability, no readable text, no floor support."
+        }
+      ]
+    }
+  },
+  "safety": {
+    "preserveAcceptedExactHashes": true,
+    "producerSelfReview": false,
+    "canonicalMappingsChanged": false,
+    "workflowFilesChanged": false,
+    "gameplayLearningEconomyPersistenceAccessibilityChanged": false,
+    "wall8Preserved": true
+  }
+}
