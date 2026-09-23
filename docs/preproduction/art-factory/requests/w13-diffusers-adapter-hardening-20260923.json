@@ -1,0 +1,97 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_W13_DIFFUSERS_ADAPTER_HARDENING_EVIDENCE",
+  "repository": "P00NSMASHER/StarBlox",
+  "branch": "screenshot-match-preproduction",
+  "observedBranchHead": "2e0bd1449e9cd0261ef5adb42ee369dad35074fe",
+  "scope": [
+    "wall-9",
+    "wall-10",
+    "wall-11",
+    "wall-12",
+    "decor-5",
+    "decor-6",
+    "decor-7",
+    "decor-8"
+  ],
+  "purpose": "Close the remaining provenance gap in the existing StarBlox Diffusers adapter without changing workflows, canonical art, review authority, gameplay, persistence, economy, deployment, or accepted hashes.",
+  "implementation": {
+    "adapterPath": "scripts/artFactoryDiffusers.py",
+    "adapterHardeningCommit": "d590140e70a17585d8fc617db0cfaaab2dd7ef8f",
+    "adapterBlobSha": "4c6ca379aa969ded557f5de9b0115a8e40896559",
+    "testPath": "scripts/test_artFactoryDiffusers.py",
+    "testCommit": "fc1368809c89cd31d1b5e86051faba69e0bc3802",
+    "testBlobSha": "67820a5563dd5731e691fbeb8dfb64411bee001a",
+    "pinnedRuntime": {
+      "repository": "huggingface/diffusers",
+      "revision": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c"
+    },
+    "pinnedBaseModel": {
+      "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+      "revision": "462165984030d82259a11f4367a4eed129e94a7b"
+    }
+  },
+  "guaranteesAdded": [
+    "Planner model revision must be an immutable lowercase 40-character commit SHA.",
+    "Generated source paths may use the live public/assets/catalog-candidates/ convention as well as public/assets/catalog/, while still binding itemId + producer + numeric version.",
+    "Generation verifies installed Diffusers VCS provenance from direct_url.json and fails unless its resolved commit equals the factory-pinned commit.",
+    "Generation resolves the Hugging Face model snapshot by exact revision and fails unless the resolved snapshot commit exactly equals the planned revision.",
+    "Reference-conditioned IP-Adapter execution similarly resolves and verifies an exact snapshot revision before loading.",
+    "Generation requires a real Git checkout on screenshot-match-preproduction and records the exact execution HEAD.",
+    "Generation receipts distinguish the planned source head from execution checkout head instead of implying they are identical.",
+    "The executed deterministic seed is recorded explicitly.",
+    "Generated output receipts include SHA-256 and canonical Git blob SHA.",
+    "Existing output paths are never overwritten with different bytes; identical bytes may be reused idempotently.",
+    "No review decision, canonical mapping, deployment, gameplay/state, or real-player-data mutation is performed by the adapter."
+  ],
+  "compatibility": {
+    "downstreamVerifier": "docs/preproduction/art-factory/verify_staged_output.py",
+    "verifierPathContract": "Compatible: downstream verifier accepts safe asset paths and requires the filename stem to contain itemId + producer + numeric version.",
+    "currentRequestConvention": "Compatible with catalog-candidates source paths such as <item>-w<producer>-vN-<variant>-original.png.",
+    "existingRecoveryImportersUnchanged": true
+  },
+  "salvageDisposition": {
+    "desks8To10": "Preserve current ACTIVE_BATCH exact-byte recovery/import route; do not regenerate.",
+    "desk7": "Preserve remote Firefly candidate identities; byte materialization remains unresolved.",
+    "wall8": "Preserve selected Variant B exact identity; do not regenerate while recovery remains possible.",
+    "companions2_5_6_7": "Existing rich candidate bytes remain held for later independent review; no generation required.",
+    "wall9To12": "Eligible for future bounded generation only after runtime/model resolution and execution tests pass.",
+    "decor5To8": "Eligible only under current pilot gates and only after provenance-capable runtime execution is proven."
+  },
+  "validation": {
+    "sourceReview": "PASS",
+    "githubReadback": {
+      "adapterBlob": "PASS",
+      "testBlob": "PASS",
+      "commitsInCurrentBranchHistory": "PASS"
+    },
+    "executionSelfTest": "PENDING",
+    "executionContractTest": "PENDING",
+    "exactModelSnapshotResolution": "PENDING",
+    "acceleratorMemorySuitability": "PENDING",
+    "productionInference": "NOT_RUN",
+    "generatedArtBytes": "NONE",
+    "repositoryStagedGeneratedBytes": "NONE",
+    "reason": "The current ChatGPT container cannot resolve GitHub/model sources for a clean checkout/inference test, and PAAM-L044 is offline. No workflow/CI mutation was authorized or needed for this hardening."
+  },
+  "nextExecutableSequence": [
+    "On the first authorized online runner, run python scripts/artFactoryDiffusers.py self-test.",
+    "Run python scripts/test_artFactoryDiffusers.py.",
+    "Resolve the pinned SDXL model revision through the adapter without weakening exact-revision checks.",
+    "Verify accelerator/memory suitability.",
+    "Only then run one bounded existing ART_FACTORY job from the live Wall/Decor scope.",
+    "Preserve generated source bytes, run verify_staged_output.py, render actual StarBlox pixels, and route the exact hash to the existing independent reviewer."
+  ],
+  "safety": {
+    "workflowsOrCiModified": false,
+    "thirdPartyRepositoriesModified": false,
+    "canonicalCatalogModified": false,
+    "canonicalRuntimeModified": false,
+    "acceptedHashesModified": false,
+    "reviewDecisionMade": false,
+    "deploymentPerformed": false,
+    "moneySpent": false,
+    "realPlayerDataTouched": false
+  },
+  "status": "SOURCE_HARDENED__EXECUTION_VALIDATION_PENDING"
+}
