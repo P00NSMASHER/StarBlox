@@ -1,12 +1,39 @@
 # Workstream 10 — Independent Release QA
 
-STATUS: **QUEST POINTER BLOCKER CLOSED / FUNCTIONAL BROWSER GATES GREEN / STATE-SPECIFIC PHONE COMPOSITION REWORK / 19 FALLBACKS OPEN**
+STATUS: **QUEST POINTER BLOCKER CLOSED / FUNCTIONAL BROWSER GATES GREEN / PHONE COMPOSITION CLOSED / 19 FALLBACKS OPEN**
 
 Branch: `screenshot-match-preproduction`  
 Live head before this evidence: `54c1e36e7d77ec9be043715c61838e1b1b1cc628`  
 Executable fixed head: `ce03757ae7b427a25b7b30e74ee3c4331d3a7a9f`  
 Replit/Floot: **untouched**  
 `main`: **not merged or modified**
+
+
+## 2026-09-23 phone-composition closure
+
+**This section supersedes the older phone REWORK dispositions later in this file.** The older screenshots remain historical evidence for why the repair was needed.
+
+Current evidence:
+
+- phone composition repair commit: `b7b93e3309cf2f169e96a52017583c9a53edc63b`
+- catalog mobile/accessibility run `35930773595`, job `107416539590`: **PASS**, release-blocking count **0**
+- structural visual QA run `35931018688`, job `107417335180`, head `cfa105d10c3a7805a6ff2a537a3a71d37ebfacef`
+- structural visual QA artifact `10780754252`, digest `sha256:849ac3b32a79b55fd55f452e3450689cdfb5a00d652b6c30bd0d28d74d37bc8c`
+- production build in the structural visual run: **PASS**
+- Home 390×844: **PASS** — visible Home actions=13; all >=44px
+- Home 320×568: **PASS** — visible Home actions=13; all >=44px
+- Quest 390×844: **PASS** — 3 visible answers; all touch/readability safe
+- Quest 320×568: **PASS** — 3 visible answers; all touch/readability safe
+- desktop Home/Store/Quest geometry: **PASS**
+- tablet Home/Store/Quest structural checks: **PASS**
+- Store phone two-column layout, navigation, overflow and runtime checks: **PASS**
+- the structural visual gate now has exactly **one** release-blocking class: `visible-final-art-fallbacks`, count **19**
+
+Therefore the prior Home `REWORK_MOBILE_HERO_PRIORITY` and Quest `REWORK_PROMPT_ANSWER_PROXIMITY` blockers are **CLOSED** on current phone-composition bytes. Do not spend further art-sprint capacity on those two issues unless their bound CSS/runtime bytes change or a fresh current-head failure reproduces.
+
+Current art/visual critical path is now the 19 visible fallback assets and their generation → provenance → render → independent review → canonical integration chain.
+
+This is Chromium/GitHub-hosted evidence, not physical-device or screen-reader proof. It does not claim exact reference-pixel parity.
 
 ## Material disposition
 
