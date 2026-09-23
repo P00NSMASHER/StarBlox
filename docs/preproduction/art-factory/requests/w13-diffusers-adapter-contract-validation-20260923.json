@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_GENERATION_CONTRACT_VALIDATION",
+  "branch": "screenshot-match-preproduction",
+  "adapterCommit": "7948b27e17f91571902c4c369e9dd9374448d758",
+  "priorHardeningCommits": [
+    "d590140e70a17585d8fc617db0cfaaab2dd7ef8f",
+    "fc1368809c89cd31d1b5e86051faba69e0bc3802"
+  ],
+  "workflow": {
+    "name": "StarBlox Art Factory Generation Contract",
+    "runId": 35820406480,
+    "runNumber": 4,
+    "headSha": "7948b27e17f91571902c4c369e9dd9374448d758",
+    "conclusion": "success",
+    "jobId": 107050823656,
+    "jobName": "contract"
+  },
+  "executedChecks": [
+    {
+      "command": "python scripts/artFactoryDiffusers.py self-test",
+      "result": "PASS",
+      "evidence": "SELF_TEST=PASS"
+    },
+    {
+      "command": "python scripts/test_artFactoryDiffusers.py",
+      "result": "PASS",
+      "evidence": "ART_FACTORY_DIFFUSERS_CONTRACT_TEST=PASS"
+    },
+    {
+      "check": "heavy ML imports remain lazy in contract path",
+      "result": "PASS",
+      "evidence": "LAZY_IMPORT_BOUNDARY=PASS"
+    }
+  ],
+  "validatedGuarantees": [
+    "Catalog-candidates source output path contract is accepted by the adapter.",
+    "Mutable model revisions such as main are rejected by the cheap contract test.",
+    "Deterministic seed and plan integrity checks still pass.",
+    "New exact-revision helper and parser changes compile and execute on the branch.",
+    "No torch/model download is required for the contract test."
+  ],
+  "stillUnproven": [
+    "Exact SDXL model revision resolution through huggingface_hub on an authorized execution runner.",
+    "Runtime accelerator and memory suitability.",
+    "Full model weight download.",
+    "Production inference.",
+    "Generated source bytes and repository readback.",
+    "Independent visual review."
+  ],
+  "safety": {
+    "generatedArtBytes": false,
+    "canonicalArtModified": false,
+    "acceptedHashesModified": false,
+    "workflowYamlModified": false,
+    "deploymentPerformed": false,
+    "realPlayerDataTouched": false,
+    "moneySpent": false
+  },
+  "status": "CONTRACT_EXECUTION_PASS__RUNTIME_MODEL_PROBE_NEXT"
+}
