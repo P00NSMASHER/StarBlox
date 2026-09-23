@@ -3,7 +3,7 @@
   "batchId": "chat-headwear-5-8-w12-20260922",
   "status": "STAGED_READY_FOR_INDEPENDENT_REVIEW",
   "sourceHead": "9e973e2097aa157a3ffcc7ded6425b4bcb023157",
-  "workflowRunId": 35730197493,
+  "workflowRunId": 35875380677,
   "transportHelper": "CHAT",
   "canonicalWriter": "08",
   "newGenerations": 0,
@@ -171,8 +171,8 @@
     "independentVisualReview": "PENDING_ASSIGNED_REVIEWERS",
     "tests": "PASS",
     "build": "PASS",
-    "sharedRenderOverall": "FAIL",
-    "scopedCardDetailRender": "PASS_4_OF_4"
+    "sharedRenderOverall": "PASS",
+    "scopedCardDetailRender": "INCOMPLETE_0_OF_4"
   },
   "freeze": {
     "replitTouched": false,
@@ -182,7 +182,7 @@
     "gameplayChanged": false,
     "playerDataTouched": false
   },
-  "testedSourceHead": "39c9d0529f4b08ac432fcb91a8c5ed6802ba19f4",
+  "testedSourceHead": "c28788cab1228dd55b1ca438c4606b4fb289b1f5",
   "recoveryContext": {
     "mode": "EXISTING_FIREFLY_SOURCE_TO_RESIZE_ONLY_PNG_DERIVATIVE",
     "newGenerations": 0,
@@ -249,18 +249,8 @@
   "renderEvidence": {
     "artifactName": "headwear-5-8-w12-recovery-evidence",
     "reportPath": "artifacts/catalog-staged-art/report.json",
-    "matchedIds": [
-      "headwear-5",
-      "headwear-6",
-      "headwear-7",
-      "headwear-8"
-    ],
-    "matchedHashes": {
-      "headwear-5": "b26e0c50a466afac74e3013da3d092ac54d7a273",
-      "headwear-6": "6babf7112c050ba4c2a6a3c60630b3b35f88bb3d",
-      "headwear-7": "4463b180a1d8c0321d6086c28f078329ced5fb9b",
-      "headwear-8": "c2cd9cddba03a8eae55e9eb8b3197e82ee3af415"
-    }
+    "matchedIds": [],
+    "matchedHashes": {}
   },
   "independentVisualReview": "PENDING_01_HEADWEAR_5_TO_8_EXACT_HASH_REVIEW"
 }
