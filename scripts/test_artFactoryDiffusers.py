@@ -27,6 +27,9 @@ def main() -> None:
     assert direct.returncode == 0, direct.stderr
     assert "SELF_TEST=PASS" in direct.stdout
 
+    # The cheap self-test also covers CPU fallback capacity policy without
+    # importing torch or downloading model weights.
+
     with tempfile.TemporaryDirectory() as td:
         root = Path(td)
         prompt = "x"

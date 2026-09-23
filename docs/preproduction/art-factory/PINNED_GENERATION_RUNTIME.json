@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "kind": "STARBLOX_ART_FACTORY_PINNED_GENERATION_RUNTIME",
-  "status": "PINNED_READY_WHEN_EXECUTION_RUNTIME_AVAILABLE",
+  "status": "PINNED_RUNTIME_WITH_CPU_FALLBACK_PROOF_PATH",
   "repository": "P00NSMASHER/StarBlox",
   "branch": "screenshot-match-preproduction",
   "sourceEvidence": "docs/preproduction/art-factory/requests/w13-runtime-provider-probe-20260922.json",
@@ -23,7 +23,12 @@
     "outputMustPassStagedVerifier": true,
     "outputMustPassRealRender": true,
     "outputRequiresIndependentExactHashReview": true,
-    "generatorMayNotWriteCanonicalCatalog": true
+    "generatorMayNotWriteCanonicalCatalog": true,
+    "cpuFallbackAllowedAfterBoundedInferenceProof": true,
+    "cpuFallbackDoesNotRelaxProvenance": true,
+    "cpuFallbackMinimumMemoryBytes": 12884901888,
+    "cpuFallbackMinimumDiskFreeBytes": 12884901888,
+    "cpuFallbackProofWorkflow": ".github/workflows/art-factory-cpu-runtime-proof.yml"
   },
   "currentPriority": {
     "catalogTarget": 192,
@@ -32,5 +37,13 @@
     "remainingObserved": 26,
     "runtimeMappingGapObserved": 19,
     "activeGenerationLane": "Wall 9-12 when compliant execution runtime is available"
+  },
+  "runtimeFallback": {
+    "surface": "GitHub-hosted ubuntu-24.04",
+    "mode": "DETERMINISTIC_CPU_BOUNDED_PROOF_THEN_PRODUCTION_ELIGIBLE",
+    "exactRuntimeAndModelRevisionRequired": true,
+    "exactExecutedSeedRequired": true,
+    "generatedSourceBytesMustBePreserved": true,
+    "independentReviewStillRequired": true
   }
 }

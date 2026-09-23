@@ -270,6 +270,34 @@ def system_memory_bytes() -> int | None:
         return None
 
 
+def evaluate_cpu_fallback(*, torch_present: bool, memory_bytes: int | None, disk_free_bytes: int) -> dict[str, Any]:
+    """Decide whether a deterministic CPU proof is worth attempting.
+
+    This is a capacity gate only. It does not weaken provenance requirements and
+    it never marks generated art accepted.
+    """
+    min_memory = 12 * 1024**3
+    min_disk = 12 * 1024**3
+    eligible = bool(
+        torch_present
+        and memory_bytes is not None
+        and memory_bytes >= min_memory
+        and int(disk_free_bytes) >= min_disk
+    )
+    return {
+        "eligible": eligible,
+        "minimumMemoryBytes": min_memory,
+        "minimumDiskFreeBytes": min_disk,
+        "observedMemoryBytes": memory_bytes,
+        "observedDiskFreeBytes": int(disk_free_bytes),
+        "decision": (
+            "CPU_FALLBACK_ELIGIBLE__RUN_BOUNDED_PIXEL_PROOF"
+            if eligible
+            else "CPU_FALLBACK_INELIGIBLE__INSUFFICIENT_LOCAL_RESOURCES"
+        ),
+    }
+
+
 def probe_runtime(
     *,
     root: Path,
@@ -354,6 +382,12 @@ def probe_runtime(
 
     accelerator = "cuda" if cuda_available else ("mps" if mps_available else "none")
     disk = shutil.disk_usage(root)
+    memory_bytes = system_memory_bytes()
+    cpu_fallback = evaluate_cpu_fallback(
+        torch_present=torch is not None,
+        memory_bytes=memory_bytes,
+        disk_free_bytes=int(disk.free),
+    )
     report = {
         "schemaVersion": 1,
         "kind": "STARBLOX_ART_FACTORY_RUNTIME_PROBE",
@@ -393,7 +427,7 @@ def probe_runtime(
         },
         "hardware": {
             "cpuCount": os.cpu_count(),
-            "systemMemoryBytes": system_memory_bytes(),
+            "systemMemoryBytes": memory_bytes,
             "diskTotalBytes": int(disk.total),
             "diskFreeBytes": int(disk.free),
             "torchInstalled": torch is not None,
@@ -403,13 +437,14 @@ def probe_runtime(
             "cudaDevices": cuda_devices,
             "mpsAvailable": mps_available,
             "accelerator": accelerator,
+            "cpuFallback": cpu_fallback,
         },
         "productionInference": {
             "attempted": False,
             "suitabilityDecision": (
                 "ACCELERATOR_PRESENT__INFERENCE_STILL_REQUIRES_BOUNDED_PROOF"
                 if accelerator != "none"
-                else "NO_ACCELERATOR_EXPOSED__DO_NOT_DOWNLOAD_FULL_MODEL_FOR_PRODUCTION_INFERENCE"
+                else cpu_fallback["decision"]
             ),
         },
         "safety": {
@@ -423,7 +458,11 @@ def probe_runtime(
         "status": (
             "RUNTIME_PROBE_COMPLETE_ACCELERATOR_PRESENT"
             if accelerator != "none"
-            else "RUNTIME_PROBE_COMPLETE_NO_ACCELERATOR"
+            else (
+                "RUNTIME_PROBE_COMPLETE_CPU_FALLBACK_ELIGIBLE"
+                if cpu_fallback["eligible"]
+                else "RUNTIME_PROBE_COMPLETE_NO_PRODUCTION_CAPACITY"
+            )
         ),
     }
     report["recordSha256"] = sha256_bytes(canonical_json_bytes(report))
@@ -525,16 +564,34 @@ def load_pipeline(attempt: dict[str, Any], args: argparse.Namespace):
 
     dtype_name = args.dtype
     if dtype_name == "auto":
-        dtype_name = "float16" if device == "cuda" else "float32"
+        if device in ("cuda", "mps"):
+            dtype_name = "float16"
+        elif device == "cpu":
+            dtype_name = "bfloat16"
+        else:
+            dtype_name = "float32"
     dtype = getattr(torch, dtype_name, None)
     if dtype is None:
         raise ValueError(f"unsupported torch dtype: {dtype_name}")
 
-    pipe = DiffusionPipeline.from_pretrained(
-        str(snapshot),
-        torch_dtype=dtype,
-        local_files_only=True,
-    )
+    load_kwargs: dict[str, Any] = {
+        "torch_dtype": dtype,
+        "local_files_only": True,
+        "use_safetensors": True,
+    }
+    if installed_version("accelerate"):
+        load_kwargs["low_cpu_mem_usage"] = True
+    pipe = DiffusionPipeline.from_pretrained(str(snapshot), **load_kwargs)
+
+    if device == "cpu":
+        if hasattr(torch, "set_num_threads"):
+            torch.set_num_threads(max(1, int(os.cpu_count() or 1)))
+        if hasattr(pipe, "enable_attention_slicing"):
+            pipe.enable_attention_slicing("max")
+        if hasattr(pipe, "enable_vae_slicing"):
+            pipe.enable_vae_slicing()
+        if hasattr(pipe, "enable_vae_tiling"):
+            pipe.enable_vae_tiling()
 
     if args.enable_cpu_offload:
         if not hasattr(pipe, "enable_model_cpu_offload"):
@@ -687,9 +744,14 @@ def generate(
             "diffusersVersion": getattr(diffusers, "__version__", None) or installed_version("diffusers"),
             "diffusersInstallSource": runtime_proof.get("sourceUrl"),
             "torchVersion": getattr(torch, "__version__", None) or installed_version("torch"),
+            "transformersVersion": installed_version("transformers"),
+            "accelerateVersion": installed_version("accelerate"),
+            "huggingfaceHubVersion": installed_version("huggingface-hub"),
+            "safetensorsVersion": installed_version("safetensors"),
             "pythonPillowVersion": installed_version("Pillow"),
             "device": device,
             "dtype": dtype_name,
+            "executionMode": "cpu-fallback" if device == "cpu" else "accelerated",
         },
         "model": {
             **dict(attempt.get("model") or {}),
@@ -767,6 +829,18 @@ def self_test() -> None:
     assert got["seed"] == seed
     proof = verify_resolved_revision("model revision", "d" * 40, "d" * 40)
     assert proof["verified"] is True
+    cpu_ok = evaluate_cpu_fallback(
+        torch_present=True,
+        memory_bytes=16 * 1024**3,
+        disk_free_bytes=20 * 1024**3,
+    )
+    assert cpu_ok["eligible"] is True
+    cpu_small = evaluate_cpu_fallback(
+        torch_present=True,
+        memory_bytes=8 * 1024**3,
+        disk_free_bytes=20 * 1024**3,
+    )
+    assert cpu_small["eligible"] is False
     try:
         verify_resolved_revision("model revision", "d" * 40, "e" * 40)
         raise AssertionError("resolved revision mismatch unexpectedly passed")
