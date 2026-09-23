@@ -73,14 +73,14 @@ function sameChoices(a, b) {
 
 async function currentQuestion(page) {
   const prompt = (await page.locator('.questionText').textContent())?.trim();
-  const visibleChoices = (await page.locator('.answers .answerButton').allTextContents()).map(v => v.trim());
+  const visibleChoices = (await page.locator('.answers .answerButton').allTextContents()).map(value => value.trim());
   const candidates = allQuestions.filter(question => question.prompt === prompt);
-  const question = candidates.find(question => sameChoices(question.choices, visibleChoices));
+  const question = candidates.find(candidate => sameChoices(candidate.choices, visibleChoices));
   assert(question, 'Rendered Quest question could not be matched to hardened source by prompt+choices', {
     prompt,
     visibleChoices,
-    candidateIds: candidates.map(q => q.id),
-    candidateChoices: candidates.map(q => q.choices)
+    candidateIds: candidates.map(candidate => candidate.id),
+    candidateChoices: candidates.map(candidate => candidate.choices)
   });
   assert(visibleChoices.includes(question.answer), 'Hardened source answer is not one of the rendered choices', {
     questionId: question.id,
@@ -93,8 +93,8 @@ async function currentQuestion(page) {
 async function findChoiceButton(page, choice) {
   const buttons = page.locator('.answers .answerButton');
   const count = await buttons.count();
-  for (let i = 0; i < count; i += 1) {
-    const button = buttons.nth(i);
+  for (let index = 0; index < count; index += 1) {
+    const button = buttons.nth(index);
     if ((await button.textContent())?.trim() === choice) return button;
   }
   return null;
@@ -104,10 +104,10 @@ async function clickChoice(page, choice, { rapid = false } = {}) {
   const target = await findChoiceButton(page, choice);
   assert(target, 'Rendered answer button not found', {
     choice,
-    rendered: (await page.locator('.answers .answerButton').allTextContents()).map(v => v.trim())
+    rendered: (await page.locator('.answers .answerButton').allTextContents()).map(value => value.trim())
   });
   if (rapid) {
-    await target.evaluate(el => { el.click(); el.click(); });
+    await target.evaluate(element => { element.click(); element.click(); });
   } else {
     await target.click();
   }
@@ -127,7 +127,6 @@ async function answerCorrect(page, { rapid = false } = {}) {
   const counter = (await page.locator('.qCounter').textContent())?.trim();
   const before = await readSave(page);
   const old = before.stats?.[question.skill] || { seen: 0, correct: 0, independentCorrect: 0 };
-
   await clickChoice(page, question.answer, { rapid });
   const after = await waitSave(
     page,
@@ -138,14 +137,12 @@ async function answerCorrect(page, { rapid = false } = {}) {
     },
     [question.skill, (old.seen || 0) + 1, (old.correct || 0) + 1]
   );
-
   if (rapid) {
     const stat = after.stats[question.skill];
     assert(stat.seen === (old.seen || 0) + 1, 'Rapid correct double-click duplicated seen evidence', { old, stat });
     assert(stat.correct === (old.correct || 0) + 1, 'Rapid correct double-click duplicated correct evidence', { old, stat });
     assert(stat.independentCorrect === (old.independentCorrect || 0) + 1, 'Rapid correct double-click duplicated independent evidence', { old, stat });
   }
-
   await waitForNextQuestion(page, counter);
   return { id: question.id, before: critical(before), after: critical(after) };
 }
@@ -233,10 +230,8 @@ function summarizeProbeStream(stream, clickStartedAt, clickEndedAt) {
   const mutations = stream.filter(entry => entry.kind === 'mutation');
   const longTasks = stream.filter(entry => entry.kind === 'longtask');
   const lastHeartbeat = heartbeats.at(-1) || null;
-  const duringHeartbeats = heartbeats.filter(entry => entry.nodeAt >= clickStartedAt && entry.nodeAt <= clickEndedAt + 500);
   return {
     heartbeatCount: heartbeats.length,
-    heartbeatDuringClickCount: duringHeartbeats.length,
     maxHeartbeatLagMs: heartbeats.reduce((max, entry) => Math.max(max, Number(entry.lagMs) || 0), 0),
     lastHeartbeatNodeAt: lastHeartbeat?.nodeAt || null,
     heartbeatLiveNearClickEnd: Boolean(lastHeartbeat && clickEndedAt - lastHeartbeat.nodeAt <= 750),
@@ -247,21 +242,19 @@ function summarizeProbeStream(stream, clickStartedAt, clickEndedAt) {
   };
 }
 
-async function installAssistedClickProbe(page, answer) {
-  const stream = [];
+async function installQuestClickProbe(page, stream) {
   await page.exposeFunction('__sbQaProbeEmit', payload => {
     stream.push({ ...payload, nodeAt: Date.now() });
-    if (stream.length > 1200) stream.splice(0, stream.length - 1200);
+    if (stream.length > 1600) stream.splice(0, stream.length - 1600);
   });
-  await page.evaluate(targetAnswer => {
+  await page.evaluate(() => {
     const describe = element => element ? {
       tag: element.tagName,
       id: element.id || '',
       className: typeof element.className === 'string' ? element.className : '',
       text: (element.textContent || '').trim().slice(0, 120)
     } : null;
-    const findTarget = () => [...document.querySelectorAll('.answers .answerButton')].find(button => (button.textContent || '').trim() === targetAnswer) || null;
-    window.__sbQaTargetAnswer = targetAnswer;
+    const findTarget = () => [...document.querySelectorAll('.answers .answerButton')].find(button => (button.textContent || '').trim() === window.__sbQaTargetChoice) || null;
     let last = performance.now();
     window.__sbQaProbeTimer = setInterval(() => {
       const now = performance.now();
@@ -269,9 +262,9 @@ async function installAssistedClickProbe(page, answer) {
       last = now;
       const target = findTarget();
       const feedback = document.querySelector('.feedback');
-      const animations = document.getAnimations().filter(animation => animation.playState === 'running');
       window.__sbQaProbeEmit({
         kind: 'heartbeat',
+        phase: window.__sbQaProbePhase || 'unset',
         perfAt: now,
         lagMs,
         targetConnected: Boolean(target?.isConnected),
@@ -279,19 +272,19 @@ async function installAssistedClickProbe(page, answer) {
         targetDisabled: Boolean(target?.disabled),
         feedbackClass: feedback?.className || '',
         feedbackText: (feedback?.textContent || '').trim().slice(0, 120),
-        runningAnimationCount: animations.length
+        runningAnimationCount: document.getAnimations().filter(animation => animation.playState === 'running').length
       });
     }, 50);
     for (const type of ['pointerdown', 'mousedown', 'pointerup', 'mouseup', 'click']) {
       document.addEventListener(type, event => {
-        const target = findTarget();
         window.__sbQaProbeEmit({
           kind: 'input',
+          phase: window.__sbQaProbePhase || 'unset',
           type,
           perfAt: performance.now(),
           isTrusted: event.isTrusted,
           eventTarget: describe(event.target),
-          answerTarget: describe(target)
+          answerTarget: describe(findTarget())
         });
       }, true);
     }
@@ -299,10 +292,11 @@ async function installAssistedClickProbe(page, answer) {
       for (const record of records) {
         const element = record.target?.nodeType === Node.ELEMENT_NODE ? record.target : record.target?.parentElement;
         if (!element) continue;
-        const relevant = element.closest?.('.answers, .feedback, .questPage, .quest-shell, .marketPage') || element.matches?.('.answerButton, .feedback');
+        const relevant = element.closest?.('.answers, .feedback, .questPage, .quest-shell') || element.matches?.('.answerButton, .feedback');
         if (!relevant) continue;
         window.__sbQaProbeEmit({
           kind: 'mutation',
+          phase: window.__sbQaProbePhase || 'unset',
           perfAt: performance.now(),
           type: record.type,
           attributeName: record.attributeName || null,
@@ -315,17 +309,16 @@ async function installAssistedClickProbe(page, answer) {
     if (window.PerformanceObserver?.supportedEntryTypes?.includes('longtask')) {
       const perfObserver = new PerformanceObserver(list => {
         for (const entry of list.getEntries()) {
-          window.__sbQaProbeEmit({ kind: 'longtask', perfAt: performance.now(), startTime: entry.startTime, duration: entry.duration });
+          window.__sbQaProbeEmit({ kind: 'longtask', phase: window.__sbQaProbePhase || 'unset', perfAt: performance.now(), startTime: entry.startTime, duration: entry.duration });
         }
       });
       perfObserver.observe({ entryTypes: ['longtask'] });
       window.__sbQaLongTaskObserver = perfObserver;
     }
-  }, answer);
-  return stream;
+  });
 }
 
-async function stopAssistedClickProbe(page) {
+async function stopQuestClickProbe(page) {
   await page.evaluate(() => {
     if (window.__sbQaProbeTimer) clearInterval(window.__sbQaProbeTimer);
     window.__sbQaProbeObserver?.disconnect?.();
@@ -383,8 +376,6 @@ async function interactionSnapshot(page, choice) {
         transitionDuration: style.transitionDuration
       },
       feedback: describe(document.querySelector('.feedback')),
-      answers: describe(document.querySelector('.answers')),
-      bodyClassName: document.body.className,
       activeElement: describe(document.activeElement),
       runningAnimationCount: animations.filter(animation => animation.playState === 'running').length,
       animations
@@ -392,27 +383,51 @@ async function interactionSnapshot(page, choice) {
   }, choice);
 }
 
-async function runAssistedClickIsolation(browser, reducedMotion) {
+async function runPointerStage(page, stream, phase, choice) {
+  await page.evaluate(({ nextPhase, nextChoice }) => {
+    window.__sbQaProbePhase = nextPhase;
+    window.__sbQaTargetChoice = nextChoice;
+  }, { nextPhase: phase, nextChoice: choice });
+  const before = await interactionSnapshot(page, choice);
+  const target = await findChoiceButton(page, choice);
+  assert(target, 'Pointer-stage target answer button not found', { phase, choice });
+  const streamStart = stream.length;
+  const clickStartedAt = Date.now();
+  let clickError = null;
+  try {
+    await target.click({ timeout: 30000 });
+  } catch (error) {
+    clickError = error;
+  }
+  const clickEndedAt = Date.now();
+  const stageStream = stream.slice(streamStart);
+  const probe = summarizeProbeStream(stageStream, clickStartedAt, clickEndedAt);
+  return {
+    phase,
+    choice,
+    status: clickError ? 'FAIL' : 'PASS',
+    clickDurationMs: clickEndedAt - clickStartedAt,
+    clickError: errorDetail(clickError),
+    before,
+    probe
+  };
+}
+
+async function runWrongRetryIsolation(browser, reducedMotion) {
   const mode = reducedMotion === 'reduce' ? 'reduced-motion' : 'normal-motion';
   const context = await browser.newContext({ viewport: { width: 1408, height: 1056 }, reducedMotion });
   const page = await context.newPage();
+  const stream = [];
   const consoleErrors = [];
   const pageErrors = [];
   const requestFailures = [];
+  const stages = [];
+  let question = null;
+  let screenshot = null;
   page.on('console', message => { if (message.type() === 'error') consoleErrors.push(message.text()); });
   page.on('pageerror', error => pageErrors.push(error.message));
   page.on('requestfailed', request => requestFailures.push({ url: request.url(), error: request.failure()?.errorText || null }));
-  let stream = [];
-  let beforeClick = null;
-  let screenshot = null;
-  let clickError = null;
-  let clickStartedAt = null;
-  let clickEndedAt = null;
-  let questionId = null;
-  let answer = null;
-  let wrong = null;
-  let repeatedWrong = null;
-  let assisted = null;
+
   try {
     await page.goto(BASE_URL, { waitUntil: 'networkidle' });
     await page.evaluate(({ key, seedValue }) => localStorage.setItem(key, JSON.stringify(seedValue)), { key: SAVE_KEY, seedValue: seed });
@@ -422,107 +437,96 @@ async function runAssistedClickIsolation(browser, reducedMotion) {
     if (await begin.count()) await begin.click();
     await page.locator('.qCounter').waitFor({ state: 'visible' });
 
-    const { question } = await currentQuestion(page);
-    questionId = question.id;
-    answer = question.answer;
-    wrong = question.choices.find(choice => choice !== question.answer);
-    assert(question.id === 'vocab-transfer-plead', 'Current daily-pool first Quest changed from the isolated failure target', {
-      expected: 'vocab-transfer-plead',
-      actual: question.id,
-      prompt: question.prompt,
-      choices: question.choices
-    });
-
+    ({ question } = await currentQuestion(page));
+    const wrong = question.choices.find(choice => choice !== question.answer);
     const before = await readSave(page);
     const oldStat = before.stats?.[question.skill] || { wrong: 0, correct: 0 };
-    await clickChoice(page, wrong);
+    await installQuestClickProbe(page, stream);
+
+    const firstWrongStage = await runPointerStage(page, stream, 'first-wrong', wrong);
+    stages.push(firstWrongStage);
+    if (firstWrongStage.status === 'FAIL') throw Object.assign(new Error('Real pointer failed on first intentional wrong answer'), { details: { failedStage: 'first-wrong', stage: firstWrongStage } });
+    await page.locator('.feedback').waitFor({ state: 'visible' });
     const firstWrong = await waitSave(
       page,
       (value, args) => (value.stats?.[args[0]]?.wrong || 0) >= args[1],
       [question.skill, (oldStat.wrong || 0) + 1]
     );
+
     await page.getByRole('button', { name: /Try again with the clue/i }).click();
-    await clickChoice(page, wrong);
+    const repeatedWrongStage = await runPointerStage(page, stream, 'repeated-wrong', wrong);
+    stages.push(repeatedWrongStage);
+    if (repeatedWrongStage.status === 'FAIL') throw Object.assign(new Error('Real pointer failed on repeated intentional wrong retry'), { details: { failedStage: 'repeated-wrong', stage: repeatedWrongStage } });
+    await page.locator('.feedback').waitFor({ state: 'visible' });
     await page.waitForTimeout(100);
-    repeatedWrong = await readSave(page);
+    const repeatedWrong = await readSave(page);
     assert(repeatedWrong.coins === firstWrong.coins, 'Isolation repeated wrong retry farmed Coins');
     assert(repeatedWrong.stars === firstWrong.stars, 'Isolation repeated wrong retry farmed Mastery Stars');
     assert(repeatedWrong.xp === firstWrong.xp, 'Isolation repeated wrong retry farmed XP');
     assert((repeatedWrong.stats?.[question.skill]?.wrong || 0) === (firstWrong.stats?.[question.skill]?.wrong || 0), 'Isolation repeated wrong retry duplicated wrong evidence');
 
     await page.getByRole('button', { name: /Try again with the clue/i }).click();
-    stream = await installAssistedClickProbe(page, answer);
-    await page.waitForTimeout(125);
-    beforeClick = await interactionSnapshot(page, answer);
-    const target = await findChoiceButton(page, answer);
-    assert(target, 'Isolation target answer button disappeared before assisted-correct click', { answer });
-    clickStartedAt = Date.now();
-    try {
-      await target.click({ timeout: 30000 });
-    } catch (error) {
-      clickError = error;
-    }
-    clickEndedAt = Date.now();
+    const masteryBefore = JSON.stringify(repeatedWrong.mastered || []);
+    const transferBefore = repeatedWrong.transferWins || 0;
+    const correctBefore = repeatedWrong.stats?.[question.skill]?.correct || 0;
+    const independentBefore = repeatedWrong.stats?.[question.skill]?.independentCorrect || 0;
+    const assistedStage = await runPointerStage(page, stream, 'assisted-correct', question.answer);
+    stages.push(assistedStage);
+    if (assistedStage.status === 'FAIL') throw Object.assign(new Error('Real pointer failed on assisted-correct retry'), { details: { failedStage: 'assisted-correct', stage: assistedStage } });
+    await page.locator('.feedback').waitFor({ state: 'visible' });
+    const assisted = await waitSave(
+      page,
+      (value, args) => (value.stats?.[args[0]]?.correct || 0) >= args[1],
+      [question.skill, correctBefore + 1]
+    );
+    assert(assisted.coins === repeatedWrong.coins, 'Isolation assisted retry awarded Coins');
+    assert(assisted.stars === repeatedWrong.stars, 'Isolation assisted retry awarded Mastery Star');
+    assert((assisted.transferWins || 0) === transferBefore, 'Isolation assisted retry awarded transfer evidence');
+    assert(JSON.stringify(assisted.mastered || []) === masteryBefore, 'Isolation assisted retry changed mastery');
+    assert((assisted.stats?.[question.skill]?.independentCorrect || 0) === independentBefore, 'Isolation assisted retry counted as independent evidence');
 
-    const probe = summarizeProbeStream(stream, clickStartedAt, clickEndedAt);
-    if (!clickError) {
-      await page.locator('.feedback').waitFor({ state: 'visible', timeout: 2500 });
-      const correctBefore = repeatedWrong.stats?.[question.skill]?.correct || 0;
-      assisted = await waitSave(
-        page,
-        (value, args) => (value.stats?.[args[0]]?.correct || 0) >= args[1],
-        [question.skill, correctBefore + 1]
-      );
-      await stopAssistedClickProbe(page);
-    } else if (probe.heartbeatLiveNearClickEnd) {
-      screenshot = path.join(OUTPUT, `quest-assisted-click-${mode}-failure.png`);
-      await page.screenshot({ path: screenshot, fullPage: true, timeout: 5000 }).catch(() => { screenshot = null; });
-      await stopAssistedClickProbe(page);
-    }
-
+    await stopQuestClickProbe(page);
+    await context.close();
     return {
-      status: clickError ? 'FAIL' : 'PASS',
+      status: 'PASS',
       mode,
       viewport: { width: 1408, height: 1056 },
-      questionId,
-      answer,
+      questionId: question.id,
+      prompt: question.prompt,
+      answer: question.answer,
       wrong,
-      clickTimeoutMs: 30000,
-      clickDurationMs: clickStartedAt && clickEndedAt ? clickEndedAt - clickStartedAt : null,
-      clickError: errorDetail(clickError),
-      beforeClick,
-      probe,
-      repeatedWrong: critical(repeatedWrong),
-      assisted: assisted ? critical(assisted) : null,
+      stages,
       consoleErrors,
       pageErrors,
       requestFailures,
       screenshot
     };
   } catch (error) {
-    clickEndedAt ||= Date.now();
-    const probe = clickStartedAt ? summarizeProbeStream(stream, clickStartedAt, clickEndedAt) : null;
+    const failedStage = error.details?.failedStage || stages.find(stage => stage.status === 'FAIL')?.phase || null;
+    const failed = stages.find(stage => stage.phase === failedStage) || stages.at(-1) || null;
+    const safeToInteract = Boolean(failed?.probe?.heartbeatLiveNearClickEnd);
+    if (safeToInteract) {
+      screenshot = path.join(OUTPUT, `quest-wrong-retry-${mode}-${failedStage || 'failure'}.png`);
+      await page.screenshot({ path: screenshot, fullPage: true, timeout: 5000 }).catch(() => { screenshot = null; });
+      await stopQuestClickProbe(page);
+      await context.close().catch(() => {});
+    }
     return {
       status: 'FAIL',
       mode,
       viewport: { width: 1408, height: 1056 },
-      questionId,
-      answer,
-      wrong,
-      clickDurationMs: clickStartedAt ? clickEndedAt - clickStartedAt : null,
+      questionId: question?.id || null,
+      prompt: question?.prompt || null,
+      answer: question?.answer || null,
+      wrong: question?.choices?.find(choice => choice !== question.answer) || null,
+      failedStage,
       error: errorDetail(error),
-      beforeClick,
-      probe,
-      repeatedWrong: repeatedWrong ? critical(repeatedWrong) : null,
+      stages,
       consoleErrors,
       pageErrors,
       requestFailures,
       screenshot
     };
-  } finally {
-    const latestHeartbeat = stream.filter(entry => entry.kind === 'heartbeat').at(-1);
-    const safeToClose = !clickEndedAt || !clickStartedAt || (latestHeartbeat && Date.now() - latestHeartbeat.nodeAt <= 1500);
-    if (safeToClose) await context.close().catch(() => {});
   }
 }
 
@@ -533,12 +537,12 @@ const browserVersion = browser.version();
 
 for (const reducedMotion of ['no-preference', 'reduce']) {
   const started = Date.now();
-  const detail = await runAssistedClickIsolation(browser, reducedMotion);
+  const detail = await runWrongRetryIsolation(browser, reducedMotion);
   results.push({
-    name: `quest-assisted-click-isolation-${detail.mode}`,
+    name: `quest-wrong-retry-pointer-isolation-${detail.mode}`,
     status: detail.status,
     durationMs: Date.now() - started,
-    error: detail.clickError?.message || detail.error?.message || null,
+    error: detail.error?.message || null,
     screenshot: detail.screenshot || null,
     detail
   });
@@ -627,18 +631,18 @@ try {
 } catch (error) {
   fatal = error;
 } finally {
+  const isolationCases = results.filter(result => result.name.startsWith('quest-wrong-retry-pointer-isolation-'));
   const report = {
     status: fatal || results.some(result => result.status === 'FAIL') ? 'FAIL' : 'PASS',
     sourceHead: process.env.GITHUB_SHA || null,
     syntheticOnly: true,
     noRealPlayerData: true,
     browser: `Chromium ${browserVersion} via Playwright`,
-    assistedClickIsolation: {
-      targetQuestionId: 'vocab-transfer-plead',
+    wrongRetryPointerIsolation: {
       realPointerOnly: true,
       forceClickUsed: false,
       directRouteInjectionUsed: false,
-      modes: results.filter(result => result.name.startsWith('quest-assisted-click-isolation-')).map(result => result.detail)
+      modes: isolationCases.map(result => result.detail)
     },
     cases: results
   };
