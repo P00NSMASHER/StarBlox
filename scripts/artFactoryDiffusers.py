@@ -91,6 +91,11 @@ def select_attempt(plan: dict[str, Any], attempt_id: str) -> dict[str, Any]:
     if not prompt or sha256_bytes(prompt.encode()) != prompt_sha:
         raise ValueError("prompt text/hash mismatch")
 
+    runtime_prompt = str(attempt.get("runtimePromptText") or prompt)
+    runtime_prompt_sha = str(attempt.get("runtimePromptSha256") or prompt_sha)
+    if not runtime_prompt or sha256_bytes(runtime_prompt.encode()) != runtime_prompt_sha:
+        raise ValueError("runtime prompt text/hash mismatch")
+
     expected_seed = derive_seed(item_id, prompt_sha, str(attempt.get("variant") or ""))
     if int(attempt.get("seed") or 0) != expected_seed:
         raise ValueError("deterministic seed mismatch")
@@ -532,6 +537,7 @@ def build_dry_run(
         "producer": str(attempt.get("producer")),
         "variant": attempt.get("variant"),
         "promptSha256": attempt.get("promptSha256"),
+        "runtimePromptSha256": attempt.get("runtimePromptSha256") or attempt.get("promptSha256"),
         "seed": attempt.get("seed"),
         "runtime": attempt.get("runtime"),
         "model": attempt.get("model"),
@@ -613,8 +619,11 @@ def load_pipeline(attempt: dict[str, Any], args: argparse.Namespace):
     if device == "cpu":
         if hasattr(torch, "set_num_threads"):
             torch.set_num_threads(max(1, int(os.cpu_count() or 1)))
-        if hasattr(pipe, "enable_attention_slicing"):
-            pipe.enable_attention_slicing("max")
+        # Full attention is materially faster on the hosted CPU path at the
+        # release-optimized 768px-or-smaller size. Keep slicing only as a
+        # memory-safety fallback for larger recovery jobs.
+        if (int(args.width) > 768 or int(args.height) > 768) and hasattr(pipe, "enable_attention_slicing"):
+            pipe.enable_attention_slicing("auto")
         if hasattr(pipe, "enable_vae_slicing"):
             pipe.enable_vae_slicing()
         if hasattr(pipe, "enable_vae_tiling"):
@@ -688,8 +697,30 @@ def generate(
 
     generator_device = "cuda" if device == "cuda" else "cpu"
     gen = torch.Generator(device=generator_device).manual_seed(int(attempt["seed"]))
+
+    runtime_prompt = str(attempt.get("runtimePromptText") or attempt["promptText"])
+    runtime_prompt_token_counts: dict[str, int] = {}
+    for tokenizer_name in ("tokenizer", "tokenizer_2"):
+        tokenizer = getattr(pipe, tokenizer_name, None)
+        if tokenizer is None:
+            continue
+        encoded = tokenizer(runtime_prompt, add_special_tokens=True, truncation=False)
+        input_ids = encoded.get("input_ids") or []
+        if input_ids and isinstance(input_ids[0], list):
+            input_ids = input_ids[0]
+        count = len(input_ids)
+        limit = int(getattr(tokenizer, "model_max_length", 77) or 77)
+        if limit > 10000:
+            limit = 77
+        runtime_prompt_token_counts[tokenizer_name] = count
+        if count > limit:
+            raise ValueError(
+                f"runtime prompt exceeds {tokenizer_name} limit: {count} > {limit}; "
+                "refuse silent CLIP truncation"
+            )
+
     call_kwargs: dict[str, Any] = {
-        "prompt": attempt["promptText"],
+        "prompt": runtime_prompt,
         "generator": gen,
         "num_inference_steps": int(args.steps),
         "guidance_scale": float(args.guidance_scale),
@@ -761,6 +792,7 @@ def generate(
             "producer": str(attempt.get("producer")),
             "variant": attempt.get("variant"),
             "promptSha256": attempt.get("promptSha256"),
+            "runtimePromptSha256": attempt.get("runtimePromptSha256") or attempt.get("promptSha256"),
             "promptRecipeVersion": attempt.get("promptRecipeVersion"),
             "seed": int(attempt.get("seed")),
         },
@@ -804,6 +836,7 @@ def generate(
             "height": int(args.height),
             "numInferenceSteps": int(args.steps),
             "guidanceScale": float(args.guidance_scale),
+            "runtimePromptTokenCounts": runtime_prompt_token_counts,
             "executedSeed": int(attempt.get("seed")),
         },
         "output": output,
