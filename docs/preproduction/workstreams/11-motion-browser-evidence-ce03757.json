@@ -1,0 +1,101 @@
+{
+  "schemaVersion": 1,
+  "workstream": "11",
+  "branch": "screenshot-match-preproduction",
+  "purpose": "Exact-hash Workstream 11 motion/reduced-motion browser evidence handoff to Workstream 10 after the Quest MutationObserver feedback-loop fix. This supplements, and does not replace, prior provenance in docs/preproduction/workstreams/11-motion-browser-evidence-20260922.json.",
+  "sourceHead": "ce03757ae7b427a25b7b30e74ee3c4331d3a7a9f",
+  "sourceCommitMessage": "motion: stop Quest feedback observer churn",
+  "liveAuthority": {
+    "manifestVersion": 33,
+    "manifestGitBlob": "3ce8dd5d16674ff556764402b712d215d3d22457",
+    "catalogRuntimeGitBlob": "68dc4944988ee2850e634eb8966613b9663c163c",
+    "activeBatchSchemaVersion": 20,
+    "activeBatchGitBlob": "177863ca0740417a6ac557dfda56364d9a25d4ea",
+    "unrelatedVisibleGenericFallbackCount": 19,
+    "note": "Catalog fallback-art release blockers are outside Workstream 11 and remain unwaived."
+  },
+  "hashBinding": {
+    "motionRuntimeGitBlob": "3c940e0eec7e490544502947fcf2f3cee71076ea",
+    "motionRuntimeTestGitBlob": "3e091677cd4a2767785e5a513275feacc0913e01",
+    "motionCssGitBlob": "d8797842f969973f81af2c56ec44d63ea54480ba",
+    "reuseRule": "Reuse this browser evidence only while src/motionGameFeelRuntime.js remains 3c940e0eec7e490544502947fcf2f3cee71076ea and src/motionGameFeel.css remains d8797842f969973f81af2c56ec44d63ea54480ba. A changed motion hash requires fresh targeted evidence."
+  },
+  "freshReproducibleFix": {
+    "status": "FIXED_AND_BROWSER_PROVEN",
+    "priorInstrumentedHead": "57c3a33529e664f5e353752e763c78cb9b5aa7ab",
+    "symptom": "Quest wrong/retry click dispatched a trusted click event and then the browser event loop stopped making progress while class MutationRecords repeatedly accumulated on feedback/question state.",
+    "rootCause": "The non-correct celebrateFeedback path performed DOMTokenList.remove writes even when sbMotionCorrect and sbMotionStaticCue were already absent. Browser no-op class mutations can still emit MutationRecords and feed observer-driven runtimes indefinitely.",
+    "fix": "Guard both class removals with classList.contains before mutating. No gameplay, answer semantics, persistence, economy, learning state, Store logic, or reduced-motion visual contract changed.",
+    "regressionTest": "The motion test now observes an already-cleared wrong/clue state and requires zero class mutations from celebrateFeedback."
+  },
+  "exactHeadBrowserEvidence": {
+    "starBloxCi": {
+      "runId": 35826941205,
+      "status": "PASS"
+    },
+    "persistenceBrowserQa": {
+      "runId": 35826941176,
+      "jobId": 107070644139,
+      "status": "PASS",
+      "browser": "Chromium 140.0.7339.16 via Playwright",
+      "pass": 10,
+      "fail": 0,
+      "questRetryRapidAnswerAndFinalRefresh": "PASS",
+      "artifact": {
+        "id": 10735841372,
+        "name": "persistence-browser-qa",
+        "digest": "sha256:5aaaba447daab30ff82df517194e15f0188171b42965d942515d10b7984cc3c8"
+      },
+      "interpretation": "The previously repeated current-day Quest click timeout is cleared on the exact fixed motion runtime."
+    },
+    "catalogMobileQa": {
+      "runId": 35826941163,
+      "jobId": 107070644050,
+      "status": "PASS",
+      "releaseBlockingCount": 0,
+      "environment": "Playwright 1.55 Chromium headless on GitHub Actions ubuntu-24.04; browser emulation, not physical-device or screen-reader evidence.",
+      "reducedMotion": {
+        "desktop1408x1056": {"activeAnimations": 0, "longestFiniteAnimationMs": 0, "avgFrameMsApprox": 16.4, "slowFramesOver34ms": "0/61"},
+        "tablet1024x768": {"activeAnimations": 0, "longestFiniteAnimationMs": 0, "avgFrameMsApprox": 16.1, "slowFramesOver34ms": "0/61"},
+        "phone390x844": {"activeAnimations": 0, "longestFiniteAnimationMs": 0, "avgFrameMsApprox": 16.2, "slowFramesOver34ms": "0/61"},
+        "phone320x568": {"activeAnimations": 0, "longestFiniteAnimationMs": 0, "avgFrameMsApprox": 16.2, "slowFramesOver34ms": "0/61"}
+      },
+      "normalMotionControls": {
+        "tablet1024x768": {"avgFrameMsApprox": 16.6, "slowFramesOver34ms": "0/61", "runtimeErrors": 0},
+        "phone390x844": {"avgFrameMsApprox": 16.6, "slowFramesOver34ms": "0/61", "runtimeErrors": 0}
+      },
+      "artifact": {
+        "id": 10735651794,
+        "name": "catalog-mobile-qa",
+        "digest": "sha256:b8986b1c24625a56c0f502f950702db5c892e296c083faad27215ae34d94bbc1"
+      }
+    },
+    "storeObserverDiagnostic": {
+      "runId": 35826941162,
+      "jobId": 107070644059,
+      "status": "PASS",
+      "sourceModuleDiagnostic": "PASS",
+      "productionPreviewDiagnostic": "PASS",
+      "interpretation": "The fixed Quest observer behavior does not regress the previously closed Store observer/event-loop hang."
+    }
+  },
+  "handoff": {
+    "to": "Workstream10",
+    "state": "MOTION_OBSERVER_CHURN_FIXED__CURRENT_BROWSER_GATES_GREEN",
+    "reuse": "Use the exact-head browser results above for the bound runtime/CSS hashes; do not rerun the Store hang investigation unless a fresh current-byte failure reproduces or the bound motion hashes change.",
+    "stillOpenOutsideThisProof": [
+      "state-specific Home/Quest screenshot acceptance not exercised by Catalog Mobile QA",
+      "physical-device verification",
+      "screen-reader verification",
+      "unrelated catalog fallback-art release blockers"
+    ]
+  },
+  "freeze": {
+    "auraAssetsChanged": false,
+    "catalogManifestOrRuntimeMappingChangedBy11": false,
+    "gameplayLearningPersistenceOrEconomyChanged": false,
+    "ciWorkflowOrCacheConfigChanged": false,
+    "mainReplitFlootDeployPaidSettingsSecretsPlayerDataTouched": false
+  },
+  "priorEvidence": "docs/preproduction/workstreams/11-motion-browser-evidence-20260922.json"
+}
