@@ -1,0 +1,153 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_W12_CANDIDATE_DELTA_INTAKE_ROUTING",
+  "router": "12",
+  "branch": "screenshot-match-preproduction",
+  "observedAt": "2026-09-23T15:24:15Z",
+  "sourceHead": "2d7fcda7ef60b37851340520fe9f3655e08ebfe4",
+  "scanWindow": {
+    "priorCursor": "1f3ff8ca3bf1e3752a11cc351cc486832a1a62e9",
+    "inspectedThroughHead": "2d7fcda7ef60b37851340520fe9f3655e08ebfe4",
+    "aheadBy": 18,
+    "newCatalogCandidateBytesDetected": true,
+    "newCandidateItemIds": ["desks-9", "desks-10"],
+    "newTechnicallyEligibleCandidateDetected": false,
+    "candidateBearingCommit": "effaae16a132361b8a2f132223d8f6bd227f566a",
+    "note": "The complete 18-commit window was inspected. Desk 9/10 are the only genuinely new catalog candidate bytes in the window. Remaining changes are CPU runtime proof/infrastructure, bounded queue requests, coordination/ACTIVE_BATCH state, recovery-evidence maintenance, and generation-adapter corrections; no other repository-staged item candidate hash plus completed provenance/readback arrived."
+  },
+  "liveAuthority": {
+    "manifestVersion": 33,
+    "manifestBlobSha": "3ce8dd5d16674ff556764402b712d215d3d22457",
+    "runtimeBlobSha": "68dc4944988ee2850e634eb8966613b9663c163c",
+    "activeBatchSchemaVersion": 25,
+    "canonicalWriter": "08",
+    "sharedRenderer": "14",
+    "strictVisibleFallbackCount": 19,
+    "cpuRuntimeProof": {
+      "status": "PROVEN",
+      "path": "docs/preproduction/art-factory/CPU_RUNTIME_PROOF.json",
+      "runId": 35878062823,
+      "proofImageSha256": "4738232fa6c1b0cbe2669fd50ce0fe9d4ffd935be0cd972bc9660e0d63e5dcb1"
+    }
+  },
+  "candidates": [
+    {
+      "id": "desks-9",
+      "producer": "03",
+      "recoveryOwner": "07",
+      "path": "public/assets/catalog/desks-9-w03-recovered-v1.jpg",
+      "sha256": "17f73cc8db0ff1941730bf00c31f60599bb9203daff86a01af7b59901c0f0673",
+      "gitBlobSha": "546dae5dd75c3ffcf312fc8d0c140c7e774ec972",
+      "bytes": 46023,
+      "dimensions": [600, 600],
+      "decode": "PASS",
+      "stagedOutputReadback": "PASS",
+      "sourceOriginal": {
+        "path": "docs/preproduction/catalog-sprint/recovered-originals/chat-desks9-10-exact-byte-recovery-20260923/desks-9-97f64c0f-6a05-4340-9bd6-84d6257e34cb.png",
+        "sha256": "a401f2b8b5a263d6bf7f56de2ee7610aaf7256cb233335dc4ace80bae867689e",
+        "gitBlobSha": "7ee3949e443639be9a0245724c32afae699cf4f2",
+        "bytes": 835446,
+        "dimensions": [1024, 1024]
+      },
+      "lineage": {
+        "provider": "Adobe Firefly via Adobe image_generate connector",
+        "assetId": "urn:aaid:sc:US:97f64c0f-6a05-4340-9bd6-84d6257e34cb",
+        "variant": "A-PHYSICAL",
+        "executedSeed": 309172941,
+        "promptTextSource": "docs/preproduction/art-factory/requests/w03-desks-7-10-20260922.json#variantPlan.desks-9.A-PHYSICAL",
+        "generationEvidence": "docs/preproduction/art-factory/requests/w03-desks-9-10-generation-evidence-20260922.json",
+        "recoveryEvidence": "docs/preproduction/catalog-sprint/chat-desks9-10-exact-byte-recovery-20260923-result.json"
+      },
+      "provenanceState": "INCOMPLETE__FAIL_CLOSED_BEFORE_06",
+      "exactMissingFields": [
+        "exposedModelIdentity is null in the generation evidence",
+        "exposedModelRevision is null in the generation evidence",
+        "promptSha256 for the executed A-PHYSICAL prompt is not recorded in the candidate generation evidence",
+        "candidate-specific executed sourceHead is not bound in a completed ART_FACTORY_V2 provenance receipt",
+        "no completed ART_FACTORY_V2 receipt binds provider/model/revision/seed/prompt+hash/sourceHead/source-original hash/derivative candidate hash into one qualification record"
+      ],
+      "supersessionClaimState": "FRESH_EXACT_HASH__NOT_CANONICAL__NOT_SUPERSEDED__NO_DUPLICATE_CONTENT_REPORTED",
+      "reviewerAssignment": "05",
+      "nextGate": "RETURN_TO_PRODUCER_03_FOR_PROVENANCE_REPAIR_OR_PROVENANCE_COMPLIANT_REGENERATION__THEN_12_TO_06_ON_A_FRESH_COMPLETE_HASH"
+    },
+    {
+      "id": "desks-10",
+      "producer": "03",
+      "recoveryOwner": "07",
+      "path": "public/assets/catalog/desks-10-w03-recovered-v1.jpg",
+      "sha256": "8a8c351b41ee531937c69cb02557b2e00538f62ea9dfcbac48123bbd4c4364e5",
+      "gitBlobSha": "9ff5fd8b388cabfc6a8911653abb0e10d938e41f",
+      "bytes": 44181,
+      "dimensions": [600, 600],
+      "decode": "PASS",
+      "stagedOutputReadback": "PASS",
+      "sourceOriginal": {
+        "path": "docs/preproduction/catalog-sprint/recovered-originals/chat-desks9-10-exact-byte-recovery-20260923/desks-10-35411489-6af3-4cf2-85df-23c564720c02.png",
+        "sha256": "8d27091de652c35d9afd9bd239b1a8aaeda7db457fd53e8de1581011c5c7aa9f",
+        "gitBlobSha": "0c5a10b88d8927a4b8e1c505a5dfdff4d8822203",
+        "bytes": 943638,
+        "dimensions": [1024, 1024]
+      },
+      "lineage": {
+        "provider": "Adobe Firefly via Adobe image_generate connector",
+        "assetId": "urn:aaid:sc:US:35411489-6af3-4cf2-85df-23c564720c02",
+        "variant": "A-PHYSICAL",
+        "executedSeed": 310584701,
+        "promptTextSource": "docs/preproduction/art-factory/requests/w03-desks-7-10-20260922.json#variantPlan.desks-10.A-PHYSICAL",
+        "generationEvidence": "docs/preproduction/art-factory/requests/w03-desks-9-10-generation-evidence-20260922.json",
+        "recoveryEvidence": "docs/preproduction/catalog-sprint/chat-desks9-10-exact-byte-recovery-20260923-result.json"
+      },
+      "provenanceState": "INCOMPLETE__FAIL_CLOSED_BEFORE_06",
+      "exactMissingFields": [
+        "exposedModelIdentity is null in the generation evidence",
+        "exposedModelRevision is null in the generation evidence",
+        "promptSha256 for the executed A-PHYSICAL prompt is not recorded in the candidate generation evidence",
+        "candidate-specific executed sourceHead is not bound in a completed ART_FACTORY_V2 provenance receipt",
+        "no completed ART_FACTORY_V2 receipt binds provider/model/revision/seed/prompt+hash/sourceHead/source-original hash/derivative candidate hash into one qualification record"
+      ],
+      "supersessionClaimState": "FRESH_EXACT_HASH__NOT_CANONICAL__NOT_SUPERSEDED__NO_DUPLICATE_CONTENT_REPORTED",
+      "reviewerAssignment": "05",
+      "nextGate": "RETURN_TO_PRODUCER_03_FOR_PROVENANCE_REPAIR_OR_PROVENANCE_COMPLIANT_REGENERATION__THEN_12_TO_06_ON_A_FRESH_COMPLETE_HASH"
+    }
+  ],
+  "dedupe": {
+    "candidateHashesUniqueWithinWindow": true,
+    "itemIdsUniqueWithinWindow": true,
+    "duplicateCandidateContentReportedByRecovery": 0,
+    "manifestAlreadyMapsEitherCandidate": false,
+    "runtimeAlreadyMapsEitherCandidate": false,
+    "unchangedHistoricalHashRerouted": false
+  },
+  "queues": {
+    "to06": [],
+    "backToProducer": [
+      {
+        "owner": "03",
+        "items": ["desks-9", "desks-10"],
+        "reason": "Exact bytes/readback are valid, but ART_FACTORY_V2 provenance is incomplete on both exact hashes. Do not send either hash to technical qualification until the missing model identity/revision, prompt hash and executed-source binding are durably resolved without fabrication."
+      }
+    ]
+  },
+  "observedNonCandidateChanges": {
+    "cpuRuntimeProofNowProven": true,
+    "boundedQueuesObserved": [
+      "w03-decor-6-8-cpu-v1",
+      "w13-wall-9-12-cpu-v1",
+      "w09-decor-5-7-cpu-v1"
+    ],
+    "freshGeneratedCatalogCandidatesFromThoseQueuesAtSourceHead": 0,
+    "note": "Queue submission and runtime proof are not candidate intake. Lane12 will route only repository-staged exact item hashes with complete provenance/readback when they arrive."
+  },
+  "cursorAdvance": {
+    "previous": "1f3ff8ca3bf1e3752a11cc351cc486832a1a62e9",
+    "advancedThrough": "2d7fcda7ef60b37851340520fe9f3655e08ebfe4",
+    "condition": "The complete 18-commit window was inspected and both fresh Desk hashes were durably classified exactly once. Neither incomplete-provenance hash was routed to lane06."
+  },
+  "nextOwner": {
+    "03": "Repair the exact Desk9/10 provenance only if the missing executed-generation fields can be recovered truthfully; otherwise generate provenance-complete replacements under an approved pinned runtime. Preserve these recovered hashes as historical exact evidence and do not self-review.",
+    "12": "On a materially new complete hash/receipt, deduplicate and route once to 06.",
+    "06": "No Desk9/10 handoff yet; wait for complete ART_FACTORY_V2 provenance on a fresh exact hash."
+  },
+  "ownershipNote": "Router12 records intake/routing evidence only. Workstream15 alone modifies ACTIVE_BATCH assignments; Workstream08 alone writes canonical mappings; reviewers alone issue verdicts.",
+  "mutationScope": "Routing evidence only. No ACTIVE_BATCH, candidate bytes, reviewer decisions, manifest, catalog runtime, CI/workflow, gameplay, learning, economy, persistence, accessibility, exactly-once behavior, deployment, Replit, Floot, paid settings, secrets or player data changed."
+}
