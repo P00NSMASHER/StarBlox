@@ -23,6 +23,11 @@ on:
       - 'scripts/catalogVisualPreflight.py'
       - 'scripts/catalogVisualCalibration.py'
       - '.github/workflows/catalog-staged-art-qa.yml'
+  workflow_run:
+    workflows:
+      - 'StarBlox Art Factory CPU Generation'
+    types: [completed]
+    branches: [screenshot-match-preproduction]
   workflow_dispatch:
 
 concurrency:
@@ -36,6 +41,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          ref: screenshot-match-preproduction
+          fetch-depth: 0
 
       - name: Use Node 22
         uses: actions/setup-node@v4
@@ -51,6 +59,8 @@ jobs:
         id: render
         continue-on-error: true
         run: node scripts/catalog-staged-art-qa.mjs
+        env:
+          STARBLOX_QA_FACTORY_ONLY: ${{ github.event_name == 'workflow_run' && '1' || '0' }}
 
       - name: Use Python 3.12
         uses: actions/setup-python@v5
