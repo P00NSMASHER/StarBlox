@@ -1,0 +1,90 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_STAGED_OUTPUT",
+  "repository": "P00NSMASHER/StarBlox",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "ce295170053b7a00a0dbbf90d7f7f955989fec9a",
+  "sourcePlanSha256": "4b41d7a28a9d3f0c48ec5711739a517671c86e9c2bf42eb03b0afb456ab6ace5",
+  "item": {
+    "id": "wall-10",
+    "name": "Neon City Sign",
+    "collectionId": "wall",
+    "type": "room",
+    "tier": 4,
+    "theme": "Cloud Pop"
+  },
+  "attempt": {
+    "attemptId": "wall-10-w13-a-acrylic-skyline-eb6916f9b2",
+    "producer": "13",
+    "variant": "A-ACRYLIC-SKYLINE",
+    "promptBlocks": [
+      "metadata",
+      "category",
+      "silhouette",
+      "physical",
+      "material",
+      "theme",
+      "tier",
+      "card",
+      "original",
+      "stage",
+      "wall",
+      "depth",
+      "camera",
+      "bloom",
+      "textile",
+      "light"
+    ],
+    "promptSha256": "eb6916f9b2ee612f17537dd75e95bd2db0ff04f26543a56a82007478748f860d",
+    "promptRecipeVersion": "artPromptOptimizer-request-v1:w13-wall-9-12-runtime-unblock-v2",
+    "seed": 144456730,
+    "runtime": {
+      "repo": "huggingface/diffusers",
+      "commit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c"
+    },
+    "model": {
+      "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+      "revision": "462165984030d82259a11f4367a4eed129e94a7b",
+      "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+    },
+    "conditioning": {
+      "referenceAssetSha256": null,
+      "controlImageSha256": null,
+      "adapterScale": null
+    }
+  },
+  "output": {
+    "repoPath": "public/assets/catalog-candidates/cpu/wall-10-w13-v1-a-acrylic-skyline-original.png",
+    "sha256": "a171ee7ddd8ab79b238c3497ed9784db4880ead7fdeff2ad110eb285ab30fb13",
+    "gitBlobSha": "74a4c531a3c60ccd60747bfebc2dfc0d1d25b684",
+    "bytes": 709436,
+    "format": "PNG",
+    "width": 768,
+    "height": 768,
+    "mode": "RGB"
+  },
+  "derivativeLineage": {
+    "derivativeOfSha256": null,
+    "sourcePreserved": true
+  },
+  "renderEvidence": [],
+  "review": {
+    "reviewer": "02",
+    "routing": {
+      "reviewer": "02",
+      "routingFile": "docs/preproduction/art-factory/runtime-queue/w13-wall-9-12-cpu-v1.json",
+      "routingFileSha256": "f36a26b9ca8002c5a0440ab42887037efc2ca8694f494784d66a6b537a2d7edb",
+      "queueId": "w13-wall-9-12-cpu-v1"
+    },
+    "state": "PENDING_ACTUAL_PIXEL_REVIEW",
+    "decision": null
+  },
+  "safety": {
+    "canonicalArtModified": false,
+    "gameplayModified": false,
+    "automaticPerceptualDecision": false,
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+  },
+  "status": "STAGED_EXACT_BYTES_VERIFIED",
+  "recordSha256": "cc5b009ff96d9128ddf7dc5e9586d8890c120a967475100c04f637fb8857939f"
+}

@@ -1,0 +1,107 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_GENERATION_RECEIPT",
+  "repository": "P00NSMASHER/StarBlox",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "ce295170053b7a00a0dbbf90d7f7f955989fec9a",
+  "sourcePlanSha256": "4b41d7a28a9d3f0c48ec5711739a517671c86e9c2bf42eb03b0afb456ab6ace5",
+  "executionCheckout": {
+    "branch": "screenshot-match-preproduction",
+    "head": "ce295170053b7a00a0dbbf90d7f7f955989fec9a",
+    "planSourceHeadMatchesExecutionHead": true
+  },
+  "attempt": {
+    "attemptId": "wall-10-w13-a-acrylic-skyline-eb6916f9b2",
+    "itemId": "wall-10",
+    "producer": "13",
+    "variant": "A-ACRYLIC-SKYLINE",
+    "promptSha256": "eb6916f9b2ee612f17537dd75e95bd2db0ff04f26543a56a82007478748f860d",
+    "runtimePromptSha256": "c6aaee90048c7813ab1ca80046e6abc90d199fd1fb1088a365c990ececf66a35",
+    "promptRecipeVersion": "artPromptOptimizer-request-v1:w13-wall-9-12-runtime-unblock-v2",
+    "seed": 144456730
+  },
+  "runtime": {
+    "repo": "huggingface/diffusers",
+    "commit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "resolvedCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "runtimeCommitVerified": true,
+    "diffusersVersion": "0.41.0.dev0",
+    "diffusersInstallSource": "https://github.com/huggingface/diffusers.git",
+    "torchVersion": "2.8.0+cpu",
+    "transformersVersion": "5.17.0",
+    "accelerateVersion": "1.15.0",
+    "huggingfaceHubVersion": "1.32.0",
+    "safetensorsVersion": "0.8.0",
+    "pythonPillowVersion": "12.3.0",
+    "device": "cpu",
+    "dtype": "bfloat16",
+    "executionMode": "cpu-fallback"
+  },
+  "model": {
+    "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+    "revision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS",
+    "resolvedRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "snapshotRevisionVerified": true,
+    "selectiveSnapshot": true,
+    "snapshotAllowPatterns": [
+      "model_index.json",
+      "scheduler/*",
+      "tokenizer/*",
+      "tokenizer_2/*",
+      "feature_extractor/*",
+      "text_encoder/config.json",
+      "text_encoder/model.fp16.safetensors",
+      "text_encoder_2/config.json",
+      "text_encoder_2/model.fp16.safetensors",
+      "unet/config.json",
+      "unet/diffusion_pytorch_model.fp16.safetensors",
+      "vae/config.json",
+      "vae/diffusion_pytorch_model.fp16.safetensors"
+    ]
+  },
+  "conditioning": {
+    "referenceAssetSha256": null,
+    "controlImageSha256": null,
+    "adapterScale": null,
+    "referenceImage": null,
+    "ipAdapterModelId": null,
+    "ipAdapterRevision": null,
+    "ipAdapterResolvedRevision": null,
+    "ipAdapterRevisionVerified": false,
+    "ipAdapterWeightName": null,
+    "ipAdapterSubfolder": null
+  },
+  "generation": {
+    "width": 768,
+    "height": 768,
+    "numInferenceSteps": 8,
+    "guidanceScale": 3.5,
+    "runtimePromptTokenCounts": {
+      "tokenizer": 67,
+      "tokenizer_2": 67
+    },
+    "executedSeed": 144456730
+  },
+  "output": {
+    "repoPath": "public/assets/catalog-candidates/cpu/wall-10-w13-v1-a-acrylic-skyline-original.png",
+    "sha256": "a171ee7ddd8ab79b238c3497ed9784db4880ead7fdeff2ad110eb285ab30fb13",
+    "gitBlobSha": "74a4c531a3c60ccd60747bfebc2dfc0d1d25b684",
+    "bytes": 709436,
+    "width": 768,
+    "height": 768,
+    "format": "PNG",
+    "sourceBytesPreserved": true,
+    "reusedExistingIdenticalBytes": false
+  },
+  "safety": {
+    "canonicalArtModified": false,
+    "gameplayModified": false,
+    "reviewDecisionMade": false,
+    "deploymentPerformed": false,
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+  },
+  "nextGate": "RUN_VERIFY_STAGED_OUTPUT_THEN_REAL_RENDER_AND_INDEPENDENT_EXACT_HASH_REVIEW",
+  "status": "GENERATED_SOURCE_BYTES_UNVERIFIED",
+  "recordSha256": "20677a147855a93cc4465ac22584d8a70f5548c7f4bea16e46aaa3175b060204"
+}
