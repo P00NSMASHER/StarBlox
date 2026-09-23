@@ -26,6 +26,7 @@ REVIEWER_BY_FAMILY = {
     "beds": "05", "desks": "05", "companions": "05", "auras": "05",
     "lighting": "14", "wall": "14", "rugs": "14", "decor": "14",
 }
+ALLOWED_REVIEWERS = {"01", "02", "05", "11", "14"}
 
 
 def sha256_bytes(data: bytes) -> str:
@@ -97,6 +98,33 @@ def expected_reviewer(item: dict) -> str | None:
     return REVIEWER_BY_FAMILY.get(collection)
 
 
+def load_reviewer_routing(root: Path, routing_file: str, item_id: str) -> dict:
+    rel = normalize_repo_path(routing_file)
+    root_real = root.resolve()
+    path = (root_real / rel).resolve()
+    try:
+        path.relative_to(root_real)
+    except ValueError as exc:
+        raise ValueError("reviewer routing file escapes repository root") from exc
+    if not path.is_file():
+        raise ValueError(f"reviewer routing file missing: {rel}")
+    record = json.loads(path.read_text())
+    if record.get("kind") != "STARBLOX_ART_FACTORY_CPU_GENERATION_QUEUE":
+        raise ValueError("reviewer routing file has wrong kind")
+    if record.get("branch") != FACTORY_BRANCH:
+        raise ValueError("reviewer routing file branch mismatch")
+    reviewer = str((record.get("reviewerByItem") or {}).get(item_id) or "")
+    if reviewer not in ALLOWED_REVIEWERS:
+        raise ValueError(f"routing file has no valid independent reviewer for {item_id}")
+    data = path.read_bytes()
+    return {
+        "reviewer": reviewer,
+        "routingFile": rel,
+        "routingFileSha256": sha256_bytes(data),
+        "queueId": record.get("queueId"),
+    }
+
+
 def verify_output(
     *,
     root: Path,
@@ -105,6 +133,7 @@ def verify_output(
     repo_path: str,
     reviewer: str | None = None,
     derivative_of_sha256: str | None = None,
+    reviewer_routing_file: str | None = None,
 ) -> dict:
     validate_plan_integrity(plan)
     attempts = list(plan.get("attempts") or [])
@@ -127,9 +156,26 @@ def verify_output(
     path, rel = safe_asset_path(root, repo_path)
     collection = str(item.get("collectionId") or "").lower()
     routed = expected_reviewer(item)
-    chosen_reviewer = str(reviewer) if reviewer is not None else routed
-    if routed and chosen_reviewer != routed:
-        raise ValueError(f"{collection} must route to independent reviewer {routed}, not {chosen_reviewer}")
+    routing_evidence = None
+    if reviewer_routing_file:
+        routing_evidence = load_reviewer_routing(root, reviewer_routing_file, item_id)
+        chosen_reviewer = routing_evidence["reviewer"]
+        if reviewer is not None and str(reviewer) != chosen_reviewer:
+            raise ValueError(
+                f"explicit reviewer {reviewer} disagrees with routing evidence {chosen_reviewer}"
+            )
+    else:
+        chosen_reviewer = str(reviewer) if reviewer is not None else routed
+        if routed and chosen_reviewer != routed:
+            raise ValueError(
+                f"{collection} must route to independent reviewer {routed}, not {chosen_reviewer}"
+            )
+    if chosen_reviewer not in ALLOWED_REVIEWERS:
+        raise ValueError(f"invalid independent reviewer: {chosen_reviewer}")
+    if chosen_reviewer == producer or (
+        producer.isdigit() and chosen_reviewer.isdigit() and int(chosen_reviewer) == int(producer)
+    ):
+        raise ValueError("producer may not review its own output")
 
     if routed:
         producer_num = int(producer) if producer.isdigit() else None
@@ -179,6 +225,10 @@ def verify_output(
         "renderEvidence": [],
         "review": {
             "reviewer": chosen_reviewer,
+            "routing": routing_evidence or {
+                "legacyFamilyDefault": routed,
+                "collection": collection,
+            },
             "state": "PENDING_ACTUAL_PIXEL_REVIEW",
             "decision": None,
         },
@@ -262,6 +312,7 @@ def main() -> None:
     verify.add_argument("--repo-path", required=True)
     verify.add_argument("--reviewer")
     verify.add_argument("--derivative-of-sha256")
+    verify.add_argument("--reviewer-routing-file")
     verify.add_argument("--output", required=True)
     args = ap.parse_args()
 
@@ -278,6 +329,7 @@ def main() -> None:
         repo_path=args.repo_path,
         reviewer=args.reviewer,
         derivative_of_sha256=args.derivative_of_sha256,
+        reviewer_routing_file=args.reviewer_routing_file,
     )
     dest = Path(args.output)
     dest.parent.mkdir(parents=True, exist_ok=True)
