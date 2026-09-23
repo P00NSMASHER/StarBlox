@@ -1,11 +1,11 @@
 {
-  "schemaVersion": 14,
+  "schemaVersion": 15,
   "lane": "09",
   "workstream": "09",
   "phase": "ART_AND_VISUALS_ONLY",
   "protocol": "DELIVERY_PROTOCOL_V2",
   "branch": "screenshot-match-preproduction",
-  "status": "DECOR_3_4_V3_REAL_CARD_DETAIL_EVIDENCE_READY_PENDING_REVIEW14_DECISION_TOPS11_12_V7_RECEIPTS_FROZEN",
+  "status": "DECOR7_CPU_V2_STAGED_PENDING_RENDER_REVIEW01__DECOR5_STALE_RUN_CANCELLED__PRESERVE_DECOR3_4_LEGACY_REVIEW14",
   "assignmentSource": "docs/preproduction/ART_VISUALS_SPRINT.json",
   "activeBatchSource": "docs/preproduction/art-factory/ACTIVE_BATCH.json",
   "coordinator": "15",
@@ -21,17 +21,45 @@
     "realPlayerDataChanged": false,
     "acceptedTops1Through10Preserved": true,
     "acceptedDecor1Through2Preserved": true,
-    "decor5Through12Started": false
+    "decor5Through12Started": true
   },
   "tops11_12Frozen": {
     "rule": "Do not regenerate, re-encode, approximately reconstruct, reuse v6, or attach mismatched bytes. Preserve v7 receipts until the authoritative payload appears.",
     "v6": {
-      "tops11": {"path": "/assets/catalog/tops-11-w09-v6.jpg", "blob": "061a749472ad71e61732ac3a9629c42d54b4e580", "decision": "BLOCKED_INVALID_SIGNATURE"},
-      "tops12": {"path": "/assets/catalog/tops-12-w09-v6.jpg", "blob": "e9d462cb222c2ff20e220e237cb3890e1e6eb76c", "decision": "BLOCKED_INVALID_SIGNATURE"}
+      "tops11": {
+        "path": "/assets/catalog/tops-11-w09-v6.jpg",
+        "blob": "061a749472ad71e61732ac3a9629c42d54b4e580",
+        "decision": "BLOCKED_INVALID_SIGNATURE"
+      },
+      "tops12": {
+        "path": "/assets/catalog/tops-12-w09-v6.jpg",
+        "blob": "e9d462cb222c2ff20e220e237cb3890e1e6eb76c",
+        "decision": "BLOCKED_INVALID_SIGNATURE"
+      }
     },
     "v7Receipts": {
-      "tops11": {"plannedPath": "/assets/catalog/tops-11-w09-v7.webp", "bytes": 22824, "dimensions": [600,600], "sha256": "b021eb2773dbe902debf39216eeeca51c5f8db7b7ef137a177a46969bb27a2fa", "expectedGitBlob": "0641cd1563cd9f683d685231c52a28c9f66424be", "state": "GENERATED_LOCAL_RECEIPT_ONLY_PAYLOAD_UNAVAILABLE"},
-      "tops12": {"plannedPath": "/assets/catalog/tops-12-w09-v7.webp", "bytes": 30026, "dimensions": [600,600], "sha256": "f0a76bcf14af0bc9d0ff9fb0ea5fb2980181a9873a1f034ab41f9633d8b1f94a", "expectedGitBlob": "9f13c65b0310a70be3fb1e6464baf22dabe75ce1", "state": "GENERATED_LOCAL_RECEIPT_ONLY_PAYLOAD_UNAVAILABLE"}
+      "tops11": {
+        "plannedPath": "/assets/catalog/tops-11-w09-v7.webp",
+        "bytes": 22824,
+        "dimensions": [
+          600,
+          600
+        ],
+        "sha256": "b021eb2773dbe902debf39216eeeca51c5f8db7b7ef137a177a46969bb27a2fa",
+        "expectedGitBlob": "0641cd1563cd9f683d685231c52a28c9f66424be",
+        "state": "GENERATED_LOCAL_RECEIPT_ONLY_PAYLOAD_UNAVAILABLE"
+      },
+      "tops12": {
+        "plannedPath": "/assets/catalog/tops-12-w09-v7.webp",
+        "bytes": 30026,
+        "dimensions": [
+          600,
+          600
+        ],
+        "sha256": "f0a76bcf14af0bc9d0ff9fb0ea5fb2980181a9873a1f034ab41f9633d8b1f94a",
+        "expectedGitBlob": "9f13c65b0310a70be3fb1e6464baf22dabe75ce1",
+        "state": "GENERATED_LOCAL_RECEIPT_ONLY_PAYLOAD_UNAVAILABLE"
+      }
     }
   },
   "decor3_4FactoryPilot": {
@@ -40,13 +68,50 @@
     "sourceHead": "a8cc58c8bcf14ae66388a571c672c4aec23cc88c",
     "stagingCommit": "b0a35343773b2ebbfdba3b5a3f99263b6c824e83",
     "legacyReviewBases": {
-      "decor-3": {"path": "/assets/catalog/decor-3.svg", "blob": "4fc2f591915f53b249956c20c50693ad22e3a1bb", "decision": "REWORK", "reviewer": "14", "reasonCode": "FLAT_PRODUCT_ICON"},
-      "decor-4": {"path": "/assets/catalog/decor-4.svg", "blob": "cb4bc4cfca9bdd4764905fdf94aa8291605f1ce0", "decision": "REWORK", "reviewer": "14", "reasonCode": "FLAT_PRODUCT_ICON"}
+      "decor-3": {
+        "path": "/assets/catalog/decor-3.svg",
+        "blob": "4fc2f591915f53b249956c20c50693ad22e3a1bb",
+        "decision": "REWORK",
+        "reviewer": "14",
+        "reasonCode": "FLAT_PRODUCT_ICON"
+      },
+      "decor-4": {
+        "path": "/assets/catalog/decor-4.svg",
+        "blob": "cb4bc4cfca9bdd4764905fdf94aa8291605f1ce0",
+        "decision": "REWORK",
+        "reviewer": "14",
+        "reasonCode": "FLAT_PRODUCT_ICON"
+      }
     },
-    "reference": {"path": "docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg", "sha256": "4e21df57778c17ce2c10958b61cb8a5c14f8bccdc703f8f0f6b57de8aa36829d", "dimensions": [1448,1086]},
-    "factoryCode": {"artPromptOptimizerBlob": "7d9155fb60533d5e5134a18a444130a9f3b9567f", "artFactoryJobBlob": "75cf3db80cfead3b6818de1cbdb6640627459e70", "verifyStagedOutputBlob": "cd5a33bd80af44e0b53bd0fb3782509d0eb2929d", "activeBatchBlob": "dffb1d6883926777e03317c679878f4c44dcdfff"},
-    "rightsDomains": {"starBloxReference": "FIRST_PARTY_PROJECT_SOURCE", "generatedOutput": "AUTHORIZED_OPENAI_IMAGE_GEN_SERVICE_OUTPUT_FOR_USER_PROJECT", "serviceModelCheckpoint": "SERVICE_GOVERNED_REVISION_UNEXPOSED_BY_TOOL", "thirdPartyBrandsOrCharacters": "NONE"},
-    "generationProvenance": {"generator": "openai/image_gen", "runtime": "openai/image_gen-tool", "modelRevision": "UNEXPOSED_BY_TOOL", "executionSeed": null, "seedExposure": "UNEXPOSED_BY_TOOL", "jobSeedPolicy": "Compiled deterministic seeds are recorded but are not falsely claimed as confirmed service execution seeds.", "conditioningReferenceSha256": "4e21df57778c17ce2c10958b61cb8a5c14f8bccdc703f8f0f6b57de8aa36829d"},
+    "reference": {
+      "path": "docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg",
+      "sha256": "4e21df57778c17ce2c10958b61cb8a5c14f8bccdc703f8f0f6b57de8aa36829d",
+      "dimensions": [
+        1448,
+        1086
+      ]
+    },
+    "factoryCode": {
+      "artPromptOptimizerBlob": "7d9155fb60533d5e5134a18a444130a9f3b9567f",
+      "artFactoryJobBlob": "75cf3db80cfead3b6818de1cbdb6640627459e70",
+      "verifyStagedOutputBlob": "cd5a33bd80af44e0b53bd0fb3782509d0eb2929d",
+      "activeBatchBlob": "dffb1d6883926777e03317c679878f4c44dcdfff"
+    },
+    "rightsDomains": {
+      "starBloxReference": "FIRST_PARTY_PROJECT_SOURCE",
+      "generatedOutput": "AUTHORIZED_OPENAI_IMAGE_GEN_SERVICE_OUTPUT_FOR_USER_PROJECT",
+      "serviceModelCheckpoint": "SERVICE_GOVERNED_REVISION_UNEXPOSED_BY_TOOL",
+      "thirdPartyBrandsOrCharacters": "NONE"
+    },
+    "generationProvenance": {
+      "generator": "openai/image_gen",
+      "runtime": "openai/image_gen-tool",
+      "modelRevision": "UNEXPOSED_BY_TOOL",
+      "executionSeed": null,
+      "seedExposure": "UNEXPOSED_BY_TOOL",
+      "jobSeedPolicy": "Compiled deterministic seeds are recorded but are not falsely claimed as confirmed service execution seeds.",
+      "conditioningReferenceSha256": "4e21df57778c17ce2c10958b61cb8a5c14f8bccdc703f8f0f6b57de8aa36829d"
+    },
     "renderEvidence": {
       "workflow": "StarBlox Staged Catalog Art QA",
       "workflowRunId": 35722505018,
@@ -57,35 +122,251 @@
       "reportGeneratedAt": "2026-09-22T11:38:32.493Z",
       "overallWorkflowConclusion": "failure",
       "overallFailureScope": "Unrelated staged desks-2/desks-3/desks-4 image-decode failures; Decor 3-4 exact candidates themselves rendered cleanly.",
-      "cardEvidence": {"path": "staged-replacements/staged-replacements-contact-sheet.png", "dimensions": [1200,8777], "bytes": 5635752, "sha256": "86ef359851369a3699b125bbd21d4ca0f16842688bf911fc16d762095b546190"},
-      "decor-3": {"detailPath": "staged-replacements/detail/decor-3-5c9e3ad9.png", "detailDimensions": [800,800], "detailBytes": 612882, "detailSha256": "0a0194b3669f3af6025784fa717bb667cf4702c25a377ac39486211be302ffda", "httpStatus": 200, "naturalDimensions": [600,600], "signature": "webp", "safety": "raster-self-contained", "opaqueFraction": 1, "screenshot": true, "errors": []},
-      "decor-4": {"detailPath": "staged-replacements/detail/decor-4-8393d0b8.png", "detailDimensions": [800,800], "detailBytes": 449965, "detailSha256": "24378c5cbd7bd778a3746ec89fdf239d203a6e0223f0411ddc41d7ce883ea2d8", "httpStatus": 200, "naturalDimensions": [600,600], "signature": "webp", "safety": "raster-self-contained", "opaqueFraction": 1, "screenshot": true, "errors": []}
+      "cardEvidence": {
+        "path": "staged-replacements/staged-replacements-contact-sheet.png",
+        "dimensions": [
+          1200,
+          8777
+        ],
+        "bytes": 5635752,
+        "sha256": "86ef359851369a3699b125bbd21d4ca0f16842688bf911fc16d762095b546190"
+      },
+      "decor-3": {
+        "detailPath": "staged-replacements/detail/decor-3-5c9e3ad9.png",
+        "detailDimensions": [
+          800,
+          800
+        ],
+        "detailBytes": 612882,
+        "detailSha256": "0a0194b3669f3af6025784fa717bb667cf4702c25a377ac39486211be302ffda",
+        "httpStatus": 200,
+        "naturalDimensions": [
+          600,
+          600
+        ],
+        "signature": "webp",
+        "safety": "raster-self-contained",
+        "opaqueFraction": 1,
+        "screenshot": true,
+        "errors": []
+      },
+      "decor-4": {
+        "detailPath": "staged-replacements/detail/decor-4-8393d0b8.png",
+        "detailDimensions": [
+          800,
+          800
+        ],
+        "detailBytes": 449965,
+        "detailSha256": "24378c5cbd7bd778a3746ec89fdf239d203a6e0223f0411ddc41d7ce883ea2d8",
+        "httpStatus": 200,
+        "naturalDimensions": [
+          600,
+          600
+        ],
+        "signature": "webp",
+        "safety": "raster-self-contained",
+        "opaqueFraction": 1,
+        "screenshot": true,
+        "errors": []
+      }
     },
     "items": [
       {
-        "id": "decor-3", "name": "Arcade Mini", "collection": "Room Decor", "tier": 1, "theme": "Adventure Club", "price": 94, "starReq": 0,
+        "id": "decor-3",
+        "name": "Arcade Mini",
+        "collection": "Room Decor",
+        "tier": 1,
+        "theme": "Adventure Club",
+        "price": 94,
+        "starReq": 0,
         "planSha256": "b63e5a9e3d729ed82835c67e366c86569a83fde1d60b3816be05f5f2d1afa2de",
         "attempts": [
-          {"variant": "A-PHYSICAL", "attemptId": "decor-3-w09-a-physical-f04a926ada", "promptSha256": "f04a926ada54131d343451f3e8eb958ec409caa4ca9503892917bc3c701f4db8", "seed": 63109166, "generationId": "827d46f5-a368-4439-bcaa-5df77fe58d69", "sourceSha256": "6e848a3453b8bd26bc3f603533326110a7e507d5558a42e2e56a2158c337c9a9", "sourceBytes": 2126243, "sourceDimensions": [1254,1254]},
-          {"variant": "B-READABILITY", "attemptId": "decor-3-w09-b-readability-3608359ae1", "promptSha256": "3608359ae1c828d508adf38bf1ef5ca029d0c00e05a48f21b2db7a395ea971db", "seed": 884418808, "generationId": "5a6d19d4-dd8b-4655-89b2-a7b9122a3949", "sourceSha256": "10c02ef422932af856a0393d54c3accf8dea22f209fc8d0f1083433084213dca", "sourceBytes": 1906296, "sourceDimensions": [1254,1254], "selected": true}
+          {
+            "variant": "A-PHYSICAL",
+            "attemptId": "decor-3-w09-a-physical-f04a926ada",
+            "promptSha256": "f04a926ada54131d343451f3e8eb958ec409caa4ca9503892917bc3c701f4db8",
+            "seed": 63109166,
+            "generationId": "827d46f5-a368-4439-bcaa-5df77fe58d69",
+            "sourceSha256": "6e848a3453b8bd26bc3f603533326110a7e507d5558a42e2e56a2158c337c9a9",
+            "sourceBytes": 2126243,
+            "sourceDimensions": [
+              1254,
+              1254
+            ]
+          },
+          {
+            "variant": "B-READABILITY",
+            "attemptId": "decor-3-w09-b-readability-3608359ae1",
+            "promptSha256": "3608359ae1c828d508adf38bf1ef5ca029d0c00e05a48f21b2db7a395ea971db",
+            "seed": 884418808,
+            "generationId": "5a6d19d4-dd8b-4655-89b2-a7b9122a3949",
+            "sourceSha256": "10c02ef422932af856a0393d54c3accf8dea22f209fc8d0f1083433084213dca",
+            "sourceBytes": 1906296,
+            "sourceDimensions": [
+              1254,
+              1254
+            ],
+            "selected": true
+          }
         ],
-        "derivative": {"path": "/assets/catalog/decor-3-w09-v3.webp", "repoPath": "public/assets/catalog/decor-3-w09-v3.webp", "format": "WEBP", "dimensions": [600,600], "bytes": 15054, "sha256": "f8af8283fca711a4173d86b3a7bee713514ab9189baffe3818619286704447ea", "gitBlob": "5c9e3ad9b88b29c8ffb67d262f828f38d24763be", "derivativeOfSha256": "10c02ef422932af856a0393d54c3accf8dea22f209fc8d0f1083433084213dca", "derivation": "Lanczos 600x600 + WebP quality 20 method 6"},
-        "verify": {"status": "STAGED_EXACT_BYTES_VERIFIED", "reviewer": "14", "recordSha256": "b3d5c84021c8d310e183274a8369002c3c6bb54446326abb6e2ccb4c62ddbe36"},
-        "review": {"state": "PENDING_INDEPENDENT_DECISION_RENDER_EVIDENCE_READY", "reviewer": "14", "evidenceRef": "artifact:10691708297/staged-replacements/detail/decor-3-5c9e3ad9.png"}
+        "derivative": {
+          "path": "/assets/catalog/decor-3-w09-v3.webp",
+          "repoPath": "public/assets/catalog/decor-3-w09-v3.webp",
+          "format": "WEBP",
+          "dimensions": [
+            600,
+            600
+          ],
+          "bytes": 15054,
+          "sha256": "f8af8283fca711a4173d86b3a7bee713514ab9189baffe3818619286704447ea",
+          "gitBlob": "5c9e3ad9b88b29c8ffb67d262f828f38d24763be",
+          "derivativeOfSha256": "10c02ef422932af856a0393d54c3accf8dea22f209fc8d0f1083433084213dca",
+          "derivation": "Lanczos 600x600 + WebP quality 20 method 6"
+        },
+        "verify": {
+          "status": "STAGED_EXACT_BYTES_VERIFIED",
+          "reviewer": "14",
+          "recordSha256": "b3d5c84021c8d310e183274a8369002c3c6bb54446326abb6e2ccb4c62ddbe36"
+        },
+        "review": {
+          "state": "PENDING_INDEPENDENT_DECISION_RENDER_EVIDENCE_READY",
+          "reviewer": "14",
+          "evidenceRef": "artifact:10691708297/staged-replacements/detail/decor-3-5c9e3ad9.png"
+        }
       },
       {
-        "id": "decor-4", "name": "Plush Stack", "collection": "Room Decor", "tier": 2, "theme": "Cloud Pop", "price": 123, "starReq": 0,
+        "id": "decor-4",
+        "name": "Plush Stack",
+        "collection": "Room Decor",
+        "tier": 2,
+        "theme": "Cloud Pop",
+        "price": 123,
+        "starReq": 0,
         "planSha256": "10ee81341cf0e967ede41ea3ada985ee30497d182cfea9f2585d35da36934dcc",
         "attempts": [
-          {"variant": "A-PHYSICAL", "attemptId": "decor-4-w09-a-physical-e66619f1d6", "promptSha256": "e66619f1d63b2c61f653d5dcf4e791f9b5a8ba75d0f549b25b21fe04b223d371", "seed": 825278190, "generationId": "dfd1b93c-b999-4b05-9d17-fc6056f327ec", "sourceSha256": "eb7e925ee8317f36dd2c68f24d18a5ee4ee5dbf4cd13dc54fe85edc2015ff8c6", "sourceBytes": 1665915, "sourceDimensions": [1254,1254]},
-          {"variant": "B-READABILITY", "attemptId": "decor-4-w09-b-readability-64e300b260", "promptSha256": "64e300b26037ebfa1754b03645ed86a1e2f754dbaa4e68da728b7b6fb6638267", "seed": 1698104804, "generationId": "07a6c57e-7fd5-42fe-aa1b-76b6dcb71335", "sourceSha256": "957bf29cf6e2f8fbb9e8aed1c92b10c6187b21d138bbd890c3f448e46a9ea822", "sourceBytes": 2234368, "sourceDimensions": [1254,1254], "selected": true}
+          {
+            "variant": "A-PHYSICAL",
+            "attemptId": "decor-4-w09-a-physical-e66619f1d6",
+            "promptSha256": "e66619f1d63b2c61f653d5dcf4e791f9b5a8ba75d0f549b25b21fe04b223d371",
+            "seed": 825278190,
+            "generationId": "dfd1b93c-b999-4b05-9d17-fc6056f327ec",
+            "sourceSha256": "eb7e925ee8317f36dd2c68f24d18a5ee4ee5dbf4cd13dc54fe85edc2015ff8c6",
+            "sourceBytes": 1665915,
+            "sourceDimensions": [
+              1254,
+              1254
+            ]
+          },
+          {
+            "variant": "B-READABILITY",
+            "attemptId": "decor-4-w09-b-readability-64e300b260",
+            "promptSha256": "64e300b26037ebfa1754b03645ed86a1e2f754dbaa4e68da728b7b6fb6638267",
+            "seed": 1698104804,
+            "generationId": "07a6c57e-7fd5-42fe-aa1b-76b6dcb71335",
+            "sourceSha256": "957bf29cf6e2f8fbb9e8aed1c92b10c6187b21d138bbd890c3f448e46a9ea822",
+            "sourceBytes": 2234368,
+            "sourceDimensions": [
+              1254,
+              1254
+            ],
+            "selected": true
+          }
         ],
-        "derivative": {"path": "/assets/catalog/decor-4-w09-v3.webp", "repoPath": "public/assets/catalog/decor-4-w09-v3.webp", "format": "WEBP", "dimensions": [600,600], "bytes": 8142, "sha256": "33fae2db0be4246cf0763f7572731dc679f896b064e60aee085944c5e1d8b5ce", "gitBlob": "8393d0b8108dfcc6882a75a9e50293f26d8f6989", "derivativeOfSha256": "957bf29cf6e2f8fbb9e8aed1c92b10c6187b21d138bbd890c3f448e46a9ea822", "derivation": "Lanczos 600x600 + WebP quality 20 method 6"},
-        "verify": {"status": "STAGED_EXACT_BYTES_VERIFIED", "reviewer": "14", "recordSha256": "2f6e02bf86bebe27605a5f03dabd3c4b9bf2d03404cea60fb012127165af2fd0"},
-        "review": {"state": "PENDING_INDEPENDENT_DECISION_RENDER_EVIDENCE_READY", "reviewer": "14", "evidenceRef": "artifact:10691708297/staged-replacements/detail/decor-4-8393d0b8.png"}
+        "derivative": {
+          "path": "/assets/catalog/decor-4-w09-v3.webp",
+          "repoPath": "public/assets/catalog/decor-4-w09-v3.webp",
+          "format": "WEBP",
+          "dimensions": [
+            600,
+            600
+          ],
+          "bytes": 8142,
+          "sha256": "33fae2db0be4246cf0763f7572731dc679f896b064e60aee085944c5e1d8b5ce",
+          "gitBlob": "8393d0b8108dfcc6882a75a9e50293f26d8f6989",
+          "derivativeOfSha256": "957bf29cf6e2f8fbb9e8aed1c92b10c6187b21d138bbd890c3f448e46a9ea822",
+          "derivation": "Lanczos 600x600 + WebP quality 20 method 6"
+        },
+        "verify": {
+          "status": "STAGED_EXACT_BYTES_VERIFIED",
+          "reviewer": "14",
+          "recordSha256": "2f6e02bf86bebe27605a5f03dabd3c4b9bf2d03404cea60fb012127165af2fd0"
+        },
+        "review": {
+          "state": "PENDING_INDEPENDENT_DECISION_RENDER_EVIDENCE_READY",
+          "reviewer": "14",
+          "evidenceRef": "artifact:10691708297/staged-replacements/detail/decor-4-8393d0b8.png"
+        }
       }
     ]
   },
-  "handoff": {"reviewer": "14", "items": {"decor-3": "5c9e3ad9b88b29c8ffb67d262f828f38d24763be", "decor-4": "8393d0b8108dfcc6882a75a9e50293f26d8f6989"}, "request": "Inspect existing real StarBlox card/detail pixels in artifact 10691708297 for these exact hashes and issue independent ACCEPT/REWORK; no producer regeneration while pending.", "integrationOwner": "08", "selfApproval": false},
-  "nextGate": "Do not start Decor5-12 or another producer batch until Reviewer14 independently dispositions this exact Decor3-4 pilot."
+  "handoff": {
+    "reviewer": "14",
+    "items": {
+      "decor-3": "5c9e3ad9b88b29c8ffb67d262f828f38d24763be",
+      "decor-4": "8393d0b8108dfcc6882a75a9e50293f26d8f6989"
+    },
+    "request": "Inspect existing real StarBlox card/detail pixels in artifact 10691708297 for these exact hashes and issue independent ACCEPT/REWORK; no producer regeneration while pending.",
+    "integrationOwner": "08",
+    "selfApproval": false
+  },
+  "nextGate": "Render Decor7 exact staged hash through StarBlox Staged Catalog Art QA and obtain independent reviewer01 ACCEPT/REWORK. Decor5 has no new hash and must be retried separately only after the current Wall queue is established. Preserve Decor3/4 historical reviewer14 handoff.",
+  "currentCpuReviewOwner": "01",
+  "decor5_7CpuV2": {
+    "batchId": "w09-decor-5-7-cpu-v2",
+    "state": "DECOR7_STAGED_EXACT_BYTES_PENDING_RENDER_REVIEW01__DECOR5_CANCELLED_STUCK_NO_ARTIFACT",
+    "sourceGenerationRunId": 35927174551,
+    "exactRecoveryRunId": 35931594208,
+    "stagingCommit": "1e0da07b97f5271c322de26395f44bcfa418e7da",
+    "preflightOwner": "06",
+    "renderOwner": "14",
+    "reviewer": "01",
+    "integrationOwner": "08",
+    "route": "06 -> 14 render -> 01 independent exact-hash decision -> 08 on ACCEPT",
+    "items": [
+      {
+        "id": "decor-7",
+        "name": "Skate Rack",
+        "collection": "Room Decor",
+        "tier": 3,
+        "theme": "Garden Glow",
+        "producer": "09",
+        "candidateRepositoryPath": "public/assets/catalog-candidates/cpu/decor-7-w09-v2-a-physical-original.png",
+        "repositoryPath": "public/assets/catalog-candidates/cpu/decor-7-w09-v2-a-physical-original.png",
+        "gitBlobSha": "fa415ef0a554e2a60ee9e836f23d8d38b266a6e3",
+        "sha256": "2e92a6036047b95a9ddfcaab903e94c80d216ea4dd24054006e938cdaf21933e",
+        "bytes": 910481,
+        "dimensions": [
+          768,
+          768
+        ],
+        "status": "STAGED_EXACT_BYTES_VERIFIED_PENDING_01",
+        "verify": {
+          "status": "STAGED_EXACT_BYTES_VERIFIED",
+          "reviewer": "01",
+          "queueId": "w09-decor-5-7-cpu-v2",
+          "recordSha256": "2b126887d40b22e9d1fe8b45c45ca1489d9fbbea2f7740ff9db2fed071c5993a"
+        },
+        "review": {
+          "state": "PENDING_INDEPENDENT_ACTUAL_PIXEL_DECISION",
+          "reviewer": "01",
+          "verdict": null
+        }
+      },
+      {
+        "id": "decor-5",
+        "name": "Plant Wall",
+        "collection": "Room Decor",
+        "tier": 2,
+        "theme": "Pixel Party",
+        "producer": "09",
+        "status": "CPU_GENERATION_CANCELLED_STUCK_NO_CANDIDATE_ARTIFACT",
+        "sourceGenerationRunId": 35927174551,
+        "review": {
+          "state": "NO_NEW_HASH_NOT_REVIEWABLE",
+          "reviewer": "01",
+          "verdict": null
+        }
+      }
+    ]
+  }
 }
