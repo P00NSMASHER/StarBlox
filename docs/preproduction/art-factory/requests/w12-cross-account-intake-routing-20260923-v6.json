@@ -1,0 +1,124 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_W12_CROSS_ACCOUNT_INTAKE_ROUTING",
+  "router": "12",
+  "branch": "screenshot-match-preproduction",
+  "observedAt": "2026-09-23T05:39:34Z",
+  "sourceHead": "e6cc3a44d3d3b78bdebfed55d080a8e772df2fe2",
+  "scanWindow": {
+    "priorRouterCommit": "2e0bd1449e9cd0261ef5adb42ee369dad35074fe",
+    "inspectedThroughHead": "e6cc3a44d3d3b78bdebfed55d080a8e772df2fe2",
+    "aheadBy": 10,
+    "changedPaths": [
+      "docs/preproduction/art-factory/ACTIVE_BATCH.json",
+      "docs/preproduction/art-factory/pilot_art_accelerators.py",
+      "docs/preproduction/art-factory/requests/w13-diffusers-adapter-contract-validation-20260923.json",
+      "docs/preproduction/art-factory/requests/w13-diffusers-adapter-hardening-20260923.json",
+      "docs/preproduction/art-factory/requests/w13-github-actions-model-runtime-probe-20260923.json",
+      "docs/preproduction/visuals/external/ext09-avatar-buddy-compositing-plan-20260922.json",
+      "docs/preproduction/visuals/external/ext10-home-store-quest-preproduction-plan-20260923.json",
+      "scripts/artFactoryDiffusers.py",
+      "scripts/persistenceQuestTimingQa.mjs"
+    ],
+    "newCatalogCandidateBytesDetected": false,
+    "newExternalCatalogCandidateDetected": false,
+    "newExternalPlanningHandoffsDetected": ["EXT09", "EXT10"],
+    "note": "No public/assets catalog candidate path changed in this window. EXT09 and EXT10 supplied non-catalog preproduction plans with generation held and no selected catalog item IDs."
+  },
+  "liveAuthority": {
+    "manifestVersion": 33,
+    "manifestBlobSha": "3ce8dd5d16674ff556764402b712d215d3d22457",
+    "runtimeBlobSha": "68dc4944988ee2850e634eb8966613b9663c163c",
+    "activeBatchSchemaVersion": 19,
+    "activeBatchBlobSha": "d1fbbe868efa254d9d01fcccbc2682eb90f08be9",
+    "activeBatchSourceHead": "2b751886bc80396b51ba498298fc57f1bf4ae876",
+    "visibleGenericFallbackCount": 19,
+    "acceptedAwaitingCanonical": 0,
+    "canonicalWriter": "08"
+  },
+  "externalLaneIntake": [
+    {
+      "lane": "EXT09",
+      "scope": "Avatar/Buddy preproduction",
+      "evidencePath": "docs/preproduction/visuals/external/ext09-avatar-buddy-compositing-plan-20260922.json",
+      "evidenceGitBlobSha": "bd37ecc40f3a4fafb85049a6c060b73a00ceb75f",
+      "planType": "NON_CATALOG_VISUAL_PREPRODUCTION_ONLY",
+      "selectedItemIds": [],
+      "generationAuthorization": "HELD",
+      "newCatalogCandidate": false,
+      "technicalQualificationEligibleFor06": false,
+      "routing": "Preserve listed pending/accepted exact non-catalog hashes. Do not duplicate pixels and do not route to 06 absent an explicitly released new candidate."
+    },
+    {
+      "lane": "EXT10",
+      "scope": "Home/Store/Quest visual preproduction",
+      "evidencePath": "docs/preproduction/visuals/external/ext10-home-store-quest-preproduction-plan-20260923.json",
+      "evidenceGitBlobSha": "d691d3b94d09d17539dcf13011589f6d2dd53d45",
+      "planType": "NON_CATALOG_ENVIRONMENT_COMPONENT_PREPRODUCTION_ONLY",
+      "selectedItemIds": [],
+      "selectedProductionCandidate": null,
+      "generationAuthorization": "HELD",
+      "newCatalogCandidate": false,
+      "technicalQualificationEligibleFor06": false,
+      "routing": "Freeze the enumerated Home/Store/Quest exact hashes and keep EXT10 analysis-only until ACTIVE_BATCH explicitly releases one unresolved component."
+    }
+  ],
+  "materialRoutingEvents": [
+    {
+      "scope": ["wall-9", "wall-10", "wall-11", "wall-12"],
+      "producer": "13",
+      "reviewerFamily": "14",
+      "reservedByActiveBatch": true,
+      "candidate": null,
+      "newerCandidateExistsInScanWindow": false,
+      "technicalQualificationEligibleFor06": false,
+      "newEvidence": {
+        "path": "docs/preproduction/art-factory/requests/w13-github-actions-model-runtime-probe-20260923.json",
+        "gitBlobSha": "0ab5c864439c7674b2474e61fe3bffca7409eb22",
+        "pinnedDiffusersRevision": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+        "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+        "requestedModelRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+        "resolvedModelRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+        "exactModelRevisionMatch": true,
+        "runnerAccelerator": "none",
+        "modelWeightsDownloaded": false,
+        "pipelineInstantiated": false,
+        "pixelInferenceRan": false
+      },
+      "routing": {
+        "routeBackTo": ["producer13", "coordinator15"],
+        "hold": ["06 technical qualification", "14 render/review", "08 canonical integration"],
+        "reason": "Exact runtime and model identity are now proven on the hosted runner, but the runner exposes no accelerator and produced no model weights, pipeline, inference, executed Wall seed or candidate bytes. Metadata proof is not a production candidate. Use only an already-authorized accelerator-capable revision-reporting runtime for bounded generation."
+      }
+    }
+  ],
+  "unchangedOverlapGuards": [
+    {
+      "scope": ["desks-8", "desks-9", "desks-10"],
+      "reservedProducer": "07",
+      "state": "ACTIVE_EXACT_BYTE_RECOVERY_IMPORT",
+      "technicalQualificationEligibleFor06": false
+    },
+    {
+      "scope": ["desks-7"],
+      "state": "REMOTE_CANDIDATES_FROZEN"
+    },
+    {
+      "scope": ["wall-8"],
+      "state": "SELECTED_VARIANT_B_FROZEN_AFTER_07_REASSIGNMENT"
+    }
+  ],
+  "queues": {
+    "to06": [],
+    "backToProducerOrRecoveryOwner": [
+      {
+        "scope": ["wall-9", "wall-10", "wall-11", "wall-12"],
+        "owner": "13",
+        "reason": "No production candidate exists; hosted metadata proof passes but accelerator-capable production inference is still unavailable."
+      }
+    ]
+  },
+  "overlapDisposition": "No EXT01-EXT10 catalog production scope was duplicated. EXT09/EXT10 planning handoffs claim no catalog IDs or generated pixels, and ACTIVE_BATCH reservations remain authoritative.",
+  "ownershipNote": "Router12 records intake/routing evidence only. Workstream15 alone may reconcile ACTIVE_BATCH or CI ownership; Workstream08 alone may write canonical mappings; reviewers alone may issue review verdicts.",
+  "mutationScope": "Routing evidence only. No art bytes, reviewer decisions, ACTIVE_BATCH, manifest, catalog runtime, CI/workflow, gameplay, learning, persistence, economy, deployment, paid settings, secrets or player data changed."
+}

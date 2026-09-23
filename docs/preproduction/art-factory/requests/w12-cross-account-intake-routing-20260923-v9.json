@@ -1,0 +1,157 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_W12_CROSS_ACCOUNT_INTAKE_ROUTING",
+  "router": "12",
+  "branch": "screenshot-match-preproduction",
+  "observedAt": "2026-09-23T09:23:54Z",
+  "sourceHead": "3feb6e5e9855e8b2b1ffbbc937f9199b00ce375d",
+  "scanWindow": {
+    "priorCursor": "f3c9c0be0cbed4d3ebee5750e69965a8f5005d9b",
+    "inspectedThroughHead": "3feb6e5e9855e8b2b1ffbbc937f9199b00ce375d",
+    "aheadBy": 3,
+    "changedPaths": [
+      "docs/preproduction/art-factory/requests/w12-cross-account-intake-routing-20260923-v8.json",
+      "docs/preproduction/art-factory/requests/ext02-bottoms-5-8-plan-20260923.json",
+      "docs/preproduction/art-factory/requests/ext03-headwear-9-12-plan-20260923.json"
+    ],
+    "newCatalogCandidateBytesDetected": false,
+    "newExternalCatalogCandidateDetected": false,
+    "materialNewHandoffsDetected": [
+      "EXT02 Bottoms5-8 deterministic generation preparation only",
+      "EXT03 Headwear9-12 deterministic generation preparation only"
+    ],
+    "note": "The prior router evidence commit is self-routing metadata and introduces no candidate. EXT02 and EXT03 added planning/job specifications only; no public/assets/catalog or public/assets/catalog-candidates bytes, staged candidate path, candidate SHA-256, or Git blob candidate arrived in this window."
+  },
+  "liveAuthority": {
+    "manifestVersion": 33,
+    "manifestBlobSha": "3ce8dd5d16674ff556764402b712d215d3d22457",
+    "runtimeBlobSha": "68dc4944988ee2850e634eb8966613b9663c163c",
+    "activeBatchSchemaVersion": 22,
+    "activeBatchBlobSha": "189240098ce7781c762e41a152d04d2a0251dfef",
+    "acceptedAwaitingCanonical": 0,
+    "canonicalWriter": "08"
+  },
+  "materialRoutingEvents": [
+    {
+      "scope": [
+        "bottoms-5",
+        "bottoms-6",
+        "bottoms-7",
+        "bottoms-8"
+      ],
+      "producer": "EXT02",
+      "reviewerFamily": "01",
+      "reservedByCrossAccountContract": true,
+      "planEvidence": {
+        "path": "docs/preproduction/art-factory/requests/ext02-bottoms-5-8-plan-20260923.json",
+        "gitBlobSha": "426c6eefc5f0fed2cc2ea73878d42f3658d64e32",
+        "planType": "DETERMINISTIC_GENERATION_JOB_PREPARATION_ONLY",
+        "generationAuthorization": "BLOCKED_UNTIL_ART_FACTORY_V2_COMPLIANT_RUNTIME"
+      },
+      "candidateState": {
+        "candidateRepositoryPath": null,
+        "candidateSha256": null,
+        "candidateGitBlobSha": null,
+        "stagedOutputState": "NOT_STAGED",
+        "provenanceState": "PLANNED_PROMPTS_AND_DETERMINISTIC_SEEDS_ONLY__NO_EXECUTED_RUNTIME_REVISION_MODEL_REVISION_OR_EXECUTED_SEED_EVIDENCE",
+        "supersessionState": "PROTECTED_EXTERNAL_SCOPE__NO_NEWER_STAGED_PENDING_ACCEPTED_OR_CANONICAL_CANDIDATE_DETECTED"
+      },
+      "technicalQualificationEligibleFor06": false,
+      "routing": {
+        "routeBackTo": [
+          "EXT02"
+        ],
+        "hold": [
+          "06",
+          "14",
+          "01",
+          "08"
+        ],
+        "nextGateAfterPrerequisite": "06 technical qualification after EXT02 executes only on an ART_FACTORY_V2-compliant revision-reporting runtime, stages unique versioned candidate bytes, verifies exact SHA-256/Git blob/bytes/dimensions/decode and repository readback, and records complete provenance.",
+        "reason": "The plan explicitly states that planning evidence is not a production-qualified candidate and the currently available scheduled-task generator cannot prove exact runtime revision, model/checkpoint revision, or executed deterministic seed."
+      }
+    },
+    {
+      "scope": [
+        "headwear-9",
+        "headwear-10",
+        "headwear-11",
+        "headwear-12"
+      ],
+      "producer": "EXT03",
+      "reviewerFamily": "01",
+      "reservedByCrossAccountContract": true,
+      "planEvidence": {
+        "path": "docs/preproduction/art-factory/requests/ext03-headwear-9-12-plan-20260923.json",
+        "gitBlobSha": "4c260269cc707f708d45135e7e0fe3a7e85dc60d",
+        "planType": "DETERMINISTIC_GENERATION_JOB_PREPARATION_ONLY",
+        "generationAuthorization": "BLOCKED_UNTIL_ART_FACTORY_V2_COMPLIANT_RUNTIME"
+      },
+      "candidateState": {
+        "candidateRepositoryPath": null,
+        "candidateSha256": null,
+        "candidateGitBlobSha": null,
+        "stagedOutputState": "NOT_STAGED",
+        "provenanceState": "PLANNED_PROMPTS_AND_DETERMINISTIC_SEEDS_ONLY__NO_EXECUTED_RUNTIME_REVISION_MODEL_REVISION_OR_EXECUTED_SEED_EVIDENCE",
+        "supersessionState": "PROTECTED_EXTERNAL_SCOPE__HEADWEAR1_8_PRIOR_ACCEPTS_PRESERVED__NO_NEWER_STAGED_PENDING_ACCEPTED_OR_CANONICAL_HEADWEAR9_12_CANDIDATE_DETECTED"
+      },
+      "technicalQualificationEligibleFor06": false,
+      "routing": {
+        "routeBackTo": [
+          "EXT03"
+        ],
+        "hold": [
+          "06",
+          "14",
+          "01",
+          "08"
+        ],
+        "nextGateAfterPrerequisite": "06 technical qualification after EXT03 executes only on an ART_FACTORY_V2-compliant revision-reporting runtime, stages unique versioned candidate bytes, verifies exact SHA-256/Git blob/bytes/dimensions/decode and repository readback, and records complete provenance.",
+        "reason": "The plan explicitly states that planning evidence is not a production-qualified candidate and the currently available scheduled-task generator cannot prove exact runtime revision, model/checkpoint revision, or executed deterministic seed."
+      }
+    }
+  ],
+  "overlapAndStaleness": {
+    "externalOwnershipOverlapDetected": false,
+    "primaryOwnershipOverlapDetected": false,
+    "staleCandidateHashDetected": false,
+    "newCandidatePathDetected": false,
+    "notes": [
+      "EXT02 remains the protected owner of the Bottoms backlog; this router did not duplicate or reclaim Bottoms5-8.",
+      "EXT03 remains the protected owner of Headwear9-12; prior ACCEPTed Headwear1-8 mappings are untouched.",
+      "No exact candidate hash exists yet for either planning handoff, so there is nothing eligible to compare for stale-hash or duplicate-byte risk."
+    ]
+  },
+  "queues": {
+    "to06": [],
+    "backToProducerOrRecoveryOwner": [
+      {
+        "scope": [
+          "bottoms-5",
+          "bottoms-6",
+          "bottoms-7",
+          "bottoms-8"
+        ],
+        "owner": "EXT02",
+        "reason": "Planning-only handoff; generation/runtime provenance and staged exact bytes are prerequisites."
+      },
+      {
+        "scope": [
+          "headwear-9",
+          "headwear-10",
+          "headwear-11",
+          "headwear-12"
+        ],
+        "owner": "EXT03",
+        "reason": "Planning-only handoff; generation/runtime provenance and staged exact bytes are prerequisites."
+      }
+    ]
+  },
+  "cursorAdvance": {
+    "previous": "f3c9c0be0cbed4d3ebee5750e69965a8f5005d9b",
+    "advancedThrough": "3feb6e5e9855e8b2b1ffbbc937f9199b00ce375d",
+    "condition": "New external planning handoffs were inspected and their ineligibility/routing was durably recorded by this evidence commit."
+  },
+  "ownershipNote": "Router12 records intake/routing evidence only. Workstream15 alone may modify ACTIVE_BATCH assignments; Workstream08 alone writes canonical mappings; reviewers alone issue verdicts.",
+  "mutationScope": "Routing evidence only. No art bytes, reviewer decisions, ACTIVE_BATCH, manifest, catalog runtime, CI/workflow, gameplay, learning, persistence, economy, deployment, paid settings, secrets or player data changed."
+}

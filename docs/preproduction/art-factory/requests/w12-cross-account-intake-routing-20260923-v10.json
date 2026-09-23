@@ -1,0 +1,194 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_W12_CANDIDATE_DELTA_INTAKE_ROUTING",
+  "router": "12",
+  "branch": "screenshot-match-preproduction",
+  "observedAt": "2026-09-23T10:21:00Z",
+  "sourceHead": "5f3fa1c00e5655b0fb52bb033884dc15b0af01ad",
+  "scanWindow": {
+    "priorCursor": "3feb6e5e9855e8b2b1ffbbc937f9199b00ce375d",
+    "inspectedThroughHead": "5f3fa1c00e5655b0fb52bb033884dc15b0af01ad",
+    "aheadBy": 8,
+    "commitOrder": [
+      "81b7dee83f1953babd45ff3404690c117e26cc36",
+      "d891db3323488bc0140d835faf83d783f2fc6aff",
+      "ae7b5c0b76148665bb999a237f772781dfc40efe",
+      "76e48172ffc89f178dbba6548bcae8ed3394874a",
+      "324276bf18a83206c29a5816c4aa1d4ac4a2f1b9",
+      "89478e3c47e54d75cba8d890ccf996522ce9ca53",
+      "6a6faf815b9e092f3a3670965671f0a6f688f433",
+      "5f3fa1c00e5655b0fb52bb033884dc15b0af01ad"
+    ],
+    "changedPaths": [
+      "docs/preproduction/art-factory/requests/w12-cross-account-intake-routing-20260923-v9.json",
+      "docs/preproduction/art-factory/requests/ext05-backgear-1-4-plan-20260923.json",
+      "docs/preproduction/art-factory/requests/ext06-handgear-1-4-plan-20260923.json",
+      "docs/preproduction/art-factory/requests/ext07-beds-5-8-plan-20260923.json",
+      "docs/preproduction/art-factory/requests/ext08-shoes-11-12-plan-20260923.json",
+      "docs/preproduction/art-factory/ACTIVE_BATCH.json",
+      "docs/preproduction/art-factory/requests/w03-decor-6-8-ready-exec-20260923.json",
+      "docs/preproduction/art-factory/requests/w09-decor-5-7-ready-exec-20260923.json"
+    ],
+    "newCatalogCandidateBytesDetected": false,
+    "newExternalCatalogCandidateDetected": false,
+    "newTechnicallyEligibleCandidateDetected": false,
+    "note": "The window contains one prior router evidence commit, four new external planning-only handoffs, one director assignment update, and two refreshed execution-ready producer packets. No public/assets/catalog-candidates or new public/assets/catalog candidate bytes, exact candidate SHA-256, candidate Git blob, or completed ART_FACTORY_V2 execution evidence arrived."
+  },
+  "liveAuthority": {
+    "manifestVersion": 33,
+    "manifestBlobSha": "3ce8dd5d16674ff556764402b712d215d3d22457",
+    "runtimeBlobSha": "68dc4944988ee2850e634eb8966613b9663c163c",
+    "activeBatchSchemaVersion": 23,
+    "activeBatchBlobSha": "26b7b13783f8faf831b06fbabb5379d2cc5d1948",
+    "canonicalWriter": "08",
+    "sharedRenderer": "14",
+    "acceptedAwaitingCanonical": 0
+  },
+  "dedupe": {
+    "newCandidateItemIds": [],
+    "newCandidateHashes": [],
+    "duplicateCandidateHashesDetected": false,
+    "duplicateItemClaimsDetected": false,
+    "staleCandidateHashesDetected": false,
+    "note": "There are no new candidate hashes to route or compare. Existing historical blocked hashes in the producer packets remain preserved and are not re-routed."
+  },
+  "planningOnlyHandoffs": [
+    {
+      "scope": ["backgear-1", "backgear-2", "backgear-3", "backgear-4"],
+      "producer": "EXT05",
+      "evidencePath": "docs/preproduction/art-factory/requests/ext05-backgear-1-4-plan-20260923.json",
+      "evidenceGitBlobSha": "dc0c82949d542f8c44dd9fe09b0cf76c81d790df",
+      "candidateRepositoryPath": null,
+      "candidateSha256": null,
+      "candidateGitBlobSha": null,
+      "provenanceState": "PLANNED_NOT_EXECUTED__INCOMPLETE_FOR_ART_FACTORY_V2_CANDIDATE",
+      "stagedOutputState": "NOT_STAGED",
+      "supersessionClaimState": "PROTECTED_EXT05_SCOPE__NO_PENDING_OR_CANONICAL_REPLACEMENT_CANDIDATE_DETECTED",
+      "reviewerAssignment": "02",
+      "technicalQualificationEligibleFor06": false,
+      "exactMissingPrerequisites": [
+        "executed generator/runtime identity",
+        "immutable runtime revision/commit",
+        "exact model/checkpoint ID and immutable revision",
+        "executed deterministic seed",
+        "staged unique versioned candidate bytes",
+        "candidate SHA-256 and Git blob SHA",
+        "byte count, dimensions and safe decode",
+        "exact repository readback"
+      ],
+      "routing": "RETURN_TO_EXT05_UNTIL_COMPLETE__THEN_12_TO_06"
+    },
+    {
+      "scope": ["handgear-1", "handgear-2", "handgear-3", "handgear-4"],
+      "producer": "EXT06",
+      "evidencePath": "docs/preproduction/art-factory/requests/ext06-handgear-1-4-plan-20260923.json",
+      "evidenceGitBlobSha": "64e822a2fdee30363b1f352a85aa8d596fb0c61c",
+      "candidateRepositoryPath": null,
+      "candidateSha256": null,
+      "candidateGitBlobSha": null,
+      "provenanceState": "PLANNED_NOT_EXECUTED__INCOMPLETE_FOR_ART_FACTORY_V2_CANDIDATE",
+      "stagedOutputState": "NOT_STAGED",
+      "supersessionClaimState": "PROTECTED_EXT06_SCOPE__NO_PENDING_OR_CANONICAL_REPLACEMENT_CANDIDATE_DETECTED",
+      "reviewerAssignment": "11",
+      "reviewerAssignmentNote": "ACTIVE_BATCH schema 23 load-balance overrides the plan's older reviewer02 route for any future new exact hash.",
+      "technicalQualificationEligibleFor06": false,
+      "exactMissingPrerequisites": [
+        "executed generator/runtime identity",
+        "immutable runtime revision/commit",
+        "exact model/checkpoint ID and immutable revision",
+        "executed deterministic seed or expressly permitted seed-unavailable evidence",
+        "staged unique versioned candidate bytes",
+        "candidate SHA-256 and Git blob SHA",
+        "byte count, dimensions and safe decode",
+        "exact repository readback"
+      ],
+      "routing": "RETURN_TO_EXT06_UNTIL_COMPLETE__THEN_12_TO_06"
+    },
+    {
+      "scope": ["beds-5", "beds-6", "beds-7", "beds-8"],
+      "producer": "EXT07",
+      "evidencePath": "docs/preproduction/art-factory/requests/ext07-beds-5-8-plan-20260923.json",
+      "evidenceGitBlobSha": "0d1b878b80e708f25c9e0fc68b276af61327c608",
+      "candidateRepositoryPath": null,
+      "candidateSha256": null,
+      "candidateGitBlobSha": null,
+      "provenanceState": "PLANNED_NOT_EXECUTED__INCOMPLETE_FOR_ART_FACTORY_V2_CANDIDATE",
+      "stagedOutputState": "NOT_STAGED",
+      "supersessionClaimState": "PROTECTED_EXT07_SCOPE__BEDS1_4_ACCEPTED_HASHES_FROZEN__NO_PENDING_BEDS5_8_CANDIDATE_DETECTED",
+      "reviewerAssignment": "05",
+      "technicalQualificationEligibleFor06": false,
+      "exactMissingPrerequisites": [
+        "executed generator/runtime identity",
+        "immutable runtime revision/commit",
+        "exact model/checkpoint ID and immutable revision",
+        "executed deterministic seed or expressly permitted seed-unavailable evidence",
+        "staged unique versioned candidate bytes",
+        "candidate SHA-256 and Git blob SHA",
+        "byte count, dimensions and safe decode",
+        "exact repository readback"
+      ],
+      "routing": "RETURN_TO_EXT07_UNTIL_COMPLETE__THEN_12_TO_06"
+    },
+    {
+      "scope": ["shoes-11", "shoes-12"],
+      "producer": "EXT08",
+      "evidencePath": "docs/preproduction/art-factory/requests/ext08-shoes-11-12-plan-20260923.json",
+      "evidenceGitBlobSha": "499fb36df3cf87c28a3c50803634008a1fbe5279",
+      "candidateRepositoryPath": null,
+      "candidateSha256": null,
+      "candidateGitBlobSha": null,
+      "provenanceState": "PLANNED_NOT_EXECUTED__INCOMPLETE_FOR_ART_FACTORY_V2_CANDIDATE",
+      "stagedOutputState": "NOT_STAGED",
+      "supersessionClaimState": "PROTECTED_EXT08_SCOPE__SEATING11_12_ACCEPTED_HASHES_FROZEN__NO_PENDING_SHOES11_12_CANDIDATE_DETECTED",
+      "reviewerAssignment": "02",
+      "technicalQualificationEligibleFor06": false,
+      "exactMissingPrerequisites": [
+        "executed generator/runtime identity",
+        "immutable runtime revision/commit",
+        "exact model/checkpoint ID and immutable revision",
+        "executed deterministic seed or expressly permitted seed-unavailable evidence",
+        "staged unique versioned candidate bytes",
+        "candidate SHA-256 and Git blob SHA",
+        "byte count, dimensions and safe decode",
+        "exact repository readback"
+      ],
+      "routing": "RETURN_TO_EXT08_UNTIL_COMPLETE__THEN_12_TO_06"
+    }
+  ],
+  "observedNonCandidateProducerPackets": [
+    {
+      "scope": ["decor-6", "decor-8"],
+      "producer": "03",
+      "evidencePath": "docs/preproduction/art-factory/requests/w03-decor-6-8-ready-exec-20260923.json",
+      "evidenceGitBlobSha": "9b29256905893824f6e42256e01894c4f02c905b",
+      "state": "READY_PACKET_REFRESHED__WAITING_NEW_ACCELERATOR_RUNTIME_FINGERPRINT",
+      "candidateBytesWritten": false,
+      "routerAction": "NO_ROUTE__NO_NEW_HASH"
+    },
+    {
+      "scope": ["decor-5", "decor-7"],
+      "producer": "09",
+      "evidencePath": "docs/preproduction/art-factory/requests/w09-decor-5-7-ready-exec-20260923.json",
+      "evidenceGitBlobSha": "9df0b22094b53dc73ccd740940db6ab72eb29418",
+      "state": "READY_PACKET_REFRESHED__WAITING_NEW_ACCELERATOR_RUNTIME_FINGERPRINT",
+      "candidateBytesWritten": false,
+      "routerAction": "NO_ROUTE__NO_NEW_HASH"
+    }
+  ],
+  "queues": {
+    "to06": [],
+    "backToProducer": [
+      {"owner": "EXT05", "scope": ["backgear-1", "backgear-2", "backgear-3", "backgear-4"]},
+      {"owner": "EXT06", "scope": ["handgear-1", "handgear-2", "handgear-3", "handgear-4"]},
+      {"owner": "EXT07", "scope": ["beds-5", "beds-6", "beds-7", "beds-8"]},
+      {"owner": "EXT08", "scope": ["shoes-11", "shoes-12"]}
+    ]
+  },
+  "cursorAdvance": {
+    "previous": "3feb6e5e9855e8b2b1ffbbc937f9199b00ce375d",
+    "advancedThrough": "5f3fa1c00e5655b0fb52bb033884dc15b0af01ad",
+    "condition": "The complete eight-commit window was inspected and all new external planning handoffs were durably dispositioned as not eligible for lane06; no new exact candidate hash was routed twice."
+  },
+  "ownershipNote": "Router12 records intake/routing evidence only. Workstream15 alone may modify ACTIVE_BATCH assignments; Workstream08 alone writes canonical mappings; reviewers alone issue verdicts.",
+  "mutationScope": "Routing evidence only. No ACTIVE_BATCH, art bytes, reviewer decisions, manifest, catalog runtime, CI/workflow, gameplay, learning, economy, persistence, accessibility, exactly-once behavior, deployment, Replit, Floot, paid settings, secrets or player data changed."
+}

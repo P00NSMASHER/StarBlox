@@ -1,0 +1,245 @@
+name: StarBlox Art Factory CPU Generation
+
+on:
+  push:
+    branches: [screenshot-match-preproduction]
+    paths:
+      - 'docs/preproduction/art-factory/runtime-queue/*.json'
+  workflow_dispatch:
+    inputs:
+      queue_file:
+        description: Queue JSON path
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  group: starblox-art-factory-cpu-generation
+  cancel-in-progress: false
+
+jobs:
+  plan:
+    runs-on: ubuntu-24.04
+    outputs:
+      matrix: ${{ steps.plan.outputs.matrix }}
+      queue_file: ${{ steps.queue.outputs.queue_file }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: screenshot-match-preproduction
+          fetch-depth: 2
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Resolve one queue file
+        id: queue
+        env:
+          DISPATCH_QUEUE: ${{ inputs.queue_file }}
+        run: |
+          if [ -n "$DISPATCH_QUEUE" ]; then
+            Q="$DISPATCH_QUEUE"
+          else
+            mapfile -t QFILES < <(git diff-tree --no-commit-id --name-only -r "$GITHUB_SHA" | grep '^docs/preproduction/art-factory/runtime-queue/.*\.json$' || true)
+            test "${#QFILES[@]}" -eq 1 || { echo "expected exactly one queue file in triggering commit"; exit 1; }
+            Q="${QFILES[0]}"
+          fi
+          test -f "$Q"
+          echo "queue_file=$Q" >> "$GITHUB_OUTPUT"
+
+      - name: Validate queue and compile deterministic jobs
+        id: plan
+        env:
+          QUEUE_FILE: ${{ steps.queue.outputs.queue_file }}
+        run: |
+          python - <<'PY'
+          import json, os, pathlib
+          q=json.loads(pathlib.Path(os.environ["QUEUE_FILE"]).read_text())
+          assert q["kind"]=="STARBLOX_ART_FACTORY_CPU_GENERATION_QUEUE"
+          assert q["branch"]=="screenshot-match-preproduction"
+          items=q.get("items") or []
+          assert 1 <= len(items) <= 4 and len(set(items))==len(items)
+          assert q["runtimeCommit"]=="7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c"
+          assert q["modelId"]=="stabilityai/stable-diffusion-xl-base-1.0"
+          assert q["modelRevision"]=="462165984030d82259a11f4367a4eed129e94a7b"
+          proof=pathlib.Path("docs/preproduction/art-factory/CPU_RUNTIME_PROOF.json")
+          assert proof.is_file(), "CPU runtime proof not committed"
+          p=json.loads(proof.read_text())
+          assert p.get("status")=="PROVEN"
+          allowed={"01","02","05","11","14"}
+          for item in items:
+              r=str((q.get("reviewerByItem") or {}).get(item) or "")
+              assert r in allowed
+              assert int(r) != int(q["producer"])
+              assert isinstance((q.get("versionByItem") or {}).get(item), int)
+              assert (q.get("variantByItem") or {}).get(item)
+          print("QUEUE_VALID=PASS")
+          PY
+          mkdir -p artifacts/cpu-generation/jobs
+          PRODUCER="$(python -c 'import json,os;print(json.load(open(os.environ["QUEUE_FILE"]))["producer"])')"
+          REQUEST="$(python -c 'import json,os;print(json.load(open(os.environ["QUEUE_FILE"]))["requestPath"])')"
+          MODEL_ID="$(python -c 'import json,os;print(json.load(open(os.environ["QUEUE_FILE"]))["modelId"])')"
+          MODEL_REV="$(python -c 'import json,os;print(json.load(open(os.environ["QUEUE_FILE"]))["modelRevision"])')"
+          node scripts/artFactoryJob.mjs plan-request \
+            --repo-root . \
+            --request "$REQUEST" \
+            --output-dir artifacts/cpu-generation/jobs \
+            --producer "$PRODUCER" \
+            --model-id "$MODEL_ID" \
+            --model-revision "$MODEL_REV"
+          python - <<'PY'
+          import json, os, pathlib
+          q=json.load(open(os.environ["QUEUE_FILE"]))
+          inc=[]
+          for item in q["items"]:
+              job=json.load(open(f"artifacts/cpu-generation/jobs/{item}.json"))
+              wanted=q["variantByItem"][item]
+              matches=[a for a in job["attempts"] if a["variant"]==wanted]
+              assert len(matches)==1, (item,wanted,[a["variant"] for a in job["attempts"]])
+              a=matches[0]
+              v=q["versionByItem"][item]
+              path=f"public/assets/catalog-candidates/cpu/{item}-w{int(q['producer']):02d}-v{v}-{wanted.lower()}-original.png"
+              inc.append({
+                  "item":item,"attempt":a["attemptId"],"variant":wanted,
+                  "repo_path":path,"reviewer":str(q["reviewerByItem"][item])
+              })
+          matrix=json.dumps({"include":inc},separators=(",",":"))
+          print("matrix="+matrix)
+          with open(os.environ["GITHUB_OUTPUT"],"a") as f: f.write("matrix="+matrix+"\n")
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: cpu-generation-plan-${{ github.sha }}
+          path: artifacts/cpu-generation/jobs/
+          retention-days: 14
+
+  generate:
+    needs: plan
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJson(needs.plan.outputs.matrix) }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: screenshot-match-preproduction
+          fetch-depth: 1
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: cpu-generation-plan-${{ github.sha }}
+          path: artifacts/cpu-generation/jobs/
+
+      - name: Install deterministic CPU runtime
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install --index-url https://download.pytorch.org/whl/cpu "torch==2.8.0"
+          python -m pip install \
+            "diffusers @ git+https://github.com/huggingface/diffusers.git@7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c" \
+            transformers accelerate safetensors huggingface_hub hf_xet Pillow sentencepiece invisible-watermark
+
+      - name: Generate exact source candidate
+        env:
+          HF_XET_HIGH_PERFORMANCE: "1"
+          ITEM: ${{ matrix.item }}
+          ATTEMPT: ${{ matrix.attempt }}
+          REPO_PATH: ${{ matrix.repo_path }}
+          REVIEWER: ${{ matrix.reviewer }}
+          QUEUE_FILE: ${{ needs.plan.outputs.queue_file }}
+        run: |
+          WIDTH="$(python -c 'import json,os;print(json.load(open(os.environ["QUEUE_FILE"]))["generation"]["width"])')"
+          HEIGHT="$(python -c 'import json,os;print(json.load(open(os.environ["QUEUE_FILE"]))["generation"]["height"])')"
+          STEPS="$(python -c 'import json,os;print(json.load(open(os.environ["QUEUE_FILE"]))["generation"]["steps"])')"
+          GUIDANCE="$(python -c 'import json,os;print(json.load(open(os.environ["QUEUE_FILE"]))["generation"]["guidanceScale"])')"
+          DTYPE="$(python -c 'import json,os;print(json.load(open(os.environ["QUEUE_FILE"]))["generation"].get("dtype","bfloat16"))')"
+          mkdir -p "artifacts/cpu-generation/$ITEM"
+          python scripts/artFactoryDiffusers.py generate \
+            --repo-root . \
+            --job "artifacts/cpu-generation/jobs/$ITEM.json" \
+            --attempt-id "$ATTEMPT" \
+            --repo-path "$REPO_PATH" \
+            --receipt "artifacts/cpu-generation/$ITEM/generation-receipt.json" \
+            --device cpu --dtype "$DTYPE" \
+            --width "$WIDTH" --height "$HEIGHT" --steps "$STEPS" --guidance-scale "$GUIDANCE"
+          python docs/preproduction/art-factory/verify_staged_output.py verify \
+            --repo-root . \
+            --job "artifacts/cpu-generation/jobs/$ITEM.json" \
+            --attempt-id "$ATTEMPT" \
+            --repo-path "$REPO_PATH" \
+            --reviewer "$REVIEWER" \
+            --reviewer-routing-file "$QUEUE_FILE" \
+            --output "artifacts/cpu-generation/$ITEM/staged-output.json"
+          mkdir -p "artifacts/cpu-generation/$ITEM/candidate"
+          cp "$REPO_PATH" "artifacts/cpu-generation/$ITEM/candidate/$(basename "$REPO_PATH")"
+          cp "artifacts/cpu-generation/jobs/$ITEM.json" "artifacts/cpu-generation/$ITEM/job.json"
+          cp "$QUEUE_FILE" "artifacts/cpu-generation/$ITEM/queue.json"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: cpu-generated-${{ matrix.item }}-${{ github.sha }}
+          path: artifacts/cpu-generation/${{ matrix.item }}/
+          retention-days: 14
+          if-no-files-found: error
+
+  stage:
+    needs: [plan, generate]
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: screenshot-match-preproduction
+          fetch-depth: 0
+
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: cpu-generated-*-${{ github.sha }}
+          path: artifacts/collected
+          merge-multiple: false
+
+      - name: Stage only exact candidate bytes and evidence
+        env:
+          QUEUE_FILE: ${{ needs.plan.outputs.queue_file }}
+        run: |
+          git pull --rebase origin screenshot-match-preproduction
+          QUEUE_ID="$(python -c 'import json,os;print(json.load(open(os.environ["QUEUE_FILE"]))["queueId"])')"
+          DEST="docs/preproduction/art-factory/generated-evidence/$QUEUE_ID"
+          mkdir -p "$DEST"
+          python - <<'PY'
+          import json, os, pathlib, shutil
+          root=pathlib.Path("artifacts/collected")
+          q=json.load(open(os.environ["QUEUE_FILE"]))
+          dest=pathlib.Path("docs/preproduction/art-factory/generated-evidence")/q["queueId"]
+          for item in q["items"]:
+              matches=list(root.glob(f"cpu-generated-{item}-*/"))
+              assert len(matches)==1, (item,matches)
+              src=matches[0]
+              rec=json.load(open(src/"generation-receipt.json"))
+              staged=json.load(open(src/"staged-output.json"))
+              assert rec["output"]["sha256"]==staged["output"]["sha256"]
+              repo_path=pathlib.Path(staged["output"]["repoPath"])
+              candidate=next((src/"candidate").iterdir())
+              repo_path.parent.mkdir(parents=True,exist_ok=True)
+              shutil.copy2(candidate,repo_path)
+              item_dest=dest/item
+              item_dest.mkdir(parents=True,exist_ok=True)
+              for name in ("generation-receipt.json","staged-output.json","job.json","queue.json"):
+                  shutil.copy2(src/name,item_dest/name)
+          PY
+          git config user.name "starblox-art-factory"
+          git config user.email "actions@users.noreply.github.com"
+          git add public/assets/catalog-candidates/ docs/preproduction/art-factory/generated-evidence/
+          if git diff --cached --quiet; then
+            echo "No new exact candidate bytes to stage"
+            exit 0
+          fi
+          git commit -m "art-factory: stage CPU-generated exact candidates ($QUEUE_ID)"
+          git push origin HEAD:screenshot-match-preproduction

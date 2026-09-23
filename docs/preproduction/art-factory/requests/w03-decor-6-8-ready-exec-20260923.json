@@ -1,0 +1,149 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_READY_EXECUTION_PACKET",
+  "producer": "03",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "89478e3c47e54d75cba8d890ccf996522ce9ca53",
+  "batchId": "w03-decor-6-8-provenance-repair-v1",
+  "scope": ["decor-6", "decor-8"],
+  "state": "READY_PACKET_REFRESHED__WAITING_NEW_ACCELERATOR_RUNTIME_FINGERPRINT",
+  "assignmentAuthority": {
+    "path": "docs/preproduction/art-factory/ACTIVE_BATCH.json",
+    "gitBlobSha": "26b7b13783f8faf831b06fbabb5379d2cc5d1948",
+    "assignmentState": "STALL_CYCLE_1__WAITING_ACCELERATOR_RUNTIME__NO_SAFE_REASSIGNMENT",
+    "renderOwner": "14",
+    "reviewer": "11",
+    "integrationOwner": "08",
+    "nextAfterGeneration": "12 -> 06 -> 14 -> 11 -> 08 on independent ACCEPT"
+  },
+  "canonicalFingerprint": {
+    "manifestVersion": 33,
+    "manifestGitBlob": "3ce8dd5d16674ff556764402b712d215d3d22457",
+    "catalogRuntimeGitBlob": "68dc4944988ee2850e634eb8966613b9663c163c",
+    "fallbackCount": 19
+  },
+  "priorPacket": {
+    "path": "docs/preproduction/art-factory/requests/w03-decor-6-8-provenance-repair-20260922.json",
+    "gitBlobSha": "352be8c9214035a32b66fdb42412e59f5b115882",
+    "reuseRule": "All immutable production inputs below are preserved from this packet. This refresh updates current assignment/routing and binds the newest exact runtime blocker fingerprint; it does not authorize generation."
+  },
+  "priorBlockedEvidence": {
+    "path": "docs/preproduction/art-factory/requests/w06-decor-6-8-provenance-readback-20260922.json",
+    "gitBlobSha": "87f50fa4efd4f182f0afd8bc870c16723ca2086d",
+    "decor-6": {
+      "path": "public/assets/catalog/decor-6-w09-v2.webp",
+      "sha256": "61a12cba7ffb85d9e8666d4b984d26bdab95fb3759aa00abdda872ac3d04849a",
+      "gitBlobSha": "842c3089e86d5a2d190875526f94f6b63ccdf02c"
+    },
+    "decor-8": {
+      "path": "public/assets/catalog/decor-8-w09-v2.webp",
+      "sha256": "eda7946fcae74d1da202061276d33d62ca0446c4bdfd6fa1069a96bf9773db6d",
+      "gitBlobSha": "0d264aff9155f99b17db82138f4546deca8323d5"
+    },
+    "rule": "Preserve these exact blocked hashes and their existing render evidence. Do not rerender, relabel, mutate, re-review, or canonicalize them."
+  },
+  "reference": {
+    "path": "docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg",
+    "sha256": "b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d",
+    "gitBlobSha": "383baa877d3af86fa92e3583740212000592b3d6",
+    "dimensions": [1448, 1086],
+    "role": "FIRST_PARTY_STARBLOX_STORE_ART_DIRECTION"
+  },
+  "runtimeRequirement": {
+    "status": "BLOCKED_UNCHANGED",
+    "latestEvidencePath": "docs/preproduction/art-factory/requests/w13-github-actions-model-runtime-probe-20260923.json",
+    "latestEvidenceGitBlob": "0ab5c864439c7674b2474e61fe3bffca7409eb22",
+    "hostedRunner": "GitHub hosted ubuntu-24.04",
+    "hostedRunnerAccelerator": "none",
+    "hostedProductionInference": "CLOSED",
+    "requiredExecutionCapability": "Already-authorized accelerator-capable deterministic runtime that reports immutable model/runtime revisions and exact executed seed.",
+    "pinnedRuntime": {
+      "repository": "huggingface/diffusers",
+      "revision": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c"
+    },
+    "pinnedModel": {
+      "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+      "revision": "462165984030d82259a11f4367a4eed129e94a7b"
+    },
+    "resumeOnlyWhen": "A genuinely new runtime fingerprint proves an authorized accelerator-capable path. Do not repeat provider capability probes for the current fingerprint."
+  },
+  "generationContract": {
+    "optimizer": "scripts/artPromptOptimizer.mjs",
+    "jobCompiler": "scripts/artFactoryJob.mjs",
+    "sourcePixels": 1024,
+    "derivativePixels": 600,
+    "preserveSourceBytes": true,
+    "verifyWith": "docs/preproduction/art-factory/verify_staged_output.py",
+    "maxAdvancedReplacementHashesPerItem": 1,
+    "requiredProvenance": [
+      "final optimized prompt and sha256",
+      "compiled seed",
+      "exact executed seed",
+      "generator/provider identity",
+      "model/checkpoint id and immutable revision",
+      "runtime/tool identity and immutable revision/commit",
+      "reference path, sha256, and git blob",
+      "source path, sha256, git blob, bytes, dimensions, decode",
+      "derivative path, sha256, git blob, bytes, dimensions, decode, transform",
+      "exact repository readback"
+    ],
+    "acceptanceConstraints": [
+      "No generation until runtimeRequirement.resumeOnlyWhen is satisfied.",
+      "Never regenerate or relabel the preserved blocked W09 hashes.",
+      "At most one newly staged replacement hash per item may advance from this cycle.",
+      "No producer self-review and no canonical mapping write by lane03.",
+      "Fresh candidate hashes must route through lane12, lane06, lane14, independent reviewer11, then lane08 only on ACCEPT."
+    ]
+  },
+  "items": {
+    "decor-6": {
+      "identity": {"name": "Telescope", "collection": "Room Decor", "tier": 2, "theme": "Berry Blast", "price": 254, "starReq": 0},
+      "legacyPath": "/assets/catalog/decor-6.svg",
+      "outputOriginalTemplate": "public/assets/catalog-candidates/decor/decor-6-w03-provenance-repair-v1-<variant>-original.<ext>",
+      "outputDerivativeTemplate": "public/assets/catalog-candidates/decor/decor-6-w03-provenance-repair-v1-<variant>-600.<ext>",
+      "variants": [
+        {
+          "variantId": "A-PHYSICAL",
+          "plannerSeed": 1682699524,
+          "optimizerInputSha256": "0d8f37c9bf47cd80886e230adcc5d5a9572bef57304bab3bba85a9cad1d61130",
+          "optimizerInput": "Telescope, Room Decor, Tier 2, Berry Blast. Build a compact but believable freestanding refractor telescope in three-quarter product view: berry-magenta enamel optical tube with cream trim, glass objective lens, focus knob, eyepiece, alt-azimuth yoke mount, sturdy brushed-metal tripod with three fully visible articulated legs and a small triangular accessory tray. Add subtle berry-red rubber grips and one small star-shaped adjustment cap as a decorative accent only. Premium studio lighting, grounded contact shadow, clear metal/glass/rubber separation, no readable text, logo, people or floating parts."
+        },
+        {
+          "variantId": "B-READABILITY",
+          "plannerSeed": 1488756795,
+          "optimizerInputSha256": "470bed53b1332823891a0a035734c53cb1f9500fcd935e8e1ef1935a7a657bc8",
+          "optimizerInput": "Telescope, Room Decor, Tier 2, Berry Blast. Create a child-friendly premium tabletop-to-floor telescope with a short wide optical tube, oversized front lens hood, visible focuser, compact pivot mount and three splayed legs joined by a real center brace. Use a strong cream-and-berry silhouette with deep plum metal hardware and one translucent pink lens accent, keeping accessories minimal so the telescope remains unmistakable at card size. Three-quarter isolated product, grounded shadow, no astronomy text, branding, room scene, impossible joints or flat icon styling."
+        }
+      ]
+    },
+    "decor-8": {
+      "identity": {"name": "Mini Aquarium", "collection": "Room Decor", "tier": 3, "theme": "Galaxy Glow", "price": 479, "starReq": 2},
+      "legacyPath": "/assets/catalog/decor-8.svg",
+      "outputOriginalTemplate": "public/assets/catalog-candidates/decor/decor-8-w03-provenance-repair-v1-<variant>-original.<ext>",
+      "outputDerivativeTemplate": "public/assets/catalog-candidates/decor/decor-8-w03-provenance-repair-v1-<variant>-600.<ext>",
+      "variants": [
+        {
+          "variantId": "A-PHYSICAL",
+          "plannerSeed": 1679065055,
+          "optimizerInputSha256": "f71381816d236d08e2c0668e910e5c05f2ccaae67372102b92325a7dca52c2f4",
+          "optimizerInput": "Mini Aquarium, Room Decor, Tier 3, Galaxy Glow. Create a premium compact desktop aquarium in three-quarter product view: thick beveled glass tank with a dark-indigo structural base and matching lid, visible rear filter housing, small intake tube and soft concealed light strip. Inside, use layered dark gravel, translucent aqua stones, sculptural aquatic plants and a few abstract orbit-ring rock ornaments suggesting Galaxy Glow without text or branded imagery. Include realistic waterline, glass refraction, subtle bubbles, caustic light and grounded base shadow; keep the tank physically plausible and readable at 600x600."
+        },
+        {
+          "variantId": "B-READABILITY",
+          "plannerSeed": 1156790120,
+          "optimizerInputSha256": "cd3bf3e068ff499ed84a1977e033ef6c59e4f2045a85815fda061b893b630330",
+          "optimizerInput": "Mini Aquarium, Room Decor, Tier 3, Galaxy Glow. Design a distinctive rounded-corner rectangular aquarium with a broad navy pedestal base, crystal-clear glass walls, one compact side filter and a simple moonlike rock arch over violet-blue gravel with three tall aquatic plants and a controlled bubble column. Add restrained cyan/violet galaxy rim lighting and tiny star-like highlights only as reflected light, not flat decals. Keep the silhouette clean, the interior uncluttered and the construction believable in three-quarter isolated product view, with no text, logos, fish characters, room scene or floating hardware."
+        }
+      ]
+    }
+  },
+  "safety": {
+    "generatedPixels": false,
+    "candidateBytesWritten": false,
+    "canonicalMappingsChanged": false,
+    "reviewVerdictMade": false,
+    "ciWorkflowFilesChanged": false,
+    "gameplayLearningEconomyPersistenceChanged": false,
+    "mainDeploymentReplitFlootPaidSettingsSecretsPlayerDataTouched": false
+  }
+}

@@ -1,0 +1,137 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_W12_CROSS_ACCOUNT_INTAKE_ROUTING",
+  "router": "12",
+  "branch": "screenshot-match-preproduction",
+  "observedAt": "2026-09-23T08:26:14Z",
+  "sourceHead": "f3c9c0be0cbed4d3ebee5750e69965a8f5005d9b",
+  "scanWindow": {
+    "priorCursor": "f8603d9b797fc48f3d9dbae48254fe37e836bad2",
+    "inspectedThroughHead": "f3c9c0be0cbed4d3ebee5750e69965a8f5005d9b",
+    "aheadBy": 2,
+    "changedPaths": [
+      "docs/preproduction/art-factory/requests/w12-cross-account-intake-routing-20260923-v7.json",
+      "docs/preproduction/art-factory/requests/w07-desks-8-10-byte-bridge-probe-20260923.json"
+    ],
+    "newCatalogCandidateBytesDetected": false,
+    "newExternalCatalogCandidateDetected": false,
+    "materialNewHandoffsDetected": [
+      "07 Desk8-10 byte-preserving bridge blocker refinement"
+    ],
+    "note": "The prior router evidence commit is self-routing metadata and introduces no candidate. The only new material lane input is lane07's Desk8-10 byte-bridge probe; no public/assets/catalog or public/assets/catalog-candidates bytes changed."
+  },
+  "liveAuthority": {
+    "manifestVersion": 33,
+    "manifestBlobSha": "3ce8dd5d16674ff556764402b712d215d3d22457",
+    "runtimeBlobSha": "68dc4944988ee2850e634eb8966613b9663c163c",
+    "activeBatchSchemaVersion": 22,
+    "activeBatchBlobSha": "189240098ce7781c762e41a152d04d2a0251dfef",
+    "acceptedAwaitingCanonical": 0,
+    "canonicalWriter": "08"
+  },
+  "materialRoutingEvents": [
+    {
+      "scope": [
+        "desks-8",
+        "desks-9",
+        "desks-10"
+      ],
+      "producer": "07",
+      "batchId": "w07-desks-8-10-exact-byte-recovery-v2",
+      "reviewerFamily": "05",
+      "sharedRenderer": "14",
+      "reservedByActiveBatch": true,
+      "newEvidence": {
+        "path": "docs/preproduction/art-factory/requests/w07-desks-8-10-byte-bridge-probe-20260923.json",
+        "gitBlobSha": "fab0357c0c205da9aacf6863fae8ba8cbacbb9d2",
+        "disposition": "BLOCKED_BYTE_PRESERVING_MATERIALIZATION",
+        "materialChange": "Authenticated Adobe resolution now proves a time-limited download endpoint exists for the preserved Desk9 Firefly generation record, but the current automation runtime still cannot materialize that endpoint as an exact repository-stageable byte stream."
+      },
+      "itemStates": {
+        "desks-8": {
+          "candidateRepositoryPath": null,
+          "exactSourceSha256": "afd02d9caafb473f5069c5fbdfc0d0d2304caa720f5eb4db404ddaca5c02d6d9",
+          "expectedGitBlobIfExactImported": "735954877f050c290380dcd501dd4a4b688b1310",
+          "sourceBytesMaterialized": false,
+          "stagedOutputState": "NOT_STAGED",
+          "provenanceState": "PRESERVED_EXACT_SOURCE_HASH_SIZE_DIMENSIONS__LOCAL_BYTES_UNAVAILABLE",
+          "supersessionState": "UNCHANGED_RESERVED_RECOVERY_SCOPE"
+        },
+        "desks-9": {
+          "candidateRepositoryPath": null,
+          "fireflyGenerationUrn": "urn:aaid:sc:US:97f64c0f-6a05-4340-9bd6-84d6257e34cb",
+          "executedSeed": 309172941,
+          "preservedLocalSourceSha256": "a2b62d1b2a71b874c7746ddef7c4772e55755f1be407e83bb4ceae8eabda9d37",
+          "rawRemoteByteHashClaim": null,
+          "sourceBytesMaterialized": false,
+          "stagedOutputState": "NOT_STAGED",
+          "provenanceState": "REMOTE_GENERATION_URN_AND_SEED_PRESERVED__AUTHENTICATED_DOWNLOAD_ENDPOINT_RESOLVABLE__EXACT_OUTPUT_BYTES_UNMATERIALIZED",
+          "supersessionState": "UNCHANGED_RESERVED_RECOVERY_SCOPE"
+        },
+        "desks-10": {
+          "candidateRepositoryPath": null,
+          "preservedLocalSourceSha256": "85e1af2016084cfbb40491f37009df6cfd1aafaf013c81ce69c0db159c17cd76",
+          "remoteGenerationRecordsConfirmed": true,
+          "rawRemoteByteHashClaim": null,
+          "sourceBytesMaterialized": false,
+          "stagedOutputState": "NOT_STAGED",
+          "provenanceState": "REMOTE_GENERATION_URNS_PRESERVED__EXACT_OUTPUT_BYTES_UNMATERIALIZED",
+          "supersessionState": "UNCHANGED_RESERVED_RECOVERY_SCOPE"
+        }
+      },
+      "technicalQualificationEligibleFor06": false,
+      "routing": {
+        "routeBackTo": [
+          "07"
+        ],
+        "hold": [
+          "06",
+          "14",
+          "05",
+          "08"
+        ],
+        "nextGateAfterPrerequisite": "06 technical qualification after one preserved Desk8/9/10 exact byte stream is materialized without rendering/re-encoding, hash-verified, dimension/decode-verified, staged, and read back from the repository",
+        "reason": "The download endpoint discovery narrows the blocker to byte-preserving transport/materialization. Preview pixels, screenshots, re-encodes, resized exports or approximations remain ineligible, and no raw remote hash proves Firefly DCX equivalence to the selected preserved PNG."
+      }
+    }
+  ],
+  "overlapAndStaleness": {
+    "externalOwnershipOverlapDetected": false,
+    "primaryOwnershipOverlapDetected": false,
+    "staleCandidateHashDetected": false,
+    "newCandidatePathDetected": false,
+    "unchangedProtectedScopes": [
+      "EXT01 Tops11-12",
+      "EXT02 Bottoms backlog",
+      "EXT03 Headwear9-12",
+      "EXT04 Facegear",
+      "EXT05 Backgear",
+      "EXT06 Handgear",
+      "EXT07 Beds",
+      "EXT08 reviewer-02 tail Shoes11-12/Seating11-12",
+      "EXT09 Avatar/Buddy preproduction",
+      "EXT10 Home/Store/Quest visual preproduction except the explicitly released phone-composition repair"
+    ]
+  },
+  "queues": {
+    "to06": [],
+    "backToProducerOrRecoveryOwner": [
+      {
+        "scope": [
+          "desks-8",
+          "desks-9",
+          "desks-10"
+        ],
+        "owner": "07",
+        "reason": "Authenticated source discovery improved, but no byte-preserving exact file is materialized or repository-staged."
+      }
+    ]
+  },
+  "cursorAdvance": {
+    "previous": "f8603d9b797fc48f3d9dbae48254fe37e836bad2",
+    "advancedThrough": "f3c9c0be0cbed4d3ebee5750e69965a8f5005d9b",
+    "condition": "Routing evidence durably recorded by this file commit."
+  },
+  "ownershipNote": "Router12 records intake/routing evidence only. Workstream15 alone may modify ACTIVE_BATCH assignments; Workstream08 alone writes canonical mappings; reviewers alone issue verdicts.",
+  "mutationScope": "Routing evidence only. No art bytes, reviewer decisions, ACTIVE_BATCH, manifest, catalog runtime, CI/workflow, gameplay, learning, persistence, economy, deployment, paid settings, secrets or player data changed."
+}

@@ -1,0 +1,144 @@
+name: StarBlox Art Factory CPU Runtime Proof
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [screenshot-match-preproduction]
+    paths:
+      - '.github/workflows/art-factory-cpu-runtime-proof.yml'
+      - 'scripts/artFactoryDiffusers.py'
+      - 'docs/preproduction/art-factory/PINNED_GENERATION_RUNTIME.json'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: starblox-art-factory-cpu-runtime-proof-minimal-v2-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  cpu-runtime-proof:
+    if: github.ref_name == 'screenshot-match-preproduction'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    steps:
+      - name: Checkout exact branch head
+        uses: actions/checkout@v4
+        with:
+          ref: screenshot-match-preproduction
+          fetch-depth: 1
+
+      - name: Use Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install deterministic CPU runtime
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install --index-url https://download.pytorch.org/whl/cpu "torch==2.8.0"
+          python -m pip install \
+            "diffusers @ git+https://github.com/huggingface/diffusers.git@7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c" \
+            transformers accelerate safetensors huggingface_hub hf_xet Pillow sentencepiece invisible-watermark
+
+      - name: Verify adapter contract
+        run: |
+          python scripts/artFactoryDiffusers.py self-test
+          python scripts/test_artFactoryDiffusers.py
+
+      - name: Build immutable runtime-proof job
+        run: |
+          mkdir -p artifacts/cpu-runtime-proof
+          python - <<'PY'
+          import hashlib, json, pathlib, subprocess
+          prompt = "StarBlox deterministic runtime proof: a simple glossy toy star on a neutral background"
+          prompt_sha = hashlib.sha256(prompt.encode()).hexdigest()
+          raw = hashlib.sha256(f"runtime-proof|{prompt_sha}|A-PROOF".encode()).digest()
+          seed = 1 + (int.from_bytes(raw[:4], "big") % 2147483646)
+          head = subprocess.check_output(["git","rev-parse","HEAD"], text=True).strip()
+          attempt = {
+              "attemptId":"runtime-proof-w13-a-proof-"+prompt_sha[:10],
+              "itemId":"runtime-proof","producer":"13","variant":"A-PROOF",
+              "promptBlocks":["runtime-proof"],"promptText":prompt,
+              "promptSha256":prompt_sha,"promptRecipeVersion":"cpu-runtime-proof-v1",
+              "seed":seed,
+              "runtime":{"repo":"huggingface/diffusers","commit":"7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c"},
+              "model":{"modelId":"stabilityai/stable-diffusion-xl-base-1.0","revision":"462165984030d82259a11f4367a4eed129e94a7b","rightsBasis":"USER_ATTESTED_FULL_RIGHTS"},
+              "conditioning":{"referenceAssetSha256":None,"controlImageSha256":None,"adapterScale":None},
+              "output":{"repoPath":None},"status":"PLANNED_NOT_GENERATED"
+          }
+          plan = {
+              "schemaVersion":1,"kind":"STARBLOX_ART_FACTORY_JOB",
+              "repository":"P00NSMASHER/StarBlox","branch":"screenshot-match-preproduction",
+              "sourceHead":head,
+              "item":{"id":"runtime-proof","name":"Runtime Proof","collectionId":"runtime-proof","type":"proof","tier":0,"theme":"proof"},
+              "sourceReviewHash":None,"rightsBasis":"USER_ATTESTED_FULL_RIGHTS",
+              "attempts":[attempt]
+          }
+          canonical=lambda x: json.dumps(x,ensure_ascii=False,separators=(",",":")).encode()
+          plan["planSha256"]=hashlib.sha256(canonical(plan)).hexdigest()
+          pathlib.Path("artifacts/cpu-runtime-proof/runtime-proof-job.json").write_text(json.dumps(plan,indent=2)+"\n")
+          pathlib.Path("artifacts/cpu-runtime-proof/attempt-id.txt").write_text(attempt["attemptId"]+"\n")
+          PY
+
+      - name: Qualify CPU capacity and exact model revision
+        run: |
+          ATTEMPT="$(cat artifacts/cpu-runtime-proof/attempt-id.txt)"
+          python scripts/artFactoryDiffusers.py probe-runtime \
+            --repo-root . \
+            --job artifacts/cpu-runtime-proof/runtime-proof-job.json \
+            --attempt-id "$ATTEMPT" \
+            --receipt artifacts/cpu-runtime-proof/runtime-probe.json
+          python - <<'PY'
+          import json
+          p=json.load(open("artifacts/cpu-runtime-proof/runtime-probe.json"))
+          assert p["runtime"]["resolvedCommit"]=="7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c"
+          assert p["model"]["resolvedRevision"]=="462165984030d82259a11f4367a4eed129e94a7b"
+          assert p["hardware"]["cpuFallback"]["eligible"] is True, p["hardware"]
+          print("CPU_FALLBACK_CAPACITY=PASS")
+          PY
+
+      - name: Run bounded real SDXL pixel proof on CPU
+        env:
+          HF_XET_HIGH_PERFORMANCE: "1"
+        run: |
+          ATTEMPT="$(cat artifacts/cpu-runtime-proof/attempt-id.txt)"
+          python scripts/artFactoryDiffusers.py generate \
+            --repo-root . \
+            --job artifacts/cpu-runtime-proof/runtime-proof-job.json \
+            --attempt-id "$ATTEMPT" \
+            --repo-path public/assets/catalog-candidates/runtime-proof/runtime-proof-w13-v1-a-original.png \
+            --receipt artifacts/cpu-runtime-proof/generation-receipt.json \
+            --device cpu \
+            --dtype bfloat16 \
+            --width 256 \
+            --height 256 \
+            --steps 1 \
+            --guidance-scale 0.0
+          cp public/assets/catalog-candidates/runtime-proof/runtime-proof-w13-v1-a-original.png artifacts/cpu-runtime-proof/runtime-proof.png
+
+      - name: Verify proof receipt
+        run: |
+          python - <<'PY'
+          import hashlib, json, pathlib
+          r=json.load(open("artifacts/cpu-runtime-proof/generation-receipt.json"))
+          assert r["status"]=="GENERATED_SOURCE_BYTES_UNVERIFIED"
+          assert r["runtime"]["resolvedCommit"]=="7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c"
+          assert r["runtime"]["device"]=="cpu"
+          assert r["runtime"]["executionMode"]=="cpu-fallback"
+          assert r["model"]["resolvedRevision"]=="462165984030d82259a11f4367a4eed129e94a7b"
+          assert r["generation"]["executedSeed"]==r["attempt"]["seed"]
+          p=pathlib.Path("artifacts/cpu-runtime-proof/runtime-proof.png")
+          assert p.stat().st_size>0
+          assert hashlib.sha256(p.read_bytes()).hexdigest()==r["output"]["sha256"]
+          print("CPU_RUNTIME_REAL_PIXEL_PROOF=PASS")
+          PY
+
+      - name: Upload runtime proof
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: starblox-cpu-runtime-proof-${{ github.sha }}
+          path: artifacts/cpu-runtime-proof/
+          retention-days: 14
+          if-no-files-found: error

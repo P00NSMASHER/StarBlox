@@ -1,0 +1,216 @@
+{
+  "schemaVersion": 1,
+  "kind": "CATALOG_ART_DETERMINISTIC_JOB_PLAN",
+  "status": "PLANNED_NOT_GENERATED",
+  "producer": "EXT08",
+  "reviewer": "02",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "76e48172ffc89f178dbba6548bcae8ed3394874a",
+  "liveBindings": {
+    "manifestVersion": 33,
+    "manifestGitBlob": "3ce8dd5d16674ff556764402b712d215d3d22457",
+    "catalogRuntimeGitBlob": "68dc4944988ee2850e634eb8966613b9663c163c",
+    "activeBatchGitBlob": "189240098ce7781c762e41a152d04d2a0251dfef",
+    "activeBatchSourceHead": "398f5100df0562a1e346c9110597e52b565982d0",
+    "artFactoryV2GitBlob": "3c7397e46768b29c03f597a2ef225951a2013729",
+    "reviewer02CurrentGitBlob": "ac04f8a3331b705840c7029589a14ef873df66c4",
+    "reviewer02SchemaVersion": 11,
+    "reviewer02AcceptedSeatingTailShard": "268e3bf3f16bcdb8b82bd1301a37d6bcadeeca98",
+    "gameModelGitBlob": "79fdb8c3bed4d715e0b1c770f34db0037a7f7c3"
+  },
+  "scope": [
+    "shoes-11",
+    "shoes-12"
+  ],
+  "itemMetadata": [
+    {
+      "itemId": "shoes-11",
+      "name": "Platform Sneakers",
+      "collection": "Shoes",
+      "type": "avatar",
+      "tier": 4,
+      "theme": "Galaxy Glow",
+      "price": 880,
+      "starReq": 5
+    },
+    {
+      "itemId": "shoes-12",
+      "name": "Star Boots",
+      "collection": "Shoes",
+      "type": "avatar",
+      "tier": 5,
+      "theme": "Sunny Pop",
+      "price": 1200,
+      "starReq": 9
+    }
+  ],
+  "stateAssessment": {
+    "acceptedCurrentHashes": [
+      {
+        "itemId": "seating-11",
+        "assetHash": "5126e9abcec4a09ef281dccb33aac6ba59b38b94",
+        "decision": "ACCEPT"
+      },
+      {
+        "itemId": "seating-12",
+        "assetHash": "793b32f60ed10fffa80b549e75b66858ac0d7e4f",
+        "decision": "ACCEPT"
+      }
+    ],
+    "pendingCandidates": [],
+    "primaryOwnedCandidates": [],
+    "legacyReview": "The preserved reviewer-02 legacy shard records old Shoes hashes as REWORK; no decision transfers to replacement bytes.",
+    "conclusion": "Shoes 11-12 remain unaccepted, unowned, and not pending. Seating 11-12 accepted hashes are frozen. Deterministic planning is safe; this file contains no candidate pixels."
+  },
+  "generationAuthorization": "BLOCKED_UNTIL_ART_FACTORY_V2_COMPLIANT_RUNTIME",
+  "generationBlocker": "The available generator has not demonstrated immutable model/checkpoint revision, exact runtime identity/revision, and executed seed. No generated output may be called production-qualified without complete evidence.",
+  "rightsBasis": "Original StarBlox-specific work commissioned for this repository; no third-party brands, logos, Roblox/Brookhaven assets, or copyrighted reference assets permitted.",
+  "outputRequirements": {
+    "variantsPerItem": 2,
+    "outputFormat": "PNG",
+    "targetDimensions": [
+      768,
+      768
+    ],
+    "preserveOriginalBytes": true,
+    "derivativeLineageRequired": true,
+    "committedReadbackRequired": [
+      "repository path",
+      "SHA-256",
+      "Git blob SHA",
+      "byte count",
+      "width",
+      "height"
+    ],
+    "renderedEvidenceRequired": [
+      "Store-card render",
+      "detail render",
+      "independent reviewer routing"
+    ]
+  },
+  "jobs": [
+    {
+      "itemId": "shoes-11",
+      "attemptId": "ext08-shoes-11-v1-a",
+      "variant": "A",
+      "producer": "EXT08",
+      "reviewer": "02",
+      "promptRecipe": "starblox-catalog-shoes-tail-two-variant",
+      "promptRecipeVersion": "1.0.0",
+      "finalPrompt": "Create one original StarBlox catalog-art asset as a premium dimensional 3D product render of a matched left-and-right pair of wearable footwear, arranged in a clean soft studio scene, square composition, readable at small Store-card scale. Both shoes must show believable foot-shaped lasts, visible openings, interior depth, correctly oriented left/right construction, coherent uppers, fastening systems, heel counters, toe boxes, layered soles with tread and floor contact, seams, material separation, realistic lighting and shadows, and a strong paired silhouette. Keep the complete pair comfortably inside frame in a three-quarter view, with one shoe slightly behind the other so the opening and sole construction remain legible.\n\nIdentity: shoes-11 - Platform Sneakers. Collection: Shoes. Type: avatar. Tier: 4. Theme: Galaxy Glow. Price metadata: 880. Unlock star requirement: 5.\n\nVariant A art direction: A premium pair of low-top platform sneakers with a broad three-layer sculpted sole, rubber tread, cushioned heel, reinforced toe cap, padded tongue, twelve functional eyelets per pair, woven laces, and heel pull tabs. Use midnight-navy suede, violet technical mesh, pearl-white overlays, translucent cyan sole windows, brushed-silver eyelets, and restrained galaxy-speckled fabric panels. A subtle cyan-violet glow comes from embedded sole strips and reflects naturally onto the floor. Tier-4 richness through mixed materials, precise paneling, and deep sole geometry; no floating planets or stars.\n\nNegative constraints: No feet, legs, person, avatar, mannequin, or body; no single shoe; no duplicate same-side shoes; no fused pair, impossible openings, blocked entry, missing sole, paper-thin upper, warped toe box, nonfunctional laces or straps, floating decorations, flat vector, icon, emoji, generic placeholder, recolor clone, text, item name, watermark, logo, third-party brand, Roblox asset, Brookhaven asset, collage, promo grid, malformed seams, detached parts, or cropped footwear.",
+      "promptSha256": "86fb4fda90d4e53cf6978aa70c4fd22bf19aa5a4c4cf61ecdaf7db4f48fca752",
+      "plannedDeterministicSeed": 202609230801,
+      "seedStatus": "PLANNED_NOT_EXECUTED",
+      "generatorExecutionStatus": "NOT_EXECUTED",
+      "requiredRuntimeEvidence": [
+        "exact runtime identity",
+        "immutable runtime revision/commit",
+        "exact model ID",
+        "immutable checkpoint revision",
+        "executed deterministic seed or expressly permitted seed-unavailable record",
+        "rights basis",
+        "reference/control hashes when used",
+        "original source bytes"
+      ],
+      "intendedOriginalSourcePath": "docs/preproduction/art-factory/sources/ext08/shoes-11/v1-a/original",
+      "intendedDerivativePath": "public/assets/catalog/shoes-11-ext08-v1-a.png",
+      "routing": "06 exact-byte readback and preflight -> shared render -> reviewer 02 exact-hash disposition -> 08 only on ACCEPT"
+    },
+    {
+      "itemId": "shoes-11",
+      "attemptId": "ext08-shoes-11-v1-b",
+      "variant": "B",
+      "producer": "EXT08",
+      "reviewer": "02",
+      "promptRecipe": "starblox-catalog-shoes-tail-two-variant",
+      "promptRecipeVersion": "1.0.0",
+      "finalPrompt": "Create one original StarBlox catalog-art asset as a premium dimensional 3D product render of a matched left-and-right pair of wearable footwear, arranged in a clean soft studio scene, square composition, readable at small Store-card scale. Both shoes must show believable foot-shaped lasts, visible openings, interior depth, correctly oriented left/right construction, coherent uppers, fastening systems, heel counters, toe boxes, layered soles with tread and floor contact, seams, material separation, realistic lighting and shadows, and a strong paired silhouette. Keep the complete pair comfortably inside frame in a three-quarter view, with one shoe slightly behind the other so the opening and sole construction remain legible.\n\nIdentity: shoes-11 - Platform Sneakers. Collection: Shoes. Type: avatar. Tier: 4. Theme: Galaxy Glow. Price metadata: 880. Unlock star requirement: 5.\n\nVariant B art direction: A distinct premium pair of high-platform court sneakers with a smooth wedge-like outsole, deep tread channels, rounded toe boxes, supportive heel cups, wide padded openings, two functional hook-and-loop straps crossing each instep, and a concealed elastic gore under each tongue. Use black-blue satin leather, iridescent purple side panels, pearl piping, translucent smoky platform midsoles, and small original constellation perforations backed by cyan material. Add silver strap hardware and restrained reflected Galaxy Glow lighting. Clearly wearable, materially different from the lace-up layered-sole variant.\n\nNegative constraints: No feet, legs, person, avatar, mannequin, or body; no single shoe; no duplicate same-side shoes; no fused pair, impossible openings, blocked entry, missing sole, paper-thin upper, warped toe box, nonfunctional laces or straps, floating decorations, flat vector, icon, emoji, generic placeholder, recolor clone, text, item name, watermark, logo, third-party brand, Roblox asset, Brookhaven asset, collage, promo grid, malformed seams, detached parts, or cropped footwear.",
+      "promptSha256": "037d462e9d26967e47a29a234b8fa41a49aeb63397fb9f4f29b3258751c5f348",
+      "plannedDeterministicSeed": 202609230802,
+      "seedStatus": "PLANNED_NOT_EXECUTED",
+      "generatorExecutionStatus": "NOT_EXECUTED",
+      "requiredRuntimeEvidence": [
+        "exact runtime identity",
+        "immutable runtime revision/commit",
+        "exact model ID",
+        "immutable checkpoint revision",
+        "executed deterministic seed or expressly permitted seed-unavailable record",
+        "rights basis",
+        "reference/control hashes when used",
+        "original source bytes"
+      ],
+      "intendedOriginalSourcePath": "docs/preproduction/art-factory/sources/ext08/shoes-11/v1-b/original",
+      "intendedDerivativePath": "public/assets/catalog/shoes-11-ext08-v1-b.png",
+      "routing": "06 exact-byte readback and preflight -> shared render -> reviewer 02 exact-hash disposition -> 08 only on ACCEPT"
+    },
+    {
+      "itemId": "shoes-12",
+      "attemptId": "ext08-shoes-12-v1-a",
+      "variant": "A",
+      "producer": "EXT08",
+      "reviewer": "02",
+      "promptRecipe": "starblox-catalog-shoes-tail-two-variant",
+      "promptRecipeVersion": "1.0.0",
+      "finalPrompt": "Create one original StarBlox catalog-art asset as a premium dimensional 3D product render of a matched left-and-right pair of wearable footwear, arranged in a clean soft studio scene, square composition, readable at small Store-card scale. Both shoes must show believable foot-shaped lasts, visible openings, interior depth, correctly oriented left/right construction, coherent uppers, fastening systems, heel counters, toe boxes, layered soles with tread and floor contact, seams, material separation, realistic lighting and shadows, and a strong paired silhouette. Keep the complete pair comfortably inside frame in a three-quarter view, with one shoe slightly behind the other so the opening and sole construction remain legible.\n\nIdentity: shoes-12 - Star Boots. Collection: Shoes. Type: avatar. Tier: 5. Theme: Sunny Pop. Price metadata: 1200. Unlock star requirement: 9.\n\nVariant A art direction: A showpiece pair of mid-calf star-themed boots with stable stacked platform heels, deep rubber tread, structured foot-shaped toe boxes, full inner-side zippers, front lacing through reinforced gold eyelets, padded collars, heel pull loops, and layered shin panels. Use sunflower-yellow leather, warm cream suede, coral piping, sky-blue lining, champagne-gold hardware, and starburst quilting integrated into the panels. Each outer ankle has one raised star frame physically stitched and riveted to the boot, not floating. Tier-5 craftsmanship includes welt stitching, articulated ankle gussets, removable-looking tassel pulls, and refined Sunny Pop lighting.\n\nNegative constraints: No feet, legs, person, avatar, mannequin, or body; no single shoe; no duplicate same-side shoes; no fused pair, impossible openings, blocked entry, missing sole, paper-thin upper, warped toe box, nonfunctional laces or straps, floating decorations, flat vector, icon, emoji, generic placeholder, recolor clone, text, item name, watermark, logo, third-party brand, Roblox asset, Brookhaven asset, collage, promo grid, malformed seams, detached parts, or cropped footwear.",
+      "promptSha256": "d8fccdc1ae77a993d674e90f5541cf34064c08ef7a751e9e7c4e4dfa869f430f",
+      "plannedDeterministicSeed": 202609230803,
+      "seedStatus": "PLANNED_NOT_EXECUTED",
+      "generatorExecutionStatus": "NOT_EXECUTED",
+      "requiredRuntimeEvidence": [
+        "exact runtime identity",
+        "immutable runtime revision/commit",
+        "exact model ID",
+        "immutable checkpoint revision",
+        "executed deterministic seed or expressly permitted seed-unavailable record",
+        "rights basis",
+        "reference/control hashes when used",
+        "original source bytes"
+      ],
+      "intendedOriginalSourcePath": "docs/preproduction/art-factory/sources/ext08/shoes-12/v1-a/original",
+      "intendedDerivativePath": "public/assets/catalog/shoes-12-ext08-v1-a.png",
+      "routing": "06 exact-byte readback and preflight -> shared render -> reviewer 02 exact-hash disposition -> 08 only on ACCEPT"
+    },
+    {
+      "itemId": "shoes-12",
+      "attemptId": "ext08-shoes-12-v1-b",
+      "variant": "B",
+      "producer": "EXT08",
+      "reviewer": "02",
+      "promptRecipe": "starblox-catalog-shoes-tail-two-variant",
+      "promptRecipeVersion": "1.0.0",
+      "finalPrompt": "Create one original StarBlox catalog-art asset as a premium dimensional 3D product render of a matched left-and-right pair of wearable footwear, arranged in a clean soft studio scene, square composition, readable at small Store-card scale. Both shoes must show believable foot-shaped lasts, visible openings, interior depth, correctly oriented left/right construction, coherent uppers, fastening systems, heel counters, toe boxes, layered soles with tread and floor contact, seams, material separation, realistic lighting and shadows, and a strong paired silhouette. Keep the complete pair comfortably inside frame in a three-quarter view, with one shoe slightly behind the other so the opening and sole construction remain legible.\n\nIdentity: shoes-12 - Star Boots. Collection: Shoes. Type: avatar. Tier: 5. Theme: Sunny Pop. Price metadata: 1200. Unlock star requirement: 9.\n\nVariant B art direction: A materially distinct pair of premium ankle combat boots with broad lug soles, low flared heels, sturdy rounded toe caps, deep wearable openings, rear zippers, side elastic panels, and three adjustable buckle straps per boot. The upper collar forms a subtle five-point star-like layered silhouette through sewn panels while remaining comfortable and physically plausible. Use golden-yellow pebbled leather, coral-red straps, pale aqua elastic, cream shearling collar, pearl midsoles, and polished gold buckles. Add sun-ray perforations, multicolor welt stitching, and restrained warm glow for top-tier Sunny Pop richness; no floating star accessories.\n\nNegative constraints: No feet, legs, person, avatar, mannequin, or body; no single shoe; no duplicate same-side shoes; no fused pair, impossible openings, blocked entry, missing sole, paper-thin upper, warped toe box, nonfunctional laces or straps, floating decorations, flat vector, icon, emoji, generic placeholder, recolor clone, text, item name, watermark, logo, third-party brand, Roblox asset, Brookhaven asset, collage, promo grid, malformed seams, detached parts, or cropped footwear.",
+      "promptSha256": "c4a643ea42ae3542eac7e5180ff26e2eda4317f9f71e227144d666c4e18802a5",
+      "plannedDeterministicSeed": 202609230804,
+      "seedStatus": "PLANNED_NOT_EXECUTED",
+      "generatorExecutionStatus": "NOT_EXECUTED",
+      "requiredRuntimeEvidence": [
+        "exact runtime identity",
+        "immutable runtime revision/commit",
+        "exact model ID",
+        "immutable checkpoint revision",
+        "executed deterministic seed or expressly permitted seed-unavailable record",
+        "rights basis",
+        "reference/control hashes when used",
+        "original source bytes"
+      ],
+      "intendedOriginalSourcePath": "docs/preproduction/art-factory/sources/ext08/shoes-12/v1-b/original",
+      "intendedDerivativePath": "public/assets/catalog/shoes-12-ext08-v1-b.png",
+      "routing": "06 exact-byte readback and preflight -> shared render -> reviewer 02 exact-hash disposition -> 08 only on ACCEPT"
+    }
+  ],
+  "noWriteScopes": [
+    "catalog-art-manifest.json",
+    "src/catalogArtRuntime.js",
+    "docs/preproduction/art-factory/ACTIVE_BATCH.json",
+    "docs/preproduction/catalog-sprint/reviews/02.json",
+    "src/gameModel.js",
+    ".github/workflows/*",
+    "gameplay/UI runtime"
+  ],
+  "nextActions": [
+    "Execute the four jobs only through an authorized revision-reporting deterministic runtime that records every ART_FACTORY_V2 evidence field.",
+    "Generate exactly two materially differentiated variants per selected shoe item; do not touch accepted Seating 11-12 hashes.",
+    "Preserve original bytes, create unique versioned derivative paths, and verify committed bytes plus real Store-card/detail renders.",
+    "Route exact candidate hashes to reviewer 02; do not self-approve or modify canonical mappings."
+  ]
+}

@@ -1,100 +1,127 @@
-# Workstream 10 — Mobile Accessibility QA
+# Workstream 10 — Independent Release QA
 
-STATUS: **CATALOG_SPRINT / FIRST ACCEPTED CANONICAL ART BATCH PASS / 0 MOBILE RELEASE BLOCKERS**
+STATUS: **QUEST POINTER BLOCKER CLOSED / FUNCTIONAL BROWSER GATES GREEN / STATE-SPECIFIC PHONE COMPOSITION REWORK / 19 FALLBACKS OPEN**
 
 Branch: `screenshot-match-preproduction`  
-Audited source head: `8a2c53aa2133baef23e263d8dda8b2a180dffe19`  
+Live head before this evidence: `54c1e36e7d77ec9be043715c61838e1b1b1cc628`  
+Executable fixed head: `ce03757ae7b427a25b7b30e74ee3c4331d3a7a9f`  
 Replit/Floot: **untouched**  
 `main`: **not merged or modified**
 
-## Current result
+## Material disposition
 
-Workstream 08 changed the canonical Store for the first V2 independently accepted art batch, promoting four Companion replacements. That invalidated the earlier unchanged-manifest continuity shortcut, so Workstream 10 exercised the actual canonical Store again.
+The reproducible Quest real-pointer timeout is **PASS / CLOSED** on the exact fixed runtime. The remaining visual release work is now isolated to:
 
-GitHub Actions run `35659760652` / job `106532044131` completed successfully with artifact `10667595844`, digest `sha256:7a5d1cb254d00086f95889dc316087116dfb7d245cda02755c42705efabc1607`.
+1. 19 visible generic Store fallbacks.
+2. Home phone composition, where Room Progress dominates the initial viewport and pushes the avatar/room hero below the fold.
+3. Quest phone composition, where the real prompt is visible but every answer choice is below the initial viewport.
 
-**Catalog mobile/accessibility result: PASS — 0 release-blocking failures.**
+Desktop/tablet Home and Quest composition remains structurally acceptable in this exact run. No physical-device, screen-reader, or final screenshot-parity PASS is claimed.
 
-Canonical hashes under test:
+## Hash binding
 
-- manifest v13: `54fb26beca9b8da5f17472193831ee8248ffd3a4`
-- runtime: `b350940b703ea2934062e183c5529ad9f9b7f810`
-- Workstream-10 runtime: `272fb9b6a95a38eba4696c7d732d805621a52f49`
-- Workstream-10 CSS: `d1bf7ac11815a59baee4ccf45b58ec2ad40b6694`
-- catalog QA script: `3a563274fc4a069fe57062f9fcb0574a324a5533`
+Current exact hashes:
 
-The changed canonical IDs are `companions-3`, `companions-4`, `companions-10`, and `companions-11`, all 768×768 WebP replacements. IDs, prices, unlocks, ownership and saved-state semantics were unchanged.
+- motion runtime Git blob: `3c940e0eec7e490544502947fcf2f3cee71076ea`
+- motion runtime test Git blob: `3e091677cd4a2767785e5a513275feacc0913e01`
+- motion CSS Git blob: `d8797842f969973f81af2c56ec44d63ea54480ba`
+- catalog manifest v33 Git blob: `3ce8dd5d16674ff556764402b712d215d3d22457`
+- catalog runtime Git blob: `68dc4944988ee2850e634eb8966613b9663c163c`
+- ACTIVE_BATCH schema 21 source: `54c1e36e7d77ec9be043715c61838e1b1b1cc628`
 
-## Browser coverage
+Reuse this evidence only while the relevant runtime, CSS, manifest and screenshot-state hashes remain unchanged.
 
-The first V2 canonical art batch was treated as a coherent milestone, so the full 16-collection matrix was run once at:
+## Exact-head functional browser evidence
 
-- desktop `1408×1056`
-- tablet `1024×768`
-- phone `390×844`
-- phone `320×568`
+### Persistence and exactly-once safeguards — PASS
 
-Reduced-motion coverage included all 64 collection/viewport combinations. Normal-motion controls were retained at tablet 1024 and phone 390.
+Run `35826941176`, job `107070644139`:
 
-Passing checks:
+- 10 passed / 0 failed
+- `quest-retry-rapid-answer-and-final-refresh`: PASS
+- `rapid-purchase-exactly-once-and-reload`: PASS
+- `multi-tab-same-purchase-replay-exactly-once`: PASS
+- equip reload, malformed-import preservation, IndexedDB recovery and final core-progress invariants: PASS
+- artifact `10735841372`
+- digest `sha256:5aaaba447daab30ff82df517194e15f0188171b42965d942515d10b7984cc3c8`
 
-- category navigation: **64/64**
-- no page-level horizontal overflow: **64/64**
-- touch targets: **64/64**
-- readable card name/price/state: **64/64**
-- card semantics and accessible labels: **64/64**
-- image loading and alternatives: **64/64**
-- explicit image dimensions or honestly no image-backed card yet: **64/64**
-- visible focus: **64/64**
-- reduced-motion context: **64/64**
-- Enter-key card activation: **64/64**
-- phone two-column first row: **32/32**
-- Tab traversal without clipping/fixed-HUD obstruction: **4/4**
-- last-card keyboard reachability: **4/4**
-- runtime errors: **4/4**
-- reduced-motion active animations: **0** across all four primary viewports
+Root cause was a feedback `MutationObserver` loop: the non-correct Quest path issued no-op `classList.remove` writes for already-absent motion classes, and those writes emitted class mutation records. The fixed runtime guards both removals with `classList.contains` and adds a zero-mutation regression test. Gameplay, answer semantics, learning state, persistence and economy were preserved.
 
-The changed Companions collection showed **12/12 loaded image-backed cards** at every tested viewport with explicit intrinsic dimensions and accessible alternative semantics. At 390px and 320px the collection remained exactly two columns with no horizontal page overflow.
+### Catalog mobile/accessibility — PASS
 
-## Performance / stability evidence
+Run `35826941163`, job `107070644050`:
 
-Headless Chromium emulation only:
+- release-blocking failures: 0
+- reduced-motion matrix: 1408×1056, 1024×768, 390×844, 320×568
+- normal-motion controls: 1024×768 and 390×844
+- active reduced-motion animations: 0
+- slow frames over 34 ms: 0/61 at every primary viewport
+- overflow, runtime errors, touch targets, two-column phone grids, keyboard focus/activation, semantics, image loading and long-scroll reachability: PASS
+- artifact `10735651794`
+- digest `sha256:b8986b1c24625a56c0f502f950702db5c892e296c083faad27215ae34d94bbc1`
 
-| Viewport | Max scroll | Avg frame | >34ms frames | CLS |
-| --- | ---: | ---: | ---: | ---: |
-| 1408×1056 | 169px | 16.1ms | 0/61 | 0.0016 |
-| 1024×768 | 612px | 16.3ms | 0/61 | 0.0040 |
-| 390×844 | 2029px | 16.3ms | 0/61 | 0.0000 |
-| 320×568 | 2663px | 16.2ms | 0/61 | 0.0000 |
+### Store observer regression — PASS
 
-Normal-motion controls at 1024 and 390 averaged about 16.4ms/frame with 0/61 frames over 34ms, 0px horizontal overflow and no runtime errors.
+Run `35826941162`, job `107070644059` passes both source-module and production-preview diagnostics. The historical Store observer/event-loop hang did not return.
 
-The production build inside this QA run passed with Vite 8.3.0: 1,613 modules transformed; CSS 167.39 kB / 35.69 kB gzip; JS 304.31 kB / 93.39 kB gzip.
+## State-specific actual-pixel review
 
-## Deterministic screenshot-capture support
+Source artifact:
 
-The final Home/Store/Quest capture/diff path exists:
+- run `35826941132`, job `107070644473`
+- artifact `10734749455`
+- artifact digest `sha256:808d9b62c257b63564382c268922f7837e168c3432eb3c1ae00c813a112a2748`
+- exact executable head `ce03757ae7b427a25b7b30e74ee3c4331d3a7a9f`
 
-- `.github/workflows/reference-screenshot-capture.yml`
-- `scripts/referenceScreenshotCapture.mjs`
+### Home
 
-It builds the production bundle, captures controlled Chromium screenshots, supports keyboard/focus and contrast checks, and can perform pixel diffs when real references are present.
+- 1408×1056 screenshot SHA-256 `26beb3059160ffe3ce0a4bb909f2627234cedbdf2a6519ab739cb5a4e75ea36b` — **PASS_STRUCTURAL_COMPOSITION**
+- 1024×768 screenshot SHA-256 `8b05418d9bd47d8d51e213c68489b3bbedc31e14398e7c625e1a7e6776827686` — **PASS_STRUCTURAL_COMPOSITION**
+- 390×844 screenshot SHA-256 `36976a68f3f35c8948a72776c84564912dc691e3974476ebf831c2fe202277a6` — **REWORK_MOBILE_HERO_PRIORITY**
+- 320×568 screenshot SHA-256 `62fff6507f1ab78261757d54ee4fb8097e1bf00f41c4255e68dd239f645b4565` — **REWORK_MOBILE_HERO_PRIORITY**
 
-The directory `docs/preproduction/reference-screenshots` is currently absent, so **exact pixel-diff parity is BLOCKED on the original user reference files becoming repository-accessible**. Generated promotional collages are explicitly not acceptable references.
+The phone views are usable and scrollable, but Room Progress consumes nearly all of the initial 320px viewport and most of the 390px viewport. The central room/avatar story is pushed below the fold; at 320px only the top of the avatar is visible above the fixed navigation. Repair should reduce/collapse initial progress height or deliberately stage the hero earlier without fabricating state or obscuring actions.
 
-## Remaining limitations
+### Quest
 
-- **NOT TESTED — exact rendered WCAG contrast ratios** where text sits over gradients/images/translucent backgrounds. The solid-background sampler deliberately declines to invent a ratio.
-- **NOT TESTED — physical iPhone/iPad/Android performance.** Current timings are headless Chromium emulation.
-- **NOT TESTED — VoiceOver/TalkBack/NVDA.** Browser semantics, focus, labels, keyboard activation and reachability pass, but that is not screen-reader-device evidence.
-- Catalog release is still not complete: only four current hashes are canonically accepted; visual acceptance/integration of the rest is outside Workstream 10.
+- 1408×1056 screenshot SHA-256 `a16d975ee9c5e20b8e6f9045b4a08ba8e277bf744cea90a8d4290f66fa2039bd` — **PASS_STRUCTURAL_COMPOSITION**
+- 1024×768 screenshot SHA-256 `8a04244e68b5001cec80874e1af2af1b1aff21942e4848679618ae0d452b127e` — **PASS_STRUCTURAL_COMPOSITION**
+- 390×844 screenshot SHA-256 `01e254efa7c22bc9e1c56ad3d1f60e3384ec919a2b7c237acbb5743659720059` — **REWORK_PROMPT_ANSWER_PROXIMITY**
+- 320×568 screenshot SHA-256 `edb693fb045ebe12b70be5993d42ac59608995690d3b87ad5fe726e91601e6b9` — **REWORK_PROMPT_ANSWER_PROXIMITY**
 
-## Handoff
+The phone views preserve the real prompt, mission scene and Read Aloud control, and downstream answer controls pass touch/readability checks when reached. However, zero answer choices are visible in the initial 390×844 or 320×568 screenshot. The learning prompt and first actionable answer are separated by avatar/phase, mission art and Read Aloud blocks. Repair should tighten phone-only vertical composition while preserving the five-action flow, immediate scoring, read-aloud, clue/retry, correct answer keys, mastery evidence and real earned state.
 
-1. Workstream 08 may reuse this exact four-Companion canonical mobile/accessibility PASS.
-2. Workstream 14 may reuse artifact `10667595844` for canonical Store screenshots while keeping final visual-art acceptance separate.
-3. For the next small canonical art batch, test **only changed collection(s) + one stable control** at 1408/1024/390/320. Reserve another full 16-collection matrix for a coherent milestone or the frozen final candidate.
-4. When `GAME_FINISHING` begins, audit Home/Store/Quest/World/Study/Room/Avatar across target widths, then close physical-device/screen-reader/contrast evidence where available.
-5. Final screenshot parity requires the actual original reference pixels; do not substitute generated mockups.
+## Store visual release blocker
 
-No learning, economy, inventory, save state, manifest mappings or producer art were edited by Workstream 10. Replit/Floot and `main` remain frozen.
+The structural visual run correctly remains **FAIL** for exactly one release-blocking class: 19 visible generic fallback-art instances.
+
+Current canonical state:
+
+- manifest version: 33
+- canonical/runtime mappings: 173
+- final portable: 166/192
+- interim: 7
+- accepted awaiting canonical: 0
+- release-cleared: 0
+- runtime mapping gap: 19
+
+Blocked IDs:
+
+- `desks-7` through `desks-12`
+- `wall-8` through `wall-12`
+- `decor-5` through `decor-12`
+
+`ART_VISUALS_COMPLETE` and final release readiness remain **not evidenced**.
+
+## Routing
+
+- Workstream 15: retain the Quest interaction blocker as closed; keep the 19 fallbacks first on the critical path.
+- EXT10 / current Home-Quest visual owner: repair only the two phone composition defects above, preserving the accepted desktop/tablet structure and all gameplay/state semantics.
+- Workstream 10: rerun state-specific Home/Quest phone proof only after those visual bytes/CSS materially change; rerun the full release matrix only after a materially new canonical art head or blocker fix.
+- Do not reopen the Store observer or Quest pointer investigation unless the bound runtime/CSS hashes change or a fresh current-byte failure reproduces.
+
+## Honest limitations
+
+Evidence is synthetic Playwright/Chromium on GitHub-hosted Ubuntu. No physical iPhone/iPad/Android, VoiceOver, TalkBack or NVDA PASS is claimed. Structural composition PASS is not a claim of exact reference pixel parity.
+
+No canonical mapping, catalog asset, production UI, gameplay, learning, persistence/economy logic, CI/workflow file, deployment state, paid setting, secret or real player data was changed by this evidence update.

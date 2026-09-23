@@ -89,6 +89,32 @@ describe('motion game-feel helpers', () => {
     }
   });
 
+  it('does not emit no-op class mutations for an already-cleared wrong or clue state', async () => {
+    const question = document.createElement('section');
+    question.className = 'questionCard';
+    const feedback = document.createElement('div');
+    feedback.className = 'feedback learn';
+    feedback.textContent = 'Try again with the clue.';
+    question.appendChild(feedback);
+    document.body.appendChild(question);
+
+    const classMutations = [];
+    const observer = new MutationObserver(records => classMutations.push(...records));
+    observer.observe(question,{
+      subtree:true,
+      attributes:true,
+      attributeFilter:['class']
+    });
+
+    celebrateFeedback(feedback);
+    await Promise.resolve();
+    await Promise.resolve();
+    observer.disconnect();
+
+    expect(classMutations).toHaveLength(0);
+    question.remove();
+  });
+
   it('ignores observer wakeups caused only by its own motion classes', () => {
     const target = document.createElement('article');
     target.className = 'storeCard sbMotionSelection';

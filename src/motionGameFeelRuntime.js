@@ -134,9 +134,11 @@ export function celebrateFeedback(feedback){
 
   // Success styling is semantic state, not a timer artifact. Clear it immediately
   // when Quest moves into wrong/clue/retry so reduced-motion state cannot stick.
+  // Guard the writes: no-op DOMTokenList mutations still emit class records in
+  // browsers and can otherwise feed this runtime's MutationObserver indefinitely.
   if(!semanticCorrect){
-    question.classList.remove('sbMotionCorrect');
-    feedback.classList.remove('sbMotionStaticCue');
+    if(question.classList.contains('sbMotionCorrect')) question.classList.remove('sbMotionCorrect');
+    if(feedback.classList.contains('sbMotionStaticCue')) feedback.classList.remove('sbMotionStaticCue');
   }
 
   const signature = `${feedback.className}|${text.trim()}`;

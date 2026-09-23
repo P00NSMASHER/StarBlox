@@ -1,0 +1,167 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_READY_EXECUTION_PACKET",
+  "producer": "09",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "6a6faf815b9e092f3a3670965671f0a6f688f433",
+  "batchId": "w09-decor-5-7-vnext",
+  "scope": [
+    "decor-5",
+    "decor-7"
+  ],
+  "state": "READY_PACKET_REFRESHED__WAITING_NEW_ACCELERATOR_RUNTIME_FINGERPRINT",
+  "assignmentAuthority": {
+    "path": "docs/preproduction/art-factory/ACTIVE_BATCH.json",
+    "gitBlobSha": "26b7b13783f8faf831b06fbabb5379d2cc5d1948",
+    "assignmentState": "STALL_CYCLE_1__DECOR5_FAIL_CLOSED__DECOR7_WAITING_ACCELERATOR__NO_SAFE_REASSIGNMENT",
+    "renderOwner": "14",
+    "reviewer": "01",
+    "integrationOwner": "08",
+    "nextAfterGeneration": "12 -> 06 -> 14 -> 01 -> 08 on independent ACCEPT"
+  },
+  "canonicalFingerprint": {
+    "manifestVersion": 33,
+    "manifestGitBlob": "3ce8dd5d16674ff556764402b712d215d3d22457",
+    "catalogRuntimeGitBlob": "68dc4944988ee2850e634eb8966613b9663c163c",
+    "fallbackCount": 19
+  },
+  "priorPacket": {
+    "path": "docs/preproduction/art-factory/requests/w09-decor-5-8-20260922.json",
+    "gitBlobSha": "be11c01d5746bf464830fed0de572be9e95dbd97",
+    "reuseRule": "Reuse the exact Store identities, corrected Decor7 roller-skate interpretation, first-party reference, optimizer inputs, and factory constraints. This packet narrows execution to the live lane09 assignment, refreshes reviewer routing, derives planner seeds from the current batch ID, and binds the unchanged runtime blocker. It does not authorize generation while the runtime fingerprint is unchanged."
+  },
+  "decor5HistoricalEvidence": {
+    "qualificationPath": "docs/preproduction/art-factory/requests/w06-decor-5-qualification-20260922.json",
+    "qualificationGitBlob": "cc18227c3a8402132f7e7a2e4a86dc2c80228e21",
+    "candidatePath": "public/assets/catalog/decor-5-w09-v2.webp",
+    "candidateSha256": "386debb9a397519324ca5efb74bc0c761a4df545f7e6cb4075e4c2e7ed33ed1b",
+    "candidateGitBlobSha": "b8ff7b9d6bec11fe8e836952f7a0c5b844e34b6e",
+    "status": "PRESERVE_EXACT_HASH__FAIL_CLOSED_ART_FACTORY_V2_PROVENANCE",
+    "rule": "Do not mutate, relabel, rerender, re-review, or canonicalize this historical hash. Any future Decor5 candidate from this packet must be a new fully compliant factory attempt after the runtime prerequisite changes."
+  },
+  "reference": {
+    "path": "docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg",
+    "sha256": "b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d",
+    "gitBlobSha": "383baa877d3af86fa92e3583740212000592b3d6",
+    "dimensions": [
+      1448,
+      1086
+    ],
+    "role": "FIRST_PARTY_STARBLOX_STORE_ART_DIRECTION"
+  },
+  "runtimeRequirement": {
+    "status": "BLOCKED_UNCHANGED",
+    "latestEvidencePath": "docs/preproduction/art-factory/requests/w13-github-actions-model-runtime-probe-20260923.json",
+    "latestEvidenceGitBlob": "0ab5c864439c7674b2474e61fe3bffca7409eb22",
+    "hostedRunner": "GitHub hosted ubuntu-24.04",
+    "hostedRunnerAccelerator": "none",
+    "hostedProductionInference": "CLOSED",
+    "requiredExecutionCapability": "Already-authorized accelerator-capable deterministic runtime that reports immutable model/runtime revisions and exact executed seed.",
+    "pinnedRuntime": {
+      "repository": "huggingface/diffusers",
+      "revision": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c"
+    },
+    "pinnedModel": {
+      "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+      "revision": "462165984030d82259a11f4367a4eed129e94a7b"
+    },
+    "resumeOnlyWhen": "A genuinely new runtime fingerprint proves an authorized accelerator-capable revision-reporting production path. Do not repeat provider capability probes for the current fingerprint."
+  },
+  "generationContract": {
+    "optimizer": "scripts/artPromptOptimizer.mjs",
+    "jobCompiler": "scripts/artFactoryJob.mjs",
+    "seedDerivation": "SHA256(batchId + '|' + itemId + '|' + variantId), first 8 hex interpreted unsigned then masked with 0x7fffffff",
+    "sourcePixels": 1024,
+    "derivativePixels": 600,
+    "preserveSourceBytes": true,
+    "verifyWith": "docs/preproduction/art-factory/verify_staged_output.py",
+    "maxAdvancedReplacementHashesPerItem": 1,
+    "requiredProvenance": [
+      "final optimized prompt and sha256",
+      "compiled seed",
+      "exact executed seed",
+      "generator/provider identity",
+      "model/checkpoint id and immutable revision",
+      "runtime/tool identity and immutable revision/commit",
+      "reference path, sha256, and git blob",
+      "source path, sha256, git blob, bytes, dimensions, decode",
+      "derivative path, sha256, git blob, bytes, dimensions, decode, transform",
+      "exact repository readback"
+    ],
+    "acceptanceConstraints": [
+      "No generation until runtimeRequirement.resumeOnlyWhen is satisfied.",
+      "Preserve the historical Decor5 blocked hash exactly; never retrofit provenance onto it.",
+      "Do not stage or promote the pre-existing local Decor7 variants; their provenance is incomplete.",
+      "At most one newly staged replacement hash per item may advance from this cycle.",
+      "No producer self-review and no canonical mapping write by lane09.",
+      "Fresh candidate hashes must route through lane12, lane06, lane14, independent reviewer01, then lane08 only on ACCEPT."
+    ]
+  },
+  "items": {
+    "decor-5": {
+      "identity": {
+        "name": "Plant Wall",
+        "collection": "Room Decor",
+        "tier": 2,
+        "theme": "Pixel Party",
+        "price": 181,
+        "starReq": 0
+      },
+      "legacyPath": "/assets/catalog/decor-5.svg",
+      "outputOriginalTemplate": "public/assets/catalog-candidates/decor/decor-5-w09-vnext-<variant>-original.<ext>",
+      "outputDerivativeTemplate": "public/assets/catalog-candidates/decor/decor-5-w09-vnext-<variant>-600.<ext>",
+      "variants": [
+        {
+          "variantId": "A-PHYSICAL",
+          "plannerSeed": 326542117,
+          "optimizerInputSha256": "eb28d7d44b94c54f27208ea7481f58ef912c5bf37de19b65c5be7d7454cdf91b",
+          "optimizerInput": "Plant Wall, Room Decor, Tier 2, Pixel Party. Create a genuine wall-mounted living planter system in three-quarter product view: a substantial powder-coated violet metal backframe with visible keyhole mounting slots and spacer standoffs, four staggered square ceramic planter pods with crisp aqua, pink and warm-gold pixel-tile accents, real soil beds, varied leafy plants and short trailing vines, a shallow integrated drip tray and small irrigation channel physically attached to the frame. Show believable object thickness, frame-to-wall contact and cast shadow, tactile ceramic/metal/leaf materials, playful but controlled color, no text, logos, floor stand or flat icon treatment."
+        },
+        {
+          "variantId": "B-READABILITY",
+          "plannerSeed": 1116626234,
+          "optimizerInputSha256": "1479d8fb2e4649f1d69594a7e9447f2fd72b15c10fca7ace97ed98797412ff44",
+          "optimizerInput": "Plant Wall, Room Decor, Tier 2, Pixel Party. Design a clean modular vertical planter with one sturdy wall rail, three large offset planter boxes and one smaller top pod, each formed from chunky beveled pixel-like blocks rather than printed squares. Use restrained violet, aqua and coral hardware, lush green foliage with distinct leaf silhouettes, visible bracket connections, real planter depth and a clear wall shadow. Keep the composition simple enough to read instantly at 600x600, with strong negative space between pods, no text, logo, collage, room-scene clutter or generic flat rectangle."
+        }
+      ]
+    },
+    "decor-7": {
+      "identity": {
+        "name": "Skate Rack",
+        "collection": "Room Decor",
+        "tier": 3,
+        "theme": "Garden Glow",
+        "price": 348,
+        "starReq": 2
+      },
+      "legacyPath": "/assets/catalog/decor-7.svg",
+      "legacyGitBlobSha": "671c609625400bf5c2142daef73ab632bd1225a2b",
+      "identityCorrection": "Interpret Skate Rack as roller-skate storage. Retire prior skateboard-deck prompts. Existing local generated variants remain unstaged because provenance is incomplete.",
+      "outputOriginalTemplate": "public/assets/catalog-candidates/decor/decor-7-w09-vnext-<variant>-original.<ext>",
+      "outputDerivativeTemplate": "public/assets/catalog-candidates/decor/decor-7-w09-vnext-<variant>-600.<ext>",
+      "variants": [
+        {
+          "variantId": "A-PHYSICAL",
+          "plannerSeed": 852803413,
+          "optimizerInputSha256": "a31317444c4865267a98090caef8312f604798a7570eb1e8874c7a2e78ab73c3",
+          "optimizerInput": "Skate Rack, Room Decor, Tier 3, Garden Glow. Create a substantial freestanding roller-skate storage rack in three-quarter product view: warm oak side frames joined by sage-green powder-coated crossbars, with two clearly recognizable pairs of quad roller skates stored heel-down in shaped cubbies, visible boot uppers, toe stops, trucks and four wheels per skate. Add a physically attached lower accessory shelf and small upper helmet hook rail, subtle leaf-shaped metal cutouts and one tiny planter integrated into the side frame. Show convincing joinery, weight-bearing feet, wood grain, metal fasteners and grounded contact shadow. No skateboards, brand logos, readable text, floating skates or room-scene-first composition."
+        },
+        {
+          "variantId": "B-READABILITY",
+          "plannerSeed": 735568226,
+          "optimizerInputSha256": "7a614a160c4a2dca5312ec7ae6c10ccd90fd41e1628e7d15fd32c032f6e35de4",
+          "optimizerInput": "Skate Rack, Room Decor, Tier 3, Garden Glow. Design a clean A-frame roller-skate organizer with two sturdy botanical-green metal uprights, a thick honey-wood base, four clearly separated skate bays, and three visible quad roller skates as scale cues, each with a readable boot silhouette, paired axles and four wheels. Leave one empty bay visible so the storage function reads immediately. Use small brass hardware and one physically attached vine-trellis detail that does not obscure the rack. Strong asymmetrical silhouette, premium isolated three-quarter render, no skateboards, logos, text, collage or flat symbol treatment."
+        }
+      ]
+    }
+  },
+  "safety": {
+    "generatedPixels": false,
+    "candidateBytesWritten": false,
+    "canonicalMappingsChanged": false,
+    "reviewVerdictMade": false,
+    "ciWorkflowFilesChanged": false,
+    "gameplayLearningEconomyPersistenceAccessibilityExactlyOnceChanged": false,
+    "mainDeploymentReplitFlootPaidSettingsSecretsPlayerDataTouched": false
+  }
+}

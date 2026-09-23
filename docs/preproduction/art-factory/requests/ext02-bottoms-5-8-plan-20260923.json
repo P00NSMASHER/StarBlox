@@ -1,0 +1,217 @@
+{
+  "schemaVersion": 1,
+  "producer": "EXT02",
+  "reviewer": "01",
+  "branch": "screenshot-match-preproduction",
+  "planId": "ext02-bottoms-5-8-plan-20260923",
+  "planType": "DETERMINISTIC_GENERATION_JOB_PREPARATION_ONLY",
+  "observedLiveState": {
+    "branchHeadBeforeWrite": "8b761de5d043e0f00ae98d94003d3634fc0429ea",
+    "activeBatchSourceHead": "398f5100df0562a1e346c9110597e52b565982d0",
+    "activeBatchBlobSha": "189240098ce7781c762e41a152d04d2a0251dfef",
+    "activeBatchStatus": "ACTIVE_RELEASE_BLOCKER_FIRST",
+    "reviewer01BlobSha": "27a91b49507fc666c60f7e63422fd8fde3cfe005",
+    "reviewer01SourceHead": "cc0217e63d6bcfc341a63d85a75abca0386087de",
+    "manifestVersion": 33
+  },
+  "selectedItemIds": [
+    "bottoms-5",
+    "bottoms-6",
+    "bottoms-7",
+    "bottoms-8"
+  ],
+  "itemMetadata": [
+    {
+      "id": "bottoms-5",
+      "name": "Overalls",
+      "collection": "Bottoms",
+      "type": "avatar",
+      "tier": 2,
+      "theme": "Art Attack",
+      "price": 125,
+      "starReq": 0
+    },
+    {
+      "id": "bottoms-6",
+      "name": "Star Leggings",
+      "collection": "Bottoms",
+      "type": "avatar",
+      "tier": 2,
+      "theme": "Star Luxe",
+      "price": 175,
+      "starReq": 0
+    },
+    {
+      "id": "bottoms-7",
+      "name": "Sport Shorts",
+      "collection": "Bottoms",
+      "type": "avatar",
+      "tier": 3,
+      "theme": "Midnight Neon",
+      "price": 240,
+      "starReq": 2
+    },
+    {
+      "id": "bottoms-8",
+      "name": "Wide-Leg Pants",
+      "collection": "Bottoms",
+      "type": "avatar",
+      "tier": 3,
+      "theme": "Candy Core",
+      "price": 330,
+      "starReq": 2
+    }
+  ],
+  "pilotGate": {
+    "maxItemIds": 4,
+    "nextPilot": [
+      "bottoms-9",
+      "bottoms-10",
+      "bottoms-11",
+      "bottoms-12"
+    ],
+    "nextPilotState": "CLOSED_UNTIL_INDEPENDENT_EXACT_HASH_DISPOSITION_OF_BOTTOMS_5_8"
+  },
+  "generationAuthorization": "BLOCKED_UNTIL_ART_FACTORY_V2_COMPLIANT_RUNTIME",
+  "rightsBasis": "Original StarBlox-specific prompt-authored designs; no third-party or branded references.",
+  "promptRecipeVersion": "ext02-bottoms-catalog-card-v1",
+  "outputIntent": {
+    "source": "versioned original source bytes",
+    "derivatives": [
+      "600x600 card candidate",
+      "detail review render"
+    ],
+    "background": "neutral pale or transparent only if the executing runtime preserves exact alpha evidence",
+    "noRuntimeOrManifestWrite": true
+  },
+  "jobs": [
+    {
+      "itemId": "bottoms-5",
+      "attemptId": "EXT02-bottoms-5-A-plan1",
+      "variant": "A",
+      "concept": "painter utility bib",
+      "finalPrompt": "Original StarBlox catalog art for bottoms-5 Overalls, Art Attack theme, tier 2. A complete wearable pair of painter utility bib overalls shown in clean three-quarter front view on a subtle lower-body ghost form, centered and fully visible from bib to hems. Sturdy cream canvas with lavender and aqua panels, adjustable shoulder straps with dimensional metal buckles, reinforced waistband and side closures, large bib pocket, two hip pockets, believable crotch and leg seams, rolled straight-leg cuffs, restrained original paint-splash embroidery and stitched color patches. Premium rounded toy-game rendering, clear fabric thickness, soft folds at waist and knees, distinct canvas/metal/thread materials, grounded soft contact shadow, strong silhouette readable at small Store-card size, neutral pale background, no text.",
+      "negativePrompt": "No person, face, hands, mannequin head, floating icon, flat vector, generic placeholder, emoji, logo, watermark, readable text, baked item name, collage, promo grid, copied franchise design, Roblox or Brookhaven asset, extra garment, duplicate clothing, malformed waistband, fused legs, impossible seams, paper-thin fabric, cropped hem, blown highlights, muddy silhouette.",
+      "promptSha256": "e246b27d61cae950eac53c5f5fd3d240f43a7622c68197ecd5048948ace7a8ed",
+      "negativePromptSha256": "1a15906c3dd202c7a85e356b9277564fcc5da1bdb3de7131fda68cecf3f31cdd",
+      "plannedDeterministicSeed": 52051
+    },
+    {
+      "itemId": "bottoms-5",
+      "attemptId": "EXT02-bottoms-5-B-plan1",
+      "variant": "B",
+      "concept": "cross-back studio overalls",
+      "finalPrompt": "Original StarBlox catalog art for bottoms-5 Overalls, Art Attack theme, tier 2. A physically believable cross-back studio overall garment in a clean three-quarter front pose on a subtle lower-body ghost form, full bib, waist and both legs visible. Dusty lilac denim with warm coral utility panels, broad adjustable straps, visible brass-tone sliders and side buttons, shaped waistband, angled tool pocket, stitched knee patches, tapered ankle-length legs and natural denim folds. Add a few small abstract paint marks as fabric decoration only, no lettering. Dimensional premium toy-game materials, sturdy construction, readable seams and closures, clear wearable opening, differentiated from ordinary jeans, centered isolated Store-card composition with soft floor shadow.",
+      "negativePrompt": "No person, face, hands, mannequin head, floating icon, flat vector, generic placeholder, emoji, logo, watermark, readable text, baked item name, collage, promo grid, copied franchise design, Roblox or Brookhaven asset, extra garment, duplicate clothing, malformed waistband, fused legs, impossible seams, paper-thin fabric, cropped hem, blown highlights, muddy silhouette.",
+      "promptSha256": "b2d405ee07910ffe212a3168b6666e76ac34fce943dea91faca6bb99a9dcdbae",
+      "negativePromptSha256": "1a15906c3dd202c7a85e356b9277564fcc5da1bdb3de7131fda68cecf3f31cdd",
+      "plannedDeterministicSeed": 52052
+    },
+    {
+      "itemId": "bottoms-6",
+      "attemptId": "EXT02-bottoms-6-A-plan1",
+      "variant": "A",
+      "concept": "constellation side-panel leggings",
+      "finalPrompt": "Original StarBlox catalog art for bottoms-6 Star Leggings, Star Luxe theme, tier 2. High-waisted fitted leggings shown as a complete wearable lower-body garment on a subtle ghost form, clean three-quarter front view, waistband through both ankle openings fully visible. Deep midnight-blue stretch fabric with lavender side panels, wide supportive waistband, reinforced flatlock seams, shaped knee construction, tiny original star and constellation embroidery concentrated along one outer leg, restrained silver piping and subtle satin sheen. Show believable elastic fabric thickness, tension and folds without looking painted onto a body. Premium rounded toy-game rendering, elegant but accessible tier-2 richness, crisp Store-card silhouette, neutral pale background and soft grounding shadow.",
+      "negativePrompt": "No person, face, hands, mannequin head, floating icon, flat vector, generic placeholder, emoji, logo, watermark, readable text, baked item name, collage, promo grid, copied franchise design, Roblox or Brookhaven asset, extra garment, duplicate clothing, malformed waistband, fused legs, impossible seams, paper-thin fabric, cropped hem, blown highlights, muddy silhouette.",
+      "promptSha256": "1bf059ee4961244dad80d7e7c92f6796166b1633ab5eb9c46714048253ee9909",
+      "negativePromptSha256": "1a15906c3dd202c7a85e356b9277564fcc5da1bdb3de7131fda68cecf3f31cdd",
+      "plannedDeterministicSeed": 62061
+    },
+    {
+      "itemId": "bottoms-6",
+      "attemptId": "EXT02-bottoms-6-B-plan1",
+      "variant": "B",
+      "concept": "asymmetric starlight panel leggings",
+      "finalPrompt": "Original StarBlox catalog art for bottoms-6 Star Leggings, Star Luxe theme, tier 2. A wearable pair of high-rise athletic leggings in three-quarter front view on a subtle lower-body ghost form, complete waistband, gusset, legs and ankle cuffs visible. Rich plum fabric with an asymmetric navy wrap panel, articulated seams around hips and calves, discreet inner drawcord channel, narrow gold-lilac piping, and sparse original five-point star appliques arranged as a sweeping side motif. Clearly constructed from stretch knit with matte body and lightly reflective trim, natural compression folds and no floating symbols. Premium toy-game catalog render, centered, small-card readable, softly grounded, no text.",
+      "negativePrompt": "No person, face, hands, mannequin head, floating icon, flat vector, generic placeholder, emoji, logo, watermark, readable text, baked item name, collage, promo grid, copied franchise design, Roblox or Brookhaven asset, extra garment, duplicate clothing, malformed waistband, fused legs, impossible seams, paper-thin fabric, cropped hem, blown highlights, muddy silhouette.",
+      "promptSha256": "dd6877d2484a7740492c960ff2d757be1548f8c5d8580682974c681b6da993a7",
+      "negativePromptSha256": "1a15906c3dd202c7a85e356b9277564fcc5da1bdb3de7131fda68cecf3f31cdd",
+      "plannedDeterministicSeed": 62062
+    },
+    {
+      "itemId": "bottoms-7",
+      "attemptId": "EXT02-bottoms-7-A-plan1",
+      "variant": "A",
+      "concept": "layered running shorts",
+      "finalPrompt": "Original StarBlox catalog art for bottoms-7 Sport Shorts, Midnight Neon theme, tier 3. A complete pair of layered performance running shorts shown in clean three-quarter front view on a subtle lower-body ghost form. Black-violet outer shell over fitted deep-blue liner, broad elastic waistband, functional drawcord with capped ends, curved side seams, zippered hip pocket, split hems and breathable inset panels. Controlled cyan and magenta reflective piping creates a sharp nighttime silhouette without neon wash. Show credible waistband thickness, leg openings, fabric overlap, stitching, folds and athletic movement. Premium dimensional toy-game rendering, richer tier-3 hardware and material separation, centered Store-card framing with soft floor contact shadow, no text or logos.",
+      "negativePrompt": "No person, face, hands, mannequin head, floating icon, flat vector, generic placeholder, emoji, logo, watermark, readable text, baked item name, collage, promo grid, copied franchise design, Roblox or Brookhaven asset, extra garment, duplicate clothing, malformed waistband, fused legs, impossible seams, paper-thin fabric, cropped hem, blown highlights, muddy silhouette.",
+      "promptSha256": "02fcb5302ce52e8de5292233dcf09ba132245fd41755bb217012878a4870a185",
+      "negativePromptSha256": "1a15906c3dd202c7a85e356b9277564fcc5da1bdb3de7131fda68cecf3f31cdd",
+      "plannedDeterministicSeed": 72071
+    },
+    {
+      "itemId": "bottoms-7",
+      "attemptId": "EXT02-bottoms-7-B-plan1",
+      "variant": "B",
+      "concept": "vented training shorts",
+      "finalPrompt": "Original StarBlox catalog art for bottoms-7 Sport Shorts, Midnight Neon theme, tier 3. Structured unisex training shorts in a clean three-quarter front pose on a subtle lower-body ghost form, waistband and both legs fully visible. Midnight navy woven body with plum mesh side vents, contoured elastic waist, concealed snap and drawcord closure, two deep angled pockets, reinforced seat seams, stepped side hems and narrow electric-blue plus hot-pink edge binding. Materials must separate clearly into matte woven shell, breathable mesh and reflective trim; include believable folds and leg-room volume. Original premium StarBlox toy-game catalog style, bold card-scale silhouette, softly grounded on a neutral pale background, no lettering.",
+      "negativePrompt": "No person, face, hands, mannequin head, floating icon, flat vector, generic placeholder, emoji, logo, watermark, readable text, baked item name, collage, promo grid, copied franchise design, Roblox or Brookhaven asset, extra garment, duplicate clothing, malformed waistband, fused legs, impossible seams, paper-thin fabric, cropped hem, blown highlights, muddy silhouette.",
+      "promptSha256": "7cbe448382e40bc27daf0075a9041b39aa0eb9ffb5b6c19ef88ca36f9e8ae67a",
+      "negativePromptSha256": "1a15906c3dd202c7a85e356b9277564fcc5da1bdb3de7131fda68cecf3f31cdd",
+      "plannedDeterministicSeed": 72072
+    },
+    {
+      "itemId": "bottoms-8",
+      "attemptId": "EXT02-bottoms-8-A-plan1",
+      "variant": "A",
+      "concept": "pleated candy trousers",
+      "finalPrompt": "Original StarBlox catalog art for bottoms-8 Wide-Leg Pants, Candy Core theme, tier 3. High-waisted wide-leg trousers shown as a complete wearable garment in clean three-quarter front view on a subtle lower-body ghost form, waist through both full hems visible. Candy-pink twill with mint and lavender inset accents, shaped waistband with belt tabs, concealed front closure, double front pleats, deep side pockets, crisp center creases and broad draping legs. Use substantial fabric thickness, believable gravity, soft folds and grounded hem contact; avoid skirt-like fusion. Premium dimensional toy-game rendering with polished tier-3 tailoring, distinctive elegant silhouette readable at small Store-card size, neutral pale background, no text.",
+      "negativePrompt": "No person, face, hands, mannequin head, floating icon, flat vector, generic placeholder, emoji, logo, watermark, readable text, baked item name, collage, promo grid, copied franchise design, Roblox or Brookhaven asset, extra garment, duplicate clothing, malformed waistband, fused legs, impossible seams, paper-thin fabric, cropped hem, blown highlights, muddy silhouette.",
+      "promptSha256": "60504c00a0957e3827e9d88883e9ffc823da0abcd440151d33e0ec5819c613f1",
+      "negativePromptSha256": "1a15906c3dd202c7a85e356b9277564fcc5da1bdb3de7131fda68cecf3f31cdd",
+      "plannedDeterministicSeed": 82081
+    },
+    {
+      "itemId": "bottoms-8",
+      "attemptId": "EXT02-bottoms-8-B-plan1",
+      "variant": "B",
+      "concept": "sailor-panel wide-leg pants",
+      "finalPrompt": "Original StarBlox catalog art for bottoms-8 Wide-Leg Pants, Candy Core theme, tier 3. A tailored pair of very wide-leg pants in a clean three-quarter front pose on a subtle lower-body ghost form, complete high waist, crotch construction, separate legs and hems clearly visible. Soft lavender fabric with cream sailor-inspired waist panel, pastel coral piping, hidden side zipper, decorative covered buttons without symbols, slanted pockets and flowing full-length legs with controlled folds. Show realistic waistband structure, seam allowance cues, fabric weight and floor contact while preserving a playful candy palette. Original premium StarBlox toy-game catalog art, strong differentiated silhouette, centered, softly lit and card-readable, no words or logos.",
+      "negativePrompt": "No person, face, hands, mannequin head, floating icon, flat vector, generic placeholder, emoji, logo, watermark, readable text, baked item name, collage, promo grid, copied franchise design, Roblox or Brookhaven asset, extra garment, duplicate clothing, malformed waistband, fused legs, impossible seams, paper-thin fabric, cropped hem, blown highlights, muddy silhouette.",
+      "promptSha256": "22c4ce65d9b3ea81a7c21370f0e51d56111bc6ec522aa65af7105bd76deafe19",
+      "negativePromptSha256": "1a15906c3dd202c7a85e356b9277564fcc5da1bdb3de7131fda68cecf3f31cdd",
+      "plannedDeterministicSeed": 82082
+    }
+  ],
+  "differentiationMatrix": {
+    "bottoms-5": [
+      "bib-overall silhouette",
+      "canvas/denim weight",
+      "straps/buckles/side closures",
+      "utility pockets and knee patches"
+    ],
+    "bottoms-6": [
+      "fitted stretch silhouette",
+      "high waistband/gusset",
+      "flatlock seams",
+      "embroidered/applique star treatment"
+    ],
+    "bottoms-7": [
+      "short athletic silhouette",
+      "liner or vent construction",
+      "drawcord/snap closure",
+      "woven/mesh/reflective separation"
+    ],
+    "bottoms-8": [
+      "full-length wide-leg silhouette",
+      "tailored waistband/zip closure",
+      "pleats or sailor panel",
+      "heavy drape and separate hems"
+    ]
+  },
+  "executionRequirements": [
+    "Execute exactly 2 differentiated variants per item; do not add variants merely to stay busy.",
+    "Record the actual executed seed; a planned seed is not provenance evidence.",
+    "Pin and record runtime identity, runtime revision/commit, model ID and exact checkpoint revision.",
+    "Preserve generation response/source bytes and all derivative lineage.",
+    "Record reference/control hashes or an explicit empty set if none are used.",
+    "Stage to unique versioned paths and read committed bytes back.",
+    "Verify exact SHA-256, Git blob SHA, byte count, dimensions and decode.",
+    "Render real Store-card and detail evidence, then route exact hashes to reviewer 01.",
+    "Do not modify canonical manifest/runtime or self-approve."
+  ],
+  "qualificationRule": "This file is planning evidence only. No job becomes a production-qualified candidate until every ART_FACTORY_V2 provenance, exact-byte, render-evidence and independent-review requirement is satisfied.",
+  "blockedReason": "The currently available scheduled-task image generator does not expose sufficient evidence for exact runtime revision, model/checkpoint revision and executed deterministic seed. Generating now would knowingly create provenance-blocked hashes.",
+  "nextAction": "Execute these eight jobs only through a compliant revision-reporting runtime. If another worker stages or reserves any selected item first, stop on that item and reconcile before writing."
+}

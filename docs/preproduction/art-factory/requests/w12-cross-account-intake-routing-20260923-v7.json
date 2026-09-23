@@ -1,0 +1,144 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_W12_CROSS_ACCOUNT_INTAKE_ROUTING",
+  "router": "12",
+  "branch": "screenshot-match-preproduction",
+  "observedAt": "2026-09-23T07:22:40Z",
+  "sourceHead": "f8603d9b797fc48f3d9dbae48254fe37e836bad2",
+  "scanWindow": {
+    "priorCursor": "e6cc3a44d3d3b78bdebfed55d080a8e772df2fe2",
+    "inspectedThroughHead": "f8603d9b797fc48f3d9dbae48254fe37e836bad2",
+    "aheadBy": 9,
+    "changedPaths": [
+      "docs/preproduction/art-factory/ACTIVE_BATCH.json",
+      "docs/preproduction/art-factory/requests/w07-desks-8-10-remote-byte-recovery-20260923.json",
+      "docs/preproduction/art-factory/requests/w12-cross-account-intake-routing-20260923-v6.json",
+      "docs/preproduction/workstreams/10-mobile-accessibility.md",
+      "docs/preproduction/workstreams/11-motion-browser-evidence-ce03757.json",
+      "scripts/persistenceQuestTimingQa.mjs",
+      "src/motionGameFeelRuntime.js",
+      "src/motionGameFeelRuntime.test.js"
+    ],
+    "newCatalogCandidateBytesDetected": false,
+    "newExternalCatalogCandidateDetected": false,
+    "materialNewHandoffsDetected": [
+      "07 Desk8-10 exact-byte recovery evidence",
+      "15 narrow EXT10 Home/Quest phone-composition release"
+    ],
+    "note": "No public/assets/catalog or public/assets/catalog-candidates path changed in the routed window. The only catalog-lane material change is stronger recovery evidence for the already-reserved Desk8-10 scope; no exact repository-staged candidate bytes exist yet."
+  },
+  "liveAuthority": {
+    "manifestVersion": 33,
+    "manifestBlobSha": "3ce8dd5d16674ff556764402b712d215d3d22457",
+    "runtimeBlobSha": "68dc4944988ee2850e634eb8966613b9663c163c",
+    "activeBatchSchemaVersion": 22,
+    "activeBatchBlobSha": "189240098ce7781c762e41a152d04d2a0251dfef",
+    "acceptedAwaitingCanonical": 0,
+    "canonicalWriter": "08"
+  },
+  "materialRoutingEvents": [
+    {
+      "scope": ["desks-8", "desks-9", "desks-10"],
+      "producer": "07",
+      "batchId": "w07-desks-8-10-exact-byte-recovery-v2",
+      "reviewerFamily": "05",
+      "sharedRenderer": "14",
+      "reservedByActiveBatch": true,
+      "newEvidence": {
+        "path": "docs/preproduction/art-factory/requests/w07-desks-8-10-remote-byte-recovery-20260923.json",
+        "gitBlobSha": "197bed4e9a969c1d67935389b5dac8b15c0b5199",
+        "disposition": "BLOCKED_RAW_BYTE_TRANSPORT_ONLY"
+      },
+      "itemStates": {
+        "desks-8": {
+          "candidateRepositoryPath": null,
+          "exactSourceHashKnown": true,
+          "sourceBytesMaterialized": false,
+          "stagedOutputState": "NOT_STAGED",
+          "provenanceState": "PRESERVED_SOURCE_AND_DERIVATIVE_HASH_METADATA_ONLY",
+          "supersessionState": "UNCHANGED_RESERVED_RECOVERY_SCOPE"
+        },
+        "desks-9": {
+          "candidateRepositoryPath": null,
+          "remoteGenerationRecordsConfirmed": true,
+          "rawByteHashKnown": false,
+          "sourceBytesMaterialized": false,
+          "stagedOutputState": "NOT_STAGED",
+          "provenanceState": "REMOTE_GENERATION_URN_AND_EXECUTED_SEED_PRESERVED__RAW_BYTES_ABSENT",
+          "supersessionState": "UNCHANGED_RESERVED_RECOVERY_SCOPE"
+        },
+        "desks-10": {
+          "candidateRepositoryPath": null,
+          "remoteGenerationRecordsConfirmed": true,
+          "rawByteHashKnown": false,
+          "sourceBytesMaterialized": false,
+          "stagedOutputState": "NOT_STAGED",
+          "provenanceState": "REMOTE_GENERATION_URN_AND_EXECUTED_SEED_PRESERVED__RAW_BYTES_ABSENT",
+          "supersessionState": "UNCHANGED_RESERVED_RECOVERY_SCOPE"
+        }
+      },
+      "technicalQualificationEligibleFor06": false,
+      "routing": {
+        "routeBackTo": ["07"],
+        "hold": ["06", "14", "05", "08"],
+        "nextGateAfterPrerequisite": "06 technical qualification after one exact byte stream is materialized, hash-verified, decoded, staged and read back from the repository",
+        "reason": "Remote Desk9/10 source records are now confirmed live and Desk8 exact source hashes remain preserved, but no raw byte stream is available in the repository. Visual previews, screenshots, re-encodes or approximations are not valid exact-byte recovery."
+      }
+    },
+    {
+      "scope": "EXT10 Home/Quest phone initial-viewport composition",
+      "owner": "EXT10",
+      "catalogCandidate": false,
+      "activeBatchReleaseState": "RELEASED_NON_CATALOG_PHONE_COMPOSITION_REWORK",
+      "generationAuthorization": "HELD",
+      "technicalQualificationEligibleFor06": false,
+      "routing": {
+        "nextOwner": "10 after material bounded layout/CSS bytes change",
+        "hold": ["06 catalog qualification", "08 canonical catalog integration"],
+        "reason": "ACTIVE_BATCH releases only the already-evidenced Home/Quest phone CSS/layout composition repair. No catalog IDs or generated catalog pixels are involved."
+      }
+    }
+  ],
+  "overlapAndStaleness": {
+    "externalOwnershipOverlapDetected": false,
+    "primaryOwnershipOverlapDetected": false,
+    "staleCandidateHashDetected": false,
+    "newCandidatePathDetected": false,
+    "unchangedProtectedScopes": [
+      "EXT01 Tops11-12",
+      "EXT02 Bottoms backlog",
+      "EXT03 Headwear9-12",
+      "EXT04 Facegear",
+      "EXT05 Backgear",
+      "EXT06 Handgear",
+      "EXT07 Beds",
+      "EXT08 reviewer-02 tail Shoes11-12/Seating11-12",
+      "EXT09 Avatar/Buddy preproduction",
+      "EXT10 Home/Store/Quest visual preproduction except the explicitly released phone-composition repair"
+    ]
+  },
+  "queues": {
+    "to06": [],
+    "backToProducerOrRecoveryOwner": [
+      {
+        "scope": ["desks-8", "desks-9", "desks-10"],
+        "owner": "07",
+        "reason": "Exact source recovery is narrowed to byte transport/materialization; no exact repository-staged candidate exists yet."
+      }
+    ],
+    "nonCatalogReleaseVerification": [
+      {
+        "scope": "EXT10 Home/Quest phone composition",
+        "owner": "10",
+        "prerequisite": "material bounded layout/CSS byte change from EXT10"
+      }
+    ]
+  },
+  "cursorAdvance": {
+    "previous": "e6cc3a44d3d3b78bdebfed55d080a8e772df2fe2",
+    "advancedThrough": "f8603d9b797fc48f3d9dbae48254fe37e836bad2",
+    "condition": "Routing evidence durably recorded by this file commit."
+  },
+  "ownershipNote": "Router12 records intake/routing evidence only. Workstream15 alone may modify ACTIVE_BATCH assignments; Workstream08 alone writes canonical mappings; reviewers alone issue verdicts.",
+  "mutationScope": "Routing evidence only. No art bytes, reviewer decisions, ACTIVE_BATCH, manifest, catalog runtime, CI/workflow, gameplay, learning, persistence, economy, deployment, paid settings, secrets or player data changed."
+}
