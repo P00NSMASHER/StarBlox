@@ -2,8 +2,8 @@
   "schemaVersion": 27,
   "owner": "15",
   "branch": "screenshot-match-preproduction",
-  "sourceHead": "d7f1da95199dabfc9ee5c29a0d60d4b0f2b9cf4e",
-  "updatedAt": "2026-09-23T19:57:37Z",
+  "sourceHead": "92068e8c4b7b55b5ad74c4ee50023e8258aa2125",
+  "updatedAt": "2026-09-23T22:18:34Z",
   "status": "ACTIVE_RELEASE_BLOCKER_FIRST",
   "policy": {
     "maxConcurrentProductionBatches": 4,
@@ -77,21 +77,28 @@
   },
   "cpuGenerationSemaphore": {
     "workflowPath": ".github/workflows/art-factory-cpu-generation.yml",
-    "observedAt": "2026-09-23T19:57:37Z",
+    "observedAt": "2026-09-23T22:18:34Z",
     "running": {
-      "runId": 35881004304,
-      "headSha": "2d7fcda7ef60b37851340520fe9f3655e08ebfe4",
-      "batch": "Decor5/7",
+      "runId": 35927174551,
+      "headSha": "1fafff5590417782bdbbafd79db787ec77b2a97d",
+      "batch": "Decor5/7 v2",
       "state": "IN_PROGRESS",
       "jobs": [
         "decor-5",
         "decor-7"
       ],
-      "phase": "GENERATE_EXACT_SOURCE_CANDIDATE",
+      "phase": "DECOR7_GENERATED_SUCCESSFULLY__DECOR5_GENERATING",
       "candidateArtifactsStaged": false,
-      "planArtifactDigest": "sha256:33685b16d0e7270104576337d237ebf5b259d310ce1a1345fe84ddfb0b226aa0"
+      "contract": "768x768, 8 steps, bfloat16, exact pinned SDXL/Diffusers provenance"
     },
-    "pending": null,
+    "pending": {
+      "runId": 35927603306,
+      "headSha": "92068e8c4b7b55b5ad74c4ee50023e8258aa2125",
+      "batch": "Wall9-12 optimized retry",
+      "state": "PENDING_BEHIND_ACTIVE_DECOR_RUN",
+      "queuePath": "docs/preproduction/art-factory/runtime-queue/w13-wall-9-12-cpu-v1.json",
+      "contract": "768x768, 8 steps, bfloat16, exact pinned SDXL/Diffusers provenance"
+    },
     "oldestCanceledNoArtifact": {
       "runId": 35880826274,
       "headSha": "95fd9f8100fa17c1bafc3748c61dece24a6a254c",
@@ -110,8 +117,8 @@
         "onlyArtifactDigest": "sha256:5e4b6b7649d122876aea2c0927934c6b04dbe07449c2e216394f7622335c405d"
       }
     ],
-    "authorization": "HOLD_ALL_NEW_CPU_QUEUE_COMMITS_AND_DISPATCHES",
-    "rule": "While run 35881004304 is queued, pending, waiting or in_progress, authorize no additional CPU queue commit or dispatch. When the lane is fully idle, retry the existing Wall9-12 queue first because it is the oldest still-needed canceled/no-artifact batch; confirm no staged candidate bytes or newer exact evidence before dispatch. Decor6/8 follows without duplicating its item/version queue."
+    "authorization": "HOLD_ALL_ADDITIONAL_CPU_QUEUE_TRIGGERS_WHILE_DECOR_RUNNING_AND_WALL_PENDING",
+    "rule": "GitHub Actions concurrency is serializing the active Decor5/7 v2 run and one pending Wall9-12 optimized retry. Do not touch another runtime-queue JSON or dispatch another CPU run until the pending Wall run has started or the active/pending state materially changes; a second pending trigger can displace the first pending run."
   },
   "batches": [
     {
@@ -142,9 +149,9 @@
         "decor-5",
         "decor-7"
       ],
-      "state": "CPU_GENERATION_IN_PROGRESS__BOTH_ITEMS_GENERATING__AWAIT_EXACT_STAGED_HASHES",
+      "state": "CPU_GENERATION_IN_PROGRESS__V2_768_8__DECOR7_GENERATED__DECOR5_GENERATING",
       "reviewer": "01",
-      "requirements": "Run 35881004304 is the sole active CPU-generation run. Both Decor5 and Decor7 jobs are in Generate exact source candidate; only the deterministic plan artifact exists and no candidate bytes are staged yet. Submit nothing else while it is active. On exact staged bytes plus complete ART_FACTORY_V2 evidence, route 12 -> 06 -> 14 -> 01 -> 08 on ACCEPT.",
+      "requirements": "Run 35927174551 is the sole active CPU-generation run for Decor5/7 v2. Decor7 generation has completed successfully and Decor5 is still generating. Do not trigger another CPU queue while Wall9-12 is already pending. After both exact candidates stage with complete ART_FACTORY_V2 evidence, route 12 -> 06 -> 14 -> 01 -> 08 on ACCEPT.",
       "evidence": [
         "docs/preproduction/art-factory/requests/w09-decor-5-7-ready-exec-20260923.json",
         "docs/preproduction/art-factory/requests/w09-decor-5-7-cpu-fallback-binding-20260923.json",
@@ -181,10 +188,10 @@
         "wall-11",
         "wall-12"
       ],
-      "state": "CPU_QUEUE_DURABLE__OLDEST_CANCELED_NO_ARTIFACT__FIRST_RETRY_WHEN_LANE_IDLE",
+      "state": "CPU_RETRY_PENDING_BEHIND_DECOR__OPTIMIZED_768_8",
       "batchType": "GENERATION_RUNTIME_UNBLOCK_THEN_BOUNDED_GENERATION",
       "reviewer": "02",
-      "requirements": "The reviewer02-bound request and unique queue w13-wall-9-12-cpu-v1 remain durable. Initial run 35880826274 was cancelled before any jobs started and produced no candidate. Do not create or commit another queue. As soon as run 35881004304 completes and the CPU lane is fully idle, first confirm no candidate bytes or newer exact evidence supersede Wall9-12, then dispatch the existing queue once; route staged exact hashes 12 -> 06 -> 14 -> 02 -> 08 on ACCEPT.",
+      "requirements": "Run 35927603306 is pending behind active Decor run 35927174551 under the shared non-cancelling CPU concurrency group. The existing Wall9-12 queue path was reused and optimized to 768x768 / 8 steps; do not create or trigger another Wall queue. When it runs, route staged exact hashes 12 -> 06 -> 14 -> 02 -> 08 on ACCEPT.",
       "evidence": [
         "docs/preproduction/art-factory/requests/w13-wall-9-12-20260922.json",
         "docs/preproduction/art-factory/requests/w13-github-actions-model-runtime-probe-20260923.json",
