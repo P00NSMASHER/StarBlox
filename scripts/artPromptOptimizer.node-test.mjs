@@ -59,3 +59,14 @@ test('unknown supplied failure codes are ignored and prose fallback still works'
  assert(r.failureCodes.includes('FLAT_COMPOSITION'));
  assert(!r.failureCodes.includes('NOT_A_REAL_CODE'));
 });
+
+test('structured request runtime spends CLIP budget on repair substance instead of duplicate metadata',()=>{
+ const skate={id:'decor-7',name:'Skate Rack',collectionId:'decor',type:'room',tier:3,theme:'Garden Glow'};
+ const brief='Skate Rack, Room Decor, Tier 3, Garden Glow. Create ONE compact freestanding roller-skate storage rack as the unmistakable dominant product, isolated on a simple premium light-neutral studio background. Keep all skates contained inside the rack and the entire product fully inside frame with generous negative space.';
+ const p=compose(skate,['furniture','camera','depth'],'A-PHYSICAL-CLEAN',{failureCodes:['SMALL_CARD_READABILITY','WEAK_SILHOUETTE_IDENTITY']},brief);
+ assert(p.runtimePromptText.trim().split(/\s+/).length<=RUNTIME_PROMPT_WORD_BUDGET);
+ assert.match(p.runtimePromptText,/compact freestanding roller-skate storage rack/i);
+ assert.match(p.runtimePromptText,/unmistakable dominant product/i);
+ assert.match(p.runtimePromptText,/isolated on a simple premium/i);
+ assert(!p.runtimePromptText.includes('Skate Rack, Room Decor, Tier 3, Garden Glow.'));
+});

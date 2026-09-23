@@ -48,15 +48,28 @@ const uniq=a=>[...new Set(a.filter(Boolean))];
 export const RUNTIME_PROMPT_WORD_BUDGET=44;
 const promptWords=s=>String(s||'').trim().split(/\s+/).filter(Boolean);
 
+function runtimeBriefBody(item,brief=''){
+ const text=String(brief||'').trim();
+ if(!text) return '';
+ const stop=text.indexOf('.');
+ if(stop>0&&stop<180){
+  const first=text.slice(0,stop).toLowerCase();
+  const metadata=[item?.name,item?.collectionId,item?.theme].filter(Boolean).map(x=>String(x).toLowerCase());
+  if(metadata.some(token=>first.includes(token))) return text.slice(stop+1).trim();
+ }
+ return text;
+}
+
 export function buildRuntimePrompt(item,variant='A',brief='',failureCodes=[]){
  const prefix=`${item.id} ${item.name}. ${item.collectionId}; tier ${item.tier}; theme ${item.theme}.`;
- const repair=(failureCodes||[]).length
+ const briefBody=runtimeBriefBody(item,brief);
+ const repair=!briefBody&&(failureCodes||[]).length
   ? `Repair ${failureCodes.slice(0,2).map(x=>String(x).toLowerCase().replaceAll('_',' ')).join('; ')}.`
   : '';
- const suffix='Premium dimensional product render, clear silhouette, tactile materials, grounded shadow, no text or logo.';
+ const suffix='Premium dimensional product render, grounded shadow, no text or logo.';
  const fixed=[...promptWords(prefix),...promptWords(repair),...promptWords(suffix)];
- const briefBudget=Math.max(8,RUNTIME_PROMPT_WORD_BUDGET-fixed.length);
- const runtime=[...promptWords(prefix),...promptWords(brief).slice(0,briefBudget),...promptWords(repair),...promptWords(suffix)]
+ const briefBudget=Math.max(0,RUNTIME_PROMPT_WORD_BUDGET-fixed.length);
+ const runtime=[...promptWords(prefix),...promptWords(briefBody).slice(0,briefBudget),...promptWords(repair),...promptWords(suffix)]
   .slice(0,RUNTIME_PROMPT_WORD_BUDGET)
   .join(' ');
  if(!runtime) throw Error(`item ${item.id} runtime prompt is empty`);
