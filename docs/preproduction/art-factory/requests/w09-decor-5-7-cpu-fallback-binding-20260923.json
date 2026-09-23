@@ -1,0 +1,124 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_LANE09_RUNTIME_CHANGE_BINDING",
+  "producer": "09",
+  "branch": "screenshot-match-preproduction",
+  "observedHeadImmediatelyBeforeWrite": "0d6b02b365868cccc1bf1c7d55992ba5afcc2df1",
+  "batchId": "w09-decor-5-7-vnext",
+  "scope": [
+    "decor-5",
+    "decor-7"
+  ],
+  "state": "MATERIAL_RUNTIME_CHANGE_BOUND__WAITING_DURABLE_CPU_PIXEL_PROOF_AND_EXACT_SCOPE_QUEUE_BASIS",
+  "assignmentAuthority": {
+    "path": "docs/preproduction/art-factory/ACTIVE_BATCH.json",
+    "schemaVersion": 24,
+    "assignmentState": "STALL_CYCLE_1__DECOR5_FAIL_CLOSED__DECOR7_WAITING_ACCELERATOR__EXECUTION_PACKET_READY",
+    "reviewer": "01",
+    "renderOwner": "14",
+    "canonicalWriter": "08",
+    "routeAfterFreshCandidate": "12 -> 06 -> 14 -> 01 -> 08 on independent ACCEPT"
+  },
+  "canonicalFingerprint": {
+    "manifestVersion": 33,
+    "manifestGitBlob": "3ce8dd5d16674ff556764402b712d215d3d22457",
+    "catalogRuntimeGitBlob": "68dc4944988ee2850e634eb8966613b9663c163c",
+    "fallbackCount": 19,
+    "acceptedAwaitingCanonical": 0
+  },
+  "executionPacket": {
+    "path": "docs/preproduction/art-factory/requests/w09-decor-5-7-ready-exec-20260923.json",
+    "gitBlobSha": "9df0b22094b53dc73ccd740940db6ab72eb29418",
+    "state": "READY_PACKET_REFRESHED__WAITING_NEW_ACCELERATOR_RUNTIME_FINGERPRINT",
+    "reuse": "Preserve its exact item identities, prompts, planner seeds, reference binding, historical Decor5 fail-closed hash, and one-new-hash-per-item limit."
+  },
+  "runtimeFingerprintChange": {
+    "changed": true,
+    "pinnedRuntimePath": "docs/preproduction/art-factory/PINNED_GENERATION_RUNTIME.json",
+    "pinnedRuntimeGitBlob": "8ca8fcd3a6d450cf96ec5151e83e6c27b83ffb09",
+    "status": "PINNED_RUNTIME_WITH_CPU_FALLBACK_PROOF_PATH",
+    "runtime": {
+      "repo": "huggingface/diffusers",
+      "commit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c"
+    },
+    "model": {
+      "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+      "revision": "462165984030d82259a11f4367a4eed129e94a7b"
+    },
+    "cpuFallback": {
+      "surface": "GitHub-hosted ubuntu-24.04",
+      "policy": "DETERMINISTIC_CPU_BOUNDED_PROOF_THEN_PRODUCTION_ELIGIBLE",
+      "doesNotRelaxProvenance": true,
+      "minimumMemoryBytes": 12884901888,
+      "minimumDiskFreeBytes": 12884901888
+    }
+  },
+  "boundedProofObservation": {
+    "workflowRunId": 35869674139,
+    "jobId": 107210154595,
+    "statusAtObservation": "IN_PROGRESS",
+    "completedPasses": [
+      "deterministic CPU runtime installation",
+      "adapter contract validation",
+      "immutable runtime-proof job compilation",
+      "CPU capacity plus exact model/runtime revision qualification"
+    ],
+    "currentStep": "bounded real SDXL pixel proof on CPU",
+    "durableProofRequiredPath": "docs/preproduction/art-factory/CPU_RUNTIME_PROOF.json",
+    "durableProofObserved": false,
+    "generationEligibility": "BLOCKED_UNTIL_DURABLE_PROOF_STATUS_PROVEN"
+  },
+  "queueCompatibility": {
+    "consumerAvailableAtHead": true,
+    "consumerContract": "A production queue requires an existing STARBLOX_ART_FACTORY_BATCH_REQUEST and refuses to run unless CPU_RUNTIME_PROOF.json exists with status PROVEN.",
+    "currentExactScopePacketKind": "STARBLOX_ART_FACTORY_READY_EXECUTION_PACKET",
+    "currentExactScopePacketIsDirectQueueRequest": false,
+    "olderBatchRequestPath": "docs/preproduction/art-factory/requests/w09-decor-5-8-20260922.json",
+    "olderBatchRequestGitBlob": "be11c01d5746bf464830fed0de572be9e95dbd97",
+    "olderBatchRequestDisposition": "DO_NOT_USE_AS_CURRENT_QUEUE_BASIS_WITHOUT_EXPLICIT_REBIND",
+    "reason": "It carries the superseded Decor5-8 scope, older batch identity/seed basis, and legacy reviewer routing rather than the current ACTIVE_BATCH Decor5/7 + reviewer01 assignment. Reusing it silently risks provenance and routing divergence."
+  },
+  "items": {
+    "decor-5": {
+      "identity": "Plant Wall",
+      "historicalBlockedPath": "public/assets/catalog/decor-5-w09-v2.webp",
+      "historicalBlockedSha256": "386debb9a397519324ca5efb74bc0c761a4df545f7e6cb4075e4c2e7ed33ed1b",
+      "historicalBlockedGitBlob": "b8ff7b9d6bec11fe8e836952f7a0c5b844e34b6e",
+      "historicalHashRule": "PRESERVE_EXACTLY__NEVER_RETROFIT_PROVENANCE",
+      "newAttemptState": "READY_PACKET_COMPLETE__WAITING_CPU_PROOF_AND_QUEUE_BASIS"
+    },
+    "decor-7": {
+      "identity": "Skate Rack",
+      "identityCorrection": "ROLLER_SKATE_STORAGE_NOT_SKATEBOARD_DECKS",
+      "legacyGitBlob": "671c609625400bf5c2142daef73ab632bd1225a2b",
+      "newAttemptState": "READY_PACKET_COMPLETE__WAITING_CPU_PROOF_AND_QUEUE_BASIS"
+    }
+  },
+  "nextRequiredActions": [
+    {
+      "owner": "13",
+      "action": "Finish the bounded CPU pixel proof and, only if all exact revision/seed/hash assertions pass, durably record CPU_RUNTIME_PROOF.json with status PROVEN."
+    },
+    {
+      "owner": "15/12",
+      "action": "Rebind or issue a queue-consumable STARBLOX_ART_FACTORY_BATCH_REQUEST for the exact live lane09 scope decor-5/decor-7 with reviewer01 and the current batch/seed basis; do not repurpose the older Decor5-8 request implicitly."
+    },
+    {
+      "owner": "09",
+      "action": "After both prerequisites are durable, submit one two-item bounded CPU generation queue, preserve exact source bytes and full ART_FACTORY_V2 provenance, verify repository readback, then hand fresh hashes to lane12."
+    }
+  ],
+  "safety": {
+    "providerProbeRepeated": false,
+    "generatedPixels": false,
+    "productionQueueCreated": false,
+    "candidateBytesWritten": false,
+    "historicalDecor5HashMutated": false,
+    "canonicalMappingsChanged": false,
+    "reviewVerdictMade": false,
+    "activeBatchChanged": false,
+    "ciWorkflowFilesChanged": false,
+    "gameplayLearningEconomyPersistenceAccessibilityExactlyOnceChanged": false,
+    "mainDeploymentReplitFlootPaidSettingsSecretsPlayerDataTouched": false
+  }
+}
