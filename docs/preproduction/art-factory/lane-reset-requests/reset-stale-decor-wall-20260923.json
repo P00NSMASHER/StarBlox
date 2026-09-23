@@ -11,5 +11,7 @@
   "prerequisiteSha256": "2e92a6036047b95a9ddfcaab903e94c80d216ea4dd24054006e938cdaf21933e",
   "prerequisiteEvidence": "docs/preproduction/art-factory/generated-evidence/w09-decor-5-7-cpu-v2/decor-7/staged-output.json",
   "dispatchQueueFile": "docs/preproduction/art-factory/runtime-queue/w13-wall-9-12-cpu-v1.json",
-  "reason": "Decor 7 exact output is safely staged. Decor 5 is stuck in a pre-hardening run and the existing pending Wall run was also created before per-item staging/20-minute guards. Cancel both stale runs and dispatch Wall once through the current hardened workflow."
+  "reason": "Decor 7 exact output is safely staged. Decor 5 is stuck in a pre-hardening run and the existing pending Wall run was also created before per-item staging/20-minute guards. Cancel both stale runs and dispatch Wall once through the current hardened workflow.",
+  "triggerNonce": "stale-runs-now-completed-dispatch-current-wall",
+  "requestedAt": "2026-09-23T23:06:10Z"
 }
