@@ -9,6 +9,8 @@ on:
       - 'scripts/test_artFactoryDiffusers.py'
       - 'scripts/verifyCpuRuntimeProof.py'
       - 'scripts/test_verifyCpuRuntimeProof.py'
+      - 'docs/preproduction/art-factory/CPU_RUNTIME_PROOF.json'
+      - 'docs/preproduction/art-factory/runtime-proofs/**'
       - '.github/workflows/art-factory-generation-contract.yml'
 
 permissions:
@@ -25,7 +27,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: screenshot-match-preproduction
+          ref: ${{ github.sha }}
           fetch-depth: 1
 
       - uses: actions/setup-python@v5
@@ -37,6 +39,9 @@ jobs:
           python scripts/artFactoryDiffusers.py self-test
           python scripts/test_artFactoryDiffusers.py
           python scripts/test_verifyCpuRuntimeProof.py
+          if [ -f docs/preproduction/art-factory/CPU_RUNTIME_PROOF.json ]; then
+            python scripts/verifyCpuRuntimeProof.py --repo-root . --proof docs/preproduction/art-factory/CPU_RUNTIME_PROOF.json
+          fi
 
       - name: Prove heavy ML imports stay lazy
         run: |
