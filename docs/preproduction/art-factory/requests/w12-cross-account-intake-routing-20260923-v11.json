@@ -1,0 +1,135 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_W12_CANDIDATE_DELTA_INTAKE_ROUTING",
+  "router": "12",
+  "branch": "screenshot-match-preproduction",
+  "observedAt": "2026-09-23T14:24:00Z",
+  "sourceHead": "1f3ff8ca3bf1e3752a11cc351cc486832a1a62e9",
+  "scanWindow": {
+    "priorCursor": "5f3fa1c00e5655b0fb52bb033884dc15b0af01ad",
+    "inspectedThroughHead": "1f3ff8ca3bf1e3752a11cc351cc486832a1a62e9",
+    "aheadBy": 7,
+    "commitOrder": [
+      "afd91687cc6804a6e38874a21909d28f9ffc2ddb",
+      "47bb5be60d07d7416e0f478ccdcbe65423741dce",
+      "d623078035f53114f6ab9008c92336cbee807ae3",
+      "0d6b02b365868cccc1bf1c7d55992ba5afcc2df1",
+      "7a8408e621b77ba1534e50265a87876aac403d17",
+      "209a6360bd8339ce2796989f7b42f01e949f4f5f",
+      "1f3ff8ca3bf1e3752a11cc351cc486832a1a62e9"
+    ],
+    "newCatalogCandidateBytesDetected": false,
+    "newExternalCatalogCandidateDetected": false,
+    "newTechnicallyEligibleCandidateDetected": false,
+    "candidateSurfacePathChangeDetected": false,
+    "note": "The seven-commit window contains the prior lane12 routing evidence commit, one lane15 coordination sync, deterministic CPU fallback/proof and queue-consumer infrastructure changes, one lane09 runtime-binding evidence packet, and two follow-up CPU proof efficiency/concurrency changes. No new item candidate bytes, exact candidate SHA-256, candidate Git blob, completed ART_FACTORY_V2 generation receipt, staged-output readback, or independent review handoff arrived."
+  },
+  "liveAuthority": {
+    "manifestVersion": 33,
+    "manifestBlobSha": "3ce8dd5d16674ff556764402b712d215d3d22457",
+    "runtimeBlobSha": "68dc4944988ee2850e634eb8966613b9663c163c",
+    "activeBatchSchemaVersion": 24,
+    "activeBatchBlobSha": "c9e1e6493c1a6298d5b2a4cb374df28e7bfa0e48",
+    "canonicalWriter": "08",
+    "sharedRenderer": "14",
+    "acceptedAwaitingCanonical": 0,
+    "strictVisibleFallbackCount": 19
+  },
+  "dedupe": {
+    "newCandidateItemIds": [],
+    "newCandidateHashes": [],
+    "duplicateCandidateHashesDetected": false,
+    "duplicateItemClaimsDetected": false,
+    "staleCandidateHashesDetected": false,
+    "note": "No new candidate hash exists in the scan window, so nothing is eligible for duplicate-hash comparison or lane06 routing. Historical blocked/frozen hashes remain untouched."
+  },
+  "observedNonCandidateChanges": [
+    {
+      "commit": "afd91687cc6804a6e38874a21909d28f9ffc2ddb",
+      "owner": "12",
+      "state": "PRIOR_ROUTER_EVIDENCE_COMMIT_ONLY",
+      "candidateBytesWritten": false,
+      "routerAction": "NO_ROUTE__ALREADY_ACCOUNTED_BY_V10"
+    },
+    {
+      "commit": "47bb5be60d07d7416e0f478ccdcbe65423741dce",
+      "owner": "15",
+      "state": "COORDINATION_ONLY__ACTIVE_BATCH_SCHEMA_24",
+      "candidateBytesWritten": false,
+      "routerAction": "NO_ROUTE__ASSIGNMENT_AUTHORITY_ONLY"
+    },
+    {
+      "commit": "d623078035f53114f6ab9008c92336cbee807ae3",
+      "owner": "13",
+      "state": "CPU_FALLBACK_PROOF_PATH_ADDED__NO_DURABLE_PROOF_YET",
+      "candidateBytesWritten": false,
+      "routerAction": "NO_ROUTE__RUNTIME_INFRASTRUCTURE_NOT_CANDIDATE"
+    },
+    {
+      "commit": "0d6b02b365868cccc1bf1c7d55992ba5afcc2df1",
+      "owner": "13",
+      "state": "CPU_PRODUCTION_QUEUE_CONSUMER_ADDED__PROOF_GATED",
+      "candidateBytesWritten": false,
+      "routerAction": "NO_ROUTE__QUEUE_INFRASTRUCTURE_NOT_CANDIDATE"
+    },
+    {
+      "commit": "7a8408e621b77ba1534e50265a87876aac403d17",
+      "owner": "09",
+      "scope": ["decor-5", "decor-7"],
+      "state": "RUNTIME_CHANGE_BOUND__WAITING_DURABLE_CPU_PROOF_AND_EXACT_SCOPE_QUEUE_BASIS",
+      "candidateBytesWritten": false,
+      "technicalQualificationEligibleFor06": false,
+      "exactMissingPrerequisites": [
+        "docs/preproduction/art-factory/CPU_RUNTIME_PROOF.json committed with status PROVEN",
+        "queue-consumable STARBLOX_ART_FACTORY_BATCH_REQUEST bound to current decor-5/decor-7 scope, reviewer01, current batch identity and current seed basis",
+        "generated source bytes for each newly attempted item",
+        "candidate SHA-256 and Git blob SHA",
+        "byte count, dimensions and safe decode",
+        "exact repository staged-output readback"
+      ],
+      "routing": "RETURN_TO_09_AFTER_13_PROOF_AND_15_OR_12_EXACT_SCOPE_QUEUE_REBIND__THEN_12_TO_06_ON_FRESH_HASH"
+    },
+    {
+      "commit": "209a6360bd8339ce2796989f7b42f01e949f4f5f",
+      "owner": "13",
+      "state": "PINNED_SDXL_CPU_SNAPSHOT_MINIMIZED__PROVENANCE_REQUIREMENTS_PRESERVED",
+      "candidateBytesWritten": false,
+      "routerAction": "NO_ROUTE__RUNTIME_EFFICIENCY_CHANGE_ONLY"
+    },
+    {
+      "commit": "1f3ff8ca3bf1e3752a11cc351cc486832a1a62e9",
+      "owner": "13",
+      "state": "MINIMIZED_CPU_PROOF_RUN_DECOUPLED_BY_CONCURRENCY_KEY",
+      "candidateBytesWritten": false,
+      "routerAction": "NO_ROUTE__PROOF_EXECUTION_CONTROL_ONLY"
+    }
+  ],
+  "proofState": {
+    "durableCpuRuntimeProofPath": "docs/preproduction/art-factory/CPU_RUNTIME_PROOF.json",
+    "durableProofObservedAtSourceHead": false,
+    "productionCandidateEligibility": "BLOCKED_UNTIL_PROOF_IS_DURABLE_AND_ITEM_SCOPE_QUEUE_BASIS_IS_CURRENT",
+    "note": "A runtime/proof execution path is materially closer, but runtime infrastructure and an in-flight proof are not catalog candidates. Lane12 must wait for repository-staged exact item bytes plus complete provenance/readback before routing to lane06."
+  },
+  "queues": {
+    "to06": [],
+    "backToProducer": [
+      {
+        "owner": "09",
+        "scope": ["decor-5", "decor-7"],
+        "reason": "No fresh candidate hash exists; generation remains proof/queue-basis blocked."
+      }
+    ]
+  },
+  "cursorAdvance": {
+    "previous": "5f3fa1c00e5655b0fb52bb033884dc15b0af01ad",
+    "advancedThrough": "1f3ff8ca3bf1e3752a11cc351cc486832a1a62e9",
+    "condition": "The complete seven-commit window was inspected and durably classified. No new exact catalog candidate was routed, and no unchanged historical hash was re-routed."
+  },
+  "nextOwner": {
+    "13": "Complete the bounded real SDXL CPU proof and durably commit CPU_RUNTIME_PROOF.json only if every pinned revision/seed/hash assertion passes.",
+    "15_or_12": "After proof is durable, provide the exact current-scope queue basis for decor-5/decor-7 without silently reusing the superseded Decor5-8 request.",
+    "09": "Only after both prerequisites are durable, generate the bounded current scope, preserve exact source bytes and ART_FACTORY_V2 provenance, verify repository readback, then hand fresh hashes to lane12."
+  },
+  "ownershipNote": "Router12 records intake/routing evidence only. Workstream15 alone modifies ACTIVE_BATCH assignments; Workstream08 alone writes canonical mappings; reviewers alone issue verdicts.",
+  "mutationScope": "Routing evidence only. No ACTIVE_BATCH, art bytes, reviewer decisions, manifest, catalog runtime, CI/workflow, gameplay, learning, economy, persistence, accessibility, exactly-once behavior, deployment, Replit, Floot, paid settings, secrets or player data changed."
+}
