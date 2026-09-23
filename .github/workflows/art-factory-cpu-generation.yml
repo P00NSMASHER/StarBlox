@@ -157,6 +157,7 @@ jobs:
             transformers accelerate safetensors huggingface_hub hf_xet Pillow sentencepiece invisible-watermark
 
       - name: Generate exact source candidate
+        timeout-minutes: 20
         env:
           HF_XET_HIGH_PERFORMANCE: "1"
           ITEM: ${{ matrix.item }}
