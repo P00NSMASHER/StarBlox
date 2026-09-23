@@ -1,0 +1,102 @@
+name: StarBlox CPU Lane Reset
+
+on:
+  push:
+    branches: [screenshot-match-preproduction]
+    paths:
+      - 'docs/preproduction/art-factory/lane-reset-requests/*.json'
+
+permissions:
+  contents: read
+  actions: write
+
+concurrency:
+  group: starblox-cpu-lane-reset
+  cancel-in-progress: false
+
+jobs:
+  reset:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 2
+
+      - name: Validate lane-reset request and prerequisite artifact
+        id: req
+        run: |
+          set -euo pipefail
+          mapfile -t FILES < <(git diff-tree --no-commit-id --name-only -r "$GITHUB_SHA" | grep '^docs/preproduction/art-factory/lane-reset-requests/.*\.json$' || true)
+          test "${#FILES[@]}" -eq 1 || { echo "expected exactly one lane-reset request"; exit 1; }
+          REQ="${FILES[0]}"
+          python - "$REQ" "$GITHUB_OUTPUT" <<'PY'
+          import json, pathlib, subprocess, sys
+          p=pathlib.Path(sys.argv[1]); out=pathlib.Path(sys.argv[2]); r=json.loads(p.read_text())
+          assert r["kind"]=="STARBLOX_CPU_LANE_RESET"
+          assert r["branch"]=="screenshot-match-preproduction"
+          assert r["cancelRunIds"] and all(isinstance(x,int) and x>0 for x in r["cancelRunIds"])
+          q=pathlib.Path(r["dispatchQueueFile"]); assert q.is_file(), q
+          c=pathlib.Path(r["prerequisiteCandidate"]); assert c.is_file(), c
+          blob=subprocess.check_output(["git","hash-object",str(c)],text=True).strip()
+          assert blob==r["prerequisiteGitBlobSha"], (blob,r["prerequisiteGitBlobSha"])
+          e=json.loads(pathlib.Path(r["prerequisiteEvidence"]).read_text())
+          assert e["status"]=="STAGED_EXACT_BYTES_VERIFIED"
+          assert e["output"]["gitBlobSha"]==blob
+          assert e["output"]["sha256"]==r["prerequisiteSha256"]
+          with out.open("a") as f:
+              f.write("request_file="+str(p)+"\n")
+              f.write("cancel_ids="+",".join(map(str,r["cancelRunIds"]))+"\n")
+              f.write("queue_file="+r["dispatchQueueFile"]+"\n")
+          PY
+
+      - name: Cancel stale lane occupants
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CANCEL_IDS: ${{ steps.req.outputs.cancel_ids }}
+        run: |
+          set -euo pipefail
+          IFS=',' read -ra IDS <<< "$CANCEL_IDS"
+          for RUN_ID in "${IDS[@]}"; do
+            STATUS="$(curl -fsSL -H "Authorization: Bearer $GH_TOKEN" -H "Accept: application/vnd.github+json" "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/runs/$RUN_ID" | python -c 'import json,sys;print(json.load(sys.stdin)["status"])')"
+            echo "RUN_$RUN_ID=$STATUS"
+            if [ "$STATUS" != "completed" ]; then
+              CODE="$(curl -sS -o /tmp/cancel-$RUN_ID.json -w '%{http_code}' -X POST -H "Authorization: Bearer $GH_TOKEN" -H "Accept: application/vnd.github+json" "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/runs/$RUN_ID/cancel")"
+              test "$CODE" = "202" || { cat /tmp/cancel-$RUN_ID.json; echo "cancel HTTP $CODE"; exit 1; }
+            fi
+          done
+
+      - name: Confirm stale runs released
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CANCEL_IDS: ${{ steps.req.outputs.cancel_ids }}
+        run: |
+          set -euo pipefail
+          IFS=',' read -ra IDS <<< "$CANCEL_IDS"
+          for TRY in $(seq 1 30); do
+            ACTIVE=0
+            for RUN_ID in "${IDS[@]}"; do
+              STATUS="$(curl -fsSL -H "Authorization: Bearer $GH_TOKEN" -H "Accept: application/vnd.github+json" "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/runs/$RUN_ID" | python -c 'import json,sys;print(json.load(sys.stdin)["status"])')"
+              [ "$STATUS" = "completed" ] || ACTIVE=1
+            done
+            [ "$ACTIVE" = "0" ] && exit 0
+            sleep 2
+          done
+          echo "stale CPU runs did not release"
+          exit 1
+
+      - name: Dispatch current hardened CPU workflow
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          QUEUE_FILE: ${{ steps.req.outputs.queue_file }}
+        run: |
+          set -euo pipefail
+          BODY="$(python - <<'PY'
+          import json, os
+          print(json.dumps({"ref":"screenshot-match-preproduction","inputs":{"queue_file":os.environ["QUEUE_FILE"]}}))
+          PY
+          )"
+          CODE="$(curl -sS -o /tmp/dispatch.json -w '%{http_code}' -X POST             -H "Authorization: Bearer $GH_TOKEN"             -H "Accept: application/vnd.github+json"             -H "Content-Type: application/json"             "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/workflows/art-factory-cpu-generation.yml/dispatches"             -d "$BODY")"
+          test "$CODE" = "204" || { cat /tmp/dispatch.json; echo "dispatch HTTP $CODE"; exit 1; }
+          echo "WALL_QUEUE_DISPATCHED=$QUEUE_FILE"
