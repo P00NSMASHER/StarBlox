@@ -1,9 +1,9 @@
 {
-  "schemaVersion": 26,
+  "schemaVersion": 27,
   "owner": "15",
   "branch": "screenshot-match-preproduction",
-  "sourceHead": "e3fd4d90083c453c88ada49676520c4c22374d67",
-  "updatedAt": "2026-09-23T16:18:16Z",
+  "sourceHead": "d7f1da95199dabfc9ee5c29a0d60d4b0f2b9cf4e",
+  "updatedAt": "2026-09-23T19:57:37Z",
   "status": "ACTIVE_RELEASE_BLOCKER_FIRST",
   "policy": {
     "maxConcurrentProductionBatches": 4,
@@ -77,19 +77,21 @@
   },
   "cpuGenerationSemaphore": {
     "workflowPath": ".github/workflows/art-factory-cpu-generation.yml",
-    "observedAt": "2026-09-23T16:18:16Z",
+    "observedAt": "2026-09-23T19:57:37Z",
     "running": {
-      "runId": 35880356000,
-      "headSha": "0079db35c157cebaca2974dcf6608e7c4cdfeef5",
-      "batch": "Decor6/8",
-      "state": "IN_PROGRESS"
-    },
-    "pending": {
       "runId": 35881004304,
       "headSha": "2d7fcda7ef60b37851340520fe9f3655e08ebfe4",
       "batch": "Decor5/7",
-      "state": "PENDING"
+      "state": "IN_PROGRESS",
+      "jobs": [
+        "decor-5",
+        "decor-7"
+      ],
+      "phase": "GENERATE_EXACT_SOURCE_CANDIDATE",
+      "candidateArtifactsStaged": false,
+      "planArtifactDigest": "sha256:33685b16d0e7270104576337d237ebf5b259d310ce1a1345fe84ddfb0b226aa0"
     },
+    "pending": null,
     "oldestCanceledNoArtifact": {
       "runId": 35880826274,
       "headSha": "95fd9f8100fa17c1bafc3748c61dece24a6a254c",
@@ -97,8 +99,19 @@
       "jobsObserved": 0,
       "candidateBytesStaged": false
     },
+    "otherCanceledNoArtifact": [
+      {
+        "runId": 35880356000,
+        "headSha": "0079db35c157cebaca2974dcf6608e7c4cdfeef5",
+        "batch": "Decor6/8",
+        "generationJobs": "CANCELLED_DURING_GENERATE_EXACT_SOURCE_CANDIDATE",
+        "stageJob": "SKIPPED",
+        "candidateBytesStaged": false,
+        "onlyArtifactDigest": "sha256:5e4b6b7649d122876aea2c0927934c6b04dbe07449c2e216394f7622335c405d"
+      }
+    ],
     "authorization": "HOLD_ALL_NEW_CPU_QUEUE_COMMITS_AND_DISPATCHES",
-    "rule": "While any CPU-generation run is queued, pending, waiting or in_progress, authorize no additional runtime-queue commit or workflow dispatch. Preserve the current running and single pending batches. When the lane is completely idle, first retry the oldest still-needed canceled/no-artifact queue after confirming no candidate bytes or newer exact evidence supersede it."
+    "rule": "While run 35881004304 is queued, pending, waiting or in_progress, authorize no additional CPU queue commit or dispatch. When the lane is fully idle, retry the existing Wall9-12 queue first because it is the oldest still-needed canceled/no-artifact batch; confirm no staged candidate bytes or newer exact evidence before dispatch. Decor6/8 follows without duplicating its item/version queue."
   },
   "batches": [
     {
@@ -108,9 +121,9 @@
         "decor-6",
         "decor-8"
       ],
-      "state": "CPU_QUEUE_SUBMITTED__GENERATION_IN_PROGRESS__AWAIT_EXACT_STAGED_HASHES",
+      "state": "CPU_RUN_CANCELLED_DURING_GENERATION__NO_CANDIDATE_ARTIFACT__RETRY_AFTER_OLDER_WALL_QUEUE_WHEN_IDLE",
       "reviewer": "11",
-      "requirements": "Run 35880356000 accepted the bounded queue, passed deterministic planning and is generating both items. Preserve prior blocked hashes. Do not submit another Decor6/8 queue. After repository staging produces exact candidate bytes plus complete ART_FACTORY_V2 evidence, route 12 -> 06 -> 14 -> 11 -> 08 on ACCEPT.",
+      "requirements": "Run 35880356000 was cancelled while both Decor6/8 jobs were in Generate exact source candidate; both candidate uploads were skipped and the stage job was skipped. The only artifact is the deterministic plan, so no candidate bytes or hashes exist. Do not duplicate the item/version queue. After Decor5/7 clears and the older Wall9-12 canceled/no-artifact queue receives the first idle retry, retry the existing Decor6/8 queue; then route staged exact hashes 12 -> 06 -> 14 -> 11 -> 08 on ACCEPT.",
       "evidence": [
         "docs/preproduction/art-factory/requests/w03-decor-6-8-provenance-repair-20260922.json",
         "docs/preproduction/art-factory/requests/w06-decor-6-8-provenance-readback-20260922.json",
@@ -129,9 +142,9 @@
         "decor-5",
         "decor-7"
       ],
-      "state": "CPU_QUEUE_SUBMITTED__SERIALIZED_PENDING__NO_DUPLICATE_QUEUE",
+      "state": "CPU_GENERATION_IN_PROGRESS__BOTH_ITEMS_GENERATING__AWAIT_EXACT_STAGED_HASHES",
       "reviewer": "01",
-      "requirements": "Run 35881004304 is pending behind the serialized CPU generation lane. Preserve Decor5's historical fail-closed hash and do not submit another Decor5/7 queue. On exact staged bytes plus complete ART_FACTORY_V2 evidence, route 12 -> 06 -> 14 -> 01 -> 08 on ACCEPT.",
+      "requirements": "Run 35881004304 is the sole active CPU-generation run. Both Decor5 and Decor7 jobs are in Generate exact source candidate; only the deterministic plan artifact exists and no candidate bytes are staged yet. Submit nothing else while it is active. On exact staged bytes plus complete ART_FACTORY_V2 evidence, route 12 -> 06 -> 14 -> 01 -> 08 on ACCEPT.",
       "evidence": [
         "docs/preproduction/art-factory/requests/w09-decor-5-7-ready-exec-20260923.json",
         "docs/preproduction/art-factory/requests/w09-decor-5-7-cpu-fallback-binding-20260923.json",
@@ -168,10 +181,10 @@
         "wall-11",
         "wall-12"
       ],
-      "state": "CPU_QUEUE_DURABLE__INITIAL_RUN_CANCELLED_BEFORE_JOBS__SEMAPHORE_HELD_UNTIL_LANE_FULLY_IDLE",
+      "state": "CPU_QUEUE_DURABLE__OLDEST_CANCELED_NO_ARTIFACT__FIRST_RETRY_WHEN_LANE_IDLE",
       "batchType": "GENERATION_RUNTIME_UNBLOCK_THEN_BOUNDED_GENERATION",
       "reviewer": "02",
-      "requirements": "The reviewer02-bound request and unique queue w13-wall-9-12-cpu-v1 are durable. Initial run 35880826274 was cancelled before any jobs started and produced no candidate. Do not create or commit another queue. After the currently serialized CPU generation work clears, dispatch the existing queue file once via workflow_dispatch; then route exact staged bytes 12 -> 06 -> 14 -> 02 -> 08 on ACCEPT.",
+      "requirements": "The reviewer02-bound request and unique queue w13-wall-9-12-cpu-v1 remain durable. Initial run 35880826274 was cancelled before any jobs started and produced no candidate. Do not create or commit another queue. As soon as run 35881004304 completes and the CPU lane is fully idle, first confirm no candidate bytes or newer exact evidence supersede Wall9-12, then dispatch the existing queue once; route staged exact hashes 12 -> 06 -> 14 -> 02 -> 08 on ACCEPT.",
       "evidence": [
         "docs/preproduction/art-factory/requests/w13-wall-9-12-20260922.json",
         "docs/preproduction/art-factory/requests/w13-github-actions-model-runtime-probe-20260923.json",
@@ -235,6 +248,10 @@
   "reviewLoadBalance": {
     "rule": "14 is shared renderer only for new work. Independent review is 01/02/05/11; 14 may finish legacy review assignments only.",
     "assignments": {
+      "11": [
+        "w03 Decor6/8 future replacement hashes",
+        "EXT06 Handgear1-4 future hashes"
+      ],
       "01": [
         "w09 Decor5/7 future replacement hashes",
         "EXT02 Bottoms5-8 future hashes",
@@ -249,10 +266,6 @@
         "Desk9/10 recovered exact hashes",
         "w07 Desk8 future recovered exact hash",
         "EXT07 Beds5-8 future hashes"
-      ],
-      "11": [
-        "w03 Decor6/8 future replacement hashes",
-        "EXT06 Handgear1-4 future hashes"
       ]
     },
     "activationRule": "Reviewer acts only after lane06 qualification and lane14 exact-hash render evidence for a genuinely new eligible candidate."
