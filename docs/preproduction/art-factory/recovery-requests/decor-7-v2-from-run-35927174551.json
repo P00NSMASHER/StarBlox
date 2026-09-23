@@ -13,5 +13,7 @@
   "evidenceDest": "docs/preproduction/art-factory/generated-evidence/w09-decor-5-7-cpu-v2/decor-7",
   "sourceJobId": 107405040534,
   "sourceArtifactId": 10779926873,
-  "reason": "Recover already-generated, already-verified Decor 7 exact bytes without waiting for the stuck Decor 5 sibling."
+  "reason": "Recover already-generated, already-verified Decor 7 exact bytes without waiting for the stuck Decor 5 sibling.",
+  "triggerNonce": "second-push-after-workflow-install",
+  "requestedAt": "2026-09-23T23:01:00Z"
 }
