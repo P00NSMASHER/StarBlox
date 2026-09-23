@@ -3,7 +3,7 @@
   "batchId": "chat-seating-recovery-4-6-20260922",
   "status": "STAGED_READY_FOR_INDEPENDENT_REVIEW",
   "sourceHead": "121323dc0001a41515a2b1030790a19a45bee0ae",
-  "workflowRunId": 35673301701,
+  "workflowRunId": 35875380679,
   "transportHelper": "CHAT",
   "canonicalWriter": "08",
   "newGenerations": 0,
@@ -133,7 +133,7 @@
     "independentVisualReview": "PENDING_ASSIGNED_REVIEWERS",
     "tests": "PASS",
     "build": "PASS",
-    "sharedRenderOverall": "FAIL",
+    "sharedRenderOverall": "PASS",
     "seatingCardDetailRender": "PASS_3_OF_3"
   },
   "freeze": {
@@ -144,7 +144,7 @@
     "gameplayChanged": false,
     "playerDataTouched": false
   },
-  "testedSourceHead": "a4600faaa608310b91ff202bd58d54c83eab0693",
+  "testedSourceHead": "c28788cab1228dd55b1ca438c4606b4fb289b1f5",
   "renderEvidence": {
     "artifactName": "seating-4-6-recovery-evidence",
     "reportPath": "artifacts/catalog-staged-art/report.json",
