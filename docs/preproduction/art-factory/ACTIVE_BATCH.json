@@ -1,9 +1,9 @@
 {
-  "schemaVersion": 22,
+  "schemaVersion": 23,
   "owner": "15",
   "branch": "screenshot-match-preproduction",
-  "sourceHead": "398f5100df0562a1e346c9110597e52b565982d0",
-  "updatedAt": "2026-09-23T06:55:40Z",
+  "sourceHead": "324276bf18a83206c29a5816c4aa1d4ac4a2f1b9",
+  "updatedAt": "2026-09-23T09:57:58Z",
   "status": "ACTIVE_RELEASE_BLOCKER_FIRST",
   "policy": {
     "maxConcurrentProductionBatches": 4,
@@ -15,8 +15,10 @@
       "01",
       "02",
       "05",
-      "14"
+      "11"
     ],
+    "sharedRenderer": "14",
+    "reviewer14Policy": "FINISH_ALREADY_ASSIGNED_LEGACY_HASHES_ONLY__NO_NEW_REVIEW_ASSIGNMENTS",
     "canonicalWriter": "08",
     "updateOnlyOnMaterialChange": true,
     "scheduledCiOwnershipFreeze": true,
@@ -68,8 +70,8 @@
         "decor-8"
       ],
       "state": "STALL_CYCLE_1__WAITING_ACCELERATOR_RUNTIME__NO_SAFE_REASSIGNMENT",
-      "reviewer": "14",
-      "requirements": "Preserve blocked hashes. Generate at most one compliant replacement per item only with authorized accelerator-capable revision-reporting provenance. Route 06 -> 14 -> 08 on ACCEPT. Do not open Decor9-12 before this pilot is independently dispositioned.",
+      "reviewer": "11",
+      "requirements": "Preserve blocked hashes. Generate at most one compliant replacement per item only with authorized accelerator-capable revision-reporting provenance. Route 06 -> 14 shared render -> reviewer11 -> 08 on ACCEPT. Do not open Decor9-12 before this pilot is independently dispositioned.",
       "evidence": [
         "docs/preproduction/art-factory/requests/w03-decor-6-8-provenance-repair-20260922.json",
         "docs/preproduction/art-factory/requests/w06-decor-6-8-provenance-readback-20260922.json"
@@ -83,8 +85,8 @@
         "decor-7"
       ],
       "state": "STALL_CYCLE_1__DECOR5_FAIL_CLOSED__DECOR7_WAITING_ACCELERATOR__NO_SAFE_REASSIGNMENT",
-      "reviewer": "14",
-      "requirements": "Decor5 historical hash stays fail-closed. Generate Decor5/7 only with complete accelerator-capable revision-reporting provenance. Do not open Decor9-12 before current pilot disposition."
+      "reviewer": "01",
+      "requirements": "Decor5 historical hash stays fail-closed. Generate Decor5/7 only with complete accelerator-capable revision-reporting provenance. Route 06 -> 14 shared render -> reviewer01 -> 08 on ACCEPT. Do not open Decor9-12 before current pilot disposition."
     },
     {
       "producer": "07",
@@ -104,7 +106,9 @@
       "requirements": "Recover/import existing exact Desk8-10 source bytes only; never regenerate/re-encode/resize/approximate/substitute. Route 06 -> 14 shared render -> reviewer05 -> 08 on ACCEPT. Desk7 and Wall8 remain frozen until a genuinely new byte-materialization path exists.",
       "evidence": [
         "docs/preproduction/art-factory/requests/w03-desks-8-generation-evidence-20260922.json",
-        "docs/preproduction/art-factory/requests/w03-desks-9-10-generation-evidence-20260922.json"
+        "docs/preproduction/art-factory/requests/w03-desks-9-10-generation-evidence-20260922.json",
+        "docs/preproduction/art-factory/requests/w07-desks-8-10-byte-bridge-probe-20260923.json",
+        "docs/preproduction/art-factory/requests/w07-desks-8-10-remote-byte-recovery-20260923.json"
       ]
     },
     {
@@ -118,8 +122,8 @@
       ],
       "state": "STALL_CYCLE_1__HOSTED_NO_ACCELERATOR__NO_SAFE_REASSIGNMENT",
       "batchType": "GENERATION_RUNTIME_UNBLOCK_THEN_BOUNDED_GENERATION",
-      "reviewer": "14",
-      "requirements": "Current Firefly/Viewmax/built-in/hosted-runner paths are production-ineligible. Use PAAM-L044 or another already-authorized accelerator-capable revision-reporting deterministic runtime before generating. Never edit CI/workflows. Route 06 -> 14 -> 08 only after full provenance and exact repository readback.",
+      "reviewer": "02",
+      "requirements": "Current Firefly/Viewmax/built-in/hosted-runner paths are production-ineligible. Use PAAM-L044 or another already-authorized accelerator-capable revision-reporting deterministic runtime before generating. Never edit CI/workflows. Route 06 -> 14 shared render -> reviewer02 -> 08 only after full provenance, exact repository readback, and ACCEPT.",
       "evidence": [
         "docs/preproduction/art-factory/requests/w13-github-actions-model-runtime-probe-20260923.json",
         "docs/preproduction/art-factory/requests/w12-cross-account-intake-routing-20260923-v6.json",
@@ -132,6 +136,55 @@
   "acceptedAwaitingCanonical": [],
   "externalArrivals": {
     "sincePreviousCoordinationBasis": [
+      {
+        "lane": "EXT02",
+        "scope": "Bottoms5-8",
+        "state": "PLANNING_ONLY__GENERATION_HELD",
+        "newCatalogCandidate": false,
+        "reviewer": "01",
+        "evidence": "docs/preproduction/art-factory/requests/ext02-bottoms-5-8-plan-20260923.json"
+      },
+      {
+        "lane": "EXT03",
+        "scope": "Headwear9-12",
+        "state": "PLANNING_ONLY__GENERATION_HELD",
+        "newCatalogCandidate": false,
+        "reviewer": "01",
+        "evidence": "docs/preproduction/art-factory/requests/ext03-headwear-9-12-plan-20260923.json"
+      },
+      {
+        "lane": "EXT05",
+        "scope": "Backgear1-4",
+        "state": "PLANNING_ONLY__AWAITING_LANE12_ROUTING__GENERATION_HELD",
+        "newCatalogCandidate": false,
+        "reviewer": "02",
+        "evidence": "docs/preproduction/art-factory/requests/ext05-backgear-1-4-plan-20260923.json"
+      },
+      {
+        "lane": "EXT06",
+        "scope": "Handgear1-4",
+        "state": "PLANNING_ONLY__AWAITING_LANE12_ROUTING__GENERATION_HELD",
+        "newCatalogCandidate": false,
+        "reviewer": "11",
+        "reviewerOverride": "Director15 load-balance supersedes the plan's reviewer02 routing for any future new exact hash; producer remains EXT06.",
+        "evidence": "docs/preproduction/art-factory/requests/ext06-handgear-1-4-plan-20260923.json"
+      },
+      {
+        "lane": "EXT07",
+        "scope": "Beds5-8",
+        "state": "PLANNING_ONLY__AWAITING_LANE12_ROUTING__GENERATION_HELD",
+        "newCatalogCandidate": false,
+        "reviewer": "05",
+        "evidence": "docs/preproduction/art-factory/requests/ext07-beds-5-8-plan-20260923.json"
+      },
+      {
+        "lane": "EXT08",
+        "scope": "Shoes11-12",
+        "state": "PLANNING_ONLY__AWAITING_LANE12_ROUTING__GENERATION_HELD",
+        "newCatalogCandidate": false,
+        "reviewer": "02",
+        "evidence": "docs/preproduction/art-factory/requests/ext08-shoes-11-12-plan-20260923.json"
+      },
       {
         "lane": "EXT09",
         "scope": "Avatar/Buddy preproduction",
@@ -147,8 +200,39 @@
         "evidence": "docs/preproduction/visuals/external/ext10-home-store-quest-preproduction-plan-20260923.json"
       }
     ],
-    "routerEvidence": "docs/preproduction/art-factory/requests/w12-cross-account-intake-routing-20260923-v6.json",
-    "note": "No EXT01-EXT10 catalog candidate bytes and no primary catalog candidate bytes arrived in the latest routed window. EXT09/EXT10 remain protected non-catalog planning-only handoffs except for the explicit EXT10 phone-composition repair release recorded below."
+    "routerEvidence": "docs/preproduction/art-factory/requests/w12-cross-account-intake-routing-20260923-v9.json",
+    "routerCursorThrough": "3feb6e5e9855e8b2b1ffbbc937f9199b00ce375d",
+    "nextRouterScope": [
+      "EXT05 Backgear1-4 planning-only handoff",
+      "EXT06 Handgear1-4 planning-only handoff",
+      "EXT07 Beds5-8 planning-only handoff",
+      "EXT08 Shoes11-12 planning-only handoff"
+    ],
+    "note": "No EXT01-EXT10 catalog candidate bytes and no primary catalog candidate bytes are pending. EXT02/EXT03 were durably routed by lane12 as planning-only and ineligible for 06. EXT05-EXT08 are newer planning-only packets with no candidate pixels and remain generation-held pending lane12 intake. EXT09/EXT10 remain protected non-catalog planning-only handoffs except for the explicit EXT10 phone-composition repair release recorded below."
+  },
+  "reviewLoadBalance": {
+    "rule": "14 is the shared renderer. New review work is assigned only to independent reviewers 01, 02, 05, and 11; 14 may finish already-assigned legacy exact hashes only.",
+    "assignments": {
+      "01": [
+        "w09 decor-5/decor-7 future replacement hashes",
+        "EXT02 Bottoms5-8 future hashes",
+        "EXT03 Headwear9-12 future hashes"
+      ],
+      "02": [
+        "w13 Wall9-12 future hashes",
+        "EXT05 Backgear1-4 future hashes",
+        "EXT08 Shoes11-12 future hashes"
+      ],
+      "05": [
+        "w07 Desk8-10 recovered exact hashes",
+        "EXT07 Beds5-8 future hashes"
+      ],
+      "11": [
+        "w03 Decor6/8 future replacement hashes",
+        "EXT06 Handgear1-4 future hashes"
+      ]
+    },
+    "activationRule": "Reviewer assignment does not create review work. A reviewer acts only after lane06 qualification and lane14 exact-hash render evidence for a genuinely new eligible candidate."
   },
   "externalReleaseRepairs": {
     "EXT10": {
@@ -285,7 +369,7 @@
     "evidence": "docs/preproduction/workstreams/10-mobile-accessibility.md",
     "rule": "Do not reopen the green Store observer or Quest pointer investigation absent a bound-hash change or fresh current-byte failure. EXT10 may change only the released phone composition scope; 10 revalidates after material bytes change."
   },
-  "antiStallDisposition": "The Quest interaction blocker is closed on exact current functional hashes. The 19 visible catalog fallbacks remain first release blockers and all four catalog production reservations remain unchanged: no new exact bytes, compliant accelerator runtime, external catalog arrival, or safe non-overlapping primary reassignment appeared. In parallel, exact-hash Workstream10 evidence materially identified two actionable phone composition REWORKs, now narrowly released to EXT10 without authorizing generation or catalog work. Continue the oldest eligible Desk8-10 exact-byte path and the bounded EXT10 phone repair; do not churn frozen work, open Decor9-12 early, duplicate EXT01-EXT10, or weaken qualification/review gates.",
+  "antiStallDisposition": "The Quest interaction blocker remains closed on exact current functional hashes. The 19 visible catalog fallbacks remain first release blockers. Four primary production/unblock reservations remain active but prerequisite-blocked; no replacement art may be generated without compliant provenance. New EXT02/03/05/06/07/08 job packets are planning-only with no candidate pixels, so they do not open additional production inventory or enter 06/14/review queues. Reviewer load is now pre-balanced across 01/02/05/11 for future new hashes while 14 remains the shared renderer and legacy-only reviewer. Continue the oldest Desk8-10 exact-byte path and bounded EXT10 phone repair; lane12 next routes EXT05-EXT08 planning deltas. Do not churn frozen work, open later pilots early, duplicate EXT01-EXT10, or weaken qualification/review gates.",
   "crossAccountProduction": {
     "externalScopes": {
       "EXT01": "Tops11-12",
@@ -300,12 +384,13 @@
       "EXT10": "Home/Store/Quest visual preproduction"
     },
     "primaryNoDuplicateRule": "Do not generate external scopes unless coordinator15 explicitly reclaims an ID after verifying no newer pending external candidate exists.",
-    "intakePath": "12 -> 06 -> 14 -> 01/02/05/14 -> 08 -> 04/11/10"
+    "intakePath": "12 -> 06 -> 14 shared render -> 01/02/05/11 independent review -> 08 -> 04/11/10",
+    "reviewer14LegacyException": "14 may complete already-assigned legacy hash review only; do not route new hashes to 14 for review."
   },
   "readerRule": "Every worker must revalidate branch head, assignment, exact hash and review state before writing. This file never overrides newer exact evidence.",
-  "cycleId": "director-20260923T0655Z-398f5100",
+  "cycleId": "director-20260923T0957Z-324276bf",
   "criticalPath": {
-    "computedAtHead": "398f5100df0562a1e346c9110597e52b565982d0",
+    "computedAtHead": "324276bf18a83206c29a5816c4aa1d4ac4a2f1b9",
     "order": [
       {
         "rank": 1,
@@ -331,7 +416,7 @@
       },
       {
         "rank": 3,
-        "blocker": "ACCELERATOR_CAPABLE_REVISION_REPORTING_RUNTIME_UNAVAILABLE",
+        "blocker": "ART_FACTORY_V2_COMPLIANT_ACCELERATOR_RUNTIME_UNAVAILABLE",
         "affectedScopes": [
           "decor-5",
           "decor-6",
@@ -340,10 +425,32 @@
           "wall-9",
           "wall-10",
           "wall-11",
-          "wall-12"
+          "wall-12",
+          "bottoms-5",
+          "bottoms-6",
+          "bottoms-7",
+          "bottoms-8",
+          "headwear-9",
+          "headwear-10",
+          "headwear-11",
+          "headwear-12",
+          "backgear-1",
+          "backgear-2",
+          "backgear-3",
+          "backgear-4",
+          "handgear-1",
+          "handgear-2",
+          "handgear-3",
+          "handgear-4",
+          "beds-5",
+          "beds-6",
+          "beds-7",
+          "beds-8",
+          "shoes-11",
+          "shoes-12"
         ],
-        "prerequisite": "PAAM-L044 or another already-authorized deterministic runtime must prove accelerator suitability, immutable model/runtime revisions, executed seed, output bytes, and repository readback.",
-        "nextOwner": "03/09/13 within their non-overlapping scopes, then 06 -> independent review -> 08 on ACCEPT."
+        "prerequisite": "PAAM-L044 or another already-authorized deterministic runtime must prove accelerator suitability, immutable model/runtime revisions, executed seed, output bytes, and repository readback. Planning-only external packets do not authorize generation before this prerequisite is met.",
+        "nextOwner": "03/09/13 and EXT02/EXT03/EXT05/EXT06/EXT07/EXT08 within their protected non-overlapping scopes; then 12 intake for external arrivals, 06 qualification, 14 shared render, assigned independent reviewer, and 08 on ACCEPT."
       },
       {
         "rank": 4,
@@ -357,6 +464,6 @@
       }
     ],
     "acceptedAwaitingCanonical": 0,
-    "note": "Keep the 19 fallbacks first on the catalog critical path while running the newly actionable EXT10 phone composition repair in parallel. Catalog production assignments remain unchanged because no safe alternate material path exists."
+    "note": "Keep the 19 fallbacks first on the catalog critical path while running the actionable EXT10 phone composition repair in parallel. New external packets remain planning-only, and review capacity is pre-balanced without opening review inventory."
   }
 }
