@@ -35,6 +35,13 @@ test('tampering with a prompt is detected',()=>{
   assert(validateJobPlan(p).some(x=>x.includes('prompt hash mismatch')));
 });
 
+test('runtime prompt provenance is bound and tampering is detected',()=>{
+  const p=buildJobPlan({item,recommendation,producer:'09',sourceHead:'abc123',modelId:'m',modelRevision:'r'});
+  assert.equal(p.attempts[0].runtimePromptText,p.attempts[0].promptText);
+  p.attempts[0].runtimePromptText+=' tampered';
+  assert(validateJobPlan(p).some(x=>x.includes('runtime prompt hash mismatch')));
+});
+
 test('producer batch planning compiles selected queue items only',()=>{
   const item2={id:'decor-4',name:'Plush Stack',collectionId:'decor',type:'room',tier:2,theme:'Candy Core'};
   const recommendation2={sourceReviewHash:'bad-2',variants};
