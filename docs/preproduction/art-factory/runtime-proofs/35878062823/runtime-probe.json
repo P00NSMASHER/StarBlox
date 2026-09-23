@@ -1,0 +1,73 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_RUNTIME_PROBE",
+  "repository": "P00NSMASHER/StarBlox",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "452e533ada59069661ea957a52d4631fc4972262",
+  "sourcePlanSha256": "172d343479deeedcf1d5b2a02ca05940484f7e85230a54898ba888b9c36d73a3",
+  "executionCheckout": {
+    "branch": "screenshot-match-preproduction",
+    "head": "452e533ada59069661ea957a52d4631fc4972262",
+    "planSourceHeadMatchesExecutionHead": true
+  },
+  "attemptId": "runtime-proof-w13-a-proof-faf52d95fa",
+  "itemId": "runtime-proof",
+  "runtime": {
+    "repo": "huggingface/diffusers",
+    "commit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "resolvedCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "runtimeCommitVerified": true,
+    "diffusersVersion": "0.41.0.dev0",
+    "diffusersInstallSource": "https://github.com/huggingface/diffusers.git"
+  },
+  "model": {
+    "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+    "revision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS",
+    "resolvedRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "snapshotRevisionVerified": true,
+    "weightsDownloaded": false,
+    "pipelineInstantiated": false
+  },
+  "conditioning": {
+    "ipAdapterModelId": null,
+    "ipAdapterRevision": null,
+    "ipAdapterResolvedRevision": null,
+    "ipAdapterRevisionVerified": false
+  },
+  "hardware": {
+    "cpuCount": 4,
+    "systemMemoryBytes": 16766414848,
+    "diskTotalBytes": 154894188544,
+    "diskFreeBytes": 90152554496,
+    "torchInstalled": true,
+    "torchVersion": "2.8.0+cpu",
+    "torchImportError": null,
+    "cudaAvailable": false,
+    "cudaDevices": [],
+    "mpsAvailable": false,
+    "accelerator": "none",
+    "cpuFallback": {
+      "eligible": true,
+      "minimumMemoryBytes": 12884901888,
+      "minimumDiskFreeBytes": 12884901888,
+      "observedMemoryBytes": 16766414848,
+      "observedDiskFreeBytes": 90152554496,
+      "decision": "CPU_FALLBACK_ELIGIBLE__RUN_BOUNDED_PIXEL_PROOF"
+    }
+  },
+  "productionInference": {
+    "attempted": false,
+    "suitabilityDecision": "CPU_FALLBACK_ELIGIBLE__RUN_BOUNDED_PIXEL_PROOF"
+  },
+  "safety": {
+    "modelWeightsDownloaded": false,
+    "artBytesGenerated": false,
+    "canonicalArtModified": false,
+    "reviewDecisionMade": false,
+    "deploymentPerformed": false,
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+  },
+  "status": "RUNTIME_PROBE_COMPLETE_CPU_FALLBACK_ELIGIBLE",
+  "recordSha256": "41c59d26adcc84f3f87c27fcc4a56f630dcb5aa0f5b114922680a62c60d4d926"
+}

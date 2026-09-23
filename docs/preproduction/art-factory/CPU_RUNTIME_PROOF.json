@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_CPU_RUNTIME_PROOF",
+  "status": "PROVEN",
+  "repository": "P00NSMASHER/StarBlox",
+  "branch": "screenshot-match-preproduction",
+  "workflow": {
+    "path": ".github/workflows/art-factory-cpu-runtime-proof.yml",
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "runId": 35878062823,
+    "jobId": 107239068954,
+    "headSha": "452e533ada59069661ea957a52d4631fc4972262"
+  },
+  "artifact": {
+    "id": 10759865690,
+    "name": "starblox-cpu-runtime-proof-452e533ada59069661ea957a52d4631fc4972262",
+    "digest": "sha256:528610198d72092c9d09159bf4b749a5c467361307587545fb24dded2876eeda",
+    "sizeBytes": 11998,
+    "createdAt": "2026-09-23T15:01:43Z",
+    "expiresAt": "2026-10-07T15:01:43Z"
+  },
+  "evidence": {
+    "jobPath": "docs/preproduction/art-factory/runtime-proofs/35878062823/runtime-proof-job.json",
+    "jobSha256": "d57f3226b67d9490e6d76ffaadd40fe85512abef8bd55647b054a67f621e69dd",
+    "runtimeProbePath": "docs/preproduction/art-factory/runtime-proofs/35878062823/runtime-probe.json",
+    "runtimeProbeSha256": "d2acf23e1feb68ca519cb435c15c4b0c69ac92cdfaf96dc112c7e7e1a5729f2d",
+    "generationReceiptPath": "docs/preproduction/art-factory/runtime-proofs/35878062823/generation-receipt.json",
+    "generationReceiptSha256": "870c69a845780858a7f91be5441cbc81367a5c38f2b07acc3fd713fceefc7576",
+    "proofImagePath": "docs/preproduction/art-factory/runtime-proofs/35878062823/runtime-proof.png",
+    "proofImageSha256": "4738232fa6c1b0cbe2669fd50ce0fe9d4ffd935be0cd972bc9660e0d63e5dcb1"
+  },
+  "output": {
+    "sha256": "4738232fa6c1b0cbe2669fd50ce0fe9d4ffd935be0cd972bc9660e0d63e5dcb1",
+    "gitBlobSha": "6def85b1f2c755de3e020a58dc735a799fbc1423",
+    "bytes": 7907,
+    "width": 64,
+    "height": 64,
+    "format": "PNG"
+  }
+}
