@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_W13_GENERATION_RUNTIME_CAPABILITY_PROBE",
+  "producer": "13",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "96790d4e7c1a5e29b8c440e9cadb8948a5fee800",
+  "observedAt": "2026-09-23T02:08:00Z",
+  "scope": ["wall-9", "wall-10", "wall-11", "wall-12"],
+  "activeBatch": "w13-wall-9-12-runtime-unblock-v2",
+  "probeSurface": "current ChatGPT execution container",
+  "reason": "Test a previously unprobed already-available execution surface for the pinned deterministic Diffusers/SDXL path without spending generation quota or changing CI/provider settings.",
+  "observations": {
+    "python": "3.13.5",
+    "torch": "2.10.0+cpu",
+    "cudaAvailable": false,
+    "mpsAvailable": false,
+    "nvidiaSmi": "not installed / no NVIDIA runtime exposed",
+    "diffusersInstalled": false,
+    "filesystem": "approximately 30 GiB free on the working overlay at probe time",
+    "outboundBootstrap": {
+      "githubDiffusersLsRemote": "FAILED_DNS_RESOLUTION",
+      "huggingFacePinnedModelIndexFetch": "FAILED_DNS_RESOLUTION",
+      "githubHost": "github.com",
+      "huggingFaceHost": "huggingface.co"
+    }
+  },
+  "pinnedRequiredRuntime": {
+    "diffusersCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+    "modelRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "source": "docs/preproduction/art-factory/PINNED_GENERATION_RUNTIME.json"
+  },
+  "desktopRunnerCheck": {
+    "device": "PAAM-L044",
+    "deviceId": "c83a6c06-c0d3-4127-84de-311c7c6f1364",
+    "status": "offline",
+    "authToken": "valid",
+    "lastSeen": "2026-09-22T20:40:24.097+00:00",
+    "pingResult": "No devices available; device must reconnect before remote execution is possible."
+  },
+  "disposition": "BUILT_IN_CONTAINER_CLOSED_FOR_PRODUCTION_GENERATION__NO_NETWORK_BOOTSTRAP__NO_ACCELERATOR__DESKTOP_RUNNER_REMAINS_PREFERRED",
+  "antiRepeat": [
+    "Do not retry Firefly or Viewmax under their unchanged provenance metadata contracts.",
+    "Do not retry the current ChatGPT container as a production SDXL bootstrap unless its network or accelerator capability materially changes.",
+    "Do not invent model/runtime/seed provenance and do not stage probe pixels."
+  ],
+  "nextAction": "When PAAM-L044 or another already-authorized revision-reporting deterministic runner becomes online, execute the pinned Diffusers commit + SDXL model revision there, compile the existing Wall9-12 deterministic optimizer/job plan, generate only the live ACTIVE_BATCH scope, preserve source bytes and full ART_FACTORY_V2 provenance, verify staged readback, and route 06 -> 14 -> 08 on independent ACCEPT.",
+  "repoMutation": "This evidence record only. No candidate art, canonical mapping, runtime mapping, CI/workflow, gameplay, persistence, economy, deployment, paid setting, secret or player-data changes."
+}
