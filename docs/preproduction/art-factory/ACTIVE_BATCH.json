@@ -2,8 +2,8 @@
   "schemaVersion": 27,
   "owner": "15",
   "branch": "screenshot-match-preproduction",
-  "sourceHead": "8a3ea53201990b5c43ca088eac61bf0bdac6548f",
-  "updatedAt": "2026-09-23T23:15:50Z",
+  "sourceHead": "5565e1347026e29fb51eb60e5ab8591d48077648",
+  "updatedAt": "2026-09-23T23:19:30Z",
   "status": "ACTIVE_RELEASE_BLOCKER_FIRST",
   "policy": {
     "maxConcurrentProductionBatches": 4,
@@ -128,7 +128,41 @@
         "conclusion": "cancelled",
         "reason": "triggered before hardened workflow; superseded by 35931931966"
       }
-    ]
+    ],
+    "preparedNext": [
+      {
+        "rank": 1,
+        "queuePath": "docs/preproduction/art-factory/prepared-queues/w09-decor-7-rework-v3.json",
+        "scope": [
+          "decor-7"
+        ],
+        "producer": "09",
+        "reviewer": "01",
+        "reason": "Fresh exact-hash REWORK has failure-specific v3 prompt; highest-confidence quick replacement after Wall."
+      },
+      {
+        "rank": 2,
+        "queuePath": "docs/preproduction/art-factory/prepared-queues/w09-decor-5-retry-v3.json",
+        "scope": [
+          "decor-5"
+        ],
+        "producer": "09",
+        "reviewer": "01",
+        "reason": "No current artifact; isolated retry prevents it from delaying Decor7."
+      },
+      {
+        "rank": 3,
+        "queuePath": "docs/preproduction/art-factory/prepared-queues/w03-decor-6-8-cpu-v2.json",
+        "scope": [
+          "decor-6",
+          "decor-8"
+        ],
+        "producer": "03",
+        "reviewer": "11",
+        "reason": "Existing cancelled batch preserved but optimized from 1024/12 to 768/8 before retry."
+      }
+    ],
+    "preparedQueueRule": "Prepared queues live outside runtime-queue, so commits do not trigger CPU generation. Dispatch exactly one only after Wall run 35931931966 is no longer active and live branch evidence shows no newer candidate/superseding queue."
   },
   "batches": [
     {
