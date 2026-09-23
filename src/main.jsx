@@ -38,6 +38,7 @@ import './environmentArt.css';
 import './mobileAccessibility.css';
 import './motionGameFeel.css';
 import './homeReferenceFinal.css';
+import './phoneCompositionFix.css';
 
 createRoot(document.getElementById('root')).render(
   <React.StrictMode>
