@@ -1,0 +1,355 @@
+{
+  "schemaVersion": 1,
+  "kind": "CATALOG_ART_DETERMINISTIC_JOB_PLAN",
+  "status": "PLANNED_NOT_GENERATED",
+  "producer": "EXT07",
+  "reviewer": "05",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "ae7b5c0b76148665bb999a237f772781dfc40efe",
+  "liveBindings": {
+    "manifestVersion": 33,
+    "manifestGitBlob": "3ce8dd5d16674ff556764402b712d215d3d22457",
+    "catalogRuntimeGitBlob": "68dc4944988ee2850e634eb8966613b9663c163c",
+    "activeBatchGitBlob": "189240098ce7781c762e41a152d04d2a0251dfef",
+    "activeBatchSourceHead": "398f5100df0562a1e346c9110597e52b565982d0",
+    "artFactoryV2GitBlob": "3c7397e46768b29c03f597a2ef225951a2013729",
+    "reviewer05CurrentGitBlob": "50492e5591b47445b7d292d9c29b2b36b498f750",
+    "reviewer05SchemaVersion": 10,
+    "gameModelGitBlob": "79fdb8c3bed4d715e0b1c770f34db0037a7f7c3"
+  },
+  "scope": [
+    "beds-5",
+    "beds-6",
+    "beds-7",
+    "beds-8"
+  ],
+  "itemMetadata": [
+    {
+      "itemId": "beds-5",
+      "name": "Garden Canopy",
+      "collection": "Beds",
+      "type": "room",
+      "tier": 2,
+      "theme": "Art Attack",
+      "price": 181,
+      "starReq": 0
+    },
+    {
+      "itemId": "beds-6",
+      "name": "Galaxy Gamer Bed",
+      "collection": "Beds",
+      "type": "room",
+      "tier": 2,
+      "theme": "Star Luxe",
+      "price": 254,
+      "starReq": 0
+    },
+    {
+      "itemId": "beds-7",
+      "name": "Sunny Loft Bed",
+      "collection": "Beds",
+      "type": "room",
+      "tier": 3,
+      "theme": "Midnight Neon",
+      "price": 348,
+      "starReq": 2
+    },
+    {
+      "itemId": "beds-8",
+      "name": "Aqua Bubble Bed",
+      "collection": "Beds",
+      "type": "room",
+      "tier": 3,
+      "theme": "Candy Core",
+      "price": 479,
+      "starReq": 2
+    }
+  ],
+  "pilotRule": "Beds 1-4 accepted exact hashes remain frozen. Beds 9-12 remains closed until independent exact-hash disposition of Beds 5-8.",
+  "stateAssessment": {
+    "acceptedCurrentHashes": [
+      {
+        "itemId": "beds-1",
+        "assetHash": "0b9f4213f84c9cde0de5ede646345c0ebc851127",
+        "decision": "ACCEPT"
+      },
+      {
+        "itemId": "beds-2",
+        "assetHash": "67a0fe2874f975cedb1b4b994e0237ac55d2fb3e",
+        "decision": "ACCEPT"
+      },
+      {
+        "itemId": "beds-3",
+        "assetHash": "22b1d9f6802cc0b442c9226511ff96e8ea0bbacc",
+        "decision": "ACCEPT"
+      },
+      {
+        "itemId": "beds-4",
+        "assetHash": "18fa8722d9831af1113e07c2103b373acc41c3c0",
+        "decision": "ACCEPT"
+      }
+    ],
+    "pendingCandidates": [],
+    "primaryOwnedCandidates": [],
+    "conclusion": "Beds 5-8 remain unaccepted, unowned, and not pending. Deterministic planning is safe; this file contains no candidate pixels."
+  },
+  "generationAuthorization": "BLOCKED_UNTIL_ART_FACTORY_V2_COMPLIANT_RUNTIME",
+  "generationBlocker": "The available generator has not demonstrated immutable model/checkpoint revision, exact runtime identity/revision, and executed seed. No generated output may be called production-qualified without complete evidence.",
+  "rightsBasis": "Original StarBlox-specific work commissioned for this repository; no third-party brands, logos, Roblox/Brookhaven assets, or copyrighted reference assets permitted.",
+  "outputRequirements": {
+    "variantsPerItem": 2,
+    "outputFormat": "PNG",
+    "targetDimensions": [
+      768,
+      768
+    ],
+    "preserveOriginalBytes": true,
+    "derivativeLineageRequired": true,
+    "committedReadbackRequired": [
+      "repository path",
+      "SHA-256",
+      "Git blob SHA",
+      "byte count",
+      "width",
+      "height"
+    ],
+    "renderedEvidenceRequired": [
+      "Store-card render",
+      "detail render",
+      "independent reviewer routing"
+    ]
+  },
+  "jobs": [
+    {
+      "itemId": "beds-5",
+      "attemptId": "ext07-beds-5-v1-a",
+      "variant": "A",
+      "producer": "EXT07",
+      "reviewer": "05",
+      "promptRecipe": "starblox-catalog-beds-two-variant",
+      "promptRecipeVersion": "1.0.0",
+      "finalPrompt": "Create one original StarBlox catalog-art asset as a premium dimensional 3D furniture product render, centered in a clean softly lit room-studio scene, square composition, readable at small Store-card scale. It must unmistakably function as a usable bed: show a thick mattress with a fitted edge, coherent frame and base support, believable legs or pedestal contact with the floor, accessible sleeping surface, structural headboard or canopy attachment where appropriate, pillow and blanket volume, seams and folds, material separation, realistic contact shadows, and a strong recognizable silhouette. Keep the complete bed comfortably inside frame in a three-quarter view.\n\nIdentity: beds-5 - Garden Canopy. Collection: Beds. Type: room. Tier: 2. Theme: Art Attack. Price metadata: 181. Unlock star requirement: 0.\n\nVariant A art direction: A full single-bed canopy with four tapered mint-painted wood posts joined by stable upper rails, a slatted platform, visible corner joinery, and short block feet. Use a deep mattress, two plump pillows, and a folded quilt. Art Attack theme: translucent cream canopy curtains carry original watercolor brush marks in coral, cyan, violet, and yellow; the headboard has carved leaf shapes filled with layered painted panels; small palette-like finials are structural post caps, not floating icons. Keep botanical garden cues in the wood silhouette while the exact theme reads as a joyful artist-painted canopy. Tier-2 richness through canopy textiles and mixed painted wood/fabric.\n\nNegative constraints: No person, avatar, body, pet, or sleeping figure; no floating mattress, unsupported platform, impossible canopy, missing floor contact, paper-thin bedding, fused pillows, warped rails, inaccessible sleeping surface, flat vector, icon, emoji, generic placeholder, recolor clone, text, item name, watermark, logo, third-party brand, Roblox asset, Brookhaven asset, collage, promo grid, duplicate bed, detached pieces, or cropped silhouette.",
+      "promptSha256": "08688b644118f2a23072ba6ccedf4c68662043ad15c406dfb796dbc1deeb80f3",
+      "plannedDeterministicSeed": 202609230701,
+      "seedStatus": "PLANNED_NOT_EXECUTED",
+      "generatorExecutionStatus": "NOT_EXECUTED",
+      "requiredRuntimeEvidence": [
+        "exact runtime identity",
+        "immutable runtime revision/commit",
+        "exact model ID",
+        "immutable checkpoint revision",
+        "executed deterministic seed or expressly permitted seed-unavailable record",
+        "rights basis",
+        "reference/control hashes when used",
+        "original source bytes"
+      ],
+      "intendedOriginalSourcePath": "docs/preproduction/art-factory/sources/ext07/beds-5/v1-a/original",
+      "intendedDerivativePath": "public/assets/catalog/beds-5-ext07-v1-a.png",
+      "routing": "06 exact-byte readback and preflight -> shared render -> reviewer 05 exact-hash disposition -> 08 only on ACCEPT"
+    },
+    {
+      "itemId": "beds-5",
+      "attemptId": "ext07-beds-5-v1-b",
+      "variant": "B",
+      "producer": "EXT07",
+      "reviewer": "05",
+      "promptRecipe": "starblox-catalog-beds-two-variant",
+      "promptRecipeVersion": "1.0.0",
+      "finalPrompt": "Create one original StarBlox catalog-art asset as a premium dimensional 3D furniture product render, centered in a clean softly lit room-studio scene, square composition, readable at small Store-card scale. It must unmistakably function as a usable bed: show a thick mattress with a fitted edge, coherent frame and base support, believable legs or pedestal contact with the floor, accessible sleeping surface, structural headboard or canopy attachment where appropriate, pillow and blanket volume, seams and folds, material separation, realistic contact shadows, and a strong recognizable silhouette. Keep the complete bed comfortably inside frame in a three-quarter view.\n\nIdentity: beds-5 - Garden Canopy. Collection: Beds. Type: room. Tier: 2. Theme: Art Attack. Price metadata: 181. Unlock star requirement: 0.\n\nVariant B art direction: A lower daybed-style garden canopy built from two arched trellis side frames, a sturdy rear beam, cross-braced base, and four broad feet. Suspend one asymmetrical fabric valance from real rods above the mattress. Use a thick cream mattress, bolster pillow, two square cushions, and a textured throw. Art Attack identity comes from hand-painted-looking color blocks on the trellis panels, stitched paint-splash appliques on the cushions, and a removable-looking canvas pocket fixed to the frame. Distinct open arch silhouette; no real vines or floating art supplies.\n\nNegative constraints: No person, avatar, body, pet, or sleeping figure; no floating mattress, unsupported platform, impossible canopy, missing floor contact, paper-thin bedding, fused pillows, warped rails, inaccessible sleeping surface, flat vector, icon, emoji, generic placeholder, recolor clone, text, item name, watermark, logo, third-party brand, Roblox asset, Brookhaven asset, collage, promo grid, duplicate bed, detached pieces, or cropped silhouette.",
+      "promptSha256": "56560ec556856d5ec2d824d0f7ceada94ca33716796659320addca7c0e568d13",
+      "plannedDeterministicSeed": 202609230702,
+      "seedStatus": "PLANNED_NOT_EXECUTED",
+      "generatorExecutionStatus": "NOT_EXECUTED",
+      "requiredRuntimeEvidence": [
+        "exact runtime identity",
+        "immutable runtime revision/commit",
+        "exact model ID",
+        "immutable checkpoint revision",
+        "executed deterministic seed or expressly permitted seed-unavailable record",
+        "rights basis",
+        "reference/control hashes when used",
+        "original source bytes"
+      ],
+      "intendedOriginalSourcePath": "docs/preproduction/art-factory/sources/ext07/beds-5/v1-b/original",
+      "intendedDerivativePath": "public/assets/catalog/beds-5-ext07-v1-b.png",
+      "routing": "06 exact-byte readback and preflight -> shared render -> reviewer 05 exact-hash disposition -> 08 only on ACCEPT"
+    },
+    {
+      "itemId": "beds-6",
+      "attemptId": "ext07-beds-6-v1-a",
+      "variant": "A",
+      "producer": "EXT07",
+      "reviewer": "05",
+      "promptRecipe": "starblox-catalog-beds-two-variant",
+      "promptRecipeVersion": "1.0.0",
+      "finalPrompt": "Create one original StarBlox catalog-art asset as a premium dimensional 3D furniture product render, centered in a clean softly lit room-studio scene, square composition, readable at small Store-card scale. It must unmistakably function as a usable bed: show a thick mattress with a fitted edge, coherent frame and base support, believable legs or pedestal contact with the floor, accessible sleeping surface, structural headboard or canopy attachment where appropriate, pillow and blanket volume, seams and folds, material separation, realistic contact shadows, and a strong recognizable silhouette. Keep the complete bed comfortably inside frame in a three-quarter view.\n\nIdentity: beds-6 - Galaxy Gamer Bed. Collection: Beds. Type: room. Tier: 2. Theme: Star Luxe. Price metadata: 254. Unlock star requirement: 0.\n\nVariant A art direction: A low futuristic gamer platform bed with a thick navy mattress nested inside a broad upholstered frame, a tall winged headboard, two grounded side plinths, and a continuous recessed base. Integrate small bedside control panels and warm reading lights into the headboard without screens or text. Star Luxe theme: midnight velvet, pearl panels, champagne-gold edge rails, subtle star quilting, and restrained violet-cyan reflected light. Add two structured pillows and a folded metallic-thread blanket. Show cable-safe hardware, seams, frame thickness, and floor contact; premium but clearly tier 2.\n\nNegative constraints: No person, avatar, body, pet, or sleeping figure; no floating mattress, unsupported platform, impossible canopy, missing floor contact, paper-thin bedding, fused pillows, warped rails, inaccessible sleeping surface, flat vector, icon, emoji, generic placeholder, recolor clone, text, item name, watermark, logo, third-party brand, Roblox asset, Brookhaven asset, collage, promo grid, duplicate bed, detached pieces, or cropped silhouette.",
+      "promptSha256": "d411f8b994cea4201247b5efb67fad4c50686ec6fb454b58fb3a32d2e1bf176b",
+      "plannedDeterministicSeed": 202609230703,
+      "seedStatus": "PLANNED_NOT_EXECUTED",
+      "generatorExecutionStatus": "NOT_EXECUTED",
+      "requiredRuntimeEvidence": [
+        "exact runtime identity",
+        "immutable runtime revision/commit",
+        "exact model ID",
+        "immutable checkpoint revision",
+        "executed deterministic seed or expressly permitted seed-unavailable record",
+        "rights basis",
+        "reference/control hashes when used",
+        "original source bytes"
+      ],
+      "intendedOriginalSourcePath": "docs/preproduction/art-factory/sources/ext07/beds-6/v1-a/original",
+      "intendedDerivativePath": "public/assets/catalog/beds-6-ext07-v1-a.png",
+      "routing": "06 exact-byte readback and preflight -> shared render -> reviewer 05 exact-hash disposition -> 08 only on ACCEPT"
+    },
+    {
+      "itemId": "beds-6",
+      "attemptId": "ext07-beds-6-v1-b",
+      "variant": "B",
+      "producer": "EXT07",
+      "reviewer": "05",
+      "promptRecipe": "starblox-catalog-beds-two-variant",
+      "promptRecipeVersion": "1.0.0",
+      "finalPrompt": "Create one original StarBlox catalog-art asset as a premium dimensional 3D furniture product render, centered in a clean softly lit room-studio scene, square composition, readable at small Store-card scale. It must unmistakably function as a usable bed: show a thick mattress with a fitted edge, coherent frame and base support, believable legs or pedestal contact with the floor, accessible sleeping surface, structural headboard or canopy attachment where appropriate, pillow and blanket volume, seams and folds, material separation, realistic contact shadows, and a strong recognizable silhouette. Keep the complete bed comfortably inside frame in a three-quarter view.\n\nIdentity: beds-6 - Galaxy Gamer Bed. Collection: Beds. Type: room. Tier: 2. Theme: Star Luxe. Price metadata: 254. Unlock star requirement: 0.\n\nVariant B art direction: A compact partial-capsule gamer bed with a rigid curved headboard canopy covering only the pillow zone, a visible supported platform, four inset pedestal feet, and side rails low enough for access. Use a deep mattress, wedge back pillow, standard pillow, and layered duvet. Star Luxe materials combine pearl-white shell, midnight-blue upholstery, brushed gold brackets, translucent constellation perforations, and soft internal warm lighting. Add two physical controller-storage cubbies as simple recessed compartments with no branded controllers. Distinct cocoon silhouette from variant A while remaining a believable bed.\n\nNegative constraints: No person, avatar, body, pet, or sleeping figure; no floating mattress, unsupported platform, impossible canopy, missing floor contact, paper-thin bedding, fused pillows, warped rails, inaccessible sleeping surface, flat vector, icon, emoji, generic placeholder, recolor clone, text, item name, watermark, logo, third-party brand, Roblox asset, Brookhaven asset, collage, promo grid, duplicate bed, detached pieces, or cropped silhouette.",
+      "promptSha256": "973568b4435891ae6a763f2badedc507edf2a95d4d4deb1a4239f15b399c783d",
+      "plannedDeterministicSeed": 202609230704,
+      "seedStatus": "PLANNED_NOT_EXECUTED",
+      "generatorExecutionStatus": "NOT_EXECUTED",
+      "requiredRuntimeEvidence": [
+        "exact runtime identity",
+        "immutable runtime revision/commit",
+        "exact model ID",
+        "immutable checkpoint revision",
+        "executed deterministic seed or expressly permitted seed-unavailable record",
+        "rights basis",
+        "reference/control hashes when used",
+        "original source bytes"
+      ],
+      "intendedOriginalSourcePath": "docs/preproduction/art-factory/sources/ext07/beds-6/v1-b/original",
+      "intendedDerivativePath": "public/assets/catalog/beds-6-ext07-v1-b.png",
+      "routing": "06 exact-byte readback and preflight -> shared render -> reviewer 05 exact-hash disposition -> 08 only on ACCEPT"
+    },
+    {
+      "itemId": "beds-7",
+      "attemptId": "ext07-beds-7-v1-a",
+      "variant": "A",
+      "producer": "EXT07",
+      "reviewer": "05",
+      "promptRecipe": "starblox-catalog-beds-two-variant",
+      "promptRecipeVersion": "1.0.0",
+      "finalPrompt": "Create one original StarBlox catalog-art asset as a premium dimensional 3D furniture product render, centered in a clean softly lit room-studio scene, square composition, readable at small Store-card scale. It must unmistakably function as a usable bed: show a thick mattress with a fitted edge, coherent frame and base support, believable legs or pedestal contact with the floor, accessible sleeping surface, structural headboard or canopy attachment where appropriate, pillow and blanket volume, seams and folds, material separation, realistic contact shadows, and a strong recognizable silhouette. Keep the complete bed comfortably inside frame in a three-quarter view.\n\nIdentity: beds-7 - Sunny Loft Bed. Collection: Beds. Type: room. Tier: 3. Theme: Midnight Neon. Price metadata: 348. Unlock star requirement: 2.\n\nVariant A art direction: A usable loft bed with a raised sleeping platform supported by four heavy square posts, diagonal rear bracing, visible guard rails, broad ladder rungs, and stable floor feet. Beneath it, include a compact built-in lounge bench and shelf to communicate tier-3 function without obscuring structure. The Sunny identity appears in a radial sunburst head panel and warm circular reading lamp, while the exact Midnight Neon theme uses matte black frame metal, deep navy upholstery, cyan and magenta edge lights, and violet bedding. Show a thick mattress, two pillows, folded blanket, safe ladder access, believable joints, and strong floor contact.\n\nNegative constraints: No person, avatar, body, pet, or sleeping figure; no floating mattress, unsupported platform, impossible canopy, missing floor contact, paper-thin bedding, fused pillows, warped rails, inaccessible sleeping surface, flat vector, icon, emoji, generic placeholder, recolor clone, text, item name, watermark, logo, third-party brand, Roblox asset, Brookhaven asset, collage, promo grid, duplicate bed, detached pieces, or cropped silhouette.",
+      "promptSha256": "80c9cb2cbbb6cc9af2acb25d19a042a1505c7c1478900495ce86bf1f80327a01",
+      "plannedDeterministicSeed": 202609230705,
+      "seedStatus": "PLANNED_NOT_EXECUTED",
+      "generatorExecutionStatus": "NOT_EXECUTED",
+      "requiredRuntimeEvidence": [
+        "exact runtime identity",
+        "immutable runtime revision/commit",
+        "exact model ID",
+        "immutable checkpoint revision",
+        "executed deterministic seed or expressly permitted seed-unavailable record",
+        "rights basis",
+        "reference/control hashes when used",
+        "original source bytes"
+      ],
+      "intendedOriginalSourcePath": "docs/preproduction/art-factory/sources/ext07/beds-7/v1-a/original",
+      "intendedDerivativePath": "public/assets/catalog/beds-7-ext07-v1-a.png",
+      "routing": "06 exact-byte readback and preflight -> shared render -> reviewer 05 exact-hash disposition -> 08 only on ACCEPT"
+    },
+    {
+      "itemId": "beds-7",
+      "attemptId": "ext07-beds-7-v1-b",
+      "variant": "B",
+      "producer": "EXT07",
+      "reviewer": "05",
+      "promptRecipe": "starblox-catalog-beds-two-variant",
+      "promptRecipeVersion": "1.0.0",
+      "finalPrompt": "Create one original StarBlox catalog-art asset as a premium dimensional 3D furniture product render, centered in a clean softly lit room-studio scene, square composition, readable at small Store-card scale. It must unmistakably function as a usable bed: show a thick mattress with a fitted edge, coherent frame and base support, believable legs or pedestal contact with the floor, accessible sleeping surface, structural headboard or canopy attachment where appropriate, pillow and blanket volume, seams and folds, material separation, realistic contact shadows, and a strong recognizable silhouette. Keep the complete bed comfortably inside frame in a three-quarter view.\n\nIdentity: beds-7 - Sunny Loft Bed. Collection: Beds. Type: room. Tier: 3. Theme: Midnight Neon. Price metadata: 348. Unlock star requirement: 2.\n\nVariant B art direction: An offset loft bed with one solid stair-storage side, two rear posts, cross-braced upper rails, full guard rail, and a clearly supported cantilever-free mattress deck. A small reading desk sits under the opposite side but remains secondary to the bed. Use a thick mattress, quilted duvet, two pillows, and a curved sun-disc headboard panel. Midnight Neon treatment: charcoal structure, neon-cyan step-edge strips, magenta drawer pulls, electric-violet textiles, and a warm amber sun-disc glow. Rich tier-3 mixed wood, metal, textile, and light; materially distinct from the ladder-and-bench variant.\n\nNegative constraints: No person, avatar, body, pet, or sleeping figure; no floating mattress, unsupported platform, impossible canopy, missing floor contact, paper-thin bedding, fused pillows, warped rails, inaccessible sleeping surface, flat vector, icon, emoji, generic placeholder, recolor clone, text, item name, watermark, logo, third-party brand, Roblox asset, Brookhaven asset, collage, promo grid, duplicate bed, detached pieces, or cropped silhouette.",
+      "promptSha256": "9a42395732b6084f9bb84b81cd233bc1031f47c545d4b8e95ae10e9427ddbe95",
+      "plannedDeterministicSeed": 202609230706,
+      "seedStatus": "PLANNED_NOT_EXECUTED",
+      "generatorExecutionStatus": "NOT_EXECUTED",
+      "requiredRuntimeEvidence": [
+        "exact runtime identity",
+        "immutable runtime revision/commit",
+        "exact model ID",
+        "immutable checkpoint revision",
+        "executed deterministic seed or expressly permitted seed-unavailable record",
+        "rights basis",
+        "reference/control hashes when used",
+        "original source bytes"
+      ],
+      "intendedOriginalSourcePath": "docs/preproduction/art-factory/sources/ext07/beds-7/v1-b/original",
+      "intendedDerivativePath": "public/assets/catalog/beds-7-ext07-v1-b.png",
+      "routing": "06 exact-byte readback and preflight -> shared render -> reviewer 05 exact-hash disposition -> 08 only on ACCEPT"
+    },
+    {
+      "itemId": "beds-8",
+      "attemptId": "ext07-beds-8-v1-a",
+      "variant": "A",
+      "producer": "EXT07",
+      "reviewer": "05",
+      "promptRecipe": "starblox-catalog-beds-two-variant",
+      "promptRecipeVersion": "1.0.0",
+      "finalPrompt": "Create one original StarBlox catalog-art asset as a premium dimensional 3D furniture product render, centered in a clean softly lit room-studio scene, square composition, readable at small Store-card scale. It must unmistakably function as a usable bed: show a thick mattress with a fitted edge, coherent frame and base support, believable legs or pedestal contact with the floor, accessible sleeping surface, structural headboard or canopy attachment where appropriate, pillow and blanket volume, seams and folds, material separation, realistic contact shadows, and a strong recognizable silhouette. Keep the complete bed comfortably inside frame in a three-quarter view.\n\nIdentity: beds-8 - Aqua Bubble Bed. Collection: Beds. Type: room. Tier: 3. Theme: Candy Core. Price metadata: 479. Unlock star requirement: 2.\n\nVariant A art direction: A rounded platform bed with a substantial aqua upholstered base, four short transparent acrylic feet, thick mattress, and a large half-dome bubble canopy anchored to the rear frame by visible curved supports. Keep the front fully open for access. Candy Core theme: translucent strawberry-pink and aqua canopy tint, cream mattress, lavender piping, coral candy-like button tufting, and glossy pearl corner caps. Add three voluminous pillows and a puffy segmented duvet resembling soft candy cushions without literal packaged sweets. Show reflections, shell thickness, support joints, floor shadow, and a bold bubble silhouette.\n\nNegative constraints: No person, avatar, body, pet, or sleeping figure; no floating mattress, unsupported platform, impossible canopy, missing floor contact, paper-thin bedding, fused pillows, warped rails, inaccessible sleeping surface, flat vector, icon, emoji, generic placeholder, recolor clone, text, item name, watermark, logo, third-party brand, Roblox asset, Brookhaven asset, collage, promo grid, duplicate bed, detached pieces, or cropped silhouette.",
+      "promptSha256": "622802cddec514be3b2e64fcf4248f4b03abb5f3ed88fcf41ad3f46b6854888e",
+      "plannedDeterministicSeed": 202609230707,
+      "seedStatus": "PLANNED_NOT_EXECUTED",
+      "generatorExecutionStatus": "NOT_EXECUTED",
+      "requiredRuntimeEvidence": [
+        "exact runtime identity",
+        "immutable runtime revision/commit",
+        "exact model ID",
+        "immutable checkpoint revision",
+        "executed deterministic seed or expressly permitted seed-unavailable record",
+        "rights basis",
+        "reference/control hashes when used",
+        "original source bytes"
+      ],
+      "intendedOriginalSourcePath": "docs/preproduction/art-factory/sources/ext07/beds-8/v1-a/original",
+      "intendedDerivativePath": "public/assets/catalog/beds-8-ext07-v1-a.png",
+      "routing": "06 exact-byte readback and preflight -> shared render -> reviewer 05 exact-hash disposition -> 08 only on ACCEPT"
+    },
+    {
+      "itemId": "beds-8",
+      "attemptId": "ext07-beds-8-v1-b",
+      "variant": "B",
+      "producer": "EXT07",
+      "reviewer": "05",
+      "promptRecipe": "starblox-catalog-beds-two-variant",
+      "promptRecipeVersion": "1.0.0",
+      "finalPrompt": "Create one original StarBlox catalog-art asset as a premium dimensional 3D furniture product render, centered in a clean softly lit room-studio scene, square composition, readable at small Store-card scale. It must unmistakably function as a usable bed: show a thick mattress with a fitted edge, coherent frame and base support, believable legs or pedestal contact with the floor, accessible sleeping surface, structural headboard or canopy attachment where appropriate, pillow and blanket volume, seams and folds, material separation, realistic contact shadows, and a strong recognizable silhouette. Keep the complete bed comfortably inside frame in a three-quarter view.\n\nIdentity: beds-8 - Aqua Bubble Bed. Collection: Beds. Type: room. Tier: 3. Theme: Candy Core. Price metadata: 479. Unlock star requirement: 2.\n\nVariant B art direction: A soft round-edged bed with a deep aqua pedestal base, thick oval-corner mattress, stable recessed plinth, and a headboard made from overlapping upholstered bubble discs mounted to a visible rear spine. No enclosing canopy. Candy Core identity comes from alternating mint, berry-pink, lavender, and cream bubble cushions, glossy jelly-like edge piping, and a striped quilt with real folds. Include two large pillows, one bolster, side grab notch, seams, compression, and warm candy-shop lighting reflected across distinct textile, acrylic, and metal materials. Tier-3 richness and a silhouette clearly different from the dome variant.\n\nNegative constraints: No person, avatar, body, pet, or sleeping figure; no floating mattress, unsupported platform, impossible canopy, missing floor contact, paper-thin bedding, fused pillows, warped rails, inaccessible sleeping surface, flat vector, icon, emoji, generic placeholder, recolor clone, text, item name, watermark, logo, third-party brand, Roblox asset, Brookhaven asset, collage, promo grid, duplicate bed, detached pieces, or cropped silhouette.",
+      "promptSha256": "907132c5e180537e89d5bc5f1005a71277f28b36a595d40c57b82729ed28569d",
+      "plannedDeterministicSeed": 202609230708,
+      "seedStatus": "PLANNED_NOT_EXECUTED",
+      "generatorExecutionStatus": "NOT_EXECUTED",
+      "requiredRuntimeEvidence": [
+        "exact runtime identity",
+        "immutable runtime revision/commit",
+        "exact model ID",
+        "immutable checkpoint revision",
+        "executed deterministic seed or expressly permitted seed-unavailable record",
+        "rights basis",
+        "reference/control hashes when used",
+        "original source bytes"
+      ],
+      "intendedOriginalSourcePath": "docs/preproduction/art-factory/sources/ext07/beds-8/v1-b/original",
+      "intendedDerivativePath": "public/assets/catalog/beds-8-ext07-v1-b.png",
+      "routing": "06 exact-byte readback and preflight -> shared render -> reviewer 05 exact-hash disposition -> 08 only on ACCEPT"
+    }
+  ],
+  "noWriteScopes": [
+    "catalog-art-manifest.json",
+    "src/catalogArtRuntime.js",
+    "docs/preproduction/art-factory/ACTIVE_BATCH.json",
+    "docs/preproduction/catalog-sprint/reviews/05.json",
+    "src/gameModel.js",
+    ".github/workflows/*",
+    "gameplay/UI runtime"
+  ],
+  "nextActions": [
+    "Execute the eight jobs only through an authorized revision-reporting deterministic runtime that records every ART_FACTORY_V2 evidence field.",
+    "Generate exactly two materially differentiated variants per selected item without opening Beds 9-12.",
+    "Preserve original bytes, create unique versioned derivative paths, and verify committed bytes plus real Store-card/detail renders.",
+    "Route exact candidate hashes to reviewer 05; do not self-approve or modify canonical mappings."
+  ]
+}
