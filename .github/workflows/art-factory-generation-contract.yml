@@ -7,6 +7,8 @@ on:
     paths:
       - 'scripts/artFactoryDiffusers.py'
       - 'scripts/test_artFactoryDiffusers.py'
+      - 'scripts/verifyCpuRuntimeProof.py'
+      - 'scripts/test_verifyCpuRuntimeProof.py'
       - '.github/workflows/art-factory-generation-contract.yml'
 
 permissions:
@@ -34,6 +36,7 @@ jobs:
         run: |
           python scripts/artFactoryDiffusers.py self-test
           python scripts/test_artFactoryDiffusers.py
+          python scripts/test_verifyCpuRuntimeProof.py
 
       - name: Prove heavy ML imports stay lazy
         run: |

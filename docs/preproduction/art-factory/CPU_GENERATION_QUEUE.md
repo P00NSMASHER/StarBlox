@@ -41,6 +41,10 @@ attempt per item on isolated hosted CPU runners, verifies exact bytes with
 `verify_staged_output.py`, then commits only versioned candidate bytes and
 hash-bound evidence back to `screenshot-match-preproduction`.
 
-A queue is invalid if the CPU runtime proof file is absent/not PROVEN, an item
-is outside the request scope, the reviewer is not 01/02/05/11/14, the reviewer
-equals the producer, or any path/version/provenance binding fails.
+A queue is invalid if the durable CPU runtime proof or any referenced proof
+evidence fails `scripts/verifyCpuRuntimeProof.py`, an item is outside the
+request scope, the reviewer is not 01/02/05/11/14, the reviewer equals the
+producer, or any path/version/provenance binding fails. The verifier binds the
+successful workflow head, deterministic job, runtime probe, generation
+receipt, executed seed, exact model/runtime revisions, and preserved PNG bytes
+before any production queue can start.

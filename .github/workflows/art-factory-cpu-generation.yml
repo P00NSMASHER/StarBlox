@@ -28,8 +28,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: screenshot-match-preproduction
+          ref: ${{ github.sha }}
           fetch-depth: 2
+
+      - name: Bind required branch name to exact queue head
+        run: |
+          git switch -C screenshot-match-preproduction "$GITHUB_SHA"
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
 
       - uses: actions/setup-node@v4
         with:
@@ -65,10 +70,6 @@ jobs:
           assert q["runtimeCommit"]=="7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c"
           assert q["modelId"]=="stabilityai/stable-diffusion-xl-base-1.0"
           assert q["modelRevision"]=="462165984030d82259a11f4367a4eed129e94a7b"
-          proof=pathlib.Path("docs/preproduction/art-factory/CPU_RUNTIME_PROOF.json")
-          assert proof.is_file(), "CPU runtime proof not committed"
-          p=json.loads(proof.read_text())
-          assert p.get("status")=="PROVEN"
           allowed={"01","02","05","11","14"}
           for item in items:
               r=str((q.get("reviewerByItem") or {}).get(item) or "")
@@ -78,6 +79,9 @@ jobs:
               assert (q.get("variantByItem") or {}).get(item)
           print("QUEUE_VALID=PASS")
           PY
+          python scripts/verifyCpuRuntimeProof.py \
+            --repo-root . \
+            --proof docs/preproduction/art-factory/CPU_RUNTIME_PROOF.json
           mkdir -p artifacts/cpu-generation/jobs
           PRODUCER="$(python -c 'import json,os;print(json.load(open(os.environ["QUEUE_FILE"]))["producer"])')"
           REQUEST="$(python -c 'import json,os;print(json.load(open(os.environ["QUEUE_FILE"]))["requestPath"])')"
@@ -127,8 +131,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: screenshot-match-preproduction
+          ref: ${{ github.sha }}
           fetch-depth: 1
+
+      - name: Bind required branch name to exact queue head
+        run: |
+          git switch -C screenshot-match-preproduction "$GITHUB_SHA"
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
 
       - uses: actions/setup-python@v5
         with:
