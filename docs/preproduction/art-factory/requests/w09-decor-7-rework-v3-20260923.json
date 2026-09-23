@@ -1,0 +1,92 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_BATCH_REQUEST",
+  "planner": "12",
+  "producer": "09",
+  "preflightOwner": "06",
+  "reviewer": "01",
+  "renderOwner": "14",
+  "integrationOwner": "08",
+  "coordinationOwner": "15",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "8a3ea53201990b5c43ca088eac61bf0bdac6548f",
+  "manifestVersion": 33,
+  "batchId": "w09-decor-7-rework-v3",
+  "scope": [
+    "decor-7"
+  ],
+  "state": "FAILURE_SPECIFIC_REWORK_PACKET_READY__DO_NOT_DISPATCH_WHILE_WALL_CPU_ACTIVE",
+  "assignmentAuthority": {
+    "path": "docs/preproduction/art-factory/ACTIVE_BATCH.json",
+    "reviewer": "01",
+    "priorExactCandidate": "public/assets/catalog-candidates/cpu/decor-7-w09-v2-a-physical-original.png",
+    "priorGitBlobSha": "fa415ef0a554e2a60ee9e836f23d8d38b266a6e3",
+    "priorSha256": "2e92a6036047b95a9ddfcaab903e94c80d216ea4dd24054006e938cdaf21933e",
+    "reviewPath": "docs/preproduction/catalog-sprint/reviews/01.json",
+    "reviewDecision": "REWORK",
+    "reviewedAt": "2026-09-23T23:10:00Z",
+    "cpuLaneRule": "Do not create or touch a runtime-queue file while Wall run 35931931966 is active. This request is planning-only until coordinator15 observes an idle CPU lane."
+  },
+  "references": {
+    "originalStoreReference": {
+      "repositoryPath": "docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg",
+      "sha256": "b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d",
+      "gitBlobSha": "383baa877d3af86fa92e3583740212000592b3d6",
+      "dimensions": [
+        1448,
+        1086
+      ],
+      "role": "FIRST_PARTY_STARBLOX_STORE_ART_DIRECTION"
+    }
+  },
+  "reviewSource": {
+    "decision": "REWORK",
+    "exactHash": "fa415ef0a554e2a60ee9e836f23d8d38b266a6e3",
+    "reasonCodes": [
+      "WEAK_PRODUCT_IDENTITY",
+      "CLUTTERED_SCENE",
+      "CROPPED_MALFORMED_EDGE_OBJECT",
+      "SMALL_CARD_READABILITY",
+      "WEAK_PHYSICAL_RACK_CONSTRUCTION"
+    ],
+    "reviewerReason": "Exact v2 pixels did not read cleanly as one physical Skate Rack: room-scale shelving and loose gear competed with the product, the rack silhouette/construction was weak, a malformed object was cropped at the edge, and card-size readability failed."
+  },
+  "seedBinding": {
+    "method": "SHA256(batchId + '|' + itemId + '|' + variantId), first 8 hex interpreted unsigned then masked with 0x7fffffff"
+  },
+  "items": {
+    "decor-7": {
+      "identity": {
+        "name": "Skate Rack",
+        "collection": "Room Decor",
+        "tier": 3,
+        "theme": "Garden Glow",
+        "price": 348,
+        "starReq": 2
+      },
+      "preserveRejectedExactHash": true,
+      "variants": [
+        {
+          "variantId": "A-RACK-SILHOUETTE",
+          "plannerSeed": 463470121,
+          "optimizerInputSha256": "3c5999b9a7c650a1ccacb7950c3bdc6f36e0d97043075d3cb8483a0f871afa05",
+          "optimizerInput": "Skate Rack, Room Decor, Tier 3, Garden Glow. Isolated premium three-quarter product render of one compact freestanding roller-skate storage rack, fully visible with generous empty margin on every side. Build it from two warm-oak side frames, three sage-green metal crossbars, four clearly separated skate cubbies, and wide stable feet with visible bolts and joinery. Store exactly two pairs of recognizable quad roller skates heel-down in the bays; show boot uppers, toe stops, trucks and four wheels without loose gear around the rack. Use subtle leaf-shaped cutouts and restrained lime glow accents integrated into the frame. Strong single-product silhouette, believable weight-bearing construction, grounded contact shadow, clean neutral backdrop. No room scene, wall shelving, skateboards, logos, text, floating parts, edge crops, extra furniture or malformed objects."
+        },
+        {
+          "variantId": "B-CUBBY-READABILITY",
+          "plannerSeed": 1650696099,
+          "optimizerInputSha256": "5cf4f1fc2d136ab2f4b4916f6c31272ed95857519b5bf7fe58e85246331055d3",
+          "optimizerInput": "Skate Rack, Room Decor, Tier 3, Garden Glow. Create one simple A-frame roller-skate organizer designed to read instantly at small card size. Entire object centered and uncropped. Use thick honey-oak uprights, a broad wood base, botanical-green metal braces and four large open storage bays. Place three clearly recognizable quad roller skates in separate bays and leave one bay empty so the storage function is obvious. Keep accessories absent except one tiny integrated leaf motif. Emphasize clean negative space, sturdy joints, consistent perspective, realistic feet and a soft ground shadow. Premium isolated three-quarter product view with sage, warm wood and subtle Garden Glow highlights. No room background, long shelving, skateboards, helmets, planters, text, logos, floating gear or objects touching the image edge."
+        }
+      ]
+    }
+  },
+  "nextGate": "WHEN_CPU_IDLE__RUN_OPTIMIZER__COMPILE_PINNED_CPU_JOB__STAGE_EXACT_BYTES__06__14_RENDER__01_REVIEW__08_ON_ACCEPT",
+  "safety": {
+    "generatedPixels": false,
+    "runtimeQueueTouched": false,
+    "canonicalMappingsChanged": false,
+    "gameplayLearningPersistenceEconomyChanged": false,
+    "deploymentTouched": false
+  }
+}

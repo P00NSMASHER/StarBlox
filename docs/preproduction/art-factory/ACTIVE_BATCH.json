@@ -2,8 +2,8 @@
   "schemaVersion": 27,
   "owner": "15",
   "branch": "screenshot-match-preproduction",
-  "sourceHead": "80fc7971468018caaa4d47dab87b0cbe52b6d587",
-  "updatedAt": "2026-09-23T23:08:00Z",
+  "sourceHead": "8a3ea53201990b5c43ca088eac61bf0bdac6548f",
+  "updatedAt": "2026-09-23T23:15:50Z",
   "status": "ACTIVE_RELEASE_BLOCKER_FIRST",
   "policy": {
     "maxConcurrentProductionBatches": 4,
@@ -77,19 +77,19 @@
   },
   "cpuGenerationSemaphore": {
     "workflowPath": ".github/workflows/art-factory-cpu-generation.yml",
-    "observedAt": "2026-09-23T23:08:00Z",
+    "observedAt": "2026-09-23T23:15:50Z",
     "running": {
       "runId": 35931931966,
       "headSha": "ce295170053b7a00a0dbbf90d7f7f955989fec9a",
       "batch": "Wall9-12 hardened current-workflow dispatch",
-      "state": "PLAN_IN_PROGRESS",
+      "state": "GENERATION_IN_PROGRESS",
       "jobs": [
         "wall-9",
         "wall-10",
         "wall-11",
         "wall-12"
       ],
-      "phase": "CURRENT_WORKFLOW_PLAN",
+      "phase": "WALL9_12__4_MATRIX_GENERATION_JOBS_ACTIVE",
       "candidateArtifactsStaged": false,
       "contract": "768x768, 8 steps, bfloat16, per-item exact staging, 20-minute per-generation guard"
     },
@@ -159,9 +159,9 @@
         "decor-5",
         "decor-7"
       ],
-      "state": "DECOR7_EXACT_STAGED_RENDER_REVIEW01_IN_PROGRESS__DECOR5_CANCELLED_NO_ARTIFACT_RETRY_DEFERRED",
+      "state": "DECOR7_V2_REWORKED__V3_FAILURE_SPECIFIC_PACKET_READY__DECOR5_NO_ARTIFACT_RETRY_DEFERRED",
       "reviewer": "01",
-      "requirements": "Decor7 exact PNG is branch-staged at public/assets/catalog-candidates/cpu/decor-7-w09-v2-a-physical-original.png with SHA-256 2e92a6036047b95a9ddfcaab903e94c80d216ea4dd24054006e938cdaf21933e / blob fa415ef0a554e2a60ee9e836f23d8d38b266a6e3. Staged Catalog Art QA run 35931971953 is rendering it for reviewer01. Decor5 produced no artifact before stale run 35927174551 was cancelled; retry only after current Wall run leaves the CPU lane. Route Decor7: 14 render -> 01 independent exact-hash decision -> 08 on ACCEPT.",
+      "requirements": "Decor7 exact v2 hash fa415ef0a554e2a60ee9e836f23d8d38b266a6e3 is independently REWORK by reviewer01. Preserve it and do not canonical-wire or re-review. Failure-specific v3 planning packet is docs/preproduction/art-factory/requests/w09-decor-7-rework-v3-20260923.json; do not dispatch it while Wall run 35931931966 is active. Decor5 still has no current candidate artifact and remains deferred to a later CPU slot.",
       "evidence": [
         "docs/preproduction/art-factory/requests/w09-decor-5-7-ready-exec-20260923.json",
         "docs/preproduction/art-factory/requests/w09-decor-5-7-cpu-fallback-binding-20260923.json",
@@ -169,7 +169,9 @@
         "docs/preproduction/art-factory/CPU_RUNTIME_PROOF.json",
         "docs/preproduction/art-factory/requests/w09-decor-5-7-cpu-bound-20260923.json",
         "docs/preproduction/art-factory/runtime-queue/w09-decor-5-7-cpu-v1.json",
-        "https://github.com/P00NSMASHER/StarBlox/actions/runs/35881004304"
+        "https://github.com/P00NSMASHER/StarBlox/actions/runs/35881004304",
+        "docs/preproduction/art-factory/requests/w09-decor-7-rework-v3-20260923.json",
+        "docs/preproduction/catalog-sprint/reviews/01.json"
       ]
     },
     {
@@ -198,10 +200,10 @@
         "wall-11",
         "wall-12"
       ],
-      "state": "CPU_CURRENT_WORKFLOW_RUN_35931931966__PLAN_IN_PROGRESS",
+      "state": "CPU_CURRENT_WORKFLOW_RUN_35931931966__4_GENERATION_JOBS_ACTIVE",
       "batchType": "GENERATION_RUNTIME_UNBLOCK_THEN_BOUNDED_GENERATION",
       "reviewer": "02",
-      "requirements": "Wall9-12 is dispatched through the current hardened workflow after stale run 35927603306 was cancelled. Contract: 768x768, 8 steps, bfloat16, per-item exact staging, 20-minute per-generation guard. Do not create or dispatch another Wall queue. Each completed exact hash routes 12 -> 06 -> 14 render -> 02 independent review -> 08 on ACCEPT.",
+      "requirements": "Wall9-12 is actively generating through the hardened 768x768 / 8-step CPU workflow. Do not dispatch another CPU queue. Each successful item self-stages exact bytes/evidence and routes 12 -> 06 -> 14 -> 02 -> 08 on ACCEPT.",
       "evidence": [
         "docs/preproduction/art-factory/requests/w13-wall-9-12-20260922.json",
         "docs/preproduction/art-factory/requests/w13-github-actions-model-runtime-probe-20260923.json",
@@ -213,17 +215,7 @@
       ]
     }
   ],
-  "pendingCandidates": [
-    {
-      "id": "decor-7",
-      "producer": "09",
-      "reviewer": "01",
-      "path": "public/assets/catalog-candidates/cpu/decor-7-w09-v2-a-physical-original.png",
-      "sha256": "2e92a6036047b95a9ddfcaab903e94c80d216ea4dd24054006e938cdaf21933e",
-      "gitBlobSha": "fa415ef0a554e2a60ee9e836f23d8d38b266a6e3",
-      "state": "STAGED_EXACT_BYTES_VERIFIED__RENDER_QA_RUN_35931971953_IN_PROGRESS"
-    }
-  ],
+  "pendingCandidates": [],
   "pendingRenderReview": [],
   "acceptedAwaitingCanonical": [],
   "externalArrivals": {
@@ -337,7 +329,15 @@
       "state": "PROVEN_CPU_QUEUE_DURABLE__INITIAL_RUN_CANCELLED_WITH_ZERO_JOBS__NO_CANDIDATE",
       "next": "Dispatch the existing w13-wall-9-12-cpu-v1 queue once after the serialized CPU lane clears; never create a duplicate queue for unchanged item versions."
     },
-    "tops11_12": "EXT01 owned; primary must not duplicate while authoritative external payload bytes are pending."
+    "tops11_12": "EXT01 owned; primary must not duplicate while authoritative external payload bytes are pending.",
+    "decor7": {
+      "state": "EXACT_V2_REWORK__PRESERVE_HASH__V3_PACKET_READY_NO_DISPATCH",
+      "path": "public/assets/catalog-candidates/cpu/decor-7-w09-v2-a-physical-original.png",
+      "gitBlobSha": "fa415ef0a554e2a60ee9e836f23d8d38b266a6e3",
+      "sha256": "2e92a6036047b95a9ddfcaab903e94c80d216ea4dd24054006e938cdaf21933e",
+      "reviewPath": "docs/preproduction/catalog-sprint/reviews/01.json",
+      "nextRequest": "docs/preproduction/art-factory/requests/w09-decor-7-rework-v3-20260923.json"
+    }
   },
   "parallelQaHandoff": {
     "owner": "10",
@@ -367,53 +367,55 @@
   "readerRule": "Every worker must revalidate branch head, assignment, exact hash and review state before writing. This file never overrides newer exact-hash evidence.",
   "cycleId": "director-20260923T1618Z-e3fd4d90",
   "criticalPath": {
-    "computedAtHead": "e3fd4d90083c453c88ada49676520c4c22374d67",
+    "computedAtHead": "8a3ea53201990b5c43ca088eac61bf0bdac6548f",
     "order": [
       {
         "rank": 1,
-        "blocker": "DECOR6_8_CPU_GENERATION_IN_PROGRESS",
-        "affectedScopes": [
-          "decor-6",
-          "decor-8"
-        ],
-        "prerequisite": "Run 35880356000 must complete generation and repository staging with exact candidate hashes plus complete ART_FACTORY_V2 evidence.",
-        "nextOwner": "12 -> 06 -> 14 -> 11 -> 08 on ACCEPT."
-      },
-      {
-        "rank": 2,
-        "blocker": "DECOR5_7_CPU_QUEUE_SERIALIZED_PENDING",
-        "affectedScopes": [
-          "decor-5",
-          "decor-7"
-        ],
-        "prerequisite": "Run 35881004304 begins automatically after the active serialized CPU generation run clears; do not duplicate its queue.",
-        "nextOwner": "09 generation -> 12 -> 06 -> 14 -> 01 -> 08 on ACCEPT."
-      },
-      {
-        "rank": 3,
-        "blocker": "WALL9_12_DURABLE_QUEUE_NEEDS_SINGLE_REDISPATCH",
+        "blocker": "WALL9_12_CURRENT_CPU_GENERATION",
         "affectedScopes": [
           "wall-9",
           "wall-10",
           "wall-11",
           "wall-12"
         ],
-        "prerequisite": "After currently competing CPU generation work clears, dispatch docs/preproduction/art-factory/runtime-queue/w13-wall-9-12-cpu-v1.json once. Initial run 35880826274 had zero jobs and produced no candidate.",
-        "nextOwner": "13 workflow dispatch of the existing queue -> 12 -> 06 -> 14 -> 02 -> 08 on ACCEPT."
+        "prerequisite": "Run 35931931966 completes or individual items self-stage under the hardened workflow.",
+        "nextOwner": "12 -> 06 -> 14 -> 02 -> 08 per exact staged hash."
+      },
+      {
+        "rank": 2,
+        "blocker": "DECOR7_REWORK_AND_DECOR5_NO_ARTIFACT",
+        "affectedScopes": [
+          "decor-7",
+          "decor-5"
+        ],
+        "prerequisite": "Keep CPU trigger frozen while Wall is active. Decor7 v3 failure-specific request is prepared at docs/preproduction/art-factory/requests/w09-decor-7-rework-v3-20260923.json; Decor5 requires a fresh compliant retry.",
+        "nextOwner": "09 generation when coordinator15 observes idle CPU lane; then 12 -> 06 -> 14 -> 01 -> 08 on ACCEPT."
+      },
+      {
+        "rank": 3,
+        "blocker": "DECOR6_8_CANCELLED_NO_ARTIFACT_RETRY",
+        "affectedScopes": [
+          "decor-6",
+          "decor-8"
+        ],
+        "prerequisite": "Reuse the existing durable queue only after higher-priority current CPU work clears; do not create a duplicate queue.",
+        "nextOwner": "03 generation -> 12 -> 06 -> 14 -> 11 -> 08 on ACCEPT."
       },
       {
         "rank": 4,
-        "blocker": "DESK_RECOVERY_AND_PROVENANCE_TAIL",
+        "blocker": "DESK_AND_FROZEN_BYTE_RECOVERY_TAIL",
         "affectedScopes": [
+          "desks-7",
           "desks-8",
           "desks-9",
-          "desks-10"
+          "desks-10",
+          "wall-8"
         ],
-        "prerequisite": "Desk8 requires byte-preserving exact materialization only. Desk9/10 require truthful provenance recovery or one pinned-runtime regeneration batch after producer03's Decor6/8 assignment completes.",
-        "nextOwner": "07 for Desk8 exact-byte recovery; 03 for deferred Desk9/10 provenance-compliant replacements; then 12 -> 06 -> 14 -> 05 -> 08 on ACCEPT."
+        "prerequisite": "Preserve exact-byte-only recovery rules and provenance fail-closed states; no approximation or silent regeneration.",
+        "nextOwner": "Existing assigned recovery owners; route only genuinely qualified exact bytes into render/review."
       }
     ],
     "acceptedAwaitingCanonical": 0,
-    "note": "Keep exactly these four non-overlapping production/unblock batches until a material transition. CPU proof is complete and no accelerator is required. Desk9/10 are classified, fail-closed and deferred so producer03 is not double-booked. Frozen Desk7 and Wall8 remain outside active batch capacity until a genuinely new exact-byte materialization path exists. EXT10 phone composition repair may continue in parallel because it is non-catalog and already narrowly released."
+    "note": "Live critical path synchronized with reviewer01 Decor7 REWORK and Wall run 35931931966. No additional CPU queue trigger is authorized while Wall is active."
   }
 }
