@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_CROSS_ACCOUNT_ART_INTAKE_ROUTING",
+  "role": "12-intake-router",
+  "branch": "screenshot-match-preproduction",
+  "observedHeadBeforeWrite": "cf21dbbe6c2de7638a375055296cba1e917cce53",
+  "liveAuthority": {
+    "manifestVersion": 33,
+    "manifestBlobSha1": "3ce8dd5d16674ff556764402b712d215d3d22457",
+    "runtimeBlobSha1": "68dc4944988ee2850e634eb8966613b9663c163c",
+    "activeBatchBlobSha1": "8519f3338ca4b9de72c5294cd1a0b34e26f71a5b",
+    "activeBatchSourceHead": "aebd322150977436179404b50a5e87a226690a44",
+    "activeFallbackCount": 19
+  },
+  "scan": {
+    "baseHead": "deed7f04e1028cdf191452c1f5102b637e469c8a",
+    "headInspected": "cf21dbbe6c2de7638a375055296cba1e917cce53",
+    "commitsInspected": 16,
+    "newExternalCandidateEvents": [],
+    "externalObservation": "No EXT01-EXT10 candidate asset or handoff arrived in the inspected delta. Protected external production scopes remain non-duplicated.",
+    "newPrimaryCandidateEvents": [],
+    "newPrimaryHandoffEvents": [
+      "producer13 Wall9-12 alternate provider provenance capability probe"
+    ]
+  },
+  "routingEvents": [
+    {
+      "scope": ["wall-9", "wall-10", "wall-11", "wall-12"],
+      "producer": "13",
+      "reviewerFamily": "14",
+      "activeBatchReservation": {
+        "reserved": true,
+        "batchId": "w13-wall-9-12-runtime-unblock-v2",
+        "state": "FIREFLY_RESPONSE_PROVENANCE_PROVEN_NONCOMPLIANT__PINNED_DIFFUSERS_OR_EQUIVALENT_REVISION_REPORTING_RUNTIME_REQUIRED"
+      },
+      "handoffEvidence": {
+        "path": "docs/preproduction/art-factory/requests/w13-viewmax-provenance-capability-20260923.json",
+        "commit": "cf21dbbe6c2de7638a375055296cba1e917cce53",
+        "candidateProduced": false,
+        "creditsSpent": false,
+        "providerSurface": "Viewmax image generation connector",
+        "disposition": "NOT_PROVEN_ART_FACTORY_V2_COMPLIANT_FOR_WALL9_12"
+      },
+      "provenanceStatus": {
+        "modelIdentityExposed": true,
+        "modelRevisionExposed": false,
+        "runtimeIdentityOrCommitExposed": false,
+        "executedSeedExposed": false,
+        "authoritativeSeedUnavailableRecordExposed": false
+      },
+      "newerCandidateObserved": false,
+      "routerDisposition": {
+        "queueTo06": false,
+        "reasonNotQueuedTo06": "No new image candidate or exact candidate hash exists to qualify.",
+        "returnToProducer": ["13", "15"],
+        "producerInstruction": "Preserve the Wall9-12 deterministic plan and use only the pinned Diffusers/SDXL runtime or another already-authorized runtime after a metadata-only check proves complete ART_FACTORY_V2 provenance. Do not repeat the closed Firefly path or spend Viewmax generation credits while its metadata contract remains unchanged.",
+        "renderer14": "HOLD_NO_TECHNICALLY_QUALIFIED_HASH",
+        "reviewer14": "HOLD_NO_RENDERED_NEW_HASH",
+        "integrator08": "NO_ACTION"
+      }
+    }
+  ],
+  "eligibleFor06": [],
+  "missingProvenanceReturnQueue": ["wall-9", "wall-10", "wall-11", "wall-12"],
+  "overlapsOrStaleHashes": [],
+  "preservation": {
+    "imageBytesChanged": false,
+    "reviewerDecisionsChanged": false,
+    "activeBatchChangedByRouter": false,
+    "canonicalMappingsChanged": false,
+    "runtimeMappingsChanged": false,
+    "ciOrWorkflowChangedByRouter": false,
+    "gameplayLearningPersistenceEconomyChanged": false,
+    "mainReplitFlootDeployPaidSecretsPlayerDataTouched": false
+  }
+}
