@@ -1,9 +1,9 @@
 {
-  "schemaVersion": 25,
+  "schemaVersion": 26,
   "owner": "15",
   "branch": "screenshot-match-preproduction",
-  "sourceHead": "452e533ada59069661ea957a52d4631fc4972262",
-  "updatedAt": "2026-09-23T14:58:28Z",
+  "sourceHead": "e3fd4d90083c453c88ada49676520c4c22374d67",
+  "updatedAt": "2026-09-23T16:18:16Z",
   "status": "ACTIVE_RELEASE_BLOCKER_FIRST",
   "policy": {
     "maxConcurrentProductionBatches": 4,
@@ -65,11 +65,40 @@
     "pinnedContract": "docs/preproduction/art-factory/PINNED_GENERATION_RUNTIME.json",
     "queueContract": "docs/preproduction/art-factory/CPU_GENERATION_QUEUE.md",
     "proofPath": "docs/preproduction/art-factory/CPU_RUNTIME_PROOF.json",
-    "proofState": "ABSENT__NOT_PRODUCTION_CAPABLE",
+    "proofState": "PROVEN__PRODUCTION_CAPABLE",
+    "proofRunId": 35878062823,
+    "proofHead": "452e533ada59069661ea957a52d4631fc4972262",
+    "proofArtifactDigest": "sha256:528610198d72092c9d09159bf4b749a5c467361307587545fb24dded2876eeda",
+    "proofOutputSha256": "4738232fa6c1b0cbe2669fd50ce0fe9d4ffd935be0cd972bc9660e0d63e5dcb1",
     "runtimeRevision": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
     "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
     "modelRevision": "462165984030d82259a11f4367a4eed129e94a7b",
-    "rule": "Do not mark CPU_QUEUE_ELIGIBLE and do not submit runtime-queue files until CPU_RUNTIME_PROOF.json exists with status PROVEN and exact runtime/model revisions matching this pinned contract. Once proven, CPU is production-capable; GPU/PAAM-L044 is not required."
+    "rule": "CPU_RUNTIME_PROOF.json is PROVEN and matches the pinned Diffusers commit and SDXL model revision. CPU is production-capable; GPU/PAAM-L044 is not required. Preserve exact executed-seed, prompt, source-head, model/runtime and output-hash provenance on every generated candidate."
+  },
+  "cpuGenerationSemaphore": {
+    "workflowPath": ".github/workflows/art-factory-cpu-generation.yml",
+    "observedAt": "2026-09-23T16:18:16Z",
+    "running": {
+      "runId": 35880356000,
+      "headSha": "0079db35c157cebaca2974dcf6608e7c4cdfeef5",
+      "batch": "Decor6/8",
+      "state": "IN_PROGRESS"
+    },
+    "pending": {
+      "runId": 35881004304,
+      "headSha": "2d7fcda7ef60b37851340520fe9f3655e08ebfe4",
+      "batch": "Decor5/7",
+      "state": "PENDING"
+    },
+    "oldestCanceledNoArtifact": {
+      "runId": 35880826274,
+      "headSha": "95fd9f8100fa17c1bafc3748c61dece24a6a254c",
+      "batch": "Wall9-12",
+      "jobsObserved": 0,
+      "candidateBytesStaged": false
+    },
+    "authorization": "HOLD_ALL_NEW_CPU_QUEUE_COMMITS_AND_DISPATCHES",
+    "rule": "While any CPU-generation run is queued, pending, waiting or in_progress, authorize no additional runtime-queue commit or workflow dispatch. Preserve the current running and single pending batches. When the lane is completely idle, first retry the oldest still-needed canceled/no-artifact queue after confirming no candidate bytes or newer exact evidence supersede it."
   },
   "batches": [
     {
@@ -79,14 +108,18 @@
         "decor-6",
         "decor-8"
       ],
-      "state": "WAITING_DURABLE_CPU_PROOF_OR_EQUIVALENT_PROVEN_RUNTIME__REQUEST_EXISTS__NO_PROVIDER_REPROBE",
+      "state": "CPU_QUEUE_SUBMITTED__GENERATION_IN_PROGRESS__AWAIT_EXACT_STAGED_HASHES",
       "reviewer": "11",
-      "requirements": "Preserve prior blocked hashes. Current STARBLOX_ART_FACTORY_BATCH_REQUEST exists, but its historical reviewer14 field is superseded by ACTIVE_BATCH reviewer11 and must be rebound before queue submission. After a matching PROVEN CPU proof or equivalently provenance-compliant online accelerator exists, producer03 may submit one bounded current-scope queue and generate both items. Route 12 -> 06 -> 14 -> 11 -> 08 on ACCEPT.",
+      "requirements": "Run 35880356000 accepted the bounded queue, passed deterministic planning and is generating both items. Preserve prior blocked hashes. Do not submit another Decor6/8 queue. After repository staging produces exact candidate bytes plus complete ART_FACTORY_V2 evidence, route 12 -> 06 -> 14 -> 11 -> 08 on ACCEPT.",
       "evidence": [
         "docs/preproduction/art-factory/requests/w03-decor-6-8-provenance-repair-20260922.json",
         "docs/preproduction/art-factory/requests/w06-decor-6-8-provenance-readback-20260922.json",
         "docs/preproduction/art-factory/requests/w03-decor-6-8-ready-exec-20260923.json",
-        "docs/preproduction/art-factory/PINNED_GENERATION_RUNTIME.json"
+        "docs/preproduction/art-factory/PINNED_GENERATION_RUNTIME.json",
+        "docs/preproduction/art-factory/CPU_RUNTIME_PROOF.json",
+        "docs/preproduction/art-factory/requests/w03-decor-6-8-cpu-bound-20260923.json",
+        "docs/preproduction/art-factory/runtime-queue/w03-decor-6-8-cpu-v1.json",
+        "https://github.com/P00NSMASHER/StarBlox/actions/runs/35880356000"
       ]
     },
     {
@@ -96,13 +129,17 @@
         "decor-5",
         "decor-7"
       ],
-      "state": "WAITING_DURABLE_CPU_PROOF__EXACT_SCOPE_QUEUE_BASIS_REQUIRED__NO_PROVIDER_REPROBE",
+      "state": "CPU_QUEUE_SUBMITTED__SERIALIZED_PENDING__NO_DUPLICATE_QUEUE",
       "reviewer": "01",
-      "requirements": "Preserve Decor5 historical fail-closed hash. The current exact-scope ready-execution packet is not a queue-consumable STARBLOX_ART_FACTORY_BATCH_REQUEST; the older Decor5-8 request is superseded and must not be reused. After matching PROVEN CPU proof, planner12/producer09 must bind one exact Decor5/7 request to reviewer01/current seeds before producer09 submits the bounded queue. Route 12 -> 06 -> 14 -> 01 -> 08 on ACCEPT.",
+      "requirements": "Run 35881004304 is pending behind the serialized CPU generation lane. Preserve Decor5's historical fail-closed hash and do not submit another Decor5/7 queue. On exact staged bytes plus complete ART_FACTORY_V2 evidence, route 12 -> 06 -> 14 -> 01 -> 08 on ACCEPT.",
       "evidence": [
         "docs/preproduction/art-factory/requests/w09-decor-5-7-ready-exec-20260923.json",
         "docs/preproduction/art-factory/requests/w09-decor-5-7-cpu-fallback-binding-20260923.json",
-        "docs/preproduction/art-factory/PINNED_GENERATION_RUNTIME.json"
+        "docs/preproduction/art-factory/PINNED_GENERATION_RUNTIME.json",
+        "docs/preproduction/art-factory/CPU_RUNTIME_PROOF.json",
+        "docs/preproduction/art-factory/requests/w09-decor-5-7-cpu-bound-20260923.json",
+        "docs/preproduction/art-factory/runtime-queue/w09-decor-5-7-cpu-v1.json",
+        "https://github.com/P00NSMASHER/StarBlox/actions/runs/35881004304"
       ]
     },
     {
@@ -131,14 +168,18 @@
         "wall-11",
         "wall-12"
       ],
-      "state": "WAITING_DURABLE_CPU_PROOF_OR_EQUIVALENT_PROVEN_RUNTIME__REQUEST_REVIEWER_REBIND_REQUIRED",
+      "state": "CPU_QUEUE_DURABLE__INITIAL_RUN_CANCELLED_BEFORE_JOBS__SEMAPHORE_HELD_UNTIL_LANE_FULLY_IDLE",
       "batchType": "GENERATION_RUNTIME_UNBLOCK_THEN_BOUNDED_GENERATION",
       "reviewer": "02",
-      "requirements": "Do not repeat unchanged provider probes. Existing Wall9-12 STARBLOX_ART_FACTORY_BATCH_REQUEST has historical reviewer14 routing superseded by ACTIVE_BATCH reviewer02; rebind it before any queue submission. After a matching PROVEN CPU proof or equivalently provenance-compliant online accelerator exists, producer13 may submit one bounded Wall9-12 queue and generate the full four-item batch. Route 12 -> 06 -> 14 -> 02 -> 08 on ACCEPT.",
+      "requirements": "The reviewer02-bound request and unique queue w13-wall-9-12-cpu-v1 are durable. Initial run 35880826274 was cancelled before any jobs started and produced no candidate. Do not create or commit another queue. After the currently serialized CPU generation work clears, dispatch the existing queue file once via workflow_dispatch; then route exact staged bytes 12 -> 06 -> 14 -> 02 -> 08 on ACCEPT.",
       "evidence": [
         "docs/preproduction/art-factory/requests/w13-wall-9-12-20260922.json",
         "docs/preproduction/art-factory/requests/w13-github-actions-model-runtime-probe-20260923.json",
-        "docs/preproduction/art-factory/PINNED_GENERATION_RUNTIME.json"
+        "docs/preproduction/art-factory/PINNED_GENERATION_RUNTIME.json",
+        "docs/preproduction/art-factory/CPU_RUNTIME_PROOF.json",
+        "docs/preproduction/art-factory/requests/w13-wall-9-12-cpu-bound-20260923.json",
+        "docs/preproduction/art-factory/runtime-queue/w13-wall-9-12-cpu-v1.json",
+        "https://github.com/P00NSMASHER/StarBlox/actions/runs/35880826274"
       ]
     }
   ],
@@ -146,9 +187,9 @@
   "pendingRenderReview": [],
   "acceptedAwaitingCanonical": [],
   "externalArrivals": {
-    "routerEvidence": "docs/preproduction/art-factory/requests/w12-cross-account-intake-routing-20260923-v11.json",
-    "routerCursorThrough": "1f3ff8ca3bf1e3752a11cc351cc486832a1a62e9",
-    "nextRouterScope": [
+    "routerEvidence": "docs/preproduction/art-factory/requests/w12-cross-account-intake-routing-20260923-v12.json",
+    "routerCursorThrough": "2d7fcda7ef60b37851340520fe9f3655e08ebfe4",
+    "classifiedFailClosed": [
       {
         "id": "desks-9",
         "producer": "03",
@@ -162,7 +203,7 @@
         "decode": "PASS",
         "readback": "PASS",
         "reviewer": "05",
-        "state": "NEWER_THAN_ROUTER_CURSOR__ROUTE_ONCE_TO_12"
+        "state": "CLASSIFIED_ONCE__INCOMPLETE_ART_FACTORY_V2_PROVENANCE__NOT_ROUTED_TO_06"
       },
       {
         "id": "desks-10",
@@ -177,11 +218,19 @@
         "decode": "PASS",
         "readback": "PASS",
         "reviewer": "05",
-        "state": "NEWER_THAN_ROUTER_CURSOR__ROUTE_ONCE_TO_12"
+        "state": "CLASSIFIED_ONCE__INCOMPLETE_ART_FACTORY_V2_PROVENANCE__NOT_ROUTED_TO_06"
       }
     ],
     "sourceEvidence": "docs/preproduction/catalog-sprint/chat-desks9-10-exact-byte-recovery-20260923-result.json",
-    "note": "Lane12 v11 durably ended at 1f3ff8ca. Desk9/10 exact recovered candidate hashes arrived after that cursor and are the only known fresh primary candidates awaiting intake. EXT01-EXT10 planning-only scopes remain protected and must not be duplicated or rerouted unchanged."
+    "deferredProducerScope": {
+      "producer": "03",
+      "items": [
+        "desks-9",
+        "desks-10"
+      ],
+      "activation": "After producer03's active Decor6/8 batch leaves production scope, recover the missing executed-generation fields truthfully or submit one provenance-compliant regeneration batch under the proven pinned runtime. Preserve recovered exact hashes as historical evidence and do not self-review."
+    },
+    "note": "Lane12 v12 classified Desk9/10 exactly once and advanced its cursor. Both recovered hashes remain fail-closed before lane06 because their original Firefly records lack authoritative model/revision, prompt hash and a completed ART_FACTORY_V2 binding. They are deferred rather than added as a fifth batch or a second concurrent producer03 assignment. EXT01-EXT10 scopes remain protected."
   },
   "reviewLoadBalance": {
     "rule": "14 is shared renderer only for new work. Independent review is 01/02/05/11; 14 may finish legacy review assignments only.",
@@ -241,12 +290,12 @@
       "state": "REMOTE_CANDIDATES_FROZEN__MATERIALIZATION_UNRESOLVED"
     },
     "decor6_8": {
-      "state": "BLOCKED_PROVENANCE_RETIRED_FROM_RECHECK",
+      "state": "PROVEN_CPU_REPLACEMENT_GENERATION_IN_PROGRESS__HISTORICAL_HASHES_RETIRED_FROM_RECHECK",
       "replacementPlan": "docs/preproduction/art-factory/requests/w03-decor-6-8-provenance-repair-20260922.json"
     },
     "wall9_12": {
-      "state": "MODEL_IDENTITY_PINNED__CPU_PROOF_ABSENT__NO_CANDIDATE",
-      "next": "Use proven pinned CPU fallback once durable proof exists, or another already-authorized equivalently provenance-compliant accelerator."
+      "state": "PROVEN_CPU_QUEUE_DURABLE__INITIAL_RUN_CANCELLED_WITH_ZERO_JOBS__NO_CANDIDATE",
+      "next": "Dispatch the existing w13-wall-9-12-cpu-v1 queue once after the serialized CPU lane clears; never create a duplicate queue for unchanged item versions."
     },
     "tops11_12": "EXT01 owned; primary must not duplicate while authoritative external payload bytes are pending."
   },
@@ -257,7 +306,7 @@
     "evidenceHead": "398f5100df0562a1e346c9110597e52b565982d0",
     "rule": "Do not reopen already-green functional browser, Store observer, persistence or reduced-motion investigations absent a bound-hash change or fresh current-byte failure. EXT10 remains limited to the previously released phone composition repair."
   },
-  "antiStallDisposition": "Material change: Desk9/10 exact recovered bytes now exist with decode/readback PASS after lane12 v11's cursor, so they leave producer07 scope and move to lane12 intake. Desk8 alone remains on exact-byte recovery. The deterministic CPU fallback remains fail-closed because CPU_RUNTIME_PROOF.json is absent; no WAITING state may become CPU_QUEUE_ELIGIBLE yet and no runtime-queue file may be submitted. Producer03 and producer13 have current-scope batch requests but historical reviewer14 bindings that must be rebound to 11 and 02 before queue submission; producer09 still needs an exact Decor5/7 queue-consumable request. No provider reprobes on unchanged fingerprints.",
+  "antiStallDisposition": "Material change: deterministic CPU generation is now production-capable under the exact pinned runtime/model contract. Producers03, 09 and 13 each have one unique bounded queue with current independent-review routing. Decor6/8 is generating, Decor5/7 is serialized pending, and Wall9-12 must reuse its existing queue in one workflow dispatch after the active CPU lane clears because its initial run was cancelled before jobs started. Desk8 exact-byte recovery remains unchanged. Desk9/10 were classified once by lane12 and are deferred behind producer03's active batch because incomplete ART_FACTORY_V2 provenance prevents lane06 intake. No duplicate queues, provider reprobes or fifth active batch.",
   "crossAccountProduction": {
     "externalScopes": {
       "EXT01": "Tops11-12",
@@ -276,54 +325,55 @@
     "reviewer14LegacyException": "14 may complete already-assigned legacy hash review only; do not route new hashes to 14 for review."
   },
   "readerRule": "Every worker must revalidate branch head, assignment, exact hash and review state before writing. This file never overrides newer exact-hash evidence.",
-  "cycleId": "director-20260923T1458Z-452e533a",
+  "cycleId": "director-20260923T1618Z-e3fd4d90",
   "criticalPath": {
-    "computedAtHead": "452e533ada59069661ea957a52d4631fc4972262",
+    "computedAtHead": "e3fd4d90083c453c88ada49676520c4c22374d67",
     "order": [
       {
         "rank": 1,
-        "blocker": "FRESH_EXACT_DESK9_10_CANDIDATES_AWAITING_INTAKE",
-        "count": 2,
-        "prerequisite": "None beyond lane12 dedupe/intake against its durable cursor; exact recovered bytes, hashes, dimensions, decode and repository readback are already recorded.",
-        "nextOwner": "12 -> 06 -> 14 -> 05 -> 08 on ACCEPT."
+        "blocker": "DECOR6_8_CPU_GENERATION_IN_PROGRESS",
+        "affectedScopes": [
+          "decor-6",
+          "decor-8"
+        ],
+        "prerequisite": "Run 35880356000 must complete generation and repository staging with exact candidate hashes plus complete ART_FACTORY_V2 evidence.",
+        "nextOwner": "12 -> 06 -> 14 -> 11 -> 08 on ACCEPT."
       },
       {
         "rank": 2,
-        "blocker": "CPU_RUNTIME_PROOF_ABSENT",
+        "blocker": "DECOR5_7_CPU_QUEUE_SERIALIZED_PENDING",
         "affectedScopes": [
           "decor-5",
-          "decor-6",
-          "decor-7",
-          "decor-8",
+          "decor-7"
+        ],
+        "prerequisite": "Run 35881004304 begins automatically after the active serialized CPU generation run clears; do not duplicate its queue.",
+        "nextOwner": "09 generation -> 12 -> 06 -> 14 -> 01 -> 08 on ACCEPT."
+      },
+      {
+        "rank": 3,
+        "blocker": "WALL9_12_DURABLE_QUEUE_NEEDS_SINGLE_REDISPATCH",
+        "affectedScopes": [
           "wall-9",
           "wall-10",
           "wall-11",
           "wall-12"
         ],
-        "prerequisite": "CPU_RUNTIME_PROOF.json must exist with status PROVEN and exact pinned diffusers/model revisions. Until then, do not queue CPU production. If an equivalently provenance-compliant online accelerator becomes available first, it may be used.",
-        "nextOwner": "13 for terminal runtime proof; then 15/12 rebind current reviewer/request bases as needed and producers 03/09/13 submit bounded queues."
-      },
-      {
-        "rank": 3,
-        "blocker": "DESK8_EXACT_BYTES_NOT_MATERIALIZED",
-        "affectedScopes": [
-          "desks-8"
-        ],
-        "prerequisite": "A byte-preserving exact materialization path only; no regeneration/re-encoding/resizing/approximation/substitution.",
-        "nextOwner": "07 -> 12 -> 06 -> 14 -> 05 -> 08 on ACCEPT."
+        "prerequisite": "After currently competing CPU generation work clears, dispatch docs/preproduction/art-factory/runtime-queue/w13-wall-9-12-cpu-v1.json once. Initial run 35880826274 had zero jobs and produced no candidate.",
+        "nextOwner": "13 workflow dispatch of the existing queue -> 12 -> 06 -> 14 -> 02 -> 08 on ACCEPT."
       },
       {
         "rank": 4,
-        "blocker": "FROZEN_SELECTED_BYTES_NOT_MATERIALIZED",
+        "blocker": "DESK_RECOVERY_AND_PROVENANCE_TAIL",
         "affectedScopes": [
-          "desks-7",
-          "wall-8"
+          "desks-8",
+          "desks-9",
+          "desks-10"
         ],
-        "prerequisite": "A genuinely new exact-byte materialization path; no generation, substitution or approximation.",
-        "nextOwner": "15 may assign only after confirming no newer pending candidate."
+        "prerequisite": "Desk8 requires byte-preserving exact materialization only. Desk9/10 require truthful provenance recovery or one pinned-runtime regeneration batch after producer03's Decor6/8 assignment completes.",
+        "nextOwner": "07 for Desk8 exact-byte recovery; 03 for deferred Desk9/10 provenance-compliant replacements; then 12 -> 06 -> 14 -> 05 -> 08 on ACCEPT."
       }
     ],
     "acceptedAwaitingCanonical": 0,
-    "note": "Keep at most four non-overlapping production/unblock batches. Desk9/10 are now outside production scope and should be routed once by lane12. CPU proof is the highest-leverage unblock for eight catalog fallbacks but remains fail-closed until the durable proof file exists. EXT10 phone composition repair may continue in parallel because it is non-catalog and already narrowly released."
+    "note": "Keep exactly these four non-overlapping production/unblock batches until a material transition. CPU proof is complete and no accelerator is required. Desk9/10 are classified, fail-closed and deferred so producer03 is not double-booked. Frozen Desk7 and Wall8 remain outside active batch capacity until a genuinely new exact-byte materialization path exists. EXT10 phone composition repair may continue in parallel because it is non-catalog and already narrowly released."
   }
 }
