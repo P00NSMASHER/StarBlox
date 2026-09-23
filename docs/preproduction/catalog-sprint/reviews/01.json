@@ -1,12 +1,17 @@
 {
-  "schemaVersion": 12,
-  "previousRevisionBlobSha": "4a18fafa718781cfdc518fbfd9bab6d422cbcfd7",
+  "schemaVersion": 13,
+  "previousRevisionBlobSha": "27a91b49507fc666c60f7e63422fd8fde3cfe005",
   "reviewer": "01",
   "role": "Visual Target Director / independent catalog reviewer",
   "phase": "ART_AND_VISUALS_ONLY",
   "branch": "screenshot-match-preproduction",
-  "sourceHead": "cc0217e63d6bcfc341a63d85a75abca0386087de",
-  "assignedCollections": ["tops", "bottoms", "headwear", "facegear"],
+  "sourceHead": "75afe661d0400104b4c49398bcdb3ac3f5cd76f6",
+  "assignedCollections": [
+    "tops",
+    "bottoms",
+    "headwear",
+    "facegear"
+  ],
   "assignedCount": 48,
   "historyRefs": [
     {
@@ -28,9 +33,11 @@
     "rule": "Judge each new exact repository hash from qualified actual Store-card/detail pixels. Source metadata, producer claims and decode alone cannot establish premium-art acceptance."
   },
   "currentCycle": {
-    "scope": ["headwear-5", "headwear-6", "headwear-7", "headwear-8"],
-    "version": "w12-v2 recovered PNG exact repository hashes",
-    "result": "ACCEPT_4_OF_4",
+    "scope": [
+      "decor-7"
+    ],
+    "version": "w09-v2 CPU exact repository hash",
+    "result": "REWORK_1_OF_1",
     "oldVerdictsTransferred": false,
     "actualCardScalePixelsReviewed": true,
     "actualDetailPixelsReviewed": true,
@@ -169,6 +176,45 @@
         "originality": "PASS",
         "duplicateVisual": "PASS"
       }
+    },
+    {
+      "itemId": "decor-7",
+      "name": "Skate Rack",
+      "tier": 3,
+      "theme": "Garden Glow",
+      "assetPath": "/assets/catalog-candidates/cpu/decor-7-w09-v2-a-physical-original.png",
+      "repositoryPath": "public/assets/catalog-candidates/cpu/decor-7-w09-v2-a-physical-original.png",
+      "assetHash": "fa415ef0a554e2a60ee9e836f23d8d38b266a6e3",
+      "sha256": "2e92a6036047b95a9ddfcaab903e94c80d216ea4dd24054006e938cdaf21933e",
+      "hashAlgorithm": "git-blob-sha1",
+      "producer": "09",
+      "decision": "REWORK",
+      "reviewedAt": "2026-09-23T23:10:00Z",
+      "evidenceRefs": [
+        "artifact:10780534487/staged-replacements/staged-replacements-contact-sheet.png",
+        "artifact:10780534487/staged-replacements/detail/decor-7-fa415ef0.png",
+        "artifact:10780534487/preflight/decor-7-fa415ef0.json",
+        "technical:2240925a066a3644ce888de04f92b478e8a6ff1a"
+      ],
+      "reasonCodes": [
+        "WEAK_PRODUCT_IDENTITY",
+        "CLUTTERED_SCENE",
+        "CROPPED_MALFORMED_EDGE_OBJECT",
+        "SMALL_CARD_READABILITY",
+        "WEAK_PHYSICAL_RACK_CONSTRUCTION"
+      ],
+      "reason": "The exact rendered pixels do not read cleanly as one physical Skate Rack product. Long wall shelving, loose skates/boards and a room-scale backdrop compete with the intended item instead of establishing a strong rack silhouette. A large cropped/malformed object intrudes at the right edge, and the small-card view reduces the already-weak product focus further. Garden Glow color cues are present, but theme color cannot compensate for unclear rack construction, poor framing and clutter. Preserve this exact hash as REWORK evidence; a future candidate needs a discrete, physically plausible rack with a dominant silhouette, cleaner three-quarter framing, contained accessories and no edge-mangled forms.",
+      "checks": {
+        "identity": "FAIL",
+        "themeTier": "PARTIAL",
+        "silhouette": "FAIL",
+        "materialLighting": "PARTIAL",
+        "cardReadability": "FAIL",
+        "physicalConstruction": "FAIL",
+        "framingCrop": "FAIL",
+        "originality": "PASS",
+        "duplicateVisual": "PASS"
+      }
     }
   ],
   "currentReplacementDisposition": {
@@ -209,26 +255,34 @@
         "headwear-7": "4463b180a1d8c0321d6086c28f078329ced5fb9b",
         "headwear-8": "c2cd9cddba03a8eae55e9eb8b3197e82ee3af415"
       }
+    },
+    "decor": {
+      "REWORK": {
+        "decor-7": "fa415ef0a554e2a60ee9e836f23d8d38b266a6e3"
+      }
     }
   },
   "pendingDependencies": {
     "tops11_12_v7": "Producer 09 v7 remains GENERATED_LOCAL_RECEIPT_ONLY_PAYLOAD_UNAVAILABLE. Do not review until exact repository bytes/readback plus fresh card/detail evidence exist."
   },
   "summary": {
-    "uniqueCatalogIdsReviewedHistorically": 48,
-    "reviewedThisRun": 4,
-    "newAcceptsThisRun": 4,
-    "newReworkThisRun": 0,
+    "uniqueCatalogIdsReviewedHistorically": 49,
+    "reviewedThisRun": 1,
+    "newAcceptsThisRun": 0,
+    "newReworkThisRun": 1,
     "newBlockedThisRun": 0,
-    "newUsableBy08Now": ["headwear-5", "headwear-6", "headwear-7", "headwear-8"],
-    "preservedAcceptedHashes": "Tops 1-10, Bottoms 1-4 and Headwear 1-4 remain unchanged and were not re-reviewed."
+    "newUsableBy08Now": [],
+    "reworkNow": [
+      "decor-7"
+    ],
+    "preservedAcceptedHashes": "All previously accepted reviewer-01 hashes remain frozen; this exact-hash REWORK applies only to Decor 7 fa415ef0a554e2a60ee9e836f23d8d38b266a6e3."
   },
   "handoff": {
-    "08": "Immediately validate and canonical-wire Headwear 5-8 exact ACCEPT hashes from this shard if current-path/hash/metadata/file/decode/uniqueness checks still pass: headwear-5 b26e0c50a466afac74e3013da3d092ac54d7a273; headwear-6 6babf7112c050ba4c2a6a3c60630b3b35f88bb3d; headwear-7 4463b180a1d8c0321d6086c28f078329ced5fb9b; headwear-8 c2cd9cddba03a8eae55e9eb8b3197e82ee3af415.",
-    "09": "Tops 11-12 v7 remain receipt-only and are not reviewable. Preserve the v7 receipts until authoritative repo bytes exist; do not infer a visual verdict from v5/v6.",
-    "12": "Headwear 5-8 w12-v2 are independently ACCEPTED on exact repository hashes; preserve these exact bytes and do not regenerate them.",
-    "15": "Headwear 5-8 cleared reviewer 01. Coordinator should treat these four as qualified ACCEPTs awaiting only Workstream 08 canonical integration checks.",
-    "next01Review": "Any fresh repo-stored/rendered Tops/Bottoms/Headwear/Facegear exact hash preempts other work."
+    "14": "Exact Decor 7 render packet 10780534487 is consumed for this verdict; no rerender of the unchanged hash is needed.",
+    "15": "Decor 7 leaves the review queue as REWORK. Keep current Wall CPU run first; schedule a failure-specific Decor 7 replacement only when the CPU lane clears.",
+    "09": "Decor 7 exact hash fa415ef0a554e2a60ee9e836f23d8d38b266a6e3 is independently REWORK. Preserve it. Next version should emphasize a discrete physically plausible Skate Rack, dominant readable silhouette, contained skates/boards, clean three-quarter product framing and no cropped/malformed edge forms. Do not regenerate until coordinator15/CPU lane policy permits.",
+    "08": "Do not canonical-wire Decor 7 hash fa415ef0a554e2a60ee9e836f23d8d38b266a6e3; reviewer01 decision is REWORK.",
+    "next01Review": "Any fresh explicitly assigned repo-stored/rendered exact hash preempts producer work; unchanged Decor 7 fa415ef0 must not be re-reviewed."
   },
   "freeze": {
     "replitTouched": false,
@@ -238,5 +292,30 @@
     "canonicalManifestOrRuntimeTouched": false,
     "learningEconomyTouched": false,
     "playerDataTouched": false
+  },
+  "exceptionAssignments": [
+    {
+      "itemId": "decor-7",
+      "assignedBy": "15",
+      "authority": "docs/preproduction/art-factory/ACTIVE_BATCH.json",
+      "producer": "09",
+      "reviewer": "01",
+      "reason": "Release-critical fallback clearing exception outside reviewer01's normal collection partition."
+    }
+  ],
+  "currentRenderEvidence": {
+    "workflow": "StarBlox Staged Catalog Art QA",
+    "workflowRunId": 35931971953,
+    "artifactId": 10780534487,
+    "artifactName": "catalog-staged-art-review",
+    "artifactDigest": "sha256:a19500aa3222bb67c3ac2cc721930f4695efa3b7c570a2fc70ea0649b99811b9",
+    "workflowHead": "80fc7971468018caaa4d47dab87b0cbe52b6d587",
+    "cardEvidence": "artifact:10780534487/staged-replacements/staged-replacements-contact-sheet.png",
+    "detailEvidence": {
+      "decor-7": "artifact:10780534487/staged-replacements/detail/decor-7-fa415ef0.png"
+    },
+    "reportPath": "artifact:10780534487/report.json",
+    "preflightPath": "artifact:10780534487/preflight/decor-7-fa415ef0.json",
+    "technicalChecks": "HTTP 200, PNG signature PASS, raster-self-contained safety PASS, 768x768 natural dimensions, opaqueFraction=1, screenshot=true, binding hash PASS, no per-item render errors; report-only preflight produced no auto-decision."
   }
 }
