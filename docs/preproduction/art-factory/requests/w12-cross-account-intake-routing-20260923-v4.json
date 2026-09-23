@@ -1,0 +1,109 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_W12_CROSS_ACCOUNT_INTAKE_ROUTING",
+  "router": "12",
+  "branch": "screenshot-match-preproduction",
+  "observedAt": "2026-09-23T03:44:02Z",
+  "sourceHead": "4491ed4a51763c92ecb179aed01ade14aacb32eb",
+  "scanWindow": {
+    "priorRouterCommit": "06eb68a8661df8b66a57b435379e70f443f94abc",
+    "inspectedThroughHead": "4491ed4a51763c92ecb179aed01ade14aacb32eb",
+    "aheadBy": 2,
+    "changedPaths": [
+      "docs/preproduction/art-factory/ACTIVE_BATCH.json",
+      "docs/preproduction/art-factory/requests/w13-github-actions-runtime-capability-20260923.json"
+    ],
+    "newCandidateAssetOrHandoffDetected": false,
+    "newExternalLaneCandidateDetected": false
+  },
+  "liveAuthority": {
+    "manifestVersion": 33,
+    "manifestBlobSha": "3ce8dd5d16674ff556764402b712d215d3d22457",
+    "runtimeBlobSha": "68dc4944988ee2850e634eb8966613b9663c163c",
+    "activeBatchBlobSha": "d4710ca31c6f57bc4cd7b2d59bf9dccd93955dd3",
+    "visibleGenericFallbackCount": 19,
+    "activeBatchOwnership": "15_ONLY"
+  },
+  "externalLaneProtection": {
+    "EXT01": "Tops11-12",
+    "EXT02": "Bottoms backlog",
+    "EXT03": "Headwear9-12",
+    "EXT04": "Facegear",
+    "EXT05": "Backgear",
+    "EXT06": "Handgear",
+    "EXT07": "Beds",
+    "EXT08": "reviewer-02 tail including Shoes11-12/Seating11-12",
+    "EXT09": "Avatar/Buddy preproduction",
+    "EXT10": "Home/Store/Quest visual preproduction",
+    "arrivalsInScanWindow": [],
+    "routingRule": "Protected from duplicate primary-account production unless ACTIVE_BATCH explicitly reclaims an ID and no newer pending candidate exists."
+  },
+  "materialRoutingEvent": {
+    "scope": ["wall-9", "wall-10", "wall-11", "wall-12"],
+    "producer": "13",
+    "reviewerFamily": "14",
+    "reservedByActiveBatch": true,
+    "candidate": null,
+    "newerCandidateExists": false,
+    "technicalQualificationEligibleFor06": false,
+    "exactEvidence": {
+      "path": "docs/preproduction/art-factory/requests/w13-github-actions-runtime-capability-20260923.json",
+      "gitBlobSha": "0d7ceaf404b68d314d1cc69c59c13b728a6738a3",
+      "sourceHead": "ab7f579b2de9d4e95903a42d202bc04fc9e1e388",
+      "candidateCreated": false,
+      "workflowRunId": 35736014761,
+      "jobId": 106773425435,
+      "workflowHead": "3b75da286ec362a6e36e199f89b4e8ff72efa644",
+      "workflowConclusion": "success",
+      "runnerImage": "ubuntu-24.04",
+      "runnerImageVersion": "20260907.300.1",
+      "diffusersRequiredCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+      "diffusersResolvedExactCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+      "builtWheelSha256": "c59b0f64660cd3daab5a6ad12cce64e4ce7352a48c1841a7341c64ac85e5b3ae",
+      "disposition": "NETWORK_AND_RUNTIME_PIN_RESOLUTION_AVAILABLE__CURRENT_WORKFLOW_REPORT_ONLY__PRODUCTION_GENERATION_NOT_YET_PROVEN"
+    },
+    "provenanceAndStagedOutputStatus": {
+      "runtimePinResolution": "PASS",
+      "productionPixelInference": "NOT_RUN",
+      "exactSdxlModelRevisionResolved": false,
+      "acceleratorOrMemorySuitabilityProven": false,
+      "executedWallSeedRecorded": false,
+      "generatedSourceBytesExist": false,
+      "repositoryStagedCandidateExists": false,
+      "stagedOutputReadback": "NOT_APPLICABLE_NO_CANDIDATE"
+    },
+    "routing": {
+      "routeBackTo": ["producer13", "coordinator15"],
+      "hold": ["06 technical qualification", "14 render/review", "08 canonical integration"],
+      "reason": "Hosted runner capability materially improved because the exact pinned Diffusers source resolves with immutable runner/runtime evidence, but no Wall candidate exists and exact model revision, accelerator suitability, executed seed, generated source bytes, repository staging and readback remain unproven.",
+      "releaseCondition": "A newly generated Wall candidate from an already-authorized revision-reporting path must carry complete ART_FACTORY_V2 generation provenance plus exact repository staging/readback before 06 intake."
+    }
+  },
+  "activeOverlapGuards": [
+    {
+      "scope": ["wall-8"],
+      "reservedProducer": "07",
+      "state": "ANTI_STALL_REASSIGNED__ACTIVE_EXACT_BYTE_RECOVERY_IMPORT",
+      "candidateStatus": "SELECTED_VARIANT_B_REMOTE_EXACT_BYTES_NOT_YET_MATERIALIZED",
+      "route": "Do not overlap production. Wait for producer07 exact-byte recovery, then route 06 -> 14 -> 08 only after repository readback."
+    },
+    {
+      "scope": ["wall-9", "wall-10", "wall-11", "wall-12"],
+      "reservedProducer": "13",
+      "state": "RUNTIME_UNBLOCK_THEN_BOUNDED_GENERATION",
+      "route": "Do not duplicate in primary or external lanes while reservation remains live."
+    }
+  ],
+  "queues": {
+    "to06": [],
+    "backToProducer": [
+      {
+        "scope": ["wall-9", "wall-10", "wall-11", "wall-12"],
+        "producer": "13",
+        "reason": "No candidate exists. Complete the already-authorized hosted-runtime capability path only if coordinator15 permits it under current CI ownership constraints, and require complete generation provenance before 06 intake."
+      }
+    ]
+  },
+  "ownershipNote": "Router12 records intake/routing delta only. Workstream15 alone may reconcile ACTIVE_BATCH or CI ownership; Workstream08 alone may write canonical mappings; reviewers alone may issue review verdicts.",
+  "mutationScope": "Routing evidence only. No art bytes, reviewer decisions, ACTIVE_BATCH, manifest, catalog runtime, CI/workflow, gameplay, learning, persistence, economy, deployment, paid settings, secrets or player data changed."
+}
