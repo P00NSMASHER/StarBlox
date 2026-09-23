@@ -1,0 +1,52 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_W12_CANDIDATE_DELTA_INTAKE_ROUTING",
+  "router": "12",
+  "branch": "screenshot-match-preproduction",
+  "observedHead": "f9930dbddaf7e66eef95157e8c8aca68afb71281",
+  "sourceGenerationRunId": 35931931966,
+  "candidates": [
+    {
+      "id": "wall-9",
+      "producer": "13",
+      "reviewerAssignment": "02",
+      "renderOwner": "14",
+      "canonicalWriter": "08",
+      "path": "public/assets/catalog-candidates/cpu/wall-9-w13-v1-a-gallery-rail-original.png",
+      "sha256": "7ca470736c1d860909dbd493e87b68e7d6f7c8acdbeaf44d60bab56b0e3e0b04",
+      "gitBlobSha": "95a2de47f3b19017ba37bfac1ab25fc87ad345ed",
+      "bytes": 808208,
+      "dimensions": [
+        768,
+        768
+      ],
+      "format": "PNG",
+      "stagedOutput": "docs/preproduction/art-factory/generated-evidence/w13-wall-9-12-cpu-v1/wall-9/staged-output.json",
+      "provenanceState": "COMPLETE_ART_FACTORY_V2",
+      "exactBlobUniqueInObservedTree": true,
+      "state": "ROUTE_TO_06_TECHNICAL_QUALIFICATION"
+    },
+    {
+      "id": "wall-10",
+      "producer": "13",
+      "reviewerAssignment": "02",
+      "renderOwner": "14",
+      "canonicalWriter": "08",
+      "path": "public/assets/catalog-candidates/cpu/wall-10-w13-v1-a-acrylic-skyline-original.png",
+      "sha256": "a171ee7ddd8ab79b238c3497ed9784db4880ead7fdeff2ad110eb285ab30fb13",
+      "gitBlobSha": "74a4c531a3c60ccd60747bfebc2dfc0d1d25b684",
+      "bytes": 709436,
+      "dimensions": [
+        768,
+        768
+      ],
+      "format": "PNG",
+      "stagedOutput": "docs/preproduction/art-factory/generated-evidence/w13-wall-9-12-cpu-v1/wall-10/staged-output.json",
+      "provenanceState": "COMPLETE_ART_FACTORY_V2",
+      "exactBlobUniqueInObservedTree": true,
+      "state": "ROUTE_TO_06_TECHNICAL_QUALIFICATION"
+    }
+  ],
+  "nextGate": "06_TECHNICAL_QUALIFICATION",
+  "mutationScope": "Routing evidence only; no candidate bytes, canonical mappings, gameplay, learning, persistence, economy or deployment changed."
+}
