@@ -108,7 +108,6 @@ export function normalizeReviewDocuments(docs = []) {
         authoritativeDecisionMap: true
       };
       observations.push(normalized);
-      current.set(itemId, normalized);
     }
   }
 
@@ -132,9 +131,20 @@ export function normalizeReviewDocuments(docs = []) {
     if (!byItem.has(row.itemId)) byItem.set(row.itemId, []);
     byItem.get(row.itemId).push(row);
   }
+  const currentComparator = (a,b) => {
+    const aReviewedAt = String(a.reviewedAt || '').trim();
+    const bReviewedAt = String(b.reviewedAt || '').trim();
+    const aDated = aReviewedAt ? 1 : 0;
+    const bDated = bReviewedAt ? 1 : 0;
+    if (aDated !== bDated) return aDated - bDated;
+    if (aReviewedAt !== bReviewedAt) return aReviewedAt.localeCompare(bReviewedAt);
+    const aDecisionMap = a.authoritativeDecisionMap ? 1 : 0;
+    const bDecisionMap = b.authoritativeDecisionMap ? 1 : 0;
+    if (aDecisionMap !== bDecisionMap) return aDecisionMap - bDecisionMap;
+    return String(a.sourcePath || '').localeCompare(String(b.sourcePath || ''));
+  };
   for (const [itemId, rows] of byItem) {
-    if (current.has(itemId)) continue;
-    rows.sort((a,b) => String(a.reviewedAt || '').localeCompare(String(b.reviewedAt || '')) || String(a.sourcePath).localeCompare(String(b.sourcePath)));
+    rows.sort(currentComparator);
     current.set(itemId, rows.at(-1));
   }
 

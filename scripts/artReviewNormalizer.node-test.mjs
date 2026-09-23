@@ -19,6 +19,17 @@ test('decision map is authoritative current state',()=>{
   assert.equal(n.current.get('auras-1').decision,'ACCEPT');
 });
 
+test('newer timestamped exact-hash review outranks stale undated decision maps',()=>{
+  const docs=[
+    {path:'01.json',data:{reviewer:'01',reviews:[{itemId:'decor-7',assetHash:'fresh',producer:'09',decision:'REWORK',reason:'fresh pixels',reviewedAt:'2026-09-23T23:10:00Z'}]}},
+    {path:'14.json',data:{reviewer:'14',decisions:{'decor-7':{hash:'legacy',producer:'09',decision:'REWORK'}}}}
+  ];
+  const n=normalizeReviewDocuments(docs);
+  assert.equal(n.current.get('decor-7').assetHash,'fresh');
+  assert.equal(n.current.get('decor-7').reviewer,'01');
+  assert.equal(n.current.get('decor-7').reviewedAt,'2026-09-23T23:10:00Z');
+});
+
 test('corpus marks self review non-independent and summarizes collection',()=>{
   const docs=[{path:'x.json',data:{reviewer:'11',reviews:[{itemId:'auras-2',assetHash:'h',producer:'11',decision:'REWORK',reason:'flat ring'}]}}];
   const corpus=buildReviewCorpus({docs,items:[{id:'auras-2',collectionId:'auras',name:'Cloud Puffs',tier:1,theme:'Candy Core'}]});
