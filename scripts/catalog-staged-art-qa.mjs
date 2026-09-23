@@ -230,6 +230,28 @@ function selectOwnCollectionPath(lane,id,fallback,report){
   if(!fallbackSafety.ok) report.errors.push(`${id}: fallback asset failed active-content/external-dependency safety scan: ${fallbackSafety.reason}`);
   return fallback;
 }
+function selectFactoryVerifiedCandidates(report){
+  const root='docs/preproduction/art-factory/generated-evidence';
+  if(!fs.existsSync(root)) return [];
+  const files=[];
+  const walk=dir=>{for(const ent of fs.readdirSync(dir,{withFileTypes:true})){const p=path.join(dir,ent.name);if(ent.isDirectory())walk(p);else if(ent.isFile()&&ent.name==='staged-output.json')files.push(p);}};
+  walk(root);
+  const out=[];
+  for(const evidencePath of files.sort()){
+    let data;try{data=JSON.parse(fs.readFileSync(evidencePath,'utf8'));}catch(error){report.warnings.push(`factory evidence parse failed ${evidencePath}: ${error}`);continue;}
+    if(data?.status!=='STAGED_EXACT_BYTES_VERIFIED') continue;
+    const item=data.item||{}, output=data.output||{}, id=String(item.id||''), repositoryPath=normalizeRepoPath(output.repoPath), declaredBlobSha=String(output.gitBlobSha||'').toLowerCase();
+    if(!id||!repositoryPath||!declaredBlobSha) continue;
+    if(!fs.existsSync(repositoryPath)){report.warnings.push(`${id}: verified factory evidence points to missing current-tree path ${repositoryPath}`);continue;}
+    const actualBlobSha=blobSha(repositoryPath);
+    if(actualBlobSha!==declaredBlobSha){report.warnings.push(`${id}: verified factory evidence blob mismatch ${declaredBlobSha} != ${actualBlobSha} at ${repositoryPath}`);continue;}
+    const signature=signatureCheck(repositoryPath), safety=assetSafetyCheck(repositoryPath);
+    if(!signature.ok){report.errors.push(`${id}: factory candidate signature failed ${repositoryPath} (${signature.reason})`);continue;}
+    if(!safety.ok){report.errors.push(`${id}: factory candidate safety failed ${repositoryPath} (${safety.reason})`);continue;}
+    out.push({id,name:item.name||id,tier:item.tier??null,theme:item.theme??null,producerLane:`factory:${String(data?.attempt?.producer||'')}`,discovery:'factory-staged-output',repositoryPath,blobSha:actualBlobSha,declaredBlobSha,signature,safety,reviewer:String(data?.review?.reviewer||''),evidencePath});
+  }
+  return out;
+}
 function selectVisualCandidates(report){
   const out=[];
   const seen=new Set();
@@ -313,13 +335,22 @@ function duplicateHashGroups(items){
 }
 
 fs.mkdirSync(artifactRoot,{recursive:true});
-const report={sourceHead:process.env.GITHUB_SHA,generatedAt:new Date().toISOString(),sets:{},errors:[],warnings:[],skippedCandidates:[],selectedBindings:[]};
+const report={sourceHead:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),triggeringSha:process.env.GITHUB_SHA||null,generatedAt:new Date().toISOString(),sets:{},errors:[],warnings:[],skippedCandidates:[],selectedBindings:[]};
 const browser=await chromium.launch({headless:true});
 try{
-  for(const [collection,def] of Object.entries(definitions)){
-    const lane=readLane(def.lane);const items=def.names.map((name,i)=>{const id=`${collection}-${i+1}`,fallback=`public/assets/catalog/${id}.svg`,repositoryPath=selectOwnCollectionPath(lane,id,fallback,report);if(!fs.existsSync(repositoryPath))throw new Error(`${id}: no staged file at ${repositoryPath}`);return{id,name,tier:tierFor(i),theme:themes[(i+def.offset)%themes.length],repositoryPath,blobSha:blobSha(repositoryPath)};});await renderSet(browser,collection,items,report);
+  const factoryOnly=process.env.STARBLOX_QA_FACTORY_ONLY==='1';
+  report.factoryOnly=factoryOnly;
+  if(!factoryOnly){
+    for(const [collection,def] of Object.entries(definitions)){
+      const lane=readLane(def.lane);const items=def.names.map((name,i)=>{const id=`${collection}-${i+1}`,fallback=`public/assets/catalog/${id}.svg`,repositoryPath=selectOwnCollectionPath(lane,id,fallback,report);if(!fs.existsSync(repositoryPath))throw new Error(`${id}: no staged file at ${repositoryPath}`);return{id,name,tier:tierFor(i),theme:themes[(i+def.offset)%themes.length],repositoryPath,blobSha:blobSha(repositoryPath)};});await renderSet(browser,collection,items,report);
+    }
   }
-  const discoveredReplacements=selectCurrentReplacementCandidates(report);
+  const laneReplacements=selectCurrentReplacementCandidates(report);
+  const factoryReplacements=selectFactoryVerifiedCandidates(report);
+  const replacementMap=new Map();
+  for(const item of [...laneReplacements,...factoryReplacements]){const key=`${item.id}|${String(item.blobSha).toLowerCase()}`;const prior=replacementMap.get(key);if(!prior||item.discovery==='factory-staged-output')replacementMap.set(key,item);}
+  const discoveredReplacements=[...replacementMap.values()].sort((a,b)=>a.id.localeCompare(b.id)||a.repositoryPath.localeCompare(b.repositoryPath));
+  report.factoryVerifiedDiscoveredCount=factoryReplacements.length;
   const terminalDecisions=decidedExactHashSet();
   const frozenReviewedReplacements=discoveredReplacements.filter(x=>terminalDecisions.has(`${x.id}|${String(x.blobSha).toLowerCase()}`));
   const replacements=discoveredReplacements.filter(x=>!terminalDecisions.has(`${x.id}|${String(x.blobSha).toLowerCase()}`));
