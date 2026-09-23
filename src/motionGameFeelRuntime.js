@@ -126,15 +126,24 @@ function revealRoomProgress(root){
   restartClass(panel,'sbMotionRoomReveal',MOTION_DURATIONS.roomReveal);
 }
 
-function celebrateFeedback(feedback){
+export function celebrateFeedback(feedback){
   if(!feedback) return;
   const text = feedback.textContent || '';
+  const question = feedback.closest('.questionCard') || feedback.closest('.questScreenshotMatch') || feedback;
+  const semanticCorrect = isSemanticCorrectFeedback(feedback);
+
+  // Success styling is semantic state, not a timer artifact. Clear it immediately
+  // when Quest moves into wrong/clue/retry so reduced-motion state cannot stick.
+  if(!semanticCorrect){
+    question.classList.remove('sbMotionCorrect');
+    feedback.classList.remove('sbMotionStaticCue');
+  }
+
   const signature = `${feedback.className}|${text.trim()}`;
   if(feedback.dataset.sbMotionFeedbackSignature === signature) return;
   feedback.dataset.sbMotionFeedbackSignature = signature;
-  if(!isSemanticCorrectFeedback(feedback)) return;
+  if(!semanticCorrect) return;
 
-  const question = feedback.closest('.questionCard') || feedback.closest('.questScreenshotMatch') || feedback;
   const selected = question.querySelector?.('.answerButton.correctChoice') || feedback;
   restartClass(question,'sbMotionCorrect',motionDurationFor('correct',prefersReducedMotion()));
   emitStarSparks(selected,feedback,6);

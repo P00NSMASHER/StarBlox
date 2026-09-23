@@ -1,6 +1,7 @@
 // @vitest-environment jsdom
 import { describe, expect, it } from 'vitest';
 import {
+  celebrateFeedback,
   isPositiveFeedback,
   isSemanticCorrectFeedback,
   motionDurationFor,
@@ -57,6 +58,35 @@ describe('motion game-feel helpers', () => {
     textOnly.className = 'feedback';
     textOnly.textContent = 'Correct! Nice work.';
     expect(isSemanticCorrectFeedback(textOnly)).toBe(false);
+  });
+
+  it('clears stale Quest success treatment when semantic feedback becomes wrong or clue', () => {
+    const previousMatchMedia = window.matchMedia;
+    try {
+      window.matchMedia = () => ({ matches: true });
+      const question = document.createElement('section');
+      question.className = 'questionCard';
+      const answer = document.createElement('button');
+      answer.className = 'answerButton correctChoice';
+      const feedback = document.createElement('div');
+      feedback.className = 'feedback good';
+      feedback.textContent = 'Correct.';
+      question.append(answer,feedback);
+      document.body.appendChild(question);
+
+      celebrateFeedback(feedback);
+      expect(question.classList.contains('sbMotionCorrect')).toBe(true);
+      expect(feedback.classList.contains('sbMotionStaticCue')).toBe(true);
+
+      feedback.className = 'feedback learn';
+      feedback.textContent = 'Try again with the clue.';
+      celebrateFeedback(feedback);
+      expect(question.classList.contains('sbMotionCorrect')).toBe(false);
+      expect(feedback.classList.contains('sbMotionStaticCue')).toBe(false);
+      question.remove();
+    } finally {
+      window.matchMedia = previousMatchMedia;
+    }
   });
 
   it('ignores observer wakeups caused only by its own motion classes', () => {
