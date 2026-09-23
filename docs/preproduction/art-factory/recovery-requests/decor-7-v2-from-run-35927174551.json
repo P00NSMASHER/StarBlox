@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_EXACT_CPU_ARTIFACT_RECOVERY",
+  "branch": "screenshot-match-preproduction",
+  "runId": 35927174551,
+  "artifactName": "cpu-generated-decor-7-1fafff5590417782bdbbafd79db787ec77b2a97d",
+  "itemId": "decor-7",
+  "repoPath": "public/assets/catalog-candidates/cpu/decor-7-w09-v2-a-physical-original.png",
+  "sha256": "2e92a6036047b95a9ddfcaab903e94c80d216ea4dd24054006e938cdaf21933e",
+  "gitBlobSha": "fa415ef0a554e2a60ee9e836f23d8d38b266a6e3",
+  "reviewer": "01",
+  "queueId": "w09-decor-5-7-cpu-v2",
+  "evidenceDest": "docs/preproduction/art-factory/generated-evidence/w09-decor-5-7-cpu-v2/decor-7",
+  "sourceJobId": 107405040534,
+  "sourceArtifactId": 10779926873,
+  "reason": "Recover already-generated, already-verified Decor 7 exact bytes without waiting for the stuck Decor 5 sibling."
+}

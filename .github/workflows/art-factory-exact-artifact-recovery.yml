@@ -1,0 +1,121 @@
+name: StarBlox Exact CPU Artifact Recovery
+
+on:
+  push:
+    branches: [screenshot-match-preproduction]
+    paths:
+      - 'docs/preproduction/art-factory/recovery-requests/*.json'
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: starblox-exact-artifact-recovery
+  cancel-in-progress: false
+
+jobs:
+  recover:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 2
+
+      - name: Resolve and validate one recovery request
+        id: request
+        run: |
+          set -euo pipefail
+          mapfile -t FILES < <(git diff-tree --no-commit-id --name-only -r "$GITHUB_SHA" | grep '^docs/preproduction/art-factory/recovery-requests/.*\.json$' || true)
+          test "${#FILES[@]}" -eq 1 || { echo "expected exactly one recovery request"; exit 1; }
+          REQ="${FILES[0]}"
+          python - "$REQ" "$GITHUB_OUTPUT" <<'PY'
+          import json, pathlib, sys
+          p=pathlib.Path(sys.argv[1]); out=pathlib.Path(sys.argv[2])
+          r=json.loads(p.read_text())
+          assert r["kind"]=="STARBLOX_EXACT_CPU_ARTIFACT_RECOVERY"
+          assert r["branch"]=="screenshot-match-preproduction"
+          assert isinstance(r["runId"], int) and r["runId"]>0
+          assert r["artifactName"].startswith("cpu-generated-")
+          assert r["repoPath"].startswith("public/assets/catalog-candidates/cpu/")
+          assert len(r["sha256"])==64 and len(r["gitBlobSha"])==40
+          assert str(r["reviewer"]) in {"01","02","05","11","14"}
+          with out.open("a") as f:
+              for k,v in {
+                  "request_file":str(p),
+                  "run_id":r["runId"],
+                  "artifact_name":r["artifactName"],
+              }.items(): f.write(f"{k}={v}\n")
+          PY
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: ${{ steps.request.outputs.artifact_name }}
+          path: /tmp/starblox-recovery
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          repository: ${{ github.repository }}
+          run-id: ${{ steps.request.outputs.run_id }}
+
+      - name: Verify exact bytes and stage
+        env:
+          REQUEST_FILE: ${{ steps.request.outputs.request_file }}
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import hashlib, json, os, pathlib, shutil
+          req=json.loads(pathlib.Path(os.environ["REQUEST_FILE"]).read_text())
+          root=pathlib.Path("/tmp/starblox-recovery")
+          candidate=root/"candidate"/pathlib.Path(req["repoPath"]).name
+          assert candidate.is_file(), candidate
+          data=candidate.read_bytes()
+          sha=hashlib.sha256(data).hexdigest()
+          blob=hashlib.sha1(b"blob "+str(len(data)).encode()+b"\0"+data).hexdigest()
+          assert sha==req["sha256"], (sha,req["sha256"])
+          assert blob==req["gitBlobSha"], (blob,req["gitBlobSha"])
+          staged=json.loads((root/"staged-output.json").read_text())
+          receipt=json.loads((root/"generation-receipt.json").read_text())
+          assert staged["output"]["sha256"]==sha
+          assert staged["output"]["gitBlobSha"]==blob
+          assert staged["output"]["repoPath"]==req["repoPath"]
+          assert str(staged["reviewer"])==str(req["reviewer"])
+          assert receipt["output"]["sha256"]==sha
+          PY
+          git fetch origin screenshot-match-preproduction
+          git reset --hard origin/screenshot-match-preproduction
+          python - <<'PY'
+          import hashlib, json, os, pathlib, shutil
+          req=json.loads(pathlib.Path(os.environ["REQUEST_FILE"]).read_text())
+          root=pathlib.Path("/tmp/starblox-recovery")
+          candidate=root/"candidate"/pathlib.Path(req["repoPath"]).name
+          dest=pathlib.Path(req["repoPath"])
+          dest.parent.mkdir(parents=True,exist_ok=True)
+          if dest.exists():
+              assert hashlib.sha256(dest.read_bytes()).hexdigest()==req["sha256"]
+          else:
+              shutil.copy2(candidate,dest)
+          evidence=pathlib.Path(req["evidenceDest"])
+          evidence.mkdir(parents=True,exist_ok=True)
+          for name in ("generation-receipt.json","staged-output.json","job.json","queue.json"):
+              src=root/name; dst=evidence/name
+              if dst.exists():
+                  assert dst.read_bytes()==src.read_bytes(), f"conflicting evidence: {dst}"
+              else:
+                  shutil.copy2(src,dst)
+          PY
+          git config user.name "starblox-art-factory"
+          git config user.email "actions@users.noreply.github.com"
+          git add public/assets/catalog-candidates/ docs/preproduction/art-factory/generated-evidence/
+          if git diff --cached --quiet; then
+            echo "Exact artifact was already staged."
+            exit 0
+          fi
+          git commit -m "art-factory: recover exact staged artifact from completed matrix item"
+          for N in 1 2 3 4; do
+            if git push origin HEAD:screenshot-match-preproduction; then exit 0; fi
+            git fetch origin screenshot-match-preproduction
+            git rebase origin/screenshot-match-preproduction
+            sleep $((N * 2))
+          done
+          exit 1
