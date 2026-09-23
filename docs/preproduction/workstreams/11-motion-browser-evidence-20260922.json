@@ -1,100 +1,147 @@
 {
-  "schemaVersion": 3,
+  "schemaVersion": 4,
   "workstream": "11",
   "phase": "ART_VISUALS_SPRINT",
   "branch": "screenshot-match-preproduction",
-  "purpose": "Exact-hash browser evidence handoff for Workstream 10 covering Workstream 11 motion/game-feel regressions. This evidence is scoped to the bound motion runtime/CSS hashes and does not close unrelated catalog-art, physical-device, screen-reader, or release gates.",
-  "currentEvidenceHeadBeforeHandoff": "f30a3e360540d885f0f28f726a5fe4a9ce1119e2",
+  "purpose": "Exact-hash browser evidence handoff for Workstream 10 covering the current Workstream 11 motion/game-feel runtime. This evidence separates browser-proven Store/reduced-motion behavior from an unresolved Quest interaction failure and does not close unrelated catalog-art, physical-device, screen-reader, persistence, or release gates.",
+  "currentEvidenceHeadBeforeHandoff": "d4acf4536c55447256c55ae05827b6e7c253a28f",
+  "liveAuthorityAtRead": {
+    "manifestVersion": 33,
+    "manifestBlob": "3ce8dd5d16674ff556764402b712d215d3d22457",
+    "catalogRuntimeBlob": "68dc4944988ee2850e634eb8966613b9663c163c",
+    "activeBatchSchemaVersion": 16,
+    "visibleGenericFallbackCount": 19,
+    "note": "The live catalog/ACTIVE_BATCH state remains release-blocked by unrelated visible generic fallback art. Workstream 11 does not modify or waive those blockers."
+  },
   "currentHashBinding": {
-    "testedMotionCommit": "4673b9ed14f60d0ac53f784f86d08cd88f0d9db9",
-    "motionRuntimeGitBlob": "ed7dda4453c343c6e4cacccaf1e85723c9dd0b6d",
+    "testedMotionCommit": "aebd322150977436179404b50a5e87a226690a44",
+    "motionRuntimeGitBlob": "3f56ff99d62f5c0ed77ad1d69480d5c9db9c7fdb",
     "motionCssGitBlob": "d8797842f969973f81af2c56ec44d63ea54480ba",
     "sameMotionRuntimeHashAtTestedCommitAndCurrentEvidenceHead": true,
     "sameMotionCssHashAtTestedCommitAndCurrentEvidenceHead": true,
     "motionFilesChangedAfterTestedCommit": false,
-    "reuseRule": "Treat browser evidence as current for Workstream-11 motion behavior only while src/motionGameFeelRuntime.js remains Git blob ed7dda4453c343c6e4cacccaf1e85723c9dd0b6d and src/motionGameFeel.css remains Git blob d8797842f969973f81af2c56ec44d63ea54480ba. Any changed motion hash requires fresh targeted evidence."
+    "reuseRule": "Treat the exact-hash browser evidence below as current for Workstream 11 motion behavior only while src/motionGameFeelRuntime.js remains Git blob 3f56ff99d62f5c0ed77ad1d69480d5c9db9c7fdb and src/motionGameFeel.css remains Git blob d8797842f969973f81af2c56ec44d63ea54480ba. Any changed motion hash requires fresh targeted evidence."
   },
-  "reducedMotionPressFix": {
-    "commit": "4673b9ed14f60d0ac53f784f86d08cd88f0d9db9",
-    "intent": "Under prefers-reduced-motion, pointerdown no longer applies the transient sbMotionPressed class, preventing a zero-duration pressed-state class from sticking on child controls while leaving normal-motion press feedback unchanged.",
+  "latestQuestSemanticFix": {
+    "commit": "aebd322150977436179404b50a5e87a226690a44",
+    "intent": "Clear stale Quest success treatment immediately when semantic feedback becomes wrong/clue/retry, including the reduced-motion static success cue, without changing gameplay or answer semantics.",
     "starBloxCi": {
-      "runId": 35795243522,
+      "runId": 35804382004,
       "status": "PASS"
     }
   },
   "catalogMobileQa": {
     "workflow": "StarBlox Catalog Mobile QA",
-    "runId": 35795242890,
-    "jobId": 106972922825,
-    "sourceHead": "4673b9ed14f60d0ac53f784f86d08cd88f0d9db9",
+    "runId": 35804381986,
+    "jobId": 107001779317,
+    "sourceHead": "aebd322150977436179404b50a5e87a226690a44",
     "status": "PASS",
-    "environment": "GitHub Actions ubuntu-24.04 production bundle plus local production preview and browser accessibility gate.",
-    "completedEvidenceSteps": [
-      "Build production bundle",
-      "Start local production preview",
-      "Run catalog mobile accessibility gate",
-      "Print catalog QA summary",
-      "Upload catalog mobile screenshots and report"
-    ],
+    "environment": "GitHub Actions ubuntu-24.04 production bundle plus local production preview; Playwright Chromium headless browser emulation, not a physical-device performance claim.",
     "artifact": {
-      "id": 10723638396,
+      "id": 10726454082,
       "name": "catalog-mobile-qa",
-      "digest": "sha256:8226c7eb8d70cb47f558ef9c754e23fcf2cecaddc281070ac2f8300e74541340",
-      "sizeBytes": 20477588,
+      "digest": "sha256:b6a964762dedd8b0d904f7aa41fb60195866a19255749fcddad216dc0d95df81",
+      "sizeBytes": 20477544,
       "expiredAtEvidenceRead": false
     },
-    "motionDisposition": "PASS on the exact current Workstream-11 motion runtime/CSS hashes. The artifact remains the authoritative detailed browser report; no metrics not read from this exact run are invented here."
+    "reducedMotion": {
+      "status": "PASS",
+      "viewports": [
+        {"name": "desktop-1408x1056", "activeAnimationCount": 0, "longestFiniteAnimationMs": 0, "avgFrameMs": 16.259016393441865, "slowFramesOver34ms": "0/61"},
+        {"name": "tablet-1024x768", "activeAnimationCount": 0, "longestFiniteAnimationMs": 0, "avgFrameMs": 16.28196721311399, "slowFramesOver34ms": "0/61"},
+        {"name": "phone-390x844", "activeAnimationCount": 0, "longestFiniteAnimationMs": 0, "avgFrameMs": 16.267213114756384, "slowFramesOver34ms": "0/61"},
+        {"name": "phone-320x568", "activeAnimationCount": 0, "longestFiniteAnimationMs": 0, "avgFrameMs": 16.31475409836219, "slowFramesOver34ms": "0/61"}
+      ]
+    },
+    "normalMotion": {
+      "status": "PASS",
+      "viewports": [
+        {"name": "tablet-1024x768-normal-motion", "activeAnimationCount": 1, "longestFiniteAnimationMs": 5800, "avgFrameMs": 16.640983606557377, "slowFramesOver34ms": "0/61", "pageErrors": 0, "consoleErrors": 0},
+        {"name": "phone-390x844-normal-motion", "activeAnimationCount": 1, "longestFiniteAnimationMs": 5800, "avgFrameMs": 16.637704918035837, "slowFramesOver34ms": "0/61", "pageErrors": 0, "consoleErrors": 0}
+      ],
+      "note": "The one finite 5800ms animation is the existing bounded ambient panel-energy cycle observed by the Store/catalog QA; this is not state-specific Quest/Home proof."
+    },
+    "motionDisposition": "PASS for the Store/catalog normal-motion and reduced-motion browser checks on the exact current Workstream 11 motion runtime/CSS hashes. State-specific Quest correct/wrong/clue/retry and Home reduced-motion pixels remain outside this artifact."
   },
   "storeObserverDiagnostic": {
     "workflow": "StarBlox Store Observer Diagnostic",
-    "runId": 35795242742,
-    "jobId": 106972922816,
-    "sourceHead": "4673b9ed14f60d0ac53f784f86d08cd88f0d9db9",
+    "runId": 35804381981,
+    "jobId": 107001779277,
+    "sourceHead": "aebd322150977436179404b50a5e87a226690a44",
     "status": "PASS",
     "sourceModuleDiagnostic": "PASS",
     "productionPreviewDiagnostic": "PASS",
-    "note": "The exact current motion runtime hash did not reproduce the Store observer/event-loop hang in either the source-module diagnostic or production preview. Do not reopen that investigation without a fresh failure or changed motion hash."
+    "note": "The current motion runtime hash does not reproduce the Store observer/event-loop hang in either diagnostic path. Do not reopen the Store hang investigation without a fresh failure or changed motion hash."
+  },
+  "questInteractionRisk": {
+    "status": "OPEN_EXACT_HASH_BROWSER_FAILURE_NOT_YET_ATTRIBUTED_TO_MOTION",
+    "workflow": "StarBlox Persistence Browser QA",
+    "runId": 35804382006,
+    "jobId": 107001779262,
+    "sourceHead": "aebd322150977436179404b50a5e87a226690a44",
+    "artifact": {
+      "id": 10727196252,
+      "name": "persistence-browser-qa",
+      "digest": "sha256:cc0466ba8ebb0bca8567d1ccab5701b51d2cf0f8e44c8ca40ece57b377128705",
+      "status": "FAIL"
+    },
+    "passingCases": 8,
+    "failingCases": 1,
+    "failingCase": "quest-retry-rapid-answer-and-final-refresh",
+    "failureSummary": "A normal Playwright click on a visible Quest answer button first observed the element as unstable, then observed it visible/enabled/stable, scrolled it into view, and timed out while performing the click.",
+    "referencedFailureScreenshot": "artifacts/persistence-browser-qa/quest-retry-rapid-answer-and-final-refresh-failure.png",
+    "failureScreenshotPresentInUploadedArtifactAtEvidenceRead": false,
+    "priorReference": {
+      "testedMotionCommit": "4673b9ed14f60d0ac53f784f86d08cd88f0d9db9",
+      "persistenceBrowserQaRunId": 35795242752,
+      "status": "PASS"
+    },
+    "motionAssessment": "Do not make a Workstream 11 runtime change from this single failure. The latest motion-specific commit only clears stale semantic success classes after feedback state changes; it does not alter Quest answer position, click handling, or gameplay. The failure therefore remains a credible interaction risk but is not yet a reproducible motion defect.",
+    "nextAction": "Workstream 10 should re-exercise Quest correct/wrong/clue/retry on the next applicable material head in both normal and reduced motion and capture browser/page/animation state if the click timeout reproduces. Workstream 11 should make a fix only if that evidence isolates a motion/accessibility cause."
   },
   "supportingChecks": {
     "testedMotionCommit": {
-      "starBloxCi": {
-        "runId": 35795243522,
-        "status": "PASS"
-      },
-      "persistenceBrowserQa": {
-        "runId": 35795242752,
-        "status": "PASS"
-      },
-      "preproductionVisualQa": {
-        "runId": 35795242900,
-        "status": "FAIL",
-        "note": "The browser structural visual gate remains failed. Current live ACTIVE_BATCH identifies the release visual blocker as 19 visible generic fallback-art IDs; Workstream 11 does not close or paper over that unrelated gate."
-      }
-    },
-    "currentEvidenceHead": {
-      "head": "f30a3e360540d885f0f28f726a5fe4a9ce1119e2",
-      "starBloxCi": {
-        "runId": 35799775887,
-        "status": "PASS"
-      },
-      "note": "Current-head CI is green. Browser evidence is reused by exact unchanged Workstream-11 motion hashes rather than falsely presented as a full current-head release run."
+      "starBloxCi": {"runId": 35804382004, "status": "PASS"},
+      "catalogMobileQa": {"runId": 35804381986, "status": "PASS"},
+      "storeObserverDiagnostic": {"runId": 35804381981, "status": "PASS"},
+      "persistenceBrowserQa": {"runId": 35804382006, "status": "FAIL", "scope": "Quest interaction case above"},
+      "preproductionVisualQa": {"status": "FAIL", "note": "Current live ACTIVE_BATCH still identifies 19 visible generic fallback-art IDs; Workstream 11 does not close or mask this unrelated visual gate."}
     }
   },
-  "priorHashBoundEvidence": {
-    "testedMotionCommit": "168441331cd38983ba41c2f31dd81195ea5d85c2",
-    "motionRuntimeGitBlob": "d3cae3a116ad5b13e1a3f80c455c7c58b18aa557",
-    "motionCssGitBlob": "d8797842f969973f81af2c56ec44d63ea54480ba",
-    "catalogMobileQaRunId": 35769947798,
-    "catalogMobileQaStatus": "PASS",
-    "storeObserverDiagnosticRunId": 35769947709,
-    "storeObserverDiagnosticStatus": "PASS",
-    "note": "Retained for provenance only. It does not transfer across the later motion runtime hash change to ed7dda4453c343c6e4cacccaf1e85723c9dd0b6d."
-  },
+  "priorHashBoundEvidence": [
+    {
+      "testedMotionCommit": "4673b9ed14f60d0ac53f784f86d08cd88f0d9db9",
+      "motionRuntimeGitBlob": "ed7dda4453c343c6e4cacccaf1e85723c9dd0b6d",
+      "motionCssGitBlob": "d8797842f969973f81af2c56ec44d63ea54480ba",
+      "starBloxCiRunId": 35795243522,
+      "starBloxCiStatus": "PASS",
+      "catalogMobileQaRunId": 35795242890,
+      "catalogMobileQaStatus": "PASS",
+      "catalogMobileQaArtifactId": 10723638396,
+      "catalogMobileQaArtifactDigest": "sha256:8226c7eb8d70cb47f558ef9c754e23fcf2cecaddc281070ac2f8300e74541340",
+      "storeObserverDiagnosticRunId": 35795242742,
+      "storeObserverDiagnosticStatus": "PASS",
+      "persistenceBrowserQaRunId": 35795242752,
+      "persistenceBrowserQaStatus": "PASS",
+      "note": "Retained for provenance. This older runtime hash cannot by itself clear the current Quest interaction risk."
+    },
+    {
+      "testedMotionCommit": "168441331cd38983ba41c2f31dd81195ea5d85c2",
+      "motionRuntimeGitBlob": "d3cae3a116ad5b13e1a3f80c455c7c58b18aa557",
+      "motionCssGitBlob": "d8797842f969973f81af2c56ec44d63ea54480ba",
+      "catalogMobileQaRunId": 35769947798,
+      "catalogMobileQaStatus": "PASS",
+      "storeObserverDiagnosticRunId": 35769947709,
+      "storeObserverDiagnosticStatus": "PASS",
+      "note": "Retained for provenance only."
+    }
+  ],
   "handoff": {
     "to": "Workstream10",
-    "reuse": "Treat Catalog Mobile QA run 35795242890 plus Store Observer Diagnostic run 35795242742 as exact-hash browser proof for motion runtime ed7dda4453c343c6e4cacccaf1e85723c9dd0b6d and motion CSS d8797842f969973f81af2c56ec44d63ea54480ba while those hashes remain unchanged.",
-    "currentHeadInterpretation": "The branch advanced after the tested motion commit, but the motion runtime and CSS blobs are byte-identical at the evidence head. This is current motion-hash evidence, not a claim that unrelated current-head release gates are green.",
-    "nextNeeded": "State-specific Quest semantic correct versus wrong/clue/retry browser pixels and Home state-specific reduced-motion stills remain open unless separately captured. Physical-device and screen-reader testing remain open. The 19 live generic fallback-art blockers remain outside Workstream 11.",
+    "state": "MOTION_CORE_BROWSER_PASS__QUEST_INTERACTION_RISK_OPEN",
+    "reuse": "Treat Catalog Mobile QA run 35804381986 plus Store Observer Diagnostic run 35804381981 as exact-hash browser proof for motion runtime 3f56ff99d62f5c0ed77ad1d69480d5c9db9c7fdb and motion CSS d8797842f969973f81af2c56ec44d63ea54480ba while those hashes remain unchanged.",
+    "currentHeadInterpretation": "The branch advanced from tested motion commit aebd322150977436179404b50a5e87a226690a44 to current evidence head d4acf4536c55447256c55ae05827b6e7c253a28f through coordination/provenance evidence only; the bound motion runtime/CSS blobs remain byte-identical.",
+    "nextNeeded": "Reproduce or clear the exact-hash Quest answer-click timeout and capture state-specific Quest correct versus wrong/clue/retry browser evidence. Home state-specific reduced-motion stills, physical-device testing, and screen-reader testing remain open unless separately evidenced.",
     "doNotRerun": "Do not repeat the Store observer/hang investigation unless a fresh current-head failure reproduces or either motion hash changes."
   },
   "freeze": {
