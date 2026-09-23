@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_CPU_LANE_RESET",
+  "branch": "screenshot-match-preproduction",
+  "cancelRunIds": [
+    35927174551,
+    35927603306
+  ],
+  "prerequisiteCandidate": "public/assets/catalog-candidates/cpu/decor-7-w09-v2-a-physical-original.png",
+  "prerequisiteGitBlobSha": "fa415ef0a554e2a60ee9e836f23d8d38b266a6e3",
+  "prerequisiteSha256": "2e92a6036047b95a9ddfcaab903e94c80d216ea4dd24054006e938cdaf21933e",
+  "prerequisiteEvidence": "docs/preproduction/art-factory/generated-evidence/w09-decor-5-7-cpu-v2/decor-7/staged-output.json",
+  "dispatchQueueFile": "docs/preproduction/art-factory/runtime-queue/w13-wall-9-12-cpu-v1.json",
+  "reason": "Decor 7 exact output is safely staged. Decor 5 is stuck in a pre-hardening run and the existing pending Wall run was also created before per-item staging/20-minute guards. Cancel both stale runs and dispatch Wall once through the current hardened workflow."
+}
