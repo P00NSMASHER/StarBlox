@@ -1,0 +1,83 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_TECHNICAL_QUALIFICATION_BATCH",
+  "role": "06-single-technical-qualification-gate",
+  "branch": "screenshot-match-preproduction",
+  "observedHead": "f9930dbddaf7e66eef95157e8c8aca68afb71281",
+  "sourceGenerationRunId": 35931931966,
+  "intakeEvidence": "docs/preproduction/art-factory/requests/w12-wall-9-10-intake-20260923.json",
+  "candidates": [
+    {
+      "id": "wall-9",
+      "name": "Art Gallery Wall",
+      "collectionId": "wall",
+      "tier": 3,
+      "theme": "Adventure Club",
+      "producer": "13",
+      "reviewer": "02",
+      "path": "public/assets/catalog-candidates/cpu/wall-9-w13-v1-a-gallery-rail-original.png",
+      "sha256": "7ca470736c1d860909dbd493e87b68e7d6f7c8acdbeaf44d60bab56b0e3e0b04",
+      "gitBlobSha": "95a2de47f3b19017ba37bfac1ab25fc87ad345ed",
+      "dimensions": [
+        768,
+        768
+      ],
+      "bytes": 808208,
+      "stagedOutputStatus": "STAGED_EXACT_BYTES_VERIFIED",
+      "currentTreeContainsExactCandidateBlob": true,
+      "exactBlobUniqueInObservedTree": true,
+      "technicalChecks": {
+        "idPathBinding": "PASS",
+        "signatureDecode": "PASS",
+        "dimensions": "PASS",
+        "artFactoryV2Provenance": "PASS",
+        "stagedOutputReadback": "PASS",
+        "independentReviewerRouting": "PASS"
+      },
+      "artQualityJudgment": "NOT_PERFORMED",
+      "status": "QUALIFIED_FOR_RENDERER14"
+    },
+    {
+      "id": "wall-10",
+      "name": "Neon City Sign",
+      "collectionId": "wall",
+      "tier": 4,
+      "theme": "Cloud Pop",
+      "producer": "13",
+      "reviewer": "02",
+      "path": "public/assets/catalog-candidates/cpu/wall-10-w13-v1-a-acrylic-skyline-original.png",
+      "sha256": "a171ee7ddd8ab79b238c3497ed9784db4880ead7fdeff2ad110eb285ab30fb13",
+      "gitBlobSha": "74a4c531a3c60ccd60747bfebc2dfc0d1d25b684",
+      "dimensions": [
+        768,
+        768
+      ],
+      "bytes": 709436,
+      "stagedOutputStatus": "STAGED_EXACT_BYTES_VERIFIED",
+      "currentTreeContainsExactCandidateBlob": true,
+      "exactBlobUniqueInObservedTree": true,
+      "technicalChecks": {
+        "idPathBinding": "PASS",
+        "signatureDecode": "PASS",
+        "dimensions": "PASS",
+        "artFactoryV2Provenance": "PASS",
+        "stagedOutputReadback": "PASS",
+        "independentReviewerRouting": "PASS"
+      },
+      "artQualityJudgment": "NOT_PERFORMED",
+      "status": "QUALIFIED_FOR_RENDERER14"
+    }
+  ],
+  "routing": {
+    "current": "HANDOFF_TO_RENDERER14",
+    "renderer14": "RENDER_EXACT_HASH_IN_REAL_STORE_CARD_DETAIL_CONTEXT",
+    "reviewer02": "AFTER_RENDER_PACKET__INDEPENDENT_EXACT_HASH_ACCEPT_OR_REWORK",
+    "integration08": "ONLY_AFTER_REVIEWER02_ACCEPT"
+  },
+  "preservation": {
+    "candidateBytesMutated": false,
+    "canonicalMappingsChanged": false,
+    "gameplayLearningPersistenceEconomyChanged": false,
+    "deploymentTouched": false
+  }
+}
