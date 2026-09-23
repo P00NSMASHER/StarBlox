@@ -45,6 +45,23 @@ const FAILURE_BLOCKS=Object.freeze({
 export const sha=s=>crypto.createHash('sha256').update(String(s)).digest('hex');
 const band=t=>Number(t)<=2?'starter':Number(t)<=3?'mid':'luxe';
 const uniq=a=>[...new Set(a.filter(Boolean))];
+export const RUNTIME_PROMPT_WORD_BUDGET=44;
+const promptWords=s=>String(s||'').trim().split(/\s+/).filter(Boolean);
+
+export function buildRuntimePrompt(item,variant='A',brief='',failureCodes=[]){
+ const prefix=`${item.id} ${item.name}. ${item.collectionId}; tier ${item.tier}; theme ${item.theme}.`;
+ const repair=(failureCodes||[]).length
+  ? `Repair ${failureCodes.slice(0,2).map(x=>String(x).toLowerCase().replaceAll('_',' ')).join('; ')}.`
+  : '';
+ const suffix='Premium dimensional product render, clear silhouette, tactile materials, grounded shadow, no text or logo.';
+ const fixed=[...promptWords(prefix),...promptWords(repair),...promptWords(suffix)];
+ const briefBudget=Math.max(8,RUNTIME_PROMPT_WORD_BUDGET-fixed.length);
+ const runtime=[...promptWords(prefix),...promptWords(brief).slice(0,briefBudget),...promptWords(repair),...promptWords(suffix)]
+  .slice(0,RUNTIME_PROMPT_WORD_BUDGET)
+  .join(' ');
+ if(!runtime) throw Error(`item ${item.id} runtime prompt is empty`);
+ return runtime;
+}
 
 export function inferRepair(review={}){
  const text=[review.reason,review.reasonCode,...(review.defects||[])].filter(Boolean).join(' '), blocks=[];
@@ -115,7 +132,8 @@ export function compose(item,blocks,variant='A',repairContext={},basePrompt=''){
   repair.push('Repair the documented failure codes while preserving qualities that were not implicated. Do not erase successful identity, silhouette, material depth, or readability merely to make a different image.');
  }
  const text=[`STARBLOX CATALOG ART — ${variant}`,'Create one premium, kid-friendly 2D game catalog asset with polished dimensional quality.',metadata,...(brief?[`Authoritative item-specific design brief:\n${brief}`]:[]),...repair,...ids.map(x=>BLOCKS[x]),'Output a production-worthy source image for exact-byte staging, card/detail rendering and independent review. Do not claim approval; the reviewer decides from rendered pixels.'].join('\n\n');
- return {variant,promptBlocks:ids,promptText:text,promptSha256:sha(text),failureCodes,optimizerInputSha256:brief?sha(brief):null};
+ const runtimePromptText=buildRuntimePrompt(item,variant,brief,failureCodes);
+ return {variant,promptBlocks:ids,promptText:text,promptSha256:sha(text),runtimePromptText,runtimePromptSha256:sha(runtimePromptText),failureCodes,optimizerInputSha256:brief?sha(brief):null};
 }
 export function optimizeBrief(item,basePrompt,review,model,variant='REQUEST'){
  const brief=String(basePrompt||'').trim();
