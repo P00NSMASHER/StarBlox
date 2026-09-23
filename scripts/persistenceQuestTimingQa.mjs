@@ -509,8 +509,8 @@ async function runWrongRetryIsolation(browser, reducedMotion) {
       screenshot = path.join(OUTPUT, `quest-wrong-retry-${mode}-${failedStage || 'failure'}.png`);
       await page.screenshot({ path: screenshot, fullPage: true, timeout: 5000 }).catch(() => { screenshot = null; });
       await stopQuestClickProbe(page);
-      await context.close().catch(() => {});
     }
+    await context.close().catch(() => {});
     return {
       status: 'FAIL',
       mode,
