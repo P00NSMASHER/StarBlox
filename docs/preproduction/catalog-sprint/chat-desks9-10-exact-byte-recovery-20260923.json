@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "batchId": "chat-desks9-10-exact-byte-recovery-20260923",
+  "sourceEvidence": "docs/preproduction/art-factory/requests/w03-desks-9-10-generation-evidence-20260922.json",
+  "recoveryOnly": true,
+  "items": [
+    {
+      "id": "desks-9",
+      "assetId": "urn:aaid:sc:US:97f64c0f-6a05-4340-9bd6-84d6257e34cb",
+      "variant": "A-PHYSICAL",
+      "seed": 309172941,
+      "producer": "03",
+      "recoveryOwner": "07",
+      "independentReviewer": "05",
+      "renditionUrl": "https://at.adobe.com/zMqP5QV2Grk6rre7",
+      "sourceUrl": "https://at.adobe.com/GNMuxY8SYgeHPKMR",
+      "candidateRepositoryPath": "public/assets/catalog/desks-9-w03-recovered-v1.jpg"
+    },
+    {
+      "id": "desks-10",
+      "assetId": "urn:aaid:sc:US:35411489-6af3-4cf2-85df-23c564720c02",
+      "variant": "A-PHYSICAL",
+      "seed": 310584701,
+      "producer": "03",
+      "recoveryOwner": "07",
+      "independentReviewer": "05",
+      "renditionUrl": "https://at.adobe.com/JkRVhW2joEU2kZXx",
+      "sourceUrl": "https://at.adobe.com/VuWJYCN6ZfYstKMH",
+      "candidateRepositoryPath": "public/assets/catalog/desks-10-w03-recovered-v1.jpg"
+    }
+  ]
+}

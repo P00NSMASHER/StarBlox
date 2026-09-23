@@ -56,6 +56,9 @@ def write(path,data):
     if path.read_bytes()!=data:
         raise ValueError('byte readback mismatch')
 
+def repo_path(path,base=ROOT):
+    return path.relative_to(base).as_posix()
+
 def main():
     if subprocess.check_output(['git','branch','--show-current'],cwd=ROOT,text=True).strip()!=BRANCH:
         raise RuntimeError('wrong branch')
@@ -100,12 +103,12 @@ def main():
             'producer':x['producer'],
             'transportHelper':'CHAT',
             'independentReviewer':x['independentReviewer'],
-            'repositoryPath':str(cp.relative_to(ROOT)),
-            'assetPath':'/'+str(cp.relative_to(ROOT/'public')),
+            'repositoryPath':repo_path(cp),
+            'assetPath':'/'+repo_path(cp,ROOT/'public'),
             'assetId':x['assetId'],
             'status':f"READY_FOR_REVIEW_{x['independentReviewer']}",
             'readback':'PASS',
-            'original':{**si,'repositoryPath':str(op.relative_to(ROOT))}
+            'original':{**si,'repositoryPath':repo_path(op)}
         })
         rows.append(row)
         print(row['id'],row['dimensions'],row['gitBlobSha'])

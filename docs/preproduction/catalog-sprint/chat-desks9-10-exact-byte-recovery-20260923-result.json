@@ -1,0 +1,105 @@
+{
+  "schemaVersion": 1,
+  "batchId": "chat-desks9-10-exact-byte-recovery-20260923",
+  "status": "STAGED_READY_FOR_INDEPENDENT_REVIEW",
+  "sourceHead": "e5eaa6a95b08cff8e206ee9e3aa95103ad9f75dc",
+  "workflowRunId": null,
+  "transportHelper": "CHAT",
+  "canonicalWriter": "08",
+  "newGenerations": 0,
+  "storedCandidateCount": 2,
+  "storedOriginalCount": 2,
+  "duplicateCandidateContent": 0,
+  "items": [
+    {
+      "id": "desks-9",
+      "name": "Art Maker Table",
+      "collectionId": "desks",
+      "collectionName": "Desks & Tech",
+      "type": "room",
+      "tier": 3,
+      "theme": "Sunny Pop",
+      "price": 667,
+      "starReq": 2,
+      "format": "JPEG",
+      "dimensions": [
+        600,
+        600
+      ],
+      "bytes": 46023,
+      "sha256": "17f73cc8db0ff1941730bf00c31f60599bb9203daff86a01af7b59901c0f0673",
+      "gitBlobSha": "546dae5dd75c3ffcf312fc8d0c140c7e774ec972",
+      "producer": "03",
+      "transportHelper": "CHAT",
+      "independentReviewer": "05",
+      "repositoryPath": "public/assets/catalog/desks-9-w03-recovered-v1.jpg",
+      "assetPath": "/assets/catalog/desks-9-w03-recovered-v1.jpg",
+      "assetId": "urn:aaid:sc:US:97f64c0f-6a05-4340-9bd6-84d6257e34cb",
+      "status": "READY_FOR_REVIEW_05",
+      "readback": "PASS",
+      "original": {
+        "format": "PNG",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "bytes": 835446,
+        "sha256": "a401f2b8b5a263d6bf7f56de2ee7610aaf7256cb233335dc4ace80bae867689e",
+        "gitBlobSha": "7ee3949e443639be9a0245724c32afae699cf4f2",
+        "repositoryPath": "docs/preproduction/catalog-sprint/recovered-originals/chat-desks9-10-exact-byte-recovery-20260923/desks-9-97f64c0f-6a05-4340-9bd6-84d6257e34cb.png"
+      }
+    },
+    {
+      "id": "desks-10",
+      "name": "Neon Streaming Desk",
+      "collectionId": "desks",
+      "collectionName": "Desks & Tech",
+      "type": "room",
+      "tier": 4,
+      "theme": "Aqua Wave",
+      "price": 928,
+      "starReq": 5,
+      "format": "JPEG",
+      "dimensions": [
+        600,
+        600
+      ],
+      "bytes": 44181,
+      "sha256": "8a8c351b41ee531937c69cb02557b2e00538f62ea9dfcbac48123bbd4c4364e5",
+      "gitBlobSha": "9ff5fd8b388cabfc6a8911653abb0e10d938e41f",
+      "producer": "03",
+      "transportHelper": "CHAT",
+      "independentReviewer": "05",
+      "repositoryPath": "public/assets/catalog/desks-10-w03-recovered-v1.jpg",
+      "assetPath": "/assets/catalog/desks-10-w03-recovered-v1.jpg",
+      "assetId": "urn:aaid:sc:US:35411489-6af3-4cf2-85df-23c564720c02",
+      "status": "READY_FOR_REVIEW_05",
+      "readback": "PASS",
+      "original": {
+        "format": "PNG",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "bytes": 943638,
+        "sha256": "8d27091de652c35d9afd9bd239b1a8aaeda7db457fd53e8de1581011c5c7aa9f",
+        "gitBlobSha": "0c5a10b88d8927a4b8e1c505a5dfdff4d8822203",
+        "repositoryPath": "docs/preproduction/catalog-sprint/recovered-originals/chat-desks9-10-exact-byte-recovery-20260923/desks-10-35411489-6af3-4cf2-85df-23c564720c02.png"
+      }
+    }
+  ],
+  "checks": {
+    "metadata": "PASS_2_OF_2_FROM_CURRENT_GAME_MODEL",
+    "exactByteReadback": "PASS_4_OF_4",
+    "candidateDecode": "PASS_2_OF_2",
+    "independentVisualReview": "PENDING_ASSIGNED_REVIEWERS"
+  },
+  "freeze": {
+    "replitTouched": false,
+    "flootTouched": false,
+    "mainTouched": false,
+    "canonicalMappingsTouched": false,
+    "gameplayChanged": false,
+    "playerDataTouched": false
+  }
+}
