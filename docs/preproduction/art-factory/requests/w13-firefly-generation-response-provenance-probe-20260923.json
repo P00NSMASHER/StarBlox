@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_W13_FIREFLY_GENERATION_RESPONSE_PROVENANCE_PROBE",
+  "producer": "13",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "996dc99ac7f14068d066374b12554c8ff86734a7",
+  "observedAtUtc": "2026-09-23T00:06Z",
+  "activeBatch": {
+    "batchId": "w13-wall-9-12-runtime-unblock-v2",
+    "scope": ["wall-9", "wall-10", "wall-11", "wall-12"],
+    "stateAtProbe": "ACTIVE_GENERATION_RUNTIME_UNBLOCK__NO_REPEAT_ADOBE_BEFORE_RESET",
+    "reviewer": "14",
+    "canonicalWriter": "08"
+  },
+  "purpose": "Perform exactly one post-reset generation-response metadata-capability probe required by the prior W13 handoff. This is a Wall-scope runtime provenance probe only, not an optimized production candidate and not eligible for staging, review, or canonical integration.",
+  "providerProbe": {
+    "provider": "Adobe Firefly via connected Adobe image_generate tool",
+    "request": {
+      "itemId": "wall-9",
+      "probeOnly": true,
+      "prompt": "StarBlox Wall 9 metadata-capability probe only. Create one clean wall-mounted art-gallery object in three-quarter product view: warm oak mounting rail, three mixed-depth framed abstract panels, one shallow shadowbox, visible brass cleats/standoffs, layered paper/canvas/glass materials, believable frame thickness and wall cast shadows. No readable text, no logos, no UI, no freestanding base. This probe is for generation-response provenance inspection, not approval or canonical integration.",
+      "promptSha256": "fba296ae1714b3fa01f6c57f680ea551ee69cddf0c696c505af1cc584f448277",
+      "negativePrompt": "readable text, logo, UI, price badge, floor stand, flat icon, watermark",
+      "negativePromptSha256": "b1ad30ee821ce3350cca767d8a07fab41989960f394bd64f65577677f589c20b",
+      "requestedSeed": 2136484253,
+      "requestedCount": 1,
+      "requestedSize": "1024x1024",
+      "promptReasoner": "speed"
+    },
+    "response": {
+      "success": true,
+      "requestId": "f90fcb77-cc4c-4a6f-8d0c-0de50d60b2d2",
+      "outputMediaType": "image/png",
+      "outputUrl": "https://photoshop-api.adobe.io/v2/short-url/urn:aaid:ps:US:01d75a31-9da9-485c-b2c5-05ee8606f96b",
+      "authoritativeModelId": null,
+      "authoritativeModelRevision": null,
+      "authoritativeRuntimeRevision": null,
+      "authoritativeExecutedSeed": null,
+      "providerEchoedRequestedSeed": false,
+      "fieldsActuallyExposed": ["success", "outputUrl", "outputMediaType", "requestId"]
+    }
+  },
+  "result": {
+    "generationTransportAfterReset": "WORKING",
+    "artFactoryV2ProvenanceCompliance": "FAIL",
+    "reason": "The post-reset generation response succeeds but still exposes no authoritative model/checkpoint identity, no model/checkpoint revision, no generation-runtime/tool revision, and no authoritative executed-seed record. ART_FACTORY_V2 provenance therefore cannot be satisfied from this provider response surface. The returned image is probe-only and must not be promoted into Wall9-12 production lineage.",
+    "providerDispositionForWall9To12": "NONCOMPLIANT_UNLESS_A_DIFFERENT_AUTHORIZED_ADOBE_RESPONSE_SURFACE_EXPOSES_REQUIRED_AUTHORITATIVE_REVISION_METADATA",
+    "stageProbePixels": false,
+    "routeProbeToReview": false,
+    "canonicalIntegration": false,
+    "selfApproval": false
+  },
+  "actionableHandoffTo15": {
+    "state": "FIREFLY_TRANSPORT_RECOVERED_POST_RESET__GENERATION_RESPONSE_PROVENANCE_STILL_NONCOMPLIANT",
+    "next": [
+      "Do not spend more Wall9-12 generation quota through this same Adobe image_generate response surface; the exact missing fields are now proven after reset.",
+      "Prefer the pinned deterministic Diffusers/SDXL path as soon as PAAM-L044 or another already-authorized runner is executable and can expose exact model/checkpoint ID+revision, runtime identity+revision/commit, final optimized prompt hash, and authoritative executed seed.",
+      "If coordinator15 knows another already-authorized Adobe API/readback surface that returns authoritative generation model/revision/runtime metadata, test that metadata surface directly before any further production generation; do not infer provenance from filenames, asset names, request IDs, or saved-asset metadata.",
+      "Once a compliant runtime exists, generate only wall-9 through wall-12 from the current optimizer/job plan, preserve source bytes and provenance, stage/read back exact bytes, then route 06 -> 14 -> 08 on independent ACCEPT."
+    ]
+  },
+  "preservationClaims": {
+    "wall1To7AcceptedHashesTouched": false,
+    "wall8RecoveryEvidenceTouched": false,
+    "wall9To12ProductionCandidateCreated": false,
+    "catalogManifestTouched": false,
+    "catalogRuntimeTouched": false,
+    "ciOrWorkflowTouched": false,
+    "mainOrDeploymentTouched": false,
+    "gameplayStateTouched": false
+  }
+}
