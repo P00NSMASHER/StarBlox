@@ -79,7 +79,8 @@ jobs:
           assert staged["output"]["sha256"]==sha
           assert staged["output"]["gitBlobSha"]==blob
           assert staged["output"]["repoPath"]==req["repoPath"]
-          assert str(staged["review"]["reviewer"])==str(req["reviewer"])\n          assert str(staged["review"]["routing"]["queueId"])==str(req["queueId"])
+          assert str(staged["review"]["reviewer"])==str(req["reviewer"])
+          assert str(staged["review"]["routing"]["queueId"])==str(req["queueId"])
           assert receipt["output"]["sha256"]==sha
           PY
           git fetch origin screenshot-match-preproduction
