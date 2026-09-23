@@ -39,7 +39,7 @@ jobs:
           python -m pip install --index-url https://download.pytorch.org/whl/cpu "torch==2.8.0"
           python -m pip install \
             "diffusers @ git+https://github.com/huggingface/diffusers.git@7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c" \
-            transformers accelerate safetensors huggingface_hub Pillow sentencepiece invisible-watermark
+            transformers accelerate safetensors huggingface_hub hf_xet Pillow sentencepiece invisible-watermark
 
       - name: Verify adapter contract
         run: |
@@ -99,6 +99,8 @@ jobs:
           PY
 
       - name: Run bounded real SDXL pixel proof on CPU
+        env:
+          HF_XET_HIGH_PERFORMANCE: "1"
         run: |
           ATTEMPT="$(cat artifacts/cpu-runtime-proof/attempt-id.txt)"
           python scripts/artFactoryDiffusers.py generate \

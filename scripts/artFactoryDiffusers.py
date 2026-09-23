@@ -207,6 +207,27 @@ def installed_diffusers_provenance() -> dict[str, Any]:
     }
 
 
+def model_snapshot_allow_patterns(repo_id: str) -> list[str] | None:
+    """Return the minimal inference snapshot for known pinned Diffusers models."""
+    if repo_id == "stabilityai/stable-diffusion-xl-base-1.0":
+        return [
+            "model_index.json",
+            "scheduler/*",
+            "tokenizer/*",
+            "tokenizer_2/*",
+            "feature_extractor/*",
+            "text_encoder/config.json",
+            "text_encoder/model.fp16.safetensors",
+            "text_encoder_2/config.json",
+            "text_encoder_2/model.fp16.safetensors",
+            "unet/config.json",
+            "unet/diffusion_pytorch_model.fp16.safetensors",
+            "vae/config.json",
+            "vae/diffusion_pytorch_model.fp16.safetensors",
+        ]
+    return None
+
+
 def resolve_hf_snapshot(
     repo_id: str,
     revision: str,
@@ -220,11 +241,13 @@ def resolve_hf_snapshot(
     except Exception as exc:  # pragma: no cover - generation environment only
         raise RuntimeError("huggingface_hub is required for exact snapshot resolution") from exc
 
+    allow_patterns = model_snapshot_allow_patterns(repo_id)
     snapshot = Path(
         snapshot_download(
             repo_id=repo_id,
             revision=exact,
             local_files_only=bool(local_files_only),
+            allow_patterns=allow_patterns,
         )
     ).resolve()
     resolved = snapshot.name.lower()
@@ -241,6 +264,8 @@ def resolve_hf_snapshot(
         "requestedRevision": exact,
         "resolvedRevision": resolved,
         "verified": True,
+        "selectiveSnapshot": bool(allow_patterns),
+        "allowPatterns": allow_patterns,
     }
 
 
@@ -579,6 +604,8 @@ def load_pipeline(attempt: dict[str, Any], args: argparse.Namespace):
         "local_files_only": True,
         "use_safetensors": True,
     }
+    if model["modelId"] == "stabilityai/stable-diffusion-xl-base-1.0":
+        load_kwargs["variant"] = "fp16"
     if installed_version("accelerate"):
         load_kwargs["low_cpu_mem_usage"] = True
     pipe = DiffusionPipeline.from_pretrained(str(snapshot), **load_kwargs)
@@ -757,6 +784,8 @@ def generate(
             **dict(attempt.get("model") or {}),
             "resolvedRevision": model_proof["resolvedRevision"],
             "snapshotRevisionVerified": True,
+            "selectiveSnapshot": model_proof.get("selectiveSnapshot", False),
+            "snapshotAllowPatterns": model_proof.get("allowPatterns"),
         },
         "conditioning": {
             **dict(attempt.get("conditioning") or {}),
@@ -841,6 +870,11 @@ def self_test() -> None:
         disk_free_bytes=20 * 1024**3,
     )
     assert cpu_small["eligible"] is False
+    sdxl_patterns = model_snapshot_allow_patterns("stabilityai/stable-diffusion-xl-base-1.0")
+    assert sdxl_patterns is not None
+    assert "unet/diffusion_pytorch_model.fp16.safetensors" in sdxl_patterns
+    assert "unet/diffusion_pytorch_model.safetensors" not in sdxl_patterns
+    assert model_snapshot_allow_patterns("example/model") is None
     try:
         verify_resolved_revision("model revision", "d" * 40, "e" * 40)
         raise AssertionError("resolved revision mismatch unexpectedly passed")

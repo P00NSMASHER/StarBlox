@@ -145,10 +145,11 @@ jobs:
           python -m pip install --index-url https://download.pytorch.org/whl/cpu "torch==2.8.0"
           python -m pip install \
             "diffusers @ git+https://github.com/huggingface/diffusers.git@7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c" \
-            transformers accelerate safetensors huggingface_hub Pillow sentencepiece invisible-watermark
+            transformers accelerate safetensors huggingface_hub hf_xet Pillow sentencepiece invisible-watermark
 
       - name: Generate exact source candidate
         env:
+          HF_XET_HIGH_PERFORMANCE: "1"
           ITEM: ${{ matrix.item }}
           ATTEMPT: ${{ matrix.attempt }}
           REPO_PATH: ${{ matrix.repo_path }}
