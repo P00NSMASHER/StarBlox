@@ -5,8 +5,8 @@
   "planId": "ext09-avatar-buddy-compositing-plan-20260922",
   "planType": "NON_CATALOG_VISUAL_PREPRODUCTION_ONLY",
   "observedLiveState": {
-    "activeBatchSourceHead": "edc55728e562207e5316e2fa8ad5663dcc32d755",
-    "activeBatchBlobSha": "2baa3e26a4348a01501e490670670d3b42e9a606",
+    "activeBatchSourceHead": "bba88535d618507bdc64abd29acbd5585c84a65e",
+    "activeBatchBlobSha": "aa6bad4e4dc8357438396735d7a02f8fee9b22fb",
     "activeBatchStatus": "ACTIVE_RELEASE_BLOCKER_FIRST",
     "manifestVersion": 33,
     "visibleFallbackCount": 19,
@@ -14,7 +14,10 @@
     "lane13SchemaVersion": 8,
     "lane13Status": "READY_FOR_REVIEW_SCENES_CHARACTER_BUDDY_AND_HOME_FOREGROUND_DEPTH",
     "reviewer01V2BlobSha": "34b6f107c126b4adc69fd93306fdc4e9ee9e2fd6",
-    "reviewer01V2Decision": "REWORK"
+    "reviewer01V2Decision": "REWORK",
+    "reviewer01V3BlobSha": "4e834670444af006916d44aa98b751e2ffba9152",
+    "reviewer01V3Decision": "ACCEPT",
+    "reconciledBranchHead": "2e0bd1449e9cd0261ef5adb42ee369dad35074fe"
   },
   "selectedComponent": "REUSABLE_AVATAR_BUDDY_COMPOSITING_AND_ATTACHMENT_CONTRACT",
   "selectedItemIds": [],
@@ -31,11 +34,6 @@
     "rule": "Null by design: this run creates no pixels and must not be represented as a generation attempt."
   },
   "frozenPendingCandidates": [
-    {
-      "candidateId": "avatar-keyart-fullbody-w13-v3",
-      "exactSha256": "9d115163c520d932a3022acdc6ee698e1f01b847b0fcf20d641975055719e263",
-      "reason": "Current long-hair repair is staged and pending reviewer 01/14/15; do not generate v4."
-    },
     {
       "candidateId": "avatar-headset-w13-v1",
       "exactSha256": "e14ffd9436d9d85606bf074fee4da22e93b4fab3b21504c44619e1341ebfcec1",
@@ -78,7 +76,7 @@
     "The reference cat called Lily is visual relationship evidence, not canonical runtime identity.",
     "The player-selected companion item remains authoritative; never bake a fixed Buddy into a reusable avatar or scene layer.",
     "Owned/equipped headwear, facegear, backgear and handgear remain authoritative and must replace preview-only components at render time.",
-    "Avatar key art remains noncanonical guidance until independently accepted and explicitly adapted by the primary coordinator.",
+    "Avatar key art v3 is independently accepted only at the recorded exact hashes; it remains noncanonical runtime guidance until explicitly adapted by the primary coordinator.",
     "No Buddy bond, ownership, progress, curriculum, economy or player-state mutation is permitted."
   ],
   "componentContract": {
@@ -195,12 +193,13 @@
   ],
   "releaseGates": [
     "ACTIVE_BATCH explicitly releases non-catalog character work.",
-    "Reviewer 01 independently disposes avatar-keyart-fullbody-w13-v3 and buddy-stage-w13-v1 exact hashes.",
+    "Reviewer 01 exact-hash acceptance for avatar-keyart-fullbody-w13-v3 is satisfied; preserve the accepted full and optimized hashes.",
+    "Reviewer 01 independently disposes buddy-stage-w13-v1 and any equipment-layer hashes selected for the proof.",
     "Reviewer 14 completes composition/performance review for the selected screen layer.",
     "Primary coordinator assigns runtime adaptation ownership.",
     "A runtime render test proves equipped-state preservation for all four accessory families."
   ],
-  "nextAction": "Wait for exact-hash dispositions. On release, implement one bounded render-only compositing proof using existing accepted components and runtime-selected Buddy/equipment state; create no new character pixels unless explicitly reassigned.",
+  "nextAction": "Keep avatar-keyart-fullbody-w13-v3 frozen at its accepted exact hashes. Wait for ACTIVE_BATCH release plus independent Buddy/equipment-layer and reviewer-14 dispositions; then implement one bounded render-only compositing proof using runtime-selected Buddy/equipment state. Create no new character pixels unless explicitly reassigned.",
   "prohibitedActions": [
     "No runtime or CSS edits",
     "No gameplay, curriculum, economy or persistence edits",
@@ -208,5 +207,17 @@
     "No self-approval",
     "No fixed Lily identity substitution",
     "No regeneration of pending candidates"
+  ],
+  "independentlyAcceptedExactHashes": [
+    {
+      "candidateId": "avatar-keyart-fullbody-w13-v3",
+      "fullSha256": "9d115163c520d932a3022acdc6ee698e1f01b847b0fcf20d641975055719e263",
+      "optimizedSha256": "5fd0b208bcf845ce651df98d9664266f469422e7b23d027b1fd7690b8777b5b2",
+      "reviewer": "01",
+      "decision": "ACCEPT",
+      "reviewPath": "docs/preproduction/visuals/reviews/01-avatar-keyart-fullbody-v3.json",
+      "reviewBlobSha": "4e834670444af006916d44aa98b751e2ffba9152",
+      "rule": "Freeze these exact hashes. Any changed bytes require a fresh independent decision."
+    }
   ]
 }
