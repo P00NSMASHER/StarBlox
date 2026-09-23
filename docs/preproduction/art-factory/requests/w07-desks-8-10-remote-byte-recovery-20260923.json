@@ -1,0 +1,123 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_EXACT_BYTE_RECOVERY_EVIDENCE",
+  "owner": "07",
+  "branch": "screenshot-match-preproduction",
+  "observedHeadImmediatelyBeforeWrite": "67393542a84d2b73b18986fe4609241b8b829170",
+  "observedAt": "2026-09-23T07:06:35Z",
+  "batchId": "w07-desks-8-10-exact-byte-recovery-v2",
+  "scope": [
+    "desks-8",
+    "desks-9",
+    "desks-10"
+  ],
+  "binding": {
+    "activeBatchGitBlob": "189240098ce7781c762e41a152d04d2a0251dfef",
+    "manifestGitBlob": "3ce8dd5d16674ff556764402b712d215d3d22457",
+    "catalogRuntimeGitBlob": "68dc4944988ee2850e634eb8966613b9663c163c"
+  },
+  "disposition": "BLOCKED_RAW_BYTE_TRANSPORT_ONLY",
+  "materialChange": "The exact Adobe Firefly generation records already named in the Desk9/10 producer evidence were rediscovered live and remain resolvable under their original generation URNs. The prior ambiguity about whether those remote source records still existed is closed. No candidate bytes were imported or changed.",
+  "desks8": {
+    "state": "EXACT_LOCAL_SOURCE_BYTES_NOT_MATERIALIZED_IN_CURRENT_RUNTIME",
+    "producerEvidence": "docs/preproduction/art-factory/requests/w03-desks-8-generation-evidence-20260922.json",
+    "preservedCandidates": [
+      {
+        "variant": "A-PHYSICAL",
+        "sourceSha256": "afd02d9caafb473f5069c5fbdfc0d0d2304caa720f5eb4db404ddaca5c02d6d9",
+        "sourceBytes": 1703536,
+        "sourceDimensions": [1254, 1254],
+        "expectedGitBlobIfExactImported": "735954877f050c290380dcd501dd4a4b688b1310",
+        "derivativeSha256": "31da73815204af1cdfa3fe4562ac836bf3222094e104cd1046da09c2e8fdb319",
+        "derivativeBytes": 17486,
+        "derivativeDimensions": [384, 384],
+        "expectedDerivativeGitBlobIfExactImported": "882229409d416fd4c5e8f0715425b308f7fc74aa"
+      },
+      {
+        "variant": "B-THEME-TIER",
+        "sourceSha256": "a0c4ff059b71f0b64c923e310e8f8244a6bbe46c8a60aa0bb95570df287cb54e",
+        "sourceBytes": 1954405,
+        "sourceDimensions": [1254, 1254],
+        "expectedGitBlobIfExactImported": "5bf02e89d116ff5cf9bf4e9e6e0eff9bd8e794b5",
+        "derivativeSha256": "85b5a1f966351847adbcbc8a2f288b4346c395b0a3fe438df8cdd7bc0262e3ec",
+        "derivativeBytes": 22296,
+        "derivativeDimensions": [384, 384],
+        "expectedDerivativeGitBlobIfExactImported": "67085c440d4ea56e5390863162b3e5b7a16933af"
+      }
+    ],
+    "currentRecoveryResult": "The prior local runtime paths and exact source files were not available in the current execution environment or file library. No regeneration or substitute was attempted."
+  },
+  "desks9": {
+    "state": "EXACT_REMOTE_GENERATION_RECORDS_CONFIRMED_LIVE__RAW_BYTES_NOT_MATERIALIZED",
+    "producerEvidence": "docs/preproduction/art-factory/requests/w03-desks-9-10-generation-evidence-20260922.json",
+    "confirmedRemoteCandidates": [
+      {
+        "variant": "A-PHYSICAL",
+        "seed": 309172941,
+        "assetId": "urn:aaid:sc:US:97f64c0f-6a05-4340-9bd6-84d6257e34cb",
+        "adobeAssetSize": 886112,
+        "visualIdentityCheck": "MATCHES_PRESERVED_DESK9_A_PRODUCT_IDENTITY",
+        "rawByteHashClaim": null
+      },
+      {
+        "variant": "B-READABILITY",
+        "seed": 309172942,
+        "assetId": "urn:aaid:sc:US:bef9f044-3bf8-433c-847f-adfe76012996",
+        "adobeAssetSize": 1040557,
+        "visualIdentityCheck": "MATCHES_PRESERVED_DESK9_B_PRODUCT_IDENTITY",
+        "rawByteHashClaim": null
+      }
+    ]
+  },
+  "desks10": {
+    "state": "EXACT_REMOTE_GENERATION_RECORDS_CONFIRMED_LIVE__RAW_BYTES_NOT_MATERIALIZED",
+    "producerEvidence": "docs/preproduction/art-factory/requests/w03-desks-9-10-generation-evidence-20260922.json",
+    "confirmedRemoteCandidates": [
+      {
+        "variant": "A-PHYSICAL",
+        "seed": 310584701,
+        "assetId": "urn:aaid:sc:US:35411489-6af3-4cf2-85df-23c564720c02",
+        "adobeAssetSize": 992823,
+        "visualIdentityCheck": "MATCHES_PRESERVED_DESK10_A_PRODUCT_IDENTITY",
+        "rawByteHashClaim": null
+      },
+      {
+        "variant": "B-THEME-TIER",
+        "seed": 310584702,
+        "assetId": "urn:aaid:sc:US:c542e250-1ade-4e7d-8fe0-1789d29d74ac",
+        "adobeAssetSize": 951273,
+        "visualIdentityCheck": "MATCHES_PRESERVED_DESK10_B_PRODUCT_IDENTITY",
+        "rawByteHashClaim": null
+      }
+    ]
+  },
+  "transportProbe": {
+    "adobeGenerationLookup": "PASS",
+    "adobeAuthenticatedPreview": "PASS",
+    "rawExactByteDownloadIntoCurrentRuntime": "UNAVAILABLE",
+    "githubBinaryBlobCapabilityIfRawBase64Exists": "AVAILABLE",
+    "repositoryStage": "NOT_ATTEMPTED_WITHOUT_VERIFIABLE_RAW_BYTES",
+    "reason": "The current Adobe connector resolves authenticated generation URNs to preview/download endpoints but exposes no byte-preserving file materialization action in this runtime. The browser path cannot be used non-interactively, the remote desktop runner is offline, and no original local source file is mounted. Passing rendered preview pixels, screenshots, re-encodes, or approximations would violate the exact-byte contract."
+  },
+  "handoff": {
+    "06": "NOT_SENT",
+    "14": "NOT_SENT",
+    "05": "NOT_SENT",
+    "08": "NOT_SENT",
+    "reason": "No exact repository-staged bytes exist yet."
+  },
+  "nextRequiredAction": "Materialize the authenticated bytes for one of the confirmed Desk9/10 Firefly generation URNs through a byte-preserving authorized file bridge, or rematerialize one preserved Desk8/9/10 local source file. Then verify byte count, SHA-256, decoded dimensions, Git blob identity and repository readback before routing 06 -> 14 -> reviewer05 -> 08.",
+  "safety": {
+    "regenerated": false,
+    "resized": false,
+    "reencoded": false,
+    "approximated": false,
+    "substituted": false,
+    "selfReviewed": false,
+    "canonicalManifestTouched": false,
+    "catalogRuntimeTouched": false,
+    "activeBatchTouched": false,
+    "ciWorkflowTouched": false,
+    "mainReplitFlootDeployPaidSettingsSecretsPlayerDataTouched": false
+  }
+}
