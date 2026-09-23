@@ -1,0 +1,164 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_W12_CROSS_ACCOUNT_INTAKE_ROUTING",
+  "router": "12",
+  "branch": "screenshot-match-preproduction",
+  "observedAt": "2026-09-23T04:41:28Z",
+  "sourceHead": "fc1368809c89cd31d1b5e86051faba69e0bc3802",
+  "scanWindow": {
+    "priorRouterCommit": "bba88535d618507bdc64abd29acbd5585c84a65e",
+    "inspectedThroughHead": "fc1368809c89cd31d1b5e86051faba69e0bc3802",
+    "aheadBy": 4,
+    "changedPaths": [
+      "docs/preproduction/art-factory/ACTIVE_BATCH.json",
+      "docs/preproduction/workstreams/11-motion-browser-evidence-20260922.json",
+      "scripts/artFactoryDiffusers.py",
+      "scripts/test_artFactoryDiffusers.py"
+    ],
+    "newCandidateAssetOrHandoffDetected": false,
+    "newExternalLaneCandidateDetected": false,
+    "note": "No EXT01-EXT10 candidate asset/handoff and no primary-account catalog candidate bytes were added in this commit window. The material routing change is coordinator15's exact-byte-lane reassignment plus stronger first-party provenance enforcement tooling; neither creates a candidate by itself."
+  },
+  "liveAuthority": {
+    "manifestVersion": 33,
+    "manifestBlobSha": "3ce8dd5d16674ff556764402b712d215d3d22457",
+    "runtimeBlobSha": "68dc4944988ee2850e634eb8966613b9663c163c",
+    "activeBatchBlobSha": "aa6bad4e4dc8357438396735d7a02f8fee9b22fb",
+    "visibleGenericFallbackCount": 19,
+    "activeBatchOwnership": "15_ONLY"
+  },
+  "externalLaneProtection": {
+    "EXT01": "Tops11-12",
+    "EXT02": "Bottoms backlog",
+    "EXT03": "Headwear9-12",
+    "EXT04": "Facegear",
+    "EXT05": "Backgear",
+    "EXT06": "Handgear",
+    "EXT07": "Beds",
+    "EXT08": "reviewer-02 tail including Shoes11-12/Seating11-12",
+    "EXT09": "Avatar/Buddy preproduction",
+    "EXT10": "Home/Store/Quest visual preproduction",
+    "arrivalsInScanWindow": [],
+    "routingRule": "Protected from duplicate primary-account production unless ACTIVE_BATCH explicitly reclaims an ID and no newer pending candidate exists."
+  },
+  "materialRoutingEvents": [
+    {
+      "scope": ["desks-8", "desks-9", "desks-10"],
+      "activeRecoveryOwner": "07",
+      "originProducer": "03",
+      "reviewerFamily": "05",
+      "sharedRenderOwner": "14",
+      "integrationOwner": "08",
+      "reservedByActiveBatch": true,
+      "candidateState": "PRESERVED_EXISTING_EXACT_SOURCE_IDENTITIES__NOT_REPOSITORY_STAGED",
+      "newerCandidateExistsInScanWindow": false,
+      "technicalQualificationEligibleFor06": false,
+      "evidence": [
+        {
+          "path": "docs/preproduction/art-factory/requests/w03-desks-8-generation-evidence-20260922.json",
+          "gitBlobSha": "ea15a1844a3b89f74fd75f6909e0818bcb17ff84",
+          "desk8PreservedSourceSha256": [
+            "afd02d9caafb473f5069c5fbdfc0d0d2304caa720f5eb4db404ddaca5c02d6d9",
+            "a0c4ff059b71f0b64c923e310e8f8244a6bbe46c8a60aa0bb95570df287cb54e"
+          ],
+          "desk8PreservedDerivativeGitBlobShaIfImportedExactly": [
+            "882229409d416fd4c5e8f0715425b308f7fc74aa",
+            "67085c440d4ea56e5390863162b3e5b7a16933af"
+          ]
+        },
+        {
+          "path": "docs/preproduction/art-factory/requests/w03-desks-9-10-generation-evidence-20260922.json",
+          "gitBlobSha": "390e512d346f07d86f6ed69a4ee8e37b55b3b117",
+          "desk9PreservedLocalSourceSha256": [
+            "a2b62d1b2a71b874c7746ddef7c4772e55755f1be407e83bb4ceae8eabda9d37",
+            "dca89b5684387c046a592bc289c5897cf855292b8513abe5d308c6a430922737"
+          ],
+          "desk10PreservedLocalSourceSha256": [
+            "85e1af2016084cfbb40491f37009df6cfd1aafaf013c81ce69c0db159c17cd76"
+          ]
+        }
+      ],
+      "routing": {
+        "route": "07 exact-byte recovery/import only -> repository readback/decode/hash -> 06 qualification -> 14 shared render -> independent reviewer05 -> 08 only on ACCEPT",
+        "hold": ["06 qualification", "14 render", "05 review", "08 canonical integration"],
+        "reason": "Existing Desk8-10 candidates remain unstaged. Coordinator15 reassigned 07 to exact-byte recovery of these preserved identities; no generation, re-encoding, resizing, approximation or substitution is permitted."
+      }
+    },
+    {
+      "scope": ["wall-8"],
+      "producer": "07",
+      "reviewerFamily": "14",
+      "reservedByActiveBatch": false,
+      "candidateState": "SELECTED_VARIANT_B_REMOTE_EXACT_IDENTITY_FROZEN",
+      "newerCandidateExistsInScanWindow": false,
+      "technicalQualificationEligibleFor06": false,
+      "routing": {
+        "route": "HOLD_FROZEN",
+        "reason": "Coordinator15 explicitly removed Wall8 from 07's active batch after no material exact-byte transition. Preserve selected Variant B identity; resume only if the materialization path changes or after 07 clears current Desk recovery work."
+      }
+    },
+    {
+      "scope": ["wall-9", "wall-10", "wall-11", "wall-12"],
+      "producer": "13",
+      "reviewerFamily": "14",
+      "reservedByActiveBatch": true,
+      "candidate": null,
+      "newerCandidateExistsInScanWindow": false,
+      "technicalQualificationEligibleFor06": false,
+      "toolingDelta": {
+        "firstPartyDiffusersAdapterNowRequiresImmutable40CharModelRevision": true,
+        "runtimeResolvedCommitVerificationAdded": true,
+        "modelSnapshotResolvedRevisionVerificationAdded": true,
+        "executedSeedReceiptAdded": true,
+        "catalogCandidateOutputPathSupported": true,
+        "productionCandidateCreated": false
+      },
+      "routing": {
+        "routeBackTo": ["producer13", "coordinator15"],
+        "hold": ["06 technical qualification", "14 render/review", "08 canonical integration"],
+        "reason": "The adapter contract is materially stronger but no exact SDXL model snapshot was executed, no accelerator/inference proof exists, and no Wall candidate bytes were generated/staged/read back. Tooling capability is not candidate provenance."
+      }
+    }
+  ],
+  "activeOverlapGuards": [
+    {
+      "scope": ["desks-8", "desks-9", "desks-10"],
+      "reservedProducer": "07",
+      "state": "ACTIVE_EXACT_BYTE_RECOVERY_IMPORT",
+      "route": "Do not duplicate production or regeneration. Preserve producer03 byte identities while 07 attempts exact import."
+    },
+    {
+      "scope": ["desks-7"],
+      "state": "REMOTE_CANDIDATES_FROZEN",
+      "route": "Do not overlap or regenerate while exact-byte materialization remains unresolved."
+    },
+    {
+      "scope": ["wall-8"],
+      "state": "SELECTED_VARIANT_B_FROZEN_AFTER_07_REASSIGNMENT",
+      "route": "Do not treat Wall8 as still actively reserved to 07; preserve exact selected identity without new production."
+    },
+    {
+      "scope": ["wall-9", "wall-10", "wall-11", "wall-12"],
+      "reservedProducer": "13",
+      "state": "RUNTIME_UNBLOCK_THEN_BOUNDED_GENERATION",
+      "route": "Do not duplicate in primary or external lanes while reservation remains live."
+    }
+  ],
+  "queues": {
+    "to06": [],
+    "backToProducerOrRecoveryOwner": [
+      {
+        "scope": ["desks-8", "desks-9", "desks-10"],
+        "owner": "07",
+        "reason": "No repository-staged exact bytes yet; continue exact-byte recovery/import only."
+      },
+      {
+        "scope": ["wall-9", "wall-10", "wall-11", "wall-12"],
+        "owner": "13",
+        "reason": "No candidate exists; complete provenance-capable model/runtime execution only through an already-authorized path before 06 intake."
+      }
+    ]
+  },
+  "ownershipNote": "Router12 records intake/routing delta only. Workstream15 alone may reconcile ACTIVE_BATCH or CI ownership; Workstream08 alone may write canonical mappings; reviewers alone may issue review verdicts.",
+  "mutationScope": "Routing evidence only. No art bytes, reviewer decisions, ACTIVE_BATCH, manifest, catalog runtime, CI/workflow, gameplay, learning, persistence, economy, deployment, paid settings, secrets or player data changed."
+}
