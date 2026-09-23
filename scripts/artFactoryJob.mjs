@@ -38,6 +38,8 @@ export function buildJobPlan({
     return {
       attemptId,itemId:item.id,producer:String(producer),variant:v.variant,
       promptBlocks:v.promptBlocks,promptText:v.promptText,promptSha256:v.promptSha256,
+      runtimePromptText:v.runtimePromptText||v.promptText,
+      runtimePromptSha256:v.runtimePromptSha256||v.promptSha256,
       promptRecipeVersion,seed,
       runtime:{repo:runtime.repo,commit:runtime.commit},
       model:{modelId,revision:modelRevision,rightsBasis:RIGHTS_BASIS},
@@ -70,6 +72,9 @@ export function validateJobPlan(plan){
   for(const a of attempts){
     if(!a.attemptId) errors.push('attemptId missing'); else ids.push(a.attemptId);
     if(!a.promptText||!a.promptSha256||sha(a.promptText)!==a.promptSha256) errors.push(`${a.attemptId||'attempt'} prompt hash mismatch`);
+    const runtimePromptText=a.runtimePromptText||a.promptText;
+    const runtimePromptSha256=a.runtimePromptSha256||a.promptSha256;
+    if(!runtimePromptText||!runtimePromptSha256||sha(runtimePromptText)!==runtimePromptSha256) errors.push(`${a.attemptId||'attempt'} runtime prompt hash mismatch`);
     const expected=deriveSeed(plan?.item?.id,a.promptSha256,a.variant);
     if(a.seed!==expected) errors.push(`${a.attemptId||'attempt'} deterministic seed mismatch`);
     seeds.push(a.seed); prompts.push(a.promptSha256);
