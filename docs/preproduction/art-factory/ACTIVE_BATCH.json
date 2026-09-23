@@ -1,9 +1,9 @@
 {
-  "schemaVersion": 21,
+  "schemaVersion": 22,
   "owner": "15",
   "branch": "screenshot-match-preproduction",
-  "sourceHead": "c37815b52b4e7c520d0b428687cb999d6aef5f6b",
-  "updatedAt": "2026-09-23T06:48:30.437Z",
+  "sourceHead": "398f5100df0562a1e346c9110597e52b565982d0",
+  "updatedAt": "2026-09-23T06:55:40Z",
   "status": "ACTIVE_RELEASE_BLOCKER_FIRST",
   "policy": {
     "maxConcurrentProductionBatches": 4,
@@ -148,7 +148,34 @@
       }
     ],
     "routerEvidence": "docs/preproduction/art-factory/requests/w12-cross-account-intake-routing-20260923-v6.json",
-    "note": "No EXT01-EXT10 catalog candidate bytes and no primary catalog candidate bytes arrived in the latest routed window. EXT09/EXT10 remain protected non-catalog planning-only handoffs."
+    "note": "No EXT01-EXT10 catalog candidate bytes and no primary catalog candidate bytes arrived in the latest routed window. EXT09/EXT10 remain protected non-catalog planning-only handoffs except for the explicit EXT10 phone-composition repair release recorded below."
+  },
+  "externalReleaseRepairs": {
+    "EXT10": {
+      "scope": "Home/Quest phone initial-viewport composition only",
+      "state": "RELEASED_NON_CATALOG_PHONE_COMPOSITION_REWORK",
+      "sourceEvidenceHead": "398f5100df0562a1e346c9110597e52b565982d0",
+      "sourceEvidence": "docs/preproduction/workstreams/10-mobile-accessibility.md",
+      "generationAuthorization": "HELD",
+      "repairAuthorization": "ACTIVE_BATCH explicitly releases only the two current phone layout/composition defects to EXT10. This narrow release supersedes the older analysis-only hold only for CSS/layout composition needed to close these exact defects; it does not authorize new scene/component generation, catalog work, gameplay changes, or state fabrication.",
+      "hashBinding": {
+        "manifestGitBlob": "3ce8dd5d16674ff556764402b712d215d3d22457",
+        "catalogRuntimeGitBlob": "68dc4944988ee2850e634eb8966613b9663c163c",
+        "motionRuntimeGitBlob": "3c940e0eec7e490544502947fcf2f3cee71076ea",
+        "motionCssGitBlob": "d8797842f969973f81af2c56ec44d63ea54480ba",
+        "home390Sha256": "36976a68f3f35c8948a72776c84564912dc691e3974476ebf831c2fe202277a6",
+        "home320Sha256": "62fff6507f1ab78261757d54ee4fb8097e1bf00f41c4255e68dd239f645b4565",
+        "quest390Sha256": "01e254efa7c22bc9e1c56ad3d1f60e3384ec919a2b7c237acbb5743659720059",
+        "quest320Sha256": "edb693fb045ebe12b70be5993d42ac59608995690d3b87ad5fe726e91601e6b9"
+      },
+      "requirements": [
+        "Home phone only: reduce/collapse initial Room Progress height or deliberately stage the room/avatar hero earlier so the central room/avatar story is visible in the initial 390x844 and 320x568 viewports.",
+        "Quest phone only: tighten vertical composition so at least the first actionable answer is near the real prompt in the initial phone viewport while preserving the five-action flow, immediate scoring, Read Aloud, clue/retry, correct answer keys, mastery evidence and earned state.",
+        "Preserve the accepted desktop/tablet Home and Quest composition, the green Store/Quest observer behavior, all gameplay/learning/persistence/economy/accessibility safeguards, canonical mappings and exact accepted hashes.",
+        "Make the smallest bounded layout/CSS repair. Do not generate or replace environment/component art."
+      ],
+      "nextOwner": "10 for targeted current-hash Home/Quest phone proof after material layout/CSS bytes change"
+    }
   },
   "blockedPreserved": {
     "decor5": {
@@ -180,7 +207,7 @@
   },
   "parallelQaHandoff": {
     "owner": "10",
-    "state": "QUEST_OBSERVER_BLOCKER_CLOSED__CURRENT_BROWSER_GATES_GREEN__STATE_SPECIFIC_VISUAL_QA_PENDING",
+    "state": "QUEST_OBSERVER_BLOCKER_CLOSED__FUNCTIONAL_BROWSER_GATES_GREEN__HOME_QUEST_PHONE_COMPOSITION_REWORK",
     "priorFailedWorkflow": {
       "runId": 35821703437,
       "jobId": 107054739874,
@@ -189,11 +216,13 @@
       "conclusion": "failure"
     },
     "fixedRuntimeHead": "ce03757ae7b427a25b7b30e74ee3c4331d3a7a9f",
-    "exactHashEvidenceHead": "c37815b52b4e7c520d0b428687cb999d6aef5f6b",
+    "exactHashEvidenceHead": "398f5100df0562a1e346c9110597e52b565982d0",
     "hashBinding": {
       "motionRuntimeGitBlob": "3c940e0eec7e490544502947fcf2f3cee71076ea",
       "motionRuntimeTestGitBlob": "3e091677cd4a2767785e5a513275feacc0913e01",
-      "motionCssGitBlob": "d8797842f969973f81af2c56ec44d63ea54480ba"
+      "motionCssGitBlob": "d8797842f969973f81af2c56ec44d63ea54480ba",
+      "manifestGitBlob": "3ce8dd5d16674ff556764402b712d215d3d22457",
+      "catalogRuntimeGitBlob": "68dc4944988ee2850e634eb8966613b9663c163c"
     },
     "verifiedGates": {
       "starBloxCi": {
@@ -222,14 +251,41 @@
         "status": "PASS"
       }
     },
-    "disposition": "PASS",
-    "prerequisite": "Reuse this evidence only while the bound motion runtime/CSS hashes remain unchanged. Fresh targeted evidence is required after a bound-hash change.",
-    "nextOwner": "10",
-    "currentEvidence": "The previously repeated Quest wrong/retry click timeout is cleared by guarding no-op class removals that fed MutationObserver churn. Browser interaction, Store observer, catalog mobile, and reduced-motion gates pass on the exact fixed hashes. Gameplay, learning, persistence, economy, accessibility contracts, and canonical catalog mappings were not changed.",
-    "evidence": "docs/preproduction/workstreams/11-motion-browser-evidence-ce03757.json",
-    "rule": "Close the Quest interaction blocker. Keep Workstream10 on state-specific Home/Quest screenshot acceptance and remaining final QA only; do not reopen the green Store observer investigation absent a fresh current-byte failure."
+    "stateSpecificVisualEvidence": {
+      "disposition": "REWORK",
+      "evidenceHead": "398f5100df0562a1e346c9110597e52b565982d0",
+      "evidence": "docs/preproduction/workstreams/10-mobile-accessibility.md",
+      "home": {
+        "desktop1408Sha256": "26beb3059160ffe3ce0a4bb909f2627234cedbdf2a6519ab739cb5a4e75ea36b",
+        "desktop1408Disposition": "PASS_STRUCTURAL_COMPOSITION",
+        "tablet1024Sha256": "8b05418d9bd47d8d51e213c68489b3bbedc31e14398e7c625e1a7e6776827686",
+        "tablet1024Disposition": "PASS_STRUCTURAL_COMPOSITION",
+        "phone390Sha256": "36976a68f3f35c8948a72776c84564912dc691e3974476ebf831c2fe202277a6",
+        "phone390Disposition": "REWORK_MOBILE_HERO_PRIORITY",
+        "phone320Sha256": "62fff6507f1ab78261757d54ee4fb8097e1bf00f41c4255e68dd239f645b4565",
+        "phone320Disposition": "REWORK_MOBILE_HERO_PRIORITY"
+      },
+      "quest": {
+        "desktop1408Sha256": "a16d975ee9c5e20b8e6f9045b4a08ba8e277bf744cea90a8d4290f66fa2039bd",
+        "desktop1408Disposition": "PASS_STRUCTURAL_COMPOSITION",
+        "tablet1024Sha256": "8a04244e68b5001cec80874e1af2af1b1aff21942e4848679618ae0d452b127e",
+        "tablet1024Disposition": "PASS_STRUCTURAL_COMPOSITION",
+        "phone390Sha256": "01e254efa7c22bc9e1c56ad3d1f60e3384ec919a2b7c237acbb5743659720059",
+        "phone390Disposition": "REWORK_PROMPT_ANSWER_PROXIMITY",
+        "phone320Sha256": "edb693fb045ebe12b70be5993d42ac59608995690d3b87ad5fe726e91601e6b9",
+        "phone320Disposition": "REWORK_PROMPT_ANSWER_PROXIMITY"
+      },
+      "repairOwner": "EXT10",
+      "nextOwner": "10 after targeted current-hash phone proof"
+    },
+    "disposition": "FUNCTIONAL_PASS__STATE_SPECIFIC_VISUAL_REWORK",
+    "prerequisite": "Reuse the functional browser, Store observer, catalog mobile and reduced-motion PASS evidence only while the bound runtime/CSS/catalog hashes remain unchanged. After EXT10 changes the bounded phone composition bytes, Workstream10 must capture fresh targeted Home/Quest phone evidence before this visual blocker can close.",
+    "nextOwner": "EXT10 for bounded phone composition repair, then 10 for targeted revalidation",
+    "currentEvidence": "The Quest pointer/observer blocker remains closed and the functional browser gates remain green. Independent exact-hash visual QA at 398f5100 found two bounded phone composition defects: Home hero priority and Quest prompt-answer proximity. Desktop/tablet Home and Quest composition passed structurally. Catalog canonical state remains version 33 with 19 visible generic fallbacks.",
+    "evidence": "docs/preproduction/workstreams/10-mobile-accessibility.md",
+    "rule": "Do not reopen the green Store observer or Quest pointer investigation absent a bound-hash change or fresh current-byte failure. EXT10 may change only the released phone composition scope; 10 revalidates after material bytes change."
   },
-  "antiStallDisposition": "The Quest interaction blocker materially closed this cycle on exact current hashes. All four catalog production reservations remain unchanged: no new exact bytes, compliant accelerator runtime, external catalog arrival, or safe non-overlapping reassignment appeared. Continue the oldest eligible Desk8-10 exact-byte path; do not churn frozen work, open Decor9-12 early, duplicate EXT01-EXT10, or weaken qualification/review gates.",
+  "antiStallDisposition": "The Quest interaction blocker is closed on exact current functional hashes. The 19 visible catalog fallbacks remain first release blockers and all four catalog production reservations remain unchanged: no new exact bytes, compliant accelerator runtime, external catalog arrival, or safe non-overlapping primary reassignment appeared. In parallel, exact-hash Workstream10 evidence materially identified two actionable phone composition REWORKs, now narrowly released to EXT10 without authorizing generation or catalog work. Continue the oldest eligible Desk8-10 exact-byte path and the bounded EXT10 phone repair; do not churn frozen work, open Decor9-12 early, duplicate EXT01-EXT10, or weaken qualification/review gates.",
   "crossAccountProduction": {
     "externalScopes": {
       "EXT01": "Tops11-12",
@@ -247,9 +303,9 @@
     "intakePath": "12 -> 06 -> 14 -> 01/02/05/14 -> 08 -> 04/11/10"
   },
   "readerRule": "Every worker must revalidate branch head, assignment, exact hash and review state before writing. This file never overrides newer exact evidence.",
-  "cycleId": "director-20260923T0644Z-c37815b5",
+  "cycleId": "director-20260923T0655Z-398f5100",
   "criticalPath": {
-    "computedAtHead": "c37815b52b4e7c520d0b428687cb999d6aef5f6b",
+    "computedAtHead": "398f5100df0562a1e346c9110597e52b565982d0",
     "order": [
       {
         "rank": 1,
@@ -261,6 +317,20 @@
       },
       {
         "rank": 2,
+        "blocker": "HOME_QUEST_PHONE_COMPOSITION_REWORK",
+        "disposition": "REWORK",
+        "affectedScopes": [
+          "home-390x844-initial-viewport",
+          "home-320x568-initial-viewport",
+          "quest-390x844-initial-viewport",
+          "quest-320x568-initial-viewport"
+        ],
+        "evidenceHead": "398f5100df0562a1e346c9110597e52b565982d0",
+        "prerequisite": "EXT10 performs only the explicitly released bounded phone layout/CSS repair, preserving accepted desktop/tablet composition, exact catalog hashes and all gameplay/learning/persistence/economy/accessibility semantics.",
+        "nextOwner": "EXT10 for repair; then 10 for targeted current-hash phone screenshot disposition."
+      },
+      {
+        "rank": 3,
         "blocker": "ACCELERATOR_CAPABLE_REVISION_REPORTING_RUNTIME_UNAVAILABLE",
         "affectedScopes": [
           "decor-5",
@@ -276,7 +346,7 @@
         "nextOwner": "03/09/13 within their non-overlapping scopes, then 06 -> independent review -> 08 on ACCEPT."
       },
       {
-        "rank": 3,
+        "rank": 4,
         "blocker": "FROZEN_SELECTED_BYTES_NOT_MATERIALIZED",
         "affectedScopes": [
           "desks-7",
@@ -284,15 +354,9 @@
         ],
         "prerequisite": "A genuinely new exact-byte materialization path; no generation, substitution, or approximation.",
         "nextOwner": "15 may assign only after confirming no newer pending candidate; then 06."
-      },
-      {
-        "rank": 4,
-        "blocker": "STATE_SPECIFIC_HOME_QUEST_VISUAL_ACCEPTANCE_NOT_YET_EVIDENCED",
-        "prerequisite": "Current-hash state-specific screenshots and independent visual disposition; reuse the now-green browser interaction/motion evidence.",
-        "nextOwner": "10"
       }
     ],
     "acceptedAwaitingCanonical": 0,
-    "note": "Finish the oldest eligible Desk exact-byte path before opening more inventory. Catalog production assignments remain unchanged because no safe alternate material path exists."
+    "note": "Keep the 19 fallbacks first on the catalog critical path while running the newly actionable EXT10 phone composition repair in parallel. Catalog production assignments remain unchanged because no safe alternate material path exists."
   }
 }
