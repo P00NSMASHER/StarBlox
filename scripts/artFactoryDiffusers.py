@@ -164,7 +164,7 @@ def installed_version(name: str) -> str | None:
 
 
 def git_blob_sha(data: bytes) -> str:
-    return hashlib.sha1(b"blob " + str(len(data)).encode() + b"\\0" + data).hexdigest()
+    return hashlib.sha1(b"blob " + str(len(data)).encode() + b"\0" + data).hexdigest()
 
 
 def verify_exact_revision(label: str, revision: str) -> str:
@@ -822,6 +822,10 @@ def generate(
 
 
 def self_test() -> None:
+    # Match `git hash-object --stdin` exactly; Git uses a NUL byte between
+    # the blob header and payload.
+    assert git_blob_sha(b"test content\n") == "d670460b4b4aece5915caf5c68d12f560a9fe3e4"
+
     prompt = "STARBLOX CATALOG ART — test"
     prompt_sha = sha256_bytes(prompt.encode())
     seed = derive_seed("decor-5", prompt_sha, "A-PHYSICAL")
