@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_W12_CANDIDATE_DELTA_INTAKE_ROUTING",
+  "router": "12",
+  "branch": "screenshot-match-preproduction",
+  "sourceCandidateCommit": "1e0da07b97f5271c322de26395f44bcfa418e7da",
+  "candidate": {
+    "id": "decor-7",
+    "producer": "09",
+    "path": "public/assets/catalog-candidates/cpu/decor-7-w09-v2-a-physical-original.png",
+    "sha256": "2e92a6036047b95a9ddfcaab903e94c80d216ea4dd24054006e938cdaf21933e",
+    "gitBlobSha": "fa415ef0a554e2a60ee9e836f23d8d38b266a6e3",
+    "bytes": 910481,
+    "dimensions": [
+      768,
+      768
+    ],
+    "format": "PNG",
+    "decode": "PASS",
+    "stagedOutputReadback": "PASS",
+    "provenanceState": "COMPLETE_ART_FACTORY_V2",
+    "reviewerAssignment": "01",
+    "renderOwner": "14",
+    "canonicalWriter": "08",
+    "supersessionClaimState": "FRESH_EXACT_HASH__NOT_CANONICAL__NOT_SUPERSEDED",
+    "exactBlobUniqueInCurrentTree": true
+  },
+  "provenance": {
+    "stagedOutput": "docs/preproduction/art-factory/generated-evidence/w09-decor-5-7-cpu-v2/decor-7/staged-output.json",
+    "generationReceipt": "docs/preproduction/art-factory/generated-evidence/w09-decor-5-7-cpu-v2/decor-7/generation-receipt.json",
+    "job": "docs/preproduction/art-factory/generated-evidence/w09-decor-5-7-cpu-v2/decor-7/job.json",
+    "queue": "docs/preproduction/art-factory/generated-evidence/w09-decor-5-7-cpu-v2/decor-7/queue.json",
+    "runtimeRepo": "huggingface/diffusers",
+    "runtimeCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+    "modelRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "promptSha256": "1493805daca3b7cf5faaf6acda1f6ed61c59e7dde05e15c0ec7de574b511a300",
+    "runtimePromptSha256": "fcea1405329ea1ca4a2964a4a2c2027726be12c9483c8e4847f577b02308d0b1",
+    "promptRecipeVersion": "artPromptOptimizer-request-v1:w09-decor-5-7-vnext",
+    "executedSeed": 1513594267,
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS",
+    "sourceBytesPreserved": true
+  },
+  "dedupe": {
+    "manifestAlreadyMapsCandidate": false,
+    "runtimeAlreadyMapsCandidate": false,
+    "duplicateExactBlobPaths": [],
+    "unchangedHistoricalHashRerouted": false
+  },
+  "queues": {
+    "to06": [
+      {
+        "id": "decor-7",
+        "sha256": "2e92a6036047b95a9ddfcaab903e94c80d216ea4dd24054006e938cdaf21933e"
+      }
+    ],
+    "backToProducer": []
+  },
+  "nextGate": "06_TECHNICAL_QUALIFICATION",
+  "mutationScope": "Routing evidence only; no candidate bytes, canonical mappings, gameplay, learning, economy, persistence, deployment, paid settings, secrets, or player data changed."
+}

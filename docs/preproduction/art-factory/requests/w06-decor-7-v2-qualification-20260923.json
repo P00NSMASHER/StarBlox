@@ -1,0 +1,95 @@
+{
+  "schemaVersion": 2,
+  "kind": "STARBLOX_ART_FACTORY_TECHNICAL_QUALIFICATION",
+  "role": "06-single-technical-qualification-gate",
+  "branch": "screenshot-match-preproduction",
+  "item": {
+    "id": "decor-7",
+    "name": "Skate Rack",
+    "collectionId": "decor",
+    "type": "room",
+    "tier": 3,
+    "theme": "Garden Glow"
+  },
+  "candidate": {
+    "producer": "09",
+    "path": "public/assets/catalog-candidates/cpu/decor-7-w09-v2-a-physical-original.png",
+    "gitBlobSha": "fa415ef0a554e2a60ee9e836f23d8d38b266a6e3",
+    "sha256": "2e92a6036047b95a9ddfcaab903e94c80d216ea4dd24054006e938cdaf21933e",
+    "bytes": 910481,
+    "dimensions": [
+      768,
+      768
+    ],
+    "format": "PNG",
+    "mode": "RGB",
+    "safeDecode": "PASS",
+    "bytesMutatedDuringQualification": false
+  },
+  "authority": {
+    "factoryContract": "docs/preproduction/art-factory/ART_FACTORY_V2.json",
+    "pinnedRuntime": "docs/preproduction/art-factory/PINNED_GENERATION_RUNTIME.json",
+    "runtimeProof": "docs/preproduction/art-factory/CPU_RUNTIME_PROOF.json",
+    "intakeEvidence": "docs/preproduction/art-factory/requests/w12-decor-7-v2-intake-20260923.json",
+    "reviewer": "01",
+    "renderOwner": "14",
+    "canonicalWriter": "08"
+  },
+  "exactHashReconciliation": {
+    "stagedOutputMatchesCandidateBlob": true,
+    "currentTreeContainsExactCandidateBlob": true,
+    "exactBlobUniqueInCurrentTree": true,
+    "manifestAlreadyMapsCandidate": false,
+    "runtimeAlreadyMapsCandidate": false,
+    "newerPendingCandidateObserved": false,
+    "staleCandidateRisk": "NONE_OBSERVED",
+    "exactDuplicateRisk": "NONE_OBSERVED",
+    "artQualityJudgmentPerformed": false
+  },
+  "provenance": {
+    "stagedOutputStatus": "STAGED_EXACT_BYTES_VERIFIED",
+    "generationReceiptStatus": "PASS",
+    "sourceHead": "1fafff5590417782bdbbafd79db787ec77b2a97d",
+    "runtimeRepo": "huggingface/diffusers",
+    "runtimeCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "runtimeCommitVerified": true,
+    "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+    "modelRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "modelRevisionVerified": true,
+    "promptSha256": "1493805daca3b7cf5faaf6acda1f6ed61c59e7dde05e15c0ec7de574b511a300",
+    "runtimePromptSha256": "fcea1405329ea1ca4a2964a4a2c2027726be12c9483c8e4847f577b02308d0b1",
+    "promptRecipeVersion": "artPromptOptimizer-request-v1:w09-decor-5-7-vnext",
+    "executedSeed": 1513594267,
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS",
+    "sourceBytesPreserved": true,
+    "derivativeOfSha256": null
+  },
+  "qualification": {
+    "status": "QUALIFIED_FOR_RENDERER14",
+    "qualifiedForRenderer14": true,
+    "artQualityJudgment": "NOT_PERFORMED",
+    "technicalChecks": {
+      "idPathBinding": "PASS",
+      "signatureDecode": "PASS",
+      "dimensions": "PASS",
+      "artFactoryV2Provenance": "PASS",
+      "stagedOutputReadback": "PASS",
+      "staleSupersededCheck": "PASS",
+      "exactContentDuplicateCheck": "PASS",
+      "independentReviewerRouting": "PASS"
+    },
+    "blockingDefects": []
+  },
+  "routing": {
+    "current": "HANDOFF_TO_RENDERER14",
+    "renderer14": "RENDER_EXACT_HASH_IN_REAL_STORE_CARD_DETAIL_CONTEXT",
+    "reviewer01": "AFTER_RENDER_PACKET__INDEPENDENT_EXACT_HASH_ACCEPT_OR_REWORK",
+    "integration08": "ONLY_AFTER_REVIEWER01_ACCEPT"
+  },
+  "preservation": {
+    "candidateBytesMutated": false,
+    "canonicalMappingsChanged": false,
+    "gameplayLearningPersistenceEconomyChanged": false,
+    "deploymentTouched": false
+  }
+}
