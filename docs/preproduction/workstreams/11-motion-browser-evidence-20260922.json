@@ -1,15 +1,15 @@
 {
-  "schemaVersion": 4,
+  "schemaVersion": 5,
   "workstream": "11",
   "phase": "ART_VISUALS_SPRINT",
   "branch": "screenshot-match-preproduction",
-  "purpose": "Exact-hash browser evidence handoff for Workstream 10 covering the current Workstream 11 motion/game-feel runtime. This evidence separates browser-proven Store/reduced-motion behavior from an unresolved Quest interaction failure and does not close unrelated catalog-art, physical-device, screen-reader, persistence, or release gates.",
-  "currentEvidenceHeadBeforeHandoff": "d4acf4536c55447256c55ae05827b6e7c253a28f",
+  "purpose": "Exact-hash browser evidence handoff for Workstream 10 covering the current Workstream 11 motion/game-feel runtime. This evidence separates browser-proven Store/reduced-motion behavior from a repeatedly reproduced Quest interaction failure that remains unisolated from daily Quest content/gameplay. It does not close unrelated catalog-art, physical-device, screen-reader, persistence, or release gates.",
+  "currentEvidenceHeadBeforeHandoff": "436ce18a9df5177d723a536726c26cd9efd0374c",
   "liveAuthorityAtRead": {
     "manifestVersion": 33,
     "manifestBlob": "3ce8dd5d16674ff556764402b712d215d3d22457",
     "catalogRuntimeBlob": "68dc4944988ee2850e634eb8966613b9663c163c",
-    "activeBatchSchemaVersion": 16,
+    "activeBatchSchemaVersion": 18,
     "visibleGenericFallbackCount": 19,
     "note": "The live catalog/ACTIVE_BATCH state remains release-blocked by unrelated visible generic fallback art. Workstream 11 does not modify or waive those blockers."
   },
@@ -74,37 +74,57 @@
     "note": "The current motion runtime hash does not reproduce the Store observer/event-loop hang in either diagnostic path. Do not reopen the Store hang investigation without a fresh failure or changed motion hash."
   },
   "questInteractionRisk": {
-    "status": "OPEN_EXACT_HASH_BROWSER_FAILURE_NOT_YET_ATTRIBUTED_TO_MOTION",
+    "status": "OPEN_REPRODUCED_CURRENT_DAILY_POOL__NOT_ISOLATED_TO_MOTION",
     "workflow": "StarBlox Persistence Browser QA",
     "runId": 35804382006,
-    "jobId": 107001779262,
     "sourceHead": "aebd322150977436179404b50a5e87a226690a44",
-    "artifact": {
-      "id": 10727196252,
-      "name": "persistence-browser-qa",
-      "digest": "sha256:cc0466ba8ebb0bca8567d1ccab5701b51d2cf0f8e44c8ca40ece57b377128705",
-      "status": "FAIL"
-    },
-    "passingCases": 8,
-    "failingCases": 1,
+    "passingCasesPerAttempt": 8,
+    "failingCasesPerAttempt": 1,
     "failingCase": "quest-retry-rapid-answer-and-final-refresh",
-    "failureSummary": "A normal Playwright click on a visible Quest answer button first observed the element as unstable, then observed it visible/enabled/stable, scrolled it into view, and timed out while performing the click.",
+    "reproduction": {
+      "attemptCount": 3,
+      "allThreeAttemptsSameCaseFailed": true,
+      "latestAttempt": 3,
+      "latestJobId": 107040347014,
+      "latestArtifact": {
+        "id": 10731888538,
+        "name": "persistence-browser-qa",
+        "digest": "sha256:79daf9d561db05f0146bc331f565cd454beb069e9e32948f5f9a9bb7a884e576",
+        "status": "FAIL"
+      },
+      "attempts": [
+        {"attempt": 1, "jobId": 107001779262, "artifactId": 10727196252, "artifactDigest": "sha256:cc0466ba8ebb0bca8567d1ccab5701b51d2cf0f8e44c8ca40ece57b377128705", "status": "FAIL"},
+        {"attempt": 2, "jobId": 107027696097, "artifactId": 10730117536, "artifactDigest": "sha256:86701d914c65435cbed80f55c75954d9f93238d1b199c698ed1a756dd7ce9937", "status": "FAIL"},
+        {"attempt": 3, "jobId": 107040347014, "artifactId": 10731888538, "artifactDigest": "sha256:79daf9d561db05f0146bc331f565cd454beb069e9e32948f5f9a9bb7a884e576", "status": "FAIL"}
+      ]
+    },
+    "failureTarget": "Answer A: A child begs earnestly for one more chance.",
+    "failureSummary": "On each observed failure, a normal Playwright click reaches the visible/enabled/stable state for the same Quest answer, completes scroll-into-view, and then times out at 30000ms while performing the click action.",
+    "sequenceIsolation": "The target text is the known correct answer for vocab-transfer-plead. The QA case begins with exerciseWrongRetry, whose first two answer clicks intentionally choose a non-answer and whose third answer click chooses q.answer. Because the failure target is q.answer for the first current Quest, the evidence localizes the timeout to the assisted-correct click after the wrong/retry sequence rather than either intentional wrong click.",
     "referencedFailureScreenshot": "artifacts/persistence-browser-qa/quest-retry-rapid-answer-and-final-refresh-failure.png",
     "failureScreenshotPresentInUploadedArtifactAtEvidenceRead": false,
     "priorReference": {
       "testedMotionCommit": "4673b9ed14f60d0ac53f784f86d08cd88f0d9db9",
       "persistenceBrowserQaRunId": 35795242752,
-      "status": "PASS"
+      "status": "PASS",
+      "runStartedAtUtc": "2026-09-22T23:00:02Z"
     },
-    "motionAssessment": "Do not make a Workstream 11 runtime change from this single failure. The latest motion-specific commit only clears stale semantic success classes after feedback state changes; it does not alter Quest answer position, click handling, or gameplay. The failure therefore remains a credible interaction risk but is not yet a reproducible motion defect.",
-    "nextAction": "Workstream 10 should re-exercise Quest correct/wrong/clue/retry on the next applicable material head in both normal and reduced motion and capture browser/page/animation state if the click timeout reproduces. Workstream 11 should make a fix only if that evidence isolates a motion/accessibility cause."
+    "dailyPoolConfound": {
+      "present": true,
+      "currentFailingRunCreatedAtUtc": "2026-09-23T00:59:04Z",
+      "reason": "src/gameModel.js dailyPool(date) seeds and shuffles the question bank with Math.floor(date / 86400000). The prior passing persistence run occurred before the 2026-09-23T00:00:00Z UTC day boundary, while all failing attempts occurred after it, so the prior PASS versus current FAIL comparison changes both motion commit and deterministic daily Quest content.",
+      "currentQuestionEvidence": "The failing answer text maps to vocabTransfers.plead and therefore the current first Quest includes vocab-transfer-plead.",
+      "causalityRule": "Do not treat the prior PASS/current FAIL pair as a clean motion A/B until the same Quest content/state sequence is exercised with motion/accessibility isolated or the failure is captured with current browser/observer state."
+    },
+    "motionAssessment": "Treat the repeated timeout as a real final-QA interaction blocker, but do not make a speculative Workstream 11 runtime change yet. The latest Workstream 11 diff clears stale sbMotionCorrect/sbMotionStaticCue classes on non-correct feedback; on this first-question sequence there is no earlier correct state, so those removals are expected to be no-ops before the failing assisted-correct click. The failure also crosses a deterministic UTC daily-pool rollover relative to the older passing run. Current evidence therefore reproduces the blocker but does not isolate a motion/accessibility cause.",
+    "nextAction": "Workstream 10 should reproduce the current vocab-transfer-plead wrong/retry/assisted-correct sequence under normal motion and reduced motion while capturing animation state, event-loop/observer liveness, and the answer/button/feedback classes immediately before and during the assisted-correct click. Workstream 11 should change motion only if that evidence isolates a motion/accessibility mutation or event-handler cause."
   },
   "supportingChecks": {
     "testedMotionCommit": {
       "starBloxCi": {"runId": 35804382004, "status": "PASS"},
       "catalogMobileQa": {"runId": 35804381986, "status": "PASS"},
       "storeObserverDiagnostic": {"runId": 35804381981, "status": "PASS"},
-      "persistenceBrowserQa": {"runId": 35804382006, "status": "FAIL", "scope": "Quest interaction case above"},
+      "persistenceBrowserQa": {"runId": 35804382006, "status": "FAIL", "attemptsObserved": 3, "scope": "Quest interaction case above"},
       "preproductionVisualQa": {"status": "FAIL", "note": "Current live ACTIVE_BATCH still identifies 19 visible generic fallback-art IDs; Workstream 11 does not close or mask this unrelated visual gate."}
     }
   },
@@ -123,7 +143,7 @@
       "storeObserverDiagnosticStatus": "PASS",
       "persistenceBrowserQaRunId": 35795242752,
       "persistenceBrowserQaStatus": "PASS",
-      "note": "Retained for provenance. This older runtime hash cannot by itself clear the current Quest interaction risk."
+      "note": "Retained for provenance. This older runtime hash cannot by itself clear the current Quest interaction risk, and its persistence run used the previous UTC daily Quest pool."
     },
     {
       "testedMotionCommit": "168441331cd38983ba41c2f31dd81195ea5d85c2",
@@ -138,10 +158,10 @@
   ],
   "handoff": {
     "to": "Workstream10",
-    "state": "MOTION_CORE_BROWSER_PASS__QUEST_INTERACTION_RISK_OPEN",
+    "state": "MOTION_CORE_BROWSER_PASS__QUEST_CLICK_TIMEOUT_REPRODUCED__MOTION_CAUSE_UNISOLATED",
     "reuse": "Treat Catalog Mobile QA run 35804381986 plus Store Observer Diagnostic run 35804381981 as exact-hash browser proof for motion runtime 3f56ff99d62f5c0ed77ad1d69480d5c9db9c7fdb and motion CSS d8797842f969973f81af2c56ec44d63ea54480ba while those hashes remain unchanged.",
-    "currentHeadInterpretation": "The branch advanced from tested motion commit aebd322150977436179404b50a5e87a226690a44 to current evidence head d4acf4536c55447256c55ae05827b6e7c253a28f through coordination/provenance evidence only; the bound motion runtime/CSS blobs remain byte-identical.",
-    "nextNeeded": "Reproduce or clear the exact-hash Quest answer-click timeout and capture state-specific Quest correct versus wrong/clue/retry browser evidence. Home state-specific reduced-motion stills, physical-device testing, and screen-reader testing remain open unless separately evidenced.",
+    "currentHeadInterpretation": "The branch advanced from tested motion commit aebd322150977436179404b50a5e87a226690a44 to current evidence head 436ce18a9df5177d723a536726c26cd9efd0374c through coordination/provenance work while the bound motion runtime/CSS blobs remained byte-identical.",
+    "nextNeeded": "Capture the repeated current-pool assisted-correct Quest click under normal and reduced motion with observer/event-loop and DOM class state. Do not infer motion causality from the previous-day PASS because dailyPool crossed the UTC seed boundary. Home state-specific reduced-motion stills, physical-device testing, and screen-reader testing remain open unless separately evidenced.",
     "doNotRerun": "Do not repeat the Store observer/hang investigation unless a fresh current-head failure reproduces or either motion hash changes."
   },
   "freeze": {
