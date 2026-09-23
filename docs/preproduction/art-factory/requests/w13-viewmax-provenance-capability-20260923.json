@@ -1,0 +1,102 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_GENERATION_PROVIDER_PROVENANCE_CAPABILITY_EVIDENCE",
+  "producer": "13",
+  "coordinationOwner": "15",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "9fef0f4566e521b0a6e3917cb813c01a76572ba7",
+  "observedAt": "2026-09-23T01:04:22Z",
+  "activeBatch": {
+    "path": "docs/preproduction/art-factory/ACTIVE_BATCH.json",
+    "batchId": "w13-wall-9-12-runtime-unblock-v2",
+    "scope": ["wall-9", "wall-10", "wall-11", "wall-12"],
+    "state": "FIREFLY_RESPONSE_PROVENANCE_PROVEN_NONCOMPLIANT__PINNED_DIFFUSERS_OR_EQUIVALENT_REVISION_REPORTING_RUNTIME_REQUIRED"
+  },
+  "canonicalObservation": {
+    "manifestVersion": 33,
+    "runtimeMappingGapToTarget": 19,
+    "wall9To12RemainFallback": true
+  },
+  "pinnedPreferredRuntime": {
+    "evidence": "docs/preproduction/art-factory/PINNED_GENERATION_RUNTIME.json",
+    "runtimeRepo": "huggingface/diffusers",
+    "runtimeCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+    "modelRevision": "462165984030d82259a11f4367a4eed129e94a7b"
+  },
+  "executionRuntimeObservation": {
+    "device": "PAAM-L044",
+    "status": "offline",
+    "lastSeen": "2026-09-22T20:40:24.097+00:00",
+    "appVersion": "0.2.51",
+    "result": "PINNED_DIFFUSERS_PATH_NOT_EXECUTABLE_AT_OBSERVATION_TIME"
+  },
+  "alternativeProviderProbe": {
+    "providerSurface": "Viewmax image generation connector",
+    "probeType": "READ_ONLY_SCHEMA_AND_GENERATION_HISTORY_METADATA_CAPABILITY",
+    "spentGenerationCredits": false,
+    "supportedModelCatalogObserved": [
+      {
+        "provider": "google",
+        "modelId": "gemini-2.5-flash-image"
+      },
+      {
+        "provider": "google",
+        "modelId": "gemini-3.1-flash-image-preview"
+      },
+      {
+        "provider": "google",
+        "modelId": "gemini-3-pro-image-preview"
+      },
+      {
+        "provider": "openai",
+        "modelId": "gpt-image-2"
+      }
+    ],
+    "generationSchemaObserved": {
+      "selectableFields": ["prompt", "model", "aspectRatio", "resolution", "useSearch", "referenceImageUrls"],
+      "seedSelectorExposed": false,
+      "modelRevisionSelectorExposed": false,
+      "runtimeRevisionSelectorExposed": false
+    },
+    "historyMetadataObserved": {
+      "fields": ["id", "status", "prompt", "model", "costCredits", "outputUrl", "error", "parameters", "createdAt", "updatedAt", "mcpTagged"],
+      "modelIdentityExposed": true,
+      "modelRevisionExposed": false,
+      "runtimeIdentityOrCommitExposed": false,
+      "executedSeedExposed": false,
+      "authoritativeSeedUnavailableRecordExposed": false
+    },
+    "sampleObservedRows": [
+      {
+        "generationId": "cmucx22da0006gm0akko73zam",
+        "model": "gemini-3.1-flash-image-preview",
+        "status": "failed",
+        "costCredits": 0,
+        "error": "Image credit admission was denied",
+        "parameters": {"aspectRatio": "1:1", "resolution": "1K"}
+      },
+      {
+        "generationId": "cmuctnw1i000bgm0aml9qcga0",
+        "model": "gemini-3-pro-image-preview",
+        "status": "failed",
+        "costCredits": 0,
+        "error": "Image credit admission was denied",
+        "parameters": {"aspectRatio": "1:1", "resolution": "1K"}
+      }
+    ],
+    "disposition": "NOT_PROVEN_ART_FACTORY_V2_COMPLIANT_FOR_WALL9_12",
+    "reason": "The observed connector surfaces expose provider/model identity but not an authoritative immutable model/checkpoint revision, generation runtime/tool revision, executed seed, or an authoritative provider seed-unavailable record. Do not spend Wall9-12 generation credits through this surface under the current factory provenance contract."
+  },
+  "coordinator15Handoff": {
+    "newConcreteResult": "A second already-authorized image-generation surface was checked without spending credits and is not presently sufficient for the mandatory provenance fields.",
+    "doNotRepeat": [
+      "Do not retry the already-closed Firefly response path for Wall9-12.",
+      "Do not spend Viewmax image credits for Wall9-12 unless its connector/provider metadata contract changes to expose the missing authoritative provenance fields."
+    ],
+    "nextExecutablePath": "Use the pinned Diffusers/SDXL runtime when PAAM-L044 or another already-authorized revision-reporting execution host is online, or accept another provider only after a metadata-only capability check proves exact model/checkpoint revision, runtime identity/revision and executed-seed or policy-permitted authoritative seed-unavailable provenance.",
+    "noArtGenerated": true,
+    "noCanonicalWrite": true,
+    "noCiWorkflowWrite": true
+  }
+}
