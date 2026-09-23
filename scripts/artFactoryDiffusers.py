@@ -17,6 +17,7 @@ import importlib.metadata
 import json
 import os
 import re
+import shutil
 import subprocess
 import tempfile
 from pathlib import Path
@@ -241,6 +242,192 @@ def resolve_hf_snapshot(
         "resolvedRevision": resolved,
         "verified": True,
     }
+
+
+def verify_resolved_revision(label: str, requested_revision: str, observed_revision: str | None) -> dict[str, Any]:
+    requested = verify_exact_revision(label, requested_revision)
+    observed = str(observed_revision or "").lower()
+    if not HEX40_RE.fullmatch(observed):
+        raise RuntimeError(f"{label} resolver did not return an immutable 40-char revision: {observed or 'missing'}")
+    if observed != requested:
+        raise RuntimeError(
+            f"{label} resolved revision mismatch: expected {requested}, got {observed}"
+        )
+    return {
+        "requestedRevision": requested,
+        "resolvedRevision": observed,
+        "verified": True,
+    }
+
+
+def system_memory_bytes() -> int | None:
+    try:
+        page_size = os.sysconf("SC_PAGE_SIZE")
+        pages = os.sysconf("SC_PHYS_PAGES")
+        total = int(page_size) * int(pages)
+        return total if total > 0 else None
+    except (AttributeError, OSError, ValueError):
+        return None
+
+
+def probe_runtime(
+    *,
+    root: Path,
+    plan: dict[str, Any],
+    attempt: dict[str, Any],
+    args: argparse.Namespace,
+) -> dict[str, Any]:
+    checkout = checkout_identity(root)
+    runtime_proof = installed_diffusers_provenance()
+
+    model = dict(attempt.get("model") or {})
+    exact_model_revision = verify_exact_revision("model revision", model.get("revision"))
+    try:
+        from huggingface_hub import HfApi
+    except Exception as exc:
+        raise RuntimeError("huggingface_hub is required for model revision probing") from exc
+
+    info = HfApi().model_info(
+        repo_id=model["modelId"],
+        revision=exact_model_revision,
+        files_metadata=False,
+    )
+    model_proof = {
+        "repoId": model["modelId"],
+        **verify_resolved_revision(
+            "model revision",
+            exact_model_revision,
+            getattr(info, "sha", None),
+        ),
+    }
+
+    ip_adapter_proof = None
+    if args.ip_adapter_model_id or args.ip_adapter_revision:
+        if not args.ip_adapter_model_id or not args.ip_adapter_revision:
+            raise ValueError(
+                "runtime probe requires both --ip-adapter-model-id and --ip-adapter-revision"
+            )
+        exact_adapter_revision = verify_exact_revision(
+            "IP-Adapter revision", args.ip_adapter_revision
+        )
+        adapter_info = HfApi().model_info(
+            repo_id=args.ip_adapter_model_id,
+            revision=exact_adapter_revision,
+            files_metadata=False,
+        )
+        ip_adapter_proof = {
+            "repoId": args.ip_adapter_model_id,
+            **verify_resolved_revision(
+                "IP-Adapter revision",
+                exact_adapter_revision,
+                getattr(adapter_info, "sha", None),
+            ),
+        }
+
+    torch = None
+    torch_error = None
+    try:
+        import torch as torch_module
+        torch = torch_module
+    except Exception as exc:
+        torch_error = f"{type(exc).__name__}: {exc}"
+
+    cuda_devices: list[dict[str, Any]] = []
+    cuda_available = False
+    mps_available = False
+    torch_version = installed_version("torch")
+    if torch is not None:
+        torch_version = getattr(torch, "__version__", None) or torch_version
+        cuda_available = bool(torch.cuda.is_available())
+        if cuda_available:
+            for index in range(int(torch.cuda.device_count())):
+                props = torch.cuda.get_device_properties(index)
+                cuda_devices.append({
+                    "index": index,
+                    "name": str(props.name),
+                    "totalMemoryBytes": int(props.total_memory),
+                    "major": int(props.major),
+                    "minor": int(props.minor),
+                })
+        mps_backend = getattr(torch.backends, "mps", None)
+        mps_available = bool(mps_backend and mps_backend.is_available())
+
+    accelerator = "cuda" if cuda_available else ("mps" if mps_available else "none")
+    disk = shutil.disk_usage(root)
+    report = {
+        "schemaVersion": 1,
+        "kind": "STARBLOX_ART_FACTORY_RUNTIME_PROBE",
+        "repository": plan.get("repository"),
+        "branch": FACTORY_BRANCH,
+        "sourceHead": plan.get("sourceHead"),
+        "sourcePlanSha256": plan.get("planSha256"),
+        "executionCheckout": {
+            **checkout,
+            "planSourceHeadMatchesExecutionHead": (
+                checkout["head"] == str(plan.get("sourceHead") or "").lower()
+            ),
+        },
+        "attemptId": attempt.get("attemptId"),
+        "itemId": attempt.get("itemId"),
+        "runtime": {
+            **dict(attempt.get("runtime") or {}),
+            "resolvedCommit": runtime_proof["resolvedCommit"],
+            "runtimeCommitVerified": True,
+            "diffusersVersion": runtime_proof["packageVersion"],
+            "diffusersInstallSource": runtime_proof.get("sourceUrl"),
+        },
+        "model": {
+            **model,
+            "resolvedRevision": model_proof["resolvedRevision"],
+            "snapshotRevisionVerified": True,
+            "weightsDownloaded": False,
+            "pipelineInstantiated": False,
+        },
+        "conditioning": {
+            "ipAdapterModelId": args.ip_adapter_model_id,
+            "ipAdapterRevision": args.ip_adapter_revision,
+            "ipAdapterResolvedRevision": (
+                ip_adapter_proof["resolvedRevision"] if ip_adapter_proof else None
+            ),
+            "ipAdapterRevisionVerified": bool(ip_adapter_proof),
+        },
+        "hardware": {
+            "cpuCount": os.cpu_count(),
+            "systemMemoryBytes": system_memory_bytes(),
+            "diskTotalBytes": int(disk.total),
+            "diskFreeBytes": int(disk.free),
+            "torchInstalled": torch is not None,
+            "torchVersion": torch_version,
+            "torchImportError": torch_error,
+            "cudaAvailable": cuda_available,
+            "cudaDevices": cuda_devices,
+            "mpsAvailable": mps_available,
+            "accelerator": accelerator,
+        },
+        "productionInference": {
+            "attempted": False,
+            "suitabilityDecision": (
+                "ACCELERATOR_PRESENT__INFERENCE_STILL_REQUIRES_BOUNDED_PROOF"
+                if accelerator != "none"
+                else "NO_ACCELERATOR_EXPOSED__DO_NOT_DOWNLOAD_FULL_MODEL_FOR_PRODUCTION_INFERENCE"
+            ),
+        },
+        "safety": {
+            "modelWeightsDownloaded": False,
+            "artBytesGenerated": False,
+            "canonicalArtModified": False,
+            "reviewDecisionMade": False,
+            "deploymentPerformed": False,
+            "rightsBasis": RIGHTS_BASIS,
+        },
+        "status": (
+            "RUNTIME_PROBE_COMPLETE_ACCELERATOR_PRESENT"
+            if accelerator != "none"
+            else "RUNTIME_PROBE_COMPLETE_NO_ACCELERATOR"
+        ),
+    }
+    report["recordSha256"] = sha256_bytes(canonical_json_bytes(report))
+    return report
 
 
 def checkout_identity(root: Path) -> dict[str, Any]:
@@ -578,6 +765,13 @@ def self_test() -> None:
 
     got = select_attempt(plan, attempt["attemptId"])
     assert got["seed"] == seed
+    proof = verify_resolved_revision("model revision", "d" * 40, "d" * 40)
+    assert proof["verified"] is True
+    try:
+        verify_resolved_revision("model revision", "d" * 40, "e" * 40)
+        raise AssertionError("resolved revision mismatch unexpectedly passed")
+    except RuntimeError as exc:
+        assert "resolved revision mismatch" in str(exc)
     with tempfile.TemporaryDirectory() as td:
         root = Path(td)
         out, rel = safe_output_path(root, "public/assets/catalog/decor-5-w09-v99.png", "decor-5", "09")
@@ -627,6 +821,14 @@ def parse_args() -> argparse.Namespace:
 
     sub.add_parser("self-test")
 
+    probe = sub.add_parser("probe-runtime")
+    probe.add_argument("--repo-root", default=".")
+    probe.add_argument("--job", required=True)
+    probe.add_argument("--attempt-id", required=True)
+    probe.add_argument("--receipt", required=True)
+    probe.add_argument("--ip-adapter-model-id")
+    probe.add_argument("--ip-adapter-revision")
+
     for name in ("dry-run", "generate"):
         p = sub.add_parser(name)
         p.add_argument("--repo-root", default=".")
@@ -660,6 +862,22 @@ def main() -> None:
     root = Path(args.repo_root).resolve()
     plan = json.loads(Path(args.job).read_text())
     attempt = select_attempt(plan, args.attempt_id)
+
+    if args.command == "probe-runtime":
+        receipt_path = Path(args.receipt)
+        receipt_path.parent.mkdir(parents=True, exist_ok=True)
+        report = probe_runtime(root=root, plan=plan, attempt=attempt, args=args)
+        receipt_path.write_text(json.dumps(report, indent=2) + "\n")
+        print(json.dumps({
+            "probed": True,
+            "attemptId": attempt["attemptId"],
+            "status": report["status"],
+            "accelerator": report["hardware"]["accelerator"],
+            "resolvedModelRevision": report["model"]["resolvedRevision"],
+            "receipt": str(receipt_path),
+        }, indent=2))
+        return
+
     producer = str(attempt.get("producer") or "")
     output_path, output_repo_path = safe_output_path(
         root, args.repo_path, str(attempt.get("itemId")), producer
