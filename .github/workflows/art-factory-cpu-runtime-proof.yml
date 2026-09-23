@@ -13,7 +13,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: starblox-art-factory-cpu-runtime-proof-minimal-v2-${{ github.ref }}
+  group: starblox-art-factory-cpu-runtime-proof-minimal-v3-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -111,8 +111,8 @@ jobs:
             --receipt artifacts/cpu-runtime-proof/generation-receipt.json \
             --device cpu \
             --dtype bfloat16 \
-            --width 256 \
-            --height 256 \
+            --width 64 \
+            --height 64 \
             --steps 1 \
             --guidance-scale 0.0
           cp public/assets/catalog-candidates/runtime-proof/runtime-proof-w13-v1-a-original.png artifacts/cpu-runtime-proof/runtime-proof.png
@@ -128,6 +128,7 @@ jobs:
           assert r["runtime"]["executionMode"]=="cpu-fallback"
           assert r["model"]["resolvedRevision"]=="462165984030d82259a11f4367a4eed129e94a7b"
           assert r["generation"]["executedSeed"]==r["attempt"]["seed"]
+          assert r["output"]["width"]==64 and r["output"]["height"]==64
           p=pathlib.Path("artifacts/cpu-runtime-proof/runtime-proof.png")
           assert p.stat().st_size>0
           assert hashlib.sha256(p.read_bytes()).hexdigest()==r["output"]["sha256"]
