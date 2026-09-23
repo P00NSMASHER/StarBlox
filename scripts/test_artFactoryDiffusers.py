@@ -50,7 +50,7 @@ def main() -> None:
             },
             "model": {
                 "modelId": "example/model",
-                "revision": "deadbeef",
+                "revision": "d" * 40,
                 "rightsBasis": "USER_ATTESTED_FULL_RIGHTS",
             },
             "conditioning": {
@@ -90,7 +90,7 @@ def main() -> None:
             "--repo-root", str(root),
             "--job", str(job),
             "--attempt-id", attempt["attemptId"],
-            "--repo-path", "public/assets/catalog/decor-5-w09-v99.png",
+            "--repo-path", "public/assets/catalog-candidates/test/decor-5-w09-v99-a-original.png",
             "--receipt", str(receipt),
         )
         assert p.returncode == 0, p.stderr
@@ -98,6 +98,26 @@ def main() -> None:
         assert report["status"] == "VALIDATED_NOT_GENERATED"
         assert report["seed"] == seed
         assert report["runtime"]["commit"] == "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c"
+        assert report["output"]["repoPath"].startswith("public/assets/catalog-candidates/")
+
+        bad = json.loads(job.read_text())
+        bad["attempts"][0]["model"]["revision"] = "main"
+        unsigned = dict(bad)
+        unsigned.pop("planSha256", None)
+        encoded_bad = json.dumps(unsigned, ensure_ascii=False, separators=(",", ":")).encode()
+        bad["planSha256"] = hashlib.sha256(encoded_bad).hexdigest()
+        bad_job = root / "bad-job.json"
+        bad_job.write_text(json.dumps(bad, indent=2) + "\n")
+        bad_run = run(
+            "dry-run",
+            "--repo-root", str(root),
+            "--job", str(bad_job),
+            "--attempt-id", attempt["attemptId"],
+            "--repo-path", "public/assets/catalog-candidates/test/decor-5-w09-v99-a-original.png",
+            "--receipt", str(root / "bad-receipt.json"),
+        )
+        assert bad_run.returncode != 0
+        assert "40-char commit SHA" in bad_run.stderr
 
     print("ART_FACTORY_DIFFUSERS_CONTRACT_TEST=PASS")
 
