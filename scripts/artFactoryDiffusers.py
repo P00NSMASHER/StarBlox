@@ -17,6 +17,7 @@ import importlib.metadata
 import json
 import os
 import re
+import subprocess
 import tempfile
 from pathlib import Path
 from typing import Any
@@ -26,6 +27,8 @@ RIGHTS_BASIS = "USER_ATTESTED_FULL_RIGHTS"
 EXPECTED_RUNTIME_REPO = "huggingface/diffusers"
 EXPECTED_RUNTIME_COMMIT = "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c"
 ALLOWED_OUTPUT_EXTS = {".png"}
+ALLOWED_OUTPUT_PREFIXES = ("public/assets/catalog/", "public/assets/catalog-candidates/")
+HEX40_RE = re.compile(r"^[0-9a-f]{40}$")
 
 
 def canonical_json_bytes(value: dict[str, Any]) -> bytes:
@@ -100,6 +103,8 @@ def select_attempt(plan: dict[str, Any], attempt_id: str) -> dict[str, Any]:
     model = dict(attempt.get("model") or {})
     if not model.get("modelId") or not model.get("revision"):
         raise ValueError("exact modelId and model revision are required")
+    if not HEX40_RE.fullmatch(str(model["revision"]).lower()):
+        raise ValueError("model revision must be an immutable lowercase 40-char commit SHA")
 
     return attempt
 
@@ -108,14 +113,17 @@ def safe_output_path(root: Path, repo_path: str, item_id: str, producer: str) ->
     rel = str(repo_path).strip().replace("\\", "/").lstrip("/")
     if rel.startswith("assets/"):
         rel = "public/" + rel
-    if not rel.startswith("public/assets/catalog/"):
-        raise ValueError("generated source must live under public/assets/catalog/")
+    if not any(rel.startswith(prefix) for prefix in ALLOWED_OUTPUT_PREFIXES):
+        raise ValueError(
+            "generated source must live under public/assets/catalog/ "
+            "or public/assets/catalog-candidates/"
+        )
     if Path(rel).suffix.lower() not in ALLOWED_OUTPUT_EXTS:
         raise ValueError("first-party generator currently emits PNG source candidates only")
     producer_num = int(producer) if str(producer).isdigit() else None
     producer_pat = f"(?:0?{producer_num})" if producer_num is not None else re.escape(str(producer))
-    if not re.search(rf"{re.escape(item_id)}-w{producer_pat}-v\d+$", Path(rel).stem, re.I):
-        raise ValueError("output filename must bind itemId + producer + version")
+    if not re.search(rf"{re.escape(item_id)}-w{producer_pat}-v\d+(?:-|$)", Path(rel).stem, re.I):
+        raise ValueError("output filename must bind itemId + producer + numeric version")
 
     root_real = root.resolve()
     out = (root_real / rel).resolve()
@@ -152,6 +160,105 @@ def installed_version(name: str) -> str | None:
         return importlib.metadata.version(name)
     except importlib.metadata.PackageNotFoundError:
         return None
+
+
+def git_blob_sha(data: bytes) -> str:
+    return hashlib.sha1(b"blob " + str(len(data)).encode() + b"\\0" + data).hexdigest()
+
+
+def verify_exact_revision(label: str, revision: str) -> str:
+    value = str(revision or "").lower()
+    if not HEX40_RE.fullmatch(value):
+        raise ValueError(f"{label} must be an immutable lowercase 40-char commit SHA")
+    return value
+
+
+def installed_diffusers_provenance() -> dict[str, Any]:
+    try:
+        dist = importlib.metadata.distribution("diffusers")
+    except importlib.metadata.PackageNotFoundError as exc:
+        raise RuntimeError("diffusers distribution is not installed") from exc
+
+    raw = dist.read_text("direct_url.json")
+    if not raw:
+        raise RuntimeError(
+            "diffusers direct_url.json is missing; install the pinned runtime from the exact Git commit"
+        )
+    try:
+        direct = json.loads(raw)
+    except json.JSONDecodeError as exc:
+        raise RuntimeError("diffusers direct_url.json is invalid JSON") from exc
+
+    vcs = dict(direct.get("vcs_info") or {})
+    commit = str(vcs.get("commit_id") or "").lower()
+    if commit != EXPECTED_RUNTIME_COMMIT:
+        raise RuntimeError(
+            "installed Diffusers commit mismatch: "
+            f"expected {EXPECTED_RUNTIME_COMMIT}, got {commit or 'missing'}"
+        )
+    return {
+        "packageVersion": dist.version,
+        "resolvedCommit": commit,
+        "requestedRevision": vcs.get("requested_revision"),
+        "vcs": vcs.get("vcs"),
+        "sourceUrl": direct.get("url"),
+        "verified": True,
+    }
+
+
+def resolve_hf_snapshot(
+    repo_id: str,
+    revision: str,
+    *,
+    local_files_only: bool,
+    label: str,
+) -> tuple[Path, dict[str, Any]]:
+    exact = verify_exact_revision(label, revision)
+    try:
+        from huggingface_hub import snapshot_download
+    except Exception as exc:  # pragma: no cover - generation environment only
+        raise RuntimeError("huggingface_hub is required for exact snapshot resolution") from exc
+
+    snapshot = Path(
+        snapshot_download(
+            repo_id=repo_id,
+            revision=exact,
+            local_files_only=bool(local_files_only),
+        )
+    ).resolve()
+    resolved = snapshot.name.lower()
+    if not HEX40_RE.fullmatch(resolved):
+        raise RuntimeError(
+            f"{label} snapshot path does not expose an immutable resolved revision: {snapshot}"
+        )
+    if resolved != exact:
+        raise RuntimeError(
+            f"{label} resolved revision mismatch: expected {exact}, got {resolved}"
+        )
+    return snapshot, {
+        "repoId": repo_id,
+        "requestedRevision": exact,
+        "resolvedRevision": resolved,
+        "verified": True,
+    }
+
+
+def checkout_identity(root: Path) -> dict[str, Any]:
+    try:
+        branch = subprocess.check_output(
+            ["git", "branch", "--show-current"], cwd=root, text=True
+        ).strip()
+        head = subprocess.check_output(
+            ["git", "rev-parse", "HEAD"], cwd=root, text=True
+        ).strip()
+    except Exception as exc:
+        raise RuntimeError("generation requires a real Git checkout for provenance") from exc
+    if branch != FACTORY_BRANCH:
+        raise RuntimeError(f"generation checkout must be on {FACTORY_BRANCH}, got {branch or 'DETACHED'}")
+    if not HEX40_RE.fullmatch(head.lower()):
+        raise RuntimeError("generation checkout HEAD is not a full 40-char commit SHA")
+    return {"branch": branch, "head": head.lower()}
+
 
 
 def build_dry_run(
@@ -209,7 +316,15 @@ def load_pipeline(attempt: dict[str, Any], args: argparse.Namespace):
             "self-test/dry-run intentionally do not import them"
         ) from exc
 
+    runtime_proof = installed_diffusers_provenance()
     model = dict(attempt["model"])
+    snapshot, model_proof = resolve_hf_snapshot(
+        model["modelId"],
+        model["revision"],
+        local_files_only=bool(args.local_files_only),
+        label="model revision",
+    )
+
     requested = args.device
     if requested == "auto":
         if torch.cuda.is_available():
@@ -229,10 +344,9 @@ def load_pipeline(attempt: dict[str, Any], args: argparse.Namespace):
         raise ValueError(f"unsupported torch dtype: {dtype_name}")
 
     pipe = DiffusionPipeline.from_pretrained(
-        model["modelId"],
-        revision=model["revision"],
+        str(snapshot),
         torch_dtype=dtype,
-        local_files_only=bool(args.local_files_only),
+        local_files_only=True,
     )
 
     if args.enable_cpu_offload:
@@ -242,7 +356,7 @@ def load_pipeline(attempt: dict[str, Any], args: argparse.Namespace):
     else:
         pipe = pipe.to(device)
 
-    return pipe, torch, diffusers, device, dtype_name
+    return pipe, torch, diffusers, device, dtype_name, runtime_proof, model_proof
 
 
 def maybe_load_ip_adapter(pipe, attempt: dict[str, Any], args: argparse.Namespace, reference_image: Path | None):
@@ -250,19 +364,25 @@ def maybe_load_ip_adapter(pipe, attempt: dict[str, Any], args: argparse.Namespac
     if reference_image is None:
         if args.ip_adapter_model_id:
             raise ValueError("--ip-adapter-model-id requires --reference-image")
-        return None
+        return None, None
 
     if not args.ip_adapter_model_id or not args.ip_adapter_revision:
         raise ValueError("reference-conditioned generation requires exact --ip-adapter-model-id and --ip-adapter-revision")
     if not hasattr(pipe, "load_ip_adapter"):
         raise RuntimeError("selected Diffusers pipeline does not expose load_ip_adapter")
 
-    kwargs: dict[str, Any] = {"revision": args.ip_adapter_revision}
+    adapter_snapshot, adapter_proof = resolve_hf_snapshot(
+        args.ip_adapter_model_id,
+        args.ip_adapter_revision,
+        local_files_only=bool(args.local_files_only),
+        label="IP-Adapter revision",
+    )
+    kwargs: dict[str, Any] = {}
     if args.ip_adapter_weight_name:
         kwargs["weight_name"] = args.ip_adapter_weight_name
     if args.ip_adapter_subfolder:
         kwargs["subfolder"] = args.ip_adapter_subfolder
-    pipe.load_ip_adapter(args.ip_adapter_model_id, **kwargs)
+    pipe.load_ip_adapter(str(adapter_snapshot), **kwargs)
 
     scale = conditioning.get("adapterScale")
     if scale is not None:
@@ -274,7 +394,7 @@ def maybe_load_ip_adapter(pipe, attempt: dict[str, Any], args: argparse.Namespac
         from PIL import Image
     except Exception as exc:  # pragma: no cover
         raise RuntimeError("Pillow is required for IP-Adapter reference images") from exc
-    return Image.open(reference_image).convert("RGB")
+    return Image.open(reference_image).convert("RGB"), adapter_proof
 
 
 def generate(
@@ -291,8 +411,9 @@ def generate(
     if (attempt.get("conditioning") or {}).get("controlImageSha256"):
         raise ValueError("control-image jobs are not yet supported by this adapter; refusing to ignore bound conditioning")
 
-    pipe, torch, diffusers, device, dtype_name = load_pipeline(attempt, args)
-    ip_image = maybe_load_ip_adapter(pipe, attempt, args, reference_image)
+    checkout = checkout_identity(root)
+    pipe, torch, diffusers, device, dtype_name, runtime_proof, model_proof = load_pipeline(attempt, args)
+    ip_image, ip_adapter_proof = maybe_load_ip_adapter(pipe, attempt, args, reference_image)
 
     generator_device = "cuda" if device == "cuda" else "cpu"
     gen = torch.Generator(device=generator_device).manual_seed(int(attempt["seed"]))
@@ -314,11 +435,27 @@ def generate(
     image = images[0]
 
     output_path.parent.mkdir(parents=True, exist_ok=True)
-    with tempfile.NamedTemporaryFile(prefix=output_path.stem + "-", suffix=".png", dir=output_path.parent, delete=False) as fh:
+    with tempfile.NamedTemporaryFile(
+        prefix=output_path.stem + "-",
+        suffix=".png",
+        dir=output_path.parent,
+        delete=False,
+    ) as fh:
         temp_path = Path(fh.name)
+    reused_existing_output = False
     try:
         image.save(temp_path, format="PNG", optimize=False)
-        os.replace(temp_path, output_path)
+        candidate_bytes = temp_path.read_bytes()
+        if output_path.exists():
+            existing = output_path.read_bytes()
+            if existing != candidate_bytes:
+                raise FileExistsError(
+                    f"refusing to overwrite different existing candidate bytes: {output_repo_path}"
+                )
+            reused_existing_output = True
+            temp_path.unlink(missing_ok=True)
+        else:
+            os.replace(temp_path, output_path)
     finally:
         if temp_path.exists():
             temp_path.unlink(missing_ok=True)
@@ -327,10 +464,13 @@ def generate(
     output = {
         "repoPath": output_repo_path,
         "sha256": sha256_bytes(data),
+        "gitBlobSha": git_blob_sha(data),
         "bytes": len(data),
         "width": int(getattr(image, "width")),
         "height": int(getattr(image, "height")),
         "format": "PNG",
+        "sourceBytesPreserved": True,
+        "reusedExistingIdenticalBytes": reused_existing_output,
     }
 
     receipt = {
@@ -340,6 +480,10 @@ def generate(
         "branch": FACTORY_BRANCH,
         "sourceHead": plan.get("sourceHead"),
         "sourcePlanSha256": plan.get("planSha256"),
+        "executionCheckout": {
+            **checkout,
+            "planSourceHeadMatchesExecutionHead": checkout["head"] == str(plan.get("sourceHead") or "").lower(),
+        },
         "attempt": {
             "attemptId": attempt.get("attemptId"),
             "itemId": attempt.get("itemId"),
@@ -351,18 +495,29 @@ def generate(
         },
         "runtime": {
             **dict(attempt.get("runtime") or {}),
+            "resolvedCommit": runtime_proof["resolvedCommit"],
+            "runtimeCommitVerified": True,
             "diffusersVersion": getattr(diffusers, "__version__", None) or installed_version("diffusers"),
+            "diffusersInstallSource": runtime_proof.get("sourceUrl"),
             "torchVersion": getattr(torch, "__version__", None) or installed_version("torch"),
             "pythonPillowVersion": installed_version("Pillow"),
             "device": device,
             "dtype": dtype_name,
         },
-        "model": attempt.get("model"),
+        "model": {
+            **dict(attempt.get("model") or {}),
+            "resolvedRevision": model_proof["resolvedRevision"],
+            "snapshotRevisionVerified": True,
+        },
         "conditioning": {
             **dict(attempt.get("conditioning") or {}),
             **reference,
             "ipAdapterModelId": args.ip_adapter_model_id,
             "ipAdapterRevision": args.ip_adapter_revision,
+            "ipAdapterResolvedRevision": (
+                ip_adapter_proof.get("resolvedRevision") if ip_adapter_proof else None
+            ),
+            "ipAdapterRevisionVerified": bool(ip_adapter_proof),
             "ipAdapterWeightName": args.ip_adapter_weight_name,
             "ipAdapterSubfolder": args.ip_adapter_subfolder,
         },
@@ -371,6 +526,7 @@ def generate(
             "height": int(args.height),
             "numInferenceSteps": int(args.steps),
             "guidanceScale": float(args.guidance_scale),
+            "executedSeed": int(attempt.get("seed")),
         },
         "output": output,
         "safety": {
@@ -402,7 +558,7 @@ def self_test() -> None:
         "promptRecipeVersion": "test",
         "seed": seed,
         "runtime": {"repo": EXPECTED_RUNTIME_REPO, "commit": EXPECTED_RUNTIME_COMMIT},
-        "model": {"modelId": "example/model", "revision": "deadbeef", "rightsBasis": RIGHTS_BASIS},
+        "model": {"modelId": "example/model", "revision": "d" * 40, "rightsBasis": RIGHTS_BASIS},
         "conditioning": {"referenceAssetSha256": None, "controlImageSha256": None, "adapterScale": None},
         "output": {"repoPath": None},
         "status": "PLANNED_NOT_GENERATED",
@@ -412,7 +568,7 @@ def self_test() -> None:
         "kind": "STARBLOX_ART_FACTORY_JOB",
         "repository": "P00NSMASHER/StarBlox",
         "branch": FACTORY_BRANCH,
-        "sourceHead": "abc123",
+        "sourceHead": "a" * 40,
         "item": {"id": "decor-5", "name": "Test", "collectionId": "decor", "type": "room", "tier": 3, "theme": "Test"},
         "sourceReviewHash": "old",
         "rightsBasis": RIGHTS_BASIS,
@@ -427,6 +583,26 @@ def self_test() -> None:
         out, rel = safe_output_path(root, "public/assets/catalog/decor-5-w09-v99.png", "decor-5", "09")
         assert rel.endswith(".png")
         assert out.name == "decor-5-w09-v99.png"
+
+        candidate_out, candidate_rel = safe_output_path(
+            root,
+            "public/assets/catalog-candidates/w09-decor/decor-5-w09-v99-a-original.png",
+            "decor-5",
+            "09",
+        )
+        assert candidate_rel.startswith("public/assets/catalog-candidates/")
+        assert candidate_out.name.endswith("-original.png")
+
+        try:
+            bad = copy.deepcopy(plan)
+            bad["attempts"][0]["model"]["revision"] = "main"
+            unsigned = copy.deepcopy(bad)
+            unsigned.pop("planSha256", None)
+            bad["planSha256"] = sha256_bytes(canonical_json_bytes(unsigned))
+            select_attempt(bad, attempt["attemptId"])
+            raise AssertionError("mutable model revision unexpectedly passed")
+        except ValueError as exc:
+            assert "40-char commit SHA" in str(exc)
 
         ref = root / "ref.png"
         ref.write_bytes(b"reference-bytes")
