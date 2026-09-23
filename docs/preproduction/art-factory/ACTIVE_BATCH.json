@@ -1,9 +1,9 @@
 {
-  "schemaVersion": 16,
+  "schemaVersion": 17,
   "owner": "15",
   "branch": "screenshot-match-preproduction",
-  "sourceHead": "e7d70d1dfc8cfad524b925d06d37253d25b5bad4",
-  "updatedAt": "2026-09-23T01:58:00Z",
+  "sourceHead": "06eb68a8661df8b66a57b435379e70f443f94abc",
+  "updatedAt": "2026-09-23T03:01:00Z",
   "status": "ACTIVE_RELEASE_BLOCKER_FIRST",
   "policy": {
     "maxConcurrentProductionBatches": 4,
@@ -40,7 +40,7 @@
         "decor-5", "decor-6", "decor-7", "decor-8", "decor-9", "decor-10", "decor-11", "decor-12"
       ]
     },
-    "note": "Manifest/runtime remain authoritative at v33 with 173/192 mappings and 19 visible generic fallbacks. No review or canonical files changed through sourceHead, so accepted-awaiting-canonical remains zero. Workstream13 has now proven both the tested Firefly response surface and the Viewmax connector metadata surface insufficient for mandatory ART_FACTORY_V2 model-revision/runtime-revision/executed-seed provenance; neither surface may be retried for Wall9-12 unless its metadata contract materially changes. Workstream10 final QA remains parallel."
+    "note": "Manifest/runtime remain authoritative at v33 with 173/192 mappings and 19 visible generic fallbacks. No review or canonical files changed through sourceHead, so accepted-awaiting-canonical remains zero. Firefly, Viewmax, and the current built-in ChatGPT container are all exact-evidenced as noncompliant or non-capable for the mandatory revision-reporting Wall9-12 generation path; none may be retried unless its capability or metadata contract materially changes. Workstream10 final QA remains parallel, with current exact-hash motion evidence passing Store/reduced-motion checks but an unresolved Quest answer-click timeout still open."
   },
   "batches": [
     {
@@ -49,7 +49,7 @@
       "scope": ["decor-6", "decor-8"],
       "state": "WAITING_REVISION_REPORTING_RUNTIME__DETERMINISTIC_REQUEST_READY__NO_GENERATION",
       "reviewer": "14",
-      "requirements": "Preserve old blocked Decor6/8 hashes. Generate at most one new compliant replacement per item only after an authorized runtime can record exact model/checkpoint ID+revision, runtime identity+revision/commit, final optimized prompt+hash, and executed seed or policy-permitted authoritative seed-unavailable record. Route 06 -> 14 -> 08 on ACCEPT.",
+      "requirements": "Preserve old blocked Decor6/8 hashes. Generate at most one new compliant replacement per item only after an authorized runtime can record exact model/checkpoint ID+revision, runtime identity+revision/commit, final optimized prompt+hash, and executed seed or policy-permitted authoritative seed-unavailable record. Route 06 -> 14 -> 08 on ACCEPT. No safe anti-stall reassignment exists while Decor9-12 remain behind this pilot and all other compatible release blockers are owned by 07/13 or protected external scopes.",
       "evidence": [
         "docs/preproduction/art-factory/requests/w03-decor-6-8-provenance-repair-20260922.json",
         "docs/preproduction/art-factory/requests/w06-decor-6-8-provenance-readback-20260922.json"
@@ -61,42 +61,38 @@
       "scope": ["decor-5", "decor-7"],
       "state": "DECOR5_HISTORICAL_HASH_FAIL_CLOSED__FULLY_COMPLIANT_REPLACEMENT_REQUIRED__DECOR7_PROVENANCE_COMPLIANT_PATH_ONLY",
       "reviewer": "14",
-      "requirements": "Decor5 historical bytes remain fail-closed and must not be requalified. Workstream12 prepares a fully compliant replacement plan; 09 may generate only when revision-reporting provenance is available. Decor7 preserves Skate Rack / Garden Glow identity and may stage or generate only with complete provenance. Do not open Decor9-12 before this pilot is independently dispositioned."
+      "requirements": "Decor5 historical bytes remain fail-closed and must not be requalified. Workstream12 prepares a fully compliant replacement plan; 09 may generate only when revision-reporting provenance is available. Decor7 preserves Skate Rack / Garden Glow identity and may stage or generate only with complete provenance. Do not open Decor9-12 before this pilot is independently dispositioned. No safe anti-stall reassignment exists without violating the Decor pilot gate or overlapping another primary/external scope."
     },
     {
       "producer": "07",
-      "batchId": "w07-exact-byte-recovery-v2",
-      "scope": ["desks-7", "desks-8", "desks-9", "desks-10"],
-      "state": "ACTIVE_EXACT_BYTE_RECOVERY_IMPORT",
+      "batchId": "w07-wall-8-exact-byte-recovery-v1",
+      "scope": ["wall-8"],
+      "state": "ANTI_STALL_REASSIGNED__ACTIVE_EXACT_BYTE_RECOVERY_IMPORT",
       "batchType": "EXACT_BYTE_RECOVERY_IMPORT",
       "reviewerRouting": {
-        "desks-7": "05",
-        "desks-8": "05",
-        "desks-9": "05",
-        "desks-10": "05"
+        "wall-8": "14"
       },
-      "requirements": "Recover/import exact preserved Desk7-10 bytes only; never regenerate, re-encode, resize, approximate or substitute. Verify repository readback and route 06 -> 14 render -> reviewer05. After the first material Desk handoff frees capacity, take Wall8 selected Variant B exact-byte recovery next.",
+      "requirements": "The Desk7-10 recovery lane made no material transition for a full coordination cycle, so 07 is reassigned to the next non-overlapping exact-byte release blocker: Wall8 selected Variant B only. Recover/materialize those exact selected bytes; never regenerate, re-encode, resize, approximate or substitute. Verify repository readback/decode and route 06 -> 14 shared render + independent Wall review -> 08 on ACCEPT. Preserve Desk7-10 generated evidence and candidates frozen; return to them after Wall8 materializes or if Wall8 exact-byte recovery proves blocked.",
       "evidence": [
-        "docs/preproduction/art-factory/requests/w03-desks-7-10-20260922.json",
-        "docs/preproduction/art-factory/requests/w03-desks-8-generation-evidence-20260922.json",
-        "docs/preproduction/art-factory/requests/w03-desks-9-10-generation-evidence-20260922.json"
+        "docs/preproduction/catalog-sprint/chat-wall-8-w05-v3-remote-candidate.json"
       ]
     },
     {
       "producer": "13",
       "batchId": "w13-wall-9-12-runtime-unblock-v2",
       "scope": ["wall-9", "wall-10", "wall-11", "wall-12"],
-      "state": "FIREFLY_AND_VIEWMAX_PROVENANCE_SURFACES_PROVEN_NONCOMPLIANT__PINNED_DIFFUSERS_OR_EQUIVALENT_REVISION_REPORTING_RUNTIME_REQUIRED",
+      "state": "FIREFLY_VIEWMAX_AND_BUILT_IN_CONTAINER_CLOSED__WAITING_PINNED_OR_EQUIVALENT_REVISION_REPORTING_RUNTIME",
       "batchType": "GENERATION_RUNTIME_UNBLOCK_THEN_BOUNDED_GENERATION",
       "reviewer": "14",
-      "requirements": "Do not spend more Wall9-12 quota through the tested Adobe image_generate response surface or Viewmax generation surface under their current metadata contracts. Firefly exposed no authoritative model/revision/runtime/executed-seed fields; Viewmax exposes model identity but no immutable model revision, runtime/tool revision, executed seed, or authoritative seed-unavailable record. Recheck PAAM-L044 or another already-authorized revision-reporting deterministic runtime. Generate Wall9-12 only after that runtime can emit complete ART_FACTORY_V2 provenance; then preserve exact bytes and route 06 -> 14 -> 08. This lane made a material transition this cycle via the zero-credit Viewmax capability probe, so anti-stall reassignment is not triggered yet.",
+      "requirements": "Do not spend more Wall9-12 quota through the tested Adobe image_generate response surface or Viewmax generation surface under their current metadata contracts. Do not retry the current built-in ChatGPT container as an SDXL bootstrap unless its network or accelerator capability materially changes. Firefly omitted authoritative model/revision/runtime/executed-seed provenance; Viewmax omitted immutable model revision/runtime revision/executed seed; the built-in container has no accelerator, no diffusers install, and failed outbound pinned-runtime bootstrap by DNS while PAAM-L044 remains offline. Generate Wall9-12 only after PAAM-L044 or another already-authorized revision-reporting deterministic runtime can emit complete ART_FACTORY_V2 provenance; then preserve exact bytes and route 06 -> 14 -> 08. The built-in-container probe is a material transition this cycle, so anti-stall reassignment is not triggered yet.",
       "evidence": [
         "docs/preproduction/art-factory/requests/w13-wall-9-12-20260922.json",
         "docs/preproduction/art-factory/requests/w13-runtime-provider-probe-20260922.json",
         "docs/preproduction/art-factory/requests/w13-runtime-metadata-capability-20260922.json",
         "docs/preproduction/art-factory/requests/w13-firefly-generation-response-provenance-probe-20260923.json",
         "docs/preproduction/art-factory/requests/w13-viewmax-provenance-capability-20260923.json",
-        "docs/preproduction/art-factory/requests/w12-cross-account-intake-routing-20260923-v2.json",
+        "docs/preproduction/art-factory/requests/w13-chatgpt-container-runtime-capability-20260923.json",
+        "docs/preproduction/art-factory/requests/w12-cross-account-intake-routing-20260923-v3.json",
         "docs/preproduction/art-factory/PINNED_GENERATION_RUNTIME.json"
       ]
     }
@@ -110,7 +106,7 @@
   "acceptedAwaitingCanonical": [],
   "externalArrivals": {
     "sincePreviousCoordinationBasis": [],
-    "note": "The delta from prior coordinator sourceHead aebd322150977436179404b50a5e87a226690a44 through sourceHead contains coordinator state, Workstream13's zero-credit Viewmax provenance-capability probe, and Workstream12 routing evidence; no EXT01-EXT10 catalog candidate asset or handoff arrived, so protected scopes remain non-duplicated."
+    "note": "From the prior coordinator basis through sourceHead, only coordinator state, Workstream11 exact-hash motion browser evidence, Workstream13 built-in-container capability evidence, and Workstream12 routing evidence arrived. No EXT01-EXT10 catalog candidate asset or handoff arrived, so protected external scopes remain non-duplicated."
   },
   "blockedPreserved": {
     "decor5Qualification": {
@@ -122,13 +118,17 @@
       "rule": "Preserve exact bytes. No render, review, or canonical integration unless a newer provenance-compliant candidate is produced."
     },
     "wall8MountRepair": {
-      "state": "GENERATED_REMOTE_STAGING_BLOCKED__PRESERVED__QUEUE_TO_07_AFTER_FIRST_DESK_HANDOFF",
+      "state": "SELECTED_VARIANT_B__ACTIVE_07_EXACT_BYTE_RECOVERY_IMPORT",
       "evidence": "docs/preproduction/catalog-sprint/chat-wall-8-w05-v3-remote-candidate.json",
       "selectedVariant": "B",
-      "intendedRepositoryPath": "public/assets/catalog/wall-8-w05-v3.png"
+      "selectedSeed": 2026092218,
+      "selectedGenerationAssetId": "urn:aaid:sc:US:e7a12bb8-51b5-4216-b2c4-24ce0b6b6533",
+      "selectedPromptSha256": "412525a6720e03ad75bbfc28ba0ebb84d2e46b71271c35e783ac2f6d11ffa405",
+      "intendedRepositoryPath": "public/assets/catalog/wall-8-w05-v3.png",
+      "rule": "Materialize selected Variant B exact bytes only. No regeneration, re-encoding, resizing, approximation, substitution, review, or canonical promotion before exact repository readback and render evidence."
     },
     "desk7To10ExactImport": {
-      "state": "EXACT_BYTE_IMPORT_PENDING",
+      "state": "PRESERVED_FROZEN_AFTER_07_ANTI_STALL_REASSIGNMENT__RESUME_AFTER_WALL8_OR_IF_WALL8_BLOCKS",
       "evidence": [
         "docs/preproduction/art-factory/requests/w03-desks-7-10-20260922.json",
         "docs/preproduction/art-factory/requests/w03-desks-8-generation-evidence-20260922.json",
@@ -141,41 +141,44 @@
       "replacementPlan": "docs/preproduction/art-factory/requests/w03-decor-6-8-provenance-repair-20260922.json"
     },
     "wall9To12RuntimeProviderProbe": {
-      "state": "FIREFLY_AND_VIEWMAX_TESTED_SURFACES_NONCOMPLIANT__NO_REPEAT_GENERATION",
+      "state": "FIREFLY_VIEWMAX_AND_BUILT_IN_CONTAINER_CLOSED__NO_REPEAT_WITHOUT_CAPABILITY_CHANGE",
       "evidence": [
         "docs/preproduction/art-factory/requests/w13-firefly-generation-response-provenance-probe-20260923.json",
         "docs/preproduction/art-factory/requests/w13-viewmax-provenance-capability-20260923.json",
-        "docs/preproduction/art-factory/requests/w12-cross-account-intake-routing-20260923-v2.json"
+        "docs/preproduction/art-factory/requests/w13-chatgpt-container-runtime-capability-20260923.json",
+        "docs/preproduction/art-factory/requests/w12-cross-account-intake-routing-20260923-v3.json"
       ],
-      "result": "Firefly transport works but omits authoritative model/revision/runtime/seed provenance. Viewmax exposes provider/model identity but omits immutable model revision, runtime/tool revision, executed seed, and an authoritative seed-unavailable record; no generation credits were spent on the Viewmax capability probe.",
-      "next": "Pinned Diffusers/SDXL or another already-authorized revision-reporting runtime only, unless one of the closed provider metadata contracts materially changes."
+      "result": "Firefly transport works but omits authoritative model/revision/runtime/seed provenance. Viewmax exposes provider/model identity but omits immutable model revision, runtime/tool revision, executed seed, and an authoritative seed-unavailable record. The built-in ChatGPT container has no accelerator, no diffusers install, and could not bootstrap the pinned runtime because outbound GitHub/Hugging Face resolution failed; PAAM-L044 was offline at probe time.",
+      "next": "PAAM-L044 or another already-authorized revision-reporting deterministic runtime only, unless a closed provider/container capability or metadata contract materially changes."
     },
     "tops11_12_v7": "EXT01 owns this scope; primary account must not duplicate it while exact authoritative external payload bytes remain pending."
   },
   "parallelQaHandoff": {
     "owner": "10",
-    "state": "FINAL_QA_CONTINUES_IN_PARALLEL__QUEST_REDUCED_MOTION_FIX_LANDED__FRESH_CURRENT_HEAD_PROOF_REQUIRED",
+    "state": "MOTION_CORE_BROWSER_PASS__QUEST_INTERACTION_RISK_OPEN__FINAL_QA_CONTINUES_IN_PARALLEL",
     "storeEvidence": "docs/preproduction/workstreams/04-store-geometry-verification-handoff-v1.json",
+    "motionEvidence": "docs/preproduction/workstreams/11-motion-browser-evidence-20260922.json",
     "latestRuntimeFixCommit": "aebd322150977436179404b50a5e87a226690a44",
     "latestRuntimeFix": "Workstream11 clears stale Quest success treatment immediately when semantic feedback becomes wrong/clue/retry and adds regression coverage.",
-    "rule": "Do not reopen already-green Store geometry absent fresh current-byte failure. Workstream10 continues final browser/mobile/reference/persistence QA on material heads, including this Quest motion change."
+    "currentEvidence": "Store/catalog normal-motion and reduced-motion browser checks PASS on unchanged exact motion runtime/CSS hashes; the Quest persistence browser case quest-retry-rapid-answer-and-final-refresh remains OPEN after a click timeout and is not yet attributed to motion.",
+    "rule": "Do not reopen already-green Store geometry or Store observer/hang work absent fresh current-byte failure. Workstream10 must continue final browser/mobile/reference/persistence QA on material heads and reproduce or clear the exact-hash Quest answer-click timeout with state capture."
   },
-  "rendererPriority": "Highest-throughput path remains Desk7-10 exact-byte recovery by 07 -> 06 qualification -> 14 shared render -> reviewer05 -> 08. Wall8 follows the first Desk handoff. Decor5/6/8 replacements and Wall9-12 remain revision-reporting-runtime gated; both tested Firefly and Viewmax Wall provider surfaces are closed under their current metadata contracts. Workstream10 final QA continues in parallel.",
+  "rendererPriority": "Fastest current acceptance path is Wall8 selected Variant B exact-byte recovery by 07 -> 06 qualification -> 14 shared render + independent Wall review -> 08. Desk7-10 exact-byte candidates remain preserved and resume after Wall8 materializes or blocks. Decor5/6/8 replacements and Wall9-12 remain revision-reporting-runtime gated; Firefly, Viewmax, and the current built-in container are closed for Wall production under their current contracts/capabilities. Workstream10 final QA continues in parallel.",
   "routingOptimization": {
     "status": "ACTIVE_25_TASK_DUAL_ACCOUNT_MAX_THROUGHPUT",
     "activeProductionSlots": [
-      {"slot": 1, "owner": "07", "role": "Exact-byte recovery/import", "scope": ["desks-7", "desks-8", "desks-9", "desks-10"], "state": "ACTIONABLE__WALL8_NEXT_AFTER_FIRST_DESK_HANDOFF"},
+      {"slot": 1, "owner": "07", "role": "Exact-byte recovery/import", "scope": ["wall-8"], "state": "ANTI_STALL_REASSIGNED__SELECTED_VARIANT_B_EXACT_BYTES_ONLY"},
       {"slot": 2, "owner": "09", "role": "Decor5 compliant replacement handoff + Decor7 provenance-compliant path", "scope": ["decor-5", "decor-7"], "state": "DECOR5_HISTORICAL_HASH_FAIL_CLOSED__12_PLAN_REPLACEMENT__DECOR7_GATE_BOUND"},
       {"slot": 3, "owner": "03", "role": "Decor6/8 provenance-compliant replacement", "scope": ["decor-6", "decor-8"], "state": "DETERMINISTIC_REQUEST_READY__WAITING_REVISION_REPORTING_RUNTIME"},
-      {"slot": 4, "owner": "13", "role": "Generation-runtime unblock then bounded Wall9-12 generation", "scope": ["wall-9", "wall-10", "wall-11", "wall-12"], "state": "FIREFLY_AND_VIEWMAX_SURFACES_CLOSED__WAITING_PINNED_OR_EQUIVALENT_REVISION_REPORTING_RUNTIME"}
+      {"slot": 4, "owner": "13", "role": "Generation-runtime unblock then bounded Wall9-12 generation", "scope": ["wall-9", "wall-10", "wall-11", "wall-12"], "state": "FIREFLY_VIEWMAX_AND_BUILT_IN_CONTAINER_CLOSED__WAITING_PINNED_OR_EQUIVALENT_REVISION_REPORTING_RUNTIME"}
     ],
-    "antiStallDisposition": "No external catalog arrival appeared through sourceHead. Slot13 made a real material transition this cycle by proving, without spending generation credits, that the Viewmax metadata surface is also insufficient for mandatory provenance; it is not reassigned this cycle. If it makes no further material transition for one full cycle, coordinator15 must reassign that capacity to the next non-overlapping live release blocker without violating pilot gates or external ownership. Desk11-12 and Decor9-12 remain behind current pilot gates; Wall8 remains queued to 07 after a Desk handoff.",
+    "antiStallDisposition": "07 made no material transition for a full coordination cycle, so it is reassigned from Desk7-10 to the next non-overlapping exact-byte blocker, Wall8 selected Variant B. Desk7-10 bytes/evidence remain frozen and are not regenerated. Slot13 made a material transition this cycle by exact-evidencing the built-in container as non-production-capable for the pinned path, so 13 is not reassigned. 03 and 09 remain runtime-gated; no safe non-overlapping anti-stall target exists for either without violating the Decor pilot gate, another primary assignment, or EXT01-EXT10 ownership.",
     "intakeRouter": "12 scans new material from both accounts, compiles deterministic bounded plans for current assignments, and routes exact candidate arrivals to 06.",
     "technicalGate": "06 qualifies each new hash once; unchanged blocked hashes are not repeatedly rechecked.",
     "renderGate": "14 renders all qualified hashes and independently reviews Wall/Decor; foreign partitions route to 01/02/05.",
     "workstream08": "Integrate every simultaneously eligible exact-hash ACCEPT dynamically in one canonical batch.",
-    "parallelRelease": "04/11/10 continue release proof in parallel; final QA does not wait for 192/192.",
-    "planner12Priority": "Prepare the Decor5 vNext deterministic replacement plan; preserve the current Wall9-12 optimizer/job plan for the next provenance-compliant runtime rather than spending quota on provider surfaces already proven provenance-incomplete."
+    "parallelRelease": "04/11/10 continue release proof in parallel; final QA does not wait for 192/192. Current priority for 10 is the unresolved Quest answer-click timeout while preserving already-green Store motion/observer evidence.",
+    "planner12Priority": "Prepare the Decor5 vNext deterministic replacement plan; preserve the current Wall9-12 optimizer/job plan for the next provenance-compliant runtime rather than spending quota on provider/container surfaces already proven noncompliant or non-capable."
   },
   "liveStateAuthority": {
     "order": [
