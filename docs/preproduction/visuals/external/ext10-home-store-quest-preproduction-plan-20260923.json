@@ -1,0 +1,201 @@
+{
+  "schemaVersion": 1,
+  "producer": "EXT10",
+  "branch": "screenshot-match-preproduction",
+  "planId": "ext10-home-store-quest-preproduction-plan-20260923",
+  "planType": "NON_CATALOG_ENVIRONMENT_COMPONENT_PREPRODUCTION_ONLY",
+  "observedLiveState": {
+    "branchHeadBeforeWrite": "82f67697f3817d2633f5971a23646c4ef1f752d8",
+    "activeBatchSourceHead": "bba88535d618507bdc64abd29acbd5585c84a65e",
+    "activeBatchBlobSha": "aa6bad4e4dc8357438396735d7a02f8fee9b22fb",
+    "activeBatchStatus": "ACTIVE_RELEASE_BLOCKER_FIRST",
+    "lane13BlobSha": "ff20951ad075e703de295a9e5175b4c6a10316a3",
+    "lane13Status": "READY_FOR_REVIEW_SCENES_CHARACTER_BUDDY_AND_HOME_FOREGROUND_DEPTH",
+    "reviewer01HomeV3BlobSha": "9cb25616dc696064c6ee07cb4176e088722eaa06",
+    "reviewer01HomeV3Decision": "REWORK",
+    "reviewer14Evidence": "NO_CURRENT_FILE_IN_docs/preproduction/visuals/reviews",
+    "manifestVersion": 33
+  },
+  "selectedItemIds": [],
+  "selectedProductionCandidate": null,
+  "generationAuthorization": "HELD",
+  "nonOverlapDisposition": {
+    "home": "PRIMARY_PRODUCER_13_OWNS_HOME_BEDROOM_REWORK; EXT10 supplies analysis only and claims no pixels.",
+    "store": "Existing Store background, avatar-stage and heart-light hashes are staged and pending independent review; freeze exact hashes.",
+    "quest": "Existing Quest background and foreground hashes are staged and pending independent review; freeze exact hashes.",
+    "rule": "Do not generate, revise, stage or claim any scene/component until ACTIVE_BATCH explicitly releases an unresolved component to EXT10."
+  },
+  "authoritativeReferences": [
+    {
+      "screen": "Home",
+      "path": "docs/preproduction/reference-screenshots/originals/home-1448x1086.jpeg",
+      "sha256": "6a4b110aeaf12a6ab0c629f9181cc6cfa8d4f55a518d4f2a6adb3ac6e756c457",
+      "gitBlobSha": "cd4905ff1a8b97d784698ae1b0f8c3521937711e"
+    },
+    {
+      "screen": "Store",
+      "path": "docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg",
+      "sha256": "b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d",
+      "gitBlobSha": "383baa877d3af86fa92e3583740212000592b3d6"
+    },
+    {
+      "screen": "Quest",
+      "path": "docs/preproduction/reference-screenshots/originals/quest-1448x1086.jpeg",
+      "sha256": "70f1b952709a85c77bb11851ffe9ae704acf8b97640355e908b6ec537b5c73c9",
+      "gitBlobSha": "52ce6c21f08acd34070e1e692c2c436f77a3e420"
+    }
+  ],
+  "frozenCandidates": [
+    {
+      "candidateId": "home-bedroom-w13-v3",
+      "decision": "REWORK_01",
+      "desktopSha256": "8e41a0f76546f73e50bbb09d3e4d3292baeb1084549e1e61ebc5d55e6e513884",
+      "phoneSha256": "d2dafc3efe41c6c6982592e6724091dbd88f890a8f617cdf22538392a24a1715",
+      "owner": "13",
+      "reason": "Exact v3 package is under bounded primary-producer rework; EXT10 must not create v4."
+    },
+    {
+      "candidateId": "store-boutique-w13-v1",
+      "decision": "PENDING",
+      "desktopSha256": "04d0a2660dc5109aa2cdcea956f807baa01c6eb6b998598f656dfce83d3d0fe8",
+      "fullSha256": "01fd80f63e0deda237b1e19df4cb307c8380347beb2c69868114fd13709cd444",
+      "reason": "Pending independent review; no duplicate background."
+    },
+    {
+      "candidateId": "store-heart-wall-light-w13-v1",
+      "decision": "PENDING_01_14_15",
+      "fullSha256": "ade49f237afef596a9f78702caa0f4a8321676487cd1abb5f326528c2fe6665f",
+      "optimizedSha256": "6c0329d994523c0c14f7027051ff4d2cb437d4e5410d113c1f3c42a72bc6c7bc",
+      "reason": "Pending exact-hash review; no v2."
+    },
+    {
+      "candidateId": "store-avatar-stage-w13-v1",
+      "decision": "PENDING_01_14_15",
+      "fullSha256": "8fb0a4a3f4db4e1e8b8bb8628c13664f0dcc58a4a52cb3dc1d58dc474083e745",
+      "optimizedSha256": "884c90e2c9a0740a427e851319599a7caac5818352282a98758b42770dadbf13",
+      "reason": "Pending exact-hash review; preserve try-on stage."
+    },
+    {
+      "candidateId": "quest-learning-room-w13-v1",
+      "decision": "PENDING",
+      "desktopSha256": "00b1d96b463decf882193c27d433b313510069ca294706e56f77ff8ed948ff90",
+      "fullSha256": "2c25bf254a6aed8810d84ffb72eaa4096bd3c4eae69b92dfceffcaaed5dce1db",
+      "reason": "Pending independent review; no duplicate environment."
+    },
+    {
+      "candidateId": "quest-study-foreground-w13-v1",
+      "decision": "PENDING_01_14_15",
+      "fullSha256": "c006585abcc12c90e0eff367e6929f2db608190598067f73dc977af00b83f60e",
+      "optimizedSha256": "881302a212fff9d38ff52dd22c0749c43a1f033659d665cc9f8a494787b53193",
+      "reason": "Pending exact-hash review; preserve foreground layer."
+    },
+    {
+      "candidateId": "home-foreground-depth-w13-v1",
+      "decision": "PENDING_01_14_15",
+      "fullSha256": "716a1c43d103b08ade3ac2fb462cbd18d742df53edcccbee401df58fb9b99366",
+      "optimizedSha256": "eb4583ccb869b5040f007a556e7220c9276732809de18d7302afdf16ba5252ed",
+      "reason": "Pending exact-hash review; no duplicate depth layer."
+    }
+  ],
+  "homeBoundedRepairBrief": {
+    "purpose": "Analysis-only handoff for primary producer 13; no EXT10 ownership or pixels.",
+    "preserve": [
+      "v3 lower/central quiet corridor",
+      "bed-left and desk-right macro-layout",
+      "left-side warm daylight direction",
+      "separate environment architecture",
+      "purposeful 390x844 derivative"
+    ],
+    "repair": [
+      "Make the left hero furniture unmistakably a bed through mattress, bedding, pillows and frame/headboard construction.",
+      "Restore an explicit framed left window with architectural depth while keeping the brightest hotspot outside the avatar-safe center.",
+      "Add 4-7 reference-grounded props only in side/perimeter zones: shelves/books, text-free wall art, fairy lights, collectibles and one or two activity/decor objects.",
+      "Separate soft textiles, molded/painted furniture, restrained metal/glass highlights and grounded contact shadows.",
+      "Lift controlled pink, purple, blue and yellow accents without neon wash or high-frequency center clutter."
+    ],
+    "reject": [
+      "No center-corridor refill",
+      "No baked UI, text, avatar, Buddy, counters, cards or player state",
+      "No flattening the interface into scene pixels",
+      "No runtime/CSS/layout change"
+    ]
+  },
+  "storePresentationBrief": {
+    "preservePendingHashes": true,
+    "visualIntent": [
+      "Boutique architecture supports catalog cards but never contains them.",
+      "Keep a clear try-on pedestal/avatar zone with layered gold trim, pink-heart lighting and material depth.",
+      "Use separable wall-light and avatar-stage components; do not merge them into a flattened screenshot.",
+      "Reserve calm overlay zones at desktop and narrow-phone crops."
+    ],
+    "reviewBeforeAnyNewWork": [
+      "Reviewer 01 exact-hash art direction",
+      "Reviewer 14 composition/performance/mobile fit",
+      "Coordinator 15 runtime routing"
+    ]
+  },
+  "questComponentBrief": {
+    "preservePendingHashes": true,
+    "visualIntent": [
+      "Warm study-room depth with shelves, furniture and plants concentrated outside lesson overlays.",
+      "Foreground desk/study mass remains lower-left biased and leaves answer, hint, result and reward zones unobstructed.",
+      "Lighting guides attention toward learning content without baking curriculum or text into art.",
+      "Scene and foreground remain reusable independent layers."
+    ],
+    "reviewBeforeAnyNewWork": [
+      "Reviewer 01 exact-hash art direction",
+      "Reviewer 14 composition/performance/mobile fit",
+      "Coordinator 15 runtime routing"
+    ]
+  },
+  "dreamGoalProgressionPlan": {
+    "rule": "Represent progression through swappable side-zone props and lighting states only after explicit release; never encode player progress into a fixed background.",
+    "tiers": [
+      {
+        "tier": "starter",
+        "signals": [
+          "one shelf vignette",
+          "soft single practical light",
+          "limited collectible density"
+        ]
+      },
+      {
+        "tier": "growing",
+        "signals": [
+          "additional books/collectibles",
+          "secondary decorative light",
+          "richer textile accents"
+        ]
+      },
+      {
+        "tier": "dream",
+        "signals": [
+          "layered fairy-light constellation",
+          "premium trophy/goal display without readable text",
+          "stronger but controlled accent sparkle"
+        ]
+      }
+    ],
+    "safeZones": [
+      "Home left/right perimeter outside center avatar corridor",
+      "Store rear wall outside product-card and detail-panel zones",
+      "Quest outer shelves outside lesson and answer overlays"
+    ]
+  },
+  "releaseChecklist": [
+    "ACTIVE_BATCH explicitly releases one unresolved EXT10 component.",
+    "The released component has no newer staged, pending, frozen, owned or accepted exact hash.",
+    "Reviewer 01 supplies art-direction disposition for neighboring candidates.",
+    "Reviewer 14 supplies composition/performance/mobile-fit disposition.",
+    "A provenance-compliant runtime is available before any generation.",
+    "Only one highest-priority component is produced in the released run."
+  ],
+  "nextAction": "Recheck live coordination and review shards. If no component is explicitly released, keep all exact hashes frozen and perform no generation. If one component is released, produce only that single component through ART_FACTORY_V2 and route it without self-approval.",
+  "prohibitedActions": [
+    "No scene or component pixels during the hold",
+    "No Home v4 or duplicate Store/Quest candidate",
+    "No gameplay, curriculum, player-state, CSS, layout or runtime edits",
+    "No canonical manifest/runtime writes",
+    "No deployment, paid setting, Replit, Floot or main changes"
+  ]
+}
