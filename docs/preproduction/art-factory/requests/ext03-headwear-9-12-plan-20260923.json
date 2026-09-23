@@ -1,0 +1,206 @@
+{
+  "schemaVersion": 1,
+  "producer": "EXT03",
+  "reviewer": "01",
+  "branch": "screenshot-match-preproduction",
+  "planId": "ext03-headwear-9-12-plan-20260923",
+  "planType": "DETERMINISTIC_GENERATION_JOB_PREPARATION_ONLY",
+  "observedLiveState": {
+    "branchHeadBeforeWrite": "816ffe0f291a51ae06d6b2231731aefc00c06e0c",
+    "activeBatchSourceHead": "398f5100df0562a1e346c9110597e52b565982d0",
+    "activeBatchBlobSha": "189240098ce7781c762e41a152d04d2a0251dfef",
+    "activeBatchStatus": "ACTIVE_RELEASE_BLOCKER_FIRST",
+    "reviewer01BlobSha": "27a91b49507fc666c60f7e63422fd8fde3cfe005",
+    "reviewer01SourceHead": "cc0217e63d6bcfc341a63d85a75abca0386087de",
+    "manifestVersion": 33
+  },
+  "selectedItemIds": [
+    "headwear-9",
+    "headwear-10",
+    "headwear-11",
+    "headwear-12"
+  ],
+  "itemMetadata": [
+    {
+      "id": "headwear-9",
+      "name": "Pencil Crown",
+      "collection": "Hair & Hats",
+      "type": "avatar",
+      "tier": 3,
+      "theme": "Sunny Pop",
+      "price": 460,
+      "starReq": 2
+    },
+    {
+      "id": "headwear-10",
+      "name": "Cat Ears",
+      "collection": "Hair & Hats",
+      "type": "avatar",
+      "tier": 4,
+      "theme": "Aqua Wave",
+      "price": 640,
+      "starReq": 5
+    },
+    {
+      "id": "headwear-11",
+      "name": "Halo Headband",
+      "collection": "Hair & Hats",
+      "type": "avatar",
+      "tier": 4,
+      "theme": "Art Attack",
+      "price": 880,
+      "starReq": 5
+    },
+    {
+      "id": "headwear-12",
+      "name": "Crystal Crown",
+      "collection": "Hair & Hats",
+      "type": "avatar",
+      "tier": 5,
+      "theme": "Star Luxe",
+      "price": 1200,
+      "starReq": 9
+    }
+  ],
+  "preservedAcceptedIds": [
+    "headwear-1",
+    "headwear-2",
+    "headwear-3",
+    "headwear-4",
+    "headwear-5",
+    "headwear-6",
+    "headwear-7",
+    "headwear-8"
+  ],
+  "generationAuthorization": "BLOCKED_UNTIL_ART_FACTORY_V2_COMPLIANT_RUNTIME",
+  "rightsBasis": "Original StarBlox-specific prompt-authored designs; no third-party or branded references.",
+  "promptRecipeVersion": "ext03-wearable-headgear-card-v1",
+  "jobs": [
+    {
+      "itemId": "headwear-9",
+      "attemptId": "EXT03-headwear-9-A-plan1",
+      "variant": "A",
+      "concept": "radiant pencil tiara",
+      "finalPrompt": "Original StarBlox catalog art for headwear-9 Pencil Crown, Sunny Pop theme, tier 3. A clearly wearable art-supply tiara in clean three-quarter front view, centered and isolated. Build it around a padded golden-yellow semicircular headband with visible inner grip lining and small comb teeth; mount seven short colored-pencil forms in a rising crown fan using dimensional sockets and a reinforced rear rail. The pencil tips are safe rounded decorative caps, not loose floating icons. Add coral, aqua and lavender accents, stitched band edging, believable plastic, lacquered wood and rubber material separation, clear thickness and cast shadows. Premium rounded toy-game rendering, joyful sunny energy, strong Store-card silhouette, no text.",
+      "negativePrompt": "No person, face, hair, mannequin head, floating symbol, unsupported ornament, invisible band, flat vector, generic placeholder, emoji, logo, watermark, readable text, baked item name, collage, promo grid, copied franchise design, Roblox or Brookhaven asset, duplicate accessory, malformed band, impossible attachment, paper-thin material, cropped support, blown highlights, muddy silhouette.",
+      "promptSha256": "9bb15e1e6e0a50b5c131e99f026135f22ab4d7680c907bf508e76b493edd1524",
+      "negativePromptSha256": "8ae624f0be4bab110d3fe8edb0cf3ca1c05d66ff9b9f8790b6551defd35e189c",
+      "plannedDeterministicSeed": 39091
+    },
+    {
+      "itemId": "headwear-9",
+      "attemptId": "EXT03-headwear-9-B-plan1",
+      "variant": "B",
+      "concept": "studio crest pencil crown",
+      "finalPrompt": "Original StarBlox catalog art for headwear-9 Pencil Crown, Sunny Pop theme, tier 3. A wearable low-profile crown formed from a sturdy orange-gold circlet with side hinge details, elastic rear comfort strap and two visible hair clips. Five chunky mini-pencil spires rise from scalloped molded holders around a central sunburst crest; use warm yellow, sky blue, raspberry and mint with graphite-gray tips. Show actual sockets, band curvature, material thickness, inner padding and plausible head contact so the pencils cannot float. Original premium StarBlox toy-game catalog render, three-quarter front product view, centered, softly grounded, card-readable, no lettering or logos.",
+      "negativePrompt": "No person, face, hair, mannequin head, floating symbol, unsupported ornament, invisible band, flat vector, generic placeholder, emoji, logo, watermark, readable text, baked item name, collage, promo grid, copied franchise design, Roblox or Brookhaven asset, duplicate accessory, malformed band, impossible attachment, paper-thin material, cropped support, blown highlights, muddy silhouette.",
+      "promptSha256": "492313bd3b6e0379590ecbbd78b81555764ac11888b4514147cdc1c8c8045b08",
+      "negativePromptSha256": "8ae624f0be4bab110d3fe8edb0cf3ca1c05d66ff9b9f8790b6551defd35e189c",
+      "plannedDeterministicSeed": 39092
+    },
+    {
+      "itemId": "headwear-10",
+      "attemptId": "EXT03-headwear-10-A-plan1",
+      "variant": "A",
+      "concept": "wave satin cat-ear band",
+      "finalPrompt": "Original StarBlox catalog art for headwear-10 Cat Ears, Aqua Wave theme, tier 4. A physically wearable cat-ear headband in clean three-quarter front view, centered and fully visible. Sculpted aqua satin band with translucent inner cushioning, adjustable rear section and two small nonslip comb clips. Tall padded cat ears are sewn and anchored into molded side mounts, with pearly turquoise outer fabric, pale foam-pink inner panels, subtle wave quilting and restrained water-drop crystal accents. Show realistic curvature around a head, seam lines, support thickness, satin, foam, polymer and crystal material separation. Premium tier-4 toy-game finish, elegant aquatic silhouette, no floating ears, no text.",
+      "negativePrompt": "No person, face, hair, mannequin head, floating symbol, unsupported ornament, invisible band, flat vector, generic placeholder, emoji, logo, watermark, readable text, baked item name, collage, promo grid, copied franchise design, Roblox or Brookhaven asset, duplicate accessory, malformed band, impossible attachment, paper-thin material, cropped support, blown highlights, muddy silhouette.",
+      "promptSha256": "93a7ce6877017e0b950fd3296dbc3c4e02f924437413334d775d6c223782230b",
+      "negativePromptSha256": "8ae624f0be4bab110d3fe8edb0cf3ca1c05d66ff9b9f8790b6551defd35e189c",
+      "plannedDeterministicSeed": 310101
+    },
+    {
+      "itemId": "headwear-10",
+      "attemptId": "EXT03-headwear-10-B-plan1",
+      "variant": "B",
+      "concept": "shell-frame cat ears",
+      "finalPrompt": "Original StarBlox catalog art for headwear-10 Cat Ears, Aqua Wave theme, tier 4. A bold wearable pair of cat ears attached to a flexible deep-teal halo band with visible inner silicone grip, rear sizing joint and two side snap clips. Each ear uses a sculpted shell-like outer frame, translucent cyan inset, lavender edge piping and a tiny pearlescent bead at the base; include articulated mounting brackets and believable ear thickness. Three-quarter front product view with clear head-placement curvature, premium rounded toy-game rendering, layered glossy polymer, soft textile and iridescent materials, strong small-card silhouette, no logos or words.",
+      "negativePrompt": "No person, face, hair, mannequin head, floating symbol, unsupported ornament, invisible band, flat vector, generic placeholder, emoji, logo, watermark, readable text, baked item name, collage, promo grid, copied franchise design, Roblox or Brookhaven asset, duplicate accessory, malformed band, impossible attachment, paper-thin material, cropped support, blown highlights, muddy silhouette.",
+      "promptSha256": "64dc12150bdd6383670f04292d402916f8f42214b043052f77843d33b69b501d",
+      "negativePromptSha256": "8ae624f0be4bab110d3fe8edb0cf3ca1c05d66ff9b9f8790b6551defd35e189c",
+      "plannedDeterministicSeed": 310102
+    },
+    {
+      "itemId": "headwear-11",
+      "attemptId": "EXT03-headwear-11-A-plan1",
+      "variant": "A",
+      "concept": "paint-loop halo band",
+      "finalPrompt": "Original StarBlox catalog art for headwear-11 Halo Headband, Art Attack theme, tier 4. A clearly wearable padded violet headband in three-quarter front product view, with inner grip teeth, rear flex joint and two dimensional support arms rising behind the crown. The supports hold a complete elliptical halo ring above the head position; the ring resembles a polished artist color loop with restrained coral, aqua, yellow and lavender segments, beveled edges and small connector hardware. No part may float: show every strut, socket and band attachment. Premium StarBlox toy-game materials with fabric padding, anodized metal supports and translucent resin ring, tier-4 richness, crisp Store-card silhouette, no text.",
+      "negativePrompt": "No person, face, hair, mannequin head, floating symbol, unsupported ornament, invisible band, flat vector, generic placeholder, emoji, logo, watermark, readable text, baked item name, collage, promo grid, copied franchise design, Roblox or Brookhaven asset, duplicate accessory, malformed band, impossible attachment, paper-thin material, cropped support, blown highlights, muddy silhouette.",
+      "promptSha256": "8d2ed2a7d3cfbaec6110fb418bbbea885308145d9d0d51a1eeaac990720d9873",
+      "negativePromptSha256": "8ae624f0be4bab110d3fe8edb0cf3ca1c05d66ff9b9f8790b6551defd35e189c",
+      "plannedDeterministicSeed": 311111
+    },
+    {
+      "itemId": "headwear-11",
+      "attemptId": "EXT03-headwear-11-B-plan1",
+      "variant": "B",
+      "concept": "offset palette halo headband",
+      "finalPrompt": "Original StarBlox catalog art for headwear-11 Halo Headband, Art Attack theme, tier 4. A wearable asymmetric halo headband built on a broad cream-and-lilac band with stitched padding, side comb clips and an adjustable rear insert. Twin curved brass-tone struts visibly connect the band to an offset circular halo made of layered translucent resin arcs with small abstract paint-color insets; the halo remains open and elegant rather than a floating symbol. Show believable fasteners, curvature, thickness, weight balance and head clearance. Original premium rounded toy-game catalog rendering, three-quarter front view, card-scale readability, soft shadow, no lettering, logos or UI.",
+      "negativePrompt": "No person, face, hair, mannequin head, floating symbol, unsupported ornament, invisible band, flat vector, generic placeholder, emoji, logo, watermark, readable text, baked item name, collage, promo grid, copied franchise design, Roblox or Brookhaven asset, duplicate accessory, malformed band, impossible attachment, paper-thin material, cropped support, blown highlights, muddy silhouette.",
+      "promptSha256": "12fca3ba0fb7d6988477f09178eeb142b226038673240255e8fb6375b38542b1",
+      "negativePromptSha256": "8ae624f0be4bab110d3fe8edb0cf3ca1c05d66ff9b9f8790b6551defd35e189c",
+      "plannedDeterministicSeed": 311112
+    },
+    {
+      "itemId": "headwear-12",
+      "attemptId": "EXT03-headwear-12-A-plan1",
+      "variant": "A",
+      "concept": "stellar crystal circlet",
+      "finalPrompt": "Original StarBlox catalog art for headwear-12 Crystal Crown, Star Luxe theme, tier 5. A complete wearable royal circlet in clean three-quarter front view, centered and isolated. Use a substantial polished silver-lilac band with inner velvet lining, rear adjustment link and four discreet comb clips. Architectural prongs rise from reinforced settings to hold a graduated constellation of original faceted crystals: central star-cut lavender crystal, flanking clear and pale-blue shards, tiny gold connector stars as metalwork only. Show secure bezels, prongs, band curvature, crystal depth, refraction, metal thickness and premium tier-5 craftsmanship. Dimensional StarBlox toy-game rendering, majestic silhouette readable at card size, no text or borrowed franchise motifs.",
+      "negativePrompt": "No person, face, hair, mannequin head, floating symbol, unsupported ornament, invisible band, flat vector, generic placeholder, emoji, logo, watermark, readable text, baked item name, collage, promo grid, copied franchise design, Roblox or Brookhaven asset, duplicate accessory, malformed band, impossible attachment, paper-thin material, cropped support, blown highlights, muddy silhouette.",
+      "promptSha256": "4041146a42683b432355a8299b856bdc4b921f40808c9919ffe6b3b795271714",
+      "negativePromptSha256": "8ae624f0be4bab110d3fe8edb0cf3ca1c05d66ff9b9f8790b6551defd35e189c",
+      "plannedDeterministicSeed": 312121
+    },
+    {
+      "itemId": "headwear-12",
+      "attemptId": "EXT03-headwear-12-B-plan1",
+      "variant": "B",
+      "concept": "celestial lattice crystal crown",
+      "finalPrompt": "Original StarBlox catalog art for headwear-12 Crystal Crown, Star Luxe theme, tier 5. A wearable high crown built from a rose-gold and midnight-violet lattice circlet with visible inner padding, rear clasp and side hair combs. Five tall crystal towers are mechanically seated in star-shaped bezels and linked by curved celestial arches; use aqua, lilac and clear crystals with restrained gold micro-beads and a richer central peak. Every gem must have a physical mount, thickness and believable weight support. Original premium rounded toy-game product art, three-quarter front view, strong differentiated tier-5 silhouette, controlled sparkle and soft grounding shadow, no logo, text or floating crystal.",
+      "negativePrompt": "No person, face, hair, mannequin head, floating symbol, unsupported ornament, invisible band, flat vector, generic placeholder, emoji, logo, watermark, readable text, baked item name, collage, promo grid, copied franchise design, Roblox or Brookhaven asset, duplicate accessory, malformed band, impossible attachment, paper-thin material, cropped support, blown highlights, muddy silhouette.",
+      "promptSha256": "f611e2d8f81547c0f58ca98f85bec391932fdc7010b100fac7f7363661aa7b23",
+      "negativePromptSha256": "8ae624f0be4bab110d3fe8edb0cf3ca1c05d66ff9b9f8790b6551defd35e189c",
+      "plannedDeterministicSeed": 312122
+    }
+  ],
+  "differentiationMatrix": {
+    "headwear-9": [
+      "padded circlet or tiara",
+      "pencil sockets and rear rail",
+      "comb/elastic support",
+      "warm sunny art-tool silhouette"
+    ],
+    "headwear-10": [
+      "continuous curved headband",
+      "ear-base mounts and clips",
+      "textile versus shell construction",
+      "aqua-wave material language"
+    ],
+    "headwear-11": [
+      "visible headband and twin supports",
+      "elliptical versus offset halo",
+      "support hardware and head clearance",
+      "Art Attack color-loop treatment"
+    ],
+    "headwear-12": [
+      "full lined circlet",
+      "prongs/bezels/combs",
+      "graduated crystal architecture",
+      "tier-5 metal and crystal richness"
+    ]
+  },
+  "executionRequirements": [
+    "Execute exactly 2 differentiated variants per item.",
+    "Record actual executed seed, runtime identity and revision/commit, model ID and exact checkpoint revision.",
+    "Preserve original response/source bytes and derivative lineage.",
+    "Record reference/control hashes or an explicit empty set.",
+    "Stage unique versioned paths; verify committed SHA-256, Git blob SHA, bytes, dimensions and decode.",
+    "Render real Store-card and detail evidence and route exact hashes to reviewer 01.",
+    "Do not modify canonical manifest/runtime or self-approve."
+  ],
+  "qualificationRule": "Planning evidence only; no production-qualified candidate exists until every ART_FACTORY_V2 provenance, exact-byte, render and independent-review gate passes.",
+  "blockedReason": "The scheduled-task image generator does not expose sufficient exact runtime revision, model/checkpoint revision and executed deterministic seed evidence.",
+  "nextAction": "Execute these eight jobs only through a compliant revision-reporting runtime. Stop and reconcile any item that becomes staged, pending, accepted or owned before execution."
+}
