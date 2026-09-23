@@ -1,3 +1,14 @@
+> **2026-09-23 DEVELOPMENT OVERRIDE — READ THIS FIRST**
+>
+> The remainder of this file is a historical 2026-09-18 snapshot and MUST NOT be used as current development truth.
+> Current StarBlox preproduction work is on branch `screenshot-match-preproduction`; `main` and the old Replit-centric statements below are not the active development state.
+> Machine-readable catalog truth is `catalog-art-manifest.json` (currently manifest v33: 166/192 `final-portable`, 26 remaining, zero duplicate asset paths).
+> The pinned CPU art runtime is proven. The current release-time blocker is completing/reviewing the remaining catalog art and closing rendered release gates, not proving CPU runtime.
+> CPU generation run `35927174551` is the v2 Decor 5/7 retry using hash-bound CLIP-sized runtime prompts plus the unchanged full provenance prompt, 768×768 / 8-step generation, and independent exact-hash review before canonical integration.
+> The patched prompt/job/runtime contract passed StarBlox CI run `35927122565` (tests, art-factory contract tests, and production build).
+>
+> For any automated audit: inspect the active branch head, current manifest, active batch/queue records, and current Actions evidence before relying on prose status documents.
+
 # StarBlox Release Status
 
 Last integration/release pass: 2026-09-18 (America/New_York), cycle 8.
