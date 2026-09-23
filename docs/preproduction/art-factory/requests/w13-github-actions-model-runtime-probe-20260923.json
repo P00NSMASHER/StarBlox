@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_W13_GITHUB_HOSTED_RUNTIME_MODEL_PROBE",
+  "branch": "screenshot-match-preproduction",
+  "sourceCommit": "82f67697f3817d2633f5971a23646c4ef1f752d8",
+  "workflow": {
+    "name": "StarBlox Art Factory Accelerator Smoke",
+    "runId": 35820601357,
+    "runNumber": 3,
+    "conclusion": "success",
+    "jobId": 107051414977,
+    "artifactId": 10733112166,
+    "artifactName": "starblox-art-factory-accelerator-smoke-82f67697f3817d2633f5971a23646c4ef1f752d8",
+    "artifactDigest": "sha256:2e341f9dc6ab9034400f2f0174d92e74ec72574bd44aca85f8953e6c8e46c642"
+  },
+  "pinnedRuntime": {
+    "repository": "huggingface/diffusers",
+    "revision": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "status": "PASS_EXACT_PINNED_REVISION"
+  },
+  "pinnedModel": {
+    "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+    "requestedRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "resolvedRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "exactRevisionMatch": true,
+    "modelWeightsDownloaded": false,
+    "pipelineInstantiated": false,
+    "pixelInferenceRan": false
+  },
+  "runner": {
+    "platform": "GitHub hosted ubuntu-24.04",
+    "accelerator": "none",
+    "productionInferenceSuitability": "NO_ACCELERATOR_EXPOSED__DO_NOT_DOWNLOAD_FULL_MODEL_FOR_PRODUCTION_INFERENCE"
+  },
+  "evidence": [
+    "Exact pinned revisions: PASS",
+    "Generation integration surface: PASS",
+    "Exact SDXL revision probe: PASS",
+    "Resolved model revision equals requested immutable revision",
+    "Runner accelerator: none",
+    "PILOT_RESULT=PASS"
+  ],
+  "decision": {
+    "hostedRunnerProductionInference": "CLOSED",
+    "reason": "The hosted runner can verify exact runtime/model identity but exposes no accelerator. Full SDXL weight download/inference on this runner would add time without a viable production path.",
+    "allowedFutureUse": [
+      "contract tests",
+      "exact runtime revision verification",
+      "exact model metadata revision verification",
+      "report-only accelerator/art QA"
+    ],
+    "prohibitedAsProductionPath": [
+      "full SDXL model download for production generation",
+      "Wall 9-12 pixel generation",
+      "Decor 5-8 pixel generation"
+    ]
+  },
+  "routing": [
+    "Preserve GitHub hosted execution as a metadata/contract probe only.",
+    "Use PAAM-L044 or another already-authorized accelerator-capable, revision-reporting runtime for bounded production inference.",
+    "Continue existing Desk8-10 exact-byte recovery path before regenerating any preserved candidates.",
+    "Do not regenerate Wall8 selected Variant B while exact-byte recovery remains possible."
+  ],
+  "safety": {
+    "workflowYamlModified": false,
+    "modelWeightsDownloaded": false,
+    "artBytesGenerated": false,
+    "canonicalArtModified": false,
+    "acceptedHashesModified": false,
+    "reviewDecisionMade": false,
+    "deploymentPerformed": false,
+    "moneySpent": false,
+    "realPlayerDataTouched": false
+  },
+  "status": "HOSTED_MODEL_IDENTITY_PROVEN__HOSTED_PRODUCTION_INFERENCE_CLOSED"
+}
