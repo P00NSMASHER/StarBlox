@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 11,
+  "schemaVersion": 12,
   "reviewer": "02",
   "role": "independent reviewer for Shoes/Backgear/Handgear/Seating",
   "phase": "ART_VISUALS_SPRINT",
@@ -7,7 +7,7 @@
   "policy": "docs/preproduction/DELIVERY_PROTOCOL_V2.md",
   "visualSprint": "docs/preproduction/ART_VISUALS_SPRINT.json",
   "artFactoryPolicy": "docs/preproduction/art-factory/ART_FACTORY_V2.json",
-  "sourceHead": "382ae7d65bbf27e742d2969db939d5fc90d00ad5",
+  "sourceHead": "67953eee213e36fa9b88c32d5aa6679ced715cba",
   "priorReviewShard": {
     "blobSha": "4173dbb9923157eb5a13090d526f88cfec162edd",
     "schemaVersion": 10,
@@ -80,7 +80,10 @@
         "evidence": {
           "detailRenderPath": "staged-replacements/detail/seating-7-91457edd.png",
           "detailRenderSha256": "f40edb2570096a3238340262cec9fb72de40746b85826654995d45b279c61245",
-          "detailDimensions": [800, 800],
+          "detailDimensions": [
+            800,
+            800
+          ],
           "contactSheetItemIndex": 74
         },
         "checks": {
@@ -112,7 +115,10 @@
         "evidence": {
           "detailRenderPath": "staged-replacements/detail/seating-8-23c02ab5.png",
           "detailRenderSha256": "7328ffe0c875d58766f72788980f26525462121f8ae9dc34ab5924aad3c48b6e",
-          "detailDimensions": [800, 800],
+          "detailDimensions": [
+            800,
+            800
+          ],
           "contactSheetItemIndex": 75
         },
         "checks": {
@@ -144,7 +150,10 @@
         "evidence": {
           "detailRenderPath": "staged-replacements/detail/seating-9-7fcdea13.png",
           "detailRenderSha256": "d7c6fe56f3c28d72e21125c7b7d4ae663f16564ee03b9871b22670a43e467acb",
-          "detailDimensions": [800, 800],
+          "detailDimensions": [
+            800,
+            800
+          ],
           "contactSheetItemIndex": 76
         },
         "checks": {
@@ -176,7 +185,10 @@
         "evidence": {
           "detailRenderPath": "staged-replacements/detail/seating-10-9aa53664.png",
           "detailRenderSha256": "24dd711d987393de68727f9127334f2f3cf07316d2ca1778711915c27a84acf0",
-          "detailDimensions": [800, 800],
+          "detailDimensions": [
+            800,
+            800
+          ],
           "contactSheetItemIndex": 66
         },
         "checks": {
@@ -215,5 +227,101 @@
     "mainTouched": false,
     "replitOrFlootTouched": false,
     "selfApproval": false
+  },
+  "exceptionAssignments": [
+    {
+      "itemId": "wall-10",
+      "assignedBy": "15",
+      "authority": "docs/preproduction/art-factory/ACTIVE_BATCH.json",
+      "producer": "13",
+      "reviewer": "02",
+      "reason": "Release-critical Wall 9-12 exact-hash review assignment."
+    }
+  ],
+  "currentCycle": {
+    "scope": [
+      "wall-10"
+    ],
+    "version": "w13-v1 A-ACRYLIC-SKYLINE exact repository hash",
+    "result": "REWORK_1_OF_1",
+    "oldVerdictsTransferred": false,
+    "actualCardScalePixelsReviewed": true,
+    "actualDetailPixelsReviewed": true,
+    "selfApprovalConflict": false
+  },
+  "currentRenderEvidence": {
+    "workflow": "StarBlox Staged Catalog Art QA",
+    "workflowRunId": 35933468041,
+    "artifactId": 10782326531,
+    "artifactName": "catalog-staged-art-review",
+    "artifactDigest": "sha256:19438f21cb1ab61bca7c2941baa85cd6336292d70b3040551946408b9472cabe",
+    "workflowHead": "7fd50b8b879ace551bec2d45eb6b64a7de822569",
+    "detailEvidence": "artifact:10782326531/staged-replacements/detail/wall-10-74a4c531.png",
+    "detailEvidenceSha256": "eb068fb9ebe88b3db971aa9a963625975174c83f1505d672d13bddb04065347b",
+    "contactSheetEvidence": "artifact:10782326531/staged-replacements/staged-replacements-contact-sheet.png",
+    "contactSheetSha256": "706d83745163ba0c24f61708fdbe2a21819506753062c33ae72d7a877b4ccaa0",
+    "reportPath": "artifact:10782326531/report.json",
+    "technicalChecks": "Factory evidence discovered directly; exact Git blob binding PASS, PNG signature PASS, raster-self-contained safety PASS, HTTP 200, natural 768x768, opaqueFraction=1, screenshot=true, no item render errors."
+  },
+  "reviews": [
+    {
+      "itemId": "wall-10",
+      "name": "Neon City Sign",
+      "tier": 4,
+      "theme": "Cloud Pop",
+      "assetPath": "public/assets/catalog-candidates/cpu/wall-10-w13-v1-a-acrylic-skyline-original.png",
+      "assetHash": "74a4c531a3c60ccd60747bfebc2dfc0d1d25b684",
+      "contentSha256": "a171ee7ddd8ab79b238c3497ed9784db4880ead7fdeff2ad110eb285ab30fb13",
+      "producer": "13",
+      "decision": "REWORK",
+      "learnerLabel": "REWORK",
+      "reviewedAt": "2026-09-23T23:28:00Z",
+      "evidence": {
+        "detailRenderPath": "staged-replacements/detail/wall-10-74a4c531.png",
+        "detailRenderSha256": "eb068fb9ebe88b3db971aa9a963625975174c83f1505d672d13bddb04065347b",
+        "detailDimensions": [
+          800,
+          800
+        ],
+        "contactSheetPath": "staged-replacements/staged-replacements-contact-sheet.png"
+      },
+      "checks": {
+        "recognizableCategoryFunction": "FAIL — does not read as a coherent Neon City Sign; the central sign is generic and the intended city/skyline structure is not recognizable.",
+        "physicalConstructionContact": "FAIL — hanging supports/wires terminate awkwardly and the sign/mounting construction is visually malformed.",
+        "silhouette": "PARTIAL — central plaque/cloud masses are visible, but they do not form a distinctive city-sign silhouette.",
+        "materialLighting": "PARTIAL — cyan/pink neon glow is present, but bloom and soft form definition do not clarify construction.",
+        "themeTierSpecificity": "PARTIAL — Cloud Pop color/cloud cues are present, but Tier-4 city-sign specificity is weak.",
+        "smallCardReadability": "FAIL — text-like gibberish becomes the focal feature while the intended city identity is absent.",
+        "textArtifact": "FAIL — the rendered sign contains pseudo-lettering/gibberish despite the no-readable-words/no-text generation contract.",
+        "framingCrop": "PASS — subject remains inside frame; rejection is identity/construction/text quality, not crop.",
+        "originalityNearDuplicateRisk": "PASS — no third-party/branded motif or exact duplicate evidence observed.",
+        "technicalIntegrity": "PASS — exact staged bytes/provenance/render binding are valid; this is an art-quality REWORK, not a technical blocker."
+      },
+      "reason": "Exact rendered pixels are REWORK. The candidate violates the no-text intent with prominent pseudo-lettering, fails to establish a clear city/skyline sign identity, and has malformed hanging/support geometry. Cloud Pop neon color cues alone are insufficient for a Tier-4 Neon City Sign. Preserve this exact hash as evidence; a replacement should use a clean physical wall-mounted sign with an unmistakable abstract skyline/cloud silhouette, no glyphs or lettering, coherent mounting hardware and crisp card-scale structure."
+    }
+  ],
+  "currentReplacementDisposition": {
+    "wall": {
+      "REWORK": {
+        "wall-10": "74a4c531a3c60ccd60747bfebc2dfc0d1d25b684"
+      }
+    }
+  },
+  "summary": {
+    "reviewedThisRun": 1,
+    "newAcceptsThisRun": 0,
+    "newReworkThisRun": 1,
+    "newBlockedThisRun": 0,
+    "newUsableBy08Now": [],
+    "reworkNow": [
+      "wall-10"
+    ],
+    "preservedAcceptedHashes": "All earlier reviewer-02 ACCEPTs remain frozen; this REWORK applies only to Wall 10 exact hash 74a4c531a3c60ccd60747bfebc2dfc0d1d25b684."
+  },
+  "handoff": {
+    "13": "Wall 10 exact hash 74a4c531a3c60ccd60747bfebc2dfc0d1d25b684 is REWORK. Preserve it. Replacement must remove pseudo-text, establish unmistakable city/cloud sign identity, use coherent mounting/support geometry and retain clean card-scale silhouette.",
+    "14": "Wall 10 render packet 10782326531 is consumed; no rerender of unchanged hash is needed.",
+    "15": "Keep Wall 9/11/12 current generation/review first. Queue failure-specific Wall 10 replacement only after current CPU lane sequencing allows.",
+    "08": "Do not canonical-wire Wall 10 hash 74a4c531a3c60ccd60747bfebc2dfc0d1d25b684; reviewer02 decision is REWORK."
   }
 }
