@@ -35,9 +35,9 @@
     "wall-12": 1
   },
   "generation": {
-    "width": 1024,
-    "height": 1024,
-    "steps": 12,
+    "width": 768,
+    "height": 768,
+    "steps": 8,
     "guidanceScale": 3.5,
     "dtype": "bfloat16"
   },
@@ -45,5 +45,11 @@
     "nextOwner": "12",
     "route": "12 -> 06 -> 14 -> 02 -> 08 on ACCEPT",
     "canonicalWriter": "08"
+  },
+  "optimization": {
+    "reason": "Release-time retry after initial Wall run was cancelled before jobs started; align with proven Decor v2 CPU contract.",
+    "retryOfRunId": 35880826274,
+    "cpuContract": "768x768, 8 steps, unsliced attention at <=768px; exact model/runtime/reviewer routing unchanged.",
+    "queuePolicy": "Reuse this existing Wall queue path once; GitHub concurrency serializes it behind the active Decor CPU run without cancelling the active run."
   }
 }
