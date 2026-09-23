@@ -26,6 +26,7 @@ on:
   workflow_run:
     workflows:
       - 'StarBlox Art Factory CPU Generation'
+      - 'StarBlox Art Factory CPU Sequential Generation'
     types: [completed]
     branches: [screenshot-match-preproduction]
   workflow_dispatch:
