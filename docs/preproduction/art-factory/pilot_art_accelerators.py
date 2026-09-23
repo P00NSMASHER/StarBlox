@@ -10,10 +10,12 @@ from __future__ import annotations
 import argparse
 import hashlib
 import importlib.metadata as md
+import importlib.util
 import json
 import math
 import os
 import re
+import shutil
 import subprocess
 from pathlib import Path
 
@@ -27,6 +29,8 @@ IMAGEHASH_COMMIT = "7a405c9a27571ee8c998b661ce751639c34b7355"
 PYMATTING_COMMIT = "6d5c4a6bed0e5672abac0bad078e594423ffe4fd"
 DIFFUSERS_COMMIT = "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c"
 IP_ADAPTER_COMMIT = "62e4af9d0c1ac7d5f8dd386a0ccf2211346af1a2"
+BASE_MODEL_ID = "stabilityai/stable-diffusion-xl-base-1.0"
+BASE_MODEL_REVISION = "462165984030d82259a11f4367a4eed129e94a7b"
 RIGHTS_BASIS = "USER_ATTESTED_FULL_RIGHTS"
 FACTORY_CONTRACT = "docs/preproduction/art-factory/ART_FACTORY_V2.json"
 RASTER_EXTS = {".png", ".jpg", ".jpeg", ".webp"}
@@ -474,6 +478,103 @@ def generation_interface_smoke(root: Path) -> dict:
     }
 
 
+def system_memory_bytes() -> int | None:
+    try:
+        return int(os.sysconf("SC_PAGE_SIZE")) * int(os.sysconf("SC_PHYS_PAGES"))
+    except (AttributeError, OSError, ValueError):
+        return None
+
+
+def runtime_model_probe(root: Path) -> dict:
+    report = {
+        "status": "UNAVAILABLE",
+        "modelId": BASE_MODEL_ID,
+        "requestedRevision": BASE_MODEL_REVISION,
+        "resolvedRevision": None,
+        "exactRevisionMatch": False,
+        "modelWeightsDownloaded": False,
+        "pipelineInstantiated": False,
+        "pixelInferenceRan": False,
+        "runner": {
+            "os": os.environ.get("RUNNER_OS"),
+            "arch": os.environ.get("RUNNER_ARCH"),
+            "imageOs": os.environ.get("ImageOS"),
+            "imageVersion": os.environ.get("ImageVersion"),
+            "cpuCount": os.cpu_count(),
+            "systemMemoryBytes": system_memory_bytes(),
+        },
+        "hardware": {
+            "torchInstalled": md.version("torch") if importlib.util.find_spec("torch") else None,
+            "cudaAvailable": False,
+            "cudaDevices": [],
+            "mpsAvailable": False,
+            "accelerator": "none",
+        },
+        "storage": {},
+        "productionInferenceSuitability": "UNPROVEN",
+    }
+
+    disk = shutil.disk_usage(root)
+    report["storage"] = {
+        "diskTotalBytes": int(disk.total),
+        "diskFreeBytes": int(disk.free),
+    }
+
+    try:
+        from huggingface_hub import HfApi
+        info = HfApi().model_info(
+            repo_id=BASE_MODEL_ID,
+            revision=BASE_MODEL_REVISION,
+            files_metadata=False,
+        )
+        resolved = str(getattr(info, "sha", "") or "").lower()
+        report["resolvedRevision"] = resolved or None
+        report["exactRevisionMatch"] = resolved == BASE_MODEL_REVISION
+        report["status"] = "PASS" if report["exactRevisionMatch"] else "FAIL"
+        if not report["exactRevisionMatch"]:
+            report["error"] = (
+                f"exact model revision mismatch: expected {BASE_MODEL_REVISION}, "
+                f"got {resolved or 'missing'}"
+            )
+    except Exception as exc:
+        report["status"] = "UNAVAILABLE"
+        report["error"] = f"{type(exc).__name__}: {exc}"
+
+    if importlib.util.find_spec("torch"):
+        try:
+            import torch
+            report["hardware"]["torchInstalled"] = getattr(torch, "__version__", None) or md.version("torch")
+            cuda = bool(torch.cuda.is_available())
+            report["hardware"]["cudaAvailable"] = cuda
+            if cuda:
+                devices = []
+                for index in range(int(torch.cuda.device_count())):
+                    props = torch.cuda.get_device_properties(index)
+                    devices.append({
+                        "index": index,
+                        "name": str(props.name),
+                        "totalMemoryBytes": int(props.total_memory),
+                        "major": int(props.major),
+                        "minor": int(props.minor),
+                    })
+                report["hardware"]["cudaDevices"] = devices
+            mps = bool(
+                getattr(torch.backends, "mps", None)
+                and torch.backends.mps.is_available()
+            )
+            report["hardware"]["mpsAvailable"] = mps
+            report["hardware"]["accelerator"] = "cuda" if cuda else ("mps" if mps else "none")
+        except Exception as exc:
+            report["hardware"]["torchProbeError"] = f"{type(exc).__name__}: {exc}"
+
+    report["productionInferenceSuitability"] = (
+        "ACCELERATOR_PRESENT__BOUNDED_INFERENCE_STILL_REQUIRED"
+        if report["hardware"]["accelerator"] != "none"
+        else "NO_ACCELERATOR_EXPOSED__DO_NOT_DOWNLOAD_FULL_MODEL_FOR_PRODUCTION_INFERENCE"
+    )
+    return report
+
+
 def provenance_checks() -> dict:
     installed = {
         "ImageHash": direct_url_commit("ImageHash"),
@@ -505,6 +606,8 @@ def make_summary(report: dict) -> str:
         f"- Automatic perceptual threshold: **NOT ENABLED** (calibrated={str(p['thresholdCalibrated']).lower()}).",
         f"- Alpha refinement: **{a['status']}**; synthetic coarse-mask boundary MAE {a['synthetic']['metrics']['coarseMaskBoundaryMAE']} -> refined {a['synthetic']['metrics']['refinedBoundaryMAE']}.",
         f"- Generation integration surface: **{g['status']}**; FLUX/SDXL/ControlNet/IP-Adapter source/API smoke only, no CPU-runner production pixel inference.",
+        f"- Exact SDXL revision probe: **{report['runtimeProbe']['status']}**; resolved=`{report['runtimeProbe'].get('resolvedRevision')}`; weights downloaded=false.",
+        f"- Runner accelerator: **{report['runtimeProbe']['hardware']['accelerator']}**; suitability=`{report['runtimeProbe']['productionInferenceSuitability']}`.",
         f"- Model/checkpoint rights basis: `{report['safety']['modelCheckpointRights']}`.",
         f"- Run fingerprint: `{report['runFingerprintSha256']}`.",
         "- Canonical art/gameplay writes: **none**.",
@@ -556,12 +659,15 @@ def main():
         "perceptual": perceptual_pilot(root),
         "alpha": alpha_pilot(root),
         "generationInterface": generation_interface_smoke(root),
+        "runtimeProbe": runtime_model_probe(root),
     }
     fingerprint_payload = {
         "sourceHead": source_head,
         "factoryContract": FACTORY_CONTRACT,
         "expectedCommits": report["provenance"]["expectedCommits"],
         "ipAdapterCommit": IP_ADAPTER_COMMIT,
+        "baseModelId": BASE_MODEL_ID,
+        "baseModelRevision": BASE_MODEL_REVISION,
         "rightsBasis": RIGHTS_BASIS,
     }
     report["runFingerprintSha256"] = hashlib.sha256(
