@@ -1,0 +1,86 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_W12_CROSS_ACCOUNT_INTAKE_ROUTING",
+  "router": "12",
+  "branch": "screenshot-match-preproduction",
+  "observedAt": "2026-09-23T02:38:24Z",
+  "sourceHead": "2d0bcec9eccef279f0535a5f3ecbba1ecacd85f9",
+  "scanWindow": {
+    "priorRouterCommit": "e7d70d1dfc8cfad524b925d06d37253d25b5bad4",
+    "inspectedThroughHead": "2d0bcec9eccef279f0535a5f3ecbba1ecacd85f9",
+    "aheadBy": 3,
+    "changedPaths": [
+      "docs/preproduction/art-factory/ACTIVE_BATCH.json",
+      "docs/preproduction/art-factory/requests/w13-chatgpt-container-runtime-capability-20260923.json",
+      "docs/preproduction/workstreams/11-motion-browser-evidence-20260922.json"
+    ],
+    "newCandidateAssetOrHandoffDetected": false,
+    "newExternalLaneCandidateDetected": false
+  },
+  "liveAuthority": {
+    "manifestVersion": 33,
+    "runtimeVersion": 33,
+    "visibleGenericFallbackCount": 19,
+    "runtimeBlobSha": "68dc4944988ee2850e634eb8966613b9663c163c",
+    "activeBatchSourceHead": "e7d70d1dfc8cfad524b925d06d37253d25b5bad4",
+    "activeBatchOwnership": "15_ONLY"
+  },
+  "externalLaneProtection": {
+    "EXT01": "Tops11-12",
+    "EXT02": "Bottoms backlog",
+    "EXT03": "Headwear9-12",
+    "EXT04": "Facegear",
+    "EXT05": "Backgear",
+    "EXT06": "Handgear",
+    "EXT07": "Beds",
+    "EXT08": "reviewer-02 tail including Shoes11-12/Seating11-12",
+    "EXT09": "Avatar/Buddy preproduction",
+    "EXT10": "Home/Store/Quest visual preproduction",
+    "arrivalsInScanWindow": [],
+    "routingRule": "Protected from duplicate primary-account production unless ACTIVE_BATCH explicitly reclaims an ID and no newer pending candidate exists."
+  },
+  "materialRoutingEvent": {
+    "scope": ["wall-9", "wall-10", "wall-11", "wall-12"],
+    "producer": "13",
+    "reviewerFamily": "14",
+    "reservedByActiveBatch": true,
+    "candidate": null,
+    "newerCandidateExists": false,
+    "technicalQualificationEligibleFor06": false,
+    "exactEvidence": {
+      "path": "docs/preproduction/art-factory/requests/w13-chatgpt-container-runtime-capability-20260923.json",
+      "gitBlobSha": "1a0c5c2b968e5a3fbc61a664dbe23d32bb60e842",
+      "sourceHead": "96790d4e7c1a5e29b8c440e9cadb8948a5fee800",
+      "disposition": "BUILT_IN_CONTAINER_CLOSED_FOR_PRODUCTION_GENERATION__NO_NETWORK_BOOTSTRAP__NO_ACCELERATOR__DESKTOP_RUNNER_REMAINS_PREFERRED",
+      "candidateCreated": false
+    },
+    "capabilityFacts": {
+      "diffusersInstalled": false,
+      "acceleratorAvailable": false,
+      "outboundPinnedRuntimeBootstrap": "FAILED_DNS_RESOLUTION",
+      "desktopRunner": "PAAM-L044_OFFLINE"
+    },
+    "routing": {
+      "routeBackTo": ["producer13", "coordinator15"],
+      "hold": ["06 technical qualification", "14 render/review", "08 canonical integration"],
+      "releaseCondition": "A newly exposed already-authorized revision-reporting deterministic runtime must create a new exact candidate with complete ART_FACTORY_V2 provenance and staged-output/readback evidence before 06 intake."
+    },
+    "antiRepeat": [
+      "Do not retry Firefly or Viewmax under unchanged provenance metadata contracts.",
+      "Do not retry the current ChatGPT container as an SDXL bootstrap unless its network or accelerator capability materially changes.",
+      "Do not mutate the container environment ad hoc or invent model/runtime/seed provenance."
+    ]
+  },
+  "queues": {
+    "to06": [],
+    "backToProducer": [
+      {
+        "scope": ["wall-9", "wall-10", "wall-11", "wall-12"],
+        "producer": "13",
+        "reason": "No candidate exists; current built-in container is now exact-evidenced as non-production-capable for the pinned revision-reporting generation path."
+      }
+    ]
+  },
+  "ownershipNote": "ACTIVE_BATCH predates the newest container-capability evidence at current head. Router12 records the delta only; Workstream15 alone may reconcile ACTIVE_BATCH.",
+  "mutationScope": "Routing evidence only. No art bytes, reviewer decisions, ACTIVE_BATCH, manifest, catalog runtime, CI/workflow, gameplay, learning, persistence, economy, deployment, paid settings, secrets or player data changed."
+}
