@@ -198,6 +198,63 @@ jobs:
           path: artifacts/cpu-generation/${{ matrix.item }}/
           retention-days: 14
           if-no-files-found: error
+      - name: Stage this exact candidate immediately
+        env:
+          ITEM: ${{ matrix.item }}
+          REPO_PATH: ${{ matrix.repo_path }}
+          QUEUE_FILE: ${{ needs.plan.outputs.queue_file }}
+        run: |
+          set -euo pipefail
+          QUEUE_ID="$(python -c 'import json,os;print(json.load(open(os.environ["QUEUE_FILE"]))["queueId"])')"
+          TMP="$(mktemp -d)"
+          mkdir -p "$TMP/candidate" "$TMP/evidence"
+          cp "$REPO_PATH" "$TMP/candidate/candidate.png"
+          cp "artifacts/cpu-generation/$ITEM/generation-receipt.json" "$TMP/evidence/generation-receipt.json"
+          cp "artifacts/cpu-generation/$ITEM/staged-output.json" "$TMP/evidence/staged-output.json"
+          cp "artifacts/cpu-generation/jobs/$ITEM.json" "$TMP/evidence/job.json"
+          cp "$QUEUE_FILE" "$TMP/evidence/queue.json"
+          EXPECTED_SHA="$(python -c 'import json;print(json.load(open("'"$TMP"'/evidence/staged-output.json"))["output"]["sha256"])')"
+          EXPECTED_BLOB="$(python -c 'import json;print(json.load(open("'"$TMP"'/evidence/staged-output.json"))["output"]["gitBlobSha"])')"
+          test "$(sha256sum "$TMP/candidate/candidate.png" | awk '{print $1}')" = "$EXPECTED_SHA"
+          git config user.name "starblox-art-factory"
+          git config user.email "actions@users.noreply.github.com"
+          for N in 1 2 3 4 5; do
+            git fetch origin screenshot-match-preproduction
+            git reset --hard origin/screenshot-match-preproduction
+            if [ -f "$REPO_PATH" ]; then
+              CURRENT_SHA="$(sha256sum "$REPO_PATH" | awk '{print $1}')"
+              test "$CURRENT_SHA" = "$EXPECTED_SHA" || { echo "different bytes already occupy $REPO_PATH"; exit 1; }
+            else
+              mkdir -p "$(dirname "$REPO_PATH")"
+              cp "$TMP/candidate/candidate.png" "$REPO_PATH"
+            fi
+            test "$(git hash-object "$REPO_PATH")" = "$EXPECTED_BLOB"
+            DEST="docs/preproduction/art-factory/generated-evidence/$QUEUE_ID/$ITEM"
+            mkdir -p "$DEST"
+            python - "$TMP/evidence" "$DEST" <<'PY'
+          import pathlib, shutil, sys
+          src=pathlib.Path(sys.argv[1]); dst=pathlib.Path(sys.argv[2])
+          for name in ('generation-receipt.json','staged-output.json','job.json','queue.json'):
+              s=src/name; d=dst/name
+              if d.exists() and d.read_bytes()!=s.read_bytes():
+                  raise SystemExit(f'conflicting evidence already exists: {d}')
+              shutil.copy2(s,d)
+          PY
+            git add "$REPO_PATH" "$DEST"
+            if git diff --cached --quiet; then
+              echo "Exact candidate already staged: $ITEM $EXPECTED_SHA"
+              exit 0
+            fi
+            git commit -m "art-factory: stage CPU candidate $ITEM ($QUEUE_ID)"
+            if git push origin HEAD:screenshot-match-preproduction; then
+              echo "STAGED_ITEM=$ITEM"
+              exit 0
+            fi
+            echo "Push raced with another writer; retry $N/5"
+            sleep $((N * 2))
+          done
+          echo "Unable to stage $ITEM after retry-safe rebases"
+          exit 1
 
   stage:
     needs: [plan, generate]
