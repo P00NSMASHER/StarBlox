@@ -1,9 +1,9 @@
 {
-  "schemaVersion": 20,
+  "schemaVersion": 21,
   "owner": "15",
   "branch": "screenshot-match-preproduction",
-  "sourceHead": "14f7d9cd45ca3bf99e61ae4a6b5c85b3853ea21c",
-  "updatedAt": "2026-09-23T05:58:24Z",
+  "sourceHead": "c37815b52b4e7c520d0b428687cb999d6aef5f6b",
+  "updatedAt": "2026-09-23T06:48:30.437Z",
   "status": "ACTIVE_RELEASE_BLOCKER_FIRST",
   "policy": {
     "maxConcurrentProductionBatches": 4,
@@ -180,19 +180,56 @@
   },
   "parallelQaHandoff": {
     "owner": "10",
-    "state": "QUEST_ISOLATION_HARNESS_REPAIRED__FOCUSED_WORKFLOW_STILL_FAILING__FINAL_QA_BLOCKER_OPEN",
-    "latestQaHarnessCommit": "e6cc3a44d3d3b78bdebfed55d080a8e772df2fe2",
-    "latestWorkflow": {
+    "state": "QUEST_OBSERVER_BLOCKER_CLOSED__CURRENT_BROWSER_GATES_GREEN__STATE_SPECIFIC_VISUAL_QA_PENDING",
+    "priorFailedWorkflow": {
       "runId": 35821703437,
       "jobId": 107054739874,
       "workflow": "StarBlox Persistence Recovery Quest QA",
       "job": "recovery-quest-browser-stress",
       "conclusion": "failure"
     },
-    "currentEvidence": "Store/catalog normal-motion and reduced-motion evidence remains green. The focused Quest workflow still fails after Workstream10 repaired the retry-stage isolation harness. Continue root-cause capture; do not infer a motion cause or change gameplay/learning/persistence/economy from the workflow conclusion alone.",
-    "rule": "Keep 10 on Quest root-cause capture in parallel. Do not reopen green Store geometry/observer work absent fresh current-byte failure."
+    "fixedRuntimeHead": "ce03757ae7b427a25b7b30e74ee3c4331d3a7a9f",
+    "exactHashEvidenceHead": "c37815b52b4e7c520d0b428687cb999d6aef5f6b",
+    "hashBinding": {
+      "motionRuntimeGitBlob": "3c940e0eec7e490544502947fcf2f3cee71076ea",
+      "motionRuntimeTestGitBlob": "3e091677cd4a2767785e5a513275feacc0913e01",
+      "motionCssGitBlob": "d8797842f969973f81af2c56ec44d63ea54480ba"
+    },
+    "verifiedGates": {
+      "starBloxCi": {
+        "runId": 35826941205,
+        "status": "PASS"
+      },
+      "persistenceBrowserQa": {
+        "runId": 35826941176,
+        "jobId": 107070644139,
+        "status": "PASS",
+        "pass": 10,
+        "fail": 0,
+        "questRetryRapidAnswerAndFinalRefresh": "PASS",
+        "artifactDigest": "sha256:5aaaba447daab30ff82df517194e15f0188171b42965d942515d10b7984cc3c8"
+      },
+      "catalogMobileQa": {
+        "runId": 35826941163,
+        "jobId": 107070644050,
+        "status": "PASS",
+        "releaseBlockingCount": 0,
+        "artifactDigest": "sha256:b8986b1c24625a56c0f502f950702db5c892e296c083faad27215ae34d94bbc1"
+      },
+      "storeObserverDiagnostic": {
+        "runId": 35826941162,
+        "jobId": 107070644059,
+        "status": "PASS"
+      }
+    },
+    "disposition": "PASS",
+    "prerequisite": "Reuse this evidence only while the bound motion runtime/CSS hashes remain unchanged. Fresh targeted evidence is required after a bound-hash change.",
+    "nextOwner": "10",
+    "currentEvidence": "The previously repeated Quest wrong/retry click timeout is cleared by guarding no-op class removals that fed MutationObserver churn. Browser interaction, Store observer, catalog mobile, and reduced-motion gates pass on the exact fixed hashes. Gameplay, learning, persistence, economy, accessibility contracts, and canonical catalog mappings were not changed.",
+    "evidence": "docs/preproduction/workstreams/11-motion-browser-evidence-ce03757.json",
+    "rule": "Close the Quest interaction blocker. Keep Workstream10 on state-specific Home/Quest screenshot acceptance and remaining final QA only; do not reopen the green Store observer investigation absent a fresh current-byte failure."
   },
-  "antiStallDisposition": "All four primary production lanes made no candidate-byte transition this cycle. A live reassignment scan found no safe new material path: 07 is exact-byte-only and alternate Desk7/Wall8 materializations are already frozen; Decor9-12 cannot open before current Decor pilot disposition; Wall8 has a newer selected pending candidate; EXT01-EXT10 scopes remain protected. Keep reservations until a genuinely new materialization/runtime capability or external candidate arrival appears; do not churn blocked work or weaken gates.",
+  "antiStallDisposition": "The Quest interaction blocker materially closed this cycle on exact current hashes. All four catalog production reservations remain unchanged: no new exact bytes, compliant accelerator runtime, external catalog arrival, or safe non-overlapping reassignment appeared. Continue the oldest eligible Desk8-10 exact-byte path; do not churn frozen work, open Decor9-12 early, duplicate EXT01-EXT10, or weaken qualification/review gates.",
   "crossAccountProduction": {
     "externalScopes": {
       "EXT01": "Tops11-12",
@@ -209,5 +246,53 @@
     "primaryNoDuplicateRule": "Do not generate external scopes unless coordinator15 explicitly reclaims an ID after verifying no newer pending external candidate exists.",
     "intakePath": "12 -> 06 -> 14 -> 01/02/05/14 -> 08 -> 04/11/10"
   },
-  "readerRule": "Every worker must revalidate branch head, assignment, exact hash and review state before writing. This file never overrides newer exact evidence."
+  "readerRule": "Every worker must revalidate branch head, assignment, exact hash and review state before writing. This file never overrides newer exact evidence.",
+  "cycleId": "director-20260923T0644Z-c37815b5",
+  "criticalPath": {
+    "computedAtHead": "c37815b52b4e7c520d0b428687cb999d6aef5f6b",
+    "order": [
+      {
+        "rank": 1,
+        "blocker": "VISIBLE_GENERIC_FALLBACK_ART",
+        "count": 19,
+        "oldestEligibleNearReleasePath": "Workstream07 exact-byte recovery/import of desks-8 through desks-10",
+        "prerequisite": "Exact preserved source bytes must materialize without regeneration, re-encoding, resizing, approximation, or substitution.",
+        "nextOwner": "06 after repository-byte readback; then 14 shared render, independent reviewer05, and 08 only on ACCEPT."
+      },
+      {
+        "rank": 2,
+        "blocker": "ACCELERATOR_CAPABLE_REVISION_REPORTING_RUNTIME_UNAVAILABLE",
+        "affectedScopes": [
+          "decor-5",
+          "decor-6",
+          "decor-7",
+          "decor-8",
+          "wall-9",
+          "wall-10",
+          "wall-11",
+          "wall-12"
+        ],
+        "prerequisite": "PAAM-L044 or another already-authorized deterministic runtime must prove accelerator suitability, immutable model/runtime revisions, executed seed, output bytes, and repository readback.",
+        "nextOwner": "03/09/13 within their non-overlapping scopes, then 06 -> independent review -> 08 on ACCEPT."
+      },
+      {
+        "rank": 3,
+        "blocker": "FROZEN_SELECTED_BYTES_NOT_MATERIALIZED",
+        "affectedScopes": [
+          "desks-7",
+          "wall-8"
+        ],
+        "prerequisite": "A genuinely new exact-byte materialization path; no generation, substitution, or approximation.",
+        "nextOwner": "15 may assign only after confirming no newer pending candidate; then 06."
+      },
+      {
+        "rank": 4,
+        "blocker": "STATE_SPECIFIC_HOME_QUEST_VISUAL_ACCEPTANCE_NOT_YET_EVIDENCED",
+        "prerequisite": "Current-hash state-specific screenshots and independent visual disposition; reuse the now-green browser interaction/motion evidence.",
+        "nextOwner": "10"
+      }
+    ],
+    "acceptedAwaitingCanonical": 0,
+    "note": "Finish the oldest eligible Desk exact-byte path before opening more inventory. Catalog production assignments remain unchanged because no safe alternate material path exists."
+  }
 }
