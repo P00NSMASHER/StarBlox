@@ -1,4 +1,4 @@
-import { stableHash } from '../domainSchemas';
+import { stableHash } from '../domainSchemas.js';
 
 export const SIM_TICK_RATE = 60;
 export const SIM_STEP_SECONDS = 1 / SIM_TICK_RATE;
