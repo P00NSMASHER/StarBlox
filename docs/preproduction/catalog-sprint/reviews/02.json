@@ -7,7 +7,7 @@
   "policy": "docs/preproduction/DELIVERY_PROTOCOL_V2.md",
   "visualSprint": "docs/preproduction/ART_VISUALS_SPRINT.json",
   "artFactoryPolicy": "docs/preproduction/art-factory/ART_FACTORY_V2.json",
-  "sourceHead": "c6ff4fc73c",
+  "sourceHead": "a6b819842c",
   "priorReviewShard": {
     "blobSha": "4173dbb9923157eb5a13090d526f88cfec162edd",
     "schemaVersion": 10,
@@ -242,12 +242,13 @@
     "scope": [
       "decor-11"
     ],
-    "version": "current six-pack exact hashes",
+    "version": "Decor11 v6 exact source hash",
     "result": "REWORK_1_OF_1",
     "oldVerdictsTransferred": false,
-    "actualCardScalePixelsReviewed": true,
+    "actualCardScalePixelsReviewed": false,
     "actualDetailPixelsReviewed": true,
-    "selfApprovalConflict": false
+    "selfApprovalConflict": false,
+    "failFastSourceContract": true
   },
   "currentRenderEvidence": {
     "sources": [
@@ -1050,6 +1051,44 @@
         "duplicateVisual": "PASS",
         "technicalIntegrity": "PASS"
       }
+    },
+    {
+      "itemId": "decor-11",
+      "name": "Dream Vanity Set",
+      "tier": 4,
+      "theme": "Art Attack",
+      "assetPath": "public/assets/catalog-candidates/cpu/decor-11-w09-v6-b-literal-vanity-mirror-stool-original.png",
+      "repositoryPath": "public/assets/catalog-candidates/cpu/decor-11-w09-v6-b-literal-vanity-mirror-stool-original.png",
+      "assetHash": "61def289ba05f48b56c29d3eaa2d38a4a4b0899a",
+      "sha256": "2ebcd1c5e2c858a7203e54791ef02ddfe32e1fd49b1b06d1ad0ec639b8dffeda",
+      "contentSha256": "2ebcd1c5e2c858a7203e54791ef02ddfe32e1fd49b1b06d1ad0ec639b8dffeda",
+      "hashAlgorithm": "git-blob-sha1",
+      "producer": "09",
+      "decision": "REWORK",
+      "learnerLabel": "REWORK",
+      "reviewedAt": "2026-09-24T18:49:00Z",
+      "evidenceRefs": [
+        "source:public/assets/catalog-candidates/cpu/decor-11-w09-v6-b-literal-vanity-mirror-stool-original.png",
+        "generation:a6b819842c"
+      ],
+      "reasonCodes": [
+        "TWO_VARIANT_SPLIT_COMPOSITION",
+        "NO_SINGLE_VANITY_SET",
+        "STOOL_IDENTITY_FAILURE",
+        "MIRROR_REFLECTION_MALFORMATION"
+      ],
+      "reason": "REWORK fail-fast from exact source pixels. Decor11 v6 contains two side-by-side vanity variants rather than one isolated set. A clearly separate matching stool is not present, and the mirror interiors contain malformed chair/form reflections. Preserve this exact hash. Next version must show one vanity only, one mirror only, and one unmistakable padded stool physically separated in front on a blank background.",
+      "checks": {
+        "identity": "FAIL",
+        "silhouette": "FAIL",
+        "cardReadability": "FAIL",
+        "physicalConstruction": "PARTIAL",
+        "framingComposition": "FAIL",
+        "materialLighting": "PASS",
+        "originality": "PASS",
+        "duplicateVisual": "PASS",
+        "technicalIntegrity": "PASS"
+      }
     }
   ],
   "currentReplacementDisposition": {
@@ -1071,7 +1110,7 @@
         "decor-12": "0926a84e4b1e47ce58b5335e3cc655c77fb67d07"
       },
       "REWORK": {
-        "decor-11": "2c122deee959671e20520bd9f4eb3d7e0da02949",
+        "decor-11": "61def289ba05f48b56c29d3eaa2d38a4a4b0899a",
         "decor-12": "72655049c8c0c488f56c80916ed7213e62d7e374"
       }
     }
@@ -1085,13 +1124,13 @@
     "reworkNow": [
       "decor-11"
     ],
-    "preservedAcceptedHashes": "All prior reviewer ACCEPTs remain frozen; these REWORK verdicts apply only to the current exact six-pack hashes assigned to this reviewer."
+    "preservedAcceptedHashes": "All prior reviewer02 ACCEPTs remain frozen; Decor11 v6 exact hash is fail-fast REWORK."
   },
   "handoff": {
     "13": "Wall9 v8 REWORK; preserve exact hash and use only the failure-specific next prompt.",
     "14": "Current packets consumed; do not rerender unchanged hashes.",
-    "15": "decor-11 remain bounded exact-pixel release blockers; use only the failure-specific next prompts.",
-    "09": "decor-11 current exact hash is REWORK; preserve it and generate only the failure-specific next version if director15 keeps it release-critical.",
-    "08": "Do not canonical-wire decor-11 current exact hashes."
+    "15": "Decor11 remains release-blocking; use the already-prepared stool-first fallback.",
+    "09": "Freeze Decor11 v6 REWORK and advance only a new-version stool-first fallback.",
+    "08": "Do not canonical-wire Decor11 v6."
   }
 }
