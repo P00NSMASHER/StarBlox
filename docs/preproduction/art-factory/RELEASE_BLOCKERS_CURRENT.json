@@ -3,7 +3,7 @@
   "kind": "STARBLOX_RELEASE_ART_BLOCKER_LEDGER",
   "branch": "screenshot-match-preproduction",
   "source": {
-    "computedAtHead": "9a0141dec2c67ba4aec374f2107fcab120d235ef",
+    "computedAtHead": "d982ce01e10b987a362678a9bfd36676c7953541",
     "manifest": {
       "version": 40,
       "finalCount": 176,
@@ -32,9 +32,9 @@
       "name": "Art Maker Table",
       "producer": "03",
       "reviewer": "05",
-      "state": "PENDING_CPU_SUCCESSOR",
-      "activeQueue": "w03-release-tail-4pack-v6",
-      "generationRunId": 36045301731,
+      "state": "PENDING_TOKEN_SAFE_CPU_SUCCESSOR",
+      "activeQueue": "w03-release-tail-4pack-v6-token-safe",
+      "generationRunId": 36046167977,
       "latestEvidence": {
         "version": "v4",
         "gitBlobSha": "b9a6d922e38d03c08298577a0f46c71dfb28bd66",
@@ -47,9 +47,9 @@
       "name": "Neon Streaming Desk",
       "producer": "03",
       "reviewer": "05",
-      "state": "PENDING_CPU_SUCCESSOR",
-      "activeQueue": "w03-release-tail-4pack-v6",
-      "generationRunId": 36045301731,
+      "state": "PENDING_TOKEN_SAFE_CPU_SUCCESSOR",
+      "activeQueue": "w03-release-tail-4pack-v6-token-safe",
+      "generationRunId": 36046167977,
       "latestEvidence": {
         "version": "v7",
         "gitBlobSha": "4af5225c536dff0a25c12f0f5e4066c39ad33322",
@@ -62,9 +62,9 @@
       "name": "Dream Creator Station",
       "producer": "03",
       "reviewer": "01",
-      "state": "PENDING_CPU_SUCCESSOR",
-      "activeQueue": "w03-release-tail-4pack-v6",
-      "generationRunId": 36045301731,
+      "state": "PENDING_TOKEN_SAFE_CPU_SUCCESSOR",
+      "activeQueue": "w03-release-tail-4pack-v6-token-safe",
+      "generationRunId": 36046167977,
       "latestEvidence": {
         "version": "v5",
         "gitBlobSha": "31216c600b99791b15e9bd92079dd70241ca53bf",
@@ -121,9 +121,9 @@
       "name": "Mini Aquarium",
       "producer": "03",
       "reviewer": "11",
-      "state": "PENDING_CPU_SUCCESSOR",
-      "activeQueue": "w03-release-tail-4pack-v6",
-      "generationRunId": 36045301731,
+      "state": "PENDING_TOKEN_SAFE_CPU_SUCCESSOR",
+      "activeQueue": "w03-release-tail-4pack-v6-token-safe",
+      "generationRunId": 36046167977,
       "latestEvidence": {
         "version": "v4",
         "gitBlobSha": "84aebabc0c5653fbd551badab28dff9873574edd",
@@ -136,16 +136,16 @@
       "name": "Dream Vanity Set",
       "producer": "09",
       "reviewer": "02",
-      "state": "GENERATION_IN_PROGRESS",
-      "preparedQueue": "w09-release-tail-2pack-v6",
+      "state": "PREPARED_TOKEN_SAFE_AFTER_TECHNICAL_FAILURE",
+      "preparedQueue": "w09-decor11-v7-token-safe",
       "latestEvidence": {
         "version": "v6",
         "gitBlobSha": "61def289ba05f48b56c29d3eaa2d38a4a4b0899a",
         "sha256": "2ebcd1c5e2c858a7203e54791ef02ddfe32e1fd49b1b06d1ad0ec639b8dffeda"
       },
-      "nextRepair": "v7 stool-first vanity in consolidated W09 run.",
-      "activeQueue": "w09-release-tail-2pack-v7",
-      "generationRunId": 36044194444
+      "nextRepair": "v7 token-safe: one vanity, one oval mirror, one padded stool; current W09 v7 attempt produced no bytes because compiled prompt was 81 > 77 tokens.",
+      "activeQueue": null,
+      "generationRunId": null
     }
   ],
   "parallelWorkPlan": {
@@ -153,21 +153,23 @@
     "currentCpuBatch": {
       "queueId": "w09-release-tail-2pack-v7",
       "items": [
-        "decor-7",
+        "decor-7"
+      ],
+      "technicalFailureItems": [
         "decor-11"
       ],
       "runId": 36044194444,
-      "state": "RUNNING"
+      "state": "RUNNING_DECOR7__DECOR11_NO_BYTES_TOKEN_OVERFLOW"
     },
     "pendingSuccessor": {
-      "queueId": "w03-release-tail-4pack-v6",
+      "queueId": "w03-release-tail-4pack-v6-token-safe",
       "items": [
         "decor-8",
         "desks-9",
         "desks-10",
         "desks-11"
       ],
-      "runId": 36045301731,
+      "runId": 36046167977,
       "state": "PENDING"
     },
     "preparedNext": [
@@ -180,9 +182,17 @@
           "wall-8",
           "wall-9"
         ]
+      },
+      {
+        "rank": 2,
+        "producer": "09",
+        "queuePath": "docs/preproduction/art-factory/prepared-queues/w09-decor11-v7-token-safe.json",
+        "items": [
+          "decor-11"
+        ]
       }
     ],
-    "queuePolicy": "Preserve current running W09 and pending W03. Only after W03 becomes RUNNING and no pending CPU run exists, dispatch packed W13 retry. Do not queue standalone Desk8/Wall8/Wall9 retries."
+    "queuePolicy": "Preserve running W09 and pending token-safe W03. When W03 starts, queue packed W13. After W13 starts, queue token-safe Decor11 if still unresolved; pack with any newer same-producer Decor7 retry only if Decor7 current candidate is REWORK."
   },
   "nonArtReleaseState": {
     "liveFunctionalSmoke": "GREEN",
