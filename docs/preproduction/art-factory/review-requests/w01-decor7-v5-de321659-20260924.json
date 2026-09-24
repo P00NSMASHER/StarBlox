@@ -1,0 +1,84 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_EXACT_HASH_REVIEW_PACKET",
+  "branch": "screenshot-match-preproduction",
+  "createdBy": "14",
+  "rendererEvidenceHead": "70d06b7c24977a95e898312dc32483ec55591dd7",
+  "reviewer": "01",
+  "producer": "09",
+  "item": {
+    "id": "decor-7",
+    "name": "Skate Rack",
+    "collectionId": "decor",
+    "type": "room",
+    "tier": 3,
+    "theme": "Garden Glow"
+  },
+  "exactCandidate": {
+    "path": "public/assets/catalog-candidates/cpu/decor-7-w09-v5-a-one-rack-two-skates-original.png",
+    "sha256": "9e923f8acbdaed41ae3dadf7931cebef3b57b6248c975b7df61cab5cd372ee14",
+    "gitBlobSha": "de321659804198ef24e071a4f0a26a0fca84b09e",
+    "bytes": 485526,
+    "dimensions": [
+      640,
+      640
+    ],
+    "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-decor7-v5-wall9-v4-qualification-20260924.json",
+    "qualification": "QUALIFIED_FOR_RENDERER14"
+  },
+  "renderEvidence": {
+    "workflow": "StarBlox Staged Catalog Art QA",
+    "workflowRunId": 35999264027,
+    "workflowHead": "70d06b7c24977a95e898312dc32483ec55591dd7",
+    "artifactId": 10807675918,
+    "artifactName": "catalog-staged-art-review",
+    "artifactDigest": "sha256:852b60fac8c7b0c290b54f887cd415c1ef828c3ddfe264c67a30c6d4bee997cc",
+    "contactSheetPath": "staged-replacements/staged-replacements-contact-sheet.png",
+    "contactSheetSha256": "db52ccab8b73ac49d2471f42dabf15851a3ec27970ed4a3eb3bdc11e2b0a71e6",
+    "renderStatus": 200,
+    "naturalDimensions": [
+      640,
+      640
+    ],
+    "opaqueFraction": 1,
+    "screenshot": true,
+    "errors": [],
+    "detailPath": "staged-replacements/detail/decor-7-de321659.png",
+    "detailSha256": "f11a611f92dc456192f024b8792b532e31b408040e66431c4389b275c93d59ab",
+    "detailDimensions": [
+      800,
+      800
+    ],
+    "preflightPath": "preflight/decor-7-de321659.json",
+    "preflightSha256": "91ee82ef3125b09ba85e0b9e900ed3e53beecdbe1e25ec34eefb01e65f29b0ad"
+  },
+  "reportOnlyPreflight": {
+    "exactDuplicate": false,
+    "calibratedWarnings": [],
+    "warningReadyFeatureCount": 0,
+    "triggeredWarningCount": 0,
+    "blocking": false,
+    "automaticAccept": false,
+    "automaticRework": false
+  },
+  "decisionContract": {
+    "allowed": [
+      "ACCEPT",
+      "REWORK"
+    ],
+    "exactHashOnly": true,
+    "oldVerdictTransfers": false,
+    "selfReview": false,
+    "requiredJudgments": [
+      "Skate Rack identity with one compact rack structure visually dominant",
+      "whether v5 fixes v4 repeated/loose-skate and support-frame failures",
+      "recognizable contained quad-skate construction",
+      "Garden Glow Tier-3 specificity",
+      "silhouette and small-card readability",
+      "framing/material/depth/lighting quality",
+      "originality/near-duplicate and malformed-object risk"
+    ],
+    "onAccept": "Route exact decor-7 v5 hash to 08 canonical integration.",
+    "onRework": "Preserve exact decor-7 v5 hash/evidence and return smallest failure-specific reason codes to producer09/director15."
+  }
+}
