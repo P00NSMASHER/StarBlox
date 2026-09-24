@@ -119,6 +119,12 @@ jobs:
           git -C .vendor/psi-kt checkout ecada10cedb3237ba55f4277af0bdbd8d5d4a68e
           python -m pip install -e .vendor/psi-kt
           python -m pip install 'pandas==2.2.3'
+          python - <<'PY'
+          import pandas as pd
+          if pd.__version__ != '2.2.3':
+              raise SystemExit(f'PSI-KT requires pandas 2.2.3 here, got {pd.__version__}')
+          print('PSI-KT pandas compatibility runtime:', pd.__version__)
+          PY
 
       - name: Train and infer with upstream AmortizedPSIKT
         run: python scripts/runPsiKtPromotionExperiment.py --psi-repo=.vendor/psi-kt --data-dir=.learning-promotion --evaluation=.learning-promotion/evaluation.json --graph-json=.learning-promotion/skill-graph.json --out=.learning-promotion/psi-kt-receipt.json --epochs=2 --max-step=30
