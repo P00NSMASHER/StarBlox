@@ -1,0 +1,65 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_W12_CANDIDATE_DELTA_INTAKE_ROUTING",
+  "router": "12",
+  "branch": "screenshot-match-preproduction",
+  "observedHead": "5f5004b19e3347bcc9420a0b66dcc0cf404613cb",
+  "scanWindow": {
+    "priorCursor": "50c1daeee811ceccc2390911564d15a20e8172d8",
+    "inspectedThroughHead": "5f5004b19e3347bcc9420a0b66dcc0cf404613cb",
+    "commitsInspectedFromCompare": 5,
+    "newCatalogCandidateBytesDetected": true,
+    "newCandidateItemIds": [
+      "wall-9"
+    ],
+    "note": "Full post-v19 cursor delta inspected. Wall9 v3 exact PNG is the only genuinely new catalog candidate image. Other commits in the window are qualification/intake/render-handoff metadata."
+  },
+  "candidates": [
+    {
+      "id": "wall-9",
+      "name": "Art Gallery Wall",
+      "collectionId": "wall",
+      "producer": "13",
+      "reviewerAssignment": "02",
+      "renderOwner": "14",
+      "canonicalWriter": "08",
+      "priorRejectedHash": {
+        "path": "public/assets/catalog-candidates/cpu/wall-9-w13-v2-a-backboard-gallery-original.png",
+        "gitBlobSha": "00e551de0596b83977d16400fe782d1506b28e8a"
+      },
+      "path": "public/assets/catalog-candidates/cpu/wall-9-w13-v3-a-frames-dominant-original.png",
+      "sha256": "ca5b84d2d4dffd25050e9629fffec427a4c4b437328ac68acbc7fbca0fa627e5",
+      "gitBlobSha": "e0be4534bc3b379f1e39556be5d05eb38726220e",
+      "bytes": 561771,
+      "dimensions": [
+        640,
+        640
+      ],
+      "format": "PNG",
+      "stagedOutput": "docs/preproduction/art-factory/generated-evidence/w13-wall-9-v3-rework/wall-9/staged-output.json",
+      "generationReceipt": "docs/preproduction/art-factory/generated-evidence/w13-wall-9-v3-rework/wall-9/generation-receipt.json",
+      "provenanceState": "COMPLETE_ART_FACTORY_V2",
+      "repositoryReadback": "PASS_EXACT_GIT_BLOB",
+      "supersession": "FRESH_V3_REPLACEMENT_FOR_INDEPENDENTLY_REWORKED_V2",
+      "state": "ROUTE_TO_06_TECHNICAL_QUALIFICATION"
+    }
+  ],
+  "dedupe": {
+    "uniqueItemHashClaim": true,
+    "unchangedPriorWall9HashesRerouted": false,
+    "newerPendingWall9CandidateObserved": false,
+    "decor5_8ReroutedAgain": false
+  },
+  "queues": {
+    "to06": [
+      "wall-9@ca5b84d2d4dffd25050e9629fffec427a4c4b437328ac68acbc7fbca0fa627e5"
+    ],
+    "backToProducer": []
+  },
+  "cursorAdvance": {
+    "previous": "50c1daeee811ceccc2390911564d15a20e8172d8",
+    "advancedThrough": "5f5004b19e3347bcc9420a0b66dcc0cf404613cb"
+  },
+  "nextOwner": "06_TECHNICAL_QUALIFICATION",
+  "mutationScope": "Routing evidence only; no candidate bytes, ACTIVE_BATCH, canonical mappings, reviewer decisions, gameplay, learning, economy, persistence, accessibility, CI/workflows, deployment, secrets, or player data changed."
+}
