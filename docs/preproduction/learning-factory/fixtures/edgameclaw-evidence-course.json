@@ -1,21 +1,39 @@
 {
-  "course":{
-    "id":"starblox-vocabulary-evidence",
-    "title":"StarBlox Vocabulary Evidence Fixture"
+  "course": {
+    "id": "starblox-vocabulary-evidence",
+    "title": "StarBlox Vocabulary Evidence Fixture"
   },
-  "chunks":[
+  "chunks": [
     {
-      "id":"culture",
-      "title":"What culture can include",
-      "content":"Culture includes shared traditions, food, music, stories, and ways of life.",
-      "mechanic":"multiple_choice",
-      "simulationHint":"Choose examples that belong to a shared culture.",
-      "evidenceSpans":[
+      "id": "culture",
+      "title": "What culture can include",
+      "content": "Culture includes shared traditions, food, music, stories, and ways of life.",
+      "mechanic": "multiple_choice",
+      "simulationHint": "Choose examples that belong to a shared culture.",
+      "evidenceSpans": [
         {
-          "sourceId":"current-week-vocabulary",
-          "text":"traditions, foods, music, stories, and ways of life shared by a group"
+          "sourceId": "current-week-vocabulary",
+          "text": "traditions, foods, music, stories, and ways of life shared by a group"
         }
-      ]
+      ],
+      "assessment": {
+        "subject": "Reading",
+        "district": "Wordwood Garden",
+        "skill": "vocabulary",
+        "role": "practice",
+        "prompt": "Which word means traditions, foods, music, stories, and shared ways of life?",
+        "choices": [
+          "culture",
+          "aside",
+          "plead"
+        ],
+        "answer": "culture",
+        "explanation": "Culture is the matching vocabulary word.",
+        "hint": "Think about shared traditions and ways of life.",
+        "difficulty": 2,
+        "reward": 8,
+        "masteryEligible": true
+      }
     }
   ]
 }
