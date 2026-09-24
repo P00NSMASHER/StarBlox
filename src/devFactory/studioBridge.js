@@ -143,13 +143,45 @@ export class StudioBridgeQueue {
   }
 }
 
+const DEFAULT_TARGETS=Object.freeze({
+  playtest_sample_state:'server',
+  run_gameplay_assertions:'server',
+  simulate_input:'client',
+  capture_viewport:'client'
+});
+
 export function createStudioHttpAdapter({
   baseUrl='http://127.0.0.1:38473',
   instanceId='default',
-  token=''
+  token='',
+  supportedTools=studioToolNames(),
+  targets=DEFAULT_TARGETS
 }={}){
   const root=String(baseUrl).replace(/\/$/,'');
-  const supported=new Set(studioToolNames());
+  const known=new Set(studioToolNames());
+
+  if(!Array.isArray(supportedTools)){
+    throw new TypeError('supportedTools must be an array');
+  }
+  for(const tool of supportedTools){
+    if(!known.has(tool)){
+      throw new TypeError('unknown supported Studio tool: ' + tool);
+    }
+  }
+
+  if(!targets || typeof targets !== 'object' || Array.isArray(targets)){
+    throw new TypeError('targets must be an object');
+  }
+  for(const [tool,target] of Object.entries(targets)){
+    if(!known.has(tool)){
+      throw new TypeError('target mapping references unknown Studio tool: ' + tool);
+    }
+    if(!['edit','server','client','any'].includes(target)){
+      throw new TypeError('invalid Studio target mapping: ' + String(target));
+    }
+  }
+
+  const supported=new Set(supportedTools);
 
   return {
     has(tool){
@@ -157,13 +189,16 @@ export function createStudioHttpAdapter({
     },
     async call(tool,args={}){
       if(!supported.has(tool)) throw new Error('unknown Studio tool: ' + tool);
+
       const headers={'content-type':'application/json'};
       if(token) headers['x-starblox-bridge-token']=token;
-      const explicitTarget =
+
+      const explicitTarget=
         typeof args?.target === 'string' && ['edit','server','client','any'].includes(args.target)
           ? args.target
           : null;
-      const target=explicitTarget || targets?.[tool] || 'edit';
+      const target=explicitTarget || targets[tool] || 'edit';
+
       const response=await fetch(root + '/call',{
         method:'POST',
         headers,
@@ -177,3 +212,4 @@ export function createStudioHttpAdapter({
     }
   };
 }
+
