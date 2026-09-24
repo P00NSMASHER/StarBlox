@@ -1,0 +1,112 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_GENERATION_RECEIPT",
+  "repository": "P00NSMASHER/StarBlox",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "d982ce01e10b987a362678a9bfd36676c7953541",
+  "sourcePlanSha256": "5dbca536b685403d1b312d2d58e057ea80e8ba66ac10d7b87728126ce1720402",
+  "executionCheckout": {
+    "branch": "screenshot-match-preproduction",
+    "head": "d982ce01e10b987a362678a9bfd36676c7953541",
+    "planSourceHeadMatchesExecutionHead": true
+  },
+  "attempt": {
+    "attemptId": "decor-8-w03-b-single-blue-aquarium-c80da43f50",
+    "itemId": "decor-8",
+    "producer": "03",
+    "variant": "B-SINGLE-BLUE-AQUARIUM",
+    "promptSha256": "c80da43f50dd5e6da597eb78114f361243da16b18e8b9b1267ba4de03309cafa",
+    "runtimePromptSha256": "e5ace9a828f2c0c402ad5fccd72e6295ac209f19450cbe4f973a34f57cce0827",
+    "runtimeNegativePromptSha256": "3e57791300db42b57e6090c32d96d8d6008126b4ecb7b6c3b96d348e42b1f79a",
+    "promptRecipeVersion": "artPromptOptimizer-request-v1:w03-release-tail-4pack-v6",
+    "seed": 57181779
+  },
+  "runtime": {
+    "repo": "huggingface/diffusers",
+    "commit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "resolvedCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "runtimeCommitVerified": true,
+    "diffusersVersion": "0.41.0.dev0",
+    "diffusersInstallSource": "https://github.com/huggingface/diffusers.git",
+    "torchVersion": "2.8.0+cpu",
+    "transformersVersion": "5.17.0",
+    "accelerateVersion": "1.15.0",
+    "huggingfaceHubVersion": "1.33.0",
+    "safetensorsVersion": "0.8.0",
+    "pythonPillowVersion": "12.3.0",
+    "device": "cpu",
+    "dtype": "float32",
+    "executionMode": "cpu-fallback"
+  },
+  "model": {
+    "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+    "revision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS",
+    "resolvedRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "snapshotRevisionVerified": true,
+    "selectiveSnapshot": true,
+    "snapshotAllowPatterns": [
+      "model_index.json",
+      "scheduler/*",
+      "tokenizer/*",
+      "tokenizer_2/*",
+      "feature_extractor/*",
+      "text_encoder/config.json",
+      "text_encoder/model.fp16.safetensors",
+      "text_encoder_2/config.json",
+      "text_encoder_2/model.fp16.safetensors",
+      "unet/config.json",
+      "unet/diffusion_pytorch_model.fp16.safetensors",
+      "vae/config.json",
+      "vae/diffusion_pytorch_model.fp16.safetensors"
+    ]
+  },
+  "conditioning": {
+    "referenceAssetSha256": null,
+    "controlImageSha256": null,
+    "adapterScale": null,
+    "referenceImage": null,
+    "ipAdapterModelId": null,
+    "ipAdapterRevision": null,
+    "ipAdapterResolvedRevision": null,
+    "ipAdapterRevisionVerified": false,
+    "ipAdapterWeightName": null,
+    "ipAdapterSubfolder": null
+  },
+  "generation": {
+    "width": 640,
+    "height": 640,
+    "numInferenceSteps": 10,
+    "guidanceScale": 4.5,
+    "runtimePromptTokenCounts": {
+      "tokenizer": 63,
+      "tokenizer_2": 63
+    },
+    "runtimeNegativePromptTokenCounts": {
+      "tokenizer": 34,
+      "tokenizer_2": 34
+    },
+    "executedSeed": 57181779
+  },
+  "output": {
+    "repoPath": "public/assets/catalog-candidates/cpu/decor-8-w03-v6-b-single-blue-aquarium-original.png",
+    "sha256": "6dc3461b2f904114f6a88dc478701179bd476190b3494737c8cc15a38461748e",
+    "gitBlobSha": "77d5cb5e24a47b415c97df832b6a80d41505c8ca",
+    "bytes": 672691,
+    "width": 640,
+    "height": 640,
+    "format": "PNG",
+    "sourceBytesPreserved": true,
+    "reusedExistingIdenticalBytes": false
+  },
+  "safety": {
+    "canonicalArtModified": false,
+    "gameplayModified": false,
+    "reviewDecisionMade": false,
+    "deploymentPerformed": false,
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+  },
+  "nextGate": "RUN_VERIFY_STAGED_OUTPUT_THEN_REAL_RENDER_AND_INDEPENDENT_EXACT_HASH_REVIEW",
+  "status": "GENERATED_SOURCE_BYTES_UNVERIFIED",
+  "recordSha256": "9a0d4fa17070b0314e3129a9de51d69b3cdcd9b6c6360c411bf04b29de29061d"
+}
