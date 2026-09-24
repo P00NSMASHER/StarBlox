@@ -163,9 +163,9 @@ export function normalizeGeneratedCandidate(raw,{
   const prompt=normalizeText(raw.prompt ?? raw.query);
   if(!prompt) return null;
 
-  const candidateId=typeof raw.candidateId === 'string' && raw.candidateId.trim()
-    ? raw.candidateId.trim()
-    : generatedId(normalizedChunk.id,prompt,index);
+  // Candidate identity is factory-owned. Provider-supplied IDs are untrusted
+  // because duplicate IDs can collapse independent reviewer results.
+  const candidateId=generatedId(normalizedChunk.id,prompt,index);
 
   const choices=Array.isArray(raw.choices)
     ? raw.choices.map(normalizeText).filter(Boolean)
@@ -241,13 +241,20 @@ export async function runOfflineGeneration({
   requirePositiveInteger(maxRetries,'maxRetries');
   validateCheckpoint(checkpoint,cleanRunId);
 
+  const normalizedChunks=chunks.map((chunk,index) => normalizeChunk(chunk,index));
+  const chunkIds=new Set();
+  for(const chunk of normalizedChunks){
+    if(chunkIds.has(chunk.id)) throw new Error('duplicate source chunk id: ' + chunk.id);
+    chunkIds.add(chunk.id);
+  }
+
   const processed=new Set(checkpoint.processedChunkIds || []);
   const candidates=[...(checkpoint.candidates || []).map(value => clone(value))];
   const errors=[...(checkpoint.errors || []).map(value => clone(value))];
   const processedChunkIds=[...(checkpoint.processedChunkIds || [])];
 
-  for(let chunkIndex=0;chunkIndex<chunks.length;chunkIndex++){
-    const chunk=normalizeChunk(chunks[chunkIndex],chunkIndex);
+  for(let chunkIndex=0;chunkIndex<normalizedChunks.length;chunkIndex++){
+    const chunk=normalizedChunks[chunkIndex];
     if(processed.has(chunk.id)) continue;
 
     const request=buildGenerationRequest(chunk,{questionsPerChunk});
