@@ -119,7 +119,7 @@ describe('StarBlox upstream implementation provenance', () => {
   it('pins every planned source to an immutable full commit SHA', () => {
     const entries = upstreamSourceList();
 
-    expect(entries.length).toBeGreaterThanOrEqual(89);
+    expect(entries.length).toBeGreaterThanOrEqual(93);
     expect(entries.every(entry => /^[a-f0-9]{40}$/.test(entry.commit))).toBe(true);
     expect(entries.every(entry => entry.reuseBasis === 'user-confirmed direct reuse rights')).toBe(true);
   });
@@ -188,6 +188,10 @@ describe('StarBlox upstream implementation provenance', () => {
     expect(UPSTREAM_PROVENANCE.rbxDomBinary.path).toBe('rbx_binary/src/lib.rs');
     expect(UPSTREAM_PROVENANCE.rbxDomXml.path).toBe('rbx_xml/src/lib.rs');
     expect(UPSTREAM_PROVENANCE.rbxDomViewer.path).toBe('rbx_dom_weak/src/viewer.rs');
+    expect(UPSTREAM_PROVENANCE.robloxMissionsPackage.path).toBe('content/en-us/resources/feature-packages/missions.md');
+    expect(UPSTREAM_PROVENANCE.robloxSeasonPassesPackage.path).toBe('content/en-us/resources/feature-packages/season-passes.md');
+    expect(UPSTREAM_PROVENANCE.robloxEngagementRewardsPackage.path).toBe('content/en-us/resources/feature-packages/engagement-rewards.md');
+    expect(UPSTREAM_PROVENANCE.robloxBundlesPackage.path).toBe('content/en-us/resources/feature-packages/bundles.md');
     expect(UPSTREAM_PROVENANCE.remodelExtractModels.path).toBe('examples/02-extract-models.lua');
     expect(UPSTREAM_PROVENANCE.bloxForgeMutationPlan.path).toBe('packages/core/src/builders/mutation-plan.ts');
     expect(UPSTREAM_PROVENANCE.bloxForgeGameplayAssertions.path).toBe('packages/core/src/builders/gameplay-assertions.ts');
