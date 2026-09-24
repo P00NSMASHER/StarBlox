@@ -5,7 +5,7 @@ import {
   verifyRobloxMigrationPlan
 } from '../robloxMigration/migrationPlanner.js';
 import {
-  verifyMigrationBundleManifest
+  verifyMigrationBundleAgainstPlan
 } from '../robloxMigration/migrationBundle.js';
 import {
   generateCertifiedQuestLevel,
@@ -294,7 +294,7 @@ function developmentSummary(run){
   };
 }
 
-function migrationSummary(bundle,plan){
+function migrationSummary(bundle,plan,planBindingHash=null){
   if(!bundle){
     return {
       status:plan.migration.selectedCount ? 'not_staged' : 'not_required',
@@ -303,7 +303,9 @@ function migrationSummary(bundle,plan){
       exportedUnits:0,
       requiresHumanReview:false,
       liveActivationAllowed:false,
-      reasons:[]
+      reasons:[],
+      selectedUnitIds:clone(plan.migration.selectedUnitIds || []),
+      planBindingHash:null
     };
   }
   return {
@@ -313,7 +315,9 @@ function migrationSummary(bundle,plan){
     exportedUnits:bundle.summary?.exportedUnits ?? 0,
     requiresHumanReview:Boolean(bundle.review?.requiresHumanReview),
     liveActivationAllowed:false,
-    reasons:clone(bundle.review?.reasons || [])
+    reasons:clone(bundle.review?.reasons || []),
+    selectedUnitIds:clone(plan.migration.selectedUnitIds || []),
+    planBindingHash
   };
 }
 
@@ -337,6 +341,7 @@ export async function runContentExpansionPipeline({
   let nextBank=bank;
 
   let migrationBundle=null;
+  let migrationBindingHash=null;
   if(plan.migration.selectedCount > 0){
     if(!migrationStage || typeof migrationStage.stage !== 'function'){
       blockers.push('selected migration systems have not been staged');
@@ -347,13 +352,19 @@ export async function runContentExpansionPipeline({
           plan:plan.migrationPlan,
           catalog
         });
-        const validation=verifyMigrationBundleManifest(migrationBundle);
+        const validation=verifyMigrationBundleAgainstPlan(
+          migrationBundle,
+          plan.migrationPlan
+        );
         if(!validation.ok){
-          blockers.push('migration staging manifest invalid: ' + validation.errors[0]);
+          blockers.push('migration staging/plan binding invalid: ' + validation.errors[0]);
           migrationBundle=null;
-        }else if(migrationBundle.review?.liveActivationAllowed !== false){
+        }else{
+          migrationBindingHash=validation.bindingHash;
+        }
+        if(migrationBundle && migrationBundle.review?.liveActivationAllowed !== false){
           blockers.push('migration staging attempted live activation');
-        }else if(migrationBundle.review?.requiresHumanReview){
+        }else if(migrationBundle && migrationBundle.review?.requiresHumanReview){
           blockers.push('migration staging contains unresolved human-review items');
         }
       }catch(error){
@@ -467,7 +478,7 @@ export async function runContentExpansionPipeline({
     blockers.push('Studio build/playtest verification has not been executed');
   }
 
-  const migration=migrationSummary(migrationBundle,plan);
+  const migration=migrationSummary(migrationBundle,plan,migrationBindingHash);
   const development=developmentSummary(developmentRun);
 
   const questionEvidence=deepFreeze({
@@ -551,6 +562,23 @@ export function verifyContentExpansionArtifact(artifact){
   }
   if(artifact.migration?.liveActivationAllowed !== false){
     errors.push('migration evidence is not staging-only');
+  }
+  if(
+    artifact.migration?.status === 'staged' &&
+    !/^fnv1a32:[a-f0-9]{8}$/.test(String(artifact.migration?.planBindingHash || ''))
+  ){
+    errors.push('staged migration is missing exact plan-binding proof');
+  }
+
+  const blueprintUnitIds=(artifact.blueprint?.selectedSystems || [])
+    .map(item => item?.unitId)
+    .filter(Boolean)
+    .sort();
+  const migrationUnitIds=Array.isArray(artifact.migration?.selectedUnitIds)
+    ? [...artifact.migration.selectedUnitIds].sort()
+    : [];
+  if(JSON.stringify(blueprintUnitIds) !== JSON.stringify(migrationUnitIds)){
+    errors.push('migration selected units do not match district blueprint systems');
   }
 
   if(artifact.review?.readyForHumanReview === true){
