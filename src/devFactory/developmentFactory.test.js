@@ -707,7 +707,10 @@ describe('Step 2: AI development factory', () => {
       task:{id:'repair-1',request:'Implement feature with repair loop'},
       studio,
       agents,
-      repositoryGate:{run:async () => ({ok:true})},
+      repositoryGate:{run:async () => ({
+        ok:true,
+        gates:{tests:true,certification:true,balance:true,build:true}
+      })},
       startedAt:'2026-09-24T13:31:00Z',
       config:{maxRepairCycles:2}
     });
@@ -748,7 +751,10 @@ describe('Step 2: AI development factory', () => {
           findings:['Does not meet product requirements']
         })
       },
-      repositoryGate:{run:async () => ({ok:true})},
+      repositoryGate:{run:async () => ({
+        ok:true,
+        gates:{tests:true,certification:true,balance:true,build:true}
+      })},
       startedAt:'2026-09-24T13:32:00Z'
     });
 
@@ -794,7 +800,10 @@ describe('Step 2: AI development factory', () => {
           findings:verification.errors
         })
       },
-      repositoryGate:{run:async () => ({ok:true})},
+      repositoryGate:{run:async () => ({
+        ok:true,
+        gates:{tests:true,certification:true,balance:true,build:true}
+      })},
       startedAt:'2026-09-24T13:33:00Z'
     });
 
@@ -829,7 +838,10 @@ describe('Step 2: AI development factory', () => {
           findings:verification.errors
         })
       },
-      repositoryGate:{run:async () => ({ok:true})},
+      repositoryGate:{run:async () => ({
+        ok:true,
+        gates:{tests:true,certification:true,balance:true,build:true}
+      })},
       startedAt:'2026-09-24T13:35:00Z'
     });
 
@@ -865,7 +877,10 @@ describe('Step 2: AI development factory', () => {
           findings:verification.errors
         })
       },
-      repositoryGate:{run:async () => ({ok:true})},
+      repositoryGate:{run:async () => ({
+        ok:true,
+        gates:{tests:true,certification:true,balance:true,build:true}
+      })},
       startedAt:'2026-09-24T13:36:00Z'
     });
 
@@ -909,7 +924,10 @@ describe('Step 2: AI development factory', () => {
           findings:verification.errors
         })
       },
-      repositoryGate:{run:async () => ({ok:true})},
+      repositoryGate:{run:async () => ({
+        ok:true,
+        gates:{tests:true,certification:true,balance:true,build:true}
+      })},
       startedAt:'2026-09-24T13:36:30Z'
     });
 
@@ -946,7 +964,10 @@ describe('Step 2: AI development factory', () => {
           ]
         })
       },
-      repositoryGate:{run:async () => ({ok:true})},
+      repositoryGate:{run:async () => ({
+        ok:true,
+        gates:{tests:true,certification:true,balance:true,build:true}
+      })},
       startedAt:'2026-09-24T13:37:00Z',
       config:{maxRepairCycles:2,maxTotalMutationCalls:3}
     });
@@ -1000,7 +1021,10 @@ describe('Step 2: AI development factory', () => {
           };
         }
       },
-      repositoryGate:{run:async () => ({ok:true})},
+      repositoryGate:{run:async () => ({
+        ok:true,
+        gates:{tests:true,certification:true,balance:true,build:true}
+      })},
       startedAt:'2026-09-24T13:34:00Z',
       config:{maxRepairCycles:1}
     });
