@@ -119,7 +119,7 @@ describe('StarBlox upstream implementation provenance', () => {
   it('pins every planned source to an immutable full commit SHA', () => {
     const entries = upstreamSourceList();
 
-    expect(entries.length).toBeGreaterThanOrEqual(51);
+    expect(entries.length).toBeGreaterThanOrEqual(57);
     expect(entries.every(entry => /^[a-f0-9]{40}$/.test(entry.commit))).toBe(true);
     expect(entries.every(entry => entry.reuseBasis === 'user-confirmed direct reuse rights')).toBe(true);
   });
@@ -166,5 +166,11 @@ describe('StarBlox upstream implementation provenance', () => {
     expect(UPSTREAM_PROVENANCE.sabeoScheduleRoute.path).toBe('src/app/api/schedule-daily-challenge/route.ts');
     expect(UPSTREAM_PROVENANCE.sabeoStartRoute.path).toBe('src/app/api/start-challenge/route.ts');
     expect(UPSTREAM_PROVENANCE.sabeoStartDomain.path).toBe('src/domain/challenge/start-challenge.ts');
+    expect(UPSTREAM_PROVENANCE.sentrySafeRollout.path).toBe('src/sentry/utils/rollout.py');
+    expect(UPSTREAM_PROVENANCE.sentryKillSwitches.path).toBe('src/sentry/killswitches.py');
+    expect(UPSTREAM_PROVENANCE.sentryTemporaryFeatures.path).toBe('src/sentry/features/temporary.py');
+    expect(UPSTREAM_PROVENANCE.neonReplayReconstruct.path).toBe('src/game/replayReconstruct.ts');
+    expect(UPSTREAM_PROVENANCE.neonDossierShare.path).toBe('src/DossierShare.tsx');
+    expect(UPSTREAM_PROVENANCE.neonDossierArtifact.path).toBe('src/game/dossier.ts');
   });
 });
