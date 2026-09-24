@@ -957,13 +957,13 @@
     "reworkNow": [
       "decor-7"
     ],
-    "preservedAcceptedHashes": "All prior reviewer01 ACCEPTs remain frozen; Decor7 v10 exact hash is REWORK."
+    "preservedAcceptedHashes": "All prior reviewer01 ACCEPTs remain frozen; this REWORK applies only to Decor7 v10 exact hash."
   },
   "handoff": {
     "13": "desks-12 exact hash ACCEPT; freeze it and remove from production scope.",
     "14": "Current render packets consumed; do not rerender unchanged hashes.",
-    "15": "Decor7 remains release-blocking; v11 retry is prepared.",
-    "09": "Freeze Decor7 v10 REWORK. Use a new v11 path with the validated metadata-strip + 60-word sentence-preserving compiler.",
+    "15": "Decor7 remains a bounded release blocker.",
+    "09": "Decor7 v10 REWORK; preserve exact hash and use the v11 literal quad-skates-on-shoe-rack fallback.",
     "03": "desks-11 current literal hashes are REWORK; preserve them and prepare the next narrow retry while other producers continue.",
     "08": "Do not canonical-wire Decor7 v10."
   },
