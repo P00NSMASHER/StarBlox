@@ -1,5 +1,6 @@
 
 import { describe,expect,it } from 'vitest';
+import { stableHash } from '../domainSchemas.js';
 import { buildRobloxCapabilityCatalog } from '../robloxCatalog/capabilityCatalog.js';
 import {
   buildRobloxMigrationPlan,
@@ -7,9 +8,27 @@ import {
 } from './migrationPlanner.js';
 import {
   buildMigrationBundleManifest,
+  verifyMigrationBundleAgainstPlan,
   verifyMigrationBundleManifest
 } from './migrationBundle.js';
 import { migrationPlanMarkdown } from './migrationReport.js';
+
+function rehashBundleManifest(manifest){
+  const payload={
+    schemaVersion:manifest.schemaVersion,
+    bundleVersion:manifest.bundleVersion,
+    planId:manifest.planId,
+    planHash:manifest.planHash,
+    catalogHash:manifest.catalogHash,
+    summary:manifest.summary,
+    artifacts:manifest.artifacts,
+    review:manifest.review
+  };
+  const hash=stableHash(payload);
+  manifest.bundleHash=hash;
+  manifest.bundleId='roblox-migration-bundle-' + hash.split(':')[1];
+  return manifest;
+}
 
 function catalog(){
   const dom={
@@ -218,6 +237,9 @@ describe('Step 5: migration bundle integrity', () => {
 
     const manifest=buildMigrationBundleManifest(plan,artifacts);
     expect(verifyMigrationBundleManifest(manifest)).toEqual({ok:true,errors:[]});
+    const binding=verifyMigrationBundleAgainstPlan(manifest,plan);
+    expect(binding.ok).toBe(true);
+    expect(binding.bindingHash).toMatch(/^fnv1a32:[a-f0-9]{8}$/);
     expect(manifest.review.complete).toBe(true);
     expect(manifest.review.liveActivationAllowed).toBe(false);
     expect(manifest.review.requiresHumanReview).toBe(true);
@@ -253,6 +275,29 @@ describe('Step 5: migration bundle integrity', () => {
       sha256:'a'.repeat(64),
       bytes:10
     }])).toThrow(/disposition/);
+  });
+
+  it('rejects a self-consistent manifest that drifts from the exact migration plan', () => {
+    const plan=buildRobloxMigrationPlan(catalog(),{minEngineeringLeverageScore:0});
+    const artifacts=plan.units
+      .filter(unit => unit.selected)
+      .map((unit,index) => ({
+        unitId:unit.unitId,
+        disposition:unit.exportDisposition,
+        file:'staging/unit-' + index + '.rbxmx',
+        sha256:String(index + 1).padStart(64,'a').slice(-64),
+        bytes:100 + index
+      }));
+    const manifest=JSON.parse(JSON.stringify(buildMigrationBundleManifest(plan,artifacts)));
+
+    manifest.artifacts[0].sourceRootPath='DataModel/ForgedRoot';
+    rehashBundleManifest(manifest);
+
+    expect(verifyMigrationBundleManifest(manifest)).toEqual({ok:true,errors:[]});
+    const bound=verifyMigrationBundleAgainstPlan(manifest,plan);
+    expect(bound.ok).toBe(false);
+    expect(bound.errors.join(' ')).toMatch(/sourceRootPath/);
+    expect(bound.bindingHash).toBeNull();
   });
 
   it('detects bundle manifest tampering', () => {
