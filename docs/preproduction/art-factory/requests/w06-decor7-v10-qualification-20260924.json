@@ -1,0 +1,80 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_TECHNICAL_QUALIFICATION_MICROBATCH",
+  "role": "06-single-technical-qualification-gate",
+  "branch": "screenshot-match-preproduction",
+  "observedHead": "ba77eb78451e2f0a8734a2676b0672bc8ff15fe7",
+  "intakeEvidence": "docs/preproduction/art-factory/generated-evidence/w09-release-tail-2pack-v6/decor-7/staged-output.json",
+  "manifestVersion": 40,
+  "items": [
+    {
+      "item": {
+        "id": "decor-7",
+        "name": "Skate Rack",
+        "collectionId": "decor",
+        "type": "room",
+        "tier": 3,
+        "theme": "Garden Glow"
+      },
+      "candidate": {
+        "producer": "09",
+        "reviewer": "01",
+        "renderOwner": "14",
+        "canonicalWriter": "08",
+        "path": "public/assets/catalog-candidates/cpu/decor-7-w09-v10-a-rack-with-classic-quad-skates-original.png",
+        "sha256": "639ca9b68c19680fc2b95c3f0e33138b5f785f80c01e56ea3acc409ce2bc936e",
+        "gitBlobSha": "28bff68db458d4c3b70024ce9c90f28e6b8a92e7",
+        "dimensions": [
+          640,
+          640
+        ],
+        "bytes": 495490,
+        "format": "PNG",
+        "mode": "RGB"
+      },
+      "sourceGenerationRunId": 36042120874,
+      "provenance": {
+        "stagedOutput": "docs/preproduction/art-factory/generated-evidence/w09-release-tail-2pack-v6/decor-7/staged-output.json",
+        "generationReceipt": "docs/preproduction/art-factory/generated-evidence/w09-release-tail-2pack-v6/decor-7/generation-receipt.json",
+        "runtimeRepo": "huggingface/diffusers",
+        "runtimeCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+        "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+        "modelRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+        "dtype": "float32",
+        "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+      }
+    }
+  ],
+  "technicalChecks": {
+    "idPathBinding": "PASS",
+    "signatureDecode": "PASS_PNG",
+    "dimensions": "PASS_640X640",
+    "sourceLineage": "PASS",
+    "artFactoryV2Provenance": "PASS_PINNED_RUNTIME_MODEL_RIGHTS",
+    "stagedOutputReadback": "PASS_EXACT_LIVE_GIT_BLOB",
+    "staleSupersededCheck": "PASS_FRESH_V10",
+    "exactContentDuplicateCheck": "PASS_UNIQUE_LIVE_BLOB_NOT_CANONICAL",
+    "independentReviewerRouting": "PASS_REVIEWER_01"
+  },
+  "qualification": {
+    "status": "QUALIFIED_FOR_RENDERER14",
+    "qualifiedForRenderer14": true,
+    "qualifiedCount": 1,
+    "artQualityJudgment": "NOT_PERFORMED",
+    "blockingDefects": []
+  },
+  "routing": {
+    "current": "HANDOFF_TO_RENDERER14",
+    "reviewerByItem": {
+      "decor-7": "01"
+    },
+    "renderer14": "RENDER_EXACT_HASH_IN_REAL_STORE_CARD_DETAIL_CONTEXT",
+    "integration08": "ONLY_AFTER_MATCHING_INDEPENDENT_REVIEWER_ACCEPT"
+  },
+  "preservation": {
+    "candidateBytesMutated": false,
+    "canonicalMappingsChanged": false,
+    "gameplayLearningPersistenceEconomyChanged": false,
+    "deploymentTouched": false
+  }
+}
