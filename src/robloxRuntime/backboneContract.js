@@ -53,7 +53,10 @@ export const NETWORK_CONTRACT=Object.freeze([
   Object.freeze({name:'RequestSocialMinigame',from:'Client',type:'Reliable'}),
   Object.freeze({name:'SocialWorldState',from:'Server',type:'Reliable'}),
   Object.freeze({name:'RequestNpcTalk',from:'Client',type:'Reliable'}),
-  Object.freeze({name:'NpcTalkResponse',from:'Server',type:'Reliable'})
+  Object.freeze({name:'NpcTalkResponse',from:'Server',type:'Reliable'}),
+  Object.freeze({name:'MovementInput',from:'Client',type:'Unreliable'}),
+  Object.freeze({name:'HitscanIntent',from:'Client',type:'Reliable'}),
+  Object.freeze({name:'ActionSnapshot',from:'Server',type:'Unreliable'})
 ]);
 
 export const REPLICATION_BOUNDARIES=Object.freeze({
