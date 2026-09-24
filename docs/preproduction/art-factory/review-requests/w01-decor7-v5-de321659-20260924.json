@@ -70,15 +70,15 @@
     "oldVerdictTransfers": false,
     "selfReview": false,
     "requiredJudgments": [
-      "Skate Rack identity with one compact rack structure visually dominant",
-      "whether v5 fixes v4 repeated/loose-skate and support-frame failures",
-      "recognizable contained quad-skate construction",
-      "Garden Glow Tier-3 specificity",
-      "silhouette and small-card readability",
-      "framing/material/depth/lighting quality",
-      "originality/near-duplicate and malformed-object risk"
+      "Skate Rack identity as one physically plausible roller-skate rack",
+      "clear rack-first silhouette with exactly one readable pair of quad skates",
+      "Garden Glow Tier-3 specificity without clutter",
+      "small-card readability",
+      "joinery/support/weight-bearing plausibility",
+      "crop/malformed-object risk",
+      "originality and premium finish"
     ],
     "onAccept": "Route exact decor-7 v5 hash to 08 canonical integration.",
-    "onRework": "Preserve exact decor-7 v5 hash/evidence and return smallest failure-specific reason codes to producer09/director15."
+    "onRework": "Preserve exact v5 hash/evidence and return smallest failure-specific defects to producer09/director15."
   }
 }

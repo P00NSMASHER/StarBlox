@@ -70,15 +70,15 @@
     "oldVerdictTransfers": false,
     "selfReview": false,
     "requiredJudgments": [
-      "Art Gallery Wall identity dominated by three large unmistakable framed artworks rather than shelving/architecture",
-      "whether v4 fixes v3 shelving-grid, blank-compartment and weak-art-dominance failures",
-      "Adventure Club Tier-3 specificity through visible art motifs",
-      "wall-mounting/backboard/frame construction plausibility",
-      "silhouette/card readability",
-      "framing/material/depth/lighting quality",
-      "near-duplicate/template and malformed-object risk"
+      "Art Gallery Wall identity dominated by exactly three visible framed artworks",
+      "no shelving/cubby/grid read at card scale",
+      "Adventure Club Tier-3 specificity",
+      "wall-mount physical depth/standoffs/frame plausibility",
+      "small-card readability",
+      "crop/malformed-object risk",
+      "materials/light/depth/originality/premium finish"
     ],
     "onAccept": "Route exact wall-9 v4 hash to 08 canonical integration.",
-    "onRework": "Preserve exact wall-9 v4 hash/evidence and return smallest failure-specific reason codes to producer13/director15."
+    "onRework": "Preserve exact v4 hash/evidence and return smallest failure-specific defects to producer13/director15."
   }
 }
