@@ -13,7 +13,9 @@
     "roblox:catalog": "node scripts/catalog-roblox.mjs",
     "roblox:catalog:reader:test": "cargo test --manifest-path tools/roblox_catalog_reader/Cargo.toml --quiet",
     "studio:factory": "node scripts/ai-development-factory.mjs",
-    "studio:bridge": "node scripts/studio-bridge.mjs"
+    "studio:bridge": "node scripts/studio-bridge.mjs",
+    "roblox:migrate": "node scripts/migrate-roblox.mjs",
+    "roblox:migration:exporter:test": "cargo test --manifest-path tools/roblox_migration_exporter/Cargo.toml --quiet"
   },
   "dependencies": {
     "lucide-react": "^0.468.0",
