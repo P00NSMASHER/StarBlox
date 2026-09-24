@@ -9,7 +9,10 @@
     "test": "vitest run",
     "test:learning-factory": "vitest run src/learningContracts.test.js src/contentProvenanceRuntime.test.js src/adversarialQuestionQa.test.js src/learningAdapters.test.js src/learningEventBridge.test.js",
     "validate:learning": "node scripts/validateLearningContent.mjs",
-    "simulate:learning-shadow": "node scripts/selectorV2ShadowSimulation.mjs"
+    "simulate:learning-shadow": "node scripts/selectorV2ShadowSimulation.mjs",
+    "interop:edgameclaw": "node scripts/adaptEdGameClawCourse.mjs",
+    "interop:psikt": "node scripts/exportPsiKtDataset.mjs",
+    "interop:riff": "node scripts/exportRiffReviews.mjs"
   },
   "dependencies": {
     "lucide-react": "^0.468.0",
