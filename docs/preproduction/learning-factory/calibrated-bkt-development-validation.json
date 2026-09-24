@@ -1,0 +1,29 @@
+{
+  "schemaVersion":"starblox-calibrated-bkt-development-validation-manifest-v1",
+  "benchmarkId":"starblox-calibrated-bkt-development-validation-v1",
+  "status":"development-validation-no-tuning",
+  "authorization":"synthetic-only-no-real-player-data",
+  "seed":20270903,
+  "sourceLearnerCount":48,
+  "maxStep":30,
+  "selectionStep":18,
+  "heldOutStepCount":12,
+  "candidate":{
+    "version":"starblox-calibrated-bkt-shadow-v1",
+    "params":{"pKnow":0.2,"pLearn":0.2,"pGuess":0.1,"pSlip":0.2},
+    "lockedFromCandidateGithubSha":"ac6a1a4cca6c9552cde432d378d5522517a368a0"
+  },
+  "baseline":{
+    "version":"starblox-default-bkt",
+    "params":{"pKnow":0.3,"pLearn":0.1,"pGuess":0.2,"pSlip":0.1}
+  },
+  "thresholds":{
+    "meanSpearmanGainMin":0.01,
+    "globalPearsonGainMin":0,
+    "weakestSkillHitGainMin":0,
+    "maeDeltaMax":0
+  },
+  "forbiddenSeeds":[20260924,20261103,20261217,20261229,20270113,20270217,20270307,20270419,20270511,20270623,20270717,20270805],
+  "tuneAgainstThisCohort":false,
+  "purpose":"Independent no-tuning validation of the BKT parameter set selected on development seed 20270805. This cohort may reject the candidate but cannot be used to retune BKT parameters."
+}
