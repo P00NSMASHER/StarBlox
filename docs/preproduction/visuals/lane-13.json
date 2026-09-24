@@ -1034,71 +1034,83 @@
     ]
   },
   "catalogFactoryReviewHandoff": {
-    "updatedAt": "2026-09-24T04:20:00Z",
-    "sourceHead": "a692aa2a34c0ea3371e66c204e6e8ef9cc943802",
-    "purpose": "Trigger current-branch exact-hash Store card/detail render evidence for newly qualified Wall 9 v2 while preserving all prior exact-hash dispositions and reviewer independence.",
+    "updatedAt": "2026-09-24T08:46:00Z",
+    "sourceHead": "a7592684a41b5e9113f14a311353204f35235308",
+    "purpose": "Trigger one current-branch exact-hash Store card/detail render pass for the newly qualified Decor 5/6/7/8 microbatch while preserving all prior dispositions and reviewer independence.",
     "candidates": [
       {
-        "itemId": "wall-11",
-        "name": "Star Mirror",
-        "producer": "13",
-        "reviewer": "02",
-        "path": "public/assets/catalog-candidates/cpu/wall-11-w13-v1-a-pixel-bevel-mirror-original.png",
-        "sha256": "01b064b4bee3e4be894a59279abb04b49b27cd048848513283631be59348268e",
-        "gitBlobSha": "50ffc975030f6c7e28cf9836756bb312dfa646fb",
-        "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-wall-11-12-qualification-20260924.json",
+        "itemId": "decor-5",
+        "name": "Plant Wall",
+        "producer": "09",
+        "reviewer": "01",
+        "path": "public/assets/catalog-candidates/cpu/decor-5-w09-v3-a-physical-original.png",
+        "sha256": "a30031043e9d9e3de1a34260a470df6bb37f5e602d692115b7c27ad16915d888",
+        "gitBlobSha": "1e7716f00e8e38f7ad645a448f9e29adea38de37",
+        "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-decor-5-8-vnext-qualification-20260924.json",
         "qualification": "QUALIFIED_FOR_RENDERER14",
-        "route": "14 -> 02 -> 08 on ACCEPT"
+        "route": "14 -> 01 -> 08 on ACCEPT"
       },
       {
-        "itemId": "wall-12",
-        "name": "Golden Crest",
-        "producer": "13",
-        "reviewer": "02",
-        "path": "public/assets/catalog-candidates/cpu/wall-12-w13-v1-a-jeweled-relief-crest-original.png",
-        "sha256": "771d8099c4231b407a0d2dac2e44178a2eabdd8f960bfbab0151bd9b0633d9db",
-        "gitBlobSha": "e9387a7174a888980616ea9afac43cc9b3adbb3b",
-        "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-wall-11-12-qualification-20260924.json",
+        "itemId": "decor-6",
+        "name": "Telescope",
+        "producer": "03",
+        "reviewer": "11",
+        "path": "public/assets/catalog-candidates/cpu/decor-6-w03-v2-a-single-telescope-original.png",
+        "sha256": "5787d635b6fdde26d67b81ecec661b67da0723060c6ea101ac8576b66416107d",
+        "gitBlobSha": "5b860130d537acadb6a15c81a841805c3b9b81cf",
+        "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-decor-5-8-vnext-qualification-20260924.json",
         "qualification": "QUALIFIED_FOR_RENDERER14",
-        "route": "14 -> 02 -> 08 on ACCEPT"
+        "route": "14 -> 11 -> 08 on ACCEPT"
       },
       {
         "itemId": "decor-7",
         "name": "Skate Rack",
         "producer": "09",
         "reviewer": "01",
-        "path": "public/assets/catalog-candidates/cpu/decor-7-w09-v3-a-rack-silhouette-original.png",
-        "sha256": "7a41b5b897a9d0c912f2b92f226810a75a61d74b2da43df54341eef0841108d4",
-        "gitBlobSha": "407b95bbecc3a030d357de290047954e28904b63",
-        "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-decor-7-v3-qualification-20260924.json",
+        "path": "public/assets/catalog-candidates/cpu/decor-7-w09-v4-a-rack-first-minimal-original.png",
+        "sha256": "6d379a59330d7f22f9f7028aad9f5f5327e624798fd1519b39d137034805aa4e",
+        "gitBlobSha": "4e78412e291ccbc553948f536bd1e958ab1ebf53",
+        "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-decor-5-8-vnext-qualification-20260924.json",
         "qualification": "QUALIFIED_FOR_RENDERER14",
         "route": "14 -> 01 -> 08 on ACCEPT"
       },
       {
-        "itemId": "wall-9",
-        "name": "Art Gallery Wall",
-        "producer": "13",
-        "reviewer": "02",
-        "path": "public/assets/catalog-candidates/cpu/wall-9-w13-v2-a-backboard-gallery-original.png",
-        "sha256": "e8600cc0b132b22b6facb270b63db8ea8eb98230debd2f1a8f84e627b1d44bd3",
-        "gitBlobSha": "00e551de0596b83977d16400fe782d1506b28e8a",
-        "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-wall-9-v2-qualification-20260924.json",
+        "itemId": "decor-8",
+        "name": "Mini Aquarium",
+        "producer": "03",
+        "reviewer": "11",
+        "path": "public/assets/catalog-candidates/cpu/decor-8-w03-v2-a-physical-original.png",
+        "sha256": "b88c0b339da024e2dd6591311d8f6c1022c682918cd4fb6746254b61d46acf87",
+        "gitBlobSha": "cde20430aaa1c2b4bd07399d35b3f0f184896509",
+        "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-decor-5-8-vnext-qualification-20260924.json",
         "qualification": "QUALIFIED_FOR_RENDERER14",
-        "route": "14 -> 02 -> 08 on ACCEPT"
+        "route": "14 -> 11 -> 08 on ACCEPT"
       }
     ],
     "preservedDispositions": [
       {
-        "itemId": "wall-10",
-        "exactHash": "74a4c531a3c60ccd60747bfebc2dfc0d1d25b684",
-        "state": "REWORK_PRESERVE_EXACT_HASH",
-        "rule": "Do not rerender or canonical-wire unchanged Wall 10 v1."
+        "itemId": "decor-5",
+        "exactHash": "b8ff7b9d6bec11fe8e836952f7a0c5b844e34b6e",
+        "state": "PRIOR_BLOCKED_HASH_PRESERVED",
+        "rule": "Do not transfer any prior disposition to Decor 5 v3."
+      },
+      {
+        "itemId": "decor-6",
+        "exactHash": "a8dca54ad9c511b529ab505dab97991bbc76daef",
+        "state": "V1_REWORK_PRESERVE_EXACT_HASH",
+        "rule": "Do not transfer v1 verdict to Decor 6 v2."
       },
       {
         "itemId": "decor-7",
-        "exactHash": "fa415ef0a554e2a60ee9e836f23d8d38b266a6e3",
-        "state": "V2_REWORK_PRESERVE_EXACT_HASH",
-        "rule": "Do not transfer v2 verdict to v3."
+        "exactHash": "407b95bbecc3a030d357de290047954e28904b63",
+        "state": "V3_REWORK_PRESERVE_EXACT_HASH",
+        "rule": "Do not transfer v3 verdict to Decor 7 v4."
+      },
+      {
+        "itemId": "decor-8",
+        "exactHash": "0d264aff9155f99b17db82138f4546deca8323d5",
+        "state": "PRIOR_BLOCKED_HASH_PRESERVED",
+        "rule": "Do not transfer prior disposition to Decor 8 v2."
       }
     ],
     "safety": {
