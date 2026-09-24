@@ -1034,28 +1034,28 @@
     ]
   },
   "catalogFactoryReviewHandoff": {
-    "updatedAt": "2026-09-24T18:40:00Z",
-    "sourceHead": "a87159d7e7bd2b35fedae7c6effa42beb62a17c7",
-    "purpose": "Trigger exact-hash Store card/detail render for Decor7 v10 while CPU generation continues in parallel.",
+    "updatedAt": "2026-09-24T18:49:00Z",
+    "sourceHead": "c6fbdbbf717e52b347514ac7cba84064c79dbc5e",
+    "purpose": "Render Decor11 v6 exact candidate in real Store card/detail context for independent reviewer02.",
     "candidates": [
       {
-        "itemId": "decor-7",
-        "name": "Skate Rack",
+        "itemId": "decor-11",
+        "name": "Dream Vanity Set",
         "producer": "09",
-        "reviewer": "01",
-        "path": "public/assets/catalog-candidates/cpu/decor-7-w09-v10-a-rack-with-classic-quad-skates-original.png",
-        "sha256": "639ca9b68c19680fc2b95c3f0e33138b5f785f80c01e56ea3acc409ce2bc936e",
-        "gitBlobSha": "28bff68db458d4c3b70024ce9c90f28e6b8a92e7",
-        "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-decor7-v10-qualification-20260924.json",
+        "reviewer": "02",
+        "path": "public/assets/catalog-candidates/cpu/decor-11-w09-v6-b-literal-vanity-mirror-stool-original.png",
+        "sha256": "2ebcd1c5e2c858a7203e54791ef02ddfe32e1fd49b1b06d1ad0ec639b8dffeda",
+        "gitBlobSha": "61def289ba05f48b56c29d3eaa2d38a4a4b0899a",
+        "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-decor11-v6-qualification-20260924.json",
         "qualification": "QUALIFIED_FOR_RENDERER14",
-        "route": "14 -> 01 -> 08 on ACCEPT"
+        "route": "14 -> 02 -> 08 on ACCEPT"
       }
     ],
     "packetPlan": [
       {
-        "qualification": "docs/preproduction/art-factory/requests/w06-decor7-v10-qualification-20260924.json",
+        "qualification": "docs/preproduction/art-factory/requests/w06-decor11-v6-qualification-20260924.json",
         "items": [
-          "decor-7"
+          "decor-11"
         ]
       }
     ],
@@ -1068,5 +1068,5 @@
       "deploymentTouched": false
     }
   },
-  "nextGate": "Renderer14 binds Decor7 v10 Store card/detail pixels; reviewer01 independently ACCEPT/REWORK exact hash; 08 integrates only exact ACCEPT."
+  "nextGate": "Renderer14 binds Decor11 v6 Store card/detail pixels; reviewer02 independently ACCEPT/REWORK exact hash; 08 integrates only exact ACCEPT."
 }
