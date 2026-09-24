@@ -34,5 +34,6 @@
     "route": "12 -> 06 -> 14 -> 01 -> 08 on ACCEPT",
     "canonicalWriter": "08"
   },
-  "dispatchPolicy": "PREPARED_ONLY__WAIT_EXISTING_CPU_SUCCESSORS"
+  "dispatchPolicy": "SUPERSEDED_BY_W03_RELEASE_TAIL_4PACK_V6",
+  "supersededBy": "docs/preproduction/art-factory/prepared-queues/w03-release-tail-4pack-v6.json"
 }
