@@ -1,0 +1,84 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_EXACT_HASH_REVIEW_PACKET",
+  "branch": "screenshot-match-preproduction",
+  "createdBy": "14",
+  "reviewer": "11",
+  "producer": "03",
+  "recoveryOwner": "07",
+  "item": {
+    "id": "decor-6",
+    "name": "Telescope",
+    "collectionId": "decor",
+    "type": "room",
+    "tier": 2,
+    "theme": "Berry Blast"
+  },
+  "exactCandidate": {
+    "path": "public/assets/catalog-candidates/cpu/decor-6-w03-v1-a-physical-original.png",
+    "sha256": "8b839bb54cda085810a58d1714c3f0850991e544b2e7c75e75a5e6c20c820fd2",
+    "gitBlobSha": "a8dca54ad9c511b529ab505dab97991bbc76daef",
+    "bytes": 1747044,
+    "dimensions": [
+      1024,
+      1024
+    ],
+    "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-decor-6-v1-qualification-20260924.json",
+    "qualification": "QUALIFIED_FOR_RENDERER14"
+  },
+  "renderEvidence": {
+    "workflow": "StarBlox Staged Catalog Art QA",
+    "workflowRunId": 35952017738,
+    "workflowHead": "1a0ce358152b8ee522990adf0a44398bf0593cba",
+    "artifactId": 10788323876,
+    "artifactName": "catalog-staged-art-review",
+    "artifactDigest": "sha256:8ab84a732080af79abd21066ee84fa2b4f57498d0276359698945e4b7d6e61cb",
+    "detailPath": "staged-replacements/detail/decor-6-a8dca54a.png",
+    "detailSha256": "6a448ed40f3cad418d9adbd0aaa0838973ea22fcacee0541f95c83d2fd058be0",
+    "detailDimensions": [
+      800,
+      800
+    ],
+    "contactSheetPath": "staged-replacements/staged-replacements-contact-sheet.png",
+    "contactSheetSha256": "db9bbce60e14c0f276f868216a731763177b96adcec233d00979c33778b51a88",
+    "preflightPath": "preflight/decor-6-a8dca54a.json",
+    "preflightSha256": "37e84ec640628fefd626b055647ba60fad676132dcb3b81e5233583f1e0f0510",
+    "renderStatus": 200,
+    "naturalDimensions": [
+      1024,
+      1024
+    ],
+    "opaqueFraction": 1,
+    "screenshot": true,
+    "errors": []
+  },
+  "reportOnlyPreflight": {
+    "exactDuplicate": false,
+    "calibratedWarnings": [],
+    "warningReadyFeatureCount": 0,
+    "triggeredWarningCount": 0,
+    "blocking": false,
+    "automaticAccept": false,
+    "automaticRework": false
+  },
+  "decisionContract": {
+    "allowed": [
+      "ACCEPT",
+      "REWORK"
+    ],
+    "exactHashOnly": true,
+    "oldVerdictTransfers": false,
+    "selfReview": false,
+    "requiredJudgments": [
+      "Telescope product identity and physical telescope/tripod construction",
+      "Berry Blast Tier-2 specificity without overwhelming the category",
+      "silhouette and small-card readability",
+      "optical tube/lens/mount/tripod plausibility",
+      "framing, crop and malformed-object risk",
+      "material, depth and lighting quality",
+      "originality/near-duplicate risk versus existing Decor"
+    ],
+    "onAccept": "Route exact Decor6 hash to 08 canonical integration.",
+    "onRework": "Preserve exact hash/evidence and return the smallest failure-specific defects to producer03/director15."
+  }
+}
