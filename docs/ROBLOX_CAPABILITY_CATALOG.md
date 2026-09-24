@@ -113,14 +113,18 @@ No recovered/imported Luau code is executed by the cataloger.
 
 ## Dependency graph
 
-Static script analysis extracts graph edges for:
+The catalog emits graph edges for:
 
-- Roblox services;
+- explicit parent/child structure;
+- serialized Roblox Ref-backed properties, resolved from stable rbx-dom referents to catalog instance paths when local;
+- Roblox asset references;
+- Roblox services used by scripts;
 - numeric external module requires;
+- nonnumeric require expressions;
 - WaitForChild instance references;
 - references that resolve to known RemoteEvent/RemoteFunction names.
 
-This gives the next migration step a starting dependency graph rather than forcing manual exploration in Studio.
+This combines serialized object relationships with non-executed static script analysis so the next migration step starts from a much fuller dependency graph rather than forcing manual exploration in Studio.
 
 ## Reuse classes
 
@@ -204,7 +208,7 @@ Tests prove:
 - catalog tamper detection;
 - script source is not copied into catalog output;
 - asset-ID extraction;
-- service/module/remote dependency discovery;
+- parent/property/asset/service/module/remote dependency discovery;
 - system grouping;
 - the four-class reuse taxonomy;
 - fail-closed irrelevant classification;
