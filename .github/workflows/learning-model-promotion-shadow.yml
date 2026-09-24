@@ -166,18 +166,40 @@ jobs:
           if(psi.model !== 'AmortizedPSIKT' || psi.metrics.predictionCount <= 0){
             throw new Error('PSI-KT training/inference evidence missing');
           }
+          if(
+            comparison.comparisonCohort?.evaluatedLearnerCount !==
+            psi.selectorStateLearnerCount
+          ){
+            throw new Error('PSI selector-state cohort does not match comparison cohort');
+          }
+          if(comparison.comparisonCohort?.selectionStep !== psi.selectionStep){
+            throw new Error('PSI selection step does not match comparison boundary');
+          }
+          const expectedFsrsCommands =
+            comparison.comparisonCohort.sourceLearnerCount *
+            comparison.comparisonCohort.selectionStep;
+          if(fsrs.commandCount !== expectedFsrsCommands){
+            throw new Error(
+              'FSRS command count does not match observed selector prefix'
+            );
+          }
           if(strict.provenanceDebt?.strictReady !== false){
             throw new Error('current live gate must remain blocked until external ABVM original is verified');
           }
 
+          const blockers = [
+            'synthetic-only-evaluation',
+            'abvm-external-original-unverified',
+            'real-learner-efficacy-not-evaluated',
+            'privacy-review-not-complete'
+          ];
+          if(comparison.syntheticBenchmark?.supportive !== true){
+            blockers.push('synthetic-selector-benchmark-not-supportive');
+          }
+
           console.log(JSON.stringify({
             liveSelectorV2Allowed:false,
-            blockers:[
-              'synthetic-only-evaluation',
-              'abvm-external-original-unverified',
-              'real-learner-efficacy-not-evaluated',
-              'privacy-review-not-complete'
-            ],
+            blockers,
             fsrsCards:fsrs.cardCount,
             psiPredictions:psi.metrics.predictionCount,
             comparison:comparison.policies
