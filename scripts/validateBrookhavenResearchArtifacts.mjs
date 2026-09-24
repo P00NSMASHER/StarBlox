@@ -88,6 +88,26 @@ if(progression.economyBoundary?.awardsCoins!==false) issues.push('progression-co
 if(progression.economyBoundary?.awardsStars!==false) issues.push('progression-stars-boundary');
 if(progression.economyBoundary?.changesMastery!==false) issues.push('progression-mastery-boundary');
 
+const replayPath='docs/preproduction/brookhaven-research/step-11-replay-manifest-v1.json';
+const replay=JSON.parse(fs.readFileSync(replayPath,'utf8'));
+if(replay.schemaVersion!=='starblox-brookhaven-step-11-replay-manifest-v1') issues.push('step11-replay-schema');
+if(replay.step!=='11-of-12') issues.push('step11-number');
+if(replay.status!=='complete-ready-for-controlled-replay-no-merge-performed') issues.push('step11-status');
+if(replay.strategy?.directMergeBrookhavenIntoProduct!==false) issues.push('step11-brookhaven-direct-merge-boundary');
+if(replay.strategy?.directMergeLearningFactoryIntoProduct!==false) issues.push('step11-learning-direct-merge-boundary');
+if(replay.strategy?.directMergeBrookhavenAndLearningFactory!==false) issues.push('step11-cross-research-merge-boundary');
+if((replay.orderedReplayGroups||[]).length!==4) issues.push('step11-replay-group-count');
+if(replay.exitCriteria?.liveProductFilesExcluded!==true) issues.push('step11-live-file-exclusion');
+if(replay.exitCriteria?.learningFactorySeparated!==true) issues.push('step11-learning-separation');
+if(replay.exitCriteria?.temporaryInheritedBuildPatchExcluded!==true) issues.push('step11-temp-patch-exclusion');
+if(replay.exitCriteria?.step11Complete!==true) issues.push('step11-completion-flag');
+
+const readinessPath='docs/preproduction/brookhaven-research/step-11-reconciliation-readiness-v1.json';
+const readiness=JSON.parse(fs.readFileSync(readinessPath,'utf8'));
+if(readiness.schemaVersion!=='starblox-brookhaven-step-11-reconciliation-readiness-v1') issues.push('step11-readiness-schema');
+if(readiness.step11Complete!==true) issues.push('step11-readiness-completion');
+if(readiness.nextSubstep?.id!=='12') issues.push('step11-next-step');
+
 const result={
   schemaVersion:'starblox-brookhaven-research-validation-v2',
   graphPath,
@@ -99,6 +119,8 @@ const result={
   vehiclePath,
   townPath,
   progressionPath,
+  replayPath,
+  readinessPath,
   nodeCount:graph.nodes?.length||0,
   edgeCount:graph.edges?.length||0,
   vehicleCount:vehicle.currentVehicles?.length||0,
