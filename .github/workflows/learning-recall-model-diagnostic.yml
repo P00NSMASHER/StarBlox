@@ -1,0 +1,78 @@
+name: Learning Recall Model Diagnostic
+
+on:
+  push:
+    branches:
+      - starblox-learning-factory-v1
+    paths:
+      - "scripts/runRecallModelDevelopment.py"
+      - "docs/preproduction/learning-factory/recall-model-development-benchmark.json"
+      - ".github/workflows/learning-recall-model-diagnostic.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  benchmark-recall-models:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+
+      - name: Install StarBlox dependencies
+        run: npm install --ignore-scripts --package-lock=false
+
+      - name: Generate fresh synthetic model-development cohort
+        run: npm run generate:learning-promotion -- --out-dir=.recall-model-development --learners=48 --max-step=30 --seed=20270623
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install pinned upstream PSI-KT baseline package
+        run: |
+          python -m pip install --upgrade pip setuptools wheel
+          git clone https://github.com/mlcolab/psi-kt.git .vendor/psi-kt
+          git -C .vendor/psi-kt checkout ecada10cedb3237ba55f4277af0bdbd8d5d4a68e
+          python -m pip install -e .vendor/psi-kt
+          python -m pip install 'pandas==2.2.3'
+
+      - name: Train HLR and PPE and compare mastery-state signal to BKT
+        run: |
+          python scripts/runRecallModelDevelopment.py             --psi-repo=.vendor/psi-kt             --data-dir=.recall-model-development             --evaluation=.recall-model-development/evaluation.json             --manifest=docs/preproduction/learning-factory/recall-model-development-benchmark.json             --out=.recall-model-development/recall-model-benchmark.json
+
+      - name: Enforce development-only boundary
+        run: |
+          python - <<'PY'
+          import json
+          with open('.recall-model-development/recall-model-benchmark.json','r',encoding='utf-8') as f:
+              r=json.load(f)
+          if r.get('developmentOnly') is not True or r.get('tuneAgainstThisCohort') is not True:
+              raise SystemExit('model benchmark governance is not explicit')
+          if r.get('promotionBoundary',{}).get('liveSelectorAllowed') is not False:
+              raise SystemExit('model benchmark cannot enable live selection')
+          print(json.dumps({
+              'supportiveModels':r.get('supportiveModels',[]),
+              'bkt':r['bkt']['stateMetrics'],
+              'HLR':r['models']['HLR']['stateMetrics'],
+              'PPE':r['models']['PPE']['stateMetrics'],
+              'liveSelectorAllowed':False,
+          },indent=2,sort_keys=True))
+          PY
+
+      - name: Assert live Quest path remains isolated
+        run: npm run assert:learning-live-boundary
+
+      - name: Upload model benchmark evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: learning-recall-model-diagnostic
+          path: .recall-model-development
+          if-no-files-found: error
+          include-hidden-files: true
