@@ -1,0 +1,84 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_EXACT_HASH_REVIEW_PACKET",
+  "branch": "screenshot-match-preproduction",
+  "createdBy": "14",
+  "rendererEvidenceHead": "8a0a961a45539f5f13a8f965b8d2e8af3b38821d",
+  "reviewer": "11",
+  "producer": "13",
+  "item": {
+    "id": "wall-8",
+    "name": "Ocean Window",
+    "collectionId": "wall",
+    "type": "room",
+    "tier": 3,
+    "theme": "Candy Core"
+  },
+  "exactCandidate": {
+    "path": "public/assets/catalog-candidates/cpu/wall-8-w13-v4-a-recessed-ocean-window-original.png",
+    "sha256": "23c3f86372cd88f7be07c7e8e97ab3baeac5c30dd0a53a5ed2fa9ff30fcb94a3",
+    "gitBlobSha": "1153810072f325d25a9259167b3d309600a474a0",
+    "bytes": 596360,
+    "dimensions": [
+      640,
+      640
+    ],
+    "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-desks7-8-wall8-vnext-qualification-20260924.json",
+    "qualification": "QUALIFIED_FOR_RENDERER14"
+  },
+  "renderEvidence": {
+    "workflow": "StarBlox Staged Catalog Art QA",
+    "workflowRunId": 36009802816,
+    "workflowHead": "8a0a961a45539f5f13a8f965b8d2e8af3b38821d",
+    "artifactId": 10812250913,
+    "artifactName": "catalog-staged-art-review",
+    "artifactDigest": "sha256:942e1562870ff447833b6d971c1ad2d03517b4571b85cb522267e0176945df30",
+    "contactSheetPath": "staged-replacements/staged-replacements-contact-sheet.png",
+    "contactSheetSha256": "c2269e05a87480b65904959de20ad8bd94bcd3b4ad46ee451cf3086ab20c82aa",
+    "renderStatus": 200,
+    "naturalDimensions": [
+      640,
+      640
+    ],
+    "opaqueFraction": 1,
+    "screenshot": true,
+    "errors": [],
+    "detailPath": "staged-replacements/detail/wall-8-11538100.png",
+    "detailSha256": "5a0e361ae529ab1c6e642cf2bd417b2c5944158add6e214a85db0b83c840d991",
+    "detailDimensions": [
+      800,
+      800
+    ],
+    "preflightPath": "preflight/wall-8-11538100.json",
+    "preflightSha256": "2da173b18c5f3cd2aad239318af4e649a0e1580e133897936a5fbeb18f6dc2a6"
+  },
+  "reportOnlyPreflight": {
+    "exactDuplicate": false,
+    "calibratedWarnings": [],
+    "warningReadyFeatureCount": 0,
+    "triggeredWarningCount": 0,
+    "blocking": false,
+    "automaticAccept": false,
+    "automaticRework": false
+  },
+  "decisionContract": {
+    "allowed": [
+      "ACCEPT",
+      "REWORK"
+    ],
+    "exactHashOnly": true,
+    "oldVerdictTransfers": false,
+    "selfReview": false,
+    "requiredJudgments": [
+      "Ocean Window identity as a wall-mounted ocean-view window/decor object",
+      "Candy Core Tier-3 specificity without losing ocean/window readability",
+      "window/frame/wall-mount physical plausibility",
+      "single-product silhouette and small-card readability",
+      "material/light/depth quality",
+      "composition/crop/malformed-object risk",
+      "originality/near-duplicate risk"
+    ],
+    "onAccept": "Route exact wall-8 hash to 08 canonical integration.",
+    "onRework": "Preserve exact wall-8 hash/evidence and return smallest failure-specific reason codes to producer13/director15."
+  }
+}

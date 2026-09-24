@@ -1,0 +1,84 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_EXACT_HASH_REVIEW_PACKET",
+  "branch": "screenshot-match-preproduction",
+  "createdBy": "14",
+  "rendererEvidenceHead": "8a0a961a45539f5f13a8f965b8d2e8af3b38821d",
+  "reviewer": "11",
+  "producer": "13",
+  "item": {
+    "id": "desks-8",
+    "name": "Aqua Study Station",
+    "collectionId": "desks",
+    "type": "room",
+    "tier": 3,
+    "theme": "Galaxy Glow"
+  },
+  "exactCandidate": {
+    "path": "public/assets/catalog-candidates/cpu/desks-8-w13-v2-a-aqua-study-original.png",
+    "sha256": "c0becc91f8941391965b1d1e9bd28aeeb210de08e74aa00858c3bb1eccccb82b",
+    "gitBlobSha": "bada24e2447de5e39ac2cb6647aa8458cf410e43",
+    "bytes": 525431,
+    "dimensions": [
+      640,
+      640
+    ],
+    "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-desks7-8-wall8-vnext-qualification-20260924.json",
+    "qualification": "QUALIFIED_FOR_RENDERER14"
+  },
+  "renderEvidence": {
+    "workflow": "StarBlox Staged Catalog Art QA",
+    "workflowRunId": 36009802816,
+    "workflowHead": "8a0a961a45539f5f13a8f965b8d2e8af3b38821d",
+    "artifactId": 10812250913,
+    "artifactName": "catalog-staged-art-review",
+    "artifactDigest": "sha256:942e1562870ff447833b6d971c1ad2d03517b4571b85cb522267e0176945df30",
+    "contactSheetPath": "staged-replacements/staged-replacements-contact-sheet.png",
+    "contactSheetSha256": "c2269e05a87480b65904959de20ad8bd94bcd3b4ad46ee451cf3086ab20c82aa",
+    "renderStatus": 200,
+    "naturalDimensions": [
+      640,
+      640
+    ],
+    "opaqueFraction": 1,
+    "screenshot": true,
+    "errors": [],
+    "detailPath": "staged-replacements/detail/desks-8-bada24e2.png",
+    "detailSha256": "874001e37f770573b045036d77c077f60b433ce7703d589162e85912d1967936",
+    "detailDimensions": [
+      800,
+      800
+    ],
+    "preflightPath": "preflight/desks-8-bada24e2.json",
+    "preflightSha256": "b3188d3e2ebb8efe64e35e72f21df33bc742cfc0c84c935d7b2a7428e4a122e4"
+  },
+  "reportOnlyPreflight": {
+    "exactDuplicate": false,
+    "calibratedWarnings": [],
+    "warningReadyFeatureCount": 0,
+    "triggeredWarningCount": 0,
+    "blocking": false,
+    "automaticAccept": false,
+    "automaticRework": false
+  },
+  "decisionContract": {
+    "allowed": [
+      "ACCEPT",
+      "REWORK"
+    ],
+    "exactHashOnly": true,
+    "oldVerdictTransfers": false,
+    "selfReview": false,
+    "requiredJudgments": [
+      "Aqua Study Station identity as one usable desk/study station",
+      "Galaxy Glow Tier-3 specificity",
+      "worktop/support/storage physical plausibility",
+      "single-product silhouette and small-card readability",
+      "material/light/depth quality",
+      "composition/crop/malformed-object risk",
+      "originality/near-duplicate risk"
+    ],
+    "onAccept": "Route exact desks-8 hash to 08 canonical integration.",
+    "onRework": "Preserve exact desks-8 hash/evidence and return smallest failure-specific reason codes to producer13/director15."
+  }
+}
