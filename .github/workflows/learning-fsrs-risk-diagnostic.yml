@@ -1,0 +1,61 @@
+name: Learning FSRS Risk Diagnostic
+
+on:
+  push:
+    branches:
+      - starblox-learning-factory-v1
+    paths:
+      - "scripts/diagnoseFsrsRiskDevelopment.mjs"
+      - ".github/workflows/learning-fsrs-risk-diagnostic.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  fsrs-risk-diagnostic:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+      - name: Install StarBlox dependencies
+        run: npm install --ignore-scripts --package-lock=false
+      - name: Generate development dataset only
+        run: npm run generate:learning-promotion -- --out-dir=.fsrs-risk-development --learners=48 --max-step=30 --seed=20261217
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.23"
+      - name: Run actual FSRS
+        run: |
+          cd tools/fsrs-shadow
+          go mod tidy
+          go run . -input ../../.fsrs-risk-development/riff-reviews.json -out ../../.fsrs-risk-development/fsrs-engine-receipt.json -evaluation-offset-hours 24
+      - name: Sweep continuous forgetting-risk weight
+        run: node scripts/diagnoseFsrsRiskDevelopment.mjs --evaluation=.fsrs-risk-development/evaluation.json --fsrs=.fsrs-risk-development/fsrs-engine-receipt.json --out=.fsrs-risk-development/fsrs-risk-diagnostic.json
+      - name: Enforce development boundary
+        run: |
+          node --input-type=module - <<'NODE'
+          import fs from 'node:fs';
+          const r=JSON.parse(fs.readFileSync(
+            '.fsrs-risk-development/fsrs-risk-diagnostic.json','utf8'
+          ));
+          if(r.developmentOnly!==true||r.promotionBoundary?.liveSelectorV2Allowed!==false){
+            throw new Error('FSRS risk diagnostic boundary broken');
+          }
+          console.log(JSON.stringify({
+            stateDistribution:r.stateDistribution,
+            bestDevelopmentCandidate:r.riskWeightSweep.bestDevelopmentCandidate,
+            liveSelectorV2Allowed:false
+          },null,2));
+          NODE
+      - name: Upload FSRS diagnostic
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: learning-fsrs-risk-development
+          path: .fsrs-risk-development
+          if-no-files-found: error
+          include-hidden-files: true
