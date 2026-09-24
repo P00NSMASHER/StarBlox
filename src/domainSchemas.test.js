@@ -119,7 +119,7 @@ describe('StarBlox upstream implementation provenance', () => {
   it('pins every planned source to an immutable full commit SHA', () => {
     const entries = upstreamSourceList();
 
-    expect(entries.length).toBeGreaterThanOrEqual(36);
+    expect(entries.length).toBeGreaterThanOrEqual(41);
     expect(entries.every(entry => /^[a-f0-9]{40}$/.test(entry.commit))).toBe(true);
     expect(entries.every(entry => entry.reuseBasis === 'user-confirmed direct reuse rights')).toBe(true);
   });
@@ -151,5 +151,10 @@ describe('StarBlox upstream implementation provenance', () => {
     expect(UPSTREAM_PROVENANCE.recallValidateQa.path).toBe('eval/generation/validate_qa.py');
     expect(UPSTREAM_PROVENANCE.recallScoreQuestions.path).toBe('eval/generation/score_questions.py');
     expect(UPSTREAM_PROVENANCE.recallLlmReview.path).toBe('eval/generation/llm_review.py');
+    expect(UPSTREAM_PROVENANCE.ankiFsrsMemoryState.path).toBe('rslib/src/scheduler/fsrs/memory_state.rs');
+    expect(UPSTREAM_PROVENANCE.ankiFsrsSimulator.path).toBe('rslib/src/scheduler/fsrs/simulator.rs');
+    expect(UPSTREAM_PROVENANCE.ankiFsrsRetention.path).toBe('rslib/src/scheduler/fsrs/retention.rs');
+    expect(UPSTREAM_PROVENANCE.adaptiveIrtEngine.path).toBe('src/irt.py');
+    expect(UPSTREAM_PROVENANCE.adaptiveIrtServer.path).toBe('src/server.py');
   });
 });
