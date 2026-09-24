@@ -448,6 +448,30 @@ export const UPSTREAM_PROVENANCE = Object.freeze({
     'unasserted in GitHub metadata',
     'src/game/runTelemetry.ts'
   ),
+  rbxDomBinary: source(
+    'Roblox binary place/model deserialization for rbxl/rbxm capability inventory',
+    'rojo-rbx/rbx-dom',
+    'master',
+    '43d1f129f2eb1fd055512f039863ff35ae5a10f1',
+    'MIT',
+    'rbx_binary/src/lib.rs'
+  ),
+  rbxDomXml: source(
+    'Roblox XML place/model deserialization for rbxlx/rbxmx capability inventory',
+    'rojo-rbx/rbx-dom',
+    'master',
+    '43d1f129f2eb1fd055512f039863ff35ae5a10f1',
+    'MIT',
+    'rbx_xml/src/lib.rs'
+  ),
+  rbxDomViewer: source(
+    'stable serializable Roblox DOM view with referent normalization',
+    'rojo-rbx/rbx-dom',
+    'master',
+    '43d1f129f2eb1fd055512f039863ff35ae5a10f1',
+    'MIT',
+    'rbx_dom_weak/src/viewer.rs'
+  ),
   openReplaySession: source(
     'session identity, metadata and lifecycle update model',
     'openreplay/openreplay',

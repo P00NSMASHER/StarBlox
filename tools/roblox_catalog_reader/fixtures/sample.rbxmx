@@ -1,0 +1,32 @@
+<roblox version="4">
+  <Item class="Model" referent="RBX1">
+    <Properties>
+      <string name="Name">Licensed House System</string>
+    </Properties>
+    <Item class="RemoteEvent" referent="RBX2">
+      <Properties>
+        <string name="Name">OpenGarage</string>
+      </Properties>
+    </Item>
+    <Item class="VehicleSeat" referent="RBX3">
+      <Properties>
+        <string name="Name">Family SUV Driver</string>
+      </Properties>
+    </Item>
+    <Item class="Script" referent="RBX4">
+      <Properties>
+        <string name="Name">HouseServer</string>
+        <ProtectedString name="Source"><![CDATA[
+local DataStoreService = game:GetService("DataStoreService")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local remote = ReplicatedStorage:WaitForChild("OpenGarage")
+remote.OnServerEvent:Connect(function(player)
+    DataStoreService:GetDataStore("Homes"):UpdateAsync("fixture", function(old)
+        return old
+    end)
+end)
+        ]]></ProtectedString>
+      </Properties>
+    </Item>
+  </Item>
+</roblox>

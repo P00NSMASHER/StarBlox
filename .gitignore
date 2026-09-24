@@ -4,3 +4,5 @@ dist/
 .env.*
 !.env.example
 .DS_Store
+roblox-capability-catalog.json
+roblox-capability-catalog.md

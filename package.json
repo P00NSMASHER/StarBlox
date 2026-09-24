@@ -9,7 +9,9 @@
     "test": "vitest run",
     "balance:gate": "node scripts/balance-gate.mjs",
     "questions:generate": "node scripts/generate-questions-offline.mjs",
-    "recalibrate:telemetry": "node scripts/recalibrate-telemetry.mjs"
+    "recalibrate:telemetry": "node scripts/recalibrate-telemetry.mjs",
+    "roblox:catalog": "node scripts/catalog-roblox.mjs",
+    "roblox:catalog:reader:test": "cargo test --manifest-path tools/roblox_catalog_reader/Cargo.toml --quiet"
   },
   "dependencies": {
     "lucide-react": "^0.468.0",
