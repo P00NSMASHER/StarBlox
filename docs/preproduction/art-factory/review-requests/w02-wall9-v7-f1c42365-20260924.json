@@ -1,0 +1,85 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_EXACT_HASH_REVIEW_PACKET",
+  "branch": "screenshot-match-preproduction",
+  "createdBy": "14",
+  "rendererEvidenceHead": "a8018dc32ce3fe340970839456d3c1c62fd8a601",
+  "reviewer": "02",
+  "producer": "13",
+  "item": {
+    "id": "wall-9",
+    "name": "Art Gallery Wall",
+    "collectionId": "wall",
+    "type": "room",
+    "tier": 3,
+    "theme": "Adventure Club"
+  },
+  "exactCandidate": {
+    "path": "public/assets/catalog-candidates/cpu/wall-9-w13-v7-a-exactly-three-big-frames-original.png",
+    "sha256": "61fea8c6dcf99e3238067d45986a43104da5885c7b1cefe0c19159b9e3265f9c",
+    "gitBlobSha": "f1c423657b836aee822311b15a3229251174768d",
+    "bytes": 689738,
+    "dimensions": [
+      640,
+      640
+    ],
+    "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-current-rework-3pack-v4-qualification-20260924.json",
+    "qualification": "QUALIFIED_FOR_RENDERER14"
+  },
+  "renderEvidence": {
+    "workflow": "StarBlox Staged Catalog Art QA",
+    "workflowRunId": 36028066247,
+    "workflowHead": "a8018dc32ce3fe340970839456d3c1c62fd8a601",
+    "artifactId": 10820821844,
+    "artifactName": "catalog-staged-art-review",
+    "artifactDigest": "sha256:50fa1a93b99b559d2ba7c89d5420202c2d975e4668cbee41be05060a25c773eb",
+    "contactSheetPath": "staged-replacements/staged-replacements-contact-sheet.png",
+    "contactSheetSha256": "10f4bddea263cd2462a9b4b6f75cc17b8391f55022ffeece7f5b76666112c2e4",
+    "renderStatus": 200,
+    "naturalDimensions": [
+      640,
+      640
+    ],
+    "opaqueFraction": 1,
+    "screenshot": true,
+    "errors": [],
+    "detailPath": "staged-replacements/detail/wall-9-f1c42365.png",
+    "detailSha256": "09aa07a74576777e9af2f4d2281c5ab337fd1fe5f9acbfe3983131bf39d94c69",
+    "detailDimensions": [
+      800,
+      800
+    ],
+    "preflightPath": "preflight/wall-9-f1c42365.json",
+    "preflightSha256": "2c8e3cf3e7b0b56a5adf1df4689b1fd9dc1c219e6192f7069d5677e6b1ad2084"
+  },
+  "reportOnlyPreflight": {
+    "exactDuplicate": false,
+    "calibratedWarnings": [],
+    "warningReadyFeatureCount": 0,
+    "triggeredWarningCount": 0,
+    "blocking": false,
+    "automaticAccept": false,
+    "automaticRework": false
+  },
+  "decisionContract": {
+    "allowed": [
+      "ACCEPT",
+      "REWORK"
+    ],
+    "exactHashOnly": true,
+    "oldVerdictTransfers": false,
+    "selfReview": false,
+    "requiredJudgments": [
+      "Art Gallery Wall identity as one compact wall product",
+      "exactly three dominant readable framed adventure artworks",
+      "Adventure Club Tier-3 specificity",
+      "wall-mount/backboard/frame plausibility",
+      "small-card silhouette/readability",
+      "no room/floor/bench/large prop context dominating",
+      "composition/crop/malformed-object risk",
+      "originality/near-duplicate risk"
+    ],
+    "onAccept": "Route exact wall-9 v7 hash to 08 canonical integration.",
+    "onRework": "Preserve wall-9 v7 exact hash/evidence and return the smallest failure-specific repair to producer13/director15."
+  }
+}
