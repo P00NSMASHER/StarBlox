@@ -1,5 +1,5 @@
 import test from 'node:test';import assert from 'node:assert/strict';
-import {compose,inferRepair,recommend,sha,train,validateExperiment,RUNTIME_PROMPT_WORD_BUDGET} from './artPromptOptimizer.mjs';
+import {compose,inferRepair,recommend,sha,train,validateExperiment,RUNTIME_PROMPT_WORD_BUDGET,RUNTIME_NEGATIVE_PROMPT_WORD_BUDGET} from './artPromptOptimizer.mjs';
 const item={id:'auras-5',name:'Garden Fireflies',collectionId:'auras',type:'avatar',tier:2,theme:'Galaxy Glow'};
 const docs=[{path:'r/05.json',data:{reviewer:'05',reviews:[{itemId:'auras-5',assetHash:'h1',producer:'11',decision:'ACCEPT',reason:'layered translucent particle volume'},{itemId:'auras-6',assetHash:'h2',producer:'11',decision:'REWORK',reason:'flat generic ring with weak card readability'}]}}];
 test('learns only from independent exact hash',()=>{const m=train({experiments:[{attemptId:'a',itemId:'auras-5',assetHash:'h1',producer:'11',collectionId:'auras',tier:2,promptBlocks:['aura','depth']}],reviewDocs:docs});assert.equal(m.trainingExamples,1);assert.equal(m.stats.global.aura.accept,1)});
@@ -21,6 +21,29 @@ test('runtime prompt stays bounded while full provenance prompt is preserved',()
  assert.match(p.runtimePromptText,/Galaxy Glow/);
  assert.match(p.promptText,/detail119/);
  assert.notEqual(p.runtimePromptText,p.promptText);
+});
+
+test('runtime prompt preserves identity details while negative prompt carries explicit exclusions',()=>{
+ const desk={id:'desks-10',name:'Neon Streaming Desk',collectionId:'desks',type:'room',tier:4,theme:'Aqua Wave'};
+ const brief='Neon Streaming Desk, Desks & Tech, Tier 4, Aqua Wave. EXACTLY ONE freestanding streaming DESK on a plain studio background. Make a broad horizontal worktop with exactly two supports. Put exactly TWO computer monitors and exactly ONE visible microphone boom on the desk. NO tall shelves, NO cabinets, NO repeated variants, NO collage, NO room, NO text.';
+ const p=compose(desk,['furniture','camera','depth'],'A-TEST',{},brief);
+ assert(p.runtimePromptText.trim().split(/\s+/).length<=RUNTIME_PROMPT_WORD_BUDGET);
+ assert(p.runtimeNegativePromptText.trim().split(/\s+/).length<=RUNTIME_NEGATIVE_PROMPT_WORD_BUDGET);
+ assert.match(p.runtimePromptText,/TWO computer monitors/i);
+ assert.match(p.runtimePromptText,/microphone/i);
+ assert.match(p.runtimeNegativePromptText,/tall shelves/i);
+ assert.match(p.runtimeNegativePromptText,/cabinets/i);
+ assert.match(p.runtimeNegativePromptText,/collage/i);
+ assert.equal(sha(p.runtimeNegativePromptText),p.runtimeNegativePromptSha256);
+ assert(!/NO tall shelves/i.test(p.runtimePromptText));
+});
+
+test('runtime prompt hash validation covers both positive and negative channels',()=>{
+ const p=compose(item,['aura'],'A');
+ const e={attemptId:'a',itemId:'auras-5',assetHash:'h',producer:'11',promptBlocks:['aura'],runtimePromptText:p.runtimePromptText,runtimePromptSha256:'0'.repeat(64),runtimeNegativePromptText:p.runtimeNegativePromptText,runtimeNegativePromptSha256:'0'.repeat(64)};
+ const errors=validateExperiment(e);
+ assert(errors.some(x=>x.includes('runtimePromptSha256')));
+ assert(errors.some(x=>x.includes('runtimeNegativePromptSha256')));
 });
 
 test('prompt hash validation catches tampering',()=>{const p=compose(item,['aura'],'A');assert.equal(sha(p.promptText),p.promptSha256);assert(validateExperiment({attemptId:'a',itemId:'auras-5',assetHash:'h',producer:'11',promptBlocks:['aura'],promptText:'x',promptSha256:'0'.repeat(64)}).some(x=>x.includes('mismatch')))});
