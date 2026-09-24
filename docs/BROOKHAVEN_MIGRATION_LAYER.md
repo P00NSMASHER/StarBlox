@@ -127,6 +127,12 @@ The migration operator command uses rbxmx because it is convenient for staging a
 
 No Luau is executed.
 
+## Source-byte integrity gate
+
+Catalog v2 carries the SHA-256 digest and byte length of each authorized Roblox source into every selected migration unit. When `--source-root` export is requested, the migration command recomputes that fingerprint before extracting any subtree and fails closed on missing or mismatched source bytes.
+
+This prevents a migration bundle from silently being produced from a same-named place/model file that changed after catalog review.
+
 ## Operator command
 
 Plan and export:
