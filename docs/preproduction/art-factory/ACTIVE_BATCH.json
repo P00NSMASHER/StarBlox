@@ -2,8 +2,8 @@
   "schemaVersion": 33,
   "owner": "15",
   "branch": "screenshot-match-preproduction",
-  "sourceHead": "c49d79e769e511cae2ec26aefa5b95400ccca378",
-  "updatedAt": "2026-09-24T20:10:00Z",
+  "sourceHead": "0bb0f865be7632a2abc09162c6d10c5f5b782b6c",
+  "updatedAt": "2026-09-24T20:18:00Z",
   "status": "ACTIVE_FINAL_FOUR_VISIBLE_ART_TAIL",
   "policy": {
     "maxConcurrentProductionBatches": 4,
@@ -75,27 +75,27 @@
     "workflowPath": ".github/workflows/art-factory-cpu-generation.yml",
     "observedAt": "2026-09-24T20:10:00Z",
     "running": {
-      "runId": 36050941229,
-      "headSha": "181556b2aa8bea3069e640bdfb4d0bcc2ffd27a9",
-      "batch": "w03-desks10-11-final-retry",
+      "runId": 36051844460,
+      "headSha": "e37578063920837dea95ea65284f3c88882efa08",
+      "batch": "w13-wall9-v11-three-frame-final",
       "state": "IN_PROGRESS",
       "jobs": [
-        "desks-10",
-        "desks-11"
+        "wall-9"
       ],
       "phase": "CPU_GENERATION"
     },
     "pending": {
-      "runId": 36051844460,
-      "headSha": "e37578063920837dea95ea65284f3c88882efa08",
-      "batch": "w13-wall9-v11-three-frame-final",
+      "runId": 36053809276,
+      "headSha": "0bb0f865be7632a2abc09162c6d10c5f5b782b6c",
+      "batch": "w03-desks10-11-final-retry-a-fallback",
       "state": "PENDING",
       "jobs": [
-        "wall-9"
+        "desks-10",
+        "desks-11"
       ]
     },
-    "authorization": "QUEUE_DECOR11_V8_ONLY_AFTER_WALL9_TRANSITIONS_TO_RUNNING",
-    "rule": "Exactly one running plus one pending successor. Held A fallbacks remain prepared-only.",
+    "authorization": "REQUEUE_DECOR11_V8_ONLY_AFTER_DESK_PAIR_TRANSITIONS_TO_RUNNING",
+    "rule": "Exactly one running plus one pending. Desk pair has priority over Decor11 because it can clear two confirmed blockers in one CPU cycle.",
     "preparedNext": [
       {
         "rank": 1,
@@ -108,17 +108,6 @@
       },
       {
         "rank": 2,
-        "queuePath": "docs/preproduction/art-factory/prepared-queues/w03-desks10-11-final-retry-a-fallback.json",
-        "scope": [
-          "desks-10",
-          "desks-11"
-        ],
-        "producer": "03",
-        "reviewer": "MIXED_05_01",
-        "conditional": "only REWORK items"
-      },
-      {
-        "rank": 3,
         "queuePath": "docs/preproduction/art-factory/prepared-queues/w13-wall9-v12-a-fallback.json",
         "scope": [
           "wall-9"
@@ -126,6 +115,16 @@
         "producer": "13",
         "reviewer": "02",
         "conditional": "only if v11 REWORK"
+      },
+      {
+        "rank": 3,
+        "queuePath": "docs/preproduction/art-factory/prepared-queues/w09-decor11-v9-ultraliteral-fallback.json",
+        "scope": [
+          "decor-11"
+        ],
+        "producer": "09",
+        "reviewer": "02",
+        "conditional": "only if v8 REWORK"
       }
     ]
   },
