@@ -73,21 +73,18 @@ function positiveBriefSegments(item,brief=''){
 function balancedBriefWords(item,brief,budget){
  const segments=positiveBriefSegments(item,brief).slice(0,8).map(promptWords).filter(x=>x.length);
  if(!segments.length||budget<=0) return [];
- const quota=Math.max(4,Math.floor(budget/segments.length));
- const take=segments.map(words=>Math.min(words.length,quota));
- let room=budget-take.reduce((sum,n)=>sum+n,0);
- while(room>0){
-  let advanced=false;
-  for(let i=0;i<segments.length&&room>0;i++){
-   if(take[i]<segments[i].length){
-    take[i]++;
-    room--;
-    advanced=true;
-   }
+ const packed=[];
+ let room=budget;
+ for(const words of segments){
+  if(words.length<=room){
+   packed.push(...words);
+   room-=words.length;
   }
-  if(!advanced) break;
  }
- return segments.flatMap((words,i)=>words.slice(0,take[i])).slice(0,budget);
+ // A single very long clause should still contribute rather than disappearing,
+ // but ordinary product clauses are never sliced and recombined mid-phrase.
+ if(!packed.length) return segments[0].slice(0,budget);
+ return packed.slice(0,budget);
 }
 
 function explicitNegativePhrases(brief=''){
