@@ -488,6 +488,14 @@ export const UPSTREAM_PROVENANCE = Object.freeze({
     'MIT',
     'packages/core/src/safety/safety-manager.ts'
   ),
+  bloxForgeTestHandlers: source(
+    'StudioTestService single-player/multiplayer playtest lifecycle and runtime peer control',
+    'princeofscale/bloxforge',
+    'main',
+    'ef98c370b6e0dd93273eae245485b547b09aca53',
+    'MIT',
+    'studio-plugin/src/modules/handlers/TestHandlers.ts'
+  ),
   nixeraCoordinator: source(
     'multi-agent Roblox Studio coordinator and ordered specialist delegation',
     'Nixera-Studio/roblox-ai-studio',
@@ -511,6 +519,22 @@ export const UPSTREAM_PROVENANCE = Object.freeze({
     'c88d2e57a5ca52381b49f488ee13a0fd7c3beae9',
     'MIT',
     'backend/src/tools/studioTools.ts'
+  ),
+  nixeraInspectOps: source(
+    'read-only Studio tree/script inspection and script grep handlers',
+    'Nixera-Studio/roblox-ai-studio',
+    'main',
+    'c88d2e57a5ca52381b49f488ee13a0fd7c3beae9',
+    'MIT',
+    'plugin/src/tools/Inspect.luau'
+  ),
+  nixeraTestOps: source(
+    'fresh-source Studio ModuleScript test execution and structured pass/fail aggregation',
+    'Nixera-Studio/roblox-ai-studio',
+    'main',
+    'c88d2e57a5ca52381b49f488ee13a0fd7c3beae9',
+    'MIT',
+    'plugin/src/tools/TestOps.luau'
   ),
   nixeraPlaytestOps: source(
     'engine-side Roblox playtest run-state and input simulation helpers',
