@@ -28,7 +28,7 @@
       "desks-10": "05",
       "desks-11": "01"
     },
-    "note": "Final A fallback after direct exact-pixel B-variant REWORK. Desk10 makes the microphone unmistakable; Desk11 makes the worktop dominant and organizer subordinate."
+    "note": "Token-safe final A fallback after CLIP overflow: keep each positive prompt materially below 77 tokens while preserving the decisive product geometry."
   },
   "reviewSource": {
     "decision": "REWORK",
@@ -55,7 +55,7 @@
       "variants": [
         {
           "variantId": "A-CONVENTIONAL-STREAMING-DESK",
-          "optimizerInput": "Neon Streaming Desk. ONE conventional freestanding rectangular computer desk on a plain white studio background. The long black tabletop is the dominant silhouette. Exactly two solid side legs. Exactly one centered monitor. ONE LARGE OBVIOUS microphone with visible round capsule on a boom arm extending diagonally from the left desk edge; the microphone must be clearly visible beside the monitor at thumbnail size. One PC tower under the desk. Thin cyan edge light only. Full desk visible. NO rear wall panels, NO central pedestal, NO overhead canopy, NO shelves, NO cabinets, NO room, NO collage, NO text."
+          "optimizerInput": "Neon Streaming Desk. One black rectangular desk on white. Two side legs, one centered monitor, one large visible microphone capsule on a boom arm from the left edge, one PC tower below, thin cyan light. Full desk visible. NO rear panels, shelves, cabinets, room, collage, text."
         },
         {
           "variantId": "B-TWO-LEG-DESK-MIC",
@@ -72,7 +72,7 @@
       "variants": [
         {
           "variantId": "A-CREATOR-DESK-TOOLS",
-          "optimizerInput": "Dream Creator Station. ONE freestanding creator DESK on a plain white studio background. A wide cream horizontal WORKTOP must dominate the center of the image. Two compact drawer pedestals sit UNDER the worktop as clear supports. One SHORT LOW pegboard/tool rail is attached only along the rear edge and must stay much smaller than the worktop. One drawing tablet lies on the worktop; one brush cup and two small colorful supply bins sit on the worktop. Coral lavender aqua accents. Full desk visible with open leg space. NO tall organizer cabinet, NO shelving tower, NO room, NO wall art, NO chair, NO wheels, NO collage, NO text."
+          "optimizerInput": "Dream Creator Station. One cream creator desk on white. Wide worktop, two drawer pedestals under it, short low rear peg rail, one drawing tablet, brush cup, two supply bins. Open leg space. Full desk visible. NO tall cabinet, room, chair, collage, text."
         },
         {
           "variantId": "B-ART-CREATOR-WORKSTATION",
