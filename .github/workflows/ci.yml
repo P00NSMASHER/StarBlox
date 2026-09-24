@@ -17,8 +17,17 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - name: Use Rust stable
+        uses: dtolnay/rust-toolchain@stable
       - name: Install dependencies
         run: npm install --no-audit --no-fund
+      - name: Test Roblox file reader
+        run: npm run roblox:catalog:reader:test
+      - name: Smoke-test Roblox capability catalog
+        run: |
+          npm run roblox:catalog -- --input tools/roblox_catalog_reader/fixtures/sample.rbxmx --out /tmp/roblox-catalog.json --report /tmp/roblox-catalog.md
+          grep -q "Licensed House System" /tmp/roblox-catalog.md
+          grep -q '"instanceCount"' /tmp/roblox-catalog.json
       - name: Run tests
         run: npm test
       - name: Run balance gate
