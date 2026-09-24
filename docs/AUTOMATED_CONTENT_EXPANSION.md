@@ -114,7 +114,7 @@ It inherits that system's safety controls:
 - test gates;
 - playtest/runtime evidence;
 - optional screenshots/visual review;
-- repository gates;
+- repository gates, including explicit certification;
 - bounded reviewer-driven repair loops;
 - rollback when verification fails.
 
@@ -253,4 +253,4 @@ It produces a complete, testable, reviewable content candidate.
 
 A review-ready expansion must carry a valid migration plan-binding proof and its selected migration unit IDs must exactly match the district blueprint's selected systems.
 
-This is in addition to the existing requirements for verified Studio development, explicit tests/balance/build repository proof, strict question validation, exact question-slot coverage, staging-only migration, and disabled automatic publication.
+This is in addition to the existing requirements for verified Studio development, explicit tests/certification/balance/build repository proof, strict question validation, exact question-slot coverage, staging-only migration, and disabled automatic publication.
