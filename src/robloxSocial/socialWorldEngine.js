@@ -193,7 +193,14 @@ export function awardNpcAffinity(state,catalog,{
   const key=id(eventId,'eventId');
   next._affinityEventIds ||= [];
   if(next._affinityEventIds.includes(key)){
-    return deepFreeze({ok:true,duplicate:true,state:next,level:npcLevel(def,next.npcAffinity[npcId] || 0)});
+    const affinity=next.npcAffinity[npcId] || 0;
+    return deepFreeze({
+      ok:true,
+      duplicate:true,
+      state:next,
+      affinity,
+      level:npcLevel(def,affinity).level
+    });
   }
   next._affinityEventIds.push(key);
   next._affinityEventIds=next._affinityEventIds.slice(-200);
