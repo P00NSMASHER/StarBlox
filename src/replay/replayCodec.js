@@ -131,6 +131,7 @@ export function validReplayActionPack(raw){
   if(raw.codec !== REPLAY_ACTION_CODEC) return false;
   if(!Number.isInteger(raw.count) || raw.count < 0 || raw.count > REPLAY_ACTION_CHUNK_SIZE) return false;
   if(!Array.isArray(raw.actionTypes) || raw.actionTypes.length > MAX_ACTION_TYPES) return false;
+  if(raw.count === 0 && raw.data !== '') return false;
   if(raw.actionTypes.some(type => typeof type !== 'string' || !type.trim() || type.length > MAX_ACTION_TYPE_LENGTH)) return false;
   if(new Set(raw.actionTypes).size !== raw.actionTypes.length) return false;
   return typeof raw.data === 'string' && raw.data.length <= MAX_PACK_DATA_CHARS;
