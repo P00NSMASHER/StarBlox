@@ -34,5 +34,7 @@
     "route": "12 -> 06 -> 14 -> 01 -> 08 on ACCEPT",
     "canonicalWriter": "08"
   },
-  "dispatchPolicy": "PREPARED_ONLY__WAIT_CURRENT_W09_AND_W13_CPU_PIPELINE"
+  "dispatchPolicy": "SUPERSEDED_DO_NOT_DISPATCH",
+  "supersededBy": "docs/preproduction/art-factory/prepared-queues/w09-decor7-v11-quad-skates.json",
+  "supersededReason": "Canonical v11 retry selected: explicit two quad skates on a short shoe rack, 10 steps, guidance 4.5."
 }
