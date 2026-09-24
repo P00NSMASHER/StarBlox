@@ -94,7 +94,7 @@ describe('Step 20: privacy-safe observability diagnostics', () => {
     expect(next).toBe(session);
   });
 
-  it('throttles noisy repeated events and caps retained event history', () => {
+  it('throttles noisy repeated events', () => {
     let session=createDiagnosticSession({
       sessionId:'diag-throttle',
       startedAt:'2026-09-24T12:00:00Z'
@@ -105,15 +105,36 @@ describe('Step 20: privacy-safe observability diagnostics', () => {
         type:'pointer-jitter',
         at:new Date(Date.parse('2026-09-24T12:00:00Z') + index * 1000).toISOString(),
         data:{index},
-        maxEvents:3,
-        throttlePerType:4
+        maxEvents:20,
+        throttlePerType:3
       });
     }
 
     expect(session.events).toHaveLength(3);
-    expect(session.counters.eventCount).toBe(4);
+    expect(session.counters.eventCount).toBe(3);
     expect(session.counters.droppedEvents).toBe(3);
-    expect(session.events.map(event => event.data.index)).toEqual([1,2,3]);
+    expect(session.events.map(event => event.data.index)).toEqual([0,1,2]);
+  });
+
+  it('caps retained event history while preserving total event counters', () => {
+    let session=createDiagnosticSession({
+      sessionId:'diag-cap',
+      startedAt:'2026-09-24T12:00:00Z'
+    });
+
+    for(let index=0;index<5;index++){
+      session=recordDiagnosticEvent(session,{
+        type:'event-' + index,
+        at:new Date(Date.parse('2026-09-24T12:00:00Z') + index * 1000).toISOString(),
+        data:{index},
+        maxEvents:3
+      });
+    }
+
+    expect(session.events).toHaveLength(3);
+    expect(session.events.map(event => event.data.index)).toEqual([2,3,4]);
+    expect(session.counters.eventCount).toBe(5);
+    expect(session.counters.droppedEvents).toBe(2);
   });
 
   it('redacts error messages/stacks and aggregates performance without raw frame streams', () => {
