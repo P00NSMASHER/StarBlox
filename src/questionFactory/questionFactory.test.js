@@ -395,7 +395,36 @@ describe('Step 9: validation, evidence and deduplication', () => {
       item.reference.startsWith('chunk-hash:')
     )).toBe(true);
     expect(reviewRow?.label).toMatch(/^strict:keep:/);
-    expect(reviewRow?.reference).toMatch(/^review-receipt:/);
+    expect(reviewRow?.reference).toMatch(/^validation-receipt:/);
+  });
+
+  it('rejects post-review candidate mutation at the ingestion boundary', async () => {
+    const bank=importLegacyQuestionBank(gameModel.buildQuestions());
+    const generated=await runOfflineGeneration({
+      chunks:CHUNKS.slice(0,1),
+      provider:{async generate(){ return {questions:[generatedCulture()]}; }},
+      runId:'post-review-mutation'
+    });
+    const reviewer={
+      async review({candidates}){
+        return {results:candidates.map(candidate => ({
+          candidateId:candidate.candidateId,decision:'keep',score:97,reasons:[]
+        }))};
+      }
+    };
+    const quality=await validateGeneratedCandidates({
+      candidates:generated.candidates,
+      chunks:CHUNKS,
+      reviewer,
+      bank,
+      mode:'strict'
+    });
+
+    const tampered=JSON.parse(JSON.stringify(quality.accepted[0]));
+    tampered.answer='Ignoring every family tradition.';
+
+    expect(() => ingestValidatedCandidates(bank,[tampered]))
+      .toThrow(/validation receipt does not match candidate content/);
   });
 
   it('does not allow generated ingestion to override pending lifecycle', async () => {
