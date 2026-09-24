@@ -4,7 +4,7 @@
   "role": "independent catalog reviewer for beds/desks/companions/auras",
   "phase": "ART_VISUALS_SPRINT",
   "branch": "screenshot-match-preproduction",
-  "sourceHead": "8437c5a700",
+  "sourceHead": "ea510567e6",
   "policy": "docs/preproduction/DELIVERY_PROTOCOL_V2.md",
   "visualSprint": "docs/preproduction/ART_VISUALS_SPRINT.json",
   "referenceManifest": "docs/preproduction/reference-screenshots/original-reference-manifest.json",
@@ -22,7 +22,7 @@
     "scope": [
       "desks-10"
     ],
-    "version": "Desk10 v11 exact source hash",
+    "version": "Desk10 v12 exact source hash",
     "result": "REWORK_1_OF_1_FAIL_FAST",
     "oldVerdictsTransferred": false,
     "actualSourcePixelsReviewed": true,
@@ -728,6 +728,45 @@
         "duplicateVisual": "PASS",
         "technicalIntegrity": "PASS"
       }
+    },
+    {
+      "itemId": "desks-10",
+      "name": "Neon Streaming Desk",
+      "tier": 4,
+      "theme": "Aqua Wave",
+      "assetPath": "public/assets/catalog-candidates/cpu/desks-10-w03-v12-a-mic-first-desk-original.png",
+      "repositoryPath": "public/assets/catalog-candidates/cpu/desks-10-w03-v12-a-mic-first-desk-original.png",
+      "assetHash": "50fb49c1bf2bcea8b1d48519fab3120f2fc7cf1f",
+      "sha256": "025e4b8632f874ef8b2a3825400516accf58cddbd068c296745ef3e41180f105",
+      "contentSha256": "025e4b8632f874ef8b2a3825400516accf58cddbd068c296745ef3e41180f105",
+      "hashAlgorithm": "git-blob-sha1",
+      "producer": "03",
+      "decision": "REWORK",
+      "learnerLabel": "REWORK",
+      "reviewedAt": "2026-09-24T23:00:00Z",
+      "evidenceRefs": [
+        "workflow:36069228853",
+        "artifact:10837861812/candidate/desks-10-w03-v12-a-mic-first-desk-original.png"
+      ],
+      "reasonCodes": [
+        "MICROPHONE_STILL_MISSING",
+        "LARGE_REAR_FRAME_DOMINATES",
+        "STREAMING_DESK_IDENTITY_FAILURE",
+        "MIC_FIRST_PROMPT_NOT_REALIZED"
+      ],
+      "reason": "REWORK fail-fast from exact source pixels. Desk10 v12 still does not realize the microphone-first streaming-desk contract. The image is dominated by a large rear rectangular frame/panel and a generic desk/chair setup; there is no unmistakable microphone capsule on a normal short boom arm. Preserve this exact hash. Do not render it.",
+      "checks": {
+        "identity": "FAIL",
+        "themeTier": "PASS",
+        "silhouette": "FAIL",
+        "materialLighting": "PASS",
+        "cardReadability": "PARTIAL",
+        "physicalConstruction": "PARTIAL",
+        "framingComposition": "FAIL",
+        "originality": "PASS",
+        "duplicateVisual": "PASS",
+        "technicalIntegrity": "PASS"
+      }
     }
   ],
   "preservedAcceptedCurrentHashes": [
@@ -861,8 +900,8 @@
   "handoff": {
     "14": "Desk9/10 v3 render packets consumed; do not rerender unchanged hashes.",
     "15": "Desk10 remains a bounded exact-pixel blocker.",
-    "03": "Desk10 v11 REWORK; preserve exact hash. Use only the precompiled ultra-literal Desk10 fallback next.",
-    "08": "Do not canonical-wire Desk10 v11."
+    "03": "Desk10 v12 REWORK; preserve exact hash. Do not rerender unchanged bytes.",
+    "08": "Do not canonical-wire Desk10 v12."
   },
   "summary": {
     "totalVersionsReviewed": 42,
@@ -883,7 +922,7 @@
     "reworkNow": [
       "desks-10"
     ],
-    "preservedAcceptedHashes": "All prior reviewer05 ACCEPTs remain frozen; Desk10 v11 is REWORK only."
+    "preservedAcceptedHashes": "All prior reviewer05 ACCEPTs remain frozen; Desk10 v12 is REWORK only."
   },
   "freeze": {
     "selfApproved": false,
@@ -898,7 +937,7 @@
   "currentReplacementDisposition": {
     "desks": {
       "REWORK": {
-        "desks-10": "0255b3af108f7cda131101965f754b8b507ce3dd",
+        "desks-10": "50fb49c1bf2bcea8b1d48519fab3120f2fc7cf1f",
         "desks-9": "79d5f4e0520910fea1a6ac47c76df451b14ce6f2"
       },
       "ACCEPT": {
