@@ -162,6 +162,7 @@ function AuthoritativeActionService:_state(player: Player)
 	current = {
 		LastSeq = -1,
 		LastClientTime = nil,
+		LastFireSeq = -1,
 		LastFireAt = {},
 		History = {},
 	}
@@ -283,15 +284,21 @@ function AuthoritativeActionService:SubmitFire(player: Player, payload)
 		return false, "server combat adapters unavailable"
 	end
 
+	local fireSeq = payload.Seq
 	local requestId = cleanId(payload.RequestId, 120)
 	local weaponId = cleanId(payload.WeaponId, 80)
 	local shotTime = payload.ShotTime
-	if requestId == nil or weaponId == nil or not finite(shotTime)
+	if not positiveInteger(fireSeq) or requestId == nil or weaponId == nil or not finite(shotTime)
 		or typeof(payload.Origin) ~= "Vector3" or typeof(payload.Direction) ~= "Vector3" then
 		return false, "invalid fire intent"
 	end
 	if payload.Direction.Magnitude < 0.0001 then
 		return false, "invalid fire direction"
+	end
+
+	local shooterState = self:_state(player)
+	if fireSeq <= (shooterState.LastFireSeq or -1) then
+		return false, "stale or duplicate fire sequence"
 	end
 
 	local requestKey = tostring(player.UserId) .. ":" .. requestId
@@ -324,7 +331,6 @@ function AuthoritativeActionService:SubmitFire(player: Player, payload)
 		return false, "invalid server weapon definition"
 	end
 
-	local shooterState = self:_state(player)
 	local shooterPose = sampleHistory(shooterState, shotTime)
 	if shooterPose == nil or (payload.Origin - shooterPose.Position).Magnitude > originTolerance then
 		return false, "shot origin does not match server rewind state"
@@ -362,18 +368,6 @@ function AuthoritativeActionService:SubmitFire(player: Player, payload)
 		end
 	end
 
-	shooterState.LastFireAt[weaponId] = now
-	self._processedFire[requestKey] = true
-	local processedCount = 0
-	for _ in self._processedFire do
-		processedCount += 1
-	end
-	if processedCount > self._config.ProcessedFireLimit then
-		-- Request receipts are bounded in-memory. Server scoring/progression must
-		-- still use its own durable idempotency keys for reward-bearing effects.
-		self._processedFire = {[requestKey] = true}
-	end
-
 	local appliedDamage = 0
 	local targetHealth = nil
 	if bestPlayer then
@@ -400,7 +394,21 @@ function AuthoritativeActionService:SubmitFire(player: Player, payload)
 		end
 	end
 
+	shooterState.LastFireSeq = fireSeq
+	shooterState.LastFireAt[weaponId] = now
+	self._processedFire[requestKey] = true
+	local processedCount = 0
+	for _ in self._processedFire do
+		processedCount += 1
+	end
+	if processedCount > self._config.ProcessedFireLimit then
+		-- Correlation receipts may be compacted because LastFireSeq remains the
+		-- authoritative replay boundary for this player session.
+		self._processedFire = {[requestKey] = true}
+	end
+
 	local event = {
+		Seq = fireSeq,
 		RequestId = requestId,
 		WeaponId = weaponId,
 		Hit = bestPlayer ~= nil,
