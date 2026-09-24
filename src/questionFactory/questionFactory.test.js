@@ -134,6 +134,34 @@ describe('Step 8: offline question generation', () => {
     expect(resumed.candidates[0].generation.provider).toBe('fixture-provider');
   });
 
+  it('owns candidate identity even when a provider supplies duplicate IDs', async () => {
+    const result=await runOfflineGeneration({
+      chunks:CHUNKS.slice(0,1),
+      provider:{
+        async generate(){
+          return {questions:[
+            {...generatedCulture(),candidateId:'provider-duplicate'},
+            {...generatedCulture(),candidateId:'provider-duplicate',prompt:'Which activity shares family culture?'}
+          ]};
+        }
+      },
+      runId:'factory-ids',
+      questionsPerChunk:2
+    });
+
+    expect(result.candidates).toHaveLength(2);
+    expect(new Set(result.candidates.map(item => item.candidateId)).size).toBe(2);
+    expect(result.candidates.every(item => item.candidateId.startsWith('generated-'))).toBe(true);
+  });
+
+  it('fails closed when source chunk IDs are duplicated', async () => {
+    await expect(runOfflineGeneration({
+      chunks:[CHUNKS[0],{...CHUNKS[1],id:CHUNKS[0].id}],
+      provider:{async generate(){ return {questions:[generatedCulture()]}; }},
+      runId:'duplicate-chunks'
+    })).rejects.toThrow(/duplicate source chunk id/);
+  });
+
   it('records generation errors without losing completed chunks', async () => {
     let attempts=0;
     const provider={
@@ -199,6 +227,50 @@ describe('Step 9: validation, evidence and deduplication', () => {
     expect(result.duplicates).toHaveLength(0);
     expect(result.accepted.every(item => item.quality.verifiedEvidence.length > 0)).toBe(true);
     expect(result.accepted.every(item => item.supportingChunkIds.includes(item.sourceChunkId))).toBe(true);
+  });
+
+  it('fails closed when reviewer results contain duplicate candidate IDs', async () => {
+    const generated=await runOfflineGeneration({
+      chunks:CHUNKS.slice(0,1),
+      provider:{async generate(){ return {questions:[generatedCulture()]}; }},
+      runId:'duplicate-review-ids'
+    });
+    const id=generated.candidates[0].candidateId;
+    const reviewer={
+      async review(){
+        return {results:[
+          {candidateId:id,decision:'keep',score:99,reasons:[]},
+          {candidateId:id,decision:'keep',score:99,reasons:[]}
+        ]};
+      }
+    };
+
+    const result=await validateGeneratedCandidates({
+      candidates:generated.candidates,
+      chunks:CHUNKS,
+      reviewer,
+      mode:'strict'
+    });
+
+    expect(result.reviewerFailed).toBe(true);
+    expect(result.accepted).toHaveLength(0);
+    expect(result.rejected).toHaveLength(1);
+  });
+
+  it('rejects duplicate candidate identities before independent review', async () => {
+    const generated=await runOfflineGeneration({
+      chunks:CHUNKS.slice(0,1),
+      provider:{async generate(){ return {questions:[generatedCulture()]}; }},
+      runId:'duplicate-candidate-ids'
+    });
+    const duplicate=JSON.parse(JSON.stringify(generated.candidates[0]));
+
+    await expect(validateGeneratedCandidates({
+      candidates:[generated.candidates[0],duplicate],
+      chunks:CHUNKS,
+      reviewer:{async review(){ return {results:[]}; }},
+      mode:'strict'
+    })).rejects.toThrow(/duplicate candidateId before review/);
   });
 
   it('fails closed in strict mode when reviewer output is missing', async () => {
