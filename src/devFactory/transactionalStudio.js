@@ -42,10 +42,21 @@ async function backupForCall(studio,call){
       }
     }catch{
       if(call.tool === 'write_script' && call.args.create === true){
-        return {
-          covered:true,
-          calls:[{tool:'delete_instance',args:{path:call.args.path}}]
-        };
+        try{
+          // A failed read does not prove absence. Inspect the target before
+          // deciding that deleting it later is a valid rollback.
+          await studio.call('inspect_instance',{path:call.args.path});
+          return {
+            covered:false,
+            calls:[],
+            reason:'target exists but its prior script source could not be captured'
+          };
+        }catch{
+          return {
+            covered:true,
+            calls:[{tool:'delete_instance',args:{path:call.args.path}}]
+          };
+        }
       }
     }
     return {
