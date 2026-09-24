@@ -83,29 +83,64 @@ for(const [numericUser,skillPredictions] of Object.entries(psi.skillPredictions 
   if(player) psiByPlayer[player] = skillPredictions;
 }
 
+const evaluationLearners = evaluation.learners.filter(
+  learner => Boolean(psiByPlayer[learner.playerLocalId])
+);
+if(!evaluationLearners.length){
+  throw new Error('PSI-KT produced no held-out learner cohort for comparison');
+}
+for(const learner of evaluationLearners){
+  const rows = psiByPlayer[learner.playerLocalId];
+  const missing = evaluation.skills.filter(
+    skill => !Number.isFinite(Number(rows[skill]))
+  );
+  if(missing.length){
+    throw new Error(
+      'incomplete PSI selector state for ' +
+      learner.playerLocalId + ': ' + missing.join(',')
+    );
+  }
+  if(
+    !learner.selectionTruthMastery ||
+    !learner.selectionBktMastery ||
+    !learner.selectionStats
+  ){
+    throw new Error(
+      'selector comparison requires decision-boundary snapshots for ' +
+      learner.playerLocalId
+    );
+  }
+}
+
 const questions = gameModel.buildQuestions();
-const now = Date.UTC(2026,8,24,12,0,0);
+const now = Date.parse(fsrs.evaluationAt);
+if(!Number.isFinite(now)){
+  throw new Error('FSRS receipt is missing a valid evaluationAt timestamp');
+}
 const policies = {
   heuristic:[],
   bktShadow:[],
   psiFsrsV2:[]
 };
 
-for(const learner of evaluation.learners){
+for(const learner of evaluationLearners){
   const player = learner.playerLocalId;
   const dueRows = fsrsByPlayer[player] || {};
+  const truthAtSelection = learner.selectionTruthMastery;
+  const statsAtSelection = learner.selectionStats;
+  const bktAtSelection = learner.selectionBktMastery;
 
-  const heuristicQuest = gameModel.pickQuest(learner.stats,5,now);
+  const heuristicQuest = gameModel.pickQuest(statsAtSelection,5,now);
 
   const bktProfile = {
     skills:Object.fromEntries(
-      Object.keys(learner.bktMastery).map(skill => [
+      Object.keys(bktAtSelection).map(skill => [
         skill,
         {
-          psiMastery:Number(learner.bktMastery[skill]),
+          psiMastery:Number(bktAtSelection[skill]),
           psiUncertainty:0,
           fsrsDue:false,
-          lastSeenAt:Number(learner.stats[skill]?.lastSeen || 0)
+          lastSeenAt:Number(statsAtSelection[skill]?.lastSeen || 0)
         }
       ])
     )
@@ -118,16 +153,19 @@ for(const learner of evaluation.learners){
       evaluation.skills.map(skill => {
         const predicted = Number(psiRows[skill]);
         const fsrsState = dueRows[skill] || {};
-        const retrievability = Number(fsrsState.retrievability);
+        if(!Number.isFinite(predicted)){
+          throw new Error('missing PSI mastery for ' + player + ':' + skill);
+        }
         return [
           skill,
           {
-            psiMastery:Number.isFinite(predicted) ? predicted : 0.5,
-            psiUncertainty:Number.isFinite(retrievability)
-              ? Math.abs(0.5 - retrievability) * 0.5
-              : 0.25,
+            psiMastery:predicted,
+            // The current PSI receipt does not expose calibrated posterior
+            // uncertainty; do not substitute FSRS retrievability under a PSI
+            // uncertainty label. FSRS contributes through its actual due state.
+            psiUncertainty:0,
             fsrsDue:Boolean(fsrsState.due),
-            lastSeenAt:Number(learner.stats[skill]?.lastSeen || 0)
+            lastSeenAt:Number(statsAtSelection[skill]?.lastSeen || 0)
           }
         ];
       })
@@ -136,13 +174,13 @@ for(const learner of evaluation.learners){
   const psiQuest = pickQuestV2Shadow(questions,psiProfile,5,now);
 
   policies.heuristic.push(
-    questMetrics(heuristicQuest,learner.truthMastery,dueRows)
+    questMetrics(heuristicQuest,truthAtSelection,dueRows)
   );
   policies.bktShadow.push(
-    questMetrics(bktQuest,learner.truthMastery,dueRows)
+    questMetrics(bktQuest,truthAtSelection,dueRows)
   );
   policies.psiFsrsV2.push(
-    questMetrics(psiQuest,learner.truthMastery,dueRows)
+    questMetrics(psiQuest,truthAtSelection,dueRows)
   );
 }
 
@@ -160,13 +198,25 @@ function aggregate(rows){
 const result = {
   schemaVersion:'starblox-selector-promotion-comparison-v1',
   datasetAuthorization:evaluation.authorization,
-  learnerCount:evaluation.learnerCount,
+  sourceLearnerCount:evaluation.learnerCount,
+  learnerCount:evaluationLearners.length,
+  comparisonCohort:{
+    type:'psi-kt-held-out-learners',
+    sourceLearnerCount:evaluation.learnerCount,
+    evaluatedLearnerCount:evaluationLearners.length,
+    coverage:evaluationLearners.length / evaluation.learnerCount,
+    selectionStep:evaluation.selectionStep,
+    heldOutStepCount:evaluation.heldOutStepCount,
+    evaluationAt:fsrs.evaluationAt
+  },
   psiKt:{
     model:psi.model,
     upstreamCommit:psi.upstreamCommit,
     epochs:psi.epochs,
     metrics:psi.metrics,
-    modelStateSha256:psi.modelStateSha256
+    modelStateSha256:psi.modelStateSha256,
+    selectorStateLearnerCount:psi.selectorStateLearnerCount,
+    selectorStateSkillCount:psi.selectorStateSkillCount
   },
   fsrs:{
     engine:fsrs.engine,
