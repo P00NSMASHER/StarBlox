@@ -63,6 +63,7 @@ describe('learning factory adapters', () => {
     const retry = createLearningEvent({question:q,choice:'yes',timestamp:20,wasRetry:true});
     const reviews = buildRiffReviewCommands([wrong,retry]);
 
+    expect(reviews[0].cardId).toBe('local:skill:phonics');
     expect(reviews[0].rating).toBe(RIFF_RATING.AGAIN);
     expect(reviews[1].rating).toBe(RIFF_RATING.HARD);
   });
