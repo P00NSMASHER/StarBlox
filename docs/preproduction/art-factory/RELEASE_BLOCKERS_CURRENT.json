@@ -1,0 +1,179 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_RELEASE_ART_BLOCKER_LEDGER",
+  "branch": "screenshot-match-preproduction",
+  "source": {
+    "computedAtHead": "62ec831e37aa83dbc4a56242353af8fe1b97feed",
+    "correctedVisualQa": {
+      "runId": 36030550833,
+      "sourceHead": "96b0ca90829e34450c8decf6b37d02cc251d7bdf",
+      "artifactId": 10821420933,
+      "gate": "visible-final-art-fallbacks",
+      "scope": "visible Store product cards only (.storeGrid .storeCard containing .itemArtFallback)"
+    },
+    "manifest": {
+      "version": 40,
+      "finalCount": 176,
+      "remaining": 16,
+      "target": 192
+    }
+  },
+  "releaseRule": "Do not open unrelated/speculative art. Clear these visible product-card fallback IDs first. An ID leaves this ledger only after a newer exact hash is independently ACCEPTed and canonical, or newer current visual QA proves it is no longer a visible product-card fallback.",
+  "visibleProductFallbacks": [
+    {
+      "id": "desks-8",
+      "name": "Aqua Study Station",
+      "producer": "13",
+      "reviewer": "11",
+      "state": "REWORK_NEEDS_NEW_GENERATION",
+      "latestEvidence": {
+        "version": "v2",
+        "gitBlobSha": "bada24e2447de5e39ac2cb6647aa8458cf410e43",
+        "sha256": "c0becc91f8941391965b1d1e9bd28aeeb210de08e74aa00858c3bb1eccccb82b"
+      },
+      "nextRepair": "Exactly one coherent Aqua Study Station in one isolated view: one worktop/support/storage system, no stacked/duplicate variants or collage."
+    },
+    {
+      "id": "desks-9",
+      "name": "Art Maker Table",
+      "producer": "03",
+      "reviewer": "05",
+      "state": "REWORK_NEEDS_NEW_GENERATION",
+      "latestEvidence": {
+        "version": "v3",
+        "gitBlobSha": "64bb30b92257f0471259dd8b840b086af9e58073",
+        "sha256": "03b2d9b3899bad522861ca788403bc3ed8c469bddcb932bc6fa348e2216b2b97"
+      },
+      "nextRepair": "One isolated desk/table with broad worktop and stable supports, raised tool/peg rail, integrated storage, a few bounded art tools, stronger Sunny Pop identity; no wall-shelving/workbench installation."
+    },
+    {
+      "id": "desks-10",
+      "name": "Neon Streaming Desk",
+      "producer": "03",
+      "reviewer": "05",
+      "state": "REWORK_NEEDS_NEW_GENERATION",
+      "latestEvidence": {
+        "version": "v6",
+        "gitBlobSha": "a576fa4d5450a492d3a29547e2551879dc64dd76",
+        "sha256": "a73511b60c60b19ac374207015ee894f84b12cfa850cf021288bd6db86738803"
+      },
+      "nextRepair": "One ordinary freestanding streaming desk on plain studio background: one large rectangular tabletop, two supports, exactly one monitor and one boom microphone. Forbid shelves, pods, stacked forms, room architecture, panels, cutaways and alternate views."
+    },
+    {
+      "id": "desks-11",
+      "name": "Dream Creator Station",
+      "producer": "03",
+      "reviewer": "01",
+      "state": "REWORK_NEEDS_NEW_GENERATION",
+      "latestEvidence": {
+        "version": "v4",
+        "gitBlobSha": "7f4f00fcce23a47b566ec3a99704821acb3ce57a",
+        "sha256": "b84e2493699bb9c3cfc7d1bfb95d35ad73e04bfd0d5373f45f089374e6ac7365"
+      },
+      "nextRepair": "Exactly one freestanding creator desk on seamless plain background, one worktop/supports, one compact creative-storage unit and restrained Art Attack accents. Explicitly forbid collage/contact sheet/comparison/multiple views."
+    },
+    {
+      "id": "wall-8",
+      "name": "Ocean Window",
+      "producer": "13",
+      "reviewer": "11",
+      "state": "REWORK_NEEDS_NEW_GENERATION",
+      "latestEvidence": {
+        "version": "v7",
+        "gitBlobSha": "ca9108a80d2cd6811d7826fb52a85455482903f2",
+        "sha256": "6b657efc94b0d6c5529d7946ed19f0886f817f0741a48cd6c9f729dff403ad1a"
+      },
+      "nextRepair": "Keep one coherent framed/recessed window, but central opening must visibly show blue ocean/water and a clear sky/ocean horizon occupying most of the view. Remove opaque panel texture and side-room props."
+    },
+    {
+      "id": "wall-9",
+      "name": "Art Gallery Wall",
+      "producer": "13",
+      "reviewer": "02",
+      "state": "REWORK_NEEDS_NEW_GENERATION",
+      "latestEvidence": {
+        "version": "v7",
+        "gitBlobSha": "f1c423657b836aee822311b15a3229251174768d",
+        "sha256": "61fea8c6dcf99e3238067d45986a43104da5885c7b1cefe0c19159b9e3265f9c"
+      },
+      "nextRepair": "One isolated shallow backboard/rail with exactly three large framed travel/adventure artworks dominating the silhouette. No room, floor, leaning panels, mini-frames, furniture or props."
+    },
+    {
+      "id": "decor-7",
+      "name": "Skate Rack",
+      "producer": "09",
+      "reviewer": "01",
+      "state": "GENERATION_IN_PROGRESS",
+      "activeQueue": "w09-current-rework-2pack-v4",
+      "generationRunId": 36030020397,
+      "nextRepair": "One tiny freestanding rack with 2–4 bays and one unmistakable pair of quad roller skates; boot uppers, trucks and four wheels readable. No repeated wall grid or loose floor skates."
+    },
+    {
+      "id": "decor-8",
+      "name": "Mini Aquarium",
+      "producer": "03",
+      "reviewer": "11",
+      "state": "REWORK_NEEDS_NEW_GENERATION",
+      "latestEvidence": {
+        "version": "v3",
+        "gitBlobSha": "b35648acd6951aaa04de97f555b660396e2a62df",
+        "sha256": "254d78c006b3268bcfaa1c0576784010fe060db0d48a9376f5292d1d3461a59c"
+      },
+      "nextRepair": "Exactly one isolated compact rectangular aquarium with one base/lid/filter assembly and simple interior, one camera view, no collage, duplicate tank, callouts or UI/text artifacts."
+    },
+    {
+      "id": "decor-11",
+      "name": "Dream Vanity Set",
+      "producer": "09",
+      "reviewer": "02",
+      "state": "GENERATION_IN_PROGRESS",
+      "activeQueue": "w09-current-rework-2pack-v4",
+      "generationRunId": 36030020397,
+      "nextRepair": "Keep successful vanity/mirror identity, isolate on plain background with exactly one clearly formed matching stool directly in front. Remove room/floor/side props."
+    }
+  ],
+  "parallelWorkPlan": {
+    "cpuSemaphore": "SINGLE_GLOBAL_CPU_GENERATION_RUN",
+    "currentCpuBatch": {
+      "queueId": "w09-current-rework-2pack-v4",
+      "items": [
+        "decor-7",
+        "decor-11"
+      ],
+      "runId": 36030020397
+    },
+    "preparedNext": [
+      {
+        "producer": "13",
+        "items": [
+          "wall-8",
+          "wall-9"
+        ],
+        "goal": "Precompile failure-specific 2-pack while CPU busy; dispatch only after live semaphore idle check."
+      },
+      {
+        "producer": "03",
+        "items": [
+          "desks-8",
+          "desks-9",
+          "decor-8",
+          "desks-10"
+        ],
+        "goal": "Precompile bounded 4-pack while CPU busy; choose reviewer assignments 11/05/11/05 and dispatch only after higher-priority ready batch and live semaphore idle check."
+      },
+      {
+        "producer": "03",
+        "items": [
+          "desks-11"
+        ],
+        "goal": "Keep as next singleton or combine with a later compatible producer03 tail only if this does not delay release."
+      }
+    ],
+    "recoveryLane": "Role07 may work only on authoritative exact-byte recoveries that are not superseded by these newer REWORK states; it must not recover stale failed hashes for these 9 IDs."
+  },
+  "nonArtReleaseState": {
+    "reducedMotionQuestRetry": "CLEARED — product click-race fix + focused test + full Persistence Recovery Quest QA pass",
+    "liveFunctionalSmoke": "GREEN in prior live Replit smoke test",
+    "visualQa": "All structural/mobile/runtime checks green; release block is the exact visible product fallback list above."
+  }
+}
