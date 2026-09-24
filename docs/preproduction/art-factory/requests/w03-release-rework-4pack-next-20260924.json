@@ -1,0 +1,158 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_BATCH_REQUEST",
+  "planner": "15",
+  "producer": "03",
+  "preflightOwner": "06",
+  "reviewer": "MIXED_11_05_01",
+  "renderOwner": "14",
+  "integrationOwner": "08",
+  "coordinationOwner": "15",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "dcf38c206c2a74551677220978796bea8da2af50",
+  "manifestVersion": 38,
+  "batchId": "w03-release-rework-4pack-next",
+  "scope": [
+    "decor-8",
+    "desks-9",
+    "desks-10",
+    "desks-11"
+  ],
+  "state": "PREPARED_FAILURE_SPECIFIC_4ITEM_REWORK__WAIT_CURRENT_CPU_IDLE",
+  "assignmentAuthority": {
+    "path": "docs/preproduction/art-factory/ACTIVE_BATCH.json",
+    "runtimeProofPath": "docs/preproduction/art-factory/CPU_RUNTIME_PROOF.json",
+    "runtimeProofStatus": "PROVEN",
+    "runtimeCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+    "modelRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "assignedReviewers": {
+      "decor-8": "11",
+      "desks-9": "05",
+      "desks-10": "05",
+      "desks-11": "01"
+    },
+    "note": "Prepared only. Current producer13 CPU matrix has priority. Preserve all rejected exact hashes; dispatch only after live CPU idle check."
+  },
+  "references": {
+    "originalStoreReference": {
+      "requiredBeforeGeneration": true,
+      "repositoryPath": "docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg",
+      "sha256": "b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d",
+      "gitBlobSha": "383baa877d3af86fa92e3583740212000592b3d6",
+      "dimensions": [
+        1448,
+        1086
+      ],
+      "role": "FIRST_PARTY_STARBLOX_STORE_ART_DIRECTION"
+    }
+  },
+  "reviewSource": {
+    "decision": "REWORK",
+    "note": "All four items are bound to newest independent exact-hash REWORK evidence."
+  },
+  "items": {
+    "decor-8": {
+      "currentLegacy": {
+        "path": "public/assets/catalog-candidates/cpu/decor-8-w03-v3-a-single-aquarium-original.png",
+        "gitBlobSha1": "b35648acd6951aaa04de97f555b660396e2a62df",
+        "reviewDecision": "REWORK",
+        "normalizedFailureTaxonomy": [
+          "MULTI_PANEL_COLLAGE",
+          "DUPLICATED_AQUARIUM_VARIANTS",
+          "NO_SINGLE_TANK_SILHOUETTE"
+        ]
+      },
+      "variants": [
+        {
+          "variantId": "A-ONE-AQUARIUM-ONLY",
+          "optimizerInput": "Mini Aquarium, Room Decor, Tier 3, Galaxy Glow. Create EXACTLY ONE compact desktop aquarium as the entire image: one rounded-corner glass tank, one dark-indigo structural base, one matching lid, one rear filter housing and intake tube, one clear waterline, dark gravel, three aquatic plants and one small moonlike rock arch. Use restrained cyan-violet Galaxy Glow edge light and subtle bubbles. Single three-quarter product view, full tank isolated on a plain studio background with grounded shadow. NO second tank, NO alternate angle, NO collage, NO split panels, NO infographic, NO text, NO floating parts."
+        },
+        {
+          "variantId": "B-SINGLE-RECTANGULAR-TANK",
+          "optimizerInput": "Mini Aquarium, Room Decor, Tier 3, Galaxy Glow. Design ONE physically believable rectangular mini aquarium with thick clear glass, navy pedestal base, slim lid, compact side filter, layered gravel and a simple violet-blue plant composition. Keep construction clean and singular at card size. NO multiple vessels, NO comparison views, NO collage, NO UI panels, NO room scene, NO text."
+        }
+      ]
+    },
+    "desks-9": {
+      "currentLegacy": {
+        "path": "public/assets/catalog-candidates/cpu/desks-9-w03-v3-a-maker-rail-desk-original.png",
+        "gitBlobSha1": "64bb30b92257f0471259dd8b840b086af9e58073",
+        "reviewDecision": "REWORK",
+        "normalizedFailureTaxonomy": [
+          "WALL_SHELF_INSTEAD_OF_TABLE",
+          "NO_SINGLE_DESK_SILHOUETTE",
+          "WEAK_MAKER_TOOL_CUES"
+        ]
+      },
+      "variants": [
+        {
+          "variantId": "A-FREESTANDING-MAKER-TABLE",
+          "optimizerInput": "Art Maker Table, Desks & Tech, Tier 3, Sunny Pop. Create ONE freestanding maker table only: broad warm-wood worktop, two stable side supports, one shallow drawer/storage cabinet, one raised orange peg/tool rail physically attached along the back edge, three bounded art tools such as brush cup, scissors holder and paint tray. Use bright Sunny Pop yellow-orange accents with cream/wood structure. Three-quarter isolated product view, full table inside frame, grounded shadow. NO wall mounting, NO shelving installation, NO second table, NO room scene, NO collage, NO text."
+        },
+        {
+          "variantId": "B-MAKER-DRAFTING-DESK",
+          "optimizerInput": "Art Maker Table, Desks & Tech, Tier 3, Sunny Pop. Design ONE compact drafting/maker desk with a slightly tilted work surface, four readable supports, a small under-desk drawer bank and one attached tool organizer rail. Include only a few clearly attached art supplies. Strong single-desk silhouette, warm wood plus sunny yellow/coral accents, plain studio background. NO wall shelves, NO built-in architecture, NO duplicate furniture, NO text."
+        }
+      ]
+    },
+    "desks-10": {
+      "currentLegacy": {
+        "path": "public/assets/catalog-candidates/cpu/desks-10-w03-v3-a-streaming-worktop-original.png",
+        "gitBlobSha1": "1eb6e1c127c3ac85d82daf7454cec0d83ca89b1b",
+        "reviewDecision": "REWORK",
+        "normalizedFailureTaxonomy": [
+          "MULTI_PANEL_COLLAGE",
+          "DUPLICATED_STREAMING_DESKS",
+          "NO_SINGLE_PHYSICAL_CONSTRUCTION"
+        ]
+      },
+      "variants": [
+        {
+          "variantId": "A-ONE-STREAMING-DESK",
+          "optimizerInput": "Neon Streaming Desk, Desks & Tech, Tier 4, Aqua Wave. Create EXACTLY ONE wide horizontal streaming desk: black graphite worktop with aqua edge light, two stable supports, one right-side equipment cabinet, one attached raised monitor bridge holding a single display, one coherent articulated microphone arm and a small control pad. Single three-quarter isolated product view with grounded shadow and premium metal/acrylic depth. NO second desk, NO multiple camera panels, NO collage, NO split-screen, NO room scene, NO text/logos."
+        },
+        {
+          "variantId": "B-CLEAN-NEON-WORKSTATION",
+          "optimizerInput": "Neon Streaming Desk, Desks & Tech, Tier 4, Aqua Wave. Design ONE freestanding streaming workstation with broad dark worktop, cyan/aqua trim, integrated drawer/equipment pedestal, slim upper monitor shelf and one attached mic arm. Keep everything physically connected and readable at Store-card size. NO repeated variants, NO collage, NO comparison views, NO floating screens, NO text."
+        }
+      ]
+    },
+    "desks-11": {
+      "currentLegacy": {
+        "path": "public/assets/catalog-candidates/cpu/desks-11-w03-v1-a-creator-hutch-original.png",
+        "gitBlobSha1": "828ee1d718ca20643dd8d9fc24c7a98d33fb912c",
+        "reviewDecision": "REWORK",
+        "normalizedFailureTaxonomy": [
+          "BUILT_IN_CABINET_INSTEAD_OF_DESK",
+          "NO_DOMINANT_WORKTOP",
+          "ROOM_FIXTURE_COMPOSITION"
+        ]
+      },
+      "variants": [
+        {
+          "variantId": "A-ISOLATED-CREATOR-STATION",
+          "optimizerInput": "Dream Creator Station, Desks & Tech, Tier 4, Art Attack. Create ONE freestanding creator desk on a plain studio background: wide cream worktop, two sturdy supports, one side drawer cabinet, one physically attached shallow creator hutch with two small supply bins, one centered drawing display/tablet and one task lamp. Use controlled coral, lavender and aqua Art Attack accents with premium wood/metal/acrylic separation. Full desk silhouette, grounded shadow. NO wall cabinets, NO built-in shelving, NO room architecture, NO duplicate desk, NO text."
+        },
+        {
+          "variantId": "B-CREATOR-DESK-HUTCH",
+          "optimizerInput": "Dream Creator Station, Desks & Tech, Tier 4, Art Attack. Design ONE isolated workstation with a broad desk surface, stable legs/pedestal, compact attached upper hutch, bounded art-tool storage and one creator screen. Keep the desk mass dominant and easy to read at card size. NO wall unit, NO full-room cabinetry, NO multiple furniture versions, NO text."
+        }
+      ]
+    }
+  },
+  "executionBudget": {
+    "width": 640,
+    "height": 640,
+    "steps": 6,
+    "guidanceScale": 3.5,
+    "dtype": "float32"
+  },
+  "safety": {
+    "preserveRejectedExactHashes": true,
+    "preserveAcceptedExactHashes": true,
+    "producerSelfReview": false,
+    "canonicalMappingsChanged": false,
+    "workflowFilesChanged": false
+  }
+}

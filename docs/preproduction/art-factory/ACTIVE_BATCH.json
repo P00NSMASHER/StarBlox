@@ -91,7 +91,35 @@
     "pending": null,
     "authorization": "HOLD_ADDITIONAL_CPU_QUEUE_TRIGGERS_UNTIL_W13_4PACK_FULLY_IDLE",
     "rule": "This four-item current-REWORK matrix is the sole CPU generation batch. Preserve all rejected hashes and do not duplicate.",
-    "preparedNext": [],
+    "preparedNext": [
+      {
+        "rank": 1,
+        "requestPath": "docs/preproduction/art-factory/requests/w03-release-rework-4pack-next-20260924.json",
+        "queuePath": "docs/preproduction/art-factory/prepared-queues/w03-release-rework-4pack-next.json",
+        "scope": [
+          "decor-8",
+          "desks-9",
+          "desks-10",
+          "desks-11"
+        ],
+        "producer": "03",
+        "reviewer": "MIXED_11_05_01",
+        "reason": "Four current exact-hash REWORKs; maximum matrix utilization."
+      },
+      {
+        "rank": 2,
+        "requestPath": "docs/preproduction/art-factory/requests/w09-release-rework-3pack-next-20260924.json",
+        "queuePath": "docs/preproduction/art-factory/prepared-queues/w09-release-rework-3pack-next.json",
+        "scope": [
+          "decor-7",
+          "decor-11",
+          "decor-12"
+        ],
+        "producer": "09",
+        "reviewer": "MIXED_01_02",
+        "reason": "Remaining three current exact-hash REWORKs after producer03 batch."
+      }
+    ],
     "preparedQueueRule": "After this batch is fully idle, refetch current reviewer outcomes before dispatching another rework batch."
   },
   "batches": [
@@ -311,7 +339,7 @@
     "evidenceHead": "398f5100df0562a1e346c9110597e52b565982d0",
     "rule": "Do not reopen already-green functional browser, Store observer, persistence or reduced-motion investigations absent a bound-hash change or fresh current-byte failure. EXT10 remains limited to the previously released phone composition repair."
   },
-  "antiStallDisposition": "Canonical blockers reduced by Decor9/10 + Desk7 integrations; CPU immediately reassigned to four current failure-specific reworks while QA and review proceed in parallel.",
+  "antiStallDisposition": "Current producer13 four-item CPU matrix running. Remaining seven reworks are fully precompiled into producer03 four-item and producer09 three-item prepared queues, eliminating post-run planning latency.",
   "crossAccountProduction": {
     "externalScopes": {
       "EXT01": "Tops11-12",
