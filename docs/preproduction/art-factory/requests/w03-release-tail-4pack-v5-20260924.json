@@ -82,6 +82,10 @@
         {
           "variantId": "A-BLUE-WATER-FISH-AQUARIUM",
           "optimizerInput": "Single small rectangular aquarium product, centered on a plain white studio background. Clear glass tank visibly filled with bright blue water, one obvious horizontal water line, two small colorful fish, one tiny bubble filter, gravel and one aquatic plant. One dark base and one slim lid. Full tank visible, three-quarter product render. NO terrarium, NO dry sand display, NO second tank, NO cropped object, NO room, NO collage, NO text."
+        },
+        {
+          "variantId": "B-BLUE-WATER-FISH-AQUARIUM",
+          "optimizerInput": "Alternative view of the same single aquarium: straight-on centered product render, blue water clearly visible, two fish and one bubble filter. NO dry terrarium, NO second tank, NO room, NO collage, NO text."
         }
       ]
     },
@@ -101,6 +105,10 @@
         {
           "variantId": "A-LITERAL-ART-MAKER-TABLE",
           "optimizerInput": "Single freestanding art maker table product on a plain white studio background. One wide rectangular wood worktop, four simple straight legs, one shallow drawer, one low peg rail at the back with a brush cup, scissors and colored paper. Warm yellow and coral accents. Full table visible, three-quarter product render. NO chair, NO room, NO blinds, NO wall shelves, NO cabinets, NO collage, NO text."
+        },
+        {
+          "variantId": "B-LITERAL-ART-MAKER-TABLE",
+          "optimizerInput": "Alternative view of the same single maker table: centered three-quarter product render with broad rectangular top, four legs, one low tool rail and three art supplies. NO chair, NO wall shelves, NO room, NO collage, NO text."
         }
       ]
     },
@@ -120,6 +128,10 @@
         {
           "variantId": "A-LITERAL-STREAMING-DESK",
           "optimizerInput": "Single modern computer streaming desk product on a plain white studio background. One long black rectangular tabletop, two simple legs, one large monitor centered on top, one obvious microphone on a boom arm clamped to the left edge, one small PC tower below, thin cyan aqua light strip. Full desk visible, three-quarter product render. NO shelves, NO cabinets, NO multiple views, NO collage, NO room, NO text."
+        },
+        {
+          "variantId": "B-LITERAL-STREAMING-DESK",
+          "optimizerInput": "Alternative view of the same single streaming desk: centered three-quarter product render with long black top, two legs, one monitor, one boom microphone and one PC tower. NO shelves, NO cabinets, NO room, NO collage, NO text."
         }
       ]
     },
@@ -139,6 +151,10 @@
         {
           "variantId": "A-LITERAL-CREATOR-DESK",
           "optimizerInput": "Single freestanding creator art desk product on a plain white studio background. One wide cream rectangular worktop, two solid pedestal supports, one shallow drawer bank, one small low organizer rail with two supply bins, one drawing tablet and one brush cup. Coral lavender and aqua accents. Full desk visible, three-quarter product render. NO room, NO wall shelves, NO cabinets behind it, NO chair, NO collage, NO text."
+        },
+        {
+          "variantId": "B-LITERAL-CREATOR-DESK",
+          "optimizerInput": "Alternative view of the same single creator desk: centered three-quarter product render with cream worktop, two pedestals, one drawer bank, low organizer rail, drawing tablet and brush cup. NO room, NO cabinetry, NO chair, NO collage, NO text."
         }
       ]
     }
