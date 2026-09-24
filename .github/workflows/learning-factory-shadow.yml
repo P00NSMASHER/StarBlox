@@ -53,6 +53,16 @@ jobs:
       - name: Run deterministic selector shadow simulation
         run: npm run simulate:learning-shadow
 
+      - name: Smoke-test external learning interop
+        run: |
+          mkdir -p .learning-interop
+          npm run interop:edgameclaw -- --input=docs/preproduction/learning-factory/fixtures/edgameclaw-course.json --out=.learning-interop/edgameclaw.json --content-version=fixture-v1 --source-ids=abvm-grade2-current-source-pack
+          npm run interop:psikt -- --input=docs/preproduction/learning-factory/fixtures/learning-ledger.json --out=.learning-interop/interactions_200.csv
+          npm run interop:riff -- --input=docs/preproduction/learning-factory/fixtures/learning-ledger.json --out=.learning-interop/riff-reviews.json
+          test -s .learning-interop/edgameclaw.json
+          test -s .learning-interop/interactions_200.csv
+          test -s .learning-interop/riff-reviews.json
+
       - name: Upload validation receipt
         if: always()
         uses: actions/upload-artifact@v4
