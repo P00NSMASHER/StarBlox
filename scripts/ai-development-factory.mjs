@@ -1,13 +1,14 @@
 
 import { readFile,writeFile } from 'node:fs/promises';
 import { spawnSync } from 'node:child_process';
-import { isAbsolute,resolve } from 'node:path';
+import { dirname,isAbsolute,resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 
 import {
   runDevelopmentFactory,
   verifyDevelopmentRun
 } from '../src/devFactory/developmentFactory.js';
+import { loadFactoryMigrationEvidence } from '../src/devFactory/migrationInput.js';
 
 function arg(name,required=false){
   const inline=process.argv.find(value => value.startsWith(name + '='));
@@ -17,6 +18,10 @@ function arg(name,required=false){
   })();
   if(required && !value) throw new Error(name + ' is required');
   return value;
+}
+
+function hasFlag(name){
+  return process.argv.includes(name);
 }
 
 function fromRoot(value){
@@ -65,10 +70,53 @@ function repositoryGate(){
 }
 
 const taskPath=fromRoot(arg('--task',true));
-const adapterPath=fromRoot(arg('--adapter',true));
-const outPath=fromRoot(arg('--out') || 'ai-development-run.json');
+const verifyMigrationOnly=hasFlag('--verify-migration-only');
+const adapterRaw=arg('--adapter',!verifyMigrationOnly);
+const adapterPath=adapterRaw ? fromRoot(adapterRaw) : null;
+const outPath=fromRoot(
+  arg('--out') ||
+  (verifyMigrationOnly ? 'factory-migration-evidence.json' : 'ai-development-run.json')
+);
 
 const task=JSON.parse(await readFile(taskPath,'utf8'));
+if(task.migrationEvidence != null){
+  throw new Error(
+    'task JSON may not supply migrationEvidence directly; provide task.migration export receipt inputs'
+  );
+}
+
+if(task.migration != null){
+  if(!task.migration || typeof task.migration !== 'object' || Array.isArray(task.migration)){
+    throw new Error('task.migration must be an object');
+  }
+  const receiptValue=String(task.migration.exportReceipt || '').trim();
+  if(!receiptValue){
+    throw new Error('task.migration.exportReceipt is required');
+  }
+  const exportReceiptPath=isAbsolute(receiptValue)
+    ? receiptValue
+    : resolve(dirname(taskPath),receiptValue);
+
+  task.migrationEvidence=await loadFactoryMigrationEvidence({
+    exportReceiptPath,
+    unitIds:task.migration.unitIds
+  });
+  delete task.migration;
+}
+
+if(verifyMigrationOnly){
+  if(!task.migrationEvidence){
+    throw new Error('--verify-migration-only requires task.migration inputs');
+  }
+  await writeFile(outPath,JSON.stringify(task.migrationEvidence,null,2) + '\n');
+  console.log('StarBlox AI Development Factory migration input');
+  console.log('status: verified');
+  console.log('units: ' + task.migrationEvidence.units.length);
+  console.log('hash: ' + task.migrationEvidence.evidenceHash);
+  console.log('artifact: ' + outPath);
+  process.exit(0);
+}
+
 const adapterModule=await import(pathToFileURL(adapterPath).href);
 const adapter=adapterModule.default || adapterModule;
 
