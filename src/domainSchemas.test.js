@@ -119,7 +119,7 @@ describe('StarBlox upstream implementation provenance', () => {
   it('pins every planned source to an immutable full commit SHA', () => {
     const entries = upstreamSourceList();
 
-    expect(entries.length).toBeGreaterThanOrEqual(26);
+    expect(entries.length).toBeGreaterThanOrEqual(31);
     expect(entries.every(entry => /^[a-f0-9]{40}$/.test(entry.commit))).toBe(true);
     expect(entries.every(entry => entry.reuseBasis === 'user-confirmed direct reuse rights')).toBe(true);
   });
@@ -141,5 +141,10 @@ describe('StarBlox upstream implementation provenance', () => {
     expect(UPSTREAM_PROVENANCE.neonBalanceCheck.path).toBe('scripts/balance-check.ts');
     expect(UPSTREAM_PROVENANCE.neonBalanceSim.path).toBe('scripts/sim.ts');
     expect(UPSTREAM_PROVENANCE.neonBalanceHarness.path).toBe('scripts/balance.ts');
+    expect(UPSTREAM_PROVENANCE.openEdxItemBank.path).toBe('xmodule/item_bank_block.py');
+    expect(UPSTREAM_PROVENANCE.openEdxProblemBlock.path).toBe('xmodule/capa_block.py');
+    expect(UPSTREAM_PROVENANCE.gygyQuestionModelV2.path).toBe('backend/app/models/question.py');
+    expect(UPSTREAM_PROVENANCE.gygyQuestionCrudV2.path).toBe('backend/app/crud/crud_question.py');
+    expect(UPSTREAM_PROVENANCE.gygyQuestionValidationV2.path).toBe('backend/app/services/question_content.py');
   });
 });
