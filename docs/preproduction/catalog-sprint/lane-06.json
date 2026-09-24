@@ -460,32 +460,33 @@
     }
   ],
   "releaseTailFastPath": {
-    "updatedAt": "2026-09-24T20:12:00Z",
-    "purpose": "Factory-only render for final Desk10/Desk11 B-variant exact hashes; preserve all terminal decisions and independent review.",
-    "sourceHead": "b2f2a7e9a3",
+    "updatedAt": "2026-09-24T22:03:00Z",
+    "purpose": "Factory-only render of Desk11 v9 exact staged hash; preserve all terminal decisions and independent reviewer ownership.",
+    "sourceHead": "a856d92f98",
     "candidates": [
       {
-        "id": "desks-10",
-        "path": "public/assets/catalog-candidates/cpu/desks-10-w03-v10-b-two-leg-desk-mic-original.png",
-        "gitBlobSha": "7bb37b681e4d1928fb6e5ffc742d592a8262a452",
-        "sha256": "8d9c431bbc4c1c5497c378d3e9e731e7683f6da417eec78f6bc42ddc127f2119",
-        "reviewer": "05",
-        "stagedEvidence": "docs/preproduction/art-factory/generated-evidence/w03-desks10-11-final-retry/desks-10/staged-output.json",
-        "technicalState": "STAGED_EXACT_BYTES_VERIFIED",
-        "sourcePixelDisposition": "PLAUSIBLE__RENDER_REQUIRED"
-      },
-      {
         "id": "desks-11",
-        "path": "public/assets/catalog-candidates/cpu/desks-11-w03-v8-b-art-creator-workstation-original.png",
-        "gitBlobSha": "5e7de4ddf5bfbf3d727e2676442ddc8512366827",
-        "sha256": "678bb4e51d390f7460003bede36a1d7aaee6baf1c07813c612a655d1cf0f383e",
+        "path": "public/assets/catalog-candidates/cpu/desks-11-w03-v9-a-creator-desk-tools-original.png",
+        "gitBlobSha": "5895f9d6a32ea6e13a8d45691950a3ddbce46340",
+        "sha256": "b7123b0f4225922630e7671a9b9327283fc50a14e3404bec1d31503629eb59a4",
         "reviewer": "01",
-        "stagedEvidence": "docs/preproduction/art-factory/generated-evidence/w03-desks10-11-final-retry/desks-11/staged-output.json",
+        "stagedEvidence": "docs/preproduction/art-factory/generated-evidence/w03-desks10-11-final-retry-a-fallback/desks-11/staged-output.json",
         "technicalState": "STAGED_EXACT_BYTES_VERIFIED",
         "sourcePixelDisposition": "PLAUSIBLE__RENDER_REQUIRED"
       }
     ],
-    "excludedByTerminalDecision": [],
-    "rule": "Rendering creates evidence only; independent exact-hash reviewer verdict remains mandatory."
+    "excludedByTerminalDecision": [
+      {
+        "id": "desks-10",
+        "gitBlobSha": "0255b3af108f7cda131101965f754b8b507ce3dd",
+        "reason": "Desk10 v11 exact source hash is terminal REWORK."
+      },
+      {
+        "id": "wall-9",
+        "gitBlobSha": "6e08e353949fa85539990a4731e1db1b62cf5591",
+        "reason": "Wall9 v12 exact source hash is terminal REWORK."
+      }
+    ],
+    "rule": "Rendering creates evidence only. Independent reviewer01 must decide the exact rendered Desk11 v9 hash before canonical integration."
   }
 }
