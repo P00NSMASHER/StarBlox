@@ -135,6 +135,21 @@ for(const unit of plan.units.filter(item => item.selected)){
     throw new Error('migration source is not a file: ' + input);
   }
 
+  if(!unit.sourceSha256 || unit.sourceBytes == null){
+    throw new Error(
+      'migration source fingerprint is missing for ' + unit.sourceFile +
+      '; rebuild the capability catalog with catalog v2 before exporting'
+    );
+  }
+  const sourceDigest=await digest(input);
+  if(sourceDigest.sha256 !== unit.sourceSha256 || sourceDigest.bytes !== unit.sourceBytes){
+    throw new Error(
+      'migration source fingerprint mismatch for ' + unit.sourceFile +
+      '; expected ' + unit.sourceSha256 + '/' + unit.sourceBytes +
+      ' but found ' + sourceDigest.sha256 + '/' + sourceDigest.bytes
+    );
+  }
+
   const folder=resolve(outDir,unit.exportDisposition);
   await mkdir(folder,{recursive:true});
   const out=resolve(folder,unit.unitId + '.rbxmx');

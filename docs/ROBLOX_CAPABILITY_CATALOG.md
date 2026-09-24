@@ -51,13 +51,12 @@ Default outputs are:
 
 These default outputs are gitignored so an operator does not accidentally commit source-derived proprietary metadata.
 
-Catalog schema v2 also exposes a machine-readable `inventory` index for scripts, remotes, UI trees, models, vehicles, houses, tools, animations and sounds. These indexes point back to the exact source ID/file and instance path, so downstream tooling does not need to rescan the full instance array to answer common migration questions.
-
 ## What gets inventoried
 
 Every Roblox instance is reduced to a stable catalog record containing:
 
 - source file / source ID;
+- exact source SHA-256 and byte length when ingested through the CLI;
 - normalized instance path;
 - class name and instance name;
 - property names;
@@ -114,26 +113,34 @@ No recovered/imported Luau code is executed by the cataloger.
 
 ## Dependency graph
 
-Static script analysis extracts graph edges for:
+The catalog emits graph edges for:
 
-- Roblox services;
+- explicit parent/child structure;
+- serialized Roblox Ref-backed properties, resolved from stable rbx-dom referents to catalog instance paths when local;
+- Roblox asset references;
+- Roblox services used by scripts;
 - numeric external module requires;
+- nonnumeric require expressions;
 - WaitForChild instance references;
 - references that resolve to known RemoteEvent/RemoteFunction names.
 
-This gives the next migration step a starting dependency graph rather than forcing manual exploration in Studio.
+This combines serialized object relationships with non-executed static script analysis so the next migration step starts from a much fuller dependency graph rather than forcing manual exploration in Studio.
 
 ## Reuse classes
 
-Each instance receives one of the four migration outcomes from the original StarBlox plan.
+Catalog v2 uses exactly four migration-value classes. Security/provenance review is tracked separately so risk does not erase engineering value.
 
-### directly-reusable
+### direct
 
-World/model/UI/component structure with no identified behavior migration requirement. These are candidates for direct staging under the user's confirmed Roblox/Brookhaven rights, while still respecting system-level dependency checks.
+World/model/UI structure with no obvious behavior migration requirement.
 
-### reusable-after-refactor
+These are candidates for direct import under the user's confirmed Roblox/Brookhaven rights, subject to dependency/performance review.
 
-Scripts and remote contracts whose domain behavior may be valuable, but which must be adapted behind StarBlox's server-authoritative, tested boundaries before activation.
+### refactor
+
+Scripts and remote contracts whose domain logic may be valuable, but which must be adapted to StarBlox's server-authoritative, tested architecture.
+
+A risky script remains `refactor`; its separate `review.required` flag forces manual review/quarantine downstream.
 
 ### asset-only
 
@@ -141,13 +148,18 @@ Visual/audio asset-bearing instances whose useful value is independent of the or
 
 ### irrelevant
 
-Instances for which the catalog finds no standalone StarBlox migration value. Downstream migration planning fails closed on this class and will not export it merely because a broad rule or explicit system name happens to match.
+Instances with no recognized reusable StarBlox capability, asset, UI/world structure, script, or remote contract.
 
-## Risk review is separate from reuse class
+Irrelevant systems are fail-closed in the migration planner: even an explicit include override cannot promote them into staging.
 
-Security/provenance/runtime risk is represented independently with `reviewRequired` plus script `riskFlags`; it is not a fifth reuse outcome.
+## Review status
 
-Current automatic review flags include:
+Every instance also has independent review metadata:
+
+- `review.required`;
+- `review.reasons[]`.
+
+Current automatic review reasons include:
 
 - dynamic code/loadstring;
 - external HTTP;
@@ -155,7 +167,7 @@ Current automatic review flags include:
 - runtime environment/debug introspection;
 - obvious unbounded loops.
 
-A review flag does not declare the source unsafe or unusable. It means a reusable-after-refactor system must stay quarantined until the dependency is reviewed.
+A review flag does not declare the source unsafe or unusable. It means migration must inspect that dependency before shipping.
 
 ## System candidates
 
@@ -188,16 +200,20 @@ The score is a triage heuristic, not a claim of product quality.
 
 Catalog contents receive a deterministic project-standard hash.
 
+CLI ingestion also fingerprints every source file with SHA-256 plus byte length. The catalog therefore binds downstream migration work to exact input bytes rather than only a filename.
+
 Tests prove:
 
 - deterministic output regardless of source ordering;
 - catalog tamper detection;
 - script source is not copied into catalog output;
 - asset-ID extraction;
-- service/module/remote dependency discovery;
+- parent/property/asset/service/module/remote dependency discovery;
 - system grouping;
-- capability classification;
-- security-review flags.
+- the four-class reuse taxonomy;
+- fail-closed irrelevant classification;
+- independent security-review flags;
+- exact source-fingerprint retention.
 
 ## CI
 

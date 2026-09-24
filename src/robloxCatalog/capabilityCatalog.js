@@ -3,8 +3,10 @@ import { stableHash } from '../domainSchemas.js';
 
 export const ROBLOX_CATALOG_SCHEMA_VERSION=2;
 export const ROBLOX_CATALOG_VERSION='starblox-roblox-catalog-v2';
-const LEGACY_ROBLOX_CATALOG_SCHEMA_VERSION=1;
-const LEGACY_ROBLOX_CATALOG_VERSION='starblox-roblox-catalog-v1';
+
+export const ROBLOX_REUSE_CLASSES=Object.freeze([
+  'direct','refactor','asset-only','irrelevant'
+]);
 
 const SCRIPT_CLASSES=new Set(['Script','LocalScript','ModuleScript']);
 const REMOTE_CLASSES=new Set(['RemoteEvent','RemoteFunction','UnreliableRemoteEvent']);
@@ -20,9 +22,6 @@ const ASSET_CLASSES=new Set([
   'Decal','Texture','Sound','Animation','MeshPart','SpecialMesh','ParticleEmitter',
   'Beam','Trail','Sky','SurfaceAppearance'
 ]);
-const DIRECT_REUSE_CLASSES=new Set([
-  'VehicleSeat','Seat','Tool','Humanoid','AnimationController','Camera','Configuration'
-]);
 
 const CAPABILITY_NAMES=Object.freeze([
   'housing','vehicles','ui','npc','quests','social','economy','monetization',
@@ -32,7 +31,7 @@ const CAPABILITY_NAMES=Object.freeze([
 
 const NAME_RULES=[
   ['housing',/(house|home|apartment|furniture|garage|door|room|bed|sofa|kitchen)/i],
-  ['vehicles',/(vehicle|car|truck|bike|motorcycle|helicopter|plane|boat|chassis|wheel|garage|\bsuv\b|\bsedan\b|\bvan\b|\bbus\b|\btaxi\b|\bambulance\b|\bscooter\b|\batv\b|\blimo\b)/i],
+  ['vehicles',/(vehicle|car|truck|bike|motorcycle|helicopter|plane|boat|chassis|wheel|garage)/i],
   ['npc',/(npc|citizen|resident|vendor|shopkeeper|character|pedestrian|follower)/i],
   ['quests',/(quest|mission|objective|task|dialog|dialogue|story)/i],
   ['social',/(friend|party|social|emote|photo|follow|invite)/i],
@@ -48,7 +47,7 @@ const NAME_RULES=[
 
 const SCRIPT_RULES=[
   ['housing',/(house|home|apartment|furniture|garage|door|room)/i],
-  ['vehicles',/(VehicleSeat|vehicle|chassis|wheel|car|motorcycle|helicopter|\bsuv\b|\bsedan\b|\bvan\b|\bbus\b|\btaxi\b|\bambulance\b|\bscooter\b|\batv\b|\blimo\b)/i],
+  ['vehicles',/(VehicleSeat|vehicle|chassis|wheel|car|motorcycle|helicopter)/i],
   ['npc',/(Humanoid|npc|dialog|pathfinding|PathfindingService|follower)/i],
   ['quests',/(quest|mission|objective|dialog|reward|checkpoint)/i],
   ['social',/(friend|party|invite|emote|photo|follower)/i],
@@ -196,45 +195,79 @@ function scriptSourceFromProperties(properties){
   return typeof value === 'string' ? value : '';
 }
 
+function extractPropertyReferences(value,propertyPath){
+  const refs=[];
+  if(typeof value === 'string'){
+    if(/^referent-\d+$/.test(value)){
+      refs.push({property:propertyPath,targetReferent:value});
+    }
+    return refs;
+  }
+  if(Array.isArray(value)){
+    value.forEach((child,index) => {
+      refs.push(...extractPropertyReferences(child,propertyPath + '[' + index + ']'));
+    });
+    return refs;
+  }
+  if(value && typeof value === 'object'){
+    for(const [key,child] of Object.entries(value)){
+      refs.push(...extractPropertyReferences(child,propertyPath + '.' + key));
+    }
+  }
+  return refs;
+}
+
+function classifyReview(script){
+  const reasons=[...new Set(script?.riskFlags || [])].sort();
+  return {
+    required:reasons.length > 0,
+    reasons
+  };
+}
+
 function classifyReuse(instance,script){
-  const reviewRequired=Boolean(script?.riskFlags?.length);
   if(SCRIPT_CLASSES.has(instance.className)){
     return {
-      class:'reusable-after-refactor',
-      reviewRequired,
-      reason:reviewRequired
-        ? 'scripted behavior is potentially reusable after refactor and requires security/provenance review'
-        : 'scripted behavior should be adapted behind StarBlox server/client boundaries and tests'
+      class:'refactor',
+      reason:'scripted behavior may be valuable but must be adapted behind StarBlox server/client boundaries and tests'
     };
   }
   if(REMOTE_CLASSES.has(instance.className)){
     return {
-      class:'reusable-after-refactor',
-      reviewRequired,
-      reason:'remote contract may be reusable after refactor into StarBlox authoritative networking'
+      class:'refactor',
+      reason:'remote contract may be reusable after mapping to StarBlox authoritative networking'
     };
   }
   if(ASSET_CLASSES.has(instance.className)){
     return {
       class:'asset-only',
-      reviewRequired:false,
-      reason:'visual/audio asset is reusable independently of behavior'
+      reason:'visual/audio asset can be evaluated independently of the original behavior implementation'
     };
   }
-  if(UI_CLASSES.has(instance.className) || PHYSICAL_CLASSES.has(instance.className) ||
-     DIRECT_REUSE_CLASSES.has(instance.className) || (instance.capabilities || []).length){
+  if(UI_CLASSES.has(instance.className)){
     return {
-      class:'directly-reusable',
-      reviewRequired:false,
-      reason:'structure/component can be migrated directly subject to system-level dependency checks'
+      class:'direct',
+      reason:'UI structure is a direct-import candidate, subject to StarBlox styling and state wiring'
+    };
+  }
+  if(PHYSICAL_CLASSES.has(instance.className)){
+    return {
+      class:'direct',
+      reason:'world/model structure is a direct-import candidate subject to dependency and performance review'
+    };
+  }
+  if(instance.assetIds?.length){
+    return {
+      class:'asset-only',
+      reason:'instance contributes asset references but no recognized reusable behavior or structure'
     };
   }
   return {
     class:'irrelevant',
-    reviewRequired:false,
-    reason:'no standalone StarBlox migration value was identified for this instance'
+    reason:'no recognized reusable StarBlox capability, asset, UI, world structure, script, or remote contract'
   };
 }
+
 function flattenDom(source){
   const records=[];
 
@@ -256,14 +289,18 @@ function flattenDom(source){
     ]);
 
     const assetIds=new Set();
-    for(const value of Object.values(properties)){
+    const propertyReferences=[];
+    for(const [property,value] of Object.entries(properties)){
       for(const id of extractAssetIds(normalizeVariant(value))) assetIds.add(id);
+      propertyReferences.push(...extractPropertyReferences(value,property));
     }
     for(const id of script?.requireAssetIds || []) assetIds.add(id);
 
     const record={
       sourceId:source.sourceId,
       sourceFile:source.file,
+      sourceSha256:source.sha256 ?? null,
+      sourceBytes:source.bytes ?? null,
       referent:text(node.referent) || null,
       path,
       parentPath:parentPath || null,
@@ -274,10 +311,16 @@ function flattenDom(source){
       propertyNames:Object.keys(properties).sort(),
       capabilities:[...capabilities].sort(),
       assetIds:[...assetIds].sort(),
+      propertyReferences:propertyReferences.sort((a,b) =>
+        a.property.localeCompare(b.property) ||
+        a.targetReferent.localeCompare(b.targetReferent)
+      ),
       script,
-      reuse:null
+      reuse:null,
+      review:null
     };
     record.reuse=classifyReuse(record,script);
+    record.review=classifyReview(script);
     records.push(record);
 
     const children=Array.isArray(node.children) ? node.children : [];
@@ -318,6 +361,14 @@ function summarizeClasses(records){
   );
 }
 
+function summarizeReuse(records){
+  const counts=Object.fromEntries(ROBLOX_REUSE_CLASSES.map(name => [name,0]));
+  for(const record of records){
+    if(Object.hasOwn(counts,record.reuse?.class)) counts[record.reuse.class]+=1;
+  }
+  return counts;
+}
+
 function summarizeAssets(records){
   const byId=new Map();
   for(const record of records){
@@ -340,14 +391,37 @@ function buildDependencies(records){
   const remoteNames=new Set(
     records.filter(record => REMOTE_CLASSES.has(record.className)).map(record => record.name)
   );
+  const pathByReferent=new Map(
+    records
+      .filter(record => record.referent)
+      .map(record => [record.sourceId + '||' + record.referent,record.path])
+  );
 
   for(const record of records){
+    if(record.parentPath){
+      edges.push({from:record.path,type:'parent',to:record.parentPath});
+    }
+    for(const id of record.assetIds || []){
+      edges.push({from:record.path,type:'asset-reference',to:id});
+    }
+    for(const ref of record.propertyReferences || []){
+      edges.push({
+        from:record.path,
+        type:'property-reference',
+        property:ref.property,
+        to:pathByReferent.get(record.sourceId + '||' + ref.targetReferent) || ref.targetReferent
+      });
+    }
+
     if(!record.script) continue;
     for(const service of record.script.services){
       edges.push({from:record.path,type:'service',to:service});
     }
     for(const id of record.script.requireAssetIds){
       edges.push({from:record.path,type:'require-asset',to:id});
+    }
+    for(const expression of record.script.requireExpressions){
+      edges.push({from:record.path,type:'require-expression',to:expression});
     }
     for(const name of record.script.waitsFor){
       edges.push({
@@ -361,7 +435,8 @@ function buildDependencies(records){
   return edges.sort((a,b) =>
     a.from.localeCompare(b.from) ||
     a.type.localeCompare(b.type) ||
-    a.to.localeCompare(b.to)
+    a.to.localeCompare(b.to) ||
+    String(a.property || '').localeCompare(String(b.property || ''))
   );
 }
 
@@ -384,13 +459,11 @@ function buildSystemCandidates(records){
       return acc;
     },{});
 
-    let recommendation='directly-reusable';
-    if(scripts.length || remotes.length) recommendation='reusable-after-refactor';
-    else if(items.every(item => item.reuse.class === 'irrelevant')) recommendation='irrelevant';
-    else if(
-      items.some(item => item.reuse.class === 'asset-only') &&
-      items.every(item => ['asset-only','irrelevant'].includes(item.reuse.class))
-    ) recommendation='asset-only';
+    let recommendation='irrelevant';
+    const reuseClasses=new Set(items.map(item => item.reuse.class));
+    if(reuseClasses.has('refactor')) recommendation='refactor';
+    else if(reuseClasses.has('direct')) recommendation='direct';
+    else if(reuseClasses.has('asset-only')) recommendation='asset-only';
 
     const score=Math.min(
       10,
@@ -409,9 +482,9 @@ function buildSystemCandidates(records){
       assetCount:assetIds.length,
       capabilities,
       riskFlags,
+      reviewRequired:riskFlags.length > 0,
       reuseCounts,
       reuseRecommendation:recommendation,
-      reviewRequired:riskFlags.length > 0,
       engineeringLeverageScore:Math.round(score * 10) / 10
     };
   }).sort((a,b) =>
@@ -421,78 +494,20 @@ function buildSystemCandidates(records){
   );
 }
 
-function compactInventoryRecord(record){
-  return {
-    sourceId:record.sourceId,
-    sourceFile:record.sourceFile,
-    path:record.path,
-    parentPath:record.parentPath,
-    className:record.className,
-    name:record.name,
-    capabilities:[...(record.capabilities || [])],
-    assetIds:[...(record.assetIds || [])],
-    reuse:{...record.reuse},
-    ...(record.script ? {
-      script:{
-        sourceHash:record.script.sourceHash,
-        sourceBytes:record.script.sourceBytes,
-        lineCount:record.script.lineCount,
-        services:[...record.script.services],
-        waitsFor:[...record.script.waitsFor],
-        requireAssetIds:[...record.script.requireAssetIds],
-        requireExpressions:[...record.script.requireExpressions],
-        remoteCalls:[...record.script.remoteCalls],
-        riskFlags:[...record.script.riskFlags]
-      }
-    } : {})
-  };
-}
-
-function buildInventory(records){
-  const byPath=new Map(records.map(record => [record.path,record]));
-  const pick=predicate => records.filter(predicate).map(compactInventoryRecord);
-  const uiRoots=records.filter(record => {
-    if(!UI_CLASSES.has(record.className)) return false;
-    const parent=record.parentPath ? byPath.get(record.parentPath) : null;
-    return !parent || !UI_CLASSES.has(parent.className);
-  }).map(root => ({
-    ...compactInventoryRecord(root),
-    descendantCount:records.filter(item => item.path.startsWith(root.path + '/')).length
-  }));
-
-  return {
-    scripts:pick(record => SCRIPT_CLASSES.has(record.className)),
-    remotes:pick(record => REMOTE_CLASSES.has(record.className)),
-    uiTrees:uiRoots,
-    models:pick(record => record.className === 'Model'),
-    vehicles:pick(record =>
-      record.capabilities.includes('vehicles') &&
-      ['Model','VehicleSeat','Seat'].includes(record.className)
-    ),
-    houses:pick(record =>
-      record.capabilities.includes('housing') &&
-      ['Model','Folder'].includes(record.className)
-    ),
-    tools:pick(record => record.className === 'Tool'),
-    animations:pick(record => record.className === 'Animation'),
-    sounds:pick(record => record.className === 'Sound')
-  };
-}
 function catalogPayload(catalog){
-  const payload={
+  return {
     schemaVersion:catalog.schemaVersion,
     catalogVersion:catalog.catalogVersion,
     generatedFrom:catalog.generatedFrom,
     summary:catalog.summary,
     classCounts:catalog.classCounts,
+    reuseCounts:catalog.reuseCounts,
     capabilities:catalog.capabilities,
     assets:catalog.assets,
     dependencies:catalog.dependencies,
     systemCandidates:catalog.systemCandidates,
     instances:catalog.instances
   };
-  if(catalog.schemaVersion >= 2) payload.inventory=catalog.inventory;
-  return payload;
 }
 
 export function buildRobloxCapabilityCatalog(sources){
@@ -505,9 +520,22 @@ export function buildRobloxCapabilityCatalog(sources){
     if(typeof source.sourceId !== 'string' || !source.sourceId.trim()) throw new TypeError('sourceId is required.');
     if(typeof source.file !== 'string' || !source.file.trim()) throw new TypeError('source file is required.');
     if(!source.dom || typeof source.dom !== 'object') throw new TypeError('source DOM is required.');
+    const sha256=source.sha256 == null ? null : String(source.sha256).toLowerCase();
+    if(sha256 !== null && !/^[a-f0-9]{64}$/.test(sha256)){
+      throw new TypeError('source sha256 must be a 64-character hexadecimal digest.');
+    }
+    const bytes=source.bytes == null ? null : Number(source.bytes);
+    if(bytes !== null && (!Number.isInteger(bytes) || bytes < 0)){
+      throw new TypeError('source bytes must be a non-negative integer.');
+    }
+    if((sha256 === null) !== (bytes === null)){
+      throw new TypeError('source sha256 and bytes must either both be present or both be omitted.');
+    }
     return {
       sourceId:source.sourceId.trim(),
       file:source.file.trim(),
+      sha256,
+      bytes,
       dom:source.dom
     };
   }).sort((a,b) => a.sourceId.localeCompare(b.sourceId) || a.file.localeCompare(b.file));
@@ -520,7 +548,6 @@ export function buildRobloxCapabilityCatalog(sources){
   const assets=summarizeAssets(instances);
   const dependencies=buildDependencies(instances);
   const systemCandidates=buildSystemCandidates(instances);
-  const inventory=buildInventory(instances);
   const scripts=instances.filter(record => record.script);
   const remotes=instances.filter(record => REMOTE_CLASSES.has(record.className));
   const riskFlags=[...new Set(instances.flatMap(record => record.script?.riskFlags || []))].sort();
@@ -530,27 +557,28 @@ export function buildRobloxCapabilityCatalog(sources){
     catalogVersion:ROBLOX_CATALOG_VERSION,
     generatedFrom:normalized.map(source => ({
       sourceId:source.sourceId,
-      file:source.file
+      file:source.file,
+      sha256:source.sha256,
+      bytes:source.bytes
     })),
     summary:{
       sourceCount:normalized.length,
+      sourceFingerprintCount:normalized.filter(source => source.sha256 !== null).length,
       instanceCount:instances.length,
       scriptCount:scripts.length,
       remoteCount:remotes.length,
       assetIdCount:assets.length,
       capabilityCount:Object.keys(capabilities).length,
       systemCandidateCount:systemCandidates.length,
-      inventoryCounts:Object.fromEntries(
-        Object.entries(inventory).map(([key,value]) => [key,value.length])
-      ),
+      reviewRequiredCount:instances.filter(record => record.review.required).length,
       riskFlags
     },
     classCounts:summarizeClasses(instances),
+    reuseCounts:summarizeReuse(instances),
     capabilities,
     assets,
     dependencies,
     systemCandidates,
-    inventory,
     instances
   };
 
@@ -565,28 +593,22 @@ export function verifyRobloxCapabilityCatalog(catalog){
   if(!catalog || typeof catalog !== 'object' || Array.isArray(catalog)){
     return {ok:false,errors:['catalog must be an object']};
   }
-  const current=
-    catalog.schemaVersion === ROBLOX_CATALOG_SCHEMA_VERSION &&
-    catalog.catalogVersion === ROBLOX_CATALOG_VERSION;
-  const legacy=
-    catalog.schemaVersion === LEGACY_ROBLOX_CATALOG_SCHEMA_VERSION &&
-    catalog.catalogVersion === LEGACY_ROBLOX_CATALOG_VERSION;
-  if(!current && !legacy){
-    errors.push('unsupported catalog schema/version');
+  if(catalog.schemaVersion !== ROBLOX_CATALOG_SCHEMA_VERSION){
+    errors.push('unsupported catalog schemaVersion');
+  }
+  if(catalog.catalogVersion !== ROBLOX_CATALOG_VERSION){
+    errors.push('unsupported catalogVersion');
   }
   if(!Array.isArray(catalog.instances)) errors.push('instances must be an array');
   if(!Array.isArray(catalog.systemCandidates)) errors.push('systemCandidates must be an array');
-  if(current){
-    if(!catalog.inventory || typeof catalog.inventory !== 'object' || Array.isArray(catalog.inventory)){
-      errors.push('inventory must be an object');
-    }else{
-      for(const key of ['scripts','remotes','uiTrees','models','vehicles','houses','tools','animations','sounds']){
-        if(!Array.isArray(catalog.inventory[key])) errors.push('inventory.' + key + ' must be an array');
+  if(Array.isArray(catalog.instances)){
+    for(const instance of catalog.instances){
+      if(!ROBLOX_REUSE_CLASSES.includes(instance?.reuse?.class)){
+        errors.push('instance has unsupported reuse class');
+        break;
       }
-    }
-    for(const record of catalog.instances || []){
-      if(!['directly-reusable','reusable-after-refactor','asset-only','irrelevant'].includes(record?.reuse?.class)){
-        errors.push('unsupported reuse class at ' + String(record?.path || 'unknown'));
+      if(typeof instance?.review?.required !== 'boolean' || !Array.isArray(instance?.review?.reasons)){
+        errors.push('instance review metadata is invalid');
         break;
       }
     }

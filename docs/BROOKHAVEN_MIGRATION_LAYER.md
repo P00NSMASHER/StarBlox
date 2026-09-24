@@ -7,7 +7,7 @@ The workflow is deliberately catalog → plan → export → review rather than 
 ## Goals
 
 - Select high-leverage licensed systems from the capability catalog.
-- Preserve exact source file and instance-path provenance.
+- Preserve exact source file SHA-256/byte-size and instance-path provenance.
 - Distinguish direct assets from behavior that must be refactored.
 - Expose external module and remote dependencies before migration.
 - Export exact Roblox subtrees as standalone model files.
@@ -74,9 +74,9 @@ Systems containing review flags such as dynamic code, external HTTP, numeric ext
 
 Risk-flagged units are excluded by default and require includeRisky to enter an export plan.
 
-### irrelevant
+### ignore
 
-Catalog systems with no standalone StarBlox migration value. These units receive an `excluded` disposition and cannot be forced into an export plan by `includeSystems`; they must first be deliberately reclassified in the capability catalog.
+Catalog systems classified as irrelevant are never selected for migration. An explicit includeSystems override cannot promote an irrelevant unit; it remains excluded and produces no staging artifact.
 
 ## Default migration focus
 
@@ -109,7 +109,7 @@ Supported fields:
 - minEngineeringLeverageScore
 - includeRisky
 
-Explicitly included system names bypass capability and minimum-score filters, but risk-flagged systems still require includeRisky.
+Explicitly included system names bypass capability and minimum-score filters, but risk-flagged systems still require includeRisky and irrelevant systems remain excluded.
 
 ## Exact subtree exporter
 
@@ -126,6 +126,12 @@ It:
 The migration operator command uses rbxmx because it is convenient for staging and inspection.
 
 No Luau is executed.
+
+## Source-byte integrity gate
+
+Catalog v2 carries the SHA-256 digest and byte length of each authorized Roblox source into every selected migration unit. When `--source-root` export is requested, the migration command recomputes that fingerprint before extracting any subtree and fails closed on missing or mismatched source bytes.
+
+This prevents a migration bundle from silently being produced from a same-named place/model file that changed after catalog review.
 
 ## Operator command
 
