@@ -133,6 +133,7 @@ function MultiplayerActionService.new(adapters, telemetrySink)
 	self._sessions = {}
 	self._snapshots = {}
 	self._heartbeat = nil
+	self._inputConnection = nil
 	return self
 end
 
@@ -514,12 +515,23 @@ function MultiplayerActionService:Start()
 	if self._heartbeat ~= nil then
 		return
 	end
+
+	if self._adapters.Network ~= nil and self._adapters.Network.BindInput ~= nil then
+		self._inputConnection = self._adapters.Network:BindInput(function(player, raw)
+			self:SubmitInput(player, raw)
+		end)
+	end
+
 	self._heartbeat = RunService.Heartbeat:Connect(function(deltaTime)
 		self:Step(deltaTime)
 	end)
 end
 
 function MultiplayerActionService:Destroy()
+	if self._inputConnection ~= nil then
+		self._inputConnection:Disconnect()
+		self._inputConnection = nil
+	end
 	if self._heartbeat ~= nil then
 		self._heartbeat:Disconnect()
 		self._heartbeat = nil
