@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_BATCH_REQUEST",
+  "planner": "15",
+  "producer": "03",
+  "preflightOwner": "06",
+  "renderOwner": "14",
+  "integrationOwner": "08",
+  "coordinationOwner": "15",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "cbe532441bfd14edb913fa890a0eff9584169175",
+  "manifestVersion": 45,
+  "state": "PREPARED_ONLY_IF_CURRENT_A_REWORK",
+  "assignmentAuthority": {
+    "path": "docs/preproduction/art-factory/RELEASE_BLOCKERS_CURRENT.json",
+    "runtimeProofPath": "docs/preproduction/art-factory/CPU_RUNTIME_PROOF.json",
+    "runtimeProofStatus": "PROVEN",
+    "runtimeCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+    "modelRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "assignedReviewers": {
+      "desks-11": "01"
+    },
+    "note": "Held-only ultra-literal fallback; use only if current A exact hash is independently REWORK."
+  },
+  "executionBudget": {
+    "width": 640,
+    "height": 640,
+    "steps": 14,
+    "guidanceScale": 5.5,
+    "dtype": "float32"
+  },
+  "safety": {
+    "preserveRejectedExactHashes": true,
+    "preserveAcceptedExactHashes": true,
+    "producerSelfReview": false,
+    "canonicalMappingsChanged": false,
+    "workflowFilesChanged": false
+  },
+  "reviewer": "01",
+  "batchId": "w03-desk11-v10-ultraliteral",
+  "scope": [
+    "desks-11"
+  ],
+  "reviewSource": {
+    "decision": "REWORK",
+    "latestExact": {
+      "version": "v8",
+      "gitBlobSha": "5e7de4ddf5bfbf3d727e2676442ddc8512366827",
+      "sha256": "678bb4e51d390f7460003bede36a1d7aaee6baf1c07813c612a655d1cf0f383e"
+    },
+    "note": "Prepared before current A completes to eliminate replanning delay; dispatch only on exact REWORK."
+  },
+  "items": {
+    "desks-11": {
+      "currentLegacy": {
+        "reviewDecision": "REWORK",
+        "gitBlobSha1": "5e7de4ddf5bfbf3d727e2676442ddc8512366827"
+      },
+      "variants": [
+        {
+          "variantId": "A-WORKTOP-FIRST",
+          "optimizerInput": "Creator desk on white. One WIDE cream worktop, two drawer pedestals UNDER it, open knee space, one short rear tool rail, drawing tablet, brush cup. Full desk visible. NO tall cabinet, shelves, room, chair, collage, text."
+        },
+        {
+          "variantId": "B-CLEAR-CREATOR-DESK",
+          "optimizerInput": "One art desk on white: wide tabletop, two drawer supports, open leg space, low rear rail, drawing tablet, brush cup, colorful bins. NO tall organizer, room, chair, collage, text."
+        }
+      ]
+    }
+  }
+}
