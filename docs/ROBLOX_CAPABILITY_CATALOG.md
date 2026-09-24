@@ -51,6 +51,8 @@ Default outputs are:
 
 These default outputs are gitignored so an operator does not accidentally commit source-derived proprietary metadata.
 
+Catalog schema v2 also exposes a machine-readable `inventory` index for scripts, remotes, UI trees, models, vehicles, houses, tools, animations and sounds. These indexes point back to the exact source ID/file and instance path, so downstream tooling does not need to rescan the full instance array to answer common migration questions.
+
 ## What gets inventoried
 
 Every Roblox instance is reduced to a stable catalog record containing:
@@ -123,25 +125,27 @@ This gives the next migration step a starting dependency graph rather than forci
 
 ## Reuse classes
 
-Each instance receives one of four initial recommendations.
+Each instance receives one of the four migration outcomes from the original StarBlox plan.
 
-### direct
+### directly-reusable
 
-World/model/UI structure with no obvious behavior migration requirement.
+World/model/UI/component structure with no identified behavior migration requirement. These are candidates for direct staging under the user's confirmed Roblox/Brookhaven rights, while still respecting system-level dependency checks.
 
-These are candidates for direct import under the user's confirmed Roblox/Brookhaven rights.
+### reusable-after-refactor
+
+Scripts and remote contracts whose domain behavior may be valuable, but which must be adapted behind StarBlox's server-authoritative, tested boundaries before activation.
 
 ### asset-only
 
 Visual/audio asset-bearing instances whose useful value is independent of the original behavior implementation.
 
-### refactor
+### irrelevant
 
-Scripts and remote contracts whose domain logic may be valuable, but which should be adapted to StarBlox's server-authoritative, tested architecture.
+Instances for which the catalog finds no standalone StarBlox migration value. Downstream migration planning fails closed on this class and will not export it merely because a broad rule or explicit system name happens to match.
 
-### review
+## Risk review is separate from reuse class
 
-Anything with unresolved security/provenance/runtime risk.
+Security/provenance/runtime risk is represented independently with `reviewRequired` plus script `riskFlags`; it is not a fifth reuse outcome.
 
 Current automatic review flags include:
 
@@ -151,7 +155,7 @@ Current automatic review flags include:
 - runtime environment/debug introspection;
 - obvious unbounded loops.
 
-A review flag does not declare the source unsafe or unusable. It means migration should inspect that dependency before shipping.
+A review flag does not declare the source unsafe or unusable. It means a reusable-after-refactor system must stay quarantined until the dependency is reviewed.
 
 ## System candidates
 

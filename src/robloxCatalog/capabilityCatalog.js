@@ -1,8 +1,10 @@
 
 import { stableHash } from '../domainSchemas.js';
 
-export const ROBLOX_CATALOG_SCHEMA_VERSION=1;
-export const ROBLOX_CATALOG_VERSION='starblox-roblox-catalog-v1';
+export const ROBLOX_CATALOG_SCHEMA_VERSION=2;
+export const ROBLOX_CATALOG_VERSION='starblox-roblox-catalog-v2';
+const LEGACY_ROBLOX_CATALOG_SCHEMA_VERSION=1;
+const LEGACY_ROBLOX_CATALOG_VERSION='starblox-roblox-catalog-v1';
 
 const SCRIPT_CLASSES=new Set(['Script','LocalScript','ModuleScript']);
 const REMOTE_CLASSES=new Set(['RemoteEvent','RemoteFunction','UnreliableRemoteEvent']);
@@ -18,6 +20,9 @@ const ASSET_CLASSES=new Set([
   'Decal','Texture','Sound','Animation','MeshPart','SpecialMesh','ParticleEmitter',
   'Beam','Trail','Sky','SurfaceAppearance'
 ]);
+const DIRECT_REUSE_CLASSES=new Set([
+  'VehicleSeat','Seat','Tool','Humanoid','AnimationController','Camera','Configuration'
+]);
 
 const CAPABILITY_NAMES=Object.freeze([
   'housing','vehicles','ui','npc','quests','social','economy','monetization',
@@ -27,7 +32,7 @@ const CAPABILITY_NAMES=Object.freeze([
 
 const NAME_RULES=[
   ['housing',/(house|home|apartment|furniture|garage|door|room|bed|sofa|kitchen)/i],
-  ['vehicles',/(vehicle|car|truck|bike|motorcycle|helicopter|plane|boat|chassis|wheel|garage)/i],
+  ['vehicles',/(vehicle|car|truck|bike|motorcycle|helicopter|plane|boat|chassis|wheel|garage|\bsuv\b|\bsedan\b|\bvan\b|\bbus\b|\btaxi\b|\bambulance\b|\bscooter\b|\batv\b|\blimo\b)/i],
   ['npc',/(npc|citizen|resident|vendor|shopkeeper|character|pedestrian|follower)/i],
   ['quests',/(quest|mission|objective|task|dialog|dialogue|story)/i],
   ['social',/(friend|party|social|emote|photo|follow|invite)/i],
@@ -43,7 +48,7 @@ const NAME_RULES=[
 
 const SCRIPT_RULES=[
   ['housing',/(house|home|apartment|furniture|garage|door|room)/i],
-  ['vehicles',/(VehicleSeat|vehicle|chassis|wheel|car|motorcycle|helicopter)/i],
+  ['vehicles',/(VehicleSeat|vehicle|chassis|wheel|car|motorcycle|helicopter|\bsuv\b|\bsedan\b|\bvan\b|\bbus\b|\btaxi\b|\bambulance\b|\bscooter\b|\batv\b|\blimo\b)/i],
   ['npc',/(Humanoid|npc|dialog|pathfinding|PathfindingService|follower)/i],
   ['quests',/(quest|mission|objective|dialog|reward|checkpoint)/i],
   ['social',/(friend|party|invite|emote|photo|follower)/i],
@@ -192,48 +197,44 @@ function scriptSourceFromProperties(properties){
 }
 
 function classifyReuse(instance,script){
-  if(script?.riskFlags?.length){
-    return {
-      class:'review',
-      reason:'script contains patterns requiring manual security/provenance review'
-    };
-  }
+  const reviewRequired=Boolean(script?.riskFlags?.length);
   if(SCRIPT_CLASSES.has(instance.className)){
     return {
-      class:'refactor',
-      reason:'scripted behavior should be adapted behind StarBlox server/client boundaries and tests'
+      class:'reusable-after-refactor',
+      reviewRequired,
+      reason:reviewRequired
+        ? 'scripted behavior is potentially reusable after refactor and requires security/provenance review'
+        : 'scripted behavior should be adapted behind StarBlox server/client boundaries and tests'
     };
   }
   if(REMOTE_CLASSES.has(instance.className)){
     return {
-      class:'refactor',
-      reason:'remote contract is reusable but should be mapped to StarBlox authoritative networking'
+      class:'reusable-after-refactor',
+      reviewRequired,
+      reason:'remote contract may be reusable after refactor into StarBlox authoritative networking'
     };
   }
   if(ASSET_CLASSES.has(instance.className)){
     return {
       class:'asset-only',
+      reviewRequired:false,
       reason:'visual/audio asset is reusable independently of behavior'
     };
   }
-  if(UI_CLASSES.has(instance.className)){
+  if(UI_CLASSES.has(instance.className) || PHYSICAL_CLASSES.has(instance.className) ||
+     DIRECT_REUSE_CLASSES.has(instance.className) || (instance.capabilities || []).length){
     return {
-      class:'direct',
-      reason:'UI structure can usually be imported directly, then restyled/wired to StarBlox state'
-    };
-  }
-  if(PHYSICAL_CLASSES.has(instance.className)){
-    return {
-      class:'direct',
-      reason:'world/model structure can be imported directly subject to system-level dependency review'
+      class:'directly-reusable',
+      reviewRequired:false,
+      reason:'structure/component can be migrated directly subject to system-level dependency checks'
     };
   }
   return {
-    class:'review',
-    reason:'unclassified Roblox instance requires system-level review'
+    class:'irrelevant',
+    reviewRequired:false,
+    reason:'no standalone StarBlox migration value was identified for this instance'
   };
 }
-
 function flattenDom(source){
   const records=[];
 
@@ -383,10 +384,13 @@ function buildSystemCandidates(records){
       return acc;
     },{});
 
-    let recommendation='direct';
-    if(riskFlags.length) recommendation='review';
-    else if(scripts.length || remotes.length) recommendation='refactor';
-    else if(items.every(item => item.reuse.class === 'asset-only')) recommendation='asset-only';
+    let recommendation='directly-reusable';
+    if(scripts.length || remotes.length) recommendation='reusable-after-refactor';
+    else if(items.every(item => item.reuse.class === 'irrelevant')) recommendation='irrelevant';
+    else if(
+      items.some(item => item.reuse.class === 'asset-only') &&
+      items.every(item => ['asset-only','irrelevant'].includes(item.reuse.class))
+    ) recommendation='asset-only';
 
     const score=Math.min(
       10,
@@ -407,6 +411,7 @@ function buildSystemCandidates(records){
       riskFlags,
       reuseCounts,
       reuseRecommendation:recommendation,
+      reviewRequired:riskFlags.length > 0,
       engineeringLeverageScore:Math.round(score * 10) / 10
     };
   }).sort((a,b) =>
@@ -416,8 +421,65 @@ function buildSystemCandidates(records){
   );
 }
 
-function catalogPayload(catalog){
+function compactInventoryRecord(record){
   return {
+    sourceId:record.sourceId,
+    sourceFile:record.sourceFile,
+    path:record.path,
+    parentPath:record.parentPath,
+    className:record.className,
+    name:record.name,
+    capabilities:[...(record.capabilities || [])],
+    assetIds:[...(record.assetIds || [])],
+    reuse:{...record.reuse},
+    ...(record.script ? {
+      script:{
+        sourceHash:record.script.sourceHash,
+        sourceBytes:record.script.sourceBytes,
+        lineCount:record.script.lineCount,
+        services:[...record.script.services],
+        waitsFor:[...record.script.waitsFor],
+        requireAssetIds:[...record.script.requireAssetIds],
+        requireExpressions:[...record.script.requireExpressions],
+        remoteCalls:[...record.script.remoteCalls],
+        riskFlags:[...record.script.riskFlags]
+      }
+    } : {})
+  };
+}
+
+function buildInventory(records){
+  const byPath=new Map(records.map(record => [record.path,record]));
+  const pick=predicate => records.filter(predicate).map(compactInventoryRecord);
+  const uiRoots=records.filter(record => {
+    if(!UI_CLASSES.has(record.className)) return false;
+    const parent=record.parentPath ? byPath.get(record.parentPath) : null;
+    return !parent || !UI_CLASSES.has(parent.className);
+  }).map(root => ({
+    ...compactInventoryRecord(root),
+    descendantCount:records.filter(item => item.path.startsWith(root.path + '/')).length
+  }));
+
+  return {
+    scripts:pick(record => SCRIPT_CLASSES.has(record.className)),
+    remotes:pick(record => REMOTE_CLASSES.has(record.className)),
+    uiTrees:uiRoots,
+    models:pick(record => record.className === 'Model'),
+    vehicles:pick(record =>
+      record.capabilities.includes('vehicles') &&
+      ['Model','VehicleSeat','Seat'].includes(record.className)
+    ),
+    houses:pick(record =>
+      record.capabilities.includes('housing') &&
+      ['Model','Folder'].includes(record.className)
+    ),
+    tools:pick(record => record.className === 'Tool'),
+    animations:pick(record => record.className === 'Animation'),
+    sounds:pick(record => record.className === 'Sound')
+  };
+}
+function catalogPayload(catalog){
+  const payload={
     schemaVersion:catalog.schemaVersion,
     catalogVersion:catalog.catalogVersion,
     generatedFrom:catalog.generatedFrom,
@@ -429,6 +491,8 @@ function catalogPayload(catalog){
     systemCandidates:catalog.systemCandidates,
     instances:catalog.instances
   };
+  if(catalog.schemaVersion >= 2) payload.inventory=catalog.inventory;
+  return payload;
 }
 
 export function buildRobloxCapabilityCatalog(sources){
@@ -456,6 +520,7 @@ export function buildRobloxCapabilityCatalog(sources){
   const assets=summarizeAssets(instances);
   const dependencies=buildDependencies(instances);
   const systemCandidates=buildSystemCandidates(instances);
+  const inventory=buildInventory(instances);
   const scripts=instances.filter(record => record.script);
   const remotes=instances.filter(record => REMOTE_CLASSES.has(record.className));
   const riskFlags=[...new Set(instances.flatMap(record => record.script?.riskFlags || []))].sort();
@@ -475,6 +540,9 @@ export function buildRobloxCapabilityCatalog(sources){
       assetIdCount:assets.length,
       capabilityCount:Object.keys(capabilities).length,
       systemCandidateCount:systemCandidates.length,
+      inventoryCounts:Object.fromEntries(
+        Object.entries(inventory).map(([key,value]) => [key,value.length])
+      ),
       riskFlags
     },
     classCounts:summarizeClasses(instances),
@@ -482,6 +550,7 @@ export function buildRobloxCapabilityCatalog(sources){
     assets,
     dependencies,
     systemCandidates,
+    inventory,
     instances
   };
 
@@ -496,14 +565,32 @@ export function verifyRobloxCapabilityCatalog(catalog){
   if(!catalog || typeof catalog !== 'object' || Array.isArray(catalog)){
     return {ok:false,errors:['catalog must be an object']};
   }
-  if(catalog.schemaVersion !== ROBLOX_CATALOG_SCHEMA_VERSION){
-    errors.push('unsupported catalog schemaVersion');
-  }
-  if(catalog.catalogVersion !== ROBLOX_CATALOG_VERSION){
-    errors.push('unsupported catalogVersion');
+  const current=
+    catalog.schemaVersion === ROBLOX_CATALOG_SCHEMA_VERSION &&
+    catalog.catalogVersion === ROBLOX_CATALOG_VERSION;
+  const legacy=
+    catalog.schemaVersion === LEGACY_ROBLOX_CATALOG_SCHEMA_VERSION &&
+    catalog.catalogVersion === LEGACY_ROBLOX_CATALOG_VERSION;
+  if(!current && !legacy){
+    errors.push('unsupported catalog schema/version');
   }
   if(!Array.isArray(catalog.instances)) errors.push('instances must be an array');
   if(!Array.isArray(catalog.systemCandidates)) errors.push('systemCandidates must be an array');
+  if(current){
+    if(!catalog.inventory || typeof catalog.inventory !== 'object' || Array.isArray(catalog.inventory)){
+      errors.push('inventory must be an object');
+    }else{
+      for(const key of ['scripts','remotes','uiTrees','models','vehicles','houses','tools','animations','sounds']){
+        if(!Array.isArray(catalog.inventory[key])) errors.push('inventory.' + key + ' must be an array');
+      }
+    }
+    for(const record of catalog.instances || []){
+      if(!['directly-reusable','reusable-after-refactor','asset-only','irrelevant'].includes(record?.reuse?.class)){
+        errors.push('unsupported reuse class at ' + String(record?.path || 'unknown'));
+        break;
+      }
+    }
+  }
   try{
     const expected=stableHash(catalogPayload(catalog));
     if(expected !== catalog.catalogHash) errors.push('catalog hash mismatch');
