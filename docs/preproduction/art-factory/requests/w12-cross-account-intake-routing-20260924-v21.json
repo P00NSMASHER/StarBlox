@@ -1,0 +1,94 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_W12_CANDIDATE_DELTA_INTAKE_ROUTING",
+  "router": "12",
+  "branch": "screenshot-match-preproduction",
+  "observedHead": "c956d6421bbf3cbc388b9b0257b927d1c3a48db3",
+  "scanWindow": {
+    "priorCursor": "5f5004b19e3347bcc9420a0b66dcc0cf404613cb",
+    "inspectedThroughHead": "c956d6421bbf3cbc388b9b0257b927d1c3a48db3",
+    "commitsInspectedFromCompare": 6,
+    "newCatalogCandidateBytesDetected": true,
+    "newCandidateItemIds": [
+      "desks-9",
+      "desks-10"
+    ],
+    "note": "Full post-v20 cursor delta inspected. Desk9 v2 and Desk10 v2 are the only genuinely new catalog candidate images."
+  },
+  "candidates": [
+    {
+      "id": "desks-9",
+      "name": "Art Maker Table",
+      "collectionId": "desks",
+      "producer": "03",
+      "reviewerAssignment": "05",
+      "renderOwner": "14",
+      "canonicalWriter": "08",
+      "priorRejectedOrBlockedHash": {
+        "path": "public/assets/catalog/desks-9-w03-recovered-v1.jpg",
+        "gitBlobSha": "546dae5dd75c3ffcf312fc8d0c140c7e774ec972"
+      },
+      "path": "public/assets/catalog-candidates/cpu/desks-9-w03-v2-a-physical-original.png",
+      "sha256": "dfe46866e35daf1f55069ca3549cc6a45c46e92f131e01c0bd492b7641203a6a",
+      "gitBlobSha": "6cab04be717e17e2b682afa73ce8306bc21556c8",
+      "bytes": 495982,
+      "dimensions": [
+        640,
+        640
+      ],
+      "format": "PNG",
+      "stagedOutput": "docs/preproduction/art-factory/generated-evidence/w03-desks-9-10-v2-pinned-regeneration/desks-9/staged-output.json",
+      "generationReceipt": "docs/preproduction/art-factory/generated-evidence/w03-desks-9-10-v2-pinned-regeneration/desks-9/generation-receipt.json",
+      "provenanceState": "COMPLETE_ART_FACTORY_V2",
+      "repositoryReadback": "PASS_EXACT_GIT_BLOB",
+      "supersession": "FRESH_V2_PROVENANCE_COMPLIANT_REGENERATION_REPLACES_RECOVERED_FAIL_CLOSED_HASH",
+      "state": "ROUTE_TO_06_TECHNICAL_QUALIFICATION"
+    },
+    {
+      "id": "desks-10",
+      "name": "Neon Streaming Desk",
+      "collectionId": "desks",
+      "producer": "03",
+      "reviewerAssignment": "05",
+      "renderOwner": "14",
+      "canonicalWriter": "08",
+      "priorRejectedOrBlockedHash": {
+        "path": "public/assets/catalog/desks-10-w03-recovered-v1.jpg",
+        "gitBlobSha": "9ff5fd8b388cabfc6a8911653abb0e10d938e41f"
+      },
+      "path": "public/assets/catalog-candidates/cpu/desks-10-w03-v2-a-physical-original.png",
+      "sha256": "c3f04f156860b0665af727de66b7063b08302ca87941b728f856edf921f0ae7d",
+      "gitBlobSha": "2f6fccc5b76418fee108052bf6963491f2bcb823",
+      "bytes": 454563,
+      "dimensions": [
+        640,
+        640
+      ],
+      "format": "PNG",
+      "stagedOutput": "docs/preproduction/art-factory/generated-evidence/w03-desks-9-10-v2-pinned-regeneration/desks-10/staged-output.json",
+      "generationReceipt": "docs/preproduction/art-factory/generated-evidence/w03-desks-9-10-v2-pinned-regeneration/desks-10/generation-receipt.json",
+      "provenanceState": "COMPLETE_ART_FACTORY_V2",
+      "repositoryReadback": "PASS_EXACT_GIT_BLOB",
+      "supersession": "FRESH_V2_PROVENANCE_COMPLIANT_REGENERATION_REPLACES_RECOVERED_FAIL_CLOSED_HASH",
+      "state": "ROUTE_TO_06_TECHNICAL_QUALIFICATION"
+    }
+  ],
+  "dedupe": {
+    "uniqueItemHashClaim": true,
+    "unchangedRecoveredHashesRerouted": false,
+    "newerPendingCandidateObserved": false
+  },
+  "queues": {
+    "to06": [
+      "desks-9@dfe46866e35daf1f55069ca3549cc6a45c46e92f131e01c0bd492b7641203a6a",
+      "desks-10@c3f04f156860b0665af727de66b7063b08302ca87941b728f856edf921f0ae7d"
+    ],
+    "backToProducer": []
+  },
+  "cursorAdvance": {
+    "previous": "5f5004b19e3347bcc9420a0b66dcc0cf404613cb",
+    "advancedThrough": "c956d6421bbf3cbc388b9b0257b927d1c3a48db3"
+  },
+  "nextOwner": "06_TECHNICAL_QUALIFICATION",
+  "mutationScope": "Routing evidence only; no candidate bytes, canonical mappings, reviewer decisions, gameplay, learning, economy, persistence, accessibility, CI/workflows, deployment, secrets, or player data changed."
+}
