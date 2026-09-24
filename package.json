@@ -9,7 +9,8 @@
     "test": "vitest run",
     "validate:brookhaven-research": "node scripts/validateBrookhavenResearchArtifacts.mjs && node scripts/assertBrookhavenReuseBoundary.mjs && node scripts/validateBrookhavenProxyVerticalSlice.mjs",
     "test:brookhaven-residential": "vitest run src/residentialFeatureRuntime.test.js",
-    "build:brookhaven-research": "node scripts/buildBrookhavenResearchWithKnownBaseFix.mjs"
+    "build:brookhaven-research": "node scripts/buildBrookhavenResearchWithKnownBaseFix.mjs",
+    "test:brookhaven-step-8-10": "vitest run src/vehicleSystemRuntime.test.js src/townSystemRuntime.test.js src/lifeSimProgressionShadowRuntime.test.js"
   },
   "dependencies": {
     "lucide-react": "^0.468.0",
