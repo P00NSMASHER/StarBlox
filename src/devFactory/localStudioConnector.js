@@ -1,6 +1,8 @@
 
 import { createStudioHttpAdapter } from './studioBridge.js';
 
+export const STARBLOX_STUDIO_CONNECTOR_VERSION='starblox-studio-connector-v1';
+
 export const STARBLOX_STUDIO_CONNECTOR_TOOLS=Object.freeze([
   'search_tree',
   'inspect_instance',
@@ -28,6 +30,8 @@ export const STARBLOX_STUDIO_CONNECTOR_TOOLS=Object.freeze([
 export function createStarBloxLocalStudioAdapter(options={}){
   return createStudioHttpAdapter({
     ...options,
-    supportedTools:STARBLOX_STUDIO_CONNECTOR_TOOLS
+    supportedTools:STARBLOX_STUDIO_CONNECTOR_TOOLS,
+    expectedConnectorVersion:STARBLOX_STUDIO_CONNECTOR_VERSION,
+    requireAttestation:true
   });
 }

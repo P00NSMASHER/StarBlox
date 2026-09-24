@@ -7,8 +7,8 @@ import {
   rollbackStudioActionBatch
 } from './transactionalStudio.js';
 
-export const DEVELOPMENT_RUN_SCHEMA_VERSION=1;
-export const DEVELOPMENT_RUN_VERSION='starblox-ai-dev-run-v1';
+export const DEVELOPMENT_RUN_SCHEMA_VERSION=2;
+export const DEVELOPMENT_RUN_VERSION='starblox-ai-dev-run-v2';
 
 function clone(value){
   return JSON.parse(JSON.stringify(value));
@@ -66,6 +66,125 @@ function sanitizedResult(result){
     else out[key]=value;
   }
   return JSON.parse(JSON.stringify(sanitizeDiagnosticValue(out)));
+}
+
+async function readStudioAttestation(studio){
+  const required=Boolean(studio?.requiresAttestation);
+  const expected=typeof studio?.expectedConnectorVersion === 'string'
+    ? studio.expectedConnectorVersion
+    : null;
+  const supported=Array.isArray(studio?.supportedTools)
+    ? [...new Set(studio.supportedTools.map(String))].sort()
+    : [];
+
+  if(typeof studio?.describe !== 'function'){
+    if(required){
+      throw new Error('Studio attestation is required but studio.describe() is unavailable');
+    }
+    return {
+      required:false,
+      available:false,
+      attested:false,
+      service:null,
+      instanceId:null,
+      expectedConnectorVersion:expected,
+      connectedConnectorVersion:null,
+      supportedTools:supported,
+      connectedTools:[],
+      missingTools:[],
+      peerRoles:[],
+      error:null
+    };
+  }
+
+  let raw;
+  try{
+    raw=await studio.describe();
+  }catch(error){
+    if(required){
+      throw new Error(
+        'Studio attestation failed: ' +
+        (error instanceof Error ? error.message : String(error))
+      );
+    }
+    return {
+      required:false,
+      available:false,
+      attested:false,
+      service:null,
+      instanceId:null,
+      expectedConnectorVersion:expected,
+      connectedConnectorVersion:null,
+      supportedTools:supported,
+      connectedTools:[],
+      missingTools:[],
+      peerRoles:[],
+      error:error instanceof Error ? error.message : String(error)
+    };
+  }
+
+  const peers=Array.isArray(raw?.peers)
+    ? raw.peers.map(peer => ({
+      instanceId:String(peer?.instanceId || ''),
+      role:String(peer?.role || ''),
+      connectorVersion:typeof peer?.connectorVersion === 'string'
+        ? peer.connectorVersion
+        : null,
+      tools:Array.isArray(peer?.tools)
+        ? [...new Set(peer.tools.map(String))].sort()
+        : []
+    }))
+    : [];
+  const instanceId=String(raw?.instanceId || '');
+  const editPeer=peers.find(peer =>
+    peer.role === 'edit' &&
+    (!instanceId || peer.instanceId === instanceId)
+  ) || null;
+  const expectedVersion=expected ||
+    (typeof raw?.expectedConnectorVersion === 'string'
+      ? raw.expectedConnectorVersion
+      : null);
+  const requiredTools=supported.length
+    ? supported
+    : (Array.isArray(raw?.supportedTools)
+      ? [...new Set(raw.supportedTools.map(String))].sort()
+      : []);
+  const connectedTools=editPeer?.tools || [];
+  const missingTools=requiredTools.filter(tool => !connectedTools.includes(tool));
+  const service=String(raw?.service || '');
+  const versionMatches=!expectedVersion ||
+    editPeer?.connectorVersion === expectedVersion;
+  const attested=
+    service === 'starblox-studio-bridge' &&
+    Boolean(editPeer) &&
+    versionMatches &&
+    missingTools.length === 0;
+
+  const result={
+    required,
+    available:true,
+    attested,
+    service,
+    instanceId:instanceId || null,
+    expectedConnectorVersion:expectedVersion,
+    connectedConnectorVersion:editPeer?.connectorVersion || null,
+    supportedTools:requiredTools,
+    connectedTools,
+    missingTools,
+    peerRoles:[...new Set(peers.map(peer => peer.role).filter(Boolean))].sort(),
+    error:null
+  };
+
+  if(required && !attested){
+    const reasons=[];
+    if(service !== 'starblox-studio-bridge') reasons.push('unexpected bridge service');
+    if(!editPeer) reasons.push('no edit-mode Studio peer is connected');
+    if(editPeer && !versionMatches) reasons.push('connector protocol version mismatch');
+    if(missingTools.length) reasons.push('missing tools: ' + missingTools.join(', '));
+    throw new Error('Studio attestation rejected: ' + reasons.join('; '));
+  }
+
+  return result;
 }
 
 async function executeReadCall(studio,call,{stage='inspect',safety={}}={}){
@@ -496,7 +615,8 @@ function artifactPayload(run){
     cycles:run.cycles,
     finalReview:run.finalReview,
     rollback:run.rollback,
-    repository:run.repository
+    repository:run.repository,
+    studioAttestation:run.studioAttestation
   };
 }
 
@@ -523,6 +643,7 @@ export async function runDevelopmentFactory({
   };
   const start=iso(startedAt,'startedAt');
   const runId='devrun-' + stableHash({task:normalizedTask,startedAt:start}).split(':')[1];
+  const studioAttestation=await readStudioAttestation(studio);
   const maxRepairCycles=Math.max(0,Math.min(5,Number(config.maxRepairCycles ?? 2)));
   const maxTotalMutationCalls=Math.max(1,Math.min(500,Number(config.maxTotalMutationCalls ?? 120)));
   const maxToolCallsPerBatch=Math.max(1,Math.min(100,Number(config.maxToolCallsPerBatch ?? 50)));
@@ -731,7 +852,8 @@ export async function runDevelopmentFactory({
     cycles,
     finalReview:sanitizedResult(finalReview),
     rollback:sanitizedResult(rollback),
-    repository:sanitizedResult(finalVerification?.repository ?? null)
+    repository:sanitizedResult(finalVerification?.repository ?? null),
+    studioAttestation:sanitizedResult(studioAttestation)
   };
 
   return deepFreeze({
@@ -753,6 +875,14 @@ export function verifyDevelopmentRun(run){
   }
   if(!['verified','failed','rollback_incomplete'].includes(run.status)){
     errors.push('invalid development run status');
+  }
+  if(!run.studioAttestation || typeof run.studioAttestation !== 'object'){
+    errors.push('development run is missing Studio attestation evidence');
+  }else if(
+    run.studioAttestation.required === true &&
+    run.studioAttestation.attested !== true
+  ){
+    errors.push('required Studio attestation did not pass');
   }
   try{
     if(stableHash(artifactPayload(run)) !== run.runHash){

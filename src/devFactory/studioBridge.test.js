@@ -24,6 +24,31 @@ describe('Step 2: Studio bridge transport', () => {
     expect(bridge.status()).toEqual({queued:0,pending:0});
   });
 
+  it('registers deterministic Studio peer capability attestations', () => {
+    const bridge=new StudioBridgeQueue();
+
+    bridge.registerPeer({
+      instanceId:'studio-a',
+      role:'edit',
+      connectorVersion:'starblox-studio-connector-v1',
+      tools:['read_script','search_tree','unknown_tool','search_tree']
+    });
+    bridge.registerPeer({
+      instanceId:'studio-b',
+      role:'server',
+      connectorVersion:'starblox-studio-connector-v1',
+      tools:['get_logs']
+    });
+
+    expect(bridge.peerStatus({instanceId:'studio-a'})).toEqual([{
+      instanceId:'studio-a',
+      role:'edit',
+      connectorVersion:'starblox-studio-connector-v1',
+      tools:['read_script','search_tree']
+    }]);
+    expect(bridge.peerStatus()).toHaveLength(2);
+  });
+
   it('rejects unknown tools before they enter the bridge queue', async () => {
     const bridge=new StudioBridgeQueue();
     await expect(
@@ -65,6 +90,43 @@ describe('Step 2: Studio bridge transport', () => {
     await expect(adapter.call('publish_place',{})).rejects.toThrow(/unknown Studio tool/);
   });
 
+
+  it('describes the connected bridge peer without relying on caller claims', async () => {
+    const fetchMock=vi.fn(async (url,options) => ({
+      ok:true,
+      status:200,
+      async json(){
+        return {
+          ok:true,
+          service:'starblox-studio-bridge',
+          peers:[{
+            instanceId:'studio-a',
+            role:'edit',
+            connectorVersion:'starblox-studio-connector-v1',
+            tools:['search_tree','read_script']
+          }]
+        };
+      },
+      url,
+      options
+    }));
+    vi.stubGlobal('fetch',fetchMock);
+
+    const adapter=createStudioHttpAdapter({
+      instanceId:'studio-a',
+      token:'shared-secret',
+      supportedTools:['search_tree','read_script'],
+      expectedConnectorVersion:'starblox-studio-connector-v1',
+      requireAttestation:true
+    });
+
+    const description=await adapter.describe();
+    expect(description.required).toBe(true);
+    expect(description.expectedConnectorVersion).toBe('starblox-studio-connector-v1');
+    expect(description.peers[0].tools).toEqual(['read_script','search_tree']);
+    expect(fetchMock.mock.calls[0][0]).toContain('/health?instanceId=studio-a');
+    expect(fetchMock.mock.calls[0][1].headers['x-starblox-bridge-token']).toBe('shared-secret');
+  });
 
   it('removes timed-out queued work so Studio cannot execute it later', async () => {
     const bridge=new StudioBridgeQueue({timeoutMs:20});
