@@ -264,12 +264,17 @@ function artifactPayload(artifact){
   };
 }
 
+function repositoryGatePassed(value){
+  return value === true || Boolean(value && typeof value === 'object' && value.ok === true);
+}
+
 function repositoryProofComplete(repository){
   return Boolean(
     repository?.ok === true &&
-    repository?.gates?.tests === true &&
-    repository?.gates?.balance === true &&
-    repository?.gates?.build === true
+    repositoryGatePassed(repository?.gates?.tests) &&
+    repositoryGatePassed(repository?.gates?.certification) &&
+    repositoryGatePassed(repository?.gates?.balance) &&
+    repositoryGatePassed(repository?.gates?.build)
   );
 }
 
@@ -455,6 +460,7 @@ export async function runContentExpansionPipeline({
             maxRepairCycles:integer(config.maxRepairCycles,2,0,5),
             maxTotalMutationCalls:integer(config.maxTotalMutationCalls,120,1,500),
             maxToolCallsPerBatch:integer(config.maxToolCallsPerBatch,50,1,100),
+            requiredRepositoryGates:['tests','certification','balance','build'],
             allowDestructive:false,
             allowExecuteLuau:false,
             allowUnrollbackable:false,
@@ -468,7 +474,7 @@ export async function runContentExpansionPipeline({
         }else if(developmentRun.status !== 'verified'){
           blockers.push('Studio development run did not verify');
         }else if(!repositoryProofComplete(developmentRun.repository)){
-          blockers.push('repository proof must include passing tests, balance gate, and production build');
+          blockers.push('repository proof must include passing tests, certification, balance gate, and production build');
         }
       }catch(error){
         blockers.push('Studio development run failed: ' + (error instanceof Error ? error.message : String(error)));
