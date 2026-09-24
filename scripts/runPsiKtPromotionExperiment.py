@@ -43,6 +43,32 @@ from knowledge_tracing.data.data_loader import DataReader
 from knowledge_tracing.psikt.psikt import AmortizedPSIKT
 from knowledge_tracing.utils.logger import Logger
 
+
+class StarBloxAmortizedPSIKT(AmortizedPSIKT):
+    """Compatibility wrapper around upstream AmortizedPSIKT.
+
+    Upstream commit ecada10... has a dead/debug-only branch in zt_transition_gen
+    that tries to reshape a sampled tensor using an undefined local variable
+    named bsn. The sampled tensor is never consumed after that assignment.
+    Passing a non-None sentinel skips only that assignment while preserving the
+    upstream transition distributions, loss, inference networks, and predictor.
+    """
+
+    def generative_process(self, qs_dist, qz_dist, feed_dict=None, eval=False):
+        ps_dist = self.st_transition_gen(qs_dist, eval=eval)
+        sentinel = torch.empty(
+            0,
+            device=feed_dict["time_seq"].device if feed_dict is not None else self.device,
+        )
+        pz_dist = self.zt_transition_gen(
+            qs_dist=qs_dist,
+            qz_dist=qz_dist,
+            feed_dict=feed_dict,
+            eval=eval,
+            qs_sampled=sentinel,
+        )
+        return ps_dist, pz_dist
+
 with open(args_cli.evaluation, "r", encoding="utf-8") as handle:
     evaluation = json.load(handle)
 with open(args_cli.graph_json, "r", encoding="utf-8") as handle:
@@ -139,7 +165,7 @@ reader = DataReader(model_args, logs)
 reader.create_corpus()
 corpus = reader.load_corpus(model_args)
 
-model = AmortizedPSIKT(
+model = StarBloxAmortizedPSIKT(
     mode=model_args.train_mode,
     num_node=corpus.n_skills,
     nx_graph=adj,
@@ -242,6 +268,8 @@ receipt = {
     "upstreamRepository":"mlcolab/psi-kt",
     "upstreamCommit":upstream_commit,
     "model":"AmortizedPSIKT",
+    "wrapperClass":"StarBloxAmortizedPSIKT",
+    "compatibilityShim":"skip-unused-qs-sample-assignment-with-undefined-bsn",
     "device":"cpu",
     "epochs":model_args.epoch,
     "trainLearners":len(corpus.data_df["train"]),
@@ -265,6 +293,8 @@ with open(output_path, "w", encoding="utf-8") as handle:
 
 print(json.dumps({
     "model":receipt["model"],
+    "wrapperClass":receipt["wrapperClass"],
+    "compatibilityShim":receipt["compatibilityShim"],
     "upstreamCommit":upstream_commit,
     "epochs":receipt["epochs"],
     "trainLearners":receipt["trainLearners"],
