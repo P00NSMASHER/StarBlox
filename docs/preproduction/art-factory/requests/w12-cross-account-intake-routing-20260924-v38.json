@@ -1,0 +1,189 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_W12_CANDIDATE_DELTA_INTAKE_ROUTING",
+  "router": "12",
+  "branch": "screenshot-match-preproduction",
+  "observedHead": "06bbdb1b4f6cf8b671fc8ccdcc9dcccdfe2173e5",
+  "scanWindow": {
+    "priorCursor": "ad5dfb1583f1863edb8fd20d3626eb7d64b045aa",
+    "inspectedThroughHead": "06bbdb1b4f6cf8b671fc8ccdcc9dcccdfe2173e5",
+    "newCatalogCandidateBytesDetected": true,
+    "newCandidateItemIds": [
+      "desks-10",
+      "desks-11",
+      "decor-8",
+      "desks-9",
+      "decor-11",
+      "decor-7"
+    ],
+    "note": "Consolidated post-v37 delta. Six genuinely new CPU-generated exact candidate hashes were staged after the prior cursor; intervening workflow/prompt commits do not introduce additional candidate bytes."
+  },
+  "candidates": [
+    {
+      "id": "desks-10",
+      "name": "Neon Streaming Desk",
+      "collectionId": "desks",
+      "producer": "03",
+      "reviewerAssignment": "05",
+      "renderOwner": "14",
+      "canonicalWriter": "08",
+      "path": "public/assets/catalog-candidates/cpu/desks-10-w03-v7-a-one-streaming-desk-monitor-mic-original.png",
+      "sha256": "aa074975c527d98985197bebe27dcb2c85072b2186e4a565083c6a9715223165",
+      "gitBlobSha": "4af5225c536dff0a25c12f0f5e4066c39ad33322",
+      "bytes": 486264,
+      "dimensions": [
+        640,
+        640
+      ],
+      "format": "PNG",
+      "stagedOutput": "docs/preproduction/art-factory/generated-evidence/w03-release-tail-4pack-v4/desks-10/staged-output.json",
+      "generationReceipt": "docs/preproduction/art-factory/generated-evidence/w03-release-tail-4pack-v4/desks-10/generation-receipt.json",
+      "provenanceState": "COMPLETE_ART_FACTORY_V2",
+      "repositoryReadback": "PASS_EXACT_GIT_BLOB",
+      "supersession": "FRESH_V7_RELEASE_TAIL_REPLACEMENT",
+      "state": "ROUTE_TO_06_TECHNICAL_QUALIFICATION"
+    },
+    {
+      "id": "desks-11",
+      "name": "Dream Creator Station",
+      "collectionId": "desks",
+      "producer": "03",
+      "reviewerAssignment": "01",
+      "renderOwner": "14",
+      "canonicalWriter": "08",
+      "path": "public/assets/catalog-candidates/cpu/desks-11-w03-v5-a-one-creator-desk-only-original.png",
+      "sha256": "2a10f765b356db83badaef9c42ead321aea4eca95d231b198dad3888616b5f4d",
+      "gitBlobSha": "31216c600b99791b15e9bd92079dd70241ca53bf",
+      "bytes": 567069,
+      "dimensions": [
+        640,
+        640
+      ],
+      "format": "PNG",
+      "stagedOutput": "docs/preproduction/art-factory/generated-evidence/w03-release-tail-4pack-v4/desks-11/staged-output.json",
+      "generationReceipt": "docs/preproduction/art-factory/generated-evidence/w03-release-tail-4pack-v4/desks-11/generation-receipt.json",
+      "provenanceState": "COMPLETE_ART_FACTORY_V2",
+      "repositoryReadback": "PASS_EXACT_GIT_BLOB",
+      "supersession": "FRESH_V5_RELEASE_TAIL_REPLACEMENT",
+      "state": "ROUTE_TO_06_TECHNICAL_QUALIFICATION"
+    },
+    {
+      "id": "decor-8",
+      "name": "Mini Aquarium",
+      "collectionId": "decor",
+      "producer": "03",
+      "reviewerAssignment": "11",
+      "renderOwner": "14",
+      "canonicalWriter": "08",
+      "path": "public/assets/catalog-candidates/cpu/decor-8-w03-v4-a-one-rectangular-aquarium-original.png",
+      "sha256": "e169c2c18cfbcc94adf2d49b24bc41e178786771fbe2d586a2eaa72a99f99d53",
+      "gitBlobSha": "84aebabc0c5653fbd551badab28dff9873574edd",
+      "bytes": 436716,
+      "dimensions": [
+        640,
+        640
+      ],
+      "format": "PNG",
+      "stagedOutput": "docs/preproduction/art-factory/generated-evidence/w03-release-tail-4pack-v4/decor-8/staged-output.json",
+      "generationReceipt": "docs/preproduction/art-factory/generated-evidence/w03-release-tail-4pack-v4/decor-8/generation-receipt.json",
+      "provenanceState": "COMPLETE_ART_FACTORY_V2",
+      "repositoryReadback": "PASS_EXACT_GIT_BLOB",
+      "supersession": "FRESH_V4_RELEASE_TAIL_REPLACEMENT",
+      "state": "ROUTE_TO_06_TECHNICAL_QUALIFICATION"
+    },
+    {
+      "id": "desks-9",
+      "name": "Art Maker Table",
+      "collectionId": "desks",
+      "producer": "03",
+      "reviewerAssignment": "05",
+      "renderOwner": "14",
+      "canonicalWriter": "08",
+      "path": "public/assets/catalog-candidates/cpu/desks-9-w03-v4-a-one-art-maker-table-original.png",
+      "sha256": "0b8f58f4d9a9003777a4eac3f8df6c10f171918703bfa6b65a18745c4701c1eb",
+      "gitBlobSha": "b9a6d922e38d03c08298577a0f46c71dfb28bd66",
+      "bytes": 525576,
+      "dimensions": [
+        640,
+        640
+      ],
+      "format": "PNG",
+      "stagedOutput": "docs/preproduction/art-factory/generated-evidence/w03-release-tail-4pack-v4/desks-9/staged-output.json",
+      "generationReceipt": "docs/preproduction/art-factory/generated-evidence/w03-release-tail-4pack-v4/desks-9/generation-receipt.json",
+      "provenanceState": "COMPLETE_ART_FACTORY_V2",
+      "repositoryReadback": "PASS_EXACT_GIT_BLOB",
+      "supersession": "FRESH_V4_RELEASE_TAIL_REPLACEMENT",
+      "state": "ROUTE_TO_06_TECHNICAL_QUALIFICATION"
+    },
+    {
+      "id": "decor-11",
+      "name": "Dream Vanity Set",
+      "collectionId": "decor",
+      "producer": "09",
+      "reviewerAssignment": "02",
+      "renderOwner": "14",
+      "canonicalWriter": "08",
+      "path": "public/assets/catalog-candidates/cpu/decor-11-w09-v5-a-one-vanity-one-mirror-one-stool-original.png",
+      "sha256": "27d7cf22e7835c00ad61dbf1d08dec27f61fb111d7baa6a08cb9da2db58e83a6",
+      "gitBlobSha": "2c122deee959671e20520bd9f4eb3d7e0da02949",
+      "bytes": 616647,
+      "dimensions": [
+        640,
+        640
+      ],
+      "format": "PNG",
+      "stagedOutput": "docs/preproduction/art-factory/generated-evidence/w09-release-tail-2pack-v5/decor-11/staged-output.json",
+      "generationReceipt": "docs/preproduction/art-factory/generated-evidence/w09-release-tail-2pack-v5/decor-11/generation-receipt.json",
+      "provenanceState": "COMPLETE_ART_FACTORY_V2",
+      "repositoryReadback": "PASS_EXACT_GIT_BLOB",
+      "supersession": "FRESH_V5_RELEASE_TAIL_REPLACEMENT",
+      "state": "ROUTE_TO_06_TECHNICAL_QUALIFICATION"
+    },
+    {
+      "id": "decor-7",
+      "name": "Skate Rack",
+      "collectionId": "decor",
+      "producer": "09",
+      "reviewerAssignment": "01",
+      "renderOwner": "14",
+      "canonicalWriter": "08",
+      "path": "public/assets/catalog-candidates/cpu/decor-7-w09-v9-a-two-bay-rack-quad-skates-original.png",
+      "sha256": "b9ea07ca875c35664e32315c4362568e7ad83989408dbadf857a0d99172b5c60",
+      "gitBlobSha": "6d4ee958f8714799ee8fcdd1ec8364521d435803",
+      "bytes": 482464,
+      "dimensions": [
+        640,
+        640
+      ],
+      "format": "PNG",
+      "stagedOutput": "docs/preproduction/art-factory/generated-evidence/w09-release-tail-2pack-v5/decor-7/staged-output.json",
+      "generationReceipt": "docs/preproduction/art-factory/generated-evidence/w09-release-tail-2pack-v5/decor-7/generation-receipt.json",
+      "provenanceState": "COMPLETE_ART_FACTORY_V2",
+      "repositoryReadback": "PASS_EXACT_GIT_BLOB",
+      "supersession": "FRESH_V9_RELEASE_TAIL_REPLACEMENT",
+      "state": "ROUTE_TO_06_TECHNICAL_QUALIFICATION"
+    }
+  ],
+  "dedupe": {
+    "uniqueItemHashClaim": true,
+    "unchangedPriorHashesRerouted": false,
+    "newerPendingCandidateObserved": false
+  },
+  "queues": {
+    "to06": [
+      "desks-10@aa074975c527d98985197bebe27dcb2c85072b2186e4a565083c6a9715223165",
+      "desks-11@2a10f765b356db83badaef9c42ead321aea4eca95d231b198dad3888616b5f4d",
+      "decor-8@e169c2c18cfbcc94adf2d49b24bc41e178786771fbe2d586a2eaa72a99f99d53",
+      "desks-9@0b8f58f4d9a9003777a4eac3f8df6c10f171918703bfa6b65a18745c4701c1eb",
+      "decor-11@27d7cf22e7835c00ad61dbf1d08dec27f61fb111d7baa6a08cb9da2db58e83a6",
+      "decor-7@b9ea07ca875c35664e32315c4362568e7ad83989408dbadf857a0d99172b5c60"
+    ],
+    "backToProducer": []
+  },
+  "cursorAdvance": {
+    "previous": "ad5dfb1583f1863edb8fd20d3626eb7d64b045aa",
+    "advancedThrough": "06bbdb1b4f6cf8b671fc8ccdcc9dcccdfe2173e5"
+  },
+  "nextOwner": "06_TECHNICAL_QUALIFICATION",
+  "mutationScope": "Routing evidence only; no candidate bytes, canonical mappings, reviewer decisions, gameplay, CI/workflows, deployment or player data changed."
+}
