@@ -143,6 +143,7 @@ describe('Step 5: Brookhaven migration planning', () => {
     const vehicle=plan.units.find(unit => unit.systemName === 'Vehicle Fleet');
     const ui=plan.units.find(unit => unit.systemName === 'Quest UI');
     const risky=plan.units.find(unit => unit.systemName === 'Risky Loader');
+    const irrelevant=plan.units.find(unit => unit.systemName === 'DataModel');
 
     expect(house.selected).toBe(true);
     expect(house.migrationStrategy).toBe('refactor');
@@ -164,6 +165,10 @@ describe('Step 5: Brookhaven migration planning', () => {
     expect(risky.selected).toBe(false);
     expect(risky.migrationStrategy).toBe('quarantine');
     expect(risky.selectionReason).toMatch(/includeRisky/);
+
+    expect(irrelevant.selected).toBe(false);
+    expect(irrelevant.migrationStrategy).toBe('irrelevant');
+    expect(irrelevant.exportDisposition).toBe('excluded');
 
     for(const unit of plan.units){
       expect(unit.suggestedTarget).toMatch(/^ServerStorage\/StarBloxMigration\//);
@@ -197,6 +202,18 @@ describe('Step 5: Brookhaven migration planning', () => {
     expect(source).toEqual(before);
   });
 
+  it('does not allow an explicit include rule to export an irrelevant catalog system', () => {
+    const plan=buildRobloxMigrationPlan(catalog(),{
+      minEngineeringLeverageScore:0,
+      includeSystems:['DataModel'],
+      includeCapabilities:[]
+    });
+    const irrelevant=plan.units.find(unit => unit.systemName === 'DataModel');
+
+    expect(irrelevant.selected).toBe(false);
+    expect(irrelevant.migrationStrategy).toBe('irrelevant');
+    expect(irrelevant.selectionReason).toMatch(/classified irrelevant/);
+  });
   it('is deterministic and detects plan tampering', () => {
     const source=catalog();
     const first=buildRobloxMigrationPlan(source,{minEngineeringLeverageScore:0});
