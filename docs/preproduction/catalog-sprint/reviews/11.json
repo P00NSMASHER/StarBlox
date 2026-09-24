@@ -4,14 +4,14 @@
   "role": "independent art reviewer D / overflow reviewer",
   "phase": "ART_VISUALS_SPRINT",
   "branch": "screenshot-match-preproduction",
-  "sourceHead": "7db8f63a54fa08d766ce7b63b1371f3e6c93d0d2",
+  "sourceHead": "9e032e4096",
   "policy": "docs/preproduction/DELIVERY_PROTOCOL_V2.md",
   "artFactoryPolicy": "docs/preproduction/art-factory/ART_FACTORY_V2.json",
   "currentCycle": {
     "scope": [
       "wall-8"
     ],
-    "version": "current exact hash: Wall8 v5",
+    "version": "current exact hash: wall-8",
     "result": "REWORK_1_OF_1",
     "oldVerdictsTransferred": false,
     "actualCardScalePixelsReviewed": true,
@@ -318,6 +318,43 @@
         "PRODUCT_SILHOUETTE_FRAGMENTED"
       ],
       "reason": "REWORK. V5 contains multiple separate window/view panels instead of one Ocean Window. The ocean imagery is more recognizable than v4, but the collage/comparison layout destroys a single card-scale product silhouette. Next candidate must show exactly one framed ocean window in one view."
+    },
+    {
+      "itemId": "wall-8",
+      "name": "Ocean Window",
+      "assetPath": "public/assets/catalog-candidates/cpu/wall-8-w13-v6-a-one-ocean-window-original.png",
+      "repositoryPath": "public/assets/catalog-candidates/cpu/wall-8-w13-v6-a-one-ocean-window-original.png",
+      "assetHash": "891519488ffd1f7858e0eca960b51b250e50b29c",
+      "sha256": "400ebeeb9435a170a1c5889928754bb050a5009d7f7925cdefcd0e33419fdc83",
+      "contentSha256": "400ebeeb9435a170a1c5889928754bb050a5009d7f7925cdefcd0e33419fdc83",
+      "hashAlgorithm": "git-blob-sha1",
+      "producer": "13",
+      "decision": "REWORK",
+      "learnerLabel": "REWORK",
+      "reviewedAt": "2026-09-24T15:58:00Z",
+      "evidenceRefs": [
+        "workflow:36022579661",
+        "artifact:10818170394/staged-replacements/staged-replacements-contact-sheet.png",
+        "artifact:10818170394/staged-replacements/detail/wall-8-89151948.png"
+      ],
+      "reasonCodes": [
+        "OCEAN_WINDOW_IDENTITY_FAILURE",
+        "ABSTRACT_PANEL_GEOMETRY",
+        "NO_OCEAN_HORIZON",
+        "SMALL_CARD_READABILITY_FAILURE"
+      ],
+      "reason": "REWORK. The exact rendered pixels do not read as an Ocean Window. The image is dominated by abstract cream/gray panel and frame geometry with no readable ocean, water horizon, glazing view, or single window opening. Preserve this exact hash. The smallest next repair is exactly one clearly framed/recessed window in one view, with unmistakable blue ocean and horizon occupying the opening; remove all abstract multi-panel geometry.",
+      "checks": {
+        "identity": "FAIL",
+        "silhouette": "FAIL",
+        "cardReadability": "FAIL",
+        "physicalConstruction": "FAIL",
+        "framingComposition": "FAIL",
+        "materialLighting": "PARTIAL",
+        "originality": "PASS",
+        "duplicateVisual": "PASS",
+        "technicalIntegrity": "PASS"
+      }
     }
   ],
   "currentReplacementDisposition": {
@@ -339,7 +376,7 @@
     },
     "wall": {
       "REWORK": {
-        "wall-8": "3d32587f1dc65974eee1fc09b60f90248fe651b3"
+        "wall-8": "891519488ffd1f7858e0eca960b51b250e50b29c"
       }
     }
   },
@@ -352,13 +389,13 @@
     "reworkNow": [
       "wall-8"
     ],
-    "preservedAcceptedHashes": "All prior reviewer11 ACCEPTs remain frozen; this REWORK applies only to Wall8 v5."
+    "preservedAcceptedHashes": "All prior reviewer11 ACCEPTs remain frozen; this REWORK applies only to wall-8 exact hash 891519488ffd1f7858e0eca960b51b250e50b29c."
   },
   "handoff": {
-    "13": "Desk7 v2 ACCEPT; freeze exact hash. Desk8 v2 and Wall8 v4 REWORK; preserve exact hashes and prepare only failure-specific replacements if prioritized.",
+    "13": "wall-8 current exact hash is REWORK; preserve it and generate only the failure-specific next version if director15 keeps it release-critical.",
     "14": "Tail render packets consumed; do not rerender unchanged hashes.",
-    "15": "Desk8 and Wall8 remain bounded rework blockers; Desk7 leaves production scope.",
-    "08": "Integrate exact Desk7 v2 hash after live revalidation; do not integrate Desk8 v2 or Wall8 v4."
+    "15": "wall-8 remains a bounded exact-pixel REWORK blocker; prepare only the smallest failure-specific replacement.",
+    "08": "Do not canonical-wire wall-8 exact hash 891519488ffd1f7858e0eca960b51b250e50b29c."
   },
   "preservation": {
     "candidateBytesChanged": false,
