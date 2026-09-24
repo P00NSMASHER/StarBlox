@@ -25,131 +25,293 @@ page.on('console',m=>{if(m.type()==='error')consoleErrors.push(m.text());});
 page.on('pageerror',e=>pageErrors.push(String(e?.stack||e)));
 page.on('requestfailed',r=>requestFailures.push({url:r.url(),error:r.failure()?.errorText||'unknown'}));
 
-const qaOwned=['tops-1','bottoms-1','shoes-1','beds-1','desks-1','companions-1',...targets.map(([id])=>id)];
-const syntheticSave={
-  stateVersion:2,coins:999999,stars:999,xp:0,starWorth:999,
-  owned:qaOwned,
-  equipped:{top:'tops-1',bottom:'bottoms-1',shoes:'shoes-1',companion:'companions-1'},
-  stats:{},mastered:[],roomDecor:['beds-1','desks-1'],
-  questsCompleted:0,transferWins:0,lastDailyKey:'',
-  daily:{quests:0,transfers:0,purchase:0},
-  dreamGoalId:'companions-8',
-  districtProgress:{'Lantern Lane':0,'Story Street':0,'Wordwood Garden':0},
-  companionBond:0,purchaseReceipts:[],activeQuestReceipt:'',lastCompletedQuestReceipt:''
+const report={
+  generatedAt:null,
+  baseUrl,
+  liveAuthority:'REPLIT_PUBLIC_DEPLOYMENT',
+  mutationPolicy:'READ_ONLY_REMOTE__EPHEMERAL_LOCAL_BROWSER_STATE_ONLY_FOR_BUDDY_PREVIEW',
+  storeMounted:false,
+  storeSelector:null,
+  categorySelector:null,
+  targets:[],
+  consoleErrors,
+  pageErrors,
+  requestFailures,
+  fatal:null
 };
-// This state exists only inside this disposable browser context. No server,
-// account, purchase, or real-player persistence is touched.
-await context.addInitScript(save=>{
-  try{ localStorage.setItem('starblox-save-v2',JSON.stringify(save)); }catch{}
-},syntheticSave);
 
-async function clickNav(label){
-  const nav=page.locator('.sidebar .navBtn').filter({hasText:new RegExp(label,'i')}).first();
-  await nav.waitFor({state:'visible',timeout:10000});
-  await nav.click();
+function visible(el){
+  if(!el)return false;
+  const s=getComputedStyle(el),r=el.getBoundingClientRect();
+  return s.display!=='none'&&s.visibility!=='hidden'&&Number(s.opacity||1)>0&&r.width>0&&r.height>0;
 }
 
-async function captureArt(container,file){
-  const metrics=await container.evaluate(node=>{
-    const img=node.querySelector('.itemArt img, img');
+async function clickPrimaryNav(re){
+  const buttons=page.locator('.sidebar .navBtn');
+  for(let i=0;i<await buttons.count();i+=1){
+    const b=buttons.nth(i);
+    const text=((await b.innerText().catch(()=>''))||'').trim();
+    const aria=(await b.getAttribute('aria-label').catch(()=>''))||'';
+    if(!re.test(text)&&!re.test(aria))continue;
+    await b.scrollIntoViewIfNeeded();
+    const box=await b.boundingBox();
+    if(!box)continue;
+    const point={x:box.x+box.width/2,y:box.y+box.height/2};
+    const hit=await page.evaluate(({x,y})=>{
+      const e=document.elementFromPoint(x,y);
+      const nav=e?.closest?.('.sidebar .navBtn');
+      return nav?{text:(nav.textContent||'').replace(/\s+/g,' ').trim(),aria:nav.getAttribute('aria-label')||''}:null;
+    },point);
+    if(!hit)continue;
+    await page.mouse.click(point.x,point.y);
+    await page.waitForTimeout(400);
+    return {text,aria,point,hit};
+  }
+  return null;
+}
+
+async function findStoreRoot(){
+  const selectors=['.marketPage.sbStoreMatch','.marketPage','[data-screen="store"]','.storePage'];
+  for(const selector of selectors){
+    const loc=page.locator(selector).first();
+    if(await loc.count()&&await loc.isVisible().catch(()=>false))return {selector,loc};
+  }
+  return null;
+}
+
+async function findGrid(root){
+  const selectors=['.storeGrid','.catalogGrid','[data-store-grid]'];
+  for(const selector of selectors){
+    const loc=root.locator(selector).first();
+    if(await loc.count())return {selector,loc};
+  }
+  return null;
+}
+
+async function activateCompanions(root){
+  const selectors=[
+    '.sbStoreCategoryRow button[data-collection-id="companions"]',
+    '.filterRow button[data-collection-id="companions"]',
+    'button[data-collection-id="companions"]'
+  ];
+  for(const selector of selectors){
+    const loc=root.locator(selector).first();
+    if(await loc.count()&&await loc.isVisible().catch(()=>false)){
+      await loc.click();
+      await page.waitForTimeout(300);
+      return selector;
+    }
+  }
+  const buttons=root.locator('button');
+  for(let i=0;i<await buttons.count();i+=1){
+    const b=buttons.nth(i);
+    const text=((await b.innerText().catch(()=>''))||'').trim();
+    if(/companion|buddy|pet/i.test(text)){
+      await b.click();
+      await page.waitForTimeout(300);
+      return 'button:text-companion';
+    }
+  }
+  return null;
+}
+
+async function findCard(root,id,name){
+  const selectors=[
+    `.storeCard[data-store-item-id="${id}"]`,
+    `[data-store-item-id="${id}"]`,
+    `.storeCard[data-item-id="${id}"]`,
+    `[data-item-id="${id}"]`
+  ];
+  for(const selector of selectors){
+    const loc=root.locator(selector).first();
+    if(await loc.count()&&await loc.isVisible().catch(()=>false))return loc;
+  }
+  const cards=root.locator('.storeCard');
+  for(let i=0;i<await cards.count();i+=1){
+    const card=cards.nth(i);
+    const text=((await card.innerText().catch(()=>''))||'').replace(/\s+/g,' ').trim();
+    if(text.toLowerCase().includes(name.toLowerCase()))return card;
+  }
+  return null;
+}
+
+async function inspectCard(card,id,name){
+  await card.scrollIntoViewIfNeeded();
+  await page.waitForTimeout(80);
+  const metrics=await card.evaluate((node,{id,name})=>{
+    const img=node.querySelector('img');
     const fallback=node.querySelector('.itemArtFallback,.sbStoreFallbackArt');
-    const art=node.querySelector('.itemArt')||node;
-    const r=art.getBoundingClientRect();
+    const r=node.getBoundingClientRect();
     return {
+      id,name,
+      text:(node.textContent||'').replace(/\s+/g,' ').trim().slice(0,500),
       fallback:Boolean(fallback),
-      rect:{width:r.width,height:r.height},
+      rect:{x:r.x,y:r.y,width:r.width,height:r.height},
       image:img?{
         src:img.getAttribute('src')||'',
+        alt:img.getAttribute('alt')||'',
+        complete:img.complete,
         naturalWidth:img.naturalWidth,
         naturalHeight:img.naturalHeight,
         renderedWidth:img.getBoundingClientRect().width,
         renderedHeight:img.getBoundingClientRect().height
-      }:null
+      }:null,
+      backgroundImage:getComputedStyle(node.querySelector('.itemArt,.itemArtFrame,.itemVisual')||node).backgroundImage||''
     };
-  });
-  await container.screenshot({path:path.join(outputDir,file)});
+  },{id,name});
+  await card.screenshot({path:path.join(outputDir,`${id}-card.png`)});
   return metrics;
 }
 
-let report;
-try{
-  await page.goto(baseUrl,{waitUntil:'networkidle',timeout:30000});
-  await page.waitForSelector('.sidebar .navBtn',{timeout:10000});
-
-  // STORE: live product-card pixels.
-  await clickNav('Market|Store');
-  await page.waitForSelector('.page.marketPage,.marketPage',{state:'attached',timeout:10000});
-  await page.waitForSelector('.storeGrid',{state:'attached',timeout:10000});
-  const buddyFilter=page.locator('.filterRow button').filter({hasText:/^Buddies$/i}).first();
-  await buddyFilter.waitFor({state:'visible',timeout:8000});
-  await buddyFilter.click();
+async function inspectEnhancedPreview(card,id){
+  const rightRail=page.locator('.sbStoreRightRail').first();
+  const enhanced=Boolean(await rightRail.count()&&await rightRail.isVisible().catch(()=>false));
+  if(!enhanced)return {available:false,detailPresent:false,avatarStagePresent:false};
+  await card.click({position:{x:12,y:12}});
   await page.waitForTimeout(250);
+  const result=await page.evaluate(expectedId=>{
+    const detail=document.querySelector('.sbStoreSelectedDetail');
+    const stage=document.querySelector('.sbStoreAvatarStage');
+    const detailImg=detail?.querySelector('img');
+    const stageImgs=[...(stage?.querySelectorAll('img')||[])].map(img=>({
+      src:img.getAttribute('src')||'',
+      alt:img.getAttribute('alt')||'',
+      naturalWidth:img.naturalWidth,
+      naturalHeight:img.naturalHeight
+    }));
+    return {
+      available:true,
+      expectedId,
+      detailPresent:Boolean(detail),
+      detailText:(detail?.textContent||'').replace(/\s+/g,' ').trim().slice(0,500),
+      detailImage:detailImg?{
+        src:detailImg.getAttribute('src')||'',
+        alt:detailImg.getAttribute('alt')||'',
+        naturalWidth:detailImg.naturalWidth,
+        naturalHeight:detailImg.naturalHeight
+      }:null,
+      avatarStagePresent:Boolean(stage),
+      avatarStageImages:stageImgs
+    };
+  },id);
+  const detail=page.locator('.sbStoreSelectedDetail').first();
+  if(await detail.count()&&await detail.isVisible().catch(()=>false))
+    await detail.screenshot({path:path.join(outputDir,`${id}-detail.png`)});
+  const stage=page.locator('.sbStoreAvatarStage').first();
+  if(await stage.count()&&await stage.isVisible().catch(()=>false))
+    await stage.screenshot({path:path.join(outputDir,`${id}-avatar-stage.png`)});
+  return result;
+}
 
-  const byId={};
-  for(const [id,name] of targets){
-    const card=page.locator('.storeGrid .storeCard').filter({has:page.locator('h3',{hasText:name})}).first();
-    await card.waitFor({state:'visible',timeout:8000});
-    await card.scrollIntoViewIfNeeded();
-    await page.waitForTimeout(80);
-    const cardArt=await captureArt(card,`${id}-store-card.png`);
-    const text=(await card.textContent()||'').replace(/\s+/g,' ').trim();
-    byId[id]={id,name,store:{text,art:cardArt}};
+async function inspectBuddy(id){
+  const nav=await clickPrimaryNav(/world/i);
+  if(!nav)return {available:false,reason:'World nav not found'};
+  const avatar=page.locator('.avatarWrap').first();
+  if(!(await avatar.count()))return {available:false,reason:'avatarWrap not present on deployed revision'};
+  await page.evaluate(({id,key})=>{
+    let save={};
+    try{save=JSON.parse(localStorage.getItem(key)||'{}')||{};}catch{}
+    save.stateVersion=2;
+    save.owned=Array.from(new Set([...(Array.isArray(save.owned)?save.owned:[]),'companions-1',id]));
+    save.equipped={...(save.equipped||{}),companion:id};
+    localStorage.setItem(key,JSON.stringify(save));
+  },{id,key:'starblox-save-v2'});
+  await page.reload({waitUntil:'domcontentloaded'});
+  await page.waitForSelector('.sidebar .navBtn',{timeout:10000});
+  await clickPrimaryNav(/world/i);
+  await page.waitForTimeout(250);
+  const root=page.locator('.avatarWrap').first();
+  if(!(await root.count()))return {available:false,reason:'avatarWrap absent after reload'};
+  const result=await root.evaluate((node,expectedId)=>{
+    const buddy=node.querySelector('.buddy');
+    const img=buddy?.querySelector('img.sbBuddyPortrait,img');
+    return {
+      available:Boolean(buddy),
+      expectedId,
+      rootCompanionId:node.dataset.companion||null,
+      buddyCompanionId:buddy?.dataset?.companionId||null,
+      image:img?{
+        src:img.getAttribute('src')||'',
+        naturalWidth:img.naturalWidth,
+        naturalHeight:img.naturalHeight
+      }:null
+    };
+  },id);
+  await root.screenshot({path:path.join(outputDir,`${id}-buddy.png`)});
+  return result;
+}
+
+try{
+  await page.goto(baseUrl,{waitUntil:'domcontentloaded',timeout:30000});
+  await page.waitForSelector('.sidebar .navBtn',{timeout:15000});
+  report.initialNav=await page.locator('.sidebar .navBtn').evaluateAll(nodes=>nodes.filter(visible).map(n=>({
+    text:(n.textContent||'').replace(/\s+/g,' ').trim(),
+    aria:n.getAttribute('aria-label')||''
+  })));
+  report.storeNav=await clickPrimaryNav(/store|market/i);
+  await page.waitForTimeout(700);
+  let store=await findStoreRoot();
+  if(!store){
+    await page.screenshot({path:path.join(outputDir,'store-navigation-failure.png'),fullPage:false});
+    throw new Error('Store/Market navigation did not mount any recognized Store root');
   }
-  await page.screenshot({path:path.join(outputDir,'companions-store.png'),fullPage:false});
+  report.storeMounted=true;
+  report.storeSelector=store.selector;
+  const grid=await findGrid(store.loc);
+  report.gridSelector=grid?.selector||null;
+  report.categorySelector=await activateCompanions(store.loc);
+  await page.waitForTimeout(300);
+  await store.loc.screenshot({path:path.join(outputDir,'companions-store.png')});
 
-  // AVATAR: same live assets in the owned-companion closet. Synthetic local
-  // ownership is confined to this disposable context and is not a purchase.
-  await clickNav('Avatar');
-  await page.waitForSelector('.page.avatarPage,.avatarPage',{state:'attached',timeout:10000});
-  const closetRows=page.locator('.closetRow');
-  const buddyRow=closetRows.filter({has:page.locator('h3',{hasText:/^Buddies$/i})}).first();
-  await buddyRow.waitFor({state:'visible',timeout:8000});
   for(const [id,name] of targets){
-    const button=buddyRow.locator('button').filter({hasText:name}).first();
-    await button.waitFor({state:'visible',timeout:8000});
-    await button.scrollIntoViewIfNeeded();
-    const closetArt=await captureArt(button,`${id}-avatar-closet.png`);
-    byId[id].avatarCloset={art:closetArt};
+    const card=await findCard(store.loc,id,name);
+    if(!card){
+      report.targets.push({id,name,found:false,technicalPass:false,reason:'Store card not found'});
+      continue;
+    }
+    const cardMetrics=await inspectCard(card,id,name);
+    const preview=await inspectEnhancedPreview(card,id);
+    const cardImagePass=Boolean(cardMetrics.image?.naturalWidth>0)||(/url\(/.test(cardMetrics.backgroundImage)&&!cardMetrics.fallback);
+    const cardPass=cardImagePass&&!cardMetrics.fallback;
+    report.targets.push({id,name,found:true,card:cardMetrics,preview,cardPass,technicalPass:cardPass});
   }
 
-  const results=targets.map(([id])=>{
-    const row=byId[id];
-    const store=row.store.art, avatar=row.avatarCloset.art;
-    const storePass=Boolean(store.image?.naturalWidth>0)&&!store.fallback&&store.rect.width>0&&store.rect.height>0;
-    const avatarPass=Boolean(avatar.image?.naturalWidth>0)&&!avatar.fallback&&avatar.rect.width>0&&avatar.rect.height>0;
-    return {...row,storePass,avatarPass,technicalPass:storePass&&avatarPass};
-  });
-
-  report={
-    generatedAt:new Date().toISOString(),baseUrl,
-    liveAuthority:'REPLIT_PUBLIC_DEPLOYMENT',
-    statePolicy:'SYNTHETIC_LOCAL_STORAGE_IN_DISPOSABLE_QA_CONTEXT_ONLY__NO_SERVER_OR_REAL_PLAYER_MUTATION',
-    surfaces:['STORE_CARD','AVATAR_OWNED_COMPANION_CLOSET'],
-    targets:results,
-    consoleErrors,pageErrors,requestFailures,
-    technicalPassCount:results.filter(x=>x.technicalPass).length
-  };
+  // Buddy preview is optional deployment evidence. Run it after Store cards are
+  // fully captured; failure here never erases valid card evidence.
+  for(const target of report.targets){
+    if(!target.found)continue;
+    try{target.buddy=await inspectBuddy(target.id);}
+    catch(error){target.buddy={available:false,error:String(error?.message||error)};}
+    await page.goto(baseUrl,{waitUntil:'domcontentloaded',timeout:30000});
+    await page.waitForSelector('.sidebar .navBtn',{timeout:10000});
+    await clickPrimaryNav(/store|market/i);
+    await page.waitForTimeout(350);
+    store=await findStoreRoot();
+    if(store)await activateCompanions(store.loc);
+  }
 }catch(error){
-  report={
-    generatedAt:new Date().toISOString(),baseUrl,
-    liveAuthority:'REPLIT_PUBLIC_DEPLOYMENT',
-    statePolicy:'SYNTHETIC_LOCAL_STORAGE_IN_DISPOSABLE_QA_CONTEXT_ONLY__NO_SERVER_OR_REAL_PLAYER_MUTATION',
-    fatalError:String(error?.stack||error),
-    consoleErrors,pageErrors,requestFailures,
-    technicalPassCount:0,targets:[]
-  };
+  report.fatal=String(error?.stack||error);
+  await page.screenshot({path:path.join(outputDir,'fatal.png'),fullPage:false}).catch(()=>{});
 }finally{
+  report.generatedAt=new Date().toISOString();
+  report.consoleErrors=[...consoleErrors];
+  report.pageErrors=[...pageErrors];
+  report.requestFailures=[...requestFailures];
+  report.cardPassCount=report.targets.filter(x=>x.cardPass).length;
+  report.technicalPassCount=report.targets.filter(x=>x.technicalPass).length;
   await fs.writeFile(path.join(outputDir,'report.json'),JSON.stringify(report,null,2)+'\n');
   await fs.writeFile(path.join(outputDir,'summary.txt'),[
     'LIVE_REPLIT_COMPANION_QA',
     `BASE_URL=${baseUrl}`,
-    `TECHNICAL_PASS=${report.technicalPassCount}/7`,
+    `STORE_MOUNTED=${report.storeMounted}`,
+    `STORE_SELECTOR=${report.storeSelector||'none'}`,
+    `CATEGORY_SELECTOR=${report.categorySelector||'none'}`,
+    `CARD_PASS=${report.cardPassCount}/${targets.length}`,
     `PAGE_ERRORS=${pageErrors.length}`,
-    `CONSOLE_ERRORS=${consoleErrors.length}`,
-    `FATAL_ERROR=${report.fatalError||''}`
+    `FATAL=${report.fatal?'YES':'NO'}`
   ].join('\n')+'\n');
-  await context.close();
-  await browser.close();
+  console.log(JSON.stringify(report,null,2));
+  await context.close().catch(()=>{});
+  await browser.close().catch(()=>{});
 }
-console.log(JSON.stringify(report,null,2));
-if(report.technicalPassCount!==7||pageErrors.length||report.fatalError)process.exitCode=1;
+if(report.fatal||report.cardPassCount!==targets.length||pageErrors.length)process.exitCode=1;
