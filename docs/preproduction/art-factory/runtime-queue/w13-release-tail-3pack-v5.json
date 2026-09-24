@@ -42,8 +42,8 @@
     "route": "12 -> 06 -> 14 -> assigned reviewer -> 08 on ACCEPT",
     "canonicalWriter": "08"
   },
-  "dispatchPolicy": "PREPARED_LITERAL_RETRY__WAIT_LIVE_CPU_IDLE",
-  "retryRevision": 4,
-  "retryReason": "final requeue after non-canceling concurrency lock; fixed prompt compiler and same exact variants/reviewers",
-  "compilerFixHead": "725c15255e"
+  "dispatchPolicy": "PENDING_SUCCESSOR__WAIT_RUNNING_W09_DECOR_BATCH",
+  "retryRevision": 5,
+  "retryReason": "pending successor behind live Decor7 Decor11 run; validated 60-word sentence-preserving compiler; do not cancel running batch",
+  "compilerFixHead": "725c15255e30addcc97f8450eb28f78231bf18e5"
 }
