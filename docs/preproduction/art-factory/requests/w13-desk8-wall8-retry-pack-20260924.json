@@ -11,12 +11,13 @@
   "branch": "screenshot-match-preproduction",
   "sourceHead": "1fbd30bbe04c50c98e7796470606b14d14724d09",
   "manifestVersion": 40,
-  "batchId": "w13-desk8-wall8-retry-pack",
+  "batchId": "w13-desk8-wall8-wall9-retry-pack",
   "scope": [
     "desks-8",
-    "wall-8"
+    "wall-8",
+    "wall-9"
   ],
-  "state": "PREPARED_PACK__WAIT_WALL9_CURRENT_VERDICT",
+  "state": "PREPARED_PACKED_THREE_ITEM_RETRY",
   "assignmentAuthority": {
     "path": "docs/preproduction/art-factory/RELEASE_BLOCKERS_CURRENT.json",
     "runtimeProofPath": "docs/preproduction/art-factory/CPU_RUNTIME_PROOF.json",
@@ -26,13 +27,14 @@
     "modelRevision": "462165984030d82259a11f4367a4eed129e94a7b",
     "assignedReviewers": {
       "desks-8": "11",
-      "wall-8": "11"
+      "wall-8": "11",
+      "wall-9": "02"
     },
-    "note": "Desk8 v4 failed before generation due tokenizer overflow; Wall8 v9 exact source is REWORK. Add Wall9 to this same pack only if current v9 receives REWORK before dispatch."
+    "note": "Packed Producer13 retry: Desk8 v4 previously failed before generation on token overflow; Wall8 v9 and Wall9 v9 are exact source-pixel REWORK. One CPU startup for all three."
   },
   "reviewSource": {
     "decision": "MIXED_TECHNICAL_RETRY_AND_REWORK",
-    "note": "Desk8 has no v4 pixels; Wall8 v9 exact hash e9d7617107ebfa404e1add432f74c6f5e91efd40 is REWORK."
+    "note": "Desk8 has no v4 pixels. Wall8 v9 exact hash e9d7617107ebfa404e1add432f74c6f5e91efd40 REWORK. Wall9 v9 exact hash 3c343c9803ef4dcf078a846a84cc54973e7e0f63 REWORK."
   },
   "items": {
     "desks-8": {
@@ -66,6 +68,23 @@
         {
           "variantId": "B-SIMPLE-SEASCAPE-WINDOW",
           "optimizerInput": "ONE cream wall window with one large blue seascape opening: blue ocean below, pale sky above, straight horizon line. Flat frame, no protruding base. NO room, furniture, grid, blinds, extra window, text."
+        }
+      ]
+    },
+    "wall-9": {
+      "currentLegacy": {
+        "path": "public/assets/catalog-candidates/cpu/wall-9-w13-v9-a-literal-three-frame-triptych-original.png",
+        "gitBlobSha1": "3c343c9803ef4dcf078a846a84cc54973e7e0f63",
+        "reviewDecision": "REWORK"
+      },
+      "variants": [
+        {
+          "variantId": "A-THREE-SEPARATE-ADVENTURE-FRAMES",
+          "optimizerInput": "Art Gallery Wall. EXACTLY THREE separate framed pictures side by side on plain white. Left: mountain trail. Center: large compass over a simple map shape. Right: bright blue ocean coast. Three equal frames, one row, full set visible. NO fourth frame, blank panel, duplicate mountain, outer collage frame, shelf, floor, room, text."
+        },
+        {
+          "variantId": "B-TRAVEL-TRIPTYCH-THREE-FRAMES",
+          "optimizerInput": "Exactly THREE wall frames in one horizontal row: mountain path, compass-map symbol, blue coastal scene. Plain white background, three distinct pictures, full product visible. NO extra frame, blank panel, duplicate subject, room, shelf, text."
         }
       ]
     }
