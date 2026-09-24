@@ -12,6 +12,7 @@ local ReplayIngressService = require(script.Parent.ReplayIngressService)
 local IntelligenceShadowService = require(script.Parent.IntelligenceShadowService)
 local LiveOpsService = require(script.Parent.LiveOpsService)
 local SocialWorldService = require(script.Parent.SocialWorldService)
+local AiNpcService = require(script.Parent.AiNpcService)
 
 local Bootstrap = {}
 
@@ -29,6 +30,7 @@ function Bootstrap.start(dependencies)
 	local shadow = IntelligenceShadowService.new(dependencies.TelemetrySink)
 	local liveOps = LiveOpsService.new(profiles, replicas, dependencies.LiveOpsPackages)
 	local social = SocialWorldService.new(profiles, replicas, ecs, liveOps, dependencies.SocialWorldAdapters)
+	local aiNpc = AiNpcService.new(profiles, dependencies.AiNpcAdapters, dependencies.TelemetrySink)
 
 	local function playerAdded(player: Player)
 		local profile = profiles:Load(player)
@@ -43,6 +45,7 @@ function Bootstrap.start(dependencies)
 
 	local function playerRemoving(player: Player)
 		social:PlayerRemoving(player)
+		aiNpc:PlayerRemoving(player)
 		replicas:Detach(player)
 		profiles:Release(player)
 	end
@@ -69,6 +72,7 @@ function Bootstrap.start(dependencies)
 		IntelligenceShadow = shadow,
 		LiveOps = liveOps,
 		SocialWorld = social,
+		AiNpc = aiNpc,
 	})
 end
 
