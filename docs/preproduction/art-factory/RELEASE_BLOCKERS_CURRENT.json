@@ -3,7 +3,7 @@
   "kind": "STARBLOX_RELEASE_ART_BLOCKER_LEDGER",
   "branch": "screenshot-match-preproduction",
   "source": {
-    "computedAtHead": "c49d79e769e511cae2ec26aefa5b95400ccca378",
+    "computedAtHead": "0bb0f865be7632a2abc09162c6d10c5f5b782b6c",
     "manifest": {
       "version": 45,
       "finalCount": 181,
@@ -18,9 +18,9 @@
       "name": "Neon Streaming Desk",
       "producer": "03",
       "reviewer": "05",
-      "state": "CPU_FINAL_RETRY_RUNNING",
-      "activeQueue": "w03-desks10-11-final-retry",
-      "generationRunId": 36050941229,
+      "state": "CPU_A_FALLBACK_PENDING",
+      "activeQueue": "w03-desks10-11-final-retry-a-fallback",
+      "generationRunId": 36053809276,
       "latestEvidence": {
         "version": "v9",
         "gitBlobSha": "1f050b539245d387ce005f67e059829a5249a7ed",
@@ -33,9 +33,9 @@
       "name": "Dream Creator Station",
       "producer": "03",
       "reviewer": "01",
-      "state": "CPU_FINAL_RETRY_RUNNING",
-      "activeQueue": "w03-desks10-11-final-retry",
-      "generationRunId": 36050941229,
+      "state": "CPU_A_FALLBACK_PENDING",
+      "activeQueue": "w03-desks10-11-final-retry-a-fallback",
+      "generationRunId": 36053809276,
       "latestEvidence": {
         "version": "v7",
         "gitBlobSha": "b138c6291bf801bbf66e33daf9394e2c4bbae249",
@@ -63,7 +63,7 @@
       "name": "Dream Vanity Set",
       "producer": "09",
       "reviewer": "02",
-      "state": "PREPARED_V8_AFTER_V7_REWORK",
+      "state": "PREPARED_V8_REQUEUE_AFTER_DESK_PAIR_STARTS",
       "preparedQueue": "w09-decor11-v8-simple-stool",
       "latestEvidence": {
         "version": "v7",
@@ -76,20 +76,20 @@
   "parallelWorkPlan": {
     "cpuSemaphore": "ONE_RUNNING_PLUS_ONE_PENDING",
     "currentCpuBatch": {
-      "queueId": "w03-desks10-11-final-retry",
-      "items": [
-        "desks-10",
-        "desks-11"
-      ],
-      "runId": 36050941229,
-      "state": "RUNNING"
-    },
-    "pendingSuccessor": {
       "queueId": "w13-wall9-v11-three-frame-final",
       "items": [
         "wall-9"
       ],
       "runId": 36051844460,
+      "state": "RUNNING"
+    },
+    "pendingSuccessor": {
+      "queueId": "w03-desks10-11-final-retry-a-fallback",
+      "items": [
+        "desks-10",
+        "desks-11"
+      ],
+      "runId": 36053809276,
       "state": "PENDING"
     },
     "preparedNext": [
@@ -103,25 +103,24 @@
       },
       {
         "rank": 2,
-        "producer": "03",
-        "queuePath": "docs/preproduction/art-factory/prepared-queues/w03-desks10-11-final-retry-a-fallback.json",
-        "items": [
-          "desks-10",
-          "desks-11"
-        ],
-        "conditional": "only exact REWORK items from current B run"
-      },
-      {
-        "rank": 3,
         "producer": "13",
         "queuePath": "docs/preproduction/art-factory/prepared-queues/w13-wall9-v12-a-fallback.json",
         "items": [
           "wall-9"
         ],
         "conditional": "only if v11 REWORK"
+      },
+      {
+        "rank": 3,
+        "producer": "09",
+        "queuePath": "docs/preproduction/art-factory/prepared-queues/w09-decor11-v9-ultraliteral-fallback.json",
+        "items": [
+          "decor-11"
+        ],
+        "conditional": "only if v8 REWORK"
       }
     ],
-    "queuePolicy": "When Desk10/11 leaves RUNNING, Wall9 starts automatically. As soon as Wall9 is RUNNING, queue Decor11 v8 as the one pending successor. Never queue a held fallback unless its current exact hash is independently REWORK."
+    "queuePolicy": "Wall9 runs now. Desk10/11 fallback pair is the one pending successor because it attacks two confirmed blockers. When the desk pair transitions to running, requeue Decor11 v8 as the one pending successor. Queue Wall9 v12 only if v11 is REWORK and only when the pending slot is free."
   },
   "nonArtReleaseState": {
     "liveFunctionalSmoke": "GREEN",
