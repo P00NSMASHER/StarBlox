@@ -195,6 +195,28 @@ function scriptSourceFromProperties(properties){
   return typeof value === 'string' ? value : '';
 }
 
+function extractPropertyReferences(value,propertyPath){
+  const refs=[];
+  if(typeof value === 'string'){
+    if(/^referent-\d+$/.test(value)){
+      refs.push({property:propertyPath,targetReferent:value});
+    }
+    return refs;
+  }
+  if(Array.isArray(value)){
+    value.forEach((child,index) => {
+      refs.push(...extractPropertyReferences(child,propertyPath + '[' + index + ']'));
+    });
+    return refs;
+  }
+  if(value && typeof value === 'object'){
+    for(const [key,child] of Object.entries(value)){
+      refs.push(...extractPropertyReferences(child,propertyPath + '.' + key));
+    }
+  }
+  return refs;
+}
+
 function classifyReview(script){
   const reasons=[...new Set(script?.riskFlags || [])].sort();
   return {
@@ -267,8 +289,10 @@ function flattenDom(source){
     ]);
 
     const assetIds=new Set();
-    for(const value of Object.values(properties)){
+    const propertyReferences=[];
+    for(const [property,value] of Object.entries(properties)){
       for(const id of extractAssetIds(normalizeVariant(value))) assetIds.add(id);
+      propertyReferences.push(...extractPropertyReferences(value,property));
     }
     for(const id of script?.requireAssetIds || []) assetIds.add(id);
 
@@ -287,6 +311,10 @@ function flattenDom(source){
       propertyNames:Object.keys(properties).sort(),
       capabilities:[...capabilities].sort(),
       assetIds:[...assetIds].sort(),
+      propertyReferences:propertyReferences.sort((a,b) =>
+        a.property.localeCompare(b.property) ||
+        a.targetReferent.localeCompare(b.targetReferent)
+      ),
       script,
       reuse:null,
       review:null
@@ -363,14 +391,37 @@ function buildDependencies(records){
   const remoteNames=new Set(
     records.filter(record => REMOTE_CLASSES.has(record.className)).map(record => record.name)
   );
+  const pathByReferent=new Map(
+    records
+      .filter(record => record.referent)
+      .map(record => [record.sourceId + '||' + record.referent,record.path])
+  );
 
   for(const record of records){
+    if(record.parentPath){
+      edges.push({from:record.path,type:'parent',to:record.parentPath});
+    }
+    for(const id of record.assetIds || []){
+      edges.push({from:record.path,type:'asset-reference',to:id});
+    }
+    for(const ref of record.propertyReferences || []){
+      edges.push({
+        from:record.path,
+        type:'property-reference',
+        property:ref.property,
+        to:pathByReferent.get(record.sourceId + '||' + ref.targetReferent) || ref.targetReferent
+      });
+    }
+
     if(!record.script) continue;
     for(const service of record.script.services){
       edges.push({from:record.path,type:'service',to:service});
     }
     for(const id of record.script.requireAssetIds){
       edges.push({from:record.path,type:'require-asset',to:id});
+    }
+    for(const expression of record.script.requireExpressions){
+      edges.push({from:record.path,type:'require-expression',to:expression});
     }
     for(const name of record.script.waitsFor){
       edges.push({
@@ -384,7 +435,8 @@ function buildDependencies(records){
   return edges.sort((a,b) =>
     a.from.localeCompare(b.from) ||
     a.type.localeCompare(b.type) ||
-    a.to.localeCompare(b.to)
+    a.to.localeCompare(b.to) ||
+    String(a.property || '').localeCompare(String(b.property || ''))
   );
 }
 
