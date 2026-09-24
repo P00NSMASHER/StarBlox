@@ -20,7 +20,8 @@ Key rules:
 - collision proxy normalization;
 - source and output SHA-256 fingerprints;
 - executable fields are rejected;
-- a user-asserted rights state remains research-only until rights evidence is recorded;
+- legacy `user-asserted-authorized` inputs remain research-only;
+- `project-rights-verified` inputs are eligible for content and technical QA;
 - original StarBlox proxy geometry is eligible for QA immediately.
 
 No raw Brookhaven mesh/texture payload has been claimed or fabricated in this step.
