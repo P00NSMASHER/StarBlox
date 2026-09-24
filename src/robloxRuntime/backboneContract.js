@@ -26,7 +26,10 @@ export const PROFILE_TEMPLATE=Object.freeze({
     UnlockedSocialItems:Object.freeze({}),
     Stats:Object.freeze({PhotosTaken:0,CoopPhotos:0,MinigameWins:0}),
     CompletedSessionIds:Object.freeze([]),
-    AffinityEventIds:Object.freeze([])
+    CompletedSessionReceipts:Object.freeze({}),
+    AffinityReceipts:Object.freeze({}),
+    PhotoReceipts:Object.freeze({}),
+    LiveOpsSequence:0
   }),
   LiveOps:Object.freeze({
     Counters:Object.freeze({}),
@@ -76,7 +79,10 @@ export const REPLICATION_BOUNDARIES=Object.freeze({
     'LiveOps.ProcessedEventIds',
     'LiveOps.EventStreams',
     'Social.CompletedSessionIds',
-    'Social.AffinityEventIds',
+    'Social.CompletedSessionReceipts',
+    'Social.AffinityReceipts',
+    'Social.PhotoReceipts',
+    'Social.LiveOpsSequence',
     'AiNpc.Memories',
     'AiNpc.ProcessedRequestIds'
   ]),
