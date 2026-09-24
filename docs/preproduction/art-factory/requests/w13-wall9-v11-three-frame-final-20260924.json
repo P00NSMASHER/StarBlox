@@ -26,14 +26,14 @@
     "assignedReviewers": {
       "wall-9": "02"
     },
-    "note": "V10 had four panel regions. This retry reduces the geometry to three identical portrait frames only."
+    "note": "Token-safe v12 after 78>77 CLIP overflow. Exact three-frame geometry preserved with shorter positive text."
   },
   "reviewSource": {
     "decision": "REWORK",
     "latestExact": {
-      "version": "v10",
-      "gitBlobSha": "28807b5b48c46274252f0f6453b336cb2d379416",
-      "sha256": "55b73b41129050883bf231977964754b563f68a2e041e917ef6c59120361d7de"
+      "version": "v11",
+      "gitBlobSha": "20c41266b9ef3afac6393b9af16da0efc8c9acac",
+      "sha256": "e5e45b76f4723c1c0ad4d64f27a6baea7c287e0339203009252c3ec12c28dcd3"
     }
   },
   "items": {
@@ -46,7 +46,7 @@
       "variants": [
         {
           "variantId": "A-EXACT-THREE-PORTRAIT-FRAMES",
-          "optimizerInput": "Art Gallery Wall. EXACTLY THREE same-size portrait picture frames in ONE horizontal row on plain white. Only three rectangles. Left frame: mountain hiking trail. Center frame: one large compass over a simple map. Right frame: bright blue ocean coastline. Thin dark frames, equal spacing. NO outer panel, NO fourth rectangle, NO shelf, NO floor, NO room, NO text."
+          "optimizerInput": "Art Gallery Wall. Three equal portrait frames side by side on white. Left: mountain trail. Center: compass map. Right: blue ocean coast. Thin dark frames, equal spacing. NO fourth frame, panel, shelf, floor, room, text."
         },
         {
           "variantId": "B-THREE-FRAMES-ONLY",
