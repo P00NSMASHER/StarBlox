@@ -119,7 +119,7 @@ describe('StarBlox upstream implementation provenance', () => {
   it('pins every planned source to an immutable full commit SHA', () => {
     const entries = upstreamSourceList();
 
-    expect(entries.length).toBeGreaterThanOrEqual(62);
+    expect(entries.length).toBeGreaterThanOrEqual(63);
     expect(entries.every(entry => /^[a-f0-9]{40}$/.test(entry.commit))).toBe(true);
     expect(entries.every(entry => entry.reuseBasis === 'user-confirmed direct reuse rights')).toBe(true);
   });
@@ -177,5 +177,6 @@ describe('StarBlox upstream implementation provenance', () => {
     expect(UPSTREAM_PROVENANCE.openReplayNetwork.path).toBe('tracker/tracker/src/main/modules/network.ts');
     expect(UPSTREAM_PROVENANCE.openReplayConsole.path).toBe('tracker/tracker/src/main/modules/console.ts');
     expect(UPSTREAM_PROVENANCE.makeReadyMusicDirector.path).toBe('src/music.js');
+    expect(UPSTREAM_PROVENANCE.neonRunTelemetry.path).toBe('src/game/runTelemetry.ts');
   });
 });
