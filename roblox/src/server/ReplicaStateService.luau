@@ -35,6 +35,12 @@ local function publicProjection(profileData)
 		Rollout = {
 			Assignments = table.clone(profileData.Rollout.Assignments),
 		},
+		Social = profileData.Social and {
+			Home = table.clone(profileData.Social.Home or {}),
+			NpcAffinity = table.clone(profileData.Social.NpcAffinity or {}),
+			UnlockedSocialItems = table.clone(profileData.Social.UnlockedSocialItems or {}),
+			Stats = table.clone(profileData.Social.Stats or {}),
+		} or nil,
 		LiveOps = profileData.LiveOps and {
 			Counters = table.clone(profileData.LiveOps.Counters or {}),
 			Missions = table.clone(profileData.LiveOps.Missions or {}),
