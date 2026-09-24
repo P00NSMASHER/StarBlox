@@ -3,14 +3,7 @@
   "kind": "STARBLOX_RELEASE_ART_BLOCKER_LEDGER",
   "branch": "screenshot-match-preproduction",
   "source": {
-    "computedAtHead": "00f0b01064c12ab0179d6bef9e0e441c0ff7576a",
-    "correctedVisualQa": {
-      "runId": 36030550833,
-      "sourceHead": "96b0ca90829e34450c8decf6b37d02cc251d7bdf",
-      "artifactId": 10821420933,
-      "gate": "visible-final-art-fallbacks",
-      "scope": "visible Store product cards only (.storeGrid .storeCard containing .itemArtFallback)"
-    },
+    "computedAtHead": "666920e4301d151f943b96d821d4fe4cef125be4",
     "manifest": {
       "version": 40,
       "finalCount": 176,
@@ -18,181 +11,192 @@
       "target": 192
     }
   },
-  "releaseRule": "Only these nine visible product-card fallback IDs remain release-critical. Remove an ID only after newer exact hash independent ACCEPT + canonical integration, or newer corrected visual QA proves it no longer renders as a product fallback.",
+  "releaseRule": "Nine visible product-card fallback IDs remain release-critical, plus seven existing companion assets remain interim-not-verified pending authoritative rendering evidence. Remove a visible fallback only after newer exact-hash independent ACCEPT + canonical integration. Promote a companion only after authoritative Store/detail and non-mutating companion-preview evidence is visually verified.",
   "visibleProductFallbacks": [
     {
       "id": "desks-8",
       "name": "Aqua Study Station",
       "producer": "13",
       "reviewer": "11",
-      "state": "GENERATION_IN_PROGRESS",
-      "activeQueue": "w13-release-tail-3pack-v4",
-      "generationRunId": 36031687002,
+      "state": "PREPARED_LITERAL_RETRY",
+      "preparedQueue": "w13-release-tail-3pack-v5",
       "latestEvidence": {
-        "version": "v2",
-        "gitBlobSha": "bada24e2447de5e39ac2cb6647aa8458cf410e43",
-        "sha256": "c0becc91f8941391965b1d1e9bd28aeeb210de08e74aa00858c3bb1eccccb82b"
+        "version": "v3",
+        "gitBlobSha": "6d01f070b686e4c15a5e906a4099d4fe1cea5f8b",
+        "sha256": "9b880005af88726188fcd23e1ac0eb9407378006daade8d45b46eb5f17739bc8"
       },
-      "nextRepair": "Current v3 run: exactly one Aqua Study Station in one isolated view; one worktop/support/storage system, no duplicate variants/collage."
+      "nextRepair": "v4: one freestanding study desk on plain background; simple worktop/legs/drawer/organizer/lamp; no room cabinetry."
     },
     {
       "id": "desks-9",
       "name": "Art Maker Table",
       "producer": "03",
       "reviewer": "05",
-      "state": "PENDING_SUCCESSOR_GENERATION",
-      "activeQueue": "w03-release-tail-4pack-v4",
-      "generationRunId": 36032317007,
+      "state": "GENERATION_IN_PROGRESS",
+      "activeQueue": "w03-release-tail-4pack-v5",
+      "generationRunId": 36039656844,
       "latestEvidence": {
-        "version": "v3",
-        "gitBlobSha": "64bb30b92257f0471259dd8b840b086af9e58073",
-        "sha256": "03b2d9b3899bad522861ca788403bc3ed8c469bddcb932bc6fa348e2216b2b97"
+        "version": "v4",
+        "gitBlobSha": "b9a6d922e38d03c08298577a0f46c71dfb28bd66",
+        "sha256": "0b8f58f4d9a9003777a4eac3f8df6c10f171918703bfa6b65a18745c4701c1eb"
       },
-      "nextRepair": "Pending v4: one freestanding maker table with broad worktop/supports, attached tool rail/storage and bounded art tools; no wall installation."
+      "nextRepair": "v5: one literal freestanding art table, four simple legs, low tool rail, bounded art tools; no chair/room."
     },
     {
       "id": "desks-10",
       "name": "Neon Streaming Desk",
       "producer": "03",
       "reviewer": "05",
-      "state": "PENDING_SUCCESSOR_GENERATION",
-      "activeQueue": "w03-release-tail-4pack-v4",
-      "generationRunId": 36032317007,
+      "state": "GENERATION_IN_PROGRESS",
+      "activeQueue": "w03-release-tail-4pack-v5",
+      "generationRunId": 36039656844,
       "latestEvidence": {
-        "version": "v6",
-        "gitBlobSha": "a576fa4d5450a492d3a29547e2551879dc64dd76",
-        "sha256": "a73511b60c60b19ac374207015ee894f84b12cfa850cf021288bd6db86738803"
+        "version": "v7",
+        "gitBlobSha": "4af5225c536dff0a25c12f0f5e4066c39ad33322",
+        "sha256": "aa074975c527d98985197bebe27dcb2c85072b2186e4a565083c6a9715223165"
       },
-      "nextRepair": "Pending v7: one broad horizontal streaming desk, two supports, one monitor and one visible microphone boom; no cabinet/shelf towers."
+      "nextRepair": "v8: one literal streaming desk, one monitor, one boom mic, one PC; plain background; no shelves/collage."
     },
     {
       "id": "desks-11",
       "name": "Dream Creator Station",
       "producer": "03",
       "reviewer": "01",
-      "state": "PENDING_SUCCESSOR_GENERATION",
-      "activeQueue": "w03-release-tail-4pack-v4",
-      "generationRunId": 36032317007,
+      "state": "GENERATION_IN_PROGRESS",
+      "activeQueue": "w03-release-tail-4pack-v5",
+      "generationRunId": 36039656844,
       "latestEvidence": {
-        "version": "v4",
-        "gitBlobSha": "7f4f00fcce23a47b566ec3a99704821acb3ce57a",
-        "sha256": "b84e2493699bb9c3cfc7d1bfb95d35ad73e04bfd0d5373f45f089374e6ac7365"
+        "version": "v5",
+        "gitBlobSha": "31216c600b99791b15e9bd92079dd70241ca53bf",
+        "sha256": "2a10f765b356db83badaef9c42ead321aea4eca95d231b198dad3888616b5f4d"
       },
-      "nextRepair": "Pending v5: exactly one freestanding creator desk in one camera view, broad worktop, supports, one organizer/tool rail and one creator display; no panels/collage."
+      "nextRepair": "v6: one literal creator desk with two supports, drawer, low organizer rail, tablet and brush cup; plain background."
     },
     {
       "id": "wall-8",
       "name": "Ocean Window",
       "producer": "13",
       "reviewer": "11",
-      "state": "GENERATION_IN_PROGRESS",
-      "activeQueue": "w13-release-tail-3pack-v4",
-      "generationRunId": 36031687002,
+      "state": "PREPARED_LITERAL_RETRY",
+      "preparedQueue": "w13-release-tail-3pack-v5",
       "latestEvidence": {
-        "version": "v7",
-        "gitBlobSha": "ca9108a80d2cd6811d7826fb52a85455482903f2",
-        "sha256": "6b657efc94b0d6c5529d7946ed19f0886f817f0741a48cd6c9f729dff403ad1a"
+        "version": "v8",
+        "gitBlobSha": "043d5647de01c3fd3c1e9da472828160765502cd",
+        "sha256": "515971caef833acb44409ea1191bdd0a9841fee7b7865e854fff58bce105f327"
       },
-      "nextRepair": "Current v8 run: one obvious framed window with bright blue ocean/water and a clear horizon filling most of the opening; no opaque panels/room props."
+      "nextRepair": "v9: one thick frame, one uninterrupted glass opening, bright blue ocean below crisp horizon and sky above; no grid/panels."
     },
     {
       "id": "wall-9",
       "name": "Art Gallery Wall",
       "producer": "13",
       "reviewer": "02",
-      "state": "GENERATION_IN_PROGRESS",
-      "activeQueue": "w13-release-tail-3pack-v4",
-      "generationRunId": 36031687002,
+      "state": "PREPARED_LITERAL_RETRY",
+      "preparedQueue": "w13-release-tail-3pack-v5",
       "latestEvidence": {
-        "version": "v7",
-        "gitBlobSha": "f1c423657b836aee822311b15a3229251174768d",
-        "sha256": "61fea8c6dcf99e3238067d45986a43104da5885c7b1cefe0c19159b9e3265f9c"
+        "version": "v8",
+        "gitBlobSha": "6db1aaa99ea6e6f00bf2f8b0e8109113f5809021",
+        "sha256": "68fd769785edb3870df985f76360087e8e9e418d77ab0ce536134ad07c57d6e7"
       },
-      "nextRepair": "Current v8 run: exactly three large adventure/travel frames on one shallow isolated wall product; no room/floor/extra frames/props."
+      "nextRepair": "v9: exactly three large travel paintings on one thin rail; plain background; no fourth frame or room context."
     },
     {
       "id": "decor-7",
       "name": "Skate Rack",
       "producer": "09",
       "reviewer": "01",
-      "state": "PREPARED_FINAL_SUCCESSOR",
-      "preparedQueue": "w09-release-tail-2pack-v5",
+      "state": "PREPARED_LITERAL_RETRY",
+      "preparedQueue": "w09-release-tail-2pack-v6",
       "latestEvidence": {
-        "version": "v8",
-        "gitBlobSha": "41111bb07b54c5a370adcb44a80d7f0711d37a0e",
-        "sha256": "f5199785fbc74ef20b3c8628cfef8dd10a30911cd0b84938034eec98d68738d7"
+        "version": "v9",
+        "gitBlobSha": "6d4ee958f8714799ee8fcdd1ec8364521d435803",
+        "sha256": "b9ea07ca875c35664e32315c4362568e7ad83989408dbadf857a0d99172b5c60"
       },
-      "nextRepair": "Prepared v9: one tiny two-bay rack with one unmistakable pair of quad skates; boot bodies, trucks and four visible wheels per skate dominate."
+      "nextRepair": "v10: one tiny two-cubby rack with one clear pair of classic quad skates; boots/trucks/four wheels visible; no collage."
     },
     {
       "id": "decor-8",
       "name": "Mini Aquarium",
       "producer": "03",
       "reviewer": "11",
-      "state": "PENDING_SUCCESSOR_GENERATION",
-      "activeQueue": "w03-release-tail-4pack-v4",
-      "generationRunId": 36032317007,
+      "state": "GENERATION_IN_PROGRESS",
+      "activeQueue": "w03-release-tail-4pack-v5",
+      "generationRunId": 36039656844,
       "latestEvidence": {
-        "version": "v3",
-        "gitBlobSha": "b35648acd6951aaa04de97f555b660396e2a62df",
-        "sha256": "254d78c006b3268bcfaa1c0576784010fe060db0d48a9376f5292d1d3461a59c"
+        "version": "v4",
+        "gitBlobSha": "84aebabc0c5653fbd551badab28dff9873574edd",
+        "sha256": "e169c2c18cfbcc94adf2d49b24bc41e178786771fbe2d586a2eaa72a99f99d53"
       },
-      "nextRepair": "Pending v4: exactly one compact aquarium, one tank/base/lid/filter assembly, one camera view; no duplicate vessels/collage/UI."
+      "nextRepair": "v5: one compact rectangular aquarium visibly filled with blue water, fish and filter; no terrarium/second object."
     },
     {
       "id": "decor-11",
       "name": "Dream Vanity Set",
       "producer": "09",
       "reviewer": "02",
-      "state": "PREPARED_FINAL_SUCCESSOR",
-      "preparedQueue": "w09-release-tail-2pack-v5",
+      "state": "PREPARED_LITERAL_RETRY",
+      "preparedQueue": "w09-release-tail-2pack-v6",
       "latestEvidence": {
-        "version": "v4",
-        "gitBlobSha": "f4fed4eaf1bf867ffdd3519d347ae12ce755d9b7",
-        "sha256": "ad450b5c1923efbb33d977b5b21ba2fefe407b5d34920aa642dc1c271cbb8d24"
+        "version": "v5",
+        "gitBlobSha": "2c122deee959671e20520bd9f4eb3d7e0da02949",
+        "sha256": "27d7cf22e7835c00ad61dbf1d08dec27f61fb111d7baa6a08cb9da2db58e83a6"
       },
-      "nextRepair": "Prepared v5: exactly one freestanding vanity table, one mirror and one matching stool on plain background; no cabinets/multiple mirrors/panel grid."
+      "nextRepair": "v6: one freestanding vanity, one oval mirror, one obvious matching stool; plain background; no room architecture."
     }
   ],
   "parallelWorkPlan": {
-    "cpuSemaphore": "ONE_RUNNING_PLUS_ONE_PENDING_SUCCESSOR_ONLY",
+    "cpuSemaphore": "ONE_RUNNING_CPU_BATCH_ONLY",
     "currentCpuBatch": {
-      "queueId": "w13-release-tail-3pack-v4",
-      "items": [
-        "wall-8",
-        "wall-9",
-        "desks-8"
-      ],
-      "runId": 36031687002,
-      "state": "RUNNING"
-    },
-    "pendingSuccessor": {
-      "queueId": "w03-release-tail-4pack-v4",
+      "queueId": "w03-release-tail-4pack-v5",
       "items": [
         "decor-8",
         "desks-9",
         "desks-10",
         "desks-11"
       ],
-      "runId": 36032317007,
-      "state": "PENDING__REFRESHED_AFTER_NEGATIVE_PROMPT_SERIALIZER_FIX"
+      "runId": 36039656844,
+      "state": "RUNNING"
     },
     "preparedNext": [
       {
+        "rank": 1,
         "producer": "09",
-        "queuePath": "docs/preproduction/art-factory/prepared-queues/w09-release-tail-2pack-v5.json",
+        "queuePath": "docs/preproduction/art-factory/prepared-queues/w09-release-tail-2pack-v6.json",
         "items": [
           "decor-7",
           "decor-11"
-        ],
-        "goal": "Dispatch exactly once only after both current CPU run and producer03 pending successor are fully idle, unless newer ACCEPT/superseding evidence clears an item."
+        ]
+      },
+      {
+        "rank": 2,
+        "producer": "13",
+        "queuePath": "docs/preproduction/art-factory/prepared-queues/w13-release-tail-3pack-v5.json",
+        "items": [
+          "desks-8",
+          "wall-8",
+          "wall-9"
+        ]
       }
     ],
-    "queuePolicy": "Keep exactly one running plus at most one pending CPU run. Never replace the existing pending producer03 successor. Never include canonical Desk12/Decor12 or stale rejected versions."
+    "queuePolicy": "When current CPU run is fully idle, dispatch rank-1 once; then rank-2 once. Do not regenerate any canonical item or stale rejected version."
   },
   "nonArtReleaseState": {
-    "reducedMotionQuestRetry": "CLEARED — product click-race fix + focused test + full Persistence Recovery Quest QA pass",
-    "liveFunctionalSmoke": "GREEN in prior live Replit smoke test",
-    "visualQa": "All structural/mobile/runtime checks green; release block is the exact visible product fallback list above."
+    "liveFunctionalSmoke": "GREEN",
+    "ci": "GREEN on latest tested art head",
+    "replitDeployment": "LIVE",
+    "note": "Do not reopen functional work absent a new bound-hash regression."
+  },
+  "interimCompanionGate": {
+    "state": "AUTHORITATIVE_RENDER_QA_IN_PROGRESS",
+    "items": [
+      "companions-2",
+      "companions-5",
+      "companions-6",
+      "companions-7",
+      "companions-8",
+      "companions-9",
+      "companions-12"
+    ],
+    "rule": "Existing SVG assets already exist; do not regenerate unless live Store/detail rendering proves a concrete defect. Promote only with authoritative visual evidence."
   }
 }
