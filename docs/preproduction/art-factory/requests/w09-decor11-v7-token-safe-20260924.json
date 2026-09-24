@@ -1,0 +1,73 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_BATCH_REQUEST",
+  "planner": "15",
+  "producer": "09",
+  "preflightOwner": "06",
+  "reviewer": "02",
+  "renderOwner": "14",
+  "integrationOwner": "08",
+  "coordinationOwner": "15",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "69c19d14654a553b372a6d64471ff6096e705581",
+  "manifestVersion": 40,
+  "batchId": "w09-decor11-v7-token-safe",
+  "scope": [
+    "decor-11"
+  ],
+  "state": "PREPARED_AFTER_TOKEN_LIMIT_FAILURE",
+  "assignmentAuthority": {
+    "path": "docs/preproduction/art-factory/RELEASE_BLOCKERS_CURRENT.json",
+    "runtimeProofPath": "docs/preproduction/art-factory/CPU_RUNTIME_PROOF.json",
+    "runtimeProofStatus": "PROVEN",
+    "runtimeCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+    "modelRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "assignedReviewers": {
+      "decor-11": "02"
+    },
+    "note": "Prior v7 job failed before image generation because compiled runtime prompt was 81 > 77 CLIP tokens. No candidate bytes were staged; v7 remains available."
+  },
+  "reviewSource": {
+    "decision": "TECHNICAL_RETRY",
+    "latestVisualRework": {
+      "version": "v6",
+      "gitBlobSha": "61def289ba05f48b56c29d3eaa2d38a4a4b0899a",
+      "sha256": "2ebcd1c5e2c858a7203e54791ef02ddfe32e1fd49b1b06d1ad0ec639b8dffeda"
+    },
+    "note": "v6 split-composition REWORK remains latest visual evidence."
+  },
+  "items": {
+    "decor-11": {
+      "currentLegacy": {
+        "path": "public/assets/catalog-candidates/cpu/decor-11-w09-v6-b-literal-vanity-mirror-stool-original.png",
+        "gitBlobSha1": "61def289ba05f48b56c29d3eaa2d38a4a4b0899a",
+        "reviewDecision": "REWORK"
+      },
+      "variants": [
+        {
+          "variantId": "A-TOKEN-SAFE-VANITY-STOOL",
+          "optimizerInput": "Dream Vanity Set. ONE small vanity on white: one table, one oval mirror, one padded stool in front. Coral-lavender accents. Full set visible. NO room, cabinets, columns, rug, extra mirror, extra seat, collage, text."
+        },
+        {
+          "variantId": "B-SIMPLE-VANITY-STOOL",
+          "optimizerInput": "ONE vanity table, ONE mirror, ONE stool on plain white. Full three-piece set visible, colorful accents. NO room, cabinets, extra mirror, extra seat, collage, text."
+        }
+      ]
+    }
+  },
+  "executionBudget": {
+    "width": 640,
+    "height": 640,
+    "steps": 10,
+    "guidanceScale": 4.5,
+    "dtype": "float32"
+  },
+  "safety": {
+    "preserveRejectedExactHashes": true,
+    "preserveAcceptedExactHashes": true,
+    "producerSelfReview": false,
+    "canonicalMappingsChanged": false,
+    "workflowFilesChanged": false
+  }
+}
