@@ -4,14 +4,14 @@
   "role": "independent art reviewer D / overflow reviewer",
   "phase": "ART_VISUALS_SPRINT",
   "branch": "screenshot-match-preproduction",
-  "sourceHead": "c6ff4fc73c",
+  "sourceHead": "d0b6cd8191e1ec0ade0640452e1d59edf647092d",
   "policy": "docs/preproduction/DELIVERY_PROTOCOL_V2.md",
   "artFactoryPolicy": "docs/preproduction/art-factory/ART_FACTORY_V2.json",
   "currentCycle": {
     "scope": [
       "decor-8"
     ],
-    "version": "current six-pack exact hashes",
+    "version": "current literal exact hashes",
     "result": "REWORK_1_OF_1",
     "oldVerdictsTransferred": false,
     "actualCardScalePixelsReviewed": true,
@@ -502,12 +502,49 @@
         "duplicateVisual": "PASS",
         "technicalIntegrity": "PASS"
       }
+    },
+    {
+      "itemId": "decor-8",
+      "name": "Mini Aquarium",
+      "assetPath": "public/assets/catalog-candidates/cpu/decor-8-w03-v5-a-blue-water-fish-aquarium-original.png",
+      "repositoryPath": "public/assets/catalog-candidates/cpu/decor-8-w03-v5-a-blue-water-fish-aquarium-original.png",
+      "assetHash": "24f5655854ab4188247b62e55622e479d6f0cb2a",
+      "sha256": "66d476bac5840f1634a856dbab20dcd6cdf7c92d8a5cbe1bf32ed507491afae0",
+      "contentSha256": "66d476bac5840f1634a856dbab20dcd6cdf7c92d8a5cbe1bf32ed507491afae0",
+      "hashAlgorithm": "git-blob-sha1",
+      "producer": "03",
+      "decision": "REWORK",
+      "learnerLabel": "REWORK",
+      "reviewedAt": "2026-09-24T18:28:00Z",
+      "evidenceRefs": [
+        "workflow:36041110855",
+        "artifact:10825809222/staged-replacements/staged-replacements-contact-sheet.png",
+        "artifact:10825809222/staged-replacements/detail/decor-8-24f56558.png"
+      ],
+      "reasonCodes": [
+        "FOUR_PANEL_COLLAGE",
+        "MULTIPLE_TANKS",
+        "FISH_IDENTITY_MISSING",
+        "NO_SINGLE_AQUARIUM_SILHOUETTE"
+      ],
+      "reason": "REWORK. V5 regresses into a four-panel product comparison showing multiple aquarium/terrarium variants instead of one Mini Aquarium. The water/fish cues are not clear enough and no single tank silhouette dominates at card scale. Preserve this hash. Next attempt must show exactly one compact rectangular aquarium only, occupying most of the frame, with a clearly visible blue water fill, one horizontal water line, two unmistakable fish silhouettes, one small bubble/filter column, gravel and one aquatic plant; no panels, no duplicate tank, no comparison layout.",
+      "checks": {
+        "identity": "FAIL",
+        "silhouette": "PARTIAL",
+        "cardReadability": "FAIL",
+        "physicalConstruction": "FAIL",
+        "framingComposition": "FAIL",
+        "materialLighting": "PARTIAL",
+        "originality": "PASS",
+        "duplicateVisual": "PASS",
+        "technicalIntegrity": "PASS"
+      }
     }
   ],
   "currentReplacementDisposition": {
     "decor": {
       "REWORK": {
-        "decor-8": "84aebabc0c5653fbd551badab28dff9873574edd"
+        "decor-8": "24f5655854ab4188247b62e55622e479d6f0cb2a"
       },
       "ACCEPT": {
         "decor-6": "5b860130d537acadb6a15c81a841805c3b9b81cf"
@@ -536,14 +573,14 @@
     "reworkNow": [
       "decor-8"
     ],
-    "preservedAcceptedHashes": "All prior reviewer ACCEPTs remain frozen; these REWORK verdicts apply only to the current exact six-pack hashes assigned to this reviewer."
+    "preservedAcceptedHashes": "All prior ACCEPTs remain frozen; these verdicts apply only to the exact hashes rendered in workflow 36041110855."
   },
   "handoff": {
     "13": "Desk8 v3 and Wall8 v8 are REWORK; preserve exact hashes and use only the failure-specific next prompts.",
     "14": "Tail render packets consumed; do not rerender unchanged hashes.",
-    "15": "decor-8 remain bounded exact-pixel release blockers; use only the failure-specific next prompts.",
+    "15": "decor-8 remain bounded exact-pixel blockers; use only the new narrow failure-specific repairs.",
     "08": "Do not canonical-wire decor-8 current exact hashes.",
-    "03": "decor-8 current exact hash is REWORK; preserve it and generate only the failure-specific next version if director15 keeps it release-critical."
+    "03": "decor-8 current literal hashes are REWORK; preserve them and prepare the next narrow retry while other producers continue."
   },
   "preservation": {
     "candidateBytesChanged": false,
