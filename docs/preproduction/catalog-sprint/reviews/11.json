@@ -4,7 +4,7 @@
   "role": "independent art reviewer D / overflow reviewer",
   "phase": "ART_VISUALS_SPRINT",
   "branch": "screenshot-match-preproduction",
-  "sourceHead": "9e032e4096",
+  "sourceHead": "a14d3c3fdbce127fb1e286c23329b51331fec877",
   "policy": "docs/preproduction/DELIVERY_PROTOCOL_V2.md",
   "artFactoryPolicy": "docs/preproduction/art-factory/ART_FACTORY_V2.json",
   "currentCycle": {
@@ -355,6 +355,44 @@
         "duplicateVisual": "PASS",
         "technicalIntegrity": "PASS"
       }
+    },
+    {
+      "itemId": "wall-8",
+      "name": "Ocean Window",
+      "assetPath": "public/assets/catalog-candidates/cpu/wall-8-w13-v7-a-one-obvious-ocean-window-original.png",
+      "repositoryPath": "public/assets/catalog-candidates/cpu/wall-8-w13-v7-a-one-obvious-ocean-window-original.png",
+      "assetHash": "ca9108a80d2cd6811d7826fb52a85455482903f2",
+      "sha256": "6b657efc94b0d6c5529d7946ed19f0886f817f0741a48cd6c9f729dff403ad1a",
+      "contentSha256": "6b657efc94b0d6c5529d7946ed19f0886f817f0741a48cd6c9f729dff403ad1a",
+      "hashAlgorithm": "git-blob-sha1",
+      "producer": "13",
+      "decision": "REWORK",
+      "learnerLabel": "REWORK",
+      "reviewedAt": "2026-09-24T16:40:00Z",
+      "evidenceRefs": [
+        "workflow:36028066247",
+        "artifact:10820821844/staged-replacements/staged-replacements-contact-sheet.png",
+        "artifact:10820821844/staged-replacements/detail/wall-8-ca9108a8.png"
+      ],
+      "reasonCodes": [
+        "NO_OCEAN_VIEW",
+        "OPAQUE_WINDOW_PANELS",
+        "OCEAN_WINDOW_IDENTITY_FAILURE",
+        "ROOM_CONTEXT_DISTRACTION"
+      ],
+      "reason": "REWORK. V7 finally has one coherent framed window form, but the glazing/opening is filled with opaque gray/brown paneling and no unmistakable ocean, water, sky horizon, or seascape is visible. At card scale it reads as a closed/shuttered architectural window rather than an Ocean Window. Preserve this exact hash. The smallest next repair is to keep the single-window frame but make the central opening visibly blue with a clear ocean horizon and water occupying most of the view; remove side-room props and opaque interior panel texture.",
+      "checks": {
+        "identity": "FAIL",
+        "silhouette": "PASS",
+        "cardReadability": "PARTIAL",
+        "physicalConstruction": "PASS",
+        "framingComposition": "PARTIAL",
+        "materialLighting": "PARTIAL",
+        "themeTierSpecificity": "PARTIAL",
+        "originality": "PASS",
+        "duplicateVisual": "PASS",
+        "technicalIntegrity": "PASS"
+      }
     }
   ],
   "currentReplacementDisposition": {
@@ -376,7 +414,7 @@
     },
     "wall": {
       "REWORK": {
-        "wall-8": "891519488ffd1f7858e0eca960b51b250e50b29c"
+        "wall-8": "ca9108a80d2cd6811d7826fb52a85455482903f2"
       }
     }
   },
@@ -389,13 +427,13 @@
     "reworkNow": [
       "wall-8"
     ],
-    "preservedAcceptedHashes": "All prior reviewer11 ACCEPTs remain frozen; this REWORK applies only to wall-8 exact hash 891519488ffd1f7858e0eca960b51b250e50b29c."
+    "preservedAcceptedHashes": "All prior reviewer11 ACCEPTs remain frozen; this verdict applies only to wall-8 exact hash ca9108a80d2cd6811d7826fb52a85455482903f2."
   },
   "handoff": {
     "13": "wall-8 current exact hash is REWORK; preserve it and generate only the failure-specific next version if director15 keeps it release-critical.",
     "14": "Tail render packets consumed; do not rerender unchanged hashes.",
     "15": "wall-8 remains a bounded exact-pixel REWORK blocker; prepare only the smallest failure-specific replacement.",
-    "08": "Do not canonical-wire wall-8 exact hash 891519488ffd1f7858e0eca960b51b250e50b29c."
+    "08": "Do not canonical-wire wall-8 exact hash ca9108a80d2cd6811d7826fb52a85455482903f2."
   },
   "preservation": {
     "candidateBytesChanged": false,
