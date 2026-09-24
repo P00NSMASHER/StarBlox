@@ -1,0 +1,18 @@
+{
+  "schemaVersion":"starblox-near-tie-development-validation-manifest-v1",
+  "benchmarkId":"starblox-bkt-fsrs-near-tie3-development-validation-v1",
+  "status":"development-validation-no-tuning",
+  "authorization":"synthetic-only-no-real-player-data",
+  "seed":20270307,
+  "sourceLearnerCount":48,
+  "maxStep":30,
+  "selectionStep":18,
+  "heldOutStepCount":12,
+  "candidate":{
+    "selectorVersion":"starblox-bkt-fsrs-near-tie-v1",
+    "riskMargin":3,
+    "lockedFromCandidateGithubSha":"38140f680c8d24ef9428a58403a5ac08f358ee92"
+  },
+  "forbiddenFinalHoldoutSeeds":[20261103,20270217],
+  "tuneAgainstThisCohort":false
+}
