@@ -273,7 +273,7 @@ function normalizedEvaluation(raw){
   };
 }
 
-async function collectEvidence({adapter,plan,agents,limits,task,snapshot,receipt,iteration}){
+async function collectEvidence({adapter,plan,agents,limits,usage,task,snapshot,receipt,iteration}){
   const tests=await adapter.runTests({task,plan,iteration});
   const runState=await adapter.getRunState();
   let inputResult=null;
@@ -282,18 +282,23 @@ async function collectEvidence({adapter,plan,agents,limits,task,snapshot,receipt
     const proposed=typeof agents.playtest === 'function'
       ? await agents.playtest({task,snapshot,plan,receipt,iteration,runState})
       : {actions:[]};
+    const remaining=Math.max(0,limits.maxInputActions - usage.inputActions);
     const actions=Array.isArray(proposed?.actions)
-      ? proposed.actions.slice(0,limits.maxInputActions)
+      ? proposed.actions.slice(0,remaining)
       : [];
     if(actions.length){
       inputResult=await adapter.simulateInput({actions});
+      usage.inputActions+=actions.length;
     }
   }
 
   const logs=await adapter.getLogs({filter:'all',limit:limits.maxLogs});
-  const screenshot=limits.maxScreenshots > 0
-    ? await adapter.captureViewport()
-    : null;
+  let screenshot=null;
+  if(usage.screenshots < limits.maxScreenshots){
+    screenshot=await adapter.captureViewport();
+    usage.screenshots+=1;
+  }
+
   const reviewer=await agents.review({
     task,
     snapshot,
@@ -321,6 +326,52 @@ async function collectEvidence({adapter,plan,agents,limits,task,snapshot,receipt
   });
 }
 
+async function rollbackAll(adapter,receipts){
+  const failures=[];
+  for(const applied of [...receipts].reverse()){
+    try{
+      await adapter.rollbackMutationPlan(applied.rollback || applied);
+    }catch(error){
+      failures.push(error instanceof Error ? error.message : String(error));
+    }
+  }
+  return failures;
+}
+
+function factoryArtifact({
+  taskId,
+  snapshot,
+  plan,
+  receipts,
+  evaluation,
+  repairAttempts,
+  usage,
+  rollbackFailures=[]
+}){
+  const artifact={
+    version:DEVELOPMENT_FACTORY_VERSION,
+    taskId,
+    status:evaluation.ok ? 'verified' : 'rolled_back',
+    snapshotHash:stableHash(snapshot),
+    finalPlanHash:plan.planHash,
+    receipts:receipts.map(item => ({
+      receiptHash:stableHash(item),
+      rollbackHash:stableHash(item.rollback || item)
+    })),
+    evaluation,
+    progress:{
+      repairAttempts,
+      screenshots:usage.screenshots,
+      inputActions:usage.inputActions
+    },
+    rollbackFailures
+  };
+  return deepFreeze({
+    ...artifact,
+    artifactHash:stableHash(artifact)
+  });
+}
+
 export async function runStudioDevelopmentFactory({
   task,
   adapter,
@@ -331,6 +382,7 @@ export async function runStudioDevelopmentFactory({
   assertAdapter(adapter);
   assertAgents(agents);
   const budget=normalizeFactoryLimits(limits);
+  const usage={screenshots:0,inputActions:0};
   const taskId=string(task?.taskId || task?.id || 'studio-task','task.taskId');
   const prompt=string(task?.prompt || task?.description || 'Studio task','task.prompt');
 
@@ -362,87 +414,103 @@ export async function runStudioDevelopmentFactory({
       status:'awaiting_approval',
       plan,
       dryRun:clone(dryRun),
-      progress:{repairAttempts:0}
+      progress:{repairAttempts:0,screenshots:0,inputActions:0}
     });
   }
 
   const receipts=[];
-  let receipt=await adapter.applyMutationPlan(plan);
-  receipts.push(clone(receipt));
-  let evaluation=await collectEvidence({
-    adapter,plan,agents,limits:budget,task:{taskId,prompt},snapshot,receipt,iteration:0
-  });
-
+  let receipt=null;
+  let evaluation=null;
   let repairAttempts=0;
-  while(!evaluation.ok && repairAttempts < budget.maxRepairs){
-    repairAttempts+=1;
-    const repairRaw=await agents.repair({
-      taskId,
-      prompt,
-      snapshot,
-      previousPlan:plan,
-      previousReceipt:receipt,
-      evaluation,
-      iteration:repairAttempts
-    });
-    if(!repairRaw || !Array.isArray(repairRaw.operations) || repairRaw.operations.length === 0){
-      break;
-    }
 
-    const repairPlan=createStudioMutationPlan({
-      taskId:taskId + '-repair-' + repairAttempts,
-      summary:repairRaw.summary || ('Repair attempt ' + repairAttempts),
-      operations:repairRaw.operations,
-      assertions:repairRaw.assertions || plan.assertions,
-      requiresPlaytest:repairRaw.requiresPlaytest !== false
-    });
-    if(repairPlan.operationCount > budget.maxOperationsPerPlan){
-      throw new Error('repair mutation plan exceeds operation budget.');
-    }
-
-    const repairDryRun=await adapter.dryRunMutationPlan(repairPlan);
-    const repairApprovalNeeded=requiresHumanApproval(repairPlan);
-    let repairApproved=!repairApprovalNeeded;
-    if(typeof approvePlan === 'function'){
-      repairApproved=Boolean(await approvePlan({
-        plan:repairPlan,
-        dryRun:repairDryRun,
-        approvalNeeded:repairApprovalNeeded,
-        repairAttempt:repairAttempts
-      }));
-    }
-    if(!repairApproved) break;
-
-    receipt=await adapter.applyMutationPlan(repairPlan);
+  try{
+    receipt=await adapter.applyMutationPlan(plan);
     receipts.push(clone(receipt));
-    plan=repairPlan;
     evaluation=await collectEvidence({
-      adapter,plan,agents,limits:budget,task:{taskId,prompt},snapshot,receipt,iteration:repairAttempts
+      adapter,plan,agents,limits:budget,usage,task:{taskId,prompt},snapshot,receipt,iteration:0
+    });
+
+    while(!evaluation.ok && repairAttempts < budget.maxRepairs){
+      repairAttempts+=1;
+      const repairRaw=await agents.repair({
+        taskId,
+        prompt,
+        snapshot,
+        previousPlan:plan,
+        previousReceipt:receipt,
+        evaluation,
+        iteration:repairAttempts
+      });
+      if(!repairRaw || !Array.isArray(repairRaw.operations) || repairRaw.operations.length === 0){
+        break;
+      }
+
+      const repairPlan=createStudioMutationPlan({
+        taskId:taskId + '-repair-' + repairAttempts,
+        summary:repairRaw.summary || ('Repair attempt ' + repairAttempts),
+        operations:repairRaw.operations,
+        assertions:repairRaw.assertions || plan.assertions,
+        requiresPlaytest:repairRaw.requiresPlaytest !== false
+      });
+      if(repairPlan.operationCount > budget.maxOperationsPerPlan){
+        throw new Error('repair mutation plan exceeds operation budget.');
+      }
+
+      const repairDryRun=await adapter.dryRunMutationPlan(repairPlan);
+      const repairApprovalNeeded=requiresHumanApproval(repairPlan);
+      let repairApproved=!repairApprovalNeeded;
+      if(typeof approvePlan === 'function'){
+        repairApproved=Boolean(await approvePlan({
+          plan:repairPlan,
+          dryRun:repairDryRun,
+          approvalNeeded:repairApprovalNeeded,
+          repairAttempt:repairAttempts
+        }));
+      }
+      if(!repairApproved) break;
+
+      receipt=await adapter.applyMutationPlan(repairPlan);
+      receipts.push(clone(receipt));
+      plan=repairPlan;
+      evaluation=await collectEvidence({
+        adapter,plan,agents,limits:budget,usage,task:{taskId,prompt},snapshot,receipt,iteration:repairAttempts
+      });
+    }
+  }catch(error){
+    const rollbackFailures=await rollbackAll(adapter,receipts);
+    return factoryArtifact({
+      taskId,
+      snapshot,
+      plan,
+      receipts,
+      evaluation:{
+        ok:false,
+        assertions:[],
+        tests:{},
+        logs:{},
+        reviewer:{},
+        screenshot:null,
+        systemError:error instanceof Error ? error.message : String(error)
+      },
+      repairAttempts,
+      usage,
+      rollbackFailures
     });
   }
 
+  let rollbackFailures=[];
   if(!evaluation.ok){
-    for(const applied of [...receipts].reverse()){
-      await adapter.rollbackMutationPlan(applied.rollback || applied);
-    }
+    rollbackFailures=await rollbackAll(adapter,receipts);
   }
 
-  const artifact={
-    version:DEVELOPMENT_FACTORY_VERSION,
+  return factoryArtifact({
     taskId,
-    status:evaluation.ok ? 'verified' : 'rolled_back',
-    snapshotHash:stableHash(snapshot),
-    finalPlanHash:plan.planHash,
-    receipts:receipts.map(item => ({
-      receiptHash:stableHash(item),
-      rollbackHash:stableHash(item.rollback || item)
-    })),
+    snapshot,
+    plan,
+    receipts,
     evaluation,
-    progress:{repairAttempts}
-  };
-
-  return deepFreeze({
-    ...artifact,
-    artifactHash:stableHash(artifact)
+    repairAttempts,
+    usage,
+    rollbackFailures
   });
 }
