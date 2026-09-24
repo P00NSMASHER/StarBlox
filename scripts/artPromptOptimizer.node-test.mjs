@@ -23,6 +23,16 @@ test('runtime prompt stays bounded while full provenance prompt is preserved',()
  assert.notEqual(p.runtimePromptText,p.promptText);
 });
 
+test('runtime prompt whole-clause packing preserves furniture relationships',()=>{
+ const table={id:'desks-9',name:'Art Maker Table',collectionId:'desks',type:'room',tier:3,theme:'Sunny Pop'};
+ const brief='Art Maker Table, Desks & Tech, Tier 3, Sunny Pop. Single freestanding art maker table product on a plain white studio background. One wide rectangular wood worktop, four simple straight legs, one shallow drawer, one low peg rail at the back with a brush cup, scissors and colored paper. NO chair, NO room, NO wall shelves, NO collage, NO text.';
+ const p=compose(table,['furniture','camera','depth'],'A-WHOLE-CLAUSE',{},brief);
+ assert.match(p.runtimePromptText,/one low peg rail at the back with a brush cup/i);
+ assert.match(p.runtimePromptText,/scissors and colored paper/i);
+ assert(!/peg rail at the scissors/i.test(p.runtimePromptText));
+ assert(p.runtimePromptText.trim().split(/\s+/).length<=RUNTIME_PROMPT_WORD_BUDGET);
+});
+
 test('runtime prompt clause balancing preserves late physical identity nouns',()=>{
  const desk={id:'desks-10',name:'Neon Streaming Desk',collectionId:'desks',type:'room',tier:4,theme:'Aqua Wave'};
  const brief='Neon Streaming Desk, Desks & Tech, Tier 4, Aqua Wave. EXACTLY ONE ordinary freestanding streaming desk in ONE product view on a plain studio background. One long horizontal graphite tabletop, exactly two simple floor supports, exactly ONE large computer monitor centered on the tabletop, exactly ONE microphone on a visible boom arm clamped to the desk edge, and one small PC box below. NO shelves, NO cabinets, NO stacked modules, NO room architecture, NO collage, NO text.';
