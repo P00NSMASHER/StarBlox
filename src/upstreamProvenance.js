@@ -744,6 +744,78 @@ export const UPSTREAM_PROVENANCE = Object.freeze({
     'MIT',
     'rbx_dom_weak/src/viewer.rs'
   ),
+  chickynoidServerAuthority: source(
+    'server-owned Roblox character command validation simulation and acknowledgement',
+    'easy-games/chickynoid',
+    'main',
+    '8c3b643526f2cd4f3b682a148f654071d530c004',
+    'MIT',
+    'src/ServerScriptService/Packages/Chickynoid/Server/ServerChickynoid.lua'
+  ),
+  chickynoidClientPrediction: source(
+    'client prediction authoritative reconciliation and unacknowledged command replay',
+    'easy-games/chickynoid',
+    'main',
+    '8c3b643526f2cd4f3b682a148f654071d530c004',
+    'MIT',
+    'src/ReplicatedFirst/Packages/Chickynoid/Client/ClientChickynoid.lua'
+  ),
+  chickynoidAntilag: source(
+    'bounded server position history and interpolated lag compensation',
+    'easy-games/chickynoid',
+    'main',
+    '8c3b643526f2cd4f3b682a148f654071d530c004',
+    'MIT',
+    'src/ServerScriptService/Packages/Chickynoid/Server/Antilag.lua'
+  ),
+  chickynoidSimulation: source(
+    'command-only shared client/server movement simulation boundary',
+    'easy-games/chickynoid',
+    'main',
+    '8c3b643526f2cd4f3b682a148f654071d530c004',
+    'MIT',
+    'src/ReplicatedFirst/Packages/Chickynoid/Shared/Simulation/Simulation.lua'
+  ),
+  rewindSnapshotStore: source(
+    'bounded timestamped Roblox hitbox history ring buffer',
+    'text21/Rewind',
+    'main',
+    '1bb0703f20d3b6670f849d08be7a5f7a9977dbfb',
+    'unasserted in GitHub metadata',
+    'src/shared/Rewind/Server/SnapshotStore.lua'
+  ),
+  rewindRewinder: source(
+    'interpolated authoritative rewind sampling',
+    'text21/Rewind',
+    'main',
+    '1bb0703f20d3b6670f849d08be7a5f7a9977dbfb',
+    'unasserted in GitHub metadata',
+    'src/shared/Rewind/Server/Rewinder.lua'
+  ),
+  rewindValidator: source(
+    'server-side ray sphere capsule cone and fan-ray pose validation',
+    'text21/Rewind',
+    'main',
+    '1bb0703f20d3b6670f849d08be7a5f7a9977dbfb',
+    'unasserted in GitHub metadata',
+    'src/shared/Rewind/Server/Validator.lua'
+  ),
+  rewindMovementValidator: source(
+    'server movement anomaly bounds for speed teleport vertical and air-time checks',
+    'text21/Rewind',
+    'main',
+    '1bb0703f20d3b6670f849d08be7a5f7a9977dbfb',
+    'unasserted in GitHub metadata',
+    'src/shared/Rewind/Server/MovementValidator.lua'
+  ),
+  rewindStateBuffer: source(
+    'unified replicated state buffer for interpolation rewind and delta compression',
+    'text21/Rewind',
+    'main',
+    '1bb0703f20d3b6670f849d08be7a5f7a9977dbfb',
+    'unasserted in GitHub metadata',
+    'src/shared/Rewind/Replication/StateBuffer.lua'
+  ),
   openReplaySession: source(
     'session identity, metadata and lifecycle update model',
     'openreplay/openreplay',
