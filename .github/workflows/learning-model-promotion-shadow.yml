@@ -21,6 +21,7 @@ on:
       - "scripts/buildLearningPromotionDecision.mjs"
       - "scripts/assertLockedLearningBenchmark.mjs"
       - "docs/preproduction/learning-factory/locked-promotion-benchmark.json"
+      - "docs/preproduction/learning-factory/final-promotion-benchmark.json"
       - "tools/fsrs-shadow/**"
       - "package.json"
       - ".github/workflows/learning-model-promotion-shadow.yml"
@@ -99,8 +100,38 @@ jobs:
           },null,2));
           NODE
 
-      - name: Generate one shared authorized synthetic dataset
-        run: npm run generate:learning-promotion -- --out-dir=.learning-promotion --learners=48 --max-step=30 --seed=20260924
+      - name: Load final locked promotion benchmark
+        run: |
+          node --input-type=module - <<'NODE'
+          import fs from 'node:fs';
+
+          const benchmark = JSON.parse(
+            fs.readFileSync(
+              'docs/preproduction/learning-factory/final-promotion-benchmark.json',
+              'utf8'
+            )
+          );
+          if(
+            benchmark.finalHoldout !== true ||
+            benchmark.tuneAgainstThisCohort !== false
+          ){
+            throw new Error('final benchmark must be locked and evaluation-only');
+          }
+          const rows = [
+            ['LEARNING_BENCHMARK_ID',benchmark.benchmarkId],
+            ['LEARNING_BENCHMARK_SEED',benchmark.seed],
+            ['LEARNING_BENCHMARK_LEARNERS',benchmark.sourceLearnerCount],
+            ['LEARNING_BENCHMARK_MAX_STEP',benchmark.maxStep]
+          ];
+          fs.appendFileSync(
+            process.env.GITHUB_ENV,
+            rows.map(([key,value]) => key + '=' + value).join('\n') + '\n'
+          );
+          console.log(JSON.stringify(benchmark,null,2));
+          NODE
+
+      - name: Generate final untouched authorized synthetic dataset
+        run: npm run generate:learning-promotion -- --out-dir=.learning-promotion --learners=$LEARNING_BENCHMARK_LEARNERS --max-step=$LEARNING_BENCHMARK_MAX_STEP --seed=$LEARNING_BENCHMARK_SEED
 
       - uses: actions/setup-go@v5
         with:
@@ -131,7 +162,7 @@ jobs:
           PY
 
       - name: Train and infer with upstream AmortizedPSIKT
-        run: python scripts/runPsiKtPromotionExperiment.py --psi-repo=.vendor/psi-kt --data-dir=.learning-promotion --evaluation=.learning-promotion/evaluation.json --graph-json=.learning-promotion/skill-graph.json --out=.learning-promotion/psi-kt-receipt.json --epochs=200 --patience=10 --max-step=30
+        run: python scripts/runPsiKtPromotionExperiment.py --psi-repo=.vendor/psi-kt --data-dir=.learning-promotion --evaluation=.learning-promotion/evaluation.json --graph-json=.learning-promotion/skill-graph.json --out=.learning-promotion/psi-kt-receipt.json --epochs=200 --patience=10 --max-step=$LEARNING_BENCHMARK_MAX_STEP
 
       - name: Compare current heuristic, BKT shadow, and PSI-KT plus FSRS
         run: npm run compare:learning-promotion -- --evaluation=.learning-promotion/evaluation.json --psi=.learning-promotion/psi-kt-receipt.json --fsrs=.learning-promotion/fsrs-engine-receipt.json --out=.learning-promotion/selector-comparison.json
@@ -143,7 +174,7 @@ jobs:
         run: npm run decide:learning-promotion -- --comparison=.learning-promotion/selector-comparison.json --strict=.learning-strict-provenance-receipt.json --fsrs=.learning-promotion/fsrs-engine-receipt.json --psi=.learning-promotion/psi-kt-receipt.json --out=.learning-promotion/promotion-decision.json
 
       - name: Assert locked held-out promotion benchmark
-        run: npm run assert:locked-learning-benchmark -- --manifest=docs/preproduction/learning-factory/locked-promotion-benchmark.json --evaluation=.learning-promotion/evaluation.json --comparison=.learning-promotion/selector-comparison.json --decision=.learning-promotion/promotion-decision.json
+        run: npm run assert:locked-learning-benchmark -- --manifest=docs/preproduction/learning-factory/final-promotion-benchmark.json --evaluation=.learning-promotion/evaluation.json --comparison=.learning-promotion/selector-comparison.json --decision=.learning-promotion/promotion-decision.json
 
       - name: Upload promotion evidence
         if: always()
