@@ -15,7 +15,7 @@
   "scope": [
     "decor-7"
   ],
-  "state": "PREPARED_FAILFAST_SUCCESSOR",
+  "state": "SUPERSEDED_DO_NOT_DISPATCH",
   "assignmentAuthority": {
     "path": "docs/preproduction/art-factory/RELEASE_BLOCKERS_CURRENT.json",
     "runtimeProofPath": "docs/preproduction/art-factory/CPU_RUNTIME_PROOF.json",
@@ -84,5 +84,6 @@
     "producerSelfReview": false,
     "canonicalMappingsChanged": false,
     "workflowFilesChanged": false
-  }
+  },
+  "supersededBy": "docs/preproduction/art-factory/requests/w09-decor7-v11-quad-skates-20260924.json"
 }
