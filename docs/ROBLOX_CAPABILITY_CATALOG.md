@@ -32,7 +32,14 @@ The Rust reader uses released rbx-dom crates matching that implementation genera
 
 ## Command
 
-From the StarBlox repository:
+From the StarBlox repository, the preferred real-source flow is:
+
+npm run roblox:source:preflight -- --input /path/to/authorized/files --out roblox-source-preflight.json --handoff roblox-catalog-handoff.json
+npm run roblox:catalog -- --preflight roblox-catalog-handoff.json
+
+The handoff manifest is versioned and contains the exact local source root, relative file list, SHA-256 digest and byte length for every approved source. The catalog command re-verifies those fingerprints before invoking rbx-dom, so a file that changes after preflight is rejected before parsing.
+
+Direct cataloging remains available for development/fixtures:
 
 npm run roblox:catalog -- --input /path/to/authorized/files
 
@@ -41,8 +48,9 @@ Optional arguments:
 - --out path/to/catalog.json
 - --report path/to/catalog.md
 - --source-id licensed-brookhaven
+- --preflight path/to/roblox-catalog-handoff.json
 
-The input may be one Roblox place/model file or a directory tree. The command recursively inventories every supported file.
+Use exactly one of --input or --preflight.
 
 Default outputs are:
 

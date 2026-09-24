@@ -27,18 +27,21 @@ jobs:
         run: npm run roblox:catalog:reader:test
       - name: Smoke-test Roblox source preflight
         run: |
-          npm run roblox:source:preflight -- --input tools/roblox_catalog_reader/fixtures --out /tmp/roblox-source-preflight.json
+          npm run roblox:source:preflight -- --input tools/roblox_catalog_reader/fixtures --out /tmp/roblox-source-preflight.json --handoff /tmp/roblox-catalog-handoff.json
           grep -q '"ready": true' /tmp/roblox-source-preflight.json
           grep -q '"fileCount": 1' /tmp/roblox-source-preflight.json
           grep -Eq '"sha256": "[a-f0-9]{64}"' /tmp/roblox-source-preflight.json
+          grep -q '"version": "starblox-roblox-catalog-handoff-v1"' /tmp/roblox-catalog-handoff.json
+          grep -q '"ready": true' /tmp/roblox-catalog-handoff.json
           mkdir -p /tmp/no-roblox-sources
-          if npm run roblox:source:preflight -- --input /tmp/no-roblox-sources --out /tmp/no-roblox-sources.json; then
+          if npm run roblox:source:preflight -- --input /tmp/no-roblox-sources --out /tmp/no-roblox-sources.json --handoff /tmp/no-roblox-handoff.json; then
             echo "expected empty source preflight to fail"
             exit 1
           fi
+          grep -q '"ready": false' /tmp/no-roblox-handoff.json
       - name: Smoke-test Roblox capability catalog
         run: |
-          npm run roblox:catalog -- --input tools/roblox_catalog_reader/fixtures/sample.rbxmx --out /tmp/roblox-catalog.json --report /tmp/roblox-catalog.md
+          npm run roblox:catalog -- --preflight /tmp/roblox-catalog-handoff.json --out /tmp/roblox-catalog.json --report /tmp/roblox-catalog.md
           grep -q "Licensed House System" /tmp/roblox-catalog.md
           grep -q '"instanceCount"' /tmp/roblox-catalog.json
           grep -q '"schemaVersion": 2' /tmp/roblox-catalog.json
@@ -46,6 +49,16 @@ jobs:
           grep -q '"uiTrees"' /tmp/roblox-catalog.json
           grep -Eq '"sha256": "[a-f0-9]{64}"' /tmp/roblox-catalog.json
           grep -q '"sourceFingerprintCount": 1' /tmp/roblox-catalog.json
+      - name: Prove catalog handoff rejects post-preflight source drift
+        run: |
+          mkdir -p /tmp/roblox-handoff-drift
+          cp tools/roblox_catalog_reader/fixtures/sample.rbxmx /tmp/roblox-handoff-drift/sample.rbxmx
+          npm run roblox:source:preflight -- --input /tmp/roblox-handoff-drift --handoff /tmp/roblox-handoff-drift.json --out /tmp/roblox-handoff-drift-report.json
+          printf '\n' >> /tmp/roblox-handoff-drift/sample.rbxmx
+          if npm run roblox:catalog -- --preflight /tmp/roblox-handoff-drift.json --out /tmp/roblox-handoff-drift-catalog.json --report /tmp/roblox-handoff-drift-catalog.md; then
+            echo "expected catalog handoff fingerprint mismatch"
+            exit 1
+          fi
       - name: Test Roblox migration exporter
         run: npm run roblox:migration:exporter:test
       - name: Smoke-test Brookhaven migration staging compiler
