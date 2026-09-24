@@ -1,0 +1,91 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_STAGED_OUTPUT",
+  "repository": "P00NSMASHER/StarBlox",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "d982ce01e10b987a362678a9bfd36676c7953541",
+  "sourcePlanSha256": "9bb4eb60adb8d9ff5c2b13ca2da7eb8d7fbcb45a3a6587fd1310335636ce8948",
+  "item": {
+    "id": "desks-10",
+    "name": "Neon Streaming Desk",
+    "collectionId": "desks",
+    "type": "room",
+    "tier": 4,
+    "theme": "Aqua Wave"
+  },
+  "attempt": {
+    "attemptId": "desks-10-w03-b-streaming-workstation-mic-dominant-ca42594d14",
+    "producer": "03",
+    "variant": "B-STREAMING-WORKSTATION-MIC-DOMINANT",
+    "promptBlocks": [
+      "metadata",
+      "category",
+      "silhouette",
+      "physical",
+      "material",
+      "theme",
+      "tier",
+      "card",
+      "original",
+      "stage",
+      "furniture",
+      "camera",
+      "depth",
+      "bloom",
+      "textile",
+      "wall",
+      "light"
+    ],
+    "promptSha256": "ca42594d14d0b64fe36a947f2dbf32e73f5954767a8f1318c95bd1dfa8b99d03",
+    "promptRecipeVersion": "artPromptOptimizer-request-v1:w03-release-tail-4pack-v6",
+    "seed": 1840474899,
+    "runtime": {
+      "repo": "huggingface/diffusers",
+      "commit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c"
+    },
+    "model": {
+      "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+      "revision": "462165984030d82259a11f4367a4eed129e94a7b",
+      "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+    },
+    "conditioning": {
+      "referenceAssetSha256": null,
+      "controlImageSha256": null,
+      "adapterScale": null
+    }
+  },
+  "output": {
+    "repoPath": "public/assets/catalog-candidates/cpu/desks-10-w03-v9-b-streaming-workstation-mic-dominant-original.png",
+    "sha256": "4a81b203ee41187ab78a2f9ea0828c497c7f90a5d15d5d38a372a64b234666a1",
+    "gitBlobSha": "1f050b539245d387ce005f67e059829a5249a7ed",
+    "bytes": 596527,
+    "format": "PNG",
+    "width": 640,
+    "height": 640,
+    "mode": "RGB"
+  },
+  "derivativeLineage": {
+    "derivativeOfSha256": null,
+    "sourcePreserved": true
+  },
+  "renderEvidence": [],
+  "review": {
+    "reviewer": "05",
+    "routing": {
+      "reviewer": "05",
+      "routingFile": "docs/preproduction/art-factory/runtime-queue/w03-release-tail-4pack-v6-token-safe.json",
+      "routingFileSha256": "5cc8eae2f4a1a3be225acc75bd207297b3e590b72cf58a650f3e68c4315fa560",
+      "queueId": "w03-release-tail-4pack-v6-token-safe"
+    },
+    "state": "PENDING_ACTUAL_PIXEL_REVIEW",
+    "decision": null
+  },
+  "safety": {
+    "canonicalArtModified": false,
+    "gameplayModified": false,
+    "automaticPerceptualDecision": false,
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+  },
+  "status": "STAGED_EXACT_BYTES_VERIFIED",
+  "recordSha256": "6700b3ae0efa12544038c46bc54a4601a72c4187a149dcb1eff4f58dabe02483"
+}
