@@ -1,4 +1,5 @@
 
+import { createHash } from 'node:crypto';
 import { readdir,readFile,stat,writeFile } from 'node:fs/promises';
 import { dirname,extname,isAbsolute,relative,resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -88,9 +89,12 @@ const sources=[];
 for(const file of files){
   const rel=relative(base,file).replaceAll('\\','/');
   process.stderr.write('catalog: reading ' + rel + '\n');
+  const bytes=await readFile(file);
   sources.push({
     sourceId:sourcePrefix + ':' + rel,
     file:rel,
+    sha256:createHash('sha256').update(bytes).digest('hex'),
+    bytes:bytes.length,
     dom:readRobloxDom(file)
   });
 }
@@ -101,6 +105,7 @@ await writeFile(reportPath,capabilityCatalogMarkdown(catalog));
 
 console.log('StarBlox Roblox/Brookhaven Capability Catalog');
 console.log('sources: ' + catalog.summary.sourceCount);
+console.log('source fingerprints: ' + catalog.summary.sourceFingerprintCount + '/' + catalog.summary.sourceCount);
 console.log('instances: ' + catalog.summary.instanceCount);
 console.log('scripts: ' + catalog.summary.scriptCount);
 console.log('remotes: ' + catalog.summary.remoteCount);
