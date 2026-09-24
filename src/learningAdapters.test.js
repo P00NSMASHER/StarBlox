@@ -5,7 +5,11 @@ import {
   createLearningLedger,
   masteryEvidenceEvents
 } from './learningEventLedger.js';
-import {\n  buildPsiKtInteractionTable,\n  buildPsiKtSequence,\n  psiKtInteractionTableToTsv\n} from './psiKtShadowAdapter.js';
+import {
+  buildPsiKtInteractionTable,
+  buildPsiKtSequence,
+  psiKtInteractionTableToTsv
+} from './psiKtShadowAdapter.js';
 import {
   buildRiffReviewCommands,
   RIFF_RATING
