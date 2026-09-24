@@ -1,0 +1,73 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_BATCH_REQUEST",
+  "planner": "15",
+  "producer": "09",
+  "preflightOwner": "06",
+  "reviewer": "02",
+  "renderOwner": "14",
+  "integrationOwner": "08",
+  "coordinationOwner": "15",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "b4e61f4a79f424dabc1abe086fa2c8a816147966",
+  "manifestVersion": 45,
+  "batchId": "w09-decor11-v9-ultraliteral",
+  "scope": [
+    "decor-11"
+  ],
+  "state": "PREPARED_ONLY_IF_V8_REWORK",
+  "assignmentAuthority": {
+    "path": "docs/preproduction/art-factory/RELEASE_BLOCKERS_CURRENT.json",
+    "runtimeProofPath": "docs/preproduction/art-factory/CPU_RUNTIME_PROOF.json",
+    "runtimeProofStatus": "PROVEN",
+    "runtimeCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+    "modelRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "assignedReviewers": {
+      "decor-11": "02"
+    },
+    "note": "Held-only fallback. Use only if Decor11 v8 B-SIMPLE-VANITY-STOOL is independently REWORK."
+  },
+  "reviewSource": {
+    "decision": "REWORK",
+    "latestVisualRework": {
+      "version": "v7",
+      "gitBlobSha": "7badb72a99eb63aa259e5345a6a806cacb6c73a2",
+      "sha256": "31ef9871ff7ed83d583630a7e78ec500dfd75116d78a840ef9f660914aa8fa45"
+    },
+    "note": "V7 split into two vanity variants and omitted a readable stool."
+  },
+  "items": {
+    "decor-11": {
+      "currentLegacy": {
+        "path": "public/assets/catalog-candidates/cpu/decor-11-w09-v7-a-token-safe-vanity-stool-original.png",
+        "gitBlobSha1": "7badb72a99eb63aa259e5345a6a806cacb6c73a2",
+        "reviewDecision": "REWORK"
+      },
+      "variants": [
+        {
+          "variantId": "A-STOOL-FIRST-VANITY",
+          "optimizerInput": "Dream Vanity Set. One padded stool in foreground. Directly behind it: one small vanity table with two drawer legs and one oval mirror. Plain white studio background. Exactly one stool, one table, one mirror. Coral lavender aqua accents. NO second vanity, NO second mirror, NO room, NO collage, NO text."
+        },
+        {
+          "variantId": "B-THREE-PIECE-VANITY",
+          "optimizerInput": "Single three-piece vanity set on white: one small table, one oval mirror, one separate padded stool with four short legs centered in front. Full set visible. NO alternate view, NO duplicate furniture, NO room, NO split image, NO text."
+        }
+      ]
+    }
+  },
+  "executionBudget": {
+    "width": 640,
+    "height": 640,
+    "steps": 14,
+    "guidanceScale": 5.5,
+    "dtype": "float32"
+  },
+  "safety": {
+    "preserveRejectedExactHashes": true,
+    "preserveAcceptedExactHashes": true,
+    "producerSelfReview": false,
+    "canonicalMappingsChanged": false,
+    "workflowFilesChanged": false
+  }
+}
