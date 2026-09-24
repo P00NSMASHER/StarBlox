@@ -159,8 +159,9 @@ for(const learner of evaluation.learners){
     );
   }
 }
-if(maxDefaultDifference>1e-9){
-  throw new Error('BKT replay does not match generator state: '+maxDefaultDifference);
+const storedStateRoundingTolerance=5.000001e-7; // selection BKT values are persisted to 6 decimals
+if(maxDefaultDifference>storedStateRoundingTolerance){
+  throw new Error('BKT replay exceeds stored-state rounding tolerance: '+maxDefaultDifference);
 }
 
 const g=manifest.grid;
@@ -208,6 +209,7 @@ const result={
   seed:evaluation.seed,
   gridSize:rows.length,
   maxDefaultReplayDifference:maxDefaultDifference,
+  storedStateRoundingTolerance,
   default:{params:defaultParams,metrics:defaultMetrics},
   selected,
   supportive:Boolean(selected),
