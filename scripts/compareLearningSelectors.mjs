@@ -195,6 +195,38 @@ function aggregate(rows){
   };
 }
 
+const aggregates = {
+  currentHeuristic:aggregate(policies.heuristic),
+  bktBackedShadow:aggregate(policies.bktShadow),
+  psiKtFsrsSelectorV2:aggregate(policies.psiFsrsV2)
+};
+
+function metricDeltas(candidate,baseline){
+  return {
+    meanHiddenNeed:candidate.meanHiddenNeed - baseline.meanHiddenNeed,
+    meanUniqueSkillCount:candidate.meanUniqueSkillCount - baseline.meanUniqueSkillCount,
+    weakestSkillHitRate:candidate.weakestSkillHitRate - baseline.weakestSkillHitRate,
+    dueSkillCoverage:candidate.dueSkillCoverage - baseline.dueSkillCoverage,
+    transferInclusionRate:candidate.transferInclusionRate - baseline.transferInclusionRate
+  };
+}
+
+const psiVsHeuristic = metricDeltas(
+  aggregates.psiKtFsrsSelectorV2,
+  aggregates.currentHeuristic
+);
+const psiVsBkt = metricDeltas(
+  aggregates.psiKtFsrsSelectorV2,
+  aggregates.bktBackedShadow
+);
+
+const syntheticBenchmarkSupportive = (
+  psiVsHeuristic.meanHiddenNeed >= 0 &&
+  psiVsHeuristic.weakestSkillHitRate >= 0 &&
+  psiVsBkt.meanHiddenNeed >= 0 &&
+  psiVsBkt.weakestSkillHitRate >= 0
+);
+
 const result = {
   schemaVersion:'starblox-selector-promotion-comparison-v1',
   datasetAuthorization:evaluation.authorization,
@@ -225,14 +257,19 @@ const result = {
     commandCount:fsrs.commandCount,
     payloadSha256:fsrs.payloadSha256
   },
-  policies:{
-    currentHeuristic:aggregate(policies.heuristic),
-    bktBackedShadow:aggregate(policies.bktShadow),
-    psiKtFsrsSelectorV2:aggregate(policies.psiFsrsV2)
+  policies:aggregates,
+  syntheticBenchmark:{
+    coreMetrics:['meanHiddenNeed','weakestSkillHitRate'],
+    interpretation:'Higher is better for both core targeting metrics. Deltas are PSI+FSRS minus the named baseline.',
+    psiVsCurrentHeuristic:psiVsHeuristic,
+    psiVsBktBackedShadow:psiVsBkt,
+    supportive:syntheticBenchmarkSupportive
   },
   promotionGate:{
     liveSelectorV2Allowed:false,
-    reason:'Evaluation uses a deterministic synthetic StarBlox-shaped population only. Real-learner efficacy and privacy review remain required before live selection.'
+    reason:syntheticBenchmarkSupportive
+      ? 'Synthetic evidence is not sufficient for live promotion. Real-learner efficacy, external ABVM provenance, and privacy review remain required.'
+      : 'Synthetic PSI+FSRS targeting does not outperform the simpler baselines on the core targeting metrics. Live promotion is additionally blocked by real-learner efficacy, external ABVM provenance, and privacy review.'
   }
 };
 
