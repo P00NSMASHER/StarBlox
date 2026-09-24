@@ -119,7 +119,7 @@ describe('StarBlox upstream implementation provenance', () => {
   it('pins every planned source to an immutable full commit SHA', () => {
     const entries = upstreamSourceList();
 
-    expect(entries.length).toBeGreaterThanOrEqual(81);
+    expect(entries.length).toBeGreaterThanOrEqual(88);
     expect(entries.every(entry => /^[a-f0-9]{40}$/.test(entry.commit))).toBe(true);
     expect(entries.every(entry => entry.reuseBasis === 'user-confirmed direct reuse rights')).toBe(true);
   });
@@ -196,5 +196,12 @@ describe('StarBlox upstream implementation provenance', () => {
     expect(UPSTREAM_PROVENANCE.nixeraVisionOps.path).toBe('plugin/src/tools/VisionOps.luau');
     expect(UPSTREAM_PROVENANCE.nixeraLogOps.path).toBe('plugin/src/tools/LogOps.luau');
     expect(UPSTREAM_PROVENANCE.nixeraExecutor.path).toBe('plugin/src/tools/Executor.luau');
+    expect(UPSTREAM_PROVENANCE.profileStoreRuntime.path).toBe('ProfileStore.luau');
+    expect(UPSTREAM_PROVENANCE.profileStoreTutorial.path).toBe('docs/tutorial/index.md');
+    expect(UPSTREAM_PROVENANCE.replicaServiceRuntime.path).toBe('src/ServerScriptService/ReplicaService.lua');
+    expect(UPSTREAM_PROVENANCE.replicaServiceApi.path).toBe('docs/api.md');
+    expect(UPSTREAM_PROVENANCE.zapEvents.path).toBe('docs/config/events.md');
+    expect(UPSTREAM_PROVENANCE.matterReplication.path).toBe('docs/Guides/Replication.md');
+    expect(UPSTREAM_PROVENANCE.matterComponents.path).toBe('example/src/shared/components.luau');
   });
 });
