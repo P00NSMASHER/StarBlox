@@ -12,20 +12,36 @@ const {
   provenanceDebt,
   validateContentBundle
 } = await import('../src/contentProvenanceRuntime.js');
-const { auditQuestionAdversarially } = await import('../src/adversarialQuestionQa.js');\nconst { currentLearningSourceSnapshots } = await import('../src/currentLearningSourceSnapshots.js');
+const { auditQuestionAdversarially } = await import('../src/adversarialQuestionQa.js');
+const {
+  currentLearningSourceSnapshots
+} = await import('../src/currentLearningSourceSnapshots.js');
 
-const contentVersion = process.env.STARBLOX_CONTENT_VERSION || 'bootstrap-current-bank-v1';
+const contentVersion =
+  process.env.STARBLOX_CONTENT_VERSION || 'bootstrap-current-bank-v1';
 const strictProvenance = process.argv.includes('--strict-provenance');
 const outArg = process.argv.find(arg => arg.startsWith('--out='));
 const outPath = outArg ? outArg.slice('--out='.length) : '';
 
 const questions = gameModel.buildQuestions();
 const existingRuntimeIssues = gameModel.validateQuestionBank(questions);
+
+const sourceSnapshotHashes = Object.fromEntries(
+  Object.entries(currentLearningSourceSnapshots()).map(([sourceId,snapshot]) => [
+    sourceId,
+    'sha256:' + crypto
+      .createHash('sha256')
+      .update(canonicalJson(snapshot))
+      .digest('hex')
+  ])
+);
+
 const bundle = buildContentBundle(questions,{
   contentVersion,
   generatorSystem:'starblox-existing-bank',
   generatorVersion:'1',
-  generatorSeed:0
+  generatorSeed:0,
+  sourceSnapshotHashes
 });
 const bundleIssues = validateContentBundle(bundle,{strictProvenance});
 
@@ -57,6 +73,7 @@ const receipt = {
   questionCount:questions.length,
   contentFingerprint:bundle.contentFingerprint,
   sha256,
+  sourceSnapshotHashCount:Object.keys(sourceSnapshotHashes).length,
   existingRuntimeIssueCount:existingRuntimeIssues.length,
   bundleIssueCount:bundleIssues.length,
   adversarialHardFindingCount:adversarialHardFindings.length,
@@ -70,7 +87,11 @@ const receipt = {
 };
 
 if(outPath){
-  fs.writeFileSync(outPath,JSON.stringify(receipt,null,2) + '\n','utf8');
+  fs.writeFileSync(
+    outPath,
+    JSON.stringify(receipt,null,2) + '\n',
+    'utf8'
+  );
 }
 
 process.stdout.write(JSON.stringify(receipt,null,2) + '\n');
