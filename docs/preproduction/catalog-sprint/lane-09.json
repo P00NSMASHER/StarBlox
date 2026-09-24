@@ -5,7 +5,7 @@
   "phase": "ART_AND_VISUALS_ONLY",
   "protocol": "DELIVERY_PROTOCOL_V2",
   "branch": "screenshot-match-preproduction",
-  "status": "DECOR5_V3_DECOR7_V4_EXACT_HASHES_QUALIFIED__RENDER_TRIGGERED_FOR_REVIEW01",
+  "status": "DECOR7_V5_EXACT_HASH_QUALIFIED__RENDER_TRIGGERED_FOR_REVIEW01",
   "assignmentSource": "docs/preproduction/ART_VISUALS_SPRINT.json",
   "activeBatchSource": "docs/preproduction/art-factory/ACTIVE_BATCH.json",
   "coordinator": "15",
@@ -309,7 +309,7 @@
     "integrationOwner": "08",
     "selfApproval": false
   },
-  "nextGate": "Renderer14 binds current Store card/detail pixels for Decor5 v3 and Decor7 v4, then reviewer01 independently ACCEPT/REWORK exact hashes; 08 integrates only ACCEPT.",
+  "nextGate": "Renderer14 binds current Store card/detail pixels for Decor7 v5; reviewer01 independently ACCEPT/REWORK exact hash; 08 integrates only ACCEPT.",
   "currentCpuReviewOwner": "01",
   "decor5_7CpuV2": {
     "batchId": "w09-decor-5-7-cpu-v2",
@@ -370,31 +370,19 @@
     ]
   },
   "catalogFactoryReviewHandoff": {
-    "updatedAt": "2026-09-24T08:46:00Z",
-    "sourceHead": "762f44e5d25738394f1bb4aaa6fcf709fc7b170b",
-    "purpose": "Trigger exact-hash Store card/detail render evidence for qualified decor-5, decor-7 candidates without changing candidate bytes or review/canonical gates.",
+    "updatedAt": "2026-09-24T12:26:00Z",
+    "sourceHead": "027af2a256070c3fc1682ccc58922be8c5af36a2",
+    "purpose": "Trigger exact-hash Store card/detail render evidence for newly qualified Decor7 v5 while preserving all prior exact-hash dispositions and reviewer independence.",
     "candidates": [
-      {
-        "itemId": "decor-5",
-        "name": "Plant Wall",
-        "producer": "09",
-        "reviewer": "01",
-        "path": "public/assets/catalog-candidates/cpu/decor-5-w09-v3-a-physical-original.png",
-        "sha256": "a30031043e9d9e3de1a34260a470df6bb37f5e602d692115b7c27ad16915d888",
-        "gitBlobSha": "1e7716f00e8e38f7ad645a448f9e29adea38de37",
-        "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-decor-5-8-vnext-qualification-20260924.json",
-        "qualification": "QUALIFIED_FOR_RENDERER14",
-        "route": "14 -> 01 -> 08 on ACCEPT"
-      },
       {
         "itemId": "decor-7",
         "name": "Skate Rack",
         "producer": "09",
         "reviewer": "01",
-        "path": "public/assets/catalog-candidates/cpu/decor-7-w09-v4-a-rack-first-minimal-original.png",
-        "sha256": "6d379a59330d7f22f9f7028aad9f5f5327e624798fd1519b39d137034805aa4e",
-        "gitBlobSha": "4e78412e291ccbc553948f536bd1e958ab1ebf53",
-        "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-decor-5-8-vnext-qualification-20260924.json",
+        "path": "public/assets/catalog-candidates/cpu/decor-7-w09-v5-a-one-rack-two-skates-original.png",
+        "sha256": "9e923f8acbdaed41ae3dadf7931cebef3b57b6248c975b7df61cab5cd372ee14",
+        "gitBlobSha": "de321659804198ef24e071a4f0a26a0fca84b09e",
+        "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-decor7-v5-wall9-v4-qualification-20260924.json",
         "qualification": "QUALIFIED_FOR_RENDERER14",
         "route": "14 -> 01 -> 08 on ACCEPT"
       }

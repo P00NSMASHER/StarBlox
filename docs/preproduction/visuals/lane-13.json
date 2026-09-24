@@ -2,7 +2,7 @@
   "schemaVersion": 8,
   "workstream": "13",
   "focus": "SCENE_CHARACTER_ART",
-  "status": "READY_FOR_REVIEW_SCENES_CHARACTER_BUDDY_AND_HOME_FOREGROUND_DEPTH",
+  "status": "WALL9_V4_EXACT_HASH_QUALIFIED__RENDER_TRIGGERED_FOR_REVIEW02",
   "branch": "screenshot-match-preproduction",
   "candidateId": "home-bedroom-w13-v2",
   "candidateType": "environment-background",
@@ -1034,57 +1034,21 @@
     ]
   },
   "catalogFactoryReviewHandoff": {
-    "updatedAt": "2026-09-24T08:46:00Z",
-    "sourceHead": "a7592684a41b5e9113f14a311353204f35235308",
-    "purpose": "Trigger one current-branch exact-hash Store card/detail render pass for the newly qualified Decor 5/6/7/8 microbatch while preserving all prior dispositions and reviewer independence.",
+    "updatedAt": "2026-09-24T12:26:00Z",
+    "sourceHead": "027af2a256070c3fc1682ccc58922be8c5af36a2",
+    "purpose": "Trigger exact-hash Store card/detail render evidence for newly qualified Wall9 v4 while preserving all prior exact-hash dispositions and reviewer independence.",
     "candidates": [
       {
-        "itemId": "decor-5",
-        "name": "Plant Wall",
-        "producer": "09",
-        "reviewer": "01",
-        "path": "public/assets/catalog-candidates/cpu/decor-5-w09-v3-a-physical-original.png",
-        "sha256": "a30031043e9d9e3de1a34260a470df6bb37f5e602d692115b7c27ad16915d888",
-        "gitBlobSha": "1e7716f00e8e38f7ad645a448f9e29adea38de37",
-        "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-decor-5-8-vnext-qualification-20260924.json",
+        "itemId": "wall-9",
+        "name": "Art Gallery Wall",
+        "producer": "13",
+        "reviewer": "02",
+        "path": "public/assets/catalog-candidates/cpu/wall-9-w13-v4-a-three-frames-only-original.png",
+        "sha256": "71cf7bd66d2439b904d0fc22ecfd1e3bab713b913604a5c69165dadc7f9a80bb",
+        "gitBlobSha": "725793fdb8091b47d7fe3563e8519519e4a9523d",
+        "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-decor7-v5-wall9-v4-qualification-20260924.json",
         "qualification": "QUALIFIED_FOR_RENDERER14",
-        "route": "14 -> 01 -> 08 on ACCEPT"
-      },
-      {
-        "itemId": "decor-6",
-        "name": "Telescope",
-        "producer": "03",
-        "reviewer": "11",
-        "path": "public/assets/catalog-candidates/cpu/decor-6-w03-v2-a-single-telescope-original.png",
-        "sha256": "5787d635b6fdde26d67b81ecec661b67da0723060c6ea101ac8576b66416107d",
-        "gitBlobSha": "5b860130d537acadb6a15c81a841805c3b9b81cf",
-        "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-decor-5-8-vnext-qualification-20260924.json",
-        "qualification": "QUALIFIED_FOR_RENDERER14",
-        "route": "14 -> 11 -> 08 on ACCEPT"
-      },
-      {
-        "itemId": "decor-7",
-        "name": "Skate Rack",
-        "producer": "09",
-        "reviewer": "01",
-        "path": "public/assets/catalog-candidates/cpu/decor-7-w09-v4-a-rack-first-minimal-original.png",
-        "sha256": "6d379a59330d7f22f9f7028aad9f5f5327e624798fd1519b39d137034805aa4e",
-        "gitBlobSha": "4e78412e291ccbc553948f536bd1e958ab1ebf53",
-        "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-decor-5-8-vnext-qualification-20260924.json",
-        "qualification": "QUALIFIED_FOR_RENDERER14",
-        "route": "14 -> 01 -> 08 on ACCEPT"
-      },
-      {
-        "itemId": "decor-8",
-        "name": "Mini Aquarium",
-        "producer": "03",
-        "reviewer": "11",
-        "path": "public/assets/catalog-candidates/cpu/decor-8-w03-v2-a-physical-original.png",
-        "sha256": "b88c0b339da024e2dd6591311d8f6c1022c682918cd4fb6746254b61d46acf87",
-        "gitBlobSha": "cde20430aaa1c2b4bd07399d35b3f0f184896509",
-        "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-decor-5-8-vnext-qualification-20260924.json",
-        "qualification": "QUALIFIED_FOR_RENDERER14",
-        "route": "14 -> 11 -> 08 on ACCEPT"
+        "route": "14 -> 02 -> 08 on ACCEPT"
       }
     ],
     "preservedDispositions": [
