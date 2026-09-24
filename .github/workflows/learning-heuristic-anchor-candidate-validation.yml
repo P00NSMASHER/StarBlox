@@ -1,0 +1,88 @@
+name: Learning Heuristic Anchor Candidate Validation
+
+on:
+  push:
+    branches:
+      - starblox-learning-factory-v1
+    paths:
+      - "docs/preproduction/learning-factory/heuristic-anchor-development-validation.json"
+      - "scripts/validateHeuristicAnchorCandidate.mjs"
+      - ".github/workflows/learning-heuristic-anchor-candidate-validation.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-anchor:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+
+      - name: Install dependencies
+        run: npm install --ignore-scripts --package-lock=false
+
+      - name: Assert frozen candidate code matches locked SHA
+        run: |
+          git fetch origin 13460cca8562be9ae5da04bdcb9d554e8341105c --depth=1
+          git diff --exit-code 13460cca8562be9ae5da04bdcb9d554e8341105c HEAD --             src/selectorHeuristicBktFsrsAnchorShadow.js             src/selectorHeuristicBktFsrsAnchorShadow.test.js
+
+      - name: Test frozen candidate
+        run: npx vitest run src/selectorHeuristicBktFsrsAnchorShadow.test.js
+
+      - name: Generate independent validation cohort
+        run: npm run generate:learning-promotion -- --out-dir=.heuristic-anchor-validation --learners=48 --max-step=30 --seed=20270511
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.23"
+
+      - name: Run actual FSRS
+        run: |
+          cd tools/fsrs-shadow
+          go mod tidy
+          go run . -input ../../.heuristic-anchor-validation/riff-reviews.json -out ../../.heuristic-anchor-validation/fsrs-engine-receipt.json -evaluation-offset-hours 24
+
+      - name: Validate frozen candidate
+        run: |
+          node scripts/validateHeuristicAnchorCandidate.mjs             --manifest=docs/preproduction/learning-factory/heuristic-anchor-development-validation.json             --evaluation=.heuristic-anchor-validation/evaluation.json             --fsrs=.heuristic-anchor-validation/fsrs-engine-receipt.json             --out=.heuristic-anchor-validation/candidate-validation.json
+
+      - name: Enforce no-live and no-tuning boundaries
+        run: |
+          node --input-type=module - <<'NODE'
+          import fs from 'node:fs';
+          const r=JSON.parse(fs.readFileSync('.heuristic-anchor-validation/candidate-validation.json','utf8'));
+          if(r.validationOnly!==true||r.tuneAgainstThisCohort!==false){
+            throw new Error('validation governance broken');
+          }
+          if(r.promotionBoundary?.liveSelectorAllowed!==false){
+            throw new Error('development validation cannot enable live selection');
+          }
+          console.log(JSON.stringify({
+            supportive:r.validationSupportive,
+            checks:r.checks,
+            deltas:r.deltas,
+            liveSelectorAllowed:false
+          },null,2));
+          NODE
+
+      - name: Assert live Quest path is untouched
+        run: |
+          if grep -R -nE "selectorHeuristicBktFsrsAnchorShadow|pickQuestHeuristicBktFsrsAnchorShadow" src/App.jsx src/main.jsx src/gameModel.js; then
+            echo "Frozen candidate must not be wired into live Quest code."
+            exit 1
+          fi
+
+      - name: Upload validation evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: learning-heuristic-anchor-candidate-validation
+          path: .heuristic-anchor-validation
+          if-no-files-found: error
+          include-hidden-files: true
