@@ -35,6 +35,13 @@ local function publicProjection(profileData)
 		Rollout = {
 			Assignments = table.clone(profileData.Rollout.Assignments),
 		},
+		LiveOps = profileData.LiveOps and {
+			Counters = table.clone(profileData.LiveOps.Counters or {}),
+			Missions = table.clone(profileData.LiveOps.Missions or {}),
+			Seasons = table.clone(profileData.LiveOps.Seasons or {}),
+			Engagement = table.clone(profileData.LiveOps.Engagement or {}),
+			Bundles = table.clone(profileData.LiveOps.Bundles or {}),
+		} or nil,
 	}
 end
 
