@@ -18,7 +18,8 @@ const ALLOWED_PAYLOAD_KINDS = new Set([
 const ALLOWED_RIGHTS_STATUSES = new Set([
   'original-starblox',
   'explicit-public-license',
-  'user-asserted-authorized'
+  'user-asserted-authorized',
+  'project-rights-verified'
 ]);
 
 function stableValue(value){
@@ -70,6 +71,7 @@ function normalizeSize(size,metersPerUnit){
 function productionEligibility(rightsStatus){
   if(rightsStatus === 'original-starblox') return 'candidate-after-QA';
   if(rightsStatus === 'explicit-public-license') return 'candidate-after-license-and-content-QA';
+  if(rightsStatus === 'project-rights-verified') return 'candidate-after-content-and-technical-QA';
   return 'research-only-until-rights-evidence-recorded';
 }
 
