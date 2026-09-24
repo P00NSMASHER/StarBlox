@@ -4,15 +4,16 @@
   "role": "independent art reviewer D / overflow reviewer",
   "phase": "ART_VISUALS_SPRINT",
   "branch": "screenshot-match-preproduction",
-  "sourceHead": "b14512c2a7828c1b25ad58b44c2ad8d52e12cd2f",
+  "sourceHead": "151324ef8483361380ab56f925486289b6fd20ab",
   "policy": "docs/preproduction/DELIVERY_PROTOCOL_V2.md",
   "artFactoryPolicy": "docs/preproduction/art-factory/ART_FACTORY_V2.json",
   "currentCycle": {
     "scope": [
-      "decor-8"
+      "desks-8",
+      "wall-8"
     ],
-    "version": "current exact rendered tail hashes",
-    "result": "ACCEPT_1_REWORK_0",
+    "version": "current W13 exact rendered hashes",
+    "result": "ACCEPT_2_OF_2",
     "oldVerdictsTransferred": false,
     "actualCardScalePixelsReviewed": true,
     "actualDetailPixelsReviewed": true,
@@ -612,6 +613,74 @@
         "artifact:10829841273/staged-replacements/staged-replacements-contact-sheet.png",
         "artifact:10829841273/staged-replacements/detail/decor-8-77d5cb5e.png"
       ]
+    },
+    {
+      "itemId": "desks-8",
+      "name": "Aqua Study Station",
+      "tier": 3,
+      "theme": "Galaxy Glow",
+      "assetPath": "public/assets/catalog-candidates/cpu/desks-8-w13-v4-a-token-safe-aqua-desk-original.png",
+      "repositoryPath": "public/assets/catalog-candidates/cpu/desks-8-w13-v4-a-token-safe-aqua-desk-original.png",
+      "assetHash": "9ec1df3524feb3fa1fe1e8710fccb7c5fa81efba",
+      "sha256": "2d4a2506414d7b9c7beacec1735618fca4ca97ddf5e62a736a3c80ef6c495757",
+      "contentSha256": "2d4a2506414d7b9c7beacec1735618fca4ca97ddf5e62a736a3c80ef6c495757",
+      "hashAlgorithm": "git-blob-sha1",
+      "producer": "13",
+      "decision": "ACCEPT",
+      "learnerLabel": "ACCEPT",
+      "reviewedAt": "2026-09-24T19:54:00Z",
+      "evidenceRefs": [
+        "workflow:36050614128",
+        "artifact:10830327190/staged-replacements/staged-replacements-contact-sheet.png",
+        "artifact:10830327190/staged-replacements/detail/desks-8-9ec1df35.png"
+      ],
+      "reason": "ACCEPT. The exact Store card/detail pixels now read immediately as one coherent Aqua Study Station: a single freestanding desk with a broad worktop, stable side supports, attached upper organizer/shelving, bounded study accessories and a clear card-scale silhouette. Aqua/cyan with soft violet lighting supports Galaxy Glow without obscuring the furniture identity. The product is physically coherent, fully contained and no longer reads as built-in wall cabinetry or a multi-desk collage.",
+      "checks": {
+        "identity": "PASS",
+        "themeTier": "PASS",
+        "silhouette": "PASS",
+        "materialLighting": "PASS",
+        "cardReadability": "PASS",
+        "physicalConstruction": "PASS",
+        "framingComposition": "PASS",
+        "originality": "PASS",
+        "duplicateVisual": "PASS",
+        "technicalIntegrity": "PASS"
+      }
+    },
+    {
+      "itemId": "wall-8",
+      "name": "Ocean Window",
+      "tier": 3,
+      "theme": "Candy Core",
+      "assetPath": "public/assets/catalog-candidates/cpu/wall-8-w13-v10-a-flat-blue-ocean-window-original.png",
+      "repositoryPath": "public/assets/catalog-candidates/cpu/wall-8-w13-v10-a-flat-blue-ocean-window-original.png",
+      "assetHash": "f3abee3c021429e31bc9075a91b139c8923f35d0",
+      "sha256": "35ecf7dc4936243c8df8f80637efb4278fbef26abbf63a83105a1b1a78e5bd4c",
+      "contentSha256": "35ecf7dc4936243c8df8f80637efb4278fbef26abbf63a83105a1b1a78e5bd4c",
+      "hashAlgorithm": "git-blob-sha1",
+      "producer": "13",
+      "decision": "ACCEPT",
+      "learnerLabel": "ACCEPT",
+      "reviewedAt": "2026-09-24T19:54:00Z",
+      "evidenceRefs": [
+        "workflow:36050614128",
+        "artifact:10830327190/staged-replacements/staged-replacements-contact-sheet.png",
+        "artifact:10830327190/staged-replacements/detail/wall-8-f3abee3c.png"
+      ],
+      "reason": "ACCEPT. The exact rendered pixels finally read as one Ocean Window at card scale: a single thick framed opening contains unmistakable blue water, a clear horizontal sea horizon and pale sky, with restrained pink/aqua Candy Core trim. The frame is contained, the ocean view dominates the product, and there are no blinds, panel grid, duplicate windows or room furniture obscuring the identity.",
+      "checks": {
+        "identity": "PASS",
+        "themeTier": "PASS",
+        "silhouette": "PASS",
+        "materialLighting": "PASS",
+        "cardReadability": "PASS",
+        "physicalConstruction": "PASS",
+        "framingComposition": "PASS",
+        "originality": "PASS",
+        "duplicateVisual": "PASS",
+        "technicalIntegrity": "PASS"
+      }
     }
   ],
   "currentReplacementDisposition": {
@@ -626,7 +695,8 @@
     },
     "desks": {
       "ACCEPT": {
-        "desks-7": "037355010a6cd980cbf95e71ebaf28a7abc62a26"
+        "desks-7": "037355010a6cd980cbf95e71ebaf28a7abc62a26",
+        "desks-8": "9ec1df3524feb3fa1fe1e8710fccb7c5fa81efba"
       },
       "REWORK": {
         "desks-8": "6d01f070b686e4c15a5e906a4099d4fe1cea5f8b"
@@ -635,25 +705,29 @@
     "wall": {
       "REWORK": {
         "wall-8": "e9d7617107ebfa404e1add432f74c6f5e91efd40"
+      },
+      "ACCEPT": {
+        "wall-8": "f3abee3c021429e31bc9075a91b139c8923f35d0"
       }
     }
   },
   "summary": {
-    "reviewedThisRun": 1,
-    "newAcceptsThisRun": 1,
+    "reviewedThisRun": 2,
+    "newAcceptsThisRun": 2,
     "newReworkThisRun": 0,
     "newBlockedThisRun": 0,
     "newUsableBy08Now": [
-      "decor-8"
+      "desks-8",
+      "wall-8"
     ],
     "reworkNow": [],
-    "preservedAcceptedHashes": "All prior ACCEPTs remain frozen; these verdicts apply only to the exact hashes rendered in workflow 36049290664."
+    "preservedAcceptedHashes": "All prior reviewer11 ACCEPTs remain frozen; Desk8 v4 and Wall8 v10 are newly ACCEPTED exact hashes."
   },
   "handoff": {
-    "13": "Freeze Wall8 v9 REWORK. Fold Wall8 v10 with Desk8 token-safe retry and Wall9 next retry if Wall9 also fails; do not use a standalone CPU startup if a same-producer packed retry is possible.",
+    "13": "Freeze Desk8 v4 and Wall8 v10 exact ACCEPT hashes. Wall9 remains the only Producer13 release-tail rework.",
     "14": "Tail render packets consumed; do not rerender unchanged hashes.",
-    "15": "No rework from this batch.",
-    "08": "Integrate exact ACCEPT hashes for decor-8 after live revalidation.",
+    "15": "Desk8 and Wall8 leave production scope; Wall9 remains bounded.",
+    "08": "Integrate exact ACCEPT hashes for desks-8 and wall-8 after live revalidation.",
     "03": "decor-8 current literal hashes are REWORK; preserve them and prepare the next narrow retry while other producers continue."
   },
   "preservation": {
