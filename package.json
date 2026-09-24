@@ -7,8 +7,9 @@
     "dev": "vite --host 0.0.0.0",
     "build": "vite build",
     "test": "vitest run",
-    "test:learning-factory": "vitest run src/learningContracts.test.js src/contentProvenanceRuntime.test.js src/adversarialQuestionQa.test.js",
-    "validate:learning": "node scripts/validateLearningContent.mjs"
+    "test:learning-factory": "vitest run src/learningContracts.test.js src/contentProvenanceRuntime.test.js src/adversarialQuestionQa.test.js src/learningAdapters.test.js",
+    "validate:learning": "node scripts/validateLearningContent.mjs",
+    "simulate:learning-shadow": "node scripts/selectorV2ShadowSimulation.mjs"
   },
   "dependencies": {
     "lucide-react": "^0.468.0",
