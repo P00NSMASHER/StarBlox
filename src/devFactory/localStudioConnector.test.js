@@ -12,6 +12,10 @@ const CONNECTOR_PATH=new URL(
   '../../roblox/devFactoryPlugin/src/Connector.server.luau',
   import.meta.url
 );
+const TESTS_PATH=new URL(
+  '../../roblox/devFactoryPlugin/src/Tests.luau',
+  import.meta.url
+);
 
 describe('Step 2: built-in StarBlox Studio connector contract', () => {
   it('exposes only known factory tools and omits high-risk optional capabilities', () => {
@@ -47,6 +51,15 @@ describe('Step 2: built-in StarBlox Studio connector contract', () => {
     for(const tool of STARBLOX_STUDIO_CONNECTOR_TOOLS){
       expect(source).toContain(tool + ' =');
     }
+  });
+
+  it('keeps executable Studio test loading inside dedicated Tests roots', () => {
+    const source=readFileSync(TESTS_PATH,'utf8');
+    expect(source).toMatch(/ServerScriptService\/Tests/);
+    expect(source).toMatch(/ReplicatedStorage\/Tests/);
+    expect(source).toMatch(/ServerStorage\/Tests/);
+    expect(source).toMatch(/isSafeTestPath/);
+    expect(source).toMatch(/approved Tests root/);
   });
 
   it('creates an HTTP adapter that advertises exactly the built-in connector subset', () => {
