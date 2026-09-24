@@ -1,0 +1,96 @@
+name: Learning Candidate Development Validation
+
+on:
+  push:
+    branches:
+      - starblox-learning-factory-v1
+    paths:
+      - "scripts/validateLearningDevelopmentCandidate.mjs"
+      - "docs/preproduction/learning-factory/development-candidate-validation.json"
+      - ".github/workflows/learning-candidate-development-validation.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-development-candidate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+      - name: Install StarBlox dependencies
+        run: npm install --ignore-scripts --package-lock=false
+      - name: Load frozen development-validation candidate
+        run: |
+          node --input-type=module - <<'NODE' >> "$GITHUB_ENV"
+          import fs from 'node:fs';
+          const b=JSON.parse(fs.readFileSync(
+            'docs/preproduction/learning-factory/development-candidate-validation.json','utf8'
+          ));
+          if(b.status!=='development-validation-no-tuning'||b.tuneAgainstThisCohort!==false){
+            throw new Error('candidate must be frozen before validation');
+          }
+          if(Number(b.seed)===Number(b.forbiddenFinalHoldoutSeed)){
+            throw new Error('final holdout seed forbidden');
+          }
+          console.log('VAL_SEED='+b.seed);
+          console.log('VAL_LEARNERS='+b.sourceLearnerCount);
+          console.log('VAL_MAX_STEP='+b.maxStep);
+          NODE
+      - name: Generate independent development-validation dataset
+        run: npm run generate:learning-promotion -- --out-dir=.learning-candidate-validation --learners=$VAL_LEARNERS --max-step=$VAL_MAX_STEP --seed=$VAL_SEED
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.23"
+      - name: Execute review commands through actual FSRS
+        run: |
+          cd tools/fsrs-shadow
+          go mod tidy
+          go run . -input ../../.learning-candidate-validation/riff-reviews.json -out ../../.learning-candidate-validation/fsrs-engine-receipt.json -evaluation-offset-hours 24
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install pinned upstream PSI-KT
+        run: |
+          python -m pip install --upgrade pip setuptools wheel
+          git clone https://github.com/mlcolab/psi-kt.git .vendor/psi-kt
+          git -C .vendor/psi-kt checkout ecada10cedb3237ba55f4277af0bdbd8d5d4a68e
+          python -m pip install -e .vendor/psi-kt
+          python -m pip install 'pandas==2.2.3'
+      - name: Train PSI-KT under frozen protocol
+        run: python scripts/runPsiKtPromotionExperiment.py --psi-repo=.vendor/psi-kt --data-dir=.learning-candidate-validation --evaluation=.learning-candidate-validation/evaluation.json --graph-json=.learning-candidate-validation/skill-graph.json --out=.learning-candidate-validation/psi-kt-receipt.json --epochs=200 --patience=10 --max-step=$VAL_MAX_STEP
+      - name: Validate frozen alpha candidate
+        run: node scripts/validateLearningDevelopmentCandidate.mjs --manifest=docs/preproduction/learning-factory/development-candidate-validation.json --evaluation=.learning-candidate-validation/evaluation.json --psi=.learning-candidate-validation/psi-kt-receipt.json --fsrs=.learning-candidate-validation/fsrs-engine-receipt.json --out=.learning-candidate-validation/candidate-validation.json
+      - name: Enforce no-live boundary
+        run: |
+          node --input-type=module - <<'NODE'
+          import fs from 'node:fs';
+          const r=JSON.parse(fs.readFileSync(
+            '.learning-candidate-validation/candidate-validation.json','utf8'
+          ));
+          if(r.validationOnly!==true||r.tuneAgainstThisCohort!==false){
+            throw new Error('validation cohort governance broken');
+          }
+          if(r.promotionBoundary?.liveSelectorV2Allowed!==false){
+            throw new Error('development validation cannot enable live selector');
+          }
+          console.log(JSON.stringify({
+            validationSupportive:r.validationSupportive,
+            alpha:r.frozenPsiBlendAlpha,
+            deltas:r.deltas,
+            masteryDiagnostics:r.masteryDiagnostics,
+            liveSelectorV2Allowed:false
+          },null,2));
+          NODE
+      - name: Upload candidate validation
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: learning-candidate-development-validation
+          path: .learning-candidate-validation
+          if-no-files-found: error
+          include-hidden-files: true
