@@ -36,7 +36,7 @@
     "scope": [
       "desks-11"
     ],
-    "version": "current exact hash: Desk11 v6",
+    "version": "current literal exact hashes",
     "result": "REWORK_1_OF_1",
     "oldVerdictsTransferred": false,
     "actualCardScalePixelsReviewed": true,
@@ -919,15 +919,15 @@
     "reworkNow": [
       "desks-11"
     ],
-    "preservedAcceptedHashes": "All prior reviewer01 ACCEPTs remain frozen; this REWORK applies only to Desk11 v6 exact hash."
+    "preservedAcceptedHashes": "All prior ACCEPTs remain frozen; these verdicts apply only to the exact hashes rendered in workflow 36041110855."
   },
   "handoff": {
     "13": "desks-12 exact hash ACCEPT; freeze it and remove from production scope.",
     "14": "Current render packets consumed; do not rerender unchanged hashes.",
-    "15": "Desk11 remains a bounded exact-pixel release blocker.",
+    "15": "desks-11 remain bounded exact-pixel blockers; use only the new narrow failure-specific repairs.",
     "09": "decor-7 current exact hash is REWORK; preserve it and generate only the failure-specific next version if director15 keeps it release-critical.",
-    "03": "Desk11 v6 REWORK; preserve exact hash and use one ultra-simple desk-object retry only after existing queued CPU successors.",
-    "08": "Do not canonical-wire Desk11 v6."
+    "03": "desks-11 current literal hashes are REWORK; preserve them and prepare the next narrow retry while other producers continue.",
+    "08": "Do not canonical-wire desks-11 current exact hashes."
   },
   "freeze": {
     "replitTouched": false,
