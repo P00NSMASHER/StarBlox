@@ -1,0 +1,76 @@
+name: Learning Calibrated BKT Validation
+
+on:
+  push:
+    branches:
+      - starblox-learning-factory-v1
+    paths:
+      - "src/calibratedBktShadow.js"
+      - "src/calibratedBktShadow.test.js"
+      - "scripts/validateCalibratedBktShadow.mjs"
+      - "docs/preproduction/learning-factory/calibrated-bkt-development-validation.json"
+      - ".github/workflows/learning-calibrated-bkt-validation.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-calibrated-bkt:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+
+      - name: Install dependencies
+        run: npm install --ignore-scripts --package-lock=false
+
+      - name: Assert frozen calibrated BKT candidate has not drifted
+        run: |
+          git fetch origin ac6a1a4cca6c9552cde432d378d5522517a368a0 --depth=1
+          git diff --exit-code ac6a1a4cca6c9552cde432d378d5522517a368a0 HEAD --             src/calibratedBktShadow.js             src/calibratedBktShadow.test.js
+
+      - name: Test frozen calibrated BKT profile
+        run: npx vitest run src/calibratedBktShadow.test.js src/masteryShadowModel.test.js
+
+      - name: Generate independent no-tuning validation cohort
+        run: npm run generate:learning-promotion -- --out-dir=.calibrated-bkt-validation --learners=48 --max-step=30 --seed=20270903
+
+      - name: Validate calibrated BKT against default BKT
+        run: |
+          node scripts/validateCalibratedBktShadow.mjs             --manifest=docs/preproduction/learning-factory/calibrated-bkt-development-validation.json             --evaluation=.calibrated-bkt-validation/evaluation.json             --interactions=.calibrated-bkt-validation/starblox_shadow/interactions_30.csv             --out=.calibrated-bkt-validation/calibrated-bkt-validation.json
+
+      - name: Enforce validation and live boundaries
+        run: |
+          node --input-type=module - <<'NODE'
+          import fs from 'node:fs';
+          const r=JSON.parse(fs.readFileSync('.calibrated-bkt-validation/calibrated-bkt-validation.json','utf8'));
+          if(r.validationOnly!==true||r.tuneAgainstThisCohort!==false){
+            throw new Error('calibrated BKT validation governance broken');
+          }
+          if(r.promotionBoundary?.liveSelectorAllowed!==false){
+            throw new Error('model validation cannot enable live selection');
+          }
+          console.log(JSON.stringify({
+            supportive:r.validationSupportive,
+            checks:r.checks,
+            vsBaseline:r.vsBaseline,
+            liveSelectorAllowed:false
+          },null,2));
+          NODE
+
+      - name: Assert live Quest path remains isolated
+        run: npm run assert:learning-live-boundary
+
+      - name: Upload calibrated BKT validation evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: learning-calibrated-bkt-validation
+          path: .calibrated-bkt-validation
+          if-no-files-found: error
+          include-hidden-files: true
