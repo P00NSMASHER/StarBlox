@@ -119,7 +119,7 @@ describe('StarBlox upstream implementation provenance', () => {
   it('pins every planned source to an immutable full commit SHA', () => {
     const entries = upstreamSourceList();
 
-    expect(entries.length).toBeGreaterThanOrEqual(14);
+    expect(entries.length).toBeGreaterThanOrEqual(17);
     expect(entries.every(entry => /^[a-f0-9]{40}$/.test(entry.commit))).toBe(true);
     expect(entries.every(entry => entry.reuseBasis === 'user-confirmed direct reuse rights')).toBe(true);
   });
@@ -128,5 +128,8 @@ describe('StarBlox upstream implementation provenance', () => {
     expect(UPSTREAM_PROVENANCE.neonVectorDefense.repository).toBe('Calculator5329/neon-vector-defense');
     expect(UPSTREAM_PROVENANCE.neonVectorDefense.commit).toBe('48ecf31509d73dd8fb2c5f25f1fc57cfa6d03eb4');
     expect(UPSTREAM_PROVENANCE.neonVectorDefense.path).toBe('src/game/engine.ts');
+    expect(UPSTREAM_PROVENANCE.neonReplayCodec.path).toBe('src/game/replayCodec.ts');
+    expect(UPSTREAM_PROVENANCE.neonReSimulate.path).toBe('src/game/reSimulate.ts');
+    expect(UPSTREAM_PROVENANCE.neonReplayIntegrity.path).toBe('functions/src/replayIntegrity.ts');
   });
 });

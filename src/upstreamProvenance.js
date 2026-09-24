@@ -25,6 +25,30 @@ export const UPSTREAM_PROVENANCE = Object.freeze({
     'unasserted in GitHub metadata',
     'src/game/engine.ts'
   ),
+  neonReplayCodec: source(
+    'compact replay action encoding and action-pack hashing',
+    'Calculator5329/neon-vector-defense',
+    'master',
+    '48ecf31509d73dd8fb2c5f25f1fc57cfa6d03eb4',
+    'unasserted in GitHub metadata',
+    'src/game/replayCodec.ts'
+  ),
+  neonReSimulate: source(
+    'bounded deterministic replay re-simulation and verdict model',
+    'Calculator5329/neon-vector-defense',
+    'master',
+    '48ecf31509d73dd8fb2c5f25f1fc57cfa6d03eb4',
+    'unasserted in GitHub metadata',
+    'src/game/reSimulate.ts'
+  ),
+  neonReplayIntegrity: source(
+    'server-side replay manifest and chunk integrity validation',
+    'Calculator5329/neon-vector-defense',
+    'master',
+    '48ecf31509d73dd8fb2c5f25f1fc57cfa6d03eb4',
+    'unasserted in GitHub metadata',
+    'functions/src/replayIntegrity.ts'
+  ),
   recallCs: source(
     'offline question generation, review, validation and deduplication',
     'garg-tejas/recall-cs',
