@@ -27,21 +27,32 @@ async function backupForCall(studio,call){
     try{
       const current=await studio.call('read_script',{path:call.args.path});
       if(current && typeof current.source === 'string'){
-        return [{
-          tool:'write_script',
-          args:{
-            path:call.args.path,
-            source:current.source,
-            create:true,
-            className:current.className
-          }
-        }];
+        return {
+          covered:true,
+          calls:[{
+            tool:'write_script',
+            args:{
+              path:call.args.path,
+              source:current.source,
+              create:true,
+              className:current.className
+            }
+          }]
+        };
       }
     }catch{
       if(call.tool === 'write_script' && call.args.create === true){
-        return [{tool:'delete_instance',args:{path:call.args.path}}];
+        return {
+          covered:true,
+          calls:[{tool:'delete_instance',args:{path:call.args.path}}]
+        };
       }
     }
+    return {
+      covered:false,
+      calls:[],
+      reason:'could not capture the pre-edit script source'
+    };
   }
 
   if(call.tool === 'set_property'){
@@ -49,26 +60,57 @@ async function backupForCall(studio,call){
       const current=await studio.call('inspect_instance',{path:call.args.path});
       const properties=current?.properties;
       if(properties && Object.prototype.hasOwnProperty.call(properties,call.args.property)){
-        return [{
-          tool:'set_property',
-          args:{
-            path:call.args.path,
-            property:call.args.property,
-            value:clone(properties[call.args.property])
-          }
-        }];
+        return {
+          covered:true,
+          calls:[{
+            tool:'set_property',
+            args:{
+              path:call.args.path,
+              property:call.args.property,
+              value:clone(properties[call.args.property])
+            }
+          }]
+        };
       }
     }catch{}
+    return {
+      covered:false,
+      calls:[],
+      reason:'could not capture the pre-edit property value'
+    };
   }
 
-  return [];
+  if(call.tool === 'create_instance'){
+    return {covered:'deferred',calls:[]};
+  }
+
+  return {
+    covered:false,
+    calls:[],
+    reason:'no deterministic rollback strategy exists for this tool'
+  };
 }
 
 function postRollbackForCall(call,result){
-  if(call.tool === 'create_instance' && result && typeof result.path === 'string'){
-    return [{tool:'delete_instance',args:{path:result.path}}];
+  if(call.tool === 'create_instance'){
+    if(result && typeof result.path === 'string' && result.path.trim()){
+      return {
+        covered:true,
+        calls:[{tool:'delete_instance',args:{path:result.path}}]
+      };
+    }
+    return {
+      covered:false,
+      calls:[],
+      reason:'create_instance did not return the created instance path'
+    };
   }
-  return rollbackFromAdapter(result);
+
+  const adapter=rollbackFromAdapter(result);
+  return {
+    covered:adapter.length > 0,
+    calls:adapter
+  };
 }
 
 async function rollbackCalls(studio,calls){
@@ -93,12 +135,29 @@ export async function executeStudioActionBatch({
   stage='code',
   atomic=true,
   confirmed=false,
-  safety={}
+  safety={},
+  maxToolCallsPerBatch=50,
+  allowUnrollbackable=false
 }){
   if(!studio || typeof studio.call !== 'function'){
     throw new TypeError('studio.call must be a function.');
   }
   if(!Array.isArray(calls)) throw new TypeError('calls must be an array.');
+  if(calls.length > maxToolCallsPerBatch){
+    return {
+      ok:false,
+      applied:false,
+      rolledBack:false,
+      rollbackComplete:null,
+      partial:false,
+      receipts:[],
+      failures:[{
+        type:'budget',
+        errors:['mutation batch exceeds ' + maxToolCallsPerBatch + ' tool calls']
+      }],
+      rollbackFailures:[]
+    };
+  }
 
   const assessments=calls.map(call => ({
     call:clone(call),
@@ -133,16 +192,82 @@ export async function executeStudioActionBatch({
   const failures=[];
 
   for(const {call,assessment} of assessments){
-    let preRollback=[];
+    let preRollback={covered:true,calls:[]};
     if(isWriteEffect(assessment.effect)){
       preRollback=await backupForCall(studio,call);
+      if(preRollback.covered === false && !allowUnrollbackable){
+        failures.push({
+          type:'rollback-coverage',
+          tool:call.tool,
+          error:preRollback.reason || 'mutation has no deterministic rollback coverage'
+        });
+        receipts.push({
+          tool:call.tool,
+          effect:studioToolEffect(call.tool),
+          ok:false,
+          error:preRollback.reason || 'mutation has no deterministic rollback coverage',
+          rollbackCount:0
+        });
+        if(atomic){
+          const rollbackFailures=await rollbackCalls(studio,rollback);
+          return {
+            ok:false,
+            applied:false,
+            rolledBack:rollback.length > 0,
+            rollbackComplete:rollbackFailures.length === 0,
+            partial:rollbackFailures.length > 0,
+            receipts,
+            failures,
+            rollbackFailures
+          };
+        }
+        continue;
+      }
     }
 
     try{
       const result=await studio.call(call.tool,clone(call.args || {}));
+      const postRollback=postRollbackForCall(call,result);
+      if(
+        call.tool === 'create_instance' &&
+        postRollback.covered === false &&
+        !allowUnrollbackable
+      ){
+        failures.push({
+          type:'rollback-coverage',
+          tool:call.tool,
+          error:postRollback.reason
+        });
+        receipts.push({
+          tool:call.tool,
+          effect:studioToolEffect(call.tool),
+          ok:false,
+          error:postRollback.reason,
+          rollbackCount:0
+        });
+        const rollbackFailures=await rollbackCalls(studio,rollback);
+        return {
+          ok:false,
+          applied:false,
+          rolledBack:rollback.length > 0,
+          rollbackComplete:false,
+          partial:true,
+          receipts,
+          failures,
+          rollbackFailures:[
+            ...rollbackFailures,
+            {
+              tool:call.tool,
+              args:clone(call.args || {}),
+              error:'created instance cannot be located for rollback'
+            }
+          ]
+        };
+      }
+
       const reversals=[
-        ...preRollback,
-        ...postRollbackForCall(call,result)
+        ...preRollback.calls,
+        ...postRollback.calls
       ];
 
       receipts.push({
