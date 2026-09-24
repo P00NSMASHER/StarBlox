@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_W12_CANDIDATE_DELTA_INTAKE_ROUTING",
+  "router": "12",
+  "branch": "screenshot-match-preproduction",
+  "observedHead": "c5ba44aa4aeb0dc010be83c90f37d53918d49535",
+  "scanWindow": {
+    "priorCursor": "885df05091c60a401937a1e50dd62f4b05510f2a",
+    "inspectedThroughHead": "c5ba44aa4aeb0dc010be83c90f37d53918d49535",
+    "commitsInspectedFromCompare": 15,
+    "newCatalogCandidateBytesDetected": true,
+    "newCandidateItemIds": [
+      "decor-6"
+    ],
+    "note": "The complete post-cursor window was inspected. Canonical v35/reviewer/coordination/reset documents introduce no other new candidate bytes. Decor6 exact workflow-artifact recovery is the only genuinely new candidate byte set."
+  },
+  "candidates": [
+    {
+      "id": "decor-6",
+      "name": "Telescope",
+      "collectionId": "decor",
+      "producer": "03",
+      "recoveryOwner": "07",
+      "reviewerAssignment": "11",
+      "renderOwner": "14",
+      "canonicalWriter": "08",
+      "path": "public/assets/catalog-candidates/cpu/decor-6-w03-v1-a-physical-original.png",
+      "sha256": "8b839bb54cda085810a58d1714c3f0850991e544b2e7c75e75a5e6c20c820fd2",
+      "gitBlobSha": "a8dca54ad9c511b529ab505dab97991bbc76daef",
+      "bytes": 1747044,
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "format": "PNG",
+      "stagedOutput": "docs/preproduction/art-factory/generated-evidence/w03-decor-6-8-cpu-v1/decor-6/staged-output.json",
+      "generationReceipt": "docs/preproduction/art-factory/generated-evidence/w03-decor-6-8-cpu-v1/decor-6/generation-receipt.json",
+      "provenanceState": "COMPLETE_ART_FACTORY_V2",
+      "repositoryReadback": "PASS_EXACT_GIT_BLOB",
+      "supersession": "FRESH_RECOVERED_V1_GENERATED_CANDIDATE__NOT_CANONICAL",
+      "state": "ROUTE_TO_06_TECHNICAL_QUALIFICATION"
+    }
+  ],
+  "dedupe": {
+    "uniqueItemHashClaim": true,
+    "unchangedPriorCandidatesRerouted": false,
+    "decor6NotAlreadyCanonical": true
+  },
+  "queues": {
+    "to06": [
+      "decor-6@8b839bb54cda085810a58d1714c3f0850991e544b2e7c75e75a5e6c20c820fd2"
+    ],
+    "backToProducer": []
+  },
+  "cursorAdvance": {
+    "previous": "885df05091c60a401937a1e50dd62f4b05510f2a",
+    "advancedThrough": "c5ba44aa4aeb0dc010be83c90f37d53918d49535"
+  },
+  "nextOwner": "06_TECHNICAL_QUALIFICATION",
+  "mutationScope": "Routing evidence only; no candidate bytes, ACTIVE_BATCH, canonical mappings, reviewer decisions, gameplay, learning, economy, persistence, accessibility, CI/workflows, deployment, secrets, or player data changed."
+}
