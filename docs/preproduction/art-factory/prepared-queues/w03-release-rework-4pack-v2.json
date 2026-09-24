@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_CPU_GENERATION_QUEUE",
+  "queueId": "w03-release-rework-4pack-v2",
+  "branch": "screenshot-match-preproduction",
+  "requestPath": "docs/preproduction/art-factory/requests/w03-release-rework-4pack-v2-20260924.json",
+  "producer": "03",
+  "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+  "modelRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+  "runtimeCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+  "runtimeProofPath": "docs/preproduction/art-factory/CPU_RUNTIME_PROOF.json",
+  "runtimeProofArtifactDigest": "sha256:528610198d72092c9d09159bf4b749a5c467361307587545fb24dded2876eeda",
+  "items": [
+    "decor-8",
+    "desks-9",
+    "desks-10",
+    "desks-11"
+  ],
+  "variantByItem": {
+    "decor-8": "A-ONE-AQUARIUM-ONLY-V2",
+    "desks-9": "A-SINGLE-MAKER-TABLE-V2",
+    "desks-10": "A-LITERAL-STREAMING-DESK-V7",
+    "desks-11": "A-LITERAL-CREATOR-DESK-V5"
+  },
+  "reviewerByItem": {
+    "decor-8": "11",
+    "desks-9": "05",
+    "desks-10": "05",
+    "desks-11": "01"
+  },
+  "versionByItem": {
+    "decor-8": 4,
+    "desks-9": 4,
+    "desks-10": 7,
+    "desks-11": 5
+  },
+  "generation": {
+    "width": 640,
+    "height": 640,
+    "steps": 6,
+    "guidanceScale": 3.5,
+    "dtype": "float32"
+  },
+  "handoff": {
+    "nextOwner": "12",
+    "route": "12 -> 06 -> 14 -> assigned reviewer -> 08 on ACCEPT",
+    "canonicalWriter": "08"
+  },
+  "dispatchPolicy": "PREPARED_FROM_RELEASE_LEDGER__WAIT_LIVE_CPU_IDLE"
+}
