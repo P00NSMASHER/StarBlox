@@ -26,6 +26,9 @@ export class StudioBridgeQueue {
     if(!studioToolNames().includes(tool)){
       throw new Error('unknown Studio tool: ' + tool);
     }
+    if(!['edit','server','client','any'].includes(target)){
+      throw new Error('invalid Studio target: ' + String(target));
+    }
     if(this.queue.length >= this.queueLimit){
       throw new Error('Studio bridge queue is full.');
     }
