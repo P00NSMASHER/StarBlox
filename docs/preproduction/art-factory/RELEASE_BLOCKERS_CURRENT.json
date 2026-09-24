@@ -3,7 +3,7 @@
   "kind": "STARBLOX_RELEASE_ART_BLOCKER_LEDGER",
   "branch": "screenshot-match-preproduction",
   "source": {
-    "computedAtHead": "d4d9caa564e41eefee6570d34e5216143aeb4fe5",
+    "computedAtHead": "512e14de4972a9eb0cc9f5cacbbcffefcee8b983",
     "manifest": {
       "version": 45,
       "finalCount": 181,
@@ -76,20 +76,20 @@
   "parallelWorkPlan": {
     "cpuSemaphore": "ONE_RUNNING_PLUS_ONE_PENDING",
     "currentCpuBatch": {
-      "queueId": "w13-wall9-v12-a-fallback",
-      "items": [
-        "wall-9"
-      ],
-      "runId": 36054911159,
-      "state": "RUNNING"
-    },
-    "pendingSuccessor": {
       "queueId": "w03-desks10-11-final-retry-a-fallback",
       "items": [
         "desks-10",
         "desks-11"
       ],
       "runId": 36055369791,
+      "state": "RUNNING_CLIP_SAFE"
+    },
+    "pendingSuccessor": {
+      "queueId": "w13-wall9-v12-a-fallback",
+      "items": [
+        "wall-9"
+      ],
+      "runId": 36055852604,
       "state": "PENDING_CLIP_SAFE"
     },
     "preparedNext": [
@@ -103,6 +103,24 @@
       },
       {
         "rank": 2,
+        "producer": "03",
+        "queuePath": "docs/preproduction/art-factory/prepared-queues/w03-desk10-v12-ultraliteral.json",
+        "items": [
+          "desks-10"
+        ],
+        "conditional": "only if current A REWORK"
+      },
+      {
+        "rank": 3,
+        "producer": "03",
+        "queuePath": "docs/preproduction/art-factory/prepared-queues/w03-desk11-v10-ultraliteral.json",
+        "items": [
+          "desks-11"
+        ],
+        "conditional": "only if current A REWORK"
+      },
+      {
+        "rank": 4,
         "producer": "09",
         "queuePath": "docs/preproduction/art-factory/prepared-queues/w09-decor11-v9-ultraliteral.json",
         "items": [
@@ -111,7 +129,7 @@
         "conditional": "only if v8 REWORK"
       }
     ],
-    "queuePolicy": "Wall9 v12 runs now. CLIP-safe Desk10/11 A fallback is pending. When desk fallback starts, queue sharpened Decor11 v8 as pending."
+    "queuePolicy": "Desk A pair runs, Wall9 v12 is pending. As soon as Wall9 v12 starts, queue token-safe Decor11 v8. Desk10/11 ultra-literal single-item fallbacks are held and must be used only for exact current-A REWORK."
   },
   "nonArtReleaseState": {
     "liveFunctionalSmoke": "GREEN",
