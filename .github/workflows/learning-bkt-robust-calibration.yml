@@ -1,0 +1,72 @@
+name: Learning Robust BKT Calibration
+
+on:
+  push:
+    branches:
+      - starblox-learning-factory-v1
+    paths:
+      - "scripts/diagnoseRobustBktCalibration.mjs"
+      - "docs/preproduction/learning-factory/bkt-robust-calibration-development.json"
+      - ".github/workflows/learning-bkt-robust-calibration.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  robust-calibration:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+
+      - name: Install dependencies
+        run: npm install --ignore-scripts --package-lock=false
+
+      - name: Generate fresh development cohort 20271011
+        run: npm run generate:learning-promotion -- --out-dir=.bkt-robust/20271011 --learners=48 --max-step=30 --seed=20271011
+
+      - name: Generate fresh development cohort 20271029
+        run: npm run generate:learning-promotion -- --out-dir=.bkt-robust/20271029 --learners=48 --max-step=30 --seed=20271029
+
+      - name: Generate fresh development cohort 20271119
+        run: npm run generate:learning-promotion -- --out-dir=.bkt-robust/20271119 --learners=48 --max-step=30 --seed=20271119
+
+      - name: Sweep BKT parameters across all development cohorts
+        run: |
+          node scripts/diagnoseRobustBktCalibration.mjs             --manifest=docs/preproduction/learning-factory/bkt-robust-calibration-development.json             '--cohort=.bkt-robust/20271011/evaluation.json|.bkt-robust/20271011/starblox_shadow/interactions_30.csv'             '--cohort=.bkt-robust/20271029/evaluation.json|.bkt-robust/20271029/starblox_shadow/interactions_30.csv'             '--cohort=.bkt-robust/20271119/evaluation.json|.bkt-robust/20271119/starblox_shadow/interactions_30.csv'             --out=.bkt-robust/robust-calibration.json
+
+      - name: Enforce multi-seed development boundary
+        run: |
+          node --input-type=module - <<'NODE'
+          import fs from 'node:fs';
+          const r=JSON.parse(fs.readFileSync('.bkt-robust/robust-calibration.json','utf8'));
+          if(r.developmentOnly!==true||r.tuneAgainstTheseCohorts!==true){
+            throw new Error('robust BKT calibration governance broken');
+          }
+          if(r.promotionBoundary?.liveSelectorAllowed!==false){
+            throw new Error('robust calibration cannot enable live selection');
+          }
+          console.log(JSON.stringify({
+            supportive:r.supportive,
+            selected:r.selected,
+            defaultBySeed:r.defaultBySeed,
+            liveSelectorAllowed:false
+          },null,2));
+          NODE
+
+      - name: Assert live Quest path remains isolated
+        run: npm run assert:learning-live-boundary
+
+      - name: Upload robust calibration evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: learning-bkt-robust-calibration
+          path: .bkt-robust
+          if-no-files-found: error
+          include-hidden-files: true
