@@ -5,7 +5,7 @@
   "role": "Visual Target Director / independent catalog reviewer",
   "phase": "ART_AND_VISUALS_ONLY",
   "branch": "screenshot-match-preproduction",
-  "sourceHead": "b14512c2a7828c1b25ad58b44c2ad8d52e12cd2f",
+  "sourceHead": "b2f2a7e9a3",
   "assignedCollections": [
     "tops",
     "bottoms",
@@ -34,13 +34,12 @@
   },
   "currentCycle": {
     "scope": [
-      "decor-7"
+      "desks-11"
     ],
-    "version": "current exact rendered tail hashes",
-    "result": "ACCEPT_1_REWORK_0",
+    "version": "current exact hash: desks-11",
+    "result": "REWORK_1_OF_1",
     "oldVerdictsTransferred": false,
-    "actualCardScalePixelsReviewed": true,
-    "actualDetailPixelsReviewed": true,
+    "actualSourcePixelsReviewed": true,
     "selfApprovalConflict": false
   },
   "renderEvidence": {
@@ -957,6 +956,43 @@
         "artifact:10829841273/staged-replacements/staged-replacements-contact-sheet.png",
         "artifact:10829841273/staged-replacements/detail/decor-7-db341a59.png"
       ]
+    },
+    {
+      "itemId": "desks-11",
+      "name": "Dream Creator Station",
+      "assetPath": "public/assets/catalog-candidates/cpu/desks-11-w03-v8-b-art-creator-workstation-original.png",
+      "repositoryPath": "public/assets/catalog-candidates/cpu/desks-11-w03-v8-b-art-creator-workstation-original.png",
+      "assetHash": "5e7de4ddf5bfbf3d727e2676442ddc8512366827",
+      "sha256": "678bb4e51d390f7460003bede36a1d7aaee6baf1c07813c612a655d1cf0f383e",
+      "contentSha256": "678bb4e51d390f7460003bede36a1d7aaee6baf1c07813c612a655d1cf0f383e",
+      "hashAlgorithm": "git-blob-sha1",
+      "producer": "03",
+      "decision": "REWORK",
+      "learnerLabel": "REWORK",
+      "reviewedAt": "2026-09-24T20:15:00Z",
+      "evidenceRefs": [
+        "workflow:36050941229",
+        "source:public/assets/catalog-candidates/cpu/desks-11-w03-v8-b-art-creator-workstation-original.png",
+        "source-fail-fast:obvious-category-contract-failure"
+      ],
+      "reasonCodes": [
+        "DESK_IDENTITY_FAILURE",
+        "ART_SUPPLY_ORGANIZER_CABINET",
+        "NO_WORKTOP_OR_SUPPORTS",
+        "NO_CREATOR_STATION_SILHOUETTE"
+      ],
+      "reason": "REWORK. V8 is an art-supply organizer/cabinet, not a Dream Creator Station desk. The exact pixels show shelves, drawers and supplies but no broad usable worktop, desk supports/pedestals or creator-workstation silhouette. Preserve this exact hash. The precompiled A fallback must show one unmistakable freestanding desk first: broad worktop, two drawer pedestals/supports, low rear organizer rail, drawing tablet and bounded art supplies.",
+      "checks": {
+        "identity": "FAIL",
+        "silhouette": "FAIL",
+        "cardReadability": "PARTIAL",
+        "physicalConstruction": "PARTIAL",
+        "framingComposition": "PASS",
+        "materialLighting": "PASS",
+        "originality": "PASS",
+        "duplicateVisual": "PASS",
+        "technicalIntegrity": "PASS"
+      }
     }
   ],
   "currentReplacementDisposition": {
@@ -1009,7 +1045,7 @@
     },
     "desks": {
       "REWORK": {
-        "desks-11": "b138c6291bf801bbf66e33daf9394e2c4bbae249",
+        "desks-11": "5e7de4ddf5bfbf3d727e2676442ddc8512366827",
         "desks-12": "7d268e27c8d963dfb7e8c62274fe6b906973d5bd"
       },
       "ACCEPT": {
@@ -1023,22 +1059,22 @@
   "summary": {
     "uniqueCatalogIdsReviewedHistorically": 49,
     "reviewedThisRun": 1,
-    "newAcceptsThisRun": 1,
-    "newReworkThisRun": 0,
+    "newAcceptsThisRun": 0,
+    "newReworkThisRun": 1,
     "newBlockedThisRun": 0,
-    "newUsableBy08Now": [
-      "decor-7"
+    "newUsableBy08Now": [],
+    "reworkNow": [
+      "desks-11"
     ],
-    "reworkNow": [],
-    "preservedAcceptedHashes": "All prior ACCEPTs remain frozen; these verdicts apply only to the exact hashes rendered in workflow 36049290664."
+    "preservedAcceptedHashes": "All prior reviewer01 ACCEPTs remain frozen; this REWORK applies only to desks-11 current exact hash."
   },
   "handoff": {
     "13": "desks-12 exact hash ACCEPT; freeze it and remove from production scope.",
     "14": "Current render packets consumed; do not rerender unchanged hashes.",
-    "15": "No rework from this batch.",
+    "15": "desks-11 remains a bounded exact-pixel release blocker.",
     "09": "Decor7 v10 REWORK; preserve exact hash and use the v11 literal quad-skates-on-shoe-rack fallback.",
-    "03": "Desk11 v7 REWORK; preserve exact hash. Next retry should keep the coherent single desk but make creator tools/storage unmistakable on plain background.",
-    "08": "Integrate exact ACCEPT hashes for decor-7 after live revalidation."
+    "03": "desks-11 current exact hash is REWORK; preserve it and use the prepared A fallback when the CPU semaphore permits.",
+    "08": "Do not canonical-wire desks-11 exact hash 5e7de4ddf5bfbf3d727e2676442ddc8512366827."
   },
   "freeze": {
     "replitTouched": false,
