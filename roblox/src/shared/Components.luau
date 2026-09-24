@@ -13,6 +13,9 @@ local COMPONENT_NAMES = {
 	"Owner",
 	"Replicated",
 	"Dirty",
+	"ActionActor",
+	"CombatState",
+	"Hitbox",
 }
 
 return function(Matter)
