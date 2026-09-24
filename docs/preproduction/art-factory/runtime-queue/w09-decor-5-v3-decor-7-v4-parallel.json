@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_CPU_GENERATION_QUEUE",
+  "branch": "screenshot-match-preproduction",
+  "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+  "modelRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+  "runtimeCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+  "runtimeProofPath": "docs/preproduction/art-factory/CPU_RUNTIME_PROOF.json",
+  "runtimeProofArtifactDigest": "sha256:528610198d72092c9d09159bf4b749a5c467361307587545fb24dded2876eeda",
+  "generation": {
+    "width": 640,
+    "height": 640,
+    "steps": 6,
+    "guidanceScale": 3.5,
+    "dtype": "bfloat16"
+  },
+  "queueId": "w09-decor-5-v3-decor-7-v4-parallel",
+  "requestPath": "docs/preproduction/art-factory/requests/w09-decor-5-v3-decor-7-v4-parallel-20260924.json",
+  "producer": "09",
+  "items": [
+    "decor-7",
+    "decor-5"
+  ],
+  "variantByItem": {
+    "decor-7": "A-RACK-FIRST-MINIMAL",
+    "decor-5": "A-PHYSICAL"
+  },
+  "reviewerByItem": {
+    "decor-7": "01",
+    "decor-5": "01"
+  },
+  "versionByItem": {
+    "decor-7": 4,
+    "decor-5": 3
+  },
+  "handoff": {
+    "nextOwner": "12",
+    "route": "12 -> 06 -> 14 -> 01 -> 08 on ACCEPT",
+    "canonicalWriter": "08"
+  },
+  "dispatchPolicy": "PREPARED_ONLY__DISPATCH_AS_ONE_2ITEM_MATRIX_AFTER_WALL9_CPU_LANE_IDLE__NO_SEPARATE_DECOR5_OR_DECOR7_QUEUE",
+  "executionOptimization": {
+    "basisRunId": 35940586228,
+    "acceptedItems": [
+      "wall-11",
+      "wall-12"
+    ],
+    "basis": "640x640/6-step bfloat16 SDXL path completed and produced independently ACCEPTed canonical art.",
+    "preserves": "failure-specific prompts, pinned model/runtime revision, independent reviewer routing and provenance gates"
+  },
+  "parallelism": {
+    "itemCount": 2,
+    "reason": "Use one workflow matrix to generate Decor7 v4 and Decor5 v3 concurrently instead of two serial CPU runs.",
+    "preserveIndependence": true
+  }
+}
