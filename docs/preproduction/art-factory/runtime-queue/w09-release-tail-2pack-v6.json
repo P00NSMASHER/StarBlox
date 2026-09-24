@@ -39,7 +39,7 @@
     "canonicalWriter": "08"
   },
   "dispatchPolicy": "PENDING_SUCCESSOR__WAIT_RUNNING_W13_THREEPACK",
-  "retryRevision": 4,
-  "retryReason": "pending successor behind running fixed-compiler final three-pack; rerun Decor7 and Decor11 on validated 60-word sentence-preserving runtime prompt compiler",
+  "retryRevision": 5,
+  "retryReason": "final relaunch on latest whole-clause+detailed-sentence+expanded-budget compiler; Decor11 uses stool-explicit B variant",
   "compilerFixHead": "725c15255e30addcc97f8450eb28f78231bf18e5"
 }
