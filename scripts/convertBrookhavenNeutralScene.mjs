@@ -9,6 +9,18 @@ const FORBIDDEN_KEYS = new Set([
   'code','script','sourceCode','remoteCall','httpGet','loadstring','executor'
 ]);
 
+const ALLOWED_PAYLOAD_KINDS = new Set([
+  'original-starblox-proxy',
+  'authorized-serialized-geometry',
+  'authorized-mesh-reference'
+]);
+
+const ALLOWED_RIGHTS_STATUSES = new Set([
+  'original-starblox',
+  'explicit-public-license',
+  'user-asserted-authorized'
+]);
+
 function stableValue(value){
   if(Array.isArray(value)) return value.map(stableValue);
   if(value && typeof value === 'object'){
@@ -67,6 +79,12 @@ export function convertScene(input){
   if(!input?.source?.payloadKind) throw new Error('source.payloadKind required');
   if(!input?.source?.rightsStatus) throw new Error('source.rightsStatus required');
   if(!input?.source?.provenanceRef) throw new Error('source.provenanceRef required');
+  if(!ALLOWED_PAYLOAD_KINDS.has(String(input.source.payloadKind))){
+    throw new Error('unsupported source.payloadKind: ' + input.source.payloadKind);
+  }
+  if(!ALLOWED_RIGHTS_STATUSES.has(String(input.source.rightsStatus))){
+    throw new Error('unsupported source.rightsStatus: ' + input.source.rightsStatus);
+  }
   if(!Array.isArray(input?.objects) || !input.objects.length) throw new Error('objects required');
 
   const forbidden=scanForbidden(input);
