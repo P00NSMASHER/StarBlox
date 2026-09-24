@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_W12_CANDIDATE_DELTA_INTAKE_ROUTING",
+  "router": "12",
+  "branch": "screenshot-match-preproduction",
+  "observedHead": "dcccbde2db195ee2a585b5d52cb84cbc6fa020da",
+  "scanWindow": {
+    "priorCursor": "12da760345a0677fd264ee749ad809fce80cfd01",
+    "inspectedThroughHead": "dcccbde2db195ee2a585b5d52cb84cbc6fa020da",
+    "newCatalogCandidateBytesDetected": true,
+    "newCandidateItemIds": [
+      "decor-7"
+    ],
+    "note": "The complete post-cursor window was inspected. Wall11/12 qualification and Wall9 render handoff are downstream evidence for already-routed hashes; Decor7 v3 is the only genuinely new exact candidate; Wall10 commit is queue dispatch only with no staged output yet."
+  },
+  "candidates": [
+    {
+      "id": "decor-7",
+      "producer": "09",
+      "reviewerAssignment": "01",
+      "renderOwner": "14",
+      "canonicalWriter": "08",
+      "priorRejectedHash": "2e92a6036047b95a9ddfcaab903e94c80d216ea4dd24054006e938cdaf21933e",
+      "path": "public/assets/catalog-candidates/cpu/decor-7-w09-v3-a-rack-silhouette-original.png",
+      "sha256": "7a41b5b897a9d0c912f2b92f226810a75a61d74b2da43df54341eef0841108d4",
+      "gitBlobSha": "407b95bbecc3a030d357de290047954e28904b63",
+      "bytes": 693552,
+      "dimensions": [
+        768,
+        768
+      ],
+      "format": "PNG",
+      "stagedOutput": "docs/preproduction/art-factory/generated-evidence/w09-decor-7-rework-v3/decor-7/staged-output.json",
+      "generationReceipt": "docs/preproduction/art-factory/generated-evidence/w09-decor-7-rework-v3/decor-7/generation-receipt.json",
+      "provenanceState": "COMPLETE_ART_FACTORY_V2",
+      "repositoryReadback": "PASS_EXACT_GIT_BLOB",
+      "supersession": "FRESH_V3_REPLACEMENT_FOR_REWORKED_V2",
+      "state": "ROUTE_TO_06_TECHNICAL_QUALIFICATION"
+    }
+  ],
+  "dedupe": {
+    "uniqueItemHashClaim": true,
+    "unchangedPriorDecor7V2Rerouted": false,
+    "unchangedWallHashesRerouted": false
+  },
+  "queues": {
+    "to06": [
+      "decor-7@7a41b5b897a9d0c912f2b92f226810a75a61d74b2da43df54341eef0841108d4"
+    ],
+    "backToProducer": []
+  },
+  "cursorAdvance": {
+    "previous": "12da760345a0677fd264ee749ad809fce80cfd01",
+    "advancedThrough": "dcccbde2db195ee2a585b5d52cb84cbc6fa020da"
+  },
+  "nextOwner": "06_TECHNICAL_QUALIFICATION",
+  "mutationScope": "Routing evidence only; no candidate bytes, ACTIVE_BATCH, canonical mappings, reviewer decisions, gameplay, learning, economy, persistence, accessibility, CI/workflows, deployment, secrets, or player data changed."
+}
