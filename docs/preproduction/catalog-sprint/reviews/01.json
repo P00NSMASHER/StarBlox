@@ -5,7 +5,7 @@
   "role": "Visual Target Director / independent catalog reviewer",
   "phase": "ART_AND_VISUALS_ONLY",
   "branch": "screenshot-match-preproduction",
-  "sourceHead": "f84576d194",
+  "sourceHead": "b14512c2a7828c1b25ad58b44c2ad8d52e12cd2f",
   "assignedCollections": [
     "tops",
     "bottoms",
@@ -34,15 +34,14 @@
   },
   "currentCycle": {
     "scope": [
-      "desks-11"
+      "decor-7"
     ],
-    "version": "Desk11 v7 exact source hash",
-    "result": "REWORK_1_OF_1_FAIL_FAST",
+    "version": "current exact rendered tail hashes",
+    "result": "ACCEPT_1_REWORK_0",
     "oldVerdictsTransferred": false,
-    "actualCardScalePixelsReviewed": false,
+    "actualCardScalePixelsReviewed": true,
     "actualDetailPixelsReviewed": true,
-    "selfApprovalConflict": false,
-    "failFastSourceContract": true
+    "selfApprovalConflict": false
   },
   "renderEvidence": {
     "workflow": "StarBlox Staged Catalog Art QA",
@@ -925,6 +924,39 @@
         "duplicateVisual": "PASS",
         "technicalIntegrity": "PASS"
       }
+    },
+    {
+      "itemId": "decor-7",
+      "name": "Skate Rack",
+      "tier": 3,
+      "theme": "Garden Glow",
+      "producer": "09",
+      "assetPath": "public/assets/catalog-candidates/cpu/decor-7-w09-v11-a-two-quad-skates-on-shoe-rack-original.png",
+      "assetHash": "db341a5921cb0b655d270e3c58fbb07f80175ebf",
+      "sha256": null,
+      "decision": "ACCEPT",
+      "reason": "ACCEPT. The exact Store card/detail pixels finally read immediately as a real Skate Rack: a clearly structured multi-level rack holds multiple unmistakable roller-skate boots with visible trucks/wheel assemblies, the rack silhouette survives at card scale, and the product no longer resembles abstract shelving or a generic bench. Physical storage logic is coherent enough for Tier 3 and the varied green/yellow accents give sufficient Garden Glow specificity without obscuring category identity.",
+      "checks": {
+        "identity": "PASS",
+        "themeTier": "PASS",
+        "silhouette": "PASS",
+        "materialLighting": "PASS",
+        "cardReadability": "PASS",
+        "physicalConstruction": "PASS",
+        "framingComposition": "PASS",
+        "originality": "PASS",
+        "duplicateVisual": "PASS",
+        "technicalIntegrity": "PASS"
+      },
+      "repositoryPath": "public/assets/catalog-candidates/cpu/decor-7-w09-v11-a-two-quad-skates-on-shoe-rack-original.png",
+      "contentSha256": null,
+      "hashAlgorithm": "git-blob-sha1",
+      "reviewedAt": "2026-09-24T19:43:00Z",
+      "evidenceRefs": [
+        "workflow:36049290664",
+        "artifact:10829841273/staged-replacements/staged-replacements-contact-sheet.png",
+        "artifact:10829841273/staged-replacements/detail/decor-7-db341a59.png"
+      ]
     }
   ],
   "currentReplacementDisposition": {
@@ -971,7 +1003,8 @@
         "decor-7": "28bff68db458d4c3b70024ce9c90f28e6b8a92e7"
       },
       "ACCEPT": {
-        "decor-5": "1e7716f00e8e38f7ad645a448f9e29adea38de37"
+        "decor-5": "1e7716f00e8e38f7ad645a448f9e29adea38de37",
+        "decor-7": "db341a5921cb0b655d270e3c58fbb07f80175ebf"
       }
     },
     "desks": {
@@ -990,22 +1023,22 @@
   "summary": {
     "uniqueCatalogIdsReviewedHistorically": 49,
     "reviewedThisRun": 1,
-    "newAcceptsThisRun": 0,
-    "newReworkThisRun": 1,
+    "newAcceptsThisRun": 1,
+    "newReworkThisRun": 0,
     "newBlockedThisRun": 0,
-    "newUsableBy08Now": [],
-    "reworkNow": [
-      "desks-11"
+    "newUsableBy08Now": [
+      "decor-7"
     ],
-    "preservedAcceptedHashes": "All prior reviewer01 ACCEPTs remain frozen; this REWORK applies only to Desk11 v7 exact hash."
+    "reworkNow": [],
+    "preservedAcceptedHashes": "All prior ACCEPTs remain frozen; these verdicts apply only to the exact hashes rendered in workflow 36049290664."
   },
   "handoff": {
     "13": "desks-12 exact hash ACCEPT; freeze it and remove from production scope.",
     "14": "Current render packets consumed; do not rerender unchanged hashes.",
-    "15": "Desk11 remains a bounded visual blocker; consolidate its next retry with any other Producer03 failures from the current v6 token-safe four-pack.",
+    "15": "No rework from this batch.",
     "09": "Decor7 v10 REWORK; preserve exact hash and use the v11 literal quad-skates-on-shoe-rack fallback.",
     "03": "Desk11 v7 REWORK; preserve exact hash. Next retry should keep the coherent single desk but make creator tools/storage unmistakable on plain background.",
-    "08": "Do not canonical-wire Desk11 v7."
+    "08": "Integrate exact ACCEPT hashes for decor-7 after live revalidation."
   },
   "freeze": {
     "replitTouched": false,
