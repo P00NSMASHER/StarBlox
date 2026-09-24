@@ -27,7 +27,7 @@ The provider can be a local model, a hosted model API, or a test fixture. The co
 
 Every candidate receives:
 
-- a stable generated candidate ID;
+- a stable factory-owned generated candidate ID (provider-supplied IDs are ignored);
 - source chunk ID, header, source and subject context;
 - concept IDs;
 - atomic facts;
@@ -67,6 +67,8 @@ Every quote must be an exact case- and punctuation-preserving substring of a sup
 ### Independent reviewer
 
 A reviewer adapter returns keep, rewrite, or reject with a 0–100 score and reasons.
+
+Candidate IDs and source-chunk IDs must be unique before review. Duplicate, malformed, unknown, or ambiguous reviewer-result identities invalidate the reviewer batch rather than allowing last-result-wins behavior.
 
 Strict mode is fail-closed. Missing or failed review means rejection.
 
