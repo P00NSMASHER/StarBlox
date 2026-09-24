@@ -4,7 +4,7 @@
   "role": "independent catalog reviewer for beds/desks/companions/auras",
   "phase": "ART_VISUALS_SPRINT",
   "branch": "screenshot-match-preproduction",
-  "sourceHead": "b0a35343773b2ebbfdba3b5a3f99263b6c824e83",
+  "sourceHead": "c6a3cb0dcb87f0a47d2dab31f1c20cbbafe0c79d",
   "policy": "docs/preproduction/DELIVERY_PROTOCOL_V2.md",
   "visualSprint": "docs/preproduction/ART_VISUALS_SPRINT.json",
   "referenceManifest": "docs/preproduction/reference-screenshots/original-reference-manifest.json",
@@ -20,34 +20,26 @@
   },
   "currentCycle": {
     "scope": [
-      "companions-2",
-      "companions-5",
-      "companions-6",
-      "companions-7"
+      "desks-9",
+      "desks-10"
     ],
-    "version": "producer06 repository-stored rich replacement exact current WebP hashes",
-    "result": "REWORK_4_OF_4",
+    "version": "w03 v2 pinned-runtime exact repository hashes",
+    "result": "REWORK_2_OF_2",
     "actualCardScalePixelsReviewed": true,
     "actualDetailPixelsReviewed": true,
     "legacyDecisionTransferred": false
   },
   "renderEvidence": {
-    "handoffPath": "docs/preproduction/catalog-sprint/chat-companions-2-5-6-7-render-evidence-14-to-05.json",
-    "producerLane": "docs/preproduction/catalog-sprint/lane-06.json",
-    "workflowRunId": 35717973603,
-    "artifactId": 10690338702,
-    "artifactDigest": "sha256:dabc7ae69d1624d87b47a14c25f828a77a4e704cda4bd21b9e933fee8c23916c",
-    "workflowHead": "faf330e1f1306e8f17ba1345ddad7940b8720792",
-    "scopedResult": "PASS_EXACT_LANE_HASH_TO_RENDERED_BLOB_4_OF_4_SIGNATURE_SAFETY_DECODE_CARD_DETAIL_NONBLANK",
+    "workflowRunId": 35978772779,
+    "artifactId": 10799695347,
+    "artifactDigest": "sha256:419d1c47ffff765612f73bae01cd83012e39dc238e411852cae78db205ae2441",
+    "workflowHead": "647b9b5284df757c5f6ac2e1b0ee9b7095fc7845",
     "detailPaths": [
-      "staged-replacements/detail/companions-2-88d10d6f.png",
-      "staged-replacements/detail/companions-5-1ae7b431.png",
-      "staged-replacements/detail/companions-6-28cb4112.png",
-      "staged-replacements/detail/companions-7-39d35ea4.png"
+      "staged-replacements/detail/desks-9-6cab04be.png",
+      "staged-replacements/detail/desks-10-2f6fccc5.png"
     ],
     "contactSheetPath": "staged-replacements/staged-replacements-contact-sheet.png",
-    "contactSheetSha256": "6f1260c9985238ef64f853b84b45e363a5268155475d3ea55e1e349665957581",
-    "workflowOverallFailureExcluded": "The enclosing fixture remained FAILURE only because of unrelated legacy Desk decode problems. Reviewer 05 used the scoped Companion 2/5/6/7 exact-current pixels supplied by 14 and did not relabel the full workflow."
+    "contactSheetSha256": "728fd5fa23e35bc80049f70c34f38f5d446be55aaa26b1e050e3097b5416d3f8"
   },
   "reviews": [
     {
@@ -185,6 +177,90 @@
         "originality": "PASS",
         "duplicateVisual": "PASS"
       }
+    },
+    {
+      "itemId": "desks-9",
+      "name": "Art Maker Table",
+      "collection": "Desks & Tech",
+      "theme": "Sunny Pop",
+      "tier": 3,
+      "producer": "03",
+      "assetPath": "public/assets/catalog-candidates/cpu/desks-9-w03-v2-a-physical-original.png",
+      "assetHash": "6cab04be717e17e2b682afa73ce8306bc21556c8",
+      "hashAlgorithm": "git-blob-sha1",
+      "bytes": 495982,
+      "dimensions": [
+        640,
+        640
+      ],
+      "sourceHead": "c6a3cb0dcb87f0a47d2dab31f1c20cbbafe0c79d",
+      "decision": "REWORK",
+      "reviewedAt": "2026-09-24T09:38:00Z",
+      "evidenceRefs": [
+        "artifact:10799695347/staged-replacements/detail/desks-9-6cab04be.png#sha256=4f162efb74aa0303dbfbc528e2bea7dbbbd9028edf13146eb3aa592361b8087c",
+        "artifact:10799695347/staged-replacements/staged-replacements-contact-sheet.png#sha256=728fd5fa23e35bc80049f70c34f38f5d446be55aaa26b1e050e3097b5416d3f8",
+        "review-packet:docs/preproduction/art-factory/review-requests/w05-desks9-v2-6cab04be-20260924.json"
+      ],
+      "reasonCodes": [
+        "WEAK_ART_MAKER_IDENTITY",
+        "GENERIC_DESK_SILHOUETTE",
+        "MISSING_TOOL_RAIL_OR_MAKER_FEATURES",
+        "LOW_TIER_THEME_SPECIFICITY"
+      ],
+      "reason": "REWORK. The exact pixels are physically plausible furniture, but they read as a generic pale desk with a yellow shelf rather than an Art Maker Table. The tabletop/support geometry is coherent, yet maker-specific identity is weak: there is no obvious drafting/maker rail, tool storage, art-work surface organization, or distinctive Sunny Pop Tier-3 function at card scale. Keep the basic furniture plausibility; the smallest repair is a single sturdy desk with one obvious raised tool/peg rail or organizer, integrated maker storage, a few clearly bounded art tools, and stronger Sunny Pop accents without room clutter.",
+      "checks": {
+        "identity": "FAIL",
+        "themeTier": "PARTIAL",
+        "silhouette": "PARTIAL",
+        "materialLighting": "PASS",
+        "cardReadability": "PARTIAL",
+        "physicalConstruction": "PASS",
+        "framingCrop": "PASS",
+        "originality": "PASS",
+        "duplicateVisual": "PASS"
+      }
+    },
+    {
+      "itemId": "desks-10",
+      "name": "Neon Streaming Desk",
+      "collection": "Desks & Tech",
+      "theme": "Aqua Wave",
+      "tier": 4,
+      "producer": "03",
+      "assetPath": "public/assets/catalog-candidates/cpu/desks-10-w03-v2-a-physical-original.png",
+      "assetHash": "2f6fccc5b76418fee108052bf6963491f2bcb823",
+      "hashAlgorithm": "git-blob-sha1",
+      "bytes": 454563,
+      "dimensions": [
+        640,
+        640
+      ],
+      "sourceHead": "c6a3cb0dcb87f0a47d2dab31f1c20cbbafe0c79d",
+      "decision": "REWORK",
+      "reviewedAt": "2026-09-24T09:38:00Z",
+      "evidenceRefs": [
+        "artifact:10799695347/staged-replacements/detail/desks-10-2f6fccc5.png#sha256=ef0808dbfa3a5181b01bd2b43cccb30c2325acd086af5e4c8697ce32faab561c",
+        "artifact:10799695347/staged-replacements/staged-replacements-contact-sheet.png#sha256=728fd5fa23e35bc80049f70c34f38f5d446be55aaa26b1e050e3097b5416d3f8",
+        "review-packet:docs/preproduction/art-factory/review-requests/w05-desks10-v2-2f6fccc5-20260924.json"
+      ],
+      "reasonCodes": [
+        "STREAMING_DESK_IDENTITY_FAILURE",
+        "DESK_SURFACE_MISSING",
+        "EQUIPMENT_FEATURES_MISSING",
+        "CABINET_PARTITION_SILHOUETTE"
+      ],
+      "reason": "REWORK. The exact pixels do not read as a desk at all: the dominant form is a tall white cabinet/partition wrapped by black rails. There is no usable desktop surface, monitor bridge, streaming equipment, microphone mount or clear seated-work geometry. Aqua Wave/Tier-4 specificity is also absent. The replacement must restore a wide horizontal desk silhouette with a real worktop, supports/equipment cabinet, monitor bridge or shelf, one coherent mic/streaming feature and restrained aqua/cyan lighting.",
+      "checks": {
+        "identity": "FAIL",
+        "themeTier": "FAIL",
+        "silhouette": "FAIL",
+        "materialLighting": "PARTIAL",
+        "cardReadability": "FAIL",
+        "physicalConstruction": "FAIL",
+        "framingCrop": "PASS",
+        "originality": "PASS",
+        "duplicateVisual": "PASS"
+      }
     }
   ],
   "preservedAcceptedCurrentHashes": [
@@ -316,19 +392,19 @@
   ],
   "pendingCurrentHashes": [],
   "handoff": {
-    "workstream06": "Companions 2/5/6/7 exact current rich hashes are independently REWORK. Preserve these exact bytes/evidence; repair only these rejected IDs in a bounded 2-4 item pilot. Primary defect is exact-theme mismatch for all four, plus near-duplicate/template risk between Moon Cat and Comet Fox. Do not regenerate accepted Companions 3/4/10/11.",
-    "workstream08": "No new qualified ACCEPT exists in this cycle, so there is nothing new for canonical integration from reviewer 05. Preserve all previously accepted current hashes and do not wire Companion 2/5/6/7 exact hashes.",
-    "workstream15": "Reviewer05 closed the oldest ready Companion 2/5/6/7 exact-current batch as REWORK 4/4 from actual card/detail pixels. No legacy SVG verdict was transferred; item-specific current defects are recorded for producer06."
+    "workstream03": "Desks 9/10 v2 exact pinned-runtime hashes are independently REWORK. Preserve them. Desk9 needs unmistakable maker/drafting features; Desk10 needs an actual horizontal streaming desk with worktop/equipment geometry.",
+    "workstream08": "No ACCEPT from reviewer05 in this cycle; do not canonical-wire Desks9/10 v2.",
+    "workstream15": "Keep Desks9/10 as a bounded failure-specific rework pair; do not reopen their provenance-recovery path because v2 provenance is complete."
   },
   "summary": {
-    "totalVersionsReviewed": 38,
+    "totalVersionsReviewed": 40,
     "accepted": 25,
-    "rework": 13,
+    "rework": 15,
     "blocked": 0,
     "thisCycle": {
-      "reviewed": 4,
+      "reviewed": 2,
       "accepted": 0,
-      "rework": 4,
+      "rework": 2,
       "blocked": 0
     }
   },
