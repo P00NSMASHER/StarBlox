@@ -345,12 +345,14 @@ try{
       const lane=readLane(def.lane);const items=def.names.map((name,i)=>{const id=`${collection}-${i+1}`,fallback=`public/assets/catalog/${id}.svg`,repositoryPath=selectOwnCollectionPath(lane,id,fallback,report);if(!fs.existsSync(repositoryPath))throw new Error(`${id}: no staged file at ${repositoryPath}`);return{id,name,tier:tierFor(i),theme:themes[(i+def.offset)%themes.length],repositoryPath,blobSha:blobSha(repositoryPath)};});await renderSet(browser,collection,items,report);
     }
   }
-  const laneReplacements=selectCurrentReplacementCandidates(report);
+  const laneReplacements=factoryOnly?[]:selectCurrentReplacementCandidates(report);
   const factoryReplacements=selectFactoryVerifiedCandidates(report);
   const replacementMap=new Map();
-  for(const item of [...laneReplacements,...factoryReplacements]){const key=`${item.id}|${String(item.blobSha).toLowerCase()}`;const prior=replacementMap.get(key);if(!prior||item.discovery==='factory-staged-output')replacementMap.set(key,item);}
+  const replacementSources=factoryOnly?factoryReplacements:[...laneReplacements,...factoryReplacements];
+  for(const item of replacementSources){const key=`${item.id}|${String(item.blobSha).toLowerCase()}`;const prior=replacementMap.get(key);if(!prior||item.discovery==='factory-staged-output')replacementMap.set(key,item);}
   const discoveredReplacements=[...replacementMap.values()].sort((a,b)=>a.id.localeCompare(b.id)||a.repositoryPath.localeCompare(b.repositoryPath));
   report.factoryVerifiedDiscoveredCount=factoryReplacements.length;
+  report.replacementDiscoveryMode=factoryOnly?'FACTORY_ONLY_UNDECIDED_EXACT_HASHES':'FULL_LANE_AND_FACTORY';
   const terminalDecisions=decidedExactHashSet();
   const frozenReviewedReplacements=discoveredReplacements.filter(x=>terminalDecisions.has(`${x.id}|${String(x.blobSha).toLowerCase()}`));
   const replacements=discoveredReplacements.filter(x=>!terminalDecisions.has(`${x.id}|${String(x.blobSha).toLowerCase()}`));
@@ -361,7 +363,11 @@ try{
   report.replacementCount=replacements.length;
   report.replacementIds=replacements.map(x=>`${x.id}:${x.blobSha}:${x.repositoryPath}`);
   report.replacementExactDuplicateGroups=duplicateHashGroups(replacements);
-  const visuals=selectVisualCandidates(report);await renderSet(browser,'visual-assets',visuals,report,{width:1408,height:1056});report.visualAssetCount=visuals.length;report.visualAssetIds=visuals.map(x=>`${x.id}:${x.blobSha}:${x.repositoryPath}`);report.visualExactDuplicateGroups=duplicateHashGroups(visuals);
+  if(!factoryOnly){
+    const visuals=selectVisualCandidates(report);await renderSet(browser,'visual-assets',visuals,report,{width:1408,height:1056});report.visualAssetCount=visuals.length;report.visualAssetIds=visuals.map(x=>`${x.id}:${x.blobSha}:${x.repositoryPath}`);report.visualExactDuplicateGroups=duplicateHashGroups(visuals);
+  }else{
+    report.visualAssetCount=0;report.visualAssetIds=[];report.visualExactDuplicateGroups=[];report.visualAssetsSkippedReason='FACTORY_ONLY_MODE';
+  }
 }catch(error){report.errors.push(String(error));}finally{await browser.close();fs.writeFileSync(path.join(artifactRoot,'report.json'),JSON.stringify(report,null,2));}
 const failures=[...report.errors,...Object.entries(report.sets).flatMap(([name,set])=>[...set.contactSheetErrors.map(e=>`${name}: ${e}`),...set.items.flatMap(i=>(i.status!==200||!i.screenshot||!i.naturalWidth||i.errors.length)?[`${name}/${i.id}/${i.blobSha}: ${JSON.stringify(i)}`]:[])])];
 if(failures.length){console.error(failures.join('\n'));process.exitCode=1;}
