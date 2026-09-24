@@ -98,10 +98,14 @@ const sourceRootRaw=arg('--source-root');
 
 let catalogPath=null;
 let ingestionReceipt=null;
+let ingestionReceiptPath=null;
+let ingestionReceiptDigest=null;
+let catalogDigest=null;
 
 if(receiptRaw){
-  const receiptPath=absolute(receiptRaw);
-  ingestionReceipt=JSON.parse(await readFile(receiptPath,'utf8'));
+  ingestionReceiptPath=absolute(receiptRaw);
+  ingestionReceiptDigest=await digest(ingestionReceiptPath);
+  ingestionReceipt=JSON.parse(await readFile(ingestionReceiptPath,'utf8'));
   if(
     ingestionReceipt?.schemaVersion !== 1 ||
     ingestionReceipt?.version !== 'starblox-roblox-ingestion-v1' ||
@@ -123,8 +127,8 @@ if(receiptRaw){
     throw new Error('ingestion receipt catalog artifact is invalid');
   }
 
-  catalogPath=safeResolve(dirname(receiptPath),artifact.file,'ingestion receipt directory');
-  const catalogDigest=await digest(catalogPath);
+  catalogPath=safeResolve(dirname(ingestionReceiptPath),artifact.file,'ingestion receipt directory');
+  catalogDigest=await digest(catalogPath);
   if(catalogDigest.sha256 !== artifact.sha256){
     throw new Error(
       'ingestion receipt catalog SHA-256 mismatch; expected ' + artifact.sha256 +
@@ -159,8 +163,10 @@ if(!validation.ok){
 }
 
 await mkdir(outDir,{recursive:true});
-await writeFile(resolve(outDir,'migration-plan.json'),JSON.stringify(plan,null,2) + '\n');
-await writeFile(resolve(outDir,'migration-plan.md'),migrationPlanMarkdown(plan));
+const planJsonPath=resolve(outDir,'migration-plan.json');
+const planMarkdownPath=resolve(outDir,'migration-plan.md');
+await writeFile(planJsonPath,JSON.stringify(plan,null,2) + '\n');
+await writeFile(planMarkdownPath,migrationPlanMarkdown(plan));
 
 console.log('Brookhaven -> StarBlox migration plan');
 console.log('plan: ' + plan.planId);
@@ -170,6 +176,57 @@ console.log('quarantine: ' + plan.summary.quarantineUnits);
 console.log('blockers: ' + plan.summary.blockerCount);
 
 if(!sourceRootRaw){
+  if(ingestionReceipt){
+    const planJsonDigest=await digest(planJsonPath);
+    const planMarkdownDigest=await digest(planMarkdownPath);
+    const planningReceipt={
+      schemaVersion:1,
+      version:'starblox-roblox-migration-planning-v1',
+      status:'planned',
+      input:{
+        ingestionReceipt:{
+          file:ingestionReceiptPath,
+          sha256:ingestionReceiptDigest.sha256,
+          bytes:ingestionReceiptDigest.bytes
+        },
+        catalog:{
+          file:catalogPath,
+          sha256:catalogDigest.sha256,
+          bytes:catalogDigest.bytes,
+          catalogHash:catalog.catalogHash
+        }
+      },
+      plan:{
+        planId:plan.planId,
+        planHash:plan.planHash,
+        catalogHash:plan.catalogHash,
+        selectedUnits:plan.summary.selectedUnits,
+        blockerCount:plan.summary.blockerCount
+      },
+      artifacts:{
+        migrationPlan:{
+          file:'migration-plan.json',
+          sha256:planJsonDigest.sha256,
+          bytes:planJsonDigest.bytes
+        },
+        migrationPlanReport:{
+          file:'migration-plan.md',
+          sha256:planMarkdownDigest.sha256,
+          bytes:planMarkdownDigest.bytes
+        }
+      },
+      nextStep:'review-migration-plan',
+      exportStarted:false,
+      migrationBundleCreated:false,
+      studioMutationStarted:false,
+      publicationStarted:false
+    };
+    await writeFile(
+      resolve(outDir,'migration-planning-receipt.json'),
+      JSON.stringify(planningReceipt,null,2) + '\n'
+    );
+    console.log('planning receipt: ' + resolve(outDir,'migration-planning-receipt.json'));
+  }
   console.log('plan-only mode: pass --source-root to export exact Roblox subtrees');
   process.exit(0);
 }
