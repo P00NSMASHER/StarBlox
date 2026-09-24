@@ -6,7 +6,6 @@ on:
       - screenshot-match-preproduction
     paths:
       - 'public/assets/catalog/**'
-      - 'public/assets/catalog-candidates/**'
       - 'docs/preproduction/catalog-sprint/lane-05.json'
       - 'docs/preproduction/catalog-sprint/lane-02.json'
       - 'docs/preproduction/catalog-sprint/lane-01.json'
@@ -56,7 +55,7 @@ jobs:
           npm install --no-save --no-audit --no-fund playwright@1.55.0
           npx playwright install --with-deps chromium
 
-      - name: Render reviewer collections and every repository-staged replacement hash
+      - name: Render exact review scope
         id: render
         continue-on-error: true
         run: node scripts/catalog-staged-art-qa.mjs
