@@ -150,6 +150,56 @@ describe('Roblox / Brookhaven capability catalog', () => {
     );
   });
 
+  it('captures serialized instance references, asset edges and parent relationships', () => {
+    const dom={
+      referent:'referent-0',
+      name:'DataModel',
+      class:'DataModel',
+      properties:{},
+      children:[
+        {
+          referent:'referent-1',
+          name:'TargetPart',
+          class:'Part',
+          properties:{
+            TextureID:{Content:{uri:'rbxassetid://555555555'}}
+          },
+          children:[]
+        },
+        {
+          referent:'referent-2',
+          name:'TargetLink',
+          class:'ObjectValue',
+          properties:{Value:'referent-1'},
+          children:[]
+        }
+      ]
+    };
+
+    const catalog=buildRobloxCapabilityCatalog([
+      {sourceId:'licensed:refs',file:'Refs.rbxmx',dom}
+    ]);
+
+    expect(catalog.dependencies).toEqual(expect.arrayContaining([
+      expect.objectContaining({
+        from:'DataModel/TargetPart',
+        type:'parent',
+        to:'DataModel'
+      }),
+      expect.objectContaining({
+        from:'DataModel/TargetPart',
+        type:'asset-reference',
+        to:'555555555'
+      }),
+      expect.objectContaining({
+        from:'DataModel/TargetLink',
+        type:'property-reference',
+        property:'Value',
+        to:'DataModel/TargetPart'
+      })
+    ]));
+  });
+
   it('stores script fingerprints and dependency metadata without retaining source text', () => {
     const catalog=buildRobloxCapabilityCatalog([
       {sourceId:'licensed:place',file:'Place.rbxlx',dom:fixtureDom()}
