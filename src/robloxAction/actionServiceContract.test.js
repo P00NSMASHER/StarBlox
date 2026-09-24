@@ -84,6 +84,7 @@ describe('Step 9 Roblox authoritative action boundary', () => {
     expect(service).toMatch(/function AuthoritativeActionService:Start/);
     expect(service).toMatch(/function AuthoritativeActionService:Stop/);
     expect(service).toMatch(/for _, player in Players:GetPlayers\(\) do/);
+    expect(service).toMatch(/self\._states\[player\] ~= nil/);
     expect(service).toMatch(/self:RecordSnapshot\(player\)/);
 
     expect(bootstrap).toMatch(/action:Start\(\)/);
