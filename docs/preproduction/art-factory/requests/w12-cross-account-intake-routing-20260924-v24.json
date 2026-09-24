@@ -1,0 +1,142 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_W12_CANDIDATE_DELTA_INTAKE_ROUTING",
+  "router": "12",
+  "branch": "screenshot-match-preproduction",
+  "observedHead": "5e43e5c688f0f669b7c41f3c90a766027de106cb",
+  "scanWindow": {
+    "priorCursor": "9d60d17890759612b474215ab8729ba957e34a19",
+    "inspectedThroughHead": "5e43e5c688f0f669b7c41f3c90a766027de106cb",
+    "commitsInspectedFromCompare": null,
+    "newCatalogCandidateBytesDetected": true,
+    "newCandidateItemIds": [
+      "decor-9",
+      "decor-10",
+      "decor-11",
+      "decor-12"
+    ],
+    "note": "Post-v23 delta contains exactly four newly staged Decor9-12 v1 candidates. Later Desk11/12 dispatch metadata contains no candidate bytes yet."
+  },
+  "candidates": [
+    {
+      "id": "decor-9",
+      "name": "Easel Set",
+      "collectionId": "decor",
+      "producer": "09",
+      "reviewerAssignment": "02",
+      "renderOwner": "14",
+      "canonicalWriter": "08",
+      "priorRejectedOrBlockedHash": null,
+      "path": "public/assets/catalog-candidates/cpu/decor-9-w09-v1-a-easel-with-tray-original.png",
+      "sha256": "499b255e4a64b70ec1137882adfb9be1785baf9ff0d71e1e6561347f94d2a3d6",
+      "gitBlobSha": "3b0ae22922e3f4aeed5ea6083ebd993ef49b5313",
+      "bytes": 445631,
+      "dimensions": [
+        640,
+        640
+      ],
+      "format": "PNG",
+      "stagedOutput": "docs/preproduction/art-factory/generated-evidence/w09-decor-9-12-v1/decor-9/staged-output.json",
+      "generationReceipt": "docs/preproduction/art-factory/generated-evidence/w09-decor-9-12-v1/decor-9/generation-receipt.json",
+      "provenanceState": "COMPLETE_ART_FACTORY_V2",
+      "repositoryReadback": "PASS_EXACT_GIT_BLOB",
+      "supersession": "FRESH_V1_REPLACEMENT_FOR_VISIBLE_GENERIC_FALLBACK",
+      "state": "ROUTE_TO_06_TECHNICAL_QUALIFICATION"
+    },
+    {
+      "id": "decor-10",
+      "name": "Mini Fridge",
+      "collectionId": "decor",
+      "producer": "09",
+      "reviewerAssignment": "02",
+      "renderOwner": "14",
+      "canonicalWriter": "08",
+      "priorRejectedOrBlockedHash": null,
+      "path": "public/assets/catalog-candidates/cpu/decor-10-w09-v1-a-retro-mini-fridge-original.png",
+      "sha256": "59776e97859fee26abbc083cf4e79c7daff6ee0e30a32776fc202a970397a460",
+      "gitBlobSha": "68eeaecc5ab8dd5097160324e0880b129a6ed0ce",
+      "bytes": 603311,
+      "dimensions": [
+        640,
+        640
+      ],
+      "format": "PNG",
+      "stagedOutput": "docs/preproduction/art-factory/generated-evidence/w09-decor-9-12-v1/decor-10/staged-output.json",
+      "generationReceipt": "docs/preproduction/art-factory/generated-evidence/w09-decor-9-12-v1/decor-10/generation-receipt.json",
+      "provenanceState": "COMPLETE_ART_FACTORY_V2",
+      "repositoryReadback": "PASS_EXACT_GIT_BLOB",
+      "supersession": "FRESH_V1_REPLACEMENT_FOR_VISIBLE_GENERIC_FALLBACK",
+      "state": "ROUTE_TO_06_TECHNICAL_QUALIFICATION"
+    },
+    {
+      "id": "decor-11",
+      "name": "Dream Vanity Set",
+      "collectionId": "decor",
+      "producer": "09",
+      "reviewerAssignment": "02",
+      "renderOwner": "14",
+      "canonicalWriter": "08",
+      "priorRejectedOrBlockedHash": null,
+      "path": "public/assets/catalog-candidates/cpu/decor-11-w09-v1-a-vanity-mirror-stool-original.png",
+      "sha256": "197119a46ee18951cb0b7214012eff2566eac228a84471717beceb45828ac048",
+      "gitBlobSha": "3c5c6892823fad04c93077eb43c94331ebdf0d88",
+      "bytes": 590387,
+      "dimensions": [
+        640,
+        640
+      ],
+      "format": "PNG",
+      "stagedOutput": "docs/preproduction/art-factory/generated-evidence/w09-decor-9-12-v1/decor-11/staged-output.json",
+      "generationReceipt": "docs/preproduction/art-factory/generated-evidence/w09-decor-9-12-v1/decor-11/generation-receipt.json",
+      "provenanceState": "COMPLETE_ART_FACTORY_V2",
+      "repositoryReadback": "PASS_EXACT_GIT_BLOB",
+      "supersession": "FRESH_V1_REPLACEMENT_FOR_VISIBLE_GENERIC_FALLBACK",
+      "state": "ROUTE_TO_06_TECHNICAL_QUALIFICATION"
+    },
+    {
+      "id": "decor-12",
+      "name": "Trophy Wall",
+      "collectionId": "decor",
+      "producer": "09",
+      "reviewerAssignment": "02",
+      "renderOwner": "14",
+      "canonicalWriter": "08",
+      "priorRejectedOrBlockedHash": null,
+      "path": "public/assets/catalog-candidates/cpu/decor-12-w09-v1-a-star-luxe-trophy-wall-original.png",
+      "sha256": "4145d58f5798a2779fb49d9d216cdee533123999057081bda9735420b46c9336",
+      "gitBlobSha": "8e0ba670f01f954c59bf1c077c0fc4fdea3e8ebc",
+      "bytes": 707298,
+      "dimensions": [
+        640,
+        640
+      ],
+      "format": "PNG",
+      "stagedOutput": "docs/preproduction/art-factory/generated-evidence/w09-decor-9-12-v1/decor-12/staged-output.json",
+      "generationReceipt": "docs/preproduction/art-factory/generated-evidence/w09-decor-9-12-v1/decor-12/generation-receipt.json",
+      "provenanceState": "COMPLETE_ART_FACTORY_V2",
+      "repositoryReadback": "PASS_EXACT_GIT_BLOB",
+      "supersession": "FRESH_V1_REPLACEMENT_FOR_VISIBLE_GENERIC_FALLBACK",
+      "state": "ROUTE_TO_06_TECHNICAL_QUALIFICATION"
+    }
+  ],
+  "dedupe": {
+    "uniqueItemHashClaim": true,
+    "unchangedPriorHashesRerouted": false,
+    "newerPendingCandidateObserved": false
+  },
+  "queues": {
+    "to06": [
+      "decor-9@499b255e4a64b70ec1137882adfb9be1785baf9ff0d71e1e6561347f94d2a3d6",
+      "decor-10@59776e97859fee26abbc083cf4e79c7daff6ee0e30a32776fc202a970397a460",
+      "decor-11@197119a46ee18951cb0b7214012eff2566eac228a84471717beceb45828ac048",
+      "decor-12@4145d58f5798a2779fb49d9d216cdee533123999057081bda9735420b46c9336"
+    ],
+    "backToProducer": []
+  },
+  "cursorAdvance": {
+    "previous": "9d60d17890759612b474215ab8729ba957e34a19",
+    "advancedThrough": "5e43e5c688f0f669b7c41f3c90a766027de106cb"
+  },
+  "nextOwner": "06_TECHNICAL_QUALIFICATION",
+  "mutationScope": "Routing evidence only; no candidate bytes, canonical mappings, reviewer decisions, gameplay, learning, economy, persistence, accessibility, CI/workflows, deployment, secrets, or player data changed."
+}
