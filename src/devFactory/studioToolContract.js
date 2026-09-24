@@ -21,6 +21,10 @@ export const STUDIO_TOOL_SPECS=Object.freeze({
   get_run_state:{effect:'runtime-read',stage:['test','review','repair']},
   simulate_input:{effect:'runtime-write',stage:['test','repair']},
   capture_viewport:{effect:'capture',stage:['test','review']},
+  start_playtest:{effect:'runtime-write',stage:['test','repair']},
+  stop_playtest:{effect:'runtime-write',stage:['test','repair']},
+  playtest_sample_state:{effect:'runtime-read',stage:['test','review','repair']},
+  run_gameplay_assertions:{effect:'test',stage:['test','repair']},
   run_playtest_episode:{effect:'runtime-write',stage:['test','repair']},
   summarize_episode:{effect:'runtime-read',stage:['review','repair']}
 });
