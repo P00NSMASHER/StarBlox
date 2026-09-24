@@ -127,5 +127,6 @@ describe('StarBlox upstream implementation provenance', () => {
   it('pins the deterministic gameplay source used by the next implementation step', () => {
     expect(UPSTREAM_PROVENANCE.neonVectorDefense.repository).toBe('Calculator5329/neon-vector-defense');
     expect(UPSTREAM_PROVENANCE.neonVectorDefense.commit).toBe('48ecf31509d73dd8fb2c5f25f1fc57cfa6d03eb4');
+    expect(UPSTREAM_PROVENANCE.neonVectorDefense.path).toBe('src/game/engine.ts');
   });
 });
