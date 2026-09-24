@@ -44,6 +44,24 @@ const PROTECTED_PATHS=Object.freeze([
   'Teams'
 ]);
 
+const SAFE_TEST_ROOTS=Object.freeze([
+  'ServerScriptService/Tests',
+  'ReplicatedStorage/Tests',
+  'ServerStorage/Tests'
+]);
+
+const BLOCKED_GENERIC_PROPERTIES=new Set([
+  'Source',
+  'Parent',
+  'Name',
+  'ClassName',
+  'ScriptGuid',
+  'UniqueId',
+  'HistoryId'
+]);
+
+const SCRIPT_CLASS_NAMES=new Set(['Script','LocalScript','ModuleScript']);
+
 const DANGEROUS_LUAU=[
   /ClearAllChildren\s*\(/,
   /:Destroy\s*\(/,
@@ -225,6 +243,36 @@ export function assessStudioToolCall(call,{
     }
     if(typeof args.className !== 'string' || !args.className.trim()){
       errors.push('create_instance className is required');
+    }else if(SCRIPT_CLASS_NAMES.has(args.className.trim())){
+      errors.push('script instances must be created through write_script with create=true');
+    }
+    if(args.properties && typeof args.properties === 'object' && !Array.isArray(args.properties)){
+      for(const property of Object.keys(args.properties)){
+        if(BLOCKED_GENERIC_PROPERTIES.has(property)){
+          errors.push('create_instance may not set protected property ' + property);
+        }
+      }
+    }
+  }
+
+  if(tool === 'set_property'){
+    if(typeof args.path !== 'string' || !args.path.trim()){
+      errors.push('set_property path is required');
+    }
+    if(typeof args.property !== 'string' || !args.property.trim()){
+      errors.push('set_property property is required');
+    }else if(BLOCKED_GENERIC_PROPERTIES.has(args.property.trim())){
+      errors.push('set_property may not mutate protected property ' + args.property.trim());
+    }
+  }
+
+  if(tool === 'run_tests' && typeof args.path === 'string' && args.path.trim()){
+    const clean=cleanPath(args.path);
+    const allowed=SAFE_TEST_ROOTS.some(root => clean === root || clean.startsWith(root + '/'));
+    if(!allowed){
+      errors.push(
+        'run_tests path must be inside an approved test root: ' + SAFE_TEST_ROOTS.join(', ')
+      );
     }
   }
 
