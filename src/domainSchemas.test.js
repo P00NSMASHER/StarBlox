@@ -119,7 +119,7 @@ describe('StarBlox upstream implementation provenance', () => {
   it('pins every planned source to an immutable full commit SHA', () => {
     const entries = upstreamSourceList();
 
-    expect(entries.length).toBeGreaterThanOrEqual(100);
+    expect(entries.length).toBeGreaterThanOrEqual(104);
     expect(entries.every(entry => /^[a-f0-9]{40}$/.test(entry.commit))).toBe(true);
     expect(entries.every(entry => entry.reuseBasis === 'user-confirmed direct reuse rights')).toBe(true);
   });
@@ -215,6 +215,10 @@ describe('StarBlox upstream implementation provenance', () => {
     expect(UPSTREAM_PROVENANCE.nixeraVisionOps.path).toBe('plugin/src/tools/VisionOps.luau');
     expect(UPSTREAM_PROVENANCE.nixeraLogOps.path).toBe('plugin/src/tools/LogOps.luau');
     expect(UPSTREAM_PROVENANCE.nixeraExecutor.path).toBe('plugin/src/tools/Executor.luau');
+    expect(UPSTREAM_PROVENANCE.chickynoidServerAuthority.path).toBe('src/Server/ServerChickynoid.lua');
+    expect(UPSTREAM_PROVENANCE.chickynoidAntilag.path).toBe('src/Server/Antilag.lua');
+    expect(UPSTREAM_PROVENANCE.chickynoidWeapons.path).toBe('src/Server/WeaponsServer.lua');
+    expect(UPSTREAM_PROVENANCE.chickynoidClientPrediction.path).toBe('src/Client/ClientChickynoid/init.lua');
     expect(UPSTREAM_PROVENANCE.profileStoreRuntime.path).toBe('ProfileStore.luau');
     expect(UPSTREAM_PROVENANCE.profileStoreTutorial.path).toBe('docs/tutorial/index.md');
     expect(UPSTREAM_PROVENANCE.replicaServiceRuntime.path).toBe('src/ServerScriptService/ReplicaService.lua');
