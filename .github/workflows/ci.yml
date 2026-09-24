@@ -84,8 +84,26 @@ jobs:
           npm run roblox:migrate -- --ingestion-receipt /tmp/roblox-safe-ingest/ingestion-receipt.json --out-dir /tmp/roblox-receipt-plan --min-score 0
           test -f /tmp/roblox-receipt-plan/migration-plan.json
           test -f /tmp/roblox-receipt-plan/migration-plan.md
+          test -f /tmp/roblox-receipt-plan/migration-planning-receipt.json
           test ! -f /tmp/roblox-receipt-plan/migration-bundle.json
           grep -q '"catalogHash"' /tmp/roblox-receipt-plan/migration-plan.json
+          grep -q '"version": "starblox-roblox-migration-planning-v1"' /tmp/roblox-receipt-plan/migration-planning-receipt.json
+          grep -q '"exportStarted": false' /tmp/roblox-receipt-plan/migration-planning-receipt.json
+          grep -q '"migrationBundleCreated": false' /tmp/roblox-receipt-plan/migration-planning-receipt.json
+          grep -Eq '"receiptHash": "sha256:[a-f0-9]{64}"' /tmp/roblox-receipt-plan/migration-planning-receipt.json
+          node --input-type=module - <<'NODE'
+          import {createHash} from 'node:crypto';
+          import {readFile} from 'node:fs/promises';
+          const receipt=JSON.parse(await readFile('/tmp/roblox-receipt-plan/migration-planning-receipt.json','utf8'));
+          const plan=await readFile('/tmp/roblox-receipt-plan/migration-plan.json');
+          const ingest=await readFile('/tmp/roblox-safe-ingest/ingestion-receipt.json');
+          const digest=value => createHash('sha256').update(value).digest('hex');
+          if(digest(plan)!==receipt.artifacts.migrationPlan.sha256) throw new Error('plan SHA mismatch');
+          if(digest(ingest)!==receipt.input.ingestionReceipt.sha256) throw new Error('ingestion receipt SHA mismatch');
+          const {receiptHash,...payload}=receipt;
+          const expected='sha256:'+createHash('sha256').update(JSON.stringify(payload)).digest('hex');
+          if(expected!==receiptHash) throw new Error('planning receipt payload hash mismatch');
+          NODE
           mkdir -p /tmp/roblox-receipt-tamper
           cp -R /tmp/roblox-safe-ingest/. /tmp/roblox-receipt-tamper/
           printf '\n' >> /tmp/roblox-receipt-tamper/capability-catalog.json
