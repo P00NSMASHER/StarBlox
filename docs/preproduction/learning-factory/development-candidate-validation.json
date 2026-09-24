@@ -1,0 +1,15 @@
+{
+  "schemaVersion": "starblox-learning-development-candidate-validation-v1",
+  "benchmarkId": "starblox-hybrid-alpha-050-development-validation-v1",
+  "status": "development-validation-no-tuning",
+  "authorization": "synthetic-only-no-real-player-data",
+  "seed": 20261229,
+  "sourceLearnerCount": 48,
+  "maxStep": 30,
+  "selectionStep": 18,
+  "heldOutStepCount": 12,
+  "frozenPsiBlendAlpha": 0.5,
+  "forbiddenFinalHoldoutSeed": 20261103,
+  "tuneAgainstThisCohort": false,
+  "purpose": "Independent development validation of alpha=0.5 selected on development seed 20261217. This cohort may reject the candidate but must not be used to retune alpha and then claim validation on the same cohort."
+}
