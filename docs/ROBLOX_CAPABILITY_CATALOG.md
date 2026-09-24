@@ -114,14 +114,18 @@ No recovered/imported Luau code is executed by the cataloger.
 
 ## Dependency graph
 
-Static script analysis extracts graph edges for:
+The catalog combines serialized object relationships with non-executed static script analysis. Dependency edges include:
 
-- Roblox services;
+- explicit parent/child structure;
+- serialized Roblox Ref-backed properties, resolved from stable rbx-dom referents to catalog instance paths when local;
+- Roblox asset references;
+- Roblox services used by scripts;
 - numeric external module requires;
+- nonnumeric require expressions;
 - WaitForChild instance references;
 - references that resolve to known RemoteEvent/RemoteFunction names.
 
-This gives the next migration step a starting dependency graph rather than forcing manual exploration in Studio.
+This gives the next migration step a fuller dependency graph rather than forcing manual exploration in Studio.
 
 ## Reuse classes
 
@@ -169,6 +173,12 @@ Top-level Roblox systems are grouped and scored using:
 
 The result is a sorted engineering-leverage queue.
 
+## Exact source provenance
+
+When files are ingested through the CLI, every .rbxl/.rbxm/.rbxlx/.rbxmx source is fingerprinted with SHA-256 plus byte length. The fingerprint is retained in `generatedFrom`, carried onto inventory instances and migration units, and verified again immediately before any migration export.
+
+A same-named file that changes after catalog review is rejected instead of silently producing a bundle from different source bytes.
+
 For a licensed Brookhaven place this should quickly surface systems such as:
 
 - housing/garage systems;
@@ -194,7 +204,8 @@ Tests prove:
 - catalog tamper detection;
 - script source is not copied into catalog output;
 - asset-ID extraction;
-- service/module/remote dependency discovery;
+- parent/property/asset/service/module/remote dependency discovery;
+- exact source-fingerprint retention and validation;
 - system grouping;
 - capability classification;
 - security-review flags.
@@ -207,7 +218,8 @@ StarBlox CI now validates both sides of the pipeline:
 2. A real .rbxmx fixture is read by the Rust binary.
 3. The Node catalog command consumes the reader output.
 4. JSON and Markdown artifacts are smoke-tested.
-5. The normal StarBlox tests, balance gate and production build still run afterward.
+5. Migration smoke tests prove a deliberately changed source file is rejected.
+6. The normal StarBlox tests, certification gate, balance gate and production build still run afterward.
 
 ## Rights / operational boundary
 
