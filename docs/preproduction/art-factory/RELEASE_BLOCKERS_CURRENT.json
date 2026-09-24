@@ -3,7 +3,7 @@
   "kind": "STARBLOX_RELEASE_ART_BLOCKER_LEDGER",
   "branch": "screenshot-match-preproduction",
   "source": {
-    "computedAtHead": "62ec831e37aa83dbc4a56242353af8fe1b97feed",
+    "computedAtHead": "781220464ebc413b6a829232bc683d074f6e9b9c",
     "correctedVisualQa": {
       "runId": 36030550833,
       "sourceHead": "96b0ca90829e34450c8decf6b37d02cc251d7bdf",
@@ -133,43 +133,36 @@
     }
   ],
   "parallelWorkPlan": {
-    "cpuSemaphore": "SINGLE_GLOBAL_CPU_GENERATION_RUN",
+    "cpuSemaphore": "SINGLE_GLOBAL_CPU_GENERATION_RUN__ONE_PENDING_SUCCESSOR_ALLOWED",
     "currentCpuBatch": {
-      "queueId": "w09-current-rework-2pack-v4",
-      "items": [
-        "decor-7",
-        "decor-11"
-      ],
-      "runId": 36030020397
+      "queueId": null,
+      "items": [],
+      "runId": null,
+      "state": "IDLE_AFTER_W09_V8_V4_SUCCESS"
     },
     "preparedNext": [
       {
         "producer": "13",
         "items": [
           "wall-8",
-          "wall-9"
+          "wall-9",
+          "desks-8"
         ],
-        "goal": "Precompile failure-specific 2-pack while CPU busy; dispatch only after live semaphore idle check."
+        "goal": "Dispatch as the next full safe producer13 matrix using newest REWORK versions/prompts: Wall8 v8, Wall9 v8, Desk8 v3 unless newer exact evidence supersedes them. Reviewers 11/02/11."
       },
       {
         "producer": "03",
         "items": [
-          "desks-8",
-          "desks-9",
           "decor-8",
-          "desks-10"
-        ],
-        "goal": "Precompile bounded 4-pack while CPU busy; choose reviewer assignments 11/05/11/05 and dispatch only after higher-priority ready batch and live semaphore idle check."
-      },
-      {
-        "producer": "03",
-        "items": [
+          "desks-9",
+          "desks-10",
           "desks-11"
         ],
-        "goal": "Keep as next singleton or combine with a later compatible producer03 tail only if this does not delay release."
+        "goal": "Precompile as the following full four-item producer03 matrix using newest failure-specific versions/prompts. Reviewers 11/05/05/01. Queue only when no other pending CPU successor exists."
       }
     ],
-    "recoveryLane": "Role07 may work only on authoritative exact-byte recoveries that are not superseded by these newer REWORK states; it must not recover stale failed hashes for these 9 IDs."
+    "recoveryLane": "Role07 may work only on authoritative exact-byte recoveries that are not superseded by these newer REWORK states; it must not recover stale failed hashes for these 9 IDs.",
+    "queuePolicy": "Because CPU workflow runs serialize but matrix items run in parallel, maximize each same-producer matrix up to four unresolved release blockers and keep at most one pending successor. Never include ACCEPTed/canonical items or current hashes awaiting review."
   },
   "nonArtReleaseState": {
     "reducedMotionQuestRetry": "CLEARED — product click-race fix + focused test + full Persistence Recovery Quest QA pass",
