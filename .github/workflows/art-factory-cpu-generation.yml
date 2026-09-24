@@ -17,7 +17,7 @@ permissions:
 
 concurrency:
   group: starblox-art-factory-cpu-generation
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   plan:
