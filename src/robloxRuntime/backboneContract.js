@@ -16,6 +16,14 @@ export const PROFILE_TEMPLATE=Object.freeze({
   Inventory:Object.freeze({Cosmetics:Object.freeze({}),Equipped:Object.freeze({})}),
   Settings:Object.freeze({MusicVolume:0.6,DiagnosticsEnabled:false}),
   Rollout:Object.freeze({Assignments:Object.freeze({})}),
+  Social:Object.freeze({
+    Home:Object.freeze({PlotId:'',Placements:Object.freeze({})}),
+    NpcAffinity:Object.freeze({}),
+    UnlockedSocialItems:Object.freeze({}),
+    Stats:Object.freeze({PhotosTaken:0,CoopPhotos:0,MinigameWins:0}),
+    CompletedSessionIds:Object.freeze([]),
+    AffinityEventIds:Object.freeze([])
+  }),
   LiveOps:Object.freeze({
     Counters:Object.freeze({}),
     Missions:Object.freeze({}),
@@ -38,7 +46,11 @@ export const NETWORK_CONTRACT=Object.freeze([
   Object.freeze({name:'DailyState',from:'Server',type:'Reliable'}),
   Object.freeze({name:'GhostSample',from:'Server',type:'Unreliable'}),
   Object.freeze({name:'ClaimLiveOpsReward',from:'Client',type:'Reliable'}),
-  Object.freeze({name:'LiveOpsState',from:'Server',type:'Reliable'})
+  Object.freeze({name:'LiveOpsState',from:'Server',type:'Reliable'}),
+  Object.freeze({name:'RequestPlaceItem',from:'Client',type:'Reliable'}),
+  Object.freeze({name:'RequestRemoveItem',from:'Client',type:'Reliable'}),
+  Object.freeze({name:'RequestSocialMinigame',from:'Client',type:'Reliable'}),
+  Object.freeze({name:'SocialWorldState',from:'Server',type:'Reliable'})
 ]);
 
 export const REPLICATION_BOUNDARIES=Object.freeze({
@@ -50,7 +62,9 @@ export const REPLICATION_BOUNDARIES=Object.freeze({
     'Learning.WrongStreak',
     'Daily.Completed',
     'Settings',
-    'LiveOps.ProcessedEventIds'
+    'LiveOps.ProcessedEventIds',
+    'Social.CompletedSessionIds',
+    'Social.AffinityEventIds'
   ]),
   playerReplica:Object.freeze([
     'SchemaVersion',
@@ -60,7 +74,8 @@ export const REPLICATION_BOUNDARIES=Object.freeze({
     'Daily.Streak',
     'Inventory',
     'Rollout.Assignments',
-    'LiveOps'
+    'LiveOps',
+    'Social'
   ]),
   ephemeralEcs:Object.freeze([
     'Model','Transform','Velocity','Health','Npc','Interactable',
