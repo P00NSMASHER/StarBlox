@@ -365,6 +365,11 @@ describe('Step 2: AI development factory', () => {
           ]
         };
       },
+      async visualReview({capture,screenshot}){
+        expect(capture.dataB64).toBeTruthy();
+        expect(screenshot.artifactHash).toMatch(/^fnv1a32:/);
+        return {ok:true,findings:[],summary:'Viewport matches acceptance.'};
+      },
       async review({verification}){
         stages.push('review');
         expect(verification.ok).toBe(true);
