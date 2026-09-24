@@ -207,6 +207,57 @@ describe('Step 2: Studio tool safety contract', () => {
     expect(dangerous.requiresConfirmation).toBe(true);
   });
 
+  it('requires explicit confirmation before writing high-risk generated Luau', () => {
+    const blocked=assessStudioToolCall({
+      tool:'write_script',
+      args:{
+        path:'ServerScriptService/Main',
+        source:'local ds = game:GetService("DataStoreService"):GetDataStore("x")\nds:SetAsync("key", 1)'
+      }
+    },{
+      stage:'code'
+    });
+
+    expect(blocked.ok).toBe(false);
+    expect(blocked.requiresConfirmation).toBe(true);
+    expect(blocked.errors).toContain('tool call requires explicit confirmation');
+
+    const confirmed=assessStudioToolCall({
+      tool:'edit_script',
+      args:{
+        path:'ServerScriptService/Main',
+        old:'return true',
+        new:'workspace.Temp:Destroy()'
+      }
+    },{
+      stage:'repair',
+      confirmed:true
+    });
+
+    expect(confirmed.ok).toBe(true);
+    expect(confirmed.requiresConfirmation).toBe(true);
+    expect(confirmed.warnings.join(' ')).toMatch(/high-risk|destructive/);
+  });
+
+  it('does not flag dangerous-looking words that occur only inside generated-script strings/comments', () => {
+    const result=assessStudioToolCall({
+      tool:'write_script',
+      args:{
+        path:'ServerScriptService/Main',
+        source:[
+          'local message = "workspace.Temp:Destroy()"',
+          '-- ds:SetAsync("key", 1)',
+          'return message'
+        ].join('\n')
+      }
+    },{
+      stage:'code'
+    });
+
+    expect(result.ok).toBe(true);
+    expect(result.requiresConfirmation).toBe(false);
+  });
+
   it('blocks destructive instance deletion in automated runs by default', () => {
     const result=assessStudioToolCall({
       tool:'delete_instance',
