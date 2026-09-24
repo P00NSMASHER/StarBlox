@@ -4,20 +4,19 @@
   "role": "independent art reviewer D / overflow reviewer",
   "phase": "ART_VISUALS_SPRINT",
   "branch": "screenshot-match-preproduction",
-  "sourceHead": "f1996b6cd7",
+  "sourceHead": "b14512c2a7828c1b25ad58b44c2ad8d52e12cd2f",
   "policy": "docs/preproduction/DELIVERY_PROTOCOL_V2.md",
   "artFactoryPolicy": "docs/preproduction/art-factory/ART_FACTORY_V2.json",
   "currentCycle": {
     "scope": [
-      "wall-8"
+      "decor-8"
     ],
-    "version": "Wall8 v9 exact source hash",
-    "result": "REWORK_1_OF_1_FAIL_FAST",
+    "version": "current exact rendered tail hashes",
+    "result": "ACCEPT_1_REWORK_0",
     "oldVerdictsTransferred": false,
-    "actualCardScalePixelsReviewed": false,
+    "actualCardScalePixelsReviewed": true,
     "actualDetailPixelsReviewed": true,
-    "selfApprovalConflict": false,
-    "failFastSourceContract": true
+    "selfApprovalConflict": false
   },
   "currentRenderEvidence": {
     "workflow": "StarBlox Staged Catalog Art QA",
@@ -580,6 +579,39 @@
         "duplicateVisual": "PASS",
         "technicalIntegrity": "PASS"
       }
+    },
+    {
+      "itemId": "decor-8",
+      "name": "Mini Aquarium",
+      "tier": 3,
+      "theme": "Galaxy Glow",
+      "producer": "03",
+      "assetPath": "public/assets/catalog-candidates/cpu/decor-8-w03-v6-b-single-blue-aquarium-original.png",
+      "assetHash": "77d5cb5e24a47b415c97df832b6a80d41505c8ca",
+      "sha256": "6dc3461b2f904114f6a88dc478701179bd476190b3494737c8cc15a38461748e",
+      "decision": "ACCEPT",
+      "reason": "ACCEPT. The exact pixels show one coherent compact glass aquarium with a clear tank body, visible blue water, aquatic plants/rocks, base and lid/filter structure. The single-product silhouette is strong and readable at Store-card scale, with cool cyan treatment that supports Galaxy Glow without sacrificing aquarium identity.",
+      "checks": {
+        "identity": "PASS",
+        "themeTier": "PASS",
+        "silhouette": "PASS",
+        "materialLighting": "PASS",
+        "cardReadability": "PASS",
+        "physicalConstruction": "PASS",
+        "framingComposition": "PASS",
+        "originality": "PASS",
+        "duplicateVisual": "PASS",
+        "technicalIntegrity": "PASS"
+      },
+      "repositoryPath": "public/assets/catalog-candidates/cpu/decor-8-w03-v6-b-single-blue-aquarium-original.png",
+      "contentSha256": "6dc3461b2f904114f6a88dc478701179bd476190b3494737c8cc15a38461748e",
+      "hashAlgorithm": "git-blob-sha1",
+      "reviewedAt": "2026-09-24T19:43:00Z",
+      "evidenceRefs": [
+        "workflow:36049290664",
+        "artifact:10829841273/staged-replacements/staged-replacements-contact-sheet.png",
+        "artifact:10829841273/staged-replacements/detail/decor-8-77d5cb5e.png"
+      ]
     }
   ],
   "currentReplacementDisposition": {
@@ -588,7 +620,8 @@
         "decor-8": "24f5655854ab4188247b62e55622e479d6f0cb2a"
       },
       "ACCEPT": {
-        "decor-6": "5b860130d537acadb6a15c81a841805c3b9b81cf"
+        "decor-6": "5b860130d537acadb6a15c81a841805c3b9b81cf",
+        "decor-8": "77d5cb5e24a47b415c97df832b6a80d41505c8ca"
       }
     },
     "desks": {
@@ -607,20 +640,20 @@
   },
   "summary": {
     "reviewedThisRun": 1,
-    "newAcceptsThisRun": 0,
-    "newReworkThisRun": 1,
+    "newAcceptsThisRun": 1,
+    "newReworkThisRun": 0,
     "newBlockedThisRun": 0,
-    "newUsableBy08Now": [],
-    "reworkNow": [
-      "wall-8"
+    "newUsableBy08Now": [
+      "decor-8"
     ],
-    "preservedAcceptedHashes": "All prior reviewer11 ACCEPTs remain frozen; this REWORK applies only to Wall8 v9 exact hash."
+    "reworkNow": [],
+    "preservedAcceptedHashes": "All prior ACCEPTs remain frozen; these verdicts apply only to the exact hashes rendered in workflow 36049290664."
   },
   "handoff": {
     "13": "Freeze Wall8 v9 REWORK. Fold Wall8 v10 with Desk8 token-safe retry and Wall9 next retry if Wall9 also fails; do not use a standalone CPU startup if a same-producer packed retry is possible.",
     "14": "Tail render packets consumed; do not rerender unchanged hashes.",
-    "15": "Wall8 remains release-blocking; next prompt must be seascape-first and remove the protruding architectural base.",
-    "08": "Do not canonical-wire Wall8 v9.",
+    "15": "No rework from this batch.",
+    "08": "Integrate exact ACCEPT hashes for decor-8 after live revalidation.",
     "03": "decor-8 current literal hashes are REWORK; preserve them and prepare the next narrow retry while other producers continue."
   },
   "preservation": {
