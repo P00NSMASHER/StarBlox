@@ -253,6 +253,40 @@ describe('Step 9: validation, evidence and deduplication', () => {
     expect(result.rejected[0].quality.evidenceErrors.join(' ')).toMatch(/not found/);
   });
 
+  it('requires evidence quotes to preserve exact case and punctuation', async () => {
+    const generated=await runOfflineGeneration({
+      chunks:CHUNKS.slice(0,1),
+      provider:{
+        async generate(){
+          const question=generatedCulture();
+          question.evidence=[
+            'culture includes traditions, foods, music, stories, and ways of life shared by a group.'
+          ];
+          return {questions:[question]};
+        }
+      },
+      runId:'exact-evidence'
+    });
+
+    const reviewer={
+      async review({candidates}){
+        return {results:candidates.map(candidate => ({
+          candidateId:candidate.candidateId,decision:'keep',score:99,reasons:[]
+        }))};
+      }
+    };
+
+    const result=await validateGeneratedCandidates({
+      candidates:generated.candidates,
+      chunks:CHUNKS,
+      reviewer,
+      mode:'strict'
+    });
+
+    expect(result.accepted).toHaveLength(0);
+    expect(result.rejected[0].quality.evidenceErrors.join(' ')).toMatch(/not found exactly/);
+  });
+
   it('supports reviewer rewrite but re-validates the rewritten structure and evidence', async () => {
     const generated=await runOfflineGeneration({
       chunks:CHUNKS.slice(0,1),
@@ -350,5 +384,63 @@ describe('Step 9: validation, evidence and deduplication', () => {
     expect(ingested.inserted[0].lifecycle).toBe('pending');
     expect(after.questionCount).toBe(before.questionCount);
     expect(ingested.bank.questions[ingested.inserted[0].questionId].lifecycle).toBe('pending');
+
+    const stored=ingested.bank.questions[ingested.inserted[0].questionId]
+      .versions[String(ingested.inserted[0].version)];
+    const evidenceRows=stored.provenance.filter(item => item.kind === 'verified-evidence');
+    const reviewRow=stored.provenance.find(item => item.kind === 'quality-review');
+    expect(evidenceRows.length).toBeGreaterThan(0);
+    expect(evidenceRows.some(item =>
+      item.label === 'Culture includes traditions, foods, music, stories, and ways of life shared by a group.' &&
+      item.reference.startsWith('chunk-hash:')
+    )).toBe(true);
+    expect(reviewRow?.label).toMatch(/^strict:keep:/);
+    expect(reviewRow?.reference).toMatch(/^review-receipt:/);
+  });
+
+  it('does not allow generated ingestion to override pending lifecycle', async () => {
+    const bank=importLegacyQuestionBank(gameModel.buildQuestions());
+    const generated=await runOfflineGeneration({
+      chunks:CHUNKS.slice(0,1),
+      provider:{async generate(){ return {questions:[generatedCulture()]}; }},
+      runId:'pending-only'
+    });
+    const reviewer={
+      async review({candidates}){
+        return {results:candidates.map(candidate => ({
+          candidateId:candidate.candidateId,decision:'keep',score:97,reasons:[]
+        }))};
+      }
+    };
+    const quality=await validateGeneratedCandidates({
+      candidates:generated.candidates,
+      chunks:CHUNKS,
+      reviewer,
+      bank,
+      mode:'strict'
+    });
+
+    expect(() => ingestValidatedCandidates(bank,quality.accepted,{
+      lifecycle:'published'
+    })).toThrow(/only be ingested with pending lifecycle/);
+  });
+
+  it('refuses ingestion of candidates that did not pass strict independent review', async () => {
+    const bank=importLegacyQuestionBank(gameModel.buildQuestions());
+    const generated=await runOfflineGeneration({
+      chunks:CHUNKS.slice(0,1),
+      provider:{async generate(){ return {questions:[generatedCulture()]}; }},
+      runId:'deterministic-only'
+    });
+    const quality=await validateGeneratedCandidates({
+      candidates:generated.candidates,
+      chunks:CHUNKS,
+      bank,
+      mode:'deterministic'
+    });
+
+    expect(quality.accepted).toHaveLength(1);
+    expect(() => ingestValidatedCandidates(bank,quality.accepted))
+      .toThrow(/requires a strict review receipt/);
   });
 });
