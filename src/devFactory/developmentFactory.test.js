@@ -1,0 +1,561 @@
+
+import { describe,expect,it } from 'vitest';
+import {
+  assessStudioToolCall,
+  stripLuauStringsAndComments
+} from './studioToolContract.js';
+import {
+  executeStudioActionBatch
+} from './transactionalStudio.js';
+import {
+  runDevelopmentFactory,
+  verifyDevelopmentRun
+} from './developmentFactory.js';
+
+function createStudio({
+  episode=true,
+  initialTestFailures=0
+}={}){
+  const scripts=new Map([
+    ['ServerScriptService/Main',{
+      source:'return { value = 1 }',
+      className:'ModuleScript'
+    }]
+  ]);
+  const instances=new Map([
+    ['Workspace/TestPart',{
+      className:'Part',
+      properties:{Anchored:false,Transparency:0}
+    }]
+  ]);
+  const calls=[];
+  let testFailures=initialTestFailures;
+  let createdCounter=0;
+
+  const studio={
+    calls,
+    scripts,
+    instances,
+    has(name){
+      return name === 'run_playtest_episode' ? episode : true;
+    },
+    setTestFailures(value){
+      testFailures=value;
+    },
+    async call(tool,args={},meta={}){
+      calls.push({tool,args:JSON.parse(JSON.stringify(args)),meta});
+
+      if(tool === 'search_tree'){
+        return {
+          count:2,
+          results:[
+            {path:'ServerScriptService/Main',className:'ModuleScript'},
+            {path:'Workspace/TestPart',className:'Part'}
+          ]
+        };
+      }
+      if(tool === 'read_all_scripts'){
+        return {
+          count:scripts.size,
+          scripts:[...scripts.entries()].map(([path,row]) => ({
+            path,
+            className:row.className,
+            source:row.source
+          }))
+        };
+      }
+      if(tool === 'read_script'){
+        const row=scripts.get(args.path);
+        if(!row) throw new Error('script not found: ' + args.path);
+        return {path:args.path,source:row.source,className:row.className};
+      }
+      if(tool === 'write_script'){
+        if(args.source === 'THROW_WRITE') throw new Error('synthetic write failure');
+        scripts.set(args.path,{
+          source:String(args.source),
+          className:args.className || scripts.get(args.path)?.className || 'Script'
+        });
+        return {path:args.path,bytes:String(args.source).length};
+      }
+      if(tool === 'edit_script'){
+        const row=scripts.get(args.path);
+        if(!row) throw new Error('script not found: ' + args.path);
+        const first=row.source.indexOf(args.old);
+        if(first < 0) throw new Error('old text not found');
+        if(row.source.indexOf(args.old,first + args.old.length) >= 0){
+          throw new Error('old text not unique');
+        }
+        row.source=row.source.slice(0,first) + args.new + row.source.slice(first + args.old.length);
+        return {path:args.path};
+      }
+      if(tool === 'create_instance'){
+        createdCounter++;
+        const path=(args.parent || 'Workspace') + '/' + (args.name || ('Instance' + createdCounter));
+        instances.set(path,{
+          className:args.className,
+          properties:{...(args.properties || {})}
+        });
+        return {path,className:args.className};
+      }
+      if(tool === 'delete_instance'){
+        scripts.delete(args.path);
+        instances.delete(args.path);
+        return {deleted:args.path};
+      }
+      if(tool === 'inspect_instance'){
+        const row=instances.get(args.path);
+        if(row) return {path:args.path,className:row.className,properties:{...row.properties},children:[]};
+        const script=scripts.get(args.path);
+        if(script) return {path:args.path,className:script.className,properties:{},children:[]};
+        throw new Error('instance not found');
+      }
+      if(tool === 'set_property'){
+        const row=instances.get(args.path);
+        if(!row) throw new Error('instance not found');
+        row.properties[args.property]=args.value;
+        return {path:args.path,property:args.property};
+      }
+      if(tool === 'run_tests'){
+        return {
+          passed:testFailures ? 1 : 3,
+          failed:testFailures,
+          total:testFailures ? 1 + testFailures : 3,
+          results:[]
+        };
+      }
+      if(tool === 'get_logs'){
+        return {count:0,logs:[]};
+      }
+      if(tool === 'get_run_state'){
+        return {running:true,runMode:true,edit:false};
+      }
+      if(tool === 'simulate_input'){
+        return {ok:true,performed:(args.actions || []).length};
+      }
+      if(tool === 'capture_viewport'){
+        return {
+          format:'rgba8',
+          width:640,
+          height:360,
+          dataB64:'A'.repeat(1000)
+        };
+      }
+      if(tool === 'run_playtest_episode'){
+        return {
+          episodeId:'episode-1',
+          verdict:'pass',
+          logs:{errorCount:0,errors:[]},
+          assertions:{results:[{name:'spawn',passed:true}]}
+        };
+      }
+      if(tool === 'summarize_episode'){
+        return {fixed:true,regressed:false};
+      }
+      throw new Error('unsupported fake Studio tool: ' + tool);
+    }
+  };
+
+  return studio;
+}
+
+describe('Step 2: Studio tool safety contract', () => {
+  it('ignores destructive words inside Luau strings/comments but detects executable destructive calls', () => {
+    const safe=[
+      'local s = "workspace:Destroy()"',
+      '-- workspace:Destroy()',
+      'return s'
+    ].join('\n');
+    const stripped=stripLuauStringsAndComments(safe);
+    expect(stripped).not.toMatch(/Destroy/);
+
+    const safeAssessment=assessStudioToolCall({
+      tool:'run_luau',
+      args:{code:safe}
+    },{
+      stage:'inspect',
+      allowExecuteLuau:true
+    });
+    expect(safeAssessment.ok).toBe(true);
+
+    const dangerous=assessStudioToolCall({
+      tool:'run_luau',
+      args:{code:'workspace.Temp:Destroy()'}
+    },{
+      stage:'code',
+      allowExecuteLuau:true
+    });
+    expect(dangerous.ok).toBe(false);
+    expect(dangerous.requiresConfirmation).toBe(true);
+  });
+
+  it('blocks destructive instance deletion in automated runs by default', () => {
+    const result=assessStudioToolCall({
+      tool:'delete_instance',
+      args:{path:'Workspace/City'}
+    },{
+      stage:'code'
+    });
+    expect(result.ok).toBe(false);
+    expect(result.errors.join(' ')).toMatch(/disabled/);
+  });
+});
+
+describe('Step 2: transactional Studio mutations', () => {
+  it('rolls back earlier script edits when a later write fails', async () => {
+    const studio=createStudio();
+    const before=studio.scripts.get('ServerScriptService/Main').source;
+
+    const result=await executeStudioActionBatch({
+      studio,
+      stage:'code',
+      calls:[
+        {
+          tool:'write_script',
+          args:{
+            path:'ServerScriptService/Main',
+            source:'return { value = 2 }'
+          }
+        },
+        {
+          tool:'write_script',
+          args:{
+            path:'ServerScriptService/Other',
+            source:'THROW_WRITE',
+            create:true,
+            className:'ModuleScript'
+          }
+        }
+      ]
+    });
+
+    expect(result.ok).toBe(false);
+    expect(result.rolledBack).toBe(true);
+    expect(result.rollbackComplete).toBe(true);
+    expect(studio.scripts.get('ServerScriptService/Main').source).toBe(before);
+    expect(studio.scripts.has('ServerScriptService/Other')).toBe(false);
+  });
+
+  it('returns a reversible rollback plan for successful writes and instance creation', async () => {
+    const studio=createStudio();
+
+    const result=await executeStudioActionBatch({
+      studio,
+      stage:'code',
+      calls:[
+        {
+          tool:'write_script',
+          args:{
+            path:'ServerScriptService/Main',
+            source:'return { value = 3 }'
+          }
+        },
+        {
+          tool:'create_instance',
+          args:{
+            className:'Folder',
+            parent:'Workspace',
+            name:'Generated'
+          }
+        }
+      ]
+    });
+
+    expect(result.ok).toBe(true);
+    expect(result.rollbackPlan.length).toBeGreaterThanOrEqual(2);
+    expect(result.rollbackPlan).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({tool:'write_script'}),
+        expect.objectContaining({tool:'delete_instance'})
+      ])
+    );
+  });
+});
+
+describe('Step 2: AI development factory', () => {
+  it('runs inspect -> plan -> code -> tests/runtime/visual -> review -> repository gates', async () => {
+    const studio=createStudio();
+    const stages=[];
+
+    const agents={
+      async plan({inspection}){
+        stages.push('plan');
+        expect(inspection.length).toBe(2);
+        return {
+          summary:'Update the main gameplay module and verify it.',
+          tests:{required:true,path:'ServerScriptService/Tests'},
+          playtest:{
+            required:true,
+            episodeArgs:{mode:'play',assertions:[{name:'spawn'}]}
+          },
+          visual:{required:true},
+          acceptance:['Studio tests pass','Runtime episode passes','Visual capture succeeds']
+        };
+      },
+      async code(){
+        stages.push('code');
+        return {
+          summary:'Update Main',
+          actions:[
+            {
+              tool:'write_script',
+              args:{
+                path:'ServerScriptService/Main',
+                source:'return { value = 2 }'
+              }
+            }
+          ]
+        };
+      },
+      async review({verification}){
+        stages.push('review');
+        expect(verification.ok).toBe(true);
+        return {
+          verdict:'pass',
+          findings:[],
+          summary:'All evidence passed.'
+        };
+      }
+    };
+
+    const repositoryGate={
+      async run(){
+        stages.push('repo');
+        return {
+          ok:true,
+          gates:{tests:true,balance:true,build:true}
+        };
+      }
+    };
+
+    const run=await runDevelopmentFactory({
+      task:{
+        id:'feature-1',
+        request:'Change Main value from 1 to 2'
+      },
+      studio,
+      agents,
+      repositoryGate,
+      startedAt:'2026-09-24T13:30:00Z'
+    });
+
+    expect(run.status).toBe('verified');
+    expect(studio.scripts.get('ServerScriptService/Main').source).toBe('return { value = 2 }');
+    expect(stages).toEqual(['plan','code','repo','review']);
+    expect(verifyDevelopmentRun(run)).toEqual({ok:true,errors:[]});
+
+    const serialized=JSON.stringify(run);
+    expect(serialized).not.toContain('return { value = 1 }');
+    expect(serialized).not.toContain('A'.repeat(200));
+    expect(serialized).toMatch(/artifactHash/);
+  });
+
+  it('executes a bounded reviewer-driven repair cycle until evidence turns green', async () => {
+    const studio=createStudio({initialTestFailures:1});
+    let reviews=0;
+    let repairs=0;
+
+    const agents={
+      async plan(){
+        return {
+          summary:'Implement and repair until tests pass.',
+          tests:{required:true},
+          playtest:{required:false},
+          visual:{required:false}
+        };
+      },
+      async code(){
+        return {
+          summary:'First attempt',
+          actions:[
+            {
+              tool:'write_script',
+              args:{
+                path:'ServerScriptService/Main',
+                source:'return { value = 2 }'
+              }
+            }
+          ]
+        };
+      },
+      async review({verification}){
+        reviews++;
+        if(!verification.ok){
+          return {
+            verdict:'repair',
+            findings:['Studio tests failed']
+          };
+        }
+        return {verdict:'pass',findings:[]};
+      },
+      async repair(){
+        repairs++;
+        studio.setTestFailures(0);
+        return {
+          summary:'Repair failing implementation',
+          actions:[
+            {
+              tool:'write_script',
+              args:{
+                path:'ServerScriptService/Main',
+                source:'return { value = 3 }'
+              }
+            }
+          ]
+        };
+      }
+    };
+
+    const run=await runDevelopmentFactory({
+      task:{id:'repair-1',request:'Implement feature with repair loop'},
+      studio,
+      agents,
+      repositoryGate:{run:async () => ({ok:true})},
+      startedAt:'2026-09-24T13:31:00Z',
+      config:{maxRepairCycles:2}
+    });
+
+    expect(run.status).toBe('verified');
+    expect(reviews).toBe(2);
+    expect(repairs).toBe(1);
+    expect(studio.scripts.get('ServerScriptService/Main').source).toBe('return { value = 3 }');
+  });
+
+  it('rolls back the entire run when the reviewer rejects the changed implementation', async () => {
+    const studio=createStudio();
+    const original=studio.scripts.get('ServerScriptService/Main').source;
+
+    const run=await runDevelopmentFactory({
+      task:{id:'reject-1',request:'Try a change that will be rejected'},
+      studio,
+      agents:{
+        plan:async () => ({
+          summary:'Change then review',
+          tests:{required:true},
+          playtest:{required:false},
+          visual:{required:false}
+        }),
+        code:async () => ({
+          actions:[
+            {
+              tool:'write_script',
+              args:{
+                path:'ServerScriptService/Main',
+                source:'return { value = 999 }'
+              }
+            }
+          ]
+        }),
+        review:async () => ({
+          verdict:'fail',
+          findings:['Does not meet product requirements']
+        })
+      },
+      repositoryGate:{run:async () => ({ok:true})},
+      startedAt:'2026-09-24T13:32:00Z'
+    });
+
+    expect(run.status).toBe('failed');
+    expect(run.rollback.attempted).toBe(true);
+    expect(run.rollback.ok).toBe(true);
+    expect(studio.scripts.get('ServerScriptService/Main').source).toBe(original);
+  });
+
+  it('fails closed and rolls back when runtime proof is mandatory but unavailable', async () => {
+    const studio=createStudio({episode:false});
+    studio.call=async function(tool,args={},meta={}){
+      if(tool === 'get_run_state'){
+        this.calls.push({tool,args,meta});
+        return {running:false,edit:true};
+      }
+      return createStudio({episode:false}).call(tool,args,meta);
+    };
+
+    const run=await runDevelopmentFactory({
+      task:{id:'runtime-required',request:'Add a runtime feature'},
+      studio,
+      agents:{
+        plan:async () => ({
+          summary:'Runtime behavior must be proven.',
+          tests:{required:true},
+          playtest:{required:true,inputActions:[{type:'key',key:'Space'}]},
+          visual:{required:false}
+        }),
+        code:async () => ({
+          actions:[
+            {
+              tool:'write_script',
+              args:{
+                path:'ServerScriptService/Main',
+                source:'return { runtime = true }'
+              }
+            }
+          ]
+        }),
+        review:async ({verification}) => ({
+          verdict:verification.ok ? 'pass' : 'fail',
+          findings:verification.errors
+        })
+      },
+      repositoryGate:{run:async () => ({ok:true})},
+      startedAt:'2026-09-24T13:33:00Z'
+    });
+
+    expect(run.status).toBe('failed');
+    expect(run.finalReview.findings.join(' ')).toMatch(/playtest is not running/);
+    expect(run.rollback.attempted).toBe(true);
+  });
+
+  it('stops after the configured repair bound instead of looping indefinitely', async () => {
+    const studio=createStudio({initialTestFailures:1});
+    let repairCalls=0;
+
+    const run=await runDevelopmentFactory({
+      task:{id:'bounded',request:'Never-ending failure'},
+      studio,
+      agents:{
+        plan:async () => ({
+          summary:'Bounded repair test',
+          tests:{required:true},
+          playtest:{required:false},
+          visual:{required:false}
+        }),
+        code:async () => ({
+          actions:[
+            {
+              tool:'write_script',
+              args:{
+                path:'ServerScriptService/Main',
+                source:'return { value = 2 }'
+              }
+            }
+          ]
+        }),
+        review:async () => ({
+          verdict:'repair',
+          findings:['still failing']
+        }),
+        repair:async () => {
+          repairCalls++;
+          return {
+            actions:[
+              {
+                tool:'write_script',
+                args:{
+                  path:'ServerScriptService/Main',
+                  source:'return { value = ' + (repairCalls + 2) + ' }'
+                }
+              }
+            ]
+          };
+        }
+      },
+      repositoryGate:{run:async () => ({ok:true})},
+      startedAt:'2026-09-24T13:34:00Z',
+      config:{maxRepairCycles:1}
+    });
+
+    expect(run.status).toBe('failed');
+    expect(repairCalls).toBe(1);
+    expect(run.rollback.attempted).toBe(true);
+  });
+});
