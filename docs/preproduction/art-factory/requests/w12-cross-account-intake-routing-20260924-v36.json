@@ -1,0 +1,85 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_W12_CANDIDATE_DELTA_INTAKE_ROUTING",
+  "router": "12",
+  "branch": "screenshot-match-preproduction",
+  "observedHead": "781220464ebc413b6a829232bc683d074f6e9b9c",
+  "scanWindow": {
+    "priorCursor": "8e5de34e468f17f3b0dbd8f29c19388bb7f64a0a",
+    "inspectedThroughHead": "781220464ebc413b6a829232bc683d074f6e9b9c",
+    "newCatalogCandidateBytesDetected": true,
+    "newCandidateItemIds": [
+      "decor-7",
+      "decor-11"
+    ],
+    "note": "New producer09 w09-current-rework-2pack-v4 exact candidates are staged. Later art-factory prompt-budget commits modify future generation behavior only and do not supersede these candidate hashes."
+  },
+  "candidates": [
+    {
+      "id": "decor-7",
+      "name": "Skate Rack",
+      "collectionId": "decor",
+      "producer": "09",
+      "reviewerAssignment": "01",
+      "renderOwner": "14",
+      "canonicalWriter": "08",
+      "path": "public/assets/catalog-candidates/cpu/decor-7-w09-v8-a-tiny-rack-one-pair-original.png",
+      "sha256": "f5199785fbc74ef20b3c8628cfef8dd10a30911cd0b84938034eec98d68738d7",
+      "gitBlobSha": "41111bb07b54c5a370adcb44a80d7f0711d37a0e",
+      "bytes": 581165,
+      "dimensions": [
+        640,
+        640
+      ],
+      "format": "PNG",
+      "stagedOutput": "docs/preproduction/art-factory/generated-evidence/w09-current-rework-2pack-v4/decor-7/staged-output.json",
+      "generationReceipt": "docs/preproduction/art-factory/generated-evidence/w09-current-rework-2pack-v4/decor-7/generation-receipt.json",
+      "provenanceState": "COMPLETE_ART_FACTORY_V2",
+      "repositoryReadback": "PASS_EXACT_GIT_BLOB",
+      "supersession": "FRESH_V8_FAILURE_SPECIFIC_REPLACEMENT_FOR_REWORKED_V7",
+      "state": "ROUTE_TO_06_TECHNICAL_QUALIFICATION"
+    },
+    {
+      "id": "decor-11",
+      "name": "Dream Vanity Set",
+      "collectionId": "decor",
+      "producer": "09",
+      "reviewerAssignment": "02",
+      "renderOwner": "14",
+      "canonicalWriter": "08",
+      "path": "public/assets/catalog-candidates/cpu/decor-11-w09-v4-a-vanity-mirror-one-stool-original.png",
+      "sha256": "ad450b5c1923efbb33d977b5b21ba2fefe407b5d34920aa642dc1c271cbb8d24",
+      "gitBlobSha": "f4fed4eaf1bf867ffdd3519d347ae12ce755d9b7",
+      "bytes": 597349,
+      "dimensions": [
+        640,
+        640
+      ],
+      "format": "PNG",
+      "stagedOutput": "docs/preproduction/art-factory/generated-evidence/w09-current-rework-2pack-v4/decor-11/staged-output.json",
+      "generationReceipt": "docs/preproduction/art-factory/generated-evidence/w09-current-rework-2pack-v4/decor-11/generation-receipt.json",
+      "provenanceState": "COMPLETE_ART_FACTORY_V2",
+      "repositoryReadback": "PASS_EXACT_GIT_BLOB",
+      "supersession": "FRESH_V4_FAILURE_SPECIFIC_REPLACEMENT_FOR_REWORKED_V3",
+      "state": "ROUTE_TO_06_TECHNICAL_QUALIFICATION"
+    }
+  ],
+  "dedupe": {
+    "uniqueItemHashClaim": true,
+    "unchangedPriorHashesRerouted": false,
+    "newerPendingCandidateObserved": false
+  },
+  "queues": {
+    "to06": [
+      "decor-7@f5199785fbc74ef20b3c8628cfef8dd10a30911cd0b84938034eec98d68738d7",
+      "decor-11@ad450b5c1923efbb33d977b5b21ba2fefe407b5d34920aa642dc1c271cbb8d24"
+    ],
+    "backToProducer": []
+  },
+  "cursorAdvance": {
+    "previous": "8e5de34e468f17f3b0dbd8f29c19388bb7f64a0a",
+    "advancedThrough": "781220464ebc413b6a829232bc683d074f6e9b9c"
+  },
+  "nextOwner": "06_TECHNICAL_QUALIFICATION",
+  "mutationScope": "Routing evidence only; no candidate bytes, canonical mappings, reviewer decisions, gameplay, CI/workflows, deployment or player data changed."
+}
