@@ -1,0 +1,51 @@
+name: Learning BKT Calibration Diagnostic
+
+on:
+  push:
+    branches:
+      - starblox-learning-factory-v1
+    paths:
+      - "scripts/diagnoseBktCalibration.mjs"
+      - "docs/preproduction/learning-factory/bkt-calibration-development.json"
+      - ".github/workflows/learning-bkt-calibration-diagnostic.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  calibrate-bkt:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+      - name: Install dependencies
+        run: npm install --ignore-scripts --package-lock=false
+      - name: Generate fresh BKT calibration cohort
+        run: npm run generate:learning-promotion -- --out-dir=.bkt-calibration --learners=48 --max-step=30 --seed=20270805
+      - name: Sweep BKT parameters
+        run: |
+          node scripts/diagnoseBktCalibration.mjs             --manifest=docs/preproduction/learning-factory/bkt-calibration-development.json             --evaluation=.bkt-calibration/evaluation.json             --interactions=.bkt-calibration/starblox_shadow/interactions_30.csv             --out=.bkt-calibration/bkt-calibration.json
+      - name: Enforce development-only boundary
+        run: |
+          node --input-type=module - <<'NODE'
+          import fs from 'node:fs';
+          const r=JSON.parse(fs.readFileSync('.bkt-calibration/bkt-calibration.json','utf8'));
+          if(r.developmentOnly!==true||r.tuneAgainstThisCohort!==true)throw new Error('BKT calibration governance broken');
+          if(r.promotionBoundary?.liveSelectorAllowed!==false)throw new Error('BKT calibration cannot enable live selection');
+          if(r.maxDefaultReplayDifference>1e-9)throw new Error('default BKT replay drift');
+          console.log(JSON.stringify({supportive:r.supportive,selected:r.selected,default:r.default,liveSelectorAllowed:false},null,2));
+          NODE
+      - name: Assert live Quest path remains isolated
+        run: npm run assert:learning-live-boundary
+      - name: Upload BKT calibration evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: learning-bkt-calibration-diagnostic
+          path: .bkt-calibration
+          if-no-files-found: error
+          include-hidden-files: true
