@@ -119,6 +119,30 @@ export const UPSTREAM_PROVENANCE = Object.freeze({
     '419aad1fca7d50135c7123c9ad6da885873bd07d',
     'AGPL-3.0'
   ),
+  atlasAuthoritySolo: source(
+    'server-owned game sessions and authoritative scoring from client guesses only',
+    'Ludvig-Hedin/atlas-worldguesser',
+    'main',
+    '419aad1fca7d50135c7123c9ad6da885873bd07d',
+    'AGPL-3.0',
+    'convex/solo.ts'
+  ),
+  atlasAuthorityDaily: source(
+    'daily server-owned truth and authoritative result submission',
+    'Ludvig-Hedin/atlas-worldguesser',
+    'main',
+    '419aad1fca7d50135c7123c9ad6da885873bd07d',
+    'AGPL-3.0',
+    'convex/dailyChallenge.ts'
+  ),
+  atlasAuthorityChallenges: source(
+    'deterministic challenge reconstruction and documented skipped-round validation lesson',
+    'Ludvig-Hedin/atlas-worldguesser',
+    'main',
+    '419aad1fca7d50135c7123c9ad6da885873bd07d',
+    'AGPL-3.0',
+    'convex/challenges.ts'
+  ),
   openReplay: source(
     'session replay and production observability concepts',
     'openreplay/openreplay',
