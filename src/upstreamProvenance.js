@@ -448,6 +448,78 @@ export const UPSTREAM_PROVENANCE = Object.freeze({
     'unasserted in GitHub metadata',
     'src/game/runTelemetry.ts'
   ),
+  bloxForgeTooling: source(
+    'transactional Studio mutation plans, dry runs, rollback receipts, assertions and runtime evidence',
+    'princeofscale/bloxforge',
+    'main',
+    'ef98c370b6e0dd93273eae245485b547b09aca53',
+    'MIT',
+    'docs/tools-reference.md'
+  ),
+  bloxForgeChangeLog: source(
+    'playtest state sampling, mutation plan safety and prove-the-fix QA workflow',
+    'princeofscale/bloxforge',
+    'main',
+    'ef98c370b6e0dd93273eae245485b547b09aca53',
+    'MIT',
+    'CHANGELOG.md'
+  ),
+  nixeraCoordinator: source(
+    'coordinator-to-specialist Studio agent orchestration',
+    'Nixera-Studio/roblox-ai-studio',
+    'main',
+    'c88d2e57a5ca52381b49f488ee13a0fd7c3beae9',
+    'MIT',
+    'backend/src/agents/coordinator.ts'
+  ),
+  nixeraSpecialists: source(
+    'planner coder reviewer tester role separation',
+    'Nixera-Studio/roblox-ai-studio',
+    'main',
+    'c88d2e57a5ca52381b49f488ee13a0fd7c3beae9',
+    'MIT',
+    'backend/src/agents/specialists.ts'
+  ),
+  nixeraStudioTools: source(
+    'Studio inspection editing playtest log screenshot and test tool contracts',
+    'Nixera-Studio/roblox-ai-studio',
+    'main',
+    'c88d2e57a5ca52381b49f488ee13a0fd7c3beae9',
+    'MIT',
+    'backend/src/tools/studioTools.ts'
+  ),
+  nixeraExecutor: source(
+    'Studio mutation undo recording and tool dispatch boundary',
+    'Nixera-Studio/roblox-ai-studio',
+    'main',
+    'c88d2e57a5ca52381b49f488ee13a0fd7c3beae9',
+    'MIT',
+    'plugin/src/tools/Executor.luau'
+  ),
+  nixeraPlaytest: source(
+    'engine-side playtest input and run-state inspection',
+    'Nixera-Studio/roblox-ai-studio',
+    'main',
+    'c88d2e57a5ca52381b49f488ee13a0fd7c3beae9',
+    'MIT',
+    'plugin/src/tools/PlaytestOps.luau'
+  ),
+  nixeraVision: source(
+    'engine-side viewport capture for visual verification',
+    'Nixera-Studio/roblox-ai-studio',
+    'main',
+    'c88d2e57a5ca52381b49f488ee13a0fd7c3beae9',
+    'MIT',
+    'plugin/src/tools/VisionOps.luau'
+  ),
+  nixeraTests: source(
+    'fresh Studio ModuleScript test execution and structured pass/fail aggregation',
+    'Nixera-Studio/roblox-ai-studio',
+    'main',
+    'c88d2e57a5ca52381b49f488ee13a0fd7c3beae9',
+    'MIT',
+    'plugin/src/tools/TestOps.luau'
+  ),
   rbxDomBinary: source(
     'Roblox binary place/model deserialization for rbxl/rbxm capability inventory',
     'rojo-rbx/rbx-dom',
