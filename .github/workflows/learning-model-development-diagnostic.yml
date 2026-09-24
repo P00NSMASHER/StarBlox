@@ -62,7 +62,7 @@ jobs:
       - name: Execute development reviews through actual FSRS
         run: |
           cd tools/fsrs-shadow
-          go mod download
+          go mod tidy
           go run . -input ../../.learning-development/riff-reviews.json -out ../../.learning-development/fsrs-engine-receipt.json -evaluation-offset-hours 24
 
       - uses: actions/setup-python@v5
