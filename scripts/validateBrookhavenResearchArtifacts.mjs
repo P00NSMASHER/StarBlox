@@ -32,10 +32,19 @@ if((catalog.lots?.values||[]).length!==29) issues.push('lot-count');
 if((catalog.loadableCatalogRoots||[]).length!==5) issues.push('loadable-root-count');
 if((catalog.propertyCatalog||[]).some(row=>row.assetPayloadStatus!=='not-recovered')) issues.push('unexpected-property-payload-claim');
 
+const boundaryPath='docs/preproduction/brookhaven-research/reuse-boundary-v1.json';
+const boundary=JSON.parse(fs.readFileSync(boundaryPath,'utf8'));
+if(boundary.schemaVersion!=='starblox-brookhaven-reuse-boundary-v1') issues.push('boundary-schema');
+if(boundary.boundaryDecision?.brookhavenRuntimeCodeMayShipInStarBlox!==false) issues.push('runtime-boundary');
+if(boundary.boundaryDecision?.brookhavenRemoteCallsMayShipInStarBlox!==false) issues.push('remote-boundary');
+if(boundary.boundaryDecision?.normalizedAuthorizedAssetsMayEventuallyShip!==true) issues.push('normalized-asset-boundary');
+if(!Array.isArray(boundary.staticForbiddenTokensInLiveSrc)||!boundary.staticForbiddenTokensInLiveSrc.length) issues.push('boundary-token-list');
+
 const result={
   schemaVersion:'starblox-brookhaven-research-validation-v1',
   graphPath,
   catalogPath,
+  boundaryPath,
   nodeCount:graph.nodes?.length||0,
   edgeCount:graph.edges?.length||0,
   issueCount:issues.length,
