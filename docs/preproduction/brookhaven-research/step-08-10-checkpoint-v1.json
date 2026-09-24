@@ -36,7 +36,7 @@
     }
   },
   "verification": {
-    "workflowRun": 36028824540,
+    "workflowRun": 36043516207,
     "workflowConclusion": "success",
     "researchArtifactValidation": {
       "schemaVersion": "starblox-brookhaven-research-validation-v2",
@@ -78,6 +78,6 @@
     "rawUnresolvedVisualPayloadsClaimed": false,
     "deploymentPerformed": false
   },
-  "verifiedAtHead": "b220cccbd5888d826fed9fa8be3e4c6775feafbf",
-  "note": "Run 36028824540 verifies the current implementation head. This receipt update is documentation-only and does not alter runtime behavior."
+  "verifiedAtHead": "be04fe29efc60b62fa973a1d789a057930b883e2",
+  "note": "Run 36043516207 verifies the current branch head before this documentation-only receipt refresh. The refresh does not alter runtime behavior."
 }
