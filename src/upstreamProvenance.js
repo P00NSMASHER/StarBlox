@@ -182,6 +182,30 @@ export const UPSTREAM_PROVENANCE = Object.freeze({
     '1678a1ec7d4b9a21e065c9b27a5fa233332210cf',
     'MIT'
   ),
+  purdleDailyGenerator: source(
+    'deterministic date-seeded Daily generation with graceful fallback and immutable artifacts',
+    'pedromussi1/Purdle',
+    'main',
+    '1678a1ec7d4b9a21e065c9b27a5fa233332210cf',
+    'MIT',
+    'scripts/generate_puzzle.py'
+  ),
+  purdleDailyWorkflow: source(
+    'scheduled Daily generation, idempotent date files and retry-safe publication workflow',
+    'pedromussi1/Purdle',
+    'main',
+    '1678a1ec7d4b9a21e065c9b27a5fa233332210cf',
+    'MIT',
+    '.github/workflows/daily-puzzle.yml'
+  ),
+  neonDailyChallenge: source(
+    'deterministic Daily composition and explicit incompatible-combination guardrails',
+    'Calculator5329/neon-vector-defense',
+    'master',
+    '48ecf31509d73dd8fb2c5f25f1fc57cfa6d03eb4',
+    'unasserted in GitHub metadata',
+    'src/game/dailyChallenge.ts'
+  ),
   fruitBoxGame: source(
     'solution-first deterministic procedural generation and retained solution certificate',
     'weizixiao/fruit-box-game',
