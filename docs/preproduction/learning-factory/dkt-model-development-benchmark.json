@@ -1,0 +1,35 @@
+{
+  "schemaVersion":"starblox-dkt-model-development-benchmark-v1",
+  "benchmarkId":"starblox-dkt-vs-bkt-development-v1",
+  "status":"development-model-tuning-allowed",
+  "authorization":"synthetic-only-no-real-player-data",
+  "seed":20270717,
+  "sourceLearnerCount":48,
+  "maxStep":30,
+  "selectionStep":18,
+  "heldOutStepCount":12,
+  "upstream":{
+    "repository":"mlcolab/psi-kt",
+    "commit":"ecada10cedb3237ba55f4277af0bdbd8d5d4a68e",
+    "model":"DKT"
+  },
+  "training":{
+    "epochs":100,
+    "optimizer":"Adam",
+    "learningRate":0.005,
+    "weightDecay":0.00001,
+    "batchSize":8,
+    "embeddingSize":16,
+    "hiddenSize":16,
+    "dropout":0.1
+  },
+  "candidateRule":{
+    "meanSpearmanGainVsBktMin":0.03,
+    "weakestSkillHitGainVsBktMin":0,
+    "globalPearsonGainVsBktMin":0,
+    "maeRegressionVsBktMax":0.05
+  },
+  "forbiddenSeeds":[20260924,20261103,20261217,20261229,20270113,20270217,20270307,20270419,20270511,20270623],
+  "tuneAgainstThisCohort":true,
+  "purpose":"Development-only mastery-signal benchmark for the pinned upstream DKT model. No selector changes are permitted from this cohort; a supportive model must be frozen and independently validated first."
+}
