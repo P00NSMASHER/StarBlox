@@ -124,7 +124,7 @@ describe('Step 3: Roblox production backbone', () => {
 
   it('keeps hardened AI NPC facts/receipts server-only and fails closed without policy/provider adapters', () => {
     expect(REPLICATION_BOUNDARIES.durableServerOnly).toEqual(
-      expect.arrayContaining(['AiNpc.Memories','AiNpc.ProcessedRequestIds'])
+      expect.arrayContaining(['AiNpc.Memories','AiNpc.ProcessedRequestIds','AiNpc.LastRequestSequence'])
     );
     expect(REPLICATION_BOUNDARIES.playerReplica).not.toContain('AiNpc');
 
