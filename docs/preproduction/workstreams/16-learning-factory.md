@@ -1,6 +1,6 @@
 # Workstream 16 — Learning Factory / Adaptive Shadow Stack
 
-STATUS: **PROMOTION SHADOW COMPLETE / FINAL HOLDOUT NOT SUPPORTIVE / LIVE SELECTOR V2 BLOCKED**
+STATUS: **PROMOTION RESEARCH HOLD / NO EXPERIMENTAL SELECTOR CLEARED REQUIRED GATES / CURRENT HEURISTIC REMAINS LIVE**
 
 Branch: `starblox-learning-factory-v1`  
 Base at branch creation: `screenshot-match-preproduction`  
@@ -580,6 +580,120 @@ weight 40.** The candidate is rejected under the predeclared final-holdout rule.
 
 The live-code assertion remained clean: the frozen candidate is not referenced
 from `App.jsx`, `main.jsx`, or `gameModel.js`.
+
+
+## Phase 5 — Heuristic-anchored candidate / independent validation rejection
+
+After the BKT+continuous-FSRS risk candidate missed its predeclared final-holdout
+threshold, a BKT+FSRS near-tie candidate was explored on new development-only
+cohorts. Its frozen margin-3 candidate failed independent validation at seed
+`20270307`:
+
+- candidate vs BKT hidden need: **+0.0014828**;
+- candidate vs BKT weakest-skill hit: **+0.0208333**;
+- candidate vs current heuristic hidden need: **-0.0039085**;
+- candidate vs current heuristic weakest-skill hit: **0**;
+- `validationSupportive:false`.
+
+It therefore never received another final holdout.
+
+A separate development direction then anchored the existing live heuristic and
+allowed BKT + continuous FSRS risk to reorder only questions within a bounded
+heuristic-score margin.
+
+### Fresh tuning cohort
+
+Development-only seed: **20270419**  
+Diagnostic run: `35975987584`  
+Actual FSRS payload SHA-256:
+`97a0b03d6a72aae3df6bc08b367c8532d80a7d86327c373dd3094a69c8ad5af0`.
+
+The sweep selected:
+
+- heuristic score margin: **3**;
+- FSRS forgetting-risk weight: **16**.
+
+On the tuning cohort the selected pair produced:
+
+- candidate hidden need: **0.5987994**;
+- candidate weakest-skill hit: **0.8333333**;
+- candidate due-skill coverage: **0.5231993**;
+- versus current heuristic hidden need: **+0.0015824**;
+- versus current heuristic weakest-skill hit: **+0.0208333**;
+- versus BKT hidden need: **+0.0166538**;
+- versus BKT weakest-skill hit: **+0.1666667**.
+
+This was tuning evidence only. The parameters were frozen in
+`src/selectorHeuristicBktFsrsAnchorShadow.js` before independent validation.
+
+### Independent no-tuning validation
+
+Validation seed: **20270511**  
+Validation run: `35976293553`  
+Actual FSRS payload SHA-256:
+`7e331cf9c04d08b30252b74bec7478d021da4ebd36a4cffd818502440a764204`.
+
+Predeclared requirements included:
+
+- no hidden-need regression versus the current heuristic;
+- no weakest-skill-hit regression versus the current heuristic;
+- no hidden-need regression versus BKT;
+- weakest-skill-hit gain versus BKT >= **0.02**;
+- due-skill-coverage loss versus the heuristic no worse than **-0.01**;
+- five-skill diversity and transfer inclusion preserved.
+
+Independent results:
+
+| Policy | Mean hidden need | Weakest-skill hit | Due-skill coverage |
+| --- | ---: | ---: | ---: |
+| Current heuristic | **0.5838681** | **0.81250** | 0.5146254 |
+| BKT-backed shadow | **0.5920151** | **0.9166667** | 0.5143361 |
+| Frozen heuristic/BKT/FSRS anchor | **0.5835776** | **0.7916667** | 0.5146254 |
+
+Frozen candidate deltas:
+
+- versus heuristic hidden need: **-0.0002904**;
+- versus heuristic weakest-skill hit: **-0.0208333**;
+- versus BKT hidden need: **-0.0084375**;
+- versus BKT weakest-skill hit: **-0.125**;
+- versus heuristic due coverage: **0**.
+
+Therefore:
+
+`validationSupportive:false`
+
+and the candidate is **retired without a final holdout**. The validation cohort
+must not be used to retune the same frozen candidate and then described as
+independent evidence.
+
+### Consolidated live decision
+
+`docs/preproduction/learning-factory/current-promotion-decision.json` now
+records the consolidated state:
+
+- live selector remains `gameModel.pickQuest`;
+- PSI-KT remains research telemetry only;
+- actual FSRS remains a validated research signal only;
+- PSI-KT+FSRS Selector V2: rejected final holdout;
+- BKT+FSRS risk-40: rejected final holdout;
+- BKT+FSRS near-tie-3: rejected independent validation;
+- heuristic/BKT/FSRS anchor margin-3/risk-16: rejected independent validation.
+
+`scripts/assertLearningLiveSelectorBoundary.mjs` now scans `App.jsx`,
+`main.jsx`, and `gameModel.js` for every experimental selector family. CI
+fails if any rejected/research selector is wired into the live Quest path.
+
+The remaining live-promotion blockers are:
+
+1. external-original ABVM provenance remains unverified;
+2. no real-learner efficacy evaluation has been authorized/completed;
+3. privacy review for real-learner adaptive modeling is not complete;
+4. no research selector has cleared the required development-validation and
+   untouched-final-holdout sequence.
+
+Further synthetic research may continue only on fresh development cohorts.
+Prior validation/final-holdout seeds must remain frozen and must not be reused
+for tuning.
 
 
 ## Integration note
