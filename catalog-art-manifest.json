@@ -1,9 +1,9 @@
 {
-  "version": 38,
+  "version": 39,
   "target": 192,
-  "finalCount": 174,
-  "remaining": 18,
-  "note": "Delivery Protocol V2 incremental integration: independently ACCEPTed Desk 7 v2 Sunny Creator Desk exact hash integrated after reviewer11 Store card/detail review. All current REWORK hashes remain preserved and non-canonical.",
+  "finalCount": 175,
+  "remaining": 17,
+  "note": "Delivery Protocol V2 incremental integration: independently ACCEPTed Decor 12 v3 Trophy Wall exact hash integrated after reviewer02 Store card/detail review. Canonical runtime syntax around Decor 6 was repaired without changing its mapping. Current REWORK hashes remain preserved and non-canonical.",
   "duplicateAssetPaths": [],
   "items": {
     "tops-1": {
@@ -1271,6 +1271,13 @@
       "assetPath": "/assets/catalog-candidates/cpu/desks-7-w13-v2-a-creator-desk-original.png",
       "tier": 3,
       "theme": "Garden Glow",
+      "status": "final-portable"
+    },
+    "decor-12": {
+      "name": "Trophy Wall",
+      "assetPath": "/assets/catalog-candidates/cpu/decor-12-w09-v3-a-trophy-cups-wall-original.png",
+      "tier": 5,
+      "theme": "Star Luxe",
       "status": "final-portable"
     }
   }

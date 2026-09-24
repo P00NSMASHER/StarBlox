@@ -192,9 +192,10 @@ const portableCatalogArt = Object.freeze({
   'decor-3': '/assets/catalog/decor-3-w09-v3.webp',
   'decor-4': '/assets/catalog/decor-4-w09-v3.webp',
   'decor-5': '/assets/catalog-candidates/cpu/decor-5-w09-v3-a-physical-original.png',
-  'decor-6': '/assets/catalog-candidates/cpu/decor-6-w03-v2-a-single-telescope-original.png'
+  'decor-6': '/assets/catalog-candidates/cpu/decor-6-w03-v2-a-single-telescope-original.png',
   'decor-9': '/assets/catalog-candidates/cpu/decor-9-w09-v1-a-easel-with-tray-original.png',
   'decor-10': '/assets/catalog-candidates/cpu/decor-10-w09-v1-a-retro-mini-fridge-original.png',
+  'decor-12': '/assets/catalog-candidates/cpu/decor-12-w09-v3-a-trophy-cups-wall-original.png',
 });
 
 for (const item of gameModel.store) {
