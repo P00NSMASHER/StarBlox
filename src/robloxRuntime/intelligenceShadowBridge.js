@@ -5,6 +5,7 @@ import {
   getQuestionVersion
 } from '../questionBank/questionBankV2.js';
 import { authoredDifficultyToIrt } from '../intelligence/irtEngine.js';
+import { assertDailyPublishable } from '../daily/dailyCertification.js';
 
 export const ROBLOX_SHADOW_BRIDGE_VERSION='starblox-roblox-shadow-v1';
 
@@ -15,6 +16,77 @@ function clone(value){
 function lookup(table,key){
   if(table instanceof Map) return table.get(key);
   return table?.[key];
+}
+
+
+export function buildRobloxQuestionBankRuntimePayload(bank,{
+  itemCalibrations={},
+  qualityByQuestionId={}
+}={}){
+  const snapshot=createQuestionBankSnapshot(bank);
+  const questions=[];
+
+  for(const ref of snapshot.refs){
+    const entry=getQuestionEntry(bank,ref.questionId);
+    const version=getQuestionVersion(bank,ref.questionId,ref.version);
+    if(!entry || !version || version.contentHash !== ref.contentHash) continue;
+
+    const calibration=
+      lookup(itemCalibrations,ref.questionId + '@' + ref.version) ||
+      lookup(itemCalibrations,ref.questionId) ||
+      null;
+    const quality=lookup(qualityByQuestionId,ref.questionId);
+
+    questions.push({
+      questionId:ref.questionId,
+      version:ref.version,
+      contentHash:ref.contentHash,
+      prompt:version.prompt,
+      choices:clone(version.choices),
+      answer:version.answer,
+      explanation:version.explanation,
+      hint:version.hint,
+      subject:version.subject,
+      district:version.district,
+      skill:version.skill,
+      role:version.role,
+      conceptIds:clone(entry.conceptIds?.length ? entry.conceptIds : [version.skill]),
+      difficulty:version.difficulty,
+      reward:version.reward,
+      masteryEligible:version.masteryEligible !== false,
+      irtDifficulty:calibration?.difficulty ?? authoredDifficultyToIrt(version.difficulty),
+      irtDiscrimination:calibration?.discrimination ?? 1,
+      quality:typeof quality === 'number'
+        ? Math.max(0,Math.min(1,quality > 1 ? quality / 100 : quality))
+        : 1
+    });
+  }
+
+  return {
+    bankId:snapshot.bankId,
+    version:snapshot.version,
+    hash:snapshot.hash,
+    questions
+  };
+}
+
+export function buildRobloxDailyRuntimePayload({artifact,releaseId}){
+  assertDailyPublishable(artifact);
+  if(typeof releaseId !== 'string' || !releaseId.trim()){
+    throw new TypeError('releaseId is required.');
+  }
+
+  return {
+    certified:true,
+    dailyId:artifact.bundle.id,
+    releaseId:releaseId.trim(),
+    bundleHash:artifact.bundle.bundleHash,
+    questionBankVersion:artifact.questionBankSnapshot.version,
+    questionBankHash:artifact.questionBankSnapshot.hash,
+    balanceVersion:artifact.bundle.balanceVersion,
+    questionRefs:clone(artifact.bundle.questionRefs),
+    levelSpec:clone(artifact.bundle.levelSpec)
+  };
 }
 
 export function buildRobloxShadowCandidates(bank,{
@@ -67,6 +139,9 @@ export function buildRobloxShadowState({
   weights=null,
   introduceNewConcepts=false
 }){
+  if(typeof nowMs !== 'number' || !Number.isFinite(nowMs) || nowMs < 0){
+    throw new TypeError('nowMs must be a non-negative finite number.');
+  }
   const source=learning || {};
   return {
     memoryByConcept:clone(source.Concepts || source.concepts || {}),
