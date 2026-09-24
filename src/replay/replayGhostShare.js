@@ -265,6 +265,17 @@ export function validateShareableChallenge(challenge,{releaseRegistry=null}={}){
   if(challenge.challengeVersion !== SHAREABLE_CHALLENGE_VERSION){
     errors.push('unsupported challenge version');
   }
+  if(typeof challenge.challengeId !== 'string' || !challenge.challengeId){
+    errors.push('challengeId is required');
+  }
+  if(typeof challenge.title !== 'string' || !challenge.title){
+    errors.push('challenge title is required');
+  }
+  if(typeof challenge.createdAt !== 'string' || !challenge.createdAt){
+    errors.push('challenge createdAt is required');
+  }else if(Number.isNaN(Date.parse(challenge.createdAt))){
+    errors.push('challenge createdAt is invalid');
+  }
 
   const replay=validateReplayRecording(challenge.recording);
   if(!replay.ok){
