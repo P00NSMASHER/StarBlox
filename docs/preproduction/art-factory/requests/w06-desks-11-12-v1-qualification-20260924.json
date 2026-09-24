@@ -1,0 +1,118 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_TECHNICAL_QUALIFICATION_MICROBATCH",
+  "role": "06-single-technical-qualification-gate",
+  "branch": "screenshot-match-preproduction",
+  "observedHead": "7607a89643d7baad31ab078165d54e7119347896",
+  "intakeEvidence": "docs/preproduction/art-factory/requests/w12-cross-account-intake-routing-20260924-v25.json",
+  "manifestVersion": 36,
+  "items": [
+    {
+      "item": {
+        "id": "desks-11",
+        "name": "Dream Creator Station",
+        "collectionId": "desks",
+        "type": "room",
+        "tier": 4,
+        "theme": "Art Attack"
+      },
+      "candidate": {
+        "producer": "03",
+        "reviewer": "01",
+        "renderOwner": "14",
+        "canonicalWriter": "08",
+        "path": "public/assets/catalog-candidates/cpu/desks-11-w03-v1-a-creator-hutch-original.png",
+        "sha256": "6de9058d7498875858e3abacbf0ec65ee51759c1b050bc6731758afd2f556c81",
+        "gitBlobSha": "828ee1d718ca20643dd8d9fc24c7a98d33fb912c",
+        "dimensions": [
+          640,
+          640
+        ],
+        "bytes": 539567,
+        "format": "PNG",
+        "mode": "RGB"
+      },
+      "sourceGenerationRunId": 36002044703,
+      "provenance": {
+        "stagedOutput": "docs/preproduction/art-factory/generated-evidence/w03-desks-11-12-v1/desks-11/staged-output.json",
+        "generationReceipt": "docs/preproduction/art-factory/generated-evidence/w03-desks-11-12-v1/desks-11/generation-receipt.json",
+        "runtimeRepo": "huggingface/diffusers",
+        "runtimeCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+        "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+        "modelRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+        "dtype": "float32",
+        "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+      }
+    },
+    {
+      "item": {
+        "id": "desks-12",
+        "name": "Luxe Command Desk",
+        "collectionId": "desks",
+        "type": "room",
+        "tier": 5,
+        "theme": "Star Luxe"
+      },
+      "candidate": {
+        "producer": "03",
+        "reviewer": "01",
+        "renderOwner": "14",
+        "canonicalWriter": "08",
+        "path": "public/assets/catalog-candidates/cpu/desks-12-w03-v1-a-luxe-command-original.png",
+        "sha256": "509d489f29d73c9125b1e624b19c15a2ce52408f477ffd20ceef436c446996e8",
+        "gitBlobSha": "39b7f484a380ceb161f95bc1eb7ab470f9493a1d",
+        "dimensions": [
+          640,
+          640
+        ],
+        "bytes": 530368,
+        "format": "PNG",
+        "mode": "RGB"
+      },
+      "sourceGenerationRunId": 36002044703,
+      "provenance": {
+        "stagedOutput": "docs/preproduction/art-factory/generated-evidence/w03-desks-11-12-v1/desks-12/staged-output.json",
+        "generationReceipt": "docs/preproduction/art-factory/generated-evidence/w03-desks-11-12-v1/desks-12/generation-receipt.json",
+        "runtimeRepo": "huggingface/diffusers",
+        "runtimeCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+        "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+        "modelRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+        "dtype": "float32",
+        "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+      }
+    }
+  ],
+  "technicalChecks": {
+    "idPathBinding": "PASS_BOTH",
+    "signatureDecode": "PASS_BOTH_PNG",
+    "dimensions": "PASS_BOTH_640X640",
+    "sourceLineage": "PASS_BOTH_STAGED_OUTPUT_AND_GENERATION_RECEIPT",
+    "artFactoryV2Provenance": "PASS_BOTH_PINNED_RUNTIME_MODEL_RIGHTS",
+    "stagedOutputReadback": "PASS_BOTH_EXACT_LIVE_GIT_BLOB",
+    "staleSupersededCheck": "PASS_BOTH_FRESH_V1_REPLACEMENTS_FOR_VISIBLE_FALLBACKS",
+    "exactContentDuplicateCheck": "PASS_BOTH_UNIQUE_LIVE_BLOBS_NOT_CANONICAL",
+    "independentReviewerRouting": "PASS_BOTH_REVIEWER01_INDEPENDENT_OF_PRODUCER03"
+  },
+  "qualification": {
+    "status": "QUALIFIED_FOR_RENDERER14_MICROBATCH",
+    "qualifiedForRenderer14": true,
+    "qualifiedCount": 2,
+    "artQualityJudgment": "NOT_PERFORMED",
+    "blockingDefects": []
+  },
+  "routing": {
+    "current": "HANDOFF_TO_RENDERER14",
+    "reviewerByItem": {
+      "desks-11": "01",
+      "desks-12": "01"
+    },
+    "renderer14": "RENDER_BOTH_EXACT_HASHES_IN_REAL_STORE_CARD_DETAIL_CONTEXT",
+    "integration08": "ONLY_AFTER_MATCHING_INDEPENDENT_REVIEWER_ACCEPT"
+  },
+  "preservation": {
+    "candidateBytesMutated": false,
+    "canonicalMappingsChanged": false,
+    "gameplayLearningPersistenceEconomyChanged": false,
+    "deploymentTouched": false
+  }
+}
