@@ -176,7 +176,12 @@ function onClick(event){
   const target = event.target.closest?.(INTERACTIVE_SELECTOR);
   if(!target) return;
 
-  restartClass(target,'sbMotionSelection',motionDurationFor('selection',prefersReducedMotion()));
+  // Reduced-motion users should not receive a zero-duration animation class.
+  // A 0ms restart still mutates the live control before React handles the click
+  // and can race enhancement observers on rapid retry interactions.
+  if(!prefersReducedMotion()){
+    restartClass(target,'sbMotionSelection',motionDurationFor('selection',false));
+  }
 
   const page = target.closest('.marketPage.sbStoreMatch');
   if(target.matches('.storeCard') && page){
