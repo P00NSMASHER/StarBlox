@@ -1,0 +1,80 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_EXACT_HASH_REVIEW_PACKET",
+  "branch": "screenshot-match-preproduction",
+  "createdBy": "14",
+  "rendererEvidenceHead": "647b9b5284df757c5f6ac2e1b0ee9b7095fc7845",
+  "reviewer": "05",
+  "producer": "03",
+  "item": {
+    "id": "desks-9",
+    "name": "Art Maker Table",
+    "collectionId": "desks",
+    "type": "room",
+    "tier": 3,
+    "theme": "Sunny Pop"
+  },
+  "exactCandidate": {
+    "path": "public/assets/catalog-candidates/cpu/desks-9-w03-v2-a-physical-original.png",
+    "sha256": "dfe46866e35daf1f55069ca3549cc6a45c46e92f131e01c0bd492b7641203a6a",
+    "gitBlobSha": "6cab04be717e17e2b682afa73ce8306bc21556c8",
+    "bytes": 495982,
+    "dimensions": [
+      640,
+      640
+    ],
+    "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-desks-9-10-v2-qualification-20260924.json",
+    "qualification": "QUALIFIED_FOR_RENDERER14"
+  },
+  "renderEvidence": {
+    "workflow": "StarBlox Staged Catalog Art QA",
+    "workflowRunId": 35978772779,
+    "workflowHead": "647b9b5284df757c5f6ac2e1b0ee9b7095fc7845",
+    "artifactId": 10799695347,
+    "artifactName": "catalog-staged-art-review",
+    "artifactDigest": "sha256:419d1c47ffff765612f73bae01cd83012e39dc238e411852cae78db205ae2441",
+    "contactSheetPath": "staged-replacements/staged-replacements-contact-sheet.png",
+    "contactSheetSha256": "728fd5fa23e35bc80049f70c34f38f5d446be55aaa26b1e050e3097b5416d3f8",
+    "renderStatus": 200,
+    "naturalDimensions": [
+      640,
+      640
+    ],
+    "opaqueFraction": 1,
+    "screenshot": true,
+    "errors": [],
+    "detailPath": "staged-replacements/detail/desks-9-6cab04be.png",
+    "detailSha256": "4f162efb74aa0303dbfbc528e2bea7dbbbd9028edf13146eb3aa592361b8087c",
+    "preflightPath": "preflight/desks-9-6cab04be.json",
+    "preflightSha256": "37c346461af3fa5d59e28d65ebbafdf305f96eeb68c2d09548213cc3c52d3601"
+  },
+  "reportOnlyPreflight": {
+    "exactDuplicate": false,
+    "calibratedWarnings": [],
+    "warningReadyFeatureCount": 0,
+    "triggeredWarningCount": 0,
+    "blocking": false,
+    "automaticAccept": false,
+    "automaticRework": false
+  },
+  "decisionContract": {
+    "allowed": [
+      "ACCEPT",
+      "REWORK"
+    ],
+    "exactHashOnly": true,
+    "oldVerdictTransfers": false,
+    "selfReview": false,
+    "requiredJudgments": [
+      "Art Maker Table identity as substantial maker/drafting furniture",
+      "Sunny Pop Tier-3 specificity without room-scene clutter",
+      "tabletop/support/storage/tool-rail physical plausibility",
+      "silhouette and small-card readability",
+      "wood/metal/accessory material separation and depth",
+      "composition/crop/malformed-object risk",
+      "originality/near-duplicate risk versus existing Desks"
+    ],
+    "onAccept": "Route exact desks-9 v2 hash to 08 canonical integration.",
+    "onRework": "Preserve exact desks-9 v2 hash/evidence and return smallest failure-specific reason codes to producer03/director15."
+  }
+}
