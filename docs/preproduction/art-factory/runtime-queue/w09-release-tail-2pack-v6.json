@@ -16,7 +16,7 @@
   ],
   "variantByItem": {
     "decor-7": "A-RACK-WITH-CLASSIC-QUAD-SKATES",
-    "decor-11": "A-LITERAL-VANITY-MIRROR-STOOL"
+    "decor-11": "B-LITERAL-VANITY-MIRROR-STOOL"
   },
   "reviewerByItem": {
     "decor-7": "01",
@@ -39,7 +39,7 @@
     "canonicalWriter": "08"
   },
   "dispatchPolicy": "PREPARED_LITERAL_RETRY__WAIT_LIVE_CPU_IDLE",
-  "retryRevision": 2,
-  "retryReason": "supersede stale running batch after confirmed old runtime prompt compiler dropped critical product clauses; rerun same exact items/variants/reviewers/versions/settings on whole-clause compiler head",
+  "retryRevision": 3,
+  "retryReason": "select intact vanity B runtime prompt that preserves explicit stool",
   "compilerFixHead": "631712b6a5"
 }
