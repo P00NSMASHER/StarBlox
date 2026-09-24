@@ -5,7 +5,7 @@
   "role": "Visual Target Director / independent catalog reviewer",
   "phase": "ART_AND_VISUALS_ONLY",
   "branch": "screenshot-match-preproduction",
-  "sourceHead": "28671f22d1",
+  "sourceHead": "c6ff4fc73c",
   "assignedCollections": [
     "tops",
     "bottoms",
@@ -34,10 +34,11 @@
   },
   "currentCycle": {
     "scope": [
+      "desks-11",
       "decor-7"
     ],
-    "version": "current exact hash: decor-7",
-    "result": "REWORK_1_OF_1",
+    "version": "current six-pack exact hashes",
+    "result": "REWORK_2_OF_2",
     "oldVerdictsTransferred": false,
     "actualCardScalePixelsReviewed": true,
     "actualDetailPixelsReviewed": true,
@@ -736,6 +737,80 @@
         "duplicateVisual": "PASS",
         "technicalIntegrity": "PASS"
       }
+    },
+    {
+      "itemId": "desks-11",
+      "name": "Dream Creator Station",
+      "assetPath": "public/assets/catalog-candidates/cpu/desks-11-w03-v5-a-one-creator-desk-only-original.png",
+      "repositoryPath": "public/assets/catalog-candidates/cpu/desks-11-w03-v5-a-one-creator-desk-only-original.png",
+      "assetHash": "31216c600b99791b15e9bd92079dd70241ca53bf",
+      "sha256": "2a10f765b356db83badaef9c42ead321aea4eca95d231b198dad3888616b5f4d",
+      "contentSha256": "2a10f765b356db83badaef9c42ead321aea4eca95d231b198dad3888616b5f4d",
+      "hashAlgorithm": "git-blob-sha1",
+      "producer": "03",
+      "decision": "REWORK",
+      "learnerLabel": "REWORK",
+      "reviewedAt": "2026-09-24T17:46:00Z",
+      "evidenceRefs": [
+        "workflow:36035222979",
+        "artifact:10824341301/staged-replacements/staged-replacements-contact-sheet.png",
+        "artifact:10824341301/staged-replacements/detail/desks-11-31216c60.png"
+      ],
+      "reasonCodes": [
+        "ROOM_CONTEXT_DOMINATES",
+        "WEAK_CREATOR_STATION_IDENTITY",
+        "MALFORMED_DESK_SUPPORTS",
+        "NO_CLEAR_CREATIVE_TOOL_STORAGE"
+      ],
+      "reason": "REWORK. V5 is one desk view, but the product still reads as a room-installed workstation inside large shelving/cabinet architecture. The desk supports are malformed/ambiguous and there is no clear creator-tool/storage identity at card scale. Preserve this hash. Next attempt must isolate one freestanding creator desk on a plain background with a dominant worktop, two coherent supports/pedestals and one attached creative-tool/storage rail or drawer unit; no room cabinetry or wall shelving.",
+      "checks": {
+        "identity": "FAIL",
+        "silhouette": "FAIL",
+        "cardReadability": "FAIL",
+        "physicalConstruction": "FAIL",
+        "framingComposition": "FAIL",
+        "materialLighting": "PARTIAL",
+        "originality": "PASS",
+        "duplicateVisual": "PASS",
+        "technicalIntegrity": "PASS"
+      }
+    },
+    {
+      "itemId": "decor-7",
+      "name": "Skate Rack",
+      "assetPath": "public/assets/catalog-candidates/cpu/decor-7-w09-v9-a-two-bay-rack-quad-skates-original.png",
+      "repositoryPath": "public/assets/catalog-candidates/cpu/decor-7-w09-v9-a-two-bay-rack-quad-skates-original.png",
+      "assetHash": "6d4ee958f8714799ee8fcdd1ec8364521d435803",
+      "sha256": "b9ea07ca875c35664e32315c4362568e7ad83989408dbadf857a0d99172b5c60",
+      "contentSha256": "b9ea07ca875c35664e32315c4362568e7ad83989408dbadf857a0d99172b5c60",
+      "hashAlgorithm": "git-blob-sha1",
+      "producer": "09",
+      "decision": "REWORK",
+      "learnerLabel": "REWORK",
+      "reviewedAt": "2026-09-24T17:46:00Z",
+      "evidenceRefs": [
+        "workflow:36035222979",
+        "artifact:10824341301/staged-replacements/staged-replacements-contact-sheet.png",
+        "artifact:10824341301/staged-replacements/detail/decor-7-6d4ee958.png"
+      ],
+      "reasonCodes": [
+        "MULTI_PANEL_VARIANT_COLLAGE",
+        "NO_SINGLE_SKATE_RACK",
+        "QUAD_SKATE_IDENTITY_FAILURE",
+        "PRODUCT_SILHOUETTE_FRAGMENTED"
+      ],
+      "reason": "REWORK. V9 is another multi-panel set of several wheeled/rack-like concepts rather than one compact Skate Rack. The objects read as scooters, carts or abstract wheeled devices more than a pair of quad roller skates, so no single product silhouette survives. Preserve this exact hash. Next attempt must show exactly one tiny two-bay rack in one view with one unmistakable pair of quad skates: boot uppers, trucks and four wheels per skate clearly visible; plain background, no panels or alternate variants.",
+      "checks": {
+        "identity": "FAIL",
+        "silhouette": "FAIL",
+        "cardReadability": "FAIL",
+        "physicalConstruction": "FAIL",
+        "framingComposition": "FAIL",
+        "materialLighting": "PARTIAL",
+        "originality": "PASS",
+        "duplicateVisual": "PASS",
+        "technicalIntegrity": "PASS"
+      }
     }
   ],
   "currentReplacementDisposition": {
@@ -779,7 +854,7 @@
     },
     "decor": {
       "REWORK": {
-        "decor-7": "41111bb07b54c5a370adcb44a80d7f0711d37a0e"
+        "decor-7": "6d4ee958f8714799ee8fcdd1ec8364521d435803"
       },
       "ACCEPT": {
         "decor-5": "1e7716f00e8e38f7ad645a448f9e29adea38de37"
@@ -787,7 +862,7 @@
     },
     "desks": {
       "REWORK": {
-        "desks-11": "7f4f00fcce23a47b566ec3a99704821acb3ce57a",
+        "desks-11": "31216c600b99791b15e9bd92079dd70241ca53bf",
         "desks-12": "7d268e27c8d963dfb7e8c62274fe6b906973d5bd"
       },
       "ACCEPT": {
@@ -800,23 +875,24 @@
   },
   "summary": {
     "uniqueCatalogIdsReviewedHistorically": 49,
-    "reviewedThisRun": 1,
+    "reviewedThisRun": 2,
     "newAcceptsThisRun": 0,
-    "newReworkThisRun": 1,
+    "newReworkThisRun": 2,
     "newBlockedThisRun": 0,
     "newUsableBy08Now": [],
     "reworkNow": [
+      "desks-11",
       "decor-7"
     ],
-    "preservedAcceptedHashes": "All prior reviewer01 ACCEPTs remain frozen; this REWORK applies only to decor-7 exact hash 41111bb07b54c5a370adcb44a80d7f0711d37a0e."
+    "preservedAcceptedHashes": "All prior reviewer ACCEPTs remain frozen; these REWORK verdicts apply only to the current exact six-pack hashes assigned to this reviewer."
   },
   "handoff": {
     "13": "desks-12 exact hash ACCEPT; freeze it and remove from production scope.",
     "14": "Current render packets consumed; do not rerender unchanged hashes.",
-    "15": "decor-7 remains a bounded exact-pixel release blocker.",
-    "09": "decor-7 current exact hash is REWORK; preserve it and use the new positive/negative prompt compiler for the next failure-specific version.",
-    "03": "desks-11 current exact hash is REWORK; preserve it and use the smallest failure-specific next prompt only if director15 keeps it release-critical.",
-    "08": "Do not canonical-wire decor-7 exact hash 41111bb07b54c5a370adcb44a80d7f0711d37a0e."
+    "15": "desks-11, decor-7 remain bounded exact-pixel release blockers; use only the failure-specific next prompts.",
+    "09": "decor-7 current exact hash is REWORK; preserve it and generate only the failure-specific next version if director15 keeps it release-critical.",
+    "03": "desks-11 current exact hash is REWORK; preserve it and generate only the failure-specific next version if director15 keeps it release-critical.",
+    "08": "Do not canonical-wire desks-11, decor-7 current exact hashes."
   },
   "freeze": {
     "replitTouched": false,
