@@ -1,0 +1,111 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_W12_CANDIDATE_DELTA_INTAKE_ROUTING",
+  "router": "12",
+  "branch": "screenshot-match-preproduction",
+  "observedHead": "7a07f7a59bab85283128536793903e59eeb0b444",
+  "scanWindow": {
+    "priorCursor": "67efe9eb827ad21511c5955f087cc5bf718477f3",
+    "inspectedThroughHead": "7a07f7a59bab85283128536793903e59eeb0b444",
+    "newCatalogCandidateBytesDetected": true,
+    "newCandidateItemIds": [
+      "decor-7",
+      "decor-11",
+      "decor-12"
+    ],
+    "note": "Post-v30 delta contains exactly three fresh producer09 failure-specific replacements; reviewer-packet commits and the final Desk10/11 runtime-queue dispatch add no other candidate bytes."
+  },
+  "candidates": [
+    {
+      "id": "decor-7",
+      "name": "Skate Rack",
+      "collectionId": "decor",
+      "producer": "09",
+      "reviewerAssignment": "01",
+      "renderOwner": "14",
+      "canonicalWriter": "08",
+      "path": "public/assets/catalog-candidates/cpu/decor-7-w09-v7-a-quad-skates-in-rack-original.png",
+      "sha256": "1cf7f676a9dc758b12d69180cbc547c70f9f81fd275ce1d503d1db2aa0e5e30c",
+      "gitBlobSha": "fe27bb7b6fa4dc4e6376434c7514a932ee2419da",
+      "bytes": 623742,
+      "dimensions": [
+        640,
+        640
+      ],
+      "format": "PNG",
+      "stagedOutput": "docs/preproduction/art-factory/generated-evidence/w09-current-rework-3pack-v3/decor-7/staged-output.json",
+      "generationReceipt": "docs/preproduction/art-factory/generated-evidence/w09-current-rework-3pack-v3/decor-7/generation-receipt.json",
+      "provenanceState": "COMPLETE_ART_FACTORY_V2",
+      "repositoryReadback": "PASS_EXACT_GIT_BLOB",
+      "supersession": "FRESH_V7_FAILURE_SPECIFIC_REPLACEMENT_FOR_REWORKED_V6",
+      "state": "ROUTE_TO_06_TECHNICAL_QUALIFICATION"
+    },
+    {
+      "id": "decor-11",
+      "name": "Dream Vanity Set",
+      "collectionId": "decor",
+      "producer": "09",
+      "reviewerAssignment": "02",
+      "renderOwner": "14",
+      "canonicalWriter": "08",
+      "path": "public/assets/catalog-candidates/cpu/decor-11-w09-v3-a-one-vanity-set-original.png",
+      "sha256": "5c3e56e16745ab6dbe5c6935ab51390b12781c78f14a14f2cf8ec510f0616565",
+      "gitBlobSha": "0cb68d665a140f9d176a3f5721c8c08572867cdf",
+      "bytes": 629225,
+      "dimensions": [
+        640,
+        640
+      ],
+      "format": "PNG",
+      "stagedOutput": "docs/preproduction/art-factory/generated-evidence/w09-current-rework-3pack-v3/decor-11/staged-output.json",
+      "generationReceipt": "docs/preproduction/art-factory/generated-evidence/w09-current-rework-3pack-v3/decor-11/generation-receipt.json",
+      "provenanceState": "COMPLETE_ART_FACTORY_V2",
+      "repositoryReadback": "PASS_EXACT_GIT_BLOB",
+      "supersession": "FRESH_V3_FAILURE_SPECIFIC_REPLACEMENT_FOR_REWORKED_V2",
+      "state": "ROUTE_TO_06_TECHNICAL_QUALIFICATION"
+    },
+    {
+      "id": "decor-12",
+      "name": "Trophy Wall",
+      "collectionId": "decor",
+      "producer": "09",
+      "reviewerAssignment": "02",
+      "renderOwner": "14",
+      "canonicalWriter": "08",
+      "path": "public/assets/catalog-candidates/cpu/decor-12-w09-v3-a-trophy-cups-wall-original.png",
+      "sha256": "fd7ab69181128df9a571edbfc0b7ff1de05ecb7e8983a2b5367c1a18f3e27c2a",
+      "gitBlobSha": "0926a84e4b1e47ce58b5335e3cc655c77fb67d07",
+      "bytes": 623084,
+      "dimensions": [
+        640,
+        640
+      ],
+      "format": "PNG",
+      "stagedOutput": "docs/preproduction/art-factory/generated-evidence/w09-current-rework-3pack-v3/decor-12/staged-output.json",
+      "generationReceipt": "docs/preproduction/art-factory/generated-evidence/w09-current-rework-3pack-v3/decor-12/generation-receipt.json",
+      "provenanceState": "COMPLETE_ART_FACTORY_V2",
+      "repositoryReadback": "PASS_EXACT_GIT_BLOB",
+      "supersession": "FRESH_V3_FAILURE_SPECIFIC_REPLACEMENT_FOR_REWORKED_V2",
+      "state": "ROUTE_TO_06_TECHNICAL_QUALIFICATION"
+    }
+  ],
+  "dedupe": {
+    "uniqueItemHashClaim": true,
+    "unchangedPriorHashesRerouted": false,
+    "newerPendingCandidateObserved": false
+  },
+  "queues": {
+    "to06": [
+      "decor-7@1cf7f676a9dc758b12d69180cbc547c70f9f81fd275ce1d503d1db2aa0e5e30c",
+      "decor-11@5c3e56e16745ab6dbe5c6935ab51390b12781c78f14a14f2cf8ec510f0616565",
+      "decor-12@fd7ab69181128df9a571edbfc0b7ff1de05ecb7e8983a2b5367c1a18f3e27c2a"
+    ],
+    "backToProducer": []
+  },
+  "cursorAdvance": {
+    "previous": "67efe9eb827ad21511c5955f087cc5bf718477f3",
+    "advancedThrough": "7a07f7a59bab85283128536793903e59eeb0b444"
+  },
+  "nextOwner": "06_TECHNICAL_QUALIFICATION",
+  "mutationScope": "Routing evidence only; no candidate bytes, canonical mappings, reviewer decisions, gameplay, CI/workflows, deployment or player data changed."
+}
