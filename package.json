@@ -21,7 +21,8 @@
     "assert:locked-learning-benchmark": "node scripts/assertLockedLearningBenchmark.mjs",
     "assert:learning-live-boundary": "node scripts/assertLearningLiveSelectorBoundary.mjs",
     "interop:edgameclaw-evidence": "node scripts/bindEdGameClawEvidence.mjs",
-    "interop:edgameclaw-question": "node scripts/compileEdGameClawQuestions.mjs"
+    "interop:edgameclaw-question": "node scripts/compileEdGameClawQuestions.mjs",
+    "assert:generated-content-live-boundary": "node scripts/assertGeneratedContentLiveBoundary.mjs"
   },
   "dependencies": {
     "lucide-react": "^0.468.0",
