@@ -125,6 +125,7 @@ function playerState({playerId,position={x:0,y:0,z:0},health,serverTimeMs=0},cfg
     health:hp,
     lastSeq:-1,
     lastClientTimeMs:null,
+    lastFireSeq:-1,
     lastFireAt:{},
     history:[{t,position:clone(pos),velocity:{x:0,y:0,z:0},health:hp}]
   };
@@ -275,7 +276,7 @@ function pointRayHit(origin,direction,maxRange,point,radius){
 }
 
 function validateFireShape(intent){
-  const allowed=new Set(['requestId','weaponId','shotTimeMs','origin','direction']);
+  const allowed=new Set(['fireSeq','requestId','weaponId','shotTimeMs','origin','direction']);
   const extras=Object.keys(intent || {}).filter(key=>!allowed.has(key));
   if(extras.length) throw new Error('fire intent contains client-authored outcome fields: ' + extras.sort().join(', '));
 }
@@ -296,8 +297,9 @@ export function applyFireIntent(world,shooterId,intent,{
   if(!shooter) return {ok:false,reason:'unknown shooter',world};
   if(shooter.health <= 0) return {ok:false,reason:'shooter is not active',world};
 
-  let requestId,weaponId,shotTime,origin,direction;
+  let fireSeq,requestId,weaponId,shotTime,origin,direction;
   try{
+    fireSeq=nonNegativeInt(intent.fireSeq,'fireSeq');
     requestId=id(intent.requestId,'requestId');
     weaponId=id(intent.weaponId,'weaponId');
     shotTime=finite(intent.shotTimeMs,'shotTimeMs');
@@ -305,6 +307,10 @@ export function applyFireIntent(world,shooterId,intent,{
     direction=normalized(vec3(intent.direction,'direction'));
   }catch(error){
     return {ok:false,reason:error.message,world};
+  }
+
+  if(fireSeq <= (Number.isInteger(shooter.lastFireSeq) ? shooter.lastFireSeq : -1)){
+    return {ok:false,reason:'stale or duplicate fire sequence',world};
   }
 
   const fireKey=shooterId + ':' + requestId;
@@ -344,11 +350,6 @@ export function applyFireIntent(world,shooterId,intent,{
     }
   }
 
-  shooter.lastFireAt ||= {};
-  shooter.lastFireAt[weaponId]=now;
-  next.processedFireIds.push(fireKey);
-  next.processedFireIds=next.processedFireIds.slice(-cfg.processedFireLimit);
-
   let targetHealth=null;
   if(best){
     const target=next.players[best.targetId];
@@ -363,8 +364,15 @@ export function applyFireIntent(world,shooterId,intent,{
     target.history=pruneHistory(target.history,now,cfg);
   }
 
+  shooter.lastFireSeq=fireSeq;
+  shooter.lastFireAt ||= {};
+  shooter.lastFireAt[weaponId]=now;
+  next.processedFireIds.push(fireKey);
+  next.processedFireIds=next.processedFireIds.slice(-cfg.processedFireLimit);
+
   const updated=finishWorld(next);
   const event={
+    fireSeq,
     requestId,
     weaponId,
     serverTimeMs:now,
@@ -374,7 +382,7 @@ export function applyFireIntent(world,shooterId,intent,{
     damage:best ? weapon.damage : 0,
     targetHealth,
     eventHash:stableHash({
-      requestId,weaponId,serverTimeMs:now,shotTimeMs:shotTime,
+      fireSeq,requestId,weaponId,serverTimeMs:now,shotTimeMs:shotTime,
       targetId:best?.targetId ?? null,
       damage:best ? weapon.damage : 0,
       targetHealth
