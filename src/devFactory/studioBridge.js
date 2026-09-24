@@ -127,7 +127,8 @@ export class StudioBridgeQueue {
 
 export function createStudioHttpAdapter({
   baseUrl='http://127.0.0.1:38473',
-  instanceId='default'
+  instanceId='default',
+  token=''
 }={}){
   const root=String(baseUrl).replace(/\/$/,'');
   const supported=new Set(studioToolNames());
@@ -138,9 +139,11 @@ export function createStudioHttpAdapter({
     },
     async call(tool,args={}){
       if(!supported.has(tool)) throw new Error('unknown Studio tool: ' + tool);
+      const headers={'content-type':'application/json'};
+      if(token) headers['x-starblox-bridge-token']=token;
       const response=await fetch(root + '/call',{
         method:'POST',
-        headers:{'content-type':'application/json'},
+        headers,
         body:JSON.stringify({tool,args,instanceId})
       });
       const payload=await response.json();
