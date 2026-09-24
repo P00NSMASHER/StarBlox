@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_CPU_GENERATION_QUEUE",
+  "queueId": "w03-release-tail-4pack-v6-token-safe",
+  "branch": "screenshot-match-preproduction",
+  "requestPath": "docs/preproduction/art-factory/requests/w03-release-tail-4pack-v6-20260924.json",
+  "producer": "03",
+  "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+  "modelRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+  "runtimeCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+  "runtimeProofPath": "docs/preproduction/art-factory/CPU_RUNTIME_PROOF.json",
+  "runtimeProofArtifactDigest": "sha256:528610198d72092c9d09159bf4b749a5c467361307587545fb24dded2876eeda",
+  "items": [
+    "decor-8",
+    "desks-9",
+    "desks-10",
+    "desks-11"
+  ],
+  "variantByItem": {
+    "decor-8": "B-SINGLE-BLUE-AQUARIUM",
+    "desks-9": "B-ART-MAKER-WORKTABLE",
+    "desks-10": "B-STREAMING-WORKSTATION-MIC-DOMINANT",
+    "desks-11": "B-PLAIN-CREATOR-DESK"
+  },
+  "reviewerByItem": {
+    "decor-8": "11",
+    "desks-9": "05",
+    "desks-10": "05",
+    "desks-11": "01"
+  },
+  "versionByItem": {
+    "decor-8": 6,
+    "desks-9": 6,
+    "desks-10": 9,
+    "desks-11": 7
+  },
+  "generation": {
+    "width": 640,
+    "height": 640,
+    "steps": 10,
+    "guidanceScale": 4.5,
+    "dtype": "float32"
+  },
+  "handoff": {
+    "nextOwner": "12",
+    "route": "12 -> 06 -> 14 -> assigned reviewer -> 08 on ACCEPT",
+    "canonicalWriter": "08"
+  },
+  "dispatchPolicy": "TOKEN_SAFE_REPLACEMENT_OF_PENDING_W03_V6",
+  "replacementReason": "Primary A variants are 77-92 whitespace words and materially exceed the size of a just-failed 70-word Decor11 prompt; B variants are 41-51 words and preserve the same item contracts with CLIP headroom."
+}
