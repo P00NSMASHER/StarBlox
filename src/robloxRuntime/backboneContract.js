@@ -21,7 +21,8 @@ export const PROFILE_TEMPLATE=Object.freeze({
     NpcAffinity:Object.freeze({}),
     UnlockedSocialItems:Object.freeze({}),
     Stats:Object.freeze({PhotosTaken:0,CoopPhotos:0,MinigameWins:0}),
-    CompletedSessionIds:Object.freeze([])
+    CompletedSessionIds:Object.freeze([]),
+    AffinityEventIds:Object.freeze([])
   }),
   LiveOps:Object.freeze({
     Counters:Object.freeze({}),
@@ -62,7 +63,8 @@ export const REPLICATION_BOUNDARIES=Object.freeze({
     'Daily.Completed',
     'Settings',
     'LiveOps.ProcessedEventIds',
-    'Social.CompletedSessionIds'
+    'Social.CompletedSessionIds',
+    'Social.AffinityEventIds'
   ]),
   playerReplica:Object.freeze([
     'SchemaVersion',
