@@ -471,10 +471,13 @@ export async function runContentExpansionPipeline({
         const validation=verifyDevelopmentRun(developmentRun);
         if(!validation.ok){
           blockers.push('development run integrity failed: ' + validation.errors[0]);
-        }else if(developmentRun.status !== 'verified'){
-          blockers.push('Studio development run did not verify');
-        }else if(!repositoryProofComplete(developmentRun.repository)){
-          blockers.push('repository proof must include passing tests, certification, balance gate, and production build');
+        }else{
+          if(!repositoryProofComplete(developmentRun.repository)){
+            blockers.push('repository proof must include passing tests, certification, balance gate, and production build');
+          }
+          if(developmentRun.status !== 'verified'){
+            blockers.push('Studio development run did not verify');
+          }
         }
       }catch(error){
         blockers.push('Studio development run failed: ' + (error instanceof Error ? error.message : String(error)));
