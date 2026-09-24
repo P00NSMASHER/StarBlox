@@ -2,7 +2,7 @@
   "schemaVersion": 8,
   "workstream": "13",
   "focus": "SCENE_CHARACTER_ART",
-  "status": "WALL8_V7_WALL9_V7_DESK12_V4_QUALIFIED__SHARED_RENDER_TRIGGERED",
+  "status": "DESK10_V6_DESK11_V4_QUALIFIED__SHARED_RENDER_TRIGGERED",
   "branch": "screenshot-match-preproduction",
   "candidateId": "home-bedroom-w13-v2",
   "candidateType": "environment-background",
@@ -1034,54 +1034,41 @@
     ]
   },
   "catalogFactoryReviewHandoff": {
-    "updatedAt": "2026-09-24T16:33:00Z",
-    "sourceHead": "1b81c78138a83184e762659420cb0d590d90a5d5",
-    "purpose": "Trigger one exact-hash Store card/detail render microbatch for current Wall8 v7, Wall9 v7 and Desk12 v4 failure-specific replacements.",
+    "updatedAt": "2026-09-24T16:50:00Z",
+    "sourceHead": "adf7a07794cdc595606db3dc211430cf661844e8",
+    "purpose": "Trigger one exact-hash Store card/detail render microbatch for current Desk10 v6 and Desk11 v4 failure-specific replacements.",
     "candidates": [
       {
-        "itemId": "wall-8",
-        "name": "Ocean Window",
-        "producer": "13",
-        "reviewer": "11",
-        "path": "public/assets/catalog-candidates/cpu/wall-8-w13-v7-a-one-obvious-ocean-window-original.png",
-        "sha256": "6b657efc94b0d6c5529d7946ed19f0886f817f0741a48cd6c9f729dff403ad1a",
-        "gitBlobSha": "ca9108a80d2cd6811d7826fb52a85455482903f2",
-        "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-current-rework-3pack-v4-qualification-20260924.json",
+        "itemId": "desks-10",
+        "name": "Neon Streaming Desk",
+        "producer": "03",
+        "reviewer": "05",
+        "path": "public/assets/catalog-candidates/cpu/desks-10-w03-v6-a-wide-desk-monitor-mic-original.png",
+        "sha256": "a73511b60c60b19ac374207015ee894f84b12cfa850cf021288bd6db86738803",
+        "gitBlobSha": "a576fa4d5450a492d3a29547e2551879dc64dd76",
+        "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-desks10-11-v6-v4-qualification-20260924.json",
         "qualification": "QUALIFIED_FOR_RENDERER14",
-        "route": "14 -> 11 -> 08 on ACCEPT"
+        "route": "14 -> 05 -> 08 on ACCEPT"
       },
       {
-        "itemId": "wall-9",
-        "name": "Art Gallery Wall",
-        "producer": "13",
-        "reviewer": "02",
-        "path": "public/assets/catalog-candidates/cpu/wall-9-w13-v7-a-exactly-three-big-frames-original.png",
-        "sha256": "61fea8c6dcf99e3238067d45986a43104da5885c7b1cefe0c19159b9e3265f9c",
-        "gitBlobSha": "f1c423657b836aee822311b15a3229251174768d",
-        "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-current-rework-3pack-v4-qualification-20260924.json",
-        "qualification": "QUALIFIED_FOR_RENDERER14",
-        "route": "14 -> 02 -> 08 on ACCEPT"
-      },
-      {
-        "itemId": "desks-12",
-        "name": "Luxe Command Desk",
-        "producer": "13",
+        "itemId": "desks-11",
+        "name": "Dream Creator Station",
+        "producer": "03",
         "reviewer": "01",
-        "path": "public/assets/catalog-candidates/cpu/desks-12-w13-v4-a-freestanding-luxury-desk-original.png",
-        "sha256": "dbe87b3ddcf6c4fc80c9c7ecb288e2e58aef70e86cc8feaccfb29ec33755c4f1",
-        "gitBlobSha": "36fbde14296512fd60e8b495e687cbf8152b7483",
-        "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-current-rework-3pack-v4-qualification-20260924.json",
+        "path": "public/assets/catalog-candidates/cpu/desks-11-w03-v4-a-one-desk-no-panels-original.png",
+        "sha256": "b84e2493699bb9c3cfc7d1bfb95d35ad73e04bfd0d5373f45f089374e6ac7365",
+        "gitBlobSha": "7f4f00fcce23a47b566ec3a99704821acb3ce57a",
+        "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-desks10-11-v6-v4-qualification-20260924.json",
         "qualification": "QUALIFIED_FOR_RENDERER14",
         "route": "14 -> 01 -> 08 on ACCEPT"
       }
     ],
     "packetPlan": [
       {
-        "qualification": "docs/preproduction/art-factory/requests/w06-current-rework-3pack-v4-qualification-20260924.json",
+        "qualification": "docs/preproduction/art-factory/requests/w06-desks10-11-v6-v4-qualification-20260924.json",
         "items": [
-          "wall-8",
-          "wall-9",
-          "desks-12"
+          "desks-10",
+          "desks-11"
         ]
       }
     ],
@@ -1094,5 +1081,5 @@
       "deploymentTouched": false
     }
   },
-  "nextGate": "Renderer14 binds current Store card/detail pixels for Wall8 v7, Wall9 v7 and Desk12 v4; reviewers 11/02/01 independently ACCEPT/REWORK exact hashes; 08 integrates only ACCEPT."
+  "nextGate": "Renderer14 binds current Store card/detail pixels for Desk10 v6 and Desk11 v4; reviewers 05/01 independently ACCEPT/REWORK exact hashes; 08 integrates only ACCEPT."
 }
