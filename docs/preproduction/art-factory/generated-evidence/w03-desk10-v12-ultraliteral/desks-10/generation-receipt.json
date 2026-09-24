@@ -1,0 +1,112 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_GENERATION_RECEIPT",
+  "repository": "P00NSMASHER/StarBlox",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "ba1de25458ac3f34fd49fe87be79f3bdf0d47214",
+  "sourcePlanSha256": "259c51609a9d80ad80f834c0feb93c4b853214bafce4efe59d8c9b88a6cba121",
+  "executionCheckout": {
+    "branch": "screenshot-match-preproduction",
+    "head": "ba1de25458ac3f34fd49fe87be79f3bdf0d47214",
+    "planSourceHeadMatchesExecutionHead": true
+  },
+  "attempt": {
+    "attemptId": "desks-10-w03-a-mic-first-desk-5bb679715c",
+    "itemId": "desks-10",
+    "producer": "03",
+    "variant": "A-MIC-FIRST-DESK",
+    "promptSha256": "5bb679715cdadd2ff4f6fc62be52b91e30ff065c127a2a73a24cbf22acc109cb",
+    "runtimePromptSha256": "7d36b95b01d6e180ba3f7872f7f85b90d9d36cfa64d29632b6dc8d516b1f8353",
+    "runtimeNegativePromptSha256": "f76f6940038e71351064434dc25db964e0680a72b2b89d2b7b02985c7ab5217c",
+    "promptRecipeVersion": "artPromptOptimizer-request-v1:w03-desk10-v12-ultraliteral",
+    "seed": 72166176
+  },
+  "runtime": {
+    "repo": "huggingface/diffusers",
+    "commit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "resolvedCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "runtimeCommitVerified": true,
+    "diffusersVersion": "0.41.0.dev0",
+    "diffusersInstallSource": "https://github.com/huggingface/diffusers.git",
+    "torchVersion": "2.8.0+cpu",
+    "transformersVersion": "5.17.0",
+    "accelerateVersion": "1.15.0",
+    "huggingfaceHubVersion": "1.33.0",
+    "safetensorsVersion": "0.8.0",
+    "pythonPillowVersion": "12.3.0",
+    "device": "cpu",
+    "dtype": "float32",
+    "executionMode": "cpu-fallback"
+  },
+  "model": {
+    "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+    "revision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS",
+    "resolvedRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "snapshotRevisionVerified": true,
+    "selectiveSnapshot": true,
+    "snapshotAllowPatterns": [
+      "model_index.json",
+      "scheduler/*",
+      "tokenizer/*",
+      "tokenizer_2/*",
+      "feature_extractor/*",
+      "text_encoder/config.json",
+      "text_encoder/model.fp16.safetensors",
+      "text_encoder_2/config.json",
+      "text_encoder_2/model.fp16.safetensors",
+      "unet/config.json",
+      "unet/diffusion_pytorch_model.fp16.safetensors",
+      "vae/config.json",
+      "vae/diffusion_pytorch_model.fp16.safetensors"
+    ]
+  },
+  "conditioning": {
+    "referenceAssetSha256": null,
+    "controlImageSha256": null,
+    "adapterScale": null,
+    "referenceImage": null,
+    "ipAdapterModelId": null,
+    "ipAdapterRevision": null,
+    "ipAdapterResolvedRevision": null,
+    "ipAdapterRevisionVerified": false,
+    "ipAdapterWeightName": null,
+    "ipAdapterSubfolder": null
+  },
+  "generation": {
+    "width": 640,
+    "height": 640,
+    "numInferenceSteps": 14,
+    "guidanceScale": 5.5,
+    "runtimePromptTokenCounts": {
+      "tokenizer": 61,
+      "tokenizer_2": 61
+    },
+    "runtimeNegativePromptTokenCounts": {
+      "tokenizer": 29,
+      "tokenizer_2": 29
+    },
+    "executedSeed": 72166176
+  },
+  "output": {
+    "repoPath": "public/assets/catalog-candidates/cpu/desks-10-w03-v12-a-mic-first-desk-original.png",
+    "sha256": "025e4b8632f874ef8b2a3825400516accf58cddbd068c296745ef3e41180f105",
+    "gitBlobSha": "50fb49c1bf2bcea8b1d48519fab3120f2fc7cf1f",
+    "bytes": 374626,
+    "width": 640,
+    "height": 640,
+    "format": "PNG",
+    "sourceBytesPreserved": true,
+    "reusedExistingIdenticalBytes": false
+  },
+  "safety": {
+    "canonicalArtModified": false,
+    "gameplayModified": false,
+    "reviewDecisionMade": false,
+    "deploymentPerformed": false,
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+  },
+  "nextGate": "RUN_VERIFY_STAGED_OUTPUT_THEN_REAL_RENDER_AND_INDEPENDENT_EXACT_HASH_REVIEW",
+  "status": "GENERATED_SOURCE_BYTES_UNVERIFIED",
+  "recordSha256": "7d379979564c9e071b6cfbacad56201bb2367aaa77b36c053628517bd1c80015"
+}
