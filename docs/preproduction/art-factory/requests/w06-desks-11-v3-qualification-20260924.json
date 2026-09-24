@@ -1,0 +1,80 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_TECHNICAL_QUALIFICATION_MICROBATCH",
+  "role": "06-single-technical-qualification-gate",
+  "branch": "screenshot-match-preproduction",
+  "observedHead": "b3151714bb3f24b534a57bf6f5fc2b978edce2cc",
+  "intakeEvidence": "docs/preproduction/art-factory/requests/w12-cross-account-intake-routing-20260924-v32.json",
+  "manifestVersion": 38,
+  "items": [
+    {
+      "item": {
+        "id": "desks-11",
+        "name": "Dream Creator Station",
+        "collectionId": "desks",
+        "type": "room",
+        "tier": 4,
+        "theme": "Art Attack"
+      },
+      "candidate": {
+        "producer": "03",
+        "reviewer": "01",
+        "renderOwner": "14",
+        "canonicalWriter": "08",
+        "path": "public/assets/catalog-candidates/cpu/desks-11-w03-v3-a-one-creator-desk-original.png",
+        "sha256": "83b8c60ba85177f9b5129e5f551df4a68986fe6a3fae1d5aaf74157c70532b32",
+        "gitBlobSha": "3858085e2005f6445e9b49959ed4ce6d22f03f37",
+        "dimensions": [
+          640,
+          640
+        ],
+        "bytes": 551778,
+        "format": "PNG",
+        "mode": "RGB"
+      },
+      "sourceGenerationRunId": 36023291887,
+      "provenance": {
+        "stagedOutput": "docs/preproduction/art-factory/generated-evidence/w03-current-rework-2pack-v2/desks-11/staged-output.json",
+        "generationReceipt": "docs/preproduction/art-factory/generated-evidence/w03-current-rework-2pack-v2/desks-11/generation-receipt.json",
+        "runtimeRepo": "huggingface/diffusers",
+        "runtimeCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+        "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+        "modelRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+        "dtype": "float32",
+        "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+      }
+    }
+  ],
+  "technicalChecks": {
+    "idPathBinding": "PASS",
+    "signatureDecode": "PASS_PNG",
+    "dimensions": "PASS_640X640",
+    "sourceLineage": "PASS_STAGED_OUTPUT_AND_GENERATION_RECEIPT",
+    "artFactoryV2Provenance": "PASS_PINNED_RUNTIME_MODEL_RIGHTS",
+    "stagedOutputReadback": "PASS_EXACT_LIVE_GIT_BLOB",
+    "staleSupersededCheck": "PASS_FRESH_FAILURE_SPECIFIC_REPLACEMENT",
+    "exactContentDuplicateCheck": "PASS_UNIQUE_BLOB_NOT_CANONICAL",
+    "independentReviewerRouting": "PASS_REVIEWER01_INDEPENDENT_OF_PRODUCER03"
+  },
+  "qualification": {
+    "status": "QUALIFIED_FOR_RENDERER14",
+    "qualifiedForRenderer14": true,
+    "qualifiedCount": 1,
+    "artQualityJudgment": "NOT_PERFORMED",
+    "blockingDefects": []
+  },
+  "routing": {
+    "current": "HANDOFF_TO_RENDERER14",
+    "reviewerByItem": {
+      "desks-11": "01"
+    },
+    "renderer14": "RENDER_EXACT_HASH_IN_REAL_STORE_CARD_DETAIL_CONTEXT",
+    "integration08": "ONLY_AFTER_MATCHING_INDEPENDENT_REVIEWER_ACCEPT"
+  },
+  "preservation": {
+    "candidateBytesMutated": false,
+    "canonicalMappingsChanged": false,
+    "gameplayLearningPersistenceEconomyChanged": false,
+    "deploymentTouched": false
+  }
+}
