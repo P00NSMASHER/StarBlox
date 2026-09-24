@@ -1,28 +1,40 @@
 {
   "schemaVersion": "starblox-brookhaven-step-11-reconciliation-readiness-v1",
   "step": "11-of-12",
-  "substep": "11a-branch-drift-audit",
+  "substep": "11-complete-controlled-replay-boundary",
   "recordedAt": "2026-09-24",
   "status": "complete-no-merge-performed",
   "branches": {
     "research": {
       "name": "brookhaven-research-snapshot-v1",
-      "head": "638deaddd50734a18530f99f23d8e2e1263906dc"
+      "head": "768db30a9d797c04544e5ac17311a22343fd2a50"
     },
     "product": {
       "name": "screenshot-match-preproduction",
       "head": "52e4bea28caefce75159cf520b8c16b0ae85216f"
     },
-    "mergeBase": "1d6d3e6130c83289fc270c0b543c31cffee1d226"
+    "learningFactory": {
+      "name": "starblox-learning-factory-v1",
+      "head": "c1af648ba00a1b5aff52a3b3268fa5a15f396f55"
+    },
+    "brookhavenProductMergeBase": "1d6d3e6130c83289fc270c0b543c31cffee1d226",
+    "learningProductMergeBase": "8a0c9d38befd244b7bfcb5fe4eb3ac7e2d3115d0"
   },
   "divergence": {
-    "status": "diverged",
-    "researchAheadBy": 64,
-    "researchBehindBy": 342
+    "brookhavenVsProduct": {
+      "status": "diverged",
+      "researchAheadBy": 65,
+      "researchBehindBy": 342
+    },
+    "learningFactoryVsProduct": {
+      "status": "diverged",
+      "researchAheadBy": 200,
+      "researchBehindBy": 450
+    }
   },
   "reconciliationAssessment": {
-    "strategy": "do-not-merge-moving-branches-directly",
-    "recommendedMethod": "create a fresh integration branch from current screenshot-match-preproduction, then replay/copy only Brookhaven research artifacts and neutral runtimes in controlled groups",
+    "strategy": "fresh-product-base-controlled-replay",
+    "recommendedMethod": "Create a fresh integration branch from the then-current screenshot-match-preproduction and replay only files listed in step-11-replay-manifest-v1.json in ordered groups; reconcile the learning factory separately afterward.",
     "mostlyAdditive": true,
     "liveProductEntryPointsModifiedByBrookhavenResearch": false,
     "packageJson": {
@@ -41,11 +53,15 @@
       "src/main.jsx",
       "src/gameModel.js",
       "src/storage.js"
-    ]
+    ],
+    "learningFactoryKeptSeparate": true,
+    "replayManifest": "docs/preproduction/brookhaven-research/step-11-replay-manifest-v1.json",
+    "separationAssertion": "scripts/assertBrookhavenLearningSeparation.mjs"
   },
   "nextSubstep": {
-    "id": "11b",
-    "action": "prepare an explicit replay manifest listing the Brookhaven files to transplant onto a fresh branch from current preproduction, grouped as docs/validation first, neutral runtimes second, shadow progression third",
+    "id": "12",
+    "action": "After the first playable town slice is reconciled onto the stabilized product branch, resume targeted GitHub hunting only for gaps exposed by implementation.",
     "mergeOrDeploy": false
-  }
+  },
+  "step11Complete": true
 }
