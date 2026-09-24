@@ -119,7 +119,7 @@ describe('StarBlox upstream implementation provenance', () => {
   it('pins every planned source to an immutable full commit SHA', () => {
     const entries = upstreamSourceList();
 
-    expect(entries.length).toBeGreaterThanOrEqual(66);
+    expect(entries.length).toBeGreaterThanOrEqual(81);
     expect(entries.every(entry => /^[a-f0-9]{40}$/.test(entry.commit))).toBe(true);
     expect(entries.every(entry => entry.reuseBasis === 'user-confirmed direct reuse rights')).toBe(true);
   });
@@ -181,5 +181,20 @@ describe('StarBlox upstream implementation provenance', () => {
     expect(UPSTREAM_PROVENANCE.rbxDomBinary.path).toBe('rbx_binary/src/lib.rs');
     expect(UPSTREAM_PROVENANCE.rbxDomXml.path).toBe('rbx_xml/src/lib.rs');
     expect(UPSTREAM_PROVENANCE.rbxDomViewer.path).toBe('rbx_dom_weak/src/viewer.rs');
+    expect(UPSTREAM_PROVENANCE.bloxForgeMutationPlan.path).toBe('packages/core/src/builders/mutation-plan.ts');
+    expect(UPSTREAM_PROVENANCE.bloxForgeGameplayAssertions.path).toBe('packages/core/src/builders/gameplay-assertions.ts');
+    expect(UPSTREAM_PROVENANCE.bloxForgePlaytestTelemetry.path).toBe('packages/core/src/builders/playtest-telemetry.ts');
+    expect(UPSTREAM_PROVENANCE.bloxForgeStageCoordinator.path).toBe('packages/core/src/stage/coordinator.ts');
+    expect(UPSTREAM_PROVENANCE.bloxForgeSafetyManager.path).toBe('packages/core/src/safety/safety-manager.ts');
+    expect(UPSTREAM_PROVENANCE.bloxForgeTestHandlers.path).toBe('studio-plugin/src/modules/handlers/TestHandlers.ts');
+    expect(UPSTREAM_PROVENANCE.nixeraCoordinator.path).toBe('backend/src/agents/coordinator.ts');
+    expect(UPSTREAM_PROVENANCE.nixeraSpecialists.path).toBe('backend/src/agents/specialists.ts');
+    expect(UPSTREAM_PROVENANCE.nixeraStudioTools.path).toBe('backend/src/tools/studioTools.ts');
+    expect(UPSTREAM_PROVENANCE.nixeraInspectOps.path).toBe('plugin/src/tools/Inspect.luau');
+    expect(UPSTREAM_PROVENANCE.nixeraTestOps.path).toBe('plugin/src/tools/TestOps.luau');
+    expect(UPSTREAM_PROVENANCE.nixeraPlaytestOps.path).toBe('plugin/src/tools/PlaytestOps.luau');
+    expect(UPSTREAM_PROVENANCE.nixeraVisionOps.path).toBe('plugin/src/tools/VisionOps.luau');
+    expect(UPSTREAM_PROVENANCE.nixeraLogOps.path).toBe('plugin/src/tools/LogOps.luau');
+    expect(UPSTREAM_PROVENANCE.nixeraExecutor.path).toBe('plugin/src/tools/Executor.luau');
   });
 });

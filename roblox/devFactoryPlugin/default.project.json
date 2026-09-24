@@ -1,0 +1,14 @@
+{
+  "name": "StarBloxDevFactoryConnector",
+  "tree": {
+    "$className": "Folder",
+    "Connector": { "$path": "src/Connector.server.luau" },
+    "Inspect": { "$path": "src/Inspect.luau" },
+    "Logs": { "$path": "src/Logs.luau" },
+    "Mutate": { "$path": "src/Mutate.luau" },
+    "Runtime": { "$path": "src/Runtime.luau" },
+    "Tests": { "$path": "src/Tests.luau" },
+    "Util": { "$path": "src/Util.luau" },
+    "Vision": { "$path": "src/Vision.luau" }
+  }
+}

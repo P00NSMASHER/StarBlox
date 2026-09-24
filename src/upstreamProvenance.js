@@ -448,6 +448,126 @@ export const UPSTREAM_PROVENANCE = Object.freeze({
     'unasserted in GitHub metadata',
     'src/game/runTelemetry.ts'
   ),
+  bloxForgeMutationPlan: source(
+    'transactional Studio mutation plans with dry-run preconditions and rollback receipts',
+    'princeofscale/bloxforge',
+    'main',
+    'ef98c370b6e0dd93273eae245485b547b09aca53',
+    'MIT',
+    'packages/core/src/builders/mutation-plan.ts'
+  ),
+  bloxForgeGameplayAssertions: source(
+    'structured live gameplay assertions for proof-oriented agent QA',
+    'princeofscale/bloxforge',
+    'main',
+    'ef98c370b6e0dd93273eae245485b547b09aca53',
+    'MIT',
+    'packages/core/src/builders/gameplay-assertions.ts'
+  ),
+  bloxForgePlaytestTelemetry: source(
+    'domain-masked live playtest state sampling for players world audio and runtime',
+    'princeofscale/bloxforge',
+    'main',
+    'ef98c370b6e0dd93273eae245485b547b09aca53',
+    'MIT',
+    'packages/core/src/builders/playtest-telemetry.ts'
+  ),
+  bloxForgeStageCoordinator: source(
+    'snapshot apply verify rollback stage-order state machine',
+    'princeofscale/bloxforge',
+    'main',
+    'ef98c370b6e0dd93273eae245485b547b09aca53',
+    'MIT',
+    'packages/core/src/stage/coordinator.ts'
+  ),
+  bloxForgeSafetyManager: source(
+    'Studio mutation safety budgets protected paths and destructive Luau scanning',
+    'princeofscale/bloxforge',
+    'main',
+    'ef98c370b6e0dd93273eae245485b547b09aca53',
+    'MIT',
+    'packages/core/src/safety/safety-manager.ts'
+  ),
+  bloxForgeTestHandlers: source(
+    'StudioTestService single-player/multiplayer playtest lifecycle and runtime peer control',
+    'princeofscale/bloxforge',
+    'main',
+    'ef98c370b6e0dd93273eae245485b547b09aca53',
+    'MIT',
+    'studio-plugin/src/modules/handlers/TestHandlers.ts'
+  ),
+  nixeraCoordinator: source(
+    'multi-agent Roblox Studio coordinator and ordered specialist delegation',
+    'Nixera-Studio/roblox-ai-studio',
+    'main',
+    'c88d2e57a5ca52381b49f488ee13a0fd7c3beae9',
+    'MIT',
+    'backend/src/agents/coordinator.ts'
+  ),
+  nixeraSpecialists: source(
+    'planner coder reviewer tester specialist role contracts',
+    'Nixera-Studio/roblox-ai-studio',
+    'main',
+    'c88d2e57a5ca52381b49f488ee13a0fd7c3beae9',
+    'MIT',
+    'backend/src/agents/specialists.ts'
+  ),
+  nixeraStudioTools: source(
+    'Studio inspection editing testing screenshot log and input tool surface',
+    'Nixera-Studio/roblox-ai-studio',
+    'main',
+    'c88d2e57a5ca52381b49f488ee13a0fd7c3beae9',
+    'MIT',
+    'backend/src/tools/studioTools.ts'
+  ),
+  nixeraInspectOps: source(
+    'read-only Studio tree/script inspection and script grep handlers',
+    'Nixera-Studio/roblox-ai-studio',
+    'main',
+    'c88d2e57a5ca52381b49f488ee13a0fd7c3beae9',
+    'MIT',
+    'plugin/src/tools/Inspect.luau'
+  ),
+  nixeraTestOps: source(
+    'fresh-source Studio ModuleScript test execution and structured pass/fail aggregation',
+    'Nixera-Studio/roblox-ai-studio',
+    'main',
+    'c88d2e57a5ca52381b49f488ee13a0fd7c3beae9',
+    'MIT',
+    'plugin/src/tools/TestOps.luau'
+  ),
+  nixeraPlaytestOps: source(
+    'engine-side Roblox playtest run-state and input simulation helpers',
+    'Nixera-Studio/roblox-ai-studio',
+    'main',
+    'c88d2e57a5ca52381b49f488ee13a0fd7c3beae9',
+    'MIT',
+    'plugin/src/tools/PlaytestOps.luau'
+  ),
+  nixeraVisionOps: source(
+    'engine-side viewport capture and chunked image transport',
+    'Nixera-Studio/roblox-ai-studio',
+    'main',
+    'c88d2e57a5ca52381b49f488ee13a0fd7c3beae9',
+    'MIT',
+    'plugin/src/tools/VisionOps.luau'
+  ),
+  nixeraLogOps: source(
+    'bounded Studio log collection for post-playtest debugging',
+    'Nixera-Studio/roblox-ai-studio',
+    'main',
+    'c88d2e57a5ca52381b49f488ee13a0fd7c3beae9',
+    'MIT',
+    'plugin/src/tools/LogOps.luau'
+  ),
+  nixeraExecutor: source(
+    'undo-grouped mutating Studio tool execution',
+    'Nixera-Studio/roblox-ai-studio',
+    'main',
+    'c88d2e57a5ca52381b49f488ee13a0fd7c3beae9',
+    'MIT',
+    'plugin/src/tools/Executor.luau'
+  ),
   rbxDomBinary: source(
     'Roblox binary place/model deserialization for rbxl/rbxm capability inventory',
     'rojo-rbx/rbx-dom',

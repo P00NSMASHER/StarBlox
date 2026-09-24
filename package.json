@@ -11,7 +11,9 @@
     "questions:generate": "node scripts/generate-questions-offline.mjs",
     "recalibrate:telemetry": "node scripts/recalibrate-telemetry.mjs",
     "roblox:catalog": "node scripts/catalog-roblox.mjs",
-    "roblox:catalog:reader:test": "cargo test --manifest-path tools/roblox_catalog_reader/Cargo.toml --quiet"
+    "roblox:catalog:reader:test": "cargo test --manifest-path tools/roblox_catalog_reader/Cargo.toml --quiet",
+    "studio:factory": "node scripts/ai-development-factory.mjs",
+    "studio:bridge": "node scripts/studio-bridge.mjs"
   },
   "dependencies": {
     "lucide-react": "^0.468.0",
