@@ -225,7 +225,7 @@ fs.writeFileSync(outPath,JSON.stringify(result,null,2)+'\n','utf8');
 process.stdout.write(JSON.stringify({
   benchmarkId:result.benchmarkId,
   gridSize:result.gridSize,
-  maxDefaultReplayDifference,
+  maxDefaultReplayDifference:result.maxDefaultReplayDifference,
   default:result.default,
   selected,
   supportive:result.supportive,
