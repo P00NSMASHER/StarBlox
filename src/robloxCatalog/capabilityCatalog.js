@@ -32,7 +32,7 @@ const CAPABILITY_NAMES=Object.freeze([
 
 const NAME_RULES=[
   ['housing',/(house|home|apartment|furniture|garage|door|room|bed|sofa|kitchen)/i],
-  ['vehicles',/(vehicle|car|truck|bike|motorcycle|helicopter|plane|boat|chassis|wheel|garage)/i],
+  ['vehicles',/(vehicle|car|truck|bike|motorcycle|helicopter|plane|boat|chassis|wheel|garage|\bsuv\b|\bsedan\b|\bvan\b|\bbus\b|\btaxi\b|\bambulance\b|\bscooter\b|\batv\b|\blimo\b)/i],
   ['npc',/(npc|citizen|resident|vendor|shopkeeper|character|pedestrian|follower)/i],
   ['quests',/(quest|mission|objective|task|dialog|dialogue|story)/i],
   ['social',/(friend|party|social|emote|photo|follow|invite)/i],
@@ -48,7 +48,7 @@ const NAME_RULES=[
 
 const SCRIPT_RULES=[
   ['housing',/(house|home|apartment|furniture|garage|door|room)/i],
-  ['vehicles',/(VehicleSeat|vehicle|chassis|wheel|car|motorcycle|helicopter)/i],
+  ['vehicles',/(VehicleSeat|vehicle|chassis|wheel|car|motorcycle|helicopter|\bsuv\b|\bsedan\b|\bvan\b|\bbus\b|\btaxi\b|\bambulance\b|\bscooter\b|\batv\b|\blimo\b)/i],
   ['npc',/(Humanoid|npc|dialog|pathfinding|PathfindingService|follower)/i],
   ['quests',/(quest|mission|objective|dialog|reward|checkpoint)/i],
   ['social',/(friend|party|invite|emote|photo|follower)/i],
