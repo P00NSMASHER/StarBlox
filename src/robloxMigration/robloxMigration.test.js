@@ -126,6 +126,8 @@ function catalog(){
     {
       sourceId:'licensed-brookhaven:main',
       file:'Brookhaven.rbxl',
+      sha256:'c'.repeat(64),
+      bytes:12345,
       dom
     }
   ]);
@@ -146,6 +148,8 @@ describe('Step 5: Brookhaven migration planning', () => {
     const irrelevant=plan.units.find(unit => unit.systemName === 'DataModel');
 
     expect(house.selected).toBe(true);
+    expect(house.sourceSha256).toBe('c'.repeat(64));
+    expect(house.sourceBytes).toBe(12345);
     expect(house.migrationStrategy).toBe('refactor');
     expect(house.exportDisposition).toBe('quarantine');
     expect(house.blockers).toContain('logic-refactor-required');
@@ -262,6 +266,8 @@ describe('Step 5: migration bundle integrity', () => {
     expect(manifest.review.requiresHumanReview).toBe(true);
     expect(manifest.summary.exportedUnits).toBe(plan.summary.selectedUnits);
     expect(manifest.artifacts.every(item => item.activation === 'staging-only')).toBe(true);
+    expect(manifest.artifacts.every(item => item.sourceSha256 === 'c'.repeat(64))).toBe(true);
+    expect(manifest.artifacts.every(item => item.sourceBytes === 12345)).toBe(true);
   });
 
   it('rejects path traversal, unselected units, and disposition drift', () => {
