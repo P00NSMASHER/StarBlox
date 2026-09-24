@@ -39,7 +39,7 @@
     "canonicalWriter": "08"
   },
   "dispatchPolicy": "PREPARED_LITERAL_RETRY__WAIT_LIVE_CPU_IDLE",
-  "retryRevision": 1,
-  "retryReason": "Supersede stale run launched before whole-clause runtime-prompt compiler fix",
+  "retryRevision": 2,
+  "retryReason": "supersede stale running batch after confirmed old runtime prompt compiler dropped critical product clauses; rerun same exact items/variants/reviewers/versions/settings on whole-clause compiler head",
   "compilerFixHead": "631712b6a5"
 }
