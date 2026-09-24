@@ -1,0 +1,90 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_STAGED_OUTPUT",
+  "repository": "P00NSMASHER/StarBlox",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "e37578063920837dea95ea65284f3c88882efa08",
+  "sourcePlanSha256": "dcca37325880a477504c07c72015fbbba1eaf50ff84cf85425d53bbb99ae509f",
+  "item": {
+    "id": "wall-9",
+    "name": "Art Gallery Wall",
+    "collectionId": "wall",
+    "type": "room",
+    "tier": 3,
+    "theme": "Adventure Club"
+  },
+  "attempt": {
+    "attemptId": "wall-9-w13-b-three-frames-only-04add3b371",
+    "producer": "13",
+    "variant": "B-THREE-FRAMES-ONLY",
+    "promptBlocks": [
+      "metadata",
+      "category",
+      "silhouette",
+      "physical",
+      "material",
+      "theme",
+      "tier",
+      "card",
+      "original",
+      "stage",
+      "wall",
+      "depth",
+      "camera",
+      "bloom",
+      "textile",
+      "light"
+    ],
+    "promptSha256": "04add3b3715903c3c1e4518144283b0aff9d66c2d7e16465a05c0a677df7d2f2",
+    "promptRecipeVersion": "artPromptOptimizer-request-v1:w13-wall9-v11-three-frame-final",
+    "seed": 1284481944,
+    "runtime": {
+      "repo": "huggingface/diffusers",
+      "commit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c"
+    },
+    "model": {
+      "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+      "revision": "462165984030d82259a11f4367a4eed129e94a7b",
+      "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+    },
+    "conditioning": {
+      "referenceAssetSha256": null,
+      "controlImageSha256": null,
+      "adapterScale": null
+    }
+  },
+  "output": {
+    "repoPath": "public/assets/catalog-candidates/cpu/wall-9-w13-v11-b-three-frames-only-original.png",
+    "sha256": "e5e45b76f4723c1c0ad4d64f27a6baea7c287e0339203009252c3ec12c28dcd3",
+    "gitBlobSha": "20c41266b9ef3afac6393b9af16da0efc8c9acac",
+    "bytes": 464198,
+    "format": "PNG",
+    "width": 640,
+    "height": 640,
+    "mode": "RGB"
+  },
+  "derivativeLineage": {
+    "derivativeOfSha256": null,
+    "sourcePreserved": true
+  },
+  "renderEvidence": [],
+  "review": {
+    "reviewer": "02",
+    "routing": {
+      "reviewer": "02",
+      "routingFile": "docs/preproduction/art-factory/runtime-queue/w13-wall9-v11-three-frame-final.json",
+      "routingFileSha256": "825954626da7c4ac56d5dc1ef9877478fc46ffae2e76225a4675c593d0e16c2d",
+      "queueId": "w13-wall9-v11-three-frame-final"
+    },
+    "state": "PENDING_ACTUAL_PIXEL_REVIEW",
+    "decision": null
+  },
+  "safety": {
+    "canonicalArtModified": false,
+    "gameplayModified": false,
+    "automaticPerceptualDecision": false,
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+  },
+  "status": "STAGED_EXACT_BYTES_VERIFIED",
+  "recordSha256": "3c1a85855f1c8d6f9b5288ff976b13a4497e3de09de387ed26b970c7a350bc01"
+}
