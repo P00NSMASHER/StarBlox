@@ -17,8 +17,9 @@ describe('Step 8 Roblox AI NPC runtime contract', () => {
   it('keeps persistent NPC memory and request receipts server-only', () => {
     expect(PROFILE_TEMPLATE).toHaveProperty('AiNpc.Memories');
     expect(PROFILE_TEMPLATE).toHaveProperty('AiNpc.ProcessedRequestIds');
+    expect(PROFILE_TEMPLATE).toHaveProperty('AiNpc.LastRequestSequence',-1);
     expect(REPLICATION_BOUNDARIES.durableServerOnly).toEqual(
-      expect.arrayContaining(['AiNpc.Memories','AiNpc.ProcessedRequestIds'])
+      expect.arrayContaining(['AiNpc.Memories','AiNpc.ProcessedRequestIds','AiNpc.LastRequestSequence'])
     );
     expect(REPLICATION_BOUNDARIES.playerReplica).not.toContain('AiNpc');
   });
@@ -26,7 +27,7 @@ describe('Step 8 Roblox AI NPC runtime contract', () => {
   it('defines narrow client request and filtered server response events', () => {
     const source=file('roblox/network/starblox.zap');
     expect(source).toMatch(/event RequestNpcTurn/);
-    expect(source).toMatch(/NpcId: string\.utf8, RequestId: string\.utf8, Message: string\.utf8/);
+    expect(source).toMatch(/NpcId: string\.utf8, RequestId: string\.utf8, RequestSequence: u32, Message: string\.utf8/);
     expect(source).toMatch(/event NpcTurn/);
     expect(source).toMatch(/NpcId: string\.utf8, RequestId: string\.utf8, Text: string\.utf8/);
 
@@ -58,6 +59,8 @@ describe('Step 8 Roblox AI NPC runtime contract', () => {
     expect(source).toMatch(/approvedFacts/);
     expect(source).toMatch(/appendBoundedUnique\(currentState\.Memories/);
     expect(source).toMatch(/appendBoundedUnique\(currentState\.ProcessedRequestIds/);
+    expect(source).toMatch(/LastRequestSequence/);
+    expect(source).toMatch(/stale or duplicate AI NPC request sequence/);
     expect(source).not.toMatch(/currentState\.Memories\[npcId\].*modelInput/);
   });
 
