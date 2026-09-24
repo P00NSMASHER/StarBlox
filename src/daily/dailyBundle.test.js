@@ -84,6 +84,32 @@ describe('Step 14: immutable Daily Bundle generation', () => {
     ).toBeGreaterThanOrEqual(10);
   });
 
+  it('falls back when a primary selector returns a valid-looking but incomplete binding set', async () => {
+    const seedArtifact=await generateDailyBundleArtifact({
+      date:'2026-09-26',
+      bank:bank()
+    });
+    const firstFrozen=seedArtifact.questionSet[0];
+
+    const artifact=await generateDailyBundleArtifact({
+      date:'2026-09-27',
+      bank:bank(),
+      questionSelector:async ({level}) => {
+        const firstSlot=level.nodes.find(node => node.questionSlot);
+        return [{
+          nodeId:firstSlot.nodeId,
+          slot:firstSlot.questionSlot,
+          ref:firstFrozen.ref
+        }];
+      }
+    });
+
+    expect(artifact.generator.fallbackUsed).toBe(true);
+    expect(artifact.generator.fallbackReasons.join(' ')).toMatch(/binding count|omitted slot/);
+    const slotCount=artifact.bundle.levelSpec.nodes.filter(node => node.questionSlot).length;
+    expect(artifact.questionSet).toHaveLength(slotCount);
+  });
+
   it('falls back when a primary question selector returns malformed bindings', async () => {
     const artifact=await generateDailyBundleArtifact({
       date:'2026-09-27',
