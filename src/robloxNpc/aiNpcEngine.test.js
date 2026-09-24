@@ -68,13 +68,14 @@ describe('Step 8 AI NPC domain boundary', () => {
     const ok=validateAiNpcModelResponse(cfg,'maya',{
       text:'Try the library next.',
       toolCalls:[
-        {name:'set_waypoint',args:{target:'library'}},
+        {name:'set_waypoint',args:{target:'library',startTime:12}},
         {name:'quest_hint',args:{questId:'quest-1'}}
       ],
       memoryFacts:['Player likes library quests.']
     });
     expect(ok.ok).toBe(true);
     expect(ok.value.toolCalls).toHaveLength(2);
+    expect(ok.value.toolCalls[0].args.startTime).toBe(12);
 
     const bad=validateAiNpcModelResponse(cfg,'maya',{
       text:'Here you go.',
