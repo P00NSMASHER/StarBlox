@@ -1,0 +1,112 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_GENERATION_RECEIPT",
+  "repository": "P00NSMASHER/StarBlox",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "811671595851098f963ade4c85d01c2cc13245a6",
+  "sourcePlanSha256": "980107b913d6e5205967f68a1bb8a42278b01522c586e960395d014a50e023cc",
+  "executionCheckout": {
+    "branch": "screenshot-match-preproduction",
+    "head": "811671595851098f963ade4c85d01c2cc13245a6",
+    "planSourceHeadMatchesExecutionHead": true
+  },
+  "attempt": {
+    "attemptId": "decor-8-w03-a-blue-water-fish-aquarium-f029213363",
+    "itemId": "decor-8",
+    "producer": "03",
+    "variant": "A-BLUE-WATER-FISH-AQUARIUM",
+    "promptSha256": "f029213363a3f4a26abeee2d30a6e27733757425f458b7650e0736484cf031e4",
+    "runtimePromptSha256": "1822cdb959cff6592a4d311540188e64279ecf8129f2dae57755628d99937a8a",
+    "runtimeNegativePromptSha256": "5f5b7108f2552c7a3bbff63eb7a8ff582fea1919959bd7439de3927daecd8c3b",
+    "promptRecipeVersion": "artPromptOptimizer-request-v1:w03-release-tail-4pack-v5",
+    "seed": 645524971
+  },
+  "runtime": {
+    "repo": "huggingface/diffusers",
+    "commit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "resolvedCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "runtimeCommitVerified": true,
+    "diffusersVersion": "0.41.0.dev0",
+    "diffusersInstallSource": "https://github.com/huggingface/diffusers.git",
+    "torchVersion": "2.8.0+cpu",
+    "transformersVersion": "5.17.0",
+    "accelerateVersion": "1.15.0",
+    "huggingfaceHubVersion": "1.33.0",
+    "safetensorsVersion": "0.8.0",
+    "pythonPillowVersion": "12.3.0",
+    "device": "cpu",
+    "dtype": "float32",
+    "executionMode": "cpu-fallback"
+  },
+  "model": {
+    "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+    "revision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS",
+    "resolvedRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "snapshotRevisionVerified": true,
+    "selectiveSnapshot": true,
+    "snapshotAllowPatterns": [
+      "model_index.json",
+      "scheduler/*",
+      "tokenizer/*",
+      "tokenizer_2/*",
+      "feature_extractor/*",
+      "text_encoder/config.json",
+      "text_encoder/model.fp16.safetensors",
+      "text_encoder_2/config.json",
+      "text_encoder_2/model.fp16.safetensors",
+      "unet/config.json",
+      "unet/diffusion_pytorch_model.fp16.safetensors",
+      "vae/config.json",
+      "vae/diffusion_pytorch_model.fp16.safetensors"
+    ]
+  },
+  "conditioning": {
+    "referenceAssetSha256": null,
+    "controlImageSha256": null,
+    "adapterScale": null,
+    "referenceImage": null,
+    "ipAdapterModelId": null,
+    "ipAdapterRevision": null,
+    "ipAdapterResolvedRevision": null,
+    "ipAdapterRevisionVerified": false,
+    "ipAdapterWeightName": null,
+    "ipAdapterSubfolder": null
+  },
+  "generation": {
+    "width": 640,
+    "height": 640,
+    "numInferenceSteps": 8,
+    "guidanceScale": 4.0,
+    "runtimePromptTokenCounts": {
+      "tokenizer": 56,
+      "tokenizer_2": 56
+    },
+    "runtimeNegativePromptTokenCounts": {
+      "tokenizer": 37,
+      "tokenizer_2": 37
+    },
+    "executedSeed": 645524971
+  },
+  "output": {
+    "repoPath": "public/assets/catalog-candidates/cpu/decor-8-w03-v5-a-blue-water-fish-aquarium-original.png",
+    "sha256": "66d476bac5840f1634a856dbab20dcd6cdf7c92d8a5cbe1bf32ed507491afae0",
+    "gitBlobSha": "24f5655854ab4188247b62e55622e479d6f0cb2a",
+    "bytes": 572298,
+    "width": 640,
+    "height": 640,
+    "format": "PNG",
+    "sourceBytesPreserved": true,
+    "reusedExistingIdenticalBytes": false
+  },
+  "safety": {
+    "canonicalArtModified": false,
+    "gameplayModified": false,
+    "reviewDecisionMade": false,
+    "deploymentPerformed": false,
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+  },
+  "nextGate": "RUN_VERIFY_STAGED_OUTPUT_THEN_REAL_RENDER_AND_INDEPENDENT_EXACT_HASH_REVIEW",
+  "status": "GENERATED_SOURCE_BYTES_UNVERIFIED",
+  "recordSha256": "dc7dfa6cf4cbc4c0406d456de87c1094d4feb2dadf7ebc17d479b04d79bc916f"
+}
