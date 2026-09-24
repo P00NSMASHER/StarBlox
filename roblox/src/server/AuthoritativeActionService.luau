@@ -178,9 +178,6 @@ end
 
 function AuthoritativeActionService:PlayerAdded(player: Player)
 	self:_state(player)
-	if self._adapters.GetPlayerState ~= nil then
-		self:RecordSnapshot(player)
-	end
 	return true
 end
 
@@ -199,7 +196,7 @@ function AuthoritativeActionService:Start()
 		if self._snapshotAccumulator < interval then
 			return
 		end
-		self._snapshotAccumulator %= interval
+		self._snapshotAccumulator = self._snapshotAccumulator % interval
 		for _, player in Players:GetPlayers() do
 			self:RecordSnapshot(player)
 		end
