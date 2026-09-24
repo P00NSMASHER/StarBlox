@@ -1,0 +1,137 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_BATCH_REQUEST",
+  "planner": "15",
+  "producer": "13",
+  "preflightOwner": "06",
+  "reviewer": "MIXED_11_02",
+  "renderOwner": "14",
+  "integrationOwner": "08",
+  "coordinationOwner": "15",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "171633a62803d1074f245182cb9d0b7b770d44bc",
+  "manifestVersion": 40,
+  "batchId": "w13-release-tail-3pack-v4",
+  "scope": [
+    "wall-8",
+    "wall-9",
+    "desks-8"
+  ],
+  "state": "CPU_QUEUE_ELIGIBLE__CURRENT_RELEASE_REWORKS__PINNED_RUNTIME",
+  "assignmentAuthority": {
+    "path": "docs/preproduction/art-factory/RELEASE_BLOCKERS_CURRENT.json",
+    "runtimeProofPath": "docs/preproduction/art-factory/CPU_RUNTIME_PROOF.json",
+    "runtimeProofStatus": "PROVEN",
+    "runtimeCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+    "modelRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "assignedReviewers": {
+      "wall-8": "11",
+      "wall-9": "02",
+      "desks-8": "11"
+    },
+    "note": "Pack-first release tail. Preserve all rejected hashes and accepted Desk12. New prompt compiler uses bounded positive and negative CLIP channels."
+  },
+  "references": {
+    "originalStoreReference": {
+      "requiredBeforeGeneration": true,
+      "repositoryPath": "docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg",
+      "sha256": "b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d",
+      "gitBlobSha": "383baa877d3af86fa92e3583740212000592b3d6",
+      "dimensions": [
+        1448,
+        1086
+      ],
+      "role": "FIRST_PARTY_STARBLOX_STORE_ART_DIRECTION"
+    }
+  },
+  "reviewSource": {
+    "decision": "REWORK",
+    "note": "Newest independent exact-hash Store-card/detail verdicts from the current release blocker ledger; each variant applies only the smallest failure-specific repair."
+  },
+  "items": {
+    "wall-8": {
+      "currentLegacy": {
+        "path": "public/assets/catalog-candidates/cpu/wall-8-w13-v7-a-one-obvious-ocean-window-original.png",
+        "gitBlobSha1": "ca9108a80d2cd6811d7826fb52a85455482903f2",
+        "reviewDecision": "REWORK",
+        "normalizedFailureTaxonomy": [
+          "NO_OCEAN_VIEW",
+          "OPAQUE_BLIND_PANEL",
+          "WINDOW_IDENTITY_PARTIAL_ONLY",
+          "CARD_SCALE_OCEAN_READABILITY_FAILURE"
+        ]
+      },
+      "variants": [
+        {
+          "variantId": "A-BRIGHT-OCEAN-THROUGH-ONE-WINDOW",
+          "optimizerInput": "Ocean Window, Wall Decor, Tier 3, Candy Core. EXACTLY ONE framed recessed window product, almost straight-on, on a plain neutral wall. Keep one simple cream frame and ONE continuous glass opening. The opening must visibly show bright saturated blue ocean water covering the lower half, a crisp horizontal ocean horizon across the center, and pale blue sky above. The ocean view must dominate the opening and remain unmistakable at thumbnail size. Tiny candy-pink and aqua trim only on the frame. NO blinds, NO slats, NO opaque panel, NO abstract geometry, NO extra window, NO room props, NO furniture, NO collage, NO text."
+        },
+        {
+          "variantId": "B-SIMPLE-SEA-HORIZON-WINDOW",
+          "optimizerInput": "Ocean Window, Wall Decor, Tier 3, Candy Core. ONE simple wall window with one large uninterrupted glass opening. Inside: obvious bright blue sea below one straight horizon line and clean blue sky above. One thick cream frame with restrained pink and aqua edge trim, slight recess depth, centered product view. NO blind texture, NO dark opaque center, NO grids, NO multiple panes, NO room scene, NO second window, NO text."
+        }
+      ]
+    },
+    "wall-9": {
+      "currentLegacy": {
+        "path": "public/assets/catalog-candidates/cpu/wall-9-w13-v7-a-exactly-three-big-frames-original.png",
+        "gitBlobSha1": "f1c423657b836aee822311b15a3229251174768d",
+        "reviewDecision": "REWORK",
+        "normalizedFailureTaxonomy": [
+          "MANY_FRAME_ROOM_INSTALLATION",
+          "EXACTLY_THREE_FRAMES_CONTRACT_FAILURE",
+          "WEAK_ADVENTURE_ART_CONTENT",
+          "FLOOR_WALL_CONTEXT_DOMINATES"
+        ]
+      },
+      "variants": [
+        {
+          "variantId": "A-THREE-ADVENTURE-FRAMES-ONLY",
+          "optimizerInput": "Art Gallery Wall, Wall Decor, Tier 3, Adventure Club. EXACTLY THREE large framed artworks side by side on ONE shallow narrow backboard, isolated on a plain neutral background. Frame one: bold mountain trail landscape. Frame two: large compass and map-shape travel artwork with no words. Frame three: colorful ocean coast adventure landscape. The three frames must occupy nearly the entire product silhouette and be readable at card size. NO fourth frame, NO small frames, NO leaning panels, NO ledge, NO shelf, NO floor, NO furniture, NO bags, NO room, NO text."
+        },
+        {
+          "variantId": "B-COMPACT-ADVENTURE-TRIPTYCH",
+          "optimizerInput": "Art Gallery Wall, Wall Decor, Tier 3, Adventure Club. ONE compact wall-mounted triptych only: exactly three oversized framed travel artworks on one thin backing rail, mountain path, compass-map motif, and coastal journey. Frames dominate the image with strong readable art. Plain background and small wall shadow only. NO extra frames, NO mini art, NO floor line, NO props, NO furniture, NO room vignette, NO text."
+        }
+      ]
+    },
+    "desks-8": {
+      "currentLegacy": {
+        "path": "public/assets/catalog-candidates/cpu/desks-8-w13-v2-a-aqua-study-original.png",
+        "gitBlobSha1": "bada24e2447de5e39ac2cb6647aa8458cf410e43",
+        "reviewDecision": "REWORK",
+        "normalizedFailureTaxonomy": [
+          "MULTIPLE_DESK_VARIANTS",
+          "CONTRADICTORY_GEOMETRY",
+          "NO_SINGLE_PRODUCT_SILHOUETTE",
+          "CARD_SCALE_READABILITY_FAILURE"
+        ]
+      },
+      "variants": [
+        {
+          "variantId": "A-ONE-AQUA-STUDY-DESK",
+          "optimizerInput": "Aqua Study Station, Desks & Tech, Tier 3, Galaxy Glow. EXACTLY ONE freestanding study desk in ONE camera view on a seamless light studio background. One broad pale worktop, exactly two stable supports, one compact drawer/storage pedestal, one small attached upper organizer shelf, and one simple study lamp. Use restrained aqua/cyan and violet Galaxy Glow accents while keeping the furniture silhouette clear. Entire desk fully visible with grounded shadow. NO second desk, NO stacked variants, NO collage, NO comparison panels, NO room walls, NO duplicate furniture, NO text."
+        },
+        {
+          "variantId": "B-SINGLE-AQUA-WORKSTATION",
+          "optimizerInput": "Aqua Study Station, Desks & Tech, Tier 3, Galaxy Glow. ONE isolated study workstation only: long clean worktop, two clear floor supports, one small drawer unit, one attached aqua organizer rail and one task light. Plain background, generous negative space, simple three-quarter product view. NO multiple desks, NO panels, NO room scene, NO stacked furniture, NO collage, NO text."
+        }
+      ]
+    }
+  },
+  "executionBudget": {
+    "width": 640,
+    "height": 640,
+    "steps": 6,
+    "guidanceScale": 3.5,
+    "dtype": "float32"
+  },
+  "safety": {
+    "preserveRejectedExactHashes": true,
+    "preserveAcceptedExactHashes": true,
+    "producerSelfReview": false,
+    "canonicalMappingsChanged": false,
+    "workflowFilesChanged": false
+  }
+}
