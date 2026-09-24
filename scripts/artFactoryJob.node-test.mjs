@@ -42,6 +42,23 @@ test('runtime prompt provenance is bound and tampering is detected',()=>{
   assert(validateJobPlan(p).some(x=>x.includes('runtime prompt hash mismatch')));
 });
 
+test('runtime negative prompt provenance survives job serialization and tampering fails closed',()=>{
+  const negative='collage, repeated variants, room scene';
+  const withNegative={sourceReviewHash:'bad-hash',variants:variants.map((v,i)=>({
+    ...v,
+    runtimePromptText:v.promptText,
+    runtimePromptSha256:v.promptSha256,
+    runtimeNegativePromptText:negative,
+    runtimeNegativePromptSha256:createHash('sha256').update(negative).digest('hex')
+  }))};
+  const p=buildJobPlan({item,recommendation:withNegative,producer:'09',sourceHead:'abc123',modelId:'m',modelRevision:'r'});
+  assert.equal(p.attempts[0].runtimeNegativePromptText,negative);
+  assert.equal(p.attempts[0].runtimeNegativePromptSha256,createHash('sha256').update(negative).digest('hex'));
+  assert.equal(validateJobPlan(p).length,0);
+  p.attempts[0].runtimeNegativePromptText+=' tampered';
+  assert(validateJobPlan(p).some(x=>x.includes('runtime negative prompt hash mismatch')));
+});
+
 test('producer batch planning compiles selected queue items only',()=>{
   const item2={id:'decor-4',name:'Plush Stack',collectionId:'decor',type:'room',tier:2,theme:'Candy Core'};
   const recommendation2={sourceReviewHash:'bad-2',variants};
