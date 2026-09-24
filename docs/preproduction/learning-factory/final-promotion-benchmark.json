@@ -1,0 +1,36 @@
+{
+  "schemaVersion": "starblox-locked-promotion-benchmark-v2",
+  "benchmarkId": "starblox-psi-fsrs-final-holdout-v2",
+  "status": "locked-evaluation-only",
+  "authorization": "synthetic-only-no-real-player-data",
+  "finalHoldout": true,
+  "seed": 20261103,
+  "sourceLearnerCount": 48,
+  "maxStep": 30,
+  "selectionStep": 18,
+  "heldOutStepCount": 12,
+  "expectedEvaluatedLearnerCount": 32,
+  "expectedCoverage": 0.6666666666666666,
+  "coreMetrics": [
+    "meanHiddenNeed",
+    "weakestSkillHitRate"
+  ],
+  "candidatePolicy": "psiKtFsrsSelectorV2",
+  "baselinePolicies": [
+    "currentHeuristic",
+    "bktBackedShadow"
+  ],
+  "tuneAgainstThisCohort": false,
+  "trainingProtocol": {
+    "psiUpstreamCommit": "ecada10cedb3237ba55f4277af0bdbd8d5d4a68e",
+    "epochsRequested": 200,
+    "earlyStoppingPatience": 10,
+    "trainTimeRatio": 0.6,
+    "evaluationRngValidationOffset": 100001,
+    "evaluationRngTestOffset": 200003,
+    "fsrsVersion": "v3.3.1"
+  },
+  "purpose": "Final untouched synthetic holdout after the PSI training/evaluation protocol was frozen. No model, selector, or weighting changes may be made in response to this cohort and then re-evaluated on the same cohort.",
+  "supersedesDevelopmentBenchmark": "starblox-psi-fsrs-promotion-eval-v1",
+  "lockedFromTrainingProtocolGithubSha": "3ef48c0b60f8ad229fbc5cc82231026ff6c2c1dc"
+}
