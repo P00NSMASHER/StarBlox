@@ -5,7 +5,7 @@
   "role": "Visual Target Director / independent catalog reviewer",
   "phase": "ART_AND_VISUALS_ONLY",
   "branch": "screenshot-match-preproduction",
-  "sourceHead": "55ae8e54c2",
+  "sourceHead": "55ae8e54c2f171f95c431e9b5218712c13baeda6",
   "assignedCollections": [
     "tops",
     "bottoms",
@@ -776,9 +776,9 @@
   "handoff": {
     "13": "desks-12 exact hash ACCEPT; freeze it and remove from production scope.",
     "14": "Current render packets consumed; do not rerender unchanged hashes.",
-    "15": "desks-11 remains a bounded exact-pixel release blocker.",
+    "15": "desks-11 remains a bounded exact-pixel REWORK blocker.",
     "09": "Decor7 v7 REWORK; preserve exact hash and generate only a small freestanding rack with a clearly readable quad-skate pair if director15 keeps it release-critical.",
-    "03": "desks-11 current exact hash is REWORK; preserve it and include the failure-specific next version in the next full producer03 matrix.",
+    "03": "desks-11 current exact hash is REWORK; preserve it and use the smallest failure-specific next prompt only if director15 keeps it release-critical.",
     "08": "Do not canonical-wire desks-11 exact hash 7f4f00fcce23a47b566ec3a99704821acb3ce57a."
   },
   "freeze": {
