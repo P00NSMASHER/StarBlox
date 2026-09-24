@@ -40,11 +40,19 @@ if(boundary.boundaryDecision?.brookhavenRemoteCallsMayShipInStarBlox!==false) is
 if(boundary.boundaryDecision?.normalizedAuthorizedAssetsMayEventuallyShip!==true) issues.push('normalized-asset-boundary');
 if(!Array.isArray(boundary.staticForbiddenTokensInLiveSrc)||!boundary.staticForbiddenTokensInLiveSrc.length) issues.push('boundary-token-list');
 
+const rightsPath='docs/preproduction/brookhaven-research/rights-status-v1.json';
+const rights=JSON.parse(fs.readFileSync(rightsPath,'utf8'));
+if(rights.schemaVersion!=='starblox-brookhaven-rights-status-v1') issues.push('rights-schema');
+if(rights.status!=='verified-for-project-use') issues.push('rights-status');
+if(rights.effect?.runtimeExploitCode!=='still-forbidden-by-reuse-boundary') issues.push('rights-runtime-boundary');
+
 const conversionPath='docs/preproduction/brookhaven-research/conversion-contract-v1.json';
 const conversion=JSON.parse(fs.readFileSync(conversionPath,'utf8'));
 if(conversion.schemaVersion!=='starblox-brookhaven-neutral-conversion-contract-v1') issues.push('conversion-schema');
 if(conversion.outputSchema?.schemaVersion!=='starblox-neutral-scene-v1') issues.push('conversion-output-schema');
-if(conversion.productionEligibility?.['user-asserted-authorized']!=='research-only-until-rights-evidence-recorded') issues.push('conversion-rights-boundary');
+if(conversion.productionEligibility?.['user-asserted-authorized']!=='research-only-until-rights-evidence-recorded') issues.push('legacy-conversion-rights-boundary');
+if(conversion.productionEligibility?.['project-rights-verified']!=='candidate-after-content-and-technical-QA') issues.push('verified-conversion-rights-boundary');
+if(!(conversion.inputSchema?.rightsStatuses||[]).includes('project-rights-verified')) issues.push('verified-rights-input-status');
 
 const residentialPath='docs/preproduction/brookhaven-research/residential-feature-blueprint-v1.json';
 const residential=JSON.parse(fs.readFileSync(residentialPath,'utf8'));
@@ -52,15 +60,53 @@ if(residential.schemaVersion!=='starblox-residential-feature-blueprint-v1') issu
 if((residential.mappings||[]).length!==14) issues.push('residential-mapping-count');
 if(residential.status!=='production-candidate-runtime-not-wired') issues.push('residential-live-status');
 
+const vehiclePath='docs/preproduction/brookhaven-research/vehicle-system-blueprint-v1.json';
+const vehicle=JSON.parse(fs.readFileSync(vehiclePath,'utf8'));
+if(vehicle.schemaVersion!=='starblox-brookhaven-vehicle-blueprint-v1') issues.push('vehicle-schema');
+if((vehicle.currentVehicles||[]).length!==13) issues.push('vehicle-blueprint-current-count');
+if((vehicle.legacyVehicles||[]).length!==4) issues.push('vehicle-blueprint-legacy-count');
+if(vehicle.status!=='production-candidate-runtime-not-wired') issues.push('vehicle-live-status');
+if(vehicle.payloadPolicy?.recoveredVisualPayloads!==0) issues.push('vehicle-payload-overclaim');
+
+const townPath='docs/preproduction/brookhaven-research/town-system-blueprint-v1.json';
+const town=JSON.parse(fs.readFileSync(townPath,'utf8'));
+if(town.schemaVersion!=='starblox-town-system-blueprint-v1') issues.push('town-schema');
+if((town.locations||[]).length!==17) issues.push('town-location-count');
+if((town.locations||[]).filter(row=>row.playerFacingEligible).length!==15) issues.push('town-player-facing-count');
+if(town.status!=='production-candidate-runtime-not-wired') issues.push('town-live-status');
+if(town.topologyPolicy?.includes('original StarBlox proxy')!==true) issues.push('town-topology-policy');
+
+const progressionPath='docs/preproduction/brookhaven-research/life-sim-progression-blueprint-v1.json';
+const progression=JSON.parse(fs.readFileSync(progressionPath,'utf8'));
+if(progression.schemaVersion!=='starblox-life-sim-progression-blueprint-v1') issues.push('progression-schema');
+if((progression.residential||[]).length!==14) issues.push('progression-residential-count');
+if((progression.vehicles||[]).length!==13) issues.push('progression-vehicle-count');
+if((progression.town||[]).length!==15) issues.push('progression-town-count');
+if(progression.status!=='shadow-read-only-not-wired-live') issues.push('progression-live-status');
+if(progression.economyBoundary?.writesExistingSave!==false) issues.push('progression-save-write-boundary');
+if(progression.economyBoundary?.awardsCoins!==false) issues.push('progression-coins-boundary');
+if(progression.economyBoundary?.awardsStars!==false) issues.push('progression-stars-boundary');
+if(progression.economyBoundary?.changesMastery!==false) issues.push('progression-mastery-boundary');
+
 const result={
-  schemaVersion:'starblox-brookhaven-research-validation-v1',
+  schemaVersion:'starblox-brookhaven-research-validation-v2',
   graphPath,
   catalogPath,
   boundaryPath,
+  rightsPath,
   conversionPath,
   residentialPath,
+  vehiclePath,
+  townPath,
+  progressionPath,
   nodeCount:graph.nodes?.length||0,
   edgeCount:graph.edges?.length||0,
+  vehicleCount:vehicle.currentVehicles?.length||0,
+  townLocationCount:town.locations?.length||0,
+  progressionRuleCount:
+    (progression.residential?.length||0)+
+    (progression.vehicles?.length||0)+
+    (progression.town?.length||0),
   issueCount:issues.length,
   issues
 };
