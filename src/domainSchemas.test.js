@@ -119,7 +119,7 @@ describe('StarBlox upstream implementation provenance', () => {
   it('pins every planned source to an immutable full commit SHA', () => {
     const entries = upstreamSourceList();
 
-    expect(entries.length).toBeGreaterThanOrEqual(46);
+    expect(entries.length).toBeGreaterThanOrEqual(51);
     expect(entries.every(entry => /^[a-f0-9]{40}$/.test(entry.commit))).toBe(true);
     expect(entries.every(entry => entry.reuseBasis === 'user-confirmed direct reuse rights')).toBe(true);
   });
@@ -161,5 +161,10 @@ describe('StarBlox upstream implementation provenance', () => {
     expect(UPSTREAM_PROVENANCE.purdleDailyGenerator.path).toBe('scripts/generate_puzzle.py');
     expect(UPSTREAM_PROVENANCE.purdleDailyWorkflow.path).toBe('.github/workflows/daily-puzzle.yml');
     expect(UPSTREAM_PROVENANCE.neonDailyChallenge.path).toBe('src/game/dailyChallenge.ts');
+    expect(UPSTREAM_PROVENANCE.sabeoDailyScheduleMigration.path).toBe('supabase/migrations/20251118214523_schedule_daily_challenge_cron.sql');
+    expect(UPSTREAM_PROVENANCE.sabeoDailyCronUpdate.path).toBe('supabase/migrations/20260108020023_update_schedule_daily_challenge_cron.sql');
+    expect(UPSTREAM_PROVENANCE.sabeoScheduleRoute.path).toBe('src/app/api/schedule-daily-challenge/route.ts');
+    expect(UPSTREAM_PROVENANCE.sabeoStartRoute.path).toBe('src/app/api/start-challenge/route.ts');
+    expect(UPSTREAM_PROVENANCE.sabeoStartDomain.path).toBe('src/domain/challenge/start-challenge.ts');
   });
 });
