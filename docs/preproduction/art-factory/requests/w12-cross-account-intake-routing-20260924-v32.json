@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_W12_CANDIDATE_DELTA_INTAKE_ROUTING",
+  "router": "12",
+  "branch": "screenshot-match-preproduction",
+  "observedHead": "c98ba182f65e3f8ce7c74b47e7c182c3c4c93efb",
+  "scanWindow": {
+    "priorCursor": "7a07f7a59bab85283128536793903e59eeb0b444",
+    "inspectedThroughHead": "c98ba182f65e3f8ce7c74b47e7c182c3c4c93efb",
+    "newCatalogCandidateBytesDetected": true,
+    "newCandidateItemIds": [
+      "desks-11"
+    ],
+    "note": "Post-v31 delta contains one new exact candidate: Desk11 v3. Intervening qualification/render/reviewer-packet commits introduce no additional catalog candidate bytes."
+  },
+  "candidates": [
+    {
+      "id": "desks-11",
+      "name": "Dream Creator Station",
+      "collectionId": "desks",
+      "producer": "03",
+      "reviewerAssignment": "01",
+      "renderOwner": "14",
+      "canonicalWriter": "08",
+      "path": "public/assets/catalog-candidates/cpu/desks-11-w03-v3-a-one-creator-desk-original.png",
+      "sha256": "83b8c60ba85177f9b5129e5f551df4a68986fe6a3fae1d5aaf74157c70532b32",
+      "gitBlobSha": "3858085e2005f6445e9b49959ed4ce6d22f03f37",
+      "bytes": 551778,
+      "dimensions": [
+        640,
+        640
+      ],
+      "format": "PNG",
+      "stagedOutput": "docs/preproduction/art-factory/generated-evidence/w03-current-rework-2pack-v2/desks-11/staged-output.json",
+      "generationReceipt": "docs/preproduction/art-factory/generated-evidence/w03-current-rework-2pack-v2/desks-11/generation-receipt.json",
+      "provenanceState": "COMPLETE_ART_FACTORY_V2",
+      "repositoryReadback": "PASS_EXACT_GIT_BLOB",
+      "supersession": "FRESH_V3_FAILURE_SPECIFIC_REPLACEMENT_FOR_REWORKED_V2",
+      "state": "ROUTE_TO_06_TECHNICAL_QUALIFICATION"
+    }
+  ],
+  "dedupe": {
+    "uniqueItemHashClaim": true,
+    "unchangedPriorHashesRerouted": false,
+    "newerPendingCandidateObserved": false
+  },
+  "queues": {
+    "to06": [
+      "desks-11@83b8c60ba85177f9b5129e5f551df4a68986fe6a3fae1d5aaf74157c70532b32"
+    ],
+    "backToProducer": []
+  },
+  "cursorAdvance": {
+    "previous": "7a07f7a59bab85283128536793903e59eeb0b444",
+    "advancedThrough": "c98ba182f65e3f8ce7c74b47e7c182c3c4c93efb"
+  },
+  "nextOwner": "06_TECHNICAL_QUALIFICATION",
+  "mutationScope": "Routing evidence only; no candidate bytes, canonical mappings, reviewer decisions, gameplay, CI/workflows, deployment or player data changed."
+}
