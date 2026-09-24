@@ -1,0 +1,112 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_GENERATION_RECEIPT",
+  "repository": "P00NSMASHER/StarBlox",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "74d29b2113762e768fedc655fe9a32f25b70ffbe",
+  "sourcePlanSha256": "983eb58b53d72d76bd52b2e69dc928cb9cd41fc23333f403cbbe0edf6a50feaa",
+  "executionCheckout": {
+    "branch": "screenshot-match-preproduction",
+    "head": "74d29b2113762e768fedc655fe9a32f25b70ffbe",
+    "planSourceHeadMatchesExecutionHead": true
+  },
+  "attempt": {
+    "attemptId": "companions-9-w06-b-star-luxe-snail-2ac9ed8565",
+    "itemId": "companions-9",
+    "producer": "06",
+    "variant": "B-STAR-LUXE-SNAIL",
+    "promptSha256": "2ac9ed8565f843d71b88337a76e30dca5e6f47ce10eb80b8be23be0f6cdeb819",
+    "runtimePromptSha256": "43bea401d637404b26668b681bf30a22be8c77b06b78c2decdad358f9ab7a05f",
+    "runtimeNegativePromptSha256": "204a9298b9eb308862ac881a53cbbb4cb1244baf8a31fc714c113992351254e5",
+    "promptRecipeVersion": "artPromptOptimizer-request-v1:w06-companion9-garden-snail-v2",
+    "seed": 345791713
+  },
+  "runtime": {
+    "repo": "huggingface/diffusers",
+    "commit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "resolvedCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "runtimeCommitVerified": true,
+    "diffusersVersion": "0.41.0.dev0",
+    "diffusersInstallSource": "https://github.com/huggingface/diffusers.git",
+    "torchVersion": "2.8.0+cpu",
+    "transformersVersion": "5.17.0",
+    "accelerateVersion": "1.15.0",
+    "huggingfaceHubVersion": "1.33.0",
+    "safetensorsVersion": "0.8.0",
+    "pythonPillowVersion": "12.3.0",
+    "device": "cpu",
+    "dtype": "float32",
+    "executionMode": "cpu-fallback"
+  },
+  "model": {
+    "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+    "revision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS",
+    "resolvedRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "snapshotRevisionVerified": true,
+    "selectiveSnapshot": true,
+    "snapshotAllowPatterns": [
+      "model_index.json",
+      "scheduler/*",
+      "tokenizer/*",
+      "tokenizer_2/*",
+      "feature_extractor/*",
+      "text_encoder/config.json",
+      "text_encoder/model.fp16.safetensors",
+      "text_encoder_2/config.json",
+      "text_encoder_2/model.fp16.safetensors",
+      "unet/config.json",
+      "unet/diffusion_pytorch_model.fp16.safetensors",
+      "vae/config.json",
+      "vae/diffusion_pytorch_model.fp16.safetensors"
+    ]
+  },
+  "conditioning": {
+    "referenceAssetSha256": null,
+    "controlImageSha256": null,
+    "adapterScale": null,
+    "referenceImage": null,
+    "ipAdapterModelId": null,
+    "ipAdapterRevision": null,
+    "ipAdapterResolvedRevision": null,
+    "ipAdapterRevisionVerified": false,
+    "ipAdapterWeightName": null,
+    "ipAdapterSubfolder": null
+  },
+  "generation": {
+    "width": 640,
+    "height": 640,
+    "numInferenceSteps": 10,
+    "guidanceScale": 4.5,
+    "runtimePromptTokenCounts": {
+      "tokenizer": 67,
+      "tokenizer_2": 67
+    },
+    "runtimeNegativePromptTokenCounts": {
+      "tokenizer": 27,
+      "tokenizer_2": 27
+    },
+    "executedSeed": 345791713
+  },
+  "output": {
+    "repoPath": "public/assets/catalog-candidates/cpu/companions-9-w06-v2-b-star-luxe-snail-original.png",
+    "sha256": "fbb3cdf2ae0778818dad9f8154fe5801636681ec0fed336a7f96ce3642c6848b",
+    "gitBlobSha": "03898aa0727647d18cffa2d92e1a78f534ac8c8e",
+    "bytes": 580565,
+    "width": 640,
+    "height": 640,
+    "format": "PNG",
+    "sourceBytesPreserved": true,
+    "reusedExistingIdenticalBytes": false
+  },
+  "safety": {
+    "canonicalArtModified": false,
+    "gameplayModified": false,
+    "reviewDecisionMade": false,
+    "deploymentPerformed": false,
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+  },
+  "nextGate": "RUN_VERIFY_STAGED_OUTPUT_THEN_REAL_RENDER_AND_INDEPENDENT_EXACT_HASH_REVIEW",
+  "status": "GENERATED_SOURCE_BYTES_UNVERIFIED",
+  "recordSha256": "224ed51c7a5c885f8e2eb6a5615b4c73e16a29ed987ad23118e97fbe8c7a14c8"
+}

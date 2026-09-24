@@ -1,0 +1,157 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_JOB",
+  "repository": "P00NSMASHER/StarBlox",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "74d29b2113762e768fedc655fe9a32f25b70ffbe",
+  "item": {
+    "id": "companions-9",
+    "name": "Garden Snail",
+    "collectionId": "companions",
+    "type": "companion",
+    "tier": 3,
+    "theme": "Star Luxe"
+  },
+  "sourceReviewHash": null,
+  "rightsBasis": "USER_ATTESTED_FULL_RIGHTS",
+  "attempts": [
+    {
+      "attemptId": "companions-9-w06-a-premium-garden-snail-83dd729553",
+      "itemId": "companions-9",
+      "producer": "06",
+      "variant": "A-PREMIUM-GARDEN-SNAIL",
+      "promptBlocks": [
+        "metadata",
+        "category",
+        "silhouette",
+        "physical",
+        "material",
+        "theme",
+        "tier",
+        "card",
+        "original",
+        "stage",
+        "companion",
+        "camera",
+        "depth",
+        "bloom",
+        "textile",
+        "wall"
+      ],
+      "promptText": "STARBLOX CATALOG ART — A-PREMIUM-GARDEN-SNAIL\n\nCreate one premium, kid-friendly 2D game catalog asset with polished dimensional quality.\n\nExact metadata: companions-9 — Garden Snail; collection companions; type companion; tier 3; theme Star Luxe.\n\nAuthoritative item-specific design brief:\nGarden Snail companion. ONE cute premium toy-like snail on a clean dreamy garden background. Green body, large friendly eyes, warm stone-and-gold spiral shell with small star-luxe accents, tiny leaf sprout, grounded full-body three-quarter view. Clear snail antennae and shell silhouette. NO text, NO extra animal, NO collage, NO duplicate view.\n\nExact-hash reviewer failure taxonomy: UNKNOWN_REWORK.\n\nRepair the documented failure codes while preserving qualities that were not implicated. Do not erase successful identity, silhouette, material depth, or readability merely to make a different image.\n\nUse the exact catalog ID/name/collection/tier/theme. Do not rename, recategorize, or substitute the item.\n\nMake the object unmistakably the stated product category with believable proportions and construction.\n\nPrioritize a distinctive clean silhouette that reads immediately at small Store-card size.\n\nShow real thickness, seams/joints/edges, layered parts, volume, contact points and functional construction—not a flat icon, emblem or sticker.\n\nUse category-appropriate material texture and highlights/shadows that explain the form.\n\nExpress the exact theme through material, construction, light and motif—not a palette swap or pasted decal.\n\nRespect tier progression: Starter stays simple and attractive; higher tiers gain richer form/material detail; Luxe gains spectacle without losing identity.\n\nDesign for both detail view and a 600×600 Store card with strong contrast, uncluttered hierarchy and no tiny critical details.\n\nAvoid recolor-only siblings, repeated template silhouettes, generic rings/badges, or interchangeable props.\n\nPresent one isolated subject on a clean premium background. No UI, text, watermark, logo, fake price badge or unrelated props.\n\nFor companions, show a charming full body, clear anatomy, expressive face, dimensional materials and a distinctive pose/silhouette.\n\nUse a clean product-style three-quarter view when appropriate so front, side and thickness are visible.\n\nUse occlusion, contact/cast shadows and foreground/midground/background separation so the asset feels spatial.\n\nUse controlled emissive light/bloom only where appropriate; preserve edges and local contrast.\n\nFor textiles, show weave/pile/folds/stitching/edge finish/thickness and believable softness or drape.\n\nFor wall decor, show mounting/frame/backing/relief depth and a believable wall-object form—not a floating emblem.\n\nOutput a production-worthy source image for exact-byte staging, card/detail rendering and independent review. Do not claim approval; the reviewer decides from rendered pixels.",
+      "promptSha256": "83dd7295535152fc5101242ad9e14f3d73a2398b1ec57999a3e99af0fe0263eb",
+      "runtimePromptText": "companions-9 Garden Snail; Star Luxe; tier 3. Garden Snail companion. ONE cute premium toy-like snail on a clean dreamy garden background. Green body, large friendly eyes, warm stone-and-gold spiral shell with small star-luxe accents, tiny leaf sprout, grounded full-body three-quarter view. Clear snail antennae and shell silhouette. single isolated product, grounded shadow.",
+      "runtimePromptSha256": "47ed6b87e09765ad18cdfe6748bf4bf73dfb56bc9cebd21862da2a75f51f173a",
+      "runtimeNegativePromptText": "text, extra animal, collage, duplicate view, collage, multiple views, repeated variants, text, logo, watermark, UI",
+      "runtimeNegativePromptSha256": "4d869c73c3c5a3de57f1cd49e27e1260357309f281bab26ac5fe422ef741e9be",
+      "promptRecipeVersion": "artPromptOptimizer-request-v1:w06-companion9-garden-snail-v2",
+      "seed": 971784366,
+      "runtime": {
+        "repo": "huggingface/diffusers",
+        "commit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c"
+      },
+      "model": {
+        "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+        "revision": "462165984030d82259a11f4367a4eed129e94a7b",
+        "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+      },
+      "conditioning": {
+        "referenceAssetSha256": null,
+        "controlImageSha256": null,
+        "adapterScale": null
+      },
+      "output": {
+        "repoPath": null,
+        "sha256": null,
+        "gitBlobSha": null,
+        "bytes": null,
+        "width": null,
+        "height": null
+      },
+      "status": "PLANNED_NOT_GENERATED"
+    },
+    {
+      "attemptId": "companions-9-w06-b-star-luxe-snail-2ac9ed8565",
+      "itemId": "companions-9",
+      "producer": "06",
+      "variant": "B-STAR-LUXE-SNAIL",
+      "promptBlocks": [
+        "metadata",
+        "category",
+        "silhouette",
+        "physical",
+        "material",
+        "theme",
+        "tier",
+        "card",
+        "original",
+        "stage",
+        "companion",
+        "camera",
+        "depth",
+        "bloom",
+        "textile",
+        "wall"
+      ],
+      "promptText": "STARBLOX CATALOG ART — B-STAR-LUXE-SNAIL\n\nCreate one premium, kid-friendly 2D game catalog asset with polished dimensional quality.\n\nExact metadata: companions-9 — Garden Snail; collection companions; type companion; tier 3; theme Star Luxe.\n\nAuthoritative item-specific design brief:\nONE adorable Garden Snail companion, full body, premium dimensional game art. Soft green snail, big expressive eyes, rich spiral shell with subtle gold star accents, small leaf sprout, clean glowing garden scene. Strong card-scale silhouette. NO text, NO second snail, NO collage, NO UI.\n\nExact-hash reviewer failure taxonomy: UNKNOWN_REWORK.\n\nRepair the documented failure codes while preserving qualities that were not implicated. Do not erase successful identity, silhouette, material depth, or readability merely to make a different image.\n\nUse the exact catalog ID/name/collection/tier/theme. Do not rename, recategorize, or substitute the item.\n\nMake the object unmistakably the stated product category with believable proportions and construction.\n\nPrioritize a distinctive clean silhouette that reads immediately at small Store-card size.\n\nShow real thickness, seams/joints/edges, layered parts, volume, contact points and functional construction—not a flat icon, emblem or sticker.\n\nUse category-appropriate material texture and highlights/shadows that explain the form.\n\nExpress the exact theme through material, construction, light and motif—not a palette swap or pasted decal.\n\nRespect tier progression: Starter stays simple and attractive; higher tiers gain richer form/material detail; Luxe gains spectacle without losing identity.\n\nDesign for both detail view and a 600×600 Store card with strong contrast, uncluttered hierarchy and no tiny critical details.\n\nAvoid recolor-only siblings, repeated template silhouettes, generic rings/badges, or interchangeable props.\n\nPresent one isolated subject on a clean premium background. No UI, text, watermark, logo, fake price badge or unrelated props.\n\nFor companions, show a charming full body, clear anatomy, expressive face, dimensional materials and a distinctive pose/silhouette.\n\nUse a clean product-style three-quarter view when appropriate so front, side and thickness are visible.\n\nUse occlusion, contact/cast shadows and foreground/midground/background separation so the asset feels spatial.\n\nUse controlled emissive light/bloom only where appropriate; preserve edges and local contrast.\n\nFor textiles, show weave/pile/folds/stitching/edge finish/thickness and believable softness or drape.\n\nFor wall decor, show mounting/frame/backing/relief depth and a believable wall-object form—not a floating emblem.\n\nOutput a production-worthy source image for exact-byte staging, card/detail rendering and independent review. Do not claim approval; the reviewer decides from rendered pixels.",
+      "promptSha256": "2ac9ed8565f843d71b88337a76e30dca5e6f47ce10eb80b8be23be0f6cdeb819",
+      "runtimePromptText": "companions-9 Garden Snail; Star Luxe; tier 3. ONE adorable Garden Snail companion, full body, premium dimensional game art. Soft green snail, big expressive eyes, rich spiral shell with subtle gold star accents, small leaf sprout, clean glowing garden scene. Strong card-scale silhouette. single isolated product, grounded shadow.",
+      "runtimePromptSha256": "43bea401d637404b26668b681bf30a22be8c77b06b78c2decdad358f9ab7a05f",
+      "runtimeNegativePromptText": "text, second snail, collage, UI, collage, multiple views, repeated variants, text, logo, watermark, UI",
+      "runtimeNegativePromptSha256": "204a9298b9eb308862ac881a53cbbb4cb1244baf8a31fc714c113992351254e5",
+      "promptRecipeVersion": "artPromptOptimizer-request-v1:w06-companion9-garden-snail-v2",
+      "seed": 345791713,
+      "runtime": {
+        "repo": "huggingface/diffusers",
+        "commit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c"
+      },
+      "model": {
+        "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+        "revision": "462165984030d82259a11f4367a4eed129e94a7b",
+        "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+      },
+      "conditioning": {
+        "referenceAssetSha256": null,
+        "controlImageSha256": null,
+        "adapterScale": null
+      },
+      "output": {
+        "repoPath": null,
+        "sha256": null,
+        "gitBlobSha": null,
+        "bytes": null,
+        "width": null,
+        "height": null
+      },
+      "status": "PLANNED_NOT_GENERATED"
+    }
+  ],
+  "requestContext": {
+    "requestPath": "docs/preproduction/art-factory/requests/w06-companion9-garden-snail-v2-20260924.json",
+    "batchId": "w06-companion9-garden-snail-v2",
+    "requestSourceHead": "19967310ff52d38e8edf4ca40cd0e127abab2de0",
+    "requestRecordSha256": "55dd416eeeb7dd9598f72ed55cdf917701d64e7b8ada03efd7ad658433aeb93c",
+    "planner": "15",
+    "reviewer": "05",
+    "renderOwner": "14",
+    "integrationOwner": "08",
+    "contextReferences": [],
+    "plannerVariants": [
+      {
+        "variantId": "A-PREMIUM-GARDEN-SNAIL",
+        "plannerSeed": null,
+        "optimizerInputSha256": "e18191a2d976511fb32bd0600e0a285165f6159d3760f7fc5e028cba28a55929",
+        "compiledPromptSha256": "83dd7295535152fc5101242ad9e14f3d73a2398b1ec57999a3e99af0fe0263eb",
+        "compiledSeed": 971784366
+      },
+      {
+        "variantId": "B-STAR-LUXE-SNAIL",
+        "plannerSeed": null,
+        "optimizerInputSha256": "770b1c089ba8067fed48657d1c630e14bfc485505a23a2dfa4ac4b3bce7ed149",
+        "compiledPromptSha256": "2ac9ed8565f843d71b88337a76e30dca5e6f47ce10eb80b8be23be0f6cdeb819",
+        "compiledSeed": 345791713
+      }
+    ]
+  },
+  "planSha256": "983eb58b53d72d76bd52b2e69dc928cb9cd41fc23333f403cbbe0edf6a50feaa"
+}
