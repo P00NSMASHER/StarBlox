@@ -1,9 +1,9 @@
 {
-  "version": 40,
+  "version": 43,
   "target": 192,
-  "finalCount": 176,
-  "remaining": 16,
-  "note": "Delivery Protocol V2 incremental integration: independently ACCEPTed Desk 12 v4 Luxe Command Desk exact hash integrated after reviewer01 Store card/detail review. Current REWORK hashes remain preserved and non-canonical.",
+  "finalCount": 179,
+  "remaining": 13,
+  "note": "StarBlox portable catalog manifest. 179/192 items are final-portable; 13 remain non-final or absent. Exact independently ACCEPTed Decor7, Decor8, and Desk9 hashes are canonical. Seven companion assets remain interim-not-verified pending authoritative live rendering evidence.",
   "duplicateAssetPaths": [],
   "items": {
     "tops-1": {
@@ -1285,6 +1285,27 @@
       "assetPath": "/assets/catalog-candidates/cpu/desks-12-w13-v4-a-freestanding-luxury-desk-original.png",
       "tier": 5,
       "theme": "Star Luxe",
+      "status": "final-portable"
+    },
+    "decor-7": {
+      "name": "Skate Rack",
+      "assetPath": "/assets/catalog-candidates/cpu/decor-7-w09-v11-a-two-quad-skates-on-shoe-rack-original.png",
+      "tier": 3,
+      "theme": "Garden Glow",
+      "status": "final-portable"
+    },
+    "decor-8": {
+      "name": "Mini Aquarium",
+      "assetPath": "/assets/catalog-candidates/cpu/decor-8-w03-v6-b-single-blue-aquarium-original.png",
+      "tier": 3,
+      "theme": "Galaxy Glow",
+      "status": "final-portable"
+    },
+    "desks-9": {
+      "name": "Art Maker Table",
+      "assetPath": "/assets/catalog-candidates/cpu/desks-9-w03-v6-b-art-maker-worktable-original.png",
+      "tier": 3,
+      "theme": "Sunny Pop",
       "status": "final-portable"
     }
   }
