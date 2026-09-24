@@ -458,3 +458,25 @@ Step 2 does not automatically:
 It creates the development factory and proof/repair loop first.
 
 Live Roblox project migration and the production ProfileStore/ReplicaService/Zap/Matter backbone remain later sequence steps.
+
+
+## Final transport/scripting hardening
+
+The factory treats bridge delivery as a bounded lease rather than an open-ended instruction.
+
+- Every queued Studio request carries an absolute expiry timestamp.
+- A Node-side timeout removes the request from the queue as well as the pending-response map.
+- The built-in Studio connector checks the expiry again immediately before execution.
+- Therefore a mutation that timed out while still queued cannot be applied later when Studio reconnects.
+- Runtime peer routing is owned by the adapter contract. Model/tool arguments cannot override whether a call belongs on the edit, server, or client peer.
+
+Generated Luau is also scanned before mutation.
+
+The same executable-pattern scanner used for optional arbitrary Luau is applied to:
+
+- complete write_script source;
+- edit_script replacement fragments.
+
+Potentially destructive/high-risk patterns such as instance destruction, direct DataStore SetAsync/RemoveAsync, loadstring, environment mutation, and debug/runtime introspection require explicit confirmation. Matches that occur only inside comments or string literals are ignored.
+
+These checks supplement rollback and tests; they do not replace them.
