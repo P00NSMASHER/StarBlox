@@ -5,7 +5,7 @@
   "role": "Visual Target Director / independent catalog reviewer",
   "phase": "ART_AND_VISUALS_ONLY",
   "branch": "screenshot-match-preproduction",
-  "sourceHead": "c6ff4fc73c",
+  "sourceHead": "d0b6cd8191e1ec0ade0640452e1d59edf647092d",
   "assignedCollections": [
     "tops",
     "bottoms",
@@ -34,11 +34,10 @@
   },
   "currentCycle": {
     "scope": [
-      "desks-11",
-      "decor-7"
+      "desks-11"
     ],
-    "version": "current six-pack exact hashes",
-    "result": "REWORK_2_OF_2",
+    "version": "current exact hash: Desk11 v6",
+    "result": "REWORK_1_OF_1",
     "oldVerdictsTransferred": false,
     "actualCardScalePixelsReviewed": true,
     "actualDetailPixelsReviewed": true,
@@ -811,6 +810,43 @@
         "duplicateVisual": "PASS",
         "technicalIntegrity": "PASS"
       }
+    },
+    {
+      "itemId": "desks-11",
+      "name": "Dream Creator Station",
+      "assetPath": "public/assets/catalog-candidates/cpu/desks-11-w03-v6-a-literal-creator-desk-original.png",
+      "repositoryPath": "public/assets/catalog-candidates/cpu/desks-11-w03-v6-a-literal-creator-desk-original.png",
+      "assetHash": "202a80396f3ca114c57b1f488aa7d5230aba17b4",
+      "sha256": "325d191765d76f21fbb5ece4e1b4a2a6703177f3f0213fa18673ed6a7260f381",
+      "contentSha256": "325d191765d76f21fbb5ece4e1b4a2a6703177f3f0213fa18673ed6a7260f381",
+      "hashAlgorithm": "git-blob-sha1",
+      "producer": "03",
+      "decision": "REWORK",
+      "learnerLabel": "REWORK",
+      "reviewedAt": "2026-09-24T18:28:00Z",
+      "evidenceRefs": [
+        "workflow:36041110855",
+        "artifact:10825809222/staged-replacements/staged-replacements-contact-sheet.png",
+        "artifact:10825809222/staged-replacements/detail/desks-11-202a8039.png"
+      ],
+      "reasonCodes": [
+        "MULTI_VIEW_PRODUCT_SHEET",
+        "MALFORMED_WORKSTATION_GEOMETRY",
+        "NO_SINGLE_CREATOR_DESK_SILHOUETTE",
+        "CARD_SCALE_IDENTITY_FAILURE"
+      ],
+      "reason": "REWORK. V6 still renders as a multi-view/product-sheet composition instead of one Dream Creator Station. The exact pixels show several separate workstation/furniture views with malformed supports and no single coherent creator-desk silhouette. Preserve this hash. Next attempt must reduce to one extremely simple desk object only: one rectangular tabletop, two plain pedestal legs, one small drawer block, one drawing tablet and one brush cup, centered on a blank background; no secondary view, no organizer rail, no room, no chair, no extra furniture.",
+      "checks": {
+        "identity": "FAIL",
+        "silhouette": "FAIL",
+        "cardReadability": "FAIL",
+        "physicalConstruction": "FAIL",
+        "framingComposition": "FAIL",
+        "materialLighting": "PARTIAL",
+        "originality": "PASS",
+        "duplicateVisual": "PASS",
+        "technicalIntegrity": "PASS"
+      }
     }
   ],
   "currentReplacementDisposition": {
@@ -862,7 +898,7 @@
     },
     "desks": {
       "REWORK": {
-        "desks-11": "31216c600b99791b15e9bd92079dd70241ca53bf",
+        "desks-11": "202a80396f3ca114c57b1f488aa7d5230aba17b4",
         "desks-12": "7d268e27c8d963dfb7e8c62274fe6b906973d5bd"
       },
       "ACCEPT": {
@@ -875,24 +911,23 @@
   },
   "summary": {
     "uniqueCatalogIdsReviewedHistorically": 49,
-    "reviewedThisRun": 2,
+    "reviewedThisRun": 1,
     "newAcceptsThisRun": 0,
-    "newReworkThisRun": 2,
+    "newReworkThisRun": 1,
     "newBlockedThisRun": 0,
     "newUsableBy08Now": [],
     "reworkNow": [
-      "desks-11",
-      "decor-7"
+      "desks-11"
     ],
-    "preservedAcceptedHashes": "All prior reviewer ACCEPTs remain frozen; these REWORK verdicts apply only to the current exact six-pack hashes assigned to this reviewer."
+    "preservedAcceptedHashes": "All prior reviewer01 ACCEPTs remain frozen; this REWORK applies only to Desk11 v6 exact hash."
   },
   "handoff": {
     "13": "desks-12 exact hash ACCEPT; freeze it and remove from production scope.",
     "14": "Current render packets consumed; do not rerender unchanged hashes.",
-    "15": "desks-11, decor-7 remain bounded exact-pixel release blockers; use only the failure-specific next prompts.",
+    "15": "Desk11 remains a bounded exact-pixel release blocker.",
     "09": "decor-7 current exact hash is REWORK; preserve it and generate only the failure-specific next version if director15 keeps it release-critical.",
-    "03": "desks-11 current exact hash is REWORK; preserve it and generate only the failure-specific next version if director15 keeps it release-critical.",
-    "08": "Do not canonical-wire desks-11, decor-7 current exact hashes."
+    "03": "Desk11 v6 REWORK; preserve exact hash and use one ultra-simple desk-object retry only after existing queued CPU successors.",
+    "08": "Do not canonical-wire Desk11 v6."
   },
   "freeze": {
     "replitTouched": false,
