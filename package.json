@@ -17,7 +17,8 @@
     "generate:learning-promotion": "node scripts/generateLearningPromotionDataset.mjs",
     "compare:learning-promotion": "node scripts/compareLearningSelectors.mjs",
     "assert:learning-promotion-boundary": "node scripts/assertLearningPromotionBoundary.mjs",
-    "decide:learning-promotion": "node scripts/buildLearningPromotionDecision.mjs"
+    "decide:learning-promotion": "node scripts/buildLearningPromotionDecision.mjs",
+    "assert:locked-learning-benchmark": "node scripts/assertLockedLearningBenchmark.mjs"
   },
   "dependencies": {
     "lucide-react": "^0.468.0",
