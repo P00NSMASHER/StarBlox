@@ -1,9 +1,9 @@
 {
-  "schemaVersion": 29,
+  "schemaVersion": 30,
   "owner": "15",
   "branch": "screenshot-match-preproduction",
-  "sourceHead": "7a0c3dd6566e25ad182f70a833a6374d08eb2819",
-  "updatedAt": "2026-09-24T18:34:00Z",
+  "sourceHead": "9a0141dec2c67ba4aec374f2107fcab120d235ef",
+  "updatedAt": "2026-09-24T19:03:00Z",
   "status": "ACTIVE_FINAL_RELEASE_TAIL",
   "policy": {
     "maxConcurrentProductionBatches": 4,
@@ -78,11 +78,11 @@
   },
   "cpuGenerationSemaphore": {
     "workflowPath": ".github/workflows/art-factory-cpu-generation.yml",
-    "observedAt": "2026-09-24T18:14:00Z",
+    "observedAt": "2026-09-24T19:03:00Z",
     "running": {
-      "runId": 36040312348,
-      "headSha": "6e4e58b5ee750f8f2ccd9c2061197bf8e288d4f9",
-      "batch": "w09-release-tail-2pack-v6",
+      "runId": 36044194444,
+      "headSha": "349979ca6e1d219e46815a69434ef9c0be9ad31f",
+      "batch": "w09-release-tail-2pack-v7",
       "state": "IN_PROGRESS",
       "jobs": [
         "decor-7",
@@ -90,82 +90,70 @@
       ],
       "phase": "CPU_GENERATION",
       "candidateArtifactsStaged": false,
-      "contract": "Pinned SDXL/Diffusers; cached runtime; literal one-product prompts."
+      "contract": "Pinned SDXL/Diffusers; cached runtime; 640x640/10-step float32; consolidated literal prompts."
     },
     "pending": {
-      "runId": 36042052820,
-      "headSha": "7a0c3dd6566e25ad182f70a833a6374d08eb2819",
-      "batch": "w13-release-tail-3pack-v5",
-      "state": "PENDING_FIXED_COMPILER",
+      "runId": 36045301731,
+      "headSha": "9a0141dec2c67ba4aec374f2107fcab120d235ef",
+      "batch": "w03-release-tail-4pack-v6",
+      "state": "PENDING",
       "jobs": [
-        "desks-8",
-        "wall-8",
-        "wall-9"
+        "decor-8",
+        "desks-9",
+        "desks-10",
+        "desks-11"
       ]
     },
-    "authorization": "DO_NOT_QUEUE_W03_V6_UNTIL_W13_STARTS_RUNNING",
-    "rule": "Exactly one running plus one pending successor. Queue consolidated producer03 v6 only after w13 starts.",
+    "authorization": "DO_NOT_QUEUE_W13_PACK_UNTIL_W03_TRANSITIONS_TO_RUNNING",
+    "rule": "Exactly one running plus one pending. Queue packed W13 retry only when W03 is running and pending slot is empty.",
     "preparedNext": [
       {
         "rank": 1,
-        "queuePath": "docs/preproduction/art-factory/prepared-queues/w03-release-tail-4pack-v6.json",
+        "queuePath": "docs/preproduction/art-factory/prepared-queues/w13-desk8-wall8-retry-pack.json",
         "scope": [
-          "decor-8",
-          "desks-9",
-          "desks-10",
-          "desks-11"
+          "desks-8",
+          "wall-8",
+          "wall-9"
         ],
-        "producer": "03",
-        "reviewer": "MIXED_11_05_01"
+        "producer": "13",
+        "reviewer": "MIXED_11_02"
       }
     ],
-    "preparedQueueRule": "Dispatch exactly one successor after live CPU idle check and fresh exact-hash supersession check."
+    "preparedQueueRule": "Dispatch exactly once after live CPU state proves W03 running and no pending successor."
   },
   "batches": [
     {
+      "producer": "09",
+      "batchId": "w09-release-tail-2pack-v7",
+      "scope": [
+        "decor-7",
+        "decor-11"
+      ],
+      "state": "RUNNING",
+      "reviewer": "MIXED_01_02"
+    },
+    {
       "producer": "03",
-      "batchId": "w03-release-tail-4pack-v5",
+      "batchId": "w03-release-tail-4pack-v6",
       "scope": [
         "decor-8",
         "desks-9",
         "desks-10",
         "desks-11"
       ],
-      "state": "RUNNING_LITERAL_RETRY_8STEP",
-      "reviewer": "MIXED_11_05_01",
-      "evidence": [
-        "docs/preproduction/art-factory/requests/w03-release-tail-4pack-v5-20260924.json",
-        "docs/preproduction/art-factory/runtime-queue/w03-release-tail-4pack-v5.json"
-      ]
-    },
-    {
-      "producer": "09",
-      "batchId": "w09-release-tail-2pack-v6",
-      "scope": [
-        "decor-7",
-        "decor-11"
-      ],
-      "state": "PREPARED_WAIT_CPU_IDLE",
-      "reviewer": "MIXED_01_02",
-      "evidence": [
-        "docs/preproduction/art-factory/requests/w09-release-tail-2pack-v6-20260924.json",
-        "docs/preproduction/art-factory/prepared-queues/w09-release-tail-2pack-v6.json"
-      ]
+      "state": "PENDING",
+      "reviewer": "MIXED_11_05_01"
     },
     {
       "producer": "13",
-      "batchId": "w13-release-tail-3pack-v5",
+      "batchId": "w13-desk8-wall8-wall9-retry-pack",
       "scope": [
         "desks-8",
         "wall-8",
         "wall-9"
       ],
-      "state": "PREPARED_WAIT_HIGHER_PRIORITY",
-      "reviewer": "MIXED_11_02",
-      "evidence": [
-        "docs/preproduction/art-factory/requests/w13-release-tail-3pack-v5-20260924.json",
-        "docs/preproduction/art-factory/prepared-queues/w13-release-tail-3pack-v5.json"
-      ]
+      "state": "PREPARED",
+      "reviewer": "MIXED_11_02"
     }
   ],
   "pendingCandidates": [],
@@ -348,44 +336,44 @@
   "readerRule": "Every worker must revalidate branch head, assignment, exact hash and review state before writing. This file never overrides newer exact-hash evidence.",
   "cycleId": "director-20260924T1531Z-obvious-rework-restart",
   "criticalPath": {
-    "computedAtHead": "666920e4301d151f943b96d821d4fe4cef125be4",
+    "computedAtHead": "9a0141dec2c67ba4aec374f2107fcab120d235ef",
     "order": [
       {
         "rank": 1,
-        "blocker": "CPU_W03_LITERAL_FOURPACK",
+        "blocker": "CPU_W09_CONSOLIDATED",
+        "affectedScopes": [
+          "decor-7",
+          "decor-11"
+        ],
+        "prerequisite": "Run 36044194444 stages candidates.",
+        "nextOwner": "12 -> 06 -> 14 -> 01/02 -> 08."
+      },
+      {
+        "rank": 2,
+        "blocker": "CPU_W03_ULTRA_LITERAL",
         "affectedScopes": [
           "decor-8",
           "desks-9",
           "desks-10",
           "desks-11"
         ],
-        "prerequisite": "Run 36039656844 completes and stages exact candidates.",
+        "prerequisite": "W09 completes and pending run 36045301731 starts.",
         "nextOwner": "12 -> 06 -> 14 -> assigned reviewers -> 08."
       },
       {
-        "rank": 2,
-        "blocker": "CPU_W09_LITERAL_TWOPACK",
-        "affectedScopes": [
-          "decor-7",
-          "decor-11"
-        ],
-        "prerequisite": "Current CPU run fully idle.",
-        "nextOwner": "Dispatch prepared w09-release-tail-2pack-v6."
-      },
-      {
         "rank": 3,
-        "blocker": "CPU_W13_LITERAL_THREEPACK",
+        "blocker": "CPU_W13_PACKED_RETRY",
         "affectedScopes": [
           "desks-8",
           "wall-8",
           "wall-9"
         ],
-        "prerequisite": "Higher-priority CPU batches fully idle.",
-        "nextOwner": "Dispatch prepared w13-release-tail-3pack-v5."
+        "prerequisite": "W03 transitions to running; queue packed W13 once.",
+        "nextOwner": "12 -> 06 -> 14 -> 11/02 -> 08."
       },
       {
         "rank": 4,
-        "blocker": "INTERIM_COMPANION_RENDER_QA",
+        "blocker": "LIVE_COMPANION_PARITY",
         "affectedScopes": [
           "companions-2",
           "companions-5",
@@ -395,11 +383,10 @@
           "companions-9",
           "companions-12"
         ],
-        "prerequisite": "Authoritative live Store/detail rendering evidence.",
-        "nextOwner": "10/04; regenerate only on concrete visual defect."
+        "prerequisite": "Replit companion image wiring update + republish + live QA.",
+        "nextOwner": "Replit parity; no art generation."
       }
     ],
-    "acceptedAwaitingCanonical": 0,
-    "note": "Functional gates remain green. No canonical accepted art is mutated."
+    "acceptedAwaitingCanonical": 0
   }
 }
