@@ -13,6 +13,7 @@ local IntelligenceShadowService = require(script.Parent.IntelligenceShadowServic
 local LiveOpsService = require(script.Parent.LiveOpsService)
 local SocialWorldService = require(script.Parent.SocialWorldService)
 local AiNpcService = require(script.Parent.AiNpcService)
+local MultiplayerActionService = require(script.Parent.MultiplayerActionService)
 
 local Bootstrap = {}
 
@@ -31,6 +32,11 @@ function Bootstrap.start(dependencies)
 	local liveOps = LiveOpsService.new(profiles, replicas, dependencies.LiveOpsPackages)
 	local social = SocialWorldService.new(profiles, replicas, ecs, liveOps, dependencies.SocialWorldAdapters)
 	local aiNpc = AiNpcService.new(profiles, dependencies.AiNpcAdapters, dependencies.TelemetrySink)
+	local multiplayer = nil
+	if dependencies.MultiplayerAdapters ~= nil then
+		multiplayer = MultiplayerActionService.new(dependencies.MultiplayerAdapters, dependencies.TelemetrySink)
+		multiplayer:Start()
+	end
 
 	local function playerAdded(player: Player)
 		local profile = profiles:Load(player)
@@ -41,9 +47,15 @@ function Bootstrap.start(dependencies)
 			return
 		end
 		replicas:Attach(player, profile.Data)
+		if multiplayer ~= nil then
+			multiplayer:PlayerAdded(player)
+		end
 	end
 
 	local function playerRemoving(player: Player)
+		if multiplayer ~= nil then
+			multiplayer:PlayerRemoving(player)
+		end
 		social:PlayerRemoving(player)
 		aiNpc:PlayerRemoving(player)
 		replicas:Detach(player)
@@ -57,6 +69,9 @@ function Bootstrap.start(dependencies)
 	Players.PlayerRemoving:Connect(playerRemoving)
 
 	game:BindToClose(function()
+		if multiplayer ~= nil then
+			multiplayer:Destroy()
+		end
 		for _, player in Players:GetPlayers() do
 			replicas:Detach(player)
 		end
@@ -73,6 +88,7 @@ function Bootstrap.start(dependencies)
 		LiveOps = liveOps,
 		SocialWorld = social,
 		AiNpc = aiNpc,
+		Multiplayer = multiplayer,
 	})
 end
 
