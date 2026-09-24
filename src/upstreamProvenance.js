@@ -88,6 +88,46 @@ export const UPSTREAM_PROVENANCE = Object.freeze({
     '9cfaa8b7537f61413c2739e9d1df99ff9bb73f4d',
     'unasserted in GitHub metadata'
   ),
+  recallGenerateQa: source(
+    'offline source-chunk question generation and candidate provenance',
+    'garg-tejas/recall-cs',
+    'main',
+    '9cfaa8b7537f61413c2739e9d1df99ff9bb73f4d',
+    'unasserted in GitHub metadata',
+    'eval/generation/generate_qa.py'
+  ),
+  recallBatchGenerate: source(
+    'resumable batch generation and checkpoint workflow',
+    'garg-tejas/recall-cs',
+    'main',
+    '9cfaa8b7537f61413c2739e9d1df99ff9bb73f4d',
+    'unasserted in GitHub metadata',
+    'eval/generation/batch_generate.py'
+  ),
+  recallValidateQa: source(
+    'structural validation, evidence linking and semantic deduplication',
+    'garg-tejas/recall-cs',
+    'main',
+    '9cfaa8b7537f61413c2739e9d1df99ff9bb73f4d',
+    'unasserted in GitHub metadata',
+    'eval/generation/validate_qa.py'
+  ),
+  recallScoreQuestions: source(
+    'independent batch question scoring and quality metadata',
+    'garg-tejas/recall-cs',
+    'main',
+    '9cfaa8b7537f61413c2739e9d1df99ff9bb73f4d',
+    'unasserted in GitHub metadata',
+    'eval/generation/score_questions.py'
+  ),
+  recallLlmReview: source(
+    'keep rewrite reject independent review semantics',
+    'garg-tejas/recall-cs',
+    'main',
+    '9cfaa8b7537f61413c2739e9d1df99ff9bb73f4d',
+    'unasserted in GitHub metadata',
+    'eval/generation/llm_review.py'
+  ),
   adaptiveQuestionSelector: source(
     'IRT ability estimation and adaptive question selection',
     'woodstocksoftware/adaptive-question-selector',
