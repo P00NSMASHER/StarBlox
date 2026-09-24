@@ -119,7 +119,7 @@ describe('StarBlox upstream implementation provenance', () => {
   it('pins every planned source to an immutable full commit SHA', () => {
     const entries = upstreamSourceList();
 
-    expect(entries.length).toBeGreaterThanOrEqual(17);
+    expect(entries.length).toBeGreaterThanOrEqual(20);
     expect(entries.every(entry => /^[a-f0-9]{40}$/.test(entry.commit))).toBe(true);
     expect(entries.every(entry => entry.reuseBasis === 'user-confirmed direct reuse rights')).toBe(true);
   });
@@ -131,5 +131,8 @@ describe('StarBlox upstream implementation provenance', () => {
     expect(UPSTREAM_PROVENANCE.neonReplayCodec.path).toBe('src/game/replayCodec.ts');
     expect(UPSTREAM_PROVENANCE.neonReSimulate.path).toBe('src/game/reSimulate.ts');
     expect(UPSTREAM_PROVENANCE.neonReplayIntegrity.path).toBe('functions/src/replayIntegrity.ts');
+    expect(UPSTREAM_PROVENANCE.atlasAuthoritySolo.path).toBe('convex/solo.ts');
+    expect(UPSTREAM_PROVENANCE.atlasAuthorityDaily.path).toBe('convex/dailyChallenge.ts');
+    expect(UPSTREAM_PROVENANCE.atlasAuthorityChallenges.path).toBe('convex/challenges.ts');
   });
 });
