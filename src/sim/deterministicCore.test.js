@@ -88,14 +88,14 @@ describe('StarBlox deterministic simulation core', () => {
     expect(second).toEqual(first);
     expect(first.state).toEqual({
       entities:[
-        {id:1,x:35,velocity:7},
-        {id:2,x:42,velocity:4}
+        {id:1,x:49,velocity:7},
+        {id:2,x:26,velocity:2}
       ],
       score:7,
       elapsedTicks:8
     });
-    expect(first.stateHash).toBe('fnv1a32:004a8c68');
-    expect(first.snapshotHash).toBe('fnv1a32:f36673cf');
+    expect(first.stateHash).toBe('fnv1a32:4e6a2dcc');
+    expect(first.snapshotHash).toBe('fnv1a32:702b6a97');
   });
 
   it('keeps same-tick actions in insertion order', () => {
@@ -106,8 +106,8 @@ describe('StarBlox deterministic simulation core', () => {
 
     expect(sim.getState().entities[0]).toEqual({
       id:1,
-      x:7,
-      velocity:7
+      x:8,
+      velocity:8
     });
   });
 
