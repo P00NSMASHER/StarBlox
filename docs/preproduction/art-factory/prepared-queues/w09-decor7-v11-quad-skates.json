@@ -34,5 +34,6 @@
     "route": "12 -> 06 -> 14 -> 01 -> 08 on ACCEPT",
     "canonicalWriter": "08"
   },
-  "dispatchPolicy": "PREPARED_ONLY__DISPATCH_AFTER_CURRENT_W09_V10_AND_W13_SUCCESSOR"
+  "dispatchPolicy": "SUPERSEDED_BY_W09_RELEASE_TAIL_2PACK_V7__DO_NOT_DISPATCH",
+  "supersededBy": "docs/preproduction/art-factory/prepared-queues/w09-release-tail-2pack-v7.json"
 }
