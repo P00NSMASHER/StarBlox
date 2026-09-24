@@ -45,7 +45,14 @@ function sourceMap(chunks){
     chunk.id,
     {
       ...clone(chunk),
-      normalizedText:normalizedForCompare(chunk.text)
+      comparisonText:normalizedForCompare(chunk.text),
+      evidenceText:normalizeText(chunk.text),
+      chunkHash:stableHash({
+        id:chunk.id,
+        text:normalizeText(chunk.text),
+        header:normalizeText(chunk.header),
+        source:normalizeText(chunk.source)
+      })
     }
   ]));
 }
@@ -132,16 +139,20 @@ export function verifyCandidateEvidence(candidate,chunks){
       errors.push('evidence chunk missing: ' + item.chunkId);
       continue;
     }
-    const quote=normalizedForCompare(item.quote);
+    const quote=normalizeText(item.quote);
     if(!quote || quote.length < 8){
       errors.push('evidence quote too short');
       continue;
     }
-    if(!chunk.normalizedText.includes(quote)){
-      errors.push('evidence quote not found in chunk ' + item.chunkId);
+    if(!chunk.evidenceText.includes(quote)){
+      errors.push('evidence quote not found exactly in chunk ' + item.chunkId);
       continue;
     }
-    verified.push({chunkId:item.chunkId,quote:normalizeText(item.quote)});
+    verified.push({
+      chunkId:item.chunkId,
+      quote,
+      chunkHash:chunk.chunkHash
+    });
   }
 
   if(source && !verified.some(item => item.chunkId === candidate.sourceChunkId)){
@@ -347,6 +358,7 @@ export async function validateGeneratedCandidates({
       quality:{
         pipelineVersion:QUESTION_QUALITY_PIPELINE_VERSION,
         mode,
+        minScore,
         structuralScore:structure.score,
         reviewerScore:reviewScore,
         effectiveScore,
@@ -372,11 +384,51 @@ export async function validateGeneratedCandidates({
   };
 }
 
+function strictIngestionReceipt(candidate){
+  const quality=candidate?.quality;
+  if(!quality || quality.mode !== 'strict'){
+    throw new Error('generated candidate ingestion requires a strict review receipt.');
+  }
+  if(!['keep','rewrite'].includes(quality.reviewerDecision)){
+    throw new Error('generated candidate ingestion requires a keep/rewrite reviewer decision.');
+  }
+  if(!Number.isFinite(quality.minScore) || !Number.isFinite(quality.reviewerScore) || !Number.isFinite(quality.effectiveScore)){
+    throw new Error('generated candidate ingestion requires complete strict review scores.');
+  }
+  if(quality.reviewerScore < quality.minScore || quality.effectiveScore < quality.minScore){
+    throw new Error('generated candidate ingestion requires review scores at or above the strict threshold.');
+  }
+  if((quality.structuralErrors || []).length || (quality.evidenceErrors || []).length){
+    throw new Error('generated candidate ingestion requires clean structural and evidence gates.');
+  }
+  if(!Array.isArray(quality.verifiedEvidence) || quality.verifiedEvidence.length === 0){
+    throw new Error('generated candidate ingestion requires verified source evidence.');
+  }
+  return quality;
+}
+
 function generatedQuestionShape(candidate){
+  const quality=strictIngestionReceipt(candidate);
   const id='gen-' + stableHash({
     sourceChunkId:candidate.sourceChunkId,
     prompt:normalizedForCompare(candidate.prompt)
   }).split(':')[1];
+  const sourceEvidence=quality.verifiedEvidence.find(item => item.chunkId === candidate.sourceChunkId) || null;
+  const reviewReceipt={
+    pipelineVersion:quality.pipelineVersion,
+    mode:quality.mode,
+    minScore:quality.minScore,
+    reviewerDecision:quality.reviewerDecision,
+    reviewerScore:quality.reviewerScore,
+    effectiveScore:quality.effectiveScore,
+    reviewerReasons:quality.reviewerReasons || []
+  };
+  const evidenceProvenance=quality.verifiedEvidence.map((item,index) => ({
+    kind:'verified-evidence',
+    sourceId:item.chunkId,
+    label:item.quote,
+    reference:item.chunkHash ? 'chunk-hash:' + item.chunkHash : 'evidence-index:' + index
+  }));
 
   return {
     id,
@@ -398,29 +450,40 @@ function generatedQuestionShape(candidate){
         kind:'generated-source',
         sourceId:candidate.sourceChunkId,
         label:candidate.sourceHeader || candidate.sourceChunkId,
-        reference:null
+        reference:sourceEvidence?.chunkHash ? 'chunk-hash:' + sourceEvidence.chunkHash : null
       },
       {
         kind:'generation-run',
         sourceId:candidate.generation?.runId || 'unknown',
         label:(candidate.generation?.provider || 'unknown') + (candidate.generation?.model ? ':' + candidate.generation.model : ''),
-        reference:null
-      }
+        reference:'candidate:' + candidate.candidateId
+      },
+      {
+        kind:'quality-review',
+        sourceId:quality.pipelineVersion,
+        label:quality.mode + ':' + quality.reviewerDecision +
+          ':review=' + quality.reviewerScore +
+          ':effective=' + quality.effectiveScore +
+          ':threshold=' + quality.minScore,
+        reference:'review-receipt:' + stableHash(reviewReceipt)
+      },
+      ...evidenceProvenance
     ]
   };
 }
 
-export function ingestValidatedCandidates(bank,candidates,{
-  lifecycle='pending',
-  tags=['generated']
-}={}){
+export function ingestValidatedCandidates(bank,candidates,options={}){
+  if(Object.prototype.hasOwnProperty.call(options,'lifecycle') && options.lifecycle !== 'pending'){
+    throw new Error('generated candidates may only be ingested with pending lifecycle.');
+  }
+  const {tags=['generated']}=options;
   let next=bank;
   const inserted=[];
 
   for(const candidate of candidates){
     const question=generatedQuestionShape(candidate);
     next=addQuestionToBank(next,question,{
-      lifecycle,
+      lifecycle:'pending',
       conceptIds:Array.isArray(candidate.conceptIds) && candidate.conceptIds.length
         ? candidate.conceptIds
         : [candidate.skill],
@@ -432,7 +495,7 @@ export function ingestValidatedCandidates(bank,candidates,{
       questionId:question.id,
       version:version.contentVersion,
       contentHash:version.contentHash,
-      lifecycle
+      lifecycle:'pending'
     });
   }
 
