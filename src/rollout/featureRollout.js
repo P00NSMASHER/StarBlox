@@ -1,5 +1,5 @@
 
-import { stableHash } from '../domainSchemas.js';
+import { stableHash, stableStringify } from '../domainSchemas.js';
 
 export const FEATURE_ROLLOUT_SCHEMA_VERSION=1;
 export const FEATURE_ROLLOUT_VERSION='starblox-rollout-v1';
@@ -301,7 +301,7 @@ export function resolveFeatureRollout(config,{
 }
 
 function defaultExact(a,b){
-  try{return JSON.stringify(a) === JSON.stringify(b);}
+  try{return stableStringify(a) === stableStringify(b);}
   catch{return a === b;}
 }
 
@@ -327,7 +327,7 @@ export async function runSafeRollout({
 
   const controlValue=await control();
   if(!decision?.evaluateExperimental){
-    return deepFreeze({
+    return Object.freeze({
       chosen:'control',
       value:controlValue,
       comparison:null
@@ -338,16 +338,16 @@ export async function runSafeRollout({
   try{
     experimentalValue=await experimental();
   }catch(error){
-    return deepFreeze({
+    return Object.freeze({
       chosen:'control',
       value:controlValue,
-      comparison:{
+      comparison:Object.freeze({
         exactMatch:false,
         reasonableMatch:false,
         experimentalError:error instanceof Error ? error.message : 'experimental path failed',
         control:typeof serialize === 'function' ? serialize(controlValue) : null,
         experimental:null
-      }
+      })
     });
   }
 
@@ -356,15 +356,15 @@ export async function runSafeRollout({
     ? Boolean(reasonableComparator(controlValue,experimentalValue))
     : exact;
 
-  return deepFreeze({
+  return Object.freeze({
     chosen:decision.useExperimental ? 'experimental' : 'control',
     value:decision.useExperimental ? experimentalValue : controlValue,
-    comparison:{
+    comparison:Object.freeze({
       exactMatch:exact,
       reasonableMatch:reasonable,
       experimentalError:null,
       control:typeof serialize === 'function' ? serialize(controlValue) : null,
       experimental:typeof serialize === 'function' ? serialize(experimentalValue) : null
-    }
+    })
   });
 }
