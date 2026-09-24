@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_EXACT_CPU_ARTIFACT_RECOVERY",
+  "branch": "screenshot-match-preproduction",
+  "runId": 35880356000,
+  "artifactName": "cpu-generated-decor-6-0079db35c157cebaca2974dcf6608e7c4cdfeef5",
+  "repoPath": "public/assets/catalog-candidates/cpu/decor-6-w03-v1-a-physical-original.png",
+  "sha256": "8b839bb54cda085810a58d1714c3f0850991e544b2e7c75e75a5e6c20c820fd2",
+  "gitBlobSha": "a8dca54ad9c511b529ab505dab97991bbc76daef",
+  "reviewer": "11",
+  "queueId": "w03-decor-6-8-cpu-v1",
+  "evidenceDest": "docs/preproduction/art-factory/generated-evidence/w03-decor-6-8-cpu-v1/decor-6",
+  "sourceArtifactId": 10786424208,
+  "sourceHead": "0079db35c157cebaca2974dcf6608e7c4cdfeef5",
+  "recoveryReason": "Decor6 generation completed successfully in run 35880356000 attempt 2, but the historical workflow revision did not include immediate per-item staging. Recover the immutable completed artifact byte-for-byte without regeneration or re-encoding.",
+  "nextOwner": "12 -> 06 -> 14 -> 11 -> 08 on independent ACCEPT"
+}
