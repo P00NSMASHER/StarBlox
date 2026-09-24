@@ -33,7 +33,7 @@
   },
   "reviewSource": {
     "decision": "REWORK",
-    "note": "Decor7 v10 is a bench/tube with no skates; Decor11 v6 is a split vanity composition with no clear stool."
+    "note": "Decor7 v10 is a bench/tube with no skates; Decor11 v6 is a split two-vanity composition with no clear stool."
   },
   "items": {
     "decor-7": {
@@ -61,9 +61,16 @@
     },
     "decor-11": {
       "currentLegacy": {
-        "path": "public/assets/catalog-candidates/cpu/decor-11-w09-v5-a-one-vanity-one-mirror-one-stool-original.png",
-        "gitBlobSha1": "2c122deee959671e20520bd9f4eb3d7e0da02949",
-        "reviewDecision": "REWORK"
+        "path": "public/assets/catalog-candidates/cpu/decor-11-w09-v6-b-literal-vanity-mirror-stool-original.png",
+        "gitBlobSha1": "61def289ba05f48b56c29d3eaa2d38a4a4b0899a",
+        "sha256": "2ebcd1c5e2c858a7203e54791ef02ddfe32e1fd49b1b06d1ad0ec639b8dffeda",
+        "reviewDecision": "REWORK",
+        "normalizedFailureTaxonomy": [
+          "TWO_VARIANT_SPLIT_COMPOSITION",
+          "NO_SINGLE_VANITY_SET",
+          "STOOL_IDENTITY_FAILURE",
+          "MIRROR_REFLECTION_MALFORMATION"
+        ]
       },
       "variants": [
         {
