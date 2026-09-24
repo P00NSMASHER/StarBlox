@@ -47,6 +47,11 @@ local ProfileTemplate = {
 		Assignments = {},
 	},
 
+	AiNpc = {
+		Memories = {},
+		ProcessedRequestIds = {},
+	},
+
 	Social = {
 		Home = {
 			PlotId = "",
@@ -61,10 +66,6 @@ local ProfileTemplate = {
 		},
 		CompletedSessionIds = {},
 		AffinityEventIds = {},
-	},
-
-	AiNpc = {
-		Memory = {},
 	},
 
 	LiveOps = {

@@ -30,7 +30,7 @@ function Bootstrap.start(dependencies)
 	local shadow = IntelligenceShadowService.new(dependencies.TelemetrySink)
 	local liveOps = LiveOpsService.new(profiles, replicas, dependencies.LiveOpsPackages)
 	local social = SocialWorldService.new(profiles, replicas, ecs, liveOps, dependencies.SocialWorldAdapters)
-	local aiNpc = AiNpcService.new(profiles, dependencies.AiNpcAdapters)
+	local aiNpc = AiNpcService.new(profiles, dependencies.AiNpcAdapters, dependencies.TelemetrySink)
 
 	local function playerAdded(player: Player)
 		local profile = profiles:Load(player)
