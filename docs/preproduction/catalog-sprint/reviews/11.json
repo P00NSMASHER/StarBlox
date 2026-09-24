@@ -4,16 +4,15 @@
   "role": "independent art reviewer D / overflow reviewer",
   "phase": "ART_VISUALS_SPRINT",
   "branch": "screenshot-match-preproduction",
-  "sourceHead": "3aff59fa0492c4f62134cccbb8e620488caf54cd",
+  "sourceHead": "c6ff4fc73c",
   "policy": "docs/preproduction/DELIVERY_PROTOCOL_V2.md",
   "artFactoryPolicy": "docs/preproduction/art-factory/ART_FACTORY_V2.json",
   "currentCycle": {
     "scope": [
-      "desks-8",
-      "wall-8"
+      "decor-8"
     ],
-    "version": "current exact hashes: Desk8 v3 + Wall8 v8",
-    "result": "REWORK_2_OF_2",
+    "version": "current six-pack exact hashes",
+    "result": "REWORK_1_OF_1",
     "oldVerdictsTransferred": false,
     "actualCardScalePixelsReviewed": true,
     "actualDetailPixelsReviewed": true,
@@ -466,12 +465,49 @@
         "duplicateVisual": "PASS",
         "technicalIntegrity": "PASS"
       }
+    },
+    {
+      "itemId": "decor-8",
+      "name": "Mini Aquarium",
+      "assetPath": "public/assets/catalog-candidates/cpu/decor-8-w03-v4-a-one-rectangular-aquarium-original.png",
+      "repositoryPath": "public/assets/catalog-candidates/cpu/decor-8-w03-v4-a-one-rectangular-aquarium-original.png",
+      "assetHash": "84aebabc0c5653fbd551badab28dff9873574edd",
+      "sha256": "e169c2c18cfbcc94adf2d49b24bc41e178786771fbe2d586a2eaa72a99f99d53",
+      "contentSha256": "e169c2c18cfbcc94adf2d49b24bc41e178786771fbe2d586a2eaa72a99f99d53",
+      "hashAlgorithm": "git-blob-sha1",
+      "producer": "03",
+      "decision": "REWORK",
+      "learnerLabel": "REWORK",
+      "reviewedAt": "2026-09-24T17:46:00Z",
+      "evidenceRefs": [
+        "workflow:36035222979",
+        "artifact:10824341301/staged-replacements/staged-replacements-contact-sheet.png",
+        "artifact:10824341301/staged-replacements/detail/decor-8-84aebabc.png"
+      ],
+      "reasonCodes": [
+        "TERRARIUM_NOT_AQUARIUM",
+        "NO_VISIBLE_WATER",
+        "NO_FISH_OR_FILTER",
+        "SECOND_OBJECT_INTRUSION"
+      ],
+      "reason": "REWORK. V4 is finally a single compact glass tank, but the exact pixels read as a dry terrarium/display case: there is no visible water line, fish, bubbles or aquarium filter, and a second cropped object intrudes at the right edge. Preserve this exact hash. Next attempt should keep the compact rectangular form but fill it unmistakably with blue water, one or two fish, a simple filter/bubble cue and a contained aquatic plant; one tank only, plain background.",
+      "checks": {
+        "identity": "FAIL",
+        "silhouette": "FAIL",
+        "cardReadability": "FAIL",
+        "physicalConstruction": "FAIL",
+        "framingComposition": "FAIL",
+        "materialLighting": "PARTIAL",
+        "originality": "PASS",
+        "duplicateVisual": "PASS",
+        "technicalIntegrity": "PASS"
+      }
     }
   ],
   "currentReplacementDisposition": {
     "decor": {
       "REWORK": {
-        "decor-8": "b35648acd6951aaa04de97f555b660396e2a62df"
+        "decor-8": "84aebabc0c5653fbd551badab28dff9873574edd"
       },
       "ACCEPT": {
         "decor-6": "5b860130d537acadb6a15c81a841805c3b9b81cf"
@@ -492,22 +528,22 @@
     }
   },
   "summary": {
-    "reviewedThisRun": 2,
+    "reviewedThisRun": 1,
     "newAcceptsThisRun": 0,
-    "newReworkThisRun": 2,
+    "newReworkThisRun": 1,
     "newBlockedThisRun": 0,
     "newUsableBy08Now": [],
     "reworkNow": [
-      "desks-8",
-      "wall-8"
+      "decor-8"
     ],
-    "preservedAcceptedHashes": "All prior reviewer11 ACCEPTs remain frozen; these REWORK verdicts apply only to Desk8 v3 and Wall8 v8 exact hashes."
+    "preservedAcceptedHashes": "All prior reviewer ACCEPTs remain frozen; these REWORK verdicts apply only to the current exact six-pack hashes assigned to this reviewer."
   },
   "handoff": {
     "13": "Desk8 v3 and Wall8 v8 are REWORK; preserve exact hashes and use only the failure-specific next prompts.",
     "14": "Tail render packets consumed; do not rerender unchanged hashes.",
-    "15": "Desk8 and Wall8 remain bounded exact-pixel blockers.",
-    "08": "Do not canonical-wire Desk8 v3 or Wall8 v8."
+    "15": "decor-8 remain bounded exact-pixel release blockers; use only the failure-specific next prompts.",
+    "08": "Do not canonical-wire decor-8 current exact hashes.",
+    "03": "decor-8 current exact hash is REWORK; preserve it and generate only the failure-specific next version if director15 keeps it release-critical."
   },
   "preservation": {
     "candidateBytesChanged": false,
