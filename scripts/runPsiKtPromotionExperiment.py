@@ -251,6 +251,21 @@ dataset_dir.mkdir(parents=True, exist_ok=True)
 np.save(dataset_dir / "adj.npy", adj)
 
 seed = int(evaluation["seed"])
+train_time_ratio = float(evaluation.get("trainTimeRatio", 0.6))
+selection_step = int(
+    evaluation.get(
+        "selectionStep",
+        math.ceil(int(args_cli.max_step) * train_time_ratio),
+    )
+)
+expected_selection_step = math.ceil(int(args_cli.max_step) * train_time_ratio)
+if selection_step != expected_selection_step:
+    raise RuntimeError(
+        f"selectionStep {selection_step} does not match PSI training prefix "
+        f"{expected_selection_step}"
+    )
+test_time_ratio = 1.0 - train_time_ratio
+
 torch.manual_seed(seed)
 np.random.seed(seed)
 
@@ -266,9 +281,9 @@ model_args = SimpleNamespace(
     max_step=int(args_cli.max_step),
     num_learner=32,
     train_mode="ls_split_time",
-    train_time_ratio=0.6,
+    train_time_ratio=train_time_ratio,
     val_time_ratio=0.25,
-    test_time_ratio=0.4,
+    test_time_ratio=test_time_ratio,
     random_seed=seed,
     regenerate_corpus=1,
     # logging/model paths
@@ -376,11 +391,14 @@ for epoch in range(model_args.epoch):
 model.eval()
 predictions = []
 labels = []
-per_user_skill = defaultdict(lambda: defaultdict(list))
+per_user_heldout_skill = defaultdict(lambda: defaultdict(list))
+per_user_state = {}
 test_step = int(model_args.max_step * model_args.test_time_ratio)
+train_step = selection_step
 
 with torch.no_grad():
     for batch in test_batches:
+        # Held-out item-level predictions measure predictive performance.
         out = model.predictive_model(batch)
         pred = out["prediction"].mean(dim=1).detach().cpu().numpy()
         label = out["label"][:, 0, :].detach().cpu().numpy()
@@ -390,10 +408,30 @@ with torch.no_grad():
         predictions.extend(pred.reshape(-1).tolist())
         labels.extend(label.reshape(-1).tolist())
 
+        # Selector inputs need a complete per-skill state at the decision
+        # boundary, not only predictions for skills appearing in held-out
+        # questions. Infer z from exactly the observed training prefix and emit
+        # a mastery probability for every skill node.
+        state_emb = model.embedding_process(
+            time=batch["time_seq"][:, :train_step],
+            label=batch["label_seq"][:, :train_step],
+            item=batch["skill_seq"][:, :train_step],
+        )
+        _, state_qz = model.inference_process(
+            state_emb,
+            batch,
+            eval=True,
+        )
+        state_mastery = model.y_emit(
+            state_qz.mean[:, -1, :]
+        ).detach().cpu().numpy()
+
         for row_index, user_id in enumerate(users):
+            user_key = str(int(user_id))
+            per_user_state[user_key] = state_mastery[row_index].tolist()
             for step_index in range(pred.shape[1]):
                 skill_id = int(skills[row_index, step_index])
-                per_user_skill[str(int(user_id))][str(skill_id)].append(
+                per_user_heldout_skill[user_key][str(skill_id)].append(
                     float(pred[row_index, step_index])
                 )
 
@@ -406,12 +444,24 @@ if len(np.unique(label_np)) > 1:
     auc = float(roc_auc_score(label_np, pred_np))
 
 reverse_skill = {str(v): k for k, v in skill_id_map.items()}
-skill_predictions = {}
-for user_id, skill_rows in per_user_skill.items():
-    skill_predictions[user_id] = {
+skill_predictions = {
+    user_id:{
+        reverse_skill[str(skill_id)]:float(values[skill_id])
+        for skill_id in range(len(values))
+    }
+    for user_id,values in per_user_state.items()
+}
+heldout_skill_predictions = {}
+for user_id, skill_rows in per_user_heldout_skill.items():
+    heldout_skill_predictions[user_id] = {
         reverse_skill[skill_id]: float(np.mean(values))
         for skill_id, values in skill_rows.items()
     }
+
+if not skill_predictions:
+    raise RuntimeError("PSI-KT produced no complete selector-state predictions")
+if any(len(rows) != len(skill_id_map) for rows in skill_predictions.values()):
+    raise RuntimeError("PSI-KT selector-state prediction coverage is incomplete")
 
 model_path = output_path.parent / "amortized-psikt-shadow.pt"
 torch.save(model.state_dict(), model_path)
@@ -438,6 +488,8 @@ receipt = {
     "dataAlignmentShim":alignment_audit,
     "device":"cpu",
     "epochs":model_args.epoch,
+    "trainTimeRatio":train_time_ratio,
+    "selectionStep":selection_step,
     "trainLearners":len(corpus.data_df["train"]),
     "testLearners":len(corpus.data_df["test"]),
     "skillCount":corpus.n_skills,
@@ -450,6 +502,9 @@ receipt = {
         "predictionCount":int(pred_np.size),
     },
     "skillPredictions":skill_predictions,
+    "heldoutSkillPredictions":heldout_skill_predictions,
+    "selectorStateLearnerCount":len(skill_predictions),
+    "selectorStateSkillCount":len(skill_id_map),
     "modelStatePath":str(model_path),
     "modelStateSha256":sha256_file(model_path),
 }
@@ -467,9 +522,13 @@ print(json.dumps({
     "dataAlignmentShim":receipt["dataAlignmentShim"],
     "upstreamCommit":upstream_commit,
     "epochs":receipt["epochs"],
+    "trainTimeRatio":receipt["trainTimeRatio"],
+    "selectionStep":receipt["selectionStep"],
     "trainLearners":receipt["trainLearners"],
     "testLearners":receipt["testLearners"],
     "skillCount":receipt["skillCount"],
+    "selectorStateLearnerCount":receipt["selectorStateLearnerCount"],
+    "selectorStateSkillCount":receipt["selectorStateSkillCount"],
     "metrics":receipt["metrics"],
     "modelStateSha256":receipt["modelStateSha256"],
 }, indent=2, sort_keys=True))
