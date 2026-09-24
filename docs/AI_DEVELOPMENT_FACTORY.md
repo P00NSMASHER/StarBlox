@@ -126,6 +126,16 @@ When explicitly enabled, executable source is scanned after strings/comments are
 
 Calls matching dangerous patterns require explicit confirmation.
 
+### Whole-batch preflight checkpoint
+
+Before the first persistent mutation in a batch, the factory now performs a complete safety/rollback preflight across **every** requested operation.
+
+It captures all readable prior script/property state up front. If any later operation lacks deterministic rollback coverage, the entire batch is rejected before the first write lands.
+
+create_instance is the only deferred case because its rollback target path does not exist until Studio creates it; the returned created path must immediately become a deterministic delete rollback or the batch is treated as partial/high-risk.
+
+This gives every mutation cycle a dry-run/checkpoint boundary rather than relying only on rollback after a later failure.
+
 ### Rollback coverage
 
 Persistent mutations must have deterministic rollback coverage by default.
