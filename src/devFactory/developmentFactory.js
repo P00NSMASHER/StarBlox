@@ -183,8 +183,10 @@ async function gatherRuntimeEvidence(studio,plan,{safety={}}={}){
   };
 
   if(!plan.playtest.required && !plan.visual.required){
-    return evidence;
+    return {evidence,visualCapture:null};
   }
+
+  let visualCapture=null;
 
   if(plan.playtest.required){
     if(typeof studio.has === 'function' && studio.has('run_playtest_episode')){
@@ -245,6 +247,7 @@ async function gatherRuntimeEvidence(studio,plan,{safety={}}={}){
         {tool:'capture_viewport',args:{}},
         {stage:'review',safety}
       );
+      visualCapture=capture;
       evidence.screenshot={
         captured:true,
         width:Number(capture?.width) || null,
@@ -258,14 +261,26 @@ async function gatherRuntimeEvidence(studio,plan,{safety={}}={}){
     }
   }
 
-  return evidence;
+  return {evidence,visualCapture};
+}
+
+function normalizeVisualReview(raw){
+  if(!raw || typeof raw !== 'object' || Array.isArray(raw)){
+    return {ok:false,findings:['visual reviewer returned invalid result'],summary:''};
+  }
+  return {
+    ok:raw.ok === true,
+    findings:Array.isArray(raw.findings) ? raw.findings.map(String).slice(0,50) : [],
+    summary:typeof raw.summary === 'string' ? raw.summary : ''
+  };
 }
 
 async function runVerificationCycle({
   studio,
   plan,
   repositoryGate,
-  safety
+  safety,
+  visualReviewer=null
 }){
   let studioTests=null;
   const errors=[];
@@ -297,8 +312,36 @@ async function runVerificationCycle({
     errors.push('Studio logs unavailable: ' + (error instanceof Error ? error.message : String(error)));
   }
 
-  const runtime=await gatherRuntimeEvidence(studio,plan,{safety});
+  const runtimeResult=await gatherRuntimeEvidence(studio,plan,{safety});
+  const runtime=runtimeResult.evidence;
   errors.push(...runtime.errors);
+
+  let visualReview=null;
+  if(plan.visual.required){
+    if(!runtimeResult.visualCapture){
+      errors.push('visual review required but no viewport capture is available');
+    }else if(typeof visualReviewer !== 'function'){
+      errors.push('visual review required but no agents.visualReview hook is available');
+    }else{
+      try{
+        visualReview=normalizeVisualReview(await visualReviewer({
+          capture:runtimeResult.visualCapture,
+          screenshot:clone(runtime.screenshot),
+          acceptance:clone(plan.acceptance)
+        }));
+        if(!visualReview.ok){
+          errors.push('visual reviewer rejected the captured viewport');
+        }
+      }catch(error){
+        visualReview={
+          ok:false,
+          findings:[error instanceof Error ? error.message : String(error)],
+          summary:''
+        };
+        errors.push('visual review errored: ' + visualReview.findings[0]);
+      }
+    }
+  }
 
   let repository=null;
   if(repositoryGate && typeof repositoryGate.run === 'function'){
@@ -317,6 +360,7 @@ async function runVerificationCycle({
     studioTests,
     logs,
     runtime,
+    visualReview,
     repository,
     errors
   };
@@ -477,7 +521,8 @@ export async function runDevelopmentFactory({
       studio,
       plan,
       repositoryGate,
-      safety
+      safety,
+      visualReviewer:typeof agents.visualReview === 'function' ? agents.visualReview : null
     });
     finalVerification=verification;
 
