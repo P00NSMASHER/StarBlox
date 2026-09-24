@@ -192,6 +192,46 @@ export const UPSTREAM_PROVENANCE = Object.freeze({
     'AGPL-3.0',
     'convex/challenges.ts'
   ),
+  openEdxItemBank: source(
+    'persistent per-user item-bank assignment and invalid/overlimit/add semantics',
+    'openedx/openedx-platform',
+    'master',
+    '648d08b9f61695fea2e586abdb79beb527c7eee5',
+    'AGPL-3.0',
+    'xmodule/item_bank_block.py'
+  ),
+  openEdxProblemBlock: source(
+    'attempt, grading, answer-release and randomization semantics',
+    'openedx/openedx-platform',
+    'master',
+    '648d08b9f61695fea2e586abdb79beb527c7eee5',
+    'AGPL-3.0',
+    'xmodule/capa_block.py'
+  ),
+  gygyQuestionModelV2: source(
+    'question lifecycle, content revision and versioned content model',
+    'gygy-open/question-bank',
+    'main',
+    '6ccd09d670faad4de760cffffe26d4ef66a972b3',
+    'AGPL-3.0',
+    'backend/app/models/question.py'
+  ),
+  gygyQuestionCrudV2: source(
+    'content revision increments only on actual publishable-content changes',
+    'gygy-open/question-bank',
+    'main',
+    '6ccd09d670faad4de760cffffe26d4ef66a972b3',
+    'AGPL-3.0',
+    'backend/app/crud/crud_question.py'
+  ),
+  gygyQuestionValidationV2: source(
+    'centralized cross-field question content validation',
+    'gygy-open/question-bank',
+    'main',
+    '6ccd09d670faad4de760cffffe26d4ef66a972b3',
+    'AGPL-3.0',
+    'backend/app/services/question_content.py'
+  ),
   openReplay: source(
     'session replay and production observability concepts',
     'openreplay/openreplay',
