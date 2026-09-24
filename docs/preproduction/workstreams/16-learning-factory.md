@@ -696,6 +696,63 @@ Prior validation/final-holdout seeds must remain frozen and must not be reused
 for tuning.
 
 
+## Phase 5 — Consolidated hold-current-live-selector decision
+
+The persisted governance artifact
+`docs/preproduction/learning-factory/current-promotion-decision.json`
+is now the concise source of truth for promotion status.
+
+Current live selector:
+
+- implementation: `gameModel.pickQuest`;
+- change allowed: **false**.
+
+Research state:
+
+- BKT: shadow baseline;
+- actual FSRS engine signal: validated, research-only;
+- pinned `AmortizedPSIKT`: trained/evaluated, research-only;
+- PSI-KT + FSRS Selector V2: **rejected on untouched final holdout**;
+- BKT + continuous FSRS risk 40: **rejected on untouched final holdout**;
+- BKT + FSRS near-tie margin 3: **rejected on independent validation**;
+- heuristic-anchored BKT + FSRS (margin 3 / risk 16):
+  **rejected on independent validation**.
+
+The latest heuristic-anchor validation at run `35976293553` was not
+supportive:
+
+- current heuristic: hidden need **0.5838681**, weakest-skill hit **0.8125**;
+- BKT shadow: hidden need **0.5920151**, weakest-skill hit **0.9166667**;
+- frozen candidate: hidden need **0.5835776**, weakest-skill hit **0.7916667**;
+- candidate versus heuristic: hidden need **-0.0002904**,
+  weakest-skill hit **-0.0208333**;
+- candidate versus BKT: hidden need **-0.0084375**,
+  weakest-skill hit **-0.125**.
+
+No rejected selector is permitted in live Quest entry points. The consolidated
+static boundary checks `App.jsx`, `main.jsx`, and `gameModel.js` for every
+research selector family:
+
+- `selectorV2Shadow` / `pickQuestV2Shadow`;
+- `selectorBktFsrsRiskShadow` / `pickQuestBktFsrsRiskShadow`;
+- `selectorBktFsrsNearTieShadow` / `pickQuestBktFsrsNearTieShadow`;
+- `selectorHeuristicAnchoredShadow` / `pickQuestHeuristicAnchoredShadow`;
+- `selectorHeuristicBktFsrsAnchorShadow` /
+  `pickQuestHeuristicBktFsrsAnchorShadow`.
+
+Current live-promotion blockers are:
+
+1. the external original behind the ABVM fallback remains unverified;
+2. no real-learner efficacy evaluation has been authorized/completed;
+3. privacy review is incomplete;
+4. no research selector has cleared its required validation **and** untouched
+   final-holdout gates.
+
+Future selector work must not tune against any already-used validation or final
+holdout seed. A new candidate requires a fresh development cohort, a separate
+no-tuning validation cohort, and then a newly locked untouched final holdout.
+Synthetic success alone can never flip the live-selector gate.
+
 ## Integration note
 
 At the latest comparison during this workstream, `screenshot-match-preproduction` had advanced concurrently and this branch was **2 commits behind** it. Reconcile/rebase those concurrent preproduction changes before opening or merging a PR; do not blindly merge the moving branch.
