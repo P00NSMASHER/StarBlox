@@ -1,0 +1,120 @@
+name: Learning Model Development Diagnostic
+
+on:
+  push:
+    branches:
+      - starblox-learning-factory-v1
+    paths:
+      - "scripts/diagnoseLearningDevelopment.mjs"
+      - "docs/preproduction/learning-factory/development-diagnostic-benchmark.json"
+      - ".github/workflows/learning-model-development-diagnostic.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  development-diagnostic:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+
+      - name: Install StarBlox dependencies
+        run: npm install --ignore-scripts --package-lock=false
+
+      - name: Load development-only benchmark
+        run: |
+          node --input-type=module - <<'NODE' >> "$GITHUB_ENV"
+          import fs from 'node:fs';
+          const b = JSON.parse(fs.readFileSync(
+            'docs/preproduction/learning-factory/development-diagnostic-benchmark.json',
+            'utf8'
+          ));
+          if(b.status !== 'development-tuning-allowed'){
+            throw new Error('diagnostic cohort must be development-only');
+          }
+          if(Number(b.seed) === Number(b.forbiddenFinalHoldoutSeed)){
+            throw new Error('development cohort must not use the locked final holdout seed');
+          }
+          for(const [key,value] of [
+            ['DEV_BENCHMARK_ID',b.benchmarkId],
+            ['DEV_BENCHMARK_SEED',b.seed],
+            ['DEV_BENCHMARK_LEARNERS',b.sourceLearnerCount],
+            ['DEV_BENCHMARK_MAX_STEP',b.maxStep]
+          ]){
+            console.log(key+'='+value);
+          }
+          NODE
+
+      - name: Generate development synthetic dataset
+        run: npm run generate:learning-promotion -- --out-dir=.learning-development --learners=$DEV_BENCHMARK_LEARNERS --max-step=$DEV_BENCHMARK_MAX_STEP --seed=$DEV_BENCHMARK_SEED
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.23"
+
+      - name: Execute development reviews through actual FSRS
+        run: |
+          cd tools/fsrs-shadow
+          go mod download
+          go run . -input ../../.learning-development/riff-reviews.json -out ../../.learning-development/fsrs-engine-receipt.json -evaluation-offset-hours 24
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install pinned upstream PSI-KT
+        run: |
+          python -m pip install --upgrade pip setuptools wheel
+          git clone https://github.com/mlcolab/psi-kt.git .vendor/psi-kt
+          git -C .vendor/psi-kt checkout ecada10cedb3237ba55f4277af0bdbd8d5d4a68e
+          python -m pip install -e .vendor/psi-kt
+          python -m pip install 'pandas==2.2.3'
+
+      - name: Train PSI-KT on development cohort
+        run: python scripts/runPsiKtPromotionExperiment.py --psi-repo=.vendor/psi-kt --data-dir=.learning-development --evaluation=.learning-development/evaluation.json --graph-json=.learning-development/skill-graph.json --out=.learning-development/psi-kt-receipt.json --epochs=200 --patience=10 --max-step=$DEV_BENCHMARK_MAX_STEP
+
+      - name: Run estimator and FSRS ablations
+        run: node scripts/diagnoseLearningDevelopment.mjs --evaluation=.learning-development/evaluation.json --psi=.learning-development/psi-kt-receipt.json --fsrs=.learning-development/fsrs-engine-receipt.json --out=.learning-development/development-diagnostic.json
+
+      - name: Enforce development-only boundary
+        run: |
+          node --input-type=module - <<'NODE'
+          import fs from 'node:fs';
+          const d=JSON.parse(fs.readFileSync(
+            '.learning-development/development-diagnostic.json','utf8'
+          ));
+          if(d.developmentOnly !== true){
+            throw new Error('diagnostic must remain development-only');
+          }
+          if(Number(d.seed) === Number(d.finalHoldoutSeedForbidden)){
+            throw new Error('locked final holdout was reused');
+          }
+          if(d.promotionBoundary?.liveSelectorV2Allowed !== false){
+            throw new Error('development diagnostics must never enable live selection');
+          }
+          console.log(JSON.stringify({
+            benchmarkId:process.env.DEV_BENCHMARK_ID,
+            seed:d.seed,
+            evaluatedLearnerCount:d.evaluatedLearnerCount,
+            psi:d.masteryDiagnostics.psi,
+            bkt:d.masteryDiagnostics.bkt,
+            attribution:d.attribution,
+            liveSelectorV2Allowed:false
+          },null,2));
+          NODE
+
+      - name: Upload development diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: learning-model-development-diagnostic
+          path: .learning-development
+          if-no-files-found: error
+          include-hidden-files: true
