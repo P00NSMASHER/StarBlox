@@ -30,6 +30,9 @@ jobs:
           npm run roblox:catalog -- --input tools/roblox_catalog_reader/fixtures/sample.rbxmx --out /tmp/roblox-catalog.json --report /tmp/roblox-catalog.md
           grep -q "Licensed House System" /tmp/roblox-catalog.md
           grep -q '"instanceCount"' /tmp/roblox-catalog.json
+          grep -q '"schemaVersion": 2' /tmp/roblox-catalog.json
+          grep -q '"inventory"' /tmp/roblox-catalog.json
+          grep -q '"uiTrees"' /tmp/roblox-catalog.json
       - name: Test Roblox migration exporter
         run: npm run roblox:migration:exporter:test
       - name: Smoke-test Brookhaven migration staging compiler
