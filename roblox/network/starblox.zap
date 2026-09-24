@@ -78,16 +78,16 @@ event SocialWorldState = {
 }
 
 
-event RequestNpcTalk = {
+event RequestNpcTurn = {
 	from: Client,
 	type: Reliable,
 	call: ManyAsync,
-	data: (NpcId: string.utf8, Message: string.utf8)
+	data: (NpcId: string.utf8, RequestId: string.utf8, Message: string.utf8)
 }
 
-event NpcTalkResponse = {
+event NpcTurn = {
 	from: Server,
 	type: Reliable,
 	call: ManyAsync,
-	data: (NpcId: string.utf8, TurnId: string.utf8, Text: string.utf8)
+	data: (NpcId: string.utf8, RequestId: string.utf8, Text: string.utf8)
 }
