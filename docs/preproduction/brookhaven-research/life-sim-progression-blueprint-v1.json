@@ -23,6 +23,11 @@
     },
     {
       "targetType": "residential",
+      "targetId": "doorbell",
+      "criteria": []
+    },
+    {
+      "targetType": "residential",
       "targetId": "garage-door",
       "criteria": [
         {
