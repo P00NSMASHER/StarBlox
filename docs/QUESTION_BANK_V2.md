@@ -46,11 +46,19 @@ A bank question tracks:
 
 Only `published` questions enter the default production snapshot.
 
+Bank validation also reconstructs every stored historical `QuestionVersion` and verifies its content hash. Mutating old content without creating a new version therefore invalidates the bank.
+
 ## Legacy import
 
 `importLegacyQuestionBank(gameModel.buildQuestions())` converts all current 200 production questions into published v1 records using the canonical Question/QuestionVersion contract from Step 1.
 
 The existing `gameModel.buildQuestions()` array remains unchanged for the current UI. Step 7 is additive.
+
+## Draft ingestion
+
+`addQuestionToBank()` accepts a canonical or legacy-shaped question and adds it under the bank lifecycle. The default lifecycle is `draft`.
+
+Draft/pending/archived questions remain outside the production snapshot, so later AI generation can safely write candidates without making them player-eligible.
 
 ## Immutable revisions
 
