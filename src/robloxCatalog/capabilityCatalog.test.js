@@ -166,14 +166,38 @@ describe('Roblox / Brookhaven capability catalog', () => {
     expect(serialized).not.toContain('GetDataStore("Homes")');
   });
 
-  it('puts dynamic/external code patterns into the manual-review queue', () => {
+  it('keeps reuse value separate from security/provenance review state', () => {
     const catalog=buildRobloxCapabilityCatalog([
       {sourceId:'licensed:place',file:'Place.rbxlx',dom:fixtureDom()}
     ]);
 
     const loader=catalog.instances.find(item => item.name === 'Suspicious Loader');
-    expect(loader.reuse.class).toBe('review');
+    expect(loader.reuse.class).toBe('refactor');
+    expect(loader.review.required).toBe(true);
+    expect(loader.review.reasons).toContain('dynamic-code');
     expect(loader.script.riskFlags).toContain('dynamic-code');
+    expect(catalog.summary.reviewRequiredCount).toBeGreaterThan(0);
+  });
+
+  it('uses exactly the four migration-value classes and marks unrecognized noise irrelevant', () => {
+    const dom=fixtureDom();
+    dom.children.push({
+      referent:'referent-10',
+      name:'SchemaVersionMarker',
+      class:'IntValue',
+      properties:{Value:{Int32:1}},
+      children:[]
+    });
+
+    const catalog=buildRobloxCapabilityCatalog([
+      {sourceId:'licensed:place',file:'Place.rbxlx',dom}
+    ]);
+
+    expect(Object.keys(catalog.reuseCounts).sort()).toEqual(
+      ['asset-only','direct','irrelevant','refactor'].sort()
+    );
+    expect(catalog.instances.find(item => item.name === 'SchemaVersionMarker').reuse.class)
+      .toBe('irrelevant');
   });
 
   it('groups top-level systems and prioritizes implementation-dense candidates', () => {
@@ -189,7 +213,8 @@ describe('Roblox / Brookhaven capability catalog', () => {
     expect(house.capabilities).toEqual(
       expect.arrayContaining(['housing','vehicles','networking','persistence','monetization'])
     );
-    expect(house.reuseRecommendation).toBe('review');
+    expect(house.reuseRecommendation).toBe('refactor');
+    expect(house.reviewRequired).toBe(true);
     expect(house.riskFlags).toContain('external-module-require');
     expect(house.engineeringLeverageScore).toBeGreaterThan(5);
   });
