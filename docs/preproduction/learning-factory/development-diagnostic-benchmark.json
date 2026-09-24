@@ -1,0 +1,13 @@
+{
+  "schemaVersion": "starblox-learning-development-diagnostic-benchmark-v1",
+  "benchmarkId": "starblox-psi-fsrs-development-diagnostic-v1",
+  "status": "development-tuning-allowed",
+  "authorization": "synthetic-only-no-real-player-data",
+  "seed": 20261217,
+  "sourceLearnerCount": 48,
+  "maxStep": 30,
+  "selectionStep": 18,
+  "heldOutStepCount": 12,
+  "forbiddenFinalHoldoutSeed": 20261103,
+  "purpose": "Development-only component ablation after the final holdout rejected PSI-KT+FSRS Selector V2. This cohort may be used to diagnose and tune future candidates, but results must never supersede the locked final-holdout decision."
+}
