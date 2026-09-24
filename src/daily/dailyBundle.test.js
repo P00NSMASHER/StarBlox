@@ -191,6 +191,28 @@ describe('Step 15: Daily solvability and compatibility certification', () => {
     ).detail).toMatch(/timed-answer-ui/);
   });
 
+  it('rejects a modifier that forbids a role required by the frozen Daily question set', async () => {
+    const generated=await generateDailyBundleArtifact({
+      date:'2026-10-05',
+      bank:bank(),
+      spec:{
+        modifiers:[
+          {
+            id:'no-transfer',
+            forbidsRoles:['transfer']
+          }
+        ]
+      }
+    });
+
+    expect(generated.questionSet.some(item => item.question.role === 'transfer')).toBe(true);
+    const result=certifyDailyBundleArtifact(generated);
+
+    expect(result.ok).toBe(false);
+    const failure=result.report.failures.find(item => item.id === 'daily-compatibility');
+    expect(failure?.detail).toMatch(/forbids selected question role transfer/);
+  });
+
   it('rejects unsafe balance requests that were clamped during Daily generation', async () => {
     const generated=await generateDailyBundleArtifact({
       date:'2026-10-01',
