@@ -125,3 +125,11 @@ Step 7 establishes social-world state and authority contracts.
 It does not yet add LLM-driven NPC dialog; that is Step 8.
 
 It also does not replace character networking with an authoritative action stack; that is Step 9.
+
+## Repair hardening: world/profile consistency
+
+Housing mutations now fail closed unless the injected world adapter explicitly confirms success. SpawnPlacedItem must succeed before a placement is persisted; RemovePlacedItem must succeed before persistent placement data is deleted.
+
+This prevents a failed world-side spawn/removal from silently diverging from ProfileStore state.
+
+Minigame completion also validates the server result before consuming the active in-memory session.

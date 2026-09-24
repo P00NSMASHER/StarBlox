@@ -242,3 +242,20 @@ Step 8 does not:
 - bypass Roblox text filtering.
 
 Production model/vendor selection remains an injected adapter and can be controlled with the existing Step 18-style rollout/kill-switch foundations.
+
+
+## Repair hardening: two-phase effectful tools
+
+AI NPC tool handlers are now divided into two trust classes.
+
+Read-only tools must be explicitly listed in the injected ReadOnlyTools map. They may run during model reasoning, receive a deep-copied profile view, and must not mutate authoritative state.
+
+Any other tool is treated as effectful and must expose:
+
+- Prepare — validates the request and returns a safe model-visible result plus an internal commit token without side effects;
+- Commit — applies the server-owned effect after the final model response has passed normalization, output filtering, profile-session revalidation, and request-sequence revalidation;
+- Rollback — an idempotent compensation handler used if the current or a later effectful commit fails.
+
+The service reserves the successful request sequence before effectful commits. This provides at-most-once request semantics: a failed side effect may be retried only as a new request sequence, never by replaying the original model turn.
+
+Request IDs and RequestSequence values are also reserved together while a model turn is in flight, preventing concurrent requests from racing on the same sequence.

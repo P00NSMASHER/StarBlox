@@ -23,6 +23,8 @@ local function ensureState(profileData)
 		},
 		ProcessedEventIds = {},
 		EventStreams = {},
+		ClaimReceipts = {},
+		MarketplaceReceiptIds = {},
 	}
 	return profileData.LiveOps
 end
@@ -50,6 +52,87 @@ local function validSequence(value)
 		and value ~= -math.huge
 		and value >= 0
 		and math.floor(value) == value
+end
+
+local function cleanReceiptId(value, maxLength: number): string?
+	if type(value) ~= "string" then
+		return nil
+	end
+	local clean = string.gsub(value, "^%s*(.-)%s*$", "%1")
+	if clean == "" or #clean > maxLength then
+		return nil
+	end
+	return clean
+end
+
+local function deepCopy(value)
+	if type(value) ~= "table" then
+		return value
+	end
+	local out = {}
+	for key, child in value do
+		out[deepCopy(key)] = deepCopy(child)
+	end
+	return out
+end
+
+local PATCH_FIELDS = {
+	Counters = true,
+	Missions = true,
+	Seasons = true,
+	Engagement = true,
+	Bundles = true,
+}
+
+local function validatePatch(patch): (boolean, string?)
+	if patch == nil then
+		return true, nil
+	end
+	if type(patch) ~= "table" then
+		return false, "liveOpsPatch must be a table"
+	end
+	for key in patch do
+		if type(key) ~= "string" or PATCH_FIELDS[key] ~= true then
+			return false, "liveOpsPatch attempted private or unknown state: " .. tostring(key)
+		end
+	end
+	return true, nil
+end
+
+local function validateReward(reward): (boolean, string?)
+	if type(reward) ~= "table" or type(reward.type) ~= "string" then
+		return false, "invalid LiveOps reward receipt"
+	end
+	if reward.type == "coins" or reward.type == "xp" or reward.type == "stars" then
+		if type(reward.amount) ~= "number" or reward.amount ~= reward.amount
+			or reward.amount == math.huge or reward.amount == -math.huge or reward.amount < 0 then
+			return false, "invalid numeric LiveOps reward"
+		end
+		return true, nil
+	end
+	if reward.type == "cosmetic" then
+		if type(reward.itemId) ~= "string" or reward.itemId == "" then
+			return false, "invalid cosmetic LiveOps reward"
+		end
+		return true, nil
+	end
+	return false, "unsupported LiveOps reward type: " .. tostring(reward.type)
+end
+
+local function validateRewards(receipts): (boolean, string?)
+	if receipts == nil then
+		return true, nil
+	end
+	if type(receipts) ~= "table" then
+		return false, "LiveOps reward receipts must be a table"
+	end
+	for _, receipt in receipts do
+		local ok, reason = validateReward(receipt)
+		if not ok then
+			return false, reason
+		end
+	end
+	return true, nil
 end
 
 local function applyReward(profileData, reward)
@@ -139,30 +222,63 @@ function LiveOpsService:Claim(player: Player, claimType: string, claimId: string
 		return false, "LiveOps package adapter unavailable"
 	end
 
+	local cleanType = cleanReceiptId(claimType, 80)
+	local cleanId = cleanReceiptId(claimId, 160)
+	if cleanType == nil or cleanId == nil then
+		return false, "invalid LiveOps claim identity"
+	end
+	local claimKey = cleanType .. ":" .. cleanId
+
 	local outcome = nil
 	local success = false
 	self._profiles:WithProfile(player, function(profileData)
 		local state = ensureState(profileData)
+		state.ClaimReceipts = state.ClaimReceipts or {}
+		if state.ClaimReceipts[claimKey] == true then
+			outcome = {
+				ok = true,
+				duplicate = true,
+				claimKey = claimKey,
+			}
+			success = true
+			return
+		end
+
 		local ok, result = pcall(function()
-			return self._featurePackages.Claim(player, claimType, claimId, profileData)
+			return self._featurePackages.Claim(
+				player,
+				cleanType,
+				cleanId,
+				deepCopy(profileData)
+			)
 		end)
 		if not ok or type(result) ~= "table" or result.ok ~= true then
 			outcome = result
 			return
 		end
 
-		if type(result.receipts) == "table" then
-			for _, receipt in result.receipts do
-				applyReward(profileData, receipt)
-			end
+		local rewardsOk, rewardReason = validateRewards(result.receipts)
+		if not rewardsOk then
+			outcome = {ok = false, reason = rewardReason}
+			return
+		end
+		local patchOk, patchReason = validatePatch(result.liveOpsPatch)
+		if not patchOk then
+			outcome = {ok = false, reason = patchReason}
+			return
+		end
+
+		for _, receipt in result.receipts or {} do
+			applyReward(profileData, receipt)
 		end
 
 		if type(result.liveOpsPatch) == "table" then
 			for key, value in result.liveOpsPatch do
-				state[key] = value
+				state[key] = deepCopy(value)
 			end
 		end
 
+		state.ClaimReceipts[claimKey] = true
 		self._replicas:Sync(player, profileData)
 		outcome = result
 		success = true
@@ -175,15 +291,45 @@ function LiveOpsService:ProcessMarketplaceReceipt(player: Player, receiptInfo)
 	if not self._featurePackages or not self._featurePackages.ProcessMarketplaceReceipt then
 		return false, "marketplace receipt adapter unavailable"
 	end
+	if type(receiptInfo) ~= "table" then
+		return false, "marketplace receipt must be a table"
+	end
+
+	local purchaseId = cleanReceiptId(receiptInfo.PurchaseId, 200)
+	if purchaseId == nil then
+		return false, "marketplace receipt PurchaseId is required"
+	end
 
 	local accepted = false
 	local outcome = nil
 	self._profiles:WithProfile(player, function(profileData)
+		local state = ensureState(profileData)
+		state.MarketplaceReceiptIds = state.MarketplaceReceiptIds or {}
+		if state.MarketplaceReceiptIds[purchaseId] == true then
+			accepted = true
+			outcome = {
+				ok = true,
+				duplicate = true,
+				purchaseId = purchaseId,
+			}
+			return
+		end
+
 		local ok, result = pcall(function()
-			return self._featurePackages.ProcessMarketplaceReceipt(player, receiptInfo, profileData)
+			return self._featurePackages.ProcessMarketplaceReceipt(
+				player,
+				deepCopy(receiptInfo),
+				deepCopy(profileData)
+			)
 		end)
 		if not ok or type(result) ~= "table" or result.ok ~= true then
 			outcome = result
+			return
+		end
+
+		local rewardsOk, rewardReason = validateRewards(result.receipts)
+		if not rewardsOk then
+			outcome = {ok = false, reason = rewardReason}
 			return
 		end
 
@@ -191,6 +337,7 @@ function LiveOpsService:ProcessMarketplaceReceipt(player: Player, receiptInfo)
 			applyReward(profileData, receipt)
 		end
 
+		state.MarketplaceReceiptIds[purchaseId] = true
 		self._replicas:Sync(player, profileData)
 		accepted = true
 		outcome = result

@@ -75,6 +75,34 @@ describe('Step 8 Roblox AI NPC runtime contract', () => {
     expect(source).not.toMatch(/Economy\.XP/);
   });
 
+  it('uses two-phase effectful tools and runs commits only after final output validation', () => {
+    const source=file('roblox/src/server/AiNpcService.luau');
+
+    expect(source).toMatch(/ReadOnlyTools/);
+    expect(source).toMatch(/effectful tool requires Prepare\/Commit\/Rollback/);
+    expect(source).toMatch(/handler\.Prepare/);
+    expect(source).toMatch(/handler\.Commit/);
+    expect(source).toMatch(/handler\.Rollback/);
+    expect(source).toMatch(/deepCopy\(profile\.Data\)/);
+
+    const finalize=source.indexOf('provider.Generate(secondRequest)');
+    const filter=source.indexOf('return textPolicy.FilterOutput',finalize);
+    const reserve=source.indexOf('currentState.LastRequestSequence = requestSequence',filter);
+    const commit=source.indexOf('prepared.handler.Commit',reserve);
+    expect(finalize).toBeGreaterThanOrEqual(0);
+    expect(filter).toBeGreaterThan(finalize);
+    expect(reserve).toBeGreaterThan(filter);
+    expect(commit).toBeGreaterThan(reserve);
+  });
+
+  it('reserves request IDs and request sequences together while a turn is in flight', () => {
+    const source=file('roblox/src/server/AiNpcService.luau');
+    expect(source).toMatch(/sequenceKey = "seq:"/);
+    expect(source).toMatch(/self\._inFlight\[player\]\[sequenceKey\]/);
+    expect(source).toMatch(/self\._inFlight\[player\]\[cleanRequestId\] = nil/);
+    expect(source).toMatch(/self\._inFlight\[player\]\[sequenceKey\] = nil/);
+  });
+
   it('composes the AI NPC service without making it a required external provider at boot', () => {
     const source=file('roblox/src/server/Bootstrap.luau');
     expect(source).toMatch(/AiNpcService/);

@@ -33,6 +33,7 @@ function Bootstrap.start(dependencies)
 	local social = SocialWorldService.new(profiles, replicas, ecs, liveOps, dependencies.SocialWorldAdapters)
 	local aiNpc = AiNpcService.new(profiles, dependencies.AiNpcAdapters, dependencies.TelemetrySink)
 	local action = AuthoritativeActionService.new(dependencies.ActionAdapters, dependencies.TelemetrySink)
+	action:Start()
 
 	local function playerAdded(player: Player)
 		local profile = profiles:Load(player)
@@ -43,6 +44,7 @@ function Bootstrap.start(dependencies)
 			return
 		end
 		replicas:Attach(player, profile.Data)
+		action:PlayerAdded(player)
 	end
 
 	local function playerRemoving(player: Player)
@@ -60,6 +62,7 @@ function Bootstrap.start(dependencies)
 	Players.PlayerRemoving:Connect(playerRemoving)
 
 	game:BindToClose(function()
+		action:Stop()
 		for _, player in Players:GetPlayers() do
 			replicas:Detach(player)
 		end

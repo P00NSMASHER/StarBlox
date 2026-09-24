@@ -44,7 +44,9 @@ export const PROFILE_TEMPLATE=Object.freeze({
     }),
     Bundles:Object.freeze({Purchased:Object.freeze({})}),
     ProcessedEventIds:Object.freeze([]),
-    EventStreams:Object.freeze({})
+    EventStreams:Object.freeze({}),
+    ClaimReceipts:Object.freeze({}),
+    MarketplaceReceiptIds:Object.freeze({})
   })
 });
 
@@ -79,6 +81,8 @@ export const REPLICATION_BOUNDARIES=Object.freeze({
     'Settings',
     'LiveOps.ProcessedEventIds',
     'LiveOps.EventStreams',
+    'LiveOps.ClaimReceipts',
+    'LiveOps.MarketplaceReceiptIds',
     'Social.CompletedSessionIds',
     'Social.CompletedSessionReceipts',
     'Social.AffinityReceipts',

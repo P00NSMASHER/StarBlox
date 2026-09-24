@@ -1,6 +1,7 @@
 --!strict
 
 local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
 local Workspace = game:GetService("Workspace")
 
 local AuthoritativeActionService = {}
@@ -14,6 +15,7 @@ local DEFAULTS = {
 	MaxDt = 0.1,
 	MaxMoveMagnitude = 1.001,
 	ProcessedFireLimit = 256,
+	SnapshotHz = 20,
 }
 
 local FORBIDDEN_INPUT_FIELDS = {
@@ -128,12 +130,15 @@ function AuthoritativeActionService.new(adapters, telemetrySink)
 	self._telemetry = telemetrySink
 	self._states = {}
 	self._processedFire = {}
+	self._snapshotConnection = nil
+	self._snapshotAccumulator = 0
 	self._config = table.clone(DEFAULTS)
 	for key, value in self._adapters.Config or {} do
 		if self._config[key] ~= nil and finite(value) then
 			self._config[key] = value
 		end
 	end
+	self._config.SnapshotHz = math.clamp(self._config.SnapshotHz, 5, 60)
 	return self
 end
 
@@ -169,6 +174,44 @@ function AuthoritativeActionService:_state(player: Player)
 	pushSnapshot(current, snapshot, now, self._config.HistoryWindowSeconds)
 	self._states[player] = current
 	return current
+end
+
+function AuthoritativeActionService:PlayerAdded(player: Player)
+	self:_state(player)
+	return true
+end
+
+function AuthoritativeActionService:Start()
+	if self._snapshotConnection ~= nil then
+		return true
+	end
+	if self._adapters.GetPlayerState == nil then
+		return false, "action state adapter unavailable"
+	end
+
+	local interval = 1 / self._config.SnapshotHz
+	self._snapshotAccumulator = 0
+	self._snapshotConnection = RunService.Heartbeat:Connect(function(dt)
+		self._snapshotAccumulator += dt
+		if self._snapshotAccumulator < interval then
+			return
+		end
+		self._snapshotAccumulator = self._snapshotAccumulator % interval
+		for _, player in Players:GetPlayers() do
+			if self._states[player] ~= nil then
+				self:RecordSnapshot(player)
+			end
+		end
+	end)
+	return true
+end
+
+function AuthoritativeActionService:Stop()
+	if self._snapshotConnection ~= nil then
+		self._snapshotConnection:Disconnect()
+		self._snapshotConnection = nil
+	end
+	self._snapshotAccumulator = 0
 end
 
 function AuthoritativeActionService:RecordSnapshot(player: Player)

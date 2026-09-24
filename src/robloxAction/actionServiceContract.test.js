@@ -74,6 +74,28 @@ describe('Step 9 Roblox authoritative action boundary', () => {
     expect(bootstrap).not.toMatch(/assert\(dependencies\.ActionAdapters/);
   });
 
+  it('initializes every joined player and continuously samples server-owned history', () => {
+    const service=file('roblox/src/server/AuthoritativeActionService.luau');
+    const bootstrap=file('roblox/src/server/Bootstrap.luau');
+
+    expect(service).toMatch(/RunService\.Heartbeat:Connect/);
+    expect(service).toMatch(/SnapshotHz/);
+    expect(service).toMatch(/function AuthoritativeActionService:PlayerAdded/);
+    expect(service).toMatch(/function AuthoritativeActionService:Start/);
+    expect(service).toMatch(/function AuthoritativeActionService:Stop/);
+    expect(service).toMatch(/for _, player in Players:GetPlayers\(\) do/);
+    expect(service).toMatch(/self\._states\[player\] ~= nil/);
+    expect(service).toMatch(/self:RecordSnapshot\(player\)/);
+
+    expect(bootstrap).toMatch(/action:Start\(\)/);
+    expect(bootstrap).toMatch(/action:PlayerAdded\(player\)/);
+    expect(bootstrap).toMatch(/action:Stop\(\)/);
+
+    const attach=bootstrap.indexOf('replicas:Attach(player, profile.Data)');
+    const initialize=bootstrap.indexOf('action:PlayerAdded(player)');
+    expect(initialize).toBeGreaterThan(attach);
+  });
+
   it('keeps client prediction cosmetic and replays only commands above the server acknowledgement', () => {
     const source=file('roblox/src/client/ActionPredictionController.luau');
     expect(source).toMatch(/Predict\(command, false\)/);

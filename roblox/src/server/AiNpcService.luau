@@ -244,6 +244,24 @@ local function safeGameContext(raw)
 	return out
 end
 
+local function deepCopy(value)
+	if type(value) ~= "table" then
+		return value
+	end
+	local out = {}
+	for key, child in value do
+		out[deepCopy(key)] = deepCopy(child)
+	end
+	return out
+end
+
+local function adapterAccepted(result): boolean
+	if result == true then
+		return true
+	end
+	return type(result) == "table" and result.ok == true
+end
+
 local function appendBoundedUnique(target, values, limit: number)
 	for _, value in values do
 		if table.find(target, value) == nil then
@@ -307,7 +325,8 @@ function AiNpcService:RequestTurn(
 	end
 
 	self._inFlight[player] = self._inFlight[player] or {}
-	if self._inFlight[player][cleanRequestId] then
+	local sequenceKey = "seq:" .. tostring(requestSequence)
+	if self._inFlight[player][cleanRequestId] or self._inFlight[player][sequenceKey] then
 		return false, "AI NPC request already in flight"
 	end
 
@@ -321,10 +340,12 @@ function AiNpcService:RequestTurn(
 	perPlayer[npcId] = now
 	self._lastTurn[player] = perPlayer
 	self._inFlight[player][cleanRequestId] = true
+	self._inFlight[player][sequenceKey] = true
 
 	local function finish(ok, result)
 		if self._inFlight[player] then
 			self._inFlight[player][cleanRequestId] = nil
+			self._inFlight[player][sequenceKey] = nil
 		end
 		return ok, result
 	end
@@ -384,26 +405,58 @@ function AiNpcService:RequestTurn(
 	end
 
 	local toolResults = {}
+	local preparedEffects = {}
 	local handlers = self._adapters.ToolHandlers or {}
+	local readOnlyTools = self._adapters.ReadOnlyTools or {}
 	for _, call in first.toolCalls do
 		local handler = handlers[call.name]
-		if type(handler) ~= "function" then
-			return finish(false, "AI NPC tool handler unavailable: " .. call.name)
+		if readOnlyTools[call.name] == true then
+			if type(handler) ~= "function" then
+				return finish(false, "AI NPC read-only tool handler unavailable: " .. call.name)
+			end
+			local ok, result = pcall(function()
+				return handler(player, npcId, call.args, deepCopy(profile.Data))
+			end)
+			if not ok or type(result) ~= "table" then
+				return finish(false, "AI NPC read-only tool failed: " .. call.name)
+			end
+			local safe, reason = validateValue(result, "tool.result", 0)
+			if not safe then
+				return finish(false, reason or "AI NPC tool result rejected")
+			end
+			table.insert(toolResults, {
+				name = call.name,
+				result = result,
+			})
+		else
+			if type(handler) ~= "table"
+				or type(handler.Prepare) ~= "function"
+				or type(handler.Commit) ~= "function"
+				or type(handler.Rollback) ~= "function" then
+				return finish(false, "AI NPC effectful tool requires Prepare/Commit/Rollback: " .. call.name)
+			end
+
+			local ok, prepared = pcall(function()
+				return handler.Prepare(player, npcId, call.args, deepCopy(profile.Data))
+			end)
+			if not ok or type(prepared) ~= "table" or prepared.ok ~= true
+				or type(prepared.result) ~= "table" then
+				return finish(false, "AI NPC tool preparation failed: " .. call.name)
+			end
+			local safe, reason = validateValue(prepared.result, "tool.result", 0)
+			if not safe then
+				return finish(false, reason or "AI NPC prepared tool result rejected")
+			end
+			table.insert(toolResults, {
+				name = call.name,
+				result = prepared.result,
+			})
+			table.insert(preparedEffects, {
+				name = call.name,
+				handler = handler,
+				token = prepared.token,
+			})
 		end
-		local ok, result = pcall(function()
-			return handler(player, npcId, call.args, profile.Data)
-		end)
-		if not ok or type(result) ~= "table" then
-			return finish(false, "AI NPC tool failed: " .. call.name)
-		end
-		local safe, reason = validateValue(result, "tool.result", 0)
-		if not safe then
-			return finish(false, reason or "AI NPC tool result rejected")
-		end
-		table.insert(toolResults, {
-			name = call.name,
-			result = result,
-		})
 	end
 
 	local finalResponse = first
@@ -466,10 +519,40 @@ function AiNpcService:RequestTurn(
 		end
 	end
 
-	currentState.Memories[npcId] = currentState.Memories[npcId] or {}
-	appendBoundedUnique(currentState.Memories[npcId], approvedFacts, memoryLimit)
+	-- Reserve the successful request before any effectful commit. A failed commit
+	-- may be retried with a new sequence, but this exact request can never replay.
 	currentState.LastRequestSequence = requestSequence
 	appendBoundedUnique(currentState.ProcessedRequestIds, {cleanRequestId}, 200)
+
+	local committedEffects = {}
+	for _, prepared in preparedEffects do
+		local ok, result = pcall(function()
+			return prepared.handler.Commit(
+				player,
+				npcId,
+				prepared.token,
+				profile.Data
+			)
+		end)
+		if not ok or not adapterAccepted(result) then
+			-- Roll back the current effect as well as previously committed effects;
+			-- Rollback handlers are required to be idempotent.
+			pcall(function()
+				prepared.handler.Rollback(player, npcId, prepared.token, profile.Data)
+			end)
+			for index = #committedEffects, 1, -1 do
+				local prior = committedEffects[index]
+				pcall(function()
+					prior.handler.Rollback(player, npcId, prior.token, profile.Data)
+				end)
+			end
+			return finish(false, "AI NPC tool commit failed: " .. prepared.name)
+		end
+		table.insert(committedEffects, prepared)
+	end
+
+	currentState.Memories[npcId] = currentState.Memories[npcId] or {}
+	appendBoundedUnique(currentState.Memories[npcId], approvedFacts, memoryLimit)
 
 	if self._telemetry then
 		pcall(function()
