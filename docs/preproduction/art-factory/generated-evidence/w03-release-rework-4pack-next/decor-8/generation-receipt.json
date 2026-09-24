@@ -1,0 +1,107 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_GENERATION_RECEIPT",
+  "repository": "P00NSMASHER/StarBlox",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "a9f863e0ff6ebe7329b82b3a4ba6cbce510dadd8",
+  "sourcePlanSha256": "083879e839c4b4a72a4a85fd7f7dfd2d5be722d6ff525f1f6fcf39693014fd0f",
+  "executionCheckout": {
+    "branch": "screenshot-match-preproduction",
+    "head": "a9f863e0ff6ebe7329b82b3a4ba6cbce510dadd8",
+    "planSourceHeadMatchesExecutionHead": true
+  },
+  "attempt": {
+    "attemptId": "decor-8-w03-a-one-aquarium-only-7d05a934cc",
+    "itemId": "decor-8",
+    "producer": "03",
+    "variant": "A-ONE-AQUARIUM-ONLY",
+    "promptSha256": "7d05a934ccfaece1edeb05cfe1bc75834837f9b362f98534e8b420fd17539f90",
+    "runtimePromptSha256": "efbd96fa09250e08ad628905e8cced168b165e6891c39fc0ad7b4f9cece78867",
+    "promptRecipeVersion": "artPromptOptimizer-request-v1:w03-release-rework-4pack-next",
+    "seed": 359422497
+  },
+  "runtime": {
+    "repo": "huggingface/diffusers",
+    "commit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "resolvedCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "runtimeCommitVerified": true,
+    "diffusersVersion": "0.41.0.dev0",
+    "diffusersInstallSource": "https://github.com/huggingface/diffusers.git",
+    "torchVersion": "2.8.0+cpu",
+    "transformersVersion": "5.17.0",
+    "accelerateVersion": "1.15.0",
+    "huggingfaceHubVersion": "1.33.0",
+    "safetensorsVersion": "0.8.0",
+    "pythonPillowVersion": "12.3.0",
+    "device": "cpu",
+    "dtype": "float32",
+    "executionMode": "cpu-fallback"
+  },
+  "model": {
+    "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+    "revision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS",
+    "resolvedRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "snapshotRevisionVerified": true,
+    "selectiveSnapshot": true,
+    "snapshotAllowPatterns": [
+      "model_index.json",
+      "scheduler/*",
+      "tokenizer/*",
+      "tokenizer_2/*",
+      "feature_extractor/*",
+      "text_encoder/config.json",
+      "text_encoder/model.fp16.safetensors",
+      "text_encoder_2/config.json",
+      "text_encoder_2/model.fp16.safetensors",
+      "unet/config.json",
+      "unet/diffusion_pytorch_model.fp16.safetensors",
+      "vae/config.json",
+      "vae/diffusion_pytorch_model.fp16.safetensors"
+    ]
+  },
+  "conditioning": {
+    "referenceAssetSha256": null,
+    "controlImageSha256": null,
+    "adapterScale": null,
+    "referenceImage": null,
+    "ipAdapterModelId": null,
+    "ipAdapterRevision": null,
+    "ipAdapterResolvedRevision": null,
+    "ipAdapterRevisionVerified": false,
+    "ipAdapterWeightName": null,
+    "ipAdapterSubfolder": null
+  },
+  "generation": {
+    "width": 640,
+    "height": 640,
+    "numInferenceSteps": 6,
+    "guidanceScale": 3.5,
+    "runtimePromptTokenCounts": {
+      "tokenizer": 63,
+      "tokenizer_2": 63
+    },
+    "executedSeed": 359422497
+  },
+  "output": {
+    "repoPath": "public/assets/catalog-candidates/cpu/decor-8-w03-v4-a-one-aquarium-only-original.png",
+    "sha256": "53928896e00f0f71a1e153e4bbe4f6dd7379dbbbdc17d42404b1a1369a7a2040",
+    "gitBlobSha": "5944d54ef5d2950a9f9aba8bd5e8c4c15ea773e7",
+    "bytes": 550407,
+    "width": 640,
+    "height": 640,
+    "format": "PNG",
+    "sourceBytesPreserved": true,
+    "reusedExistingIdenticalBytes": false
+  },
+  "safety": {
+    "canonicalArtModified": false,
+    "gameplayModified": false,
+    "reviewDecisionMade": false,
+    "deploymentPerformed": false,
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+  },
+  "nextGate": "RUN_VERIFY_STAGED_OUTPUT_THEN_REAL_RENDER_AND_INDEPENDENT_EXACT_HASH_REVIEW",
+  "status": "GENERATED_SOURCE_BYTES_UNVERIFIED",
+  "recordSha256": "29d628a526a3d026e2961489c6e24f378e679609b820ebeca096918ba08c3bfc"
+}
