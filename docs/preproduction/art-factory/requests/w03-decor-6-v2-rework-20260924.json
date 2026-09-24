@@ -1,0 +1,91 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_REWORK_REQUEST",
+  "branch": "screenshot-match-preproduction",
+  "coordinationOwner": "15",
+  "producer": "03",
+  "preflightOwner": "06",
+  "renderOwner": "14",
+  "reviewer": "11",
+  "integrationOwner": "08",
+  "batchId": "w03-decor-6-v2-rework",
+  "item": {
+    "id": "decor-6",
+    "name": "Telescope",
+    "collectionId": "decor",
+    "type": "room",
+    "tier": 2,
+    "theme": "Berry Blast"
+  },
+  "sourceReview": {
+    "decision": "REWORK",
+    "reviewFile": "docs/preproduction/catalog-sprint/reviews/11.json",
+    "rejectedExactHash": {
+      "path": "public/assets/catalog-candidates/cpu/decor-6-w03-v1-a-physical-original.png",
+      "sha256": "8b839bb54cda085810a58d1714c3f0850991e544b2e7c75e75a5e6c20c820fd2",
+      "gitBlobSha": "a8dca54ad9c511b529ab505dab97991bbc76daef"
+    },
+    "reasonCodes": [
+      "TELESCOPE_IDENTITY_FAILURE",
+      "MISSING_OPTICAL_TUBE_MOUNT_TRIPOD",
+      "CLUTTERED_MULTI_OBJECT_DIORAMA",
+      "SMALL_CARD_READABILITY_FAILURE",
+      "THEME_OVER_CATEGORY"
+    ],
+    "humanReason": "The exact v1 pixels are a crowded miniature/diorama collection instead of one readable telescope. Preserve the rejected hash. The replacement must be one isolated telescope with unmistakable tube/lens, mount and three-leg tripod construction."
+  },
+  "generationHold": {
+    "state": "HOLD_WHILE_CPU_LANE_BUSY_AND_UNTIL_DIRECTOR15_REASSIGNS_DECOR6_TO_03",
+    "activeCpuRunId": 35951650055,
+    "rule": "Do not create or submit a new runtime queue while any art-factory CPU generation run is queued/pending/waiting/in_progress. This packet is preparation only until ACTIVE_BATCH explicitly assigns Decor6 v2 back to producer03."
+  },
+  "runtimeContract": {
+    "runtimeRepo": "huggingface/diffusers",
+    "runtimeCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+    "modelRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS",
+    "generation": {
+      "width": 640,
+      "height": 640,
+      "steps": 8,
+      "guidanceScale": 3.5,
+      "dtype": "bfloat16"
+    }
+  },
+  "variants": [
+    {
+      "variantId": "A-SINGLE-TELESCOPE",
+      "plannerSeed": 1535452927,
+      "optimizerInputSha256": "3eb90d0e2711631baacf1f8192c173c3e919ae1a4a799362f62892b95e646323",
+      "optimizerInput": "Telescope, Room Decor, Tier 2, Berry Blast. Create ONE isolated freestanding refractor telescope as the only product on a plain light-neutral studio background. The telescope must have one long cylindrical berry-magenta optical tube with a large circular objective lens and cream lens rim at the front, one small eyepiece and focus knob at the rear, and a clearly visible alt-azimuth yoke mount. The mount must sit on exactly THREE long brushed-metal tripod legs with all three feet visible and connected by one simple center brace/accessory tray. Keep the full telescope centered and completely inside frame with at least 15 percent clear margin on every side, a strong diagonal tube silhouette, believable joints, metal/glass/rubber material separation, and one grounded cast shadow. Berry Blast should be restrained to berry-magenta, cream, and tiny plum accents. NO room scene, NO diorama, NO tables, shelves, cabinets, houses, plants, trees, miniature props, unrelated objects, duplicate telescopes, people, text, logos, floating parts, cropped tripod feet, or collage.",
+      "targetedFailureCodes": [
+        "TELESCOPE_IDENTITY_FAILURE",
+        "MISSING_OPTICAL_TUBE_MOUNT_TRIPOD",
+        "CLUTTERED_MULTI_OBJECT_DIORAMA",
+        "SMALL_CARD_READABILITY_FAILURE",
+        "THEME_OVER_CATEGORY"
+      ]
+    },
+    {
+      "variantId": "B-SILHOUETTE-FIRST",
+      "plannerSeed": 2060143304,
+      "optimizerInputSha256": "e6edd9be55e3369c57e80e5719b20483e859ef3016754af9d1b65e7c407d3bbc",
+      "optimizerInput": "Telescope, Room Decor, Tier 2, Berry Blast. Make ONE simple premium telescope that reads instantly at small Store-card size. Use a short wide cream-and-berry optical tube with a clearly open round front lens, a visible rear eyepiece, one focus wheel, and a compact pivot mount above exactly THREE splayed dark-metal tripod legs. The tripod must be the only support; show every leg from hinge to floor contact and one triangular center brace. Isolate the full object on an empty pale studio background with generous negative space, crisp three-quarter view, clear physical construction, and a soft grounded shadow. Use only restrained Berry Blast accents and keep the telescope itself visually dominant. NO room, NO landscape, NO miniature world, NO furniture, NO boxes, books, plants, buildings, extra gadgets, duplicate products, text, logos, malformed partial objects, or background clutter.",
+      "targetedFailureCodes": [
+        "TELESCOPE_IDENTITY_FAILURE",
+        "MISSING_OPTICAL_TUBE_MOUNT_TRIPOD",
+        "CLUTTERED_MULTI_OBJECT_DIORAMA",
+        "SMALL_CARD_READABILITY_FAILURE"
+      ]
+    }
+  ],
+  "preservation": {
+    "preserveRejectedV1ExactHash": true,
+    "noSelfReview": true,
+    "canonicalMappingsChanged": false,
+    "gameplayLearningEconomyPersistenceAccessibilityExactlyOnceChanged": false,
+    "mainDeploymentReplitFlootPaidSettingsSecretsPlayerDataTouched": false
+  },
+  "nextOwner": "15_AFTER_CPU_LANE_IDLE_AND_ASSIGNMENT__THEN_03_GENERATION__12__06__14__11__08_ON_ACCEPT"
+}

@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_CPU_GENERATION_QUEUE",
+  "branch": "screenshot-match-preproduction",
+  "queueId": "w03-decor-6-v2-rework",
+  "requestPath": "docs/preproduction/art-factory/requests/w03-decor-6-v2-rework-20260924.json",
+  "producer": "03",
+  "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+  "modelRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+  "runtimeCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+  "runtimeProofPath": "docs/preproduction/art-factory/CPU_RUNTIME_PROOF.json",
+  "runtimeProofArtifactDigest": "sha256:528610198d72092c9d09159bf4b749a5c467361307587545fb24dded2876eeda",
+  "items": [
+    "decor-6"
+  ],
+  "variantByItem": {
+    "decor-6": "A-SINGLE-TELESCOPE"
+  },
+  "reviewerByItem": {
+    "decor-6": "11"
+  },
+  "versionByItem": {
+    "decor-6": 2
+  },
+  "generation": {
+    "width": 640,
+    "height": 640,
+    "steps": 8,
+    "guidanceScale": 3.5,
+    "dtype": "bfloat16"
+  },
+  "handoff": {
+    "nextOwner": "12",
+    "route": "12 -> 06 -> 14 -> 11 -> 08 on ACCEPT",
+    "canonicalWriter": "08"
+  },
+  "dispatchPolicy": "PREPARED_ONLY__REQUIRES_ACTIVE_BATCH_DECOR6_V2_ASSIGNMENT__DO_NOT_DISPATCH_WHILE_ANY_CPU_RUN_ACTIVE"
+}
