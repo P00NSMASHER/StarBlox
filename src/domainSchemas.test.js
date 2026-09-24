@@ -119,7 +119,7 @@ describe('StarBlox upstream implementation provenance', () => {
   it('pins every planned source to an immutable full commit SHA', () => {
     const entries = upstreamSourceList();
 
-    expect(entries.length).toBeGreaterThanOrEqual(57);
+    expect(entries.length).toBeGreaterThanOrEqual(62);
     expect(entries.every(entry => /^[a-f0-9]{40}$/.test(entry.commit))).toBe(true);
     expect(entries.every(entry => entry.reuseBasis === 'user-confirmed direct reuse rights')).toBe(true);
   });
@@ -172,5 +172,10 @@ describe('StarBlox upstream implementation provenance', () => {
     expect(UPSTREAM_PROVENANCE.neonReplayReconstruct.path).toBe('src/game/replayReconstruct.ts');
     expect(UPSTREAM_PROVENANCE.neonDossierShare.path).toBe('src/DossierShare.tsx');
     expect(UPSTREAM_PROVENANCE.neonDossierArtifact.path).toBe('src/game/dossier.ts');
+    expect(UPSTREAM_PROVENANCE.openReplaySession.path).toBe('tracker/tracker/src/main/app/session.ts');
+    expect(UPSTREAM_PROVENANCE.openReplaySanitizer.path).toBe('tracker/tracker/src/main/app/sanitizer.ts');
+    expect(UPSTREAM_PROVENANCE.openReplayNetwork.path).toBe('tracker/tracker/src/main/modules/network.ts');
+    expect(UPSTREAM_PROVENANCE.openReplayConsole.path).toBe('tracker/tracker/src/main/modules/console.ts');
+    expect(UPSTREAM_PROVENANCE.makeReadyMusicDirector.path).toBe('src/music.js');
   });
 });

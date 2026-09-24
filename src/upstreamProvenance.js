@@ -440,6 +440,46 @@ export const UPSTREAM_PROVENANCE = Object.freeze({
     'unasserted in GitHub metadata',
     'src/game/dossier.ts'
   ),
+  openReplaySession: source(
+    'session identity, metadata and lifecycle update model',
+    'openreplay/openreplay',
+    'main',
+    '354828a17fd2fc90fcfb4965a43aa79100638d1f',
+    'mixed; confirm imported path',
+    'tracker/tracker/src/main/app/session.ts'
+  ),
+  openReplaySanitizer: source(
+    'privacy masking, obscuring and private-by-default sanitization patterns',
+    'openreplay/openreplay',
+    'main',
+    '354828a17fd2fc90fcfb4965a43aa79100638d1f',
+    'mixed; confirm imported path',
+    'tracker/tracker/src/main/app/sanitizer.ts'
+  ),
+  openReplayNetwork: source(
+    'network timing/status capture with payload/header suppression and sanitization',
+    'openreplay/openreplay',
+    'main',
+    '354828a17fd2fc90fcfb4965a43aa79100638d1f',
+    'mixed; confirm imported path',
+    'tracker/tracker/src/main/modules/network.ts'
+  ),
+  openReplayConsole: source(
+    'bounded console capture and throttling patterns',
+    'openreplay/openreplay',
+    'main',
+    '354828a17fd2fc90fcfb4965a43aa79100638d1f',
+    'mixed; confirm imported path',
+    'tracker/tracker/src/main/modules/console.ts'
+  ),
+  makeReadyMusicDirector: source(
+    'phrase-grid adaptive music transitions, hysteresis, crossfades and pause-safe audio clock',
+    'markzuckerbergas/make-ready',
+    'main',
+    '2c3df144fc42dfc774561e39aa93338f9654dcc6',
+    'AGPL-3.0',
+    'src/music.js'
+  ),
   openReplay: source(
     'session replay and production observability concepts',
     'openreplay/openreplay',
