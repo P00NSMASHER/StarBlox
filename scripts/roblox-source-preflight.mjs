@@ -4,6 +4,7 @@ import { basename,dirname,extname,isAbsolute,relative,resolve } from 'node:path'
 
 const SUPPORTED=new Set(['.rbxl','.rbxm','.rbxlx','.rbxmx']);
 const VERSION='starblox-roblox-source-preflight-v1';
+const HANDOFF_VERSION='starblox-roblox-catalog-handoff-v1';
 
 function arg(name,required=false){
   const inline=process.argv.find(value => value.startsWith(name + '='));
@@ -59,6 +60,7 @@ async function fingerprint(path){
 
 const inputRaw=arg('--input',true);
 const outRaw=arg('--out');
+const handoffRaw=arg('--handoff');
 const input=absolute(inputRaw);
 const blockers=[];
 const files=await collect(input,blockers);
@@ -113,6 +115,29 @@ const report={
   files:rows.sort((a,b) => a.file.localeCompare(b.file))
 };
 
+const handoff={
+  schemaVersion:1,
+  version:HANDOFF_VERSION,
+  ready:report.ready,
+  sourceRoot:base,
+  inputKind:report.inputKind,
+  fileCount:report.fileCount,
+  totalBytes:report.totalBytes,
+  blockers:[...report.blockers],
+  files:report.files.map(row => ({
+    file:row.file,
+    extension:row.extension,
+    bytes:row.bytes,
+    sha256:row.sha256
+  }))
+};
+
+if(handoffRaw){
+  const handoffPath=absolute(handoffRaw);
+  await mkdir(dirname(handoffPath),{recursive:true});
+  await writeFile(handoffPath,JSON.stringify(handoff,null,2) + '\n');
+}
+
 const json=JSON.stringify(report,null,2) + '\n';
 if(outRaw){
   const out=absolute(outRaw);
@@ -124,6 +149,7 @@ if(outRaw){
   console.log('bytes: ' + report.totalBytes);
   console.log('blockers: ' + report.blockers.length);
   console.log('report: ' + out);
+  if(handoffRaw) console.log('catalog handoff: ' + absolute(handoffRaw));
 }else{
   process.stdout.write(json);
 }
