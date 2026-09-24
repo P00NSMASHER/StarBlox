@@ -1,0 +1,60 @@
+name: Learning FSRS Risk Candidate Validation
+
+on:
+  push:
+    branches:
+      - starblox-learning-factory-v1
+    paths:
+      - "scripts/validateFsrsRiskDevelopmentCandidate.mjs"
+      - "docs/preproduction/learning-factory/fsrs-risk-development-validation.json"
+      - ".github/workflows/learning-fsrs-risk-candidate-validation.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-fsrs-risk:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+      - name: Install StarBlox dependencies
+        run: npm install --ignore-scripts --package-lock=false
+      - name: Generate independent validation dataset
+        run: npm run generate:learning-promotion -- --out-dir=.fsrs-risk-validation --learners=48 --max-step=30 --seed=20270113
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.23"
+      - name: Run actual FSRS
+        run: |
+          cd tools/fsrs-shadow
+          go mod tidy
+          go run . -input ../../.fsrs-risk-validation/riff-reviews.json -out ../../.fsrs-risk-validation/fsrs-engine-receipt.json -evaluation-offset-hours 24
+      - name: Validate frozen risk-40 candidate
+        run: node scripts/validateFsrsRiskDevelopmentCandidate.mjs --manifest=docs/preproduction/learning-factory/fsrs-risk-development-validation.json --evaluation=.fsrs-risk-validation/evaluation.json --fsrs=.fsrs-risk-validation/fsrs-engine-receipt.json --out=.fsrs-risk-validation/candidate-validation.json
+      - name: Enforce validation boundary
+        run: |
+          node --input-type=module - <<'NODE'
+          import fs from 'node:fs';
+          const r=JSON.parse(fs.readFileSync('.fsrs-risk-validation/candidate-validation.json','utf8'));
+          if(r.validationOnly!==true||r.tuneAgainstThisCohort!==false)throw new Error('validation governance broken');
+          if(r.promotionBoundary?.liveSelectorV2Allowed!==false)throw new Error('validation cannot enable live selector');
+          console.log(JSON.stringify({
+            supportive:r.validationSupportive,
+            weight:r.frozenFsrsRiskWeight,
+            deltas:r.deltas,
+            liveSelectorV2Allowed:false
+          },null,2));
+          NODE
+      - name: Upload validation evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: learning-fsrs-risk-candidate-validation
+          path: .fsrs-risk-validation
+          if-no-files-found: error
+          include-hidden-files: true
