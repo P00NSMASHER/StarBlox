@@ -7,7 +7,7 @@
   "policy": "docs/preproduction/DELIVERY_PROTOCOL_V2.md",
   "visualSprint": "docs/preproduction/ART_VISUALS_SPRINT.json",
   "artFactoryPolicy": "docs/preproduction/art-factory/ART_FACTORY_V2.json",
-  "sourceHead": "601cd55f2b",
+  "sourceHead": "b8cdf47d0c",
   "priorReviewShard": {
     "blobSha": "4173dbb9923157eb5a13090d526f88cfec162edd",
     "schemaVersion": 10,
@@ -242,7 +242,7 @@
     "scope": [
       "wall-9"
     ],
-    "version": "Wall9 v9 exact source hash",
+    "version": "Wall9 v10 exact source hash",
     "result": "REWORK_1_OF_1_FAIL_FAST",
     "oldVerdictsTransferred": false,
     "actualCardScalePixelsReviewed": false,
@@ -1130,13 +1130,52 @@
         "duplicateVisual": "PASS",
         "technicalIntegrity": "PASS"
       }
+    },
+    {
+      "itemId": "wall-9",
+      "name": "Art Gallery Wall",
+      "tier": 3,
+      "theme": "Adventure Club",
+      "assetPath": "public/assets/catalog-candidates/cpu/wall-9-w13-v10-a-three-separate-adventure-frames-original.png",
+      "repositoryPath": "public/assets/catalog-candidates/cpu/wall-9-w13-v10-a-three-separate-adventure-frames-original.png",
+      "assetHash": "28807b5b48c46274252f0f6453b336cb2d379416",
+      "sha256": "55b73b41129050883bf231977964754b563f68a2e041e917ef6c59120361d7de",
+      "contentSha256": "55b73b41129050883bf231977964754b563f68a2e041e917ef6c59120361d7de",
+      "hashAlgorithm": "git-blob-sha1",
+      "producer": "13",
+      "decision": "REWORK",
+      "learnerLabel": "REWORK",
+      "reviewedAt": "2026-09-24T19:46:00Z",
+      "evidenceRefs": [
+        "workflow:36048602131",
+        "artifact:10829866492/candidate/wall-9-w13-v10-a-three-separate-adventure-frames-original.png"
+      ],
+      "reasonCodes": [
+        "FOUR_PANEL_LAYOUT",
+        "EXACTLY_THREE_FRAMES_CONTRACT_FAILURE",
+        "COMPASS_MAP_IDENTITY_WEAK",
+        "OCEAN_COAST_IDENTITY_WEAK"
+      ],
+      "reason": "REWORK fail-fast from exact source pixels. V10 is still not an exactly-three-frame Art Gallery Wall: the composition resolves into four panel regions, and the requested distinct mountain-trail / compass-map / ocean-coast triptych is not preserved. Preserve this exact hash. Next attempt must show exactly three separate frames in one horizontal row with one unmistakable subject per frame and no outer grid/panel structure.",
+      "checks": {
+        "identity": "FAIL",
+        "themeTier": "PARTIAL",
+        "silhouette": "FAIL",
+        "materialLighting": "PASS",
+        "cardReadability": "FAIL",
+        "physicalConstruction": "PARTIAL",
+        "framingComposition": "FAIL",
+        "originality": "PASS",
+        "duplicateVisual": "PASS",
+        "technicalIntegrity": "PASS"
+      }
     }
   ],
   "currentReplacementDisposition": {
     "wall": {
       "REWORK": {
         "wall-10": "74a4c531a3c60ccd60747bfebc2dfc0d1d25b684",
-        "wall-9": "3c343c9803ef4dcf078a846a84cc54973e7e0f63"
+        "wall-9": "28807b5b48c46274252f0f6453b336cb2d379416"
       },
       "ACCEPT": {
         "wall-11": "50ffc975030f6c7e28cf9836756bb312dfa646fb",
@@ -1165,13 +1204,13 @@
     "reworkNow": [
       "wall-9"
     ],
-    "preservedAcceptedHashes": "All prior reviewer02 ACCEPTs remain frozen; this REWORK applies only to Wall9 v9 exact hash."
+    "preservedAcceptedHashes": "All prior reviewer02 ACCEPTs remain frozen; this REWORK applies only to Wall9 v10 exact hash."
   },
   "handoff": {
-    "13": "Freeze Wall9 v9 REWORK. Pack Wall9 v10 together with token-safe Desk8 v4 and Wall8 v10 in one Producer13 retry.",
+    "13": "Wall9 v10 REWORK; preserve exact hash and prepare only an exactly-three-frame horizontal triptych if still release-critical.",
     "14": "Current packets consumed; do not rerender unchanged hashes.",
-    "15": "Wall9 remains release-blocking; next prompt must be exactly three separate side-by-side frames with mountain, compass-map, and ocean-coast subjects.",
+    "15": "Wall9 remains a bounded exact-pixel blocker.",
     "09": "Freeze Decor11 v6 REWORK and advance only a new-version stool-first fallback.",
-    "08": "Do not canonical-wire Wall9 v9."
+    "08": "Do not canonical-wire Wall9 v10."
   }
 }
