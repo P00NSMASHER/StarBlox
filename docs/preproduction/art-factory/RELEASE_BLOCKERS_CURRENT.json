@@ -3,7 +3,7 @@
   "kind": "STARBLOX_RELEASE_ART_BLOCKER_LEDGER",
   "branch": "screenshot-match-preproduction",
   "source": {
-    "computedAtHead": "a5ec5710602ded8f8bab973033f99b9849f4e1d2",
+    "computedAtHead": "c49d79e769e511cae2ec26aefa5b95400ccca378",
     "manifest": {
       "version": 45,
       "finalCount": 181,
@@ -18,102 +18,120 @@
       "name": "Neon Streaming Desk",
       "producer": "03",
       "reviewer": "05",
-      "state": "PENDING_FINAL_CPU_RETRY",
+      "state": "CPU_FINAL_RETRY_RUNNING",
       "activeQueue": "w03-desks10-11-final-retry",
       "generationRunId": 36050941229,
       "latestEvidence": {
-        "version": "v7",
-        "gitBlobSha": "4af5225c536dff0a25c12f0f5e4066c39ad33322",
-        "sha256": "aa074975c527d98985197bebe27dcb2c85072b2186e4a565083c6a9715223165"
+        "version": "v9",
+        "gitBlobSha": "1f050b539245d387ce005f67e059829a5249a7ed",
+        "sha256": "4a81b203ee41187ab78a2f9ea0828c497c7f90a5d15d5d38a372a64b234666a1"
       },
-      "nextRepair": "v10 final retry: conventional two-support streaming desk with one monitor and unmistakable small boom microphone."
+      "nextRepair": "Current v10 B retry is running. If REWORK, held A-CONVENTIONAL-STREAMING-DESK v11 fallback is precompiled."
     },
     {
       "id": "desks-11",
       "name": "Dream Creator Station",
       "producer": "03",
       "reviewer": "01",
-      "state": "PENDING_FINAL_CPU_RETRY",
+      "state": "CPU_FINAL_RETRY_RUNNING",
       "activeQueue": "w03-desks10-11-final-retry",
       "generationRunId": 36050941229,
       "latestEvidence": {
-        "version": "v5",
-        "gitBlobSha": "31216c600b99791b15e9bd92079dd70241ca53bf",
-        "sha256": "2a10f765b356db83badaef9c42ead321aea4eca95d231b198dad3888616b5f4d"
+        "version": "v7",
+        "gitBlobSha": "b138c6291bf801bbf66e33daf9394e2c4bbae249",
+        "sha256": "8509eadb8d84acc4194d3d8253d6edda89a66723d53bd434f4be6e4119613416"
       },
-      "nextRepair": "v8 final retry: isolated Art Attack creator workstation with unmistakable creator tools/storage."
+      "nextRepair": "Current v8 B retry is running. If REWORK, held A-CREATOR-DESK-TOOLS v9 fallback is precompiled."
     },
     {
       "id": "wall-9",
       "name": "Art Gallery Wall",
       "producer": "13",
       "reviewer": "02",
-      "state": "PREPARED_V11_TRIPTYCH_RETRY",
-      "preparedQueue": "w13-wall9-v11-triptych",
+      "state": "CPU_V11_PENDING",
+      "activeQueue": "w13-wall9-v11-three-frame-final",
+      "generationRunId": 36051844460,
       "latestEvidence": {
-        "version": "v9",
-        "gitBlobSha": "3c343c9803ef4dcf078a846a84cc54973e7e0f63",
-        "sha256": "497b5bf800eddc57fb4e9334030d62c1a34e4a2de796f8ea5c6a75f7eee36e12"
+        "version": "v10",
+        "gitBlobSha": "28807b5b48c46274252f0f6453b336cb2d379416",
+        "sha256": "55b73b41129050883bf231977964754b563f68a2e041e917ef6c59120361d7de"
       },
-      "nextRepair": "v11: exactly three separate horizontal frames only—mountain trail, compass-map, ocean coast."
+      "nextRepair": "v11 B-THREE-FRAMES-ONLY is pending behind Desk10/11. If REWORK, held v12 A-EXACT-THREE-PORTRAIT-FRAMES fallback is precompiled."
     },
     {
       "id": "decor-11",
       "name": "Dream Vanity Set",
       "producer": "09",
       "reviewer": "02",
-      "state": "STAGED_V7_PENDING_INTAKE",
-      "preparedQueue": "w09-decor11-v7-token-safe",
+      "state": "PREPARED_V8_AFTER_V7_REWORK",
+      "preparedQueue": "w09-decor11-v8-simple-stool",
       "latestEvidence": {
-        "version": "v6",
-        "gitBlobSha": "61def289ba05f48b56c29d3eaa2d38a4a4b0899a",
-        "sha256": "2ebcd1c5e2c858a7203e54791ef02ddfe32e1fd49b1b06d1ad0ec639b8dffeda"
+        "version": "v7",
+        "gitBlobSha": "7badb72a99eb63aa259e5345a6a806cacb6c73a2",
+        "sha256": "31ef9871ff7ed83d583630a7e78ec500dfd75116d78a840ef9f660914aa8fa45"
       },
-      "nextRepair": "v7 exact candidate staged; route through intake/render/reviewer02 before any further generation.",
-      "activeQueue": "w09-decor11-v7-token-safe",
-      "generationRunId": null
+      "nextRepair": "v7 is frozen REWORK for split composition/no stool. v8 B-SIMPLE-VANITY-STOOL is prepared; if REWORK, v9 ultraliteral fallback is also precompiled."
     }
   ],
   "parallelWorkPlan": {
     "cpuSemaphore": "ONE_RUNNING_PLUS_ONE_PENDING",
     "currentCpuBatch": {
-      "queueId": "premium-garden-snail-successor",
-      "items": [
-        "companions-9"
-      ],
-      "runId": 36050151905,
-      "state": "RUNNING_NONCRITICAL_COMPANION_ART"
-    },
-    "pendingSuccessor": {
       "queueId": "w03-desks10-11-final-retry",
       "items": [
         "desks-10",
         "desks-11"
       ],
       "runId": 36050941229,
-      "state": "PENDING_RELEASE_CRITICAL"
+      "state": "RUNNING"
+    },
+    "pendingSuccessor": {
+      "queueId": "w13-wall9-v11-three-frame-final",
+      "items": [
+        "wall-9"
+      ],
+      "runId": 36051844460,
+      "state": "PENDING"
     },
     "preparedNext": [
       {
         "rank": 1,
+        "producer": "09",
+        "queuePath": "docs/preproduction/art-factory/prepared-queues/w09-decor11-v8-simple-stool.json",
+        "items": [
+          "decor-11"
+        ]
+      },
+      {
+        "rank": 2,
+        "producer": "03",
+        "queuePath": "docs/preproduction/art-factory/prepared-queues/w03-desks10-11-final-retry-a-fallback.json",
+        "items": [
+          "desks-10",
+          "desks-11"
+        ],
+        "conditional": "only exact REWORK items from current B run"
+      },
+      {
+        "rank": 3,
         "producer": "13",
-        "queuePath": "docs/preproduction/art-factory/prepared-queues/w13-wall9-v11-triptych.json",
+        "queuePath": "docs/preproduction/art-factory/prepared-queues/w13-wall9-v12-a-fallback.json",
         "items": [
           "wall-9"
-        ]
+        ],
+        "conditional": "only if v11 REWORK"
       }
     ],
-    "queuePolicy": "Do not queue another CPU job until the final Desk10/11 retry transitions to running. Decor11 needs downstream review, not another generation."
+    "queuePolicy": "When Desk10/11 leaves RUNNING, Wall9 starts automatically. As soon as Wall9 is RUNNING, queue Decor11 v8 as the one pending successor. Never queue a held fallback unless its current exact hash is independently REWORK."
   },
   "nonArtReleaseState": {
     "liveFunctionalSmoke": "GREEN",
-    "ci": "GREEN on latest tested art head",
+    "ci": "GREEN on current canonical head",
     "replitDeployment": "LIVE",
     "note": "Visible art tail is four items. Companion source art exists; live wiring/parity remains a separate gate.",
-    "companionParity": "BLOCKED_LIVE_DEPLOYMENT_WIRING__NOT_ART_GENERATION"
+    "companionParity": "LIVE_WIRING_UPDATE_REQUESTED__NOT_YET_VERIFIED"
   },
   "interimCompanionGate": {
-    "state": "LIVE_REPLIT_PARITY_GATE__ART_REGENERATION_NOT_REQUIRED_FOR_RELEASE_DECISION",
+    "state": "REPLIT_WIRING_UPDATE_REQUESTED__AWAITING_VERIFIABLE_COMPLETION",
     "evidence": {
       "workflowRunId": 36044591086,
       "artifactId": 10827159382,
@@ -137,6 +155,6 @@
       "companions-12"
     ],
     "rule": "Do NOT regenerate companion art. Repo-owned SVG assets already exist. Release blocker is Replit source/deployment parity: wire existing images into live Market cards and buddy/Home/Avatar preview, then rerun live companion QA. Promote only after authoritative live image evidence passes.",
-    "activeRemediation": "Replit Agent update is applying narrowly scoped companion image wiring for all seven items; preserve names/prices/tiers/economy/persistence."
+    "activeRemediation": "Replit update turn requested to wire existing companion images; do not publish until completion is observable. Garden Snail v2 generated bytes are not a substitute for live parity evidence."
   }
 }
