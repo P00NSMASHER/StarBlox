@@ -1,0 +1,144 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_BATCH_REQUEST",
+  "planner": "15",
+  "producer": "03",
+  "preflightOwner": "06",
+  "reviewer": "MIXED_11_05",
+  "renderOwner": "14",
+  "integrationOwner": "08",
+  "coordinationOwner": "15",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "f86286d36a1d6b265a07094763f93bf2c0a55cba",
+  "manifestVersion": 35,
+  "batchId": "w03-decor8-v3-desks9-10-v3-rework",
+  "scope": [
+    "decor-8",
+    "desks-9",
+    "desks-10"
+  ],
+  "state": "CPU_QUEUE_ELIGIBLE__FAILURE_SPECIFIC_3ITEM_REWORK__PROVEN_PINNED_RUNTIME",
+  "assignmentAuthority": {
+    "path": "docs/preproduction/art-factory/ACTIVE_BATCH.json",
+    "assignedReviewers": {
+      "decor-8": "11",
+      "desks-9": "05",
+      "desks-10": "05"
+    },
+    "reviewEvidence": {
+      "decor-8": "docs/preproduction/catalog-sprint/reviews/11.json",
+      "desks-9": "docs/preproduction/catalog-sprint/reviews/05.json",
+      "desks-10": "docs/preproduction/catalog-sprint/reviews/05.json"
+    },
+    "runtimeProofPath": "docs/preproduction/art-factory/CPU_RUNTIME_PROOF.json",
+    "runtimeProofStatus": "PROVEN",
+    "runtimeCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+    "modelRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "note": "Newest independent exact-hash REWORKs supersede older ACTIVE_BATCH text. Three producer03 failures are combined into one CPU matrix to remove two serial workflow startups."
+  },
+  "references": {
+    "originalStoreReference": {
+      "requiredBeforeGeneration": true,
+      "repositoryPath": "docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg",
+      "sha256": "b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d",
+      "gitBlobSha": "383baa877d3af86fa92e3583740212000592b3d6",
+      "dimensions": [
+        1448,
+        1086
+      ],
+      "role": "FIRST_PARTY_STARBLOX_STORE_ART_DIRECTION"
+    }
+  },
+  "reviewSource": {
+    "decision": "REWORK",
+    "note": "Each item is bound to its newest independent exact-hash REWORK; no verdict transfers to replacement bytes."
+  },
+  "items": {
+    "decor-8": {
+      "currentLegacy": {
+        "path": "public/assets/catalog-candidates/cpu/decor-8-w03-v2-a-physical-original.png",
+        "gitBlobSha1": "cde20430aaa1c2b4bd07399d35b3f0f184896509",
+        "reviewDecision": "REWORK",
+        "normalizedFailureTaxonomy": [
+          "MULTIPLE_AQUARIUM_PRODUCTS",
+          "INFOGRAPHIC_UI_OVERLAY",
+          "WEAK_SINGLE_PRODUCT_SILHOUETTE",
+          "TEXTLIKE_ARTIFACTS"
+        ]
+      },
+      "variants": [
+        {
+          "variantId": "A-SINGLE-AQUARIUM",
+          "optimizerInput": "Mini Aquarium, Room Decor, Tier 3, Galaxy Glow. Create ONE isolated compact desktop aquarium as the only product on a plain light-neutral studio background. Use one rounded rectangular clear-glass tank with a single dark-indigo pedestal base, one matching lid, one small rear filter housing and one visible intake tube. Inside use one simple moonlike rock arch, violet-blue gravel, three aquatic plants and a controlled bubble column. Show a realistic waterline, glass thickness/refraction, soft cyan-violet Galaxy Glow edge light and one grounded cast shadow. Keep the full aquarium completely inside frame with generous negative space. NO second tank, NO duplicate vessel, NO infographic layout, NO diagram arrows, NO labels, NO UI bars, NO text-like markings, NO room scene, NO floating hardware."
+        },
+        {
+          "variantId": "B-CLEAN-GLASS-TANK",
+          "optimizerInput": "Mini Aquarium, Room Decor, Tier 3, Galaxy Glow. Make ONE small premium glass aquarium that reads instantly at Store-card scale: one crystal-clear rectangular tank, one broad navy base, one slim lid/light bar and one compact side filter physically attached to the tank. Interior must stay sparse: dark gravel, one curved rock, two tall plants and a few bubbles. Use restrained cyan and violet reflected light for Galaxy Glow while keeping the tank construction dominant. Three-quarter isolated product view, full silhouette visible, soft contact shadow. NO second aquarium, NO product comparison, NO callout graphics, NO typography, NO interface panels, NO collage, NO room background."
+        }
+      ]
+    },
+    "desks-9": {
+      "currentLegacy": {
+        "path": "public/assets/catalog-candidates/cpu/desks-9-w03-v2-a-physical-original.png",
+        "gitBlobSha1": "6cab04be717e17e2b682afa73ce8306bc21556c8",
+        "reviewDecision": "REWORK",
+        "normalizedFailureTaxonomy": [
+          "WEAK_ART_MAKER_IDENTITY",
+          "GENERIC_DESK_SILHOUETTE",
+          "MISSING_TOOL_RAIL_OR_MAKER_FEATURES",
+          "LOW_TIER_THEME_SPECIFICITY"
+        ]
+      },
+      "variants": [
+        {
+          "variantId": "A-MAKER-RAIL-DESK",
+          "optimizerInput": "Art Maker Table, Desks & Tech, Tier 3, Sunny Pop. Create ONE substantial freestanding maker desk in three-quarter isolated product view. Use a wide warm-wood worktop, two sturdy legs/support cabinets, one clearly raised yellow-orange peg/tool rail across the rear, small integrated drawers and two open maker-storage cubbies. Attach only a few unmistakable art tools to the rail: scissors silhouette, two brush cups and a short ruler tray; keep tools physically mounted and uncluttered. Add one tilting sketch board section on the tabletop, visible joinery and grounded feet. Sunny Pop should use warm yellow, coral and cream accents. NO room scene, NO generic empty desk, NO extra furniture, NO floating tools, NO text or logos."
+        },
+        {
+          "variantId": "B-DRAFTING-ORGANIZER",
+          "optimizerInput": "Art Maker Table, Desks & Tech, Tier 3, Sunny Pop. Design ONE compact creative workstation with a broad horizontal drafting worktop, one shallow adjustable drawing surface, a strong side storage pedestal, three visible drawers, and one upper organizer bridge with clearly bounded brush/tool cups and paper slots. The maker function must be obvious even at small card size. Use honey wood, sunny yellow and restrained coral hardware with believable metal brackets and contact shadow. Full desk entirely inside frame on an empty pale studio background. NO room, NO plain office desk, NO cabinets without worktop, NO loose floor props, NO text, NO duplicated tables."
+        }
+      ]
+    },
+    "desks-10": {
+      "currentLegacy": {
+        "path": "public/assets/catalog-candidates/cpu/desks-10-w03-v2-a-physical-original.png",
+        "gitBlobSha1": "2f6fccc5b76418fee108052bf6963491f2bcb823",
+        "reviewDecision": "REWORK",
+        "normalizedFailureTaxonomy": [
+          "STREAMING_DESK_IDENTITY_FAILURE",
+          "DESK_SURFACE_MISSING",
+          "EQUIPMENT_FEATURES_MISSING",
+          "CABINET_PARTITION_SILHOUETTE"
+        ]
+      },
+      "variants": [
+        {
+          "variantId": "A-STREAMING-WORKTOP",
+          "optimizerInput": "Neon Streaming Desk, Desks & Tech, Tier 4, Aqua Wave. Create ONE premium functional streaming desk as a wide horizontal product, isolated on a plain neutral studio background. Use a broad graphite worktop with rounded front edge, two strong supports including one equipment cabinet with visible vent slots, a raised monitor bridge spanning the rear, one articulated microphone boom clamped to the side and a clean under-desk cable channel. Add restrained cyan/aqua edge lighting beneath the worktop and bridge, translucent aqua accent panels and brushed-metal hardware. All feet/supports must contact the ground. Strong desk silhouette at card size. NO tall cabinet/partition as dominant form, NO room scene, NO chair, NO people, NO text or logos, NO floating screens."
+        },
+        {
+          "variantId": "B-AQUA-CREATOR-DESK",
+          "optimizerInput": "Neon Streaming Desk, Desks & Tech, Tier 4, Aqua Wave. Make ONE sleek creator/streaming workstation with an unmistakable long desktop, one dark equipment pedestal at right, one slim left support, a single elevated monitor shelf, a physically clamped microphone arm and one small controller tray under the desktop. Use graphite metal, dark glass/acrylic and controlled aqua/cyan luminous trim with crisp edges and believable joints. Three-quarter product view with generous negative space and grounded shadow. The horizontal worktop must dominate the silhouette. NO wall partition, NO tall wardrobe form, NO room, NO extra desks, NO pseudo-text, NO unsupported electronics."
+        }
+      ]
+    }
+  },
+  "executionBudget": {
+    "width": 640,
+    "height": 640,
+    "steps": 6,
+    "guidanceScale": 3.5,
+    "dtype": "float32",
+    "basis": "Reliable hosted CPU baseline; one 3-item matrix attacks three exact current REWORKs concurrently."
+  },
+  "safety": {
+    "preserveAcceptedExactHashes": true,
+    "preserveRejectedExactHashes": true,
+    "producerSelfReview": false,
+    "canonicalMappingsChanged": false,
+    "workflowFilesChanged": false,
+    "gameplayLearningEconomyPersistenceAccessibilityChanged": false
+  }
+}
