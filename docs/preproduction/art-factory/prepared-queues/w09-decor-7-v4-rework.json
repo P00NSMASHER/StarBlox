@@ -12,7 +12,7 @@
     "height": 640,
     "steps": 6,
     "guidanceScale": 3.5,
-    "dtype": "bfloat16"
+    "dtype": "float32"
   },
   "queueId": "w09-decor-5-v3-decor-7-v4-parallel",
   "requestPath": "docs/preproduction/art-factory/requests/w09-decor-5-v3-decor-7-v4-parallel-20260924.json",
@@ -52,5 +52,17 @@
     "itemCount": 2,
     "reason": "Use one workflow matrix to generate Decor7 v4 and Decor5 v3 concurrently instead of two serial CPU runs.",
     "preserveIndependence": true
+  },
+  "float32RetryEvidence": {
+    "priorRunId": 35954622789,
+    "priorConclusion": "failure",
+    "failedItems": [
+      "decor-7",
+      "decor-5"
+    ],
+    "candidateArtifactsStaged": false,
+    "failureClass": "BF16_CPU_INFERENCE_TIMEOUT_20_MINUTES__0_OF_6_STEPS_COMPLETED",
+    "retryRule": "Same exact item/version matrix. Change dtype only from bfloat16 to float32; preserve width/height/steps/guidance, request wrapper, compiled prompts, deterministic seed derivation, pinned model/runtime revisions and reviewer routing.",
+    "bf16FailFastGuardCommit": "a692aa2a34c0ea3371e66c204e6e8ef9cc943802"
   }
 }
