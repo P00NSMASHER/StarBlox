@@ -3,7 +3,7 @@
   "kind": "STARBLOX_RELEASE_ART_BLOCKER_LEDGER",
   "branch": "screenshot-match-preproduction",
   "source": {
-    "computedAtHead": "666920e4301d151f943b96d821d4fe4cef125be4",
+    "computedAtHead": "6e4e58b5ee750f8f2ccd9c2061197bf8e288d4f9",
     "manifest": {
       "version": 40,
       "finalCount": 176,
@@ -154,21 +154,12 @@
         "desks-10",
         "desks-11"
       ],
-      "runId": 36039656844,
+      "runId": 36040017201,
       "state": "RUNNING"
     },
     "preparedNext": [
       {
         "rank": 1,
-        "producer": "09",
-        "queuePath": "docs/preproduction/art-factory/prepared-queues/w09-release-tail-2pack-v6.json",
-        "items": [
-          "decor-7",
-          "decor-11"
-        ]
-      },
-      {
-        "rank": 2,
         "producer": "13",
         "queuePath": "docs/preproduction/art-factory/prepared-queues/w13-release-tail-3pack-v5.json",
         "items": [
@@ -178,7 +169,16 @@
         ]
       }
     ],
-    "queuePolicy": "When current CPU run is fully idle, dispatch rank-1 once; then rank-2 once. Do not regenerate any canonical item or stale rejected version."
+    "queuePolicy": "Keep one running plus one pending CPU run. When w03 finishes, w09 starts automatically; only then queue w13. Never queue a third run while a pending successor exists.",
+    "pendingSuccessor": {
+      "queueId": "w09-release-tail-2pack-v6",
+      "items": [
+        "decor-7",
+        "decor-11"
+      ],
+      "runId": 36040312348,
+      "state": "PENDING"
+    }
   },
   "nonArtReleaseState": {
     "liveFunctionalSmoke": "GREEN",
