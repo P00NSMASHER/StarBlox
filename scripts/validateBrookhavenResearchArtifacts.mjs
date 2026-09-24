@@ -40,11 +40,25 @@ if(boundary.boundaryDecision?.brookhavenRemoteCallsMayShipInStarBlox!==false) is
 if(boundary.boundaryDecision?.normalizedAuthorizedAssetsMayEventuallyShip!==true) issues.push('normalized-asset-boundary');
 if(!Array.isArray(boundary.staticForbiddenTokensInLiveSrc)||!boundary.staticForbiddenTokensInLiveSrc.length) issues.push('boundary-token-list');
 
+const conversionPath='docs/preproduction/brookhaven-research/conversion-contract-v1.json';
+const conversion=JSON.parse(fs.readFileSync(conversionPath,'utf8'));
+if(conversion.schemaVersion!=='starblox-brookhaven-neutral-conversion-contract-v1') issues.push('conversion-schema');
+if(conversion.outputSchema?.schemaVersion!=='starblox-neutral-scene-v1') issues.push('conversion-output-schema');
+if(conversion.productionEligibility?.['user-asserted-authorized']!=='research-only-until-rights-evidence-recorded') issues.push('conversion-rights-boundary');
+
+const residentialPath='docs/preproduction/brookhaven-research/residential-feature-blueprint-v1.json';
+const residential=JSON.parse(fs.readFileSync(residentialPath,'utf8'));
+if(residential.schemaVersion!=='starblox-residential-feature-blueprint-v1') issues.push('residential-schema');
+if((residential.mappings||[]).length!==14) issues.push('residential-mapping-count');
+if(residential.status!=='production-candidate-runtime-not-wired') issues.push('residential-live-status');
+
 const result={
   schemaVersion:'starblox-brookhaven-research-validation-v1',
   graphPath,
   catalogPath,
   boundaryPath,
+  conversionPath,
+  residentialPath,
   nodeCount:graph.nodes?.length||0,
   edgeCount:graph.edges?.length||0,
   issueCount:issues.length,
