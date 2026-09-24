@@ -33,6 +33,13 @@ function clone(value){
   return JSON.parse(JSON.stringify(value));
 }
 
+function deepFreeze(value){
+  if(!value || typeof value !== 'object' || Object.isFrozen(value)) return value;
+  Object.freeze(value);
+  for(const child of Object.values(value)) deepFreeze(child);
+  return value;
+}
+
 function snapCycle(value,grid){
   return Math.ceil((value + 0.05) / grid) * grid;
 }
@@ -70,7 +77,7 @@ export function createAdaptiveMusicState({
   const off={calm:null,explore:null,challenge:null,boss:null};
   off[current]=nowCycles;
 
-  return Object.freeze({
+  return deepFreeze({
     version:MUSIC_DIRECTOR_VERSION,
     zone:current,
     pending:null,
@@ -129,7 +136,7 @@ export function updateAdaptiveMusic(state,{
   const dt=Math.max(0,Number(dtSeconds) || 0);
   const now=Math.max(0,Number(nowCycles) || 0);
   if(state.paused){
-    return Object.freeze({...state});
+    return deepFreeze({...state});
   }
 
   let next={...state};
@@ -171,21 +178,21 @@ export function updateAdaptiveMusic(state,{
       : weights[key] + Math.sign(delta) * step;
   }
 
-  return Object.freeze({...next,weights});
+  return deepFreeze({...next,weights});
 }
 
 export function setMusicPaused(state,paused){
   if(!state || state.version !== MUSIC_DIRECTOR_VERSION){
     throw new TypeError('invalid adaptive music state.');
   }
-  return Object.freeze({...state,paused:Boolean(paused)});
+  return deepFreeze({...state,paused:Boolean(paused)});
 }
 
 export function setMusicVolume(state,volume){
   if(!state || state.version !== MUSIC_DIRECTOR_VERSION){
     throw new TypeError('invalid adaptive music state.');
   }
-  return Object.freeze({...state,userVolume:clamp(Number(volume) || 0,0,1)});
+  return deepFreeze({...state,userVolume:clamp(Number(volume) || 0,0,1)});
 }
 
 export function musicMix(state){
@@ -197,7 +204,7 @@ export function musicMix(state){
   for(const key of MUSIC_ZONES){
     gains[key]=state.weights[key] * (state.master[key] ?? 1) * state.userVolume;
   }
-  return Object.freeze({
+  return deepFreeze({
     zone:state.zone,
     pending:state.pending,
     commitAt:state.commitAt,
