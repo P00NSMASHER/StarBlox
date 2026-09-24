@@ -2,8 +2,8 @@
   "schemaVersion": 29,
   "owner": "15",
   "branch": "screenshot-match-preproduction",
-  "sourceHead": "6e4e58b5ee750f8f2ccd9c2061197bf8e288d4f9",
-  "updatedAt": "2026-09-24T18:19:00Z",
+  "sourceHead": "7a0c3dd6566e25ad182f70a833a6374d08eb2819",
+  "updatedAt": "2026-09-24T18:34:00Z",
   "status": "ACTIVE_FINAL_RELEASE_TAIL",
   "policy": {
     "maxConcurrentProductionBatches": 4,
@@ -80,43 +80,43 @@
     "workflowPath": ".github/workflows/art-factory-cpu-generation.yml",
     "observedAt": "2026-09-24T18:14:00Z",
     "running": {
-      "runId": 36040017201,
-      "headSha": "811671595851098f963ade4c85d01c2cc13245a6",
-      "batch": "w03-release-tail-4pack-v5",
-      "state": "IN_PROGRESS",
-      "jobs": [
-        "decor-8",
-        "desks-9",
-        "desks-10",
-        "desks-11"
-      ],
-      "phase": "CPU_GENERATION",
-      "candidateArtifactsStaged": false,
-      "contract": "Pinned SDXL/Diffusers; 640x640/8-step float32; literal one-product prompts."
-    },
-    "pending": {
       "runId": 36040312348,
       "headSha": "6e4e58b5ee750f8f2ccd9c2061197bf8e288d4f9",
       "batch": "w09-release-tail-2pack-v6",
-      "state": "PENDING",
+      "state": "IN_PROGRESS",
       "jobs": [
         "decor-7",
         "decor-11"
+      ],
+      "phase": "CPU_GENERATION",
+      "candidateArtifactsStaged": false,
+      "contract": "Pinned SDXL/Diffusers; cached runtime; literal one-product prompts."
+    },
+    "pending": {
+      "runId": 36042052820,
+      "headSha": "7a0c3dd6566e25ad182f70a833a6374d08eb2819",
+      "batch": "w13-release-tail-3pack-v5",
+      "state": "PENDING_FIXED_COMPILER",
+      "jobs": [
+        "desks-8",
+        "wall-8",
+        "wall-9"
       ]
     },
-    "authorization": "DO_NOT_QUEUE_W13_UNTIL_W09_LEAVES_PENDING_AND_STARTS_RUNNING",
-    "rule": "Exactly one running plus one pending successor. Queue w13 only after w03 completes and w09 transitions to running.",
+    "authorization": "DO_NOT_QUEUE_W03_V6_UNTIL_W13_STARTS_RUNNING",
+    "rule": "Exactly one running plus one pending successor. Queue consolidated producer03 v6 only after w13 starts.",
     "preparedNext": [
       {
         "rank": 1,
-        "queuePath": "docs/preproduction/art-factory/prepared-queues/w13-release-tail-3pack-v5.json",
+        "queuePath": "docs/preproduction/art-factory/prepared-queues/w03-release-tail-4pack-v6.json",
         "scope": [
-          "desks-8",
-          "wall-8",
-          "wall-9"
+          "decor-8",
+          "desks-9",
+          "desks-10",
+          "desks-11"
         ],
-        "producer": "13",
-        "reviewer": "MIXED_11_02"
+        "producer": "03",
+        "reviewer": "MIXED_11_05_01"
       }
     ],
     "preparedQueueRule": "Dispatch exactly one successor after live CPU idle check and fresh exact-hash supersession check."
