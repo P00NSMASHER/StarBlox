@@ -1,0 +1,156 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_TECHNICAL_QUALIFICATION_MICROBATCH",
+  "role": "06-single-technical-qualification-gate",
+  "branch": "screenshot-match-preproduction",
+  "observedHead": "6c3d4bf5f4a27ea9a3d5fbfe0b032c6a689a8bef",
+  "intakeEvidence": "docs/preproduction/art-factory/requests/w12-cross-account-intake-routing-20260924-v40.json",
+  "manifestVersion": 40,
+  "items": [
+    {
+      "item": {
+        "id": "decor-8",
+        "name": "Mini Aquarium",
+        "collectionId": "decor",
+        "type": "room",
+        "tier": 3,
+        "theme": "Galaxy Glow"
+      },
+      "candidate": {
+        "producer": "03",
+        "reviewer": "11",
+        "renderOwner": "14",
+        "canonicalWriter": "08",
+        "path": "public/assets/catalog-candidates/cpu/decor-8-w03-v5-a-blue-water-fish-aquarium-original.png",
+        "sha256": "66d476bac5840f1634a856dbab20dcd6cdf7c92d8a5cbe1bf32ed507491afae0",
+        "gitBlobSha": "24f5655854ab4188247b62e55622e479d6f0cb2a",
+        "dimensions": [
+          640,
+          640
+        ],
+        "bytes": 572298,
+        "format": "PNG",
+        "mode": "RGB"
+      },
+      "sourceGenerationRunId": 36040017201,
+      "provenance": {
+        "stagedOutput": "docs/preproduction/art-factory/generated-evidence/w03-release-tail-4pack-v5/decor-8/staged-output.json",
+        "generationReceipt": "docs/preproduction/art-factory/generated-evidence/w03-release-tail-4pack-v5/decor-8/generation-receipt.json",
+        "runtimeRepo": "huggingface/diffusers",
+        "runtimeCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+        "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+        "modelRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+        "dtype": "float32",
+        "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+      }
+    },
+    {
+      "item": {
+        "id": "desks-9",
+        "name": "Art Maker Table",
+        "collectionId": "desks",
+        "type": "room",
+        "tier": 3,
+        "theme": "Sunny Pop"
+      },
+      "candidate": {
+        "producer": "03",
+        "reviewer": "05",
+        "renderOwner": "14",
+        "canonicalWriter": "08",
+        "path": "public/assets/catalog-candidates/cpu/desks-9-w03-v5-a-literal-art-maker-table-original.png",
+        "sha256": "91b9bb0fdac6d804bf48964e3c239824b101b8602f4dfd90481977e746532ee0",
+        "gitBlobSha": "79d5f4e0520910fea1a6ac47c76df451b14ce6f2",
+        "dimensions": [
+          640,
+          640
+        ],
+        "bytes": 410662,
+        "format": "PNG",
+        "mode": "RGB"
+      },
+      "sourceGenerationRunId": 36040017201,
+      "provenance": {
+        "stagedOutput": "docs/preproduction/art-factory/generated-evidence/w03-release-tail-4pack-v5/desks-9/staged-output.json",
+        "generationReceipt": "docs/preproduction/art-factory/generated-evidence/w03-release-tail-4pack-v5/desks-9/generation-receipt.json",
+        "runtimeRepo": "huggingface/diffusers",
+        "runtimeCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+        "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+        "modelRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+        "dtype": "float32",
+        "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+      }
+    },
+    {
+      "item": {
+        "id": "desks-10",
+        "name": "Neon Streaming Desk",
+        "collectionId": "desks",
+        "type": "room",
+        "tier": 4,
+        "theme": "Aqua Wave"
+      },
+      "candidate": {
+        "producer": "03",
+        "reviewer": "05",
+        "renderOwner": "14",
+        "canonicalWriter": "08",
+        "path": "public/assets/catalog-candidates/cpu/desks-10-w03-v8-a-literal-streaming-desk-original.png",
+        "sha256": "1dcf7424a8970bee0604ceea1afe5aec2b73ecf3d453e3f9e18d359f219138fe",
+        "gitBlobSha": "d43408f2e7c6292a4ebac2048b0ca43e56247cdd",
+        "dimensions": [
+          640,
+          640
+        ],
+        "bytes": 561582,
+        "format": "PNG",
+        "mode": "RGB"
+      },
+      "sourceGenerationRunId": 36040017201,
+      "provenance": {
+        "stagedOutput": "docs/preproduction/art-factory/generated-evidence/w03-release-tail-4pack-v5/desks-10/staged-output.json",
+        "generationReceipt": "docs/preproduction/art-factory/generated-evidence/w03-release-tail-4pack-v5/desks-10/generation-receipt.json",
+        "runtimeRepo": "huggingface/diffusers",
+        "runtimeCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+        "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+        "modelRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+        "dtype": "float32",
+        "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+      }
+    }
+  ],
+  "technicalChecks": {
+    "idPathBinding": "PASS_ALL_3",
+    "signatureDecode": "PASS_ALL_3_PNG",
+    "dimensions": "PASS_ALL_3_640X640",
+    "sourceLineage": "PASS_ALL_3",
+    "artFactoryV2Provenance": "PASS_ALL_3_PINNED_RUNTIME_MODEL_RIGHTS",
+    "stagedOutputReadback": "PASS_ALL_3_EXACT_LIVE_GIT_BLOB",
+    "staleSupersededCheck": "PASS_ALL_3_FRESH_LITERAL_REPLACEMENTS",
+    "exactContentDuplicateCheck": "PASS_ALL_3_UNIQUE_LIVE_BLOBS_NOT_CANONICAL",
+    "independentReviewerRouting": "PASS_ALL_3"
+  },
+  "qualification": {
+    "status": "QUALIFIED_FOR_RENDERER14_MICROBATCH",
+    "qualifiedForRenderer14": true,
+    "qualifiedCount": 3,
+    "artQualityJudgment": "NOT_PERFORMED",
+    "blockingDefects": []
+  },
+  "routing": {
+    "current": "HANDOFF_TO_RENDERER14",
+    "reviewerByItem": {
+      "decor-8": "11",
+      "desks-9": "05",
+      "desks-10": "05"
+    },
+    "renderer14": "RENDER_ALL_3_EXACT_HASHES_IN_REAL_STORE_CARD_DETAIL_CONTEXT",
+    "integration08": "ONLY_AFTER_MATCHING_INDEPENDENT_REVIEWER_ACCEPT"
+  },
+  "preservation": {
+    "candidateBytesMutated": false,
+    "canonicalMappingsChanged": false,
+    "gameplayLearningPersistenceEconomyChanged": false,
+    "deploymentTouched": false
+  }
+}
