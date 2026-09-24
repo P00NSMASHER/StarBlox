@@ -4,11 +4,11 @@
   "workstream": "03",
   "phase": "CATALOG_SPRINT",
   "branch": "screenshot-match-preproduction",
-  "observedCoordinationHead": "779b77e6d6069ea7341f7faafd94f07901e21730",
+  "observedCoordinationHead": "1020c153c2a42c6c796143131c456b2c780512eb",
   "allocationAuthority": "docs/preproduction/ART_VISUALS_SPRINT.json",
-  "status": "DECOR8_DESKS9_10_V3_EXACT_HASHES_QUALIFIED__RENDER_TRIGGERED_MIXED_REVIEWERS",
+  "status": "DESKS_11_12_V1_EXACT_HASHES_QUALIFIED__RENDER_TRIGGERED_FOR_REVIEW01",
   "selfApproved": false,
-  "reviewOwner": "MIXED_11_05",
+  "reviewOwner": "01",
   "integrationOwner": "08",
   "coordinationOwner": "15",
   "preservedFinal": {
@@ -204,7 +204,7 @@
     "latestCoordinatorAssignment": "PASS_ACTIVE_BATCH_W03_DESKS_7_10_RELEASE_PILOT",
     "strictVisualFallbackEvidence": "PASS_DESKS_7_12_INCLUDED_IN_22_MISSING_CANONICAL_ART"
   },
-  "nextAction": "Renderer14 binds current Store card/detail pixels for Decor8 v3, Desk9 v3 and Desk10 v3; reviewer11 independently dispositions Decor8; reviewer05 independently dispositions Desk9/10; 08 integrates only exact-hash ACCEPTs.",
+  "nextAction": "Renderer14 binds current Store card/detail pixels for Desk11 v1 and Desk12 v1; reviewer01 independently ACCEPT/REWORK exact hashes; 08 integrates only exact-hash ACCEPTs.",
   "freeze": {
     "replitTouched": false,
     "flootTouched": false,
@@ -262,45 +262,33 @@
     "scaleGate": "Do not start desks-11/12 until reviewer05 independently dispositions exact current hashes for desks-7/10."
   },
   "catalogFactoryReviewHandoff": {
-    "updatedAt": "2026-09-24T09:58:00Z",
-    "sourceHead": "779b77e6d6069ea7341f7faafd94f07901e21730",
-    "purpose": "Trigger one exact-hash Store card/detail render microbatch for qualified Decor8 v3 + Desk9/10 v3 while preserving prior rejected hashes and reviewer independence.",
+    "updatedAt": "2026-09-24T13:37:00Z",
+    "sourceHead": "1020c153c2a42c6c796143131c456b2c780512eb",
+    "purpose": "Trigger one exact-hash Store card/detail render microbatch for qualified Desk11/12 v1 while preserving accepted Desk1-6 hashes and independent reviewer01.",
     "candidates": [
       {
-        "itemId": "decor-8",
-        "name": "Mini Aquarium",
+        "itemId": "desks-11",
+        "name": "Dream Creator Station",
         "producer": "03",
-        "reviewer": "11",
-        "path": "public/assets/catalog-candidates/cpu/decor-8-w03-v3-a-single-aquarium-original.png",
-        "sha256": "254d78c006b3268bcfaa1c0576784010fe060db0d48a9376f5292d1d3461a59c",
-        "gitBlobSha": "b35648acd6951aaa04de97f555b660396e2a62df",
-        "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-decor8-desks9-10-v3-qualification-20260924.json",
+        "reviewer": "01",
+        "path": "public/assets/catalog-candidates/cpu/desks-11-w03-v1-a-creator-hutch-original.png",
+        "sha256": "6de9058d7498875858e3abacbf0ec65ee51759c1b050bc6731758afd2f556c81",
+        "gitBlobSha": "828ee1d718ca20643dd8d9fc24c7a98d33fb912c",
+        "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-desks-11-12-v1-qualification-20260924.json",
         "qualification": "QUALIFIED_FOR_RENDERER14",
-        "route": "14 -> 11 -> 08 on ACCEPT"
+        "route": "14 -> 01 -> 08 on ACCEPT"
       },
       {
-        "itemId": "desks-9",
-        "name": "Art Maker Table",
+        "itemId": "desks-12",
+        "name": "Luxe Command Desk",
         "producer": "03",
-        "reviewer": "05",
-        "path": "public/assets/catalog-candidates/cpu/desks-9-w03-v3-a-maker-rail-desk-original.png",
-        "sha256": "03b2d9b3899bad522861ca788403bc3ed8c469bddcb932bc6fa348e2216b2b97",
-        "gitBlobSha": "64bb30b92257f0471259dd8b840b086af9e58073",
-        "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-decor8-desks9-10-v3-qualification-20260924.json",
+        "reviewer": "01",
+        "path": "public/assets/catalog-candidates/cpu/desks-12-w03-v1-a-luxe-command-original.png",
+        "sha256": "509d489f29d73c9125b1e624b19c15a2ce52408f477ffd20ceef436c446996e8",
+        "gitBlobSha": "39b7f484a380ceb161f95bc1eb7ab470f9493a1d",
+        "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-desks-11-12-v1-qualification-20260924.json",
         "qualification": "QUALIFIED_FOR_RENDERER14",
-        "route": "14 -> 05 -> 08 on ACCEPT"
-      },
-      {
-        "itemId": "desks-10",
-        "name": "Neon Streaming Desk",
-        "producer": "03",
-        "reviewer": "05",
-        "path": "public/assets/catalog-candidates/cpu/desks-10-w03-v3-a-streaming-worktop-original.png",
-        "sha256": "f793d2c41b7e7ea441e9e637de3d6e9aa6ec6e6299732cbb2ceb1ed2d6edeadb",
-        "gitBlobSha": "1eb6e1c127c3ac85d82daf7454cec0d83ca89b1b",
-        "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-decor8-desks9-10-v3-qualification-20260924.json",
-        "qualification": "QUALIFIED_FOR_RENDERER14",
-        "route": "14 -> 05 -> 08 on ACCEPT"
+        "route": "14 -> 01 -> 08 on ACCEPT"
       }
     ],
     "safety": {
