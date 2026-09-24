@@ -5,6 +5,26 @@ local Util = require(script.Parent.Util)
 
 local Tests = {}
 
+local SAFE_TEST_ROOTS = {
+	"ServerScriptService/Tests",
+	"ReplicatedStorage/Tests",
+	"ServerStorage/Tests",
+}
+
+local function normalizePath(path: string): string
+	return string.gsub(path, "^game[%.\/]", "")
+end
+
+local function isSafeTestPath(path: string): boolean
+	local clean = normalizePath(path)
+	for _, root in SAFE_TEST_ROOTS do
+		if clean == root or string.sub(clean, 1, #root + 1) == root .. "/" then
+			return true
+		end
+	end
+	return false
+end
+
 local function sourceOf(inst: LuaSourceContainer): string
 	local document = ScriptEditorService:FindScriptDocument(inst)
 	return document and document:GetText() or (inst :: any).Source
@@ -48,6 +68,9 @@ function Tests.run(args: any): any
 	local root: Instance? = nil
 	local explicit = type(args.path) == "string" and args.path ~= ""
 	if explicit then
+		if not isSafeTestPath(args.path) then
+			error("run_tests path must stay inside an approved Tests root")
+		end
 		root = Util.resolvePath(args.path)
 	else
 		root = Util.resolvePath("ServerScriptService/Tests")
