@@ -7,7 +7,7 @@ The workflow is deliberately catalog → plan → export → review rather than 
 ## Goals
 
 - Select high-leverage licensed systems from the capability catalog.
-- Preserve exact source file and instance-path provenance.
+- Preserve exact source file SHA-256/byte-size and instance-path provenance.
 - Distinguish direct assets from behavior that must be refactored.
 - Expose external module and remote dependencies before migration.
 - Export exact Roblox subtrees as standalone model files.
@@ -74,6 +74,10 @@ Systems containing review flags such as dynamic code, external HTTP, numeric ext
 
 Risk-flagged units are excluded by default and require includeRisky to enter an export plan.
 
+### ignore
+
+Catalog systems classified as irrelevant are never selected for migration. An explicit includeSystems override cannot promote an irrelevant unit; it remains excluded and produces no staging artifact.
+
 ## Default migration focus
 
 The default capability set is:
@@ -105,7 +109,7 @@ Supported fields:
 - minEngineeringLeverageScore
 - includeRisky
 
-Explicitly included system names bypass capability and minimum-score filters, but risk-flagged systems still require includeRisky.
+Explicitly included system names bypass capability and minimum-score filters, but risk-flagged systems still require includeRisky and irrelevant systems remain excluded.
 
 ## Exact subtree exporter
 
