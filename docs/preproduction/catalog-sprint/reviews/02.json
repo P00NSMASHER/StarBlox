@@ -7,7 +7,7 @@
   "policy": "docs/preproduction/DELIVERY_PROTOCOL_V2.md",
   "visualSprint": "docs/preproduction/ART_VISUALS_SPRINT.json",
   "artFactoryPolicy": "docs/preproduction/art-factory/ART_FACTORY_V2.json",
-  "sourceHead": "007fec4008d22c5b3caf4fd91a5eebf6d9104529",
+  "sourceHead": "c046b6330bf2bce4e64fe41b59f8391adb970a2c",
   "priorReviewShard": {
     "blobSha": "4173dbb9923157eb5a13090d526f88cfec162edd",
     "schemaVersion": 10,
@@ -240,24 +240,39 @@
   ],
   "currentCycle": {
     "scope": [
-      "wall-9"
+      "wall-9",
+      "decor-9",
+      "decor-10",
+      "decor-11",
+      "decor-12"
     ],
-    "version": "w13-v3 A-FRAMES-DOMINANT exact repository hash",
-    "result": "REWORK_1_OF_1",
+    "version": "current exact hashes: Wall9 v4 + Decor9-12 v1",
+    "result": "ACCEPT_2_REWORK_3_OF_5",
     "oldVerdictsTransferred": false,
     "actualCardScalePixelsReviewed": true,
     "actualDetailPixelsReviewed": true,
     "selfApprovalConflict": false
   },
   "currentRenderEvidence": {
-    "workflow": "StarBlox Staged Catalog Art QA",
-    "workflowRunId": 35977305007,
-    "artifactId": 10798692858,
-    "artifactName": "catalog-staged-art-review",
-    "artifactDigest": "sha256:34fd5ecda08f3b820c668231703d731709ec2439fca2652a6e62718b6e47113e",
-    "workflowHead": "5f5004b19e3347bcc9420a0b66dcc0cf404613cb",
-    "detailEvidence": "artifact:10798692858/staged-replacements/detail/wall-9-e0be4534.png",
-    "contactSheetSha256": "77665bd1d517473351d7d192029f9633b4a40023a019cf8fb4dec7552a070d32"
+    "sources": [
+      {
+        "workflowRunId": 35999264027,
+        "artifactId": 10807675918,
+        "items": [
+          "wall-9"
+        ]
+      },
+      {
+        "workflowRunId": 36003139825,
+        "artifactId": 10809560322,
+        "items": [
+          "decor-9",
+          "decor-10",
+          "decor-11",
+          "decor-12"
+        ]
+      }
+    ]
   },
   "reviews": [
     {
@@ -514,36 +529,232 @@
         "technicalIntegrity": "PASS"
       },
       "reason": "REWORK. V3 changes the geometry but still misses the core identity: the exact pixels are dominated by a wide shelving/display grid with many empty cubbies, not a compact Art Gallery Wall whose silhouette is unmistakably 3–4 framed artworks. Preserve this exact hash. The next repair should eliminate the shelving matrix entirely and use one simple wall rail/backboard carrying three large distinct framed pieces plus at most one small shadowbox, with no floor/room fixture context and no large blank compartments."
+    },
+    {
+      "itemId": "wall-9",
+      "name": "Art Gallery Wall",
+      "tier": 3,
+      "theme": "Adventure Club",
+      "assetPath": "public/assets/catalog-candidates/cpu/wall-9-w13-v4-a-three-frames-only-original.png",
+      "assetHash": "725793fdb8091b47d7fe3563e8519519e4a9523d",
+      "contentSha256": "71cf7bd66d2439b904d0fc22ecfd1e3bab713b913604a5c69165dadc7f9a80bb",
+      "producer": "13",
+      "decision": "REWORK",
+      "learnerLabel": "REWORK",
+      "reviewedAt": "2026-09-24T14:08:00Z",
+      "evidence": {
+        "detailRenderPath": "staged-replacements/detail/wall-9-725793fd.png",
+        "detailRenderSha256": "3dd512f42e3aeb0a4d40a5745f0e4568f9a32292b59bfc1596f7713bae810110",
+        "detailDimensions": [
+          800,
+          800
+        ],
+        "contactSheetPath": "staged-replacements/staged-replacements-contact-sheet.png",
+        "workflowRunId": 35999264027,
+        "artifactId": 10807675918
+      },
+      "checks": {
+        "recognizableCategoryFunction": "PARTIAL — clearly wall art, but reads as a generic frame arrangement rather than a distinctive Adventure Club Art Gallery Wall.",
+        "physicalConstructionContact": "PASS — frames and wall-contact depth are coherent.",
+        "silhouette": "PARTIAL — framed-art silhouette is much improved, but the composition contains more than the intended three dominant framed artworks plus extra relief/ledge elements.",
+        "themeTierSpecificity": "FAIL — travel/adventure motifs are weak; several frames are blank/minimal rather than unmistakable Adventure Club artwork.",
+        "smallCardReadability": "PARTIAL — frames remain visible, but their contents do not read strongly enough to communicate the product theme.",
+        "shelvingGridRead": "PASS — prior shelving/cubby failure is removed.",
+        "galleryArtPresence": "PARTIAL — framed pieces dominate more than prior versions, but not with three strong distinct artworks as required.",
+        "compositionCrop": "PASS",
+        "originalityNearDuplicateRisk": "PASS",
+        "technicalIntegrity": "PASS"
+      },
+      "reason": "REWORK. V4 finally removes the shelving grid, but the exact pixels still present a generic multi-frame wall arrangement with weak Adventure Club artwork and too many secondary panels/relief pieces. Next attempt should use exactly three large, content-rich framed travel/adventure artworks on one shallow backboard with no extra ledge/display clutter."
+    },
+    {
+      "itemId": "decor-9",
+      "name": "Easel Set",
+      "tier": 3,
+      "theme": "Sunny Pop",
+      "assetPath": "public/assets/catalog-candidates/cpu/decor-9-w09-v1-a-easel-with-tray-original.png",
+      "assetHash": "3b0ae22922e3f4aeed5ea6083ebd993ef49b5313",
+      "contentSha256": "499b255e4a64b70ec1137882adfb9be1785baf9ff0d71e1e6561347f94d2a3d6",
+      "producer": "09",
+      "decision": "ACCEPT",
+      "learnerLabel": "ACCEPT",
+      "reviewedAt": "2026-09-24T14:08:00Z",
+      "evidence": {
+        "detailRenderPath": "staged-replacements/detail/decor-9-3b0ae229.png",
+        "detailRenderSha256": "104301f60e1f949cc2a890a635b081ba9aaea466a50d549ac6705793de6e764c",
+        "detailDimensions": [
+          800,
+          800
+        ],
+        "contactSheetPath": "staged-replacements/staged-replacements-contact-sheet.png",
+        "workflowRunId": 36003139825,
+        "artifactId": 10809560322
+      },
+      "checks": {
+        "recognizableCategoryFunction": "PASS — unmistakable set of artist easels with central full-size easel and supporting smaller easels/canvases.",
+        "physicalConstructionContact": "PASS — tripod legs, braces, canvas supports and tray structure read coherently.",
+        "silhouette": "PASS — central A-frame easel creates a strong product silhouette at card scale.",
+        "themeTierSpecificity": "PASS — warm natural wood and bright neutral canvases provide a light Sunny Pop presentation appropriate to Tier 3 without clutter.",
+        "smallCardReadability": "PASS — easel identity survives Store-card reduction.",
+        "materialLighting": "PASS — wood/canvas separation and soft studio light are clear.",
+        "compositionCrop": "PASS",
+        "originalityNearDuplicateRisk": "PASS",
+        "technicalIntegrity": "PASS"
+      },
+      "reason": "ACCEPT. The exact pixels clearly depict a coherent Easel Set with strong central easel identity, believable supports and clean card-scale readability. The warm, bright presentation is appropriate for Sunny Pop Tier 3 without introducing clutter or text."
+    },
+    {
+      "itemId": "decor-10",
+      "name": "Mini Fridge",
+      "tier": 4,
+      "theme": "Aqua Wave",
+      "assetPath": "public/assets/catalog-candidates/cpu/decor-10-w09-v1-a-retro-mini-fridge-original.png",
+      "assetHash": "68eeaecc5ab8dd5097160324e0880b129a6ed0ce",
+      "contentSha256": "59776e97859fee26abbc083cf4e79c7daff6ee0e30a32776fc202a970397a460",
+      "producer": "09",
+      "decision": "ACCEPT",
+      "learnerLabel": "ACCEPT",
+      "reviewedAt": "2026-09-24T14:08:00Z",
+      "evidence": {
+        "detailRenderPath": "staged-replacements/detail/decor-10-68eeaecc.png",
+        "detailRenderSha256": "d3ccd90aed602f7103c81bce00ad71b7789cdae06e1eb555b6c3ae9926878de8",
+        "detailDimensions": [
+          800,
+          800
+        ],
+        "contactSheetPath": "staged-replacements/staged-replacements-contact-sheet.png",
+        "workflowRunId": 36003139825,
+        "artifactId": 10809560322
+      },
+      "checks": {
+        "recognizableCategoryFunction": "PASS — unmistakable compact refrigerator with open storage, shelves, food/drink contents and visible handles.",
+        "physicalConstructionContact": "PASS — cabinet, shelves, door panels and floor contact form a coherent appliance despite stylized double-door presentation.",
+        "silhouette": "PASS — tall rounded mini-fridge silhouette is distinct at card scale.",
+        "themeTierSpecificity": "PASS — aqua/cyan interior glow with soft pink/cream shell strongly supports Aqua Wave Tier 4.",
+        "smallCardReadability": "PASS — refrigerator identity and open shelves remain immediately readable.",
+        "materialLighting": "PASS — enamel/plastic/metal shelving and cool interior light separate well.",
+        "compositionCrop": "PASS",
+        "originalityNearDuplicateRisk": "PASS",
+        "technicalIntegrity": "PASS"
+      },
+      "reason": "ACCEPT. The exact render clearly fulfills Mini Fridge identity, Aqua Wave Tier-4 styling, coherent appliance construction and strong card-scale readability."
+    },
+    {
+      "itemId": "decor-11",
+      "name": "Dream Vanity Set",
+      "tier": 4,
+      "theme": "Art Attack",
+      "assetPath": "public/assets/catalog-candidates/cpu/decor-11-w09-v1-a-vanity-mirror-stool-original.png",
+      "assetHash": "3c5c6892823fad04c93077eb43c94331ebdf0d88",
+      "contentSha256": "197119a46ee18951cb0b7214012eff2566eac228a84471717beceb45828ac048",
+      "producer": "09",
+      "decision": "REWORK",
+      "learnerLabel": "REWORK",
+      "reviewedAt": "2026-09-24T14:08:00Z",
+      "evidence": {
+        "detailRenderPath": "staged-replacements/detail/decor-11-3c5c6892.png",
+        "detailRenderSha256": "fb4fd723d90725bddf1d582c7a04304fc748d5b1f19fc8166cf8da2ccd6bf29c",
+        "detailDimensions": [
+          800,
+          800
+        ],
+        "contactSheetPath": "staged-replacements/staged-replacements-contact-sheet.png",
+        "workflowRunId": 36003139825,
+        "artifactId": 10809560322
+      },
+      "checks": {
+        "recognizableCategoryFunction": "PARTIAL — vanity-like furniture appears in several panels, but there is no single coherent vanity set.",
+        "physicalConstructionContact": "FAIL — multiple contradictory furniture variants prevent one physically plausible set.",
+        "silhouette": "FAIL — collage presentation eliminates one readable vanity silhouette.",
+        "themeTierSpecificity": "PARTIAL — lavender/pastel accents are present but Art Attack specificity is weak.",
+        "smallCardReadability": "FAIL — multi-panel collage collapses into clutter.",
+        "compositionCrop": "FAIL — four-panel comparison/collage violates isolated-product presentation.",
+        "originalityNearDuplicateRisk": "PASS",
+        "technicalIntegrity": "PASS"
+      },
+      "reason": "REWORK. The exact image is a multi-panel collage of several vanity/furniture variants rather than one Dream Vanity Set. Next attempt must show one coherent vanity with mirror, storage and stool in a single isolated view with restrained Art Attack accents."
+    },
+    {
+      "itemId": "decor-12",
+      "name": "Trophy Wall",
+      "tier": 5,
+      "theme": "Star Luxe",
+      "assetPath": "public/assets/catalog-candidates/cpu/decor-12-w09-v1-a-star-luxe-trophy-wall-original.png",
+      "assetHash": "8e0ba670f01f954c59bf1c077c0fc4fdea3e8ebc",
+      "contentSha256": "4145d58f5798a2779fb49d9d216cdee533123999057081bda9735420b46c9336",
+      "producer": "09",
+      "decision": "REWORK",
+      "learnerLabel": "REWORK",
+      "reviewedAt": "2026-09-24T14:08:00Z",
+      "evidence": {
+        "detailRenderPath": "staged-replacements/detail/decor-12-8e0ba670.png",
+        "detailRenderSha256": "99d2d3ccccc482a17d2113a1d97ccf4434aff59a49e7ffd74b88b57d4016d2a5",
+        "detailDimensions": [
+          800,
+          800
+        ],
+        "contactSheetPath": "staged-replacements/staged-replacements-contact-sheet.png",
+        "workflowRunId": 36003139825,
+        "artifactId": 10809560322
+      },
+      "checks": {
+        "recognizableCategoryFunction": "FAIL — reads as an abstract black/gold star mosaic, not a wall-mounted trophy display.",
+        "physicalConstructionContact": "PARTIAL — layered relief has depth, but no trophy shelf/backboard/cup-medal mounting logic is visible.",
+        "silhouette": "FAIL — no recognizable Trophy Wall product silhouette.",
+        "themeTierSpecificity": "PASS — black/gold stars communicate Star Luxe spectacle.",
+        "smallCardReadability": "FAIL — card scale reads as decorative star pattern rather than trophy display.",
+        "trophyPresence": "FAIL — trophies/cups/medals/display structure are absent or unreadable.",
+        "compositionCrop": "PASS",
+        "originalityNearDuplicateRisk": "PASS",
+        "technicalIntegrity": "PASS"
+      },
+      "reason": "REWORK. V1 has strong Star Luxe visual treatment but misses the item identity completely: it is an abstract star relief, not a Trophy Wall. Next attempt must use one wall-mounted display backboard/shelf with unmistakable trophy cups/medals plus restrained star-luxe accents."
     }
   ],
   "currentReplacementDisposition": {
     "wall": {
       "REWORK": {
         "wall-10": "74a4c531a3c60ccd60747bfebc2dfc0d1d25b684",
-        "wall-9": "e0be4534bc3b379f1e39556be5d05eb38726220e"
+        "wall-9": "725793fdb8091b47d7fe3563e8519519e4a9523d"
       },
       "ACCEPT": {
         "wall-11": "50ffc975030f6c7e28cf9836756bb312dfa646fb",
         "wall-12": "e9387a7174a888980616ea9afac43cc9b3adbb3b",
         "wall-10": "e5d4fe1c3d7a0a8ad82f61914228e5bdac6ef43d"
       }
+    },
+    "decor": {
+      "ACCEPT": {
+        "decor-9": "3b0ae22922e3f4aeed5ea6083ebd993ef49b5313",
+        "decor-10": "68eeaecc5ab8dd5097160324e0880b129a6ed0ce"
+      },
+      "REWORK": {
+        "decor-11": "3c5c6892823fad04c93077eb43c94331ebdf0d88",
+        "decor-12": "8e0ba670f01f954c59bf1c077c0fc4fdea3e8ebc"
+      }
     }
   },
   "summary": {
-    "reviewedThisRun": 1,
-    "newAcceptsThisRun": 0,
-    "newReworkThisRun": 1,
+    "reviewedThisRun": 5,
+    "newAcceptsThisRun": 2,
+    "newReworkThisRun": 3,
     "newBlockedThisRun": 0,
-    "newUsableBy08Now": [],
-    "reworkNow": [
-      "wall-9"
+    "newUsableBy08Now": [
+      "decor-9",
+      "decor-10"
     ],
-    "preservedAcceptedHashes": "All earlier reviewer-02 ACCEPTs remain frozen. Wall9 v1/v2/v3 REWORK history is preserved; current REWORK applies only to v3 exact hash e0be4534bc3b379f1e39556be5d05eb38726220e."
+    "reworkNow": [
+      "wall-9",
+      "decor-11",
+      "decor-12"
+    ],
+    "preservedAcceptedHashes": "All earlier reviewer02 ACCEPTs remain frozen. New decisions apply only to the exact current hashes."
   },
   "handoff": {
-    "13": "Wall9 v3 exact hash e0be4534bc3b379f1e39556be5d05eb38726220e is REWORK. Preserve it. Next candidate must remove the shelving grid and use one compact 3–4-frame gallery product.",
-    "14": "Wall9 v3 render packet is consumed; do not rerender unchanged hash.",
-    "15": "Keep Wall9 on bounded failure-specific rework; do not reopen accepted Wall10-12.",
-    "08": "Do not canonical-wire Wall9 v3 hash e0be4534bc3b379f1e39556be5d05eb38726220e."
+    "13": "Wall9 v4 exact hash REWORK; preserve and prepare one more failure-specific gallery repair only if still release-critical.",
+    "14": "Current packets consumed; do not rerender unchanged hashes.",
+    "15": "Decor11/12 and Wall9 remain bounded rework blockers; Decor9/10 leave production scope.",
+    "09": "Decor9/10 exact v1 hashes ACCEPT; freeze. Decor11/12 v1 REWORK; preserve and prepare failure-specific replacements if prioritized.",
+    "08": "Integrate exact Decor9 v1 and Decor10 v1 hashes after live revalidation; do not integrate Wall9 v4 or Decor11/12 v1."
   }
 }
