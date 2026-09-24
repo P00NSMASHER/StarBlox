@@ -184,10 +184,24 @@
     "liveFunctionalSmoke": "GREEN",
     "ci": "GREEN on latest tested art head",
     "replitDeployment": "LIVE",
-    "note": "Do not reopen functional work absent a new bound-hash regression."
+    "note": "Do not reopen functional work absent a new bound-hash regression.",
+    "companionParity": "BLOCKED_LIVE_DEPLOYMENT_WIRING__NOT_ART_GENERATION"
   },
   "interimCompanionGate": {
-    "state": "AUTHORITATIVE_RENDER_QA_IN_PROGRESS",
+    "state": "LIVE_REPLIT_DEPLOYMENT_PARITY_BLOCKER__SOURCE_ART_EXISTS",
+    "evidence": {
+      "workflowRunId": 36044591086,
+      "artifactId": 10827159382,
+      "deployment": "https://star-blox.replit.app",
+      "verifiedAt": "2026-09-24T18:56:51Z",
+      "storeCardsFound": 7,
+      "realImageCards": 0,
+      "genericGradientCards": 7,
+      "enhancedSelectedItemPreviewAvailable": false,
+      "buddyImageAvailable": false,
+      "consoleErrors": 0,
+      "pageErrors": 0
+    },
     "items": [
       "companions-2",
       "companions-5",
@@ -197,6 +211,7 @@
       "companions-9",
       "companions-12"
     ],
-    "rule": "Existing SVG assets already exist; do not regenerate unless live Store/detail rendering proves a concrete defect. Promote only with authoritative visual evidence."
+    "rule": "Do NOT regenerate companion art. Repo-owned SVG assets already exist. Release blocker is Replit source/deployment parity: wire existing images into live Market cards and buddy/Home/Avatar preview, then rerun live companion QA. Promote only after authoritative live image evidence passes.",
+    "activeRemediation": "Replit Agent update is applying narrowly scoped companion image wiring for all seven items; preserve names/prices/tiers/economy/persistence."
   }
 }
