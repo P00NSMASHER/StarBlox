@@ -10,6 +10,7 @@ local WorldEcsService = require(script.Parent.WorldEcsService)
 local RuntimeArtifactService = require(script.Parent.RuntimeArtifactService)
 local ReplayIngressService = require(script.Parent.ReplayIngressService)
 local IntelligenceShadowService = require(script.Parent.IntelligenceShadowService)
+local LiveOpsService = require(script.Parent.LiveOpsService)
 
 local Bootstrap = {}
 
@@ -25,6 +26,7 @@ function Bootstrap.start(dependencies)
 	local artifacts = RuntimeArtifactService.new()
 	local replays = ReplayIngressService.new(dependencies.ReplayLimits)
 	local shadow = IntelligenceShadowService.new(dependencies.TelemetrySink)
+	local liveOps = LiveOpsService.new(profiles, replicas, dependencies.LiveOpsPackages)
 
 	local function playerAdded(player: Player)
 		local profile = profiles:Load(player)
@@ -62,6 +64,7 @@ function Bootstrap.start(dependencies)
 		Artifacts = artifacts,
 		Replays = replays,
 		IntelligenceShadow = shadow,
+		LiveOps = liveOps,
 	})
 end
 

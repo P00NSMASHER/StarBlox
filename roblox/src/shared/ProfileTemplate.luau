@@ -46,6 +46,22 @@ local ProfileTemplate = {
 	Rollout = {
 		Assignments = {},
 	},
+
+	LiveOps = {
+		Counters = {},
+		Missions = {},
+		Seasons = {},
+		Engagement = {
+			LastVisitDate = "",
+			Streak = 0,
+			PlaySeconds = 0,
+			Claimed = {},
+		},
+		Bundles = {
+			Purchased = {},
+		},
+		ProcessedEventIds = {},
+	},
 }
 
 return ProfileTemplate

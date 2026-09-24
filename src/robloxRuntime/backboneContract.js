@@ -15,7 +15,20 @@ export const PROFILE_TEMPLATE=Object.freeze({
   Daily:Object.freeze({LastDailyId:'',Completed:Object.freeze({}),Streak:0}),
   Inventory:Object.freeze({Cosmetics:Object.freeze({}),Equipped:Object.freeze({})}),
   Settings:Object.freeze({MusicVolume:0.6,DiagnosticsEnabled:false}),
-  Rollout:Object.freeze({Assignments:Object.freeze({})})
+  Rollout:Object.freeze({Assignments:Object.freeze({})}),
+  LiveOps:Object.freeze({
+    Counters:Object.freeze({}),
+    Missions:Object.freeze({}),
+    Seasons:Object.freeze({}),
+    Engagement:Object.freeze({
+      LastVisitDate:'',
+      Streak:0,
+      PlaySeconds:0,
+      Claimed:Object.freeze({})
+    }),
+    Bundles:Object.freeze({Purchased:Object.freeze({})}),
+    ProcessedEventIds:Object.freeze([])
+  })
 });
 
 export const NETWORK_CONTRACT=Object.freeze([
@@ -23,7 +36,9 @@ export const NETWORK_CONTRACT=Object.freeze([
   Object.freeze({name:'SubmitReplayChunk',from:'Client',type:'Reliable'}),
   Object.freeze({name:'QuestState',from:'Server',type:'Reliable'}),
   Object.freeze({name:'DailyState',from:'Server',type:'Reliable'}),
-  Object.freeze({name:'GhostSample',from:'Server',type:'Unreliable'})
+  Object.freeze({name:'GhostSample',from:'Server',type:'Unreliable'}),
+  Object.freeze({name:'ClaimLiveOpsReward',from:'Client',type:'Reliable'}),
+  Object.freeze({name:'LiveOpsState',from:'Server',type:'Reliable'})
 ]);
 
 export const REPLICATION_BOUNDARIES=Object.freeze({
@@ -34,7 +49,8 @@ export const REPLICATION_BOUNDARIES=Object.freeze({
     'Learning.RecentConceptIds',
     'Learning.WrongStreak',
     'Daily.Completed',
-    'Settings'
+    'Settings',
+    'LiveOps.ProcessedEventIds'
   ]),
   playerReplica:Object.freeze([
     'SchemaVersion',
@@ -43,7 +59,8 @@ export const REPLICATION_BOUNDARIES=Object.freeze({
     'Daily.LastDailyId',
     'Daily.Streak',
     'Inventory',
-    'Rollout.Assignments'
+    'Rollout.Assignments',
+    'LiveOps'
   ]),
   ephemeralEcs:Object.freeze([
     'Model','Transform','Velocity','Health','Npc','Interactable',

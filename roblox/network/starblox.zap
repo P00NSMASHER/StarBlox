@@ -32,3 +32,18 @@ event GhostSample = {
 	call: ManyAsync,
 	data: (ReplayId: string.utf8, Tick: u32, X: f32, Y: f32, Z: f32)
 }
+
+
+event ClaimLiveOpsReward = {
+	from: Client,
+	type: Reliable,
+	call: ManyAsync,
+	data: (ClaimType: string.utf8, ClaimId: string.utf8)
+}
+
+event LiveOpsState = {
+	from: Server,
+	type: Reliable,
+	call: ManyAsync,
+	data: (StateHash: string.utf8)
+}
