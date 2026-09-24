@@ -1,0 +1,159 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_JOB",
+  "repository": "P00NSMASHER/StarBlox",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "f5a154b1cb2a92389e151cc1b7e6cd2519ecff9d",
+  "item": {
+    "id": "decor-11",
+    "name": "Dream Vanity Set",
+    "collectionId": "decor",
+    "type": "room",
+    "tier": 4,
+    "theme": "Art Attack"
+  },
+  "sourceReviewHash": "61def289ba05f48b56c29d3eaa2d38a4a4b0899a",
+  "rightsBasis": "USER_ATTESTED_FULL_RIGHTS",
+  "attempts": [
+    {
+      "attemptId": "decor-11-w09-a-token-safe-vanity-stool-c03246b7dd",
+      "itemId": "decor-11",
+      "producer": "09",
+      "variant": "A-TOKEN-SAFE-VANITY-STOOL",
+      "promptBlocks": [
+        "metadata",
+        "category",
+        "silhouette",
+        "physical",
+        "material",
+        "theme",
+        "tier",
+        "card",
+        "original",
+        "stage",
+        "furniture",
+        "camera",
+        "depth",
+        "bloom",
+        "textile",
+        "wall",
+        "light"
+      ],
+      "promptText": "STARBLOX CATALOG ART — A-TOKEN-SAFE-VANITY-STOOL\n\nCreate one premium, kid-friendly 2D game catalog asset with polished dimensional quality.\n\nExact metadata: decor-11 — Dream Vanity Set; collection decor; type room; tier 4; theme Art Attack.\n\nAuthoritative item-specific design brief:\nDream Vanity Set. ONE small vanity on white: one table, one oval mirror, one padded stool in front. Coral-lavender accents. Full set visible. NO room, cabinets, columns, rug, extra mirror, extra seat, collage, text.\n\nExact-hash reviewer failure taxonomy: UNKNOWN_REWORK.\n\nRepair the documented failure codes while preserving qualities that were not implicated. Do not erase successful identity, silhouette, material depth, or readability merely to make a different image.\n\nUse the exact catalog ID/name/collection/tier/theme. Do not rename, recategorize, or substitute the item.\n\nMake the object unmistakably the stated product category with believable proportions and construction.\n\nPrioritize a distinctive clean silhouette that reads immediately at small Store-card size.\n\nShow real thickness, seams/joints/edges, layered parts, volume, contact points and functional construction—not a flat icon, emblem or sticker.\n\nUse category-appropriate material texture and highlights/shadows that explain the form.\n\nExpress the exact theme through material, construction, light and motif—not a palette swap or pasted decal.\n\nRespect tier progression: Starter stays simple and attractive; higher tiers gain richer form/material detail; Luxe gains spectacle without losing identity.\n\nDesign for both detail view and a 600×600 Store card with strong contrast, uncluttered hierarchy and no tiny critical details.\n\nAvoid recolor-only siblings, repeated template silhouettes, generic rings/badges, or interchangeable props.\n\nPresent one isolated subject on a clean premium background. No UI, text, watermark, logo, fake price badge or unrelated props.\n\nFor furniture/decor, show supports, joints, cushions/panels/hardware, weight and grounded contact.\n\nUse a clean product-style three-quarter view when appropriate so front, side and thickness are visible.\n\nUse occlusion, contact/cast shadows and foreground/midground/background separation so the asset feels spatial.\n\nUse controlled emissive light/bloom only where appropriate; preserve edges and local contrast.\n\nFor textiles, show weave/pile/folds/stitching/edge finish/thickness and believable softness or drape.\n\nFor wall decor, show mounting/frame/backing/relief depth and a believable wall-object form—not a floating emblem.\n\nFor lighting, show a physical base/mount/chassis, emitter or bulb, support structure and believable emitted/reflected light.\n\nOutput a production-worthy source image for exact-byte staging, card/detail rendering and independent review. Do not claim approval; the reviewer decides from rendered pixels.",
+      "promptSha256": "c03246b7dda18aff919335b1b18ebf4de6e0b8d321591740bdef86a50ae7ebc2",
+      "runtimePromptText": "decor-11 Dream Vanity Set; Art Attack; tier 4. Dream Vanity Set. ONE small vanity on white: one table, one oval mirror, one padded stool in front. Coral-lavender accents. Full set visible. single isolated product, grounded shadow.",
+      "runtimePromptSha256": "296a8f0dede7cdf70c1733bb9fc688a87654faf02b43df347651c7e007af3197",
+      "runtimeNegativePromptText": "room, cabinets, columns, rug, extra mirror, extra seat, collage, text, collage, multiple views, repeated variants, text, logo, watermark, UI",
+      "runtimeNegativePromptSha256": "f64b2539927ddfb8fde8074a4c0b27dd21a939ce0f065d043201ec47bbbfe5f3",
+      "promptRecipeVersion": "artPromptOptimizer-request-v1:w09-decor11-v7-token-safe",
+      "seed": 1624330352,
+      "runtime": {
+        "repo": "huggingface/diffusers",
+        "commit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c"
+      },
+      "model": {
+        "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+        "revision": "462165984030d82259a11f4367a4eed129e94a7b",
+        "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+      },
+      "conditioning": {
+        "referenceAssetSha256": null,
+        "controlImageSha256": null,
+        "adapterScale": null
+      },
+      "output": {
+        "repoPath": null,
+        "sha256": null,
+        "gitBlobSha": null,
+        "bytes": null,
+        "width": null,
+        "height": null
+      },
+      "status": "PLANNED_NOT_GENERATED"
+    },
+    {
+      "attemptId": "decor-11-w09-b-simple-vanity-stool-c957aff678",
+      "itemId": "decor-11",
+      "producer": "09",
+      "variant": "B-SIMPLE-VANITY-STOOL",
+      "promptBlocks": [
+        "metadata",
+        "category",
+        "silhouette",
+        "physical",
+        "material",
+        "theme",
+        "tier",
+        "card",
+        "original",
+        "stage",
+        "furniture",
+        "camera",
+        "depth",
+        "bloom",
+        "textile",
+        "wall",
+        "light"
+      ],
+      "promptText": "STARBLOX CATALOG ART — B-SIMPLE-VANITY-STOOL\n\nCreate one premium, kid-friendly 2D game catalog asset with polished dimensional quality.\n\nExact metadata: decor-11 — Dream Vanity Set; collection decor; type room; tier 4; theme Art Attack.\n\nAuthoritative item-specific design brief:\nONE vanity table, ONE mirror, ONE stool on plain white. Full three-piece set visible, colorful accents. NO room, cabinets, extra mirror, extra seat, collage, text.\n\nExact-hash reviewer failure taxonomy: UNKNOWN_REWORK.\n\nRepair the documented failure codes while preserving qualities that were not implicated. Do not erase successful identity, silhouette, material depth, or readability merely to make a different image.\n\nUse the exact catalog ID/name/collection/tier/theme. Do not rename, recategorize, or substitute the item.\n\nMake the object unmistakably the stated product category with believable proportions and construction.\n\nPrioritize a distinctive clean silhouette that reads immediately at small Store-card size.\n\nShow real thickness, seams/joints/edges, layered parts, volume, contact points and functional construction—not a flat icon, emblem or sticker.\n\nUse category-appropriate material texture and highlights/shadows that explain the form.\n\nExpress the exact theme through material, construction, light and motif—not a palette swap or pasted decal.\n\nRespect tier progression: Starter stays simple and attractive; higher tiers gain richer form/material detail; Luxe gains spectacle without losing identity.\n\nDesign for both detail view and a 600×600 Store card with strong contrast, uncluttered hierarchy and no tiny critical details.\n\nAvoid recolor-only siblings, repeated template silhouettes, generic rings/badges, or interchangeable props.\n\nPresent one isolated subject on a clean premium background. No UI, text, watermark, logo, fake price badge or unrelated props.\n\nFor furniture/decor, show supports, joints, cushions/panels/hardware, weight and grounded contact.\n\nUse a clean product-style three-quarter view when appropriate so front, side and thickness are visible.\n\nUse occlusion, contact/cast shadows and foreground/midground/background separation so the asset feels spatial.\n\nUse controlled emissive light/bloom only where appropriate; preserve edges and local contrast.\n\nFor textiles, show weave/pile/folds/stitching/edge finish/thickness and believable softness or drape.\n\nFor wall decor, show mounting/frame/backing/relief depth and a believable wall-object form—not a floating emblem.\n\nFor lighting, show a physical base/mount/chassis, emitter or bulb, support structure and believable emitted/reflected light.\n\nOutput a production-worthy source image for exact-byte staging, card/detail rendering and independent review. Do not claim approval; the reviewer decides from rendered pixels.",
+      "promptSha256": "c957aff678cc38b04e00346a3675f7d8931281a85f804f064ba7f7a8e08fb0cb",
+      "runtimePromptText": "decor-11 Dream Vanity Set; Art Attack; tier 4. ONE vanity table, ONE mirror, ONE stool on plain white. Full three-piece set visible, colorful accents. single isolated product, grounded shadow.",
+      "runtimePromptSha256": "da8d7fc738cb1b030aa90818ff349c43da2422201421b1f1e5cc6820b39d90b0",
+      "runtimeNegativePromptText": "room, cabinets, extra mirror, extra seat, collage, text, collage, multiple views, repeated variants, text, logo, watermark, UI",
+      "runtimeNegativePromptSha256": "4249af19f212bc54c293de1973852793b1427fade0106c4c897abdfad2c81b0c",
+      "promptRecipeVersion": "artPromptOptimizer-request-v1:w09-decor11-v7-token-safe",
+      "seed": 1054718514,
+      "runtime": {
+        "repo": "huggingface/diffusers",
+        "commit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c"
+      },
+      "model": {
+        "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+        "revision": "462165984030d82259a11f4367a4eed129e94a7b",
+        "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+      },
+      "conditioning": {
+        "referenceAssetSha256": null,
+        "controlImageSha256": null,
+        "adapterScale": null
+      },
+      "output": {
+        "repoPath": null,
+        "sha256": null,
+        "gitBlobSha": null,
+        "bytes": null,
+        "width": null,
+        "height": null
+      },
+      "status": "PLANNED_NOT_GENERATED"
+    }
+  ],
+  "requestContext": {
+    "requestPath": "docs/preproduction/art-factory/requests/w09-decor11-v7-token-safe-20260924.json",
+    "batchId": "w09-decor11-v7-token-safe",
+    "requestSourceHead": "69c19d14654a553b372a6d64471ff6096e705581",
+    "requestRecordSha256": "923b29b1966672406f5ac148a74ce74365807e3043bba7c9c92ac23094279f99",
+    "planner": "15",
+    "reviewer": "02",
+    "renderOwner": "14",
+    "integrationOwner": "08",
+    "contextReferences": [],
+    "plannerVariants": [
+      {
+        "variantId": "A-TOKEN-SAFE-VANITY-STOOL",
+        "plannerSeed": null,
+        "optimizerInputSha256": "97a9d43e39894d90b78430b49355d5c099502ed618ca8c5c83a55b51520003ee",
+        "compiledPromptSha256": "c03246b7dda18aff919335b1b18ebf4de6e0b8d321591740bdef86a50ae7ebc2",
+        "compiledSeed": 1624330352
+      },
+      {
+        "variantId": "B-SIMPLE-VANITY-STOOL",
+        "plannerSeed": null,
+        "optimizerInputSha256": "5eb4af15b6b5870e32cc7cea25cb921e7ca8933a5e37295a74653532e6e04ec0",
+        "compiledPromptSha256": "c957aff678cc38b04e00346a3675f7d8931281a85f804f064ba7f7a8e08fb0cb",
+        "compiledSeed": 1054718514
+      }
+    ]
+  },
+  "planSha256": "249ae492a676be83d2621cc25fc831b6199fd4145cb1c7f571006191015c5670"
+}

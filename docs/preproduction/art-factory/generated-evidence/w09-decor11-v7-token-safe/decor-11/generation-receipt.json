@@ -1,0 +1,112 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_GENERATION_RECEIPT",
+  "repository": "P00NSMASHER/StarBlox",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "f5a154b1cb2a92389e151cc1b7e6cd2519ecff9d",
+  "sourcePlanSha256": "249ae492a676be83d2621cc25fc831b6199fd4145cb1c7f571006191015c5670",
+  "executionCheckout": {
+    "branch": "screenshot-match-preproduction",
+    "head": "f5a154b1cb2a92389e151cc1b7e6cd2519ecff9d",
+    "planSourceHeadMatchesExecutionHead": true
+  },
+  "attempt": {
+    "attemptId": "decor-11-w09-a-token-safe-vanity-stool-c03246b7dd",
+    "itemId": "decor-11",
+    "producer": "09",
+    "variant": "A-TOKEN-SAFE-VANITY-STOOL",
+    "promptSha256": "c03246b7dda18aff919335b1b18ebf4de6e0b8d321591740bdef86a50ae7ebc2",
+    "runtimePromptSha256": "296a8f0dede7cdf70c1733bb9fc688a87654faf02b43df347651c7e007af3197",
+    "runtimeNegativePromptSha256": "f64b2539927ddfb8fde8074a4c0b27dd21a939ce0f065d043201ec47bbbfe5f3",
+    "promptRecipeVersion": "artPromptOptimizer-request-v1:w09-decor11-v7-token-safe",
+    "seed": 1624330352
+  },
+  "runtime": {
+    "repo": "huggingface/diffusers",
+    "commit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "resolvedCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "runtimeCommitVerified": true,
+    "diffusersVersion": "0.41.0.dev0",
+    "diffusersInstallSource": "https://github.com/huggingface/diffusers.git",
+    "torchVersion": "2.8.0+cpu",
+    "transformersVersion": "5.17.0",
+    "accelerateVersion": "1.15.0",
+    "huggingfaceHubVersion": "1.33.0",
+    "safetensorsVersion": "0.8.0",
+    "pythonPillowVersion": "12.3.0",
+    "device": "cpu",
+    "dtype": "float32",
+    "executionMode": "cpu-fallback"
+  },
+  "model": {
+    "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+    "revision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS",
+    "resolvedRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "snapshotRevisionVerified": true,
+    "selectiveSnapshot": true,
+    "snapshotAllowPatterns": [
+      "model_index.json",
+      "scheduler/*",
+      "tokenizer/*",
+      "tokenizer_2/*",
+      "feature_extractor/*",
+      "text_encoder/config.json",
+      "text_encoder/model.fp16.safetensors",
+      "text_encoder_2/config.json",
+      "text_encoder_2/model.fp16.safetensors",
+      "unet/config.json",
+      "unet/diffusion_pytorch_model.fp16.safetensors",
+      "vae/config.json",
+      "vae/diffusion_pytorch_model.fp16.safetensors"
+    ]
+  },
+  "conditioning": {
+    "referenceAssetSha256": null,
+    "controlImageSha256": null,
+    "adapterScale": null,
+    "referenceImage": null,
+    "ipAdapterModelId": null,
+    "ipAdapterRevision": null,
+    "ipAdapterResolvedRevision": null,
+    "ipAdapterRevisionVerified": false,
+    "ipAdapterWeightName": null,
+    "ipAdapterSubfolder": null
+  },
+  "generation": {
+    "width": 640,
+    "height": 640,
+    "numInferenceSteps": 10,
+    "guidanceScale": 4.5,
+    "runtimePromptTokenCounts": {
+      "tokenizer": 55,
+      "tokenizer_2": 55
+    },
+    "runtimeNegativePromptTokenCounts": {
+      "tokenizer": 36,
+      "tokenizer_2": 36
+    },
+    "executedSeed": 1624330352
+  },
+  "output": {
+    "repoPath": "public/assets/catalog-candidates/cpu/decor-11-w09-v7-a-token-safe-vanity-stool-original.png",
+    "sha256": "31ef9871ff7ed83d583630a7e78ec500dfd75116d78a840ef9f660914aa8fa45",
+    "gitBlobSha": "7badb72a99eb63aa259e5345a6a806cacb6c73a2",
+    "bytes": 521503,
+    "width": 640,
+    "height": 640,
+    "format": "PNG",
+    "sourceBytesPreserved": true,
+    "reusedExistingIdenticalBytes": false
+  },
+  "safety": {
+    "canonicalArtModified": false,
+    "gameplayModified": false,
+    "reviewDecisionMade": false,
+    "deploymentPerformed": false,
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+  },
+  "nextGate": "RUN_VERIFY_STAGED_OUTPUT_THEN_REAL_RENDER_AND_INDEPENDENT_EXACT_HASH_REVIEW",
+  "status": "GENERATED_SOURCE_BYTES_UNVERIFIED",
+  "recordSha256": "3cfc066e32e5b6267461f781a8fd65845ded0eb4bb178b1f39836e8508c0234a"
+}
