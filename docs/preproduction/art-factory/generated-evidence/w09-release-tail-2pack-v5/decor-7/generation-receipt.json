@@ -1,0 +1,112 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_GENERATION_RECEIPT",
+  "repository": "P00NSMASHER/StarBlox",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "5594e24d4541bff6bd654b8bdc82d8633cb4a5f1",
+  "sourcePlanSha256": "b3fea99b5b64896bd477f0efbcbad44adeb38b6ded3a38158d9a872b1f10ee3b",
+  "executionCheckout": {
+    "branch": "screenshot-match-preproduction",
+    "head": "5594e24d4541bff6bd654b8bdc82d8633cb4a5f1",
+    "planSourceHeadMatchesExecutionHead": true
+  },
+  "attempt": {
+    "attemptId": "decor-7-w09-a-two-bay-rack-quad-skates-c5ecf10aa0",
+    "itemId": "decor-7",
+    "producer": "09",
+    "variant": "A-TWO-BAY-RACK-QUAD-SKATES",
+    "promptSha256": "c5ecf10aa0a22f1c258f278065fc390051156b917edfa3c9e2fcb54b41a04197",
+    "runtimePromptSha256": "53d1fe3a343732d170a0f317c4488c530fa9c9595328e36450c4b704b1fb0828",
+    "runtimeNegativePromptSha256": "2b2b2b0547a86e1d5abbf83d68cf130555af04eb11da469fe449549019f827d0",
+    "promptRecipeVersion": "artPromptOptimizer-request-v1:w09-release-tail-2pack-v5",
+    "seed": 433255054
+  },
+  "runtime": {
+    "repo": "huggingface/diffusers",
+    "commit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "resolvedCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "runtimeCommitVerified": true,
+    "diffusersVersion": "0.41.0.dev0",
+    "diffusersInstallSource": "https://github.com/huggingface/diffusers.git",
+    "torchVersion": "2.8.0+cpu",
+    "transformersVersion": "5.17.0",
+    "accelerateVersion": "1.15.0",
+    "huggingfaceHubVersion": "1.33.0",
+    "safetensorsVersion": "0.8.0",
+    "pythonPillowVersion": "12.3.0",
+    "device": "cpu",
+    "dtype": "float32",
+    "executionMode": "cpu-fallback"
+  },
+  "model": {
+    "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+    "revision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS",
+    "resolvedRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "snapshotRevisionVerified": true,
+    "selectiveSnapshot": true,
+    "snapshotAllowPatterns": [
+      "model_index.json",
+      "scheduler/*",
+      "tokenizer/*",
+      "tokenizer_2/*",
+      "feature_extractor/*",
+      "text_encoder/config.json",
+      "text_encoder/model.fp16.safetensors",
+      "text_encoder_2/config.json",
+      "text_encoder_2/model.fp16.safetensors",
+      "unet/config.json",
+      "unet/diffusion_pytorch_model.fp16.safetensors",
+      "vae/config.json",
+      "vae/diffusion_pytorch_model.fp16.safetensors"
+    ]
+  },
+  "conditioning": {
+    "referenceAssetSha256": null,
+    "controlImageSha256": null,
+    "adapterScale": null,
+    "referenceImage": null,
+    "ipAdapterModelId": null,
+    "ipAdapterRevision": null,
+    "ipAdapterResolvedRevision": null,
+    "ipAdapterRevisionVerified": false,
+    "ipAdapterWeightName": null,
+    "ipAdapterSubfolder": null
+  },
+  "generation": {
+    "width": 640,
+    "height": 640,
+    "numInferenceSteps": 6,
+    "guidanceScale": 3.5,
+    "runtimePromptTokenCounts": {
+      "tokenizer": 64,
+      "tokenizer_2": 64
+    },
+    "runtimeNegativePromptTokenCounts": {
+      "tokenizer": 42,
+      "tokenizer_2": 42
+    },
+    "executedSeed": 433255054
+  },
+  "output": {
+    "repoPath": "public/assets/catalog-candidates/cpu/decor-7-w09-v9-a-two-bay-rack-quad-skates-original.png",
+    "sha256": "b9ea07ca875c35664e32315c4362568e7ad83989408dbadf857a0d99172b5c60",
+    "gitBlobSha": "6d4ee958f8714799ee8fcdd1ec8364521d435803",
+    "bytes": 482464,
+    "width": 640,
+    "height": 640,
+    "format": "PNG",
+    "sourceBytesPreserved": true,
+    "reusedExistingIdenticalBytes": false
+  },
+  "safety": {
+    "canonicalArtModified": false,
+    "gameplayModified": false,
+    "reviewDecisionMade": false,
+    "deploymentPerformed": false,
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+  },
+  "nextGate": "RUN_VERIFY_STAGED_OUTPUT_THEN_REAL_RENDER_AND_INDEPENDENT_EXACT_HASH_REVIEW",
+  "status": "GENERATED_SOURCE_BYTES_UNVERIFIED",
+  "recordSha256": "b8fe9a06546c4c9b21dee431d063f3968bfc90d9bc3ea2aa80397ab8d68f1656"
+}
