@@ -74,6 +74,10 @@ Systems containing review flags such as dynamic code, external HTTP, numeric ext
 
 Risk-flagged units are excluded by default and require includeRisky to enter an export plan.
 
+### irrelevant
+
+Catalog systems with no standalone StarBlox migration value. These units receive an `excluded` disposition and cannot be forced into an export plan by `includeSystems`; they must first be deliberately reclassified in the capability catalog.
+
 ## Default migration focus
 
 The default capability set is:
