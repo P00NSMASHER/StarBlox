@@ -2,7 +2,7 @@
   "schemaVersion": 8,
   "workstream": "13",
   "focus": "SCENE_CHARACTER_ART",
-  "status": "DESK10_V6_DESK11_V4_QUALIFIED__SHARED_RENDER_TRIGGERED",
+  "status": "DECOR7_V8_DECOR11_V4_QUALIFIED__SHARED_RENDER_TRIGGERED",
   "branch": "screenshot-match-preproduction",
   "candidateId": "home-bedroom-w13-v2",
   "candidateType": "environment-background",
@@ -1034,41 +1034,41 @@
     ]
   },
   "catalogFactoryReviewHandoff": {
-    "updatedAt": "2026-09-24T16:50:00Z",
-    "sourceHead": "adf7a07794cdc595606db3dc211430cf661844e8",
-    "purpose": "Trigger one exact-hash Store card/detail render microbatch for current Desk10 v6 and Desk11 v4 failure-specific replacements.",
+    "updatedAt": "2026-09-24T17:02:00Z",
+    "sourceHead": "9f917cd54187fc9abbdaaed8de872932bb3993d3",
+    "purpose": "Trigger one exact-hash Store card/detail render microbatch for current Decor7 v8 and Decor11 v4 failure-specific replacements.",
     "candidates": [
       {
-        "itemId": "desks-10",
-        "name": "Neon Streaming Desk",
-        "producer": "03",
-        "reviewer": "05",
-        "path": "public/assets/catalog-candidates/cpu/desks-10-w03-v6-a-wide-desk-monitor-mic-original.png",
-        "sha256": "a73511b60c60b19ac374207015ee894f84b12cfa850cf021288bd6db86738803",
-        "gitBlobSha": "a576fa4d5450a492d3a29547e2551879dc64dd76",
-        "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-desks10-11-v6-v4-qualification-20260924.json",
-        "qualification": "QUALIFIED_FOR_RENDERER14",
-        "route": "14 -> 05 -> 08 on ACCEPT"
-      },
-      {
-        "itemId": "desks-11",
-        "name": "Dream Creator Station",
-        "producer": "03",
+        "itemId": "decor-7",
+        "name": "Skate Rack",
+        "producer": "09",
         "reviewer": "01",
-        "path": "public/assets/catalog-candidates/cpu/desks-11-w03-v4-a-one-desk-no-panels-original.png",
-        "sha256": "b84e2493699bb9c3cfc7d1bfb95d35ad73e04bfd0d5373f45f089374e6ac7365",
-        "gitBlobSha": "7f4f00fcce23a47b566ec3a99704821acb3ce57a",
-        "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-desks10-11-v6-v4-qualification-20260924.json",
+        "path": "public/assets/catalog-candidates/cpu/decor-7-w09-v8-a-tiny-rack-one-pair-original.png",
+        "sha256": "f5199785fbc74ef20b3c8628cfef8dd10a30911cd0b84938034eec98d68738d7",
+        "gitBlobSha": "41111bb07b54c5a370adcb44a80d7f0711d37a0e",
+        "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-decor7-11-v8-v4-qualification-20260924.json",
         "qualification": "QUALIFIED_FOR_RENDERER14",
         "route": "14 -> 01 -> 08 on ACCEPT"
+      },
+      {
+        "itemId": "decor-11",
+        "name": "Dream Vanity Set",
+        "producer": "09",
+        "reviewer": "02",
+        "path": "public/assets/catalog-candidates/cpu/decor-11-w09-v4-a-vanity-mirror-one-stool-original.png",
+        "sha256": "ad450b5c1923efbb33d977b5b21ba2fefe407b5d34920aa642dc1c271cbb8d24",
+        "gitBlobSha": "f4fed4eaf1bf867ffdd3519d347ae12ce755d9b7",
+        "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-decor7-11-v8-v4-qualification-20260924.json",
+        "qualification": "QUALIFIED_FOR_RENDERER14",
+        "route": "14 -> 02 -> 08 on ACCEPT"
       }
     ],
     "packetPlan": [
       {
-        "qualification": "docs/preproduction/art-factory/requests/w06-desks10-11-v6-v4-qualification-20260924.json",
+        "qualification": "docs/preproduction/art-factory/requests/w06-decor7-11-v8-v4-qualification-20260924.json",
         "items": [
-          "desks-10",
-          "desks-11"
+          "decor-7",
+          "decor-11"
         ]
       }
     ],
@@ -1081,5 +1081,5 @@
       "deploymentTouched": false
     }
   },
-  "nextGate": "Renderer14 binds current Store card/detail pixels for Desk10 v6 and Desk11 v4; reviewers 05/01 independently ACCEPT/REWORK exact hashes; 08 integrates only ACCEPT."
+  "nextGate": "Renderer14 binds current Store card/detail pixels for Decor7 v8 and Decor11 v4; reviewers 01/02 independently ACCEPT/REWORK exact hashes; 08 integrates only ACCEPT."
 }
