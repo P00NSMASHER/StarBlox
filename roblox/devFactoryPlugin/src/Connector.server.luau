@@ -143,8 +143,14 @@ task.spawn(function()
 
 		if ok and payload and type(payload.calls) == "table" then
 			for _, request in payload.calls do
-				local toolOk, result = executeTool(tostring(request.tool), request.args or {})
-				sendResult(tostring(request.id), toolOk, result)
+				local requestId = tostring(request.id)
+				local expiresAt = tonumber(request.expiresAt)
+				if expiresAt and DateTime.now().UnixTimestampMillis >= expiresAt then
+					sendResult(requestId, false, "Studio tool request expired before execution")
+				else
+					local toolOk, result = executeTool(tostring(request.tool), request.args or {})
+					sendResult(requestId, toolOk, result)
+				end
 			end
 		else
 			task.wait(1)
