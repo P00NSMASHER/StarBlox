@@ -276,6 +276,45 @@ describe('Step 2: transactional Studio mutations', () => {
     expect(studio.instances.get('Workspace/TestPart').properties.MissingFromInspector).toBeUndefined();
   });
 
+  it('preflights rollback coverage for the whole batch before the first write lands', async () => {
+    const studio=createStudio();
+    const before=studio.scripts.get('ServerScriptService/Main').source;
+
+    const result=await executeStudioActionBatch({
+      studio,
+      stage:'code',
+      calls:[
+        {
+          tool:'write_script',
+          args:{
+            path:'ServerScriptService/Main',
+            source:'return { value = 99 }'
+          }
+        },
+        {
+          tool:'set_property',
+          args:{
+            path:'Workspace/TestPart',
+            property:'MissingFromInspector',
+            value:123
+          }
+        }
+      ]
+    });
+
+    expect(result.ok).toBe(false);
+    expect(result.applied).toBe(false);
+    expect(result.rolledBack).toBe(false);
+    expect(result.partial).toBe(false);
+    expect(result.failures[0].type).toBe('rollback-coverage');
+    expect(studio.scripts.get('ServerScriptService/Main').source).toBe(before);
+    expect(studio.instances.get('Workspace/TestPart').properties.MissingFromInspector).toBeUndefined();
+
+    // Only checkpoint reads are allowed before the preflight fails.
+    expect(studio.calls.some(row => row.tool === 'write_script')).toBe(false);
+    expect(studio.calls.some(row => row.tool === 'set_property')).toBe(false);
+  });
+
   it('blocks oversized mutation batches before touching Studio', async () => {
     const studio=createStudio();
     const result=await executeStudioActionBatch({
