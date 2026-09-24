@@ -9,3 +9,7 @@ roblox-capability-catalog.md
 ai-development-run.json
 roblox-migration-bundle/
 content-expansion-plan.json
+
+# Wally-generated Roblox packages (recreated from roblox/wally.toml)
+roblox/Packages/
+roblox/ServerPackages/
