@@ -4,7 +4,7 @@
   "role": "independent catalog reviewer for beds/desks/companions/auras",
   "phase": "ART_VISUALS_SPRINT",
   "branch": "screenshot-match-preproduction",
-  "sourceHead": "d0b6cd8191e1ec0ade0640452e1d59edf647092d",
+  "sourceHead": "b14512c2a7828c1b25ad58b44c2ad8d52e12cd2f",
   "policy": "docs/preproduction/DELIVERY_PROTOCOL_V2.md",
   "visualSprint": "docs/preproduction/ART_VISUALS_SPRINT.json",
   "referenceManifest": "docs/preproduction/reference-screenshots/original-reference-manifest.json",
@@ -20,11 +20,11 @@
   },
   "currentCycle": {
     "scope": [
-      "desks-10",
-      "desks-9"
+      "desks-9",
+      "desks-10"
     ],
-    "version": "current literal exact hashes",
-    "result": "REWORK_2_OF_2",
+    "version": "current exact rendered tail hashes",
+    "result": "ACCEPT_1_REWORK_1",
     "oldVerdictsTransferred": false,
     "actualCardScalePixelsReviewed": true,
     "actualDetailPixelsReviewed": true,
@@ -582,6 +582,78 @@
         "duplicateVisual": "PASS",
         "technicalIntegrity": "PASS"
       }
+    },
+    {
+      "itemId": "desks-9",
+      "name": "Art Maker Table",
+      "tier": 3,
+      "theme": "Sunny Pop",
+      "producer": "03",
+      "assetPath": "public/assets/catalog-candidates/cpu/desks-9-w03-v6-b-art-maker-worktable-original.png",
+      "assetHash": "9f6855ee25445c8d147933eb38a2e536655739b4",
+      "sha256": "ae432d3408bf705c246921f9e03867c7ffbdcc0159f1910533372d2427c695ab",
+      "decision": "ACCEPT",
+      "reason": "ACCEPT. The exact rendered pixels now read as one freestanding maker/work table with a broad work surface, four stable legs, integrated upper storage/tool organization and warm Sunny Pop orange accents. The product is coherent, grounded and readable at card size; the small side accessory does not obscure the table identity.",
+      "checks": {
+        "identity": "PASS",
+        "themeTier": "PASS",
+        "silhouette": "PASS",
+        "materialLighting": "PASS",
+        "cardReadability": "PASS",
+        "physicalConstruction": "PASS",
+        "framingComposition": "PASS",
+        "originality": "PASS",
+        "duplicateVisual": "PASS",
+        "technicalIntegrity": "PASS"
+      },
+      "repositoryPath": "public/assets/catalog-candidates/cpu/desks-9-w03-v6-b-art-maker-worktable-original.png",
+      "contentSha256": "ae432d3408bf705c246921f9e03867c7ffbdcc0159f1910533372d2427c695ab",
+      "hashAlgorithm": "git-blob-sha1",
+      "reviewedAt": "2026-09-24T19:43:00Z",
+      "evidenceRefs": [
+        "workflow:36049290664",
+        "artifact:10829841273/staged-replacements/staged-replacements-contact-sheet.png",
+        "artifact:10829841273/staged-replacements/detail/desks-9-9f6855ee.png"
+      ]
+    },
+    {
+      "itemId": "desks-10",
+      "name": "Neon Streaming Desk",
+      "tier": 4,
+      "theme": "Aqua Wave",
+      "producer": "03",
+      "assetPath": "public/assets/catalog-candidates/cpu/desks-10-w03-v9-b-streaming-workstation-mic-dominant-original.png",
+      "assetHash": "1f050b539245d387ce005f67e059829a5249a7ed",
+      "sha256": "4a81b203ee41187ab78a2f9ea0828c497c7f90a5d15d5d38a372a64b234666a1",
+      "decision": "REWORK",
+      "reasonCodes": [
+        "UNSTABLE_SINGLE_PEDESTAL_DESK",
+        "MICROPHONE_BOOM_AMBIGUOUS",
+        "OVERSIZED_OVERHEAD_BAR",
+        "PHYSICAL_WORKSTATION_CONSTRUCTION_FAILURE"
+      ],
+      "reason": "REWORK. V9 is closer—the monitor and neon desk identity are visible—but the physical workstation remains implausible. The desk sits on one central pedestal instead of stable supports, and the huge overhead bar does not read cleanly as a microphone/boom arm. Preserve this exact hash. Next attempt should keep one monitor and cyan lighting but use a conventional rectangular desk with two visible side supports and a small unmistakable microphone on a normal boom arm clamped to one edge.",
+      "checks": {
+        "identity": "PARTIAL",
+        "themeTier": "PASS",
+        "silhouette": "PARTIAL",
+        "materialLighting": "PASS",
+        "cardReadability": "PARTIAL",
+        "physicalConstruction": "FAIL",
+        "framingComposition": "PASS",
+        "originality": "PASS",
+        "duplicateVisual": "PASS",
+        "technicalIntegrity": "PASS"
+      },
+      "repositoryPath": "public/assets/catalog-candidates/cpu/desks-10-w03-v9-b-streaming-workstation-mic-dominant-original.png",
+      "contentSha256": "4a81b203ee41187ab78a2f9ea0828c497c7f90a5d15d5d38a372a64b234666a1",
+      "hashAlgorithm": "git-blob-sha1",
+      "reviewedAt": "2026-09-24T19:43:00Z",
+      "evidenceRefs": [
+        "workflow:36049290664",
+        "artifact:10829841273/staged-replacements/staged-replacements-contact-sheet.png",
+        "artifact:10829841273/staged-replacements/detail/desks-10-1f050b53.png"
+      ]
     }
   ],
   "preservedAcceptedCurrentHashes": [
@@ -714,9 +786,9 @@
   "pendingCurrentHashes": [],
   "handoff": {
     "14": "Desk9/10 v3 render packets consumed; do not rerender unchanged hashes.",
-    "15": "desks-10, desks-9 remain bounded exact-pixel blockers; use only the new narrow failure-specific repairs.",
+    "15": "desks-10 remain bounded visual blockers; consolidate only failure-specific retries.",
     "03": "desks-10, desks-9 current literal hashes are REWORK; preserve them and prepare the next narrow retry while other producers continue.",
-    "08": "Do not canonical-wire desks-10, desks-9 current exact hashes."
+    "08": "Integrate exact ACCEPT hashes for desks-9 after live revalidation."
   },
   "summary": {
     "totalVersionsReviewed": 42,
@@ -730,15 +802,16 @@
       "blocked": 0
     },
     "reviewedThisRun": 2,
-    "newAcceptsThisRun": 0,
-    "newReworkThisRun": 2,
+    "newAcceptsThisRun": 1,
+    "newReworkThisRun": 1,
     "newBlockedThisRun": 0,
-    "newUsableBy08Now": [],
-    "reworkNow": [
-      "desks-10",
+    "newUsableBy08Now": [
       "desks-9"
     ],
-    "preservedAcceptedHashes": "All prior ACCEPTs remain frozen; these verdicts apply only to the exact hashes rendered in workflow 36041110855."
+    "reworkNow": [
+      "desks-10"
+    ],
+    "preservedAcceptedHashes": "All prior ACCEPTs remain frozen; these verdicts apply only to the exact hashes rendered in workflow 36049290664."
   },
   "freeze": {
     "selfApproved": false,
@@ -753,8 +826,11 @@
   "currentReplacementDisposition": {
     "desks": {
       "REWORK": {
-        "desks-10": "d43408f2e7c6292a4ebac2048b0ca43e56247cdd",
+        "desks-10": "1f050b539245d387ce005f67e059829a5249a7ed",
         "desks-9": "79d5f4e0520910fea1a6ac47c76df451b14ce6f2"
+      },
+      "ACCEPT": {
+        "desks-9": "9f6855ee25445c8d147933eb38a2e536655739b4"
       }
     }
   }
