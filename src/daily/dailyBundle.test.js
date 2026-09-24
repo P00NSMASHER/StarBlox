@@ -37,8 +37,10 @@ describe('Step 14: immutable Daily Bundle generation', () => {
     expect(dailySeedFromDate('2026-09-24')).toBe(first.seed);
     expect(second).toEqual(first);
     expect(first.bundle.id).toBe('daily-2026-09-24');
-    expect(first.bundle.questionRefs.length).toBe(6);
-    expect(first.questionSet).toHaveLength(6);
+    const slotCount=first.bundle.levelSpec.nodes.filter(node => node.questionSlot).length;
+    expect(first.bundle.questionRefs.length).toBe(slotCount);
+    expect(first.questionSet).toHaveLength(slotCount);
+    expect(slotCount).toBe(8);
     expect(first.generator.fallbackUsed).toBe(true);
     expect(first.generator.fallbackReasons.join(' ')).toMatch(/no primary question selector/);
   });
@@ -93,7 +95,8 @@ describe('Step 14: immutable Daily Bundle generation', () => {
 
     expect(artifact.generator.fallbackUsed).toBe(true);
     expect(artifact.generator.fallbackReasons.join(' ')).toMatch(/bindings were invalid/);
-    expect(artifact.questionSet).toHaveLength(6);
+    const slotCount=artifact.bundle.levelSpec.nodes.filter(node => node.questionSlot).length;
+    expect(artifact.questionSet).toHaveLength(slotCount);
   });
 });
 
