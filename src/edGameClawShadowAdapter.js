@@ -45,6 +45,22 @@ export function adaptEdGameClawCourseStructure(payload,{
         :[]),
       mechanic:String(chunk?.mechanic || 'custom_simulation'),
       simulationHint:String(chunk?.simulationHint || ''),
+      assessment:chunk?.assessment ? {
+        subject:String(chunk.assessment.subject || ''),
+        district:String(chunk.assessment.district || ''),
+        skill:String(chunk.assessment.skill || ''),
+        role:String(chunk.assessment.role || ''),
+        prompt:String(chunk.assessment.prompt || ''),
+        choices:Array.isArray(chunk.assessment.choices)
+          ?chunk.assessment.choices.map(String)
+          :[],
+        answer:String(chunk.assessment.answer || ''),
+        explanation:String(chunk.assessment.explanation || ''),
+        hint:String(chunk.assessment.hint || ''),
+        difficulty:Number(chunk.assessment.difficulty || 0),
+        reward:Number(chunk.assessment.reward || 0),
+        requestedMasteryEligible:Boolean(chunk.assessment.masteryEligible)
+      } : null,
       status:'shadow-candidate',
       generator:{
         system:'edgameclaw',
