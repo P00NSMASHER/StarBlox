@@ -1,0 +1,84 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_REWORK_REQUEST",
+  "branch": "screenshot-match-preproduction",
+  "coordinationOwner": "15",
+  "producer": "13",
+  "preflightOwner": "06",
+  "renderOwner": "14",
+  "reviewer": "02",
+  "integrationOwner": "08",
+  "batchId": "w13-wall-10-rework-v2",
+  "item": {
+    "id": "wall-10",
+    "name": "Neon City Sign",
+    "collectionId": "wall",
+    "type": "room",
+    "tier": 4,
+    "theme": "Cloud Pop"
+  },
+  "sourceReview": {
+    "decision": "REWORK",
+    "reviewFile": "docs/preproduction/catalog-sprint/reviews/02.json",
+    "rejectedExactHash": {
+      "path": "public/assets/catalog-candidates/cpu/wall-10-w13-v1-a-acrylic-skyline-original.png",
+      "sha256": "a171ee7ddd8ab79b238c3497ed9784db4880ead7fdeff2ad110eb285ab30fb13",
+      "gitBlobSha": "74a4c531a3c60ccd60747bfebc2dfc0d1d25b684"
+    },
+    "failureCodes": [
+      "WEAK_PRODUCT_IDENTITY",
+      "MALFORMED_MOUNTING_GEOMETRY",
+      "SMALL_CARD_READABILITY",
+      "PSEUDO_TEXT_ARTIFACT",
+      "WEAK_TIER_THEME_SPECIFICITY"
+    ],
+    "humanReason": "Prominent pseudo-lettering dominates the candidate; the intended city/skyline sign identity is weak and the hanging/mounting geometry is malformed. Preserve the rejected exact hash. The replacement must use an unmistakable abstract city/cloud silhouette, absolutely no glyphs or text-like marks, coherent rigid wall mounting, and crisp card-scale structure."
+  },
+  "generationHold": {
+    "state": "PREPARED_NOT_DISPATCHED",
+    "rule": "Do not move this queue into runtime-queue or dispatch it while any CPU-generation run is queued, pending, waiting or in_progress. Preserve higher-priority failed-only Wall 11/12 retry and any newer exact candidate evidence."
+  },
+  "runtimeContract": {
+    "runtimeRepo": "huggingface/diffusers",
+    "runtimeCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+    "modelRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+  },
+  "variants": [
+    {
+      "variantId": "A-NO-TEXT-SKYLINE",
+      "seed": 1497988355,
+      "optimizerInputSha256": "fbb986e876eaaddb81e27225251a59ed5c8082a4f3be3da843749accb6eea379",
+      "optimizerInput": "Neon City Sign, Wall Decor, Tier 4, Cloud Pop. Create ONE coherent physical wall-mounted neon city sign with a translucent cloud-shaped acrylic backplate and an unmistakable abstract skyline silhouette made only from geometric building forms and luminous tubes—NO letters, glyphs, pseudo-writing, numbers, symbols, or text-like marks anywhere. Use brushed-metal standoffs, four clearly connected mounting points, a hidden rear cable channel, crisp cyan/soft-pink/white light tubing, beveled acrylic thickness, and restrained controlled bloom. Show the full sign centered and completely inside frame in a clean three-quarter product view against a simple neutral wall plane. The skyline/cloud silhouette must remain readable at small Store-card scale. No dangling wires, broken supports, floating parts, floor base, logos, labels, or background clutter.",
+      "targetedFailureCodes": [
+        "WEAK_PRODUCT_IDENTITY",
+        "MALFORMED_MOUNTING_GEOMETRY",
+        "SMALL_CARD_READABILITY",
+        "PSEUDO_TEXT_ARTIFACT",
+        "WEAK_TIER_THEME_SPECIFICITY"
+      ]
+    },
+    {
+      "variantId": "B-CLOUD-CITY-RELIEF",
+      "seed": 325801024,
+      "optimizerInputSha256": "12ca4bf6973ebcf2be3be57ceaac7dc420b7add5c7f83017c831b087f4353808",
+      "optimizerInput": "Neon City Sign, Wall Decor, Tier 4, Cloud Pop. Design a premium sculptural wall fixture with stacked cloud-shaped frosted acrylic layers framing a bold geometric city skyline relief. Use five to seven large rectangular building masses with stepped rooflines and edge-lit cyan/magenta/white accents, with no windows that resemble letters and absolutely NO typography, pseudo-text, glyphs, numbers, logos, or signs-within-the-sign. Make the mounting construction explicit: rigid metal rear plate, short standoffs, visible fasteners at four corners, clean concealed cable exit, and believable wall contact/cast shadow. Keep one dominant city/cloud silhouette, centered with generous negative space, fully contained in frame, crisp at Store-card size, and lit with controlled Cloud Pop glow rather than excessive bloom. No malformed hanging geometry, no loose wires, no floor contact, no unrelated props.",
+      "targetedFailureCodes": [
+        "WEAK_PRODUCT_IDENTITY",
+        "MALFORMED_MOUNTING_GEOMETRY",
+        "SMALL_CARD_READABILITY",
+        "PSEUDO_TEXT_ARTIFACT",
+        "WEAK_TIER_THEME_SPECIFICITY"
+      ]
+    }
+  ],
+  "preservation": {
+    "preserveRejectedV1ExactHash": true,
+    "noSelfReview": true,
+    "canonicalMappingsChanged": false,
+    "gameplayLearningEconomyPersistenceAccessibilityExactlyOnceChanged": false,
+    "deploymentTouched": false
+  },
+  "nextOwner": "15_AFTER_CPU_LANE_IDLE__THEN_13_GENERATION__12__06__14__02__08_ON_ACCEPT"
+}
