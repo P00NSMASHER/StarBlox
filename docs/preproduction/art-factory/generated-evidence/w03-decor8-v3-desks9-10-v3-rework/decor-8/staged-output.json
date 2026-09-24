@@ -1,0 +1,91 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_STAGED_OUTPUT",
+  "repository": "P00NSMASHER/StarBlox",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "72773310e0422acfe5ac44ebdd16684ba6673946",
+  "sourcePlanSha256": "17f38a8e6c824b82008fbe405e203e109d8711bca903a98203a81c4c5b356580",
+  "item": {
+    "id": "decor-8",
+    "name": "Mini Aquarium",
+    "collectionId": "decor",
+    "type": "room",
+    "tier": 3,
+    "theme": "Galaxy Glow"
+  },
+  "attempt": {
+    "attemptId": "decor-8-w03-a-single-aquarium-8f8660ad2a",
+    "producer": "03",
+    "variant": "A-SINGLE-AQUARIUM",
+    "promptBlocks": [
+      "metadata",
+      "category",
+      "silhouette",
+      "physical",
+      "material",
+      "theme",
+      "tier",
+      "card",
+      "original",
+      "stage",
+      "furniture",
+      "camera",
+      "depth",
+      "bloom",
+      "textile",
+      "wall",
+      "light"
+    ],
+    "promptSha256": "8f8660ad2acea362e85f26c6e593f98b99593e1335c7afedfa9e3556225dd658",
+    "promptRecipeVersion": "artPromptOptimizer-request-v1:w03-decor8-v3-desks9-10-v3-rework",
+    "seed": 152520961,
+    "runtime": {
+      "repo": "huggingface/diffusers",
+      "commit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c"
+    },
+    "model": {
+      "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+      "revision": "462165984030d82259a11f4367a4eed129e94a7b",
+      "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+    },
+    "conditioning": {
+      "referenceAssetSha256": null,
+      "controlImageSha256": null,
+      "adapterScale": null
+    }
+  },
+  "output": {
+    "repoPath": "public/assets/catalog-candidates/cpu/decor-8-w03-v3-a-single-aquarium-original.png",
+    "sha256": "254d78c006b3268bcfaa1c0576784010fe060db0d48a9376f5292d1d3461a59c",
+    "gitBlobSha": "b35648acd6951aaa04de97f555b660396e2a62df",
+    "bytes": 554352,
+    "format": "PNG",
+    "width": 640,
+    "height": 640,
+    "mode": "RGB"
+  },
+  "derivativeLineage": {
+    "derivativeOfSha256": null,
+    "sourcePreserved": true
+  },
+  "renderEvidence": [],
+  "review": {
+    "reviewer": "11",
+    "routing": {
+      "reviewer": "11",
+      "routingFile": "docs/preproduction/art-factory/runtime-queue/w03-decor8-v3-desks9-10-v3-rework.json",
+      "routingFileSha256": "af64fd77ca7c9fcef87d3cf7ca6e784247682fbb27c14f826859584ba7f8d69b",
+      "queueId": "w03-decor8-v3-desks9-10-v3-rework"
+    },
+    "state": "PENDING_ACTUAL_PIXEL_REVIEW",
+    "decision": null
+  },
+  "safety": {
+    "canonicalArtModified": false,
+    "gameplayModified": false,
+    "automaticPerceptualDecision": false,
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+  },
+  "status": "STAGED_EXACT_BYTES_VERIFIED",
+  "recordSha256": "9bd894f3ee4cd2b6bb1f44d132e71b39e559420a49fbdfd54a1209ee0e86654b"
+}
