@@ -1,0 +1,111 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_W12_CANDIDATE_DELTA_INTAKE_ROUTING",
+  "router": "12",
+  "branch": "screenshot-match-preproduction",
+  "observedHead": "d0b6cd8191e1ec0ade0640452e1d59edf647092d",
+  "scanWindow": {
+    "priorCursor": "b0bca6bfbc71bcea63afd23978dd21efde645b42",
+    "inspectedThroughHead": "d0b6cd8191e1ec0ade0640452e1d59edf647092d",
+    "newCatalogCandidateBytesDetected": true,
+    "newCandidateItemIds": [
+      "decor-8",
+      "desks-9",
+      "desks-10"
+    ],
+    "note": "Fast-path exact-hash intake for the remaining producer03 literal four-pack outputs after Desk11 v6 was routed separately."
+  },
+  "candidates": [
+    {
+      "id": "decor-8",
+      "name": "Mini Aquarium",
+      "collectionId": "decor",
+      "producer": "03",
+      "reviewerAssignment": "11",
+      "renderOwner": "14",
+      "canonicalWriter": "08",
+      "path": "public/assets/catalog-candidates/cpu/decor-8-w03-v5-a-blue-water-fish-aquarium-original.png",
+      "sha256": "66d476bac5840f1634a856dbab20dcd6cdf7c92d8a5cbe1bf32ed507491afae0",
+      "gitBlobSha": "24f5655854ab4188247b62e55622e479d6f0cb2a",
+      "bytes": 572298,
+      "dimensions": [
+        640,
+        640
+      ],
+      "format": "PNG",
+      "stagedOutput": "docs/preproduction/art-factory/generated-evidence/w03-release-tail-4pack-v5/decor-8/staged-output.json",
+      "generationReceipt": "docs/preproduction/art-factory/generated-evidence/w03-release-tail-4pack-v5/decor-8/generation-receipt.json",
+      "provenanceState": "COMPLETE_ART_FACTORY_V2",
+      "repositoryReadback": "PASS_EXACT_GIT_BLOB",
+      "supersession": "FRESH_V5_LITERAL_RELEASE_TAIL_REPLACEMENT",
+      "state": "ROUTE_TO_06_TECHNICAL_QUALIFICATION"
+    },
+    {
+      "id": "desks-9",
+      "name": "Art Maker Table",
+      "collectionId": "desks",
+      "producer": "03",
+      "reviewerAssignment": "05",
+      "renderOwner": "14",
+      "canonicalWriter": "08",
+      "path": "public/assets/catalog-candidates/cpu/desks-9-w03-v5-a-literal-art-maker-table-original.png",
+      "sha256": "91b9bb0fdac6d804bf48964e3c239824b101b8602f4dfd90481977e746532ee0",
+      "gitBlobSha": "79d5f4e0520910fea1a6ac47c76df451b14ce6f2",
+      "bytes": 410662,
+      "dimensions": [
+        640,
+        640
+      ],
+      "format": "PNG",
+      "stagedOutput": "docs/preproduction/art-factory/generated-evidence/w03-release-tail-4pack-v5/desks-9/staged-output.json",
+      "generationReceipt": "docs/preproduction/art-factory/generated-evidence/w03-release-tail-4pack-v5/desks-9/generation-receipt.json",
+      "provenanceState": "COMPLETE_ART_FACTORY_V2",
+      "repositoryReadback": "PASS_EXACT_GIT_BLOB",
+      "supersession": "FRESH_V5_LITERAL_RELEASE_TAIL_REPLACEMENT",
+      "state": "ROUTE_TO_06_TECHNICAL_QUALIFICATION"
+    },
+    {
+      "id": "desks-10",
+      "name": "Neon Streaming Desk",
+      "collectionId": "desks",
+      "producer": "03",
+      "reviewerAssignment": "05",
+      "renderOwner": "14",
+      "canonicalWriter": "08",
+      "path": "public/assets/catalog-candidates/cpu/desks-10-w03-v8-a-literal-streaming-desk-original.png",
+      "sha256": "1dcf7424a8970bee0604ceea1afe5aec2b73ecf3d453e3f9e18d359f219138fe",
+      "gitBlobSha": "d43408f2e7c6292a4ebac2048b0ca43e56247cdd",
+      "bytes": 561582,
+      "dimensions": [
+        640,
+        640
+      ],
+      "format": "PNG",
+      "stagedOutput": "docs/preproduction/art-factory/generated-evidence/w03-release-tail-4pack-v5/desks-10/staged-output.json",
+      "generationReceipt": "docs/preproduction/art-factory/generated-evidence/w03-release-tail-4pack-v5/desks-10/generation-receipt.json",
+      "provenanceState": "COMPLETE_ART_FACTORY_V2",
+      "repositoryReadback": "PASS_EXACT_GIT_BLOB",
+      "supersession": "FRESH_V8_LITERAL_RELEASE_TAIL_REPLACEMENT",
+      "state": "ROUTE_TO_06_TECHNICAL_QUALIFICATION"
+    }
+  ],
+  "dedupe": {
+    "uniqueItemHashClaim": true,
+    "unchangedPriorHashesRerouted": false,
+    "newerPendingCandidateObserved": false
+  },
+  "queues": {
+    "to06": [
+      "decor-8@66d476bac5840f1634a856dbab20dcd6cdf7c92d8a5cbe1bf32ed507491afae0",
+      "desks-9@91b9bb0fdac6d804bf48964e3c239824b101b8602f4dfd90481977e746532ee0",
+      "desks-10@1dcf7424a8970bee0604ceea1afe5aec2b73ecf3d453e3f9e18d359f219138fe"
+    ],
+    "backToProducer": []
+  },
+  "cursorAdvance": {
+    "previous": "b0bca6bfbc71bcea63afd23978dd21efde645b42",
+    "advancedThrough": "d0b6cd8191e1ec0ade0640452e1d59edf647092d"
+  },
+  "nextOwner": "06_TECHNICAL_QUALIFICATION",
+  "mutationScope": "Routing evidence only; no candidate bytes, canonical mappings, reviewer decisions, gameplay, CI/workflows, deployment or player data changed."
+}
