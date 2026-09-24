@@ -1,0 +1,105 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_BATCH_REQUEST",
+  "planner": "15",
+  "producer": "13",
+  "preflightOwner": "06",
+  "reviewer": "02",
+  "renderOwner": "14",
+  "integrationOwner": "08",
+  "coordinationOwner": "15",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "aa7316e4547d6b94d9577cb1a7d53a1a9b8d0b71",
+  "manifestVersion": 35,
+  "batchId": "w13-wall-9-v3-rework",
+  "scope": [
+    "wall-9"
+  ],
+  "state": "PREPARED_FAILURE_SPECIFIC_V3__WAIT_CPU_IDLE",
+  "assignmentAuthority": {
+    "path": "docs/preproduction/art-factory/ACTIVE_BATCH.json",
+    "reworkRequestPath": "docs/preproduction/art-factory/requests/w13-wall-9-v3-rework-20260924.json",
+    "assignedReviewer": "02",
+    "runtimeProofPath": "docs/preproduction/art-factory/CPU_RUNTIME_PROOF.json",
+    "runtimeProofStatus": "PROVEN",
+    "runtimeCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+    "modelRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "note": "Planner-compatible wrapper for Wall9 v3 exact failure-specific prompts. Reviewer02 remains independent."
+  },
+  "references": {
+    "originalStoreReference": {
+      "requiredBeforeGeneration": true,
+      "repositoryPath": "docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg",
+      "sha256": "b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d",
+      "gitBlobSha": "383baa877d3af86fa92e3583740212000592b3d6",
+      "dimensions": [
+        1448,
+        1086
+      ],
+      "role": "FIRST_PARTY_STARBLOX_STORE_ART_DIRECTION"
+    }
+  },
+  "reviewSource": {
+    "decision": "REWORK",
+    "exactRejectedPath": "public/assets/catalog-candidates/cpu/wall-9-w13-v2-a-backboard-gallery-original.png",
+    "exactRejectedGitBlobSha": "00e551de0596b83977d16400fe782d1506b28e8a",
+    "exactRejectedSha256": "e8600cc0b132b22b6facb270b63db8ea8eb98230debd2f1a8f84e627b1d44bd3",
+    "reasonCodes": [
+      "ART_GALLERY_IDENTITY_FAILURE",
+      "SHELVING_GRID_DOMINATES",
+      "MISSING_DOMINANT_FRAMED_ART",
+      "ROOM_CONTEXT_INTRUSION",
+      "SMALL_CARD_READABILITY_FAILURE",
+      "WEAK_ADVENTURE_CLUB_SPECIFICITY"
+    ],
+    "humanReason": "V2 improves coherence but still reads as a beige built-in shelving/window installation. V3 must be dominated by three unmistakable framed artworks, with no shelf grid, empty architectural panels, plant, bench, floor or room vignette."
+  },
+  "items": {
+    "wall-9": {
+      "currentLegacy": {
+        "path": "public/assets/catalog-candidates/cpu/wall-9-w13-v2-a-backboard-gallery-original.png",
+        "gitBlobSha1": "00e551de0596b83977d16400fe782d1506b28e8a",
+        "reviewDecision": "REWORK",
+        "normalizedFailureTaxonomy": [
+          "ART_GALLERY_IDENTITY_FAILURE",
+          "SHELVING_GRID_DOMINATES",
+          "MISSING_DOMINANT_FRAMED_ART",
+          "ROOM_CONTEXT_INTRUSION",
+          "SMALL_CARD_READABILITY_FAILURE",
+          "WEAK_ADVENTURE_CLUB_SPECIFICITY"
+        ]
+      },
+      "variants": [
+        {
+          "variantId": "A-FRAMES-DOMINANT",
+          "seed": 1835811917,
+          "optimizerInputSha256": "0f45eb186b34989e020fdb3a875442f2f3088c649dedc0dbaf8cc1fc8d7ae19c",
+          "optimizerInput": "Art Gallery Wall, Wall Decor, Tier 3, Adventure Club. Create ONE compact wall-mounted gallery product on a plain light-neutral studio wall. The product must be visually dominated by exactly THREE large unmistakable framed artworks that together occupy at least 75 percent of the product face: left frame shows a simple abstract mountain-and-trail scene, center frame shows a bold compass-like geometric medallion with no letters, right frame shows a colorful abstract travel-map/path composition with no readable text. Mount the three frames tightly on ONE shallow warm-oak backboard with only a narrow visible border, clear frame bevels, glass reflections, small brass standoffs, and one concealed-cleat reveal/cast shadow proving wall attachment. Keep the complete gallery centered and fully inside frame with generous negative space. Adventure Club should come from trail/map/compass imagery and restrained forest-green, warm-oak and brass accents. NO shelving grid, NO cubbies, NO windows, NO cabinets, NO floor, NO bench, NO plants, NO pots, NO room scene, NO large blank panels, NO empty rectangles, NO floating blocks, NO text or logos."
+        },
+        {
+          "variantId": "B-THREE-FRAME-RAIL",
+          "seed": 1390184119,
+          "optimizerInputSha256": "4005a866ffa5cf25bba265bd329ba63688eee9037fa3c24b5facc078954d960d",
+          "optimizerInput": "Art Gallery Wall, Wall Decor, Tier 3, Adventure Club. Design ONE simple wall-hung art gallery set whose silhouette is unmistakably THREE framed pictures, not shelving. Use one short hidden warm-oak mounting rail behind three overlapping mixed-size frames: one portrait mountain/trail artwork, one square compass-inspired abstract artwork, and one landscape route/map abstraction, all image-filled and with zero readable words. The frames must cover most of the overall silhouette, have visible wood/metal bevel thickness, glass highlights, tiny brass mounting clips and a believable wall-cast shadow. Show a clean three-quarter product view against an otherwise empty neutral wall with the whole object fully contained and readable at small Store-card size. NO shelves, NO cubbies, NO built-in wall unit, NO window panes, NO floor furniture, NO bench, NO plants, NO decorative room props, NO large blank backing panels, NO text or logos."
+        }
+      ]
+    }
+  },
+  "executionBudget": {
+    "width": 640,
+    "height": 640,
+    "steps": 6,
+    "guidanceScale": 3.5,
+    "dtype": "bfloat16",
+    "basis": "Same accepted Wall11/12 CPU scale; BF16 fail-fast guard permits same-version float32 retry only if host lacks native BF16."
+  },
+  "safety": {
+    "preserveRejectedExactHash": true,
+    "preserveAcceptedExactHashes": true,
+    "producerSelfReview": false,
+    "canonicalMappingsChanged": false,
+    "workflowFilesChanged": false,
+    "gameplayLearningEconomyPersistenceAccessibilityChanged": false
+  }
+}

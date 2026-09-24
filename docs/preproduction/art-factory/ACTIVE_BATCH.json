@@ -2,8 +2,8 @@
   "schemaVersion": 28,
   "owner": "15",
   "branch": "screenshot-match-preproduction",
-  "sourceHead": "a3f685a972cf2b607037bd9d7576ee31fa3adedf",
-  "updatedAt": "2026-09-24T04:08:00Z",
+  "sourceHead": "aa7316e4547d6b94d9577cb1a7d53a1a9b8d0b71",
+  "updatedAt": "2026-09-24T04:31:00Z",
   "status": "ACTIVE_RELEASE_BLOCKER_FIRST",
   "policy": {
     "maxConcurrentProductionBatches": 4,
@@ -179,19 +179,23 @@
     },
     {
       "producer": "13",
-      "batchId": "w13-wall-9-v2-rework",
+      "batchId": "w13-wall-9-v3-rework",
       "scope": [
         "wall-9"
       ],
-      "state": "WALL9_V2_RUN_35953820073__PLANNER_PASS__640X640_6STEP_GENERATION_IN_PROGRESS",
+      "state": "WALL9_V2_REWORKED__V3_PACKET_READY__WAIT_CPU_IDLE",
       "batchType": "GENERATION_RUNTIME_UNBLOCK_THEN_BOUNDED_GENERATION",
       "reviewer": "02",
-      "requirements": "Do not duplicate. On exact staging route 12 -> 06 -> 14 -> 02 -> 08.",
+      "requirements": "Wall9 v2 exact hash 00e551de0596b83977d16400fe782d1506b28e8a is independently REWORK. Failure-specific v3 request docs/preproduction/art-factory/requests/w13-wall-9-v3-rework-20260924.json and prepared queue docs/preproduction/art-factory/prepared-queues/w13-wall-9-v3-rework.json are ready. Do not dispatch while CPU lane is busy.",
       "evidence": [
         "docs/preproduction/catalog-sprint/reviews/02.json",
         "docs/preproduction/art-factory/requests/w13-wall-9-v2-rework-20260924.json",
         "docs/preproduction/art-factory/PINNED_GENERATION_RUNTIME.json",
-        "docs/preproduction/art-factory/CPU_RUNTIME_PROOF.json"
+        "docs/preproduction/art-factory/CPU_RUNTIME_PROOF.json",
+        "docs/preproduction/art-factory/requests/w13-wall-9-v3-rework-20260924.json",
+        "docs/preproduction/art-factory/requests/w13-wall-9-v3-batch-20260924.json",
+        "docs/preproduction/art-factory/prepared-queues/w13-wall-9-v3-rework.json",
+        "docs/preproduction/catalog-sprint/reviews/02.json"
       ]
     }
   ],
@@ -312,12 +316,15 @@
       "decor8State": "LEAN_RETRY_GENERATION_IN_PROGRESS"
     },
     "wall9_12": {
-      "state": "WALL10_12_CANONICAL__WALL9_V1_REWORK_PRESERVED__V2_PACKET_READY",
+      "state": "WALL10_12_CANONICAL__WALL9_V1_V2_REWORK_PRESERVED__V3_PACKET_READY",
       "wall9RejectedGitBlob": "95a2de47f3b19017ba37bfac1ab25fc87ad345ed",
       "wall10CanonicalGitBlob": "e5d4fe1c3d7a0a8ad82f61914228e5bdac6ef43d",
       "wall11CanonicalGitBlob": "50ffc975030f6c7e28cf9836756bb312dfa646fb",
       "wall12CanonicalGitBlob": "e9387a7174a888980616ea9afac43cc9b3adbb3b",
-      "next": "After CPU idle, submit one bounded Wall9 v2 replacement from docs/preproduction/art-factory/requests/w13-wall-9-v2-rework-20260924.json. Do not regenerate Wall10-12."
+      "next": "After CPU idle, director15 reprioritizes Wall9 v3 against the prepared producer03 Decor6/8 parallel batch. Do not regenerate accepted Wall10-12.",
+      "wall9RejectedV2GitBlob": "00e551de0596b83977d16400fe782d1506b28e8a",
+      "wall9V3Request": "docs/preproduction/art-factory/requests/w13-wall-9-v3-rework-20260924.json",
+      "wall9V3PreparedQueue": "docs/preproduction/art-factory/prepared-queues/w13-wall-9-v3-rework.json"
     },
     "tops11_12": "EXT01 owned; primary must not duplicate while authoritative external payload bytes are pending.",
     "decor7": {
