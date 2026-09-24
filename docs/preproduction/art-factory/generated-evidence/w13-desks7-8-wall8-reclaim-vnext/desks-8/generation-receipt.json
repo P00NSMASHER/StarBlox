@@ -1,0 +1,107 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_GENERATION_RECEIPT",
+  "repository": "P00NSMASHER/StarBlox",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "15079904f77687585f7e815857d6b0b4781e92ed",
+  "sourcePlanSha256": "758df9811b331cee13c7b0c24160027e8c8fc900c64f550398198cb6f8068543",
+  "executionCheckout": {
+    "branch": "screenshot-match-preproduction",
+    "head": "15079904f77687585f7e815857d6b0b4781e92ed",
+    "planSourceHeadMatchesExecutionHead": true
+  },
+  "attempt": {
+    "attemptId": "desks-8-w13-a-aqua-study-57c8b15952",
+    "itemId": "desks-8",
+    "producer": "13",
+    "variant": "A-AQUA-STUDY",
+    "promptSha256": "57c8b15952898825ffcc0345478312a10d12d7141941cb6928f3bf2b01922fb1",
+    "runtimePromptSha256": "7d3d80aa0edef4e3cc26369c5c6d2b89f29d04f91bea021f6e3ddcfba427a1cb",
+    "promptRecipeVersion": "artPromptOptimizer-request-v1:w13-desks7-8-wall8-reclaim-vnext",
+    "seed": 125737979
+  },
+  "runtime": {
+    "repo": "huggingface/diffusers",
+    "commit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "resolvedCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "runtimeCommitVerified": true,
+    "diffusersVersion": "0.41.0.dev0",
+    "diffusersInstallSource": "https://github.com/huggingface/diffusers.git",
+    "torchVersion": "2.8.0+cpu",
+    "transformersVersion": "5.17.0",
+    "accelerateVersion": "1.15.0",
+    "huggingfaceHubVersion": "1.33.0",
+    "safetensorsVersion": "0.8.0",
+    "pythonPillowVersion": "12.3.0",
+    "device": "cpu",
+    "dtype": "float32",
+    "executionMode": "cpu-fallback"
+  },
+  "model": {
+    "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+    "revision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS",
+    "resolvedRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "snapshotRevisionVerified": true,
+    "selectiveSnapshot": true,
+    "snapshotAllowPatterns": [
+      "model_index.json",
+      "scheduler/*",
+      "tokenizer/*",
+      "tokenizer_2/*",
+      "feature_extractor/*",
+      "text_encoder/config.json",
+      "text_encoder/model.fp16.safetensors",
+      "text_encoder_2/config.json",
+      "text_encoder_2/model.fp16.safetensors",
+      "unet/config.json",
+      "unet/diffusion_pytorch_model.fp16.safetensors",
+      "vae/config.json",
+      "vae/diffusion_pytorch_model.fp16.safetensors"
+    ]
+  },
+  "conditioning": {
+    "referenceAssetSha256": null,
+    "controlImageSha256": null,
+    "adapterScale": null,
+    "referenceImage": null,
+    "ipAdapterModelId": null,
+    "ipAdapterRevision": null,
+    "ipAdapterResolvedRevision": null,
+    "ipAdapterRevisionVerified": false,
+    "ipAdapterWeightName": null,
+    "ipAdapterSubfolder": null
+  },
+  "generation": {
+    "width": 640,
+    "height": 640,
+    "numInferenceSteps": 6,
+    "guidanceScale": 3.5,
+    "runtimePromptTokenCounts": {
+      "tokenizer": 68,
+      "tokenizer_2": 68
+    },
+    "executedSeed": 125737979
+  },
+  "output": {
+    "repoPath": "public/assets/catalog-candidates/cpu/desks-8-w13-v2-a-aqua-study-original.png",
+    "sha256": "c0becc91f8941391965b1d1e9bd28aeeb210de08e74aa00858c3bb1eccccb82b",
+    "gitBlobSha": "bada24e2447de5e39ac2cb6647aa8458cf410e43",
+    "bytes": 525431,
+    "width": 640,
+    "height": 640,
+    "format": "PNG",
+    "sourceBytesPreserved": true,
+    "reusedExistingIdenticalBytes": false
+  },
+  "safety": {
+    "canonicalArtModified": false,
+    "gameplayModified": false,
+    "reviewDecisionMade": false,
+    "deploymentPerformed": false,
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+  },
+  "nextGate": "RUN_VERIFY_STAGED_OUTPUT_THEN_REAL_RENDER_AND_INDEPENDENT_EXACT_HASH_REVIEW",
+  "status": "GENERATED_SOURCE_BYTES_UNVERIFIED",
+  "recordSha256": "bd3ea684874042e7610a8325e67ae81bed199ce35336590890c6f787676ca064"
+}
