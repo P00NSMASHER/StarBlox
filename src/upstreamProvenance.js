@@ -392,6 +392,54 @@ export const UPSTREAM_PROVENANCE = Object.freeze({
     'AGPL-3.0',
     'backend/app/services/question_content.py'
   ),
+  sentrySafeRollout: source(
+    'shadow evaluation, sampled rollout, callsite blocklists and controlled experimental adoption',
+    'getsentry/sentry',
+    'master',
+    '67610b2a57909ca921d6a52dcbf7410bc851b100',
+    'FSL-1.1-Apache-2.0',
+    'src/sentry/utils/rollout.py'
+  ),
+  sentryKillSwitches: source(
+    'fast conditional kill-switch evaluation for production load shedding and feature disablement',
+    'getsentry/sentry',
+    'master',
+    '67610b2a57909ca921d6a52dcbf7410bc851b100',
+    'FSL-1.1-Apache-2.0',
+    'src/sentry/killswitches.py'
+  ),
+  sentryTemporaryFeatures: source(
+    'temporary feature-gate lifecycle and controlled feature exposure patterns',
+    'getsentry/sentry',
+    'master',
+    '67610b2a57909ca921d6a52dcbf7410bc851b100',
+    'FSL-1.1-Apache-2.0',
+    'src/sentry/features/temporary.py'
+  ),
+  neonReplayReconstruct: source(
+    'action-stream replay reconstruction and ghost timeline semantics',
+    'Calculator5329/neon-vector-defense',
+    'master',
+    '48ecf31509d73dd8fb2c5f25f1fc57cfa6d03eb4',
+    'unasserted in GitHub metadata',
+    'src/game/replayReconstruct.ts'
+  ),
+  neonDossierShare: source(
+    'shareable replay-link and result-artifact interaction patterns',
+    'Calculator5329/neon-vector-defense',
+    'master',
+    '48ecf31509d73dd8fb2c5f25f1fc57cfa6d03eb4',
+    'unasserted in GitHub metadata',
+    'src/DossierShare.tsx'
+  ),
+  neonDossierArtifact: source(
+    'deterministic replay-linked share artifact generation',
+    'Calculator5329/neon-vector-defense',
+    'master',
+    '48ecf31509d73dd8fb2c5f25f1fc57cfa6d03eb4',
+    'unasserted in GitHub metadata',
+    'src/game/dossier.ts'
+  ),
   openReplay: source(
     'session replay and production observability concepts',
     'openreplay/openreplay',
