@@ -86,9 +86,9 @@ describe('Step 8 Roblox AI NPC runtime contract', () => {
     expect(source).toMatch(/deepCopy\(profile\.Data\)/);
 
     const finalize=source.indexOf('provider.Generate(secondRequest)');
-    const filter=source.indexOf('textPolicy.FilterOutput');
-    const reserve=source.indexOf('currentState.LastRequestSequence = requestSequence');
-    const commit=source.indexOf('prepared.handler.Commit');
+    const filter=source.indexOf('return textPolicy.FilterOutput',finalize);
+    const reserve=source.indexOf('currentState.LastRequestSequence = requestSequence',filter);
+    const commit=source.indexOf('prepared.handler.Commit',reserve);
     expect(finalize).toBeGreaterThanOrEqual(0);
     expect(filter).toBeGreaterThan(finalize);
     expect(reserve).toBeGreaterThan(filter);
