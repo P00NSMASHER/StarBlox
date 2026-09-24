@@ -32,7 +32,21 @@ The Rust reader uses released rbx-dom crates matching that implementation genera
 
 ## Command
 
-From the StarBlox repository, the preferred real-source flow is:
+From the StarBlox repository, the preferred real-source flow is now one bounded command:
+
+npm run roblox:ingest -- --input /path/to/authorized/files --out-dir /path/to/ingestion-output --source-id licensed-brookhaven
+
+That command performs only:
+
+1. source preflight;
+2. versioned fingerprint handoff creation;
+3. fingerprint re-verification;
+4. rbx-dom catalog generation;
+5. an immutable-style ingestion receipt tying the generated artifacts to the catalog hash.
+
+It deliberately does **not** start migration, mutate Studio, execute imported Luau, publish, purchase, or activate production content.
+
+For lower-level/manual use, the same flow remains available as:
 
 npm run roblox:source:preflight -- --input /path/to/authorized/files --out roblox-source-preflight.json --handoff roblox-catalog-handoff.json
 npm run roblox:catalog -- --preflight roblox-catalog-handoff.json
