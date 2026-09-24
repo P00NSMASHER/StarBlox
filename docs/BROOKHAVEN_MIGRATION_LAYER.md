@@ -153,6 +153,8 @@ npm run roblox:migrate -- --ingestion-receipt /path/to/roblox-ingestion/ingestio
 
 When an ingestion receipt is used, the planner resolves the sibling capability catalog, verifies its exact SHA-256 against the receipt, and verifies the catalog's own deterministic hash before planning. The receipt path does not imply or enable source export: without a separate --source-root argument the command remains plan-only and creates no migration bundle or exported Roblox subtree.
 
+Receipt-bound plan-only runs also emit `migration-planning-receipt.json`. That receipt binds the exact ingestion-receipt SHA-256, verified catalog SHA-256/catalogHash, migration plan SHA-256/planHash, and Markdown report SHA-256. It carries its own deterministic SHA-256 payload hash plus explicit `exportStarted=false`, `migrationBundleCreated=false`, `studioMutationStarted=false`, and `publicationStarted=false` attestations. This creates a cryptographic chain from authorized source ingestion through catalog review to the exact migration plan without granting export authority.
+
 Explicit risk review:
 
 npm run roblox:migrate -- --catalog roblox-capability-catalog.json --source-root /path/to/authorized/brookhaven --rules config/my-rules.json --include-risky
