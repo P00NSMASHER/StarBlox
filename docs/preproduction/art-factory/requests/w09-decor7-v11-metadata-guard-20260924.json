@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_BATCH_REQUEST",
+  "planner": "15",
+  "producer": "09",
+  "preflightOwner": "06",
+  "reviewer": "01",
+  "renderOwner": "14",
+  "integrationOwner": "08",
+  "coordinationOwner": "15",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "5a826bb0f1f5aeadc32181af594194b72b67bb9b",
+  "manifestVersion": 40,
+  "batchId": "w09-decor7-v11-metadata-guard",
+  "scope": [
+    "decor-7"
+  ],
+  "state": "PREPARED_NEW_VERSION_AFTER_V10_IMMUTABLE_REWORK",
+  "assignmentAuthority": {
+    "path": "docs/preproduction/art-factory/RELEASE_BLOCKERS_CURRENT.json",
+    "runtimeProofPath": "docs/preproduction/art-factory/CPU_RUNTIME_PROOF.json",
+    "runtimeProofStatus": "PROVEN",
+    "runtimeCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+    "modelRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "assignedReviewers": {
+      "decor-7": "01"
+    },
+    "compilerFixHead": "871ec64e7d084d856c2a2bfbda5c7aa5d93c0124",
+    "note": "New immutable v11 after v10 bench-form failure; compiler preserves product-name first sentence and coherent component sentence."
+  },
+  "reviewSource": {
+    "decision": "REWORK",
+    "note": "Decor7 v10 exact render is a bench/tube with no quad skates or rack identity."
+  },
+  "items": {
+    "decor-7": {
+      "currentLegacy": {
+        "path": "public/assets/catalog-candidates/cpu/decor-7-w09-v10-a-rack-with-classic-quad-skates-original.png",
+        "gitBlobSha1": "28bff68db458d4c3b70024ce9c90f28e6b8a92e7",
+        "reviewDecision": "REWORK",
+        "normalizedFailureTaxonomy": [
+          "SKATE_RACK_IDENTITY_FAILURE",
+          "BENCH_TUBE_GEOMETRY",
+          "NO_QUAD_SKATES",
+          "NO_STORAGE_RACK_CONSTRUCTION"
+        ]
+      },
+      "variants": [
+        {
+          "variantId": "A-TINY-SKATE-RACK-V11",
+          "optimizerInput": "One tiny two-cubby wooden Skate Rack on a plain white studio background. The rack is clearly a small freestanding storage rack with two rectangular open cubbies. Inside the lower cubby place exactly ONE PAIR of classic quad roller skates. Each skate has a visible boot upper, metal truck, and four large wheels. The rack and skates are both fully visible. Small Garden Glow green accent only. NO bench, NO tube, NO long seat, NO pedestal row, NO scooter, NO cart, NO room, NO collage, NO text."
+        },
+        {
+          "variantId": "B-SKATE-CUBBY-V11",
+          "optimizerInput": "Exactly one compact two-cubby Skate Rack, front three-quarter view, plain white background. One unmistakable pair of quad roller skates stored inside: two boots, trucks, four wheels per skate. Simple wood frame, grounded shadow, restrained green accent. NO bench, NO long curved object, NO pedestal supports, NO scooter, NO duplicate view, NO room, NO text."
+        }
+      ]
+    }
+  },
+  "executionBudget": {
+    "width": 640,
+    "height": 640,
+    "steps": 10,
+    "guidanceScale": 4.5,
+    "dtype": "float32"
+  },
+  "safety": {
+    "preserveRejectedExactHashes": true,
+    "preserveAcceptedExactHashes": true,
+    "producerSelfReview": false,
+    "canonicalMappingsChanged": false,
+    "workflowFilesChanged": false
+  }
+}
