@@ -119,7 +119,7 @@ describe('StarBlox upstream implementation provenance', () => {
   it('pins every planned source to an immutable full commit SHA', () => {
     const entries = upstreamSourceList();
 
-    expect(entries.length).toBeGreaterThanOrEqual(100);
+    expect(entries.length).toBeGreaterThanOrEqual(109);
     expect(entries.every(entry => /^[a-f0-9]{40}$/.test(entry.commit))).toBe(true);
     expect(entries.every(entry => entry.reuseBasis === 'user-confirmed direct reuse rights')).toBe(true);
   });
@@ -199,6 +199,15 @@ describe('StarBlox upstream implementation provenance', () => {
     expect(UPSTREAM_PROVENANCE.placementService.path).toBe('PlacementService.lua');
     expect(UPSTREAM_PROVENANCE.cortexRuntime.path).toBe('src/Cortex.lua');
     expect(UPSTREAM_PROVENANCE.cortexNpcExample.path).toBe('examples/npc.server.lua');
+    expect(UPSTREAM_PROVENANCE.chickynoidServerAuthority.path).toBe('src/ServerScriptService/Packages/Chickynoid/Server/ServerChickynoid.lua');
+    expect(UPSTREAM_PROVENANCE.chickynoidClientPrediction.path).toBe('src/ReplicatedFirst/Packages/Chickynoid/Client/ClientChickynoid.lua');
+    expect(UPSTREAM_PROVENANCE.chickynoidAntilag.path).toBe('src/ServerScriptService/Packages/Chickynoid/Server/Antilag.lua');
+    expect(UPSTREAM_PROVENANCE.chickynoidSimulation.path).toBe('src/ReplicatedFirst/Packages/Chickynoid/Shared/Simulation/Simulation.lua');
+    expect(UPSTREAM_PROVENANCE.rewindSnapshotStore.path).toBe('src/shared/Rewind/Server/SnapshotStore.lua');
+    expect(UPSTREAM_PROVENANCE.rewindRewinder.path).toBe('src/shared/Rewind/Server/Rewinder.lua');
+    expect(UPSTREAM_PROVENANCE.rewindValidator.path).toBe('src/shared/Rewind/Server/Validator.lua');
+    expect(UPSTREAM_PROVENANCE.rewindMovementValidator.path).toBe('src/shared/Rewind/Server/MovementValidator.lua');
+    expect(UPSTREAM_PROVENANCE.rewindStateBuffer.path).toBe('src/shared/Rewind/Replication/StateBuffer.lua');
     expect(UPSTREAM_PROVENANCE.remodelExtractModels.path).toBe('examples/02-extract-models.lua');
     expect(UPSTREAM_PROVENANCE.bloxForgeMutationPlan.path).toBe('packages/core/src/builders/mutation-plan.ts');
     expect(UPSTREAM_PROVENANCE.bloxForgeGameplayAssertions.path).toBe('packages/core/src/builders/gameplay-assertions.ts');
