@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_CPU_LANE_RESET",
+  "branch": "screenshot-match-preproduction",
+  "cancelRunIds": [
+    35880356000
+  ],
+  "dispatchQueueFile": "docs/preproduction/art-factory/prepared-queues/w03-decor-8-retry-v1.json",
+  "prerequisiteCandidate": "public/assets/catalog-candidates/cpu/decor-6-w03-v1-a-physical-original.png",
+  "prerequisiteGitBlobSha": "a8dca54ad9c511b529ab505dab97991bbc76daef",
+  "prerequisiteEvidence": "docs/preproduction/art-factory/generated-evidence/w03-decor-6-8-cpu-v1/decor-6/staged-output.json",
+  "prerequisiteSha256": "8b839bb54cda085810a58d1714c3f0850991e544b2e7c75e75a5e6c20c820fd2",
+  "reason": "Release stale historical Decor8 CPU occupant only after exact Decor6 recovery is proven, then dispatch a Decor8-only lean retry. Never regenerate Decor6.",
+  "next": "Decor8 exact staging -> 12 -> 06 -> 14 -> 11 -> 08"
+}
