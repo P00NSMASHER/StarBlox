@@ -126,3 +126,11 @@ Step 6 does not install Roblox feature-package Creator Store assets automaticall
 The Step 2 AI Development Factory can install/configure the official packages once the connected Studio project and product IDs are available.
 
 The core LiveOps logic is provider-neutral and tested outside Studio so it remains deterministic and reviewable.
+
+## Repair hardening: exactly-once rewards
+
+Generic LiveOps claims now have server-owned durable ClaimReceipts keyed by claim type and claim ID. Marketplace purchases require a stable Roblox PurchaseId and are tracked in MarketplaceReceiptIds before the same receipt can ever be granted twice.
+
+Feature-package adapters receive deep copies of profile/receipt data rather than the live profile table. Returned patches are limited to public LiveOps namespaces, and every reward receipt is validated before Coins, XP, Stars, or cosmetics are mutated.
+
+ClaimReceipts and MarketplaceReceiptIds remain server-only.
