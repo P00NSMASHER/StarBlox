@@ -7,7 +7,7 @@
   "policy": "docs/preproduction/DELIVERY_PROTOCOL_V2.md",
   "visualSprint": "docs/preproduction/ART_VISUALS_SPRINT.json",
   "artFactoryPolicy": "docs/preproduction/art-factory/ART_FACTORY_V2.json",
-  "sourceHead": "a14d3c3fdbce127fb1e286c23329b51331fec877",
+  "sourceHead": "a14d3c3fdb",
   "priorReviewShard": {
     "blobSha": "4173dbb9923157eb5a13090d526f88cfec162edd",
     "schemaVersion": 10,
@@ -978,9 +978,9 @@
     "preservedAcceptedHashes": "All prior reviewer02 ACCEPTs remain frozen; this verdict applies only to wall-9 exact hash f1c423657b836aee822311b15a3229251174768d."
   },
   "handoff": {
-    "13": "wall-9 current exact hash is REWORK; preserve it and generate only the failure-specific next version if director15 keeps it release-critical.",
+    "13": "wall-9 current exact hash is REWORK; preserve it and generate only the smallest failure-specific next version if director15 keeps it release-critical.",
     "14": "Current packets consumed; do not rerender unchanged hashes.",
-    "15": "wall-9 remains a bounded exact-pixel REWORK blocker; prepare only the smallest failure-specific replacement.",
+    "15": "wall-9 remains a bounded exact-pixel blocker.",
     "09": "Freeze Decor12 v3 ACCEPT. Decor11 v3 REWORK; keep the vanity/mirror design but isolate it with one clearly formed stool and no room/floor clutter if director15 prioritizes another attempt.",
     "08": "Do not canonical-wire wall-9 exact hash f1c423657b836aee822311b15a3229251174768d."
   }
