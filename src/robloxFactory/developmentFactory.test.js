@@ -146,6 +146,42 @@ describe('Step 2: StarBlox AI Development Factory', () => {
     expect(adapter.calls.slice(-2)).toEqual(['rollback:rollback-2','rollback:rollback-1']);
   });
 
+  it('enforces screenshot and simulated-input budgets across repairs', async () => {
+    const adapter=fakeAdapter({failFirst:true});
+    const result=await runStudioDevelopmentFactory({
+      task:{taskId:'budget-1',prompt:'Exercise evidence budgets'},
+      adapter,
+      agents:baseAgents({repair:true}),
+      approvePlan:async () => true,
+      limits:{maxRepairs:1,maxScreenshots:1,maxInputActions:2}
+    });
+
+    expect(result.status).toBe('verified');
+    expect(result.progress.screenshots).toBe(1);
+    expect(result.progress.inputActions).toBe(2);
+    expect(adapter.calls.filter(call => call === 'screenshot')).toHaveLength(1);
+    expect(adapter.calls.filter(call => call.startsWith('input:'))).toEqual(['input:2']);
+  });
+
+  it('rolls back mutations when evidence collection throws unexpectedly', async () => {
+    const adapter=fakeAdapter();
+    adapter.captureViewport=async function(){
+      this.calls.push('screenshot');
+      throw new Error('capture exploded');
+    };
+
+    const result=await runStudioDevelopmentFactory({
+      task:{taskId:'exception-1',prompt:'Handle runtime evidence failure'},
+      adapter,
+      agents:baseAgents(),
+      approvePlan:async () => true
+    });
+
+    expect(result.status).toBe('rolled_back');
+    expect(result.evaluation.systemError).toMatch(/capture exploded/);
+    expect(adapter.calls).toContain('rollback:rollback-1');
+  });
+
   it('stops before mutation when a plan requiring approval is not approved', async () => {
     const adapter=fakeAdapter();
     const agents=baseAgents();
