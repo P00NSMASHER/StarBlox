@@ -1,0 +1,80 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_STORE_ART_VISUAL_QA_HANDOFF",
+  "role": "04-store-art-visual-qa",
+  "branch": "screenshot-match-preproduction",
+  "sourceCanonicalHead": "c817ad8625d0620236d830eed2e103876cd13b68",
+  "observedLiveHeadBeforeWrite": "170da6d015a78ce6d927f76e6c690b75c3a7fa99",
+  "disposition": "PASS_CHANGED_WALL_ART_PRESENTATION",
+  "canonicalFingerprint": {
+    "manifestVersion": 35,
+    "manifestGitBlob": "3ce2fab41ed9b9068f30fbe5fc40e9e607db0aa9",
+    "catalogRuntimeGitBlob": "425b75fe8e817785162873decd75e42effc9de21",
+    "changedItems": {
+      "wall-10": {
+        "path": "/assets/catalog-candidates/cpu/wall-10-w13-v2-a-no-text-skyline-original.png",
+        "gitBlobSha": "e5d4fe1c3d7a0a8ad82f61914228e5bdac6ef43d",
+        "sha256": "d0ddb5f6f370ede2b8f13e7b646eb64fe272e8da4eb04c536d9a937a0548513c"
+      },
+      "wall-11": {
+        "path": "/assets/catalog-candidates/cpu/wall-11-w13-v1-a-pixel-bevel-mirror-original.png",
+        "gitBlobSha": "50ffc975030f6c7e28cf9836756bb312dfa646fb",
+        "sha256": "01b064b4bee3e4be894a59279abb04b49b27cd048848513283631be59348268e"
+      },
+      "wall-12": {
+        "path": "/assets/catalog-candidates/cpu/wall-12-w13-v1-a-jeweled-relief-crest-original.png",
+        "gitBlobSha": "e9387a7174a888980616ea9afac43cc9b3adbb3b",
+        "sha256": "771d8099c4231b407a0d2dac2e44178a2eabdd8f960bfbab0151bd9b0633d9db"
+      }
+    }
+  },
+  "executableEvidence": {
+    "workflow": "StarBlox Catalog Mobile QA",
+    "runId": 35944114811,
+    "jobId": 107458165262,
+    "conclusion": "success",
+    "sourceHead": "c817ad8625d0620236d830eed2e103876cd13b68",
+    "artifactId": 10785429163,
+    "artifactName": "catalog-mobile-qa",
+    "artifactDigest": "sha256:8726a3525edd533a2a836e006d6fe970bbf0c410f9395dde5fd8516e831a80ad",
+    "reportStatus": "PASS",
+    "releaseBlockingCount": 0,
+    "wallScreenshots": {
+      "desktop1408x1056": {
+        "path": "store-desktop-1408x1056-wall.png",
+        "sha256": "bda6439113bdf8b67681a24946806af3eb0b4ad1ed47bd3dfbcc4d9c5e4c761d"
+      },
+      "phone390x844": {
+        "path": "store-phone-390x844-wall.png",
+        "sha256": "6e63985a48dd5fe0be6f1e8d706f9f721719ee2c2e3b2a684f6523edf4abf17e"
+      }
+    }
+  },
+  "wallChecks": {
+    "categoryNavigation": "PASS",
+    "horizontalOverflow": "PASS",
+    "touchTargets": "PASS",
+    "cardReadableState": "PASS",
+    "cardSemantics": "PASS",
+    "imageLoadingAndAlternatives": "PASS",
+    "explicitImageDimensions": "PASS",
+    "focusVisible": "PASS",
+    "reducedMotionContext": "PASS",
+    "keyboardCardActivation": "PASS",
+    "keyboardTraversal": "PASS"
+  },
+  "limits": [
+    "This is synthetic Chromium/browser evidence, not a physical-device or screen-reader PASS.",
+    "The global art sprint remains incomplete because 16 generic fallback mappings remain after manifest v35.",
+    "Unchanged non-art failures are not reopened by this art-only handoff."
+  ],
+  "nextOwner": "10 for incremental final art/visual QA; reuse this exact-head Store proof until manifest/runtime or relevant Store-art presentation bytes change.",
+  "safety": {
+    "candidateBytesChanged": false,
+    "canonicalMappingsChangedByThisEvidence": false,
+    "gameplayLearningEconomyPersistenceAccessibilityExactlyOnceChanged": false,
+    "workflowFilesChanged": false,
+    "deploymentTouched": false,
+    "mainReplitFlootPaidSettingsSecretsPlayerDataTouched": false
+  }
+}
