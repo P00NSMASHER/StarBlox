@@ -18,7 +18,8 @@
     "roblox:migrate": "node scripts/migrate-roblox.mjs",
     "roblox:migration:exporter:test": "cargo test --manifest-path tools/roblox_migration_exporter/Cargo.toml --quiet",
     "content:expand": "node scripts/expand-content.mjs",
-    "roblox:source:preflight": "node scripts/roblox-source-preflight.mjs"
+    "roblox:source:preflight": "node scripts/roblox-source-preflight.mjs",
+    "roblox:ingest": "node scripts/ingest-roblox-source.mjs"
   },
   "dependencies": {
     "lucide-react": "^0.468.0",
