@@ -15,6 +15,7 @@ on:
       - "src/psiKtShadowAdapter.js"
       - "src/riffShadowAdapter.js"
       - "src/edGameClawShadowAdapter.js"
+      - "src/sourceEvidenceRuntime.js"
       - "src/selectorV2Shadow.js"
       - "src/*learning*.test.js"
       - "src/adversarialQuestionQa.test.js"
@@ -26,6 +27,7 @@ on:
       - "scripts/assertLearningLiveSelectorBoundary.mjs"
       - "docs/preproduction/learning-factory/current-promotion-decision.json"
       - "scripts/adaptEdGameClawCourse.mjs"
+      - "scripts/bindEdGameClawEvidence.mjs"
       - "scripts/exportPsiKtDataset.mjs"
       - "scripts/exportRiffReviews.mjs"
       - "docs/preproduction/learning-factory/fixtures/**"
@@ -77,6 +79,26 @@ jobs:
 
       - name: Assert research selectors remain out of live Quest paths
         run: npm run assert:learning-live-boundary
+
+      - name: Smoke-test evidence-bound EdGameClaw candidates
+        run: |
+          mkdir -p .learning-evidence
+          npm run interop:edgameclaw -- --input=docs/preproduction/learning-factory/fixtures/edgameclaw-evidence-course.json --out=.learning-evidence/unbound.json --content-version=evidence-fixture-v1 --source-ids=current-week-vocabulary
+          npm run interop:edgameclaw-evidence -- --input=.learning-evidence/unbound.json --out=.learning-evidence/bound.json
+          node --input-type=module - <<'NODE'
+          import fs from 'node:fs';
+          const r=JSON.parse(fs.readFileSync('.learning-evidence/bound.json','utf8'));
+          if(r.issueCount!==0||r.evidenceBoundCount!==1){
+            throw new Error('EdGameClaw evidence binding smoke test failed');
+          }
+          if(r.candidates[0]?.status!=='evidence-bound-shadow-candidate'){
+            throw new Error('candidate did not reach evidence-bound status');
+          }
+          console.log(JSON.stringify({
+            evidenceBoundCount:r.evidenceBoundCount,
+            binding:r.candidates[0].evidenceBindings[0]
+          },null,2));
+          NODE
 
       - name: Build StarBlox
         run: npm run build
