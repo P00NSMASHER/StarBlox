@@ -46,5 +46,7 @@
     "route": "12 -> 06 -> 14 -> assigned reviewer -> 08 on ACCEPT",
     "canonicalWriter": "08"
   },
-  "dispatchPolicy": "PREPARED_LITERAL_RETRY__WAIT_LIVE_CPU_IDLE"
+  "dispatchPolicy": "PREPARED_LITERAL_RETRY__WAIT_LIVE_CPU_IDLE",
+  "retryRevision": 1,
+  "retryReason": "planner requires 2-4 variants; request corrected with bounded B variants"
 }
