@@ -47,6 +47,11 @@ local ProfileTemplate = {
 		Assignments = {},
 	},
 
+	AiNpc = {
+		Memories = {},
+		ProcessedRequestIds = {},
+	},
+
 	Social = {
 		Home = {
 			PlotId = "",
