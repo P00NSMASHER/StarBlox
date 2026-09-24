@@ -221,6 +221,8 @@ npm run build
 
 A Studio feature does not verify if the configured repository proof is missing or any required gate regresses. The bundled CLI requires tests, certification, balance and build receipts. Gate receipts may be simple booleans or structured command results with `ok: true`.
 
+The core factory defaults to the same four required gates for programmatic callers. A specialized harness may deliberately pass `requiredRepositoryGates: []`, but the bundled CLI overwrites that field after adapter/task configuration so normal AI development runs cannot downgrade the release-proof requirement.
+
 ## Audit artifact
 
 Each run produces an immutable JSON artifact containing:
