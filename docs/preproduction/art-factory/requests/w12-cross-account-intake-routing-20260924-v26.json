@@ -1,0 +1,114 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_W12_CANDIDATE_DELTA_INTAKE_ROUTING",
+  "router": "12",
+  "branch": "screenshot-match-preproduction",
+  "observedHead": "255c3740f81fb37f57ba3efabf5e300d65dd8c9e",
+  "scanWindow": {
+    "priorCursor": "cbe440f2b9b09b38768d65719b6db3ece429d5b3",
+    "inspectedThroughHead": "255c3740f81fb37f57ba3efabf5e300d65dd8c9e",
+    "newCatalogCandidateBytesDetected": true,
+    "newCandidateItemIds": [
+      "desks-7",
+      "desks-8",
+      "wall-8"
+    ],
+    "note": "Post-v25 delta contains exactly three newly staged reclaim-as-new-version candidates: Desk7 v2, Desk8 v2 and Wall8 v4. Later Desk11/12 reviewer-packet binding adds no newer candidate bytes."
+  },
+  "candidates": [
+    {
+      "id": "desks-7",
+      "name": "Sunny Creator Desk",
+      "collectionId": "desks",
+      "producer": "13",
+      "reviewerAssignment": "11",
+      "renderOwner": "14",
+      "canonicalWriter": "08",
+      "priorRejectedOrBlockedHash": null,
+      "path": "public/assets/catalog-candidates/cpu/desks-7-w13-v2-a-creator-desk-original.png",
+      "sha256": "c7ff5acbabae4bc68270706d071af596a379c00cb0cbf4bd7d42bdda76291267",
+      "gitBlobSha": "037355010a6cd980cbf95e71ebaf28a7abc62a26",
+      "bytes": 491522,
+      "dimensions": [
+        640,
+        640
+      ],
+      "format": "PNG",
+      "stagedOutput": "docs/preproduction/art-factory/generated-evidence/w13-desks7-8-wall8-reclaim-vnext/desks-7/staged-output.json",
+      "generationReceipt": "docs/preproduction/art-factory/generated-evidence/w13-desks7-8-wall8-reclaim-vnext/desks-7/generation-receipt.json",
+      "provenanceState": "COMPLETE_ART_FACTORY_V2",
+      "repositoryReadback": "PASS_EXACT_GIT_BLOB",
+      "supersession": "FRESH_V2_NEW_VERSION_AFTER_EXACT_BYTE_RECOVERY_EXHAUSTION",
+      "state": "ROUTE_TO_06_TECHNICAL_QUALIFICATION"
+    },
+    {
+      "id": "desks-8",
+      "name": "Aqua Study Station",
+      "collectionId": "desks",
+      "producer": "13",
+      "reviewerAssignment": "11",
+      "renderOwner": "14",
+      "canonicalWriter": "08",
+      "priorRejectedOrBlockedHash": null,
+      "path": "public/assets/catalog-candidates/cpu/desks-8-w13-v2-a-aqua-study-original.png",
+      "sha256": "c0becc91f8941391965b1d1e9bd28aeeb210de08e74aa00858c3bb1eccccb82b",
+      "gitBlobSha": "bada24e2447de5e39ac2cb6647aa8458cf410e43",
+      "bytes": 525431,
+      "dimensions": [
+        640,
+        640
+      ],
+      "format": "PNG",
+      "stagedOutput": "docs/preproduction/art-factory/generated-evidence/w13-desks7-8-wall8-reclaim-vnext/desks-8/staged-output.json",
+      "generationReceipt": "docs/preproduction/art-factory/generated-evidence/w13-desks7-8-wall8-reclaim-vnext/desks-8/generation-receipt.json",
+      "provenanceState": "COMPLETE_ART_FACTORY_V2",
+      "repositoryReadback": "PASS_EXACT_GIT_BLOB",
+      "supersession": "FRESH_V2_NEW_VERSION_AFTER_EXACT_BYTE_RECOVERY_EXHAUSTION",
+      "state": "ROUTE_TO_06_TECHNICAL_QUALIFICATION"
+    },
+    {
+      "id": "wall-8",
+      "name": "Ocean Window",
+      "collectionId": "wall",
+      "producer": "13",
+      "reviewerAssignment": "11",
+      "renderOwner": "14",
+      "canonicalWriter": "08",
+      "priorRejectedOrBlockedHash": null,
+      "path": "public/assets/catalog-candidates/cpu/wall-8-w13-v4-a-recessed-ocean-window-original.png",
+      "sha256": "23c3f86372cd88f7be07c7e8e97ab3baeac5c30dd0a53a5ed2fa9ff30fcb94a3",
+      "gitBlobSha": "1153810072f325d25a9259167b3d309600a474a0",
+      "bytes": 596360,
+      "dimensions": [
+        640,
+        640
+      ],
+      "format": "PNG",
+      "stagedOutput": "docs/preproduction/art-factory/generated-evidence/w13-desks7-8-wall8-reclaim-vnext/wall-8/staged-output.json",
+      "generationReceipt": "docs/preproduction/art-factory/generated-evidence/w13-desks7-8-wall8-reclaim-vnext/wall-8/generation-receipt.json",
+      "provenanceState": "COMPLETE_ART_FACTORY_V2",
+      "repositoryReadback": "PASS_EXACT_GIT_BLOB",
+      "supersession": "FRESH_V4_NEW_VERSION_AFTER_EXACT_BYTE_RECOVERY_EXHAUSTION",
+      "state": "ROUTE_TO_06_TECHNICAL_QUALIFICATION"
+    }
+  ],
+  "dedupe": {
+    "uniqueItemHashClaim": true,
+    "unchangedPriorHashesRerouted": false,
+    "newerPendingCandidateObserved": false
+  },
+  "queues": {
+    "to06": [
+      "desks-7@c7ff5acbabae4bc68270706d071af596a379c00cb0cbf4bd7d42bdda76291267",
+      "desks-8@c0becc91f8941391965b1d1e9bd28aeeb210de08e74aa00858c3bb1eccccb82b",
+      "wall-8@23c3f86372cd88f7be07c7e8e97ab3baeac5c30dd0a53a5ed2fa9ff30fcb94a3"
+    ],
+    "backToProducer": []
+  },
+  "cursorAdvance": {
+    "previous": "cbe440f2b9b09b38768d65719b6db3ece429d5b3",
+    "advancedThrough": "255c3740f81fb37f57ba3efabf5e300d65dd8c9e"
+  },
+  "nextOwner": "06_TECHNICAL_QUALIFICATION",
+  "mutationScope": "Routing evidence only; no candidate bytes, canonical mappings, reviewer decisions, gameplay, learning, economy, persistence, accessibility, CI/workflows, deployment, secrets, or player data changed."
+}
