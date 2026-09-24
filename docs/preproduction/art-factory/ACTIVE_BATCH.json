@@ -2,8 +2,8 @@
   "schemaVersion": 33,
   "owner": "15",
   "branch": "screenshot-match-preproduction",
-  "sourceHead": "0bb0f865be7632a2abc09162c6d10c5f5b782b6c",
-  "updatedAt": "2026-09-24T20:18:00Z",
+  "sourceHead": "d01b02f029f8bb89b81ccd4ae5aa84f68f50738b",
+  "updatedAt": "2026-09-24T20:20:00Z",
   "status": "ACTIVE_FINAL_FOUR_VISIBLE_ART_TAIL",
   "policy": {
     "maxConcurrentProductionBatches": 4,
@@ -85,16 +85,16 @@
       "phase": "CPU_GENERATION"
     },
     "pending": {
-      "runId": 36053809276,
-      "headSha": "0bb0f865be7632a2abc09162c6d10c5f5b782b6c",
+      "runId": 36054079596,
+      "headSha": "4180e57586e1b0b8ff97bdb0c05d60c494954f4c",
       "batch": "w03-desks10-11-final-retry-a-fallback",
-      "state": "PENDING",
+      "state": "PENDING_REFRESHED",
       "jobs": [
         "desks-10",
         "desks-11"
       ]
     },
-    "authorization": "REQUEUE_DECOR11_V8_ONLY_AFTER_DESK_PAIR_TRANSITIONS_TO_RUNNING",
+    "authorization": "REQUEUE_DECOR11_V8_ONLY_AFTER_RUN_36054079596_TRANSITIONS_TO_RUNNING",
     "rule": "Exactly one running plus one pending. Desk pair has priority over Decor11 because it can clear two confirmed blockers in one CPU cycle.",
     "preparedNext": [
       {
