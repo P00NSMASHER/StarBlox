@@ -8,6 +8,7 @@ on:
       - "docs/preproduction/brookhaven-research/**"
       - "scripts/validateBrookhavenResearchArtifacts.mjs"
       - "scripts/assertBrookhavenReuseBoundary.mjs"
+      - "scripts/assertBrookhavenLearningSeparation.mjs"
       - "scripts/convertBrookhavenNeutralScene.mjs"
       - "scripts/validateBrookhavenProxyVerticalSlice.mjs"
       - "scripts/buildBrookhavenResearchWithKnownBaseFix.mjs"
