@@ -1,0 +1,107 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_GENERATION_RECEIPT",
+  "repository": "P00NSMASHER/StarBlox",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "1d2e21ef625c6b6f2b9458e672c1ed5ddb00f5c6",
+  "sourcePlanSha256": "cce3499047ea137861cc150dd653e8706d638068fc938ff087d02158d41aa3ca",
+  "executionCheckout": {
+    "branch": "screenshot-match-preproduction",
+    "head": "1d2e21ef625c6b6f2b9458e672c1ed5ddb00f5c6",
+    "planSourceHeadMatchesExecutionHead": true
+  },
+  "attempt": {
+    "attemptId": "decor-9-w09-a-easel-with-tray-9a656abfd0",
+    "itemId": "decor-9",
+    "producer": "09",
+    "variant": "A-EASEL-WITH-TRAY",
+    "promptSha256": "9a656abfd0d8c64029659b63fdf4cb296eba85cdad7d5e373fd4e542fee8ee6b",
+    "runtimePromptSha256": "d6adfa47cf21ab7cc4ddec0b86eda5b5df994d6a41502ede9018bb7b06ad99e0",
+    "promptRecipeVersion": "artPromptOptimizer-request-v1:w09-decor-9-12-v1",
+    "seed": 192633419
+  },
+  "runtime": {
+    "repo": "huggingface/diffusers",
+    "commit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "resolvedCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "runtimeCommitVerified": true,
+    "diffusersVersion": "0.41.0.dev0",
+    "diffusersInstallSource": "https://github.com/huggingface/diffusers.git",
+    "torchVersion": "2.8.0+cpu",
+    "transformersVersion": "5.17.0",
+    "accelerateVersion": "1.15.0",
+    "huggingfaceHubVersion": "1.33.0",
+    "safetensorsVersion": "0.8.0",
+    "pythonPillowVersion": "12.3.0",
+    "device": "cpu",
+    "dtype": "float32",
+    "executionMode": "cpu-fallback"
+  },
+  "model": {
+    "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+    "revision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS",
+    "resolvedRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "snapshotRevisionVerified": true,
+    "selectiveSnapshot": true,
+    "snapshotAllowPatterns": [
+      "model_index.json",
+      "scheduler/*",
+      "tokenizer/*",
+      "tokenizer_2/*",
+      "feature_extractor/*",
+      "text_encoder/config.json",
+      "text_encoder/model.fp16.safetensors",
+      "text_encoder_2/config.json",
+      "text_encoder_2/model.fp16.safetensors",
+      "unet/config.json",
+      "unet/diffusion_pytorch_model.fp16.safetensors",
+      "vae/config.json",
+      "vae/diffusion_pytorch_model.fp16.safetensors"
+    ]
+  },
+  "conditioning": {
+    "referenceAssetSha256": null,
+    "controlImageSha256": null,
+    "adapterScale": null,
+    "referenceImage": null,
+    "ipAdapterModelId": null,
+    "ipAdapterRevision": null,
+    "ipAdapterResolvedRevision": null,
+    "ipAdapterRevisionVerified": false,
+    "ipAdapterWeightName": null,
+    "ipAdapterSubfolder": null
+  },
+  "generation": {
+    "width": 640,
+    "height": 640,
+    "numInferenceSteps": 6,
+    "guidanceScale": 3.5,
+    "runtimePromptTokenCounts": {
+      "tokenizer": 66,
+      "tokenizer_2": 66
+    },
+    "executedSeed": 192633419
+  },
+  "output": {
+    "repoPath": "public/assets/catalog-candidates/cpu/decor-9-w09-v1-a-easel-with-tray-original.png",
+    "sha256": "499b255e4a64b70ec1137882adfb9be1785baf9ff0d71e1e6561347f94d2a3d6",
+    "gitBlobSha": "3b0ae22922e3f4aeed5ea6083ebd993ef49b5313",
+    "bytes": 445631,
+    "width": 640,
+    "height": 640,
+    "format": "PNG",
+    "sourceBytesPreserved": true,
+    "reusedExistingIdenticalBytes": false
+  },
+  "safety": {
+    "canonicalArtModified": false,
+    "gameplayModified": false,
+    "reviewDecisionMade": false,
+    "deploymentPerformed": false,
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+  },
+  "nextGate": "RUN_VERIFY_STAGED_OUTPUT_THEN_REAL_RENDER_AND_INDEPENDENT_EXACT_HASH_REVIEW",
+  "status": "GENERATED_SOURCE_BYTES_UNVERIFIED",
+  "recordSha256": "b2d3db490c33fd2d5034c9d25b4770dca3c06720324ccd928f16f01e69432c50"
+}
