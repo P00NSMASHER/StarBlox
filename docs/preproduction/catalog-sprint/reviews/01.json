@@ -1,11 +1,11 @@
 {
-  "schemaVersion": 13,
+  "schemaVersion": 14,
   "previousRevisionBlobSha": "27a91b49507fc666c60f7e63422fd8fde3cfe005",
   "reviewer": "01",
   "role": "Visual Target Director / independent catalog reviewer",
   "phase": "ART_AND_VISUALS_ONLY",
   "branch": "screenshot-match-preproduction",
-  "sourceHead": "75afe661d0400104b4c49398bcdb3ac3f5cd76f6",
+  "sourceHead": "c94b668e529c47eefc082d15463114cb7d96b04b",
   "assignedCollections": [
     "tops",
     "bottoms",
@@ -36,7 +36,7 @@
     "scope": [
       "decor-7"
     ],
-    "version": "w09-v2 CPU exact repository hash",
+    "version": "w09-v3 A-RACK-SILHOUETTE exact repository hash",
     "result": "REWORK_1_OF_1",
     "oldVerdictsTransferred": false,
     "actualCardScalePixelsReviewed": true,
@@ -215,6 +215,44 @@
         "originality": "PASS",
         "duplicateVisual": "PASS"
       }
+    },
+    {
+      "itemId": "decor-7",
+      "name": "Skate Rack",
+      "tier": 3,
+      "theme": "Garden Glow",
+      "assetPath": "/assets/catalog-candidates/cpu/decor-7-w09-v3-a-rack-silhouette-original.png",
+      "repositoryPath": "public/assets/catalog-candidates/cpu/decor-7-w09-v3-a-rack-silhouette-original.png",
+      "assetHash": "407b95bbecc3a030d357de290047954e28904b63",
+      "sha256": "7a41b5b897a9d0c912f2b92f226810a75a61d74b2da43df54341eef0841108d4",
+      "hashAlgorithm": "git-blob-sha1",
+      "producer": "09",
+      "decision": "REWORK",
+      "reviewedAt": "2026-09-24T01:31:00Z",
+      "evidenceRefs": [
+        "artifact:10785177791/staged-replacements/staged-replacements-contact-sheet.png",
+        "artifact:10785177791/staged-replacements/detail/decor-7-407b95bb.png",
+        "artifact:10785177791/preflight/decor-7-407b95bb.json",
+        "review-packet:docs/preproduction/art-factory/review-requests/w01-decor7-v3-407b95bb-20260924.json"
+      ],
+      "reasonCodes": [
+        "STILL_WEAK_SKATE_RACK_IDENTITY",
+        "MALFORMED_SKATE_FORMS",
+        "AMBIGUOUS_STORAGE_GEOMETRY",
+        "SMALL_CARD_READABILITY"
+      ],
+      "reason": "The v3 exact pixels improve centering and remove the prior edge-cropped room clutter, but the product still does not read cleanly as one roller-skate storage rack. The long shelf/board-like structure dominates, several stored forms are malformed or only partially recognizable as quad skates, and the lower bays/support geometry are inconsistent. At Store-card scale it reads more like a mixed skate/board display than a sturdy four-bay rack. Preserve this exact hash. The smallest next repair is one compact freestanding rack with unmistakable vertical/ A-frame supports, four coherent bays, two or three clearly formed quad skates fully contained inside, no board-like top shelf, and a simple negative-space silhouette.",
+      "checks": {
+        "identity": "FAIL — ambiguous skate/board display rather than unmistakable roller-skate rack.",
+        "themeTier": "PASS — Garden Glow palette and restrained luminous accents are suitable for Tier 3.",
+        "silhouette": "PARTIAL — centered and contained, but the long horizontal shelf weakens rack identity.",
+        "materialLighting": "PASS — dimensional materials and lighting are adequate.",
+        "cardReadability": "FAIL — malformed skates and shelf-like geometry collapse at small size.",
+        "physicalConstruction": "FAIL — bay/support logic is inconsistent and several skate forms are malformed.",
+        "framingCrop": "PASS — v3 fixes the prior edge-crop failure.",
+        "originality": "PASS",
+        "duplicateVisual": "PASS"
+      }
     }
   ],
   "currentReplacementDisposition": {
@@ -258,7 +296,7 @@
     },
     "decor": {
       "REWORK": {
-        "decor-7": "fa415ef0a554e2a60ee9e836f23d8d38b266a6e3"
+        "decor-7": "407b95bbecc3a030d357de290047954e28904b63"
       }
     }
   },
@@ -275,14 +313,14 @@
     "reworkNow": [
       "decor-7"
     ],
-    "preservedAcceptedHashes": "All previously accepted reviewer-01 hashes remain frozen; this exact-hash REWORK applies only to Decor 7 fa415ef0a554e2a60ee9e836f23d8d38b266a6e3."
+    "preservedAcceptedHashes": "All prior reviewer-01 ACCEPTs remain frozen; this REWORK applies only to Decor 7 exact hash 407b95bbecc3a030d357de290047954e28904b63."
   },
   "handoff": {
-    "14": "Exact Decor 7 render packet 10780534487 is consumed for this verdict; no rerender of the unchanged hash is needed.",
-    "15": "Decor 7 leaves the review queue as REWORK. Keep current Wall CPU run first; schedule a failure-specific Decor 7 replacement only when the CPU lane clears.",
-    "09": "Decor 7 exact hash fa415ef0a554e2a60ee9e836f23d8d38b266a6e3 is independently REWORK. Preserve it. Next version should emphasize a discrete physically plausible Skate Rack, dominant readable silhouette, contained skates/boards, clean three-quarter product framing and no cropped/malformed edge forms. Do not regenerate until coordinator15/CPU lane policy permits.",
-    "08": "Do not canonical-wire Decor 7 hash fa415ef0a554e2a60ee9e836f23d8d38b266a6e3; reviewer01 decision is REWORK.",
-    "next01Review": "Any fresh explicitly assigned repo-stored/rendered exact hash preempts producer work; unchanged Decor 7 fa415ef0 must not be re-reviewed."
+    "14": "Decor 7 v3 render packet 10785177791 is consumed; do not rerender this unchanged hash.",
+    "15": "Decor 7 v3 remains REWORK. Queue one failure-specific replacement after the currently running CPU batch clears.",
+    "09": "Preserve Decor 7 v3 hash 407b95bbecc3a030d357de290047954e28904b63. Next candidate must simplify to one compact physically coherent roller-skate rack with clear bays and recognizable contained quad skates.",
+    "08": "Do not canonical-wire Decor 7 hash 407b95bbecc3a030d357de290047954e28904b63.",
+    "next01Review": "Only a fresh explicitly assigned rendered exact hash."
   },
   "freeze": {
     "replitTouched": false,
@@ -305,17 +343,18 @@
   ],
   "currentRenderEvidence": {
     "workflow": "StarBlox Staged Catalog Art QA",
-    "workflowRunId": 35931971953,
-    "artifactId": 10780534487,
+    "workflowRunId": 35941645479,
+    "artifactId": 10785177791,
     "artifactName": "catalog-staged-art-review",
-    "artifactDigest": "sha256:a19500aa3222bb67c3ac2cc721930f4695efa3b7c570a2fc70ea0649b99811b9",
-    "workflowHead": "80fc7971468018caaa4d47dab87b0cbe52b6d587",
-    "cardEvidence": "artifact:10780534487/staged-replacements/staged-replacements-contact-sheet.png",
+    "artifactDigest": "sha256:7c53829204f49722a270293eb7fde28da7518cdd16553019ab11ce54007a8fc5",
+    "workflowHead": "54645f3b5112e6c8d95e2a11b4e569619d6826c8",
+    "cardEvidence": "artifact:10785177791/staged-replacements/staged-replacements-contact-sheet.png",
     "detailEvidence": {
-      "decor-7": "artifact:10780534487/staged-replacements/detail/decor-7-fa415ef0.png"
+      "decor-7": "artifact:10785177791/staged-replacements/detail/decor-7-407b95bb.png"
     },
-    "reportPath": "artifact:10780534487/report.json",
-    "preflightPath": "artifact:10780534487/preflight/decor-7-fa415ef0.json",
-    "technicalChecks": "HTTP 200, PNG signature PASS, raster-self-contained safety PASS, 768x768 natural dimensions, opaqueFraction=1, screenshot=true, binding hash PASS, no per-item render errors; report-only preflight produced no auto-decision."
+    "detailEvidenceSha256": {
+      "decor-7": "2252774d1a53db6fde74481c30d7e7caf14cd1e2e812760b2928eacab1594b74"
+    },
+    "technicalChecks": "Exact Git blob binding PASS, HTTP 200, PNG decode PASS, 768x768, screenshot=true, no render errors."
   }
 }

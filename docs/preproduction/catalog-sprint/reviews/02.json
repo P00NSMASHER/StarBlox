@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 12,
+  "schemaVersion": 13,
   "reviewer": "02",
   "role": "independent reviewer for Shoes/Backgear/Handgear/Seating",
   "phase": "ART_VISUALS_SPRINT",
@@ -7,7 +7,7 @@
   "policy": "docs/preproduction/DELIVERY_PROTOCOL_V2.md",
   "visualSprint": "docs/preproduction/ART_VISUALS_SPRINT.json",
   "artFactoryPolicy": "docs/preproduction/art-factory/ART_FACTORY_V2.json",
-  "sourceHead": "67953eee213e36fa9b88c32d5aa6679ced715cba",
+  "sourceHead": "c94b668e529c47eefc082d15463114cb7d96b04b",
   "priorReviewShard": {
     "blobSha": "4173dbb9923157eb5a13090d526f88cfec162edd",
     "schemaVersion": 10,
@@ -240,28 +240,34 @@
   ],
   "currentCycle": {
     "scope": [
-      "wall-10"
+      "wall-9",
+      "wall-11",
+      "wall-12"
     ],
-    "version": "w13-v1 A-ACRYLIC-SKYLINE exact repository hash",
-    "result": "REWORK_1_OF_1",
+    "version": "w13 current exact repository hashes",
+    "result": "ACCEPT_2_REWORK_1_OF_3",
     "oldVerdictsTransferred": false,
     "actualCardScalePixelsReviewed": true,
     "actualDetailPixelsReviewed": true,
     "selfApprovalConflict": false
   },
   "currentRenderEvidence": {
-    "workflow": "StarBlox Staged Catalog Art QA",
-    "workflowRunId": 35933468041,
-    "artifactId": 10782326531,
-    "artifactName": "catalog-staged-art-review",
-    "artifactDigest": "sha256:19438f21cb1ab61bca7c2941baa85cd6336292d70b3040551946408b9472cabe",
-    "workflowHead": "7fd50b8b879ace551bec2d45eb6b64a7de822569",
-    "detailEvidence": "artifact:10782326531/staged-replacements/detail/wall-10-74a4c531.png",
-    "detailEvidenceSha256": "eb068fb9ebe88b3db971aa9a963625975174c83f1505d672d13bddb04065347b",
-    "contactSheetEvidence": "artifact:10782326531/staged-replacements/staged-replacements-contact-sheet.png",
-    "contactSheetSha256": "706d83745163ba0c24f61708fdbe2a21819506753062c33ae72d7a877b4ccaa0",
-    "reportPath": "artifact:10782326531/report.json",
-    "technicalChecks": "Factory evidence discovered directly; exact Git blob binding PASS, PNG signature PASS, raster-self-contained safety PASS, HTTP 200, natural 768x768, opaqueFraction=1, screenshot=true, no item render errors."
+    "wall9": {
+      "workflow": "StarBlox Staged Catalog Art QA",
+      "workflowRunId": 35940745629,
+      "artifactId": 10783979601,
+      "artifactDigest": "sha256:bbbe2ffd073b3c75ecfc115395af0eb9f9321c26638df29b3e786fdfcfc79df8",
+      "detailEvidence": "artifact:10783979601/staged-replacements/detail/wall-9-95a2de47.png",
+      "detailEvidenceSha256": "746d84af8bf39559f0e41f2f066ebe74b1c17f8f05681eea6f91d5a96f6a841f"
+    },
+    "wall11_12": {
+      "workflow": "StarBlox Staged Catalog Art QA",
+      "workflowRunId": 35941645479,
+      "artifactId": 10785177791,
+      "artifactDigest": "sha256:7c53829204f49722a270293eb7fde28da7518cdd16553019ab11ce54007a8fc5",
+      "wall11DetailSha256": "914145d8f9fadf9ef2bb06dd3a3f642ef46652aa331f1465a9ac7fcfc7d6ebf8",
+      "wall12DetailSha256": "1402271cb0448bc5ae21f1cf58aa671dc8ab2e8094519b06b271a5f1ade6f436"
+    }
   },
   "reviews": [
     {
@@ -298,30 +304,146 @@
         "technicalIntegrity": "PASS — exact staged bytes/provenance/render binding are valid; this is an art-quality REWORK, not a technical blocker."
       },
       "reason": "Exact rendered pixels are REWORK. The candidate violates the no-text intent with prominent pseudo-lettering, fails to establish a clear city/skyline sign identity, and has malformed hanging/support geometry. Cloud Pop neon color cues alone are insufficient for a Tier-4 Neon City Sign. Preserve this exact hash as evidence; a replacement should use a clean physical wall-mounted sign with an unmistakable abstract skyline/cloud silhouette, no glyphs or lettering, coherent mounting hardware and crisp card-scale structure."
+    },
+    {
+      "itemId": "wall-9",
+      "name": "Art Gallery Wall",
+      "tier": 3,
+      "theme": "Adventure Club",
+      "assetPath": "public/assets/catalog-candidates/cpu/wall-9-w13-v1-a-gallery-rail-original.png",
+      "assetHash": "95a2de47f3b19017ba37bfac1ab25fc87ad345ed",
+      "contentSha256": "7ca470736c1d860909dbd493e87b68e7d6f7c8acdbeaf44d60bab56b0e3e0b04",
+      "producer": "13",
+      "decision": "REWORK",
+      "learnerLabel": "REWORK",
+      "reviewedAt": "2026-09-24T01:31:00Z",
+      "evidence": {
+        "detailRenderPath": "staged-replacements/detail/wall-9-95a2de47.png",
+        "detailRenderSha256": "746d84af8bf39559f0e41f2f066ebe74b1c17f8f05681eea6f91d5a96f6a841f",
+        "detailDimensions": [
+          800,
+          800
+        ],
+        "contactSheetPath": "staged-replacements/staged-replacements-contact-sheet.png",
+        "workflowRunId": 35940745629,
+        "artifactId": 10783979601
+      },
+      "checks": {
+        "recognizableCategoryFunction": "FAIL — reads as an unfinished room shelving scene, not a coherent Art Gallery Wall product.",
+        "physicalConstructionContact": "FAIL — fragmented shelf/frame geometry and unrelated floor objects replace a single wall-mounted gallery system.",
+        "silhouette": "FAIL — no clean product silhouette.",
+        "materialLighting": "PARTIAL — neutral dimensional shading exists but does not clarify the intended item.",
+        "themeTierSpecificity": "FAIL — Adventure Club gallery/art motifs are essentially absent.",
+        "smallCardReadability": "FAIL — at card scale it becomes generic beige shelving.",
+        "framingCrop": "FAIL — room/floor context dominates instead of an isolated wall product.",
+        "originalityNearDuplicateRisk": "PASS",
+        "technicalIntegrity": "PASS — exact staged bytes/provenance/render binding are valid; this is art-quality REWORK."
+      },
+      "reason": "REWORK. The exact pixels do not depict the specified wall-mounted gallery system: framed art and Adventure Club motifs are missing, while generic shelving, a bench and floor blocks dominate. The next candidate should isolate one wall-hung rail/backboard with 3–4 clearly framed art panels/shadowboxes, visible mounting depth, controlled asymmetry and no floor furniture."
+    },
+    {
+      "itemId": "wall-11",
+      "name": "Star Mirror",
+      "tier": 4,
+      "theme": "Pixel Party",
+      "assetPath": "public/assets/catalog-candidates/cpu/wall-11-w13-v1-a-pixel-bevel-mirror-original.png",
+      "assetHash": "50ffc975030f6c7e28cf9836756bb312dfa646fb",
+      "contentSha256": "01b064b4bee3e4be894a59279abb04b49b27cd048848513283631be59348268e",
+      "producer": "13",
+      "decision": "ACCEPT",
+      "learnerLabel": "ACCEPT",
+      "reviewedAt": "2026-09-24T01:31:00Z",
+      "evidence": {
+        "detailRenderPath": "staged-replacements/detail/wall-11-50ffc975.png",
+        "detailRenderSha256": "914145d8f9fadf9ef2bb06dd3a3f642ef46652aa331f1465a9ac7fcfc7d6ebf8",
+        "detailDimensions": [
+          800,
+          800
+        ],
+        "contactSheetPath": "staged-replacements/staged-replacements-contact-sheet.png",
+        "workflowRunId": 35941645479,
+        "artifactId": 10785177791
+      },
+      "checks": {
+        "recognizableCategoryFunction": "PASS — unmistakable star-shaped wall mirror with a clear reflective center.",
+        "physicalConstructionContact": "PASS — substantial layered frame, visible thickness and coherent frame-to-mirror construction.",
+        "silhouette": "PASS — strong star silhouette survives Store-card scale.",
+        "materialLighting": "PASS — mirror glass, metallic frame and purple/gold elements separate clearly with convincing depth.",
+        "themeTierSpecificity": "PASS — geometric/pixel-like segmented frame and vivid violet/cool accents support Pixel Party at Tier 4.",
+        "smallCardReadability": "PASS — star outline and mirror center remain immediately readable.",
+        "framingCrop": "PASS",
+        "originalityNearDuplicateRisk": "PASS",
+        "technicalIntegrity": "PASS"
+      },
+      "reason": "ACCEPT. The exact render clearly fulfills Star Mirror identity, Tier-4 Pixel Party specificity, physical wall-object depth and small-card readability without text or duplicate-template concerns."
+    },
+    {
+      "itemId": "wall-12",
+      "name": "Golden Crest",
+      "tier": 5,
+      "theme": "Berry Blast",
+      "assetPath": "public/assets/catalog-candidates/cpu/wall-12-w13-v1-a-jeweled-relief-crest-original.png",
+      "assetHash": "e9387a7174a888980616ea9afac43cc9b3adbb3b",
+      "contentSha256": "771d8099c4231b407a0d2dac2e44178a2eabdd8f960bfbab0151bd9b0633d9db",
+      "producer": "13",
+      "decision": "ACCEPT",
+      "learnerLabel": "ACCEPT",
+      "reviewedAt": "2026-09-24T01:31:00Z",
+      "evidence": {
+        "detailRenderPath": "staged-replacements/detail/wall-12-e9387a71.png",
+        "detailRenderSha256": "1402271cb0448bc5ae21f1cf58aa671dc8ab2e8094519b06b271a5f1ade6f436",
+        "detailDimensions": [
+          800,
+          800
+        ],
+        "contactSheetPath": "staged-replacements/staged-replacements-contact-sheet.png",
+        "workflowRunId": 35941645479,
+        "artifactId": 10785177791
+      },
+      "checks": {
+        "recognizableCategoryFunction": "PASS — reads as an ornate gilded wall crest/relief rather than a generic icon.",
+        "physicalConstructionContact": "PASS — layered gold framework and inset jewel forms create believable relief depth.",
+        "silhouette": "PASS — symmetrical crest structure remains distinct in the Store card.",
+        "materialLighting": "PASS — polished/satin gold and faceted magenta jewels provide strong premium material separation.",
+        "themeTierSpecificity": "PASS — berry-magenta gems plus lavish gold construction clearly support Berry Blast at Luxe/Tier 5.",
+        "smallCardReadability": "PASS — gold frame and central jewel hierarchy remain clear at small size.",
+        "framingCrop": "PASS — dense presentation but critical crest structure remains contained and readable.",
+        "originalityNearDuplicateRisk": "PASS",
+        "technicalIntegrity": "PASS"
+      },
+      "reason": "ACCEPT. The exact pixels provide a premium, original Golden Crest with strong Tier-5 spectacle, Berry Blast jewel identity, convincing relief/material depth and clean card-scale hierarchy."
     }
   ],
   "currentReplacementDisposition": {
     "wall": {
       "REWORK": {
-        "wall-10": "74a4c531a3c60ccd60747bfebc2dfc0d1d25b684"
+        "wall-10": "74a4c531a3c60ccd60747bfebc2dfc0d1d25b684",
+        "wall-9": "95a2de47f3b19017ba37bfac1ab25fc87ad345ed"
+      },
+      "ACCEPT": {
+        "wall-11": "50ffc975030f6c7e28cf9836756bb312dfa646fb",
+        "wall-12": "e9387a7174a888980616ea9afac43cc9b3adbb3b"
       }
     }
   },
   "summary": {
-    "reviewedThisRun": 1,
-    "newAcceptsThisRun": 0,
+    "reviewedThisRun": 3,
+    "newAcceptsThisRun": 2,
     "newReworkThisRun": 1,
     "newBlockedThisRun": 0,
-    "newUsableBy08Now": [],
-    "reworkNow": [
-      "wall-10"
+    "newUsableBy08Now": [
+      "wall-11",
+      "wall-12"
     ],
-    "preservedAcceptedHashes": "All earlier reviewer-02 ACCEPTs remain frozen; this REWORK applies only to Wall 10 exact hash 74a4c531a3c60ccd60747bfebc2dfc0d1d25b684."
+    "reworkNow": [
+      "wall-9"
+    ],
+    "preservedAcceptedHashes": "All earlier reviewer-02 ACCEPTs remain frozen; Wall 11/12 are new exact-hash ACCEPTs and Wall 9 is REWORK. Existing Wall 10 v1 REWORK remains preserved until v2 render review."
   },
   "handoff": {
-    "13": "Wall 10 exact hash 74a4c531a3c60ccd60747bfebc2dfc0d1d25b684 is REWORK. Preserve it. Replacement must remove pseudo-text, establish unmistakable city/cloud sign identity, use coherent mounting/support geometry and retain clean card-scale silhouette.",
-    "14": "Wall 10 render packet 10782326531 is consumed; no rerender of unchanged hash is needed.",
-    "15": "Keep Wall 9/11/12 current generation/review first. Queue failure-specific Wall 10 replacement only after current CPU lane sequencing allows.",
-    "08": "Do not canonical-wire Wall 10 hash 74a4c531a3c60ccd60747bfebc2dfc0d1d25b684; reviewer02 decision is REWORK."
+    "13": "Wall 9 hash 95a2de47f3b19017ba37bfac1ab25fc87ad345ed is REWORK: isolate a real wall-mounted gallery rail/backboard with 3–4 framed pieces and no floor-room scene. Preserve Wall 11/12 accepted hashes.",
+    "14": "Wall 9/11/12 packets are consumed; do not rerender unchanged hashes. Wall 10 v2 remains separately qualified and awaits its own render/review packet.",
+    "15": "Wall 11/12 leave review as ACCEPT; Wall 9 requires one failure-specific replacement when CPU sequencing permits.",
+    "08": "Canonical integration eligible now: wall-11@50ffc975030f6c7e28cf9836756bb312dfa646fb and wall-12@e9387a7174a888980616ea9afac43cc9b3adbb3b. Do not integrate wall-9 or Wall 10 v1."
   }
 }
