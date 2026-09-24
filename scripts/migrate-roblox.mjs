@@ -34,12 +34,12 @@ function absolute(value){
   return isAbsolute(value) ? value : resolve(process.cwd(),value);
 }
 
-function safeResolve(base,relativePath){
+function safeResolve(base,relativePath,label='base directory'){
   const cleanBase=resolve(base);
   const candidate=resolve(cleanBase,relativePath);
   const rel=relative(cleanBase,candidate);
   if(rel === '..' || rel.startsWith('..' + sep) || isAbsolute(rel)){
-    throw new Error('source file escapes --source-root: ' + relativePath);
+    throw new Error('path escapes ' + label + ': ' + relativePath);
   }
   return candidate;
 }
@@ -87,12 +87,61 @@ async function digest(path){
   };
 }
 
-const catalogPath=absolute(arg('--catalog',true));
+const catalogRaw=arg('--catalog');
+const receiptRaw=arg('--ingestion-receipt');
+if(Boolean(catalogRaw) === Boolean(receiptRaw)){
+  throw new Error('provide exactly one of --catalog or --ingestion-receipt');
+}
 const outDir=absolute(arg('--out-dir') || 'roblox-migration-bundle');
 const rulesPath=arg('--rules');
 const sourceRootRaw=arg('--source-root');
 
+let catalogPath=null;
+let ingestionReceipt=null;
+
+if(receiptRaw){
+  const receiptPath=absolute(receiptRaw);
+  ingestionReceipt=JSON.parse(await readFile(receiptPath,'utf8'));
+  if(
+    ingestionReceipt?.schemaVersion !== 1 ||
+    ingestionReceipt?.version !== 'starblox-roblox-ingestion-v1' ||
+    ingestionReceipt?.status !== 'cataloged'
+  ){
+    throw new Error('unsupported or incomplete Roblox ingestion receipt');
+  }
+  if(ingestionReceipt.migrationStarted !== false){
+    throw new Error('ingestion receipt does not attest migrationStarted=false');
+  }
+
+  const artifact=ingestionReceipt?.artifacts?.catalog;
+  if(
+    !artifact ||
+    typeof artifact.file !== 'string' ||
+    !artifact.file.trim() ||
+    !/^[a-f0-9]{64}$/.test(String(artifact.sha256 || ''))
+  ){
+    throw new Error('ingestion receipt catalog artifact is invalid');
+  }
+
+  catalogPath=safeResolve(dirname(receiptPath),artifact.file,'ingestion receipt directory');
+  const catalogDigest=await digest(catalogPath);
+  if(catalogDigest.sha256 !== artifact.sha256){
+    throw new Error(
+      'ingestion receipt catalog SHA-256 mismatch; expected ' + artifact.sha256 +
+      ' but found ' + catalogDigest.sha256
+    );
+  }
+}else{
+  catalogPath=absolute(catalogRaw);
+}
+
 const catalog=JSON.parse(await readFile(catalogPath,'utf8'));
+if(ingestionReceipt && catalog.catalogHash !== ingestionReceipt.catalogHash){
+  throw new Error(
+    'ingestion receipt catalog hash mismatch; expected ' + ingestionReceipt.catalogHash +
+    ' but found ' + catalog.catalogHash
+  );
+}
 let rules={};
 if(rulesPath){
   rules=JSON.parse(await readFile(absolute(rulesPath),'utf8'));
@@ -129,7 +178,7 @@ const sourceRoot=absolute(sourceRootRaw);
 const artifacts=[];
 
 for(const unit of plan.units.filter(item => item.selected)){
-  const input=safeResolve(sourceRoot,unit.sourceFile);
+  const input=safeResolve(sourceRoot,unit.sourceFile,'--source-root');
   const inputInfo=await stat(input);
   if(!inputInfo.isFile()){
     throw new Error('migration source is not a file: ' + input);

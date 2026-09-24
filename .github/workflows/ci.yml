@@ -78,6 +78,21 @@ jobs:
             echo "expected catalog handoff fingerprint mismatch"
             exit 1
           fi
+      - name: Plan migration directly from ingestion receipt
+        run: |
+          rm -rf /tmp/roblox-receipt-plan
+          npm run roblox:migrate -- --ingestion-receipt /tmp/roblox-safe-ingest/ingestion-receipt.json --out-dir /tmp/roblox-receipt-plan --min-score 0
+          test -f /tmp/roblox-receipt-plan/migration-plan.json
+          test -f /tmp/roblox-receipt-plan/migration-plan.md
+          test ! -f /tmp/roblox-receipt-plan/migration-bundle.json
+          grep -q '"catalogHash"' /tmp/roblox-receipt-plan/migration-plan.json
+          mkdir -p /tmp/roblox-receipt-tamper
+          cp -R /tmp/roblox-safe-ingest/. /tmp/roblox-receipt-tamper/
+          printf '\n' >> /tmp/roblox-receipt-tamper/capability-catalog.json
+          if npm run roblox:migrate -- --ingestion-receipt /tmp/roblox-receipt-tamper/ingestion-receipt.json --out-dir /tmp/roblox-receipt-tamper-plan --min-score 0; then
+            echo "expected ingestion receipt catalog fingerprint mismatch"
+            exit 1
+          fi
       - name: Test Roblox migration exporter
         run: npm run roblox:migration:exporter:test
       - name: Smoke-test Brookhaven migration staging compiler
