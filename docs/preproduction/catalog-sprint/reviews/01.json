@@ -5,7 +5,7 @@
   "role": "Visual Target Director / independent catalog reviewer",
   "phase": "ART_AND_VISUALS_ONLY",
   "branch": "screenshot-match-preproduction",
-  "sourceHead": "8b24eb33de872578aed1fd4ab973958abce14496",
+  "sourceHead": "f84576d194",
   "assignedCollections": [
     "tops",
     "bottoms",
@@ -34,14 +34,15 @@
   },
   "currentCycle": {
     "scope": [
-      "decor-7"
+      "desks-11"
     ],
-    "version": "Decor7 v10 exact hash",
-    "result": "REWORK_1_OF_1",
+    "version": "Desk11 v7 exact source hash",
+    "result": "REWORK_1_OF_1_FAIL_FAST",
     "oldVerdictsTransferred": false,
-    "actualCardScalePixelsReviewed": true,
+    "actualCardScalePixelsReviewed": false,
     "actualDetailPixelsReviewed": true,
-    "selfApprovalConflict": false
+    "selfApprovalConflict": false,
+    "failFastSourceContract": true
   },
   "renderEvidence": {
     "workflow": "StarBlox Staged Catalog Art QA",
@@ -885,6 +886,45 @@
         "duplicateVisual": "PASS",
         "technicalIntegrity": "PASS"
       }
+    },
+    {
+      "itemId": "desks-11",
+      "name": "Dream Creator Station",
+      "tier": 4,
+      "theme": "Art Attack",
+      "assetPath": "public/assets/catalog-candidates/cpu/desks-11-w03-v7-b-plain-creator-desk-original.png",
+      "repositoryPath": "public/assets/catalog-candidates/cpu/desks-11-w03-v7-b-plain-creator-desk-original.png",
+      "assetHash": "b138c6291bf801bbf66e33daf9394e2c4bbae249",
+      "sha256": "8509eadb8d84acc4194d3d8253d6edda89a66723d53bd434f4be6e4119613416",
+      "contentSha256": "8509eadb8d84acc4194d3d8253d6edda89a66723d53bd434f4be6e4119613416",
+      "hashAlgorithm": "git-blob-sha1",
+      "producer": "03",
+      "decision": "REWORK",
+      "learnerLabel": "REWORK",
+      "reviewedAt": "2026-09-24T19:31:00Z",
+      "evidenceRefs": [
+        "workflow:36046167977",
+        "artifact:10829341371/candidate/desks-11-w03-v7-b-plain-creator-desk-original.png"
+      ],
+      "reasonCodes": [
+        "GENERIC_WRITING_DESK",
+        "CREATOR_TOOL_IDENTITY_MISSING",
+        "ROOM_CONTEXT_PRESENT",
+        "ART_ATTACK_SPECIFICITY_FAILURE"
+      ],
+      "reason": "REWORK fail-fast from exact source pixels. V7 is finally a single coherent desk, but it reads as a generic writing/drafting desk rather than a Dream Creator Station. The required creator-tool/storage identity is missing, Art Attack specificity is weak, and the room/background remains dominant. Preserve this exact hash. The next attempt should keep the successful single-desk structure while adding one unmistakable creative-tool rail/bin system and creator tablet/brush cup on a plain background.",
+      "checks": {
+        "identity": "FAIL",
+        "silhouette": "PASS",
+        "cardReadability": "PARTIAL",
+        "physicalConstruction": "PASS",
+        "framingComposition": "PARTIAL",
+        "materialLighting": "PASS",
+        "themeTierSpecificity": "FAIL",
+        "originality": "PASS",
+        "duplicateVisual": "PASS",
+        "technicalIntegrity": "PASS"
+      }
     }
   ],
   "currentReplacementDisposition": {
@@ -936,7 +976,7 @@
     },
     "desks": {
       "REWORK": {
-        "desks-11": "202a80396f3ca114c57b1f488aa7d5230aba17b4",
+        "desks-11": "b138c6291bf801bbf66e33daf9394e2c4bbae249",
         "desks-12": "7d268e27c8d963dfb7e8c62274fe6b906973d5bd"
       },
       "ACCEPT": {
@@ -955,17 +995,17 @@
     "newBlockedThisRun": 0,
     "newUsableBy08Now": [],
     "reworkNow": [
-      "decor-7"
+      "desks-11"
     ],
-    "preservedAcceptedHashes": "All prior reviewer01 ACCEPTs remain frozen; this REWORK applies only to Decor7 v10 exact hash."
+    "preservedAcceptedHashes": "All prior reviewer01 ACCEPTs remain frozen; this REWORK applies only to Desk11 v7 exact hash."
   },
   "handoff": {
     "13": "desks-12 exact hash ACCEPT; freeze it and remove from production scope.",
     "14": "Current render packets consumed; do not rerender unchanged hashes.",
-    "15": "Decor7 remains a bounded release blocker.",
+    "15": "Desk11 remains a bounded visual blocker; consolidate its next retry with any other Producer03 failures from the current v6 token-safe four-pack.",
     "09": "Decor7 v10 REWORK; preserve exact hash and use the v11 literal quad-skates-on-shoe-rack fallback.",
-    "03": "desks-11 current literal hashes are REWORK; preserve them and prepare the next narrow retry while other producers continue.",
-    "08": "Do not canonical-wire Decor7 v10."
+    "03": "Desk11 v7 REWORK; preserve exact hash. Next retry should keep the coherent single desk but make creator tools/storage unmistakable on plain background.",
+    "08": "Do not canonical-wire Desk11 v7."
   },
   "freeze": {
     "replitTouched": false,
