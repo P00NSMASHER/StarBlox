@@ -74,7 +74,10 @@ const server=http.createServer(async (req,res) => {
         const result=await bridge.dispatch(
           body.tool,
           body.args || {},
-          {instanceId:body.instanceId || 'default'}
+          {
+            instanceId:body.instanceId || 'default',
+            target:body.target || 'edit'
+          }
         );
         send(res,200,{ok:true,result});
       }catch(error){
@@ -91,13 +94,14 @@ const server=http.createServer(async (req,res) => {
       const instanceId=typeof body.instanceId === 'string' && body.instanceId
         ? body.instanceId
         : 'default';
+      const role=typeof body.role === 'string' && body.role ? body.role : 'edit';
       const waitMs=Math.max(0,Math.min(30_000,Number(body.waitMs ?? 20_000)));
       const limit=Math.max(1,Math.min(20,Number(body.limit ?? 5)));
 
-      await bridge.waitForWork({instanceId,waitMs});
+      await bridge.waitForWork({instanceId,role,waitMs});
       send(res,200,{
         ok:true,
-        calls:bridge.take({instanceId,limit})
+        calls:bridge.take({instanceId,role,limit})
       });
       return;
     }
