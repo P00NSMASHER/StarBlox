@@ -74,19 +74,20 @@ function balancedBriefWords(item,brief,budget){
  const segments=positiveBriefSegments(item,brief).slice(0,8).map(promptWords).filter(x=>x.length);
  if(!segments.length||budget<=0) return [];
  const quota=Math.max(4,Math.floor(budget/segments.length));
- const selected=[],remainders=[];
- for(const words of segments){
-  selected.push(...words.slice(0,quota));
-  remainders.push(words.slice(quota));
+ const take=segments.map(words=>Math.min(words.length,quota));
+ let room=budget-take.reduce((sum,n)=>sum+n,0);
+ while(room>0){
+  let advanced=false;
+  for(let i=0;i<segments.length&&room>0;i++){
+   if(take[i]<segments[i].length){
+    take[i]++;
+    room--;
+    advanced=true;
+   }
+  }
+  if(!advanced) break;
  }
- let room=budget-selected.length;
- for(const words of remainders){
-  if(room<=0) break;
-  const take=words.slice(0,room);
-  selected.push(...take);
-  room-=take.length;
- }
- return selected.slice(0,budget);
+ return segments.flatMap((words,i)=>words.slice(0,take[i])).slice(0,budget);
 }
 
 function explicitNegativePhrases(brief=''){
