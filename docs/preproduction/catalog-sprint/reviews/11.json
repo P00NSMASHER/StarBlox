@@ -4,7 +4,7 @@
   "role": "independent art reviewer D / overflow reviewer",
   "phase": "ART_VISUALS_SPRINT",
   "branch": "screenshot-match-preproduction",
-  "sourceHead": "a14d3c3fdbce127fb1e286c23329b51331fec877",
+  "sourceHead": "a14d3c3fdb",
   "policy": "docs/preproduction/DELIVERY_PROTOCOL_V2.md",
   "artFactoryPolicy": "docs/preproduction/art-factory/ART_FACTORY_V2.json",
   "currentCycle": {
@@ -430,9 +430,9 @@
     "preservedAcceptedHashes": "All prior reviewer11 ACCEPTs remain frozen; this verdict applies only to wall-8 exact hash ca9108a80d2cd6811d7826fb52a85455482903f2."
   },
   "handoff": {
-    "13": "wall-8 current exact hash is REWORK; preserve it and generate only the failure-specific next version if director15 keeps it release-critical.",
+    "13": "wall-8 current exact hash is REWORK; preserve it and generate only the smallest failure-specific next version if director15 keeps it release-critical.",
     "14": "Tail render packets consumed; do not rerender unchanged hashes.",
-    "15": "wall-8 remains a bounded exact-pixel REWORK blocker; prepare only the smallest failure-specific replacement.",
+    "15": "wall-8 remains a bounded exact-pixel blocker.",
     "08": "Do not canonical-wire wall-8 exact hash ca9108a80d2cd6811d7826fb52a85455482903f2."
   },
   "preservation": {
