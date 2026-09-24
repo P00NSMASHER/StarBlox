@@ -74,6 +74,7 @@ const receipt = {
   contentFingerprint:bundle.contentFingerprint,
   sha256,
   sourceSnapshotHashCount:Object.keys(sourceSnapshotHashes).length,
+  sourceSnapshotHashes,
   existingRuntimeIssueCount:existingRuntimeIssues.length,
   bundleIssueCount:bundleIssues.length,
   adversarialHardFindingCount:adversarialHardFindings.length,
