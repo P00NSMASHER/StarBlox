@@ -22,6 +22,9 @@ export function capabilityCatalogMarkdown(catalog){
     '- Capability groups: ' + catalog.summary.capabilityCount,
     '- System candidates: ' + catalog.summary.systemCandidateCount,
     '- Risk flags: ' + (catalog.summary.riskFlags.join(', ') || 'none'),
+    '- Indexed scripts/remotes/UI trees/models: ' +
+      [catalog.summary.inventoryCounts?.scripts || 0,catalog.summary.inventoryCounts?.remotes || 0,
+       catalog.summary.inventoryCounts?.uiTrees || 0,catalog.summary.inventoryCounts?.models || 0].join(' / '),
     '',
     '## Highest-leverage system candidates',
     ''
@@ -35,7 +38,8 @@ export function capabilityCatalogMarkdown(catalog){
       item.scriptCount + ' scripts; ' +
       item.remoteCount + ' remotes; ' +
       'reuse: **' + item.reuseRecommendation + '**; ' +
-      'capabilities: ' + (item.capabilities.join(', ') || 'unclassified')
+      'capabilities: ' + (item.capabilities.join(', ') || 'unclassified') +
+      (item.reviewRequired ? '; **risk review required**' : '')
     );
   }
 
@@ -44,9 +48,9 @@ export function capabilityCatalogMarkdown(catalog){
     lines.push('- **' + name + '** — ' + value.count + ' matching instances');
   }
 
-  lines.push('', '## Reuse review queue', '');
+  lines.push('', '## Refactor / risk review queue', '');
   const review=catalog.instances
-    .filter(record => record.reuse.class === 'review' || record.reuse.class === 'refactor')
+    .filter(record => record.reuse.class === 'reusable-after-refactor' || record.reuse.reviewRequired)
     .slice(0,100);
 
   for(const record of review){
