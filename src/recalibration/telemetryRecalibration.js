@@ -257,6 +257,39 @@ function currentVersionMatches(bank,ref){
   return version;
 }
 
+function filterTelemetryAgainstBank(bank,normalized){
+  const accepted=[];
+  const rejected=[...normalized.rejected];
+
+  for(const event of normalized.accepted){
+    if(event.kind === 'question_response' && !currentVersionMatches(bank,event.questionRef)){
+      rejected.push({
+        index:null,
+        reason:'question telemetry does not match the current published QuestionVersion: ' +
+          exactQuestionKey(event.questionRef)
+      });
+      continue;
+    }
+    accepted.push(event);
+  }
+
+  const counts={
+    total:normalized.counts.total,
+    accepted:accepted.length,
+    rejected:rejected.length,
+    questionResponses:accepted.filter(event => event.kind === 'question_response').length,
+    sessionSummaries:accepted.filter(event => event.kind === 'session_summary').length,
+    policyOutcomes:accepted.filter(event => event.kind === 'policy_outcome').length
+  };
+
+  return {
+    accepted,
+    rejected,
+    counts,
+    dataFingerprint:stableHash(accepted)
+  };
+}
+
 function average(values){
   return values.length ? values.reduce((sum,value) => sum + value,0) / values.length : 0;
 }
@@ -561,7 +594,13 @@ function calibrateBalance(events,currentBalance,targets,{
     }))
   ];
 
-  const changed=stableHash(before) !== stableHash(candidate);
+  const changed=stableHash({
+    economy:before.economy,
+    quest:before.quest
+  }) !== stableHash({
+    economy:candidate.economy,
+    quest:candidate.quest
+  });
 
   return {
     status:changed && failures.length === 0 ? 'review_change' : changed ? 'blocked' : 'stable',
@@ -604,7 +643,8 @@ export function buildTelemetryRecalibrationProposal({
 }){
   if(!bank || typeof bank !== 'object') throw new TypeError('bank is required.');
 
-  const normalized=normalizeTrustedTelemetry(events);
+  const parsed=normalizeTrustedTelemetry(events);
+  const normalized=filterTelemetryAgainstBank(bank,parsed);
   const settings={
     minItemResponses:options.minItemResponses ?? 30,
     minOutcomeCount:options.minOutcomeCount ?? 5,
