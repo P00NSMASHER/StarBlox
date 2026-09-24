@@ -65,7 +65,10 @@ local ProfileTemplate = {
 			MinigameWins = 0,
 		},
 		CompletedSessionIds = {},
-		AffinityEventIds = {},
+		CompletedSessionReceipts = {},
+		AffinityReceipts = {},
+		PhotoReceipts = {},
+		LiveOpsSequence = 0,
 	},
 
 	LiveOps = {
