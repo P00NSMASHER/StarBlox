@@ -41,6 +41,8 @@ describe('Step 2: built-in StarBlox Studio connector contract', () => {
     expect(source).not.toMatch(/PromptProductPurchase|PromptGamePassPurchase|PurchasePrompt/i);
     expect(source).not.toMatch(/OpenCloud|ApiKey|ROBLOSECURITY/i);
     expect(source).not.toMatch(/run_luau|loadstring|getfenv|setfenv/i);
+    expect(source).toMatch(/request\.expiresAt/);
+    expect(source).toMatch(/UnixTimestampMillis/);
 
     for(const tool of STARBLOX_STUDIO_CONNECTOR_TOOLS){
       expect(source).toContain(tool + ' =');
