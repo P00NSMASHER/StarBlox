@@ -171,6 +171,8 @@ const portableCatalogArt = Object.freeze({
   'wall-5': '/assets/catalog/wall-5-w05-v2.png',
   'wall-6': '/assets/catalog/wall-6-w05-v2.png',
   'wall-7': '/assets/catalog/wall-7-w05-v2.png',
+  'wall-11': '/assets/catalog-candidates/cpu/wall-11-w13-v1-a-pixel-bevel-mirror-original.png',
+  'wall-12': '/assets/catalog-candidates/cpu/wall-12-w13-v1-a-jeweled-relief-crest-original.png',
   'rugs-1': '/assets/catalog/rugs-1-w07-v2.jpg',
   'rugs-2': '/assets/catalog/rugs-2-w07-v2.jpg',
   'rugs-3': '/assets/catalog/rugs-3-w07-v2.jpg',

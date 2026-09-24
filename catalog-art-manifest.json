@@ -1,9 +1,9 @@
 {
-  "version": 33,
+  "version": 34,
   "target": 192,
-  "finalCount": 166,
-  "remaining": 26,
-  "note": "Delivery Protocol V2 incremental integration: independently ACCEPTed exact current Headwear 5-8 W12 v2 hashes integrated after reviewer01 exact-hash card/detail review. Prior accepted mappings including Wall 5-7 and rejected versions remain in repository history. Replit/Floot/main/player data remain untouched.",
+  "finalCount": 168,
+  "remaining": 24,
+  "note": "Delivery Protocol V2 incremental integration: independently ACCEPTed exact Wall 11-12 W13 CPU hashes integrated after reviewer02 exact-hash card/detail review. Wall 9 and Wall 10 v1 remain REWORK; other accepted mappings remain frozen. Replit/Floot/main/player data remain untouched.",
   "duplicateAssetPaths": [],
   "items": {
     "tops-1": {
@@ -1215,6 +1215,20 @@
       "assetPath": "/assets/catalog/decor-4-w09-v3.webp",
       "tier": 2,
       "theme": "Cloud Pop",
+      "status": "final-portable"
+    },
+    "wall-11": {
+      "name": "Star Mirror",
+      "assetPath": "/assets/catalog-candidates/cpu/wall-11-w13-v1-a-pixel-bevel-mirror-original.png",
+      "tier": 4,
+      "theme": "Pixel Party",
+      "status": "final-portable"
+    },
+    "wall-12": {
+      "name": "Golden Crest",
+      "assetPath": "/assets/catalog-candidates/cpu/wall-12-w13-v1-a-jeweled-relief-crest-original.png",
+      "tier": 5,
+      "theme": "Berry Blast",
       "status": "final-portable"
     }
   }
