@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_BATCH_REQUEST",
+  "planner": "15",
+  "producer": "03",
+  "preflightOwner": "06",
+  "reviewer": "01",
+  "renderOwner": "14",
+  "integrationOwner": "08",
+  "coordinationOwner": "15",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "9b354ef0dbc13dadaa80238869f8e138235a1a53",
+  "manifestVersion": 40,
+  "batchId": "w03-desk11-v7-ultra-simple",
+  "scope": [
+    "desks-11"
+  ],
+  "state": "PREPARED_ULTRA_SIMPLE_RETRY__WAIT_EXISTING_CPU_SUCCESSORS",
+  "assignmentAuthority": {
+    "path": "docs/preproduction/art-factory/RELEASE_BLOCKERS_CURRENT.json",
+    "runtimeProofPath": "docs/preproduction/art-factory/CPU_RUNTIME_PROOF.json",
+    "runtimeProofStatus": "PROVEN",
+    "runtimeCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+    "modelRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "assignedReviewers": {
+      "desks-11": "01"
+    },
+    "note": "Single-item retry after V6 multi-view failure. Keep geometry deliberately minimal."
+  },
+  "reviewSource": {
+    "decision": "REWORK",
+    "note": "Desk11 v6 exact rendered failure: multi-view product sheet and malformed workstation geometry."
+  },
+  "items": {
+    "desks-11": {
+      "currentLegacy": {
+        "path": "public/assets/catalog-candidates/cpu/desks-11-w03-v6-a-literal-creator-desk-original.png",
+        "gitBlobSha1": "202a80396f3ca114c57b1f488aa7d5230aba17b4",
+        "reviewDecision": "REWORK",
+        "normalizedFailureTaxonomy": [
+          "MULTI_VIEW_PRODUCT_SHEET",
+          "MALFORMED_WORKSTATION_GEOMETRY",
+          "NO_SINGLE_CREATOR_DESK_SILHOUETTE",
+          "CARD_SCALE_IDENTITY_FAILURE"
+        ]
+      },
+      "variants": [
+        {
+          "variantId": "A-ONE-SIMPLE-CREATOR-DESK",
+          "optimizerInput": "One single simple creator desk product, centered on a plain white background. One flat rectangular cream tabletop. Two plain rectangular pedestal legs. One small drawer block under the right side. One drawing tablet lying on the tabletop and one brush cup. Lavender and aqua accents only. Straight three-quarter product view. Full desk visible. NO shelves, NO organizer rail, NO room, NO wall, NO chair, NO second view, NO collage, NO extra furniture, NO text."
+        },
+        {
+          "variantId": "B-PLAIN-CREATOR-DESK",
+          "optimizerInput": "Exactly one freestanding creator desk only. Flat rectangular tabletop, two solid supports, one drawer unit, one tablet, one brush cup, plain white studio background, single product view. NO room, NO shelving, NO chair, NO panels, NO collage, NO alternate views, NO text."
+        }
+      ]
+    }
+  },
+  "executionBudget": {
+    "width": 640,
+    "height": 640,
+    "steps": 8,
+    "guidanceScale": 4,
+    "dtype": "float32"
+  },
+  "safety": {
+    "preserveRejectedExactHashes": true,
+    "preserveAcceptedExactHashes": true,
+    "producerSelfReview": false,
+    "canonicalMappingsChanged": false,
+    "workflowFilesChanged": false
+  }
+}
