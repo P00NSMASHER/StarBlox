@@ -162,6 +162,7 @@ async function wrongRetryThenAssisted(page) {
   );
 
   await page.getByRole('button', { name: /Try again with the clue/i }).click();
+  await waitForRetryInteractionReady(page);
   await clickChoice(page, wrong);
   await page.waitForTimeout(100);
   const repeatedWrong = await readSave(page);
@@ -172,6 +173,7 @@ async function wrongRetryThenAssisted(page) {
   assert((repeatedWrong.stats?.[question.skill]?.wrong || 0) === (firstWrong.stats?.[question.skill]?.wrong || 0), 'Repeated wrong retry duplicated wrong evidence');
 
   await page.getByRole('button', { name: /Try again with the clue/i }).click();
+  await waitForRetryInteractionReady(page);
   const masteryBefore = JSON.stringify(repeatedWrong.mastered || []);
   const transferBefore = repeatedWrong.transferWins || 0;
   const correctBefore = repeatedWrong.stats?.[question.skill]?.correct || 0;
@@ -383,6 +385,41 @@ async function interactionSnapshot(page, choice) {
   }, choice);
 }
 
+async function waitForRetryInteractionReady(page) {
+  await page.locator('.feedback').waitFor({ state: 'hidden', timeout: 2500 }).catch(() => {});
+  await page.waitForFunction(() => {
+    const buttons = [...document.querySelectorAll('.answers .answerButton')];
+    return buttons.length === 3 && buttons.every(button => !button.disabled);
+  }, null, { timeout: 2500 });
+
+  // Retry removes feedback and can cause a short follow-up Quest/runtime rerender.
+  // Wait for the question card to be mutation-quiet so a real pointer sequence
+  // cannot straddle two DOM generations and lose the browser's native click.
+  await page.evaluate(() => new Promise(resolve => {
+    const root = document.querySelector('.questionCard');
+    if (!root) { resolve(); return; }
+    let quietTimer = 0;
+    let hardTimer = 0;
+    let finished = false;
+    const finish = () => {
+      if (finished) return;
+      finished = true;
+      clearTimeout(quietTimer);
+      clearTimeout(hardTimer);
+      observer.disconnect();
+      resolve();
+    };
+    const armQuietWindow = () => {
+      clearTimeout(quietTimer);
+      quietTimer = setTimeout(finish, 160);
+    };
+    const observer = new MutationObserver(armQuietWindow);
+    observer.observe(root, { subtree: true, childList: true, attributes: true });
+    armQuietWindow();
+    hardTimer = setTimeout(finish, 700);
+  }));
+}
+
 async function runPointerStage(page, stream, phase, choice) {
   await page.evaluate(({ nextPhase, nextChoice }) => {
     window.__sbQaProbePhase = nextPhase;
@@ -402,12 +439,17 @@ async function runPointerStage(page, stream, phase, choice) {
   const clickEndedAt = Date.now();
   const stageStream = stream.slice(streamStart);
   const probe = summarizeProbeStream(stageStream, clickStartedAt, clickEndedAt);
+  const nativeClickDelivered = probe.inputEvents.some(entry => entry.type === 'click' && entry.isTrusted);
+  const deliveryError = clickError || (!nativeClickDelivered
+    ? new Error('Real pointer sequence completed without a trusted native click event')
+    : null);
   return {
     phase,
     choice,
-    status: clickError ? 'FAIL' : 'PASS',
+    status: deliveryError ? 'FAIL' : 'PASS',
     clickDurationMs: clickEndedAt - clickStartedAt,
-    clickError: errorDetail(clickError),
+    clickError: errorDetail(deliveryError),
+    nativeClickDelivered,
     before,
     probe
   };
@@ -454,6 +496,7 @@ async function runWrongRetryIsolation(browser, reducedMotion) {
     );
 
     await page.getByRole('button', { name: /Try again with the clue/i }).click();
+    await waitForRetryInteractionReady(page);
     const repeatedWrongStage = await runPointerStage(page, stream, 'repeated-wrong', wrong);
     stages.push(repeatedWrongStage);
     if (repeatedWrongStage.status === 'FAIL') throw Object.assign(new Error('Real pointer failed on repeated intentional wrong retry'), { details: { failedStage: 'repeated-wrong', stage: repeatedWrongStage } });
@@ -466,6 +509,7 @@ async function runWrongRetryIsolation(browser, reducedMotion) {
     assert((repeatedWrong.stats?.[question.skill]?.wrong || 0) === (firstWrong.stats?.[question.skill]?.wrong || 0), 'Isolation repeated wrong retry duplicated wrong evidence');
 
     await page.getByRole('button', { name: /Try again with the clue/i }).click();
+    await waitForRetryInteractionReady(page);
     const masteryBefore = JSON.stringify(repeatedWrong.mastered || []);
     const transferBefore = repeatedWrong.transferWins || 0;
     const correctBefore = repeatedWrong.stats?.[question.skill]?.correct || 0;
