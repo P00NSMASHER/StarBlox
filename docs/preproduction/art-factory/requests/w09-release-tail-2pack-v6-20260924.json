@@ -78,6 +78,10 @@
         {
           "variantId": "A-RACK-WITH-CLASSIC-QUAD-SKATES",
           "optimizerInput": "Single tiny two-cubby wooden roller skate rack on a plain white studio background. Inside the lower cubby is one pair of classic quad roller skates: two visible boot uppers, metal trucks, and four large wheels on each skate. The skates are the main subject. Small green Garden Glow accent. Full rack visible, three-quarter product render. NO scooter, NO cart, NO multiple panels, NO alternate views, NO loose floor skates, NO room, NO text."
+        },
+        {
+          "variantId": "B-RACK-WITH-CLASSIC-QUAD-SKATES",
+          "optimizerInput": "Alternative view of the same single tiny skate rack: one pair of classic quad roller skates stored inside a simple two-cubby rack, boots and four wheels per skate clearly visible. NO scooter, NO cart, NO multiple views, NO room, NO collage, NO text."
         }
       ]
     },
@@ -96,6 +100,10 @@
         {
           "variantId": "A-LITERAL-VANITY-MIRROR-STOOL",
           "optimizerInput": "Single freestanding vanity set on a plain white studio background. One small vanity table with two drawer pedestals, one oval mirror centered above the table, and one clearly separate padded stool with four short legs directly in front. Coral lavender and aqua accents. Full three-piece set visible, three-quarter product render. NO room, NO columns, NO wall cabinets, NO rug, NO extra mirror, NO extra stool, NO collage, NO text."
+        },
+        {
+          "variantId": "B-LITERAL-VANITY-MIRROR-STOOL",
+          "optimizerInput": "Alternative view of the same single vanity set: one vanity table, one oval mirror, one padded stool with four short legs on a plain background. NO room, NO columns, NO cabinets, NO extra mirrors, NO collage, NO text."
         }
       ]
     }
