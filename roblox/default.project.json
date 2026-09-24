@@ -1,0 +1,23 @@
+{
+  "name": "StarBloxRoblox",
+  "tree": {
+    "$className": "DataModel",
+    "ReplicatedStorage": {
+      "StarBlox": {
+        "$path": "src/shared"
+      }
+    },
+    "ServerScriptService": {
+      "StarBlox": {
+        "$path": "src/server"
+      }
+    },
+    "StarterPlayer": {
+      "StarterPlayerScripts": {
+        "StarBlox": {
+          "$path": "src/client"
+        }
+      }
+    }
+  }
+}
