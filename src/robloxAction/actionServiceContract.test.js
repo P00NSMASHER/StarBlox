@@ -23,6 +23,7 @@ describe('Step 9 Roblox authoritative action boundary', () => {
     expect(input).toMatch(/MoveZ: f32/);
     expect(input).not.toMatch(/Position|Health|Damage|Target|Score|Outcome/);
 
+    expect(fire).toMatch(/Seq: u32/);
     expect(fire).toMatch(/RequestId/);
     expect(fire).toMatch(/WeaponId/);
     expect(fire).toMatch(/ShotTime/);
@@ -55,6 +56,8 @@ describe('Step 9 Roblox authoritative action boundary', () => {
     expect(source).toMatch(/WorldRaycast/);
     expect(source).toMatch(/ApplyDamage/);
     expect(source).toMatch(/sampleHistory/);
+    expect(source).toMatch(/LastFireSeq/);
+    expect(source).toMatch(/stale or duplicate fire sequence/);
     expect(source).toMatch(/shot origin does not match server rewind state/);
     expect(source).toMatch(/client-authored fire outcome field/);
     expect(source).not.toMatch(/payload\.Damage/);

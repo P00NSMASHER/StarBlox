@@ -50,6 +50,7 @@ local ProfileTemplate = {
 	AiNpc = {
 		Memories = {},
 		ProcessedRequestIds = {},
+		LastRequestSequence = -1,
 	},
 
 	Social = {
@@ -65,7 +66,10 @@ local ProfileTemplate = {
 			MinigameWins = 0,
 		},
 		CompletedSessionIds = {},
-		AffinityEventIds = {},
+		CompletedSessionReceipts = {},
+		AffinityReceipts = {},
+		PhotoReceipts = {},
+		LiveOpsSequence = 0,
 	},
 
 	LiveOps = {
@@ -82,6 +86,7 @@ local ProfileTemplate = {
 			Purchased = {},
 		},
 		ProcessedEventIds = {},
+		EventStreams = {},
 	},
 }
 

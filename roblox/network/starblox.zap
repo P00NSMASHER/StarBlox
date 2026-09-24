@@ -82,7 +82,7 @@ event RequestNpcTurn = {
 	from: Client,
 	type: Reliable,
 	call: ManyAsync,
-	data: (NpcId: string.utf8, RequestId: string.utf8, Message: string.utf8)
+	data: (NpcId: string.utf8, RequestId: string.utf8, RequestSequence: u32, Message: string.utf8)
 }
 
 event NpcTurn = {
@@ -104,7 +104,7 @@ event FireAction = {
 	from: Client,
 	type: Reliable,
 	call: ManyAsync,
-	data: (RequestId: string.utf8, WeaponId: string.utf8, ShotTime: f64, OriginX: f32, OriginY: f32, OriginZ: f32, DirX: f32, DirY: f32, DirZ: f32)
+	data: (Seq: u32, RequestId: string.utf8, WeaponId: string.utf8, ShotTime: f64, OriginX: f32, OriginY: f32, OriginZ: f32, DirX: f32, DirY: f32, DirZ: f32)
 }
 
 event ActionSnapshot = {

@@ -65,8 +65,7 @@ describe('Step 6 Roblox LiveOps shell', () => {
     const cfg=catalog();
 
     let result=recordAuthoritativeLiveOpsEvent(state,cfg,{
-      eventId:'evt-1',
-      type:'daily_completed',
+      eventId:'evt-1',streamId:'test',sequence:0,type:'daily_completed',
       amount:1,
       at:'2026-09-20T12:00:00Z'
     });
@@ -74,8 +73,7 @@ describe('Step 6 Roblox LiveOps shell', () => {
     expect(result.completedMissions).toEqual([]);
 
     result=recordAuthoritativeLiveOpsEvent(state,cfg,{
-      eventId:'evt-2',
-      type:'skill_mastered',
+      eventId:'evt-2',streamId:'test',sequence:1,type:'skill_mastered',
       amount:2,
       at:'2026-09-20T12:01:00Z'
     });
@@ -83,8 +81,7 @@ describe('Step 6 Roblox LiveOps shell', () => {
     expect(result.state.missions['daily-scholar'].completed).toBe(true);
 
     const duplicate=recordAuthoritativeLiveOpsEvent(result.state,cfg,{
-      eventId:'evt-2',
-      type:'skill_mastered',
+      eventId:'evt-2',streamId:'test',sequence:2,type:'skill_mastered',
       amount:99,
       at:'2026-09-20T12:02:00Z'
     });
@@ -92,14 +89,49 @@ describe('Step 6 Roblox LiveOps shell', () => {
     expect(duplicate.state.counters.skill_mastered).toBe(2);
   });
 
+  it('rejects stale authoritative stream sequences after recent-ID compaction', () => {
+    const cfg=catalog();
+    let state=createLiveOpsState();
+
+    for(let index=0;index<520;index++){
+      const result=recordAuthoritativeLiveOpsEvent(state,cfg,{
+        eventId:'bulk-' + index,
+        streamId:'quest-events',
+        sequence:index,
+        type:'play_seconds',
+        amount:1,
+        at:'2026-09-20T12:00:00Z'
+      });
+      expect(result.duplicate).toBe(false);
+      state=result.state;
+    }
+
+    expect(state.processedEventIds).toHaveLength(500);
+    expect(state.processedEventIds).not.toContain('bulk-0');
+
+    const replay=recordAuthoritativeLiveOpsEvent(state,cfg,{
+      eventId:'bulk-0',
+      streamId:'quest-events',
+      sequence:0,
+      type:'play_seconds',
+      amount:999,
+      at:'2026-09-20T13:00:00Z'
+    });
+
+    expect(replay.duplicate).toBe(true);
+    expect(replay.stale).toBe(true);
+    expect(replay.state.engagement.playSeconds).toBe(520);
+    expect(replay.state.eventStreams['quest-events']).toBe(519);
+  });
+
   it('claims mission rewards once and routes season XP into the configured season', () => {
     const cfg=catalog();
     let state=createLiveOpsState();
     state=recordAuthoritativeLiveOpsEvent(state,cfg,{
-      eventId:'a',type:'daily_completed',amount:1,at:'2026-09-20T12:00:00Z'
+      eventId:'a',streamId:'test',sequence:3,type:'daily_completed',amount:1,at:'2026-09-20T12:00:00Z'
     }).state;
     state=recordAuthoritativeLiveOpsEvent(state,cfg,{
-      eventId:'b',type:'skill_mastered',amount:2,at:'2026-09-20T12:01:00Z'
+      eventId:'b',streamId:'test',sequence:4,type:'skill_mastered',amount:2,at:'2026-09-20T12:01:00Z'
     }).state;
 
     const claimed=claimMissionReward(state,cfg,'daily-scholar');
@@ -146,8 +178,7 @@ describe('Step 6 Roblox LiveOps shell', () => {
     expect(daily.receipts[0]).toEqual(expect.objectContaining({type:'stars',amount:1}));
 
     state=recordAuthoritativeLiveOpsEvent(daily.state,cfg,{
-      eventId:'play',
-      type:'play_seconds',
+      eventId:'play',streamId:'test',sequence:5,type:'play_seconds',
       amount:600,
       at:'2026-09-21T10:00:00Z'
     }).state;

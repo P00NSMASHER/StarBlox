@@ -30,6 +30,14 @@ function finite(value,label){
   return number;
 }
 
+function nonNegativeInt(value,label){
+  const number=Number(value);
+  if(!Number.isInteger(number) || number < 0){
+    throw new TypeError(label + ' must be a non-negative integer.');
+  }
+  return number;
+}
+
 function dateKey(value){
   const date=value instanceof Date ? value : new Date(value);
   if(Number.isNaN(date.getTime())) throw new TypeError('date must be valid.');
@@ -195,6 +203,7 @@ export function createLiveOpsState(){
     counters:{},
     missions:{},
     seasons:{},
+    eventStreams:{},
     engagement:{
       lastVisitDate:null,
       streak:0,
@@ -262,14 +271,35 @@ export function recordAuthoritativeLiveOpsEvent(state,catalog,event){
   if(!event || typeof event !== 'object' || Array.isArray(event)) throw new TypeError('event must be an object.');
   const eventId=requireId(event.eventId,'event.eventId');
   const type=requireId(event.type,'event.type');
+  const streamId=requireId(event.streamId,'event.streamId');
+  const sequence=nonNegativeInt(event.sequence,'event.sequence');
   const amount=Math.max(0,finite(event.amount ?? 1,'event.amount'));
   const at=new Date(event.at).toISOString();
 
   const next=mutableState(state);
+  next.eventStreams ||= {};
+  const lastSequence=Number.isInteger(next.eventStreams[streamId])
+    ? next.eventStreams[streamId]
+    : -1;
+
+  if(sequence <= lastSequence){
+    return deepFreeze({
+      state:next,
+      duplicate:true,
+      stale:true,
+      completedMissions:[]
+    });
+  }
   if(next.processedEventIds.includes(eventId)){
-    return deepFreeze({state:next,duplicate:true,completedMissions:[]});
+    return deepFreeze({
+      state:next,
+      duplicate:true,
+      stale:false,
+      completedMissions:[]
+    });
   }
 
+  next.eventStreams[streamId]=sequence;
   next.processedEventIds.push(eventId);
   next.processedEventIds=next.processedEventIds.slice(-MAX_PROCESSED_EVENTS);
   next.counters[type]=(next.counters[type] || 0) + amount;
@@ -301,7 +331,7 @@ export function recordAuthoritativeLiveOpsEvent(state,catalog,event){
     }
   }
 
-  return deepFreeze({state:next,duplicate:false,completedMissions});
+  return deepFreeze({state:next,duplicate:false,stale:false,completedMissions});
 }
 
 export function recordLiveOpsVisit(state,{at}){

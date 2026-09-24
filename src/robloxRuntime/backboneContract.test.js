@@ -23,12 +23,16 @@ describe('Step 3: Roblox production backbone', () => {
         'Learning.Ability',
         'Daily.Completed',
         'Settings',
+        'LiveOps.EventStreams',
         'Social.CompletedSessionIds',
-        'Social.AffinityEventIds'
+        'Social.AffinityReceipts'
       ])
     );
     expect(REPLICATION_BOUNDARIES.playerReplica).not.toContain('Learning.Concepts');
     expect(REPLICATION_BOUNDARIES.playerReplica).not.toContain('Learning.Ability');
+    expect(REPLICATION_BOUNDARIES.playerReplica).not.toContain('LiveOps');
+    expect(REPLICATION_BOUNDARIES.playerReplica).not.toContain('LiveOps.ProcessedEventIds');
+    expect(REPLICATION_BOUNDARIES.playerReplica).not.toContain('LiveOps.EventStreams');
   });
 
   it('defines a versioned StarBlox profile with economy, progress, intelligence, daily, inventory and rollout state', () => {
@@ -108,15 +112,19 @@ describe('Step 3: Roblox production backbone', () => {
   it('keeps social-world placement fail-closed and durable affinity dedupe server-side', () => {
     const source=file('roblox/src/server/SocialWorldService.luau');
     expect(source).toMatch(/placement validator unavailable/);
-    expect(source).toMatch(/AffinityEventIds/);
-    expect(source).toMatch(/table\.find\(social\.AffinityEventIds, awardId\)/);
+    expect(source).toMatch(/AffinityReceipts/);
+    expect(source).toMatch(/social\.AffinityReceipts\[awardId\] == true/);
+    expect(source).toMatch(/PhotoReceipts/);
+    expect(source).toMatch(/LiveOpsSequence/);
     expect(source).toMatch(/not duplicate and self\._liveOps/);
-    expect(REPLICATION_BOUNDARIES.playerReplica).not.toContain('Social.AffinityEventIds');
+    expect(REPLICATION_BOUNDARIES.playerReplica).not.toContain('Social.AffinityReceipts');
+    expect(REPLICATION_BOUNDARIES.playerReplica).not.toContain('Social.PhotoReceipts');
+    expect(REPLICATION_BOUNDARIES.playerReplica).not.toContain('Social.LiveOpsSequence');
   });
 
   it('keeps hardened AI NPC facts/receipts server-only and fails closed without policy/provider adapters', () => {
     expect(REPLICATION_BOUNDARIES.durableServerOnly).toEqual(
-      expect.arrayContaining(['AiNpc.Memories','AiNpc.ProcessedRequestIds'])
+      expect.arrayContaining(['AiNpc.Memories','AiNpc.ProcessedRequestIds','AiNpc.LastRequestSequence'])
     );
     expect(REPLICATION_BOUNDARIES.playerReplica).not.toContain('AiNpc');
 

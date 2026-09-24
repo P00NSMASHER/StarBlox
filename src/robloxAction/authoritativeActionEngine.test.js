@@ -115,6 +115,7 @@ describe('Step 9: server-owned lag compensated hits', () => {
     },{serverTimeMs:100,config:CONFIG}).world;
 
     const result=applyFireIntent(current,'a',{
+      fireSeq:0,
       requestId:'shot-1',
       weaponId:'pulse',
       shotTimeMs:100,
@@ -133,6 +134,7 @@ describe('Step 9: server-owned lag compensated hits', () => {
 
   it('rejects client-authored target/damage/outcome and forged origins', () => {
     const base={
+      fireSeq:0,
       requestId:'shot-x',
       weaponId:'pulse',
       shotTimeMs:100,
@@ -165,29 +167,75 @@ describe('Step 9: server-owned lag compensated hits', () => {
     };
 
     expect(applyFireIntent(world(),'a',{
-      ...base,requestId:'old',shotTimeMs:-2000
+      ...base,fireSeq:0,requestId:'old',shotTimeMs:-2000
     },{serverTimeMs:100,config:CONFIG}).reason).toMatch(/rewind history/);
 
     expect(applyFireIntent(world(),'a',{
-      ...base,requestId:'future',shotTimeMs:400
+      ...base,fireSeq:0,requestId:'future',shotTimeMs:400
     },{serverTimeMs:100,config:CONFIG}).reason).toMatch(/future/);
 
     const first=applyFireIntent(world(),'a',{
-      ...base,requestId:'one',shotTimeMs:100
+      ...base,fireSeq:0,requestId:'one',shotTimeMs:100
     },{serverTimeMs:100,config:CONFIG});
     expect(first.ok).toBe(true);
 
     expect(applyFireIntent(first.world,'a',{
-      ...base,requestId:'one',shotTimeMs:100
+      ...base,fireSeq:0,requestId:'one',shotTimeMs:100
     },{serverTimeMs:400,config:CONFIG}).reason).toMatch(/duplicate/);
 
     expect(applyFireIntent(first.world,'a',{
-      ...base,requestId:'two',shotTimeMs:150
+      ...base,fireSeq:1,requestId:'two',shotTimeMs:150
     },{serverTimeMs:150,config:CONFIG}).reason).toMatch(/cooldown/);
+  });
+
+  it('keeps fire replay protection after request-ID receipt compaction', () => {
+    const cfg={
+      ...CONFIG,
+      processedFireLimit:16,
+      weapons:{
+        pulse:{...CONFIG.weapons.pulse,cooldownMs:0}
+      }
+    };
+    let current=createActionWorld({
+      players:[
+        {playerId:'a',position:{x:0,y:0,z:0},health:100,serverTimeMs:0},
+        {playerId:'b',position:{x:10,y:0,z:0},health:100,serverTimeMs:0}
+      ]
+    },cfg);
+
+    for(let index=0;index<20;index++){
+      const result=applyFireIntent(current,'a',{
+        fireSeq:index,
+        requestId:'bulk-shot-' + index,
+        weaponId:'pulse',
+        shotTimeMs:100,
+        origin:{x:0,y:0,z:0},
+        direction:{x:0,y:0,z:1}
+      },{serverTimeMs:100 + index,config:cfg});
+      expect(result.ok).toBe(true);
+      current=result.world;
+    }
+
+    expect(current.processedFireIds).toHaveLength(16);
+    expect(current.processedFireIds).not.toContain('a:bulk-shot-0');
+    expect(current.players.a.lastFireSeq).toBe(19);
+
+    const replay=applyFireIntent(current,'a',{
+      fireSeq:0,
+      requestId:'bulk-shot-0',
+      weaponId:'pulse',
+      shotTimeMs:100,
+      origin:{x:0,y:0,z:0},
+      direction:{x:0,y:0,z:1}
+    },{serverTimeMs:200,config:cfg});
+
+    expect(replay.ok).toBe(false);
+    expect(replay.reason).toMatch(/fire sequence/);
   });
 
   it('respects server world occlusion distance instead of hitting through closer geometry', () => {
     const result=applyFireIntent(world(),'a',{
+      fireSeq:0,
       requestId:'wall',
       weaponId:'pulse',
       shotTimeMs:100,

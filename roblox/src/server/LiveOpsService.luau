@@ -22,6 +22,7 @@ local function ensureState(profileData)
 			Purchased = {},
 		},
 		ProcessedEventIds = {},
+		EventStreams = {},
 	}
 	return profileData.LiveOps
 end
@@ -40,6 +41,15 @@ local function rememberEvent(processed, eventId)
 	while #processed > MAX_PROCESSED_EVENTS do
 		table.remove(processed, 1)
 	end
+end
+
+local function validSequence(value)
+	return type(value) == "number"
+		and value == value
+		and value ~= math.huge
+		and value ~= -math.huge
+		and value >= 0
+		and math.floor(value) == value
 end
 
 local function applyReward(profileData, reward)
@@ -72,17 +82,35 @@ function LiveOpsService.new(profiles, replicas, featurePackages)
 	return self
 end
 
-function LiveOpsService:RecordAuthoritativeEvent(player: Player, eventType: string, amount: number?, eventId: string?)
+function LiveOpsService:RecordAuthoritativeEvent(
+	player: Player,
+	eventType: string,
+	amount: number?,
+	eventId: string?,
+	streamId: string?,
+	sequence: number?
+)
 	local accepted = false
 	local completed = {}
 
+	if type(streamId) ~= "string" or streamId == "" or not validSequence(sequence) then
+		return false, {}
+	end
+
 	self._profiles:WithProfile(player, function(profileData)
 		local state = ensureState(profileData)
+		state.EventStreams = state.EventStreams or {}
+		local lastSequence = state.EventStreams[streamId] or -1
+		if sequence <= lastSequence then
+			return
+		end
+
 		local id = eventId or HttpService:GenerateGUID(false)
 		if hasEvent(state.ProcessedEventIds, id) then
 			return
 		end
 
+		state.EventStreams[streamId] = sequence
 		rememberEvent(state.ProcessedEventIds, id)
 		local delta = math.max(0, amount or 1)
 		state.Counters[eventType] = (state.Counters[eventType] or 0) + delta

@@ -33,6 +33,7 @@ describe('Step 8 AI NPC domain boundary', () => {
       npcId:'maya',
       state:createAiNpcState(),
       requestId:'r1',
+      requestSequence:0,
       message:'Where should I go next?',
       gameContext:{
         district:'Story Street',
@@ -116,6 +117,7 @@ describe('Step 8 AI NPC domain boundary', () => {
 
     const first=applyAiNpcMemoryFacts(state,cfg,'maya',{
       requestId:'r1',
+      requestSequence:0,
       facts:[
         'Player likes space puzzles.',
         'email me at kid@example.com',
@@ -132,6 +134,7 @@ describe('Step 8 AI NPC domain boundary', () => {
 
     const second=applyAiNpcMemoryFacts(state,cfg,'maya',{
       requestId:'r2',
+      requestSequence:1,
       facts:['Player likes racing minigames.','Player likes science.']
     });
     expect(second.memories).toHaveLength(3);
@@ -139,16 +142,52 @@ describe('Step 8 AI NPC domain boundary', () => {
 
     const duplicate=applyAiNpcMemoryFacts(second.state,cfg,'maya',{
       requestId:'r2',
+      requestSequence:1,
       facts:['Should never duplicate']
     });
     expect(duplicate.duplicate).toBe(true);
     expect(duplicate.memories).toEqual(second.memories);
   });
 
+  it('keeps replay protection after recent request IDs are compacted', () => {
+    const cfg=catalog();
+    let state=createAiNpcState();
+
+    for(let index=0;index<220;index++){
+      state=applyAiNpcMemoryFacts(state,cfg,'maya',{
+        requestId:'bulk-' + index,
+        requestSequence:index,
+        facts:[]
+      }).state;
+    }
+
+    expect(state.processedRequestIds).toHaveLength(200);
+    expect(state.processedRequestIds).not.toContain('bulk-0');
+    expect(state.lastRequestSequence).toBe(219);
+
+    const replay=applyAiNpcMemoryFacts(state,cfg,'maya',{
+      requestId:'bulk-0',
+      requestSequence:0,
+      facts:['Should not persist']
+    });
+    expect(replay.duplicate).toBe(true);
+    expect(replay.stale).toBe(true);
+    expect(replay.state.lastRequestSequence).toBe(219);
+
+    expect(() => buildAiNpcModelRequest({
+      catalog:cfg,
+      npcId:'maya',
+      state,
+      requestId:'old-build',
+      requestSequence:100,
+      message:'Replay this old request'
+    })).toThrow(/sequence/);
+  });
+
   it('enforces input/output bounds', () => {
     const cfg=catalog();
     expect(() => buildAiNpcModelRequest({
-      catalog:cfg,npcId:'maya',requestId:'r1',
+      catalog:cfg,npcId:'maya',requestId:'r1',requestSequence:0,
       message:'x'.repeat(121)
     })).toThrow(/max length/);
 

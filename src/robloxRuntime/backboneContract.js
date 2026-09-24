@@ -18,7 +18,8 @@ export const PROFILE_TEMPLATE=Object.freeze({
   Rollout:Object.freeze({Assignments:Object.freeze({})}),
   AiNpc:Object.freeze({
     Memories:Object.freeze({}),
-    ProcessedRequestIds:Object.freeze([])
+    ProcessedRequestIds:Object.freeze([]),
+    LastRequestSequence:-1
   }),
   Social:Object.freeze({
     Home:Object.freeze({PlotId:'',Placements:Object.freeze({})}),
@@ -26,7 +27,10 @@ export const PROFILE_TEMPLATE=Object.freeze({
     UnlockedSocialItems:Object.freeze({}),
     Stats:Object.freeze({PhotosTaken:0,CoopPhotos:0,MinigameWins:0}),
     CompletedSessionIds:Object.freeze([]),
-    AffinityEventIds:Object.freeze([])
+    CompletedSessionReceipts:Object.freeze({}),
+    AffinityReceipts:Object.freeze({}),
+    PhotoReceipts:Object.freeze({}),
+    LiveOpsSequence:0
   }),
   LiveOps:Object.freeze({
     Counters:Object.freeze({}),
@@ -39,7 +43,8 @@ export const PROFILE_TEMPLATE=Object.freeze({
       Claimed:Object.freeze({})
     }),
     Bundles:Object.freeze({Purchased:Object.freeze({})}),
-    ProcessedEventIds:Object.freeze([])
+    ProcessedEventIds:Object.freeze([]),
+    EventStreams:Object.freeze({})
   })
 });
 
@@ -73,10 +78,15 @@ export const REPLICATION_BOUNDARIES=Object.freeze({
     'Daily.Completed',
     'Settings',
     'LiveOps.ProcessedEventIds',
+    'LiveOps.EventStreams',
     'Social.CompletedSessionIds',
-    'Social.AffinityEventIds',
+    'Social.CompletedSessionReceipts',
+    'Social.AffinityReceipts',
+    'Social.PhotoReceipts',
+    'Social.LiveOpsSequence',
     'AiNpc.Memories',
-    'AiNpc.ProcessedRequestIds'
+    'AiNpc.ProcessedRequestIds',
+    'AiNpc.LastRequestSequence'
   ]),
   playerReplica:Object.freeze([
     'SchemaVersion',
@@ -86,8 +96,15 @@ export const REPLICATION_BOUNDARIES=Object.freeze({
     'Daily.Streak',
     'Inventory',
     'Rollout.Assignments',
-    'LiveOps',
-    'Social'
+    'LiveOps.Counters',
+    'LiveOps.Missions',
+    'LiveOps.Seasons',
+    'LiveOps.Engagement',
+    'LiveOps.Bundles',
+    'Social.Home',
+    'Social.NpcAffinity',
+    'Social.UnlockedSocialItems',
+    'Social.Stats'
   ]),
   ephemeralEcs:Object.freeze([
     'Model','Transform','Velocity','Health','Npc','Interactable',

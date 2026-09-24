@@ -91,6 +91,30 @@ describe('Step 7 social world engine', () => {
     expect(result.affinity).toBe(12);
   });
 
+  it('keeps affinity receipts durable after the recent-receipt window would have rolled over', () => {
+    const cfg=catalog();
+    let state=createSocialWorldState();
+
+    for(let index=0;index<250;index++){
+      const result=awardNpcAffinity(state,cfg,{
+        npcId:'maya',
+        amount:1,
+        eventId:'affinity-' + index
+      });
+      expect(result.duplicate).toBe(false);
+      state=result.state;
+    }
+
+    const replay=awardNpcAffinity(state,cfg,{
+      npcId:'maya',
+      amount:100,
+      eventId:'affinity-0'
+    });
+    expect(replay.duplicate).toBe(true);
+    expect(replay.affinity).toBe(250);
+    expect(Object.keys(replay.state.affinityReceipts)).toHaveLength(250);
+  });
+
   it('allows only one bounded minigame session and emits rewards only for a server-confirmed win', () => {
     const cfg=catalog();
     let state=createSocialWorldState();
@@ -128,8 +152,26 @@ describe('Step 7 social world engine', () => {
     }).reason).toMatch(/already completed/);
   });
 
+  it('deduplicates server-observed photos with durable receipts', () => {
+    const input={
+      eventId:'photo-dedupe',
+      capturer:{
+        position:{x:0,y:0,z:0},
+        look:{x:0,y:0,z:1}
+      },
+      participants:[]
+    };
+    const first=recordSocialPhoto(createSocialWorldState(),input);
+    const second=recordSocialPhoto(first.state,input);
+
+    expect(first.duplicate).toBe(false);
+    expect(second.duplicate).toBe(true);
+    expect(second.state.stats.photosTaken).toBe(1);
+  });
+
   it('computes co-op photo participants from server-observed position and facing data', () => {
     const result=recordSocialPhoto(createSocialWorldState(),{
+      eventId:'photo-1',
       capturer:{
         position:{x:0,y:0,z:0},
         look:{x:0,y:0,z:1}
