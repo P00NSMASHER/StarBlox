@@ -57,7 +57,7 @@ The factory optionally accepts a primary questionSelector.
 
 If no selector is supplied, it uses the deterministic role-compatible fallback.
 
-If the primary selector throws, returns no bindings, or returns bindings that cannot be resolved to exact QuestionVersion hashes, the factory falls back to deterministic selection.
+If the primary selector throws, returns no bindings, returns an incomplete/duplicate/wrong-slot binding set, or returns bindings that cannot be resolved to exact QuestionVersion hashes, the factory falls back to deterministic selection.
 
 The fallback:
 
