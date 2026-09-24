@@ -1,9 +1,9 @@
 {
-  "version": 34,
+  "version": 35,
   "target": 192,
-  "finalCount": 168,
-  "remaining": 24,
-  "note": "Delivery Protocol V2 incremental integration: independently ACCEPTed exact Wall 11-12 W13 CPU hashes integrated after reviewer02 exact-hash card/detail review. Wall 9 and Wall 10 v1 remain REWORK; other accepted mappings remain frozen. Replit/Floot/main/player data remain untouched.",
+  "finalCount": 169,
+  "remaining": 23,
+  "note": "Delivery Protocol V2 incremental integration: independently ACCEPTed Wall 10 v2 exact hash integrated after reviewer02 exact Store-card/detail review. Wall 9 remains REWORK; Wall 10 v1 remains historical REWORK evidence. Replit/Floot/main/player data remain untouched.",
   "duplicateAssetPaths": [],
   "items": {
     "tops-1": {
@@ -1229,6 +1229,13 @@
       "assetPath": "/assets/catalog-candidates/cpu/wall-12-w13-v1-a-jeweled-relief-crest-original.png",
       "tier": 5,
       "theme": "Berry Blast",
+      "status": "final-portable"
+    },
+    "wall-10": {
+      "name": "Neon City Sign",
+      "assetPath": "/assets/catalog-candidates/cpu/wall-10-w13-v2-a-no-text-skyline-original.png",
+      "tier": 4,
+      "theme": "Cloud Pop",
       "status": "final-portable"
     }
   }
