@@ -333,6 +333,41 @@ describe('Step 2: transactional Studio mutations', () => {
     expect(studio.instances.get('Workspace/TestPart').properties.Anchored).toBe(false);
   });
 
+  it('does not treat an unreadable existing script as a newly created rollback target', async () => {
+    const studio=createStudio();
+    const original=studio.scripts.get('ServerScriptService/Main').source;
+    const baseCall=studio.call.bind(studio);
+
+    studio.call=async (tool,args={},meta={}) => {
+      if(tool === 'read_script' && args.path === 'ServerScriptService/Main'){
+        throw new Error('synthetic source read failure');
+      }
+      return baseCall(tool,args,meta);
+    };
+
+    const result=await executeStudioActionBatch({
+      studio,
+      stage:'code',
+      calls:[
+        {
+          tool:'write_script',
+          args:{
+            path:'ServerScriptService/Main',
+            source:'return { value = 99 }',
+            create:true,
+            className:'ModuleScript'
+          }
+        }
+      ]
+    });
+
+    expect(result.ok).toBe(false);
+    expect(result.failures[0].type).toBe('rollback-coverage');
+    expect(result.failures[0].error).toMatch(/target exists/);
+    expect(studio.scripts.get('ServerScriptService/Main').source).toBe(original);
+    expect(studio.calls.some(row => row.tool === 'write_script')).toBe(false);
+  });
+
   it('returns a reversible rollback plan for successful writes and instance creation', async () => {
     const studio=createStudio();
 
@@ -679,6 +714,50 @@ describe('Step 2: AI development factory', () => {
     expect(studio.calls.some(row => row.tool === 'playtest_sample_state')).toBe(true);
     expect(studio.calls.some(row => row.tool === 'run_gameplay_assertions')).toBe(true);
     expect(studio.calls.some(row => row.tool === 'stop_playtest')).toBe(true);
+  });
+
+  it('captures visual evidence before tearing down a factory-started playtest', async () => {
+    const studio=createStudio({episode:false});
+    await studio.call('stop_playtest',{});
+    studio.calls.length=0;
+
+    const run=await runDevelopmentFactory({
+      task:{id:'visual-runtime-order',request:'Verify the runtime scene visually'},
+      studio,
+      agents:{
+        plan:async () => ({
+          summary:'Run, capture and verify before teardown.',
+          tests:{required:true},
+          playtest:{required:true,inputActions:[]},
+          visual:{required:true},
+          acceptance:['Runtime viewport is visible']
+        }),
+        code:async () => ({
+          actions:[
+            {
+              tool:'write_script',
+              args:{
+                path:'ServerScriptService/Main',
+                source:'return { visual = true }'
+              }
+            }
+          ]
+        }),
+        visualReview:async () => ({ok:true,findings:[],summary:'runtime visible'}),
+        review:async ({verification}) => ({
+          verdict:verification.ok ? 'pass' : 'fail',
+          findings:verification.errors
+        })
+      },
+      repositoryGate:{run:async () => ({ok:true})},
+      startedAt:'2026-09-24T13:36:30Z'
+    });
+
+    expect(run.status).toBe('verified');
+    const captureIndex=studio.calls.findIndex(row => row.tool === 'capture_viewport');
+    const stopIndex=studio.calls.findIndex(row => row.tool === 'stop_playtest');
+    expect(captureIndex).toBeGreaterThanOrEqual(0);
+    expect(stopIndex).toBeGreaterThan(captureIndex);
   });
 
   it('enforces a total mutation budget across repair cycles', async () => {
