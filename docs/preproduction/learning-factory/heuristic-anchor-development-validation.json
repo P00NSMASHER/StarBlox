@@ -1,0 +1,27 @@
+{
+  "schemaVersion":"starblox-heuristic-anchor-development-validation-manifest-v1",
+  "benchmarkId":"starblox-heuristic-bkt-fsrs-anchor-development-validation-v1",
+  "status":"development-validation-no-tuning",
+  "authorization":"synthetic-only-no-real-player-data",
+  "seed":20270511,
+  "sourceLearnerCount":48,
+  "maxStep":30,
+  "selectionStep":18,
+  "heldOutStepCount":12,
+  "candidate":{
+    "selectorVersion":"starblox-heuristic-bkt-fsrs-anchor-frozen-v1",
+    "heuristicMargin":3,
+    "riskWeight":16,
+    "lockedFromCandidateGithubSha":"13460cca8562be9ae5da04bdcb9d554e8341105c"
+  },
+  "thresholds":{
+    "hiddenNeedVsHeuristicMin":0,
+    "weakestHitVsHeuristicMin":0,
+    "hiddenNeedVsBktMin":0,
+    "weakestHitVsBktMin":0.02,
+    "dueCoverageVsHeuristicMin":-0.01
+  },
+  "forbiddenSeeds":[20260924,20261103,20261217,20261229,20270113,20270217,20270307,20270419],
+  "tuneAgainstThisCohort":false,
+  "purpose":"Independent development validation of the frozen heuristic-anchored BKT+FSRS candidate selected on seed 20270419. This cohort may reject the candidate but may not be used to retune it."
+}
