@@ -126,6 +126,8 @@ function catalog(){
     {
       sourceId:'licensed-brookhaven:main',
       file:'Brookhaven.rbxl',
+      sha256:'c'.repeat(64),
+      bytes:54321,
       dom
     }
   ]);
@@ -146,6 +148,8 @@ describe('Step 5: Brookhaven migration planning', () => {
     const irrelevant=plan.units.find(unit => unit.systemName === 'DataModel');
 
     expect(house.selected).toBe(true);
+    expect(house.sourceSha256).toBe('c'.repeat(64));
+    expect(house.sourceBytes).toBe(54321);
     expect(house.migrationStrategy).toBe('refactor');
     expect(house.exportDisposition).toBe('quarantine');
     expect(house.blockers).toContain('logic-refactor-required');
