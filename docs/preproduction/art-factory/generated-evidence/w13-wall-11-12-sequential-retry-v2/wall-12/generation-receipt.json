@@ -1,0 +1,107 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_GENERATION_RECEIPT",
+  "repository": "P00NSMASHER/StarBlox",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "856ff7ca5c41864ceb1ae6024fa199fa0b26767e",
+  "sourcePlanSha256": "2ec3adaeffdb2b6ab3831fd770bbdf0013e4d968bd43291b6dc8845ec25e94af",
+  "executionCheckout": {
+    "branch": "screenshot-match-preproduction",
+    "head": "856ff7ca5c41864ceb1ae6024fa199fa0b26767e",
+    "planSourceHeadMatchesExecutionHead": true
+  },
+  "attempt": {
+    "attemptId": "wall-12-w13-a-jeweled-relief-crest-1b8ea57707",
+    "itemId": "wall-12",
+    "producer": "13",
+    "variant": "A-JEWELED-RELIEF-CREST",
+    "promptSha256": "1b8ea577073451636318c79a6fd99cd863f41b3f4c25f0fb57f584362fa3262e",
+    "runtimePromptSha256": "3319d09fa54a9dc0762d9f3961eef7d30c69ab43a4f8af61d714b8c37b2679d0",
+    "promptRecipeVersion": "artPromptOptimizer-request-v1:w13-wall-9-12-runtime-unblock-v2",
+    "seed": 2040728330
+  },
+  "runtime": {
+    "repo": "huggingface/diffusers",
+    "commit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "resolvedCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "runtimeCommitVerified": true,
+    "diffusersVersion": "0.41.0.dev0",
+    "diffusersInstallSource": "https://github.com/huggingface/diffusers.git",
+    "torchVersion": "2.8.0+cpu",
+    "transformersVersion": "5.17.0",
+    "accelerateVersion": "1.15.0",
+    "huggingfaceHubVersion": "1.32.0",
+    "safetensorsVersion": "0.8.0",
+    "pythonPillowVersion": "12.3.0",
+    "device": "cpu",
+    "dtype": "bfloat16",
+    "executionMode": "cpu-fallback"
+  },
+  "model": {
+    "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+    "revision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS",
+    "resolvedRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "snapshotRevisionVerified": true,
+    "selectiveSnapshot": true,
+    "snapshotAllowPatterns": [
+      "model_index.json",
+      "scheduler/*",
+      "tokenizer/*",
+      "tokenizer_2/*",
+      "feature_extractor/*",
+      "text_encoder/config.json",
+      "text_encoder/model.fp16.safetensors",
+      "text_encoder_2/config.json",
+      "text_encoder_2/model.fp16.safetensors",
+      "unet/config.json",
+      "unet/diffusion_pytorch_model.fp16.safetensors",
+      "vae/config.json",
+      "vae/diffusion_pytorch_model.fp16.safetensors"
+    ]
+  },
+  "conditioning": {
+    "referenceAssetSha256": null,
+    "controlImageSha256": null,
+    "adapterScale": null,
+    "referenceImage": null,
+    "ipAdapterModelId": null,
+    "ipAdapterRevision": null,
+    "ipAdapterResolvedRevision": null,
+    "ipAdapterRevisionVerified": false,
+    "ipAdapterWeightName": null,
+    "ipAdapterSubfolder": null
+  },
+  "generation": {
+    "width": 640,
+    "height": 640,
+    "numInferenceSteps": 6,
+    "guidanceScale": 3.5,
+    "runtimePromptTokenCounts": {
+      "tokenizer": 66,
+      "tokenizer_2": 66
+    },
+    "executedSeed": 2040728330
+  },
+  "output": {
+    "repoPath": "public/assets/catalog-candidates/cpu/wall-12-w13-v1-a-jeweled-relief-crest-original.png",
+    "sha256": "771d8099c4231b407a0d2dac2e44178a2eabdd8f960bfbab0151bd9b0633d9db",
+    "gitBlobSha": "e9387a7174a888980616ea9afac43cc9b3adbb3b",
+    "bytes": 777648,
+    "width": 640,
+    "height": 640,
+    "format": "PNG",
+    "sourceBytesPreserved": true,
+    "reusedExistingIdenticalBytes": false
+  },
+  "safety": {
+    "canonicalArtModified": false,
+    "gameplayModified": false,
+    "reviewDecisionMade": false,
+    "deploymentPerformed": false,
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+  },
+  "nextGate": "RUN_VERIFY_STAGED_OUTPUT_THEN_REAL_RENDER_AND_INDEPENDENT_EXACT_HASH_REVIEW",
+  "status": "GENERATED_SOURCE_BYTES_UNVERIFIED",
+  "recordSha256": "c84f639f5ceb633e8f28649c99fe6d1bd98fdd6a57f95d663d4655c0d6213ffb"
+}
