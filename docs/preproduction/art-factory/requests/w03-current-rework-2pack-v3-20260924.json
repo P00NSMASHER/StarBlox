@@ -1,0 +1,112 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_BATCH_REQUEST",
+  "planner": "15",
+  "producer": "03",
+  "preflightOwner": "06",
+  "reviewer": "MIXED_05_01",
+  "renderOwner": "14",
+  "integrationOwner": "08",
+  "coordinationOwner": "15",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "12594887a7cebd0ee66ba9a630e755a6d20a2073",
+  "manifestVersion": 38,
+  "batchId": "w03-current-rework-2pack-v3",
+  "scope": [
+    "desks-10",
+    "desks-11"
+  ],
+  "state": "PREPARED_FAILURE_SPECIFIC_REWORK__WAIT_CPU_IDLE",
+  "assignmentAuthority": {
+    "path": "docs/preproduction/art-factory/ACTIVE_BATCH.json",
+    "runtimeProofPath": "docs/preproduction/art-factory/CPU_RUNTIME_PROOF.json",
+    "runtimeProofStatus": "PROVEN",
+    "runtimeCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+    "modelRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "assignedReviewers": {
+      "desks-10": "05",
+      "desks-11": "01"
+    },
+    "note": "Prepared only while producer13 CPU run is active. Preserve Desk10 v5 and Desk11 v3 rejected exact hashes; dispatch only if no newer ACCEPT/superseding hash exists when CPU becomes idle."
+  },
+  "references": {
+    "originalStoreReference": {
+      "requiredBeforeGeneration": true,
+      "repositoryPath": "docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg",
+      "sha256": "b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d",
+      "gitBlobSha": "383baa877d3af86fa92e3583740212000592b3d6",
+      "dimensions": [
+        1448,
+        1086
+      ],
+      "role": "FIRST_PARTY_STARBLOX_STORE_ART_DIRECTION"
+    }
+  },
+  "reviewSource": {
+    "decision": "REWORK",
+    "note": "Fresh exact Store-card/detail REWORK verdicts drive only the smallest next repairs."
+  },
+  "items": {
+    "desks-10": {
+      "currentLegacy": {
+        "path": "public/assets/catalog-candidates/cpu/desks-10-w03-v5-a-obvious-streaming-desk-original.png",
+        "gitBlobSha1": "8e25b3e91c10c6ca4be172d4e870903cf88d4a8a",
+        "reviewDecision": "REWORK",
+        "normalizedFailureTaxonomy": [
+          "STREAMING_DESK_IDENTITY_FAILURE",
+          "SHELVING_CABINET_FORMS",
+          "NO_BROAD_WORKTOP",
+          "NO_MONITOR_MIC_SETUP"
+        ]
+      },
+      "variants": [
+        {
+          "variantId": "A-WIDE-DESK-MONITOR-MIC",
+          "optimizerInput": "Neon Streaming Desk, Desks & Tech, Tier 4, Aqua Wave. EXACTLY ONE freestanding streaming DESK on a plain studio background. Make a very broad horizontal graphite worktop occupying most of the width, supported by exactly two simple side legs/pedestals with open leg space between them. Put exactly TWO computer monitors side by side ON the worktop and exactly ONE visible microphone on an articulated boom arm attached to the desk edge. Add one small under-desk drawer/equipment box only. Use restrained aqua/cyan edge lighting along the worktop. Three-quarter product view, whole desk fully visible, grounded shadow. NO tall shelves, NO cabinets above the worktop, NO stacked curved shelving, NO room, NO repeated variants, NO collage, NO text."
+        },
+        {
+          "variantId": "B-SIMPLE-STREAMER-WORKSTATION",
+          "optimizerInput": "Neon Streaming Desk, Desks & Tech, Tier 4, Aqua Wave. Show one unmistakable wide computer desk only: long flat work surface, two sturdy supports, one monitor shelf with one large monitor, one attached microphone boom, one small PC/equipment pedestal below. Cyan Aqua Wave light strips only as accents. Plain background and clear desk silhouette. NO shelving towers, NO display cabinets, NO duplicate furniture, NO room context, NO text."
+        }
+      ]
+    },
+    "desks-11": {
+      "currentLegacy": {
+        "path": "public/assets/catalog-candidates/cpu/desks-11-w03-v3-a-one-creator-desk-original.png",
+        "gitBlobSha1": "3858085e2005f6445e9b49959ed4ce6d22f03f37",
+        "reviewDecision": "REWORK",
+        "normalizedFailureTaxonomy": [
+          "MULTI_PANEL_VARIANT_COLLAGE",
+          "NO_SINGLE_CREATOR_STATION",
+          "ROOM_CONTEXT_REPEATED",
+          "CARD_SCALE_IDENTITY_FAILURE"
+        ]
+      },
+      "variants": [
+        {
+          "variantId": "A-ONE-DESK-NO-PANELS",
+          "optimizerInput": "Dream Creator Station, Desks & Tech, Tier 4, Art Attack. EXACTLY ONE freestanding creator desk in ONE camera view on a seamless studio background. One broad cream worktop, exactly two stable supports/pedestals, one shallow drawer bank, one physically attached small upper tool rail/hutch with two supply bins, one centered drawing tablet/display, and one small task lamp. The desk itself must dominate the entire image and remain readable at thumbnail size. Controlled coral, lavender and aqua Art Attack accents. NO second view, NO panels, NO collage, NO room walls, NO repeated desk variants, NO built-in cabinetry, NO furniture grid, NO text."
+        },
+        {
+          "variantId": "B-SINGLE-CREATOR-WORKSTATION",
+          "optimizerInput": "Dream Creator Station, Desks & Tech, Tier 4, Art Attack. One isolated creator workstation only: wide desk surface, two clear floor supports, one attached compact organizer rail, one creator screen/tablet, one tiny brush cup. Plain background, generous negative space, grounded shadow. NO multi-panel layout, NO comparison views, NO room scene, NO wall cabinetry, NO duplicate furniture, NO text."
+        }
+      ]
+    }
+  },
+  "executionBudget": {
+    "width": 640,
+    "height": 640,
+    "steps": 6,
+    "guidanceScale": 3.5,
+    "dtype": "float32"
+  },
+  "safety": {
+    "preserveRejectedExactHashes": true,
+    "preserveAcceptedExactHashes": true,
+    "producerSelfReview": false,
+    "canonicalMappingsChanged": false,
+    "workflowFilesChanged": false
+  }
+}
