@@ -204,6 +204,7 @@ describe('Step 13: unified FSRS + IRT + entropy QuestionPolicy', () => {
       context:{
         targetConceptIds:['vocabulary'],
         strictConcept:true,
+        roles:['transfer'],
         roleHint:'transfer'
       },
       introduceNewConcepts:true,
@@ -279,7 +280,8 @@ describe('Step 13: unified FSRS + IRT + entropy QuestionPolicy', () => {
         expect(row.signals[key]).toBeGreaterThanOrEqual(0);
         expect(row.signals[key]).toBeLessThanOrEqual(1);
       }
-      expect(row.diagnostics).toHaveProperty('probabilityCorrect',undefined);
+      expect(row.probabilityCorrect).toBeGreaterThanOrEqual(0);
+      expect(row.probabilityCorrect).toBeLessThanOrEqual(1);
       expect(row.diagnostics).toHaveProperty('abilityFit');
       expect(row.diagnostics).toHaveProperty('fisherInformation');
     }
