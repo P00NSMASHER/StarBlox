@@ -24,7 +24,8 @@
     "rightsStatuses": [
       "original-starblox",
       "explicit-public-license",
-      "user-asserted-authorized"
+      "user-asserted-authorized",
+      "project-rights-verified"
     ],
     "forbiddenExecutableFields": [
       "code",
@@ -59,6 +60,7 @@
   "productionEligibility": {
     "original-starblox": "candidate-after-QA",
     "explicit-public-license": "candidate-after-license-and-content-QA",
-    "user-asserted-authorized": "research-only-until-rights-evidence-recorded"
+    "user-asserted-authorized": "research-only-until-rights-evidence-recorded",
+    "project-rights-verified": "candidate-after-content-and-technical-QA"
   }
 }
