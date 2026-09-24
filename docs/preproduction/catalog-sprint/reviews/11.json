@@ -1,0 +1,117 @@
+{
+  "schemaVersion": 1,
+  "reviewer": "11",
+  "role": "independent art reviewer D / overflow reviewer",
+  "phase": "ART_VISUALS_SPRINT",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "bfba72b2eae53a78abb7e3d2d05584ff99273551",
+  "policy": "docs/preproduction/DELIVERY_PROTOCOL_V2.md",
+  "artFactoryPolicy": "docs/preproduction/art-factory/ART_FACTORY_V2.json",
+  "currentCycle": {
+    "scope": [
+      "decor-6"
+    ],
+    "version": "w03-v1 A-PHYSICAL exact repository hash",
+    "result": "REWORK_1_OF_1",
+    "oldVerdictsTransferred": false,
+    "actualCardScalePixelsReviewed": true,
+    "actualDetailPixelsReviewed": true,
+    "selfApprovalConflict": false
+  },
+  "currentRenderEvidence": {
+    "workflow": "StarBlox Staged Catalog Art QA",
+    "workflowRunId": 35952017738,
+    "artifactId": 10788323876,
+    "artifactName": "catalog-staged-art-review",
+    "artifactDigest": "sha256:8ab84a732080af79abd21066ee84fa2b4f57498d0276359698945e4b7d6e61cb",
+    "workflowHead": "1a0ce358152b8ee522990adf0a44398bf0593cba",
+    "detailEvidence": "staged-replacements/detail/decor-6-a8dca54a.png",
+    "detailEvidenceSha256": "6a448ed40f3cad418d9adbd0aaa0838973ea22fcacee0541f95c83d2fd058be0",
+    "contactSheetEvidence": "staged-replacements/staged-replacements-contact-sheet.png",
+    "contactSheetSha256": "db9bbce60e14c0f276f868216a731763177b96adcec233d00979c33778b51a88",
+    "preflightEvidence": "preflight/decor-6-a8dca54a.json",
+    "preflightSha256": "37e84ec640628fefd626b055647ba60fad676132dcb3b81e5233583f1e0f0510",
+    "technicalChecks": "Exact Git blob binding PASS, PNG signature/decode PASS, HTTP 200, natural 1024x1024, opaqueFraction=1, screenshot=true, no render errors; calibrated preflight is report-only and non-blocking."
+  },
+  "reviews": [
+    {
+      "itemId": "decor-6",
+      "name": "Telescope",
+      "tier": 2,
+      "theme": "Berry Blast",
+      "assetPath": "public/assets/catalog-candidates/cpu/decor-6-w03-v1-a-physical-original.png",
+      "assetHash": "a8dca54ad9c511b529ab505dab97991bbc76daef",
+      "contentSha256": "8b839bb54cda085810a58d1714c3f0850991e544b2e7c75e75a5e6c20c820fd2",
+      "producer": "03",
+      "decision": "REWORK",
+      "learnerLabel": "REWORK",
+      "reviewedAt": "2026-09-24T03:40:00Z",
+      "evidence": {
+        "detailRenderPath": "staged-replacements/detail/decor-6-a8dca54a.png",
+        "detailRenderSha256": "6a448ed40f3cad418d9adbd0aaa0838973ea22fcacee0541f95c83d2fd058be0",
+        "detailDimensions": [
+          800,
+          800
+        ],
+        "contactSheetPath": "staged-replacements/staged-replacements-contact-sheet.png",
+        "contactSheetSha256": "db9bbce60e14c0f276f868216a731763177b96adcec233d00979c33778b51a88"
+      },
+      "reasonCodes": [
+        "TELESCOPE_IDENTITY_FAILURE",
+        "MISSING_OPTICAL_TUBE_MOUNT_TRIPOD",
+        "CLUTTERED_MULTI_OBJECT_DIORAMA",
+        "SMALL_CARD_READABILITY_FAILURE",
+        "THEME_OVER_CATEGORY"
+      ],
+      "checks": {
+        "recognizableCategoryFunction": "FAIL — the rendered pixels read as a crowded miniature/diorama collection, not one recognizable telescope.",
+        "physicalConstructionContact": "FAIL — no dominant coherent optical tube, objective lens, focuser/mount, or stable tripod construction is visible.",
+        "silhouette": "FAIL — dozens of similarly weighted miniature forms prevent a distinct telescope silhouette.",
+        "materialLighting": "PARTIAL — soft pastel materials and lighting are visually coherent, but they serve the diorama scene rather than a telescope product.",
+        "themeTierSpecificity": "PARTIAL — Berry Blast pastel/pink cues are present, but category identity is overwhelmed and Tier-2 simplicity is lost.",
+        "smallCardReadability": "FAIL — the real Store-card contact sheet reduces the candidate to an unreadable mosaic with no dominant telescope form.",
+        "framingComposition": "FAIL — full-frame clutter and many unrelated objects violate the one-product, isolated-product composition needed for this item.",
+        "originalityNearDuplicateRisk": "PASS — no obvious branded/third-party motif or exact-content duplicate was observed.",
+        "technicalIntegrity": "PASS — exact staged bytes, provenance, qualification and renderer binding are valid; rejection is artistic/identity quality only."
+      },
+      "reason": "Exact rendered pixels are REWORK. Preserve this hash as evidence. The replacement should show one isolated, fully contained telescope with an unmistakable optical tube and front lens, coherent mount/focuser, three stable tripod legs, strong small-card silhouette, restrained Berry Blast accents, grounded studio shadow, and no room/diorama/miniature clutter or unrelated props."
+    }
+  ],
+  "currentReplacementDisposition": {
+    "decor": {
+      "REWORK": {
+        "decor-6": "a8dca54ad9c511b529ab505dab97991bbc76daef"
+      }
+    }
+  },
+  "summary": {
+    "reviewedThisRun": 1,
+    "newAcceptsThisRun": 0,
+    "newReworkThisRun": 1,
+    "newBlockedThisRun": 0,
+    "newUsableBy08Now": [],
+    "reworkNow": [
+      "decor-6"
+    ],
+    "preservedAcceptedHashes": "No prior exact-hash ACCEPT is superseded by this decision; the REWORK applies only to Decor 6 blob a8dca54ad9c511b529ab505dab97991bbc76daef."
+  },
+  "handoff": {
+    "15": "Keep Decor8 current CPU retry first. After its disposition, schedule a failure-specific Decor6 replacement without regenerating this exact rejected hash.",
+    "03": "Decor6 exact hash a8dca54ad9c511b529ab505dab97991bbc76daef is REWORK. Preserve it. Next candidate must be one isolated telescope with obvious optical tube/lens, coherent mount and tripod, readable silhouette, restrained Berry Blast treatment and no diorama clutter.",
+    "08": "Do not canonical-wire Decor6 hash a8dca54ad9c511b529ab505dab97991bbc76daef."
+  },
+  "preservation": {
+    "candidateBytesChanged": false,
+    "canonicalMappingsChanged": false,
+    "runtimeChanged": false,
+    "gameplayChanged": false,
+    "learningChanged": false,
+    "persistenceChanged": false,
+    "economyChanged": false,
+    "testsWeakened": false,
+    "ciFilesChanged": false,
+    "realPlayerDataChanged": false,
+    "deploymentTouched": false,
+    "selfApproval": false
+  }
+}
