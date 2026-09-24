@@ -4,10 +4,14 @@ import { studioToolNames } from './studioToolContract.js';
 export class StudioBridgeQueue {
   constructor({
     timeoutMs=120_000,
-    queueLimit=100
+    queueLimit=100,
+    peerTtlMs=45_000,
+    now=() => Date.now()
   }={}){
     this.timeoutMs=timeoutMs;
     this.queueLimit=queueLimit;
+    this.peerTtlMs=Math.max(1,Number(peerTtlMs) || 45_000);
+    this.now=typeof now === 'function' ? now : (() => Date.now());
     this.counter=0;
     this.queue=[];
     this.pending=new Map();
@@ -38,20 +42,39 @@ export class StudioBridgeQueue {
       connectorVersion:typeof connectorVersion === 'string' && connectorVersion.trim()
         ? connectorVersion.trim()
         : null,
-      tools:advertised
+      tools:advertised,
+      lastSeenAtMs:this.now()
     };
     this.peers.set(id + '||' + peerRole,record);
-    return {...record,tools:[...record.tools]};
+    return {
+      instanceId:record.instanceId,
+      role:record.role,
+      connectorVersion:record.connectorVersion,
+      tools:[...record.tools]
+    };
   }
 
   peerStatus({instanceId=null}={}){
-    return [...this.peers.values()]
-      .filter(peer => instanceId == null || peer.instanceId === String(instanceId))
-      .map(peer => ({...peer,tools:[...peer.tools]}))
-      .sort((a,b) =>
-        a.instanceId.localeCompare(b.instanceId) ||
-        a.role.localeCompare(b.role)
-      );
+    const now=this.now();
+    const wanted=instanceId == null ? null : String(instanceId);
+    const active=[];
+    for(const [key,peer] of this.peers.entries()){
+      if(now - peer.lastSeenAtMs > this.peerTtlMs){
+        this.peers.delete(key);
+        continue;
+      }
+      if(wanted !== null && peer.instanceId !== wanted) continue;
+      active.push({
+        instanceId:peer.instanceId,
+        role:peer.role,
+        connectorVersion:peer.connectorVersion,
+        tools:[...peer.tools]
+      });
+    }
+    return active.sort((a,b) =>
+      a.instanceId.localeCompare(b.instanceId) ||
+      a.role.localeCompare(b.role)
+    );
   }
 
   async dispatch(tool,args={},{

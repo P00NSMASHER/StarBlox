@@ -49,6 +49,25 @@ describe('Step 2: Studio bridge transport', () => {
     expect(bridge.peerStatus()).toHaveLength(2);
   });
 
+  it('expires Studio peer attestations when the connector stops polling', () => {
+    let now=1_000;
+    const bridge=new StudioBridgeQueue({
+      peerTtlMs:30_000,
+      now:() => now
+    });
+    bridge.registerPeer({
+      instanceId:'studio-a',
+      role:'edit',
+      connectorVersion:'starblox-studio-connector-v1',
+      tools:['search_tree']
+    });
+
+    expect(bridge.peerStatus({instanceId:'studio-a'})).toHaveLength(1);
+    now+=30_001;
+    expect(bridge.peerStatus({instanceId:'studio-a'})).toEqual([]);
+    expect(bridge.peerStatus()).toEqual([]);
+  });
+
   it('rejects unknown tools before they enter the bridge queue', async () => {
     const bridge=new StudioBridgeQueue();
     await expect(

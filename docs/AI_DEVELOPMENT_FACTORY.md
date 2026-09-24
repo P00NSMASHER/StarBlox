@@ -294,7 +294,7 @@ createStudioHttpAdapter() can send the same token.
 
 The bridge is intentionally only transport.
 
-Connected plugin peers register their instance ID, role, connector protocol version and implemented tool names on each poll. The health surface exposes that bounded metadata so a factory run can prove which Studio-side contract it is actually talking to.
+Connected plugin peers register their instance ID, role, connector protocol version and implemented tool names on each poll. Peer attestations expire after a short TTL if polling stops, so a disconnected Studio process cannot remain trusted indefinitely. The health surface exposes only active bounded metadata so a factory run can prove which Studio-side contract it is actually talking to.
 
 StarBlox now also ships a built-in Studio connector at:
 
