@@ -7,7 +7,7 @@
   "policy": "docs/preproduction/DELIVERY_PROTOCOL_V2.md",
   "visualSprint": "docs/preproduction/ART_VISUALS_SPRINT.json",
   "artFactoryPolicy": "docs/preproduction/art-factory/ART_FACTORY_V2.json",
-  "sourceHead": "70bc37b6acb2f5d58a5a84dd6ecf8f2950a40328",
+  "sourceHead": "0970a15570",
   "priorReviewShard": {
     "blobSha": "4173dbb9923157eb5a13090d526f88cfec162edd",
     "schemaVersion": 10,
@@ -240,15 +240,13 @@
   ],
   "currentCycle": {
     "scope": [
-      "decor-11"
+      "wall-9"
     ],
-    "version": "Decor11 v7 exact source hash",
-    "result": "REWORK_1_OF_1_FAIL_FAST",
+    "version": "current exact hash: Wall9 v11",
+    "result": "REWORK_1_OF_1",
     "oldVerdictsTransferred": false,
-    "actualCardScalePixelsReviewed": false,
-    "actualDetailPixelsReviewed": true,
-    "selfApprovalConflict": false,
-    "failFastSourceContract": true
+    "actualSourcePixelsReviewed": true,
+    "selfApprovalConflict": false
   },
   "currentRenderEvidence": {
     "sources": [
@@ -1208,13 +1206,52 @@
         "duplicateVisual": "PASS",
         "technicalIntegrity": "PASS"
       }
+    },
+    {
+      "itemId": "wall-9",
+      "name": "Art Gallery Wall",
+      "tier": 3,
+      "theme": "Adventure Club",
+      "assetPath": "public/assets/catalog-candidates/cpu/wall-9-w13-v11-b-three-frames-only-original.png",
+      "repositoryPath": "public/assets/catalog-candidates/cpu/wall-9-w13-v11-b-three-frames-only-original.png",
+      "assetHash": "20c41266b9ef3afac6393b9af16da0efc8c9acac",
+      "sha256": "e5e45b76f4723c1c0ad4d64f27a6baea7c287e0339203009252c3ec12c28dcd3",
+      "contentSha256": "e5e45b76f4723c1c0ad4d64f27a6baea7c287e0339203009252c3ec12c28dcd3",
+      "hashAlgorithm": "git-blob-sha1",
+      "producer": "13",
+      "decision": "REWORK",
+      "learnerLabel": "REWORK",
+      "reviewedAt": "2026-09-24T20:26:00Z",
+      "evidenceRefs": [
+        "workflow:36051844460",
+        "source:public/assets/catalog-candidates/cpu/wall-9-w13-v11-b-three-frames-only-original.png",
+        "source-fail-fast:obvious-count-and-category-failure"
+      ],
+      "reasonCodes": [
+        "TWO_FRAMES_ONLY",
+        "ROOM_VIGNETTE_PRESENT",
+        "ADVENTURE_TRIPTYCH_IDENTITY_FAILURE",
+        "NON_TRAVEL_ART_CONTENT"
+      ],
+      "reason": "REWORK. V11 still fails the exact Art Gallery Wall contract. The source pixels show only TWO framed pieces, not exactly three, and the composition is a room/furniture vignette. The left artwork is an animal image and the right frame is mostly abstract/blank rather than the required mountain/compass-map/ocean-coast adventure triptych. Preserve this exact hash. Use the prepared v12 A fallback: exactly three same-size portrait travel frames in one horizontal row on plain white, with no room/furniture/backing geometry.",
+      "checks": {
+        "identity": "FAIL",
+        "frameCount": "FAIL — two frames, not three",
+        "adventureContent": "FAIL",
+        "silhouette": "FAIL",
+        "cardReadability": "FAIL",
+        "framingComposition": "FAIL",
+        "materialLighting": "PASS",
+        "originality": "PASS",
+        "technicalIntegrity": "PASS"
+      }
     }
   ],
   "currentReplacementDisposition": {
     "wall": {
       "REWORK": {
         "wall-10": "74a4c531a3c60ccd60747bfebc2dfc0d1d25b684",
-        "wall-9": "28807b5b48c46274252f0f6453b336cb2d379416"
+        "wall-9": "20c41266b9ef3afac6393b9af16da0efc8c9acac"
       },
       "ACCEPT": {
         "wall-11": "50ffc975030f6c7e28cf9836756bb312dfa646fb",
@@ -1241,15 +1278,15 @@
     "newBlockedThisRun": 0,
     "newUsableBy08Now": [],
     "reworkNow": [
-      "decor-11"
+      "wall-9"
     ],
-    "preservedAcceptedHashes": "All prior reviewer02 ACCEPTs remain frozen; this REWORK applies only to Decor11 v7 exact hash."
+    "preservedAcceptedHashes": "All prior reviewer02 ACCEPTs remain frozen; Wall9 v11 is REWORK only."
   },
   "handoff": {
-    "13": "Wall9 v10 REWORK; preserve exact hash and prepare only an exactly-three-frame horizontal triptych if still release-critical.",
+    "13": "Wall9 v11 REWORK; preserve exact hash and dispatch prepared v12 A fallback when CPU slot permits.",
     "14": "Current packets consumed; do not rerender unchanged hashes.",
-    "15": "Decor11 remains a bounded exact-pixel blocker.",
+    "15": "Wall9 remains a bounded release blocker.",
     "09": "Decor11 v7 REWORK; preserve exact hash and use the already-planned B-SIMPLE-VANITY-STOOL attempt as v8.",
-    "08": "Do not canonical-wire Decor11 v7."
+    "08": "Do not canonical-wire Wall9 v11."
   }
 }
