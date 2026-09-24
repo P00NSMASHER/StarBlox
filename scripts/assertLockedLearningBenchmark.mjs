@@ -29,6 +29,9 @@ const same = (actual,expected,label) => {
 
 same(manifest.status,'locked-evaluation-only','manifest status');
 same(manifest.tuneAgainstThisCohort,false,'tuneAgainstThisCohort');
+if(manifest.schemaVersion === 'starblox-locked-promotion-benchmark-v2'){
+  same(manifest.finalHoldout,true,'finalHoldout');
+}
 same(evaluation.authorization,manifest.authorization,'dataset authorization');
 same(evaluation.seed,manifest.seed,'dataset seed');
 same(evaluation.learnerCount,manifest.sourceLearnerCount,'source learner count');
@@ -91,6 +94,48 @@ same(
 );
 same(decision.liveSelectorV2Allowed,false,'live Selector V2 boundary');
 
+if(manifest.trainingProtocol){
+  const protocol = manifest.trainingProtocol;
+  same(
+    decision.psiKt?.upstreamCommit,
+    protocol.psiUpstreamCommit,
+    'PSI upstream commit'
+  );
+  same(
+    decision.psiKt?.epochsRequested,
+    protocol.epochsRequested,
+    'PSI epochs requested'
+  );
+  same(
+    decision.psiKt?.earlyStoppingPatience,
+    protocol.earlyStoppingPatience,
+    'PSI early-stopping patience'
+  );
+  same(
+    decision.psiKt?.trainTimeRatio,
+    protocol.trainTimeRatio,
+    'PSI train-time ratio'
+  );
+  same(
+    decision.fsrs?.engineVersion,
+    protocol.fsrsVersion,
+    'FSRS version'
+  );
+
+  const validationSeed = Number(decision.psiKt?.evaluationRng?.validationSeed);
+  const testSeed = Number(decision.psiKt?.evaluationRng?.testSeed);
+  same(
+    validationSeed - manifest.seed,
+    protocol.evaluationRngValidationOffset,
+    'validation RNG offset'
+  );
+  same(
+    testSeed - manifest.seed,
+    protocol.evaluationRngTestOffset,
+    'test RNG offset'
+  );
+}
+
 if(failures.length){
   throw new Error(
     'Locked promotion benchmark drift detected:\n- ' + failures.join('\n- ')
@@ -100,6 +145,7 @@ if(failures.length){
 process.stdout.write(JSON.stringify({
   schemaVersion:'starblox-locked-promotion-benchmark-check-v1',
   benchmarkId:manifest.benchmarkId,
+  finalHoldout:Boolean(manifest.finalHoldout),
   locked:true,
   evaluationOnly:true,
   seed:manifest.seed,
