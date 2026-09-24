@@ -1,11 +1,11 @@
 {
-  "schemaVersion": 15,
+  "schemaVersion": 16,
   "lane": "11",
   "workstream": "11",
   "phase": "CATALOG_SPRINT",
   "visualFocus": "ART_AND_VISUALS_ONLY",
   "branch": "screenshot-match-preproduction",
-  "status": "AURAS_1_12_EXACT_HASH_ACCEPTED_CANONICAL__NO_CATALOG_REASSIGNMENT__VISUAL_SPECS_READY",
+  "status": "ART_VISUALS_SPRINT__DECOR6_EXACT_HASH_WAITING_RENDER_EVIDENCE__PRIOR_AURA_ACCEPTS_PRESERVED",
   "policy": "docs/preproduction/DELIVERY_PROTOCOL_V2.md",
   "visualSprint": "docs/preproduction/ART_VISUALS_SPRINT.json",
   "independentReviewer": "05",
@@ -25,7 +25,7 @@
     "auras-11",
     "auras-12"
   ],
-  "auditedBranchHeadBeforeWrite": "cdc827e9a1f021efc599f480ba71c42f13c50f92",
+  "auditedBranchHeadBeforeWrite": "482e8f6f9e64e4e1146b29bbfb85c7329d9d7885",
   "historyRefs": [
     {
       "priorLaneBlobSha": "cac3d9cf34cc61346a6a2f55e3cc18c200696b89",
@@ -59,18 +59,78 @@
     }
   ],
   "acceptedCanonicalCurrent": [
-    {"id":"auras-1","name":"Soft Sparkles","hash":"a7921c7b7c8f48fc47908595c1afa6f59217c7a5","path":"/assets/catalog/auras-1-w11-v3.png"},
-    {"id":"auras-2","name":"Cloud Puffs","hash":"1e421c71217e5386c1b255dfedeade8215976bcb","path":"/assets/catalog/auras-2-w11-v3.png"},
-    {"id":"auras-3","name":"Pixel Bits","hash":"f164aefb93a21374a1cf0b9b7b7312a0ae68d34c","path":"/assets/catalog/auras-3-w11-v3.png"},
-    {"id":"auras-4","name":"Berry Hearts","hash":"3357a67e4121ca631377e30033a31ef4c815ab61","path":"/assets/catalog/auras-4-w11-v3.png"},
-    {"id":"auras-5","name":"Garden Fireflies","hash":"ae3bef6cbbf4333aa740dc9a3fddf4f2b5540192","path":"/assets/catalog/auras-5-w11-v3.jpg"},
-    {"id":"auras-6","name":"Galaxy Orbit","hash":"ce4b155c7fb5469fde415ab9d744cab41027fe4d","path":"/assets/catalog/auras-6-v2.svg"},
-    {"id":"auras-7","name":"Sunny Rays","hash":"c451e7479e142f1eca89cc5282b352c2d2ca2d4b","path":"/assets/catalog/auras-7-v2.svg"},
-    {"id":"auras-8","name":"Aqua Bubbles","hash":"6884668fe721f3b26a562e11924237a32c656db6","path":"/assets/catalog/auras-8-v2.svg"},
-    {"id":"auras-9","name":"Art Confetti","hash":"9331e516a7a1a2fa32abafaf3bbf0932c3ca792d","path":"/assets/catalog/auras-9-w11-v3.jpg"},
-    {"id":"auras-10","name":"Neon Trail","hash":"6f07fe7f5c8be236f3c17df5f55afc550888f52e","path":"/assets/catalog/auras-10-w11-v3.jpg"},
-    {"id":"auras-11","name":"Dream Aurora","hash":"7f3372c1584e07f18a3abfc7818013190fff1560","path":"/assets/catalog/auras-11-w11-v3.jpg"},
-    {"id":"auras-12","name":"Luxe Starstorm","hash":"d0fcf528ff4ee91e56760932fdcf357ab264dd3d","path":"/assets/catalog/auras-12-w11-v3.jpg"}
+    {
+      "id": "auras-1",
+      "name": "Soft Sparkles",
+      "hash": "a7921c7b7c8f48fc47908595c1afa6f59217c7a5",
+      "path": "/assets/catalog/auras-1-w11-v3.png"
+    },
+    {
+      "id": "auras-2",
+      "name": "Cloud Puffs",
+      "hash": "1e421c71217e5386c1b255dfedeade8215976bcb",
+      "path": "/assets/catalog/auras-2-w11-v3.png"
+    },
+    {
+      "id": "auras-3",
+      "name": "Pixel Bits",
+      "hash": "f164aefb93a21374a1cf0b9b7b7312a0ae68d34c",
+      "path": "/assets/catalog/auras-3-w11-v3.png"
+    },
+    {
+      "id": "auras-4",
+      "name": "Berry Hearts",
+      "hash": "3357a67e4121ca631377e30033a31ef4c815ab61",
+      "path": "/assets/catalog/auras-4-w11-v3.png"
+    },
+    {
+      "id": "auras-5",
+      "name": "Garden Fireflies",
+      "hash": "ae3bef6cbbf4333aa740dc9a3fddf4f2b5540192",
+      "path": "/assets/catalog/auras-5-w11-v3.jpg"
+    },
+    {
+      "id": "auras-6",
+      "name": "Galaxy Orbit",
+      "hash": "ce4b155c7fb5469fde415ab9d744cab41027fe4d",
+      "path": "/assets/catalog/auras-6-v2.svg"
+    },
+    {
+      "id": "auras-7",
+      "name": "Sunny Rays",
+      "hash": "c451e7479e142f1eca89cc5282b352c2d2ca2d4b",
+      "path": "/assets/catalog/auras-7-v2.svg"
+    },
+    {
+      "id": "auras-8",
+      "name": "Aqua Bubbles",
+      "hash": "6884668fe721f3b26a562e11924237a32c656db6",
+      "path": "/assets/catalog/auras-8-v2.svg"
+    },
+    {
+      "id": "auras-9",
+      "name": "Art Confetti",
+      "hash": "9331e516a7a1a2fa32abafaf3bbf0932c3ca792d",
+      "path": "/assets/catalog/auras-9-w11-v3.jpg"
+    },
+    {
+      "id": "auras-10",
+      "name": "Neon Trail",
+      "hash": "6f07fe7f5c8be236f3c17df5f55afc550888f52e",
+      "path": "/assets/catalog/auras-10-w11-v3.jpg"
+    },
+    {
+      "id": "auras-11",
+      "name": "Dream Aurora",
+      "hash": "7f3372c1584e07f18a3abfc7818013190fff1560",
+      "path": "/assets/catalog/auras-11-w11-v3.jpg"
+    },
+    {
+      "id": "auras-12",
+      "name": "Luxe Starstorm",
+      "hash": "d0fcf528ff4ee91e56760932fdcf357ab264dd3d",
+      "path": "/assets/catalog/auras-12-w11-v3.jpg"
+    }
   ],
   "aura11Closure": {
     "id": "auras-11",
@@ -82,7 +142,10 @@
     "repositoryPath": "public/assets/catalog/auras-11-w11-v3.jpg",
     "gitBlobSha": "7f3372c1584e07f18a3abfc7818013190fff1560",
     "format": "JPEG",
-    "dimensions": [600, 600],
+    "dimensions": [
+      600,
+      600
+    ],
     "bytes": 18443,
     "sha256": "0a06996522c9cb999e82b8ba028e94bfe2cb8d16e043c94999065e0ae8ce1dc2",
     "branchReadback": "PASS_EXACT_HASH",
@@ -134,12 +197,19 @@
     "effectMaterialLookdevBoard": "docs/preproduction/workstreams/11-effect-material-lookdev-board-v1.svg",
     "effectMaterialLookdevBoardBlobSha": "768015042927ac767a6da503606d4a1a3aef10a3",
     "effectMaterialLookdevBoardCommit": "cdc827e9a1f021efc599f480ba71c42f13c50f92",
-    "effectMaterialLookdevBoardDimensions": [1440, 960],
+    "effectMaterialLookdevBoardDimensions": [
+      1440,
+      960
+    ],
     "effectMaterialLookdevBoardGeneration": "HAND_AUTHORED_SVG_NO_MODEL_API_OR_CUSTOM_NODES",
     "authoritativeReferenceManifest": "docs/preproduction/reference-screenshots/original-reference-manifest.json",
     "referenceManifestBlobSha": "63956763934f17613a3f98889f8085051a78a0b6",
     "designContractBlobSha": "b3b8a0cdf7eb298bcb60702b0c941238b75010fa",
-    "screens": ["Home", "Store", "Quest"],
+    "screens": [
+      "Home",
+      "Store",
+      "Quest"
+    ],
     "preparedRecipes": [
       "premium-panel-energy",
       "bounded-star-sparks",
@@ -172,11 +242,11 @@
     "newArtOnlySpecificationArtifactsThisPass": 1
   },
   "handoff": {
-    "05": "Aura family closed at review level. Preserve exact current ACCEPT decisions for Auras 1-12; re-review only if a later exact-hash defect/new hash is presented.",
-    "08": "Aura 11 is already canonically wired at commit ad8867efc70d1b123cbc5e2f157766bec58e510d. Preserve all Aura mappings/hashes unless a later exact-hash defect is recorded.",
+    "11": "Hold accepted Aura bytes. Stay ART_AND_VISUALS_ONLY; do not alter shared runtime/state or claim another catalog family without Workstream-15 coordination.",
     "14": "When 15 authorizes shared visual implementation, consume the Workstream-11 material recipe, reference-zone spec, static reduced-motion contract, normal-motion keyframe/trace contract and 1440x960 effect-material lookdev board. Capture actual normal/reduced pixels at 1408x1056, 1024x768, 390x844 and 320x568 and measure paint/composite/scroll behavior; source/CSS inspection cannot close render or performance gates.",
     "15": "Aura production is complete. Workstream 11 claims no other catalog family. Reference-grounded narrative, zoning, material, deterministic reduced-motion, deterministic normal-motion keyframe/trace and reusable effect-material lookdev source are ready; coordinate any shared runtime entrypoint implementation and provide explicit reassignment before new catalog production.",
-    "11": "Hold accepted Aura bytes. Stay ART_AND_VISUALS_ONLY; do not alter shared runtime/state or claim another catalog family without Workstream-15 coordination."
+    "05": "Aura family closed at review level. Preserve exact current ACCEPT decisions for Auras 1-12; re-review only if a later exact-hash defect/new hash is presented.",
+    "08": "Aura 11 is already canonically wired at commit ad8867efc70d1b123cbc5e2f157766bec58e510d. Preserve all Aura mappings/hashes unless a later exact-hash defect is recorded."
   },
   "releaseGates": {
     "catalogGlobal192Gate": "OPEN_NOT_WORKSTREAM11_CLOSED_BY_AURA_COMPLETION",
@@ -196,5 +266,35 @@
     "learningEconomySaveLogicTouched": false,
     "liveAuraLogicTouched": false,
     "sharedRuntimeTouchedThisPass": false
+  },
+  "artReviewSprintPending": {
+    "phase": "ART_VISUALS_SPRINT",
+    "sourceAuthority": "docs/preproduction/art-factory/ACTIVE_BATCH.json",
+    "renderer": "14",
+    "reviewer": "11",
+    "decisionState": "WAITING_ACTUAL_PIXEL_RENDER_EVIDENCE__NO_ART_QUALITY_DECISION_YET",
+    "items": [
+      {
+        "id": "decor-6",
+        "name": "Telescope",
+        "producer": "03",
+        "exactPath": "public/assets/catalog-candidates/cpu/decor-6-w03-v1-a-physical-original.png",
+        "sha256": "8b839bb54cda085810a58d1714c3f0850991e544b2e7c75e75a5e6c20c820fd2",
+        "gitBlobSha": "a8dca54ad9c511b529ab505dab97991bbc76daef",
+        "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-decor-6-v1-qualification-20260924.json",
+        "qualification": "QUALIFIED_FOR_RENDERER14",
+        "requiredRenderContext": [
+          "REAL_STORE_CARD",
+          "REAL_STORE_DETAIL"
+        ],
+        "next": "14 render exact hash -> 11 independent ACCEPT/REWORK -> 08 only on ACCEPT"
+      }
+    ],
+    "preservation": {
+      "noReviewDecisionInThisHandoff": true,
+      "acceptedPriorHashesPreserved": true,
+      "canonicalMappingsUnchanged": true,
+      "gameplayLearningPersistenceEconomyUnchanged": true
+    }
   }
 }
