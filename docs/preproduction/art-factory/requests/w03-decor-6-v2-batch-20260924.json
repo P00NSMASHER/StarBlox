@@ -1,0 +1,103 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_BATCH_REQUEST",
+  "planner": "15",
+  "producer": "03",
+  "preflightOwner": "06",
+  "reviewer": "11",
+  "renderOwner": "14",
+  "integrationOwner": "08",
+  "coordinationOwner": "15",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "7807561685d2112fb6bdd2ee81dd14604a8f0095",
+  "manifestVersion": 35,
+  "batchId": "w03-decor-6-v2-rework",
+  "scope": [
+    "decor-6"
+  ],
+  "state": "CPU_QUEUE_ELIGIBLE__FAILURE_SPECIFIC_REWORK__PROVEN_PINNED_RUNTIME",
+  "assignmentAuthority": {
+    "path": "docs/preproduction/art-factory/ACTIVE_BATCH.json",
+    "reworkRequestPath": "docs/preproduction/art-factory/requests/w03-decor-6-v2-rework-20260924.json",
+    "assignedReviewer": "11",
+    "runtimeProofPath": "docs/preproduction/art-factory/CPU_RUNTIME_PROOF.json",
+    "runtimeProofStatus": "PROVEN",
+    "runtimeCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+    "modelRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "note": "Planner-compatible execution wrapper for the exact failure-specific REWORK request. Failure-specific prompts, variant IDs, rejected exact hash, independent reviewer routing and provenance gates are preserved."
+  },
+  "references": {
+    "originalStoreReference": {
+      "requiredBeforeGeneration": true,
+      "repositoryPath": "docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg",
+      "sha256": "b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d",
+      "gitBlobSha": "383baa877d3af86fa92e3583740212000592b3d6",
+      "dimensions": [
+        1448,
+        1086
+      ],
+      "role": "FIRST_PARTY_STARBLOX_STORE_ART_DIRECTION"
+    }
+  },
+  "reviewSource": {
+    "decision": "REWORK",
+    "exactRejectedPath": "public/assets/catalog-candidates/cpu/decor-6-w03-v1-a-physical-original.png",
+    "exactRejectedGitBlobSha": "a8dca54ad9c511b529ab505dab97991bbc76daef",
+    "exactRejectedSha256": "8b839bb54cda085810a58d1714c3f0850991e544b2e7c75e75a5e6c20c820fd2",
+    "reasonCodes": [
+      "TELESCOPE_IDENTITY_FAILURE",
+      "MISSING_OPTICAL_TUBE_MOUNT_TRIPOD",
+      "CLUTTERED_MULTI_OBJECT_DIORAMA",
+      "SMALL_CARD_READABILITY_FAILURE",
+      "THEME_OVER_CATEGORY"
+    ],
+    "humanReason": "The exact v1 pixels are a crowded miniature/diorama collection instead of one readable telescope. Preserve the rejected hash. The replacement must be one isolated telescope with unmistakable tube/lens, mount and three-leg tripod construction."
+  },
+  "items": {
+    "decor-6": {
+      "currentLegacy": {
+        "path": "public/assets/catalog-candidates/cpu/decor-6-w03-v1-a-physical-original.png",
+        "gitBlobSha1": "a8dca54ad9c511b529ab505dab97991bbc76daef",
+        "reviewDecision": "REWORK",
+        "normalizedFailureTaxonomy": [
+          "TELESCOPE_IDENTITY_FAILURE",
+          "MISSING_OPTICAL_TUBE_MOUNT_TRIPOD",
+          "CLUTTERED_MULTI_OBJECT_DIORAMA",
+          "SMALL_CARD_READABILITY_FAILURE",
+          "THEME_OVER_CATEGORY"
+        ]
+      },
+      "variants": [
+        {
+          "variantId": "A-SINGLE-TELESCOPE",
+          "seed": 1535452927,
+          "optimizerInputSha256": "3eb90d0e2711631baacf1f8192c173c3e919ae1a4a799362f62892b95e646323",
+          "optimizerInput": "Telescope, Room Decor, Tier 2, Berry Blast. Create ONE isolated freestanding refractor telescope as the only product on a plain light-neutral studio background. The telescope must have one long cylindrical berry-magenta optical tube with a large circular objective lens and cream lens rim at the front, one small eyepiece and focus knob at the rear, and a clearly visible alt-azimuth yoke mount. The mount must sit on exactly THREE long brushed-metal tripod legs with all three feet visible and connected by one simple center brace/accessory tray. Keep the full telescope centered and completely inside frame with at least 15 percent clear margin on every side, a strong diagonal tube silhouette, believable joints, metal/glass/rubber material separation, and one grounded cast shadow. Berry Blast should be restrained to berry-magenta, cream, and tiny plum accents. NO room scene, NO diorama, NO tables, shelves, cabinets, houses, plants, trees, miniature props, unrelated objects, duplicate telescopes, people, text, logos, floating parts, cropped tripod feet, or collage."
+        },
+        {
+          "variantId": "B-SILHOUETTE-FIRST",
+          "seed": 2060143304,
+          "optimizerInputSha256": "e6edd9be55e3369c57e80e5719b20483e859ef3016754af9d1b65e7c407d3bbc",
+          "optimizerInput": "Telescope, Room Decor, Tier 2, Berry Blast. Make ONE simple premium telescope that reads instantly at small Store-card size. Use a short wide cream-and-berry optical tube with a clearly open round front lens, a visible rear eyepiece, one focus wheel, and a compact pivot mount above exactly THREE splayed dark-metal tripod legs. The tripod must be the only support; show every leg from hinge to floor contact and one triangular center brace. Isolate the full object on an empty pale studio background with generous negative space, crisp three-quarter view, clear physical construction, and a soft grounded shadow. Use only restrained Berry Blast accents and keep the telescope itself visually dominant. NO room, NO landscape, NO miniature world, NO furniture, NO boxes, books, plants, buildings, extra gadgets, duplicate products, text, logos, malformed partial objects, or background clutter."
+        }
+      ]
+    }
+  },
+  "executionBudget": {
+    "width": 640,
+    "height": 640,
+    "steps": 6,
+    "guidanceScale": 3.5,
+    "dtype": "bfloat16",
+    "basis": "Matches independently ACCEPTed Wall 11/12 CPU generation; execution cost changes only, not model/runtime identity or failure-specific prompt content."
+  },
+  "safety": {
+    "preserveRejectedExactHash": true,
+    "preserveAcceptedExactHashes": true,
+    "producerSelfReview": false,
+    "canonicalMappingsChanged": false,
+    "workflowFilesChanged": false,
+    "gameplayLearningEconomyPersistenceAccessibilityChanged": false
+  }
+}

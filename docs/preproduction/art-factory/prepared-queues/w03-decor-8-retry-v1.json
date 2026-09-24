@@ -25,7 +25,7 @@
   "generation": {
     "width": 640,
     "height": 640,
-    "steps": 8,
+    "steps": 6,
     "guidanceScale": 3.5,
     "dtype": "bfloat16"
   },
@@ -34,7 +34,10 @@
     "runId": 35880356000,
     "attempt": 2,
     "item": "decor-8",
-    "reason": "Historical 1024x1024/12-step Decor8 matrix job remained stale/in-progress far beyond its configured generation timeout while Decor6 completed successfully and was recovered exactly."
+    "reason": "Historical 1024x1024/12-step Decor8 matrix job remained stale/in-progress far beyond its configured generation timeout while Decor6 completed successfully and was recovered exactly.",
+    "latestFailedRunId": 35951650055,
+    "latestFailure": "GENERATION_STEP_TIMEOUT_20_MINUTES_BEFORE_FIRST_DENOISING_STEP_COMPLETED",
+    "nextOptimization": "640x640/6-step retry only after higher-priority ready reworks and CPU semaphore release"
   },
   "preservation": {
     "decor6": "DO_NOT_REGENERATE__EXACT_V1_ARTIFACT_STAGED",
@@ -45,5 +48,14 @@
     "route": "12 -> 06 -> 14 -> 11 -> 08 on ACCEPT",
     "canonicalWriter": "08"
   },
-  "dispatchPolicy": "ONLY_VIA_CPU_LANE_RESET_AFTER_DECOR6_EXACT_STAGED_PREREQUISITE_VERIFIES_AND_STALE_RUN_35880356000_IS_RELEASED"
+  "dispatchPolicy": "ONLY_VIA_CPU_LANE_RESET_AFTER_DECOR6_EXACT_STAGED_PREREQUISITE_VERIFIES_AND_STALE_RUN_35880356000_IS_RELEASED",
+  "executionOptimization": {
+    "basisRunId": 35940586228,
+    "acceptedItems": [
+      "wall-11",
+      "wall-12"
+    ],
+    "basis": "Proven accepted 640x640/6-step CPU generation configuration.",
+    "preserves": "same Decor8 request basis, pinned model/runtime revision, reviewer11 and provenance gates"
+  }
 }

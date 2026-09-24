@@ -10,12 +10,12 @@
   "generation": {
     "width": 640,
     "height": 640,
-    "steps": 8,
+    "steps": 6,
     "guidanceScale": 3.5,
     "dtype": "bfloat16"
   },
   "queueId": "w13-wall-9-v2-rework",
-  "requestPath": "docs/preproduction/art-factory/requests/w13-wall-9-v2-rework-20260924.json",
+  "requestPath": "docs/preproduction/art-factory/requests/w13-wall-9-v2-batch-20260924.json",
   "producer": "13",
   "items": [
     "wall-9"
@@ -34,5 +34,11 @@
     "route": "12 -> 06 -> 14 -> 02 -> 08 on ACCEPT",
     "canonicalWriter": "08"
   },
-  "dispatchPolicy": "PREPARED_ONLY__DO_NOT_DISPATCH_WHILE_ANY_CPU_GENERATION_RUN_IS_QUEUED_PENDING_WAITING_OR_IN_PROGRESS__DIRECTOR15_PRIORITY_AFTER_DECOR8"
+  "dispatchPolicy": "PREPARED_ONLY__DO_NOT_DISPATCH_WHILE_ANY_CPU_GENERATION_RUN_IS_QUEUED_PENDING_WAITING_OR_IN_PROGRESS__DIRECTOR15_PRIORITY_AFTER_DECOR8",
+  "retryEvidence": {
+    "priorRunId": 35953306516,
+    "priorFailure": "PLAN_REQUEST_REJECTED_REWORK_REQUEST_KIND",
+    "repair": "Planner-compatible STARBLOX_ART_FACTORY_BATCH_REQUEST wrapper; prior run generated no candidate bytes.",
+    "computeBasisRunId": 35940586228
+  }
 }

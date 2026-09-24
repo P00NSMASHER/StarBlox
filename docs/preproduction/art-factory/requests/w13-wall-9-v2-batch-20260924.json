@@ -1,0 +1,103 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_BATCH_REQUEST",
+  "planner": "15",
+  "producer": "13",
+  "preflightOwner": "06",
+  "reviewer": "02",
+  "renderOwner": "14",
+  "integrationOwner": "08",
+  "coordinationOwner": "15",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "7807561685d2112fb6bdd2ee81dd14604a8f0095",
+  "manifestVersion": 35,
+  "batchId": "w13-wall-9-v2-rework",
+  "scope": [
+    "wall-9"
+  ],
+  "state": "CPU_QUEUE_ELIGIBLE__FAILURE_SPECIFIC_REWORK__PROVEN_PINNED_RUNTIME",
+  "assignmentAuthority": {
+    "path": "docs/preproduction/art-factory/ACTIVE_BATCH.json",
+    "reworkRequestPath": "docs/preproduction/art-factory/requests/w13-wall-9-v2-rework-20260924.json",
+    "assignedReviewer": "02",
+    "runtimeProofPath": "docs/preproduction/art-factory/CPU_RUNTIME_PROOF.json",
+    "runtimeProofStatus": "PROVEN",
+    "runtimeCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+    "modelRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "note": "Planner-compatible execution wrapper for the exact failure-specific REWORK request. Failure-specific prompts, variant IDs, rejected exact hash, independent reviewer routing and provenance gates are preserved."
+  },
+  "references": {
+    "originalStoreReference": {
+      "requiredBeforeGeneration": true,
+      "repositoryPath": "docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg",
+      "sha256": "b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d",
+      "gitBlobSha": "383baa877d3af86fa92e3583740212000592b3d6",
+      "dimensions": [
+        1448,
+        1086
+      ],
+      "role": "FIRST_PARTY_STARBLOX_STORE_ART_DIRECTION"
+    }
+  },
+  "reviewSource": {
+    "decision": "REWORK",
+    "exactRejectedPath": "public/assets/catalog-candidates/cpu/wall-9-w13-v1-a-gallery-rail-original.png",
+    "exactRejectedGitBlobSha": "95a2de47f3b19017ba37bfac1ab25fc87ad345ed",
+    "exactRejectedSha256": "7ca470736c1d860909dbd493e87b68e7d6f7c8acdbeaf44d60bab56b0e3e0b04",
+    "reasonCodes": [
+      "WEAK_ITEM_IDENTITY",
+      "ROOM_SCENE_INSTEAD_OF_PRODUCT",
+      "MISSING_GALLERY_ART",
+      "LOW_CARD_READABILITY",
+      "FRAGMENTED_SHELVING_GEOMETRY"
+    ],
+    "humanReason": "The exact pixels read as generic beige room shelving with bench/floor objects rather than a wall-mounted art gallery. Preserve the rejected hash. The next attempt must isolate one coherent wall object with obvious framed art and no floor scene."
+  },
+  "items": {
+    "wall-9": {
+      "currentLegacy": {
+        "path": "public/assets/catalog-candidates/cpu/wall-9-w13-v1-a-gallery-rail-original.png",
+        "gitBlobSha1": "95a2de47f3b19017ba37bfac1ab25fc87ad345ed",
+        "reviewDecision": "REWORK",
+        "normalizedFailureTaxonomy": [
+          "WEAK_ITEM_IDENTITY",
+          "ROOM_SCENE_INSTEAD_OF_PRODUCT",
+          "MISSING_GALLERY_ART",
+          "LOW_CARD_READABILITY",
+          "FRAGMENTED_SHELVING_GEOMETRY"
+        ]
+      },
+      "variants": [
+        {
+          "variantId": "A-BACKBOARD-GALLERY",
+          "seed": 1036334999,
+          "optimizerInputSha256": "3dc53797e099f919bdabea67f1f900812b1fbb3652cf9a7c868547e6a6606fcd",
+          "optimizerInput": "Art Gallery Wall, Wall Decor, Tier 3, Adventure Club. Create ONE isolated wall-mounted gallery panel as a coherent product, not a room scene. Use a substantial warm-oak rectangular backboard with visible thickness and concealed-cleat spacing from a simple neutral wall plane. Mount exactly three clearly framed art panels and one small shadowbox on the backboard: one abstract mountain/trail scene, one compass-like geometric motif, one colorful travel-map abstraction, all without readable text or logos. Add a short attached brass display ledge beneath the frames, visible standoffs/fasteners, layered paper/canvas/glass materials and soft wall-cast shadow. Three-quarter product view, full panel completely inside frame with generous negative space. NO floor, NO bench, NO freestanding blocks, NO generic shelving system, NO room furniture, NO fragmented geometry, NO text."
+        },
+        {
+          "variantId": "B-RAIL-TRIPTYCH",
+          "seed": 264310348,
+          "optimizerInputSha256": "8fc10e4cc8fbf4e28242faa3294b87dc48effd22b06a314887a005b538904d3c",
+          "optimizerInput": "Art Gallery Wall, Wall Decor, Tier 3, Adventure Club. Make ONE clean asymmetrical wall-hung gallery rail system fully contained on a plain neutral wall. A single warm-oak mounting rail and shallow dark backing plate should carry three mixed-size framed artworks plus one compact shadowbox, all physically attached with visible brass clips/standoffs. The art should use simple mountain, path, compass and travel-shape motifs with zero readable words. Use clear frame bevels, glass reflections, paper/canvas depth, one narrow attached ledge, and believable wall contact/cast shadow. Strong product silhouette at small card size, no more than four framed elements, no extra shelves. NO room scene, NO floor objects, NO bench, NO cabinets, NO floating blocks, NO malformed open boxes, NO text or logos."
+        }
+      ]
+    }
+  },
+  "executionBudget": {
+    "width": 640,
+    "height": 640,
+    "steps": 6,
+    "guidanceScale": 3.5,
+    "dtype": "bfloat16",
+    "basis": "Matches independently ACCEPTed Wall 11/12 CPU generation; execution cost changes only, not model/runtime identity or failure-specific prompt content."
+  },
+  "safety": {
+    "preserveRejectedExactHash": true,
+    "preserveAcceptedExactHashes": true,
+    "producerSelfReview": false,
+    "canonicalMappingsChanged": false,
+    "workflowFilesChanged": false,
+    "gameplayLearningEconomyPersistenceAccessibilityChanged": false
+  }
+}

@@ -1,0 +1,101 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_BATCH_REQUEST",
+  "planner": "15",
+  "producer": "09",
+  "preflightOwner": "06",
+  "reviewer": "01",
+  "renderOwner": "14",
+  "integrationOwner": "08",
+  "coordinationOwner": "15",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "7807561685d2112fb6bdd2ee81dd14604a8f0095",
+  "manifestVersion": 35,
+  "batchId": "w09-decor-7-v4-rework",
+  "scope": [
+    "decor-7"
+  ],
+  "state": "CPU_QUEUE_ELIGIBLE__FAILURE_SPECIFIC_REWORK__PROVEN_PINNED_RUNTIME",
+  "assignmentAuthority": {
+    "path": "docs/preproduction/art-factory/ACTIVE_BATCH.json",
+    "reworkRequestPath": "docs/preproduction/art-factory/requests/w09-decor-7-v4-rework-20260924.json",
+    "assignedReviewer": "01",
+    "runtimeProofPath": "docs/preproduction/art-factory/CPU_RUNTIME_PROOF.json",
+    "runtimeProofStatus": "PROVEN",
+    "runtimeCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+    "modelRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "note": "Planner-compatible execution wrapper for the exact failure-specific REWORK request. Failure-specific prompts, variant IDs, rejected exact hash, independent reviewer routing and provenance gates are preserved."
+  },
+  "references": {
+    "originalStoreReference": {
+      "requiredBeforeGeneration": true,
+      "repositoryPath": "docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg",
+      "sha256": "b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d",
+      "gitBlobSha": "383baa877d3af86fa92e3583740212000592b3d6",
+      "dimensions": [
+        1448,
+        1086
+      ],
+      "role": "FIRST_PARTY_STARBLOX_STORE_ART_DIRECTION"
+    }
+  },
+  "reviewSource": {
+    "decision": "REWORK",
+    "exactRejectedPath": "public/assets/catalog-candidates/cpu/decor-7-w09-v3-a-rack-silhouette-original.png",
+    "exactRejectedGitBlobSha": "407b95bbecc3a030d357de290047954e28904b63",
+    "exactRejectedSha256": "7a41b5b897a9d0c912f2b92f226810a75a61d74b2da43df54341eef0841108d4",
+    "reasonCodes": [
+      "STILL_WEAK_SKATE_RACK_IDENTITY",
+      "MALFORMED_SKATE_FORMS",
+      "AMBIGUOUS_STORAGE_GEOMETRY",
+      "SMALL_CARD_READABILITY"
+    ],
+    "humanReason": "v3 fixed the crop/clutter issue but still reads as a mixed skate/board display rather than one sturdy roller-skate rack. Preserve the rejected exact hash. Simplify the next attempt so the rack structure dominates and only one simple pair of recognizable quad skates is present."
+  },
+  "items": {
+    "decor-7": {
+      "currentLegacy": {
+        "path": "public/assets/catalog-candidates/cpu/decor-7-w09-v3-a-rack-silhouette-original.png",
+        "gitBlobSha1": "407b95bbecc3a030d357de290047954e28904b63",
+        "reviewDecision": "REWORK",
+        "normalizedFailureTaxonomy": [
+          "STILL_WEAK_SKATE_RACK_IDENTITY",
+          "MALFORMED_SKATE_FORMS",
+          "AMBIGUOUS_STORAGE_GEOMETRY",
+          "SMALL_CARD_READABILITY"
+        ]
+      },
+      "variants": [
+        {
+          "variantId": "A-RACK-FIRST-MINIMAL",
+          "seed": 1513971197,
+          "optimizerInputSha256": "da3d5dfdc7436bb11c8c9dd77635f20848550767253e2e4fc3374580fcdb3ccd",
+          "optimizerInput": "Skate Rack, Room Decor, Tier 3, Garden Glow. Make ONE compact freestanding roller-skate rack as the entire product on a plain light-neutral studio background. Rack-first design: two thick warm-oak vertical side posts, one broad stable base, three sage-green horizontal rails, and four large open cubbies with obvious rectangular storage openings. Put only ONE matching pair of simple quad roller skates in the two lower cubbies; leave the upper cubbies empty so the rack structure dominates. Each skate must have one clean boot silhouette, one visible truck, and exactly four large round wheels; keep every skate fully inside the cubby. Add visible bolts/joints, weight-bearing feet, one tiny leaf cutout and a restrained soft green accent glow. Center the entire rack with generous negative space and a grounded shadow. NO long top shelf, NO skateboard/snowboard-like boards, NO loose gear, NO room scene, NO wall shelving, NO cropped objects, NO floating parts, NO malformed partial skates, NO text or logos."
+        },
+        {
+          "variantId": "B-AFRAME-EMPTY-BAYS",
+          "seed": 2036713442,
+          "optimizerInputSha256": "f965c7e24c0cf60cd5726a4ffa0a16bd93228ee68d0f8eda9e05c5d20cbc172e",
+          "optimizerInput": "Skate Rack, Room Decor, Tier 3, Garden Glow. Design ONE simple A-frame roller-skate organizer that reads instantly as a rack at small Store-card size. Use two sturdy botanical-green metal A-frame uprights joined by three honey-oak shelves, a wide floor base, visible cross-bracing, and four large storage bays. Show one clearly formed pair of quad skates together in a single lower bay and keep the other bays empty; the skates must have readable boot uppers and four large wheels each. The dominant silhouette must be the rack, not the skates. Use clean three-quarter product view, full object inside frame, at least 15 percent clear margin, crisp joints and feet, grounded shadow, subtle Garden Glow leaf accent. NO room background, NO long plank/board shapes, NO skateboards, NO loose skates, NO edge crops, NO tiny clutter, NO text or logos."
+        }
+      ]
+    }
+  },
+  "executionBudget": {
+    "width": 640,
+    "height": 640,
+    "steps": 6,
+    "guidanceScale": 3.5,
+    "dtype": "bfloat16",
+    "basis": "Matches independently ACCEPTed Wall 11/12 CPU generation; execution cost changes only, not model/runtime identity or failure-specific prompt content."
+  },
+  "safety": {
+    "preserveRejectedExactHash": true,
+    "preserveAcceptedExactHashes": true,
+    "producerSelfReview": false,
+    "canonicalMappingsChanged": false,
+    "workflowFilesChanged": false,
+    "gameplayLearningEconomyPersistenceAccessibilityChanged": false
+  }
+}

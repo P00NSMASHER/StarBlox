@@ -10,12 +10,12 @@
   "generation": {
     "width": 640,
     "height": 640,
-    "steps": 8,
+    "steps": 6,
     "guidanceScale": 3.5,
     "dtype": "bfloat16"
   },
   "queueId": "w13-wall-9-v2-rework",
-  "requestPath": "docs/preproduction/art-factory/requests/w13-wall-9-v2-rework-20260924.json",
+  "requestPath": "docs/preproduction/art-factory/requests/w13-wall-9-v2-batch-20260924.json",
   "producer": "13",
   "items": [
     "wall-9"
@@ -34,5 +34,14 @@
     "route": "12 -> 06 -> 14 -> 02 -> 08 on ACCEPT",
     "canonicalWriter": "08"
   },
-  "dispatchPolicy": "PREPARED_ONLY__DO_NOT_DISPATCH_WHILE_ANY_CPU_GENERATION_RUN_IS_QUEUED_PENDING_WAITING_OR_IN_PROGRESS__DIRECTOR15_PRIORITY_AFTER_DECOR8"
+  "dispatchPolicy": "PREPARED_ONLY__DO_NOT_DISPATCH_WHILE_ANY_CPU_GENERATION_RUN_IS_QUEUED_PENDING_WAITING_OR_IN_PROGRESS__DIRECTOR15_PRIORITY_AFTER_DECOR8",
+  "executionOptimization": {
+    "basisRunId": 35940586228,
+    "acceptedItems": [
+      "wall-11",
+      "wall-12"
+    ],
+    "basis": "640x640/6-step bfloat16 SDXL path completed and produced independently ACCEPTed canonical art.",
+    "preserves": "failure-specific prompts, pinned model/runtime revision, independent reviewer routing and provenance gates"
+  }
 }
