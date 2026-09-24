@@ -2,7 +2,7 @@
   "schemaVersion": 8,
   "workstream": "13",
   "focus": "SCENE_CHARACTER_ART",
-  "status": "DECOR7_V8_DECOR11_V4_QUALIFIED__SHARED_RENDER_TRIGGERED",
+  "status": "RELEASE_TAIL_SIXPACK_QUALIFIED__SHARED_RENDER_TRIGGERED",
   "branch": "screenshot-match-preproduction",
   "candidateId": "home-bedroom-w13-v2",
   "candidateType": "environment-background",
@@ -1034,41 +1034,93 @@
     ]
   },
   "catalogFactoryReviewHandoff": {
-    "updatedAt": "2026-09-24T17:02:00Z",
-    "sourceHead": "9f917cd54187fc9abbdaaed8de872932bb3993d3",
-    "purpose": "Trigger one exact-hash Store card/detail render microbatch for current Decor7 v8 and Decor11 v4 failure-specific replacements.",
+    "updatedAt": "2026-09-24T17:33:00Z",
+    "sourceHead": "8194f619cdb9c2d0a9554d50dbec0b285cbb0fc7",
+    "purpose": "Trigger one shared exact-hash Store card/detail render microbatch for six technically qualified release-tail replacements.",
     "candidates": [
       {
-        "itemId": "decor-7",
-        "name": "Skate Rack",
-        "producer": "09",
+        "itemId": "desks-10",
+        "name": "Neon Streaming Desk",
+        "producer": "03",
+        "reviewer": "05",
+        "path": "public/assets/catalog-candidates/cpu/desks-10-w03-v7-a-one-streaming-desk-monitor-mic-original.png",
+        "sha256": "aa074975c527d98985197bebe27dcb2c85072b2186e4a565083c6a9715223165",
+        "gitBlobSha": "4af5225c536dff0a25c12f0f5e4066c39ad33322",
+        "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-release-tail-sixpack-v1-qualification-20260924.json",
+        "qualification": "QUALIFIED_FOR_RENDERER14",
+        "route": "14 -> 05 -> 08 on ACCEPT"
+      },
+      {
+        "itemId": "desks-11",
+        "name": "Dream Creator Station",
+        "producer": "03",
         "reviewer": "01",
-        "path": "public/assets/catalog-candidates/cpu/decor-7-w09-v8-a-tiny-rack-one-pair-original.png",
-        "sha256": "f5199785fbc74ef20b3c8628cfef8dd10a30911cd0b84938034eec98d68738d7",
-        "gitBlobSha": "41111bb07b54c5a370adcb44a80d7f0711d37a0e",
-        "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-decor7-11-v8-v4-qualification-20260924.json",
+        "path": "public/assets/catalog-candidates/cpu/desks-11-w03-v5-a-one-creator-desk-only-original.png",
+        "sha256": "2a10f765b356db83badaef9c42ead321aea4eca95d231b198dad3888616b5f4d",
+        "gitBlobSha": "31216c600b99791b15e9bd92079dd70241ca53bf",
+        "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-release-tail-sixpack-v1-qualification-20260924.json",
         "qualification": "QUALIFIED_FOR_RENDERER14",
         "route": "14 -> 01 -> 08 on ACCEPT"
+      },
+      {
+        "itemId": "decor-8",
+        "name": "Mini Aquarium",
+        "producer": "03",
+        "reviewer": "11",
+        "path": "public/assets/catalog-candidates/cpu/decor-8-w03-v4-a-one-rectangular-aquarium-original.png",
+        "sha256": "e169c2c18cfbcc94adf2d49b24bc41e178786771fbe2d586a2eaa72a99f99d53",
+        "gitBlobSha": "84aebabc0c5653fbd551badab28dff9873574edd",
+        "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-release-tail-sixpack-v1-qualification-20260924.json",
+        "qualification": "QUALIFIED_FOR_RENDERER14",
+        "route": "14 -> 11 -> 08 on ACCEPT"
+      },
+      {
+        "itemId": "desks-9",
+        "name": "Art Maker Table",
+        "producer": "03",
+        "reviewer": "05",
+        "path": "public/assets/catalog-candidates/cpu/desks-9-w03-v4-a-one-art-maker-table-original.png",
+        "sha256": "0b8f58f4d9a9003777a4eac3f8df6c10f171918703bfa6b65a18745c4701c1eb",
+        "gitBlobSha": "b9a6d922e38d03c08298577a0f46c71dfb28bd66",
+        "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-release-tail-sixpack-v1-qualification-20260924.json",
+        "qualification": "QUALIFIED_FOR_RENDERER14",
+        "route": "14 -> 05 -> 08 on ACCEPT"
       },
       {
         "itemId": "decor-11",
         "name": "Dream Vanity Set",
         "producer": "09",
         "reviewer": "02",
-        "path": "public/assets/catalog-candidates/cpu/decor-11-w09-v4-a-vanity-mirror-one-stool-original.png",
-        "sha256": "ad450b5c1923efbb33d977b5b21ba2fefe407b5d34920aa642dc1c271cbb8d24",
-        "gitBlobSha": "f4fed4eaf1bf867ffdd3519d347ae12ce755d9b7",
-        "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-decor7-11-v8-v4-qualification-20260924.json",
+        "path": "public/assets/catalog-candidates/cpu/decor-11-w09-v5-a-one-vanity-one-mirror-one-stool-original.png",
+        "sha256": "27d7cf22e7835c00ad61dbf1d08dec27f61fb111d7baa6a08cb9da2db58e83a6",
+        "gitBlobSha": "2c122deee959671e20520bd9f4eb3d7e0da02949",
+        "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-release-tail-sixpack-v1-qualification-20260924.json",
         "qualification": "QUALIFIED_FOR_RENDERER14",
         "route": "14 -> 02 -> 08 on ACCEPT"
+      },
+      {
+        "itemId": "decor-7",
+        "name": "Skate Rack",
+        "producer": "09",
+        "reviewer": "01",
+        "path": "public/assets/catalog-candidates/cpu/decor-7-w09-v9-a-two-bay-rack-quad-skates-original.png",
+        "sha256": "b9ea07ca875c35664e32315c4362568e7ad83989408dbadf857a0d99172b5c60",
+        "gitBlobSha": "6d4ee958f8714799ee8fcdd1ec8364521d435803",
+        "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-release-tail-sixpack-v1-qualification-20260924.json",
+        "qualification": "QUALIFIED_FOR_RENDERER14",
+        "route": "14 -> 01 -> 08 on ACCEPT"
       }
     ],
     "packetPlan": [
       {
-        "qualification": "docs/preproduction/art-factory/requests/w06-decor7-11-v8-v4-qualification-20260924.json",
+        "qualification": "docs/preproduction/art-factory/requests/w06-release-tail-sixpack-v1-qualification-20260924.json",
         "items": [
-          "decor-7",
-          "decor-11"
+          "desks-10",
+          "desks-11",
+          "decor-8",
+          "desks-9",
+          "decor-11",
+          "decor-7"
         ]
       }
     ],
@@ -1081,5 +1133,5 @@
       "deploymentTouched": false
     }
   },
-  "nextGate": "Renderer14 binds current Store card/detail pixels for Decor7 v8 and Decor11 v4; reviewers 01/02 independently ACCEPT/REWORK exact hashes; 08 integrates only ACCEPT."
+  "nextGate": "Renderer14 binds one Store card/detail artifact for all six release-tail hashes; reviewers 05/01/11/02 independently ACCEPT/REWORK exact hashes; 08 integrates only exact ACCEPTs."
 }
