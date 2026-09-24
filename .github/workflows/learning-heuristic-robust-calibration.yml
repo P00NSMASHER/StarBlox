@@ -1,0 +1,72 @@
+name: Learning Robust Heuristic Calibration
+
+on:
+  push:
+    branches:
+      - starblox-learning-factory-v1
+    paths:
+      - "scripts/diagnoseRobustHeuristicCalibration.mjs"
+      - "docs/preproduction/learning-factory/heuristic-robust-calibration-development.json"
+      - ".github/workflows/learning-heuristic-robust-calibration.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  robust-heuristic:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+
+      - name: Install dependencies
+        run: npm install --ignore-scripts --package-lock=false
+
+      - name: Generate development cohort 20271211
+        run: npm run generate:learning-promotion -- --out-dir=.heuristic-robust/20271211 --learners=48 --max-step=30 --seed=20271211
+
+      - name: Generate development cohort 20271229
+        run: npm run generate:learning-promotion -- --out-dir=.heuristic-robust/20271229 --learners=48 --max-step=30 --seed=20271229
+
+      - name: Generate development cohort 20280117
+        run: npm run generate:learning-promotion -- --out-dir=.heuristic-robust/20280117 --learners=48 --max-step=30 --seed=20280117
+
+      - name: Sweep heuristic weights across all cohorts
+        run: |
+          node scripts/diagnoseRobustHeuristicCalibration.mjs             --manifest=docs/preproduction/learning-factory/heuristic-robust-calibration-development.json             --evaluation=.heuristic-robust/20271211/evaluation.json             --evaluation=.heuristic-robust/20271229/evaluation.json             --evaluation=.heuristic-robust/20280117/evaluation.json             --out=.heuristic-robust/robust-heuristic.json
+
+      - name: Enforce development-only boundary
+        run: |
+          node --input-type=module - <<'NODE'
+          import fs from 'node:fs';
+          const r=JSON.parse(fs.readFileSync('.heuristic-robust/robust-heuristic.json','utf8'));
+          if(r.developmentOnly!==true||r.tuneAgainstTheseCohorts!==true){
+            throw new Error('heuristic calibration governance broken');
+          }
+          if(r.promotionBoundary?.liveSelectorAllowed!==false){
+            throw new Error('heuristic calibration cannot enable live selection');
+          }
+          console.log(JSON.stringify({
+            supportive:r.supportive,
+            selected:r.selected,
+            defaultBySeed:r.defaultBySeed,
+            liveSelectorAllowed:false
+          },null,2));
+          NODE
+
+      - name: Assert live Quest path remains isolated
+        run: npm run assert:learning-live-boundary
+
+      - name: Upload heuristic calibration evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: learning-heuristic-robust-calibration
+          path: .heuristic-robust
+          if-no-files-found: error
+          include-hidden-files: true
