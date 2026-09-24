@@ -460,48 +460,34 @@
     }
   ],
   "releaseTailFastPath": {
-    "updatedAt": "2026-09-24T19:36:00Z",
-    "purpose": "Trigger factory-only render of current undecided exact hashes; preserve terminal exact-hash decisions and independent review.",
-    "sourceHead": "f84576d194",
+    "updatedAt": "2026-09-24T19:48:00Z",
+    "purpose": "Factory-only render for plausible current W13 exact hashes; terminal Wall9 v10 REWORK must stay frozen.",
+    "sourceHead": "19967310ff",
     "candidates": [
       {
-        "id": "desks-9",
-        "path": "public/assets/catalog-candidates/cpu/desks-9-w03-v6-b-art-maker-worktable-original.png",
-        "gitBlobSha": "9f6855ee25445c8d147933eb38a2e536655739b4",
-        "sha256": "ae432d3408bf705c246921f9e03867c7ffbdcc0159f1910533372d2427c695ab",
-        "reviewer": "05",
-        "stagedEvidence": "docs/preproduction/art-factory/generated-evidence/w03-release-tail-4pack-v6-token-safe/desks-9/staged-output.json",
-        "technicalState": "STAGED_EXACT_BYTES_VERIFIED",
-        "sourcePixelDisposition": "PLAUSIBLE__RENDER_REQUIRED"
-      },
-      {
-        "id": "desks-10",
-        "path": "public/assets/catalog-candidates/cpu/desks-10-w03-v9-b-streaming-workstation-mic-dominant-original.png",
-        "gitBlobSha": "1f050b539245d387ce005f67e059829a5249a7ed",
-        "sha256": "4a81b203ee41187ab78a2f9ea0828c497c7f90a5d15d5d38a372a64b234666a1",
-        "reviewer": "05",
-        "stagedEvidence": "docs/preproduction/art-factory/generated-evidence/w03-release-tail-4pack-v6-token-safe/desks-10/staged-output.json",
-        "technicalState": "STAGED_EXACT_BYTES_VERIFIED",
-        "sourcePixelDisposition": "PLAUSIBLE__RENDER_REQUIRED"
-      },
-      {
-        "id": "decor-8",
-        "path": "public/assets/catalog-candidates/cpu/decor-8-w03-v6-b-single-blue-aquarium-original.png",
-        "gitBlobSha": "77d5cb5e24a47b415c97df832b6a80d41505c8ca",
-        "sha256": "6dc3461b2f904114f6a88dc478701179bd476190b3494737c8cc15a38461748e",
+        "id": "desks-8",
+        "path": "public/assets/catalog-candidates/cpu/desks-8-w13-v4-a-token-safe-aqua-desk-original.png",
+        "gitBlobSha": "9ec1df3524feb3fa1fe1e8710fccb7c5fa81efba",
+        "sha256": "2d4a2506414d7b9c7beacec1735618fca4ca97ddf5e62a736a3c80ef6c495757",
         "reviewer": "11",
-        "stagedEvidence": "docs/preproduction/art-factory/generated-evidence/w03-release-tail-4pack-v6-token-safe/decor-8/staged-output.json",
-        "technicalState": "STAGED_EXACT_BYTES_VERIFIED",
+        "sourcePixelDisposition": "PLAUSIBLE__RENDER_REQUIRED"
+      },
+      {
+        "id": "wall-8",
+        "path": "public/assets/catalog-candidates/cpu/wall-8-w13-v10-a-flat-blue-ocean-window-original.png",
+        "gitBlobSha": "f3abee3c021429e31bc9075a91b139c8923f35d0",
+        "sha256": "35ecf7dc4936243c8df8f80637efb4278fbef26abbf63a83105a1b1a78e5bd4c",
+        "reviewer": "11",
         "sourcePixelDisposition": "PLAUSIBLE__RENDER_REQUIRED"
       }
     ],
     "excludedByTerminalDecision": [
       {
-        "id": "desks-11",
-        "gitBlobSha": "b138c6291bf801bbf66e33daf9394e2c4bbae249",
-        "reason": "REWORK exact source hash already recorded in reviewer01; renderer must freeze it."
+        "id": "wall-9",
+        "gitBlobSha": "28807b5b48c46274252f0f6453b336cb2d379416",
+        "reason": "REWORK exact source hash recorded in reviewer02."
       }
     ],
-    "rule": "Rendering is evidence generation only. No automatic ACCEPT/REWORK; independent reviewer exact-hash verdict remains mandatory."
+    "rule": "Rendering creates evidence only; independent exact-hash reviewer verdict remains mandatory."
   }
 }
