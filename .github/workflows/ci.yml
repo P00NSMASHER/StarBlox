@@ -33,6 +33,8 @@ jobs:
           grep -q '"schemaVersion": 2' /tmp/roblox-catalog.json
           grep -q '"inventory"' /tmp/roblox-catalog.json
           grep -q '"uiTrees"' /tmp/roblox-catalog.json
+          grep -Eq '"sha256": "[a-f0-9]{64}"' /tmp/roblox-catalog.json
+          grep -q '"sourceFingerprintCount": 1' /tmp/roblox-catalog.json
       - name: Test Roblox migration exporter
         run: npm run roblox:migration:exporter:test
       - name: Smoke-test Brookhaven migration staging compiler
@@ -42,7 +44,17 @@ jobs:
           test -f /tmp/roblox-migration/migration-bundle.json
           grep -q '"liveActivationAllowed": false' /tmp/roblox-migration/migration-bundle.json
           grep -q '"activation": "staging-only"' /tmp/roblox-migration/migration-bundle.json
+          grep -Eq '"sourceSha256": "[a-f0-9]{64}"' /tmp/roblox-migration/migration-plan.json
           find /tmp/roblox-migration -name '*.rbxmx' -print -quit | grep -q .
+      - name: Prove Roblox migration rejects source-byte drift
+        run: |
+          mkdir -p /tmp/roblox-source-drift
+          cp tools/roblox_catalog_reader/fixtures/sample.rbxmx /tmp/roblox-source-drift/sample.rbxmx
+          printf '\n' >> /tmp/roblox-source-drift/sample.rbxmx
+          if npm run roblox:migrate -- --catalog /tmp/roblox-catalog.json --source-root /tmp/roblox-source-drift --out-dir /tmp/roblox-drift-migration --min-score 0; then
+            echo "expected source fingerprint mismatch"
+            exit 1
+          fi
       - name: Smoke-test automated content expansion planning
         run: |
           npm run content:expand -- --brief tools/content_expansion/fixtures/brief.json --catalog /tmp/roblox-catalog.json --chunks tools/content_expansion/fixtures/chunks.json --out /tmp/content-expansion-plan.json

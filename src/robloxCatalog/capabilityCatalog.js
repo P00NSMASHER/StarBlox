@@ -196,6 +196,26 @@ function scriptSourceFromProperties(properties){
   return typeof value === 'string' ? value : '';
 }
 
+function extractPropertyReferences(value,propertyPath){
+  const refs=[];
+  if(typeof value === 'string'){
+    if(value) refs.push({property:propertyPath,targetReferent:value});
+    return refs;
+  }
+  if(Array.isArray(value)){
+    value.forEach((child,index) => {
+      refs.push(...extractPropertyReferences(child,propertyPath + '[' + index + ']'));
+    });
+    return refs;
+  }
+  if(value && typeof value === 'object'){
+    for(const [key,child] of Object.entries(value)){
+      refs.push(...extractPropertyReferences(child,propertyPath + '.' + key));
+    }
+  }
+  return refs;
+}
+
 function classifyReuse(instance,script){
   const reviewRequired=Boolean(script?.riskFlags?.length);
   if(SCRIPT_CLASSES.has(instance.className)){
@@ -256,14 +276,18 @@ function flattenDom(source){
     ]);
 
     const assetIds=new Set();
-    for(const value of Object.values(properties)){
+    const propertyReferences=[];
+    for(const [property,value] of Object.entries(properties)){
       for(const id of extractAssetIds(normalizeVariant(value))) assetIds.add(id);
+      propertyReferences.push(...extractPropertyReferences(value,property));
     }
     for(const id of script?.requireAssetIds || []) assetIds.add(id);
 
     const record={
       sourceId:source.sourceId,
       sourceFile:source.file,
+      sourceSha256:source.sha256 ?? null,
+      sourceBytes:source.bytes ?? null,
       referent:text(node.referent) || null,
       path,
       parentPath:parentPath || null,
@@ -274,6 +298,10 @@ function flattenDom(source){
       propertyNames:Object.keys(properties).sort(),
       capabilities:[...capabilities].sort(),
       assetIds:[...assetIds].sort(),
+      propertyReferences:propertyReferences.sort((a,b) =>
+        a.property.localeCompare(b.property) ||
+        a.targetReferent.localeCompare(b.targetReferent)
+      ),
       script,
       reuse:null
     };
@@ -288,6 +316,15 @@ function flattenDom(source){
   }
 
   walk(source.dom,'',0,null);
+
+  const knownReferents=new Set(
+    records.map(record => record.referent).filter(Boolean)
+  );
+  for(const record of records){
+    record.propertyReferences=(record.propertyReferences || [])
+      .filter(ref => knownReferents.has(ref.targetReferent));
+  }
+
   return records;
 }
 
@@ -340,14 +377,37 @@ function buildDependencies(records){
   const remoteNames=new Set(
     records.filter(record => REMOTE_CLASSES.has(record.className)).map(record => record.name)
   );
+  const pathByReferent=new Map(
+    records
+      .filter(record => record.referent)
+      .map(record => [record.sourceId + '||' + record.referent,record.path])
+  );
 
   for(const record of records){
+    if(record.parentPath){
+      edges.push({from:record.path,type:'parent',to:record.parentPath});
+    }
+    for(const id of record.assetIds || []){
+      edges.push({from:record.path,type:'asset-reference',to:id});
+    }
+    for(const ref of record.propertyReferences || []){
+      edges.push({
+        from:record.path,
+        type:'property-reference',
+        property:ref.property,
+        to:pathByReferent.get(record.sourceId + '||' + ref.targetReferent) || ref.targetReferent
+      });
+    }
+
     if(!record.script) continue;
     for(const service of record.script.services){
       edges.push({from:record.path,type:'service',to:service});
     }
     for(const id of record.script.requireAssetIds){
       edges.push({from:record.path,type:'require-asset',to:id});
+    }
+    for(const expression of record.script.requireExpressions){
+      edges.push({from:record.path,type:'require-expression',to:expression});
     }
     for(const name of record.script.waitsFor){
       edges.push({
@@ -361,10 +421,10 @@ function buildDependencies(records){
   return edges.sort((a,b) =>
     a.from.localeCompare(b.from) ||
     a.type.localeCompare(b.type) ||
-    a.to.localeCompare(b.to)
+    a.to.localeCompare(b.to) ||
+    String(a.property || '').localeCompare(String(b.property || ''))
   );
 }
-
 function buildSystemCandidates(records){
   const groups=new Map();
   for(const record of records){
@@ -425,6 +485,8 @@ function compactInventoryRecord(record){
   return {
     sourceId:record.sourceId,
     sourceFile:record.sourceFile,
+    sourceSha256:record.sourceSha256,
+    sourceBytes:record.sourceBytes,
     path:record.path,
     parentPath:record.parentPath,
     className:record.className,
@@ -505,9 +567,22 @@ export function buildRobloxCapabilityCatalog(sources){
     if(typeof source.sourceId !== 'string' || !source.sourceId.trim()) throw new TypeError('sourceId is required.');
     if(typeof source.file !== 'string' || !source.file.trim()) throw new TypeError('source file is required.');
     if(!source.dom || typeof source.dom !== 'object') throw new TypeError('source DOM is required.');
+    const sha256=source.sha256 == null ? null : String(source.sha256).toLowerCase();
+    if(sha256 !== null && !/^[a-f0-9]{64}$/.test(sha256)){
+      throw new TypeError('source sha256 must be a 64-character hexadecimal digest.');
+    }
+    const bytes=source.bytes == null ? null : Number(source.bytes);
+    if(bytes !== null && (!Number.isInteger(bytes) || bytes < 0)){
+      throw new TypeError('source bytes must be a non-negative integer.');
+    }
+    if((sha256 === null) !== (bytes === null)){
+      throw new TypeError('source sha256 and bytes must either both be present or both be omitted.');
+    }
     return {
       sourceId:source.sourceId.trim(),
       file:source.file.trim(),
+      sha256,
+      bytes,
       dom:source.dom
     };
   }).sort((a,b) => a.sourceId.localeCompare(b.sourceId) || a.file.localeCompare(b.file));
@@ -530,10 +605,13 @@ export function buildRobloxCapabilityCatalog(sources){
     catalogVersion:ROBLOX_CATALOG_VERSION,
     generatedFrom:normalized.map(source => ({
       sourceId:source.sourceId,
-      file:source.file
+      file:source.file,
+      sha256:source.sha256,
+      bytes:source.bytes
     })),
     summary:{
       sourceCount:normalized.length,
+      sourceFingerprintCount:normalized.filter(source => source.sha256 !== null).length,
       instanceCount:instances.length,
       scriptCount:scripts.length,
       remoteCount:remotes.length,
@@ -577,6 +655,22 @@ export function verifyRobloxCapabilityCatalog(catalog){
   if(!Array.isArray(catalog.instances)) errors.push('instances must be an array');
   if(!Array.isArray(catalog.systemCandidates)) errors.push('systemCandidates must be an array');
   if(current){
+    for(const source of catalog.generatedFrom || []){
+      const hasSha=source?.sha256 != null;
+      const hasBytes=source?.bytes != null;
+      if(hasSha !== hasBytes){
+        errors.push('source fingerprint metadata is partial');
+        break;
+      }
+      if(hasSha && (
+        !/^[a-f0-9]{64}$/.test(String(source.sha256)) ||
+        !Number.isInteger(Number(source.bytes)) ||
+        Number(source.bytes) < 0
+      )){
+        errors.push('source fingerprint metadata is invalid');
+        break;
+      }
+    }
     if(!catalog.inventory || typeof catalog.inventory !== 'object' || Array.isArray(catalog.inventory)){
       errors.push('inventory must be an object');
     }else{

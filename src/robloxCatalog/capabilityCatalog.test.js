@@ -162,6 +162,104 @@ describe('Roblox / Brookhaven capability catalog', () => {
     );
   });
 
+  it('captures parent, asset, serialized property, and named require dependency edges', () => {
+    const dom={
+      referent:'referent-0',
+      name:'DataModel',
+      class:'DataModel',
+      properties:{},
+      children:[
+        {
+          referent:'referent-1',
+          name:'TargetPart',
+          class:'Part',
+          properties:{TextureID:{Content:{uri:'rbxassetid://555555555'}}},
+          children:[]
+        },
+        {
+          referent:'referent-2',
+          name:'TargetLink',
+          class:'ObjectValue',
+          properties:{Value:{Ref:'referent-1'}},
+          children:[]
+        },
+        {
+          referent:'referent-3',
+          name:'ModuleUser',
+          class:'Script',
+          properties:{Source:{String:'local module = require(script.Parent.TargetModule)\nreturn module'}},
+          children:[]
+        }
+      ]
+    };
+
+    const catalog=buildRobloxCapabilityCatalog([
+      {sourceId:'licensed:refs',file:'Refs.rbxmx',dom}
+    ]);
+
+    expect(catalog.dependencies).toEqual(expect.arrayContaining([
+      expect.objectContaining({
+        from:'DataModel/TargetPart',
+        type:'parent',
+        to:'DataModel'
+      }),
+      expect.objectContaining({
+        from:'DataModel/TargetPart',
+        type:'asset-reference',
+        to:'555555555'
+      }),
+      expect.objectContaining({
+        from:'DataModel/TargetLink',
+        type:'property-reference',
+        property:'Value.Ref',
+        to:'DataModel/TargetPart'
+      }),
+      expect.objectContaining({
+        from:'DataModel/ModuleUser',
+        type:'require-expression',
+        to:'script.Parent.TargetModule'
+      })
+    ]));
+  });
+
+  it('binds source provenance to exact file fingerprints when provided', () => {
+    const sha256='a'.repeat(64);
+    const catalog=buildRobloxCapabilityCatalog([{
+      sourceId:'licensed:place',
+      file:'Place.rbxl',
+      sha256,
+      bytes:12345,
+      dom:fixtureDom()
+    }]);
+
+    expect(catalog.generatedFrom).toEqual([{
+      sourceId:'licensed:place',
+      file:'Place.rbxl',
+      sha256,
+      bytes:12345
+    }]);
+    expect(catalog.summary.sourceFingerprintCount).toBe(1);
+    expect(catalog.instances.every(item => item.sourceSha256 === sha256)).toBe(true);
+    expect(catalog.inventory.models.every(item => item.sourceSha256 === sha256)).toBe(true);
+  });
+
+  it('rejects partial or malformed source fingerprint metadata', () => {
+    expect(() => buildRobloxCapabilityCatalog([{
+      sourceId:'licensed:partial',
+      file:'Partial.rbxl',
+      sha256:'b'.repeat(64),
+      dom:fixtureDom()
+    }])).toThrow(/sha256 and bytes/);
+
+    expect(() => buildRobloxCapabilityCatalog([{
+      sourceId:'licensed:bad',
+      file:'Bad.rbxl',
+      sha256:'not-a-digest',
+      bytes:10,
+      dom:fixtureDom()
+    }])).toThrow(/64-character/);
+  });
+
   it('stores script fingerprints and dependency metadata without retaining source text', () => {
     const catalog=buildRobloxCapabilityCatalog([
       {sourceId:'licensed:place',file:'Place.rbxlx',dom:fixtureDom()}

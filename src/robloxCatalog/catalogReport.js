@@ -15,6 +15,7 @@ export function capabilityCatalogMarkdown(catalog){
     '## Summary',
     '',
     '- Sources: ' + catalog.summary.sourceCount,
+    '- Exact source fingerprints: ' + (catalog.summary.sourceFingerprintCount || 0) + '/' + catalog.summary.sourceCount,
     '- Instances: ' + catalog.summary.instanceCount,
     '- Scripts: ' + catalog.summary.scriptCount,
     '- Remotes: ' + catalog.summary.remoteCount,
@@ -26,9 +27,24 @@ export function capabilityCatalogMarkdown(catalog){
       [catalog.summary.inventoryCounts?.scripts || 0,catalog.summary.inventoryCounts?.remotes || 0,
        catalog.summary.inventoryCounts?.uiTrees || 0,catalog.summary.inventoryCounts?.models || 0].join(' / '),
     '',
-    '## Highest-leverage system candidates',
+    '## Source provenance',
     ''
   ];
+
+  for(const source of catalog.generatedFrom || []){
+    lines.push(
+      '- ' + source.sourceId + ' — ' + source.file +
+      (source.sha256
+        ? '; sha256 ' + source.sha256 + '; ' + source.bytes + ' bytes'
+        : '; fingerprint unavailable')
+    );
+  }
+
+  lines.push(
+    '',
+    '## Highest-leverage system candidates',
+    ''
+  );
 
   for(const item of catalog.systemCandidates.slice(0,30)){
     lines.push(
