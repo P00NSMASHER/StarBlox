@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_W12_CANDIDATE_DELTA_INTAKE_ROUTING",
+  "router": "12",
+  "branch": "screenshot-match-preproduction",
+  "observedHead": "acfd1f0ed2ee72f9ebdd6d97f6999ebd9e0383d2",
+  "scanWindow": {
+    "priorCursor": "8ce50a2eb80905d2236172c0bbaf4dd1aa9adbef",
+    "inspectedThroughHead": "acfd1f0ed2ee72f9ebdd6d97f6999ebd9e0383d2",
+    "newCatalogCandidateBytesDetected": true,
+    "newCandidateItemIds": [
+      "desks-11"
+    ],
+    "note": "Fast-path exact-hash intake for Desk11 v6 staged by the active producer03 literal retry while sibling items continue generating."
+  },
+  "candidates": [
+    {
+      "id": "desks-11",
+      "name": "Dream Creator Station",
+      "collectionId": "desks",
+      "producer": "03",
+      "reviewerAssignment": "01",
+      "renderOwner": "14",
+      "canonicalWriter": "08",
+      "path": "public/assets/catalog-candidates/cpu/desks-11-w03-v6-a-literal-creator-desk-original.png",
+      "sha256": "325d191765d76f21fbb5ece4e1b4a2a6703177f3f0213fa18673ed6a7260f381",
+      "gitBlobSha": "202a80396f3ca114c57b1f488aa7d5230aba17b4",
+      "bytes": 528280,
+      "dimensions": [
+        640,
+        640
+      ],
+      "format": "PNG",
+      "stagedOutput": "docs/preproduction/art-factory/generated-evidence/w03-release-tail-4pack-v5/desks-11/staged-output.json",
+      "generationReceipt": "docs/preproduction/art-factory/generated-evidence/w03-release-tail-4pack-v5/desks-11/generation-receipt.json",
+      "provenanceState": "COMPLETE_ART_FACTORY_V2",
+      "repositoryReadback": "PASS_EXACT_GIT_BLOB",
+      "supersession": "FRESH_V6_LITERAL_RELEASE_TAIL_REPLACEMENT",
+      "state": "ROUTE_TO_06_TECHNICAL_QUALIFICATION"
+    }
+  ],
+  "dedupe": {
+    "uniqueItemHashClaim": true,
+    "unchangedPriorHashesRerouted": false,
+    "newerPendingCandidateObserved": false
+  },
+  "queues": {
+    "to06": [
+      "desks-11@325d191765d76f21fbb5ece4e1b4a2a6703177f3f0213fa18673ed6a7260f381"
+    ],
+    "backToProducer": []
+  },
+  "cursorAdvance": {
+    "previous": "8ce50a2eb80905d2236172c0bbaf4dd1aa9adbef",
+    "advancedThrough": "acfd1f0ed2ee72f9ebdd6d97f6999ebd9e0383d2"
+  },
+  "nextOwner": "06_TECHNICAL_QUALIFICATION",
+  "mutationScope": "Routing evidence only; no candidate bytes, canonical mappings, reviewer decisions, gameplay, CI/workflows, deployment or player data changed."
+}
