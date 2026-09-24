@@ -62,6 +62,17 @@ export function createIrtItem({
   });
 }
 
+
+export function irtItemFromQuestionVersion(version,{discrimination=1,conceptId=null}={}){
+  if(!version || typeof version !== 'object') throw new TypeError('question version must be an object.');
+  return createIrtItem({
+    questionId:normalizeQuestionId(version.questionId),
+    authoredDifficulty:requireFinite(version.difficulty,'question version difficulty'),
+    discrimination,
+    conceptId:conceptId ?? version.skill ?? null
+  });
+}
+
 export function probabilityCorrect(theta,item){
   const t=clamp(requireFinite(theta,'theta'),THETA_MIN,THETA_MAX);
   const a=clamp(requireFinite(item.discrimination,'item.discrimination'),DISCRIMINATION_MIN,DISCRIMINATION_MAX);
