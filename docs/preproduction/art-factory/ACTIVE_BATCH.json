@@ -2,8 +2,8 @@
   "schemaVersion": 28,
   "owner": "15",
   "branch": "screenshot-match-preproduction",
-  "sourceHead": "aa7316e4547d6b94d9577cb1a7d53a1a9b8d0b71",
-  "updatedAt": "2026-09-24T04:31:00Z",
+  "sourceHead": "981dfcfff0a5c938faf019211779b038019368bd",
+  "updatedAt": "2026-09-24T08:53:00Z",
   "status": "ACTIVE_RELEASE_BLOCKER_FIRST",
   "policy": {
     "maxConcurrentProductionBatches": 4,
@@ -74,24 +74,25 @@
   },
   "cpuGenerationSemaphore": {
     "workflowPath": ".github/workflows/art-factory-cpu-generation.yml",
-    "observedAt": "2026-09-24T04:08:00Z",
+    "observedAt": "2026-09-24T08:53:00Z",
     "running": {
-      "runId": 35953820073,
-      "headSha": "a3f685a972cf2b607037bd9d7576ee31fa3adedf",
-      "batch": "Wall9 v2 failure-specific rework",
-      "state": "PLANNER_PASS__640X640_6STEP_GENERATION_IN_PROGRESS",
+      "runId": null,
+      "headSha": null,
+      "batch": "Desk9/10 v2 pinned regeneration",
+      "state": "DISPATCH_COMMIT_CREATED__RUN_ID_PENDING",
       "jobs": [
-        "wall-9"
+        "desks-9",
+        "desks-10"
       ],
-      "phase": "WALL9_GENERATION_ACTIVE",
+      "phase": "QUEUE_DISPATCHED",
       "candidateArtifactsStaged": false,
-      "contract": "Pinned Diffusers/SDXL CPU runtime; planner-compatible batch wrapper; 640x640/6 steps; reviewer02."
+      "contract": "Pinned Diffusers/SDXL CPU runtime; 640x640/6-step float32; reviewer05; recovered v1 hashes preserved historical."
     },
     "pending": null,
     "oldestCanceledNoArtifact": null,
     "otherCanceledNoArtifact": [],
-    "authorization": "HOLD_ADDITIONAL_CPU_QUEUE_TRIGGERS_WHILE_WALL9_RUN_35953820073_ACTIVE",
-    "rule": "Wall9 run 35953820073 is the sole active CPU batch. After it is fully idle, dispatch producer09's prepared 2-item Decor7 v4 + Decor5 v3 matrix. After that batch is fully idle, dispatch producer03's prepared 2-item Decor6 v2 + Decor8 v2 matrix.",
+    "authorization": "HOLD_ADDITIONAL_CPU_QUEUE_TRIGGERS_UNTIL_DESK9_10_V2_RUN_FULLY_IDLE",
+    "rule": "Desk9/10 v2 are the sole CPU generation batch. Decor5-8 and Wall9 v3 continue render/review downstream in parallel.",
     "staleRunsReleased": [
       {
         "runId": 35927174551,
@@ -138,21 +139,20 @@
   "batches": [
     {
       "producer": "03",
-      "batchId": "w03-decor-6-8-provenance-repair-v1",
+      "batchId": "w03-desks-9-10-v2-pinned-regeneration",
       "scope": [
-        "decor-6",
-        "decor-8"
+        "desks-9",
+        "desks-10"
       ],
-      "state": "PARALLEL_2ITEM_PREPARED__DECOR6_V2_PLUS_DECOR8_V2__WAIT_PRODUCER09_BATCH_IDLE",
-      "reviewer": "11",
-      "requirements": "Dispatch only docs/preproduction/art-factory/requests/w03-decor-6-v2-decor-8-v2-parallel-20260924.json via the existing prepared queue after producer09's parallel batch is fully idle. Generate both items in one matrix run; no separate Decor6/8 runtime queues.",
+      "state": "DISPATCHED_PINNED_V2_REGENERATION__RUN_ID_PENDING",
+      "reviewer": "05",
+      "requirements": "Generate Desk9/10 v2 together under pinned float32 runtime. Preserve recovered v1 exact hashes as historical fail-closed evidence. Route fresh exact hashes 12 -> 06 -> 14 -> 05 -> 08.",
       "evidence": [
-        "docs/preproduction/art-factory/prepared-queues/w03-decor-8-retry-v1.json",
-        "https://github.com/P00NSMASHER/StarBlox/actions/runs/35951650055",
-        "docs/preproduction/art-factory/requests/w03-decor-6-v2-rework-20260924.json",
-        "docs/preproduction/art-factory/prepared-queues/w03-decor-6-v2-rework.json",
-        "docs/preproduction/catalog-sprint/reviews/11.json"
-      ]
+        "docs/preproduction/art-factory/requests/w03-desks-9-10-v2-pinned-regeneration-20260924.json",
+        "docs/preproduction/art-factory/runtime-queue/w03-desks-9-10-v2-pinned-regeneration.json",
+        "docs/preproduction/art-factory/requests/w03-desks-9-10-generation-evidence-20260922.json"
+      ],
+      "batchType": "PROVENANCE_COMPLIANT_REGENERATION"
     },
     {
       "producer": "09",
@@ -161,7 +161,7 @@
         "decor-7",
         "decor-5"
       ],
-      "state": "PARALLEL_2ITEM_PREPARED__DECOR7_V4_PLUS_DECOR5_V3__WAIT_WALL9_IDLE",
+      "state": "DECOR5_V3_DECOR7_V4__QUALIFIED_AND_RENDER_RUN_COMPLETE__REVIEWER01_NEXT",
       "reviewer": "01",
       "requirements": "Dispatch only docs/preproduction/art-factory/requests/w09-decor-5-v3-decor-7-v4-parallel-20260924.json via the existing prepared queue after Wall9 is fully idle. Generate both items in one matrix run; no separate Decor5/7 runtime queues.",
       "evidence": [
@@ -183,7 +183,7 @@
       "scope": [
         "wall-9"
       ],
-      "state": "WALL9_V2_REWORKED__V3_PACKET_READY__WAIT_CPU_IDLE",
+      "state": "WALL9_V3__QUALIFIED_FOR_RENDERER14__REVIEWER02_AFTER_RENDER",
       "batchType": "GENERATION_RUNTIME_UNBLOCK_THEN_BOUNDED_GENERATION",
       "reviewer": "02",
       "requirements": "Wall9 v2 exact hash 00e551de0596b83977d16400fe782d1506b28e8a is independently REWORK. Failure-specific v3 request docs/preproduction/art-factory/requests/w13-wall-9-v3-rework-20260924.json and prepared queue docs/preproduction/art-factory/prepared-queues/w13-wall-9-v3-rework.json are ready. Do not dispatch while CPU lane is busy.",
@@ -348,7 +348,7 @@
     "evidenceHead": "398f5100df0562a1e346c9110597e52b565982d0",
     "rule": "Do not reopen already-green functional browser, Store observer, persistence or reduced-motion investigations absent a bound-hash change or fresh current-byte failure. EXT10 remains limited to the previously released phone composition repair."
   },
-  "antiStallDisposition": "Wall9 v2 is the sole live CPU batch. Next two CPU slots are compressed from four serial single-item runs into two producer-local 2-item matrix runs: 09=>Decor7+Decor5, then 03=>Decor6+Decor8. No workflow/CI files or review/canonical gates changed.",
+  "antiStallDisposition": "CPU lane immediately repurposed to existing Desk9/10 provenance debt while Decor5-8 and Wall9 v3 proceed through render/review. No lower-priority new inventory opened.",
   "crossAccountProduction": {
     "externalScopes": {
       "EXT01": "Tops11-12",
@@ -367,9 +367,9 @@
     "reviewer14LegacyException": "14 may complete already-assigned legacy hash review only; do not route new hashes to 14 for review."
   },
   "readerRule": "Every worker must revalidate branch head, assignment, exact hash and review state before writing. This file never overrides newer exact-hash evidence.",
-  "cycleId": "director-20260924T0408Z-wall9-live-parallel-next",
+  "cycleId": "director-20260924T0853Z-desk9-10-pinned-v2",
   "criticalPath": {
-    "computedAtHead": "a3f685a972cf2b607037bd9d7576ee31fa3adedf",
+    "computedAtHead": "981dfcfff0a5c938faf019211779b038019368bd",
     "order": [
       {
         "rank": 1,
