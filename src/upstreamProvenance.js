@@ -135,6 +135,46 @@ export const UPSTREAM_PROVENANCE = Object.freeze({
     '4e3dc17bc98d8b777f3c5fc46302047283620e97',
     'MIT'
   ),
+  ankiFsrsMemoryState: source(
+    'FSRS difficulty stability memory-state persistence and recomputation',
+    'ankitects/anki',
+    'main',
+    '2ef2f7cac9673b697c4b9924a4135bfcbe3269b4',
+    'AGPL-3.0-or-later',
+    'rslib/src/scheduler/fsrs/memory_state.rs'
+  ),
+  ankiFsrsSimulator: source(
+    'retrievability-based review priority and workload simulation',
+    'ankitects/anki',
+    'main',
+    '2ef2f7cac9673b697c4b9924a4135bfcbe3269b4',
+    'AGPL-3.0-or-later',
+    'rslib/src/scheduler/fsrs/simulator.rs'
+  ),
+  ankiFsrsRetention: source(
+    'desired-retention optimization and bounded retention targets',
+    'ankitects/anki',
+    'main',
+    '2ef2f7cac9673b697c4b9924a4135bfcbe3269b4',
+    'AGPL-3.0-or-later',
+    'rslib/src/scheduler/fsrs/retention.rs'
+  ),
+  adaptiveIrtEngine: source(
+    '2PL probability Fisher information ability estimation and adaptive selection',
+    'woodstocksoftware/adaptive-question-selector',
+    'main',
+    '4e3dc17bc98d8b777f3c5fc46302047283620e97',
+    'MIT',
+    'src/irt.py'
+  ),
+  adaptiveIrtServer: source(
+    'IRT session stopping and item-pool integration semantics',
+    'woodstocksoftware/adaptive-question-selector',
+    'main',
+    '4e3dc17bc98d8b777f3c5fc46302047283620e97',
+    'MIT',
+    'src/server.py'
+  ),
   purdle: source(
     'daily content generation, validation, deterministic fallback and publishing',
     'pedromussi1/Purdle',
