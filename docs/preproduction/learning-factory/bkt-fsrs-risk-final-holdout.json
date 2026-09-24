@@ -1,0 +1,30 @@
+{
+  "schemaVersion": "starblox-bkt-fsrs-risk-final-holdout-manifest-v1",
+  "benchmarkId": "starblox-bkt-fsrs-risk40-final-holdout-v1",
+  "status": "locked-evaluation-only",
+  "authorization": "synthetic-only-no-real-player-data",
+  "finalHoldout": true,
+  "seed": 20270217,
+  "sourceLearnerCount": 48,
+  "maxStep": 30,
+  "selectionStep": 18,
+  "heldOutStepCount": 12,
+  "candidate": {
+    "selectorVersion": "starblox-bkt-fsrs-risk-v1",
+    "fsrsRiskWeight": 40,
+    "lockedFromCandidateGithubSha": "ac69722e791e8b89ffbd51958302aaa10f77fd7e"
+  },
+  "baselines": [
+    "currentHeuristic",
+    "bktNoFsrsRisk"
+  ],
+  "acceptanceThresholds": {
+    "minMeanHiddenNeedGainVsHeuristic": 0.002,
+    "minWeakestSkillHitGainVsHeuristic": 0,
+    "minMeanHiddenNeedGainVsBkt": 0.002,
+    "minWeakestSkillHitGainVsBkt": 0.02,
+    "maxDueSkillCoverageLossVsHeuristic": 0.02
+  },
+  "tuneAgainstThisCohort": false,
+  "purpose": "Untouched synthetic final holdout for the frozen BKT + continuous FSRS forgetting-risk weight-40 candidate. The cohort must not be used to retune the candidate and rerun acceptance."
+}
