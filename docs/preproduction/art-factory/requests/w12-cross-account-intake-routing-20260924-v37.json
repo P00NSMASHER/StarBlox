@@ -1,0 +1,123 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_W12_CANDIDATE_DELTA_INTAKE_ROUTING",
+  "router": "12",
+  "branch": "screenshot-match-preproduction",
+  "observedHead": "ad5dfb1583f1863edb8fd20d3626eb7d64b045aa",
+  "scanWindow": {
+    "priorCursor": "781220464ebc413b6a829232bc683d074f6e9b9c",
+    "inspectedThroughHead": "ad5dfb1583f1863edb8fd20d3626eb7d64b045aa",
+    "newCatalogCandidateBytesDetected": true,
+    "newCandidateItemIds": [
+      "desks-8",
+      "wall-8",
+      "wall-9"
+    ],
+    "note": "Post-v36 delta inspected. The only genuinely new staged catalog candidate bytes are the producer13 release-tail v3/v8/v8 outputs; intervening prompt/queue/coordination commits introduce no additional unclassified candidate bytes."
+  },
+  "candidates": [
+    {
+      "id": "desks-8",
+      "name": "Aqua Study Station",
+      "collectionId": "desks",
+      "producer": "13",
+      "reviewerAssignment": "11",
+      "renderOwner": "14",
+      "canonicalWriter": "08",
+      "priorRejectedOrBlockedHash": {
+        "path": "public/assets/catalog-candidates/cpu/desks-8-w13-v2-a-aqua-study-original.png",
+        "gitBlobSha": "bada24e2447de5e39ac2cb6647aa8458cf410e43"
+      },
+      "path": "public/assets/catalog-candidates/cpu/desks-8-w13-v3-a-one-aqua-study-desk-original.png",
+      "sha256": "9b880005af88726188fcd23e1ac0eb9407378006daade8d45b46eb5f17739bc8",
+      "gitBlobSha": "6d01f070b686e4c15a5e906a4099d4fe1cea5f8b",
+      "bytes": 534940,
+      "dimensions": [
+        640,
+        640
+      ],
+      "format": "PNG",
+      "stagedOutput": "docs/preproduction/art-factory/generated-evidence/w13-release-tail-3pack-v4/desks-8/staged-output.json",
+      "generationReceipt": "docs/preproduction/art-factory/generated-evidence/w13-release-tail-3pack-v4/desks-8/generation-receipt.json",
+      "provenanceState": "COMPLETE_ART_FACTORY_V2",
+      "repositoryReadback": "PASS_EXACT_GIT_BLOB",
+      "supersession": "FRESH_V3_FAILURE_SPECIFIC_REPLACEMENT_FOR_REWORKED_V2",
+      "state": "ROUTE_TO_06_TECHNICAL_QUALIFICATION"
+    },
+    {
+      "id": "wall-8",
+      "name": "Ocean Window",
+      "collectionId": "wall",
+      "producer": "13",
+      "reviewerAssignment": "11",
+      "renderOwner": "14",
+      "canonicalWriter": "08",
+      "priorRejectedOrBlockedHash": {
+        "path": "public/assets/catalog-candidates/cpu/wall-8-w13-v7-a-one-obvious-ocean-window-original.png",
+        "gitBlobSha": "ca9108a80d2cd6811d7826fb52a85455482903f2"
+      },
+      "path": "public/assets/catalog-candidates/cpu/wall-8-w13-v8-a-bright-ocean-through-one-window-original.png",
+      "sha256": "515971caef833acb44409ea1191bdd0a9841fee7b7865e854fff58bce105f327",
+      "gitBlobSha": "043d5647de01c3fd3c1e9da472828160765502cd",
+      "bytes": 550068,
+      "dimensions": [
+        640,
+        640
+      ],
+      "format": "PNG",
+      "stagedOutput": "docs/preproduction/art-factory/generated-evidence/w13-release-tail-3pack-v4/wall-8/staged-output.json",
+      "generationReceipt": "docs/preproduction/art-factory/generated-evidence/w13-release-tail-3pack-v4/wall-8/generation-receipt.json",
+      "provenanceState": "COMPLETE_ART_FACTORY_V2",
+      "repositoryReadback": "PASS_EXACT_GIT_BLOB",
+      "supersession": "FRESH_V8_FAILURE_SPECIFIC_REPLACEMENT_FOR_REWORKED_V7",
+      "state": "ROUTE_TO_06_TECHNICAL_QUALIFICATION"
+    },
+    {
+      "id": "wall-9",
+      "name": "Art Gallery Wall",
+      "collectionId": "wall",
+      "producer": "13",
+      "reviewerAssignment": "02",
+      "renderOwner": "14",
+      "canonicalWriter": "08",
+      "priorRejectedOrBlockedHash": {
+        "path": "public/assets/catalog-candidates/cpu/wall-9-w13-v7-a-exactly-three-big-frames-original.png",
+        "gitBlobSha": "f1c423657b836aee822311b15a3229251174768d"
+      },
+      "path": "public/assets/catalog-candidates/cpu/wall-9-w13-v8-a-three-adventure-frames-only-original.png",
+      "sha256": "68fd769785edb3870df985f76360087e8e9e418d77ab0ce536134ad07c57d6e7",
+      "gitBlobSha": "6db1aaa99ea6e6f00bf2f8b0e8109113f5809021",
+      "bytes": 552534,
+      "dimensions": [
+        640,
+        640
+      ],
+      "format": "PNG",
+      "stagedOutput": "docs/preproduction/art-factory/generated-evidence/w13-release-tail-3pack-v4/wall-9/staged-output.json",
+      "generationReceipt": "docs/preproduction/art-factory/generated-evidence/w13-release-tail-3pack-v4/wall-9/generation-receipt.json",
+      "provenanceState": "COMPLETE_ART_FACTORY_V2",
+      "repositoryReadback": "PASS_EXACT_GIT_BLOB",
+      "supersession": "FRESH_V8_FAILURE_SPECIFIC_REPLACEMENT_FOR_REWORKED_V7",
+      "state": "ROUTE_TO_06_TECHNICAL_QUALIFICATION"
+    }
+  ],
+  "dedupe": {
+    "uniqueItemHashClaim": true,
+    "unchangedPriorHashesRerouted": false,
+    "newerPendingCandidateObserved": false
+  },
+  "queues": {
+    "to06": [
+      "desks-8@9b880005af88726188fcd23e1ac0eb9407378006daade8d45b46eb5f17739bc8",
+      "wall-8@515971caef833acb44409ea1191bdd0a9841fee7b7865e854fff58bce105f327",
+      "wall-9@68fd769785edb3870df985f76360087e8e9e418d77ab0ce536134ad07c57d6e7"
+    ],
+    "backToProducer": []
+  },
+  "cursorAdvance": {
+    "previous": "781220464ebc413b6a829232bc683d074f6e9b9c",
+    "advancedThrough": "ad5dfb1583f1863edb8fd20d3626eb7d64b045aa"
+  },
+  "nextOwner": "06_TECHNICAL_QUALIFICATION",
+  "mutationScope": "Routing evidence only; no candidate bytes, canonical mappings, reviewer decisions, gameplay, CI/workflows, deployment or player data changed."
+}
