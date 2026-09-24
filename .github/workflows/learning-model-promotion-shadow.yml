@@ -17,6 +17,7 @@ on:
       - "scripts/generateLearningPromotionDataset.mjs"
       - "scripts/runPsiKtPromotionExperiment.py"
       - "scripts/compareLearningSelectors.mjs"
+      - "scripts/assertLearningPromotionBoundary.mjs"
       - "tools/fsrs-shadow/**"
       - "package.json"
       - ".github/workflows/learning-model-promotion-shadow.yml"
@@ -131,6 +132,9 @@ jobs:
 
       - name: Compare current heuristic, BKT shadow, and PSI-KT plus FSRS
         run: npm run compare:learning-promotion -- --evaluation=.learning-promotion/evaluation.json --psi=.learning-promotion/psi-kt-receipt.json --fsrs=.learning-promotion/fsrs-engine-receipt.json --out=.learning-promotion/selector-comparison.json
+
+      - name: Assert Selector V2 is not wired into live Quest code
+        run: npm run assert:learning-promotion-boundary
 
       - name: Enforce no-live-promotion boundary
         run: |
