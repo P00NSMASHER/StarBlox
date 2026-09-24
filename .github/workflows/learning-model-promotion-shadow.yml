@@ -36,8 +36,7 @@ jobs:
           node-version: "24"
 
       - name: Install StarBlox dependencies
-        run: |
-          npm install --ignore-scripts --package-lock=false
+        run: npm install --ignore-scripts --package-lock=false
 
       - name: Verify learning contracts and strict provenance
         run: |
@@ -45,8 +44,7 @@ jobs:
           npm run validate:learning -- --strict-provenance --out=.learning-provenance-receipt.json
 
       - name: Generate one shared authorized synthetic dataset
-        run: |
-          npm run generate:learning-promotion -- --out-dir=.learning-promotion --learners=48 --max-step=30 --seed=20260924
+        run: npm run generate:learning-promotion -- --out-dir=.learning-promotion --learners=48 --max-step=30 --seed=20260924
 
       - uses: actions/setup-go@v5
         with:
@@ -55,7 +53,8 @@ jobs:
       - name: Execute review commands through actual FSRS
         run: |
           cd tools/fsrs-shadow
-          go run .             -input ../../.learning-promotion/riff-reviews.json             -out ../../.learning-promotion/fsrs-engine-receipt.json             -evaluation-offset-hours 24
+          go mod tidy
+          go run . -input ../../.learning-promotion/riff-reviews.json -out ../../.learning-promotion/fsrs-engine-receipt.json -evaluation-offset-hours 24
 
       - uses: actions/setup-python@v5
         with:
@@ -69,12 +68,10 @@ jobs:
           python -m pip install -e .vendor/psi-kt
 
       - name: Train and infer with upstream AmortizedPSIKT
-        run: |
-          python scripts/runPsiKtPromotionExperiment.py             --psi-repo=.vendor/psi-kt             --data-dir=.learning-promotion             --evaluation=.learning-promotion/evaluation.json             --graph-json=.learning-promotion/skill-graph.json             --out=.learning-promotion/psi-kt-receipt.json             --epochs=2             --max-step=30
+        run: python scripts/runPsiKtPromotionExperiment.py --psi-repo=.vendor/psi-kt --data-dir=.learning-promotion --evaluation=.learning-promotion/evaluation.json --graph-json=.learning-promotion/skill-graph.json --out=.learning-promotion/psi-kt-receipt.json --epochs=2 --max-step=30
 
       - name: Compare current heuristic, BKT shadow, and PSI-KT plus FSRS
-        run: |
-          npm run compare:learning-promotion --             --evaluation=.learning-promotion/evaluation.json             --psi=.learning-promotion/psi-kt-receipt.json             --fsrs=.learning-promotion/fsrs-engine-receipt.json             --out=.learning-promotion/selector-comparison.json
+        run: npm run compare:learning-promotion -- --evaluation=.learning-promotion/evaluation.json --psi=.learning-promotion/psi-kt-receipt.json --fsrs=.learning-promotion/fsrs-engine-receipt.json --out=.learning-promotion/selector-comparison.json
 
       - name: Enforce synthetic-only no-live-promotion boundary
         run: |
