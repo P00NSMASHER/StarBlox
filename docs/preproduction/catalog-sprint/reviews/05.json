@@ -4,7 +4,7 @@
   "role": "independent catalog reviewer for beds/desks/companions/auras",
   "phase": "ART_VISUALS_SPRINT",
   "branch": "screenshot-match-preproduction",
-  "sourceHead": "c6a3cb0dcb87f0a47d2dab31f1c20cbbafe0c79d",
+  "sourceHead": "b0e5121a2f089cd9fe4824e65d29189ec1aaae9e",
   "policy": "docs/preproduction/DELIVERY_PROTOCOL_V2.md",
   "visualSprint": "docs/preproduction/ART_VISUALS_SPRINT.json",
   "referenceManifest": "docs/preproduction/reference-screenshots/original-reference-manifest.json",
@@ -23,23 +23,17 @@
       "desks-9",
       "desks-10"
     ],
-    "version": "w03 v2 pinned-runtime exact repository hashes",
+    "version": "w03 v3 exact repository hashes",
     "result": "REWORK_2_OF_2",
     "actualCardScalePixelsReviewed": true,
     "actualDetailPixelsReviewed": true,
     "legacyDecisionTransferred": false
   },
   "renderEvidence": {
-    "workflowRunId": 35978772779,
-    "artifactId": 10799695347,
-    "artifactDigest": "sha256:419d1c47ffff765612f73bae01cd83012e39dc238e411852cae78db205ae2441",
-    "workflowHead": "647b9b5284df757c5f6ac2e1b0ee9b7095fc7845",
-    "detailPaths": [
-      "staged-replacements/detail/desks-9-6cab04be.png",
-      "staged-replacements/detail/desks-10-2f6fccc5.png"
-    ],
-    "contactSheetPath": "staged-replacements/staged-replacements-contact-sheet.png",
-    "contactSheetSha256": "728fd5fa23e35bc80049f70c34f38f5d446be55aaa26b1e050e3097b5416d3f8"
+    "workflow": "StarBlox Staged Catalog Art QA",
+    "workflowRunId": 35984489131,
+    "artifactId": 10801511855,
+    "artifactDigest": "sha256:e728db1299775a32c53164ec4334de017289b2e2dff62104fdfe4bee1d22ee42"
   },
   "reviews": [
     {
@@ -261,6 +255,80 @@
         "originality": "PASS",
         "duplicateVisual": "PASS"
       }
+    },
+    {
+      "itemId": "desks-9",
+      "name": "Art Maker Table",
+      "tier": 3,
+      "theme": "Sunny Pop",
+      "assetPath": "public/assets/catalog-candidates/cpu/desks-9-w03-v3-a-maker-rail-desk-original.png",
+      "assetHash": "64bb30b92257f0471259dd8b840b086af9e58073",
+      "contentSha256": "03b2d9b3899bad522861ca788403bc3ed8c469bddcb932bc6fa348e2216b2b97",
+      "producer": "03",
+      "decision": "REWORK",
+      "learnerLabel": "REWORK",
+      "reviewedAt": "2026-09-24T14:06:00Z",
+      "evidence": {
+        "detailRenderPath": "staged-replacements/detail/desks-9-64bb30b9.png",
+        "detailRenderSha256": "99c8f1829069775203e41a78928435af5c939aca2c9217ac3bae3975ce7eb8dd",
+        "detailDimensions": [
+          800,
+          800
+        ],
+        "contactSheetPath": "staged-replacements/staged-replacements-contact-sheet.png",
+        "workflowRunId": 35984489131,
+        "artifactId": 10801511855
+      },
+      "checks": {
+        "recognizableCategoryFunction": "FAIL — reads as a wall-mounted shelf/workbench installation, not a clear Art Maker Table.",
+        "physicalConstructionContact": "PARTIAL — rails and work surfaces have depth, but the object is architecturally fragmented and not a coherent freestanding maker table.",
+        "silhouette": "FAIL — no single desk/table silhouette survives at card scale.",
+        "materialLighting": "PASS — warm wood/orange accents and neutral structural materials separate clearly.",
+        "themeTierSpecificity": "PARTIAL — orange accents suggest Sunny Pop, but maker/art specificity is weak.",
+        "smallCardReadability": "FAIL — reduces to generic rails/shelves with no obvious maker-table identity.",
+        "makerStorageTools": "FAIL — the raised tool rail/organized art-tool cues remain too weak or absent.",
+        "compositionCrop": "FAIL — built-in wall geometry dominates instead of one isolated product.",
+        "originalityNearDuplicateRisk": "PASS",
+        "technicalIntegrity": "PASS"
+      },
+      "reason": "REWORK. V3 still reads as a wall-mounted shelving/workbench system, not an unmistakable Art Maker Table. Next attempt should be one isolated desk/table with a broad worktop, stable supports, raised tool/peg rail, integrated storage and a few bounded art tools."
+    },
+    {
+      "itemId": "desks-10",
+      "name": "Neon Streaming Desk",
+      "tier": 4,
+      "theme": "Aqua Wave",
+      "assetPath": "public/assets/catalog-candidates/cpu/desks-10-w03-v3-a-streaming-worktop-original.png",
+      "assetHash": "1eb6e1c127c3ac85d82daf7454cec0d83ca89b1b",
+      "contentSha256": "f793d2c41b7e7ea441e9e637de3d6e9aa6ec6e6299732cbb2ceb1ed2d6edeadb",
+      "producer": "03",
+      "decision": "REWORK",
+      "learnerLabel": "REWORK",
+      "reviewedAt": "2026-09-24T14:06:00Z",
+      "evidence": {
+        "detailRenderPath": "staged-replacements/detail/desks-10-1eb6e1c1.png",
+        "detailRenderSha256": "e0f1aba4a490e10e195cc79dc9c6281ef4d2c99e2509e17847e765b18f762d01",
+        "detailDimensions": [
+          800,
+          800
+        ],
+        "contactSheetPath": "staged-replacements/staged-replacements-contact-sheet.png",
+        "workflowRunId": 35984489131,
+        "artifactId": 10801511855
+      },
+      "checks": {
+        "recognizableCategoryFunction": "PARTIAL — each mini-view suggests a streaming desk, but the exact image is a multi-panel collage rather than one product.",
+        "physicalConstructionContact": "FAIL — contradictory desk variants/support geometries prevent one coherent physical construction.",
+        "silhouette": "FAIL — collage presentation destroys a single readable desk silhouette.",
+        "materialLighting": "PASS — black/aqua surfaces and neon accents are visually strong.",
+        "themeTierSpecificity": "PASS — Aqua Wave / Tier-4 neon styling is clear.",
+        "smallCardReadability": "FAIL — multiple panels collapse into visual noise at card scale.",
+        "streamingFunction": "PARTIAL — monitor/control surfaces are present, but no single coherent monitor bridge/equipment cabinet/mic system is established.",
+        "compositionCrop": "FAIL — multi-panel collage violates the isolated-product requirement.",
+        "originalityNearDuplicateRisk": "PASS",
+        "technicalIntegrity": "PASS"
+      },
+      "reason": "REWORK. V3 has stronger streaming styling but remains a six-panel collage of different desk variants. Next attempt must show exactly one wide horizontal streaming desk with coherent supports, monitor bridge/equipment storage and one restrained mic/control feature in a single view."
     }
   ],
   "preservedAcceptedCurrentHashes": [
@@ -392,14 +460,15 @@
   ],
   "pendingCurrentHashes": [],
   "handoff": {
-    "workstream03": "Desks 9/10 v2 exact pinned-runtime hashes are independently REWORK. Preserve them. Desk9 needs unmistakable maker/drafting features; Desk10 needs an actual horizontal streaming desk with worktop/equipment geometry.",
-    "workstream08": "No ACCEPT from reviewer05 in this cycle; do not canonical-wire Desks9/10 v2.",
-    "workstream15": "Keep Desks9/10 as a bounded failure-specific rework pair; do not reopen their provenance-recovery path because v2 provenance is complete."
+    "14": "Desk9/10 v3 render packets consumed; do not rerender unchanged hashes.",
+    "15": "Desk9/10 remain bounded rework blockers.",
+    "03": "Desk9/10 v3 are exact-hash REWORK. Preserve both and prepare only failure-specific replacements if director15 keeps them on the critical path.",
+    "08": "Do not canonical-wire Desk9/10 v3."
   },
   "summary": {
-    "totalVersionsReviewed": 40,
+    "totalVersionsReviewed": 42,
     "accepted": 25,
-    "rework": 15,
+    "rework": 17,
     "blocked": 0,
     "thisCycle": {
       "reviewed": 2,
