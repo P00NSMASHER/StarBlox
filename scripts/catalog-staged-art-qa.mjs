@@ -338,7 +338,7 @@ fs.mkdirSync(artifactRoot,{recursive:true});
 const report={sourceHead:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),triggeringSha:process.env.GITHUB_SHA||null,generatedAt:new Date().toISOString(),sets:{},errors:[],warnings:[],skippedCandidates:[],selectedBindings:[]};
 const browser=await chromium.launch({headless:true});
 try{
-  const factoryOnly=process.env.STARBLOX_QA_FACTORY_ONLY==='1';
+  const factoryOnly=process.env.STARBLOX_QA_FACTORY_ONLY==='1'||String(process.env.STARBLOX_QA_PUSH_MESSAGE||'').startsWith('art-factory: stage CPU candidate');
   report.factoryOnly=factoryOnly;
   if(!factoryOnly){
     for(const [collection,def] of Object.entries(definitions)){
