@@ -1,0 +1,27 @@
+{
+  "schemaVersion":"starblox-bkt-calibration-development-manifest-v1",
+  "benchmarkId":"starblox-bkt-parameter-calibration-development-v1",
+  "status":"development-tuning-allowed",
+  "authorization":"synthetic-only-no-real-player-data",
+  "seed":20270805,
+  "sourceLearnerCount":48,
+  "maxStep":30,
+  "selectionStep":18,
+  "heldOutStepCount":12,
+  "defaultParams":{"pKnow":0.3,"pLearn":0.1,"pGuess":0.2,"pSlip":0.1},
+  "grid":{
+    "pKnow":[0.1,0.2,0.3,0.4,0.5],
+    "pLearn":[0.03,0.05,0.08,0.1,0.15,0.2],
+    "pGuess":[0.1,0.15,0.2,0.25,0.3],
+    "pSlip":[0.03,0.05,0.08,0.1,0.15,0.2]
+  },
+  "candidateRule":{
+    "meanSpearmanGainMin":0.02,
+    "globalPearsonGainMin":0,
+    "weakestSkillHitGainMin":0,
+    "maeRegressionMax":0.02
+  },
+  "forbiddenSeeds":[20260924,20261103,20261217,20261229,20270113,20270217,20270307,20270419,20270511,20270623,20270717],
+  "tuneAgainstThisCohort":true,
+  "purpose":"Development-only calibration of the existing StarBlox BKT state model. Any selected parameters require a separately locked no-tuning validation cohort before use in selector research."
+}
