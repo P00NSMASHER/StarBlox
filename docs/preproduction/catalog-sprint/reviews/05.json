@@ -4,7 +4,7 @@
   "role": "independent catalog reviewer for beds/desks/companions/auras",
   "phase": "ART_VISUALS_SPRINT",
   "branch": "screenshot-match-preproduction",
-  "sourceHead": "b0e5121a2f089cd9fe4824e65d29189ec1aaae9e",
+  "sourceHead": "7db8f63a54fa08d766ce7b63b1371f3e6c93d0d2",
   "policy": "docs/preproduction/DELIVERY_PROTOCOL_V2.md",
   "visualSprint": "docs/preproduction/ART_VISUALS_SPRINT.json",
   "referenceManifest": "docs/preproduction/reference-screenshots/original-reference-manifest.json",
@@ -20,11 +20,10 @@
   },
   "currentCycle": {
     "scope": [
-      "desks-9",
       "desks-10"
     ],
-    "version": "w03 v3 exact repository hashes",
-    "result": "REWORK_2_OF_2",
+    "version": "current exact hash: Desk10 v4",
+    "result": "REWORK_1_OF_1",
     "actualCardScalePixelsReviewed": true,
     "actualDetailPixelsReviewed": true,
     "legacyDecisionTransferred": false
@@ -329,6 +328,36 @@
         "technicalIntegrity": "PASS"
       },
       "reason": "REWORK. V3 has stronger streaming styling but remains a six-panel collage of different desk variants. Next attempt must show exactly one wide horizontal streaming desk with coherent supports, monitor bridge/equipment storage and one restrained mic/control feature in a single view."
+    },
+    {
+      "itemId": "desks-10",
+      "name": "Neon Streaming Desk",
+      "tier": 4,
+      "theme": "Aqua Wave",
+      "assetPath": "public/assets/catalog-candidates/cpu/desks-10-w03-v4-a-one-streaming-desk-original.png",
+      "assetHash": "6287a1ea61500d98645988149b82302f89602578",
+      "contentSha256": "589536545a9619c0ed8a619bf320dcd8b7647c67327fac4719b51f492bb79024",
+      "producer": "03",
+      "decision": "REWORK",
+      "learnerLabel": "REWORK",
+      "reviewedAt": "2026-09-24T15:28:00Z",
+      "evidence": {
+        "detailRenderPath": "staged-replacements/detail/desks-10-6287a1ea.png",
+        "detailRenderSha256": "db1724d79aca93df7ccea8a2e81949b75850b4897ef1a788f1186459db1dc3a4",
+        "detailDimensions": [
+          800,
+          800
+        ],
+        "contactSheetPath": "staged-replacements/staged-replacements-contact-sheet.png",
+        "workflowRunId": 36018945848,
+        "artifactId": 10816077025
+      },
+      "reasonCodes": [
+        "NO_DESK_SILHOUETTE",
+        "CABINET_PANEL_CLOSEUP",
+        "STREAMING_FUNCTION_MISSING"
+      ],
+      "reason": "REWORK. The exact render is a close-up of smooth cabinet/panel geometry with aqua accents, not a readable streaming desk. No wide worktop, supports, monitor bridge, equipment cabinet or mic system forms a coherent desk silhouette. Next candidate must be one clearly freestanding horizontal streaming desk."
     }
   ],
   "preservedAcceptedCurrentHashes": [
@@ -471,9 +500,9 @@
     "rework": 17,
     "blocked": 0,
     "thisCycle": {
-      "reviewed": 2,
+      "reviewed": 1,
       "accepted": 0,
-      "rework": 2,
+      "rework": 1,
       "blocked": 0
     }
   },
@@ -486,5 +515,12 @@
     "flootTouched": false,
     "mainTouched": false,
     "deploymentTouched": false
+  },
+  "currentReplacementDisposition": {
+    "desks": {
+      "REWORK": {
+        "desks-10": "6287a1ea61500d98645988149b82302f89602578"
+      }
+    }
   }
 }

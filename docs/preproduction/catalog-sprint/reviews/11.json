@@ -4,17 +4,15 @@
   "role": "independent art reviewer D / overflow reviewer",
   "phase": "ART_VISUALS_SPRINT",
   "branch": "screenshot-match-preproduction",
-  "sourceHead": "c94df813cb33b89e68cc1c09101aaa641fd5f03a",
+  "sourceHead": "7db8f63a54fa08d766ce7b63b1371f3e6c93d0d2",
   "policy": "docs/preproduction/DELIVERY_PROTOCOL_V2.md",
   "artFactoryPolicy": "docs/preproduction/art-factory/ART_FACTORY_V2.json",
   "currentCycle": {
     "scope": [
-      "desks-7",
-      "desks-8",
       "wall-8"
     ],
-    "version": "current exact hashes: Desk7 v2 + Desk8 v2 + Wall8 v4",
-    "result": "ACCEPT_1_REWORK_2_OF_3",
+    "version": "current exact hash: Wall8 v5",
+    "result": "REWORK_1_OF_1",
     "oldVerdictsTransferred": false,
     "actualCardScalePixelsReviewed": true,
     "actualDetailPixelsReviewed": true,
@@ -290,6 +288,36 @@
         "technicalIntegrity": "PASS"
       },
       "reason": "REWORK. V4 replaces the unavailable historical pixels with valid new provenance, but the art misses the item identity: it is an abstract neon grid rather than an Ocean Window. Next attempt must show one clearly framed/recessed wall window with unmistakable ocean/water view and restrained Candy Core accents."
+    },
+    {
+      "itemId": "wall-8",
+      "name": "Ocean Window",
+      "tier": 3,
+      "theme": "Candy Core",
+      "assetPath": "public/assets/catalog-candidates/cpu/wall-8-w13-v5-a-ocean-horizon-window-original.png",
+      "assetHash": "3d32587f1dc65974eee1fc09b60f90248fe651b3",
+      "contentSha256": "e103c5d6d64d264c01ec0462cf09ba92a74bb005cf0f638917a8c3ab2ac96ee8",
+      "producer": "13",
+      "decision": "REWORK",
+      "learnerLabel": "REWORK",
+      "reviewedAt": "2026-09-24T15:28:00Z",
+      "evidence": {
+        "detailRenderPath": "staged-replacements/detail/wall-8-3d32587f.png",
+        "detailRenderSha256": "ae8c3b0c74821d124902cabdcceaec7d623f0bb3d80d58212a1bb9bb7e591af4",
+        "detailDimensions": [
+          800,
+          800
+        ],
+        "contactSheetPath": "staged-replacements/staged-replacements-contact-sheet.png",
+        "workflowRunId": 36015965182,
+        "artifactId": 10814393243
+      },
+      "reasonCodes": [
+        "MULTI_WINDOW_COLLAGE",
+        "NO_SINGLE_OCEAN_WINDOW",
+        "PRODUCT_SILHOUETTE_FRAGMENTED"
+      ],
+      "reason": "REWORK. V5 contains multiple separate window/view panels instead of one Ocean Window. The ocean imagery is more recognizable than v4, but the collage/comparison layout destroys a single card-scale product silhouette. Next candidate must show exactly one framed ocean window in one view."
     }
   ],
   "currentReplacementDisposition": {
@@ -311,23 +339,20 @@
     },
     "wall": {
       "REWORK": {
-        "wall-8": "1153810072f325d25a9259167b3d309600a474a0"
+        "wall-8": "3d32587f1dc65974eee1fc09b60f90248fe651b3"
       }
     }
   },
   "summary": {
-    "reviewedThisRun": 3,
-    "newAcceptsThisRun": 1,
-    "newReworkThisRun": 2,
+    "reviewedThisRun": 1,
+    "newAcceptsThisRun": 0,
+    "newReworkThisRun": 1,
     "newBlockedThisRun": 0,
-    "newUsableBy08Now": [
-      "desks-7"
-    ],
+    "newUsableBy08Now": [],
     "reworkNow": [
-      "desks-8",
       "wall-8"
     ],
-    "preservedAcceptedHashes": "Prior Decor6 v2 and all earlier ACCEPTs remain frozen. New decisions apply only to Desk7 v2, Desk8 v2 and Wall8 v4 exact hashes."
+    "preservedAcceptedHashes": "All prior reviewer11 ACCEPTs remain frozen; this REWORK applies only to Wall8 v5."
   },
   "handoff": {
     "13": "Desk7 v2 ACCEPT; freeze exact hash. Desk8 v2 and Wall8 v4 REWORK; preserve exact hashes and prepare only failure-specific replacements if prioritized.",

@@ -5,7 +5,7 @@
   "role": "Visual Target Director / independent catalog reviewer",
   "phase": "ART_AND_VISUALS_ONLY",
   "branch": "screenshot-match-preproduction",
-  "sourceHead": "134f5727ffd039b3aa8088b748a0f8e36ed6b3ac",
+  "sourceHead": "7db8f63a54fa08d766ce7b63b1371f3e6c93d0d2",
   "assignedCollections": [
     "tops",
     "bottoms",
@@ -34,11 +34,11 @@
   },
   "currentCycle": {
     "scope": [
-      "decor-7",
+      "desks-12",
       "desks-11",
-      "desks-12"
+      "decor-7"
     ],
-    "version": "current exact hashes: Decor7 v5 + Desk11/12 v1",
+    "version": "current exact hashes: Desk12 v2 + Desk11 v2 + Decor7 v6",
     "result": "REWORK_3_OF_3",
     "oldVerdictsTransferred": false,
     "actualCardScalePixelsReviewed": true,
@@ -429,6 +429,96 @@
         "technicalIntegrity": "PASS"
       },
       "reason": "REWORK. The v1 exact pixels contain desk-like elements but remain dominated by built-in shelving and room architecture. Next attempt should isolate one wide command desk with unmistakable worktop, two supports, integrated storage/monitor bridge and restrained Star Luxe gold/star detailing."
+    },
+    {
+      "itemId": "desks-12",
+      "name": "Luxe Command Desk",
+      "tier": 5,
+      "theme": "Star Luxe",
+      "assetPath": "public/assets/catalog-candidates/cpu/desks-12-w13-v2-a-isolated-luxe-command-desk-original.png",
+      "assetHash": "c8f1ba80832d7be9d2d06d3a89838e5feafbb34e",
+      "contentSha256": "f5b90a8a25d066fe9bc669fe3ae456788ebfe3024acd0df62fd360afe7713434",
+      "producer": "13",
+      "decision": "REWORK",
+      "learnerLabel": "REWORK",
+      "reviewedAt": "2026-09-24T15:28:00Z",
+      "evidence": {
+        "detailRenderPath": "staged-replacements/detail/desks-12-c8f1ba80.png",
+        "detailRenderSha256": "3a6e8fe77a0b79ebea9a0a3a3e88059dc755dc0e27a331c2096beb1a890d4765",
+        "detailDimensions": [
+          800,
+          800
+        ],
+        "contactSheetPath": "staged-replacements/staged-replacements-contact-sheet.png",
+        "workflowRunId": 36015965182,
+        "artifactId": 10814393243
+      },
+      "reasonCodes": [
+        "MULTI_PANEL_COMPONENT_COLLAGE",
+        "NO_SINGLE_COMMAND_DESK_SILHOUETTE",
+        "ROOM_INSTALLATION_PRESENTATION"
+      ],
+      "reason": "REWORK. The exact Store render is a multi-panel/component presentation rather than one isolated Luxe Command Desk. No single coherent worktop/support/storage/monitor-bridge silhouette dominates at card scale. Preserve this exact hash; the next candidate must be exactly one freestanding command desk in one view with no panels, comparison layout or room installation."
+    },
+    {
+      "itemId": "desks-11",
+      "name": "Dream Creator Station",
+      "tier": 4,
+      "theme": "Art Attack",
+      "assetPath": "public/assets/catalog-candidates/cpu/desks-11-w03-v2-a-isolated-creator-station-original.png",
+      "assetHash": "a31d581bf8358fcbc86e4879785a2f131ce26f5b",
+      "contentSha256": "4ffd96dc411dad8aaef465ad5afa069d76ad0292fd6599c2ba1d28164d05c7d6",
+      "producer": "03",
+      "decision": "REWORK",
+      "learnerLabel": "REWORK",
+      "reviewedAt": "2026-09-24T15:28:00Z",
+      "evidence": {
+        "detailRenderPath": "staged-replacements/detail/desks-11-a31d581b.png",
+        "detailRenderSha256": "a11f5d472ddea2c16e9c9b010ec1f5163329716506334387b02a0d3dd2c10042",
+        "detailDimensions": [
+          800,
+          800
+        ],
+        "contactSheetPath": "staged-replacements/staged-replacements-contact-sheet.png",
+        "workflowRunId": 36018945848,
+        "artifactId": 10816077025
+      },
+      "reasonCodes": [
+        "MULTI_PANEL_COMPONENT_COLLAGE",
+        "NO_SINGLE_CREATOR_DESK",
+        "UNREADABLE_PRODUCT_HIERARCHY"
+      ],
+      "reason": "REWORK. The exact render is a large grid/collage of many white furniture components and alternate views, not one Dream Creator Station. The next candidate must show exactly one freestanding creator desk with one worktop, supports/storage and attached hutch in a single isolated view."
+    },
+    {
+      "itemId": "decor-7",
+      "name": "Skate Rack",
+      "tier": 3,
+      "theme": "Garden Glow",
+      "assetPath": "public/assets/catalog-candidates/cpu/decor-7-w09-v6-a-real-skate-cubby-rack-original.png",
+      "assetHash": "be645f930fd96fafde9475f6e2ba1ff2504a742e",
+      "contentSha256": "5821ad0874f476b81a285a5b63d891a98b037d37514f3887942ed0fdc3c26d73",
+      "producer": "09",
+      "decision": "REWORK",
+      "learnerLabel": "REWORK",
+      "reviewedAt": "2026-09-24T15:28:00Z",
+      "evidence": {
+        "detailRenderPath": "staged-replacements/detail/decor-7-be645f93.png",
+        "detailRenderSha256": "24ec67df1d0875b2d0f80dc98b7b7b0028d3ef0cf762318708f2e73d2ba31159",
+        "detailDimensions": [
+          800,
+          800
+        ],
+        "contactSheetPath": "staged-replacements/staged-replacements-contact-sheet.png",
+        "workflowRunId": 36018945848,
+        "artifactId": 10816077025
+      },
+      "reasonCodes": [
+        "ROLLER_SKATE_IDENTITY_FAILURE",
+        "SINGLE_SHOE_NOT_QUAD_SKATES",
+        "OVERSIZED_SHELVING_UNIT"
+      ],
+      "reason": "REWORK. The rack is readable, but the visible footwear reads as a single ordinary shoe/sneaker rather than an unmistakable pair of quad roller skates. The next candidate must keep one compact rack and show a clearly recognizable quad-skate pair with boot uppers, trucks and four wheels per skate."
     }
   ],
   "currentReplacementDisposition": {
@@ -472,7 +562,7 @@
     },
     "decor": {
       "REWORK": {
-        "decor-7": "de321659804198ef24e071a4f0a26a0fca84b09e"
+        "decor-7": "be645f930fd96fafde9475f6e2ba1ff2504a742e"
       },
       "ACCEPT": {
         "decor-5": "1e7716f00e8e38f7ad645a448f9e29adea38de37"
@@ -480,8 +570,8 @@
     },
     "desks": {
       "REWORK": {
-        "desks-11": "828ee1d718ca20643dd8d9fc24c7a98d33fb912c",
-        "desks-12": "39b7f484a380ceb161f95bc1eb7ab470f9493a1d"
+        "desks-11": "a31d581bf8358fcbc86e4879785a2f131ce26f5b",
+        "desks-12": "c8f1ba80832d7be9d2d06d3a89838e5feafbb34e"
       }
     }
   },
@@ -496,11 +586,11 @@
     "newBlockedThisRun": 0,
     "newUsableBy08Now": [],
     "reworkNow": [
-      "decor-7",
+      "desks-12",
       "desks-11",
-      "desks-12"
+      "decor-7"
     ],
-    "preservedAcceptedHashes": "All prior reviewer01 ACCEPTs remain frozen; these REWORK verdicts apply only to the exact current hashes."
+    "preservedAcceptedHashes": "All prior reviewer01 ACCEPTs remain frozen; these REWORKs apply only to the current exact hashes."
   },
   "handoff": {
     "14": "Current render packets consumed; do not rerender unchanged hashes.",

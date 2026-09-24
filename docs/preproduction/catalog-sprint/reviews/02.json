@@ -7,7 +7,7 @@
   "policy": "docs/preproduction/DELIVERY_PROTOCOL_V2.md",
   "visualSprint": "docs/preproduction/ART_VISUALS_SPRINT.json",
   "artFactoryPolicy": "docs/preproduction/art-factory/ART_FACTORY_V2.json",
-  "sourceHead": "c046b6330bf2bce4e64fe41b59f8391adb970a2c",
+  "sourceHead": "7db8f63a54fa08d766ce7b63b1371f3e6c93d0d2",
   "priorReviewShard": {
     "blobSha": "4173dbb9923157eb5a13090d526f88cfec162edd",
     "schemaVersion": 10,
@@ -241,13 +241,11 @@
   "currentCycle": {
     "scope": [
       "wall-9",
-      "decor-9",
-      "decor-10",
       "decor-11",
       "decor-12"
     ],
-    "version": "current exact hashes: Wall9 v4 + Decor9-12 v1",
-    "result": "ACCEPT_2_REWORK_3_OF_5",
+    "version": "current exact hashes: Wall9 v5 + Decor11/12 v2",
+    "result": "REWORK_3_OF_3",
     "oldVerdictsTransferred": false,
     "actualCardScalePixelsReviewed": true,
     "actualDetailPixelsReviewed": true,
@@ -709,13 +707,103 @@
         "technicalIntegrity": "PASS"
       },
       "reason": "REWORK. V1 has strong Star Luxe visual treatment but misses the item identity completely: it is an abstract star relief, not a Trophy Wall. Next attempt must use one wall-mounted display backboard/shelf with unmistakable trophy cups/medals plus restrained star-luxe accents."
+    },
+    {
+      "itemId": "wall-9",
+      "name": "Art Gallery Wall",
+      "tier": 3,
+      "theme": "Adventure Club",
+      "assetPath": "public/assets/catalog-candidates/cpu/wall-9-w13-v5-a-exact-three-adventure-frames-original.png",
+      "assetHash": "1e44eed039947b136f2c8c404d7b77fb877a9098",
+      "contentSha256": "421e6c19ffba41b2e223019a1d98c395e021b77f5bbe709518c57d23264b8faf",
+      "producer": "13",
+      "decision": "REWORK",
+      "learnerLabel": "REWORK",
+      "reviewedAt": "2026-09-24T15:28:00Z",
+      "evidence": {
+        "detailRenderPath": "staged-replacements/detail/wall-9-1e44eed0.png",
+        "detailRenderSha256": "05f82b88c6a9dd3d43996fa6564cf2ceffb83ddb2e4141c3fb72b11222cb36fc",
+        "detailDimensions": [
+          800,
+          800
+        ],
+        "contactSheetPath": "staged-replacements/staged-replacements-contact-sheet.png",
+        "workflowRunId": 36015965182,
+        "artifactId": 10814393243
+      },
+      "reasonCodes": [
+        "ROOM_CONTEXT_DOMINATES",
+        "WEAK_GALLERY_ART_IDENTITY",
+        "BENCH_FLOOR_CONTEXT"
+      ],
+      "reason": "REWORK. Three frames are present, but the Store render still reads as a room/bench vignette with weak generic framed content rather than one compact Adventure Club gallery-wall product. Remove floor/bench context and make the three adventure artworks dominate the entire silhouette."
+    },
+    {
+      "itemId": "decor-11",
+      "name": "Dream Vanity Set",
+      "tier": 4,
+      "theme": "Art Attack",
+      "assetPath": "public/assets/catalog-candidates/cpu/decor-11-w09-v2-a-single-vanity-mirror-stool-original.png",
+      "assetHash": "090cacf160984a0ac556553f6a23215c18d9ef2f",
+      "contentSha256": "bfee0477adf4153dc42ba1e100eaacf19bd4d885009f9e5431d91e2014753a82",
+      "producer": "09",
+      "decision": "REWORK",
+      "learnerLabel": "REWORK",
+      "reviewedAt": "2026-09-24T15:28:00Z",
+      "evidence": {
+        "detailRenderPath": "staged-replacements/detail/decor-11-090cacf1.png",
+        "detailRenderSha256": "b29b09c1043e93d7d836d852dc1ea52e2f0656e581bae73e8415f10f980c9050",
+        "detailDimensions": [
+          800,
+          800
+        ],
+        "contactSheetPath": "staged-replacements/staged-replacements-contact-sheet.png",
+        "workflowRunId": 36018945848,
+        "artifactId": 10816077025
+      },
+      "reasonCodes": [
+        "BUILT_IN_ROOM_FIXTURE",
+        "NO_COHERENT_VANITY_SET",
+        "MISSING_STOOL_PRODUCT_HIERARCHY"
+      ],
+      "reason": "REWORK. The exact render reads as built-in cabinetry/room architecture around a mirror, not one freestanding vanity table + mirror + matching stool set. Next candidate must isolate exactly one coherent vanity set on a plain background."
+    },
+    {
+      "itemId": "decor-12",
+      "name": "Trophy Wall",
+      "tier": 5,
+      "theme": "Star Luxe",
+      "assetPath": "public/assets/catalog-candidates/cpu/decor-12-w09-v2-a-trophy-display-backboard-original.png",
+      "assetHash": "72655049c8c0c488f56c80916ed7213e62d7e374",
+      "contentSha256": "e0919c89d8ad88b47c8b36e0bbc6bc582e065a46fba3919bf6b0527abd154633",
+      "producer": "09",
+      "decision": "REWORK",
+      "learnerLabel": "REWORK",
+      "reviewedAt": "2026-09-24T15:28:00Z",
+      "evidence": {
+        "detailRenderPath": "staged-replacements/detail/decor-12-72655049.png",
+        "detailRenderSha256": "9ba470c128c9c76b30ef20d686b4278feabe3f89b6f613afd54a59d3547b607b",
+        "detailDimensions": [
+          800,
+          800
+        ],
+        "contactSheetPath": "staged-replacements/staged-replacements-contact-sheet.png",
+        "workflowRunId": 36018945848,
+        "artifactId": 10816077025
+      },
+      "reasonCodes": [
+        "TROPHY_IDENTITY_FAILURE",
+        "ABSTRACT_METAL_SHAPES",
+        "NO_CLEAR_CUPS_MEDALS_DISPLAY"
+      ],
+      "reason": "REWORK. V2 still fails the Trophy Wall identity: the exact pixels are dominated by abstract gold shapes/panels and room-like surfaces, with no unmistakable trophy cups/medals display. Next candidate needs one isolated backboard/shelf with large readable trophies and medals dominating the card."
     }
   ],
   "currentReplacementDisposition": {
     "wall": {
       "REWORK": {
         "wall-10": "74a4c531a3c60ccd60747bfebc2dfc0d1d25b684",
-        "wall-9": "725793fdb8091b47d7fe3563e8519519e4a9523d"
+        "wall-9": "1e44eed039947b136f2c8c404d7b77fb877a9098"
       },
       "ACCEPT": {
         "wall-11": "50ffc975030f6c7e28cf9836756bb312dfa646fb",
@@ -729,26 +817,23 @@
         "decor-10": "68eeaecc5ab8dd5097160324e0880b129a6ed0ce"
       },
       "REWORK": {
-        "decor-11": "3c5c6892823fad04c93077eb43c94331ebdf0d88",
-        "decor-12": "8e0ba670f01f954c59bf1c077c0fc4fdea3e8ebc"
+        "decor-11": "090cacf160984a0ac556553f6a23215c18d9ef2f",
+        "decor-12": "72655049c8c0c488f56c80916ed7213e62d7e374"
       }
     }
   },
   "summary": {
-    "reviewedThisRun": 5,
-    "newAcceptsThisRun": 2,
+    "reviewedThisRun": 3,
+    "newAcceptsThisRun": 0,
     "newReworkThisRun": 3,
     "newBlockedThisRun": 0,
-    "newUsableBy08Now": [
-      "decor-9",
-      "decor-10"
-    ],
+    "newUsableBy08Now": [],
     "reworkNow": [
       "wall-9",
       "decor-11",
       "decor-12"
     ],
-    "preservedAcceptedHashes": "All earlier reviewer02 ACCEPTs remain frozen. New decisions apply only to the exact current hashes."
+    "preservedAcceptedHashes": "All prior reviewer02 ACCEPTs remain frozen; these REWORKs apply only to the current exact hashes."
   },
   "handoff": {
     "13": "Wall9 v4 exact hash REWORK; preserve and prepare one more failure-specific gallery repair only if still release-critical.",
