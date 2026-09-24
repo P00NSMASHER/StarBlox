@@ -7,6 +7,7 @@ export const LIFE_SIM_PROGRESSION_SCHEMA = 'starblox-life-sim-progression-shadow
 const RULES = Object.freeze([
   ['residential','front-door',[]],
   ['residential','mailbox',[]],
+  ['residential','doorbell',[]],
   ['residential','garage-door',[['questsCompleted',1]]],
   ['residential','safe',[['stars',1]]],
   ['residential','sliding-door',[['starWorth',40]]],
