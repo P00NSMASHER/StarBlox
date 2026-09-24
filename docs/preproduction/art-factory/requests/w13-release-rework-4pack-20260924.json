@@ -1,0 +1,159 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_BATCH_REQUEST",
+  "planner": "15",
+  "producer": "13",
+  "preflightOwner": "06",
+  "reviewer": "MIXED_11_02_01",
+  "renderOwner": "14",
+  "integrationOwner": "08",
+  "coordinationOwner": "15",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "aa30105c307f222ef25694b8fad8b24fc30f6781",
+  "manifestVersion": 38,
+  "batchId": "w13-release-rework-4pack-v1",
+  "scope": [
+    "desks-8",
+    "wall-8",
+    "wall-9",
+    "desks-12"
+  ],
+  "state": "CPU_QUEUE_ELIGIBLE__FAILURE_SPECIFIC_4ITEM_RELEASE_REWORK",
+  "assignmentAuthority": {
+    "path": "docs/preproduction/art-factory/ACTIVE_BATCH.json",
+    "assignedReviewers": {
+      "desks-8": "11",
+      "wall-8": "11",
+      "wall-9": "02",
+      "desks-12": "01"
+    },
+    "runtimeProofPath": "docs/preproduction/art-factory/CPU_RUNTIME_PROOF.json",
+    "runtimeProofStatus": "PROVEN",
+    "runtimeCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+    "modelRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "note": "Current exact-hash reviewer REWORKs are preserved. Desk12 is explicitly reassigned from released producer03 production scope to producer13 so one four-item matrix can attack four blockers concurrently."
+  },
+  "references": {
+    "originalStoreReference": {
+      "requiredBeforeGeneration": true,
+      "repositoryPath": "docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg",
+      "sha256": "b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d",
+      "gitBlobSha": "383baa877d3af86fa92e3583740212000592b3d6",
+      "dimensions": [
+        1448,
+        1086
+      ],
+      "role": "FIRST_PARTY_STARBLOX_STORE_ART_DIRECTION"
+    }
+  },
+  "reviewSource": {
+    "decision": "REWORK",
+    "note": "Each item below is bound to its newest independently reviewed exact hash; no verdict transfers to the replacement version."
+  },
+  "items": {
+    "desks-8": {
+      "currentLegacy": {
+        "path": "public/assets/catalog-candidates/cpu/desks-8-w13-v2-a-aqua-study-original.png",
+        "gitBlobSha1": "bada24e2447de5e39ac2cb6647aa8458cf410e43",
+        "reviewDecision": "REWORK",
+        "normalizedFailureTaxonomy": [
+          "DUPLICATED_PRODUCT_VARIANTS",
+          "NO_SINGLE_DESK_SILHOUETTE",
+          "COLLAGE_PRESENTATION"
+        ]
+      },
+      "variants": [
+        {
+          "variantId": "A-SINGLE-AQUA-DESK",
+          "optimizerInput": "Aqua Study Station, Desks & Tech, Tier 3, Galaxy Glow. Create ONE isolated study desk only. Use one broad gently curved aqua-and-cream worktop, one compact left storage pedestal with drawers, two clear weight-bearing supports, one shallow attached monitor/book shelf and a small integrated cable channel. Add restrained cyan-violet galaxy rim lighting and one tiny star/orbit accent. Full desk completely inside frame on a plain studio background with grounded shadow. NO second desk, NO stacked duplicate, NO comparison view, NO collage, NO room scene, NO chair, NO floating panels, NO text or logos."
+        },
+        {
+          "variantId": "B-CLEAN-STUDY-STATION",
+          "optimizerInput": "Aqua Study Station, Desks & Tech, Tier 3, Galaxy Glow. Design ONE clean functional study station with a single rectangular-to-soft-curve desktop, two stable side supports, one small drawer cabinet, and one physically attached upper shelf. Use pale aqua, navy and soft violet accents with premium matte wood/metal/acrylic separation. Keep the product silhouette simple and instantly readable at Store-card size. NO duplicate furniture, NO stacked versions, NO split-screen, NO collage, NO room walls, NO floating hardware, NO text."
+        }
+      ]
+    },
+    "wall-8": {
+      "currentLegacy": {
+        "path": "public/assets/catalog-candidates/cpu/wall-8-w13-v4-a-recessed-ocean-window-original.png",
+        "gitBlobSha1": "1153810072f325d25a9259167b3d309600a474a0",
+        "reviewDecision": "REWORK",
+        "normalizedFailureTaxonomy": [
+          "OCEAN_WINDOW_IDENTITY_FAILURE",
+          "ABSTRACT_GRID_INSTEAD_OF_WINDOW",
+          "NO_OCEAN_VIEW"
+        ]
+      },
+      "variants": [
+        {
+          "variantId": "A-OCEAN-HORIZON-WINDOW",
+          "optimizerInput": "Ocean Window, Wall Decor, Tier 3, Candy Core. Create ONE wall-mounted recessed window object with a thick rounded candy-coral frame, aqua inner trim and a single crystal-clear glazed opening showing an unmistakable blue ocean horizon with water, sky and subtle waves. Show frame thickness, recessed wall depth, small mounting reveal and soft wall-cast shadow. Add only restrained pastel candy accents around the frame. Full object isolated on a neutral wall plane. NO grid, NO cubbies, NO shelving, NO abstract circuit pattern, NO multiple windows, NO room scene, NO text or logos."
+        },
+        {
+          "variantId": "B-PORTHOLE-OCEAN-VIEW",
+          "optimizerInput": "Ocean Window, Wall Decor, Tier 3, Candy Core. Design ONE large rounded-rectangle ocean-view wall window with a substantial cream-and-pink frame, aqua glazing edge, visible sill depth and a bright ocean scene clearly visible through the glass: blue water, horizon and soft cloud sky. Use playful Candy Core trim but keep the window opening dominant. Three-quarter wall-mounted view with believable recess and shadow. NO mosaic, NO grid, NO decorative panel wall, NO repeated openings, NO text."
+        }
+      ]
+    },
+    "wall-9": {
+      "currentLegacy": {
+        "path": "public/assets/catalog-candidates/cpu/wall-9-w13-v4-a-three-frames-only-original.png",
+        "gitBlobSha1": "725793fdb8091b47d7fe3563e8519519e4a9523d",
+        "reviewDecision": "REWORK",
+        "normalizedFailureTaxonomy": [
+          "WEAK_ADVENTURE_GALLERY_IDENTITY",
+          "TOO_MANY_SECONDARY_PANELS",
+          "BLANK_GENERIC_FRAMES"
+        ]
+      },
+      "variants": [
+        {
+          "variantId": "A-EXACT-THREE-ADVENTURE-FRAMES",
+          "optimizerInput": "Art Gallery Wall, Wall Decor, Tier 3, Adventure Club. Create ONE compact wall-mounted gallery product with EXACTLY THREE large framed artworks attached to one shallow warm-oak backboard. Every frame must contain obvious visible art: left = mountain trail landscape, center = compass/route-map geometric artwork, right = colorful travel-map/path abstraction. Use clear frame bevels, glass reflections, small brass clips and visible backboard thickness. The three artworks must occupy almost the entire silhouette and remain readable at Store-card size. NO fourth frame, NO shelves, NO cubbies, NO blank panels, NO ledge, NO plants, NO floor furniture, NO room scene, NO text."
+        },
+        {
+          "variantId": "B-THREE-FRAME-TRAVEL-TRIPTYCH",
+          "optimizerInput": "Art Gallery Wall, Wall Decor, Tier 3, Adventure Club. Make ONE wall-hung triptych: exactly three oversized mixed-size frames on a single slim backing plate, each with distinct Adventure Club artwork—mountain path, compass rose geometry and stylized travel-route map. Use one cohesive warm oak/brass construction with wall standoffs and soft cast shadow. Strong framed-art silhouette, no empty frame areas, full object centered with negative space. NO shadowbox, NO shelves, NO grid, NO extra relief panels, NO floor/room context, NO text."
+        }
+      ]
+    },
+    "desks-12": {
+      "currentLegacy": {
+        "path": "public/assets/catalog-candidates/cpu/desks-12-w03-v1-a-luxe-command-original.png",
+        "gitBlobSha1": "39b7f484a380ceb161f95bc1eb7ab470f9493a1d",
+        "reviewDecision": "REWORK",
+        "normalizedFailureTaxonomy": [
+          "BUILT_IN_WALL_UNIT_INSTEAD_OF_DESK",
+          "WEAK_ISOLATED_DESK_SILHOUETTE",
+          "ROOM_ARCHITECTURE_DOMINATES"
+        ]
+      },
+      "variants": [
+        {
+          "variantId": "A-ISOLATED-LUXE-COMMAND-DESK",
+          "optimizerInput": "Luxe Command Desk, Desks & Tech, Tier 5, Star Luxe. Create ONE isolated premium command desk as the entire product on a plain studio background. Use a wide gently curved midnight-navy worktop with brushed-gold edge, exactly two substantial side supports, integrated drawer/equipment cabinet, one shallow raised monitor bridge and a centered control surface. Add restrained star-shaped gold inlays and smoked-glass/acrylic accents. Full desk silhouette completely inside frame with generous negative space and grounded shadow. NO wall cabinets, NO built-in shelving, NO room architecture, NO chair, NO cockpit enclosure, NO duplicate desk, NO text."
+        },
+        {
+          "variantId": "B-STAR-LUXE-EXECUTIVE-DESK",
+          "optimizerInput": "Luxe Command Desk, Desks & Tech, Tier 5, Star Luxe. Design ONE freestanding executive-tech desk with a broad dark-blue desktop, gold-edged structural legs/pylons, integrated side storage and one attached slim display shelf. Include a small coherent command/control pad and subtle crystal-star detailing embedded in the desk, not floating. Premium satin metal, lacquered wood and smoked glass, heroic three-quarter product view, clear floor contact. NO wall unit, NO upper cabinets, NO room scene, NO multiple desks, NO throne/cockpit, NO text."
+        }
+      ]
+    }
+  },
+  "executionBudget": {
+    "width": 640,
+    "height": 640,
+    "steps": 6,
+    "guidanceScale": 3.5,
+    "dtype": "float32"
+  },
+  "safety": {
+    "preserveRejectedExactHashes": true,
+    "preserveAcceptedExactHashes": true,
+    "producerSelfReview": false,
+    "canonicalMappingsChanged": false,
+    "workflowFilesChanged": false,
+    "gameplayLearningEconomyPersistenceAccessibilityChanged": false
+  }
+}
