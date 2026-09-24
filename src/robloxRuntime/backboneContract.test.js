@@ -57,9 +57,13 @@ describe('Step 3: Roblox production backbone', () => {
   it('replicates a controlled projection instead of the entire persisted learning profile', () => {
     const source=file('roblox/src/server/ReplicaStateService.luau');
     expect(source).toMatch(/publicProjection/);
-    expect(source).toMatch(/NewReplica/);
-    expect(source).toMatch(/Replication = player/);
-    expect(source).toMatch(/SetValue/);
+    expect(source).toMatch(/replicaModule\.Token\("StarBloxPlayerState"\)/);
+    expect(source).toMatch(/replicaModule\.New\(\{/);
+    expect(source).toMatch(/NewReadyPlayer/);
+    expect(source).toMatch(/ReadyPlayers\[player\]/);
+    expect(source).toMatch(/replica:Subscribe\(player\)/);
+    expect(source).toMatch(/replica:Set\(/);
+    expect(source).not.toMatch(/NewClassToken|NewReplica|SetValue/);
     expect(source).not.toMatch(/Learning =/);
   });
 
@@ -103,7 +107,11 @@ describe('Step 3: Roblox production backbone', () => {
     expect(server).toMatch(/BindToClose/);
     expect(server).toMatch(/profiles:ReleaseAll/);
 
-    const listener=client.indexOf('ReplicaOfClassCreated');
+    expect(server).toMatch(/dependencies\.Replica/);
+    expect(server).not.toMatch(/dependencies\.ReplicaService/);
+    expect(server).toMatch(/replicas:Shutdown/);
+
+    const listener=client.indexOf('OnNew("StarBloxPlayerState"');
     const request=client.indexOf('RequestData');
     expect(listener).toBeGreaterThanOrEqual(0);
     expect(request).toBeGreaterThan(listener);
