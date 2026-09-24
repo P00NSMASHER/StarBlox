@@ -4,7 +4,7 @@
   "role": "independent catalog reviewer for beds/desks/companions/auras",
   "phase": "ART_VISUALS_SPRINT",
   "branch": "screenshot-match-preproduction",
-  "sourceHead": "05fb7f591b",
+  "sourceHead": "55ae8e54c2",
   "policy": "docs/preproduction/DELIVERY_PROTOCOL_V2.md",
   "visualSprint": "docs/preproduction/ART_VISUALS_SPRINT.json",
   "referenceManifest": "docs/preproduction/reference-screenshots/original-reference-manifest.json",
@@ -396,6 +396,43 @@
         "duplicateVisual": "PASS",
         "technicalIntegrity": "PASS"
       }
+    },
+    {
+      "itemId": "desks-10",
+      "name": "Neon Streaming Desk",
+      "assetPath": "public/assets/catalog-candidates/cpu/desks-10-w03-v6-a-wide-desk-monitor-mic-original.png",
+      "repositoryPath": "public/assets/catalog-candidates/cpu/desks-10-w03-v6-a-wide-desk-monitor-mic-original.png",
+      "assetHash": "a576fa4d5450a492d3a29547e2551879dc64dd76",
+      "sha256": "a73511b60c60b19ac374207015ee894f84b12cfa850cf021288bd6db86738803",
+      "contentSha256": "a73511b60c60b19ac374207015ee894f84b12cfa850cf021288bd6db86738803",
+      "hashAlgorithm": "git-blob-sha1",
+      "producer": "03",
+      "decision": "REWORK",
+      "learnerLabel": "REWORK",
+      "reviewedAt": "2026-09-24T16:54:00Z",
+      "evidenceRefs": [
+        "workflow:36029980784",
+        "artifact:10821755482/staged-replacements/staged-replacements-contact-sheet.png",
+        "artifact:10821755482/staged-replacements/detail/desks-10-a576fa4d.png"
+      ],
+      "reasonCodes": [
+        "STREAMING_DESK_IDENTITY_FAILURE",
+        "ABSTRACT_CABINET_SHELF_GEOMETRY",
+        "NO_CLEAR_MONITOR_MIC_WORKSTATION",
+        "PRODUCT_SILHOUETTE_FAILURE"
+      ],
+      "reason": "REWORK. V6 still does not read as a Neon Streaming Desk. The exact rendered pixels are dominated by abstract cabinet/shelf-like curved modules and fragmented surfaces; there is no coherent broad desk worktop, two stable supports, readable monitor setup, or microphone/boom workstation silhouette. Preserve this exact hash. Next attempt must simplify aggressively to one unmistakable desk: one long horizontal worktop, exactly two supports, one large monitor and one visible microphone boom, plain background, no shelving/cabinet towers or abstract repeated modules.",
+      "checks": {
+        "identity": "FAIL",
+        "silhouette": "FAIL",
+        "cardReadability": "FAIL",
+        "physicalConstruction": "FAIL",
+        "framingComposition": "FAIL",
+        "materialLighting": "PARTIAL",
+        "originality": "PASS",
+        "duplicateVisual": "PASS",
+        "technicalIntegrity": "PASS"
+      }
     }
   ],
   "preservedAcceptedCurrentHashes": [
@@ -528,9 +565,9 @@
   "pendingCurrentHashes": [],
   "handoff": {
     "14": "Desk9/10 v3 render packets consumed; do not rerender unchanged hashes.",
-    "15": "desks-10 remains a bounded exact-pixel blocker.",
-    "03": "desks-10 current exact hash is REWORK; preserve it and generate only the failure-specific next version if director15 keeps it release-critical.",
-    "08": "Do not canonical-wire desks-10 exact hash 8e25b3e91c10c6ca4be172d4e870903cf88d4a8a."
+    "15": "desks-10 remains a bounded exact-pixel release blocker.",
+    "03": "desks-10 current exact hash is REWORK; preserve it and include the failure-specific next version in the next full producer03 matrix.",
+    "08": "Do not canonical-wire desks-10 exact hash a576fa4d5450a492d3a29547e2551879dc64dd76."
   },
   "summary": {
     "totalVersionsReviewed": 42,
@@ -551,7 +588,7 @@
     "reworkNow": [
       "desks-10"
     ],
-    "preservedAcceptedHashes": "All prior reviewer05 ACCEPTs remain frozen; this REWORK applies only to desks-10 exact hash."
+    "preservedAcceptedHashes": "All prior reviewer05 ACCEPTs remain frozen; this REWORK applies only to desks-10 exact hash a576fa4d5450a492d3a29547e2551879dc64dd76."
   },
   "freeze": {
     "selfApproved": false,
@@ -566,7 +603,7 @@
   "currentReplacementDisposition": {
     "desks": {
       "REWORK": {
-        "desks-10": "8e25b3e91c10c6ca4be172d4e870903cf88d4a8a"
+        "desks-10": "a576fa4d5450a492d3a29547e2551879dc64dd76"
       }
     }
   }
