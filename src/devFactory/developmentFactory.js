@@ -40,6 +40,7 @@ function truncate(value,max=400){
 }
 
 function sanitizedResult(result){
+  if(result === undefined) return null;
   if(result == null || typeof result !== 'object'){
     return sanitizeDiagnosticValue(result);
   }
@@ -47,6 +48,7 @@ function sanitizedResult(result){
 
   const out={};
   for(const [key,value] of Object.entries(result)){
+    if(value === undefined) continue;
     const lower=key.toLowerCase();
     if(
       lower === 'source' ||
@@ -63,7 +65,7 @@ function sanitizedResult(result){
     else if(value && typeof value === 'object') out[key]=sanitizedResult(value);
     else out[key]=value;
   }
-  return sanitizeDiagnosticValue(out);
+  return JSON.parse(JSON.stringify(sanitizeDiagnosticValue(out)));
 }
 
 async function executeReadCall(studio,call,{stage='inspect',safety={}}={}){
