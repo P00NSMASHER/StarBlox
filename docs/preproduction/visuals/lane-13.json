@@ -2,7 +2,7 @@
   "schemaVersion": 8,
   "workstream": "13",
   "focus": "SCENE_CHARACTER_ART",
-  "status": "WALL9_V4_EXACT_HASH_QUALIFIED__RENDER_TRIGGERED_FOR_REVIEW02",
+  "status": "DESKS7_8_WALL8_VNEXT_EXACT_HASHES_QUALIFIED__RENDER_TRIGGERED_FOR_REVIEW11",
   "branch": "screenshot-match-preproduction",
   "candidateId": "home-bedroom-w13-v2",
   "candidateType": "environment-background",
@@ -1034,47 +1034,62 @@
     ]
   },
   "catalogFactoryReviewHandoff": {
-    "updatedAt": "2026-09-24T12:26:00Z",
-    "sourceHead": "027af2a256070c3fc1682ccc58922be8c5af36a2",
-    "purpose": "Trigger exact-hash Store card/detail render evidence for newly qualified Wall9 v4 while preserving all prior exact-hash dispositions and reviewer independence.",
+    "updatedAt": "2026-09-24T14:02:00Z",
+    "sourceHead": "87565b62da006eec6c86e34fa0577a5893e89195",
+    "purpose": "Trigger one exact-hash Store card/detail render microbatch for the final qualified Desk7 v2, Desk8 v2 and Wall8 v4 tail while preserving historical recovery evidence and reviewer independence.",
     "candidates": [
       {
-        "itemId": "wall-9",
-        "name": "Art Gallery Wall",
+        "itemId": "desks-7",
+        "name": "Sunny Creator Desk",
         "producer": "13",
-        "reviewer": "02",
-        "path": "public/assets/catalog-candidates/cpu/wall-9-w13-v4-a-three-frames-only-original.png",
-        "sha256": "71cf7bd66d2439b904d0fc22ecfd1e3bab713b913604a5c69165dadc7f9a80bb",
-        "gitBlobSha": "725793fdb8091b47d7fe3563e8519519e4a9523d",
-        "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-decor7-v5-wall9-v4-qualification-20260924.json",
+        "reviewer": "11",
+        "path": "public/assets/catalog-candidates/cpu/desks-7-w13-v2-a-creator-desk-original.png",
+        "sha256": "c7ff5acbabae4bc68270706d071af596a379c00cb0cbf4bd7d42bdda76291267",
+        "gitBlobSha": "037355010a6cd980cbf95e71ebaf28a7abc62a26",
+        "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-desks7-8-wall8-vnext-qualification-20260924.json",
         "qualification": "QUALIFIED_FOR_RENDERER14",
-        "route": "14 -> 02 -> 08 on ACCEPT"
+        "route": "14 -> 11 -> 08 on ACCEPT"
+      },
+      {
+        "itemId": "desks-8",
+        "name": "Aqua Study Station",
+        "producer": "13",
+        "reviewer": "11",
+        "path": "public/assets/catalog-candidates/cpu/desks-8-w13-v2-a-aqua-study-original.png",
+        "sha256": "c0becc91f8941391965b1d1e9bd28aeeb210de08e74aa00858c3bb1eccccb82b",
+        "gitBlobSha": "bada24e2447de5e39ac2cb6647aa8458cf410e43",
+        "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-desks7-8-wall8-vnext-qualification-20260924.json",
+        "qualification": "QUALIFIED_FOR_RENDERER14",
+        "route": "14 -> 11 -> 08 on ACCEPT"
+      },
+      {
+        "itemId": "wall-8",
+        "name": "Ocean Window",
+        "producer": "13",
+        "reviewer": "11",
+        "path": "public/assets/catalog-candidates/cpu/wall-8-w13-v4-a-recessed-ocean-window-original.png",
+        "sha256": "23c3f86372cd88f7be07c7e8e97ab3baeac5c30dd0a53a5ed2fa9ff30fcb94a3",
+        "gitBlobSha": "1153810072f325d25a9259167b3d309600a474a0",
+        "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-desks7-8-wall8-vnext-qualification-20260924.json",
+        "qualification": "QUALIFIED_FOR_RENDERER14",
+        "route": "14 -> 11 -> 08 on ACCEPT"
       }
     ],
     "preservedDispositions": [
       {
-        "itemId": "decor-5",
-        "exactHash": "b8ff7b9d6bec11fe8e836952f7a0c5b844e34b6e",
-        "state": "PRIOR_BLOCKED_HASH_PRESERVED",
-        "rule": "Do not transfer any prior disposition to Decor 5 v3."
+        "itemId": "desks-7",
+        "state": "OLD_REMOTE_RECOVERY_EVIDENCE_PRESERVED",
+        "rule": "Current v2 is a new version; never represent it as recovered old pixels."
       },
       {
-        "itemId": "decor-6",
-        "exactHash": "a8dca54ad9c511b529ab505dab97991bbc76daef",
-        "state": "V1_REWORK_PRESERVE_EXACT_HASH",
-        "rule": "Do not transfer v1 verdict to Decor 6 v2."
+        "itemId": "desks-8",
+        "state": "OLD_LOCAL_SOURCE_RECOVERY_EVIDENCE_PRESERVED",
+        "rule": "Current v2 is a new version; never represent it as recovered old pixels."
       },
       {
-        "itemId": "decor-7",
-        "exactHash": "407b95bbecc3a030d357de290047954e28904b63",
-        "state": "V3_REWORK_PRESERVE_EXACT_HASH",
-        "rule": "Do not transfer v3 verdict to Decor 7 v4."
-      },
-      {
-        "itemId": "decor-8",
-        "exactHash": "0d264aff9155f99b17db82138f4546deca8323d5",
-        "state": "PRIOR_BLOCKED_HASH_PRESERVED",
-        "rule": "Do not transfer prior disposition to Decor 8 v2."
+        "itemId": "wall-8",
+        "state": "SELECTED_OLD_REMOTE_VARIANT_EVIDENCE_PRESERVED",
+        "rule": "Current v4 is a new version; never transfer or approximate the unavailable historical selected bytes."
       }
     ],
     "safety": {
@@ -1084,5 +1099,6 @@
       "gameplayLearningEconomyPersistenceChanged": false,
       "deploymentTouched": false
     }
-  }
+  },
+  "nextGate": "Renderer14 binds current Store card/detail pixels for Desk7 v2, Desk8 v2 and Wall8 v4; reviewer11 independently ACCEPT/REWORK exact hashes; 08 integrates only ACCEPT."
 }
