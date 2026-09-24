@@ -28,20 +28,20 @@
       "desks-10": "05",
       "desks-11": "01"
     },
-    "note": "Use the narrowest literal geometry possible. Preserve prior exact hashes. This is prepared only, not dispatched while current CPU successor chain is occupied."
+    "note": "Final A fallback after direct exact-pixel B-variant REWORK. Desk10 makes the microphone unmistakable; Desk11 makes the worktop dominant and organizer subordinate."
   },
   "reviewSource": {
     "decision": "REWORK",
     "latestExact": {
       "desks-10": {
-        "version": "v9",
-        "gitBlobSha": "1f050b539245d387ce005f67e059829a5249a7ed",
-        "sha256": "4a81b203ee41187ab78a2f9ea0828c497c7f90a5d15d5d38a372a64b234666a1"
+        "version": "v10",
+        "gitBlobSha": "7bb37b681e4d1928fb6e5ffc742d592a8262a452",
+        "sha256": "8d9c431bbc4c1c5497c378d3e9e731e7683f6da417eec78f6bc42ddc127f2119"
       },
       "desks-11": {
-        "version": "v7",
-        "gitBlobSha": "b138c6291bf801bbf66e33daf9394e2c4bbae249",
-        "sha256": "8509eadb8d84acc4194d3d8253d6edda89a66723d53bd434f4be6e4119613416"
+        "version": "v8",
+        "gitBlobSha": "5e7de4ddf5bfbf3d727e2676442ddc8512366827",
+        "sha256": "678bb4e51d390f7460003bede36a1d7aaee6baf1c07813c612a655d1cf0f383e"
       }
     }
   },
@@ -55,7 +55,7 @@
       "variants": [
         {
           "variantId": "A-CONVENTIONAL-STREAMING-DESK",
-          "optimizerInput": "Neon Streaming Desk. ONE normal rectangular computer desk on plain white. Long black tabletop, two solid side legs, one centered monitor, one small microphone with visible capsule on a normal boom arm clamped to the left edge, one PC tower under the desk, thin cyan light strip. Full desk visible. NO central pedestal, overhead canopy, shelves, room, collage, text."
+          "optimizerInput": "Neon Streaming Desk. ONE conventional freestanding rectangular computer desk on a plain white studio background. The long black tabletop is the dominant silhouette. Exactly two solid side legs. Exactly one centered monitor. ONE LARGE OBVIOUS microphone with visible round capsule on a boom arm extending diagonally from the left desk edge; the microphone must be clearly visible beside the monitor at thumbnail size. One PC tower under the desk. Thin cyan edge light only. Full desk visible. NO rear wall panels, NO central pedestal, NO overhead canopy, NO shelves, NO cabinets, NO room, NO collage, NO text."
         },
         {
           "variantId": "B-TWO-LEG-DESK-MIC",
@@ -72,7 +72,7 @@
       "variants": [
         {
           "variantId": "A-CREATOR-DESK-TOOLS",
-          "optimizerInput": "Dream Creator Station. ONE freestanding creator desk on plain white. Wide cream tabletop, two drawer pedestals, one low pegboard organizer attached to rear edge, one drawing tablet centered on top, one brush cup and two colorful supply bins. Coral lavender aqua accents. Full desk visible. NO room, wall art, chair, wheels, collage, text."
+          "optimizerInput": "Dream Creator Station. ONE freestanding creator DESK on a plain white studio background. A wide cream horizontal WORKTOP must dominate the center of the image. Two compact drawer pedestals sit UNDER the worktop as clear supports. One SHORT LOW pegboard/tool rail is attached only along the rear edge and must stay much smaller than the worktop. One drawing tablet lies on the worktop; one brush cup and two small colorful supply bins sit on the worktop. Coral lavender aqua accents. Full desk visible with open leg space. NO tall organizer cabinet, NO shelving tower, NO room, NO wall art, NO chair, NO wheels, NO collage, NO text."
         },
         {
           "variantId": "B-ART-CREATOR-WORKSTATION",
