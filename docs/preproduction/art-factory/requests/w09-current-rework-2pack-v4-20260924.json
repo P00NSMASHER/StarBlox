@@ -1,0 +1,111 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_BATCH_REQUEST",
+  "planner": "15",
+  "producer": "09",
+  "preflightOwner": "06",
+  "reviewer": "MIXED_01_02",
+  "renderOwner": "14",
+  "integrationOwner": "08",
+  "coordinationOwner": "15",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "70a8fee11c9c97244c577a192056795e52273f3b",
+  "manifestVersion": 38,
+  "batchId": "w09-current-rework-2pack-v4",
+  "scope": [
+    "decor-7",
+    "decor-11"
+  ],
+  "state": "PREPARED_FAILURE_SPECIFIC_REWORK__WAIT_CPU_IDLE",
+  "assignmentAuthority": {
+    "path": "docs/preproduction/art-factory/ACTIVE_BATCH.json",
+    "runtimeProofPath": "docs/preproduction/art-factory/CPU_RUNTIME_PROOF.json",
+    "runtimeProofStatus": "PROVEN",
+    "runtimeCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+    "modelRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "assignedReviewers": {
+      "decor-7": "01",
+      "decor-11": "02"
+    },
+    "note": "Prepared only while producer13 CPU batch is active. Preserve Decor7 v7 and Decor11 v3 rejected exact hashes; dispatch only if no newer ACCEPT/superseding hash exists when CPU becomes idle."
+  },
+  "references": {
+    "originalStoreReference": {
+      "requiredBeforeGeneration": true,
+      "repositoryPath": "docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg",
+      "sha256": "b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d",
+      "gitBlobSha": "383baa877d3af86fa92e3583740212000592b3d6",
+      "dimensions": [
+        1448,
+        1086
+      ],
+      "role": "FIRST_PARTY_STARBLOX_STORE_ART_DIRECTION"
+    }
+  },
+  "reviewSource": {
+    "decision": "REWORK",
+    "note": "Exact current Store-card/detail reviews drive the smallest next repairs only."
+  },
+  "items": {
+    "decor-7": {
+      "currentLegacy": {
+        "path": "public/assets/catalog-candidates/cpu/decor-7-w09-v7-a-quad-skates-in-rack-original.png",
+        "gitBlobSha1": "fe27bb7b6fa4dc4e6376434c7514a932ee2419da",
+        "reviewDecision": "REWORK",
+        "normalizedFailureTaxonomy": [
+          "SKATE_RACK_IDENTITY_FAILURE",
+          "NO_RECOGNIZABLE_QUAD_SKATES",
+          "ABSTRACT_CUBBY_GRID",
+          "CARD_SCALE_READABILITY_FAILURE"
+        ]
+      },
+      "variants": [
+        {
+          "variantId": "A-TINY-RACK-ONE-PAIR",
+          "optimizerInput": "Skate Rack, Room Decor, Tier 3, Garden Glow. ONE SMALL FREESTANDING roller-skate rack only on a plain studio background. Use exactly two thick warm-wood side posts, one broad floor base, and exactly THREE large open storage bays. Put exactly ONE matching pair of unmistakable quad roller skates together in the bottom bay; leave the other two bays empty. Each skate must have one clear boot upper, one toe stop, two axles and exactly four large visible round wheels, fully contained inside the bay. The rack frame must dominate the silhouette; add only one tiny leaf cutout and restrained green accent. NO wall grid, NO repeated cubbies, NO second rack, NO loose skates, NO boards, NO room scene, NO text."
+        },
+        {
+          "variantId": "B-TWO-BAY-QUAD-RACK",
+          "optimizerInput": "Skate Rack, Room Decor, Tier 3, Garden Glow. Design ONE compact two-bay freestanding rack with a wide stable base and visible joints. Place one clearly recognizable pair of quad skates in one bay and keep the other bay empty. Boots and four wheels per skate must read instantly at thumbnail size. Plain background, generous negative space, restrained botanical-green trim. NO wall installation, NO cubby matrix, NO multiple racks, NO loose gear, NO text."
+        }
+      ]
+    },
+    "decor-11": {
+      "currentLegacy": {
+        "path": "public/assets/catalog-candidates/cpu/decor-11-w09-v3-a-one-vanity-set-original.png",
+        "gitBlobSha1": "0cb68d665a140f9d176a3f5721c8c08572867cdf",
+        "reviewDecision": "REWORK",
+        "normalizedFailureTaxonomy": [
+          "STOOL_IDENTITY_AMBIGUOUS",
+          "FOREGROUND_ROOM_CLUTTER",
+          "ISOLATED_SET_CONTRACT_NOT_MET"
+        ]
+      },
+      "variants": [
+        {
+          "variantId": "A-VANITY-MIRROR-ONE-STOOL",
+          "optimizerInput": "Dream Vanity Set, Room Decor, Tier 4, Art Attack. Keep the successful vanity identity but show EXACTLY ONE isolated set on a seamless light studio background: one cream vanity table with two small drawer stacks, one attached oval mirror centered above it, and exactly ONE clearly formed matching stool directly in front. The stool must have a visible padded seat and four short legs, fully separated from the vanity by readable floor space. Use restrained coral, lavender and aqua Art Attack accents on the furniture itself. Full set inside frame with grounded shadows. NO room, NO walls, NO floor props, NO side furniture, NO cosmetics clutter, NO duplicate mirrors, NO extra stools, NO collage, NO text."
+        },
+        {
+          "variantId": "B-CLEAN-THREE-PIECE-VANITY",
+          "optimizerInput": "Dream Vanity Set, Room Decor, Tier 4, Art Attack. EXACTLY THREE connected visual components only: one freestanding vanity desk, one mirror attached to the vanity, one unmistakable matching stool centered in front. Plain studio background and generous negative space. The stool must read clearly at Store-card size. Premium cream/pastel materials with controlled Art Attack accents. NO room vignette, NO extra props, NO side cabinets, NO duplicate furniture, NO text."
+        }
+      ]
+    }
+  },
+  "executionBudget": {
+    "width": 640,
+    "height": 640,
+    "steps": 6,
+    "guidanceScale": 3.5,
+    "dtype": "float32"
+  },
+  "safety": {
+    "preserveRejectedExactHashes": true,
+    "preserveAcceptedExactHashes": true,
+    "producerSelfReview": false,
+    "canonicalMappingsChanged": false,
+    "workflowFilesChanged": false
+  }
+}
