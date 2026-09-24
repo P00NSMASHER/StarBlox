@@ -624,6 +624,14 @@ export const UPSTREAM_PROVENANCE = Object.freeze({
     'MIT',
     'example/src/shared/components.luau'
   ),
+  remodelExtractModels: source(
+    'selective Roblox place subtree extraction into reusable model files',
+    'rojo-rbx/remodel',
+    'master',
+    '011748c4ecedda35aec79bbbf532deb08335b6e7',
+    'MIT',
+    'examples/02-extract-models.lua'
+  ),
   rbxDomBinary: source(
     'Roblox binary place/model deserialization for rbxl/rbxm capability inventory',
     'rojo-rbx/rbx-dom',
