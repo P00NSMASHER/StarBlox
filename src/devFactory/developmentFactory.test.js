@@ -258,6 +258,71 @@ describe('Step 2: Studio tool safety contract', () => {
     expect(result.requiresConfirmation).toBe(false);
   });
 
+  it('restricts executable Studio tests to dedicated Tests roots', () => {
+    const blocked=assessStudioToolCall({
+      tool:'run_tests',
+      args:{path:'ServerScriptService'}
+    },{
+      stage:'test'
+    });
+    expect(blocked.ok).toBe(false);
+    expect(blocked.errors.join(' ')).toMatch(/approved test root/);
+
+    const allowed=assessStudioToolCall({
+      tool:'run_tests',
+      args:{path:'ServerScriptService/Tests/QuestSpecs'}
+    },{
+      stage:'test'
+    });
+    expect(allowed.ok).toBe(true);
+  });
+
+  it('prevents generic property mutation from bypassing script scanning or rollback identity', () => {
+    for(const property of ['Source','Parent','Name','ClassName']){
+      const result=assessStudioToolCall({
+        tool:'set_property',
+        args:{
+          path:'ServerScriptService/Main',
+          property,
+          value:'unsafe'
+        }
+      },{
+        stage:'code'
+      });
+      expect(result.ok).toBe(false);
+      expect(result.errors.join(' ')).toMatch(/protected property/);
+    }
+  });
+
+  it('requires script creation to use write_script so generated Luau is scanned', () => {
+    const blockedClass=assessStudioToolCall({
+      tool:'create_instance',
+      args:{
+        parent:'ServerScriptService',
+        className:'Script',
+        name:'Bypass'
+      }
+    },{
+      stage:'code'
+    });
+    expect(blockedClass.ok).toBe(false);
+    expect(blockedClass.errors.join(' ')).toMatch(/write_script/);
+
+    const blockedSource=assessStudioToolCall({
+      tool:'create_instance',
+      args:{
+        parent:'Workspace',
+        className:'Folder',
+        name:'Folder',
+        properties:{Source:'workspace.Temp:Destroy()'}
+      }
+    },{
+      stage:'code'
+    });
+    expect(blockedSource.ok).toBe(false);
+    expect(blockedSource.errors.join(' ')).toMatch(/protected property Source/);
+  });
+
   it('blocks destructive instance deletion in automated runs by default', () => {
     const result=assessStudioToolCall({
       tool:'delete_instance',
