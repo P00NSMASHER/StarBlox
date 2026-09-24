@@ -172,3 +172,99 @@ export function verifyMigrationBundleManifest(manifest){
   }
   return {ok:errors.length === 0,errors};
 }
+
+
+function selectedUnitBinding(unit){
+  return {
+    unitId:unit.unitId,
+    systemName:unit.systemName,
+    sourceId:unit.sourceId,
+    sourceFile:unit.sourceFile,
+    sourceRootPath:unit.rootPath,
+    migrationStrategy:unit.migrationStrategy,
+    disposition:unit.exportDisposition,
+    suggestedTarget:unit.suggestedTarget
+  };
+}
+
+export function verifyMigrationBundleAgainstPlan(manifest,plan){
+  const errors=[];
+  const manifestValidation=verifyMigrationBundleManifest(manifest);
+  if(!manifestValidation.ok){
+    errors.push(...manifestValidation.errors.map(error => 'manifest: ' + error));
+  }
+  const planValidation=verifyRobloxMigrationPlan(plan);
+  if(!planValidation.ok){
+    errors.push(...planValidation.errors.map(error => 'plan: ' + error));
+  }
+
+  if(errors.length){
+    return {ok:false,errors,bindingHash:null};
+  }
+
+  if(manifest.planId !== plan.planId) errors.push('bundle planId does not match migration plan');
+  if(manifest.planHash !== plan.planHash) errors.push('bundle planHash does not match migration plan');
+  if(manifest.catalogHash !== plan.catalogHash) errors.push('bundle catalogHash does not match migration plan');
+
+  const selected=plan.units.filter(unit => unit.selected);
+  const unitsById=new Map(selected.map(unit => [unit.unitId,unit]));
+  const seen=new Set();
+
+  for(const artifact of manifest.artifacts || []){
+    const unit=unitsById.get(artifact.unitId);
+    if(!unit){
+      errors.push('bundle artifact is not an exact selected plan unit: ' + artifact.unitId);
+      continue;
+    }
+    if(seen.has(artifact.unitId)){
+      errors.push('bundle repeats selected plan unit: ' + artifact.unitId);
+      continue;
+    }
+    seen.add(artifact.unitId);
+
+    const expected=selectedUnitBinding(unit);
+    for(const [field,value] of Object.entries(expected)){
+      if(artifact[field] !== value){
+        errors.push(
+          'bundle artifact ' + artifact.unitId +
+          ' field mismatch for ' + field
+        );
+      }
+    }
+  }
+
+  for(const unit of selected){
+    if(!seen.has(unit.unitId)){
+      errors.push('bundle is missing selected plan unit: ' + unit.unitId);
+    }
+  }
+
+  if(manifest.summary?.selectedUnits !== selected.length){
+    errors.push('bundle selectedUnits summary does not match migration plan');
+  }
+  if(manifest.summary?.exportedUnits !== selected.length){
+    errors.push('bundle exportedUnits summary does not cover every selected plan unit');
+  }
+  if(manifest.review?.complete !== true){
+    errors.push('bundle is not complete for its migration plan');
+  }
+
+  const selectedBindings=selected
+    .map(selectedUnitBinding)
+    .sort((a,b) => a.unitId.localeCompare(b.unitId));
+
+  const bindingHash=stableHash({
+    namespace:'starblox-migration-plan-binding-v1',
+    planId:plan.planId,
+    planHash:plan.planHash,
+    catalogHash:plan.catalogHash,
+    selectedUnits:selectedBindings,
+    bundleHash:manifest.bundleHash
+  });
+
+  return {
+    ok:errors.length === 0,
+    errors,
+    bindingHash:errors.length === 0 ? bindingHash : null
+  };
+}
