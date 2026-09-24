@@ -12,8 +12,7 @@ import {
   verifySolutionCertificate
 } from '../generation/solutionFirstLevel.js';
 import {
-  createQuestionBankSnapshot,
-  getQuestionVersion
+  createQuestionBankSnapshot
 } from '../questionBank/questionBankV2.js';
 import {
   DAILY_ARTIFACT_SCHEMA_VERSION,
@@ -340,7 +339,8 @@ function verifyAgainstBank(artifact,bank){
   }
 
   for(const item of artifact.questionSet || []){
-    const current=getQuestionVersion(bank,item.ref.questionId,item.ref.version);
+    const entry=bank.questions?.[item.ref.questionId];
+    const current=entry?.versions?.[String(item.ref.version)] || null;
     if(!current || current.contentHash !== item.ref.contentHash){
       return {
         ok:false,
