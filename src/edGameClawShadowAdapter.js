@@ -35,6 +35,14 @@ export function adaptEdGameClawCourseStructure(payload,{
         chunk?.conceptIds?.length ? chunk.conceptIds : ['generated:' + slug(title)]
       ),
       sourceIds:unique(sourceIds),
+      evidenceSpans:(Array.isArray(chunk?.evidenceSpans)
+        ?chunk.evidenceSpans
+          .map(span=>({
+            sourceId:String(span?.sourceId||''),
+            text:String(span?.text||'')
+          }))
+          .filter(span=>span.sourceId||span.text)
+        :[]),
       mechanic:String(chunk?.mechanic || 'custom_simulation'),
       simulationHint:String(chunk?.simulationHint || ''),
       status:'shadow-candidate',
@@ -54,7 +62,9 @@ export function validateInteractionCandidate(candidate){
   if(!candidate?.contentVersion) issues.push('missing-content-version');
   if(!Array.isArray(candidate?.conceptIds) || !candidate.conceptIds.length) issues.push('missing-concepts');
   if(!candidate?.mechanic) issues.push('missing-mechanic');
-  if(candidate?.status !== 'shadow-candidate') issues.push('unexpected-status');
+  if(!['shadow-candidate','evidence-bound-shadow-candidate'].includes(candidate?.status)){
+    issues.push('unexpected-status');
+  }
   if('html' in (candidate || {}) || 'javascript' in (candidate || {}) || 'code' in (candidate || {})){
     issues.push('executable-payload-not-allowed');
   }
