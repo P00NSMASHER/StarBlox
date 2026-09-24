@@ -167,13 +167,20 @@ function deterministicQuestionBindings({
         ? (row.entry.conceptIds.some(id => spec.targetConceptIds.includes(id)) ? 1 : 0.72)
         : 1,
       jitter:rng.next()
-    })).sort((a,b) =>
+    })).filter(row => row.roleFit >= 0.78).sort((a,b) =>
       (b.roleFit * b.conceptFit) - (a.roleFit * a.conceptFit) ||
       b.jitter - a.jitter ||
       a.ref.questionId.localeCompare(b.ref.questionId)
     );
 
     const selected=scored[0];
+    if(!selected){
+      throw new Error(
+        'no role-compatible question remains for node ' +
+        node.nodeId +
+        ' (' + node.questionSlot.roleHint + ')'
+      );
+    }
     used.add(selected.ref.questionId);
     bindings.push({
       nodeId:node.nodeId,
@@ -353,7 +360,7 @@ export async function generateDailyBundleArtifact({
     spec
   });
 
-  const bindingResult=await selectBindings({
+  let bindingResult=await selectBindings({
     bank,
     snapshot,
     level:levelResult.level,
@@ -363,7 +370,29 @@ export async function generateDailyBundleArtifact({
     context:selectorContext
   });
 
-  const questionSet=freezeQuestionSet(bank,bindingResult.bindings);
+  let questionSet;
+  try{
+    questionSet=freezeQuestionSet(bank,bindingResult.bindings);
+  }catch(error){
+    if(bindingResult.fallbackUsed) throw error;
+    bindingResult={
+      bindings:deterministicQuestionBindings({
+        bank,
+        snapshot,
+        level:levelResult.level,
+        spec,
+        seed
+      }),
+      fallbackUsed:true,
+      fallbackReasons:[
+        ...bindingResult.fallbackReasons,
+        'primary question bindings were invalid: ' +
+          (error instanceof Error ? error.message : 'unknown binding error')
+      ]
+    };
+    questionSet=freezeQuestionSet(bank,bindingResult.bindings);
+  }
+
   const questionRefs=questionSet.map(item => item.ref);
   const fallbackReasons=[
     ...levelResult.fallbackReasons,
