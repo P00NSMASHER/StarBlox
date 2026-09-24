@@ -1,0 +1,43 @@
+{
+  "version": "starblox-learning-ledger-v1",
+  "events": [
+    {
+      "schemaVersion": "starblox-learning-event-v1",
+      "contractVersion": "starblox-learning-v1",
+      "eventId": "learn-1000-q-phonics-1-0",
+      "timestamp": 1000,
+      "playerLocalId": "fixture-player",
+      "questionId": "q-phonics",
+      "contentVersion": "fixture-v1",
+      "skill": "phonics",
+      "conceptIds": ["skill:phonics"],
+      "correct": false,
+      "firstAttempt": true,
+      "assisted": false,
+      "masteryEligible": true,
+      "responseMs": 900,
+      "hintUsed": false,
+      "questSeed": 1,
+      "answerPosition": 0
+    },
+    {
+      "schemaVersion": "starblox-learning-event-v1",
+      "contractVersion": "starblox-learning-v1",
+      "eventId": "learn-2000-q-phonics-1-1",
+      "timestamp": 2000,
+      "playerLocalId": "fixture-player",
+      "questionId": "q-phonics",
+      "contentVersion": "fixture-v1",
+      "skill": "phonics",
+      "conceptIds": ["skill:phonics"],
+      "correct": true,
+      "firstAttempt": false,
+      "assisted": true,
+      "masteryEligible": false,
+      "responseMs": 500,
+      "hintUsed": true,
+      "questSeed": 1,
+      "answerPosition": 1
+    }
+  ]
+}
