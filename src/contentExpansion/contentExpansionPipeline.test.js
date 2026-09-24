@@ -8,7 +8,8 @@ import {
   assertContentExpansionReviewable,
   buildContentExpansionPlan,
   runContentExpansionPipeline,
-  verifyContentExpansionArtifact
+  verifyContentExpansionArtifact,
+  verifyContentExpansionPlan
 } from './contentExpansionPipeline.js';
 
 function catalog(){
@@ -92,9 +93,21 @@ function provider(){
     metadata:{provider:'fixture',model:'fixture-v1'},
     async generate(request){
       const evidence='The numerator tells how many equal parts are selected.';
+      const prompts=[
+        'What does the numerator tell you in a fraction?',
+        'Which fraction number counts the equal parts that were selected?',
+        'When reading a fraction, what information is carried by the top number?',
+        'A learner shades some equal pieces. Which number records how many were shaded?',
+        'What job does the numerator perform when describing part of a whole?',
+        'Which value in fraction notation reports the selected equal pieces?',
+        'How can you identify the number that counts chosen parts of a fraction?',
+        'In a fraction model, which number tracks the equal sections being used?',
+        'What does the upper number communicate about selected portions?',
+        'Which statement best describes the numerator in fraction notation?'
+      ];
       return {
         questions:Array.from({length:request.questionsPerChunk},(_,index)=>({
-          prompt:'Which statement about a numerator is correct for example ' + (index + 1) + '?',
+          prompt:prompts[index % prompts.length] + ' Example ' + (index + 1) + '.',
           choices:[
             'It tells how many equal parts are selected.',
             'It always tells the size of the whole.',
@@ -236,6 +249,7 @@ describe('Step 10: deterministic content expansion planning', () => {
     });
 
     expect(second).toEqual(first);
+    expect(verifyContentExpansionPlan(first)).toEqual({ok:true,errors:[]});
     expect(first.blueprint.level.certificateVerified).toBe(true);
     expect(first.blueprint.levelHash).toMatch(/^fnv1a32:/);
     expect(first.blueprint.selectedSystems.some(row=>row.systemName === 'Learning House')).toBe(true);
