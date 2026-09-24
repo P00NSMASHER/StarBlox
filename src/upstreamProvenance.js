@@ -392,6 +392,54 @@ export const UPSTREAM_PROVENANCE = Object.freeze({
     'AGPL-3.0',
     'backend/app/services/question_content.py'
   ),
+  sentryFlagpole: source(
+    'feature definitions, ordered segments and deterministic rollout evaluation',
+    'getsentry/sentry',
+    'master',
+    '67610b2a57909ca921d6a52dcbf7410bc851b100',
+    'FSL-1.1-Apache-2.0',
+    'src/flagpole/__init__.py'
+  ),
+  sentryEvaluationContext: source(
+    'stable identity hashing for deterministic rollout cohorts',
+    'getsentry/sentry',
+    'master',
+    '67610b2a57909ca921d6a52dcbf7410bc851b100',
+    'FSL-1.1-Apache-2.0',
+    'src/flagpole/evaluation_context.py'
+  ),
+  sentryKillSwitches: source(
+    'break-glass context matching and wildcard kill-switch semantics',
+    'getsentry/sentry',
+    'master',
+    '67610b2a57909ca921d6a52dcbf7410bc851b100',
+    'FSL-1.1-Apache-2.0',
+    'src/sentry/killswitches.py'
+  ),
+  neonGhostCurve: source(
+    'presentation-only ghost curves and nearest-prior progress lookup',
+    'Calculator5329/neon-vector-defense',
+    'master',
+    '48ecf31509d73dd8fb2c5f25f1fc57cfa6d03eb4',
+    'unasserted in GitHub metadata',
+    'src/game/ghostCurve.ts'
+  ),
+  neonReplayReconstruct: source(
+    'replay-derived presentation reconstruction from authoritative action streams',
+    'Calculator5329/neon-vector-defense',
+    'master',
+    '48ecf31509d73dd8fb2c5f25f1fc57cfa6d03eb4',
+    'unasserted in GitHub metadata',
+    'src/game/replayReconstruct.ts'
+  ),
+  neonDossierShare: source(
+    'shareable replay deep links and non-authoritative social result artifacts',
+    'Calculator5329/neon-vector-defense',
+    'master',
+    '48ecf31509d73dd8fb2c5f25f1fc57cfa6d03eb4',
+    'unasserted in GitHub metadata',
+    'src/game/dossier.ts'
+  ),
   openReplay: source(
     'session replay and production observability concepts',
     'openreplay/openreplay',
