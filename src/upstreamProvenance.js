@@ -128,6 +128,62 @@ export const UPSTREAM_PROVENANCE = Object.freeze({
     'unasserted in GitHub metadata',
     'eval/generation/llm_review.py'
   ),
+  ankiFsrsMemoryState: source(
+    'FSRS memory-state lifecycle and concept/card state semantics',
+    'ankitects/anki',
+    'main',
+    '2ef2f7cac9673b697c4b9924a4135bfcbe3269b4',
+    'AGPL-3.0-or-later',
+    'rslib/src/scheduler/fsrs/memory_state.rs'
+  ),
+  ankiFsrsRetention: source(
+    'desired-retention and retention simulation semantics',
+    'ankitects/anki',
+    'main',
+    '2ef2f7cac9673b697c4b9924a4135bfcbe3269b4',
+    'AGPL-3.0-or-later',
+    'rslib/src/scheduler/fsrs/retention.rs'
+  ),
+  ankiFsrsSimulator: source(
+    'retrievability-based review priority and workload simulation',
+    'ankitects/anki',
+    'main',
+    '2ef2f7cac9673b697c4b9924a4135bfcbe3269b4',
+    'AGPL-3.0-or-later',
+    'rslib/src/scheduler/fsrs/simulator.rs'
+  ),
+  fsrsRsModelV6: source(
+    'exact FSRS-6 forgetting, difficulty and stability update equations',
+    'open-spaced-repetition/fsrs-rs',
+    'main',
+    'c137ee6e096f9217632397a8fb2bdb6f6e1b92ae',
+    'BSD-3-Clause',
+    'src/model_v6.rs'
+  ),
+  fsrsRsInference: source(
+    'retrievability definition and memory-state structure',
+    'open-spaced-repetition/fsrs-rs',
+    'main',
+    'c137ee6e096f9217632397a8fb2bdb6f6e1b92ae',
+    'BSD-3-Clause',
+    'src/inference.rs'
+  ),
+  adaptiveIrtEngine: source(
+    '2PL probability, Fisher information, MLE ability estimation and adaptive selection',
+    'woodstocksoftware/adaptive-question-selector',
+    'main',
+    '4e3dc17bc98d8b777f3c5fc46302047283620e97',
+    'MIT',
+    'src/irt.py'
+  ),
+  adaptiveIrtTests: source(
+    'IRT behavior and adaptive-selection regression invariants',
+    'woodstocksoftware/adaptive-question-selector',
+    'main',
+    '4e3dc17bc98d8b777f3c5fc46302047283620e97',
+    'MIT',
+    'tests/test_irt.py'
+  ),
   adaptiveQuestionSelector: source(
     'IRT ability estimation and adaptive question selection',
     'woodstocksoftware/adaptive-question-selector',
