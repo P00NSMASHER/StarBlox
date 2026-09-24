@@ -1,0 +1,51 @@
+{
+  "schemaVersion": "starblox-brookhaven-step-11-reconciliation-readiness-v1",
+  "step": "11-of-12",
+  "substep": "11a-branch-drift-audit",
+  "recordedAt": "2026-09-24",
+  "status": "complete-no-merge-performed",
+  "branches": {
+    "research": {
+      "name": "brookhaven-research-snapshot-v1",
+      "head": "638deaddd50734a18530f99f23d8e2e1263906dc"
+    },
+    "product": {
+      "name": "screenshot-match-preproduction",
+      "head": "52e4bea28caefce75159cf520b8c16b0ae85216f"
+    },
+    "mergeBase": "1d6d3e6130c83289fc270c0b543c31cffee1d226"
+  },
+  "divergence": {
+    "status": "diverged",
+    "researchAheadBy": 64,
+    "researchBehindBy": 342
+  },
+  "reconciliationAssessment": {
+    "strategy": "do-not-merge-moving-branches-directly",
+    "recommendedMethod": "create a fresh integration branch from current screenshot-match-preproduction, then replay/copy only Brookhaven research artifacts and neutral runtimes in controlled groups",
+    "mostlyAdditive": true,
+    "liveProductEntryPointsModifiedByBrookhavenResearch": false,
+    "packageJson": {
+      "mergeBaseBlob": "e9316479cc554edcb62d5d68142f4dad80bc645f",
+      "productBlob": "e9316479cc554edcb62d5d68142f4dad80bc645f",
+      "researchBlob": "61f872d21dfeb7df8b1b0b68756a54a03fc15f22",
+      "assessment": "low-conflict: current product package.json is unchanged from the merge base; Brookhaven scripts can be re-applied additively"
+    },
+    "inheritedCatalogBuildDefect": {
+      "researchBlob": "d6bd48dec10ec4ac655070c33938e88248d04c55",
+      "currentProductBlob": "e07c7d474fb450018feacecec3f3c8aa67a95081",
+      "assessment": "resolved upstream/current product differs from the old inherited broken blob; do not carry the temporary research build patch forward"
+    },
+    "protectedLiveFilesNotChangedByResearch": [
+      "src/App.jsx",
+      "src/main.jsx",
+      "src/gameModel.js",
+      "src/storage.js"
+    ]
+  },
+  "nextSubstep": {
+    "id": "11b",
+    "action": "prepare an explicit replay manifest listing the Brookhaven files to transplant onto a fresh branch from current preproduction, grouped as docs/validation first, neutral runtimes second, shadow progression third",
+    "mergeOrDeploy": false
+  }
+}
