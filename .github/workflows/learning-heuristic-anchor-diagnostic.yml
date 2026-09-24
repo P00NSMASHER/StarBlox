@@ -1,0 +1,84 @@
+name: Learning Heuristic Anchor Diagnostic
+
+on:
+  push:
+    branches:
+      - starblox-learning-factory-v1
+    paths:
+      - "src/selectorHeuristicAnchoredShadow.js"
+      - "src/selectorHeuristicAnchoredShadow.test.js"
+      - "scripts/diagnoseHeuristicAnchoredSelector.mjs"
+      - "docs/preproduction/learning-factory/heuristic-anchor-development-diagnostic.json"
+      - ".github/workflows/learning-heuristic-anchor-diagnostic.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  diagnose-anchor:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+
+      - name: Install dependencies
+        run: npm install --ignore-scripts --package-lock=false
+
+      - name: Test heuristic-anchored selector
+        run: npx vitest run src/selectorHeuristicAnchoredShadow.test.js
+
+      - name: Generate fresh development cohort
+        run: npm run generate:learning-promotion -- --out-dir=.heuristic-anchor-development --learners=48 --max-step=30 --seed=20270419
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.23"
+
+      - name: Execute observed reviews through actual FSRS
+        run: |
+          cd tools/fsrs-shadow
+          go mod tidy
+          go run . -input ../../.heuristic-anchor-development/riff-reviews.json -out ../../.heuristic-anchor-development/fsrs-engine-receipt.json -evaluation-offset-hours 24
+
+      - name: Sweep heuristic anchor parameters
+        run: |
+          node scripts/diagnoseHeuristicAnchoredSelector.mjs             --manifest=docs/preproduction/learning-factory/heuristic-anchor-development-diagnostic.json             --evaluation=.heuristic-anchor-development/evaluation.json             --fsrs=.heuristic-anchor-development/fsrs-engine-receipt.json             --out=.heuristic-anchor-development/diagnostic.json
+
+      - name: Enforce development-only boundary
+        run: |
+          node --input-type=module - <<'NODE'
+          import fs from 'node:fs';
+          const r=JSON.parse(fs.readFileSync('.heuristic-anchor-development/diagnostic.json','utf8'));
+          if(r.developmentOnly!==true||r.tuneAgainstThisCohort!==true){
+            throw new Error('development tuning governance is not explicit');
+          }
+          if(r.promotionBoundary?.liveSelectorAllowed!==false){
+            throw new Error('development diagnostic cannot enable live selection');
+          }
+          console.log(JSON.stringify({
+            supportive:r.supportive,
+            selected:r.selected,
+            liveSelectorAllowed:false
+          },null,2));
+          NODE
+
+      - name: Assert live Quest path is untouched
+        run: |
+          if grep -R -nE "selectorHeuristicAnchoredShadow|pickQuestHeuristicAnchoredShadow" src/App.jsx src/main.jsx src/gameModel.js; then
+            echo "Development selector must not be wired into live Quest code."
+            exit 1
+          fi
+
+      - name: Upload development diagnostic
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: learning-heuristic-anchor-diagnostic
+          path: .heuristic-anchor-development
+          if-no-files-found: error
+          include-hidden-files: true
