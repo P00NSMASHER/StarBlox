@@ -1,0 +1,149 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_BATCH_REQUEST",
+  "planner": "15",
+  "producer": "09",
+  "preflightOwner": "06",
+  "reviewer": "02",
+  "renderOwner": "14",
+  "integrationOwner": "08",
+  "coordinationOwner": "15",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "a45bbf728060d487b04a4f81034b5ca9798a089a",
+  "manifestVersion": 36,
+  "batchId": "w09-decor-9-12-v1",
+  "scope": [
+    "decor-9",
+    "decor-10",
+    "decor-11",
+    "decor-12"
+  ],
+  "state": "CPU_QUEUE_ELIGIBLE__NEW_VISIBLE_FALLBACK_4ITEM_MATRIX",
+  "assignmentAuthority": {
+    "path": "docs/preproduction/art-factory/ACTIVE_BATCH.json",
+    "assignedReviewer": "02",
+    "runtimeProofPath": "docs/preproduction/art-factory/CPU_RUNTIME_PROOF.json",
+    "runtimeProofStatus": "PROVEN",
+    "runtimeCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+    "modelRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "note": "Four previously unowned visible generic Decor fallbacks are opened together to keep CPU generation parallel with downstream review. No prior staged candidate exists for these IDs."
+  },
+  "references": {
+    "originalStoreReference": {
+      "requiredBeforeGeneration": true,
+      "repositoryPath": "docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg",
+      "sha256": "b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d",
+      "gitBlobSha": "383baa877d3af86fa92e3583740212000592b3d6",
+      "dimensions": [
+        1448,
+        1086
+      ],
+      "role": "FIRST_PARTY_STARBLOX_STORE_ART_DIRECTION"
+    }
+  },
+  "reviewSource": {
+    "decision": "REWORK",
+    "note": "Current canonical art for all four IDs is generic fallback SVG and remains a strict visual release blocker; no prior replacement verdict transfers."
+  },
+  "items": {
+    "decor-9": {
+      "currentLegacy": {
+        "path": "/assets/catalog/decor-9.svg",
+        "gitBlobSha1": "5c95b853da763f7ff2e9e332169ea5841ac1885e",
+        "reviewDecision": "REWORK",
+        "normalizedFailureTaxonomy": [
+          "VISIBLE_GENERIC_FALLBACK_ART",
+          "GENERIC_VECTOR_PLACEHOLDER"
+        ]
+      },
+      "variants": [
+        {
+          "variantId": "A-EASEL-WITH-TRAY",
+          "optimizerInput": "Easel Set, Room Decor, Tier 3, Sunny Pop. Create ONE premium freestanding artist easel set as an isolated product: sturdy warm-maple A-frame easel with adjustable canvas support, one blank cream canvas board, a physically attached lower paint/tool tray, two compact side cups holding only a few brushes, visible hinges, tightening knobs, cross-bracing and rubber floor feet. Sunny Pop accents should be restrained coral, yellow and sky-blue on hardware and supplies. Three-quarter studio product view on a plain light-neutral background with the full easel inside frame and a grounded shadow. NO room scene, NO child/person, NO text or logos, NO extra easels, NO floating palettes, NO paint splatter backdrop, NO malformed legs."
+        },
+        {
+          "variantId": "B-COMPACT-MAKER-EASEL",
+          "optimizerInput": "Easel Set, Room Decor, Tier 3, Sunny Pop. Design ONE compact high-quality maker easel that reads instantly at Store-card size: broad wooden tripod/A-frame support, large central blank art board, one shallow attached supply shelf with a palette and three simple brushes, visible angle-adjustment hardware and stable foot spread. Use cheerful but controlled Sunny Pop coral/yellow/aqua accents, clean wood grain, metal fasteners and one soft contact shadow. Isolated three-quarter product render with generous negative space. NO room, NO people, NO multiple boards, NO duplicate easels, NO readable writing, NO floating supplies, NO impossible joints."
+        }
+      ]
+    },
+    "decor-10": {
+      "currentLegacy": {
+        "path": "/assets/catalog/decor-10.svg",
+        "gitBlobSha1": "f390a4a237605f8768111efc65c85d059529a690",
+        "reviewDecision": "REWORK",
+        "normalizedFailureTaxonomy": [
+          "VISIBLE_GENERIC_FALLBACK_ART",
+          "GENERIC_VECTOR_PLACEHOLDER"
+        ]
+      },
+      "variants": [
+        {
+          "variantId": "A-RETRO-MINI-FRIDGE",
+          "optimizerInput": "Mini Fridge, Room Decor, Tier 4, Aqua Wave. Create ONE premium compact retro mini refrigerator as an isolated product: rounded rectangular aqua enamel cabinet, one clearly hinged main door with a substantial chrome handle, visible door gasket and seam, small top freezer line, realistic side ventilation slots, short stable feet and a subtle rear depth reveal. Add restrained cyan/teal gradient accents and brushed-metal trim without glowing like signage. Three-quarter studio view, full appliance centered, grounded shadow, believable enamel/metal/rubber materials. NO room scene, NO food scattered outside, NO second fridge, NO text, logos, stickers, UI panels or impossible transparent walls."
+        },
+        {
+          "variantId": "B-MODERN-AQUA-COOLER",
+          "optimizerInput": "Mini Fridge, Room Decor, Tier 4, Aqua Wave. Design ONE modern premium mini fridge with a strong appliance silhouette: compact turquoise cabinet, single front door, inset vertical handle, visible hinge geometry, thin dark door seal, small lower vent grille and four short feet. Include one tiny translucent aqua temperature-light accent only, with satin metal side panels and realistic cabinet depth. Isolate on a pale neutral studio background in three-quarter view with clear wall-free negative space and contact shadow. NO room furniture, NO vending machine look, NO drink display window, NO text/logos, NO duplicate appliances, NO floating controls."
+        }
+      ]
+    },
+    "decor-11": {
+      "currentLegacy": {
+        "path": "/assets/catalog/decor-11.svg",
+        "gitBlobSha1": "250aad2e72917036ae03c1db3e9071ae6c7aa983",
+        "reviewDecision": "REWORK",
+        "normalizedFailureTaxonomy": [
+          "VISIBLE_GENERIC_FALLBACK_ART",
+          "GENERIC_VECTOR_PLACEHOLDER"
+        ]
+      },
+      "variants": [
+        {
+          "variantId": "A-VANITY-MIRROR-STOOL",
+          "optimizerInput": "Dream Vanity Set, Room Decor, Tier 4, Art Attack. Create ONE cohesive premium vanity set as an isolated product group: sculpted cream-and-lilac vanity table with two shallow drawer banks, central knee opening, a large attached arched mirror with visible frame thickness, small side organizer cups, and ONE matching cushioned stool tucked partly under the table. Use tasteful Art Attack accents in berry, teal and warm gold as small painted hardware details, not graffiti. Show believable legs, drawer seams, mirror reflections with no people, wood/metal/fabric separation and a grounded three-quarter studio composition. NO room scene, NO extra furniture, NO text/logos, NO floating cosmetics, NO duplicate mirrors or stools."
+        },
+        {
+          "variantId": "B-CREATIVE-DESK-VANITY",
+          "optimizerInput": "Dream Vanity Set, Room Decor, Tier 4, Art Attack. Design ONE unmistakable luxury vanity ensemble: broad pastel wood tabletop, two sturdy side drawer pedestals, one centered oval/arched mirror physically mounted to the rear, two small attached brush holders and a single matching round stool. Strong clean silhouette at card size, visible drawer pulls and structural joinery, subtle colorful Art Attack inlays and controlled premium lighting. Isolated three-quarter product render with full set inside frame and soft floor shadow. NO bedroom context, NO shelves behind it, NO second mirror, NO loose chairs, NO text, logos, floating makeup or collage layout."
+        }
+      ]
+    },
+    "decor-12": {
+      "currentLegacy": {
+        "path": "/assets/catalog/decor-12.svg",
+        "gitBlobSha1": "903e0f5d45dd6874c4352493db3e3e3346e0b39c",
+        "reviewDecision": "REWORK",
+        "normalizedFailureTaxonomy": [
+          "VISIBLE_GENERIC_FALLBACK_ART",
+          "GENERIC_VECTOR_PLACEHOLDER"
+        ]
+      },
+      "variants": [
+        {
+          "variantId": "A-STAR-LUXE-TROPHY-WALL",
+          "optimizerInput": "Trophy Wall, Room Decor, Tier 5, Star Luxe. Create ONE spectacular wall-mounted trophy display as a coherent premium product: deep midnight-blue rectangular backboard with beveled gold frame, one central large star-topped gold cup trophy, two smaller sculpted trophies, three neatly arranged medal ribbons and a narrow physically attached display ledge. Include concealed-cleat spacing, visible standoffs, layered metal/glass/ribbon materials, rich but controlled Star Luxe sparkle and soft wall-cast shadow. Three-quarter wall-mounted product presentation with the complete display inside frame. NO floor, NO cabinet, NO room furniture, NO sports-team logos, NO readable plaques/text, NO random shelf grid, NO duplicate trophy wall."
+        },
+        {
+          "variantId": "B-MEDAL-CREST-DISPLAY",
+          "optimizerInput": "Trophy Wall, Room Decor, Tier 5, Star Luxe. Design ONE original high-tier wall-hung achievement display dominated by trophies and medals: sculpted dark-indigo backing panel with stepped gold edge, one faceted star trophy at center, two asymmetric smaller cups, four medal ribbons on dedicated hooks, and one shallow lower ledge integrated into the panel. Show believable mounting depth, trophy bases, metal reflections, ribbon folds, tiny jewel-like accents and a dramatic but restrained premium glow. Strong readable silhouette at small card size, plain neutral wall plane, no floor contact. NO shelving matrix, NO empty cubbies, NO readable names/numbers, NO logos, NO room scene."
+        }
+      ]
+    }
+  },
+  "executionBudget": {
+    "width": 640,
+    "height": 640,
+    "steps": 6,
+    "guidanceScale": 3.5,
+    "dtype": "float32"
+  },
+  "safety": {
+    "preserveAcceptedExactHashes": true,
+    "producerSelfReview": false,
+    "canonicalMappingsChanged": false,
+    "workflowFilesChanged": false,
+    "gameplayLearningEconomyPersistenceAccessibilityChanged": false
+  }
+}

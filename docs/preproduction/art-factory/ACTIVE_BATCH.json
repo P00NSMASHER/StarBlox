@@ -2,8 +2,8 @@
   "schemaVersion": 28,
   "owner": "15",
   "branch": "screenshot-match-preproduction",
-  "sourceHead": "cec1a69cedafbab1b4be4c99eed9682b9ce2fe9c",
-  "updatedAt": "2026-09-24T09:51:00Z",
+  "sourceHead": "a45bbf728060d487b04a4f81034b5ca9798a089a",
+  "updatedAt": "2026-09-24T12:34:00Z",
   "status": "ACTIVE_RELEASE_BLOCKER_FIRST",
   "policy": {
     "maxConcurrentProductionBatches": 4,
@@ -72,26 +72,27 @@
   },
   "cpuGenerationSemaphore": {
     "workflowPath": ".github/workflows/art-factory-cpu-generation.yml",
-    "observedAt": "2026-09-24T09:46:00Z",
+    "observedAt": "2026-09-24T12:34:00Z",
     "running": {
       "runId": null,
       "headSha": null,
-      "batch": "Decor8 v3 + Desk9 v3 + Desk10 v3 failure-specific rework",
+      "batch": "Decor9-12 first replacement matrix",
       "state": "DISPATCH_COMMIT_CREATED__RUN_ID_PENDING",
       "jobs": [
-        "decor-8",
-        "desks-9",
-        "desks-10"
+        "decor-9",
+        "decor-10",
+        "decor-11",
+        "decor-12"
       ],
       "phase": "QUEUE_DISPATCHED",
       "candidateArtifactsStaged": false,
-      "contract": "Pinned Diffusers/SDXL; 640x640/6-step float32; exact current REWORKs; per-item reviewers 11/05."
+      "contract": "Pinned Diffusers/SDXL; 640x640/6-step float32; producer09; reviewer02; four unowned visible fallbacks."
     },
     "pending": null,
     "oldestCanceledNoArtifact": null,
     "otherCanceledNoArtifact": [],
-    "authorization": "HOLD_ADDITIONAL_CPU_QUEUE_TRIGGERS_UNTIL_W03_3ITEM_REWORK_FULLY_IDLE",
-    "rule": "This producer03 three-item exact-REWORK matrix is the sole CPU generation batch. After it is fully idle, next current REWORK priority is producer09 Decor7 v5, then producer13 Wall9 v4.",
+    "authorization": "HOLD_ADDITIONAL_CPU_QUEUE_TRIGGERS_UNTIL_DECOR9_12_MATRIX_FULLY_IDLE",
+    "rule": "Decor9-12 is now the sole CPU generation batch. Do not dispatch another runtime queue until all four jobs are no longer queued/pending/waiting/in_progress.",
     "staleRunsReleased": [
       {
         "runId": 35927174551,
@@ -107,30 +108,7 @@
         "reason": "triggered before hardened workflow; superseded by 35931931966"
       }
     ],
-    "preparedNext": [
-      {
-        "rank": 1,
-        "requestPath": "docs/preproduction/art-factory/requests/w09-decor-7-v5-rework-20260924.json",
-        "queuePath": "docs/preproduction/art-factory/prepared-queues/w09-decor-7-v5-rework.json",
-        "scope": [
-          "decor-7"
-        ],
-        "producer": "09",
-        "reviewer": "01",
-        "reason": "Current Decor7 v4 exact-hash REWORK; failure-specific v5 is precompiled."
-      },
-      {
-        "rank": 2,
-        "requestPath": "docs/preproduction/art-factory/requests/w13-wall-9-v4-rework-20260924.json",
-        "queuePath": "docs/preproduction/art-factory/prepared-queues/w13-wall-9-v4-rework.json",
-        "scope": [
-          "wall-9"
-        ],
-        "producer": "13",
-        "reviewer": "02",
-        "reason": "Current Wall9 v3 exact-hash REWORK; shelving-free v4 is precompiled."
-      }
-    ],
+    "preparedNext": [],
     "preparedQueueRule": "Prepared queues live outside runtime-queue, so commits do not trigger CPU generation. Dispatch exactly one only after Wall run 35931931966 is no longer active and live branch evidence shows no newer candidate/superseding queue."
   },
   "batches": [
@@ -142,7 +120,7 @@
         "desks-9",
         "desks-10"
       ],
-      "state": "DISPATCHED_CURRENT_REWORK_3ITEM_MATRIX__RUN_ID_PENDING",
+      "state": "DOWNSTREAM_REVIEW__PRODUCTION_RELEASED",
       "reviewer": "MIXED_11_05",
       "requirements": "Do not duplicate. Route exact staged hashes through 12 -> 06 -> 14 -> reviewer11 for Decor8 and reviewer05 for Desks9/10 -> 08 on ACCEPT.",
       "evidence": [
@@ -154,13 +132,22 @@
     },
     {
       "producer": "09",
-      "batchId": "w09-decor-7-v5-rework",
+      "batchId": "w09-decor-9-12-v1",
       "scope": [
-        "decor-7"
+        "decor-9",
+        "decor-10",
+        "decor-11",
+        "decor-12"
       ],
-      "state": "DECOR7_V5_PREPARED__WAIT_W03_MATRIX_IDLE",
-      "reviewer": "01",
-      "requirements": "Use only docs/preproduction/art-factory/prepared-queues/w09-decor-7-v5-rework.json; preserve v4 exact REWORK hash."
+      "state": "DISPATCHED_NEW_VISIBLE_FALLBACK_4ITEM_MATRIX__RUN_ID_PENDING",
+      "reviewer": "02",
+      "requirements": "Do not duplicate. Generate all four items in one matrix run; on exact staging route 12 -> 06 -> 14 -> 02 -> 08 on ACCEPT.",
+      "batchType": "BOUNDED_PINNED_CPU_GENERATION",
+      "evidence": [
+        "docs/preproduction/art-factory/requests/w09-decor-9-12-v1-batch-20260924.json",
+        "docs/preproduction/art-factory/runtime-queue/w09-decor-9-12-v1.json",
+        "docs/preproduction/art-factory/CPU_RUNTIME_PROOF.json"
+      ]
     },
     {
       "producer": "13",
@@ -168,7 +155,7 @@
       "scope": [
         "wall-9"
       ],
-      "state": "WALL9_V4_PREPARED__WAIT_CURRENT_REWORK_PRIORITY",
+      "state": "DOWNSTREAM_REVIEW__PRODUCTION_RELEASED",
       "reviewer": "02",
       "requirements": "Use only docs/preproduction/art-factory/prepared-queues/w13-wall-9-v4-rework.json; preserve v3 exact REWORK hash."
     }
@@ -322,7 +309,7 @@
     "evidenceHead": "398f5100df0562a1e346c9110597e52b565982d0",
     "rule": "Do not reopen already-green functional browser, Store observer, persistence or reduced-motion investigations absent a bound-hash change or fresh current-byte failure. EXT10 remains limited to the previously released phone composition repair."
   },
-  "antiStallDisposition": "Canonical v36 integrates Decor5/6, reducing visible fallback gap to 14. Current producer03 three-item rework remains active; Decor7 v5 and Wall9 v4 are fully precompiled prepared queues so CPU can roll immediately when idle.",
+  "antiStallDisposition": "CPU generation kept busy in parallel with exact-hash reviews: Decor9-12 opened as one four-item producer09 matrix after live proof that all prior generation runs were idle and no conflicting ownership/candidate existed.",
   "crossAccountProduction": {
     "externalScopes": {
       "EXT01": "Tops11-12",
@@ -341,67 +328,50 @@
     "reviewer14LegacyException": "14 may complete already-assigned legacy hash review only; do not route new hashes to 14 for review."
   },
   "readerRule": "Every worker must revalidate branch head, assignment, exact hash and review state before writing. This file never overrides newer exact-hash evidence.",
-  "cycleId": "director-20260924T0946Z-current-rework-matrix",
+  "cycleId": "director-20260924T1234Z-decor9-12-dispatch",
   "criticalPath": {
-    "computedAtHead": "f86286d36a1d6b265a07094763f93bf2c0a55cba",
-    "acceptedAwaitingCanonical": 2,
+    "computedAtHead": "a45bbf728060d487b04a4f81034b5ca9798a089a",
     "order": [
       {
         "rank": 1,
-        "blocker": "DECOR5_6_ACCEPT_AWAITING_08",
+        "blocker": "CURRENT_EXACT_HASH_REVIEWS_AND_CANONICALIZATION",
         "affectedScopes": [
-          "decor-5",
-          "decor-6"
+          "decor-7",
+          "decor-8",
+          "desks-9",
+          "desks-10",
+          "wall-9"
         ],
-        "prerequisite": "08 canonical exact-hash integration.",
-        "nextOwner": "08 -> 04 -> 10"
+        "prerequisite": "Independent exact-hash verdicts.",
+        "nextOwner": "01/02/05/11 -> 08 on ACCEPT."
       },
       {
         "rank": 2,
-        "blocker": "W03_THREE_ITEM_CURRENT_REWORK",
+        "blocker": "DECOR9_12_CURRENT_CPU_MATRIX",
         "affectedScopes": [
-          "decor-8",
-          "desks-9",
-          "desks-10"
-        ],
-        "prerequisite": "Current CPU matrix stages replacement bytes.",
-        "nextOwner": "12 -> 06 -> 14 -> 11/05 -> 08"
-      },
-      {
-        "rank": 3,
-        "blocker": "DECOR7_V5_REWORK",
-        "affectedScopes": [
-          "decor-7"
-        ],
-        "prerequisite": "W03 matrix fully idle.",
-        "nextOwner": "09 -> 12 -> 06 -> 14 -> 01 -> 08"
-      },
-      {
-        "rank": 4,
-        "blocker": "WALL9_V4_REWORK",
-        "affectedScopes": [
-          "wall-9"
-        ],
-        "prerequisite": "Higher current REWORK CPU batches idle.",
-        "nextOwner": "13 -> 12 -> 06 -> 14 -> 02 -> 08"
-      },
-      {
-        "rank": 5,
-        "blocker": "EXACT_BYTE_AND_UNOPENED_TAIL",
-        "affectedScopes": [
-          "desks-7",
-          "desks-8",
-          "desks-11",
-          "desks-12",
-          "wall-8",
           "decor-9",
           "decor-10",
           "decor-11",
           "decor-12"
         ],
-        "prerequisite": "Current exact REWORKs dispositioned; preserve external/exact-byte ownership rules.",
-        "nextOwner": "15 assignment/recovery"
+        "prerequisite": "Current CPU matrix completes and stages exact candidates.",
+        "nextOwner": "12 -> 06 -> 14 -> 02 -> 08."
+      },
+      {
+        "rank": 3,
+        "blocker": "DESK_AND_WALL8_EXACT_BYTE_OR_NEW_FALLBACK_TAIL",
+        "affectedScopes": [
+          "desks-7",
+          "desks-8",
+          "desks-11",
+          "desks-12",
+          "wall-8"
+        ],
+        "prerequisite": "Preserve exact-byte/provenance fail-closed rules and open unowned generation only after current matrix.",
+        "nextOwner": "15 reassignment/recovery."
       }
-    ]
+    ],
+    "acceptedAwaitingCanonical": 0,
+    "note": "Decor9-12 matrix dispatched while current reworks remain downstream; no serial idle gap."
   }
 }
