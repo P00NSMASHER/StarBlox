@@ -1,0 +1,153 @@
+
+import { studioToolNames } from './studioToolContract.js';
+
+export class StudioBridgeQueue {
+  constructor({
+    timeoutMs=120_000,
+    queueLimit=100
+  }={}){
+    this.timeoutMs=timeoutMs;
+    this.queueLimit=queueLimit;
+    this.counter=0;
+    this.queue=[];
+    this.pending=new Map();
+    this.waiters=[];
+  }
+
+  _signal(){
+    const waiters=this.waiters.splice(0);
+    for(const waiter of waiters) waiter();
+  }
+
+  async dispatch(tool,args={},{
+    instanceId='default'
+  }={}){
+    if(!studioToolNames().includes(tool)){
+      throw new Error('unknown Studio tool: ' + tool);
+    }
+    if(this.queue.length >= this.queueLimit){
+      throw new Error('Studio bridge queue is full.');
+    }
+
+    const id='sbtool-' + (++this.counter);
+    const request={
+      id,
+      tool,
+      args:JSON.parse(JSON.stringify(args ?? {})),
+      instanceId
+    };
+
+    return await new Promise((resolve,reject) => {
+      const timer=setTimeout(() => {
+        this.pending.delete(id);
+        reject(new Error('Studio tool timed out: ' + tool));
+      },this.timeoutMs);
+      timer.unref?.();
+
+      this.pending.set(id,{resolve,reject,timer,request});
+      this.queue.push(request);
+      this._signal();
+    });
+  }
+
+  take({
+    instanceId='default',
+    limit=10
+  }={}){
+    const out=[];
+    const keep=[];
+
+    for(const request of this.queue){
+      if(out.length < limit && request.instanceId === instanceId){
+        out.push(request);
+      }else{
+        keep.push(request);
+      }
+    }
+    this.queue=keep;
+    return out;
+  }
+
+  async waitForWork({
+    instanceId='default',
+    waitMs=20_000
+  }={}){
+    if(this.queue.some(request => request.instanceId === instanceId)) return;
+
+    await new Promise(resolve => {
+      const timer=setTimeout(() => {
+        this.waiters=this.waiters.filter(item => item !== wake);
+        resolve();
+      },Math.max(0,waitMs));
+      timer.unref?.();
+
+      const wake=() => {
+        clearTimeout(timer);
+        resolve();
+      };
+      this.waiters.push(wake);
+    });
+  }
+
+  resolve(id,ok,result){
+    const pending=this.pending.get(id);
+    if(!pending) return false;
+
+    clearTimeout(pending.timer);
+    this.pending.delete(id);
+
+    if(ok){
+      pending.resolve(result);
+    }else{
+      const message=typeof result === 'string'
+        ? result
+        : JSON.stringify(result);
+      pending.reject(new Error(message || 'Studio tool failed'));
+    }
+    return true;
+  }
+
+  failAll(reason='Studio bridge disconnected'){
+    for(const [id,pending] of this.pending){
+      clearTimeout(pending.timer);
+      pending.reject(new Error(reason));
+      this.pending.delete(id);
+    }
+    this.queue=[];
+    this._signal();
+  }
+
+  status(){
+    return {
+      queued:this.queue.length,
+      pending:this.pending.size
+    };
+  }
+}
+
+export function createStudioHttpAdapter({
+  baseUrl='http://127.0.0.1:38473',
+  instanceId='default'
+}={}){
+  const root=String(baseUrl).replace(/\/$/,'');
+  const supported=new Set(studioToolNames());
+
+  return {
+    has(tool){
+      return supported.has(tool);
+    },
+    async call(tool,args={}){
+      if(!supported.has(tool)) throw new Error('unknown Studio tool: ' + tool);
+      const response=await fetch(root + '/call',{
+        method:'POST',
+        headers:{'content-type':'application/json'},
+        body:JSON.stringify({tool,args,instanceId})
+      });
+      const payload=await response.json();
+      if(!response.ok || payload.ok !== true){
+        throw new Error(payload.error || ('Studio bridge HTTP ' + response.status));
+      }
+      return payload.result;
+    }
+  };
+}
