@@ -1,0 +1,50 @@
+{
+  "schemaVersion": "starblox-brookhaven-step-5-7-checkpoint-v1",
+  "completedAt": "2026-09-24",
+  "branch": "brookhaven-research-snapshot-v1",
+  "steps": {
+    "5": {
+      "status": "complete",
+      "artifact": "docs/preproduction/brookhaven-research/conversion-contract-v1.json",
+      "implementation": "scripts/convertBrookhavenNeutralScene.mjs"
+    },
+    "6": {
+      "status": "complete",
+      "artifact": "docs/preproduction/brookhaven-research/fixtures/vertical-slice-proxy-source-v1.json",
+      "preview": "docs/preproduction/brookhaven-research/vertical-slice-preview-v1.svg",
+      "validator": "scripts/validateBrookhavenProxyVerticalSlice.mjs"
+    },
+    "7": {
+      "status": "complete",
+      "artifact": "docs/preproduction/brookhaven-research/residential-feature-blueprint-v1.json",
+      "runtime": "src/residentialFeatureRuntime.js",
+      "test": "src/residentialFeatureRuntime.test.js"
+    }
+  },
+  "verification": {
+    "workflowRun": 36017846914,
+    "researchArtifactAndBoundaryValidation": "pass",
+    "residentialUnitTests": {
+      "status": "pass",
+      "testFiles": 1,
+      "tests": 4
+    },
+    "productionBuild": {
+      "status": "blocked-by-inherited-base-defect",
+      "failingFile": "src/catalogArtRuntime.js",
+      "branchBlobSha1": "d6bd48dec10ec4ac655070c33938e88248d04c55",
+      "step1BaseBlobSha1": "d6bd48dec10ec4ac655070c33938e88248d04c55",
+      "inheritedFromBase": true,
+      "observedIssue": "missing comma between decor-6 and decor-9 entries",
+      "changedByBrookhavenSteps": false
+    }
+  },
+  "safety": {
+    "rawBrookhavenPayloadsImported": false,
+    "brookhavenRuntimeRemotesWired": false,
+    "appJsxWired": false,
+    "persistenceSchemaChanged": false,
+    "economyOrProgressionCoupled": false,
+    "deploymentPerformed": false
+  }
+}
