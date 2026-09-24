@@ -1,0 +1,21 @@
+{
+  "course":{
+    "id":"starblox-vocabulary-evidence",
+    "title":"StarBlox Vocabulary Evidence Fixture"
+  },
+  "chunks":[
+    {
+      "id":"culture",
+      "title":"What culture can include",
+      "content":"Culture includes shared traditions, food, music, stories, and ways of life.",
+      "mechanic":"multiple_choice",
+      "simulationHint":"Choose examples that belong to a shared culture.",
+      "evidenceSpans":[
+        {
+          "sourceId":"current-week-vocabulary",
+          "text":"traditions, foods, music, stories, and ways of life shared by a group"
+        }
+      ]
+    }
+  ]
+}
