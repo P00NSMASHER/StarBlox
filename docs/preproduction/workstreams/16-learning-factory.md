@@ -434,6 +434,154 @@ candidate is eventually frozen, a new untouched final holdout. Until then, the
 current heuristic/BKT shadow path remains the appropriate baseline and Selector
 V2 stays out of live Quests.
 
+
+## Phase 4 — BKT + continuous FSRS risk candidate / second final rejection
+
+After the PSI-KT + FSRS candidate failed the authoritative Phase-3 holdout, all
+subsequent model/selector development moved to separate development-only cohorts.
+The Phase-3 seed `20261103` was never reused for tuning.
+
+### Component diagnosis on development-only seed 20261217
+
+The component ablation showed why the PSI candidate failed:
+
+- PSI selector-state MAE versus synthetic latent truth: **0.1704452**;
+- PSI Pearson correlation versus latent truth: **-0.0582287**;
+- BKT MAE versus latent truth: **0.2274908**;
+- BKT Pearson correlation versus latent truth: **+0.4357636**.
+
+PSI was closer in absolute calibration but did not preserve useful skill ranking.
+BKT was less calibrated in absolute probability but had materially better ranking
+signal for Quest targeting.
+
+The same development cohort showed:
+
+- current heuristic: hidden need **0.5770456**, weakest-skill hit **0.71875**;
+- BKT-only: hidden need **0.5753979**, weakest-skill hit **0.78125**;
+- PSI-only: hidden need **0.5146980**, weakest-skill hit **0.50000**;
+- oracle truth: hidden need **0.6538500**, weakest-skill hit **1.00000**.
+
+That established two facts:
+
+1. the Quest selector itself has substantial headroom if mastery ranking improves;
+2. current PSI-KT state should remain research telemetry rather than the primary
+   ranking signal.
+
+A BKT/PSI blend sweep selected alpha **0.5** on the tuning cohort, but a separately
+locked development-validation cohort at seed `20261229` rejected it:
+
+- hidden need versus BKT: **-0.0186052**;
+- weakest-skill hit versus BKT: **-0.09375**;
+- `validationSupportive:false`.
+
+The PSI blend was therefore rejected without creating another final holdout.
+
+### FSRS signal diagnosis
+
+Binary FSRS `due/not due` was too coarse. On the tuning cohort, the mean learner
+had **9.7083 of 11 skills due**, and changing the binary due bonus from 0 through
+80 produced identical BKT selector results.
+
+Using continuous forgetting risk, defined as `1 - retrievability`, produced
+meaningful variation. With BKT mastery fixed, the development sweep selected
+risk weight **40**:
+
+- no risk bonus: hidden need **0.5734447**, weakest-skill hit **0.7708333**;
+- risk weight 40: hidden need **0.5793498**, weakest-skill hit **0.8333333**.
+
+The risk-40 candidate then passed a separately locked development-validation
+cohort at seed `20270113`:
+
+- versus BKT: hidden need **+0.0034526**, weakest-skill hit **+0.0625**;
+- versus current heuristic: hidden need **+0.0042053**, weakest-skill hit **0**;
+- `validationSupportive:true`.
+
+Only after that independent validation was the candidate frozen in:
+
+- `src/selectorBktFsrsRiskShadow.js`;
+- selector version `starblox-bkt-fsrs-risk-v1`;
+- frozen FSRS risk weight **40**;
+- locked candidate SHA
+  `ac69722e791e8b89ffbd51958302aaa10f77fd7e`.
+
+### New untouched final holdout
+
+A new final holdout was locked **before evaluation**:
+
+- benchmark ID: `starblox-bkt-fsrs-risk40-final-holdout-v1`;
+- seed: **20270217**;
+- source learners: **48**;
+- decision boundary: **18 / 30 interactions**;
+- candidate code was diff-checked against the frozen SHA;
+- actual FSRS engine: `open-spaced-repetition/go-fsrs/v3 v3.3.1`;
+- final-holdout run: `35957281134`;
+- run head SHA:
+  `dea2bad861c46b97456dfaffcf91514db1fe567e`;
+- evidence artifact ID: `10790059664`;
+- artifact digest:
+  `sha256:371c710aa7843ef301c83b83dd8bbba35cf3ba91c6ca2e55f7edd4e18de64603`;
+- FSRS payload SHA-256:
+  `07da57bf4d9bdd4e6380112f8cc971010d67506b70d01d5fbe05b3983baa69df`.
+
+Acceptance thresholds were predeclared before the holdout was run:
+
+- hidden-need gain versus heuristic >= **0.002**;
+- weakest-skill-hit gain versus heuristic >= **0**;
+- hidden-need gain versus BKT >= **0.002**;
+- weakest-skill-hit gain versus BKT >= **0.02**;
+- due-skill-coverage loss versus heuristic no worse than **-0.02**.
+
+Final results:
+
+| Policy | Mean hidden need | Weakest-skill hit | Due-skill coverage |
+| --- | ---: | ---: | ---: |
+| Current heuristic | 0.5527061 | 0.7083333 | 0.5063026 |
+| BKT, no FSRS risk | 0.5628061 | 0.7291667 | 0.5130734 |
+| Frozen BKT + FSRS risk 40 | 0.5619097 | 0.7708333 | 0.5130734 |
+
+Candidate deltas versus current heuristic:
+
+- hidden need: **+0.0092037**;
+- weakest-skill hit: **+0.0625**;
+- due-skill coverage: **+0.0067708**.
+
+Candidate deltas versus BKT:
+
+- hidden need: **-0.0008964**;
+- weakest-skill hit: **+0.0416667**;
+- due-skill coverage: **0**.
+
+Acceptance vector:
+
+- hidden need versus heuristic: **PASS**;
+- weakest-skill hit versus heuristic: **PASS**;
+- hidden need versus BKT: **FAIL**;
+- weakest-skill hit versus BKT: **PASS**;
+- due-coverage guardrail: **PASS**.
+
+Therefore:
+
+`finalHoldoutSupportive:false`
+
+and:
+
+`liveSelectorAllowed:false`.
+
+Persisted blockers remain:
+
+1. `synthetic-only-evaluation`;
+2. `abvm-external-original-unverified`;
+3. `real-learner-efficacy-not-evaluated`;
+4. `privacy-review-not-complete`;
+5. `new-final-holdout-not-supportive`.
+
+**Do not relax the threshold post hoc or reuse seed `20270217` to tune risk
+weight 40.** The candidate is rejected under the predeclared final-holdout rule.
+
+The live-code assertion remained clean: the frozen candidate is not referenced
+from `App.jsx`, `main.jsx`, or `gameModel.js`.
+
+
 ## Integration note
 
 At the latest comparison during this workstream, `screenshot-match-preproduction` had advanced concurrently and this branch was **2 commits behind** it. Reconcile/rebase those concurrent preproduction changes before opening or merging a PR; do not blindly merge the moving branch.
