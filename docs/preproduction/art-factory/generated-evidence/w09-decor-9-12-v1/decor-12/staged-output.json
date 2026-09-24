@@ -1,0 +1,91 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_STAGED_OUTPUT",
+  "repository": "P00NSMASHER/StarBlox",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "1d2e21ef625c6b6f2b9458e672c1ed5ddb00f5c6",
+  "sourcePlanSha256": "df3219b6ed5762eea65a799c0a8a6b4bf43e91b35affacefe829cd98fafe2300",
+  "item": {
+    "id": "decor-12",
+    "name": "Trophy Wall",
+    "collectionId": "decor",
+    "type": "room",
+    "tier": 5,
+    "theme": "Star Luxe"
+  },
+  "attempt": {
+    "attemptId": "decor-12-w09-a-star-luxe-trophy-wall-def2bace9b",
+    "producer": "09",
+    "variant": "A-STAR-LUXE-TROPHY-WALL",
+    "promptBlocks": [
+      "metadata",
+      "category",
+      "silhouette",
+      "physical",
+      "material",
+      "theme",
+      "tier",
+      "card",
+      "original",
+      "stage",
+      "furniture",
+      "camera",
+      "depth",
+      "bloom",
+      "textile",
+      "wall",
+      "light"
+    ],
+    "promptSha256": "def2bace9bec9235cc1dc1c17d46f130778176b63b3df428b34725dc9f82e8f0",
+    "promptRecipeVersion": "artPromptOptimizer-request-v1:w09-decor-9-12-v1",
+    "seed": 654655664,
+    "runtime": {
+      "repo": "huggingface/diffusers",
+      "commit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c"
+    },
+    "model": {
+      "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+      "revision": "462165984030d82259a11f4367a4eed129e94a7b",
+      "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+    },
+    "conditioning": {
+      "referenceAssetSha256": null,
+      "controlImageSha256": null,
+      "adapterScale": null
+    }
+  },
+  "output": {
+    "repoPath": "public/assets/catalog-candidates/cpu/decor-12-w09-v1-a-star-luxe-trophy-wall-original.png",
+    "sha256": "4145d58f5798a2779fb49d9d216cdee533123999057081bda9735420b46c9336",
+    "gitBlobSha": "8e0ba670f01f954c59bf1c077c0fc4fdea3e8ebc",
+    "bytes": 707298,
+    "format": "PNG",
+    "width": 640,
+    "height": 640,
+    "mode": "RGB"
+  },
+  "derivativeLineage": {
+    "derivativeOfSha256": null,
+    "sourcePreserved": true
+  },
+  "renderEvidence": [],
+  "review": {
+    "reviewer": "02",
+    "routing": {
+      "reviewer": "02",
+      "routingFile": "docs/preproduction/art-factory/runtime-queue/w09-decor-9-12-v1.json",
+      "routingFileSha256": "db172d7fcb0d48b53692a45cbea6f0ce76f98f3480c8a31a4854859339ca8600",
+      "queueId": "w09-decor-9-12-v1"
+    },
+    "state": "PENDING_ACTUAL_PIXEL_REVIEW",
+    "decision": null
+  },
+  "safety": {
+    "canonicalArtModified": false,
+    "gameplayModified": false,
+    "automaticPerceptualDecision": false,
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+  },
+  "status": "STAGED_EXACT_BYTES_VERIFIED",
+  "recordSha256": "b7d0302ff6a801bd5f20f031c6236cf520e3e2be60e08c67d93fe8b3b939db30"
+}
