@@ -1,0 +1,91 @@
+name: BKT FSRS Risk Final Holdout
+
+on:
+  push:
+    branches:
+      - starblox-learning-factory-v1
+    paths:
+      - "docs/preproduction/learning-factory/bkt-fsrs-risk-final-holdout.json"
+      - "scripts/evaluateBktFsrsRiskFinalHoldout.mjs"
+      - ".github/workflows/bkt-fsrs-risk-final-holdout.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  final-holdout:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+      - name: Install StarBlox dependencies
+        run: npm install --ignore-scripts --package-lock=false
+      - name: Load locked final-holdout manifest
+        run: |
+          node --input-type=module - <<'NODE' >> "$GITHUB_ENV"
+          import fs from 'node:fs';
+          const m=JSON.parse(fs.readFileSync(
+            'docs/preproduction/learning-factory/bkt-fsrs-risk-final-holdout.json','utf8'
+          ));
+          if(m.status!=='locked-evaluation-only'||m.finalHoldout!==true||m.tuneAgainstThisCohort!==false){
+            throw new Error('final holdout must be locked and evaluation-only');
+          }
+          console.log('FINAL_SEED='+m.seed);
+          console.log('FINAL_LEARNERS='+m.sourceLearnerCount);
+          console.log('FINAL_MAX_STEP='+m.maxStep);
+          console.log('LOCKED_CANDIDATE_SHA='+m.candidate.lockedFromCandidateGithubSha);
+          NODE
+      - name: Assert candidate code is unchanged from lock
+        run: |
+          git fetch origin "$LOCKED_CANDIDATE_SHA" --depth=1
+          git diff --exit-code "$LOCKED_CANDIDATE_SHA" HEAD --             src/selectorBktFsrsRiskShadow.js             src/selectorBktFsrsRiskShadow.test.js
+      - name: Test frozen selector
+        run: npx vitest run src/selectorBktFsrsRiskShadow.test.js
+      - name: Generate untouched final synthetic dataset
+        run: npm run generate:learning-promotion -- --out-dir=.bkt-fsrs-final --learners=$FINAL_LEARNERS --max-step=$FINAL_MAX_STEP --seed=$FINAL_SEED
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.23"
+      - name: Run actual FSRS
+        run: |
+          cd tools/fsrs-shadow
+          go mod tidy
+          go run . -input ../../.bkt-fsrs-final/riff-reviews.json -out ../../.bkt-fsrs-final/fsrs-engine-receipt.json -evaluation-offset-hours 24
+      - name: Evaluate frozen candidate
+        run: node scripts/evaluateBktFsrsRiskFinalHoldout.mjs --manifest=docs/preproduction/learning-factory/bkt-fsrs-risk-final-holdout.json --evaluation=.bkt-fsrs-final/evaluation.json --fsrs=.bkt-fsrs-final/fsrs-engine-receipt.json --out=.bkt-fsrs-final/final-holdout-result.json
+      - name: Assert candidate is not wired live
+        run: |
+          node --input-type=module - <<'NODE'
+          import fs from 'node:fs';
+          for(const path of ['src/App.jsx','src/main.jsx','src/gameModel.js']){
+            const text=fs.readFileSync(path,'utf8');
+            if(text.includes('selectorBktFsrsRiskShadow')||text.includes('pickQuestBktFsrsRiskShadow')){
+              throw new Error('frozen candidate is wired into live code: '+path);
+            }
+          }
+          const r=JSON.parse(fs.readFileSync('.bkt-fsrs-final/final-holdout-result.json','utf8'));
+          if(r.promotionDecision?.liveSelectorAllowed!==false){
+            throw new Error('synthetic final holdout must not enable live selector');
+          }
+          console.log(JSON.stringify({
+            finalHoldoutSupportive:r.finalHoldoutSupportive,
+            acceptance:r.acceptance,
+            deltas:r.deltas,
+            liveSelectorAllowed:false,
+            blockers:r.promotionDecision.blockers
+          },null,2));
+          NODE
+      - name: Upload final-holdout evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bkt-fsrs-risk-final-holdout
+          path: .bkt-fsrs-final
+          if-no-files-found: error
+          include-hidden-files: true
