@@ -55,8 +55,14 @@ function runtimeBriefBody(item,brief=''){
  const stop=text.indexOf('.');
  if(stop>0&&stop<180){
   const first=text.slice(0,stop).toLowerCase();
-  const metadata=[item?.name,item?.collectionId,item?.theme].filter(Boolean).map(x=>String(x).toLowerCase());
-  if(metadata.some(token=>first.includes(token))) return text.slice(stop+1).trim();
+  const metadata=[item?.name,item?.collectionId,item?.theme]
+   .filter(Boolean)
+   .map(x=>String(x).toLowerCase());
+  // A product sentence may legitimately repeat the item name (e.g. "one Skate
+  // Rack"). Strip only an actual metadata-style prefix containing multiple
+  // independent metadata signals; never discard a sentence for name alone.
+  const matches=metadata.filter(token=>first.includes(token)).length;
+  if(matches>=2) return text.slice(stop+1).trim();
  }
  return text;
 }
