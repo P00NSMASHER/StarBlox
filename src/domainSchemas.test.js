@@ -178,6 +178,13 @@ describe('StarBlox upstream implementation provenance', () => {
     expect(UPSTREAM_PROVENANCE.openReplayConsole.path).toBe('tracker/tracker/src/main/modules/console.ts');
     expect(UPSTREAM_PROVENANCE.makeReadyMusicDirector.path).toBe('src/music.js');
     expect(UPSTREAM_PROVENANCE.neonRunTelemetry.path).toBe('src/game/runTelemetry.ts');
+    expect(UPSTREAM_PROVENANCE.profileStoreRuntime.path).toBe('ProfileStore.luau');
+    expect(UPSTREAM_PROVENANCE.profileStoreTutorial.path).toBe('docs/tutorial/index.md');
+    expect(UPSTREAM_PROVENANCE.replicaServiceRuntime.path).toBe('src/ServerScriptService/ReplicaService.lua');
+    expect(UPSTREAM_PROVENANCE.replicaServiceApi.path).toBe('docs/api.md');
+    expect(UPSTREAM_PROVENANCE.zapEvents.path).toBe('docs/config/events.md');
+    expect(UPSTREAM_PROVENANCE.matterReplication.path).toBe('docs/Guides/Replication.md');
+    expect(UPSTREAM_PROVENANCE.matterComponents.path).toBe('example/src/shared/components.luau');
     expect(UPSTREAM_PROVENANCE.rbxDomBinary.path).toBe('rbx_binary/src/lib.rs');
     expect(UPSTREAM_PROVENANCE.rbxDomXml.path).toBe('rbx_xml/src/lib.rs');
     expect(UPSTREAM_PROVENANCE.rbxDomViewer.path).toBe('rbx_dom_weak/src/viewer.rs');
