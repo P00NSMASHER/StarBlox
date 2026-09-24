@@ -91,9 +91,9 @@ const run=await runDevelopmentFactory({
   repositoryGate:repositoryGate(),
   startedAt:task.startedAt || new Date().toISOString(),
   config:{
-    requiredRepositoryGates:['tests','certification','balance','build'],
     ...(adapter.config || {}),
-    ...(task.config || {})
+    ...(task.config || {}),
+    requiredRepositoryGates:['tests','certification','balance','build']
   }
 });
 
