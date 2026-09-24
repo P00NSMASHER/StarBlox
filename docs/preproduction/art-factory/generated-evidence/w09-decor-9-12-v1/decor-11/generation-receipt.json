@@ -1,0 +1,107 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_GENERATION_RECEIPT",
+  "repository": "P00NSMASHER/StarBlox",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "1d2e21ef625c6b6f2b9458e672c1ed5ddb00f5c6",
+  "sourcePlanSha256": "d6a09e7b3fda2197944e26bf78f26754ce3bb24aa145a3b781a3841587821dc0",
+  "executionCheckout": {
+    "branch": "screenshot-match-preproduction",
+    "head": "1d2e21ef625c6b6f2b9458e672c1ed5ddb00f5c6",
+    "planSourceHeadMatchesExecutionHead": true
+  },
+  "attempt": {
+    "attemptId": "decor-11-w09-a-vanity-mirror-stool-accc1099b3",
+    "itemId": "decor-11",
+    "producer": "09",
+    "variant": "A-VANITY-MIRROR-STOOL",
+    "promptSha256": "accc1099b3db512014b837e59276e886ffd892464b2a35332fab8105082fc24c",
+    "runtimePromptSha256": "1f12946ed993bbf68393b6b6511112e8ab35c9f7cc6f1daf27f8cd52899c9973",
+    "promptRecipeVersion": "artPromptOptimizer-request-v1:w09-decor-9-12-v1",
+    "seed": 917200441
+  },
+  "runtime": {
+    "repo": "huggingface/diffusers",
+    "commit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "resolvedCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "runtimeCommitVerified": true,
+    "diffusersVersion": "0.41.0.dev0",
+    "diffusersInstallSource": "https://github.com/huggingface/diffusers.git",
+    "torchVersion": "2.8.0+cpu",
+    "transformersVersion": "5.17.0",
+    "accelerateVersion": "1.15.0",
+    "huggingfaceHubVersion": "1.33.0",
+    "safetensorsVersion": "0.8.0",
+    "pythonPillowVersion": "12.3.0",
+    "device": "cpu",
+    "dtype": "float32",
+    "executionMode": "cpu-fallback"
+  },
+  "model": {
+    "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+    "revision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS",
+    "resolvedRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "snapshotRevisionVerified": true,
+    "selectiveSnapshot": true,
+    "snapshotAllowPatterns": [
+      "model_index.json",
+      "scheduler/*",
+      "tokenizer/*",
+      "tokenizer_2/*",
+      "feature_extractor/*",
+      "text_encoder/config.json",
+      "text_encoder/model.fp16.safetensors",
+      "text_encoder_2/config.json",
+      "text_encoder_2/model.fp16.safetensors",
+      "unet/config.json",
+      "unet/diffusion_pytorch_model.fp16.safetensors",
+      "vae/config.json",
+      "vae/diffusion_pytorch_model.fp16.safetensors"
+    ]
+  },
+  "conditioning": {
+    "referenceAssetSha256": null,
+    "controlImageSha256": null,
+    "adapterScale": null,
+    "referenceImage": null,
+    "ipAdapterModelId": null,
+    "ipAdapterRevision": null,
+    "ipAdapterResolvedRevision": null,
+    "ipAdapterRevisionVerified": false,
+    "ipAdapterWeightName": null,
+    "ipAdapterSubfolder": null
+  },
+  "generation": {
+    "width": 640,
+    "height": 640,
+    "numInferenceSteps": 6,
+    "guidanceScale": 3.5,
+    "runtimePromptTokenCounts": {
+      "tokenizer": 64,
+      "tokenizer_2": 64
+    },
+    "executedSeed": 917200441
+  },
+  "output": {
+    "repoPath": "public/assets/catalog-candidates/cpu/decor-11-w09-v1-a-vanity-mirror-stool-original.png",
+    "sha256": "197119a46ee18951cb0b7214012eff2566eac228a84471717beceb45828ac048",
+    "gitBlobSha": "3c5c6892823fad04c93077eb43c94331ebdf0d88",
+    "bytes": 590387,
+    "width": 640,
+    "height": 640,
+    "format": "PNG",
+    "sourceBytesPreserved": true,
+    "reusedExistingIdenticalBytes": false
+  },
+  "safety": {
+    "canonicalArtModified": false,
+    "gameplayModified": false,
+    "reviewDecisionMade": false,
+    "deploymentPerformed": false,
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+  },
+  "nextGate": "RUN_VERIFY_STAGED_OUTPUT_THEN_REAL_RENDER_AND_INDEPENDENT_EXACT_HASH_REVIEW",
+  "status": "GENERATED_SOURCE_BYTES_UNVERIFIED",
+  "recordSha256": "c13a2313ccbc278056a62e8ee5b51d9321e3262b57c2aef11c79470d250b0009"
+}
