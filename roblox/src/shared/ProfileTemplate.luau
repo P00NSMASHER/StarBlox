@@ -82,6 +82,7 @@ local ProfileTemplate = {
 			Purchased = {},
 		},
 		ProcessedEventIds = {},
+		EventStreams = {},
 	},
 }
 
