@@ -198,7 +198,9 @@ function AuthoritativeActionService:Start()
 		end
 		self._snapshotAccumulator = self._snapshotAccumulator % interval
 		for _, player in Players:GetPlayers() do
-			self:RecordSnapshot(player)
+			if self._states[player] ~= nil then
+				self:RecordSnapshot(player)
+			end
 		end
 	end)
 	return true
