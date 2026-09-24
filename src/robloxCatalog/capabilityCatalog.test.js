@@ -219,6 +219,27 @@ describe('Roblox / Brookhaven capability catalog', () => {
     expect(house.engineeringLeverageScore).toBeGreaterThan(5);
   });
 
+  it('binds source provenance to exact file fingerprints when provided', () => {
+    const sha256='a'.repeat(64);
+    const catalog=buildRobloxCapabilityCatalog([
+      {
+        sourceId:'licensed:place',
+        file:'Place.rbxl',
+        sha256,
+        bytes:12345,
+        dom:fixtureDom()
+      }
+    ]);
+
+    expect(catalog.generatedFrom).toEqual([{
+      sourceId:'licensed:place',
+      file:'Place.rbxl',
+      sha256,
+      bytes:12345
+    }]);
+    expect(catalog.summary.sourceFingerprintCount).toBe(1);
+  });
+
   it('is deterministic regardless of source ordering', () => {
     const a={sourceId:'b',file:'B.rbxlx',dom:fixtureDom()};
     const b={sourceId:'a',file:'A.rbxlx',dom:fixtureDom()};
