@@ -56,10 +56,12 @@ const server=http.createServer(async (req,res) => {
     }
 
     if(req.method === 'GET' && url.pathname === '/health'){
+      const instanceId=url.searchParams.get('instanceId');
       send(res,200,{
         ok:true,
         service:'starblox-studio-bridge',
-        ...bridge.status()
+        ...bridge.status(),
+        peers:bridge.peerStatus({instanceId:instanceId || null})
       });
       return;
     }
@@ -97,6 +99,13 @@ const server=http.createServer(async (req,res) => {
       const role=typeof body.role === 'string' && body.role ? body.role : 'edit';
       const waitMs=Math.max(0,Math.min(30_000,Number(body.waitMs ?? 20_000)));
       const limit=Math.max(1,Math.min(20,Number(body.limit ?? 5)));
+
+      bridge.registerPeer({
+        instanceId,
+        role,
+        connectorVersion:body.connectorVersion,
+        tools:body.tools
+      });
 
       await bridge.waitForWork({instanceId,role,waitMs});
       send(res,200,{
