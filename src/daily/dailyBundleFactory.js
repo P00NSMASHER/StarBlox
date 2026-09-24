@@ -9,9 +9,7 @@ import {
   QUEST_LEVEL_GENERATOR_VERSION
 } from '../generation/solutionFirstLevel.js';
 import {
-  createQuestionBankSnapshot,
-  getQuestionEntry,
-  getQuestionVersion
+  createQuestionBankSnapshot
 } from '../questionBank/questionBankV2.js';
 import {
   IDENTITY_BALANCE,
@@ -146,8 +144,8 @@ function deterministicQuestionBindings({
     const candidates=snapshot.refs
       .filter(ref => !used.has(ref.questionId))
       .map(ref => {
-        const entry=getQuestionEntry(bank,ref.questionId);
-        const version=getQuestionVersion(bank,ref.questionId,ref.version);
+        const entry=bank.questions?.[ref.questionId] || null;
+        const version=entry?.versions?.[String(ref.version)] || null;
         return {ref,entry,version};
       })
       .filter(row =>
@@ -248,7 +246,8 @@ async function selectBindings({
 function freezeQuestionSet(bank,bindings){
   return bindings.map(binding => {
     const ref=binding.ref;
-    const version=getQuestionVersion(bank,ref.questionId,ref.version);
+    const entry=bank.questions?.[ref.questionId];
+    const version=entry?.versions?.[String(ref.version)] || null;
     if(!version) throw new Error('question version missing for ' + ref.questionId);
     if(version.contentHash !== ref.contentHash){
       throw new Error('question content hash mismatch for ' + ref.questionId);
