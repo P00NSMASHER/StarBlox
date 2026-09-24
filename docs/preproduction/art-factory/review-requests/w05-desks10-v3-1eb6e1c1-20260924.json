@@ -1,0 +1,84 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_EXACT_HASH_REVIEW_PACKET",
+  "branch": "screenshot-match-preproduction",
+  "createdBy": "14",
+  "rendererEvidenceHead": "77b3dd01ffb6896fff088e241e7fc14a67a7d952",
+  "reviewer": "05",
+  "producer": "03",
+  "item": {
+    "id": "desks-10",
+    "name": "Neon Streaming Desk",
+    "collectionId": "desks",
+    "type": "room",
+    "tier": 4,
+    "theme": "Aqua Wave"
+  },
+  "exactCandidate": {
+    "path": "public/assets/catalog-candidates/cpu/desks-10-w03-v3-a-streaming-worktop-original.png",
+    "sha256": "f793d2c41b7e7ea441e9e637de3d6e9aa6ec6e6299732cbb2ceb1ed2d6edeadb",
+    "gitBlobSha": "1eb6e1c127c3ac85d82daf7454cec0d83ca89b1b",
+    "bytes": 636251,
+    "dimensions": [
+      640,
+      640
+    ],
+    "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-decor8-desks9-10-v3-qualification-20260924.json",
+    "qualification": "QUALIFIED_FOR_RENDERER14"
+  },
+  "renderEvidence": {
+    "workflow": "StarBlox Staged Catalog Art QA",
+    "workflowRunId": 35984489131,
+    "workflowHead": "77b3dd01ffb6896fff088e241e7fc14a67a7d952",
+    "artifactId": 10801511855,
+    "artifactName": "catalog-staged-art-review",
+    "artifactDigest": "sha256:e728db1299775a32c53164ec4334de017289b2e2dff62104fdfe4bee1d22ee42",
+    "contactSheetPath": "staged-replacements/staged-replacements-contact-sheet.png",
+    "contactSheetSha256": "1e473ced2ad3015409d918fe84ede7c2ce3fe2943b470592586383f4e6620385",
+    "renderStatus": 200,
+    "naturalDimensions": [
+      640,
+      640
+    ],
+    "opaqueFraction": 1,
+    "screenshot": true,
+    "errors": [],
+    "detailPath": "staged-replacements/detail/desks-10-1eb6e1c1.png",
+    "detailSha256": "e0f1aba4a490e10e195cc79dc9c6281ef4d2c99e2509e17847e765b18f762d01",
+    "detailDimensions": [
+      800,
+      800
+    ],
+    "preflightPath": "preflight/desks-10-1eb6e1c1.json",
+    "preflightSha256": "a04d5212b8619c38a0d6757e0c1f4e07923f4efa360a61e998d1a8848b778423"
+  },
+  "reportOnlyPreflight": {
+    "exactDuplicate": false,
+    "calibratedWarnings": [],
+    "warningReadyFeatureCount": 0,
+    "triggeredWarningCount": 0,
+    "blocking": false,
+    "automaticAccept": false,
+    "automaticRework": false
+  },
+  "decisionContract": {
+    "allowed": [
+      "ACCEPT",
+      "REWORK"
+    ],
+    "exactHashOnly": true,
+    "oldVerdictTransfers": false,
+    "selfReview": false,
+    "requiredJudgments": [
+      "Neon Streaming Desk identity as premium functional streaming furniture",
+      "Aqua Wave Tier-4 specificity without uncontrolled bloom",
+      "desk supports/equipment cabinet/monitor bridge/mic mount physical plausibility",
+      "silhouette and small-card readability",
+      "graphite/metal/acrylic/glass material separation and depth",
+      "composition/crop/malformed-object risk",
+      "originality/near-duplicate risk versus existing Desks"
+    ],
+    "onAccept": "Route exact desks-10 v3 hash to 08 canonical integration.",
+    "onRework": "Preserve exact desks-10 v3 hash/evidence and return smallest failure-specific reason codes to producer03/director15."
+  }
+}
