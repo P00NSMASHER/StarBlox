@@ -16,6 +16,7 @@ on:
       - "src/riffShadowAdapter.js"
       - "src/edGameClawShadowAdapter.js"
       - "src/sourceEvidenceRuntime.js"
+      - "src/generatedQuestionCompiler.js"
       - "src/selectorV2Shadow.js"
       - "src/*learning*.test.js"
       - "src/adversarialQuestionQa.test.js"
@@ -28,6 +29,7 @@ on:
       - "docs/preproduction/learning-factory/current-promotion-decision.json"
       - "scripts/adaptEdGameClawCourse.mjs"
       - "scripts/bindEdGameClawEvidence.mjs"
+      - "scripts/compileEdGameClawQuestions.mjs"
       - "scripts/exportPsiKtDataset.mjs"
       - "scripts/exportRiffReviews.mjs"
       - "docs/preproduction/learning-factory/fixtures/**"
@@ -97,6 +99,32 @@ jobs:
           console.log(JSON.stringify({
             evidenceBoundCount:r.evidenceBoundCount,
             binding:r.candidates[0].evidenceBindings[0]
+          },null,2));
+          NODE
+
+      - name: Compile evidence-bound EdGameClaw assessment
+        run: |
+          npm run interop:edgameclaw-question -- --input=.learning-evidence/bound.json --out=.learning-evidence/generated-question.json
+          node --input-type=module - <<'NODE'
+          import fs from 'node:fs';
+          const r=JSON.parse(fs.readFileSync('.learning-evidence/generated-question.json','utf8'));
+          if(r.issueCount!==0||r.qaReadyCount!==1){
+            throw new Error('generated question compiler smoke test failed');
+          }
+          const q=r.artifacts[0]?.question;
+          if(q?.masteryEligible!==false){
+            throw new Error('generated question must remain non-mastery');
+          }
+          if(q?.qa?.provenance!=='evidence-bound'){
+            throw new Error('generated question lost evidence provenance');
+          }
+          console.log(JSON.stringify({
+            qaReadyCount:r.qaReadyCount,
+            forcedNonMasteryCount:r.forcedNonMasteryCount,
+            adversarialVariantCount:r.adversarialVariantCount,
+            questionId:q?.id,
+            masteryEligible:q?.masteryEligible,
+            provenance:q?.qa?.provenance
           },null,2));
           NODE
 
