@@ -11,6 +11,7 @@ import {
   runDevelopmentFactory,
   verifyDevelopmentRun
 } from './developmentFactory.js';
+import { buildFactoryMigrationEvidence } from './migrationEvidence.js';
 
 function createStudio({
   episode=true,
@@ -521,6 +522,95 @@ describe('Step 2: transactional Studio mutations', () => {
 });
 
 describe('Step 2: AI development factory', () => {
+  it('rejects an unverified migration task before Studio inspection or mutation', async () => {
+    const studio=createStudio();
+
+    await expect(runDevelopmentFactory({
+      task:{
+        id:'migration-unverified',
+        request:'Adapt an exported quarantine unit',
+        migration:{
+          exportReceipt:'migration-export-receipt.json',
+          unitIds:['unit-1']
+        }
+      },
+      studio,
+      agents:{
+        plan:async () => { throw new Error('planner must not run'); },
+        code:async () => { throw new Error('coder must not run'); },
+        review:async () => { throw new Error('reviewer must not run'); }
+      },
+      startedAt:'2026-09-24T13:29:00Z'
+    })).rejects.toThrow(/requires verified migrationEvidence/);
+
+    expect(studio.calls).toEqual([]);
+  });
+
+  it('binds verified migration evidence into the development run hash', async () => {
+    const studio=createStudio();
+    const migrationEvidence=buildFactoryMigrationEvidence({
+      exportReceipt:{
+        sha256:'a'.repeat(64),
+        receiptHash:'sha256:' + 'b'.repeat(64),
+        bundleId:'roblox-migration-bundle-test',
+        bundleHash:'fnv1a32:bundle',
+        planBindingHash:'fnv1a32:binding'
+      },
+      plan:{
+        planId:'roblox-migration-plan-test',
+        planHash:'fnv1a32:plan',
+        catalogHash:'fnv1a32:catalog'
+      },
+      units:[{
+        unitId:'authorized-system-refactor',
+        systemName:'Authorized System',
+        migrationStrategy:'refactor',
+        disposition:'quarantine',
+        activation:'staging-only',
+        artifactFile:'quarantine/authorized-system-refactor.rbxmx',
+        artifactSha256:'c'.repeat(64),
+        artifactBytes:123,
+        suggestedTarget:'ServerStorage/StarBloxMigration/Quarantine/authorized-system'
+      }]
+    });
+
+    const run=await runDevelopmentFactory({
+      task:{
+        id:'migration-verified',
+        request:'Adapt the verified quarantine unit',
+        migrationEvidence
+      },
+      studio,
+      agents:{
+        plan:async () => ({
+          summary:'Inspect the verified migration unit without changing selection.',
+          tests:{required:false},
+          playtest:{required:false},
+          visual:{required:false}
+        }),
+        code:async () => ({summary:'No-op proof',actions:[]}),
+        review:async ({verification}) => ({
+          verdict:verification.ok ? 'pass' : 'fail',
+          findings:verification.errors
+        })
+      },
+      repositoryGate:{run:async () => ({
+        ok:true,
+        gates:{tests:true,certification:true,balance:true,build:true}
+      })},
+      startedAt:'2026-09-24T13:29:30Z'
+    });
+
+    expect(run.status).toBe('verified');
+    expect(run.task.migrationEvidence.evidenceHash).toBe(migrationEvidence.evidenceHash);
+    expect(run.task.migrationEvidence.units[0].unitId).toBe('authorized-system-refactor');
+    expect(verifyDevelopmentRun(run)).toEqual({ok:true,errors:[]});
+
+    const tampered=JSON.parse(JSON.stringify(run));
+    tampered.task.migrationEvidence.units[0].artifactBytes=124;
+    expect(verifyDevelopmentRun(tampered).errors.join(' ')).toMatch(/migration evidence hash mismatch/);
+  });
+
   it('runs inspect -> plan -> code -> tests/runtime/visual -> review -> repository gates', async () => {
     const studio=createStudio();
     const stages=[];

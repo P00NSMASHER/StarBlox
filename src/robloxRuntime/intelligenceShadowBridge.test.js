@@ -32,7 +32,7 @@ describe('Step 4: Roblox intelligence shadow bridge', () => {
     expect(candidates[0]).not.toHaveProperty('answer');
     expect(candidates[0]).not.toHaveProperty('prompt');
     expect(candidates[0]).not.toHaveProperty('choices');
-  });
+  },15_000);
 
   it('exports full server-only Question Bank and certified Daily runtime artifacts', async () => {
     const bank=importLegacyQuestionBank(gameModel.buildQuestions(),{

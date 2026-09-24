@@ -2,6 +2,7 @@
 import { stableHash } from '../domainSchemas.js';
 import { sanitizeDiagnosticValue } from '../observability/sessionDiagnostics.js';
 import { assessStudioToolCall } from './studioToolContract.js';
+import { verifyFactoryMigrationEvidence } from './migrationEvidence.js';
 import {
   executeStudioActionBatch,
   rollbackStudioActionBatch
@@ -635,11 +636,30 @@ export async function runDevelopmentFactory({
     throw new TypeError('agents.plan, agents.code and agents.review are required.');
   }
 
+  if(task?.migration && !task?.migrationEvidence){
+    throw new Error(
+      'migration development task requires verified migrationEvidence before Studio access'
+    );
+  }
+
+  let migrationEvidence=null;
+  if(task?.migrationEvidence != null){
+    const migrationValidation=verifyFactoryMigrationEvidence(task.migrationEvidence);
+    if(!migrationValidation.ok){
+      throw new Error(
+        'invalid migration development evidence: ' +
+        migrationValidation.errors.join('; ')
+      );
+    }
+    migrationEvidence=clone(task.migrationEvidence);
+  }
+
   const normalizedTask={
     id:requireString(task?.id || 'starblox-task','task.id'),
     request:requireString(task?.request,'task.request'),
     searchQuery:typeof task?.searchQuery === 'string' ? task.searchQuery : '',
-    inspectCalls:Array.isArray(task?.inspectCalls) ? clone(task.inspectCalls) : []
+    inspectCalls:Array.isArray(task?.inspectCalls) ? clone(task.inspectCalls) : [],
+    migrationEvidence
   };
   const start=iso(startedAt,'startedAt');
   const runId='devrun-' + stableHash({task:normalizedTask,startedAt:start}).split(':')[1];
@@ -883,6 +903,14 @@ export function verifyDevelopmentRun(run){
     run.studioAttestation.attested !== true
   ){
     errors.push('required Studio attestation did not pass');
+  }
+  if(run.task?.migrationEvidence != null){
+    const migrationValidation=verifyFactoryMigrationEvidence(run.task.migrationEvidence);
+    if(!migrationValidation.ok){
+      errors.push(
+        ...migrationValidation.errors.map(error => 'migration evidence: ' + error)
+      );
+    }
   }
   try{
     if(stableHash(artifactPayload(run)) !== run.runHash){
