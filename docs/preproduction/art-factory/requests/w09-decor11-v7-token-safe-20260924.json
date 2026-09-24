@@ -26,7 +26,7 @@
     "assignedReviewers": {
       "decor-11": "02"
     },
-    "note": "Final v8 simple-stool retry: preserve vanity identity, force one separate unmistakable four-legged stool, isolate on plain background."
+    "note": "Token-safe v8 retry. Keep a separate four-legged stool unmistakable while staying materially under the 77-token CLIP ceiling."
   },
   "reviewSource": {
     "decision": "TECHNICAL_RETRY",
@@ -51,7 +51,7 @@
         },
         {
           "variantId": "B-SIMPLE-VANITY-STOOL",
-          "optimizerInput": "Dream Vanity Set. ONE small freestanding vanity set on a plain white studio background. ONE vanity table with a clear horizontal tabletop and two small drawer supports. ONE oval mirror centered above the tabletop. ONE separate padded STOOL directly in front of the vanity, fully visible, with a clear seat cushion and FOUR short legs; the stool must be unmistakable at thumbnail size. Coral and lavender accents. Full three-piece set visible with negative space around it. NO room, NO wall cabinets, NO columns, NO rug, NO extra mirror, NO extra seat, NO collage, NO text."
+          "optimizerInput": "Dream Vanity Set. One small vanity table on white, two drawer supports, one oval mirror. One separate padded stool directly in front with four visible short legs. Coral lavender accents. Full three-piece set visible. NO room, cabinets, columns, rug, extra mirror, extra seat, collage, text."
         }
       ]
     }
