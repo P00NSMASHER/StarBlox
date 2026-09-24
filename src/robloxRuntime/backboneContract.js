@@ -16,6 +16,10 @@ export const PROFILE_TEMPLATE=Object.freeze({
   Inventory:Object.freeze({Cosmetics:Object.freeze({}),Equipped:Object.freeze({})}),
   Settings:Object.freeze({MusicVolume:0.6,DiagnosticsEnabled:false}),
   Rollout:Object.freeze({Assignments:Object.freeze({})}),
+  AiNpc:Object.freeze({
+    Memories:Object.freeze({}),
+    ProcessedRequestIds:Object.freeze([])
+  }),
   Social:Object.freeze({
     Home:Object.freeze({PlotId:'',Placements:Object.freeze({})}),
     NpcAffinity:Object.freeze({}),
@@ -50,7 +54,9 @@ export const NETWORK_CONTRACT=Object.freeze([
   Object.freeze({name:'RequestPlaceItem',from:'Client',type:'Reliable'}),
   Object.freeze({name:'RequestRemoveItem',from:'Client',type:'Reliable'}),
   Object.freeze({name:'RequestSocialMinigame',from:'Client',type:'Reliable'}),
-  Object.freeze({name:'SocialWorldState',from:'Server',type:'Reliable'})
+  Object.freeze({name:'SocialWorldState',from:'Server',type:'Reliable'}),
+  Object.freeze({name:'RequestNpcTurn',from:'Client',type:'Reliable'}),
+  Object.freeze({name:'NpcTurn',from:'Server',type:'Reliable'})
 ]);
 
 export const REPLICATION_BOUNDARIES=Object.freeze({
@@ -64,7 +70,9 @@ export const REPLICATION_BOUNDARIES=Object.freeze({
     'Settings',
     'LiveOps.ProcessedEventIds',
     'Social.CompletedSessionIds',
-    'Social.AffinityEventIds'
+    'Social.AffinityEventIds',
+    'AiNpc.Memories',
+    'AiNpc.ProcessedRequestIds'
   ]),
   playerReplica:Object.freeze([
     'SchemaVersion',
