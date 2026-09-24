@@ -65,15 +65,15 @@ function positiveBriefSegments(item,brief=''){
  const body=runtimeBriefBody(item,brief);
  if(!body) return [];
  return body
-  .split(/(?<=[.!?])\s+/)
+  .split(/(?<=[.!?;])\s+|,\s+/)
   .map(segment=>segment.replace(/\bNO\s+.*$/i,'').trim())
   .filter(Boolean);
 }
 
 function balancedBriefWords(item,brief,budget){
- const segments=positiveBriefSegments(item,brief).slice(0,5).map(promptWords).filter(x=>x.length);
+ const segments=positiveBriefSegments(item,brief).slice(0,8).map(promptWords).filter(x=>x.length);
  if(!segments.length||budget<=0) return [];
- const quota=Math.max(5,Math.floor(budget/segments.length));
+ const quota=Math.max(4,Math.floor(budget/segments.length));
  const selected=[],remainders=[];
  for(const words of segments){
   selected.push(...words.slice(0,quota));
