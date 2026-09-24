@@ -141,6 +141,10 @@ const rowsByPolicy={
   oracleTruth:[],
   oracleTruthPlusFsrs:[]
 };
+const blendAlphas=[0,0.1,0.25,0.5,0.75,1];
+const blendRows=Object.fromEntries(
+  blendAlphas.map(alpha=>[String(alpha),[]])
+);
 const psiTruthPairs=[];
 const bktTruthPairs=[];
 const perSkill=Object.fromEntries(
@@ -202,6 +206,22 @@ for(const learner of cohort){
   for(const [name,quest] of Object.entries(policies)){
     rowsByPolicy[name].push(questMetrics(quest,truth,due));
   }
+
+  for(const alpha of blendAlphas){
+    const blended=Object.fromEntries(
+      evaluation.skills.map(skill=>[
+        skill,
+        (1-alpha)*Number(bkt[skill]) + alpha*Number(psiRows[skill])
+      ])
+    );
+    const quest=pickQuestV2Shadow(
+      questions,
+      profileFromMastery(blended,stats,due,true),
+      5,
+      now
+    );
+    blendRows[String(alpha)].push(questMetrics(quest,truth,due));
+  }
 }
 
 const masteryDiagnostics={
@@ -240,6 +260,24 @@ const policies=Object.fromEntries(
 );
 
 const delta=(a,b,key)=>Number(a[key])-Number(b[key]);
+const blendSweep=Object.fromEntries(
+  blendAlphas.map(alpha=>[
+    String(alpha),
+    aggregate(blendRows[String(alpha)])
+  ])
+);
+
+const rankedBlendCandidates=blendAlphas
+  .map(alpha=>({
+    alpha,
+    ...blendSweep[String(alpha)]
+  }))
+  .sort((a,b)=>
+    b.weakestSkillHitRate-a.weakestSkillHitRate ||
+    b.meanHiddenNeed-a.meanHiddenNeed ||
+    a.alpha-b.alpha
+  );
+
 const attribution={
   fsrsOnBkt:{
     meanHiddenNeed:delta(policies.bktPlusFsrs,policies.bktOnly,'meanHiddenNeed'),
@@ -292,6 +330,11 @@ const result={
   },
   masteryDiagnostics,
   policies,
+  hybridBlendSweep:{
+    interpretation:'alpha=0 is BKT-only mastery; alpha=1 is PSI-only mastery. All blend candidates use the existing Selector V2 formula and actual FSRS due state.',
+    candidates:blendSweep,
+    bestDevelopmentCandidate:rankedBlendCandidates[0]
+  },
   attribution,
   promotionBoundary:{
     liveSelectorV2Allowed:false,
