@@ -1,0 +1,112 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_BATCH_REQUEST",
+  "planner": "15",
+  "producer": "09",
+  "preflightOwner": "06",
+  "reviewer": "MIXED_01_02",
+  "renderOwner": "14",
+  "integrationOwner": "08",
+  "coordinationOwner": "15",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "fdaa66c46aeb63c83f665062d65dbf68166979fe",
+  "manifestVersion": 40,
+  "batchId": "w09-release-tail-2pack-v5",
+  "scope": [
+    "decor-7",
+    "decor-11"
+  ],
+  "state": "PREPARED_RELEASE_TAIL__WAIT_SINGLE_SUCCESSOR_SLOT",
+  "assignmentAuthority": {
+    "path": "docs/preproduction/art-factory/RELEASE_BLOCKERS_CURRENT.json",
+    "runtimeProofPath": "docs/preproduction/art-factory/CPU_RUNTIME_PROOF.json",
+    "runtimeProofStatus": "PROVEN",
+    "runtimeCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+    "modelRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "assignedReviewers": {
+      "decor-7": "01",
+      "decor-11": "02"
+    },
+    "note": "Prepared only; do not queue while producer03 is already pending. Uses bounded positive + negative CLIP prompt channels."
+  },
+  "references": {
+    "originalStoreReference": {
+      "requiredBeforeGeneration": true,
+      "repositoryPath": "docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg",
+      "sha256": "b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d",
+      "gitBlobSha": "383baa877d3af86fa92e3583740212000592b3d6",
+      "dimensions": [
+        1448,
+        1086
+      ],
+      "role": "FIRST_PARTY_STARBLOX_STORE_ART_DIRECTION"
+    }
+  },
+  "reviewSource": {
+    "decision": "REWORK",
+    "note": "Newest v8/v4 exact rendered failures. These candidates were generated before the positive/negative prompt compiler, so the next versions intentionally use the improved compiler."
+  },
+  "items": {
+    "decor-7": {
+      "currentLegacy": {
+        "path": "public/assets/catalog-candidates/cpu/decor-7-w09-v8-a-tiny-rack-one-pair-original.png",
+        "gitBlobSha1": "41111bb07b54c5a370adcb44a80d7f0711d37a0e",
+        "reviewDecision": "REWORK",
+        "normalizedFailureTaxonomy": [
+          "QUAD_SKATE_IDENTITY_FAILURE",
+          "ABSTRACT_RACK_SCULPTURE",
+          "NO_READABLE_BOOT_TRUCK_WHEELS",
+          "PRODUCT_CATEGORY_FAILURE"
+        ]
+      },
+      "variants": [
+        {
+          "variantId": "A-TWO-BAY-RACK-QUAD-SKATES",
+          "optimizerInput": "Skate Rack, Room Decor, Tier 3, Garden Glow. EXACTLY ONE tiny freestanding two-bay roller-skate rack on a plain studio background. The rack is simple wood/metal with two open cubbies. Put exactly ONE PAIR of unmistakable quad roller skates inside the lower bay. Each skate must show a clear boot upper, metal truck, and four large visible wheels. The skates must be the dominant recognizable objects and the entire rack must fit cleanly in frame. Add restrained green Garden Glow accents only. NO shelves above, NO boards, NO long rails, NO abstract sculpture, NO repeated rack, NO loose floor skates, NO room, NO collage, NO text."
+        },
+        {
+          "variantId": "B-QUAD-SKATES-IN-SIMPLE-CUBBY",
+          "optimizerInput": "Skate Rack, Room Decor, Tier 3, Garden Glow. ONE compact two-cubby rack only, with ONE clearly recognizable pair of quad skates stored inside. Boots and four wheels per skate must be obvious at thumbnail size. Simple freestanding frame, plain background, small green accent and grounded shadow. NO shelving system, NO boards, NO multiple racks, NO room scene, NO collage, NO text."
+        }
+      ]
+    },
+    "decor-11": {
+      "currentLegacy": {
+        "path": "public/assets/catalog-candidates/cpu/decor-11-w09-v4-a-vanity-mirror-one-stool-original.png",
+        "gitBlobSha1": "f4fed4eaf1bf867ffdd3519d347ae12ce755d9b7",
+        "reviewDecision": "REWORK",
+        "normalizedFailureTaxonomy": [
+          "BUILT_IN_CABINET_WALL",
+          "MULTIPLE_MIRRORS",
+          "NO_SINGLE_VANITY_TABLE",
+          "STOOL_IDENTITY_FAILURE"
+        ]
+      },
+      "variants": [
+        {
+          "variantId": "A-ONE-VANITY-ONE-MIRROR-ONE-STOOL",
+          "optimizerInput": "Dream Vanity Set, Room Decor, Tier 4, Art Attack. EXACTLY ONE freestanding vanity table, exactly ONE mirror attached above it, and exactly ONE matching stool directly in front, all isolated on a plain studio background. The vanity needs one clear tabletop, two supports or small drawer pedestals, one centered mirror, and a visibly separate padded stool with four short legs. Use restrained coral, lavender and aqua Art Attack accents. Entire three-piece set must be readable at card scale. NO wall cabinets, NO built-in room fixture, NO extra mirrors, NO duplicate stools, NO panel grid, NO room architecture, NO collage, NO text."
+        },
+        {
+          "variantId": "B-SIMPLE-FREESTANDING-VANITY-SET",
+          "optimizerInput": "Dream Vanity Set, Room Decor, Tier 4, Art Attack. ONE small freestanding vanity table with ONE oval mirror and ONE obvious matching stool. Plain background, clean three-quarter product view, compact drawers, restrained colorful accents, grounded shadow. NO cabinet wall, NO multiple mirrors, NO multiple seats, NO room, NO built-in architecture, NO text."
+        }
+      ]
+    }
+  },
+  "executionBudget": {
+    "width": 640,
+    "height": 640,
+    "steps": 6,
+    "guidanceScale": 3.5,
+    "dtype": "float32"
+  },
+  "safety": {
+    "preserveRejectedExactHashes": true,
+    "preserveAcceptedExactHashes": true,
+    "producerSelfReview": false,
+    "canonicalMappingsChanged": false,
+    "workflowFilesChanged": false
+  }
+}
