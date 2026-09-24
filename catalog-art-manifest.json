@@ -1,9 +1,9 @@
 {
-  "version": 43,
+  "version": 45,
   "target": 192,
-  "finalCount": 179,
-  "remaining": 13,
-  "note": "StarBlox portable catalog manifest. 179/192 items are final-portable; 13 remain non-final or absent. Exact independently ACCEPTed Decor7, Decor8, and Desk9 hashes are canonical. Seven companion assets remain interim-not-verified pending authoritative live rendering evidence.",
+  "finalCount": 181,
+  "remaining": 11,
+  "note": "StarBlox portable catalog manifest. 181/192 items are final-portable; 11 remain non-final or absent. Exact independently ACCEPTed Desk8 and Wall8 hashes are canonical. Seven companion assets remain interim-not-verified pending authoritative live rendering evidence.",
   "duplicateAssetPaths": [],
   "items": {
     "tops-1": {
@@ -1306,6 +1306,20 @@
       "assetPath": "/assets/catalog-candidates/cpu/desks-9-w03-v6-b-art-maker-worktable-original.png",
       "tier": 3,
       "theme": "Sunny Pop",
+      "status": "final-portable"
+    },
+    "desks-8": {
+      "name": "Aqua Study Station",
+      "assetPath": "/assets/catalog-candidates/cpu/desks-8-w13-v4-a-token-safe-aqua-desk-original.png",
+      "tier": 3,
+      "theme": "Galaxy Glow",
+      "status": "final-portable"
+    },
+    "wall-8": {
+      "name": "Ocean Window",
+      "assetPath": "/assets/catalog-candidates/cpu/wall-8-w13-v10-a-flat-blue-ocean-window-original.png",
+      "tier": 3,
+      "theme": "Candy Core",
       "status": "final-portable"
     }
   }

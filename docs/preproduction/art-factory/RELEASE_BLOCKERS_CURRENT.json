@@ -3,206 +3,117 @@
   "kind": "STARBLOX_RELEASE_ART_BLOCKER_LEDGER",
   "branch": "screenshot-match-preproduction",
   "source": {
-    "computedAtHead": "d982ce01e10b987a362678a9bfd36676c7953541",
+    "computedAtHead": "a5ec5710602ded8f8bab973033f99b9849f4e1d2",
     "manifest": {
-      "version": 40,
-      "finalCount": 176,
-      "remaining": 16,
+      "version": 45,
+      "finalCount": 181,
+      "remaining": 11,
       "target": 192
     }
   },
-  "releaseRule": "Nine visible product-card fallback IDs remain release-critical, plus seven existing companion assets remain interim-not-verified pending authoritative rendering evidence. Remove a visible fallback only after newer exact-hash independent ACCEPT + canonical integration. Promote a companion only after authoritative Store/detail and non-mutating companion-preview evidence is visually verified.",
+  "releaseRule": "Four visible product-card fallback IDs remain release-critical, plus seven companion assets remain interim-not-verified pending authoritative live rendering evidence. Remove a visible fallback only after exact-hash independent ACCEPT + canonical integration.",
   "visibleProductFallbacks": [
-    {
-      "id": "desks-8",
-      "name": "Aqua Study Station",
-      "producer": "13",
-      "reviewer": "11",
-      "state": "PREPARED_PACKED_RETRY_AFTER_TECHNICAL_FAILURE",
-      "preparedQueue": "w13-desk8-wall8-wall9-retry-pack",
-      "latestEvidence": {
-        "version": "v3",
-        "gitBlobSha": "6d01f070b686e4c15a5e906a4099d4fe1cea5f8b",
-        "sha256": "9b880005af88726188fcd23e1ac0eb9407378006daade8d45b46eb5f17739bc8"
-      },
-      "nextRepair": "v4 token-safe: one pale freestanding desk; old v4 produced no bytes because compiled prompt was 79 > 77 CLIP tokens."
-    },
-    {
-      "id": "desks-9",
-      "name": "Art Maker Table",
-      "producer": "03",
-      "reviewer": "05",
-      "state": "PENDING_TOKEN_SAFE_CPU_SUCCESSOR",
-      "activeQueue": "w03-release-tail-4pack-v6-token-safe",
-      "generationRunId": 36046167977,
-      "latestEvidence": {
-        "version": "v4",
-        "gitBlobSha": "b9a6d922e38d03c08298577a0f46c71dfb28bd66",
-        "sha256": "0b8f58f4d9a9003777a4eac3f8df6c10f171918703bfa6b65a18745c4701c1eb"
-      },
-      "nextRepair": "v6 ultra-literal craft table with tools; pending behind running W09."
-    },
     {
       "id": "desks-10",
       "name": "Neon Streaming Desk",
       "producer": "03",
       "reviewer": "05",
-      "state": "PENDING_TOKEN_SAFE_CPU_SUCCESSOR",
-      "activeQueue": "w03-release-tail-4pack-v6-token-safe",
-      "generationRunId": 36046167977,
+      "state": "PENDING_FINAL_CPU_RETRY",
+      "activeQueue": "w03-desks10-11-final-retry",
+      "generationRunId": 36050941229,
       "latestEvidence": {
         "version": "v7",
         "gitBlobSha": "4af5225c536dff0a25c12f0f5e4066c39ad33322",
         "sha256": "aa074975c527d98985197bebe27dcb2c85072b2186e4a565083c6a9715223165"
       },
-      "nextRepair": "v9 ultra-literal streaming desk with obvious boom microphone; pending behind W09."
+      "nextRepair": "v10 final retry: conventional two-support streaming desk with one monitor and unmistakable small boom microphone."
     },
     {
       "id": "desks-11",
       "name": "Dream Creator Station",
       "producer": "03",
       "reviewer": "01",
-      "state": "PENDING_TOKEN_SAFE_CPU_SUCCESSOR",
-      "activeQueue": "w03-release-tail-4pack-v6-token-safe",
-      "generationRunId": 36046167977,
+      "state": "PENDING_FINAL_CPU_RETRY",
+      "activeQueue": "w03-desks10-11-final-retry",
+      "generationRunId": 36050941229,
       "latestEvidence": {
         "version": "v5",
         "gitBlobSha": "31216c600b99791b15e9bd92079dd70241ca53bf",
         "sha256": "2a10f765b356db83badaef9c42ead321aea4eca95d231b198dad3888616b5f4d"
       },
-      "nextRepair": "v7 simple isolated creator desk; pending behind W09."
-    },
-    {
-      "id": "wall-8",
-      "name": "Ocean Window",
-      "producer": "13",
-      "reviewer": "11",
-      "state": "PREPARED_PACKED_REWORK",
-      "preparedQueue": "w13-desk8-wall8-wall9-retry-pack",
-      "latestEvidence": {
-        "version": "v9",
-        "gitBlobSha": "e9d7617107ebfa404e1add432f74c6f5e91efd40",
-        "sha256": "3ca38b0c0810d89a57e29c55688c76900e31f64191226c00b8f7f2b669e8e67f"
-      },
-      "nextRepair": "v10 seascape-first: flat frame, blue water lower half, pale sky upper half, crisp horizon, no protruding base."
+      "nextRepair": "v8 final retry: isolated Art Attack creator workstation with unmistakable creator tools/storage."
     },
     {
       "id": "wall-9",
       "name": "Art Gallery Wall",
       "producer": "13",
       "reviewer": "02",
-      "state": "PREPARED_PACKED_REWORK",
-      "preparedQueue": "w13-desk8-wall8-wall9-retry-pack",
+      "state": "PREPARED_V11_TRIPTYCH_RETRY",
+      "preparedQueue": "w13-wall9-v11-triptych",
       "latestEvidence": {
         "version": "v9",
         "gitBlobSha": "3c343c9803ef4dcf078a846a84cc54973e7e0f63",
         "sha256": "497b5bf800eddc57fb4e9334030d62c1a34e4a2de796f8ea5c6a75f7eee36e12"
       },
-      "nextRepair": "v10 exactly three separate horizontal frames: mountain trail, compass-map, ocean coast; no duplicate subject/blank panel."
-    },
-    {
-      "id": "decor-7",
-      "name": "Skate Rack",
-      "producer": "09",
-      "reviewer": "01",
-      "state": "GENERATION_IN_PROGRESS",
-      "preparedQueue": "w09-release-tail-2pack-v6",
-      "latestEvidence": {
-        "version": "v10",
-        "gitBlobSha": "28bff68db458d4c3b70024ce9c90f28e6b8a92e7",
-        "sha256": "639ca9b68c19680fc2b95c3f0e33138b5f785f80c01e56ea3acc409ce2bc936e"
-      },
-      "nextRepair": "v11 two classic quad skates dominate one short shoe rack; 10-step consolidated W09 run.",
-      "activeQueue": "w09-release-tail-2pack-v7",
-      "generationRunId": 36044194444
-    },
-    {
-      "id": "decor-8",
-      "name": "Mini Aquarium",
-      "producer": "03",
-      "reviewer": "11",
-      "state": "PENDING_TOKEN_SAFE_CPU_SUCCESSOR",
-      "activeQueue": "w03-release-tail-4pack-v6-token-safe",
-      "generationRunId": 36046167977,
-      "latestEvidence": {
-        "version": "v4",
-        "gitBlobSha": "84aebabc0c5653fbd551badab28dff9873574edd",
-        "sha256": "e169c2c18cfbcc94adf2d49b24bc41e178786771fbe2d586a2eaa72a99f99d53"
-      },
-      "nextRepair": "v6 one fish aquarium with blue water, visible fish/filter; pending behind W09."
+      "nextRepair": "v11: exactly three separate horizontal frames only—mountain trail, compass-map, ocean coast."
     },
     {
       "id": "decor-11",
       "name": "Dream Vanity Set",
       "producer": "09",
       "reviewer": "02",
-      "state": "PREPARED_TOKEN_SAFE_AFTER_TECHNICAL_FAILURE",
+      "state": "STAGED_V7_PENDING_INTAKE",
       "preparedQueue": "w09-decor11-v7-token-safe",
       "latestEvidence": {
         "version": "v6",
         "gitBlobSha": "61def289ba05f48b56c29d3eaa2d38a4a4b0899a",
         "sha256": "2ebcd1c5e2c858a7203e54791ef02ddfe32e1fd49b1b06d1ad0ec639b8dffeda"
       },
-      "nextRepair": "v7 token-safe: one vanity, one oval mirror, one padded stool; current W09 v7 attempt produced no bytes because compiled prompt was 81 > 77 tokens.",
-      "activeQueue": null,
+      "nextRepair": "v7 exact candidate staged; route through intake/render/reviewer02 before any further generation.",
+      "activeQueue": "w09-decor11-v7-token-safe",
       "generationRunId": null
     }
   ],
   "parallelWorkPlan": {
     "cpuSemaphore": "ONE_RUNNING_PLUS_ONE_PENDING",
     "currentCpuBatch": {
-      "queueId": "w09-release-tail-2pack-v7",
+      "queueId": "premium-garden-snail-successor",
       "items": [
-        "decor-7"
+        "companions-9"
       ],
-      "technicalFailureItems": [
-        "decor-11"
-      ],
-      "runId": 36044194444,
-      "state": "RUNNING_DECOR7__DECOR11_NO_BYTES_TOKEN_OVERFLOW"
+      "runId": 36050151905,
+      "state": "RUNNING_NONCRITICAL_COMPANION_ART"
     },
     "pendingSuccessor": {
-      "queueId": "w03-release-tail-4pack-v6-token-safe",
+      "queueId": "w03-desks10-11-final-retry",
       "items": [
-        "decor-8",
-        "desks-9",
         "desks-10",
         "desks-11"
       ],
-      "runId": 36046167977,
-      "state": "PENDING"
+      "runId": 36050941229,
+      "state": "PENDING_RELEASE_CRITICAL"
     },
     "preparedNext": [
       {
         "rank": 1,
         "producer": "13",
-        "queuePath": "docs/preproduction/art-factory/prepared-queues/w13-desk8-wall8-retry-pack.json",
+        "queuePath": "docs/preproduction/art-factory/prepared-queues/w13-wall9-v11-triptych.json",
         "items": [
-          "desks-8",
-          "wall-8",
           "wall-9"
-        ]
-      },
-      {
-        "rank": 2,
-        "producer": "09",
-        "queuePath": "docs/preproduction/art-factory/prepared-queues/w09-decor11-v7-token-safe.json",
-        "items": [
-          "decor-11"
         ]
       }
     ],
-    "queuePolicy": "Preserve running W09 and pending token-safe W03. When W03 starts, queue packed W13. After W13 starts, queue token-safe Decor11 if still unresolved; pack with any newer same-producer Decor7 retry only if Decor7 current candidate is REWORK."
+    "queuePolicy": "Do not queue another CPU job until the final Desk10/11 retry transitions to running. Decor11 needs downstream review, not another generation."
   },
   "nonArtReleaseState": {
     "liveFunctionalSmoke": "GREEN",
     "ci": "GREEN on latest tested art head",
     "replitDeployment": "LIVE",
-    "note": "Do not reopen functional work absent a new bound-hash regression.",
+    "note": "Visible art tail is four items. Companion source art exists; live wiring/parity remains a separate gate.",
     "companionParity": "BLOCKED_LIVE_DEPLOYMENT_WIRING__NOT_ART_GENERATION"
   },
   "interimCompanionGate": {
-    "state": "LIVE_REPLIT_DEPLOYMENT_PARITY_BLOCKER__SOURCE_ART_EXISTS",
+    "state": "LIVE_REPLIT_PARITY_GATE__ART_REGENERATION_NOT_REQUIRED_FOR_RELEASE_DECISION",
     "evidence": {
       "workflowRunId": 36044591086,
       "artifactId": 10827159382,
