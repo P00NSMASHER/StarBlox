@@ -1,0 +1,149 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_BATCH_REQUEST",
+  "planner": "15",
+  "producer": "03",
+  "preflightOwner": "06",
+  "reviewer": "MIXED_11_05_01",
+  "renderOwner": "14",
+  "integrationOwner": "08",
+  "coordinationOwner": "15",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "a1b4a669573f0248782977c1a4ff55c1af3fd3be",
+  "manifestVersion": 40,
+  "batchId": "w03-release-tail-4pack-v6",
+  "scope": [
+    "decor-8",
+    "desks-9",
+    "desks-10",
+    "desks-11"
+  ],
+  "state": "PREPARED_ULTRA_LITERAL_FOURPACK__WAIT_EXISTING_CPU_SUCCESSORS",
+  "assignmentAuthority": {
+    "path": "docs/preproduction/art-factory/RELEASE_BLOCKERS_CURRENT.json",
+    "runtimeProofPath": "docs/preproduction/art-factory/CPU_RUNTIME_PROOF.json",
+    "runtimeProofStatus": "PROVEN",
+    "runtimeCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+    "modelRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "assignedReviewers": {
+      "decor-8": "11",
+      "desks-9": "05",
+      "desks-10": "05",
+      "desks-11": "01"
+    },
+    "note": "Consolidated retry after exact rendered v5/v8/v6 failures. Prompts are deliberately literal and single-object; 10-step bounded quality bump."
+  },
+  "reviewSource": {
+    "decision": "REWORK",
+    "note": "Newest exact Store-card/detail verdicts from workflow 36041110855."
+  },
+  "items": {
+    "decor-8": {
+      "currentLegacy": {
+        "path": "public/assets/catalog-candidates/cpu/decor-8-w03-v5-a-blue-water-fish-aquarium-original.png",
+        "gitBlobSha1": "24f5655854ab4188247b62e55622e479d6f0cb2a",
+        "reviewDecision": "REWORK",
+        "normalizedFailureTaxonomy": [
+          "FOUR_PANEL_COLLAGE",
+          "MULTIPLE_TANKS",
+          "FISH_IDENTITY_MISSING",
+          "NO_SINGLE_AQUARIUM_SILHOUETTE"
+        ]
+      },
+      "variants": [
+        {
+          "variantId": "A-ONE-FISH-TANK-FRONT",
+          "optimizerInput": "Exactly ONE small rectangular fish aquarium, front three-quarter product view, centered on a blank white studio background. One clear glass tank only. Bright blue water fills most of the tank with one obvious horizontal water line. Show exactly TWO small colorful fish with clear fish silhouettes, one vertical bubble filter column, gravel and one green aquatic plant. One dark base, one thin lid. The single tank fills most of the image. NO split panels, NO grid, NO second tank, NO terrarium, NO display cabinet, NO comparison sheet, NO room, NO text."
+        },
+        {
+          "variantId": "B-SINGLE-BLUE-AQUARIUM",
+          "optimizerInput": "ONE compact glass aquarium only on plain white. Large blue water area, visible water line, two obvious fish, one bubble filter, gravel, one plant, dark base and simple lid. Full single tank visible. NO panels, NO multiple boxes, NO duplicate tank, NO terrarium, NO room, NO text."
+        }
+      ]
+    },
+    "desks-9": {
+      "currentLegacy": {
+        "path": "public/assets/catalog-candidates/cpu/desks-9-w03-v5-a-literal-art-maker-table-original.png",
+        "gitBlobSha1": "79d5f4e0520910fea1a6ac47c76df451b14ce6f2",
+        "reviewDecision": "REWORK",
+        "normalizedFailureTaxonomy": [
+          "GENERIC_SCHOOL_DESK_IDENTITY",
+          "TOOL_RAIL_MISSING",
+          "ART_SUPPLIES_MISSING",
+          "HANGING_PROP_DISTRACTION"
+        ]
+      },
+      "variants": [
+        {
+          "variantId": "A-CRAFT-TABLE-WITH-TOOLS",
+          "optimizerInput": "Exactly ONE freestanding children's art and craft table product, centered on a blank white studio background. One broad rectangular yellow worktop, four straight simple legs, one low pegboard/tool rail attached across the rear edge. On the tabletop place exactly three recognizable art items: one cup of paintbrushes, one pair of scissors, and one stack of colored paper. One shallow drawer under the top. Full table visible. NO chair, NO hanging bag, NO room, NO wall shelves, NO cabinets, NO collage, NO text."
+        },
+        {
+          "variantId": "B-ART-MAKER-WORKTABLE",
+          "optimizerInput": "ONE isolated craft worktable only: wide flat top, four legs, low rear peg rail, brush cup, scissors, colored paper, one drawer, plain white background. Warm yellow and coral accents. NO chair, NO bag, NO room, NO shelving, NO collage, NO text."
+        }
+      ]
+    },
+    "desks-10": {
+      "currentLegacy": {
+        "path": "public/assets/catalog-candidates/cpu/desks-10-w03-v8-a-literal-streaming-desk-original.png",
+        "gitBlobSha1": "d43408f2e7c6292a4ebac2048b0ca43e56247cdd",
+        "reviewDecision": "REWORK",
+        "normalizedFailureTaxonomy": [
+          "MICROPHONE_IDENTITY_MISSING",
+          "MALFORMED_SUPPORT_CABLE_GEOMETRY",
+          "GRID_ROOM_BACKGROUND",
+          "STREAMING_WORKSTATION_INCOMPLETE"
+        ]
+      },
+      "variants": [
+        {
+          "variantId": "A-DESK-WITH-BIG-BOOM-MIC",
+          "optimizerInput": "Exactly ONE modern streaming desk product on a blank white studio background. One long black rectangular desk top, two simple straight legs. One large computer monitor centered on the desk. One VERY OBVIOUS black broadcast microphone with a round capsule on a hinged boom arm, visibly clamped to the left front desk edge and extending toward the monitor. One small PC tower below the right side. Thin cyan light strip. Full desk visible. NO wall, NO grid background, NO hanging cables, NO shelves, NO cabinets, NO second desk, NO collage, NO text."
+        },
+        {
+          "variantId": "B-STREAMING-WORKSTATION-MIC-DOMINANT",
+          "optimizerInput": "ONE isolated black streaming desk only. Wide flat tabletop, two legs, one monitor, one large clearly recognizable microphone on an articulated boom arm clamped to the desk, one PC tower, subtle cyan accent light, plain white background. NO grid, NO room, NO loose cables, NO shelves, NO duplicate views, NO text."
+        }
+      ]
+    },
+    "desks-11": {
+      "currentLegacy": {
+        "path": "public/assets/catalog-candidates/cpu/desks-11-w03-v6-a-literal-creator-desk-original.png",
+        "gitBlobSha1": "202a80396f3ca114c57b1f488aa7d5230aba17b4",
+        "reviewDecision": "REWORK",
+        "normalizedFailureTaxonomy": [
+          "SECOND_FURNITURE_FRAGMENT",
+          "BACKGROUND_BUILT_IN_SHELVING",
+          "NO_CLEAN_ISOLATED_PRODUCT",
+          "MALFORMED_CREATOR_STATION_GEOMETRY"
+        ]
+      },
+      "variants": [
+        {
+          "variantId": "A-ONE-SIMPLE-CREATOR-DESK",
+          "optimizerInput": "Exactly ONE single creator desk product centered on a blank white studio background. One flat rectangular cream tabletop. Two plain solid rectangular pedestal supports. One small drawer block under the right side. One drawing tablet lying on the tabletop and one brush cup. Lavender and aqua accents only. Full desk visible, one three-quarter product view. NO shelves, NO organizer wall, NO background furniture, NO room, NO chair, NO second object, NO second view, NO collage, NO text."
+        },
+        {
+          "variantId": "B-PLAIN-CREATOR-DESK",
+          "optimizerInput": "ONE freestanding creator desk only on plain white. Flat rectangular tabletop, two solid pedestals, one drawer unit, one drawing tablet, one brush cup. Single product view. NO shelving, NO room, NO extra furniture, NO chair, NO panels, NO collage, NO text."
+        }
+      ]
+    }
+  },
+  "executionBudget": {
+    "width": 640,
+    "height": 640,
+    "steps": 10,
+    "guidanceScale": 4.5,
+    "dtype": "float32"
+  },
+  "safety": {
+    "preserveRejectedExactHashes": true,
+    "preserveAcceptedExactHashes": true,
+    "producerSelfReview": false,
+    "canonicalMappingsChanged": false,
+    "workflowFilesChanged": false
+  }
+}
