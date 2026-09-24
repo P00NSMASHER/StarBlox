@@ -1,0 +1,114 @@
+name: Learning Model Promotion Shadow
+
+on:
+  push:
+    branches:
+      - starblox-learning-factory-v1
+    paths:
+      - "src/currentAbvmGrade2SourcePack.js"
+      - "src/currentAbvmGrade2SourcePack.test.js"
+      - "src/currentLearningSourceSnapshots.js"
+      - "src/learningSourceRegistry.js"
+      - "src/riffShadowAdapter.js"
+      - "src/psiKtShadowAdapter.js"
+      - "src/selectorV2Shadow.js"
+      - "scripts/generateLearningPromotionDataset.mjs"
+      - "scripts/runPsiKtPromotionExperiment.py"
+      - "scripts/compareLearningSelectors.mjs"
+      - "tools/fsrs-shadow/**"
+      - "package.json"
+      - ".github/workflows/learning-model-promotion-shadow.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  promotion-shadow:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+
+      - name: Install StarBlox dependencies
+        run: |
+          npm install --ignore-scripts --package-lock=false
+
+      - name: Verify learning contracts and strict provenance
+        run: |
+          npm run test:learning-factory
+          npm run validate:learning -- --strict-provenance --out=.learning-provenance-receipt.json
+
+      - name: Generate one shared authorized synthetic dataset
+        run: |
+          npm run generate:learning-promotion -- --out-dir=.learning-promotion --learners=48 --max-step=30 --seed=20260924
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.23"
+
+      - name: Execute review commands through actual FSRS
+        run: |
+          cd tools/fsrs-shadow
+          go run .             -input ../../.learning-promotion/riff-reviews.json             -out ../../.learning-promotion/fsrs-engine-receipt.json             -evaluation-offset-hours 24
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install pinned upstream PSI-KT
+        run: |
+          python -m pip install --upgrade pip setuptools wheel
+          git clone https://github.com/mlcolab/psi-kt.git .vendor/psi-kt
+          git -C .vendor/psi-kt checkout ecada10cedb3237ba55f4277af0bdbd8d5d4a68e
+          python -m pip install -e .vendor/psi-kt
+
+      - name: Train and infer with upstream AmortizedPSIKT
+        run: |
+          python scripts/runPsiKtPromotionExperiment.py             --psi-repo=.vendor/psi-kt             --data-dir=.learning-promotion             --evaluation=.learning-promotion/evaluation.json             --graph-json=.learning-promotion/skill-graph.json             --out=.learning-promotion/psi-kt-receipt.json             --epochs=2             --max-step=30
+
+      - name: Compare current heuristic, BKT shadow, and PSI-KT plus FSRS
+        run: |
+          npm run compare:learning-promotion --             --evaluation=.learning-promotion/evaluation.json             --psi=.learning-promotion/psi-kt-receipt.json             --fsrs=.learning-promotion/fsrs-engine-receipt.json             --out=.learning-promotion/selector-comparison.json
+
+      - name: Enforce synthetic-only no-live-promotion boundary
+        run: |
+          node --input-type=module - <<'NODE'
+          import fs from 'node:fs';
+          const comparison = JSON.parse(fs.readFileSync('.learning-promotion/selector-comparison.json','utf8'));
+          if(comparison.datasetAuthorization !== 'synthetic-only-no-real-player-data'){
+            throw new Error('unexpected dataset authorization');
+          }
+          if(comparison.promotionGate.liveSelectorV2Allowed !== false){
+            throw new Error('synthetic promotion run must never enable live Selector V2');
+          }
+          const fsrs = JSON.parse(fs.readFileSync('.learning-promotion/fsrs-engine-receipt.json','utf8'));
+          if(fsrs.engineVersion !== 'v3.3.1' || fsrs.cardCount <= 0){
+            throw new Error('actual FSRS engine evidence missing');
+          }
+          const psi = JSON.parse(fs.readFileSync('.learning-promotion/psi-kt-receipt.json','utf8'));
+          if(psi.model !== 'AmortizedPSIKT' || psi.metrics.predictionCount <= 0){
+            throw new Error('PSI-KT training/inference evidence missing');
+          }
+          console.log(JSON.stringify({
+            strictSyntheticBoundary:true,
+            fsrsCards:fsrs.cardCount,
+            psiPredictions:psi.metrics.predictionCount,
+            comparison:comparison.policies
+          },null,2));
+          NODE
+
+      - name: Upload promotion evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: learning-model-promotion-shadow
+          path: |
+            .learning-promotion
+            .learning-provenance-receipt.json
+          if-no-files-found: error
