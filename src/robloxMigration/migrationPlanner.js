@@ -156,6 +156,11 @@ function selectUnit({candidate,capabilities,strategy,rules,systemName}){
   }
 
   const explicit=rules.includeSystems.includes(systemName);
+
+  if(strategy === 'quarantine' && !rules.includeRisky){
+    return {selected:false,reason:'risk-flagged system requires explicit includeRisky approval'};
+  }
+
   if(!explicit && candidate && candidate.engineeringLeverageScore < rules.minEngineeringLeverageScore){
     return {selected:false,reason:'engineering leverage score is below configured minimum'};
   }
@@ -165,10 +170,6 @@ function selectUnit({candidate,capabilities,strategy,rules,systemName}){
     if(!matches){
       return {selected:false,reason:'system does not match requested migration capabilities'};
     }
-  }
-
-  if(strategy === 'quarantine' && !rules.includeRisky){
-    return {selected:false,reason:'risk-flagged system requires explicit includeRisky approval'};
   }
 
   return {
