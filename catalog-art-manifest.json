@@ -1,9 +1,9 @@
 {
-  "version": 35,
+  "version": 36,
   "target": 192,
-  "finalCount": 169,
-  "remaining": 23,
-  "note": "Delivery Protocol V2 incremental integration: independently ACCEPTed Wall 10 v2 exact hash integrated after reviewer02 exact Store-card/detail review. Wall 9 remains REWORK; Wall 10 v1 remains historical REWORK evidence. Replit/Floot/main/player data remain untouched.",
+  "finalCount": 171,
+  "remaining": 21,
+  "note": "Delivery Protocol V2 incremental integration: independently ACCEPTed Decor 5 v3 and Decor 6 v2 exact hashes integrated after packet-bound Store card/detail review. Decor 7/8, Wall 9 and Desk 9/10 remain REWORK. Replit/Floot/main/player data remain untouched.",
   "duplicateAssetPaths": [],
   "items": {
     "tops-1": {
@@ -1215,6 +1215,20 @@
       "assetPath": "/assets/catalog/decor-4-w09-v3.webp",
       "tier": 2,
       "theme": "Cloud Pop",
+      "status": "final-portable"
+    },
+    "decor-5": {
+      "name": "Plant Wall",
+      "assetPath": "/assets/catalog-candidates/cpu/decor-5-w09-v3-a-physical-original.png",
+      "tier": 2,
+      "theme": "Pixel Party",
+      "status": "final-portable"
+    },
+    "decor-6": {
+      "name": "Telescope",
+      "assetPath": "/assets/catalog-candidates/cpu/decor-6-w03-v2-a-single-telescope-original.png",
+      "tier": 2,
+      "theme": "Berry Blast",
       "status": "final-portable"
     },
     "wall-11": {
