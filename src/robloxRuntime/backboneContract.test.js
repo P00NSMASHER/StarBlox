@@ -22,7 +22,9 @@ describe('Step 3: Roblox production backbone', () => {
         'Learning.Concepts',
         'Learning.Ability',
         'Daily.Completed',
-        'Settings'
+        'Settings',
+        'Social.CompletedSessionIds',
+        'Social.AffinityEventIds'
       ])
     );
     expect(REPLICATION_BOUNDARIES.playerReplica).not.toContain('Learning.Concepts');
@@ -101,6 +103,15 @@ describe('Step 3: Roblox production backbone', () => {
     const request=client.indexOf('RequestData');
     expect(listener).toBeGreaterThanOrEqual(0);
     expect(request).toBeGreaterThan(listener);
+  });
+
+  it('keeps social-world placement fail-closed and durable affinity dedupe server-side', () => {
+    const source=file('roblox/src/server/SocialWorldService.luau');
+    expect(source).toMatch(/placement validator unavailable/);
+    expect(source).toMatch(/AffinityEventIds/);
+    expect(source).toMatch(/table\.find\(social\.AffinityEventIds, awardId\)/);
+    expect(source).toMatch(/not duplicate and self\._liveOps/);
+    expect(REPLICATION_BOUNDARIES.playerReplica).not.toContain('Social.AffinityEventIds');
   });
 
   it('maps the Rojo tree into shared, server, and client Roblox service boundaries', () => {
