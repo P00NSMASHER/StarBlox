@@ -244,7 +244,10 @@ async function inspectBuddy(id){
 try{
   await page.goto(baseUrl,{waitUntil:'domcontentloaded',timeout:30000});
   await page.waitForSelector('.sidebar .navBtn',{timeout:15000});
-  report.initialNav=await page.locator('.sidebar .navBtn').evaluateAll(nodes=>nodes.filter(visible).map(n=>({
+  report.initialNav=await page.locator('.sidebar .navBtn').evaluateAll(nodes=>nodes.filter(n=>{
+    const style=getComputedStyle(n),rect=n.getBoundingClientRect();
+    return style.display!=='none'&&style.visibility!=='hidden'&&Number(style.opacity||1)>0&&rect.width>0&&rect.height>0;
+  }).map(n=>({
     text:(n.textContent||'').replace(/\s+/g,' ').trim(),
     aria:n.getAttribute('aria-label')||''
   })));
