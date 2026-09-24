@@ -18,6 +18,7 @@ on:
       - "scripts/runPsiKtPromotionExperiment.py"
       - "scripts/compareLearningSelectors.mjs"
       - "scripts/assertLearningPromotionBoundary.mjs"
+      - "scripts/assertLearningLiveSelectorBoundary.mjs"
       - "scripts/buildLearningPromotionDecision.mjs"
       - "scripts/assertLockedLearningBenchmark.mjs"
       - "docs/preproduction/learning-factory/locked-promotion-benchmark.json"
@@ -167,7 +168,7 @@ jobs:
       - name: Compare current heuristic, BKT shadow, and PSI-KT plus FSRS
         run: npm run compare:learning-promotion -- --evaluation=.learning-promotion/evaluation.json --psi=.learning-promotion/psi-kt-receipt.json --fsrs=.learning-promotion/fsrs-engine-receipt.json --out=.learning-promotion/selector-comparison.json
 
-      - name: Assert Selector V2 is not wired into live Quest code
+      - name: Assert rejected research selectors are not wired into live Quest code
         run: npm run assert:learning-promotion-boundary
 
       - name: Persist and enforce no-live-promotion decision
