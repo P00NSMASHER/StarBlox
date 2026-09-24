@@ -1,0 +1,112 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_GENERATION_RECEIPT",
+  "repository": "P00NSMASHER/StarBlox",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "5a834b014c3f48f5a134068928ffbd3903f7d97e",
+  "sourcePlanSha256": "afaee255a821c4574c343d87ae1271068ed82d368bf7eb3132486a1e38cd6e49",
+  "executionCheckout": {
+    "branch": "screenshot-match-preproduction",
+    "head": "5a834b014c3f48f5a134068928ffbd3903f7d97e",
+    "planSourceHeadMatchesExecutionHead": true
+  },
+  "attempt": {
+    "attemptId": "desks-11-w03-a-worktop-first-e7cf024e1e",
+    "itemId": "desks-11",
+    "producer": "03",
+    "variant": "A-WORKTOP-FIRST",
+    "promptSha256": "e7cf024e1e6ecb7a346d61fdc2a441879a2899cb05b93d8933b5172404da311f",
+    "runtimePromptSha256": "3cc7a737258b302547b6147ee1e1e527fc074bd3671411c2aaa4a5de299a20ea",
+    "runtimeNegativePromptSha256": "4c1d32c8b85aa379bea55bb6bcc6a50a5f2b5373390ed4af625ae272dcc23b03",
+    "promptRecipeVersion": "artPromptOptimizer-request-v1:w03-desk11-v10-ultraliteral",
+    "seed": 33799813
+  },
+  "runtime": {
+    "repo": "huggingface/diffusers",
+    "commit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "resolvedCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "runtimeCommitVerified": true,
+    "diffusersVersion": "0.41.0.dev0",
+    "diffusersInstallSource": "https://github.com/huggingface/diffusers.git",
+    "torchVersion": "2.8.0+cpu",
+    "transformersVersion": "5.17.0",
+    "accelerateVersion": "1.15.0",
+    "huggingfaceHubVersion": "1.33.0",
+    "safetensorsVersion": "0.8.0",
+    "pythonPillowVersion": "12.3.0",
+    "device": "cpu",
+    "dtype": "float32",
+    "executionMode": "cpu-fallback"
+  },
+  "model": {
+    "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+    "revision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS",
+    "resolvedRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "snapshotRevisionVerified": true,
+    "selectiveSnapshot": true,
+    "snapshotAllowPatterns": [
+      "model_index.json",
+      "scheduler/*",
+      "tokenizer/*",
+      "tokenizer_2/*",
+      "feature_extractor/*",
+      "text_encoder/config.json",
+      "text_encoder/model.fp16.safetensors",
+      "text_encoder_2/config.json",
+      "text_encoder_2/model.fp16.safetensors",
+      "unet/config.json",
+      "unet/diffusion_pytorch_model.fp16.safetensors",
+      "vae/config.json",
+      "vae/diffusion_pytorch_model.fp16.safetensors"
+    ]
+  },
+  "conditioning": {
+    "referenceAssetSha256": null,
+    "controlImageSha256": null,
+    "adapterScale": null,
+    "referenceImage": null,
+    "ipAdapterModelId": null,
+    "ipAdapterRevision": null,
+    "ipAdapterResolvedRevision": null,
+    "ipAdapterRevisionVerified": false,
+    "ipAdapterWeightName": null,
+    "ipAdapterSubfolder": null
+  },
+  "generation": {
+    "width": 640,
+    "height": 640,
+    "numInferenceSteps": 14,
+    "guidanceScale": 5.5,
+    "runtimePromptTokenCounts": {
+      "tokenizer": 62,
+      "tokenizer_2": 62
+    },
+    "runtimeNegativePromptTokenCounts": {
+      "tokenizer": 31,
+      "tokenizer_2": 31
+    },
+    "executedSeed": 33799813
+  },
+  "output": {
+    "repoPath": "public/assets/catalog-candidates/cpu/desks-11-w03-v10-a-worktop-first-original.png",
+    "sha256": "490541208e0af9537cbf0e143448e7fbb2e2a59ce2b22447586f5f5a0690da84",
+    "gitBlobSha": "a46471a5a4adc6edfb004cabfb5af9ee0b4ae6c9",
+    "bytes": 351031,
+    "width": 640,
+    "height": 640,
+    "format": "PNG",
+    "sourceBytesPreserved": true,
+    "reusedExistingIdenticalBytes": false
+  },
+  "safety": {
+    "canonicalArtModified": false,
+    "gameplayModified": false,
+    "reviewDecisionMade": false,
+    "deploymentPerformed": false,
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+  },
+  "nextGate": "RUN_VERIFY_STAGED_OUTPUT_THEN_REAL_RENDER_AND_INDEPENDENT_EXACT_HASH_REVIEW",
+  "status": "GENERATED_SOURCE_BYTES_UNVERIFIED",
+  "recordSha256": "d7ff6c28d7fc46cedc9bf9b3aca12f496f4f08f81b982eb053cf2b0c8b1dfefa"
+}
