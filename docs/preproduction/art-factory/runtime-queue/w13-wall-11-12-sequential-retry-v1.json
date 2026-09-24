@@ -7,7 +7,7 @@
   "runtimeCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
   "runtimeProofPath": "docs/preproduction/art-factory/CPU_RUNTIME_PROOF.json",
   "runtimeProofArtifactDigest": "sha256:528610198d72092c9d09159bf4b749a5c467361307587545fb24dded2876eeda",
-  "queueId": "w13-wall-11-12-sequential-retry-v1",
+  "queueId": "w13-wall-11-12-sequential-retry-v2",
   "requestPath": "docs/preproduction/art-factory/requests/w13-wall-9-12-cpu-bound-20260923.json",
   "producer": "13",
   "items": [
@@ -27,29 +27,37 @@
     "wall-12": 1
   },
   "generation": {
-    "width": 768,
-    "height": 768,
-    "steps": 8,
+    "width": 640,
+    "height": 640,
+    "steps": 6,
     "guidanceScale": 3.5,
     "dtype": "bfloat16"
   },
   "retryEvidence": {
-    "failedRunId": 35931931966,
+    "failedRunId": 35936672746,
     "failedJobs": {
-      "wall-11": 107420516528,
-      "wall-12": 107420516458
+      "wall_11": 107435234266,
+      "wall_12": 107435234361
     },
-    "failureClass": "GENERATION_STEP_TIMEOUT_NO_CANDIDATE_ARTIFACT",
+    "failureClass": "GENERATION_STEP_TIMEOUT_20_MINUTES_NO_CANDIDATE_ARTIFACT",
     "preservedSuccessfulSiblings": [
       "wall-9",
       "wall-10"
     ],
-    "rule": "Retry only failed no-artifact IDs. Never regenerate Wall 9/10 exact staged hashes."
+    "priorRetryGeneration": {
+      "width": 768,
+      "height": 768,
+      "steps": 8,
+      "guidanceScale": 3.5,
+      "dtype": "bfloat16"
+    },
+    "optimizationReason": "Both failed-only retries exhausted the full 20-minute inference guard with zero candidate artifacts. 640x640/6 steps materially reduces CPU work while remaining above the 600x600 Store-card source target. Model/revision, prompts, seeds, reviewer routing, and provenance requirements remain unchanged.",
+    "rule": "Retry only wall-11 and wall-12. Never regenerate or mutate Wall 9/10 staged hashes."
   },
   "handoff": {
     "nextOwner": "12",
     "route": "12 -> 06 -> 14 -> 02 -> 08 on ACCEPT",
     "canonicalWriter": "08"
   },
-  "dispatchPolicy": "SEQUENTIAL_CPU_WORKFLOW_ONLY__DISPATCH_WHEN_CPU_LANE_IDLE"
+  "dispatchPolicy": "CPU_LANE_IDLE__FAILED_ONLY_V2__NO_PARALLEL_DUPLICATE"
 }
