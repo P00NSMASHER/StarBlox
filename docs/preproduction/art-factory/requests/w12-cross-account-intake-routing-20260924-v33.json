@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_W12_CANDIDATE_DELTA_INTAKE_ROUTING",
+  "router": "12",
+  "branch": "screenshot-match-preproduction",
+  "observedHead": "0603a14c90842f8622a886d4322f961f444af729",
+  "scanWindow": {
+    "priorCursor": "c98ba182f65e3f8ce7c74b47e7c182c3c4c93efb",
+    "inspectedThroughHead": "0603a14c90842f8622a886d4322f961f444af729",
+    "newCatalogCandidateBytesDetected": true,
+    "newCandidateItemIds": [
+      "desks-10"
+    ],
+    "note": "Post-v32 delta contains exactly one new catalog candidate: Desk10 v5. Intake/qualification commits for Desk11 add evidence only."
+  },
+  "candidates": [
+    {
+      "id": "desks-10",
+      "name": "Neon Streaming Desk",
+      "collectionId": "desks",
+      "producer": "03",
+      "reviewerAssignment": "05",
+      "renderOwner": "14",
+      "canonicalWriter": "08",
+      "path": "public/assets/catalog-candidates/cpu/desks-10-w03-v5-a-obvious-streaming-desk-original.png",
+      "sha256": "a16e8ef10204fbf6971d5ccb8de848bfb890146cb25ebd33c1860ef6ebe2114d",
+      "gitBlobSha": "8e25b3e91c10c6ca4be172d4e870903cf88d4a8a",
+      "bytes": 592952,
+      "dimensions": [
+        640,
+        640
+      ],
+      "format": "PNG",
+      "stagedOutput": "docs/preproduction/art-factory/generated-evidence/w03-current-rework-2pack-v2/desks-10/staged-output.json",
+      "generationReceipt": "docs/preproduction/art-factory/generated-evidence/w03-current-rework-2pack-v2/desks-10/generation-receipt.json",
+      "provenanceState": "COMPLETE_ART_FACTORY_V2",
+      "repositoryReadback": "PASS_EXACT_GIT_BLOB",
+      "supersession": "FRESH_V5_FAILURE_SPECIFIC_REPLACEMENT_FOR_REWORKED_V4",
+      "state": "ROUTE_TO_06_TECHNICAL_QUALIFICATION"
+    }
+  ],
+  "dedupe": {
+    "uniqueItemHashClaim": true,
+    "unchangedPriorHashesRerouted": false,
+    "newerPendingCandidateObserved": false
+  },
+  "queues": {
+    "to06": [
+      "desks-10@a16e8ef10204fbf6971d5ccb8de848bfb890146cb25ebd33c1860ef6ebe2114d"
+    ],
+    "backToProducer": []
+  },
+  "cursorAdvance": {
+    "previous": "c98ba182f65e3f8ce7c74b47e7c182c3c4c93efb",
+    "advancedThrough": "0603a14c90842f8622a886d4322f961f444af729"
+  },
+  "nextOwner": "06_TECHNICAL_QUALIFICATION",
+  "mutationScope": "Routing evidence only; no candidate bytes, canonical mappings, reviewer decisions, gameplay, CI/workflows, deployment or player data changed."
+}
