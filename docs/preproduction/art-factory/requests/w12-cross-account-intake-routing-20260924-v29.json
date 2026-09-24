@@ -1,0 +1,111 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_W12_CANDIDATE_DELTA_INTAKE_ROUTING",
+  "router": "12",
+  "branch": "screenshot-match-preproduction",
+  "observedHead": "647cf6e1682676939999fec7ee1e7714afb093c5",
+  "scanWindow": {
+    "priorCursor": "2d74b3a32dd04b64ab92269b3ded0e54b19b3804",
+    "inspectedThroughHead": "647cf6e1682676939999fec7ee1e7714afb093c5",
+    "newCatalogCandidateBytesDetected": true,
+    "newCandidateItemIds": [
+      "decor-11",
+      "decor-12",
+      "decor-7"
+    ],
+    "note": "Post-v28 cursor window contains the final producer09 release-rework 3-pack; intervening queue/reviewer-packet commits add no other candidate bytes."
+  },
+  "candidates": [
+    {
+      "id": "decor-7",
+      "name": "Skate Rack",
+      "collectionId": "decor",
+      "producer": "09",
+      "reviewerAssignment": "01",
+      "renderOwner": "14",
+      "canonicalWriter": "08",
+      "path": "public/assets/catalog-candidates/cpu/decor-7-w09-v6-a-real-skate-cubby-rack-original.png",
+      "sha256": "5821ad0874f476b81a285a5b63d891a98b037d37514f3887942ed0fdc3c26d73",
+      "gitBlobSha": "be645f930fd96fafde9475f6e2ba1ff2504a742e",
+      "bytes": 628988,
+      "dimensions": [
+        640,
+        640
+      ],
+      "format": "PNG",
+      "stagedOutput": "docs/preproduction/art-factory/generated-evidence/w09-release-rework-3pack-next/decor-7/staged-output.json",
+      "generationReceipt": "docs/preproduction/art-factory/generated-evidence/w09-release-rework-3pack-next/decor-7/generation-receipt.json",
+      "provenanceState": "COMPLETE_ART_FACTORY_V2",
+      "repositoryReadback": "PASS_EXACT_GIT_BLOB",
+      "supersession": "FRESH_V6_FAILURE_SPECIFIC_REPLACEMENT_FOR_REWORKED_V5",
+      "state": "ROUTE_TO_06_TECHNICAL_QUALIFICATION"
+    },
+    {
+      "id": "decor-11",
+      "name": "Dream Vanity Set",
+      "collectionId": "decor",
+      "producer": "09",
+      "reviewerAssignment": "02",
+      "renderOwner": "14",
+      "canonicalWriter": "08",
+      "path": "public/assets/catalog-candidates/cpu/decor-11-w09-v2-a-single-vanity-mirror-stool-original.png",
+      "sha256": "bfee0477adf4153dc42ba1e100eaacf19bd4d885009f9e5431d91e2014753a82",
+      "gitBlobSha": "090cacf160984a0ac556553f6a23215c18d9ef2f",
+      "bytes": 544839,
+      "dimensions": [
+        640,
+        640
+      ],
+      "format": "PNG",
+      "stagedOutput": "docs/preproduction/art-factory/generated-evidence/w09-release-rework-3pack-next/decor-11/staged-output.json",
+      "generationReceipt": "docs/preproduction/art-factory/generated-evidence/w09-release-rework-3pack-next/decor-11/generation-receipt.json",
+      "provenanceState": "COMPLETE_ART_FACTORY_V2",
+      "repositoryReadback": "PASS_EXACT_GIT_BLOB",
+      "supersession": "FRESH_V2_FAILURE_SPECIFIC_REPLACEMENT_FOR_REWORKED_V1",
+      "state": "ROUTE_TO_06_TECHNICAL_QUALIFICATION"
+    },
+    {
+      "id": "decor-12",
+      "name": "Trophy Wall",
+      "collectionId": "decor",
+      "producer": "09",
+      "reviewerAssignment": "02",
+      "renderOwner": "14",
+      "canonicalWriter": "08",
+      "path": "public/assets/catalog-candidates/cpu/decor-12-w09-v2-a-trophy-display-backboard-original.png",
+      "sha256": "e0919c89d8ad88b47c8b36e0bbc6bc582e065a46fba3919bf6b0527abd154633",
+      "gitBlobSha": "72655049c8c0c488f56c80916ed7213e62d7e374",
+      "bytes": 597774,
+      "dimensions": [
+        640,
+        640
+      ],
+      "format": "PNG",
+      "stagedOutput": "docs/preproduction/art-factory/generated-evidence/w09-release-rework-3pack-next/decor-12/staged-output.json",
+      "generationReceipt": "docs/preproduction/art-factory/generated-evidence/w09-release-rework-3pack-next/decor-12/generation-receipt.json",
+      "provenanceState": "COMPLETE_ART_FACTORY_V2",
+      "repositoryReadback": "PASS_EXACT_GIT_BLOB",
+      "supersession": "FRESH_V2_FAILURE_SPECIFIC_REPLACEMENT_FOR_REWORKED_V1",
+      "state": "ROUTE_TO_06_TECHNICAL_QUALIFICATION"
+    }
+  ],
+  "dedupe": {
+    "uniqueItemHashClaim": true,
+    "unchangedPriorHashesRerouted": false,
+    "newerPendingCandidateObserved": false
+  },
+  "queues": {
+    "to06": [
+      "decor-7@5821ad0874f476b81a285a5b63d891a98b037d37514f3887942ed0fdc3c26d73",
+      "decor-11@bfee0477adf4153dc42ba1e100eaacf19bd4d885009f9e5431d91e2014753a82",
+      "decor-12@e0919c89d8ad88b47c8b36e0bbc6bc582e065a46fba3919bf6b0527abd154633"
+    ],
+    "backToProducer": []
+  },
+  "cursorAdvance": {
+    "previous": "2d74b3a32dd04b64ab92269b3ded0e54b19b3804",
+    "advancedThrough": "647cf6e1682676939999fec7ee1e7714afb093c5"
+  },
+  "nextOwner": "06_TECHNICAL_QUALIFICATION",
+  "mutationScope": "Routing evidence only; no candidate bytes, canonical mappings, reviewer decisions, gameplay, CI/workflows, deployment or player data changed."
+}

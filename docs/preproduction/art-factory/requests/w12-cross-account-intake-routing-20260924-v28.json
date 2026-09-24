@@ -1,0 +1,137 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_W12_CANDIDATE_DELTA_INTAKE_ROUTING",
+  "router": "12",
+  "branch": "screenshot-match-preproduction",
+  "observedHead": "2d74b3a32dd04b64ab92269b3ded0e54b19b3804",
+  "scanWindow": {
+    "priorCursor": "a9f863e0ff6ebe7329b82b3a4ba6cbce510dadd8",
+    "inspectedThroughHead": "2d74b3a32dd04b64ab92269b3ded0e54b19b3804",
+    "newCatalogCandidateBytesDetected": true,
+    "newCandidateItemIds": [
+      "desks-9",
+      "desks-11",
+      "desks-10",
+      "decor-8"
+    ],
+    "note": "Post-v27 delta through the completed producer03 release-rework 4-pack contains exactly these four new candidate PNGs."
+  },
+  "candidates": [
+    {
+      "id": "decor-8",
+      "name": "Mini Aquarium",
+      "collectionId": "decor",
+      "producer": "03",
+      "reviewerAssignment": "11",
+      "renderOwner": "14",
+      "canonicalWriter": "08",
+      "path": "public/assets/catalog-candidates/cpu/decor-8-w03-v4-a-one-aquarium-only-original.png",
+      "sha256": "53928896e00f0f71a1e153e4bbe4f6dd7379dbbbdc17d42404b1a1369a7a2040",
+      "gitBlobSha": "5944d54ef5d2950a9f9aba8bd5e8c4c15ea773e7",
+      "bytes": 550407,
+      "dimensions": [
+        640,
+        640
+      ],
+      "format": "PNG",
+      "stagedOutput": "docs/preproduction/art-factory/generated-evidence/w03-release-rework-4pack-next/decor-8/staged-output.json",
+      "generationReceipt": "docs/preproduction/art-factory/generated-evidence/w03-release-rework-4pack-next/decor-8/generation-receipt.json",
+      "provenanceState": "COMPLETE_ART_FACTORY_V2",
+      "repositoryReadback": "PASS_EXACT_GIT_BLOB",
+      "supersession": "FRESH_V4_FAILURE_SPECIFIC_REPLACEMENT_FOR_REWORKED_V3",
+      "state": "ROUTE_TO_06_TECHNICAL_QUALIFICATION"
+    },
+    {
+      "id": "desks-9",
+      "name": "Art Maker Table",
+      "collectionId": "desks",
+      "producer": "03",
+      "reviewerAssignment": "05",
+      "renderOwner": "14",
+      "canonicalWriter": "08",
+      "path": "public/assets/catalog-candidates/cpu/desks-9-w03-v4-a-freestanding-maker-table-original.png",
+      "sha256": "5e6349a20c108b27ac47ce940f294a48aa5f8938d9de9786045d8148823bdc3b",
+      "gitBlobSha": "03fbab497e00e0c3d70f7f9b26e772efd1d49a4a",
+      "bytes": 534814,
+      "dimensions": [
+        640,
+        640
+      ],
+      "format": "PNG",
+      "stagedOutput": "docs/preproduction/art-factory/generated-evidence/w03-release-rework-4pack-next/desks-9/staged-output.json",
+      "generationReceipt": "docs/preproduction/art-factory/generated-evidence/w03-release-rework-4pack-next/desks-9/generation-receipt.json",
+      "provenanceState": "COMPLETE_ART_FACTORY_V2",
+      "repositoryReadback": "PASS_EXACT_GIT_BLOB",
+      "supersession": "FRESH_V4_FAILURE_SPECIFIC_REPLACEMENT_FOR_REWORKED_V3",
+      "state": "ROUTE_TO_06_TECHNICAL_QUALIFICATION"
+    },
+    {
+      "id": "desks-10",
+      "name": "Neon Streaming Desk",
+      "collectionId": "desks",
+      "producer": "03",
+      "reviewerAssignment": "05",
+      "renderOwner": "14",
+      "canonicalWriter": "08",
+      "path": "public/assets/catalog-candidates/cpu/desks-10-w03-v4-a-one-streaming-desk-original.png",
+      "sha256": "589536545a9619c0ed8a619bf320dcd8b7647c67327fac4719b51f492bb79024",
+      "gitBlobSha": "6287a1ea61500d98645988149b82302f89602578",
+      "bytes": 443469,
+      "dimensions": [
+        640,
+        640
+      ],
+      "format": "PNG",
+      "stagedOutput": "docs/preproduction/art-factory/generated-evidence/w03-release-rework-4pack-next/desks-10/staged-output.json",
+      "generationReceipt": "docs/preproduction/art-factory/generated-evidence/w03-release-rework-4pack-next/desks-10/generation-receipt.json",
+      "provenanceState": "COMPLETE_ART_FACTORY_V2",
+      "repositoryReadback": "PASS_EXACT_GIT_BLOB",
+      "supersession": "FRESH_V4_FAILURE_SPECIFIC_REPLACEMENT_FOR_REWORKED_V3",
+      "state": "ROUTE_TO_06_TECHNICAL_QUALIFICATION"
+    },
+    {
+      "id": "desks-11",
+      "name": "Dream Creator Station",
+      "collectionId": "desks",
+      "producer": "03",
+      "reviewerAssignment": "01",
+      "renderOwner": "14",
+      "canonicalWriter": "08",
+      "path": "public/assets/catalog-candidates/cpu/desks-11-w03-v2-a-isolated-creator-station-original.png",
+      "sha256": "4ffd96dc411dad8aaef465ad5afa069d76ad0292fd6599c2ba1d28164d05c7d6",
+      "gitBlobSha": "a31d581bf8358fcbc86e4879785a2f131ce26f5b",
+      "bytes": 524848,
+      "dimensions": [
+        640,
+        640
+      ],
+      "format": "PNG",
+      "stagedOutput": "docs/preproduction/art-factory/generated-evidence/w03-release-rework-4pack-next/desks-11/staged-output.json",
+      "generationReceipt": "docs/preproduction/art-factory/generated-evidence/w03-release-rework-4pack-next/desks-11/generation-receipt.json",
+      "provenanceState": "COMPLETE_ART_FACTORY_V2",
+      "repositoryReadback": "PASS_EXACT_GIT_BLOB",
+      "supersession": "FRESH_V2_FAILURE_SPECIFIC_REPLACEMENT_FOR_REWORKED_V1",
+      "state": "ROUTE_TO_06_TECHNICAL_QUALIFICATION"
+    }
+  ],
+  "dedupe": {
+    "uniqueItemHashClaim": true,
+    "unchangedPriorHashesRerouted": false,
+    "newerPendingCandidateObserved": false
+  },
+  "queues": {
+    "to06": [
+      "decor-8@53928896e00f0f71a1e153e4bbe4f6dd7379dbbbdc17d42404b1a1369a7a2040",
+      "desks-9@5e6349a20c108b27ac47ce940f294a48aa5f8938d9de9786045d8148823bdc3b",
+      "desks-10@589536545a9619c0ed8a619bf320dcd8b7647c67327fac4719b51f492bb79024",
+      "desks-11@4ffd96dc411dad8aaef465ad5afa069d76ad0292fd6599c2ba1d28164d05c7d6"
+    ],
+    "backToProducer": []
+  },
+  "cursorAdvance": {
+    "previous": "a9f863e0ff6ebe7329b82b3a4ba6cbce510dadd8",
+    "advancedThrough": "2d74b3a32dd04b64ab92269b3ded0e54b19b3804"
+  },
+  "nextOwner": "06_TECHNICAL_QUALIFICATION",
+  "mutationScope": "Routing evidence only; no candidate bytes, canonical mappings, reviewer decisions, gameplay, CI/workflows, deployment or player data changed."
+}
