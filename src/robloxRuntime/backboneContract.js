@@ -18,7 +18,8 @@ export const PROFILE_TEMPLATE=Object.freeze({
   Rollout:Object.freeze({Assignments:Object.freeze({})}),
   AiNpc:Object.freeze({
     Memories:Object.freeze({}),
-    ProcessedRequestIds:Object.freeze([])
+    ProcessedRequestIds:Object.freeze([]),
+    LastRequestSequence:-1
   }),
   Social:Object.freeze({
     Home:Object.freeze({PlotId:'',Placements:Object.freeze({})}),
@@ -84,7 +85,8 @@ export const REPLICATION_BOUNDARIES=Object.freeze({
     'Social.PhotoReceipts',
     'Social.LiveOpsSequence',
     'AiNpc.Memories',
-    'AiNpc.ProcessedRequestIds'
+    'AiNpc.ProcessedRequestIds',
+    'AiNpc.LastRequestSequence'
   ]),
   playerReplica:Object.freeze([
     'SchemaVersion',
