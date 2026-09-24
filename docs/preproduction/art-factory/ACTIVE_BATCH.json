@@ -1,9 +1,9 @@
 {
-  "schemaVersion": 33,
+  "schemaVersion": 34,
   "owner": "15",
   "branch": "screenshot-match-preproduction",
-  "sourceHead": "d4d9caa564e41eefee6570d34e5216143aeb4fe5",
-  "updatedAt": "2026-09-24T20:31:00Z",
+  "sourceHead": "5a834b014c3f48f5a134068928ffbd3903f7d97e",
+  "updatedAt": "2026-09-24T22:50:00Z",
   "status": "ACTIVE_FINAL_FOUR_VISIBLE_ART_TAIL",
   "policy": {
     "maxConcurrentProductionBatches": 4,
@@ -73,29 +73,28 @@
   },
   "cpuGenerationSemaphore": {
     "workflowPath": ".github/workflows/art-factory-cpu-generation.yml",
-    "observedAt": "2026-09-24T20:10:00Z",
+    "observedAt": "2026-09-24T22:50:00Z",
     "running": {
-      "runId": 36054911159,
-      "headSha": "042b3551e17f0531b7e4ecbe9099b7c289d10144",
-      "batch": "w13-wall9-v12-a-fallback",
+      "runId": 36069228853,
+      "headSha": "ba1de25458ac3f34fd49fe87be79f3bdf0d47214",
+      "batch": "w03-desk10-v12-ultraliteral",
       "state": "IN_PROGRESS",
       "jobs": [
-        "wall-9"
+        "desks-10"
       ],
       "phase": "CPU_GENERATION"
     },
     "pending": {
-      "runId": 36055369791,
-      "headSha": "d4d9caa564e41eefee6570d34e5216143aeb4fe5",
-      "batch": "w03-desks10-11-final-retry-a-fallback",
-      "state": "PENDING_CLIP_SAFE",
+      "runId": 36069422037,
+      "headSha": "5a834b014c3f48f5a134068928ffbd3903f7d97e",
+      "batch": "w03-desk11-v10-ultraliteral",
+      "state": "PENDING",
       "jobs": [
-        "desks-10",
         "desks-11"
       ]
     },
-    "authorization": "REQUEUE_DECOR11_V8_ONLY_AFTER_RUN_36055369791_TRANSITIONS_TO_RUNNING",
-    "rule": "Wall9 v12 running; CLIP-safe desk pair pending; Decor11 v8 next.",
+    "authorization": "QUEUE_DECOR11_V8_ONLY_AFTER_DESK11_V10_TRANSITIONS_TO_RUNNING",
+    "rule": "Exactly one running plus one pending. Desk10 v12 runs now; Desk11 v10 is pending; Decor11 v8 is the next prepared successor.",
     "preparedNext": [
       {
         "rank": 1,
@@ -105,38 +104,27 @@
         ],
         "producer": "09",
         "reviewer": "02"
-      },
-      {
-        "rank": 2,
-        "queuePath": "docs/preproduction/art-factory/prepared-queues/w09-decor11-v9-ultraliteral.json",
-        "scope": [
-          "decor-11"
-        ],
-        "producer": "09",
-        "reviewer": "02",
-        "conditional": "only if v8 REWORK"
       }
     ]
   },
   "batches": [
     {
       "producer": "03",
-      "batchId": "w03-desks10-11-final-retry",
+      "batchId": "w03-desk10-v12-ultraliteral",
       "scope": [
-        "desks-10",
-        "desks-11"
+        "desks-10"
       ],
-      "state": "RUNNING_FINAL_B_VARIANTS",
-      "reviewer": "MIXED_05_01"
+      "state": "RUNNING",
+      "reviewer": "05"
     },
     {
-      "producer": "13",
-      "batchId": "w13-wall9-v11-three-frame-final",
+      "producer": "03",
+      "batchId": "w03-desk11-v10-ultraliteral",
       "scope": [
-        "wall-9"
+        "desks-11"
       ],
       "state": "PENDING_CPU_SUCCESSOR",
-      "reviewer": "02"
+      "reviewer": "01"
     },
     {
       "producer": "09",
@@ -144,7 +132,16 @@
       "scope": [
         "decor-11"
       ],
-      "state": "PREPARED_WAIT_WALL9_RUNNING",
+      "state": "PREPARED_WAIT_DESK11_RUNNING",
+      "reviewer": "02"
+    },
+    {
+      "producer": "13",
+      "batchId": "wall9-post-v12",
+      "scope": [
+        "wall-9"
+      ],
+      "state": "REWORK_NEEDS_NEW_REQUEST",
       "reviewer": "02"
     }
   ],
@@ -328,26 +325,25 @@
   "readerRule": "Every worker must revalidate branch head, assignment, exact hash and review state before writing. This file never overrides newer exact-hash evidence.",
   "cycleId": "director-20260924T1531Z-obvious-rework-restart",
   "criticalPath": {
-    "computedAtHead": "c49d79e769e511cae2ec26aefa5b95400ccca378",
+    "computedAtHead": "5a834b014c3f48f5a134068928ffbd3903f7d97e",
     "order": [
       {
         "rank": 1,
-        "blocker": "CPU_FINAL_DESK_PAIR",
+        "blocker": "CPU_DESK10_V12",
         "affectedScopes": [
-          "desks-10",
-          "desks-11"
+          "desks-10"
         ],
-        "prerequisite": "Run 36050941229 stages exact candidates.",
-        "nextOwner": "source fail-fast/render -> 05/01 -> 08."
+        "prerequisite": "Run 36069228853 stages exact candidate.",
+        "nextOwner": "source fail-fast/render -> 05 -> 08 on ACCEPT."
       },
       {
         "rank": 2,
-        "blocker": "CPU_WALL9_V11",
+        "blocker": "CPU_DESK11_V10",
         "affectedScopes": [
-          "wall-9"
+          "desks-11"
         ],
-        "prerequisite": "Desk pair completes; pending run starts automatically.",
-        "nextOwner": "source fail-fast/render -> 02 -> 08."
+        "prerequisite": "Pending run 36069422037 starts automatically after Desk10.",
+        "nextOwner": "source fail-fast/render -> 01 -> 08 on ACCEPT."
       },
       {
         "rank": 3,
@@ -355,11 +351,20 @@
         "affectedScopes": [
           "decor-11"
         ],
-        "prerequisite": "Wall9 transitions to running; queue prepared v8.",
-        "nextOwner": "source fail-fast/render -> 02 -> 08."
+        "prerequisite": "Desk11 v10 transitions to running; queue prepared v8 once.",
+        "nextOwner": "source fail-fast/render -> 02 -> 08 on ACCEPT."
       },
       {
         "rank": 4,
+        "blocker": "WALL9_POST_V12_REWORK",
+        "affectedScopes": [
+          "wall-9"
+        ],
+        "prerequisite": "Prepare a genuinely new exact-three-frame request without disturbing current CPU order.",
+        "nextOwner": "13 -> 12/14 -> 02 -> 08."
+      },
+      {
+        "rank": 5,
         "blocker": "LIVE_COMPANION_PARITY",
         "affectedScopes": [
           "companions-2",

@@ -3,7 +3,7 @@
   "kind": "STARBLOX_RELEASE_ART_BLOCKER_LEDGER",
   "branch": "screenshot-match-preproduction",
   "source": {
-    "computedAtHead": "512e14de4972a9eb0cc9f5cacbbcffefcee8b983",
+    "computedAtHead": "5a834b014c3f48f5a134068928ffbd3903f7d97e",
     "manifest": {
       "version": 45,
       "finalCount": 181,
@@ -18,79 +18,78 @@
       "name": "Neon Streaming Desk",
       "producer": "03",
       "reviewer": "05",
-      "state": "CPU_A_FALLBACK_RUNNING",
-      "activeQueue": "w03-desks10-11-final-retry-a-fallback",
-      "generationRunId": 36054079596,
+      "state": "CPU_V12_RUNNING",
+      "activeQueue": "w03-desk10-v12-ultraliteral",
+      "generationRunId": 36069228853,
       "latestEvidence": {
-        "version": "v9",
-        "gitBlobSha": "1f050b539245d387ce005f67e059829a5249a7ed",
-        "sha256": "4a81b203ee41187ab78a2f9ea0828c497c7f90a5d15d5d38a372a64b234666a1"
+        "version": "v11",
+        "gitBlobSha": "0255b3af108f7cda131101965f754b8b507ce3dd",
+        "sha256": "8ddcce08ba65392a685b4820ad7b0a656deeee7b5b9db548e5d658b6abb15927"
       },
-      "nextRepair": "Current v10 B retry is running. If REWORK, held A-CONVENTIONAL-STREAMING-DESK v11 fallback is precompiled."
+      "nextRepair": "v12 A-MIC-FIRST-DESK is running now. Do not launch another Desk10 retry unless this exact v12 hash is independently REWORK."
     },
     {
       "id": "desks-11",
       "name": "Dream Creator Station",
       "producer": "03",
       "reviewer": "01",
-      "state": "CPU_A_FALLBACK_RUNNING",
-      "activeQueue": "w03-desks10-11-final-retry-a-fallback",
-      "generationRunId": 36054079596,
+      "state": "CPU_V10_PENDING",
+      "activeQueue": "w03-desk11-v10-ultraliteral",
+      "generationRunId": 36069422037,
       "latestEvidence": {
-        "version": "v7",
-        "gitBlobSha": "b138c6291bf801bbf66e33daf9394e2c4bbae249",
-        "sha256": "8509eadb8d84acc4194d3d8253d6edda89a66723d53bd434f4be6e4119613416"
+        "version": "v9",
+        "gitBlobSha": "5895f9d6a32ea6e13a8d45691950a3ddbce46340",
+        "sha256": "b7123b0f4225922630e7671a9b9327283fc50a14e3404bec1d31503629eb59a4"
       },
-      "nextRepair": "Current v8 B retry is running. If REWORK, held A-CREATOR-DESK-TOOLS v9 fallback is precompiled."
+      "nextRepair": "v10 A-WORKTOP-FIRST is the one pending CPU successor behind Desk10 v12."
     },
     {
       "id": "wall-9",
       "name": "Art Gallery Wall",
       "producer": "13",
       "reviewer": "02",
-      "state": "CPU_V12_PENDING",
-      "activeQueue": "w13-wall9-v12-a-fallback",
-      "generationRunId": 36054911159,
+      "state": "V12_REWORK__NEXT_RETRY_NOT_QUEUED",
+      "activeQueue": null,
+      "generationRunId": null,
       "latestEvidence": {
-        "version": "v11",
-        "gitBlobSha": "20c41266b9ef3afac6393b9af16da0efc8c9acac",
-        "sha256": "e5e45b76f4723c1c0ad4d64f27a6baea7c287e0339203009252c3ec12c28dcd3"
+        "version": "v12",
+        "gitBlobSha": "6e08e353949fa85539990a4731e1db1b62cf5591",
+        "sha256": "53f60098a7b60155db9dcd2dad0fd6cf132cc21bd7efe4c242997165b8a5ceba"
       },
-      "nextRepair": "v11 REWORK for two frames/room vignette. v12 A fallback: exactly three same-size travel frames in one row on plain white."
+      "nextRepair": "Prepare a new simpler version only after preserving Desk10/Desk11 CPU order: exactly three independent frames, no enclosing grid, center frame unmistakable compass over map."
     },
     {
       "id": "decor-11",
       "name": "Dream Vanity Set",
       "producer": "09",
       "reviewer": "02",
-      "state": "PREPARED_V8_AFTER_WALL9_STARTS",
+      "state": "PREPARED_V8_WAIT_CPU_SLOT",
       "preparedQueue": "w09-decor11-v8-simple-stool",
       "latestEvidence": {
         "version": "v7",
         "gitBlobSha": "7badb72a99eb63aa259e5345a6a806cacb6c73a2",
         "sha256": "31ef9871ff7ed83d583630a7e78ec500dfd75116d78a840ef9f660914aa8fa45"
       },
-      "nextRepair": "v7 is frozen REWORK for split composition/no stool. v8 B-SIMPLE-VANITY-STOOL is prepared; if REWORK, v9 ultraliteral fallback is also precompiled."
+      "nextRepair": "v8 B-SIMPLE-VANITY-STOOL is prepared and CLIP-safe. Queue only after Desk11 v10 transitions to running so it becomes the single pending successor."
     }
   ],
   "parallelWorkPlan": {
     "cpuSemaphore": "ONE_RUNNING_PLUS_ONE_PENDING",
     "currentCpuBatch": {
-      "queueId": "w03-desks10-11-final-retry-a-fallback",
+      "queueId": "w03-desk10-v12-ultraliteral",
       "items": [
-        "desks-10",
-        "desks-11"
+        "desks-10"
       ],
-      "runId": 36055369791,
-      "state": "RUNNING_CLIP_SAFE"
+      "runId": 36069228853,
+      "state": "RUNNING"
     },
     "pendingSuccessor": {
-      "queueId": "w13-wall9-v12-a-fallback",
+      "queueId": "w03-desk11-v10-ultraliteral",
       "items": [
-        "wall-9"
+        "desks-11"
       ],
-      "runId": 36055852604,
-      "state": "PENDING_CLIP_SAFE"
+      "runId": 36069422037,
+      "state": "PENDING"
     },
     "preparedNext": [
       {
@@ -100,36 +99,9 @@
         "items": [
           "decor-11"
         ]
-      },
-      {
-        "rank": 2,
-        "producer": "03",
-        "queuePath": "docs/preproduction/art-factory/prepared-queues/w03-desk10-v12-ultraliteral.json",
-        "items": [
-          "desks-10"
-        ],
-        "conditional": "only if current A REWORK"
-      },
-      {
-        "rank": 3,
-        "producer": "03",
-        "queuePath": "docs/preproduction/art-factory/prepared-queues/w03-desk11-v10-ultraliteral.json",
-        "items": [
-          "desks-11"
-        ],
-        "conditional": "only if current A REWORK"
-      },
-      {
-        "rank": 4,
-        "producer": "09",
-        "queuePath": "docs/preproduction/art-factory/prepared-queues/w09-decor11-v9-ultraliteral.json",
-        "items": [
-          "decor-11"
-        ],
-        "conditional": "only if v8 REWORK"
       }
     ],
-    "queuePolicy": "Desk A pair runs, Wall9 v12 is pending. As soon as Wall9 v12 starts, queue token-safe Decor11 v8. Desk10/11 ultra-literal single-item fallbacks are held and must be used only for exact current-A REWORK."
+    "queuePolicy": "Preserve Desk10 v12 running and Desk11 v10 pending. When Desk11 v10 transitions to running, queue Decor11 v8 exactly once as the pending successor. Do not queue Wall9 work until a genuinely new post-v12 request is prepared, and never displace the current pending successor."
   },
   "nonArtReleaseState": {
     "liveFunctionalSmoke": "GREEN",
