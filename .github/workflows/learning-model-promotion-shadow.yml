@@ -19,6 +19,8 @@ on:
       - "scripts/compareLearningSelectors.mjs"
       - "scripts/assertLearningPromotionBoundary.mjs"
       - "scripts/buildLearningPromotionDecision.mjs"
+      - "scripts/assertLockedLearningBenchmark.mjs"
+      - "docs/preproduction/learning-factory/locked-promotion-benchmark.json"
       - "tools/fsrs-shadow/**"
       - "package.json"
       - ".github/workflows/learning-model-promotion-shadow.yml"
@@ -139,6 +141,9 @@ jobs:
 
       - name: Persist and enforce no-live-promotion decision
         run: npm run decide:learning-promotion -- --comparison=.learning-promotion/selector-comparison.json --strict=.learning-strict-provenance-receipt.json --fsrs=.learning-promotion/fsrs-engine-receipt.json --psi=.learning-promotion/psi-kt-receipt.json --out=.learning-promotion/promotion-decision.json
+
+      - name: Assert locked held-out promotion benchmark
+        run: npm run assert:locked-learning-benchmark -- --manifest=docs/preproduction/learning-factory/locked-promotion-benchmark.json --evaluation=.learning-promotion/evaluation.json --comparison=.learning-promotion/selector-comparison.json --decision=.learning-promotion/promotion-decision.json
 
       - name: Upload promotion evidence
         if: always()
