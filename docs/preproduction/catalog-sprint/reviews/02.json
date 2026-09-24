@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 13,
+  "schemaVersion": 14,
   "reviewer": "02",
   "role": "independent reviewer for Shoes/Backgear/Handgear/Seating",
   "phase": "ART_VISUALS_SPRINT",
@@ -7,7 +7,7 @@
   "policy": "docs/preproduction/DELIVERY_PROTOCOL_V2.md",
   "visualSprint": "docs/preproduction/ART_VISUALS_SPRINT.json",
   "artFactoryPolicy": "docs/preproduction/art-factory/ART_FACTORY_V2.json",
-  "sourceHead": "c94b668e529c47eefc082d15463114cb7d96b04b",
+  "sourceHead": "f50b488476ed2f0cf350cd086b5439de65eba379",
   "priorReviewShard": {
     "blobSha": "4173dbb9923157eb5a13090d526f88cfec162edd",
     "schemaVersion": 10,
@@ -240,34 +240,26 @@
   ],
   "currentCycle": {
     "scope": [
-      "wall-9",
-      "wall-11",
-      "wall-12"
+      "wall-10"
     ],
-    "version": "w13 current exact repository hashes",
-    "result": "ACCEPT_2_REWORK_1_OF_3",
+    "version": "w13-v2 A-NO-TEXT-SKYLINE exact repository hash",
+    "result": "ACCEPT_1_OF_1",
     "oldVerdictsTransferred": false,
     "actualCardScalePixelsReviewed": true,
     "actualDetailPixelsReviewed": true,
     "selfApprovalConflict": false
   },
   "currentRenderEvidence": {
-    "wall9": {
-      "workflow": "StarBlox Staged Catalog Art QA",
-      "workflowRunId": 35940745629,
-      "artifactId": 10783979601,
-      "artifactDigest": "sha256:bbbe2ffd073b3c75ecfc115395af0eb9f9321c26638df29b3e786fdfcfc79df8",
-      "detailEvidence": "artifact:10783979601/staged-replacements/detail/wall-9-95a2de47.png",
-      "detailEvidenceSha256": "746d84af8bf39559f0e41f2f066ebe74b1c17f8f05681eea6f91d5a96f6a841f"
-    },
-    "wall11_12": {
-      "workflow": "StarBlox Staged Catalog Art QA",
-      "workflowRunId": 35941645479,
-      "artifactId": 10785177791,
-      "artifactDigest": "sha256:7c53829204f49722a270293eb7fde28da7518cdd16553019ab11ce54007a8fc5",
-      "wall11DetailSha256": "914145d8f9fadf9ef2bb06dd3a3f642ef46652aa331f1465a9ac7fcfc7d6ebf8",
-      "wall12DetailSha256": "1402271cb0448bc5ae21f1cf58aa671dc8ab2e8094519b06b271a5f1ade6f436"
-    }
+    "workflow": "StarBlox Staged Catalog Art QA",
+    "workflowRunId": 35941645479,
+    "workflowRerunJobId": 107457051034,
+    "artifactId": 10784849817,
+    "artifactName": "catalog-staged-art-review",
+    "artifactDigest": "sha256:26b17dbacc59dd9db7c668eec3d07a1649d705a5409eb17603d388ebac7afe45",
+    "detailEvidence": "artifact:10784849817/staged-replacements/detail/wall-10-e5d4fe1c.png",
+    "detailEvidenceSha256": "9ad0ce182246e76ef6e0d79c6ccf54ac67429145c71f4911b3ed7ad6dcd96468",
+    "contactSheetSha256": "33fd283c3e58bd43e2be8a0b752f931b61490816131769584e6e71d525c7881a",
+    "technicalChecks": "Exact staged Git blob binding PASS, PNG decode PASS, HTTP 200, 768x768 natural dimensions, opaqueFraction=1, screenshot=true, no render errors."
   },
   "reviews": [
     {
@@ -412,6 +404,43 @@
         "technicalIntegrity": "PASS"
       },
       "reason": "ACCEPT. The exact pixels provide a premium, original Golden Crest with strong Tier-5 spectacle, Berry Blast jewel identity, convincing relief/material depth and clean card-scale hierarchy."
+    },
+    {
+      "itemId": "wall-10",
+      "name": "Neon City Sign",
+      "tier": 4,
+      "theme": "Cloud Pop",
+      "assetPath": "public/assets/catalog-candidates/cpu/wall-10-w13-v2-a-no-text-skyline-original.png",
+      "assetHash": "e5d4fe1c3d7a0a8ad82f61914228e5bdac6ef43d",
+      "contentSha256": "d0ddb5f6f370ede2b8f13e7b646eb64fe272e8da4eb04c536d9a937a0548513c",
+      "producer": "13",
+      "decision": "ACCEPT",
+      "learnerLabel": "ACCEPT",
+      "reviewedAt": "2026-09-24T01:42:00Z",
+      "evidence": {
+        "detailRenderPath": "staged-replacements/detail/wall-10-e5d4fe1c.png",
+        "detailRenderSha256": "9ad0ce182246e76ef6e0d79c6ccf54ac67429145c71f4911b3ed7ad6dcd96468",
+        "detailDimensions": [
+          800,
+          800
+        ],
+        "contactSheetPath": "staged-replacements/staged-replacements-contact-sheet.png",
+        "workflowRunId": 35941645479,
+        "artifactId": 10784849817
+      },
+      "checks": {
+        "recognizableCategoryFunction": "PASS — reads as a wall-mounted neon city/cloud sign rather than a text placard.",
+        "physicalConstructionContact": "PASS — coherent backing panel and luminous structural forms replace v1's broken hanging supports.",
+        "silhouette": "PASS — cloud forms plus a distinct tall skyline mass remain recognizable at Store-card scale.",
+        "materialLighting": "PASS — luminous tubing/panel glow is controlled enough to preserve edges and depth.",
+        "themeTierSpecificity": "PASS — cyan/white with soft pink warmth supports Cloud Pop and Tier-4 presentation.",
+        "smallCardReadability": "PASS — no pseudo-text focal artifact; skyline/cloud hierarchy survives reduction.",
+        "textArtifact": "PASS — no readable or pseudo-lettering is present.",
+        "framingCrop": "PASS",
+        "originalityNearDuplicateRisk": "PASS",
+        "technicalIntegrity": "PASS"
+      },
+      "reason": "The v2 exact pixels remove the prior pseudo-text artifact and malformed hanging geometry. The product now reads as a single physical wall-mounted neon city/cloud fixture: a dark backing panel carries coherent white/cyan luminous cloud and skyline structures, with a distinct tall-building silhouette at right and no glyph-like lettering. The silhouette remains legible in the real Store card, construction is substantially more coherent than v1, and the soft cyan/pink/white glow is adequate for Cloud Pop Tier 4 without obscuring edges."
     }
   ],
   "currentReplacementDisposition": {
@@ -422,28 +451,26 @@
       },
       "ACCEPT": {
         "wall-11": "50ffc975030f6c7e28cf9836756bb312dfa646fb",
-        "wall-12": "e9387a7174a888980616ea9afac43cc9b3adbb3b"
+        "wall-12": "e9387a7174a888980616ea9afac43cc9b3adbb3b",
+        "wall-10": "e5d4fe1c3d7a0a8ad82f61914228e5bdac6ef43d"
       }
     }
   },
   "summary": {
-    "reviewedThisRun": 3,
-    "newAcceptsThisRun": 2,
-    "newReworkThisRun": 1,
+    "reviewedThisRun": 1,
+    "newAcceptsThisRun": 1,
+    "newReworkThisRun": 0,
     "newBlockedThisRun": 0,
     "newUsableBy08Now": [
-      "wall-11",
-      "wall-12"
+      "wall-10"
     ],
-    "reworkNow": [
-      "wall-9"
-    ],
-    "preservedAcceptedHashes": "All earlier reviewer-02 ACCEPTs remain frozen; Wall 11/12 are new exact-hash ACCEPTs and Wall 9 is REWORK. Existing Wall 10 v1 REWORK remains preserved until v2 render review."
+    "reworkNow": [],
+    "preservedAcceptedHashes": "All earlier reviewer-02 ACCEPTs remain frozen; Wall 10 v2 is a new exact-hash ACCEPT. Wall 10 v1 REWORK remains historical evidence only."
   },
   "handoff": {
-    "13": "Wall 9 hash 95a2de47f3b19017ba37bfac1ab25fc87ad345ed is REWORK: isolate a real wall-mounted gallery rail/backboard with 3–4 framed pieces and no floor-room scene. Preserve Wall 11/12 accepted hashes.",
-    "14": "Wall 9/11/12 packets are consumed; do not rerender unchanged hashes. Wall 10 v2 remains separately qualified and awaits its own render/review packet.",
-    "15": "Wall 11/12 leave review as ACCEPT; Wall 9 requires one failure-specific replacement when CPU sequencing permits.",
-    "08": "Canonical integration eligible now: wall-11@50ffc975030f6c7e28cf9836756bb312dfa646fb and wall-12@e9387a7174a888980616ea9afac43cc9b3adbb3b. Do not integrate wall-9 or Wall 10 v1."
+    "13": "Freeze Wall 10 v2 exact hash; no further Wall 10 generation absent a new concrete visual defect.",
+    "14": "Wall 10 v2 render artifact 10784849817 is consumed; do not rerender unchanged hash.",
+    "15": "Wall 10 leaves REWORK and is ready for canonical integration.",
+    "08": "Canonical integration eligible now: wall-10@e5d4fe1c3d7a0a8ad82f61914228e5bdac6ef43d."
   }
 }
