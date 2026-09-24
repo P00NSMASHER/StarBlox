@@ -87,6 +87,8 @@ local ProfileTemplate = {
 		},
 		ProcessedEventIds = {},
 		EventStreams = {},
+		ClaimReceipts = {},
+		MarketplaceReceiptIds = {},
 	},
 }
 
