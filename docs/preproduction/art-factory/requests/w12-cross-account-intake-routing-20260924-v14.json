@@ -1,0 +1,85 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_W12_CANDIDATE_DELTA_INTAKE_ROUTING",
+  "router": "12",
+  "branch": "screenshot-match-preproduction",
+  "observedHead": "12da760345a0677fd264ee749ad809fce80cfd01",
+  "scanWindow": {
+    "priorCursor": "c6b6d4604e24fac27a516df65a9566aa586cddde",
+    "inspectedThroughHead": "12da760345a0677fd264ee749ad809fce80cfd01",
+    "newCatalogCandidateBytesDetected": true,
+    "newCandidateItemIds": [
+      "wall-11",
+      "wall-12"
+    ],
+    "note": "Wall11/12 exact CPU candidates staged successfully after the failed first retry. Other commits in the window are queue tuning, downstream Wall9 handoff, Wall10 rework preparation, and Decor7 rework dispatch; no unchanged hash is rerouted."
+  },
+  "authorityFingerprint": {
+    "activeBatchGitBlob": "7d37fb2b53617e7ad780eff3e9d6909bfcf71e14",
+    "manifestGitBlob": "3ce8dd5d16674ff556764402b712d215d3d22457",
+    "catalogRuntimeGitBlob": "68dc4944988ee2850e634eb8966613b9663c163c"
+  },
+  "candidates": [
+    {
+      "id": "wall-11",
+      "producer": "13",
+      "reviewerAssignment": "02",
+      "renderOwner": "14",
+      "canonicalWriter": "08",
+      "path": "public/assets/catalog-candidates/cpu/wall-11-w13-v1-a-pixel-bevel-mirror-original.png",
+      "sha256": "01b064b4bee3e4be894a59279abb04b49b27cd048848513283631be59348268e",
+      "gitBlobSha": "50ffc975030f6c7e28cf9836756bb312dfa646fb",
+      "bytes": 606834,
+      "dimensions": [
+        640,
+        640
+      ],
+      "format": "PNG",
+      "stagedOutput": "docs/preproduction/art-factory/generated-evidence/w13-wall-11-12-sequential-retry-v2/wall-11/staged-output.json",
+      "generationReceipt": "docs/preproduction/art-factory/generated-evidence/w13-wall-11-12-sequential-retry-v2/wall-11/generation-receipt.json",
+      "provenanceState": "COMPLETE_ART_FACTORY_V2",
+      "repositoryReadback": "PASS_EXACT_GIT_BLOB",
+      "state": "ROUTE_TO_06_TECHNICAL_QUALIFICATION"
+    },
+    {
+      "id": "wall-12",
+      "producer": "13",
+      "reviewerAssignment": "02",
+      "renderOwner": "14",
+      "canonicalWriter": "08",
+      "path": "public/assets/catalog-candidates/cpu/wall-12-w13-v1-a-jeweled-relief-crest-original.png",
+      "sha256": "771d8099c4231b407a0d2dac2e44178a2eabdd8f960bfbab0151bd9b0633d9db",
+      "gitBlobSha": "e9387a7174a888980616ea9afac43cc9b3adbb3b",
+      "bytes": 777648,
+      "dimensions": [
+        640,
+        640
+      ],
+      "format": "PNG",
+      "stagedOutput": "docs/preproduction/art-factory/generated-evidence/w13-wall-11-12-sequential-retry-v2/wall-12/staged-output.json",
+      "generationReceipt": "docs/preproduction/art-factory/generated-evidence/w13-wall-11-12-sequential-retry-v2/wall-12/generation-receipt.json",
+      "provenanceState": "COMPLETE_ART_FACTORY_V2",
+      "repositoryReadback": "PASS_EXACT_GIT_BLOB",
+      "state": "ROUTE_TO_06_TECHNICAL_QUALIFICATION"
+    }
+  ],
+  "dedupe": {
+    "wall11UniqueItemHashClaim": true,
+    "wall12UniqueItemHashClaim": true,
+    "unchangedWall9Rerouted": false,
+    "unchangedWall10Rerouted": false
+  },
+  "queues": {
+    "to06": [
+      "wall-11@01b064b4bee3e4be894a59279abb04b49b27cd048848513283631be59348268e",
+      "wall-12@771d8099c4231b407a0d2dac2e44178a2eabdd8f960bfbab0151bd9b0633d9db"
+    ],
+    "backToProducer": []
+  },
+  "cursorAdvance": {
+    "previous": "c6b6d4604e24fac27a516df65a9566aa586cddde",
+    "advancedThrough": "12da760345a0677fd264ee749ad809fce80cfd01"
+  },
+  "nextOwner": "06_TECHNICAL_QUALIFICATION",
+  "mutationScope": "Routing evidence only. No candidate bytes, ACTIVE_BATCH, canonical mappings, reviewer decisions, gameplay, learning, economy, persistence, accessibility, CI/workflows, deployment, secrets, or player data changed."
+}
