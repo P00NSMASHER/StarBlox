@@ -222,6 +222,33 @@ export function buildContentExpansionPlan({
   });
 }
 
+export function verifyContentExpansionPlan(plan){
+  const errors=[];
+  if(!plan || typeof plan !== 'object' || Array.isArray(plan)){
+    return {ok:false,errors:['plan must be an object']};
+  }
+  if(plan.schemaVersion !== CONTENT_EXPANSION_SCHEMA_VERSION){
+    errors.push('unsupported content expansion plan schema');
+  }
+  if(plan.version !== CONTENT_EXPANSION_VERSION){
+    errors.push('unsupported content expansion plan version');
+  }
+  const migrationValidation=verifyRobloxMigrationPlan(plan.migrationPlan);
+  if(!migrationValidation.ok){
+    errors.push('migration plan invalid: ' + migrationValidation.errors[0]);
+  }else if(plan.migrationPlan.planHash !== plan.migration?.planHash){
+    errors.push('migration plan identity mismatch');
+  }
+  try{
+    if(stableHash(planPayload(plan)) !== plan.planHash){
+      errors.push('content expansion plan hash mismatch');
+    }
+  }catch{
+    errors.push('content expansion plan is not hashable');
+  }
+  return {ok:errors.length === 0,errors};
+}
+
 function artifactPayload(artifact){
   return {
     schemaVersion:artifact.schemaVersion,
