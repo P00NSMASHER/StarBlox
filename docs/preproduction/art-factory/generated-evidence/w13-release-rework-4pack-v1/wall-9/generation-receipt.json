@@ -1,0 +1,107 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_GENERATION_RECEIPT",
+  "repository": "P00NSMASHER/StarBlox",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "dcf38c206c2a74551677220978796bea8da2af50",
+  "sourcePlanSha256": "2fb99e7bb9baef5eb5ed1156bce85adecd1ba27eedcc9e2ca6b3a4c485d0b2bd",
+  "executionCheckout": {
+    "branch": "screenshot-match-preproduction",
+    "head": "dcf38c206c2a74551677220978796bea8da2af50",
+    "planSourceHeadMatchesExecutionHead": true
+  },
+  "attempt": {
+    "attemptId": "wall-9-w13-a-exact-three-adventure-frames-b648eaf18d",
+    "itemId": "wall-9",
+    "producer": "13",
+    "variant": "A-EXACT-THREE-ADVENTURE-FRAMES",
+    "promptSha256": "b648eaf18d404647f754d4492862be40e11ad8ec7aefcd03e8d5806bd3cec89f",
+    "runtimePromptSha256": "141fcc2bbb3a38f71df1f502275303d9f173ecfcd4dee7458438465ffd2ae0c0",
+    "promptRecipeVersion": "artPromptOptimizer-request-v1:w13-release-rework-4pack-v1",
+    "seed": 520253228
+  },
+  "runtime": {
+    "repo": "huggingface/diffusers",
+    "commit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "resolvedCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "runtimeCommitVerified": true,
+    "diffusersVersion": "0.41.0.dev0",
+    "diffusersInstallSource": "https://github.com/huggingface/diffusers.git",
+    "torchVersion": "2.8.0+cpu",
+    "transformersVersion": "5.17.0",
+    "accelerateVersion": "1.15.0",
+    "huggingfaceHubVersion": "1.33.0",
+    "safetensorsVersion": "0.8.0",
+    "pythonPillowVersion": "12.3.0",
+    "device": "cpu",
+    "dtype": "float32",
+    "executionMode": "cpu-fallback"
+  },
+  "model": {
+    "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+    "revision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS",
+    "resolvedRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "snapshotRevisionVerified": true,
+    "selectiveSnapshot": true,
+    "snapshotAllowPatterns": [
+      "model_index.json",
+      "scheduler/*",
+      "tokenizer/*",
+      "tokenizer_2/*",
+      "feature_extractor/*",
+      "text_encoder/config.json",
+      "text_encoder/model.fp16.safetensors",
+      "text_encoder_2/config.json",
+      "text_encoder_2/model.fp16.safetensors",
+      "unet/config.json",
+      "unet/diffusion_pytorch_model.fp16.safetensors",
+      "vae/config.json",
+      "vae/diffusion_pytorch_model.fp16.safetensors"
+    ]
+  },
+  "conditioning": {
+    "referenceAssetSha256": null,
+    "controlImageSha256": null,
+    "adapterScale": null,
+    "referenceImage": null,
+    "ipAdapterModelId": null,
+    "ipAdapterRevision": null,
+    "ipAdapterResolvedRevision": null,
+    "ipAdapterRevisionVerified": false,
+    "ipAdapterWeightName": null,
+    "ipAdapterSubfolder": null
+  },
+  "generation": {
+    "width": 640,
+    "height": 640,
+    "numInferenceSteps": 6,
+    "guidanceScale": 3.5,
+    "runtimePromptTokenCounts": {
+      "tokenizer": 61,
+      "tokenizer_2": 61
+    },
+    "executedSeed": 520253228
+  },
+  "output": {
+    "repoPath": "public/assets/catalog-candidates/cpu/wall-9-w13-v5-a-exact-three-adventure-frames-original.png",
+    "sha256": "421e6c19ffba41b2e223019a1d98c395e021b77f5bbe709518c57d23264b8faf",
+    "gitBlobSha": "1e44eed039947b136f2c8c404d7b77fb877a9098",
+    "bytes": 530695,
+    "width": 640,
+    "height": 640,
+    "format": "PNG",
+    "sourceBytesPreserved": true,
+    "reusedExistingIdenticalBytes": false
+  },
+  "safety": {
+    "canonicalArtModified": false,
+    "gameplayModified": false,
+    "reviewDecisionMade": false,
+    "deploymentPerformed": false,
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+  },
+  "nextGate": "RUN_VERIFY_STAGED_OUTPUT_THEN_REAL_RENDER_AND_INDEPENDENT_EXACT_HASH_REVIEW",
+  "status": "GENERATED_SOURCE_BYTES_UNVERIFIED",
+  "recordSha256": "17a3fdd5d6bf7472a636bb84f244924af74121de34dbbefd3e4cc7e1662e99c9"
+}
