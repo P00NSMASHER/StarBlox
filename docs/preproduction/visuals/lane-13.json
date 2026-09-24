@@ -2,7 +2,7 @@
   "schemaVersion": 8,
   "workstream": "13",
   "focus": "SCENE_CHARACTER_ART",
-  "status": "FINAL_SEVEN_RELEASE_REPLACEMENTS_QUALIFIED__SHARED_RENDER_TRIGGERED",
+  "status": "WALL8_V6_WALL9_V6_DESK12_V3_QUALIFIED__SHARED_RENDER_TRIGGERED",
   "branch": "screenshot-match-preproduction",
   "candidateId": "home-bedroom-w13-v2",
   "candidateType": "environment-background",
@@ -1034,122 +1034,65 @@
     ]
   },
   "catalogFactoryReviewHandoff": {
-    "updatedAt": "2026-09-24T15:12:00Z",
-    "sourceHead": "eb347973193d0d435d282d6f0e48f475115a5c7d",
-    "purpose": "Trigger one shared exact-hash Store card/detail render artifact for the final seven qualified release replacements. Review packets remain bounded into 4-item and 3-item independent reviewer microbatches.",
+    "updatedAt": "2026-09-24T15:46:00Z",
+    "sourceHead": "6014f58b84391cb8c561ff0f95a112aa95e4d5b2",
+    "purpose": "Trigger one exact-hash Store card/detail render microbatch for current Wall8 v6, Wall9 v6 and Desk12 v3 failure-specific replacements.",
     "candidates": [
       {
-        "itemId": "decor-8",
-        "name": "Mini Aquarium",
-        "producer": "03",
+        "itemId": "wall-8",
+        "name": "Ocean Window",
+        "producer": "13",
         "reviewer": "11",
-        "path": "public/assets/catalog-candidates/cpu/decor-8-w03-v4-a-one-aquarium-only-original.png",
-        "sha256": "53928896e00f0f71a1e153e4bbe4f6dd7379dbbbdc17d42404b1a1369a7a2040",
-        "gitBlobSha": "5944d54ef5d2950a9f9aba8bd5e8c4c15ea773e7",
-        "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-release-rework-4pack-next-qualification-20260924.json",
+        "path": "public/assets/catalog-candidates/cpu/wall-8-w13-v6-a-one-ocean-window-original.png",
+        "sha256": "400ebeeb9435a170a1c5889928754bb050a5009d7f7925cdefcd0e33419fdc83",
+        "gitBlobSha": "891519488ffd1f7858e0eca960b51b250e50b29c",
+        "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-current-rework-3pack-v2-qualification-20260924.json",
         "qualification": "QUALIFIED_FOR_RENDERER14",
         "route": "14 -> 11 -> 08 on ACCEPT"
       },
       {
-        "itemId": "desks-9",
-        "name": "Art Maker Table",
-        "producer": "03",
-        "reviewer": "05",
-        "path": "public/assets/catalog-candidates/cpu/desks-9-w03-v4-a-freestanding-maker-table-original.png",
-        "sha256": "5e6349a20c108b27ac47ce940f294a48aa5f8938d9de9786045d8148823bdc3b",
-        "gitBlobSha": "03fbab497e00e0c3d70f7f9b26e772efd1d49a4a",
-        "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-release-rework-4pack-next-qualification-20260924.json",
-        "qualification": "QUALIFIED_FOR_RENDERER14",
-        "route": "14 -> 05 -> 08 on ACCEPT"
-      },
-      {
-        "itemId": "desks-10",
-        "name": "Neon Streaming Desk",
-        "producer": "03",
-        "reviewer": "05",
-        "path": "public/assets/catalog-candidates/cpu/desks-10-w03-v4-a-one-streaming-desk-original.png",
-        "sha256": "589536545a9619c0ed8a619bf320dcd8b7647c67327fac4719b51f492bb79024",
-        "gitBlobSha": "6287a1ea61500d98645988149b82302f89602578",
-        "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-release-rework-4pack-next-qualification-20260924.json",
-        "qualification": "QUALIFIED_FOR_RENDERER14",
-        "route": "14 -> 05 -> 08 on ACCEPT"
-      },
-      {
-        "itemId": "desks-11",
-        "name": "Dream Creator Station",
-        "producer": "03",
-        "reviewer": "01",
-        "path": "public/assets/catalog-candidates/cpu/desks-11-w03-v2-a-isolated-creator-station-original.png",
-        "sha256": "4ffd96dc411dad8aaef465ad5afa069d76ad0292fd6599c2ba1d28164d05c7d6",
-        "gitBlobSha": "a31d581bf8358fcbc86e4879785a2f131ce26f5b",
-        "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-release-rework-4pack-next-qualification-20260924.json",
-        "qualification": "QUALIFIED_FOR_RENDERER14",
-        "route": "14 -> 01 -> 08 on ACCEPT"
-      },
-      {
-        "itemId": "decor-7",
-        "name": "Skate Rack",
-        "producer": "09",
-        "reviewer": "01",
-        "path": "public/assets/catalog-candidates/cpu/decor-7-w09-v6-a-real-skate-cubby-rack-original.png",
-        "sha256": "5821ad0874f476b81a285a5b63d891a98b037d37514f3887942ed0fdc3c26d73",
-        "gitBlobSha": "be645f930fd96fafde9475f6e2ba1ff2504a742e",
-        "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-release-rework-3pack-next-qualification-20260924.json",
-        "qualification": "QUALIFIED_FOR_RENDERER14",
-        "route": "14 -> 01 -> 08 on ACCEPT"
-      },
-      {
-        "itemId": "decor-11",
-        "name": "Dream Vanity Set",
-        "producer": "09",
+        "itemId": "wall-9",
+        "name": "Art Gallery Wall",
+        "producer": "13",
         "reviewer": "02",
-        "path": "public/assets/catalog-candidates/cpu/decor-11-w09-v2-a-single-vanity-mirror-stool-original.png",
-        "sha256": "bfee0477adf4153dc42ba1e100eaacf19bd4d885009f9e5431d91e2014753a82",
-        "gitBlobSha": "090cacf160984a0ac556553f6a23215c18d9ef2f",
-        "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-release-rework-3pack-next-qualification-20260924.json",
+        "path": "public/assets/catalog-candidates/cpu/wall-9-w13-v6-a-three-frames-no-room-original.png",
+        "sha256": "f9deadbf8443d30b3ec8534a220307a3d43c4899f2cb1eb5db40e1b7edd9d8de",
+        "gitBlobSha": "b2ac1c401bd9b20adf9d8b95c90b8db3f0453faa",
+        "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-current-rework-3pack-v2-qualification-20260924.json",
         "qualification": "QUALIFIED_FOR_RENDERER14",
         "route": "14 -> 02 -> 08 on ACCEPT"
       },
       {
-        "itemId": "decor-12",
-        "name": "Trophy Wall",
-        "producer": "09",
-        "reviewer": "02",
-        "path": "public/assets/catalog-candidates/cpu/decor-12-w09-v2-a-trophy-display-backboard-original.png",
-        "sha256": "e0919c89d8ad88b47c8b36e0bbc6bc582e065a46fba3919bf6b0527abd154633",
-        "gitBlobSha": "72655049c8c0c488f56c80916ed7213e62d7e374",
-        "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-release-rework-3pack-next-qualification-20260924.json",
+        "itemId": "desks-12",
+        "name": "Luxe Command Desk",
+        "producer": "13",
+        "reviewer": "01",
+        "path": "public/assets/catalog-candidates/cpu/desks-12-w13-v3-a-one-command-desk-original.png",
+        "sha256": "10200d0bb803b414a7ed7793991e57c19d0848089fef8901a583bf29176fb378",
+        "gitBlobSha": "7d268e27c8d963dfb7e8c62274fe6b906973d5bd",
+        "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-current-rework-3pack-v2-qualification-20260924.json",
         "qualification": "QUALIFIED_FOR_RENDERER14",
-        "route": "14 -> 02 -> 08 on ACCEPT"
+        "route": "14 -> 01 -> 08 on ACCEPT"
       }
     ],
     "packetPlan": [
       {
-        "qualification": "docs/preproduction/art-factory/requests/w06-release-rework-4pack-next-qualification-20260924.json",
+        "qualification": "docs/preproduction/art-factory/requests/w06-current-rework-3pack-v2-qualification-20260924.json",
         "items": [
-          "decor-8",
-          "desks-9",
-          "desks-10",
-          "desks-11"
-        ]
-      },
-      {
-        "qualification": "docs/preproduction/art-factory/requests/w06-release-rework-3pack-next-qualification-20260924.json",
-        "items": [
-          "decor-7",
-          "decor-11",
-          "decor-12"
+          "wall-8",
+          "wall-9",
+          "desks-12"
         ]
       }
     ],
     "safety": {
-      "acceptedHashesPreserved": true,
-      "reviewerIndependencePreserved": true,
-      "workflowFilesChanged": false,
       "canonicalMappingsChanged": false,
-      "gameplayLearningEconomyPersistenceChanged": false,
+      "reviewerDecisionMade": false,
+      "candidateBytesChanged": false,
+      "workflowFilesChanged": false,
+      "gameplayLearningPersistenceEconomyChanged": false,
       "deploymentTouched": false
     }
   },
-  "nextGate": "Renderer14 reuses one successful Store render artifact, then creates bounded exact-hash packets: 4-pack to reviewers 11/05/01 and 3-pack to reviewers 01/02; 08 integrates only independent ACCEPTs."
+  "nextGate": "Renderer14 binds current Store card/detail pixels for Wall8 v6, Wall9 v6 and Desk12 v3; reviewers 11/02/01 independently ACCEPT/REWORK exact hashes; 08 integrates only ACCEPT."
 }
