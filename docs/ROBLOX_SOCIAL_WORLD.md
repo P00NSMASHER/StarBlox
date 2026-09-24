@@ -46,7 +46,7 @@ The pure social-world engine validates:
 - placement radius;
 - unique placement IDs.
 
-The Roblox SocialWorldService accepts an injected PlacementValidator so the live game can add collision, plot bounds, ownership and Brookhaven-specific placement rules.
+The Roblox SocialWorldService requires an injected PlacementValidator and fails closed when one is unavailable, so the live game must provide collision, plot bounds, ownership and Brookhaven-specific placement rules.
 
 Clients submit placement intent only.
 
@@ -64,7 +64,7 @@ Affinity thresholds unlock social items such as:
 - minigame access;
 - dialog branches.
 
-Event IDs can be used by the pure domain layer to deduplicate affinity awards.
+Event IDs are durably retained server-side and deduplicate affinity awards before profile mutation or LiveOps emission.
 
 The Roblox service can forward authoritative friendship progress into Step 6 LiveOps.
 
