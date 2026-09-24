@@ -351,7 +351,7 @@ function factoryArtifact({
   const artifact={
     version:DEVELOPMENT_FACTORY_VERSION,
     taskId,
-    status:evaluation.ok ? 'verified' : 'rolled_back',
+    status:evaluation.ok ? 'verified' : (rollbackFailures.length ? 'rollback_failed' : 'rolled_back'),
     snapshotHash:stableHash(snapshot),
     finalPlanHash:plan.planHash,
     receipts:receipts.map(item => ({
