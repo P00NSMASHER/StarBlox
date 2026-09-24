@@ -246,3 +246,14 @@ Step 9 does not:
 - publish a competitive mode automatically.
 
 It establishes the authoritative networking substrate those modes can use.
+
+
+## Repair hardening: continuous server history sampling
+
+Every joined player is now initialized in AuthoritativeActionService when their profile/replica attach completes.
+
+When a GetPlayerState adapter is available, the service starts a bounded Heartbeat sampler (default 20 Hz, configurable between 5 and 60 Hz) and records server-observed position, velocity and health for every connected player.
+
+This closes an important lag-compensation gap: targets no longer need to submit movement/fire traffic before they become part of the server rewind history.
+
+The sampler is stopped during server shutdown and per-player history is removed on PlayerRemoving.
