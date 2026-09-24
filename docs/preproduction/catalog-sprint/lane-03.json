@@ -6,7 +6,7 @@
   "branch": "screenshot-match-preproduction",
   "observedCoordinationHead": "044c93510cca67fe1939f9052ee9d4e569b08d9e",
   "allocationAuthority": "docs/preproduction/ART_VISUALS_SPRINT.json",
-  "status": "DESKS_2_6_ACCEPTED_PRESERVE_EXACT_HASHES__DESKS_7_10_ASSIGNED_RELEASE_PILOT__DESKS_11_12_GATED_PENDING_REVIEW",
+  "status": "DECOR6_V2_DECOR8_V2_EXACT_HASHES_QUALIFIED__RENDER_TRIGGERED_FOR_REVIEW11",
   "selfApproved": false,
   "reviewOwner": "05",
   "integrationOwner": "08",
@@ -204,7 +204,7 @@
     "latestCoordinatorAssignment": "PASS_ACTIVE_BATCH_W03_DESKS_7_10_RELEASE_PILOT",
     "strictVisualFallbackEvidence": "PASS_DESKS_7_12_INCLUDED_IN_22_MISSING_CANONICAL_ART"
   },
-  "nextAction": "Generate only Desks 7-10 through the bounded Art Factory pilot using exact Store metadata and the releasePilot visual contract. Stage/read back/verify exact bytes, publish real card/detail pixels via renderer14, and route exact hashes to independent reviewer05. Preserve Desks 1-6 accepted hashes. Do not start Desks 11-12 until the pilot is dispositioned.",
+  "nextAction": "Renderer14 binds current Store card/detail pixels for Decor6 v2 and Decor8 v2, then reviewer11 independently ACCEPT/REWORK exact hashes; 08 integrates only ACCEPT. Preserve Desks accepted hashes and existing Desk pilot gates.",
   "freeze": {
     "replitTouched": false,
     "flootTouched": false,
@@ -260,5 +260,43 @@
     },
     "sourceAuthority": "docs/preproduction/art-factory/ACTIVE_BATCH.json strictVisualBlocker + catalogFallbackBacklog",
     "scaleGate": "Do not start desks-11/12 until reviewer05 independently dispositions exact current hashes for desks-7/10."
+  },
+  "catalogFactoryReviewHandoff": {
+    "updatedAt": "2026-09-24T08:46:00Z",
+    "sourceHead": "762f44e5d25738394f1bb4aaa6fcf709fc7b170b",
+    "purpose": "Trigger exact-hash Store card/detail render evidence for qualified decor-6, decor-8 candidates without changing candidate bytes or review/canonical gates.",
+    "candidates": [
+      {
+        "itemId": "decor-6",
+        "name": "Telescope",
+        "producer": "03",
+        "reviewer": "11",
+        "path": "public/assets/catalog-candidates/cpu/decor-6-w03-v2-a-single-telescope-original.png",
+        "sha256": "5787d635b6fdde26d67b81ecec661b67da0723060c6ea101ac8576b66416107d",
+        "gitBlobSha": "5b860130d537acadb6a15c81a841805c3b9b81cf",
+        "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-decor-5-8-vnext-qualification-20260924.json",
+        "qualification": "QUALIFIED_FOR_RENDERER14",
+        "route": "14 -> 11 -> 08 on ACCEPT"
+      },
+      {
+        "itemId": "decor-8",
+        "name": "Mini Aquarium",
+        "producer": "03",
+        "reviewer": "11",
+        "path": "public/assets/catalog-candidates/cpu/decor-8-w03-v2-a-physical-original.png",
+        "sha256": "b88c0b339da024e2dd6591311d8f6c1022c682918cd4fb6746254b61d46acf87",
+        "gitBlobSha": "cde20430aaa1c2b4bd07399d35b3f0f184896509",
+        "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-decor-5-8-vnext-qualification-20260924.json",
+        "qualification": "QUALIFIED_FOR_RENDERER14",
+        "route": "14 -> 11 -> 08 on ACCEPT"
+      }
+    ],
+    "safety": {
+      "noArtDecisionByProducer": true,
+      "candidateBytesChanged": false,
+      "canonicalMappingsChanged": false,
+      "gameplayLearningEconomyPersistenceChanged": false,
+      "deploymentTouched": false
+    }
   }
 }

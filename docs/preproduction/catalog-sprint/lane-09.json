@@ -5,7 +5,7 @@
   "phase": "ART_AND_VISUALS_ONLY",
   "protocol": "DELIVERY_PROTOCOL_V2",
   "branch": "screenshot-match-preproduction",
-  "status": "DECOR7_CPU_V2_STAGED_PENDING_RENDER_REVIEW01__DECOR5_STALE_RUN_CANCELLED__PRESERVE_DECOR3_4_LEGACY_REVIEW14",
+  "status": "DECOR5_V3_DECOR7_V4_EXACT_HASHES_QUALIFIED__RENDER_TRIGGERED_FOR_REVIEW01",
   "assignmentSource": "docs/preproduction/ART_VISUALS_SPRINT.json",
   "activeBatchSource": "docs/preproduction/art-factory/ACTIVE_BATCH.json",
   "coordinator": "15",
@@ -309,7 +309,7 @@
     "integrationOwner": "08",
     "selfApproval": false
   },
-  "nextGate": "Render Decor7 exact staged hash through StarBlox Staged Catalog Art QA and obtain independent reviewer01 ACCEPT/REWORK. Decor5 has no new hash and must be retried separately only after the current Wall queue is established. Preserve Decor3/4 historical reviewer14 handoff.",
+  "nextGate": "Renderer14 binds current Store card/detail pixels for Decor5 v3 and Decor7 v4, then reviewer01 independently ACCEPT/REWORK exact hashes; 08 integrates only ACCEPT.",
   "currentCpuReviewOwner": "01",
   "decor5_7CpuV2": {
     "batchId": "w09-decor-5-7-cpu-v2",
@@ -368,5 +368,43 @@
         }
       }
     ]
+  },
+  "catalogFactoryReviewHandoff": {
+    "updatedAt": "2026-09-24T08:46:00Z",
+    "sourceHead": "762f44e5d25738394f1bb4aaa6fcf709fc7b170b",
+    "purpose": "Trigger exact-hash Store card/detail render evidence for qualified decor-5, decor-7 candidates without changing candidate bytes or review/canonical gates.",
+    "candidates": [
+      {
+        "itemId": "decor-5",
+        "name": "Plant Wall",
+        "producer": "09",
+        "reviewer": "01",
+        "path": "public/assets/catalog-candidates/cpu/decor-5-w09-v3-a-physical-original.png",
+        "sha256": "a30031043e9d9e3de1a34260a470df6bb37f5e602d692115b7c27ad16915d888",
+        "gitBlobSha": "1e7716f00e8e38f7ad645a448f9e29adea38de37",
+        "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-decor-5-8-vnext-qualification-20260924.json",
+        "qualification": "QUALIFIED_FOR_RENDERER14",
+        "route": "14 -> 01 -> 08 on ACCEPT"
+      },
+      {
+        "itemId": "decor-7",
+        "name": "Skate Rack",
+        "producer": "09",
+        "reviewer": "01",
+        "path": "public/assets/catalog-candidates/cpu/decor-7-w09-v4-a-rack-first-minimal-original.png",
+        "sha256": "6d379a59330d7f22f9f7028aad9f5f5327e624798fd1519b39d137034805aa4e",
+        "gitBlobSha": "4e78412e291ccbc553948f536bd1e958ab1ebf53",
+        "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-decor-5-8-vnext-qualification-20260924.json",
+        "qualification": "QUALIFIED_FOR_RENDERER14",
+        "route": "14 -> 01 -> 08 on ACCEPT"
+      }
+    ],
+    "safety": {
+      "noArtDecisionByProducer": true,
+      "candidateBytesChanged": false,
+      "canonicalMappingsChanged": false,
+      "gameplayLearningEconomyPersistenceChanged": false,
+      "deploymentTouched": false
+    }
   }
 }
