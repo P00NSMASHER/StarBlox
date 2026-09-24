@@ -1,0 +1,120 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_TECHNICAL_QUALIFICATION_MICROBATCH",
+  "role": "06-single-technical-qualification-gate",
+  "branch": "screenshot-match-preproduction",
+  "observedHead": "9b6ccff5bf995e3a8019ed5377bdfd91107626ba",
+  "intakeEvidence": "docs/preproduction/art-factory/requests/w12-cross-account-intake-routing-20260924-v21.json",
+  "manifestVersion": 35,
+  "manifestGitBlob": "3ce2fab41ed9b9068f30fbe5fc40e9e607db0aa9",
+  "runtimeGitBlob": "425b75fe8e817785162873decd75e42effc9de21",
+  "items": [
+    {
+      "item": {
+        "id": "desks-9",
+        "name": "Art Maker Table",
+        "collectionId": "desks",
+        "type": "room",
+        "tier": 3,
+        "theme": "Sunny Pop"
+      },
+      "candidate": {
+        "producer": "03",
+        "reviewer": "05",
+        "renderOwner": "14",
+        "canonicalWriter": "08",
+        "path": "public/assets/catalog-candidates/cpu/desks-9-w03-v2-a-physical-original.png",
+        "sha256": "dfe46866e35daf1f55069ca3549cc6a45c46e92f131e01c0bd492b7641203a6a",
+        "gitBlobSha": "6cab04be717e17e2b682afa73ce8306bc21556c8",
+        "dimensions": [
+          640,
+          640
+        ],
+        "bytes": 495982,
+        "format": "PNG",
+        "mode": "RGB"
+      },
+      "sourceGenerationRunId": 35977811428,
+      "provenance": {
+        "stagedOutput": "docs/preproduction/art-factory/generated-evidence/w03-desks-9-10-v2-pinned-regeneration/desks-9/staged-output.json",
+        "generationReceipt": "docs/preproduction/art-factory/generated-evidence/w03-desks-9-10-v2-pinned-regeneration/desks-9/generation-receipt.json",
+        "runtimeRepo": "huggingface/diffusers",
+        "runtimeCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+        "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+        "modelRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+        "dtype": "float32",
+        "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+      }
+    },
+    {
+      "item": {
+        "id": "desks-10",
+        "name": "Neon Streaming Desk",
+        "collectionId": "desks",
+        "type": "room",
+        "tier": 4,
+        "theme": "Aqua Wave"
+      },
+      "candidate": {
+        "producer": "03",
+        "reviewer": "05",
+        "renderOwner": "14",
+        "canonicalWriter": "08",
+        "path": "public/assets/catalog-candidates/cpu/desks-10-w03-v2-a-physical-original.png",
+        "sha256": "c3f04f156860b0665af727de66b7063b08302ca87941b728f856edf921f0ae7d",
+        "gitBlobSha": "2f6fccc5b76418fee108052bf6963491f2bcb823",
+        "dimensions": [
+          640,
+          640
+        ],
+        "bytes": 454563,
+        "format": "PNG",
+        "mode": "RGB"
+      },
+      "sourceGenerationRunId": 35977811428,
+      "provenance": {
+        "stagedOutput": "docs/preproduction/art-factory/generated-evidence/w03-desks-9-10-v2-pinned-regeneration/desks-10/staged-output.json",
+        "generationReceipt": "docs/preproduction/art-factory/generated-evidence/w03-desks-9-10-v2-pinned-regeneration/desks-10/generation-receipt.json",
+        "runtimeRepo": "huggingface/diffusers",
+        "runtimeCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+        "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+        "modelRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+        "dtype": "float32",
+        "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+      }
+    }
+  ],
+  "technicalChecks": {
+    "idPathBinding": "PASS_ALL_2",
+    "signatureDecode": "PASS_ALL_2_PNG",
+    "dimensions": "PASS_ALL_2_640X640",
+    "sourceLineage": "PASS_ALL_2",
+    "artFactoryV2Provenance": "PASS_ALL_2",
+    "stagedOutputReadback": "PASS_ALL_2_EXACT_GIT_BLOB",
+    "staleSupersededCheck": "PASS_ALL_2",
+    "exactContentDuplicateCheck": "PASS_UNIQUE_NOT_CANONICAL",
+    "independentReviewerRouting": "PASS_ALL_2"
+  },
+  "qualification": {
+    "status": "QUALIFIED_FOR_RENDERER14_MICROBATCH",
+    "qualifiedForRenderer14": true,
+    "qualifiedCount": 2,
+    "artQualityJudgment": "NOT_PERFORMED",
+    "blockingDefects": []
+  },
+  "routing": {
+    "current": "HANDOFF_TO_RENDERER14",
+    "reviewerByItem": {
+      "desks-9": "05",
+      "desks-10": "05"
+    },
+    "renderer14": "RENDER_BOTH_EXACT_HASHES_IN_REAL_STORE_CARD_DETAIL_CONTEXT",
+    "integration08": "ONLY_AFTER_MATCHING_REVIEWER05_ACCEPT"
+  },
+  "preservation": {
+    "candidateBytesMutated": false,
+    "canonicalMappingsChanged": false,
+    "gameplayLearningPersistenceEconomyChanged": false,
+    "deploymentTouched": false
+  }
+}
