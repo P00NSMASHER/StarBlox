@@ -1,0 +1,157 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_JOB",
+  "repository": "P00NSMASHER/StarBlox",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "cbe532441bfd14edb913fa890a0eff9584169175",
+  "item": {
+    "id": "wall-9",
+    "name": "Art Gallery Wall",
+    "collectionId": "wall",
+    "type": "room",
+    "tier": 3,
+    "theme": "Adventure Club"
+  },
+  "sourceReviewHash": "28807b5b48c46274252f0f6453b336cb2d379416",
+  "rightsBasis": "USER_ATTESTED_FULL_RIGHTS",
+  "attempts": [
+    {
+      "attemptId": "wall-9-w13-a-exact-three-portrait-frames-547a4d6249",
+      "itemId": "wall-9",
+      "producer": "13",
+      "variant": "A-EXACT-THREE-PORTRAIT-FRAMES",
+      "promptBlocks": [
+        "metadata",
+        "category",
+        "silhouette",
+        "physical",
+        "material",
+        "theme",
+        "tier",
+        "card",
+        "original",
+        "stage",
+        "wall",
+        "depth",
+        "camera",
+        "bloom",
+        "textile",
+        "light"
+      ],
+      "promptText": "STARBLOX CATALOG ART — A-EXACT-THREE-PORTRAIT-FRAMES\n\nCreate one premium, kid-friendly 2D game catalog asset with polished dimensional quality.\n\nExact metadata: wall-9 — Art Gallery Wall; collection wall; type room; tier 3; theme Adventure Club.\n\nAuthoritative item-specific design brief:\nArt Gallery Wall. Three equal portrait frames side by side on white. Left: mountain trail. Center: compass map. Right: blue ocean coast. Thin dark frames, equal spacing. NO fourth frame, panel, shelf, floor, room, text.\n\nExact-hash reviewer failure taxonomy: UNKNOWN_REWORK.\n\nRepair the documented failure codes while preserving qualities that were not implicated. Do not erase successful identity, silhouette, material depth, or readability merely to make a different image.\n\nUse the exact catalog ID/name/collection/tier/theme. Do not rename, recategorize, or substitute the item.\n\nMake the object unmistakably the stated product category with believable proportions and construction.\n\nPrioritize a distinctive clean silhouette that reads immediately at small Store-card size.\n\nShow real thickness, seams/joints/edges, layered parts, volume, contact points and functional construction—not a flat icon, emblem or sticker.\n\nUse category-appropriate material texture and highlights/shadows that explain the form.\n\nExpress the exact theme through material, construction, light and motif—not a palette swap or pasted decal.\n\nRespect tier progression: Starter stays simple and attractive; higher tiers gain richer form/material detail; Luxe gains spectacle without losing identity.\n\nDesign for both detail view and a 600×600 Store card with strong contrast, uncluttered hierarchy and no tiny critical details.\n\nAvoid recolor-only siblings, repeated template silhouettes, generic rings/badges, or interchangeable props.\n\nPresent one isolated subject on a clean premium background. No UI, text, watermark, logo, fake price badge or unrelated props.\n\nFor wall decor, show mounting/frame/backing/relief depth and a believable wall-object form—not a floating emblem.\n\nUse occlusion, contact/cast shadows and foreground/midground/background separation so the asset feels spatial.\n\nUse a clean product-style three-quarter view when appropriate so front, side and thickness are visible.\n\nUse controlled emissive light/bloom only where appropriate; preserve edges and local contrast.\n\nFor textiles, show weave/pile/folds/stitching/edge finish/thickness and believable softness or drape.\n\nFor lighting, show a physical base/mount/chassis, emitter or bulb, support structure and believable emitted/reflected light.\n\nOutput a production-worthy source image for exact-byte staging, card/detail rendering and independent review. Do not claim approval; the reviewer decides from rendered pixels.",
+      "promptSha256": "547a4d624946f03bd4baf009597221deae24de6686d472da56208825b8cfa8e6",
+      "runtimePromptText": "wall-9 Art Gallery Wall; Adventure Club; tier 3. Three equal portrait frames side by side on white. Left: mountain trail. Center: compass map. Right: blue ocean coast. Thin dark frames, equal spacing. single isolated product, grounded shadow.",
+      "runtimePromptSha256": "7a9124fba8b4c37805f2b8d2a3eb1b4537a738eb6507046587c5533d418cf0de",
+      "runtimeNegativePromptText": "fourth frame, panel, shelf, floor, room, text, collage, multiple views, repeated variants, text, logo, watermark, UI",
+      "runtimeNegativePromptSha256": "3ee4e46f485b3e67b1c3b875040b962a8646046439b56e26cc22c7128244779b",
+      "promptRecipeVersion": "artPromptOptimizer-request-v1:w13-wall9-v11-three-frame-final",
+      "seed": 1108600494,
+      "runtime": {
+        "repo": "huggingface/diffusers",
+        "commit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c"
+      },
+      "model": {
+        "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+        "revision": "462165984030d82259a11f4367a4eed129e94a7b",
+        "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+      },
+      "conditioning": {
+        "referenceAssetSha256": null,
+        "controlImageSha256": null,
+        "adapterScale": null
+      },
+      "output": {
+        "repoPath": null,
+        "sha256": null,
+        "gitBlobSha": null,
+        "bytes": null,
+        "width": null,
+        "height": null
+      },
+      "status": "PLANNED_NOT_GENERATED"
+    },
+    {
+      "attemptId": "wall-9-w13-b-three-frames-only-04add3b371",
+      "itemId": "wall-9",
+      "producer": "13",
+      "variant": "B-THREE-FRAMES-ONLY",
+      "promptBlocks": [
+        "metadata",
+        "category",
+        "silhouette",
+        "physical",
+        "material",
+        "theme",
+        "tier",
+        "card",
+        "original",
+        "stage",
+        "wall",
+        "depth",
+        "camera",
+        "bloom",
+        "textile",
+        "light"
+      ],
+      "promptText": "STARBLOX CATALOG ART — B-THREE-FRAMES-ONLY\n\nCreate one premium, kid-friendly 2D game catalog asset with polished dimensional quality.\n\nExact metadata: wall-9 — Art Gallery Wall; collection wall; type room; tier 3; theme Adventure Club.\n\nAuthoritative item-specific design brief:\nExactly THREE framed travel pictures, side by side, no other shapes: mountain path, compass-map, ocean coast. Three equal vertical frames only on white background. NO fourth frame, no backing grid, no shelf, no room, no text.\n\nExact-hash reviewer failure taxonomy: UNKNOWN_REWORK.\n\nRepair the documented failure codes while preserving qualities that were not implicated. Do not erase successful identity, silhouette, material depth, or readability merely to make a different image.\n\nUse the exact catalog ID/name/collection/tier/theme. Do not rename, recategorize, or substitute the item.\n\nMake the object unmistakably the stated product category with believable proportions and construction.\n\nPrioritize a distinctive clean silhouette that reads immediately at small Store-card size.\n\nShow real thickness, seams/joints/edges, layered parts, volume, contact points and functional construction—not a flat icon, emblem or sticker.\n\nUse category-appropriate material texture and highlights/shadows that explain the form.\n\nExpress the exact theme through material, construction, light and motif—not a palette swap or pasted decal.\n\nRespect tier progression: Starter stays simple and attractive; higher tiers gain richer form/material detail; Luxe gains spectacle without losing identity.\n\nDesign for both detail view and a 600×600 Store card with strong contrast, uncluttered hierarchy and no tiny critical details.\n\nAvoid recolor-only siblings, repeated template silhouettes, generic rings/badges, or interchangeable props.\n\nPresent one isolated subject on a clean premium background. No UI, text, watermark, logo, fake price badge or unrelated props.\n\nFor wall decor, show mounting/frame/backing/relief depth and a believable wall-object form—not a floating emblem.\n\nUse occlusion, contact/cast shadows and foreground/midground/background separation so the asset feels spatial.\n\nUse a clean product-style three-quarter view when appropriate so front, side and thickness are visible.\n\nUse controlled emissive light/bloom only where appropriate; preserve edges and local contrast.\n\nFor textiles, show weave/pile/folds/stitching/edge finish/thickness and believable softness or drape.\n\nFor lighting, show a physical base/mount/chassis, emitter or bulb, support structure and believable emitted/reflected light.\n\nOutput a production-worthy source image for exact-byte staging, card/detail rendering and independent review. Do not claim approval; the reviewer decides from rendered pixels.",
+      "promptSha256": "04add3b3715903c3c1e4518144283b0aff9d66c2d7e16465a05c0a677df7d2f2",
+      "runtimePromptText": "wall-9 Art Gallery Wall; Adventure Club; tier 3. Exactly THREE framed travel pictures, side by side, Three equal vertical frames only on white background. single isolated product, grounded shadow.",
+      "runtimePromptSha256": "cb4b112208c14ae4653e0862dab50bf79d58fbb79ca50cdea9f99bddafa5ee0c",
+      "runtimeNegativePromptText": "other shapes: mountain path, compass-map, ocean coast, fourth frame, backing grid, shelf, room, text, collage, multiple views, repeated variants, text, logo, watermark, UI",
+      "runtimeNegativePromptSha256": "6a42185b8c2eadea211d60534532f5332eb51fc71e70629649acfd7740ce37ec",
+      "promptRecipeVersion": "artPromptOptimizer-request-v1:w13-wall9-v11-three-frame-final",
+      "seed": 1284481944,
+      "runtime": {
+        "repo": "huggingface/diffusers",
+        "commit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c"
+      },
+      "model": {
+        "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+        "revision": "462165984030d82259a11f4367a4eed129e94a7b",
+        "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+      },
+      "conditioning": {
+        "referenceAssetSha256": null,
+        "controlImageSha256": null,
+        "adapterScale": null
+      },
+      "output": {
+        "repoPath": null,
+        "sha256": null,
+        "gitBlobSha": null,
+        "bytes": null,
+        "width": null,
+        "height": null
+      },
+      "status": "PLANNED_NOT_GENERATED"
+    }
+  ],
+  "requestContext": {
+    "requestPath": "docs/preproduction/art-factory/requests/w13-wall9-v11-three-frame-final-20260924.json",
+    "batchId": "w13-wall9-v11-three-frame-final",
+    "requestSourceHead": "151324ef8483361380ab56f925486289b6fd20ab",
+    "requestRecordSha256": "e54bc3c411bac65b7ff858321c96d13b31bf5e248e618d5e098b1acbf116cfd0",
+    "planner": "15",
+    "reviewer": "02",
+    "renderOwner": "14",
+    "integrationOwner": "08",
+    "contextReferences": [],
+    "plannerVariants": [
+      {
+        "variantId": "A-EXACT-THREE-PORTRAIT-FRAMES",
+        "plannerSeed": null,
+        "optimizerInputSha256": "212cedb930eb2ab7d20654eaaa30746311933dcf522777b86029a3db21ad4663",
+        "compiledPromptSha256": "547a4d624946f03bd4baf009597221deae24de6686d472da56208825b8cfa8e6",
+        "compiledSeed": 1108600494
+      },
+      {
+        "variantId": "B-THREE-FRAMES-ONLY",
+        "plannerSeed": null,
+        "optimizerInputSha256": "e6d7e2b9ff8fcf7a3da064624b6026caf74093b4e36da2b04c7f4fd8a19fbc1f",
+        "compiledPromptSha256": "04add3b3715903c3c1e4518144283b0aff9d66c2d7e16465a05c0a677df7d2f2",
+        "compiledSeed": 1284481944
+      }
+    ]
+  },
+  "planSha256": "da57176166ab0e6881430cb8883dc2282cc83352e165ba183fcfeae91c604f8f"
+}
