@@ -112,3 +112,4 @@ jobs:
             .learning-promotion
             .learning-provenance-receipt.json
           if-no-files-found: error
+          include-hidden-files: true
