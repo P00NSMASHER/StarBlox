@@ -137,7 +137,7 @@ describe('Step 16: deterministic Daily freeze, fallback and versioning', () => {
   });
 });
 
-describe('Step 17: Daily schedule and activation control plane', () => {
+describe('Step 16: certified release trust boundary', () => {
   it('rejects superficially certified artifacts whose internal certificate no longer verifies', async () => {
     const artifact=await certified('2026-10-13');
     const tampered=JSON.parse(JSON.stringify(artifact));
