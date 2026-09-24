@@ -15,6 +15,11 @@ function arg(name,def=null){
 
 const port=Number(arg('--port',process.env.STARBLOX_STUDIO_BRIDGE_PORT || 38473));
 const host=arg('--host',process.env.STARBLOX_STUDIO_BRIDGE_HOST || '127.0.0.1');
+const token=arg('--token',process.env.STARBLOX_STUDIO_BRIDGE_TOKEN || '');
+const LOOPBACK=new Set(['127.0.0.1','localhost','::1']);
+if(!LOOPBACK.has(host) && !token){
+  throw new Error('Non-loopback Studio bridge bindings require --token or STARBLOX_STUDIO_BRIDGE_TOKEN.');
+}
 const bodyLimit=16 * 1024 * 1024;
 const bridge=new StudioBridgeQueue({
   timeoutMs:Number(process.env.STARBLOX_STUDIO_TOOL_TIMEOUT_MS || 120_000)
@@ -45,6 +50,10 @@ function send(res,status,payload){
 const server=http.createServer(async (req,res) => {
   try{
     const url=new URL(req.url || '/','http://' + (req.headers.host || host));
+    if(token && req.headers['x-starblox-bridge-token'] !== token){
+      send(res,401,{ok:false,error:'unauthorized'});
+      return;
+    }
 
     if(req.method === 'GET' && url.pathname === '/health'){
       send(res,200,{
