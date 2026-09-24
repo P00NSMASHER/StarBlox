@@ -35,11 +35,26 @@ function fingerprintPayload(bundle){
   return rest;
 }
 
+function sourceEntry(sourceId,sourceSnapshotHashes){
+  const record = sourceRecord(sourceId) || {
+    id:sourceId,
+    label:sourceId,
+    kind:'unknown',
+    provenanceStatus:'unknown'
+  };
+
+  return {
+    ...record,
+    snapshotHash:sourceSnapshotHashes?.[sourceId] || null
+  };
+}
+
 export function buildContentBundle(questions,{
   contentVersion='bootstrap-current-bank',
   generatorSystem='starblox-existing-bank',
   generatorVersion='1',
-  generatorSeed=0
+  generatorSeed=0,
+  sourceSnapshotHashes={}
 }={}){
   const normalized = (questions || [])
     .map(question => toQuestionV2(question,{
@@ -50,14 +65,12 @@ export function buildContentBundle(questions,{
     }))
     .sort((a,b) => a.id.localeCompare(b.id));
 
-  const usedSourceIds = [...new Set(normalized.flatMap(question => question.sourceIds))].sort();
+  const usedSourceIds = [...new Set(
+    normalized.flatMap(question => question.sourceIds)
+  )].sort();
+
   const sources = usedSourceIds
-    .map(sourceId => sourceRecord(sourceId) || {
-      id:sourceId,
-      label:sourceId,
-      kind:'unknown',
-      provenanceStatus:'unknown'
-    })
+    .map(sourceId => sourceEntry(sourceId,sourceSnapshotHashes))
     .sort((a,b) => a.id.localeCompare(b.id));
 
   const base = {
@@ -79,6 +92,17 @@ export function buildContentBundle(questions,{
   };
 }
 
+function bundleSource(bundle,sourceId){
+  return (bundle?.sources || []).find(source => source.id === sourceId) || null;
+}
+
+function sourceNeedsSnapshot(source){
+  return Boolean(
+    source &&
+    ['declared-source','snapshot-required'].includes(source.provenanceStatus)
+  );
+}
+
 export function validateContentBundle(bundle,{strictProvenance=false}={}){
   const issues = [];
   if(bundle?.schemaVersion !== CONTENT_BUNDLE_SCHEMA_VERSION){
@@ -95,20 +119,32 @@ export function validateContentBundle(bundle,{strictProvenance=false}={}){
     for(const type of validateQuestionV2(question)){
       issues.push({id:question.id,type});
     }
+
     if(ids.has(question.id)) issues.push({id:question.id,type:'duplicate-id'});
     ids.add(question.id);
 
     for(const sourceId of question.sourceIds || []){
-      const source = sourceRecord(sourceId);
-      if(!source){
+      const registered = sourceRecord(sourceId);
+      const source = bundleSource(bundle,sourceId);
+
+      if(!registered || !source){
         issues.push({id:question.id,type:'unknown-source-id',sourceId});
-      }else if(strictProvenance && source.provenanceStatus === 'declared-source'){
+        continue;
+      }
+
+      if(
+        strictProvenance &&
+        sourceNeedsSnapshot(source) &&
+        !source.snapshotHash
+      ){
         issues.push({id:question.id,type:'source-snapshot-required',sourceId});
       }
     }
   }
 
-  const expected = 'fnv1a32:' + fnv1a32(canonicalJson(fingerprintPayload(bundle)));
+  const expected = 'fnv1a32:' + fnv1a32(
+    canonicalJson(fingerprintPayload(bundle))
+  );
   if(bundle?.contentFingerprint !== expected){
     issues.push({type:'content-fingerprint-mismatch'});
   }
@@ -117,13 +153,13 @@ export function validateContentBundle(bundle,{strictProvenance=false}={}){
 }
 
 export function provenanceDebt(bundle){
-  const declared = (bundle?.sources || []).filter(
-    source => source.provenanceStatus === 'declared-source'
-  );
+  const missing = (bundle?.sources || [])
+    .filter(source => sourceNeedsSnapshot(source) && !source.snapshotHash);
+
   return {
-    declaredSourceCount:declared.length,
-    declaredSourceIds:declared.map(source => source.id).sort(),
-    strictReady:declared.length === 0
+    declaredSourceCount:missing.length,
+    declaredSourceIds:missing.map(source => source.id).sort(),
+    strictReady:missing.length === 0
   };
 }
 
