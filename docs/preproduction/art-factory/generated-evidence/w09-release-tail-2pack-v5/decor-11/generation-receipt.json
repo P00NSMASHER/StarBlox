@@ -1,0 +1,112 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_GENERATION_RECEIPT",
+  "repository": "P00NSMASHER/StarBlox",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "5594e24d4541bff6bd654b8bdc82d8633cb4a5f1",
+  "sourcePlanSha256": "7bb1007abeef5985da0790e59626f8c88874d349789ddcc65d017e9efbec3eb5",
+  "executionCheckout": {
+    "branch": "screenshot-match-preproduction",
+    "head": "5594e24d4541bff6bd654b8bdc82d8633cb4a5f1",
+    "planSourceHeadMatchesExecutionHead": true
+  },
+  "attempt": {
+    "attemptId": "decor-11-w09-a-one-vanity-one-mirror-one-stool-5098936b13",
+    "itemId": "decor-11",
+    "producer": "09",
+    "variant": "A-ONE-VANITY-ONE-MIRROR-ONE-STOOL",
+    "promptSha256": "5098936b130ab1981a431a0072369f028569d538ae7ff273963482a661c31b58",
+    "runtimePromptSha256": "e690b70e3e95048bca4aa6895f1c3e77fdd6a8b8ae180a64dbaa75738f42103f",
+    "runtimeNegativePromptSha256": "c342029de29e34d625753203222fa5088b47c59d7efe52fec936af11bbc8df39",
+    "promptRecipeVersion": "artPromptOptimizer-request-v1:w09-release-tail-2pack-v5",
+    "seed": 1327298882
+  },
+  "runtime": {
+    "repo": "huggingface/diffusers",
+    "commit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "resolvedCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "runtimeCommitVerified": true,
+    "diffusersVersion": "0.41.0.dev0",
+    "diffusersInstallSource": "https://github.com/huggingface/diffusers.git",
+    "torchVersion": "2.8.0+cpu",
+    "transformersVersion": "5.17.0",
+    "accelerateVersion": "1.15.0",
+    "huggingfaceHubVersion": "1.33.0",
+    "safetensorsVersion": "0.8.0",
+    "pythonPillowVersion": "12.3.0",
+    "device": "cpu",
+    "dtype": "float32",
+    "executionMode": "cpu-fallback"
+  },
+  "model": {
+    "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+    "revision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS",
+    "resolvedRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "snapshotRevisionVerified": true,
+    "selectiveSnapshot": true,
+    "snapshotAllowPatterns": [
+      "model_index.json",
+      "scheduler/*",
+      "tokenizer/*",
+      "tokenizer_2/*",
+      "feature_extractor/*",
+      "text_encoder/config.json",
+      "text_encoder/model.fp16.safetensors",
+      "text_encoder_2/config.json",
+      "text_encoder_2/model.fp16.safetensors",
+      "unet/config.json",
+      "unet/diffusion_pytorch_model.fp16.safetensors",
+      "vae/config.json",
+      "vae/diffusion_pytorch_model.fp16.safetensors"
+    ]
+  },
+  "conditioning": {
+    "referenceAssetSha256": null,
+    "controlImageSha256": null,
+    "adapterScale": null,
+    "referenceImage": null,
+    "ipAdapterModelId": null,
+    "ipAdapterRevision": null,
+    "ipAdapterResolvedRevision": null,
+    "ipAdapterRevisionVerified": false,
+    "ipAdapterWeightName": null,
+    "ipAdapterSubfolder": null
+  },
+  "generation": {
+    "width": 640,
+    "height": 640,
+    "numInferenceSteps": 6,
+    "guidanceScale": 3.5,
+    "runtimePromptTokenCounts": {
+      "tokenizer": 64,
+      "tokenizer_2": 64
+    },
+    "runtimeNegativePromptTokenCounts": {
+      "tokenizer": 45,
+      "tokenizer_2": 45
+    },
+    "executedSeed": 1327298882
+  },
+  "output": {
+    "repoPath": "public/assets/catalog-candidates/cpu/decor-11-w09-v5-a-one-vanity-one-mirror-one-stool-original.png",
+    "sha256": "27d7cf22e7835c00ad61dbf1d08dec27f61fb111d7baa6a08cb9da2db58e83a6",
+    "gitBlobSha": "2c122deee959671e20520bd9f4eb3d7e0da02949",
+    "bytes": 616647,
+    "width": 640,
+    "height": 640,
+    "format": "PNG",
+    "sourceBytesPreserved": true,
+    "reusedExistingIdenticalBytes": false
+  },
+  "safety": {
+    "canonicalArtModified": false,
+    "gameplayModified": false,
+    "reviewDecisionMade": false,
+    "deploymentPerformed": false,
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+  },
+  "nextGate": "RUN_VERIFY_STAGED_OUTPUT_THEN_REAL_RENDER_AND_INDEPENDENT_EXACT_HASH_REVIEW",
+  "status": "GENERATED_SOURCE_BYTES_UNVERIFIED",
+  "recordSha256": "fde2835fac9e7a0dfbf4852bc8f220fd4aae16bf6253dfbf088349562340dd02"
+}
