@@ -405,16 +405,22 @@ for epoch in range(model_args.epoch):
 
     model.eval()
     val_loss_rows = []
-    with torch.no_grad():
-        for batch in val_batches:
-            out = model.predictive_model(batch)
-            pred = out["prediction"].mean(dim=1)
-            label = out["label"][:, 0, :].float()
-            val_bce = torch.nn.functional.binary_cross_entropy(
-                pred.flatten().clamp(1e-6, 1 - 1e-6),
-                label.flatten(),
-            )
-            val_loss_rows.append(float(val_bce.detach().cpu()))
+    # predictive_model() uses Monte Carlo graph/z samples. Evaluate every
+    # checkpoint under the same forked RNG stream without perturbing the
+    # training RNG state, so early stopping compares model changes rather than
+    # different evaluation noise.
+    with torch.random.fork_rng(devices=[]):
+        torch.manual_seed(seed + 100_001)
+        with torch.no_grad():
+            for batch in val_batches:
+                out = model.predictive_model(batch)
+                pred = out["prediction"].mean(dim=1)
+                label = out["label"][:, 0, :].float()
+                val_bce = torch.nn.functional.binary_cross_entropy(
+                    pred.flatten().clamp(1e-6, 1 - 1e-6),
+                    label.flatten(),
+                )
+                val_loss_rows.append(float(val_bce.detach().cpu()))
 
     if not val_loss_rows:
         raise RuntimeError("PSI-KT validation split produced no batches")
@@ -451,44 +457,47 @@ per_user_state = {}
 test_step = int(model_args.max_step * model_args.test_time_ratio)
 train_step = selection_step
 
-with torch.no_grad():
-    for batch in test_batches:
-        # Held-out item-level predictions measure predictive performance.
-        out = model.predictive_model(batch)
-        pred = out["prediction"].mean(dim=1).detach().cpu().numpy()
-        label = out["label"][:, 0, :].detach().cpu().numpy()
-        skills = batch["skill_seq"][:, -test_step:].detach().cpu().numpy()
-        users = batch["user_id"].detach().cpu().numpy().reshape(-1)
+# Use one fixed forked RNG stream for the final held-out metrics too.
+with torch.random.fork_rng(devices=[]):
+    torch.manual_seed(seed + 200_003)
+    with torch.no_grad():
+        for batch in test_batches:
+            # Held-out item-level predictions measure predictive performance.
+            out = model.predictive_model(batch)
+            pred = out["prediction"].mean(dim=1).detach().cpu().numpy()
+            label = out["label"][:, 0, :].detach().cpu().numpy()
+            skills = batch["skill_seq"][:, -test_step:].detach().cpu().numpy()
+            users = batch["user_id"].detach().cpu().numpy().reshape(-1)
 
-        predictions.extend(pred.reshape(-1).tolist())
-        labels.extend(label.reshape(-1).tolist())
+            predictions.extend(pred.reshape(-1).tolist())
+            labels.extend(label.reshape(-1).tolist())
 
-        # Selector inputs need a complete per-skill state at the decision
-        # boundary, not only predictions for skills appearing in held-out
-        # questions. Infer z from exactly the observed training prefix and emit
-        # a mastery probability for every skill node.
-        state_emb = model.embedding_process(
-            time=batch["time_seq"][:, :train_step],
-            label=batch["label_seq"][:, :train_step],
-            item=batch["skill_seq"][:, :train_step],
-        )
-        _, state_qz = model.inference_process(
-            state_emb,
-            batch,
-            eval=True,
-        )
-        state_mastery = model.y_emit(
-            state_qz.mean[:, -1, :]
-        ).detach().cpu().numpy()
+            # Selector inputs need a complete per-skill state at the decision
+            # boundary, not only predictions for skills appearing in held-out
+            # questions. Infer z from exactly the observed training prefix and emit
+            # a mastery probability for every skill node.
+            state_emb = model.embedding_process(
+                time=batch["time_seq"][:, :train_step],
+                label=batch["label_seq"][:, :train_step],
+                item=batch["skill_seq"][:, :train_step],
+            )
+            _, state_qz = model.inference_process(
+                state_emb,
+                batch,
+                eval=True,
+            )
+            state_mastery = model.y_emit(
+                state_qz.mean[:, -1, :]
+            ).detach().cpu().numpy()
 
-        for row_index, user_id in enumerate(users):
-            user_key = str(int(user_id))
-            per_user_state[user_key] = state_mastery[row_index].tolist()
-            for step_index in range(pred.shape[1]):
-                skill_id = int(skills[row_index, step_index])
-                per_user_heldout_skill[user_key][str(skill_id)].append(
-                    float(pred[row_index, step_index])
-                )
+            for row_index, user_id in enumerate(users):
+                user_key = str(int(user_id))
+                per_user_state[user_key] = state_mastery[row_index].tolist()
+                for step_index in range(pred.shape[1]):
+                    skill_id = int(skills[row_index, step_index])
+                    per_user_heldout_skill[user_key][str(skill_id)].append(
+                        float(pred[row_index, step_index])
+                    )
 
 pred_np = np.asarray(predictions, dtype=float)
 label_np = np.asarray(labels, dtype=int)
@@ -548,6 +557,11 @@ receipt = {
     "stoppedEarly":stopped_early,
     "bestEpoch":best_epoch,
     "bestValidationBce":best_validation_bce,
+    "evaluationRng":{
+        "validationSeed":seed + 100_001,
+        "testSeed":seed + 200_003,
+        "forkedFromTrainingRng":True,
+    },
     "epochLosses":epoch_losses,
     "validationBce":validation_bce,
     "trainTimeRatio":train_time_ratio,
@@ -589,6 +603,7 @@ print(json.dumps({
     "stoppedEarly":receipt["stoppedEarly"],
     "bestEpoch":receipt["bestEpoch"],
     "bestValidationBce":receipt["bestValidationBce"],
+    "evaluationRng":receipt["evaluationRng"],
     "trainTimeRatio":receipt["trainTimeRatio"],
     "selectionStep":receipt["selectionStep"],
     "trainLearners":receipt["trainLearners"],
