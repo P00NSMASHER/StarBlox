@@ -4,7 +4,7 @@
   "role": "independent catalog reviewer for beds/desks/companions/auras",
   "phase": "ART_VISUALS_SPRINT",
   "branch": "screenshot-match-preproduction",
-  "sourceHead": "55ae8e54c2",
+  "sourceHead": "55ae8e54c2f171f95c431e9b5218712c13baeda6",
   "policy": "docs/preproduction/DELIVERY_PROTOCOL_V2.md",
   "visualSprint": "docs/preproduction/ART_VISUALS_SPRINT.json",
   "referenceManifest": "docs/preproduction/reference-screenshots/original-reference-manifest.json",
@@ -565,8 +565,8 @@
   "pendingCurrentHashes": [],
   "handoff": {
     "14": "Desk9/10 v3 render packets consumed; do not rerender unchanged hashes.",
-    "15": "desks-10 remains a bounded exact-pixel release blocker.",
-    "03": "desks-10 current exact hash is REWORK; preserve it and include the failure-specific next version in the next full producer03 matrix.",
+    "15": "desks-10 remains a bounded exact-pixel REWORK blocker.",
+    "03": "desks-10 current exact hash is REWORK; preserve it and use the smallest failure-specific next prompt only if director15 keeps it release-critical.",
     "08": "Do not canonical-wire desks-10 exact hash a576fa4d5450a492d3a29547e2551879dc64dd76."
   },
   "summary": {
