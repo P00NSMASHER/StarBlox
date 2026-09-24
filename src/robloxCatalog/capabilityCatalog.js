@@ -275,6 +275,8 @@ function flattenDom(source){
     const record={
       sourceId:source.sourceId,
       sourceFile:source.file,
+      sourceSha256:source.sha256 ?? null,
+      sourceBytes:source.bytes ?? null,
       referent:text(node.referent) || null,
       path,
       parentPath:parentPath || null,
