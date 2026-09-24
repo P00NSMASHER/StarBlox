@@ -1,0 +1,250 @@
+{
+  "schemaVersion": "starblox-brookhaven-resolved-catalogs-v1",
+  "step": "3-of-12",
+  "generatedAt": "2026-09-24",
+  "basedOnGraph": "docs/preproduction/brookhaven-research/asset-graph-v1.json",
+  "resolutionRule": "An entry is 'resolved-identifier' only when the exact identifier/name is directly present in a pinned artifact or separately pinned corroborating source. This does not imply its mesh/texture payload has been recovered.",
+  "additionalPinnedEvidence": [
+    {
+      "id": "brookhaven-property-id-corroboration",
+      "repository": "Domadicoof/Domadicoof",
+      "commit": "8d6105b406e96757ccfdc550c2424d29bcadd68b",
+      "artifact": {
+        "path": "8d9b8e10db5af0ca.lua.txt",
+        "gitBlobSha1": "de72a8ec0f2add689f4ae6591f70360018e18c4e",
+        "observedTextLength": 209153
+      },
+      "publicLicense": {
+        "status": "none-detected-in-repository-tree"
+      },
+      "reason": "Corroborates exact Brookhaven property identifier 031_House."
+    },
+    {
+      "id": "brookhaven-052-house-evidence",
+      "repository": "HOSTI1315/Opensurs",
+      "commit": "aafcbcb7bcbde353d3e97a916b7fc665d9f11af1",
+      "artifact": {
+        "path": "message_76.txt",
+        "gitBlobSha1": "7f576306c82ef1a0fc431667ac9194f7d54db682",
+        "observedTextLength": 73015
+      },
+      "publicLicense": {
+        "status": "none-detected-in-repository-tree"
+      },
+      "reason": "Directly evidences PickingCustomHouse with 052_House."
+    }
+  ],
+  "propertyCatalog": [
+    {
+      "id": "001_Landmark",
+      "kind": "landmark",
+      "status": "resolved-identifier",
+      "evidence": [
+        "HOSTI1315/Opensurs@aafcbcb:Saturn_Hub_3.txt"
+      ],
+      "assetPayloadStatus": "not-recovered"
+    },
+    {
+      "id": "031_House",
+      "kind": "house",
+      "status": "resolved-identifier-corroborated",
+      "evidence": [
+        "Domadicoof/Domadicoof@8d6105b:8d9b8e10db5af0ca.lua.txt"
+      ],
+      "assetPayloadStatus": "not-recovered"
+    },
+    {
+      "id": "049_House",
+      "kind": "house",
+      "status": "resolved-identifier",
+      "evidence": [
+        "HOSTI1315/Opensurs@aafcbcb:Brookhaven.lua.txt",
+        "michel9881/Vazador@aae4fd9:Phantom Client V5 Rework.txt"
+      ],
+      "assetPayloadStatus": "not-recovered"
+    },
+    {
+      "id": "052_House",
+      "kind": "house",
+      "status": "resolved-identifier",
+      "evidence": [
+        "HOSTI1315/Opensurs@aafcbcb:message_76.txt"
+      ],
+      "assetPayloadStatus": "not-recovered"
+    },
+    {
+      "id": "056_House",
+      "kind": "house",
+      "status": "resolved-identifier",
+      "evidence": [
+        "HOSTI1315/Opensurs@aafcbcb:Brookhaven.lua.txt",
+        "michel9881/Vazador@aae4fd9:Phantom Client V5 Rework.txt"
+      ],
+      "assetPayloadStatus": "not-recovered"
+    }
+  ],
+  "loadableCatalogRoots": [
+    {
+      "name": "Houses",
+      "runtimePath": "ReplicatedStorage.Modules.Client.UI.LoadableEntries.Houses",
+      "status": "catalog-root-resolved",
+      "entriesStatus": "underlying-table-not-recovered"
+    },
+    {
+      "name": "Mansions",
+      "runtimePath": "ReplicatedStorage.Modules.Client.UI.LoadableEntries.Mansions",
+      "status": "catalog-root-resolved",
+      "entriesStatus": "underlying-table-not-recovered"
+    },
+    {
+      "name": "Motels",
+      "runtimePath": "ReplicatedStorage.Modules.Client.UI.LoadableEntries.Motels",
+      "status": "catalog-root-resolved",
+      "entriesStatus": "underlying-table-not-recovered"
+    },
+    {
+      "name": "Apartments",
+      "runtimePath": "ReplicatedStorage.Modules.Client.UI.LoadableEntries.Apartments",
+      "status": "catalog-root-resolved",
+      "entriesStatus": "underlying-table-not-recovered"
+    },
+    {
+      "name": "Jobs",
+      "runtimePath": "ReplicatedStorage.Modules.Client.UI.LoadableEntries.Jobs",
+      "status": "catalog-root-resolved",
+      "entriesStatus": "underlying-table-not-recovered"
+    }
+  ],
+  "lots": {
+    "status": "resolved-numbered-lot-set",
+    "values": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35
+    ],
+    "evidence": [
+      "HOSTI1315/Opensurs@aafcbcb:Saturn_Hub_3.txt",
+      "michel9881/Vazador@aae4fd9:Saturn Hub.txt"
+    ]
+  },
+  "currentVehicleCatalog": {
+    "status": "resolved-name-set",
+    "values": [
+      "Cadillac",
+      "Excavator",
+      "FarmTruck",
+      "FireTruck",
+      "Jeep",
+      "Limo",
+      "MilitaryTruck",
+      "NascarTruck",
+      "SchoolBus",
+      "SmartCar",
+      "Snowplow",
+      "Tank",
+      "TowTruck"
+    ],
+    "evidence": [
+      "HOSTI1315/Opensurs@aafcbcb:Brookhaven.lua.txt",
+      "HOSTI1315/Opensurs@aafcbcb:Saturn_Hub_3.txt",
+      "michel9881/Vazador@aae4fd9:Phantom Client V5 Rework.txt"
+    ],
+    "assetPayloadStatus": "not-recovered"
+  },
+  "legacyVehicleCatalog": {
+    "status": "resolved-legacy-name-set",
+    "values": [
+      "Thunderbird",
+      "Ladybug",
+      "Offroader",
+      "Golf Cart"
+    ],
+    "evidence": [
+      "yofriendfromschool1/test@314fa06:finished.txt"
+    ],
+    "assetPayloadStatus": "not-recovered"
+  },
+  "vehicleCatalogDiscoverySurface": {
+    "runtimeFunction": "ReplicatedStorage.Remotes.GetListOfPortedVehicles",
+    "status": "function-name-resolved-return-payload-not-captured",
+    "evidence": [
+      "alg783.../Aqui-chatgpt@35d151d:Aqui.txt"
+    ]
+  },
+  "mapDiscoverySurface": {
+    "serializedMapGist": "800060cf55ddf767c6d0e57e6248b51d",
+    "packagedModulePointer": "110191289672557",
+    "status": "two-independent-map-leads-no-complete-normalized-payload-yet"
+  },
+  "unresolvedHighValueTargets": [
+    {
+      "target": "GetListOfPortedVehicles return data",
+      "priority": 1,
+      "reason": "Could reveal complete current vehicle catalog and identifiers."
+    },
+    {
+      "target": "LoadableEntries.Houses backing table",
+      "priority": 2,
+      "reason": "Could map house IDs to names/thumbnails/requirements."
+    },
+    {
+      "target": "LoadableEntries.Mansions backing table",
+      "priority": 3,
+      "reason": "Could map mansion IDs to assets."
+    },
+    {
+      "target": "LoadableEntries.Motels backing table",
+      "priority": 4,
+      "reason": "Could map motel IDs to assets."
+    },
+    {
+      "target": "LoadableEntries.Apartments backing table",
+      "priority": 5,
+      "reason": "Could map apartment IDs to assets."
+    },
+    {
+      "target": "Roblox module 110191289672557 contents",
+      "priority": 6,
+      "reason": "Potential packaged Brookhaven map."
+    },
+    {
+      "target": "mesh/texture IDs for resolved properties and vehicles",
+      "priority": 7,
+      "reason": "Needed for Step 5 conversion pipeline."
+    }
+  ],
+  "summary": {
+    "resolvedPropertyIdentifiers": 5,
+    "resolvedLoadableCatalogRoots": 5,
+    "resolvedHouseLots": 29,
+    "resolvedCurrentVehicleNames": 13,
+    "resolvedLegacyVehicleNames": 4,
+    "recoveredAssetPayloads": 0
+  }
+}
