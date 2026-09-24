@@ -1,0 +1,49 @@
+name: Learning Factory Shadow QA
+
+on:
+  push:
+    branches:
+      - starblox-learning-factory-v1
+    paths:
+      - "src/learningSourceRegistry.js"
+      - "src/learningContracts.js"
+      - "src/contentProvenanceRuntime.js"
+      - "src/adversarialQuestionQa.js"
+      - "src/*learning*.test.js"
+      - "src/adversarialQuestionQa.test.js"
+      - "scripts/validateLearningContent.mjs"
+      - "package.json"
+      - ".github/workflows/learning-factory-shadow.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-learning-factory:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install dependencies
+        run: npm install --ignore-scripts
+
+      - name: Run learning-factory unit tests
+        run: npm run test:learning-factory
+
+      - name: Validate hardened question bank and provenance bundle
+        run: npm run validate:learning -- --out=learning-validation-receipt.json
+
+      - name: Upload validation receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: learning-validation-receipt
+          path: learning-validation-receipt.json
+          if-no-files-found: ignore
