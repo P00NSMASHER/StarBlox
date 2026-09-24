@@ -6,10 +6,14 @@ import { resolve } from 'node:path';
 import { gameModel } from '../gameModel.js';
 import { importLegacyQuestionBank } from '../questionBank/questionBankV2.js';
 import {
+  buildRobloxDailyRuntimePayload,
+  buildRobloxQuestionBankRuntimePayload,
   buildRobloxShadowCandidates,
   buildRobloxShadowState,
   verifyShadowOnlyResult
 } from './intelligenceShadowBridge.js';
+import { generateDailyBundleArtifact } from '../daily/dailyBundleFactory.js';
+import { certifyDailyBundleArtifact } from '../daily/dailyCertification.js';
 import { authoredDifficultyToIrt, probabilityCorrect } from '../intelligence/irtEngine.js';
 import { retrievabilityAt } from '../intelligence/fsrsMemory.js';
 
@@ -28,6 +32,37 @@ describe('Step 4: Roblox intelligence shadow bridge', () => {
     expect(candidates[0]).not.toHaveProperty('answer');
     expect(candidates[0]).not.toHaveProperty('prompt');
     expect(candidates[0]).not.toHaveProperty('choices');
+  });
+
+  it('exports full server-only Question Bank and certified Daily runtime artifacts', async () => {
+    const bank=importLegacyQuestionBank(gameModel.buildQuestions(),{
+      bankId:'roblox-runtime-bank',
+      title:'Roblox Runtime Bank'
+    });
+    const bankPayload=buildRobloxQuestionBankRuntimePayload(bank);
+
+    expect(bankPayload.questions).toHaveLength(200);
+    expect(bankPayload.questions[0]).toHaveProperty('answer');
+    expect(bankPayload.questions[0]).toHaveProperty('prompt');
+    expect(bankPayload.questions[0]).toHaveProperty('contentHash');
+
+    const generated=await generateDailyBundleArtifact({
+      date:'2026-10-11',
+      bank
+    });
+    const certified=certifyDailyBundleArtifact(generated,{bank});
+    expect(certified.ok,certified.report.failures).toBe(true);
+
+    const dailyPayload=buildRobloxDailyRuntimePayload({
+      artifact:certified.artifact,
+      releaseId:'daily-2026-10-11@v1'
+    });
+
+    expect(dailyPayload.certified).toBe(true);
+    expect(dailyPayload.dailyId).toBe('daily-2026-10-11');
+    expect(dailyPayload.releaseId).toBe('daily-2026-10-11@v1');
+    expect(dailyPayload.questionRefs).toEqual(certified.artifact.bundle.questionRefs);
+    expect(dailyPayload.bundleHash).toBe(certified.artifact.bundle.bundleHash);
   });
 
   it('maps durable Roblox learning profile shape into the shadow policy input contract', () => {
