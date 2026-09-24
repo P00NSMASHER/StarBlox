@@ -23,6 +23,17 @@ test('runtime prompt stays bounded while full provenance prompt is preserved',()
  assert.notEqual(p.runtimePromptText,p.promptText);
 });
 
+test('runtime prompt clause balancing preserves late physical identity nouns',()=>{
+ const desk={id:'desks-10',name:'Neon Streaming Desk',collectionId:'desks',type:'room',tier:4,theme:'Aqua Wave'};
+ const brief='Neon Streaming Desk, Desks & Tech, Tier 4, Aqua Wave. EXACTLY ONE ordinary freestanding streaming desk in ONE product view on a plain studio background. One long horizontal graphite tabletop, exactly two simple floor supports, exactly ONE large computer monitor centered on the tabletop, exactly ONE microphone on a visible boom arm clamped to the desk edge, and one small PC box below. NO shelves, NO cabinets, NO stacked modules, NO room architecture, NO collage, NO text.';
+ const p=compose(desk,['furniture','camera','depth'],'A-LIVE-LIKE',{},brief);
+ assert.match(p.runtimePromptText,/monitor/i);
+ assert.match(p.runtimePromptText,/microphone/i);
+ assert.match(p.runtimePromptText,/tabletop/i);
+ assert.match(p.runtimeNegativePromptText,/shelves/i);
+ assert.match(p.runtimeNegativePromptText,/cabinets/i);
+});
+
 test('runtime prompt preserves identity details while negative prompt carries explicit exclusions',()=>{
  const desk={id:'desks-10',name:'Neon Streaming Desk',collectionId:'desks',type:'room',tier:4,theme:'Aqua Wave'};
  const brief='Neon Streaming Desk, Desks & Tech, Tier 4, Aqua Wave. EXACTLY ONE freestanding streaming DESK on a plain studio background. Make a broad horizontal worktop with exactly two supports. Put exactly TWO computer monitors and exactly ONE visible microphone boom on the desk. NO tall shelves, NO cabinets, NO repeated variants, NO collage, NO room, NO text.';
