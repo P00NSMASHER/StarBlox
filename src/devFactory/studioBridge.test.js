@@ -119,6 +119,22 @@ describe('Step 2: Studio bridge transport', () => {
     expect(JSON.parse(fetchMock.mock.calls[1][1].body).target).toBe('client');
   });
 
+  it('rejects invalid role targets and invalid advertised connector tools', async () => {
+    const bridge=new StudioBridgeQueue();
+
+    await expect(
+      bridge.dispatch('search_tree',{}, {target:'production'})
+    ).rejects.toThrow(/invalid Studio target/);
+
+    expect(() => createStudioHttpAdapter({
+      supportedTools:['search_tree','publish_place']
+    })).toThrow(/unknown supported Studio tool/);
+
+    expect(() => createStudioHttpAdapter({
+      targets:{search_tree:'production'}
+    })).toThrow(/invalid Studio target mapping/);
+  });
+
   it('fails all pending work when the bridge disconnects', async () => {
     const bridge=new StudioBridgeQueue({timeoutMs:1000});
     const pending=bridge.dispatch('get_logs',{filter:'errors'});
