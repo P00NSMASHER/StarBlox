@@ -21,5 +21,7 @@ jobs:
         run: npm install --no-audit --no-fund
       - name: Run tests
         run: npm test
+      - name: Run balance gate
+        run: npm run balance:gate
       - name: Build production bundle
         run: npm run build

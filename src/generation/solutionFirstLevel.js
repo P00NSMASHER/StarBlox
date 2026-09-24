@@ -1,5 +1,5 @@
-import { stableHash } from '../domainSchemas';
-import { Mulberry32 } from '../sim/deterministicCore';
+import { stableHash } from '../domainSchemas.js';
+import { Mulberry32 } from '../sim/deterministicCore.js';
 
 export const QUEST_LEVEL_SCHEMA_VERSION = 1;
 export const QUEST_LEVEL_GENERATOR_VERSION = 'solution-first-v1';

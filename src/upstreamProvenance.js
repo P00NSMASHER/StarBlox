@@ -49,6 +49,38 @@ export const UPSTREAM_PROVENANCE = Object.freeze({
     'unasserted in GitHub metadata',
     'functions/src/replayIntegrity.ts'
   ),
+  neonBalanceConfig: source(
+    'bounded sparse remote balance overrides with identity fallback',
+    'Calculator5329/neon-vector-defense',
+    'master',
+    '48ecf31509d73dd8fb2c5f25f1fc57cfa6d03eb4',
+    'unasserted in GitHub metadata',
+    'src/game/balanceConfig.ts'
+  ),
+  neonBalanceCheck: source(
+    'CI comparison thresholds and fail-level balance regression gate',
+    'Calculator5329/neon-vector-defense',
+    'master',
+    '48ecf31509d73dd8fb2c5f25f1fc57cfa6d03eb4',
+    'unasserted in GitHub metadata',
+    'scripts/balance-check.ts'
+  ),
+  neonBalanceSim: source(
+    'headless seeded bot simulation matrix for balance validation',
+    'Calculator5329/neon-vector-defense',
+    'master',
+    '48ecf31509d73dd8fb2c5f25f1fc57cfa6d03eb4',
+    'unasserted in GitHub metadata',
+    'scripts/sim.ts'
+  ),
+  neonBalanceHarness: source(
+    'multi-metric balance report and strategy/viability harness',
+    'Calculator5329/neon-vector-defense',
+    'master',
+    '48ecf31509d73dd8fb2c5f25f1fc57cfa6d03eb4',
+    'unasserted in GitHub metadata',
+    'scripts/balance.ts'
+  ),
   recallCs: source(
     'offline question generation, review, validation and deduplication',
     'garg-tejas/recall-cs',

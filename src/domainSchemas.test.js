@@ -119,7 +119,7 @@ describe('StarBlox upstream implementation provenance', () => {
   it('pins every planned source to an immutable full commit SHA', () => {
     const entries = upstreamSourceList();
 
-    expect(entries.length).toBeGreaterThanOrEqual(22);
+    expect(entries.length).toBeGreaterThanOrEqual(26);
     expect(entries.every(entry => /^[a-f0-9]{40}$/.test(entry.commit))).toBe(true);
     expect(entries.every(entry => entry.reuseBasis === 'user-confirmed direct reuse rights')).toBe(true);
   });
@@ -137,5 +137,9 @@ describe('StarBlox upstream implementation provenance', () => {
     expect(UPSTREAM_PROVENANCE.fruitBoxGame.path).toBe('engine.js');
     expect(UPSTREAM_PROVENANCE.fruitBoxProofTests.path).toBe('tests/engine.test.mjs');
     expect(UPSTREAM_PROVENANCE.fruitBoxAlgorithm.path).toBe('docs/ALGORITHM.md');
+    expect(UPSTREAM_PROVENANCE.neonBalanceConfig.path).toBe('src/game/balanceConfig.ts');
+    expect(UPSTREAM_PROVENANCE.neonBalanceCheck.path).toBe('scripts/balance-check.ts');
+    expect(UPSTREAM_PROVENANCE.neonBalanceSim.path).toBe('scripts/sim.ts');
+    expect(UPSTREAM_PROVENANCE.neonBalanceHarness.path).toBe('scripts/balance.ts');
   });
 });
