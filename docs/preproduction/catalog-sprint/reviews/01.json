@@ -5,7 +5,7 @@
   "role": "Visual Target Director / independent catalog reviewer",
   "phase": "ART_AND_VISUALS_ONLY",
   "branch": "screenshot-match-preproduction",
-  "sourceHead": "24ab341fee",
+  "sourceHead": "05fb7f591b",
   "assignedCollections": [
     "tops",
     "bottoms",
@@ -34,9 +34,9 @@
   },
   "currentCycle": {
     "scope": [
-      "decor-7"
+      "desks-11"
     ],
-    "version": "current exact hash: Decor7 v7",
+    "version": "current exact hash: desks-11",
     "result": "REWORK_1_OF_1",
     "oldVerdictsTransferred": false,
     "actualCardScalePixelsReviewed": true,
@@ -592,6 +592,43 @@
         "duplicateVisual": "PASS",
         "technicalIntegrity": "PASS"
       }
+    },
+    {
+      "itemId": "desks-11",
+      "name": "Dream Creator Station",
+      "assetPath": "public/assets/catalog-candidates/cpu/desks-11-w03-v3-a-one-creator-desk-original.png",
+      "repositoryPath": "public/assets/catalog-candidates/cpu/desks-11-w03-v3-a-one-creator-desk-original.png",
+      "assetHash": "3858085e2005f6445e9b49959ed4ce6d22f03f37",
+      "sha256": "83b8c60ba85177f9b5129e5f551df4a68986fe6a3fae1d5aaf74157c70532b32",
+      "contentSha256": "83b8c60ba85177f9b5129e5f551df4a68986fe6a3fae1d5aaf74157c70532b32",
+      "hashAlgorithm": "git-blob-sha1",
+      "producer": "03",
+      "decision": "REWORK",
+      "learnerLabel": "REWORK",
+      "reviewedAt": "2026-09-24T16:07:00Z",
+      "evidenceRefs": [
+        "workflow:36024472974",
+        "artifact:10819251574/staged-replacements/staged-replacements-contact-sheet.png",
+        "artifact:10819251574/staged-replacements/detail/desks-11-3858085e.png"
+      ],
+      "reasonCodes": [
+        "MULTI_PANEL_VARIANT_COLLAGE",
+        "NO_SINGLE_CREATOR_STATION",
+        "ROOM_CONTEXT_REPEATED",
+        "CARD_SCALE_IDENTITY_FAILURE"
+      ],
+      "reason": "REWORK. V3 is a nine-panel comparison/collage of desk-and-chair variants, not one Dream Creator Station. Repeated room views destroy the single product silhouette and Art Attack identity is weak. Preserve this hash. The smallest repair is exactly one isolated creator desk on a plain background with a dominant worktop, stable supports, attached creative storage/tool area and one chair only if secondary; no panels, repeated camera views, room walls, or comparison layout.",
+      "checks": {
+        "identity": "FAIL",
+        "silhouette": "FAIL",
+        "cardReadability": "FAIL",
+        "physicalConstruction": "FAIL",
+        "framingComposition": "FAIL",
+        "materialLighting": "PARTIAL",
+        "originality": "PASS",
+        "duplicateVisual": "PASS",
+        "technicalIntegrity": "PASS"
+      }
     }
   ],
   "currentReplacementDisposition": {
@@ -643,7 +680,7 @@
     },
     "desks": {
       "REWORK": {
-        "desks-11": "a31d581bf8358fcbc86e4879785a2f131ce26f5b",
+        "desks-11": "3858085e2005f6445e9b49959ed4ce6d22f03f37",
         "desks-12": "7d268e27c8d963dfb7e8c62274fe6b906973d5bd"
       }
     }
@@ -659,17 +696,17 @@
     "newBlockedThisRun": 0,
     "newUsableBy08Now": [],
     "reworkNow": [
-      "decor-7"
+      "desks-11"
     ],
-    "preservedAcceptedHashes": "All prior reviewer01 ACCEPTs remain frozen; this REWORK applies only to Decor7 v7 exact hash."
+    "preservedAcceptedHashes": "All prior reviewer01 ACCEPTs remain frozen; this REWORK applies only to desks-11 exact hash."
   },
   "handoff": {
     "13": "desks-12 current exact hash is REWORK; preserve it and generate only the failure-specific next version if director15 keeps it release-critical.",
     "14": "Current render packets consumed; do not rerender unchanged hashes.",
-    "15": "Decor7 remains a bounded exact-pixel blocker.",
+    "15": "desks-11 remains a bounded exact-pixel blocker.",
     "09": "Decor7 v7 REWORK; preserve exact hash and generate only a small freestanding rack with a clearly readable quad-skate pair if director15 keeps it release-critical.",
-    "03": "Desk11/12 v1 are REWORK; preserve exact hashes and prepare isolated-desk replacements if prioritized.",
-    "08": "Do not canonical-wire Decor7 v7."
+    "03": "desks-11 current exact hash is REWORK; preserve it and generate only the failure-specific next version if director15 keeps it release-critical.",
+    "08": "Do not canonical-wire desks-11 exact hash 3858085e2005f6445e9b49959ed4ce6d22f03f37."
   },
   "freeze": {
     "replitTouched": false,
