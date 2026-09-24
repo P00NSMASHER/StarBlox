@@ -7,7 +7,7 @@
   "policy": "docs/preproduction/DELIVERY_PROTOCOL_V2.md",
   "visualSprint": "docs/preproduction/ART_VISUALS_SPRINT.json",
   "artFactoryPolicy": "docs/preproduction/art-factory/ART_FACTORY_V2.json",
-  "sourceHead": "a14d3c3fdb",
+  "sourceHead": "28671f22d1",
   "priorReviewShard": {
     "blobSha": "4173dbb9923157eb5a13090d526f88cfec162edd",
     "schemaVersion": 10,
@@ -240,9 +240,9 @@
   ],
   "currentCycle": {
     "scope": [
-      "wall-9"
+      "decor-11"
     ],
-    "version": "current exact hash: wall-9",
+    "version": "current exact hash: decor-11",
     "result": "REWORK_1_OF_1",
     "oldVerdictsTransferred": false,
     "actualCardScalePixelsReviewed": true,
@@ -940,6 +940,43 @@
         "duplicateVisual": "PASS",
         "technicalIntegrity": "PASS"
       }
+    },
+    {
+      "itemId": "decor-11",
+      "name": "Dream Vanity Set",
+      "assetPath": "public/assets/catalog-candidates/cpu/decor-11-w09-v4-a-vanity-mirror-one-stool-original.png",
+      "repositoryPath": "public/assets/catalog-candidates/cpu/decor-11-w09-v4-a-vanity-mirror-one-stool-original.png",
+      "assetHash": "f4fed4eaf1bf867ffdd3519d347ae12ce755d9b7",
+      "sha256": "ad450b5c1923efbb33d977b5b21ba2fefe407b5d34920aa642dc1c271cbb8d24",
+      "contentSha256": "ad450b5c1923efbb33d977b5b21ba2fefe407b5d34920aa642dc1c271cbb8d24",
+      "hashAlgorithm": "git-blob-sha1",
+      "producer": "09",
+      "decision": "REWORK",
+      "learnerLabel": "REWORK",
+      "reviewedAt": "2026-09-24T17:05:00Z",
+      "evidenceRefs": [
+        "workflow:36031428507",
+        "artifact:10823775028/staged-replacements/staged-replacements-contact-sheet.png",
+        "artifact:10823775028/staged-replacements/detail/decor-11-f4fed4ea.png"
+      ],
+      "reasonCodes": [
+        "BUILT_IN_CABINET_WALL",
+        "MULTIPLE_MIRRORS",
+        "NO_SINGLE_VANITY_TABLE",
+        "STOOL_IDENTITY_FAILURE"
+      ],
+      "reason": "REWORK. V4 regresses into a built-in multi-mirror cabinet/wall fixture with several repeated mirror bays and ambiguous low foreground shapes instead of one freestanding Dream Vanity Set. Preserve this hash. The next attempt must show exactly one small freestanding vanity table with one mirror and exactly one matching stool on a plain background; no wall installation, cabinets, multiple mirrors, room architecture, duplicate seats, or panel grid.",
+      "checks": {
+        "identity": "FAIL",
+        "silhouette": "FAIL",
+        "cardReadability": "FAIL",
+        "physicalConstruction": "FAIL",
+        "framingComposition": "FAIL",
+        "materialLighting": "PARTIAL",
+        "originality": "PASS",
+        "duplicateVisual": "PASS",
+        "technicalIntegrity": "PASS"
+      }
     }
   ],
   "currentReplacementDisposition": {
@@ -961,7 +998,7 @@
         "decor-12": "0926a84e4b1e47ce58b5335e3cc655c77fb67d07"
       },
       "REWORK": {
-        "decor-11": "0cb68d665a140f9d176a3f5721c8c08572867cdf",
+        "decor-11": "f4fed4eaf1bf867ffdd3519d347ae12ce755d9b7",
         "decor-12": "72655049c8c0c488f56c80916ed7213e62d7e374"
       }
     }
@@ -973,15 +1010,15 @@
     "newBlockedThisRun": 0,
     "newUsableBy08Now": [],
     "reworkNow": [
-      "wall-9"
+      "decor-11"
     ],
-    "preservedAcceptedHashes": "All prior reviewer02 ACCEPTs remain frozen; this verdict applies only to wall-9 exact hash f1c423657b836aee822311b15a3229251174768d."
+    "preservedAcceptedHashes": "All prior reviewer02 ACCEPTs remain frozen; this REWORK applies only to decor-11 exact hash f4fed4eaf1bf867ffdd3519d347ae12ce755d9b7."
   },
   "handoff": {
     "13": "wall-9 current exact hash is REWORK; preserve it and generate only the smallest failure-specific next version if director15 keeps it release-critical.",
     "14": "Current packets consumed; do not rerender unchanged hashes.",
-    "15": "wall-9 remains a bounded exact-pixel blocker.",
-    "09": "Freeze Decor12 v3 ACCEPT. Decor11 v3 REWORK; keep the vanity/mirror design but isolate it with one clearly formed stool and no room/floor clutter if director15 prioritizes another attempt.",
-    "08": "Do not canonical-wire wall-9 exact hash f1c423657b836aee822311b15a3229251174768d."
+    "15": "decor-11 remains a bounded exact-pixel release blocker.",
+    "09": "decor-11 current exact hash is REWORK; preserve it and use the new positive/negative prompt compiler for the next failure-specific version.",
+    "08": "Do not canonical-wire decor-11 exact hash f4fed4eaf1bf867ffdd3519d347ae12ce755d9b7."
   }
 }
