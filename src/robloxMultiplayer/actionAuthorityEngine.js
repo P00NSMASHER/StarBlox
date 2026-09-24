@@ -228,7 +228,10 @@ export function submitActionIntent(state,{playerId,intent}){
     };
   }
 
-  const playerCommands=state.commandHistory.filter(row => row.playerId === id);
+  const budgetWindowStart=Math.max(0,state.serverTick - 60);
+  const playerCommands=state.commandHistory.filter(row =>
+    row.playerId === id && row.serverReceivedTick >= budgetWindowStart
+  );
   if(playerCommands.length >= state.config.maxCommandsPerPlayer){
     return {
       accepted:false,
