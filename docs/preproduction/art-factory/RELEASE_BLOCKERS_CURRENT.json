@@ -3,7 +3,7 @@
   "kind": "STARBLOX_RELEASE_ART_BLOCKER_LEDGER",
   "branch": "screenshot-match-preproduction",
   "source": {
-    "computedAtHead": "042b3551e17f0531b7e4ecbe9099b7c289d10144",
+    "computedAtHead": "d4d9caa564e41eefee6570d34e5216143aeb4fe5",
     "manifest": {
       "version": 45,
       "finalCount": 181,
@@ -76,21 +76,21 @@
   "parallelWorkPlan": {
     "cpuSemaphore": "ONE_RUNNING_PLUS_ONE_PENDING",
     "currentCpuBatch": {
-      "queueId": "w03-desks10-11-final-retry-a-fallback",
-      "items": [
-        "desks-10",
-        "desks-11"
-      ],
-      "runId": 36054079596,
-      "state": "RUNNING"
-    },
-    "pendingSuccessor": {
       "queueId": "w13-wall9-v12-a-fallback",
       "items": [
         "wall-9"
       ],
       "runId": 36054911159,
-      "state": "PENDING"
+      "state": "RUNNING"
+    },
+    "pendingSuccessor": {
+      "queueId": "w03-desks10-11-final-retry-a-fallback",
+      "items": [
+        "desks-10",
+        "desks-11"
+      ],
+      "runId": 36055369791,
+      "state": "PENDING_CLIP_SAFE"
     },
     "preparedNext": [
       {
@@ -111,7 +111,7 @@
         "conditional": "only if v8 REWORK"
       }
     ],
-    "queuePolicy": "Desk10/11 A fallback pair runs now. Wall9 v12 is the one pending successor. As soon as Wall9 v12 transitions to running, queue sharpened Decor11 v8 as the one pending successor."
+    "queuePolicy": "Wall9 v12 runs now. CLIP-safe Desk10/11 A fallback is pending. When desk fallback starts, queue sharpened Decor11 v8 as pending."
   },
   "nonArtReleaseState": {
     "liveFunctionalSmoke": "GREEN",
