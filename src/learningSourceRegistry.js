@@ -5,7 +5,7 @@ export const SOURCE_REGISTRY = Object.freeze({
     id:'abvm-grade2-current-source-pack',
     label:'ABVM Grade 2 current source pack',
     kind:'curriculum-pack',
-    provenanceStatus:'declared-source'
+    provenanceStatus:'snapshot-required'
   }),
   'current-week-spelling-list': Object.freeze({
     id:'current-week-spelling-list',
