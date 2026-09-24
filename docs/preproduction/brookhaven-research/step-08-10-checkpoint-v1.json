@@ -1,0 +1,82 @@
+{
+  "schemaVersion": "starblox-brookhaven-step-8-10-checkpoint-v1",
+  "completedAt": "2026-09-24",
+  "branch": "brookhaven-research-snapshot-v1",
+  "rightsStatus": {
+    "status": "verified-for-project-use",
+    "basis": "user-confirmed prior evidence",
+    "currentProjectReaudit": "not-reperformed"
+  },
+  "steps": {
+    "8": {
+      "status": "complete",
+      "blueprint": "docs/preproduction/brookhaven-research/vehicle-system-blueprint-v1.json",
+      "runtime": "src/vehicleSystemRuntime.js",
+      "test": "src/vehicleSystemRuntime.test.js",
+      "currentVehicleIdentifiers": 13,
+      "legacyVehicleIdentifiers": 4,
+      "visualPayloadStatus": "identifier-only"
+    },
+    "9": {
+      "status": "complete",
+      "blueprint": "docs/preproduction/brookhaven-research/town-system-blueprint-v1.json",
+      "runtime": "src/townSystemRuntime.js",
+      "test": "src/townSystemRuntime.test.js",
+      "evidenceBackedLocationConcepts": 17,
+      "playerFacingLocations": 15,
+      "topology": "original-starblox-proxy"
+    },
+    "10": {
+      "status": "complete",
+      "blueprint": "docs/preproduction/brookhaven-research/life-sim-progression-blueprint-v1.json",
+      "runtime": "src/lifeSimProgressionShadowRuntime.js",
+      "test": "src/lifeSimProgressionShadowRuntime.test.js",
+      "progressionRules": 42,
+      "mode": "shadow-read-only"
+    }
+  },
+  "verification": {
+    "workflowRun": 36028642145,
+    "workflowConclusion": "success",
+    "researchArtifactValidation": {
+      "schemaVersion": "starblox-brookhaven-research-validation-v2",
+      "issueCount": 0,
+      "vehicleCount": 13,
+      "townLocationCount": 17,
+      "progressionRuleCount": 42
+    },
+    "reuseBoundary": {
+      "violationCount": 0
+    },
+    "conversion": {
+      "proxyObjectCount": 17,
+      "sceneFingerprint": "sha256:16bc4d299517b0dae406051d8ed2af12a365a429ec817082d4415e0c56df0cd1",
+      "verifiedRightsEligibility": "candidate-after-content-and-technical-QA"
+    },
+    "residentialTests": {
+      "files": 1,
+      "tests": 4,
+      "status": "pass"
+    },
+    "step8to10Tests": {
+      "files": 3,
+      "tests": 12,
+      "status": "pass"
+    },
+    "build": {
+      "status": "pass-with-verified-temporary-inherited-base-fix",
+      "inheritedFile": "src/catalogArtRuntime.js",
+      "committedFix": false
+    }
+  },
+  "safety": {
+    "appJsxWired": false,
+    "liveGameplayModified": false,
+    "persistenceSchemaChanged": false,
+    "economyMutationEnabled": false,
+    "brookhavenRemoteCallsWired": false,
+    "rawUnresolvedVisualPayloadsClaimed": false,
+    "deploymentPerformed": false
+  },
+  "verifiedAtHead": "821dadabfdda982575ee54b48ce42f03002008f7"
+}
