@@ -241,6 +241,22 @@ export const UPSTREAM_PROVENANCE = Object.freeze({
     '6de2027f052aa7d95a691e86c30ef12e46bd58d3',
     'unasserted in GitHub metadata'
   ),
+  aplEntropyEngine: source(
+    'Shannon entropy question selection, dependency invalidation and safe candidate filtering',
+    'neeraj5050/apl-26',
+    'main',
+    '6de2027f052aa7d95a691e86c30ef12e46bd58d3',
+    'unasserted in GitHub metadata',
+    'aki-cricket/lib/engine/entropy.ts'
+  ),
+  aplQuestionRules: source(
+    'question categories and answer-driven dependency invalidation metadata',
+    'neeraj5050/apl-26',
+    'main',
+    '6de2027f052aa7d95a691e86c30ef12e46bd58d3',
+    'unasserted in GitHub metadata',
+    'aki-cricket/lib/engine/questions.ts'
+  ),
   atlasWorldGuesser: source(
     'server-authoritative seeded challenges and deterministic reconstruction',
     'Ludvig-Hedin/atlas-worldguesser',
