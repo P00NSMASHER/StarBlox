@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "kind": "STARBLOX_ART_FACTORY_CPU_GENERATION_QUEUE",
-  "queueId": "w13-desk8-wall8-retry-pack",
+  "queueId": "w13-desk8-wall8-wall9-retry-pack",
   "branch": "screenshot-match-preproduction",
   "requestPath": "docs/preproduction/art-factory/requests/w13-desk8-wall8-retry-pack-20260924.json",
   "producer": "13",
@@ -12,19 +12,23 @@
   "runtimeProofArtifactDigest": "sha256:528610198d72092c9d09159bf4b749a5c467361307587545fb24dded2876eeda",
   "items": [
     "desks-8",
-    "wall-8"
+    "wall-8",
+    "wall-9"
   ],
   "variantByItem": {
     "desks-8": "A-TOKEN-SAFE-AQUA-DESK",
-    "wall-8": "A-FLAT-BLUE-OCEAN-WINDOW"
+    "wall-8": "A-FLAT-BLUE-OCEAN-WINDOW",
+    "wall-9": "A-THREE-SEPARATE-ADVENTURE-FRAMES"
   },
   "reviewerByItem": {
     "desks-8": "11",
-    "wall-8": "11"
+    "wall-8": "11",
+    "wall-9": "02"
   },
   "versionByItem": {
     "desks-8": 4,
-    "wall-8": 10
+    "wall-8": 10,
+    "wall-9": 10
   },
   "generation": {
     "width": 640,
@@ -38,5 +42,5 @@
     "route": "12 -> 06 -> 14 -> 11 -> 08 on ACCEPT",
     "canonicalWriter": "08"
   },
-  "dispatchPolicy": "PREPARED_ONLY__WAIT_WALL9_CURRENT_VERDICT_AND_CPU_ORDER"
+  "dispatchPolicy": "PREPARED_PACKED_THREE_ITEM__QUEUE_AFTER_W03_V6_STARTS"
 }
