@@ -568,6 +568,46 @@ export const UPSTREAM_PROVENANCE = Object.freeze({
     'MIT',
     'plugin/src/tools/Executor.luau'
   ),
+  flexFollowers: source(
+    'single-writer persistent social reputation/follower service',
+    'bsantanna/roblox-flex-with-friends',
+    'main',
+    'f23ff0b06c759e60aa651a6618a8d81692719fc9',
+    'GPL-3.0',
+    'src/server/services/FollowerService.lua'
+  ),
+  flexNpcService: source(
+    'persistent NPC unlock gates driven by authoritative social progress',
+    'bsantanna/roblox-flex-with-friends',
+    'main',
+    'f23ff0b06c759e60aa651a6618a8d81692719fc9',
+    'GPL-3.0',
+    'src/server/services/NpcService.lua'
+  ),
+  flexPhotoService: source(
+    'server-authoritative co-op photo qualification and reward boundary',
+    'bsantanna/roblox-flex-with-friends',
+    'main',
+    'f23ff0b06c759e60aa651a6618a8d81692719fc9',
+    'GPL-3.0',
+    'src/server/services/PhotoService.lua'
+  ),
+  flexMinigameService: source(
+    'single active NPC minigame session lifecycle and server-owned result flow',
+    'bsantanna/roblox-flex-with-friends',
+    'main',
+    'f23ff0b06c759e60aa651a6618a8d81692719fc9',
+    'GPL-3.0',
+    'src/server/services/MinigameService.lua'
+  ),
+  placementService: source(
+    'server-side Roblox furniture/world placement validation patterns',
+    'zblox164/PlacementService',
+    'master',
+    '7e414eb8fa406eb2376a01d478236e206c733a5f',
+    'Apache-2.0',
+    'PlacementService.lua'
+  ),
   robloxMissionsPackage: source(
     'official Roblox mission/task/counter and reward package semantics',
     'Roblox/creator-docs',
