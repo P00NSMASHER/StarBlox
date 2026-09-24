@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_W12_CANDIDATE_DELTA_INTAKE_ROUTING",
+  "router": "12",
+  "branch": "screenshot-match-preproduction",
+  "observedAt": "2026-09-24T00:13:57Z",
+  "sourceHead": "c6b6d4604e24fac27a516df65a9566aa586cddde",
+  "scanWindow": {
+    "priorCursor": "f9930dbddaf7e66eef95157e8c8aca68afb71281",
+    "inspectedThroughHead": "c6b6d4604e24fac27a516df65a9566aa586cddde",
+    "aheadBy": 5,
+    "newCatalogCandidateBytesDetected": false,
+    "newCandidateItemIds": [],
+    "newTechnicallyEligibleCandidateDetected": false,
+    "note": "The complete five-commit window was inspected. The first commit is lane12's already-classified Wall9/10 routing packet; the remaining changes qualify those same exact hashes, record reviewer02 REWORK on Wall10, and prepare/dispatch the failed-only Wall11/12 retry. No new item bytes, candidate SHA-256, Git blob, completed staged-output readback, or external art arrival entered the branch."
+  },
+  "authorityFingerprint": {
+    "activeBatchSha256": "b498def6ccd47a8848c6bd72d4b0ceb60f08fc714aae183a3022a5cc4f254f35",
+    "manifestSha256": "801161aa144eae42217202e4f0570864ae3d86649481b737017efe2356b21091",
+    "catalogRuntimeSha256": "cd023e3fb44432244c9f5dc1fb52b1021fd4fcde8e592502a551a266c4a38620"
+  },
+  "classifiedCommits": [
+    {
+      "commit": "279076dacae4ff669bd39ac98e69f090aebf7fcb",
+      "classification": "PRIOR_LANE12_ROUTING_EVIDENCE",
+      "candidateState": "Wall9/10 exact hashes were already classified once and routed to 06; do not reroute."
+    },
+    {
+      "commit": "67953eee213e36fa9b88c32d5aa6679ced715cba",
+      "classification": "DOWNSTREAM_06_QUALIFICATION",
+      "candidateState": "No new bytes; qualification evidence for the unchanged Wall9/10 hashes."
+    },
+    {
+      "commit": "ec5e906f63a2b240b2c48d2cfde520b95ab6a3f0",
+      "classification": "DOWNSTREAM_INDEPENDENT_REVIEW",
+      "candidateState": "No new bytes; reviewer02 REWORK disposition for the unchanged Wall10 hash."
+    },
+    {
+      "commit": "95f539b1d352e212a9b003dbe120b2facfa0fc11",
+      "classification": "GENERATION_RETRY_PREPARATION",
+      "candidateState": "Wall11/12 queue definition only; no staged candidate output."
+    },
+    {
+      "commit": "c6b6d4604e24fac27a516df65a9566aa586cddde",
+      "classification": "GENERATION_RETRY_DISPATCH",
+      "candidateState": "Runtime queue dispatch only; run 35936672746 remains in progress with 0/2 generation jobs completed and no staged candidate commit."
+    }
+  ],
+  "dedupe": {
+    "unchangedWall9HashRerouted": false,
+    "unchangedWall10HashRerouted": false,
+    "newItemHashClaims": 0
+  },
+  "queues": {
+    "to06": [],
+    "backToProducer": []
+  },
+  "cursorAdvance": {
+    "previous": "f9930dbddaf7e66eef95157e8c8aca68afb71281",
+    "advancedThrough": "c6b6d4604e24fac27a516df65a9566aa586cddde",
+    "condition": "The complete delta was durably classified and contains no fresh candidate bytes to route."
+  },
+  "nextOwner": {
+    "13": "Allow Wall11/12 retry run 35936672746 to finish staging exact bytes and ART_FACTORY_V2 evidence.",
+    "12": "On a fresh staging commit, deduplicate each item plus exact hash and route technically complete candidates once to 06."
+  },
+  "mutationScope": "Routing/cursor evidence only. No ACTIVE_BATCH, candidate bytes, canonical mappings, reviewer decisions, manifest, catalog runtime, CI/workflow, gameplay, learning, economy, persistence, accessibility, deployment, secrets or player data changed."
+}
