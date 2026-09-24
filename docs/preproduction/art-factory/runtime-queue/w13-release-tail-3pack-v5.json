@@ -42,5 +42,7 @@
     "route": "12 -> 06 -> 14 -> assigned reviewer -> 08 on ACCEPT",
     "canonicalWriter": "08"
   },
-  "dispatchPolicy": "PREPARED_LITERAL_RETRY__WAIT_LIVE_CPU_IDLE"
+  "dispatchPolicy": "PREPARED_LITERAL_RETRY__WAIT_LIVE_CPU_IDLE",
+  "retryRevision": 1,
+  "retryReason": "requeue on fixed runtime prompt clause compiler head; same exact items, variants, reviewers, versions and generation settings"
 }
