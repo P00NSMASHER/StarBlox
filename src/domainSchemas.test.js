@@ -119,7 +119,7 @@ describe('StarBlox upstream implementation provenance', () => {
   it('pins every planned source to an immutable full commit SHA', () => {
     const entries = upstreamSourceList();
 
-    expect(entries.length).toBeGreaterThanOrEqual(43);
+    expect(entries.length).toBeGreaterThanOrEqual(46);
     expect(entries.every(entry => /^[a-f0-9]{40}$/.test(entry.commit))).toBe(true);
     expect(entries.every(entry => entry.reuseBasis === 'user-confirmed direct reuse rights')).toBe(true);
   });
@@ -158,5 +158,8 @@ describe('StarBlox upstream implementation provenance', () => {
     expect(UPSTREAM_PROVENANCE.adaptiveIrtServer.path).toBe('src/server.py');
     expect(UPSTREAM_PROVENANCE.aplEntropyEngine.path).toBe('aki-cricket/lib/engine/entropy.ts');
     expect(UPSTREAM_PROVENANCE.aplQuestionRules.path).toBe('aki-cricket/lib/engine/questions.ts');
+    expect(UPSTREAM_PROVENANCE.purdleDailyGenerator.path).toBe('scripts/generate_puzzle.py');
+    expect(UPSTREAM_PROVENANCE.purdleDailyWorkflow.path).toBe('.github/workflows/daily-puzzle.yml');
+    expect(UPSTREAM_PROVENANCE.neonDailyChallenge.path).toBe('src/game/dailyChallenge.ts');
   });
 });
