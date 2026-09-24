@@ -38,5 +38,8 @@
     "route": "12 -> 06 -> 14 -> assigned reviewer -> 08 on ACCEPT",
     "canonicalWriter": "08"
   },
-  "dispatchPolicy": "PREPARED_LITERAL_RETRY__WAIT_LIVE_CPU_IDLE"
+  "dispatchPolicy": "PREPARED_LITERAL_RETRY__WAIT_LIVE_CPU_IDLE",
+  "retryRevision": 1,
+  "retryReason": "Supersede stale run launched before whole-clause runtime-prompt compiler fix",
+  "compilerFixHead": "631712b6a5"
 }
