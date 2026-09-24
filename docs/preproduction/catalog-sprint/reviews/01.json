@@ -5,7 +5,7 @@
   "role": "Visual Target Director / independent catalog reviewer",
   "phase": "ART_AND_VISUALS_ONLY",
   "branch": "screenshot-match-preproduction",
-  "sourceHead": "7db8f63a54fa08d766ce7b63b1371f3e6c93d0d2",
+  "sourceHead": "9e032e4096",
   "assignedCollections": [
     "tops",
     "bottoms",
@@ -34,12 +34,10 @@
   },
   "currentCycle": {
     "scope": [
-      "desks-12",
-      "desks-11",
-      "decor-7"
+      "desks-12"
     ],
-    "version": "current exact hashes: Desk12 v2 + Desk11 v2 + Decor7 v6",
-    "result": "REWORK_3_OF_3",
+    "version": "current exact hash: desks-12",
+    "result": "REWORK_1_OF_1",
     "oldVerdictsTransferred": false,
     "actualCardScalePixelsReviewed": true,
     "actualDetailPixelsReviewed": true,
@@ -519,6 +517,43 @@
         "OVERSIZED_SHELVING_UNIT"
       ],
       "reason": "REWORK. The rack is readable, but the visible footwear reads as a single ordinary shoe/sneaker rather than an unmistakable pair of quad roller skates. The next candidate must keep one compact rack and show a clearly recognizable quad-skate pair with boot uppers, trucks and four wheels per skate."
+    },
+    {
+      "itemId": "desks-12",
+      "name": "Luxe Command Desk",
+      "assetPath": "public/assets/catalog-candidates/cpu/desks-12-w13-v3-a-one-command-desk-original.png",
+      "repositoryPath": "public/assets/catalog-candidates/cpu/desks-12-w13-v3-a-one-command-desk-original.png",
+      "assetHash": "7d268e27c8d963dfb7e8c62274fe6b906973d5bd",
+      "sha256": "10200d0bb803b414a7ed7793991e57c19d0848089fef8901a583bf29176fb378",
+      "contentSha256": "10200d0bb803b414a7ed7793991e57c19d0848089fef8901a583bf29176fb378",
+      "hashAlgorithm": "git-blob-sha1",
+      "producer": "13",
+      "decision": "REWORK",
+      "learnerLabel": "REWORK",
+      "reviewedAt": "2026-09-24T15:58:00Z",
+      "evidenceRefs": [
+        "workflow:36022579661",
+        "artifact:10818170394/staged-replacements/staged-replacements-contact-sheet.png",
+        "artifact:10818170394/staged-replacements/detail/desks-12-7d268e27.png"
+      ],
+      "reasonCodes": [
+        "ROOM_COCKPIT_INSTALLATION",
+        "NO_FREESTANDING_DESK_SILHOUETTE",
+        "ARCHITECTURE_DOMINATES",
+        "CARD_SCALE_PRODUCT_IDENTITY_FAILURE"
+      ],
+      "reason": "REWORK. The exact rendered pixels remain a built-in command-room/cockpit installation, not one freestanding Luxe Command Desk. A huge central table/console merges into surrounding cabinetry, side stations, screens, walls, and room architecture, so no single portable desk silhouette survives at card scale. Preserve this exact hash. The smallest next repair is exactly one isolated freestanding desk on a plain background with one coherent worktop, two supports/pedestals, integrated storage and one restrained monitor bridge; no room, wall cabinetry, side desks, or cockpit architecture.",
+      "checks": {
+        "identity": "FAIL",
+        "silhouette": "FAIL",
+        "cardReadability": "FAIL",
+        "physicalConstruction": "FAIL",
+        "framingComposition": "FAIL",
+        "materialLighting": "PARTIAL",
+        "originality": "PASS",
+        "duplicateVisual": "PASS",
+        "technicalIntegrity": "PASS"
+      }
     }
   ],
   "currentReplacementDisposition": {
@@ -571,7 +606,7 @@
     "desks": {
       "REWORK": {
         "desks-11": "a31d581bf8358fcbc86e4879785a2f131ce26f5b",
-        "desks-12": "c8f1ba80832d7be9d2d06d3a89838e5feafbb34e"
+        "desks-12": "7d268e27c8d963dfb7e8c62274fe6b906973d5bd"
       }
     }
   },
@@ -580,24 +615,23 @@
   },
   "summary": {
     "uniqueCatalogIdsReviewedHistorically": 49,
-    "reviewedThisRun": 3,
+    "reviewedThisRun": 1,
     "newAcceptsThisRun": 0,
-    "newReworkThisRun": 3,
+    "newReworkThisRun": 1,
     "newBlockedThisRun": 0,
     "newUsableBy08Now": [],
     "reworkNow": [
-      "desks-12",
-      "desks-11",
-      "decor-7"
+      "desks-12"
     ],
-    "preservedAcceptedHashes": "All prior reviewer01 ACCEPTs remain frozen; these REWORKs apply only to the current exact hashes."
+    "preservedAcceptedHashes": "All prior reviewer01 ACCEPTs remain frozen; this REWORK applies only to desks-12 exact hash 7d268e27c8d963dfb7e8c62274fe6b906973d5bd."
   },
   "handoff": {
+    "13": "desks-12 current exact hash is REWORK; preserve it and generate only the failure-specific next version if director15 keeps it release-critical.",
     "14": "Current render packets consumed; do not rerender unchanged hashes.",
-    "15": "Decor7, Desk11, Desk12 remain bounded visual blockers.",
+    "15": "desks-12 remains a bounded exact-pixel REWORK blocker; prepare only the smallest failure-specific replacement.",
     "09": "Decor7 v5 is REWORK; preserve exact hash and prepare smallest failure-specific v6 if director15 prioritizes it.",
     "03": "Desk11/12 v1 are REWORK; preserve exact hashes and prepare isolated-desk replacements if prioritized.",
-    "08": "Do not canonical-wire these three exact hashes."
+    "08": "Do not canonical-wire desks-12 exact hash 7d268e27c8d963dfb7e8c62274fe6b906973d5bd."
   },
   "freeze": {
     "replitTouched": false,
