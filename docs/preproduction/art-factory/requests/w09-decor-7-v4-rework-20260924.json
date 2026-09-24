@@ -1,0 +1,90 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_REWORK_REQUEST",
+  "branch": "screenshot-match-preproduction",
+  "coordinationOwner": "15",
+  "producer": "09",
+  "preflightOwner": "06",
+  "renderOwner": "14",
+  "reviewer": "01",
+  "integrationOwner": "08",
+  "batchId": "w09-decor-7-v4-rework",
+  "item": {
+    "id": "decor-7",
+    "name": "Skate Rack",
+    "collectionId": "decor",
+    "type": "room",
+    "tier": 3,
+    "theme": "Garden Glow"
+  },
+  "sourceReview": {
+    "decision": "REWORK",
+    "reviewFile": "docs/preproduction/catalog-sprint/reviews/01.json",
+    "rejectedExactHash": {
+      "path": "public/assets/catalog-candidates/cpu/decor-7-w09-v3-a-rack-silhouette-original.png",
+      "sha256": "7a41b5b897a9d0c912f2b92f226810a75a61d74b2da43df54341eef0841108d4",
+      "gitBlobSha": "407b95bbecc3a030d357de290047954e28904b63"
+    },
+    "reasonCodes": [
+      "STILL_WEAK_SKATE_RACK_IDENTITY",
+      "MALFORMED_SKATE_FORMS",
+      "AMBIGUOUS_STORAGE_GEOMETRY",
+      "SMALL_CARD_READABILITY"
+    ],
+    "humanReason": "v3 fixed the crop/clutter issue but still reads as a mixed skate/board display rather than one sturdy roller-skate rack. Preserve the rejected exact hash. Simplify the next attempt so the rack structure dominates and only one simple pair of recognizable quad skates is present."
+  },
+  "generationHold": {
+    "state": "HOLD_WHILE_CPU_LANE_BUSY",
+    "activeCpuRunId": 35880356000,
+    "rule": "Do not create or submit a new runtime queue while any art-factory CPU generation run is queued/pending/waiting/in_progress. When idle, coordinator15 may authorize one bounded Decor 7 v4 queue only."
+  },
+  "runtimeContract": {
+    "runtimeRepo": "huggingface/diffusers",
+    "runtimeCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+    "modelRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS",
+    "generation": {
+      "width": 768,
+      "height": 768,
+      "steps": 8,
+      "guidanceScale": 3.5,
+      "dtype": "bfloat16"
+    }
+  },
+  "variants": [
+    {
+      "variantId": "A-RACK-FIRST-MINIMAL",
+      "plannerSeed": 1513971197,
+      "optimizerInputSha256": "da3d5dfdc7436bb11c8c9dd77635f20848550767253e2e4fc3374580fcdb3ccd",
+      "optimizerInput": "Skate Rack, Room Decor, Tier 3, Garden Glow. Make ONE compact freestanding roller-skate rack as the entire product on a plain light-neutral studio background. Rack-first design: two thick warm-oak vertical side posts, one broad stable base, three sage-green horizontal rails, and four large open cubbies with obvious rectangular storage openings. Put only ONE matching pair of simple quad roller skates in the two lower cubbies; leave the upper cubbies empty so the rack structure dominates. Each skate must have one clean boot silhouette, one visible truck, and exactly four large round wheels; keep every skate fully inside the cubby. Add visible bolts/joints, weight-bearing feet, one tiny leaf cutout and a restrained soft green accent glow. Center the entire rack with generous negative space and a grounded shadow. NO long top shelf, NO skateboard/snowboard-like boards, NO loose gear, NO room scene, NO wall shelving, NO cropped objects, NO floating parts, NO malformed partial skates, NO text or logos.",
+      "targetedFailureCodes": [
+        "STILL_WEAK_SKATE_RACK_IDENTITY",
+        "MALFORMED_SKATE_FORMS",
+        "AMBIGUOUS_STORAGE_GEOMETRY",
+        "SMALL_CARD_READABILITY"
+      ]
+    },
+    {
+      "variantId": "B-AFRAME-EMPTY-BAYS",
+      "plannerSeed": 2036713442,
+      "optimizerInputSha256": "f965c7e24c0cf60cd5726a4ffa0a16bd93228ee68d0f8eda9e05c5d20cbc172e",
+      "optimizerInput": "Skate Rack, Room Decor, Tier 3, Garden Glow. Design ONE simple A-frame roller-skate organizer that reads instantly as a rack at small Store-card size. Use two sturdy botanical-green metal A-frame uprights joined by three honey-oak shelves, a wide floor base, visible cross-bracing, and four large storage bays. Show one clearly formed pair of quad skates together in a single lower bay and keep the other bays empty; the skates must have readable boot uppers and four large wheels each. The dominant silhouette must be the rack, not the skates. Use clean three-quarter product view, full object inside frame, at least 15 percent clear margin, crisp joints and feet, grounded shadow, subtle Garden Glow leaf accent. NO room background, NO long plank/board shapes, NO skateboards, NO loose skates, NO edge crops, NO tiny clutter, NO text or logos.",
+      "targetedFailureCodes": [
+        "STILL_WEAK_SKATE_RACK_IDENTITY",
+        "MALFORMED_SKATE_FORMS",
+        "AMBIGUOUS_STORAGE_GEOMETRY",
+        "SMALL_CARD_READABILITY"
+      ]
+    }
+  ],
+  "preservation": {
+    "preserveRejectedV2ExactHash": true,
+    "preserveRejectedV3ExactHash": true,
+    "noSelfReview": true,
+    "canonicalMappingsChanged": false,
+    "gameplayLearningEconomyPersistenceAccessibilityExactlyOnceChanged": false,
+    "mainDeploymentReplitFlootPaidSettingsSecretsPlayerDataTouched": false
+  },
+  "nextOwner": "15_AFTER_CPU_LANE_IDLE__THEN_09_GENERATION__12__06__14__01__08_ON_ACCEPT"
+}
