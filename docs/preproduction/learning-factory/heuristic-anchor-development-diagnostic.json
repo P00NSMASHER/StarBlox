@@ -1,0 +1,17 @@
+{
+  "schemaVersion":"starblox-heuristic-anchor-development-diagnostic-manifest-v1",
+  "benchmarkId":"starblox-heuristic-bkt-fsrs-anchor-development-v1",
+  "status":"development-tuning-allowed",
+  "authorization":"synthetic-only-no-real-player-data",
+  "seed":20270419,
+  "sourceLearnerCount":48,
+  "maxStep":30,
+  "selectionStep":18,
+  "heldOutStepCount":12,
+  "forbiddenSeeds":[20260924,20261103,20261217,20261229,20270113,20270217,20270307],
+  "grid":{
+    "heuristicMargins":[0,0.5,1,2,3,4,6,8],
+    "riskWeights":[0,1,2,4,8,16]
+  },
+  "purpose":"Development-only search for a heuristic-anchored BKT+FSRS secondary selector after prior candidates failed independent validation/final holdouts. This cohort may tune parameters but can never serve as validation or final-promotion evidence."
+}
