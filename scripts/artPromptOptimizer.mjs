@@ -45,7 +45,7 @@ const FAILURE_BLOCKS=Object.freeze({
 export const sha=s=>crypto.createHash('sha256').update(String(s)).digest('hex');
 const band=t=>Number(t)<=2?'starter':Number(t)<=3?'mid':'luxe';
 const uniq=a=>[...new Set(a.filter(Boolean))];
-export const RUNTIME_PROMPT_WORD_BUDGET=46;
+export const RUNTIME_PROMPT_WORD_BUDGET=60;
 export const RUNTIME_NEGATIVE_PROMPT_WORD_BUDGET=36;
 const promptWords=s=>String(s||'').trim().split(/\s+/).filter(Boolean);
 
@@ -74,29 +74,22 @@ function balancedBriefWords(item,brief,budget){
  const segments=positiveBriefSegments(item,brief).slice(0,8).map(promptWords).filter(x=>x.length);
  if(!segments.length||budget<=0) return [];
 
- // Runtime CLIP text should preserve a coherent component sentence rather than
- // splice fragments from many comma clauses. Prefer the most detailed positive
- // sentence first; then use remaining room for whole shorter context sentences.
- const ranked=segments
-  .map((words,index)=>({words,index,score:words.length+(index>0?4:0)}))
-  .sort((a,b)=>b.score-a.score||a.index-b.index);
-
+ // Preserve authored product logic in order. Whole positive sentences are kept
+ // whenever they fit; only the final sentence may be clipped to the remaining
+ // bounded runtime budget. This avoids recombining unrelated clause fragments.
  const packed=[];
  let room=budget;
- for(const {words} of ranked){
+ for(const words of segments){
   if(room<=0) break;
   if(words.length<=room){
    packed.push(...words);
    room-=words.length;
-   continue;
-  }
-  // If the highest-value product sentence is longer than the entire available
-  // budget, keep its leading component description instead of dropping it.
-  if(!packed.length){
+  }else if(room>=8){
    packed.push(...words.slice(0,room));
    room=0;
   }
  }
+ if(!packed.length) return segments[0].slice(0,budget);
  return packed.slice(0,budget);
 }
 
