@@ -744,6 +744,38 @@ export const UPSTREAM_PROVENANCE = Object.freeze({
     'MIT',
     'rbx_dom_weak/src/viewer.rs'
   ),
+  chickynoidServerAuthority: source(
+    'server-authoritative sequenced player commands and simulation timing guards',
+    'MonzterDev/chickynoid-example',
+    'main',
+    '87eee0f478c91ef390cba96bc016c49e27d2c3ae',
+    'MIT',
+    'src/Server/ServerChickynoid.lua'
+  ),
+  chickynoidAntilag: source(
+    'bounded historical player-position snapshots and lag-compensated rewind semantics',
+    'MonzterDev/chickynoid-example',
+    'main',
+    '87eee0f478c91ef390cba96bc016c49e27d2c3ae',
+    'MIT',
+    'src/Server/Antilag.lua'
+  ),
+  chickynoidWeapons: source(
+    'server-side weapon ray queries and hit detection over rewound player positions',
+    'MonzterDev/chickynoid-example',
+    'main',
+    '87eee0f478c91ef390cba96bc016c49e27d2c3ae',
+    'MIT',
+    'src/Server/WeaponsServer.lua'
+  ),
+  chickynoidClientPrediction: source(
+    'client prediction, command acknowledgement and rollback re-simulation',
+    'MonzterDev/chickynoid-example',
+    'main',
+    '87eee0f478c91ef390cba96bc016c49e27d2c3ae',
+    'MIT',
+    'src/Client/ClientChickynoid/init.lua'
+  ),
   openReplaySession: source(
     'session identity, metadata and lifecycle update model',
     'openreplay/openreplay',
