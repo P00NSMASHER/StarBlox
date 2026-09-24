@@ -282,7 +282,7 @@ function AiNpcService:RequestTurn(
 	local maxInput = math.clamp(math.floor(def.MaxInputChars or 280), 32, 1000)
 	local cleanInput = cleanString(message, maxInput)
 	local cleanRequestId = cleanString(requestId, 120)
-	if cleanInput == nil or cleanRequestId == nil then
+	if cleanInput == nil or cleanRequestId == nil or not validSequence(requestSequence) then
 		return false, "invalid AI NPC request"
 	end
 
