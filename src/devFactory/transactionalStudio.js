@@ -190,7 +190,12 @@ export async function executeStudioActionBatch({
   const receipts=[];
   const rollback=[];
   const failures=[];
+  const preflight=[];
 
+  // Whole-batch checkpoint: capture every reversible pre-state before the
+  // first persistent mutation lands. This is the factory's dry-run boundary.
+  // If any later operation lacks deterministic rollback coverage, nothing in
+  // the batch has been changed yet.
   for(const {call,assessment} of assessments){
     let preRollback={covered:true,calls:[]};
     if(isWriteEffect(assessment.effect)){
@@ -201,30 +206,27 @@ export async function executeStudioActionBatch({
           tool:call.tool,
           error:preRollback.reason || 'mutation has no deterministic rollback coverage'
         });
-        receipts.push({
-          tool:call.tool,
-          effect:studioToolEffect(call.tool),
+        return {
           ok:false,
-          error:preRollback.reason || 'mutation has no deterministic rollback coverage',
-          rollbackCount:0
-        });
-        if(atomic){
-          const rollbackFailures=await rollbackCalls(studio,rollback);
-          return {
-            ok:false,
-            applied:false,
-            rolledBack:rollback.length > 0,
-            rollbackComplete:rollbackFailures.length === 0,
-            partial:rollbackFailures.length > 0,
-            receipts,
-            failures,
-            rollbackFailures
-          };
-        }
-        continue;
+          applied:false,
+          rolledBack:false,
+          rollbackComplete:null,
+          partial:false,
+          preflight:preflight.map(row => ({
+            tool:row.call.tool,
+            effect:row.assessment.effect,
+            rollbackCoverage:row.preRollback.covered
+          })),
+          receipts:[],
+          failures,
+          rollbackFailures:[]
+        };
       }
     }
+    preflight.push({call,assessment,preRollback});
+  }
 
+  for(const {call,assessment,preRollback} of preflight){
     try{
       const result=await studio.call(call.tool,clone(call.args || {}));
       const postRollback=postRollbackForCall(call,result);
@@ -317,6 +319,11 @@ export async function executeStudioActionBatch({
     receipts,
     failures,
     rollbackFailures:[],
+    preflight:preflight.map(row => ({
+      tool:row.call.tool,
+      effect:row.assessment.effect,
+      rollbackCoverage:row.preRollback.covered
+    })),
     rollbackPlan:rollback
   };
 }
