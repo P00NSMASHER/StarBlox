@@ -52,6 +52,9 @@ jobs:
       - name: Run learning-factory unit tests
         run: npm run test:learning-factory
 
+      - name: Run existing StarBlox learning regression tests
+        run: npm run test:learning-regression
+
       - name: Validate hardened question bank and provenance bundle
         run: npm run validate:learning -- --out=learning-validation-receipt.json
 
@@ -67,6 +70,9 @@ jobs:
           test -s .learning-interop/edgameclaw.json
           test -s .learning-interop/interactions_200.csv
           test -s .learning-interop/riff-reviews.json
+
+      - name: Build StarBlox
+        run: npm run build
 
       - name: Upload validation receipt
         if: always()
