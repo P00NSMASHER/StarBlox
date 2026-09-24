@@ -300,6 +300,44 @@ def system_memory_bytes() -> int | None:
         return None
 
 
+NATIVE_BFLOAT16_CPU_FLAGS = {"avx512_bf16", "amx_bf16", "bf16", "sve_bf16"}
+
+
+def cpuinfo_has_native_bfloat16(cpuinfo_text: str) -> bool:
+    """Return True only when Linux CPU feature flags advertise native BF16."""
+    flags: set[str] = set()
+    for raw in str(cpuinfo_text or "").lower().splitlines():
+        if ":" not in raw:
+            continue
+        key, value = raw.split(":", 1)
+        if key.strip() in {"flags", "features"}:
+            flags.update(value.strip().split())
+    return bool(flags & NATIVE_BFLOAT16_CPU_FLAGS)
+
+
+def cpu_native_bfloat16_status() -> dict[str, Any]:
+    """Inspect host CPU flags without changing generation state.
+
+    If the host does not expose /proc/cpuinfo, fail open rather than rejecting a
+    potentially capable non-Linux CPU. Linux hosted runners with known flags are
+    fail-fast when BF16 is requested but no native BF16 instruction is present.
+    """
+    path = Path("/proc/cpuinfo")
+    try:
+        text = path.read_text(errors="ignore")
+    except OSError:
+        return {"known": False, "supported": True, "matchedFlags": []}
+    matched = sorted(
+        flag for flag in NATIVE_BFLOAT16_CPU_FLAGS
+        if flag in {token for line in text.lower().splitlines() if ":" in line for token in line.split(":", 1)[1].split()}
+    )
+    return {
+        "known": True,
+        "supported": cpuinfo_has_native_bfloat16(text),
+        "matchedFlags": matched,
+    }
+
+
 def evaluate_cpu_fallback(*, torch_present: bool, memory_bytes: int | None, disk_free_bytes: int) -> dict[str, Any]:
     """Decide whether a deterministic CPU proof is worth attempting.
 
@@ -601,6 +639,16 @@ def load_pipeline(attempt: dict[str, Any], args: argparse.Namespace):
             dtype_name = "bfloat16"
         else:
             dtype_name = "float32"
+    if device == "cpu" and dtype_name == "bfloat16":
+        bf16_status = cpu_native_bfloat16_status()
+        if bf16_status["known"] and not bf16_status["supported"]:
+            raise RuntimeError(
+                "CPU_BFLOAT16_NATIVE_UNAVAILABLE__RETRY_FLOAT32: "
+                "host CPU flags do not advertise native BF16; refusing a likely "
+                "software-emulated 20-minute timeout. Retry the same exact item/version "
+                "with dtype=float32 after the CPU semaphore is idle."
+            )
+
     dtype = getattr(torch, dtype_name, None)
     if dtype is None:
         raise ValueError(f"unsupported torch dtype: {dtype_name}")
@@ -912,6 +960,9 @@ def self_test() -> None:
     assert "unet/diffusion_pytorch_model.fp16.safetensors" in sdxl_patterns
     assert "unet/diffusion_pytorch_model.safetensors" not in sdxl_patterns
     assert model_snapshot_allow_patterns("example/model") is None
+    assert cpuinfo_has_native_bfloat16("flags : avx2 avx512f avx512_bf16") is True
+    assert cpuinfo_has_native_bfloat16("Features : fp asimd sve sve_bf16") is True
+    assert cpuinfo_has_native_bfloat16("flags : avx avx2 fma") is False
     try:
         verify_resolved_revision("model revision", "d" * 40, "e" * 40)
         raise AssertionError("resolved revision mismatch unexpectedly passed")
