@@ -100,15 +100,22 @@ function migrationStrategy(items,candidate){
   const remotes=items.filter(item =>
     ['RemoteEvent','RemoteFunction','UnreliableRemoteEvent'].includes(item.className)
   );
+  const recommendation=candidate?.reuseRecommendation;
 
   if(risks.length) return 'quarantine';
-  if(scripts.length || remotes.length || candidate?.reuseRecommendation === 'refactor'){
+  if(
+    scripts.length || remotes.length ||
+    ['refactor','review','reusable-after-refactor'].includes(recommendation)
+  ){
     return 'refactor';
   }
-  if(candidate?.reuseRecommendation === 'asset-only') return 'asset-only';
+  if(recommendation === 'asset-only') return 'asset-only';
+  if(
+    recommendation === 'irrelevant' ||
+    items.every(item => item.reuse?.class === 'irrelevant')
+  ) return 'irrelevant';
   return 'extract';
 }
-
 function targetBucket(capabilities,strategy){
   if(strategy === 'quarantine' || strategy === 'refactor') return 'Quarantine';
   const set=new Set(capabilities);
@@ -148,6 +155,9 @@ function collectDependencies(catalog,rootPath,items){
 }
 
 function selectUnit({candidate,capabilities,strategy,rules,systemName}){
+  if(strategy === 'irrelevant'){
+    return {selected:false,reason:'system is classified irrelevant to StarBlox migration'};
+  }
   if(rules.excludeSystems.includes(systemName)){
     return {selected:false,reason:'system explicitly excluded'};
   }
@@ -246,7 +256,9 @@ export function buildRobloxMigrationPlan(catalog,rawRules={}){
       migrationStrategy:strategy,
       exportDisposition:strategy === 'extract' || strategy === 'asset-only'
         ? 'staging'
-        : 'quarantine',
+        : strategy === 'irrelevant'
+          ? 'excluded'
+          : 'quarantine',
       suggestedTarget:'ServerStorage/StarBloxMigration/' + bucket + '/' + slug(group.systemName),
       selected:selection.selected,
       selectionReason:selection.reason,
