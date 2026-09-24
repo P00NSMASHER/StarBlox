@@ -31,6 +31,7 @@ function createStudio({
   const calls=[];
   let testFailures=initialTestFailures;
   let createdCounter=0;
+  let running=true;
 
   const studio={
     calls,
@@ -127,7 +128,25 @@ function createStudio({
         return {count:0,logs:[]};
       }
       if(tool === 'get_run_state'){
-        return {running:true,runMode:true,edit:false};
+        return {running,runMode:running,edit:!running};
+      }
+      if(tool === 'start_playtest'){
+        running=true;
+        return {success:true,running:true,roles:['server','client-1']};
+      }
+      if(tool === 'stop_playtest'){
+        running=false;
+        return {success:true,running:false};
+      }
+      if(tool === 'playtest_sample_state'){
+        return {runtime:{isRunning:running,isServer:true},playerCount:1,worldValues:[]};
+      }
+      if(tool === 'run_gameplay_assertions'){
+        return {
+          allPassed:true,
+          summary:{total:(args.assertions || []).length,passed:(args.assertions || []).length,failed:0},
+          results:(args.assertions || []).map(item => ({name:item.name,passed:true}))
+        };
       }
       if(tool === 'simulate_input'){
         return {ok:true,performed:(args.actions || []).length};
@@ -233,6 +252,46 @@ describe('Step 2: transactional Studio mutations', () => {
     expect(result.rollbackComplete).toBe(true);
     expect(studio.scripts.get('ServerScriptService/Main').source).toBe(before);
     expect(studio.scripts.has('ServerScriptService/Other')).toBe(false);
+  });
+
+  it('blocks a mutation when its previous state cannot be captured for rollback', async () => {
+    const studio=createStudio();
+    const result=await executeStudioActionBatch({
+      studio,
+      stage:'code',
+      calls:[
+        {
+          tool:'set_property',
+          args:{
+            path:'Workspace/TestPart',
+            property:'MissingFromInspector',
+            value:123
+          }
+        }
+      ]
+    });
+
+    expect(result.ok).toBe(false);
+    expect(result.failures[0].type).toBe('rollback-coverage');
+    expect(studio.instances.get('Workspace/TestPart').properties.MissingFromInspector).toBeUndefined();
+  });
+
+  it('blocks oversized mutation batches before touching Studio', async () => {
+    const studio=createStudio();
+    const result=await executeStudioActionBatch({
+      studio,
+      stage:'code',
+      maxToolCallsPerBatch:2,
+      calls:[
+        {tool:'set_property',args:{path:'Workspace/TestPart',property:'Anchored',value:true}},
+        {tool:'set_property',args:{path:'Workspace/TestPart',property:'Transparency',value:0.5}},
+        {tool:'set_property',args:{path:'Workspace/TestPart',property:'Anchored',value:false}}
+      ]
+    });
+
+    expect(result.ok).toBe(false);
+    expect(result.failures[0].type).toBe('budget');
+    expect(studio.instances.get('Workspace/TestPart').properties.Anchored).toBe(false);
   });
 
   it('returns a reversible rollback plan for successful writes and instance creation', async () => {
@@ -502,6 +561,115 @@ describe('Step 2: AI development factory', () => {
 
     expect(run.status).toBe('failed');
     expect(run.finalReview.findings.join(' ')).toMatch(/playtest is not running/);
+    expect(run.rollback.attempted).toBe(true);
+  });
+
+  it('does not treat an empty Studio test suite as proof', async () => {
+    const studio=createStudio();
+    const originalCall=studio.call.bind(studio);
+    studio.call=async (tool,args={},meta={}) => {
+      if(tool === 'run_tests') return {passed:0,failed:0,total:0,results:[]};
+      return originalCall(tool,args,meta);
+    };
+
+    const run=await runDevelopmentFactory({
+      task:{id:'empty-tests',request:'Require actual proof'},
+      studio,
+      agents:{
+        plan:async () => ({
+          summary:'Must run tests',
+          tests:{required:true},
+          playtest:{required:false},
+          visual:{required:false}
+        }),
+        code:async () => ({
+          actions:[{tool:'write_script',args:{path:'ServerScriptService/Main',source:'return { value = 2 }'}}]
+        }),
+        review:async ({verification}) => ({
+          verdict:verification.ok ? 'pass' : 'fail',
+          findings:verification.errors
+        })
+      },
+      repositoryGate:{run:async () => ({ok:true})},
+      startedAt:'2026-09-24T13:35:00Z'
+    });
+
+    expect(run.status).toBe('failed');
+    expect(run.finalReview.findings.join(' ')).toMatch(/Studio tests failed/);
+    expect(run.rollback.attempted).toBe(true);
+  });
+
+  it('supports direct BloxForge-style start/sample/assert/stop playtests when episode mode is unavailable', async () => {
+    const studio=createStudio({episode:false});
+    studio.call('stop_playtest',{});
+
+    const run=await runDevelopmentFactory({
+      task:{id:'direct-playtest',request:'Verify runtime behavior'},
+      studio,
+      agents:{
+        plan:async () => ({
+          summary:'Runtime proof',
+          tests:{required:true},
+          playtest:{
+            required:true,
+            inputActions:[{type:'key',key:'Space'}],
+            assertions:[{name:'running',expr:'game:GetService("RunService"):IsRunning()'}],
+            telemetryDomains:['players','runtime']
+          },
+          visual:{required:false}
+        }),
+        code:async () => ({
+          actions:[{tool:'write_script',args:{path:'ServerScriptService/Main',source:'return { runtime = true }'}}]
+        }),
+        review:async ({verification}) => ({
+          verdict:verification.ok ? 'pass' : 'fail',
+          findings:verification.errors
+        })
+      },
+      repositoryGate:{run:async () => ({ok:true})},
+      startedAt:'2026-09-24T13:36:00Z'
+    });
+
+    expect(run.status).toBe('verified');
+    expect(studio.calls.some(row => row.tool === 'start_playtest')).toBe(true);
+    expect(studio.calls.some(row => row.tool === 'playtest_sample_state')).toBe(true);
+    expect(studio.calls.some(row => row.tool === 'run_gameplay_assertions')).toBe(true);
+    expect(studio.calls.some(row => row.tool === 'stop_playtest')).toBe(true);
+  });
+
+  it('enforces a total mutation budget across repair cycles', async () => {
+    const studio=createStudio({initialTestFailures:1});
+    const run=await runDevelopmentFactory({
+      task:{id:'mutation-budget',request:'Bound total writes'},
+      studio,
+      agents:{
+        plan:async () => ({
+          summary:'Budgeted repair',
+          tests:{required:true},
+          playtest:{required:false},
+          visual:{required:false}
+        }),
+        code:async () => ({
+          actions:[
+            {tool:'set_property',args:{path:'Workspace/TestPart',property:'Anchored',value:true}},
+            {tool:'set_property',args:{path:'Workspace/TestPart',property:'Transparency',value:0.5}}
+          ]
+        }),
+        review:async () => ({verdict:'repair',findings:['retry']}),
+        repair:async () => ({
+          actions:[
+            {tool:'set_property',args:{path:'Workspace/TestPart',property:'Anchored',value:false}},
+            {tool:'set_property',args:{path:'Workspace/TestPart',property:'Transparency',value:0}}
+          ]
+        })
+      },
+      repositoryGate:{run:async () => ({ok:true})},
+      startedAt:'2026-09-24T13:37:00Z',
+      config:{maxRepairCycles:2,maxTotalMutationCalls:3}
+    });
+
+    expect(run.status).toBe('failed');
+    expect(run.finalReview.findings.join(' ')).toMatch(/mutation budget/);
     expect(run.rollback.attempted).toBe(true);
   });
 
