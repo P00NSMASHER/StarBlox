@@ -147,37 +147,37 @@
   "parallelWorkPlan": {
     "cpuSemaphore": "ONE_RUNNING_CPU_BATCH_ONLY",
     "currentCpuBatch": {
-      "queueId": "w03-release-tail-4pack-v5",
-      "items": [
-        "decor-8",
-        "desks-9",
-        "desks-10",
-        "desks-11"
-      ],
-      "runId": 36040017201,
-      "state": "RUNNING"
-    },
-    "preparedNext": [
-      {
-        "rank": 1,
-        "producer": "13",
-        "queuePath": "docs/preproduction/art-factory/prepared-queues/w13-release-tail-3pack-v5.json",
-        "items": [
-          "desks-8",
-          "wall-8",
-          "wall-9"
-        ]
-      }
-    ],
-    "queuePolicy": "Keep one running plus one pending CPU run. When w03 finishes, w09 starts automatically; only then queue w13. Never queue a third run while a pending successor exists.",
-    "pendingSuccessor": {
       "queueId": "w09-release-tail-2pack-v6",
       "items": [
         "decor-7",
         "decor-11"
       ],
       "runId": 36040312348,
-      "state": "PENDING"
+      "state": "RUNNING"
+    },
+    "preparedNext": [
+      {
+        "rank": 1,
+        "producer": "03",
+        "queuePath": "docs/preproduction/art-factory/prepared-queues/w03-release-tail-4pack-v6.json",
+        "items": [
+          "decor-8",
+          "desks-9",
+          "desks-10",
+          "desks-11"
+        ]
+      }
+    ],
+    "queuePolicy": "One running plus one pending. When w09 finishes, fixed-head w13 starts automatically. Queue consolidated w03 v6 only after w13 transitions to running.",
+    "pendingSuccessor": {
+      "queueId": "w13-release-tail-3pack-v5",
+      "items": [
+        "desks-8",
+        "wall-8",
+        "wall-9"
+      ],
+      "runId": 36042052820,
+      "state": "PENDING_FIXED_PROMPT_COMPILER_HEAD"
     }
   },
   "nonArtReleaseState": {
