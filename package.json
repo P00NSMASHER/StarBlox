@@ -16,7 +16,8 @@
     "test:learning-regression": "vitest run src/questionQualityRuntime.test.js src/semanticQuestionGuardRuntime.test.js src/diagnosticQuestionGuardRuntime.test.js src/grammarQuestionQa.test.js src/questLearningQa.test.js src/masteryShadowModel.test.js src/persistenceTransactions.test.js src/persistenceEconomyIntegration.test.js src/screenshotLearningIntegrity.test.js",
     "generate:learning-promotion": "node scripts/generateLearningPromotionDataset.mjs",
     "compare:learning-promotion": "node scripts/compareLearningSelectors.mjs",
-    "assert:learning-promotion-boundary": "node scripts/assertLearningPromotionBoundary.mjs"
+    "assert:learning-promotion-boundary": "node scripts/assertLearningPromotionBoundary.mjs",
+    "decide:learning-promotion": "node scripts/buildLearningPromotionDecision.mjs"
   },
   "dependencies": {
     "lucide-react": "^0.468.0",
