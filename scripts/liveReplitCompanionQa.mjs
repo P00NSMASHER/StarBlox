@@ -31,18 +31,17 @@ async function openStore(){
   const nav=page.locator('.sidebar .navBtn').filter({hasText:/Store|Market/i}).first();
   await nav.waitFor({state:'visible',timeout:8000});
   await nav.click();
-  await page.waitForSelector('.marketPage.sbStoreMatch',{state:'attached',timeout:10000});
-  await page.waitForSelector('.marketPage.sbStoreMatch .storeGrid',{state:'attached',timeout:10000});
-  const companions=page.locator('.sbStoreCategoryRow button[data-collection-id="companions"]').first();
+  await page.waitForSelector('.marketPage .storeGrid',{state:'attached',timeout:10000});
+  const companions=page.locator('.marketPage .filterRow').first().locator('button').filter({hasText:/^Companions$/i}).first();
   await companions.waitFor({state:'visible',timeout:8000});
   await companions.click();
-  await page.waitForTimeout(300);
+  await page.waitForTimeout(500);
 }
 
 await openStore();
 const results=[];
 for(const [id,name] of targets){
-  const card=page.locator(`.marketPage.sbStoreMatch .storeGrid .storeCard[data-store-item-id="${id}"]`).first();
+  const card=page.locator('.marketPage .storeGrid .storeCard').filter({has:page.locator('h3',{hasText:name})}).first();
   await card.waitFor({state:'visible',timeout:8000});
   await card.scrollIntoViewIfNeeded();
   await page.waitForTimeout(100);
@@ -67,9 +66,12 @@ for(const [id,name] of targets){
   });
   await card.screenshot({path:path.join(outputDir,`${id}-card.png`)});
 
-  await card.click();
-  await page.waitForTimeout(250);
-  const selected=await page.evaluate(expectedId=>{
+  const hasEnhancedPreview=await page.locator('.sbStoreRightRail').count()>0;
+  if(hasEnhancedPreview){
+    await card.click();
+    await page.waitForTimeout(250);
+  }
+  const selected=await page.evaluate(({expectedId,hasEnhancedPreview})=>{
     const detail=document.querySelector('.sbStoreSelectedDetail');
     const stage=document.querySelector('.sbStoreAvatarStage');
     const detailImg=detail?.querySelector('img');
@@ -81,6 +83,7 @@ for(const [id,name] of targets){
     }));
     return {
       expectedId,
+      hasEnhancedPreview,
       selectedId:document.querySelector('.storeCard.selectedCard,.storeCard[aria-selected="true"]')?.dataset?.storeItemId||null,
       detailPresent:Boolean(detail),
       detailText:(detail?.textContent||'').replace(/\s+/g,' ').trim().slice(0,500),
@@ -93,7 +96,7 @@ for(const [id,name] of targets){
       avatarStagePresent:Boolean(stage),
       avatarStageImages:stageImgs
     };
-  },id);
+  },{expectedId:id,hasEnhancedPreview});
 
   const detail=page.locator('.sbStoreSelectedDetail').first();
   if(await detail.count()) await detail.screenshot({path:path.join(outputDir,`${id}-detail.png`)});
@@ -102,7 +105,9 @@ for(const [id,name] of targets){
 
   results.push({
     id,name,card:cardMetrics,selected,
-    technicalPass:Boolean(cardMetrics.image?.naturalWidth>0)&&!cardMetrics.fallback&&selected.detailPresent&&selected.avatarStagePresent
+    cardPass:Boolean(cardMetrics.image?.naturalWidth>0)&&!cardMetrics.fallback,
+    enhancedPreviewAvailable:selected.hasEnhancedPreview,
+    technicalPass:Boolean(cardMetrics.image?.naturalWidth>0)&&!cardMetrics.fallback&&(!selected.hasEnhancedPreview||(selected.detailPresent&&selected.avatarStagePresent))
   });
 }
 
@@ -114,13 +119,17 @@ const report={
   mutationPolicy:'READ_ONLY_NAVIGATION_AND_SELECTION_ONLY__NO_PURCHASE_NO_EQUIP_NO_SIGNIN',
   targets:results,
   consoleErrors,pageErrors,requestFailures,
-  technicalPassCount:results.filter(x=>x.technicalPass).length
+  technicalPassCount:results.filter(x=>x.technicalPass).length,
+  cardPassCount:results.filter(x=>x.cardPass).length,
+  enhancedPreviewAvailable:results.some(x=>x.enhancedPreviewAvailable)
 };
 await fs.writeFile(path.join(outputDir,'report.json'),JSON.stringify(report,null,2)+'\n');
 await fs.writeFile(path.join(outputDir,'summary.txt'),[
   'LIVE_REPLIT_COMPANION_QA',
   `BASE_URL=${baseUrl}`,
   `TECHNICAL_PASS=${report.technicalPassCount}/${results.length}`,
+  `CARD_PASS=${report.cardPassCount}/${results.length}`,
+  `ENHANCED_PREVIEW_AVAILABLE=${report.enhancedPreviewAvailable}`,
   `PAGE_ERRORS=${pageErrors.length}`,
   `CONSOLE_ERRORS=${consoleErrors.length}`
 ].join('\n')+'\n');
