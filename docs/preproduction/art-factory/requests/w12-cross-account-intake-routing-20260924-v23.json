@@ -1,0 +1,94 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_W12_CANDIDATE_DELTA_INTAKE_ROUTING",
+  "router": "12",
+  "branch": "screenshot-match-preproduction",
+  "observedHead": "9d60d17890759612b474215ab8729ba957e34a19",
+  "scanWindow": {
+    "priorCursor": "85310fa26d195a4ed95c802c773fdb7c45d02f59",
+    "inspectedThroughHead": "9d60d17890759612b474215ab8729ba957e34a19",
+    "commitsInspectedFromCompare": null,
+    "newCatalogCandidateBytesDetected": true,
+    "newCandidateItemIds": [
+      "decor-7",
+      "wall-9"
+    ],
+    "note": "Post-v22 delta contains two genuinely new staged catalog candidates: Decor7 v5 and Wall9 v4. Other intervening commits are routing/render/review coordination or superseded earlier hashes."
+  },
+  "candidates": [
+    {
+      "id": "decor-7",
+      "name": "Skate Rack",
+      "collectionId": "decor",
+      "producer": "09",
+      "reviewerAssignment": "01",
+      "renderOwner": "14",
+      "canonicalWriter": "08",
+      "priorRejectedOrBlockedHash": {
+        "path": "public/assets/catalog-candidates/cpu/decor-7-w09-v4-a-rack-first-minimal-original.png",
+        "gitBlobSha": "4e78412e291ccbc553948f536bd1e958ab1ebf53"
+      },
+      "path": "public/assets/catalog-candidates/cpu/decor-7-w09-v5-a-one-rack-two-skates-original.png",
+      "sha256": "9e923f8acbdaed41ae3dadf7931cebef3b57b6248c975b7df61cab5cd372ee14",
+      "gitBlobSha": "de321659804198ef24e071a4f0a26a0fca84b09e",
+      "bytes": 485526,
+      "dimensions": [
+        640,
+        640
+      ],
+      "format": "PNG",
+      "stagedOutput": "docs/preproduction/art-factory/generated-evidence/w09-decor-7-v5-rework/decor-7/staged-output.json",
+      "generationReceipt": "docs/preproduction/art-factory/generated-evidence/w09-decor-7-v5-rework/decor-7/generation-receipt.json",
+      "provenanceState": "COMPLETE_ART_FACTORY_V2",
+      "repositoryReadback": "PASS_EXACT_GIT_BLOB",
+      "supersession": "FRESH_V5_FAILURE_SPECIFIC_REPLACEMENT_FOR_REWORKED_V4",
+      "state": "ROUTE_TO_06_TECHNICAL_QUALIFICATION"
+    },
+    {
+      "id": "wall-9",
+      "name": "Art Gallery Wall",
+      "collectionId": "wall",
+      "producer": "13",
+      "reviewerAssignment": "02",
+      "renderOwner": "14",
+      "canonicalWriter": "08",
+      "priorRejectedOrBlockedHash": {
+        "path": "public/assets/catalog-candidates/cpu/wall-9-w13-v3-a-frames-dominant-original.png",
+        "gitBlobSha": "e0be4534bc3b379f1e39556be5d05eb38726220e"
+      },
+      "path": "public/assets/catalog-candidates/cpu/wall-9-w13-v4-a-three-frames-only-original.png",
+      "sha256": "71cf7bd66d2439b904d0fc22ecfd1e3bab713b913604a5c69165dadc7f9a80bb",
+      "gitBlobSha": "725793fdb8091b47d7fe3563e8519519e4a9523d",
+      "bytes": 451202,
+      "dimensions": [
+        640,
+        640
+      ],
+      "format": "PNG",
+      "stagedOutput": "docs/preproduction/art-factory/generated-evidence/w13-wall-9-v4-rework/wall-9/staged-output.json",
+      "generationReceipt": "docs/preproduction/art-factory/generated-evidence/w13-wall-9-v4-rework/wall-9/generation-receipt.json",
+      "provenanceState": "COMPLETE_ART_FACTORY_V2",
+      "repositoryReadback": "PASS_EXACT_GIT_BLOB",
+      "supersession": "FRESH_V4_FAILURE_SPECIFIC_REPLACEMENT_FOR_REWORKED_V3",
+      "state": "ROUTE_TO_06_TECHNICAL_QUALIFICATION"
+    }
+  ],
+  "dedupe": {
+    "uniqueItemHashClaim": true,
+    "unchangedPriorHashesRerouted": false,
+    "newerPendingCandidateObserved": false
+  },
+  "queues": {
+    "to06": [
+      "decor-7@9e923f8acbdaed41ae3dadf7931cebef3b57b6248c975b7df61cab5cd372ee14",
+      "wall-9@71cf7bd66d2439b904d0fc22ecfd1e3bab713b913604a5c69165dadc7f9a80bb"
+    ],
+    "backToProducer": []
+  },
+  "cursorAdvance": {
+    "previous": "85310fa26d195a4ed95c802c773fdb7c45d02f59",
+    "advancedThrough": "9d60d17890759612b474215ab8729ba957e34a19"
+  },
+  "nextOwner": "06_TECHNICAL_QUALIFICATION",
+  "mutationScope": "Routing evidence only; no candidate bytes, canonical mappings, reviewer decisions, gameplay, learning, economy, persistence, accessibility, CI/workflows, deployment, secrets, or player data changed."
+}
