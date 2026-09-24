@@ -50,7 +50,8 @@ export function migrationPlanMarkdown(plan){
   lines.push('', '## Review rules', '');
   lines.push('- Extracted models are staging artifacts only.');
   lines.push('- Nothing is inserted into live Workspace or executable services automatically.');
-  lines.push('- Refactor/review systems export to quarantine, not production.');
+  lines.push('- Refactor/risk-review systems export to quarantine, not production.');
+  lines.push('- Irrelevant systems remain excluded and are never exported by rule override.');
   lines.push('- External module IDs/remotes must be resolved before activation.');
   lines.push('- Script-bearing systems should pass through the Step 2 AI Development Factory.');
 
