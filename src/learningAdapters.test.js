@@ -55,6 +55,9 @@ describe('learning factory adapters', () => {
     const psi = buildPsiKtSequence(ledger.events);
     expect(psi.correct_seq).toEqual([0]);
     expect(psi.event_ids).toEqual([first.eventId]);
+    const table = buildPsiKtInteractionTable(ledger.events);
+    expect(table.rows[0].timestamp).toBe(10);
+    expect(psiKtInteractionTableToTsv(table)).toContain('\t10\t');
   });
 
   it('maps wrong and assisted events to conservative Riff ratings', () => {
