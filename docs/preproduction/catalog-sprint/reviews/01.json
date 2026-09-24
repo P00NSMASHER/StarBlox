@@ -5,7 +5,7 @@
   "role": "Visual Target Director / independent catalog reviewer",
   "phase": "ART_AND_VISUALS_ONLY",
   "branch": "screenshot-match-preproduction",
-  "sourceHead": "a87159d7e7",
+  "sourceHead": "8b24eb33de872578aed1fd4ab973958abce14496",
   "assignedCollections": [
     "tops",
     "bottoms",
@@ -36,10 +36,10 @@
     "scope": [
       "decor-7"
     ],
-    "version": "Decor7 v10 exact source hash",
-    "result": "REWORK_1_OF_1_FAIL_FAST",
+    "version": "Decor7 v10 exact hash",
+    "result": "REWORK_1_OF_1",
     "oldVerdictsTransferred": false,
-    "actualCardScalePixelsReviewed": false,
+    "actualCardScalePixelsReviewed": true,
     "actualDetailPixelsReviewed": true,
     "selfApprovalConflict": false
   },
@@ -957,13 +957,13 @@
     "reworkNow": [
       "decor-7"
     ],
-    "preservedAcceptedHashes": "All prior reviewer01 ACCEPTs remain frozen; this REWORK applies only to Decor7 v10 exact hash."
+    "preservedAcceptedHashes": "All prior reviewer01 ACCEPTs remain frozen; Decor7 v10 exact hash is REWORK."
   },
   "handoff": {
     "13": "desks-12 exact hash ACCEPT; freeze it and remove from production scope.",
     "14": "Current render packets consumed; do not rerender unchanged hashes.",
-    "15": "Decor7 remains a release blocker; do not rerender/regenerate v10 path.",
-    "09": "Decor7 v10 REWORK fail-fast; preserve exact hash and move to a new v11 path. Make a large classic quad-skate pair the dominant object; the rack is secondary.",
+    "15": "Decor7 remains release-blocking; v11 retry is prepared.",
+    "09": "Freeze Decor7 v10 REWORK. Use a new v11 path with the validated metadata-strip + 60-word sentence-preserving compiler.",
     "03": "desks-11 current literal hashes are REWORK; preserve them and prepare the next narrow retry while other producers continue.",
     "08": "Do not canonical-wire Decor7 v10."
   },
