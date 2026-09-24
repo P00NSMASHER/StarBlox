@@ -35,6 +35,8 @@ def main() -> None:
         prompt = "x"
         import hashlib
         prompt_sha = hashlib.sha256(prompt.encode()).hexdigest()
+        negative_prompt = "collage, repeated variants, text"
+        negative_prompt_sha = hashlib.sha256(negative_prompt.encode()).hexdigest()
         raw = hashlib.sha256(f"decor-5|{prompt_sha}|A-PHYSICAL".encode()).digest()
         seed = 1 + (int.from_bytes(raw[:4], "big") % 2147483646)
         attempt = {
@@ -45,6 +47,10 @@ def main() -> None:
             "promptBlocks": ["physical"],
             "promptText": prompt,
             "promptSha256": prompt_sha,
+            "runtimePromptText": prompt,
+            "runtimePromptSha256": prompt_sha,
+            "runtimeNegativePromptText": negative_prompt,
+            "runtimeNegativePromptSha256": negative_prompt_sha,
             "promptRecipeVersion": "test",
             "seed": seed,
             "runtime": {
@@ -101,7 +107,27 @@ def main() -> None:
         assert report["status"] == "VALIDATED_NOT_GENERATED"
         assert report["seed"] == seed
         assert report["runtime"]["commit"] == "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c"
+        assert report["runtimePromptSha256"] == prompt_sha
+        assert report["runtimeNegativePromptSha256"] == negative_prompt_sha
         assert report["output"]["repoPath"].startswith("public/assets/catalog-candidates/")
+
+        bad_negative = json.loads(job.read_text())
+        bad_negative["attempts"][0]["runtimeNegativePromptSha256"] = "0" * 64
+        unsigned_negative = dict(bad_negative)
+        unsigned_negative.pop("planSha256", None)
+        bad_negative["planSha256"] = hashlib.sha256(json.dumps(unsigned_negative, ensure_ascii=False, separators=(",", ":")).encode()).hexdigest()
+        bad_negative_job = root / "bad-negative-job.json"
+        bad_negative_job.write_text(json.dumps(bad_negative, indent=2) + "\n")
+        bad_negative_run = run(
+            "dry-run",
+            "--repo-root", str(root),
+            "--job", str(bad_negative_job),
+            "--attempt-id", attempt["attemptId"],
+            "--repo-path", "public/assets/catalog-candidates/test/decor-5-w09-v99-a-original.png",
+            "--receipt", str(root / "bad-negative-receipt.json"),
+        )
+        assert bad_negative_run.returncode != 0
+        assert "runtime negative prompt text/hash mismatch" in bad_negative_run.stderr
 
         bad = json.loads(job.read_text())
         bad["attempts"][0]["model"]["revision"] = "main"
