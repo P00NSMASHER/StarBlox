@@ -4,7 +4,7 @@
   "role": "independent catalog reviewer for beds/desks/companions/auras",
   "phase": "ART_VISUALS_SPRINT",
   "branch": "screenshot-match-preproduction",
-  "sourceHead": "b2f2a7e9a3",
+  "sourceHead": "8437c5a700",
   "policy": "docs/preproduction/DELIVERY_PROTOCOL_V2.md",
   "visualSprint": "docs/preproduction/ART_VISUALS_SPRINT.json",
   "referenceManifest": "docs/preproduction/reference-screenshots/original-reference-manifest.json",
@@ -22,11 +22,12 @@
     "scope": [
       "desks-10"
     ],
-    "version": "current exact hash: desks-10",
-    "result": "REWORK_1_OF_1",
+    "version": "Desk10 v11 exact source hash",
+    "result": "REWORK_1_OF_1_FAIL_FAST",
     "oldVerdictsTransferred": false,
     "actualSourcePixelsReviewed": true,
-    "selfApprovalConflict": false
+    "selfApprovalConflict": false,
+    "failFastSourceContract": true
   },
   "renderEvidence": {
     "workflow": "StarBlox Staged Catalog Art QA",
@@ -688,6 +689,45 @@
         "duplicateVisual": "PASS",
         "technicalIntegrity": "PASS"
       }
+    },
+    {
+      "itemId": "desks-10",
+      "name": "Neon Streaming Desk",
+      "tier": 4,
+      "theme": "Aqua Wave",
+      "assetPath": "public/assets/catalog-candidates/cpu/desks-10-w03-v11-a-conventional-streaming-desk-original.png",
+      "repositoryPath": "public/assets/catalog-candidates/cpu/desks-10-w03-v11-a-conventional-streaming-desk-original.png",
+      "assetHash": "0255b3af108f7cda131101965f754b8b507ce3dd",
+      "sha256": "8ddcce08ba65392a685b4820ad7b0a656deeee7b5b9db548e5d658b6abb15927",
+      "contentSha256": "8ddcce08ba65392a685b4820ad7b0a656deeee7b5b9db548e5d658b6abb15927",
+      "hashAlgorithm": "git-blob-sha1",
+      "producer": "03",
+      "decision": "REWORK",
+      "learnerLabel": "REWORK",
+      "reviewedAt": "2026-09-24T22:00:00Z",
+      "evidenceRefs": [
+        "workflow:36055369791",
+        "artifact:10832384376/candidate/desks-10-w03-v11-a-conventional-streaming-desk-original.png"
+      ],
+      "reasonCodes": [
+        "BOOTH_POD_WORKSTATION",
+        "MICROPHONE_MISSING",
+        "ARCHITECTURAL_FRAME_DOMINATES",
+        "STREAMING_DESK_IDENTITY_FAILURE"
+      ],
+      "reason": "REWORK fail-fast from exact source pixels. V11 still reads as a large booth/pod workstation rather than one conventional streaming desk. The tall architectural frame dominates the silhouette, and there is no unmistakable microphone capsule or normal boom arm. Preserve this exact hash. The next retry should simplify to a plain freestanding rectangular desk with two side supports, one monitor, one small microphone capsule on a short boom clamped to an edge, and no surrounding booth/frame.",
+      "checks": {
+        "identity": "FAIL",
+        "themeTier": "PASS",
+        "silhouette": "FAIL",
+        "materialLighting": "PASS",
+        "cardReadability": "PARTIAL",
+        "physicalConstruction": "PARTIAL",
+        "framingComposition": "FAIL",
+        "originality": "PASS",
+        "duplicateVisual": "PASS",
+        "technicalIntegrity": "PASS"
+      }
     }
   ],
   "preservedAcceptedCurrentHashes": [
@@ -820,9 +860,9 @@
   "pendingCurrentHashes": [],
   "handoff": {
     "14": "Desk9/10 v3 render packets consumed; do not rerender unchanged hashes.",
-    "15": "desks-10 remains a bounded exact-pixel release blocker.",
-    "03": "desks-10 current exact hash is REWORK; preserve it and use the prepared A fallback when the CPU semaphore permits.",
-    "08": "Do not canonical-wire desks-10 exact hash 7bb37b681e4d1928fb6e5ffc742d592a8262a452."
+    "15": "Desk10 remains a bounded exact-pixel blocker.",
+    "03": "Desk10 v11 REWORK; preserve exact hash. Use only the precompiled ultra-literal Desk10 fallback next.",
+    "08": "Do not canonical-wire Desk10 v11."
   },
   "summary": {
     "totalVersionsReviewed": 42,
@@ -843,7 +883,7 @@
     "reworkNow": [
       "desks-10"
     ],
-    "preservedAcceptedHashes": "All prior reviewer05 ACCEPTs remain frozen; this REWORK applies only to desks-10 current exact hash."
+    "preservedAcceptedHashes": "All prior reviewer05 ACCEPTs remain frozen; Desk10 v11 is REWORK only."
   },
   "freeze": {
     "selfApproved": false,
@@ -858,7 +898,7 @@
   "currentReplacementDisposition": {
     "desks": {
       "REWORK": {
-        "desks-10": "7bb37b681e4d1928fb6e5ffc742d592a8262a452",
+        "desks-10": "0255b3af108f7cda131101965f754b8b507ce3dd",
         "desks-9": "79d5f4e0520910fea1a6ac47c76df451b14ce6f2"
       },
       "ACCEPT": {
