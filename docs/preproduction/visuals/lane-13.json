@@ -1034,28 +1034,28 @@
     ]
   },
   "catalogFactoryReviewHandoff": {
-    "updatedAt": "2026-09-24T18:23:00Z",
-    "sourceHead": "b0c93326ed3f1f076a21b788f51b9ee7398d0dbf",
-    "purpose": "Fast-path one exact-hash Store card/detail render for Desk11 v6 while sibling CPU jobs continue.",
+    "updatedAt": "2026-09-24T18:40:00Z",
+    "sourceHead": "a87159d7e7bd2b35fedae7c6effa42beb62a17c7",
+    "purpose": "Trigger exact-hash Store card/detail render for Decor7 v10 while CPU generation continues in parallel.",
     "candidates": [
       {
-        "itemId": "desks-11",
-        "name": "Dream Creator Station",
-        "producer": "03",
+        "itemId": "decor-7",
+        "name": "Skate Rack",
+        "producer": "09",
         "reviewer": "01",
-        "path": "public/assets/catalog-candidates/cpu/desks-11-w03-v6-a-literal-creator-desk-original.png",
-        "sha256": "325d191765d76f21fbb5ece4e1b4a2a6703177f3f0213fa18673ed6a7260f381",
-        "gitBlobSha": "202a80396f3ca114c57b1f488aa7d5230aba17b4",
-        "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-desks-11-v6-literal-qualification-20260924.json",
+        "path": "public/assets/catalog-candidates/cpu/decor-7-w09-v10-a-rack-with-classic-quad-skates-original.png",
+        "sha256": "639ca9b68c19680fc2b95c3f0e33138b5f785f80c01e56ea3acc409ce2bc936e",
+        "gitBlobSha": "28bff68db458d4c3b70024ce9c90f28e6b8a92e7",
+        "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-decor7-v10-qualification-20260924.json",
         "qualification": "QUALIFIED_FOR_RENDERER14",
         "route": "14 -> 01 -> 08 on ACCEPT"
       }
     ],
     "packetPlan": [
       {
-        "qualification": "docs/preproduction/art-factory/requests/w06-desks-11-v6-literal-qualification-20260924.json",
+        "qualification": "docs/preproduction/art-factory/requests/w06-decor7-v10-qualification-20260924.json",
         "items": [
-          "desks-11"
+          "decor-7"
         ]
       }
     ],
@@ -1068,5 +1068,5 @@
       "deploymentTouched": false
     }
   },
-  "nextGate": "Renderer14 binds Desk11 v6 Store card/detail pixels; reviewer01 independently ACCEPT/REWORK exact hash; 08 integrates only on exact ACCEPT."
+  "nextGate": "Renderer14 binds Decor7 v10 Store card/detail pixels; reviewer01 independently ACCEPT/REWORK exact hash; 08 integrates only exact ACCEPT."
 }
