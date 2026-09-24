@@ -39,7 +39,8 @@ export const PROFILE_TEMPLATE=Object.freeze({
       Claimed:Object.freeze({})
     }),
     Bundles:Object.freeze({Purchased:Object.freeze({})}),
-    ProcessedEventIds:Object.freeze([])
+    ProcessedEventIds:Object.freeze([]),
+    EventStreams:Object.freeze({})
   })
 });
 
@@ -73,6 +74,7 @@ export const REPLICATION_BOUNDARIES=Object.freeze({
     'Daily.Completed',
     'Settings',
     'LiveOps.ProcessedEventIds',
+    'LiveOps.EventStreams',
     'Social.CompletedSessionIds',
     'Social.AffinityEventIds',
     'AiNpc.Memories',
@@ -86,8 +88,15 @@ export const REPLICATION_BOUNDARIES=Object.freeze({
     'Daily.Streak',
     'Inventory',
     'Rollout.Assignments',
-    'LiveOps',
-    'Social'
+    'LiveOps.Counters',
+    'LiveOps.Missions',
+    'LiveOps.Seasons',
+    'LiveOps.Engagement',
+    'LiveOps.Bundles',
+    'Social.Home',
+    'Social.NpcAffinity',
+    'Social.UnlockedSocialItems',
+    'Social.Stats'
   ]),
   ephemeralEcs:Object.freeze([
     'Model','Transform','Velocity','Health','Npc','Interactable',
