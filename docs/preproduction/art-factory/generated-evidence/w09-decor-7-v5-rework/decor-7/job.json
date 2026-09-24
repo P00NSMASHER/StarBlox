@@ -1,0 +1,167 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_JOB",
+  "repository": "P00NSMASHER/StarBlox",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "800d617088c950a84bde57c28b4cd365c838b136",
+  "item": {
+    "id": "decor-7",
+    "name": "Skate Rack",
+    "collectionId": "decor",
+    "type": "room",
+    "tier": 3,
+    "theme": "Garden Glow"
+  },
+  "sourceReviewHash": "4e78412e291ccbc553948f536bd1e958ab1ebf53",
+  "rightsBasis": "USER_ATTESTED_FULL_RIGHTS",
+  "attempts": [
+    {
+      "attemptId": "decor-7-w09-a-one-rack-two-skates-82f21a8c5e",
+      "itemId": "decor-7",
+      "producer": "09",
+      "variant": "A-ONE-RACK-TWO-SKATES",
+      "promptBlocks": [
+        "metadata",
+        "category",
+        "silhouette",
+        "physical",
+        "material",
+        "theme",
+        "tier",
+        "card",
+        "original",
+        "stage",
+        "furniture",
+        "camera",
+        "depth",
+        "bloom",
+        "textile",
+        "wall",
+        "light"
+      ],
+      "promptText": "STARBLOX CATALOG ART — A-ONE-RACK-TWO-SKATES\n\nCreate one premium, kid-friendly 2D game catalog asset with polished dimensional quality.\n\nExact metadata: decor-7 — Skate Rack; collection decor; type room; tier 3; theme Garden Glow.\n\nAuthoritative item-specific design brief:\nSkate Rack, Room Decor, Tier 3, Garden Glow. Create exactly ONE compact freestanding roller-skate rack as the only product on an empty light-neutral studio background. Use one sturdy warm-oak rectangular frame with two vertical side posts, one broad base, three sage-green horizontal rails and four large clearly bounded storage bays. Put exactly ONE matching pair of recognizable quad roller skates together inside the two lower bays; every skate must have one coherent boot, one truck and exactly four large round wheels, fully contained inside the rack. Leave upper bays empty so the single rack silhouette dominates. Add visible bolts, weight-bearing feet, one tiny leaf cutout and restrained green glow. NO second rack, NO repeated frames, NO loose floor skates, NO boards/planks, NO room scene, NO floating parts, NO text.\n\nExact-hash reviewer failure taxonomy: SMALL_CARD_READABILITY.\n\nRepair the documented failure codes while preserving qualities that were not implicated. Do not erase successful identity, silhouette, material depth, or readability merely to make a different image.\n\nUse the exact catalog ID/name/collection/tier/theme. Do not rename, recategorize, or substitute the item.\n\nMake the object unmistakably the stated product category with believable proportions and construction.\n\nPrioritize a distinctive clean silhouette that reads immediately at small Store-card size.\n\nShow real thickness, seams/joints/edges, layered parts, volume, contact points and functional construction—not a flat icon, emblem or sticker.\n\nUse category-appropriate material texture and highlights/shadows that explain the form.\n\nExpress the exact theme through material, construction, light and motif—not a palette swap or pasted decal.\n\nRespect tier progression: Starter stays simple and attractive; higher tiers gain richer form/material detail; Luxe gains spectacle without losing identity.\n\nDesign for both detail view and a 600×600 Store card with strong contrast, uncluttered hierarchy and no tiny critical details.\n\nAvoid recolor-only siblings, repeated template silhouettes, generic rings/badges, or interchangeable props.\n\nPresent one isolated subject on a clean premium background. No UI, text, watermark, logo, fake price badge or unrelated props.\n\nFor furniture/decor, show supports, joints, cushions/panels/hardware, weight and grounded contact.\n\nUse a clean product-style three-quarter view when appropriate so front, side and thickness are visible.\n\nUse occlusion, contact/cast shadows and foreground/midground/background separation so the asset feels spatial.\n\nUse controlled emissive light/bloom only where appropriate; preserve edges and local contrast.\n\nFor textiles, show weave/pile/folds/stitching/edge finish/thickness and believable softness or drape.\n\nFor wall decor, show mounting/frame/backing/relief depth and a believable wall-object form—not a floating emblem.\n\nFor lighting, show a physical base/mount/chassis, emitter or bulb, support structure and believable emitted/reflected light.\n\nOutput a production-worthy source image for exact-byte staging, card/detail rendering and independent review. Do not claim approval; the reviewer decides from rendered pixels.",
+      "promptSha256": "82f21a8c5e0b363de74cea7d84aa0c9b5955fd97162f7e0c8342ceeed44c2887",
+      "runtimePromptText": "decor-7 Skate Rack. decor; tier 3; theme Garden Glow. Create exactly ONE compact freestanding roller-skate rack as the only product on an empty light-neutral studio background. Use one sturdy warm-oak rectangular frame with two Premium dimensional product render, grounded shadow, no text or logo.",
+      "runtimePromptSha256": "56a0bad28e878ef0fa9f533fe717def44479b35ff337f277350893f6d45bc004",
+      "promptRecipeVersion": "artPromptOptimizer-request-v1:w09-decor-7-v5-rework",
+      "seed": 769740817,
+      "runtime": {
+        "repo": "huggingface/diffusers",
+        "commit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c"
+      },
+      "model": {
+        "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+        "revision": "462165984030d82259a11f4367a4eed129e94a7b",
+        "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+      },
+      "conditioning": {
+        "referenceAssetSha256": null,
+        "controlImageSha256": null,
+        "adapterScale": null
+      },
+      "output": {
+        "repoPath": null,
+        "sha256": null,
+        "gitBlobSha": null,
+        "bytes": null,
+        "width": null,
+        "height": null
+      },
+      "status": "PLANNED_NOT_GENERATED"
+    },
+    {
+      "attemptId": "decor-7-w09-b-single-aframe-rack-e3e65acf24",
+      "itemId": "decor-7",
+      "producer": "09",
+      "variant": "B-SINGLE-AFRAME-RACK",
+      "promptBlocks": [
+        "metadata",
+        "category",
+        "silhouette",
+        "physical",
+        "material",
+        "theme",
+        "tier",
+        "card",
+        "original",
+        "stage",
+        "furniture",
+        "camera",
+        "depth",
+        "bloom",
+        "textile",
+        "wall",
+        "light"
+      ],
+      "promptText": "STARBLOX CATALOG ART — B-SINGLE-AFRAME-RACK\n\nCreate one premium, kid-friendly 2D game catalog asset with polished dimensional quality.\n\nExact metadata: decor-7 — Skate Rack; collection decor; type room; tier 3; theme Garden Glow.\n\nAuthoritative item-specific design brief:\nSkate Rack, Room Decor, Tier 3, Garden Glow. Make ONE simple A-frame roller-skate organizer with exactly two botanical-green uprights, three honey-oak cross shelves, one wide grounded base and four open bays. Show only one clearly formed pair of quad skates stored side-by-side in a single lower bay; all wheels and boot silhouettes visible and contained. Keep every other bay empty. The rack must be the dominant object with generous negative space and a soft grounded shadow. Add restrained Garden Glow leaf hardware, believable joints and no decorative clutter. NO duplicate rack, NO repeated display modules, NO loose skates, NO skateboards, NO long board-like shelf, NO text/logos, NO room background.\n\nExact-hash reviewer failure taxonomy: SMALL_CARD_READABILITY.\n\nRepair the documented failure codes while preserving qualities that were not implicated. Do not erase successful identity, silhouette, material depth, or readability merely to make a different image.\n\nUse the exact catalog ID/name/collection/tier/theme. Do not rename, recategorize, or substitute the item.\n\nMake the object unmistakably the stated product category with believable proportions and construction.\n\nPrioritize a distinctive clean silhouette that reads immediately at small Store-card size.\n\nShow real thickness, seams/joints/edges, layered parts, volume, contact points and functional construction—not a flat icon, emblem or sticker.\n\nUse category-appropriate material texture and highlights/shadows that explain the form.\n\nExpress the exact theme through material, construction, light and motif—not a palette swap or pasted decal.\n\nRespect tier progression: Starter stays simple and attractive; higher tiers gain richer form/material detail; Luxe gains spectacle without losing identity.\n\nDesign for both detail view and a 600×600 Store card with strong contrast, uncluttered hierarchy and no tiny critical details.\n\nAvoid recolor-only siblings, repeated template silhouettes, generic rings/badges, or interchangeable props.\n\nPresent one isolated subject on a clean premium background. No UI, text, watermark, logo, fake price badge or unrelated props.\n\nFor furniture/decor, show supports, joints, cushions/panels/hardware, weight and grounded contact.\n\nUse a clean product-style three-quarter view when appropriate so front, side and thickness are visible.\n\nUse occlusion, contact/cast shadows and foreground/midground/background separation so the asset feels spatial.\n\nUse controlled emissive light/bloom only where appropriate; preserve edges and local contrast.\n\nFor textiles, show weave/pile/folds/stitching/edge finish/thickness and believable softness or drape.\n\nFor wall decor, show mounting/frame/backing/relief depth and a believable wall-object form—not a floating emblem.\n\nFor lighting, show a physical base/mount/chassis, emitter or bulb, support structure and believable emitted/reflected light.\n\nOutput a production-worthy source image for exact-byte staging, card/detail rendering and independent review. Do not claim approval; the reviewer decides from rendered pixels.",
+      "promptSha256": "e3e65acf24337bb411d738081ec019fbfd05290cad5615ee7d1bec9086b2bdee",
+      "runtimePromptText": "decor-7 Skate Rack. decor; tier 3; theme Garden Glow. Make ONE simple A-frame roller-skate organizer with exactly two botanical-green uprights, three honey-oak cross shelves, one wide grounded base and four open bays. Show only Premium dimensional product render, grounded shadow, no text or logo.",
+      "runtimePromptSha256": "58352004fdad72c0a1a39d9036e908c7e1d538a6d346ed605da159c5f32ba50b",
+      "promptRecipeVersion": "artPromptOptimizer-request-v1:w09-decor-7-v5-rework",
+      "seed": 1027835497,
+      "runtime": {
+        "repo": "huggingface/diffusers",
+        "commit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c"
+      },
+      "model": {
+        "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+        "revision": "462165984030d82259a11f4367a4eed129e94a7b",
+        "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+      },
+      "conditioning": {
+        "referenceAssetSha256": null,
+        "controlImageSha256": null,
+        "adapterScale": null
+      },
+      "output": {
+        "repoPath": null,
+        "sha256": null,
+        "gitBlobSha": null,
+        "bytes": null,
+        "width": null,
+        "height": null
+      },
+      "status": "PLANNED_NOT_GENERATED"
+    }
+  ],
+  "requestContext": {
+    "requestPath": "docs/preproduction/art-factory/requests/w09-decor-7-v5-rework-20260924.json",
+    "batchId": "w09-decor-7-v5-rework",
+    "requestSourceHead": "cec1a69cedafbab1b4be4c99eed9682b9ce2fe9c",
+    "requestRecordSha256": "a73e2eb1fbc582fda4b156b5552e9dc2054fc1ab6f676183084cc29e755f55fd",
+    "planner": "15",
+    "reviewer": "01",
+    "renderOwner": "14",
+    "integrationOwner": "08",
+    "contextReferences": [
+      {
+        "role": "FIRST_PARTY_STARBLOX_STORE_ART_DIRECTION",
+        "repositoryPath": "docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg",
+        "sha256": "b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d",
+        "gitBlobSha": "383baa877d3af86fa92e3583740212000592b3d6",
+        "dimensions": [
+          1448,
+          1086
+        ],
+        "sourceManifest": null
+      }
+    ],
+    "plannerVariants": [
+      {
+        "variantId": "A-ONE-RACK-TWO-SKATES",
+        "plannerSeed": null,
+        "optimizerInputSha256": "5082eb07f319bd8983476aa461d501633d016488687c04efdbd20c2d9bf27dc4",
+        "compiledPromptSha256": "82f21a8c5e0b363de74cea7d84aa0c9b5955fd97162f7e0c8342ceeed44c2887",
+        "compiledSeed": 769740817
+      },
+      {
+        "variantId": "B-SINGLE-AFRAME-RACK",
+        "plannerSeed": null,
+        "optimizerInputSha256": "e188e32a27c7232addf5c69f8d868872221754d9ac2d6b198ea9e155f94c797f",
+        "compiledPromptSha256": "e3e65acf24337bb411d738081ec019fbfd05290cad5615ee7d1bec9086b2bdee",
+        "compiledSeed": 1027835497
+      }
+    ]
+  },
+  "planSha256": "9f6c0ac57fb1a48655cd6da07f2513770bbc9ddccfb2c1505046a6fec86269aa"
+}
