@@ -1,0 +1,88 @@
+{
+  "schemaVersion": "starblox-residential-feature-blueprint-v1",
+  "step": "7-of-12",
+  "generatedAt": "2026-09-24",
+  "status": "production-candidate-runtime-not-wired",
+  "runtimeModule": "src/residentialFeatureRuntime.js",
+  "sourceTaxonomy": "docs/preproduction/brookhaven-research/asset-graph-v1.json",
+  "rule": "Brookhaven object names are research evidence only. Runtime feature IDs and behavior are StarBlox-neutral and contain no Brookhaven server/remote dependency.",
+  "mappings": [
+    {
+      "sourceEvidence": "HouseDoorFront",
+      "neutralFeatureId": "front-door",
+      "capability": "open-close"
+    },
+    {
+      "sourceEvidence": "GarageDoor",
+      "neutralFeatureId": "garage-door",
+      "capability": "open-close"
+    },
+    {
+      "sourceEvidence": "001_SlidingDoor",
+      "neutralFeatureId": "sliding-door",
+      "capability": "open-close"
+    },
+    {
+      "sourceEvidence": "001_MailBox",
+      "neutralFeatureId": "mailbox",
+      "capability": "open-close"
+    },
+    {
+      "sourceEvidence": "001_Safe",
+      "neutralFeatureId": "safe",
+      "capability": "open-close"
+    },
+    {
+      "sourceEvidence": "001_Oven",
+      "neutralFeatureId": "oven",
+      "capability": "open-close"
+    },
+    {
+      "sourceEvidence": "001_Fridge",
+      "neutralFeatureId": "fridge",
+      "capability": "open-close"
+    },
+    {
+      "sourceEvidence": "001_DishWasher",
+      "neutralFeatureId": "dishwasher",
+      "capability": "open-close"
+    },
+    {
+      "sourceEvidence": "001_HotTub",
+      "neutralFeatureId": "hot-tub",
+      "capability": "power"
+    },
+    {
+      "sourceEvidence": "001_DoorBell",
+      "neutralFeatureId": "doorbell",
+      "capability": "ring"
+    },
+    {
+      "sourceEvidence": "001_ChangeRoom",
+      "neutralFeatureId": "room-change",
+      "capability": "select-room"
+    },
+    {
+      "sourceEvidence": "001_HouseControlGuiOpen",
+      "neutralFeatureId": "house-controls",
+      "capability": "set-mode"
+    },
+    {
+      "sourceEvidence": "001_HouseControlDemandFire",
+      "neutralFeatureId": "fire-disaster-control",
+      "capability": "set-mode"
+    },
+    {
+      "sourceEvidence": "DresserLongAuto",
+      "neutralFeatureId": "dresser-storage",
+      "capability": "open-close"
+    }
+  ],
+  "nonGoals": [
+    "no App.jsx wiring",
+    "no persistence schema changes",
+    "no economy/progression coupling yet",
+    "no Brookhaven remotes",
+    "no claim that visual payloads are recovered"
+  ]
+}
