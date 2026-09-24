@@ -108,6 +108,23 @@ if(readiness.schemaVersion!=='starblox-brookhaven-step-11-reconciliation-readine
 if(readiness.step11Complete!==true) issues.push('step11-readiness-completion');
 if(readiness.nextSubstep?.id!=='12') issues.push('step11-next-step');
 
+const step12Path='docs/preproduction/brookhaven-research/step-12-targeted-gap-hunt-v1.json';
+const step12=JSON.parse(fs.readFileSync(step12Path,'utf8'));
+if(step12.schemaVersion!=='starblox-brookhaven-step-12-gap-hunt-v1') issues.push('step12-schema');
+if(step12.step!=='12-of-12') issues.push('step12-number');
+if(step12.status!=='complete-targeted-github-gap-hunt') issues.push('step12-status');
+if(step12.rightsContext?.status!=='verified-for-project-use') issues.push('step12-rights-status');
+if((step12.searchedGaps||[]).length<8) issues.push('step12-gap-coverage');
+if(step12.completion?.targetedSearchPerformed!==true) issues.push('step12-targeted-search');
+if(step12.completion?.newPointersPinned!==true) issues.push('step12-new-pointers');
+if(step12.completion?.deadSearchLanesRecorded!==true) issues.push('step12-dedupe');
+if(step12.completion?.recoveredNewVisualPayloads!==0) issues.push('step12-payload-overclaim');
+if(step12.completion?.futureSearchDedupeReady!==true) issues.push('step12-dedupe-readiness');
+if(step12.completion?.twelveStepPlanComplete!==true) issues.push('step12-plan-completion');
+if(step12.completion?.mergePerformed!==false) issues.push('step12-merge-boundary');
+if(step12.completion?.deploymentPerformed!==false) issues.push('step12-deploy-boundary');
+if((step12.postPlanPriorityQueue||[]).length<5) issues.push('step12-priority-queue');
+
 const result={
   schemaVersion:'starblox-brookhaven-research-validation-v2',
   graphPath,
@@ -121,6 +138,7 @@ const result={
   progressionPath,
   replayPath,
   readinessPath,
+  step12Path,
   nodeCount:graph.nodes?.length||0,
   edgeCount:graph.edges?.length||0,
   vehicleCount:vehicle.currentVehicles?.length||0,
