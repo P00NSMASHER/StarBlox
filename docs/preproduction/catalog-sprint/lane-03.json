@@ -4,11 +4,11 @@
   "workstream": "03",
   "phase": "CATALOG_SPRINT",
   "branch": "screenshot-match-preproduction",
-  "observedCoordinationHead": "044c93510cca67fe1939f9052ee9d4e569b08d9e",
+  "observedCoordinationHead": "779b77e6d6069ea7341f7faafd94f07901e21730",
   "allocationAuthority": "docs/preproduction/ART_VISUALS_SPRINT.json",
-  "status": "DESKS_9_10_V2_EXACT_HASHES_QUALIFIED__RENDER_TRIGGERED_FOR_REVIEW05",
+  "status": "DECOR8_DESKS9_10_V3_EXACT_HASHES_QUALIFIED__RENDER_TRIGGERED_MIXED_REVIEWERS",
   "selfApproved": false,
-  "reviewOwner": "05",
+  "reviewOwner": "MIXED_11_05",
   "integrationOwner": "08",
   "coordinationOwner": "15",
   "preservedFinal": {
@@ -204,7 +204,7 @@
     "latestCoordinatorAssignment": "PASS_ACTIVE_BATCH_W03_DESKS_7_10_RELEASE_PILOT",
     "strictVisualFallbackEvidence": "PASS_DESKS_7_12_INCLUDED_IN_22_MISSING_CANONICAL_ART"
   },
-  "nextAction": "Renderer14 binds current Store card/detail pixels for Desk9 v2 and Desk10 v2; reviewer05 independently ACCEPT/REWORK exact hashes; 08 integrates only ACCEPT. Preserve all accepted Desk1-6 hashes.",
+  "nextAction": "Renderer14 binds current Store card/detail pixels for Decor8 v3, Desk9 v3 and Desk10 v3; reviewer11 independently dispositions Decor8; reviewer05 independently dispositions Desk9/10; 08 integrates only exact-hash ACCEPTs.",
   "freeze": {
     "replitTouched": false,
     "flootTouched": false,
@@ -262,19 +262,31 @@
     "scaleGate": "Do not start desks-11/12 until reviewer05 independently dispositions exact current hashes for desks-7/10."
   },
   "catalogFactoryReviewHandoff": {
-    "updatedAt": "2026-09-24T09:01:00Z",
-    "sourceHead": "25697660ab110281dc51d1c540084437c602c464",
-    "purpose": "Trigger exact-hash Store card/detail render evidence for qualified Desk9 v2 and Desk10 v2 while preserving accepted Desk1-6 hashes and reviewer05 independence.",
+    "updatedAt": "2026-09-24T09:58:00Z",
+    "sourceHead": "779b77e6d6069ea7341f7faafd94f07901e21730",
+    "purpose": "Trigger one exact-hash Store card/detail render microbatch for qualified Decor8 v3 + Desk9/10 v3 while preserving prior rejected hashes and reviewer independence.",
     "candidates": [
+      {
+        "itemId": "decor-8",
+        "name": "Mini Aquarium",
+        "producer": "03",
+        "reviewer": "11",
+        "path": "public/assets/catalog-candidates/cpu/decor-8-w03-v3-a-single-aquarium-original.png",
+        "sha256": "254d78c006b3268bcfaa1c0576784010fe060db0d48a9376f5292d1d3461a59c",
+        "gitBlobSha": "b35648acd6951aaa04de97f555b660396e2a62df",
+        "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-decor8-desks9-10-v3-qualification-20260924.json",
+        "qualification": "QUALIFIED_FOR_RENDERER14",
+        "route": "14 -> 11 -> 08 on ACCEPT"
+      },
       {
         "itemId": "desks-9",
         "name": "Art Maker Table",
         "producer": "03",
         "reviewer": "05",
-        "path": "public/assets/catalog-candidates/cpu/desks-9-w03-v2-a-physical-original.png",
-        "sha256": "dfe46866e35daf1f55069ca3549cc6a45c46e92f131e01c0bd492b7641203a6a",
-        "gitBlobSha": "6cab04be717e17e2b682afa73ce8306bc21556c8",
-        "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-desks-9-10-v2-qualification-20260924.json",
+        "path": "public/assets/catalog-candidates/cpu/desks-9-w03-v3-a-maker-rail-desk-original.png",
+        "sha256": "03b2d9b3899bad522861ca788403bc3ed8c469bddcb932bc6fa348e2216b2b97",
+        "gitBlobSha": "64bb30b92257f0471259dd8b840b086af9e58073",
+        "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-decor8-desks9-10-v3-qualification-20260924.json",
         "qualification": "QUALIFIED_FOR_RENDERER14",
         "route": "14 -> 05 -> 08 on ACCEPT"
       },
@@ -283,10 +295,10 @@
         "name": "Neon Streaming Desk",
         "producer": "03",
         "reviewer": "05",
-        "path": "public/assets/catalog-candidates/cpu/desks-10-w03-v2-a-physical-original.png",
-        "sha256": "c3f04f156860b0665af727de66b7063b08302ca87941b728f856edf921f0ae7d",
-        "gitBlobSha": "2f6fccc5b76418fee108052bf6963491f2bcb823",
-        "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-desks-9-10-v2-qualification-20260924.json",
+        "path": "public/assets/catalog-candidates/cpu/desks-10-w03-v3-a-streaming-worktop-original.png",
+        "sha256": "f793d2c41b7e7ea441e9e637de3d6e9aa6ec6e6299732cbb2ceb1ed2d6edeadb",
+        "gitBlobSha": "1eb6e1c127c3ac85d82daf7454cec0d83ca89b1b",
+        "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-decor8-desks9-10-v3-qualification-20260924.json",
         "qualification": "QUALIFIED_FOR_RENDERER14",
         "route": "14 -> 05 -> 08 on ACCEPT"
       }
