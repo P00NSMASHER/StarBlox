@@ -7,6 +7,7 @@
     "dev": "vite --host 0.0.0.0",
     "build": "vite build",
     "test": "vitest run",
+    "certification:gate": "vitest run src/generation/solutionFirstLevel.test.js src/daily/dailyBundle.test.js src/daily/dailyReleaseControl.test.js src/robloxRuntime/runtimeArtifactBoundary.test.js",
     "balance:gate": "node scripts/balance-gate.mjs",
     "questions:generate": "node scripts/generate-questions-offline.mjs",
     "recalibrate:telemetry": "node scripts/recalibrate-telemetry.mjs",
