@@ -97,6 +97,7 @@ const decision = {
     stoppedEarly:psi.stoppedEarly,
     bestEpoch:psi.bestEpoch,
     bestValidationBce:psi.bestValidationBce,
+    evaluationRng:psi.evaluationRng,
     trainTimeRatio:psi.trainTimeRatio,
     selectionStep:psi.selectionStep,
     selectorStateLearnerCount:psi.selectorStateLearnerCount,
