@@ -15,7 +15,7 @@
   "scope": [
     "wall-9"
   ],
-  "state": "PREPARED_FAILURE_SPECIFIC_V3__WAIT_CPU_IDLE",
+  "state": "DISPATCH_READY_FLOAT32__CPU_LANE_IDLE",
   "assignmentAuthority": {
     "path": "docs/preproduction/art-factory/ACTIVE_BATCH.json",
     "reworkRequestPath": "docs/preproduction/art-factory/requests/w13-wall-9-v3-rework-20260924.json",
@@ -91,8 +91,8 @@
     "height": 640,
     "steps": 6,
     "guidanceScale": 3.5,
-    "dtype": "bfloat16",
-    "basis": "Same accepted Wall11/12 CPU scale; BF16 fail-fast guard permits same-version float32 retry only if host lacks native BF16."
+    "dtype": "float32",
+    "basis": "Reliable float32 CPU path after native-BF16 guard; exact prompt/model/runtime/reviewer contract preserved."
   },
   "safety": {
     "preserveRejectedExactHash": true,
