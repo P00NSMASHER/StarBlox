@@ -15,7 +15,7 @@ import {
   PawPrint
 } from 'lucide-react';
 import { gameModel } from './gameModel';
-import { scoreQuestAttempt } from './questRewardPolicy';
+import { scoreQuestAttempt } from './questRewardPolicy';\nimport { recordShadowLearningEvent } from './learningEventBridge';
 import {
   applyPermanentPurchase,
   applyQuestCompletion,
@@ -29,7 +29,7 @@ import {
   readIndexedDbBackup
 } from './storage';
 
-const DEFAULT_SAVE = {
+const LEARNING_FACTORY_SHADOW_ENABLED = import.meta.env.VITE_STARBLOX_LEARNING_FACTORY_SHADOW === '1';\n\nconst DEFAULT_SAVE = {
   stateVersion: 2,
   coins: 40,
   stars: 0,
