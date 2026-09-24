@@ -35,6 +35,11 @@ function requireNonNegativeInteger(value,label){
   return value;
 }
 
+function requirePositiveInteger(value,label){
+  if(!Number.isInteger(value) || value < 1) throw new TypeError(label + ' must be a positive integer.');
+  return value;
+}
+
 function jsonClone(value){
   if(value === undefined) return undefined;
   return JSON.parse(JSON.stringify(value));
@@ -103,8 +108,7 @@ export function createQuestionVersion(input){
   requireObject(input,'QuestionVersion');
 
   const questionId = requireString(input.questionId || input.id,'QuestionVersion.questionId');
-  const contentVersion = input.contentVersion == null ? 1 : requireNonNegativeInteger(input.contentVersion,'QuestionVersion.contentVersion');
-  if(contentVersion < 1) throw new TypeError('QuestionVersion.contentVersion must be at least 1.');
+  const contentVersion = input.contentVersion == null ? 1 : requirePositiveInteger(input.contentVersion,'QuestionVersion.contentVersion');
 
   const prompt = requireString(input.prompt,'QuestionVersion.prompt');
   const choices = Array.isArray(input.choices)
@@ -192,7 +196,7 @@ export function createQuestionAttempt(input){
     attemptId: requireString(input.attemptId,'QuestionAttempt.attemptId'),
     playerId: requireString(input.playerId,'QuestionAttempt.playerId'),
     questionId: requireString(input.questionId,'QuestionAttempt.questionId'),
-    questionVersion: requireNonNegativeInteger(input.questionVersion,'QuestionAttempt.questionVersion'),
+    questionVersion: requirePositiveInteger(input.questionVersion,'QuestionAttempt.questionVersion'),
     questionHash: requireString(input.questionHash,'QuestionAttempt.questionHash'),
     selectedAnswer: requireString(input.selectedAnswer,'QuestionAttempt.selectedAnswer'),
     startedAt,
@@ -230,7 +234,7 @@ function normalizeQuestionRef(ref,index){
   requireObject(ref,'DailyBundle.questionRefs[' + index + ']');
   return {
     questionId: requireString(ref.questionId,'DailyBundle.questionRefs[' + index + '].questionId'),
-    version: requireNonNegativeInteger(ref.version,'DailyBundle.questionRefs[' + index + '].version'),
+    version: requirePositiveInteger(ref.version,'DailyBundle.questionRefs[' + index + '].version'),
     contentHash: requireString(ref.contentHash,'DailyBundle.questionRefs[' + index + '].contentHash')
   };
 }
