@@ -1,5 +1,7 @@
 --!strict
 
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
 local WorldEcsService = {}
 WorldEcsService.__index = WorldEcsService
 
@@ -7,7 +9,7 @@ function WorldEcsService.new(Matter)
 	assert(Matter ~= nil, "Matter dependency is required")
 	local self = setmetatable({}, WorldEcsService)
 	self.World = Matter.World.new()
-	self.Components = require(script.Parent.Parent.shared.Components)(Matter)
+	self.Components = require(ReplicatedStorage.StarBlox.Components)(Matter)
 	return self
 end
 
