@@ -1,0 +1,124 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_BATCH_REQUEST",
+  "planner": "15",
+  "producer": "09",
+  "preflightOwner": "06",
+  "reviewer": "01",
+  "renderOwner": "14",
+  "integrationOwner": "08",
+  "coordinationOwner": "15",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "a3f685a972cf2b607037bd9d7576ee31fa3adedf",
+  "manifestVersion": 35,
+  "batchId": "w09-decor-5-v3-decor-7-v4-parallel",
+  "scope": [
+    "decor-7",
+    "decor-5"
+  ],
+  "state": "PREPARED_PARALLEL_CPU_BATCH__FAILURE_SPECIFIC_FIRST__NO_DISPATCH_WHILE_WALL9_ACTIVE",
+  "assignmentAuthority": {
+    "path": "docs/preproduction/art-factory/ACTIVE_BATCH.json",
+    "decor7Rework": "docs/preproduction/art-factory/requests/w09-decor-7-v4-rework-20260924.json",
+    "decor5Basis": "docs/preproduction/art-factory/requests/w09-decor-5-7-cpu-bound-20260923.json",
+    "assignedReviewer": "01",
+    "runtimeProofPath": "docs/preproduction/art-factory/CPU_RUNTIME_PROOF.json",
+    "runtimeCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+    "modelRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "note": "Two nonconflicting producer09 room-art items share one CPU matrix run. Decor7 uses its newest failure-specific v4 prompt; Decor5 uses its existing provenance-compliant prompt basis. Reviewer01 remains independent for both."
+  },
+  "references": {
+    "originalStoreReference": {
+      "requiredBeforeGeneration": true,
+      "repositoryPath": "docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg",
+      "sha256": "b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d",
+      "gitBlobSha": "383baa877d3af86fa92e3583740212000592b3d6",
+      "dimensions": [
+        1448,
+        1086
+      ],
+      "role": "FIRST_PARTY_STARBLOX_STORE_ART_DIRECTION"
+    }
+  },
+  "reviewSource": {
+    "decision": "REWORK",
+    "note": "Decor7 v3 exact REWORK and Decor5 legacy/current blocked candidate state remain hash-bound; no verdict transfers."
+  },
+  "items": {
+    "decor-7": {
+      "currentLegacy": {
+        "path": "public/assets/catalog-candidates/cpu/decor-7-w09-v3-a-rack-silhouette-original.png",
+        "gitBlobSha1": "407b95bbecc3a030d357de290047954e28904b63",
+        "reviewDecision": "REWORK",
+        "normalizedFailureTaxonomy": [
+          "STILL_WEAK_SKATE_RACK_IDENTITY",
+          "MALFORMED_SKATE_FORMS",
+          "AMBIGUOUS_STORAGE_GEOMETRY",
+          "SMALL_CARD_READABILITY"
+        ]
+      },
+      "variants": [
+        {
+          "variantId": "A-RACK-FIRST-MINIMAL",
+          "seed": 1513971197,
+          "optimizerInputSha256": "da3d5dfdc7436bb11c8c9dd77635f20848550767253e2e4fc3374580fcdb3ccd",
+          "optimizerInput": "Skate Rack, Room Decor, Tier 3, Garden Glow. Make ONE compact freestanding roller-skate rack as the entire product on a plain light-neutral studio background. Rack-first design: two thick warm-oak vertical side posts, one broad stable base, three sage-green horizontal rails, and four large open cubbies with obvious rectangular storage openings. Put only ONE matching pair of simple quad roller skates in the two lower cubbies; leave the upper cubbies empty so the rack structure dominates. Each skate must have one clean boot silhouette, one visible truck, and exactly four large round wheels; keep every skate fully inside the cubby. Add visible bolts/joints, weight-bearing feet, one tiny leaf cutout and a restrained soft green accent glow. Center the entire rack with generous negative space and a grounded shadow. NO long top shelf, NO skateboard/snowboard-like boards, NO loose gear, NO room scene, NO wall shelving, NO cropped objects, NO floating parts, NO malformed partial skates, NO text or logos."
+        },
+        {
+          "variantId": "B-AFRAME-EMPTY-BAYS",
+          "seed": 2036713442,
+          "optimizerInputSha256": "f965c7e24c0cf60cd5726a4ffa0a16bd93228ee68d0f8eda9e05c5d20cbc172e",
+          "optimizerInput": "Skate Rack, Room Decor, Tier 3, Garden Glow. Design ONE simple A-frame roller-skate organizer that reads instantly as a rack at small Store-card size. Use two sturdy botanical-green metal A-frame uprights joined by three honey-oak shelves, a wide floor base, visible cross-bracing, and four large storage bays. Show one clearly formed pair of quad skates together in a single lower bay and keep the other bays empty; the skates must have readable boot uppers and four large wheels each. The dominant silhouette must be the rack, not the skates. Use clean three-quarter product view, full object inside frame, at least 15 percent clear margin, crisp joints and feet, grounded shadow, subtle Garden Glow leaf accent. NO room background, NO long plank/board shapes, NO skateboards, NO loose skates, NO edge crops, NO tiny clutter, NO text or logos."
+        }
+      ]
+    },
+    "decor-5": {
+      "currentLegacy": {
+        "path": "/assets/catalog/decor-5.svg",
+        "gitBlobSha1": "0f7559a576177758d94dba1c3da27373a9151a2b",
+        "reviewDecision": "REWORK",
+        "normalizedFailureTaxonomy": [
+          "VISIBLE_GENERIC_FALLBACK_ART",
+          "LEGACY_EXACT_HASH_REWORK"
+        ]
+      },
+      "priorBlockedCandidate": {
+        "path": "public/assets/catalog/decor-5-w09-v2.webp",
+        "sha256": "386debb9a397519324ca5efb74bc0c761a4df545f7e6cb4075e4c2e7ed33ed1b",
+        "gitBlobSha": "b8ff7b9d6bec11fe8e836952f7a0c5b844e34b6e",
+        "state": "PRESERVE_EXACT_BLOCKED_HASH__DO_NOT_MUTATE_OR_REVIEW"
+      },
+      "variants": [
+        {
+          "variantId": "A-PHYSICAL",
+          "seed": 326542117,
+          "optimizerInputSha256": "eb28d7d44b94c54f27208ea7481f58ef912c5bf37de19b65c5be7d7454cdf91b",
+          "optimizerInput": "Plant Wall, Room Decor, Tier 2, Pixel Party. Create a genuine wall-mounted living planter system in three-quarter product view: a substantial powder-coated violet metal backframe with visible keyhole mounting slots and spacer standoffs, four staggered square ceramic planter pods with crisp aqua, pink and warm-gold pixel-tile accents, real soil beds, varied leafy plants and short trailing vines, a shallow integrated drip tray and small irrigation channel physically attached to the frame. Show believable object thickness, frame-to-wall contact and cast shadow, tactile ceramic/metal/leaf materials, playful but controlled color, no text, logos, floor stand or flat icon treatment."
+        },
+        {
+          "variantId": "B-READABILITY",
+          "seed": 1116626234,
+          "optimizerInputSha256": "1479d8fb2e4649f1d69594a7e9447f2fd72b15c10fca7ace97ed98797412ff44",
+          "optimizerInput": "Plant Wall, Room Decor, Tier 2, Pixel Party. Design a clean modular vertical planter with one sturdy wall rail, three large offset planter boxes and one smaller top pod, each formed from chunky beveled pixel-like blocks rather than printed squares. Use restrained violet, aqua and coral hardware, lush green foliage with distinct leaf silhouettes, visible bracket connections, real planter depth and a clear wall shadow. Keep the composition simple enough to read instantly at 600x600, with strong negative space between pods, no text, logo, collage, room-scene clutter or generic flat rectangle."
+        }
+      ]
+    }
+  },
+  "executionBudget": {
+    "width": 640,
+    "height": 640,
+    "steps": 6,
+    "guidanceScale": 3.5,
+    "dtype": "bfloat16",
+    "basis": "Matches independently ACCEPTed Wall11/12 CPU configuration; matrix parallelism reduces serial queue latency."
+  },
+  "safety": {
+    "preserveAcceptedExactHashes": true,
+    "preserveRejectedAndBlockedHashes": true,
+    "producerSelfReview": false,
+    "canonicalMappingsChanged": false,
+    "workflowFilesChanged": false,
+    "gameplayLearningEconomyPersistenceAccessibilityChanged": false
+  }
+}

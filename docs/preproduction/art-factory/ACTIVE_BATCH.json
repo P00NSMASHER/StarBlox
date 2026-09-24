@@ -2,8 +2,8 @@
   "schemaVersion": 28,
   "owner": "15",
   "branch": "screenshot-match-preproduction",
-  "sourceHead": "6b3e16df11826871cb953913c54456be19d06496",
-  "updatedAt": "2026-09-24T03:47:00Z",
+  "sourceHead": "a3f685a972cf2b607037bd9d7576ee31fa3adedf",
+  "updatedAt": "2026-09-24T04:08:00Z",
   "status": "ACTIVE_RELEASE_BLOCKER_FIRST",
   "policy": {
     "maxConcurrentProductionBatches": 4,
@@ -74,24 +74,24 @@
   },
   "cpuGenerationSemaphore": {
     "workflowPath": ".github/workflows/art-factory-cpu-generation.yml",
-    "observedAt": "2026-09-24T03:47:00Z",
+    "observedAt": "2026-09-24T04:08:00Z",
     "running": {
-      "runId": 35951650055,
-      "headSha": "c5ba44aa4aeb0dc010be83c90f37d53918d49535",
-      "batch": "Decor8 lean retry",
-      "state": "LEAN_640X640_8STEP_GENERATION_IN_PROGRESS",
+      "runId": 35953820073,
+      "headSha": "a3f685a972cf2b607037bd9d7576ee31fa3adedf",
+      "batch": "Wall9 v2 failure-specific rework",
+      "state": "PLANNER_PASS__640X640_6STEP_GENERATION_IN_PROGRESS",
       "jobs": [
-        "decor-8"
+        "wall-9"
       ],
-      "phase": "DECOR8_GENERATION_ACTIVE",
+      "phase": "WALL9_GENERATION_ACTIVE",
       "candidateArtifactsStaged": false,
-      "contract": "Pinned Diffusers/SDXL CPU runtime; 640x640, 8 steps, same prompt/seed/model/runtime/reviewer as original Decor8 attempt; no duplicate queue."
+      "contract": "Pinned Diffusers/SDXL CPU runtime; planner-compatible batch wrapper; 640x640/6 steps; reviewer02."
     },
     "pending": null,
     "oldestCanceledNoArtifact": null,
     "otherCanceledNoArtifact": [],
-    "authorization": "HOLD_ALL_ADDITIONAL_CPU_QUEUE_TRIGGERS_WHILE_DECOR8_LEAN_RETRY_ACTIVE",
-    "rule": "Run 35951650055 is the sole active CPU generation attempt. Do not dispatch Wall9 v2, Decor7 v4, Decor6 v2 or newer inventory until Decor8 is fully idle.",
+    "authorization": "HOLD_ADDITIONAL_CPU_QUEUE_TRIGGERS_WHILE_WALL9_RUN_35953820073_ACTIVE",
+    "rule": "Wall9 run 35953820073 is the sole active CPU batch. After it is fully idle, dispatch producer09's prepared 2-item Decor7 v4 + Decor5 v3 matrix. After that batch is fully idle, dispatch producer03's prepared 2-item Decor6 v2 + Decor8 v2 matrix.",
     "staleRunsReleased": [
       {
         "runId": 35927174551,
@@ -110,45 +110,27 @@
     "preparedNext": [
       {
         "rank": 1,
-        "requestPath": "docs/preproduction/art-factory/requests/w13-wall-9-v2-rework-20260924.json",
-        "queuePath": "docs/preproduction/art-factory/prepared-queues/w13-wall-9-v2-rework.json",
-        "scope": [
-          "wall-9"
-        ],
-        "producer": "13",
-        "reviewer": "02",
-        "reason": "Oldest ready independent REWORK after Decor8."
-      },
-      {
-        "rank": 2,
-        "requestPath": "docs/preproduction/art-factory/requests/w09-decor-7-v4-rework-20260924.json",
+        "requestPath": "docs/preproduction/art-factory/requests/w09-decor-5-v3-decor-7-v4-parallel-20260924.json",
         "queuePath": "docs/preproduction/art-factory/prepared-queues/w09-decor-7-v4-rework.json",
         "scope": [
-          "decor-7"
-        ],
-        "producer": "09",
-        "reviewer": "01",
-        "reason": "Ready failure-specific v4 after independent v3 REWORK."
-      },
-      {
-        "rank": 3,
-        "requestPath": "docs/preproduction/art-factory/requests/w03-decor-6-v2-rework-20260924.json",
-        "queuePath": "docs/preproduction/art-factory/prepared-queues/w03-decor-6-v2-rework.json",
-        "scope": [
-          "decor-6"
-        ],
-        "producer": "03",
-        "reviewer": "11",
-        "reason": "Fresh independent v1 REWORK; failure-specific 640x640/8-step v2 packet ready."
-      },
-      {
-        "rank": 4,
-        "scope": [
+          "decor-7",
           "decor-5"
         ],
         "producer": "09",
         "reviewer": "01",
-        "reason": "No current artifact; retry only after higher-priority concrete REWORKs."
+        "reason": "Two-item matrix clears Decor7 concrete REWORK and Decor5 fallback in one workflow."
+      },
+      {
+        "rank": 2,
+        "requestPath": "docs/preproduction/art-factory/requests/w03-decor-6-v2-decor-8-v2-parallel-20260924.json",
+        "queuePath": "docs/preproduction/art-factory/prepared-queues/w03-decor-6-v2-rework.json",
+        "scope": [
+          "decor-6",
+          "decor-8"
+        ],
+        "producer": "03",
+        "reviewer": "11",
+        "reason": "Two-item matrix clears Decor6 concrete REWORK and Decor8 timeout replacement in one workflow."
       }
     ],
     "preparedQueueRule": "Prepared queues live outside runtime-queue, so commits do not trigger CPU generation. Dispatch exactly one only after Wall run 35931931966 is no longer active and live branch evidence shows no newer candidate/superseding queue."
@@ -158,11 +140,12 @@
       "producer": "03",
       "batchId": "w03-decor-6-8-provenance-repair-v1",
       "scope": [
+        "decor-6",
         "decor-8"
       ],
-      "state": "DECOR8_LEAN_RETRY_RUN_35951650055__640X640_8STEP_GENERATION_IN_PROGRESS",
+      "state": "PARALLEL_2ITEM_PREPARED__DECOR6_V2_PLUS_DECOR8_V2__WAIT_PRODUCER09_BATCH_IDLE",
       "reviewer": "11",
-      "requirements": "Finish only Decor8 current lean retry. Decor6 v1 is independently REWORK and its v2 request/queue are prepared but must not dispatch until CPU idle and older Wall9/Decor7 priorities are honored. On Decor8 exact staging route 12 -> 06 -> 14 -> 11 -> 08 on ACCEPT.",
+      "requirements": "Dispatch only docs/preproduction/art-factory/requests/w03-decor-6-v2-decor-8-v2-parallel-20260924.json via the existing prepared queue after producer09's parallel batch is fully idle. Generate both items in one matrix run; no separate Decor6/8 runtime queues.",
       "evidence": [
         "docs/preproduction/art-factory/prepared-queues/w03-decor-8-retry-v1.json",
         "https://github.com/P00NSMASHER/StarBlox/actions/runs/35951650055",
@@ -175,12 +158,12 @@
       "producer": "09",
       "batchId": "w09-decor-5-7-vnext",
       "scope": [
-        "decor-5",
-        "decor-7"
+        "decor-7",
+        "decor-5"
       ],
-      "state": "DECOR7_V3_REWORKED__V4_PACKET_READY__DECOR5_NO_ARTIFACT_DEFERRED",
+      "state": "PARALLEL_2ITEM_PREPARED__DECOR7_V4_PLUS_DECOR5_V3__WAIT_WALL9_IDLE",
       "reviewer": "01",
-      "requirements": "Decor7 v3 exact hash 407b95bbecc3a030d357de290047954e28904b63 is independently REWORK and preserved. Failure-specific v4 request is ready at docs/preproduction/art-factory/requests/w09-decor-7-v4-rework-20260924.json. Do not queue it while Decor6/8 CPU generation is active. Decor5 remains a later isolated retry.",
+      "requirements": "Dispatch only docs/preproduction/art-factory/requests/w09-decor-5-v3-decor-7-v4-parallel-20260924.json via the existing prepared queue after Wall9 is fully idle. Generate both items in one matrix run; no separate Decor5/7 runtime queues.",
       "evidence": [
         "docs/preproduction/art-factory/requests/w09-decor-5-7-ready-exec-20260923.json",
         "docs/preproduction/art-factory/requests/w09-decor-5-7-cpu-fallback-binding-20260923.json",
@@ -200,10 +183,10 @@
       "scope": [
         "wall-9"
       ],
-      "state": "WALL9_V1_REWORKED__V2_PACKET_READY__WAIT_CPU_IDLE",
+      "state": "WALL9_V2_RUN_35953820073__PLANNER_PASS__640X640_6STEP_GENERATION_IN_PROGRESS",
       "batchType": "GENERATION_RUNTIME_UNBLOCK_THEN_BOUNDED_GENERATION",
       "reviewer": "02",
-      "requirements": "Wall10 v2, Wall11 and Wall12 are independently ACCEPTed and canonical; never regenerate them absent a new concrete defect. Wall9 v1 exact hash 95a2de47f3b19017ba37bfac1ab25fc87ad345ed is REWORK. Failure-specific Wall9 v2 request is ready at docs/preproduction/art-factory/requests/w13-wall-9-v2-rework-20260924.json; queue one bounded replacement only after the CPU lane is fully idle.",
+      "requirements": "Do not duplicate. On exact staging route 12 -> 06 -> 14 -> 02 -> 08.",
       "evidence": [
         "docs/preproduction/catalog-sprint/reviews/02.json",
         "docs/preproduction/art-factory/requests/w13-wall-9-v2-rework-20260924.json",
@@ -358,7 +341,7 @@
     "evidenceHead": "398f5100df0562a1e346c9110597e52b565982d0",
     "rule": "Do not reopen already-green functional browser, Store observer, persistence or reduced-motion investigations absent a bound-hash change or fresh current-byte failure. EXT10 remains limited to the previously released phone composition repair."
   },
-  "antiStallDisposition": "Material sync: CPU semaphore is occupied only by Decor8 lean retry 35951650055. Decor6 exact v1 was recovered, rendered and independently REWORK; v2 request/queue are prepared without dispatch. Lane07 is released from active batches because Desk8 exact bytes remain unavailable. Next CPU order after Decor8: Wall9 v2 -> Decor7 v4 -> Decor6 v2 -> Decor5.",
+  "antiStallDisposition": "Wall9 v2 is the sole live CPU batch. Next two CPU slots are compressed from four serial single-item runs into two producer-local 2-item matrix runs: 09=>Decor7+Decor5, then 03=>Decor6+Decor8. No workflow/CI files or review/canonical gates changed.",
   "crossAccountProduction": {
     "externalScopes": {
       "EXT01": "Tops11-12",
@@ -377,42 +360,38 @@
     "reviewer14LegacyException": "14 may complete already-assigned legacy hash review only; do not route new hashes to 14 for review."
   },
   "readerRule": "Every worker must revalidate branch head, assignment, exact hash and review state before writing. This file never overrides newer exact-hash evidence.",
-  "cycleId": "director-20260924T0347Z-decor8-lean-live",
+  "cycleId": "director-20260924T0408Z-wall9-live-parallel-next",
   "criticalPath": {
-    "computedAtHead": "6b3e16df11826871cb953913c54456be19d06496",
+    "computedAtHead": "a3f685a972cf2b607037bd9d7576ee31fa3adedf",
     "order": [
       {
         "rank": 1,
-        "blocker": "DECOR8_LEAN_CPU_RETRY",
+        "blocker": "WALL9_V2_CURRENT_CPU_RUN",
         "affectedScopes": [
-          "decor-8"
+          "wall-9"
         ],
-        "prerequisite": "Run 35951650055 resolves and stages exact candidate if successful.",
-        "nextOwner": "12 -> 06 -> 14 -> 11 -> 08 on staged exact hash."
+        "prerequisite": "Run 35953820073 resolves.",
+        "nextOwner": "12 -> 06 -> 14 -> 02 -> 08 on staged exact hash."
       },
       {
         "rank": 2,
-        "blocker": "READY_FAILURE_SPECIFIC_REWORKS",
+        "blocker": "PRODUCER09_PARALLEL_DECOR_BATCH",
         "affectedScopes": [
-          "wall-9",
           "decor-7",
-          "decor-6"
+          "decor-5"
         ],
-        "prerequisite": "CPU lane fully idle. Preserve order Wall9 v2 -> Decor7 v4 -> Decor6 v2 unless newer exact evidence changes priority.",
-        "nextOwner": "Assigned producer -> 12 -> 06 -> 14 -> independent reviewer -> 08."
+        "prerequisite": "Wall9 CPU lane fully idle.",
+        "nextOwner": "09 matrix -> 12 -> 06 -> 14 -> 01 -> 08."
       },
       {
         "rank": 3,
-        "blocker": "DECOR5_AND_UNOPENED_DECOR_TAIL",
+        "blocker": "PRODUCER03_PARALLEL_DECOR_BATCH",
         "affectedScopes": [
-          "decor-5",
-          "decor-9",
-          "decor-10",
-          "decor-11",
-          "decor-12"
+          "decor-6",
+          "decor-8"
         ],
-        "prerequisite": "Open only after current concrete REWORKs are dispositioned.",
-        "nextOwner": "15 bounded producer assignment."
+        "prerequisite": "Producer09 matrix fully idle.",
+        "nextOwner": "03 matrix -> 12 -> 06 -> 14 -> 11 -> 08."
       },
       {
         "rank": 4,
