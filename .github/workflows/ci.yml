@@ -164,6 +164,53 @@ jobs:
           const expected='sha256:'+createHash('sha256').update(JSON.stringify(payload)).digest('hex');
           if(expected!==receiptHash) throw new Error('export receipt payload hash mismatch');
           NODE
+      - name: Gate AI factory migration inputs on exact export evidence
+        run: |
+          node --input-type=module - <<'NODE'
+          import {readFile,writeFile} from 'node:fs/promises';
+          const plan=JSON.parse(await readFile('/tmp/roblox-migration/migration-plan.json','utf8'));
+          const eligible=plan.units
+            .filter(unit =>
+              unit.selected === true &&
+              unit.exportDisposition === 'quarantine' &&
+              ['refactor','quarantine'].includes(unit.migrationStrategy)
+            )
+            .map(unit => unit.unitId)
+            .sort();
+          if(!eligible.length) throw new Error('fixture produced no quarantine/refactor migration unit');
+          await writeFile('/tmp/factory-migration-task.json',JSON.stringify({
+            id:'ci-migration-adaptation',
+            request:'Adapt verified migrated quarantine units',
+            migration:{
+              exportReceipt:'/tmp/roblox-migration/migration-export-receipt.json',
+              unitIds:eligible
+            }
+          },null,2)+'\n');
+          NODE
+          npm run studio:factory -- --task /tmp/factory-migration-task.json --verify-migration-only --out /tmp/factory-migration-evidence.json
+          grep -q '"version": "starblox-dev-factory-migration-input-v1"' /tmp/factory-migration-evidence.json
+          grep -q '"status": "verified"' /tmp/factory-migration-evidence.json
+          grep -q '"scope": "quarantine-refactor-only"' /tmp/factory-migration-evidence.json
+          grep -q '"liveActivationAllowed": false' /tmp/factory-migration-evidence.json
+          grep -Eq '"artifactSha256": "[a-f0-9]{64}"' /tmp/factory-migration-evidence.json
+          rm -rf /tmp/roblox-migration-factory-tamper
+          cp -R /tmp/roblox-migration /tmp/roblox-migration-factory-tamper
+          node --input-type=module - <<'NODE'
+          import {readFile,writeFile,appendFile} from 'node:fs/promises';
+          import {resolve} from 'node:path';
+          const task=JSON.parse(await readFile('/tmp/factory-migration-task.json','utf8'));
+          const bundle=JSON.parse(await readFile('/tmp/roblox-migration-factory-tamper/migration-bundle.json','utf8'));
+          const unitId=task.migration.unitIds[0];
+          const artifact=bundle.artifacts.find(row => row.unitId===unitId);
+          if(!artifact) throw new Error('eligible unit artifact missing');
+          await appendFile(resolve('/tmp/roblox-migration-factory-tamper',artifact.file),'\n');
+          task.migration.exportReceipt='/tmp/roblox-migration-factory-tamper/migration-export-receipt.json';
+          await writeFile('/tmp/factory-migration-tamper-task.json',JSON.stringify(task,null,2)+'\n');
+          NODE
+          if npm run studio:factory -- --task /tmp/factory-migration-tamper-task.json --verify-migration-only --out /tmp/factory-migration-tamper-evidence.json; then
+            echo "expected tampered migrated artifact to fail factory verification"
+            exit 1
+          fi
       - name: Prove Roblox migration rejects source-byte drift
         run: |
           rm -rf /tmp/roblox-source-drift /tmp/roblox-drift-migration
