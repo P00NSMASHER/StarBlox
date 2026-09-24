@@ -1,0 +1,80 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_EXACT_HASH_REVIEW_PACKET",
+  "branch": "screenshot-match-preproduction",
+  "createdBy": "14",
+  "rendererEvidenceHead": "5f5004b19e3347bcc9420a0b66dcc0cf404613cb",
+  "reviewer": "01",
+  "producer": "09",
+  "item": {
+    "id": "decor-5",
+    "name": "Plant Wall",
+    "collectionId": "decor",
+    "type": "room",
+    "tier": 2,
+    "theme": "Pixel Party"
+  },
+  "exactCandidate": {
+    "path": "public/assets/catalog-candidates/cpu/decor-5-w09-v3-a-physical-original.png",
+    "sha256": "a30031043e9d9e3de1a34260a470df6bb37f5e602d692115b7c27ad16915d888",
+    "gitBlobSha": "1e7716f00e8e38f7ad645a448f9e29adea38de37",
+    "bytes": 648687,
+    "dimensions": [
+      640,
+      640
+    ],
+    "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-decor-5-8-vnext-qualification-20260924.json",
+    "qualification": "QUALIFIED_FOR_RENDERER14"
+  },
+  "renderEvidence": {
+    "workflow": "StarBlox Staged Catalog Art QA",
+    "workflowRunId": 35977305007,
+    "workflowHead": "5f5004b19e3347bcc9420a0b66dcc0cf404613cb",
+    "artifactId": 10798692858,
+    "artifactName": "catalog-staged-art-review",
+    "artifactDigest": "sha256:34fd5ecda08f3b820c668231703d731709ec2439fca2652a6e62718b6e47113e",
+    "detailPath": "staged-replacements/detail/decor-5-1e7716f0.png",
+    "detailSha256": "1fa5181950a2bcf47eca40aa9fd2d32ff6f760ca4c7e3502eeda0552066bcb4d",
+    "contactSheetPath": "staged-replacements/staged-replacements-contact-sheet.png",
+    "contactSheetSha256": "77665bd1d517473351d7d192029f9633b4a40023a019cf8fb4dec7552a070d32",
+    "preflightPath": "preflight/decor-5-1e7716f0.json",
+    "preflightSha256": "56905fd226b3e8b15a8e713c3ab06409bec5461e59c0ebaab4f3de4c62180ea9",
+    "renderStatus": 200,
+    "naturalDimensions": [
+      640,
+      640
+    ],
+    "opaqueFraction": 1,
+    "screenshot": true,
+    "errors": []
+  },
+  "reportOnlyPreflight": {
+    "exactDuplicate": false,
+    "calibratedWarnings": [],
+    "warningReadyFeatureCount": 0,
+    "triggeredWarningCount": 0,
+    "blocking": false,
+    "automaticAccept": false,
+    "automaticRework": false
+  },
+  "decisionContract": {
+    "allowed": [
+      "ACCEPT",
+      "REWORK"
+    ],
+    "exactHashOnly": true,
+    "oldVerdictTransfers": false,
+    "selfReview": false,
+    "requiredJudgments": [
+      "Plant Wall identity as one coherent wall-mounted living planter product",
+      "Pixel Party Tier-2 specificity without becoming a flat icon",
+      "wall mounting and planter construction plausibility",
+      "silhouette and small-card readability",
+      "foliage/container separation and material depth",
+      "composition/crop/malformed-object risk",
+      "originality/near-duplicate risk versus existing Decor"
+    ],
+    "onAccept": "Route exact decor-5 hash to 08 canonical integration.",
+    "onRework": "Preserve exact decor-5 hash/evidence and return smallest failure-specific reason codes to producer09/director15."
+  }
+}

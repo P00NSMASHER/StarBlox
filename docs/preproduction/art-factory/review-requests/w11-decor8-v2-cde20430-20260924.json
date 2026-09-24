@@ -1,0 +1,80 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_EXACT_HASH_REVIEW_PACKET",
+  "branch": "screenshot-match-preproduction",
+  "createdBy": "14",
+  "rendererEvidenceHead": "5f5004b19e3347bcc9420a0b66dcc0cf404613cb",
+  "reviewer": "11",
+  "producer": "03",
+  "item": {
+    "id": "decor-8",
+    "name": "Mini Aquarium",
+    "collectionId": "decor",
+    "type": "room",
+    "tier": 3,
+    "theme": "Galaxy Glow"
+  },
+  "exactCandidate": {
+    "path": "public/assets/catalog-candidates/cpu/decor-8-w03-v2-a-physical-original.png",
+    "sha256": "b88c0b339da024e2dd6591311d8f6c1022c682918cd4fb6746254b61d46acf87",
+    "gitBlobSha": "cde20430aaa1c2b4bd07399d35b3f0f184896509",
+    "bytes": 460677,
+    "dimensions": [
+      640,
+      640
+    ],
+    "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-decor-5-8-vnext-qualification-20260924.json",
+    "qualification": "QUALIFIED_FOR_RENDERER14"
+  },
+  "renderEvidence": {
+    "workflow": "StarBlox Staged Catalog Art QA",
+    "workflowRunId": 35977305007,
+    "workflowHead": "5f5004b19e3347bcc9420a0b66dcc0cf404613cb",
+    "artifactId": 10798692858,
+    "artifactName": "catalog-staged-art-review",
+    "artifactDigest": "sha256:34fd5ecda08f3b820c668231703d731709ec2439fca2652a6e62718b6e47113e",
+    "detailPath": "staged-replacements/detail/decor-8-cde20430.png",
+    "detailSha256": "6052922671dc06bb4f395ff24c9a692a8fcaab55b3da3b4d8ee1578bf6ba32f1",
+    "contactSheetPath": "staged-replacements/staged-replacements-contact-sheet.png",
+    "contactSheetSha256": "77665bd1d517473351d7d192029f9633b4a40023a019cf8fb4dec7552a070d32",
+    "preflightPath": "preflight/decor-8-cde20430.json",
+    "preflightSha256": "530166bfe0f7a0cc0a4da20a73c0e9a00012bd98c04d349ca5773a74a8ff9ad2",
+    "renderStatus": 200,
+    "naturalDimensions": [
+      640,
+      640
+    ],
+    "opaqueFraction": 1,
+    "screenshot": true,
+    "errors": []
+  },
+  "reportOnlyPreflight": {
+    "exactDuplicate": false,
+    "calibratedWarnings": [],
+    "warningReadyFeatureCount": 0,
+    "triggeredWarningCount": 0,
+    "blocking": false,
+    "automaticAccept": false,
+    "automaticRework": false
+  },
+  "decisionContract": {
+    "allowed": [
+      "ACCEPT",
+      "REWORK"
+    ],
+    "exactHashOnly": true,
+    "oldVerdictTransfers": false,
+    "selfReview": false,
+    "requiredJudgments": [
+      "Mini Aquarium identity and physically plausible tank/base/lid/filter construction",
+      "Galaxy Glow Tier-3 specificity without losing aquarium readability",
+      "glass/water/refraction/material quality",
+      "interior composition and small-card readability",
+      "silhouette/framing/crop quality",
+      "malformed/floating-object risk",
+      "originality/near-duplicate risk versus existing Decor"
+    ],
+    "onAccept": "Route exact decor-8 hash to 08 canonical integration.",
+    "onRework": "Preserve exact decor-8 hash/evidence and return smallest failure-specific reason codes to producer03/director15."
+  }
+}
