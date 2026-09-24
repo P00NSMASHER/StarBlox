@@ -61,7 +61,8 @@ jobs:
         continue-on-error: true
         run: node scripts/catalog-staged-art-qa.mjs
         env:
-          STARBLOX_QA_FACTORY_ONLY: ${{ (github.event_name == 'workflow_run' || (github.event_name == 'push' && startsWith(github.event.head_commit.message, 'art-factory: stage CPU candidate'))) && '1' || '0' }}
+          STARBLOX_QA_FACTORY_ONLY: ${{ github.event_name == 'workflow_run' && '1' || '0' }}
+          STARBLOX_QA_PUSH_MESSAGE: ${{ github.event.head_commit.message }}
 
       - name: Use Python 3.12
         uses: actions/setup-python@v5
