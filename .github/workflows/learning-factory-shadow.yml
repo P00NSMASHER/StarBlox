@@ -21,6 +21,8 @@ on:
       - "src/App.jsx"
       - "scripts/validateLearningContent.mjs"
       - "scripts/selectorV2ShadowSimulation.mjs"
+      - "scripts/assertLearningLiveSelectorBoundary.mjs"
+      - "docs/preproduction/learning-factory/current-promotion-decision.json"
       - "scripts/adaptEdGameClawCourse.mjs"
       - "scripts/exportPsiKtDataset.mjs"
       - "scripts/exportRiffReviews.mjs"
@@ -70,6 +72,9 @@ jobs:
           test -s .learning-interop/edgameclaw.json
           test -s .learning-interop/interactions_200.csv
           test -s .learning-interop/riff-reviews.json
+
+      - name: Assert research selectors remain out of live Quest paths
+        run: npm run assert:learning-live-boundary
 
       - name: Build StarBlox
         run: npm run build
