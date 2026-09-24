@@ -1,0 +1,159 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_JOB",
+  "repository": "P00NSMASHER/StarBlox",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "6c74958700445d9737d56c02b05a9599c7dbd4dc",
+  "item": {
+    "id": "desks-8",
+    "name": "Aqua Study Station",
+    "collectionId": "desks",
+    "type": "room",
+    "tier": 3,
+    "theme": "Galaxy Glow"
+  },
+  "sourceReviewHash": "6d01f070b686e4c15a5e906a4099d4fe1cea5f8b",
+  "rightsBasis": "USER_ATTESTED_FULL_RIGHTS",
+  "attempts": [
+    {
+      "attemptId": "desks-8-w13-a-token-safe-aqua-desk-d9f4cedce7",
+      "itemId": "desks-8",
+      "producer": "13",
+      "variant": "A-TOKEN-SAFE-AQUA-DESK",
+      "promptBlocks": [
+        "metadata",
+        "category",
+        "silhouette",
+        "physical",
+        "material",
+        "theme",
+        "tier",
+        "card",
+        "original",
+        "stage",
+        "furniture",
+        "camera",
+        "depth",
+        "bloom",
+        "textile",
+        "wall",
+        "light"
+      ],
+      "promptText": "STARBLOX CATALOG ART — A-TOKEN-SAFE-AQUA-DESK\n\nCreate one premium, kid-friendly 2D game catalog asset with polished dimensional quality.\n\nExact metadata: desks-8 — Aqua Study Station; collection desks; type room; tier 3; theme Galaxy Glow.\n\nAuthoritative item-specific design brief:\nAqua Study Station. ONE pale freestanding desk on white. Long worktop, four straight legs, one small drawer, one short aqua shelf, one task lamp. Cyan-violet accents. Full desk visible, three-quarter view. NO room, cabinets, chair, second desk, collage, text.\n\nExact-hash reviewer failure taxonomy: UNKNOWN_REWORK.\n\nRepair the documented failure codes while preserving qualities that were not implicated. Do not erase successful identity, silhouette, material depth, or readability merely to make a different image.\n\nUse the exact catalog ID/name/collection/tier/theme. Do not rename, recategorize, or substitute the item.\n\nMake the object unmistakably the stated product category with believable proportions and construction.\n\nPrioritize a distinctive clean silhouette that reads immediately at small Store-card size.\n\nShow real thickness, seams/joints/edges, layered parts, volume, contact points and functional construction—not a flat icon, emblem or sticker.\n\nUse category-appropriate material texture and highlights/shadows that explain the form.\n\nExpress the exact theme through material, construction, light and motif—not a palette swap or pasted decal.\n\nRespect tier progression: Starter stays simple and attractive; higher tiers gain richer form/material detail; Luxe gains spectacle without losing identity.\n\nDesign for both detail view and a 600×600 Store card with strong contrast, uncluttered hierarchy and no tiny critical details.\n\nAvoid recolor-only siblings, repeated template silhouettes, generic rings/badges, or interchangeable props.\n\nPresent one isolated subject on a clean premium background. No UI, text, watermark, logo, fake price badge or unrelated props.\n\nFor furniture/decor, show supports, joints, cushions/panels/hardware, weight and grounded contact.\n\nUse a clean product-style three-quarter view when appropriate so front, side and thickness are visible.\n\nUse occlusion, contact/cast shadows and foreground/midground/background separation so the asset feels spatial.\n\nUse controlled emissive light/bloom only where appropriate; preserve edges and local contrast.\n\nFor textiles, show weave/pile/folds/stitching/edge finish/thickness and believable softness or drape.\n\nFor wall decor, show mounting/frame/backing/relief depth and a believable wall-object form—not a floating emblem.\n\nFor lighting, show a physical base/mount/chassis, emitter or bulb, support structure and believable emitted/reflected light.\n\nOutput a production-worthy source image for exact-byte staging, card/detail rendering and independent review. Do not claim approval; the reviewer decides from rendered pixels.",
+      "promptSha256": "d9f4cedce7a09b7f4878d56dd5e74385104ad92aa683252800f0e871edd3ae26",
+      "runtimePromptText": "desks-8 Aqua Study Station; Galaxy Glow; tier 3. Aqua Study Station. ONE pale freestanding desk on white. Long worktop, four straight legs, one small drawer, one short aqua shelf, one task lamp. Cyan-violet accents. Full desk visible, three-quarter view. single isolated product, grounded shadow.",
+      "runtimePromptSha256": "d67c9debfa36d7aec1a5bd7aa39bdbf2fd5d0e4d34078e211b797acde23979d2",
+      "runtimeNegativePromptText": "room, cabinets, chair, second desk, collage, text, collage, multiple views, repeated variants, text, logo, watermark, UI",
+      "runtimeNegativePromptSha256": "47a88ca268c93887085a9f64bc101fc78634bbd73b78a4145271eb5fcc53366a",
+      "promptRecipeVersion": "artPromptOptimizer-request-v1:w13-desk8-wall8-wall9-retry-pack",
+      "seed": 884910177,
+      "runtime": {
+        "repo": "huggingface/diffusers",
+        "commit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c"
+      },
+      "model": {
+        "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+        "revision": "462165984030d82259a11f4367a4eed129e94a7b",
+        "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+      },
+      "conditioning": {
+        "referenceAssetSha256": null,
+        "controlImageSha256": null,
+        "adapterScale": null
+      },
+      "output": {
+        "repoPath": null,
+        "sha256": null,
+        "gitBlobSha": null,
+        "bytes": null,
+        "width": null,
+        "height": null
+      },
+      "status": "PLANNED_NOT_GENERATED"
+    },
+    {
+      "attemptId": "desks-8-w13-b-simple-aqua-desk-1a4dd2711c",
+      "itemId": "desks-8",
+      "producer": "13",
+      "variant": "B-SIMPLE-AQUA-DESK",
+      "promptBlocks": [
+        "metadata",
+        "category",
+        "silhouette",
+        "physical",
+        "material",
+        "theme",
+        "tier",
+        "card",
+        "original",
+        "stage",
+        "furniture",
+        "camera",
+        "depth",
+        "bloom",
+        "textile",
+        "wall",
+        "light"
+      ],
+      "promptText": "STARBLOX CATALOG ART — B-SIMPLE-AQUA-DESK\n\nCreate one premium, kid-friendly 2D game catalog asset with polished dimensional quality.\n\nExact metadata: desks-8 — Aqua Study Station; collection desks; type room; tier 3; theme Galaxy Glow.\n\nAuthoritative item-specific design brief:\nONE pale study desk on white: long top, four legs, one drawer, short aqua shelf, one lamp. Full product visible. NO room, cabinets, chair, duplicate view, collage, text.\n\nExact-hash reviewer failure taxonomy: UNKNOWN_REWORK.\n\nRepair the documented failure codes while preserving qualities that were not implicated. Do not erase successful identity, silhouette, material depth, or readability merely to make a different image.\n\nUse the exact catalog ID/name/collection/tier/theme. Do not rename, recategorize, or substitute the item.\n\nMake the object unmistakably the stated product category with believable proportions and construction.\n\nPrioritize a distinctive clean silhouette that reads immediately at small Store-card size.\n\nShow real thickness, seams/joints/edges, layered parts, volume, contact points and functional construction—not a flat icon, emblem or sticker.\n\nUse category-appropriate material texture and highlights/shadows that explain the form.\n\nExpress the exact theme through material, construction, light and motif—not a palette swap or pasted decal.\n\nRespect tier progression: Starter stays simple and attractive; higher tiers gain richer form/material detail; Luxe gains spectacle without losing identity.\n\nDesign for both detail view and a 600×600 Store card with strong contrast, uncluttered hierarchy and no tiny critical details.\n\nAvoid recolor-only siblings, repeated template silhouettes, generic rings/badges, or interchangeable props.\n\nPresent one isolated subject on a clean premium background. No UI, text, watermark, logo, fake price badge or unrelated props.\n\nFor furniture/decor, show supports, joints, cushions/panels/hardware, weight and grounded contact.\n\nUse a clean product-style three-quarter view when appropriate so front, side and thickness are visible.\n\nUse occlusion, contact/cast shadows and foreground/midground/background separation so the asset feels spatial.\n\nUse controlled emissive light/bloom only where appropriate; preserve edges and local contrast.\n\nFor textiles, show weave/pile/folds/stitching/edge finish/thickness and believable softness or drape.\n\nFor wall decor, show mounting/frame/backing/relief depth and a believable wall-object form—not a floating emblem.\n\nFor lighting, show a physical base/mount/chassis, emitter or bulb, support structure and believable emitted/reflected light.\n\nOutput a production-worthy source image for exact-byte staging, card/detail rendering and independent review. Do not claim approval; the reviewer decides from rendered pixels.",
+      "promptSha256": "1a4dd2711c1462c418150947cef92d44ae5de52e4febfda8ab1dc9a31bdede6f",
+      "runtimePromptText": "desks-8 Aqua Study Station; Galaxy Glow; tier 3. ONE pale study desk on white: long top, four legs, one drawer, short aqua shelf, one lamp. Full product visible. single isolated product, grounded shadow.",
+      "runtimePromptSha256": "638d13e406c631c181b6808c0ac38cef2096752d5dc47a7d5e1c2d59b3330a9a",
+      "runtimeNegativePromptText": "room, cabinets, chair, duplicate view, collage, text, collage, multiple views, repeated variants, text, logo, watermark, UI",
+      "runtimeNegativePromptSha256": "e552800bdf040caa7781795065c48861e7fc838130281090d44e9e8e9767c2d4",
+      "promptRecipeVersion": "artPromptOptimizer-request-v1:w13-desk8-wall8-wall9-retry-pack",
+      "seed": 193909699,
+      "runtime": {
+        "repo": "huggingface/diffusers",
+        "commit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c"
+      },
+      "model": {
+        "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+        "revision": "462165984030d82259a11f4367a4eed129e94a7b",
+        "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+      },
+      "conditioning": {
+        "referenceAssetSha256": null,
+        "controlImageSha256": null,
+        "adapterScale": null
+      },
+      "output": {
+        "repoPath": null,
+        "sha256": null,
+        "gitBlobSha": null,
+        "bytes": null,
+        "width": null,
+        "height": null
+      },
+      "status": "PLANNED_NOT_GENERATED"
+    }
+  ],
+  "requestContext": {
+    "requestPath": "docs/preproduction/art-factory/requests/w13-desk8-wall8-retry-pack-20260924.json",
+    "batchId": "w13-desk8-wall8-wall9-retry-pack",
+    "requestSourceHead": "1fbd30bbe04c50c98e7796470606b14d14724d09",
+    "requestRecordSha256": "02c247f67161b0626ae8bed74712f456b279b930e1788db9c1ffbb45ab0d4bf8",
+    "planner": "15",
+    "reviewer": "MIXED_11",
+    "renderOwner": "14",
+    "integrationOwner": "08",
+    "contextReferences": [],
+    "plannerVariants": [
+      {
+        "variantId": "A-TOKEN-SAFE-AQUA-DESK",
+        "plannerSeed": null,
+        "optimizerInputSha256": "1b3ae8608b1aa19b6faf98310f2e5a93c7a2e0e493d101871194ac89b7dcc151",
+        "compiledPromptSha256": "d9f4cedce7a09b7f4878d56dd5e74385104ad92aa683252800f0e871edd3ae26",
+        "compiledSeed": 884910177
+      },
+      {
+        "variantId": "B-SIMPLE-AQUA-DESK",
+        "plannerSeed": null,
+        "optimizerInputSha256": "cedcd60422d911b2027ad7233813148d7d40d22a9b7906c1842e820e9fdf2dc4",
+        "compiledPromptSha256": "1a4dd2711c1462c418150947cef92d44ae5de52e4febfda8ab1dc9a31bdede6f",
+        "compiledSeed": 193909699
+      }
+    ]
+  },
+  "planSha256": "2416d4eb925d71fb431b0d109ce4c61c527876c15e86f528fc99226fe9274bd3"
+}

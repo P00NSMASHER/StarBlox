@@ -1,0 +1,112 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_GENERATION_RECEIPT",
+  "repository": "P00NSMASHER/StarBlox",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "6c74958700445d9737d56c02b05a9599c7dbd4dc",
+  "sourcePlanSha256": "2416d4eb925d71fb431b0d109ce4c61c527876c15e86f528fc99226fe9274bd3",
+  "executionCheckout": {
+    "branch": "screenshot-match-preproduction",
+    "head": "6c74958700445d9737d56c02b05a9599c7dbd4dc",
+    "planSourceHeadMatchesExecutionHead": true
+  },
+  "attempt": {
+    "attemptId": "desks-8-w13-a-token-safe-aqua-desk-d9f4cedce7",
+    "itemId": "desks-8",
+    "producer": "13",
+    "variant": "A-TOKEN-SAFE-AQUA-DESK",
+    "promptSha256": "d9f4cedce7a09b7f4878d56dd5e74385104ad92aa683252800f0e871edd3ae26",
+    "runtimePromptSha256": "d67c9debfa36d7aec1a5bd7aa39bdbf2fd5d0e4d34078e211b797acde23979d2",
+    "runtimeNegativePromptSha256": "47a88ca268c93887085a9f64bc101fc78634bbd73b78a4145271eb5fcc53366a",
+    "promptRecipeVersion": "artPromptOptimizer-request-v1:w13-desk8-wall8-wall9-retry-pack",
+    "seed": 884910177
+  },
+  "runtime": {
+    "repo": "huggingface/diffusers",
+    "commit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "resolvedCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "runtimeCommitVerified": true,
+    "diffusersVersion": "0.41.0.dev0",
+    "diffusersInstallSource": "https://github.com/huggingface/diffusers.git",
+    "torchVersion": "2.8.0+cpu",
+    "transformersVersion": "5.17.0",
+    "accelerateVersion": "1.15.0",
+    "huggingfaceHubVersion": "1.33.0",
+    "safetensorsVersion": "0.8.0",
+    "pythonPillowVersion": "12.3.0",
+    "device": "cpu",
+    "dtype": "float32",
+    "executionMode": "cpu-fallback"
+  },
+  "model": {
+    "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+    "revision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS",
+    "resolvedRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "snapshotRevisionVerified": true,
+    "selectiveSnapshot": true,
+    "snapshotAllowPatterns": [
+      "model_index.json",
+      "scheduler/*",
+      "tokenizer/*",
+      "tokenizer_2/*",
+      "feature_extractor/*",
+      "text_encoder/config.json",
+      "text_encoder/model.fp16.safetensors",
+      "text_encoder_2/config.json",
+      "text_encoder_2/model.fp16.safetensors",
+      "unet/config.json",
+      "unet/diffusion_pytorch_model.fp16.safetensors",
+      "vae/config.json",
+      "vae/diffusion_pytorch_model.fp16.safetensors"
+    ]
+  },
+  "conditioning": {
+    "referenceAssetSha256": null,
+    "controlImageSha256": null,
+    "adapterScale": null,
+    "referenceImage": null,
+    "ipAdapterModelId": null,
+    "ipAdapterRevision": null,
+    "ipAdapterResolvedRevision": null,
+    "ipAdapterRevisionVerified": false,
+    "ipAdapterWeightName": null,
+    "ipAdapterSubfolder": null
+  },
+  "generation": {
+    "width": 640,
+    "height": 640,
+    "numInferenceSteps": 10,
+    "guidanceScale": 4.5,
+    "runtimePromptTokenCounts": {
+      "tokenizer": 70,
+      "tokenizer_2": 70
+    },
+    "runtimeNegativePromptTokenCounts": {
+      "tokenizer": 31,
+      "tokenizer_2": 31
+    },
+    "executedSeed": 884910177
+  },
+  "output": {
+    "repoPath": "public/assets/catalog-candidates/cpu/desks-8-w13-v4-a-token-safe-aqua-desk-original.png",
+    "sha256": "2d4a2506414d7b9c7beacec1735618fca4ca97ddf5e62a736a3c80ef6c495757",
+    "gitBlobSha": "9ec1df3524feb3fa1fe1e8710fccb7c5fa81efba",
+    "bytes": 435449,
+    "width": 640,
+    "height": 640,
+    "format": "PNG",
+    "sourceBytesPreserved": true,
+    "reusedExistingIdenticalBytes": false
+  },
+  "safety": {
+    "canonicalArtModified": false,
+    "gameplayModified": false,
+    "reviewDecisionMade": false,
+    "deploymentPerformed": false,
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+  },
+  "nextGate": "RUN_VERIFY_STAGED_OUTPUT_THEN_REAL_RENDER_AND_INDEPENDENT_EXACT_HASH_REVIEW",
+  "status": "GENERATED_SOURCE_BYTES_UNVERIFIED",
+  "recordSha256": "c0529c570fa0f32a5277b32a3083afab4eb40ec9fa4562ee76d4a4c1f4631577"
+}
