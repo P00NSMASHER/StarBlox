@@ -1,0 +1,112 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_GENERATION_RECEIPT",
+  "repository": "P00NSMASHER/StarBlox",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "55ed5cb334d4f2a216fecb70d69d698f96e25a1f",
+  "sourcePlanSha256": "e04a9887ee98fe5dc6ba17ae8d54fc017e529ee3002ee5ee553cf79eb68a2098",
+  "executionCheckout": {
+    "branch": "screenshot-match-preproduction",
+    "head": "55ed5cb334d4f2a216fecb70d69d698f96e25a1f",
+    "planSourceHeadMatchesExecutionHead": true
+  },
+  "attempt": {
+    "attemptId": "desks-10-w03-a-one-streaming-desk-monitor-mic-965bb742ca",
+    "itemId": "desks-10",
+    "producer": "03",
+    "variant": "A-ONE-STREAMING-DESK-MONITOR-MIC",
+    "promptSha256": "965bb742ca77eebb5bdab9008ec951037c72bcb03502415343058e25335b75ba",
+    "runtimePromptSha256": "96b14c594e8357114a817aa392f65f45d8e25a19a785e51cb69becce99f7255c",
+    "runtimeNegativePromptSha256": "0a51e9f76e6e33908b5f3a578f2caa41f8e0073d8fff94fc90269d4a6565db2e",
+    "promptRecipeVersion": "artPromptOptimizer-request-v1:w03-release-tail-4pack-v4",
+    "seed": 894234480
+  },
+  "runtime": {
+    "repo": "huggingface/diffusers",
+    "commit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "resolvedCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "runtimeCommitVerified": true,
+    "diffusersVersion": "0.41.0.dev0",
+    "diffusersInstallSource": "https://github.com/huggingface/diffusers.git",
+    "torchVersion": "2.8.0+cpu",
+    "transformersVersion": "5.17.0",
+    "accelerateVersion": "1.15.0",
+    "huggingfaceHubVersion": "1.33.0",
+    "safetensorsVersion": "0.8.0",
+    "pythonPillowVersion": "12.3.0",
+    "device": "cpu",
+    "dtype": "float32",
+    "executionMode": "cpu-fallback"
+  },
+  "model": {
+    "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+    "revision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS",
+    "resolvedRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "snapshotRevisionVerified": true,
+    "selectiveSnapshot": true,
+    "snapshotAllowPatterns": [
+      "model_index.json",
+      "scheduler/*",
+      "tokenizer/*",
+      "tokenizer_2/*",
+      "feature_extractor/*",
+      "text_encoder/config.json",
+      "text_encoder/model.fp16.safetensors",
+      "text_encoder_2/config.json",
+      "text_encoder_2/model.fp16.safetensors",
+      "unet/config.json",
+      "unet/diffusion_pytorch_model.fp16.safetensors",
+      "vae/config.json",
+      "vae/diffusion_pytorch_model.fp16.safetensors"
+    ]
+  },
+  "conditioning": {
+    "referenceAssetSha256": null,
+    "controlImageSha256": null,
+    "adapterScale": null,
+    "referenceImage": null,
+    "ipAdapterModelId": null,
+    "ipAdapterRevision": null,
+    "ipAdapterResolvedRevision": null,
+    "ipAdapterRevisionVerified": false,
+    "ipAdapterWeightName": null,
+    "ipAdapterSubfolder": null
+  },
+  "generation": {
+    "width": 640,
+    "height": 640,
+    "numInferenceSteps": 6,
+    "guidanceScale": 3.5,
+    "runtimePromptTokenCounts": {
+      "tokenizer": 62,
+      "tokenizer_2": 62
+    },
+    "runtimeNegativePromptTokenCounts": {
+      "tokenizer": 37,
+      "tokenizer_2": 37
+    },
+    "executedSeed": 894234480
+  },
+  "output": {
+    "repoPath": "public/assets/catalog-candidates/cpu/desks-10-w03-v7-a-one-streaming-desk-monitor-mic-original.png",
+    "sha256": "aa074975c527d98985197bebe27dcb2c85072b2186e4a565083c6a9715223165",
+    "gitBlobSha": "4af5225c536dff0a25c12f0f5e4066c39ad33322",
+    "bytes": 486264,
+    "width": 640,
+    "height": 640,
+    "format": "PNG",
+    "sourceBytesPreserved": true,
+    "reusedExistingIdenticalBytes": false
+  },
+  "safety": {
+    "canonicalArtModified": false,
+    "gameplayModified": false,
+    "reviewDecisionMade": false,
+    "deploymentPerformed": false,
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+  },
+  "nextGate": "RUN_VERIFY_STAGED_OUTPUT_THEN_REAL_RENDER_AND_INDEPENDENT_EXACT_HASH_REVIEW",
+  "status": "GENERATED_SOURCE_BYTES_UNVERIFIED",
+  "recordSha256": "471633fc02185bfa98c33539682c6bb6818f8ff283967fde46df62947927d28b"
+}
