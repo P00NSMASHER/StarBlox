@@ -288,7 +288,15 @@ describe('Step 10: complete automated expansion evidence loop', () => {
       migrationStage:migrationStage(),
       studio:studio(),
       agents:agents(),
-      repositoryGate:{run:async () => ({ok:true,gates:{tests:true,balance:true,build:true}})},
+      repositoryGate:{run:async () => ({
+        ok:true,
+        gates:{
+          tests:{ok:true},
+          certification:{ok:true},
+          balance:{ok:true},
+          build:{ok:true}
+        }
+      })},
       startedAt:'2026-09-24T18:15:00Z',
       migrationRules:{minEngineeringLeverageScore:0},
       config:{
@@ -378,7 +386,7 @@ describe('Step 10: complete automated expansion evidence loop', () => {
       repositoryGate:{
         run:async () => ({
           ok:true,
-          gates:{tests:true,balance:true}
+          gates:{tests:true,balance:true,build:true}
         })
       },
       startedAt:'2026-09-24T18:16:30Z',
@@ -386,7 +394,7 @@ describe('Step 10: complete automated expansion evidence loop', () => {
       config:{executeStudio:true}
     });
 
-    expect(result.artifact.development.status).toBe('verified');
+    expect(result.artifact.development.status).not.toBe('verified');
     expect(result.artifact.development.repositoryProofComplete).toBe(false);
     expect(result.artifact.review.readyForHumanReview).toBe(false);
     expect(result.artifact.review.blockers.join(' ')).toMatch(/repository proof/);
@@ -413,7 +421,10 @@ describe('Step 10: complete automated expansion evidence loop', () => {
       migrationStage:migrationStage(),
       studio:failingStudio,
       agents:agents(),
-      repositoryGate:{run:async () => ({ok:true,gates:{tests:true,balance:true,build:true}})},
+      repositoryGate:{run:async () => ({
+        ok:true,
+        gates:{tests:true,certification:true,balance:true,build:true}
+      })},
       startedAt:'2026-09-24T18:17:00Z',
       migrationRules:{minEngineeringLeverageScore:0},
       config:{executeStudio:true,maxRepairCycles:0}
