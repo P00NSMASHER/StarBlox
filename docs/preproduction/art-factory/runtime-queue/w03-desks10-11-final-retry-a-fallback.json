@@ -39,6 +39,6 @@
     "canonicalWriter": "08"
   },
   "dispatchPolicy": "PREPARED_ONLY__USE_ONLY_IF_CURRENT_B_VARIANT_REWORK",
-  "retryRevision": 1,
-  "retryReason": "refresh pending A fallback after exact-pixel B failures; stronger mic/worktop hierarchy"
+  "retryRevision": 2,
+  "retryReason": "CLIP-safe retry after runtime prompt overflow 79/82 > 77; no candidate bytes were produced"
 }
