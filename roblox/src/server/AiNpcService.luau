@@ -16,14 +16,33 @@ local FORBIDDEN_ARG_WORDS = {
 	"credential", "userid", "playerid",
 }
 
-local function lowerContainsAny(value: string, words): boolean
-	local lower = string.lower(value)
-	for _, word in words do
-		if string.find(lower, word, 1, true) ~= nil then
-			return true
+local function semanticTokens(value: string)
+	local normalized = string.gsub(value, "([a-z0-9])([A-Z])", "%1_%2")
+	normalized = string.lower(normalized)
+	local tokens = {}
+	for token in string.gmatch(normalized, "[a-z0-9]+") do
+		table.insert(tokens, token)
+	end
+	return tokens
+end
+
+local function containsSemanticToken(value: string, words): boolean
+	for _, token in semanticTokens(value) do
+		for _, word in words do
+			if token == word then
+				return true
+			end
 		end
 	end
 	return false
+end
+
+local function forbiddenArgKey(value: string): boolean
+	local compact = string.gsub(string.lower(value), "[^a-z0-9]", "")
+	if compact == "selectedanswer" or compact == "userid" or compact == "playerid" or compact == "apikey" then
+		return true
+	end
+	return containsSemanticToken(value, FORBIDDEN_ARG_WORDS)
 end
 
 local function cleanString(value, maxLength: number): string?
@@ -60,7 +79,7 @@ end
 local function allowedToolSet(def)
 	local out = {}
 	for _, name in def.AllowedTools or {} do
-		if type(name) == "string" and not lowerContainsAny(name, FORBIDDEN_TOOL_WORDS) then
+		if type(name) == "string" and not containsSemanticToken(name, FORBIDDEN_TOOL_WORDS) then
 			out[name] = true
 		end
 	end
@@ -91,7 +110,7 @@ local function validateValue(value, path: string, depth: number): (boolean, stri
 		if count > 30 then
 			return false, path .. " contains too many fields"
 		end
-		if type(key) == "string" and lowerContainsAny(key, FORBIDDEN_ARG_WORDS) then
+		if type(key) == "string" and forbiddenArgKey(key) then
 			return false, path .. "." .. key .. " crosses authority boundary"
 		end
 		local ok, reason = validateValue(child, path .. "." .. tostring(key), depth + 1)
