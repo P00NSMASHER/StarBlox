@@ -125,8 +125,8 @@ describe('Step 8 AI NPC domain boundary', () => {
     state=first.state;
 
     expect(first.memories).toEqual([
-      'Player enjoys decorating houses.',
-      'Player likes space puzzles.'
+      'Player likes space puzzles.',
+      'Player enjoys decorating houses.'
     ]);
 
     const second=applyAiNpcMemoryFacts(state,cfg,'maya',{
