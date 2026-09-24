@@ -1,0 +1,15 @@
+{
+  "schemaVersion": "starblox-fsrs-risk-development-validation-manifest-v1",
+  "benchmarkId": "starblox-bkt-fsrs-risk40-development-validation-v1",
+  "status": "development-validation-no-tuning",
+  "authorization": "synthetic-only-no-real-player-data",
+  "seed": 20270113,
+  "sourceLearnerCount": 48,
+  "maxStep": 30,
+  "selectionStep": 18,
+  "heldOutStepCount": 12,
+  "frozenFsrsRiskWeight": 40,
+  "forbiddenFinalHoldoutSeed": 20261103,
+  "tuneAgainstThisCohort": false,
+  "purpose": "Independent development validation of BKT mastery plus continuous FSRS forgetting-risk weight 40 selected on seed 20261217."
+}
