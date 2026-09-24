@@ -264,6 +264,15 @@ function artifactPayload(artifact){
   };
 }
 
+function repositoryProofComplete(repository){
+  return Boolean(
+    repository?.ok === true &&
+    repository?.gates?.tests === true &&
+    repository?.gates?.balance === true &&
+    repository?.gates?.build === true
+  );
+}
+
 function developmentSummary(run){
   if(!run) return {
     status:'not_run',
@@ -271,7 +280,8 @@ function developmentSummary(run){
     runHash:null,
     cycleCount:0,
     finalReview:null,
-    repository:null
+    repository:null,
+    repositoryProofComplete:false
   };
   return {
     status:run.status,
@@ -279,7 +289,8 @@ function developmentSummary(run){
     runHash:run.runHash,
     cycleCount:Array.isArray(run.cycles) ? run.cycles.length : 0,
     finalReview:clone(run.finalReview),
-    repository:clone(run.repository)
+    repository:clone(run.repository),
+    repositoryProofComplete:repositoryProofComplete(run.repository)
   };
 }
 
@@ -419,6 +430,8 @@ export async function runContentExpansionPipeline({
   if(config.executeStudio === true){
     if(!studio || !agents){
       blockers.push('Studio execution requested without Studio/agent adapters');
+    }else if(!repositoryGate || typeof repositoryGate.run !== 'function'){
+      blockers.push('repository test/balance/build gate is required for Studio expansion review');
     }else{
       try{
         developmentRun=await runDevelopmentFactory({
@@ -443,6 +456,8 @@ export async function runContentExpansionPipeline({
           blockers.push('development run integrity failed: ' + validation.errors[0]);
         }else if(developmentRun.status !== 'verified'){
           blockers.push('Studio development run did not verify');
+        }else if(!repositoryProofComplete(developmentRun.repository)){
+          blockers.push('repository proof must include passing tests, balance gate, and production build');
         }
       }catch(error){
         blockers.push('Studio development run failed: ' + (error instanceof Error ? error.message : String(error)));
@@ -536,6 +551,33 @@ export function verifyContentExpansionArtifact(artifact){
   }
   if(artifact.migration?.liveActivationAllowed !== false){
     errors.push('migration evidence is not staging-only');
+  }
+
+  if(artifact.review?.readyForHumanReview === true){
+    if(Array.isArray(artifact.review?.blockers) && artifact.review.blockers.length){
+      errors.push('review cannot be ready while blockers remain');
+    }
+    if(artifact.development?.status !== 'verified'){
+      errors.push('review-ready expansion requires verified Studio development');
+    }
+    if(artifact.development?.repositoryProofComplete !== true){
+      errors.push('review-ready expansion requires complete repository proof');
+    }
+    if(
+      artifact.migration?.status === 'not_staged' ||
+      (artifact.migration?.status === 'staged' && !artifact.migration?.bundleHash)
+    ){
+      errors.push('review-ready expansion requires valid migration staging evidence');
+    }
+    if(artifact.questions?.status !== 'validated'){
+      errors.push('review-ready expansion requires validated questions');
+    }
+    if(
+      Number(artifact.questions?.required ?? 0) !==
+      (Array.isArray(artifact.questions?.inserted) ? artifact.questions.inserted.length : 0)
+    ){
+      errors.push('review-ready expansion requires exact question-slot coverage');
+    }
   }
   for(const inserted of artifact.questions?.inserted || []){
     if(inserted.lifecycle !== 'pending'){
