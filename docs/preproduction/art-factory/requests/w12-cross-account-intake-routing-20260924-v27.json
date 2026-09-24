@@ -1,0 +1,137 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_W12_CANDIDATE_DELTA_INTAKE_ROUTING",
+  "router": "12",
+  "branch": "screenshot-match-preproduction",
+  "observedHead": "a9f863e0ff6ebe7329b82b3a4ba6cbce510dadd8",
+  "scanWindow": {
+    "priorCursor": "255c3740f81fb37f57ba3efabf5e300d65dd8c9e",
+    "inspectedThroughHead": "a9f863e0ff6ebe7329b82b3a4ba6cbce510dadd8",
+    "newCatalogCandidateBytesDetected": true,
+    "newCandidateItemIds": [
+      "desks-8",
+      "wall-8",
+      "wall-9",
+      "desks-12"
+    ],
+    "note": "Post-v26 delta inspected. The four w13-release-rework-4pack-v1 exact PNGs are the only genuinely new release-rework candidate bytes; intervening routing/qualification/queue commits introduce no newer candidate pixels."
+  },
+  "candidates": [
+    {
+      "id": "desks-8",
+      "name": "Aqua Study Station",
+      "collectionId": "desks",
+      "producer": "13",
+      "reviewerAssignment": "11",
+      "renderOwner": "14",
+      "canonicalWriter": "08",
+      "path": "public/assets/catalog-candidates/cpu/desks-8-w13-v3-a-single-aqua-desk-original.png",
+      "sha256": "ef2915f3fd15baca0d144b56739c3550b196c0c81ec9eab249fb2e23f7155cc3",
+      "gitBlobSha": "a626bb3fdee2c0576b5057f61f1279f56b40f8b4",
+      "bytes": 451974,
+      "dimensions": [
+        640,
+        640
+      ],
+      "format": "PNG",
+      "stagedOutput": "docs/preproduction/art-factory/generated-evidence/w13-release-rework-4pack-v1/desks-8/staged-output.json",
+      "generationReceipt": "docs/preproduction/art-factory/generated-evidence/w13-release-rework-4pack-v1/desks-8/generation-receipt.json",
+      "provenanceState": "COMPLETE_ART_FACTORY_V2",
+      "repositoryReadback": "PASS_EXACT_GIT_BLOB",
+      "supersession": "FRESH_V3_FAILURE_SPECIFIC_REPLACEMENT_FOR_REWORKED_V2",
+      "state": "ROUTE_TO_06_TECHNICAL_QUALIFICATION"
+    },
+    {
+      "id": "wall-8",
+      "name": "Ocean Window",
+      "collectionId": "wall",
+      "producer": "13",
+      "reviewerAssignment": "11",
+      "renderOwner": "14",
+      "canonicalWriter": "08",
+      "path": "public/assets/catalog-candidates/cpu/wall-8-w13-v5-a-ocean-horizon-window-original.png",
+      "sha256": "e103c5d6d64d264c01ec0462cf09ba92a74bb005cf0f638917a8c3ab2ac96ee8",
+      "gitBlobSha": "3d32587f1dc65974eee1fc09b60f90248fe651b3",
+      "bytes": 628975,
+      "dimensions": [
+        640,
+        640
+      ],
+      "format": "PNG",
+      "stagedOutput": "docs/preproduction/art-factory/generated-evidence/w13-release-rework-4pack-v1/wall-8/staged-output.json",
+      "generationReceipt": "docs/preproduction/art-factory/generated-evidence/w13-release-rework-4pack-v1/wall-8/generation-receipt.json",
+      "provenanceState": "COMPLETE_ART_FACTORY_V2",
+      "repositoryReadback": "PASS_EXACT_GIT_BLOB",
+      "supersession": "FRESH_V5_FAILURE_SPECIFIC_REPLACEMENT_FOR_REWORKED_V4",
+      "state": "ROUTE_TO_06_TECHNICAL_QUALIFICATION"
+    },
+    {
+      "id": "wall-9",
+      "name": "Art Gallery Wall",
+      "collectionId": "wall",
+      "producer": "13",
+      "reviewerAssignment": "02",
+      "renderOwner": "14",
+      "canonicalWriter": "08",
+      "path": "public/assets/catalog-candidates/cpu/wall-9-w13-v5-a-exact-three-adventure-frames-original.png",
+      "sha256": "421e6c19ffba41b2e223019a1d98c395e021b77f5bbe709518c57d23264b8faf",
+      "gitBlobSha": "1e44eed039947b136f2c8c404d7b77fb877a9098",
+      "bytes": 530695,
+      "dimensions": [
+        640,
+        640
+      ],
+      "format": "PNG",
+      "stagedOutput": "docs/preproduction/art-factory/generated-evidence/w13-release-rework-4pack-v1/wall-9/staged-output.json",
+      "generationReceipt": "docs/preproduction/art-factory/generated-evidence/w13-release-rework-4pack-v1/wall-9/generation-receipt.json",
+      "provenanceState": "COMPLETE_ART_FACTORY_V2",
+      "repositoryReadback": "PASS_EXACT_GIT_BLOB",
+      "supersession": "FRESH_V5_FAILURE_SPECIFIC_REPLACEMENT_FOR_REWORKED_V4",
+      "state": "ROUTE_TO_06_TECHNICAL_QUALIFICATION"
+    },
+    {
+      "id": "desks-12",
+      "name": "Luxe Command Desk",
+      "collectionId": "desks",
+      "producer": "13",
+      "reviewerAssignment": "01",
+      "renderOwner": "14",
+      "canonicalWriter": "08",
+      "path": "public/assets/catalog-candidates/cpu/desks-12-w13-v2-a-isolated-luxe-command-desk-original.png",
+      "sha256": "f5b90a8a25d066fe9bc669fe3ae456788ebfe3024acd0df62fd360afe7713434",
+      "gitBlobSha": "c8f1ba80832d7be9d2d06d3a89838e5feafbb34e",
+      "bytes": 546009,
+      "dimensions": [
+        640,
+        640
+      ],
+      "format": "PNG",
+      "stagedOutput": "docs/preproduction/art-factory/generated-evidence/w13-release-rework-4pack-v1/desks-12/staged-output.json",
+      "generationReceipt": "docs/preproduction/art-factory/generated-evidence/w13-release-rework-4pack-v1/desks-12/generation-receipt.json",
+      "provenanceState": "COMPLETE_ART_FACTORY_V2",
+      "repositoryReadback": "PASS_EXACT_GIT_BLOB",
+      "supersession": "FRESH_V2_FAILURE_SPECIFIC_REPLACEMENT_FOR_REWORKED_V1",
+      "state": "ROUTE_TO_06_TECHNICAL_QUALIFICATION"
+    }
+  ],
+  "dedupe": {
+    "uniqueItemHashClaim": true,
+    "unchangedPriorHashesRerouted": false,
+    "newerPendingCandidateObserved": false
+  },
+  "queues": {
+    "to06": [
+      "desks-8@ef2915f3fd15baca0d144b56739c3550b196c0c81ec9eab249fb2e23f7155cc3",
+      "wall-8@e103c5d6d64d264c01ec0462cf09ba92a74bb005cf0f638917a8c3ab2ac96ee8",
+      "wall-9@421e6c19ffba41b2e223019a1d98c395e021b77f5bbe709518c57d23264b8faf",
+      "desks-12@f5b90a8a25d066fe9bc669fe3ae456788ebfe3024acd0df62fd360afe7713434"
+    ],
+    "backToProducer": []
+  },
+  "cursorAdvance": {
+    "previous": "255c3740f81fb37f57ba3efabf5e300d65dd8c9e",
+    "advancedThrough": "a9f863e0ff6ebe7329b82b3a4ba6cbce510dadd8"
+  },
+  "nextOwner": "06_TECHNICAL_QUALIFICATION",
+  "mutationScope": "Routing evidence only; no candidate bytes, canonical mappings, reviewer decisions, gameplay, learning, economy, persistence, accessibility, CI/workflows, deployment, secrets, or player data changed."
+}
