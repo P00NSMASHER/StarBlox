@@ -333,13 +333,17 @@ export function validateShareableChallenge(challenge,{releaseRegistry=null}={}){
     errors.push('challenge is not hashable');
   }
 
-  const expectedId='challenge-' + stableHash({
-    namespace:'starblox-shareable-challenge-v1',
-    source:challenge.source,
-    dailyRelease:challenge.dailyRelease ?? null
-  }).split(':')[1];
-  if(challenge.challengeId !== expectedId){
-    errors.push('challenge ID mismatch');
+  try{
+    const expectedId='challenge-' + stableHash({
+      namespace:'starblox-shareable-challenge-v1',
+      source:challenge.source,
+      dailyRelease:challenge.dailyRelease ?? null
+    }).split(':')[1];
+    if(challenge.challengeId !== expectedId){
+      errors.push('challenge ID mismatch');
+    }
+  }catch{
+    errors.push('challenge identity is not hashable');
   }
 
   return {ok:errors.length === 0,errors};
