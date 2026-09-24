@@ -80,6 +80,10 @@
         {
           "variantId": "A-LITERAL-AQUA-STUDY-DESK",
           "optimizerInput": "Single freestanding study desk product on a plain white studio background. One long pale desk worktop, four simple legs, one small drawer pedestal under the right side, one short aqua organizer shelf attached above the back edge, and one small task lamp. Cyan and violet accents. Full desk visible, three-quarter product render. NO room, NO wall, NO cabinetry behind it, NO chair, NO second desk, NO collage, NO text."
+        },
+        {
+          "variantId": "B-LITERAL-AQUA-STUDY-DESK",
+          "optimizerInput": "Alternative view of the same single study desk: pale worktop, four legs, one drawer pedestal, short aqua organizer shelf and one task lamp on a plain background. NO room, NO wall cabinetry, NO chair, NO collage, NO text."
         }
       ]
     },
@@ -99,6 +103,10 @@
         {
           "variantId": "A-LITERAL-OCEAN-WINDOW",
           "optimizerInput": "Single square wall window product centered on a plain white wall. One thick cream frame around one large uninterrupted glass opening. Through the opening: bright blue ocean water across the entire lower half, one straight visible horizon line, clear pale blue sky above. Tiny pink and aqua trim on frame. Straight-on product render. NO grid, NO slats, NO blinds, NO abstract panels, NO furniture, NO second window, NO collage, NO text."
+        },
+        {
+          "variantId": "B-LITERAL-OCEAN-WINDOW",
+          "optimizerInput": "Alternative view of the same single ocean window: one thick cream frame, one uninterrupted glass opening, bright blue sea below a crisp horizon and pale sky above. NO grid, NO blinds, NO panels, NO room, NO text."
         }
       ]
     },
@@ -118,6 +126,10 @@
         {
           "variantId": "A-LITERAL-THREE-FRAME-TRIPTYCH",
           "optimizerInput": "Exactly three large framed travel paintings side by side on one thin shallow backing rail, centered on a plain white studio background. Left painting shows a mountain trail. Middle painting shows a large compass over a map shape with no words. Right painting shows a blue ocean coast. The three frames fill almost the whole image. NO fourth frame, NO small frames, NO floor, NO shelf, NO bench, NO room, NO architectural panels, NO collage, NO text."
+        },
+        {
+          "variantId": "B-LITERAL-THREE-FRAME-TRIPTYCH",
+          "optimizerInput": "Alternative view of the same exact three-frame triptych: mountain trail, compass-map, ocean coast, exactly three large frames on one thin rail, plain background. NO fourth frame, NO shelf, NO floor, NO room, NO text."
         }
       ]
     }
