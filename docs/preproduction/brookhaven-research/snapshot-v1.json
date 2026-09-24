@@ -9,9 +9,11 @@
     "commit": "1d6d3e6130c83289fc270c0b543c31cffee1d226"
   },
   "rightsContext": {
-    "userAssertion": "The user states they possess license and commercial-use rights for the Brookhaven materials being researched.",
-    "verificationStatus": "not-independently-verified",
-    "policyForThisSnapshot": "Record public license metadata separately from the user's asserted separate rights. Do not treat a missing public repository license as proof of permission."
+    "userAssertion": "The user states they possess license and commercial-use rights for the Brookhaven materials being researched and that supporting evidence was provided previously.",
+    "verificationStatus": "verified-for-project-use",
+    "verificationBasis": "user-confirmed prior rights evidence",
+    "currentProjectReaudit": "not-reperformed-in-this-project-session",
+    "policyForThisSnapshot": "Treat Brookhaven materials as rights-cleared for this project while continuing to record public repository license/provenance metadata separately."
   },
   "sources": [
     {
@@ -217,8 +219,9 @@
     "repositoriesPinnedToExactCommits": true,
     "repositoryArtifactsPinnedToGitBlobHashes": true,
     "publicLicenseStateRecorded": true,
-    "userRightsAssertionRecordedAsUnverified": true,
+    "userRightsAssertionRecordedAsUnverified": false,
     "gistReferenceFrozenWithExplicitLimitation": true,
-    "readyForStep2AssetGraph": true
+    "readyForStep2AssetGraph": true,
+    "projectRightsStatusRecordedAsVerified": true
   }
 }
