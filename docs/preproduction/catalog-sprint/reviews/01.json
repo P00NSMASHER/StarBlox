@@ -5,7 +5,7 @@
   "role": "Visual Target Director / independent catalog reviewer",
   "phase": "ART_AND_VISUALS_ONLY",
   "branch": "screenshot-match-preproduction",
-  "sourceHead": "a14d3c3fdbce127fb1e286c23329b51331fec877",
+  "sourceHead": "a14d3c3fdb",
   "assignedCollections": [
     "tops",
     "bottoms",
@@ -737,9 +737,9 @@
     "preservedAcceptedHashes": "All prior reviewer01 ACCEPTs remain frozen; this verdict applies only to desks-12 exact hash 36fbde14296512fd60e8b495e687cbf8152b7483."
   },
   "handoff": {
-    "13": "desks-12 current exact hash is REWORK; preserve it and generate only the failure-specific next version if director15 keeps it release-critical.",
+    "13": "desks-12 exact hash ACCEPT; freeze it and remove from production scope.",
     "14": "Current render packets consumed; do not rerender unchanged hashes.",
-    "15": "desks-12 leaves production scope after canonical integration.",
+    "15": "desks-12 leaves the release-blocker production queue.",
     "09": "Decor7 v7 REWORK; preserve exact hash and generate only a small freestanding rack with a clearly readable quad-skate pair if director15 keeps it release-critical.",
     "03": "desks-11 current exact hash is REWORK; preserve it and generate only the failure-specific next version if director15 keeps it release-critical.",
     "08": "Integrate exact desks-12 hash 36fbde14296512fd60e8b495e687cbf8152b7483 after live revalidation."
