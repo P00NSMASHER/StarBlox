@@ -23,12 +23,16 @@ describe('Step 3: Roblox production backbone', () => {
         'Learning.Ability',
         'Daily.Completed',
         'Settings',
+        'LiveOps.EventStreams',
         'Social.CompletedSessionIds',
         'Social.AffinityEventIds'
       ])
     );
     expect(REPLICATION_BOUNDARIES.playerReplica).not.toContain('Learning.Concepts');
     expect(REPLICATION_BOUNDARIES.playerReplica).not.toContain('Learning.Ability');
+    expect(REPLICATION_BOUNDARIES.playerReplica).not.toContain('LiveOps');
+    expect(REPLICATION_BOUNDARIES.playerReplica).not.toContain('LiveOps.ProcessedEventIds');
+    expect(REPLICATION_BOUNDARIES.playerReplica).not.toContain('LiveOps.EventStreams');
   });
 
   it('defines a versioned StarBlox profile with economy, progress, intelligence, daily, inventory and rollout state', () => {
