@@ -35,8 +35,11 @@ describe('Repair 6: LiveOps exactly-once reward boundary', () => {
     expect(claim).toMatch(/ClaimReceipts/);
     expect(claim).toMatch(/state\.ClaimReceipts\[claimKey\] == true/);
     expect(claim).toMatch(/state\.ClaimReceipts\[claimKey\] = true/);
-    expect(claim.indexOf('state.ClaimReceipts[claimKey] == true'))
-      .toBeLessThan(claim.indexOf('self._featurePackages.Claim'));
+    const dedupe=claim.indexOf('state.ClaimReceipts[claimKey] == true');
+    const adapterCall=claim.indexOf('return self._featurePackages.Claim(');
+    expect(dedupe).toBeGreaterThanOrEqual(0);
+    expect(adapterCall).toBeGreaterThanOrEqual(0);
+    expect(dedupe).toBeLessThan(adapterCall);
   });
 
   it('requires a stable platform PurchaseId and makes marketplace retries idempotent', () => {
@@ -47,8 +50,11 @@ describe('Repair 6: LiveOps exactly-once reward boundary', () => {
     expect(market).toMatch(/MarketplaceReceiptIds/);
     expect(market).toMatch(/state\.MarketplaceReceiptIds\[purchaseId\] == true/);
     expect(market).toMatch(/state\.MarketplaceReceiptIds\[purchaseId\] = true/);
-    expect(market.indexOf('state.MarketplaceReceiptIds[purchaseId] == true'))
-      .toBeLessThan(market.indexOf('self._featurePackages.ProcessMarketplaceReceipt'));
+    const dedupe=market.indexOf('state.MarketplaceReceiptIds[purchaseId] == true');
+    const adapterCall=market.indexOf('return self._featurePackages.ProcessMarketplaceReceipt(');
+    expect(dedupe).toBeGreaterThanOrEqual(0);
+    expect(adapterCall).toBeGreaterThanOrEqual(0);
+    expect(dedupe).toBeLessThan(adapterCall);
   });
 
   it('passes adapters copies and rejects private LiveOps patch fields', () => {
