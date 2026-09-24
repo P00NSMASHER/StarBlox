@@ -76,8 +76,8 @@ describe('Step 9 Roblox authoritative multiplayer contract', () => {
     expect(source).toMatch(/Movement:GetState/);
     expect(source).toMatch(/Position = position/);
     expect(source).toMatch(/Velocity = velocity/);
-    expect(source).not.toMatch(/raw\.Position/);
-    expect(source).not.toMatch(/raw\.Velocity/);
+    expect(source).not.toMatch(/command\.Position/);
+    expect(source).not.toMatch(/command\.Velocity/);
   });
 
   it('requires server weapon specs, rewind geometry, line of sight and server damage application', () => {
@@ -118,6 +118,7 @@ describe('Step 9 Roblox authoritative multiplayer contract', () => {
     expect(server).toMatch(/MultiplayerActionService/);
     expect(server).toMatch(/dependencies\.MultiplayerAdapters ~= nil/);
     expect(server).toMatch(/multiplayer:Start\(\)/);
+    expect(file('roblox/src/server/MultiplayerActionService.luau')).toMatch(/Network:BindInput/);
     expect(server).toMatch(/multiplayer:PlayerAdded/);
     expect(server).toMatch(/multiplayer:PlayerRemoving/);
     expect(server).not.toMatch(/assert\(dependencies\.MultiplayerAdapters/);
