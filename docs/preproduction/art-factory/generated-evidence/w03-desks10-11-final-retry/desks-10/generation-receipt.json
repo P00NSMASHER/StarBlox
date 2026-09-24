@@ -1,0 +1,112 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_GENERATION_RECEIPT",
+  "repository": "P00NSMASHER/StarBlox",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "181556b2aa8bea3069e640bdfb4d0bcc2ffd27a9",
+  "sourcePlanSha256": "09b0c32c418c1a415526c737d2d095c9cde2f0d079f46ecdbc37ede6d2ddfc40",
+  "executionCheckout": {
+    "branch": "screenshot-match-preproduction",
+    "head": "181556b2aa8bea3069e640bdfb4d0bcc2ffd27a9",
+    "planSourceHeadMatchesExecutionHead": true
+  },
+  "attempt": {
+    "attemptId": "desks-10-w03-b-two-leg-desk-mic-00009b338f",
+    "itemId": "desks-10",
+    "producer": "03",
+    "variant": "B-TWO-LEG-DESK-MIC",
+    "promptSha256": "00009b338fc195a88688f39fc3e84255fc42d264828e2ba3875a5993f92af5f7",
+    "runtimePromptSha256": "188f0bf8630a643e9ccef3fc15e6006a92350c9a6cbb9c03e7c60ffdf9f47b9a",
+    "runtimeNegativePromptSha256": "79dc02381852cc2e8f321f50f2b19d3f0257156a78744aabec225589d8544a70",
+    "promptRecipeVersion": "artPromptOptimizer-request-v1:w03-desks10-11-final-retry",
+    "seed": 656082005
+  },
+  "runtime": {
+    "repo": "huggingface/diffusers",
+    "commit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "resolvedCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "runtimeCommitVerified": true,
+    "diffusersVersion": "0.41.0.dev0",
+    "diffusersInstallSource": "https://github.com/huggingface/diffusers.git",
+    "torchVersion": "2.8.0+cpu",
+    "transformersVersion": "5.17.0",
+    "accelerateVersion": "1.15.0",
+    "huggingfaceHubVersion": "1.33.0",
+    "safetensorsVersion": "0.8.0",
+    "pythonPillowVersion": "12.3.0",
+    "device": "cpu",
+    "dtype": "float32",
+    "executionMode": "cpu-fallback"
+  },
+  "model": {
+    "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+    "revision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS",
+    "resolvedRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "snapshotRevisionVerified": true,
+    "selectiveSnapshot": true,
+    "snapshotAllowPatterns": [
+      "model_index.json",
+      "scheduler/*",
+      "tokenizer/*",
+      "tokenizer_2/*",
+      "feature_extractor/*",
+      "text_encoder/config.json",
+      "text_encoder/model.fp16.safetensors",
+      "text_encoder_2/config.json",
+      "text_encoder_2/model.fp16.safetensors",
+      "unet/config.json",
+      "unet/diffusion_pytorch_model.fp16.safetensors",
+      "vae/config.json",
+      "vae/diffusion_pytorch_model.fp16.safetensors"
+    ]
+  },
+  "conditioning": {
+    "referenceAssetSha256": null,
+    "controlImageSha256": null,
+    "adapterScale": null,
+    "referenceImage": null,
+    "ipAdapterModelId": null,
+    "ipAdapterRevision": null,
+    "ipAdapterResolvedRevision": null,
+    "ipAdapterRevisionVerified": false,
+    "ipAdapterWeightName": null,
+    "ipAdapterSubfolder": null
+  },
+  "generation": {
+    "width": 640,
+    "height": 640,
+    "numInferenceSteps": 12,
+    "guidanceScale": 5.0,
+    "runtimePromptTokenCounts": {
+      "tokenizer": 62,
+      "tokenizer_2": 62
+    },
+    "runtimeNegativePromptTokenCounts": {
+      "tokenizer": 33,
+      "tokenizer_2": 33
+    },
+    "executedSeed": 656082005
+  },
+  "output": {
+    "repoPath": "public/assets/catalog-candidates/cpu/desks-10-w03-v10-b-two-leg-desk-mic-original.png",
+    "sha256": "8d9c431bbc4c1c5497c378d3e9e731e7683f6da417eec78f6bc42ddc127f2119",
+    "gitBlobSha": "7bb37b681e4d1928fb6e5ffc742d592a8262a452",
+    "bytes": 424131,
+    "width": 640,
+    "height": 640,
+    "format": "PNG",
+    "sourceBytesPreserved": true,
+    "reusedExistingIdenticalBytes": false
+  },
+  "safety": {
+    "canonicalArtModified": false,
+    "gameplayModified": false,
+    "reviewDecisionMade": false,
+    "deploymentPerformed": false,
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+  },
+  "nextGate": "RUN_VERIFY_STAGED_OUTPUT_THEN_REAL_RENDER_AND_INDEPENDENT_EXACT_HASH_REVIEW",
+  "status": "GENERATED_SOURCE_BYTES_UNVERIFIED",
+  "recordSha256": "7cce7b9f7b6496f70ece7cf6d8ef7a58bd200186786c4dfaa53a9372fc0843a7"
+}
