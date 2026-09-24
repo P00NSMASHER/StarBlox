@@ -12,8 +12,18 @@ const DEFAULTS=Object.freeze({
   maxToolCalls:3
 });
 
-const FORBIDDEN_TOOL_RE=/(reward|currency|coin|xp|star|mastery|purchase|spend|publish|deploy|execute|script|datastore|admin|moder|ban|kick|http|secret|credential)/i;
-const FORBIDDEN_ARG_KEY_RE=/(reward|currency|coin|xp|star|mastery|score|correct|answer|selectedAnswer|publish|purchase|spend|script|source|code|command|password|secret|token|credential|userId|playerId)/i;
+const FORBIDDEN_TOOL_TOKENS=new Set([
+  'reward','currency','coin','coins','xp','star','stars','mastery',
+  'purchase','spend','publish','deploy','execute','script','code',
+  'datastore','admin','moderate','moderation','ban','kick','http',
+  'secret','credential'
+]);
+const FORBIDDEN_ARG_TOKENS=new Set([
+  'reward','currency','coin','coins','xp','star','stars','mastery',
+  'score','correct','answer','publish','purchase','spend','script',
+  'source','code','command','password','secret','token','credential'
+]);
+const FORBIDDEN_COMPACT_KEYS=new Set(['selectedanswer','userid','playerid','apikey']);
 const SENSITIVE_MEMORY_RE=/(https?:\/\/|www\.|\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b|\b\d{7,}\b|discord|snapchat|phone number|home address|street address|password|real name|school name)/i;
 
 function clone(value){
@@ -44,12 +54,27 @@ function boundedNumber(value,def,min,max){
   return Math.min(max,Math.max(min,n));
 }
 
+function semanticTokens(value){
+  return String(value)
+    .replace(/([a-z0-9])([A-Z])/g,'$1_$2')
+    .toLowerCase()
+    .split(/[^a-z0-9]+/)
+    .filter(Boolean);
+}
+
+function forbiddenSemanticKey(value,tokenSet,{compactKeys=null}={}){
+  const raw=String(value);
+  const compact=raw.toLowerCase().replace(/[^a-z0-9]/g,'');
+  if(compactKeys?.has(compact)) return true;
+  return semanticTokens(raw).some(token=>tokenSet.has(token));
+}
+
 function normalizeToolName(value){
   const name=id(value,'tool name');
   if(!/^[a-z][a-z0-9_]{1,63}$/.test(name)){
     throw new TypeError('tool names must be lower_snake_case.');
   }
-  if(FORBIDDEN_TOOL_RE.test(name)){
+  if(forbiddenSemanticKey(name,FORBIDDEN_TOOL_TOKENS)){
     throw new Error('tool is outside the AI NPC authority boundary: ' + name);
   }
   return name;
@@ -168,7 +193,9 @@ function scanArgs(value,path='args',errors=[]){
   const entries=Object.entries(value);
   if(entries.length > 30) errors.push(path + ' contains too many fields');
   for(const [key,child] of entries.slice(0,30)){
-    if(FORBIDDEN_ARG_KEY_RE.test(key)) errors.push(path + '.' + key + ' crosses authority boundary');
+    if(forbiddenSemanticKey(key,FORBIDDEN_ARG_TOKENS,{compactKeys:FORBIDDEN_COMPACT_KEYS})){
+      errors.push(path + '.' + key + ' crosses authority boundary');
+    }
     scanArgs(child,path + '.' + key,errors);
   }
   return errors;
