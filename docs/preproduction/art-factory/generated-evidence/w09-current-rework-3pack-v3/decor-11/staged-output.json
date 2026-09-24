@@ -1,0 +1,91 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_STAGED_OUTPUT",
+  "repository": "P00NSMASHER/StarBlox",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "67efe9eb827ad21511c5955f087cc5bf718477f3",
+  "sourcePlanSha256": "0efa209d721771763449eed77d2167e4d3e376e93416c7667a838dac87b57e3d",
+  "item": {
+    "id": "decor-11",
+    "name": "Dream Vanity Set",
+    "collectionId": "decor",
+    "type": "room",
+    "tier": 4,
+    "theme": "Art Attack"
+  },
+  "attempt": {
+    "attemptId": "decor-11-w09-a-one-vanity-set-b25ffa0fce",
+    "producer": "09",
+    "variant": "A-ONE-VANITY-SET",
+    "promptBlocks": [
+      "metadata",
+      "category",
+      "silhouette",
+      "physical",
+      "material",
+      "theme",
+      "tier",
+      "card",
+      "original",
+      "stage",
+      "furniture",
+      "camera",
+      "depth",
+      "bloom",
+      "textile",
+      "wall",
+      "light"
+    ],
+    "promptSha256": "b25ffa0fceea950145b05104775f8294ad24e2460517e7efc2c787ff2d76c827",
+    "promptRecipeVersion": "artPromptOptimizer-request-v1:w09-current-rework-3pack-v3",
+    "seed": 690656054,
+    "runtime": {
+      "repo": "huggingface/diffusers",
+      "commit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c"
+    },
+    "model": {
+      "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+      "revision": "462165984030d82259a11f4367a4eed129e94a7b",
+      "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+    },
+    "conditioning": {
+      "referenceAssetSha256": null,
+      "controlImageSha256": null,
+      "adapterScale": null
+    }
+  },
+  "output": {
+    "repoPath": "public/assets/catalog-candidates/cpu/decor-11-w09-v3-a-one-vanity-set-original.png",
+    "sha256": "5c3e56e16745ab6dbe5c6935ab51390b12781c78f14a14f2cf8ec510f0616565",
+    "gitBlobSha": "0cb68d665a140f9d176a3f5721c8c08572867cdf",
+    "bytes": 629225,
+    "format": "PNG",
+    "width": 640,
+    "height": 640,
+    "mode": "RGB"
+  },
+  "derivativeLineage": {
+    "derivativeOfSha256": null,
+    "sourcePreserved": true
+  },
+  "renderEvidence": [],
+  "review": {
+    "reviewer": "02",
+    "routing": {
+      "reviewer": "02",
+      "routingFile": "docs/preproduction/art-factory/runtime-queue/w09-current-rework-3pack-v3.json",
+      "routingFileSha256": "ec9c9b199669094f5313421e2598635d87c09826782a7e64a083f68e415a87c5",
+      "queueId": "w09-current-rework-3pack-v3"
+    },
+    "state": "PENDING_ACTUAL_PIXEL_REVIEW",
+    "decision": null
+  },
+  "safety": {
+    "canonicalArtModified": false,
+    "gameplayModified": false,
+    "automaticPerceptualDecision": false,
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+  },
+  "status": "STAGED_EXACT_BYTES_VERIFIED",
+  "recordSha256": "68951b9a73904572d9be7e514d825108489c382f1ca341b99c8b3a706850075b"
+}
