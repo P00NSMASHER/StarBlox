@@ -527,12 +527,13 @@ export async function runDevelopmentFactory({
   const maxTotalMutationCalls=Math.max(1,Math.min(500,Number(config.maxTotalMutationCalls ?? 120)));
   const maxToolCallsPerBatch=Math.max(1,Math.min(100,Number(config.maxToolCallsPerBatch ?? 50)));
   let totalMutationCalls=0;
-  const requiredRepositoryGates=Array.isArray(config.requiredRepositoryGates)
-    ? [...new Set(config.requiredRepositoryGates
-      .filter(value => typeof value === 'string' && value.trim())
-      .map(value => value.trim())
-    )]
-    : [];
+  const requestedRepositoryGates=Array.isArray(config.requiredRepositoryGates)
+    ? config.requiredRepositoryGates
+    : ['tests','certification','balance','build'];
+  const requiredRepositoryGates=[...new Set(requestedRepositoryGates
+    .filter(value => typeof value === 'string' && value.trim())
+    .map(value => value.trim())
+  )];
   const safety={
     allowDestructive:Boolean(config.allowDestructive),
     allowExecuteLuau:Boolean(config.allowExecuteLuau),
