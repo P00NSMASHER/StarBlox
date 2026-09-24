@@ -22,9 +22,20 @@ for(const edge of graph.edges||[]){
 if(graph.nodeCount!==graph.nodes.length) issues.push('node-count-mismatch');
 if(graph.edgeCount!==graph.edges.length) issues.push('edge-count-mismatch');
 
+const catalogPath='docs/preproduction/brookhaven-research/resolved-catalogs-v1.json';
+const catalog=JSON.parse(fs.readFileSync(catalogPath,'utf8'));
+if(catalog.schemaVersion!=='starblox-brookhaven-resolved-catalogs-v1') issues.push('catalog-schema');
+if((catalog.propertyCatalog||[]).length!==5) issues.push('property-catalog-count');
+if((catalog.currentVehicleCatalog?.values||[]).length!==13) issues.push('current-vehicle-count');
+if((catalog.legacyVehicleCatalog?.values||[]).length!==4) issues.push('legacy-vehicle-count');
+if((catalog.lots?.values||[]).length!==29) issues.push('lot-count');
+if((catalog.loadableCatalogRoots||[]).length!==5) issues.push('loadable-root-count');
+if((catalog.propertyCatalog||[]).some(row=>row.assetPayloadStatus!=='not-recovered')) issues.push('unexpected-property-payload-claim');
+
 const result={
   schemaVersion:'starblox-brookhaven-research-validation-v1',
   graphPath,
+  catalogPath,
   nodeCount:graph.nodes?.length||0,
   edgeCount:graph.edges?.length||0,
   issueCount:issues.length,
