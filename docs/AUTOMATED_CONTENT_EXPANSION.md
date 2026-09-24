@@ -248,3 +248,9 @@ Step 10 does not:
 - override StarBlox rollout/kill-switch controls.
 
 It produces a complete, testable, reviewable content candidate.
+
+## Repair hardening: promotion evidence
+
+A review-ready expansion must carry a valid migration plan-binding proof and its selected migration unit IDs must exactly match the district blueprint's selected systems.
+
+This is in addition to the existing requirements for verified Studio development, explicit tests/balance/build repository proof, strict question validation, exact question-slot coverage, staging-only migration, and disabled automatic publication.
