@@ -6,6 +6,31 @@ const input=JSON.parse(fs.readFileSync(inputPath,'utf8'));
 const scene=convertScene(input);
 const issues=[];
 
+function expectReject(label,mutate,pattern){
+  const copy=JSON.parse(JSON.stringify(input));
+  mutate(copy);
+  try{
+    convertScene(copy);
+    issues.push('converter-accepted-invalid:'+label);
+  }catch(error){
+    if(pattern && !pattern.test(String(error?.message||error))){
+      issues.push('converter-wrong-rejection:'+label+':'+String(error?.message||error));
+    }
+  }
+}
+
+expectReject('executable-field',copy=>{
+  copy.objects[0].code='print("not allowed")';
+},/executable fields forbidden/);
+
+expectReject('unknown-rights-status',copy=>{
+  copy.source.rightsStatus='unknown-rights-state';
+},/unsupported source\.rightsStatus/);
+
+expectReject('unknown-payload-kind',copy=>{
+  copy.source.payloadKind='unknown-payload';
+},/unsupported source\.payloadKind/);
+
 const requiredRoles=['house','vehicle','neighborhood-block','school','shop'];
 for(const role of requiredRoles){
   if(!scene.objects.some(object => object.role === role)) issues.push('missing-role:'+role);
