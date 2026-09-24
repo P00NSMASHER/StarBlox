@@ -1,0 +1,171 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_JOB",
+  "repository": "P00NSMASHER/StarBlox",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "55ed5cb334d4f2a216fecb70d69d698f96e25a1f",
+  "item": {
+    "id": "decor-8",
+    "name": "Mini Aquarium",
+    "collectionId": "decor",
+    "type": "room",
+    "tier": 3,
+    "theme": "Galaxy Glow"
+  },
+  "sourceReviewHash": "b35648acd6951aaa04de97f555b660396e2a62df",
+  "rightsBasis": "USER_ATTESTED_FULL_RIGHTS",
+  "attempts": [
+    {
+      "attemptId": "decor-8-w03-a-one-rectangular-aquarium-27e94c0288",
+      "itemId": "decor-8",
+      "producer": "03",
+      "variant": "A-ONE-RECTANGULAR-AQUARIUM",
+      "promptBlocks": [
+        "metadata",
+        "category",
+        "silhouette",
+        "physical",
+        "material",
+        "theme",
+        "tier",
+        "card",
+        "original",
+        "stage",
+        "furniture",
+        "camera",
+        "depth",
+        "bloom",
+        "textile",
+        "wall",
+        "light"
+      ],
+      "promptText": "STARBLOX CATALOG ART — A-ONE-RECTANGULAR-AQUARIUM\n\nCreate one premium, kid-friendly 2D game catalog asset with polished dimensional quality.\n\nExact metadata: decor-8 — Mini Aquarium; collection decor; type room; tier 3; theme Galaxy Glow.\n\nAuthoritative item-specific design brief:\nMini Aquarium, Room Decor, Tier 3, Galaxy Glow. EXACTLY ONE compact rectangular tabletop aquarium in ONE camera view on a plain studio background. Show one clear glass tank body, one dark base, one slim lid with one small filter housing, simple gravel and two small aquatic plants, and a restrained cyan-violet Galaxy Glow light inside the water. The entire single tank must be fully visible and dominate the image at card scale. NO second tank, NO alternate view, NO collage, NO comparison panels, NO labels, NO callouts, NO UI, NO room scene, NO text.\n\nExact-hash reviewer failure taxonomy: UNKNOWN_REWORK.\n\nRepair the documented failure codes while preserving qualities that were not implicated. Do not erase successful identity, silhouette, material depth, or readability merely to make a different image.\n\nUse the exact catalog ID/name/collection/tier/theme. Do not rename, recategorize, or substitute the item.\n\nMake the object unmistakably the stated product category with believable proportions and construction.\n\nPrioritize a distinctive clean silhouette that reads immediately at small Store-card size.\n\nShow real thickness, seams/joints/edges, layered parts, volume, contact points and functional construction—not a flat icon, emblem or sticker.\n\nUse category-appropriate material texture and highlights/shadows that explain the form.\n\nExpress the exact theme through material, construction, light and motif—not a palette swap or pasted decal.\n\nRespect tier progression: Starter stays simple and attractive; higher tiers gain richer form/material detail; Luxe gains spectacle without losing identity.\n\nDesign for both detail view and a 600×600 Store card with strong contrast, uncluttered hierarchy and no tiny critical details.\n\nAvoid recolor-only siblings, repeated template silhouettes, generic rings/badges, or interchangeable props.\n\nPresent one isolated subject on a clean premium background. No UI, text, watermark, logo, fake price badge or unrelated props.\n\nFor furniture/decor, show supports, joints, cushions/panels/hardware, weight and grounded contact.\n\nUse a clean product-style three-quarter view when appropriate so front, side and thickness are visible.\n\nUse occlusion, contact/cast shadows and foreground/midground/background separation so the asset feels spatial.\n\nUse controlled emissive light/bloom only where appropriate; preserve edges and local contrast.\n\nFor textiles, show weave/pile/folds/stitching/edge finish/thickness and believable softness or drape.\n\nFor wall decor, show mounting/frame/backing/relief depth and a believable wall-object form—not a floating emblem.\n\nFor lighting, show a physical base/mount/chassis, emitter or bulb, support structure and believable emitted/reflected light.\n\nOutput a production-worthy source image for exact-byte staging, card/detail rendering and independent review. Do not claim approval; the reviewer decides from rendered pixels.",
+      "promptSha256": "27e94c0288c8b85bb5defc307e7d024c36d17ce252161b16d161d6bf4ed90e65",
+      "runtimePromptText": "decor-8 Mini Aquarium; Galaxy Glow; tier 3. EXACTLY ONE compact rectangular tabletop aquarium in ONE camera view on Show one clear glass tank body, one dark base, one slim The entire single tank must be fully visible and dominate the a single isolated product, grounded shadow.",
+      "runtimePromptSha256": "0e32691c1bd171dbc638f163ad8b908708f8260b115af5a11c39837c7be5eb67",
+      "runtimeNegativePromptText": "second tank, alternate view, collage, comparison panels, labels, callouts, UI, room scene, text, collage, multiple views, repeated variants, text, logo, watermark, UI",
+      "runtimeNegativePromptSha256": "c6826f9b49ec61b707477e850a19688ca229e8b87df881dfb0c2b1836b1e48fc",
+      "promptRecipeVersion": "artPromptOptimizer-request-v1:w03-release-tail-4pack-v4",
+      "seed": 390983231,
+      "runtime": {
+        "repo": "huggingface/diffusers",
+        "commit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c"
+      },
+      "model": {
+        "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+        "revision": "462165984030d82259a11f4367a4eed129e94a7b",
+        "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+      },
+      "conditioning": {
+        "referenceAssetSha256": null,
+        "controlImageSha256": null,
+        "adapterScale": null
+      },
+      "output": {
+        "repoPath": null,
+        "sha256": null,
+        "gitBlobSha": null,
+        "bytes": null,
+        "width": null,
+        "height": null
+      },
+      "status": "PLANNED_NOT_GENERATED"
+    },
+    {
+      "attemptId": "decor-8-w03-b-single-glass-tank-only-c48330ce8b",
+      "itemId": "decor-8",
+      "producer": "03",
+      "variant": "B-SINGLE-GLASS-TANK-ONLY",
+      "promptBlocks": [
+        "metadata",
+        "category",
+        "silhouette",
+        "physical",
+        "material",
+        "theme",
+        "tier",
+        "card",
+        "original",
+        "stage",
+        "furniture",
+        "camera",
+        "depth",
+        "bloom",
+        "textile",
+        "wall",
+        "light"
+      ],
+      "promptText": "STARBLOX CATALOG ART — B-SINGLE-GLASS-TANK-ONLY\n\nCreate one premium, kid-friendly 2D game catalog asset with polished dimensional quality.\n\nExact metadata: decor-8 — Mini Aquarium; collection decor; type room; tier 3; theme Galaxy Glow.\n\nAuthoritative item-specific design brief:\nMini Aquarium, Room Decor, Tier 3, Galaxy Glow. ONE small freestanding aquarium only: one glass box, one base, one lid/filter assembly, simple water/plants/rocks, subtle cyan-violet glow, three-quarter product view, plain background and grounded shadow. NO duplicate aquarium, NO panels, NO diagram, NO room, NO text.\n\nExact-hash reviewer failure taxonomy: UNKNOWN_REWORK.\n\nRepair the documented failure codes while preserving qualities that were not implicated. Do not erase successful identity, silhouette, material depth, or readability merely to make a different image.\n\nUse the exact catalog ID/name/collection/tier/theme. Do not rename, recategorize, or substitute the item.\n\nMake the object unmistakably the stated product category with believable proportions and construction.\n\nPrioritize a distinctive clean silhouette that reads immediately at small Store-card size.\n\nShow real thickness, seams/joints/edges, layered parts, volume, contact points and functional construction—not a flat icon, emblem or sticker.\n\nUse category-appropriate material texture and highlights/shadows that explain the form.\n\nExpress the exact theme through material, construction, light and motif—not a palette swap or pasted decal.\n\nRespect tier progression: Starter stays simple and attractive; higher tiers gain richer form/material detail; Luxe gains spectacle without losing identity.\n\nDesign for both detail view and a 600×600 Store card with strong contrast, uncluttered hierarchy and no tiny critical details.\n\nAvoid recolor-only siblings, repeated template silhouettes, generic rings/badges, or interchangeable props.\n\nPresent one isolated subject on a clean premium background. No UI, text, watermark, logo, fake price badge or unrelated props.\n\nFor furniture/decor, show supports, joints, cushions/panels/hardware, weight and grounded contact.\n\nUse a clean product-style three-quarter view when appropriate so front, side and thickness are visible.\n\nUse occlusion, contact/cast shadows and foreground/midground/background separation so the asset feels spatial.\n\nUse controlled emissive light/bloom only where appropriate; preserve edges and local contrast.\n\nFor textiles, show weave/pile/folds/stitching/edge finish/thickness and believable softness or drape.\n\nFor wall decor, show mounting/frame/backing/relief depth and a believable wall-object form—not a floating emblem.\n\nFor lighting, show a physical base/mount/chassis, emitter or bulb, support structure and believable emitted/reflected light.\n\nOutput a production-worthy source image for exact-byte staging, card/detail rendering and independent review. Do not claim approval; the reviewer decides from rendered pixels.",
+      "promptSha256": "c48330ce8b2b21b27c25ea3dc23a29942a3235cb2a0a0b7c8895eef8a3de1428",
+      "runtimePromptText": "decor-8 Mini Aquarium; Galaxy Glow; tier 3. ONE small freestanding aquarium only: one glass box, one base, one lid/filter assembly, simple water/plants/rocks, subtle cyan-violet glow, three-quarter product view, plain background and grounded shadow. single isolated product, grounded shadow.",
+      "runtimePromptSha256": "85bacd92227db2ffd6a5afc79e1b211735f1eb440008e965aaf1751933db904c",
+      "runtimeNegativePromptText": "duplicate aquarium, panels, diagram, room, text, collage, multiple views, repeated variants, text, logo, watermark, UI",
+      "runtimeNegativePromptSha256": "0de7c33ef902e43964052c0cc872f127c43fceb91b719fec219b63b86595efb2",
+      "promptRecipeVersion": "artPromptOptimizer-request-v1:w03-release-tail-4pack-v4",
+      "seed": 570215309,
+      "runtime": {
+        "repo": "huggingface/diffusers",
+        "commit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c"
+      },
+      "model": {
+        "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+        "revision": "462165984030d82259a11f4367a4eed129e94a7b",
+        "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+      },
+      "conditioning": {
+        "referenceAssetSha256": null,
+        "controlImageSha256": null,
+        "adapterScale": null
+      },
+      "output": {
+        "repoPath": null,
+        "sha256": null,
+        "gitBlobSha": null,
+        "bytes": null,
+        "width": null,
+        "height": null
+      },
+      "status": "PLANNED_NOT_GENERATED"
+    }
+  ],
+  "requestContext": {
+    "requestPath": "docs/preproduction/art-factory/requests/w03-release-tail-4pack-v4-20260924.json",
+    "batchId": "w03-release-tail-4pack-v4",
+    "requestSourceHead": "c0c70b21263c87cc69af7c2cd0b3d9a5da2e910a",
+    "requestRecordSha256": "90a7ebbe20aafdf987e6371c18737b2ad012e2f2ff1e6edd6e4ca426b8c9d961",
+    "planner": "15",
+    "reviewer": "MIXED_11_05_01",
+    "renderOwner": "14",
+    "integrationOwner": "08",
+    "contextReferences": [
+      {
+        "role": "FIRST_PARTY_STARBLOX_STORE_ART_DIRECTION",
+        "repositoryPath": "docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg",
+        "sha256": "b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d",
+        "gitBlobSha": "383baa877d3af86fa92e3583740212000592b3d6",
+        "dimensions": [
+          1448,
+          1086
+        ],
+        "sourceManifest": null
+      }
+    ],
+    "plannerVariants": [
+      {
+        "variantId": "A-ONE-RECTANGULAR-AQUARIUM",
+        "plannerSeed": null,
+        "optimizerInputSha256": "bfd66f50aa69f4fa69f87f90384193c8d0f70419bae9d1af7dc7baba2864999c",
+        "compiledPromptSha256": "27e94c0288c8b85bb5defc307e7d024c36d17ce252161b16d161d6bf4ed90e65",
+        "compiledSeed": 390983231
+      },
+      {
+        "variantId": "B-SINGLE-GLASS-TANK-ONLY",
+        "plannerSeed": null,
+        "optimizerInputSha256": "afad167e996136c13fbc0930eea8ed0ea3722942e06212f264e378d8c74c9a68",
+        "compiledPromptSha256": "c48330ce8b2b21b27c25ea3dc23a29942a3235cb2a0a0b7c8895eef8a3de1428",
+        "compiledSeed": 570215309
+      }
+    ]
+  },
+  "planSha256": "338f9e71b16db40a29cc54ff37384e3250d1a63c756a04743955ffa628c0776c"
+}

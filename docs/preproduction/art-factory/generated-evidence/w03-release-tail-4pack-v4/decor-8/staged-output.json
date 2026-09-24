@@ -1,0 +1,91 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_STAGED_OUTPUT",
+  "repository": "P00NSMASHER/StarBlox",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "55ed5cb334d4f2a216fecb70d69d698f96e25a1f",
+  "sourcePlanSha256": "338f9e71b16db40a29cc54ff37384e3250d1a63c756a04743955ffa628c0776c",
+  "item": {
+    "id": "decor-8",
+    "name": "Mini Aquarium",
+    "collectionId": "decor",
+    "type": "room",
+    "tier": 3,
+    "theme": "Galaxy Glow"
+  },
+  "attempt": {
+    "attemptId": "decor-8-w03-a-one-rectangular-aquarium-27e94c0288",
+    "producer": "03",
+    "variant": "A-ONE-RECTANGULAR-AQUARIUM",
+    "promptBlocks": [
+      "metadata",
+      "category",
+      "silhouette",
+      "physical",
+      "material",
+      "theme",
+      "tier",
+      "card",
+      "original",
+      "stage",
+      "furniture",
+      "camera",
+      "depth",
+      "bloom",
+      "textile",
+      "wall",
+      "light"
+    ],
+    "promptSha256": "27e94c0288c8b85bb5defc307e7d024c36d17ce252161b16d161d6bf4ed90e65",
+    "promptRecipeVersion": "artPromptOptimizer-request-v1:w03-release-tail-4pack-v4",
+    "seed": 390983231,
+    "runtime": {
+      "repo": "huggingface/diffusers",
+      "commit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c"
+    },
+    "model": {
+      "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+      "revision": "462165984030d82259a11f4367a4eed129e94a7b",
+      "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+    },
+    "conditioning": {
+      "referenceAssetSha256": null,
+      "controlImageSha256": null,
+      "adapterScale": null
+    }
+  },
+  "output": {
+    "repoPath": "public/assets/catalog-candidates/cpu/decor-8-w03-v4-a-one-rectangular-aquarium-original.png",
+    "sha256": "e169c2c18cfbcc94adf2d49b24bc41e178786771fbe2d586a2eaa72a99f99d53",
+    "gitBlobSha": "84aebabc0c5653fbd551badab28dff9873574edd",
+    "bytes": 436716,
+    "format": "PNG",
+    "width": 640,
+    "height": 640,
+    "mode": "RGB"
+  },
+  "derivativeLineage": {
+    "derivativeOfSha256": null,
+    "sourcePreserved": true
+  },
+  "renderEvidence": [],
+  "review": {
+    "reviewer": "11",
+    "routing": {
+      "reviewer": "11",
+      "routingFile": "docs/preproduction/art-factory/runtime-queue/w03-release-tail-4pack-v4.json",
+      "routingFileSha256": "efb7521f7b30e9ebb67ec8396cfb1a39285faaf8bf39c910f6c444e71bc96cc2",
+      "queueId": "w03-release-tail-4pack-v4"
+    },
+    "state": "PENDING_ACTUAL_PIXEL_REVIEW",
+    "decision": null
+  },
+  "safety": {
+    "canonicalArtModified": false,
+    "gameplayModified": false,
+    "automaticPerceptualDecision": false,
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+  },
+  "status": "STAGED_EXACT_BYTES_VERIFIED",
+  "recordSha256": "f890d75da9633a6413b06fcc83c77679a6f55f901edbcb47f2675c263a876c3d"
+}
