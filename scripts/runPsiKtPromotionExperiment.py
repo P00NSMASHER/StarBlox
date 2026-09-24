@@ -44,6 +44,7 @@ from sklearn.metrics import roc_auc_score
 from knowledge_tracing.data.data_loader import DataReader
 from knowledge_tracing.psikt import EPS
 from knowledge_tracing.psikt.psikt import AmortizedPSIKT
+from knowledge_tracing.psikt.GMVAE.gmvae import LossFunctions
 from knowledge_tracing.utils.logger import Logger
 
 
@@ -124,6 +125,52 @@ class StarBloxAmortizedPSIKT(AmortizedPSIKT):
             tensor=emb_history.clone().detach(),
         )
         return return_dict
+
+    def loss(self, feed_dict, outdict, metrics=None):
+        # Pinned upstream loss() unconditionally evaluates prior_entropy through
+        # self.gen_network_transition_s, but AmortizedPSIKT never initializes
+        # that attribute. In this promotion experiment cat_in_entropy_weight is
+        # exactly zero, and upstream loss_total does not include this diagnostic
+        # term. Preserve the effective upstream optimization objective and fail
+        # explicitly if a future run tries to enable that missing regularizer.
+        if metrics is not None:
+            raise RuntimeError(
+                "StarBlox PSI-KT compatibility loss is validated with metrics=None; "
+                "evaluation metrics are computed from predictive_model separately."
+            )
+        if float(self.args.cat_in_entropy_weight) != 0.0:
+            raise RuntimeError(
+                "Pinned PSI-KT lacks gen_network_transition_s; "
+                "cat_in_entropy_weight must remain zero."
+            )
+
+        losses = defaultdict(lambda: torch.zeros((), device=self.device))
+        gt = outdict["label"].repeat(1, self.num_sample, 1, 1)
+        pred = outdict["prediction"]
+
+        loss_fn = torch.nn.BCELoss()
+        losses["loss_bce"] = loss_fn(pred.flatten(), gt.float().flatten())
+
+        for key in [
+            "elbo",
+            "initial_likelihood",
+            "sequence_likelihood",
+            "st_entropy",
+            "zt_entropy",
+            "yt_log_prob",
+            "zt_log_prob",
+            "st_log_prob",
+        ]:
+            losses[key] = outdict[key].mean()
+
+        gmvae_loss = LossFunctions()
+        loss_cat = -gmvae_loss.entropy(self.logits, self.probs) - np.log(0.1)
+        losses["loss_cat"] = loss_cat * self.args.cat_weight
+        losses["loss_cat_in_entropy"] = torch.zeros((), device=pred.device)
+
+        # Exact effective upstream objective at this commit.
+        losses["loss_total"] = -outdict["elbo"].mean() + losses["loss_cat"]
+        return losses
 
 
 def repair_upstream_sequence_alignment(reader, max_step):
@@ -387,6 +434,7 @@ receipt = {
     "compatibilityShim":"skip-unused-qs-sample-assignment-with-undefined-bsn",
     "forwardCompatibilityShim":"preserve-objective-dict-discarded-by-upstream-forward",
     "categoricalCompatibilityShim":"expose-upstream-gmvae-logits-and-prob-cat-for-loss",
+    "priorEntropyCompatibilityShim":"skip-zero-weight-missing-gen-network-transition-s-diagnostic",
     "dataAlignmentShim":alignment_audit,
     "device":"cpu",
     "epochs":model_args.epoch,
@@ -415,6 +463,7 @@ print(json.dumps({
     "compatibilityShim":receipt["compatibilityShim"],
     "forwardCompatibilityShim":receipt["forwardCompatibilityShim"],
     "categoricalCompatibilityShim":receipt["categoricalCompatibilityShim"],
+    "priorEntropyCompatibilityShim":receipt["priorEntropyCompatibilityShim"],
     "dataAlignmentShim":receipt["dataAlignmentShim"],
     "upstreamCommit":upstream_commit,
     "epochs":receipt["epochs"],
