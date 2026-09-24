@@ -1,0 +1,107 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_GENERATION_RECEIPT",
+  "repository": "P00NSMASHER/StarBlox",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "67efe9eb827ad21511c5955f087cc5bf718477f3",
+  "sourcePlanSha256": "fc7e9c8d9ebf24d284e585a894ac6067ae306d0af041c5636508041453a53602",
+  "executionCheckout": {
+    "branch": "screenshot-match-preproduction",
+    "head": "67efe9eb827ad21511c5955f087cc5bf718477f3",
+    "planSourceHeadMatchesExecutionHead": true
+  },
+  "attempt": {
+    "attemptId": "decor-7-w09-a-quad-skates-in-rack-61c5a0ff15",
+    "itemId": "decor-7",
+    "producer": "09",
+    "variant": "A-QUAD-SKATES-IN-RACK",
+    "promptSha256": "61c5a0ff15c3b3861bf45451b9aefaf514a9330f9eb79a555c61038bac062d06",
+    "runtimePromptSha256": "006e09089a178538569ee41ed7ed2bad78dd7ae42c12f8eb58194cb2ca771da8",
+    "promptRecipeVersion": "artPromptOptimizer-request-v1:w09-current-rework-3pack-v3",
+    "seed": 591878252
+  },
+  "runtime": {
+    "repo": "huggingface/diffusers",
+    "commit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "resolvedCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "runtimeCommitVerified": true,
+    "diffusersVersion": "0.41.0.dev0",
+    "diffusersInstallSource": "https://github.com/huggingface/diffusers.git",
+    "torchVersion": "2.8.0+cpu",
+    "transformersVersion": "5.17.0",
+    "accelerateVersion": "1.15.0",
+    "huggingfaceHubVersion": "1.33.0",
+    "safetensorsVersion": "0.8.0",
+    "pythonPillowVersion": "12.3.0",
+    "device": "cpu",
+    "dtype": "float32",
+    "executionMode": "cpu-fallback"
+  },
+  "model": {
+    "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+    "revision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS",
+    "resolvedRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "snapshotRevisionVerified": true,
+    "selectiveSnapshot": true,
+    "snapshotAllowPatterns": [
+      "model_index.json",
+      "scheduler/*",
+      "tokenizer/*",
+      "tokenizer_2/*",
+      "feature_extractor/*",
+      "text_encoder/config.json",
+      "text_encoder/model.fp16.safetensors",
+      "text_encoder_2/config.json",
+      "text_encoder_2/model.fp16.safetensors",
+      "unet/config.json",
+      "unet/diffusion_pytorch_model.fp16.safetensors",
+      "vae/config.json",
+      "vae/diffusion_pytorch_model.fp16.safetensors"
+    ]
+  },
+  "conditioning": {
+    "referenceAssetSha256": null,
+    "controlImageSha256": null,
+    "adapterScale": null,
+    "referenceImage": null,
+    "ipAdapterModelId": null,
+    "ipAdapterRevision": null,
+    "ipAdapterResolvedRevision": null,
+    "ipAdapterRevisionVerified": false,
+    "ipAdapterWeightName": null,
+    "ipAdapterSubfolder": null
+  },
+  "generation": {
+    "width": 640,
+    "height": 640,
+    "numInferenceSteps": 6,
+    "guidanceScale": 3.5,
+    "runtimePromptTokenCounts": {
+      "tokenizer": 63,
+      "tokenizer_2": 63
+    },
+    "executedSeed": 591878252
+  },
+  "output": {
+    "repoPath": "public/assets/catalog-candidates/cpu/decor-7-w09-v7-a-quad-skates-in-rack-original.png",
+    "sha256": "1cf7f676a9dc758b12d69180cbc547c70f9f81fd275ce1d503d1db2aa0e5e30c",
+    "gitBlobSha": "fe27bb7b6fa4dc4e6376434c7514a932ee2419da",
+    "bytes": 623742,
+    "width": 640,
+    "height": 640,
+    "format": "PNG",
+    "sourceBytesPreserved": true,
+    "reusedExistingIdenticalBytes": false
+  },
+  "safety": {
+    "canonicalArtModified": false,
+    "gameplayModified": false,
+    "reviewDecisionMade": false,
+    "deploymentPerformed": false,
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+  },
+  "nextGate": "RUN_VERIFY_STAGED_OUTPUT_THEN_REAL_RENDER_AND_INDEPENDENT_EXACT_HASH_REVIEW",
+  "status": "GENERATED_SOURCE_BYTES_UNVERIFIED",
+  "recordSha256": "33a48e3e94e9ee61842a982d16711141e85ad2d7dabed3d9b962f242c5e6fb32"
+}
