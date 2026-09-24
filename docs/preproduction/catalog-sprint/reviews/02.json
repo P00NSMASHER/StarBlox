@@ -7,7 +7,7 @@
   "policy": "docs/preproduction/DELIVERY_PROTOCOL_V2.md",
   "visualSprint": "docs/preproduction/ART_VISUALS_SPRINT.json",
   "artFactoryPolicy": "docs/preproduction/art-factory/ART_FACTORY_V2.json",
-  "sourceHead": "0970a15570",
+  "sourceHead": "d3892e7531",
   "priorReviewShard": {
     "blobSha": "4173dbb9923157eb5a13090d526f88cfec162edd",
     "schemaVersion": 10,
@@ -242,11 +242,13 @@
     "scope": [
       "wall-9"
     ],
-    "version": "current exact hash: Wall9 v11",
-    "result": "REWORK_1_OF_1",
+    "version": "Wall9 v12 exact source hash",
+    "result": "REWORK_1_OF_1_FAIL_FAST",
     "oldVerdictsTransferred": false,
-    "actualSourcePixelsReviewed": true,
-    "selfApprovalConflict": false
+    "actualCardScalePixelsReviewed": false,
+    "actualDetailPixelsReviewed": true,
+    "selfApprovalConflict": false,
+    "failFastSourceContract": true
   },
   "currentRenderEvidence": {
     "sources": [
@@ -1245,13 +1247,52 @@
         "originality": "PASS",
         "technicalIntegrity": "PASS"
       }
+    },
+    {
+      "itemId": "wall-9",
+      "name": "Art Gallery Wall",
+      "tier": 3,
+      "theme": "Adventure Club",
+      "assetPath": "public/assets/catalog-candidates/cpu/wall-9-w13-v12-a-exact-three-portrait-frames-original.png",
+      "repositoryPath": "public/assets/catalog-candidates/cpu/wall-9-w13-v12-a-exact-three-portrait-frames-original.png",
+      "assetHash": "6e08e353949fa85539990a4731e1db1b62cf5591",
+      "sha256": "53f60098a7b60155db9dcd2dad0fd6cf132cc21bd7efe4c242997165b8a5ceba",
+      "contentSha256": "53f60098a7b60155db9dcd2dad0fd6cf132cc21bd7efe4c242997165b8a5ceba",
+      "hashAlgorithm": "git-blob-sha1",
+      "producer": "13",
+      "decision": "REWORK",
+      "learnerLabel": "REWORK",
+      "reviewedAt": "2026-09-24T21:03:00Z",
+      "evidenceRefs": [
+        "workflow:36055852604",
+        "artifact:10833715811/candidate/wall-9-w13-v12-a-exact-three-portrait-frames-original.png"
+      ],
+      "reasonCodes": [
+        "FOUR_FRAMES_NOT_THREE",
+        "COMPASS_MAP_FRAME_MISSING",
+        "OUTER_GRID_ARCHITECTURE",
+        "EXACT_TRIPTYCH_CONTRACT_FAILURE"
+      ],
+      "reason": "REWORK fail-fast from exact source pixels. V12 still violates the exact-three-frame contract: the image contains four framed pictures arranged inside a larger grid/panel structure. The required center compass-map artwork is missing; the visible panels are mountain/coast variations. Preserve this exact hash. Do not render it. The next repair must be compositionally simpler: exactly three independent frames in one horizontal row, with left mountain trail, center unmistakable compass over map, right ocean coast, and no enclosing grid or extra frame.",
+      "checks": {
+        "identity": "FAIL",
+        "themeTier": "PARTIAL",
+        "silhouette": "FAIL",
+        "materialLighting": "PASS",
+        "cardReadability": "FAIL",
+        "physicalConstruction": "PARTIAL",
+        "framingComposition": "FAIL",
+        "originality": "PASS",
+        "duplicateVisual": "PASS",
+        "technicalIntegrity": "PASS"
+      }
     }
   ],
   "currentReplacementDisposition": {
     "wall": {
       "REWORK": {
         "wall-10": "74a4c531a3c60ccd60747bfebc2dfc0d1d25b684",
-        "wall-9": "20c41266b9ef3afac6393b9af16da0efc8c9acac"
+        "wall-9": "6e08e353949fa85539990a4731e1db1b62cf5591"
       },
       "ACCEPT": {
         "wall-11": "50ffc975030f6c7e28cf9836756bb312dfa646fb",
@@ -1280,13 +1321,13 @@
     "reworkNow": [
       "wall-9"
     ],
-    "preservedAcceptedHashes": "All prior reviewer02 ACCEPTs remain frozen; Wall9 v11 is REWORK only."
+    "preservedAcceptedHashes": "All prior reviewer02 ACCEPTs remain frozen; Wall9 v12 is REWORK only."
   },
   "handoff": {
-    "13": "Wall9 v11 REWORK; preserve exact hash and dispatch prepared v12 A fallback when CPU slot permits.",
+    "13": "Wall9 v12 REWORK; preserve exact hash. Next attempt must use a simpler exactly-three-frame horizontal composition with no enclosing grid.",
     "14": "Current packets consumed; do not rerender unchanged hashes.",
-    "15": "Wall9 remains a bounded release blocker.",
+    "15": "Wall9 remains a bounded exact-pixel blocker.",
     "09": "Decor11 v7 REWORK; preserve exact hash and use the already-planned B-SIMPLE-VANITY-STOOL attempt as v8.",
-    "08": "Do not canonical-wire Wall9 v11."
+    "08": "Do not canonical-wire Wall9 v12."
   }
 }
