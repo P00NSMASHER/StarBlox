@@ -125,7 +125,24 @@ export function verifyFeatureRolloutConfig(config){
       }
     }
   }
-  if(!Array.isArray(config.killSwitches)) errors.push('killSwitches must be an array');
+  if(!Array.isArray(config.killSwitches)){
+    errors.push('killSwitches must be an array');
+  }else{
+    const ids=new Set();
+    for(const [index,rule] of config.killSwitches.entries()){
+      if(!rule || typeof rule !== 'object' || Array.isArray(rule)){
+        errors.push('invalid kill switch at index ' + index);
+        continue;
+      }
+      if(typeof rule.id !== 'string' || !rule.id){
+        errors.push('kill switch ID missing at index ' + index);
+      }else if(ids.has(rule.id)){
+        errors.push('duplicate kill switch ID: ' + rule.id);
+      }else{
+        ids.add(rule.id);
+      }
+    }
+  }
 
   try{
     const expected=stableHash(configPayload(config));
