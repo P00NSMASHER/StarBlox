@@ -1,0 +1,167 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_JOB",
+  "repository": "P00NSMASHER/StarBlox",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "3f7c20aa8a5ad173505bf2a1bb7bbb3412c61876",
+  "item": {
+    "id": "decor-8",
+    "name": "Mini Aquarium",
+    "collectionId": "decor",
+    "type": "room",
+    "tier": 3,
+    "theme": "Galaxy Glow"
+  },
+  "sourceReviewHash": "87e33d5190b7a7ef21e23ae875dda8ae1808c4be",
+  "rightsBasis": "USER_ATTESTED_FULL_RIGHTS",
+  "attempts": [
+    {
+      "attemptId": "decor-8-w03-a-physical-0d3c96ba90",
+      "itemId": "decor-8",
+      "producer": "03",
+      "variant": "A-PHYSICAL",
+      "promptBlocks": [
+        "metadata",
+        "category",
+        "silhouette",
+        "physical",
+        "material",
+        "theme",
+        "tier",
+        "card",
+        "original",
+        "stage",
+        "furniture",
+        "camera",
+        "depth",
+        "bloom",
+        "textile",
+        "wall",
+        "light"
+      ],
+      "promptText": "STARBLOX CATALOG ART — A-PHYSICAL\n\nCreate one premium, kid-friendly 2D game catalog asset with polished dimensional quality.\n\nExact metadata: decor-8 — Mini Aquarium; collection decor; type room; tier 3; theme Galaxy Glow.\n\nAuthoritative item-specific design brief:\nMini Aquarium, Room Decor, Tier 3, Galaxy Glow. Create a premium compact desktop aquarium in three-quarter product view: thick beveled glass tank with a dark-indigo structural base and matching lid, visible rear filter housing, small intake tube and soft concealed light strip. Inside, use layered dark gravel, translucent aqua stones, sculptural aquatic plants and a few abstract orbit-ring rock ornaments suggesting Galaxy Glow without text or branded imagery. Include realistic waterline, glass refraction, subtle bubbles, caustic light and grounded base shadow; keep the tank physically plausible and readable at 600x600.\n\nExact-hash reviewer failure taxonomy: UNKNOWN_REWORK.\n\nRepair the documented failure codes while preserving qualities that were not implicated. Do not erase successful identity, silhouette, material depth, or readability merely to make a different image.\n\nUse the exact catalog ID/name/collection/tier/theme. Do not rename, recategorize, or substitute the item.\n\nMake the object unmistakably the stated product category with believable proportions and construction.\n\nPrioritize a distinctive clean silhouette that reads immediately at small Store-card size.\n\nShow real thickness, seams/joints/edges, layered parts, volume, contact points and functional construction—not a flat icon, emblem or sticker.\n\nUse category-appropriate material texture and highlights/shadows that explain the form.\n\nExpress the exact theme through material, construction, light and motif—not a palette swap or pasted decal.\n\nRespect tier progression: Starter stays simple and attractive; higher tiers gain richer form/material detail; Luxe gains spectacle without losing identity.\n\nDesign for both detail view and a 600×600 Store card with strong contrast, uncluttered hierarchy and no tiny critical details.\n\nAvoid recolor-only siblings, repeated template silhouettes, generic rings/badges, or interchangeable props.\n\nPresent one isolated subject on a clean premium background. No UI, text, watermark, logo, fake price badge or unrelated props.\n\nFor furniture/decor, show supports, joints, cushions/panels/hardware, weight and grounded contact.\n\nUse a clean product-style three-quarter view when appropriate so front, side and thickness are visible.\n\nUse occlusion, contact/cast shadows and foreground/midground/background separation so the asset feels spatial.\n\nUse controlled emissive light/bloom only where appropriate; preserve edges and local contrast.\n\nFor textiles, show weave/pile/folds/stitching/edge finish/thickness and believable softness or drape.\n\nFor wall decor, show mounting/frame/backing/relief depth and a believable wall-object form—not a floating emblem.\n\nFor lighting, show a physical base/mount/chassis, emitter or bulb, support structure and believable emitted/reflected light.\n\nOutput a production-worthy source image for exact-byte staging, card/detail rendering and independent review. Do not claim approval; the reviewer decides from rendered pixels.",
+      "promptSha256": "0d3c96ba900ba8da2fec2e45f48965186131dcf2385f883986a7aeca0b98d6f4",
+      "runtimePromptText": "decor-8 Mini Aquarium. decor; tier 3; theme Galaxy Glow. Create a premium compact desktop aquarium in three-quarter product view: thick beveled glass tank with a dark-indigo structural base and matching lid, visible rear filter Premium dimensional product render, grounded shadow, no text or logo.",
+      "runtimePromptSha256": "46eb766a2a04e1d61a68040a58bae6335fe178e4daa61a15dca477badbe8d06f",
+      "promptRecipeVersion": "artPromptOptimizer-request-v1:w03-decor-6-v2-decor-8-v2-parallel",
+      "seed": 108630974,
+      "runtime": {
+        "repo": "huggingface/diffusers",
+        "commit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c"
+      },
+      "model": {
+        "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+        "revision": "462165984030d82259a11f4367a4eed129e94a7b",
+        "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+      },
+      "conditioning": {
+        "referenceAssetSha256": null,
+        "controlImageSha256": null,
+        "adapterScale": null
+      },
+      "output": {
+        "repoPath": null,
+        "sha256": null,
+        "gitBlobSha": null,
+        "bytes": null,
+        "width": null,
+        "height": null
+      },
+      "status": "PLANNED_NOT_GENERATED"
+    },
+    {
+      "attemptId": "decor-8-w03-b-readability-670d37da52",
+      "itemId": "decor-8",
+      "producer": "03",
+      "variant": "B-READABILITY",
+      "promptBlocks": [
+        "metadata",
+        "category",
+        "silhouette",
+        "physical",
+        "material",
+        "theme",
+        "tier",
+        "card",
+        "original",
+        "stage",
+        "furniture",
+        "camera",
+        "depth",
+        "bloom",
+        "textile",
+        "wall",
+        "light"
+      ],
+      "promptText": "STARBLOX CATALOG ART — B-READABILITY\n\nCreate one premium, kid-friendly 2D game catalog asset with polished dimensional quality.\n\nExact metadata: decor-8 — Mini Aquarium; collection decor; type room; tier 3; theme Galaxy Glow.\n\nAuthoritative item-specific design brief:\nMini Aquarium, Room Decor, Tier 3, Galaxy Glow. Design a distinctive rounded-corner rectangular aquarium with a broad navy pedestal base, crystal-clear glass walls, one compact side filter and a simple moonlike rock arch over violet-blue gravel with three tall aquatic plants and a controlled bubble column. Add restrained cyan/violet galaxy rim lighting and tiny star-like highlights only as reflected light, not flat decals. Keep the silhouette clean, the interior uncluttered and the construction believable in three-quarter isolated product view, with no text, logos, fish characters, room scene or floating hardware.\n\nExact-hash reviewer failure taxonomy: UNKNOWN_REWORK.\n\nRepair the documented failure codes while preserving qualities that were not implicated. Do not erase successful identity, silhouette, material depth, or readability merely to make a different image.\n\nUse the exact catalog ID/name/collection/tier/theme. Do not rename, recategorize, or substitute the item.\n\nMake the object unmistakably the stated product category with believable proportions and construction.\n\nPrioritize a distinctive clean silhouette that reads immediately at small Store-card size.\n\nShow real thickness, seams/joints/edges, layered parts, volume, contact points and functional construction—not a flat icon, emblem or sticker.\n\nUse category-appropriate material texture and highlights/shadows that explain the form.\n\nExpress the exact theme through material, construction, light and motif—not a palette swap or pasted decal.\n\nRespect tier progression: Starter stays simple and attractive; higher tiers gain richer form/material detail; Luxe gains spectacle without losing identity.\n\nDesign for both detail view and a 600×600 Store card with strong contrast, uncluttered hierarchy and no tiny critical details.\n\nAvoid recolor-only siblings, repeated template silhouettes, generic rings/badges, or interchangeable props.\n\nPresent one isolated subject on a clean premium background. No UI, text, watermark, logo, fake price badge or unrelated props.\n\nFor furniture/decor, show supports, joints, cushions/panels/hardware, weight and grounded contact.\n\nUse a clean product-style three-quarter view when appropriate so front, side and thickness are visible.\n\nUse occlusion, contact/cast shadows and foreground/midground/background separation so the asset feels spatial.\n\nUse controlled emissive light/bloom only where appropriate; preserve edges and local contrast.\n\nFor textiles, show weave/pile/folds/stitching/edge finish/thickness and believable softness or drape.\n\nFor wall decor, show mounting/frame/backing/relief depth and a believable wall-object form—not a floating emblem.\n\nFor lighting, show a physical base/mount/chassis, emitter or bulb, support structure and believable emitted/reflected light.\n\nOutput a production-worthy source image for exact-byte staging, card/detail rendering and independent review. Do not claim approval; the reviewer decides from rendered pixels.",
+      "promptSha256": "670d37da525c806f4296e714e9e1ac5e19f215d333acfe8581d9b7e2f0d66c72",
+      "runtimePromptText": "decor-8 Mini Aquarium. decor; tier 3; theme Galaxy Glow. Design a distinctive rounded-corner rectangular aquarium with a broad navy pedestal base, crystal-clear glass walls, one compact side filter and a simple moonlike rock arch Premium dimensional product render, grounded shadow, no text or logo.",
+      "runtimePromptSha256": "4a50346b528fea0e32f7b468b35eeca749d55bcacbf745e59842d9d0c454cbdc",
+      "promptRecipeVersion": "artPromptOptimizer-request-v1:w03-decor-6-v2-decor-8-v2-parallel",
+      "seed": 1642407643,
+      "runtime": {
+        "repo": "huggingface/diffusers",
+        "commit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c"
+      },
+      "model": {
+        "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+        "revision": "462165984030d82259a11f4367a4eed129e94a7b",
+        "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+      },
+      "conditioning": {
+        "referenceAssetSha256": null,
+        "controlImageSha256": null,
+        "adapterScale": null
+      },
+      "output": {
+        "repoPath": null,
+        "sha256": null,
+        "gitBlobSha": null,
+        "bytes": null,
+        "width": null,
+        "height": null
+      },
+      "status": "PLANNED_NOT_GENERATED"
+    }
+  ],
+  "requestContext": {
+    "requestPath": "docs/preproduction/art-factory/requests/w03-decor-6-v2-decor-8-v2-parallel-20260924.json",
+    "batchId": "w03-decor-6-v2-decor-8-v2-parallel",
+    "requestSourceHead": "a3f685a972cf2b607037bd9d7576ee31fa3adedf",
+    "requestRecordSha256": "836c61b6c5940f8983198cd0169abd9740c56d6679150d92b2bbd07d7c547e01",
+    "planner": "15",
+    "reviewer": "11",
+    "renderOwner": "14",
+    "integrationOwner": "08",
+    "contextReferences": [
+      {
+        "role": "FIRST_PARTY_STARBLOX_STORE_ART_DIRECTION",
+        "repositoryPath": "docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg",
+        "sha256": "b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d",
+        "gitBlobSha": "383baa877d3af86fa92e3583740212000592b3d6",
+        "dimensions": [
+          1448,
+          1086
+        ],
+        "sourceManifest": null
+      }
+    ],
+    "plannerVariants": [
+      {
+        "variantId": "A-PHYSICAL",
+        "plannerSeed": null,
+        "optimizerInputSha256": "f71381816d236d08e2c0668e910e5c05f2ccaae67372102b92325a7dca52c2f4",
+        "compiledPromptSha256": "0d3c96ba900ba8da2fec2e45f48965186131dcf2385f883986a7aeca0b98d6f4",
+        "compiledSeed": 108630974
+      },
+      {
+        "variantId": "B-READABILITY",
+        "plannerSeed": null,
+        "optimizerInputSha256": "cd3bf3e068ff499ed84a1977e033ef6c59e4f2045a85815fda061b893b630330",
+        "compiledPromptSha256": "670d37da525c806f4296e714e9e1ac5e19f215d333acfe8581d9b7e2f0d66c72",
+        "compiledSeed": 1642407643
+      }
+    ]
+  },
+  "planSha256": "1235aee00aa54ce220f61f38ffed6e272bee3397dddb95e7217fa44c65f9bc67"
+}
