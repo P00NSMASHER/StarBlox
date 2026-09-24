@@ -1,0 +1,85 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_W12_CANDIDATE_DELTA_INTAKE_ROUTING",
+  "router": "12",
+  "branch": "screenshot-match-preproduction",
+  "observedHead": "8e5de34e468f17f3b0dbd8f29c19388bb7f64a0a",
+  "scanWindow": {
+    "priorCursor": "a14d3c3fdbce127fb1e286c23329b51331fec877",
+    "inspectedThroughHead": "8e5de34e468f17f3b0dbd8f29c19388bb7f64a0a",
+    "newCatalogCandidateBytesDetected": true,
+    "newCandidateItemIds": [
+      "desks-11",
+      "desks-10"
+    ],
+    "note": "Post-v34 delta contains exactly two new producer03 failure-specific candidate bytes from w03-current-rework-2pack-v3; other intervening commits are review/canonical/QA evidence."
+  },
+  "candidates": [
+    {
+      "id": "desks-10",
+      "name": "Neon Streaming Desk",
+      "collectionId": "desks",
+      "producer": "03",
+      "reviewerAssignment": "05",
+      "renderOwner": "14",
+      "canonicalWriter": "08",
+      "path": "public/assets/catalog-candidates/cpu/desks-10-w03-v6-a-wide-desk-monitor-mic-original.png",
+      "sha256": "a73511b60c60b19ac374207015ee894f84b12cfa850cf021288bd6db86738803",
+      "gitBlobSha": "a576fa4d5450a492d3a29547e2551879dc64dd76",
+      "bytes": 708977,
+      "dimensions": [
+        640,
+        640
+      ],
+      "format": "PNG",
+      "stagedOutput": "docs/preproduction/art-factory/generated-evidence/w03-current-rework-2pack-v3/desks-10/staged-output.json",
+      "generationReceipt": "docs/preproduction/art-factory/generated-evidence/w03-current-rework-2pack-v3/desks-10/generation-receipt.json",
+      "provenanceState": "COMPLETE_ART_FACTORY_V2",
+      "repositoryReadback": "PASS_EXACT_GIT_BLOB",
+      "supersession": "FRESH_V6_FAILURE_SPECIFIC_REPLACEMENT_FOR_REWORKED_V5",
+      "state": "ROUTE_TO_06_TECHNICAL_QUALIFICATION"
+    },
+    {
+      "id": "desks-11",
+      "name": "Dream Creator Station",
+      "collectionId": "desks",
+      "producer": "03",
+      "reviewerAssignment": "01",
+      "renderOwner": "14",
+      "canonicalWriter": "08",
+      "path": "public/assets/catalog-candidates/cpu/desks-11-w03-v4-a-one-desk-no-panels-original.png",
+      "sha256": "b84e2493699bb9c3cfc7d1bfb95d35ad73e04bfd0d5373f45f089374e6ac7365",
+      "gitBlobSha": "7f4f00fcce23a47b566ec3a99704821acb3ce57a",
+      "bytes": 599394,
+      "dimensions": [
+        640,
+        640
+      ],
+      "format": "PNG",
+      "stagedOutput": "docs/preproduction/art-factory/generated-evidence/w03-current-rework-2pack-v3/desks-11/staged-output.json",
+      "generationReceipt": "docs/preproduction/art-factory/generated-evidence/w03-current-rework-2pack-v3/desks-11/generation-receipt.json",
+      "provenanceState": "COMPLETE_ART_FACTORY_V2",
+      "repositoryReadback": "PASS_EXACT_GIT_BLOB",
+      "supersession": "FRESH_V4_FAILURE_SPECIFIC_REPLACEMENT_FOR_REWORKED_V3",
+      "state": "ROUTE_TO_06_TECHNICAL_QUALIFICATION"
+    }
+  ],
+  "dedupe": {
+    "uniqueItemHashClaim": true,
+    "unchangedPriorHashesRerouted": false,
+    "newerPendingCandidateObserved": false
+  },
+  "queues": {
+    "to06": [
+      "desks-10@a73511b60c60b19ac374207015ee894f84b12cfa850cf021288bd6db86738803",
+      "desks-11@b84e2493699bb9c3cfc7d1bfb95d35ad73e04bfd0d5373f45f089374e6ac7365"
+    ],
+    "backToProducer": []
+  },
+  "cursorAdvance": {
+    "previous": "a14d3c3fdbce127fb1e286c23329b51331fec877",
+    "advancedThrough": "8e5de34e468f17f3b0dbd8f29c19388bb7f64a0a"
+  },
+  "nextOwner": "06_TECHNICAL_QUALIFICATION",
+  "mutationScope": "Routing evidence only; no candidate bytes, canonical mappings, reviewer decisions, gameplay, CI/workflows, deployment or player data changed."
+}
