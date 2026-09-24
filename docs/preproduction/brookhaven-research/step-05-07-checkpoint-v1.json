@@ -22,21 +22,45 @@
     }
   },
   "verification": {
-    "workflowRun": 36017846914,
+    "workflowRun": 36021965678,
+    "workflowConclusion": "success",
     "researchArtifactAndBoundaryValidation": "pass",
+    "neutralConversionNegativeTests": {
+      "status": "pass",
+      "checks": [
+        "reject executable fields",
+        "reject unknown rights status",
+        "reject unknown payload kind"
+      ]
+    },
+    "proxyVerticalSlice": {
+      "status": "pass",
+      "objectCount": 17,
+      "sourceFingerprint": "sha256:442dbf6ebc6fe9203b22940e8a72df6a25fbe55630015af33d8446c1540ce7dd",
+      "sceneFingerprint": "sha256:16bc4d299517b0dae406051d8ed2af12a365a429ec817082d4415e0c56df0cd1",
+      "roles": [
+        "house",
+        "vehicle",
+        "neighborhood-block",
+        "school",
+        "shop"
+      ]
+    },
     "residentialUnitTests": {
       "status": "pass",
       "testFiles": 1,
       "tests": 4
     },
     "productionBuild": {
-      "status": "blocked-by-inherited-base-defect",
-      "failingFile": "src/catalogArtRuntime.js",
-      "branchBlobSha1": "d6bd48dec10ec4ac655070c33938e88248d04c55",
+      "status": "pass-with-verified-temporary-inherited-base-fix",
+      "inheritedFile": "src/catalogArtRuntime.js",
+      "inheritedBlobSha1": "d6bd48dec10ec4ac655070c33938e88248d04c55",
       "step1BaseBlobSha1": "d6bd48dec10ec4ac655070c33938e88248d04c55",
       "inheritedFromBase": true,
-      "observedIssue": "missing comma between decor-6 and decor-9 entries",
-      "changedByBrookhavenSteps": false
+      "committedFix": false,
+      "temporaryPatch": "add missing comma between decor-6 and decor-9 only in CI workspace",
+      "fileRestoredAfterBuild": true,
+      "brookhavenChangesCompile": true
     }
   },
   "safety": {
@@ -45,6 +69,8 @@
     "appJsxWired": false,
     "persistenceSchemaChanged": false,
     "economyOrProgressionCoupled": false,
+    "unrelatedBaseDefectCommitted": false,
     "deploymentPerformed": false
-  }
+  },
+  "verifiedAtHead": "081fd2065515aa3e70f31f7faa8649bf00bfb51d"
 }
