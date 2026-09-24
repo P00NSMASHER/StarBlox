@@ -1,14 +1,14 @@
-import { gameModel } from '../gameModel';
-import { scoreQuestAttempt } from '../questRewardPolicy';
-import { Mulberry32 } from '../sim/deterministicCore';
-import { generateCertifiedQuestLevel,verifySolutionCertificate } from '../generation/solutionFirstLevel';
+import { gameModel } from '../gameModel.js';
+import { scoreQuestAttempt } from '../questRewardPolicy.js';
+import { Mulberry32 } from '../sim/deterministicCore.js';
+import { generateCertifiedQuestLevel,verifySolutionCertificate } from '../generation/solutionFirstLevel.js';
 import {
   IDENTITY_BALANCE,
   balanceQuestReward,
   balanceQuestStructure,
   effectiveQuestionDifficulty,
   resolveBalanceDoc
-} from './balanceConfig';
+} from './balanceConfig.js';
 
 export const BALANCE_GATE_THRESHOLDS=Object.freeze({
   firstTryRateDelta:0.12,
