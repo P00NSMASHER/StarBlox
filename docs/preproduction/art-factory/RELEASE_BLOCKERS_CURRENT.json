@@ -3,7 +3,7 @@
   "kind": "STARBLOX_RELEASE_ART_BLOCKER_LEDGER",
   "branch": "screenshot-match-preproduction",
   "source": {
-    "computedAtHead": "0bb0f865be7632a2abc09162c6d10c5f5b782b6c",
+    "computedAtHead": "d01b02f029f8bb89b81ccd4ae5aa84f68f50738b",
     "manifest": {
       "version": 45,
       "finalCount": 181,
@@ -89,8 +89,8 @@
         "desks-10",
         "desks-11"
       ],
-      "runId": 36053809276,
-      "state": "PENDING"
+      "runId": 36054079596,
+      "state": "PENDING_REFRESHED"
     },
     "preparedNext": [
       {
@@ -120,7 +120,7 @@
         "conditional": "only if v8 REWORK"
       }
     ],
-    "queuePolicy": "Wall9 runs now. Desk10/11 fallback pair is the one pending successor because it attacks two confirmed blockers. When the desk pair transitions to running, requeue Decor11 v8 as the one pending successor. Queue Wall9 v12 only if v11 is REWORK and only when the pending slot is free."
+    "queuePolicy": "Wall9 runs now. Sharpened Desk10/11 A fallback run 36054079596 is the one pending successor. Requeue Decor11 v8 only after the desk pair transitions to running."
   },
   "nonArtReleaseState": {
     "liveFunctionalSmoke": "GREEN",
