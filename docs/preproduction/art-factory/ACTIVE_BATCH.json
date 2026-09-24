@@ -2,8 +2,8 @@
   "schemaVersion": 33,
   "owner": "15",
   "branch": "screenshot-match-preproduction",
-  "sourceHead": "042b3551e17f0531b7e4ecbe9099b7c289d10144",
-  "updatedAt": "2026-09-24T20:27:00Z",
+  "sourceHead": "d4d9caa564e41eefee6570d34e5216143aeb4fe5",
+  "updatedAt": "2026-09-24T20:31:00Z",
   "status": "ACTIVE_FINAL_FOUR_VISIBLE_ART_TAIL",
   "policy": {
     "maxConcurrentProductionBatches": 4,
@@ -75,27 +75,27 @@
     "workflowPath": ".github/workflows/art-factory-cpu-generation.yml",
     "observedAt": "2026-09-24T20:10:00Z",
     "running": {
-      "runId": 36054079596,
-      "headSha": "4180e57586e1b0b8ff97bdb0c05d60c494954f4c",
-      "batch": "w03-desks10-11-final-retry-a-fallback",
+      "runId": 36054911159,
+      "headSha": "042b3551e17f0531b7e4ecbe9099b7c289d10144",
+      "batch": "w13-wall9-v12-a-fallback",
       "state": "IN_PROGRESS",
       "jobs": [
-        "desks-10",
-        "desks-11"
+        "wall-9"
       ],
       "phase": "CPU_GENERATION"
     },
     "pending": {
-      "runId": 36054911159,
-      "headSha": "042b3551e17f0531b7e4ecbe9099b7c289d10144",
-      "batch": "w13-wall9-v12-a-fallback",
-      "state": "PENDING",
+      "runId": 36055369791,
+      "headSha": "d4d9caa564e41eefee6570d34e5216143aeb4fe5",
+      "batch": "w03-desks10-11-final-retry-a-fallback",
+      "state": "PENDING_CLIP_SAFE",
       "jobs": [
-        "wall-9"
+        "desks-10",
+        "desks-11"
       ]
     },
-    "authorization": "REQUEUE_DECOR11_V8_ONLY_AFTER_RUN_36054911159_TRANSITIONS_TO_RUNNING",
-    "rule": "Exactly one running plus one pending. Desk pair runs now; Wall9 v12 is pending; Decor11 v8 is next.",
+    "authorization": "REQUEUE_DECOR11_V8_ONLY_AFTER_RUN_36055369791_TRANSITIONS_TO_RUNNING",
+    "rule": "Wall9 v12 running; CLIP-safe desk pair pending; Decor11 v8 next.",
     "preparedNext": [
       {
         "rank": 1,
