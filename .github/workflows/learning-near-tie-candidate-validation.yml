@@ -1,0 +1,65 @@
+name: Learning Near Tie Candidate Validation
+
+on:
+  push:
+    branches:
+      - starblox-learning-factory-v1
+    paths:
+      - "docs/preproduction/learning-factory/near-tie-development-validation.json"
+      - "scripts/validateNearTieDevelopmentCandidate.mjs"
+      - ".github/workflows/learning-near-tie-candidate-validation.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-near-tie:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+      - name: Install dependencies
+        run: npm install --ignore-scripts --package-lock=false
+      - name: Assert candidate code still matches frozen SHA
+        run: |
+          git fetch origin 38140f680c8d24ef9428a58403a5ac08f358ee92 --depth=1
+          git diff --exit-code 38140f680c8d24ef9428a58403a5ac08f358ee92 HEAD --             src/selectorBktFsrsNearTieShadow.js             src/selectorBktFsrsNearTieShadow.test.js
+      - name: Test frozen candidate
+        run: npx vitest run src/selectorBktFsrsNearTieShadow.test.js
+      - name: Generate independent validation cohort
+        run: npm run generate:learning-promotion -- --out-dir=.near-tie-validation --learners=48 --max-step=30 --seed=20270307
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.23"
+      - name: Run actual FSRS
+        run: |
+          cd tools/fsrs-shadow
+          go mod tidy
+          go run . -input ../../.near-tie-validation/riff-reviews.json -out ../../.near-tie-validation/fsrs-engine-receipt.json -evaluation-offset-hours 24
+      - name: Validate frozen candidate
+        run: node scripts/validateNearTieDevelopmentCandidate.mjs --manifest=docs/preproduction/learning-factory/near-tie-development-validation.json --evaluation=.near-tie-validation/evaluation.json --fsrs=.near-tie-validation/fsrs-engine-receipt.json --out=.near-tie-validation/candidate-validation.json
+      - name: Enforce no-live boundary
+        run: |
+          node --input-type=module - <<'NODE'
+          import fs from 'node:fs';
+          const r=JSON.parse(fs.readFileSync('.near-tie-validation/candidate-validation.json','utf8'));
+          if(r.validationOnly!==true||r.tuneAgainstThisCohort!==false)throw new Error('validation governance broken');
+          if(r.promotionBoundary?.liveSelectorAllowed!==false)throw new Error('validation cannot enable live selector');
+          console.log(JSON.stringify({
+            supportive:r.validationSupportive,
+            deltas:r.deltas,
+            liveSelectorAllowed:false
+          },null,2));
+          NODE
+      - name: Upload validation
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: learning-near-tie-candidate-validation
+          path: .near-tie-validation
+          if-no-files-found: error
+          include-hidden-files: true
