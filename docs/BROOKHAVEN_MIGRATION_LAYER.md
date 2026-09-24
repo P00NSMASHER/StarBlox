@@ -111,11 +111,11 @@ Supported fields:
 
 Explicitly included system names bypass capability and minimum-score filters, but risk-flagged systems still require includeRisky.
 
-## Source-byte integrity gate
+## Source-byte and approved-plan integrity gates
 
-Selected migration units inherit the SHA-256 digest and byte length of the exact Roblox source reviewed by the capability catalog. When `--source-root` export is requested, the migration command recomputes that fingerprint before extracting any subtree and fails closed on missing or mismatched source bytes.
+Selected migration units inherit the SHA-256 digest and byte length of the exact Roblox source reviewed by the capability catalog. Export requires both `--planning-receipt` and `--source-root`. Before extracting anything, the command verifies the planning receipt payload hash, exact plan bytes/hash, ingestion receipt, catalog bytes/hash, and then recomputes every selected source-file fingerprint.
 
-This prevents a same-named place/model file from silently changing between catalog review and migration export.
+This prevents both forms of silent drift: a same-named place/model file changing after review, or migration rules/selections being recomputed differently between planning and export.
 
 ## Exact subtree exporter
 
@@ -135,38 +135,42 @@ No Luau is executed.
 
 ## Operator command
 
-Plan and export:
+The production-safe flow is intentionally split into separate planning and export commands.
 
-npm run roblox:migrate -- --catalog roblox-capability-catalog.json --source-root /path/to/authorized/brookhaven --out-dir roblox-migration-bundle
+Plan from a completed safe-ingestion receipt:
 
-Custom rules:
+npm run roblox:migrate -- --ingestion-receipt /path/to/roblox-ingestion/ingestion-receipt.json --out-dir /path/to/approved-plan --min-score 0
 
-npm run roblox:migrate -- --catalog roblox-capability-catalog.json --source-root /path/to/authorized/brookhaven --rules config/my-migration-rules.json
+Custom rules are applied **during planning only**:
 
-Plan only from the catalog directly:
+npm run roblox:migrate -- --ingestion-receipt /path/to/roblox-ingestion/ingestion-receipt.json --out-dir /path/to/approved-plan --rules config/my-migration-rules.json
 
-npm run roblox:migrate -- --catalog roblox-capability-catalog.json --out-dir roblox-migration-bundle
+Explicit risk review is also a planning decision:
 
-Plan only from a completed safe-ingestion receipt:
+npm run roblox:migrate -- --ingestion-receipt /path/to/roblox-ingestion/ingestion-receipt.json --out-dir /path/to/approved-plan --rules config/my-rules.json --include-risky
 
-npm run roblox:migrate -- --ingestion-receipt /path/to/roblox-ingestion/ingestion-receipt.json --out-dir roblox-migration-bundle
+After reviewing that exact plan, export only from its planning receipt:
 
-When an ingestion receipt is used, the planner resolves the sibling capability catalog, verifies its exact SHA-256 against the receipt, and verifies the catalog's own deterministic hash before planning. The receipt path does not imply or enable source export: without a separate --source-root argument the command remains plan-only and creates no migration bundle or exported Roblox subtree.
+npm run roblox:migrate -- --planning-receipt /path/to/approved-plan/migration-planning-receipt.json --source-root /path/to/authorized/brookhaven --out-dir /path/to/migration-export
 
-Receipt-bound plan-only runs also emit `migration-planning-receipt.json`. That receipt binds the exact ingestion-receipt SHA-256, verified catalog SHA-256/catalogHash, migration plan SHA-256/planHash, and Markdown report SHA-256. It carries its own deterministic SHA-256 payload hash plus explicit `exportStarted=false`, `migrationBundleCreated=false`, `studioMutationStarted=false`, and `publicationStarted=false` attestations. This creates a cryptographic chain from authorized source ingestion through catalog review to the exact migration plan without granting export authority.
+Export mode refuses --catalog, --ingestion-receipt, --rules, --min-score, and --include-risky. It does not rebuild or reinterpret the plan. It verifies the planning receipt's own payload hash, exact migration-plan bytes and planHash, exact ingestion receipt, exact catalog bytes/catalogHash, and then rechecks every selected source-file fingerprint before exporting.
 
-Explicit risk review:
+A direct catalog can still produce a diagnostic plan:
 
-npm run roblox:migrate -- --catalog roblox-capability-catalog.json --source-root /path/to/authorized/brookhaven --rules config/my-rules.json --include-risky
+npm run roblox:migrate -- --catalog roblox-capability-catalog.json --out-dir roblox-migration-plan
 
-A one-off threshold may be supplied with --min-score.
+Catalog-only plans deliberately do not receive a migration-planning receipt and therefore cannot authorize subtree export.
+
+Receipt-bound plan-only runs emit `migration-planning-receipt.json`. That receipt binds the exact ingestion-receipt SHA-256, verified catalog SHA-256/catalogHash, migration plan SHA-256/planHash, and Markdown report SHA-256. It carries its own deterministic SHA-256 payload hash plus explicit `exportStarted=false`, `migrationBundleCreated=false`, `studioMutationStarted=false`, and `publicationStarted=false` attestations. This creates a cryptographic chain from authorized source ingestion through catalog review to the exact migration plan without granting export authority.
 
 ## Output layout
 
 roblox-migration-bundle/
 - migration-plan.json
 - migration-plan.md
+- migration-planning-receipt.json
 - migration-bundle.json
+- migration-export-receipt.json
 - staging/<unit-id>.rbxmx
 - quarantine/<unit-id>.rbxmx
 
@@ -195,6 +199,8 @@ Every exported model is recorded with:
 - activation = staging-only.
 
 migration-bundle.json is also protected by a deterministic StarBlox bundle hash.
+
+Export additionally emits `migration-export-receipt.json`. It binds the exact planning-receipt SHA-256/receiptHash, exact migration-plan SHA-256/planHash, migration-bundle SHA-256/bundleHash, and the existing plan-binding hash from `verifyMigrationBundleAgainstPlan()`. The export receipt has its own SHA-256 payload hash and explicitly keeps Studio mutation, publication, and live activation disabled.
 
 The manifest explicitly contains liveActivationAllowed = false.
 
