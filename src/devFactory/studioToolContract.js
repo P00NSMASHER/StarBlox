@@ -56,6 +56,11 @@ const DANGEROUS_LUAU=[
   /\bdebug\./
 ];
 
+function dangerousLuauMatches(source){
+  const executable=stripLuauStringsAndComments(String(source || ''));
+  return DANGEROUS_LUAU.filter(pattern => pattern.test(executable));
+}
+
 function cleanPath(value){
   return typeof value === 'string' ? value.trim().replace(/^game[./]/,'') : '';
 }
@@ -165,13 +170,23 @@ export function assessStudioToolCall(call,{
 
   let requiresConfirmation=false;
 
-  if((tool === 'write_script' || tool === 'edit_script') && typeof args.source === 'string'){
+  if(tool === 'write_script' && typeof args.source === 'string'){
     if(args.source.length > maxScriptSize){
       errors.push('script source exceeds ' + maxScriptSize + ' characters');
     }
+    if(dangerousLuauMatches(args.source).length){
+      requiresConfirmation=true;
+      warnings.push('generated script source matches potentially destructive/high-risk Luau patterns');
+    }
   }
-  if(tool === 'edit_script' && typeof args.new === 'string' && args.new.length > maxScriptSize){
-    errors.push('replacement source exceeds ' + maxScriptSize + ' characters');
+  if(tool === 'edit_script' && typeof args.new === 'string'){
+    if(args.new.length > maxScriptSize){
+      errors.push('replacement source exceeds ' + maxScriptSize + ' characters');
+    }
+    if(dangerousLuauMatches(args.new).length){
+      requiresConfirmation=true;
+      warnings.push('script replacement matches potentially destructive/high-risk Luau patterns');
+    }
   }
 
   if(tool === 'delete_instance'){
@@ -189,8 +204,7 @@ export function assessStudioToolCall(call,{
     if(!allowExecuteLuau){
       errors.push('run_luau is disabled for automated development runs');
     }else{
-      const executable=stripLuauStringsAndComments(String(args.code || ''));
-      const matches=DANGEROUS_LUAU.filter(pattern => pattern.test(executable));
+      const matches=dangerousLuauMatches(args.code);
       if(matches.length){
         requiresConfirmation=true;
         warnings.push('Luau matches potentially destructive patterns');
