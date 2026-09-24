@@ -1,0 +1,124 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_W12_CANDIDATE_DELTA_INTAKE_ROUTING",
+  "router": "12",
+  "branch": "screenshot-match-preproduction",
+  "observedHead": "85310fa26d195a4ed95c802c773fdb7c45d02f59",
+  "scanWindow": {
+    "priorCursor": "c956d6421bbf3cbc388b9b0257b927d1c3a48db3",
+    "inspectedThroughHead": "85310fa26d195a4ed95c802c773fdb7c45d02f59",
+    "commitsInspectedFromCompare": 14,
+    "newCatalogCandidateBytesDetected": true,
+    "newCandidateItemIds": [
+      "decor-8",
+      "desks-9",
+      "desks-10"
+    ],
+    "note": "Full post-v21 delta inspected. Exactly three fresh v3 candidate PNGs were introduced by the producer03 failure-specific matrix; intervening review/canonical/coordination/prepared-queue commits add no other candidate bytes."
+  },
+  "candidates": [
+    {
+      "id": "decor-8",
+      "name": "Mini Aquarium",
+      "collectionId": "decor",
+      "producer": "03",
+      "reviewerAssignment": "11",
+      "renderOwner": "14",
+      "canonicalWriter": "08",
+      "priorRejectedOrBlockedHash": {
+        "path": "public/assets/catalog-candidates/cpu/decor-8-w03-v2-a-physical-original.png",
+        "gitBlobSha": "cde20430aaa1c2b4bd07399d35b3f0f184896509"
+      },
+      "path": "public/assets/catalog-candidates/cpu/decor-8-w03-v3-a-single-aquarium-original.png",
+      "sha256": "254d78c006b3268bcfaa1c0576784010fe060db0d48a9376f5292d1d3461a59c",
+      "gitBlobSha": "b35648acd6951aaa04de97f555b660396e2a62df",
+      "bytes": 554352,
+      "dimensions": [
+        640,
+        640
+      ],
+      "format": "PNG",
+      "stagedOutput": "docs/preproduction/art-factory/generated-evidence/w03-decor8-v3-desks9-10-v3-rework/decor-8/staged-output.json",
+      "generationReceipt": "docs/preproduction/art-factory/generated-evidence/w03-decor8-v3-desks9-10-v3-rework/decor-8/generation-receipt.json",
+      "provenanceState": "COMPLETE_ART_FACTORY_V2",
+      "repositoryReadback": "PASS_EXACT_GIT_BLOB",
+      "supersession": "FRESH_V3_FAILURE_SPECIFIC_REPLACEMENT_FOR_REWORKED_V2",
+      "state": "ROUTE_TO_06_TECHNICAL_QUALIFICATION"
+    },
+    {
+      "id": "desks-9",
+      "name": "Art Maker Table",
+      "collectionId": "desks",
+      "producer": "03",
+      "reviewerAssignment": "05",
+      "renderOwner": "14",
+      "canonicalWriter": "08",
+      "priorRejectedOrBlockedHash": {
+        "path": "public/assets/catalog-candidates/cpu/desks-9-w03-v2-a-physical-original.png",
+        "gitBlobSha": "6cab04be717e17e2b682afa73ce8306bc21556c8"
+      },
+      "path": "public/assets/catalog-candidates/cpu/desks-9-w03-v3-a-maker-rail-desk-original.png",
+      "sha256": "03b2d9b3899bad522861ca788403bc3ed8c469bddcb932bc6fa348e2216b2b97",
+      "gitBlobSha": "64bb30b92257f0471259dd8b840b086af9e58073",
+      "bytes": 482394,
+      "dimensions": [
+        640,
+        640
+      ],
+      "format": "PNG",
+      "stagedOutput": "docs/preproduction/art-factory/generated-evidence/w03-decor8-v3-desks9-10-v3-rework/desks-9/staged-output.json",
+      "generationReceipt": "docs/preproduction/art-factory/generated-evidence/w03-decor8-v3-desks9-10-v3-rework/desks-9/generation-receipt.json",
+      "provenanceState": "COMPLETE_ART_FACTORY_V2",
+      "repositoryReadback": "PASS_EXACT_GIT_BLOB",
+      "supersession": "FRESH_V3_FAILURE_SPECIFIC_REPLACEMENT_FOR_REWORKED_V2",
+      "state": "ROUTE_TO_06_TECHNICAL_QUALIFICATION"
+    },
+    {
+      "id": "desks-10",
+      "name": "Neon Streaming Desk",
+      "collectionId": "desks",
+      "producer": "03",
+      "reviewerAssignment": "05",
+      "renderOwner": "14",
+      "canonicalWriter": "08",
+      "priorRejectedOrBlockedHash": {
+        "path": "public/assets/catalog-candidates/cpu/desks-10-w03-v2-a-physical-original.png",
+        "gitBlobSha": "2f6fccc5b76418fee108052bf6963491f2bcb823"
+      },
+      "path": "public/assets/catalog-candidates/cpu/desks-10-w03-v3-a-streaming-worktop-original.png",
+      "sha256": "f793d2c41b7e7ea441e9e637de3d6e9aa6ec6e6299732cbb2ceb1ed2d6edeadb",
+      "gitBlobSha": "1eb6e1c127c3ac85d82daf7454cec0d83ca89b1b",
+      "bytes": 636251,
+      "dimensions": [
+        640,
+        640
+      ],
+      "format": "PNG",
+      "stagedOutput": "docs/preproduction/art-factory/generated-evidence/w03-decor8-v3-desks9-10-v3-rework/desks-10/staged-output.json",
+      "generationReceipt": "docs/preproduction/art-factory/generated-evidence/w03-decor8-v3-desks9-10-v3-rework/desks-10/generation-receipt.json",
+      "provenanceState": "COMPLETE_ART_FACTORY_V2",
+      "repositoryReadback": "PASS_EXACT_GIT_BLOB",
+      "supersession": "FRESH_V3_FAILURE_SPECIFIC_REPLACEMENT_FOR_REWORKED_V2",
+      "state": "ROUTE_TO_06_TECHNICAL_QUALIFICATION"
+    }
+  ],
+  "dedupe": {
+    "uniqueItemHashClaim": true,
+    "unchangedPriorHashesRerouted": false,
+    "newerPendingCandidateObserved": false
+  },
+  "queues": {
+    "to06": [
+      "decor-8@254d78c006b3268bcfaa1c0576784010fe060db0d48a9376f5292d1d3461a59c",
+      "desks-9@03b2d9b3899bad522861ca788403bc3ed8c469bddcb932bc6fa348e2216b2b97",
+      "desks-10@f793d2c41b7e7ea441e9e637de3d6e9aa6ec6e6299732cbb2ceb1ed2d6edeadb"
+    ],
+    "backToProducer": []
+  },
+  "cursorAdvance": {
+    "previous": "c956d6421bbf3cbc388b9b0257b927d1c3a48db3",
+    "advancedThrough": "85310fa26d195a4ed95c802c773fdb7c45d02f59"
+  },
+  "nextOwner": "06_TECHNICAL_QUALIFICATION",
+  "mutationScope": "Routing evidence only; no candidate bytes, canonical mappings, reviewer decisions, gameplay, learning, economy, persistence, accessibility, CI/workflows, deployment, secrets, or player data changed."
+}
