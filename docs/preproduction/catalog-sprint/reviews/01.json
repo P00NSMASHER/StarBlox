@@ -5,7 +5,7 @@
   "role": "Visual Target Director / independent catalog reviewer",
   "phase": "ART_AND_VISUALS_ONLY",
   "branch": "screenshot-match-preproduction",
-  "sourceHead": "9e032e4096",
+  "sourceHead": "24ab341fee",
   "assignedCollections": [
     "tops",
     "bottoms",
@@ -34,9 +34,9 @@
   },
   "currentCycle": {
     "scope": [
-      "desks-12"
+      "decor-7"
     ],
-    "version": "current exact hash: desks-12",
+    "version": "current exact hash: Decor7 v7",
     "result": "REWORK_1_OF_1",
     "oldVerdictsTransferred": false,
     "actualCardScalePixelsReviewed": true,
@@ -554,6 +554,44 @@
         "duplicateVisual": "PASS",
         "technicalIntegrity": "PASS"
       }
+    },
+    {
+      "itemId": "decor-7",
+      "name": "Skate Rack",
+      "tier": 3,
+      "theme": "Garden Glow",
+      "assetPath": "public/assets/catalog-candidates/cpu/decor-7-w09-v7-a-quad-skates-in-rack-original.png",
+      "repositoryPath": "public/assets/catalog-candidates/cpu/decor-7-w09-v7-a-quad-skates-in-rack-original.png",
+      "assetHash": "fe27bb7b6fa4dc4e6376434c7514a932ee2419da",
+      "sha256": "1cf7f676a9dc758b12d69180cbc547c70f9f81fd275ce1d503d1db2aa0e5e30c",
+      "contentSha256": "1cf7f676a9dc758b12d69180cbc547c70f9f81fd275ce1d503d1db2aa0e5e30c",
+      "producer": "09",
+      "decision": "REWORK",
+      "learnerLabel": "REWORK",
+      "reviewedAt": "2026-09-24T16:03:00Z",
+      "evidenceRefs": [
+        "workflow:36023760415",
+        "artifact:10818925883/staged-replacements/staged-replacements-contact-sheet.png",
+        "artifact:10818925883/staged-replacements/detail/decor-7-fe27bb7b.png"
+      ],
+      "reasonCodes": [
+        "SKATE_RACK_IDENTITY_FAILURE",
+        "NO_RECOGNIZABLE_QUAD_SKATES",
+        "ABSTRACT_CUBBY_GRID",
+        "CARD_SCALE_READABILITY_FAILURE"
+      ],
+      "reason": "REWORK. V7 still does not read as one compact roller-skate storage rack. The exact pixels collapse into an abstract cubby/grid wall with repeated colored shapes; no unmistakable quad-skate pair with readable boot, trucks and four wheels survives at card scale. Preserve this hash. Next repair should show one small freestanding rack with only 2–4 bays and one clearly recognizable pair of quad skates occupying a bay, on a plain background with no repeated wall grid.",
+      "checks": {
+        "identity": "FAIL",
+        "silhouette": "FAIL",
+        "cardReadability": "FAIL",
+        "physicalConstruction": "FAIL",
+        "framingComposition": "FAIL",
+        "materialLighting": "PARTIAL",
+        "originality": "PASS",
+        "duplicateVisual": "PASS",
+        "technicalIntegrity": "PASS"
+      }
     }
   ],
   "currentReplacementDisposition": {
@@ -597,7 +635,7 @@
     },
     "decor": {
       "REWORK": {
-        "decor-7": "be645f930fd96fafde9475f6e2ba1ff2504a742e"
+        "decor-7": "fe27bb7b6fa4dc4e6376434c7514a932ee2419da"
       },
       "ACCEPT": {
         "decor-5": "1e7716f00e8e38f7ad645a448f9e29adea38de37"
@@ -621,17 +659,17 @@
     "newBlockedThisRun": 0,
     "newUsableBy08Now": [],
     "reworkNow": [
-      "desks-12"
+      "decor-7"
     ],
-    "preservedAcceptedHashes": "All prior reviewer01 ACCEPTs remain frozen; this REWORK applies only to desks-12 exact hash 7d268e27c8d963dfb7e8c62274fe6b906973d5bd."
+    "preservedAcceptedHashes": "All prior reviewer01 ACCEPTs remain frozen; this REWORK applies only to Decor7 v7 exact hash."
   },
   "handoff": {
     "13": "desks-12 current exact hash is REWORK; preserve it and generate only the failure-specific next version if director15 keeps it release-critical.",
     "14": "Current render packets consumed; do not rerender unchanged hashes.",
-    "15": "desks-12 remains a bounded exact-pixel REWORK blocker; prepare only the smallest failure-specific replacement.",
-    "09": "Decor7 v5 is REWORK; preserve exact hash and prepare smallest failure-specific v6 if director15 prioritizes it.",
+    "15": "Decor7 remains a bounded exact-pixel blocker.",
+    "09": "Decor7 v7 REWORK; preserve exact hash and generate only a small freestanding rack with a clearly readable quad-skate pair if director15 keeps it release-critical.",
     "03": "Desk11/12 v1 are REWORK; preserve exact hashes and prepare isolated-desk replacements if prioritized.",
-    "08": "Do not canonical-wire desks-12 exact hash 7d268e27c8d963dfb7e8c62274fe6b906973d5bd."
+    "08": "Do not canonical-wire Decor7 v7."
   },
   "freeze": {
     "replitTouched": false,
