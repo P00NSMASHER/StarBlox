@@ -143,6 +143,17 @@ jobs:
         with:
           python-version: '3.12'
 
+      - name: Restore pinned CPU runtime and SDXL download cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/pip
+            ~/.cache/huggingface/hub
+          key: starblox-art-cpu-${{ runner.os }}-py312-torch280-diffusers-7263f331-sdxl-46216598
+          restore-keys: |
+            starblox-art-cpu-${{ runner.os }}-py312-torch280-diffusers-7263f331-
+            starblox-art-cpu-${{ runner.os }}-py312-
+
       - uses: actions/download-artifact@v4
         with:
           name: cpu-generation-plan-${{ github.sha }}
