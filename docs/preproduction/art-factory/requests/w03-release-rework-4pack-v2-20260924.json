@@ -1,0 +1,143 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_BATCH_REQUEST",
+  "planner": "15",
+  "producer": "03",
+  "preflightOwner": "06",
+  "reviewer": "MIXED_11_05_01",
+  "renderOwner": "14",
+  "integrationOwner": "08",
+  "coordinationOwner": "15",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "18cd926f7af38ea8f77d76780bdd4f4ec2945e92",
+  "manifestVersion": 40,
+  "batchId": "w03-release-rework-4pack-v2",
+  "scope": [
+    "decor-8",
+    "desks-9",
+    "desks-10",
+    "desks-11"
+  ],
+  "state": "PREPARED_FROM_RELEASE_BLOCKER_LEDGER__WAIT_LIVE_CPU_IDLE",
+  "assignmentAuthority": {
+    "blockerLedger": "docs/preproduction/art-factory/RELEASE_BLOCKERS_CURRENT.json",
+    "runtimeProofPath": "docs/preproduction/art-factory/CPU_RUNTIME_PROOF.json",
+    "runtimeProofStatus": "PROVEN",
+    "runtimeCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+    "modelRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "assignedReviewers": {
+      "decor-8": "11",
+      "desks-9": "05",
+      "desks-10": "05",
+      "desks-11": "01"
+    },
+    "note": "Fresh release-tail request. Uses bounded positive/negative CLIP prompt compiler validated on current branch. Preserve all prior rejected exact hashes."
+  },
+  "references": {
+    "originalStoreReference": {
+      "requiredBeforeGeneration": true,
+      "repositoryPath": "docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg",
+      "sha256": "b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d",
+      "gitBlobSha": "383baa877d3af86fa92e3583740212000592b3d6",
+      "dimensions": [
+        1448,
+        1086
+      ],
+      "role": "FIRST_PARTY_STARBLOX_STORE_ART_DIRECTION"
+    }
+  },
+  "reviewSource": {
+    "decision": "REWORK",
+    "note": "Each item is bound to the newest exact-hash REWORK in RELEASE_BLOCKERS_CURRENT.json and reviewer ledgers."
+  },
+  "items": {
+    "decor-8": {
+      "currentLegacy": {
+        "path": "public/assets/catalog-candidates/cpu/decor-8-w03-v3-a-single-aquarium-original.png",
+        "gitBlobSha1": "b35648acd6951aaa04de97f555b660396e2a62df",
+        "reviewDecision": "REWORK",
+        "normalizedFailureTaxonomy": [
+          "MULTI_PANEL_COLLAGE",
+          "DUPLICATED_AQUARIUM_VARIANTS",
+          "NO_SINGLE_TANK_SILHOUETTE"
+        ]
+      },
+      "variants": [
+        {
+          "variantId": "A-ONE-AQUARIUM-ONLY-V2",
+          "optimizerInput": "Mini Aquarium, Room Decor, Tier 3, Galaxy Glow. EXACTLY ONE compact rectangular desktop aquarium as the only product and only camera view. One clear glass tank, one dark navy base, one slim matching lid, one compact rear filter housing and intake tube, one waterline, gravel, three plants, one small rock. Isolated centered product on seamless plain studio background with grounded shadow. Strong readable single-tank silhouette. NO second tank, NO alternate angle, NO collage, NO contact sheet, NO split panels, NO infographic, NO UI, NO labels, NO text, NO room scene, NO duplicate vessel."
+        }
+      ]
+    },
+    "desks-9": {
+      "currentLegacy": {
+        "path": "public/assets/catalog-candidates/cpu/desks-9-w03-v3-a-maker-rail-desk-original.png",
+        "gitBlobSha1": "64bb30b92257f0471259dd8b840b086af9e58073",
+        "reviewDecision": "REWORK",
+        "normalizedFailureTaxonomy": [
+          "WALL_SHELF_INSTEAD_OF_TABLE",
+          "NO_SINGLE_DESK_SILHOUETTE",
+          "WEAK_MAKER_TOOL_CUES"
+        ]
+      },
+      "variants": [
+        {
+          "variantId": "A-SINGLE-MAKER-TABLE-V2",
+          "optimizerInput": "Art Maker Table, Desks & Tech, Tier 3, Sunny Pop. EXACTLY ONE freestanding maker table as the only product. One broad horizontal warm-wood tabletop, exactly two stable side supports, one shallow drawer/storage cabinet, one small raised peg/tool rail physically attached to the back edge, one brush cup, one scissors holder and one paint tray. Bright Sunny Pop yellow-orange accents with cream and wood. Three-quarter product view, full table isolated on seamless plain studio background, grounded shadow. NO wall mounting, NO wall shelving, NO built-in room fixture, NO second table, NO collage, NO comparison views, NO room scene, NO text."
+        }
+      ]
+    },
+    "desks-10": {
+      "currentLegacy": {
+        "path": "public/assets/catalog-candidates/cpu/desks-10-w03-v6-a-wide-desk-monitor-mic-original.png",
+        "gitBlobSha1": "a576fa4d5450a492d3a29547e2551879dc64dd76",
+        "reviewDecision": "REWORK",
+        "normalizedFailureTaxonomy": [
+          "ABSTRACT_FRAGMENTED_GEOMETRY",
+          "NO_SINGLE_WORKTOP",
+          "NO_MONITOR_MIC_SETUP",
+          "ROOM_ARCHITECTURE"
+        ]
+      },
+      "variants": [
+        {
+          "variantId": "A-LITERAL-STREAMING-DESK-V7",
+          "optimizerInput": "Neon Streaming Desk, Desks & Tech, Tier 4, Aqua Wave. Render a literal ordinary desk, not futuristic architecture. EXACTLY ONE freestanding streaming desk in one three-quarter view on a seamless plain studio background. One large rectangular dark tabletop, exactly two simple supports or pedestals, exactly one normal flat computer monitor sitting on the tabletop, exactly one visible microphone on a boom arm clamped to the desk, one small control pad. Aqua edge accent only. Everything physically connected and immediately recognizable. NO shelves, NO pods, NO curved stacked sculptures, NO room walls, NO cabinetry wall, NO cutaway, NO multiple views, NO collage, NO second desk, NO floating screen, NO text."
+        }
+      ]
+    },
+    "desks-11": {
+      "currentLegacy": {
+        "path": "public/assets/catalog-candidates/cpu/desks-11-w03-v4-a-one-desk-no-panels-original.png",
+        "gitBlobSha1": "7f4f00fcce23a47b566ec3a99704821acb3ce57a",
+        "reviewDecision": "REWORK",
+        "normalizedFailureTaxonomy": [
+          "NINE_PANEL_COLLAGE",
+          "MULTIPLE_ALTERNATE_DESKS",
+          "NO_SINGLE_PRODUCT_SILHOUETTE"
+        ]
+      },
+      "variants": [
+        {
+          "variantId": "A-LITERAL-CREATOR-DESK-V5",
+          "optimizerInput": "Dream Creator Station, Desks & Tech, Tier 4, Art Attack. EXACTLY ONE freestanding creator desk, one product, one camera view, on a seamless plain studio background. One broad cream worktop, two simple stable supports, one small attached drawer/storage unit, one compact attached organizer holding a few art tools, one drawing tablet or creator screen centered on the desk. Restrained coral, lavender and aqua accents. Strong ordinary-desk silhouette. NO collage, NO contact sheet, NO grid of images, NO comparison, NO multiple camera views, NO duplicate furniture, NO room walls, NO built-in cabinetry, NO second desk, NO text."
+        }
+      ]
+    }
+  },
+  "executionBudget": {
+    "width": 640,
+    "height": 640,
+    "steps": 6,
+    "guidanceScale": 3.5,
+    "dtype": "float32"
+  },
+  "safety": {
+    "preserveRejectedExactHashes": true,
+    "preserveAcceptedExactHashes": true,
+    "producerSelfReview": false,
+    "canonicalMappingsChanged": false,
+    "workflowFilesChanged": false
+  }
+}
