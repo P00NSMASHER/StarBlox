@@ -1,0 +1,112 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_GENERATION_RECEIPT",
+  "repository": "P00NSMASHER/StarBlox",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "6c74958700445d9737d56c02b05a9599c7dbd4dc",
+  "sourcePlanSha256": "7b6aa8db98637edd2e6f6012bc28edba2c07ba25063451a87b061a61089b919f",
+  "executionCheckout": {
+    "branch": "screenshot-match-preproduction",
+    "head": "6c74958700445d9737d56c02b05a9599c7dbd4dc",
+    "planSourceHeadMatchesExecutionHead": true
+  },
+  "attempt": {
+    "attemptId": "wall-8-w13-a-flat-blue-ocean-window-0febc36146",
+    "itemId": "wall-8",
+    "producer": "13",
+    "variant": "A-FLAT-BLUE-OCEAN-WINDOW",
+    "promptSha256": "0febc36146642561f41d7e160cefc4fc5c4a68173321759fbf061e0776f80947",
+    "runtimePromptSha256": "166e9346403bbf67f2d5fae8b68c6e1d538f9d6a931e0b95cdbe4f3360597a3d",
+    "runtimeNegativePromptSha256": "35984c10656a6a07a74067a956ea1af56b7f41f1184405a894cfbbe3525b76d6",
+    "promptRecipeVersion": "artPromptOptimizer-request-v1:w13-desk8-wall8-wall9-retry-pack",
+    "seed": 1277264631
+  },
+  "runtime": {
+    "repo": "huggingface/diffusers",
+    "commit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "resolvedCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "runtimeCommitVerified": true,
+    "diffusersVersion": "0.41.0.dev0",
+    "diffusersInstallSource": "https://github.com/huggingface/diffusers.git",
+    "torchVersion": "2.8.0+cpu",
+    "transformersVersion": "5.17.0",
+    "accelerateVersion": "1.15.0",
+    "huggingfaceHubVersion": "1.33.0",
+    "safetensorsVersion": "0.8.0",
+    "pythonPillowVersion": "12.3.0",
+    "device": "cpu",
+    "dtype": "float32",
+    "executionMode": "cpu-fallback"
+  },
+  "model": {
+    "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+    "revision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS",
+    "resolvedRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "snapshotRevisionVerified": true,
+    "selectiveSnapshot": true,
+    "snapshotAllowPatterns": [
+      "model_index.json",
+      "scheduler/*",
+      "tokenizer/*",
+      "tokenizer_2/*",
+      "feature_extractor/*",
+      "text_encoder/config.json",
+      "text_encoder/model.fp16.safetensors",
+      "text_encoder_2/config.json",
+      "text_encoder_2/model.fp16.safetensors",
+      "unet/config.json",
+      "unet/diffusion_pytorch_model.fp16.safetensors",
+      "vae/config.json",
+      "vae/diffusion_pytorch_model.fp16.safetensors"
+    ]
+  },
+  "conditioning": {
+    "referenceAssetSha256": null,
+    "controlImageSha256": null,
+    "adapterScale": null,
+    "referenceImage": null,
+    "ipAdapterModelId": null,
+    "ipAdapterRevision": null,
+    "ipAdapterResolvedRevision": null,
+    "ipAdapterRevisionVerified": false,
+    "ipAdapterWeightName": null,
+    "ipAdapterSubfolder": null
+  },
+  "generation": {
+    "width": 640,
+    "height": 640,
+    "numInferenceSteps": 10,
+    "guidanceScale": 4.5,
+    "runtimePromptTokenCounts": {
+      "tokenizer": 67,
+      "tokenizer_2": 67
+    },
+    "runtimeNegativePromptTokenCounts": {
+      "tokenizer": 42,
+      "tokenizer_2": 42
+    },
+    "executedSeed": 1277264631
+  },
+  "output": {
+    "repoPath": "public/assets/catalog-candidates/cpu/wall-8-w13-v10-a-flat-blue-ocean-window-original.png",
+    "sha256": "35ecf7dc4936243c8df8f80637efb4278fbef26abbf63a83105a1b1a78e5bd4c",
+    "gitBlobSha": "f3abee3c021429e31bc9075a91b139c8923f35d0",
+    "bytes": 537032,
+    "width": 640,
+    "height": 640,
+    "format": "PNG",
+    "sourceBytesPreserved": true,
+    "reusedExistingIdenticalBytes": false
+  },
+  "safety": {
+    "canonicalArtModified": false,
+    "gameplayModified": false,
+    "reviewDecisionMade": false,
+    "deploymentPerformed": false,
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+  },
+  "nextGate": "RUN_VERIFY_STAGED_OUTPUT_THEN_REAL_RENDER_AND_INDEPENDENT_EXACT_HASH_REVIEW",
+  "status": "GENERATED_SOURCE_BYTES_UNVERIFIED",
+  "recordSha256": "e4969b4c88d0e01a1e447536a1023b8935aa4628a2760bb292917b8500d00f26"
+}
