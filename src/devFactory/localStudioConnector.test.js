@@ -5,6 +5,7 @@ import { describe,expect,it } from 'vitest';
 import { studioToolNames } from './studioToolContract.js';
 import {
   STARBLOX_STUDIO_CONNECTOR_TOOLS,
+  STARBLOX_STUDIO_CONNECTOR_VERSION,
   createStarBloxLocalStudioAdapter
 } from './localStudioConnector.js';
 
@@ -47,6 +48,9 @@ describe('Step 2: built-in StarBlox Studio connector contract', () => {
     expect(source).not.toMatch(/run_luau|loadstring|getfenv|setfenv/i);
     expect(source).toMatch(/request\.expiresAt/);
     expect(source).toMatch(/UnixTimestampMillis/);
+    expect(source).toContain(STARBLOX_STUDIO_CONNECTOR_VERSION);
+    expect(source).toMatch(/connectorVersion\s*=\s*CONNECTOR_VERSION/);
+    expect(source).toMatch(/tools\s*=\s*CONNECTOR_TOOLS/);
 
     for(const tool of STARBLOX_STUDIO_CONNECTOR_TOOLS){
       expect(source).toContain(tool + ' =');
@@ -64,6 +68,10 @@ describe('Step 2: built-in StarBlox Studio connector contract', () => {
 
   it('creates an HTTP adapter that advertises exactly the built-in connector subset', () => {
     const adapter=createStarBloxLocalStudioAdapter();
+
+    expect(adapter.requiresAttestation).toBe(true);
+    expect(adapter.expectedConnectorVersion).toBe(STARBLOX_STUDIO_CONNECTOR_VERSION);
+    expect(adapter.supportedTools).toEqual([...STARBLOX_STUDIO_CONNECTOR_TOOLS].sort());
 
     for(const tool of STARBLOX_STUDIO_CONNECTOR_TOOLS){
       expect(adapter.has(tool)).toBe(true);
