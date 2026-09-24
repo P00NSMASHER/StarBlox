@@ -157,6 +157,28 @@ describe('Step 18: deterministic rollout cohorts and kill switches', () => {
     }).mode).toBe('killed');
   });
 
+  it('rejects duplicate kill-switch IDs so emergency rules remain uniquely attributable', () => {
+    const config=JSON.parse(JSON.stringify(createFeatureRolloutConfig({
+      features:{
+        'selector-v2':{enabled:true,evaluatePercent:100,usePercent:100}
+      },
+      killSwitches:[
+        {id:'emergency-off',featureId:'selector-v2',match:{platform:'ios'}},
+        {id:'another-rule',featureId:'selector-v2',match:{platform:'android'}}
+      ]
+    })));
+    config.killSwitches[1].id='emergency-off';
+    const base={...config};
+    delete base.configHash;
+    // Recompute the outer hash to prove semantic validation, not hash mismatch,
+    // catches the ambiguous operational rule.
+    config.configHash='fnv1a32:00000000';
+
+    const validation=verifyFeatureRolloutConfig(config);
+    expect(validation.ok).toBe(false);
+    expect(validation.errors.join(' ')).toMatch(/duplicate kill switch ID/);
+  });
+
   it('fails closed to control when rollout config integrity is broken', () => {
     const config=JSON.parse(JSON.stringify(createFeatureRolloutConfig({
       features:{
