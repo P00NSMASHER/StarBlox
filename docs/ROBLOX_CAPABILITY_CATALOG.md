@@ -58,6 +58,7 @@ Catalog schema v2 also exposes a machine-readable `inventory` index for scripts,
 Every Roblox instance is reduced to a stable catalog record containing:
 
 - source file / source ID;
+- exact SHA-256 + byte length when ingested through the CLI;
 - normalized instance path;
 - class name and instance name;
 - property names;
@@ -114,14 +115,23 @@ No recovered/imported Luau code is executed by the cataloger.
 
 ## Dependency graph
 
-Static script analysis extracts graph edges for:
+The catalog emits relationships without executing imported Luau:
 
-- Roblox services;
-- numeric external module requires;
-- WaitForChild instance references;
-- references that resolve to known RemoteEvent/RemoteFunction names.
+- parent/child structure;
+- serialized Ref-backed property links resolved to catalog paths when local;
+- Roblox asset references;
+- Roblox services used by scripts;
+- numeric external-module requires;
+- nonnumeric require expressions;
+- WaitForChild instance/remote references.
 
-This gives the next migration step a starting dependency graph rather than forcing manual exploration in Studio.
+This gives migration tooling a searchable graph of both serialized Roblox structure and static script dependencies.
+
+## Exact source-byte provenance
+
+The CLI fingerprints every authorized .rbxl/.rbxm/.rbxlx/.rbxmx source with SHA-256 plus byte length before cataloging. Those fingerprints are hash-bound into the catalog and flow into migration plans and bundle manifests.
+
+Plan-only work may inspect older catalogs without source fingerprints, but subtree export fails closed unless the exact reviewed source fingerprint is present and still matches the source bytes at export time.
 
 ## Reuse classes
 
