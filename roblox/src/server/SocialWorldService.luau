@@ -5,6 +5,13 @@ local HttpService = game:GetService("HttpService")
 local SocialWorldService = {}
 SocialWorldService.__index = SocialWorldService
 
+local function adapterAccepted(result): boolean
+	if result == true then
+		return true
+	end
+	return type(result) == "table" and result.ok == true
+end
+
 local function ensureSocial(profileData)
 	profileData.Social = profileData.Social or {
 		Home = {
@@ -46,6 +53,10 @@ function SocialWorldService:PlaceItem(player: Player, request)
 	local accepted = false
 	local outcome = "placement rejected"
 
+	if type(self._adapters.SpawnPlacedItem) ~= "function" then
+		return false, "placement spawn adapter unavailable"
+	end
+
 	self._profiles:WithProfile(player, function(profileData)
 		local social = ensureSocial(profileData)
 		local validator = self._adapters.PlacementValidator
@@ -79,19 +90,22 @@ function SocialWorldService:PlaceItem(player: Player, request)
 			return
 		end
 
-		social.Home.PlotId = normalized.plotId or social.Home.PlotId
-		social.Home.Placements[placementId] = {
+		local placement = {
 			ItemId = normalized.itemId,
 			Position = normalized.position,
 			RotationY = normalized.rotationY or 0,
 		}
 
-		if self._adapters.SpawnPlacedItem then
-			pcall(function()
-				self._adapters.SpawnPlacedItem(player, placementId, social.Home.Placements[placementId])
-			end)
+		local spawnOk, spawnResult = pcall(function()
+			return self._adapters.SpawnPlacedItem(player, placementId, table.clone(placement))
+		end)
+		if not spawnOk or not adapterAccepted(spawnResult) then
+			outcome = "placement spawn failed"
+			return
 		end
 
+		social.Home.PlotId = normalized.plotId or social.Home.PlotId
+		social.Home.Placements[placementId] = placement
 		self._replicas:Sync(player, profileData)
 		accepted = true
 		outcome = placementId
@@ -101,18 +115,26 @@ function SocialWorldService:PlaceItem(player: Player, request)
 end
 
 function SocialWorldService:RemoveItem(player: Player, placementId: string)
+	if type(self._adapters.RemovePlacedItem) ~= "function" then
+		return false
+	end
+
 	local removed = false
 	self._profiles:WithProfile(player, function(profileData)
 		local social = ensureSocial(profileData)
-		if social.Home.Placements[placementId] == nil then
+		local existing = social.Home.Placements[placementId]
+		if existing == nil then
 			return
 		end
-		social.Home.Placements[placementId] = nil
-		if self._adapters.RemovePlacedItem then
-			pcall(function()
-				self._adapters.RemovePlacedItem(player, placementId)
-			end)
+
+		local removeOk, removeResult = pcall(function()
+			return self._adapters.RemovePlacedItem(player, placementId, table.clone(existing))
+		end)
+		if not removeOk or not adapterAccepted(removeResult) then
+			return
 		end
+
+		social.Home.Placements[placementId] = nil
 		self._replicas:Sync(player, profileData)
 		removed = true
 	end)
@@ -203,11 +225,11 @@ function SocialWorldService:FinishMinigame(player: Player, sessionId: string, se
 		return false, "minigame session mismatch"
 	end
 
-	self._activeMinigames[player] = nil
 	if type(serverResult) ~= "table" or type(serverResult.won) ~= "boolean" then
 		return false, "server result required"
 	end
 
+	self._activeMinigames[player] = nil
 	local liveOpsSequence = nil
 	self._profiles:WithProfile(player, function(profileData)
 		local social = ensureSocial(profileData)
