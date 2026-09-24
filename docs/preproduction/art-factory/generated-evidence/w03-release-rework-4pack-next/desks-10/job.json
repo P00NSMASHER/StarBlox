@@ -1,0 +1,167 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_JOB",
+  "repository": "P00NSMASHER/StarBlox",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "a9f863e0ff6ebe7329b82b3a4ba6cbce510dadd8",
+  "item": {
+    "id": "desks-10",
+    "name": "Neon Streaming Desk",
+    "collectionId": "desks",
+    "type": "room",
+    "tier": 4,
+    "theme": "Aqua Wave"
+  },
+  "sourceReviewHash": "1eb6e1c127c3ac85d82daf7454cec0d83ca89b1b",
+  "rightsBasis": "USER_ATTESTED_FULL_RIGHTS",
+  "attempts": [
+    {
+      "attemptId": "desks-10-w03-a-one-streaming-desk-14dd65b6a2",
+      "itemId": "desks-10",
+      "producer": "03",
+      "variant": "A-ONE-STREAMING-DESK",
+      "promptBlocks": [
+        "metadata",
+        "category",
+        "silhouette",
+        "physical",
+        "material",
+        "theme",
+        "tier",
+        "card",
+        "original",
+        "stage",
+        "furniture",
+        "camera",
+        "depth",
+        "bloom",
+        "textile",
+        "wall",
+        "light"
+      ],
+      "promptText": "STARBLOX CATALOG ART — A-ONE-STREAMING-DESK\n\nCreate one premium, kid-friendly 2D game catalog asset with polished dimensional quality.\n\nExact metadata: desks-10 — Neon Streaming Desk; collection desks; type room; tier 4; theme Aqua Wave.\n\nAuthoritative item-specific design brief:\nNeon Streaming Desk, Desks & Tech, Tier 4, Aqua Wave. Create EXACTLY ONE wide horizontal streaming desk: black graphite worktop with aqua edge light, two stable supports, one right-side equipment cabinet, one attached raised monitor bridge holding a single display, one coherent articulated microphone arm and a small control pad. Single three-quarter isolated product view with grounded shadow and premium metal/acrylic depth. NO second desk, NO multiple camera panels, NO collage, NO split-screen, NO room scene, NO text/logos.\n\nExact-hash reviewer failure taxonomy: UNKNOWN_REWORK.\n\nRepair the documented failure codes while preserving qualities that were not implicated. Do not erase successful identity, silhouette, material depth, or readability merely to make a different image.\n\nUse the exact catalog ID/name/collection/tier/theme. Do not rename, recategorize, or substitute the item.\n\nMake the object unmistakably the stated product category with believable proportions and construction.\n\nPrioritize a distinctive clean silhouette that reads immediately at small Store-card size.\n\nShow real thickness, seams/joints/edges, layered parts, volume, contact points and functional construction—not a flat icon, emblem or sticker.\n\nUse category-appropriate material texture and highlights/shadows that explain the form.\n\nExpress the exact theme through material, construction, light and motif—not a palette swap or pasted decal.\n\nRespect tier progression: Starter stays simple and attractive; higher tiers gain richer form/material detail; Luxe gains spectacle without losing identity.\n\nDesign for both detail view and a 600×600 Store card with strong contrast, uncluttered hierarchy and no tiny critical details.\n\nAvoid recolor-only siblings, repeated template silhouettes, generic rings/badges, or interchangeable props.\n\nPresent one isolated subject on a clean premium background. No UI, text, watermark, logo, fake price badge or unrelated props.\n\nFor furniture/decor, show supports, joints, cushions/panels/hardware, weight and grounded contact.\n\nUse a clean product-style three-quarter view when appropriate so front, side and thickness are visible.\n\nUse occlusion, contact/cast shadows and foreground/midground/background separation so the asset feels spatial.\n\nUse controlled emissive light/bloom only where appropriate; preserve edges and local contrast.\n\nFor textiles, show weave/pile/folds/stitching/edge finish/thickness and believable softness or drape.\n\nFor wall decor, show mounting/frame/backing/relief depth and a believable wall-object form—not a floating emblem.\n\nFor lighting, show a physical base/mount/chassis, emitter or bulb, support structure and believable emitted/reflected light.\n\nOutput a production-worthy source image for exact-byte staging, card/detail rendering and independent review. Do not claim approval; the reviewer decides from rendered pixels.",
+      "promptSha256": "14dd65b6a2787743f65c94a6cd30f41df7a8f2d532c6d240dce4d63e3b187a9e",
+      "runtimePromptText": "desks-10 Neon Streaming Desk. desks; tier 4; theme Aqua Wave. Create EXACTLY ONE wide horizontal streaming desk: black graphite worktop with aqua edge light, two stable supports, one right-side equipment cabinet, one attached raised Premium dimensional product render, grounded shadow, no text or logo.",
+      "runtimePromptSha256": "8c732131be0db810e9655118fe0b157966367ec4ec11024a1d0187777144a9ac",
+      "promptRecipeVersion": "artPromptOptimizer-request-v1:w03-release-rework-4pack-next",
+      "seed": 1212589131,
+      "runtime": {
+        "repo": "huggingface/diffusers",
+        "commit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c"
+      },
+      "model": {
+        "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+        "revision": "462165984030d82259a11f4367a4eed129e94a7b",
+        "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+      },
+      "conditioning": {
+        "referenceAssetSha256": null,
+        "controlImageSha256": null,
+        "adapterScale": null
+      },
+      "output": {
+        "repoPath": null,
+        "sha256": null,
+        "gitBlobSha": null,
+        "bytes": null,
+        "width": null,
+        "height": null
+      },
+      "status": "PLANNED_NOT_GENERATED"
+    },
+    {
+      "attemptId": "desks-10-w03-b-clean-neon-workstation-b9dcb02b4d",
+      "itemId": "desks-10",
+      "producer": "03",
+      "variant": "B-CLEAN-NEON-WORKSTATION",
+      "promptBlocks": [
+        "metadata",
+        "category",
+        "silhouette",
+        "physical",
+        "material",
+        "theme",
+        "tier",
+        "card",
+        "original",
+        "stage",
+        "furniture",
+        "camera",
+        "depth",
+        "bloom",
+        "textile",
+        "wall",
+        "light"
+      ],
+      "promptText": "STARBLOX CATALOG ART — B-CLEAN-NEON-WORKSTATION\n\nCreate one premium, kid-friendly 2D game catalog asset with polished dimensional quality.\n\nExact metadata: desks-10 — Neon Streaming Desk; collection desks; type room; tier 4; theme Aqua Wave.\n\nAuthoritative item-specific design brief:\nNeon Streaming Desk, Desks & Tech, Tier 4, Aqua Wave. Design ONE freestanding streaming workstation with broad dark worktop, cyan/aqua trim, integrated drawer/equipment pedestal, slim upper monitor shelf and one attached mic arm. Keep everything physically connected and readable at Store-card size. NO repeated variants, NO collage, NO comparison views, NO floating screens, NO text.\n\nExact-hash reviewer failure taxonomy: UNKNOWN_REWORK.\n\nRepair the documented failure codes while preserving qualities that were not implicated. Do not erase successful identity, silhouette, material depth, or readability merely to make a different image.\n\nUse the exact catalog ID/name/collection/tier/theme. Do not rename, recategorize, or substitute the item.\n\nMake the object unmistakably the stated product category with believable proportions and construction.\n\nPrioritize a distinctive clean silhouette that reads immediately at small Store-card size.\n\nShow real thickness, seams/joints/edges, layered parts, volume, contact points and functional construction—not a flat icon, emblem or sticker.\n\nUse category-appropriate material texture and highlights/shadows that explain the form.\n\nExpress the exact theme through material, construction, light and motif—not a palette swap or pasted decal.\n\nRespect tier progression: Starter stays simple and attractive; higher tiers gain richer form/material detail; Luxe gains spectacle without losing identity.\n\nDesign for both detail view and a 600×600 Store card with strong contrast, uncluttered hierarchy and no tiny critical details.\n\nAvoid recolor-only siblings, repeated template silhouettes, generic rings/badges, or interchangeable props.\n\nPresent one isolated subject on a clean premium background. No UI, text, watermark, logo, fake price badge or unrelated props.\n\nFor furniture/decor, show supports, joints, cushions/panels/hardware, weight and grounded contact.\n\nUse a clean product-style three-quarter view when appropriate so front, side and thickness are visible.\n\nUse occlusion, contact/cast shadows and foreground/midground/background separation so the asset feels spatial.\n\nUse controlled emissive light/bloom only where appropriate; preserve edges and local contrast.\n\nFor textiles, show weave/pile/folds/stitching/edge finish/thickness and believable softness or drape.\n\nFor wall decor, show mounting/frame/backing/relief depth and a believable wall-object form—not a floating emblem.\n\nFor lighting, show a physical base/mount/chassis, emitter or bulb, support structure and believable emitted/reflected light.\n\nOutput a production-worthy source image for exact-byte staging, card/detail rendering and independent review. Do not claim approval; the reviewer decides from rendered pixels.",
+      "promptSha256": "b9dcb02b4d70436d6a9890aa2aa3e144d3b44b7a885e503eb832578af387c91e",
+      "runtimePromptText": "desks-10 Neon Streaming Desk. desks; tier 4; theme Aqua Wave. Design ONE freestanding streaming workstation with broad dark worktop, cyan/aqua trim, integrated drawer/equipment pedestal, slim upper monitor shelf and one attached mic arm. Keep Premium dimensional product render, grounded shadow, no text or logo.",
+      "runtimePromptSha256": "ea076b9ec936caec7431d31bbdb95d6720d9c6c50e7ab58fab13fe9d30e00220",
+      "promptRecipeVersion": "artPromptOptimizer-request-v1:w03-release-rework-4pack-next",
+      "seed": 571008091,
+      "runtime": {
+        "repo": "huggingface/diffusers",
+        "commit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c"
+      },
+      "model": {
+        "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+        "revision": "462165984030d82259a11f4367a4eed129e94a7b",
+        "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+      },
+      "conditioning": {
+        "referenceAssetSha256": null,
+        "controlImageSha256": null,
+        "adapterScale": null
+      },
+      "output": {
+        "repoPath": null,
+        "sha256": null,
+        "gitBlobSha": null,
+        "bytes": null,
+        "width": null,
+        "height": null
+      },
+      "status": "PLANNED_NOT_GENERATED"
+    }
+  ],
+  "requestContext": {
+    "requestPath": "docs/preproduction/art-factory/requests/w03-release-rework-4pack-next-20260924.json",
+    "batchId": "w03-release-rework-4pack-next",
+    "requestSourceHead": "dcf38c206c2a74551677220978796bea8da2af50",
+    "requestRecordSha256": "b9aa1526a15f899335516c967ec00f267a43d041fd341927ad6f47bc5121273c",
+    "planner": "15",
+    "reviewer": "MIXED_11_05_01",
+    "renderOwner": "14",
+    "integrationOwner": "08",
+    "contextReferences": [
+      {
+        "role": "FIRST_PARTY_STARBLOX_STORE_ART_DIRECTION",
+        "repositoryPath": "docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg",
+        "sha256": "b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d",
+        "gitBlobSha": "383baa877d3af86fa92e3583740212000592b3d6",
+        "dimensions": [
+          1448,
+          1086
+        ],
+        "sourceManifest": null
+      }
+    ],
+    "plannerVariants": [
+      {
+        "variantId": "A-ONE-STREAMING-DESK",
+        "plannerSeed": null,
+        "optimizerInputSha256": "44ebd36f497accdfb6fde9ec7b588f7a35af4a3a5b4105a039cdf57e2d8f002e",
+        "compiledPromptSha256": "14dd65b6a2787743f65c94a6cd30f41df7a8f2d532c6d240dce4d63e3b187a9e",
+        "compiledSeed": 1212589131
+      },
+      {
+        "variantId": "B-CLEAN-NEON-WORKSTATION",
+        "plannerSeed": null,
+        "optimizerInputSha256": "1e7241a472314768f4a316a8ed51e5260d3f0cee90bc92a6ee41eed6944cdcfc",
+        "compiledPromptSha256": "b9dcb02b4d70436d6a9890aa2aa3e144d3b44b7a885e503eb832578af387c91e",
+        "compiledSeed": 571008091
+      }
+    ]
+  },
+  "planSha256": "83c29e7b78c2415b7b13122a685785a70e8fea9cae5f6e6d77169ca301f699db"
+}
