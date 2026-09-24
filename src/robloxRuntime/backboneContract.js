@@ -24,6 +24,7 @@ export const PROFILE_TEMPLATE=Object.freeze({
     CompletedSessionIds:Object.freeze([]),
     AffinityEventIds:Object.freeze([])
   }),
+  AiNpc:Object.freeze({Memory:Object.freeze({})}),
   LiveOps:Object.freeze({
     Counters:Object.freeze({}),
     Missions:Object.freeze({}),
@@ -50,7 +51,9 @@ export const NETWORK_CONTRACT=Object.freeze([
   Object.freeze({name:'RequestPlaceItem',from:'Client',type:'Reliable'}),
   Object.freeze({name:'RequestRemoveItem',from:'Client',type:'Reliable'}),
   Object.freeze({name:'RequestSocialMinigame',from:'Client',type:'Reliable'}),
-  Object.freeze({name:'SocialWorldState',from:'Server',type:'Reliable'})
+  Object.freeze({name:'SocialWorldState',from:'Server',type:'Reliable'}),
+  Object.freeze({name:'RequestNpcTalk',from:'Client',type:'Reliable'}),
+  Object.freeze({name:'NpcTalkResponse',from:'Server',type:'Reliable'})
 ]);
 
 export const REPLICATION_BOUNDARIES=Object.freeze({
@@ -64,7 +67,8 @@ export const REPLICATION_BOUNDARIES=Object.freeze({
     'Settings',
     'LiveOps.ProcessedEventIds',
     'Social.CompletedSessionIds',
-    'Social.AffinityEventIds'
+    'Social.AffinityEventIds',
+    'AiNpc.Memory'
   ]),
   playerReplica:Object.freeze([
     'SchemaVersion',

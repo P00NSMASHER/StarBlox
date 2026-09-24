@@ -114,6 +114,17 @@ describe('Step 3: Roblox production backbone', () => {
     expect(REPLICATION_BOUNDARIES.playerReplica).not.toContain('Social.AffinityEventIds');
   });
 
+  it('keeps AI NPC memory server-only and requires filtered server-side generation', () => {
+    expect(REPLICATION_BOUNDARIES.durableServerOnly).toContain('AiNpc.Memory');
+    expect(REPLICATION_BOUNDARIES.playerReplica).not.toContain('AiNpc');
+
+    const source=file('roblox/src/server/AiNpcService.luau');
+    expect(source).toMatch(/AI NPC provider is required/);
+    expect(source).toMatch(/AI NPC output filter is required/);
+    expect(source).toMatch(/NPC output filter rejected response/);
+    expect(source).toMatch(/FORBIDDEN_TOOLS/);
+  });
+
   it('maps the Rojo tree into shared, server, and client Roblox service boundaries', () => {
     const project=JSON.parse(file('roblox/default.project.json'));
     expect(project.tree.ReplicatedStorage.StarBlox.$path).toBe('src/shared');

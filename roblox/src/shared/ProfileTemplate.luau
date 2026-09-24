@@ -63,6 +63,10 @@ local ProfileTemplate = {
 		AffinityEventIds = {},
 	},
 
+	AiNpc = {
+		Memory = {},
+	},
+
 	LiveOps = {
 		Counters = {},
 		Missions = {},

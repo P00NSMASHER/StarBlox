@@ -568,6 +568,22 @@ export const UPSTREAM_PROVENANCE = Object.freeze({
     'MIT',
     'plugin/src/tools/Executor.luau'
   ),
+  cortexRuntime: source(
+    'server-only Roblox AI provider cooldown cache moderation filtering and per-player NPC memory patterns',
+    'cortex-rbx/roblox-ai-kit',
+    'master',
+    '5ffb0191879f631c86426de063671b3ed031993d',
+    'MIT',
+    'src/Cortex.lua'
+  ),
+  cortexNpcExample: source(
+    'multiplayer NPC conversation lifecycle with moderation memory and Roblox output filtering',
+    'cortex-rbx/roblox-ai-kit',
+    'master',
+    '5ffb0191879f631c86426de063671b3ed031993d',
+    'MIT',
+    'examples/npc.server.lua'
+  ),
   flexFollowers: source(
     'single-writer persistent social reputation/follower service',
     'bsantanna/roblox-flex-with-friends',
