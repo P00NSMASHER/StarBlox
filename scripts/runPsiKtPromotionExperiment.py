@@ -56,6 +56,25 @@ class StarBloxAmortizedPSIKT(AmortizedPSIKT):
     upstream transition distributions, loss, inference networks, and predictor.
     """
 
+    def st_transition_infer(self, emb_inputs, num_sample=0, eval=False):
+        # Upstream GMVAE returns logits/prob_cat but the pinned PSI-KT method
+        # only stores the sampled category. Its loss() later expects
+        # self.logits/self.probs. Re-evaluate the same inference network to
+        # expose those exact distribution tensors with gradients intact.
+        qs_dist = super().st_transition_infer(
+            emb_inputs=emb_inputs,
+            num_sample=num_sample,
+            eval=eval,
+        )
+        category_output = self.infer_network_posterior_s(
+            emb_inputs,
+            self.qs_temperature,
+            self.qs_hard,
+        )
+        self.logits = category_output["logits"]
+        self.probs = category_output["prob_cat"]
+        return qs_dist
+
     def generative_process(self, qs_dist, qz_dist, feed_dict=None, eval=False):
         ps_dist = self.st_transition_gen(qs_dist, eval=eval)
         sentinel = torch.empty(
@@ -361,6 +380,7 @@ receipt = {
     "wrapperClass":"StarBloxAmortizedPSIKT",
     "compatibilityShim":"skip-unused-qs-sample-assignment-with-undefined-bsn",
     "forwardCompatibilityShim":"preserve-objective-dict-discarded-by-upstream-forward",
+    "categoricalCompatibilityShim":"expose-upstream-gmvae-logits-and-prob-cat-for-loss",
     "dataAlignmentShim":alignment_audit,
     "device":"cpu",
     "epochs":model_args.epoch,
@@ -388,6 +408,7 @@ print(json.dumps({
     "wrapperClass":receipt["wrapperClass"],
     "compatibilityShim":receipt["compatibilityShim"],
     "forwardCompatibilityShim":receipt["forwardCompatibilityShim"],
+    "categoricalCompatibilityShim":receipt["categoricalCompatibilityShim"],
     "dataAlignmentShim":receipt["dataAlignmentShim"],
     "upstreamCommit":upstream_commit,
     "epochs":receipt["epochs"],
