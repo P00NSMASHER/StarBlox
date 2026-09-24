@@ -36,7 +36,7 @@ The serialized Brookhaven Map Gist is recorded by stable Gist ID plus a content 
 
 ## Rights/provenance handling
 
-The user states that they possess license and commercial-use rights for the Brookhaven materials being researched. That statement is preserved as **user-asserted and not independently verified**.
+Project rights status is now **verified-for-project-use** based on prior rights evidence confirmed by the user. This project session did not re-audit or reattach that evidence. Public repository license/provenance metadata continues to be tracked separately.
 
 The manifest separately records what can be observed from each public repository. A repository with no public LICENSE file is marked `none-detected-in-repository-tree`; that is not treated as proof either for or against the user's separate rights.
 
