@@ -119,7 +119,7 @@ describe('StarBlox upstream implementation provenance', () => {
   it('pins every planned source to an immutable full commit SHA', () => {
     const entries = upstreamSourceList();
 
-    expect(entries.length).toBeGreaterThanOrEqual(31);
+    expect(entries.length).toBeGreaterThanOrEqual(36);
     expect(entries.every(entry => /^[a-f0-9]{40}$/.test(entry.commit))).toBe(true);
     expect(entries.every(entry => entry.reuseBasis === 'user-confirmed direct reuse rights')).toBe(true);
   });
@@ -146,5 +146,10 @@ describe('StarBlox upstream implementation provenance', () => {
     expect(UPSTREAM_PROVENANCE.gygyQuestionModelV2.path).toBe('backend/app/models/question.py');
     expect(UPSTREAM_PROVENANCE.gygyQuestionCrudV2.path).toBe('backend/app/crud/crud_question.py');
     expect(UPSTREAM_PROVENANCE.gygyQuestionValidationV2.path).toBe('backend/app/services/question_content.py');
+    expect(UPSTREAM_PROVENANCE.recallGenerateQa.path).toBe('eval/generation/generate_qa.py');
+    expect(UPSTREAM_PROVENANCE.recallBatchGenerate.path).toBe('eval/generation/batch_generate.py');
+    expect(UPSTREAM_PROVENANCE.recallValidateQa.path).toBe('eval/generation/validate_qa.py');
+    expect(UPSTREAM_PROVENANCE.recallScoreQuestions.path).toBe('eval/generation/score_questions.py');
+    expect(UPSTREAM_PROVENANCE.recallLlmReview.path).toBe('eval/generation/llm_review.py');
   });
 });
