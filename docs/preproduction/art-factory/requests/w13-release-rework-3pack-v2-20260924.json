@@ -1,0 +1,122 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_BATCH_REQUEST",
+  "planner": "15",
+  "producer": "13",
+  "preflightOwner": "06",
+  "reviewer": "MIXED_11_02",
+  "renderOwner": "14",
+  "integrationOwner": "08",
+  "coordinationOwner": "15",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "cddf753d2fcc5a156995c2fd998f6bbbf312ffa1",
+  "manifestVersion": 40,
+  "batchId": "w13-release-rework-3pack-v2",
+  "scope": [
+    "desks-8",
+    "wall-8",
+    "wall-9"
+  ],
+  "state": "PREPARED_FROM_RELEASE_BLOCKER_LEDGER__WAIT_LIVE_CPU_IDLE",
+  "assignmentAuthority": {
+    "blockerLedger": "docs/preproduction/art-factory/RELEASE_BLOCKERS_CURRENT.json",
+    "runtimeProofPath": "docs/preproduction/art-factory/CPU_RUNTIME_PROOF.json",
+    "runtimeProofStatus": "PROVEN",
+    "runtimeCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+    "modelRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "assignedReviewers": {
+      "desks-8": "11",
+      "wall-8": "11",
+      "wall-9": "02"
+    },
+    "note": "Desk12 was removed because it is independently ACCEPTed and canonical. Wall8/9 versions advance from current v7 REWORK evidence."
+  },
+  "references": {
+    "originalStoreReference": {
+      "requiredBeforeGeneration": true,
+      "repositoryPath": "docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg",
+      "sha256": "b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d",
+      "gitBlobSha": "383baa877d3af86fa92e3583740212000592b3d6",
+      "dimensions": [
+        1448,
+        1086
+      ],
+      "role": "FIRST_PARTY_STARBLOX_STORE_ART_DIRECTION"
+    }
+  },
+  "reviewSource": {
+    "decision": "REWORK",
+    "note": "Each item is bound to current exact-hash REWORK evidence in RELEASE_BLOCKERS_CURRENT.json."
+  },
+  "items": {
+    "desks-8": {
+      "currentLegacy": {
+        "path": "public/assets/catalog-candidates/cpu/desks-8-w13-v2-a-aqua-study-original.png",
+        "gitBlobSha1": "bada24e2447de5e39ac2cb6647aa8458cf410e43",
+        "reviewDecision": "REWORK",
+        "normalizedFailureTaxonomy": [
+          "DUPLICATED_PRODUCT_VARIANTS",
+          "NO_SINGLE_DESK_SILHOUETTE",
+          "COLLAGE_PRESENTATION"
+        ]
+      },
+      "variants": [
+        {
+          "variantId": "A-LITERAL-AQUA-STUDY-DESK-V3",
+          "optimizerInput": "Aqua Study Station, Desks & Tech, Tier 3, Galaxy Glow. EXACTLY ONE ordinary freestanding study desk, one product and one camera view, on a seamless plain studio background. One broad pale-aqua rectangular-to-soft-curve worktop, exactly two stable side supports, one compact drawer pedestal, one small attached upper shelf, one cable channel. Restrained navy/violet galaxy accents only. Full simple desk silhouette with grounded shadow. NO second desk, NO stacked duplicate, NO collage, NO split panels, NO comparison view, NO room wall, NO chair, NO floating parts, NO text."
+        }
+      ]
+    },
+    "wall-8": {
+      "currentLegacy": {
+        "path": "public/assets/catalog-candidates/cpu/wall-8-w13-v7-a-one-obvious-ocean-window-original.png",
+        "gitBlobSha1": "ca9108a80d2cd6811d7826fb52a85455482903f2",
+        "reviewDecision": "REWORK",
+        "normalizedFailureTaxonomy": [
+          "NO_OCEAN_VIEW",
+          "OPAQUE_WINDOW_PANELS",
+          "OCEAN_WINDOW_IDENTITY_FAILURE"
+        ]
+      },
+      "variants": [
+        {
+          "variantId": "A-LITERAL-OCEAN-VIEW-V8",
+          "optimizerInput": "Ocean Window, Wall Decor, Tier 3, Candy Core. EXACTLY ONE wall-mounted framed window product, one camera view. Thick simple rounded cream-and-coral frame around ONE large transparent opening. Through the opening, the dominant visible content MUST be bright blue ocean water filling the lower half and pale blue sky filling the upper half, separated by one clear straight ocean horizon; include a few subtle white wave highlights. Aqua glazing edge and visible sill depth. Isolated on a neutral flat wall plane with soft cast shadow. NO opaque panels inside the opening, NO shutters, NO cubbies, NO grid, NO shelves, NO multiple windows, NO side furniture, NO room scene, NO text."
+        }
+      ]
+    },
+    "wall-9": {
+      "currentLegacy": {
+        "path": "public/assets/catalog-candidates/cpu/wall-9-w13-v7-a-exactly-three-big-frames-original.png",
+        "gitBlobSha1": "f1c423657b836aee822311b15a3229251174768d",
+        "reviewDecision": "REWORK",
+        "normalizedFailureTaxonomy": [
+          "MANY_SMALL_FRAMES",
+          "ROOM_INSTALLATION_DOMINATES",
+          "NOT_THREE_DOMINANT_ADVENTURE_ARTWORKS"
+        ]
+      },
+      "variants": [
+        {
+          "variantId": "A-LITERAL-THREE-FRAME-GALLERY-V8",
+          "optimizerInput": "Art Gallery Wall, Wall Decor, Tier 3, Adventure Club. EXACTLY ONE compact wall-hung product on a seamless neutral wall background: ONE shallow warm-oak backing rail and EXACTLY THREE large framed artworks only. Left frame: obvious mountain trail landscape. Center frame: bold compass rose with route line. Right frame: colorful stylized travel map. The three framed images must fill nearly the entire product silhouette. Add tiny brass mounting clips and soft wall shadow. NO fourth frame, NO mini frames, NO leaning boards, NO ledge, NO shelf, NO bench, NO floor, NO bags, NO plants, NO room architecture, NO text."
+        }
+      ]
+    }
+  },
+  "executionBudget": {
+    "width": 640,
+    "height": 640,
+    "steps": 6,
+    "guidanceScale": 3.5,
+    "dtype": "float32"
+  },
+  "safety": {
+    "preserveRejectedExactHashes": true,
+    "preserveAcceptedExactHashes": true,
+    "producerSelfReview": false,
+    "canonicalMappingsChanged": false,
+    "workflowFilesChanged": false
+  }
+}
