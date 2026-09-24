@@ -4,16 +4,15 @@
   "role": "independent art reviewer D / overflow reviewer",
   "phase": "ART_VISUALS_SPRINT",
   "branch": "screenshot-match-preproduction",
-  "sourceHead": "c520cfae40847753e49062c516735e1f57450112",
+  "sourceHead": "8a0a961a45539f5f13a8f965b8d2e8af3b38821d",
   "policy": "docs/preproduction/DELIVERY_PROTOCOL_V2.md",
   "artFactoryPolicy": "docs/preproduction/art-factory/ART_FACTORY_V2.json",
   "currentCycle": {
     "scope": [
-      "decor-6",
       "decor-8"
     ],
-    "version": "w03 Decor6 v2 + Decor8 v2 exact repository hashes",
-    "result": "ACCEPT_1_REWORK_1_OF_2",
+    "version": "w03-v3 A-SINGLE-AQUARIUM exact repository hash",
+    "result": "REWORK_1_OF_1",
     "oldVerdictsTransferred": false,
     "actualCardScalePixelsReviewed": true,
     "actualDetailPixelsReviewed": true,
@@ -21,16 +20,12 @@
   },
   "currentRenderEvidence": {
     "workflow": "StarBlox Staged Catalog Art QA",
-    "workflowRunId": 35977305007,
-    "artifactId": 10798692858,
+    "workflowRunId": 35984489131,
+    "artifactId": 10801511855,
     "artifactName": "catalog-staged-art-review",
-    "artifactDigest": "sha256:34fd5ecda08f3b820c668231703d731709ec2439fca2652a6e62718b6e47113e",
-    "workflowHead": "5f5004b19e3347bcc9420a0b66dcc0cf404613cb",
-    "detailEvidence": {
-      "decor-6": "staged-replacements/detail/decor-6-5b860130.png",
-      "decor-8": "staged-replacements/detail/decor-8-cde20430.png"
-    },
-    "contactSheetEvidence": "staged-replacements/staged-replacements-contact-sheet.png"
+    "artifactDigest": "sha256:e728db1299775a32c53164ec4334de017289b2e2dff62104fdfe4bee1d22ee42",
+    "workflowHead": "77b3dd01ffb6896fff088e241e7fc14a67a7d952",
+    "detailEvidence": "artifact:10801511855/staged-replacements/detail/decor-8-b35648ac.png"
   },
   "reviews": [
     {
@@ -150,12 +145,49 @@
         "originalityNearDuplicateRisk": "PASS",
         "technicalIntegrity": "PASS"
       }
+    },
+    {
+      "itemId": "decor-8",
+      "name": "Mini Aquarium",
+      "tier": 3,
+      "theme": "Galaxy Glow",
+      "assetPath": "public/assets/catalog-candidates/cpu/decor-8-w03-v3-a-single-aquarium-original.png",
+      "assetHash": "b35648acd6951aaa04de97f555b660396e2a62df",
+      "contentSha256": "254d78c006b3268bcfaa1c0576784010fe060db0d48a9376f5292d1d3461a59c",
+      "producer": "03",
+      "decision": "REWORK",
+      "learnerLabel": "REWORK",
+      "reviewedAt": "2026-09-24T14:05:00Z",
+      "evidence": {
+        "detailRenderPath": "staged-replacements/detail/decor-8-b35648ac.png",
+        "detailRenderSha256": "db0bd7a207b893fce25bb0502e1c870f07bc4083a46deb75c7adff143dc34611",
+        "detailDimensions": [
+          800,
+          800
+        ],
+        "contactSheetPath": "staged-replacements/staged-replacements-contact-sheet.png",
+        "workflowRunId": 35984489131,
+        "artifactId": 10801511855
+      },
+      "checks": {
+        "recognizableCategoryFunction": "PARTIAL — aquarium identity is present, but the exact pixels present several alternate aquarium vessels/angles in one collage instead of one clean product.",
+        "physicalConstructionContact": "FAIL — multiple tank bodies and pedestal variants create contradictory construction and no single physically coherent Mini Aquarium.",
+        "silhouette": "FAIL — collage layout prevents one readable product silhouette at Store-card scale.",
+        "materialLighting": "PASS — glass/water-like transparency and soft Galaxy Glow lighting are present.",
+        "themeTierSpecificity": "PASS — cool cyan/violet glow and aquarium styling support Galaxy Glow Tier 3.",
+        "smallCardReadability": "FAIL — multiple mini-views collapse into clutter instead of one instantly readable aquarium.",
+        "compositionCrop": "FAIL — multi-panel/collage presentation violates the single isolated product requirement.",
+        "malformedFloatingRisk": "FAIL — repeated vessel variants make the object identity structurally ambiguous.",
+        "originalityNearDuplicateRisk": "PASS",
+        "technicalIntegrity": "PASS — exact hash, provenance, decode and Store-render binding are valid; this is art-quality REWORK."
+      },
+      "reason": "REWORK. V3 improves aquarium specificity but still renders as a multi-panel set of several aquarium variants rather than one isolated compact aquarium. Next attempt should show exactly one coherent tank/base/lid/filter assembly with one camera view and no collage or duplicated vessel."
     }
   ],
   "currentReplacementDisposition": {
     "decor": {
       "REWORK": {
-        "decor-8": "cde20430aaa1c2b4bd07399d35b3f0f184896509"
+        "decor-8": "b35648acd6951aaa04de97f555b660396e2a62df"
       },
       "ACCEPT": {
         "decor-6": "5b860130d537acadb6a15c81a841805c3b9b81cf"
@@ -163,22 +195,21 @@
     }
   },
   "summary": {
-    "reviewedThisRun": 2,
-    "newAcceptsThisRun": 1,
+    "reviewedThisRun": 1,
+    "newAcceptsThisRun": 0,
     "newReworkThisRun": 1,
     "newBlockedThisRun": 0,
-    "newUsableBy08Now": [
-      "decor-6"
-    ],
+    "newUsableBy08Now": [],
     "reworkNow": [
       "decor-8"
     ],
-    "preservedAcceptedHashes": "No prior exact-hash ACCEPT is superseded. Decor6 v2 is a new ACCEPT; Decor8 v2 is REWORK. Decor6 v1 REWORK remains historical evidence only."
+    "preservedAcceptedHashes": "Prior Decor6 v2 ACCEPT remains frozen; Decor8 v3 REWORK applies only to blob b35648acd6951aaa04de97f555b660396e2a62df."
   },
   "handoff": {
-    "15": "Route Decor6 ACCEPT to 08; keep only Decor8 on failure-specific rework.",
-    "08": "Canonical-wire only Decor6 v2 exact hash 5b860130d537acadb6a15c81a841805c3b9b81cf.",
-    "03": "Decor8 v2 exact hash cde20430aaa1c2b4bd07399d35b3f0f184896509 is REWORK. Preserve it and replace with one single isolated aquarium without infographic overlays."
+    "14": "Decor8 v3 render packet consumed; do not rerender unchanged hash.",
+    "15": "Keep Decor8 on bounded failure-specific rework.",
+    "03": "Decor8 v3 exact hash b35648acd6951aaa04de97f555b660396e2a62df is REWORK. Preserve it. Next candidate must be one isolated aquarium, not a collage.",
+    "08": "Do not canonical-wire Decor8 v3."
   },
   "preservation": {
     "candidateBytesChanged": false,
