@@ -1,0 +1,83 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_EXACT_HASH_REVIEW_PACKET",
+  "branch": "screenshot-match-preproduction",
+  "createdBy": "14",
+  "rendererEvidenceHead": "74a1417ea17bb32ebf0f991c9555dab3f41aaeae",
+  "reviewer": "02",
+  "producer": "09",
+  "item": {
+    "id": "decor-11",
+    "name": "Dream Vanity Set",
+    "collectionId": "decor",
+    "type": "room",
+    "tier": 4,
+    "theme": "Art Attack"
+  },
+  "exactCandidate": {
+    "path": "public/assets/catalog-candidates/cpu/decor-11-w09-v2-a-single-vanity-mirror-stool-original.png",
+    "sha256": "bfee0477adf4153dc42ba1e100eaacf19bd4d885009f9e5431d91e2014753a82",
+    "gitBlobSha": "090cacf160984a0ac556553f6a23215c18d9ef2f",
+    "bytes": 544839,
+    "dimensions": [
+      640,
+      640
+    ],
+    "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-release-rework-3pack-next-qualification-20260924.json",
+    "qualification": "QUALIFIED_FOR_RENDERER14"
+  },
+  "renderEvidence": {
+    "workflow": "StarBlox Staged Catalog Art QA",
+    "workflowRunId": 36018945848,
+    "workflowHead": "74a1417ea17bb32ebf0f991c9555dab3f41aaeae",
+    "artifactId": 10816077025,
+    "artifactName": "catalog-staged-art-review",
+    "artifactDigest": "sha256:da49ac932ff36b371ed478c3b3d5ae9f6ef28351de7dd020b762531993515716",
+    "contactSheetPath": "staged-replacements/staged-replacements-contact-sheet.png",
+    "contactSheetSha256": "e4a9515aa7c23cb1132a105edc8bbb438828fee3c717c2957b2df183750cc951",
+    "detailPath": "staged-replacements/detail/decor-11-090cacf1.png",
+    "detailSha256": "b29b09c1043e93d7d836d852dc1ea52e2f0656e581bae73e8415f10f980c9050",
+    "detailDimensions": [
+      800,
+      800
+    ],
+    "preflightPath": "preflight/decor-11-090cacf1.json",
+    "preflightSha256": "8e5193d75d3009759cc1aaeb687635443a14d98c7cfb04656e0e21e45aa4d036",
+    "renderStatus": 200,
+    "naturalDimensions": [
+      640,
+      640
+    ],
+    "opaqueFraction": 1,
+    "screenshot": true,
+    "errors": []
+  },
+  "reportOnlyPreflight": {
+    "exactDuplicate": false,
+    "calibratedWarnings": [],
+    "warningReadyFeatureCount": 0,
+    "triggeredWarningCount": 0,
+    "blocking": false,
+    "automaticAccept": false,
+    "automaticRework": false
+  },
+  "decisionContract": {
+    "allowed": [
+      "ACCEPT",
+      "REWORK"
+    ],
+    "exactHashOnly": true,
+    "oldVerdictTransfers": false,
+    "selfReview": false,
+    "requiredJudgments": [
+      "Dream Vanity Set identity as one coherent vanity/mirror/stool set",
+      "physical construction and furniture hierarchy",
+      "Art Attack Tier-4 specificity",
+      "small-card silhouette/readability",
+      "material/depth quality",
+      "built-in/collage/malformed risk"
+    ],
+    "onAccept": "Route exact decor-11 hash to 08 canonical integration.",
+    "onRework": "Preserve exact decor-11 hash/evidence and return smallest failure-specific reason codes to producer/director15."
+  }
+}
