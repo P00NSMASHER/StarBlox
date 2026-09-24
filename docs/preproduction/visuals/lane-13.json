@@ -1034,34 +1034,61 @@
     ]
   },
   "catalogFactoryReviewHandoff": {
-    "updatedAt": "2026-09-24T00:55:00Z",
-    "sourceHead": "856ff7ca5c41864ceb1ae6024fa199fa0b26767e",
-    "purpose": "Trigger current-branch Store card/detail rendering for technically qualified Wall 9 exact hash that staged after the prior renderer scan; preserve independent reviewer02 decision authority.",
-    "wall9": {
-      "itemId": "wall-9",
-      "name": "Art Gallery Wall",
-      "producer": "13",
-      "reviewer": "02",
-      "path": "public/assets/catalog-candidates/cpu/wall-9-w13-v1-a-gallery-rail-original.png",
-      "sha256": "7ca470736c1d860909dbd493e87b68e7d6f7c8acdbeaf44d60bab56b0e3e0b04",
-      "gitBlobSha": "95a2de47f3b19017ba37bfac1ab25fc87ad345ed",
-      "dimensions": [
-        768,
-        768
-      ],
-      "stagedEvidence": "docs/preproduction/art-factory/generated-evidence/w13-wall-9-12-cpu-v1/wall-9/staged-output.json",
-      "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-wall-9-10-qualification-20260923.json",
-      "qualification": "QUALIFIED_FOR_RENDERER14",
-      "currentState": "NEEDS_CURRENT_BRANCH_REAL_CARD_DETAIL_RENDER_THEN_REVIEWER02",
-      "route": "14 -> 02 -> 08 on ACCEPT"
-    },
-    "wall10": {
-      "itemId": "wall-10",
-      "exactHash": "74a4c531a3c60ccd60747bfebc2dfc0d1d25b684",
-      "state": "REWORK_PRESERVE_EXACT_HASH",
-      "reviewEvidence": "docs/preproduction/catalog-sprint/reviews/02.json",
-      "rule": "Do not rerender or canonical-wire unchanged Wall 10 hash."
-    },
+    "updatedAt": "2026-09-24T01:08:00Z",
+    "sourceHead": "0833b542e640c9515c61e50ec2650b445b09dfa4",
+    "purpose": "Trigger one current-branch exact-hash Store card/detail render pass for newly qualified Wall 11, Wall 12 and Decor 7 v3 while preserving reviewer independence and the Wall 10 REWORK freeze.",
+    "candidates": [
+      {
+        "itemId": "wall-11",
+        "name": "Star Mirror",
+        "producer": "13",
+        "reviewer": "02",
+        "path": "public/assets/catalog-candidates/cpu/wall-11-w13-v1-a-pixel-bevel-mirror-original.png",
+        "sha256": "01b064b4bee3e4be894a59279abb04b49b27cd048848513283631be59348268e",
+        "gitBlobSha": "50ffc975030f6c7e28cf9836756bb312dfa646fb",
+        "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-wall-11-12-qualification-20260924.json",
+        "qualification": "QUALIFIED_FOR_RENDERER14",
+        "route": "14 -> 02 -> 08 on ACCEPT"
+      },
+      {
+        "itemId": "wall-12",
+        "name": "Golden Crest",
+        "producer": "13",
+        "reviewer": "02",
+        "path": "public/assets/catalog-candidates/cpu/wall-12-w13-v1-a-jeweled-relief-crest-original.png",
+        "sha256": "771d8099c4231b407a0d2dac2e44178a2eabdd8f960bfbab0151bd9b0633d9db",
+        "gitBlobSha": "e9387a7174a888980616ea9afac43cc9b3adbb3b",
+        "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-wall-11-12-qualification-20260924.json",
+        "qualification": "QUALIFIED_FOR_RENDERER14",
+        "route": "14 -> 02 -> 08 on ACCEPT"
+      },
+      {
+        "itemId": "decor-7",
+        "name": "Skate Rack",
+        "producer": "09",
+        "reviewer": "01",
+        "path": "public/assets/catalog-candidates/cpu/decor-7-w09-v3-a-rack-silhouette-original.png",
+        "sha256": "7a41b5b897a9d0c912f2b92f226810a75a61d74b2da43df54341eef0841108d4",
+        "gitBlobSha": "407b95bbecc3a030d357de290047954e28904b63",
+        "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-decor-7-v3-qualification-20260924.json",
+        "qualification": "QUALIFIED_FOR_RENDERER14",
+        "route": "14 -> 01 -> 08 on ACCEPT"
+      }
+    ],
+    "preservedDispositions": [
+      {
+        "itemId": "wall-10",
+        "exactHash": "74a4c531a3c60ccd60747bfebc2dfc0d1d25b684",
+        "state": "REWORK_PRESERVE_EXACT_HASH",
+        "rule": "Do not rerender or canonical-wire unchanged Wall 10 v1."
+      },
+      {
+        "itemId": "decor-7",
+        "exactHash": "fa415ef0a554e2a60ee9e836f23d8d38b266a6e3",
+        "state": "V2_REWORK_PRESERVE_EXACT_HASH",
+        "rule": "Do not transfer v2 verdict to v3."
+      }
+    ],
     "safety": {
       "noArtDecisionByProducer": true,
       "candidateBytesChanged": false,
