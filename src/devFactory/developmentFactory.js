@@ -125,7 +125,17 @@ function normalizePlan(raw){
         : {mode:'play'},
       inputActions:Array.isArray(raw.playtest?.inputActions)
         ? clone(raw.playtest.inputActions)
-        : []
+        : [],
+      assertions:Array.isArray(raw.playtest?.assertions)
+        ? raw.playtest.assertions
+          .filter(item => item && typeof item === 'object')
+          .map(item => ({name:String(item.name || ''),expr:String(item.expr || '')}))
+          .filter(item => item.name && item.expr)
+          .slice(0,50)
+        : [],
+      telemetryDomains:Array.isArray(raw.playtest?.telemetryDomains)
+        ? raw.playtest.telemetryDomains.map(String).slice(0,10)
+        : ['players','world','runtime']
     },
     visual:{
       required:Boolean(raw.visual?.required)
@@ -151,7 +161,7 @@ function testsPassed(result){
   if(!result || typeof result !== 'object') return false;
   const failed=Number(result.failed ?? result.failureCount ?? 0);
   const total=Number(result.total ?? ((result.passed ?? 0) + failed));
-  return Number.isFinite(failed) && failed === 0 && Number.isFinite(total) && total >= 0;
+  return Number.isFinite(failed) && failed === 0 && Number.isFinite(total) && total > 0;
 }
 
 function logsHaveErrors(result){
@@ -165,8 +175,7 @@ function logsHaveErrors(result){
 function episodePassed(result){
   if(!result || typeof result !== 'object') return false;
   if(result.verdict != null) return result.verdict === 'pass' || result.verdict === 'verified';
-  if(result.ok === false) return false;
-  return true;
+  return result.ok === true;
 }
 
 async function gatherRuntimeEvidence(studio,plan,{safety={}}={}){
@@ -206,12 +215,27 @@ async function gatherRuntimeEvidence(studio,plan,{safety={}}={}){
       }
     }else{
       evidence.method='live';
+      let startedByFactory=false;
       try{
         evidence.runState=await executeReadCall(
           studio,
           {tool:'get_run_state',args:{}},
           {stage:'test',safety}
         );
+
+        if(!evidence.runState?.running && typeof studio.has === 'function' && studio.has('start_playtest')){
+          await executeReadCall(
+            studio,
+            {tool:'start_playtest',args:{mode:'play'}},
+            {stage:'test',safety}
+          );
+          startedByFactory=true;
+          evidence.runState=await executeReadCall(
+            studio,
+            {tool:'get_run_state',args:{}},
+            {stage:'test',safety}
+          );
+        }
 
         if(!evidence.runState?.running){
           evidence.available=false;
@@ -224,6 +248,30 @@ async function gatherRuntimeEvidence(studio,plan,{safety={}}={}){
               {stage:'test',safety}
             );
           }
+
+          if(typeof studio.has === 'function' && studio.has('playtest_sample_state')){
+            evidence.telemetry=await executeReadCall(
+              studio,
+              {tool:'playtest_sample_state',args:{domains:plan.playtest.telemetryDomains}},
+              {stage:'test',safety}
+            );
+          }
+
+          if(plan.playtest.assertions.length){
+            if(typeof studio.has === 'function' && studio.has('run_gameplay_assertions')){
+              evidence.assertions=await executeReadCall(
+                studio,
+                {tool:'run_gameplay_assertions',args:{assertions:plan.playtest.assertions,target:'server'}},
+                {stage:'test',safety}
+              );
+              if(evidence.assertions?.allPassed !== true){
+                evidence.errors.push('gameplay assertions failed');
+              }
+            }else{
+              evidence.errors.push('gameplay assertions required but adapter does not support them');
+            }
+          }
+
           evidence.logs=await executeReadCall(
             studio,
             {tool:'get_logs',args:{filter:'errors',limit:200}},
@@ -236,6 +284,18 @@ async function gatherRuntimeEvidence(studio,plan,{safety={}}={}){
       }catch(error){
         evidence.available=false;
         evidence.errors.push(error instanceof Error ? error.message : String(error));
+      }finally{
+        if(startedByFactory && typeof studio.has === 'function' && studio.has('stop_playtest')){
+          try{
+            await executeReadCall(
+              studio,
+              {tool:'stop_playtest',args:{}},
+              {stage:'test',safety}
+            );
+          }catch(error){
+            evidence.errors.push('factory-started playtest could not stop: ' + (error instanceof Error ? error.message : String(error)));
+          }
+        }
       }
     }
   }
@@ -420,6 +480,9 @@ export async function runDevelopmentFactory({
   const start=iso(startedAt,'startedAt');
   const runId='devrun-' + stableHash({task:normalizedTask,startedAt:start}).split(':')[1];
   const maxRepairCycles=Math.max(0,Math.min(5,Number(config.maxRepairCycles ?? 2)));
+  const maxTotalMutationCalls=Math.max(1,Math.min(500,Number(config.maxTotalMutationCalls ?? 120)));
+  const maxToolCallsPerBatch=Math.max(1,Math.min(100,Number(config.maxToolCallsPerBatch ?? 50)));
+  let totalMutationCalls=0;
   const safety={
     allowDestructive:Boolean(config.allowDestructive),
     allowExecuteLuau:Boolean(config.allowExecuteLuau),
@@ -491,13 +554,25 @@ export async function runDevelopmentFactory({
 
   for(let cycle=0;cycle<=maxRepairCycles;cycle++){
     const stage=cycle === 0 ? 'code' : 'repair';
+    totalMutationCalls+=actionSet.actions.length;
+    if(totalMutationCalls > maxTotalMutationCalls){
+      finalReview={
+        verdict:'fail',
+        findings:['development run exceeded the total mutation budget of ' + maxTotalMutationCalls]
+      };
+      status='failed';
+      break;
+    }
+
     const batch=await executeStudioActionBatch({
       studio,
       calls:actionSet.actions,
       stage,
       atomic:true,
       confirmed:safety.confirmed,
-      safety
+      safety,
+      maxToolCallsPerBatch,
+      allowUnrollbackable:Boolean(config.allowUnrollbackable)
     });
     batches.push(batch);
 
