@@ -1,0 +1,107 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_GENERATION_RECEIPT",
+  "repository": "P00NSMASHER/StarBlox",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "856ff7ca5c41864ceb1ae6024fa199fa0b26767e",
+  "sourcePlanSha256": "82dd82766e9303d6aea5e68d9ef8a56e78ec833d6cae68e61a0ed0d052b7d087",
+  "executionCheckout": {
+    "branch": "screenshot-match-preproduction",
+    "head": "856ff7ca5c41864ceb1ae6024fa199fa0b26767e",
+    "planSourceHeadMatchesExecutionHead": true
+  },
+  "attempt": {
+    "attemptId": "wall-11-w13-a-pixel-bevel-mirror-ddfb3eb095",
+    "itemId": "wall-11",
+    "producer": "13",
+    "variant": "A-PIXEL-BEVEL-MIRROR",
+    "promptSha256": "ddfb3eb095dc528044557fdca1ed89d0db5eb3227df45a64b906be2088d33103",
+    "runtimePromptSha256": "5dbcc89ded0b630ca6831b32bd44d1991ff7e1aeda6dbded4251de0a9be17e7c",
+    "promptRecipeVersion": "artPromptOptimizer-request-v1:w13-wall-9-12-runtime-unblock-v2",
+    "seed": 12840249
+  },
+  "runtime": {
+    "repo": "huggingface/diffusers",
+    "commit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "resolvedCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "runtimeCommitVerified": true,
+    "diffusersVersion": "0.41.0.dev0",
+    "diffusersInstallSource": "https://github.com/huggingface/diffusers.git",
+    "torchVersion": "2.8.0+cpu",
+    "transformersVersion": "5.17.0",
+    "accelerateVersion": "1.15.0",
+    "huggingfaceHubVersion": "1.32.0",
+    "safetensorsVersion": "0.8.0",
+    "pythonPillowVersion": "12.3.0",
+    "device": "cpu",
+    "dtype": "bfloat16",
+    "executionMode": "cpu-fallback"
+  },
+  "model": {
+    "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+    "revision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS",
+    "resolvedRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "snapshotRevisionVerified": true,
+    "selectiveSnapshot": true,
+    "snapshotAllowPatterns": [
+      "model_index.json",
+      "scheduler/*",
+      "tokenizer/*",
+      "tokenizer_2/*",
+      "feature_extractor/*",
+      "text_encoder/config.json",
+      "text_encoder/model.fp16.safetensors",
+      "text_encoder_2/config.json",
+      "text_encoder_2/model.fp16.safetensors",
+      "unet/config.json",
+      "unet/diffusion_pytorch_model.fp16.safetensors",
+      "vae/config.json",
+      "vae/diffusion_pytorch_model.fp16.safetensors"
+    ]
+  },
+  "conditioning": {
+    "referenceAssetSha256": null,
+    "controlImageSha256": null,
+    "adapterScale": null,
+    "referenceImage": null,
+    "ipAdapterModelId": null,
+    "ipAdapterRevision": null,
+    "ipAdapterResolvedRevision": null,
+    "ipAdapterRevisionVerified": false,
+    "ipAdapterWeightName": null,
+    "ipAdapterSubfolder": null
+  },
+  "generation": {
+    "width": 640,
+    "height": 640,
+    "numInferenceSteps": 6,
+    "guidanceScale": 3.5,
+    "runtimePromptTokenCounts": {
+      "tokenizer": 65,
+      "tokenizer_2": 65
+    },
+    "executedSeed": 12840249
+  },
+  "output": {
+    "repoPath": "public/assets/catalog-candidates/cpu/wall-11-w13-v1-a-pixel-bevel-mirror-original.png",
+    "sha256": "01b064b4bee3e4be894a59279abb04b49b27cd048848513283631be59348268e",
+    "gitBlobSha": "50ffc975030f6c7e28cf9836756bb312dfa646fb",
+    "bytes": 606834,
+    "width": 640,
+    "height": 640,
+    "format": "PNG",
+    "sourceBytesPreserved": true,
+    "reusedExistingIdenticalBytes": false
+  },
+  "safety": {
+    "canonicalArtModified": false,
+    "gameplayModified": false,
+    "reviewDecisionMade": false,
+    "deploymentPerformed": false,
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+  },
+  "nextGate": "RUN_VERIFY_STAGED_OUTPUT_THEN_REAL_RENDER_AND_INDEPENDENT_EXACT_HASH_REVIEW",
+  "status": "GENERATED_SOURCE_BYTES_UNVERIFIED",
+  "recordSha256": "af02e10df15e7a1051cf0a664240e06b6c4ddd762f54b3a1c9b005c50b3b2ea1"
+}
