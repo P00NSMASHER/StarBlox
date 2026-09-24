@@ -3,7 +3,7 @@
   "kind": "STARBLOX_RELEASE_ART_BLOCKER_LEDGER",
   "branch": "screenshot-match-preproduction",
   "source": {
-    "computedAtHead": "d01b02f029f8bb89b81ccd4ae5aa84f68f50738b",
+    "computedAtHead": "042b3551e17f0531b7e4ecbe9099b7c289d10144",
     "manifest": {
       "version": 45,
       "finalCount": 181,
@@ -18,9 +18,9 @@
       "name": "Neon Streaming Desk",
       "producer": "03",
       "reviewer": "05",
-      "state": "CPU_A_FALLBACK_PENDING",
+      "state": "CPU_A_FALLBACK_RUNNING",
       "activeQueue": "w03-desks10-11-final-retry-a-fallback",
-      "generationRunId": 36053809276,
+      "generationRunId": 36054079596,
       "latestEvidence": {
         "version": "v9",
         "gitBlobSha": "1f050b539245d387ce005f67e059829a5249a7ed",
@@ -33,9 +33,9 @@
       "name": "Dream Creator Station",
       "producer": "03",
       "reviewer": "01",
-      "state": "CPU_A_FALLBACK_PENDING",
+      "state": "CPU_A_FALLBACK_RUNNING",
       "activeQueue": "w03-desks10-11-final-retry-a-fallback",
-      "generationRunId": 36053809276,
+      "generationRunId": 36054079596,
       "latestEvidence": {
         "version": "v7",
         "gitBlobSha": "b138c6291bf801bbf66e33daf9394e2c4bbae249",
@@ -48,22 +48,22 @@
       "name": "Art Gallery Wall",
       "producer": "13",
       "reviewer": "02",
-      "state": "CPU_V11_PENDING",
-      "activeQueue": "w13-wall9-v11-three-frame-final",
-      "generationRunId": 36051844460,
+      "state": "CPU_V12_PENDING",
+      "activeQueue": "w13-wall9-v12-a-fallback",
+      "generationRunId": 36054911159,
       "latestEvidence": {
-        "version": "v10",
-        "gitBlobSha": "28807b5b48c46274252f0f6453b336cb2d379416",
-        "sha256": "55b73b41129050883bf231977964754b563f68a2e041e917ef6c59120361d7de"
+        "version": "v11",
+        "gitBlobSha": "20c41266b9ef3afac6393b9af16da0efc8c9acac",
+        "sha256": "e5e45b76f4723c1c0ad4d64f27a6baea7c287e0339203009252c3ec12c28dcd3"
       },
-      "nextRepair": "v11 B-THREE-FRAMES-ONLY is pending behind Desk10/11. If REWORK, held v12 A-EXACT-THREE-PORTRAIT-FRAMES fallback is precompiled."
+      "nextRepair": "v11 REWORK for two frames/room vignette. v12 A fallback: exactly three same-size travel frames in one row on plain white."
     },
     {
       "id": "decor-11",
       "name": "Dream Vanity Set",
       "producer": "09",
       "reviewer": "02",
-      "state": "PREPARED_V8_REQUEUE_AFTER_DESK_PAIR_STARTS",
+      "state": "PREPARED_V8_AFTER_WALL9_STARTS",
       "preparedQueue": "w09-decor11-v8-simple-stool",
       "latestEvidence": {
         "version": "v7",
@@ -76,21 +76,21 @@
   "parallelWorkPlan": {
     "cpuSemaphore": "ONE_RUNNING_PLUS_ONE_PENDING",
     "currentCpuBatch": {
-      "queueId": "w13-wall9-v11-three-frame-final",
-      "items": [
-        "wall-9"
-      ],
-      "runId": 36051844460,
-      "state": "RUNNING"
-    },
-    "pendingSuccessor": {
       "queueId": "w03-desks10-11-final-retry-a-fallback",
       "items": [
         "desks-10",
         "desks-11"
       ],
       "runId": 36054079596,
-      "state": "PENDING_REFRESHED"
+      "state": "RUNNING"
+    },
+    "pendingSuccessor": {
+      "queueId": "w13-wall9-v12-a-fallback",
+      "items": [
+        "wall-9"
+      ],
+      "runId": 36054911159,
+      "state": "PENDING"
     },
     "preparedNext": [
       {
@@ -103,24 +103,15 @@
       },
       {
         "rank": 2,
-        "producer": "13",
-        "queuePath": "docs/preproduction/art-factory/prepared-queues/w13-wall9-v12-a-fallback.json",
-        "items": [
-          "wall-9"
-        ],
-        "conditional": "only if v11 REWORK"
-      },
-      {
-        "rank": 3,
         "producer": "09",
-        "queuePath": "docs/preproduction/art-factory/prepared-queues/w09-decor11-v9-ultraliteral-fallback.json",
+        "queuePath": "docs/preproduction/art-factory/prepared-queues/w09-decor11-v9-ultraliteral.json",
         "items": [
           "decor-11"
         ],
         "conditional": "only if v8 REWORK"
       }
     ],
-    "queuePolicy": "Wall9 runs now. Sharpened Desk10/11 A fallback run 36054079596 is the one pending successor. Requeue Decor11 v8 only after the desk pair transitions to running."
+    "queuePolicy": "Desk10/11 A fallback pair runs now. Wall9 v12 is the one pending successor. As soon as Wall9 v12 transitions to running, queue sharpened Decor11 v8 as the one pending successor."
   },
   "nonArtReleaseState": {
     "liveFunctionalSmoke": "GREEN",
