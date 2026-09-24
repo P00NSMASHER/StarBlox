@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_BATCH_REQUEST",
+  "planner": "15",
+  "producer": "13",
+  "preflightOwner": "06",
+  "reviewer": "02",
+  "renderOwner": "14",
+  "integrationOwner": "08",
+  "coordinationOwner": "15",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "151324ef8483361380ab56f925486289b6fd20ab",
+  "manifestVersion": 40,
+  "batchId": "w13-wall9-v11-three-frame-final",
+  "scope": [
+    "wall-9"
+  ],
+  "state": "PREPARED_FINAL_TRIPTYCH_RETRY",
+  "assignmentAuthority": {
+    "path": "docs/preproduction/art-factory/RELEASE_BLOCKERS_CURRENT.json",
+    "runtimeProofPath": "docs/preproduction/art-factory/CPU_RUNTIME_PROOF.json",
+    "runtimeProofStatus": "PROVEN",
+    "runtimeCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+    "modelRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "assignedReviewers": {
+      "wall-9": "02"
+    },
+    "note": "V10 had four panel regions. This retry reduces the geometry to three identical portrait frames only."
+  },
+  "reviewSource": {
+    "decision": "REWORK",
+    "latestExact": {
+      "version": "v10",
+      "gitBlobSha": "28807b5b48c46274252f0f6453b336cb2d379416",
+      "sha256": "55b73b41129050883bf231977964754b563f68a2e041e917ef6c59120361d7de"
+    }
+  },
+  "items": {
+    "wall-9": {
+      "currentLegacy": {
+        "path": "public/assets/catalog-candidates/cpu/wall-9-w13-v10-a-three-separate-adventure-frames-original.png",
+        "gitBlobSha1": "28807b5b48c46274252f0f6453b336cb2d379416",
+        "reviewDecision": "REWORK"
+      },
+      "variants": [
+        {
+          "variantId": "A-EXACT-THREE-PORTRAIT-FRAMES",
+          "optimizerInput": "Art Gallery Wall. EXACTLY THREE same-size portrait picture frames in ONE horizontal row on plain white. Only three rectangles. Left frame: mountain hiking trail. Center frame: one large compass over a simple map. Right frame: bright blue ocean coastline. Thin dark frames, equal spacing. NO outer panel, NO fourth rectangle, NO shelf, NO floor, NO room, NO text."
+        },
+        {
+          "variantId": "B-THREE-FRAMES-ONLY",
+          "optimizerInput": "Exactly THREE framed travel pictures, side by side, no other shapes: mountain path, compass-map, ocean coast. Three equal vertical frames only on white background. NO fourth frame, no backing grid, no shelf, no room, no text."
+        }
+      ]
+    }
+  },
+  "executionBudget": {
+    "width": 640,
+    "height": 640,
+    "steps": 12,
+    "guidanceScale": 5,
+    "dtype": "float32"
+  },
+  "safety": {
+    "preserveRejectedExactHashes": true,
+    "preserveAcceptedExactHashes": true,
+    "producerSelfReview": false,
+    "canonicalMappingsChanged": false,
+    "workflowFilesChanged": false
+  }
+}
