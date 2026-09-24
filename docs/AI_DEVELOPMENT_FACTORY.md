@@ -223,6 +223,53 @@ A Studio feature does not verify if the configured repository proof is missing o
 
 The core factory defaults to the same four required gates for programmatic callers. A specialized harness may deliberately pass `requiredRepositoryGates: []`, but the bundled CLI overwrites that field after adapter/task configuration so normal AI development runs cannot downgrade the release-proof requirement.
 
+## Migration adaptation gate
+
+Migration-derived Studio work has an additional fail-closed boundary before the normal inspect → plan → code loop.
+
+A migration task must declare:
+
+```json
+{
+  "id": "adapt-authorized-system",
+  "request": "Adapt the verified migrated system behind StarBlox boundaries",
+  "migration": {
+    "exportReceipt": "/path/to/migration-export/migration-export-receipt.json",
+    "unitIds": ["exact-approved-unit-id"]
+  }
+}
+```
+
+The bundled CLI does **not** trust task-supplied `migrationEvidence`. It derives that evidence itself from the migration export.
+
+Before importing the Studio adapter or contacting Studio, the gate verifies:
+
+- migration-export receipt schema/status and its SHA-256 payload hash;
+- explicit pre-Studio attestations: Studio mutation false, publication false, live activation false;
+- exact migration-plan SHA-256, plan ID/hash and catalog hash;
+- exact migration-bundle SHA-256, bundle ID/hash and plan-binding hash;
+- exact planning-receipt SHA-256 and receipt hash;
+- `verifyMigrationBundleAgainstPlan()` against the approved plan;
+- each explicitly requested unit exists and was selected in the approved plan;
+- each requested unit has migration strategy `refactor` or `quarantine`;
+- each requested unit remains in the `quarantine` disposition with `staging-only` activation;
+- each exact exported Roblox artifact still matches its approved SHA-256 and byte size;
+- no linked file is a symbolic link and no relative artifact path can escape the export directory.
+
+The gate intentionally requires explicit `unitIds`; a factory task cannot silently inherit every migrated unit in a bundle.
+
+Successful verification produces `starblox-dev-factory-migration-input-v1` evidence. That evidence is included inside the normalized development task and therefore inside the deterministic development-run hash.
+
+The factory core independently validates this evidence **before Studio attestation or inspection**. A task containing raw migration intent but no valid evidence fails before any Studio tool call.
+
+For non-mutating CI/operator verification without an adapter:
+
+```
+npm run studio:factory -- --task migration-task.json --verify-migration-only --out factory-migration-evidence.json
+```
+
+Ordinary non-migration development tasks remain unchanged and do not require migration evidence.
+
 ## Audit artifact
 
 Each run produces an immutable JSON artifact containing:
@@ -237,6 +284,7 @@ Each run produces an immutable JSON artifact containing:
 - rollback result;
 - repository gate result;
 - Studio connector attestation evidence when available;
+- verified migration evidence and exact selected migration-unit artifact hashes when the run adapts migrated content;
 - deterministic run hash.
 
 The artifact intentionally does not retain:
@@ -254,6 +302,8 @@ The default file name ai-development-run.json is gitignored.
 Run a provider-specific adapter module with:
 
 npm run studio:factory -- --task task.json --adapter ./my-studio-adapter.mjs --out ai-development-run.json
+
+For migration adaptation tasks, put the migration export receipt and explicit unit IDs in `task.migration`. The CLI verifies and replaces that request with immutable migration evidence before loading the adapter.
 
 The adapter module must export:
 
