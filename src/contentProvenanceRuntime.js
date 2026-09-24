@@ -103,6 +103,14 @@ function sourceNeedsSnapshot(source){
   );
 }
 
+function sourceNeedsExternalOriginal(source){
+  return Boolean(
+    source &&
+    source.requiresExternalOriginal === true &&
+    source.externalOriginalVerified !== true
+  );
+}
+
 export function validateContentBundle(bundle,{strictProvenance=false}={}){
   const issues = [];
   if(bundle?.schemaVersion !== CONTENT_BUNDLE_SCHEMA_VERSION){
@@ -139,6 +147,12 @@ export function validateContentBundle(bundle,{strictProvenance=false}={}){
       ){
         issues.push({id:question.id,type:'source-snapshot-required',sourceId});
       }
+      if(
+        strictProvenance &&
+        sourceNeedsExternalOriginal(source)
+      ){
+        issues.push({id:question.id,type:'external-original-unverified',sourceId});
+      }
     }
   }
 
@@ -155,11 +169,16 @@ export function validateContentBundle(bundle,{strictProvenance=false}={}){
 export function provenanceDebt(bundle){
   const missing = (bundle?.sources || [])
     .filter(source => sourceNeedsSnapshot(source) && !source.snapshotHash);
+  const externalUnverified = (bundle?.sources || [])
+    .filter(source => sourceNeedsExternalOriginal(source));
 
   return {
     declaredSourceCount:missing.length,
     declaredSourceIds:missing.map(source => source.id).sort(),
-    strictReady:missing.length === 0
+    externalOriginalUnverifiedCount:externalUnverified.length,
+    externalOriginalUnverifiedIds:externalUnverified.map(source => source.id).sort(),
+    snapshotReady:missing.length === 0,
+    strictReady:missing.length === 0 && externalUnverified.length === 0
   };
 }
 
