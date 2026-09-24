@@ -1,0 +1,107 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_GENERATION_RECEIPT",
+  "repository": "P00NSMASHER/StarBlox",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "818b8cc154b78b2f7c2a3d4b622cec70de5c5320",
+  "sourcePlanSha256": "cbbec799613957d480f6f6e9d2ee23a976f93757f7f25c924bf3130e33b01cd9",
+  "executionCheckout": {
+    "branch": "screenshot-match-preproduction",
+    "head": "818b8cc154b78b2f7c2a3d4b622cec70de5c5320",
+    "planSourceHeadMatchesExecutionHead": true
+  },
+  "attempt": {
+    "attemptId": "desks-12-w13-a-freestanding-luxury-desk-2889a5972d",
+    "itemId": "desks-12",
+    "producer": "13",
+    "variant": "A-FREESTANDING-LUXURY-DESK",
+    "promptSha256": "2889a5972d724d08b3f9d4ca6469a46834a22f17f34a650b73562f890d8c1f6f",
+    "runtimePromptSha256": "678e4d5cb5d937350aefe15e10d9d8178052fcf52ca49a4ebe05e2a678bf989e",
+    "promptRecipeVersion": "artPromptOptimizer-request-v1:w13-current-rework-3pack-v3",
+    "seed": 1591039683
+  },
+  "runtime": {
+    "repo": "huggingface/diffusers",
+    "commit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "resolvedCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "runtimeCommitVerified": true,
+    "diffusersVersion": "0.41.0.dev0",
+    "diffusersInstallSource": "https://github.com/huggingface/diffusers.git",
+    "torchVersion": "2.8.0+cpu",
+    "transformersVersion": "5.17.0",
+    "accelerateVersion": "1.15.0",
+    "huggingfaceHubVersion": "1.33.0",
+    "safetensorsVersion": "0.8.0",
+    "pythonPillowVersion": "12.3.0",
+    "device": "cpu",
+    "dtype": "float32",
+    "executionMode": "cpu-fallback"
+  },
+  "model": {
+    "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+    "revision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS",
+    "resolvedRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "snapshotRevisionVerified": true,
+    "selectiveSnapshot": true,
+    "snapshotAllowPatterns": [
+      "model_index.json",
+      "scheduler/*",
+      "tokenizer/*",
+      "tokenizer_2/*",
+      "feature_extractor/*",
+      "text_encoder/config.json",
+      "text_encoder/model.fp16.safetensors",
+      "text_encoder_2/config.json",
+      "text_encoder_2/model.fp16.safetensors",
+      "unet/config.json",
+      "unet/diffusion_pytorch_model.fp16.safetensors",
+      "vae/config.json",
+      "vae/diffusion_pytorch_model.fp16.safetensors"
+    ]
+  },
+  "conditioning": {
+    "referenceAssetSha256": null,
+    "controlImageSha256": null,
+    "adapterScale": null,
+    "referenceImage": null,
+    "ipAdapterModelId": null,
+    "ipAdapterRevision": null,
+    "ipAdapterResolvedRevision": null,
+    "ipAdapterRevisionVerified": false,
+    "ipAdapterWeightName": null,
+    "ipAdapterSubfolder": null
+  },
+  "generation": {
+    "width": 640,
+    "height": 640,
+    "numInferenceSteps": 6,
+    "guidanceScale": 3.5,
+    "runtimePromptTokenCounts": {
+      "tokenizer": 68,
+      "tokenizer_2": 68
+    },
+    "executedSeed": 1591039683
+  },
+  "output": {
+    "repoPath": "public/assets/catalog-candidates/cpu/desks-12-w13-v4-a-freestanding-luxury-desk-original.png",
+    "sha256": "dbe87b3ddcf6c4fc80c9c7ecb288e2e58aef70e86cc8feaccfb29ec33755c4f1",
+    "gitBlobSha": "36fbde14296512fd60e8b495e687cbf8152b7483",
+    "bytes": 507347,
+    "width": 640,
+    "height": 640,
+    "format": "PNG",
+    "sourceBytesPreserved": true,
+    "reusedExistingIdenticalBytes": false
+  },
+  "safety": {
+    "canonicalArtModified": false,
+    "gameplayModified": false,
+    "reviewDecisionMade": false,
+    "deploymentPerformed": false,
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+  },
+  "nextGate": "RUN_VERIFY_STAGED_OUTPUT_THEN_REAL_RENDER_AND_INDEPENDENT_EXACT_HASH_REVIEW",
+  "status": "GENERATED_SOURCE_BYTES_UNVERIFIED",
+  "recordSha256": "22224c9c066744d37fb6336067728e1707f14a24f78938bb45c0a32ae816de2d"
+}
