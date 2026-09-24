@@ -36,7 +36,7 @@ describe('StarBlox canonical domain contracts', () => {
     const original = canonicalizeLegacyQuestion(source);
     const changed = canonicalizeLegacyQuestion({
       ...source,
-      prompt: source.prompt + ' '
+      prompt: source.prompt + ' Updated'
     });
 
     expect(changed.currentVersionHash).not.toBe(original.currentVersionHash);
