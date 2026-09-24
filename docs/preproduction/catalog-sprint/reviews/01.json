@@ -5,7 +5,7 @@
   "role": "Visual Target Director / independent catalog reviewer",
   "phase": "ART_AND_VISUALS_ONLY",
   "branch": "screenshot-match-preproduction",
-  "sourceHead": "d0b6cd8191e1ec0ade0640452e1d59edf647092d",
+  "sourceHead": "a87159d7e7",
   "assignedCollections": [
     "tops",
     "bottoms",
@@ -34,12 +34,12 @@
   },
   "currentCycle": {
     "scope": [
-      "desks-11"
+      "decor-7"
     ],
-    "version": "current literal exact hashes",
-    "result": "REWORK_1_OF_1",
+    "version": "Decor7 v10 exact source hash",
+    "result": "REWORK_1_OF_1_FAIL_FAST",
     "oldVerdictsTransferred": false,
-    "actualCardScalePixelsReviewed": true,
+    "actualCardScalePixelsReviewed": false,
     "actualDetailPixelsReviewed": true,
     "selfApprovalConflict": false
   },
@@ -847,6 +847,44 @@
         "duplicateVisual": "PASS",
         "technicalIntegrity": "PASS"
       }
+    },
+    {
+      "itemId": "decor-7",
+      "name": "Skate Rack",
+      "tier": 3,
+      "theme": "Garden Glow",
+      "assetPath": "public/assets/catalog-candidates/cpu/decor-7-w09-v10-a-rack-with-classic-quad-skates-original.png",
+      "repositoryPath": "public/assets/catalog-candidates/cpu/decor-7-w09-v10-a-rack-with-classic-quad-skates-original.png",
+      "assetHash": "28bff68db458d4c3b70024ce9c90f28e6b8a92e7",
+      "sha256": "639ca9b68c19680fc2b95c3f0e33138b5f785f80c01e56ea3acc409ce2bc936e",
+      "contentSha256": "639ca9b68c19680fc2b95c3f0e33138b5f785f80c01e56ea3acc409ce2bc936e",
+      "hashAlgorithm": "git-blob-sha1",
+      "producer": "09",
+      "decision": "REWORK",
+      "learnerLabel": "REWORK",
+      "reviewedAt": "2026-09-24T18:41:00Z",
+      "evidenceRefs": [
+        "qualification:a87159d7e7",
+        "source:public/assets/catalog-candidates/cpu/decor-7-w09-v10-a-rack-with-classic-quad-skates-original.png"
+      ],
+      "reasonCodes": [
+        "SKATE_RACK_IDENTITY_FAILURE",
+        "BENCH_LIKE_OBJECT",
+        "NO_QUAD_SKATES",
+        "NO_CUBBY_RACK"
+      ],
+      "reason": "REWORK fail-fast. The exact v10 source pixels are unmistakably a long glowing bench/console-like object with pedestal supports. There is no compact two-cubby rack and no recognizable quad roller skates, boot uppers, trucks or four-wheel sets. Preserve this exact hash. The next attempt must make the skates themselves dominate: one large classic pair of quad roller skates centered in front of or partly inside one very small simple rack; the pair must remain obvious even if the rack is simplified.",
+      "checks": {
+        "identity": "FAIL",
+        "silhouette": "FAIL",
+        "cardReadability": "FAIL",
+        "physicalConstruction": "FAIL",
+        "framingComposition": "PASS",
+        "materialLighting": "PASS",
+        "originality": "PASS",
+        "duplicateVisual": "PASS",
+        "technicalIntegrity": "PASS"
+      }
     }
   ],
   "currentReplacementDisposition": {
@@ -890,7 +928,7 @@
     },
     "decor": {
       "REWORK": {
-        "decor-7": "6d4ee958f8714799ee8fcdd1ec8364521d435803"
+        "decor-7": "28bff68db458d4c3b70024ce9c90f28e6b8a92e7"
       },
       "ACCEPT": {
         "decor-5": "1e7716f00e8e38f7ad645a448f9e29adea38de37"
@@ -917,17 +955,17 @@
     "newBlockedThisRun": 0,
     "newUsableBy08Now": [],
     "reworkNow": [
-      "desks-11"
+      "decor-7"
     ],
-    "preservedAcceptedHashes": "All prior ACCEPTs remain frozen; these verdicts apply only to the exact hashes rendered in workflow 36041110855."
+    "preservedAcceptedHashes": "All prior reviewer01 ACCEPTs remain frozen; this REWORK applies only to Decor7 v10 exact hash."
   },
   "handoff": {
     "13": "desks-12 exact hash ACCEPT; freeze it and remove from production scope.",
     "14": "Current render packets consumed; do not rerender unchanged hashes.",
-    "15": "desks-11 remain bounded exact-pixel blockers; use only the new narrow failure-specific repairs.",
-    "09": "decor-7 current exact hash is REWORK; preserve it and generate only the failure-specific next version if director15 keeps it release-critical.",
+    "15": "Decor7 remains a release blocker; do not rerender/regenerate v10 path.",
+    "09": "Decor7 v10 REWORK fail-fast; preserve exact hash and move to a new v11 path. Make a large classic quad-skate pair the dominant object; the rack is secondary.",
     "03": "desks-11 current literal hashes are REWORK; preserve them and prepare the next narrow retry while other producers continue.",
-    "08": "Do not canonical-wire desks-11 current exact hashes."
+    "08": "Do not canonical-wire Decor7 v10."
   },
   "freeze": {
     "replitTouched": false,
