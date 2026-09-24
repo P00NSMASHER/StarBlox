@@ -42,6 +42,7 @@ sys.path.insert(0, str(psi_repo))
 import torch
 from sklearn.metrics import roc_auc_score
 from knowledge_tracing.data.data_loader import DataReader
+from knowledge_tracing.psikt import EPS
 from knowledge_tracing.psikt.psikt import AmortizedPSIKT
 from knowledge_tracing.utils.logger import Logger
 
@@ -57,22 +58,27 @@ class StarBloxAmortizedPSIKT(AmortizedPSIKT):
     """
 
     def st_transition_infer(self, emb_inputs, num_sample=0, eval=False):
-        # Upstream GMVAE returns logits/prob_cat but the pinned PSI-KT method
-        # only stores the sampled category. Its loss() later expects
-        # self.logits/self.probs. Re-evaluate the same inference network to
-        # expose those exact distribution tensors with gradients intact.
-        qs_dist = super().st_transition_infer(
-            emb_inputs=emb_inputs,
-            num_sample=num_sample,
-            eval=eval,
-        )
-        category_output = self.infer_network_posterior_s(
+        # Pinned upstream InferenceNet already returns the categorical logits
+        # and probabilities that loss() later expects, but st_transition_infer()
+        # discards them. Preserve the upstream posterior construction in one
+        # pass and expose only those two missing tensors.
+        qs_out_inf = self.infer_network_posterior_s(
             emb_inputs,
             self.qs_temperature,
             self.qs_hard,
         )
-        self.logits = category_output["logits"]
-        self.probs = category_output["prob_cat"]
+        self.logits = qs_out_inf["logits"]
+        self.probs = qs_out_inf["prob_cat"]
+
+        s_category = qs_out_inf["categorical"]
+        s_mean = qs_out_inf["s_mu_infer"]
+        s_var = qs_out_inf["s_var_infer"]
+        s_var_mat = torch.diag_embed(s_var + EPS)
+        qs_dist = torch.distributions.MultivariateNormal(
+            loc=s_mean,
+            scale_tril=torch.tril(s_var_mat),
+        )
+        self.register_buffer("qs_category", s_category.clone().detach())
         return qs_dist
 
     def generative_process(self, qs_dist, qz_dist, feed_dict=None, eval=False):
