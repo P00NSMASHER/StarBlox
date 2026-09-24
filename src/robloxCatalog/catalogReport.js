@@ -44,7 +44,7 @@ export function capabilityCatalogMarkdown(catalog){
     '',
     '## Highest-leverage system candidates',
     ''
-  ];
+  );
 
   for(const item of catalog.systemCandidates.slice(0,30)){
     lines.push(
