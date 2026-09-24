@@ -143,9 +143,15 @@ Custom rules:
 
 npm run roblox:migrate -- --catalog roblox-capability-catalog.json --source-root /path/to/authorized/brookhaven --rules config/my-migration-rules.json
 
-Plan only:
+Plan only from the catalog directly:
 
 npm run roblox:migrate -- --catalog roblox-capability-catalog.json --out-dir roblox-migration-bundle
+
+Plan only from a completed safe-ingestion receipt:
+
+npm run roblox:migrate -- --ingestion-receipt /path/to/roblox-ingestion/ingestion-receipt.json --out-dir roblox-migration-bundle
+
+When an ingestion receipt is used, the planner resolves the sibling capability catalog, verifies its exact SHA-256 against the receipt, and verifies the catalog's own deterministic hash before planning. The receipt path does not imply or enable source export: without a separate --source-root argument the command remains plan-only and creates no migration bundle or exported Roblox subtree.
 
 Explicit risk review:
 
