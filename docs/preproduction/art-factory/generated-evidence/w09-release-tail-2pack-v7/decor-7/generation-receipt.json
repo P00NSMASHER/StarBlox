@@ -1,0 +1,112 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_GENERATION_RECEIPT",
+  "repository": "P00NSMASHER/StarBlox",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "349979ca6e1d219e46815a69434ef9c0be9ad31f",
+  "sourcePlanSha256": "2297332db39dad6a55bd9ca8ab65a2551d5627f2ffc3cbe47874647696e30e20",
+  "executionCheckout": {
+    "branch": "screenshot-match-preproduction",
+    "head": "349979ca6e1d219e46815a69434ef9c0be9ad31f",
+    "planSourceHeadMatchesExecutionHead": true
+  },
+  "attempt": {
+    "attemptId": "decor-7-w09-a-two-quad-skates-on-shoe-rack-447c6d3b6d",
+    "itemId": "decor-7",
+    "producer": "09",
+    "variant": "A-TWO-QUAD-SKATES-ON-SHOE-RACK",
+    "promptSha256": "447c6d3b6d13756bb75f307df5c5dc3cf23de43b23d28dacbb2fd23377f24256",
+    "runtimePromptSha256": "b6aa21612372fa0377e0cbb1497ec245a7fdf40d0ba8305f5f4fe89250f5b76e",
+    "runtimeNegativePromptSha256": "64df0b00567cf86ed97e936111278b9422256c6c990223ea2ae1393e570c168e",
+    "promptRecipeVersion": "artPromptOptimizer-request-v1:w09-release-tail-2pack-v7",
+    "seed": 561530641
+  },
+  "runtime": {
+    "repo": "huggingface/diffusers",
+    "commit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "resolvedCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "runtimeCommitVerified": true,
+    "diffusersVersion": "0.41.0.dev0",
+    "diffusersInstallSource": "https://github.com/huggingface/diffusers.git",
+    "torchVersion": "2.8.0+cpu",
+    "transformersVersion": "5.17.0",
+    "accelerateVersion": "1.15.0",
+    "huggingfaceHubVersion": "1.33.0",
+    "safetensorsVersion": "0.8.0",
+    "pythonPillowVersion": "12.3.0",
+    "device": "cpu",
+    "dtype": "float32",
+    "executionMode": "cpu-fallback"
+  },
+  "model": {
+    "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+    "revision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS",
+    "resolvedRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "snapshotRevisionVerified": true,
+    "selectiveSnapshot": true,
+    "snapshotAllowPatterns": [
+      "model_index.json",
+      "scheduler/*",
+      "tokenizer/*",
+      "tokenizer_2/*",
+      "feature_extractor/*",
+      "text_encoder/config.json",
+      "text_encoder/model.fp16.safetensors",
+      "text_encoder_2/config.json",
+      "text_encoder_2/model.fp16.safetensors",
+      "unet/config.json",
+      "unet/diffusion_pytorch_model.fp16.safetensors",
+      "vae/config.json",
+      "vae/diffusion_pytorch_model.fp16.safetensors"
+    ]
+  },
+  "conditioning": {
+    "referenceAssetSha256": null,
+    "controlImageSha256": null,
+    "adapterScale": null,
+    "referenceImage": null,
+    "ipAdapterModelId": null,
+    "ipAdapterRevision": null,
+    "ipAdapterResolvedRevision": null,
+    "ipAdapterRevisionVerified": false,
+    "ipAdapterWeightName": null,
+    "ipAdapterSubfolder": null
+  },
+  "generation": {
+    "width": 640,
+    "height": 640,
+    "numInferenceSteps": 10,
+    "guidanceScale": 4.5,
+    "runtimePromptTokenCounts": {
+      "tokenizer": 77,
+      "tokenizer_2": 77
+    },
+    "runtimeNegativePromptTokenCounts": {
+      "tokenizer": 35,
+      "tokenizer_2": 35
+    },
+    "executedSeed": 561530641
+  },
+  "output": {
+    "repoPath": "public/assets/catalog-candidates/cpu/decor-7-w09-v11-a-two-quad-skates-on-shoe-rack-original.png",
+    "sha256": "5c0218184f03a19110ed6cd60c19d05d7216f1511d4d73e1602f85fcbda265bc",
+    "gitBlobSha": "db341a5921cb0b655d270e3c58fbb07f80175ebf",
+    "bytes": 573803,
+    "width": 640,
+    "height": 640,
+    "format": "PNG",
+    "sourceBytesPreserved": true,
+    "reusedExistingIdenticalBytes": false
+  },
+  "safety": {
+    "canonicalArtModified": false,
+    "gameplayModified": false,
+    "reviewDecisionMade": false,
+    "deploymentPerformed": false,
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+  },
+  "nextGate": "RUN_VERIFY_STAGED_OUTPUT_THEN_REAL_RENDER_AND_INDEPENDENT_EXACT_HASH_REVIEW",
+  "status": "GENERATED_SOURCE_BYTES_UNVERIFIED",
+  "recordSha256": "d33d1ecf7973743b6b9cf090c7b7937f8cd824db47ba9ee61a21047632b514cb"
+}
