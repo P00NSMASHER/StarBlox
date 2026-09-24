@@ -237,6 +237,46 @@ export const UPSTREAM_PROVENANCE = Object.freeze({
     '52210ee593e0e5c832cbf3cea8b6f228df073623',
     'unasserted in GitHub metadata'
   ),
+  sabeoDailyScheduleMigration: source(
+    'daily schedule table plus pg_cron/pg_net invocation control plane',
+    'kristiandrex/sabeo',
+    'main',
+    '52210ee593e0e5c832cbf3cea8b6f228df073623',
+    'unasserted in GitHub metadata',
+    'supabase/migrations/20251118214523_schedule_daily_challenge_cron.sql'
+  ),
+  sabeoDailyCronUpdate: source(
+    'schedule-if-missing then activate-if-due cron state machine',
+    'kristiandrex/sabeo',
+    'main',
+    '52210ee593e0e5c832cbf3cea8b6f228df073623',
+    'unasserted in GitHub metadata',
+    'supabase/migrations/20260108020023_update_schedule_daily_challenge_cron.sql'
+  ),
+  sabeoScheduleRoute: source(
+    'idempotent per-day scheduling and pending-content selection semantics',
+    'kristiandrex/sabeo',
+    'main',
+    '52210ee593e0e5c832cbf3cea8b6f228df073623',
+    'unasserted in GitHub metadata',
+    'src/app/api/schedule-daily-challenge/route.ts'
+  ),
+  sabeoStartRoute: source(
+    'due-time gating and triggered-at activation guard',
+    'kristiandrex/sabeo',
+    'main',
+    '52210ee593e0e5c832cbf3cea8b6f228df073623',
+    'unasserted in GitHub metadata',
+    'src/app/api/start-challenge/route.ts'
+  ),
+  sabeoStartDomain: source(
+    'challenge activation and post-activation notification fan-out boundary',
+    'kristiandrex/sabeo',
+    'main',
+    '52210ee593e0e5c832cbf3cea8b6f228df073623',
+    'unasserted in GitHub metadata',
+    'src/domain/challenge/start-challenge.ts'
+  ),
   anki: source(
     'FSRS memory state, review priority, retention and workload simulation',
     'ankitects/anki',
