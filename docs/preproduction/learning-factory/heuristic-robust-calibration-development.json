@@ -1,0 +1,37 @@
+{
+  "schemaVersion":"starblox-heuristic-robust-calibration-development-manifest-v1",
+  "benchmarkId":"starblox-live-heuristic-robust-development-v1",
+  "status":"development-tuning-allowed",
+  "authorization":"synthetic-only-no-real-player-data",
+  "seeds":[20271211,20271229,20280117],
+  "sourceLearnerCountPerSeed":48,
+  "maxStep":30,
+  "selectionStep":18,
+  "heldOutStepCount":12,
+  "defaultWeights":{
+    "unseenBonus":80,
+    "wrongWeight":18,
+    "correctPenalty":3,
+    "duePerDay":4,
+    "dueCap":24,
+    "transferBonus":10,
+    "reviewBonus":4
+  },
+  "grid":{
+    "wrongWeight":[12,15,18,21,24],
+    "correctPenalty":[1,2,3,4,5],
+    "duePerDay":[2,3,4,5,6],
+    "dueCap":[16,20,24,28,32]
+  },
+  "candidateRule":{
+    "averageHiddenNeedGainMin":0.003,
+    "worstHiddenNeedGainMin":-0.002,
+    "averageWeakestSkillHitGainMin":0.01,
+    "worstWeakestSkillHitGainMin":-0.020834,
+    "averageOldestSkillHitGainMin":0,
+    "worstOldestSkillHitGainMin":-0.020834
+  },
+  "forbiddenSeeds":[20260924,20261103,20261217,20261229,20270113,20270217,20270307,20270419,20270511,20270623,20270717,20270805,20270903,20271011,20271029,20271119],
+  "tuneAgainstTheseCohorts":true,
+  "purpose":"Robust multi-seed calibration of the existing live heuristic score formula in shadow mode. Candidate must preserve the live Quest structural constraints and outperform the exact current heuristic across average and worst-seed targeting metrics before independent validation."
+}
