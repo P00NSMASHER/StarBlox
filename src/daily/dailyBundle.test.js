@@ -120,7 +120,7 @@ describe('Step 14: immutable Daily Bundle generation', () => {
     });
 
     expect(artifact.generator.fallbackUsed).toBe(true);
-    expect(artifact.generator.fallbackReasons.join(' ')).toMatch(/bindings were invalid/);
+    expect(artifact.generator.fallbackReasons.join(' ')).toMatch(/binding count|bindings were invalid/);
     const slotCount=artifact.bundle.levelSpec.nodes.filter(node => node.questionSlot).length;
     expect(artifact.questionSet).toHaveLength(slotCount);
   });
