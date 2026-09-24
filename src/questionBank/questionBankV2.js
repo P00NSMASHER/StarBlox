@@ -285,6 +285,19 @@ export function validateQuestionBankV2(bank){
         }
         if(typeof version?.contentHash !== 'string' || !version.contentHash){
           errors.push('version hash missing: ' + id + '@' + versionKey);
+        }else{
+          try{
+            const rebuilt=createQuestionVersion({
+              ...semanticVersionPayload(version),
+              questionId:id,
+              contentVersion:number
+            });
+            if(rebuilt.contentHash !== version.contentHash){
+              errors.push('version content hash mismatch: ' + id + '@' + versionKey);
+            }
+          }catch(error){
+            errors.push('version content invalid: ' + id + '@' + versionKey + ': ' + error.message);
+          }
         }
       }
 
@@ -353,6 +366,41 @@ export function createQuestionBankSnapshot(bank,{lifecycles=['published']}={}){
     questionCount:refs.length,
     refs,
     hash:stableHash(payload)
+  });
+}
+
+
+export function addQuestionToBank(bank,question,{
+  lifecycle='draft',
+  conceptIds,
+  tags,
+  policy
+}={}){
+  assertBank(bank);
+
+  let canonical;
+  if(isObject(question) && isObject(question.version)){
+    canonical=question;
+  }else{
+    canonical=canonicalizeLegacyQuestion(question,{status:'active'});
+  }
+
+  if(bank.questions[canonical.id]){
+    throw new Error('question already exists: ' + canonical.id);
+  }
+
+  const questions=clone(bank.questions);
+  questions[canonical.id]=entryFromCanonical(canonical,{
+    lifecycle,
+    conceptIds:conceptIds ?? [canonical.skill],
+    tags,
+    policy
+  });
+
+  return finalizeBank({
+    ...bank,
+    revision:bank.revision + 1,
+    questions
   });
 }
 
