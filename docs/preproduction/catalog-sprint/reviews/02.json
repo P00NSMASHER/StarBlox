@@ -7,7 +7,7 @@
   "policy": "docs/preproduction/DELIVERY_PROTOCOL_V2.md",
   "visualSprint": "docs/preproduction/ART_VISUALS_SPRINT.json",
   "artFactoryPolicy": "docs/preproduction/art-factory/ART_FACTORY_V2.json",
-  "sourceHead": "a6b819842c",
+  "sourceHead": "601cd55f2b",
   "priorReviewShard": {
     "blobSha": "4173dbb9923157eb5a13090d526f88cfec162edd",
     "schemaVersion": 10,
@@ -240,10 +240,10 @@
   ],
   "currentCycle": {
     "scope": [
-      "decor-11"
+      "wall-9"
     ],
-    "version": "Decor11 v6 exact source hash",
-    "result": "REWORK_1_OF_1",
+    "version": "Wall9 v9 exact source hash",
+    "result": "REWORK_1_OF_1_FAIL_FAST",
     "oldVerdictsTransferred": false,
     "actualCardScalePixelsReviewed": false,
     "actualDetailPixelsReviewed": true,
@@ -1089,13 +1089,54 @@
         "duplicateVisual": "PASS",
         "technicalIntegrity": "PASS"
       }
+    },
+    {
+      "itemId": "wall-9",
+      "name": "Art Gallery Wall",
+      "tier": 3,
+      "theme": "Adventure Club",
+      "assetPath": "public/assets/catalog-candidates/cpu/wall-9-w13-v9-a-literal-three-frame-triptych-original.png",
+      "repositoryPath": "public/assets/catalog-candidates/cpu/wall-9-w13-v9-a-literal-three-frame-triptych-original.png",
+      "assetHash": "3c343c9803ef4dcf078a846a84cc54973e7e0f63",
+      "sha256": "497b5bf800eddc57fb4e9334030d62c1a34e4a2de796f8ea5c6a75f7eee36e12",
+      "contentSha256": "497b5bf800eddc57fb4e9334030d62c1a34e4a2de796f8ea5c6a75f7eee36e12",
+      "hashAlgorithm": "git-blob-sha1",
+      "producer": "13",
+      "decision": "REWORK",
+      "learnerLabel": "REWORK",
+      "reviewedAt": "2026-09-24T19:00:00Z",
+      "evidenceRefs": [
+        "source:public/assets/catalog-candidates/cpu/wall-9-w13-v9-a-literal-three-frame-triptych-original.png",
+        "staged-output:docs/preproduction/art-factory/generated-evidence/w13-release-tail-3pack-v5/wall-9/staged-output.json"
+      ],
+      "reasonCodes": [
+        "WRONG_THREE_ARTWORK_COMPOSITION",
+        "DUPLICATED_MOUNTAIN_ART",
+        "MISSING_COMPASS_MAP_ART",
+        "BLANK_CYAN_PANEL"
+      ],
+      "reason": "REWORK fail-fast from exact source pixels. V9 has three panel areas, but the composition is wrong: the upper two are both mountain scenes, the lower wide panel is an abstract cyan blur, and there is no clear compass/map artwork or distinct ocean-coast artwork. Preserve this exact hash. Next repair must show exactly three separate framed pictures side-by-side horizontally: left mountain trail, center large compass over a simple map shape, right blue ocean coast; no outer collage frame and no blank/abstract panel.",
+      "checks": {
+        "identity": "PARTIAL",
+        "exactlyThreeFrames": "FAIL",
+        "distinctAdventureSubjects": "FAIL",
+        "compassMap": "FAIL",
+        "oceanCoast": "FAIL",
+        "cardReadability": "FAIL",
+        "physicalConstruction": "PARTIAL",
+        "framingComposition": "FAIL",
+        "materialLighting": "PASS",
+        "originality": "PASS",
+        "duplicateVisual": "PASS",
+        "technicalIntegrity": "PASS"
+      }
     }
   ],
   "currentReplacementDisposition": {
     "wall": {
       "REWORK": {
         "wall-10": "74a4c531a3c60ccd60747bfebc2dfc0d1d25b684",
-        "wall-9": "6db1aaa99ea6e6f00bf2f8b0e8109113f5809021"
+        "wall-9": "3c343c9803ef4dcf078a846a84cc54973e7e0f63"
       },
       "ACCEPT": {
         "wall-11": "50ffc975030f6c7e28cf9836756bb312dfa646fb",
@@ -1122,15 +1163,15 @@
     "newBlockedThisRun": 0,
     "newUsableBy08Now": [],
     "reworkNow": [
-      "decor-11"
+      "wall-9"
     ],
-    "preservedAcceptedHashes": "All prior reviewer02 ACCEPTs remain frozen; Decor11 v6 exact hash is fail-fast REWORK."
+    "preservedAcceptedHashes": "All prior reviewer02 ACCEPTs remain frozen; this REWORK applies only to Wall9 v9 exact hash."
   },
   "handoff": {
-    "13": "Wall9 v8 REWORK; preserve exact hash and use only the failure-specific next prompt.",
+    "13": "Freeze Wall9 v9 REWORK. Pack Wall9 v10 together with token-safe Desk8 v4 and Wall8 v10 in one Producer13 retry.",
     "14": "Current packets consumed; do not rerender unchanged hashes.",
-    "15": "Decor11 remains release-blocking; use the already-prepared stool-first fallback.",
+    "15": "Wall9 remains release-blocking; next prompt must be exactly three separate side-by-side frames with mountain, compass-map, and ocean-coast subjects.",
     "09": "Freeze Decor11 v6 REWORK and advance only a new-version stool-first fallback.",
-    "08": "Do not canonical-wire Decor11 v6."
+    "08": "Do not canonical-wire Wall9 v9."
   }
 }
