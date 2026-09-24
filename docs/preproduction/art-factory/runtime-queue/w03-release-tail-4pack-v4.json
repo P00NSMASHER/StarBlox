@@ -46,5 +46,7 @@
     "route": "12 -> 06 -> 14 -> assigned reviewer -> 08 on ACCEPT",
     "canonicalWriter": "08"
   },
-  "dispatchPolicy": "ONE_PENDING_SUCCESSOR__FOUR_ITEM_PACK__NEW_POSITIVE_NEGATIVE_PROMPT_COMPILER"
+  "dispatchPolicy": "REPLACE_PENDING_WITH_NEGATIVE_PROMPT_SERIALIZER__FOUR_ITEM_PACK",
+  "dispatchRevision": 2,
+  "serializerRequiredCommit": "3afd3e0f43a29f3997fec44ddd79fd3fbc6c607f"
 }
