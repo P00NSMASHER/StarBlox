@@ -1,5 +1,6 @@
 
 import { stableHash } from '../domainSchemas.js';
+import { sanitizeDiagnosticValue } from '../observability/sessionDiagnostics.js';
 import { assessStudioToolCall } from './studioToolContract.js';
 import {
   executeStudioActionBatch,
@@ -39,7 +40,9 @@ function truncate(value,max=400){
 }
 
 function sanitizedResult(result){
-  if(result == null || typeof result !== 'object') return result;
+  if(result == null || typeof result !== 'object'){
+    return sanitizeDiagnosticValue(result);
+  }
   if(Array.isArray(result)) return result.slice(0,50).map(sanitizedResult);
 
   const out={};
@@ -60,7 +63,7 @@ function sanitizedResult(result){
     else if(value && typeof value === 'object') out[key]=sanitizedResult(value);
     else out[key]=value;
   }
-  return out;
+  return sanitizeDiagnosticValue(out);
 }
 
 async function executeReadCall(studio,call,{stage='inspect',safety={}}={}){
@@ -580,6 +583,8 @@ export async function runDevelopmentFactory({
       stage,
       cycle,
       summary:actionSet.summary,
+      actionCount:actionSet.actions.length,
+      actionHash:stableHash(actionSet.actions),
       batch:sanitizedResult(batch)
     });
 
