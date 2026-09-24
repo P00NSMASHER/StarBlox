@@ -32,7 +32,10 @@ export function migrationPlanMarkdown(plan){
       '- **' + unit.systemName + '** — ' +
       unit.engineeringLeverageScore + '/10; strategy **' + unit.migrationStrategy +
       '**; disposition **' + unit.exportDisposition + '**; source ' +
-      unit.sourceFile + '; root ' + unit.rootPath + '; target ' +
+      unit.sourceFile +
+      (unit.sourceSha256 ? '; sha256 ' + unit.sourceSha256 : '') +
+      (unit.sourceBytes != null ? '; bytes ' + unit.sourceBytes : '') +
+      '; root ' + unit.rootPath + '; target ' +
       unit.suggestedTarget + '; capabilities: ' +
       (unit.capabilities.join(', ') || 'unclassified') +
       (unit.blockers.length ? '; blockers: ' + unit.blockers.join(', ') : '')
@@ -53,6 +56,7 @@ export function migrationPlanMarkdown(plan){
   lines.push('- Refactor/risk-review systems export to quarantine, not production.');
   lines.push('- Irrelevant systems remain excluded and are never exported by rule override.');
   lines.push('- External module IDs/remotes must be resolved before activation.');
+  lines.push('- Migration export must match the exact source SHA-256 and byte length recorded by the catalog.');
   lines.push('- Script-bearing systems should pass through the Step 2 AI Development Factory.');
 
   return lines.join('\n') + '\n';
