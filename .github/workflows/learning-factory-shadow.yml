@@ -19,6 +19,8 @@ on:
       - "src/*learning*.test.js"
       - "src/adversarialQuestionQa.test.js"
       - "src/App.jsx"
+      - "src/main.jsx"
+      - "src/gameModel.js"
       - "scripts/validateLearningContent.mjs"
       - "scripts/selectorV2ShadowSimulation.mjs"
       - "scripts/assertLearningLiveSelectorBoundary.mjs"
