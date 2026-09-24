@@ -1,0 +1,155 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_W12_CANDIDATE_DELTA_INTAKE_ROUTING",
+  "router": "12",
+  "branch": "screenshot-match-preproduction",
+  "observedHead": "50c1daeee811ceccc2390911564d15a20e8172d8",
+  "scanWindow": {
+    "priorCursor": "715eda5ca4f5aaebd95b59d3b1c707098bcb8f57",
+    "inspectedThroughHead": "50c1daeee811ceccc2390911564d15a20e8172d8",
+    "commitsInspectedFromCompare": 14,
+    "newCatalogCandidateBytesDetected": true,
+    "newCandidateItemIds": [
+      "decor-5",
+      "decor-6",
+      "decor-7",
+      "decor-8"
+    ],
+    "note": "Full post-v18 cursor delta inspected. Exactly four genuinely new catalog candidate images were introduced: Decor5 v3, Decor7 v4, Decor8 v2, Decor6 v2. Wall9 v3 dispatch metadata introduced no candidate bytes at this head."
+  },
+  "candidates": [
+    {
+      "id": "decor-5",
+      "name": "Plant Wall",
+      "collectionId": "decor",
+      "producer": "09",
+      "reviewerAssignment": "01",
+      "renderOwner": "14",
+      "canonicalWriter": "08",
+      "priorRejectedOrBlockedHash": {
+        "path": "public/assets/catalog/decor-5-w09-v2.webp",
+        "gitBlobSha": "b8ff7b9d6bec11fe8e836952f7a0c5b844e34b6e"
+      },
+      "path": "public/assets/catalog-candidates/cpu/decor-5-w09-v3-a-physical-original.png",
+      "sha256": "a30031043e9d9e3de1a34260a470df6bb37f5e602d692115b7c27ad16915d888",
+      "gitBlobSha": "1e7716f00e8e38f7ad645a448f9e29adea38de37",
+      "bytes": 648687,
+      "dimensions": [
+        640,
+        640
+      ],
+      "format": "PNG",
+      "stagedOutput": "docs/preproduction/art-factory/generated-evidence/w09-decor-5-v3-decor-7-v4-parallel/decor-5/staged-output.json",
+      "generationReceipt": "docs/preproduction/art-factory/generated-evidence/w09-decor-5-v3-decor-7-v4-parallel/decor-5/generation-receipt.json",
+      "provenanceState": "COMPLETE_ART_FACTORY_V2",
+      "repositoryReadback": "PASS_EXACT_GIT_BLOB",
+      "supersession": "FRESH_REPLACEMENT_FOR_PRIOR_REWORK_OR_BLOCKED_HASH",
+      "state": "ROUTE_TO_06_TECHNICAL_QUALIFICATION"
+    },
+    {
+      "id": "decor-6",
+      "name": "Telescope",
+      "collectionId": "decor",
+      "producer": "03",
+      "reviewerAssignment": "11",
+      "renderOwner": "14",
+      "canonicalWriter": "08",
+      "priorRejectedOrBlockedHash": {
+        "path": "public/assets/catalog-candidates/cpu/decor-6-w03-v1-a-physical-original.png",
+        "gitBlobSha": "a8dca54ad9c511b529ab505dab97991bbc76daef"
+      },
+      "path": "public/assets/catalog-candidates/cpu/decor-6-w03-v2-a-single-telescope-original.png",
+      "sha256": "5787d635b6fdde26d67b81ecec661b67da0723060c6ea101ac8576b66416107d",
+      "gitBlobSha": "5b860130d537acadb6a15c81a841805c3b9b81cf",
+      "bytes": 501743,
+      "dimensions": [
+        640,
+        640
+      ],
+      "format": "PNG",
+      "stagedOutput": "docs/preproduction/art-factory/generated-evidence/w03-decor-6-v2-decor-8-v2-parallel/decor-6/staged-output.json",
+      "generationReceipt": "docs/preproduction/art-factory/generated-evidence/w03-decor-6-v2-decor-8-v2-parallel/decor-6/generation-receipt.json",
+      "provenanceState": "COMPLETE_ART_FACTORY_V2",
+      "repositoryReadback": "PASS_EXACT_GIT_BLOB",
+      "supersession": "FRESH_REPLACEMENT_FOR_PRIOR_REWORK_OR_BLOCKED_HASH",
+      "state": "ROUTE_TO_06_TECHNICAL_QUALIFICATION"
+    },
+    {
+      "id": "decor-7",
+      "name": "Skate Rack",
+      "collectionId": "decor",
+      "producer": "09",
+      "reviewerAssignment": "01",
+      "renderOwner": "14",
+      "canonicalWriter": "08",
+      "priorRejectedOrBlockedHash": {
+        "path": "public/assets/catalog-candidates/cpu/decor-7-w09-v3-a-rack-silhouette-original.png",
+        "gitBlobSha": "407b95bbecc3a030d357de290047954e28904b63"
+      },
+      "path": "public/assets/catalog-candidates/cpu/decor-7-w09-v4-a-rack-first-minimal-original.png",
+      "sha256": "6d379a59330d7f22f9f7028aad9f5f5327e624798fd1519b39d137034805aa4e",
+      "gitBlobSha": "4e78412e291ccbc553948f536bd1e958ab1ebf53",
+      "bytes": 454275,
+      "dimensions": [
+        640,
+        640
+      ],
+      "format": "PNG",
+      "stagedOutput": "docs/preproduction/art-factory/generated-evidence/w09-decor-5-v3-decor-7-v4-parallel/decor-7/staged-output.json",
+      "generationReceipt": "docs/preproduction/art-factory/generated-evidence/w09-decor-5-v3-decor-7-v4-parallel/decor-7/generation-receipt.json",
+      "provenanceState": "COMPLETE_ART_FACTORY_V2",
+      "repositoryReadback": "PASS_EXACT_GIT_BLOB",
+      "supersession": "FRESH_REPLACEMENT_FOR_PRIOR_REWORK_OR_BLOCKED_HASH",
+      "state": "ROUTE_TO_06_TECHNICAL_QUALIFICATION"
+    },
+    {
+      "id": "decor-8",
+      "name": "Mini Aquarium",
+      "collectionId": "decor",
+      "producer": "03",
+      "reviewerAssignment": "11",
+      "renderOwner": "14",
+      "canonicalWriter": "08",
+      "priorRejectedOrBlockedHash": {
+        "path": "public/assets/catalog/decor-8-w09-v2.webp",
+        "gitBlobSha": "0d264aff9155f99b17db82138f4546deca8323d5"
+      },
+      "path": "public/assets/catalog-candidates/cpu/decor-8-w03-v2-a-physical-original.png",
+      "sha256": "b88c0b339da024e2dd6591311d8f6c1022c682918cd4fb6746254b61d46acf87",
+      "gitBlobSha": "cde20430aaa1c2b4bd07399d35b3f0f184896509",
+      "bytes": 460677,
+      "dimensions": [
+        640,
+        640
+      ],
+      "format": "PNG",
+      "stagedOutput": "docs/preproduction/art-factory/generated-evidence/w03-decor-6-v2-decor-8-v2-parallel/decor-8/staged-output.json",
+      "generationReceipt": "docs/preproduction/art-factory/generated-evidence/w03-decor-6-v2-decor-8-v2-parallel/decor-8/generation-receipt.json",
+      "provenanceState": "COMPLETE_ART_FACTORY_V2",
+      "repositoryReadback": "PASS_EXACT_GIT_BLOB",
+      "supersession": "FRESH_V2_REPLACEMENT_AFTER_PRIOR_V1_NO_ARTIFACT_TIMEOUT",
+      "state": "ROUTE_TO_06_TECHNICAL_QUALIFICATION"
+    }
+  ],
+  "dedupe": {
+    "uniqueItemHashClaim": true,
+    "unchangedPriorHashesRerouted": false,
+    "newerPendingCandidateObserved": false,
+    "priorV18Wall9V2ReroutedAgain": false
+  },
+  "queues": {
+    "to06": [
+      "decor-5@a30031043e9d9e3de1a34260a470df6bb37f5e602d692115b7c27ad16915d888",
+      "decor-6@5787d635b6fdde26d67b81ecec661b67da0723060c6ea101ac8576b66416107d",
+      "decor-7@6d379a59330d7f22f9f7028aad9f5f5327e624798fd1519b39d137034805aa4e",
+      "decor-8@b88c0b339da024e2dd6591311d8f6c1022c682918cd4fb6746254b61d46acf87"
+    ],
+    "backToProducer": []
+  },
+  "cursorAdvance": {
+    "previous": "715eda5ca4f5aaebd95b59d3b1c707098bcb8f57",
+    "advancedThrough": "50c1daeee811ceccc2390911564d15a20e8172d8"
+  },
+  "nextOwner": "06_TECHNICAL_QUALIFICATION",
+  "mutationScope": "Routing evidence only; no candidate bytes, ACTIVE_BATCH, canonical mappings, reviewer decisions, gameplay, learning, economy, persistence, accessibility, CI/workflows, deployment, secrets, or player data changed."
+}
