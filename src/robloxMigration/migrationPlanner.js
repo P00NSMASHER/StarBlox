@@ -106,11 +106,13 @@ function migrationStrategy(items,candidate){
     return 'refactor';
   }
   if(candidate?.reuseRecommendation === 'asset-only') return 'asset-only';
+  if(candidate?.reuseRecommendation === 'irrelevant') return 'ignore';
   return 'extract';
 }
 
 function targetBucket(capabilities,strategy){
   if(strategy === 'quarantine' || strategy === 'refactor') return 'Quarantine';
+  if(strategy === 'ignore') return 'Excluded';
   const set=new Set(capabilities);
   if(set.has('housing')) return 'Housing';
   if(set.has('vehicles')) return 'Vehicles';
@@ -148,6 +150,9 @@ function collectDependencies(catalog,rootPath,items){
 }
 
 function selectUnit({candidate,capabilities,strategy,rules,systemName}){
+  if(strategy === 'ignore'){
+    return {selected:false,reason:'catalog classified system as irrelevant to StarBlox migration'};
+  }
   if(rules.excludeSystems.includes(systemName)){
     return {selected:false,reason:'system explicitly excluded'};
   }
@@ -244,9 +249,11 @@ export function buildRobloxMigrationPlan(catalog,rawRules={}){
       capabilities,
       engineeringLeverageScore:candidate?.engineeringLeverageScore ?? 0,
       migrationStrategy:strategy,
-      exportDisposition:strategy === 'extract' || strategy === 'asset-only'
-        ? 'staging'
-        : 'quarantine',
+      exportDisposition:strategy === 'ignore'
+        ? 'excluded'
+        : (strategy === 'extract' || strategy === 'asset-only'
+          ? 'staging'
+          : 'quarantine'),
       suggestedTarget:'ServerStorage/StarBloxMigration/' + bucket + '/' + slug(group.systemName),
       selected:selection.selected,
       selectionReason:selection.reason,
