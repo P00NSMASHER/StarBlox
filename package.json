@@ -8,7 +8,8 @@
     "build": "vite build",
     "test": "vitest run",
     "balance:gate": "node scripts/balance-gate.mjs",
-    "questions:generate": "node scripts/generate-questions-offline.mjs"
+    "questions:generate": "node scripts/generate-questions-offline.mjs",
+    "recalibrate:telemetry": "node scripts/recalibrate-telemetry.mjs"
   },
   "dependencies": {
     "lucide-react": "^0.468.0",

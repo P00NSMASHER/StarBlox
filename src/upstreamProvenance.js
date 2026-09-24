@@ -440,6 +440,14 @@ export const UPSTREAM_PROVENANCE = Object.freeze({
     'unasserted in GitHub metadata',
     'src/game/dossier.ts'
   ),
+  neonRunTelemetry: source(
+    'structured run telemetry and replay-linked operational evidence',
+    'Calculator5329/neon-vector-defense',
+    'master',
+    '48ecf31509d73dd8fb2c5f25f1fc57cfa6d03eb4',
+    'unasserted in GitHub metadata',
+    'src/game/runTelemetry.ts'
+  ),
   openReplaySession: source(
     'session identity, metadata and lifecycle update model',
     'openreplay/openreplay',
