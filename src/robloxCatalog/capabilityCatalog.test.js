@@ -116,6 +116,8 @@ describe('Roblox / Brookhaven capability catalog', () => {
     expect(catalog.summary.instanceCount).toBe(10);
     expect(catalog.summary.scriptCount).toBe(2);
     expect(catalog.summary.remoteCount).toBe(1);
+    expect(catalog.summary.inventoryCounts.scripts).toBe(2);
+    expect(catalog.summary.inventoryCounts.remotes).toBe(1);
 
     expect(catalog.capabilities.housing.count).toBeGreaterThan(0);
     expect(catalog.capabilities.vehicles.count).toBeGreaterThan(0);
@@ -126,6 +128,16 @@ describe('Roblox / Brookhaven capability catalog', () => {
 
     expect(catalog.assets.map(item => item.assetId)).toEqual(
       expect.arrayContaining(['123456789','987654321'])
+    );
+
+    expect(catalog.inventory.scripts.map(item => item.name)).toEqual(
+      expect.arrayContaining(['HouseServer','Suspicious Loader'])
+    );
+    expect(catalog.inventory.remotes.map(item => item.name)).toContain('OpenGarage');
+    expect(catalog.inventory.uiTrees.map(item => item.name)).toContain('Quest HUD');
+    expect(catalog.inventory.houses.map(item => item.name)).toContain('Brookhaven House System');
+    expect(catalog.inventory.vehicles.map(item => item.name)).toEqual(
+      expect.arrayContaining(['Family SUV','DriverSeat'])
     );
 
     expect(catalog.dependencies).toEqual(
@@ -172,10 +184,31 @@ describe('Roblox / Brookhaven capability catalog', () => {
     ]);
 
     const loader=catalog.instances.find(item => item.name === 'Suspicious Loader');
-    expect(loader.reuse.class).toBe('review');
+    expect(loader.reuse.class).toBe('reusable-after-refactor');
+    expect(loader.reuse.reviewRequired).toBe(true);
     expect(loader.script.riskFlags).toContain('dynamic-code');
   });
 
+  it('uses exactly the four requested reuse outcomes while keeping risk review separate', () => {
+    const dom={
+      referent:'r0',name:'DataModel',class:'DataModel',properties:{},children:[
+        {referent:'r1',name:'Reusable HUD',class:'Frame',properties:{},children:[]},
+        {referent:'r2',name:'Theme',class:'Sound',properties:{SoundId:{Content:{uri:'rbxassetid://123456789'}}},children:[]},
+        {referent:'r3',name:'QuestLogic',class:'Script',properties:{Source:{String:'return true'}},children:[]},
+        {referent:'r4',name:'UnusedMarker',class:'StringValue',properties:{Value:{String:'x'}},children:[]}
+      ]
+    };
+    const catalog=buildRobloxCapabilityCatalog([{sourceId:'licensed:test',file:'Test.rbxmx',dom}]);
+    const classes=new Set(catalog.instances.map(item => item.reuse.class));
+
+    expect(classes).toEqual(new Set([
+      'directly-reusable',
+      'reusable-after-refactor',
+      'asset-only',
+      'irrelevant'
+    ]));
+    expect(catalog.instances.find(item => item.name === 'UnusedMarker').reuse.class).toBe('irrelevant');
+  });
   it('groups top-level systems and prioritizes implementation-dense candidates', () => {
     const catalog=buildRobloxCapabilityCatalog([
       {sourceId:'licensed:place',file:'Place.rbxlx',dom:fixtureDom()}
@@ -189,7 +222,8 @@ describe('Roblox / Brookhaven capability catalog', () => {
     expect(house.capabilities).toEqual(
       expect.arrayContaining(['housing','vehicles','networking','persistence','monetization'])
     );
-    expect(house.reuseRecommendation).toBe('review');
+    expect(house.reuseRecommendation).toBe('reusable-after-refactor');
+    expect(house.reviewRequired).toBe(true);
     expect(house.riskFlags).toContain('external-module-require');
     expect(house.engineeringLeverageScore).toBeGreaterThan(5);
   });
