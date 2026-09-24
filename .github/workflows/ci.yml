@@ -113,21 +113,64 @@ jobs:
           fi
       - name: Test Roblox migration exporter
         run: npm run roblox:migration:exporter:test
-      - name: Smoke-test Brookhaven migration staging compiler
+      - name: Prove export requires exact planning receipt
         run: |
-          npm run roblox:migrate -- --catalog /tmp/roblox-catalog.json --source-root tools/roblox_catalog_reader/fixtures --out-dir /tmp/roblox-migration --min-score 0
+          rm -rf /tmp/roblox-no-receipt-export
+          if npm run roblox:migrate -- --catalog /tmp/roblox-catalog.json --source-root tools/roblox_catalog_reader/fixtures --out-dir /tmp/roblox-no-receipt-export --min-score 0; then
+            echo "expected export without planning receipt to fail"
+            exit 1
+          fi
+          rm -rf /tmp/roblox-tampered-plan
+          cp -R /tmp/roblox-receipt-plan /tmp/roblox-tampered-plan
+          printf '\n' >> /tmp/roblox-tampered-plan/migration-plan.json
+          if npm run roblox:migrate -- --planning-receipt /tmp/roblox-tampered-plan/migration-planning-receipt.json --source-root tools/roblox_catalog_reader/fixtures --out-dir /tmp/roblox-tampered-plan-export; then
+            echo "expected tampered approved plan to fail"
+            exit 1
+          fi
+      - name: Smoke-test planning-receipt-gated migration export
+        run: |
+          rm -rf /tmp/roblox-migration
+          npm run roblox:migrate -- --planning-receipt /tmp/roblox-receipt-plan/migration-planning-receipt.json --source-root tools/roblox_catalog_reader/fixtures --out-dir /tmp/roblox-migration
           test -f /tmp/roblox-migration/migration-plan.json
+          test -f /tmp/roblox-migration/migration-plan.md
+          test -f /tmp/roblox-migration/migration-planning-receipt.json
           test -f /tmp/roblox-migration/migration-bundle.json
+          test -f /tmp/roblox-migration/migration-export-receipt.json
           grep -q '"liveActivationAllowed": false' /tmp/roblox-migration/migration-bundle.json
           grep -q '"activation": "staging-only"' /tmp/roblox-migration/migration-bundle.json
-          grep -Eq '"sourceSha256": "[a-f0-9]{64}"' /tmp/roblox-migration/migration-plan.json
+          grep -q '"exportCompleted": true' /tmp/roblox-migration/migration-export-receipt.json
+          grep -q '"studioMutationStarted": false' /tmp/roblox-migration/migration-export-receipt.json
+          grep -q '"publicationStarted": false' /tmp/roblox-migration/migration-export-receipt.json
+          grep -Eq '"receiptHash": "sha256:[a-f0-9]{64}"' /tmp/roblox-migration/migration-export-receipt.json
           find /tmp/roblox-migration -name '*.rbxmx' -print -quit | grep -q .
+          node --input-type=module - <<'NODE'
+          import {createHash} from 'node:crypto';
+          import {readFile} from 'node:fs/promises';
+          import {verifyMigrationBundleAgainstPlan} from './src/robloxMigration/migrationBundle.js';
+          const digest=value => createHash('sha256').update(value).digest('hex');
+          const receipt=JSON.parse(await readFile('/tmp/roblox-migration/migration-export-receipt.json','utf8'));
+          const planning=await readFile('/tmp/roblox-migration/migration-planning-receipt.json');
+          const planBytes=await readFile('/tmp/roblox-migration/migration-plan.json');
+          const bundleBytes=await readFile('/tmp/roblox-migration/migration-bundle.json');
+          const plan=JSON.parse(planBytes);
+          const bundle=JSON.parse(bundleBytes);
+          if(digest(planning)!==receipt.input.planningReceipt.sha256) throw new Error('planning receipt SHA mismatch');
+          if(digest(planBytes)!==receipt.input.migrationPlan.sha256) throw new Error('plan SHA mismatch');
+          if(digest(bundleBytes)!==receipt.bundle.sha256) throw new Error('bundle SHA mismatch');
+          const binding=verifyMigrationBundleAgainstPlan(bundle,plan);
+          if(!binding.ok) throw new Error(binding.errors.join('; '));
+          if(binding.bindingHash!==receipt.bundle.planBindingHash) throw new Error('plan binding hash mismatch');
+          const {receiptHash,...payload}=receipt;
+          const expected='sha256:'+createHash('sha256').update(JSON.stringify(payload)).digest('hex');
+          if(expected!==receiptHash) throw new Error('export receipt payload hash mismatch');
+          NODE
       - name: Prove Roblox migration rejects source-byte drift
         run: |
+          rm -rf /tmp/roblox-source-drift /tmp/roblox-drift-migration
           mkdir -p /tmp/roblox-source-drift
           cp tools/roblox_catalog_reader/fixtures/sample.rbxmx /tmp/roblox-source-drift/sample.rbxmx
           printf '\n' >> /tmp/roblox-source-drift/sample.rbxmx
-          if npm run roblox:migrate -- --catalog /tmp/roblox-catalog.json --source-root /tmp/roblox-source-drift --out-dir /tmp/roblox-drift-migration --min-score 0; then
+          if npm run roblox:migrate -- --planning-receipt /tmp/roblox-receipt-plan/migration-planning-receipt.json --source-root /tmp/roblox-source-drift --out-dir /tmp/roblox-drift-migration; then
             echo "expected source fingerprint mismatch"
             exit 1
           fi
