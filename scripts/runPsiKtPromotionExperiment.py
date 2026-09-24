@@ -4,6 +4,7 @@ import hashlib
 import json
 import math
 import os
+import pickle
 import subprocess
 import sys
 from collections import defaultdict
@@ -11,6 +12,7 @@ from pathlib import Path
 from types import SimpleNamespace
 
 import numpy as np
+import pandas as pd
 
 
 def parse_args():
@@ -68,6 +70,64 @@ class StarBloxAmortizedPSIKT(AmortizedPSIKT):
             qs_sampled=sentinel,
         )
         return ps_dist, pz_dist
+
+
+def repair_upstream_sequence_alignment(reader, max_step):
+    """Audit and repair the pinned DataReader's correct_seq ordering.
+
+    The pinned upstream reader constructs skill/time/problem sequences from a
+    chronologically sorted frame but constructs correct_seq from the pre-sort
+    skill-grouped frame. We verify the structural sequences against the source
+    TSV, repair only correct_seq when necessary, and persist the repaired corpus
+    before upstream load_corpus() performs its normal split.
+    """
+
+    repaired = 0
+    audited = 0
+    for row_index, row in reader.user_seq_df.iterrows():
+        user_id = int(row["user_id"])
+        source = (
+            reader.inter_df[reader.inter_df["user_id"] == user_id]
+            .sort_values("timestamp", kind="stable")
+            .head(int(max_step))
+            .copy()
+        )
+        if len(source) != int(max_step):
+            raise RuntimeError(
+                f"user {user_id} has {len(source)} source rows; expected {max_step}"
+            )
+
+        source_time = source["timestamp"].to_numpy(dtype=np.int64)
+        source_time = (source_time - source_time[0]).tolist()
+        expected_skill = source["skill_id"].astype(int).tolist()
+        expected_problem = source["problem_id"].astype(int).tolist()
+        expected_correct = [round(float(value)) for value in source["correct"].tolist()]
+
+        actual_skill = [int(value) for value in row["skill_seq"]]
+        actual_problem = [int(value) for value in row["problem_seq"]]
+        actual_time = [int(value) for value in row["time_seq"]]
+
+        if actual_skill != expected_skill:
+            raise RuntimeError(f"upstream skill_seq misalignment for user {user_id}")
+        if actual_problem != expected_problem:
+            raise RuntimeError(f"upstream problem_seq misalignment for user {user_id}")
+        if actual_time != source_time:
+            raise RuntimeError(f"upstream time_seq misalignment for user {user_id}")
+
+        actual_correct = [round(float(value)) for value in row["correct_seq"]]
+        if actual_correct != expected_correct:
+            reader.user_seq_df.at[row_index, "correct_seq"] = expected_correct
+            repaired += 1
+        audited += 1
+
+    with open(reader.corpus_path, "wb") as handle:
+        pickle.dump(reader, handle)
+
+    return {
+        "shim":"repair-correct-seq-after-upstream-groupby-before-time-sort",
+        "auditedLearnerCount":audited,
+        "repairedLearnerCount":repaired,
+    }
 
 with open(args_cli.evaluation, "r", encoding="utf-8") as handle:
     evaluation = json.load(handle)
@@ -163,6 +223,7 @@ model_args = SimpleNamespace(
 logs = Logger(model_args)
 reader = DataReader(model_args, logs)
 reader.create_corpus()
+alignment_audit = repair_upstream_sequence_alignment(reader, model_args.max_step)
 corpus = reader.load_corpus(model_args)
 
 model = StarBloxAmortizedPSIKT(
@@ -270,6 +331,7 @@ receipt = {
     "model":"AmortizedPSIKT",
     "wrapperClass":"StarBloxAmortizedPSIKT",
     "compatibilityShim":"skip-unused-qs-sample-assignment-with-undefined-bsn",
+    "dataAlignmentShim":alignment_audit,
     "device":"cpu",
     "epochs":model_args.epoch,
     "trainLearners":len(corpus.data_df["train"]),
@@ -295,6 +357,7 @@ print(json.dumps({
     "model":receipt["model"],
     "wrapperClass":receipt["wrapperClass"],
     "compatibilityShim":receipt["compatibilityShim"],
+    "dataAlignmentShim":receipt["dataAlignmentShim"],
     "upstreamCommit":upstream_commit,
     "epochs":receipt["epochs"],
     "trainLearners":receipt["trainLearners"],
