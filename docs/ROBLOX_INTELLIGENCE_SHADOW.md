@@ -68,6 +68,19 @@ This means the Roblox port cannot change player behavior merely because it exist
 
 A later Step 18 rollout decision must explicitly permit experimental use at the actual callsite before a selector result can become authoritative.
 
+## Server artifact and replay boundaries
+
+RuntimeArtifactService keeps the full authoritative question content server-side and requires:
+
+- exact questionId/version/contentHash identity;
+- no duplicate exact QuestionVersions;
+- an offline-certified Daily flag before activation;
+- every Daily question ref to resolve to the loaded server Question Bank.
+
+Its shadow-candidate projection deliberately omits prompt, answer and choices.
+
+ReplayIngressService accepts only ordered, bounded replay chunks tied to a server session/replay identity. It enforces chunk-count, chunk-size and total-byte budgets and accepts no claimed score/final result. Deterministic replay re-simulation remains the authority.
+
 ## What stays offline
 
 These existing StarBlox capabilities remain outside the hot Roblox request path:
