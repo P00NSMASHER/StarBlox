@@ -568,6 +568,38 @@ export const UPSTREAM_PROVENANCE = Object.freeze({
     'MIT',
     'plugin/src/tools/Executor.luau'
   ),
+  robloxMissionsPackage: source(
+    'official Roblox mission/task/counter and reward package semantics',
+    'Roblox/creator-docs',
+    'main',
+    'cb3cab58d53600b0f059a9ca01a4b197864a719c',
+    'CC-BY-4.0 docs; package governed by Roblox terms',
+    'content/en-us/resources/feature-packages/missions.md'
+  ),
+  robloxSeasonPassesPackage: source(
+    'official Roblox limited-time mission XP tier progression semantics',
+    'Roblox/creator-docs',
+    'main',
+    'cb3cab58d53600b0f059a9ca01a4b197864a719c',
+    'CC-BY-4.0 docs; package governed by Roblox terms',
+    'content/en-us/resources/feature-packages/season-passes.md'
+  ),
+  robloxEngagementRewardsPackage: source(
+    'official Roblox daily streak and session-time reward semantics',
+    'Roblox/creator-docs',
+    'main',
+    'cb3cab58d53600b0f059a9ca01a4b197864a719c',
+    'CC-BY-4.0 docs; package governed by Roblox terms',
+    'content/en-us/resources/feature-packages/engagement-rewards.md'
+  ),
+  robloxBundlesPackage: source(
+    'official Roblox in-experience and marketplace bundle purchase boundary',
+    'Roblox/creator-docs',
+    'main',
+    'cb3cab58d53600b0f059a9ca01a4b197864a719c',
+    'CC-BY-4.0 docs; package governed by Roblox terms',
+    'content/en-us/resources/feature-packages/bundles.md'
+  ),
   profileStoreRuntime: source(
     'session-locked Roblox player persistence and reconciliation lifecycle',
     'MadStudioRoblox/ProfileStore',
