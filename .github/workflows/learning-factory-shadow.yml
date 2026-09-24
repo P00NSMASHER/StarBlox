@@ -42,7 +42,7 @@ jobs:
       - name: Validate hardened question bank and provenance bundle
         run: npm run validate:learning -- --out=learning-validation-receipt.json
 
-      - name: Upload validation receipt
+      - name: Run deterministic selector shadow simulation\n        run: npm run simulate:learning-shadow\n\n      - name: Upload validation receipt
         if: always()
         uses: actions/upload-artifact@v4
         with:
