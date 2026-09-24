@@ -84,6 +84,25 @@ describe('Step 3: Roblox production backbone', () => {
     expect(world).toMatch(/ReplicatedStorage\.StarBlox\.Components/);
   });
 
+  it('composes injected production dependencies in the server bootstrap and requests client replica data only after listeners exist', () => {
+    const server=file('roblox/src/server/Bootstrap.luau');
+    const client=file('roblox/src/client/Bootstrap.luau');
+
+    expect(server).toMatch(/ProfileSessionService\.new/);
+    expect(server).toMatch(/ReplicaStateService\.new/);
+    expect(server).toMatch(/WorldEcsService\.new/);
+    expect(server).toMatch(/RuntimeArtifactService\.new/);
+    expect(server).toMatch(/ReplayIngressService\.new/);
+    expect(server).toMatch(/IntelligenceShadowService\.new/);
+    expect(server).toMatch(/BindToClose/);
+    expect(server).toMatch(/profiles:ReleaseAll/);
+
+    const listener=client.indexOf('ReplicaOfClassCreated');
+    const request=client.indexOf('RequestData');
+    expect(listener).toBeGreaterThanOrEqual(0);
+    expect(request).toBeGreaterThan(listener);
+  });
+
   it('maps the Rojo tree into shared, server, and client Roblox service boundaries', () => {
     const project=JSON.parse(file('roblox/default.project.json'));
     expect(project.tree.ReplicatedStorage.StarBlox.$path).toBe('src/shared');
