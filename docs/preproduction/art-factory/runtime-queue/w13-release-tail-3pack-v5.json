@@ -43,7 +43,7 @@
     "canonicalWriter": "08"
   },
   "dispatchPolicy": "PREPARED_LITERAL_RETRY__WAIT_LIVE_CPU_IDLE",
-  "retryRevision": 3,
-  "retryReason": "pending successor behind corrected Decor7 Decor11 fixed-compiler run; normal non-canceling concurrency restored",
-  "compilerFixHead": "631712b6a5"
+  "retryRevision": 4,
+  "retryReason": "final requeue after non-canceling concurrency lock; fixed prompt compiler and same exact variants/reviewers",
+  "compilerFixHead": "725c15255e"
 }
