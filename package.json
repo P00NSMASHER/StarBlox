@@ -8,7 +8,8 @@
     "build": "vite build",
     "test": "vitest run",
     "validate:brookhaven-research": "node scripts/validateBrookhavenResearchArtifacts.mjs && node scripts/assertBrookhavenReuseBoundary.mjs && node scripts/validateBrookhavenProxyVerticalSlice.mjs",
-    "test:brookhaven-residential": "vitest run src/residentialFeatureRuntime.test.js"
+    "test:brookhaven-residential": "vitest run src/residentialFeatureRuntime.test.js",
+    "build:brookhaven-research": "node scripts/buildBrookhavenResearchWithKnownBaseFix.mjs"
   },
   "dependencies": {
     "lucide-react": "^0.468.0",
