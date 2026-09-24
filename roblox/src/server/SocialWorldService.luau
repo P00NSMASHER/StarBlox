@@ -19,6 +19,10 @@ local function ensureSocial(profileData)
 			MinigameWins = 0,
 		},
 		CompletedSessionIds = {},
+		CompletedSessionReceipts = {},
+		AffinityReceipts = {},
+		PhotoReceipts = {},
+		LiveOpsSequence = 0,
 	}
 	return profileData.Social
 end
@@ -123,20 +127,18 @@ function SocialWorldService:AwardNpcAffinity(player: Player, npcId: string, amou
 	local awardId = eventId or HttpService:GenerateGUID(false)
 	local newValue = nil
 	local duplicate = false
+	local liveOpsSequence = nil
 	self._profiles:WithProfile(player, function(profileData)
 		local social = ensureSocial(profileData)
-		social.AffinityEventIds = social.AffinityEventIds or {}
-		if table.find(social.AffinityEventIds, awardId) ~= nil then
+		social.AffinityReceipts = social.AffinityReceipts or {}
+		if social.AffinityReceipts[awardId] == true then
 			duplicate = true
 			newValue = social.NpcAffinity[npcId] or 0
 			return
 		end
 
 		local delta = math.max(0, math.floor(amount))
-		table.insert(social.AffinityEventIds, awardId)
-		while #social.AffinityEventIds > 200 do
-			table.remove(social.AffinityEventIds, 1)
-		end
+		social.AffinityReceipts[awardId] = true
 
 		social.NpcAffinity[npcId] = (social.NpcAffinity[npcId] or 0) + delta
 		newValue = social.NpcAffinity[npcId]
@@ -152,15 +154,19 @@ function SocialWorldService:AwardNpcAffinity(player: Player, npcId: string, amou
 			end
 		end
 
+		social.LiveOpsSequence = (social.LiveOpsSequence or 0) + 1
+		liveOpsSequence = social.LiveOpsSequence
 		self._replicas:Sync(player, profileData)
 	end)
 
-	if newValue and not duplicate and self._liveOps then
+	if newValue and not duplicate and self._liveOps and liveOpsSequence ~= nil then
 		self._liveOps:RecordAuthoritativeEvent(
 			player,
 			"npc_friendship",
 			math.max(0, math.floor(amount)),
-			awardId
+			awardId,
+			"social-world",
+			liveOpsSequence
 		)
 	end
 
@@ -202,8 +208,14 @@ function SocialWorldService:FinishMinigame(player: Player, sessionId: string, se
 		return false, "server result required"
 	end
 
+	local liveOpsSequence = nil
 	self._profiles:WithProfile(player, function(profileData)
 		local social = ensureSocial(profileData)
+		social.CompletedSessionReceipts = social.CompletedSessionReceipts or {}
+		if social.CompletedSessionReceipts[sessionId] == true then
+			return
+		end
+		social.CompletedSessionReceipts[sessionId] = true
 		table.insert(social.CompletedSessionIds, sessionId)
 		while #social.CompletedSessionIds > 200 do
 			table.remove(social.CompletedSessionIds, 1)
@@ -211,15 +223,19 @@ function SocialWorldService:FinishMinigame(player: Player, sessionId: string, se
 		if serverResult.won then
 			social.Stats.MinigameWins += 1
 		end
+		social.LiveOpsSequence = (social.LiveOpsSequence or 0) + 1
+		liveOpsSequence = social.LiveOpsSequence
 		self._replicas:Sync(player, profileData)
 	end)
 
-	if serverResult.won and self._liveOps then
+	if serverResult.won and self._liveOps and liveOpsSequence ~= nil then
 		self._liveOps:RecordAuthoritativeEvent(
 			player,
 			"social_minigame_win",
 			1,
-			"minigame:" .. sessionId
+			"minigame:" .. sessionId,
+			"social-world",
+			liveOpsSequence
 		)
 	end
 
@@ -227,26 +243,42 @@ function SocialWorldService:FinishMinigame(player: Player, sessionId: string, se
 end
 
 function SocialWorldService:RecordPhoto(player: Player, serverObservation)
-	if type(serverObservation) ~= "table" then
+	if type(serverObservation) ~= "table" or type(serverObservation.eventId) ~= "string" or serverObservation.eventId == "" then
 		return false
 	end
 
 	local coopCount = math.max(0, math.floor(serverObservation.coopCount or 0))
+	local liveOpsSequence = nil
+	local duplicate = false
 	self._profiles:WithProfile(player, function(profileData)
 		local social = ensureSocial(profileData)
+		social.PhotoReceipts = social.PhotoReceipts or {}
+		if social.PhotoReceipts[serverObservation.eventId] == true then
+			duplicate = true
+			return
+		end
+		social.PhotoReceipts[serverObservation.eventId] = true
 		social.Stats.PhotosTaken += 1
 		if coopCount > 0 then
 			social.Stats.CoopPhotos += 1
 		end
+		social.LiveOpsSequence = (social.LiveOpsSequence or 0) + 1
+		liveOpsSequence = social.LiveOpsSequence
 		self._replicas:Sync(player, profileData)
 	end)
 
-	if self._liveOps then
+	if duplicate then
+		return true
+	end
+
+	if self._liveOps and liveOpsSequence ~= nil then
 		self._liveOps:RecordAuthoritativeEvent(
 			player,
 			if coopCount > 0 then "coop_photo" else "photo",
 			1,
-			serverObservation.eventId or HttpService:GenerateGUID(false)
+			serverObservation.eventId,
+			"social-world",
+			liveOpsSequence
 		)
 	end
 
