@@ -47,7 +47,23 @@ describe('content provenance runtime', () => {
         'current-week-hfw-list':'sha256:test'
       }
     });
+
+    expect(bundle.sources[0].snapshotHash).toBe('sha256:test');
     expect(validateContentBundle(bundle,{strictProvenance:true})).toEqual([]);
+  });
+
+  it('rejects a snapshot-required source when its hash is missing', () => {
+    const bundle = buildContentBundle([{
+      ...makeQuestion('hfw-demo','high-frequency-words'),
+      id:'hfw-use-demo'
+    }],{
+      contentVersion:'test-v1'
+    });
+
+    expect(
+      validateContentBundle(bundle,{strictProvenance:true})
+        .some(issue => issue.type === 'source-snapshot-required')
+    ).toBe(true);
   });
 
   it('keeps declared-source provenance debt visible instead of pretending it is fully snapshotted', () => {
@@ -55,10 +71,13 @@ describe('content provenance runtime', () => {
       contentVersion:'test-v1'
     });
     const debt = provenanceDebt(bundle);
+
     expect(debt.strictReady).toBe(false);
     expect(debt.declaredSourceCount).toBeGreaterThan(0);
-    expect(validateContentBundle(bundle,{strictProvenance:true}).some(
-      issue => issue.type === 'source-snapshot-required'
-    )).toBe(true);
+    expect(debt.declaredSourceIds).toContain('abvm-grade2-current-source-pack');
+    expect(
+      validateContentBundle(bundle,{strictProvenance:true})
+        .some(issue => issue.type === 'source-snapshot-required')
+    ).toBe(true);
   });
 });
