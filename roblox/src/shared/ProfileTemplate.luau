@@ -50,6 +50,7 @@ local ProfileTemplate = {
 	AiNpc = {
 		Memories = {},
 		ProcessedRequestIds = {},
+		LastRequestSequence = -1,
 	},
 
 	Social = {
