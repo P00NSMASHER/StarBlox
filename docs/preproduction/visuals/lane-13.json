@@ -629,10 +629,10 @@
     }
   ],
   "latestForegroundReviewHandoff": {
-    "candidateId": "home-foreground-depth-w13-v1",
-    "01": "Independently judge exact full/optimized pixels as art against the immutable Home reference; producer inspection and exact readback are not art acceptance.",
     "14": "Independently judge responsive composition, alpha quality, foreground occlusion/readability risk and runtime/performance suitability.",
-    "15": "Do not runtime-wire until 01/14 acceptance; if accepted, coordinate any wiring so this separate Lane 13 foreground layer does not replace Workstream 06 avatar or Workstream 09 environment assets."
+    "15": "Do not runtime-wire until 01/14 acceptance; if accepted, coordinate any wiring so this separate Lane 13 foreground layer does not replace Workstream 06 avatar or Workstream 09 environment assets.",
+    "candidateId": "home-foreground-depth-w13-v1",
+    "01": "Independently judge exact full/optimized pixels as art against the immutable Home reference; producer inspection and exact readback are not art acceptance."
   },
   "releaseGateNote": "Existing regression/build failures remain visible release gates for 08/14/15; this visual candidate does not change or pass them.",
   "latestStoreAvatarStageCandidate": {
@@ -731,9 +731,9 @@
       }
     },
     "reviews": {
-      "01": "PENDING_INDEPENDENT_ART_REVIEW",
       "14": "PENDING_COMPOSITION_PERFORMANCE_REVIEW",
-      "15": "PENDING_COORDINATION_BEFORE_ANY_RUNTIME_WIRING"
+      "15": "PENDING_COORDINATION_BEFORE_ANY_RUNTIME_WIRING",
+      "01": "PENDING_INDEPENDENT_ART_REVIEW"
     },
     "note": "Producer-staged only. Reviewer 01 judges art; reviewer 14 judges composition/performance; 15 gates any runtime wiring. No self-approval."
   },
@@ -833,9 +833,9 @@
       }
     },
     "reviews": {
-      "01": "PENDING_INDEPENDENT_ART_REVIEW",
       "14": "PENDING_COMPOSITION_PERFORMANCE_REVIEW",
-      "15": "PENDING_COORDINATION_BEFORE_ANY_RUNTIME_WIRING"
+      "15": "PENDING_COORDINATION_BEFORE_ANY_RUNTIME_WIRING",
+      "01": "PENDING_INDEPENDENT_ART_REVIEW"
     },
     "note": "Producer-staged only. Reviewer 01 judges art; reviewer 14 judges composition/performance; 15 gates any runtime wiring. No self-approval."
   },
@@ -935,9 +935,9 @@
       }
     },
     "reviews": {
-      "01": "PENDING_INDEPENDENT_ART_REVIEW",
       "14": "PENDING_COMPOSITION_PERFORMANCE_REVIEW",
-      "15": "PENDING_COORDINATION_BEFORE_ANY_RUNTIME_WIRING"
+      "15": "PENDING_COORDINATION_BEFORE_ANY_RUNTIME_WIRING",
+      "01": "PENDING_INDEPENDENT_ART_REVIEW"
     },
     "outfitAuthority": "NONCANONICAL_VISUAL_GUIDANCE_ONLY_DO_NOT_OVERRIDE_EQUIPPED_STATE",
     "note": "Producer-staged full-body character key art only. Reviewer 01 judges art; reviewer 14 judges composition/performance; 15 coordinates with 06 before any runtime adaptation. No self-approval."
@@ -976,7 +976,7 @@
       "status": "STAGED_READY_FOR_INDEPENDENT_REVIEW",
       "reviewRepairSource": "docs/preproduction/visuals/chat-home-bedroom-w13-v2-composition-performance-14-to-15.json",
       "observedDefect": "Reviewer 14 found v2 lower hero corridor and phone center-cover obstructed by bed/plant/chair silhouettes.",
-      "repair": "Keep left-side light and bed-left/desk-right language while opening x\u224836-64% lower corridor and adding a purposeful 390x844 phone derivative.",
+      "repair": "Keep left-side light and bed-left/desk-right language while opening x≈36-64% lower corridor and adding a purposeful 390x844 phone derivative.",
       "sourcePath": "docs/preproduction/visuals/recovered-originals/home-bedroom-w13-v3-source.png",
       "sourceDimensions": [
         1728,
@@ -1032,5 +1032,42 @@
       "14",
       "15"
     ]
+  },
+  "catalogFactoryReviewHandoff": {
+    "updatedAt": "2026-09-24T00:55:00Z",
+    "sourceHead": "856ff7ca5c41864ceb1ae6024fa199fa0b26767e",
+    "purpose": "Trigger current-branch Store card/detail rendering for technically qualified Wall 9 exact hash that staged after the prior renderer scan; preserve independent reviewer02 decision authority.",
+    "wall9": {
+      "itemId": "wall-9",
+      "name": "Art Gallery Wall",
+      "producer": "13",
+      "reviewer": "02",
+      "path": "public/assets/catalog-candidates/cpu/wall-9-w13-v1-a-gallery-rail-original.png",
+      "sha256": "7ca470736c1d860909dbd493e87b68e7d6f7c8acdbeaf44d60bab56b0e3e0b04",
+      "gitBlobSha": "95a2de47f3b19017ba37bfac1ab25fc87ad345ed",
+      "dimensions": [
+        768,
+        768
+      ],
+      "stagedEvidence": "docs/preproduction/art-factory/generated-evidence/w13-wall-9-12-cpu-v1/wall-9/staged-output.json",
+      "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-wall-9-10-qualification-20260923.json",
+      "qualification": "QUALIFIED_FOR_RENDERER14",
+      "currentState": "NEEDS_CURRENT_BRANCH_REAL_CARD_DETAIL_RENDER_THEN_REVIEWER02",
+      "route": "14 -> 02 -> 08 on ACCEPT"
+    },
+    "wall10": {
+      "itemId": "wall-10",
+      "exactHash": "74a4c531a3c60ccd60747bfebc2dfc0d1d25b684",
+      "state": "REWORK_PRESERVE_EXACT_HASH",
+      "reviewEvidence": "docs/preproduction/catalog-sprint/reviews/02.json",
+      "rule": "Do not rerender or canonical-wire unchanged Wall 10 hash."
+    },
+    "safety": {
+      "noArtDecisionByProducer": true,
+      "candidateBytesChanged": false,
+      "canonicalMappingsChanged": false,
+      "gameplayLearningEconomyPersistenceChanged": false,
+      "deploymentTouched": false
+    }
   }
 }
