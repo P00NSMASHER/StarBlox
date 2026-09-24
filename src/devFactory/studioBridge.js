@@ -20,7 +20,8 @@ export class StudioBridgeQueue {
   }
 
   async dispatch(tool,args={},{
-    instanceId='default'
+    instanceId='default',
+    target='edit'
   }={}){
     if(!studioToolNames().includes(tool)){
       throw new Error('unknown Studio tool: ' + tool);
@@ -34,7 +35,8 @@ export class StudioBridgeQueue {
       id,
       tool,
       args:JSON.parse(JSON.stringify(args ?? {})),
-      instanceId
+      instanceId,
+      target
     };
 
     return await new Promise((resolve,reject) => {
@@ -52,13 +54,18 @@ export class StudioBridgeQueue {
 
   take({
     instanceId='default',
+    role='edit',
     limit=10
   }={}){
     const out=[];
     const keep=[];
 
     for(const request of this.queue){
-      if(out.length < limit && request.instanceId === instanceId){
+      const targetMatches =
+        request.target === 'any' ||
+        request.target === role ||
+        (request.target === 'client' && String(role).startsWith('client'));
+      if(out.length < limit && request.instanceId === instanceId && targetMatches){
         out.push(request);
       }else{
         keep.push(request);
@@ -70,9 +77,17 @@ export class StudioBridgeQueue {
 
   async waitForWork({
     instanceId='default',
+    role='edit',
     waitMs=20_000
   }={}){
-    if(this.queue.some(request => request.instanceId === instanceId)) return;
+    const matches = request =>
+      request.instanceId === instanceId &&
+      (
+        request.target === 'any' ||
+        request.target === role ||
+        (request.target === 'client' && String(role).startsWith('client'))
+      );
+    if(this.queue.some(matches)) return;
 
     await new Promise(resolve => {
       const timer=setTimeout(() => {
@@ -141,10 +156,15 @@ export function createStudioHttpAdapter({
       if(!supported.has(tool)) throw new Error('unknown Studio tool: ' + tool);
       const headers={'content-type':'application/json'};
       if(token) headers['x-starblox-bridge-token']=token;
+      const explicitTarget =
+        typeof args?.target === 'string' && ['edit','server','client','any'].includes(args.target)
+          ? args.target
+          : null;
+      const target=explicitTarget || targets?.[tool] || 'edit';
       const response=await fetch(root + '/call',{
         method:'POST',
         headers,
-        body:JSON.stringify({tool,args,instanceId})
+        body:JSON.stringify({tool,args,instanceId,target})
       });
       const payload=await response.json();
       if(!response.ok || payload.ok !== true){
