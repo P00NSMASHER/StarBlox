@@ -23,6 +23,7 @@ end
 function IntelligenceShadowService:Evaluate(args: {[string]: any})
 	assert(type(args) == "table", "args are required")
 	assert(type(args.controlQuestionId) == "string", "controlQuestionId is required")
+	assert(type(args.nowMs) == "number" and args.nowMs >= 0, "nowMs is required")
 	assert(type(args.candidates) == "table" and #args.candidates > 0, "candidates are required")
 	for _, candidate in args.candidates do
 		validateCandidate(candidate)
