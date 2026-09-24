@@ -26,6 +26,7 @@ on:
       - "scripts/validateLearningContent.mjs"
       - "scripts/selectorV2ShadowSimulation.mjs"
       - "scripts/assertLearningLiveSelectorBoundary.mjs"
+      - "scripts/assertGeneratedContentLiveBoundary.mjs"
       - "docs/preproduction/learning-factory/current-promotion-decision.json"
       - "scripts/adaptEdGameClawCourse.mjs"
       - "scripts/bindEdGameClawEvidence.mjs"
@@ -127,6 +128,9 @@ jobs:
             provenance:q?.qa?.provenance
           },null,2));
           NODE
+
+      - name: Assert generated content tooling remains out of live runtime
+        run: npm run assert:generated-content-live-boundary
 
       - name: Build StarBlox
         run: npm run build
