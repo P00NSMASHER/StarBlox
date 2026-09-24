@@ -61,6 +61,8 @@ jobs:
           grep -q '"expansionId"' /tmp/content-expansion-plan.json
           grep -q '"levelHash"' /tmp/content-expansion-plan.json
           grep -q '"liveActivationAllowed"' /tmp/content-expansion-plan.json || true
+      - name: Verify pinned Roblox production backbone
+        run: npm run roblox:backbone:verify
       - name: Run tests
         run: npm test
       - name: Run certification gate

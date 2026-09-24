@@ -672,21 +672,21 @@ export const UPSTREAM_PROVENANCE = Object.freeze({
     'Apache-2.0',
     'docs/tutorial/index.md'
   ),
-  replicaServiceRuntime: source(
-    'selective server-owned replicated state and built-in mutators',
-    'MadStudioRoblox/ReplicaService',
-    'master',
-    'aaeb1c6bae232b428b07d15f260a0c97b3ef1569',
+  replicaRuntime: source(
+    'maintained selective server-owned state replication and subscription lifecycle',
+    'MadStudioRoblox/Replica',
+    'main',
+    '9cae236aee840b1f436b6b1a63c76f4384e285b7',
     'Apache-2.0',
-    'src/ServerScriptService/ReplicaService.lua'
+    'src/ServerScriptService/ReplicaServer.luau'
   ),
-  replicaServiceApi: source(
-    'selective replication, class tokens and mutation guarantees',
-    'MadStudioRoblox/ReplicaService',
-    'master',
-    'aaeb1c6bae232b428b07d15f260a0c97b3ef1569',
+  replicaClientRuntime: source(
+    'maintained client replica discovery, change listeners and initial data request lifecycle',
+    'MadStudioRoblox/Replica',
+    'main',
+    '9cae236aee840b1f436b6b1a63c76f4384e285b7',
     'Apache-2.0',
-    'docs/api.md'
+    'src/ReplicatedStorage/ReplicaClient.luau'
   ),
   zapEvents: source(
     'typed reliable/unreliable Roblox network event contracts',
