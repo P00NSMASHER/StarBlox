@@ -4,7 +4,7 @@
   "role": "independent catalog reviewer for beds/desks/companions/auras",
   "phase": "ART_VISUALS_SPRINT",
   "branch": "screenshot-match-preproduction",
-  "sourceHead": "b14512c2a7828c1b25ad58b44c2ad8d52e12cd2f",
+  "sourceHead": "b2f2a7e9a3",
   "policy": "docs/preproduction/DELIVERY_PROTOCOL_V2.md",
   "visualSprint": "docs/preproduction/ART_VISUALS_SPRINT.json",
   "referenceManifest": "docs/preproduction/reference-screenshots/original-reference-manifest.json",
@@ -20,14 +20,12 @@
   },
   "currentCycle": {
     "scope": [
-      "desks-9",
       "desks-10"
     ],
-    "version": "current exact rendered tail hashes",
-    "result": "ACCEPT_1_REWORK_1",
+    "version": "current exact hash: desks-10",
+    "result": "REWORK_1_OF_1",
     "oldVerdictsTransferred": false,
-    "actualCardScalePixelsReviewed": true,
-    "actualDetailPixelsReviewed": true,
+    "actualSourcePixelsReviewed": true,
     "selfApprovalConflict": false
   },
   "renderEvidence": {
@@ -654,6 +652,42 @@
         "artifact:10829841273/staged-replacements/staged-replacements-contact-sheet.png",
         "artifact:10829841273/staged-replacements/detail/desks-10-1f050b53.png"
       ]
+    },
+    {
+      "itemId": "desks-10",
+      "name": "Neon Streaming Desk",
+      "assetPath": "public/assets/catalog-candidates/cpu/desks-10-w03-v10-b-two-leg-desk-mic-original.png",
+      "repositoryPath": "public/assets/catalog-candidates/cpu/desks-10-w03-v10-b-two-leg-desk-mic-original.png",
+      "assetHash": "7bb37b681e4d1928fb6e5ffc742d592a8262a452",
+      "sha256": "8d9c431bbc4c1c5497c378d3e9e731e7683f6da417eec78f6bc42ddc127f2119",
+      "contentSha256": "8d9c431bbc4c1c5497c378d3e9e731e7683f6da417eec78f6bc42ddc127f2119",
+      "hashAlgorithm": "git-blob-sha1",
+      "producer": "03",
+      "decision": "REWORK",
+      "learnerLabel": "REWORK",
+      "reviewedAt": "2026-09-24T20:15:00Z",
+      "evidenceRefs": [
+        "workflow:36050941229",
+        "source:public/assets/catalog-candidates/cpu/desks-10-w03-v10-b-two-leg-desk-mic-original.png",
+        "source-fail-fast:obvious-category-contract-failure"
+      ],
+      "reasonCodes": [
+        "MICROPHONE_IDENTITY_FAILURE",
+        "REAR_PANEL_ARCHITECTURE_DOMINATES",
+        "STREAMING_WORKSTATION_INCOMPLETE"
+      ],
+      "reason": "REWORK. V10 finally reads as one futuristic computer desk with a clear monitor and grounded supports, but it still fails the Neon Streaming Desk contract: there is no unmistakable microphone capsule/boom arm, and the large rear panel structures read more like workstation architecture than a clean desk product. Preserve this exact hash. The precompiled A fallback should keep the successful broad desk/monitor silhouette while simplifying the rear structure and adding one obvious boom microphone clamped to the desk edge.",
+      "checks": {
+        "identity": "FAIL",
+        "silhouette": "FAIL",
+        "cardReadability": "PARTIAL",
+        "physicalConstruction": "PARTIAL",
+        "framingComposition": "PASS",
+        "materialLighting": "PASS",
+        "originality": "PASS",
+        "duplicateVisual": "PASS",
+        "technicalIntegrity": "PASS"
+      }
     }
   ],
   "preservedAcceptedCurrentHashes": [
@@ -786,9 +820,9 @@
   "pendingCurrentHashes": [],
   "handoff": {
     "14": "Desk9/10 v3 render packets consumed; do not rerender unchanged hashes.",
-    "15": "desks-10 remain bounded visual blockers; consolidate only failure-specific retries.",
-    "03": "desks-10, desks-9 current literal hashes are REWORK; preserve them and prepare the next narrow retry while other producers continue.",
-    "08": "Integrate exact ACCEPT hashes for desks-9 after live revalidation."
+    "15": "desks-10 remains a bounded exact-pixel release blocker.",
+    "03": "desks-10 current exact hash is REWORK; preserve it and use the prepared A fallback when the CPU semaphore permits.",
+    "08": "Do not canonical-wire desks-10 exact hash 7bb37b681e4d1928fb6e5ffc742d592a8262a452."
   },
   "summary": {
     "totalVersionsReviewed": 42,
@@ -801,17 +835,15 @@
       "rework": 1,
       "blocked": 0
     },
-    "reviewedThisRun": 2,
-    "newAcceptsThisRun": 1,
+    "reviewedThisRun": 1,
+    "newAcceptsThisRun": 0,
     "newReworkThisRun": 1,
     "newBlockedThisRun": 0,
-    "newUsableBy08Now": [
-      "desks-9"
-    ],
+    "newUsableBy08Now": [],
     "reworkNow": [
       "desks-10"
     ],
-    "preservedAcceptedHashes": "All prior ACCEPTs remain frozen; these verdicts apply only to the exact hashes rendered in workflow 36049290664."
+    "preservedAcceptedHashes": "All prior reviewer05 ACCEPTs remain frozen; this REWORK applies only to desks-10 current exact hash."
   },
   "freeze": {
     "selfApproved": false,
@@ -826,7 +858,7 @@
   "currentReplacementDisposition": {
     "desks": {
       "REWORK": {
-        "desks-10": "1f050b539245d387ce005f67e059829a5249a7ed",
+        "desks-10": "7bb37b681e4d1928fb6e5ffc742d592a8262a452",
         "desks-9": "79d5f4e0520910fea1a6ac47c76df451b14ce6f2"
       },
       "ACCEPT": {
