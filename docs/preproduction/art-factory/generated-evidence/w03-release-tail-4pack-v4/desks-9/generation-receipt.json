@@ -1,0 +1,112 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_GENERATION_RECEIPT",
+  "repository": "P00NSMASHER/StarBlox",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "55ed5cb334d4f2a216fecb70d69d698f96e25a1f",
+  "sourcePlanSha256": "19de216ca31e1eb432d68b8b30611d07831fac711e6ae309c4fd25575ae34024",
+  "executionCheckout": {
+    "branch": "screenshot-match-preproduction",
+    "head": "55ed5cb334d4f2a216fecb70d69d698f96e25a1f",
+    "planSourceHeadMatchesExecutionHead": true
+  },
+  "attempt": {
+    "attemptId": "desks-9-w03-a-one-art-maker-table-e35f4a81af",
+    "itemId": "desks-9",
+    "producer": "03",
+    "variant": "A-ONE-ART-MAKER-TABLE",
+    "promptSha256": "e35f4a81af86c363024bede69e580e30459e699689baead9b5eaecfe4505ce97",
+    "runtimePromptSha256": "c29761f1d3a3207db773beaf8c8c1f545b00e9c4a5a850919835ee9ded473a25",
+    "runtimeNegativePromptSha256": "f5b8240c8827fef5f096fe936035bd3b8892926705ee9223a7e0cff7ee3018db",
+    "promptRecipeVersion": "artPromptOptimizer-request-v1:w03-release-tail-4pack-v4",
+    "seed": 1495657433
+  },
+  "runtime": {
+    "repo": "huggingface/diffusers",
+    "commit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "resolvedCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "runtimeCommitVerified": true,
+    "diffusersVersion": "0.41.0.dev0",
+    "diffusersInstallSource": "https://github.com/huggingface/diffusers.git",
+    "torchVersion": "2.8.0+cpu",
+    "transformersVersion": "5.17.0",
+    "accelerateVersion": "1.15.0",
+    "huggingfaceHubVersion": "1.33.0",
+    "safetensorsVersion": "0.8.0",
+    "pythonPillowVersion": "12.3.0",
+    "device": "cpu",
+    "dtype": "float32",
+    "executionMode": "cpu-fallback"
+  },
+  "model": {
+    "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+    "revision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS",
+    "resolvedRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "snapshotRevisionVerified": true,
+    "selectiveSnapshot": true,
+    "snapshotAllowPatterns": [
+      "model_index.json",
+      "scheduler/*",
+      "tokenizer/*",
+      "tokenizer_2/*",
+      "feature_extractor/*",
+      "text_encoder/config.json",
+      "text_encoder/model.fp16.safetensors",
+      "text_encoder_2/config.json",
+      "text_encoder_2/model.fp16.safetensors",
+      "unet/config.json",
+      "unet/diffusion_pytorch_model.fp16.safetensors",
+      "vae/config.json",
+      "vae/diffusion_pytorch_model.fp16.safetensors"
+    ]
+  },
+  "conditioning": {
+    "referenceAssetSha256": null,
+    "controlImageSha256": null,
+    "adapterScale": null,
+    "referenceImage": null,
+    "ipAdapterModelId": null,
+    "ipAdapterRevision": null,
+    "ipAdapterResolvedRevision": null,
+    "ipAdapterRevisionVerified": false,
+    "ipAdapterWeightName": null,
+    "ipAdapterSubfolder": null
+  },
+  "generation": {
+    "width": 640,
+    "height": 640,
+    "numInferenceSteps": 6,
+    "guidanceScale": 3.5,
+    "runtimePromptTokenCounts": {
+      "tokenizer": 65,
+      "tokenizer_2": 65
+    },
+    "runtimeNegativePromptTokenCounts": {
+      "tokenizer": 39,
+      "tokenizer_2": 39
+    },
+    "executedSeed": 1495657433
+  },
+  "output": {
+    "repoPath": "public/assets/catalog-candidates/cpu/desks-9-w03-v4-a-one-art-maker-table-original.png",
+    "sha256": "0b8f58f4d9a9003777a4eac3f8df6c10f171918703bfa6b65a18745c4701c1eb",
+    "gitBlobSha": "b9a6d922e38d03c08298577a0f46c71dfb28bd66",
+    "bytes": 525576,
+    "width": 640,
+    "height": 640,
+    "format": "PNG",
+    "sourceBytesPreserved": true,
+    "reusedExistingIdenticalBytes": false
+  },
+  "safety": {
+    "canonicalArtModified": false,
+    "gameplayModified": false,
+    "reviewDecisionMade": false,
+    "deploymentPerformed": false,
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+  },
+  "nextGate": "RUN_VERIFY_STAGED_OUTPUT_THEN_REAL_RENDER_AND_INDEPENDENT_EXACT_HASH_REVIEW",
+  "status": "GENERATED_SOURCE_BYTES_UNVERIFIED",
+  "recordSha256": "65af09c6c6a899e98452145c63d4746242b369248a214e8d4692e2e5148644f1"
+}
