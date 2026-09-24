@@ -12,9 +12,9 @@ afterEach(() => {
 describe('Step 2: Studio bridge transport', () => {
   it('queues a tool call and resolves it from a Studio poll/result cycle', async () => {
     const bridge=new StudioBridgeQueue({timeoutMs:1000});
-    const pending=bridge.dispatch('search_tree',{query:'Quest'},{instanceId:'studio-a'});
+    const pending=bridge.dispatch('search_tree',{query:'Quest'},{instanceId:'studio-a',target:'edit'});
 
-    const work=bridge.take({instanceId:'studio-a'});
+    const work=bridge.take({instanceId:'studio-a',role:'edit'});
     expect(work).toHaveLength(1);
     expect(work[0].tool).toBe('search_tree');
     expect(work[0].args).toEqual({query:'Quest'});
@@ -58,10 +58,65 @@ describe('Step 2: Studio bridge transport', () => {
     expect(JSON.parse(options.body)).toEqual({
       tool:'search_tree',
       args:{query:'NPC'},
-      instanceId:'studio-a'
+      instanceId:'studio-a',
+      target:'edit'
     });
 
     await expect(adapter.call('publish_place',{})).rejects.toThrow(/unknown Studio tool/);
+  });
+
+
+  it('routes runtime work only to the intended Studio peer role', async () => {
+    const bridge=new StudioBridgeQueue({timeoutMs:1000});
+    const serverPending=bridge.dispatch(
+      'playtest_sample_state',
+      {domains:['players','runtime']},
+      {instanceId:'studio-a',target:'server'}
+    );
+    const clientPending=bridge.dispatch(
+      'simulate_input',
+      {actions:[{type:'key',key:'Space'}]},
+      {instanceId:'studio-a',target:'client'}
+    );
+
+    expect(bridge.take({instanceId:'studio-a',role:'edit'})).toEqual([]);
+
+    const serverWork=bridge.take({instanceId:'studio-a',role:'server'});
+    expect(serverWork).toHaveLength(1);
+    expect(serverWork[0].tool).toBe('playtest_sample_state');
+
+    const clientWork=bridge.take({instanceId:'studio-a',role:'client-1'});
+    expect(clientWork).toHaveLength(1);
+    expect(clientWork[0].tool).toBe('simulate_input');
+
+    bridge.resolve(serverWork[0].id,true,{playerCount:1});
+    bridge.resolve(clientWork[0].id,true,{performed:1});
+    await expect(serverPending).resolves.toEqual({playerCount:1});
+    await expect(clientPending).resolves.toEqual({performed:1});
+  });
+
+  it('maps runtime tools to server/client targets and can advertise a connector subset', async () => {
+    const fetchMock=vi.fn(async (_url,options) => ({
+      ok:true,
+      status:200,
+      async json(){
+        return {ok:true,result:{ok:true}};
+      },
+      options
+    }));
+    vi.stubGlobal('fetch',fetchMock);
+
+    const adapter=createStudioHttpAdapter({
+      supportedTools:['search_tree','playtest_sample_state','simulate_input']
+    });
+
+    expect(adapter.has('capture_viewport')).toBe(false);
+
+    await adapter.call('playtest_sample_state',{domains:['runtime']});
+    await adapter.call('simulate_input',{actions:[]});
+
+    expect(JSON.parse(fetchMock.mock.calls[0][1].body).target).toBe('server');
+    expect(JSON.parse(fetchMock.mock.calls[1][1].body).target).toBe('client');
   });
 
   it('fails all pending work when the bridge disconnects', async () => {
