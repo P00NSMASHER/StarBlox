@@ -1,0 +1,79 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_EXACT_HASH_REVIEW_PACKET",
+  "branch": "screenshot-match-preproduction",
+  "createdBy": "15",
+  "reviewer": "01",
+  "producer": "09",
+  "item": {
+    "id": "decor-7",
+    "name": "Skate Rack",
+    "collectionId": "decor",
+    "type": "room",
+    "tier": 3,
+    "theme": "Garden Glow"
+  },
+  "exactCandidate": {
+    "path": "public/assets/catalog-candidates/cpu/decor-7-w09-v3-a-rack-silhouette-original.png",
+    "sha256": "7a41b5b897a9d0c912f2b92f226810a75a61d74b2da43df54341eef0841108d4",
+    "gitBlobSha": "407b95bbecc3a030d357de290047954e28904b63",
+    "bytes": 693552,
+    "dimensions": [
+      768,
+      768
+    ],
+    "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-decor-7-v3-qualification-20260924.json",
+    "qualification": "QUALIFIED_FOR_RENDERER14",
+    "priorRejectedHash": "fa415ef0a554e2a60ee9e836f23d8d38b266a6e3"
+  },
+  "renderEvidence": {
+    "workflow": "StarBlox Staged Catalog Art QA",
+    "workflowRunId": 35941645479,
+    "workflowHead": "54645f3b5112e6c8d95e2a11b4e569619d6826c8",
+    "artifactId": 10785177791,
+    "artifactName": "catalog-staged-art-review",
+    "artifactDigest": "sha256:7c53829204f49722a270293eb7fde28da7518cdd16553019ab11ce54007a8fc5",
+    "detailPath": "staged-replacements/detail/decor-7-407b95bb.png",
+    "detailSha256": "2252774d1a53db6fde74481c30d7e7caf14cd1e2e812760b2928eacab1594b74",
+    "contactSheetPath": "staged-replacements/staged-replacements-contact-sheet.png",
+    "contactSheetSha256": "7b759565294938294940814f8be3ab59bc60d37475e56b56eefa0b1f2a696c7c",
+    "preflightPath": "preflight/decor-7-407b95bb.json",
+    "preflightSha256": "b86b40025dfc2262c9a2144f556b58d84d522c1531415a4c88b5193c60b027f2",
+    "renderStatus": 200,
+    "naturalDimensions": [
+      768,
+      768
+    ],
+    "opaqueFraction": 1,
+    "screenshot": true,
+    "errors": []
+  },
+  "reportOnlyPreflight": {
+    "exactDuplicate": false,
+    "calibratedWarnings": [],
+    "warningReadyFeatureCount": 0,
+    "blocking": false,
+    "automaticAccept": false,
+    "automaticRework": false
+  },
+  "decisionContract": {
+    "allowed": [
+      "ACCEPT",
+      "REWORK"
+    ],
+    "exactHashOnly": true,
+    "oldVerdictTransfers": false,
+    "selfReview": false,
+    "requiredJudgments": [
+      "Skate Rack product identity and physical construction",
+      "whether v3 fixes the v2 clutter/crop failures",
+      "Garden Glow Tier-3 specificity",
+      "silhouette and small-card readability",
+      "framing and malformed-object risk",
+      "material/depth/lighting quality",
+      "near-duplicate/template risk"
+    ],
+    "onAccept": "Route exact v3 hash to 08 canonical integration.",
+    "onRework": "Preserve v3 hash/evidence and return failure-specific reason codes to producer09."
+  }
+}

@@ -1,0 +1,78 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_EXACT_HASH_REVIEW_PACKET",
+  "branch": "screenshot-match-preproduction",
+  "createdBy": "15",
+  "reviewer": "02",
+  "producer": "13",
+  "item": {
+    "id": "wall-12",
+    "name": "Golden Crest",
+    "collectionId": "wall",
+    "type": "room",
+    "tier": 5,
+    "theme": "Berry Blast"
+  },
+  "exactCandidate": {
+    "path": "public/assets/catalog-candidates/cpu/wall-12-w13-v1-a-jeweled-relief-crest-original.png",
+    "sha256": "771d8099c4231b407a0d2dac2e44178a2eabdd8f960bfbab0151bd9b0633d9db",
+    "gitBlobSha": "e9387a7174a888980616ea9afac43cc9b3adbb3b",
+    "bytes": 777648,
+    "dimensions": [
+      640,
+      640
+    ],
+    "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-wall-11-12-qualification-20260924.json",
+    "qualification": "QUALIFIED_FOR_RENDERER14"
+  },
+  "renderEvidence": {
+    "workflow": "StarBlox Staged Catalog Art QA",
+    "workflowRunId": 35941645479,
+    "workflowHead": "54645f3b5112e6c8d95e2a11b4e569619d6826c8",
+    "artifactId": 10785177791,
+    "artifactName": "catalog-staged-art-review",
+    "artifactDigest": "sha256:7c53829204f49722a270293eb7fde28da7518cdd16553019ab11ce54007a8fc5",
+    "detailPath": "staged-replacements/detail/wall-12-e9387a71.png",
+    "detailSha256": "1402271cb0448bc5ae21f1cf58aa671dc8ab2e8094519b06b271a5f1ade6f436",
+    "contactSheetPath": "staged-replacements/staged-replacements-contact-sheet.png",
+    "contactSheetSha256": "7b759565294938294940814f8be3ab59bc60d37475e56b56eefa0b1f2a696c7c",
+    "preflightPath": "preflight/wall-12-e9387a71.json",
+    "preflightSha256": "1b0c0f7199cb6161036bee68fa060c030a379f735ad7569d1ef0024bd664c045",
+    "renderStatus": 200,
+    "naturalDimensions": [
+      640,
+      640
+    ],
+    "opaqueFraction": 1,
+    "screenshot": true,
+    "errors": []
+  },
+  "reportOnlyPreflight": {
+    "exactDuplicate": false,
+    "calibratedWarnings": [],
+    "warningReadyFeatureCount": 0,
+    "blocking": false,
+    "automaticAccept": false,
+    "automaticRework": false
+  },
+  "decisionContract": {
+    "allowed": [
+      "ACCEPT",
+      "REWORK"
+    ],
+    "exactHashOnly": true,
+    "oldVerdictTransfers": false,
+    "selfReview": false,
+    "requiredJudgments": [
+      "Golden Crest identity and physical wall-relief construction",
+      "Berry Blast Tier-5/Luxe specificity",
+      "silhouette/card readability",
+      "mounting/frame plausibility",
+      "framing/malformed-object risk",
+      "material/depth/lighting quality",
+      "near-duplicate/template risk"
+    ],
+    "onAccept": "Route exact hash to 08 canonical integration.",
+    "onRework": "Preserve exact hash/evidence and return failure-specific reason codes to producer13."
+  }
+}
