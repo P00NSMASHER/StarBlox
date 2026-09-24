@@ -1,0 +1,107 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_GENERATION_RECEIPT",
+  "repository": "P00NSMASHER/StarBlox",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "3f7c20aa8a5ad173505bf2a1bb7bbb3412c61876",
+  "sourcePlanSha256": "d5732079a13a10c3b8943c1ccbf9d2475a28360b28e357cfb3da0f803f119361",
+  "executionCheckout": {
+    "branch": "screenshot-match-preproduction",
+    "head": "3f7c20aa8a5ad173505bf2a1bb7bbb3412c61876",
+    "planSourceHeadMatchesExecutionHead": true
+  },
+  "attempt": {
+    "attemptId": "decor-6-w03-a-single-telescope-734f306412",
+    "itemId": "decor-6",
+    "producer": "03",
+    "variant": "A-SINGLE-TELESCOPE",
+    "promptSha256": "734f306412638b3d410fed7d5eff0f5e5ce4b2e11b2f610c5df73daae30b0b32",
+    "runtimePromptSha256": "7eb9e5f59c468eef0618348ea758c6c7c64d42f3a1f898532b38d0aa67e8239d",
+    "promptRecipeVersion": "artPromptOptimizer-request-v1:w03-decor-6-v2-decor-8-v2-parallel",
+    "seed": 1950545688
+  },
+  "runtime": {
+    "repo": "huggingface/diffusers",
+    "commit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "resolvedCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "runtimeCommitVerified": true,
+    "diffusersVersion": "0.41.0.dev0",
+    "diffusersInstallSource": "https://github.com/huggingface/diffusers.git",
+    "torchVersion": "2.8.0+cpu",
+    "transformersVersion": "5.17.0",
+    "accelerateVersion": "1.15.0",
+    "huggingfaceHubVersion": "1.32.0",
+    "safetensorsVersion": "0.8.0",
+    "pythonPillowVersion": "12.3.0",
+    "device": "cpu",
+    "dtype": "float32",
+    "executionMode": "cpu-fallback"
+  },
+  "model": {
+    "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+    "revision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS",
+    "resolvedRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "snapshotRevisionVerified": true,
+    "selectiveSnapshot": true,
+    "snapshotAllowPatterns": [
+      "model_index.json",
+      "scheduler/*",
+      "tokenizer/*",
+      "tokenizer_2/*",
+      "feature_extractor/*",
+      "text_encoder/config.json",
+      "text_encoder/model.fp16.safetensors",
+      "text_encoder_2/config.json",
+      "text_encoder_2/model.fp16.safetensors",
+      "unet/config.json",
+      "unet/diffusion_pytorch_model.fp16.safetensors",
+      "vae/config.json",
+      "vae/diffusion_pytorch_model.fp16.safetensors"
+    ]
+  },
+  "conditioning": {
+    "referenceAssetSha256": null,
+    "controlImageSha256": null,
+    "adapterScale": null,
+    "referenceImage": null,
+    "ipAdapterModelId": null,
+    "ipAdapterRevision": null,
+    "ipAdapterResolvedRevision": null,
+    "ipAdapterRevisionVerified": false,
+    "ipAdapterWeightName": null,
+    "ipAdapterSubfolder": null
+  },
+  "generation": {
+    "width": 640,
+    "height": 640,
+    "numInferenceSteps": 6,
+    "guidanceScale": 3.5,
+    "runtimePromptTokenCounts": {
+      "tokenizer": 64,
+      "tokenizer_2": 64
+    },
+    "executedSeed": 1950545688
+  },
+  "output": {
+    "repoPath": "public/assets/catalog-candidates/cpu/decor-6-w03-v2-a-single-telescope-original.png",
+    "sha256": "5787d635b6fdde26d67b81ecec661b67da0723060c6ea101ac8576b66416107d",
+    "gitBlobSha": "5b860130d537acadb6a15c81a841805c3b9b81cf",
+    "bytes": 501743,
+    "width": 640,
+    "height": 640,
+    "format": "PNG",
+    "sourceBytesPreserved": true,
+    "reusedExistingIdenticalBytes": false
+  },
+  "safety": {
+    "canonicalArtModified": false,
+    "gameplayModified": false,
+    "reviewDecisionMade": false,
+    "deploymentPerformed": false,
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+  },
+  "nextGate": "RUN_VERIFY_STAGED_OUTPUT_THEN_REAL_RENDER_AND_INDEPENDENT_EXACT_HASH_REVIEW",
+  "status": "GENERATED_SOURCE_BYTES_UNVERIFIED",
+  "recordSha256": "8114ca01d832eb5d6bf7a7a9e2bf22920050330802ae500c3b08225539aad9da"
+}
