@@ -34,12 +34,20 @@
     "route": "12 -> 06 -> 14 -> 02 -> 08 on ACCEPT",
     "canonicalWriter": "08"
   },
-  "dispatchPolicy": "DISPATCHED_AFTER_DECOR7_V3_SUCCESS__SINGLE_ITEM__NO_DUPLICATE",
+  "dispatchPolicy": "RETRY_AFTER_REQUEST_CONTRACT_FIX__SINGLE_ITEM__NO_DUPLICATE",
   "dispatchEvidence": {
     "prerequisiteRunId": 35940929713,
     "prerequisiteConclusion": "success",
     "prerequisiteCompletedAt": "2026-09-24T01:05:00Z",
     "decor7V3Staged": true,
+    "cpuLaneObservedIdle": true
+  },
+  "retryEvidence": {
+    "failedRunId": 35941463166,
+    "failedConclusion": "failure",
+    "failedStage": "plan",
+    "failure": "request kind must be STARBLOX_ART_FACTORY_BATCH_REQUEST",
+    "requestContractFixCommit": "7b486bd829604aa03bf14651b10d5b7f5d2f5dca",
     "cpuLaneObservedIdle": true
   }
 }
