@@ -6,7 +6,7 @@ import { chromium } from 'playwright';
 
 const baseUrl=process.env.STARBLOX_QA_URL||'https://star-blox.replit.app';
 const outputDir=process.env.STARBLOX_QA_OUTPUT||'artifacts/live-replit-companion-qa';
-const targets=[
+// Re-run marker: current deployment-tolerant live companion evidence probe.\nconst targets=[
   ['companions-2','Moon Cat'],
   ['companions-5','Pebble Turtle'],
   ['companions-6','Comet Fox'],
