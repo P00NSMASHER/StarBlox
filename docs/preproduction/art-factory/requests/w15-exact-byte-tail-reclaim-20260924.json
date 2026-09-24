@@ -1,0 +1,105 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_RECOVERY_EXHAUSTION_RECLAIM",
+  "branch": "screenshot-match-preproduction",
+  "coordinationOwner": "15",
+  "sourceHead": "1020c153c2a42c6c796143131c456b2c780512eb",
+  "observedAt": "2026-09-24T13:31:00Z",
+  "scope": [
+    "desks-7",
+    "desks-8",
+    "wall-8"
+  ],
+  "disposition": "PRESERVE_OLD_EXACT_EVIDENCE__RECLAIM_IDS_TO_NEW_PINNED_RUNTIME_VERSIONS",
+  "rationale": "Release blockers remained indefinitely fail-closed because original/selected exact source bytes cannot be materialized through any currently connected authorized byte path. Historical evidence remains immutable; new replacement generation is explicitly a new version and is never represented as recovery of old pixels.",
+  "recoveryEvidence": {
+    "desks-7": {
+      "historicalProducer": "03",
+      "remoteCandidates": [
+        {
+          "variant": "A-PHYSICAL",
+          "generationUrn": "urn:aaid:sc:US:30c2a335-0e00-486d-b0ba-18d7a73940ad",
+          "seed": 179943007
+        },
+        {
+          "variant": "B-READABILITY",
+          "generationUrn": "urn:aaid:sc:US:4339c37e-6604-49a5-90d4-0295b6150c99",
+          "seed": 776146080
+        }
+      ],
+      "currentProbe": "Adobe generation records remain discoverable, but exposed authorized image access returns a transformed 256x256 JPEG rendition rather than the original PNG bytes.",
+      "preserveRule": "Never substitute rendition bytes or claim the v1 Firefly sources were staged."
+    },
+    "desks-8": {
+      "historicalProducer": "03",
+      "preservedLocalEvidence": [
+        {
+          "variant": "A-PHYSICAL",
+          "sha256": "afd02d9caafb473f5069c5fbdfc0d0d2304caa720f5eb4db404ddaca5c02d6d9",
+          "expectedGitBlob": "735954877f050c290380dcd501dd4a4b688b1310",
+          "bytes": 1703536,
+          "dimensions": [
+            1254,
+            1254
+          ]
+        },
+        {
+          "variant": "B-THEME-TIER",
+          "sha256": "a0c4ff059b71f0b64c923e310e8f8244a6bbe46c8a60aa0bb95570df287cb54e",
+          "expectedGitBlob": "5bf02e89d116ff5cf9bf4e9e6e0eff9bd8e794b5",
+          "bytes": 1954405,
+          "dimensions": [
+            1254,
+            1254
+          ]
+        }
+      ],
+      "currentProbe": "Original local source files are absent from repository/current storage; prior direct binary transfer attempts failed exact Git-blob reproduction.",
+      "preserveRule": "Never approximate, reconstruct, resize, or claim the historical v1 bytes were recovered."
+    },
+    "wall-8": {
+      "historicalProducer": "05",
+      "selectedHistoricalCandidate": {
+        "generationUrn": "urn:aaid:sc:US:e7a12bb8-51b5-4216-b2c4-24ce0b6b6533",
+        "seed": 2026092218,
+        "promptSha256": "412525a6720e03ad75bbfc28ba0ebb84d2e46b71271c35e783ac2f6d11ffa405",
+        "priorIntendedPath": "public/assets/catalog/wall-8-w05-v3.png"
+      },
+      "currentProbe": "Selected Firefly generation remains discoverable and can receive a fresh authorized URL, but exposed image access returns only a transformed 256x256 JPEG rendition rather than the selected PNG bytes.",
+      "preserveRule": "Keep selected v3 remote evidence frozen; never substitute JPEG rendition bytes."
+    }
+  },
+  "reclaim": {
+    "producer": "13",
+    "reviewer": "11",
+    "newVersions": {
+      "desks-7": 2,
+      "desks-8": 2,
+      "wall-8": 4
+    },
+    "runtime": {
+      "repo": "huggingface/diffusers",
+      "commit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c"
+    },
+    "model": {
+      "id": "stabilityai/stable-diffusion-xl-base-1.0",
+      "revision": "462165984030d82259a11f4367a4eed129e94a7b"
+    },
+    "generation": {
+      "width": 640,
+      "height": 640,
+      "steps": 6,
+      "guidanceScale": 3.5,
+      "dtype": "float32"
+    },
+    "rule": "These are NEW replacement versions. Old exact evidence remains historical and cannot be used for ACCEPT/canonical integration."
+  },
+  "safety": {
+    "acceptedExactHashesPreserved": true,
+    "oldRemoteLocalEvidenceMutated": false,
+    "canonicalMappingsChanged": false,
+    "workflowFilesChanged": false,
+    "gameplayLearningEconomyPersistenceChanged": false,
+    "deploymentTouched": false
+  }
+}

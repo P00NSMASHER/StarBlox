@@ -2,8 +2,8 @@
   "schemaVersion": 28,
   "owner": "15",
   "branch": "screenshot-match-preproduction",
-  "sourceHead": "982de262ae5e8034b478079b76f64dc0d249c7e7",
-  "updatedAt": "2026-09-24T12:46:00Z",
+  "sourceHead": "1020c153c2a42c6c796143131c456b2c780512eb",
+  "updatedAt": "2026-09-24T13:31:00Z",
   "status": "ACTIVE_RELEASE_BLOCKER_FIRST",
   "policy": {
     "maxConcurrentProductionBatches": 4,
@@ -72,25 +72,26 @@
   },
   "cpuGenerationSemaphore": {
     "workflowPath": ".github/workflows/art-factory-cpu-generation.yml",
-    "observedAt": "2026-09-24T12:46:00Z",
+    "observedAt": "2026-09-24T13:31:00Z",
     "running": {
       "runId": null,
       "headSha": null,
-      "batch": "Desk11 + Desk12 new visible-fallback generation",
+      "batch": "Desk7 v2 + Desk8 v2 + Wall8 v4 recovery-exhaustion replacements",
       "state": "DISPATCH_COMMIT_CREATED__RUN_ID_PENDING",
       "jobs": [
-        "desks-11",
-        "desks-12"
+        "desks-7",
+        "desks-8",
+        "wall-8"
       ],
       "phase": "QUEUE_DISPATCHED",
       "candidateArtifactsStaged": false,
-      "contract": "Pinned Diffusers/SDXL; 640x640/6-step float32; producer03; reviewer01."
+      "contract": "Pinned Diffusers/SDXL 640x640/6-step float32; new versions only; reviewer11."
     },
     "pending": null,
-    "authorization": "HOLD_ADDITIONAL_CPU_QUEUE_TRIGGERS_UNTIL_DESKS11_12_FULLY_IDLE",
-    "rule": "Desk11/12 is the sole new CPU generation batch. Decor9-12 are already staged and downstream. Current rework review outcomes may preempt only future, not this running pair.",
+    "authorization": "HOLD_ADDITIONAL_CPU_QUEUE_TRIGGERS_UNTIL_RECLAIM_3ITEM_MATRIX_FULLY_IDLE",
+    "rule": "This three-item reclaim matrix is the sole CPU generation batch. Historical exact-byte evidence remains frozen and is not overwritten.",
     "preparedNext": [],
-    "preparedQueueRule": "Do not duplicate Desk11/12. After this pair is fully idle, refetch exact reviewer outcomes and remaining fallback ownership before opening more production."
+    "preparedQueueRule": "After this matrix becomes fully idle, refetch live reviewer outcomes and remaining visible fallback IDs before further generation."
   },
   "batches": [
     {
@@ -100,7 +101,7 @@
         "desks-11",
         "desks-12"
       ],
-      "state": "DISPATCHED_NEW_VISIBLE_FALLBACK_2ITEM_MATRIX__RUN_ID_PENDING",
+      "state": "DESK11_12_EXACT_BYTES_STAGED_QUALIFIED__DOWNSTREAM_RENDER__PRODUCTION_RELEASED",
       "reviewer": "01",
       "requirements": "Do not duplicate. Generate Desk11/12 in one matrix; route exact staged hashes through 12 -> 06 -> 14 -> 01 -> 08 on ACCEPT. Prior Decor8/Desk9/10 v3 remain downstream reviewer evidence only.",
       "evidence": [
@@ -119,7 +120,7 @@
         "decor-11",
         "decor-12"
       ],
-      "state": "DECOR9_12_EXACT_BYTES_STAGED__DOWNSTREAM_INTAKE__PRODUCTION_RELEASED",
+      "state": "DECOR9_12_RENDERED_PACKET_BOUND__DOWNSTREAM_REVIEW__PRODUCTION_RELEASED",
       "reviewer": "02",
       "requirements": "Do not regenerate. Route staged exact hashes through 12 -> 06 -> 14 -> 02 -> 08 on ACCEPT.",
       "batchType": "BOUNDED_PINNED_CPU_GENERATION",
@@ -131,13 +132,22 @@
     },
     {
       "producer": "13",
-      "batchId": "w13-wall-9-v4-rework",
+      "batchId": "w13-desks7-8-wall8-reclaim-vnext",
       "scope": [
-        "wall-9"
+        "desks-7",
+        "desks-8",
+        "wall-8"
       ],
-      "state": "WALL9_V4_DOWNSTREAM_RENDER_REVIEW__PRODUCTION_RELEASED",
-      "reviewer": "02",
-      "requirements": "Use only docs/preproduction/art-factory/prepared-queues/w13-wall-9-v4-rework.json; preserve v3 exact REWORK hash."
+      "state": "DISPATCHED_RECOVERY_EXHAUSTED_NEW_VERSION_3ITEM_MATRIX__RUN_ID_PENDING",
+      "reviewer": "11",
+      "requirements": "Do not recover/approximate old pixels. Generate only new Desk7 v2, Desk8 v2 and Wall8 v4 under pinned runtime. Preserve all historical remote/local evidence. Route staged exact hashes 12 -> 06 -> 14 -> 11 -> 08 on ACCEPT.",
+      "batchType": "NEW_VERSION_REPLACEMENT_AFTER_EXACT_BYTE_RECOVERY_EXHAUSTION",
+      "evidence": [
+        "docs/preproduction/art-factory/requests/w15-exact-byte-tail-reclaim-20260924.json",
+        "docs/preproduction/art-factory/requests/w13-desks7-8-wall8-reclaim-vnext-20260924.json",
+        "docs/preproduction/art-factory/prepared-queues/w13-desks7-8-wall8-reclaim-vnext.json",
+        "docs/preproduction/art-factory/runtime-queue/w13-desks7-8-wall8-reclaim-vnext.json"
+      ]
     }
   ],
   "pendingCandidates": [],
@@ -280,6 +290,16 @@
       "state": "EXACT_LOCAL_SOURCE_BYTES_UNAVAILABLE__PRESERVE_FAIL_CLOSED",
       "owner": "07 when a genuine byte bridge/source reappears",
       "note": "Do not consume an active production batch on unchanged unavailable bytes."
+    },
+    "exactByteTailReclaim": {
+      "state": "RECOVERY_EXHAUSTED__HISTORICAL_BYTES_PRESERVED__NEW_VERSION_MATRIX_DISPATCHED",
+      "decisionPath": "docs/preproduction/art-factory/requests/w15-exact-byte-tail-reclaim-20260924.json",
+      "historicalIds": [
+        "desks-7",
+        "desks-8",
+        "wall-8"
+      ],
+      "rule": "No old rendition/local evidence may be promoted. Only new pinned-runtime hashes from this reclaim batch can enter the current review/canonical pipeline."
     }
   },
   "parallelQaHandoff": {
@@ -289,7 +309,7 @@
     "evidenceHead": "398f5100df0562a1e346c9110597e52b565982d0",
     "rule": "Do not reopen already-green functional browser, Store observer, persistence or reduced-motion investigations absent a bound-hash change or fresh current-byte failure. EXT10 remains limited to the previously released phone composition repair."
   },
-  "antiStallDisposition": "CPU kept saturated: Decor9-12 completed and released production capacity; producer03 immediately reassigned to untouched Desk11/12 as one two-item float32 matrix while all current reworks continue downstream.",
+  "antiStallDisposition": "Exact-byte tail recovery exhausted under current authorized connectors. Historical candidates remain frozen; release blockers Desk7/8 and Wall8 are reclaimed as new versions and dispatched together under the pinned float32 CPU path while all downstream reviews continue independently.",
   "crossAccountProduction": {
     "externalScopes": {
       "EXT01": "Tops11-12",
@@ -308,7 +328,7 @@
     "reviewer14LegacyException": "14 may complete already-assigned legacy hash review only; do not route new hashes to 14 for review."
   },
   "readerRule": "Every worker must revalidate branch head, assignment, exact hash and review state before writing. This file never overrides newer exact-hash evidence.",
-  "cycleId": "director-20260924T1246Z-desks11-12-live",
+  "cycleId": "director-20260924T1331Z-reclaim-exact-byte-tail",
   "criticalPath": {
     "computedAtHead": "982de262ae5e8034b478079b76f64dc0d249c7e7",
     "order": [
