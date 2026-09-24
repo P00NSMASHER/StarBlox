@@ -66,6 +66,37 @@ describe('Step 2: Studio bridge transport', () => {
   });
 
 
+  it('removes timed-out queued work so Studio cannot execute it later', async () => {
+    const bridge=new StudioBridgeQueue({timeoutMs:20});
+    const pending=bridge.dispatch('write_script',{
+      path:'ServerScriptService/Late',
+      source:'return true'
+    });
+
+    await expect(pending).rejects.toThrow(/timed out/);
+    expect(bridge.take({instanceId:'default',role:'edit'})).toEqual([]);
+    expect(bridge.status()).toEqual({queued:0,pending:0});
+  });
+
+  it('keeps runtime peer routing under adapter control even if model args contain target', async () => {
+    const fetchMock=vi.fn(async (_url,options) => ({
+      ok:true,
+      status:200,
+      async json(){
+        return {ok:true,result:{ok:true}};
+      },
+      options
+    }));
+    vi.stubGlobal('fetch',fetchMock);
+
+    const adapter=createStudioHttpAdapter();
+    await adapter.call('simulate_input',{actions:[],target:'edit'});
+    await adapter.call('run_gameplay_assertions',{assertions:[],target:'client'});
+
+    expect(JSON.parse(fetchMock.mock.calls[0][1].body).target).toBe('client');
+    expect(JSON.parse(fetchMock.mock.calls[1][1].body).target).toBe('server');
+  });
+
   it('routes runtime work only to the intended Studio peer role', async () => {
     const bridge=new StudioBridgeQueue({timeoutMs:1000});
     const serverPending=bridge.dispatch(
