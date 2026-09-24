@@ -1,0 +1,112 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_GENERATION_RECEIPT",
+  "repository": "P00NSMASHER/StarBlox",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "d4d9caa564e41eefee6570d34e5216143aeb4fe5",
+  "sourcePlanSha256": "da722d4739804299eeb73a1cb6510f05fde963004be232408b57a8a79ad83b9b",
+  "executionCheckout": {
+    "branch": "screenshot-match-preproduction",
+    "head": "d4d9caa564e41eefee6570d34e5216143aeb4fe5",
+    "planSourceHeadMatchesExecutionHead": true
+  },
+  "attempt": {
+    "attemptId": "desks-11-w03-a-creator-desk-tools-1db6ed8727",
+    "itemId": "desks-11",
+    "producer": "03",
+    "variant": "A-CREATOR-DESK-TOOLS",
+    "promptSha256": "1db6ed87274104855bf0d70ebcf6a74293acc867785e38fb3748925d3ab6e97b",
+    "runtimePromptSha256": "f1600374bceb1dddf2a10b4866265cb018f5bc7610b1b0f373b01b442e0d7128",
+    "runtimeNegativePromptSha256": "1edc974fa6ccaf6e82232e82284c589e5be333c3bf1a7a374845f66281e9f6e8",
+    "promptRecipeVersion": "artPromptOptimizer-request-v1:w03-desks10-11-final-retry",
+    "seed": 586117807
+  },
+  "runtime": {
+    "repo": "huggingface/diffusers",
+    "commit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "resolvedCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "runtimeCommitVerified": true,
+    "diffusersVersion": "0.41.0.dev0",
+    "diffusersInstallSource": "https://github.com/huggingface/diffusers.git",
+    "torchVersion": "2.8.0+cpu",
+    "transformersVersion": "5.17.0",
+    "accelerateVersion": "1.15.0",
+    "huggingfaceHubVersion": "1.33.0",
+    "safetensorsVersion": "0.8.0",
+    "pythonPillowVersion": "12.3.0",
+    "device": "cpu",
+    "dtype": "float32",
+    "executionMode": "cpu-fallback"
+  },
+  "model": {
+    "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+    "revision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS",
+    "resolvedRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "snapshotRevisionVerified": true,
+    "selectiveSnapshot": true,
+    "snapshotAllowPatterns": [
+      "model_index.json",
+      "scheduler/*",
+      "tokenizer/*",
+      "tokenizer_2/*",
+      "feature_extractor/*",
+      "text_encoder/config.json",
+      "text_encoder/model.fp16.safetensors",
+      "text_encoder_2/config.json",
+      "text_encoder_2/model.fp16.safetensors",
+      "unet/config.json",
+      "unet/diffusion_pytorch_model.fp16.safetensors",
+      "vae/config.json",
+      "vae/diffusion_pytorch_model.fp16.safetensors"
+    ]
+  },
+  "conditioning": {
+    "referenceAssetSha256": null,
+    "controlImageSha256": null,
+    "adapterScale": null,
+    "referenceImage": null,
+    "ipAdapterModelId": null,
+    "ipAdapterRevision": null,
+    "ipAdapterResolvedRevision": null,
+    "ipAdapterRevisionVerified": false,
+    "ipAdapterWeightName": null,
+    "ipAdapterSubfolder": null
+  },
+  "generation": {
+    "width": 640,
+    "height": 640,
+    "numInferenceSteps": 12,
+    "guidanceScale": 5.0,
+    "runtimePromptTokenCounts": {
+      "tokenizer": 71,
+      "tokenizer_2": 71
+    },
+    "runtimeNegativePromptTokenCounts": {
+      "tokenizer": 29,
+      "tokenizer_2": 29
+    },
+    "executedSeed": 586117807
+  },
+  "output": {
+    "repoPath": "public/assets/catalog-candidates/cpu/desks-11-w03-v9-a-creator-desk-tools-original.png",
+    "sha256": "b7123b0f4225922630e7671a9b9327283fc50a14e3404bec1d31503629eb59a4",
+    "gitBlobSha": "5895f9d6a32ea6e13a8d45691950a3ddbce46340",
+    "bytes": 412702,
+    "width": 640,
+    "height": 640,
+    "format": "PNG",
+    "sourceBytesPreserved": true,
+    "reusedExistingIdenticalBytes": false
+  },
+  "safety": {
+    "canonicalArtModified": false,
+    "gameplayModified": false,
+    "reviewDecisionMade": false,
+    "deploymentPerformed": false,
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+  },
+  "nextGate": "RUN_VERIFY_STAGED_OUTPUT_THEN_REAL_RENDER_AND_INDEPENDENT_EXACT_HASH_REVIEW",
+  "status": "GENERATED_SOURCE_BYTES_UNVERIFIED",
+  "recordSha256": "99ef3244f548d1593daa7b74d17c3d643d591a98f402784a4f702d0b0addff75"
+}
