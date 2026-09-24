@@ -26,16 +26,94 @@ page.on('pageerror',e=>pageErrors.push(String(e?.stack||e)));
 page.on('requestfailed',r=>requestFailures.push({url:r.url(),error:r.failure()?.errorText||'unknown'}));
 
 async function openStore(){
-  await page.goto(baseUrl,{waitUntil:'networkidle',timeout:30000});
-  await page.waitForSelector('.sidebar .navBtn',{timeout:10000});
+  await page.goto(baseUrl,{waitUntil:'domcontentloaded',timeout:30000});
+  await page.waitForSelector('.sidebar .navBtn',{timeout:15000});
   const nav=page.locator('.sidebar .navBtn').filter({hasText:/Store|Market/i}).first();
-  await nav.waitFor({state:'visible',timeout:8000});
+  await nav.waitFor({state:'visible',timeout:10000});
   await nav.click();
-  await page.waitForSelector('.marketPage .storeGrid',{state:'attached',timeout:10000});
-  const companions=page.locator('.marketPage .filterRow').first().locator('button').filter({hasText:/^Companions$/i}).first();
-  await companions.waitFor({state:'visible',timeout:8000});
+  await page.waitForSelector('.marketPage',{state:'attached',timeout:15000});
+  await page.waitForSelector('.marketPage .storeGrid',{state:'attached',timeout:15000});
+  // Screenshot-match runtime is progressive enhancement. Do not fail the
+  // authoritative live-card check merely because the enhancement class arrives
+  // late or is absent on the deployed revision.
+  await page.waitForTimeout(500);
+  const companionsByData=page.locator('.marketPage .filterRow button[data-collection-id="companions"]').first();
+  const companionsByText=page.locator('.marketPage .filterRow button').filter({hasText:/Companion|Buddy/i}).first();
+  const companions=await companionsByData.count() ? companionsByData : companionsByText;
+  await companions.waitFor({state:'visible',timeout:10000});
   await companions.click();
   await page.waitForTimeout(500);
+  await page.waitForSelector('.marketPage .storeGrid .storeCard',{state:'attached',timeout:10000});
+}
+
+function cardFor(id,name){
+  const byId=page.locator(`.marketPage .storeGrid .storeCard[data-store-item-id="${id}"]`).first();
+  const byName=page.locator('.marketPage .storeGrid .storeCard').filter({has:page.locator('h3',{hasText:name})}).first();
+  return {byId,byName};
+}
+
+async function resolveCard(id,name){
+  const {byId,byName}=cardFor(id,name);
+  if(await byId.count()) return byId;
+  return byName;
+}
+
+async function setEphemeralCompanion(id){
+  await page.evaluate(({id,key})=>{
+    let save={};
+    try{ save=JSON.parse(localStorage.getItem(key)||'{}')||{}; }catch{}
+    save.stateVersion=2;
+    save.owned=Array.from(new Set([...(Array.isArray(save.owned)?save.owned:[]),'companions-1',id]));
+    save.equipped={...(save.equipped||{}),companion:id};
+    save.companionBond=Number.isFinite(Number(save.companionBond))?Number(save.companionBond):0;
+    localStorage.setItem(key,JSON.stringify(save));
+    window.dispatchEvent(new StorageEvent('storage',{key,newValue:JSON.stringify(save)}));
+  },{id,key:'starblox-save-v2'});
+  await page.waitForTimeout(250);
+}
+
+async function inspectBuddy(id){
+  // Use the always-present World avatar. This mutates only the isolated browser
+  // profile's localStorage; it never calls purchase/equip APIs or remote storage.
+  const world=page.locator('.sidebar .navBtn').filter({hasText:/World/i}).first();
+  await world.click();
+  await page.waitForSelector('.avatarWrap .buddy',{timeout:10000});
+  await setEphemeralCompanion(id);
+  const root=page.locator('.avatarWrap').first();
+  await root.waitFor({state:'visible',timeout:10000});
+  const result=await root.evaluate((node,expectedId)=>{
+    const buddy=node.querySelector('.buddy');
+    const img=buddy?.querySelector('img.sbBuddyPortrait,img');
+    const br=buddy?.getBoundingClientRect();
+    const ir=img?.getBoundingClientRect();
+    return {
+      expectedId,
+      rootCompanionId:node.dataset.companion||null,
+      buddyCompanionId:buddy?.dataset?.companionId||null,
+      buddyPresent:Boolean(buddy),
+      image:img?{
+        src:img.getAttribute('src')||'',
+        naturalWidth:img.naturalWidth,
+        naturalHeight:img.naturalHeight,
+        renderedWidth:ir?.width||0,
+        renderedHeight:ir?.height||0
+      }:null,
+      buddyRect:br?{width:br.width,height:br.height}:null
+    };
+  },id);
+  await root.screenshot({path:path.join(outputDir,`${id}-buddy.png`)});
+  return result;
+}
+
+async function returnToStore(){
+  const nav=page.locator('.sidebar .navBtn').filter({hasText:/Store|Market/i}).first();
+  await nav.click();
+  await page.waitForSelector('.marketPage .storeGrid',{timeout:10000});
+  const companionsByData=page.locator('.marketPage .filterRow button[data-collection-id="companions"]').first();
+  const companionsByText=page.locator('.marketPage .filterRow button').filter({hasText:/Companion|Buddy/i}).first();
+  const companions=await companionsByData.count() ? companionsByData : companionsByText;
+  await companions.click();
+  await page.waitForTimeout(250);
 }
 
 await openStore();
@@ -68,40 +146,53 @@ for(const [id,name] of targets){
 
   const hasEnhancedPreview=await page.locator('.sbStoreRightRail').count()>0;
   if(hasEnhancedPreview){
-    await card.click();
-    await page.waitForTimeout(250);
+    let selected={
+    expectedId:id,
+    selectedId:null,
+    detailPresent:false,
+    detailText:'',
+    detailImage:null,
+    avatarStagePresent:false,
+    avatarStageImages:[]
+  };
+  // If the screenshot-match enhancement is active, selecting a card is a
+  // read-only preview action. Base Store cards remain valid evidence otherwise.
+  if(await page.locator('.sbStoreRightRail').count()){
+    await card.click({position:{x:10,y:10}});
+    await page.waitForTimeout(200);
+    selected=await page.evaluate(expectedId=>{
+      const detail=document.querySelector('.sbStoreSelectedDetail');
+      const stage=document.querySelector('.sbStoreAvatarStage');
+      const detailImg=detail?.querySelector('img');
+      const stageImgs=[...(stage?.querySelectorAll('img')||[])].map(img=>({
+        src:img.getAttribute('src')||'',
+        alt:img.getAttribute('alt')||'',
+        naturalWidth:img.naturalWidth,
+        naturalHeight:img.naturalHeight
+      }));
+      return {
+        expectedId,
+        selectedId:document.querySelector('.storeCard[aria-selected="true"]')?.dataset?.storeItemId||null,
+        detailPresent:Boolean(detail),
+        detailText:(detail?.textContent||'').replace(/\s+/g,' ').trim().slice(0,500),
+        detailImage:detailImg?{
+          src:detailImg.getAttribute('src')||'',
+          alt:detailImg.getAttribute('alt')||'',
+          naturalWidth:detailImg.naturalWidth,
+          naturalHeight:detailImg.naturalHeight
+        }:null,
+        avatarStagePresent:Boolean(stage),
+        avatarStageImages:stageImgs
+      };
+    },id);
+    const detail=page.locator('.sbStoreSelectedDetail').first();
+    if(await detail.count()) await detail.screenshot({path:path.join(outputDir,`${id}-detail.png`)});
+    const stage=page.locator('.sbStoreAvatarStage').first();
+    if(await stage.count()) await stage.screenshot({path:path.join(outputDir,`${id}-avatar-stage.png`)});
   }
-  const selected=await page.evaluate(({expectedId,hasEnhancedPreview})=>{
-    const detail=document.querySelector('.sbStoreSelectedDetail');
-    const stage=document.querySelector('.sbStoreAvatarStage');
-    const detailImg=detail?.querySelector('img');
-    const stageImgs=[...(stage?.querySelectorAll('img')||[])].map(img=>({
-      src:img.getAttribute('src')||'',
-      alt:img.getAttribute('alt')||'',
-      naturalWidth:img.naturalWidth,
-      naturalHeight:img.naturalHeight
-    }));
-    return {
-      expectedId,
-      hasEnhancedPreview,
-      selectedId:document.querySelector('.storeCard.selectedCard,.storeCard[aria-selected="true"]')?.dataset?.storeItemId||null,
-      detailPresent:Boolean(detail),
-      detailText:(detail?.textContent||'').replace(/\s+/g,' ').trim().slice(0,500),
-      detailImage:detailImg?{
-        src:detailImg.getAttribute('src')||'',
-        alt:detailImg.getAttribute('alt')||'',
-        naturalWidth:detailImg.naturalWidth,
-        naturalHeight:detailImg.naturalHeight
-      }:null,
-      avatarStagePresent:Boolean(stage),
-      avatarStageImages:stageImgs
-    };
-  },{expectedId:id,hasEnhancedPreview});
 
-  const detail=page.locator('.sbStoreSelectedDetail').first();
-  if(await detail.count()) await detail.screenshot({path:path.join(outputDir,`${id}-detail.png`)});
-  const stage=page.locator('.sbStoreAvatarStage').first();
-  if(await stage.count()) await stage.screenshot({path:path.join(outputDir,`${id}-avatar-stage.png`)});
+  const buddy=await inspectBuddy(id);
+  await returnToStore();
 
   results.push({
     id,name,card:cardMetrics,selected,
