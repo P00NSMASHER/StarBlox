@@ -1034,9 +1034,9 @@
     ]
   },
   "catalogFactoryReviewHandoff": {
-    "updatedAt": "2026-09-24T01:08:00Z",
-    "sourceHead": "0833b542e640c9515c61e50ec2650b445b09dfa4",
-    "purpose": "Trigger one current-branch exact-hash Store card/detail render pass for newly qualified Wall 11, Wall 12 and Decor 7 v3 while preserving reviewer independence and the Wall 10 REWORK freeze.",
+    "updatedAt": "2026-09-24T04:20:00Z",
+    "sourceHead": "a692aa2a34c0ea3371e66c204e6e8ef9cc943802",
+    "purpose": "Trigger current-branch exact-hash Store card/detail render evidence for newly qualified Wall 9 v2 while preserving all prior exact-hash dispositions and reviewer independence.",
     "candidates": [
       {
         "itemId": "wall-11",
@@ -1073,6 +1073,18 @@
         "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-decor-7-v3-qualification-20260924.json",
         "qualification": "QUALIFIED_FOR_RENDERER14",
         "route": "14 -> 01 -> 08 on ACCEPT"
+      },
+      {
+        "itemId": "wall-9",
+        "name": "Art Gallery Wall",
+        "producer": "13",
+        "reviewer": "02",
+        "path": "public/assets/catalog-candidates/cpu/wall-9-w13-v2-a-backboard-gallery-original.png",
+        "sha256": "e8600cc0b132b22b6facb270b63db8ea8eb98230debd2f1a8f84e627b1d44bd3",
+        "gitBlobSha": "00e551de0596b83977d16400fe782d1506b28e8a",
+        "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-wall-9-v2-qualification-20260924.json",
+        "qualification": "QUALIFIED_FOR_RENDERER14",
+        "route": "14 -> 02 -> 08 on ACCEPT"
       }
     ],
     "preservedDispositions": [
