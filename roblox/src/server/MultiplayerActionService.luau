@@ -446,6 +446,10 @@ function MultiplayerActionService:_processPlayer(player: Player, session: Player
 		if command.Sequence <= session.LastProcessedSequence then
 			continue
 		end
+		if command.ClientTick > self._serverTick then
+			table.insert(remaining, command)
+			continue
+		end
 
 		self._adapters.Movement:ProcessInput(player, command, FIXED_DT, self._serverTick)
 		session.LastProcessedSequence = command.Sequence
