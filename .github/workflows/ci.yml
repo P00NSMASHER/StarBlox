@@ -39,6 +39,25 @@ jobs:
             exit 1
           fi
           grep -q '"ready": false' /tmp/no-roblox-handoff.json
+      - name: Smoke-test safe Roblox ingestion command
+        run: |
+          rm -rf /tmp/roblox-safe-ingest
+          npm run roblox:ingest -- --input tools/roblox_catalog_reader/fixtures --out-dir /tmp/roblox-safe-ingest --source-id ci-authorized
+          test -f /tmp/roblox-safe-ingest/source-preflight.json
+          test -f /tmp/roblox-safe-ingest/catalog-handoff.json
+          test -f /tmp/roblox-safe-ingest/capability-catalog.json
+          test -f /tmp/roblox-safe-ingest/capability-catalog.md
+          test -f /tmp/roblox-safe-ingest/ingestion-receipt.json
+          grep -q '"status": "cataloged"' /tmp/roblox-safe-ingest/ingestion-receipt.json
+          grep -q '"migrationStarted": false' /tmp/roblox-safe-ingest/ingestion-receipt.json
+          if npm run roblox:ingest -- --input tools/roblox_catalog_reader/fixtures --out-dir tools/roblox_catalog_reader/fixtures/generated-ingest; then
+            echo "expected in-source output rejection"
+            exit 1
+          fi
+          if npm run roblox:ingest -- --input tools/roblox_catalog_reader/fixtures --out-dir /tmp/roblox-safe-ingest; then
+            echo "expected existing-output rejection"
+            exit 1
+          fi
       - name: Smoke-test Roblox capability catalog
         run: |
           npm run roblox:catalog -- --preflight /tmp/roblox-catalog-handoff.json --out /tmp/roblox-catalog.json --report /tmp/roblox-catalog.md
