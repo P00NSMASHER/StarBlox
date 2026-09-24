@@ -18,11 +18,12 @@ function source(component,repository,branch,commit,repositoryLicense,path=null,r
 
 export const UPSTREAM_PROVENANCE = Object.freeze({
   neonVectorDefense: source(
-    'deterministic simulation, replay verification, daily compatibility, remote balance and balance gates',
+    'deterministic fixed-step simulation core and seeded gameplay randomness',
     'Calculator5329/neon-vector-defense',
     'master',
     '48ecf31509d73dd8fb2c5f25f1fc57cfa6d03eb4',
-    'unasserted in GitHub metadata'
+    'unasserted in GitHub metadata',
+    'src/game/engine.ts'
   ),
   recallCs: source(
     'offline question generation, review, validation and deduplication',
