@@ -1,0 +1,111 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_W12_CANDIDATE_DELTA_INTAKE_ROUTING",
+  "router": "12",
+  "branch": "screenshot-match-preproduction",
+  "observedHead": "67efe9eb827ad21511c5955f087cc5bf718477f3",
+  "scanWindow": {
+    "priorCursor": "647cf6e1682676939999fec7ee1e7714afb093c5",
+    "inspectedThroughHead": "67efe9eb827ad21511c5955f087cc5bf718477f3",
+    "newCatalogCandidateBytesDetected": true,
+    "newCandidateItemIds": [
+      "wall-8",
+      "wall-9",
+      "desks-12"
+    ],
+    "note": "Post-v29 delta contains the producer13 current rework 3-pack plus the producer09 runtime-queue dispatch commit; only Wall8 v6, Wall9 v6 and Desk12 v3 introduce new candidate bytes."
+  },
+  "candidates": [
+    {
+      "id": "wall-8",
+      "name": "Ocean Window",
+      "collectionId": "wall",
+      "producer": "13",
+      "reviewerAssignment": "11",
+      "renderOwner": "14",
+      "canonicalWriter": "08",
+      "path": "public/assets/catalog-candidates/cpu/wall-8-w13-v6-a-one-ocean-window-original.png",
+      "sha256": "400ebeeb9435a170a1c5889928754bb050a5009d7f7925cdefcd0e33419fdc83",
+      "gitBlobSha": "891519488ffd1f7858e0eca960b51b250e50b29c",
+      "bytes": 589737,
+      "dimensions": [
+        640,
+        640
+      ],
+      "format": "PNG",
+      "stagedOutput": "docs/preproduction/art-factory/generated-evidence/w13-current-rework-3pack-v2/wall-8/staged-output.json",
+      "generationReceipt": "docs/preproduction/art-factory/generated-evidence/w13-current-rework-3pack-v2/wall-8/generation-receipt.json",
+      "provenanceState": "COMPLETE_ART_FACTORY_V2",
+      "repositoryReadback": "PASS_EXACT_GIT_BLOB",
+      "supersession": "FRESH_V6_FAILURE_SPECIFIC_REPLACEMENT_FOR_REWORKED_V5",
+      "state": "ROUTE_TO_06_TECHNICAL_QUALIFICATION"
+    },
+    {
+      "id": "wall-9",
+      "name": "Art Gallery Wall",
+      "collectionId": "wall",
+      "producer": "13",
+      "reviewerAssignment": "02",
+      "renderOwner": "14",
+      "canonicalWriter": "08",
+      "path": "public/assets/catalog-candidates/cpu/wall-9-w13-v6-a-three-frames-no-room-original.png",
+      "sha256": "f9deadbf8443d30b3ec8534a220307a3d43c4899f2cb1eb5db40e1b7edd9d8de",
+      "gitBlobSha": "b2ac1c401bd9b20adf9d8b95c90b8db3f0453faa",
+      "bytes": 557151,
+      "dimensions": [
+        640,
+        640
+      ],
+      "format": "PNG",
+      "stagedOutput": "docs/preproduction/art-factory/generated-evidence/w13-current-rework-3pack-v2/wall-9/staged-output.json",
+      "generationReceipt": "docs/preproduction/art-factory/generated-evidence/w13-current-rework-3pack-v2/wall-9/generation-receipt.json",
+      "provenanceState": "COMPLETE_ART_FACTORY_V2",
+      "repositoryReadback": "PASS_EXACT_GIT_BLOB",
+      "supersession": "FRESH_V6_FAILURE_SPECIFIC_REPLACEMENT_FOR_REWORKED_V5",
+      "state": "ROUTE_TO_06_TECHNICAL_QUALIFICATION"
+    },
+    {
+      "id": "desks-12",
+      "name": "Luxe Command Desk",
+      "collectionId": "desks",
+      "producer": "13",
+      "reviewerAssignment": "01",
+      "renderOwner": "14",
+      "canonicalWriter": "08",
+      "path": "public/assets/catalog-candidates/cpu/desks-12-w13-v3-a-one-command-desk-original.png",
+      "sha256": "10200d0bb803b414a7ed7793991e57c19d0848089fef8901a583bf29176fb378",
+      "gitBlobSha": "7d268e27c8d963dfb7e8c62274fe6b906973d5bd",
+      "bytes": 622840,
+      "dimensions": [
+        640,
+        640
+      ],
+      "format": "PNG",
+      "stagedOutput": "docs/preproduction/art-factory/generated-evidence/w13-current-rework-3pack-v2/desks-12/staged-output.json",
+      "generationReceipt": "docs/preproduction/art-factory/generated-evidence/w13-current-rework-3pack-v2/desks-12/generation-receipt.json",
+      "provenanceState": "COMPLETE_ART_FACTORY_V2",
+      "repositoryReadback": "PASS_EXACT_GIT_BLOB",
+      "supersession": "FRESH_V3_FAILURE_SPECIFIC_REPLACEMENT_FOR_REWORKED_V2",
+      "state": "ROUTE_TO_06_TECHNICAL_QUALIFICATION"
+    }
+  ],
+  "dedupe": {
+    "uniqueItemHashClaim": true,
+    "unchangedPriorHashesRerouted": false,
+    "newerPendingCandidateObserved": false
+  },
+  "queues": {
+    "to06": [
+      "wall-8@400ebeeb9435a170a1c5889928754bb050a5009d7f7925cdefcd0e33419fdc83",
+      "wall-9@f9deadbf8443d30b3ec8534a220307a3d43c4899f2cb1eb5db40e1b7edd9d8de",
+      "desks-12@10200d0bb803b414a7ed7793991e57c19d0848089fef8901a583bf29176fb378"
+    ],
+    "backToProducer": []
+  },
+  "cursorAdvance": {
+    "previous": "647cf6e1682676939999fec7ee1e7714afb093c5",
+    "advancedThrough": "67efe9eb827ad21511c5955f087cc5bf718477f3"
+  },
+  "nextOwner": "06_TECHNICAL_QUALIFICATION",
+  "mutationScope": "Routing evidence only; no candidate bytes, canonical mappings, reviewer decisions, gameplay, CI/workflows, deployment or player data changed."
+}
