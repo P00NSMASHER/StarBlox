@@ -145,10 +145,38 @@ describe('Step 3: Roblox production backbone', () => {
     expect(source).toMatch(/FORBIDDEN_ARG_WORDS/);
   });
 
+  it('pins the production Roblox packages, vendored Replica identity and self-starting composition roots', () => {
+    const wally=file('roblox/wally.toml');
+    const lock=JSON.parse(file('roblox/toolchain.lock.json'));
+    const serverRuntime=file('roblox/src/server/Runtime.server.luau');
+    const clientRuntime=file('roblox/src/client/Runtime.client.luau');
+
+    expect(wally).toContain('Matter = "matter-ecs/matter@0.8.4"');
+    expect(wally).toContain('ProfileStore = "lm-loleris/profilestore@1.0.3"');
+    expect(lock.runtimePackages.Replica.upstreamRevision)
+      .toBe('9cae236aee840b1f436b6b1a63c76f4384e285b7');
+    expect(lock.runtimePackages.Replica.files).toHaveLength(7);
+    expect(lock.generators.Zap.version).toBe('0.6.29');
+    expect(lock.generators.Zap.upstreamRevision)
+      .toBe('8cd17ab78192217600eec6f688ed8f8aab18d707');
+    expect(serverRuntime).toMatch(/ProfileStore = require\(profileStoreModule\)/);
+    expect(serverRuntime).toMatch(/Replica = require\(replicaServerModule\)/);
+    expect(serverRuntime).toMatch(/Matter = require\(matterModule\)/);
+    expect(clientRuntime).toMatch(/Bootstrap\.start\(require\(replicaClientModule\)\)/);
+  });
+
   it('maps the Rojo tree into shared, server, and client Roblox service boundaries', () => {
     const project=JSON.parse(file('roblox/default.project.json'));
     expect(project.tree.ReplicatedStorage.StarBlox.$path).toBe('src/shared');
     expect(project.tree.ServerScriptService.StarBlox.$path).toBe('src/server');
     expect(project.tree.StarterPlayer.StarterPlayerScripts.StarBlox.$path).toBe('src/client');
+    expect(project.tree.ReplicatedStorage.Packages.$path.optional).toBe('Packages');
+    expect(project.tree.ServerScriptService.ServerPackages.$path.optional).toBe('ServerPackages');
+    expect(project.tree.ReplicatedStorage.ReplicaClient.$path)
+      .toBe('vendor/Replica/ReplicatedStorage/ReplicaClient.luau');
+    expect(project.tree.ReplicatedStorage.ReplicaShared.$path)
+      .toBe('vendor/Replica/ReplicatedStorage/ReplicaShared');
+    expect(project.tree.ServerScriptService.ReplicaServer.$path)
+      .toBe('vendor/Replica/ServerScriptService/ReplicaServer.luau');
   });
 });
