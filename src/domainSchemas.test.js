@@ -119,7 +119,7 @@ describe('StarBlox upstream implementation provenance', () => {
   it('pins every planned source to an immutable full commit SHA', () => {
     const entries = upstreamSourceList();
 
-    expect(entries.length).toBeGreaterThanOrEqual(98);
+    expect(entries.length).toBeGreaterThanOrEqual(100);
     expect(entries.every(entry => /^[a-f0-9]{40}$/.test(entry.commit))).toBe(true);
     expect(entries.every(entry => entry.reuseBasis === 'user-confirmed direct reuse rights')).toBe(true);
   });
@@ -197,6 +197,8 @@ describe('StarBlox upstream implementation provenance', () => {
     expect(UPSTREAM_PROVENANCE.flexPhotoService.path).toBe('src/server/services/PhotoService.lua');
     expect(UPSTREAM_PROVENANCE.flexMinigameService.path).toBe('src/server/services/MinigameService.lua');
     expect(UPSTREAM_PROVENANCE.placementService.path).toBe('PlacementService.lua');
+    expect(UPSTREAM_PROVENANCE.cortexRuntime.path).toBe('src/Cortex.lua');
+    expect(UPSTREAM_PROVENANCE.cortexNpcExample.path).toBe('examples/npc.server.lua');
     expect(UPSTREAM_PROVENANCE.remodelExtractModels.path).toBe('examples/02-extract-models.lua');
     expect(UPSTREAM_PROVENANCE.bloxForgeMutationPlan.path).toBe('packages/core/src/builders/mutation-plan.ts');
     expect(UPSTREAM_PROVENANCE.bloxForgeGameplayAssertions.path).toBe('packages/core/src/builders/gameplay-assertions.ts');
