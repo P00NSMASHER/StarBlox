@@ -1,0 +1,192 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_TECHNICAL_QUALIFICATION_MICROBATCH",
+  "role": "06-single-technical-qualification-gate",
+  "branch": "screenshot-match-preproduction",
+  "observedHead": "68a3e86b46403b7306719b325b98c0d435351e65",
+  "intakeEvidence": "docs/preproduction/art-factory/requests/w12-cross-account-intake-routing-20260924-v19.json",
+  "manifestVersion": 35,
+  "manifestGitBlob": "3ce2fab41ed9b9068f30fbe5fc40e9e607db0aa9",
+  "runtimeGitBlob": "425b75fe8e817785162873decd75e42effc9de21",
+  "items": [
+    {
+      "item": {
+        "id": "decor-5",
+        "name": "Plant Wall",
+        "collectionId": "decor",
+        "tier": 2,
+        "theme": "Pixel Party"
+      },
+      "candidate": {
+        "producer": "09",
+        "reviewer": "01",
+        "renderOwner": "14",
+        "canonicalWriter": "08",
+        "path": "public/assets/catalog-candidates/cpu/decor-5-w09-v3-a-physical-original.png",
+        "sha256": "a30031043e9d9e3de1a34260a470df6bb37f5e602d692115b7c27ad16915d888",
+        "gitBlobSha": "1e7716f00e8e38f7ad645a448f9e29adea38de37",
+        "dimensions": [
+          640,
+          640
+        ],
+        "bytes": 648687,
+        "format": "PNG",
+        "mode": "RGB"
+      },
+      "sourceGenerationRunId": 35956265009,
+      "provenance": {
+        "stagedOutput": "docs/preproduction/art-factory/generated-evidence/w09-decor-5-v3-decor-7-v4-parallel/decor-5/staged-output.json",
+        "generationReceipt": "docs/preproduction/art-factory/generated-evidence/w09-decor-5-v3-decor-7-v4-parallel/decor-5/generation-receipt.json",
+        "runtimeRepo": "huggingface/diffusers",
+        "runtimeCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+        "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+        "modelRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+        "dtype": "float32",
+        "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+      }
+    },
+    {
+      "item": {
+        "id": "decor-6",
+        "name": "Telescope",
+        "collectionId": "decor",
+        "tier": 2,
+        "theme": "Berry Blast"
+      },
+      "candidate": {
+        "producer": "03",
+        "reviewer": "11",
+        "renderOwner": "14",
+        "canonicalWriter": "08",
+        "path": "public/assets/catalog-candidates/cpu/decor-6-w03-v2-a-single-telescope-original.png",
+        "sha256": "5787d635b6fdde26d67b81ecec661b67da0723060c6ea101ac8576b66416107d",
+        "gitBlobSha": "5b860130d537acadb6a15c81a841805c3b9b81cf",
+        "dimensions": [
+          640,
+          640
+        ],
+        "bytes": 501743,
+        "format": "PNG",
+        "mode": "RGB"
+      },
+      "sourceGenerationRunId": 35975488205,
+      "provenance": {
+        "stagedOutput": "docs/preproduction/art-factory/generated-evidence/w03-decor-6-v2-decor-8-v2-parallel/decor-6/staged-output.json",
+        "generationReceipt": "docs/preproduction/art-factory/generated-evidence/w03-decor-6-v2-decor-8-v2-parallel/decor-6/generation-receipt.json",
+        "runtimeRepo": "huggingface/diffusers",
+        "runtimeCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+        "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+        "modelRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+        "dtype": "float32",
+        "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+      }
+    },
+    {
+      "item": {
+        "id": "decor-7",
+        "name": "Skate Rack",
+        "collectionId": "decor",
+        "tier": 3,
+        "theme": "Garden Glow"
+      },
+      "candidate": {
+        "producer": "09",
+        "reviewer": "01",
+        "renderOwner": "14",
+        "canonicalWriter": "08",
+        "path": "public/assets/catalog-candidates/cpu/decor-7-w09-v4-a-rack-first-minimal-original.png",
+        "sha256": "6d379a59330d7f22f9f7028aad9f5f5327e624798fd1519b39d137034805aa4e",
+        "gitBlobSha": "4e78412e291ccbc553948f536bd1e958ab1ebf53",
+        "dimensions": [
+          640,
+          640
+        ],
+        "bytes": 454275,
+        "format": "PNG",
+        "mode": "RGB"
+      },
+      "sourceGenerationRunId": 35956265009,
+      "provenance": {
+        "stagedOutput": "docs/preproduction/art-factory/generated-evidence/w09-decor-5-v3-decor-7-v4-parallel/decor-7/staged-output.json",
+        "generationReceipt": "docs/preproduction/art-factory/generated-evidence/w09-decor-5-v3-decor-7-v4-parallel/decor-7/generation-receipt.json",
+        "runtimeRepo": "huggingface/diffusers",
+        "runtimeCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+        "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+        "modelRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+        "dtype": "float32",
+        "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+      }
+    },
+    {
+      "item": {
+        "id": "decor-8",
+        "name": "Mini Aquarium",
+        "collectionId": "decor",
+        "tier": 3,
+        "theme": "Galaxy Glow"
+      },
+      "candidate": {
+        "producer": "03",
+        "reviewer": "11",
+        "renderOwner": "14",
+        "canonicalWriter": "08",
+        "path": "public/assets/catalog-candidates/cpu/decor-8-w03-v2-a-physical-original.png",
+        "sha256": "b88c0b339da024e2dd6591311d8f6c1022c682918cd4fb6746254b61d46acf87",
+        "gitBlobSha": "cde20430aaa1c2b4bd07399d35b3f0f184896509",
+        "dimensions": [
+          640,
+          640
+        ],
+        "bytes": 460677,
+        "format": "PNG",
+        "mode": "RGB"
+      },
+      "sourceGenerationRunId": 35975488205,
+      "provenance": {
+        "stagedOutput": "docs/preproduction/art-factory/generated-evidence/w03-decor-6-v2-decor-8-v2-parallel/decor-8/staged-output.json",
+        "generationReceipt": "docs/preproduction/art-factory/generated-evidence/w03-decor-6-v2-decor-8-v2-parallel/decor-8/generation-receipt.json",
+        "runtimeRepo": "huggingface/diffusers",
+        "runtimeCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+        "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+        "modelRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+        "dtype": "float32",
+        "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+      }
+    }
+  ],
+  "technicalChecks": {
+    "idPathBinding": "PASS_ALL_4",
+    "signatureDecode": "PASS_ALL_4_PNG",
+    "dimensions": "PASS_ALL_4_640X640",
+    "sourceLineage": "PASS_ALL_4",
+    "artFactoryV2Provenance": "PASS_ALL_4",
+    "stagedOutputReadback": "PASS_ALL_4_EXACT_GIT_BLOB",
+    "staleSupersededCheck": "PASS_ALL_4",
+    "exactContentDuplicateCheck": "PASS_UNIQUE_WITHIN_MICROBATCH_AND_NOT_CANONICAL",
+    "independentReviewerRouting": "PASS_ALL_4"
+  },
+  "qualification": {
+    "status": "QUALIFIED_FOR_RENDERER14_MICROBATCH",
+    "qualifiedForRenderer14": true,
+    "qualifiedCount": 4,
+    "artQualityJudgment": "NOT_PERFORMED",
+    "blockingDefects": []
+  },
+  "routing": {
+    "current": "HANDOFF_TO_RENDERER14",
+    "reviewerByItem": {
+      "decor-5": "01",
+      "decor-6": "11",
+      "decor-7": "01",
+      "decor-8": "11"
+    },
+    "renderer14": "RENDER_ALL_4_EXACT_HASHES_IN_REAL_STORE_CARD_DETAIL_CONTEXT",
+    "integration08": "ONLY_AFTER_MATCHING_INDEPENDENT_REVIEWER_ACCEPT"
+  },
+  "preservation": {
+    "candidateBytesMutated": false,
+    "canonicalMappingsChanged": false,
+    "gameplayLearningPersistenceEconomyChanged": false,
+    "deploymentTouched": false
+  }
+}
