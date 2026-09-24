@@ -42,7 +42,14 @@ const outDir = getArg('out-dir','.learning-promotion');
 const learnerCount = Number(getArg('learners','48'));
 const maxStep = Number(getArg('max-step','30'));
 const seed = Number(getArg('seed','20260924'));
+const trainTimeRatio = 0.6;
+const selectionStep = Math.ceil(maxStep * trainTimeRatio);
+const fsrsEvaluationOffsetHours = 24;
 const datasetName = 'starblox_shadow';
+
+if(selectionStep <= 0 || selectionStep >= maxStep){
+  throw new Error('selectionStep must split observed and held-out interactions');
+}
 const baseTime = Date.UTC(2026,8,1,12,0,0);
 
 fs.mkdirSync(outDir,{recursive:true});
@@ -66,6 +73,7 @@ for(const skill of skills){
 }
 
 const events = [];
+const selectionEvents = [];
 const learnerRows = [];
 
 for(let learnerIndex=0;learnerIndex<learnerCount;learnerIndex++){
@@ -74,6 +82,7 @@ for(let learnerIndex=0;learnerIndex<learnerCount;learnerIndex++){
   const truth = {};
   const bkt = {};
   const stats = {};
+  let selectionSnapshot = null;
 
   skills.forEach((skill,skillIndex) => {
     truth[skill] = clamp01(0.12 + rng() * 0.62 + (skillIndex % 3) * 0.025);
@@ -120,6 +129,7 @@ for(let learnerIndex=0;learnerIndex<learnerCount;learnerIndex++){
       responseMs:900 + Math.floor(rng() * 2400)
     });
     events.push(event);
+    if(step < selectionStep) selectionEvents.push(event);
 
     const stat = stats[skill];
     stat.seen += 1;
@@ -133,17 +143,39 @@ for(let learnerIndex=0;learnerIndex<learnerCount;learnerIndex++){
 
     const learningGain = (correct ? 0.055 : 0.025) * (1 - truth[skill]);
     truth[skill] = clamp01(truth[skill] + learningGain);
+
+    if(step === selectionStep - 1){
+      selectionSnapshot = {
+        truthMastery:Object.fromEntries(
+          skills.map(skill => [skill,Number(truth[skill].toFixed(6))])
+        ),
+        bktMastery:Object.fromEntries(
+          skills.map(skill => [skill,Number(bkt[skill].toFixed(6))])
+        ),
+        stats:Object.fromEntries(
+          skills.map(skill => [skill,{...stats[skill]}])
+        )
+      };
+    }
+  }
+
+  if(!selectionSnapshot){
+    throw new Error('selection snapshot was not captured for ' + playerLocalId);
   }
 
   learnerRows.push({
     playerLocalId,
-    truthMastery:Object.fromEntries(
+    // Primary selector state is intentionally frozen at the same observed
+    // prefix PSI-KT receives. Do not replace these with final-state values.
+    truthMastery:selectionSnapshot.truthMastery,
+    bktMastery:selectionSnapshot.bktMastery,
+    stats:selectionSnapshot.stats,
+    selectionTruthMastery:selectionSnapshot.truthMastery,
+    selectionBktMastery:selectionSnapshot.bktMastery,
+    selectionStats:selectionSnapshot.stats,
+    finalTruthMastery:Object.fromEntries(
       skills.map(skill => [skill,Number(truth[skill].toFixed(6))])
-    ),
-    bktMastery:Object.fromEntries(
-      skills.map(skill => [skill,Number(bkt[skill].toFixed(6))])
-    ),
-    stats
+    )
   });
 }
 
@@ -151,7 +183,10 @@ const psiTable = buildPsiKtInteractionTable(events);
 const interactionsPath = path.join(datasetDir,'interactions_' + maxStep + '.csv');
 fs.writeFileSync(interactionsPath,psiKtInteractionTableToTsv(psiTable),'utf8');
 
-const riffCommands = buildRiffReviewCommands(events);
+if(selectionEvents.length !== learnerCount * selectionStep){
+  throw new Error('selection event count does not match the observed prefix');
+}
+const riffCommands = buildRiffReviewCommands(selectionEvents);
 const riffPath = path.join(outDir,'riff-reviews.json');
 fs.writeFileSync(riffPath,JSON.stringify({
   schemaVersion:'starblox-riff-review-export-v1',
@@ -179,7 +214,12 @@ const metadata = {
   seed,
   learnerCount,
   maxStep,
+  trainTimeRatio,
+  selectionStep,
+  heldOutStepCount:maxStep - selectionStep,
+  fsrsEvaluationOffsetHours,
   eventCount:events.length,
+  selectionEventCount:selectionEvents.length,
   datasetName,
   skills,
   userIdMap:psiTable.user_id_map,
@@ -198,8 +238,12 @@ process.stdout.write(JSON.stringify({
   datasetName,
   learnerCount,
   maxStep,
+  trainTimeRatio,
+  selectionStep,
+  heldOutStepCount:maxStep - selectionStep,
   skillCount:skills.length,
   eventCount:events.length,
+  selectionEventCount:selectionEvents.length,
   psiRows:psiTable.rows.length,
   riffCommands:riffCommands.length,
   outDir
