@@ -1,0 +1,64 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_W12_CANDIDATE_DELTA_INTAKE_ROUTING",
+  "router": "12",
+  "branch": "screenshot-match-preproduction",
+  "observedHead": "715eda5ca4f5aaebd95b59d3b1c707098bcb8f57",
+  "scanWindow": {
+    "priorCursor": "c5ba44aa4aeb0dc010be83c90f37d53918d49535",
+    "inspectedThroughHead": "715eda5ca4f5aaebd95b59d3b1c707098bcb8f57",
+    "commitsInspectedFromCompare": 13,
+    "newCatalogCandidateBytesDetected": true,
+    "newCandidateItemIds": [
+      "wall-9"
+    ],
+    "note": "Full post-cursor delta inspected. Wall9 v2 exact candidate bytes are the only genuinely new catalog candidate bytes. Parallel prepared/runtime queue commits for Decor5/7 and coordination metadata introduce no candidate bytes yet."
+  },
+  "candidates": [
+    {
+      "id": "wall-9",
+      "name": "Art Gallery Wall",
+      "collectionId": "wall",
+      "producer": "13",
+      "reviewerAssignment": "02",
+      "renderOwner": "14",
+      "canonicalWriter": "08",
+      "priorRejectedHash": {
+        "path": "public/assets/catalog-candidates/cpu/wall-9-w13-v1-a-gallery-rail-original.png",
+        "gitBlobSha": "95a2de47f3b19017ba37bfac1ab25fc87ad345ed"
+      },
+      "path": "public/assets/catalog-candidates/cpu/wall-9-w13-v2-a-backboard-gallery-original.png",
+      "sha256": "e8600cc0b132b22b6facb270b63db8ea8eb98230debd2f1a8f84e627b1d44bd3",
+      "gitBlobSha": "00e551de0596b83977d16400fe782d1506b28e8a",
+      "bytes": 520228,
+      "dimensions": [
+        640,
+        640
+      ],
+      "format": "PNG",
+      "stagedOutput": "docs/preproduction/art-factory/generated-evidence/w13-wall-9-v2-rework/wall-9/staged-output.json",
+      "generationReceipt": "docs/preproduction/art-factory/generated-evidence/w13-wall-9-v2-rework/wall-9/generation-receipt.json",
+      "provenanceState": "COMPLETE_ART_FACTORY_V2",
+      "repositoryReadback": "PASS_EXACT_GIT_BLOB",
+      "supersession": "FRESH_V2_REPLACEMENT_FOR_REWORKED_V1",
+      "state": "ROUTE_TO_06_TECHNICAL_QUALIFICATION"
+    }
+  ],
+  "dedupe": {
+    "uniqueItemHashClaim": true,
+    "unchangedPriorWall9V1Rerouted": false,
+    "newerPendingWall9CandidateObserved": false
+  },
+  "queues": {
+    "to06": [
+      "wall-9@e8600cc0b132b22b6facb270b63db8ea8eb98230debd2f1a8f84e627b1d44bd3"
+    ],
+    "backToProducer": []
+  },
+  "cursorAdvance": {
+    "previous": "c5ba44aa4aeb0dc010be83c90f37d53918d49535",
+    "advancedThrough": "715eda5ca4f5aaebd95b59d3b1c707098bcb8f57"
+  },
+  "nextOwner": "06_TECHNICAL_QUALIFICATION",
+  "mutationScope": "Routing evidence only; no candidate bytes, ACTIVE_BATCH, canonical mappings, reviewer decisions, gameplay, learning, economy, persistence, accessibility, CI/workflows, deployment, secrets, or player data changed."
+}
