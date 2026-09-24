@@ -290,6 +290,17 @@ describe('Roblox / Brookhaven capability catalog', () => {
     expect(catalog.summary.sourceFingerprintCount).toBe(1);
   });
 
+  it('rejects partial source fingerprint metadata', () => {
+    expect(() => buildRobloxCapabilityCatalog([
+      {
+        sourceId:'licensed:partial',
+        file:'Partial.rbxl',
+        sha256:'b'.repeat(64),
+        dom:fixtureDom()
+      }
+    ])).toThrow(/sha256 and bytes/);
+  });
+
   it('is deterministic regardless of source ordering', () => {
     const a={sourceId:'b',file:'B.rbxlx',dom:fixtureDom()};
     const b={sourceId:'a',file:'A.rbxlx',dom:fixtureDom()};
