@@ -66,7 +66,18 @@ describe('content provenance runtime', () => {
     ).toBe(true);
   });
 
-  it('keeps declared-source provenance debt visible instead of pretending it is fully snapshotted', () => {
+  it('closes ABVM fallback debt when its canonical snapshot hash is supplied', () => {
+    const bundle = buildContentBundle([makeQuestion('grammar-1','language')],{
+      contentVersion:'test-v1',
+      sourceSnapshotHashes:{
+        'abvm-grade2-current-source-pack':'sha256:abvm-test'
+      }
+    });
+    expect(provenanceDebt(bundle).strictReady).toBe(true);
+    expect(validateContentBundle(bundle,{strictProvenance:true})).toEqual([]);
+  });
+
+  it('keeps ABVM fallback provenance debt visible if its snapshot hash is missing', () => {
     const bundle = buildContentBundle([makeQuestion('grammar-1','language')],{
       contentVersion:'test-v1'
     });
