@@ -45,18 +45,19 @@ function SocialWorldService:PlaceItem(player: Player, request)
 	self._profiles:WithProfile(player, function(profileData)
 		local social = ensureSocial(profileData)
 		local validator = self._adapters.PlacementValidator
-		local normalized = request
-
-		if validator and validator.Validate then
-			local ok, result = pcall(function()
-				return validator.Validate(player, request, profileData)
-			end)
-			if not ok or type(result) ~= "table" or result.ok ~= true then
-				outcome = if type(result) == "table" then result.reason else "placement validation failed"
-				return
-			end
-			normalized = result.placement
+		if validator == nil or validator.Validate == nil then
+			outcome = "placement validator unavailable"
+			return
 		end
+
+		local ok, result = pcall(function()
+			return validator.Validate(player, request, profileData)
+		end)
+		if not ok or type(result) ~= "table" or result.ok ~= true then
+			outcome = if type(result) == "table" then result.reason else "placement validation failed"
+			return
+		end
+		local normalized = result.placement
 
 		if type(normalized) ~= "table" or type(normalized.itemId) ~= "string" then
 			outcome = "invalid placement request"
@@ -115,10 +116,28 @@ function SocialWorldService:RemoveItem(player: Player, placementId: string)
 end
 
 function SocialWorldService:AwardNpcAffinity(player: Player, npcId: string, amount: number, eventId: string?)
+	if type(amount) ~= "number" or amount ~= amount or amount == math.huge or amount == -math.huge then
+		return nil
+	end
+
+	local awardId = eventId or HttpService:GenerateGUID(false)
 	local newValue = nil
+	local duplicate = false
 	self._profiles:WithProfile(player, function(profileData)
 		local social = ensureSocial(profileData)
+		social.AffinityEventIds = social.AffinityEventIds or {}
+		if table.find(social.AffinityEventIds, awardId) ~= nil then
+			duplicate = true
+			newValue = social.NpcAffinity[npcId] or 0
+			return
+		end
+
 		local delta = math.max(0, math.floor(amount))
+		table.insert(social.AffinityEventIds, awardId)
+		while #social.AffinityEventIds > 200 do
+			table.remove(social.AffinityEventIds, 1)
+		end
+
 		social.NpcAffinity[npcId] = (social.NpcAffinity[npcId] or 0) + delta
 		newValue = social.NpcAffinity[npcId]
 
@@ -136,12 +155,12 @@ function SocialWorldService:AwardNpcAffinity(player: Player, npcId: string, amou
 		self._replicas:Sync(player, profileData)
 	end)
 
-	if newValue and self._liveOps then
+	if newValue and not duplicate and self._liveOps then
 		self._liveOps:RecordAuthoritativeEvent(
 			player,
 			"npc_friendship",
-			amount,
-			eventId or HttpService:GenerateGUID(false)
+			math.max(0, math.floor(amount)),
+			awardId
 		)
 	end
 
