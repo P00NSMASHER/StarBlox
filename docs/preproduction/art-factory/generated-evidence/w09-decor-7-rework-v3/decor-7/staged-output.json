@@ -1,0 +1,91 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_STAGED_OUTPUT",
+  "repository": "P00NSMASHER/StarBlox",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "12da760345a0677fd264ee749ad809fce80cfd01",
+  "sourcePlanSha256": "9df65383332c8cdba6dc73e5f42cdc58d74f51cf3c733d711881b8abfed40e9a",
+  "item": {
+    "id": "decor-7",
+    "name": "Skate Rack",
+    "collectionId": "decor",
+    "type": "room",
+    "tier": 3,
+    "theme": "Garden Glow"
+  },
+  "attempt": {
+    "attemptId": "decor-7-w09-a-rack-silhouette-4d2d0ac792",
+    "producer": "09",
+    "variant": "A-RACK-SILHOUETTE",
+    "promptBlocks": [
+      "metadata",
+      "category",
+      "silhouette",
+      "physical",
+      "material",
+      "theme",
+      "tier",
+      "card",
+      "original",
+      "stage",
+      "furniture",
+      "camera",
+      "depth",
+      "bloom",
+      "textile",
+      "wall",
+      "light"
+    ],
+    "promptSha256": "4d2d0ac79219e1189a545f270445685de8ccd84dc2d63ef5a2ebd30140f2c195",
+    "promptRecipeVersion": "artPromptOptimizer-request-v1:w09-decor-7-rework-v3",
+    "seed": 1821889710,
+    "runtime": {
+      "repo": "huggingface/diffusers",
+      "commit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c"
+    },
+    "model": {
+      "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+      "revision": "462165984030d82259a11f4367a4eed129e94a7b",
+      "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+    },
+    "conditioning": {
+      "referenceAssetSha256": null,
+      "controlImageSha256": null,
+      "adapterScale": null
+    }
+  },
+  "output": {
+    "repoPath": "public/assets/catalog-candidates/cpu/decor-7-w09-v3-a-rack-silhouette-original.png",
+    "sha256": "7a41b5b897a9d0c912f2b92f226810a75a61d74b2da43df54341eef0841108d4",
+    "gitBlobSha": "407b95bbecc3a030d357de290047954e28904b63",
+    "bytes": 693552,
+    "format": "PNG",
+    "width": 768,
+    "height": 768,
+    "mode": "RGB"
+  },
+  "derivativeLineage": {
+    "derivativeOfSha256": null,
+    "sourcePreserved": true
+  },
+  "renderEvidence": [],
+  "review": {
+    "reviewer": "01",
+    "routing": {
+      "reviewer": "01",
+      "routingFile": "docs/preproduction/art-factory/runtime-queue/w09-decor-7-rework-v3.json",
+      "routingFileSha256": "6ecdf7ee218d051d0fa93342ffc297512f3447a2050f4b3522bd90deba327a89",
+      "queueId": "w09-decor-7-rework-v3"
+    },
+    "state": "PENDING_ACTUAL_PIXEL_REVIEW",
+    "decision": null
+  },
+  "safety": {
+    "canonicalArtModified": false,
+    "gameplayModified": false,
+    "automaticPerceptualDecision": false,
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+  },
+  "status": "STAGED_EXACT_BYTES_VERIFIED",
+  "recordSha256": "189602419d48af88c72b57a40910535a6caed103d4a0bb01214e25294d8613f2"
+}
