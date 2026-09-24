@@ -1,0 +1,83 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_EXACT_HASH_REVIEW_PACKET",
+  "branch": "screenshot-match-preproduction",
+  "createdBy": "14",
+  "rendererEvidenceHead": "6048ca4b2caf44e0cf7ca8145e304420ad99bd36",
+  "reviewer": "11",
+  "producer": "13",
+  "item": {
+    "id": "desks-8",
+    "name": "Aqua Study Station",
+    "collectionId": "desks",
+    "type": "room",
+    "tier": 3,
+    "theme": "Galaxy Glow"
+  },
+  "exactCandidate": {
+    "path": "public/assets/catalog-candidates/cpu/desks-8-w13-v3-a-single-aqua-desk-original.png",
+    "sha256": "ef2915f3fd15baca0d144b56739c3550b196c0c81ec9eab249fb2e23f7155cc3",
+    "gitBlobSha": "a626bb3fdee2c0576b5057f61f1279f56b40f8b4",
+    "bytes": 451974,
+    "dimensions": [
+      640,
+      640
+    ],
+    "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-release-rework-4pack-v1-qualification-20260924.json",
+    "qualification": "QUALIFIED_FOR_RENDERER14"
+  },
+  "renderEvidence": {
+    "workflow": "StarBlox Staged Catalog Art QA",
+    "workflowRunId": 36015965182,
+    "workflowHead": "6048ca4b2caf44e0cf7ca8145e304420ad99bd36",
+    "artifactId": 10814393243,
+    "artifactName": "catalog-staged-art-review",
+    "artifactDigest": "sha256:e8efa78acfb0b2e6b2e25c084b8d510589065d3367504d35fa3851fd3067bc3e",
+    "contactSheetPath": "staged-replacements/staged-replacements-contact-sheet.png",
+    "contactSheetSha256": "a9ac715c5e6caa66148566375ef99f96d4a8a60cbd4f3022419d1954e37139a6",
+    "detailPath": "staged-replacements/detail/desks-8-a626bb3f.png",
+    "detailSha256": "b5753e3635f60fe8c7738e4a05dde38b8bf3ea0f16ab4b2d0c4e71254d7c511e",
+    "detailDimensions": [
+      800,
+      800
+    ],
+    "preflightPath": "preflight/desks-8-a626bb3f.json",
+    "preflightSha256": "feba54cd67ee3939f68c64fabdad0c2dba23163ad3dcb832c72f3bd34fa8fd47",
+    "renderStatus": 200,
+    "naturalDimensions": [
+      640,
+      640
+    ],
+    "opaqueFraction": 1,
+    "screenshot": true,
+    "errors": []
+  },
+  "reportOnlyPreflight": {
+    "exactDuplicate": false,
+    "calibratedWarnings": [],
+    "warningReadyFeatureCount": 0,
+    "triggeredWarningCount": 0,
+    "blocking": false,
+    "automaticAccept": false,
+    "automaticRework": false
+  },
+  "decisionContract": {
+    "allowed": [
+      "ACCEPT",
+      "REWORK"
+    ],
+    "exactHashOnly": true,
+    "oldVerdictTransfers": false,
+    "selfReview": false,
+    "requiredJudgments": [
+      "single Aqua Study Station identity",
+      "desk/study-station physical construction",
+      "Galaxy Glow theme specificity",
+      "small-card silhouette/readability",
+      "material/depth quality",
+      "duplicate/malformed-object risk"
+    ],
+    "onAccept": "Route exact desks-8 hash to 08 canonical integration.",
+    "onRework": "Preserve exact desks-8 hash/evidence and return smallest failure-specific reason codes to producer13/director15."
+  }
+}

@@ -1,0 +1,83 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_EXACT_HASH_REVIEW_PACKET",
+  "branch": "screenshot-match-preproduction",
+  "createdBy": "14",
+  "rendererEvidenceHead": "6048ca4b2caf44e0cf7ca8145e304420ad99bd36",
+  "reviewer": "01",
+  "producer": "13",
+  "item": {
+    "id": "desks-12",
+    "name": "Luxe Command Desk",
+    "collectionId": "desks",
+    "type": "room",
+    "tier": 5,
+    "theme": "Star Luxe"
+  },
+  "exactCandidate": {
+    "path": "public/assets/catalog-candidates/cpu/desks-12-w13-v2-a-isolated-luxe-command-desk-original.png",
+    "sha256": "f5b90a8a25d066fe9bc669fe3ae456788ebfe3024acd0df62fd360afe7713434",
+    "gitBlobSha": "c8f1ba80832d7be9d2d06d3a89838e5feafbb34e",
+    "bytes": 546009,
+    "dimensions": [
+      640,
+      640
+    ],
+    "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-release-rework-4pack-v1-qualification-20260924.json",
+    "qualification": "QUALIFIED_FOR_RENDERER14"
+  },
+  "renderEvidence": {
+    "workflow": "StarBlox Staged Catalog Art QA",
+    "workflowRunId": 36015965182,
+    "workflowHead": "6048ca4b2caf44e0cf7ca8145e304420ad99bd36",
+    "artifactId": 10814393243,
+    "artifactName": "catalog-staged-art-review",
+    "artifactDigest": "sha256:e8efa78acfb0b2e6b2e25c084b8d510589065d3367504d35fa3851fd3067bc3e",
+    "contactSheetPath": "staged-replacements/staged-replacements-contact-sheet.png",
+    "contactSheetSha256": "a9ac715c5e6caa66148566375ef99f96d4a8a60cbd4f3022419d1954e37139a6",
+    "detailPath": "staged-replacements/detail/desks-12-c8f1ba80.png",
+    "detailSha256": "3a6e8fe77a0b79ebea9a0a3a3e88059dc755dc0e27a331c2096beb1a890d4765",
+    "detailDimensions": [
+      800,
+      800
+    ],
+    "preflightPath": "preflight/desks-12-c8f1ba80.json",
+    "preflightSha256": "e10d7de0cc8bc1a421002b187cb74ae341461ac6e69f3ec60adfc3cbad3c6cda",
+    "renderStatus": 200,
+    "naturalDimensions": [
+      640,
+      640
+    ],
+    "opaqueFraction": 1,
+    "screenshot": true,
+    "errors": []
+  },
+  "reportOnlyPreflight": {
+    "exactDuplicate": false,
+    "calibratedWarnings": [],
+    "warningReadyFeatureCount": 0,
+    "triggeredWarningCount": 0,
+    "blocking": false,
+    "automaticAccept": false,
+    "automaticRework": false
+  },
+  "decisionContract": {
+    "allowed": [
+      "ACCEPT",
+      "REWORK"
+    ],
+    "exactHashOnly": true,
+    "oldVerdictTransfers": false,
+    "selfReview": false,
+    "requiredJudgments": [
+      "Luxe Command Desk identity",
+      "single freestanding desk physical construction",
+      "Star Luxe Tier-5 specificity",
+      "small-card silhouette/readability",
+      "material/depth quality",
+      "room-architecture/cockpit regression risk"
+    ],
+    "onAccept": "Route exact desks-12 hash to 08 canonical integration.",
+    "onRework": "Preserve exact desks-12 hash/evidence and return smallest failure-specific reason codes to producer13/director15."
+  }
+}
