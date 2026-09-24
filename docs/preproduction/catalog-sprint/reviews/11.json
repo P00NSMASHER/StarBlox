@@ -4,15 +4,16 @@
   "role": "independent art reviewer D / overflow reviewer",
   "phase": "ART_VISUALS_SPRINT",
   "branch": "screenshot-match-preproduction",
-  "sourceHead": "bfba72b2eae53a78abb7e3d2d05584ff99273551",
+  "sourceHead": "c520cfae40847753e49062c516735e1f57450112",
   "policy": "docs/preproduction/DELIVERY_PROTOCOL_V2.md",
   "artFactoryPolicy": "docs/preproduction/art-factory/ART_FACTORY_V2.json",
   "currentCycle": {
     "scope": [
-      "decor-6"
+      "decor-6",
+      "decor-8"
     ],
-    "version": "w03-v1 A-PHYSICAL exact repository hash",
-    "result": "REWORK_1_OF_1",
+    "version": "w03 Decor6 v2 + Decor8 v2 exact repository hashes",
+    "result": "ACCEPT_1_REWORK_1_OF_2",
     "oldVerdictsTransferred": false,
     "actualCardScalePixelsReviewed": true,
     "actualDetailPixelsReviewed": true,
@@ -20,18 +21,16 @@
   },
   "currentRenderEvidence": {
     "workflow": "StarBlox Staged Catalog Art QA",
-    "workflowRunId": 35952017738,
-    "artifactId": 10788323876,
+    "workflowRunId": 35977305007,
+    "artifactId": 10798692858,
     "artifactName": "catalog-staged-art-review",
-    "artifactDigest": "sha256:8ab84a732080af79abd21066ee84fa2b4f57498d0276359698945e4b7d6e61cb",
-    "workflowHead": "1a0ce358152b8ee522990adf0a44398bf0593cba",
-    "detailEvidence": "staged-replacements/detail/decor-6-a8dca54a.png",
-    "detailEvidenceSha256": "6a448ed40f3cad418d9adbd0aaa0838973ea22fcacee0541f95c83d2fd058be0",
-    "contactSheetEvidence": "staged-replacements/staged-replacements-contact-sheet.png",
-    "contactSheetSha256": "db9bbce60e14c0f276f868216a731763177b96adcec233d00979c33778b51a88",
-    "preflightEvidence": "preflight/decor-6-a8dca54a.json",
-    "preflightSha256": "37e84ec640628fefd626b055647ba60fad676132dcb3b81e5233583f1e0f0510",
-    "technicalChecks": "Exact Git blob binding PASS, PNG signature/decode PASS, HTTP 200, natural 1024x1024, opaqueFraction=1, screenshot=true, no render errors; calibrated preflight is report-only and non-blocking."
+    "artifactDigest": "sha256:34fd5ecda08f3b820c668231703d731709ec2439fca2652a6e62718b6e47113e",
+    "workflowHead": "5f5004b19e3347bcc9420a0b66dcc0cf404613cb",
+    "detailEvidence": {
+      "decor-6": "staged-replacements/detail/decor-6-5b860130.png",
+      "decor-8": "staged-replacements/detail/decor-8-cde20430.png"
+    },
+    "contactSheetEvidence": "staged-replacements/staged-replacements-contact-sheet.png"
   },
   "reviews": [
     {
@@ -75,30 +74,111 @@
         "technicalIntegrity": "PASS — exact staged bytes, provenance, qualification and renderer binding are valid; rejection is artistic/identity quality only."
       },
       "reason": "Exact rendered pixels are REWORK. Preserve this hash as evidence. The replacement should show one isolated, fully contained telescope with an unmistakable optical tube and front lens, coherent mount/focuser, three stable tripod legs, strong small-card silhouette, restrained Berry Blast accents, grounded studio shadow, and no room/diorama/miniature clutter or unrelated props."
+    },
+    {
+      "itemId": "decor-6",
+      "name": "Telescope",
+      "tier": 2,
+      "theme": "Berry Blast",
+      "assetPath": "public/assets/catalog-candidates/cpu/decor-6-w03-v2-a-single-telescope-original.png",
+      "assetHash": "5b860130d537acadb6a15c81a841805c3b9b81cf",
+      "contentSha256": "5787d635b6fdde26d67b81ecec661b67da0723060c6ea101ac8576b66416107d",
+      "producer": "03",
+      "decision": "ACCEPT",
+      "learnerLabel": "ACCEPT",
+      "reviewedAt": "2026-09-24T09:36:00Z",
+      "evidence": {
+        "detailRenderPath": "staged-replacements/detail/decor-6-5b860130.png",
+        "detailRenderSha256": "f4126b713e51c9f983737f14be78bdc810f2ef49728d44ffa7972339eb0bc096",
+        "detailDimensions": [
+          640,
+          640
+        ],
+        "contactSheetPath": "staged-replacements/staged-replacements-contact-sheet.png",
+        "contactSheetSha256": "77665bd1d517473351d7d192029f9633b4a40023a019cf8fb4dec7552a070d32"
+      },
+      "reason": "ACCEPT. V2 fixes the diorama failure completely: the exact pixels show one unmistakable freestanding refractor telescope with a dominant optical tube and front objective, coherent mount/focuser, grounded three-leg tripod/support geometry and a clean isolated silhouette. Berry-magenta treatment is restrained enough to preserve category identity, materials separate cleanly, and the telescope stays immediately readable at Store-card scale.",
+      "checks": {
+        "recognizableCategoryFunction": "PASS",
+        "physicalConstructionContact": "PASS",
+        "silhouette": "PASS",
+        "materialLighting": "PASS",
+        "themeTierSpecificity": "PASS",
+        "smallCardReadability": "PASS",
+        "framingComposition": "PASS",
+        "originalityNearDuplicateRisk": "PASS",
+        "technicalIntegrity": "PASS"
+      }
+    },
+    {
+      "itemId": "decor-8",
+      "name": "Mini Aquarium",
+      "tier": 3,
+      "theme": "Galaxy Glow",
+      "assetPath": "public/assets/catalog-candidates/cpu/decor-8-w03-v2-a-physical-original.png",
+      "assetHash": "cde20430aaa1c2b4bd07399d35b3f0f184896509",
+      "contentSha256": "b88c0b339da024e2dd6591311d8f6c1022c682918cd4fb6746254b61d46acf87",
+      "producer": "03",
+      "decision": "REWORK",
+      "learnerLabel": "REWORK",
+      "reviewedAt": "2026-09-24T09:36:00Z",
+      "evidence": {
+        "detailRenderPath": "staged-replacements/detail/decor-8-cde20430.png",
+        "detailRenderSha256": "6052922671dc06bb4f395ff24c9a692a8fcaab55b3da3b4d8ee1578bf6ba32f1",
+        "detailDimensions": [
+          640,
+          640
+        ],
+        "contactSheetPath": "staged-replacements/staged-replacements-contact-sheet.png",
+        "contactSheetSha256": "77665bd1d517473351d7d192029f9633b4a40023a019cf8fb4dec7552a070d32"
+      },
+      "reasonCodes": [
+        "MULTIPLE_AQUARIUM_PRODUCTS",
+        "INFOGRAPHIC_UI_OVERLAY",
+        "WEAK_SINGLE_PRODUCT_SILHOUETTE",
+        "TEXTLIKE_ARTIFACTS"
+      ],
+      "reason": "REWORK. The exact pixels read as a product-concept infographic with multiple aquarium vessels and UI/text-like annotation bars rather than one Mini Aquarium. The glass/water material treatment is promising and Galaxy Glow color is present, but category clarity and card-scale silhouette are weakened by duplicated tanks and overlay graphics. The smallest repair is one isolated compact rectangular aquarium with one base/lid/filter assembly, no second tank, no diagram callouts or text-like UI, and a simple uncluttered interior.",
+      "checks": {
+        "recognizableCategoryFunction": "FAIL",
+        "physicalConstructionContact": "PARTIAL",
+        "silhouette": "FAIL",
+        "materialLighting": "PASS",
+        "themeTierSpecificity": "PASS",
+        "smallCardReadability": "FAIL",
+        "framingComposition": "FAIL",
+        "originalityNearDuplicateRisk": "PASS",
+        "technicalIntegrity": "PASS"
+      }
     }
   ],
   "currentReplacementDisposition": {
     "decor": {
       "REWORK": {
-        "decor-6": "a8dca54ad9c511b529ab505dab97991bbc76daef"
+        "decor-8": "cde20430aaa1c2b4bd07399d35b3f0f184896509"
+      },
+      "ACCEPT": {
+        "decor-6": "5b860130d537acadb6a15c81a841805c3b9b81cf"
       }
     }
   },
   "summary": {
-    "reviewedThisRun": 1,
-    "newAcceptsThisRun": 0,
+    "reviewedThisRun": 2,
+    "newAcceptsThisRun": 1,
     "newReworkThisRun": 1,
     "newBlockedThisRun": 0,
-    "newUsableBy08Now": [],
-    "reworkNow": [
+    "newUsableBy08Now": [
       "decor-6"
     ],
-    "preservedAcceptedHashes": "No prior exact-hash ACCEPT is superseded by this decision; the REWORK applies only to Decor 6 blob a8dca54ad9c511b529ab505dab97991bbc76daef."
+    "reworkNow": [
+      "decor-8"
+    ],
+    "preservedAcceptedHashes": "No prior exact-hash ACCEPT is superseded. Decor6 v2 is a new ACCEPT; Decor8 v2 is REWORK. Decor6 v1 REWORK remains historical evidence only."
   },
   "handoff": {
-    "15": "Keep Decor8 current CPU retry first. After its disposition, schedule a failure-specific Decor6 replacement without regenerating this exact rejected hash.",
-    "03": "Decor6 exact hash a8dca54ad9c511b529ab505dab97991bbc76daef is REWORK. Preserve it. Next candidate must be one isolated telescope with obvious optical tube/lens, coherent mount and tripod, readable silhouette, restrained Berry Blast treatment and no diorama clutter.",
-    "08": "Do not canonical-wire Decor6 hash a8dca54ad9c511b529ab505dab97991bbc76daef."
+    "15": "Route Decor6 ACCEPT to 08; keep only Decor8 on failure-specific rework.",
+    "08": "Canonical-wire only Decor6 v2 exact hash 5b860130d537acadb6a15c81a841805c3b9b81cf.",
+    "03": "Decor8 v2 exact hash cde20430aaa1c2b4bd07399d35b3f0f184896509 is REWORK. Preserve it and replace with one single isolated aquarium without infographic overlays."
   },
   "preservation": {
     "candidateBytesChanged": false,
