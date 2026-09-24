@@ -7,7 +7,7 @@
     "dev": "vite --host 0.0.0.0",
     "build": "vite build",
     "test": "vitest run",
-    "test:learning-factory": "vitest run src/learningContracts.test.js src/contentProvenanceRuntime.test.js src/adversarialQuestionQa.test.js src/learningAdapters.test.js src/learningEventBridge.test.js src/currentAbvmGrade2SourcePack.test.js src/sourceEvidenceRuntime.test.js",
+    "test:learning-factory": "vitest run src/learningContracts.test.js src/contentProvenanceRuntime.test.js src/adversarialQuestionQa.test.js src/learningAdapters.test.js src/learningEventBridge.test.js src/currentAbvmGrade2SourcePack.test.js src/sourceEvidenceRuntime.test.js src/generatedQuestionCompiler.test.js",
     "validate:learning": "node scripts/validateLearningContent.mjs",
     "simulate:learning-shadow": "node scripts/selectorV2ShadowSimulation.mjs",
     "interop:edgameclaw": "node scripts/adaptEdGameClawCourse.mjs",
@@ -20,7 +20,8 @@
     "decide:learning-promotion": "node scripts/buildLearningPromotionDecision.mjs",
     "assert:locked-learning-benchmark": "node scripts/assertLockedLearningBenchmark.mjs",
     "assert:learning-live-boundary": "node scripts/assertLearningLiveSelectorBoundary.mjs",
-    "interop:edgameclaw-evidence": "node scripts/bindEdGameClawEvidence.mjs"
+    "interop:edgameclaw-evidence": "node scripts/bindEdGameClawEvidence.mjs",
+    "interop:edgameclaw-question": "node scripts/compileEdGameClawQuestions.mjs"
   },
   "dependencies": {
     "lucide-react": "^0.468.0",
