@@ -747,25 +747,33 @@ def generate(
     gen = torch.Generator(device=generator_device).manual_seed(int(attempt["seed"]))
 
     runtime_prompt = str(attempt.get("runtimePromptText") or attempt["promptText"])
+    runtime_negative_prompt = str(attempt.get("runtimeNegativePromptText") or "").strip()
     runtime_prompt_token_counts: dict[str, int] = {}
+    runtime_negative_prompt_token_counts: dict[str, int] = {}
     for tokenizer_name in ("tokenizer", "tokenizer_2"):
         tokenizer = getattr(pipe, tokenizer_name, None)
         if tokenizer is None:
             continue
-        encoded = tokenizer(runtime_prompt, add_special_tokens=True, truncation=False)
-        input_ids = encoded.get("input_ids") or []
-        if input_ids and isinstance(input_ids[0], list):
-            input_ids = input_ids[0]
-        count = len(input_ids)
         limit = int(getattr(tokenizer, "model_max_length", 77) or 77)
         if limit > 10000:
             limit = 77
-        runtime_prompt_token_counts[tokenizer_name] = count
-        if count > limit:
-            raise ValueError(
-                f"runtime prompt exceeds {tokenizer_name} limit: {count} > {limit}; "
-                "refuse silent CLIP truncation"
-            )
+        for label, prompt_value, counts in (
+            ("runtime prompt", runtime_prompt, runtime_prompt_token_counts),
+            ("runtime negative prompt", runtime_negative_prompt, runtime_negative_prompt_token_counts),
+        ):
+            if not prompt_value:
+                continue
+            encoded = tokenizer(prompt_value, add_special_tokens=True, truncation=False)
+            input_ids = encoded.get("input_ids") or []
+            if input_ids and isinstance(input_ids[0], list):
+                input_ids = input_ids[0]
+            count = len(input_ids)
+            counts[tokenizer_name] = count
+            if count > limit:
+                raise ValueError(
+                    f"{label} exceeds {tokenizer_name} limit: {count} > {limit}; "
+                    "refuse silent CLIP truncation"
+                )
 
     call_kwargs: dict[str, Any] = {
         "prompt": runtime_prompt,
@@ -775,6 +783,8 @@ def generate(
         "width": int(args.width),
         "height": int(args.height),
     }
+    if runtime_negative_prompt:
+        call_kwargs["negative_prompt"] = runtime_negative_prompt
     if ip_image is not None:
         call_kwargs["ip_adapter_image"] = ip_image
 
@@ -841,6 +851,7 @@ def generate(
             "variant": attempt.get("variant"),
             "promptSha256": attempt.get("promptSha256"),
             "runtimePromptSha256": attempt.get("runtimePromptSha256") or attempt.get("promptSha256"),
+            "runtimeNegativePromptSha256": attempt.get("runtimeNegativePromptSha256"),
             "promptRecipeVersion": attempt.get("promptRecipeVersion"),
             "seed": int(attempt.get("seed")),
         },
@@ -885,6 +896,7 @@ def generate(
             "numInferenceSteps": int(args.steps),
             "guidanceScale": float(args.guidance_scale),
             "runtimePromptTokenCounts": runtime_prompt_token_counts,
+            "runtimeNegativePromptTokenCounts": runtime_negative_prompt_token_counts,
             "executedSeed": int(attempt.get("seed")),
         },
         "output": output,
