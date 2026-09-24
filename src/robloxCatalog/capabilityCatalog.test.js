@@ -189,7 +189,8 @@ describe('Roblox / Brookhaven capability catalog', () => {
     expect(house.capabilities).toEqual(
       expect.arrayContaining(['housing','vehicles','networking','persistence','monetization'])
     );
-    expect(house.reuseRecommendation).toBe('refactor');
+    expect(house.reuseRecommendation).toBe('review');
+    expect(house.riskFlags).toContain('external-module-require');
     expect(house.engineeringLeverageScore).toBeGreaterThan(5);
   });
 
