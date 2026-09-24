@@ -18,6 +18,7 @@ on:
       - "scripts/runPsiKtPromotionExperiment.py"
       - "scripts/compareLearningSelectors.mjs"
       - "scripts/assertLearningPromotionBoundary.mjs"
+      - "scripts/buildLearningPromotionDecision.mjs"
       - "tools/fsrs-shadow/**"
       - "package.json"
       - ".github/workflows/learning-model-promotion-shadow.yml"
@@ -136,75 +137,8 @@ jobs:
       - name: Assert Selector V2 is not wired into live Quest code
         run: npm run assert:learning-promotion-boundary
 
-      - name: Enforce no-live-promotion boundary
-        run: |
-          node --input-type=module - <<'NODE'
-          import fs from 'node:fs';
-
-          const comparison = JSON.parse(
-            fs.readFileSync('.learning-promotion/selector-comparison.json','utf8')
-          );
-          const strict = JSON.parse(
-            fs.readFileSync('.learning-strict-provenance-receipt.json','utf8')
-          );
-          const fsrs = JSON.parse(
-            fs.readFileSync('.learning-promotion/fsrs-engine-receipt.json','utf8')
-          );
-          const psi = JSON.parse(
-            fs.readFileSync('.learning-promotion/psi-kt-receipt.json','utf8')
-          );
-
-          if(comparison.datasetAuthorization !== 'synthetic-only-no-real-player-data'){
-            throw new Error('unexpected dataset authorization');
-          }
-          if(comparison.promotionGate.liveSelectorV2Allowed !== false){
-            throw new Error('synthetic promotion run must never enable live Selector V2');
-          }
-          if(fsrs.engineVersion !== 'v3.3.1' || fsrs.cardCount <= 0){
-            throw new Error('actual FSRS engine evidence missing');
-          }
-          if(psi.model !== 'AmortizedPSIKT' || psi.metrics.predictionCount <= 0){
-            throw new Error('PSI-KT training/inference evidence missing');
-          }
-          if(
-            comparison.comparisonCohort?.evaluatedLearnerCount !==
-            psi.selectorStateLearnerCount
-          ){
-            throw new Error('PSI selector-state cohort does not match comparison cohort');
-          }
-          if(comparison.comparisonCohort?.selectionStep !== psi.selectionStep){
-            throw new Error('PSI selection step does not match comparison boundary');
-          }
-          const expectedFsrsCommands =
-            comparison.comparisonCohort.sourceLearnerCount *
-            comparison.comparisonCohort.selectionStep;
-          if(fsrs.commandCount !== expectedFsrsCommands){
-            throw new Error(
-              'FSRS command count does not match observed selector prefix'
-            );
-          }
-          if(strict.provenanceDebt?.strictReady !== false){
-            throw new Error('current live gate must remain blocked until external ABVM original is verified');
-          }
-
-          const blockers = [
-            'synthetic-only-evaluation',
-            'abvm-external-original-unverified',
-            'real-learner-efficacy-not-evaluated',
-            'privacy-review-not-complete'
-          ];
-          if(comparison.syntheticBenchmark?.supportive !== true){
-            blockers.push('synthetic-selector-benchmark-not-supportive');
-          }
-
-          console.log(JSON.stringify({
-            liveSelectorV2Allowed:false,
-            blockers,
-            fsrsCards:fsrs.cardCount,
-            psiPredictions:psi.metrics.predictionCount,
-            comparison:comparison.policies
-          },null,2));
-          NODE
+      - name: Persist and enforce no-live-promotion decision
+        run: npm run decide:learning-promotion -- --comparison=.learning-promotion/selector-comparison.json --strict=.learning-strict-provenance-receipt.json --fsrs=.learning-promotion/fsrs-engine-receipt.json --psi=.learning-promotion/psi-kt-receipt.json --out=.learning-promotion/promotion-decision.json
 
       - name: Upload promotion evidence
         if: always()
