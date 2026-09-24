@@ -285,6 +285,29 @@ async function gatherRuntimeEvidence(studio,plan,{safety={}}={}){
           if(logsHaveErrors(evidence.logs)){
             evidence.errors.push('runtime error logs detected');
           }
+
+          // Capture the live playtest before teardown so visual review sees the
+          // runtime scene rather than the edit-mode scene after stop_playtest.
+          if(plan.visual.required){
+            try{
+              const capture=await executeReadCall(
+                studio,
+                {tool:'capture_viewport',args:{}},
+                {stage:'review',safety}
+              );
+              visualCapture=capture;
+              evidence.screenshot={
+                captured:true,
+                width:Number(capture?.width) || null,
+                height:Number(capture?.height) || null,
+                artifactHash:stableHash(capture)
+              };
+            }catch(error){
+              evidence.errors.push(
+                'visual capture failed: ' + (error instanceof Error ? error.message : String(error))
+              );
+            }
+          }
         }
       }catch(error){
         evidence.available=false;
@@ -305,7 +328,7 @@ async function gatherRuntimeEvidence(studio,plan,{safety={}}={}){
     }
   }
 
-  if(plan.visual.required){
+  if(plan.visual.required && !visualCapture){
     try{
       const capture=await executeReadCall(
         studio,
