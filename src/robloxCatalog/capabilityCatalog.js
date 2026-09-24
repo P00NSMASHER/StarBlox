@@ -466,9 +466,19 @@ export function buildRobloxCapabilityCatalog(sources){
     if(typeof source.sourceId !== 'string' || !source.sourceId.trim()) throw new TypeError('sourceId is required.');
     if(typeof source.file !== 'string' || !source.file.trim()) throw new TypeError('source file is required.');
     if(!source.dom || typeof source.dom !== 'object') throw new TypeError('source DOM is required.');
+    const sha256=source.sha256 == null ? null : String(source.sha256).toLowerCase();
+    if(sha256 !== null && !/^[a-f0-9]{64}$/.test(sha256)){
+      throw new TypeError('source sha256 must be a 64-character hexadecimal digest.');
+    }
+    const bytes=source.bytes == null ? null : Number(source.bytes);
+    if(bytes !== null && (!Number.isInteger(bytes) || bytes < 0)){
+      throw new TypeError('source bytes must be a non-negative integer.');
+    }
     return {
       sourceId:source.sourceId.trim(),
       file:source.file.trim(),
+      sha256,
+      bytes,
       dom:source.dom
     };
   }).sort((a,b) => a.sourceId.localeCompare(b.sourceId) || a.file.localeCompare(b.file));
@@ -490,10 +500,13 @@ export function buildRobloxCapabilityCatalog(sources){
     catalogVersion:ROBLOX_CATALOG_VERSION,
     generatedFrom:normalized.map(source => ({
       sourceId:source.sourceId,
-      file:source.file
+      file:source.file,
+      sha256:source.sha256,
+      bytes:source.bytes
     })),
     summary:{
       sourceCount:normalized.length,
+      sourceFingerprintCount:normalized.filter(source => source.sha256 !== null).length,
       instanceCount:instances.length,
       scriptCount:scripts.length,
       remoteCount:remotes.length,
