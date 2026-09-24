@@ -31,6 +31,15 @@ expectReject('unknown-payload-kind',copy=>{
   copy.source.payloadKind='unknown-payload';
 },/unsupported source\.payloadKind/);
 
+const verifiedRightsInput=JSON.parse(JSON.stringify(input));
+verifiedRightsInput.source.payloadKind='authorized-serialized-geometry';
+verifiedRightsInput.source.rightsStatus='project-rights-verified';
+verifiedRightsInput.source.provenanceRef='docs/preproduction/brookhaven-research/rights-status-v1.json';
+const verifiedRightsScene=convertScene(verifiedRightsInput);
+if(verifiedRightsScene.productionEligibility!=='candidate-after-content-and-technical-QA'){
+  issues.push('verified-rights-eligibility');
+}
+
 const requiredRoles=['house','vehicle','neighborhood-block','school','shop'];
 for(const role of requiredRoles){
   if(!scene.objects.some(object => object.role === role)) issues.push('missing-role:'+role);
@@ -73,6 +82,7 @@ const result={
   sourceFingerprint:scene.source.sourceFingerprint,
   sceneFingerprint:scene.sceneFingerprint,
   productionEligibility:scene.productionEligibility,
+  verifiedRightsEligibility:verifiedRightsScene.productionEligibility,
   issueCount:issues.length,
   issues
 };
