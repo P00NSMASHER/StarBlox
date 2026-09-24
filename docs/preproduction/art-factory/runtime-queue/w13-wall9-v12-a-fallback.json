@@ -34,5 +34,7 @@
     "route": "12 -> 14 -> 02 -> 08 on ACCEPT",
     "canonicalWriter": "08"
   },
-  "dispatchPolicy": "PREPARED_ONLY__USE_ONLY_IF_WALL9_V11_B_IS_REWORK"
+  "dispatchPolicy": "PREPARED_ONLY__USE_ONLY_IF_WALL9_V11_B_IS_REWORK",
+  "retryRevision": 1,
+  "retryReason": "CLIP-safe retry after 78 > 77 prompt overflow; no v12 candidate bytes were produced"
 }
