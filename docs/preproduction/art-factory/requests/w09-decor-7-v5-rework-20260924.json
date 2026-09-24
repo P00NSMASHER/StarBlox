@@ -1,0 +1,94 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_BATCH_REQUEST",
+  "planner": "15",
+  "producer": "09",
+  "preflightOwner": "06",
+  "reviewer": "01",
+  "renderOwner": "14",
+  "integrationOwner": "08",
+  "coordinationOwner": "15",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "cec1a69cedafbab1b4be4c99eed9682b9ce2fe9c",
+  "manifestVersion": 36,
+  "batchId": "w09-decor-7-v5-rework",
+  "scope": [
+    "decor-7"
+  ],
+  "state": "PREPARED_FAILURE_SPECIFIC_REWORK__WAIT_CPU_IDLE",
+  "assignmentAuthority": {
+    "path": "docs/preproduction/art-factory/ACTIVE_BATCH.json",
+    "reviewEvidence": "docs/preproduction/catalog-sprint/reviews/01.json",
+    "assignedReviewer": "01",
+    "runtimeProofPath": "docs/preproduction/art-factory/CPU_RUNTIME_PROOF.json",
+    "runtimeProofStatus": "PROVEN",
+    "runtimeCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+    "modelRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "note": "Exact Decor7 v4 REWORK is preserved; this wrapper contains only failure-specific v5 replacement prompts."
+  },
+  "references": {
+    "originalStoreReference": {
+      "requiredBeforeGeneration": true,
+      "repositoryPath": "docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg",
+      "sha256": "b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d",
+      "gitBlobSha": "383baa877d3af86fa92e3583740212000592b3d6",
+      "dimensions": [
+        1448,
+        1086
+      ],
+      "role": "FIRST_PARTY_STARBLOX_STORE_ART_DIRECTION"
+    }
+  },
+  "reviewSource": {
+    "decision": "REWORK",
+    "exactRejectedPath": "public/assets/catalog-candidates/cpu/decor-7-w09-v4-a-rack-first-minimal-original.png",
+    "exactRejectedGitBlobSha": "4e78412e291ccbc553948f536bd1e958ab1ebf53",
+    "exactRejectedSha256": "6d379a59330d7f22f9f7028aad9f5f5327e624798fd1519b39d137034805aa4e",
+    "reasonCodes": [
+      "MULTIPLE_RACKS_INSTEAD_OF_ONE_PRODUCT",
+      "MALFORMED_SKATE_FORMS",
+      "LOOSE_UNCONTAINED_SKATES",
+      "SMALL_CARD_READABILITY"
+    ]
+  },
+  "items": {
+    "decor-7": {
+      "currentLegacy": {
+        "path": "public/assets/catalog-candidates/cpu/decor-7-w09-v4-a-rack-first-minimal-original.png",
+        "gitBlobSha1": "4e78412e291ccbc553948f536bd1e958ab1ebf53",
+        "reviewDecision": "REWORK",
+        "normalizedFailureTaxonomy": [
+          "MULTIPLE_RACKS_INSTEAD_OF_ONE_PRODUCT",
+          "MALFORMED_SKATE_FORMS",
+          "LOOSE_UNCONTAINED_SKATES",
+          "SMALL_CARD_READABILITY"
+        ]
+      },
+      "variants": [
+        {
+          "variantId": "A-ONE-RACK-TWO-SKATES",
+          "optimizerInput": "Skate Rack, Room Decor, Tier 3, Garden Glow. Create exactly ONE compact freestanding roller-skate rack as the only product on an empty light-neutral studio background. Use one sturdy warm-oak rectangular frame with two vertical side posts, one broad base, three sage-green horizontal rails and four large clearly bounded storage bays. Put exactly ONE matching pair of recognizable quad roller skates together inside the two lower bays; every skate must have one coherent boot, one truck and exactly four large round wheels, fully contained inside the rack. Leave upper bays empty so the single rack silhouette dominates. Add visible bolts, weight-bearing feet, one tiny leaf cutout and restrained green glow. NO second rack, NO repeated frames, NO loose floor skates, NO boards/planks, NO room scene, NO floating parts, NO text."
+        },
+        {
+          "variantId": "B-SINGLE-AFRAME-RACK",
+          "optimizerInput": "Skate Rack, Room Decor, Tier 3, Garden Glow. Make ONE simple A-frame roller-skate organizer with exactly two botanical-green uprights, three honey-oak cross shelves, one wide grounded base and four open bays. Show only one clearly formed pair of quad skates stored side-by-side in a single lower bay; all wheels and boot silhouettes visible and contained. Keep every other bay empty. The rack must be the dominant object with generous negative space and a soft grounded shadow. Add restrained Garden Glow leaf hardware, believable joints and no decorative clutter. NO duplicate rack, NO repeated display modules, NO loose skates, NO skateboards, NO long board-like shelf, NO text/logos, NO room background."
+        }
+      ]
+    }
+  },
+  "executionBudget": {
+    "width": 640,
+    "height": 640,
+    "steps": 6,
+    "guidanceScale": 3.5,
+    "dtype": "float32"
+  },
+  "safety": {
+    "preserveRejectedExactHash": true,
+    "preserveAcceptedExactHashes": true,
+    "producerSelfReview": false,
+    "canonicalMappingsChanged": false,
+    "workflowFilesChanged": false
+  }
+}

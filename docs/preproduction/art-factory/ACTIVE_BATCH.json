@@ -2,8 +2,8 @@
   "schemaVersion": 28,
   "owner": "15",
   "branch": "screenshot-match-preproduction",
-  "sourceHead": "f86286d36a1d6b265a07094763f93bf2c0a55cba",
-  "updatedAt": "2026-09-24T09:46:00Z",
+  "sourceHead": "cec1a69cedafbab1b4be4c99eed9682b9ce2fe9c",
+  "updatedAt": "2026-09-24T09:51:00Z",
   "status": "ACTIVE_RELEASE_BLOCKER_FIRST",
   "policy": {
     "maxConcurrentProductionBatches": 4,
@@ -25,22 +25,19 @@
     "externalProducerScopesProtected": true
   },
   "liveCanonical": {
-    "manifestVersion": 35,
-    "manifestEntries": 176,
-    "runtimeMappings": 176,
-    "finalPortable": 169,
+    "manifestVersion": 36,
+    "manifestEntries": 178,
+    "runtimeMappings": 178,
+    "finalPortable": 171,
     "interimNotVerified": 7,
-    "strictAcceptedCanonicalFloor": 107,
-    "acceptedAwaitingCanonical": 2,
-    "acceptedAwaitingCanonicalIds": [
-      "decor-5",
-      "decor-6"
-    ],
-    "runtimeMappingGapToTarget": 16,
+    "strictAcceptedCanonicalFloor": 109,
+    "acceptedAwaitingCanonical": 0,
+    "acceptedAwaitingCanonicalIds": [],
+    "runtimeMappingGapToTarget": 14,
     "releaseCleared": 0,
     "strictVisualBlocker": {
       "kind": "VISIBLE_GENERIC_FALLBACK_ART",
-      "fallbackCount": 16,
+      "fallbackCount": 14,
       "ids": [
         "desks-7",
         "desks-8",
@@ -50,8 +47,6 @@
         "desks-12",
         "wall-8",
         "wall-9",
-        "decor-5",
-        "decor-6",
         "decor-7",
         "decor-8",
         "decor-9",
@@ -115,21 +110,25 @@
     "preparedNext": [
       {
         "rank": 1,
+        "requestPath": "docs/preproduction/art-factory/requests/w09-decor-7-v5-rework-20260924.json",
+        "queuePath": "docs/preproduction/art-factory/prepared-queues/w09-decor-7-v5-rework.json",
         "scope": [
           "decor-7"
         ],
         "producer": "09",
         "reviewer": "01",
-        "reason": "Decor7 v4 exact-hash REWORK; prepare one failure-specific v5."
+        "reason": "Current Decor7 v4 exact-hash REWORK; failure-specific v5 is precompiled."
       },
       {
         "rank": 2,
+        "requestPath": "docs/preproduction/art-factory/requests/w13-wall-9-v4-rework-20260924.json",
+        "queuePath": "docs/preproduction/art-factory/prepared-queues/w13-wall-9-v4-rework.json",
         "scope": [
           "wall-9"
         ],
         "producer": "13",
         "reviewer": "02",
-        "reason": "Wall9 v3 exact-hash REWORK; prepare one failure-specific v4."
+        "reason": "Current Wall9 v3 exact-hash REWORK; shelving-free v4 is precompiled."
       }
     ],
     "preparedQueueRule": "Prepared queues live outside runtime-queue, so commits do not trigger CPU generation. Dispatch exactly one only after Wall run 35931931966 is no longer active and live branch evidence shows no newer candidate/superseding queue."
@@ -159,9 +158,9 @@
       "scope": [
         "decor-7"
       ],
-      "state": "DECOR7_V4_REWORKED__V5_FAILURE_SPECIFIC_PREP_NEXT",
+      "state": "DECOR7_V5_PREPARED__WAIT_W03_MATRIX_IDLE",
       "reviewer": "01",
-      "requirements": "Preserve v4 exact hash 4e78412e291ccbc553948f536bd1e958ab1ebf53. Next candidate must be one single compact rack with contained recognizable quad skates; no repeated racks or loose floor skates."
+      "requirements": "Use only docs/preproduction/art-factory/prepared-queues/w09-decor-7-v5-rework.json; preserve v4 exact REWORK hash."
     },
     {
       "producer": "13",
@@ -169,27 +168,14 @@
       "scope": [
         "wall-9"
       ],
-      "state": "WALL9_V3_REWORKED__V4_FAILURE_SPECIFIC_PREP_NEXT",
+      "state": "WALL9_V4_PREPARED__WAIT_CURRENT_REWORK_PRIORITY",
       "reviewer": "02",
-      "requirements": "Preserve v3 exact hash e0be4534bc3b379f1e39556be5d05eb38726220e. Next candidate must remove shelving grid and be dominated by 3 large framed artworks plus at most one shadowbox."
+      "requirements": "Use only docs/preproduction/art-factory/prepared-queues/w13-wall-9-v4-rework.json; preserve v3 exact REWORK hash."
     }
   ],
   "pendingCandidates": [],
   "pendingRenderReview": [],
-  "acceptedAwaitingCanonical": [
-    {
-      "id": "decor-5",
-      "gitBlobSha": "1e7716f00e8e38f7ad645a448f9e29adea38de37",
-      "reviewer": "01",
-      "state": "ACCEPT_AWAITING_08"
-    },
-    {
-      "id": "decor-6",
-      "gitBlobSha": "5b860130d537acadb6a15c81a841805c3b9b81cf",
-      "reviewer": "11",
-      "state": "ACCEPT_AWAITING_08"
-    }
-  ],
+  "acceptedAwaitingCanonical": [],
   "externalArrivals": {
     "routerEvidence": "docs/preproduction/art-factory/requests/w12-cross-account-intake-routing-20260923-v12.json",
     "routerCursorThrough": "2d7fcda7ef60b37851340520fe9f3655e08ebfe4",
@@ -336,7 +322,7 @@
     "evidenceHead": "398f5100df0562a1e346c9110597e52b565982d0",
     "rule": "Do not reopen already-green functional browser, Store observer, persistence or reduced-motion investigations absent a bound-hash change or fresh current-byte failure. EXT10 remains limited to the previously released phone composition repair."
   },
-  "antiStallDisposition": "Two new ACCEPTs (Decor5/6) are waiting only on 08. CPU is simultaneously occupied by one producer03 three-item failure-specific matrix for Decor8/Desk9/Desk10. Decor7 v5 and Wall9 v4 follow. No new inventory opened ahead of current exact REWORKs.",
+  "antiStallDisposition": "Canonical v36 integrates Decor5/6, reducing visible fallback gap to 14. Current producer03 three-item rework remains active; Decor7 v5 and Wall9 v4 are fully precompiled prepared queues so CPU can roll immediately when idle.",
   "crossAccountProduction": {
     "externalScopes": {
       "EXT01": "Tops11-12",

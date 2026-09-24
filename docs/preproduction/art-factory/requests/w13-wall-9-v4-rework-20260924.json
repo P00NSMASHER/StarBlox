@@ -1,0 +1,94 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_BATCH_REQUEST",
+  "planner": "15",
+  "producer": "13",
+  "preflightOwner": "06",
+  "reviewer": "02",
+  "renderOwner": "14",
+  "integrationOwner": "08",
+  "coordinationOwner": "15",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "cec1a69cedafbab1b4be4c99eed9682b9ce2fe9c",
+  "manifestVersion": 36,
+  "batchId": "w13-wall-9-v4-rework",
+  "scope": [
+    "wall-9"
+  ],
+  "state": "PREPARED_FAILURE_SPECIFIC_REWORK__WAIT_HIGHER_PRIORITY_CURRENT_REWORKS",
+  "assignmentAuthority": {
+    "path": "docs/preproduction/art-factory/ACTIVE_BATCH.json",
+    "reviewEvidence": "docs/preproduction/catalog-sprint/reviews/02.json",
+    "assignedReviewer": "02",
+    "runtimeProofPath": "docs/preproduction/art-factory/CPU_RUNTIME_PROOF.json",
+    "runtimeProofStatus": "PROVEN",
+    "runtimeCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+    "modelRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "note": "Exact Wall9 v3 REWORK is preserved; this wrapper aggressively removes shelving/grid identity."
+  },
+  "references": {
+    "originalStoreReference": {
+      "requiredBeforeGeneration": true,
+      "repositoryPath": "docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg",
+      "sha256": "b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d",
+      "gitBlobSha": "383baa877d3af86fa92e3583740212000592b3d6",
+      "dimensions": [
+        1448,
+        1086
+      ],
+      "role": "FIRST_PARTY_STARBLOX_STORE_ART_DIRECTION"
+    }
+  },
+  "reviewSource": {
+    "decision": "REWORK",
+    "exactRejectedPath": "public/assets/catalog-candidates/cpu/wall-9-w13-v3-a-frames-dominant-original.png",
+    "exactRejectedGitBlobSha": "e0be4534bc3b379f1e39556be5d05eb38726220e",
+    "exactRejectedSha256": "ca5b84d2d4dffd25050e9629fffec427a4c4b437328ac68acbc7fbca0fa627e5",
+    "reasonCodes": [
+      "SHELVING_GRID_IDENTITY",
+      "BLANK_COMPARTMENTS",
+      "WEAK_GALLERY_ART_DOMINANCE",
+      "SMALL_CARD_READABILITY"
+    ]
+  },
+  "items": {
+    "wall-9": {
+      "currentLegacy": {
+        "path": "public/assets/catalog-candidates/cpu/wall-9-w13-v3-a-frames-dominant-original.png",
+        "gitBlobSha1": "e0be4534bc3b379f1e39556be5d05eb38726220e",
+        "reviewDecision": "REWORK",
+        "normalizedFailureTaxonomy": [
+          "SHELVING_GRID_IDENTITY",
+          "BLANK_COMPARTMENTS",
+          "WEAK_GALLERY_ART_DOMINANCE",
+          "SMALL_CARD_READABILITY"
+        ]
+      },
+      "variants": [
+        {
+          "variantId": "A-THREE-FRAMES-ONLY",
+          "optimizerInput": "Art Gallery Wall, Wall Decor, Tier 3, Adventure Club. Create ONE compact wall-mounted gallery product composed primarily of exactly THREE large framed artworks on one shallow warm-oak backboard. The three frames must occupy most of the silhouette: one mountain/trail abstraction, one compass-inspired geometric piece and one colorful travel-map abstraction, all with no readable words. Use visible frame bevels, glass reflections, small brass mounting clips, a thin backboard with concealed-cleat spacing and soft wall-cast shadow. Add at most ONE tiny shadowbox accent beside the frames. Full product isolated on a plain neutral wall plane. NO shelves, NO cubbies, NO grid, NO cabinets, NO blank compartments, NO floor, NO bench, NO plants, NO room furniture, NO text."
+        },
+        {
+          "variantId": "B-OVERLAPPING-GALLERY-PANEL",
+          "optimizerInput": "Art Gallery Wall, Wall Decor, Tier 3, Adventure Club. Make ONE shallow wall-hung gallery panel whose silhouette is unmistakably framed art, not storage. Use three oversized mixed-size frames slightly overlapping on a single dark backing plate, plus one small attached shadowbox. Every large region must contain visible artwork: mountains/path, compass geometry and travel-shape motifs. Show brass standoffs, frame depth, glass/paper layers and a wall-contact shadow. Keep the entire product compact and centered with generous negative space. NO shelving system, NO rectangular cubby matrix, NO empty window panels, NO ledges large enough to read as shelves, NO room/floor context, NO text/logos."
+        }
+      ]
+    }
+  },
+  "executionBudget": {
+    "width": 640,
+    "height": 640,
+    "steps": 6,
+    "guidanceScale": 3.5,
+    "dtype": "float32"
+  },
+  "safety": {
+    "preserveRejectedExactHash": true,
+    "preserveAcceptedExactHashes": true,
+    "producerSelfReview": false,
+    "canonicalMappingsChanged": false,
+    "workflowFilesChanged": false
+  }
+}
