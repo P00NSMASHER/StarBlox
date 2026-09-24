@@ -235,6 +235,52 @@ function applyReview(candidate,review,{allowRewrite=true}={}){
   };
 }
 
+function candidateReceiptMaterial(candidate){
+  return {
+    candidateId:candidate.candidateId,
+    prompt:candidate.prompt,
+    choices:candidate.choices,
+    answer:candidate.answer,
+    explanation:candidate.explanation,
+    hint:candidate.hint,
+    subject:candidate.subject,
+    district:candidate.district,
+    skill:candidate.skill,
+    role:candidate.role,
+    difficulty:candidate.difficulty,
+    reward:candidate.reward,
+    masteryEligible:candidate.masteryEligible !== false,
+    atomicFacts:candidate.atomicFacts,
+    evidence:candidate.evidence,
+    sourceChunkId:candidate.sourceChunkId,
+    sourceHeader:candidate.sourceHeader,
+    source:candidate.source,
+    conceptIds:candidate.conceptIds,
+    supportingChunkIds:candidate.supportingChunkIds,
+    generation:candidate.generation
+  };
+}
+
+function validationReceiptHash(candidate,quality){
+  return stableHash({
+    candidate:candidateReceiptMaterial(candidate),
+    quality:{
+      pipelineVersion:quality.pipelineVersion,
+      mode:quality.mode,
+      minScore:quality.minScore,
+      structuralScore:quality.structuralScore,
+      reviewerScore:quality.reviewerScore,
+      effectiveScore:quality.effectiveScore,
+      reviewerDecision:quality.reviewerDecision,
+      reviewerReasons:quality.reviewerReasons,
+      structuralErrors:quality.structuralErrors,
+      structuralWarnings:quality.structuralWarnings,
+      evidenceErrors:quality.evidenceErrors,
+      verifiedEvidence:quality.verifiedEvidence
+    }
+  });
+}
+
 function existingPrompts(bank){
   if(!bank?.questions) return [];
   return Object.values(bank.questions).flatMap(entry =>
@@ -370,6 +416,7 @@ export async function validateGeneratedCandidates({
         verifiedEvidence:evidence.verified
       }
     };
+    record.quality.validationReceiptHash=validationReceiptHash(record,record.quality);
 
     if(keep) accepted.push(record);
     else rejected.push(record);
@@ -404,6 +451,10 @@ function strictIngestionReceipt(candidate){
   if(!Array.isArray(quality.verifiedEvidence) || quality.verifiedEvidence.length === 0){
     throw new Error('generated candidate ingestion requires verified source evidence.');
   }
+  const expectedReceipt=validationReceiptHash(candidate,quality);
+  if(!quality.validationReceiptHash || quality.validationReceiptHash !== expectedReceipt){
+    throw new Error('generated candidate validation receipt does not match candidate content.');
+  }
   return quality;
 }
 
@@ -414,15 +465,6 @@ function generatedQuestionShape(candidate){
     prompt:normalizedForCompare(candidate.prompt)
   }).split(':')[1];
   const sourceEvidence=quality.verifiedEvidence.find(item => item.chunkId === candidate.sourceChunkId) || null;
-  const reviewReceipt={
-    pipelineVersion:quality.pipelineVersion,
-    mode:quality.mode,
-    minScore:quality.minScore,
-    reviewerDecision:quality.reviewerDecision,
-    reviewerScore:quality.reviewerScore,
-    effectiveScore:quality.effectiveScore,
-    reviewerReasons:quality.reviewerReasons || []
-  };
   const evidenceProvenance=quality.verifiedEvidence.map((item,index) => ({
     kind:'verified-evidence',
     sourceId:item.chunkId,
@@ -465,7 +507,7 @@ function generatedQuestionShape(candidate){
           ':review=' + quality.reviewerScore +
           ':effective=' + quality.effectiveScore +
           ':threshold=' + quality.minScore,
-        reference:'review-receipt:' + stableHash(reviewReceipt)
+        reference:'validation-receipt:' + quality.validationReceiptHash
       },
       ...evidenceProvenance
     ]
