@@ -5,7 +5,7 @@
   "role": "Visual Target Director / independent catalog reviewer",
   "phase": "ART_AND_VISUALS_ONLY",
   "branch": "screenshot-match-preproduction",
-  "sourceHead": "55ae8e54c2f171f95c431e9b5218712c13baeda6",
+  "sourceHead": "28671f22d1",
   "assignedCollections": [
     "tops",
     "bottoms",
@@ -34,9 +34,9 @@
   },
   "currentCycle": {
     "scope": [
-      "desks-11"
+      "decor-7"
     ],
-    "version": "current exact hash: desks-11",
+    "version": "current exact hash: decor-7",
     "result": "REWORK_1_OF_1",
     "oldVerdictsTransferred": false,
     "actualCardScalePixelsReviewed": true,
@@ -699,6 +699,43 @@
         "duplicateVisual": "PASS",
         "technicalIntegrity": "PASS"
       }
+    },
+    {
+      "itemId": "decor-7",
+      "name": "Skate Rack",
+      "assetPath": "public/assets/catalog-candidates/cpu/decor-7-w09-v8-a-tiny-rack-one-pair-original.png",
+      "repositoryPath": "public/assets/catalog-candidates/cpu/decor-7-w09-v8-a-tiny-rack-one-pair-original.png",
+      "assetHash": "41111bb07b54c5a370adcb44a80d7f0711d37a0e",
+      "sha256": "f5199785fbc74ef20b3c8628cfef8dd10a30911cd0b84938034eec98d68738d7",
+      "contentSha256": "f5199785fbc74ef20b3c8628cfef8dd10a30911cd0b84938034eec98d68738d7",
+      "hashAlgorithm": "git-blob-sha1",
+      "producer": "09",
+      "decision": "REWORK",
+      "learnerLabel": "REWORK",
+      "reviewedAt": "2026-09-24T17:05:00Z",
+      "evidenceRefs": [
+        "workflow:36031428507",
+        "artifact:10823775028/staged-replacements/staged-replacements-contact-sheet.png",
+        "artifact:10823775028/staged-replacements/detail/decor-7-41111bb0.png"
+      ],
+      "reasonCodes": [
+        "QUAD_SKATE_IDENTITY_FAILURE",
+        "ABSTRACT_RACK_SCULPTURE",
+        "NO_READABLE_BOOT_TRUCK_WHEELS",
+        "PRODUCT_CATEGORY_FAILURE"
+      ],
+      "reason": "REWORK. V8 still does not depict a usable Skate Rack with recognizable quad skates. The exact pixels read as an abstract layered metal/wood rack sculpture or shelving form, with no clear skate boot uppers, trucks, or four-wheel sets. Preserve this hash. The next attempt should simplify further: one tiny two-bay rack on a plain background with ONE clearly formed pair of quad roller skates as the dominant object; each skate must show a boot body and four obvious wheels. No decorative shelving, boards, repeated rails, or room context.",
+      "checks": {
+        "identity": "FAIL",
+        "silhouette": "FAIL",
+        "cardReadability": "FAIL",
+        "physicalConstruction": "FAIL",
+        "framingComposition": "FAIL",
+        "materialLighting": "PARTIAL",
+        "originality": "PASS",
+        "duplicateVisual": "PASS",
+        "technicalIntegrity": "PASS"
+      }
     }
   ],
   "currentReplacementDisposition": {
@@ -742,7 +779,7 @@
     },
     "decor": {
       "REWORK": {
-        "decor-7": "fe27bb7b6fa4dc4e6376434c7514a932ee2419da"
+        "decor-7": "41111bb07b54c5a370adcb44a80d7f0711d37a0e"
       },
       "ACCEPT": {
         "decor-5": "1e7716f00e8e38f7ad645a448f9e29adea38de37"
@@ -769,17 +806,17 @@
     "newBlockedThisRun": 0,
     "newUsableBy08Now": [],
     "reworkNow": [
-      "desks-11"
+      "decor-7"
     ],
-    "preservedAcceptedHashes": "All prior reviewer01 ACCEPTs remain frozen; this REWORK applies only to desks-11 exact hash 7f4f00fcce23a47b566ec3a99704821acb3ce57a."
+    "preservedAcceptedHashes": "All prior reviewer01 ACCEPTs remain frozen; this REWORK applies only to decor-7 exact hash 41111bb07b54c5a370adcb44a80d7f0711d37a0e."
   },
   "handoff": {
     "13": "desks-12 exact hash ACCEPT; freeze it and remove from production scope.",
     "14": "Current render packets consumed; do not rerender unchanged hashes.",
-    "15": "desks-11 remains a bounded exact-pixel REWORK blocker.",
-    "09": "Decor7 v7 REWORK; preserve exact hash and generate only a small freestanding rack with a clearly readable quad-skate pair if director15 keeps it release-critical.",
+    "15": "decor-7 remains a bounded exact-pixel release blocker.",
+    "09": "decor-7 current exact hash is REWORK; preserve it and use the new positive/negative prompt compiler for the next failure-specific version.",
     "03": "desks-11 current exact hash is REWORK; preserve it and use the smallest failure-specific next prompt only if director15 keeps it release-critical.",
-    "08": "Do not canonical-wire desks-11 exact hash 7f4f00fcce23a47b566ec3a99704821acb3ce57a."
+    "08": "Do not canonical-wire decor-7 exact hash 41111bb07b54c5a370adcb44a80d7f0711d37a0e."
   },
   "freeze": {
     "replitTouched": false,
