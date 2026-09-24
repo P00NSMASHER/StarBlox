@@ -21,8 +21,8 @@ check(math.abs(Intelligence.probabilityCorrect(0, {difficulty = 0, discriminatio
 check(math.abs(Intelligence.retrievabilityAt({
 	exposures = 1,
 	stability = 1,
-	lastSeenAt = 0,
-}, 86_400_000) - 0.9) < 1e-9, "FSRS 90% stability definition")
+	lastSeenAt = 86_400_000,
+}, 172_800_000) - 0.9) < 1e-9, "FSRS 90% stability definition")
 
 local ranking = Policy.rank({
 	{
