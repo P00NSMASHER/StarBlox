@@ -47,3 +47,32 @@ event LiveOpsState = {
 	call: ManyAsync,
 	data: (StateHash: string.utf8)
 }
+
+
+event RequestPlaceItem = {
+	from: Client,
+	type: Reliable,
+	call: ManyAsync,
+	data: (ItemId: string.utf8, PlotId: string.utf8, X: f32, Y: f32, Z: f32, RotationY: f32)
+}
+
+event RequestRemoveItem = {
+	from: Client,
+	type: Reliable,
+	call: ManyAsync,
+	data: (PlacementId: string.utf8)
+}
+
+event RequestSocialMinigame = {
+	from: Client,
+	type: Reliable,
+	call: ManyAsync,
+	data: (GameId: string.utf8, NpcId: string.utf8)
+}
+
+event SocialWorldState = {
+	from: Server,
+	type: Reliable,
+	call: ManyAsync,
+	data: (StateHash: string.utf8)
+}
