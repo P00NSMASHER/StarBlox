@@ -1,0 +1,22 @@
+{
+  "course": {
+    "id": "fixture-plants",
+    "title": "How Plants Move Water"
+  },
+  "chunks": [
+    {
+      "id": "roots",
+      "title": "Roots absorb water",
+      "content": "Roots absorb water from soil and move it into the plant.",
+      "mechanic": "custom_simulation",
+      "simulationHint": "Move water from soil into a root."
+    },
+    {
+      "id": "stem",
+      "title": "Stems carry water",
+      "content": "Water travels upward through the stem.",
+      "mechanic": "custom_simulation",
+      "simulationHint": "Guide water upward through the stem."
+    }
+  ]
+}
