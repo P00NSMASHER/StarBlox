@@ -1,0 +1,107 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_GENERATION_RECEIPT",
+  "repository": "P00NSMASHER/StarBlox",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "a9f863e0ff6ebe7329b82b3a4ba6cbce510dadd8",
+  "sourcePlanSha256": "f57c1fe66c418f19cf3eb242cb1ddd85682ea85469ceeadef1a56cf8266d9982",
+  "executionCheckout": {
+    "branch": "screenshot-match-preproduction",
+    "head": "a9f863e0ff6ebe7329b82b3a4ba6cbce510dadd8",
+    "planSourceHeadMatchesExecutionHead": true
+  },
+  "attempt": {
+    "attemptId": "desks-11-w03-a-isolated-creator-station-bf9ef2bb2f",
+    "itemId": "desks-11",
+    "producer": "03",
+    "variant": "A-ISOLATED-CREATOR-STATION",
+    "promptSha256": "bf9ef2bb2f490581ba5fc722e54346b737985bf80f4ffaf7ecf1ceab8c1ab19e",
+    "runtimePromptSha256": "a07e76fd789028fd827ec4cf4f10f6eb3ec66c5a7b24b638a19405d9e4097e82",
+    "promptRecipeVersion": "artPromptOptimizer-request-v1:w03-release-rework-4pack-next",
+    "seed": 1813407172
+  },
+  "runtime": {
+    "repo": "huggingface/diffusers",
+    "commit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "resolvedCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "runtimeCommitVerified": true,
+    "diffusersVersion": "0.41.0.dev0",
+    "diffusersInstallSource": "https://github.com/huggingface/diffusers.git",
+    "torchVersion": "2.8.0+cpu",
+    "transformersVersion": "5.17.0",
+    "accelerateVersion": "1.15.0",
+    "huggingfaceHubVersion": "1.33.0",
+    "safetensorsVersion": "0.8.0",
+    "pythonPillowVersion": "12.3.0",
+    "device": "cpu",
+    "dtype": "float32",
+    "executionMode": "cpu-fallback"
+  },
+  "model": {
+    "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+    "revision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS",
+    "resolvedRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "snapshotRevisionVerified": true,
+    "selectiveSnapshot": true,
+    "snapshotAllowPatterns": [
+      "model_index.json",
+      "scheduler/*",
+      "tokenizer/*",
+      "tokenizer_2/*",
+      "feature_extractor/*",
+      "text_encoder/config.json",
+      "text_encoder/model.fp16.safetensors",
+      "text_encoder_2/config.json",
+      "text_encoder_2/model.fp16.safetensors",
+      "unet/config.json",
+      "unet/diffusion_pytorch_model.fp16.safetensors",
+      "vae/config.json",
+      "vae/diffusion_pytorch_model.fp16.safetensors"
+    ]
+  },
+  "conditioning": {
+    "referenceAssetSha256": null,
+    "controlImageSha256": null,
+    "adapterScale": null,
+    "referenceImage": null,
+    "ipAdapterModelId": null,
+    "ipAdapterRevision": null,
+    "ipAdapterResolvedRevision": null,
+    "ipAdapterRevisionVerified": false,
+    "ipAdapterWeightName": null,
+    "ipAdapterSubfolder": null
+  },
+  "generation": {
+    "width": 640,
+    "height": 640,
+    "numInferenceSteps": 6,
+    "guidanceScale": 3.5,
+    "runtimePromptTokenCounts": {
+      "tokenizer": 62,
+      "tokenizer_2": 62
+    },
+    "executedSeed": 1813407172
+  },
+  "output": {
+    "repoPath": "public/assets/catalog-candidates/cpu/desks-11-w03-v2-a-isolated-creator-station-original.png",
+    "sha256": "4ffd96dc411dad8aaef465ad5afa069d76ad0292fd6599c2ba1d28164d05c7d6",
+    "gitBlobSha": "a31d581bf8358fcbc86e4879785a2f131ce26f5b",
+    "bytes": 524848,
+    "width": 640,
+    "height": 640,
+    "format": "PNG",
+    "sourceBytesPreserved": true,
+    "reusedExistingIdenticalBytes": false
+  },
+  "safety": {
+    "canonicalArtModified": false,
+    "gameplayModified": false,
+    "reviewDecisionMade": false,
+    "deploymentPerformed": false,
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+  },
+  "nextGate": "RUN_VERIFY_STAGED_OUTPUT_THEN_REAL_RENDER_AND_INDEPENDENT_EXACT_HASH_REVIEW",
+  "status": "GENERATED_SOURCE_BYTES_UNVERIFIED",
+  "recordSha256": "2b828c00e51a913933f50b18547fdeb0df0e41269d38601bfc53694573a051a2"
+}
