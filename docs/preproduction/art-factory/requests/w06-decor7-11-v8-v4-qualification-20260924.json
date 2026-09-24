@@ -1,0 +1,117 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_TECHNICAL_QUALIFICATION_MICROBATCH",
+  "role": "06-single-technical-qualification-gate",
+  "branch": "screenshot-match-preproduction",
+  "observedHead": "448787dbcdb9e7d952ad2abbadcca9de3267f16e",
+  "intakeEvidence": "docs/preproduction/art-factory/requests/w12-cross-account-intake-routing-20260924-v36.json",
+  "items": [
+    {
+      "item": {
+        "id": "decor-7",
+        "name": "Skate Rack",
+        "collectionId": "decor",
+        "type": "room",
+        "tier": 3,
+        "theme": "Garden Glow"
+      },
+      "candidate": {
+        "producer": "09",
+        "reviewer": "01",
+        "renderOwner": "14",
+        "canonicalWriter": "08",
+        "path": "public/assets/catalog-candidates/cpu/decor-7-w09-v8-a-tiny-rack-one-pair-original.png",
+        "sha256": "f5199785fbc74ef20b3c8628cfef8dd10a30911cd0b84938034eec98d68738d7",
+        "gitBlobSha": "41111bb07b54c5a370adcb44a80d7f0711d37a0e",
+        "dimensions": [
+          640,
+          640
+        ],
+        "bytes": 581165,
+        "format": "PNG",
+        "mode": "RGB"
+      },
+      "sourceGenerationRunId": 36030020397,
+      "provenance": {
+        "stagedOutput": "docs/preproduction/art-factory/generated-evidence/w09-current-rework-2pack-v4/decor-7/staged-output.json",
+        "generationReceipt": "docs/preproduction/art-factory/generated-evidence/w09-current-rework-2pack-v4/decor-7/generation-receipt.json",
+        "runtimeRepo": "huggingface/diffusers",
+        "runtimeCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+        "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+        "modelRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+        "dtype": "float32",
+        "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+      }
+    },
+    {
+      "item": {
+        "id": "decor-11",
+        "name": "Dream Vanity Set",
+        "collectionId": "decor",
+        "type": "room",
+        "tier": 4,
+        "theme": "Art Attack"
+      },
+      "candidate": {
+        "producer": "09",
+        "reviewer": "02",
+        "renderOwner": "14",
+        "canonicalWriter": "08",
+        "path": "public/assets/catalog-candidates/cpu/decor-11-w09-v4-a-vanity-mirror-one-stool-original.png",
+        "sha256": "ad450b5c1923efbb33d977b5b21ba2fefe407b5d34920aa642dc1c271cbb8d24",
+        "gitBlobSha": "f4fed4eaf1bf867ffdd3519d347ae12ce755d9b7",
+        "dimensions": [
+          640,
+          640
+        ],
+        "bytes": 597349,
+        "format": "PNG",
+        "mode": "RGB"
+      },
+      "sourceGenerationRunId": 36030020397,
+      "provenance": {
+        "stagedOutput": "docs/preproduction/art-factory/generated-evidence/w09-current-rework-2pack-v4/decor-11/staged-output.json",
+        "generationReceipt": "docs/preproduction/art-factory/generated-evidence/w09-current-rework-2pack-v4/decor-11/generation-receipt.json",
+        "runtimeRepo": "huggingface/diffusers",
+        "runtimeCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+        "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+        "modelRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+        "dtype": "float32",
+        "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+      }
+    }
+  ],
+  "technicalChecks": {
+    "idPathBinding": "PASS_BOTH",
+    "signatureDecode": "PASS_BOTH_STAGED_VERIFIED_PNG",
+    "dimensions": "PASS_BOTH_640X640",
+    "sourceLineage": "PASS_BOTH_STAGED_OUTPUT_AND_GENERATION_RECEIPT",
+    "artFactoryV2Provenance": "PASS_BOTH_PINNED_RUNTIME_MODEL_RIGHTS",
+    "stagedOutputReadback": "PASS_BOTH_EXACT_LIVE_GIT_BLOB",
+    "staleSupersededCheck": "PASS_BOTH_FRESH_FAILURE_SPECIFIC_REPLACEMENTS",
+    "exactContentDuplicateCheck": "PASS_BOTH_DISTINCT_BLOBS_NOT_CANONICAL",
+    "independentReviewerRouting": "PASS_DECOR7_TO_01_DECOR11_TO_02"
+  },
+  "qualification": {
+    "status": "QUALIFIED_FOR_RENDERER14_MICROBATCH",
+    "qualifiedForRenderer14": true,
+    "qualifiedCount": 2,
+    "artQualityJudgment": "NOT_PERFORMED",
+    "blockingDefects": []
+  },
+  "routing": {
+    "current": "HANDOFF_TO_RENDERER14",
+    "reviewerByItem": {
+      "decor-7": "01",
+      "decor-11": "02"
+    },
+    "renderer14": "RENDER_BOTH_EXACT_HASHES_IN_REAL_STORE_CARD_DETAIL_CONTEXT",
+    "integration08": "ONLY_AFTER_MATCHING_INDEPENDENT_REVIEWER_ACCEPT"
+  },
+  "preservation": {
+    "candidateBytesMutated": false,
+    "canonicalMappingsChanged": false,
+    "gameplayLearningPersistenceEconomyChanged": false,
+    "deploymentTouched": false
+  }
+}
