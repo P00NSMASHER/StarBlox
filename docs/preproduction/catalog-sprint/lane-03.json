@@ -6,7 +6,7 @@
   "branch": "screenshot-match-preproduction",
   "observedCoordinationHead": "044c93510cca67fe1939f9052ee9d4e569b08d9e",
   "allocationAuthority": "docs/preproduction/ART_VISUALS_SPRINT.json",
-  "status": "DECOR6_V2_DECOR8_V2_EXACT_HASHES_QUALIFIED__RENDER_TRIGGERED_FOR_REVIEW11",
+  "status": "DESKS_9_10_V2_EXACT_HASHES_QUALIFIED__RENDER_TRIGGERED_FOR_REVIEW05",
   "selfApproved": false,
   "reviewOwner": "05",
   "integrationOwner": "08",
@@ -204,7 +204,7 @@
     "latestCoordinatorAssignment": "PASS_ACTIVE_BATCH_W03_DESKS_7_10_RELEASE_PILOT",
     "strictVisualFallbackEvidence": "PASS_DESKS_7_12_INCLUDED_IN_22_MISSING_CANONICAL_ART"
   },
-  "nextAction": "Renderer14 binds current Store card/detail pixels for Decor6 v2 and Decor8 v2, then reviewer11 independently ACCEPT/REWORK exact hashes; 08 integrates only ACCEPT. Preserve Desks accepted hashes and existing Desk pilot gates.",
+  "nextAction": "Renderer14 binds current Store card/detail pixels for Desk9 v2 and Desk10 v2; reviewer05 independently ACCEPT/REWORK exact hashes; 08 integrates only ACCEPT. Preserve all accepted Desk1-6 hashes.",
   "freeze": {
     "replitTouched": false,
     "flootTouched": false,
@@ -262,33 +262,33 @@
     "scaleGate": "Do not start desks-11/12 until reviewer05 independently dispositions exact current hashes for desks-7/10."
   },
   "catalogFactoryReviewHandoff": {
-    "updatedAt": "2026-09-24T08:46:00Z",
-    "sourceHead": "762f44e5d25738394f1bb4aaa6fcf709fc7b170b",
-    "purpose": "Trigger exact-hash Store card/detail render evidence for qualified decor-6, decor-8 candidates without changing candidate bytes or review/canonical gates.",
+    "updatedAt": "2026-09-24T09:01:00Z",
+    "sourceHead": "25697660ab110281dc51d1c540084437c602c464",
+    "purpose": "Trigger exact-hash Store card/detail render evidence for qualified Desk9 v2 and Desk10 v2 while preserving accepted Desk1-6 hashes and reviewer05 independence.",
     "candidates": [
       {
-        "itemId": "decor-6",
-        "name": "Telescope",
+        "itemId": "desks-9",
+        "name": "Art Maker Table",
         "producer": "03",
-        "reviewer": "11",
-        "path": "public/assets/catalog-candidates/cpu/decor-6-w03-v2-a-single-telescope-original.png",
-        "sha256": "5787d635b6fdde26d67b81ecec661b67da0723060c6ea101ac8576b66416107d",
-        "gitBlobSha": "5b860130d537acadb6a15c81a841805c3b9b81cf",
-        "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-decor-5-8-vnext-qualification-20260924.json",
+        "reviewer": "05",
+        "path": "public/assets/catalog-candidates/cpu/desks-9-w03-v2-a-physical-original.png",
+        "sha256": "dfe46866e35daf1f55069ca3549cc6a45c46e92f131e01c0bd492b7641203a6a",
+        "gitBlobSha": "6cab04be717e17e2b682afa73ce8306bc21556c8",
+        "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-desks-9-10-v2-qualification-20260924.json",
         "qualification": "QUALIFIED_FOR_RENDERER14",
-        "route": "14 -> 11 -> 08 on ACCEPT"
+        "route": "14 -> 05 -> 08 on ACCEPT"
       },
       {
-        "itemId": "decor-8",
-        "name": "Mini Aquarium",
+        "itemId": "desks-10",
+        "name": "Neon Streaming Desk",
         "producer": "03",
-        "reviewer": "11",
-        "path": "public/assets/catalog-candidates/cpu/decor-8-w03-v2-a-physical-original.png",
-        "sha256": "b88c0b339da024e2dd6591311d8f6c1022c682918cd4fb6746254b61d46acf87",
-        "gitBlobSha": "cde20430aaa1c2b4bd07399d35b3f0f184896509",
-        "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-decor-5-8-vnext-qualification-20260924.json",
+        "reviewer": "05",
+        "path": "public/assets/catalog-candidates/cpu/desks-10-w03-v2-a-physical-original.png",
+        "sha256": "c3f04f156860b0665af727de66b7063b08302ca87941b728f856edf921f0ae7d",
+        "gitBlobSha": "2f6fccc5b76418fee108052bf6963491f2bcb823",
+        "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-desks-9-10-v2-qualification-20260924.json",
         "qualification": "QUALIFIED_FOR_RENDERER14",
-        "route": "14 -> 11 -> 08 on ACCEPT"
+        "route": "14 -> 05 -> 08 on ACCEPT"
       }
     ],
     "safety": {
