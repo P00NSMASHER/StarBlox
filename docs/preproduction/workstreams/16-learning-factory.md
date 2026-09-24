@@ -1,9 +1,11 @@
 # Workstream 16 — Learning Factory / Adaptive Shadow Stack
 
-STATUS: **SHADOW IMPLEMENTATION ACTIVE / LIVE QUEST SELECTOR UNCHANGED**
+STATUS: **IMPLEMENTED + CI GREEN IN SHADOW MODE / LIVE QUEST SELECTOR UNCHANGED**
 
 Branch: `starblox-learning-factory-v1`  
-Base: `screenshot-match-preproduction`
+Base at branch creation: `screenshot-match-preproduction`  
+Latest fully verified implementation head before this documentation-only commit: `2d0b58c3dd8f1f3af4d265046b89d6a9977af083`  
+Learning Factory Shadow QA run: `35946960060`
 
 ## Goal
 
@@ -11,50 +13,65 @@ Combine the useful boundaries of EdGameClaw, PSI-KT, Riff/FSRS, unanswerable-que
 
 ## Implemented
 
-### Canonical contracts
+### Canonical question/event contracts
+
+- `src/learningContracts.js`
+  - normalizes current questions into `QuestionV2`;
+  - defines canonical `LearningEvent`;
+  - assisted/retry observations cannot become mastery-eligible.
+- `src/learningEventLedger.js`
+  - bounded append-only shadow ledger;
+  - deterministic event-ID dedupe.
+- `src/learningEventBridge.js`
+  - bridge from the real answer transaction.
+- `src/App.jsx`
+  - records the canonical event only when `VITE_STARBLOX_LEARNING_FACTORY_SHADOW=1`;
+  - default/off behavior does not add the shadow ledger;
+  - one timestamp is captured outside the state updater so React updater replays dedupe safely.
+
+### Source provenance / Critical Window-style gate
 
 - `src/learningSourceRegistry.js`
-  - stable source IDs for the current StarBlox learning families;
-  - explicit provenance status instead of pretending every source is snapshotted.
-- `src/learningContracts.js`
-  - `QuestionV2` normalization;
-  - canonical `LearningEvent`;
-  - assisted/retry evidence cannot become mastery-eligible.
-- `src/learningEventLedger.js`
-  - append-only bounded shadow ledger;
-  - deterministic dedupe by event ID.
-- `src/learningEventBridge.js`
-  - feature-flagged bridge from the real StarBlox answer seam;
-  - disabled unless `VITE_STARBLOX_LEARNING_FACTORY_SHADOW=1`.
-
-### Content/provenance gate
-
+  - stable source IDs and explicit provenance states.
+- `src/currentLearningSourceSnapshots.js`
+  - canonical in-repo payloads for current spelling, HFW, vocabulary, Religion Unit 1, and StarBlox practice passages.
 - `src/contentProvenanceRuntime.js`
   - deterministic content bundles;
-  - stable runtime fingerprint;
-  - source coverage validation;
-  - explicit strict-provenance debt.
+  - source snapshot hashes carried inside the bundle;
+  - strict provenance rejects snapshot-required sources without a hash;
+  - stable content fingerprint.
 - `scripts/validateLearningContent.mjs`
-  - evaluates the hardened production-shaped question bank;
-  - emits SHA-256 validation receipts.
+  - validates the hardened 200-question bank;
+  - generates a SHA-256 receipt;
+  - persists the individual source hashes and remaining provenance debt.
 
-### Adversarial QA
+### Adversarial QA / unanswerable-QG boundary
 
 - `src/adversarialQuestionQa.js`
-  - shadow counterfactual entity/antonym perturbations;
-  - hard structural findings separated from heuristic/soft findings.
-- The adversarial layer is a release-test input only. Generated counterfactuals are not player content.
+  - deterministic entity and antonym counterfactuals;
+  - hard structural findings separated from heuristic findings;
+  - generated counterfactuals are QA inputs only and never player content.
+
+### EdGameClaw boundary
+
+- `src/edGameClawShadowAdapter.js`
+  - converts course/chunk structure into non-executable StarBlox interaction candidates;
+  - retains concept, source, mechanic, and simulation metadata;
+  - does not import generated HTML/JavaScript into StarBlox.
+- `scripts/adaptEdGameClawCourse.mjs`
+  - executable offline adapter.
 
 ### PSI-KT boundary
 
 - `src/psiKtShadowAdapter.js`
-  - converts mastery-eligible first-attempt StarBlox events into PSI-KT sequence arrays;
-  - excludes assisted retries by default;
-  - exports a tab-separated interaction table with the columns consumed by PSI-KT's `DataReader`: `user_id`, `skill_id`, `correct`, `timestamp`, `problem_id`.
+  - emits PSI-KT sequence arrays;
+  - excludes assisted/non-mastery observations by default;
+  - exports DataReader-compatible TSV columns:
+    `user_id`, `skill_id`, `correct`, `timestamp`, `problem_id`.
 - `scripts/exportPsiKtDataset.mjs`
-  - executable offline exporter for a ledger JSON.
+  - executable offline exporter.
 
-No PSI-KT model output affects live StarBlox behavior.
+No PSI-KT model output affects live StarBlox selection yet.
 
 ### Riff / FSRS boundary
 
@@ -66,67 +83,78 @@ No PSI-KT model output affects live StarBlox behavior.
 - `scripts/exportRiffReviews.mjs`
   - executable offline exporter.
 
-No Riff/FSRS due date affects live StarBlox behavior.
-
-### EdGameClaw boundary
-
-- `src/edGameClawShadowAdapter.js`
-  - accepts EdGameClaw course/chunk structure;
-  - converts it into non-executable StarBlox interaction candidates;
-  - strips the integration boundary down to content/concept/mechanic metadata;
-  - never imports generated HTML/JavaScript into the StarBlox runtime.
-- `scripts/adaptEdGameClawCourse.mjs`
-  - executable offline adapter.
+No Riff/FSRS due state affects live StarBlox selection yet.
 
 ### Selector V2 shadow
 
 - `src/selectorV2Shadow.js`
-  - combines PSI-style mastery/uncertainty and FSRS-style due state with StarBlox role/district constraints;
-  - deterministic tie breaking;
-  - not wired into `gameModel.pickQuest()`.
+  - combines PSI-style mastery/uncertainty, FSRS-style due state, recency, role, district, and diversity constraints;
+  - deterministic tie-breaking;
+  - deliberately not wired into `gameModel.pickQuest()`.
 - `scripts/selectorV2ShadowSimulation.mjs`
-  - deterministic synthetic-population simulation.
+  - deterministic synthetic-population regression harness.
 
 ## Verified evidence
 
-Green Learning Factory Shadow QA evidence on this branch includes:
+Run `35946960060` completed successfully with all gates green:
 
-- 200 hardened questions validated;
-- deterministic content fingerprint `fnv1a32:b2084ac2`;
-- content SHA-256 `231a3a751abe0b3194c87d84c6e95194a23979b84434a8e4d90f80aea2a3ea3a`;
-- 79 generated adversarial variants;
-- 0 adversarial hard findings;
-- 250 deterministic synthetic learners in Selector V2 simulation;
-- Selector V2 simulation failure count: 0;
-- top modeled-need skill represented in the selected Quest: 100% in the current synthetic fixture population;
-- adapter and feature-flagged event-bridge tests green.
+- Learning Factory tests: **5 files / 15 tests PASS**.
+- Existing StarBlox learning/persistence regression subset: **9 files / 45 tests PASS**.
+- Hardened question bank: **200 questions**, **0 existing-runtime issues**.
+- Adversarial QA: **79 generated variants**, **0 hard findings**.
+- Content fingerprint: `fnv1a32:f01dc5d8`.
+- Content bundle SHA-256: `07b51b743762c53e29205ce2e614d8a922b0e4683ebe39ffefa43b3505915460`.
+- Selector simulation: **250 synthetic learners**, **11 skills**, **0 failures**.
+- Current synthetic harness top-modeled-need skill representation: **100%**.
+- EdGameClaw fixture: **2 candidates / 0 adapter issues**.
+- PSI-KT fixture: **1 exported interaction row** from mastery-eligible evidence.
+- Riff fixture: **2 review commands**.
+- Full Vite production build: **PASS**.
 
-The synthetic simulation is a regression/safety harness, not evidence of real-world learning gains.
+The synthetic selector result is a deterministic regression/safety result, not evidence of real-world learning efficacy.
 
-## Current provenance debt
+## Source snapshot evidence
 
-The current bootstrap bank still contains declared curriculum sources that are represented by stable IDs but are not yet backed by immutable source snapshot hashes inside this branch. Strict provenance therefore remains intentionally **not ready**.
+The validation receipt now carries these canonical SHA-256 source snapshots:
 
-Do not change `provenanceDebt().strictReady` to true until the underlying approved source artifacts are snapshotted/hash-bound.
+- `current-week-spelling-list`: `sha256:f875c52eb6a94e3220ae3c364dc5beef10c7d371bd6b3824849760c6c372da45`
+- `current-week-hfw-list`: `sha256:4edc3247d0c169138d5e62daab40ae3ee4212a0c6a145fae7573ca5fc3667964`
+- `current-week-vocabulary`: `sha256:e725f6f69832860a7106366aa9a6f11d509250b745e3b0cc500f9e2bf29f0458`
+- `approved-religion-unit-1`: `sha256:c0a9feb3de8c70f88ce084b501e538d5811229254b0c6040b00ed6f64a7b01ef`
+- `starblox-practice-passages`: `sha256:8d4b1f7a61e68bc4925b34d9813366d953705600b6aecab55a568f39b852e182`
+
+## Remaining provenance debt
+
+Exactly one registered source remains unresolved for strict provenance:
+
+- `abvm-grade2-current-source-pack`
+
+Therefore `provenanceDebt().strictReady` remains **false by design**. Do not mark strict provenance ready until the approved underlying ABVM source artifact itself is available in a stable snapshot/hashable representation.
 
 ## Promotion blockers
 
-Selector V2 must remain shadow-only until all of the following are true:
+Selector V2 must remain shadow-only until all of the following are satisfied:
 
-1. approved curriculum/source artifacts have immutable snapshot hashes;
-2. EdGameClaw-generated candidates are evidence-bound before QA;
-3. PSI-KT is trained/evaluated on an authorized StarBlox-shaped dataset and compared against the existing BKT/heuristic baseline;
-4. Riff/FSRS scheduling is run through an actual FSRS engine and calibrated for the StarBlox interaction cadence;
-5. deterministic simulation continues to pass;
-6. existing reward, retry, persistence, accessibility, semantic-question, and learning-integrity tests remain green;
-7. any evaluation on real learner data is separately authorized and privacy-reviewed.
+1. the broad `abvm-grade2-current-source-pack` source artifact is snapshot/hash-bound;
+2. EdGameClaw-generated candidates are bound to approved evidence spans before QA/release;
+3. PSI-KT is trained and evaluated on an authorized StarBlox-shaped dataset and compared against the existing heuristic/BKT baseline;
+4. Riff/FSRS review commands are executed through an actual FSRS engine and calibrated for StarBlox cadence;
+5. deterministic simulations continue to pass under broader learner-model distributions;
+6. reward, retry, persistence, accessibility, semantic-question, learning-integrity, and build gates remain green;
+7. any real-learner evaluation is separately authorized and privacy-reviewed.
+
+## Integration note
+
+At the latest comparison during this workstream, `screenshot-match-preproduction` had advanced concurrently and this branch was **2 commits behind** it. Reconcile/rebase those concurrent preproduction changes before opening or merging a PR; do not blindly merge the moving branch.
 
 ## Commands
 
 ```bash
 npm run test:learning-factory
+npm run test:learning-regression
 npm run validate:learning
 npm run simulate:learning-shadow
+npm run build
 
 npm run interop:edgameclaw -- --input=<course.json> --out=<candidates.json> --source-ids=<source-id>
 npm run interop:psikt -- --input=<learning-ledger.json> --out=<interactions_N.csv>
@@ -140,4 +168,5 @@ npm run interop:riff -- --input=<learning-ledger.json> --out=<riff-reviews.json>
 - no generated JavaScript/HTML execution from EdGameClaw;
 - no assisted retry can manufacture mastery evidence;
 - no PSI-KT or Riff output can award Coins, Stars, mastery, or transfer evidence;
-- no deployment or main-branch merge from this workstream.
+- no deployment;
+- no main/preproduction merge from this workstream.
