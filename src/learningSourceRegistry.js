@@ -11,25 +11,25 @@ export const SOURCE_REGISTRY = Object.freeze({
     id:'current-week-spelling-list',
     label:'Current-week spelling list',
     kind:'curriculum-list',
-    provenanceStatus:'declared-source'
+    provenanceStatus:'snapshot-required'
   }),
   'current-week-hfw-list': Object.freeze({
     id:'current-week-hfw-list',
     label:'Current-week high-frequency-word list',
     kind:'curriculum-list',
-    provenanceStatus:'declared-source'
+    provenanceStatus:'snapshot-required'
   }),
   'current-week-vocabulary': Object.freeze({
     id:'current-week-vocabulary',
     label:'Current-week vocabulary meanings',
     kind:'curriculum-list',
-    provenanceStatus:'declared-source'
+    provenanceStatus:'snapshot-required'
   }),
   'approved-religion-unit-1': Object.freeze({
     id:'approved-religion-unit-1',
     label:'Approved Religion Unit 1 source',
     kind:'curriculum-source',
-    provenanceStatus:'declared-source'
+    provenanceStatus:'snapshot-required'
   }),
   'starblox-practice-passages': Object.freeze({
     id:'starblox-practice-passages',
