@@ -91,7 +91,12 @@ const decision = {
   psiKt:{
     model:psi.model,
     upstreamCommit:psi.upstreamCommit,
-    epochs:psi.epochs,
+    epochsRequested:psi.epochsRequested,
+    epochsCompleted:psi.epochsCompleted,
+    earlyStoppingPatience:psi.earlyStoppingPatience,
+    stoppedEarly:psi.stoppedEarly,
+    bestEpoch:psi.bestEpoch,
+    bestValidationBce:psi.bestValidationBce,
     trainTimeRatio:psi.trainTimeRatio,
     selectionStep:psi.selectionStep,
     selectorStateLearnerCount:psi.selectorStateLearnerCount,
