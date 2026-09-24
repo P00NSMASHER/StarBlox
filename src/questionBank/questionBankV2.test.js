@@ -2,6 +2,7 @@ import { describe,expect,it } from 'vitest';
 import { createQuestionAttempt } from '../domainSchemas.js';
 import { gameModel } from '../gameModel.js';
 import {
+  addQuestionToBank,
   appendAttemptHistory,
   assignQuestionsFromBank,
   createAttemptLedger,
@@ -33,6 +34,34 @@ describe('StarBlox Question Bank V2', () => {
     expect(new Set(snapshot.refs.map(ref => ref.questionId)).size).toBe(200);
     expect(snapshot.refs.every(ref => ref.version === 1)).toBe(true);
     expect(snapshot.refs.every(ref => /^fnv1a32:[a-f0-9]{8}$/.test(ref.contentHash))).toBe(true);
+  });
+
+  it('adds new questions as non-production drafts until explicitly published', () => {
+    const original=bank();
+    const source=gameModel.buildQuestions()[0];
+    const draftQuestion={...source,id:'future-ai-draft'};
+    const withDraft=addQuestionToBank(original,draftQuestion,{
+      lifecycle:'draft',
+      tags:['generated'],
+      conceptIds:['future-concept']
+    });
+
+    expect(withDraft.questions['future-ai-draft'].lifecycle).toBe('draft');
+    expect(withDraft.questions['future-ai-draft'].currentVersion).toBe(1);
+    expect(createQuestionBankSnapshot(withDraft).questionCount).toBe(200);
+
+    const published=setQuestionLifecycle(withDraft,'future-ai-draft','published');
+    expect(createQuestionBankSnapshot(published).questionCount).toBe(201);
+  });
+
+  it('detects tampering with any stored historical version', () => {
+    const original=bank();
+    const tampered=JSON.parse(JSON.stringify(original));
+    tampered.questions['vocab-transfer-invited'].versions['1'].prompt += ' tampered';
+
+    const validation=validateQuestionBankV2(tampered);
+    expect(validation.ok).toBe(false);
+    expect(validation.errors.some(error => /content hash mismatch/.test(error))).toBe(true);
   });
 
   it('creates immutable content revisions while retaining the exact prior version', () => {
