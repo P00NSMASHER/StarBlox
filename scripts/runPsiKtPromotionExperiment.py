@@ -22,7 +22,8 @@ def parse_args():
     parser.add_argument("--evaluation", required=True)
     parser.add_argument("--graph-json", required=True)
     parser.add_argument("--out", required=True)
-    parser.add_argument("--epochs", type=int, default=2)
+    parser.add_argument("--epochs", type=int, default=200)
+    parser.add_argument("--patience", type=int, default=10)
     parser.add_argument("--max-step", type=int, default=30)
     return parser.parse_args()
 
@@ -364,6 +365,12 @@ train_batches = model.prepare_batches(
     model_args.batch_size,
     phase="train",
 )
+val_batches = model.prepare_batches(
+    corpus,
+    corpus.data_df["val"],
+    model_args.eval_batch_size,
+    phase="val",
+)
 test_batches = model.prepare_batches(
     corpus,
     corpus.data_df["test"],
@@ -372,6 +379,14 @@ test_batches = model.prepare_batches(
 )
 
 epoch_losses = []
+validation_bce = []
+best_validation_bce = float("inf")
+best_epoch = -1
+best_parameters = None
+epochs_without_improvement = 0
+stopped_early = False
+patience = max(1, int(args_cli.patience))
+
 for epoch in range(model_args.epoch):
     model.train()
     batch_losses = []
@@ -387,6 +402,46 @@ for epoch in range(model_args.epoch):
         optimizer.step()
         batch_losses.append(float(loss.detach().cpu()))
     epoch_losses.append(float(np.mean(batch_losses)))
+
+    model.eval()
+    val_loss_rows = []
+    with torch.no_grad():
+        for batch in val_batches:
+            out = model.predictive_model(batch)
+            pred = out["prediction"].mean(dim=1)
+            label = out["label"][:, 0, :].float()
+            val_bce = torch.nn.functional.binary_cross_entropy(
+                pred.flatten().clamp(1e-6, 1 - 1e-6),
+                label.flatten(),
+            )
+            val_loss_rows.append(float(val_bce.detach().cpu()))
+
+    if not val_loss_rows:
+        raise RuntimeError("PSI-KT validation split produced no batches")
+    current_val_bce = float(np.mean(val_loss_rows))
+    validation_bce.append(current_val_bce)
+
+    if current_val_bce < best_validation_bce - 1e-6:
+        best_validation_bce = current_val_bce
+        best_epoch = epoch
+        best_parameters = {
+            name:param.detach().cpu().clone()
+            for name,param in model.named_parameters()
+        }
+        epochs_without_improvement = 0
+    else:
+        epochs_without_improvement += 1
+
+    if epochs_without_improvement >= patience:
+        stopped_early = True
+        break
+
+if best_parameters is None:
+    raise RuntimeError("PSI-KT never produced a valid validation checkpoint")
+
+with torch.no_grad():
+    for name,param in model.named_parameters():
+        param.copy_(best_parameters[name].to(param.device))
 
 model.eval()
 predictions = []
@@ -487,7 +542,14 @@ receipt = {
     "priorEntropyCompatibilityShim":"skip-zero-weight-missing-gen-network-transition-s-diagnostic",
     "dataAlignmentShim":alignment_audit,
     "device":"cpu",
-    "epochs":model_args.epoch,
+    "epochsRequested":model_args.epoch,
+    "epochsCompleted":len(epoch_losses),
+    "earlyStoppingPatience":patience,
+    "stoppedEarly":stopped_early,
+    "bestEpoch":best_epoch,
+    "bestValidationBce":best_validation_bce,
+    "epochLosses":epoch_losses,
+    "validationBce":validation_bce,
     "trainTimeRatio":train_time_ratio,
     "selectionStep":selection_step,
     "trainLearners":len(corpus.data_df["train"]),
@@ -521,7 +583,12 @@ print(json.dumps({
     "priorEntropyCompatibilityShim":receipt["priorEntropyCompatibilityShim"],
     "dataAlignmentShim":receipt["dataAlignmentShim"],
     "upstreamCommit":upstream_commit,
-    "epochs":receipt["epochs"],
+    "epochsRequested":receipt["epochsRequested"],
+    "epochsCompleted":receipt["epochsCompleted"],
+    "earlyStoppingPatience":receipt["earlyStoppingPatience"],
+    "stoppedEarly":receipt["stoppedEarly"],
+    "bestEpoch":receipt["bestEpoch"],
+    "bestValidationBce":receipt["bestValidationBce"],
     "trainTimeRatio":receipt["trainTimeRatio"],
     "selectionStep":receipt["selectionStep"],
     "trainLearners":receipt["trainLearners"],
