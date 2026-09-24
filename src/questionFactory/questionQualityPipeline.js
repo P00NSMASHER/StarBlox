@@ -41,13 +41,26 @@ function jaccard(a,b){
 }
 
 function sourceMap(chunks){
-  return new Map((chunks || []).map(chunk => [
-    chunk.id,
-    {
+  const result=new Map();
+  for(const [index,chunk] of (chunks || []).entries()){
+    if(!isObject(chunk)) throw new TypeError('source chunk ' + index + ' must be an object.');
+    const id=normalizeText(chunk.id);
+    if(!id) throw new TypeError('source chunk ' + index + ' is missing id.');
+    if(result.has(id)) throw new Error('duplicate source chunk id: ' + id);
+    result.set(id,{
       ...clone(chunk),
-      normalizedText:normalizedForCompare(chunk.text)
-    }
-  ]));
+      id,
+      comparisonText:normalizedForCompare(chunk.text),
+      evidenceText:normalizeText(chunk.text),
+      chunkHash:stableHash({
+        id,
+        text:normalizeText(chunk.text),
+        header:normalizeText(chunk.header),
+        source:normalizeText(chunk.source)
+      })
+    });
+  }
+  return result;
 }
 
 export function validateCandidateStructure(candidate){
@@ -132,16 +145,20 @@ export function verifyCandidateEvidence(candidate,chunks){
       errors.push('evidence chunk missing: ' + item.chunkId);
       continue;
     }
-    const quote=normalizedForCompare(item.quote);
+    const quote=normalizeText(item.quote);
     if(!quote || quote.length < 8){
       errors.push('evidence quote too short');
       continue;
     }
-    if(!chunk.normalizedText.includes(quote)){
-      errors.push('evidence quote not found in chunk ' + item.chunkId);
+    if(!chunk.evidenceText.includes(quote)){
+      errors.push('evidence quote not found exactly in chunk ' + item.chunkId);
       continue;
     }
-    verified.push({chunkId:item.chunkId,quote:normalizeText(item.quote)});
+    verified.push({
+      chunkId:item.chunkId,
+      quote,
+      chunkHash:chunk.chunkHash
+    });
   }
 
   if(source && !verified.some(item => item.chunkId === candidate.sourceChunkId)){
@@ -224,6 +241,52 @@ function applyReview(candidate,review,{allowRewrite=true}={}){
   };
 }
 
+function candidateReceiptMaterial(candidate){
+  return {
+    candidateId:candidate.candidateId,
+    prompt:candidate.prompt,
+    choices:candidate.choices,
+    answer:candidate.answer,
+    explanation:candidate.explanation,
+    hint:candidate.hint,
+    subject:candidate.subject,
+    district:candidate.district,
+    skill:candidate.skill,
+    role:candidate.role,
+    difficulty:candidate.difficulty,
+    reward:candidate.reward,
+    masteryEligible:candidate.masteryEligible !== false,
+    atomicFacts:candidate.atomicFacts,
+    evidence:candidate.evidence,
+    sourceChunkId:candidate.sourceChunkId,
+    sourceHeader:candidate.sourceHeader,
+    source:candidate.source,
+    conceptIds:candidate.conceptIds,
+    supportingChunkIds:candidate.supportingChunkIds,
+    generation:candidate.generation
+  };
+}
+
+function validationReceiptHash(candidate,quality){
+  return stableHash({
+    candidate:candidateReceiptMaterial(candidate),
+    quality:{
+      pipelineVersion:quality.pipelineVersion,
+      mode:quality.mode,
+      minScore:quality.minScore,
+      structuralScore:quality.structuralScore,
+      reviewerScore:quality.reviewerScore,
+      effectiveScore:quality.effectiveScore,
+      reviewerDecision:quality.reviewerDecision,
+      reviewerReasons:quality.reviewerReasons,
+      structuralErrors:quality.structuralErrors,
+      structuralWarnings:quality.structuralWarnings,
+      evidenceErrors:quality.evidenceErrors,
+      verifiedEvidence:quality.verifiedEvidence
+    }
+  });
+}
+
 function existingPrompts(bank){
   if(!bank?.questions) return [];
   return Object.values(bank.questions).flatMap(entry =>
@@ -285,6 +348,14 @@ export async function validateGeneratedCandidates({
   if(!Array.isArray(candidates)) throw new TypeError('candidates must be an array.');
   if(!['strict','hybrid','deterministic'].includes(mode)) throw new TypeError('invalid quality mode.');
 
+  const candidateIds=new Set();
+  for(const [index,candidate] of candidates.entries()){
+    const id=normalizeText(candidate?.candidateId);
+    if(!id) throw new TypeError('candidate ' + index + ' is missing candidateId before review.');
+    if(candidateIds.has(id)) throw new Error('duplicate candidateId before review: ' + id);
+    candidateIds.add(id);
+  }
+
   let reviews=new Map();
   let reviewerFailed=false;
 
@@ -299,11 +370,22 @@ export async function validateGeneratedCandidates({
           chunks:clone(chunks)
         });
         const rows=Array.isArray(response?.results) ? response.results : [];
-        reviews=new Map(rows
-          .map(normalizeReviewResult)
-          .filter(Boolean)
-          .map(row => [row.candidateId,row])
-        );
+        const normalizedRows=rows.map(normalizeReviewResult).filter(Boolean);
+        const seenReviewIds=new Set();
+        const invalidReviewBatch=
+          normalizedRows.length !== rows.length ||
+          normalizedRows.some(row =>
+            !row.candidateId ||
+            !candidateIds.has(row.candidateId) ||
+            seenReviewIds.has(row.candidateId) ||
+            !seenReviewIds.add(row.candidateId)
+          );
+        if(invalidReviewBatch){
+          reviewerFailed=true;
+          reviews=new Map();
+        }else{
+          reviews=new Map(normalizedRows.map(row => [row.candidateId,row]));
+        }
       }catch{
         reviewerFailed=true;
       }
@@ -347,6 +429,7 @@ export async function validateGeneratedCandidates({
       quality:{
         pipelineVersion:QUESTION_QUALITY_PIPELINE_VERSION,
         mode,
+        minScore,
         structuralScore:structure.score,
         reviewerScore:reviewScore,
         effectiveScore,
@@ -358,6 +441,7 @@ export async function validateGeneratedCandidates({
         verifiedEvidence:evidence.verified
       }
     };
+    record.quality.validationReceiptHash=validationReceiptHash(record,record.quality);
 
     if(keep) accepted.push(record);
     else rejected.push(record);
@@ -372,11 +456,46 @@ export async function validateGeneratedCandidates({
   };
 }
 
+function strictIngestionReceipt(candidate){
+  const quality=candidate?.quality;
+  if(!quality || quality.mode !== 'strict'){
+    throw new Error('generated candidate ingestion requires a strict review receipt.');
+  }
+  if(!['keep','rewrite'].includes(quality.reviewerDecision)){
+    throw new Error('generated candidate ingestion requires a keep/rewrite reviewer decision.');
+  }
+  if(!Number.isFinite(quality.minScore) || !Number.isFinite(quality.reviewerScore) || !Number.isFinite(quality.effectiveScore)){
+    throw new Error('generated candidate ingestion requires complete strict review scores.');
+  }
+  if(quality.reviewerScore < quality.minScore || quality.effectiveScore < quality.minScore){
+    throw new Error('generated candidate ingestion requires review scores at or above the strict threshold.');
+  }
+  if((quality.structuralErrors || []).length || (quality.evidenceErrors || []).length){
+    throw new Error('generated candidate ingestion requires clean structural and evidence gates.');
+  }
+  if(!Array.isArray(quality.verifiedEvidence) || quality.verifiedEvidence.length === 0){
+    throw new Error('generated candidate ingestion requires verified source evidence.');
+  }
+  const expectedReceipt=validationReceiptHash(candidate,quality);
+  if(!quality.validationReceiptHash || quality.validationReceiptHash !== expectedReceipt){
+    throw new Error('generated candidate validation receipt does not match candidate content.');
+  }
+  return quality;
+}
+
 function generatedQuestionShape(candidate){
+  const quality=strictIngestionReceipt(candidate);
   const id='gen-' + stableHash({
     sourceChunkId:candidate.sourceChunkId,
     prompt:normalizedForCompare(candidate.prompt)
   }).split(':')[1];
+  const sourceEvidence=quality.verifiedEvidence.find(item => item.chunkId === candidate.sourceChunkId) || null;
+  const evidenceProvenance=quality.verifiedEvidence.map((item,index) => ({
+    kind:'verified-evidence',
+    sourceId:item.chunkId,
+    label:item.quote,
+    reference:item.chunkHash ? 'chunk-hash:' + item.chunkHash : 'evidence-index:' + index
+  }));
 
   return {
     id,
@@ -398,29 +517,40 @@ function generatedQuestionShape(candidate){
         kind:'generated-source',
         sourceId:candidate.sourceChunkId,
         label:candidate.sourceHeader || candidate.sourceChunkId,
-        reference:null
+        reference:sourceEvidence?.chunkHash ? 'chunk-hash:' + sourceEvidence.chunkHash : null
       },
       {
         kind:'generation-run',
         sourceId:candidate.generation?.runId || 'unknown',
         label:(candidate.generation?.provider || 'unknown') + (candidate.generation?.model ? ':' + candidate.generation.model : ''),
-        reference:null
-      }
+        reference:'candidate:' + candidate.candidateId
+      },
+      {
+        kind:'quality-review',
+        sourceId:quality.pipelineVersion,
+        label:quality.mode + ':' + quality.reviewerDecision +
+          ':review=' + quality.reviewerScore +
+          ':effective=' + quality.effectiveScore +
+          ':threshold=' + quality.minScore,
+        reference:'validation-receipt:' + quality.validationReceiptHash
+      },
+      ...evidenceProvenance
     ]
   };
 }
 
-export function ingestValidatedCandidates(bank,candidates,{
-  lifecycle='pending',
-  tags=['generated']
-}={}){
+export function ingestValidatedCandidates(bank,candidates,options={}){
+  if(Object.prototype.hasOwnProperty.call(options,'lifecycle') && options.lifecycle !== 'pending'){
+    throw new Error('generated candidates may only be ingested with pending lifecycle.');
+  }
+  const {tags=['generated']}=options;
   let next=bank;
   const inserted=[];
 
   for(const candidate of candidates){
     const question=generatedQuestionShape(candidate);
     next=addQuestionToBank(next,question,{
-      lifecycle,
+      lifecycle:'pending',
       conceptIds:Array.isArray(candidate.conceptIds) && candidate.conceptIds.length
         ? candidate.conceptIds
         : [candidate.skill],
@@ -432,7 +562,7 @@ export function ingestValidatedCandidates(bank,candidates,{
       questionId:question.id,
       version:version.contentVersion,
       contentHash:version.contentHash,
-      lifecycle
+      lifecycle:'pending'
     });
   }
 

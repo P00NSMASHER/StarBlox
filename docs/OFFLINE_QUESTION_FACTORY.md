@@ -27,14 +27,14 @@ The provider can be a local model, a hosted model API, or a test fixture. The co
 
 Every candidate receives:
 
-- a stable generated candidate ID;
+- a stable factory-owned generated candidate ID (provider-supplied IDs are ignored);
 - source chunk ID, header, source and subject context;
 - concept IDs;
 - atomic facts;
 - exact evidence quotes;
 - generation run/provider/model metadata.
 
-A processed chunk is checkpointed whether generation succeeds or fails. Re-running with the same checkpoint skips already processed chunks.
+A processed chunk is checkpointed whether generation succeeds or fails. Re-running with the same checkpoint skips already processed chunks. A missing checkpoint starts a new run; an existing unreadable or invalid checkpoint is not silently ignored.
 
 The command:
 
@@ -62,11 +62,13 @@ The deterministic gate requires:
 
 Model-supplied evidence is not trusted on declaration alone.
 
-Every quote must be an actual normalized substring of a supplied source chunk. The original generation source chunk must have at least one verified quote.
+Every quote must be an exact case- and punctuation-preserving substring of a supplied source chunk after whitespace normalization only. The original generation source chunk must have at least one verified quote. Verified evidence records retain the exact quote plus a stable source-chunk hash for ingestion provenance.
 
 ### Independent reviewer
 
 A reviewer adapter returns keep, rewrite, or reject with a 0–100 score and reasons.
+
+Candidate IDs and source-chunk IDs must be unique before review. Duplicate, malformed, unknown, or ambiguous reviewer-result identities invalidate the reviewer batch rather than allowing last-result-wins behavior.
 
 Strict mode is fail-closed. Missing or failed review means rejection.
 
@@ -82,11 +84,20 @@ Accepted candidates are compared with one another and with every historical Ques
 
 ### Ingestion
 
-ingestValidatedCandidates inserts successful candidates as pending by default.
+ingestValidatedCandidates is a fail-closed release boundary.
+
+It accepts only candidates carrying a successful strict-review receipt with clean structural and evidence gates, and it always inserts them as pending. The generated ingestion API does not permit callers to override lifecycle to published.
+
+The stored Question Bank provenance retains:
+
+- the originating source chunk and source-chunk hash;
+- the generation run and candidate ID;
+- the strict reviewer decision, score, effective score, and threshold receipt hash;
+- every verified evidence quote and its source-chunk hash.
 
 Pending questions are excluded from production snapshots. Generation plus validation therefore cannot publish content automatically.
 
-A separate publishing decision is still required.
+Hybrid and deterministic validation modes remain useful for diagnostics and offline analysis, but their accepted candidates cannot cross the ingestion boundary. A separate publishing decision is still required.
 
 ## Live-game invariant
 

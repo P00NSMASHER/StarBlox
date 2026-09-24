@@ -134,6 +134,34 @@ describe('Step 8: offline question generation', () => {
     expect(resumed.candidates[0].generation.provider).toBe('fixture-provider');
   });
 
+  it('owns candidate identity even when a provider supplies duplicate IDs', async () => {
+    const result=await runOfflineGeneration({
+      chunks:CHUNKS.slice(0,1),
+      provider:{
+        async generate(){
+          return {questions:[
+            {...generatedCulture(),candidateId:'provider-duplicate'},
+            {...generatedCulture(),candidateId:'provider-duplicate',prompt:'Which activity shares family culture?'}
+          ]};
+        }
+      },
+      runId:'factory-ids',
+      questionsPerChunk:2
+    });
+
+    expect(result.candidates).toHaveLength(2);
+    expect(new Set(result.candidates.map(item => item.candidateId)).size).toBe(2);
+    expect(result.candidates.every(item => item.candidateId.startsWith('generated-'))).toBe(true);
+  });
+
+  it('fails closed when source chunk IDs are duplicated', async () => {
+    await expect(runOfflineGeneration({
+      chunks:[CHUNKS[0],{...CHUNKS[1],id:CHUNKS[0].id}],
+      provider:{async generate(){ return {questions:[generatedCulture()]}; }},
+      runId:'duplicate-chunks'
+    })).rejects.toThrow(/duplicate source chunk id/);
+  });
+
   it('records generation errors without losing completed chunks', async () => {
     let attempts=0;
     const provider={
@@ -201,6 +229,50 @@ describe('Step 9: validation, evidence and deduplication', () => {
     expect(result.accepted.every(item => item.supportingChunkIds.includes(item.sourceChunkId))).toBe(true);
   });
 
+  it('fails closed when reviewer results contain duplicate candidate IDs', async () => {
+    const generated=await runOfflineGeneration({
+      chunks:CHUNKS.slice(0,1),
+      provider:{async generate(){ return {questions:[generatedCulture()]}; }},
+      runId:'duplicate-review-ids'
+    });
+    const id=generated.candidates[0].candidateId;
+    const reviewer={
+      async review(){
+        return {results:[
+          {candidateId:id,decision:'keep',score:99,reasons:[]},
+          {candidateId:id,decision:'keep',score:99,reasons:[]}
+        ]};
+      }
+    };
+
+    const result=await validateGeneratedCandidates({
+      candidates:generated.candidates,
+      chunks:CHUNKS,
+      reviewer,
+      mode:'strict'
+    });
+
+    expect(result.reviewerFailed).toBe(true);
+    expect(result.accepted).toHaveLength(0);
+    expect(result.rejected).toHaveLength(1);
+  });
+
+  it('rejects duplicate candidate identities before independent review', async () => {
+    const generated=await runOfflineGeneration({
+      chunks:CHUNKS.slice(0,1),
+      provider:{async generate(){ return {questions:[generatedCulture()]}; }},
+      runId:'duplicate-candidate-ids'
+    });
+    const duplicate=JSON.parse(JSON.stringify(generated.candidates[0]));
+
+    await expect(validateGeneratedCandidates({
+      candidates:[generated.candidates[0],duplicate],
+      chunks:CHUNKS,
+      reviewer:{async review(){ return {results:[]}; }},
+      mode:'strict'
+    })).rejects.toThrow(/duplicate candidateId before review/);
+  });
+
   it('fails closed in strict mode when reviewer output is missing', async () => {
     const generated=await runOfflineGeneration({
       chunks:CHUNKS.slice(0,1),
@@ -251,6 +323,40 @@ describe('Step 9: validation, evidence and deduplication', () => {
 
     expect(result.accepted).toHaveLength(0);
     expect(result.rejected[0].quality.evidenceErrors.join(' ')).toMatch(/not found/);
+  });
+
+  it('requires evidence quotes to preserve exact case and punctuation', async () => {
+    const generated=await runOfflineGeneration({
+      chunks:CHUNKS.slice(0,1),
+      provider:{
+        async generate(){
+          const question=generatedCulture();
+          question.evidence=[
+            'culture includes traditions, foods, music, stories, and ways of life shared by a group.'
+          ];
+          return {questions:[question]};
+        }
+      },
+      runId:'exact-evidence'
+    });
+
+    const reviewer={
+      async review({candidates}){
+        return {results:candidates.map(candidate => ({
+          candidateId:candidate.candidateId,decision:'keep',score:99,reasons:[]
+        }))};
+      }
+    };
+
+    const result=await validateGeneratedCandidates({
+      candidates:generated.candidates,
+      chunks:CHUNKS,
+      reviewer,
+      mode:'strict'
+    });
+
+    expect(result.accepted).toHaveLength(0);
+    expect(result.rejected[0].quality.evidenceErrors.join(' ')).toMatch(/not found exactly/);
   });
 
   it('supports reviewer rewrite but re-validates the rewritten structure and evidence', async () => {
@@ -350,5 +456,92 @@ describe('Step 9: validation, evidence and deduplication', () => {
     expect(ingested.inserted[0].lifecycle).toBe('pending');
     expect(after.questionCount).toBe(before.questionCount);
     expect(ingested.bank.questions[ingested.inserted[0].questionId].lifecycle).toBe('pending');
+
+    const stored=ingested.bank.questions[ingested.inserted[0].questionId]
+      .versions[String(ingested.inserted[0].version)];
+    const evidenceRows=stored.provenance.filter(item => item.kind === 'verified-evidence');
+    const reviewRow=stored.provenance.find(item => item.kind === 'quality-review');
+    expect(evidenceRows.length).toBeGreaterThan(0);
+    expect(evidenceRows.some(item =>
+      item.label === 'Culture includes traditions, foods, music, stories, and ways of life shared by a group.' &&
+      item.reference.startsWith('chunk-hash:')
+    )).toBe(true);
+    expect(reviewRow?.label).toMatch(/^strict:keep:/);
+    expect(reviewRow?.reference).toMatch(/^validation-receipt:/);
+  });
+
+  it('rejects post-review candidate mutation at the ingestion boundary', async () => {
+    const bank=importLegacyQuestionBank(gameModel.buildQuestions());
+    const generated=await runOfflineGeneration({
+      chunks:CHUNKS.slice(0,1),
+      provider:{async generate(){ return {questions:[generatedCulture()]}; }},
+      runId:'post-review-mutation'
+    });
+    const reviewer={
+      async review({candidates}){
+        return {results:candidates.map(candidate => ({
+          candidateId:candidate.candidateId,decision:'keep',score:97,reasons:[]
+        }))};
+      }
+    };
+    const quality=await validateGeneratedCandidates({
+      candidates:generated.candidates,
+      chunks:CHUNKS,
+      reviewer,
+      bank,
+      mode:'strict'
+    });
+
+    const tampered=JSON.parse(JSON.stringify(quality.accepted[0]));
+    tampered.answer='Ignoring every family tradition.';
+
+    expect(() => ingestValidatedCandidates(bank,[tampered]))
+      .toThrow(/validation receipt does not match candidate content/);
+  });
+
+  it('does not allow generated ingestion to override pending lifecycle', async () => {
+    const bank=importLegacyQuestionBank(gameModel.buildQuestions());
+    const generated=await runOfflineGeneration({
+      chunks:CHUNKS.slice(0,1),
+      provider:{async generate(){ return {questions:[generatedCulture()]}; }},
+      runId:'pending-only'
+    });
+    const reviewer={
+      async review({candidates}){
+        return {results:candidates.map(candidate => ({
+          candidateId:candidate.candidateId,decision:'keep',score:97,reasons:[]
+        }))};
+      }
+    };
+    const quality=await validateGeneratedCandidates({
+      candidates:generated.candidates,
+      chunks:CHUNKS,
+      reviewer,
+      bank,
+      mode:'strict'
+    });
+
+    expect(() => ingestValidatedCandidates(bank,quality.accepted,{
+      lifecycle:'published'
+    })).toThrow(/only be ingested with pending lifecycle/);
+  });
+
+  it('refuses ingestion of candidates that did not pass strict independent review', async () => {
+    const bank=importLegacyQuestionBank(gameModel.buildQuestions());
+    const generated=await runOfflineGeneration({
+      chunks:CHUNKS.slice(0,1),
+      provider:{async generate(){ return {questions:[generatedCulture()]}; }},
+      runId:'deterministic-only'
+    });
+    const quality=await validateGeneratedCandidates({
+      candidates:generated.candidates,
+      chunks:CHUNKS,
+      bank,
+      mode:'deterministic'
+    });
+
+    expect(quality.accepted).toHaveLength(1);
+    expect(() => ingestValidatedCandidates(bank,quality.accepted))
+      .toThrow(/requires a strict review receipt/);
   });
 });
