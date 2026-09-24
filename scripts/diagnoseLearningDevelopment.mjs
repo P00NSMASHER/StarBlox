@@ -100,6 +100,59 @@ function profileFromMastery(mastery,stats,dueRows={},useFsrs=false){
     )
   };
 }
+function scoreWithDueBoost(question,profile,now,dueBoost){
+  const DAY_MS=86400000;
+  const HOUR_MS=3600000;
+  const skill=profile?.skills?.[question.skill] || {};
+  const mastery=Math.max(0,Math.min(1,Number(skill.psiMastery) || 0));
+  const due=Boolean(skill.fsrsDue);
+  const lastSeenAt=Math.max(0,Number(skill.lastSeenAt) || 0);
+  const ageDays=lastSeenAt ? Math.max(0,(Number(now)-lastSeenAt)/DAY_MS) : 30;
+  const recent=Boolean(lastSeenAt && Number(now)-lastSeenAt < 12*HOUR_MS);
+  return (
+    (1-mastery)*50 +
+    (due ? Number(dueBoost) : 0) +
+    Math.min(15,ageDays*2) +
+    (question.role==='transfer' ? 8 : 0) +
+    (question.role==='review' ? 4 : 0) -
+    (recent ? 40 : 0)
+  );
+}
+
+function pickWithDueBoost(questions,profile,count,now,dueBoost){
+  const ranked=[...(questions||[])]
+    .map(question=>({question,score:scoreWithDueBoost(question,profile,now,dueBoost)}))
+    .sort((a,b)=>b.score-a.score || String(a.question.id).localeCompare(String(b.question.id)));
+  const picked=[];
+  const take=predicate=>{
+    const row=ranked.find(({question})=>
+      !picked.some(item=>item.id===question.id) && predicate(question)
+    );
+    if(row) picked.push(row.question);
+  };
+  take(question=>question.role==='transfer');
+  ['Lantern Lane','Story Street','Wordwood Garden'].forEach(district=>{
+    if(picked.length<count){
+      take(question=>
+        question.district===district &&
+        !picked.some(item=>item.skill===question.skill)
+      );
+    }
+  });
+  ranked.forEach(({question})=>{
+    if(
+      picked.length<count &&
+      !picked.some(item=>item.id===question.id) &&
+      !picked.some(item=>item.skill===question.skill)
+    ) picked.push(question);
+  });
+  ranked.forEach(({question})=>{
+    if(picked.length<count && !picked.some(item=>item.id===question.id)){
+      picked.push(question);
+    }
+  });
+  return picked.slice(0,count);
+}
 
 const evaluationPath=getArg('evaluation');
 const psiPath=getArg('psi');
@@ -144,6 +197,10 @@ const rowsByPolicy={
 const blendAlphas=[0,0.1,0.25,0.5,0.75,1];
 const blendRows=Object.fromEntries(
   blendAlphas.map(alpha=>[String(alpha),[]])
+);
+const dueBoosts=[0,10,20,30,40,60,80];
+const dueBoostRows=Object.fromEntries(
+  dueBoosts.map(boost=>[String(boost),[]])
 );
 const psiTruthPairs=[];
 const bktTruthPairs=[];
@@ -222,6 +279,14 @@ for(const learner of cohort){
     );
     blendRows[String(alpha)].push(questMetrics(quest,truth,due));
   }
+
+  const bktFsrsProfile=profileFromMastery(bkt,stats,due,true);
+  for(const boost of dueBoosts){
+    const quest=pickWithDueBoost(
+      questions,bktFsrsProfile,5,now,boost
+    );
+    dueBoostRows[String(boost)].push(questMetrics(quest,truth,due));
+  }
 }
 
 const masteryDiagnostics={
@@ -276,6 +341,21 @@ const rankedBlendCandidates=blendAlphas
     b.weakestSkillHitRate-a.weakestSkillHitRate ||
     b.meanHiddenNeed-a.meanHiddenNeed ||
     a.alpha-b.alpha
+  );
+
+const dueBoostSweep=Object.fromEntries(
+  dueBoosts.map(boost=>[
+    String(boost),
+    aggregate(dueBoostRows[String(boost)])
+  ])
+);
+const rankedDueBoosts=dueBoosts
+  .map(boost=>({boost,...dueBoostSweep[String(boost)]}))
+  .sort((a,b)=>
+    b.weakestSkillHitRate-a.weakestSkillHitRate ||
+    b.meanHiddenNeed-a.meanHiddenNeed ||
+    b.dueSkillCoverage-a.dueSkillCoverage ||
+    a.boost-b.boost
   );
 
 const attribution={
@@ -334,6 +414,11 @@ const result={
     interpretation:'alpha=0 is BKT-only mastery; alpha=1 is PSI-only mastery. All blend candidates use the existing Selector V2 formula and actual FSRS due state.',
     candidates:blendSweep,
     bestDevelopmentCandidate:rankedBlendCandidates[0]
+  },
+  bktFsrsDueBoostSweep:{
+    interpretation:'BKT mastery fixed; only the FSRS due bonus changes. Quest diversity and transfer constraints are unchanged.',
+    candidates:dueBoostSweep,
+    bestDevelopmentCandidate:rankedDueBoosts[0]
   },
   attribution,
   promotionBoundary:{
