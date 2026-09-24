@@ -1,4 +1,5 @@
 import { describe,expect,it } from 'vitest';
+import { createReplayManifest } from '../domainSchemas';
 import { DeterministicSimulation } from '../sim/deterministicCore';
 import {
   ReplayActionRecorder,
@@ -185,8 +186,17 @@ describe('StarBlox bounded deterministic re-simulation', () => {
   it('refuses to verify recordings from a different engine version', () => {
     const {recording} = buildRecordedRun();
     const changed = JSON.parse(JSON.stringify(recording));
-    changed.manifest.engineVersion = 'future-engine';
-    changed.manifest.manifestHash = 'fnv1a32:00000000';
+    changed.manifest = createReplayManifest({
+      replayId:recording.manifest.replayId,
+      engineVersion:'future-engine',
+      seed:recording.manifest.seed,
+      initialStateHash:recording.manifest.initialStateHash,
+      actionCodec:recording.manifest.actionCodec,
+      actionCount:recording.manifest.actionCount,
+      actionHash:recording.manifest.actionHash,
+      summaryHash:recording.manifest.summaryHash,
+      createdAt:recording.manifest.createdAt
+    });
 
     const result = reSimulateReplay(changed,{
       initialState:INITIAL,
@@ -194,6 +204,7 @@ describe('StarBlox bounded deterministic re-simulation', () => {
     });
 
     expect(result.verdict).toBe('unverifiable');
+    expect(result.reason).toMatch(/engine mismatch/);
   });
 
   it('refuses a trusted setup that does not match the recorded initial-state hash', () => {
