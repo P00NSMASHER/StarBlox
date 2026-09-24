@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "vite --host 0.0.0.0",
     "build": "vite build",
-    "test": "vitest run"
+    "test": "vitest run",
+    "validate:brookhaven-research": "node scripts/validateBrookhavenResearchArtifacts.mjs && node scripts/assertBrookhavenReuseBoundary.mjs && node scripts/validateBrookhavenProxyVerticalSlice.mjs",
+    "test:brookhaven-residential": "vitest run src/residentialFeatureRuntime.test.js"
   },
   "dependencies": {
     "lucide-react": "^0.468.0",
