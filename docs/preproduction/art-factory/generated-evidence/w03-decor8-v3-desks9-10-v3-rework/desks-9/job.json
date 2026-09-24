@@ -1,0 +1,167 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_JOB",
+  "repository": "P00NSMASHER/StarBlox",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "72773310e0422acfe5ac44ebdd16684ba6673946",
+  "item": {
+    "id": "desks-9",
+    "name": "Art Maker Table",
+    "collectionId": "desks",
+    "type": "room",
+    "tier": 3,
+    "theme": "Sunny Pop"
+  },
+  "sourceReviewHash": "6cab04be717e17e2b682afa73ce8306bc21556c8",
+  "rightsBasis": "USER_ATTESTED_FULL_RIGHTS",
+  "attempts": [
+    {
+      "attemptId": "desks-9-w03-a-maker-rail-desk-2d1e516b6e",
+      "itemId": "desks-9",
+      "producer": "03",
+      "variant": "A-MAKER-RAIL-DESK",
+      "promptBlocks": [
+        "metadata",
+        "category",
+        "silhouette",
+        "physical",
+        "material",
+        "theme",
+        "tier",
+        "card",
+        "original",
+        "stage",
+        "furniture",
+        "camera",
+        "depth",
+        "bloom",
+        "textile",
+        "wall",
+        "light"
+      ],
+      "promptText": "STARBLOX CATALOG ART — A-MAKER-RAIL-DESK\n\nCreate one premium, kid-friendly 2D game catalog asset with polished dimensional quality.\n\nExact metadata: desks-9 — Art Maker Table; collection desks; type room; tier 3; theme Sunny Pop.\n\nAuthoritative item-specific design brief:\nArt Maker Table, Desks & Tech, Tier 3, Sunny Pop. Create ONE substantial freestanding maker desk in three-quarter isolated product view. Use a wide warm-wood worktop, two sturdy legs/support cabinets, one clearly raised yellow-orange peg/tool rail across the rear, small integrated drawers and two open maker-storage cubbies. Attach only a few unmistakable art tools to the rail: scissors silhouette, two brush cups and a short ruler tray; keep tools physically mounted and uncluttered. Add one tilting sketch board section on the tabletop, visible joinery and grounded feet. Sunny Pop should use warm yellow, coral and cream accents. NO room scene, NO generic empty desk, NO extra furniture, NO floating tools, NO text or logos.\n\nExact-hash reviewer failure taxonomy: UNKNOWN_REWORK.\n\nRepair the documented failure codes while preserving qualities that were not implicated. Do not erase successful identity, silhouette, material depth, or readability merely to make a different image.\n\nUse the exact catalog ID/name/collection/tier/theme. Do not rename, recategorize, or substitute the item.\n\nMake the object unmistakably the stated product category with believable proportions and construction.\n\nPrioritize a distinctive clean silhouette that reads immediately at small Store-card size.\n\nShow real thickness, seams/joints/edges, layered parts, volume, contact points and functional construction—not a flat icon, emblem or sticker.\n\nUse category-appropriate material texture and highlights/shadows that explain the form.\n\nExpress the exact theme through material, construction, light and motif—not a palette swap or pasted decal.\n\nRespect tier progression: Starter stays simple and attractive; higher tiers gain richer form/material detail; Luxe gains spectacle without losing identity.\n\nDesign for both detail view and a 600×600 Store card with strong contrast, uncluttered hierarchy and no tiny critical details.\n\nAvoid recolor-only siblings, repeated template silhouettes, generic rings/badges, or interchangeable props.\n\nPresent one isolated subject on a clean premium background. No UI, text, watermark, logo, fake price badge or unrelated props.\n\nFor furniture/decor, show supports, joints, cushions/panels/hardware, weight and grounded contact.\n\nUse a clean product-style three-quarter view when appropriate so front, side and thickness are visible.\n\nUse occlusion, contact/cast shadows and foreground/midground/background separation so the asset feels spatial.\n\nUse controlled emissive light/bloom only where appropriate; preserve edges and local contrast.\n\nFor textiles, show weave/pile/folds/stitching/edge finish/thickness and believable softness or drape.\n\nFor wall decor, show mounting/frame/backing/relief depth and a believable wall-object form—not a floating emblem.\n\nFor lighting, show a physical base/mount/chassis, emitter or bulb, support structure and believable emitted/reflected light.\n\nOutput a production-worthy source image for exact-byte staging, card/detail rendering and independent review. Do not claim approval; the reviewer decides from rendered pixels.",
+      "promptSha256": "2d1e516b6e0851667c8e3bfdd5f81bee42967ffb3a5d1559c0625208d7467cfd",
+      "runtimePromptText": "desks-9 Art Maker Table. desks; tier 3; theme Sunny Pop. Create ONE substantial freestanding maker desk in three-quarter isolated product view. Use a wide warm-wood worktop, two sturdy legs/support cabinets, one clearly raised yellow-orange Premium dimensional product render, grounded shadow, no text or logo.",
+      "runtimePromptSha256": "e8a0e5f7c61bf09daa8f21a29e22906a861ab0d10d3a0845bd12439b773e7b7b",
+      "promptRecipeVersion": "artPromptOptimizer-request-v1:w03-decor8-v3-desks9-10-v3-rework",
+      "seed": 213045886,
+      "runtime": {
+        "repo": "huggingface/diffusers",
+        "commit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c"
+      },
+      "model": {
+        "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+        "revision": "462165984030d82259a11f4367a4eed129e94a7b",
+        "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+      },
+      "conditioning": {
+        "referenceAssetSha256": null,
+        "controlImageSha256": null,
+        "adapterScale": null
+      },
+      "output": {
+        "repoPath": null,
+        "sha256": null,
+        "gitBlobSha": null,
+        "bytes": null,
+        "width": null,
+        "height": null
+      },
+      "status": "PLANNED_NOT_GENERATED"
+    },
+    {
+      "attemptId": "desks-9-w03-b-drafting-organizer-5f9ca5bd3c",
+      "itemId": "desks-9",
+      "producer": "03",
+      "variant": "B-DRAFTING-ORGANIZER",
+      "promptBlocks": [
+        "metadata",
+        "category",
+        "silhouette",
+        "physical",
+        "material",
+        "theme",
+        "tier",
+        "card",
+        "original",
+        "stage",
+        "furniture",
+        "camera",
+        "depth",
+        "bloom",
+        "textile",
+        "wall",
+        "light"
+      ],
+      "promptText": "STARBLOX CATALOG ART — B-DRAFTING-ORGANIZER\n\nCreate one premium, kid-friendly 2D game catalog asset with polished dimensional quality.\n\nExact metadata: desks-9 — Art Maker Table; collection desks; type room; tier 3; theme Sunny Pop.\n\nAuthoritative item-specific design brief:\nArt Maker Table, Desks & Tech, Tier 3, Sunny Pop. Design ONE compact creative workstation with a broad horizontal drafting worktop, one shallow adjustable drawing surface, a strong side storage pedestal, three visible drawers, and one upper organizer bridge with clearly bounded brush/tool cups and paper slots. The maker function must be obvious even at small card size. Use honey wood, sunny yellow and restrained coral hardware with believable metal brackets and contact shadow. Full desk entirely inside frame on an empty pale studio background. NO room, NO plain office desk, NO cabinets without worktop, NO loose floor props, NO text, NO duplicated tables.\n\nExact-hash reviewer failure taxonomy: UNKNOWN_REWORK.\n\nRepair the documented failure codes while preserving qualities that were not implicated. Do not erase successful identity, silhouette, material depth, or readability merely to make a different image.\n\nUse the exact catalog ID/name/collection/tier/theme. Do not rename, recategorize, or substitute the item.\n\nMake the object unmistakably the stated product category with believable proportions and construction.\n\nPrioritize a distinctive clean silhouette that reads immediately at small Store-card size.\n\nShow real thickness, seams/joints/edges, layered parts, volume, contact points and functional construction—not a flat icon, emblem or sticker.\n\nUse category-appropriate material texture and highlights/shadows that explain the form.\n\nExpress the exact theme through material, construction, light and motif—not a palette swap or pasted decal.\n\nRespect tier progression: Starter stays simple and attractive; higher tiers gain richer form/material detail; Luxe gains spectacle without losing identity.\n\nDesign for both detail view and a 600×600 Store card with strong contrast, uncluttered hierarchy and no tiny critical details.\n\nAvoid recolor-only siblings, repeated template silhouettes, generic rings/badges, or interchangeable props.\n\nPresent one isolated subject on a clean premium background. No UI, text, watermark, logo, fake price badge or unrelated props.\n\nFor furniture/decor, show supports, joints, cushions/panels/hardware, weight and grounded contact.\n\nUse a clean product-style three-quarter view when appropriate so front, side and thickness are visible.\n\nUse occlusion, contact/cast shadows and foreground/midground/background separation so the asset feels spatial.\n\nUse controlled emissive light/bloom only where appropriate; preserve edges and local contrast.\n\nFor textiles, show weave/pile/folds/stitching/edge finish/thickness and believable softness or drape.\n\nFor wall decor, show mounting/frame/backing/relief depth and a believable wall-object form—not a floating emblem.\n\nFor lighting, show a physical base/mount/chassis, emitter or bulb, support structure and believable emitted/reflected light.\n\nOutput a production-worthy source image for exact-byte staging, card/detail rendering and independent review. Do not claim approval; the reviewer decides from rendered pixels.",
+      "promptSha256": "5f9ca5bd3c54987b3d3c872a154335365d260a37359b77100b01f2f46bdc7392",
+      "runtimePromptText": "desks-9 Art Maker Table. desks; tier 3; theme Sunny Pop. Design ONE compact creative workstation with a broad horizontal drafting worktop, one shallow adjustable drawing surface, a strong side storage pedestal, three visible drawers, Premium dimensional product render, grounded shadow, no text or logo.",
+      "runtimePromptSha256": "278ab6aaaec2506ebea203a18547d7d7612976a69e1741528ddd45f832317e3d",
+      "promptRecipeVersion": "artPromptOptimizer-request-v1:w03-decor8-v3-desks9-10-v3-rework",
+      "seed": 1829345429,
+      "runtime": {
+        "repo": "huggingface/diffusers",
+        "commit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c"
+      },
+      "model": {
+        "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+        "revision": "462165984030d82259a11f4367a4eed129e94a7b",
+        "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+      },
+      "conditioning": {
+        "referenceAssetSha256": null,
+        "controlImageSha256": null,
+        "adapterScale": null
+      },
+      "output": {
+        "repoPath": null,
+        "sha256": null,
+        "gitBlobSha": null,
+        "bytes": null,
+        "width": null,
+        "height": null
+      },
+      "status": "PLANNED_NOT_GENERATED"
+    }
+  ],
+  "requestContext": {
+    "requestPath": "docs/preproduction/art-factory/requests/w03-decor8-v3-desks9-10-v3-rework-20260924.json",
+    "batchId": "w03-decor8-v3-desks9-10-v3-rework",
+    "requestSourceHead": "f86286d36a1d6b265a07094763f93bf2c0a55cba",
+    "requestRecordSha256": "08a1086597c5b17ff9420ade5a264613f735387a042aedd1a74b4fe363e51b48",
+    "planner": "15",
+    "reviewer": "MIXED_11_05",
+    "renderOwner": "14",
+    "integrationOwner": "08",
+    "contextReferences": [
+      {
+        "role": "FIRST_PARTY_STARBLOX_STORE_ART_DIRECTION",
+        "repositoryPath": "docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg",
+        "sha256": "b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d",
+        "gitBlobSha": "383baa877d3af86fa92e3583740212000592b3d6",
+        "dimensions": [
+          1448,
+          1086
+        ],
+        "sourceManifest": null
+      }
+    ],
+    "plannerVariants": [
+      {
+        "variantId": "A-MAKER-RAIL-DESK",
+        "plannerSeed": null,
+        "optimizerInputSha256": "fa68bed845db462afafb6e03acfb44268e49b15fccc48810e39d1001349b112b",
+        "compiledPromptSha256": "2d1e516b6e0851667c8e3bfdd5f81bee42967ffb3a5d1559c0625208d7467cfd",
+        "compiledSeed": 213045886
+      },
+      {
+        "variantId": "B-DRAFTING-ORGANIZER",
+        "plannerSeed": null,
+        "optimizerInputSha256": "1c090fdece753c96b9c23034ede28cd1e804eed993ddde5acecf5e79aee9cadc",
+        "compiledPromptSha256": "5f9ca5bd3c54987b3d3c872a154335365d260a37359b77100b01f2f46bdc7392",
+        "compiledSeed": 1829345429
+      }
+    ]
+  },
+  "planSha256": "04f73bcee7c4cd16a80e3dabcc98316b382c62ffa7624909799d59b379574038"
+}
