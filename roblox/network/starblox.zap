@@ -82,7 +82,7 @@ event RequestNpcTurn = {
 	from: Client,
 	type: Reliable,
 	call: ManyAsync,
-	data: (NpcId: string.utf8, RequestId: string.utf8, Message: string.utf8)
+	data: (NpcId: string.utf8, RequestId: string.utf8, RequestSequence: u32, Message: string.utf8)
 }
 
 event NpcTurn = {
