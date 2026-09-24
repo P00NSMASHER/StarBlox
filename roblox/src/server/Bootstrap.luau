@@ -13,6 +13,7 @@ local IntelligenceShadowService = require(script.Parent.IntelligenceShadowServic
 local LiveOpsService = require(script.Parent.LiveOpsService)
 local SocialWorldService = require(script.Parent.SocialWorldService)
 local AiNpcService = require(script.Parent.AiNpcService)
+local ActionAuthorityService = require(script.Parent.ActionAuthorityService)
 
 local Bootstrap = {}
 
@@ -31,6 +32,11 @@ function Bootstrap.start(dependencies)
 	local liveOps = LiveOpsService.new(profiles, replicas, dependencies.LiveOpsPackages)
 	local social = SocialWorldService.new(profiles, replicas, ecs, liveOps, dependencies.SocialWorldAdapters)
 	local aiNpc = AiNpcService.new(profiles, dependencies.AiNpcAdapters)
+	local actionAuthority = ActionAuthorityService.new(
+		dependencies.MovementAdapter,
+		dependencies.ActionResolver,
+		dependencies.ActionReplaySink
+	)
 
 	local function playerAdded(player: Player)
 		local profile = profiles:Load(player)
@@ -46,6 +52,7 @@ function Bootstrap.start(dependencies)
 	local function playerRemoving(player: Player)
 		social:PlayerRemoving(player)
 		aiNpc:PlayerRemoving(player)
+		actionAuthority:PlayerRemoving(player)
 		replicas:Detach(player)
 		profiles:Release(player)
 	end
@@ -73,6 +80,7 @@ function Bootstrap.start(dependencies)
 		LiveOps = liveOps,
 		SocialWorld = social,
 		AiNpc = aiNpc,
+		ActionAuthority = actionAuthority,
 	})
 end
 
