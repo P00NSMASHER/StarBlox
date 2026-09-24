@@ -152,6 +152,7 @@ const portableCatalogArt = Object.freeze({
   'desks-4': '/assets/catalog/desks-4-chat-v2.png',
   'desks-5': '/assets/catalog/desks-5-w03-recovered-v2.jpg',
   'desks-6': '/assets/catalog/desks-6-w03-recovered-v2.jpg',
+  'desks-7': '/assets/catalog-candidates/cpu/desks-7-w13-v2-a-creator-desk-original.png',
   'lighting-1': '/assets/catalog/lighting-1-v2.jpg',
   'lighting-2': '/assets/catalog/lighting-2-v2.jpg',
   'lighting-3': '/assets/catalog/lighting-3-v2.jpg',

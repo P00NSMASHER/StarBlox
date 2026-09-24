@@ -1,9 +1,9 @@
 {
-  "version": 37,
+  "version": 38,
   "target": 192,
-  "finalCount": 173,
-  "remaining": 19,
-  "note": "Delivery Protocol V2 incremental integration: independently ACCEPTed Decor 9 v1 Easel Set and Decor 10 v1 Mini Fridge exact hashes integrated after reviewer02 Store card/detail review. All REWORK hashes remain preserved and non-canonical.",
+  "finalCount": 174,
+  "remaining": 18,
+  "note": "Delivery Protocol V2 incremental integration: independently ACCEPTed Desk 7 v2 Sunny Creator Desk exact hash integrated after reviewer11 Store card/detail review. All current REWORK hashes remain preserved and non-canonical.",
   "duplicateAssetPaths": [],
   "items": {
     "tops-1": {
@@ -1264,6 +1264,13 @@
       "assetPath": "/assets/catalog-candidates/cpu/decor-10-w09-v1-a-retro-mini-fridge-original.png",
       "tier": 4,
       "theme": "Aqua Wave",
+      "status": "final-portable"
+    },
+    "desks-7": {
+      "name": "Sunny Creator Desk",
+      "assetPath": "/assets/catalog-candidates/cpu/desks-7-w13-v2-a-creator-desk-original.png",
+      "tier": 3,
+      "theme": "Garden Glow",
       "status": "final-portable"
     }
   }
