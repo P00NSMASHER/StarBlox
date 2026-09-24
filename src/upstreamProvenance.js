@@ -71,11 +71,28 @@ export const UPSTREAM_PROVENANCE = Object.freeze({
     'MIT'
   ),
   fruitBoxGame: source(
-    'solution-first deterministic procedural generation',
+    'solution-first deterministic procedural generation and retained solution certificate',
     'weizixiao/fruit-box-game',
     'main',
     'de7b1f59bff021d76f5138af17bed37220f7783e',
-    'MIT'
+    'MIT',
+    'engine.js'
+  ),
+  fruitBoxProofTests: source(
+    'multi-seed deterministic solvability proof tests',
+    'weizixiao/fruit-box-game',
+    'main',
+    'de7b1f59bff021d76f5138af17bed37220f7783e',
+    'MIT',
+    'tests/engine.test.mjs'
+  ),
+  fruitBoxAlgorithm: source(
+    'documented generate-solution-first then place-and-certify workflow',
+    'weizixiao/fruit-box-game',
+    'main',
+    'de7b1f59bff021d76f5138af17bed37220f7783e',
+    'MIT',
+    'docs/ALGORITHM.md'
   ),
   sabeo: source(
     'daily scheduling, activation and history control plane',
