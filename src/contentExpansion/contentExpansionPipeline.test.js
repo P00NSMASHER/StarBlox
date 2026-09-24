@@ -299,6 +299,10 @@ describe('Step 10: complete automated expansion evidence loop', () => {
 
     expect(result.artifact.migration.status).toBe('staged');
     expect(result.artifact.migration.liveActivationAllowed).toBe(false);
+    expect(result.artifact.migration.planBindingHash).toMatch(/^fnv1a32:[a-f0-9]{8}$/);
+    expect(result.artifact.migration.selectedUnitIds).toEqual(
+      result.artifact.blueprint.selectedSystems.map(item=>item.unitId).sort()
+    );
     expect(result.artifact.questions.status).toBe('validated');
     expect(result.artifact.questions.inserted.length).toBe(result.artifact.questions.required);
     expect(result.artifact.questions.inserted.every(item=>item.lifecycle === 'pending')).toBe(true);
@@ -419,6 +423,23 @@ describe('Step 10: complete automated expansion evidence loop', () => {
     expect(result.artifact.review.readyForHumanReview).toBe(false);
     expect(result.artifact.review.autoPublish).toBe(false);
     expect(result.artifact.review.blockers.join(' ')).toMatch(/Studio/);
+  });
+
+  it('rejects a review artifact whose migration unit binding drifts from the blueprint', async () => {
+    const result=await runContentExpansionPipeline({
+      brief:brief(),
+      catalog:catalog(),
+      bank:bank(),
+      chunks:chunks(),
+      config:{executeStudio:false},
+      migrationRules:{minEngineeringLeverageScore:0}
+    });
+    const tampered=JSON.parse(JSON.stringify(result.artifact));
+    tampered.migration.selectedUnitIds=['forged-unit'];
+
+    const validation=verifyContentExpansionArtifact(tampered);
+    expect(validation.ok).toBe(false);
+    expect(validation.errors.join(' ')).toMatch(/selected units|hash mismatch/);
   });
 
   it('detects review-artifact tampering and forbids publication flags', async () => {
