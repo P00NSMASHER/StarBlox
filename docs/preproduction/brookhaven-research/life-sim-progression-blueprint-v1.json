@@ -1,0 +1,414 @@
+{
+  "schemaVersion": "starblox-life-sim-progression-blueprint-v1",
+  "step": "10-of-12",
+  "generatedAt": "2026-09-24",
+  "status": "shadow-read-only-not-wired-live",
+  "sourceMetrics": [
+    "questsCompleted",
+    "stars",
+    "starWorth",
+    "masteredCount"
+  ],
+  "rulePolicy": "Thresholds are original StarBlox research design. They are not claims about Brookhaven progression/economy.",
+  "residential": [
+    {
+      "targetType": "residential",
+      "targetId": "front-door",
+      "criteria": []
+    },
+    {
+      "targetType": "residential",
+      "targetId": "mailbox",
+      "criteria": []
+    },
+    {
+      "targetType": "residential",
+      "targetId": "garage-door",
+      "criteria": [
+        {
+          "metric": "questsCompleted",
+          "gte": 1
+        }
+      ]
+    },
+    {
+      "targetType": "residential",
+      "targetId": "safe",
+      "criteria": [
+        {
+          "metric": "stars",
+          "gte": 1
+        }
+      ]
+    },
+    {
+      "targetType": "residential",
+      "targetId": "sliding-door",
+      "criteria": [
+        {
+          "metric": "starWorth",
+          "gte": 40
+        }
+      ]
+    },
+    {
+      "targetType": "residential",
+      "targetId": "dresser-storage",
+      "criteria": [
+        {
+          "metric": "starWorth",
+          "gte": 60
+        }
+      ]
+    },
+    {
+      "targetType": "residential",
+      "targetId": "fridge",
+      "criteria": [
+        {
+          "metric": "questsCompleted",
+          "gte": 2
+        }
+      ]
+    },
+    {
+      "targetType": "residential",
+      "targetId": "oven",
+      "criteria": [
+        {
+          "metric": "questsCompleted",
+          "gte": 2
+        }
+      ]
+    },
+    {
+      "targetType": "residential",
+      "targetId": "dishwasher",
+      "criteria": [
+        {
+          "metric": "questsCompleted",
+          "gte": 3
+        }
+      ]
+    },
+    {
+      "targetType": "residential",
+      "targetId": "room-change",
+      "criteria": [
+        {
+          "metric": "masteredCount",
+          "gte": 2
+        }
+      ]
+    },
+    {
+      "targetType": "residential",
+      "targetId": "house-controls",
+      "criteria": [
+        {
+          "metric": "questsCompleted",
+          "gte": 3
+        }
+      ]
+    },
+    {
+      "targetType": "residential",
+      "targetId": "hot-tub",
+      "criteria": [
+        {
+          "metric": "starWorth",
+          "gte": 120
+        }
+      ]
+    },
+    {
+      "targetType": "residential",
+      "targetId": "fire-disaster-control",
+      "criteria": [
+        {
+          "metric": "stars",
+          "gte": 3
+        }
+      ]
+    }
+  ],
+  "vehicles": [
+    {
+      "targetType": "vehicle",
+      "targetId": "school-bus",
+      "criteria": [
+        {
+          "metric": "masteredCount",
+          "gte": 1
+        }
+      ]
+    },
+    {
+      "targetType": "vehicle",
+      "targetId": "smart-car",
+      "criteria": [
+        {
+          "metric": "questsCompleted",
+          "gte": 2
+        }
+      ]
+    },
+    {
+      "targetType": "vehicle",
+      "targetId": "jeep",
+      "criteria": [
+        {
+          "metric": "stars",
+          "gte": 2
+        }
+      ]
+    },
+    {
+      "targetType": "vehicle",
+      "targetId": "farm-truck",
+      "criteria": [
+        {
+          "metric": "questsCompleted",
+          "gte": 3
+        }
+      ]
+    },
+    {
+      "targetType": "vehicle",
+      "targetId": "tow-truck",
+      "criteria": [
+        {
+          "metric": "masteredCount",
+          "gte": 3
+        }
+      ]
+    },
+    {
+      "targetType": "vehicle",
+      "targetId": "fire-truck",
+      "criteria": [
+        {
+          "metric": "stars",
+          "gte": 4
+        }
+      ]
+    },
+    {
+      "targetType": "vehicle",
+      "targetId": "snowplow",
+      "criteria": [
+        {
+          "metric": "starWorth",
+          "gte": 120
+        }
+      ]
+    },
+    {
+      "targetType": "vehicle",
+      "targetId": "cadillac",
+      "criteria": [
+        {
+          "metric": "starWorth",
+          "gte": 160
+        }
+      ]
+    },
+    {
+      "targetType": "vehicle",
+      "targetId": "nascar-truck",
+      "criteria": [
+        {
+          "metric": "masteredCount",
+          "gte": 5
+        }
+      ]
+    },
+    {
+      "targetType": "vehicle",
+      "targetId": "limo",
+      "criteria": [
+        {
+          "metric": "starWorth",
+          "gte": 250
+        }
+      ]
+    },
+    {
+      "targetType": "vehicle",
+      "targetId": "excavator",
+      "criteria": [
+        {
+          "metric": "questsCompleted",
+          "gte": 6
+        }
+      ]
+    },
+    {
+      "targetType": "vehicle",
+      "targetId": "military-truck",
+      "criteria": [
+        {
+          "metric": "starWorth",
+          "gte": 300
+        }
+      ]
+    },
+    {
+      "targetType": "vehicle",
+      "targetId": "tank",
+      "criteria": [
+        {
+          "metric": "starWorth",
+          "gte": 400
+        }
+      ]
+    }
+  ],
+  "town": [
+    {
+      "targetType": "town",
+      "targetId": "town-hall",
+      "criteria": []
+    },
+    {
+      "targetType": "town",
+      "targetId": "school",
+      "criteria": []
+    },
+    {
+      "targetType": "town",
+      "targetId": "commercial-stores",
+      "criteria": []
+    },
+    {
+      "targetType": "town",
+      "targetId": "daycare",
+      "criteria": [
+        {
+          "metric": "questsCompleted",
+          "gte": 1
+        }
+      ]
+    },
+    {
+      "targetType": "town",
+      "targetId": "hospital",
+      "criteria": [
+        {
+          "metric": "masteredCount",
+          "gte": 1
+        }
+      ]
+    },
+    {
+      "targetType": "town",
+      "targetId": "bank",
+      "criteria": [
+        {
+          "metric": "questsCompleted",
+          "gte": 2
+        }
+      ]
+    },
+    {
+      "targetType": "town",
+      "targetId": "burger-barn",
+      "criteria": [
+        {
+          "metric": "questsCompleted",
+          "gte": 2
+        }
+      ]
+    },
+    {
+      "targetType": "town",
+      "targetId": "fire-department",
+      "criteria": [
+        {
+          "metric": "stars",
+          "gte": 2
+        }
+      ]
+    },
+    {
+      "targetType": "town",
+      "targetId": "church",
+      "criteria": [
+        {
+          "metric": "masteredCount",
+          "gte": 2
+        }
+      ]
+    },
+    {
+      "targetType": "town",
+      "targetId": "auto-shop",
+      "criteria": [
+        {
+          "metric": "starWorth",
+          "gte": 50
+        }
+      ]
+    },
+    {
+      "targetType": "town",
+      "targetId": "auto-mall",
+      "criteria": [
+        {
+          "metric": "starWorth",
+          "gte": 100
+        }
+      ]
+    },
+    {
+      "targetType": "town",
+      "targetId": "horse-stables",
+      "criteria": [
+        {
+          "metric": "stars",
+          "gte": 3
+        }
+      ]
+    },
+    {
+      "targetType": "town",
+      "targetId": "subway",
+      "criteria": [
+        {
+          "metric": "questsCompleted",
+          "gte": 4
+        }
+      ]
+    },
+    {
+      "targetType": "town",
+      "targetId": "airport",
+      "criteria": [
+        {
+          "metric": "masteredCount",
+          "gte": 4
+        }
+      ]
+    },
+    {
+      "targetType": "town",
+      "targetId": "yacht",
+      "criteria": [
+        {
+          "metric": "starWorth",
+          "gte": 250
+        }
+      ]
+    }
+  ],
+  "economyBoundary": {
+    "readsExistingSave": true,
+    "writesExistingSave": false,
+    "awardsCoins": false,
+    "deductsCoins": false,
+    "awardsStars": false,
+    "changesStarWorth": false,
+    "changesMastery": false,
+    "changesQuestRewards": false
+  }
+}
