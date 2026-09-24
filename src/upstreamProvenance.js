@@ -728,6 +728,22 @@ export const UPSTREAM_PROVENANCE = Object.freeze({
     'MIT',
     'rbx_dom_weak/src/viewer.rs'
   ),
+  cortexRobloxRuntime: source(
+    'server-side Roblox AI requests with per-player cooldown, retry, moderation and filtered output',
+    'cortex-rbx/roblox-ai-kit',
+    'master',
+    '5ffb0191879f631c86426de063671b3ed031993d',
+    'MIT',
+    'src/Cortex.lua'
+  ),
+  cortexRobloxNpcExample: source(
+    'per-player NPC memory and mandatory Roblox text-filtering integration pattern',
+    'cortex-rbx/roblox-ai-kit',
+    'master',
+    '5ffb0191879f631c86426de063671b3ed031993d',
+    'MIT',
+    'examples/npc.server.lua'
+  ),
   openReplaySession: source(
     'session identity, metadata and lifecycle update model',
     'openreplay/openreplay',
