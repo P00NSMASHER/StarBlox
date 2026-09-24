@@ -7,7 +7,7 @@
   "policy": "docs/preproduction/DELIVERY_PROTOCOL_V2.md",
   "visualSprint": "docs/preproduction/ART_VISUALS_SPRINT.json",
   "artFactoryPolicy": "docs/preproduction/art-factory/ART_FACTORY_V2.json",
-  "sourceHead": "28671f22d1",
+  "sourceHead": "3aff59fa0492c4f62134cccbb8e620488caf54cd",
   "priorReviewShard": {
     "blobSha": "4173dbb9923157eb5a13090d526f88cfec162edd",
     "schemaVersion": 10,
@@ -240,9 +240,9 @@
   ],
   "currentCycle": {
     "scope": [
-      "decor-11"
+      "wall-9"
     ],
-    "version": "current exact hash: decor-11",
+    "version": "current exact hash: Wall9 v8",
     "result": "REWORK_1_OF_1",
     "oldVerdictsTransferred": false,
     "actualCardScalePixelsReviewed": true,
@@ -977,13 +977,50 @@
         "duplicateVisual": "PASS",
         "technicalIntegrity": "PASS"
       }
+    },
+    {
+      "itemId": "wall-9",
+      "name": "Art Gallery Wall",
+      "assetPath": "public/assets/catalog-candidates/cpu/wall-9-w13-v8-a-three-adventure-frames-only-original.png",
+      "repositoryPath": "public/assets/catalog-candidates/cpu/wall-9-w13-v8-a-three-adventure-frames-only-original.png",
+      "assetHash": "6db1aaa99ea6e6f00bf2f8b0e8109113f5809021",
+      "sha256": "68fd769785edb3870df985f76360087e8e9e418d77ab0ce536134ad07c57d6e7",
+      "contentSha256": "68fd769785edb3870df985f76360087e8e9e418d77ab0ce536134ad07c57d6e7",
+      "producer": "13",
+      "decision": "REWORK",
+      "learnerLabel": "REWORK",
+      "reviewedAt": "2026-09-24T17:35:00Z",
+      "evidenceRefs": [
+        "workflow:36033259780",
+        "artifact:10823143345/staged-replacements/staged-replacements-contact-sheet.png",
+        "artifact:10823143345/staged-replacements/detail/wall-9-6db1aaa9.png"
+      ],
+      "reasonCodes": [
+        "MORE_THAN_THREE_FRAMES",
+        "ROOM_INSTALLATION_PRESENTATION",
+        "EXTRA_ARCHITECTURAL_PANELS",
+        "WEAK_COMPACT_WALL_PRODUCT_SILHOUETTE"
+      ],
+      "reason": "REWORK. V8 still presents a room-scale gallery installation rather than one compact wall product. The exact pixels contain a long panoramic top frame plus multiple lower frames/panels and architectural room context, so it is not exactly three dominant Adventure Club artworks on one shallow backboard. Preserve this hash. Next repair must show exactly three large framed travel/adventure images only, tightly grouped on one plain isolated backboard/rail with no panorama strip, extra mini-frames, floor, furniture, wall architecture, or blank panels.",
+      "checks": {
+        "identity": "FAIL",
+        "silhouette": "FAIL",
+        "cardReadability": "PARTIAL",
+        "physicalConstruction": "PARTIAL",
+        "framingComposition": "FAIL",
+        "themeTierSpecificity": "PARTIAL",
+        "materialLighting": "PASS",
+        "originality": "PASS",
+        "duplicateVisual": "PASS",
+        "technicalIntegrity": "PASS"
+      }
     }
   ],
   "currentReplacementDisposition": {
     "wall": {
       "REWORK": {
         "wall-10": "74a4c531a3c60ccd60747bfebc2dfc0d1d25b684",
-        "wall-9": "f1c423657b836aee822311b15a3229251174768d"
+        "wall-9": "6db1aaa99ea6e6f00bf2f8b0e8109113f5809021"
       },
       "ACCEPT": {
         "wall-11": "50ffc975030f6c7e28cf9836756bb312dfa646fb",
@@ -1010,15 +1047,15 @@
     "newBlockedThisRun": 0,
     "newUsableBy08Now": [],
     "reworkNow": [
-      "decor-11"
+      "wall-9"
     ],
-    "preservedAcceptedHashes": "All prior reviewer02 ACCEPTs remain frozen; this REWORK applies only to decor-11 exact hash f4fed4eaf1bf867ffdd3519d347ae12ce755d9b7."
+    "preservedAcceptedHashes": "All prior reviewer02 ACCEPTs remain frozen; this REWORK applies only to Wall9 v8 exact hash."
   },
   "handoff": {
-    "13": "wall-9 current exact hash is REWORK; preserve it and generate only the smallest failure-specific next version if director15 keeps it release-critical.",
+    "13": "Wall9 v8 REWORK; preserve exact hash and use only the failure-specific next prompt.",
     "14": "Current packets consumed; do not rerender unchanged hashes.",
-    "15": "decor-11 remains a bounded exact-pixel release blocker.",
+    "15": "Wall9 remains a bounded exact-pixel blocker.",
     "09": "decor-11 current exact hash is REWORK; preserve it and use the new positive/negative prompt compiler for the next failure-specific version.",
-    "08": "Do not canonical-wire decor-11 exact hash f4fed4eaf1bf867ffdd3519d347ae12ce755d9b7."
+    "08": "Do not canonical-wire Wall9 v8."
   }
 }
