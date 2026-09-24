@@ -4,15 +4,16 @@
   "role": "independent art reviewer D / overflow reviewer",
   "phase": "ART_VISUALS_SPRINT",
   "branch": "screenshot-match-preproduction",
-  "sourceHead": "a14d3c3fdb",
+  "sourceHead": "3aff59fa0492c4f62134cccbb8e620488caf54cd",
   "policy": "docs/preproduction/DELIVERY_PROTOCOL_V2.md",
   "artFactoryPolicy": "docs/preproduction/art-factory/ART_FACTORY_V2.json",
   "currentCycle": {
     "scope": [
+      "desks-8",
       "wall-8"
     ],
-    "version": "current exact hash: wall-8",
-    "result": "REWORK_1_OF_1",
+    "version": "current exact hashes: Desk8 v3 + Wall8 v8",
+    "result": "REWORK_2_OF_2",
     "oldVerdictsTransferred": false,
     "actualCardScalePixelsReviewed": true,
     "actualDetailPixelsReviewed": true,
@@ -393,6 +394,78 @@
         "duplicateVisual": "PASS",
         "technicalIntegrity": "PASS"
       }
+    },
+    {
+      "itemId": "desks-8",
+      "name": "Aqua Study Station",
+      "assetPath": "public/assets/catalog-candidates/cpu/desks-8-w13-v3-a-one-aqua-study-desk-original.png",
+      "repositoryPath": "public/assets/catalog-candidates/cpu/desks-8-w13-v3-a-one-aqua-study-desk-original.png",
+      "assetHash": "6d01f070b686e4c15a5e906a4099d4fe1cea5f8b",
+      "sha256": "9b880005af88726188fcd23e1ac0eb9407378006daade8d45b46eb5f17739bc8",
+      "contentSha256": "9b880005af88726188fcd23e1ac0eb9407378006daade8d45b46eb5f17739bc8",
+      "producer": "13",
+      "decision": "REWORK",
+      "learnerLabel": "REWORK",
+      "reviewedAt": "2026-09-24T17:35:00Z",
+      "evidenceRefs": [
+        "workflow:36033259780",
+        "artifact:10823143345/staged-replacements/staged-replacements-contact-sheet.png",
+        "artifact:10823143345/staged-replacements/detail/desks-8-6d01f070.png"
+      ],
+      "reasonCodes": [
+        "BUILT_IN_ROOM_FIXTURE",
+        "NO_ISOLATED_STUDY_STATION",
+        "WALL_CABINETRY_DOMINATES",
+        "CARD_SCALE_PRODUCT_IDENTITY_FAILURE"
+      ],
+      "reason": "REWORK. V3 has desk and chair elements, but the exact pixels still read as a built-in room workstation spanning wall cabinetry rather than one isolated Aqua Study Station product. The worktop merges into large architectural panels and storage walls, so no compact freestanding desk silhouette survives at card scale. Preserve this exact hash. Next repair must show exactly one freestanding study desk on a plain background with one worktop, stable supports/storage and restrained aqua/galaxy accents; no room walls, built-in cabinets, or surrounding architecture.",
+      "checks": {
+        "identity": "FAIL",
+        "silhouette": "FAIL",
+        "cardReadability": "FAIL",
+        "physicalConstruction": "PARTIAL",
+        "framingComposition": "FAIL",
+        "materialLighting": "PASS",
+        "originality": "PASS",
+        "duplicateVisual": "PASS",
+        "technicalIntegrity": "PASS"
+      }
+    },
+    {
+      "itemId": "wall-8",
+      "name": "Ocean Window",
+      "assetPath": "public/assets/catalog-candidates/cpu/wall-8-w13-v8-a-bright-ocean-through-one-window-original.png",
+      "repositoryPath": "public/assets/catalog-candidates/cpu/wall-8-w13-v8-a-bright-ocean-through-one-window-original.png",
+      "assetHash": "043d5647de01c3fd3c1e9da472828160765502cd",
+      "sha256": "515971caef833acb44409ea1191bdd0a9841fee7b7865e854fff58bce105f327",
+      "contentSha256": "515971caef833acb44409ea1191bdd0a9841fee7b7865e854fff58bce105f327",
+      "producer": "13",
+      "decision": "REWORK",
+      "learnerLabel": "REWORK",
+      "reviewedAt": "2026-09-24T17:35:00Z",
+      "evidenceRefs": [
+        "workflow:36033259780",
+        "artifact:10823143345/staged-replacements/staged-replacements-contact-sheet.png",
+        "artifact:10823143345/staged-replacements/detail/wall-8-043d5647.png"
+      ],
+      "reasonCodes": [
+        "OCEAN_WINDOW_IDENTITY_FAILURE",
+        "ABSTRACT_PANEL_GRID",
+        "NO_VISIBLE_WATER_OR_HORIZON",
+        "NO_SINGLE_WINDOW_OPENING"
+      ],
+      "reason": "REWORK. V8 regresses into an abstract layered panel/grid texture. There is no readable single window opening, glazing, blue water, ocean horizon, sky, or seascape at any scale. Preserve this exact hash. The next repair should use one simple thick frame around one large blue ocean opening with an obvious horizontal water/sky boundary occupying most of the center; remove all repeated panel/grid geometry.",
+      "checks": {
+        "identity": "FAIL",
+        "silhouette": "FAIL",
+        "cardReadability": "FAIL",
+        "physicalConstruction": "FAIL",
+        "framingComposition": "FAIL",
+        "materialLighting": "PARTIAL",
+        "originality": "PASS",
+        "duplicateVisual": "PASS",
+        "technicalIntegrity": "PASS"
+      }
     }
   ],
   "currentReplacementDisposition": {
@@ -409,31 +482,32 @@
         "desks-7": "037355010a6cd980cbf95e71ebaf28a7abc62a26"
       },
       "REWORK": {
-        "desks-8": "bada24e2447de5e39ac2cb6647aa8458cf410e43"
+        "desks-8": "6d01f070b686e4c15a5e906a4099d4fe1cea5f8b"
       }
     },
     "wall": {
       "REWORK": {
-        "wall-8": "ca9108a80d2cd6811d7826fb52a85455482903f2"
+        "wall-8": "043d5647de01c3fd3c1e9da472828160765502cd"
       }
     }
   },
   "summary": {
-    "reviewedThisRun": 1,
+    "reviewedThisRun": 2,
     "newAcceptsThisRun": 0,
-    "newReworkThisRun": 1,
+    "newReworkThisRun": 2,
     "newBlockedThisRun": 0,
     "newUsableBy08Now": [],
     "reworkNow": [
+      "desks-8",
       "wall-8"
     ],
-    "preservedAcceptedHashes": "All prior reviewer11 ACCEPTs remain frozen; this verdict applies only to wall-8 exact hash ca9108a80d2cd6811d7826fb52a85455482903f2."
+    "preservedAcceptedHashes": "All prior reviewer11 ACCEPTs remain frozen; these REWORK verdicts apply only to Desk8 v3 and Wall8 v8 exact hashes."
   },
   "handoff": {
-    "13": "wall-8 current exact hash is REWORK; preserve it and generate only the smallest failure-specific next version if director15 keeps it release-critical.",
+    "13": "Desk8 v3 and Wall8 v8 are REWORK; preserve exact hashes and use only the failure-specific next prompts.",
     "14": "Tail render packets consumed; do not rerender unchanged hashes.",
-    "15": "wall-8 remains a bounded exact-pixel blocker.",
-    "08": "Do not canonical-wire wall-8 exact hash ca9108a80d2cd6811d7826fb52a85455482903f2."
+    "15": "Desk8 and Wall8 remain bounded exact-pixel blockers.",
+    "08": "Do not canonical-wire Desk8 v3 or Wall8 v8."
   },
   "preservation": {
     "candidateBytesChanged": false,
