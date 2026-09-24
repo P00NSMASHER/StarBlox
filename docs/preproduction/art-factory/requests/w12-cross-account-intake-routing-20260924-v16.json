@@ -1,0 +1,63 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_W12_CANDIDATE_DELTA_INTAKE_ROUTING",
+  "router": "12",
+  "branch": "screenshot-match-preproduction",
+  "observedHead": "885df05091c60a401937a1e50dd62f4b05510f2a",
+  "scanWindow": {
+    "priorCursor": "dcccbde2db195ee2a585b5d52cb84cbc6fa020da",
+    "inspectedThroughHead": "885df05091c60a401937a1e50dd62f4b05510f2a",
+    "newCatalogCandidateBytesDetected": true,
+    "newCandidateItemIds": [
+      "wall-10"
+    ],
+    "note": "The complete post-cursor window was inspected. Decor7 v3 qualification/render evidence and Wall9/11/12 downstream evidence do not introduce new candidate bytes. Wall10 v2 is the only genuinely new exact candidate in this window."
+  },
+  "candidates": [
+    {
+      "id": "wall-10",
+      "producer": "13",
+      "reviewerAssignment": "02",
+      "renderOwner": "14",
+      "canonicalWriter": "08",
+      "priorRejectedHash": {
+        "path": "public/assets/catalog-candidates/cpu/wall-10-w13-v1-a-acrylic-skyline-original.png",
+        "sha256": "a171ee7ddd8ab79b238c3497ed9784db4880ead7fdeff2ad110eb285ab30fb13",
+        "gitBlobSha": "74a4c531a3c60ccd60747bfebc2dfc0d1d25b684"
+      },
+      "path": "public/assets/catalog-candidates/cpu/wall-10-w13-v2-a-no-text-skyline-original.png",
+      "sha256": "d0ddb5f6f370ede2b8f13e7b646eb64fe272e8da4eb04c536d9a937a0548513c",
+      "gitBlobSha": "e5d4fe1c3d7a0a8ad82f61914228e5bdac6ef43d",
+      "bytes": 777474,
+      "dimensions": [
+        768,
+        768
+      ],
+      "format": "PNG",
+      "stagedOutput": "docs/preproduction/art-factory/generated-evidence/w13-wall-10-rework-v2/wall-10/staged-output.json",
+      "generationReceipt": "docs/preproduction/art-factory/generated-evidence/w13-wall-10-rework-v2/wall-10/generation-receipt.json",
+      "provenanceState": "COMPLETE_ART_FACTORY_V2",
+      "repositoryReadback": "PASS_EXACT_GIT_BLOB",
+      "supersession": "FRESH_V2_REPLACEMENT_FOR_REWORKED_V1",
+      "state": "ROUTE_TO_06_TECHNICAL_QUALIFICATION"
+    }
+  ],
+  "dedupe": {
+    "uniqueItemHashClaim": true,
+    "unchangedPriorWall10V1Rerouted": false,
+    "unchangedDecor7V3Rerouted": false,
+    "unchangedWall9_11_12Rerouted": false
+  },
+  "queues": {
+    "to06": [
+      "wall-10@d0ddb5f6f370ede2b8f13e7b646eb64fe272e8da4eb04c536d9a937a0548513c"
+    ],
+    "backToProducer": []
+  },
+  "cursorAdvance": {
+    "previous": "dcccbde2db195ee2a585b5d52cb84cbc6fa020da",
+    "advancedThrough": "885df05091c60a401937a1e50dd62f4b05510f2a"
+  },
+  "nextOwner": "06_TECHNICAL_QUALIFICATION",
+  "mutationScope": "Routing evidence only; no candidate bytes, ACTIVE_BATCH, canonical mappings, reviewer decisions, gameplay, learning, economy, persistence, accessibility, CI/workflows, deployment, secrets, or player data changed."
+}
