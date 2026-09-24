@@ -1,0 +1,163 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_JOB",
+  "repository": "P00NSMASHER/StarBlox",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "0079db35c157cebaca2974dcf6608e7c4cdfeef5",
+  "item": {
+    "id": "decor-6",
+    "name": "Telescope",
+    "collectionId": "decor",
+    "type": "room",
+    "tier": 2,
+    "theme": "Berry Blast"
+  },
+  "sourceReviewHash": "3a8d81ea490f8bac42ef2147797a3926d69df9ef",
+  "rightsBasis": "USER_ATTESTED_FULL_RIGHTS",
+  "attempts": [
+    {
+      "attemptId": "decor-6-w03-a-physical-93aa378f45",
+      "itemId": "decor-6",
+      "producer": "03",
+      "variant": "A-PHYSICAL",
+      "promptBlocks": [
+        "metadata",
+        "category",
+        "silhouette",
+        "physical",
+        "material",
+        "theme",
+        "tier",
+        "card",
+        "original",
+        "stage",
+        "furniture",
+        "camera",
+        "depth",
+        "bloom",
+        "textile",
+        "wall",
+        "light"
+      ],
+      "promptText": "STARBLOX CATALOG ART — A-PHYSICAL\n\nCreate one premium, kid-friendly 2D game catalog asset with polished dimensional quality.\n\nExact metadata: decor-6 — Telescope; collection decor; type room; tier 2; theme Berry Blast.\n\nAuthoritative item-specific design brief:\nTelescope, Room Decor, Tier 2, Berry Blast. Build a compact but believable freestanding refractor telescope in three-quarter product view: berry-magenta enamel optical tube with cream trim, glass objective lens, focus knob, eyepiece, alt-azimuth yoke mount, sturdy brushed-metal tripod with three fully visible articulated legs and a small triangular accessory tray. Add subtle berry-red rubber grips and one small star-shaped adjustment cap as a decorative accent only. Premium studio lighting, grounded contact shadow, clear metal/glass/rubber separation, no readable text, logo, people or floating parts.\n\nExact-hash reviewer failure taxonomy: UNKNOWN_REWORK.\n\nRepair the documented failure codes while preserving qualities that were not implicated. Do not erase successful identity, silhouette, material depth, or readability merely to make a different image.\n\nUse the exact catalog ID/name/collection/tier/theme. Do not rename, recategorize, or substitute the item.\n\nMake the object unmistakably the stated product category with believable proportions and construction.\n\nPrioritize a distinctive clean silhouette that reads immediately at small Store-card size.\n\nShow real thickness, seams/joints/edges, layered parts, volume, contact points and functional construction—not a flat icon, emblem or sticker.\n\nUse category-appropriate material texture and highlights/shadows that explain the form.\n\nExpress the exact theme through material, construction, light and motif—not a palette swap or pasted decal.\n\nRespect tier progression: Starter stays simple and attractive; higher tiers gain richer form/material detail; Luxe gains spectacle without losing identity.\n\nDesign for both detail view and a 600×600 Store card with strong contrast, uncluttered hierarchy and no tiny critical details.\n\nAvoid recolor-only siblings, repeated template silhouettes, generic rings/badges, or interchangeable props.\n\nPresent one isolated subject on a clean premium background. No UI, text, watermark, logo, fake price badge or unrelated props.\n\nFor furniture/decor, show supports, joints, cushions/panels/hardware, weight and grounded contact.\n\nUse a clean product-style three-quarter view when appropriate so front, side and thickness are visible.\n\nUse occlusion, contact/cast shadows and foreground/midground/background separation so the asset feels spatial.\n\nUse controlled emissive light/bloom only where appropriate; preserve edges and local contrast.\n\nFor textiles, show weave/pile/folds/stitching/edge finish/thickness and believable softness or drape.\n\nFor wall decor, show mounting/frame/backing/relief depth and a believable wall-object form—not a floating emblem.\n\nFor lighting, show a physical base/mount/chassis, emitter or bulb, support structure and believable emitted/reflected light.\n\nOutput a production-worthy source image for exact-byte staging, card/detail rendering and independent review. Do not claim approval; the reviewer decides from rendered pixels.",
+      "promptSha256": "93aa378f45fff36359c942275837a1f8b7d6f1dee5a6e58b493f34a5515685ef",
+      "promptRecipeVersion": "artPromptOptimizer-request-v1:w03-decor-6-8-provenance-repair-v1",
+      "seed": 871183514,
+      "runtime": {
+        "repo": "huggingface/diffusers",
+        "commit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c"
+      },
+      "model": {
+        "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+        "revision": "462165984030d82259a11f4367a4eed129e94a7b",
+        "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+      },
+      "conditioning": {
+        "referenceAssetSha256": null,
+        "controlImageSha256": null,
+        "adapterScale": null
+      },
+      "output": {
+        "repoPath": null,
+        "sha256": null,
+        "gitBlobSha": null,
+        "bytes": null,
+        "width": null,
+        "height": null
+      },
+      "status": "PLANNED_NOT_GENERATED"
+    },
+    {
+      "attemptId": "decor-6-w03-b-readability-62a4d5ece3",
+      "itemId": "decor-6",
+      "producer": "03",
+      "variant": "B-READABILITY",
+      "promptBlocks": [
+        "metadata",
+        "category",
+        "silhouette",
+        "physical",
+        "material",
+        "theme",
+        "tier",
+        "card",
+        "original",
+        "stage",
+        "furniture",
+        "camera",
+        "depth",
+        "bloom",
+        "textile",
+        "wall",
+        "light"
+      ],
+      "promptText": "STARBLOX CATALOG ART — B-READABILITY\n\nCreate one premium, kid-friendly 2D game catalog asset with polished dimensional quality.\n\nExact metadata: decor-6 — Telescope; collection decor; type room; tier 2; theme Berry Blast.\n\nAuthoritative item-specific design brief:\nTelescope, Room Decor, Tier 2, Berry Blast. Create a child-friendly premium tabletop-to-floor telescope with a short wide optical tube, oversized front lens hood, visible focuser, compact pivot mount and three splayed legs joined by a real center brace. Use a strong cream-and-berry silhouette with deep plum metal hardware and one translucent pink lens accent, keeping accessories minimal so the telescope remains unmistakable at card size. Three-quarter isolated product, grounded shadow, no astronomy text, branding, room scene, impossible joints or flat icon styling.\n\nExact-hash reviewer failure taxonomy: UNKNOWN_REWORK.\n\nRepair the documented failure codes while preserving qualities that were not implicated. Do not erase successful identity, silhouette, material depth, or readability merely to make a different image.\n\nUse the exact catalog ID/name/collection/tier/theme. Do not rename, recategorize, or substitute the item.\n\nMake the object unmistakably the stated product category with believable proportions and construction.\n\nPrioritize a distinctive clean silhouette that reads immediately at small Store-card size.\n\nShow real thickness, seams/joints/edges, layered parts, volume, contact points and functional construction—not a flat icon, emblem or sticker.\n\nUse category-appropriate material texture and highlights/shadows that explain the form.\n\nExpress the exact theme through material, construction, light and motif—not a palette swap or pasted decal.\n\nRespect tier progression: Starter stays simple and attractive; higher tiers gain richer form/material detail; Luxe gains spectacle without losing identity.\n\nDesign for both detail view and a 600×600 Store card with strong contrast, uncluttered hierarchy and no tiny critical details.\n\nAvoid recolor-only siblings, repeated template silhouettes, generic rings/badges, or interchangeable props.\n\nPresent one isolated subject on a clean premium background. No UI, text, watermark, logo, fake price badge or unrelated props.\n\nFor furniture/decor, show supports, joints, cushions/panels/hardware, weight and grounded contact.\n\nUse a clean product-style three-quarter view when appropriate so front, side and thickness are visible.\n\nUse occlusion, contact/cast shadows and foreground/midground/background separation so the asset feels spatial.\n\nUse controlled emissive light/bloom only where appropriate; preserve edges and local contrast.\n\nFor textiles, show weave/pile/folds/stitching/edge finish/thickness and believable softness or drape.\n\nFor wall decor, show mounting/frame/backing/relief depth and a believable wall-object form—not a floating emblem.\n\nFor lighting, show a physical base/mount/chassis, emitter or bulb, support structure and believable emitted/reflected light.\n\nOutput a production-worthy source image for exact-byte staging, card/detail rendering and independent review. Do not claim approval; the reviewer decides from rendered pixels.",
+      "promptSha256": "62a4d5ece3a39017cb88be9fa702b0db69d767d87de6fffd4188deaeda876cc7",
+      "promptRecipeVersion": "artPromptOptimizer-request-v1:w03-decor-6-8-provenance-repair-v1",
+      "seed": 1780913651,
+      "runtime": {
+        "repo": "huggingface/diffusers",
+        "commit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c"
+      },
+      "model": {
+        "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+        "revision": "462165984030d82259a11f4367a4eed129e94a7b",
+        "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+      },
+      "conditioning": {
+        "referenceAssetSha256": null,
+        "controlImageSha256": null,
+        "adapterScale": null
+      },
+      "output": {
+        "repoPath": null,
+        "sha256": null,
+        "gitBlobSha": null,
+        "bytes": null,
+        "width": null,
+        "height": null
+      },
+      "status": "PLANNED_NOT_GENERATED"
+    }
+  ],
+  "requestContext": {
+    "requestPath": "docs/preproduction/art-factory/requests/w03-decor-6-8-cpu-bound-20260923.json",
+    "batchId": "w03-decor-6-8-provenance-repair-v1",
+    "requestSourceHead": "eee05f817d027459c5a0fe5ee598f2ae05ce0243",
+    "requestRecordSha256": "538eca97d030b0cd424518cc878205524e106699d6b7a9e7a85d700d353b4199",
+    "planner": "12",
+    "reviewer": "11",
+    "renderOwner": "14",
+    "integrationOwner": "08",
+    "contextReferences": [
+      {
+        "role": "FIRST_PARTY_STARBLOX_STORE_ART_DIRECTION",
+        "repositoryPath": "docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg",
+        "sha256": "b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d",
+        "gitBlobSha": "383baa877d3af86fa92e3583740212000592b3d6",
+        "dimensions": [
+          1448,
+          1086
+        ],
+        "sourceManifest": null
+      }
+    ],
+    "plannerVariants": [
+      {
+        "variantId": "A-PHYSICAL",
+        "plannerSeed": null,
+        "optimizerInputSha256": "0d8f37c9bf47cd80886e230adcc5d5a9572bef57304bab3bba85a9cad1d61130",
+        "compiledPromptSha256": "93aa378f45fff36359c942275837a1f8b7d6f1dee5a6e58b493f34a5515685ef",
+        "compiledSeed": 871183514
+      },
+      {
+        "variantId": "B-READABILITY",
+        "plannerSeed": null,
+        "optimizerInputSha256": "470bed53b1332823891a0a035734c53cb1f9500fcd935e8e1ef1935a7a657bc8",
+        "compiledPromptSha256": "62a4d5ece3a39017cb88be9fa702b0db69d767d87de6fffd4188deaeda876cc7",
+        "compiledSeed": 1780913651
+      }
+    ]
+  },
+  "planSha256": "f703253653a17b5eb96f2b7c855de8577e972bce839ce08aedc51bd50676843f"
+}

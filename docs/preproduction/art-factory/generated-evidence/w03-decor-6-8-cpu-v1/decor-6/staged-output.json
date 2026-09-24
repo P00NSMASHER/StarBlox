@@ -1,0 +1,91 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_STAGED_OUTPUT",
+  "repository": "P00NSMASHER/StarBlox",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "0079db35c157cebaca2974dcf6608e7c4cdfeef5",
+  "sourcePlanSha256": "f703253653a17b5eb96f2b7c855de8577e972bce839ce08aedc51bd50676843f",
+  "item": {
+    "id": "decor-6",
+    "name": "Telescope",
+    "collectionId": "decor",
+    "type": "room",
+    "tier": 2,
+    "theme": "Berry Blast"
+  },
+  "attempt": {
+    "attemptId": "decor-6-w03-a-physical-93aa378f45",
+    "producer": "03",
+    "variant": "A-PHYSICAL",
+    "promptBlocks": [
+      "metadata",
+      "category",
+      "silhouette",
+      "physical",
+      "material",
+      "theme",
+      "tier",
+      "card",
+      "original",
+      "stage",
+      "furniture",
+      "camera",
+      "depth",
+      "bloom",
+      "textile",
+      "wall",
+      "light"
+    ],
+    "promptSha256": "93aa378f45fff36359c942275837a1f8b7d6f1dee5a6e58b493f34a5515685ef",
+    "promptRecipeVersion": "artPromptOptimizer-request-v1:w03-decor-6-8-provenance-repair-v1",
+    "seed": 871183514,
+    "runtime": {
+      "repo": "huggingface/diffusers",
+      "commit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c"
+    },
+    "model": {
+      "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+      "revision": "462165984030d82259a11f4367a4eed129e94a7b",
+      "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+    },
+    "conditioning": {
+      "referenceAssetSha256": null,
+      "controlImageSha256": null,
+      "adapterScale": null
+    }
+  },
+  "output": {
+    "repoPath": "public/assets/catalog-candidates/cpu/decor-6-w03-v1-a-physical-original.png",
+    "sha256": "8b839bb54cda085810a58d1714c3f0850991e544b2e7c75e75a5e6c20c820fd2",
+    "gitBlobSha": "a8dca54ad9c511b529ab505dab97991bbc76daef",
+    "bytes": 1747044,
+    "format": "PNG",
+    "width": 1024,
+    "height": 1024,
+    "mode": "RGB"
+  },
+  "derivativeLineage": {
+    "derivativeOfSha256": null,
+    "sourcePreserved": true
+  },
+  "renderEvidence": [],
+  "review": {
+    "reviewer": "11",
+    "routing": {
+      "reviewer": "11",
+      "routingFile": "docs/preproduction/art-factory/runtime-queue/w03-decor-6-8-cpu-v1.json",
+      "routingFileSha256": "80c48a751f30932b4c8baa2875a59434e591ffe50d35c71fc71146aafa505848",
+      "queueId": "w03-decor-6-8-cpu-v1"
+    },
+    "state": "PENDING_ACTUAL_PIXEL_REVIEW",
+    "decision": null
+  },
+  "safety": {
+    "canonicalArtModified": false,
+    "gameplayModified": false,
+    "automaticPerceptualDecision": false,
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+  },
+  "status": "STAGED_EXACT_BYTES_VERIFIED",
+  "recordSha256": "024ea5599376b2d7fdf0676e550b176bed29f4508072ff27e1b3cb8d52f84a87"
+}
