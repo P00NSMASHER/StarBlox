@@ -7,7 +7,7 @@ The workflow is deliberately catalog → plan → export → review rather than 
 ## Goals
 
 - Select high-leverage licensed systems from the capability catalog.
-- Preserve exact source file and instance-path provenance.
+- Preserve exact source file SHA-256/byte-size and instance-path provenance.
 - Distinguish direct assets from behavior that must be refactored.
 - Expose external module and remote dependencies before migration.
 - Export exact Roblox subtrees as standalone model files.
@@ -110,6 +110,12 @@ Supported fields:
 - includeRisky
 
 Explicitly included system names bypass capability and minimum-score filters, but risk-flagged systems still require includeRisky.
+
+## Source-byte integrity gate
+
+Selected migration units inherit the SHA-256 digest and byte length of the exact Roblox source reviewed by the capability catalog. When `--source-root` export is requested, the migration command recomputes that fingerprint before extracting any subtree and fails closed on missing or mismatched source bytes.
+
+This prevents a same-named place/model file from silently changing between catalog review and migration export.
 
 ## Exact subtree exporter
 
