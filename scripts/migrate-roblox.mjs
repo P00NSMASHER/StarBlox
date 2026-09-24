@@ -179,7 +179,7 @@ if(!sourceRootRaw){
   if(ingestionReceipt){
     const planJsonDigest=await digest(planJsonPath);
     const planMarkdownDigest=await digest(planMarkdownPath);
-    const planningReceipt={
+    const planningReceiptPayload={
       schemaVersion:1,
       version:'starblox-roblox-migration-planning-v1',
       status:'planned',
@@ -220,6 +220,13 @@ if(!sourceRootRaw){
       migrationBundleCreated:false,
       studioMutationStarted:false,
       publicationStarted:false
+    };
+    const receiptHash=createHash('sha256')
+      .update(JSON.stringify(planningReceiptPayload))
+      .digest('hex');
+    const planningReceipt={
+      ...planningReceiptPayload,
+      receiptHash:'sha256:' + receiptHash
     };
     await writeFile(
       resolve(outDir,'migration-planning-receipt.json'),
