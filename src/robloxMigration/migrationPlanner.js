@@ -80,6 +80,8 @@ function groupInstances(catalog){
       groups.set(key,{
         sourceId:instance.sourceId,
         sourceFile:instance.sourceFile,
+        sourceSha256:instance.sourceSha256 ?? null,
+        sourceBytes:instance.sourceBytes ?? null,
         systemName:system,
         instances:[]
       });
@@ -244,6 +246,8 @@ export function buildRobloxMigrationPlan(catalog,rawRules={}){
       unitId,
       sourceId:group.sourceId,
       sourceFile:group.sourceFile,
+      sourceSha256:group.sourceSha256,
+      sourceBytes:group.sourceBytes,
       systemName:group.systemName,
       rootPath:root.path,
       capabilities,
