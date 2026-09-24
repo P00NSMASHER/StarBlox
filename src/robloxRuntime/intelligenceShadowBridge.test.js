@@ -63,8 +63,8 @@ describe('Step 4: Roblox intelligence shadow bridge', () => {
     expect(retrievabilityAt({
       exposures:1,
       stability:1,
-      lastSeenAt:0
-    },86_400_000)).toBeCloseTo(0.9,12);
+      lastSeenAt:86_400_000
+    },172_800_000)).toBeCloseTo(0.9,12);
 
     const luau=file('roblox/src/shared/PlayerIntelligence.luau');
     expect(luau).toContain('local DAY_MS = 86_400_000');
