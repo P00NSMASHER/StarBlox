@@ -47,6 +47,21 @@ local ProfileTemplate = {
 		Assignments = {},
 	},
 
+	Social = {
+		Home = {
+			PlotId = "",
+			Placements = {},
+		},
+		NpcAffinity = {},
+		UnlockedSocialItems = {},
+		Stats = {
+			PhotosTaken = 0,
+			CoopPhotos = 0,
+			MinigameWins = 0,
+		},
+		CompletedSessionIds = {},
+	},
+
 	LiveOps = {
 		Counters = {},
 		Missions = {},
