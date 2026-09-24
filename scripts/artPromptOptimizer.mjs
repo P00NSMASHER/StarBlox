@@ -65,7 +65,7 @@ function positiveBriefSegments(item,brief=''){
  const body=runtimeBriefBody(item,brief);
  if(!body) return [];
  return body
-  .split(/(?<=[.!?;])\s+|,\s+/)
+  .split(/(?<=[.!?;])\s+/)
   .map(segment=>segment.replace(/\bNO\s+.*$/i,'').trim())
   .filter(Boolean);
 }
@@ -73,17 +73,30 @@ function positiveBriefSegments(item,brief=''){
 function balancedBriefWords(item,brief,budget){
  const segments=positiveBriefSegments(item,brief).slice(0,8).map(promptWords).filter(x=>x.length);
  if(!segments.length||budget<=0) return [];
+
+ // Runtime CLIP text should preserve a coherent component sentence rather than
+ // splice fragments from many comma clauses. Prefer the most detailed positive
+ // sentence first; then use remaining room for whole shorter context sentences.
+ const ranked=segments
+  .map((words,index)=>({words,index,score:words.length+(index>0?4:0)}))
+  .sort((a,b)=>b.score-a.score||a.index-b.index);
+
  const packed=[];
  let room=budget;
- for(const words of segments){
+ for(const {words} of ranked){
+  if(room<=0) break;
   if(words.length<=room){
    packed.push(...words);
    room-=words.length;
+   continue;
+  }
+  // If the highest-value product sentence is longer than the entire available
+  // budget, keep its leading component description instead of dropping it.
+  if(!packed.length){
+   packed.push(...words.slice(0,room));
+   room=0;
   }
  }
- // A single very long clause should still contribute rather than disappearing,
- // but ordinary product clauses are never sliced and recombined mid-phrase.
- if(!packed.length) return segments[0].slice(0,budget);
  return packed.slice(0,budget);
 }
 
