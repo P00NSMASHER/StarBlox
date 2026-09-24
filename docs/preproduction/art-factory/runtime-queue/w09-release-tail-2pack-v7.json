@@ -39,6 +39,7 @@
     "canonicalWriter": "08"
   },
   "dispatchPolicy": "PREPARED_CONSOLIDATED__WAIT_W13_RUNNING_OR_IDLE",
-  "retryRevision": 1,
-  "retryReason": "replace single-item Decor7 pending run with consolidated Decor7 v11 + Decor11 v7 successor"
+  "retryRevision": 2,
+  "retryReason": "refresh pending consolidated retry after exact Decor11 v6 provenance binding",
+  "requestFixHead": "771fb43f286c4fbebac0089126cf602426f425f8"
 }
