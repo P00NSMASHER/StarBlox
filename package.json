@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "vite --host 0.0.0.0",
     "build": "vite build",
-    "test": "vitest run"
+    "test": "vitest run",
+    "test:learning-factory": "vitest run src/learningContracts.test.js src/contentProvenanceRuntime.test.js src/adversarialQuestionQa.test.js",
+    "validate:learning": "node scripts/validateLearningContent.mjs"
   },
   "dependencies": {
     "lucide-react": "^0.468.0",
