@@ -1,0 +1,87 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_BATCH_REQUEST",
+  "planner": "15",
+  "producer": "03",
+  "preflightOwner": "06",
+  "reviewer": "01",
+  "renderOwner": "14",
+  "integrationOwner": "08",
+  "coordinationOwner": "15",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "982de262ae5e8034b478079b76f64dc0d249c7e7",
+  "manifestVersion": 36,
+  "batchId": "w03-desks-11-12-v1",
+  "scope": [
+    "desks-11",
+    "desks-12"
+  ],
+  "state": "CPU_QUEUE_ELIGIBLE__NEW_VISIBLE_FALLBACK_PAIR__PINNED_RUNTIME",
+  "assignmentAuthority": {
+    "path": "docs/preproduction/art-factory/ACTIVE_BATCH.json",
+    "assignedReviewer": "01",
+    "runtimeProofPath": "docs/preproduction/art-factory/CPU_RUNTIME_PROOF.json",
+    "runtimeProofStatus": "PROVEN",
+    "runtimeCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+    "modelRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "note": "Desk11/12 are live visible fallbacks with no prior candidate/request ownership. Producer03 production slot is released because Decor8/Desk9/10 v3 are downstream in independent review."
+  },
+  "references": {
+    "originalStoreReference": {
+      "requiredBeforeGeneration": true,
+      "repositoryPath": "docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg",
+      "sha256": "b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d",
+      "gitBlobSha": "383baa877d3af86fa92e3583740212000592b3d6",
+      "dimensions": [
+        1448,
+        1086
+      ],
+      "role": "FIRST_PARTY_STARBLOX_STORE_ART_DIRECTION"
+    }
+  },
+  "reviewSource": {
+    "decision": "REWORK",
+    "note": "Current canonical state is a visible generic fallback/missing finished catalog asset; no prior generated candidate verdict exists."
+  },
+  "items": {
+    "desks-11": {
+      "variants": [
+        {
+          "variantId": "A-CREATOR-HUTCH",
+          "optimizerInput": "Dream Creator Station, Desks & Tech, Tier 4, Art Attack. Create ONE premium freestanding creative workstation with a wide blush-and-cream desktop, sturdy side supports, integrated shallow drawer stack, raised organizer hutch, one centered drawing display/tablet, bounded pen/brush cups and a small articulated task lamp. Use expressive but controlled paint-splash accents, translucent acrylic dividers, visible joints, believable storage depth and a strong desk silhouette. Three-quarter isolated product view, full object inside frame, generous negative space, grounded cast shadow. NO room scene, NO vanity mirror, NO duplicate desks, NO floating supplies, NO readable text or logos."
+        },
+        {
+          "variantId": "B-DREAM-STUDIO-DESK",
+          "optimizerInput": "Dream Creator Station, Desks & Tech, Tier 4, Art Attack. Design ONE polished artist workstation that reads instantly as a substantial desk: broad rounded worktop, two stable pedestal/leg supports, one compact drawer cabinet, a physically attached upper rail with two small supply bins, one tilted creator screen and one restrained color-mixing tray. Use soft cream, coral, lavender and aqua with premium wood/painted-metal/acrylic separation. Keep accessories sparse and attached so the furniture dominates at small card size. NO room background, NO dressing vanity, NO easel-only composition, NO collage, NO loose floor objects, NO text."
+        }
+      ]
+    },
+    "desks-12": {
+      "variants": [
+        {
+          "variantId": "A-LUXE-COMMAND",
+          "optimizerInput": "Luxe Command Desk, Desks & Tech, Tier 5, Star Luxe. Create ONE unmistakable high-end command desk with an expansive dark navy worktop edged in brushed gold, two substantial architectural supports, integrated central modesty panel, one side equipment cabinet, a raised dual-display bridge and one elegant articulated control arm. Add restrained star-shaped inlay details, smoked glass/acrylic accents, cable channels and premium metal fasteners. Heroic three-quarter isolated product view, full furniture silhouette, believable weight-bearing construction and grounded shadow. NO room scene, NO throne, NO spaceship cockpit enclosure, NO duplicate furniture, NO readable text/logos."
+        },
+        {
+          "variantId": "B-STAR-EXECUTIVE",
+          "optimizerInput": "Luxe Command Desk, Desks & Tech, Tier 5, Star Luxe. Design ONE luxurious executive-tech desk that reads immediately as furniture: wide gently curved midnight-blue desktop, thick gold-edged side pylons, integrated drawers/storage, shallow raised monitor shelf, compact control pad and subtle crystal-like star accents embedded in the structure. Use satin metal, lacquered wood, smoked glass and soft warm edge light with crisp material depth. Center the complete desk with generous negative space and a soft floor-contact shadow. NO room, NO chair, NO wall unit, NO floating screens, NO console-only object, NO text or logos."
+        }
+      ]
+    }
+  },
+  "executionBudget": {
+    "width": 640,
+    "height": 640,
+    "steps": 6,
+    "guidanceScale": 3.5,
+    "dtype": "float32"
+  },
+  "safety": {
+    "preserveAcceptedExactHashes": true,
+    "producerSelfReview": false,
+    "canonicalMappingsChanged": false,
+    "workflowFilesChanged": false,
+    "gameplayLearningEconomyPersistenceAccessibilityChanged": false
+  }
+}
