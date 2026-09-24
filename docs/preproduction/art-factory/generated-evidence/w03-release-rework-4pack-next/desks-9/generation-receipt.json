@@ -1,0 +1,107 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_GENERATION_RECEIPT",
+  "repository": "P00NSMASHER/StarBlox",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "a9f863e0ff6ebe7329b82b3a4ba6cbce510dadd8",
+  "sourcePlanSha256": "ff421882be6caa7aab3d9594a58d81900c0ab9e4f792193c93c8affaf116011f",
+  "executionCheckout": {
+    "branch": "screenshot-match-preproduction",
+    "head": "a9f863e0ff6ebe7329b82b3a4ba6cbce510dadd8",
+    "planSourceHeadMatchesExecutionHead": true
+  },
+  "attempt": {
+    "attemptId": "desks-9-w03-a-freestanding-maker-table-3fcf3e6b03",
+    "itemId": "desks-9",
+    "producer": "03",
+    "variant": "A-FREESTANDING-MAKER-TABLE",
+    "promptSha256": "3fcf3e6b0310e006a4ef6db56d0f648a8d869f384083a5bd6db2f61bd1270361",
+    "runtimePromptSha256": "a195bd35596b1dfd9becf6829cdae3704ab6bd0103574ce26a14dbb3ceb6cb7c",
+    "promptRecipeVersion": "artPromptOptimizer-request-v1:w03-release-rework-4pack-next",
+    "seed": 855999844
+  },
+  "runtime": {
+    "repo": "huggingface/diffusers",
+    "commit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "resolvedCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "runtimeCommitVerified": true,
+    "diffusersVersion": "0.41.0.dev0",
+    "diffusersInstallSource": "https://github.com/huggingface/diffusers.git",
+    "torchVersion": "2.8.0+cpu",
+    "transformersVersion": "5.17.0",
+    "accelerateVersion": "1.15.0",
+    "huggingfaceHubVersion": "1.33.0",
+    "safetensorsVersion": "0.8.0",
+    "pythonPillowVersion": "12.3.0",
+    "device": "cpu",
+    "dtype": "float32",
+    "executionMode": "cpu-fallback"
+  },
+  "model": {
+    "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+    "revision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS",
+    "resolvedRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "snapshotRevisionVerified": true,
+    "selectiveSnapshot": true,
+    "snapshotAllowPatterns": [
+      "model_index.json",
+      "scheduler/*",
+      "tokenizer/*",
+      "tokenizer_2/*",
+      "feature_extractor/*",
+      "text_encoder/config.json",
+      "text_encoder/model.fp16.safetensors",
+      "text_encoder_2/config.json",
+      "text_encoder_2/model.fp16.safetensors",
+      "unet/config.json",
+      "unet/diffusion_pytorch_model.fp16.safetensors",
+      "vae/config.json",
+      "vae/diffusion_pytorch_model.fp16.safetensors"
+    ]
+  },
+  "conditioning": {
+    "referenceAssetSha256": null,
+    "controlImageSha256": null,
+    "adapterScale": null,
+    "referenceImage": null,
+    "ipAdapterModelId": null,
+    "ipAdapterRevision": null,
+    "ipAdapterResolvedRevision": null,
+    "ipAdapterRevisionVerified": false,
+    "ipAdapterWeightName": null,
+    "ipAdapterSubfolder": null
+  },
+  "generation": {
+    "width": 640,
+    "height": 640,
+    "numInferenceSteps": 6,
+    "guidanceScale": 3.5,
+    "runtimePromptTokenCounts": {
+      "tokenizer": 67,
+      "tokenizer_2": 67
+    },
+    "executedSeed": 855999844
+  },
+  "output": {
+    "repoPath": "public/assets/catalog-candidates/cpu/desks-9-w03-v4-a-freestanding-maker-table-original.png",
+    "sha256": "5e6349a20c108b27ac47ce940f294a48aa5f8938d9de9786045d8148823bdc3b",
+    "gitBlobSha": "03fbab497e00e0c3d70f7f9b26e772efd1d49a4a",
+    "bytes": 534814,
+    "width": 640,
+    "height": 640,
+    "format": "PNG",
+    "sourceBytesPreserved": true,
+    "reusedExistingIdenticalBytes": false
+  },
+  "safety": {
+    "canonicalArtModified": false,
+    "gameplayModified": false,
+    "reviewDecisionMade": false,
+    "deploymentPerformed": false,
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+  },
+  "nextGate": "RUN_VERIFY_STAGED_OUTPUT_THEN_REAL_RENDER_AND_INDEPENDENT_EXACT_HASH_REVIEW",
+  "status": "GENERATED_SOURCE_BYTES_UNVERIFIED",
+  "recordSha256": "ba1ed7d09df3f34fe9e77ef808cf309c4405541b53fa704e2a81dc839e8ba025"
+}
