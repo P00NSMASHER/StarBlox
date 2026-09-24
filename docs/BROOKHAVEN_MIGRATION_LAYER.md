@@ -214,3 +214,11 @@ CI proves the full migration chain on the committed Roblox fixture:
 Step 5 does not upload assets, insert models into a live place, publish a place, spend Robux, execute imported Luau, trust legacy persistence/remotes, or automatically convert Brookhaven logic into StarBlox services.
 
 It creates exact, reviewable migration inputs for those later controlled steps.
+
+## Repair hardening: exact plan binding
+
+A migration bundle is no longer accepted merely because its own manifest hash is self-consistent.
+
+verifyMigrationBundleAgainstPlan() rebinds the bundle to the exact migration plan and checks plan/catalog identities plus every selected unit's source, root path, migration strategy, disposition, and staging target. Every selected unit must appear exactly once.
+
+The resulting plan-binding hash is carried into automated content-expansion evidence.
