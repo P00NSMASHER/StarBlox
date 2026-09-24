@@ -26,16 +26,16 @@
     "assignedReviewers": {
       "decor-11": "02"
     },
-    "note": "Prior v7 job failed before image generation because compiled runtime prompt was 81 > 77 CLIP tokens. No candidate bytes were staged; v7 remains available."
+    "note": "Final v8 simple-stool retry: preserve vanity identity, force one separate unmistakable four-legged stool, isolate on plain background."
   },
   "reviewSource": {
     "decision": "TECHNICAL_RETRY",
     "latestVisualRework": {
-      "version": "v6",
-      "gitBlobSha": "61def289ba05f48b56c29d3eaa2d38a4a4b0899a",
-      "sha256": "2ebcd1c5e2c858a7203e54791ef02ddfe32e1fd49b1b06d1ad0ec639b8dffeda"
+      "version": "v7",
+      "gitBlobSha": "7badb72a99eb63aa259e5345a6a806cacb6c73a2",
+      "sha256": "31ef9871ff7ed83d583630a7e78ec500dfd75116d78a840ef9f660914aa8fa45"
     },
-    "note": "v6 split-composition REWORK remains latest visual evidence."
+    "note": "v7 exact pixels are REWORK for split vanity composition and no unmistakable stool. v8 B makes the separate four-legged stool mandatory."
   },
   "items": {
     "decor-11": {
@@ -51,7 +51,7 @@
         },
         {
           "variantId": "B-SIMPLE-VANITY-STOOL",
-          "optimizerInput": "ONE vanity table, ONE mirror, ONE stool on plain white. Full three-piece set visible, colorful accents. NO room, cabinets, extra mirror, extra seat, collage, text."
+          "optimizerInput": "Dream Vanity Set. ONE small freestanding vanity set on a plain white studio background. ONE vanity table with a clear horizontal tabletop and two small drawer supports. ONE oval mirror centered above the tabletop. ONE separate padded STOOL directly in front of the vanity, fully visible, with a clear seat cushion and FOUR short legs; the stool must be unmistakable at thumbnail size. Coral and lavender accents. Full three-piece set visible with negative space around it. NO room, NO wall cabinets, NO columns, NO rug, NO extra mirror, NO extra seat, NO collage, NO text."
         }
       ]
     }
