@@ -56,7 +56,10 @@ export const NETWORK_CONTRACT=Object.freeze([
   Object.freeze({name:'RequestSocialMinigame',from:'Client',type:'Reliable'}),
   Object.freeze({name:'SocialWorldState',from:'Server',type:'Reliable'}),
   Object.freeze({name:'RequestNpcTurn',from:'Client',type:'Reliable'}),
-  Object.freeze({name:'NpcTurn',from:'Server',type:'Reliable'})
+  Object.freeze({name:'NpcTurn',from:'Server',type:'Reliable'}),
+  Object.freeze({name:'SubmitActionInput',from:'Client',type:'Unreliable'}),
+  Object.freeze({name:'AuthoritativeActionState',from:'Server',type:'Unreliable'}),
+  Object.freeze({name:'ConfirmedAction',from:'Server',type:'Reliable'})
 ]);
 
 export const REPLICATION_BOUNDARIES=Object.freeze({
@@ -88,6 +91,14 @@ export const REPLICATION_BOUNDARIES=Object.freeze({
   ephemeralEcs:Object.freeze([
     'Model','Transform','Velocity','Health','Npc','Interactable',
     'QuestMarker','District','Vehicle','Owner','Replicated','Dirty'
+  ]),
+  authoritativeMultiplayer:Object.freeze([
+    'server-owned movement state',
+    'accepted input sequence state',
+    'rollback snapshots',
+    'weapon specs',
+    'hit validation',
+    'damage application'
   ])
 });
 
