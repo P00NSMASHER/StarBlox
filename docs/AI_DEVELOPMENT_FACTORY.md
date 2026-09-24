@@ -102,6 +102,12 @@ Each tool is valid only in defined stages such as inspect, code, test, review, o
 
 For example, mutating tools cannot be introduced by the planner during inspection.
 
+### Generic mutation boundaries
+
+Generated script instances must be created through write_script with create=true. create_instance cannot create Script, LocalScript or ModuleScript instances.
+
+Generic property mutation cannot write identity/source-sensitive fields such as Source, Parent, Name, ClassName, ScriptGuid, UniqueId or HistoryId. This prevents set_property/create_instance from bypassing generated-Luau scanning or invalidating path-based rollback plans.
+
 ### Script-size and input budgets
 
 The factory caps:
@@ -169,6 +175,14 @@ A final reviewer rejection, failed proof, missing runtime evidence, exhausted re
 When tests are required, an empty test suite does **not** count as green.
 
 At least one test/result must execute and all failures must be zero.
+
+Executable Studio test loading is restricted to dedicated test roots:
+
+- ServerScriptService/Tests
+- ReplicatedStorage/Tests
+- ServerStorage/Tests
+
+The planner cannot point run_tests at an arbitrary game subtree and cause unrelated ModuleScripts to execute as tests. The built-in Studio connector independently enforces the same boundary immediately before loading test source.
 
 ### Runtime proof
 
