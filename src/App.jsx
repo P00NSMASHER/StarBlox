@@ -15,7 +15,8 @@ import {
   PawPrint
 } from 'lucide-react';
 import { gameModel } from './gameModel';
-import { scoreQuestAttempt } from './questRewardPolicy';\nimport { recordShadowLearningEvent } from './learningEventBridge';
+import { scoreQuestAttempt } from './questRewardPolicy';
+import { recordShadowLearningEvent } from './learningEventBridge';
 import {
   applyPermanentPurchase,
   applyQuestCompletion,
@@ -29,7 +30,9 @@ import {
   readIndexedDbBackup
 } from './storage';
 
-const LEARNING_FACTORY_SHADOW_ENABLED = import.meta.env.VITE_STARBLOX_LEARNING_FACTORY_SHADOW === '1';\n\nconst DEFAULT_SAVE = {
+const LEARNING_FACTORY_SHADOW_ENABLED = import.meta.env.VITE_STARBLOX_LEARNING_FACTORY_SHADOW === '1';
+
+const DEFAULT_SAVE = {
   stateVersion: 2,
   coins: 40,
   stars: 0,
@@ -315,6 +318,7 @@ export function App(){
       wasRetry,
       becomesMastered:becomesMasteredPreview
     });
+    const shadowEventTimestamp = Date.now();
 
     setSave(current => {
       const old = current.stats[currentQ.skill] || {
@@ -348,7 +352,7 @@ export function App(){
         becomesMastered
       });
 
-      const nextState = {
+      let nextState = {
         ...current,
         coins: current.coins + outcome.coins,
         stars: current.stars + outcome.stars,
@@ -365,6 +369,18 @@ export function App(){
           [currentQ.district]: (current.districtProgress[currentQ.district] || 0) + outcome.districtProgress
         } : current.districtProgress
       };
+
+      if(LEARNING_FACTORY_SHADOW_ENABLED){
+        nextState = recordShadowLearningEvent(nextState,{
+          question:currentQ,
+          choice,
+          timestamp:shadowEventTimestamp,
+          questSeed:Math.floor(shadowEventTimestamp / 86400000),
+          wasRetry,
+          hintUsed:wasRetry,
+          responseMs:0
+        }).state;
+      }
 
       if(ok && qIndex === quest.length - 1){
         return applyQuestCompletion(nextState,questReceiptRef.current).state;
