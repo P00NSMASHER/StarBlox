@@ -1,0 +1,78 @@
+name: Learning DKT Model Diagnostic
+
+on:
+  push:
+    branches:
+      - starblox-learning-factory-v1
+    paths:
+      - "scripts/runDktModelDevelopment.py"
+      - "docs/preproduction/learning-factory/dkt-model-development-benchmark.json"
+      - ".github/workflows/learning-dkt-model-diagnostic.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  benchmark-dkt:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+
+      - name: Install StarBlox dependencies
+        run: npm install --ignore-scripts --package-lock=false
+
+      - name: Generate fresh DKT development cohort
+        run: npm run generate:learning-promotion -- --out-dir=.dkt-development --learners=48 --max-step=30 --seed=20270717
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install pinned upstream PSI-KT package
+        run: |
+          python -m pip install --upgrade pip setuptools wheel
+          git clone https://github.com/mlcolab/psi-kt.git .vendor/psi-kt
+          git -C .vendor/psi-kt checkout ecada10cedb3237ba55f4277af0bdbd8d5d4a68e
+          python -m pip install -e .vendor/psi-kt
+          python -m pip install 'pandas==2.2.3'
+
+      - name: Train DKT and benchmark mastery-state signal
+        run: |
+          python scripts/runDktModelDevelopment.py             --psi-repo=.vendor/psi-kt             --data-dir=.dkt-development             --evaluation=.dkt-development/evaluation.json             --manifest=docs/preproduction/learning-factory/dkt-model-development-benchmark.json             --out=.dkt-development/dkt-model-benchmark.json
+
+      - name: Enforce model-development boundary
+        run: |
+          python - <<'PY'
+          import json
+          with open('.dkt-development/dkt-model-benchmark.json','r',encoding='utf-8') as f:
+              r=json.load(f)
+          if r.get('developmentOnly') is not True or r.get('tuneAgainstThisCohort') is not True:
+              raise SystemExit('DKT model-development governance broken')
+          if r.get('promotionBoundary',{}).get('liveSelectorAllowed') is not False:
+              raise SystemExit('DKT benchmark cannot enable live selection')
+          print(json.dumps({
+              'supportive':r['dkt']['supportive'],
+              'checks':r['dkt']['checks'],
+              'vsBkt':r['dkt']['vsBkt'],
+              'heldOutAutoregressive':r['dkt']['heldOutAutoregressive'],
+              'liveSelectorAllowed':False,
+          },indent=2,sort_keys=True))
+          PY
+
+      - name: Assert live Quest path remains isolated
+        run: npm run assert:learning-live-boundary
+
+      - name: Upload DKT benchmark evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: learning-dkt-model-diagnostic
+          path: .dkt-development
+          if-no-files-found: error
+          include-hidden-files: true
