@@ -603,6 +603,87 @@ describe('Step 2: AI development factory', () => {
     expect(serialized).toMatch(/artifactHash/);
   });
 
+  it('binds a verified run to the connected Studio connector protocol and tools', async () => {
+    const studio=createStudio();
+    studio.requiresAttestation=true;
+    studio.expectedConnectorVersion='starblox-studio-connector-v1';
+    studio.supportedTools=['read_all_scripts','search_tree'];
+    studio.describe=async () => ({
+      service:'starblox-studio-bridge',
+      instanceId:'studio-a',
+      peers:[{
+        instanceId:'studio-a',
+        role:'edit',
+        connectorVersion:'starblox-studio-connector-v1',
+        tools:['search_tree','read_all_scripts','get_logs']
+      }]
+    });
+
+    const run=await runDevelopmentFactory({
+      task:{id:'attested',request:'Make an attested change'},
+      studio,
+      agents:{
+        plan:async () => ({
+          summary:'Attested change',
+          tests:{required:true},
+          playtest:{required:false},
+          visual:{required:false}
+        }),
+        code:async () => ({
+          actions:[{
+            tool:'write_script',
+            args:{path:'ServerScriptService/Main',source:'return { attested = true }'}
+          }]
+        }),
+        review:async ({verification}) => ({
+          verdict:verification.ok ? 'pass' : 'fail',
+          findings:verification.errors
+        })
+      },
+      repositoryGate:{run:async () => ({ok:true})},
+      startedAt:'2026-09-24T13:30:30Z'
+    });
+
+    expect(run.status).toBe('verified');
+    expect(run.studioAttestation.required).toBe(true);
+    expect(run.studioAttestation.attested).toBe(true);
+    expect(run.studioAttestation.connectedConnectorVersion)
+      .toBe('starblox-studio-connector-v1');
+    expect(run.studioAttestation.missingTools).toEqual([]);
+    expect(verifyDevelopmentRun(run)).toEqual({ok:true,errors:[]});
+  });
+
+  it('rejects a stale Studio connector before inspection or mutation', async () => {
+    const studio=createStudio();
+    studio.requiresAttestation=true;
+    studio.expectedConnectorVersion='starblox-studio-connector-v1';
+    studio.supportedTools=['search_tree','read_all_scripts'];
+    studio.describe=async () => ({
+      service:'starblox-studio-bridge',
+      instanceId:'studio-a',
+      peers:[{
+        instanceId:'studio-a',
+        role:'edit',
+        connectorVersion:'starblox-studio-connector-v0',
+        tools:['search_tree','read_all_scripts']
+      }]
+    });
+
+    await expect(runDevelopmentFactory({
+      task:{id:'stale-connector',request:'Do not touch Studio with a stale connector'},
+      studio,
+      agents:{
+        plan:async () => { throw new Error('planner must not run'); },
+        code:async () => { throw new Error('coder must not run'); },
+        review:async () => { throw new Error('reviewer must not run'); }
+      },
+      repositoryGate:{run:async () => ({ok:true})},
+      startedAt:'2026-09-24T13:30:45Z'
+    })).rejects.toThrow(/protocol version mismatch/);
+
+    expect(studio.calls).toEqual([]);
+  });
+
   it('executes a bounded reviewer-driven repair cycle until evidence turns green', async () => {
     const studio=createStudio({initialTestFailures:1});
     let reviews=0;
