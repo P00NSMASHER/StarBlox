@@ -7,7 +7,7 @@
   "policy": "docs/preproduction/DELIVERY_PROTOCOL_V2.md",
   "visualSprint": "docs/preproduction/ART_VISUALS_SPRINT.json",
   "artFactoryPolicy": "docs/preproduction/art-factory/ART_FACTORY_V2.json",
-  "sourceHead": "24ab341fee",
+  "sourceHead": "a14d3c3fdbce127fb1e286c23329b51331fec877",
   "priorReviewShard": {
     "blobSha": "4173dbb9923157eb5a13090d526f88cfec162edd",
     "schemaVersion": 10,
@@ -240,11 +240,10 @@
   ],
   "currentCycle": {
     "scope": [
-      "decor-11",
-      "decor-12"
+      "wall-9"
     ],
-    "version": "current exact hashes: Decor11 v3 + Decor12 v3",
-    "result": "ACCEPT_1_REWORK_1",
+    "version": "current exact hash: wall-9",
+    "result": "REWORK_1_OF_1",
     "oldVerdictsTransferred": false,
     "actualCardScalePixelsReviewed": true,
     "actualDetailPixelsReviewed": true,
@@ -903,13 +902,51 @@
         "duplicateVisual": "PASS",
         "technicalIntegrity": "PASS"
       }
+    },
+    {
+      "itemId": "wall-9",
+      "name": "Art Gallery Wall",
+      "assetPath": "public/assets/catalog-candidates/cpu/wall-9-w13-v7-a-exactly-three-big-frames-original.png",
+      "repositoryPath": "public/assets/catalog-candidates/cpu/wall-9-w13-v7-a-exactly-three-big-frames-original.png",
+      "assetHash": "f1c423657b836aee822311b15a3229251174768d",
+      "sha256": "61fea8c6dcf99e3238067d45986a43104da5885c7b1cefe0c19159b9e3265f9c",
+      "contentSha256": "61fea8c6dcf99e3238067d45986a43104da5885c7b1cefe0c19159b9e3265f9c",
+      "hashAlgorithm": "git-blob-sha1",
+      "producer": "13",
+      "decision": "REWORK",
+      "learnerLabel": "REWORK",
+      "reviewedAt": "2026-09-24T16:40:00Z",
+      "evidenceRefs": [
+        "workflow:36028066247",
+        "artifact:10820821844/staged-replacements/staged-replacements-contact-sheet.png",
+        "artifact:10820821844/staged-replacements/detail/wall-9-f1c42365.png"
+      ],
+      "reasonCodes": [
+        "MANY_SMALL_FRAMES",
+        "ROOM_INSTALLATION_DOMINATES",
+        "LARGE_LEANING_PANELS",
+        "NOT_THREE_DOMINANT_ADVENTURE_ARTWORKS"
+      ],
+      "reason": "REWORK. V7 is still a room-scale gallery installation with many small generic frames plus large leaning/vertical architectural panels. It does not read as one compact Art Gallery Wall dominated by exactly three large Adventure Club artworks. Preserve this exact hash. The smallest next repair is a plain isolated backboard/rail with exactly three large horizontal/portrait framed travel-adventure images only, filling most of the product silhouette; no room walls, floor, leaning boards, extra mini-frames, furniture, or props.",
+      "checks": {
+        "identity": "FAIL",
+        "silhouette": "FAIL",
+        "cardReadability": "FAIL",
+        "physicalConstruction": "PARTIAL",
+        "framingComposition": "FAIL",
+        "materialLighting": "PARTIAL",
+        "themeTierSpecificity": "FAIL",
+        "originality": "PASS",
+        "duplicateVisual": "PASS",
+        "technicalIntegrity": "PASS"
+      }
     }
   ],
   "currentReplacementDisposition": {
     "wall": {
       "REWORK": {
         "wall-10": "74a4c531a3c60ccd60747bfebc2dfc0d1d25b684",
-        "wall-9": "b2ac1c401bd9b20adf9d8b95c90b8db3f0453faa"
+        "wall-9": "f1c423657b836aee822311b15a3229251174768d"
       },
       "ACCEPT": {
         "wall-11": "50ffc975030f6c7e28cf9836756bb312dfa646fb",
@@ -930,23 +967,21 @@
     }
   },
   "summary": {
-    "reviewedThisRun": 2,
-    "newAcceptsThisRun": 1,
+    "reviewedThisRun": 1,
+    "newAcceptsThisRun": 0,
     "newReworkThisRun": 1,
     "newBlockedThisRun": 0,
-    "newUsableBy08Now": [
-      "decor-12"
-    ],
+    "newUsableBy08Now": [],
     "reworkNow": [
-      "decor-11"
+      "wall-9"
     ],
-    "preservedAcceptedHashes": "All prior reviewer02 ACCEPTs remain frozen; Decor12 v3 is newly ACCEPTED and Decor11 v3 is REWORK."
+    "preservedAcceptedHashes": "All prior reviewer02 ACCEPTs remain frozen; this verdict applies only to wall-9 exact hash f1c423657b836aee822311b15a3229251174768d."
   },
   "handoff": {
     "13": "wall-9 current exact hash is REWORK; preserve it and generate only the failure-specific next version if director15 keeps it release-critical.",
     "14": "Current packets consumed; do not rerender unchanged hashes.",
-    "15": "Decor11 remains a bounded exact-pixel blocker; Decor12 leaves production scope.",
+    "15": "wall-9 remains a bounded exact-pixel REWORK blocker; prepare only the smallest failure-specific replacement.",
     "09": "Freeze Decor12 v3 ACCEPT. Decor11 v3 REWORK; keep the vanity/mirror design but isolate it with one clearly formed stool and no room/floor clutter if director15 prioritizes another attempt.",
-    "08": "Integrate exact Decor12 v3 hash after live revalidation; do not integrate Decor11 v3."
+    "08": "Do not canonical-wire wall-9 exact hash f1c423657b836aee822311b15a3229251174768d."
   }
 }
