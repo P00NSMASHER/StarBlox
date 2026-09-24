@@ -37,6 +37,19 @@ describe('content provenance runtime', () => {
     expect(validateContentBundle(a)).toEqual([]);
   });
 
+  it('accepts explicit snapshot hashes for snapshot-required sources', () => {
+    const bundle = buildContentBundle([{
+      ...makeQuestion('hfw-demo','high-frequency-words'),
+      id:'hfw-use-demo'
+    }],{
+      contentVersion:'test-v1',
+      sourceSnapshotHashes:{
+        'current-week-hfw-list':'sha256:test'
+      }
+    });
+    expect(validateContentBundle(bundle,{strictProvenance:true})).toEqual([]);
+  });
+
   it('keeps declared-source provenance debt visible instead of pretending it is fully snapshotted', () => {
     const bundle = buildContentBundle([makeQuestion('grammar-1','language')],{
       contentVersion:'test-v1'
