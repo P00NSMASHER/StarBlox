@@ -568,6 +568,62 @@ export const UPSTREAM_PROVENANCE = Object.freeze({
     'MIT',
     'plugin/src/tools/Executor.luau'
   ),
+  profileStoreRuntime: source(
+    'session-locked Roblox player persistence and reconciliation lifecycle',
+    'MadStudioRoblox/ProfileStore',
+    'main',
+    '45c9847cbcf1fc260369c50eb335aba7c35aecdd',
+    'Apache-2.0',
+    'ProfileStore.luau'
+  ),
+  profileStoreTutorial: source(
+    'production player join/load/reconcile/session-end lifecycle',
+    'MadStudioRoblox/ProfileStore',
+    'main',
+    '45c9847cbcf1fc260369c50eb335aba7c35aecdd',
+    'Apache-2.0',
+    'docs/tutorial/index.md'
+  ),
+  replicaServiceRuntime: source(
+    'selective server-owned replicated state and built-in mutators',
+    'MadStudioRoblox/ReplicaService',
+    'master',
+    'aaeb1c6bae232b428b07d15f260a0c97b3ef1569',
+    'Apache-2.0',
+    'src/ServerScriptService/ReplicaService.lua'
+  ),
+  replicaServiceApi: source(
+    'selective replication, class tokens and mutation guarantees',
+    'MadStudioRoblox/ReplicaService',
+    'master',
+    'aaeb1c6bae232b428b07d15f260a0c97b3ef1569',
+    'Apache-2.0',
+    'docs/api.md'
+  ),
+  zapEvents: source(
+    'typed reliable/unreliable Roblox network event contracts',
+    'red-blox/zap',
+    '0.6.x',
+    '8cd17ab78192217600eec6f688ed8f8aab18d707',
+    'MIT',
+    'docs/config/events.md'
+  ),
+  matterReplication: source(
+    'ECS changed-component replication pattern for Roblox',
+    'matter-ecs/matter',
+    'main',
+    'f31981ba5dbc481f637c08e9fa3765419d566501',
+    'MIT',
+    'docs/Guides/Replication.md'
+  ),
+  matterComponents: source(
+    'Matter component registry and world/loop composition pattern',
+    'matter-ecs/matter',
+    'main',
+    'f31981ba5dbc481f637c08e9fa3765419d566501',
+    'MIT',
+    'example/src/shared/components.luau'
+  ),
   rbxDomBinary: source(
     'Roblox binary place/model deserialization for rbxl/rbxm capability inventory',
     'rojo-rbx/rbx-dom',
