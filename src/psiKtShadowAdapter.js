@@ -34,7 +34,7 @@ export function buildPsiKtSequence(events,{includeNonMastery=false}={}){
   };
 }
 
-export function buildPsiKtInteractionTable(events,{includeNonMastery=false,timestampDivisor=1000}={}){
+export function buildPsiKtInteractionTable(events,{includeNonMastery=false,timestampDivisor=1}={}){
   const ordered = [...(events || [])]
     .filter(event => includeNonMastery || isPsiKtMasteryEvidence(event))
     .sort((a,b) => a.timestamp - b.timestamp || a.eventId.localeCompare(b.eventId));
@@ -42,7 +42,7 @@ export function buildPsiKtInteractionTable(events,{includeNonMastery=false,times
   const userMap = stableIdMap(ordered.map(event => event.playerLocalId || 'local'));
   const skillMap = stableIdMap(ordered.map(event => event.skill));
   const problemMap = stableIdMap(ordered.map(event => event.questionId));
-  const divisor = Math.max(1,Number(timestampDivisor) || 1000);
+  const divisor = Math.max(1,Number(timestampDivisor) || 1);
 
   return {
     adapterVersion:PSI_KT_SHADOW_ADAPTER_VERSION,
