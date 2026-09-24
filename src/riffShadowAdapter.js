@@ -21,7 +21,7 @@ export function buildRiffReviewCommands(events){
       commands.push({
         adapterVersion:RIFF_SHADOW_ADAPTER_VERSION,
         eventId:String(event.eventId),
-        cardId:String(conceptId),
+        cardId:String(event.playerLocalId || 'local') + ':' + String(conceptId),
         blockId:String(event.questionId),
         rating:learningEventToRiffRating(event),
         reviewedAt:Number(event.timestamp) || 0,
