@@ -56,6 +56,7 @@ These default outputs are gitignored so an operator does not accidentally commit
 Every Roblox instance is reduced to a stable catalog record containing:
 
 - source file / source ID;
+- exact source SHA-256 and byte length when ingested through the CLI;
 - normalized instance path;
 - class name and instance name;
 - property names;
@@ -123,27 +124,38 @@ This gives the next migration step a starting dependency graph rather than forci
 
 ## Reuse classes
 
-Each instance receives one of four initial recommendations.
+Catalog v2 uses exactly four migration-value classes. Security/provenance review is tracked separately so risk does not erase engineering value.
 
 ### direct
 
 World/model/UI structure with no obvious behavior migration requirement.
 
-These are candidates for direct import under the user's confirmed Roblox/Brookhaven rights.
+These are candidates for direct import under the user's confirmed Roblox/Brookhaven rights, subject to dependency/performance review.
+
+### refactor
+
+Scripts and remote contracts whose domain logic may be valuable, but which must be adapted to StarBlox's server-authoritative, tested architecture.
+
+A risky script remains `refactor`; its separate `review.required` flag forces manual review/quarantine downstream.
 
 ### asset-only
 
 Visual/audio asset-bearing instances whose useful value is independent of the original behavior implementation.
 
-### refactor
+### irrelevant
 
-Scripts and remote contracts whose domain logic may be valuable, but which should be adapted to StarBlox's server-authoritative, tested architecture.
+Instances with no recognized reusable StarBlox capability, asset, UI/world structure, script, or remote contract.
 
-### review
+Irrelevant systems are fail-closed in the migration planner: even an explicit include override cannot promote them into staging.
 
-Anything with unresolved security/provenance/runtime risk.
+## Review status
 
-Current automatic review flags include:
+Every instance also has independent review metadata:
+
+- `review.required`;
+- `review.reasons[]`.
+
+Current automatic review reasons include:
 
 - dynamic code/loadstring;
 - external HTTP;
@@ -151,7 +163,7 @@ Current automatic review flags include:
 - runtime environment/debug introspection;
 - obvious unbounded loops.
 
-A review flag does not declare the source unsafe or unusable. It means migration should inspect that dependency before shipping.
+A review flag does not declare the source unsafe or unusable. It means migration must inspect that dependency before shipping.
 
 ## System candidates
 
@@ -184,6 +196,8 @@ The score is a triage heuristic, not a claim of product quality.
 
 Catalog contents receive a deterministic project-standard hash.
 
+CLI ingestion also fingerprints every source file with SHA-256 plus byte length. The catalog therefore binds downstream migration work to exact input bytes rather than only a filename.
+
 Tests prove:
 
 - deterministic output regardless of source ordering;
@@ -192,8 +206,10 @@ Tests prove:
 - asset-ID extraction;
 - service/module/remote dependency discovery;
 - system grouping;
-- capability classification;
-- security-review flags.
+- the four-class reuse taxonomy;
+- fail-closed irrelevant classification;
+- independent security-review flags;
+- exact source-fingerprint retention.
 
 ## CI
 
