@@ -1,0 +1,80 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_TECHNICAL_QUALIFICATION_MICROBATCH",
+  "role": "06-single-technical-qualification-gate",
+  "branch": "screenshot-match-preproduction",
+  "observedHead": "f1996b6cd771c998f7330eb3abaf2c17bb825677",
+  "intakeEvidence": "docs/preproduction/art-factory/generated-evidence/w13-release-tail-3pack-v5/wall-8/staged-output.json",
+  "manifestVersion": 40,
+  "items": [
+    {
+      "item": {
+        "id": "wall-8",
+        "name": "Ocean Window",
+        "collectionId": "wall",
+        "type": "room",
+        "tier": 3,
+        "theme": "Candy Core"
+      },
+      "candidate": {
+        "producer": "13",
+        "reviewer": "11",
+        "renderOwner": "14",
+        "canonicalWriter": "08",
+        "path": "public/assets/catalog-candidates/cpu/wall-8-w13-v9-a-literal-ocean-window-original.png",
+        "sha256": "3ca38b0c0810d89a57e29c55688c76900e31f64191226c00b8f7f2b669e8e67f",
+        "gitBlobSha": "e9d7617107ebfa404e1add432f74c6f5e91efd40",
+        "dimensions": [
+          640,
+          640
+        ],
+        "bytes": 525125,
+        "format": "PNG",
+        "mode": "RGB"
+      },
+      "sourceGenerationRunId": 36043213538,
+      "provenance": {
+        "stagedOutput": "docs/preproduction/art-factory/generated-evidence/w13-release-tail-3pack-v5/wall-8/staged-output.json",
+        "generationReceipt": "docs/preproduction/art-factory/generated-evidence/w13-release-tail-3pack-v5/wall-8/generation-receipt.json",
+        "runtimeRepo": "huggingface/diffusers",
+        "runtimeCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+        "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+        "modelRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+        "dtype": "float32",
+        "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+      }
+    }
+  ],
+  "technicalChecks": {
+    "idPathBinding": "PASS",
+    "signatureDecode": "PASS_PNG",
+    "dimensions": "PASS_640X640",
+    "sourceLineage": "PASS",
+    "artFactoryV2Provenance": "PASS_PINNED_RUNTIME_MODEL_RIGHTS",
+    "stagedOutputReadback": "PASS_EXACT_LIVE_GIT_BLOB",
+    "staleSupersededCheck": "PASS_FRESH_V9",
+    "exactContentDuplicateCheck": "PASS_UNIQUE_LIVE_BLOB_NOT_CANONICAL",
+    "independentReviewerRouting": "PASS_REVIEWER_11"
+  },
+  "qualification": {
+    "status": "QUALIFIED_FOR_RENDERER14",
+    "qualifiedForRenderer14": true,
+    "qualifiedCount": 1,
+    "artQualityJudgment": "NOT_PERFORMED",
+    "blockingDefects": []
+  },
+  "routing": {
+    "current": "HANDOFF_TO_RENDERER14",
+    "reviewerByItem": {
+      "wall-8": "11"
+    },
+    "renderer14": "RENDER_EXACT_HASH_IN_REAL_STORE_CARD_DETAIL_CONTEXT",
+    "integration08": "ONLY_AFTER_MATCHING_INDEPENDENT_REVIEWER_ACCEPT"
+  },
+  "preservation": {
+    "candidateBytesMutated": false,
+    "canonicalMappingsChanged": false,
+    "gameplayLearningPersistenceEconomyChanged": false,
+    "deploymentTouched": false
+  }
+}
