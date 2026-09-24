@@ -528,6 +528,9 @@ export function buildRobloxCapabilityCatalog(sources){
     if(bytes !== null && (!Number.isInteger(bytes) || bytes < 0)){
       throw new TypeError('source bytes must be a non-negative integer.');
     }
+    if((sha256 === null) !== (bytes === null)){
+      throw new TypeError('source sha256 and bytes must either both be present or both be omitted.');
+    }
     return {
       sourceId:source.sourceId.trim(),
       file:source.file.trim(),
