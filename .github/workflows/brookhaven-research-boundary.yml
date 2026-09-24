@@ -1,0 +1,33 @@
+name: Brookhaven Research Boundary
+
+on:
+  push:
+    branches:
+      - brookhaven-research-snapshot-v1
+    paths:
+      - "docs/preproduction/brookhaven-research/**"
+      - "scripts/validateBrookhavenResearchArtifacts.mjs"
+      - "scripts/assertBrookhavenReuseBoundary.mjs"
+      - "src/**"
+      - ".github/workflows/brookhaven-research-boundary.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-research-boundary:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Validate Brookhaven research artifacts
+        run: node scripts/validateBrookhavenResearchArtifacts.mjs
+
+      - name: Assert Brookhaven runtime is not wired into live StarBlox
+        run: node scripts/assertBrookhavenReuseBoundary.mjs
