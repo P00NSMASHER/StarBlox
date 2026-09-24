@@ -12,7 +12,8 @@
     "simulate:learning-shadow": "node scripts/selectorV2ShadowSimulation.mjs",
     "interop:edgameclaw": "node scripts/adaptEdGameClawCourse.mjs",
     "interop:psikt": "node scripts/exportPsiKtDataset.mjs",
-    "interop:riff": "node scripts/exportRiffReviews.mjs"
+    "interop:riff": "node scripts/exportRiffReviews.mjs",
+    "test:learning-regression": "vitest run src/questionQualityRuntime.test.js src/semanticQuestionGuardRuntime.test.js src/diagnosticQuestionGuardRuntime.test.js src/grammarQuestionQa.test.js src/questLearningQa.test.js src/masteryShadowModel.test.js src/persistenceTransactions.test.js src/persistenceEconomyIntegration.test.js src/screenshotLearningIntegrity.test.js"
   },
   "dependencies": {
     "lucide-react": "^0.468.0",
