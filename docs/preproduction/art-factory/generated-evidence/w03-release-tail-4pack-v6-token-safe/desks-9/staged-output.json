@@ -1,0 +1,91 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_STAGED_OUTPUT",
+  "repository": "P00NSMASHER/StarBlox",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "d982ce01e10b987a362678a9bfd36676c7953541",
+  "sourcePlanSha256": "45151f524b412c1b7ddd6dd93ca06ba399d71822561d7f99f7dd257e99519531",
+  "item": {
+    "id": "desks-9",
+    "name": "Art Maker Table",
+    "collectionId": "desks",
+    "type": "room",
+    "tier": 3,
+    "theme": "Sunny Pop"
+  },
+  "attempt": {
+    "attemptId": "desks-9-w03-b-art-maker-worktable-9c6329bc81",
+    "producer": "03",
+    "variant": "B-ART-MAKER-WORKTABLE",
+    "promptBlocks": [
+      "metadata",
+      "category",
+      "silhouette",
+      "physical",
+      "material",
+      "theme",
+      "tier",
+      "card",
+      "original",
+      "stage",
+      "furniture",
+      "camera",
+      "depth",
+      "bloom",
+      "textile",
+      "wall",
+      "light"
+    ],
+    "promptSha256": "9c6329bc819ce72ce1994b8f5daa21744ce46bd8bc0d61ac391d92f99560839f",
+    "promptRecipeVersion": "artPromptOptimizer-request-v1:w03-release-tail-4pack-v6",
+    "seed": 653750971,
+    "runtime": {
+      "repo": "huggingface/diffusers",
+      "commit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c"
+    },
+    "model": {
+      "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+      "revision": "462165984030d82259a11f4367a4eed129e94a7b",
+      "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+    },
+    "conditioning": {
+      "referenceAssetSha256": null,
+      "controlImageSha256": null,
+      "adapterScale": null
+    }
+  },
+  "output": {
+    "repoPath": "public/assets/catalog-candidates/cpu/desks-9-w03-v6-b-art-maker-worktable-original.png",
+    "sha256": "ae432d3408bf705c246921f9e03867c7ffbdcc0159f1910533372d2427c695ab",
+    "gitBlobSha": "9f6855ee25445c8d147933eb38a2e536655739b4",
+    "bytes": 580431,
+    "format": "PNG",
+    "width": 640,
+    "height": 640,
+    "mode": "RGB"
+  },
+  "derivativeLineage": {
+    "derivativeOfSha256": null,
+    "sourcePreserved": true
+  },
+  "renderEvidence": [],
+  "review": {
+    "reviewer": "05",
+    "routing": {
+      "reviewer": "05",
+      "routingFile": "docs/preproduction/art-factory/runtime-queue/w03-release-tail-4pack-v6-token-safe.json",
+      "routingFileSha256": "5cc8eae2f4a1a3be225acc75bd207297b3e590b72cf58a650f3e68c4315fa560",
+      "queueId": "w03-release-tail-4pack-v6-token-safe"
+    },
+    "state": "PENDING_ACTUAL_PIXEL_REVIEW",
+    "decision": null
+  },
+  "safety": {
+    "canonicalArtModified": false,
+    "gameplayModified": false,
+    "automaticPerceptualDecision": false,
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+  },
+  "status": "STAGED_EXACT_BYTES_VERIFIED",
+  "recordSha256": "0e10db847d46dbf64ead91259add54735e9872f2a171afc0cb0293ab1a84836f"
+}

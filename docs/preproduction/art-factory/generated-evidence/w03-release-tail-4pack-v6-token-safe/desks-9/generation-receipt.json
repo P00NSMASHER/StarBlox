@@ -1,0 +1,112 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_GENERATION_RECEIPT",
+  "repository": "P00NSMASHER/StarBlox",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "d982ce01e10b987a362678a9bfd36676c7953541",
+  "sourcePlanSha256": "45151f524b412c1b7ddd6dd93ca06ba399d71822561d7f99f7dd257e99519531",
+  "executionCheckout": {
+    "branch": "screenshot-match-preproduction",
+    "head": "d982ce01e10b987a362678a9bfd36676c7953541",
+    "planSourceHeadMatchesExecutionHead": true
+  },
+  "attempt": {
+    "attemptId": "desks-9-w03-b-art-maker-worktable-9c6329bc81",
+    "itemId": "desks-9",
+    "producer": "03",
+    "variant": "B-ART-MAKER-WORKTABLE",
+    "promptSha256": "9c6329bc819ce72ce1994b8f5daa21744ce46bd8bc0d61ac391d92f99560839f",
+    "runtimePromptSha256": "f85bece0281406727d6042a18e81c9c2e5e18b5a4b89038cb9b1b60032952d51",
+    "runtimeNegativePromptSha256": "116c4b163d0dbe7ccde621fa4b6cf8d85443e88ed7a8f1ded7c6b1385555344b",
+    "promptRecipeVersion": "artPromptOptimizer-request-v1:w03-release-tail-4pack-v6",
+    "seed": 653750971
+  },
+  "runtime": {
+    "repo": "huggingface/diffusers",
+    "commit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "resolvedCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "runtimeCommitVerified": true,
+    "diffusersVersion": "0.41.0.dev0",
+    "diffusersInstallSource": "https://github.com/huggingface/diffusers.git",
+    "torchVersion": "2.8.0+cpu",
+    "transformersVersion": "5.17.0",
+    "accelerateVersion": "1.15.0",
+    "huggingfaceHubVersion": "1.33.0",
+    "safetensorsVersion": "0.8.0",
+    "pythonPillowVersion": "12.3.0",
+    "device": "cpu",
+    "dtype": "float32",
+    "executionMode": "cpu-fallback"
+  },
+  "model": {
+    "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+    "revision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS",
+    "resolvedRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "snapshotRevisionVerified": true,
+    "selectiveSnapshot": true,
+    "snapshotAllowPatterns": [
+      "model_index.json",
+      "scheduler/*",
+      "tokenizer/*",
+      "tokenizer_2/*",
+      "feature_extractor/*",
+      "text_encoder/config.json",
+      "text_encoder/model.fp16.safetensors",
+      "text_encoder_2/config.json",
+      "text_encoder_2/model.fp16.safetensors",
+      "unet/config.json",
+      "unet/diffusion_pytorch_model.fp16.safetensors",
+      "vae/config.json",
+      "vae/diffusion_pytorch_model.fp16.safetensors"
+    ]
+  },
+  "conditioning": {
+    "referenceAssetSha256": null,
+    "controlImageSha256": null,
+    "adapterScale": null,
+    "referenceImage": null,
+    "ipAdapterModelId": null,
+    "ipAdapterRevision": null,
+    "ipAdapterResolvedRevision": null,
+    "ipAdapterRevisionVerified": false,
+    "ipAdapterWeightName": null,
+    "ipAdapterSubfolder": null
+  },
+  "generation": {
+    "width": 640,
+    "height": 640,
+    "numInferenceSteps": 10,
+    "guidanceScale": 4.5,
+    "runtimePromptTokenCounts": {
+      "tokenizer": 62,
+      "tokenizer_2": 62
+    },
+    "runtimeNegativePromptTokenCounts": {
+      "tokenizer": 31,
+      "tokenizer_2": 31
+    },
+    "executedSeed": 653750971
+  },
+  "output": {
+    "repoPath": "public/assets/catalog-candidates/cpu/desks-9-w03-v6-b-art-maker-worktable-original.png",
+    "sha256": "ae432d3408bf705c246921f9e03867c7ffbdcc0159f1910533372d2427c695ab",
+    "gitBlobSha": "9f6855ee25445c8d147933eb38a2e536655739b4",
+    "bytes": 580431,
+    "width": 640,
+    "height": 640,
+    "format": "PNG",
+    "sourceBytesPreserved": true,
+    "reusedExistingIdenticalBytes": false
+  },
+  "safety": {
+    "canonicalArtModified": false,
+    "gameplayModified": false,
+    "reviewDecisionMade": false,
+    "deploymentPerformed": false,
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+  },
+  "nextGate": "RUN_VERIFY_STAGED_OUTPUT_THEN_REAL_RENDER_AND_INDEPENDENT_EXACT_HASH_REVIEW",
+  "status": "GENERATED_SOURCE_BYTES_UNVERIFIED",
+  "recordSha256": "30c3785d46a3fc0d6719ab27c15cbdf89955dfb29ea521cc342b0850eb11f4cf"
+}
