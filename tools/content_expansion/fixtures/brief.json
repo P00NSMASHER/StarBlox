@@ -1,0 +1,16 @@
+{
+  "districtId": "fixture-district",
+  "districtName": "Fixture District",
+  "subject": "Math",
+  "skills": [
+    "fractions"
+  ],
+  "targetCapabilities": [
+    "housing"
+  ],
+  "request": "Build a fixture learning district from authorized staged Roblox systems.",
+  "stageCount": 2,
+  "optionalCount": 1,
+  "questionsPerChunk": 4,
+  "seed": 42
+}

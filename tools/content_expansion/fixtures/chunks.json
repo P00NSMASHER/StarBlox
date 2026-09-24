@@ -1,0 +1,14 @@
+[
+  {
+    "id": "fixture-fractions",
+    "text": "A fraction represents part of a whole. The numerator counts selected equal parts. The denominator counts equal parts in the whole.",
+    "header": "Fixture Fractions",
+    "source": "fixture-authorized-source",
+    "subject": "Math",
+    "district": "Fixture District",
+    "skill": "fractions",
+    "conceptIds": [
+      "fractions"
+    ]
+  }
+]
