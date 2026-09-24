@@ -48,6 +48,14 @@ function boundedInt(value,def,min,max){
   return Math.min(max,Math.max(min,Math.floor(n)));
 }
 
+function nonNegativeInt(value,label){
+  const n=Number(value);
+  if(!Number.isInteger(n) || n < 0){
+    throw new TypeError(label + ' must be a non-negative integer.');
+  }
+  return n;
+}
+
 function boundedNumber(value,def,min,max){
   const n=Number(value);
   if(!Number.isFinite(n)) return def;
@@ -117,7 +125,8 @@ export function createAiNpcState(){
   return deepFreeze({
     schemaVersion:AI_NPC_SCHEMA_VERSION,
     memories:{},
-    processedRequestIds:[]
+    processedRequestIds:[],
+    lastRequestSequence:-1
   });
 }
 
@@ -154,11 +163,15 @@ export function buildAiNpcModelRequest({
   npcId,
   state=createAiNpcState(),
   requestId,
+  requestSequence,
   message,
   gameContext={}
 }){
   const def=npcDef(catalog,npcId);
   const rid=id(requestId,'requestId');
+  const sequence=nonNegativeInt(requestSequence,'requestSequence');
+  const highWater=Number.isInteger(state.lastRequestSequence) ? state.lastRequestSequence : -1;
+  if(sequence <= highWater) throw new Error('stale or duplicate AI NPC request sequence.');
   if(state.processedRequestIds?.includes(rid)) throw new Error('duplicate AI NPC requestId.');
   const input=cleanMessage(message,def.maxInputChars,'message');
   const memory=Array.isArray(state.memories?.[npcId]) ? state.memories[npcId].slice(-def.memoryLimit) : [];
@@ -166,6 +179,7 @@ export function buildAiNpcModelRequest({
     version:AI_NPC_VERSION,
     npcId:def.npcId,
     requestId:rid,
+    requestSequence:sequence,
     system:def.systemPrompt,
     input,
     memory:clone(memory),
@@ -263,25 +277,34 @@ export function validateAiNpcModelResponse(catalog,npcId,response,{allowTools=tr
       };
 }
 
-export function applyAiNpcMemoryFacts(state,catalog,npcId,{requestId,facts=[]}){
+export function applyAiNpcMemoryFacts(state,catalog,npcId,{requestId,requestSequence,facts=[]}){
   const def=npcDef(catalog,npcId);
   const rid=id(requestId,'requestId');
+  const sequence=nonNegativeInt(requestSequence,'requestSequence');
   const next=clone(state ?? createAiNpcState());
   next.memories ||= {};
   next.processedRequestIds ||= [];
+  const highWater=Number.isInteger(next.lastRequestSequence) ? next.lastRequestSequence : -1;
 
-  if(next.processedRequestIds.includes(rid)){
-    return deepFreeze({duplicate:true,state:next,memories:clone(next.memories[npcId] || [])});
+  if(sequence <= highWater || next.processedRequestIds.includes(rid)){
+    return deepFreeze({
+      duplicate:true,
+      stale:sequence <= highWater,
+      state:next,
+      memories:clone(next.memories[npcId] || [])
+    });
   }
 
   const current=Array.isArray(next.memories[npcId]) ? next.memories[npcId] : [];
   const accepted=facts.map(safeMemoryFact).filter(Boolean);
   next.memories[npcId]=[...new Set([...current,...accepted])].slice(-def.memoryLimit);
+  next.lastRequestSequence=sequence;
   next.processedRequestIds.push(rid);
   next.processedRequestIds=next.processedRequestIds.slice(-200);
 
   return deepFreeze({
     duplicate:false,
+    stale:false,
     state:next,
     memories:clone(next.memories[npcId])
   });
