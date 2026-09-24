@@ -45,11 +45,12 @@
     "modelRevision": "462165984030d82259a11f4367a4eed129e94a7b",
     "rightsBasis": "USER_ATTESTED_FULL_RIGHTS",
     "generation": {
-      "width": 768,
-      "height": 768,
+      "width": 640,
+      "height": 640,
       "steps": 8,
       "guidanceScale": 3.5,
-      "dtype": "bfloat16"
+      "dtype": "bfloat16",
+      "optimizationNote": "Time-to-release optimization: 640x640 is sufficient for the real Store card/detail review path demonstrated by current accepted room/wall art; steps, guidance, pinned runtime/model revision, prompts, seeds, and all provenance gates remain unchanged."
     }
   },
   "variants": [
