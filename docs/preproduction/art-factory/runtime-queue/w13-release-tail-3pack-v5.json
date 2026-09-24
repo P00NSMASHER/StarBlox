@@ -43,6 +43,7 @@
     "canonicalWriter": "08"
   },
   "dispatchPolicy": "PREPARED_LITERAL_RETRY__WAIT_LIVE_CPU_IDLE",
-  "retryRevision": 1,
-  "retryReason": "requeue on fixed runtime prompt clause compiler head; same exact items, variants, reviewers, versions and generation settings"
+  "retryRevision": 2,
+  "retryReason": "queue behind corrected Decor run on whole-clause runtime prompt compiler",
+  "compilerFixHead": "631712b6a5"
 }
