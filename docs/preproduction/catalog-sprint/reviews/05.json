@@ -4,7 +4,7 @@
   "role": "independent catalog reviewer for beds/desks/companions/auras",
   "phase": "ART_VISUALS_SPRINT",
   "branch": "screenshot-match-preproduction",
-  "sourceHead": "c6ff4fc73c",
+  "sourceHead": "d0b6cd8191e1ec0ade0640452e1d59edf647092d",
   "policy": "docs/preproduction/DELIVERY_PROTOCOL_V2.md",
   "visualSprint": "docs/preproduction/ART_VISUALS_SPRINT.json",
   "referenceManifest": "docs/preproduction/reference-screenshots/original-reference-manifest.json",
@@ -23,7 +23,7 @@
       "desks-10",
       "desks-9"
     ],
-    "version": "current six-pack exact hashes",
+    "version": "current literal exact hashes",
     "result": "REWORK_2_OF_2",
     "oldVerdictsTransferred": false,
     "actualCardScalePixelsReviewed": true,
@@ -508,6 +508,80 @@
         "duplicateVisual": "PASS",
         "technicalIntegrity": "PASS"
       }
+    },
+    {
+      "itemId": "desks-10",
+      "name": "Neon Streaming Desk",
+      "assetPath": "public/assets/catalog-candidates/cpu/desks-10-w03-v8-a-literal-streaming-desk-original.png",
+      "repositoryPath": "public/assets/catalog-candidates/cpu/desks-10-w03-v8-a-literal-streaming-desk-original.png",
+      "assetHash": "d43408f2e7c6292a4ebac2048b0ca43e56247cdd",
+      "sha256": "1dcf7424a8970bee0604ceea1afe5aec2b73ecf3d453e3f9e18d359f219138fe",
+      "contentSha256": "1dcf7424a8970bee0604ceea1afe5aec2b73ecf3d453e3f9e18d359f219138fe",
+      "hashAlgorithm": "git-blob-sha1",
+      "producer": "03",
+      "decision": "REWORK",
+      "learnerLabel": "REWORK",
+      "reviewedAt": "2026-09-24T18:28:00Z",
+      "evidenceRefs": [
+        "workflow:36041110855",
+        "artifact:10825809222/staged-replacements/staged-replacements-contact-sheet.png",
+        "artifact:10825809222/staged-replacements/detail/desks-10-d43408f2.png"
+      ],
+      "reasonCodes": [
+        "MICROPHONE_IDENTITY_MISSING",
+        "MALFORMED_SUPPORT_CABLE_GEOMETRY",
+        "GRID_ROOM_BACKGROUND",
+        "STREAMING_WORKSTATION_INCOMPLETE"
+      ],
+      "reason": "REWORK. V8 finally reads as one desk with one monitor, but it still does not clearly read as the specified streaming workstation: there is no unmistakable microphone/boom arm, the lower support/cable geometry is malformed, and the full grid wall background weakens the isolated product presentation. Preserve this hash. Next attempt should keep the successful single-desk/monitor layout, add one obvious boom microphone with capsule and articulated arm clamped to the desk edge, simplify the supports, remove hanging cables, and use a blank studio background.",
+      "checks": {
+        "identity": "FAIL",
+        "silhouette": "PARTIAL",
+        "cardReadability": "FAIL",
+        "physicalConstruction": "FAIL",
+        "framingComposition": "FAIL",
+        "materialLighting": "PARTIAL",
+        "originality": "PASS",
+        "duplicateVisual": "PASS",
+        "technicalIntegrity": "PASS"
+      }
+    },
+    {
+      "itemId": "desks-9",
+      "name": "Art Maker Table",
+      "assetPath": "public/assets/catalog-candidates/cpu/desks-9-w03-v5-a-literal-art-maker-table-original.png",
+      "repositoryPath": "public/assets/catalog-candidates/cpu/desks-9-w03-v5-a-literal-art-maker-table-original.png",
+      "assetHash": "79d5f4e0520910fea1a6ac47c76df451b14ce6f2",
+      "sha256": "91b9bb0fdac6d804bf48964e3c239824b101b8602f4dfd90481977e746532ee0",
+      "contentSha256": "91b9bb0fdac6d804bf48964e3c239824b101b8602f4dfd90481977e746532ee0",
+      "hashAlgorithm": "git-blob-sha1",
+      "producer": "03",
+      "decision": "REWORK",
+      "learnerLabel": "REWORK",
+      "reviewedAt": "2026-09-24T18:28:00Z",
+      "evidenceRefs": [
+        "workflow:36041110855",
+        "artifact:10825809222/staged-replacements/staged-replacements-contact-sheet.png",
+        "artifact:10825809222/staged-replacements/detail/desks-9-79d5f4e0.png"
+      ],
+      "reasonCodes": [
+        "GENERIC_SCHOOL_DESK_IDENTITY",
+        "TOOL_RAIL_MISSING",
+        "ART_SUPPLIES_MISSING",
+        "HANGING_PROP_DISTRACTION"
+      ],
+      "reason": "REWORK. V5 has a clean single-table silhouette, but it reads as a generic school/writing desk rather than an Art Maker Table. The raised peg/tool rail and bounded art tools are absent, while an unrelated hanging bag/object appears on the left leg. Preserve this hash. Next attempt should keep this simple four-leg table silhouette, remove the hanging object, add a clearly visible low peg/tool rail across the back, and place only three recognizable art supplies on the worktop: brush cup, scissors and colored paper.",
+      "checks": {
+        "identity": "FAIL",
+        "silhouette": "PARTIAL",
+        "cardReadability": "FAIL",
+        "physicalConstruction": "FAIL",
+        "framingComposition": "FAIL",
+        "materialLighting": "PARTIAL",
+        "originality": "PASS",
+        "duplicateVisual": "PASS",
+        "technicalIntegrity": "PASS"
+      }
     }
   ],
   "preservedAcceptedCurrentHashes": [
@@ -640,8 +714,8 @@
   "pendingCurrentHashes": [],
   "handoff": {
     "14": "Desk9/10 v3 render packets consumed; do not rerender unchanged hashes.",
-    "15": "desks-10, desks-9 remain bounded exact-pixel release blockers; use only the failure-specific next prompts.",
-    "03": "desks-9 current exact hash is REWORK; preserve it and generate only the failure-specific next version if director15 keeps it release-critical.",
+    "15": "desks-10, desks-9 remain bounded exact-pixel blockers; use only the new narrow failure-specific repairs.",
+    "03": "desks-10, desks-9 current literal hashes are REWORK; preserve them and prepare the next narrow retry while other producers continue.",
     "08": "Do not canonical-wire desks-10, desks-9 current exact hashes."
   },
   "summary": {
@@ -664,7 +738,7 @@
       "desks-10",
       "desks-9"
     ],
-    "preservedAcceptedHashes": "All prior reviewer ACCEPTs remain frozen; these REWORK verdicts apply only to the current exact six-pack hashes assigned to this reviewer."
+    "preservedAcceptedHashes": "All prior ACCEPTs remain frozen; these verdicts apply only to the exact hashes rendered in workflow 36041110855."
   },
   "freeze": {
     "selfApproved": false,
@@ -679,8 +753,8 @@
   "currentReplacementDisposition": {
     "desks": {
       "REWORK": {
-        "desks-10": "4af5225c536dff0a25c12f0f5e4066c39ad33322",
-        "desks-9": "b9a6d922e38d03c08298577a0f46c71dfb28bd66"
+        "desks-10": "d43408f2e7c6292a4ebac2048b0ca43e56247cdd",
+        "desks-9": "79d5f4e0520910fea1a6ac47c76df451b14ce6f2"
       }
     }
   }
