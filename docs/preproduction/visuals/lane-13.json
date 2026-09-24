@@ -1034,28 +1034,28 @@
     ]
   },
   "catalogFactoryReviewHandoff": {
-    "updatedAt": "2026-09-24T18:49:00Z",
-    "sourceHead": "c6fbdbbf717e52b347514ac7cba84064c79dbc5e",
-    "purpose": "Render Decor11 v6 exact candidate in real Store card/detail context for independent reviewer02.",
+    "updatedAt": "2026-09-24T18:57:00Z",
+    "sourceHead": "5c9110781a846671703b883df5df26c0b5f8a5b2",
+    "purpose": "Render Wall8 v9 exact ocean-window candidate in real Store card/detail context for reviewer11.",
     "candidates": [
       {
-        "itemId": "decor-11",
-        "name": "Dream Vanity Set",
-        "producer": "09",
-        "reviewer": "02",
-        "path": "public/assets/catalog-candidates/cpu/decor-11-w09-v6-b-literal-vanity-mirror-stool-original.png",
-        "sha256": "2ebcd1c5e2c858a7203e54791ef02ddfe32e1fd49b1b06d1ad0ec639b8dffeda",
-        "gitBlobSha": "61def289ba05f48b56c29d3eaa2d38a4a4b0899a",
-        "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-decor11-v6-qualification-20260924.json",
+        "itemId": "wall-8",
+        "name": "Ocean Window",
+        "producer": "13",
+        "reviewer": "11",
+        "path": "public/assets/catalog-candidates/cpu/wall-8-w13-v9-a-literal-ocean-window-original.png",
+        "sha256": "3ca38b0c0810d89a57e29c55688c76900e31f64191226c00b8f7f2b669e8e67f",
+        "gitBlobSha": "e9d7617107ebfa404e1add432f74c6f5e91efd40",
+        "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-wall8-v9-qualification-20260924.json",
         "qualification": "QUALIFIED_FOR_RENDERER14",
-        "route": "14 -> 02 -> 08 on ACCEPT"
+        "route": "14 -> 11 -> 08 on ACCEPT"
       }
     ],
     "packetPlan": [
       {
-        "qualification": "docs/preproduction/art-factory/requests/w06-decor11-v6-qualification-20260924.json",
+        "qualification": "docs/preproduction/art-factory/requests/w06-wall8-v9-qualification-20260924.json",
         "items": [
-          "decor-11"
+          "wall-8"
         ]
       }
     ],
@@ -1068,5 +1068,5 @@
       "deploymentTouched": false
     }
   },
-  "nextGate": "Renderer14 binds Decor11 v6 Store card/detail pixels; reviewer02 independently ACCEPT/REWORK exact hash; 08 integrates only exact ACCEPT."
+  "nextGate": "Renderer14 binds Wall8 v9 Store card/detail pixels; reviewer11 independently ACCEPT/REWORK exact hash; 08 integrates only exact ACCEPT."
 }
