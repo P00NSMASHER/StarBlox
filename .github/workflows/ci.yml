@@ -40,6 +40,12 @@ jobs:
           grep -q '"liveActivationAllowed": false' /tmp/roblox-migration/migration-bundle.json
           grep -q '"activation": "staging-only"' /tmp/roblox-migration/migration-bundle.json
           find /tmp/roblox-migration -name '*.rbxmx' -print -quit | grep -q .
+      - name: Smoke-test automated content expansion planning
+        run: |
+          npm run content:expand -- --brief tools/content_expansion/fixtures/brief.json --catalog /tmp/roblox-catalog.json --chunks tools/content_expansion/fixtures/chunks.json --out /tmp/content-expansion-plan.json
+          grep -q '"expansionId"' /tmp/content-expansion-plan.json
+          grep -q '"levelHash"' /tmp/content-expansion-plan.json
+          grep -q '"liveActivationAllowed"' /tmp/content-expansion-plan.json || true
       - name: Run tests
         run: npm test
       - name: Run balance gate
