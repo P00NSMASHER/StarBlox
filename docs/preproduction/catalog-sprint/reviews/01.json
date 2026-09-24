@@ -1,11 +1,11 @@
 {
   "schemaVersion": 14,
-  "previousRevisionBlobSha": "27a91b49507fc666c60f7e63422fd8fde3cfe005",
+  "previousRevisionBlobSha": "893d8c8a2a984218094138a90731deb4aae21b21",
   "reviewer": "01",
   "role": "Visual Target Director / independent catalog reviewer",
   "phase": "ART_AND_VISUALS_ONLY",
   "branch": "screenshot-match-preproduction",
-  "sourceHead": "c94b668e529c47eefc082d15463114cb7d96b04b",
+  "sourceHead": "323335762a43e87a2aea52bc8fe0fbbf1f18cffb",
   "assignedCollections": [
     "tops",
     "bottoms",
@@ -34,10 +34,11 @@
   },
   "currentCycle": {
     "scope": [
+      "decor-5",
       "decor-7"
     ],
-    "version": "w09-v3 A-RACK-SILHOUETTE exact repository hash",
-    "result": "REWORK_1_OF_1",
+    "version": "w09 Decor5 v3 + Decor7 v4 exact repository hashes",
+    "result": "ACCEPT_1_REWORK_1_OF_2",
     "oldVerdictsTransferred": false,
     "actualCardScalePixelsReviewed": true,
     "actualDetailPixelsReviewed": true,
@@ -253,6 +254,74 @@
         "originality": "PASS",
         "duplicateVisual": "PASS"
       }
+    },
+    {
+      "itemId": "decor-5",
+      "name": "Plant Wall",
+      "tier": 2,
+      "theme": "Pixel Party",
+      "assetPath": "/assets/catalog-candidates/cpu/decor-5-w09-v3-a-physical-original.png",
+      "repositoryPath": "public/assets/catalog-candidates/cpu/decor-5-w09-v3-a-physical-original.png",
+      "assetHash": "1e7716f00e8e38f7ad645a448f9e29adea38de37",
+      "sha256": "a30031043e9d9e3de1a34260a470df6bb37f5e602d692115b7c27ad16915d888",
+      "hashAlgorithm": "git-blob-sha1",
+      "producer": "09",
+      "decision": "ACCEPT",
+      "reviewedAt": "2026-09-24T09:35:00Z",
+      "evidenceRefs": [
+        "artifact:10798692858/staged-replacements/staged-replacements-contact-sheet.png",
+        "artifact:10798692858/staged-replacements/detail/decor-5-1e7716f0.png",
+        "review-packet:docs/preproduction/art-factory/review-requests/w01-decor5-v3-1e7716f0-20260924.json"
+      ],
+      "reason": "ACCEPT. The exact pixels read immediately as a wall-mounted living Plant Wall: multiple integrated planter boxes and foliage sit within a substantial dimensional pixel-grid wall system. Pixel Party identity is unmistakable without reducing the product to a flat icon, container/foliage separation is clear, the square wall silhouette survives Store-card scale, and the construction is distinct from the existing Decor set.",
+      "checks": {
+        "identity": "PASS",
+        "themeTier": "PASS",
+        "silhouette": "PASS",
+        "materialLighting": "PASS",
+        "cardReadability": "PASS",
+        "physicalConstruction": "PASS",
+        "framingCrop": "PASS",
+        "originality": "PASS",
+        "duplicateVisual": "PASS"
+      }
+    },
+    {
+      "itemId": "decor-7",
+      "name": "Skate Rack",
+      "tier": 3,
+      "theme": "Garden Glow",
+      "assetPath": "/assets/catalog-candidates/cpu/decor-7-w09-v4-a-rack-first-minimal-original.png",
+      "repositoryPath": "public/assets/catalog-candidates/cpu/decor-7-w09-v4-a-rack-first-minimal-original.png",
+      "assetHash": "4e78412e291ccbc553948f536bd1e958ab1ebf53",
+      "sha256": "6d379a59330d7f22f9f7028aad9f5f5327e624798fd1519b39d137034805aa4e",
+      "hashAlgorithm": "git-blob-sha1",
+      "producer": "09",
+      "decision": "REWORK",
+      "reviewedAt": "2026-09-24T09:35:00Z",
+      "evidenceRefs": [
+        "artifact:10798692858/staged-replacements/staged-replacements-contact-sheet.png",
+        "artifact:10798692858/staged-replacements/detail/decor-7-4e78412e.png",
+        "review-packet:docs/preproduction/art-factory/review-requests/w01-decor7-v4-4e78412e-20260924.json"
+      ],
+      "reasonCodes": [
+        "MULTIPLE_RACKS_INSTEAD_OF_ONE_PRODUCT",
+        "MALFORMED_SKATE_FORMS",
+        "LOOSE_UNCONTAINED_SKATES",
+        "SMALL_CARD_READABILITY"
+      ],
+      "reason": "REWORK. V4 still does not resolve to one coherent Skate Rack product: the render presents three repeated rack-like frames plus multiple loose/malformed skate forms, including board-like protrusions and detached floor skates. Garden Glow material cues are acceptable, but the product identity fragments into a display lineup and collapses at card size. The smallest repair is one single compact rack with one stable support frame, clearly bounded bays, and one or two fully formed quad-skate pairs contained inside it—no repeated rack copies or loose floor skates.",
+      "checks": {
+        "identity": "FAIL",
+        "themeTier": "PASS",
+        "silhouette": "FAIL",
+        "materialLighting": "PASS",
+        "cardReadability": "FAIL",
+        "physicalConstruction": "FAIL",
+        "framingCrop": "PASS",
+        "originality": "PASS",
+        "duplicateVisual": "PASS"
+      }
     }
   ],
   "currentReplacementDisposition": {
@@ -296,7 +365,10 @@
     },
     "decor": {
       "REWORK": {
-        "decor-7": "407b95bbecc3a030d357de290047954e28904b63"
+        "decor-7": "4e78412e291ccbc553948f536bd1e958ab1ebf53"
+      },
+      "ACCEPT": {
+        "decor-5": "1e7716f00e8e38f7ad645a448f9e29adea38de37"
       }
     }
   },
@@ -305,21 +377,23 @@
   },
   "summary": {
     "uniqueCatalogIdsReviewedHistorically": 49,
-    "reviewedThisRun": 1,
-    "newAcceptsThisRun": 0,
+    "reviewedThisRun": 2,
+    "newAcceptsThisRun": 1,
     "newReworkThisRun": 1,
     "newBlockedThisRun": 0,
-    "newUsableBy08Now": [],
+    "newUsableBy08Now": [
+      "decor-5"
+    ],
     "reworkNow": [
       "decor-7"
     ],
-    "preservedAcceptedHashes": "All prior reviewer-01 ACCEPTs remain frozen; this REWORK applies only to Decor 7 exact hash 407b95bbecc3a030d357de290047954e28904b63."
+    "preservedAcceptedHashes": "All prior reviewer-01 ACCEPTs remain frozen. Decor5 v3 is a new exact-hash ACCEPT; Decor7 v4 is REWORK and prior Decor7 v2/v3 REWORK history remains preserved in reviews."
   },
   "handoff": {
     "14": "Decor 7 v3 render packet 10785177791 is consumed; do not rerender this unchanged hash.",
-    "15": "Decor 7 v3 remains REWORK. Queue one failure-specific replacement after the currently running CPU batch clears.",
-    "09": "Preserve Decor 7 v3 hash 407b95bbecc3a030d357de290047954e28904b63. Next candidate must simplify to one compact physically coherent roller-skate rack with clear bays and recognizable contained quad skates.",
-    "08": "Do not canonical-wire Decor 7 hash 407b95bbecc3a030d357de290047954e28904b63.",
+    "15": "Route Decor5 ACCEPT to 08; keep only Decor7 on failure-specific rework.",
+    "09": "Decor7 v4 exact hash 4e78412e291ccbc553948f536bd1e958ab1ebf53 is REWORK. Preserve it and repair to one single compact rack with contained recognizable quad skates.",
+    "08": "Canonical-wire only Decor5 exact hash 1e7716f00e8e38f7ad645a448f9e29adea38de37.",
     "next01Review": "Only a fresh explicitly assigned rendered exact hash."
   },
   "freeze": {
@@ -343,18 +417,15 @@
   ],
   "currentRenderEvidence": {
     "workflow": "StarBlox Staged Catalog Art QA",
-    "workflowRunId": 35941645479,
-    "artifactId": 10785177791,
+    "workflowRunId": 35977305007,
+    "artifactId": 10798692858,
     "artifactName": "catalog-staged-art-review",
-    "artifactDigest": "sha256:7c53829204f49722a270293eb7fde28da7518cdd16553019ab11ce54007a8fc5",
-    "workflowHead": "54645f3b5112e6c8d95e2a11b4e569619d6826c8",
-    "cardEvidence": "artifact:10785177791/staged-replacements/staged-replacements-contact-sheet.png",
+    "artifactDigest": "sha256:34fd5ecda08f3b820c668231703d731709ec2439fca2652a6e62718b6e47113e",
+    "workflowHead": "5f5004b19e3347bcc9420a0b66dcc0cf404613cb",
+    "cardEvidence": "artifact:10798692858/staged-replacements/staged-replacements-contact-sheet.png",
     "detailEvidence": {
-      "decor-7": "artifact:10785177791/staged-replacements/detail/decor-7-407b95bb.png"
-    },
-    "detailEvidenceSha256": {
-      "decor-7": "2252774d1a53db6fde74481c30d7e7caf14cd1e2e812760b2928eacab1594b74"
-    },
-    "technicalChecks": "Exact Git blob binding PASS, HTTP 200, PNG decode PASS, 768x768, screenshot=true, no render errors."
+      "decor-5": "artifact:10798692858/staged-replacements/detail/decor-5-1e7716f0.png",
+      "decor-7": "artifact:10798692858/staged-replacements/detail/decor-7-4e78412e.png"
+    }
   }
 }
