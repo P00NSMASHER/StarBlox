@@ -199,9 +199,7 @@ function scriptSourceFromProperties(properties){
 function extractPropertyReferences(value,propertyPath){
   const refs=[];
   if(typeof value === 'string'){
-    if(/^referent-\d+$/.test(value)){
-      refs.push({property:propertyPath,targetReferent:value});
-    }
+    if(value) refs.push({property:propertyPath,targetReferent:value});
     return refs;
   }
   if(Array.isArray(value)){
@@ -318,6 +316,15 @@ function flattenDom(source){
   }
 
   walk(source.dom,'',0,null);
+
+  const knownReferents=new Set(
+    records.map(record => record.referent).filter(Boolean)
+  );
+  for(const record of records){
+    record.propertyReferences=(record.propertyReferences || [])
+      .filter(ref => knownReferents.has(ref.targetReferent));
+  }
+
   return records;
 }
 
