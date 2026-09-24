@@ -4,7 +4,7 @@
   "role": "independent catalog reviewer for beds/desks/companions/auras",
   "phase": "ART_VISUALS_SPRINT",
   "branch": "screenshot-match-preproduction",
-  "sourceHead": "55ae8e54c2f171f95c431e9b5218712c13baeda6",
+  "sourceHead": "c6ff4fc73c",
   "policy": "docs/preproduction/DELIVERY_PROTOCOL_V2.md",
   "visualSprint": "docs/preproduction/ART_VISUALS_SPRINT.json",
   "referenceManifest": "docs/preproduction/reference-screenshots/original-reference-manifest.json",
@@ -20,10 +20,11 @@
   },
   "currentCycle": {
     "scope": [
-      "desks-10"
+      "desks-10",
+      "desks-9"
     ],
-    "version": "current exact hash: desks-10",
-    "result": "REWORK_1_OF_1",
+    "version": "current six-pack exact hashes",
+    "result": "REWORK_2_OF_2",
     "oldVerdictsTransferred": false,
     "actualCardScalePixelsReviewed": true,
     "actualDetailPixelsReviewed": true,
@@ -433,6 +434,80 @@
         "duplicateVisual": "PASS",
         "technicalIntegrity": "PASS"
       }
+    },
+    {
+      "itemId": "desks-10",
+      "name": "Neon Streaming Desk",
+      "assetPath": "public/assets/catalog-candidates/cpu/desks-10-w03-v7-a-one-streaming-desk-monitor-mic-original.png",
+      "repositoryPath": "public/assets/catalog-candidates/cpu/desks-10-w03-v7-a-one-streaming-desk-monitor-mic-original.png",
+      "assetHash": "4af5225c536dff0a25c12f0f5e4066c39ad33322",
+      "sha256": "aa074975c527d98985197bebe27dcb2c85072b2186e4a565083c6a9715223165",
+      "contentSha256": "aa074975c527d98985197bebe27dcb2c85072b2186e4a565083c6a9715223165",
+      "hashAlgorithm": "git-blob-sha1",
+      "producer": "03",
+      "decision": "REWORK",
+      "learnerLabel": "REWORK",
+      "reviewedAt": "2026-09-24T17:46:00Z",
+      "evidenceRefs": [
+        "workflow:36035222979",
+        "artifact:10824341301/staged-replacements/staged-replacements-contact-sheet.png",
+        "artifact:10824341301/staged-replacements/detail/desks-10-4af5225c.png"
+      ],
+      "reasonCodes": [
+        "MULTI_VARIANT_COLLAGE",
+        "NO_SINGLE_STREAMING_DESK",
+        "MONITOR_MIC_IDENTITY_FAILURE",
+        "CARD_SCALE_PRODUCT_FAILURE"
+      ],
+      "reason": "REWORK. V7 is a comparison sheet of several abstract desk/shelf variants rather than one Neon Streaming Desk. No single broad worktop/support structure dominates, and monitor/microphone identity is not readable. Preserve this exact hash. Next attempt must show exactly one freestanding desk in one camera view, with one broad horizontal worktop, two stable supports, one or two monitors and one obvious microphone/boom; plain background, no collage or repeated variants.",
+      "checks": {
+        "identity": "FAIL",
+        "silhouette": "FAIL",
+        "cardReadability": "FAIL",
+        "physicalConstruction": "FAIL",
+        "framingComposition": "FAIL",
+        "materialLighting": "PARTIAL",
+        "originality": "PASS",
+        "duplicateVisual": "PASS",
+        "technicalIntegrity": "PASS"
+      }
+    },
+    {
+      "itemId": "desks-9",
+      "name": "Art Maker Table",
+      "assetPath": "public/assets/catalog-candidates/cpu/desks-9-w03-v4-a-one-art-maker-table-original.png",
+      "repositoryPath": "public/assets/catalog-candidates/cpu/desks-9-w03-v4-a-one-art-maker-table-original.png",
+      "assetHash": "b9a6d922e38d03c08298577a0f46c71dfb28bd66",
+      "sha256": "0b8f58f4d9a9003777a4eac3f8df6c10f171918703bfa6b65a18745c4701c1eb",
+      "contentSha256": "0b8f58f4d9a9003777a4eac3f8df6c10f171918703bfa6b65a18745c4701c1eb",
+      "hashAlgorithm": "git-blob-sha1",
+      "producer": "03",
+      "decision": "REWORK",
+      "learnerLabel": "REWORK",
+      "reviewedAt": "2026-09-24T17:46:00Z",
+      "evidenceRefs": [
+        "workflow:36035222979",
+        "artifact:10824341301/staged-replacements/staged-replacements-contact-sheet.png",
+        "artifact:10824341301/staged-replacements/detail/desks-9-b9a6d922.png"
+      ],
+      "reasonCodes": [
+        "ART_TABLE_IDENTITY_FAILURE",
+        "MALFORMED_WORKTOP_CHAIR_GEOMETRY",
+        "NO_TOOL_RAIL",
+        "ROOM_BACKGROUND_DOMINATES"
+      ],
+      "reason": "REWORK. V4 still does not read as an Art Maker Table. The exact pixels show an ambiguous curved white table/chair form against a room/blind background, with no clear broad art worktop, stable supports, raised tool/peg rail or bounded art supplies. Preserve this exact hash. Next attempt must be one isolated maker table with a broad rectangular worktop, two stable supports, one raised peg/tool rail and a few clearly bounded art tools/containers on a plain background.",
+      "checks": {
+        "identity": "FAIL",
+        "silhouette": "FAIL",
+        "cardReadability": "FAIL",
+        "physicalConstruction": "FAIL",
+        "framingComposition": "FAIL",
+        "materialLighting": "PARTIAL",
+        "originality": "PASS",
+        "duplicateVisual": "PASS",
+        "technicalIntegrity": "PASS"
+      }
     }
   ],
   "preservedAcceptedCurrentHashes": [
@@ -565,9 +640,9 @@
   "pendingCurrentHashes": [],
   "handoff": {
     "14": "Desk9/10 v3 render packets consumed; do not rerender unchanged hashes.",
-    "15": "desks-10 remains a bounded exact-pixel REWORK blocker.",
-    "03": "desks-10 current exact hash is REWORK; preserve it and use the smallest failure-specific next prompt only if director15 keeps it release-critical.",
-    "08": "Do not canonical-wire desks-10 exact hash a576fa4d5450a492d3a29547e2551879dc64dd76."
+    "15": "desks-10, desks-9 remain bounded exact-pixel release blockers; use only the failure-specific next prompts.",
+    "03": "desks-9 current exact hash is REWORK; preserve it and generate only the failure-specific next version if director15 keeps it release-critical.",
+    "08": "Do not canonical-wire desks-10, desks-9 current exact hashes."
   },
   "summary": {
     "totalVersionsReviewed": 42,
@@ -580,15 +655,16 @@
       "rework": 1,
       "blocked": 0
     },
-    "reviewedThisRun": 1,
+    "reviewedThisRun": 2,
     "newAcceptsThisRun": 0,
-    "newReworkThisRun": 1,
+    "newReworkThisRun": 2,
     "newBlockedThisRun": 0,
     "newUsableBy08Now": [],
     "reworkNow": [
-      "desks-10"
+      "desks-10",
+      "desks-9"
     ],
-    "preservedAcceptedHashes": "All prior reviewer05 ACCEPTs remain frozen; this REWORK applies only to desks-10 exact hash a576fa4d5450a492d3a29547e2551879dc64dd76."
+    "preservedAcceptedHashes": "All prior reviewer ACCEPTs remain frozen; these REWORK verdicts apply only to the current exact six-pack hashes assigned to this reviewer."
   },
   "freeze": {
     "selfApproved": false,
@@ -603,7 +679,8 @@
   "currentReplacementDisposition": {
     "desks": {
       "REWORK": {
-        "desks-10": "a576fa4d5450a492d3a29547e2551879dc64dd76"
+        "desks-10": "4af5225c536dff0a25c12f0f5e4066c39ad33322",
+        "desks-9": "b9a6d922e38d03c08298577a0f46c71dfb28bd66"
       }
     }
   }
