@@ -1,5 +1,6 @@
 
 import { describe,expect,it } from 'vitest';
+import { stableHash } from '../domainSchemas.js';
 import {
   cohortPercent,
   createFeatureRolloutConfig,
@@ -168,11 +169,13 @@ describe('Step 18: deterministic rollout cohorts and kill switches', () => {
       ]
     })));
     config.killSwitches[1].id='emergency-off';
-    const base={...config};
-    delete base.configHash;
-    // Recompute the outer hash to prove semantic validation, not hash mismatch,
-    // catches the ambiguous operational rule.
-    config.configHash='fnv1a32:00000000';
+    config.configHash=stableHash({
+      schemaVersion:config.schemaVersion,
+      rolloutVersion:config.rolloutVersion,
+      globalKillSwitch:config.globalKillSwitch,
+      features:config.features,
+      killSwitches:config.killSwitches
+    });
 
     const validation=verifyFeatureRolloutConfig(config);
     expect(validation.ok).toBe(false);
