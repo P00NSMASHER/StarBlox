@@ -17,6 +17,7 @@ runtime:startStopMonitor()
 local BRIDGE_URL = plugin:GetSetting("StarBloxDevFactory.BridgeUrl") or "http://127.0.0.1:38473"
 local TOKEN = plugin:GetSetting("StarBloxDevFactory.Token") or ""
 local INSTANCE_ID = plugin:GetSetting("StarBloxDevFactory.InstanceId") or "default"
+local CONNECTOR_VERSION = "starblox-studio-connector-v1"
 
 local function role(): string
 	if not RunService:IsRunning() then return "edit" end
@@ -56,6 +57,17 @@ local handlers = {
 	playtest_sample_state = function(args: any) return runtime:sampleState(args) end,
 	capture_viewport = Vision.capture,
 }
+
+local function advertisedTools(): { string }
+	local tools = {}
+	for name, _ in pairs(handlers) do
+		table.insert(tools, name)
+	end
+	table.sort(tools)
+	return tools
+end
+
+local CONNECTOR_TOOLS = advertisedTools()
 
 local function executeTool(name: string, args: any): (boolean, any)
 	local handler = handlers[name]
@@ -136,6 +148,8 @@ task.spawn(function()
 			return post("/poll", {
 				instanceId = INSTANCE_ID,
 				role = currentRole,
+				connectorVersion = CONNECTOR_VERSION,
+				tools = CONNECTOR_TOOLS,
 				waitMs = 15000,
 				limit = 3,
 			})
@@ -158,4 +172,11 @@ task.spawn(function()
 	end
 end)
 
-print("[StarBlox Factory] Studio connector active as " .. role() .. " → " .. tostring(BRIDGE_URL))
+print(
+	"[StarBlox Factory] Studio connector " ..
+	CONNECTOR_VERSION ..
+	" active as " ..
+	role() ..
+	" → " ..
+	tostring(BRIDGE_URL)
+)
