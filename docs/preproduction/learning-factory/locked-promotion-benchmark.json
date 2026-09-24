@@ -1,0 +1,25 @@
+{
+  "schemaVersion": "starblox-locked-promotion-benchmark-v1",
+  "benchmarkId": "starblox-psi-fsrs-promotion-eval-v1",
+  "status": "locked-evaluation-only",
+  "authorization": "synthetic-only-no-real-player-data",
+  "seed": 20260924,
+  "sourceLearnerCount": 48,
+  "maxStep": 30,
+  "selectionStep": 18,
+  "heldOutStepCount": 12,
+  "expectedEvaluatedLearnerCount": 32,
+  "expectedCoverage": 0.6666666666666666,
+  "coreMetrics": [
+    "meanHiddenNeed",
+    "weakestSkillHitRate"
+  ],
+  "candidatePolicy": "psiKtFsrsSelectorV2",
+  "baselinePolicies": [
+    "currentHeuristic",
+    "bktBackedShadow"
+  ],
+  "tuneAgainstThisCohort": false,
+  "purpose": "Final synthetic promotion evaluation only. Model or selector tuning must use different seeds/cohorts so this benchmark remains held out.",
+  "lockedFromDecisionGithubSha": "cba3389ce05d51a4c343d60d734d36c4ae6d1210"
+}
