@@ -9,9 +9,11 @@ on:
       - "src/currentAbvmGrade2SourcePack.test.js"
       - "src/currentLearningSourceSnapshots.js"
       - "src/learningSourceRegistry.js"
+      - "src/contentProvenanceRuntime.js"
       - "src/riffShadowAdapter.js"
       - "src/psiKtShadowAdapter.js"
       - "src/selectorV2Shadow.js"
+      - "scripts/validateLearningContent.mjs"
       - "scripts/generateLearningPromotionDataset.mjs"
       - "scripts/runPsiKtPromotionExperiment.py"
       - "scripts/compareLearningSelectors.mjs"
@@ -38,10 +40,60 @@ jobs:
       - name: Install StarBlox dependencies
         run: npm install --ignore-scripts --package-lock=false
 
-      - name: Verify learning contracts and strict provenance
+      - name: Verify learning contracts and snapshot provenance
         run: |
           npm run test:learning-factory
-          npm run validate:learning -- --strict-provenance --out=.learning-provenance-receipt.json
+          npm run validate:learning -- --out=.learning-provenance-receipt.json
+
+      - name: Audit strict external provenance without blocking synthetic research
+        run: |
+          set +e
+          npm run validate:learning -- --strict-provenance --out=.learning-strict-provenance-receipt.json
+          strict_status=$?
+          set -e
+          STRICT_STATUS="$strict_status" node --input-type=module - <<'NODE'
+          import fs from 'node:fs';
+
+          const status = Number(process.env.STRICT_STATUS);
+          const receipt = JSON.parse(
+            fs.readFileSync('.learning-strict-provenance-receipt.json','utf8')
+          );
+          const debt = receipt.provenanceDebt || {};
+          const issues = receipt.bundleIssues || [];
+          const allowedExternalBlocker = issues.every(issue =>
+            issue.type === 'external-original-unverified' &&
+            issue.sourceId === 'abvm-grade2-current-source-pack'
+          );
+
+          if(debt.snapshotReady !== true){
+            throw new Error('all registered source representations must be snapshotted');
+          }
+
+          if(debt.strictReady === true){
+            if(status !== 0 || issues.length !== 0){
+              throw new Error('strict provenance reports ready but validation did not pass cleanly');
+            }
+          }else{
+            if(status === 0){
+              throw new Error('strict provenance unexpectedly passed while debt remains');
+            }
+            if(!allowedExternalBlocker || issues.length === 0){
+              throw new Error('strict provenance has an unexpected blocker');
+            }
+            if(
+              debt.externalOriginalUnverifiedCount !== 1 ||
+              !debt.externalOriginalUnverifiedIds?.includes('abvm-grade2-current-source-pack')
+            ){
+              throw new Error('unexpected strict provenance debt');
+            }
+          }
+
+          console.log(JSON.stringify({
+            snapshotReady:debt.snapshotReady,
+            strictReady:debt.strictReady,
+            externalOriginalUnverifiedIds:debt.externalOriginalUnverifiedIds || []
+          },null,2));
+          NODE
 
       - name: Generate one shared authorized synthetic dataset
         run: npm run generate:learning-promotion -- --out-dir=.learning-promotion --learners=48 --max-step=30 --seed=20260924
@@ -74,27 +126,48 @@ jobs:
       - name: Compare current heuristic, BKT shadow, and PSI-KT plus FSRS
         run: npm run compare:learning-promotion -- --evaluation=.learning-promotion/evaluation.json --psi=.learning-promotion/psi-kt-receipt.json --fsrs=.learning-promotion/fsrs-engine-receipt.json --out=.learning-promotion/selector-comparison.json
 
-      - name: Enforce synthetic-only no-live-promotion boundary
+      - name: Enforce no-live-promotion boundary
         run: |
           node --input-type=module - <<'NODE'
           import fs from 'node:fs';
-          const comparison = JSON.parse(fs.readFileSync('.learning-promotion/selector-comparison.json','utf8'));
+
+          const comparison = JSON.parse(
+            fs.readFileSync('.learning-promotion/selector-comparison.json','utf8')
+          );
+          const strict = JSON.parse(
+            fs.readFileSync('.learning-strict-provenance-receipt.json','utf8')
+          );
+          const fsrs = JSON.parse(
+            fs.readFileSync('.learning-promotion/fsrs-engine-receipt.json','utf8')
+          );
+          const psi = JSON.parse(
+            fs.readFileSync('.learning-promotion/psi-kt-receipt.json','utf8')
+          );
+
           if(comparison.datasetAuthorization !== 'synthetic-only-no-real-player-data'){
             throw new Error('unexpected dataset authorization');
           }
           if(comparison.promotionGate.liveSelectorV2Allowed !== false){
             throw new Error('synthetic promotion run must never enable live Selector V2');
           }
-          const fsrs = JSON.parse(fs.readFileSync('.learning-promotion/fsrs-engine-receipt.json','utf8'));
           if(fsrs.engineVersion !== 'v3.3.1' || fsrs.cardCount <= 0){
             throw new Error('actual FSRS engine evidence missing');
           }
-          const psi = JSON.parse(fs.readFileSync('.learning-promotion/psi-kt-receipt.json','utf8'));
           if(psi.model !== 'AmortizedPSIKT' || psi.metrics.predictionCount <= 0){
             throw new Error('PSI-KT training/inference evidence missing');
           }
+          if(strict.provenanceDebt?.strictReady !== false){
+            throw new Error('current live gate must remain blocked until external ABVM original is verified');
+          }
+
           console.log(JSON.stringify({
-            strictSyntheticBoundary:true,
+            liveSelectorV2Allowed:false,
+            blockers:[
+              'synthetic-only-evaluation',
+              'abvm-external-original-unverified',
+              'real-learner-efficacy-not-evaluated',
+              'privacy-review-not-complete'
+            ],
             fsrsCards:fsrs.cardCount,
             psiPredictions:psi.metrics.predictionCount,
             comparison:comparison.policies
@@ -109,5 +182,6 @@ jobs:
           path: |
             .learning-promotion
             .learning-provenance-receipt.json
+            .learning-strict-provenance-receipt.json
           if-no-files-found: error
           include-hidden-files: true
