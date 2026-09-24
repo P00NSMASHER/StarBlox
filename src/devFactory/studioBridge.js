@@ -39,12 +39,14 @@ export class StudioBridgeQueue {
       tool,
       args:JSON.parse(JSON.stringify(args ?? {})),
       instanceId,
-      target
+      target,
+      expiresAt:Date.now() + this.timeoutMs
     };
 
     return await new Promise((resolve,reject) => {
       const timer=setTimeout(() => {
         this.pending.delete(id);
+        this.queue=this.queue.filter(item => item.id !== id);
         reject(new Error('Studio tool timed out: ' + tool));
       },this.timeoutMs);
       timer.unref?.();
@@ -63,7 +65,17 @@ export class StudioBridgeQueue {
     const out=[];
     const keep=[];
 
+    const now=Date.now();
     for(const request of this.queue){
+      if(Number.isFinite(request.expiresAt) && request.expiresAt <= now){
+        const pending=this.pending.get(request.id);
+        if(pending){
+          clearTimeout(pending.timer);
+          this.pending.delete(request.id);
+          pending.reject(new Error('Studio tool expired before delivery: ' + request.tool));
+        }
+        continue;
+      }
       const targetMatches =
         request.target === 'any' ||
         request.target === role ||
@@ -193,11 +205,7 @@ export function createStudioHttpAdapter({
       const headers={'content-type':'application/json'};
       if(token) headers['x-starblox-bridge-token']=token;
 
-      const explicitTarget=
-        typeof args?.target === 'string' && ['edit','server','client','any'].includes(args.target)
-          ? args.target
-          : null;
-      const target=explicitTarget || targets[tool] || 'edit';
+      const target=targets[tool] || 'edit';
 
       const response=await fetch(root + '/call',{
         method:'POST',
