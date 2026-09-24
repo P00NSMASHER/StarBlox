@@ -10,6 +10,8 @@ jobs:
   test-build:
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    env:
+      CARGO_TARGET_DIR: ${{ github.workspace }}/.cargo-target
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -28,6 +30,16 @@ jobs:
           npm run roblox:catalog -- --input tools/roblox_catalog_reader/fixtures/sample.rbxmx --out /tmp/roblox-catalog.json --report /tmp/roblox-catalog.md
           grep -q "Licensed House System" /tmp/roblox-catalog.md
           grep -q '"instanceCount"' /tmp/roblox-catalog.json
+      - name: Test Roblox migration exporter
+        run: npm run roblox:migration:exporter:test
+      - name: Smoke-test Brookhaven migration staging compiler
+        run: |
+          npm run roblox:migrate -- --catalog /tmp/roblox-catalog.json --source-root tools/roblox_catalog_reader/fixtures --out-dir /tmp/roblox-migration --min-score 0
+          test -f /tmp/roblox-migration/migration-plan.json
+          test -f /tmp/roblox-migration/migration-bundle.json
+          grep -q '"liveActivationAllowed": false' /tmp/roblox-migration/migration-bundle.json
+          grep -q '"activation": "staging-only"' /tmp/roblox-migration/migration-bundle.json
+          find /tmp/roblox-migration -name '*.rbxmx' -print -quit | grep -q .
       - name: Run tests
         run: npm test
       - name: Run balance gate
