@@ -43,7 +43,7 @@
     "canonicalWriter": "08"
   },
   "dispatchPolicy": "PENDING_SUCCESSOR__WAIT_RUNNING_W09_DECOR_BATCH",
-  "retryRevision": 5,
-  "retryReason": "pending successor behind live Decor7 Decor11 run; validated 60-word sentence-preserving compiler; do not cancel running batch",
-  "compilerFixHead": "725c15255e30addcc97f8450eb28f78231bf18e5"
+  "retryRevision": 6,
+  "retryReason": "replace pending successor with latest runtime prompt compiler preserving product-name sentences",
+  "compilerFixHead": "871ec64e7d08"
 }
