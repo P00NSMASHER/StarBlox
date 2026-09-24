@@ -12,7 +12,7 @@ const {
   provenanceDebt,
   validateContentBundle
 } = await import('../src/contentProvenanceRuntime.js');
-const { auditQuestionAdversarially } = await import('../src/adversarialQuestionQa.js');
+const { auditQuestionAdversarially } = await import('../src/adversarialQuestionQa.js');\nconst { currentLearningSourceSnapshots } = await import('../src/currentLearningSourceSnapshots.js');
 
 const contentVersion = process.env.STARBLOX_CONTENT_VERSION || 'bootstrap-current-bank-v1';
 const strictProvenance = process.argv.includes('--strict-provenance');
