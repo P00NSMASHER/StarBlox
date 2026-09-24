@@ -119,7 +119,7 @@ describe('StarBlox upstream implementation provenance', () => {
   it('pins every planned source to an immutable full commit SHA', () => {
     const entries = upstreamSourceList();
 
-    expect(entries.length).toBeGreaterThanOrEqual(66);
+    expect(entries.length).toBeGreaterThanOrEqual(82);
     expect(entries.every(entry => /^[a-f0-9]{40}$/.test(entry.commit))).toBe(true);
     expect(entries.every(entry => entry.reuseBasis === 'user-confirmed direct reuse rights')).toBe(true);
   });
@@ -181,5 +181,21 @@ describe('StarBlox upstream implementation provenance', () => {
     expect(UPSTREAM_PROVENANCE.rbxDomBinary.path).toBe('rbx_binary/src/lib.rs');
     expect(UPSTREAM_PROVENANCE.rbxDomXml.path).toBe('rbx_xml/src/lib.rs');
     expect(UPSTREAM_PROVENANCE.rbxDomViewer.path).toBe('rbx_dom_weak/src/viewer.rs');
+    expect(UPSTREAM_PROVENANCE.bloxForgeTooling.path).toBe('docs/tools-reference.md');
+    expect(UPSTREAM_PROVENANCE.bloxForgeChangeLog.path).toBe('CHANGELOG.md');
+    expect(UPSTREAM_PROVENANCE.nixeraCoordinator.path).toBe('backend/src/agents/coordinator.ts');
+    expect(UPSTREAM_PROVENANCE.nixeraSpecialists.path).toBe('backend/src/agents/specialists.ts');
+    expect(UPSTREAM_PROVENANCE.nixeraStudioTools.path).toBe('backend/src/tools/studioTools.ts');
+    expect(UPSTREAM_PROVENANCE.nixeraExecutor.path).toBe('plugin/src/tools/Executor.luau');
+    expect(UPSTREAM_PROVENANCE.nixeraPlaytest.path).toBe('plugin/src/tools/PlaytestOps.luau');
+    expect(UPSTREAM_PROVENANCE.nixeraVision.path).toBe('plugin/src/tools/VisionOps.luau');
+    expect(UPSTREAM_PROVENANCE.nixeraTests.path).toBe('plugin/src/tools/TestOps.luau');
+    expect(UPSTREAM_PROVENANCE.profileStoreRuntime.path).toBe('ProfileStore.luau');
+    expect(UPSTREAM_PROVENANCE.profileStoreTutorial.path).toBe('docs/tutorial/index.md');
+    expect(UPSTREAM_PROVENANCE.replicaServiceRuntime.path).toBe('src/ServerScriptService/ReplicaService.lua');
+    expect(UPSTREAM_PROVENANCE.replicaServiceApi.path).toBe('docs/api.md');
+    expect(UPSTREAM_PROVENANCE.zapEvents.path).toBe('docs/config/events.md');
+    expect(UPSTREAM_PROVENANCE.matterReplication.path).toBe('docs/Guides/Replication.md');
+    expect(UPSTREAM_PROVENANCE.matterComponents.path).toBe('example/src/shared/components.luau');
   });
 });
