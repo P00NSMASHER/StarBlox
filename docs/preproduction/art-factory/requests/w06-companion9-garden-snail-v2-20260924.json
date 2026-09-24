@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_BATCH_REQUEST",
+  "planner": "15",
+  "producer": "06",
+  "preflightOwner": "12",
+  "reviewer": "05",
+  "renderOwner": "14",
+  "integrationOwner": "08",
+  "coordinationOwner": "15",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "19967310ff52d38e8edf4ca40cd0e127abab2de0",
+  "manifestVersion": 40,
+  "batchId": "w06-companion9-garden-snail-v2",
+  "scope": [
+    "companions-9"
+  ],
+  "state": "PREPARED_PREMIUM_COMPANION_REPLACEMENT",
+  "assignmentAuthority": {
+    "path": "docs/preproduction/art-factory/RELEASE_BLOCKERS_CURRENT.json",
+    "runtimeProofPath": "docs/preproduction/art-factory/CPU_RUNTIME_PROOF.json",
+    "runtimeProofStatus": "PROVEN",
+    "runtimeCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+    "modelRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "assignedReviewers": {
+      "companions-9": "05"
+    },
+    "note": "Garden Snail is the only remaining companion without a rich imported candidate. Legacy SVG was independently REWORK for missing the premium dimensional target."
+  },
+  "reviewSource": {
+    "decision": "REWORK",
+    "note": "Legacy companion SVG remains historical evidence only; generate one premium exact replacement and require fresh reviewer05 pixels."
+  },
+  "items": {
+    "companions-9": {
+      "currentLegacy": {
+        "path": "public/assets/catalog/companions-9.svg",
+        "reviewDecision": "REWORK"
+      },
+      "variants": [
+        {
+          "variantId": "A-PREMIUM-GARDEN-SNAIL",
+          "optimizerInput": "Garden Snail companion. ONE cute premium toy-like snail on a clean dreamy garden background. Green body, large friendly eyes, warm stone-and-gold spiral shell with small star-luxe accents, tiny leaf sprout, grounded full-body three-quarter view. Clear snail antennae and shell silhouette. NO text, NO extra animal, NO collage, NO duplicate view."
+        },
+        {
+          "variantId": "B-STAR-LUXE-SNAIL",
+          "optimizerInput": "ONE adorable Garden Snail companion, full body, premium dimensional game art. Soft green snail, big expressive eyes, rich spiral shell with subtle gold star accents, small leaf sprout, clean glowing garden scene. Strong card-scale silhouette. NO text, NO second snail, NO collage, NO UI."
+        }
+      ]
+    }
+  },
+  "executionBudget": {
+    "width": 640,
+    "height": 640,
+    "steps": 10,
+    "guidanceScale": 4.5,
+    "dtype": "float32"
+  },
+  "safety": {
+    "preserveRejectedExactHashes": true,
+    "preserveAcceptedExactHashes": true,
+    "producerSelfReview": false,
+    "canonicalMappingsChanged": false,
+    "workflowFilesChanged": false
+  }
+}
