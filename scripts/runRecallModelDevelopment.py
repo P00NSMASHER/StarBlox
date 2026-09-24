@@ -393,17 +393,33 @@ for index,(name,cls) in enumerate([
         manifest["training"],
         int(evaluation["seed"])+index*9973,
     )
-    state=extract_all_skill_state(model,corpus,prefix,evaluation)
-    models[name]={
-        "stateMetrics":aggregate_state(state,evaluation),
+    row={
         "training":{
             "epochs":len(losses),
             "initialLoss":safe_float(losses[0]),
             "finalLoss":safe_float(losses[-1]),
             "minLoss":safe_float(min(losses)),
-        },
-        "selectorState":state,
+        }
     }
+    if name=="HLR":
+        state=extract_all_skill_state(model,corpus,prefix,evaluation)
+        row.update({
+            "selectorStateEligible":True,
+            "stateMetrics":aggregate_state(state,evaluation),
+            "selectorState":state,
+        })
+    else:
+        row.update({
+            "selectorStateEligible":False,
+            "stateMetrics":None,
+            "selectorState":None,
+            "stateInterfaceReason":(
+                "Pinned upstream PPE simulate_path computes x_pred for all skills "
+                "but returns only x_item_pred. StarBlox does not fabricate or "
+                "reimplement a selector-state API in this benchmark."
+            ),
+        })
+    models[name]=row
 
 bkt_state=bkt_predictions(evaluation)
 bkt_metrics=aggregate_state(bkt_state,evaluation)
@@ -411,8 +427,13 @@ bkt_metrics=aggregate_state(bkt_state,evaluation)
 rule=manifest["candidateRule"]
 supportive=[]
 for name,row in models.items():
+    if not row.get("selectorStateEligible"):
+        row["checks"]={"selectorStateEligible":False}
+        row["supportive"]=False
+        continue
     m=row["stateMetrics"]
     checks={
+        "selectorStateEligible":True,
         "meanSpearmanGainVsBkt":
             m["meanLearnerSpearman"]-bkt_metrics["meanLearnerSpearman"]
             >=float(rule["meanSpearmanGainVsBktMin"]),
@@ -490,8 +511,9 @@ print(json.dumps({
         "supportive":models["HLR"]["supportive"],
     },
     "PPE":{
-        "stateMetrics":models["PPE"]["stateMetrics"],
-        "vsBkt":models["PPE"]["vsBkt"],
+        "selectorStateEligible":models["PPE"]["selectorStateEligible"],
+        "stateInterfaceReason":models["PPE"]["stateInterfaceReason"],
+        "training":models["PPE"]["training"],
         "supportive":models["PPE"]["supportive"],
     },
     "supportiveModels":supportive,
