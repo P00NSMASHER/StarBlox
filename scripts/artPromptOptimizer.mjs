@@ -45,7 +45,8 @@ const FAILURE_BLOCKS=Object.freeze({
 export const sha=s=>crypto.createHash('sha256').update(String(s)).digest('hex');
 const band=t=>Number(t)<=2?'starter':Number(t)<=3?'mid':'luxe';
 const uniq=a=>[...new Set(a.filter(Boolean))];
-export const RUNTIME_PROMPT_WORD_BUDGET=44;
+export const RUNTIME_PROMPT_WORD_BUDGET=46;
+export const RUNTIME_NEGATIVE_PROMPT_WORD_BUDGET=36;
 const promptWords=s=>String(s||'').trim().split(/\s+/).filter(Boolean);
 
 function runtimeBriefBody(item,brief=''){
@@ -60,16 +61,61 @@ function runtimeBriefBody(item,brief=''){
  return text;
 }
 
+function positiveBriefSegments(item,brief=''){
+ const body=runtimeBriefBody(item,brief);
+ if(!body) return [];
+ return body
+  .split(/(?<=[.!?])\s+/)
+  .map(segment=>segment.replace(/\bNO\s+.*$/i,'').trim())
+  .filter(Boolean);
+}
+
+function balancedBriefWords(item,brief,budget){
+ const segments=positiveBriefSegments(item,brief).slice(0,5).map(promptWords).filter(x=>x.length);
+ if(!segments.length||budget<=0) return [];
+ const quota=Math.max(5,Math.floor(budget/segments.length));
+ const selected=[],remainders=[];
+ for(const words of segments){
+  selected.push(...words.slice(0,quota));
+  remainders.push(words.slice(quota));
+ }
+ let room=budget-selected.length;
+ for(const words of remainders){
+  if(room<=0) break;
+  const take=words.slice(0,room);
+  selected.push(...take);
+  room-=take.length;
+ }
+ return selected.slice(0,budget);
+}
+
+function explicitNegativePhrases(brief=''){
+ const out=[];
+ const re=/\bNO\s+(.+?)(?=,\s*NO\b|[.!?;]|$)/gi;
+ for(const match of String(brief||'').matchAll(re)){
+  const phrase=String(match[1]||'').trim().replace(/^[-,:\s]+|[-,:\s]+$/g,'');
+  if(phrase) out.push(phrase);
+ }
+ return out;
+}
+
+export function buildRuntimeNegativePrompt(item,brief=''){
+ const global=['collage','multiple views','repeated variants','text','logo','watermark','UI'];
+ return promptWords([...explicitNegativePhrases(brief),...global].join(', '))
+  .slice(0,RUNTIME_NEGATIVE_PROMPT_WORD_BUDGET)
+  .join(' ');
+}
+
 export function buildRuntimePrompt(item,variant='A',brief='',failureCodes=[]){
- const prefix=`${item.id} ${item.name}. ${item.collectionId}; tier ${item.tier}; theme ${item.theme}.`;
+ const prefix=`${item.id} ${item.name}; ${item.theme}; tier ${item.tier}.`;
  const briefBody=runtimeBriefBody(item,brief);
  const repair=!briefBody&&(failureCodes||[]).length
   ? `Repair ${failureCodes.slice(0,2).map(x=>String(x).toLowerCase().replaceAll('_',' ')).join('; ')}.`
   : '';
- const suffix='Premium dimensional product render, grounded shadow, no text or logo.';
+ const suffix='single isolated product, grounded shadow.';
  const fixed=[...promptWords(prefix),...promptWords(repair),...promptWords(suffix)];
  const briefBudget=Math.max(0,RUNTIME_PROMPT_WORD_BUDGET-fixed.length);
- const runtime=[...promptWords(prefix),...promptWords(briefBody).slice(0,briefBudget),...promptWords(repair),...promptWords(suffix)]
+ const runtime=[...promptWords(prefix),...balancedBriefWords(item,brief,briefBudget),...promptWords(repair),...promptWords(suffix)]
   .slice(0,RUNTIME_PROMPT_WORD_BUDGET)
   .join(' ');
  if(!runtime) throw Error(`item ${item.id} runtime prompt is empty`);
@@ -146,7 +192,8 @@ export function compose(item,blocks,variant='A',repairContext={},basePrompt=''){
  }
  const text=[`STARBLOX CATALOG ART — ${variant}`,'Create one premium, kid-friendly 2D game catalog asset with polished dimensional quality.',metadata,...(brief?[`Authoritative item-specific design brief:\n${brief}`]:[]),...repair,...ids.map(x=>BLOCKS[x]),'Output a production-worthy source image for exact-byte staging, card/detail rendering and independent review. Do not claim approval; the reviewer decides from rendered pixels.'].join('\n\n');
  const runtimePromptText=buildRuntimePrompt(item,variant,brief,failureCodes);
- return {variant,promptBlocks:ids,promptText:text,promptSha256:sha(text),runtimePromptText,runtimePromptSha256:sha(runtimePromptText),failureCodes,optimizerInputSha256:brief?sha(brief):null};
+ const runtimeNegativePromptText=buildRuntimeNegativePrompt(item,brief);
+ return {variant,promptBlocks:ids,promptText:text,promptSha256:sha(text),runtimePromptText,runtimePromptSha256:sha(runtimePromptText),runtimeNegativePromptText,runtimeNegativePromptSha256:sha(runtimeNegativePromptText),failureCodes,optimizerInputSha256:brief?sha(brief):null};
 }
 export function optimizeBrief(item,basePrompt,review,model,variant='REQUEST'){
  const brief=String(basePrompt||'').trim();
@@ -183,7 +230,10 @@ export function validateExperiment(e){
  const errors=[]; for(const k of ['attemptId','itemId','assetHash','producer'])if(!e?.[k])errors.push(`missing ${k}`);
  if(!Array.isArray(e?.promptBlocks)||!e.promptBlocks.length)errors.push('promptBlocks must be non-empty');
  for(const b of e?.promptBlocks||[])if(!BLOCKS[b])errors.push(`unknown block ${b}`);
- if(e?.promptText&&e?.promptSha256&&sha(e.promptText)!==e.promptSha256)errors.push('promptSha256 mismatch'); return errors;
+ if(e?.promptText&&e?.promptSha256&&sha(e.promptText)!==e.promptSha256)errors.push('promptSha256 mismatch');
+ if(e?.runtimePromptText&&e?.runtimePromptSha256&&sha(e.runtimePromptText)!==e.runtimePromptSha256)errors.push('runtimePromptSha256 mismatch');
+ if(e?.runtimeNegativePromptText&&e?.runtimeNegativePromptSha256&&sha(e.runtimeNegativePromptText)!==e.runtimeNegativePromptSha256)errors.push('runtimeNegativePromptSha256 mismatch');
+ return errors;
 }
 
 function args(argv){const o={_:[]};for(let i=0;i<argv.length;i++){const x=argv[i];if(x.startsWith('--')){const k=x.slice(2),n=argv[i+1];if(n&&!n.startsWith('--')){o[k]=n;i++}else o[k]=true}else o._.push(x)}return o}
