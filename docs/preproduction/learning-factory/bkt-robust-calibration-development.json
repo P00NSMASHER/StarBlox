@@ -1,0 +1,31 @@
+{
+  "schemaVersion":"starblox-bkt-robust-calibration-development-manifest-v1",
+  "benchmarkId":"starblox-bkt-robust-multiseed-development-v1",
+  "status":"development-tuning-allowed",
+  "authorization":"synthetic-only-no-real-player-data",
+  "seeds":[20271011,20271029,20271119],
+  "sourceLearnerCountPerSeed":48,
+  "maxStep":30,
+  "selectionStep":18,
+  "heldOutStepCount":12,
+  "defaultParams":{"pKnow":0.3,"pLearn":0.1,"pGuess":0.2,"pSlip":0.1},
+  "grid":{
+    "pKnow":[0.1,0.15,0.2,0.25,0.3,0.35,0.4],
+    "pLearn":[0.03,0.05,0.08,0.1,0.12,0.15,0.18,0.2],
+    "pGuess":[0.1,0.15,0.2,0.25,0.3],
+    "pSlip":[0.05,0.1,0.15,0.2]
+  },
+  "candidateRule":{
+    "averageSpearmanGainMin":0.01,
+    "worstSpearmanGainMin":-0.005,
+    "averageGlobalPearsonGainMin":0,
+    "worstGlobalPearsonGainMin":-0.01,
+    "averageWeakestSkillHitGainMin":0,
+    "worstWeakestSkillHitGainMin":-0.020834,
+    "averageMaeDeltaMax":0,
+    "worstMaeDeltaMax":0.01
+  },
+  "forbiddenSeeds":[20260924,20261103,20261217,20261229,20270113,20270217,20270307,20270419,20270511,20270623,20270717,20270805,20270903],
+  "tuneAgainstTheseCohorts":true,
+  "purpose":"Multi-seed development-only calibration after a single-seed calibrated BKT profile failed independent validation. Select only parameters with acceptable average and worst-seed behavior before any new independent validation."
+}
