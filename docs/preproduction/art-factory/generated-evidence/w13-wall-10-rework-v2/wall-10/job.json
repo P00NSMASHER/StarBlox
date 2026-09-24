@@ -1,0 +1,165 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_JOB",
+  "repository": "P00NSMASHER/StarBlox",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "4442d3c991f6cfe0f39120c1f70a25110796d16e",
+  "item": {
+    "id": "wall-10",
+    "name": "Neon City Sign",
+    "collectionId": "wall",
+    "type": "room",
+    "tier": 4,
+    "theme": "Cloud Pop"
+  },
+  "sourceReviewHash": "df566297cc638fbcf1673d799a7ffb9e1f586927",
+  "rightsBasis": "USER_ATTESTED_FULL_RIGHTS",
+  "attempts": [
+    {
+      "attemptId": "wall-10-w13-a-no-text-skyline-1e76f9b9a3",
+      "itemId": "wall-10",
+      "producer": "13",
+      "variant": "A-NO-TEXT-SKYLINE",
+      "promptBlocks": [
+        "metadata",
+        "category",
+        "silhouette",
+        "physical",
+        "material",
+        "theme",
+        "tier",
+        "card",
+        "original",
+        "stage",
+        "wall",
+        "depth",
+        "camera",
+        "bloom",
+        "textile",
+        "light"
+      ],
+      "promptText": "STARBLOX CATALOG ART — A-NO-TEXT-SKYLINE\n\nCreate one premium, kid-friendly 2D game catalog asset with polished dimensional quality.\n\nExact metadata: wall-10 — Neon City Sign; collection wall; type room; tier 4; theme Cloud Pop.\n\nAuthoritative item-specific design brief:\nNeon City Sign, Wall Decor, Tier 4, Cloud Pop. Create ONE coherent physical wall-mounted neon city sign with a translucent cloud-shaped acrylic backplate and an unmistakable abstract skyline silhouette made only from geometric building forms and luminous tubes—NO letters, glyphs, pseudo-writing, numbers, symbols, or text-like marks anywhere. Use brushed-metal standoffs, four clearly connected mounting points, a hidden rear cable channel, crisp cyan/soft-pink/white light tubing, beveled acrylic thickness, and restrained controlled bloom. Show the full sign centered and completely inside frame in a clean three-quarter product view against a simple neutral wall plane. The skyline/cloud silhouette must remain readable at small Store-card scale. No dangling wires, broken supports, floating parts, floor base, logos, labels, or background clutter.\n\nExact-hash reviewer failure taxonomy: SMALL_CARD_READABILITY.\n\nRepair the documented failure codes while preserving qualities that were not implicated. Do not erase successful identity, silhouette, material depth, or readability merely to make a different image.\n\nUse the exact catalog ID/name/collection/tier/theme. Do not rename, recategorize, or substitute the item.\n\nMake the object unmistakably the stated product category with believable proportions and construction.\n\nPrioritize a distinctive clean silhouette that reads immediately at small Store-card size.\n\nShow real thickness, seams/joints/edges, layered parts, volume, contact points and functional construction—not a flat icon, emblem or sticker.\n\nUse category-appropriate material texture and highlights/shadows that explain the form.\n\nExpress the exact theme through material, construction, light and motif—not a palette swap or pasted decal.\n\nRespect tier progression: Starter stays simple and attractive; higher tiers gain richer form/material detail; Luxe gains spectacle without losing identity.\n\nDesign for both detail view and a 600×600 Store card with strong contrast, uncluttered hierarchy and no tiny critical details.\n\nAvoid recolor-only siblings, repeated template silhouettes, generic rings/badges, or interchangeable props.\n\nPresent one isolated subject on a clean premium background. No UI, text, watermark, logo, fake price badge or unrelated props.\n\nFor wall decor, show mounting/frame/backing/relief depth and a believable wall-object form—not a floating emblem.\n\nUse occlusion, contact/cast shadows and foreground/midground/background separation so the asset feels spatial.\n\nUse a clean product-style three-quarter view when appropriate so front, side and thickness are visible.\n\nUse controlled emissive light/bloom only where appropriate; preserve edges and local contrast.\n\nFor textiles, show weave/pile/folds/stitching/edge finish/thickness and believable softness or drape.\n\nFor lighting, show a physical base/mount/chassis, emitter or bulb, support structure and believable emitted/reflected light.\n\nOutput a production-worthy source image for exact-byte staging, card/detail rendering and independent review. Do not claim approval; the reviewer decides from rendered pixels.",
+      "promptSha256": "1e76f9b9a3150c56248560473b2bad4f444ca96d481e8242bfd8ebec7376e916",
+      "runtimePromptText": "wall-10 Neon City Sign. wall; tier 4; theme Cloud Pop. Create ONE coherent physical wall-mounted neon city sign with a translucent cloud-shaped acrylic backplate and an unmistakable abstract skyline silhouette made only from geometric Premium dimensional product render, grounded shadow, no text or logo.",
+      "runtimePromptSha256": "f523ae196e65400e1963cd99edac75c7c5ef86c3a14da534c2e12312688a7c8e",
+      "promptRecipeVersion": "artPromptOptimizer-request-v1:w13-wall-10-rework-v2",
+      "seed": 396470873,
+      "runtime": {
+        "repo": "huggingface/diffusers",
+        "commit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c"
+      },
+      "model": {
+        "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+        "revision": "462165984030d82259a11f4367a4eed129e94a7b",
+        "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+      },
+      "conditioning": {
+        "referenceAssetSha256": null,
+        "controlImageSha256": null,
+        "adapterScale": null
+      },
+      "output": {
+        "repoPath": null,
+        "sha256": null,
+        "gitBlobSha": null,
+        "bytes": null,
+        "width": null,
+        "height": null
+      },
+      "status": "PLANNED_NOT_GENERATED"
+    },
+    {
+      "attemptId": "wall-10-w13-b-cloud-city-relief-fe949692f4",
+      "itemId": "wall-10",
+      "producer": "13",
+      "variant": "B-CLOUD-CITY-RELIEF",
+      "promptBlocks": [
+        "metadata",
+        "category",
+        "silhouette",
+        "physical",
+        "material",
+        "theme",
+        "tier",
+        "card",
+        "original",
+        "stage",
+        "wall",
+        "depth",
+        "camera",
+        "bloom",
+        "textile",
+        "light"
+      ],
+      "promptText": "STARBLOX CATALOG ART — B-CLOUD-CITY-RELIEF\n\nCreate one premium, kid-friendly 2D game catalog asset with polished dimensional quality.\n\nExact metadata: wall-10 — Neon City Sign; collection wall; type room; tier 4; theme Cloud Pop.\n\nAuthoritative item-specific design brief:\nNeon City Sign, Wall Decor, Tier 4, Cloud Pop. Design a premium sculptural wall fixture with stacked cloud-shaped frosted acrylic layers framing a bold geometric city skyline relief. Use five to seven large rectangular building masses with stepped rooflines and edge-lit cyan/magenta/white accents, with no windows that resemble letters and absolutely NO typography, pseudo-text, glyphs, numbers, logos, or signs-within-the-sign. Make the mounting construction explicit: rigid metal rear plate, short standoffs, visible fasteners at four corners, clean concealed cable exit, and believable wall contact/cast shadow. Keep one dominant city/cloud silhouette, centered with generous negative space, fully contained in frame, crisp at Store-card size, and lit with controlled Cloud Pop glow rather than excessive bloom. No malformed hanging geometry, no loose wires, no floor contact, no unrelated props.\n\nExact-hash reviewer failure taxonomy: SMALL_CARD_READABILITY.\n\nRepair the documented failure codes while preserving qualities that were not implicated. Do not erase successful identity, silhouette, material depth, or readability merely to make a different image.\n\nUse the exact catalog ID/name/collection/tier/theme. Do not rename, recategorize, or substitute the item.\n\nMake the object unmistakably the stated product category with believable proportions and construction.\n\nPrioritize a distinctive clean silhouette that reads immediately at small Store-card size.\n\nShow real thickness, seams/joints/edges, layered parts, volume, contact points and functional construction—not a flat icon, emblem or sticker.\n\nUse category-appropriate material texture and highlights/shadows that explain the form.\n\nExpress the exact theme through material, construction, light and motif—not a palette swap or pasted decal.\n\nRespect tier progression: Starter stays simple and attractive; higher tiers gain richer form/material detail; Luxe gains spectacle without losing identity.\n\nDesign for both detail view and a 600×600 Store card with strong contrast, uncluttered hierarchy and no tiny critical details.\n\nAvoid recolor-only siblings, repeated template silhouettes, generic rings/badges, or interchangeable props.\n\nPresent one isolated subject on a clean premium background. No UI, text, watermark, logo, fake price badge or unrelated props.\n\nFor wall decor, show mounting/frame/backing/relief depth and a believable wall-object form—not a floating emblem.\n\nUse occlusion, contact/cast shadows and foreground/midground/background separation so the asset feels spatial.\n\nUse a clean product-style three-quarter view when appropriate so front, side and thickness are visible.\n\nUse controlled emissive light/bloom only where appropriate; preserve edges and local contrast.\n\nFor textiles, show weave/pile/folds/stitching/edge finish/thickness and believable softness or drape.\n\nFor lighting, show a physical base/mount/chassis, emitter or bulb, support structure and believable emitted/reflected light.\n\nOutput a production-worthy source image for exact-byte staging, card/detail rendering and independent review. Do not claim approval; the reviewer decides from rendered pixels.",
+      "promptSha256": "fe949692f42a2618f5619c1b340a39af39c985fa6a55f8bbf6cd7bdbdc972533",
+      "runtimePromptText": "wall-10 Neon City Sign. wall; tier 4; theme Cloud Pop. Design a premium sculptural wall fixture with stacked cloud-shaped frosted acrylic layers framing a bold geometric city skyline relief. Use five to seven large Premium dimensional product render, grounded shadow, no text or logo.",
+      "runtimePromptSha256": "3897c24faf718c10cf4a556599e7bc31fcd819d683384f264b0f7da7d950a779",
+      "promptRecipeVersion": "artPromptOptimizer-request-v1:w13-wall-10-rework-v2",
+      "seed": 104421486,
+      "runtime": {
+        "repo": "huggingface/diffusers",
+        "commit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c"
+      },
+      "model": {
+        "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+        "revision": "462165984030d82259a11f4367a4eed129e94a7b",
+        "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+      },
+      "conditioning": {
+        "referenceAssetSha256": null,
+        "controlImageSha256": null,
+        "adapterScale": null
+      },
+      "output": {
+        "repoPath": null,
+        "sha256": null,
+        "gitBlobSha": null,
+        "bytes": null,
+        "width": null,
+        "height": null
+      },
+      "status": "PLANNED_NOT_GENERATED"
+    }
+  ],
+  "requestContext": {
+    "requestPath": "docs/preproduction/art-factory/requests/w13-wall-10-rework-v2-20260924.json",
+    "batchId": "w13-wall-10-rework-v2",
+    "requestSourceHead": "0833b542e640c9515c61e50ec2650b445b09dfa4",
+    "requestRecordSha256": "216953ccac88222bc37645e9e93d901746c9287553f5779373dc29ed3662ea89",
+    "planner": "12",
+    "reviewer": "02",
+    "renderOwner": "14",
+    "integrationOwner": "08",
+    "contextReferences": [
+      {
+        "role": "FIRST_PARTY_STARBLOX_STORE_ART_DIRECTION",
+        "repositoryPath": "docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg",
+        "sha256": "b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d",
+        "gitBlobSha": "383baa877d3af86fa92e3583740212000592b3d6",
+        "dimensions": [
+          1448,
+          1086
+        ],
+        "sourceManifest": null
+      }
+    ],
+    "plannerVariants": [
+      {
+        "variantId": "A-NO-TEXT-SKYLINE",
+        "plannerSeed": 1497988355,
+        "optimizerInputSha256": "fbb986e876eaaddb81e27225251a59ed5c8082a4f3be3da843749accb6eea379",
+        "compiledPromptSha256": "1e76f9b9a3150c56248560473b2bad4f444ca96d481e8242bfd8ebec7376e916",
+        "compiledSeed": 396470873
+      },
+      {
+        "variantId": "B-CLOUD-CITY-RELIEF",
+        "plannerSeed": 325801024,
+        "optimizerInputSha256": "12ca4bf6973ebcf2be3be57ceaac7dc420b7add5c7f83017c831b087f4353808",
+        "compiledPromptSha256": "fe949692f42a2618f5619c1b340a39af39c985fa6a55f8bbf6cd7bdbdc972533",
+        "compiledSeed": 104421486
+      }
+    ]
+  },
+  "planSha256": "1ce54e53244f1cda04511bd977c34ad95a476fd91853175d14de2bbfd9e1d6bc"
+}

@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_CPU_GENERATION_QUEUE",
+  "branch": "screenshot-match-preproduction",
+  "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+  "modelRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+  "runtimeCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+  "runtimeProofPath": "docs/preproduction/art-factory/CPU_RUNTIME_PROOF.json",
+  "runtimeProofArtifactDigest": "sha256:528610198d72092c9d09159bf4b749a5c467361307587545fb24dded2876eeda",
+  "generation": {
+    "width": 768,
+    "height": 768,
+    "steps": 8,
+    "guidanceScale": 3.5,
+    "dtype": "bfloat16"
+  },
+  "queueId": "w13-wall-10-rework-v2",
+  "requestPath": "docs/preproduction/art-factory/requests/w13-wall-10-rework-v2-20260924.json",
+  "producer": "13",
+  "items": [
+    "wall-10"
+  ],
+  "variantByItem": {
+    "wall-10": "A-NO-TEXT-SKYLINE"
+  },
+  "reviewerByItem": {
+    "wall-10": "02"
+  },
+  "versionByItem": {
+    "wall-10": 2
+  },
+  "handoff": {
+    "nextOwner": "12",
+    "route": "12 -> 06 -> 14 -> 02 -> 08 on ACCEPT",
+    "canonicalWriter": "08"
+  },
+  "dispatchPolicy": "RETRY_AFTER_REQUEST_CONTRACT_FIX__SINGLE_ITEM__NO_DUPLICATE",
+  "dispatchEvidence": {
+    "prerequisiteRunId": 35940929713,
+    "prerequisiteConclusion": "success",
+    "prerequisiteCompletedAt": "2026-09-24T01:05:00Z",
+    "decor7V3Staged": true,
+    "cpuLaneObservedIdle": true
+  },
+  "retryEvidence": {
+    "failedRunId": 35941463166,
+    "failedConclusion": "failure",
+    "failedStage": "plan",
+    "failure": "request kind must be STARBLOX_ART_FACTORY_BATCH_REQUEST",
+    "requestContractFixCommit": "7b486bd829604aa03bf14651b10d5b7f5d2f5dca",
+    "cpuLaneObservedIdle": true
+  }
+}
