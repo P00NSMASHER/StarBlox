@@ -1,8 +1,12 @@
 
 import { stableHash } from '../domainSchemas.js';
 
-export const ROBLOX_CATALOG_SCHEMA_VERSION=1;
-export const ROBLOX_CATALOG_VERSION='starblox-roblox-catalog-v1';
+export const ROBLOX_CATALOG_SCHEMA_VERSION=2;
+export const ROBLOX_CATALOG_VERSION='starblox-roblox-catalog-v2';
+
+export const ROBLOX_REUSE_CLASSES=Object.freeze([
+  'direct','refactor','asset-only','irrelevant'
+]);
 
 const SCRIPT_CLASSES=new Set(['Script','LocalScript','ModuleScript']);
 const REMOTE_CLASSES=new Set(['RemoteEvent','RemoteFunction','UnreliableRemoteEvent']);
@@ -191,46 +195,54 @@ function scriptSourceFromProperties(properties){
   return typeof value === 'string' ? value : '';
 }
 
+function classifyReview(script){
+  const reasons=[...new Set(script?.riskFlags || [])].sort();
+  return {
+    required:reasons.length > 0,
+    reasons
+  };
+}
+
 function classifyReuse(instance,script){
-  if(script?.riskFlags?.length){
-    return {
-      class:'review',
-      reason:'script contains patterns requiring manual security/provenance review'
-    };
-  }
   if(SCRIPT_CLASSES.has(instance.className)){
     return {
       class:'refactor',
-      reason:'scripted behavior should be adapted behind StarBlox server/client boundaries and tests'
+      reason:'scripted behavior may be valuable but must be adapted behind StarBlox server/client boundaries and tests'
     };
   }
   if(REMOTE_CLASSES.has(instance.className)){
     return {
       class:'refactor',
-      reason:'remote contract is reusable but should be mapped to StarBlox authoritative networking'
+      reason:'remote contract may be reusable after mapping to StarBlox authoritative networking'
     };
   }
   if(ASSET_CLASSES.has(instance.className)){
     return {
       class:'asset-only',
-      reason:'visual/audio asset is reusable independently of behavior'
+      reason:'visual/audio asset can be evaluated independently of the original behavior implementation'
     };
   }
   if(UI_CLASSES.has(instance.className)){
     return {
       class:'direct',
-      reason:'UI structure can usually be imported directly, then restyled/wired to StarBlox state'
+      reason:'UI structure is a direct-import candidate, subject to StarBlox styling and state wiring'
     };
   }
   if(PHYSICAL_CLASSES.has(instance.className)){
     return {
       class:'direct',
-      reason:'world/model structure can be imported directly subject to system-level dependency review'
+      reason:'world/model structure is a direct-import candidate subject to dependency and performance review'
+    };
+  }
+  if(instance.assetIds?.length){
+    return {
+      class:'asset-only',
+      reason:'instance contributes asset references but no recognized reusable behavior or structure'
     };
   }
   return {
-    class:'review',
-    reason:'unclassified Roblox instance requires system-level review'
+    class:'irrelevant',
+    reason:'no recognized reusable StarBlox capability, asset, UI, world structure, script, or remote contract'
   };
 }
 
@@ -274,9 +286,11 @@ function flattenDom(source){
       capabilities:[...capabilities].sort(),
       assetIds:[...assetIds].sort(),
       script,
-      reuse:null
+      reuse:null,
+      review:null
     };
     record.reuse=classifyReuse(record,script);
+    record.review=classifyReview(script);
     records.push(record);
 
     const children=Array.isArray(node.children) ? node.children : [];
@@ -315,6 +329,14 @@ function summarizeClasses(records){
   return Object.fromEntries(
     Object.entries(counts).sort((a,b) => b[1] - a[1] || a[0].localeCompare(b[0]))
   );
+}
+
+function summarizeReuse(records){
+  const counts=Object.fromEntries(ROBLOX_REUSE_CLASSES.map(name => [name,0]));
+  for(const record of records){
+    if(Object.hasOwn(counts,record.reuse?.class)) counts[record.reuse.class]+=1;
+  }
+  return counts;
 }
 
 function summarizeAssets(records){
@@ -383,10 +405,11 @@ function buildSystemCandidates(records){
       return acc;
     },{});
 
-    let recommendation='direct';
-    if(riskFlags.length) recommendation='review';
-    else if(scripts.length || remotes.length) recommendation='refactor';
-    else if(items.every(item => item.reuse.class === 'asset-only')) recommendation='asset-only';
+    let recommendation='irrelevant';
+    const reuseClasses=new Set(items.map(item => item.reuse.class));
+    if(reuseClasses.has('refactor')) recommendation='refactor';
+    else if(reuseClasses.has('direct')) recommendation='direct';
+    else if(reuseClasses.has('asset-only')) recommendation='asset-only';
 
     const score=Math.min(
       10,
@@ -405,6 +428,7 @@ function buildSystemCandidates(records){
       assetCount:assetIds.length,
       capabilities,
       riskFlags,
+      reviewRequired:riskFlags.length > 0,
       reuseCounts,
       reuseRecommendation:recommendation,
       engineeringLeverageScore:Math.round(score * 10) / 10
@@ -423,6 +447,7 @@ function catalogPayload(catalog){
     generatedFrom:catalog.generatedFrom,
     summary:catalog.summary,
     classCounts:catalog.classCounts,
+    reuseCounts:catalog.reuseCounts,
     capabilities:catalog.capabilities,
     assets:catalog.assets,
     dependencies:catalog.dependencies,
@@ -475,9 +500,11 @@ export function buildRobloxCapabilityCatalog(sources){
       assetIdCount:assets.length,
       capabilityCount:Object.keys(capabilities).length,
       systemCandidateCount:systemCandidates.length,
+      reviewRequiredCount:instances.filter(record => record.review.required).length,
       riskFlags
     },
     classCounts:summarizeClasses(instances),
+    reuseCounts:summarizeReuse(instances),
     capabilities,
     assets,
     dependencies,
@@ -504,6 +531,18 @@ export function verifyRobloxCapabilityCatalog(catalog){
   }
   if(!Array.isArray(catalog.instances)) errors.push('instances must be an array');
   if(!Array.isArray(catalog.systemCandidates)) errors.push('systemCandidates must be an array');
+  if(Array.isArray(catalog.instances)){
+    for(const instance of catalog.instances){
+      if(!ROBLOX_REUSE_CLASSES.includes(instance?.reuse?.class)){
+        errors.push('instance has unsupported reuse class');
+        break;
+      }
+      if(typeof instance?.review?.required !== 'boolean' || !Array.isArray(instance?.review?.reasons)){
+        errors.push('instance review metadata is invalid');
+        break;
+      }
+    }
+  }
   try{
     const expected=stableHash(catalogPayload(catalog));
     if(expected !== catalog.catalogHash) errors.push('catalog hash mismatch');
