@@ -96,6 +96,14 @@ def select_attempt(plan: dict[str, Any], attempt_id: str) -> dict[str, Any]:
     if not runtime_prompt or sha256_bytes(runtime_prompt.encode()) != runtime_prompt_sha:
         raise ValueError("runtime prompt text/hash mismatch")
 
+    runtime_negative_prompt = str(attempt.get("runtimeNegativePromptText") or "")
+    runtime_negative_prompt_sha = str(attempt.get("runtimeNegativePromptSha256") or "")
+    if runtime_negative_prompt:
+        if not runtime_negative_prompt_sha or sha256_bytes(runtime_negative_prompt.encode()) != runtime_negative_prompt_sha:
+            raise ValueError("runtime negative prompt text/hash mismatch")
+    elif runtime_negative_prompt_sha:
+        raise ValueError("runtime negative prompt hash present without text")
+
     expected_seed = derive_seed(item_id, prompt_sha, str(attempt.get("variant") or ""))
     if int(attempt.get("seed") or 0) != expected_seed:
         raise ValueError("deterministic seed mismatch")
@@ -576,6 +584,7 @@ def build_dry_run(
         "variant": attempt.get("variant"),
         "promptSha256": attempt.get("promptSha256"),
         "runtimePromptSha256": attempt.get("runtimePromptSha256") or attempt.get("promptSha256"),
+        "runtimeNegativePromptSha256": attempt.get("runtimeNegativePromptSha256"),
         "seed": attempt.get("seed"),
         "runtime": attempt.get("runtime"),
         "model": attempt.get("model"),
