@@ -1,0 +1,84 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_EXACT_HASH_REVIEW_PACKET",
+  "branch": "screenshot-match-preproduction",
+  "createdBy": "14",
+  "rendererEvidenceHead": "07482b957d016c2054c3ae32ba6c7de27fac921d",
+  "reviewer": "02",
+  "producer": "09",
+  "item": {
+    "id": "decor-9",
+    "name": "Easel Set",
+    "collectionId": "decor",
+    "type": "room",
+    "tier": 3,
+    "theme": "Sunny Pop"
+  },
+  "exactCandidate": {
+    "path": "public/assets/catalog-candidates/cpu/decor-9-w09-v1-a-easel-with-tray-original.png",
+    "sha256": "499b255e4a64b70ec1137882adfb9be1785baf9ff0d71e1e6561347f94d2a3d6",
+    "gitBlobSha": "3b0ae22922e3f4aeed5ea6083ebd993ef49b5313",
+    "bytes": 445631,
+    "dimensions": [
+      640,
+      640
+    ],
+    "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-decor-9-12-v1-qualification-20260924.json",
+    "qualification": "QUALIFIED_FOR_RENDERER14"
+  },
+  "renderEvidence": {
+    "workflow": "StarBlox Staged Catalog Art QA",
+    "workflowRunId": 36003139825,
+    "workflowHead": "07482b957d016c2054c3ae32ba6c7de27fac921d",
+    "artifactId": 10809560322,
+    "artifactName": "catalog-staged-art-review",
+    "artifactDigest": "sha256:2d57441b045a194311b5737d9719681a888fc6ef9deecc66ec8a0b2bdcedc362",
+    "contactSheetPath": "staged-replacements/staged-replacements-contact-sheet.png",
+    "contactSheetSha256": "cd8bc9b5f3db6d1cefa6bd4197bee7a0f643179d4d3626b32b2ae80ca5beb07f",
+    "renderStatus": 200,
+    "naturalDimensions": [
+      640,
+      640
+    ],
+    "opaqueFraction": 1,
+    "screenshot": true,
+    "errors": [],
+    "detailPath": "staged-replacements/detail/decor-9-3b0ae229.png",
+    "detailSha256": "104301f60e1f949cc2a890a635b081ba9aaea466a50d549ac6705793de6e764c",
+    "detailDimensions": [
+      800,
+      800
+    ],
+    "preflightPath": "preflight/decor-9-3b0ae229.json",
+    "preflightSha256": "489d4c3f1504aff7315931339fdf5a2c1b24d6275494ae7ee8a354b0a77e48f3"
+  },
+  "reportOnlyPreflight": {
+    "exactDuplicate": false,
+    "calibratedWarnings": [],
+    "warningReadyFeatureCount": 0,
+    "triggeredWarningCount": 0,
+    "blocking": false,
+    "automaticAccept": false,
+    "automaticRework": false
+  },
+  "decisionContract": {
+    "allowed": [
+      "ACCEPT",
+      "REWORK"
+    ],
+    "exactHashOnly": true,
+    "oldVerdictTransfers": false,
+    "selfReview": false,
+    "requiredJudgments": [
+      "Easel Set identity as a real artist easel/product set",
+      "Sunny Pop Tier-3 specificity without clutter",
+      "easel/tray/support physical plausibility",
+      "silhouette and small-card readability",
+      "wood/metal/art-supply material separation",
+      "composition/crop/malformed-object risk",
+      "originality/near-duplicate risk versus existing Decor"
+    ],
+    "onAccept": "Route exact decor-9 v1 hash to 08 canonical integration.",
+    "onRework": "Preserve exact decor-9 v1 hash/evidence and return smallest failure-specific reason codes to producer09/director15."
+  }
+}

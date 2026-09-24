@@ -1,0 +1,84 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_EXACT_HASH_REVIEW_PACKET",
+  "branch": "screenshot-match-preproduction",
+  "createdBy": "14",
+  "rendererEvidenceHead": "07482b957d016c2054c3ae32ba6c7de27fac921d",
+  "reviewer": "02",
+  "producer": "09",
+  "item": {
+    "id": "decor-12",
+    "name": "Trophy Wall",
+    "collectionId": "decor",
+    "type": "room",
+    "tier": 5,
+    "theme": "Star Luxe"
+  },
+  "exactCandidate": {
+    "path": "public/assets/catalog-candidates/cpu/decor-12-w09-v1-a-star-luxe-trophy-wall-original.png",
+    "sha256": "4145d58f5798a2779fb49d9d216cdee533123999057081bda9735420b46c9336",
+    "gitBlobSha": "8e0ba670f01f954c59bf1c077c0fc4fdea3e8ebc",
+    "bytes": 707298,
+    "dimensions": [
+      640,
+      640
+    ],
+    "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-decor-9-12-v1-qualification-20260924.json",
+    "qualification": "QUALIFIED_FOR_RENDERER14"
+  },
+  "renderEvidence": {
+    "workflow": "StarBlox Staged Catalog Art QA",
+    "workflowRunId": 36003139825,
+    "workflowHead": "07482b957d016c2054c3ae32ba6c7de27fac921d",
+    "artifactId": 10809560322,
+    "artifactName": "catalog-staged-art-review",
+    "artifactDigest": "sha256:2d57441b045a194311b5737d9719681a888fc6ef9deecc66ec8a0b2bdcedc362",
+    "contactSheetPath": "staged-replacements/staged-replacements-contact-sheet.png",
+    "contactSheetSha256": "cd8bc9b5f3db6d1cefa6bd4197bee7a0f643179d4d3626b32b2ae80ca5beb07f",
+    "renderStatus": 200,
+    "naturalDimensions": [
+      640,
+      640
+    ],
+    "opaqueFraction": 1,
+    "screenshot": true,
+    "errors": [],
+    "detailPath": "staged-replacements/detail/decor-12-8e0ba670.png",
+    "detailSha256": "99d2d3ccccc482a17d2113a1d97ccf4434aff59a49e7ffd74b88b57d4016d2a5",
+    "detailDimensions": [
+      800,
+      800
+    ],
+    "preflightPath": "preflight/decor-12-8e0ba670.json",
+    "preflightSha256": "4f3884623554d31a687a5f8c1335c4244597cbf07c318e0cc2bebe7242c8cc57"
+  },
+  "reportOnlyPreflight": {
+    "exactDuplicate": false,
+    "calibratedWarnings": [],
+    "warningReadyFeatureCount": 0,
+    "triggeredWarningCount": 0,
+    "blocking": false,
+    "automaticAccept": false,
+    "automaticRework": false
+  },
+  "decisionContract": {
+    "allowed": [
+      "ACCEPT",
+      "REWORK"
+    ],
+    "exactHashOnly": true,
+    "oldVerdictTransfers": false,
+    "selfReview": false,
+    "requiredJudgments": [
+      "Trophy Wall identity as premium wall-mounted display/decor",
+      "Star Luxe Tier-5 spectacle and premium finish",
+      "wall-mount/backboard/trophy attachment physical plausibility",
+      "silhouette and small-card readability",
+      "metal/glass/gold material separation and depth",
+      "composition/crop/malformed-object risk",
+      "originality/near-duplicate risk versus existing Decor"
+    ],
+    "onAccept": "Route exact decor-12 v1 hash to 08 canonical integration.",
+    "onRework": "Preserve exact decor-12 v1 hash/evidence and return smallest failure-specific reason codes to producer09/director15."
+  }
+}

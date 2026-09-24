@@ -1,0 +1,84 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_EXACT_HASH_REVIEW_PACKET",
+  "branch": "screenshot-match-preproduction",
+  "createdBy": "14",
+  "rendererEvidenceHead": "07482b957d016c2054c3ae32ba6c7de27fac921d",
+  "reviewer": "02",
+  "producer": "09",
+  "item": {
+    "id": "decor-10",
+    "name": "Mini Fridge",
+    "collectionId": "decor",
+    "type": "room",
+    "tier": 4,
+    "theme": "Aqua Wave"
+  },
+  "exactCandidate": {
+    "path": "public/assets/catalog-candidates/cpu/decor-10-w09-v1-a-retro-mini-fridge-original.png",
+    "sha256": "59776e97859fee26abbc083cf4e79c7daff6ee0e30a32776fc202a970397a460",
+    "gitBlobSha": "68eeaecc5ab8dd5097160324e0880b129a6ed0ce",
+    "bytes": 603311,
+    "dimensions": [
+      640,
+      640
+    ],
+    "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-decor-9-12-v1-qualification-20260924.json",
+    "qualification": "QUALIFIED_FOR_RENDERER14"
+  },
+  "renderEvidence": {
+    "workflow": "StarBlox Staged Catalog Art QA",
+    "workflowRunId": 36003139825,
+    "workflowHead": "07482b957d016c2054c3ae32ba6c7de27fac921d",
+    "artifactId": 10809560322,
+    "artifactName": "catalog-staged-art-review",
+    "artifactDigest": "sha256:2d57441b045a194311b5737d9719681a888fc6ef9deecc66ec8a0b2bdcedc362",
+    "contactSheetPath": "staged-replacements/staged-replacements-contact-sheet.png",
+    "contactSheetSha256": "cd8bc9b5f3db6d1cefa6bd4197bee7a0f643179d4d3626b32b2ae80ca5beb07f",
+    "renderStatus": 200,
+    "naturalDimensions": [
+      640,
+      640
+    ],
+    "opaqueFraction": 1,
+    "screenshot": true,
+    "errors": [],
+    "detailPath": "staged-replacements/detail/decor-10-68eeaecc.png",
+    "detailSha256": "d3ccd90aed602f7103c81bce00ad71b7789cdae06e1eb555b6c3ae9926878de8",
+    "detailDimensions": [
+      800,
+      800
+    ],
+    "preflightPath": "preflight/decor-10-68eeaecc.json",
+    "preflightSha256": "8b7f1c2fd653690bf06bcf7fd380d332f465fd8626954b7a44a94cd7d1a673e1"
+  },
+  "reportOnlyPreflight": {
+    "exactDuplicate": false,
+    "calibratedWarnings": [],
+    "warningReadyFeatureCount": 0,
+    "triggeredWarningCount": 0,
+    "blocking": false,
+    "automaticAccept": false,
+    "automaticRework": false
+  },
+  "decisionContract": {
+    "allowed": [
+      "ACCEPT",
+      "REWORK"
+    ],
+    "exactHashOnly": true,
+    "oldVerdictTransfers": false,
+    "selfReview": false,
+    "requiredJudgments": [
+      "Mini Fridge identity and believable appliance construction",
+      "Aqua Wave Tier-4 specificity without losing fridge readability",
+      "door/body/handle/feet physical plausibility",
+      "silhouette and small-card readability",
+      "metal/plastic/glass/light material separation",
+      "composition/crop/malformed-object risk",
+      "originality/near-duplicate risk versus existing Decor"
+    ],
+    "onAccept": "Route exact decor-10 v1 hash to 08 canonical integration.",
+    "onRework": "Preserve exact decor-10 v1 hash/evidence and return smallest failure-specific reason codes to producer09/director15."
+  }
+}
