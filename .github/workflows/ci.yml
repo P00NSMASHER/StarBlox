@@ -25,6 +25,17 @@ jobs:
         run: npm install --no-audit --no-fund
       - name: Test Roblox file reader
         run: npm run roblox:catalog:reader:test
+      - name: Smoke-test Roblox source preflight
+        run: |
+          npm run roblox:source:preflight -- --input tools/roblox_catalog_reader/fixtures --out /tmp/roblox-source-preflight.json
+          grep -q '"ready": true' /tmp/roblox-source-preflight.json
+          grep -q '"fileCount": 1' /tmp/roblox-source-preflight.json
+          grep -Eq '"sha256": "[a-f0-9]{64}"' /tmp/roblox-source-preflight.json
+          mkdir -p /tmp/no-roblox-sources
+          if npm run roblox:source:preflight -- --input /tmp/no-roblox-sources --out /tmp/no-roblox-sources.json; then
+            echo "expected empty source preflight to fail"
+            exit 1
+          fi
       - name: Smoke-test Roblox capability catalog
         run: |
           npm run roblox:catalog -- --input tools/roblox_catalog_reader/fixtures/sample.rbxmx --out /tmp/roblox-catalog.json --report /tmp/roblox-catalog.md
