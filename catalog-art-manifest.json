@@ -1,9 +1,9 @@
 {
-  "version": 36,
+  "version": 37,
   "target": 192,
-  "finalCount": 171,
-  "remaining": 21,
-  "note": "Delivery Protocol V2 incremental integration: independently ACCEPTed Decor 5 v3 and Decor 6 v2 exact hashes integrated after packet-bound Store card/detail review. Decor 7/8, Wall 9 and Desk 9/10 remain REWORK. Replit/Floot/main/player data remain untouched.",
+  "finalCount": 173,
+  "remaining": 19,
+  "note": "Delivery Protocol V2 incremental integration: independently ACCEPTed Decor 9 v1 Easel Set and Decor 10 v1 Mini Fridge exact hashes integrated after reviewer02 Store card/detail review. All REWORK hashes remain preserved and non-canonical.",
   "duplicateAssetPaths": [],
   "items": {
     "tops-1": {
@@ -1250,6 +1250,20 @@
       "assetPath": "/assets/catalog-candidates/cpu/wall-10-w13-v2-a-no-text-skyline-original.png",
       "tier": 4,
       "theme": "Cloud Pop",
+      "status": "final-portable"
+    },
+    "decor-9": {
+      "name": "Easel Set",
+      "assetPath": "/assets/catalog-candidates/cpu/decor-9-w09-v1-a-easel-with-tray-original.png",
+      "tier": 3,
+      "theme": "Sunny Pop",
+      "status": "final-portable"
+    },
+    "decor-10": {
+      "name": "Mini Fridge",
+      "assetPath": "/assets/catalog-candidates/cpu/decor-10-w09-v1-a-retro-mini-fridge-original.png",
+      "tier": 4,
+      "theme": "Aqua Wave",
       "status": "final-portable"
     }
   }
