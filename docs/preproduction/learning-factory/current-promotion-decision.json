@@ -1,88 +1,247 @@
 {
-  "schemaVersion":"starblox-learning-promotion-decision-v2",
-  "status":"hold-current-live-selector",
-  "liveSelector":{
-    "implementation":"gameModel.pickQuest",
-    "changeAllowed":false
+  "schemaVersion": "starblox-learning-promotion-decision-v3",
+  "status": "hold-current-live-selector-advance-shadow-content-factory",
+  "liveSelector": {
+    "implementation": "gameModel.pickQuest",
+    "changeAllowed": false
   },
-  "researchState":{
-    "bkt":"shadow-baseline",
-    "fsrs":"validated-engine-signal-research-only",
-    "psiKt":"trained-evaluated-research-only",
-    "selectorV2":"rejected-final-holdout",
-    "bktFsrsRisk40":"rejected-final-holdout",
-    "bktFsrsNearTie3":"rejected-independent-validation",
-    "heuristicBktFsrsAnchorMargin3Risk16":"rejected-independent-validation"
+  "researchState": {
+    "bkt": "shadow-baseline",
+    "fsrs": "validated-engine-signal-research-only",
+    "psiKt": "trained-evaluated-research-only",
+    "selectorV2": "rejected-final-holdout",
+    "bktFsrsRisk40": "rejected-final-holdout",
+    "bktFsrsNearTie3": "rejected-independent-validation",
+    "heuristicBktFsrsAnchorMargin3Risk16": "rejected-independent-validation",
+    "defaultBkt": "retained-shadow-baseline-after-model-and-calibration-challenges",
+    "hlr": "rejected-development-mastery-signal",
+    "ppe": "selector-state-ineligible-at-pinned-interface",
+    "dkt": "rejected-development-mastery-signal",
+    "calibratedBktSingleSeed": "rejected-independent-validation",
+    "robustBktMultiSeed": "no-candidate-cleared-robust-development-gate",
+    "robustHeuristicWeights": "no-candidate-cleared-robust-development-gate",
+    "generatedContentFactory": "evidence-bound-qa-shadow-ready-nonmastery"
   },
-  "provenance":{
-    "allCurrentSourceRepresentationsSnapshotted":true,
-    "abvmFallbackSha256":"119b69175b2995357fd18d9502f78259bcfe9ab7b336d71ab5cd8aaa88297c4a",
-    "abvmExternalOriginalVerified":false,
-    "strictExternalOriginalReady":false
+  "provenance": {
+    "allCurrentSourceRepresentationsSnapshotted": true,
+    "abvmFallbackSha256": "119b69175b2995357fd18d9502f78259bcfe9ab7b336d71ab5cd8aaa88297c4a",
+    "abvmExternalOriginalVerified": false,
+    "strictExternalOriginalReady": false
   },
-  "fsrs":{
-    "engine":"open-spaced-repetition/go-fsrs",
-    "engineVersion":"v3.3.1",
-    "actualEngineExecutionVerified":true
+  "fsrs": {
+    "engine": "open-spaced-repetition/go-fsrs",
+    "engineVersion": "v3.3.1",
+    "actualEngineExecutionVerified": true
   },
-  "psiKt":{
-    "upstreamRepository":"mlcolab/psi-kt",
-    "upstreamCommit":"ecada10cedb3237ba55f4277af0bdbd8d5d4a68e",
-    "model":"AmortizedPSIKT",
-    "authorizedDataset":"synthetic-only-no-real-player-data",
-    "finalHoldout":{
-      "runId":35955086920,
-      "seed":20261103,
-      "supportive":false,
-      "metrics":{
-        "accuracy":0.4791667,
-        "auc":0.4689565,
-        "brier":0.2583837,
-        "predictionCount":384
+  "psiKt": {
+    "upstreamRepository": "mlcolab/psi-kt",
+    "upstreamCommit": "ecada10cedb3237ba55f4277af0bdbd8d5d4a68e",
+    "model": "AmortizedPSIKT",
+    "authorizedDataset": "synthetic-only-no-real-player-data",
+    "finalHoldout": {
+      "runId": 35955086920,
+      "seed": 20261103,
+      "supportive": false,
+      "metrics": {
+        "accuracy": 0.4791667,
+        "auc": 0.4689565,
+        "brier": 0.2583837,
+        "predictionCount": 384
       }
     }
   },
-  "selectorEvidence":{
-    "psiKtFsrsSelectorV2":{
-      "stage":"untouched-final-holdout",
-      "runId":35955086920,
-      "supportive":false,
-      "currentHeuristic":{"meanHiddenNeed":0.5658294,"weakestSkillHitRate":0.71875},
-      "bktBackedShadow":{"meanHiddenNeed":0.5770240,"weakestSkillHitRate":0.78125},
-      "candidate":{"meanHiddenNeed":0.5489398,"weakestSkillHitRate":0.65625}
+  "selectorEvidence": {
+    "psiKtFsrsSelectorV2": {
+      "stage": "untouched-final-holdout",
+      "runId": 35955086920,
+      "supportive": false,
+      "currentHeuristic": {
+        "meanHiddenNeed": 0.5658294,
+        "weakestSkillHitRate": 0.71875
+      },
+      "bktBackedShadow": {
+        "meanHiddenNeed": 0.577024,
+        "weakestSkillHitRate": 0.78125
+      },
+      "candidate": {
+        "meanHiddenNeed": 0.5489398,
+        "weakestSkillHitRate": 0.65625
+      }
     },
-    "bktFsrsRisk40":{
-      "stage":"untouched-final-holdout",
-      "runId":35957281134,
-      "supportive":false,
-      "currentHeuristic":{"meanHiddenNeed":0.5527061,"weakestSkillHitRate":0.7083333},
-      "bktBackedShadow":{"meanHiddenNeed":0.5628061,"weakestSkillHitRate":0.7291667},
-      "candidate":{"meanHiddenNeed":0.5619097,"weakestSkillHitRate":0.7708333}
+    "bktFsrsRisk40": {
+      "stage": "untouched-final-holdout",
+      "runId": 35957281134,
+      "supportive": false,
+      "currentHeuristic": {
+        "meanHiddenNeed": 0.5527061,
+        "weakestSkillHitRate": 0.7083333
+      },
+      "bktBackedShadow": {
+        "meanHiddenNeed": 0.5628061,
+        "weakestSkillHitRate": 0.7291667
+      },
+      "candidate": {
+        "meanHiddenNeed": 0.5619097,
+        "weakestSkillHitRate": 0.7708333
+      }
     },
-    "bktFsrsNearTie3":{
-      "stage":"independent-development-validation",
-      "runId":35957653645,
-      "supportive":false,
-      "currentHeuristic":{"meanHiddenNeed":0.5583932791666667,"weakestSkillHitRate":0.7291666666666666},
-      "bktBackedShadow":{"meanHiddenNeed":0.553001975,"weakestSkillHitRate":0.7083333333333334},
-      "candidate":{"meanHiddenNeed":0.5544847375,"weakestSkillHitRate":0.7291666666666666}
+    "bktFsrsNearTie3": {
+      "stage": "independent-development-validation",
+      "runId": 35957653645,
+      "supportive": false,
+      "currentHeuristic": {
+        "meanHiddenNeed": 0.5583932791666667,
+        "weakestSkillHitRate": 0.7291666666666666
+      },
+      "bktBackedShadow": {
+        "meanHiddenNeed": 0.553001975,
+        "weakestSkillHitRate": 0.7083333333333334
+      },
+      "candidate": {
+        "meanHiddenNeed": 0.5544847375,
+        "weakestSkillHitRate": 0.7291666666666666
+      }
     },
-    "heuristicBktFsrsAnchorMargin3Risk16":{
-      "stage":"independent-development-validation",
-      "runId":35976293553,
-      "supportive":false,
-      "currentHeuristic":{"meanHiddenNeed":0.5838680875000001,"weakestSkillHitRate":0.8125},
-      "bktBackedShadow":{"meanHiddenNeed":0.5920151333333333,"weakestSkillHitRate":0.9166666666666666},
-      "candidate":{"meanHiddenNeed":0.5835776458333334,"weakestSkillHitRate":0.7916666666666666},
-      "candidateVsHeuristic":{"meanHiddenNeed":-0.00029044166666669646,"weakestSkillHitRate":-0.02083333333333337},
-      "candidateVsBkt":{"meanHiddenNeed":-0.008437487499999952,"weakestSkillHitRate":-0.125}
+    "heuristicBktFsrsAnchorMargin3Risk16": {
+      "stage": "independent-development-validation",
+      "runId": 35976293553,
+      "supportive": false,
+      "currentHeuristic": {
+        "meanHiddenNeed": 0.5838680875000001,
+        "weakestSkillHitRate": 0.8125
+      },
+      "bktBackedShadow": {
+        "meanHiddenNeed": 0.5920151333333333,
+        "weakestSkillHitRate": 0.9166666666666666
+      },
+      "candidate": {
+        "meanHiddenNeed": 0.5835776458333334,
+        "weakestSkillHitRate": 0.7916666666666666
+      },
+      "candidateVsHeuristic": {
+        "meanHiddenNeed": -0.00029044166666669646,
+        "weakestSkillHitRate": -0.02083333333333337
+      },
+      "candidateVsBkt": {
+        "meanHiddenNeed": -0.008437487499999952,
+        "weakestSkillHitRate": -0.125
+      }
     }
   },
-  "livePromotionBlockers":[
+  "livePromotionBlockers": [
     "abvm-external-original-unverified",
     "real-learner-efficacy-not-evaluated",
     "privacy-review-not-complete",
     "no-research-selector-has-cleared-required-validation-and-final-holdout-gates"
   ],
-  "nextEvidenceRule":"Do not tune against any prior validation or final-holdout seed. A future candidate must use a new development cohort, then a separate no-tuning validation cohort, then a newly locked untouched final holdout. Synthetic success alone cannot enable live selection."
+  "nextEvidenceRule": "Freeze selector/model retuning unless a materially new hypothesis is introduced. Do not reuse prior validation/final-holdout seeds. Shadow content-factory work may advance only through evidence-bound source spans, structured QuestionV2 contracts, adversarial/semantic QA, explicit review promotion, and live-runtime isolation. Synthetic evidence alone cannot enable live adaptive selection or mastery credit.",
+  "modelEvidence": {
+    "recallModelDevelopment": {
+      "runId": 35977555076,
+      "seed": 20270623,
+      "bkt": {
+        "globalPearson": 0.4107485287,
+        "mae": 0.236907983,
+        "meanLearnerSpearman": 0.3953870576,
+        "weakestSkillHitRate": 0.2083333333
+      },
+      "hlr": {
+        "globalPearson": 0.1466305947,
+        "mae": 0.2587992479,
+        "meanLearnerSpearman": 0.153219697,
+        "weakestSkillHitRate": 0.1875,
+        "supportive": false
+      },
+      "ppe": {
+        "selectorStateEligible": false,
+        "reason": "Pinned upstream PPE returns current-item prediction but not its internally computed all-skill state; StarBlox does not fabricate a selector-state API."
+      }
+    },
+    "dktDevelopment": {
+      "runId": 35978015175,
+      "seed": 20270717,
+      "bkt": {
+        "globalPearson": 0.45745416695,
+        "mae": 0.23172325947,
+        "meanLearnerSpearman": 0.43417266503,
+        "weakestSkillHitRate": 0.125
+      },
+      "dkt": {
+        "globalPearson": 0.15657382546,
+        "mae": 0.32676537286,
+        "meanLearnerSpearman": 0.12878787879,
+        "weakestSkillHitRate": 0.125,
+        "heldOutAccuracy": 0.5347222222,
+        "heldOutAuc": 0.5394219011,
+        "heldOutBrier": 0.33372909145,
+        "supportive": false
+      }
+    },
+    "singleSeedBktCalibration": {
+      "tuningRunId": 35978676850,
+      "tuningSeed": 20270805,
+      "selectedParams": {
+        "pKnow": 0.2,
+        "pLearn": 0.2,
+        "pGuess": 0.1,
+        "pSlip": 0.2
+      },
+      "tuningSupportive": true,
+      "validationRunId": 35979075384,
+      "validationSeed": 20270903,
+      "validationSupportive": false,
+      "validationVsDefault": {
+        "mae": -0.022689367262520188,
+        "globalPearson": -0.010163351466603299,
+        "meanLearnerSpearman": -0.02130875507016311,
+        "weakestSkillHitRate": -0.0625
+      }
+    },
+    "robustBktCalibration": {
+      "runId": 35979352786,
+      "seeds": [
+        20271011,
+        20271029,
+        20271119
+      ],
+      "gridSize": 1120,
+      "supportive": false,
+      "selected": null
+    },
+    "robustHeuristicCalibration": {
+      "runId": 35979650766,
+      "seeds": [
+        20271211,
+        20271229,
+        20280117
+      ],
+      "gridSize": 625,
+      "supportive": false,
+      "selected": null,
+      "exactDefaultReplayVerified": true
+    }
+  },
+  "contentFactoryEvidence": {
+    "evidenceBinding": {
+      "runId": 35980046990,
+      "evidenceBoundCount": 1,
+      "issueCount": 0,
+      "sourceId": "current-week-vocabulary",
+      "snapshotPath": "$/1/1",
+      "fragmentFingerprint": "fnv1a32:edbd2e63",
+      "evidenceFingerprint": "fnv1a32:e7e259d5"
+    },
+    "generatedQuestionCompiler": {
+      "runId": 35980358329,
+      "qaReadyCount": 1,
+      "forcedNonMastery": true,
+      "evidenceProvenanceRequired": true,
+      "adversarialHardFindingsRequiredZero": true,
+      "liveGeneratedContentAllowed": false
+    }
+  },
+  "liveGeneratedContent": {
+    "allowed": false,
+    "reason": "EdGameClaw/evidence/compiler modules are shadow/offline tooling only and generated questions are forced masteryEligible=false."
+  }
 }
