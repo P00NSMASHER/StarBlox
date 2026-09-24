@@ -1,0 +1,146 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_BATCH_REQUEST",
+  "planner": "15",
+  "preflightOwner": "06",
+  "renderOwner": "14",
+  "integrationOwner": "08",
+  "coordinationOwner": "15",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "8af987d0b7ec565433d206b09e763b94e1e899ed",
+  "manifestVersion": 40,
+  "assignmentAuthority": {
+    "path": "docs/preproduction/art-factory/RELEASE_BLOCKERS_CURRENT.json",
+    "runtimeProofPath": "docs/preproduction/art-factory/CPU_RUNTIME_PROOF.json",
+    "runtimeProofStatus": "PROVEN",
+    "runtimeCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+    "modelRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "assignedReviewers": {
+      "decor-8": "11",
+      "desks-9": "05",
+      "desks-10": "05",
+      "desks-11": "01"
+    },
+    "note": "Literal one-product prompts; 8-step bounded quality bump. Preserve all previous rejected hashes."
+  },
+  "references": {
+    "originalStoreReference": {
+      "requiredBeforeGeneration": true,
+      "repositoryPath": "docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg",
+      "sha256": "b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d",
+      "gitBlobSha": "383baa877d3af86fa92e3583740212000592b3d6",
+      "dimensions": [
+        1448,
+        1086
+      ],
+      "role": "FIRST_PARTY_STARBLOX_STORE_ART_DIRECTION"
+    }
+  },
+  "reviewSource": {
+    "decision": "REWORK",
+    "note": "Newest exact-hash rendered failures. Prompts are deliberately shortened to one literal product silhouette to reduce collage/room-installation failure modes."
+  },
+  "executionBudget": {
+    "width": 640,
+    "height": 640,
+    "steps": 8,
+    "guidanceScale": 4,
+    "dtype": "float32"
+  },
+  "safety": {
+    "preserveRejectedExactHashes": true,
+    "preserveAcceptedExactHashes": true,
+    "producerSelfReview": false,
+    "canonicalMappingsChanged": false,
+    "workflowFilesChanged": false
+  },
+  "producer": "03",
+  "reviewer": "MIXED_11_05_01",
+  "batchId": "w03-release-tail-4pack-v5",
+  "scope": [
+    "decor-8",
+    "desks-9",
+    "desks-10",
+    "desks-11"
+  ],
+  "state": "PREPARED_LITERAL_SINGLE_PRODUCT_RETRY",
+  "items": {
+    "decor-8": {
+      "currentLegacy": {
+        "path": "public/assets/catalog-candidates/cpu/decor-8-w03-v4-a-one-rectangular-aquarium-original.png",
+        "gitBlobSha1": "84aebabc0c5653fbd551badab28dff9873574edd",
+        "reviewDecision": "REWORK",
+        "normalizedFailureTaxonomy": [
+          "TERRARIUM_NOT_AQUARIUM",
+          "NO_VISIBLE_WATER",
+          "NO_FISH_OR_FILTER",
+          "SECOND_OBJECT_INTRUSION"
+        ]
+      },
+      "variants": [
+        {
+          "variantId": "A-BLUE-WATER-FISH-AQUARIUM",
+          "optimizerInput": "Single small rectangular aquarium product, centered on a plain white studio background. Clear glass tank visibly filled with bright blue water, one obvious horizontal water line, two small colorful fish, one tiny bubble filter, gravel and one aquatic plant. One dark base and one slim lid. Full tank visible, three-quarter product render. NO terrarium, NO dry sand display, NO second tank, NO cropped object, NO room, NO collage, NO text."
+        }
+      ]
+    },
+    "desks-9": {
+      "currentLegacy": {
+        "path": "public/assets/catalog-candidates/cpu/desks-9-w03-v4-a-one-art-maker-table-original.png",
+        "gitBlobSha1": "b9a6d922e38d03c08298577a0f46c71dfb28bd66",
+        "reviewDecision": "REWORK",
+        "normalizedFailureTaxonomy": [
+          "ART_TABLE_IDENTITY_FAILURE",
+          "MALFORMED_WORKTOP_CHAIR_GEOMETRY",
+          "NO_TOOL_RAIL",
+          "ROOM_BACKGROUND_DOMINATES"
+        ]
+      },
+      "variants": [
+        {
+          "variantId": "A-LITERAL-ART-MAKER-TABLE",
+          "optimizerInput": "Single freestanding art maker table product on a plain white studio background. One wide rectangular wood worktop, four simple straight legs, one shallow drawer, one low peg rail at the back with a brush cup, scissors and colored paper. Warm yellow and coral accents. Full table visible, three-quarter product render. NO chair, NO room, NO blinds, NO wall shelves, NO cabinets, NO collage, NO text."
+        }
+      ]
+    },
+    "desks-10": {
+      "currentLegacy": {
+        "path": "public/assets/catalog-candidates/cpu/desks-10-w03-v7-a-one-streaming-desk-monitor-mic-original.png",
+        "gitBlobSha1": "4af5225c536dff0a25c12f0f5e4066c39ad33322",
+        "reviewDecision": "REWORK",
+        "normalizedFailureTaxonomy": [
+          "MULTI_VARIANT_COLLAGE",
+          "NO_SINGLE_STREAMING_DESK",
+          "MONITOR_MIC_IDENTITY_FAILURE",
+          "CARD_SCALE_PRODUCT_FAILURE"
+        ]
+      },
+      "variants": [
+        {
+          "variantId": "A-LITERAL-STREAMING-DESK",
+          "optimizerInput": "Single modern computer streaming desk product on a plain white studio background. One long black rectangular tabletop, two simple legs, one large monitor centered on top, one obvious microphone on a boom arm clamped to the left edge, one small PC tower below, thin cyan aqua light strip. Full desk visible, three-quarter product render. NO shelves, NO cabinets, NO multiple views, NO collage, NO room, NO text."
+        }
+      ]
+    },
+    "desks-11": {
+      "currentLegacy": {
+        "path": "public/assets/catalog-candidates/cpu/desks-11-w03-v5-a-one-creator-desk-only-original.png",
+        "gitBlobSha1": "31216c600b99791b15e9bd92079dd70241ca53bf",
+        "reviewDecision": "REWORK",
+        "normalizedFailureTaxonomy": [
+          "ROOM_CONTEXT_DOMINATES",
+          "WEAK_CREATOR_STATION_IDENTITY",
+          "MALFORMED_DESK_SUPPORTS",
+          "NO_CLEAR_CREATIVE_TOOL_STORAGE"
+        ]
+      },
+      "variants": [
+        {
+          "variantId": "A-LITERAL-CREATOR-DESK",
+          "optimizerInput": "Single freestanding creator art desk product on a plain white studio background. One wide cream rectangular worktop, two solid pedestal supports, one shallow drawer bank, one small low organizer rail with two supply bins, one drawing tablet and one brush cup. Coral lavender and aqua accents. Full desk visible, three-quarter product render. NO room, NO wall shelves, NO cabinets behind it, NO chair, NO collage, NO text."
+        }
+      ]
+    }
+  }
+}
