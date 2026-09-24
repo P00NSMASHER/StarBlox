@@ -1,0 +1,94 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_TECHNICAL_QUALIFICATION",
+  "role": "06-single-technical-qualification-gate",
+  "branch": "screenshot-match-preproduction",
+  "observedHead": "f895bc95861da3adbca692cf77a9cb78fd0016d6",
+  "sourceGenerationRunId": 35880356000,
+  "sourceRecoveryRunId": 35951428839,
+  "intakeEvidence": "docs/preproduction/art-factory/requests/w12-cross-account-intake-routing-20260924-v17.json",
+  "item": {
+    "id": "decor-6",
+    "name": "Telescope",
+    "collectionId": "decor",
+    "type": "room",
+    "tier": 2,
+    "theme": "Berry Blast"
+  },
+  "candidate": {
+    "producer": "03",
+    "recoveryOwner": "07",
+    "reviewer": "11",
+    "renderOwner": "14",
+    "canonicalWriter": "08",
+    "path": "public/assets/catalog-candidates/cpu/decor-6-w03-v1-a-physical-original.png",
+    "sha256": "8b839bb54cda085810a58d1714c3f0850991e544b2e7c75e75a5e6c20c820fd2",
+    "gitBlobSha": "a8dca54ad9c511b529ab505dab97991bbc76daef",
+    "dimensions": [
+      1024,
+      1024
+    ],
+    "bytes": 1747044,
+    "format": "PNG",
+    "mode": "RGB",
+    "stagedOutputStatus": "STAGED_EXACT_BYTES_VERIFIED",
+    "currentTreeContainsExactCandidateBlob": true,
+    "exactBlobUniqueInObservedTree": true
+  },
+  "technicalChecks": {
+    "idPathBinding": "PASS",
+    "signatureDecode": "PASS",
+    "dimensions": "PASS",
+    "sourceLineage": "PASS",
+    "artFactoryV2Provenance": "PASS",
+    "stagedOutputReadback": "PASS",
+    "staleSupersededCheck": "PASS",
+    "exactContentDuplicateCheck": "PASS",
+    "independentReviewerRouting": "PASS"
+  },
+  "provenance": {
+    "stagedOutput": "docs/preproduction/art-factory/generated-evidence/w03-decor-6-8-cpu-v1/decor-6/staged-output.json",
+    "generationReceipt": "docs/preproduction/art-factory/generated-evidence/w03-decor-6-8-cpu-v1/decor-6/generation-receipt.json",
+    "sourceHead": "0079db35c157cebaca2974dcf6608e7c4cdfeef5",
+    "runtimeRepo": "huggingface/diffusers",
+    "runtimeCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "runtimeCommitVerified": true,
+    "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+    "modelRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "modelRevisionVerified": true,
+    "promptSha256": "93aa378f45fff36359c942275837a1f8b7d6f1dee5a6e58b493f34a5515685ef",
+    "promptRecipeVersion": "artPromptOptimizer-request-v1:w03-decor-6-8-provenance-repair-v1",
+    "executedSeed": 871183514,
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS",
+    "sourceBytesPreserved": true,
+    "derivativeOfSha256": null
+  },
+  "exactHashReconciliation": {
+    "currentTreeContainsExactCandidateBlob": true,
+    "exactBlobUniqueInObservedTree": true,
+    "manifestAlreadyMapsCandidate": false,
+    "runtimeAlreadyMapsCandidate": false,
+    "newerPendingCandidateObserved": false,
+    "staleCandidateRisk": "NONE_OBSERVED",
+    "exactDuplicateRisk": "NONE_OBSERVED",
+    "artQualityJudgmentPerformed": false
+  },
+  "qualification": {
+    "status": "QUALIFIED_FOR_RENDERER14",
+    "qualifiedForRenderer14": true,
+    "artQualityJudgment": "NOT_PERFORMED",
+    "blockingDefects": []
+  },
+  "routing": {
+    "current": "HANDOFF_TO_RENDERER14",
+    "renderer14": "RENDER_EXACT_HASH_IN_REAL_STORE_CARD_DETAIL_CONTEXT",
+    "reviewer11": "AFTER_RENDER_PACKET__INDEPENDENT_EXACT_HASH_ACCEPT_OR_REWORK",
+    "integration08": "ONLY_AFTER_REVIEWER11_ACCEPT"
+  },
+  "preservation": {
+    "candidateBytesMutated": false,
+    "canonicalMappingsChanged": false,
+    "gameplayLearningPersistenceEconomyChanged": false,
+    "deploymentTouched": false
+  }
+}
