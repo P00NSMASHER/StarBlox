@@ -112,7 +112,10 @@ export function createSocialWorldState(){
       minigameWins:0
     },
     activeMinigame:null,
-    completedSessionIds:[]
+    completedSessionIds:[],
+    completedSessionReceipts:{},
+    affinityReceipts:{},
+    photoReceipts:{}
   });
 }
 
@@ -191,8 +194,8 @@ export function awardNpcAffinity(state,catalog,{
   if(!def) return deepFreeze({ok:false,reason:'unknown npc',state:next});
   const delta=Math.max(0,Math.floor(finite(amount,'amount')));
   const key=id(eventId,'eventId');
-  next._affinityEventIds ||= [];
-  if(next._affinityEventIds.includes(key)){
+  next.affinityReceipts ||= {};
+  if(next.affinityReceipts[key]){
     const affinity=next.npcAffinity[npcId] || 0;
     return deepFreeze({
       ok:true,
@@ -202,8 +205,7 @@ export function awardNpcAffinity(state,catalog,{
       level:npcLevel(def,affinity).level
     });
   }
-  next._affinityEventIds.push(key);
-  next._affinityEventIds=next._affinityEventIds.slice(-200);
+  next.affinityReceipts[key]=true;
 
   next.npcAffinity[npcId]=(next.npcAffinity[npcId] || 0) + delta;
   const progress=npcLevel(def,next.npcAffinity[npcId]);
@@ -230,7 +232,10 @@ export function startSocialMinigame(state,catalog,{
   if(!game) return deepFreeze({ok:false,reason:'unknown minigame',state:next});
   if(game.npcId && game.npcId !== npcId) return deepFreeze({ok:false,reason:'minigame npc mismatch',state:next});
   const sid=id(sessionId,'sessionId');
-  if(next.completedSessionIds.includes(sid)) return deepFreeze({ok:false,reason:'session already completed',state:next});
+  next.completedSessionReceipts ||= {};
+  if(next.completedSessionReceipts[sid] || next.completedSessionIds.includes(sid)){
+    return deepFreeze({ok:false,reason:'session already completed',state:next});
+  }
   const start=new Date(startedAt).toISOString();
   next.activeMinigame={sessionId:sid,gameId,npcId,startedAt:start};
   return deepFreeze({ok:true,state:next,session:clone(next.activeMinigame)});
@@ -253,6 +258,8 @@ export function finishSocialMinigame(state,catalog,{
     return deepFreeze({ok:false,reason:'invalid minigame duration',state:next,rewards:[]});
   }
   next.activeMinigame=null;
+  next.completedSessionReceipts ||= {};
+  next.completedSessionReceipts[sessionId]=true;
   next.completedSessionIds.push(sessionId);
   next.completedSessionIds=next.completedSessionIds.slice(-200);
   const rewards=won ? clone(game.winRewards) : [];
@@ -272,12 +279,23 @@ function normalizeUnit(raw,label){
 }
 
 export function recordSocialPhoto(state,{
+  eventId,
   capturer,
   participants=[],
   maxDistance=18,
   facingDot=0.55
 }){
   const next=mutableState(state);
+  const photoId=id(eventId,'eventId');
+  next.photoReceipts ||= {};
+  if(next.photoReceipts[photoId]){
+    return deepFreeze({
+      ok:true,
+      duplicate:true,
+      state:next,
+      coopParticipants:[]
+    });
+  }
   const cpos=normalizeVector3(capturer.position,'capturer.position');
   const clook=normalizeUnit(capturer.look,'capturer.look');
   const coop=[];
@@ -291,11 +309,13 @@ export function recordSocialPhoto(state,{
     }
   }
 
+  next.photoReceipts[photoId]=true;
   next.stats.photosTaken += 1;
   if(coop.length) next.stats.coopPhotos += 1;
 
   return deepFreeze({
     ok:true,
+    duplicate:false,
     state:next,
     coopParticipants:[...new Set(coop)].sort()
   });
