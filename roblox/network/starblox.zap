@@ -91,3 +91,50 @@ event NpcTurn = {
 	call: ManyAsync,
 	data: (NpcId: string.utf8, RequestId: string.utf8, Text: string.utf8)
 }
+
+
+event SubmitActionInput = {
+	from: Client,
+	type: Unreliable,
+	call: ManyAsync,
+	data: (
+		Sequence: u32,
+		ClientTick: u32,
+		MoveX: f32,
+		MoveZ: f32,
+		Jump: boolean,
+		AimX: f32,
+		AimY: f32,
+		AimZ: f32,
+		ActionCode: u8,
+		TargetUserId: u64
+	)
+}
+
+event AuthoritativeActionState = {
+	from: Server,
+	type: Unreliable,
+	call: ManyAsync,
+	data: (
+		ServerTick: u32,
+		AckSequence: u32,
+		X: f32,
+		Y: f32,
+		Z: f32,
+		VelocityX: f32,
+		VelocityY: f32,
+		VelocityZ: f32
+	)
+}
+
+event ConfirmedAction = {
+	from: Server,
+	type: Reliable,
+	call: ManyAsync,
+	data: (
+		Sequence: u32,
+		ActionCode: u8,
+		TargetUserId: u64,
+		OutcomeCode: u8
+	)
+}
