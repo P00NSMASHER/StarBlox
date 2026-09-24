@@ -1,0 +1,84 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_EXACT_HASH_REVIEW_PACKET",
+  "branch": "screenshot-match-preproduction",
+  "createdBy": "14",
+  "rendererEvidenceHead": "02b96b2a4b5dcac364d29f66dd598673128a3461",
+  "reviewer": "01",
+  "producer": "03",
+  "item": {
+    "id": "desks-11",
+    "name": "Dream Creator Station",
+    "collectionId": "desks",
+    "type": "room",
+    "tier": 4,
+    "theme": "Art Attack"
+  },
+  "exactCandidate": {
+    "path": "public/assets/catalog-candidates/cpu/desks-11-w03-v1-a-creator-hutch-original.png",
+    "sha256": "6de9058d7498875858e3abacbf0ec65ee51759c1b050bc6731758afd2f556c81",
+    "gitBlobSha": "828ee1d718ca20643dd8d9fc24c7a98d33fb912c",
+    "bytes": 539567,
+    "dimensions": [
+      640,
+      640
+    ],
+    "qualificationEvidence": "docs/preproduction/art-factory/requests/w06-desks-11-12-v1-qualification-20260924.json",
+    "qualification": "QUALIFIED_FOR_RENDERER14"
+  },
+  "renderEvidence": {
+    "workflow": "StarBlox Staged Catalog Art QA",
+    "workflowRunId": 36006870783,
+    "workflowHead": "02b96b2a4b5dcac364d29f66dd598673128a3461",
+    "artifactId": 10810702708,
+    "artifactName": "catalog-staged-art-review",
+    "artifactDigest": "sha256:a22a9f8849eebf14df3f597845484e6bb0f3d400fabcac04258e5b16114f5771",
+    "contactSheetPath": "staged-replacements/staged-replacements-contact-sheet.png",
+    "contactSheetSha256": "f3bce199db66603856cec778a69addc5db598d77a17e41c1c83f30c01cb5aaf3",
+    "renderStatus": 200,
+    "naturalDimensions": [
+      640,
+      640
+    ],
+    "opaqueFraction": 1,
+    "screenshot": true,
+    "errors": [],
+    "detailPath": "staged-replacements/detail/desks-11-828ee1d7.png",
+    "detailSha256": "af2d94c17035097cbca609925747d70a19e67eb9e451b620a7445683516c44f1",
+    "detailDimensions": [
+      800,
+      800
+    ],
+    "preflightPath": "preflight/desks-11-828ee1d7.json",
+    "preflightSha256": "e2d8b0efbf65fa763e34636b866a7728e09c168662b08dcb82a3c83746613193"
+  },
+  "reportOnlyPreflight": {
+    "exactDuplicate": false,
+    "calibratedWarnings": [],
+    "warningReadyFeatureCount": 0,
+    "triggeredWarningCount": 0,
+    "blocking": false,
+    "automaticAccept": false,
+    "automaticRework": false
+  },
+  "decisionContract": {
+    "allowed": [
+      "ACCEPT",
+      "REWORK"
+    ],
+    "exactHashOnly": true,
+    "oldVerdictTransfers": false,
+    "selfReview": false,
+    "requiredJudgments": [
+      "Dream Creator Station identity as substantial creative-workstation furniture",
+      "Art Attack Tier-4 specificity without room-scene clutter",
+      "desktop/support/storage/hutch/tool organization physical plausibility",
+      "silhouette and small-card readability",
+      "wood/painted-metal/acrylic/display material separation and depth",
+      "composition/crop/malformed-object risk",
+      "originality/near-duplicate risk versus existing Desks"
+    ],
+    "onAccept": "Route exact desks-11 v1 hash to 08 canonical integration.",
+    "onRework": "Preserve exact desks-11 v1 hash/evidence and return smallest failure-specific reason codes to producer03/director15."
+  }
+}
