@@ -10,6 +10,8 @@ on:
       - "src/contentProvenanceRuntime.js"
       - "src/adversarialQuestionQa.js"
       - "src/learningEventLedger.js"
+      - "src/learningEventBridge.js"
+      - "src/App.jsx"
       - "src/psiKtShadowAdapter.js"
       - "src/riffShadowAdapter.js"
       - "src/edGameClawShadowAdapter.js"
