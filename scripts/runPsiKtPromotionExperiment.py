@@ -71,6 +71,35 @@ class StarBloxAmortizedPSIKT(AmortizedPSIKT):
         )
         return ps_dist, pz_dist
 
+    def forward(self, feed_dict):
+        # Pinned upstream forward() computes the full objective dictionary,
+        # then overwrites it with a reduced debug dictionary. Upstream loss()
+        # expects the original objective keys, including "prediction".
+        t_train = feed_dict["time_seq"]
+        y_train = feed_dict["label_seq"]
+        item_train = feed_dict["skill_seq"]
+        emb_history = self.embedding_process(
+            time=t_train,
+            label=y_train,
+            item=item_train,
+        )
+        qs_dist, qz_dist = self.inference_process(emb_history, feed_dict)
+        ps_dist, pz_dist = self.generative_process(
+            qs_dist,
+            qz_dist,
+            feed_dict,
+        )
+        return_dict = self.get_objective_values(
+            [qs_dist, qz_dist],
+            [ps_dist, pz_dist],
+            feed_dict,
+        )
+        self.register_buffer(
+            name="output_emb_input",
+            tensor=emb_history.clone().detach(),
+        )
+        return return_dict
+
 
 def repair_upstream_sequence_alignment(reader, max_step):
     """Audit and repair the pinned DataReader's correct_seq ordering.
@@ -331,6 +360,7 @@ receipt = {
     "model":"AmortizedPSIKT",
     "wrapperClass":"StarBloxAmortizedPSIKT",
     "compatibilityShim":"skip-unused-qs-sample-assignment-with-undefined-bsn",
+    "forwardCompatibilityShim":"preserve-objective-dict-discarded-by-upstream-forward",
     "dataAlignmentShim":alignment_audit,
     "device":"cpu",
     "epochs":model_args.epoch,
@@ -357,6 +387,7 @@ print(json.dumps({
     "model":receipt["model"],
     "wrapperClass":receipt["wrapperClass"],
     "compatibilityShim":receipt["compatibilityShim"],
+    "forwardCompatibilityShim":receipt["forwardCompatibilityShim"],
     "dataAlignmentShim":receipt["dataAlignmentShim"],
     "upstreamCommit":upstream_commit,
     "epochs":receipt["epochs"],
