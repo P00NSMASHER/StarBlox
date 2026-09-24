@@ -7,7 +7,7 @@
   "policy": "docs/preproduction/DELIVERY_PROTOCOL_V2.md",
   "visualSprint": "docs/preproduction/ART_VISUALS_SPRINT.json",
   "artFactoryPolicy": "docs/preproduction/art-factory/ART_FACTORY_V2.json",
-  "sourceHead": "b8cdf47d0c",
+  "sourceHead": "70bc37b6acb2f5d58a5a84dd6ecf8f2950a40328",
   "priorReviewShard": {
     "blobSha": "4173dbb9923157eb5a13090d526f88cfec162edd",
     "schemaVersion": 10,
@@ -240,9 +240,9 @@
   ],
   "currentCycle": {
     "scope": [
-      "wall-9"
+      "decor-11"
     ],
-    "version": "Wall9 v10 exact source hash",
+    "version": "Decor11 v7 exact source hash",
     "result": "REWORK_1_OF_1_FAIL_FAST",
     "oldVerdictsTransferred": false,
     "actualCardScalePixelsReviewed": false,
@@ -1169,6 +1169,45 @@
         "duplicateVisual": "PASS",
         "technicalIntegrity": "PASS"
       }
+    },
+    {
+      "itemId": "decor-11",
+      "name": "Dream Vanity Set",
+      "tier": 4,
+      "theme": "Art Attack",
+      "assetPath": "public/assets/catalog-candidates/cpu/decor-11-w09-v7-a-token-safe-vanity-stool-original.png",
+      "repositoryPath": "public/assets/catalog-candidates/cpu/decor-11-w09-v7-a-token-safe-vanity-stool-original.png",
+      "assetHash": "7badb72a99eb63aa259e5345a6a806cacb6c73a2",
+      "sha256": "31ef9871ff7ed83d583630a7e78ec500dfd75116d78a840ef9f660914aa8fa45",
+      "contentSha256": "31ef9871ff7ed83d583630a7e78ec500dfd75116d78a840ef9f660914aa8fa45",
+      "hashAlgorithm": "git-blob-sha1",
+      "producer": "09",
+      "decision": "REWORK",
+      "learnerLabel": "REWORK",
+      "reviewedAt": "2026-09-24T19:58:00Z",
+      "evidenceRefs": [
+        "workflow:36048636468",
+        "artifact:10830267205/candidate/decor-11-w09-v7-a-token-safe-vanity-stool-original.png"
+      ],
+      "reasonCodes": [
+        "TWO_VANITY_VARIANTS",
+        "NO_MATCHING_STOOL",
+        "SPLIT_PANEL_COMPOSITION",
+        "SINGLE_SET_CONTRACT_FAILURE"
+      ],
+      "reason": "REWORK fail-fast from exact source pixels. V7 renders two separate vanity/mirror variants side-by-side and does not contain one clearly separate matching padded stool. The split composition itself violates the one-set contract. Preserve this hash. The next attempt should use the already-planned B variant: exactly one vanity table, one mirror, and one obvious stool on a plain background with no alternate view.",
+      "checks": {
+        "identity": "FAIL",
+        "themeTier": "PASS",
+        "silhouette": "FAIL",
+        "materialLighting": "PASS",
+        "cardReadability": "FAIL",
+        "physicalConstruction": "PARTIAL",
+        "framingComposition": "FAIL",
+        "originality": "PASS",
+        "duplicateVisual": "PASS",
+        "technicalIntegrity": "PASS"
+      }
     }
   ],
   "currentReplacementDisposition": {
@@ -1190,7 +1229,7 @@
         "decor-12": "0926a84e4b1e47ce58b5335e3cc655c77fb67d07"
       },
       "REWORK": {
-        "decor-11": "61def289ba05f48b56c29d3eaa2d38a4a4b0899a",
+        "decor-11": "7badb72a99eb63aa259e5345a6a806cacb6c73a2",
         "decor-12": "72655049c8c0c488f56c80916ed7213e62d7e374"
       }
     }
@@ -1202,15 +1241,15 @@
     "newBlockedThisRun": 0,
     "newUsableBy08Now": [],
     "reworkNow": [
-      "wall-9"
+      "decor-11"
     ],
-    "preservedAcceptedHashes": "All prior reviewer02 ACCEPTs remain frozen; this REWORK applies only to Wall9 v10 exact hash."
+    "preservedAcceptedHashes": "All prior reviewer02 ACCEPTs remain frozen; this REWORK applies only to Decor11 v7 exact hash."
   },
   "handoff": {
     "13": "Wall9 v10 REWORK; preserve exact hash and prepare only an exactly-three-frame horizontal triptych if still release-critical.",
     "14": "Current packets consumed; do not rerender unchanged hashes.",
-    "15": "Wall9 remains a bounded exact-pixel blocker.",
-    "09": "Freeze Decor11 v6 REWORK and advance only a new-version stool-first fallback.",
-    "08": "Do not canonical-wire Wall9 v10."
+    "15": "Decor11 remains a bounded exact-pixel blocker.",
+    "09": "Decor11 v7 REWORK; preserve exact hash and use the already-planned B-SIMPLE-VANITY-STOOL attempt as v8.",
+    "08": "Do not canonical-wire Decor11 v7."
   }
 }
