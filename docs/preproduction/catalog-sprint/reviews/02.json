@@ -7,7 +7,7 @@
   "policy": "docs/preproduction/DELIVERY_PROTOCOL_V2.md",
   "visualSprint": "docs/preproduction/ART_VISUALS_SPRINT.json",
   "artFactoryPolicy": "docs/preproduction/art-factory/ART_FACTORY_V2.json",
-  "sourceHead": "e77fb5e91b202709229256ed2b6daee6e6d9d91e",
+  "sourceHead": "007fec4008d22c5b3caf4fd91a5eebf6d9104529",
   "priorReviewShard": {
     "blobSha": "4173dbb9923157eb5a13090d526f88cfec162edd",
     "schemaVersion": 10,
@@ -242,7 +242,7 @@
     "scope": [
       "wall-9"
     ],
-    "version": "w13-v2 A-BACKBOARD-GALLERY exact repository hash",
+    "version": "w13-v3 A-FRAMES-DOMINANT exact repository hash",
     "result": "REWORK_1_OF_1",
     "oldVerdictsTransferred": false,
     "actualCardScalePixelsReviewed": true,
@@ -251,16 +251,13 @@
   },
   "currentRenderEvidence": {
     "workflow": "StarBlox Staged Catalog Art QA",
-    "workflowRunId": 35955590927,
-    "artifactId": 10789952890,
+    "workflowRunId": 35977305007,
+    "artifactId": 10798692858,
     "artifactName": "catalog-staged-art-review",
-    "artifactDigest": "sha256:09cb11f2e6e6ccdb1125fc305a5e7a73f1736536308dca9dacfc3bd0a8ceaebc",
-    "workflowHead": "4aa401724632940de7e1234f65fd910336166213",
-    "detailEvidence": "artifact:10789952890/staged-replacements/detail/wall-9-00e551de.png",
-    "detailEvidenceSha256": "d54290173f3f12fc947a2e1c8d4f778f10443cb8b3363644fd998ca21e774ab0",
-    "contactSheetSha256": "78a88e90179ffe702dec16fba632faa81b01d3acf32eaac61670af4e596c095d",
-    "preflightSha256": "58b0a8836b36294f2837177d1ab19c8c9112d23f4062951e4b90404b8476af16",
-    "technicalChecks": "Exact staged Git blob binding PASS, PNG decode PASS, HTTP 200, 640x640 natural dimensions, opaqueFraction=1, screenshot=true, exact duplicate=false, zero calibrated warnings."
+    "artifactDigest": "sha256:34fd5ecda08f3b820c668231703d731709ec2439fca2652a6e62718b6e47113e",
+    "workflowHead": "5f5004b19e3347bcc9420a0b66dcc0cf404613cb",
+    "detailEvidence": "artifact:10798692858/staged-replacements/detail/wall-9-e0be4534.png",
+    "contactSheetSha256": "77665bd1d517473351d7d192029f9633b4a40023a019cf8fb4dec7552a070d32"
   },
   "reviews": [
     {
@@ -479,13 +476,51 @@
         "technicalIntegrity": "PASS — exact staged bytes/provenance/render binding are valid; this is an art-quality REWORK only."
       },
       "reason": "REWORK. V2 improves coherence versus v1 but still misses the item identity: it is predominantly a beige built-in shelving/window grid with room context, not a wall-mounted art gallery. The next candidate must simplify aggressively to one compact backboard/rail with 3–4 unmistakable framed artworks that occupy most of the product silhouette; remove floor/plant/bench context and large empty architectural panels."
+    },
+    {
+      "itemId": "wall-9",
+      "name": "Art Gallery Wall",
+      "tier": 3,
+      "theme": "Adventure Club",
+      "assetPath": "public/assets/catalog-candidates/cpu/wall-9-w13-v3-a-frames-dominant-original.png",
+      "assetHash": "e0be4534bc3b379f1e39556be5d05eb38726220e",
+      "contentSha256": "ca5b84d2d4dffd25050e9629fffec427a4c4b437328ac68acbc7fbca0fa627e5",
+      "producer": "13",
+      "decision": "REWORK",
+      "learnerLabel": "REWORK",
+      "reviewedAt": "2026-09-24T09:37:00Z",
+      "evidence": {
+        "detailRenderPath": "staged-replacements/detail/wall-9-e0be4534.png",
+        "detailRenderSha256": "39b22fa8ecec2374a2966bf8b38e799ce9d9048233b6ab6886f123a8d8d5f841",
+        "detailDimensions": [
+          640,
+          640
+        ],
+        "contactSheetPath": "staged-replacements/staged-replacements-contact-sheet.png",
+        "contactSheetSha256": "77665bd1d517473351d7d192029f9633b4a40023a019cf8fb4dec7552a070d32",
+        "workflowRunId": 35977305007,
+        "artifactId": 10798692858
+      },
+      "checks": {
+        "recognizableCategoryFunction": "FAIL — still reads as a large shelving/display-grid installation rather than one compact Art Gallery Wall dominated by framed artwork.",
+        "physicalConstructionContact": "PARTIAL — the built-in grid has depth, but the wall-mount product logic is overwhelmed by shelf/architecture structure.",
+        "silhouette": "FAIL — the dominant silhouette remains a broad shelving matrix rather than framed-art composition.",
+        "materialLighting": "PASS — materials and lighting are coherent, but they reinforce the wrong product identity.",
+        "themeTierSpecificity": "FAIL — Adventure Club/travel-art motifs are weak or unreadable.",
+        "smallCardReadability": "FAIL — reduces to generic shelving/display cells with no strong gallery-art focal hierarchy.",
+        "framingCrop": "PARTIAL — contained, but still room-fixture-like rather than an isolated wall product.",
+        "galleryArtPresence": "FAIL — framed art does not dominate the product; most cells read as blank shelves/panels.",
+        "originalityNearDuplicateRisk": "PASS",
+        "technicalIntegrity": "PASS"
+      },
+      "reason": "REWORK. V3 changes the geometry but still misses the core identity: the exact pixels are dominated by a wide shelving/display grid with many empty cubbies, not a compact Art Gallery Wall whose silhouette is unmistakably 3–4 framed artworks. Preserve this exact hash. The next repair should eliminate the shelving matrix entirely and use one simple wall rail/backboard carrying three large distinct framed pieces plus at most one small shadowbox, with no floor/room fixture context and no large blank compartments."
     }
   ],
   "currentReplacementDisposition": {
     "wall": {
       "REWORK": {
         "wall-10": "74a4c531a3c60ccd60747bfebc2dfc0d1d25b684",
-        "wall-9": "00e551de0596b83977d16400fe782d1506b28e8a"
+        "wall-9": "e0be4534bc3b379f1e39556be5d05eb38726220e"
       },
       "ACCEPT": {
         "wall-11": "50ffc975030f6c7e28cf9836756bb312dfa646fb",
@@ -503,12 +538,12 @@
     "reworkNow": [
       "wall-9"
     ],
-    "preservedAcceptedHashes": "All earlier reviewer-02 ACCEPTs remain frozen. Wall 9 v1 REWORK remains historical evidence; this REWORK applies only to Wall 9 v2 exact hash 00e551de0596b83977d16400fe782d1506b28e8a."
+    "preservedAcceptedHashes": "All earlier reviewer-02 ACCEPTs remain frozen. Wall9 v1/v2/v3 REWORK history is preserved; current REWORK applies only to v3 exact hash e0be4534bc3b379f1e39556be5d05eb38726220e."
   },
   "handoff": {
-    "13": "Wall 9 v2 exact hash 00e551de0596b83977d16400fe782d1506b28e8a is REWORK. Preserve it. V3 must be one compact wall-mounted gallery product dominated by 3–4 unmistakable framed artworks; remove room/floor/plant/bench context, large empty architectural panels and shelving-grid identity.",
-    "14": "Wall 9 v2 render artifact 10789952890 is consumed; do not rerender unchanged hash.",
-    "15": "Keep Wall 9 on the failure-specific rework backlog behind the currently active CPU batch; do not reopen accepted Wall10-12.",
-    "08": "Do not canonical-wire Wall 9 v2 hash 00e551de0596b83977d16400fe782d1506b28e8a; reviewer02 decision is REWORK."
+    "13": "Wall9 v3 exact hash e0be4534bc3b379f1e39556be5d05eb38726220e is REWORK. Preserve it. Next candidate must remove the shelving grid and use one compact 3–4-frame gallery product.",
+    "14": "Wall9 v3 render packet is consumed; do not rerender unchanged hash.",
+    "15": "Keep Wall9 on bounded failure-specific rework; do not reopen accepted Wall10-12.",
+    "08": "Do not canonical-wire Wall9 v3 hash e0be4534bc3b379f1e39556be5d05eb38726220e."
   }
 }
