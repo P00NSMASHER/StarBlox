@@ -36,7 +36,9 @@ if(!provider || typeof provider.generate !== 'function'){
 let checkpoint=null;
 try{
   checkpoint=JSON.parse(await readFile(checkpointPath,'utf8'));
-}catch{}
+}catch(error){
+  if(error?.code !== 'ENOENT') throw error;
+}
 
 const runId=requestedRunId || checkpoint?.runId || ('manual-' + new Date().toISOString().replace(/[:.]/g,'-'));
 if(!checkpoint) checkpoint=createGenerationCheckpoint({runId});
