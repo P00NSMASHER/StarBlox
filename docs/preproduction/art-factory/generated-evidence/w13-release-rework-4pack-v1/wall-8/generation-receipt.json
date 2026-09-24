@@ -1,0 +1,107 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_GENERATION_RECEIPT",
+  "repository": "P00NSMASHER/StarBlox",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "dcf38c206c2a74551677220978796bea8da2af50",
+  "sourcePlanSha256": "2687c6b6ed20baa72d07990803289421fb9c0bddec15695c7a2d2459a9dacefd",
+  "executionCheckout": {
+    "branch": "screenshot-match-preproduction",
+    "head": "dcf38c206c2a74551677220978796bea8da2af50",
+    "planSourceHeadMatchesExecutionHead": true
+  },
+  "attempt": {
+    "attemptId": "wall-8-w13-a-ocean-horizon-window-59f519f120",
+    "itemId": "wall-8",
+    "producer": "13",
+    "variant": "A-OCEAN-HORIZON-WINDOW",
+    "promptSha256": "59f519f120c9e6720f911e8335814decbe565142124eb8dbc8cebabdbff185e4",
+    "runtimePromptSha256": "8eb375365487ba8cc746b8749d338289bb6d5da8e65ba2a32c7ad40a9aecac82",
+    "promptRecipeVersion": "artPromptOptimizer-request-v1:w13-release-rework-4pack-v1",
+    "seed": 677057311
+  },
+  "runtime": {
+    "repo": "huggingface/diffusers",
+    "commit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "resolvedCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "runtimeCommitVerified": true,
+    "diffusersVersion": "0.41.0.dev0",
+    "diffusersInstallSource": "https://github.com/huggingface/diffusers.git",
+    "torchVersion": "2.8.0+cpu",
+    "transformersVersion": "5.17.0",
+    "accelerateVersion": "1.15.0",
+    "huggingfaceHubVersion": "1.33.0",
+    "safetensorsVersion": "0.8.0",
+    "pythonPillowVersion": "12.3.0",
+    "device": "cpu",
+    "dtype": "float32",
+    "executionMode": "cpu-fallback"
+  },
+  "model": {
+    "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+    "revision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS",
+    "resolvedRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "snapshotRevisionVerified": true,
+    "selectiveSnapshot": true,
+    "snapshotAllowPatterns": [
+      "model_index.json",
+      "scheduler/*",
+      "tokenizer/*",
+      "tokenizer_2/*",
+      "feature_extractor/*",
+      "text_encoder/config.json",
+      "text_encoder/model.fp16.safetensors",
+      "text_encoder_2/config.json",
+      "text_encoder_2/model.fp16.safetensors",
+      "unet/config.json",
+      "unet/diffusion_pytorch_model.fp16.safetensors",
+      "vae/config.json",
+      "vae/diffusion_pytorch_model.fp16.safetensors"
+    ]
+  },
+  "conditioning": {
+    "referenceAssetSha256": null,
+    "controlImageSha256": null,
+    "adapterScale": null,
+    "referenceImage": null,
+    "ipAdapterModelId": null,
+    "ipAdapterRevision": null,
+    "ipAdapterResolvedRevision": null,
+    "ipAdapterRevisionVerified": false,
+    "ipAdapterWeightName": null,
+    "ipAdapterSubfolder": null
+  },
+  "generation": {
+    "width": 640,
+    "height": 640,
+    "numInferenceSteps": 6,
+    "guidanceScale": 3.5,
+    "runtimePromptTokenCounts": {
+      "tokenizer": 65,
+      "tokenizer_2": 65
+    },
+    "executedSeed": 677057311
+  },
+  "output": {
+    "repoPath": "public/assets/catalog-candidates/cpu/wall-8-w13-v5-a-ocean-horizon-window-original.png",
+    "sha256": "e103c5d6d64d264c01ec0462cf09ba92a74bb005cf0f638917a8c3ab2ac96ee8",
+    "gitBlobSha": "3d32587f1dc65974eee1fc09b60f90248fe651b3",
+    "bytes": 628975,
+    "width": 640,
+    "height": 640,
+    "format": "PNG",
+    "sourceBytesPreserved": true,
+    "reusedExistingIdenticalBytes": false
+  },
+  "safety": {
+    "canonicalArtModified": false,
+    "gameplayModified": false,
+    "reviewDecisionMade": false,
+    "deploymentPerformed": false,
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+  },
+  "nextGate": "RUN_VERIFY_STAGED_OUTPUT_THEN_REAL_RENDER_AND_INDEPENDENT_EXACT_HASH_REVIEW",
+  "status": "GENERATED_SOURCE_BYTES_UNVERIFIED",
+  "recordSha256": "ab76c13b3ea331c5a9209a0fe8b94d6de7398bde364650ae397d25987f869106"
+}
