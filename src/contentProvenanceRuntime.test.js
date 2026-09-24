@@ -66,15 +66,21 @@ describe('content provenance runtime', () => {
     ).toBe(true);
   });
 
-  it('closes ABVM fallback debt when its canonical snapshot hash is supplied', () => {
+  it('hashes the ABVM fallback snapshot but keeps the external-original gate visible', () => {
     const bundle = buildContentBundle([makeQuestion('grammar-1','language')],{
       contentVersion:'test-v1',
       sourceSnapshotHashes:{
         'abvm-grade2-current-source-pack':'sha256:abvm-test'
       }
     });
-    expect(provenanceDebt(bundle).strictReady).toBe(true);
-    expect(validateContentBundle(bundle,{strictProvenance:true})).toEqual([]);
+    const debt = provenanceDebt(bundle);
+    expect(debt.snapshotReady).toBe(true);
+    expect(debt.strictReady).toBe(false);
+    expect(debt.externalOriginalUnverifiedIds).toContain('abvm-grade2-current-source-pack');
+    expect(
+      validateContentBundle(bundle,{strictProvenance:true})
+        .some(issue => issue.type === 'external-original-unverified')
+    ).toBe(true);
   });
 
   it('keeps ABVM fallback provenance debt visible if its snapshot hash is missing', () => {
@@ -84,6 +90,7 @@ describe('content provenance runtime', () => {
     const debt = provenanceDebt(bundle);
 
     expect(debt.strictReady).toBe(false);
+    expect(debt.snapshotReady).toBe(false);
     expect(debt.declaredSourceCount).toBeGreaterThan(0);
     expect(debt.declaredSourceIds).toContain('abvm-grade2-current-source-pack');
     expect(
