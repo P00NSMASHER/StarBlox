@@ -51,6 +51,8 @@ jobs:
           grep -q '"liveActivationAllowed"' /tmp/content-expansion-plan.json || true
       - name: Run tests
         run: npm test
+      - name: Run certification gate
+        run: npm run certification:gate
       - name: Run balance gate
         run: npm run balance:gate
       - name: Build production bundle

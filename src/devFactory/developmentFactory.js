@@ -363,12 +363,21 @@ function normalizeVisualReview(raw){
   };
 }
 
+function repositoryGatePassed(value){
+  return value === true || Boolean(value && typeof value === 'object' && value.ok === true);
+}
+
+function missingRepositoryGates(repository,required=[]){
+  return required.filter(name => !repositoryGatePassed(repository?.gates?.[name]));
+}
+
 async function runVerificationCycle({
   studio,
   plan,
   repositoryGate,
   safety,
-  visualReviewer=null
+  visualReviewer=null,
+  requiredRepositoryGates=[]
 }){
   let studioTests=null;
   const errors=[];
@@ -437,10 +446,17 @@ async function runVerificationCycle({
       repository=await repositoryGate.run();
       if(repository?.ok !== true){
         errors.push('repository gates failed');
+      }else{
+        const missing=missingRepositoryGates(repository,requiredRepositoryGates);
+        if(missing.length){
+          errors.push('repository proof missing or failing required gates: ' + missing.join(', '));
+        }
       }
     }catch(error){
       errors.push('repository gates errored: ' + (error instanceof Error ? error.message : String(error)));
     }
+  }else if(requiredRepositoryGates.length){
+    errors.push('repository gate is required for: ' + requiredRepositoryGates.join(', '));
   }
 
   return {
@@ -511,6 +527,13 @@ export async function runDevelopmentFactory({
   const maxTotalMutationCalls=Math.max(1,Math.min(500,Number(config.maxTotalMutationCalls ?? 120)));
   const maxToolCallsPerBatch=Math.max(1,Math.min(100,Number(config.maxToolCallsPerBatch ?? 50)));
   let totalMutationCalls=0;
+  const requestedRepositoryGates=Array.isArray(config.requiredRepositoryGates)
+    ? config.requiredRepositoryGates
+    : ['tests','certification','balance','build'];
+  const requiredRepositoryGates=[...new Set(requestedRepositoryGates
+    .filter(value => typeof value === 'string' && value.trim())
+    .map(value => value.trim())
+  )];
   const safety={
     allowDestructive:Boolean(config.allowDestructive),
     allowExecuteLuau:Boolean(config.allowExecuteLuau),
@@ -627,7 +650,8 @@ export async function runDevelopmentFactory({
       plan,
       repositoryGate,
       safety,
-      visualReviewer:typeof agents.visualReview === 'function' ? agents.visualReview : null
+      visualReviewer:typeof agents.visualReview === 'function' ? agents.visualReview : null,
+      requiredRepositoryGates
     });
     finalVerification=verification;
 

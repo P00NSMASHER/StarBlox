@@ -576,7 +576,12 @@ describe('Step 2: AI development factory', () => {
         stages.push('repo');
         return {
           ok:true,
-          gates:{tests:true,balance:true,build:true}
+          gates:{
+            tests:{ok:true},
+            certification:{ok:true},
+            balance:{ok:true},
+            build:{ok:true}
+          }
         };
       }
     };
@@ -589,7 +594,8 @@ describe('Step 2: AI development factory', () => {
       studio,
       agents,
       repositoryGate,
-      startedAt:'2026-09-24T13:30:00Z'
+      startedAt:'2026-09-24T13:30:00Z',
+      config:{requiredRepositoryGates:['tests','certification','balance','build']}
     });
 
     expect(run.status).toBe('verified');
@@ -601,6 +607,44 @@ describe('Step 2: AI development factory', () => {
     expect(serialized).not.toContain('return { value = 1 }');
     expect(serialized).not.toContain('A'.repeat(200));
     expect(serialized).toMatch(/artifactHash/);
+  });
+
+  it('fails closed and rolls back when a configured certification receipt is missing', async () => {
+    const studio=createStudio();
+    const run=await runDevelopmentFactory({
+      task:{id:'cert-proof',request:'Require certification proof'},
+      studio,
+      agents:{
+        plan:async () => ({
+          summary:'Make a reversible change.',
+          tests:{required:false},
+          playtest:{required:false},
+          visual:{required:false}
+        }),
+        code:async () => ({
+          summary:'Anchor a test part.',
+          actions:[
+            {tool:'set_property',args:{path:'Workspace/TestPart',property:'Anchored',value:true}}
+          ]
+        }),
+        review:async ({verification}) => verification.ok
+          ? {verdict:'pass',findings:[]}
+          : {verdict:'fail',findings:verification.errors}
+      },
+      repositoryGate:{
+        run:async () => ({
+          ok:true,
+          gates:{tests:true,balance:true,build:true}
+        })
+      },
+      startedAt:'2026-09-24T13:30:30Z',
+      config:{requiredRepositoryGates:['tests','certification','balance','build']}
+    });
+
+    expect(run.status).toBe('failed');
+    expect(run.finalReview.findings.join(' ')).toMatch(/certification/);
+    expect(run.rollback.attempted).toBe(true);
+    expect(studio.instances.get('Workspace/TestPart').properties.Anchored).toBe(false);
   });
 
   it('executes a bounded reviewer-driven repair cycle until evidence turns green', async () => {
@@ -663,7 +707,10 @@ describe('Step 2: AI development factory', () => {
       task:{id:'repair-1',request:'Implement feature with repair loop'},
       studio,
       agents,
-      repositoryGate:{run:async () => ({ok:true})},
+      repositoryGate:{run:async () => ({
+        ok:true,
+        gates:{tests:true,certification:true,balance:true,build:true}
+      })},
       startedAt:'2026-09-24T13:31:00Z',
       config:{maxRepairCycles:2}
     });
@@ -704,7 +751,10 @@ describe('Step 2: AI development factory', () => {
           findings:['Does not meet product requirements']
         })
       },
-      repositoryGate:{run:async () => ({ok:true})},
+      repositoryGate:{run:async () => ({
+        ok:true,
+        gates:{tests:true,certification:true,balance:true,build:true}
+      })},
       startedAt:'2026-09-24T13:32:00Z'
     });
 
@@ -750,7 +800,10 @@ describe('Step 2: AI development factory', () => {
           findings:verification.errors
         })
       },
-      repositoryGate:{run:async () => ({ok:true})},
+      repositoryGate:{run:async () => ({
+        ok:true,
+        gates:{tests:true,certification:true,balance:true,build:true}
+      })},
       startedAt:'2026-09-24T13:33:00Z'
     });
 
@@ -785,7 +838,10 @@ describe('Step 2: AI development factory', () => {
           findings:verification.errors
         })
       },
-      repositoryGate:{run:async () => ({ok:true})},
+      repositoryGate:{run:async () => ({
+        ok:true,
+        gates:{tests:true,certification:true,balance:true,build:true}
+      })},
       startedAt:'2026-09-24T13:35:00Z'
     });
 
@@ -821,7 +877,10 @@ describe('Step 2: AI development factory', () => {
           findings:verification.errors
         })
       },
-      repositoryGate:{run:async () => ({ok:true})},
+      repositoryGate:{run:async () => ({
+        ok:true,
+        gates:{tests:true,certification:true,balance:true,build:true}
+      })},
       startedAt:'2026-09-24T13:36:00Z'
     });
 
@@ -865,7 +924,10 @@ describe('Step 2: AI development factory', () => {
           findings:verification.errors
         })
       },
-      repositoryGate:{run:async () => ({ok:true})},
+      repositoryGate:{run:async () => ({
+        ok:true,
+        gates:{tests:true,certification:true,balance:true,build:true}
+      })},
       startedAt:'2026-09-24T13:36:30Z'
     });
 
@@ -902,7 +964,10 @@ describe('Step 2: AI development factory', () => {
           ]
         })
       },
-      repositoryGate:{run:async () => ({ok:true})},
+      repositoryGate:{run:async () => ({
+        ok:true,
+        gates:{tests:true,certification:true,balance:true,build:true}
+      })},
       startedAt:'2026-09-24T13:37:00Z',
       config:{maxRepairCycles:2,maxTotalMutationCalls:3}
     });
@@ -956,7 +1021,10 @@ describe('Step 2: AI development factory', () => {
           };
         }
       },
-      repositoryGate:{run:async () => ({ok:true})},
+      repositoryGate:{run:async () => ({
+        ok:true,
+        gates:{tests:true,certification:true,balance:true,build:true}
+      })},
       startedAt:'2026-09-24T13:34:00Z',
       config:{maxRepairCycles:1}
     });

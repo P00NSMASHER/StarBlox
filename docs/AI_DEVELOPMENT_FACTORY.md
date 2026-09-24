@@ -28,7 +28,7 @@ One development run follows this order:
 12. Optionally sample runtime state.
 13. Optionally run gameplay assertions.
 14. Optionally capture the live viewport and pass it to a visual reviewer before factory-started playtest teardown.
-15. Run the normal repository tests/balance gate/build.
+15. Run the repository tests, explicit certification gate, balance gate and production build.
 16. Ask the reviewer to pass, repair, or fail.
 17. If repair is requested, run a bounded repair cycle and verify again.
 18. If the run does not verify, roll every reversible batch back in reverse order.
@@ -215,10 +215,13 @@ Only dimensions and a stable artifact hash are retained.
 The bundled CLI runs:
 
 npm test
+npm run certification:gate
 npm run balance:gate
 npm run build
 
-A Studio feature does not verify if the repository gates regress.
+A Studio feature does not verify if the configured repository proof is missing or any required gate regresses. The bundled CLI requires tests, certification, balance and build receipts. Gate receipts may be simple booleans or structured command results with `ok: true`.
+
+The core factory defaults to the same four required gates for programmatic callers. A specialized harness may deliberately pass `requiredRepositoryGates: []`, but the bundled CLI overwrites that field after adapter/task configuration so normal AI development runs cannot downgrade the release-proof requirement.
 
 ## Audit artifact
 

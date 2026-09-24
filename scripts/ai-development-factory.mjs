@@ -45,13 +45,20 @@ function repositoryGate(){
       const tests=runCommand('npm',['test']);
       if(!tests.ok) return {ok:false,gates:{tests,balance:null,build:null}};
 
+      const certification=runCommand('npm',['run','certification:gate']);
+      if(!certification.ok){
+        return {ok:false,gates:{tests,certification,balance:null,build:null}};
+      }
+
       const balance=runCommand('npm',['run','balance:gate']);
-      if(!balance.ok) return {ok:false,gates:{tests,balance,build:null}};
+      if(!balance.ok){
+        return {ok:false,gates:{tests,certification,balance,build:null}};
+      }
 
       const build=runCommand('npm',['run','build']);
       return {
         ok:build.ok,
-        gates:{tests,balance,build}
+        gates:{tests,certification,balance,build}
       };
     }
   };
@@ -85,7 +92,8 @@ const run=await runDevelopmentFactory({
   startedAt:task.startedAt || new Date().toISOString(),
   config:{
     ...(adapter.config || {}),
-    ...(task.config || {})
+    ...(task.config || {}),
+    requiredRepositoryGates:['tests','certification','balance','build']
   }
 });
 
