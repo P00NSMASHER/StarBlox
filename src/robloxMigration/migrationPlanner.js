@@ -80,6 +80,8 @@ function groupInstances(catalog){
       groups.set(key,{
         sourceId:instance.sourceId,
         sourceFile:instance.sourceFile,
+        sourceSha256:instance.sourceSha256 ?? null,
+        sourceBytes:instance.sourceBytes ?? null,
         systemName:system,
         instances:[]
       });
@@ -144,7 +146,8 @@ function collectDependencies(catalog,rootPath,items){
   const localNames=new Set(items.map(item => item.name));
   const external=edges.filter(edge =>
     edge.type === 'require-asset' ||
-    (edge.type === 'remote-reference' && !localNames.has(edge.to))
+    (edge.type === 'remote-reference' && !localNames.has(edge.to)) ||
+    (edge.type === 'property-reference' && /^referent-\d+$/.test(String(edge.to)))
   );
 
   return {
@@ -249,6 +252,8 @@ export function buildRobloxMigrationPlan(catalog,rawRules={}){
       unitId,
       sourceId:group.sourceId,
       sourceFile:group.sourceFile,
+      sourceSha256:group.sourceSha256,
+      sourceBytes:group.sourceBytes,
       systemName:group.systemName,
       rootPath:root.path,
       capabilities,
