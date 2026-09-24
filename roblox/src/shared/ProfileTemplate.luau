@@ -60,6 +60,7 @@ local ProfileTemplate = {
 			MinigameWins = 0,
 		},
 		CompletedSessionIds = {},
+		AffinityEventIds = {},
 	},
 
 	LiveOps = {
