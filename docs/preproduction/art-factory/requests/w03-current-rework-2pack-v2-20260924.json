@@ -1,0 +1,109 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_BATCH_REQUEST",
+  "planner": "15",
+  "producer": "03",
+  "preflightOwner": "06",
+  "reviewer": "MIXED_05_01",
+  "renderOwner": "14",
+  "integrationOwner": "08",
+  "coordinationOwner": "15",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "bc5baa0d956d4fee9572addaf6c34210eeb9bf8b",
+  "manifestVersion": 38,
+  "batchId": "w03-current-rework-2pack-v2",
+  "scope": [
+    "desks-10",
+    "desks-11"
+  ],
+  "state": "PREPARED_FAILURE_SPECIFIC_REWORK__CURRENT_EXACT_HASHES",
+  "assignmentAuthority": {
+    "path": "docs/preproduction/art-factory/ACTIVE_BATCH.json",
+    "runtimeProofPath": "docs/preproduction/art-factory/CPU_RUNTIME_PROOF.json",
+    "runtimeProofStatus": "PROVEN",
+    "runtimeCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+    "modelRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "assignedReviewers": {
+      "desks-10": "05",
+      "desks-11": "01"
+    }
+  },
+  "references": {
+    "originalStoreReference": {
+      "requiredBeforeGeneration": true,
+      "repositoryPath": "docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg",
+      "sha256": "b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d",
+      "gitBlobSha": "383baa877d3af86fa92e3583740212000592b3d6",
+      "dimensions": [
+        1448,
+        1086
+      ],
+      "role": "FIRST_PARTY_STARBLOX_STORE_ART_DIRECTION"
+    }
+  },
+  "reviewSource": {
+    "decision": "REWORK",
+    "note": "Failure-specific next versions from independently reviewed or fail-fast exact Store pixels. Preserve every rejected exact hash."
+  },
+  "items": {
+    "desks-10": {
+      "currentLegacy": {
+        "path": "public/assets/catalog-candidates/cpu/desks-10-w03-v4-a-one-streaming-desk-original.png",
+        "gitBlobSha1": "6287a1ea61500d98645988149b82302f89602578",
+        "reviewDecision": "REWORK",
+        "normalizedFailureTaxonomy": [
+          "NO_DESK_SILHOUETTE",
+          "CABINET_PANEL_CLOSEUP",
+          "STREAMING_FUNCTION_MISSING"
+        ]
+      },
+      "variants": [
+        {
+          "variantId": "A-OBVIOUS-STREAMING-DESK",
+          "optimizerInput": "Neon Streaming Desk, Desks & Tech, Tier 4, Aqua Wave. Create EXACTLY ONE obvious DESK in full three-quarter view on plain dark studio background: one wide black horizontal tabletop spanning most of the image, exactly two visible supports/pedestals below, one right-side PC/equipment cabinet, one raised shelf with ONE widescreen monitor, and one attached microphone boom arm. Cyan/aqua edge light only. All furniture edges and feet visible. NO cabinet close-up, NO wall panels, NO vehicle-like surface, NO collage, NO second view, NO text."
+        },
+        {
+          "variantId": "B-HORIZONTAL-STREAMING-WORKSTATION",
+          "optimizerInput": "Neon Streaming Desk, Desks & Tech, Tier 4, Aqua Wave. One single wide streaming desk with clear tabletop, two supports, monitor shelf, PC cabinet and mic arm. Isolated product, unmistakable desk silhouette, aqua neon trim. NO close-up panels, NO built-in wall, NO multiple versions, NO collage, NO text."
+        }
+      ]
+    },
+    "desks-11": {
+      "currentLegacy": {
+        "path": "public/assets/catalog-candidates/cpu/desks-11-w03-v2-a-isolated-creator-station-original.png",
+        "gitBlobSha1": "a31d581bf8358fcbc86e4879785a2f131ce26f5b",
+        "reviewDecision": "REWORK",
+        "normalizedFailureTaxonomy": [
+          "MULTI_PANEL_COMPONENT_COLLAGE",
+          "NO_SINGLE_CREATOR_DESK",
+          "UNREADABLE_PRODUCT_HIERARCHY"
+        ]
+      },
+      "variants": [
+        {
+          "variantId": "A-ONE-CREATOR-DESK",
+          "optimizerInput": "Dream Creator Station, Desks & Tech, Tier 4, Art Attack. Create EXACTLY ONE freestanding desk in one camera view: one wide cream desktop, two stable supports, one left drawer cabinet, one shallow attached upper hutch with two bins, one centered drawing tablet/display, one small lamp. Coral/lavender/aqua accents. Entire desk fully visible on plain studio background with grounded shadow. NO component sheet, NO grids, NO multiple views, NO built-in cabinets, NO room architecture, NO collage, NO text."
+        },
+        {
+          "variantId": "B-SINGLE-CREATIVE-WORKSTATION",
+          "optimizerInput": "Dream Creator Station, Desks & Tech, Tier 4, Art Attack. One isolated creator workstation only, wide worktop + supports + compact drawer + attached hutch + one creator screen. Single product silhouette. NO panels, NO alternate components, NO collage, NO wall unit, NO text."
+        }
+      ]
+    }
+  },
+  "executionBudget": {
+    "width": 640,
+    "height": 640,
+    "steps": 6,
+    "guidanceScale": 3.5,
+    "dtype": "float32"
+  },
+  "safety": {
+    "preserveRejectedExactHashes": true,
+    "preserveAcceptedExactHashes": true,
+    "producerSelfReview": false,
+    "canonicalMappingsChanged": false,
+    "workflowFilesChanged": false
+  }
+}

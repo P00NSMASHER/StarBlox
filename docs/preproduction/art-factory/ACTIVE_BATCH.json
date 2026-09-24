@@ -2,8 +2,8 @@
   "schemaVersion": 28,
   "owner": "15",
   "branch": "screenshot-match-preproduction",
-  "sourceHead": "aa30105c307f222ef25694b8fad8b24fc30f6781",
-  "updatedAt": "2026-09-24T14:15:00Z",
+  "sourceHead": "bc5baa0d956d4fee9572addaf6c34210eeb9bf8b",
+  "updatedAt": "2026-09-24T15:31:00Z",
   "status": "ACTIVE_RELEASE_BLOCKER_FIRST",
   "policy": {
     "maxConcurrentProductionBatches": 4,
@@ -72,111 +72,98 @@
   },
   "cpuGenerationSemaphore": {
     "workflowPath": ".github/workflows/art-factory-cpu-generation.yml",
-    "observedAt": "2026-09-24T14:15:00Z",
+    "observedAt": "2026-09-24T15:31:00Z",
     "running": {
       "runId": null,
       "headSha": null,
-      "batch": "Desk8 v3 + Wall8 v5 + Wall9 v5 + Desk12 v2 failure-specific rework",
+      "batch": "Wall8 v6 + Wall9 v6 + Desk12 v3 failure-specific rework",
       "state": "DISPATCH_COMMIT_CREATED__RUN_ID_PENDING",
       "jobs": [
-        "desks-8",
         "wall-8",
         "wall-9",
         "desks-12"
       ],
       "phase": "QUEUE_DISPATCHED",
       "candidateArtifactsStaged": false,
-      "contract": "Pinned Diffusers/SDXL; 640x640/6-step float32; exact current REWORKs; mixed independent reviewers 11/02/01."
+      "contract": "Pinned SDXL/Diffusers; 640x640/6-step float32; mixed independent reviewers 11/02/01."
     },
     "pending": null,
-    "authorization": "HOLD_ADDITIONAL_CPU_QUEUE_TRIGGERS_UNTIL_W13_4PACK_FULLY_IDLE",
-    "rule": "This four-item current-REWORK matrix is the sole CPU generation batch. Preserve all rejected hashes and do not duplicate.",
+    "authorization": "HOLD_ADDITIONAL_CPU_QUEUE_TRIGGERS_UNTIL_W13_3PACK_FULLY_IDLE",
+    "rule": "Producer13 current three-item rework matrix is sole CPU batch. Preserve all rejected hashes. Next prepared batches are producer09 3-pack then producer03 2-pack unless newer evidence changes priority.",
     "preparedNext": [
       {
         "rank": 1,
-        "requestPath": "docs/preproduction/art-factory/requests/w03-release-rework-4pack-next-20260924.json",
-        "queuePath": "docs/preproduction/art-factory/prepared-queues/w03-release-rework-4pack-next.json",
-        "scope": [
-          "decor-8",
-          "desks-9",
-          "desks-10",
-          "desks-11"
-        ],
-        "producer": "03",
-        "reviewer": "MIXED_11_05_01",
-        "reason": "Four current exact-hash REWORKs; maximum matrix utilization."
-      },
-      {
-        "rank": 2,
-        "requestPath": "docs/preproduction/art-factory/requests/w09-release-rework-3pack-next-20260924.json",
-        "queuePath": "docs/preproduction/art-factory/prepared-queues/w09-release-rework-3pack-next.json",
+        "requestPath": "docs/preproduction/art-factory/requests/w09-current-rework-3pack-v3-20260924.json",
+        "queuePath": "docs/preproduction/art-factory/prepared-queues/w09-current-rework-3pack-v3.json",
         "scope": [
           "decor-7",
           "decor-11",
           "decor-12"
         ],
         "producer": "09",
-        "reviewer": "MIXED_01_02",
-        "reason": "Remaining three current exact-hash REWORKs after producer03 batch."
+        "reviewer": "MIXED_01_02"
+      },
+      {
+        "rank": 2,
+        "requestPath": "docs/preproduction/art-factory/requests/w03-current-rework-2pack-v2-20260924.json",
+        "queuePath": "docs/preproduction/art-factory/prepared-queues/w03-current-rework-2pack-v2.json",
+        "scope": [
+          "desks-10",
+          "desks-11"
+        ],
+        "producer": "03",
+        "reviewer": "MIXED_05_01"
       }
     ],
-    "preparedQueueRule": "After this batch is fully idle, refetch current reviewer outcomes before dispatching another rework batch."
+    "preparedQueueRule": "Dispatch exactly one after live CPU idle check and fresh exact-hash supersession check."
   },
   "batches": [
     {
-      "producer": "03",
-      "batchId": "w03-desks-11-12-v1",
-      "scope": [
-        "desks-11",
-        "desks-12"
-      ],
-      "state": "DESK11_12_REWORKED__PRODUCTION_RELEASED__DESK12_REASSIGNED_TO_13_V2",
-      "reviewer": "01",
-      "requirements": "Do not duplicate. Generate Desk11/12 in one matrix; route exact staged hashes through 12 -> 06 -> 14 -> 01 -> 08 on ACCEPT. Prior Decor8/Desk9/10 v3 remain downstream reviewer evidence only.",
-      "evidence": [
-        "docs/preproduction/art-factory/requests/w03-desks-11-12-v1-20260924.json",
-        "docs/preproduction/art-factory/prepared-queues/w03-desks-11-12-v1.json",
-        "docs/preproduction/art-factory/runtime-queue/w03-desks-11-12-v1.json",
-        "docs/preproduction/art-factory/CPU_RUNTIME_PROOF.json"
-      ]
-    },
-    {
-      "producer": "09",
-      "batchId": "w09-decor-9-12-v1",
-      "scope": [
-        "decor-9",
-        "decor-10",
-        "decor-11",
-        "decor-12"
-      ],
-      "state": "DECOR9_12_RENDERED_PACKET_BOUND__DOWNSTREAM_REVIEW__PRODUCTION_RELEASED",
-      "reviewer": "02",
-      "requirements": "Do not regenerate. Route staged exact hashes through 12 -> 06 -> 14 -> 02 -> 08 on ACCEPT.",
-      "batchType": "BOUNDED_PINNED_CPU_GENERATION",
-      "evidence": [
-        "docs/preproduction/art-factory/requests/w09-decor-9-12-v1-batch-20260924.json",
-        "docs/preproduction/art-factory/runtime-queue/w09-decor-9-12-v1.json",
-        "docs/preproduction/art-factory/CPU_RUNTIME_PROOF.json"
-      ]
-    },
-    {
       "producer": "13",
-      "batchId": "w13-release-rework-4pack-v1",
+      "batchId": "w13-current-rework-3pack-v2",
       "scope": [
-        "desks-8",
         "wall-8",
         "wall-9",
         "desks-12"
       ],
-      "state": "DISPATCHED_FAILURE_SPECIFIC_4ITEM_MATRIX__RUN_ID_PENDING",
+      "state": "DISPATCHED_FAILURE_SPECIFIC_3ITEM_MATRIX__RUN_ID_PENDING",
       "reviewer": "MIXED_11_02_01",
-      "requirements": "Do not duplicate. Generate Desk8 v3, Wall8 v5, Wall9 v5, Desk12 v2 in one matrix; route exact staged hashes 12 -> 06 -> 14 -> assigned independent reviewers -> 08 on ACCEPT.",
-      "batchType": "NEW_VERSION_REPLACEMENT_AFTER_EXACT_BYTE_RECOVERY_EXHAUSTION",
+      "requirements": "Do not duplicate. Generate Wall8 v6, Wall9 v6, Desk12 v3 in one matrix. Preserve prior exact REWORK hashes.",
       "evidence": [
-        "docs/preproduction/art-factory/requests/w13-release-rework-4pack-20260924.json",
-        "docs/preproduction/art-factory/prepared-queues/w13-release-rework-4pack.json",
-        "docs/preproduction/art-factory/runtime-queue/w13-release-rework-4pack.json",
-        "docs/preproduction/art-factory/CPU_RUNTIME_PROOF.json"
+        "docs/preproduction/art-factory/requests/w13-current-rework-3pack-v2-20260924.json",
+        "docs/preproduction/art-factory/prepared-queues/w13-current-rework-3pack-v2.json",
+        "docs/preproduction/art-factory/runtime-queue/w13-current-rework-3pack-v2.json"
+      ]
+    },
+    {
+      "producer": "09",
+      "batchId": "w09-current-rework-3pack-v3",
+      "scope": [
+        "decor-7",
+        "decor-11",
+        "decor-12"
+      ],
+      "state": "PREPARED_FAILURE_SPECIFIC_3ITEM_MATRIX__WAIT_W13_IDLE",
+      "reviewer": "MIXED_01_02",
+      "requirements": "Dispatch verbatim after producer13 batch is fully idle unless newer exact evidence supersedes an item.",
+      "evidence": [
+        "docs/preproduction/art-factory/requests/w09-current-rework-3pack-v3-20260924.json",
+        "docs/preproduction/art-factory/prepared-queues/w09-current-rework-3pack-v3.json"
+      ]
+    },
+    {
+      "producer": "03",
+      "batchId": "w03-current-rework-2pack-v2",
+      "scope": [
+        "desks-10",
+        "desks-11"
+      ],
+      "state": "PREPARED_FAILURE_SPECIFIC_2ITEM_MATRIX__WAIT_HIGHER_PRIORITY",
+      "reviewer": "MIXED_05_01",
+      "requirements": "Dispatch verbatim after higher-priority current rework matrices are idle unless newer exact evidence supersedes an item.",
+      "evidence": [
+        "docs/preproduction/art-factory/requests/w03-current-rework-2pack-v2-20260924.json",
+        "docs/preproduction/art-factory/prepared-queues/w03-current-rework-2pack-v2.json"
       ]
     }
   ],
@@ -339,7 +326,7 @@
     "evidenceHead": "398f5100df0562a1e346c9110597e52b565982d0",
     "rule": "Do not reopen already-green functional browser, Store observer, persistence or reduced-motion investigations absent a bound-hash change or fresh current-byte failure. EXT10 remains limited to the previously released phone composition repair."
   },
-  "antiStallDisposition": "Current producer13 four-item CPU matrix running. Remaining seven reworks are fully precompiled into producer03 four-item and producer09 three-item prepared queues, eliminating post-run planning latency.",
+  "antiStallDisposition": "Eight unmistakable exact-pixel REWORKs were persisted immediately. CPU restarted on producer13 trio; producer09 and producer03 failure-specific queues precompiled to eliminate replanning gaps.",
   "crossAccountProduction": {
     "externalScopes": {
       "EXT01": "Tops11-12",
@@ -358,7 +345,7 @@
     "reviewer14LegacyException": "14 may complete already-assigned legacy hash review only; do not route new hashes to 14 for review."
   },
   "readerRule": "Every worker must revalidate branch head, assignment, exact hash and review state before writing. This file never overrides newer exact-hash evidence.",
-  "cycleId": "director-20260924T1415Z-4pack-current-reworks",
+  "cycleId": "director-20260924T1531Z-obvious-rework-restart",
   "criticalPath": {
     "computedAtHead": "982de262ae5e8034b478079b76f64dc0d249c7e7",
     "order": [

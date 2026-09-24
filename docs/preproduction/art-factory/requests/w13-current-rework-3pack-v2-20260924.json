@@ -1,0 +1,133 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_BATCH_REQUEST",
+  "planner": "15",
+  "producer": "13",
+  "preflightOwner": "06",
+  "reviewer": "MIXED_11_02_01",
+  "renderOwner": "14",
+  "integrationOwner": "08",
+  "coordinationOwner": "15",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "bc5baa0d956d4fee9572addaf6c34210eeb9bf8b",
+  "manifestVersion": 38,
+  "batchId": "w13-current-rework-3pack-v2",
+  "scope": [
+    "wall-8",
+    "wall-9",
+    "desks-12"
+  ],
+  "state": "PREPARED_FAILURE_SPECIFIC_REWORK__CURRENT_EXACT_HASHES",
+  "assignmentAuthority": {
+    "path": "docs/preproduction/art-factory/ACTIVE_BATCH.json",
+    "runtimeProofPath": "docs/preproduction/art-factory/CPU_RUNTIME_PROOF.json",
+    "runtimeProofStatus": "PROVEN",
+    "runtimeCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+    "modelRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "assignedReviewers": {
+      "wall-8": "11",
+      "wall-9": "02",
+      "desks-12": "01"
+    }
+  },
+  "references": {
+    "originalStoreReference": {
+      "requiredBeforeGeneration": true,
+      "repositoryPath": "docs/preproduction/reference-screenshots/originals/store-1448x1086.jpeg",
+      "sha256": "b26cb14947d85258bcfff211174e54f34f2e2a11b83c73560b2365167071071d",
+      "gitBlobSha": "383baa877d3af86fa92e3583740212000592b3d6",
+      "dimensions": [
+        1448,
+        1086
+      ],
+      "role": "FIRST_PARTY_STARBLOX_STORE_ART_DIRECTION"
+    }
+  },
+  "reviewSource": {
+    "decision": "REWORK",
+    "note": "Failure-specific next versions from independently reviewed or fail-fast exact Store pixels. Preserve every rejected exact hash."
+  },
+  "items": {
+    "wall-8": {
+      "currentLegacy": {
+        "path": "public/assets/catalog-candidates/cpu/wall-8-w13-v5-a-ocean-horizon-window-original.png",
+        "gitBlobSha1": "3d32587f1dc65974eee1fc09b60f90248fe651b3",
+        "reviewDecision": "REWORK",
+        "normalizedFailureTaxonomy": [
+          "MULTI_WINDOW_COLLAGE",
+          "NO_SINGLE_OCEAN_WINDOW",
+          "PRODUCT_SILHOUETTE_FRAGMENTED"
+        ]
+      },
+      "variants": [
+        {
+          "variantId": "A-ONE-OCEAN-WINDOW",
+          "optimizerInput": "Ocean Window, Wall Decor, Tier 3, Candy Core. Show EXACTLY ONE rectangular wall window as the entire product on a plain neutral wall plane. One thick candy-cream frame with four corners, one single continuous glazed opening, and through that opening one unmistakable blue ocean horizon with water meeting sky. Add only small coral-pink and aqua Candy Core trim on the physical frame. One camera view, centered, full frame visible, soft wall-contact shadow. NO second window, NO repeated panes that read as separate windows, NO collage, NO split panels, NO room furniture, NO text."
+        },
+        {
+          "variantId": "B-SINGLE-PORTAL",
+          "optimizerInput": "Ocean Window, Wall Decor, Tier 3, Candy Core. Create ONE recessed ocean-view window/portal: one coherent rounded-rectangle frame, one continuous glass opening, visible ocean water and horizon, restrained candy-pink/aqua trim. Isolated wall-mounted product, no room scene. NO multiple windows, NO grid, NO comparison views, NO collage, NO shelves, NO text."
+        }
+      ]
+    },
+    "wall-9": {
+      "currentLegacy": {
+        "path": "public/assets/catalog-candidates/cpu/wall-9-w13-v5-a-exact-three-adventure-frames-original.png",
+        "gitBlobSha1": "1e44eed039947b136f2c8c404d7b77fb877a9098",
+        "reviewDecision": "REWORK",
+        "normalizedFailureTaxonomy": [
+          "ROOM_CONTEXT_DOMINATES",
+          "WEAK_GALLERY_ART_IDENTITY",
+          "BENCH_FLOOR_CONTEXT"
+        ]
+      },
+      "variants": [
+        {
+          "variantId": "A-THREE-FRAMES-NO-ROOM",
+          "optimizerInput": "Art Gallery Wall, Wall Decor, Tier 3, Adventure Club. The ENTIRE image is one compact wall-hung gallery product: EXACTLY THREE large framed artworks mounted together on one shallow dark backing rail. Each frame must contain obvious colorful adventure art: mountain trail, compass/map geometry, and travel landscape. Frames occupy at least 85 percent of the product silhouette. Plain neutral wall plane only with a tight wall-contact shadow. NO floor, NO bench, NO plants, NO room furniture, NO shelves, NO cubbies, NO windows, NO blank panels, NO text."
+        },
+        {
+          "variantId": "B-THREE-ARTWORK-BACKBOARD",
+          "optimizerInput": "Art Gallery Wall, Wall Decor, Tier 3, Adventure Club. One small backboard carrying exactly three oversized mixed-size picture frames, each filled edge-to-edge with distinct readable adventure/travel artwork. Product-only wall display, strong frame bevels and mounting depth. NO floor line, NO furniture, NO shelf ledges, NO shadowbox clutter, NO empty architecture, NO text."
+        }
+      ]
+    },
+    "desks-12": {
+      "currentLegacy": {
+        "path": "public/assets/catalog-candidates/cpu/desks-12-w13-v2-a-isolated-luxe-command-desk-original.png",
+        "gitBlobSha1": "c8f1ba80832d7be9d2d06d3a89838e5feafbb34e",
+        "reviewDecision": "REWORK",
+        "normalizedFailureTaxonomy": [
+          "MULTI_PANEL_COMPONENT_COLLAGE",
+          "NO_SINGLE_COMMAND_DESK_SILHOUETTE",
+          "ROOM_INSTALLATION_PRESENTATION"
+        ]
+      },
+      "variants": [
+        {
+          "variantId": "A-ONE-COMMAND-DESK",
+          "optimizerInput": "Luxe Command Desk, Desks & Tech, Tier 5, Star Luxe. Create EXACTLY ONE freestanding command desk, one camera view, on a plain dark-neutral studio background. One broad horizontal midnight-blue worktop, exactly two substantial gold-edged supports/pedestals, one integrated right-side equipment cabinet, one shallow raised monitor bridge with one centered dark display, and one compact attached control pad. Strong single furniture silhouette with all feet/supports visible and grounded shadow. NO room, NO wall, NO panels, NO collage, NO component sheet, NO duplicate desk, NO cockpit enclosure, NO text."
+        },
+        {
+          "variantId": "B-SINGLE-LUXE-WORKSTATION",
+          "optimizerInput": "Luxe Command Desk, Desks & Tech, Tier 5, Star Luxe. One isolated premium executive-tech desk only: wide curved navy worktop, two stable gold-trimmed pedestals, attached storage, slim monitor shelf and restrained star inlays. Full desk centered with negative space. NO multiple views, NO exploded parts, NO room architecture, NO wall cabinetry, NO collage, NO text."
+        }
+      ]
+    }
+  },
+  "executionBudget": {
+    "width": 640,
+    "height": 640,
+    "steps": 6,
+    "guidanceScale": 3.5,
+    "dtype": "float32"
+  },
+  "safety": {
+    "preserveRejectedExactHashes": true,
+    "preserveAcceptedExactHashes": true,
+    "producerSelfReview": false,
+    "canonicalMappingsChanged": false,
+    "workflowFilesChanged": false
+  }
+}
