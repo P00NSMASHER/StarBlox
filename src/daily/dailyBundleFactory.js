@@ -195,6 +195,60 @@ function deterministicQuestionBindings({
   return bindings;
 }
 
+
+function validateBindingShape(bindings,level){
+  if(!Array.isArray(bindings) || bindings.length === 0){
+    return {ok:false,reason:'primary selector returned no bindings'};
+  }
+
+  const slots=level.nodes
+    .filter(node => node.questionSlot)
+    .sort((a,b) => {
+      const ao=Number.isInteger(a.questionSlot.ordinal) ? a.questionSlot.ordinal : 1_000_000;
+      const bo=Number.isInteger(b.questionSlot.ordinal) ? b.questionSlot.ordinal : 1_000_000;
+      return ao - bo || a.nodeId.localeCompare(b.nodeId);
+    });
+
+  if(bindings.length !== slots.length){
+    return {
+      ok:false,
+      reason:'primary selector binding count ' + bindings.length +
+        ' does not match question slot count ' + slots.length
+    };
+  }
+
+  const byNode=new Map();
+  const refKeys=new Set();
+  for(const binding of bindings){
+    if(!binding || typeof binding !== 'object' || !binding.nodeId || !binding.ref){
+      return {ok:false,reason:'primary selector returned malformed binding'};
+    }
+    if(byNode.has(binding.nodeId)){
+      return {ok:false,reason:'primary selector returned duplicate node binding ' + binding.nodeId};
+    }
+    byNode.set(binding.nodeId,binding);
+
+    const ref=binding.ref;
+    const refKey=ref.questionId + '@' + ref.version + '#' + ref.contentHash;
+    if(refKeys.has(refKey)){
+      return {ok:false,reason:'primary selector repeated exact question ref ' + refKey};
+    }
+    refKeys.add(refKey);
+  }
+
+  for(const slotNode of slots){
+    const binding=byNode.get(slotNode.nodeId);
+    if(!binding){
+      return {ok:false,reason:'primary selector omitted slot ' + slotNode.nodeId};
+    }
+    if(JSON.stringify(binding.slot) !== JSON.stringify(slotNode.questionSlot)){
+      return {ok:false,reason:'primary selector slot metadata mismatch at ' + slotNode.nodeId};
+    }
+  }
+
+  return {ok:true};
+}
+
 async function selectBindings({
   bank,
   snapshot,
@@ -222,8 +276,9 @@ async function selectBindings({
       context:clone(context || {})
     });
 
-    if(!Array.isArray(result) || result.length === 0){
-      throw new Error('primary selector returned no bindings');
+    const shape=validateBindingShape(result,level);
+    if(!shape.ok){
+      throw new Error(shape.reason);
     }
 
     return {
