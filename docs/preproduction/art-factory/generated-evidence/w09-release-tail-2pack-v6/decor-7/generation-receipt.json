@@ -1,0 +1,112 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_GENERATION_RECEIPT",
+  "repository": "P00NSMASHER/StarBlox",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "6e4e58b5ee750f8f2ccd9c2061197bf8e288d4f9",
+  "sourcePlanSha256": "0501e326602a1bbadbfa3f8a35a4d9ab114edac22840b8aae0ad50bc40785734",
+  "executionCheckout": {
+    "branch": "screenshot-match-preproduction",
+    "head": "6e4e58b5ee750f8f2ccd9c2061197bf8e288d4f9",
+    "planSourceHeadMatchesExecutionHead": true
+  },
+  "attempt": {
+    "attemptId": "decor-7-w09-a-rack-with-classic-quad-skates-14035ff968",
+    "itemId": "decor-7",
+    "producer": "09",
+    "variant": "A-RACK-WITH-CLASSIC-QUAD-SKATES",
+    "promptSha256": "14035ff96874b92f5ccaf41c1676fc9c10284f203d831c7e0771cc0ee160812e",
+    "runtimePromptSha256": "e04d89c19e711db0799ed1a121db7601aa2e3db7c5e764ac6d16494029bd021f",
+    "runtimeNegativePromptSha256": "1ba90df4f4cbf38885aed373d0827eff77d0a81be72fb00e811965497ec74ffa",
+    "promptRecipeVersion": "artPromptOptimizer-request-v1:w09-release-tail-2pack-v6",
+    "seed": 1910000304
+  },
+  "runtime": {
+    "repo": "huggingface/diffusers",
+    "commit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "resolvedCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "runtimeCommitVerified": true,
+    "diffusersVersion": "0.41.0.dev0",
+    "diffusersInstallSource": "https://github.com/huggingface/diffusers.git",
+    "torchVersion": "2.8.0+cpu",
+    "transformersVersion": "5.17.0",
+    "accelerateVersion": "1.15.0",
+    "huggingfaceHubVersion": "1.33.0",
+    "safetensorsVersion": "0.8.0",
+    "pythonPillowVersion": "12.3.0",
+    "device": "cpu",
+    "dtype": "float32",
+    "executionMode": "cpu-fallback"
+  },
+  "model": {
+    "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+    "revision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS",
+    "resolvedRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "snapshotRevisionVerified": true,
+    "selectiveSnapshot": true,
+    "snapshotAllowPatterns": [
+      "model_index.json",
+      "scheduler/*",
+      "tokenizer/*",
+      "tokenizer_2/*",
+      "feature_extractor/*",
+      "text_encoder/config.json",
+      "text_encoder/model.fp16.safetensors",
+      "text_encoder_2/config.json",
+      "text_encoder_2/model.fp16.safetensors",
+      "unet/config.json",
+      "unet/diffusion_pytorch_model.fp16.safetensors",
+      "vae/config.json",
+      "vae/diffusion_pytorch_model.fp16.safetensors"
+    ]
+  },
+  "conditioning": {
+    "referenceAssetSha256": null,
+    "controlImageSha256": null,
+    "adapterScale": null,
+    "referenceImage": null,
+    "ipAdapterModelId": null,
+    "ipAdapterRevision": null,
+    "ipAdapterResolvedRevision": null,
+    "ipAdapterRevisionVerified": false,
+    "ipAdapterWeightName": null,
+    "ipAdapterSubfolder": null
+  },
+  "generation": {
+    "width": 640,
+    "height": 640,
+    "numInferenceSteps": 8,
+    "guidanceScale": 4.0,
+    "runtimePromptTokenCounts": {
+      "tokenizer": 62,
+      "tokenizer_2": 62
+    },
+    "runtimeNegativePromptTokenCounts": {
+      "tokenizer": 37,
+      "tokenizer_2": 37
+    },
+    "executedSeed": 1910000304
+  },
+  "output": {
+    "repoPath": "public/assets/catalog-candidates/cpu/decor-7-w09-v10-a-rack-with-classic-quad-skates-original.png",
+    "sha256": "639ca9b68c19680fc2b95c3f0e33138b5f785f80c01e56ea3acc409ce2bc936e",
+    "gitBlobSha": "28bff68db458d4c3b70024ce9c90f28e6b8a92e7",
+    "bytes": 495490,
+    "width": 640,
+    "height": 640,
+    "format": "PNG",
+    "sourceBytesPreserved": true,
+    "reusedExistingIdenticalBytes": false
+  },
+  "safety": {
+    "canonicalArtModified": false,
+    "gameplayModified": false,
+    "reviewDecisionMade": false,
+    "deploymentPerformed": false,
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+  },
+  "nextGate": "RUN_VERIFY_STAGED_OUTPUT_THEN_REAL_RENDER_AND_INDEPENDENT_EXACT_HASH_REVIEW",
+  "status": "GENERATED_SOURCE_BYTES_UNVERIFIED",
+  "recordSha256": "030eca6abab8d6d2f99d0b66630ad231477743b33da7aa264f41a4e65a875ea7"
+}
