@@ -38,8 +38,8 @@
     "route": "12 -> 06 -> 14 -> assigned reviewer -> 08 on ACCEPT",
     "canonicalWriter": "08"
   },
-  "dispatchPolicy": "PREPARED_LITERAL_RETRY__WAIT_LIVE_CPU_IDLE",
-  "retryRevision": 3,
-  "retryReason": "select intact vanity B runtime prompt that preserves explicit stool",
-  "compilerFixHead": "631712b6a5"
+  "dispatchPolicy": "PENDING_SUCCESSOR__WAIT_RUNNING_W13_THREEPACK",
+  "retryRevision": 4,
+  "retryReason": "pending successor behind running fixed-compiler final three-pack; rerun Decor7 and Decor11 on validated 60-word sentence-preserving runtime prompt compiler",
+  "compilerFixHead": "725c15255e30addcc97f8450eb28f78231bf18e5"
 }
