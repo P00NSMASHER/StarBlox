@@ -23,6 +23,14 @@ test('runtime prompt stays bounded while full provenance prompt is preserved',()
  assert.notEqual(p.runtimePromptText,p.promptText);
 });
 
+test('runtime metadata stripping keeps product-name-only first sentences',()=>{
+ const skate={id:'decor-7',name:'Skate Rack',collectionId:'decor',type:'room',tier:3,theme:'Garden Glow'};
+ const brief='Single tiny two-cubby wooden roller skate rack on a plain white studio background. Inside the lower cubby is one pair of classic quad roller skates with boot uppers, metal trucks and four wheels per skate. NO room, NO collage, NO text.';
+ const p=compose(skate,['furniture','camera'],'A-METADATA-GUARD',{},brief);
+ assert.match(p.runtimePromptText,/tiny two-cubby wooden roller skate rack/i);
+ assert.match(p.runtimePromptText,/quad roller skates/i);
+});
+
 test('runtime prompt whole-clause packing preserves furniture relationships',()=>{
  const table={id:'desks-9',name:'Art Maker Table',collectionId:'desks',type:'room',tier:3,theme:'Sunny Pop'};
  const brief='Art Maker Table, Desks & Tech, Tier 3, Sunny Pop. Single freestanding art maker table product on a plain white studio background. One wide rectangular wood worktop, four simple straight legs, one shallow drawer, one low peg rail at the back with a brush cup, scissors and colored paper. NO chair, NO room, NO wall shelves, NO collage, NO text.';
