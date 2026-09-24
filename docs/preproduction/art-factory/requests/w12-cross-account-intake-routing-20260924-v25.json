@@ -1,0 +1,87 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_W12_CANDIDATE_DELTA_INTAKE_ROUTING",
+  "router": "12",
+  "branch": "screenshot-match-preproduction",
+  "observedHead": "cbe440f2b9b09b38768d65719b6db3ece429d5b3",
+  "scanWindow": {
+    "priorCursor": "5e43e5c688f0f669b7c41f3c90a766027de106cb",
+    "inspectedThroughHead": "cbe440f2b9b09b38768d65719b6db3ece429d5b3",
+    "newCatalogCandidateBytesDetected": true,
+    "newCandidateItemIds": [
+      "desks-11",
+      "desks-12"
+    ],
+    "note": "Exactly two new Desk11/12 candidate PNGs were staged after the prior durable cursor; renderer/reviewer/Decor9-12 commits add no newer candidate bytes for these IDs."
+  },
+  "candidates": [
+    {
+      "id": "desks-11",
+      "name": "Dream Creator Station",
+      "collectionId": "desks",
+      "producer": "03",
+      "reviewerAssignment": "01",
+      "renderOwner": "14",
+      "canonicalWriter": "08",
+      "priorRejectedOrBlockedHash": null,
+      "path": "public/assets/catalog-candidates/cpu/desks-11-w03-v1-a-creator-hutch-original.png",
+      "sha256": "6de9058d7498875858e3abacbf0ec65ee51759c1b050bc6731758afd2f556c81",
+      "gitBlobSha": "828ee1d718ca20643dd8d9fc24c7a98d33fb912c",
+      "bytes": 539567,
+      "dimensions": [
+        640,
+        640
+      ],
+      "format": "PNG",
+      "stagedOutput": "docs/preproduction/art-factory/generated-evidence/w03-desks-11-12-v1/desks-11/staged-output.json",
+      "generationReceipt": "docs/preproduction/art-factory/generated-evidence/w03-desks-11-12-v1/desks-11/generation-receipt.json",
+      "provenanceState": "COMPLETE_ART_FACTORY_V2",
+      "repositoryReadback": "PASS_EXACT_GIT_BLOB",
+      "supersession": "FRESH_V1_REPLACEMENT_FOR_VISIBLE_GENERIC_FALLBACK",
+      "state": "ROUTE_TO_06_TECHNICAL_QUALIFICATION"
+    },
+    {
+      "id": "desks-12",
+      "name": "Luxe Command Desk",
+      "collectionId": "desks",
+      "producer": "03",
+      "reviewerAssignment": "01",
+      "renderOwner": "14",
+      "canonicalWriter": "08",
+      "priorRejectedOrBlockedHash": null,
+      "path": "public/assets/catalog-candidates/cpu/desks-12-w03-v1-a-luxe-command-original.png",
+      "sha256": "509d489f29d73c9125b1e624b19c15a2ce52408f477ffd20ceef436c446996e8",
+      "gitBlobSha": "39b7f484a380ceb161f95bc1eb7ab470f9493a1d",
+      "bytes": 530368,
+      "dimensions": [
+        640,
+        640
+      ],
+      "format": "PNG",
+      "stagedOutput": "docs/preproduction/art-factory/generated-evidence/w03-desks-11-12-v1/desks-12/staged-output.json",
+      "generationReceipt": "docs/preproduction/art-factory/generated-evidence/w03-desks-11-12-v1/desks-12/generation-receipt.json",
+      "provenanceState": "COMPLETE_ART_FACTORY_V2",
+      "repositoryReadback": "PASS_EXACT_GIT_BLOB",
+      "supersession": "FRESH_V1_REPLACEMENT_FOR_VISIBLE_GENERIC_FALLBACK",
+      "state": "ROUTE_TO_06_TECHNICAL_QUALIFICATION"
+    }
+  ],
+  "dedupe": {
+    "uniqueItemHashClaim": true,
+    "unchangedPriorHashesRerouted": false,
+    "newerPendingCandidateObserved": false
+  },
+  "queues": {
+    "to06": [
+      "desks-11@6de9058d7498875858e3abacbf0ec65ee51759c1b050bc6731758afd2f556c81",
+      "desks-12@509d489f29d73c9125b1e624b19c15a2ce52408f477ffd20ceef436c446996e8"
+    ],
+    "backToProducer": []
+  },
+  "cursorAdvance": {
+    "previous": "5e43e5c688f0f669b7c41f3c90a766027de106cb",
+    "advancedThrough": "cbe440f2b9b09b38768d65719b6db3ece429d5b3"
+  },
+  "nextOwner": "06_TECHNICAL_QUALIFICATION",
+  "mutationScope": "Routing evidence only; no candidate bytes, canonical mappings, reviewer decisions, gameplay, learning, economy, persistence, accessibility, CI/workflows, deployment, secrets, or player data changed."
+}
