@@ -43,5 +43,8 @@ jobs:
       - name: Test StarBlox-neutral residential runtime
         run: npm run test:brookhaven-residential
 
+      - name: Test vehicle town and progression research runtimes
+        run: npm run test:brookhaven-step-8-10
+
       - name: Build StarBlox with verified temporary inherited-base fix
         run: npm run build:brookhaven-research
