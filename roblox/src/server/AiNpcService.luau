@@ -45,6 +45,15 @@ local function forbiddenArgKey(value: string): boolean
 	return containsSemanticToken(value, FORBIDDEN_ARG_WORDS)
 end
 
+local function validSequence(value): boolean
+	return type(value) == "number"
+		and value == value
+		and value ~= math.huge
+		and value ~= -math.huge
+		and value >= 0
+		and math.floor(value) == value
+end
+
 local function cleanString(value, maxLength: number): string?
 	if type(value) ~= "string" then
 		return nil
@@ -60,6 +69,7 @@ local function ensureAiNpc(profileData)
 	profileData.AiNpc = profileData.AiNpc or {
 		Memories = {},
 		ProcessedRequestIds = {},
+		LastRequestSequence = -1,
 	}
 	return profileData.AiNpc
 end
@@ -256,7 +266,13 @@ function AiNpcService.new(profiles, adapters, telemetrySink)
 	return self
 end
 
-function AiNpcService:RequestTurn(player: Player, npcId: string, message: string, requestId: string)
+function AiNpcService:RequestTurn(
+	player: Player,
+	npcId: string,
+	message: string,
+	requestId: string,
+	requestSequence: number
+)
 	local catalog = self._adapters.Catalog
 	local def = findNpc(catalog, npcId)
 	if def == nil then
@@ -282,6 +298,10 @@ function AiNpcService:RequestTurn(player: Player, npcId: string, message: string
 		return false, "profile unavailable"
 	end
 	local aiState = ensureAiNpc(profile.Data)
+	aiState.LastRequestSequence = aiState.LastRequestSequence or -1
+	if requestSequence <= aiState.LastRequestSequence then
+		return false, "stale or duplicate AI NPC request sequence"
+	end
 	if table.find(aiState.ProcessedRequestIds, cleanRequestId) ~= nil then
 		return false, "duplicate AI NPC request"
 	end
@@ -342,6 +362,7 @@ function AiNpcService:RequestTurn(player: Player, npcId: string, message: string
 		version = "starblox-ai-npc-v1",
 		npcId = npcId,
 		requestId = cleanRequestId,
+		requestSequence = requestSequence,
 		system = string.sub(def.SystemPrompt or "", 1, 2400),
 		input = modelInput,
 		memory = memory,
@@ -421,6 +442,10 @@ function AiNpcService:RequestTurn(player: Player, npcId: string, message: string
 	end
 
 	local currentState = ensureAiNpc(profile.Data)
+	currentState.LastRequestSequence = currentState.LastRequestSequence or -1
+	if requestSequence <= currentState.LastRequestSequence then
+		return finish(false, "stale or duplicate AI NPC request sequence")
+	end
 	if table.find(currentState.ProcessedRequestIds, cleanRequestId) ~= nil then
 		return finish(false, "duplicate AI NPC request")
 	end
@@ -443,6 +468,7 @@ function AiNpcService:RequestTurn(player: Player, npcId: string, message: string
 
 	currentState.Memories[npcId] = currentState.Memories[npcId] or {}
 	appendBoundedUnique(currentState.Memories[npcId], approvedFacts, memoryLimit)
+	currentState.LastRequestSequence = requestSequence
 	appendBoundedUnique(currentState.ProcessedRequestIds, {cleanRequestId}, 200)
 
 	if self._telemetry then
