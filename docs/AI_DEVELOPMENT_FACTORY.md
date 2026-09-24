@@ -27,7 +27,7 @@ One development run follows this order:
 11. Optionally simulate keyboard/mouse input.
 12. Optionally sample runtime state.
 13. Optionally run gameplay assertions.
-14. Optionally capture the viewport and pass it to a visual reviewer.
+14. Optionally capture the live viewport and pass it to a visual reviewer before factory-started playtest teardown.
 15. Run the normal repository tests/balance gate/build.
 16. Ask the reviewer to pass, repair, or fail.
 17. If repair is requested, run a bounded repair cycle and verify again.
@@ -141,6 +141,8 @@ This gives every mutation cycle a dry-run/checkpoint boundary rather than relyin
 Persistent mutations must have deterministic rollback coverage by default.
 
 Before a script edit, the existing script Source is read and retained only inside the live rollback plan.
+
+For write_script(create=true), a failed source read is **not** treated as proof that the target is absent. The factory also inspects the path before deciding that deletion would be a valid rollback. An existing-but-unreadable script therefore blocks the mutation rather than risking deletion of pre-existing work.
 
 Before set_property, the current property value must be inspectable.
 
@@ -271,7 +273,112 @@ If the bridge is bound to a non-loopback interface, STARBLOX_STUDIO_BRIDGE_TOKEN
 
 createStudioHttpAdapter() can send the same token.
 
-The bridge is intentionally only transport. A BloxForge/Nixera connector or another authorized Studio plugin supplies the actual tool handlers.
+The bridge is intentionally only transport.
+
+StarBlox now also ships a built-in Studio connector at:
+
+roblox/devFactoryPlugin/
+
+It implements the default safe Studio tool subset directly, so BloxForge/Nixera are optional richer adapters rather than prerequisites.
+
+
+## Built-in StarBlox Studio connector
+
+The repository includes a minimal Studio-side connector under:
+
+roblox/devFactoryPlugin/
+
+Its Rojo project is:
+
+roblox/devFactoryPlugin/default.project.json
+
+The connector implements:
+
+- search_tree;
+- inspect_instance;
+- list_children;
+- script_grep;
+- read_script;
+- read_all_scripts;
+- get_selection / set_selection;
+- write_script;
+- edit_script;
+- create_instance;
+- set_property;
+- delete_instance;
+- run_tests;
+- get_logs;
+- get_run_state;
+- start_playtest / stop_playtest;
+- simulate_input;
+- playtest_sample_state;
+- capture_viewport.
+
+The connector deliberately omits:
+
+- run_luau;
+- dynamic gameplay-expression execution;
+- Marketplace/Creator Store insertion;
+- publishing;
+- purchases / Robux spending;
+- production Open Cloud mutation.
+
+Each persistent edit is wrapped in Roblox ChangeHistoryService recording so it is also a single native Studio undo step.
+
+The StarBlox factory still captures its own deterministic rollback plan before mutations, so native Studio undo is an additional safety layer rather than the only recovery path.
+
+### Role-routed bridge
+
+The local bridge routes each tool request to one of:
+
+- edit;
+- server;
+- client;
+- any.
+
+Normal inspection/edit/test operations go to the edit DataModel.
+
+Runtime state sampling is routed to the play server.
+
+Synthetic input and viewport capture are routed to a play client.
+
+This prevents a runtime plugin peer from accidentally consuming an edit-mode mutation request.
+
+### Automated single-player playtests
+
+The built-in connector adapts BloxForge's StudioTestService pattern.
+
+start_playtest runs from the edit peer.
+
+During Play, the same plugin code runs on the server/client peers and connects to the same local bridge.
+
+stop_playtest uses a cross-DataModel plugin-setting request/acknowledgement handshake so the play server calls StudioTestService:EndTest and the edit peer waits for acknowledgement.
+
+Visual evidence is captured **before** a factory-started playtest is torn down.
+
+### Viewport payload bounds
+
+Viewport images are read through CaptureService / EditableImage.
+
+Before base64 transport, captures are downsampled to at most 960 x 540. This keeps local bridge payloads bounded and avoids freezing Studio on high-resolution displays.
+
+### Running the built-in connector
+
+1. Start the local bridge:
+
+   npm run studio:bridge
+
+2. Build/install roblox/devFactoryPlugin as a local Studio plugin using your normal Rojo workflow.
+
+3. Enable HTTP requests in Studio so the plugin can reach the local loopback bridge.
+
+4. Keep the bridge on 127.0.0.1 unless you have a specific reason to expose it elsewhere.
+
+5. For a non-loopback bridge, set a shared bridge token; the Node bridge refuses non-loopback startup without one.
+
+6. In a provider adapter, use createStarBloxLocalStudioAdapter() from src/devFactory/localStudioConnector.js for the studio side, and supply the planner/coder/reviewer hooks for your chosen model/provider.
+
+The built-in connector advertises only the tools it actually implements. The factory therefore automatically falls back from unsupported BloxForge-only features such as run_playtest_episode or run_gameplay_assertions to the lower-level proof flow where possible.
 
 ## BloxForge mode
 
@@ -324,10 +431,16 @@ Pinned paths include:
 - backend/src/agents/coordinator.ts
 - backend/src/agents/specialists.ts
 - backend/src/tools/studioTools.ts
+- plugin/src/tools/Inspect.luau
+- plugin/src/tools/TestOps.luau
 - plugin/src/tools/PlaytestOps.luau
 - plugin/src/tools/VisionOps.luau
 - plugin/src/tools/LogOps.luau
 - plugin/src/tools/Executor.luau
+
+Additional BloxForge runtime source:
+
+- studio-plugin/src/modules/handlers/TestHandlers.ts
 
 ## Scope boundary
 
