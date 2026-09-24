@@ -1,9 +1,9 @@
 {
-  "schemaVersion": 30,
+  "schemaVersion": 31,
   "owner": "15",
   "branch": "screenshot-match-preproduction",
-  "sourceHead": "9a0141dec2c67ba4aec374f2107fcab120d235ef",
-  "updatedAt": "2026-09-24T19:03:00Z",
+  "sourceHead": "d982ce01e10b987a362678a9bfd36676c7953541",
+  "updatedAt": "2026-09-24T19:10:00Z",
   "status": "ACTIVE_FINAL_RELEASE_TAIL",
   "policy": {
     "maxConcurrentProductionBatches": 4,
@@ -78,24 +78,24 @@
   },
   "cpuGenerationSemaphore": {
     "workflowPath": ".github/workflows/art-factory-cpu-generation.yml",
-    "observedAt": "2026-09-24T19:03:00Z",
+    "observedAt": "2026-09-24T19:10:00Z",
     "running": {
       "runId": 36044194444,
       "headSha": "349979ca6e1d219e46815a69434ef9c0be9ad31f",
       "batch": "w09-release-tail-2pack-v7",
-      "state": "IN_PROGRESS",
+      "state": "IN_PROGRESS_DECOR7_ONLY__DECOR11_TECHNICAL_FAILURE",
       "jobs": [
-        "decor-7",
+        "decor-7"
+      ],
+      "technicalFailureJobs": [
         "decor-11"
       ],
-      "phase": "CPU_GENERATION",
-      "candidateArtifactsStaged": false,
-      "contract": "Pinned SDXL/Diffusers; cached runtime; 640x640/10-step float32; consolidated literal prompts."
+      "phase": "CPU_GENERATION"
     },
     "pending": {
-      "runId": 36045301731,
-      "headSha": "9a0141dec2c67ba4aec374f2107fcab120d235ef",
-      "batch": "w03-release-tail-4pack-v6",
+      "runId": 36046167977,
+      "headSha": "d982ce01e10b987a362678a9bfd36676c7953541",
+      "batch": "w03-release-tail-4pack-v6-token-safe",
       "state": "PENDING",
       "jobs": [
         "decor-8",
@@ -104,8 +104,8 @@
         "desks-11"
       ]
     },
-    "authorization": "DO_NOT_QUEUE_W13_PACK_UNTIL_W03_TRANSITIONS_TO_RUNNING",
-    "rule": "Exactly one running plus one pending. Queue packed W13 retry only when W03 is running and pending slot is empty.",
+    "authorization": "DO_NOT_QUEUE_W13_UNTIL_W03_TRANSITIONS_TO_RUNNING",
+    "rule": "One running plus one pending. W03 token-safe intentionally replaces canceled old W03 pending run.",
     "preparedNext": [
       {
         "rank": 1,
@@ -117,9 +117,17 @@
         ],
         "producer": "13",
         "reviewer": "MIXED_11_02"
+      },
+      {
+        "rank": 2,
+        "queuePath": "docs/preproduction/art-factory/prepared-queues/w09-decor11-v7-token-safe.json",
+        "scope": [
+          "decor-11"
+        ],
+        "producer": "09",
+        "reviewer": "02"
       }
-    ],
-    "preparedQueueRule": "Dispatch exactly once after live CPU state proves W03 running and no pending successor."
+    ]
   },
   "batches": [
     {
@@ -129,12 +137,12 @@
         "decor-7",
         "decor-11"
       ],
-      "state": "RUNNING",
+      "state": "RUNNING_DECOR7__DECOR11_NO_BYTES_TOKEN_OVERFLOW",
       "reviewer": "MIXED_01_02"
     },
     {
       "producer": "03",
-      "batchId": "w03-release-tail-4pack-v6",
+      "batchId": "w03-release-tail-4pack-v6-token-safe",
       "scope": [
         "decor-8",
         "desks-9",
@@ -154,6 +162,15 @@
       ],
       "state": "PREPARED",
       "reviewer": "MIXED_11_02"
+    },
+    {
+      "producer": "09",
+      "batchId": "w09-decor11-v7-token-safe",
+      "scope": [
+        "decor-11"
+      ],
+      "state": "PREPARED_AFTER_TECHNICAL_FAILURE",
+      "reviewer": "02"
     }
   ],
   "pendingCandidates": [],
