@@ -41,20 +41,26 @@ function jaccard(a,b){
 }
 
 function sourceMap(chunks){
-  return new Map((chunks || []).map(chunk => [
-    chunk.id,
-    {
+  const result=new Map();
+  for(const [index,chunk] of (chunks || []).entries()){
+    if(!isObject(chunk)) throw new TypeError('source chunk ' + index + ' must be an object.');
+    const id=normalizeText(chunk.id);
+    if(!id) throw new TypeError('source chunk ' + index + ' is missing id.');
+    if(result.has(id)) throw new Error('duplicate source chunk id: ' + id);
+    result.set(id,{
       ...clone(chunk),
+      id,
       comparisonText:normalizedForCompare(chunk.text),
       evidenceText:normalizeText(chunk.text),
       chunkHash:stableHash({
-        id:chunk.id,
+        id,
         text:normalizeText(chunk.text),
         header:normalizeText(chunk.header),
         source:normalizeText(chunk.source)
       })
-    }
-  ]));
+    });
+  }
+  return result;
 }
 
 export function validateCandidateStructure(candidate){
@@ -342,6 +348,14 @@ export async function validateGeneratedCandidates({
   if(!Array.isArray(candidates)) throw new TypeError('candidates must be an array.');
   if(!['strict','hybrid','deterministic'].includes(mode)) throw new TypeError('invalid quality mode.');
 
+  const candidateIds=new Set();
+  for(const [index,candidate] of candidates.entries()){
+    const id=normalizeText(candidate?.candidateId);
+    if(!id) throw new TypeError('candidate ' + index + ' is missing candidateId before review.');
+    if(candidateIds.has(id)) throw new Error('duplicate candidateId before review: ' + id);
+    candidateIds.add(id);
+  }
+
   let reviews=new Map();
   let reviewerFailed=false;
 
@@ -356,11 +370,22 @@ export async function validateGeneratedCandidates({
           chunks:clone(chunks)
         });
         const rows=Array.isArray(response?.results) ? response.results : [];
-        reviews=new Map(rows
-          .map(normalizeReviewResult)
-          .filter(Boolean)
-          .map(row => [row.candidateId,row])
-        );
+        const normalizedRows=rows.map(normalizeReviewResult).filter(Boolean);
+        const seenReviewIds=new Set();
+        const invalidReviewBatch=
+          normalizedRows.length !== rows.length ||
+          normalizedRows.some(row =>
+            !row.candidateId ||
+            !candidateIds.has(row.candidateId) ||
+            seenReviewIds.has(row.candidateId) ||
+            !seenReviewIds.add(row.candidateId)
+          );
+        if(invalidReviewBatch){
+          reviewerFailed=true;
+          reviews=new Map();
+        }else{
+          reviews=new Map(normalizedRows.map(row => [row.candidateId,row]));
+        }
       }catch{
         reviewerFailed=true;
       }
