@@ -40,6 +40,8 @@ export function buildJobPlan({
       promptBlocks:v.promptBlocks,promptText:v.promptText,promptSha256:v.promptSha256,
       runtimePromptText:v.runtimePromptText||v.promptText,
       runtimePromptSha256:v.runtimePromptSha256||v.promptSha256,
+      runtimeNegativePromptText:v.runtimeNegativePromptText||'',
+      runtimeNegativePromptSha256:v.runtimeNegativePromptSha256||sha(v.runtimeNegativePromptText||''),
       promptRecipeVersion,seed,
       runtime:{repo:runtime.repo,commit:runtime.commit},
       model:{modelId,revision:modelRevision,rightsBasis:RIGHTS_BASIS},
@@ -75,6 +77,9 @@ export function validateJobPlan(plan){
     const runtimePromptText=a.runtimePromptText||a.promptText;
     const runtimePromptSha256=a.runtimePromptSha256||a.promptSha256;
     if(!runtimePromptText||!runtimePromptSha256||sha(runtimePromptText)!==runtimePromptSha256) errors.push(`${a.attemptId||'attempt'} runtime prompt hash mismatch`);
+    const runtimeNegativePromptText=a.runtimeNegativePromptText||'';
+    const runtimeNegativePromptSha256=a.runtimeNegativePromptSha256||sha('');
+    if(sha(runtimeNegativePromptText)!==runtimeNegativePromptSha256) errors.push(`${a.attemptId||'attempt'} runtime negative prompt hash mismatch`);
     const expected=deriveSeed(plan?.item?.id,a.promptSha256,a.variant);
     if(a.seed!==expected) errors.push(`${a.attemptId||'attempt'} deterministic seed mismatch`);
     seeds.push(a.seed); prompts.push(a.promptSha256);
