@@ -7,7 +7,7 @@
   "policy": "docs/preproduction/DELIVERY_PROTOCOL_V2.md",
   "visualSprint": "docs/preproduction/ART_VISUALS_SPRINT.json",
   "artFactoryPolicy": "docs/preproduction/art-factory/ART_FACTORY_V2.json",
-  "sourceHead": "7db8f63a54fa08d766ce7b63b1371f3e6c93d0d2",
+  "sourceHead": "9e032e4096",
   "priorReviewShard": {
     "blobSha": "4173dbb9923157eb5a13090d526f88cfec162edd",
     "schemaVersion": 10,
@@ -240,12 +240,10 @@
   ],
   "currentCycle": {
     "scope": [
-      "wall-9",
-      "decor-11",
-      "decor-12"
+      "wall-9"
     ],
-    "version": "current exact hashes: Wall9 v5 + Decor11/12 v2",
-    "result": "REWORK_3_OF_3",
+    "version": "current exact hash: wall-9",
+    "result": "REWORK_1_OF_1",
     "oldVerdictsTransferred": false,
     "actualCardScalePixelsReviewed": true,
     "actualDetailPixelsReviewed": true,
@@ -797,13 +795,50 @@
         "NO_CLEAR_CUPS_MEDALS_DISPLAY"
       ],
       "reason": "REWORK. V2 still fails the Trophy Wall identity: the exact pixels are dominated by abstract gold shapes/panels and room-like surfaces, with no unmistakable trophy cups/medals display. Next candidate needs one isolated backboard/shelf with large readable trophies and medals dominating the card."
+    },
+    {
+      "itemId": "wall-9",
+      "name": "Art Gallery Wall",
+      "assetPath": "public/assets/catalog-candidates/cpu/wall-9-w13-v6-a-three-frames-no-room-original.png",
+      "repositoryPath": "public/assets/catalog-candidates/cpu/wall-9-w13-v6-a-three-frames-no-room-original.png",
+      "assetHash": "b2ac1c401bd9b20adf9d8b95c90b8db3f0453faa",
+      "sha256": "f9deadbf8443d30b3ec8534a220307a3d43c4899f2cb1eb5db40e1b7edd9d8de",
+      "contentSha256": "f9deadbf8443d30b3ec8534a220307a3d43c4899f2cb1eb5db40e1b7edd9d8de",
+      "hashAlgorithm": "git-blob-sha1",
+      "producer": "13",
+      "decision": "REWORK",
+      "learnerLabel": "REWORK",
+      "reviewedAt": "2026-09-24T15:58:00Z",
+      "evidenceRefs": [
+        "workflow:36022579661",
+        "artifact:10818170394/staged-replacements/staged-replacements-contact-sheet.png",
+        "artifact:10818170394/staged-replacements/detail/wall-9-b2ac1c40.png"
+      ],
+      "reasonCodes": [
+        "SIX_FRAME_LAYOUT",
+        "ROOM_VIGNETTE_DOMINATES",
+        "WEAK_ADVENTURE_ART_CONTENT",
+        "FLOOR_PROP_DISTRACTION"
+      ],
+      "reason": "REWORK. The exact rendered pixels still read as a room vignette: six small generic frames sit above a long ledge with large floor props/bags, rather than one compact Art Gallery Wall dominated by exactly three readable Adventure Club artworks. Preserve this exact hash. The smallest next repair is a plain-background wall product with exactly three large framed travel/adventure artworks on one shallow backboard/rail and no floor, ledge, bags, bench, or room context.",
+      "checks": {
+        "identity": "FAIL",
+        "silhouette": "FAIL",
+        "cardReadability": "FAIL",
+        "physicalConstruction": "FAIL",
+        "framingComposition": "FAIL",
+        "materialLighting": "PARTIAL",
+        "originality": "PASS",
+        "duplicateVisual": "PASS",
+        "technicalIntegrity": "PASS"
+      }
     }
   ],
   "currentReplacementDisposition": {
     "wall": {
       "REWORK": {
         "wall-10": "74a4c531a3c60ccd60747bfebc2dfc0d1d25b684",
-        "wall-9": "1e44eed039947b136f2c8c404d7b77fb877a9098"
+        "wall-9": "b2ac1c401bd9b20adf9d8b95c90b8db3f0453faa"
       },
       "ACCEPT": {
         "wall-11": "50ffc975030f6c7e28cf9836756bb312dfa646fb",
@@ -823,23 +858,21 @@
     }
   },
   "summary": {
-    "reviewedThisRun": 3,
+    "reviewedThisRun": 1,
     "newAcceptsThisRun": 0,
-    "newReworkThisRun": 3,
+    "newReworkThisRun": 1,
     "newBlockedThisRun": 0,
     "newUsableBy08Now": [],
     "reworkNow": [
-      "wall-9",
-      "decor-11",
-      "decor-12"
+      "wall-9"
     ],
-    "preservedAcceptedHashes": "All prior reviewer02 ACCEPTs remain frozen; these REWORKs apply only to the current exact hashes."
+    "preservedAcceptedHashes": "All prior reviewer02 ACCEPTs remain frozen; this REWORK applies only to wall-9 exact hash b2ac1c401bd9b20adf9d8b95c90b8db3f0453faa."
   },
   "handoff": {
-    "13": "Wall9 v4 exact hash REWORK; preserve and prepare one more failure-specific gallery repair only if still release-critical.",
+    "13": "wall-9 current exact hash is REWORK; preserve it and generate only the failure-specific next version if director15 keeps it release-critical.",
     "14": "Current packets consumed; do not rerender unchanged hashes.",
-    "15": "Decor11/12 and Wall9 remain bounded rework blockers; Decor9/10 leave production scope.",
+    "15": "wall-9 remains a bounded exact-pixel REWORK blocker; prepare only the smallest failure-specific replacement.",
     "09": "Decor9/10 exact v1 hashes ACCEPT; freeze. Decor11/12 v1 REWORK; preserve and prepare failure-specific replacements if prioritized.",
-    "08": "Integrate exact Decor9 v1 and Decor10 v1 hashes after live revalidation; do not integrate Wall9 v4 or Decor11/12 v1."
+    "08": "Do not canonical-wire wall-9 exact hash b2ac1c401bd9b20adf9d8b95c90b8db3f0453faa."
   }
 }
