@@ -1,0 +1,91 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_STAGED_OUTPUT",
+  "repository": "P00NSMASHER/StarBlox",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "d4d9caa564e41eefee6570d34e5216143aeb4fe5",
+  "sourcePlanSha256": "4e83690e8490201382f25cc85192b19192eb6f977f1e9a582f4db1be18bc3ba9",
+  "item": {
+    "id": "desks-10",
+    "name": "Neon Streaming Desk",
+    "collectionId": "desks",
+    "type": "room",
+    "tier": 4,
+    "theme": "Aqua Wave"
+  },
+  "attempt": {
+    "attemptId": "desks-10-w03-a-conventional-streaming-desk-b97b4132df",
+    "producer": "03",
+    "variant": "A-CONVENTIONAL-STREAMING-DESK",
+    "promptBlocks": [
+      "metadata",
+      "category",
+      "silhouette",
+      "physical",
+      "material",
+      "theme",
+      "tier",
+      "card",
+      "original",
+      "stage",
+      "furniture",
+      "camera",
+      "depth",
+      "bloom",
+      "textile",
+      "wall",
+      "light"
+    ],
+    "promptSha256": "b97b4132df3a08e7f0f797ee6b548dbb30b062915d46bbed046b6bf20f474f4a",
+    "promptRecipeVersion": "artPromptOptimizer-request-v1:w03-desks10-11-final-retry",
+    "seed": 483033781,
+    "runtime": {
+      "repo": "huggingface/diffusers",
+      "commit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c"
+    },
+    "model": {
+      "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+      "revision": "462165984030d82259a11f4367a4eed129e94a7b",
+      "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+    },
+    "conditioning": {
+      "referenceAssetSha256": null,
+      "controlImageSha256": null,
+      "adapterScale": null
+    }
+  },
+  "output": {
+    "repoPath": "public/assets/catalog-candidates/cpu/desks-10-w03-v11-a-conventional-streaming-desk-original.png",
+    "sha256": "8ddcce08ba65392a685b4820ad7b0a656deeee7b5b9db548e5d658b6abb15927",
+    "gitBlobSha": "0255b3af108f7cda131101965f754b8b507ce3dd",
+    "bytes": 519596,
+    "format": "PNG",
+    "width": 640,
+    "height": 640,
+    "mode": "RGB"
+  },
+  "derivativeLineage": {
+    "derivativeOfSha256": null,
+    "sourcePreserved": true
+  },
+  "renderEvidence": [],
+  "review": {
+    "reviewer": "05",
+    "routing": {
+      "reviewer": "05",
+      "routingFile": "docs/preproduction/art-factory/runtime-queue/w03-desks10-11-final-retry-a-fallback.json",
+      "routingFileSha256": "827afdd725acf40a1847898bcc86a69e848abaf897e1f117e37e59f8c6611253",
+      "queueId": "w03-desks10-11-final-retry-a-fallback"
+    },
+    "state": "PENDING_ACTUAL_PIXEL_REVIEW",
+    "decision": null
+  },
+  "safety": {
+    "canonicalArtModified": false,
+    "gameplayModified": false,
+    "automaticPerceptualDecision": false,
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+  },
+  "status": "STAGED_EXACT_BYTES_VERIFIED",
+  "recordSha256": "0a3eb15c7bab0c336f49d6065f631d6165edc827b945b08c82813d3b46b0031b"
+}

@@ -1,0 +1,112 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_GENERATION_RECEIPT",
+  "repository": "P00NSMASHER/StarBlox",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "d4d9caa564e41eefee6570d34e5216143aeb4fe5",
+  "sourcePlanSha256": "4e83690e8490201382f25cc85192b19192eb6f977f1e9a582f4db1be18bc3ba9",
+  "executionCheckout": {
+    "branch": "screenshot-match-preproduction",
+    "head": "d4d9caa564e41eefee6570d34e5216143aeb4fe5",
+    "planSourceHeadMatchesExecutionHead": true
+  },
+  "attempt": {
+    "attemptId": "desks-10-w03-a-conventional-streaming-desk-b97b4132df",
+    "itemId": "desks-10",
+    "producer": "03",
+    "variant": "A-CONVENTIONAL-STREAMING-DESK",
+    "promptSha256": "b97b4132df3a08e7f0f797ee6b548dbb30b062915d46bbed046b6bf20f474f4a",
+    "runtimePromptSha256": "13321af7361556bb03c4f2400cb951eb1967a1aab55a7b81235405366b8a87f0",
+    "runtimeNegativePromptSha256": "6062f975c681b4cd54cca3cabdf89e6b5c4d870a608b9fe17ef505845b8f3fc3",
+    "promptRecipeVersion": "artPromptOptimizer-request-v1:w03-desks10-11-final-retry",
+    "seed": 483033781
+  },
+  "runtime": {
+    "repo": "huggingface/diffusers",
+    "commit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "resolvedCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "runtimeCommitVerified": true,
+    "diffusersVersion": "0.41.0.dev0",
+    "diffusersInstallSource": "https://github.com/huggingface/diffusers.git",
+    "torchVersion": "2.8.0+cpu",
+    "transformersVersion": "5.17.0",
+    "accelerateVersion": "1.15.0",
+    "huggingfaceHubVersion": "1.33.0",
+    "safetensorsVersion": "0.8.0",
+    "pythonPillowVersion": "12.3.0",
+    "device": "cpu",
+    "dtype": "float32",
+    "executionMode": "cpu-fallback"
+  },
+  "model": {
+    "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+    "revision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS",
+    "resolvedRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "snapshotRevisionVerified": true,
+    "selectiveSnapshot": true,
+    "snapshotAllowPatterns": [
+      "model_index.json",
+      "scheduler/*",
+      "tokenizer/*",
+      "tokenizer_2/*",
+      "feature_extractor/*",
+      "text_encoder/config.json",
+      "text_encoder/model.fp16.safetensors",
+      "text_encoder_2/config.json",
+      "text_encoder_2/model.fp16.safetensors",
+      "unet/config.json",
+      "unet/diffusion_pytorch_model.fp16.safetensors",
+      "vae/config.json",
+      "vae/diffusion_pytorch_model.fp16.safetensors"
+    ]
+  },
+  "conditioning": {
+    "referenceAssetSha256": null,
+    "controlImageSha256": null,
+    "adapterScale": null,
+    "referenceImage": null,
+    "ipAdapterModelId": null,
+    "ipAdapterRevision": null,
+    "ipAdapterResolvedRevision": null,
+    "ipAdapterRevisionVerified": false,
+    "ipAdapterWeightName": null,
+    "ipAdapterSubfolder": null
+  },
+  "generation": {
+    "width": 640,
+    "height": 640,
+    "numInferenceSteps": 12,
+    "guidanceScale": 5.0,
+    "runtimePromptTokenCounts": {
+      "tokenizer": 70,
+      "tokenizer_2": 70
+    },
+    "runtimeNegativePromptTokenCounts": {
+      "tokenizer": 31,
+      "tokenizer_2": 31
+    },
+    "executedSeed": 483033781
+  },
+  "output": {
+    "repoPath": "public/assets/catalog-candidates/cpu/desks-10-w03-v11-a-conventional-streaming-desk-original.png",
+    "sha256": "8ddcce08ba65392a685b4820ad7b0a656deeee7b5b9db548e5d658b6abb15927",
+    "gitBlobSha": "0255b3af108f7cda131101965f754b8b507ce3dd",
+    "bytes": 519596,
+    "width": 640,
+    "height": 640,
+    "format": "PNG",
+    "sourceBytesPreserved": true,
+    "reusedExistingIdenticalBytes": false
+  },
+  "safety": {
+    "canonicalArtModified": false,
+    "gameplayModified": false,
+    "reviewDecisionMade": false,
+    "deploymentPerformed": false,
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+  },
+  "nextGate": "RUN_VERIFY_STAGED_OUTPUT_THEN_REAL_RENDER_AND_INDEPENDENT_EXACT_HASH_REVIEW",
+  "status": "GENERATED_SOURCE_BYTES_UNVERIFIED",
+  "recordSha256": "9505ac6747fa87b321a1adbe235437b733c54abe16ec58f77ec9bc2bf3d19e9e"
+}
