@@ -4,19 +4,77 @@ import { studioToolNames } from './studioToolContract.js';
 export class StudioBridgeQueue {
   constructor({
     timeoutMs=120_000,
-    queueLimit=100
+    queueLimit=100,
+    peerTtlMs=45_000,
+    now=() => Date.now()
   }={}){
     this.timeoutMs=timeoutMs;
     this.queueLimit=queueLimit;
+    this.peerTtlMs=Math.max(1,Number(peerTtlMs) || 45_000);
+    this.now=typeof now === 'function' ? now : (() => Date.now());
     this.counter=0;
     this.queue=[];
     this.pending=new Map();
     this.waiters=[];
+    this.peers=new Map();
   }
 
   _signal(){
     const waiters=this.waiters.splice(0);
     for(const waiter of waiters) waiter();
+  }
+
+  registerPeer({
+    instanceId='default',
+    role='edit',
+    connectorVersion=null,
+    tools=[]
+  }={}){
+    const id=String(instanceId || 'default');
+    const peerRole=String(role || 'edit');
+    const known=new Set(studioToolNames());
+    const advertised=Array.isArray(tools)
+      ? [...new Set(tools.map(String).filter(tool => known.has(tool)))].sort()
+      : [];
+    const record={
+      instanceId:id,
+      role:peerRole,
+      connectorVersion:typeof connectorVersion === 'string' && connectorVersion.trim()
+        ? connectorVersion.trim()
+        : null,
+      tools:advertised,
+      lastSeenAtMs:this.now()
+    };
+    this.peers.set(id + '||' + peerRole,record);
+    return {
+      instanceId:record.instanceId,
+      role:record.role,
+      connectorVersion:record.connectorVersion,
+      tools:[...record.tools]
+    };
+  }
+
+  peerStatus({instanceId=null}={}){
+    const now=this.now();
+    const wanted=instanceId == null ? null : String(instanceId);
+    const active=[];
+    for(const [key,peer] of this.peers.entries()){
+      if(now - peer.lastSeenAtMs > this.peerTtlMs){
+        this.peers.delete(key);
+        continue;
+      }
+      if(wanted !== null && peer.instanceId !== wanted) continue;
+      active.push({
+        instanceId:peer.instanceId,
+        role:peer.role,
+        connectorVersion:peer.connectorVersion,
+        tools:[...peer.tools]
+      });
+    }
+    return active.sort((a,b) =>
+      a.instanceId.localeCompare(b.instanceId) ||
+      a.role.localeCompare(b.role)
+    );
   }
 
   async dispatch(tool,args={},{
@@ -167,7 +225,9 @@ export function createStudioHttpAdapter({
   instanceId='default',
   token='',
   supportedTools=studioToolNames(),
-  targets=DEFAULT_TARGETS
+  targets=DEFAULT_TARGETS,
+  expectedConnectorVersion=null,
+  requireAttestation=false
 }={}){
   const root=String(baseUrl).replace(/\/$/,'');
   const known=new Set(studioToolNames());
@@ -194,22 +254,63 @@ export function createStudioHttpAdapter({
   }
 
   const supported=new Set(supportedTools);
+  const expected=typeof expectedConnectorVersion === 'string' && expectedConnectorVersion.trim()
+    ? expectedConnectorVersion.trim()
+    : null;
+
+  function headers(){
+    const out={'content-type':'application/json'};
+    if(token) out['x-starblox-bridge-token']=token;
+    return out;
+  }
 
   return {
+    requiresAttestation:Boolean(requireAttestation),
+    expectedConnectorVersion:expected,
+    supportedTools:[...supported].sort(),
     has(tool){
       return supported.has(tool);
     },
+    async describe(){
+      const response=await fetch(
+        root + '/health?instanceId=' + encodeURIComponent(instanceId),
+        {
+          method:'GET',
+          headers:headers()
+        }
+      );
+      const payload=await response.json();
+      if(!response.ok || payload.ok !== true){
+        throw new Error(payload.error || ('Studio bridge HTTP ' + response.status));
+      }
+      return {
+        service:String(payload.service || ''),
+        instanceId,
+        expectedConnectorVersion:expected,
+        required:Boolean(requireAttestation),
+        supportedTools:[...supported].sort(),
+        peers:Array.isArray(payload.peers)
+          ? payload.peers.map(peer => ({
+            instanceId:String(peer?.instanceId || ''),
+            role:String(peer?.role || ''),
+            connectorVersion:typeof peer?.connectorVersion === 'string'
+              ? peer.connectorVersion
+              : null,
+            tools:Array.isArray(peer?.tools)
+              ? [...new Set(peer.tools.map(String))].sort()
+              : []
+          }))
+          : []
+      };
+    },
     async call(tool,args={}){
       if(!supported.has(tool)) throw new Error('unknown Studio tool: ' + tool);
-
-      const headers={'content-type':'application/json'};
-      if(token) headers['x-starblox-bridge-token']=token;
 
       const target=targets[tool] || 'edit';
 
       const response=await fetch(root + '/call',{
         method:'POST',
-        headers,
+        headers:headers(),
         body:JSON.stringify({tool,args,instanceId,target})
       });
       const payload=await response.json();

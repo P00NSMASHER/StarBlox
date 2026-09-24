@@ -236,6 +236,7 @@ Each run produces an immutable JSON artifact containing:
 - reviewer findings;
 - rollback result;
 - repository gate result;
+- Studio connector attestation evidence when available;
 - deterministic run hash.
 
 The artifact intentionally does not retain:
@@ -258,6 +259,7 @@ The adapter module must export:
 
 - studio.call(tool, args)
 - optionally studio.has(tool)
+- optionally studio.describe() for connector/peer attestation
 - agents.plan
 - agents.code
 - agents.review
@@ -282,7 +284,7 @@ Transport endpoints:
 - POST /call — AI/factory submits a Studio tool request.
 - POST /poll — a Studio connector polls for pending work.
 - POST /result — the connector resolves or rejects a pending request.
-- GET /health — bridge status.
+- GET /health — bridge status plus connected Studio peer protocol/tool attestations.
 
 The default bind is loopback-only.
 
@@ -291,6 +293,8 @@ If the bridge is bound to a non-loopback interface, STARBLOX_STUDIO_BRIDGE_TOKEN
 createStudioHttpAdapter() can send the same token.
 
 The bridge is intentionally only transport.
+
+Connected plugin peers register their instance ID, role, connector protocol version and implemented tool names on each poll. Peer attestations expire after a short TTL if polling stops, so a disconnected Studio process cannot remain trusted indefinitely. The health surface exposes only active bounded metadata so a factory run can prove which Studio-side contract it is actually talking to.
 
 StarBlox now also ships a built-in Studio connector at:
 
@@ -330,6 +334,8 @@ The connector implements:
 - simulate_input;
 - playtest_sample_state;
 - capture_viewport.
+
+The built-in connector protocol is `starblox-studio-connector-v1`. The built-in Node adapter requires a matching edit-mode peer and the full built-in tool advertisement before a development run may begin inspection or mutation.
 
 The connector deliberately omits:
 
@@ -394,6 +400,8 @@ Before base64 transport, captures are downsampled to at most 960 x 540. This kee
 5. For a non-loopback bridge, set a shared bridge token; the Node bridge refuses non-loopback startup without one.
 
 6. In a provider adapter, use createStarBloxLocalStudioAdapter() from src/devFactory/localStudioConnector.js for the studio side, and supply the planner/coder/reviewer hooks for your chosen model/provider.
+
+7. The factory performs a preflight attestation through `GET /health`. It refuses to start if no edit-mode peer is connected, if the connector protocol version is stale, or if any expected built-in tool is missing.
 
 The built-in connector advertises only the tools it actually implements. The factory therefore automatically falls back from unsupported BloxForge-only features such as run_playtest_episode or run_gameplay_assertions to the lower-level proof flow where possible.
 
