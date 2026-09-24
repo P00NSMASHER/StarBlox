@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_BATCH_REQUEST",
+  "planner": "15",
+  "producer": "13",
+  "preflightOwner": "06",
+  "reviewer": "11",
+  "renderOwner": "14",
+  "integrationOwner": "08",
+  "coordinationOwner": "15",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "f1996b6cd771c998f7330eb3abaf2c17bb825677",
+  "manifestVersion": 40,
+  "batchId": "w13-desk8-v4-token-safe",
+  "scope": [
+    "desks-8"
+  ],
+  "state": "PREPARED_AFTER_TOKEN_LIMIT_FAILURE",
+  "assignmentAuthority": {
+    "path": "docs/preproduction/art-factory/RELEASE_BLOCKERS_CURRENT.json",
+    "runtimeProofPath": "docs/preproduction/art-factory/CPU_RUNTIME_PROOF.json",
+    "runtimeProofStatus": "PROVEN",
+    "runtimeCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+    "modelRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "assignedReviewers": {
+      "desks-8": "11"
+    },
+    "note": "Prior v4 job failed before generation/staging because compiled runtime prompt was 79 CLIP tokens (>77). No candidate bytes were created. This retry keeps v4 and shortens prompts with headroom."
+  },
+  "reviewSource": {
+    "decision": "TECHNICAL_RETRY",
+    "note": "No v4 visual verdict exists because generation never started. Preserve v3 REWORK as latest visual evidence."
+  },
+  "items": {
+    "desks-8": {
+      "currentLegacy": {
+        "path": "public/assets/catalog-candidates/cpu/desks-8-w13-v3-a-one-aqua-study-desk-original.png",
+        "gitBlobSha1": "6d01f070b686e4c15a5e906a4099d4fe1cea5f8b",
+        "reviewDecision": "REWORK",
+        "normalizedFailureTaxonomy": [
+          "BUILT_IN_ROOM_FIXTURE",
+          "NO_ISOLATED_STUDY_STATION",
+          "WALL_CABINETRY_DOMINATES",
+          "CARD_SCALE_PRODUCT_IDENTITY_FAILURE"
+        ]
+      },
+      "variants": [
+        {
+          "variantId": "A-TOKEN-SAFE-AQUA-DESK",
+          "optimizerInput": "Aqua Study Station. ONE freestanding pale study desk on plain white. Long rectangular worktop, four straight legs, one small right-side drawer, one short aqua shelf, one task lamp. Cyan-violet accents, full desk visible, three-quarter view. NO room, wall cabinets, chair, second desk, collage, text."
+        },
+        {
+          "variantId": "B-TOKEN-SAFE-STUDY-DESK",
+          "optimizerInput": "ONE pale freestanding study desk on white. Long worktop, four legs, one drawer, short aqua shelf, one lamp, cyan-violet accents. Full product visible. NO room, cabinets, chair, duplicate view, collage, text."
+        }
+      ]
+    }
+  },
+  "executionBudget": {
+    "width": 640,
+    "height": 640,
+    "steps": 10,
+    "guidanceScale": 4.5,
+    "dtype": "float32"
+  },
+  "safety": {
+    "preserveRejectedExactHashes": true,
+    "preserveAcceptedExactHashes": true,
+    "producerSelfReview": false,
+    "canonicalMappingsChanged": false,
+    "workflowFilesChanged": false
+  }
+}
