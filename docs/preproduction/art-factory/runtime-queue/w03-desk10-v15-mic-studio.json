@@ -34,5 +34,10 @@
     "route": "03 -> 14 -> 05 -> 08 on ACCEPT",
     "canonicalWriter": "08"
   },
-  "dispatchPolicy": "STEP6_RELEASE_RESUME__ONLY_IF_NO_NEWER_PENDING_EXACT_HASH"
+  "dispatchPolicy": "STEP6_RELEASE_RESUME__ONLY_IF_NO_NEWER_PENDING_EXACT_HASH",
+  "retry": {
+    "attempt": 2,
+    "reason": "Runtime dependency repair: transformers 5.17.0 + huggingface_hub 1.33.0",
+    "supersedesRunId": 36091441575
+  }
 }
