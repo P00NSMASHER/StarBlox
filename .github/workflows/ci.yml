@@ -120,6 +120,84 @@ jobs:
           }
           console.log('BROOKHAVEN_WORLD_DESERIALIZATION=' + JSON.stringify(receipt));
           NODE
+      - name: Generate isolated Brookhaven Roblox world
+        run: |
+          rm -rf /tmp/starblox-step4-world
+          mkdir -p /tmp/starblox-step4-world
+          npm run roblox:brookhaven-world:generate -- \
+            --out /tmp/starblox-step4-world/BrookhavenWorldBaseline.rbxmx \
+            --receipt /tmp/starblox-step4-world/generation-receipt.json
+          test -f /tmp/starblox-step4-world/BrookhavenWorldBaseline.rbxmx
+          test -f /tmp/starblox-step4-world/generation-receipt.json
+          grep -q '"status": "generated-isolated-world-model"' /tmp/starblox-step4-world/generation-receipt.json
+          grep -q '"partCount": 4936' /tmp/starblox-step4-world/generation-receipt.json
+          grep -q '"decalCount": 494' /tmp/starblox-step4-world/generation-receipt.json
+          grep -q '"specialMeshCount": 62' /tmp/starblox-step4-world/generation-receipt.json
+          grep -q '"generatedObjectCount": 5493' /tmp/starblox-step4-world/generation-receipt.json
+          grep -q '"adaptationCount": 2' /tmp/starblox-step4-world/generation-receipt.json
+          grep -q '"containsScripts": false' /tmp/starblox-step4-world/generation-receipt.json
+          grep -q '"publicationStarted": false' /tmp/starblox-step4-world/generation-receipt.json
+
+          cargo run --quiet --manifest-path tools/roblox_catalog_reader/Cargo.toml -- \
+            /tmp/starblox-step4-world/BrookhavenWorldBaseline.rbxmx \
+            > /tmp/starblox-step4-world/dom.json
+
+          npm run roblox:catalog -- \
+            --input /tmp/starblox-step4-world/BrookhavenWorldBaseline.rbxmx \
+            --out /tmp/starblox-step4-world/catalog.json \
+            --report /tmp/starblox-step4-world/catalog.md \
+            --source-id step4-generated-world
+
+          node --input-type=module - <<'NODE'
+          import {readFile,writeFile} from 'node:fs/promises';
+          const receipt=JSON.parse(await readFile('/tmp/starblox-step4-world/generation-receipt.json','utf8'));
+          const catalog=JSON.parse(await readFile('/tmp/starblox-step4-world/catalog.json','utf8'));
+          const step3=JSON.parse(await readFile('docs/roblox-world/STEP_3_SAFE_DESERIALIZATION.json','utf8')).receipt;
+          if(receipt.input?.step3IrHash !== step3.ir?.irHash) throw new Error('Step 4 is not bound to Step 3 IR');
+          if(receipt.output?.sourceCanonicalSequenceSha256 !== step3.ir?.entryCanonicalSequenceSha256){
+            throw new Error('generated world source-canonical sequence drift');
+          }
+          if(receipt.output?.sourceSliceSequenceSha256 !== step3.ir?.sourceSliceSequenceSha256){
+            throw new Error('generated world source-slice sequence drift');
+          }
+          const classes=catalog.classCounts || {};
+          const expected={Model:1,Part:4385,Seat:271,WedgePart:247,CornerWedgePart:31,VehicleSeat:2,Decal:494,SpecialMesh:62};
+          for(const [name,count] of Object.entries(expected)){
+            if(classes[name] !== count) throw new Error('generated native class count drift for '+name+': '+classes[name]);
+          }
+          if(catalog.summary?.scriptCount !== 0 || catalog.summary?.remoteCount !== 0){
+            throw new Error('isolated Step 4 world unexpectedly contains scripts/remotes');
+          }
+          if(catalog.summary?.assetIdCount !== 154){
+            throw new Error('generated native asset-ID count drift: '+catalog.summary?.assetIdCount);
+          }
+          const project={
+            name:'StarBloxStep4IsolatedWorld',
+            tree:{
+              $className:'DataModel',
+              Workspace:{
+                BrookhavenWorldBaseline:{
+                  $path:'BrookhavenWorldBaseline.rbxmx'
+                }
+              }
+            }
+          };
+          await writeFile('/tmp/starblox-step4-world/isolated.project.json',JSON.stringify(project,null,2)+'\n');
+          console.log('STARBLOX_STEP4_GENERATION='+JSON.stringify({
+            model:receipt.output,
+            adaptations:receipt.adaptationPolicy,
+            nativeClassCounts:expected,
+            assetIdCount:catalog.summary.assetIdCount
+          }));
+          NODE
+
+          rojo build /tmp/starblox-step4-world/isolated.project.json \
+            --output /tmp/starblox-step4-world/StarBlox-Step4-Isolated-World.rbxlx
+          test -s /tmp/starblox-step4-world/StarBlox-Step4-Isolated-World.rbxlx
+          grep -q 'BrookhavenWorldBaseline' /tmp/starblox-step4-world/StarBlox-Step4-Isolated-World.rbxlx
+          cargo run --quiet --manifest-path tools/roblox_catalog_reader/Cargo.toml -- \
+            /tmp/starblox-step4-world/StarBlox-Step4-Isolated-World.rbxlx \
+            > /tmp/starblox-step4-world/place-dom.json
       - name: Prove native Roblox build
         run: npm run roblox:native:build-proof
       - name: Prove Roblox Studio sync baseline
