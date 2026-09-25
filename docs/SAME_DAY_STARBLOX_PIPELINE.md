@@ -12,18 +12,19 @@ The default one-day manifest uses only the donors that remove the most critical-
 
 1. **Authorized Brookhaven** — world, houses, vehicles, avatar/presentation.
 2. **Robbing Simulator** — NPC/event/housing/placeable server patterns.
-3. **Flex-with-Friends** — traffic, phone travel, child-oriented quests/minigames.
-4. **Rorooms** — profiles/social/items/emotes/world-navigation UI.
-5. **Existing StarBlox** — ProfileStore, Replica/network authority, Quest/mastery, Star Coins/XP, AI NPC boundaries, certification.
+3. **Arnis** — large-world streaming/LOD, generated roads/interiors and expansion infrastructure.
+4. **A-Chassis** — minimum stable production vehicle runtime for the vertical slice.
+5. **Flex-with-Friends** — traffic, phone travel, child-oriented quests/minigames.
+6. **Rorooms** — profiles/social/items/emotes/world-navigation UI.
+7. **Existing StarBlox** — ProfileStore, Replica/network authority, Quest/mastery, Star Coins/XP, AI NPC boundaries, certification.
 
 Keep these as escalation donors rather than importing them by default:
 
 - Bloxburg — build/furniture UX.
 - RoCitizens — careers/tasks/phone/trade.
 - MeepCity — pets/estates/family activities.
-- Jailbreak + A-Chassis — vehicle/garage depth.
+- Jailbreak — deeper garage/vehicle customization if the minimum A-Chassis path is insufficient.
 - Miner's Haven + Infarmous — progression/placement/economy patterns.
-- Arnis — additional generated districts and streaming/LOD where the authorized world does not already satisfy the slice.
 
 This minimizes integration churn while preserving fallback options.
 
@@ -118,6 +119,8 @@ The manifest pins each donor to an exact 40-character Git commit SHA. The pipeli
 
 The default task files are:
 
+- `config/same-day/integrate-arnis-task.json`
+- `config/same-day/integrate-achassis-task.json`
 - `config/same-day/integrate-flex-task.json`
 - `config/same-day/integrate-rorooms-task.json`
 
@@ -195,11 +198,13 @@ The built-in Studio connector now samples performance with:
 Requires:
 
 - explicit mobile/touch acceptance criteria;
-- viewport evidence;
+- a live playtest viewport capture;
+- touch-enabled client evidence;
+- mobile/tablet-sized viewport dimensions;
 - visual-review acceptance;
 - clean runtime evidence.
 
-This gate is evidence-based, but true device/emulator coverage should still be expanded as additional Studio emulation tools become available.
+The screenshot receipt records both the captured image size and the original client viewport/device-capability evidence. Desktop-only evidence cannot satisfy the mobile gate.
 
 ### Security
 
@@ -219,6 +224,17 @@ Default example thresholds:
 - p95 frame time <= 50 ms.
 
 Thresholds are configurable in the manifest.
+
+## Fail-fast environment check
+
+Before starting the expensive stages, run:
+
+```bash
+npm run same-day:doctor -- \
+  --manifest config/same-day/pipeline.example.json
+```
+
+The doctor validates Node, Git, Cargo/Rust, Rojo, the factory adapter, exact pinned place-source fingerprints, existing donor checkout pins, and reports whether the Studio bridge and AI-agent wrapper are already connected. Required failures stop immediately; Studio/agent connectivity is reported as a warning because those can be connected after the import/staging work is complete.
 
 ## Setup
 
