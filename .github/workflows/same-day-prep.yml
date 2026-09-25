@@ -202,6 +202,54 @@ jobs:
           }
           NODE
 
+      - name: Prove uploaded bundle is relocatable
+        run: |
+          rm -rf /tmp/starblox-relocated
+          cp -R artifacts/same-day-starblox /tmp/starblox-relocated
+          node --input-type=module - <<'NODE'
+          import {readFile,writeFile} from 'node:fs/promises';
+          import {resolve} from 'node:path';
+
+          const base='/tmp/starblox-relocated';
+          let selected=null;
+          for(const sourceId of ['robbing','brookhaven']){
+            const plan=JSON.parse(await readFile(
+              resolve(base,'sources',sourceId,'planning','migration-plan.json'),
+              'utf8'
+            ));
+            const unit=(plan.units || []).find(row =>
+              row.selected === true &&
+              row.exportDisposition === 'quarantine' &&
+              ['refactor','quarantine'].includes(row.migrationStrategy)
+            );
+            if(unit){
+              selected={sourceId,unitId:unit.unitId};
+              break;
+            }
+          }
+          if(!selected) throw new Error('no quarantined/refactor unit available for relocation proof');
+
+          const task={
+            id:'ci-relocated-migration-proof',
+            request:'Verify relocated same-day migration evidence',
+            migration:{
+              exportReceipt:resolve(
+                base,'sources',selected.sourceId,'export','migration-export-receipt.json'
+              ),
+              unitIds:[selected.unitId]
+            }
+          };
+          await writeFile('/tmp/relocated-factory-task.json',JSON.stringify(task,null,2)+'\n');
+          console.log('relocation proof unit',selected);
+          NODE
+          npm run studio:factory -- \
+            --task /tmp/relocated-factory-task.json \
+            --verify-migration-only \
+            --out /tmp/relocated-factory-evidence.json
+          grep -q '"status": "verified"' /tmp/relocated-factory-evidence.json
+          grep -q '"liveActivationAllowed": false' /tmp/relocated-factory-evidence.json
+          test -f /tmp/starblox-relocated/StarBloxSameDay.rbxlx
+
       - name: Upload resumable pre-Studio bundle
         uses: actions/upload-artifact@v4
         with:
