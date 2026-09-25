@@ -7,7 +7,7 @@ realm = "shared"
 private = true
 
 [dependencies]
-Matter = "matter-ecs/matter@0.8.4"
+Matter = "matter-ecs/matter@=0.8.4"
 
 [server-dependencies]
-ProfileStore = "lm-loleris/profilestore@1.0.3"
+ProfileStore = "lm-loleris/profilestore@=1.0.3"
