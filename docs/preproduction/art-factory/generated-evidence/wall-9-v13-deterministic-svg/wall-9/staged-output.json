@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_STAGED_OUTPUT",
+  "repository": "P00NSMASHER/StarBlox",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "62105119f8a6b4f896203008b7bb76acaacc40d9",
+  "item": {
+    "id": "wall-9",
+    "name": "Art Gallery Wall",
+    "collectionId": "wall",
+    "type": "room",
+    "tier": 3,
+    "theme": "Adventure Club"
+  },
+  "attempt": {
+    "attemptId": "wall-9-v13-deterministic-svg",
+    "producer": "deterministic-svg",
+    "variant": "DETERMINISTIC_LITERAL_SVG",
+    "method": "deterministic-vector"
+  },
+  "output": {
+    "repoPath": "public/assets/catalog-candidates/deterministic/wall-9-v13.svg",
+    "gitBlobSha": "752423e322f394adb1af5f48c1166eaf888f9830",
+    "format": "SVG"
+  },
+  "review": {
+    "reviewer": "02",
+    "routing": {
+      "reviewer": "02",
+      "queueId": "wall-9-v13-deterministic-svg"
+    },
+    "state": "PENDING_ACTUAL_PIXEL_REVIEW",
+    "decision": null
+  },
+  "safety": {
+    "canonicalArtModified": false,
+    "gameplayModified": false,
+    "automaticPerceptualDecision": false
+  },
+  "status": "STAGED_EXACT_BYTES_VERIFIED"
+}
