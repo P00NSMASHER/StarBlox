@@ -160,7 +160,7 @@ function ItemArt({item}){
 }
 
 export function App(){
-  const [screen,setScreen] = useState('world');
+  const [screen,setScreen] = useState('room');
   const [initialLocalSnapshot] = useState(() => loadLocalSnapshot());
   const [save,setSave] = useState(() => migrateSave(initialLocalSnapshot));
   const [storageHydrated,setStorageHydrated] = useState(() => Boolean(initialLocalSnapshot));
