@@ -14,6 +14,24 @@ function exactness(){
     }
   };
 }
+function inspection(){
+  return {
+    baseline:{
+      mountedSubtreeSha256:'c'.repeat(64),
+      subtreeInstanceCount:5493,
+      scriptsOrRemotesInsideBaseline:0
+    },
+    runtime:{
+      mountCount:3,
+      mounts:[
+        'ReplicatedStorage/StarBlox',
+        'ServerScriptService/StarBlox',
+        'StarterPlayer/StarterPlayerScripts/StarBlox'
+      ],
+      parentedIntoBaseline:false
+    }
+  };
+}
 function mount(){
   return {
     status:'starblox-mounted-beside-locked-world',
@@ -49,6 +67,7 @@ describe('Target Architecture Step 6 release gate',()=>{
       liveExactnessLock:s.exactnessLock,
       liveMountReceipt:s.mountReceipt,
       artifactBytes:artifact,
+      artifactInspection:inspection(),
       sourceCommit:commit
     });
     expect(gate.status).toBe('private-release-gate-open');
@@ -59,6 +78,7 @@ describe('Target Architecture Step 6 release gate',()=>{
       gate,
       step5SnapshotBytes:snapshotBytes,
       artifactBytes:artifact,
+      artifactInspection:inspection(),
       sourceCommit:commit
     }).ok).toBe(true);
   });
@@ -71,6 +91,7 @@ describe('Target Architecture Step 6 release gate',()=>{
       liveExactnessLock:s.exactnessLock,
       liveMountReceipt:s.mountReceipt,
       artifactBytes:artifact,
+      artifactInspection:inspection(),
       sourceCommit:commit
     });
     expect(()=>verifyStep6ReleaseGate({
@@ -86,6 +107,18 @@ describe('Target Architecture Step 6 release gate',()=>{
       sourceCommit:'d'.repeat(40)
     })).toThrow(/source commit mismatch/);
 
+    const badInspection=inspection();
+    badInspection.baseline.mountedSubtreeSha256='e'.repeat(64);
+    expect(()=>buildStep6ReleaseGate({
+      step5Snapshot:s,
+      step5SnapshotBytes:snapshotBytes,
+      liveExactnessLock:s.exactnessLock,
+      liveMountReceipt:s.mountReceipt,
+      artifactBytes:artifact,
+      artifactInspection:badInspection,
+      sourceCommit:commit
+    })).toThrow(/release artifact Brookhaven subtree/);
+
     const stale=mount();
     stale.baseline.mountedSubtreeSha256='e'.repeat(64);
     expect(()=>buildStep6ReleaseGate({
@@ -94,6 +127,7 @@ describe('Target Architecture Step 6 release gate',()=>{
       liveExactnessLock:s.exactnessLock,
       liveMountReceipt:stale,
       artifactBytes:artifact,
+      artifactInspection:inspection(),
       sourceCommit:commit
     })).toThrow(/live mount receipt does not match/);
   });
