@@ -97,6 +97,15 @@ try{
   const bytes=await readFile(output);
   const xml=bytes.toString('utf8');
   assertPublishCompatibleXml(xml);
+  for(const requiredName of ['Matter','ProfileStore','ReplicaServer','ReplicaClient']){
+    const marker='<string name="Name">' + requiredName + '</string>';
+    if(!xml.includes(marker)){
+      throw new Error(
+        'refusing to publish: compiled place is missing required runtime dependency ' +
+        requiredName
+      );
+    }
+  }
 
   const artifactSha256=sha256Bytes(bytes);
   const artifactBytes=bytes.length;
