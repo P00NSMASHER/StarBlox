@@ -66,9 +66,13 @@ describe('Step 7: Roblox-native StarBlox core loop', () => {
     expect(replica).toContain('CoreLoop = profileData.Progress.CoreLoop');
   });
 
-  it('retires prototype geometry while preserving core-loop remotes and mobile activity UI', () => {
+  it('binds core-loop prompts and spawn to verified Brookhaven locations without mutating the baseline', () => {
     const server=readFileSync(
       new URL('../../roblox/src/server/CoreGameLoopService.luau',import.meta.url),
+      'utf8'
+    );
+    const bindings=readFileSync(
+      new URL('../../roblox/src/shared/WorldActivityBindings.luau',import.meta.url),
       'utf8'
     );
     const client=readFileSync(
@@ -95,13 +99,35 @@ describe('Step 7: Roblox-native StarBlox core loop', () => {
     ]){
       expect(server).not.toContain(retiredToken);
     }
+
+    for(const token of [
+      'BrookhavenWorldBaseline',
+      'StarBloxActivityAnchors',
+      'BHW_3461',
+      'BHW_4879',
+      'BHW_3191',
+      'BHW_4654'
+    ]){
+      expect(bindings).toContain(token);
+    }
+
+    expect(server).toContain('buildWorldBindings');
+    expect(server).toContain('runtimeFolder.Parent = Workspace');
+    expect(server).toContain('anchor.Parent = runtimeFolder');
+    expect(server).not.toContain('anchor.Parent = worldRoot');
+    expect(server).toContain('SourceWorldPart');
+    expect(server).toContain('Instance.new("ProximityPrompt")');
+    expect(server).toContain('_placeCharacterAtWorldSpawn');
+    expect(server).toContain('player.CharacterAdded:Connect');
     expect(server).toContain('removePrototypeWorld');
     expect(server).toContain('RequestStatus');
+
     expect(client).toContain('ScreenGui');
     expect(client).toContain('ActivityPanel');
     expect(client).toContain('TextButton');
     expect(client).toContain('Activated:Connect');
     expect(client).toContain('submitAnswer:InvokeServer');
+    expect(client).not.toContain('follow the glowing signs');
   });
 
   it('headless proof exercises repeatability, inventory unlock, duplicate guard, and reward cap', () => {
