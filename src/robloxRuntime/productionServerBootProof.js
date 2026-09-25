@@ -69,24 +69,51 @@ assert(services.PrivatePlaytestTelemetry ~= nil, "private playtest telemetry ser
 
 local brookhaven = Workspace:FindFirstChild("BrookhavenWorldBaseline")
 assert(brookhaven ~= nil and brookhaven:IsA("Model"), "verified Brookhaven world mount missing")
-local brookhavenCount = #brookhaven:GetDescendants() + 1
-if brookhavenCount ~= 5493 then
-    local classCounts = {}
-    for _, instance in brookhaven:GetDescendants() do
-        classCounts[instance.ClassName] = (classCounts[instance.ClassName] or 0) + 1
-    end
-    local classParts = {}
-    for className, count in classCounts do
-        table.insert(classParts, className .. "=" .. tostring(count))
-    end
-    table.sort(classParts)
-    error(
-        "Brookhaven world mount instance count mismatch: actual=" ..
-        tostring(brookhavenCount) ..
-        " expected=5493 classes=" ..
-        table.concat(classParts, ",")
+
+-- Roblox materializes legacy surface joints when the serialized world is
+-- loaded into a live server. The locked artifact contains 5,493 serialized
+-- instances including the root; live runtime expansion deterministically
+-- adds 23 joints: 3 Glue + 4 Snap + 16 Weld. Verify both layers separately
+-- so engine-generated joints do not masquerade as world drift.
+local classCounts = {}
+for _, instance in brookhaven:GetDescendants() do
+    classCounts[instance.ClassName] = (classCounts[instance.ClassName] or 0) + 1
+end
+
+local expectedSerializedClasses = {
+    CornerWedgePart = 31,
+    Decal = 494,
+    Part = 4385,
+    Seat = 271,
+    SpecialMesh = 62,
+    VehicleSeat = 2,
+    WedgePart = 247,
+}
+for className, expectedCount in expectedSerializedClasses do
+    assert(
+        (classCounts[className] or 0) == expectedCount,
+        "Brookhaven serialized class count mismatch for " ..
+        className .. ": actual=" .. tostring(classCounts[className] or 0) ..
+        " expected=" .. tostring(expectedCount)
     )
 end
+
+assert((classCounts.Glue or 0) == 3, "unexpected runtime Glue joint count")
+assert((classCounts.Snap or 0) == 4, "unexpected runtime Snap joint count")
+assert((classCounts.Weld or 0) == 16, "unexpected runtime Weld joint count")
+for _, forbiddenClass in {"Script","LocalScript","ModuleScript","RemoteEvent","RemoteFunction"} do
+    assert((classCounts[forbiddenClass] or 0) == 0, "Brookhaven baseline contains forbidden runtime class " .. forbiddenClass)
+end
+
+local generatedJointCount = (classCounts.Glue or 0) + (classCounts.Snap or 0) + (classCounts.Weld or 0)
+local liveCount = #brookhaven:GetDescendants() + 1
+local serializedEquivalentCount = liveCount - generatedJointCount
+assert(
+    serializedEquivalentCount == 5493,
+    "Brookhaven serialized-equivalent count mismatch: actual=" ..
+    tostring(serializedEquivalentCount) .. " expected=5493"
+)
+assert(liveCount == 5516, "Brookhaven live runtime count mismatch: actual=" .. tostring(liveCount) .. " expected=5516")
 
 local world = Workspace:FindFirstChild("StarBloxCoreLoop")
 assert(world ~= nil, "core-loop world was not created by production bootstrap")
