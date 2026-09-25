@@ -1,0 +1,83 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_BATCH_REQUEST",
+  "planner": "15",
+  "producer": "09",
+  "preflightOwner": "06",
+  "reviewer": "02",
+  "renderOwner": "14",
+  "integrationOwner": "08",
+  "coordinationOwner": "15",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "8b582529335d3a99ae036bb0e2434bab71c3bc50",
+  "manifestVersion": 45,
+  "batchId": "w09-decor11-v10-single-oval",
+  "scope": [
+    "decor-11"
+  ],
+  "state": "PREPARED_AFTER_V9_REWORK",
+  "assignmentAuthority": {
+    "path": "docs/preproduction/art-factory/ACTIVE_BATCH.json",
+    "runtimeProofPath": "docs/preproduction/art-factory/CPU_RUNTIME_PROOF.json",
+    "runtimeProofStatus": "PROVEN",
+    "runtimeCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+    "modelRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "assignedReviewers": {
+      "decor-11": "02"
+    },
+    "note": "Bounded post-v9 isolation repair. Exactly one table, one oval mirror and one separate padded stool; preserve all prior hashes."
+  },
+  "reviewSource": {
+    "decision": "REWORK",
+    "latestExact": {
+      "version": "v9",
+      "gitBlobSha": "3ea52c59b32addeeca4ce07701a095165f82540c",
+      "sha256": "e623a2bd172debf7db206203418deacd77b11288a43c185831f2846678d4daf3"
+    },
+    "evidence": {
+      "workflowRunId": 36078172630,
+      "artifactId": 10841500304
+    },
+    "reasonCodes": [
+      "ROOM_VIGNETTE_PRESENT",
+      "TRIPLE_MIRROR_IDENTITY_DRIFT",
+      "SINGLE_OVAL_MIRROR_CONTRACT_FAILURE",
+      "BACKGROUND_ARCHITECTURE_DOMINATES",
+      "ISOLATED_PRODUCT_CONTRACT_FAILURE"
+    ]
+  },
+  "items": {
+    "decor-11": {
+      "currentLegacy": {
+        "path": "public/assets/catalog-candidates/cpu/decor-11-w09-v9-b-three-piece-vanity-original.png",
+        "gitBlobSha1": "3ea52c59b32addeeca4ce07701a095165f82540c",
+        "reviewDecision": "REWORK"
+      },
+      "variants": [
+        {
+          "variantId": "A-ONE-OVAL-VANITY-STOOL",
+          "optimizerInput": "One pink vanity table on seamless white. Exactly one oval mirror centered on the table. Exactly one separate padded stool in front. No side mirrors, room, wall, window, curtain, floor, shelving, labels, text, collage, second view."
+        },
+        {
+          "variantId": "B-MINIMAL-VANITY-SET",
+          "optimizerInput": "One vanity table, one oval mirror, one separate padded stool on plain white. Pink Art Attack styling. No extra mirrors, room, walls, windows, curtains, floor, shelves, text, duplicate furniture, alternate view."
+        }
+      ]
+    }
+  },
+  "executionBudget": {
+    "width": 640,
+    "height": 640,
+    "steps": 12,
+    "guidanceScale": 5,
+    "dtype": "float32"
+  },
+  "safety": {
+    "preserveRejectedExactHashes": true,
+    "preserveAcceptedExactHashes": true,
+    "producerSelfReview": false,
+    "canonicalMappingsChanged": false,
+    "workflowFilesChanged": false
+  }
+}
