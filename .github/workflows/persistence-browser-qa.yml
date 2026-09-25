@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - screenshot-match-preproduction
+      - demo-freeze
     paths:
       - 'src/storage.js'
       - 'src/persistenceTransactions.js'
