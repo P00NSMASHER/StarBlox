@@ -28,7 +28,8 @@
     "roblox:studio-sync-proof": "node scripts/verify-roblox-studio-sync.mjs",
     "roblox:studio-live-proof": "node scripts/verify-live-studio-playtest.mjs",
     "roblox:publish-private": "node scripts/publish-private-starblox.mjs",
-    "roblox:vertical-slice-proof": "node scripts/verify-roblox-vertical-slice.mjs"
+    "roblox:vertical-slice-proof": "node scripts/verify-roblox-vertical-slice.mjs",
+    "roblox:core-loop-proof": "node scripts/verify-roblox-core-loop.mjs"
   },
   "dependencies": {
     "lucide-react": "^0.468.0",

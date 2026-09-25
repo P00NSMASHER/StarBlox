@@ -5,7 +5,10 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local player = Players.LocalPlayer
 local playerGui = player:WaitForChild("PlayerGui")
-local remotes = ReplicatedStorage:WaitForChild("StarBloxVerticalSlice")
+local remotes = ReplicatedStorage:WaitForChild("StarBloxVerticalSlice", 3)
+if remotes == nil then
+	return
+end
 local questOpened = remotes:WaitForChild("QuestOpened") :: RemoteEvent
 local submitAnswer = remotes:WaitForChild("SubmitAnswer") :: RemoteFunction
 
