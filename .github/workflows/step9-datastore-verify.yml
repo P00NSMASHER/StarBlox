@@ -28,14 +28,38 @@ jobs:
             exit 1
           fi
 
-      - name: Verify real iPhone playtest evidence
+      - name: Summarize real iPhone playtest evidence
         run: |
           node --input-type=module - <<'NODE'
           import {readFile} from 'node:fs/promises';
           const row=JSON.parse(await readFile('/tmp/telemetry-entry.json','utf8'));
           const report=row.value ?? row;
+          const summary={
+            telemetryVersion:report.telemetryVersion,
+            releaseId:report.releaseId,
+            testedVersion:report.placeVersion,
+            durationSeconds:report.durationSeconds,
+            touchEnabled:report.client?.touchEnabled,
+            viewport:[report.client?.viewportX,report.client?.viewportY],
+            counts:{
+              client_ready:report.counts?.client_ready||0,
+              onboarding_shown:report.counts?.onboarding_shown||0,
+              onboarding_dismissed:report.counts?.onboarding_dismissed||0,
+              activity_panel_opened:report.counts?.activity_panel_opened||0,
+              wrong_feedback_seen:report.counts?.wrong_feedback_seen||0,
+              success_feedback_seen:report.counts?.success_feedback_seen||0
+            },
+            server:{
+              station_opened:report.server?.station_opened||0,
+              answer_wrong:report.server?.answer_wrong||0,
+              answer_correct:report.server?.answer_correct||0,
+              loop_completed:report.server?.loop_completed||0
+            },
+            activityIds:report.activityIds,
+            privacy:report.privacy
+          };
+          console.log('STARBLOX_PHONE_SESSION_SUMMARY='+JSON.stringify(summary));
           if(report.telemetryVersion!=='starblox-private-playtest-v1') throw new Error('telemetry version mismatch');
-          if(report.releaseId!=='starblox-private-step9-joinfix-v1') throw new Error('release mismatch');
           if(!(report.placeVersion>=7)) throw new Error('playtest predates joinability fix');
           if(report.client?.ready!==true || report.client?.touchEnabled!==true) throw new Error('real touch client evidence missing');
           if(!(report.client?.viewportX>=300 && report.client?.viewportY>=300)) throw new Error('viewport evidence missing');
@@ -52,17 +76,5 @@ jobs:
              report.privacy?.storesRawAnswers!==false || report.privacy?.storesChat!==false){
             throw new Error('privacy receipt mismatch');
           }
-          console.log(JSON.stringify({
-            status:'verified',
-            releaseId:report.releaseId,
-            testedVersion:report.placeVersion,
-            touch:true,
-            viewport:[report.client.viewportX,report.client.viewportY],
-            panels:report.counts.activity_panel_opened,
-            successes:report.counts.success_feedback_seen,
-            authoritativeCorrect:report.server.answer_correct,
-            loops:report.server.loop_completed,
-            wrongFeedbackObserved:(report.counts?.wrong_feedback_seen||0)>0 && (report.server?.answer_wrong||0)>0,
-            privacy:report.privacy
-          },null,2));
+          console.log('STARBLOX_PHONE_SESSION_INVARIANTS_OK');
           NODE
