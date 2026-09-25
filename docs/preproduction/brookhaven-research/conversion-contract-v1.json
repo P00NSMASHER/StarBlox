@@ -1,0 +1,66 @@
+{
+  "schemaVersion": "starblox-brookhaven-neutral-conversion-contract-v1",
+  "step": "5-of-12",
+  "generatedAt": "2026-09-24",
+  "purpose": "Convert provenance-cleared Roblox/Brookhaven research inputs into a StarBlox-neutral scene manifest without importing Brookhaven runtime code.",
+  "inputSchema": {
+    "schemaVersion": "starblox-neutral-conversion-input-v1",
+    "required": [
+      "source",
+      "coordinateSystem",
+      "objects"
+    ],
+    "sourceRequired": [
+      "id",
+      "payloadKind",
+      "rightsStatus",
+      "provenanceRef"
+    ],
+    "allowedPayloadKinds": [
+      "original-starblox-proxy",
+      "authorized-serialized-geometry",
+      "authorized-mesh-reference"
+    ],
+    "rightsStatuses": [
+      "original-starblox",
+      "explicit-public-license",
+      "user-asserted-authorized",
+      "project-rights-verified"
+    ],
+    "forbiddenExecutableFields": [
+      "code",
+      "script",
+      "sourceCode",
+      "remoteCall",
+      "httpGet",
+      "loadstring",
+      "executor"
+    ]
+  },
+  "coordinatePolicy": {
+    "targetUnits": "meters",
+    "targetUpAxis": "Y",
+    "targetHandedness": "right",
+    "defaultMetersPerRobloxStud": 0.28,
+    "defaultRobloxToStarBloxMapping": "[x,y,z] -> [x,y,-z]",
+    "note": "0.28 m/stud is a configurable normalization default for this pipeline, not a claim that every source scene uses an exact physical scale."
+  },
+  "outputSchema": {
+    "schemaVersion": "starblox-neutral-scene-v1",
+    "guarantees": [
+      "deterministic canonical ordering",
+      "SHA-256 source fingerprint",
+      "SHA-256 normalized-scene fingerprint",
+      "no executable payload fields",
+      "explicit production eligibility status",
+      "collision proxy metadata retained",
+      "original source/provenance reference retained"
+    ]
+  },
+  "productionEligibility": {
+    "original-starblox": "candidate-after-QA",
+    "explicit-public-license": "candidate-after-license-and-content-QA",
+    "user-asserted-authorized": "research-only-until-rights-evidence-recorded",
+    "project-rights-verified": "candidate-after-content-and-technical-QA"
+  }
+}

@@ -1,0 +1,271 @@
+{
+  "schemaVersion": "starblox-neutral-vehicle-definition-catalog-v1",
+  "generatedAt": "2026-09-25",
+  "status": "definition-only-runtime-not-wired",
+  "definitionSchemaRef": "docs/preproduction/brookhaven-research/neutral-vehicle-definition-schema-v1.json",
+  "sourceBlueprintRef": "docs/preproduction/brookhaven-research/vehicle-system-blueprint-v1.json",
+  "rightsStatus": "verified-for-project-use",
+  "definitionCount": 13,
+  "definitions": [
+    {
+      "schemaVersion": "starblox-neutral-vehicle-definition-v1",
+      "id": "school-bus",
+      "label": "School Bus",
+      "archetype": "transit",
+      "era": "current",
+      "interactionMode": "drivable",
+      "capabilities": ["spawn", "despawn", "headlights", "hazards", "paint-token", "wheel-style", "driving-mode"],
+      "assetBinding": {
+        "status": "identifier-only",
+        "geometrySource": "none",
+        "rightsStatus": "project-rights-verified",
+        "provenanceRef": "docs/preproduction/brookhaven-research/vehicle-system-blueprint-v1.json#school-bus"
+      },
+      "safety": {
+        "externalRuntimeDependency": false,
+        "remoteDependency": false,
+        "weaponBehavior": false
+      }
+    },
+    {
+      "schemaVersion": "starblox-neutral-vehicle-definition-v1",
+      "id": "smart-car",
+      "label": "Smart Car",
+      "archetype": "compact",
+      "era": "current",
+      "interactionMode": "drivable",
+      "capabilities": ["spawn", "despawn", "headlights", "hazards", "paint-token", "wheel-style", "driving-mode"],
+      "assetBinding": {
+        "status": "identifier-only",
+        "geometrySource": "none",
+        "rightsStatus": "project-rights-verified",
+        "provenanceRef": "docs/preproduction/brookhaven-research/vehicle-system-blueprint-v1.json#smart-car"
+      },
+      "safety": {
+        "externalRuntimeDependency": false,
+        "remoteDependency": false,
+        "weaponBehavior": false
+      }
+    },
+    {
+      "schemaVersion": "starblox-neutral-vehicle-definition-v1",
+      "id": "farm-truck",
+      "label": "Farm Truck",
+      "archetype": "utility",
+      "era": "current",
+      "interactionMode": "drivable",
+      "capabilities": ["spawn", "despawn", "headlights", "hazards", "paint-token", "wheel-style", "driving-mode"],
+      "assetBinding": {
+        "status": "identifier-only",
+        "geometrySource": "none",
+        "rightsStatus": "project-rights-verified",
+        "provenanceRef": "docs/preproduction/brookhaven-research/vehicle-system-blueprint-v1.json#farm-truck"
+      },
+      "safety": {
+        "externalRuntimeDependency": false,
+        "remoteDependency": false,
+        "weaponBehavior": false
+      }
+    },
+    {
+      "schemaVersion": "starblox-neutral-vehicle-definition-v1",
+      "id": "cadillac",
+      "label": "Luxury Sedan",
+      "archetype": "luxury",
+      "era": "current",
+      "interactionMode": "drivable",
+      "capabilities": ["spawn", "despawn", "headlights", "hazards", "paint-token", "wheel-style", "driving-mode"],
+      "assetBinding": {
+        "status": "identifier-only",
+        "geometrySource": "none",
+        "rightsStatus": "project-rights-verified",
+        "provenanceRef": "docs/preproduction/brookhaven-research/vehicle-system-blueprint-v1.json#cadillac"
+      },
+      "safety": {
+        "externalRuntimeDependency": false,
+        "remoteDependency": false,
+        "weaponBehavior": false
+      }
+    },
+    {
+      "schemaVersion": "starblox-neutral-vehicle-definition-v1",
+      "id": "excavator",
+      "label": "Excavator",
+      "archetype": "work",
+      "era": "current",
+      "interactionMode": "drivable",
+      "capabilities": ["spawn", "despawn", "headlights", "hazards", "paint-token", "wheel-style", "driving-mode"],
+      "assetBinding": {
+        "status": "identifier-only",
+        "geometrySource": "none",
+        "rightsStatus": "project-rights-verified",
+        "provenanceRef": "docs/preproduction/brookhaven-research/vehicle-system-blueprint-v1.json#excavator"
+      },
+      "safety": {
+        "externalRuntimeDependency": false,
+        "remoteDependency": false,
+        "weaponBehavior": false
+      }
+    },
+    {
+      "schemaVersion": "starblox-neutral-vehicle-definition-v1",
+      "id": "jeep",
+      "label": "Off-Road Utility",
+      "archetype": "utility",
+      "era": "current",
+      "interactionMode": "drivable",
+      "capabilities": ["spawn", "despawn", "headlights", "hazards", "paint-token", "wheel-style", "driving-mode"],
+      "assetBinding": {
+        "status": "identifier-only",
+        "geometrySource": "none",
+        "rightsStatus": "project-rights-verified",
+        "provenanceRef": "docs/preproduction/brookhaven-research/vehicle-system-blueprint-v1.json#jeep"
+      },
+      "safety": {
+        "externalRuntimeDependency": false,
+        "remoteDependency": false,
+        "weaponBehavior": false
+      }
+    },
+    {
+      "schemaVersion": "starblox-neutral-vehicle-definition-v1",
+      "id": "nascar-truck",
+      "label": "Racing Truck",
+      "archetype": "sport",
+      "era": "current",
+      "interactionMode": "drivable",
+      "capabilities": ["spawn", "despawn", "headlights", "hazards", "paint-token", "wheel-style", "driving-mode"],
+      "assetBinding": {
+        "status": "identifier-only",
+        "geometrySource": "none",
+        "rightsStatus": "project-rights-verified",
+        "provenanceRef": "docs/preproduction/brookhaven-research/vehicle-system-blueprint-v1.json#nascar-truck"
+      },
+      "safety": {
+        "externalRuntimeDependency": false,
+        "remoteDependency": false,
+        "weaponBehavior": false
+      }
+    },
+    {
+      "schemaVersion": "starblox-neutral-vehicle-definition-v1",
+      "id": "tow-truck",
+      "label": "Tow Truck",
+      "archetype": "service",
+      "era": "current",
+      "interactionMode": "drivable",
+      "capabilities": ["spawn", "despawn", "headlights", "hazards", "paint-token", "wheel-style", "driving-mode"],
+      "assetBinding": {
+        "status": "identifier-only",
+        "geometrySource": "none",
+        "rightsStatus": "project-rights-verified",
+        "provenanceRef": "docs/preproduction/brookhaven-research/vehicle-system-blueprint-v1.json#tow-truck"
+      },
+      "safety": {
+        "externalRuntimeDependency": false,
+        "remoteDependency": false,
+        "weaponBehavior": false
+      }
+    },
+    {
+      "schemaVersion": "starblox-neutral-vehicle-definition-v1",
+      "id": "snowplow",
+      "label": "Snowplow",
+      "archetype": "service",
+      "era": "current",
+      "interactionMode": "drivable",
+      "capabilities": ["spawn", "despawn", "headlights", "hazards", "paint-token", "wheel-style", "driving-mode"],
+      "assetBinding": {
+        "status": "identifier-only",
+        "geometrySource": "none",
+        "rightsStatus": "project-rights-verified",
+        "provenanceRef": "docs/preproduction/brookhaven-research/vehicle-system-blueprint-v1.json#snowplow"
+      },
+      "safety": {
+        "externalRuntimeDependency": false,
+        "remoteDependency": false,
+        "weaponBehavior": false
+      }
+    },
+    {
+      "schemaVersion": "starblox-neutral-vehicle-definition-v1",
+      "id": "military-truck",
+      "label": "Heavy Utility Truck",
+      "archetype": "utility",
+      "era": "current",
+      "interactionMode": "drivable",
+      "capabilities": ["spawn", "despawn", "headlights", "hazards", "paint-token", "wheel-style", "driving-mode"],
+      "assetBinding": {
+        "status": "identifier-only",
+        "geometrySource": "none",
+        "rightsStatus": "project-rights-verified",
+        "provenanceRef": "docs/preproduction/brookhaven-research/vehicle-system-blueprint-v1.json#military-truck"
+      },
+      "safety": {
+        "externalRuntimeDependency": false,
+        "remoteDependency": false,
+        "weaponBehavior": false
+      }
+    },
+    {
+      "schemaVersion": "starblox-neutral-vehicle-definition-v1",
+      "id": "tank",
+      "label": "Display Vehicle",
+      "archetype": "display-only",
+      "era": "current",
+      "interactionMode": "display-only",
+      "capabilities": ["spawn", "despawn", "paint-token"],
+      "assetBinding": {
+        "status": "identifier-only",
+        "geometrySource": "none",
+        "rightsStatus": "project-rights-verified",
+        "provenanceRef": "docs/preproduction/brookhaven-research/vehicle-system-blueprint-v1.json#tank"
+      },
+      "safety": {
+        "externalRuntimeDependency": false,
+        "remoteDependency": false,
+        "weaponBehavior": false
+      }
+    },
+    {
+      "schemaVersion": "starblox-neutral-vehicle-definition-v1",
+      "id": "limo",
+      "label": "Limousine",
+      "archetype": "luxury",
+      "era": "current",
+      "interactionMode": "drivable",
+      "capabilities": ["spawn", "despawn", "headlights", "hazards", "paint-token", "wheel-style", "driving-mode"],
+      "assetBinding": {
+        "status": "identifier-only",
+        "geometrySource": "none",
+        "rightsStatus": "project-rights-verified",
+        "provenanceRef": "docs/preproduction/brookhaven-research/vehicle-system-blueprint-v1.json#limo"
+      },
+      "safety": {
+        "externalRuntimeDependency": false,
+        "remoteDependency": false,
+        "weaponBehavior": false
+      }
+    },
+    {
+      "schemaVersion": "starblox-neutral-vehicle-definition-v1",
+      "id": "fire-truck",
+      "label": "Fire Truck",
+      "archetype": "emergency",
+      "era": "current",
+      "interactionMode": "drivable",
+      "capabilities": ["spawn", "despawn", "headlights", "hazards", "paint-token", "wheel-style", "driving-mode", "emergency-lights", "emergency-siren"],
+      "assetBinding": {
+        "status": "identifier-only",
+        "geometrySource": "none",
+        "rightsStatus": "project-rights-verified",
+        "provenanceRef": "docs/preproduction/brookhaven-research/vehicle-system-blueprint-v1.json#fire-truck"
+      },
+      "safety": {
+        "externalRuntimeDependency": false,
+        "remoteDependency": false,
+        "weaponBehavior": false
+      }
+    }
+  ]
+}

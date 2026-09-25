@@ -1,0 +1,2065 @@
+{
+  "schemaVersion": "starblox-brookhaven-asset-graph-v1",
+  "step": "2-of-12",
+  "generatedAt": "2026-09-24",
+  "basedOnSnapshot": "docs/preproduction/brookhaven-research/snapshot-v1.json",
+  "purpose": "Normalize evidenced Brookhaven asset/content identifiers, world taxonomy, and feature vocabulary into a machine-readable graph without copying third-party payloads into StarBlox.",
+  "evidencePolicy": {
+    "exactIdentifiersOnly": true,
+    "inferredAssetsMarkedAsResolved": false,
+    "runtimeCapabilitiesAreArchitectureMetadataOnly": true
+  },
+  "nodeCount": 107,
+  "edgeCount": 73,
+  "nodes": [
+    {
+      "id": "catalog:properties",
+      "type": "catalog-root",
+      "name": "Brookhaven Properties",
+      "category": "property",
+      "status": "evidenced",
+      "evidence": [],
+      "starbloxUse": "Residential/property catalog root"
+    },
+    {
+      "id": "catalog:vehicles",
+      "type": "catalog-root",
+      "name": "Brookhaven Vehicles",
+      "category": "vehicle",
+      "status": "evidenced",
+      "evidence": [],
+      "starbloxUse": "Vehicle catalog root"
+    },
+    {
+      "id": "catalog:institutions",
+      "type": "catalog-root",
+      "name": "Brookhaven Town Institutions",
+      "category": "institution",
+      "status": "evidenced",
+      "evidence": [],
+      "starbloxUse": "Town destination catalog root"
+    },
+    {
+      "id": "catalog:house-features",
+      "type": "catalog-root",
+      "name": "Brookhaven House Features",
+      "category": "house-feature",
+      "status": "evidenced",
+      "evidence": [],
+      "starbloxUse": "Residential interaction vocabulary"
+    },
+    {
+      "id": "catalog:loadable-content",
+      "type": "catalog-root",
+      "name": "Brookhaven Loadable Content",
+      "category": "runtime-category",
+      "status": "evidenced",
+      "evidence": [],
+      "starbloxUse": "Runtime content categories to resolve into asset catalogs"
+    },
+    {
+      "id": "runtime-category:houses",
+      "type": "runtime-category",
+      "name": "Houses",
+      "category": "loadable-content",
+      "status": "evidenced-runtime-category",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-runtime-scan",
+          "artifact": "Aqui.txt",
+          "locator": "ReplicatedStorage.Modules.Client.UI.LoadableEntries.Houses"
+        }
+      ],
+      "starbloxUse": "Catalog discovery target for houses"
+    },
+    {
+      "id": "runtime-category:mansions",
+      "type": "runtime-category",
+      "name": "Mansions",
+      "category": "loadable-content",
+      "status": "evidenced-runtime-category",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-runtime-scan",
+          "artifact": "Aqui.txt",
+          "locator": "ReplicatedStorage.Modules.Client.UI.LoadableEntries.Mansions"
+        }
+      ],
+      "starbloxUse": "Catalog discovery target for mansions"
+    },
+    {
+      "id": "runtime-category:motels",
+      "type": "runtime-category",
+      "name": "Motels",
+      "category": "loadable-content",
+      "status": "evidenced-runtime-category",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-runtime-scan",
+          "artifact": "Aqui.txt",
+          "locator": "ReplicatedStorage.Modules.Client.UI.LoadableEntries.Motels"
+        }
+      ],
+      "starbloxUse": "Catalog discovery target for motels"
+    },
+    {
+      "id": "runtime-category:apartments",
+      "type": "runtime-category",
+      "name": "Apartments",
+      "category": "loadable-content",
+      "status": "evidenced-runtime-category",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-runtime-scan",
+          "artifact": "Aqui.txt",
+          "locator": "ReplicatedStorage.Modules.Client.UI.LoadableEntries.Apartments"
+        }
+      ],
+      "starbloxUse": "Catalog discovery target for apartments"
+    },
+    {
+      "id": "runtime-category:jobs",
+      "type": "runtime-category",
+      "name": "Jobs",
+      "category": "loadable-content",
+      "status": "evidenced-runtime-category",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-runtime-scan",
+          "artifact": "Aqui.txt",
+          "locator": "ReplicatedStorage.Modules.Client.UI.LoadableEntries.Jobs"
+        }
+      ],
+      "starbloxUse": "Catalog discovery target for jobs"
+    },
+    {
+      "id": "property:001_Landmark",
+      "type": "property-id",
+      "name": "001_Landmark",
+      "category": "property",
+      "status": "directly-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-source-corpus",
+          "artifact": "Saturn_Hub_3.txt",
+          "locator": "Lot:BuildProperty(..., \"001_Landmark\")"
+        }
+      ],
+      "starbloxUse": "Property/house catalog entry requiring asset-level resolution"
+    },
+    {
+      "id": "property:049_House",
+      "type": "property-id",
+      "name": "049_House",
+      "category": "property",
+      "status": "directly-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-source-corpus",
+          "artifact": "Brookhaven.lua.txt",
+          "locator": "PickingCustomHouse \"049_House\""
+        }
+      ],
+      "starbloxUse": "Property/house catalog entry requiring asset-level resolution"
+    },
+    {
+      "id": "property:052_House",
+      "type": "property-id",
+      "name": "052_House",
+      "category": "property",
+      "status": "directly-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-source-corpus",
+          "artifact": "message_76.txt",
+          "locator": "PickingCustomHouse \"052_House\"",
+          "gitBlobSha1": "7f576306c82ef1a0fc431667ac9194f7d54db682"
+        }
+      ],
+      "starbloxUse": "Property/house catalog entry requiring asset-level resolution"
+    },
+    {
+      "id": "property:056_House",
+      "type": "property-id",
+      "name": "056_House",
+      "category": "property",
+      "status": "directly-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-source-corpus",
+          "artifact": "Brookhaven.lua.txt",
+          "locator": "Lot:BuildProperty(..., \"056_House\")"
+        }
+      ],
+      "starbloxUse": "Property/house catalog entry requiring asset-level resolution"
+    },
+    {
+      "id": "property:031_House",
+      "type": "property-id",
+      "name": "031_House",
+      "category": "property",
+      "status": "corroborated-external",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-property-id-corroboration",
+          "artifact": "8d9b8e10db5af0ca.lua.txt",
+          "locator": "Lot:BuildProperty(..., \"031_House\")",
+          "repository": "Domadicoof/Domadicoof",
+          "commit": "8d6105b406e96757ccfdc550c2424d29bcadd68b",
+          "gitBlobSha1": "de72a8ec0f2add689f4ae6591f70360018e18c4e"
+        }
+      ],
+      "starbloxUse": "Property/house catalog entry requiring asset-level resolution"
+    },
+    {
+      "id": "vehicle:Cadillac",
+      "type": "vehicle-name",
+      "name": "Cadillac",
+      "category": "vehicle",
+      "status": "cross-source-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-source-corpus",
+          "artifact": "Brookhaven.lua.txt",
+          "locator": "vehicle catalog contains \"Cadillac\""
+        },
+        {
+          "sourceId": "brookhaven-concentrated-source-archive",
+          "artifact": "Phantom Client V5 Rework.txt",
+          "locator": "vehicle catalog contains \"Cadillac\""
+        }
+      ],
+      "starbloxUse": "Candidate vehicle definition/asset lookup"
+    },
+    {
+      "id": "vehicle:Excavator",
+      "type": "vehicle-name",
+      "name": "Excavator",
+      "category": "vehicle",
+      "status": "cross-source-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-source-corpus",
+          "artifact": "Brookhaven.lua.txt",
+          "locator": "vehicle catalog contains \"Excavator\""
+        },
+        {
+          "sourceId": "brookhaven-concentrated-source-archive",
+          "artifact": "Phantom Client V5 Rework.txt",
+          "locator": "vehicle catalog contains \"Excavator\""
+        }
+      ],
+      "starbloxUse": "Candidate vehicle definition/asset lookup"
+    },
+    {
+      "id": "vehicle:FarmTruck",
+      "type": "vehicle-name",
+      "name": "FarmTruck",
+      "category": "vehicle",
+      "status": "cross-source-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-source-corpus",
+          "artifact": "Brookhaven.lua.txt",
+          "locator": "vehicle catalog contains \"FarmTruck\""
+        },
+        {
+          "sourceId": "brookhaven-concentrated-source-archive",
+          "artifact": "Phantom Client V5 Rework.txt",
+          "locator": "vehicle catalog contains \"FarmTruck\""
+        }
+      ],
+      "starbloxUse": "Candidate vehicle definition/asset lookup"
+    },
+    {
+      "id": "vehicle:FireTruck",
+      "type": "vehicle-name",
+      "name": "FireTruck",
+      "category": "vehicle",
+      "status": "cross-source-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-source-corpus",
+          "artifact": "Brookhaven.lua.txt",
+          "locator": "vehicle catalog contains \"FireTruck\""
+        },
+        {
+          "sourceId": "brookhaven-concentrated-source-archive",
+          "artifact": "Phantom Client V5 Rework.txt",
+          "locator": "vehicle catalog contains \"FireTruck\""
+        }
+      ],
+      "starbloxUse": "Candidate vehicle definition/asset lookup"
+    },
+    {
+      "id": "vehicle:Jeep",
+      "type": "vehicle-name",
+      "name": "Jeep",
+      "category": "vehicle",
+      "status": "cross-source-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-source-corpus",
+          "artifact": "Brookhaven.lua.txt",
+          "locator": "vehicle catalog contains \"Jeep\""
+        },
+        {
+          "sourceId": "brookhaven-concentrated-source-archive",
+          "artifact": "Phantom Client V5 Rework.txt",
+          "locator": "vehicle catalog contains \"Jeep\""
+        }
+      ],
+      "starbloxUse": "Candidate vehicle definition/asset lookup"
+    },
+    {
+      "id": "vehicle:Limo",
+      "type": "vehicle-name",
+      "name": "Limo",
+      "category": "vehicle",
+      "status": "cross-source-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-source-corpus",
+          "artifact": "Brookhaven.lua.txt",
+          "locator": "vehicle catalog contains \"Limo\""
+        },
+        {
+          "sourceId": "brookhaven-concentrated-source-archive",
+          "artifact": "Phantom Client V5 Rework.txt",
+          "locator": "vehicle catalog contains \"Limo\""
+        }
+      ],
+      "starbloxUse": "Candidate vehicle definition/asset lookup"
+    },
+    {
+      "id": "vehicle:MilitaryTruck",
+      "type": "vehicle-name",
+      "name": "MilitaryTruck",
+      "category": "vehicle",
+      "status": "cross-source-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-source-corpus",
+          "artifact": "Brookhaven.lua.txt",
+          "locator": "vehicle catalog contains \"MilitaryTruck\""
+        },
+        {
+          "sourceId": "brookhaven-concentrated-source-archive",
+          "artifact": "Phantom Client V5 Rework.txt",
+          "locator": "vehicle catalog contains \"MilitaryTruck\""
+        }
+      ],
+      "starbloxUse": "Candidate vehicle definition/asset lookup"
+    },
+    {
+      "id": "vehicle:NascarTruck",
+      "type": "vehicle-name",
+      "name": "NascarTruck",
+      "category": "vehicle",
+      "status": "cross-source-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-source-corpus",
+          "artifact": "Brookhaven.lua.txt",
+          "locator": "vehicle catalog contains \"NascarTruck\""
+        },
+        {
+          "sourceId": "brookhaven-concentrated-source-archive",
+          "artifact": "Phantom Client V5 Rework.txt",
+          "locator": "vehicle catalog contains \"NascarTruck\""
+        }
+      ],
+      "starbloxUse": "Candidate vehicle definition/asset lookup"
+    },
+    {
+      "id": "vehicle:SchoolBus",
+      "type": "vehicle-name",
+      "name": "SchoolBus",
+      "category": "vehicle",
+      "status": "cross-source-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-source-corpus",
+          "artifact": "Brookhaven.lua.txt",
+          "locator": "vehicle catalog contains \"SchoolBus\""
+        },
+        {
+          "sourceId": "brookhaven-concentrated-source-archive",
+          "artifact": "Phantom Client V5 Rework.txt",
+          "locator": "vehicle catalog contains \"SchoolBus\""
+        }
+      ],
+      "starbloxUse": "Candidate vehicle definition/asset lookup"
+    },
+    {
+      "id": "vehicle:SmartCar",
+      "type": "vehicle-name",
+      "name": "SmartCar",
+      "category": "vehicle",
+      "status": "cross-source-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-source-corpus",
+          "artifact": "Brookhaven.lua.txt",
+          "locator": "vehicle catalog contains \"SmartCar\""
+        },
+        {
+          "sourceId": "brookhaven-concentrated-source-archive",
+          "artifact": "Phantom Client V5 Rework.txt",
+          "locator": "vehicle catalog contains \"SmartCar\""
+        }
+      ],
+      "starbloxUse": "Candidate vehicle definition/asset lookup"
+    },
+    {
+      "id": "vehicle:Snowplow",
+      "type": "vehicle-name",
+      "name": "Snowplow",
+      "category": "vehicle",
+      "status": "cross-source-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-source-corpus",
+          "artifact": "Brookhaven.lua.txt",
+          "locator": "vehicle catalog contains \"Snowplow\""
+        },
+        {
+          "sourceId": "brookhaven-concentrated-source-archive",
+          "artifact": "Phantom Client V5 Rework.txt",
+          "locator": "vehicle catalog contains \"Snowplow\""
+        }
+      ],
+      "starbloxUse": "Candidate vehicle definition/asset lookup"
+    },
+    {
+      "id": "vehicle:Tank",
+      "type": "vehicle-name",
+      "name": "Tank",
+      "category": "vehicle",
+      "status": "cross-source-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-source-corpus",
+          "artifact": "Brookhaven.lua.txt",
+          "locator": "vehicle catalog contains \"Tank\""
+        },
+        {
+          "sourceId": "brookhaven-concentrated-source-archive",
+          "artifact": "Phantom Client V5 Rework.txt",
+          "locator": "vehicle catalog contains \"Tank\""
+        }
+      ],
+      "starbloxUse": "Candidate vehicle definition/asset lookup"
+    },
+    {
+      "id": "vehicle:TowTruck",
+      "type": "vehicle-name",
+      "name": "TowTruck",
+      "category": "vehicle",
+      "status": "cross-source-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-source-corpus",
+          "artifact": "Brookhaven.lua.txt",
+          "locator": "vehicle catalog contains \"TowTruck\""
+        },
+        {
+          "sourceId": "brookhaven-concentrated-source-archive",
+          "artifact": "Phantom Client V5 Rework.txt",
+          "locator": "vehicle catalog contains \"TowTruck\""
+        }
+      ],
+      "starbloxUse": "Candidate vehicle definition/asset lookup"
+    },
+    {
+      "id": "vehicle-legacy:Thunderbird",
+      "type": "vehicle-name",
+      "name": "Thunderbird",
+      "category": "vehicle",
+      "status": "legacy-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-legacy-vehicle-world-schema",
+          "artifact": "finished.txt",
+          "locator": "Vehicle/Cars dropdown contains \"Thunderbird\""
+        }
+      ],
+      "starbloxUse": "Historical/versioned vehicle reference"
+    },
+    {
+      "id": "vehicle-legacy:Ladybug",
+      "type": "vehicle-name",
+      "name": "Ladybug",
+      "category": "vehicle",
+      "status": "legacy-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-legacy-vehicle-world-schema",
+          "artifact": "finished.txt",
+          "locator": "Vehicle/Cars dropdown contains \"Ladybug\""
+        }
+      ],
+      "starbloxUse": "Historical/versioned vehicle reference"
+    },
+    {
+      "id": "vehicle-legacy:Offroader",
+      "type": "vehicle-name",
+      "name": "Offroader",
+      "category": "vehicle",
+      "status": "legacy-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-legacy-vehicle-world-schema",
+          "artifact": "finished.txt",
+          "locator": "Vehicle/Cars dropdown contains \"Offroader\""
+        }
+      ],
+      "starbloxUse": "Historical/versioned vehicle reference"
+    },
+    {
+      "id": "vehicle-legacy:Golf Cart",
+      "type": "vehicle-name",
+      "name": "Golf Cart",
+      "category": "vehicle",
+      "status": "legacy-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-legacy-vehicle-world-schema",
+          "artifact": "finished.txt",
+          "locator": "Vehicle/Cars dropdown contains \"Golf Cart\""
+        }
+      ],
+      "starbloxUse": "Historical/versioned vehicle reference"
+    },
+    {
+      "id": "lot:1",
+      "type": "lot-number",
+      "name": "House #1",
+      "category": "property-lot",
+      "status": "directly-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-source-corpus",
+          "artifact": "Saturn_Hub_3.txt",
+          "locator": "Select House list contains \"House #1\""
+        }
+      ],
+      "starbloxUse": "Lot/address mapping target",
+      "lotNumber": 1
+    },
+    {
+      "id": "lot:2",
+      "type": "lot-number",
+      "name": "House #2",
+      "category": "property-lot",
+      "status": "directly-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-source-corpus",
+          "artifact": "Saturn_Hub_3.txt",
+          "locator": "Select House list contains \"House #2\""
+        }
+      ],
+      "starbloxUse": "Lot/address mapping target",
+      "lotNumber": 2
+    },
+    {
+      "id": "lot:3",
+      "type": "lot-number",
+      "name": "House #3",
+      "category": "property-lot",
+      "status": "directly-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-source-corpus",
+          "artifact": "Saturn_Hub_3.txt",
+          "locator": "Select House list contains \"House #3\""
+        }
+      ],
+      "starbloxUse": "Lot/address mapping target",
+      "lotNumber": 3
+    },
+    {
+      "id": "lot:4",
+      "type": "lot-number",
+      "name": "House #4",
+      "category": "property-lot",
+      "status": "directly-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-source-corpus",
+          "artifact": "Saturn_Hub_3.txt",
+          "locator": "Select House list contains \"House #4\""
+        }
+      ],
+      "starbloxUse": "Lot/address mapping target",
+      "lotNumber": 4
+    },
+    {
+      "id": "lot:5",
+      "type": "lot-number",
+      "name": "House #5",
+      "category": "property-lot",
+      "status": "directly-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-source-corpus",
+          "artifact": "Saturn_Hub_3.txt",
+          "locator": "Select House list contains \"House #5\""
+        }
+      ],
+      "starbloxUse": "Lot/address mapping target",
+      "lotNumber": 5
+    },
+    {
+      "id": "lot:6",
+      "type": "lot-number",
+      "name": "House #6",
+      "category": "property-lot",
+      "status": "directly-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-source-corpus",
+          "artifact": "Saturn_Hub_3.txt",
+          "locator": "Select House list contains \"House #6\""
+        }
+      ],
+      "starbloxUse": "Lot/address mapping target",
+      "lotNumber": 6
+    },
+    {
+      "id": "lot:7",
+      "type": "lot-number",
+      "name": "House #7",
+      "category": "property-lot",
+      "status": "directly-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-source-corpus",
+          "artifact": "Saturn_Hub_3.txt",
+          "locator": "Select House list contains \"House #7\""
+        }
+      ],
+      "starbloxUse": "Lot/address mapping target",
+      "lotNumber": 7
+    },
+    {
+      "id": "lot:11",
+      "type": "lot-number",
+      "name": "House #11",
+      "category": "property-lot",
+      "status": "directly-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-source-corpus",
+          "artifact": "Saturn_Hub_3.txt",
+          "locator": "Select House list contains \"House #11\""
+        }
+      ],
+      "starbloxUse": "Lot/address mapping target",
+      "lotNumber": 11
+    },
+    {
+      "id": "lot:12",
+      "type": "lot-number",
+      "name": "House #12",
+      "category": "property-lot",
+      "status": "directly-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-source-corpus",
+          "artifact": "Saturn_Hub_3.txt",
+          "locator": "Select House list contains \"House #12\""
+        }
+      ],
+      "starbloxUse": "Lot/address mapping target",
+      "lotNumber": 12
+    },
+    {
+      "id": "lot:13",
+      "type": "lot-number",
+      "name": "House #13",
+      "category": "property-lot",
+      "status": "directly-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-source-corpus",
+          "artifact": "Saturn_Hub_3.txt",
+          "locator": "Select House list contains \"House #13\""
+        }
+      ],
+      "starbloxUse": "Lot/address mapping target",
+      "lotNumber": 13
+    },
+    {
+      "id": "lot:14",
+      "type": "lot-number",
+      "name": "House #14",
+      "category": "property-lot",
+      "status": "directly-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-source-corpus",
+          "artifact": "Saturn_Hub_3.txt",
+          "locator": "Select House list contains \"House #14\""
+        }
+      ],
+      "starbloxUse": "Lot/address mapping target",
+      "lotNumber": 14
+    },
+    {
+      "id": "lot:15",
+      "type": "lot-number",
+      "name": "House #15",
+      "category": "property-lot",
+      "status": "directly-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-source-corpus",
+          "artifact": "Saturn_Hub_3.txt",
+          "locator": "Select House list contains \"House #15\""
+        }
+      ],
+      "starbloxUse": "Lot/address mapping target",
+      "lotNumber": 15
+    },
+    {
+      "id": "lot:16",
+      "type": "lot-number",
+      "name": "House #16",
+      "category": "property-lot",
+      "status": "directly-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-source-corpus",
+          "artifact": "Saturn_Hub_3.txt",
+          "locator": "Select House list contains \"House #16\""
+        }
+      ],
+      "starbloxUse": "Lot/address mapping target",
+      "lotNumber": 16
+    },
+    {
+      "id": "lot:17",
+      "type": "lot-number",
+      "name": "House #17",
+      "category": "property-lot",
+      "status": "directly-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-source-corpus",
+          "artifact": "Saturn_Hub_3.txt",
+          "locator": "Select House list contains \"House #17\""
+        }
+      ],
+      "starbloxUse": "Lot/address mapping target",
+      "lotNumber": 17
+    },
+    {
+      "id": "lot:18",
+      "type": "lot-number",
+      "name": "House #18",
+      "category": "property-lot",
+      "status": "directly-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-source-corpus",
+          "artifact": "Saturn_Hub_3.txt",
+          "locator": "Select House list contains \"House #18\""
+        }
+      ],
+      "starbloxUse": "Lot/address mapping target",
+      "lotNumber": 18
+    },
+    {
+      "id": "lot:19",
+      "type": "lot-number",
+      "name": "House #19",
+      "category": "property-lot",
+      "status": "directly-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-source-corpus",
+          "artifact": "Saturn_Hub_3.txt",
+          "locator": "Select House list contains \"House #19\""
+        }
+      ],
+      "starbloxUse": "Lot/address mapping target",
+      "lotNumber": 19
+    },
+    {
+      "id": "lot:20",
+      "type": "lot-number",
+      "name": "House #20",
+      "category": "property-lot",
+      "status": "directly-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-source-corpus",
+          "artifact": "Saturn_Hub_3.txt",
+          "locator": "Select House list contains \"House #20\""
+        }
+      ],
+      "starbloxUse": "Lot/address mapping target",
+      "lotNumber": 20
+    },
+    {
+      "id": "lot:21",
+      "type": "lot-number",
+      "name": "House #21",
+      "category": "property-lot",
+      "status": "directly-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-source-corpus",
+          "artifact": "Saturn_Hub_3.txt",
+          "locator": "Select House list contains \"House #21\""
+        }
+      ],
+      "starbloxUse": "Lot/address mapping target",
+      "lotNumber": 21
+    },
+    {
+      "id": "lot:22",
+      "type": "lot-number",
+      "name": "House #22",
+      "category": "property-lot",
+      "status": "directly-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-source-corpus",
+          "artifact": "Saturn_Hub_3.txt",
+          "locator": "Select House list contains \"House #22\""
+        }
+      ],
+      "starbloxUse": "Lot/address mapping target",
+      "lotNumber": 22
+    },
+    {
+      "id": "lot:23",
+      "type": "lot-number",
+      "name": "House #23",
+      "category": "property-lot",
+      "status": "directly-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-source-corpus",
+          "artifact": "Saturn_Hub_3.txt",
+          "locator": "Select House list contains \"House #23\""
+        }
+      ],
+      "starbloxUse": "Lot/address mapping target",
+      "lotNumber": 23
+    },
+    {
+      "id": "lot:24",
+      "type": "lot-number",
+      "name": "House #24",
+      "category": "property-lot",
+      "status": "directly-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-source-corpus",
+          "artifact": "Saturn_Hub_3.txt",
+          "locator": "Select House list contains \"House #24\""
+        }
+      ],
+      "starbloxUse": "Lot/address mapping target",
+      "lotNumber": 24
+    },
+    {
+      "id": "lot:28",
+      "type": "lot-number",
+      "name": "House #28",
+      "category": "property-lot",
+      "status": "directly-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-source-corpus",
+          "artifact": "Saturn_Hub_3.txt",
+          "locator": "Select House list contains \"House #28\""
+        }
+      ],
+      "starbloxUse": "Lot/address mapping target",
+      "lotNumber": 28
+    },
+    {
+      "id": "lot:29",
+      "type": "lot-number",
+      "name": "House #29",
+      "category": "property-lot",
+      "status": "directly-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-source-corpus",
+          "artifact": "Saturn_Hub_3.txt",
+          "locator": "Select House list contains \"House #29\""
+        }
+      ],
+      "starbloxUse": "Lot/address mapping target",
+      "lotNumber": 29
+    },
+    {
+      "id": "lot:30",
+      "type": "lot-number",
+      "name": "House #30",
+      "category": "property-lot",
+      "status": "directly-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-source-corpus",
+          "artifact": "Saturn_Hub_3.txt",
+          "locator": "Select House list contains \"House #30\""
+        }
+      ],
+      "starbloxUse": "Lot/address mapping target",
+      "lotNumber": 30
+    },
+    {
+      "id": "lot:31",
+      "type": "lot-number",
+      "name": "House #31",
+      "category": "property-lot",
+      "status": "directly-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-source-corpus",
+          "artifact": "Saturn_Hub_3.txt",
+          "locator": "Select House list contains \"House #31\""
+        }
+      ],
+      "starbloxUse": "Lot/address mapping target",
+      "lotNumber": 31
+    },
+    {
+      "id": "lot:32",
+      "type": "lot-number",
+      "name": "House #32",
+      "category": "property-lot",
+      "status": "directly-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-source-corpus",
+          "artifact": "Saturn_Hub_3.txt",
+          "locator": "Select House list contains \"House #32\""
+        }
+      ],
+      "starbloxUse": "Lot/address mapping target",
+      "lotNumber": 32
+    },
+    {
+      "id": "lot:33",
+      "type": "lot-number",
+      "name": "House #33",
+      "category": "property-lot",
+      "status": "directly-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-source-corpus",
+          "artifact": "Saturn_Hub_3.txt",
+          "locator": "Select House list contains \"House #33\""
+        }
+      ],
+      "starbloxUse": "Lot/address mapping target",
+      "lotNumber": 33
+    },
+    {
+      "id": "lot:34",
+      "type": "lot-number",
+      "name": "House #34",
+      "category": "property-lot",
+      "status": "directly-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-source-corpus",
+          "artifact": "Saturn_Hub_3.txt",
+          "locator": "Select House list contains \"House #34\""
+        }
+      ],
+      "starbloxUse": "Lot/address mapping target",
+      "lotNumber": 34
+    },
+    {
+      "id": "lot:35",
+      "type": "lot-number",
+      "name": "House #35",
+      "category": "property-lot",
+      "status": "directly-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-source-corpus",
+          "artifact": "Saturn_Hub_3.txt",
+          "locator": "Select House list contains \"House #35\""
+        }
+      ],
+      "starbloxUse": "Lot/address mapping target",
+      "lotNumber": 35
+    },
+    {
+      "id": "house-feature:front-door",
+      "type": "house-feature",
+      "name": "HouseDoorFront",
+      "category": "residential",
+      "status": "directly-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-runtime-scan",
+          "artifact": "Aqui.txt",
+          "locator": "Workspace.001_Lots.*House.HousePickedByPlayer.HouseModel.HouseDoorFront"
+        }
+      ],
+      "starbloxUse": "Reusable residential feature/interaction concept"
+    },
+    {
+      "id": "house-feature:garage-door",
+      "type": "house-feature",
+      "name": "GarageDoor",
+      "category": "residential",
+      "status": "directly-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-runtime-scan",
+          "artifact": "Aqui.txt",
+          "locator": "Workspace.001_Lots.*House.HousePickedByPlayer.HouseModel.GarageDoor"
+        }
+      ],
+      "starbloxUse": "Reusable residential feature/interaction concept"
+    },
+    {
+      "id": "house-feature:sliding-door",
+      "type": "house-feature",
+      "name": "001_SlidingDoor",
+      "category": "residential",
+      "status": "directly-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-runtime-scan",
+          "artifact": "Aqui.txt",
+          "locator": "Workspace.001_Lots.*House.HousePickedByPlayer.HouseModel.001_SlidingDoor"
+        }
+      ],
+      "starbloxUse": "Reusable residential feature/interaction concept"
+    },
+    {
+      "id": "house-feature:safe",
+      "type": "house-feature",
+      "name": "001_Safe",
+      "category": "residential",
+      "status": "directly-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-runtime-scan",
+          "artifact": "Aqui.txt",
+          "locator": "Workspace.001_Lots.*House.HousePickedByPlayer.HouseModel.001_Safe"
+        }
+      ],
+      "starbloxUse": "Reusable residential feature/interaction concept"
+    },
+    {
+      "id": "house-feature:mailbox",
+      "type": "house-feature",
+      "name": "001_MailBox",
+      "category": "residential",
+      "status": "directly-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-runtime-scan",
+          "artifact": "Aqui.txt",
+          "locator": "Workspace.001_Lots.*House.HousePickedByPlayer.HouseModel.001_MailBox"
+        }
+      ],
+      "starbloxUse": "Reusable residential feature/interaction concept"
+    },
+    {
+      "id": "house-feature:oven",
+      "type": "house-feature",
+      "name": "001_Oven",
+      "category": "residential",
+      "status": "directly-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-runtime-scan",
+          "artifact": "Aqui.txt",
+          "locator": "Workspace.001_Lots.*House.HousePickedByPlayer.HouseModel.001_Oven"
+        }
+      ],
+      "starbloxUse": "Reusable residential feature/interaction concept"
+    },
+    {
+      "id": "house-feature:fridge",
+      "type": "house-feature",
+      "name": "001_Fridge",
+      "category": "residential",
+      "status": "directly-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-runtime-scan",
+          "artifact": "Aqui.txt",
+          "locator": "Workspace.001_Lots.*House.HousePickedByPlayer.HouseModel.001_Fridge"
+        }
+      ],
+      "starbloxUse": "Reusable residential feature/interaction concept"
+    },
+    {
+      "id": "house-feature:dishwasher",
+      "type": "house-feature",
+      "name": "001_DishWasher",
+      "category": "residential",
+      "status": "directly-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-runtime-scan",
+          "artifact": "Aqui.txt",
+          "locator": "Workspace.001_Lots.*House.HousePickedByPlayer.HouseModel.001_DishWasher"
+        }
+      ],
+      "starbloxUse": "Reusable residential feature/interaction concept"
+    },
+    {
+      "id": "house-feature:hot-tub",
+      "type": "house-feature",
+      "name": "001_HotTub",
+      "category": "residential",
+      "status": "directly-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-runtime-scan",
+          "artifact": "Aqui.txt",
+          "locator": "Workspace.001_Lots.*House.HousePickedByPlayer.HouseModel.001_HotTub"
+        }
+      ],
+      "starbloxUse": "Reusable residential feature/interaction concept"
+    },
+    {
+      "id": "house-feature:doorbell",
+      "type": "house-feature",
+      "name": "001_DoorBell",
+      "category": "residential",
+      "status": "directly-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-runtime-scan",
+          "artifact": "Aqui.txt",
+          "locator": "Workspace.001_Lots.*House.HousePickedByPlayer.HouseModel.001_DoorBell"
+        }
+      ],
+      "starbloxUse": "Reusable residential feature/interaction concept"
+    },
+    {
+      "id": "house-feature:room-change",
+      "type": "house-feature",
+      "name": "001_ChangeRoom",
+      "category": "residential",
+      "status": "directly-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-runtime-scan",
+          "artifact": "Aqui.txt",
+          "locator": "Workspace.001_Lots.*House.HousePickedByPlayer.HouseModel.001_ChangeRoom"
+        }
+      ],
+      "starbloxUse": "Reusable residential feature/interaction concept"
+    },
+    {
+      "id": "house-feature:house-control",
+      "type": "house-feature",
+      "name": "001_HouseControlGuiOpen",
+      "category": "residential",
+      "status": "directly-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-runtime-scan",
+          "artifact": "Aqui.txt",
+          "locator": "Workspace.001_Lots.*House.HousePickedByPlayer.HouseModel.001_HouseControlGuiOpen"
+        }
+      ],
+      "starbloxUse": "Reusable residential feature/interaction concept"
+    },
+    {
+      "id": "house-feature:fire-disaster-control",
+      "type": "house-feature",
+      "name": "001_HouseControlDemandFire",
+      "category": "residential",
+      "status": "directly-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-runtime-scan",
+          "artifact": "Aqui.txt",
+          "locator": "Workspace.001_Lots.*House.HousePickedByPlayer.HouseModel.001_HouseControlDemandFire"
+        }
+      ],
+      "starbloxUse": "Reusable residential feature/interaction concept"
+    },
+    {
+      "id": "house-feature:dresser-auto",
+      "type": "house-feature",
+      "name": "DresserLongAuto",
+      "category": "residential",
+      "status": "directly-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-runtime-scan",
+          "artifact": "Aqui.txt",
+          "locator": "Workspace.001_Lots.*House.HousePickedByPlayer.HouseModel.DresserLongAuto"
+        }
+      ],
+      "starbloxUse": "Reusable residential feature/interaction concept"
+    },
+    {
+      "id": "institution:school",
+      "type": "institution",
+      "name": "School",
+      "category": "town-destination",
+      "status": "runtime-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-runtime-scan",
+          "artifact": "Aqui.txt",
+          "locator": "Workspace paths include School"
+        }
+      ],
+      "starbloxUse": "Town location/quest destination candidate"
+    },
+    {
+      "id": "institution:hospital",
+      "type": "institution",
+      "name": "Hospital",
+      "category": "town-destination",
+      "status": "runtime-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-runtime-scan",
+          "artifact": "Aqui.txt",
+          "locator": "Workspace paths include Hospital"
+        }
+      ],
+      "starbloxUse": "Town location/quest destination candidate"
+    },
+    {
+      "id": "institution:fire-department",
+      "type": "institution",
+      "name": "Fire Department",
+      "category": "town-destination",
+      "status": "runtime-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-runtime-scan",
+          "artifact": "Aqui.txt",
+          "locator": "Workspace paths include Fire Department"
+        }
+      ],
+      "starbloxUse": "Town location/quest destination candidate"
+    },
+    {
+      "id": "institution:bank",
+      "type": "institution",
+      "name": "Bank",
+      "category": "town-destination",
+      "status": "runtime-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-runtime-scan",
+          "artifact": "Aqui.txt",
+          "locator": "Workspace paths include Bank"
+        }
+      ],
+      "starbloxUse": "Town location/quest destination candidate"
+    },
+    {
+      "id": "institution:airport",
+      "type": "institution",
+      "name": "Airport",
+      "category": "town-destination",
+      "status": "runtime-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-runtime-scan",
+          "artifact": "Aqui.txt",
+          "locator": "Workspace paths include Airport"
+        }
+      ],
+      "starbloxUse": "Town location/quest destination candidate"
+    },
+    {
+      "id": "institution:subway",
+      "type": "institution",
+      "name": "Subway",
+      "category": "town-destination",
+      "status": "runtime-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-runtime-scan",
+          "artifact": "Aqui.txt",
+          "locator": "Workspace paths include Subway"
+        }
+      ],
+      "starbloxUse": "Town location/quest destination candidate"
+    },
+    {
+      "id": "institution:town-hall",
+      "type": "institution",
+      "name": "Town Hall",
+      "category": "town-destination",
+      "status": "runtime-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-runtime-scan",
+          "artifact": "Aqui.txt",
+          "locator": "Workspace paths include Town Hall"
+        }
+      ],
+      "starbloxUse": "Town location/quest destination candidate"
+    },
+    {
+      "id": "institution:daycare",
+      "type": "institution",
+      "name": "DayCare",
+      "category": "town-destination",
+      "status": "runtime-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-runtime-scan",
+          "artifact": "Aqui.txt",
+          "locator": "Workspace paths include DayCare"
+        }
+      ],
+      "starbloxUse": "Town location/quest destination candidate"
+    },
+    {
+      "id": "institution:church",
+      "type": "institution",
+      "name": "Church",
+      "category": "town-destination",
+      "status": "runtime-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-runtime-scan",
+          "artifact": "Aqui.txt",
+          "locator": "Workspace paths include Church"
+        }
+      ],
+      "starbloxUse": "Town location/quest destination candidate"
+    },
+    {
+      "id": "institution:auto-shop",
+      "type": "institution",
+      "name": "Auto Shop",
+      "category": "town-destination",
+      "status": "runtime-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-runtime-scan",
+          "artifact": "Aqui.txt",
+          "locator": "Workspace paths include Auto Shop"
+        }
+      ],
+      "starbloxUse": "Town location/quest destination candidate"
+    },
+    {
+      "id": "institution:auto-mall",
+      "type": "institution",
+      "name": "Auto Mall",
+      "category": "town-destination",
+      "status": "runtime-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-runtime-scan",
+          "artifact": "Aqui.txt",
+          "locator": "Workspace paths include Auto Mall"
+        }
+      ],
+      "starbloxUse": "Town location/quest destination candidate"
+    },
+    {
+      "id": "institution:commercial-stores",
+      "type": "institution",
+      "name": "Commercial Stores",
+      "category": "town-destination",
+      "status": "runtime-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-runtime-scan",
+          "artifact": "Aqui.txt",
+          "locator": "Workspace paths include Commercial Stores"
+        }
+      ],
+      "starbloxUse": "Town location/quest destination candidate"
+    },
+    {
+      "id": "institution:yacht",
+      "type": "institution",
+      "name": "Yacht",
+      "category": "town-destination",
+      "status": "runtime-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-runtime-scan",
+          "artifact": "Aqui.txt",
+          "locator": "Workspace paths include Yacht"
+        }
+      ],
+      "starbloxUse": "Town location/quest destination candidate"
+    },
+    {
+      "id": "institution:horse-stables",
+      "type": "institution",
+      "name": "Horse Stables",
+      "category": "town-destination",
+      "status": "runtime-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-runtime-scan",
+          "artifact": "Aqui.txt",
+          "locator": "Workspace paths include Horse Stables"
+        }
+      ],
+      "starbloxUse": "Town location/quest destination candidate"
+    },
+    {
+      "id": "institution:burger-barn",
+      "type": "institution",
+      "name": "Burger Barn",
+      "category": "town-destination",
+      "status": "runtime-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-runtime-scan",
+          "artifact": "Aqui.txt",
+          "locator": "Workspace paths include Burger Barn"
+        }
+      ],
+      "starbloxUse": "Town location/quest destination candidate"
+    },
+    {
+      "id": "institution:criminal-area",
+      "type": "institution",
+      "name": "Criminal Area",
+      "category": "town-destination",
+      "status": "runtime-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-runtime-scan",
+          "artifact": "Aqui.txt",
+          "locator": "Workspace paths include Criminal Area"
+        }
+      ],
+      "starbloxUse": "Town location/quest destination candidate"
+    },
+    {
+      "id": "institution:brookhaven-secrets",
+      "type": "institution",
+      "name": "Brookhaven Secrets",
+      "category": "town-destination",
+      "status": "runtime-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-runtime-scan",
+          "artifact": "Aqui.txt",
+          "locator": "Workspace paths include Brookhaven Secrets"
+        }
+      ],
+      "starbloxUse": "Town location/quest destination candidate"
+    },
+    {
+      "id": "capability:vehicle:GetListOfPortedVehicles",
+      "type": "runtime-capability",
+      "name": "GetListOfPortedVehicles",
+      "category": "vehicle-runtime",
+      "status": "runtime-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-runtime-scan",
+          "artifact": "Aqui.txt",
+          "locator": "ReplicatedStorage.Remotes.GetListOfPortedVehicles"
+        }
+      ],
+      "starbloxUse": "Architecture reference only; do not call Brookhaven runtime from StarBlox"
+    },
+    {
+      "id": "capability:vehicle:SpawnVehicle",
+      "type": "runtime-capability",
+      "name": "SpawnVehicle",
+      "category": "vehicle-runtime",
+      "status": "runtime-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-runtime-scan",
+          "artifact": "Aqui.txt",
+          "locator": "ReplicatedStorage.Remotes.SpawnVehicle"
+        }
+      ],
+      "starbloxUse": "Architecture reference only; do not call Brookhaven runtime from StarBlox"
+    },
+    {
+      "id": "capability:vehicle:DespawnVehicle",
+      "type": "runtime-capability",
+      "name": "DespawnVehicle",
+      "category": "vehicle-runtime",
+      "status": "runtime-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-runtime-scan",
+          "artifact": "Aqui.txt",
+          "locator": "ReplicatedStorage.Remotes.DespawnVehicle"
+        }
+      ],
+      "starbloxUse": "Architecture reference only; do not call Brookhaven runtime from StarBlox"
+    },
+    {
+      "id": "capability:vehicle:GetVehicleState",
+      "type": "runtime-capability",
+      "name": "GetVehicleState",
+      "category": "vehicle-runtime",
+      "status": "runtime-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-runtime-scan",
+          "artifact": "Aqui.txt",
+          "locator": "ReplicatedStorage.Remotes.GetVehicleState"
+        }
+      ],
+      "starbloxUse": "Architecture reference only; do not call Brookhaven runtime from StarBlox"
+    },
+    {
+      "id": "capability:vehicle:SetVehicleState",
+      "type": "runtime-capability",
+      "name": "SetVehicleState",
+      "category": "vehicle-runtime",
+      "status": "runtime-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-runtime-scan",
+          "artifact": "Aqui.txt",
+          "locator": "ReplicatedStorage.Remotes.SetVehicleState"
+        }
+      ],
+      "starbloxUse": "Architecture reference only; do not call Brookhaven runtime from StarBlox"
+    },
+    {
+      "id": "capability:vehicle:SetWheelDecal",
+      "type": "runtime-capability",
+      "name": "SetWheelDecal",
+      "category": "vehicle-runtime",
+      "status": "runtime-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-runtime-scan",
+          "artifact": "Aqui.txt",
+          "locator": "ReplicatedStorage.Remotes.SetWheelDecal"
+        }
+      ],
+      "starbloxUse": "Architecture reference only; do not call Brookhaven runtime from StarBlox"
+    },
+    {
+      "id": "capability:vehicle:SetTurboAppearance",
+      "type": "runtime-capability",
+      "name": "SetTurboAppearance",
+      "category": "vehicle-runtime",
+      "status": "runtime-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-runtime-scan",
+          "artifact": "Aqui.txt",
+          "locator": "ReplicatedStorage.Remotes.SetTurboAppearance"
+        }
+      ],
+      "starbloxUse": "Architecture reference only; do not call Brookhaven runtime from StarBlox"
+    },
+    {
+      "id": "capability:vehicle:ToggleHeadLights",
+      "type": "runtime-capability",
+      "name": "ToggleHeadLights",
+      "category": "vehicle-runtime",
+      "status": "runtime-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-runtime-scan",
+          "artifact": "Aqui.txt",
+          "locator": "ReplicatedStorage.Remotes.ToggleHeadLights"
+        }
+      ],
+      "starbloxUse": "Architecture reference only; do not call Brookhaven runtime from StarBlox"
+    },
+    {
+      "id": "capability:vehicle:ToggleHazardLights",
+      "type": "runtime-capability",
+      "name": "ToggleHazardLights",
+      "category": "vehicle-runtime",
+      "status": "runtime-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-runtime-scan",
+          "artifact": "Aqui.txt",
+          "locator": "ReplicatedStorage.Remotes.ToggleHazardLights"
+        }
+      ],
+      "starbloxUse": "Architecture reference only; do not call Brookhaven runtime from StarBlox"
+    },
+    {
+      "id": "capability:vehicle:ToggleEmergencyLights",
+      "type": "runtime-capability",
+      "name": "ToggleEmergencyLights",
+      "category": "vehicle-runtime",
+      "status": "runtime-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-runtime-scan",
+          "artifact": "Aqui.txt",
+          "locator": "ReplicatedStorage.Remotes.ToggleEmergencyLights"
+        }
+      ],
+      "starbloxUse": "Architecture reference only; do not call Brookhaven runtime from StarBlox"
+    },
+    {
+      "id": "capability:vehicle:ToggleEmergencySiren",
+      "type": "runtime-capability",
+      "name": "ToggleEmergencySiren",
+      "category": "vehicle-runtime",
+      "status": "runtime-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-runtime-scan",
+          "artifact": "Aqui.txt",
+          "locator": "ReplicatedStorage.Remotes.ToggleEmergencySiren"
+        }
+      ],
+      "starbloxUse": "Architecture reference only; do not call Brookhaven runtime from StarBlox"
+    },
+    {
+      "id": "capability:vehicle:SetMaxSpeed",
+      "type": "runtime-capability",
+      "name": "SetMaxSpeed",
+      "category": "vehicle-runtime",
+      "status": "runtime-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-runtime-scan",
+          "artifact": "Aqui.txt",
+          "locator": "ReplicatedStorage.Remotes.SetMaxSpeed"
+        }
+      ],
+      "starbloxUse": "Architecture reference only; do not call Brookhaven runtime from StarBlox"
+    },
+    {
+      "id": "capability:vehicle:SetDriftStrength",
+      "type": "runtime-capability",
+      "name": "SetDriftStrength",
+      "category": "vehicle-runtime",
+      "status": "runtime-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-runtime-scan",
+          "artifact": "Aqui.txt",
+          "locator": "ReplicatedStorage.Remotes.SetDriftStrength"
+        }
+      ],
+      "starbloxUse": "Architecture reference only; do not call Brookhaven runtime from StarBlox"
+    },
+    {
+      "id": "capability:vehicle:SetNextSuspensionHeight",
+      "type": "runtime-capability",
+      "name": "SetNextSuspensionHeight",
+      "category": "vehicle-runtime",
+      "status": "runtime-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-runtime-scan",
+          "artifact": "Aqui.txt",
+          "locator": "ReplicatedStorage.Remotes.SetNextSuspensionHeight"
+        }
+      ],
+      "starbloxUse": "Architecture reference only; do not call Brookhaven runtime from StarBlox"
+    },
+    {
+      "id": "capability:vehicle:RepositionVehicle",
+      "type": "runtime-capability",
+      "name": "RepositionVehicle",
+      "category": "vehicle-runtime",
+      "status": "runtime-evidenced",
+      "evidence": [
+        {
+          "sourceId": "brookhaven-runtime-scan",
+          "artifact": "Aqui.txt",
+          "locator": "ReplicatedStorage.Remotes.RepositionVehicle"
+        }
+      ],
+      "starbloxUse": "Architecture reference only; do not call Brookhaven runtime from StarBlox"
+    }
+  ],
+  "edges": [
+    {
+      "from": "runtime-category:houses",
+      "to": "catalog:loadable-content",
+      "relation": "member-of"
+    },
+    {
+      "from": "runtime-category:mansions",
+      "to": "catalog:loadable-content",
+      "relation": "member-of"
+    },
+    {
+      "from": "runtime-category:motels",
+      "to": "catalog:loadable-content",
+      "relation": "member-of"
+    },
+    {
+      "from": "runtime-category:apartments",
+      "to": "catalog:loadable-content",
+      "relation": "member-of"
+    },
+    {
+      "from": "runtime-category:jobs",
+      "to": "catalog:loadable-content",
+      "relation": "member-of"
+    },
+    {
+      "from": "property:001_Landmark",
+      "to": "catalog:properties",
+      "relation": "member-of"
+    },
+    {
+      "from": "property:049_House",
+      "to": "catalog:properties",
+      "relation": "member-of"
+    },
+    {
+      "from": "property:052_House",
+      "to": "catalog:properties",
+      "relation": "member-of"
+    },
+    {
+      "from": "property:056_House",
+      "to": "catalog:properties",
+      "relation": "member-of"
+    },
+    {
+      "from": "property:031_House",
+      "to": "catalog:properties",
+      "relation": "member-of"
+    },
+    {
+      "from": "vehicle:Cadillac",
+      "to": "catalog:vehicles",
+      "relation": "member-of"
+    },
+    {
+      "from": "vehicle:Excavator",
+      "to": "catalog:vehicles",
+      "relation": "member-of"
+    },
+    {
+      "from": "vehicle:FarmTruck",
+      "to": "catalog:vehicles",
+      "relation": "member-of"
+    },
+    {
+      "from": "vehicle:FireTruck",
+      "to": "catalog:vehicles",
+      "relation": "member-of"
+    },
+    {
+      "from": "vehicle:Jeep",
+      "to": "catalog:vehicles",
+      "relation": "member-of"
+    },
+    {
+      "from": "vehicle:Limo",
+      "to": "catalog:vehicles",
+      "relation": "member-of"
+    },
+    {
+      "from": "vehicle:MilitaryTruck",
+      "to": "catalog:vehicles",
+      "relation": "member-of"
+    },
+    {
+      "from": "vehicle:NascarTruck",
+      "to": "catalog:vehicles",
+      "relation": "member-of"
+    },
+    {
+      "from": "vehicle:SchoolBus",
+      "to": "catalog:vehicles",
+      "relation": "member-of"
+    },
+    {
+      "from": "vehicle:SmartCar",
+      "to": "catalog:vehicles",
+      "relation": "member-of"
+    },
+    {
+      "from": "vehicle:Snowplow",
+      "to": "catalog:vehicles",
+      "relation": "member-of"
+    },
+    {
+      "from": "vehicle:Tank",
+      "to": "catalog:vehicles",
+      "relation": "member-of"
+    },
+    {
+      "from": "vehicle:TowTruck",
+      "to": "catalog:vehicles",
+      "relation": "member-of"
+    },
+    {
+      "from": "vehicle-legacy:Thunderbird",
+      "to": "catalog:vehicles",
+      "relation": "member-of"
+    },
+    {
+      "from": "vehicle-legacy:Ladybug",
+      "to": "catalog:vehicles",
+      "relation": "member-of"
+    },
+    {
+      "from": "vehicle-legacy:Offroader",
+      "to": "catalog:vehicles",
+      "relation": "member-of"
+    },
+    {
+      "from": "vehicle-legacy:Golf Cart",
+      "to": "catalog:vehicles",
+      "relation": "member-of"
+    },
+    {
+      "from": "house-feature:front-door",
+      "to": "catalog:house-features",
+      "relation": "member-of"
+    },
+    {
+      "from": "house-feature:garage-door",
+      "to": "catalog:house-features",
+      "relation": "member-of"
+    },
+    {
+      "from": "house-feature:sliding-door",
+      "to": "catalog:house-features",
+      "relation": "member-of"
+    },
+    {
+      "from": "house-feature:safe",
+      "to": "catalog:house-features",
+      "relation": "member-of"
+    },
+    {
+      "from": "house-feature:mailbox",
+      "to": "catalog:house-features",
+      "relation": "member-of"
+    },
+    {
+      "from": "house-feature:oven",
+      "to": "catalog:house-features",
+      "relation": "member-of"
+    },
+    {
+      "from": "house-feature:fridge",
+      "to": "catalog:house-features",
+      "relation": "member-of"
+    },
+    {
+      "from": "house-feature:dishwasher",
+      "to": "catalog:house-features",
+      "relation": "member-of"
+    },
+    {
+      "from": "house-feature:hot-tub",
+      "to": "catalog:house-features",
+      "relation": "member-of"
+    },
+    {
+      "from": "house-feature:doorbell",
+      "to": "catalog:house-features",
+      "relation": "member-of"
+    },
+    {
+      "from": "house-feature:room-change",
+      "to": "catalog:house-features",
+      "relation": "member-of"
+    },
+    {
+      "from": "house-feature:house-control",
+      "to": "catalog:house-features",
+      "relation": "member-of"
+    },
+    {
+      "from": "house-feature:fire-disaster-control",
+      "to": "catalog:house-features",
+      "relation": "member-of"
+    },
+    {
+      "from": "house-feature:dresser-auto",
+      "to": "catalog:house-features",
+      "relation": "member-of"
+    },
+    {
+      "from": "institution:school",
+      "to": "catalog:institutions",
+      "relation": "member-of"
+    },
+    {
+      "from": "institution:hospital",
+      "to": "catalog:institutions",
+      "relation": "member-of"
+    },
+    {
+      "from": "institution:fire-department",
+      "to": "catalog:institutions",
+      "relation": "member-of"
+    },
+    {
+      "from": "institution:bank",
+      "to": "catalog:institutions",
+      "relation": "member-of"
+    },
+    {
+      "from": "institution:airport",
+      "to": "catalog:institutions",
+      "relation": "member-of"
+    },
+    {
+      "from": "institution:subway",
+      "to": "catalog:institutions",
+      "relation": "member-of"
+    },
+    {
+      "from": "institution:town-hall",
+      "to": "catalog:institutions",
+      "relation": "member-of"
+    },
+    {
+      "from": "institution:daycare",
+      "to": "catalog:institutions",
+      "relation": "member-of"
+    },
+    {
+      "from": "institution:church",
+      "to": "catalog:institutions",
+      "relation": "member-of"
+    },
+    {
+      "from": "institution:auto-shop",
+      "to": "catalog:institutions",
+      "relation": "member-of"
+    },
+    {
+      "from": "institution:auto-mall",
+      "to": "catalog:institutions",
+      "relation": "member-of"
+    },
+    {
+      "from": "institution:commercial-stores",
+      "to": "catalog:institutions",
+      "relation": "member-of"
+    },
+    {
+      "from": "institution:yacht",
+      "to": "catalog:institutions",
+      "relation": "member-of"
+    },
+    {
+      "from": "institution:horse-stables",
+      "to": "catalog:institutions",
+      "relation": "member-of"
+    },
+    {
+      "from": "institution:burger-barn",
+      "to": "catalog:institutions",
+      "relation": "member-of"
+    },
+    {
+      "from": "institution:criminal-area",
+      "to": "catalog:institutions",
+      "relation": "member-of"
+    },
+    {
+      "from": "institution:brookhaven-secrets",
+      "to": "catalog:institutions",
+      "relation": "member-of"
+    },
+    {
+      "from": "capability:vehicle:GetListOfPortedVehicles",
+      "to": "catalog:vehicles",
+      "relation": "describes-runtime-capability-of"
+    },
+    {
+      "from": "capability:vehicle:SpawnVehicle",
+      "to": "catalog:vehicles",
+      "relation": "describes-runtime-capability-of"
+    },
+    {
+      "from": "capability:vehicle:DespawnVehicle",
+      "to": "catalog:vehicles",
+      "relation": "describes-runtime-capability-of"
+    },
+    {
+      "from": "capability:vehicle:GetVehicleState",
+      "to": "catalog:vehicles",
+      "relation": "describes-runtime-capability-of"
+    },
+    {
+      "from": "capability:vehicle:SetVehicleState",
+      "to": "catalog:vehicles",
+      "relation": "describes-runtime-capability-of"
+    },
+    {
+      "from": "capability:vehicle:SetWheelDecal",
+      "to": "catalog:vehicles",
+      "relation": "describes-runtime-capability-of"
+    },
+    {
+      "from": "capability:vehicle:SetTurboAppearance",
+      "to": "catalog:vehicles",
+      "relation": "describes-runtime-capability-of"
+    },
+    {
+      "from": "capability:vehicle:ToggleHeadLights",
+      "to": "catalog:vehicles",
+      "relation": "describes-runtime-capability-of"
+    },
+    {
+      "from": "capability:vehicle:ToggleHazardLights",
+      "to": "catalog:vehicles",
+      "relation": "describes-runtime-capability-of"
+    },
+    {
+      "from": "capability:vehicle:ToggleEmergencyLights",
+      "to": "catalog:vehicles",
+      "relation": "describes-runtime-capability-of"
+    },
+    {
+      "from": "capability:vehicle:ToggleEmergencySiren",
+      "to": "catalog:vehicles",
+      "relation": "describes-runtime-capability-of"
+    },
+    {
+      "from": "capability:vehicle:SetMaxSpeed",
+      "to": "catalog:vehicles",
+      "relation": "describes-runtime-capability-of"
+    },
+    {
+      "from": "capability:vehicle:SetDriftStrength",
+      "to": "catalog:vehicles",
+      "relation": "describes-runtime-capability-of"
+    },
+    {
+      "from": "capability:vehicle:SetNextSuspensionHeight",
+      "to": "catalog:vehicles",
+      "relation": "describes-runtime-capability-of"
+    },
+    {
+      "from": "capability:vehicle:RepositionVehicle",
+      "to": "catalog:vehicles",
+      "relation": "describes-runtime-capability-of"
+    }
+  ],
+  "nextResolutionTargets": [
+    "ReplicatedStorage.Remotes.GetListOfPortedVehicles return payload",
+    "ReplicatedStorage.Modules.Client.UI.LoadableEntries.Houses",
+    "ReplicatedStorage.Modules.Client.UI.LoadableEntries.Mansions",
+    "ReplicatedStorage.Modules.Client.UI.LoadableEntries.Motels",
+    "ReplicatedStorage.Modules.Client.UI.LoadableEntries.Apartments",
+    "Roblox module 110191289672557 labeled Brookhaven Map",
+    "asset-level mesh/texture IDs for each resolved vehicle/property"
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "schemaVersion": "starblox-brookhaven-rights-status-v1",
+  "recordedAt": "2026-09-24",
+  "status": "verified-for-project-use",
+  "verificationBasis": "user-confirmed prior evidence provided outside this project session",
+  "currentProjectReaudit": "not-reperformed",
+  "effect": {
+    "authorizedSerializedGeometry": "eligible-for-content-and-technical-QA",
+    "authorizedMeshReferences": "eligible-for-content-and-technical-QA",
+    "runtimeExploitCode": "still-forbidden-by-reuse-boundary",
+    "publicLicenseMetadata": "still-recorded-separately"
+  },
+  "note": "This is the project operating status requested by the user. It does not rewrite or replace the separately recorded public license/provenance metadata for each source."
+}

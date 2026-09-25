@@ -1,0 +1,118 @@
+{
+  "schemaVersion": "starblox-brookhaven-vehicle-blueprint-v1",
+  "step": "8-of-12",
+  "generatedAt": "2026-09-24",
+  "status": "production-candidate-runtime-not-wired",
+  "sourceCatalog": "docs/preproduction/brookhaven-research/resolved-catalogs-v1.json",
+  "rightsStatus": "verified-for-project-use",
+  "rule": "Vehicle identifiers come from evidenced Brookhaven catalogs; driving/customization behavior below is a new StarBlox-neutral implementation and does not invoke Brookhaven runtime services.",
+  "currentVehicles": [
+    {
+      "id": "school-bus",
+      "sourceName": "SchoolBus",
+      "archetype": "transit"
+    },
+    {
+      "id": "smart-car",
+      "sourceName": "SmartCar",
+      "archetype": "compact"
+    },
+    {
+      "id": "farm-truck",
+      "sourceName": "FarmTruck",
+      "archetype": "utility"
+    },
+    {
+      "id": "cadillac",
+      "sourceName": "Cadillac",
+      "archetype": "luxury"
+    },
+    {
+      "id": "excavator",
+      "sourceName": "Excavator",
+      "archetype": "work"
+    },
+    {
+      "id": "jeep",
+      "sourceName": "Jeep",
+      "archetype": "utility"
+    },
+    {
+      "id": "nascar-truck",
+      "sourceName": "NascarTruck",
+      "archetype": "sport"
+    },
+    {
+      "id": "tow-truck",
+      "sourceName": "TowTruck",
+      "archetype": "service"
+    },
+    {
+      "id": "snowplow",
+      "sourceName": "Snowplow",
+      "archetype": "service"
+    },
+    {
+      "id": "military-truck",
+      "sourceName": "MilitaryTruck",
+      "archetype": "utility"
+    },
+    {
+      "id": "tank",
+      "sourceName": "Tank",
+      "archetype": "display-only"
+    },
+    {
+      "id": "limo",
+      "sourceName": "Limo",
+      "archetype": "luxury"
+    },
+    {
+      "id": "fire-truck",
+      "sourceName": "FireTruck",
+      "archetype": "emergency"
+    }
+  ],
+  "legacyVehicles": [
+    {
+      "id": "thunderbird",
+      "sourceName": "Thunderbird"
+    },
+    {
+      "id": "ladybug",
+      "sourceName": "Ladybug"
+    },
+    {
+      "id": "offroader",
+      "sourceName": "Offroader"
+    },
+    {
+      "id": "golf-cart",
+      "sourceName": "Golf Cart"
+    }
+  ],
+  "neutralCapabilities": [
+    "spawn-despawn-local-state",
+    "headlights",
+    "hazards",
+    "paint-token",
+    "wheel-style",
+    "driving-mode",
+    "emergency-lights-where-supported",
+    "emergency-siren-where-supported"
+  ],
+  "payloadPolicy": {
+    "recoveredVisualPayloads": 0,
+    "identifierOnly": true,
+    "allowedFutureVisualSource": "project-rights-verified neutralized asset conversion",
+    "proxyFallback": "original StarBlox geometry"
+  },
+  "nonGoals": [
+    "no Brookhaven server calls",
+    "no remote invocation",
+    "no live App.jsx wiring",
+    "no physics parity claim",
+    "no weapon behavior",
+    "no direct asset payload claim"
+  ]
+}

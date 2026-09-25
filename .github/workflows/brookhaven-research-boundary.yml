@@ -1,0 +1,51 @@
+name: Brookhaven Research Boundary
+
+on:
+  push:
+    branches:
+      - brookhaven-research-snapshot-v1
+    paths:
+      - "docs/preproduction/brookhaven-research/**"
+      - "scripts/validateBrookhavenResearchArtifacts.mjs"
+      - "scripts/assertBrookhavenReuseBoundary.mjs"
+      - "scripts/assertBrookhavenLearningSeparation.mjs"
+      - "scripts/convertBrookhavenNeutralScene.mjs"
+      - "scripts/validateBrookhavenProxyVerticalSlice.mjs"
+      - "scripts/buildBrookhavenResearchWithKnownBaseFix.mjs"
+      - "src/residentialFeatureRuntime.js"
+      - "src/residentialFeatureRuntime.test.js"
+      - "src/**"
+      - "package.json"
+      - ".github/workflows/brookhaven-research-boundary.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-research-boundary:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install dependencies
+        run: |
+          npm install --global npm@11.6.2
+          npm install --ignore-scripts --package-lock=false
+
+      - name: Validate Brookhaven research artifacts and boundaries
+        run: npm run validate:brookhaven-research
+
+      - name: Test StarBlox-neutral residential runtime
+        run: npm run test:brookhaven-residential
+
+      - name: Test vehicle town and progression research runtimes
+        run: npm run test:brookhaven-step-8-10
+
+      - name: Build StarBlox with verified temporary inherited-base fix
+        run: npm run build:brookhaven-research

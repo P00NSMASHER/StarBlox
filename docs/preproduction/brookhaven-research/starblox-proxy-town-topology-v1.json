@@ -1,0 +1,55 @@
+{
+  "schemaVersion": "starblox-proxy-town-topology-v1",
+  "generatedAt": "2026-09-25",
+  "status": "original-starblox-proxy-runtime-not-wired",
+  "sourceBlueprintRef": "docs/preproduction/brookhaven-research/town-system-blueprint-v1.json",
+  "topologyKind": "original-starblox-proxy",
+  "edgeSemantics": "undirected",
+  "locationCount": 17,
+  "edgeCount": 14,
+  "locationIds": [
+    "airport",
+    "auto-mall",
+    "auto-shop",
+    "bank",
+    "burger-barn",
+    "church",
+    "commercial-stores",
+    "daycare",
+    "fire-department",
+    "horse-stables",
+    "hospital",
+    "mystery-zone",
+    "restricted-zone",
+    "school",
+    "subway",
+    "town-hall",
+    "yacht"
+  ],
+  "edges": [
+    ["airport", "yacht"],
+    ["commercial-stores", "auto-mall"],
+    ["commercial-stores", "auto-shop"],
+    ["commercial-stores", "horse-stables"],
+    ["hospital", "fire-department"],
+    ["school", "burger-barn"],
+    ["school", "daycare"],
+    ["subway", "airport"],
+    ["town-hall", "bank"],
+    ["town-hall", "church"],
+    ["town-hall", "commercial-stores"],
+    ["town-hall", "hospital"],
+    ["town-hall", "school"],
+    ["town-hall", "subway"]
+  ],
+  "claims": {
+    "exactSourceCoordinates": false,
+    "exactSourceRoadLayout": false,
+    "exactSourceTopology": false
+  },
+  "safety": {
+    "externalRuntimeDependency": false,
+    "remoteDependency": false,
+    "liveQuestRouting": false
+  }
+}

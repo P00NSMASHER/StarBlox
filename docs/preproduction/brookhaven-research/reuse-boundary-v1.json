@@ -1,0 +1,118 @@
+{
+  "schemaVersion": "starblox-brookhaven-reuse-boundary-v1",
+  "step": "4-of-12",
+  "generatedAt": "2026-09-24",
+  "purpose": "Separate reusable Brookhaven asset/data concepts from Brookhaven runtime/executor implementation before any conversion or StarBlox integration.",
+  "zones": [
+    {
+      "id": "research-metadata",
+      "status": "allowed-research-only",
+      "allowedPaths": [
+        "docs/preproduction/brookhaven-research/**"
+      ],
+      "examples": [
+        "asset identifiers",
+        "vehicle/property names",
+        "world hierarchy",
+        "CFrames/coordinates",
+        "materials/colors",
+        "object taxonomy",
+        "semantic location labels",
+        "catalog IDs",
+        "source provenance",
+        "feature/capability descriptions"
+      ]
+    },
+    {
+      "id": "conversion-input",
+      "status": "allowed-only-after-rights-and-provenance-check",
+      "preferredPaths": [
+        "research-inputs/brookhaven/**",
+        "external-authorized-inputs/**"
+      ],
+      "examples": [
+        "authorized source models",
+        "authorized textures",
+        "authorized serialized geometry"
+      ],
+      "rule": "Do not place raw third-party executable scripts or Roblox runtime dependencies here."
+    },
+    {
+      "id": "normalized-production-candidate",
+      "status": "future-allowed-after-step-5-gates",
+      "preferredPaths": [
+        "public/assets/brookhaven-normalized/**",
+        "src/assets/brookhaven/**"
+      ],
+      "examples": [
+        "optimized GLB/glTF",
+        "normalized texture atlas",
+        "collision metadata",
+        "StarBlox-neutral asset manifest"
+      ],
+      "prerequisites": [
+        "source provenance recorded",
+        "commercial-use/right basis recorded",
+        "payload converted to StarBlox-neutral representation",
+        "no Brookhaven remote/executor dependency",
+        "performance and content QA passed"
+      ]
+    },
+    {
+      "id": "live-starblox-runtime",
+      "status": "brookhaven-runtime-dependencies-forbidden",
+      "protectedPaths": [
+        "src/**"
+      ],
+      "forbiddenDependencyClasses": [
+        "Roblox RemoteEvent/RemoteFunction invocation",
+        "Brookhaven lot/property remote calls",
+        "Brookhaven vehicle remote calls",
+        "executor/loadstring/HttpGet execution",
+        "exploit-only primitives",
+        "obfuscated third-party runtime loaders",
+        "direct dependency on Brookhaven server state"
+      ]
+    }
+  ],
+  "reusableUnderUserStatedRights": [
+    "meshes/textures/geometry the user is authorized to use",
+    "asset IDs as catalog/provenance metadata",
+    "object hierarchy and naming",
+    "coordinates and scene layout",
+    "property/vehicle identifiers",
+    "feature vocabulary and interaction concepts",
+    "house/town/vehicle architecture concepts",
+    "semantic location labels subject to their own recorded license"
+  ],
+  "quarantineDoNotShip": [
+    "FireServer/InvokeServer calls into Brookhaven",
+    "ReplicatedStorage.Remotes runtime dependencies",
+    "PickingCustomHouse/PickingCar executor flows",
+    "loadstring(game:HttpGet(...)) loaders",
+    "executor globals or exploit-only APIs",
+    "anti-cheat bypasses",
+    "server manipulation/trolling logic",
+    "obfuscated third-party script payloads"
+  ],
+  "staticForbiddenTokensInLiveSrc": [
+    "ReplicatedStorage.Remotes",
+    "Lot:BuildProperty",
+    "Lot:Claim",
+    "GetListOfPortedVehicles",
+    "PickingCustomHouse",
+    "PickingCar",
+    "1Gettin1gHous1e",
+    "1Ca1r",
+    "loadstring(game:HttpGet",
+    "fireproximityprompt(",
+    "firesignal(",
+    "hookmetamethod("
+  ],
+  "boundaryDecision": {
+    "brookhavenRuntimeCodeMayShipInStarBlox": false,
+    "brookhavenRemoteCallsMayShipInStarBlox": false,
+    "normalizedAuthorizedAssetsMayEventuallyShip": true,
+    "identifiersAndTaxonomyMayBeUsedForResearchAndMapping": true
+  }
+}

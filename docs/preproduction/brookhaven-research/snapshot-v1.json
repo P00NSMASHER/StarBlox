@@ -1,0 +1,227 @@
+{
+  "schemaVersion": "starblox-brookhaven-research-snapshot-v1",
+  "step": "1-of-12",
+  "recordedAt": "2026-09-24",
+  "purpose": "Freeze exact Brookhaven research inputs before any asset conversion or gameplay integration.",
+  "starbloxBase": {
+    "repository": "P00NSMASHER/StarBlox",
+    "branch": "screenshot-match-preproduction",
+    "commit": "1d6d3e6130c83289fc270c0b543c31cffee1d226"
+  },
+  "rightsContext": {
+    "userAssertion": "The user states they possess license and commercial-use rights for the Brookhaven materials being researched and that supporting evidence was provided previously.",
+    "verificationStatus": "verified-for-project-use",
+    "verificationBasis": "user-confirmed prior rights evidence",
+    "currentProjectReaudit": "not-reperformed-in-this-project-session",
+    "policyForThisSnapshot": "Treat Brookhaven materials as rights-cleared for this project while continuing to record public repository license/provenance metadata separately."
+  },
+  "sources": [
+    {
+      "id": "brookhaven-runtime-scan",
+      "repository": "alg783n094173anad83l3583n31738n5343sa4/Aqui-chatgpt",
+      "commit": "35d151d08d27fe5700924ea3b1f7e03a05bf148a",
+      "commitUrl": "https://github.com/alg783n094173anad83l3583n31738n5343sa4/Aqui-chatgpt/commit/35d151d08d27fe5700924ea3b1f7e03a05bf148a",
+      "artifacts": [
+        {
+          "path": "Aqui.txt",
+          "gitBlobSha1": "6cff88e876f1cd714e31810dff8cac16c76409f2",
+          "observedTextLength": 118905
+        }
+      ],
+      "publicLicense": {
+        "status": "none-detected-in-repository-tree"
+      },
+      "researchRole": "Current Brookhaven runtime inventory: remotes, modules, houses, town institutions, vehicles and concrete Workspace object paths.",
+      "observedStructure": {
+        "remoteEvents": 132,
+        "remoteFunctions": 59,
+        "moduleScripts": 685,
+        "workspaceOrToolPaths": 922
+      },
+      "freezeStatus": "exact-commit-and-blob"
+    },
+    {
+      "id": "brookhaven-source-corpus",
+      "repository": "HOSTI1315/Opensurs",
+      "commit": "aafcbcb7bcbde353d3e97a916b7fc665d9f11af1",
+      "commitUrl": "https://github.com/HOSTI1315/Opensurs/commit/aafcbcb7bcbde353d3e97a916b7fc665d9f11af1",
+      "artifacts": [
+        {
+          "path": "Brookhaven.lua.txt",
+          "gitBlobSha1": "a83bf37be1bf8635cc7851906ead200bee43b85b",
+          "observedTextLength": 274855
+        },
+        {
+          "path": "Saturn_Hub_3.txt",
+          "gitBlobSha1": "8b48d674a83524f1586026232b04c65995a944a1",
+          "observedTextLength": 353833
+        },
+        {
+          "path": "Phantom_Client_V5_NewWorld_Brookhaven_-_Leaked_by_Imagine_Ness.txt",
+          "gitBlobSha1": "168c2cc8103555f21b35f595e0bf7ab90ebd19bb",
+          "observedTextLength": 385508
+        }
+      ],
+      "publicLicense": {
+        "status": "none-detected-in-repository-tree"
+      },
+      "researchRole": "Brookhaven property/house identifiers, lot/property workflow, vehicle vocabulary and historical implementation terminology.",
+      "observedIdentifiers": [
+        "001_Landmark",
+        "031_House",
+        "049_House",
+        "052_House",
+        "056_House"
+      ],
+      "freezeStatus": "exact-commit-and-blobs"
+    },
+    {
+      "id": "brookhaven-concentrated-source-archive",
+      "repository": "michel9881/Vazador",
+      "commit": "aae4fd9b1bd274adc3632a828b08fd00f48cb974",
+      "commitUrl": "https://github.com/michel9881/Vazador/commit/aae4fd9b1bd274adc3632a828b08fd00f48cb974",
+      "artifacts": [
+        {
+          "path": "Phantom Client V5 Rework.txt",
+          "gitBlobSha1": "b63f2907e1e52f15eeba45becc1dde191ae7fdc7",
+          "observedTextLength": 260175
+        }
+      ],
+      "publicLicense": {
+        "status": "none-detected-in-repository-tree"
+      },
+      "researchRole": "Independent source cross-check for house/property schema and named Brookhaven vehicle catalog.",
+      "observedVehicleNames": [
+        "SchoolBus",
+        "SmartCar",
+        "FarmTruck",
+        "Cadillac",
+        "Excavator",
+        "Jeep",
+        "NascarTruck",
+        "TowTruck",
+        "Snowplow",
+        "MilitaryTruck",
+        "Tank",
+        "Limo",
+        "FireTruck"
+      ],
+      "freezeStatus": "exact-commit-and-blob"
+    },
+    {
+      "id": "brookhaven-legacy-vehicle-world-schema",
+      "repository": "yofriendfromschool1/test",
+      "commit": "314fa0626b4cbaae4673a7e7431f98df619a48a9",
+      "commitUrl": "https://github.com/yofriendfromschool1/test/commit/314fa0626b4cbaae4673a7e7431f98df619a48a9",
+      "artifacts": [
+        {
+          "path": "finished.txt",
+          "gitBlobSha1": "07960eeb7f6535ce87cbc688d34c3f1107dc5aaa",
+          "observedTextLength": 281337
+        }
+      ],
+      "publicLicense": {
+        "status": "none-detected-in-repository-tree"
+      },
+      "researchRole": "Older Brookhaven vehicle and world interaction schema for version-history comparison.",
+      "observedVehicleNames": [
+        "Thunderbird",
+        "Ladybug",
+        "Offroader",
+        "Golf Cart"
+      ],
+      "freezeStatus": "exact-commit-and-blob"
+    },
+    {
+      "id": "brookhaven-semantic-map-research",
+      "repository": "doodlebunnyhops/doodlebunnyhops.github.io",
+      "commit": "1da24dc99590f4c8cc6ce73e63d101c79316a2e3",
+      "commitUrl": "https://github.com/doodlebunnyhops/doodlebunnyhops.github.io/commit/1da24dc99590f4c8cc6ce73e63d101c79316a2e3",
+      "artifacts": [
+        {
+          "path": "content/map/monoliths/_index.md",
+          "gitBlobSha1": "2a0ec75b3135e88f72552010b577daad10a2673f",
+          "observedTextLength": 3093
+        },
+        {
+          "path": "LICENSE.md",
+          "gitBlobSha1": "7d4f96c54aa155a17387e64501c50b6a0469932c",
+          "observedTextLength": 20133
+        }
+      ],
+      "publicLicense": {
+        "status": "explicit",
+        "identifier": "CC-BY-SA-4.0"
+      },
+      "researchRole": "Semantic labels for Brookhaven locations/secrets; useful for attaching human meaning to raw scene/runtime objects.",
+      "freezeStatus": "exact-commit-and-blobs"
+    },
+    {
+      "id": "brookhaven-map-module-pointer",
+      "repository": "valentinoarvino2003-glitch/Full-mega-list-of-require-scripts",
+      "commit": "e2c2d7d6d012561fb414d07445189d04f42c8195",
+      "commitUrl": "https://github.com/valentinoarvino2003-glitch/Full-mega-list-of-require-scripts/commit/e2c2d7d6d012561fb414d07445189d04f42c8195",
+      "artifacts": [
+        {
+          "path": "MegaRequireList.txt",
+          "gitBlobSha1": "b9843cbbf92173282ef23aa8333e76b1294282f2",
+          "observedTextLength": 50490
+        }
+      ],
+      "publicLicense": {
+        "status": "none-detected-in-repository-tree"
+      },
+      "researchRole": "Independent pointer to packaged Roblox module labeled Brookhaven Map.",
+      "observedPointers": [
+        {
+          "label": "Brookhaven Map",
+          "robloxModuleId": "110191289672557"
+        }
+      ],
+      "freezeStatus": "exact-commit-and-blob"
+    },
+    {
+      "id": "brookhaven-serialized-map-gist",
+      "type": "github-gist",
+      "owner": "hahssas",
+      "gistId": "800060cf55ddf767c6d0e57e6248b51d",
+      "url": "https://gist.github.com/hahssas/800060cf55ddf767c6d0e57e6248b51d",
+      "observedCreatedAt": "2024-11-09",
+      "publicLicense": {
+        "status": "none-identified"
+      },
+      "researchRole": "Serialized Brookhaven scene geometry/property graph: CFrames, sizes, materials, colors, decals and Roblox asset references.",
+      "witnessFingerprint": {
+        "titleMarker": "-- Brookhaven Map",
+        "firstObservedAssetReference": "rbxassetid://5812251043",
+        "firstObservedPosition": [
+          -2086.265869140625,
+          3676.49560546875,
+          596.7332763671875
+        ],
+        "firstObservedSize": [
+          2.3416061401367188,
+          1.5610705614089966,
+          0.19513383507728577
+        ]
+      },
+      "freezeStatus": "reference-and-witness-fingerprint",
+      "limitation": "The available GitHub connector did not expose a Gist revision SHA/full raw blob, so this entry freezes the stable Gist ID plus observed content witnesses rather than claiming a full immutable content hash."
+    }
+  ],
+  "safeguards": {
+    "copiedThirdPartyPayloadsIntoStarBlox": false,
+    "liveGameplayModified": false,
+    "deploymentPerformed": false,
+    "thirdPartyRepositoriesModified": false
+  },
+  "stepCompletion": {
+    "repositoriesPinnedToExactCommits": true,
+    "repositoryArtifactsPinnedToGitBlobHashes": true,
+    "publicLicenseStateRecorded": true,
+    "userRightsAssertionRecordedAsUnverified": false,
+    "gistReferenceFrozenWithExplicitLimitation": true,
+    "readyForStep2AssetGraph": true,
+    "projectRightsStatusRecordedAsVerified": true
+  }
+}
