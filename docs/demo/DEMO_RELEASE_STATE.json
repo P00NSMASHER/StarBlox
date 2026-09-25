@@ -20,16 +20,18 @@
     "starWorth": 2400
   },
   "artwork": {
-    "manifestVersion": 48,
+    "manifestVersion": 49,
     "finalPortable": 192,
     "target": 192,
     "remaining": [],
-    "status": "PASS_192_OF_192",
+    "status": "PASS_192_OF_192_CI_VERIFIED",
     "evidence": [
       "catalog-art-manifest.json",
       "docs/demo/CLOUDFLARE_COMPANION_LIVE_QA.json"
     ],
-    "note": "All 192 catalog entries are final-portable. The last seven companions were promoted after Cloudflare production live QA verified expected SVG presentation, successful image decode, 150x150 natural dimensions, and no fallback art."
+    "note": "All 192 catalog entries are final-portable. The last seven companions were promoted after Cloudflare production live QA verified expected SVG presentation, successful image decode, 150x150 natural dimensions, and no fallback art.",
+    "ciRunId": 36138462689,
+    "ciConclusion": "success"
   },
   "qa": {
     "ci": {
