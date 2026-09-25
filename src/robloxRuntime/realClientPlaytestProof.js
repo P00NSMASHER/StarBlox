@@ -3,7 +3,7 @@ import {
 } from './privatePublish.js';
 
 export const STARBLOX_REAL_CLIENT_PROOF_VERSION='starblox-real-client-playtest-v1';
-export const STARBLOX_REAL_CLIENT_RELEASE_ID='starblox-private-step9-brookhaven-v2';
+export const STARBLOX_REAL_CLIENT_RELEASE_ID='starblox-private-step9-canonical-step5-v3';
 
 export function buildRealClientPlaytestProbeScript({
   releaseId=STARBLOX_REAL_CLIENT_RELEASE_ID
