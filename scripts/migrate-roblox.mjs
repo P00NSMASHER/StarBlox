@@ -61,6 +61,7 @@ function runExporter({input,instancePath,out}){
     [
       'run','--quiet',
       '--manifest-path',exporterManifest,
+      '--bin','starblox-roblox-migration-exporter',
       '--',
       '--input',input,
       '--path',instancePath,
