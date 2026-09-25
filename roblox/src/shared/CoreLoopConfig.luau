@@ -9,8 +9,8 @@ local CoreLoopConfig = table.freeze({
 	FirstLoopCosmeticId = "brightside-spark-trail",
 	Onboarding = table.freeze({
 		Title = "Welcome to Brightside!",
-		Body = "Explore all three glowing stations. Finish Word Portal, Spelling Forge, and Culture Lab to complete a Brightside run.",
-		Hint = "Follow the plaza signs, walk up to a station, then tap Start Activity.",
+		Body = "Explore three activity spots in the neighborhood. Finish Word Portal, Spelling Forge, and Culture Lab to complete a Brightside run.",
+		Hint = "Explore the neighborhood, walk up to an activity prompt, then tap Start Activity.",
 	}),
 	Activities = table.freeze({
 		table.freeze({

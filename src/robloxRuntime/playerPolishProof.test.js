@@ -34,13 +34,17 @@ describe('Step 8: player-experience polish and automated UX QA', () => {
     expect(profile).toContain('OnboardingSeen = false');
   });
 
-  it('keeps navigation state while retiring prototype world geometry and signs', () => {
+  it('uses invisible real-world activity bindings while keeping prototype geometry retired', () => {
     const server=readFileSync(
       new URL('../../roblox/src/server/CoreGameLoopService.luau',import.meta.url),
       'utf8'
     );
     const config=readFileSync(
       new URL('../../roblox/src/shared/CoreLoopConfig.luau',import.meta.url),
+      'utf8'
+    );
+    const bindings=readFileSync(
+      new URL('../../roblox/src/shared/WorldActivityBindings.luau',import.meta.url),
       'utf8'
     );
 
@@ -55,10 +59,23 @@ describe('Step 8: player-experience polish and automated UX QA', () => {
     ]){
       expect(server).not.toContain(retiredToken);
     }
+
     expect(server).toContain('removePrototypeWorld');
+    expect(server).toContain('WorldBindings.RuntimeAnchorFolderName');
+    expect(server).toContain('anchor.Parent = runtimeFolder');
+    expect(server).not.toContain('anchor.Parent = worldRoot');
+    expect(server).toContain('anchor.Transparency = 1');
+    expect(server).toContain('anchor.CanCollide = false');
+    expect(bindings).toContain('BrookhavenWorldBaseline');
+    expect(bindings).toContain('BHW_3461');
+    expect(bindings).toContain('BHW_4879');
+    expect(bindings).toContain('BHW_3191');
+    expect(bindings).toContain('BHW_4654');
+
     expect(config).toContain('Direction = "North"');
     expect(config).toContain('Direction = "East"');
     expect(config).toContain('Direction = "West"');
+    expect(config).toContain('Explore the neighborhood');
   });
 
   it('meets the mobile UI contract with safe insets and large touch targets', () => {
@@ -103,6 +120,12 @@ describe('Step 8: player-experience polish and automated UX QA', () => {
     expect(script).toContain('legacy prototype world must remain retired');
     expect(script).not.toContain('GuideTotem');
     expect(script).not.toContain('StationHighlight');
+    expect(script).toContain('real-world activity anchor folder missing');
+    expect(script).toContain('activity anchor mutated the locked world hierarchy');
+    expect(script).toContain('real-world spawn binding missing');
+    expect(script).toContain('WordPortalAnchor');
+    expect(script).toContain('SpellingForgeAnchor');
+    expect(script).toContain('CultureLabAnchor');
     expect(script).toContain('DismissOnboarding');
     expect(script).toContain('status0.recommendedActivityId == "word-portal-put-v1"');
     expect(script).toContain('status1.recommendedActivityId == "spelling-forge-fog-v1"');

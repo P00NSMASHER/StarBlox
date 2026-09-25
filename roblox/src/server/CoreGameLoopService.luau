@@ -4,6 +4,7 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Workspace = game:GetService("Workspace")
 
 local Config = require(ReplicatedStorage.StarBlox.CoreLoopConfig)
+local WorldBindings = require(ReplicatedStorage.StarBlox.WorldActivityBindings)
 
 local CoreGameLoopService = {}
 CoreGameLoopService.__index = CoreGameLoopService
@@ -35,6 +36,86 @@ local function removePrototypeWorld()
 	if existing then
 		existing:Destroy()
 	end
+end
+
+local function resolveWorldPart(worldRoot: Model, sourcePartName: string, label: string): BasePart
+	local instance = worldRoot:FindFirstChild(sourcePartName, true)
+	assert(instance ~= nil and instance:IsA("BasePart"), label .. " source part missing: " .. sourcePartName)
+	return instance :: BasePart
+end
+
+local function worldTopCFrame(sourcePart: BasePart, heightOffset: number): CFrame
+	return CFrame.new(
+		sourcePart.Position + Vector3.new(0, (sourcePart.Size.Y / 2) + heightOffset, 0)
+	)
+end
+
+local function buildWorldBindings()
+	local worldRoot = Workspace:FindFirstChild(WorldBindings.WorldRootName)
+	assert(
+		worldRoot ~= nil and worldRoot:IsA("Model"),
+		"verified Brookhaven world root missing: " .. WorldBindings.WorldRootName
+	)
+
+	local previous = Workspace:FindFirstChild(WorldBindings.RuntimeAnchorFolderName)
+	if previous then
+		previous:Destroy()
+	end
+
+	local runtimeFolder = Instance.new("Folder")
+	runtimeFolder.Name = WorldBindings.RuntimeAnchorFolderName
+	runtimeFolder:SetAttribute("BindingSchemaVersion", WorldBindings.SchemaVersion)
+	runtimeFolder:SetAttribute("WorldRootName", WorldBindings.WorldRootName)
+	runtimeFolder:SetAttribute("BaselineMutationAllowed", false)
+	runtimeFolder.Parent = Workspace
+
+	local prompts = {}
+	for _, activity in Config.Activities do
+		local binding = WorldBindings.Activities[activity.Id]
+		assert(binding ~= nil, "missing world binding for activity: " .. activity.Id)
+
+		local sourcePart = resolveWorldPart(
+			worldRoot,
+			binding.SourcePartName,
+			"activity " .. activity.Id
+		)
+
+		local anchor = Instance.new("Part")
+		anchor.Name = binding.AnchorName
+		anchor.Size = Vector3.new(4, 1, 4)
+		anchor.CFrame = worldTopCFrame(sourcePart, binding.HeightOffset)
+		anchor.Anchored = true
+		anchor.Transparency = 1
+		anchor.CanCollide = false
+		anchor.CanTouch = false
+		anchor.CanQuery = false
+		anchor.CastShadow = false
+		anchor:SetAttribute("ActivityId", activity.Id)
+		anchor:SetAttribute("SourceWorldPart", binding.SourcePartName)
+		anchor:SetAttribute("WorldBindingOnly", true)
+		anchor.Parent = runtimeFolder
+
+		local prompt = Instance.new("ProximityPrompt")
+		prompt.Name = "StartActivityPrompt"
+		prompt.ActionText = "Start Activity"
+		prompt.ObjectText = activity.StationName
+		prompt.HoldDuration = 0
+		prompt.MaxActivationDistance = 16
+		prompt.RequiresLineOfSight = false
+		prompt.KeyboardKeyCode = Enum.KeyCode.E
+		prompt.GamepadKeyCode = Enum.KeyCode.ButtonX
+		prompt.Parent = anchor
+		prompts[activity.Id] = prompt
+	end
+
+	local spawnSource = resolveWorldPart(
+		worldRoot,
+		WorldBindings.Spawn.SourcePartName,
+		"player spawn"
+	)
+	local spawnCFrame = worldTopCFrame(spawnSource, WorldBindings.Spawn.HeightOffset)
+
+	return runtimeFolder, prompts, spawnCFrame
 end
 
 local function ensureCoreLoopState(profileData)
@@ -230,6 +311,7 @@ function CoreGameLoopService.new(profiles, replicas, telemetry)
 	self._sessions = {}
 	self._lastSubmitAt = {}
 	self._connections = {}
+	self._playerSpawnConnections = {}
 
 	local oldRemotes = ReplicatedStorage:FindFirstChild(REMOTE_ROOT_NAME)
 	if oldRemotes then
@@ -262,8 +344,7 @@ function CoreGameLoopService.new(profiles, replicas, telemetry)
 	self._requestStatus = requestStatus
 	self._dismissOnboarding = dismissOnboarding
 	removePrototypeWorld()
-	self._world = nil
-	self._prompts = {}
+	self._anchorFolder, self._prompts, self._spawnCFrame = buildWorldBindings()
 
 	for activityId, prompt in self._prompts do
 		table.insert(self._connections, prompt.Triggered:Connect(function(player: Player)
@@ -319,6 +400,13 @@ function CoreGameLoopService:_status(player: Player)
 	return result or {ok = false, code = "profile_unavailable"}
 end
 
+function CoreGameLoopService:_placeCharacterAtWorldSpawn(character: Model)
+	local root = character:WaitForChild("HumanoidRootPart", 5)
+	if root ~= nil and root:IsA("BasePart") then
+		character:PivotTo(self._spawnCFrame)
+	end
+end
+
 function CoreGameLoopService:PlayerReady(player: Player, data: {[string]: any})
 	local state = ensureCoreLoopState(data)
 	player:SetAttribute("StarBloxCoins", data.Economy.Coins)
@@ -331,6 +419,23 @@ function CoreGameLoopService:PlayerReady(player: Player, data: {[string]: any})
 		"StarBloxSparkTrailUnlocked",
 		data.Inventory.Cosmetics[Config.FirstLoopCosmeticId] == true
 	)
+
+	local previousSpawnConnection = self._playerSpawnConnections[player]
+	if previousSpawnConnection then
+		previousSpawnConnection:Disconnect()
+	end
+	self._playerSpawnConnections[player] = player.CharacterAdded:Connect(function(character: Model)
+		task.defer(function()
+			self:_placeCharacterAtWorldSpawn(character)
+		end)
+	end)
+
+	if player.Character ~= nil then
+		local character = player.Character
+		task.defer(function()
+			self:_placeCharacterAtWorldSpawn(character)
+		end)
+	end
 end
 
 function CoreGameLoopService:_submit(player: Player, request: any)
@@ -419,6 +524,11 @@ end
 function CoreGameLoopService:PlayerRemoving(player: Player)
 	self._sessions[player] = nil
 	self._lastSubmitAt[player] = nil
+	local spawnConnection = self._playerSpawnConnections[player]
+	if spawnConnection then
+		spawnConnection:Disconnect()
+		self._playerSpawnConnections[player] = nil
+	end
 end
 
 function CoreGameLoopService:Destroy()
@@ -431,6 +541,13 @@ function CoreGameLoopService:Destroy()
 	end
 	for player, _ in self._lastSubmitAt do
 		self._lastSubmitAt[player] = nil
+	end
+	for player, connection in self._playerSpawnConnections do
+		connection:Disconnect()
+		self._playerSpawnConnections[player] = nil
+	end
+	if self._anchorFolder ~= nil and self._anchorFolder.Parent ~= nil then
+		self._anchorFolder:Destroy()
 	end
 end
 
