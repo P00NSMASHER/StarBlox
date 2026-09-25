@@ -58,6 +58,45 @@ jobs:
             echo "expected existing-output rejection"
             exit 1
           fi
+      - name: Prove real binary RBXL ingestion from pinned BloxForge source
+        run: |
+          rm -rf /tmp/bloxforge-real-source /tmp/bloxforge-real-ingest
+          mkdir -p /tmp/bloxforge-real-source
+          base64 --decode tools/roblox_catalog_reader/fixtures/external/bloxforge-baseplate-ef98c370.rbxl.b64 > /tmp/bloxforge-real-source/Baseplate.rbxl
+          test "$(git hash-object /tmp/bloxforge-real-source/Baseplate.rbxl)" = "710aa68f25ae659157493d386a9d6508e0331e10"
+          npm run roblox:ingest -- --input /tmp/bloxforge-real-source/Baseplate.rbxl --out-dir /tmp/bloxforge-real-ingest --source-id bloxforge-baseplate-ef98c370
+          test -f /tmp/bloxforge-real-ingest/source-preflight.json
+          test -f /tmp/bloxforge-real-ingest/catalog-handoff.json
+          test -f /tmp/bloxforge-real-ingest/capability-catalog.json
+          test -f /tmp/bloxforge-real-ingest/capability-catalog.md
+          test -f /tmp/bloxforge-real-ingest/ingestion-receipt.json
+          grep -q '"status": "cataloged"' /tmp/bloxforge-real-ingest/ingestion-receipt.json
+          grep -q '"migrationStarted": false' /tmp/bloxforge-real-ingest/ingestion-receipt.json
+          grep -q '"studioMutationStarted": false' /tmp/bloxforge-real-ingest/ingestion-receipt.json
+          grep -q '"publicationStarted": false' /tmp/bloxforge-real-ingest/ingestion-receipt.json
+          grep -q '"schemaVersion": 2' /tmp/bloxforge-real-ingest/capability-catalog.json
+          grep -q '"sourceFingerprintCount": 1' /tmp/bloxforge-real-ingest/capability-catalog.json
+          node --input-type=module - <<'NODE'
+          import {readFile} from 'node:fs/promises';
+          const catalog=JSON.parse(await readFile('/tmp/bloxforge-real-ingest/capability-catalog.json','utf8'));
+          const receipt=JSON.parse(await readFile('/tmp/bloxforge-real-ingest/ingestion-receipt.json','utf8'));
+          const inventoryCounts=Object.fromEntries(
+            Object.entries(catalog.inventory || {}).map(([key,value]) => [
+              key,
+              Array.isArray(value) ? value.length : null
+            ])
+          );
+          console.log('REAL_RBXL_CAPABILITY_REVIEW=' + JSON.stringify({
+            sourceId:receipt.sourceId,
+            catalogHash:catalog.catalogHash,
+            summary:catalog.summary,
+            inventoryCounts,
+            nextStep:receipt.nextStep,
+            migrationStarted:receipt.migrationStarted,
+            studioMutationStarted:receipt.studioMutationStarted,
+            publicationStarted:receipt.publicationStarted
+          }));
+          NODE
       - name: Smoke-test Roblox capability catalog
         run: |
           npm run roblox:catalog -- --preflight /tmp/roblox-catalog-handoff.json --out /tmp/roblox-catalog.json --report /tmp/roblox-catalog.md
