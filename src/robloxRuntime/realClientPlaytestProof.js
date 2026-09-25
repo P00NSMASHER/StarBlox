@@ -3,7 +3,7 @@ import {
 } from './privatePublish.js';
 
 export const STARBLOX_REAL_CLIENT_PROOF_VERSION='starblox-real-client-playtest-v1';
-export const STARBLOX_REAL_CLIENT_RELEASE_ID='starblox-private-step9-v1';
+export const STARBLOX_REAL_CLIENT_RELEASE_ID='starblox-private-step9-joinfix-v1';
 
 export function buildRealClientPlaytestProbeScript({
   releaseId=STARBLOX_REAL_CLIENT_RELEASE_ID
