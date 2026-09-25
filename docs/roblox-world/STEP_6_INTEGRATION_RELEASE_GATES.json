@@ -1,7 +1,7 @@
 {
   "schemaVersion": "starblox-target-architecture-step6-v1",
   "step": "target-architecture-6-of-6",
-  "status": "integration-and-release-gates-configured",
+  "status": "verified-integration-and-release-gates",
   "inputs": {
     "step5Snapshot": "docs/roblox-world/STEP_5_WORLD_EXACTNESS_AND_MOUNT.json",
     "requiredStep5Schema": "starblox-brookhaven-step5-snapshot-v1",
@@ -47,7 +47,19 @@
     "ciRegeneratesStep5Proofs": true,
     "ciBuildsCombinedArtifact": true,
     "ciBuildsStep6ReleaseGate": true,
-    "ciBindsThisPolicyToLiveGate": true
+    "ciBindsThisPolicyToLiveGate": true,
+    "fullRegressionSuitePassed": true,
+    "step6GatePassed": true,
+    "ordinaryPrOpenCloudProbeSkippedToAvoidSharedRateLimit": true
   },
-  "nextStep": "target-architecture-complete"
+  "nextStep": "target-architecture-complete",
+  "verifiedBy": {
+    "workflow": "StarBlox CI",
+    "runId": 36191024712,
+    "verifiedHead": "8cb52626f28c219b5481ec2ae40df38b2b77daf3"
+  },
+  "completion": {
+    "targetArchitecture": "6/6",
+    "targetArchitectureComplete": true
+  }
 }
