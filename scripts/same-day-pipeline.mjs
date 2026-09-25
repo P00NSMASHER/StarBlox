@@ -83,6 +83,9 @@ const statePath=resolve(outDir,'same-day-pipeline-state.json');
 const planPath=resolve(outDir,'same-day-pipeline-plan.json');
 const stopAfter=arg('--stop-after');
 const skipCodeDonors=has('--skip-code-donors');
+if(stopAfter && !plan.stages.some(stage=>stage.id === stopAfter)){
+  throw new Error('unknown --stop-after stage: ' + stopAfter);
+}
 
 await mkdir(outDir,{recursive:true});
 await writeFile(planPath,JSON.stringify(plan,null,2) + '\n');
@@ -685,6 +688,15 @@ console.log('completed: ' + state.completedStages.length + '/' + plan.stages.len
 if(stopAfter && state.stages?.[stopAfter]?.status === 'complete' && state.status !== 'complete'){
   console.log('paused after: ' + stopAfter);
   console.log('resume: npm run same-day:pipeline -- --manifest ' + manifestPath + ' --resume');
+}
+if(
+  stopAfter &&
+  state.stages?.[stopAfter]?.status !== 'complete' &&
+  !process.exitCode
+){
+  throw new Error(
+    'pipeline stopped before requested --stop-after stage completed: ' + stopAfter
+  );
 }
 console.log('state: ' + statePath);
 console.log('plan: ' + planPath);
