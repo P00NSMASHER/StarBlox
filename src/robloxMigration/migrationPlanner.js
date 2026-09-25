@@ -13,6 +13,7 @@ export const DEFAULT_MIGRATION_RULES=Object.freeze({
   excludeCapabilities:Object.freeze([]),
   includeSystems:Object.freeze([]),
   excludeSystems:Object.freeze([]),
+  assetProjectionSystems:Object.freeze([]),
   minEngineeringLeverageScore:3.5,
   includeRisky:false
 });
@@ -49,6 +50,9 @@ function normalizeRules(raw={}){
   const excludeSystems=normalizeStringList(
     raw.excludeSystems ?? DEFAULT_MIGRATION_RULES.excludeSystems
   );
+  const assetProjectionSystems=normalizeStringList(
+    raw.assetProjectionSystems ?? DEFAULT_MIGRATION_RULES.assetProjectionSystems
+  );
   const min=Number(raw.minEngineeringLeverageScore ?? DEFAULT_MIGRATION_RULES.minEngineeringLeverageScore);
 
   return {
@@ -56,6 +60,7 @@ function normalizeRules(raw={}){
     excludeCapabilities,
     includeSystems,
     excludeSystems,
+    assetProjectionSystems,
     minEngineeringLeverageScore:Number.isFinite(min) ? Math.max(0,Math.min(10,min)) : 3.5,
     includeRisky:Boolean(raw.includeRisky)
   };
@@ -96,7 +101,8 @@ function findCandidate(catalog,name){
   return (catalog.systemCandidates || []).find(candidate => candidate.name === name) || null;
 }
 
-function migrationStrategy(items,candidate){
+function migrationStrategy(items,candidate,{assetProjection=false}={}){
+  if(assetProjection) return 'asset-projection';
   const risks=[...new Set(items.flatMap(item => item.script?.riskFlags || []))];
   const scripts=items.filter(item => item.script);
   const remotes=items.filter(item =>
@@ -221,7 +227,9 @@ export function buildRobloxMigrationPlan(catalog,rawRules={}){
     const candidate=findCandidate(catalog,group.systemName);
     const capabilities=[...new Set(items.flatMap(item => item.capabilities || []))].sort();
     const riskFlags=[...new Set(items.flatMap(item => item.script?.riskFlags || []))].sort();
-    const strategy=migrationStrategy(items,candidate);
+    const strategy=migrationStrategy(items,candidate,{
+      assetProjection:rules.assetProjectionSystems.includes(group.systemName)
+    });
     const selection=selectUnit({
       candidate,
       capabilities,
@@ -233,12 +241,17 @@ export function buildRobloxMigrationPlan(catalog,rawRules={}){
     const bucket=targetBucket(capabilities,strategy);
 
     const blockers=[];
-    if(riskFlags.length) blockers.push('risk-flags:' + riskFlags.join(','));
+    if(riskFlags.length && strategy !== 'asset-projection'){
+      blockers.push('risk-flags:' + riskFlags.join(','));
+    }
     if(dependencies.external.length){
       blockers.push('external-dependencies:' + dependencies.external.length);
     }
     if(strategy === 'refactor'){
       blockers.push('logic-refactor-required');
+    }
+    if(strategy === 'asset-projection'){
+      blockers.push('asset-projection-strips-executable-network-descendants');
     }
 
     const unitId=[
@@ -258,12 +271,15 @@ export function buildRobloxMigrationPlan(catalog,rawRules={}){
       capabilities,
       engineeringLeverageScore:candidate?.engineeringLeverageScore ?? 0,
       migrationStrategy:strategy,
-      exportDisposition:strategy === 'extract' || strategy === 'asset-only'
+      exportDisposition:['extract','asset-only','asset-projection'].includes(strategy)
         ? 'staging'
         : strategy === 'irrelevant'
           ? 'excluded'
           : 'quarantine',
       suggestedTarget:'ServerStorage/StarBloxMigration/' + bucket + '/' + slug(group.systemName),
+      projectionPolicy:strategy === 'asset-projection'
+        ? 'strip-executable-network-v1'
+        : null,
       selected:selection.selected,
       selectionReason:selection.reason,
       blockers,
