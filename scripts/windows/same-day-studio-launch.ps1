@@ -33,6 +33,14 @@ $DonorIndex = Join-Path $RepoRoot "artifacts\same-day-donors\donor-checkout-inde
 if (Test-Path $DonorIndex) {
   & node "scripts/verify-same-day-donor-cache.mjs" --manifest "config/same-day/pipeline.example.json" --index $DonorIndex --out (Join-Path $RepoRoot "artifacts\same-day-donors\local-verification.json")
   if ($LASTEXITCODE -ne 0) { throw "Pinned donor cache verification failed." }
+
+  $DefaultBundleDir = Join-Path $RepoRoot "artifacts\same-day-starblox"
+  if (([IO.Path]::GetFullPath($BundleDir)) -eq ([IO.Path]::GetFullPath($DefaultBundleDir))) {
+    & npm run same-day:pipeline -- --manifest "config/same-day/pipeline.example.json" --resume --stop-after checkout-rorooms
+    if ($LASTEXITCODE -ne 0) { throw "Could not bind cached donor checkouts into the same-day pipeline state." }
+  } else {
+    Write-Warning "Custom BundleDir prevents automatic pipeline-state checkout binding; donor cache itself is verified."
+  }
 }
 
 $Place = Join-Path $BundleDir "StarBloxSameDay.rbxlx"
