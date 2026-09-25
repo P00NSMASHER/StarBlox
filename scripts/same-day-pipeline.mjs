@@ -241,6 +241,22 @@ async function execute(stage){
           error:'authorized donor checkout origin does not match ' + repository
         };
       }
+
+      const localHead=await run('git',['-C',checkout,'rev-parse','HEAD'],{cwd:root});
+      const localExact=localHead.ok ? localHead.stdout.trim().toLowerCase() : '';
+      if(localHead.ok && localExact === commit.toLowerCase()){
+        return {
+          ok:true,
+          status:0,
+          startedAt,
+          completedAt:new Date().toISOString(),
+          repository,
+          commit:localExact,
+          checkout,
+          cached:true,
+          networkFetch:false
+        };
+      }
     }else{
       await mkdir(dirname(checkout),{recursive:true});
       const cloned=await run('git',[
