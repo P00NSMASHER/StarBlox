@@ -239,6 +239,96 @@ jobs:
           grep -q '"id": "gate-security"' artifacts/same-day-starblox/same-day-pipeline-plan.json
           grep -q '"id": "gate-performance"' artifacts/same-day-starblox/same-day-pipeline-plan.json
           grep -q '"publicationAllowed": false' artifacts/same-day-starblox/same-day-pipeline-plan.json
+      - name: Smoke-test same-day evidence gates
+        run: |
+          cat > /tmp/same-day-integrated-run.json <<'JSON'
+          {
+            "runId": "ci-same-day-run",
+            "runHash": "fnv1a32:12345678",
+            "status": "verified",
+            "studioAttestation": {
+              "required": true,
+              "attested": true
+            },
+            "rollback": {
+              "ok": true
+            },
+            "repository": {
+              "gates": {
+                "tests": {"ok": true},
+                "certification": {"ok": true},
+                "balance": {"ok": true},
+                "build": {"ok": true}
+              }
+            },
+            "plan": {
+              "acceptance": [
+                "Mobile touch and small-screen usability is visually verified",
+                "Server-authoritative progression remains intact"
+              ],
+              "visual": {"required": true}
+            },
+            "cycles": [
+              {
+                "stage": "verify",
+                "evidence": {
+                  "errors": [],
+                  "visualReview": {"ok": true},
+                  "runtime": {
+                    "errors": [],
+                    "screenshot": {
+                      "captured": true,
+                      "width": 390,
+                      "height": 844
+                    },
+                    "telemetry": {
+                      "performance": {
+                        "averageHz": 60,
+                        "p95FrameMs": 20,
+                        "memoryMb": 350
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+          JSON
+          node scripts/same-day-evidence-gate.mjs --gate mobile --run /tmp/same-day-integrated-run.json --out /tmp/mobile-gate.json
+          node scripts/same-day-evidence-gate.mjs --gate security --run /tmp/same-day-integrated-run.json --out /tmp/security-gate.json
+          node scripts/same-day-evidence-gate.mjs --gate performance --run /tmp/same-day-integrated-run.json --out /tmp/performance-gate.json --min-hz 25 --max-p95-ms 50
+          for gate in mobile security performance; do
+            grep -q '"status": "passed"' "/tmp/$gate-gate.json"
+            grep -q '"publicationAllowed": false' "/tmp/$gate-gate.json"
+            grep -Eq '"receiptHash": "sha256:[a-f0-9]{64}"' "/tmp/$gate-gate.json"
+          done
+          node --input-type=module - <<'NODE'
+          import {createHash} from 'node:crypto';
+          import {readFile} from 'node:fs/promises';
+          const run=await readFile('/tmp/same-day-integrated-run.json');
+          const expected=createHash('sha256').update(run).digest('hex');
+          for(const gate of ['mobile','security','performance']){
+            const receipt=JSON.parse(await readFile('/tmp/'+gate+'-gate.json','utf8'));
+            if(receipt.integratedRun.sha256!==expected){
+              throw new Error(gate+' receipt not bound to exact integrated run');
+            }
+            const {receiptHash,...payload}=receipt;
+            const computed='sha256:'+createHash('sha256').update(JSON.stringify(payload)).digest('hex');
+            if(computed!==receiptHash) throw new Error(gate+' receipt hash mismatch');
+          }
+          NODE
+          cp /tmp/same-day-integrated-run.json /tmp/same-day-integrated-run-bad.json
+          node --input-type=module - <<'NODE'
+          import {readFile,writeFile} from 'node:fs/promises';
+          const path='/tmp/same-day-integrated-run-bad.json';
+          const run=JSON.parse(await readFile(path,'utf8'));
+          run.cycles[0].evidence.runtime.telemetry.performance.p95FrameMs=200;
+          await writeFile(path,JSON.stringify(run));
+          NODE
+          if node scripts/same-day-evidence-gate.mjs --gate performance --run /tmp/same-day-integrated-run-bad.json --max-p95-ms 50; then
+            echo "expected failing performance evidence to be rejected"
+            exit 1
+          fi
       - name: Run tests
         run: npm test
       - name: Run certification gate
