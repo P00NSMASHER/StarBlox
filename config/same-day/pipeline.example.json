@@ -9,7 +9,12 @@
     "sourceId": "authorized-brookhaven",
     "input": "../../sources/authorized/Brookhaven.rbxl",
     "migrationRules": "../roblox-migration.rules.example.json",
-    "request": "Adapt the selected authorized Brookhaven world, housing, vehicle, avatar and presentation units behind StarBlox authority. Preserve StarBlox ProfileStore, typed networking, quest/mastery and economy authority."
+    "request": "Adapt the selected authorized Brookhaven world, housing, vehicle, avatar and presentation units behind StarBlox authority. Preserve StarBlox ProfileStore, typed networking, quest/mastery and economy authority.",
+    "download": {
+      "url": "https://raw.githubusercontent.com/IIIStatusIII/Roblox-Uncopylocked-Games/main/Brookhaven.rbxl",
+      "sha256": "ddc2248663770e968dfe2b27b97b577c0c12fd93177305b884bed9c929923217",
+      "bytes": 1276795
+    }
   },
   "donors": [
     {
@@ -17,7 +22,12 @@
       "sourceId": "authorized-robbing-simulator",
       "input": "../../sources/authorized/Robbing-Simulator.rbxl",
       "migrationRules": "../roblox-migration.rules.example.json",
-      "request": "Adapt only the selected Robbing Simulator NPC, event, housing/placeable and interaction systems behind StarBlox authority. Exclude obsolete or age-inappropriate mechanics."
+      "request": "Adapt only the selected Robbing Simulator NPC, event, housing/placeable and interaction systems behind StarBlox authority. Exclude obsolete or age-inappropriate mechanics.",
+      "download": {
+        "url": "https://devforum.roblox.com/uploads/short-url/beIcwQ8KgqJA5BlbmyCyu78a7g4.rbxl",
+        "sha256": "f413653c19d124517c4dc5409b635ae58122d4e1a63255e9aa7608fd0ba9f920",
+        "bytes": 2531904
+      }
     }
   ],
   "integrationTasks": [
