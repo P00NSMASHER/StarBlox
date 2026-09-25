@@ -3,6 +3,7 @@
 local HttpService = game:GetService("HttpService")
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
+local Stats = game:GetService("Stats")
 local StudioTestService = game:GetService("StudioTestService")
 local VirtualInputManager = game:GetService("VirtualInputManager")
 
@@ -188,6 +189,35 @@ function Runtime:sampleState(args: any): any
 			isServer = RunService:IsServer(),
 			isClient = RunService:IsClient(),
 			isStudio = RunService:IsStudio(),
+		}
+	end
+
+	if requested.performance then
+		local sampleSeconds = math.clamp(tonumber(args.sampleSeconds) or 0.5, 0.25, 2)
+		local frameTimes = {}
+		local started = os.clock()
+		while os.clock() - started < sampleSeconds do
+			local dt = RunService.Heartbeat:Wait()
+			table.insert(frameTimes, dt * 1000)
+		end
+		table.sort(frameTimes)
+		local elapsed = math.max(0.001, os.clock() - started)
+		local p95Index = math.max(1, math.ceil(#frameTimes * 0.95))
+		local totalFrameMs = 0
+		for _, ms in frameTimes do
+			totalFrameMs += ms
+		end
+		local memoryMb = nil
+		pcall(function()
+			memoryMb = Stats:GetTotalMemoryUsageMb()
+		end)
+		out.performance = {
+			sampleSeconds = elapsed,
+			frames = #frameTimes,
+			averageHz = #frameTimes / elapsed,
+			averageFrameMs = #frameTimes > 0 and (totalFrameMs / #frameTimes) or nil,
+			p95FrameMs = frameTimes[p95Index],
+			memoryMb = memoryMb,
 		}
 	end
 
