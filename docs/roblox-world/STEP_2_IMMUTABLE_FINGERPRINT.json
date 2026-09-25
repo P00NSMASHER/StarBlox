@@ -1,0 +1,119 @@
+{
+  "schemaVersion": "starblox-brookhaven-world-fingerprint-snapshot-v1",
+  "step": "target-architecture-2-of-6",
+  "status": "verified",
+  "verifiedBy": {
+    "workflow": "StarBlox CI",
+    "runId": 36181323661
+  },
+  "source": {
+    "label": "Brookhaven Map serialized world",
+    "type": "serialized-lua-world-table",
+    "bytes": 3182943,
+    "sha256": "e9abef1d41b85a8f83aca36ba661de41f4321562937c1e2eea907395c292d694",
+    "rightsStatus": "verified-for-project-use"
+  },
+  "fingerprintHash": "sha256:99722a254d3ddcb9032fbafe8acf1e4d000c2ff54ecdd3e3d1e804a9b68c8c6a",
+  "structure": {
+    "entryMarkers": {
+      "count": 4936,
+      "uniqueCount": 4936,
+      "minimumIndex": 1,
+      "maximumIndex": 4936,
+      "duplicateCount": 0,
+      "missingIndexCount": 0,
+      "contiguousFromOne": true,
+      "indexSequenceSha256": "3a45f5552a960ee34564b25d17a96cb20e4062cb4acdb4b6a8486174e2279863"
+    },
+    "positions": {
+      "count": 4936,
+      "min": [
+        -3705.706298828125,
+        3595.52783203125,
+        -610.9105224609375
+      ],
+      "max": [
+        -963.150634765625,
+        3904.85498046875,
+        2208.18701171875
+      ]
+    },
+    "sizes": {
+      "count": 4936,
+      "min": [
+        0.04878345876932144,
+        0.04878345876932144,
+        0.04878345876932144
+      ],
+      "max": [
+        1998.17041015625,
+        492.7134704589844,
+        1998.17041015625
+      ]
+    },
+    "shapeCounts": {
+      "Block": 4244,
+      "Seat": 271,
+      "Wedge": 247,
+      "Cylinder": 136,
+      "Corner": 31,
+      "Ball": 5,
+      "Vehicle Seat": 2
+    },
+    "primaryMaterialCounts": {
+      "SmoothPlastic": 4452,
+      "Neon": 242,
+      "Plastic": 231
+    },
+    "surfaceCounts": {
+      "Smooth": 27460,
+      "SmoothNoOutlines": 1634,
+      "Weld": 197,
+      "Inlet": 193,
+      "Studs": 105,
+      "Universal": 21,
+      "Hinge": 4,
+      "Glue": 2
+    },
+    "assetReferences": {
+      "uniqueCount": 8,
+      "sortedIdsSha256": "ecc2c617767a42dd9723b721240d6aba2af48d18f3a22ec5103db565ea8893ba",
+      "ids": [
+        "386188498",
+        "461088522",
+        "474389588",
+        "1337543143",
+        "2373177878",
+        "5812251043",
+        "5814230667",
+        "6850451632"
+      ]
+    },
+    "lexicalCounts": {
+      "decalBlocks": 494,
+      "meshBlocks": 62,
+      "anchoredTrue": 4910,
+      "anchoredFalse": 26,
+      "canCollideTrue": 2705,
+      "canCollideFalse": 2231,
+      "enumReferences": 556
+    }
+  },
+  "metadataDiscrepancies": [
+    {
+      "field": "source.observedTopLevelEntryMarkers",
+      "manifestValue": 4935,
+      "verifiedValue": 4936,
+      "resolution": "The exact frozen bytes contain indices 1..4936 exactly once. The Step-1 manifest observation is non-normative; byte length and SHA-256 remain authoritative."
+    }
+  ],
+  "boundaries": {
+    "sourceExecuted": false,
+    "sourceEvaluatedAsLua": false,
+    "sourceInsertedIntoStudio": false,
+    "robloxPlaceMutated": false,
+    "publicationStarted": false,
+    "liveActivationAllowed": false
+  },
+  "nextStep": "target-architecture-3-safe-world-deserialization"
+}
