@@ -1,0 +1,157 @@
+name: Brookhaven Research Boundary
+
+on:
+  push:
+    branches:
+      - brookhaven-research-snapshot-v1
+      - "integration/brookhaven-replay-v2-*"
+    paths:
+      - "docs/preproduction/brookhaven-research/**"
+      - "scripts/validateBrookhavenResearchArtifacts.mjs"
+      - "scripts/validateBrookhavenReplayStage.mjs"
+      - "scripts/assertBrookhavenReuseBoundary.mjs"
+      - "scripts/assertBrookhavenLearningSeparation.mjs"
+      - "scripts/convertBrookhavenNeutralScene.mjs"
+      - "scripts/validateBrookhavenProxyVerticalSlice.mjs"
+      - "scripts/buildBrookhavenResearchWithKnownBaseFix.mjs"
+      - "src/**"
+      - "package.json"
+      - ".github/workflows/brookhaven-research-boundary.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-research-boundary:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install dependencies
+        run: |
+          npm install --global npm@11.6.2
+          npm install --ignore-scripts --package-lock=false
+
+      - name: Fetch product replay base
+        if: startsWith(github.ref_name, 'integration/brookhaven-replay-v2-')
+        run: git fetch --no-tags origin screenshot-match-preproduction
+
+      - name: Validate staged Brookhaven replay
+        if: startsWith(github.ref_name, 'integration/brookhaven-replay-v2-')
+        env:
+          BROOKHAVEN_REPLAY_PRODUCT_REF: origin/screenshot-match-preproduction
+        run: |
+          node scripts/validateBrookhavenReplayStage.mjs
+          node scripts/assertBrookhavenReuseBoundary.mjs
+          node scripts/assertBrookhavenLearningSeparation.mjs
+          node scripts/validateBrookhavenProxyVerticalSlice.mjs
+
+      - name: Run full research validation when replay Groups 2-5 are complete
+        if: startsWith(github.ref_name, 'integration/brookhaven-replay-v2-')
+        run: |
+          required=(
+            src/residentialFeatureRuntime.js
+            src/vehicleSystemRuntime.js
+            src/neutralVehicleDefinitionCatalog.js
+            src/neutralVehicleRuntimePreview.js
+            src/townSystemRuntime.js
+            src/neutralTownLocationCatalog.js
+            src/starBloxProxyTownTopology.js
+            src/neutralTownRuntimePreview.js
+            src/lifeSimProgressionShadowRuntime.js
+            src/neutralProgressionRuleCatalog.js
+            src/neutralProgressionRuntimePreview.js
+          )
+          complete=1
+          for file in "${required[@]}"; do
+            if [[ ! -f "$file" ]]; then complete=0; fi
+          done
+          if [[ "$complete" -eq 1 ]]; then
+            node scripts/validateBrookhavenResearchArtifacts.mjs
+          else
+            echo "Full research validation deferred until replay Groups 2-5 are complete."
+          fi
+
+      - name: Test replayed Brookhaven runtime layers
+        if: startsWith(github.ref_name, 'integration/brookhaven-replay-v2-')
+        run: |
+          candidates=(
+            src/residentialFeatureRuntime.test.js
+            src/neutralVehicleDefinitionCatalog.test.js
+            src/neutralVehicleRuntimePreview.test.js
+            src/vehicleSystemRuntime.test.js
+            src/neutralTownLocationCatalog.test.js
+            src/starBloxProxyTownTopology.test.js
+            src/neutralTownRuntimePreview.test.js
+            src/townSystemRuntime.test.js
+            src/neutralProgressionRuleCatalog.test.js
+            src/neutralProgressionRuntimePreview.test.js
+            src/lifeSimProgressionShadowRuntime.test.js
+          )
+          tests=()
+          for file in "${candidates[@]}"; do
+            if [[ -f "$file" ]]; then tests+=("$file"); fi
+          done
+          if (( ${#tests[@]} )); then
+            npx vitest run "${tests[@]}"
+          else
+            echo "No Brookhaven runtime replay tests are present at the current stage."
+          fi
+
+      - name: Build current product base during staged replay
+        if: startsWith(github.ref_name, 'integration/brookhaven-replay-v2-')
+        run: npm run build
+
+      - name: Use Node 22 for final Stage 6 product CI
+        if: startsWith(github.ref_name, 'integration/brookhaven-replay-v2-')
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Run full StarBlox product CI at replay Stage 6
+        if: startsWith(github.ref_name, 'integration/brookhaven-replay-v2-')
+        run: |
+          stage6=$(node -e "const p=require('./package.json'); const s=p.scripts||{}; const req=['validate:brookhaven-research','test:brookhaven-residential','test:brookhaven-step-8-10','assert:brookhaven-learning-separation']; process.stdout.write(req.every(k=>typeof s[k]==='string')?'yes':'no')")
+          if [[ "$stage6" != "yes" ]]; then
+            echo "Full product CI deferred until replay Stage 6."
+            exit 0
+          fi
+          npm install --no-audit --no-fund
+          timeout 120s npm test -- --reporter=verbose
+          node --test \
+            scripts/artPromptOptimizer.node-test.mjs \
+            scripts/artFactoryJob.node-test.mjs \
+            scripts/artReviewNormalizer.node-test.mjs \
+            scripts/artFactoryState.node-test.mjs \
+            scripts/artFactoryStagedHandoff.node-test.mjs \
+            scripts/artQaWorkflowContract.node-test.mjs \
+            scripts/canonicalPublicationContract.node-test.mjs \
+            scripts/catalogFallbackBacklog.node-test.mjs \
+            scripts/artRegenerationQueue.node-test.mjs \
+            scripts/artWorkflowAudit.node-test.mjs
+          python3 scripts/artPromptTokenPreflight.py --self-test
+          npm run build
+
+      - name: Validate Brookhaven research artifacts and boundaries
+        if: github.ref_name == 'brookhaven-research-snapshot-v1'
+        run: npm run validate:brookhaven-research
+
+      - name: Test StarBlox-neutral residential runtime
+        if: github.ref_name == 'brookhaven-research-snapshot-v1'
+        run: npm run test:brookhaven-residential
+
+      - name: Test vehicle town and progression research runtimes
+        if: github.ref_name == 'brookhaven-research-snapshot-v1'
+        run: npm run test:brookhaven-step-8-10
+
+      - name: Build StarBlox with verified temporary inherited-base fix
+        if: github.ref_name == 'brookhaven-research-snapshot-v1'
+        run: npm run build:brookhaven-research

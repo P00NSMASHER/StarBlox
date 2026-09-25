@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "starblox://schemas/neutral-town-location-v1",
+  "title": "StarBlox Neutral Town Location v1",
+  "description": "Closed source-neutral location definition for the Step 9 town system research boundary.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "id",
+    "label",
+    "category",
+    "lifecycle",
+    "playerFacingEligible",
+    "evidenceRef",
+    "safety"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "starblox-neutral-town-location-v1"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+      "minLength": 1,
+      "maxLength": 64
+    },
+    "label": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "civic",
+        "education",
+        "health",
+        "emergency",
+        "commerce",
+        "community",
+        "transport",
+        "recreation",
+        "research-deferred"
+      ]
+    },
+    "lifecycle": {
+      "type": "string",
+      "enum": [
+        "player-facing",
+        "research-deferred"
+      ]
+    },
+    "playerFacingEligible": {
+      "type": "boolean"
+    },
+    "evidenceRef": {
+      "type": "string",
+      "minLength": 1
+    },
+    "safety": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "externalRuntimeDependency",
+        "remoteDependency",
+        "exactSourceCoordinatesClaimed"
+      ],
+      "properties": {
+        "externalRuntimeDependency": {
+          "const": false
+        },
+        "remoteDependency": {
+          "const": false
+        },
+        "exactSourceCoordinatesClaimed": {
+          "const": false
+        }
+      }
+    }
+  }
+}

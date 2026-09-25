@@ -1,0 +1,202 @@
+{
+  "schemaVersion": "starblox-town-system-blueprint-v1",
+  "step": "9-of-12",
+  "generatedAt": "2026-09-24",
+  "status": "production-candidate-runtime-not-wired",
+  "sourceTaxonomy": "docs/preproduction/brookhaven-research/asset-graph-v1.json",
+  "rightsStatus": "verified-for-project-use",
+  "topologyPolicy": "Location categories/names are evidence-backed; graph connections and layout are original StarBlox proxy design and are not claimed to reproduce Brookhaven coordinates.",
+  "locations": [
+    {
+      "id": "town-hall",
+      "label": "Town Hall",
+      "category": "civic",
+      "sourceEvidence": "Town Hall",
+      "playerFacingEligible": true
+    },
+    {
+      "id": "school",
+      "label": "School",
+      "category": "education",
+      "sourceEvidence": "School",
+      "playerFacingEligible": true
+    },
+    {
+      "id": "daycare",
+      "label": "Daycare",
+      "category": "education",
+      "sourceEvidence": "DayCare",
+      "playerFacingEligible": true
+    },
+    {
+      "id": "hospital",
+      "label": "Hospital",
+      "category": "health",
+      "sourceEvidence": "Hospital",
+      "playerFacingEligible": true
+    },
+    {
+      "id": "fire-department",
+      "label": "Fire Department",
+      "category": "emergency",
+      "sourceEvidence": "Fire Department",
+      "playerFacingEligible": true
+    },
+    {
+      "id": "bank",
+      "label": "Bank",
+      "category": "civic",
+      "sourceEvidence": "Bank",
+      "playerFacingEligible": true
+    },
+    {
+      "id": "commercial-stores",
+      "label": "Commercial Stores",
+      "category": "commerce",
+      "sourceEvidence": "Commercial Stores",
+      "playerFacingEligible": true
+    },
+    {
+      "id": "auto-shop",
+      "label": "Auto Shop",
+      "category": "commerce",
+      "sourceEvidence": "Auto Shop",
+      "playerFacingEligible": true
+    },
+    {
+      "id": "auto-mall",
+      "label": "Auto Mall",
+      "category": "commerce",
+      "sourceEvidence": "Auto Mall",
+      "playerFacingEligible": true
+    },
+    {
+      "id": "church",
+      "label": "Church",
+      "category": "community",
+      "sourceEvidence": "Church",
+      "playerFacingEligible": true
+    },
+    {
+      "id": "subway",
+      "label": "Subway",
+      "category": "transport",
+      "sourceEvidence": "Subway",
+      "playerFacingEligible": true
+    },
+    {
+      "id": "airport",
+      "label": "Airport",
+      "category": "transport",
+      "sourceEvidence": "Airport",
+      "playerFacingEligible": true
+    },
+    {
+      "id": "yacht",
+      "label": "Yacht",
+      "category": "recreation",
+      "sourceEvidence": "Yacht",
+      "playerFacingEligible": true
+    },
+    {
+      "id": "horse-stables",
+      "label": "Horse Stables",
+      "category": "recreation",
+      "sourceEvidence": "Horse Stables",
+      "playerFacingEligible": true
+    },
+    {
+      "id": "burger-barn",
+      "label": "Burger Barn",
+      "category": "commerce",
+      "sourceEvidence": "Burger Barn",
+      "playerFacingEligible": true
+    },
+    {
+      "id": "mystery-zone",
+      "label": "Mystery Zone",
+      "category": "research-deferred",
+      "sourceEvidence": "Brookhaven Secrets",
+      "playerFacingEligible": false
+    },
+    {
+      "id": "restricted-zone",
+      "label": "Restricted Zone",
+      "category": "research-deferred",
+      "sourceEvidence": "Criminal Area",
+      "playerFacingEligible": false
+    }
+  ],
+  "proxyEdges": [
+    [
+      "town-hall",
+      "school"
+    ],
+    [
+      "town-hall",
+      "hospital"
+    ],
+    [
+      "town-hall",
+      "bank"
+    ],
+    [
+      "town-hall",
+      "commercial-stores"
+    ],
+    [
+      "town-hall",
+      "church"
+    ],
+    [
+      "town-hall",
+      "subway"
+    ],
+    [
+      "school",
+      "daycare"
+    ],
+    [
+      "school",
+      "burger-barn"
+    ],
+    [
+      "hospital",
+      "fire-department"
+    ],
+    [
+      "commercial-stores",
+      "auto-shop"
+    ],
+    [
+      "commercial-stores",
+      "auto-mall"
+    ],
+    [
+      "commercial-stores",
+      "horse-stables"
+    ],
+    [
+      "subway",
+      "airport"
+    ],
+    [
+      "airport",
+      "yacht"
+    ]
+  ],
+  "systemCapabilities": [
+    "unlock-location",
+    "visit-location",
+    "route-between-unlocked-locations",
+    "per-location visit history",
+    "player-facing eligibility filter"
+  ],
+  "nonGoals": [
+    "no exact Brookhaven coordinate reconstruction",
+    "no Brookhaven remotes",
+    "no App.jsx wiring",
+    "no live quest routing",
+    "deferred/restricted source areas are not player-facing in this prototype"
+  ]
+}

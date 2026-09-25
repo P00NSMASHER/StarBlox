@@ -1,0 +1,199 @@
+{
+  "schemaVersion": "starblox-brookhaven-step-12-gap-hunt-v1",
+  "step": "12-of-12",
+  "recordedAt": "2026-09-24",
+  "status": "complete-targeted-github-gap-hunt",
+  "purpose": "Close the 12-step Brookhaven research plan by searching only implementation-exposed gaps, pinning new evidence, recording negative results, and reprioritizing what must come from authorized source/export channels rather than repeated broad GitHub sweeps.",
+  "rightsContext": {
+    "status": "verified-for-project-use",
+    "note": "Project rights status was previously updated based on prior evidence confirmed by the user; this Step 12 search still tracks public repository provenance separately."
+  },
+  "searchedGaps": [
+    {
+      "id": "ported-vehicle-return-payload",
+      "target": "ReplicatedStorage.Remotes.GetListOfPortedVehicles return data",
+      "githubOutcome": "not-found",
+      "evidenceFound": [
+        "runtime function name only in brookhaven-runtime-scan"
+      ],
+      "recoveredPayload": false,
+      "repeatSearchPolicy": "do-not-repeat-unless-new-repository-corpus-or-new-symbols-surface"
+    },
+    {
+      "id": "houses-backing-table",
+      "target": "ReplicatedStorage.Modules.Client.UI.LoadableEntries.Houses backing table",
+      "githubOutcome": "not-found",
+      "recoveredPayload": false,
+      "repeatSearchPolicy": "do-not-repeat-unless-module-source-or decompile/export becomes available"
+    },
+    {
+      "id": "mansions-backing-table",
+      "target": "ReplicatedStorage.Modules.Client.UI.LoadableEntries.Mansions backing table",
+      "githubOutcome": "not-found",
+      "recoveredPayload": false,
+      "repeatSearchPolicy": "same-as-houses"
+    },
+    {
+      "id": "motels-backing-table",
+      "target": "ReplicatedStorage.Modules.Client.UI.LoadableEntries.Motels backing table",
+      "githubOutcome": "not-found",
+      "recoveredPayload": false,
+      "repeatSearchPolicy": "same-as-houses"
+    },
+    {
+      "id": "apartments-backing-table",
+      "target": "ReplicatedStorage.Modules.Client.UI.LoadableEntries.Apartments backing table",
+      "githubOutcome": "not-found",
+      "recoveredPayload": false,
+      "repeatSearchPolicy": "same-as-houses"
+    },
+    {
+      "id": "house-id-mesh-texture-map",
+      "target": "031_House / 049_House / 052_House / 056_House -> MeshId/TextureId tables",
+      "githubOutcome": "not-found",
+      "recoveredPayload": false,
+      "queriesChecked": [
+        "\"031_House\" \"MeshId\"",
+        "\"049_House\" \"MeshId\"",
+        "\"052_House\" \"MeshId\"",
+        "\"056_House\" \"MeshId\""
+      ]
+    },
+    {
+      "id": "brookhaven-place-files",
+      "target": "Brookhaven .rbxl/.rbxlx/.rbxm/.rbxmx payloads",
+      "githubOutcome": "no-code-search-hits",
+      "recoveredPayload": false,
+      "queriesChecked": [
+        "Brookhaven extension:rbxl",
+        "Brookhaven extension:rbxlx",
+        "Brookhaven extension:rbxm",
+        "Brookhaven extension:rbxmx"
+      ]
+    },
+    {
+      "id": "map-module-110191289672557",
+      "target": "Contents behind Roblox module 110191289672557 labeled Brookhaven Map",
+      "githubOutcome": "independent-wrapper-corroborated-module-pointer-only",
+      "recoveredPayload": false,
+      "newlyPinnedEvidence": [
+        {
+          "repository": "Cristianboy9/Requires-Roblox-Pekora",
+          "commit": "c808eb4fdb7a661ec2cd627d160b963127a28dbc",
+          "path": "Maps/Brookhaven.lua",
+          "gitBlobSha1": "3d5069994eaf39a9ad99ab4c2208baad23444716",
+          "observedTextLength": 38,
+          "observedCall": "require(110191289672557).brookhaven()",
+          "publicLicense": "none-detected-in-repository-tree"
+        }
+      ]
+    },
+    {
+      "id": "venom-island-service",
+      "target": "Brookhaven/IslandService.lua referenced by preserved Brookhaven source",
+      "githubOutcome": "found-but-obfuscated-runtime-module-not-asset-catalog",
+      "recoveredPayload": false,
+      "newlyPinnedEvidence": [
+        {
+          "repository": "Venom-DevX/Modules",
+          "commit": "2f68279a7a5664742847ce5be310b3b666bd30bc",
+          "path": "Brookhaven/IslandService.lua",
+          "gitBlobSha1": "13e5c807dce19723ca9862a2bf8ec9155dbc006b",
+          "observedTextLength": 78346,
+          "classification": "obfuscated-runtime-module",
+          "publicLicense": "none-detected-in-repository-tree",
+          "productionUse": "forbidden-by-reuse-boundary"
+        }
+      ]
+    },
+    {
+      "id": "vehicle-catalog-refresh",
+      "target": "Newer public mirrors of the 13-name current vehicle catalog",
+      "githubOutcome": "corroborated-no-new-identifiers-or-visual-payloads",
+      "recoveredPayload": false,
+      "notes": [
+        "Current public mirrors continue to repeat SchoolBus, SmartCar, FarmTruck, Cadillac, Excavator, Jeep, NascarTruck, TowTruck, Snowplow, MilitaryTruck, Tank, Limo, FireTruck.",
+        "No searched result tied those names to Brookhaven-specific MeshId/TextureId payloads."
+      ]
+    }
+  ],
+  "refreshedEvidence": [
+    {
+      "repository": "HOSTI1315/Opensurs",
+      "currentHeadAtStep12": "73980f9b00b85225bc47c12fdb184d124d7e5f52",
+      "relevantPath": "Brookhaven.lua.txt",
+      "gitBlobSha1": "a83bf37be1bf8635cc7851906ead200bee43b85b",
+      "finding": "Relevant Brookhaven.lua.txt blob is unchanged from the Step 1 pinned artifact despite repository head advancement; no new asset payload was gained from the newer head."
+    }
+  ],
+  "strongestExistingPayloadsAfterStep12": [
+    {
+      "rank": 1,
+      "source": "hahssas Brookhaven Map gist 800060cf55ddf767c6d0e57e6248b51d",
+      "value": "serialized scene geometry/property graph with CFrames, sizes, materials, colors, decals and asset references",
+      "status": "best-current-visual-scene-input",
+      "nextAction": "normalize authorized scene data through Step 5 converter after controlled reconciliation"
+    },
+    {
+      "rank": 2,
+      "source": "Aqui-chatgpt runtime scan",
+      "value": "current object taxonomy and subsystem graph",
+      "status": "best-current-structure-input",
+      "nextAction": "use to map normalized assets/features to town/residential/vehicle systems"
+    },
+    {
+      "rank": 3,
+      "source": "Opensurs + Vazador",
+      "value": "property IDs, lots, vehicle names and behavior vocabulary",
+      "status": "best-current-catalog-identifier-input",
+      "nextAction": "retain as identifier/provenance layer; do not ship runtime calls"
+    }
+  ],
+  "postPlanPriorityQueue": [
+    {
+      "priority": 1,
+      "action": "Reconcile the neutral Brookhaven research files/runtimes onto a fresh stabilized StarBlox product branch using the Step 11 controlled replay manifest.",
+      "reason": "The research branch is intentionally far behind the moving product branch; real asset work should occur on the stabilized lineage."
+    },
+    {
+      "priority": 2,
+      "action": "Use the verified-rights source channel to obtain/export the actual payload behind module 110191289672557 or equivalent authorized Brookhaven map source, then hash and convert it.",
+      "reason": "GitHub only exposes wrappers/pointers, not module contents."
+    },
+    {
+      "priority": 3,
+      "action": "Obtain an authorized Studio/runtime export of LoadableEntries.Houses/Mansions/Motels/Apartments and GetListOfPortedVehicles results.",
+      "reason": "Those tables are the missing bridge from identifiers to complete current asset catalogs."
+    },
+    {
+      "priority": 4,
+      "action": "Map recovered house/vehicle payloads to the existing resolved-catalog IDs and Step 5 neutral conversion schema, preserving provenance per asset.",
+      "reason": "Prevents mixing recovered visuals with inferred catalog names."
+    },
+    {
+      "priority": 5,
+      "action": "Replace Step 6 proxy objects incrementally with rights-cleared normalized assets and run performance/content QA after each category.",
+      "reason": "Provides a controlled path from research proxy to real vertical slice."
+    },
+    {
+      "priority": 6,
+      "action": "Resume GitHub search only when implementation reveals a specific unresolved filename, asset ID, internal module name, or content-table symbol.",
+      "reason": "Broad and repeated searches now mostly return duplicate exploit/script mirrors and have declining information value."
+    }
+  ],
+  "commercialInterpretation": {
+    "strongestNearTermLeverage": "The serialized map + runtime taxonomy + resolved catalog IDs already save substantial reverse-engineering/design time even without complete visual payload tables.",
+    "remainingBottleneck": "asset-level visual payload acquisition/export, not product architecture",
+    "noOverclaim": "Step 12 does not claim complete Brookhaven house or vehicle meshes were recovered from GitHub."
+  },
+  "completion": {
+    "targetedSearchPerformed": true,
+    "newPointersPinned": true,
+    "deadSearchLanesRecorded": true,
+    "recoveredNewVisualPayloads": 0,
+    "futureSearchDedupeReady": true,
+    "twelveStepPlanComplete": true,
+    "mergePerformed": false,
+    "deploymentPerformed": false
+  }
+}

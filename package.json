@@ -6,7 +6,11 @@
   "scripts": {
     "dev": "vite --host 0.0.0.0",
     "build": "vite build",
-    "test": "vitest run"
+    "test": "vitest run",
+    "validate:brookhaven-research": "node scripts/validateBrookhavenResearchArtifacts.mjs && node scripts/assertBrookhavenReuseBoundary.mjs && node scripts/assertBrookhavenLearningSeparation.mjs && node scripts/validateBrookhavenProxyVerticalSlice.mjs",
+    "test:brookhaven-residential": "vitest run src/residentialFeatureRuntime.test.js",
+    "test:brookhaven-step-8-10": "vitest run src/neutralVehicleDefinitionCatalog.test.js src/neutralVehicleRuntimePreview.test.js src/vehicleSystemRuntime.test.js src/neutralTownLocationCatalog.test.js src/starBloxProxyTownTopology.test.js src/neutralTownRuntimePreview.test.js src/townSystemRuntime.test.js src/neutralProgressionRuleCatalog.test.js src/neutralProgressionRuntimePreview.test.js src/lifeSimProgressionShadowRuntime.test.js",
+    "assert:brookhaven-learning-separation": "node scripts/assertBrookhavenLearningSeparation.mjs"
   },
   "dependencies": {
     "lucide-react": "^0.468.0",

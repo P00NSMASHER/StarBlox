@@ -1,0 +1,511 @@
+{
+  "schemaVersion": "starblox-neutral-progression-rule-catalog-v1",
+  "generatedAt": "2026-09-25",
+  "status": "shadow-read-only-runtime-not-wired-live",
+  "ruleSchemaRef": "docs/preproduction/brookhaven-research/neutral-progression-rule-schema-v1.json",
+  "sourceBlueprintRef": "docs/preproduction/brookhaven-research/life-sim-progression-blueprint-v1.json",
+  "rulePolicy": "original-starblox-research-design-not-source-progression-parity",
+  "sourceParityClaims": {
+    "exactSourceProgression": false,
+    "exactSourceEconomy": false
+  },
+  "metrics": [
+    "masteredCount",
+    "questsCompleted",
+    "starWorth",
+    "stars"
+  ],
+  "ruleCount": 42,
+  "counts": {
+    "residential": 14,
+    "vehicle": 13,
+    "town": 15
+  },
+  "mutationBoundary": {
+    "readsExistingSave": true,
+    "writesExistingSave": false,
+    "awardsCoins": false,
+    "deductsCoins": false,
+    "awardsStars": false,
+    "changesStarWorth": false,
+    "changesXp": false,
+    "changesMastery": false,
+    "changesQuestRewards": false
+  },
+  "rules": [
+    {
+      "schemaVersion": "starblox-neutral-progression-rule-v1",
+      "targetType": "residential",
+      "targetId": "dishwasher",
+      "criteria": [
+        {
+          "metric": "questsCompleted",
+          "gte": 3
+        }
+      ],
+      "sourceRef": "docs/preproduction/brookhaven-research/life-sim-progression-blueprint-v1.json#residential/dishwasher"
+    },
+    {
+      "schemaVersion": "starblox-neutral-progression-rule-v1",
+      "targetType": "residential",
+      "targetId": "doorbell",
+      "criteria": [],
+      "sourceRef": "docs/preproduction/brookhaven-research/life-sim-progression-blueprint-v1.json#residential/doorbell"
+    },
+    {
+      "schemaVersion": "starblox-neutral-progression-rule-v1",
+      "targetType": "residential",
+      "targetId": "dresser-storage",
+      "criteria": [
+        {
+          "metric": "starWorth",
+          "gte": 60
+        }
+      ],
+      "sourceRef": "docs/preproduction/brookhaven-research/life-sim-progression-blueprint-v1.json#residential/dresser-storage"
+    },
+    {
+      "schemaVersion": "starblox-neutral-progression-rule-v1",
+      "targetType": "residential",
+      "targetId": "fire-disaster-control",
+      "criteria": [
+        {
+          "metric": "stars",
+          "gte": 3
+        }
+      ],
+      "sourceRef": "docs/preproduction/brookhaven-research/life-sim-progression-blueprint-v1.json#residential/fire-disaster-control"
+    },
+    {
+      "schemaVersion": "starblox-neutral-progression-rule-v1",
+      "targetType": "residential",
+      "targetId": "fridge",
+      "criteria": [
+        {
+          "metric": "questsCompleted",
+          "gte": 2
+        }
+      ],
+      "sourceRef": "docs/preproduction/brookhaven-research/life-sim-progression-blueprint-v1.json#residential/fridge"
+    },
+    {
+      "schemaVersion": "starblox-neutral-progression-rule-v1",
+      "targetType": "residential",
+      "targetId": "front-door",
+      "criteria": [],
+      "sourceRef": "docs/preproduction/brookhaven-research/life-sim-progression-blueprint-v1.json#residential/front-door"
+    },
+    {
+      "schemaVersion": "starblox-neutral-progression-rule-v1",
+      "targetType": "residential",
+      "targetId": "garage-door",
+      "criteria": [
+        {
+          "metric": "questsCompleted",
+          "gte": 1
+        }
+      ],
+      "sourceRef": "docs/preproduction/brookhaven-research/life-sim-progression-blueprint-v1.json#residential/garage-door"
+    },
+    {
+      "schemaVersion": "starblox-neutral-progression-rule-v1",
+      "targetType": "residential",
+      "targetId": "hot-tub",
+      "criteria": [
+        {
+          "metric": "starWorth",
+          "gte": 120
+        }
+      ],
+      "sourceRef": "docs/preproduction/brookhaven-research/life-sim-progression-blueprint-v1.json#residential/hot-tub"
+    },
+    {
+      "schemaVersion": "starblox-neutral-progression-rule-v1",
+      "targetType": "residential",
+      "targetId": "house-controls",
+      "criteria": [
+        {
+          "metric": "questsCompleted",
+          "gte": 3
+        }
+      ],
+      "sourceRef": "docs/preproduction/brookhaven-research/life-sim-progression-blueprint-v1.json#residential/house-controls"
+    },
+    {
+      "schemaVersion": "starblox-neutral-progression-rule-v1",
+      "targetType": "residential",
+      "targetId": "mailbox",
+      "criteria": [],
+      "sourceRef": "docs/preproduction/brookhaven-research/life-sim-progression-blueprint-v1.json#residential/mailbox"
+    },
+    {
+      "schemaVersion": "starblox-neutral-progression-rule-v1",
+      "targetType": "residential",
+      "targetId": "oven",
+      "criteria": [
+        {
+          "metric": "questsCompleted",
+          "gte": 2
+        }
+      ],
+      "sourceRef": "docs/preproduction/brookhaven-research/life-sim-progression-blueprint-v1.json#residential/oven"
+    },
+    {
+      "schemaVersion": "starblox-neutral-progression-rule-v1",
+      "targetType": "residential",
+      "targetId": "room-change",
+      "criteria": [
+        {
+          "metric": "masteredCount",
+          "gte": 2
+        }
+      ],
+      "sourceRef": "docs/preproduction/brookhaven-research/life-sim-progression-blueprint-v1.json#residential/room-change"
+    },
+    {
+      "schemaVersion": "starblox-neutral-progression-rule-v1",
+      "targetType": "residential",
+      "targetId": "safe",
+      "criteria": [
+        {
+          "metric": "stars",
+          "gte": 1
+        }
+      ],
+      "sourceRef": "docs/preproduction/brookhaven-research/life-sim-progression-blueprint-v1.json#residential/safe"
+    },
+    {
+      "schemaVersion": "starblox-neutral-progression-rule-v1",
+      "targetType": "residential",
+      "targetId": "sliding-door",
+      "criteria": [
+        {
+          "metric": "starWorth",
+          "gte": 40
+        }
+      ],
+      "sourceRef": "docs/preproduction/brookhaven-research/life-sim-progression-blueprint-v1.json#residential/sliding-door"
+    },
+    {
+      "schemaVersion": "starblox-neutral-progression-rule-v1",
+      "targetType": "town",
+      "targetId": "airport",
+      "criteria": [
+        {
+          "metric": "masteredCount",
+          "gte": 4
+        }
+      ],
+      "sourceRef": "docs/preproduction/brookhaven-research/life-sim-progression-blueprint-v1.json#town/airport"
+    },
+    {
+      "schemaVersion": "starblox-neutral-progression-rule-v1",
+      "targetType": "town",
+      "targetId": "auto-mall",
+      "criteria": [
+        {
+          "metric": "starWorth",
+          "gte": 100
+        }
+      ],
+      "sourceRef": "docs/preproduction/brookhaven-research/life-sim-progression-blueprint-v1.json#town/auto-mall"
+    },
+    {
+      "schemaVersion": "starblox-neutral-progression-rule-v1",
+      "targetType": "town",
+      "targetId": "auto-shop",
+      "criteria": [
+        {
+          "metric": "starWorth",
+          "gte": 50
+        }
+      ],
+      "sourceRef": "docs/preproduction/brookhaven-research/life-sim-progression-blueprint-v1.json#town/auto-shop"
+    },
+    {
+      "schemaVersion": "starblox-neutral-progression-rule-v1",
+      "targetType": "town",
+      "targetId": "bank",
+      "criteria": [
+        {
+          "metric": "questsCompleted",
+          "gte": 2
+        }
+      ],
+      "sourceRef": "docs/preproduction/brookhaven-research/life-sim-progression-blueprint-v1.json#town/bank"
+    },
+    {
+      "schemaVersion": "starblox-neutral-progression-rule-v1",
+      "targetType": "town",
+      "targetId": "burger-barn",
+      "criteria": [
+        {
+          "metric": "questsCompleted",
+          "gte": 2
+        }
+      ],
+      "sourceRef": "docs/preproduction/brookhaven-research/life-sim-progression-blueprint-v1.json#town/burger-barn"
+    },
+    {
+      "schemaVersion": "starblox-neutral-progression-rule-v1",
+      "targetType": "town",
+      "targetId": "church",
+      "criteria": [
+        {
+          "metric": "masteredCount",
+          "gte": 2
+        }
+      ],
+      "sourceRef": "docs/preproduction/brookhaven-research/life-sim-progression-blueprint-v1.json#town/church"
+    },
+    {
+      "schemaVersion": "starblox-neutral-progression-rule-v1",
+      "targetType": "town",
+      "targetId": "commercial-stores",
+      "criteria": [],
+      "sourceRef": "docs/preproduction/brookhaven-research/life-sim-progression-blueprint-v1.json#town/commercial-stores"
+    },
+    {
+      "schemaVersion": "starblox-neutral-progression-rule-v1",
+      "targetType": "town",
+      "targetId": "daycare",
+      "criteria": [
+        {
+          "metric": "questsCompleted",
+          "gte": 1
+        }
+      ],
+      "sourceRef": "docs/preproduction/brookhaven-research/life-sim-progression-blueprint-v1.json#town/daycare"
+    },
+    {
+      "schemaVersion": "starblox-neutral-progression-rule-v1",
+      "targetType": "town",
+      "targetId": "fire-department",
+      "criteria": [
+        {
+          "metric": "stars",
+          "gte": 2
+        }
+      ],
+      "sourceRef": "docs/preproduction/brookhaven-research/life-sim-progression-blueprint-v1.json#town/fire-department"
+    },
+    {
+      "schemaVersion": "starblox-neutral-progression-rule-v1",
+      "targetType": "town",
+      "targetId": "horse-stables",
+      "criteria": [
+        {
+          "metric": "stars",
+          "gte": 3
+        }
+      ],
+      "sourceRef": "docs/preproduction/brookhaven-research/life-sim-progression-blueprint-v1.json#town/horse-stables"
+    },
+    {
+      "schemaVersion": "starblox-neutral-progression-rule-v1",
+      "targetType": "town",
+      "targetId": "hospital",
+      "criteria": [
+        {
+          "metric": "masteredCount",
+          "gte": 1
+        }
+      ],
+      "sourceRef": "docs/preproduction/brookhaven-research/life-sim-progression-blueprint-v1.json#town/hospital"
+    },
+    {
+      "schemaVersion": "starblox-neutral-progression-rule-v1",
+      "targetType": "town",
+      "targetId": "school",
+      "criteria": [],
+      "sourceRef": "docs/preproduction/brookhaven-research/life-sim-progression-blueprint-v1.json#town/school"
+    },
+    {
+      "schemaVersion": "starblox-neutral-progression-rule-v1",
+      "targetType": "town",
+      "targetId": "subway",
+      "criteria": [
+        {
+          "metric": "questsCompleted",
+          "gte": 4
+        }
+      ],
+      "sourceRef": "docs/preproduction/brookhaven-research/life-sim-progression-blueprint-v1.json#town/subway"
+    },
+    {
+      "schemaVersion": "starblox-neutral-progression-rule-v1",
+      "targetType": "town",
+      "targetId": "town-hall",
+      "criteria": [],
+      "sourceRef": "docs/preproduction/brookhaven-research/life-sim-progression-blueprint-v1.json#town/town-hall"
+    },
+    {
+      "schemaVersion": "starblox-neutral-progression-rule-v1",
+      "targetType": "town",
+      "targetId": "yacht",
+      "criteria": [
+        {
+          "metric": "starWorth",
+          "gte": 250
+        }
+      ],
+      "sourceRef": "docs/preproduction/brookhaven-research/life-sim-progression-blueprint-v1.json#town/yacht"
+    },
+    {
+      "schemaVersion": "starblox-neutral-progression-rule-v1",
+      "targetType": "vehicle",
+      "targetId": "cadillac",
+      "criteria": [
+        {
+          "metric": "starWorth",
+          "gte": 160
+        }
+      ],
+      "sourceRef": "docs/preproduction/brookhaven-research/life-sim-progression-blueprint-v1.json#vehicle/cadillac"
+    },
+    {
+      "schemaVersion": "starblox-neutral-progression-rule-v1",
+      "targetType": "vehicle",
+      "targetId": "excavator",
+      "criteria": [
+        {
+          "metric": "questsCompleted",
+          "gte": 6
+        }
+      ],
+      "sourceRef": "docs/preproduction/brookhaven-research/life-sim-progression-blueprint-v1.json#vehicle/excavator"
+    },
+    {
+      "schemaVersion": "starblox-neutral-progression-rule-v1",
+      "targetType": "vehicle",
+      "targetId": "farm-truck",
+      "criteria": [
+        {
+          "metric": "questsCompleted",
+          "gte": 3
+        }
+      ],
+      "sourceRef": "docs/preproduction/brookhaven-research/life-sim-progression-blueprint-v1.json#vehicle/farm-truck"
+    },
+    {
+      "schemaVersion": "starblox-neutral-progression-rule-v1",
+      "targetType": "vehicle",
+      "targetId": "fire-truck",
+      "criteria": [
+        {
+          "metric": "stars",
+          "gte": 4
+        }
+      ],
+      "sourceRef": "docs/preproduction/brookhaven-research/life-sim-progression-blueprint-v1.json#vehicle/fire-truck"
+    },
+    {
+      "schemaVersion": "starblox-neutral-progression-rule-v1",
+      "targetType": "vehicle",
+      "targetId": "jeep",
+      "criteria": [
+        {
+          "metric": "stars",
+          "gte": 2
+        }
+      ],
+      "sourceRef": "docs/preproduction/brookhaven-research/life-sim-progression-blueprint-v1.json#vehicle/jeep"
+    },
+    {
+      "schemaVersion": "starblox-neutral-progression-rule-v1",
+      "targetType": "vehicle",
+      "targetId": "limo",
+      "criteria": [
+        {
+          "metric": "starWorth",
+          "gte": 250
+        }
+      ],
+      "sourceRef": "docs/preproduction/brookhaven-research/life-sim-progression-blueprint-v1.json#vehicle/limo"
+    },
+    {
+      "schemaVersion": "starblox-neutral-progression-rule-v1",
+      "targetType": "vehicle",
+      "targetId": "military-truck",
+      "criteria": [
+        {
+          "metric": "starWorth",
+          "gte": 300
+        }
+      ],
+      "sourceRef": "docs/preproduction/brookhaven-research/life-sim-progression-blueprint-v1.json#vehicle/military-truck"
+    },
+    {
+      "schemaVersion": "starblox-neutral-progression-rule-v1",
+      "targetType": "vehicle",
+      "targetId": "nascar-truck",
+      "criteria": [
+        {
+          "metric": "masteredCount",
+          "gte": 5
+        }
+      ],
+      "sourceRef": "docs/preproduction/brookhaven-research/life-sim-progression-blueprint-v1.json#vehicle/nascar-truck"
+    },
+    {
+      "schemaVersion": "starblox-neutral-progression-rule-v1",
+      "targetType": "vehicle",
+      "targetId": "school-bus",
+      "criteria": [
+        {
+          "metric": "masteredCount",
+          "gte": 1
+        }
+      ],
+      "sourceRef": "docs/preproduction/brookhaven-research/life-sim-progression-blueprint-v1.json#vehicle/school-bus"
+    },
+    {
+      "schemaVersion": "starblox-neutral-progression-rule-v1",
+      "targetType": "vehicle",
+      "targetId": "smart-car",
+      "criteria": [
+        {
+          "metric": "questsCompleted",
+          "gte": 2
+        }
+      ],
+      "sourceRef": "docs/preproduction/brookhaven-research/life-sim-progression-blueprint-v1.json#vehicle/smart-car"
+    },
+    {
+      "schemaVersion": "starblox-neutral-progression-rule-v1",
+      "targetType": "vehicle",
+      "targetId": "snowplow",
+      "criteria": [
+        {
+          "metric": "starWorth",
+          "gte": 120
+        }
+      ],
+      "sourceRef": "docs/preproduction/brookhaven-research/life-sim-progression-blueprint-v1.json#vehicle/snowplow"
+    },
+    {
+      "schemaVersion": "starblox-neutral-progression-rule-v1",
+      "targetType": "vehicle",
+      "targetId": "tank",
+      "criteria": [
+        {
+          "metric": "starWorth",
+          "gte": 400
+        }
+      ],
+      "sourceRef": "docs/preproduction/brookhaven-research/life-sim-progression-blueprint-v1.json#vehicle/tank"
+    },
+    {
+      "schemaVersion": "starblox-neutral-progression-rule-v1",
+      "targetType": "vehicle",
+      "targetId": "tow-truck",
+      "criteria": [
+        {
+          "metric": "masteredCount",
+          "gte": 3
+        }
+      ],
+      "sourceRef": "docs/preproduction/brookhaven-research/life-sim-progression-blueprint-v1.json#vehicle/tow-truck"
+    }
+  ]
+}

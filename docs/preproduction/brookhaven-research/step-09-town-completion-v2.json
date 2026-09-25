@@ -1,0 +1,74 @@
+{
+  "schemaVersion": "starblox-brookhaven-step-9-town-completion-v2",
+  "step": "9-of-12",
+  "completedAt": "2026-09-25",
+  "status": "complete-neutral-town-system-hardened-runtime-not-wired-live",
+  "branch": "brookhaven-research-snapshot-v1",
+  "rightsStatus": "verified-for-project-use",
+  "artifacts": {
+    "blueprint": "docs/preproduction/brookhaven-research/town-system-blueprint-v1.json",
+    "locationSchema": "docs/preproduction/brookhaven-research/neutral-town-location-schema-v1.json",
+    "locationCatalog": "docs/preproduction/brookhaven-research/neutral-town-location-catalog-v1.json",
+    "proxyTopology": "docs/preproduction/brookhaven-research/starblox-proxy-town-topology-v1.json",
+    "locationLoader": "src/neutralTownLocationCatalog.js",
+    "locationLoaderTest": "src/neutralTownLocationCatalog.test.js",
+    "topologyLoader": "src/starBloxProxyTownTopology.js",
+    "topologyLoaderTest": "src/starBloxProxyTownTopology.test.js",
+    "runtimePreviewAdapter": "src/neutralTownRuntimePreview.js",
+    "runtimePreviewAdapterTest": "src/neutralTownRuntimePreview.test.js",
+    "localRuntime": "src/townSystemRuntime.js",
+    "localRuntimeTest": "src/townSystemRuntime.test.js"
+  },
+  "completion": {
+    "locationDefinitions": 17,
+    "playerFacingLocations": 15,
+    "researchDeferredLocations": 2,
+    "proxyEdges": 14,
+    "definitionSchemaClosed": true,
+    "definitionCatalogDeterministic": true,
+    "locationLoaderDeepFrozen": true,
+    "topologyLoaderDeepFrozen": true,
+    "runtimePreviewReadOnly": true,
+    "runtimePreviewParityCheckedAgainstExistingRuntime": true,
+    "proxyTopologyParityCheckedAgainstExistingRuntime": true,
+    "deferredZonesExcludedFromPlayerFacingTopology": true,
+    "topologyKind": "original-starblox-proxy",
+    "exactSourceCoordinatesClaimed": false,
+    "exactSourceRoadLayoutClaimed": false,
+    "exactSourceTopologyClaimed": false,
+    "projectRightsVerified": true,
+    "externalRuntimeDependencyAllowed": false,
+    "remoteDependencyAllowed": false,
+    "liveQuestRoutingEnabled": false,
+    "liveAppWired": false,
+    "persistenceChanged": false,
+    "economyChanged": false,
+    "networkingChanged": false,
+    "deploymentPerformed": false
+  },
+  "deferredBoundary": {
+    "ids": [
+      "mystery-zone",
+      "restricted-zone"
+    ],
+    "playerFacingEligible": false,
+    "topologyDegree": 0
+  },
+  "verification": {
+    "authority": "Brookhaven Research Boundary GitHub Actions workflow at the final branch head",
+    "selfEmbeddedRunId": false,
+    "reason": "Embedding the final run ID would mutate the commit being verified; the external workflow run is the authoritative exact-head proof.",
+    "requiredChecks": [
+      "research artifact validation",
+      "reuse boundary validation",
+      "residential tests",
+      "step 8-10 tests including hardened town catalog topology and preview parity",
+      "isolated StarBlox research build"
+    ]
+  },
+  "nextStepBoundary": {
+    "step9Complete": true,
+    "step10MayProceedIndependently": true,
+    "noLiveIntegrationAuthorizedByThisReceipt": true
+  }
+}

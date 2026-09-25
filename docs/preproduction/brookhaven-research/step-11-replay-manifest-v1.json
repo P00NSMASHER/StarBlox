@@ -1,0 +1,151 @@
+{
+  "schemaVersion": "starblox-brookhaven-step-11-replay-manifest-v1",
+  "step": "11-of-12",
+  "recordedAt": "2026-09-24",
+  "status": "complete-ready-for-controlled-replay-no-merge-performed",
+  "rightsStatus": {
+    "status": "verified-for-project-use",
+    "basis": "user-confirmed prior evidence",
+    "currentProjectReaudit": "not-reperformed"
+  },
+  "branchHeads": {
+    "brookhavenResearch": {
+      "branch": "brookhaven-research-snapshot-v1",
+      "head": "768db30a9d797c04544e5ac17311a22343fd2a50",
+      "mergeBaseWithProduct": "1d6d3e6130c83289fc270c0b543c31cffee1d226",
+      "aheadBy": 65,
+      "behindBy": 342
+    },
+    "product": {
+      "branch": "screenshot-match-preproduction",
+      "head": "52e4bea28caefce75159cf520b8c16b0ae85216f"
+    },
+    "learningFactory": {
+      "branch": "starblox-learning-factory-v1",
+      "head": "c1af648ba00a1b5aff52a3b3268fa5a15f396f55",
+      "mergeBaseWithProduct": "8a0c9d38befd244b7bfcb5fe4eb3ac7e2d3115d0",
+      "aheadBy": 200,
+      "behindBy": 450
+    }
+  },
+  "strategy": {
+    "directMergeBrookhavenIntoProduct": false,
+    "directMergeLearningFactoryIntoProduct": false,
+    "directMergeBrookhavenAndLearningFactory": false,
+    "nextIntegrationBranch": "create fresh branch from then-current screenshot-match-preproduction",
+    "rule": "Replay only explicitly listed Brookhaven files in controlled groups. Reconcile the learning-factory stack separately after the final product base is stable and after the Brookhaven neutral environment layer is verified."
+  },
+  "orderedReplayGroups": [
+    {
+      "order": 1,
+      "id": "research-metadata-and-validation",
+      "purpose": "Bring provenance, rights, schemas, evidence, and non-live validation first.",
+      "include": [
+        "docs/preproduction/brookhaven-research/**",
+        "scripts/assertBrookhavenReuseBoundary.mjs",
+        "scripts/assertBrookhavenLearningSeparation.mjs",
+        "scripts/convertBrookhavenNeutralScene.mjs",
+        "scripts/validateBrookhavenProxyVerticalSlice.mjs",
+        "scripts/validateBrookhavenResearchArtifacts.mjs",
+        ".github/workflows/brookhaven-research-boundary.yml"
+      ],
+      "verifyAfterReplay": [
+        "Brookhaven research artifact validation passes",
+        "Brookhaven runtime boundary has zero violations",
+        "Brookhaven/learning separation assertion has zero violations"
+      ]
+    },
+    {
+      "order": 2,
+      "id": "neutral-life-sim-runtimes",
+      "purpose": "Replay deterministic local-only systems without connecting them to App.jsx or persistence.",
+      "include": [
+        "src/residentialFeatureRuntime.js",
+        "src/residentialFeatureRuntime.test.js",
+        "src/vehicleSystemRuntime.js",
+        "src/vehicleSystemRuntime.test.js",
+        "src/townSystemRuntime.js",
+        "src/townSystemRuntime.test.js"
+      ],
+      "verifyAfterReplay": [
+        "residential tests pass",
+        "vehicle tests pass",
+        "town tests pass",
+        "production build passes on the current product base"
+      ]
+    },
+    {
+      "order": 3,
+      "id": "progression-shadow-only",
+      "purpose": "Replay the read-only progression model only after neutral runtimes are green.",
+      "include": [
+        "src/lifeSimProgressionShadowRuntime.js",
+        "src/lifeSimProgressionShadowRuntime.test.js"
+      ],
+      "verifyAfterReplay": [
+        "progression shadow tests pass",
+        "economy mutation remains zero",
+        "no persistence migration",
+        "no App.jsx/gameModel.js wiring"
+      ]
+    },
+    {
+      "order": 4,
+      "id": "package-scripts-manual-reapply",
+      "purpose": "Re-add only Brookhaven-specific npm scripts to the then-current product package.json.",
+      "include": [
+        "validate:brookhaven-research",
+        "test:brookhaven-residential",
+        "test:brookhaven-step-8-10"
+      ],
+      "method": "manual additive edit; do not replay the historical package.json blob"
+    }
+  ],
+  "explicitlyDoNotReplay": [
+    {
+      "path": "scripts/buildBrookhavenResearchWithKnownBaseFix.mjs",
+      "reason": "Temporary CI-only workaround for an inherited catalog syntax defect that is already resolved in current preproduction."
+    },
+    {
+      "path": "src/App.jsx",
+      "reason": "Brookhaven research intentionally never modified the live app entry point."
+    },
+    {
+      "path": "src/main.jsx",
+      "reason": "Brookhaven research intentionally never modified the live app bootstrap."
+    },
+    {
+      "path": "src/gameModel.js",
+      "reason": "Brookhaven research intentionally never modified the live Quest selector/game model."
+    },
+    {
+      "path": "src/storage.js",
+      "reason": "Brookhaven research intentionally never modified persistence."
+    },
+    {
+      "path": "any learning-factory file",
+      "reason": "EdGameClaw/PSI-KT/Riff/adversarial QA remains a separately reconciled workstream."
+    },
+    {
+      "path": "raw/unresolved Brookhaven executable payloads",
+      "reason": "Only neutral converted assets/data may enter a future production integration branch."
+    }
+  ],
+  "learningFactoryReconciliationOrder": [
+    "Finish/reconcile all current product updates on screenshot-match-preproduction.",
+    "Create a fresh integration branch from that final product head.",
+    "Replay Brookhaven groups 1-3 and verify them without live wiring.",
+    "Only then create a separate learning-stack reconciliation branch from the same stabilized product/integration lineage.",
+    "Replay EdGameClaw generation boundaries, adversarial QA, provenance, event ledger, FSRS, PSI-KT shadow components, and selector research as separately gated changes.",
+    "Do not let a research selector or learning model alter live Quests unless it independently clears its promotion gates."
+  ],
+  "exitCriteria": {
+    "replayManifestExplicit": true,
+    "liveProductFilesExcluded": true,
+    "learningFactorySeparated": true,
+    "temporaryInheritedBuildPatchExcluded": true,
+    "noMergePerformed": true,
+    "noDeploymentPerformed": true,
+    "step11Complete": true
+  }
+}

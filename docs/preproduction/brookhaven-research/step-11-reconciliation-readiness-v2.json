@@ -1,0 +1,87 @@
+{
+  "schemaVersion": "starblox-brookhaven-step-11-reconciliation-readiness-v2",
+  "step": "11-of-12",
+  "recordedAt": "2026-09-25",
+  "status": "complete-hardened-controlled-replay-boundary-no-merge-performed",
+  "observedHeads": {
+    "research": {
+      "branch": "brookhaven-research-snapshot-v1",
+      "headBeforeReadinessReceipt": "ca3e74afe1f7b65a2a9fd9724ef21392bb5609fb"
+    },
+    "product": {
+      "branch": "screenshot-match-preproduction",
+      "head": "d8cdc27fd943cc3ecde632ca4247bf9650d77c29"
+    },
+    "learningFactory": {
+      "branch": "starblox-learning-factory-v1",
+      "head": "c1af648ba00a1b5aff52a3b3268fa5a15f396f55"
+    }
+  },
+  "mergeBases": {
+    "brookhavenProduct": "1d6d3e6130c83289fc270c0b543c31cffee1d226",
+    "learningProduct": "8a0c9d38befd244b7bfcb5fe4eb3ac7e2d3115d0"
+  },
+  "divergence": {
+    "brookhavenVsProduct": {
+      "status": "diverged",
+      "researchAheadBy": 115,
+      "researchBehindBy": 459
+    },
+    "learningFactoryVsProduct": {
+      "status": "diverged",
+      "researchAheadBy": 200,
+      "researchBehindBy": 567
+    }
+  },
+  "strategy": {
+    "method": "fresh-product-base-controlled-explicit-replay",
+    "replayManifest": "docs/preproduction/brookhaven-research/step-11-replay-manifest-v2.json",
+    "replayGroups": 6,
+    "directMergeAllowed": false,
+    "protectedLiveFilesMayBeTransplanted": false,
+    "learningFactoryMayBeCoReplayed": false,
+    "verifyEveryGroup": true,
+    "failClosedOnUnexpectedFiles": true
+  },
+  "hardenedPrerequisites": {
+    "step8Completion": "docs/preproduction/brookhaven-research/step-08-vehicle-completion-v2.json",
+    "step9Completion": "docs/preproduction/brookhaven-research/step-09-town-completion-v2.json",
+    "step10Completion": "docs/preproduction/brookhaven-research/step-10-progression-completion-v2.json",
+    "step8Complete": true,
+    "step9Complete": true,
+    "step10Complete": true
+  },
+  "separation": {
+    "assertion": "scripts/assertBrookhavenLearningSeparation.mjs",
+    "hardenedModulesCovered": true,
+    "liveEntryPointsProtected": [
+      "src/App.jsx",
+      "src/main.jsx",
+      "src/gameModel.js",
+      "src/storage.js"
+    ],
+    "learningFactorySeparate": true
+  },
+  "replaySafety": {
+    "temporaryInheritedBuildPatchExcluded": true,
+    "packageJsonBlobReplayForbidden": true,
+    "packageScriptsManualAdditiveOnly": true,
+    "rawExecutablePayloadReplayForbidden": true,
+    "liveAppWiringForbidden": true,
+    "persistenceMigrationForbidden": true,
+    "economyMutationForbidden": true,
+    "deploymentForbidden": true
+  },
+  "finalVerification": {
+    "method": "Brookhaven Research Boundary GitHub Actions at final Step 11 head",
+    "selfEmbeddedRunId": false,
+    "reason": "The exact final run is external so recording its ID cannot mutate the commit being verified."
+  },
+  "nextStepBoundary": {
+    "step11Complete": true,
+    "nextStep": "12",
+    "noMergePerformed": true,
+    "noDeploymentPerformed": true,
+    "noLiveIntegrationAuthorized": true
+  }
+}

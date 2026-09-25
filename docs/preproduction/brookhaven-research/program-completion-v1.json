@@ -1,0 +1,152 @@
+{
+  "schemaVersion": "starblox-brookhaven-research-program-completion-v1",
+  "recordedAt": "2026-09-25",
+  "status": "complete-12-step-research-program-closed-no-merge-no-deploy",
+  "branch": "brookhaven-research-snapshot-v1",
+  "steps": [
+    {
+      "step": 1,
+      "status": "complete",
+      "primaryArtifact": "docs/preproduction/brookhaven-research/snapshot-v1.json",
+      "expectedSchema": "starblox-brookhaven-research-snapshot-v1"
+    },
+    {
+      "step": 2,
+      "status": "complete",
+      "primaryArtifact": "docs/preproduction/brookhaven-research/asset-graph-v1.json",
+      "expectedSchema": "starblox-brookhaven-asset-graph-v1"
+    },
+    {
+      "step": 3,
+      "status": "complete",
+      "primaryArtifact": "docs/preproduction/brookhaven-research/resolved-catalogs-v1.json",
+      "expectedSchema": "starblox-brookhaven-resolved-catalogs-v1"
+    },
+    {
+      "step": 4,
+      "status": "complete",
+      "primaryArtifact": "docs/preproduction/brookhaven-research/reuse-boundary-v1.json",
+      "expectedSchema": "starblox-brookhaven-reuse-boundary-v1"
+    },
+    {
+      "step": 5,
+      "status": "complete",
+      "primaryArtifact": "docs/preproduction/brookhaven-research/step-05-07-checkpoint-v1.json",
+      "checkpointKey": "5"
+    },
+    {
+      "step": 6,
+      "status": "complete",
+      "primaryArtifact": "docs/preproduction/brookhaven-research/step-05-07-checkpoint-v1.json",
+      "checkpointKey": "6"
+    },
+    {
+      "step": 7,
+      "status": "complete",
+      "primaryArtifact": "docs/preproduction/brookhaven-research/step-05-07-checkpoint-v1.json",
+      "checkpointKey": "7"
+    },
+    {
+      "step": 8,
+      "status": "complete",
+      "primaryArtifact": "docs/preproduction/brookhaven-research/step-08-vehicle-completion-v2.json",
+      "expectedSchema": "starblox-brookhaven-step-8-vehicle-completion-v2"
+    },
+    {
+      "step": 9,
+      "status": "complete",
+      "primaryArtifact": "docs/preproduction/brookhaven-research/step-09-town-completion-v2.json",
+      "expectedSchema": "starblox-brookhaven-step-9-town-completion-v2"
+    },
+    {
+      "step": 10,
+      "status": "complete",
+      "primaryArtifact": "docs/preproduction/brookhaven-research/step-10-progression-completion-v2.json",
+      "expectedSchema": "starblox-brookhaven-step-10-progression-completion-v2"
+    },
+    {
+      "step": 11,
+      "status": "complete",
+      "primaryArtifact": "docs/preproduction/brookhaven-research/step-11-reconciliation-readiness-v2.json",
+      "expectedSchema": "starblox-brookhaven-step-11-reconciliation-readiness-v2"
+    },
+    {
+      "step": 12,
+      "status": "complete",
+      "primaryArtifact": "docs/preproduction/brookhaven-research/step-12-finalization-v2.json",
+      "expectedSchema": "starblox-brookhaven-step-12-finalization-v2"
+    }
+  ],
+  "hardenedSystemSummary": {
+    "currentVehicles": 13,
+    "neutralTownLocations": 17,
+    "playerFacingTownLocations": 15,
+    "deferredTownLocations": 2,
+    "proxyTownEdges": 14,
+    "progressionRules": 42,
+    "replayGroups": 6,
+    "targetedGapLanesClosed": 10
+  },
+  "provenanceAndRights": {
+    "rightsStatus": "verified-for-project-use",
+    "publicRepositoryProvenanceTrackedSeparately": true,
+    "publicRepositoryLicenseStatusNotUsedAsSubstituteForProjectRightsEvidence": true,
+    "unresolvedPayloadsRemainUnclaimed": true
+  },
+  "closure": {
+    "steps1Through12Complete": true,
+    "broadGithubHuntingClosed": true,
+    "repeatedDeadLaneSearchClosed": true,
+    "controlledReplayRequiredBeforeProductIntegration": true,
+    "authorizedAssetExportRemainsPrimaryVisualPayloadPath": true,
+    "exactSourceMapParityClaimed": false,
+    "exactSourceProgressionParityClaimed": false,
+    "rawSourceRuntimeDependencyAllowed": false
+  },
+  "safety": {
+    "brookhavenRemoteCallsWired": false,
+    "rawExecutablePayloadMayShip": false,
+    "liveAppWired": false,
+    "persistenceChanged": false,
+    "economyChanged": false,
+    "networkingChanged": false,
+    "directMergePerformed": false,
+    "deploymentPerformed": false,
+    "liveIntegrationAuthorized": false
+  },
+  "postProgramNextActions": [
+    {
+      "order": 1,
+      "action": "Create a fresh integration branch from the stabilized product branch and execute Step 11 v2 replay groups in order."
+    },
+    {
+      "order": 2,
+      "action": "Use rights-cleared source/export channels for unresolved map, house, property-table, and vehicle visual payloads."
+    },
+    {
+      "order": 3,
+      "action": "Bind every recovered payload to existing identifiers and provenance before neutral conversion."
+    },
+    {
+      "order": 4,
+      "action": "Replace proxies incrementally only after content, technical, and performance QA."
+    },
+    {
+      "order": 5,
+      "action": "Reopen public search only for implementation-exposed concrete gaps under the Step 12 reopen policy."
+    }
+  ],
+  "verification": {
+    "authority": "Brookhaven Research Boundary GitHub Actions workflow at the final program-completion head",
+    "selfEmbeddedRunId": false,
+    "reason": "The final workflow run remains external so recording its ID cannot mutate the commit being verified.",
+    "required": [
+      "research artifact validation issueCount == 0",
+      "reuse boundary violationCount == 0",
+      "learning separation violationCount == 0",
+      "Steps 8-12 completion flags true",
+      "all research tests pass",
+      "isolated research build passes"
+    ]
+  }
+}

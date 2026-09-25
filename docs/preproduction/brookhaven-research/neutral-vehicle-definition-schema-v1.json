@@ -1,0 +1,143 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "starblox://schemas/neutral-vehicle-definition-v1",
+  "title": "StarBlox Neutral Vehicle Definition v1",
+  "description": "Schema-only contract for StarBlox vehicle definitions. It carries provenance and rights state but forbids executable/runtime-coupled vehicle payloads.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "id",
+    "label",
+    "archetype",
+    "era",
+    "interactionMode",
+    "capabilities",
+    "assetBinding",
+    "safety"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "starblox-neutral-vehicle-definition-v1"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+      "minLength": 1,
+      "maxLength": 64
+    },
+    "label": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80
+    },
+    "archetype": {
+      "type": "string",
+      "enum": [
+        "compact",
+        "utility",
+        "luxury",
+        "work",
+        "sport",
+        "service",
+        "transit",
+        "emergency",
+        "legacy",
+        "display-only",
+        "original"
+      ]
+    },
+    "era": {
+      "type": "string",
+      "enum": [
+        "current",
+        "legacy",
+        "original-starblox"
+      ]
+    },
+    "interactionMode": {
+      "type": "string",
+      "enum": [
+        "drivable",
+        "display-only"
+      ]
+    },
+    "capabilities": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": [
+          "spawn",
+          "despawn",
+          "headlights",
+          "hazards",
+          "paint-token",
+          "wheel-style",
+          "driving-mode",
+          "emergency-lights",
+          "emergency-siren"
+        ]
+      }
+    },
+    "assetBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "geometrySource",
+        "rightsStatus",
+        "provenanceRef"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "identifier-only",
+            "original-starblox-proxy",
+            "converted-authorized-asset"
+          ]
+        },
+        "geometrySource": {
+          "type": "string",
+          "enum": [
+            "none",
+            "original-starblox-proxy",
+            "project-rights-verified-conversion"
+          ]
+        },
+        "rightsStatus": {
+          "type": "string",
+          "enum": [
+            "original-starblox",
+            "project-rights-verified"
+          ]
+        },
+        "provenanceRef": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "safety": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "externalRuntimeDependency",
+        "remoteDependency",
+        "weaponBehavior"
+      ],
+      "properties": {
+        "externalRuntimeDependency": {
+          "const": false
+        },
+        "remoteDependency": {
+          "const": false
+        },
+        "weaponBehavior": {
+          "const": false
+        }
+      }
+    }
+  }
+}

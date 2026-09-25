@@ -1,0 +1,83 @@
+{
+  "schemaVersion": "starblox-brookhaven-step-10-progression-completion-v2",
+  "step": "10-of-12",
+  "completedAt": "2026-09-25",
+  "status": "complete-progression-shadow-hardened-runtime-not-wired-live",
+  "branch": "brookhaven-research-snapshot-v1",
+  "artifacts": {
+    "blueprint": "docs/preproduction/brookhaven-research/life-sim-progression-blueprint-v1.json",
+    "ruleSchema": "docs/preproduction/brookhaven-research/neutral-progression-rule-schema-v1.json",
+    "ruleCatalog": "docs/preproduction/brookhaven-research/neutral-progression-rule-catalog-v1.json",
+    "ruleLoader": "src/neutralProgressionRuleCatalog.js",
+    "ruleLoaderTest": "src/neutralProgressionRuleCatalog.test.js",
+    "runtimePreviewAdapter": "src/neutralProgressionRuntimePreview.js",
+    "runtimePreviewAdapterTest": "src/neutralProgressionRuntimePreview.test.js",
+    "shadowRuntime": "src/lifeSimProgressionShadowRuntime.js",
+    "shadowRuntimeTest": "src/lifeSimProgressionShadowRuntime.test.js"
+  },
+  "completion": {
+    "progressionRules": 42,
+    "residentialRules": 14,
+    "vehicleRules": 13,
+    "townRules": 15,
+    "supportedMetrics": 4,
+    "ruleSchemaClosed": true,
+    "ruleCatalogDeterministic": true,
+    "ruleLoaderDeepFrozen": true,
+    "runtimePreviewReadOnly": true,
+    "ruleParityCheckedAgainstExistingRuntime": true,
+    "evaluationParityCheckedAgainstExistingRuntime": true,
+    "deferredTownTargetsExcluded": true,
+    "exactSourceProgressionClaimed": false,
+    "exactSourceEconomyClaimed": false,
+    "readsExistingSave": true,
+    "writesExistingSave": false,
+    "awardsCoins": false,
+    "deductsCoins": false,
+    "awardsStars": false,
+    "changesStarWorth": false,
+    "changesXp": false,
+    "changesMastery": false,
+    "changesQuestRewards": false,
+    "liveAppWired": false,
+    "persistenceChanged": false,
+    "economyChanged": false,
+    "networkingChanged": false,
+    "deploymentPerformed": false
+  },
+  "metricBoundary": {
+    "metrics": [
+      "masteredCount",
+      "questsCompleted",
+      "starWorth",
+      "stars"
+    ],
+    "unsupportedMetricsRejected": true,
+    "negativeOrNonFiniteThresholdsRejected": true
+  },
+  "townBoundary": {
+    "playerFacingTownRuleCount": 15,
+    "deferredTargetIds": [
+      "mystery-zone",
+      "restricted-zone"
+    ],
+    "deferredTargetsPresentInRules": false
+  },
+  "verification": {
+    "authority": "Brookhaven Research Boundary GitHub Actions workflow at the final branch head",
+    "selfEmbeddedRunId": false,
+    "reason": "Embedding the final run ID would mutate the commit being verified; the external workflow run is the authoritative exact-head proof.",
+    "requiredChecks": [
+      "research artifact validation",
+      "reuse boundary validation",
+      "residential tests",
+      "step 8-10 tests including hardened progression catalog and evaluator parity",
+      "isolated StarBlox research build"
+    ]
+  },
+  "nextStepBoundary": {
+    "step10Complete": true,
+    "step11MayProceedIndependently": true,
+    "noLiveIntegrationAuthorizedByThisReceipt": true
+  }
+}
