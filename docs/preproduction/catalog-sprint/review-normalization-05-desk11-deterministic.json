@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "purpose": "Fresh current reviewer-partition review of exact QA-rendered deterministic Desk11 bytes for Workstream 08.",
+  "purpose": "Fresh current reviewer-partition review of exact QA-rendered deterministic Desk11 bytes for Workstream 08, aligned to authoritative current Store identity.",
   "reviewer": "05",
   "sourceEvidence": {
     "workflowRunId": 36094833312,
@@ -12,9 +12,9 @@
   "reviews": [
     {
       "itemId": "desks-11",
-      "name": "Creator Desk",
+      "name": "Dream Creator Station",
       "tier": 4,
-      "theme": "Candy Core",
+      "theme": "Art Attack",
       "assetPath": "/assets/catalog-candidates/deterministic/desks-11-v13.svg",
       "assetHash": "199b6bd5340ab02c4a302df2c2a67e19dd5b0d4d",
       "producer": "03",
@@ -23,7 +23,8 @@
       "evidenceRefs": [
         "workflow:36094833312",
         "artifact:10847495770/staged-replacements/detail/desks-11-199b6bd5.png",
-        "visual-check:exactly-two-pedestals-open-knee-tablet-brush-cup-three-bins-white-bg"
+        "visual-check:exactly-two-pedestals-open-knee-tablet-brush-cup-three-bins-white-bg",
+        "store-identity:Dream Creator Station|tier4|Art Attack"
       ]
     }
   ]
