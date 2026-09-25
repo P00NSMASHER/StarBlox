@@ -644,6 +644,69 @@ function reviewerVerdict(raw){
   };
 }
 
+function verificationSummaryPayload(summary){
+  return {
+    studioTestsRequired:summary.studioTestsRequired,
+    studioTestsPassed:summary.studioTestsPassed,
+    runtimeRequired:summary.runtimeRequired,
+    runtimePassed:summary.runtimePassed,
+    visualRequired:summary.visualRequired,
+    visualPassed:summary.visualPassed,
+    reviewerPassed:summary.reviewerPassed,
+    verificationOk:summary.verificationOk,
+    repositoryRequiredGates:summary.repositoryRequiredGates,
+    repositoryPassed:summary.repositoryPassed
+  };
+}
+
+function buildDevelopmentVerificationSummary({
+  plan,
+  verification,
+  finalReview,
+  requiredRepositoryGates
+}){
+  const repositoryPassed=Boolean(
+    verification?.repository?.ok === true &&
+    missingRepositoryGates(
+      verification.repository,
+      requiredRepositoryGates
+    ).length === 0
+  );
+  const runtimeErrors=Array.isArray(verification?.runtime?.errors)
+    ? verification.runtime.errors
+    : [];
+
+  const base={
+    studioTestsRequired:Boolean(plan?.tests?.required),
+    studioTestsPassed:Boolean(
+      plan?.tests?.required &&
+      testsPassed(verification?.studioTests)
+    ),
+    runtimeRequired:Boolean(plan?.playtest?.required),
+    runtimePassed:Boolean(
+      !plan?.playtest?.required ||
+      (
+        verification?.runtime?.available !== false &&
+        runtimeErrors.length === 0
+      )
+    ),
+    visualRequired:Boolean(plan?.visual?.required),
+    visualPassed:Boolean(
+      !plan?.visual?.required ||
+      verification?.visualReview?.ok === true
+    ),
+    reviewerPassed:finalReview?.verdict === 'pass',
+    verificationOk:verification?.ok === true,
+    repositoryRequiredGates:[...requiredRepositoryGates],
+    repositoryPassed
+  };
+
+  return {
+    ...base,
+    summaryHash:stableHash(verificationSummaryPayload(base))
+  };
+}
+
 function artifactPayload(run){
   return {
     schemaVersion:run.schemaVersion,
@@ -658,7 +721,8 @@ function artifactPayload(run){
     rollback:run.rollback,
     repository:run.repository,
     studioAttestation:run.studioAttestation,
-    mutationSummary:run.mutationSummary
+    mutationSummary:run.mutationSummary,
+    verificationSummary:run.verificationSummary
   };
 }
 
@@ -908,6 +972,12 @@ export async function runDevelopmentFactory({
 
   const cycles=audit.map(item => sanitizedResult(item));
   const mutationSummary=developmentMutationSummary(batches);
+  const verificationSummary=buildDevelopmentVerificationSummary({
+    plan,
+    verification:finalVerification,
+    finalReview,
+    requiredRepositoryGates
+  });
   const base={
     schemaVersion:DEVELOPMENT_RUN_SCHEMA_VERSION,
     developmentRunVersion:DEVELOPMENT_RUN_VERSION,
@@ -921,7 +991,8 @@ export async function runDevelopmentFactory({
     rollback:sanitizedResult(rollback),
     repository:sanitizedResult(finalVerification?.repository ?? null),
     studioAttestation:sanitizedResult(studioAttestation),
-    mutationSummary
+    mutationSummary,
+    verificationSummary
   };
 
   return deepFreeze({
@@ -968,6 +1039,20 @@ export function verifyDevelopmentRun(run){
     }
     if(stableHash(run.mutationSummary.targets) !== run.mutationSummary.targetsHash){
       errors.push('development run mutation summary hash mismatch');
+    }
+  }
+  if(!run.verificationSummary || typeof run.verificationSummary !== 'object'){
+    errors.push('development run is missing verification summary');
+  }else{
+    try{
+      const expectedSummaryHash=stableHash(
+        verificationSummaryPayload(run.verificationSummary)
+      );
+      if(expectedSummaryHash !== run.verificationSummary.summaryHash){
+        errors.push('development run verification summary hash mismatch');
+      }
+    }catch{
+      errors.push('development run verification summary is not hashable');
     }
   }
   try{

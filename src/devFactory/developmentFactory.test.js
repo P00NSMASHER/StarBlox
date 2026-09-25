@@ -1,4 +1,10 @@
 
+import { createHash } from 'node:crypto';
+import { spawnSync } from 'node:child_process';
+import { appendFile,mkdtemp,readFile,writeFile } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+
 import { describe,expect,it } from 'vitest';
 import {
   assessStudioToolCall,
@@ -16,6 +22,10 @@ import {
   buildMigrationAdaptationReceipt,
   verifyMigrationAdaptationReceipt
 } from './adaptationReceipt.js';
+import {
+  buildMigrationPromotionReceipt,
+  verifyMigrationPromotionReceipt
+} from './promotionReceipt.js';
 
 function createStudio({
   episode=true,
@@ -605,7 +615,17 @@ describe('Step 2: AI development factory', () => {
           playtest:{required:false},
           visual:{required:false}
         }),
-        code:async () => ({summary:'No-op proof',actions:[]}),
+        code:async () => ({
+          summary:'Make a reversible adaptation without Studio tests',
+          actions:[{
+            tool:'set_property',
+            args:{
+              path:'Workspace/TestPart',
+              property:'Anchored',
+              value:true
+            }
+          }]
+        }),
         review:async ({verification}) => ({
           verdict:verification.ok ? 'pass' : 'fail',
           findings:verification.errors
@@ -626,6 +646,21 @@ describe('Step 2: AI development factory', () => {
     const tampered=JSON.parse(JSON.stringify(run));
     tampered.task.migrationEvidence.units[0].artifactBytes=124;
     expect(verifyDevelopmentRun(tampered).errors.join(' ')).toMatch(/migration evidence hash mismatch/);
+
+    const noTestAdaptation=buildMigrationAdaptationReceipt({
+      run,
+      runArtifactFile:'ai-development-run.json',
+      runArtifactSha256:'9'.repeat(64),
+      runArtifactBytes:1024
+    });
+    expect(() => buildMigrationPromotionReceipt({
+      adaptationReceipt:noTestAdaptation,
+      adaptationReceiptFile:'migration-adaptation-receipt.json',
+      adaptationReceiptSha256:'8'.repeat(64),
+      adaptationReceiptBytes:2048,
+      run,
+      unitIds:['authorized-system-refactor']
+    })).toThrow(/Studio tests were not required/);
   });
 
   it('emits a non-promotional adaptation receipt for an attested verified migration change', async () => {
@@ -680,7 +715,7 @@ describe('Step 2: AI development factory', () => {
       agents:{
         plan:async () => ({
           summary:'Adapt the unit behind StarBlox boundaries.',
-          tests:{required:false},
+          tests:{required:true,path:'ServerScriptService/Tests'},
           playtest:{required:false},
           visual:{required:false}
         }),
@@ -713,11 +748,14 @@ describe('Step 2: AI development factory', () => {
 
     expect(run.status).toBe('verified');
 
+    const runJson=JSON.stringify(run,null,2) + '\n';
+    const runBytes=Buffer.from(runJson,'utf8');
+    const runSha256=createHash('sha256').update(runBytes).digest('hex');
     const receipt=buildMigrationAdaptationReceipt({
       run,
       runArtifactFile:'ai-development-run.json',
-      runArtifactSha256:'1'.repeat(64),
-      runArtifactBytes:2048
+      runArtifactSha256:runSha256,
+      runArtifactBytes:runBytes.length
     });
 
     expect(receipt.status).toBe('verified-adaptation');
@@ -743,6 +781,88 @@ describe('Step 2: AI development factory', () => {
     const tampered=JSON.parse(JSON.stringify(receipt));
     tampered.adaptation.quarantineExitApproved=true;
     expect(verifyMigrationAdaptationReceipt(tampered).ok).toBe(false);
+
+    const promotion=buildMigrationPromotionReceipt({
+      adaptationReceipt:receipt,
+      adaptationReceiptFile:'migration-adaptation-receipt.json',
+      adaptationReceiptSha256:'2'.repeat(64),
+      adaptationReceiptBytes:4096,
+      run,
+      unitIds:['authorized-system-adapt']
+    });
+
+    expect(promotion.status).toBe('quarantine-exit-certified');
+    expect(promotion.units).toHaveLength(1);
+    expect(promotion.units[0]).toEqual(expect.objectContaining({
+      unitId:'authorized-system-adapt',
+      previousStatus:'quarantine',
+      promotedStatus:'certified-adapted-staging',
+      quarantineExitApproved:true,
+      publicationAllowed:false,
+      liveActivationAllowed:false
+    }));
+    expect(promotion.certification.studioTestsRequired).toBe(true);
+    expect(promotion.certification.studioTestsPassed).toBe(true);
+    expect(promotion.publicationStarted).toBe(false);
+    expect(promotion.liveActivationAllowed).toBe(false);
+    expect(promotion.productionActivationAllowed).toBe(false);
+    expect(verifyMigrationPromotionReceipt(promotion)).toEqual({ok:true,errors:[]});
+
+    expect(() => buildMigrationPromotionReceipt({
+      adaptationReceipt:receipt,
+      adaptationReceiptFile:'migration-adaptation-receipt.json',
+      adaptationReceiptSha256:'2'.repeat(64),
+      adaptationReceiptBytes:4096,
+      run,
+      unitIds:['not-adapted']
+    })).toThrow(/not bound to the verified adaptation/);
+
+    const promotedTamper=JSON.parse(JSON.stringify(promotion));
+    promotedTamper.liveActivationAllowed=true;
+    expect(verifyMigrationPromotionReceipt(promotedTamper).ok).toBe(false);
+
+    const temp=await mkdtemp(join(tmpdir(),'starblox-promotion-'));
+    const runPath=join(temp,'ai-development-run.json');
+    const adaptationPath=join(temp,'migration-adaptation-receipt.json');
+    const promotionPath=join(temp,'migration-promotion-receipt.json');
+    await writeFile(runPath,runJson);
+    await writeFile(adaptationPath,JSON.stringify(receipt,null,2) + '\n');
+
+    const promoted=spawnSync(
+      process.execPath,
+      [
+        'scripts/promote-migration-adaptation.mjs',
+        '--adaptation-receipt',adaptationPath,
+        '--units','authorized-system-adapt',
+        '--out',promotionPath
+      ],
+      {
+        cwd:process.cwd(),
+        encoding:'utf8'
+      }
+    );
+    expect(promoted.status,promoted.stderr || promoted.stdout).toBe(0);
+
+    const diskPromotion=JSON.parse(await readFile(promotionPath,'utf8'));
+    expect(verifyMigrationPromotionReceipt(diskPromotion)).toEqual({ok:true,errors:[]});
+    expect(diskPromotion.units[0].unitId).toBe('authorized-system-adapt');
+
+    await appendFile(runPath,'\n');
+    const drifted=spawnSync(
+      process.execPath,
+      [
+        'scripts/promote-migration-adaptation.mjs',
+        '--adaptation-receipt',adaptationPath,
+        '--units','authorized-system-adapt',
+        '--out',promotionPath
+      ],
+      {
+        cwd:process.cwd(),
+        encoding:'utf8'
+      }
+    );
+    expect(drifted.status).not.toBe(0);
+    expect(drifted.stderr + drifted.stdout).toMatch(/fingerprint mismatch/);
   });
 
   it('rejects migration adaptation through an unattested Studio connector before inspection', async () => {
