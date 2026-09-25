@@ -194,7 +194,7 @@ function Runtime:sampleState(args: any): any
 
 	if requested.performance then
 		local sampleSeconds = math.clamp(tonumber(args.sampleSeconds) or 0.5, 0.25, 2)
-		local frameTimes = {}
+		local frameTimes: { number } = {}
 		local started = os.clock()
 		while os.clock() - started < sampleSeconds do
 			local dt = RunService.Heartbeat:Wait()
@@ -207,7 +207,7 @@ function Runtime:sampleState(args: any): any
 		for _, ms in frameTimes do
 			totalFrameMs += ms
 		end
-		local memoryMb = nil
+		local memoryMb: number? = nil
 		pcall(function()
 			memoryMb = Stats:GetTotalMemoryUsageMb()
 		end)
