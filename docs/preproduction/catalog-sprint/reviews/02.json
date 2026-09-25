@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 17,
+  "schemaVersion": 18,
   "reviewer": "02",
   "role": "independent reviewer for Shoes/Backgear/Handgear/Seating",
   "phase": "ART_VISUALS_SPRINT",
@@ -7,13 +7,13 @@
   "policy": "docs/preproduction/DELIVERY_PROTOCOL_V2.md",
   "visualSprint": "docs/preproduction/ART_VISUALS_SPRINT.json",
   "artFactoryPolicy": "docs/preproduction/art-factory/ART_FACTORY_V2.json",
-  "sourceHead": "7ea121c95900bff5d0f59dbb06f428effbf7080e",
+  "sourceHead": "a0baa989fdb9973a9b4053fb29a81ef6062c7bfc",
   "priorReviewShard": {
-    "blobSha": "4173dbb9923157eb5a13090d526f88cfec162edd",
-    "schemaVersion": 10,
-    "scope": "All earlier reviewer-02 exact-hash decisions, preservation rules, evidence-integrity blockers and their referenced prior shards.",
+    "blobSha": "fe95c7f43e18dd36e922a2ca01cc5ca37a8d7037",
+    "schemaVersion": 17,
+    "scope": "All reviewer-02 exact-hash decisions through Decor11 v9, including every prior Wall9 rejection and accepted catalog hash.",
     "disposition": "PRESERVE_IMMUTABLY",
-    "rule": "This schema-11 shard resolves the prior evidence-only Seating 7-10 blocker by inspecting independently consumable workflow pixels for the same exact hashes. Earlier ACCEPT/REWORK decisions remain authoritative for their exact hashes; a BLOCKED_EVIDENCE_NOT_DECISION label was never an art-quality decision."
+    "rule": "Earlier ACCEPT/REWORK decisions remain authoritative only for their recorded exact hashes. This Wall9 v13 decision is based solely on its immutable staged handoff and exact QA renders."
   },
   "reviewBatch": {
     "batchId": "lane06-seating-7-10-workflow-artifact-review-20260922",
@@ -207,9 +207,10 @@
     ]
   },
   "routing": {
-    "workstream08": "Qualified exact-hash ACCEPT handoff: seating-7@91457eddbb3ae915867d717eec72632ea6a183be, seating-8@23c02ab51249ab373aab264a17778a090d023eb4, seating-9@7fcdea13121a8820dd8dc64e8982637acb2c5819, seating-10@9aa53664cbc8ee24283ea44830f1f3037c576340. Re-check those live hashes before any canonical action; acceptance does not transfer to changed bytes. Reviewer-02 does not write canonical mappings.",
+    "workstream08": "Do not canonicalize wall-9@64aeabd8f936da18ffe99aadafe0f18de5f8a4c6; reviewer-02 recorded REWORK for this exact hash.",
     "workstream06": "Freeze these four exact accepted hashes and their source/provenance. Do not regenerate or create v+1 absent a new concrete defect.",
-    "workstream15": "No shared entrypoint, allocation or phase change requested."
+    "workstream15": "No shared entrypoint, allocation or phase change requested.",
+    "workstream13": "REWORK wall-9@64aeabd8f936da18ffe99aadafe0f18de5f8a4c6. Preserve this exact hash and follow the bounded three-frame repair guidance; do not transfer this verdict to new bytes."
   },
   "preservation": {
     "acceptedPriorHashesPreserved": true,
@@ -240,9 +241,9 @@
   ],
   "currentCycle": {
     "scope": [
-      "decor-11"
+      "wall-9"
     ],
-    "version": "Decor11 v9 exact rendered hash",
+    "version": "Wall9 v13 exact rendered hash",
     "result": "REWORK_1_OF_1",
     "oldVerdictsTransferred": false,
     "actualCardScalePixelsReviewed": true,
@@ -274,6 +275,19 @@
         "artifactId": 10841500304,
         "items": [
           "decor-11"
+        ]
+      },
+      {
+        "workflowRunId": 36093128087,
+        "qaJobId": 107941401300,
+        "handoffArtifactId": 10846667072,
+        "artifactId": 10846269774,
+        "artifactName": "catalog-staged-art-review",
+        "stagedCommitSha": "c74a5d8f8284aea94f5d629047cf02463ab7c0e7",
+        "candidateGitBlobSha": "64aeabd8f936da18ffe99aadafe0f18de5f8a4c6",
+        "candidateSha256": "79eb7079bd8934fcc4d2b96a039e560fff64948978b24e1058504b64cf868f26",
+        "items": [
+          "wall-9"
         ]
       }
     ]
@@ -1370,6 +1384,72 @@
         "materialLighting": "PASS",
         "cardReadability": "PARTIAL",
         "physicalConstruction": "PASS",
+        "framingComposition": "FAIL",
+        "originality": "PASS",
+        "duplicateVisual": "PASS",
+        "technicalIntegrity": "PASS"
+      }
+    },
+    {
+      "itemId": "wall-9",
+      "name": "Art Gallery Wall",
+      "collectionId": "wall",
+      "collectionName": "Wall Decor",
+      "type": "room",
+      "tier": 3,
+      "theme": "Adventure Club",
+      "price": 667,
+      "starReq": 2,
+      "assetPath": "public/assets/catalog-candidates/cpu/wall-9-w13-v13-a-three-independent-frames-original.png",
+      "repositoryPath": "public/assets/catalog-candidates/cpu/wall-9-w13-v13-a-three-independent-frames-original.png",
+      "assetHash": "64aeabd8f936da18ffe99aadafe0f18de5f8a4c6",
+      "sha256": "79eb7079bd8934fcc4d2b96a039e560fff64948978b24e1058504b64cf868f26",
+      "contentSha256": "79eb7079bd8934fcc4d2b96a039e560fff64948978b24e1058504b64cf868f26",
+      "hashAlgorithm": "git-blob-sha1",
+      "producer": "13",
+      "decision": "REWORK",
+      "learnerLabel": "REWORK",
+      "reviewedAt": "2026-09-25T05:29:20Z",
+      "evidenceRefs": [
+        "staged-commit:c74a5d8f8284aea94f5d629047cf02463ab7c0e7",
+        "workflow:36093128087/job:107941401300",
+        "artifact:10846667072/staged-handoff.json",
+        "artifact:10846269774/staged-replacements/detail/wall-9-64aeabd8.png",
+        "artifact:10846269774/staged-replacements/staged-replacements-contact-sheet.png"
+      ],
+      "evidence": {
+        "stagedCommitSha": "c74a5d8f8284aea94f5d629047cf02463ab7c0e7",
+        "workflowRunId": 36093128087,
+        "qaJobId": 107941401300,
+        "handoffArtifactId": 10846667072,
+        "qaArtifactId": 10846269774,
+        "detailRenderPath": "staged-replacements/detail/wall-9-64aeabd8.png",
+        "detailRenderSha256": "5f67a2326d94bc9e3f48d277b64ecdfbb9b8e0f897e669aef8448ebef0f8497f",
+        "detailDimensions": [
+          800,
+          800
+        ],
+        "contactSheetPath": "staged-replacements/staged-replacements-contact-sheet.png",
+        "contactSheetSha256": "04a8ca01a97721128f1b34c16f60f1a49fdb51c95d7af0c3c0944af8335d159d"
+      },
+      "reasonCodes": [
+        "MORE_THAN_THREE_FRAMES",
+        "ONE_HORIZONTAL_ROW_CONTRACT_FAILURE",
+        "OUTER_GRID_COLLAGE_ARCHITECTURE",
+        "CENTER_COMPASS_MAP_IDENTITY_MISSING",
+        "CROPPED_NON_ISOLATED_PRODUCT",
+        "EXACT_TRIPTYCH_CONTRACT_FAILURE"
+      ],
+      "reason": "REWORK. The exact v13 pixels show a cropped, multi-row gallery wall containing many framed pictures inside a dominant grid/collage composition. They do not show exactly three equal independent portrait frames in one horizontal row, and no unmistakable large black compass rose over a beige map occupies the center position. Mountain, coast, map and material cues provide partial Adventure Club affinity, but the Store card reads as a generic many-frame collage rather than the specified triptych. Preserve this exact hash. The bounded repair is exactly three fully visible, equal portrait frames on plain white with equal spacing: left mountain trail, center large black compass rose over a simple beige map, right blue ocean coast; no extra frames, outer grid, backboard, crop, room context or text.",
+      "nextOwner": "13",
+      "nextRepairGuidance": "Produce one bounded replacement using deterministic/manual three-panel composition if necessary: three fully visible equal portrait frames only, one horizontal row, exact left/center/right subjects, plain white background, and no additional architecture or glyphs.",
+      "checks": {
+        "identity": "FAIL",
+        "themeTier": "PARTIAL",
+        "silhouette": "FAIL",
+        "materialLighting": "PASS",
+        "cardReadability": "FAIL",
+        "physicalConstruction": "PARTIAL",
         "framingComposition": "FAIL",
         "originality": "PASS",
         "duplicateVisual": "PASS",
