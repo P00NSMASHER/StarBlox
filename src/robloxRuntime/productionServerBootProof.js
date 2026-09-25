@@ -3,7 +3,7 @@ import {
 } from './privatePublish.js';
 
 export const STARBLOX_SERVER_BOOT_PROOF_VERSION='starblox-production-server-boot-v1';
-export const STARBLOX_SERVER_BOOT_RELEASE_ID='starblox-private-step9-brookhaven-v2';
+export const STARBLOX_SERVER_BOOT_RELEASE_ID='starblox-private-step9-canonical-step5-v3';
 
 export function buildProductionServerBootProbeScript({
   releaseId=STARBLOX_SERVER_BOOT_RELEASE_ID
