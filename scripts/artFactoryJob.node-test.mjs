@@ -1,6 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
+import fs from 'node:fs';
+import {store as gameStore} from '../src/gameModel.js';
 import {buildBatchPlans,buildJobPlan,buildRequestPlans,deriveSeed,validateJobPlan,RIGHTS_BASIS} from './artFactoryJob.mjs';
 
 const item={id:'decor-3',name:'Arcade Mini',collectionId:'decor',type:'room',tier:3,theme:'Arcade Pop'};
@@ -162,4 +164,29 @@ test('structured request planning fails closed on unresolved reference or tamper
     requiredBeforeGeneration:true,repositoryPath:'store.jpg',sha256:'b'.repeat(64),gitBlobSha:'3'.repeat(40)
   };
   assert.throws(()=>buildRequestPlans({...args,request:resolved}),/optimizerInputSha256 mismatch/);
+});
+
+test('live final-four retry requests compile with explicit constraint fidelity',()=>{
+  const cases=[
+    ['docs/preproduction/art-factory/requests/w03-desk10-v15-mic-studio-20260925.json','desks-10','03','short boom microphone with visible capsule clamped to right edge','extra screen'],
+    ['docs/preproduction/art-factory/requests/w09-decor11-v10-single-oval-20260925.json','decor-11','09','one oval mirror centered on table','side mirrors'],
+    ['docs/preproduction/art-factory/requests/w13-wall9-v13-exact-triptych-20260925.json','wall-9','13','center black compass rose over beige map','fourth frame']
+  ];
+  const model={stats:{global:{},collection:{},tier:{}},current:new Map()};
+  for(const [path,itemId,producer,required,forbidden] of cases){
+    const request=JSON.parse(fs.readFileSync(path,'utf8'));
+    const batch=buildRequestPlans({
+      request,requestPath:path,items:gameStore,producer,sourceHead:'constraint-test-head',
+      modelId:'stabilityai/stable-diffusion-xl-base-1.0',
+      modelRevision:'462165984030d82259a11f4367a4eed129e94a7b',
+      model
+    });
+    const plan=batch.plans.find(x=>x.item.id===itemId);
+    assert(plan);
+    assert.equal(validateJobPlan(plan).length,0);
+    const selected=plan.attempts.find(a=>a.variant===request.items[itemId].variants[0].variantId);
+    assert(selected);
+    assert(selected.runtimePromptText.toLowerCase().includes(required.toLowerCase()));
+    assert(selected.runtimeNegativePromptText.toLowerCase().includes(forbidden.toLowerCase()));
+  }
 });

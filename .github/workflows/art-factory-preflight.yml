@@ -12,6 +12,7 @@ on:
       - 'requirements-art-factory-ci.txt'
       - 'scripts/artPromptOptimizer.mjs'
       - 'scripts/artPromptOptimizer.node-test.mjs'
+      - 'scripts/artPromptTokenPreflight.py'
       - 'scripts/artFactoryJob.mjs'
       - 'scripts/artFactoryJob.node-test.mjs'
       - 'scripts/artReviewNormalizer.mjs'
@@ -32,6 +33,7 @@ on:
       - 'docs/preproduction/art-factory/verify_staged_output.py'
       - 'docs/preproduction/art-factory/ACTIVE_BATCH.json'
       - 'docs/preproduction/art-factory/ART_FACTORY_V2.json'
+      - 'docs/preproduction/art-factory/requests/*.json'
       - 'docs/preproduction/catalog-sprint/reviews/*.json'
       - 'docs/preproduction/catalog-sprint/lane-*.json'
       - 'public/assets/catalog/**'
@@ -249,6 +251,7 @@ jobs:
       - name: Self-test exact-byte and visual tooling
         if: steps.scope.outputs.python == 'true'
         run: |
+          python scripts/artPromptTokenPreflight.py --self-test
           python docs/preproduction/art-factory/verify_staged_output.py self-test
           python scripts/catalogVisualPreflight.py self-test
           python scripts/catalogVisualCalibration.py --self-test

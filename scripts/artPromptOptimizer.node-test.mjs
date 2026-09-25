@@ -122,3 +122,23 @@ test('structured request runtime spends CLIP budget on repair substance instead 
  assert.match(p.runtimePromptText,/isolated on a simple premium/i);
  assert(!p.runtimePromptText.includes('Skate Rack, Room Decor, Tier 3, Garden Glow.'));
 });
+
+test('structured constraints survive into runtime positive and negative channels',()=>{
+ const desk={id:'desks-10',name:'Neon Streaming Desk',collectionId:'desks',type:'room',tier:4,theme:'Aqua Wave'};
+ const constraints={
+  required:['broad black streaming desk','short boom microphone with visible capsule','closed PC tower below','plain white studio background'],
+  forbidden:['room','shelves','chair','extra screen','text']
+ };
+ const p=compose(desk,['furniture','camera','depth'],'A-CONSTRAINTS',{},'Compact product brief.',constraints);
+ for(const phrase of constraints.required) assert(p.runtimePromptText.toLowerCase().includes(phrase.toLowerCase()));
+ for(const phrase of constraints.forbidden) assert(p.runtimeNegativePromptText.toLowerCase().includes(phrase.toLowerCase()));
+ assert.deepEqual(p.constraints.required,constraints.required);
+ assert.deepEqual(p.constraints.forbidden,constraints.forbidden);
+ assert.match(p.constraintsSha256,/^[0-9a-f]{64}$/);
+});
+
+test('required constraints fail closed when they cannot fit runtime budget',()=>{
+ const desk={id:'desks-10',name:'Neon Streaming Desk',collectionId:'desks',type:'room',tier:4,theme:'Aqua Wave'};
+ const required=Array.from({length:12},(_,i)=>'required physical object constraint number '+i+' with several descriptive words');
+ assert.throws(()=>compose(desk,['furniture'],'A-OVERFLOW',{},'brief',{required,forbidden:[]}),/required constraints exceed runtime prompt word budget/);
+});

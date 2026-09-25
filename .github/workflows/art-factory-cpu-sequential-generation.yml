@@ -31,6 +31,19 @@ jobs:
         with:
           node-version: '22'
 
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Restore tokenizer preflight cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/huggingface/hub
+          key: starblox-sdxl-tokenizers-46216598-transformers-4.57.1
+
+      - name: Install tokenizer-only prompt preflight
+        run: python -m pip install --disable-pip-version-check --no-input "transformers==4.57.1" "sentencepiece==0.2.1"
+
       - name: Resolve prepared queue
         id: queue
         env:
@@ -90,6 +103,211 @@ jobs:
           with open(os.environ["GITHUB_OUTPUT"],"a") as f:
               f.write("matrix="+json.dumps({"include":inc},separators=(",",":"))+"\n")
           PY
+
+      - name: Exact SDXL tokenizer preflight before generation
+        env:
+          QUEUE_FILE: ${{ steps.queue.outputs.queue_file }}
+        run: |
+          set -euo pipefail
+          MODEL_ID="$(python -c 'import json,os;print(json.load(open(os.environ["QUEUE_FILE"]))["modelId"])')"
+          MODEL_REV="$(python -c 'import json,os;print(json.load(open(os.environ["QUEUE_FILE"]))["modelRevision"])')"
+          mkdir -p artifacts/cpu-generation/jobs/preflight
+          python - <<'PY' > /tmp/starblox-prompt-preflight.tsv
+          import json, os
+          q=json.load(open(os.environ["QUEUE_FILE"]))
+          for item in q["items"]:
+              job=json.load(open(f"artifacts/cpu-generation/jobs/{item}.json"))
+              wanted=q["variantByItem"][item]
+              matches=[a for a in job["attempts"] if a["variant"]==wanted]
+              assert len(matches)==1, (item,wanted)
+              print("\t".join((item,matches[0]["attemptId"])))
+          PY
+          while IFS=
+        with:
+          name: cpu-sequential-plan-${{ github.run_id }}
+          path: artifacts/cpu-generation/jobs/
+          retention-days: 14
+
+  generate-sequential:
+    needs: plan
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    outputs:
+      staged_commit_sha: ${{ steps.handoff.outputs.staged_commit_sha }}
+    env:
+      QUEUE_FILE: ${{ needs.plan.outputs.queue_file }}
+      MATRIX_JSON: ${{ needs.plan.outputs.matrix }}
+      HF_XET_HIGH_PERFORMANCE: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: screenshot-match-preproduction
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: cpu-sequential-plan-${{ github.run_id }}
+          path: artifacts/cpu-generation/jobs/
+
+      - name: Install deterministic CPU runtime once
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install --index-url https://download.pytorch.org/whl/cpu "torch==2.8.0"
+          python -m pip install \
+            "diffusers @ git+https://github.com/huggingface/diffusers.git@7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c" \
+            "transformers==4.57.1" accelerate safetensors huggingface_hub hf_xet Pillow "sentencepiece==0.2.1" invisible-watermark
+
+      - name: Generate, verify and self-stage each item on one runner
+        run: |
+          set -uo pipefail
+          mkdir -p artifacts/cpu-generation/batch
+          python - <<'PY' > /tmp/starblox-items.tsv
+          import json, os
+          for row in json.loads(os.environ["MATRIX_JSON"])["include"]:
+              print("\t".join(str(row[k]) for k in ("item","attempt","repo_path","reviewer")))
+          PY
+
+          FAILURES=0
+          while IFS=$'\t' read -r ITEM ATTEMPT REPO_PATH REVIEWER; do
+            echo "::group::Generate $ITEM"
+            WIDTH="$(python -c 'import json,os;print(json.load(open(os.environ["QUEUE_FILE"]))["generation"]["width"])')"
+            HEIGHT="$(python -c 'import json,os;print(json.load(open(os.environ["QUEUE_FILE"]))["generation"]["height"])')"
+            STEPS="$(python -c 'import json,os;print(json.load(open(os.environ["QUEUE_FILE"]))["generation"]["steps"])')"
+            GUIDANCE="$(python -c 'import json,os;print(json.load(open(os.environ["QUEUE_FILE"]))["generation"]["guidanceScale"])')"
+            DTYPE="$(python -c 'import json,os;print(json.load(open(os.environ["QUEUE_FILE"]))["generation"].get("dtype","bfloat16"))')"
+            OUT="artifacts/cpu-generation/batch/$ITEM"
+            mkdir -p "$OUT"
+
+            if ! timeout 20m python scripts/artFactoryDiffusers.py generate \
+              --repo-root . --job "artifacts/cpu-generation/jobs/$ITEM.json" \
+              --attempt-id "$ATTEMPT" --repo-path "$REPO_PATH" \
+              --receipt "$OUT/generation-receipt.json" --device cpu --dtype "$DTYPE" \
+              --width "$WIDTH" --height "$HEIGHT" --steps "$STEPS" --guidance-scale "$GUIDANCE"; then
+              echo "GENERATION_FAILED=$ITEM" | tee -a artifacts/cpu-generation/batch/failures.txt
+              FAILURES=$((FAILURES+1))
+              echo "::endgroup::"
+              continue
+            fi
+
+            if ! python docs/preproduction/art-factory/verify_staged_output.py verify \
+              --repo-root . --job "artifacts/cpu-generation/jobs/$ITEM.json" \
+              --attempt-id "$ATTEMPT" --repo-path "$REPO_PATH" --reviewer "$REVIEWER" \
+              --reviewer-routing-file "$QUEUE_FILE" --output "$OUT/staged-output.json"; then
+              echo "VERIFY_FAILED=$ITEM" | tee -a artifacts/cpu-generation/batch/failures.txt
+              FAILURES=$((FAILURES+1))
+              echo "::endgroup::"
+              continue
+            fi
+
+            cp "artifacts/cpu-generation/jobs/$ITEM.json" "$OUT/job.json"
+            cp "$QUEUE_FILE" "$OUT/queue.json"
+            cp "$REPO_PATH" "$OUT/candidate.png"
+
+            EXPECTED_SHA="$(python -c 'import json,sys;print(json.load(open(sys.argv[1]))["output"]["sha256"])' "$OUT/staged-output.json")"
+            EXPECTED_BLOB="$(python -c 'import json,sys;print(json.load(open(sys.argv[1]))["output"]["gitBlobSha"])' "$OUT/staged-output.json")"
+            QUEUE_ID="$(python -c 'import json,os;print(json.load(open(os.environ["QUEUE_FILE"]))["queueId"])')"
+
+            for TRY in 1 2 3 4 5; do
+              cp "$OUT/candidate.png" /tmp/starblox-candidate.png
+              cp "$OUT/generation-receipt.json" /tmp/starblox-generation-receipt.json
+              cp "$OUT/staged-output.json" /tmp/starblox-staged-output.json
+              cp "$OUT/job.json" /tmp/starblox-job.json
+              cp "$OUT/queue.json" /tmp/starblox-queue.json
+
+              git fetch origin screenshot-match-preproduction
+              git reset --hard origin/screenshot-match-preproduction
+              mkdir -p "$(dirname "$REPO_PATH")"
+              if [ -f "$REPO_PATH" ]; then
+                test "$(sha256sum "$REPO_PATH" | awk '{print $1}')" = "$EXPECTED_SHA" || { echo "different bytes occupy $REPO_PATH"; FAILURES=$((FAILURES+1)); break; }
+              else
+                cp /tmp/starblox-candidate.png "$REPO_PATH"
+              fi
+              test "$(git hash-object "$REPO_PATH")" = "$EXPECTED_BLOB" || { echo "blob mismatch after restore"; FAILURES=$((FAILURES+1)); break; }
+
+              DEST="docs/preproduction/art-factory/generated-evidence/$QUEUE_ID/$ITEM"
+              mkdir -p "$DEST"
+              cp /tmp/starblox-generation-receipt.json "$DEST/generation-receipt.json"
+              cp /tmp/starblox-staged-output.json "$DEST/staged-output.json"
+              cp /tmp/starblox-job.json "$DEST/job.json"
+              cp /tmp/starblox-queue.json "$DEST/queue.json"
+              git add "$REPO_PATH" "$DEST"
+              if git diff --cached --quiet; then
+                echo "ALREADY_STAGED=$ITEM"
+                break
+              fi
+              git config user.name "starblox-art-factory"
+              git config user.email "actions@users.noreply.github.com"
+              git commit -m "art-factory: stage sequential CPU candidate $ITEM ($QUEUE_ID)"
+              if git push origin HEAD:screenshot-match-preproduction; then
+                echo "STAGED_ITEM=$ITEM"
+                break
+              fi
+              sleep $((TRY*2))
+            done
+
+            cp /tmp/starblox-candidate.png "$OUT/candidate.png"
+            cp /tmp/starblox-generation-receipt.json "$OUT/generation-receipt.json"
+            cp /tmp/starblox-staged-output.json "$OUT/staged-output.json"
+            cp /tmp/starblox-job.json "$OUT/job.json"
+            cp /tmp/starblox-queue.json "$OUT/queue.json"
+            echo "::endgroup::"
+          done < /tmp/starblox-items.tsv
+
+          echo "FAILURE_COUNT=$FAILURES"
+          test "$FAILURES" -eq 0
+
+      - name: Bind immutable staged commit for downstream QA
+        id: handoff
+        run: |
+          set -euo pipefail
+          git fetch origin screenshot-match-preproduction
+          STAGED_COMMIT_SHA="$(git rev-parse origin/screenshot-match-preproduction)"
+          node scripts/artFactoryStagedHandoff.mjs create \
+            --repo-root . \
+            --queue "$QUEUE_FILE" \
+            --staged-root artifacts/cpu-generation/batch \
+            --staged-commit "$STAGED_COMMIT_SHA" \
+            --generation-source "$GITHUB_SHA" \
+            --workflow-run "$GITHUB_RUN_ID" \
+            --output artifacts/cpu-generation/batch/staged-handoff.json
+          echo "staged_commit_sha=$STAGED_COMMIT_SHA" >> "$GITHUB_OUTPUT"
+
+      - name: Upload immutable staged handoff
+        uses: actions/upload-artifact@v4
+        with:
+          name: cpu-sequential-staged-handoff-${{ github.run_id }}
+          path: artifacts/cpu-generation/batch/staged-handoff.json
+          retention-days: 14
+          if-no-files-found: error
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: cpu-sequential-results-${{ github.run_id }}
+          path: artifacts/cpu-generation/batch/
+          retention-days: 14
+          if-no-files-found: warn
+
+  qa-exact-staged:
+    needs: [generate-sequential]
+    if: ${{ needs.generate-sequential.result == 'success' && needs.generate-sequential.outputs.staged_commit_sha != '' }}
+    uses: ./.github/workflows/catalog-staged-art-qa.yml
+    with:
+      staged_commit_sha: ${{ needs.generate-sequential.outputs.staged_commit_sha }}
+      handoff_artifact_name: cpu-sequential-staged-handoff-${{ github.run_id }}
+    secrets: inherit
+\t' read -r ITEM ATTEMPT; do
+            python scripts/artPromptTokenPreflight.py \
+              --job "artifacts/cpu-generation/jobs/$ITEM.json" \
+              --attempt-id "$ATTEMPT" \
+              --model-id "$MODEL_ID" \
+              --model-revision "$MODEL_REV" \
+              --output "artifacts/cpu-generation/jobs/preflight/$ITEM.json"
+          done < /tmp/starblox-prompt-preflight.tsv
 
       - uses: actions/upload-artifact@v4
         with:

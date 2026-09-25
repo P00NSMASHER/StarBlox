@@ -48,6 +48,15 @@ const uniq=a=>[...new Set(a.filter(Boolean))];
 export const RUNTIME_PROMPT_WORD_BUDGET=60;
 export const RUNTIME_NEGATIVE_PROMPT_WORD_BUDGET=36;
 const promptWords=s=>String(s||'').trim().split(/\s+/).filter(Boolean);
+const cleanConstraint=value=>String(value||'').trim().replace(/[.;,\s]+$/g,'');
+export function normalizeConstraints(value={}){
+ const required=uniq((Array.isArray(value?.required)?value.required:[]).map(cleanConstraint).filter(Boolean));
+ const forbidden=uniq((Array.isArray(value?.forbidden)?value.forbidden:[]).map(cleanConstraint).filter(Boolean));
+ if(required.length>12) throw Error('required constraints exceed 12 entries');
+ if(forbidden.length>16) throw Error('forbidden constraints exceed 16 entries');
+ return {required,forbidden};
+}
+export const constraintsSha=constraints=>sha(JSON.stringify(normalizeConstraints(constraints)));
 
 function runtimeBriefBody(item,brief=''){
  const text=String(brief||'').trim();
@@ -109,26 +118,42 @@ function explicitNegativePhrases(brief=''){
  return out;
 }
 
-export function buildRuntimeNegativePrompt(item,brief=''){
+export function buildRuntimeNegativePrompt(item,brief='',constraints={}){
+ const normalized=normalizeConstraints(constraints);
+ const requiredForbiddenWords=promptWords(normalized.forbidden.join('; '));
+ if(requiredForbiddenWords.length>RUNTIME_NEGATIVE_PROMPT_WORD_BUDGET){
+  throw Error(`item ${item?.id||'unknown'} forbidden constraints exceed runtime negative word budget: ${requiredForbiddenWords.length} > ${RUNTIME_NEGATIVE_PROMPT_WORD_BUDGET}`);
+ }
  const global=['collage','multiple views','repeated variants','text','logo','watermark','UI'];
- return promptWords([...explicitNegativePhrases(brief),...global].join(', '))
+ const explicit=uniq([...normalized.forbidden,...explicitNegativePhrases(brief)]);
+ const explicitWords=promptWords(explicit.join('; '));
+ const remaining=Math.max(0,RUNTIME_NEGATIVE_PROMPT_WORD_BUDGET-explicitWords.length);
+ return [...explicitWords,...promptWords(global.join(' ')).slice(0,remaining)]
   .slice(0,RUNTIME_NEGATIVE_PROMPT_WORD_BUDGET)
   .join(' ');
 }
 
-export function buildRuntimePrompt(item,variant='A',brief='',failureCodes=[]){
+export function buildRuntimePrompt(item,variant='A',brief='',failureCodes=[],constraints={}){
+ const normalized=normalizeConstraints(constraints);
  const prefix=`${item.id} ${item.name}; ${item.theme}; tier ${item.tier}.`;
+ const requiredText=normalized.required.length?`Required: ${normalized.required.join('; ')}.`:'';
  const briefBody=runtimeBriefBody(item,brief);
  const repair=!briefBody&&(failureCodes||[]).length
   ? `Repair ${failureCodes.slice(0,2).map(x=>String(x).toLowerCase().replaceAll('_',' ')).join('; ')}.`
   : '';
  const suffix='single isolated product, grounded shadow.';
- const fixed=[...promptWords(prefix),...promptWords(repair),...promptWords(suffix)];
+ const fixed=[...promptWords(prefix),...promptWords(requiredText),...promptWords(repair),...promptWords(suffix)];
+ if(fixed.length>RUNTIME_PROMPT_WORD_BUDGET){
+  throw Error(`item ${item.id} required constraints exceed runtime prompt word budget: ${fixed.length} > ${RUNTIME_PROMPT_WORD_BUDGET}`);
+ }
  const briefBudget=Math.max(0,RUNTIME_PROMPT_WORD_BUDGET-fixed.length);
- const runtime=[...promptWords(prefix),...balancedBriefWords(item,brief,briefBudget),...promptWords(repair),...promptWords(suffix)]
+ const runtime=[...promptWords(prefix),...promptWords(requiredText),...balancedBriefWords(item,brief,briefBudget),...promptWords(repair),...promptWords(suffix)]
   .slice(0,RUNTIME_PROMPT_WORD_BUDGET)
   .join(' ');
  if(!runtime) throw Error(`item ${item.id} runtime prompt is empty`);
+ for(const required of normalized.required){
+  if(!runtime.toLowerCase().includes(required.toLowerCase())) throw Error(`item ${item.id} runtime prompt dropped required constraint: ${required}`);
+ }
  return runtime;
 }
 
@@ -189,7 +214,7 @@ function score(model,item,b){
  const mean=s?(((c?.mean??prior)*(c?.support||0)+(t?.mean??prior)*(t?.support||0))/s):prior, support=(g?.support||0)+s;
  return mean+.06/Math.sqrt(1+support);
 }
-export function compose(item,blocks,variant='A',repairContext={},basePrompt=''){
+export function compose(item,blocks,variant='A',repairContext={},basePrompt='',constraints={}){
  const ids=uniq([...BASE,...blocks]).filter(x=>BLOCKS[x]);
  const metadata=`Exact metadata: ${item.id} — ${item.name}; collection ${item.collectionId}; type ${item.type}; tier ${item.tier}; theme ${item.theme}.`;
  const brief=String(basePrompt||'').trim();
@@ -201,11 +226,16 @@ export function compose(item,blocks,variant='A',repairContext={},basePrompt=''){
   repair.push('Repair the documented failure codes while preserving qualities that were not implicated. Do not erase successful identity, silhouette, material depth, or readability merely to make a different image.');
  }
  const text=[`STARBLOX CATALOG ART — ${variant}`,'Create one premium, kid-friendly 2D game catalog asset with polished dimensional quality.',metadata,...(brief?[`Authoritative item-specific design brief:\n${brief}`]:[]),...repair,...ids.map(x=>BLOCKS[x]),'Output a production-worthy source image for exact-byte staging, card/detail rendering and independent review. Do not claim approval; the reviewer decides from rendered pixels.'].join('\n\n');
- const runtimePromptText=buildRuntimePrompt(item,variant,brief,failureCodes);
- const runtimeNegativePromptText=buildRuntimeNegativePrompt(item,brief);
- return {variant,promptBlocks:ids,promptText:text,promptSha256:sha(text),runtimePromptText,runtimePromptSha256:sha(runtimePromptText),runtimeNegativePromptText,runtimeNegativePromptSha256:sha(runtimeNegativePromptText),failureCodes,optimizerInputSha256:brief?sha(brief):null};
+ const normalizedConstraints=normalizeConstraints(constraints);
+ const constraintText=(normalizedConstraints.required.length||normalizedConstraints.forbidden.length)
+  ? `Explicit generation constraints:\nRequired: ${normalizedConstraints.required.join(' | ')||'none'}\nForbidden: ${normalizedConstraints.forbidden.join(' | ')||'none'}`
+  : '';
+ const promptTextWithConstraints=constraintText?`${text}\n\n${constraintText}`:text;
+ const runtimePromptText=buildRuntimePrompt(item,variant,brief,failureCodes,normalizedConstraints);
+ const runtimeNegativePromptText=buildRuntimeNegativePrompt(item,brief,normalizedConstraints);
+ return {variant,promptBlocks:ids,promptText:promptTextWithConstraints,promptSha256:sha(promptTextWithConstraints),runtimePromptText,runtimePromptSha256:sha(runtimePromptText),runtimeNegativePromptText,runtimeNegativePromptSha256:sha(runtimeNegativePromptText),failureCodes,optimizerInputSha256:brief?sha(brief):null,constraints:normalizedConstraints,constraintsSha256:constraintsSha(normalizedConstraints)};
 }
-export function optimizeBrief(item,basePrompt,review,model,variant='REQUEST'){
+export function optimizeBrief(item,basePrompt,review,model,variant='REQUEST',constraints={}){
  const brief=String(basePrompt||'').trim();
  if(!item?.id) throw Error('item.id required');
  if(!brief) throw Error(`item ${item.id} base prompt required`);
@@ -224,7 +254,8 @@ export function optimizeBrief(item,basePrompt,review,model,variant='REQUEST'){
    [...required,...learned],
    variant,
    {failureCodes:repair.failureCodes,humanReason:review?.reason||review?.reasonCode||''},
-   brief
+   brief,
+   constraints
  );
 }
 export function recommend(item,review,model,count=4){
@@ -243,6 +274,7 @@ export function validateExperiment(e){
  if(e?.promptText&&e?.promptSha256&&sha(e.promptText)!==e.promptSha256)errors.push('promptSha256 mismatch');
  if(e?.runtimePromptText&&e?.runtimePromptSha256&&sha(e.runtimePromptText)!==e.runtimePromptSha256)errors.push('runtimePromptSha256 mismatch');
  if(e?.runtimeNegativePromptText&&e?.runtimeNegativePromptSha256&&sha(e.runtimeNegativePromptText)!==e.runtimeNegativePromptSha256)errors.push('runtimeNegativePromptSha256 mismatch');
+ if(e?.constraintsSha256&&constraintsSha(e.constraints)!==e.constraintsSha256)errors.push('constraintsSha256 mismatch');
  return errors;
 }
 

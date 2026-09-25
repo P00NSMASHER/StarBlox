@@ -53,6 +53,20 @@ def derive_seed(item_id: str, prompt_sha256: str, variant: str) -> int:
     return 1 + (int.from_bytes(digest[:4], "big") % 2147483646)
 
 
+def normalize_constraints(value: dict[str, Any] | None) -> dict[str, list[str]]:
+    value = value or {}
+    def clean(values):
+        out = []
+        seen = set()
+        for raw in values or []:
+            text = re.sub(r"[.;,\s]+$", "", str(raw or "").strip())
+            if text and text not in seen:
+                seen.add(text)
+                out.append(text)
+        return out
+    return {"required": clean(value.get("required")), "forbidden": clean(value.get("forbidden"))}
+
+
 def validate_plan_integrity(plan: dict[str, Any]) -> None:
     if plan.get("kind") != "STARBLOX_ART_FACTORY_JOB":
         raise ValueError("wrong job kind")
@@ -103,6 +117,19 @@ def select_attempt(plan: dict[str, Any], attempt_id: str) -> dict[str, Any]:
             raise ValueError("runtime negative prompt text/hash mismatch")
     elif runtime_negative_prompt_sha:
         raise ValueError("runtime negative prompt hash present without text")
+
+    constraints = normalize_constraints(attempt.get("constraints"))
+    constraints_sha = str(attempt.get("constraintsSha256") or "")
+    if not constraints_sha or sha256_bytes(canonical_json_bytes(constraints)) != constraints_sha:
+        raise ValueError("constraints hash mismatch")
+    lower_prompt = runtime_prompt.lower()
+    lower_negative = runtime_negative_prompt.lower()
+    for phrase in constraints["required"]:
+        if phrase.lower() not in lower_prompt:
+            raise ValueError(f"runtime prompt missing required constraint: {phrase}")
+    for phrase in constraints["forbidden"]:
+        if phrase.lower() not in lower_negative:
+            raise ValueError(f"runtime negative prompt missing forbidden constraint: {phrase}")
 
     expected_seed = derive_seed(item_id, prompt_sha, str(attempt.get("variant") or ""))
     if int(attempt.get("seed") or 0) != expected_seed:
@@ -939,6 +966,12 @@ def self_test() -> None:
         "promptBlocks": ["physical"],
         "promptText": prompt,
         "promptSha256": prompt_sha,
+        "runtimePromptText": prompt,
+        "runtimePromptSha256": prompt_sha,
+        "runtimeNegativePromptText": "",
+        "runtimeNegativePromptSha256": sha256_bytes(b""),
+        "constraints": {"required": [], "forbidden": []},
+        "constraintsSha256": sha256_bytes(canonical_json_bytes({"required": [], "forbidden": []})),
         "promptRecipeVersion": "test",
         "seed": seed,
         "runtime": {"repo": EXPECTED_RUNTIME_REPO, "commit": EXPECTED_RUNTIME_COMMIT},

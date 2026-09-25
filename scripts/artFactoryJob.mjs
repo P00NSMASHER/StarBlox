@@ -4,7 +4,7 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import {execFileSync} from 'node:child_process';
 import {pathToFileURL} from 'node:url';
-import {optimizeBrief,recommend,sha,train} from './artPromptOptimizer.mjs';
+import {constraintsSha,normalizeConstraints,optimizeBrief,recommend,sha,train} from './artPromptOptimizer.mjs';
 
 export const FACTORY_BRANCH='screenshot-match-preproduction';
 export const RIGHTS_BASIS='USER_ATTESTED_FULL_RIGHTS';
@@ -42,6 +42,8 @@ export function buildJobPlan({
       runtimePromptSha256:v.runtimePromptSha256||v.promptSha256,
       runtimeNegativePromptText:v.runtimeNegativePromptText||'',
       runtimeNegativePromptSha256:v.runtimeNegativePromptSha256||sha(v.runtimeNegativePromptText||''),
+      constraints:normalizeConstraints(v.constraints||{}),
+      constraintsSha256:v.constraintsSha256||constraintsSha(v.constraints||{}),
       promptRecipeVersion,seed,
       runtime:{repo:runtime.repo,commit:runtime.commit},
       model:{modelId,revision:modelRevision,rightsBasis:RIGHTS_BASIS},
@@ -80,6 +82,14 @@ export function validateJobPlan(plan){
     const runtimeNegativePromptText=a.runtimeNegativePromptText||'';
     const runtimeNegativePromptSha256=a.runtimeNegativePromptSha256||sha('');
     if(sha(runtimeNegativePromptText)!==runtimeNegativePromptSha256) errors.push(`${a.attemptId||'attempt'} runtime negative prompt hash mismatch`);
+    const normalizedConstraints=normalizeConstraints(a.constraints||{});
+    if(!a.constraintsSha256||constraintsSha(normalizedConstraints)!==a.constraintsSha256) errors.push(`${a.attemptId||'attempt'} constraints hash mismatch`);
+    for(const required of normalizedConstraints.required){
+      if(!runtimePromptText.toLowerCase().includes(required.toLowerCase())) errors.push(`${a.attemptId||'attempt'} runtime prompt missing required constraint: ${required}`);
+    }
+    for(const forbidden of normalizedConstraints.forbidden){
+      if(!runtimeNegativePromptText.toLowerCase().includes(forbidden.toLowerCase())) errors.push(`${a.attemptId||'attempt'} runtime negative prompt missing forbidden constraint: ${forbidden}`);
+    }
     const expected=deriveSeed(plan?.item?.id,a.promptSha256,a.variant);
     if(a.seed!==expected) errors.push(`${a.attemptId||'attempt'} deterministic seed mismatch`);
     seeds.push(a.seed); prompts.push(a.promptSha256);
@@ -188,11 +198,18 @@ export function buildRequestPlans({
     };
     if(String(review.decision).toUpperCase()==='ACCEPT') throw Error(`${itemId} is already ACCEPTed; structured request is stale`);
 
+    const itemConstraints=normalizeConstraints(reqItem?.constraints||{});
     const optimized=variants.map(v=>{
       const input=String(v?.optimizerInput||'').trim();
       if(!input) throw Error(`${itemId}/${v?.variantId||'variant'} optimizerInput missing`);
       if(v?.optimizerInputSha256&&sha(input)!==v.optimizerInputSha256) throw Error(`${itemId}/${v?.variantId||'variant'} optimizerInputSha256 mismatch`);
-      return optimizeBrief(item,input,review,model,String(v?.variantId||'REQUEST'));
+      const variantConstraints=normalizeConstraints(v?.constraints||{required:v?.required||[],forbidden:v?.forbidden||[]});
+      const constraints=normalizeConstraints({
+        required:[...itemConstraints.required,...variantConstraints.required],
+        forbidden:[...itemConstraints.forbidden,...variantConstraints.forbidden]
+      });
+      if(v?.constraintsSha256&&constraintsSha(constraints)!==v.constraintsSha256) throw Error(`${itemId}/${v?.variantId||'variant'} constraintsSha256 mismatch`);
+      return optimizeBrief(item,input,review,model,String(v?.variantId||'REQUEST'),constraints);
     });
     const recommendation={sourceReviewHash:review.assetHash||null,variants:optimized};
     const plan=buildJobPlan({
@@ -204,7 +221,11 @@ export function buildRequestPlans({
       variantId:v.variantId||optimized[index].variant,
       plannerSeed:v.seed??null,
       optimizerInputSha256:v.optimizerInputSha256||sha(String(v.optimizerInput||'').trim()),
+      constraints:optimized[index].constraints,
+      constraintsSha256:optimized[index].constraintsSha256,
       compiledPromptSha256:optimized[index].promptSha256,
+      compiledRuntimePromptSha256:optimized[index].runtimePromptSha256,
+      compiledRuntimeNegativePromptSha256:optimized[index].runtimeNegativePromptSha256,
       compiledSeed:plan.attempts[index].seed
     }));
     delete plan.planSha256;

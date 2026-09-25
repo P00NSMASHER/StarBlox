@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "kind": "STARBLOX_ART_FACTORY_BATCH_REQUEST",
   "planner": "15",
   "producer": "09",
@@ -63,7 +63,29 @@
           "variantId": "B-MINIMAL-VANITY-SET",
           "optimizerInput": "One vanity table, one oval mirror, one separate padded stool on plain white. Pink Art Attack styling. No extra mirrors, room, walls, windows, curtains, floor, shelves, text, duplicate furniture, alternate view."
         }
-      ]
+      ],
+      "constraints": {
+        "required": [
+          "one pink vanity table",
+          "one oval mirror centered on table",
+          "one separate padded stool",
+          "seamless white background"
+        ],
+        "forbidden": [
+          "side mirrors",
+          "room",
+          "wall",
+          "window",
+          "curtain",
+          "floor",
+          "shelving",
+          "labels",
+          "text",
+          "collage",
+          "alternate view",
+          "duplicate furniture"
+        ]
+      }
     }
   },
   "executionBudget": {

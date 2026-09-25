@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "kind": "STARBLOX_ART_FACTORY_BATCH_REQUEST",
   "planner": "15",
   "producer": "13",
@@ -53,7 +53,29 @@
           "variantId": "B-LITERAL-TRAVEL-TRIPTYCH",
           "optimizerInput": "Three framed travel pictures only, side by side on white: left mountain path, center unmistakable compass over map, right ocean shoreline. Exactly three equal independent frames. NO fourth frame, enclosing panel, grid, shelf, room, furniture, floor, collage, text."
         }
-      ]
+      ],
+      "constraints": {
+        "required": [
+          "exactly three equal independent portrait frames",
+          "one horizontal row",
+          "left mountain trail",
+          "center black compass rose over beige map",
+          "right blue ocean coast",
+          "plain white background"
+        ],
+        "forbidden": [
+          "outer border",
+          "backboard",
+          "grid",
+          "fourth frame",
+          "shelf",
+          "room",
+          "floor",
+          "furniture",
+          "extra panel",
+          "text"
+        ]
+      }
     }
   },
   "executionBudget": {

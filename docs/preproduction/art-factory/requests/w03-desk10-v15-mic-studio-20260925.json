@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "kind": "STARBLOX_ART_FACTORY_BATCH_REQUEST",
   "planner": "15",
   "producer": "03",
@@ -59,7 +59,28 @@
           "variantId": "B-MINIMAL-STREAMING-DESK",
           "optimizerInput": "Single isolated black streaming desk on white. Broad top, two side supports, small monitor, short boom mic with visible capsule clamped to right edge, closed PC tower below, cyan accents. No room architecture, shelf, chair, rear panel, duplicate view, text."
         }
-      ]
+      ],
+      "constraints": {
+        "required": [
+          "broad black streaming desk",
+          "two stable side supports",
+          "one smaller monitor",
+          "short boom microphone with visible capsule clamped to right edge",
+          "closed PC tower below",
+          "plain white studio background"
+        ],
+        "forbidden": [
+          "room",
+          "wall",
+          "shelves",
+          "rear frame",
+          "chair",
+          "extra screen",
+          "collage",
+          "labels",
+          "text"
+        ]
+      }
     }
   },
   "executionBudget": {

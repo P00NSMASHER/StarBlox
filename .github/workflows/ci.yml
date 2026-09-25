@@ -41,5 +41,6 @@ jobs:
             scripts/catalogFallbackBacklog.node-test.mjs \
             scripts/artRegenerationQueue.node-test.mjs \
             scripts/artWorkflowAudit.node-test.mjs
+          python3 scripts/artPromptTokenPreflight.py --self-test
       - name: Build production bundle
         run: npm run build
