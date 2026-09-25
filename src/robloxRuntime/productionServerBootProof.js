@@ -3,7 +3,7 @@ import {
 } from './privatePublish.js';
 
 export const STARBLOX_SERVER_BOOT_PROOF_VERSION='starblox-production-server-boot-v1';
-export const STARBLOX_SERVER_BOOT_RELEASE_ID='starblox-private-step9-joinfix-v1';
+export const STARBLOX_SERVER_BOOT_RELEASE_ID='starblox-private-step9-brookhaven-v2';
 
 export function buildProductionServerBootProbeScript({
   releaseId=STARBLOX_SERVER_BOOT_RELEASE_ID
@@ -57,6 +57,10 @@ assert(okBootstrap, "production Bootstrap.start failed: " .. tostring(services))
 assert(type(services) == "table", "production Bootstrap did not return services")
 assert(services.CoreLoop ~= nil, "CoreLoop service missing after bootstrap")
 assert(services.PrivatePlaytestTelemetry ~= nil, "private playtest telemetry service missing after bootstrap")
+
+local brookhaven = Workspace:FindFirstChild("BrookhavenWorldBaseline")
+assert(brookhaven ~= nil and brookhaven:IsA("Model"), "verified Brookhaven world mount missing")
+assert(#brookhaven:GetDescendants() >= 5493, "Brookhaven world mount is unexpectedly incomplete")
 
 local world = Workspace:FindFirstChild("StarBloxCoreLoop")
 assert(world ~= nil, "core-loop world was not created by production bootstrap")
@@ -121,6 +125,7 @@ export async function runProductionServerBootProof({
       replicaClientPresent:true,
       productionRuntimeEnabled:true,
       productionBootstrapStarted:true,
+      brookhavenWorldMounted:true,
       coreLoopCreated:true,
       playtestTelemetryCreated:true
     }),
