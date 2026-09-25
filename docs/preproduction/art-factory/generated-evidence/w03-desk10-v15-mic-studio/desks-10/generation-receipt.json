@@ -1,0 +1,112 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_GENERATION_RECEIPT",
+  "repository": "P00NSMASHER/StarBlox",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "da9d67942355f4e96f90b5ee1e4ae9c08641469c",
+  "sourcePlanSha256": "a634f55d0a98e7860113cf0b556fe0a8aba8987e68163241e78ef268871f1677",
+  "executionCheckout": {
+    "branch": "screenshot-match-preproduction",
+    "head": "da9d67942355f4e96f90b5ee1e4ae9c08641469c",
+    "planSourceHeadMatchesExecutionHead": true
+  },
+  "attempt": {
+    "attemptId": "desks-10-w03-a-mic-first-white-studio-db7b955e9c",
+    "itemId": "desks-10",
+    "producer": "03",
+    "variant": "A-MIC-FIRST-WHITE-STUDIO",
+    "promptSha256": "db7b955e9cde4f364f97fc9b07fd418c66e654d70e9847f607b1064f5e371f29",
+    "runtimePromptSha256": "79353fa804330de9b07e415c6d5a17fccaf31762982f434d4d2606ef0439d9a1",
+    "runtimeNegativePromptSha256": "b0c5a0d3eab12f830f4b03e57502171faf9d167517f119bd804babab8ac11141",
+    "promptRecipeVersion": "artPromptOptimizer-request-v1:w03-desk10-v15-mic-studio",
+    "seed": 1230907738
+  },
+  "runtime": {
+    "repo": "huggingface/diffusers",
+    "commit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "resolvedCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "runtimeCommitVerified": true,
+    "diffusersVersion": "0.41.0.dev0",
+    "diffusersInstallSource": "https://github.com/huggingface/diffusers.git",
+    "torchVersion": "2.8.0+cpu",
+    "transformersVersion": "5.17.0",
+    "accelerateVersion": "1.15.0",
+    "huggingfaceHubVersion": "1.33.0",
+    "safetensorsVersion": "0.8.0",
+    "pythonPillowVersion": "12.3.0",
+    "device": "cpu",
+    "dtype": "float32",
+    "executionMode": "cpu-fallback"
+  },
+  "model": {
+    "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+    "revision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS",
+    "resolvedRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "snapshotRevisionVerified": true,
+    "selectiveSnapshot": true,
+    "snapshotAllowPatterns": [
+      "model_index.json",
+      "scheduler/*",
+      "tokenizer/*",
+      "tokenizer_2/*",
+      "feature_extractor/*",
+      "text_encoder/config.json",
+      "text_encoder/model.fp16.safetensors",
+      "text_encoder_2/config.json",
+      "text_encoder_2/model.fp16.safetensors",
+      "unet/config.json",
+      "unet/diffusion_pytorch_model.fp16.safetensors",
+      "vae/config.json",
+      "vae/diffusion_pytorch_model.fp16.safetensors"
+    ]
+  },
+  "conditioning": {
+    "referenceAssetSha256": null,
+    "controlImageSha256": null,
+    "adapterScale": null,
+    "referenceImage": null,
+    "ipAdapterModelId": null,
+    "ipAdapterRevision": null,
+    "ipAdapterResolvedRevision": null,
+    "ipAdapterRevisionVerified": false,
+    "ipAdapterWeightName": null,
+    "ipAdapterSubfolder": null
+  },
+  "generation": {
+    "width": 640,
+    "height": 640,
+    "numInferenceSteps": 12,
+    "guidanceScale": 5.0,
+    "runtimePromptTokenCounts": {
+      "tokenizer": 61,
+      "tokenizer_2": 61
+    },
+    "runtimeNegativePromptTokenCounts": {
+      "tokenizer": 31,
+      "tokenizer_2": 31
+    },
+    "executedSeed": 1230907738
+  },
+  "output": {
+    "repoPath": "public/assets/catalog-candidates/cpu/desks-10-w03-v15-a-mic-first-white-studio-original.png",
+    "sha256": "67821e7e826315149d1d6e8e07b6737ae8237b8a9f4a528b6f32cb7a80a40b5f",
+    "gitBlobSha": "d037ad0f53656c993adf772e92ce9edcb6814caa",
+    "bytes": 544977,
+    "width": 640,
+    "height": 640,
+    "format": "PNG",
+    "sourceBytesPreserved": true,
+    "reusedExistingIdenticalBytes": false
+  },
+  "safety": {
+    "canonicalArtModified": false,
+    "gameplayModified": false,
+    "reviewDecisionMade": false,
+    "deploymentPerformed": false,
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+  },
+  "nextGate": "RUN_VERIFY_STAGED_OUTPUT_THEN_REAL_RENDER_AND_INDEPENDENT_EXACT_HASH_REVIEW",
+  "status": "GENERATED_SOURCE_BYTES_UNVERIFIED",
+  "recordSha256": "5b1deee641e85ecfd291c180689f8f7ffecf76f4f94471193461e782622651d6"
+}
