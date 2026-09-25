@@ -245,7 +245,7 @@ mod tests {
 
     fn baseline_xml(color: &str) -> String {
         format!(r#"<roblox version="4">
-<Item class="Model" referent="B0"><Properties><string name="Name">BrookhavenWorldBaseline</string><bool name="NeedsPivotMigration">false</bool></Properties>
+<Item class="Model" referent="B0"><Properties><string name="Name">BrookhavenWorldBaseline</string></Properties>
 <Item class="Part" referent="B1"><Properties><string name="Name">BHW_0001</string><Color3 name="Color"><R>{color}</R><G>0</G><B>0</B></Color3></Properties></Item>
 </Item></roblox>"#)
     }
@@ -253,7 +253,7 @@ mod tests {
     fn mounted_xml(color: &str) -> String {
         format!(r#"<roblox version="4">
 <Item class="Workspace" referent="W"><Properties><string name="Name">Workspace</string></Properties>
-<Item class="Model" referent="B0"><Properties><string name="Name">BrookhavenWorldBaseline</string></Properties>
+<Item class="Model" referent="B0"><Properties><string name="Name">BrookhavenWorldBaseline</string><bool name="NeedsPivotMigration">false</bool></Properties>
 <Item class="Part" referent="B1"><Properties><string name="Name">BHW_0001</string><Color3 name="Color"><R>{color}</R><G>0</G><B>0</B></Color3></Properties></Item>
 </Item></Item>
 <Item class="ReplicatedStorage" referent="R"><Properties><string name="Name">ReplicatedStorage</string></Properties><Item class="Folder" referent="RS"><Properties><string name="Name">StarBlox</string></Properties></Item></Item>
