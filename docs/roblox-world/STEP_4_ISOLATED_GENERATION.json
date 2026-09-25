@@ -1,0 +1,98 @@
+{
+  "schemaVersion": "starblox-brookhaven-world-generation-snapshot-v1",
+  "step": "target-architecture-4-of-6",
+  "status": "verified-native-isolated-generation",
+  "verifiedBy": {
+    "workflow": "StarBlox CI",
+    "runId": 36186685230,
+    "verifiedHead": "91f64a99853680e2ebf4aeb5f02743256880726a"
+  },
+  "receipt": {
+    "schemaVersion": 1,
+    "version": "starblox-brookhaven-world-generator-v1",
+    "status": "generated-isolated-world-model",
+    "input": {
+      "step3IrHash": "sha256:558cb27979f308a171fc33165bddc5ee078326bd4aed4483a1a46f4f7ba8caba",
+      "step3EntryCount": 4936,
+      "step3EntryCanonicalSequenceSha256": "abea208104e4433431e7875df77c66b69a4e1e83dbf03e9453975aceb811c94d",
+      "step3SourceSliceSequenceSha256": "54e1343151439f29557b3a4646e6700098392ce5c9c4be60571d5765d4e01cf8"
+    },
+    "output": {
+      "rootClass": "Model",
+      "rootName": "BrookhavenWorldBaseline",
+      "format": "rbxmx",
+      "bytes": 5303322,
+      "sha256": "4dfd451ae211dead959ec3f165e2b477a9725d04727febdc66472e95328917df",
+      "partCount": 4936,
+      "decalCount": 494,
+      "specialMeshCount": 62,
+      "generatedObjectCount": 5493,
+      "uniqueAssetIdCount": 154,
+      "sortedAssetIdsSha256": "95c0e8b97478ed6ae0a36948f8568878d15b94153ceaefbc34d7088b098a6552",
+      "generatedEntrySequenceSha256": "6adb5fcc0d1bc5910d38b0495d84a77a8a844e47c4a72ce2525b4a24f9de0601",
+      "sourceCanonicalSequenceSha256": "abea208104e4433431e7875df77c66b69a4e1e83dbf03e9453975aceb811c94d",
+      "sourceSliceSequenceSha256": "54e1343151439f29557b3a4646e6700098392ce5c9c4be60571d5765d4e01cf8"
+    },
+    "adaptationPolicy": {
+      "policy": "preserve-source-in-step3-adapt-only-engine-invalid-properties",
+      "adaptationCount": 2,
+      "adaptations": [
+        {
+          "entryIndex": 832,
+          "property": "Reflectance",
+          "reason": "source value exceeds Roblox nominal unit range",
+          "sourceValue": 5,
+          "generatedValue": 1
+        },
+        {
+          "entryIndex": 844,
+          "property": "SpecialMesh.VertexColor",
+          "reason": "source value exceeds Roblox nominal unit range",
+          "sourceValue": [
+            3000000028082176,
+            2.999999954472962e+31,
+            3000000028082176
+          ],
+          "generatedValue": [
+            1,
+            1,
+            1
+          ]
+        }
+      ],
+      "allOtherEntriesGeneratedWithoutPolicyAdaptation": true
+    },
+    "isolation": {
+      "containsStarBloxGameplayCode": false,
+      "containsScripts": false,
+      "containsRemotes": false,
+      "standaloneModelOnly": true,
+      "mountedIntoProductionPlace": false
+    },
+    "boundaries": {
+      "studioMutationStarted": false,
+      "robloxPlaceMutated": false,
+      "publicationStarted": false,
+      "liveActivationAllowed": false
+    },
+    "nextStep": "target-architecture-5-world-exactness-and-starblox-mount"
+  },
+  "nativeRoundTrip": {
+    "rbxDomRead": true,
+    "rojoStandalonePlaceBuild": true,
+    "generatedNativeInstanceCount": 5494,
+    "classCounts": {
+      "Model": 1,
+      "Part": 4385,
+      "Seat": 271,
+      "WedgePart": 247,
+      "CornerWedgePart": 31,
+      "VehicleSeat": 2,
+      "Decal": 494,
+      "SpecialMesh": 62
+    },
+    "scriptCount": 0,
+    "remoteCount": 0,
+    "assetIdCount": 154
+  }
+}
