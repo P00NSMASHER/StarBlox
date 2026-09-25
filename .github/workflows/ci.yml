@@ -194,6 +194,44 @@ jobs:
           fi
           grep -q "requires an attested live Studio connector" /tmp/m4-unattested.log
           test ! -f /tmp/m4-run.json
+      - name: Build receipt-bound Milestone 4 staging place
+        run: |
+          rm -rf /tmp/m4-staging
+          M4_UNIT_ID="$(node --input-type=module -e "import fs from 'node:fs'; const x=JSON.parse(fs.readFileSync('/tmp/m4-selection.json','utf8')); process.stdout.write(x.unit.unitId)")"
+          npm run roblox:m4:staging -- --export-receipt /tmp/m4-export/migration-export-receipt.json --unit "$M4_UNIT_ID" --out-dir /tmp/m4-staging
+          test -f /tmp/m4-staging/StarterGuiSource.rbxmx
+          test -f /tmp/m4-staging/StarBlox-milestone4-staging.rbxlx
+          test -f /tmp/m4-staging/milestone4-staging-receipt.json
+          grep -q '"status": "prepared-offline"' /tmp/m4-staging/milestone4-staging-receipt.json
+          grep -q '"studioConnectorAttested": false' /tmp/m4-staging/milestone4-staging-receipt.json
+          grep -q '"studioMutationStarted": false' /tmp/m4-staging/milestone4-staging-receipt.json
+          grep -q '"playtestStarted": false' /tmp/m4-staging/milestone4-staging-receipt.json
+          grep -q '"publicationStarted": false' /tmp/m4-staging/milestone4-staging-receipt.json
+          grep -q '"liveActivationAllowed": false' /tmp/m4-staging/milestone4-staging-receipt.json
+          cargo run --quiet --manifest-path tools/roblox_catalog_reader/Cargo.toml -- /tmp/m4-staging/StarBlox-milestone4-staging.rbxlx > /tmp/m4-staging-dom.json
+          grep -q 'StarterGuiSource' /tmp/m4-staging-dom.json
+          grep -q 'StarBloxMigration' /tmp/m4-staging-dom.json
+          node --input-type=module - <<'NODE'
+          import {createHash} from 'node:crypto';
+          import {readFile} from 'node:fs/promises';
+          import {resolve} from 'node:path';
+          const digest=bytes => createHash('sha256').update(bytes).digest('hex');
+          const base='/tmp/m4-staging';
+          const receipt=JSON.parse(await readFile(resolve(base,'milestone4-staging-receipt.json'),'utf8'));
+          const container=await readFile(resolve(base,receipt.derived.container.file));
+          const place=await readFile(resolve(base,receipt.derived.stagingPlace.file));
+          if(digest(container)!==receipt.derived.container.sha256) throw new Error('derived container SHA mismatch');
+          if(container.length!==receipt.derived.container.bytes) throw new Error('derived container byte mismatch');
+          if(digest(place)!==receipt.derived.stagingPlace.sha256) throw new Error('staging place SHA mismatch');
+          if(place.length!==receipt.derived.stagingPlace.bytes) throw new Error('staging place byte mismatch');
+          const {receiptHash,...payload}=receipt;
+          const expected='sha256:'+digest(Buffer.from(JSON.stringify(payload),'utf8'));
+          if(expected!==receiptHash) throw new Error('staging receipt payload hash mismatch');
+          if(receipt.input.unit.unitId!==process.env.M4_EXPECTED_UNIT && process.env.M4_EXPECTED_UNIT){
+            throw new Error('unexpected Milestone 4 unit');
+          }
+          NODE
+          npx vitest run src/devFactory/milestone4LiveAdapter.test.js
       - name: Smoke-test Roblox capability catalog
         run: |
           npm run roblox:catalog -- --preflight /tmp/roblox-catalog-handoff.json --out /tmp/roblox-catalog.json --report /tmp/roblox-catalog.md
