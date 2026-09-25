@@ -6,7 +6,7 @@ use std::{
     process,
 };
 
-use rbx_dom_weak::{types::Ref, WeakDom};
+use rbx_dom_weak::{types::{Ref, Variant}, ustr, WeakDom};
 use serde_json::json;
 
 fn read_dom(path: &Path) -> Result<WeakDom, Box<dyn std::error::Error>> {
@@ -53,6 +53,7 @@ fn compare_subtrees(
     actual_ref: Ref,
     path: &str,
     stats: &mut CompareStats,
+    allow_rojo_mount_root_normalization: bool,
 ) -> Result<(), Box<dyn std::error::Error>> {
     let expected = expected_dom.get_by_ref(expected_ref).ok_or("expected referent missing")?;
     let actual = actual_dom.get_by_ref(actual_ref).ok_or("actual referent missing")?;
@@ -64,7 +65,16 @@ fn compare_subtrees(
         return Err(format!("{path}: class drift: expected {}, found {}", expected.class, actual.class).into());
     }
     if expected.properties != actual.properties {
-        return Err(format!("{path}: property drift for {} {} expected={:?} actual={:?}", expected.class, expected.name, expected.properties, actual.properties).into());
+        let known_root_normalization = allow_rojo_mount_root_normalization
+            && expected.properties.is_empty()
+            && actual.properties.len() == 1
+            && matches!(
+                actual.properties.get(&ustr("NeedsPivotMigration")),
+                Some(Variant::Bool(false))
+            );
+        if !known_root_normalization {
+            return Err(format!("{path}: property drift for {} {} expected={:?} actual={:?}", expected.class, expected.name, expected.properties, actual.properties).into());
+        }
     }
 
     stats.instance_count += 1;
@@ -119,6 +129,7 @@ fn compare_subtrees(
             actual_child_ref,
             &child_path,
             stats,
+            false,
         )?;
     }
 
@@ -150,6 +161,7 @@ fn verify(baseline_path: &Path, mounted_path: &Path) -> Result<serde_json::Value
         mounted_world_ref,
         "Workspace/BrookhavenWorldBaseline",
         &mut stats,
+        true,
     )?;
 
     for path in [
@@ -171,7 +183,10 @@ fn verify(baseline_path: &Path, mounted_path: &Path) -> Result<serde_json::Value
         "ok": true,
         "world": {
             "path": "Workspace/BrookhavenWorldBaseline",
-            "propertyExact": true,
+            "descendantPropertiesExact": true,
+            "rawRootPropertyExact": false,
+            "knownRojoRootNormalization": {"NeedsPivotMigration": false},
+            "propertyExactAfterKnownRojoNormalization": true,
             "instanceCount": stats.instance_count,
             "scriptCount": stats.script_count,
             "remoteCount": stats.remote_count
@@ -215,7 +230,7 @@ mod tests {
 
     fn baseline_xml(color: &str) -> String {
         format!(r#"<roblox version="4">
-<Item class="Model" referent="B0"><Properties><string name="Name">BrookhavenWorldBaseline</string></Properties>
+<Item class="Model" referent="B0"><Properties><string name="Name">BrookhavenWorldBaseline</string><bool name="NeedsPivotMigration">false</bool></Properties>
 <Item class="Part" referent="B1"><Properties><string name="Name">BHW_0001</string><Color3 name="Color"><R>{color}</R><G>0</G><B>0</B></Color3></Properties></Item>
 </Item></roblox>"#)
     }
@@ -239,7 +254,8 @@ mod tests {
         fs::write(&baseline, baseline_xml("1")).unwrap();
         fs::write(&mounted, mounted_xml("1")).unwrap();
         let result = verify(&baseline, &mounted).unwrap();
-        assert_eq!(result["world"]["propertyExact"], true);
+        assert_eq!(result["world"]["propertyExactAfterKnownRojoNormalization"], true);
+        assert_eq!(result["world"]["knownRojoRootNormalization"]["NeedsPivotMigration"], false);
         assert_eq!(result["world"]["instanceCount"], 2);
         let _ = fs::remove_file(baseline);
         let _ = fs::remove_file(mounted);
