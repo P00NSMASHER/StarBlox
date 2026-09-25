@@ -17,14 +17,23 @@ function taskUrl(path){
 }
 
 async function jsonRequest(fetchImpl,url,{method='GET',apiKey,body}={}){
-  const response=await fetchImpl(url,{
-    method,
-    headers:{
-      'x-api-key':apiKey,
-      ...(body === undefined ? {} : {'content-type':'application/json'})
-    },
-    ...(body === undefined ? {} : {body:JSON.stringify(body)})
-  });
+  let response;
+  for(let attempt=0;attempt<4;attempt+=1){
+    response=await fetchImpl(url,{
+      method,
+      headers:{
+        'x-api-key':apiKey,
+        ...(body === undefined ? {} : {'content-type':'application/json'})
+      },
+      ...(body === undefined ? {} : {body:JSON.stringify(body)})
+    });
+    if(response.status !== 429 || attempt === 3) break;
+    const retrySeconds=Number(response.headers?.get?.('retry-after'));
+    const waitMs=Number.isFinite(retrySeconds) && retrySeconds > 0
+      ? Math.min(retrySeconds * 1000,30_000)
+      : Math.min(5_000 * (2 ** attempt),30_000);
+    await delay(waitMs);
+  }
   const text=await response.text();
   let payload={};
   try{
