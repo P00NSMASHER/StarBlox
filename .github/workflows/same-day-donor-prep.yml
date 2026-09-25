@@ -47,6 +47,15 @@ jobs:
           done
           grep -Eq '"indexHash": "sha256:[a-f0-9]{64}"' artifacts/same-day-donors/donor-checkout-index.json
 
+      - name: Verify portable donor cache exactly as Studio host will
+        run: |
+          node scripts/verify-same-day-donor-cache.mjs \
+            --manifest config/same-day/pipeline.example.json \
+            --index artifacts/same-day-donors/donor-checkout-index.json \
+            --out artifacts/same-day-donors/portable-verification.json
+          grep -q '"status": "verified"' artifacts/same-day-donors/portable-verification.json
+          grep -Eq '"verificationHash": "sha256:[a-f0-9]{64}"' artifacts/same-day-donors/portable-verification.json
+
       - name: Upload resumable donor source cache
         uses: actions/upload-artifact@v4
         with:
