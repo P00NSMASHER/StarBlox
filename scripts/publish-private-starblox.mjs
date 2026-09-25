@@ -53,23 +53,6 @@ async function emit(receipt){
 
 const before=await probeCurrentRelease({apiKey,universeId,placeId});
 
-if(before.releaseId === STARBLOX_PRIVATE_RELEASE_ID){
-  await emit(buildPrivatePublishReceipt({
-    universeId,
-    placeId,
-    releaseId:STARBLOX_PRIVATE_RELEASE_ID,
-    sourceCommit,
-    previousVersion:before.versionNumber,
-    publishedVersion:before.versionNumber,
-    verifiedVersion:before.versionNumber,
-    artifactSha256:'',
-    artifactBytes:0,
-    skipped:true,
-    verificationTaskPath:before.taskPath
-  }));
-  process.exit(0);
-}
-
 const rojo=process.platform === 'win32' ? 'rojo.exe' : 'rojo';
 const version=run(rojo,['--version'],'Rojo version check');
 if(!version.includes(EXPECTED_ROJO_VERSION)){
