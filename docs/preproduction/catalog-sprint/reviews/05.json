@@ -4,7 +4,7 @@
   "role": "independent catalog reviewer for beds/desks/companions/auras",
   "phase": "ART_VISUALS_SPRINT",
   "branch": "screenshot-match-preproduction",
-  "sourceHead": "12c6e414a0770f74e3e7fd85f04ed003033ad443",
+  "sourceHead": "8d261169cc9a23deb03c5d3508b734e75044bf04",
   "policy": "docs/preproduction/DELIVERY_PROTOCOL_V2.md",
   "visualSprint": "docs/preproduction/ART_VISUALS_SPRINT.json",
   "referenceManifest": "docs/preproduction/reference-screenshots/original-reference-manifest.json",
@@ -930,6 +930,61 @@
         "duplicateVisual": "PASS",
         "technicalIntegrity": "PASS"
       }
+    },
+    {
+      "itemId": "desks-10",
+      "name": "Neon Streaming Desk",
+      "collectionId": "desks",
+      "collection": "Desks & Tech",
+      "type": "room",
+      "tier": 4,
+      "theme": "Aqua Wave",
+      "price": 928,
+      "starReq": 5,
+      "assetPath": "public/assets/catalog-candidates/deterministic/desks-10-v16.svg",
+      "repositoryPath": "public/assets/catalog-candidates/deterministic/desks-10-v16.svg",
+      "assetHash": "8eb15c972ec4a29e52db24d8c93e468348b55874",
+      "sha256": null,
+      "contentSha256": null,
+      "hashAlgorithm": "git-blob-sha1",
+      "producer": "deterministic-svg",
+      "decision": "ACCEPT",
+      "learnerLabel": "ACCEPT",
+      "evidenceRefs": [
+        "workflow:36094833312",
+        "artifact:10847495770/staged-replacements/detail/desks-10-8eb15c97.png",
+        "factory-evidence:docs/preproduction/art-factory/generated-evidence/desks-10-v16-deterministic-svg/desks-10/staged-output.json",
+        "independent-browser-review:3f3f4803-22de-4142-a73b-26da37de566b"
+      ],
+      "evidence": {
+        "candidateStageCommitSha": "fbc6aac73fa6a1c0250786c9c89ca4c32a54a245",
+        "hashBindingCommitSha": "f6f76a6ef875a7ba99caaf54bccac0cbac5262d1",
+        "qaWorkflowRunId": 36094833312,
+        "qaArtifactId": 10847495770,
+        "detailRenderPath": "staged-replacements/detail/desks-10-8eb15c97.png",
+        "independentBrowserReviewRunId": "3f3f4803-22de-4142-a73b-26da37de566b"
+      },
+      "reasonCodes": [
+        "DETERMINISTIC_CONTRACT_SATISFIED",
+        "EXACT_REQUIRED_COMPONENTS_PRESENT",
+        "NO_FORBIDDEN_SCENE_ELEMENTS",
+        "EXACT_HASH_VISUALLY_VERIFIED"
+      ],
+      "reason": "ACCEPT. Independent visual review of exact deterministic hash 8eb15c972ec4a29e52db24d8c93e468348b55874 confirms one broad black streaming desk with exactly two supports, one smaller monitor, an obvious short articulated boom microphone with visible capsule and right-edge clamp, one closed PC tower below, and a plain white background. No room, wall, shelves, chair, extra screen, text, labels, or extra furniture are present.",
+      "nextOwner": "08",
+      "nextRepairGuidance": null,
+      "checks": {
+        "identity": "PASS",
+        "themeTier": "PASS",
+        "silhouette": "PASS",
+        "materialLighting": "PASS",
+        "cardReadability": "PASS",
+        "physicalConstruction": "PASS",
+        "framingComposition": "PASS",
+        "originality": "PASS",
+        "duplicateVisual": "PASS",
+        "technicalIntegrity": "PASS"
+      }
     }
   ],
   "preservedAcceptedCurrentHashes": [
@@ -1057,35 +1112,40 @@
       "itemId": "beds-4",
       "assetHash": "18fa8722d9831af1113e07c2103b373acc41c3c0",
       "decision": "ACCEPT"
+    },
+    {
+      "itemId": "desks-10",
+      "assetHash": "8eb15c972ec4a29e52db24d8c93e468348b55874",
+      "decision": "ACCEPT"
     }
   ],
   "pendingCurrentHashes": [],
   "handoff": {
-    "14": "Desk10 v16 exact render packet consumed; do not rerender unchanged hash.",
-    "15": "Desk10 remains a bounded exact-pixel blocker after v16.",
-    "03": "Desk10 v16 REWORK. Preserve exact hash. Use one isolated black desk on pure white with two supports, a small blank monitor, an obvious short boom microphone clamped right, and a closed PC tower below right; no chair, shelves, extra panels or room context.",
-    "08": "Do not canonical-wire Desk10 v16."
+    "14": "Desk10 deterministic v16 exact rendered packet consumed; preserve exact accepted hash.",
+    "15": "Desk10 visual release decision complete: ACCEPT.",
+    "03": "Stop Desk10 production. Preserve accepted deterministic exact hash 8eb15c972ec4a29e52db24d8c93e468348b55874.",
+    "08": "Desk10 exact deterministic hash 8eb15c972ec4a29e52db24d8c93e468348b55874 is ACCEPT and eligible for canonical integration."
   },
   "summary": {
-    "totalVersionsReviewed": 44,
-    "accepted": 25,
+    "totalVersionsReviewed": 45,
+    "accepted": 26,
     "rework": 19,
     "blocked": 0,
     "thisCycle": {
       "reviewed": 1,
-      "accepted": 0,
-      "rework": 1,
+      "accepted": 1,
+      "rework": 0,
       "blocked": 0
     },
     "reviewedThisRun": 1,
-    "newAcceptsThisRun": 0,
-    "newReworkThisRun": 1,
+    "newAcceptsThisRun": 1,
+    "newReworkThisRun": 0,
     "newBlockedThisRun": 0,
-    "newUsableBy08Now": [],
-    "reworkNow": [
+    "newUsableBy08Now": [
       "desks-10"
     ],
-    "preservedAcceptedHashes": "All prior reviewer05 ACCEPTs remain frozen; Desk10 v16 is REWORK only."
+    "reworkNow": [],
+    "preservedAcceptedHashes": "All prior reviewer05 ACCEPTs remain frozen; Desk10 deterministic v16 exact hash is independently ACCEPT."
   },
   "freeze": {
     "selfApproved": false,
@@ -1100,11 +1160,11 @@
   "currentReplacementDisposition": {
     "desks": {
       "REWORK": {
-        "desks-10": "10d363a1bd9869c29a0907d3e98c8f9f2461f3ce",
         "desks-9": "79d5f4e0520910fea1a6ac47c76df451b14ce6f2"
       },
       "ACCEPT": {
-        "desks-9": "9f6855ee25445c8d147933eb38a2e536655739b4"
+        "desks-9": "9f6855ee25445c8d147933eb38a2e536655739b4",
+        "desks-10": "8eb15c972ec4a29e52db24d8c93e468348b55874"
       }
     }
   }
