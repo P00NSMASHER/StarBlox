@@ -1,0 +1,68 @@
+name: StarBlox Step 9 Verify Telemetry Store
+
+on:
+  push:
+    branches:
+      - release/step9-joinfix2
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-telemetry-store:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Read private playtest telemetry directly
+        env:
+          ROBLOX_OPEN_CLOUD_API_KEY: ${{ secrets.ROBLOX_OPEN_CLOUD_API_KEY }}
+        run: |
+          STATUS="$(curl -sS             -o /tmp/telemetry-entry.json             -w '%{http_code}'             -H "x-api-key: $ROBLOX_OPEN_CLOUD_API_KEY"             "https://apis.roblox.com/cloud/v2/universes/6027194615/data-stores/StarBloxPrivatePlaytestTelemetry_v1/entries/latest")"
+          echo "HTTP_STATUS=$STATUS"
+          if [ "$STATUS" != "200" ]; then
+            cat /tmp/telemetry-entry.json
+            exit 1
+          fi
+
+      - name: Verify real iPhone playtest evidence
+        run: |
+          node --input-type=module - <<'NODE'
+          import {readFile} from 'node:fs/promises';
+          const row=JSON.parse(await readFile('/tmp/telemetry-entry.json','utf8'));
+          const report=row.value ?? row;
+          if(report.telemetryVersion!=='starblox-private-playtest-v1') throw new Error('telemetry version mismatch');
+          if(report.releaseId!=='starblox-private-step9-joinfix-v1') throw new Error('release mismatch');
+          if(!(report.placeVersion>=7)) throw new Error('playtest predates joinability fix');
+          if(report.client?.ready!==true || report.client?.touchEnabled!==true) throw new Error('real touch client evidence missing');
+          if(!(report.client?.viewportX>=300 && report.client?.viewportY>=300)) throw new Error('viewport evidence missing');
+          if(!((report.counts?.onboarding_shown||0)>=1 && (report.counts?.onboarding_dismissed||0)>=1)) throw new Error('onboarding evidence missing');
+          if(!((report.counts?.activity_panel_opened||0)>=3)) throw new Error('all three panels were not opened');
+          if(!((report.counts?.success_feedback_seen||0)>=3)) throw new Error('all three client success states were not observed');
+          if(!((report.server?.station_opened||0)>=3)) throw new Error('all three stations were not opened');
+          if(!((report.server?.answer_correct||0)>=3)) throw new Error('all three authoritative correct answers were not recorded');
+          if(!((report.server?.loop_completed||0)>=1)) throw new Error('full loop completion was not recorded');
+          for(const id of ['word-portal-put-v1','spelling-forge-fog-v1','culture-lab-culture-v1']){
+            if(report.activityIds?.[id]!==true) throw new Error('missing activity evidence: '+id);
+          }
+          if(report.privacy?.storesUsername!==false || report.privacy?.storesUserId!==false ||
+             report.privacy?.storesRawAnswers!==false || report.privacy?.storesChat!==false){
+            throw new Error('privacy receipt mismatch');
+          }
+          console.log(JSON.stringify({
+            status:'verified',
+            releaseId:report.releaseId,
+            testedVersion:report.placeVersion,
+            touch:true,
+            viewport:[report.client.viewportX,report.client.viewportY],
+            panels:report.counts.activity_panel_opened,
+            successes:report.counts.success_feedback_seen,
+            authoritativeCorrect:report.server.answer_correct,
+            loops:report.server.loop_completed,
+            wrongFeedbackObserved:(report.counts?.wrong_feedback_seen||0)>0 && (report.server?.answer_wrong||0)>0,
+            privacy:report.privacy
+          },null,2));
+          NODE
