@@ -82,9 +82,26 @@ export function normalizeSameDayPipelineManifest(input){
     ? input.donors.map((row,index)=>normalizeSource(row,'donors[' + index + ']','donor'))
     : [];
 
-  const ids=[authorizedWorld.id,...donors.map(row=>row.id)];
+  const integrationTasks=Array.isArray(input.integrationTasks)
+    ? input.integrationTasks.map((row,index)=>{
+      if(!plain(row)) throw new TypeError('integrationTasks[' + index + '] must be an object.');
+      return {
+        id:safeId(row.id,'integrationTasks[' + index + '].id'),
+        taskFile:requiredString(row.taskFile,'integrationTasks[' + index + '].taskFile'),
+        purpose:typeof row.purpose === 'string' && row.purpose.trim()
+          ? row.purpose.trim()
+          : 'authorized-code-donor-integration'
+      };
+    })
+    : [];
+
+  const ids=[
+    authorizedWorld.id,
+    ...donors.map(row=>row.id),
+    ...integrationTasks.map(row=>row.id)
+  ];
   if(new Set(ids).size !== ids.length){
-    throw new TypeError('authorizedWorld and donors must use unique ids.');
+    throw new TypeError('authorizedWorld, donors and integrationTasks must use unique ids.');
   }
 
   const factoryAdapter=requiredString(input.factoryAdapter,'factoryAdapter');
@@ -113,6 +130,7 @@ export function normalizeSameDayPipelineManifest(input){
       : 2,
     authorizedWorld,
     donors,
+    integrationTasks,
     questMasteryTask,
     integratedVerificationTask,
     gates
@@ -139,6 +157,15 @@ export function buildSameDayPipelinePlan(input){
       maxRepairCycles:manifest.maxRepairCycles
     }));
     tail=[adaptId];
+  }
+
+  for(const task of manifest.integrationTasks){
+    const id='integrate-' + task.id;
+    stages.push(stage(id,'factory-task',tail,{
+      taskFile:task.taskFile,
+      purpose:task.purpose
+    }));
+    tail=[id];
   }
 
   const questId='wire-quest-mastery';
@@ -175,6 +202,7 @@ export function buildSameDayPipelinePlan(input){
     factoryAdapter:manifest.factoryAdapter,
     maxRepairCycles:manifest.maxRepairCycles,
     sourceIds:[manifest.authorizedWorld.id,...manifest.donors.map(row=>row.id)],
+    integrationTaskIds:manifest.integrationTasks.map(row=>row.id),
     stages
   };
 
