@@ -233,6 +233,8 @@ jobs:
           npm run same-day:pipeline -- --manifest config/same-day/pipeline.example.json --plan-only
           test -f artifacts/same-day-starblox/same-day-pipeline-plan.json
           grep -q '"version": "starblox-same-day-pipeline-v1"' artifacts/same-day-starblox/same-day-pipeline-plan.json
+          grep -q '"id": "integrate-arnis"' artifacts/same-day-starblox/same-day-pipeline-plan.json
+          grep -q '"id": "integrate-achassis"' artifacts/same-day-starblox/same-day-pipeline-plan.json
           grep -q '"id": "integrate-flex"' artifacts/same-day-starblox/same-day-pipeline-plan.json
           grep -q '"id": "integrate-rorooms"' artifacts/same-day-starblox/same-day-pipeline-plan.json
           grep -q '"id": "gate-mobile"' artifacts/same-day-starblox/same-day-pipeline-plan.json
