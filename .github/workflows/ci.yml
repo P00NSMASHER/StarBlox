@@ -21,8 +21,15 @@ jobs:
           node-version: '22'
       - name: Use Rust stable
         uses: dtolnay/rust-toolchain@stable
+      - name: Setup pinned Roblox toolchain
+        uses: CompeyDev/setup-rokit@v0.2.1
+        with:
+          version: v1.2.0
+          path: .
       - name: Install dependencies
         run: npm install --no-audit --no-fund
+      - name: Prove native Roblox build
+        run: npm run roblox:native:build-proof
       - name: Test Roblox file reader
         run: npm run roblox:catalog:reader:test
       - name: Smoke-test Roblox source preflight
