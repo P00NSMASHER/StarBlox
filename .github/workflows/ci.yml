@@ -35,6 +35,52 @@ jobs:
           node --check src/sameDayPipeline/sameDayPipeline.js
           node --check src/sameDayPipeline/sourceBootstrap.js
           node --check src/sameDayPipeline/finalSummary.js
+      - name: Smoke-test bundled Pi factory wrapper
+        run: |
+          cat > /tmp/fake-pi-factory.mjs <<'NODE'
+          import {readFile} from 'node:fs/promises';
+          const role=process.env.STARBLOX_FACTORY_ROLE;
+          if(role === 'visual-review'){
+            const imageArg=process.argv.find(arg=>arg.startsWith('@') && arg.endsWith('.png'));
+            if(!imageArg) throw new Error('visual wrapper did not attach PNG');
+            const png=await readFile(imageArg.slice(1));
+            const signature=[137,80,78,71,13,10,26,10];
+            if(!signature.every((value,index)=>png[index]===value)){
+              throw new Error('visual wrapper PNG signature is invalid');
+            }
+          }
+          const output={
+            plan:{
+              summary:'fixture plan',
+              inspectionCalls:[],
+              tests:{required:true},
+              playtest:{required:false,episodeArgs:{},inputActions:[],assertions:[],telemetryDomains:[]},
+              visual:{required:false},
+              acceptance:['fixture']
+            },
+            code:{summary:'fixture code',actions:[]},
+            repair:{summary:'fixture repair',actions:[]},
+            review:{verdict:'pass',findings:[],summary:'fixture review'},
+            'visual-review':{ok:true,findings:[],summary:'fixture visual'}
+          }[role];
+          if(!output) throw new Error('unexpected role '+role);
+          process.stdout.write(JSON.stringify(output));
+          NODE
+
+          for role in plan code repair review; do
+            printf '%s' "{\"protocol\":\"starblox-factory-agent-v1\",\"role\":\"$role\",\"context\":{}}" |
+              STARBLOX_PI_COMMAND=node \
+              STARBLOX_PI_ARGS='["/tmp/fake-pi-factory.mjs"]' \
+              node scripts/agents/pi-factory-wrapper.mjs "$role" > "/tmp/pi-$role.json"
+            test -s "/tmp/pi-$role.json"
+          done
+
+          printf '%s' '{"protocol":"starblox-factory-agent-v1","role":"visual-review","context":{"capture":{"format":"rgba8","width":1,"height":1,"dataB64":"/wAA/w=="},"screenshot":{"captured":true},"acceptance":[]}}' |
+            STARBLOX_PI_COMMAND=node \
+            STARBLOX_PI_ARGS='["/tmp/fake-pi-factory.mjs"]' \
+            node scripts/agents/pi-factory-wrapper.mjs visual-review > /tmp/pi-visual.json
+          grep -q '"ok":true' /tmp/pi-visual.json
+
       - name: Verify pinned same-day place downloads
         run: |
           node --input-type=module - <<'NODE'
