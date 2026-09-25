@@ -7,8 +7,8 @@
     "commit": "e12897e0e3796728eb338e94ee31fa759a6713a8"
   },
   "currentStep": {
-    "number": 7,
-    "name": "repeatable-native-core-game-loop",
+    "number": 8,
+    "name": "player-experience-polish-and-automated-ux-qa",
     "status": "verified"
   },
   "runtimeAuthority": {
@@ -23,7 +23,7 @@
     "Do not publish or activate a Roblox production experience from this step.",
     "Promote migrated systems only through explicit verification gates."
   ],
-  "nextStep": "player-experience-polish-and-real-device-qa",
+  "nextStep": "private-real-client-playtest-and-release-telemetry",
   "toolchain": {
     "manager": "Rokit",
     "managerVersion": "1.2.0",
@@ -32,8 +32,8 @@
   },
   "roadmap": {
     "totalSteps": 10,
-    "completedSteps": 7,
-    "remainingSteps": 3
+    "completedSteps": 8,
+    "remainingSteps": 2
   },
   "studioSync": {
     "baseline": "roblox/native-place-baseline.json",
@@ -169,5 +169,44 @@
     "liveActivationAllowed": false,
     "productionActivationAllowed": false,
     "rollbackVersion": 3
+  },
+  "playerExperiencePolish": {
+    "polishRevision": "step8-release-polish-v1",
+    "releaseId": "starblox-private-step8-v1",
+    "universeId": "6027194615",
+    "placeId": "17602626136",
+    "previousVersion": 4,
+    "publishedVersion": 5,
+    "verifiedVersion": 5,
+    "publishSourceCommit": "835c48702d8e150041281de968bb354f7e83574a",
+    "mergedCommit": "8d716d30109b81aae15bc84a40b5840f8cdc73d4",
+    "artifactSha256": "8b9025a90f22c13ae61ef93dfb0ef85dc32717f563957258b29efd06869f13b9",
+    "publishWorkflowRunId": 36178236930,
+    "publishReceiptArtifactId": 10883541535,
+    "finalProofTaskPath": "universes/6027194615/places/17602626136/versions/5/luau-execution-sessions/7e8af43a-ada7-4967-a7e7-ed9176a58b44/tasks/7e8af43a-ada7-4967-a7e7-ed9176a58b44",
+    "evidence": {
+      "guideTotem": true,
+      "numberedDirectionalSigns": true,
+      "stationHighlights": true,
+      "stationLights": true,
+      "nativeInputHints": true,
+      "onboardingRemote": true,
+      "onboardingPersistence": true,
+      "recommendedNextStation": true,
+      "rewardCapStatus": true,
+      "replicatedAnswersHidden": true,
+      "safeInsetMobileLayoutContract": true,
+      "largeTouchTargetsContract": true,
+      "animatedFeedbackContract": true,
+      "retryRecoveryContract": true
+    },
+    "clientRendering": {
+      "realLocalScriptClientRendered": false,
+      "reason": "Roblox Open Cloud Luau Execution runs a custom server and does not execute the actual player LocalScript client. Step 8 verifies client UX statically and server/world polish in-engine; real-device/client rendering is deferred to Step 9."
+    },
+    "publicAccessChangeAttempted": false,
+    "liveActivationAllowed": false,
+    "productionActivationAllowed": false,
+    "rollbackVersion": 4
   }
 }
