@@ -1,6 +1,7 @@
 import { createHash } from 'node:crypto';
 import { spawnSync } from 'node:child_process';
 import {
+  copyFile,
   mkdir,
   readFile,
   rm,
@@ -126,10 +127,55 @@ if(
 }
 
 await mkdir(outDir,{recursive:true});
+const evidenceDir=resolve(outDir,'evidence');
+await mkdir(evidenceDir,{recursive:true});
 const containerName=slug(unit.systemName) + 'Source';
 const containerPath=resolve(outDir,containerName + '.rbxmx');
 const placePath=resolve(outDir,'StarBlox-milestone4-staging.rbxlx');
 const receiptPath=resolve(outDir,'milestone4-staging-receipt.json');
+const taskPath=resolve(outDir,'milestone4-task.json');
+
+const exportReceiptJson=JSON.parse((await readFile(exportReceiptPath,'utf8')));
+const exactEvidenceFiles=new Set([
+  basename(exportReceiptPath),
+  exportReceiptJson?.input?.migrationPlan?.file,
+  exportReceiptJson?.input?.planningReceipt?.file,
+  exportReceiptJson?.bundle?.file,
+  unit.artifactFile,
+  'migration-plan.md'
+].filter(value => typeof value === 'string' && value.trim()));
+
+for(const rel of exactEvidenceFiles){
+  const source=safeResolve(exportDir,rel,'migration evidence file');
+  const destination=safeResolve(evidenceDir,rel,'staging evidence directory');
+  await mkdir(dirname(destination),{recursive:true});
+  await copyFile(source,destination);
+}
+
+const copiedExportReceiptPath=resolve(evidenceDir,basename(exportReceiptPath));
+const copiedEvidence=await loadFactoryMigrationEvidence({
+  exportReceiptPath:copiedExportReceiptPath,
+  unitIds:[unitId]
+});
+if(copiedEvidence.evidenceHash !== evidence.evidenceHash){
+  throw new Error('copied migration evidence changed during staging packaging');
+}
+
+const task={
+  id:'milestone-4-real-studio-cycle',
+  request:[
+    'Adapt exactly the verified migrated quarantine unit for StarBlox.',
+    'Keep imported source inert inside ServerStorage quarantine.',
+    'Add only deterministic provenance and validation scaffolding.',
+    'Require Studio tests, a single-player playtest, runtime logs, and viewport evidence.',
+    'Do not publish, upload assets, purchase anything, or enable live activation.'
+  ].join(' '),
+  migration:{
+    exportReceipt:'evidence/' + basename(exportReceiptPath),
+    unitIds:[unitId]
+  }
+};
+await writeFile(taskPath,JSON.stringify(task,null,2) + '\n');
 
 const containerStdout=run('cargo',[
   'run','--quiet',
@@ -202,6 +248,10 @@ try{
         receiptHash:evidence.exportReceipt.receiptHash
       },
       migrationEvidenceHash:evidence.evidenceHash,
+      selfContainedFactoryTask:{
+        file:basename(taskPath),
+        exportReceiptFile:'evidence/' + basename(exportReceiptPath)
+      },
       unit:{
         unitId:unit.unitId,
         systemName:unit.systemName,
@@ -235,7 +285,9 @@ try{
         bytes:place.bytes,
         format:'rbxlx'
       },
-      generatedProjectHash:'sha256:' + digestBytes(Buffer.from(projectJson,'utf8'))
+      generatedProjectHash:'sha256:' + digestBytes(Buffer.from(projectJson,'utf8')),
+      evidenceDirectory:'evidence',
+      factoryTaskFile:basename(taskPath)
     },
     liveExecution:{
       studioConnectorAttested:false,
@@ -270,6 +322,8 @@ try{
   console.log('place bytes: ' + place.bytes);
   console.log('place sha256: ' + place.sha256);
   console.log('receipt: ' + receiptPath);
+  console.log('task: ' + taskPath);
+  console.log('evidence: ' + evidenceDir);
   console.log('publication started: false');
   console.log('live activation allowed: false');
 }finally{
