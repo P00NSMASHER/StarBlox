@@ -21,8 +21,15 @@ if(placeId !== EXPECTED_PLACE_ID){
   throw new Error('ROBLOX_PLACE_ID must target StarBlox place ' + EXPECTED_PLACE_ID);
 }
 
-let expectedVersion=null;
-let releaseId;
+let expectedVersion=process.env.STARBLOX_EXPECTED_VERSION
+  ? Number(process.env.STARBLOX_EXPECTED_VERSION)
+  : null;
+let releaseId=process.env.STARBLOX_RELEASE_ID
+  ? String(process.env.STARBLOX_RELEASE_ID)
+  : undefined;
+if(expectedVersion != null && (!Number.isInteger(expectedVersion) || expectedVersion < 1)){
+  throw new Error('STARBLOX_EXPECTED_VERSION must be a positive integer');
+}
 if(publishReceiptPath){
   const publish=JSON.parse(await readFile(publishReceiptPath,'utf8'));
   if(publish?.status !== 'published-awaiting-runtime-verification'){
