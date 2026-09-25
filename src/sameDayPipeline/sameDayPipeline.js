@@ -128,6 +128,9 @@ export function normalizeSameDayPipelineManifest(input){
     maxRepairCycles:Number.isInteger(input.maxRepairCycles) && input.maxRepairCycles >= 0
       ? Math.min(input.maxRepairCycles,3)
       : 2,
+    rojoCommand:typeof input.rojoCommand === 'string' && input.rojoCommand.trim()
+      ? input.rojoCommand.trim()
+      : 'rojo',
     authorizedWorld,
     donors,
     integrationTasks,
@@ -140,23 +143,39 @@ export function normalizeSameDayPipelineManifest(input){
 export function buildSameDayPipelinePlan(input){
   const manifest=normalizeSameDayPipelineManifest(input);
   const stages=[];
-  let tail=[];
+  const sources=[manifest.authorizedWorld,...manifest.donors];
+  const exportIds=[];
+  const adaptRows=[];
 
-  for(const source of [manifest.authorizedWorld,...manifest.donors]){
+  for(const source of sources){
     const ingestId='ingest-' + source.id;
     const planId='plan-' + source.id;
     const exportId='export-' + source.id;
     const adaptId='adapt-' + source.id;
 
-    stages.push(stage(ingestId,'source-ingest',tail,{source}));
+    stages.push(stage(ingestId,'source-ingest',[],{source}));
     stages.push(stage(planId,'migration-plan',[ingestId],{sourceId:source.id}));
     stages.push(stage(exportId,'migration-export',[planId],{sourceId:source.id}));
-    stages.push(stage(adaptId,'factory-adapt',[exportId],{
-      sourceId:source.id,
-      request:source.request,
+    exportIds.push(exportId);
+    adaptRows.push({source,exportId,adaptId});
+  }
+
+  stages.push(stage('build-staging-place','staging-project',exportIds,{
+    sourceIds:sources.map(row=>row.id),
+    rojoCommand:manifest.rojoCommand
+  }));
+  stages.push(stage('verify-studio-staging','studio-check',['build-staging-place'],{
+    expectedRoot:'StarBloxImported'
+  }));
+
+  let tail=['verify-studio-staging'];
+  for(const row of adaptRows){
+    stages.push(stage(row.adaptId,'factory-adapt',[...tail,row.exportId],{
+      sourceId:row.source.id,
+      request:row.source.request,
       maxRepairCycles:manifest.maxRepairCycles
     }));
-    tail=[adaptId];
+    tail=[row.adaptId];
   }
 
   for(const task of manifest.integrationTasks){
@@ -201,6 +220,7 @@ export function buildSameDayPipelinePlan(input){
     outputDir:manifest.outputDir,
     factoryAdapter:manifest.factoryAdapter,
     maxRepairCycles:manifest.maxRepairCycles,
+    rojoCommand:manifest.rojoCommand,
     sourceIds:[manifest.authorizedWorld.id,...manifest.donors.map(row=>row.id)],
     integrationTaskIds:manifest.integrationTasks.map(row=>row.id),
     stages
