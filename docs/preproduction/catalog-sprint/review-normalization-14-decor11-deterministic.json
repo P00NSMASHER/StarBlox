@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Fresh current reviewer-partition review of exact QA-rendered deterministic Decor11 bytes for Workstream 08.",
+  "reviewer": "14",
+  "sourceEvidence": {
+    "workflowRunId": 36094833312,
+    "artifactId": 10847495770,
+    "detailRenderPath": "staged-replacements/detail/decor-11-8179542a.png",
+    "candidatePath": "public/assets/catalog-candidates/deterministic/decor-11-v10.svg",
+    "reviewProvenance": "GPT-5.6 Sol direct visual inspection of exact QA-rendered pixels in current session; reviewer partition 14; producer stewardship 09."
+  },
+  "reviews": [
+    {
+      "itemId": "decor-11",
+      "name": "Dream Vanity Set",
+      "tier": 4,
+      "theme": "Art Attack",
+      "assetPath": "/assets/catalog-candidates/deterministic/decor-11-v10.svg",
+      "assetHash": "8179542a5966926d4462bda26d01553cf1e72b0d",
+      "producer": "09",
+      "creationMethod": "deterministic-svg",
+      "decision": "ACCEPT",
+      "evidenceRefs": [
+        "workflow:36094833312",
+        "artifact:10847495770/staged-replacements/detail/decor-11-8179542a.png",
+        "visual-check:one-pink-vanity-one-oval-mirror-one-separate-stool-white-bg"
+      ]
+    }
+  ]
+}
