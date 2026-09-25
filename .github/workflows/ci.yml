@@ -97,6 +97,50 @@ jobs:
             publicationStarted:receipt.publicationStarted
           }));
           NODE
+      - name: Prove milestone-3 rich authorized Roblox corpus ingestion
+        run: |
+          rm -rf /tmp/openchassis-real-source /tmp/openchassis-real-ingest
+          mkdir -p /tmp/openchassis-real-source
+          base64 --decode tools/roblox_catalog_reader/fixtures/external/openchassis-demo-7466df43.rbxl.b64 > /tmp/openchassis-real-source/OpenChassis-DemoPlace.rbxl
+          test "$(git hash-object /tmp/openchassis-real-source/OpenChassis-DemoPlace.rbxl)" = "f68b29d449941b24cd070b4988a1852a2b67d5f3"
+          npm run roblox:ingest -- --input /tmp/openchassis-real-source/OpenChassis-DemoPlace.rbxl --out-dir /tmp/openchassis-real-ingest --source-id openchassis-demo-7466df43
+          test -f /tmp/openchassis-real-ingest/source-preflight.json
+          test -f /tmp/openchassis-real-ingest/catalog-handoff.json
+          test -f /tmp/openchassis-real-ingest/capability-catalog.json
+          test -f /tmp/openchassis-real-ingest/capability-catalog.md
+          test -f /tmp/openchassis-real-ingest/ingestion-receipt.json
+          grep -q '"status": "cataloged"' /tmp/openchassis-real-ingest/ingestion-receipt.json
+          grep -q '"migrationStarted": false' /tmp/openchassis-real-ingest/ingestion-receipt.json
+          grep -q '"studioMutationStarted": false' /tmp/openchassis-real-ingest/ingestion-receipt.json
+          grep -q '"publicationStarted": false' /tmp/openchassis-real-ingest/ingestion-receipt.json
+          node --input-type=module - <<'NODE'
+          import {readFile} from 'node:fs/promises';
+          const catalog=JSON.parse(await readFile('/tmp/openchassis-real-ingest/capability-catalog.json','utf8'));
+          const receipt=JSON.parse(await readFile('/tmp/openchassis-real-ingest/ingestion-receipt.json','utf8'));
+          const s=catalog.summary || {};
+          if(s.sourceCount !== 1) throw new Error('expected one OpenChassis source');
+          if(s.sourceFingerprintCount !== 1) throw new Error('expected one exact source fingerprint');
+          if(!(s.instanceCount > 80)) throw new Error('OpenChassis corpus is not richer than the 80-instance baseplate');
+          if(!(s.scriptCount > 0)) throw new Error('OpenChassis corpus contains no scripts');
+          if(!(s.capabilityCount > 7)) throw new Error('OpenChassis corpus did not exceed baseplate capability count');
+          if(!(s.systemCandidateCount > 53)) throw new Error('OpenChassis corpus did not exceed baseplate system-candidate count');
+          const inventoryCounts=Object.fromEntries(
+            Object.entries(catalog.inventory || {}).map(([key,value]) => [
+              key,
+              Array.isArray(value) ? value.length : null
+            ])
+          );
+          console.log('MILESTONE3_OPENCHASSIS_REVIEW=' + JSON.stringify({
+            sourceId:receipt.sourceId,
+            catalogHash:catalog.catalogHash,
+            summary:s,
+            inventoryCounts,
+            nextStep:receipt.nextStep,
+            migrationStarted:receipt.migrationStarted,
+            studioMutationStarted:receipt.studioMutationStarted,
+            publicationStarted:receipt.publicationStarted
+          }));
+          NODE
       - name: Smoke-test Roblox capability catalog
         run: |
           npm run roblox:catalog -- --preflight /tmp/roblox-catalog-handoff.json --out /tmp/roblox-catalog.json --report /tmp/roblox-catalog.md
