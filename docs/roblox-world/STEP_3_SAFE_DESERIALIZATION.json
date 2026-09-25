@@ -1,0 +1,96 @@
+{
+  "schemaVersion": "starblox-brookhaven-world-deserialization-snapshot-v1",
+  "step": "target-architecture-3-of-6",
+  "status": "verified",
+  "verifiedBy": {
+    "workflow": "StarBlox CI",
+    "runId": 36184536713,
+    "verifiedHead": "3e444195aca8478ac09691973f086bfb0d98abee"
+  },
+  "receipt": {
+    "schemaVersion": 1,
+    "version": "starblox-brookhaven-world-deserialization-receipt-v1",
+    "status": "verified-safe-deserialization",
+    "source": {
+      "bytes": 3182943,
+      "sha256": "e9abef1d41b85a8f83aca36ba661de41f4321562937c1e2eea907395c292d694",
+      "step2FingerprintHash": "sha256:fde35ba75526051a3c57936a2b2e437d2a33f82a146b88f495a67821fc45dbc1"
+    },
+    "ir": {
+      "version": "starblox-brookhaven-world-ir-v1",
+      "entryCount": 4936,
+      "irHash": "sha256:558cb27979f308a171fc33165bddc5ee078326bd4aed4483a1a46f4f7ba8caba",
+      "entryCanonicalSequenceSha256": "abea208104e4433431e7875df77c66b69a4e1e83dbf03e9453975aceb811c94d",
+      "sourceSliceSequenceSha256": "54e1343151439f29557b3a4646e6700098392ce5c9c4be60571d5765d4e01cf8"
+    },
+    "structure": {
+      "classCounts": {
+        "Part": 4385,
+        "Seat": 271,
+        "WedgePart": 247,
+        "CornerWedgePart": 31,
+        "VehicleSeat": 2
+      },
+      "shapeCounts": {
+        "Block": 4244,
+        "Seat": 271,
+        "Wedge": 247,
+        "Cylinder": 136,
+        "Corner": 31,
+        "Ball": 5,
+        "Vehicle Seat": 2
+      },
+      "primaryMaterialCounts": {
+        "SmoothPlastic": 4452,
+        "Neon": 242,
+        "Plastic": 231,
+        "Brick": 4,
+        "Glass": 3,
+        "Metal": 2,
+        "DiamondPlate": 1,
+        "Wood": 1
+      },
+      "decalCount": 494,
+      "meshCount": 62,
+      "fileMeshCount": 27,
+      "uniqueAssetIdCount": 154,
+      "sortedAssetIdsSha256": "95c0e8b97478ed6ae0a36948f8568878d15b94153ceaefbc34d7088b098a6552",
+      "legacyPropertyAnomalies": {
+        "reflectanceOutsideUnitRange": [
+          {
+            "index": 832,
+            "value": 5
+          }
+        ],
+        "meshVertexColorOutsideUnitRange": [
+          {
+            "index": 844,
+            "values": [
+              3000000028082176,
+              2.999999954472962e+31,
+              3000000028082176
+            ]
+          }
+        ]
+      }
+    },
+    "validation": {
+      "rootEntriesContiguous": true,
+      "allEntriesTyped": true,
+      "allRequiredFieldsPresent": true,
+      "noUnknownEntryFields": true,
+      "noUnknownNestedFields": true,
+      "enumNamespacesBounded": true,
+      "sourceExecuted": false,
+      "sourceEvaluatedAsLua": false
+    },
+    "boundaries": {
+      "sourceInsertedIntoStudio": false,
+      "robloxObjectsGenerated": false,
+      "robloxPlaceMutated": false,
+      "publicationStarted": false,
+      "liveActivationAllowed": false
+    },
+    "nextStep": "target-architecture-4-isolated-world-generation"
+  }
+}
