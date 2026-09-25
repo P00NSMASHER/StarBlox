@@ -29,6 +29,22 @@ jobs:
           node --check scripts/same-day-evidence-gate.mjs
           node --check src/sameDayPipeline/sameDayPipeline.js
           node --check src/sameDayPipeline/sourceBootstrap.js
+      - name: Verify pinned same-day place downloads
+        run: |
+          node --input-type=module - <<'NODE'
+          import {readFile} from 'node:fs/promises';
+          import {resolve} from 'node:path';
+          import {ensurePinnedSource} from './src/sameDayPipeline/sourceBootstrap.js';
+          const manifest=JSON.parse(await readFile('config/same-day/pipeline.example.json','utf8'));
+          const sources=[manifest.authorizedWorld,...(manifest.donors || [])]
+            .filter(source=>source.download);
+          for(const source of sources){
+            const input=resolve('/tmp','starblox-'+source.id+'.rbxl');
+            const result=await ensurePinnedSource({source,input});
+            if(result.verified !== true) throw new Error(source.id+' did not verify');
+            console.log(source.id+': '+result.sha256+' / '+result.bytes);
+          }
+          NODE
       - name: Test Roblox file reader
         run: npm run roblox:catalog:reader:test
       - name: Smoke-test Roblox source preflight
