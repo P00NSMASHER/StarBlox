@@ -5,7 +5,9 @@ import {
   STARBLOX_PRIVATE_RELEASE_ID,
   assertPublishCompatibleXml,
   buildPrivatePublishReceipt,
-  publishPlaceVersion
+  probeCurrentRelease,
+  publishPlaceVersion,
+  verifyPublishedRelease
 } from '../src/robloxRuntime/privatePublish.js';
 import { verifyStep6ReleaseGate } from '../src/robloxRuntime/releaseGate.js';
 
@@ -65,20 +67,11 @@ const binding=verifyStep6ReleaseGate({
 });
 assertPublishCompatibleXml(artifactBytes.toString('utf8'));
 
-const xml=artifactBytes.toString('utf8');
-for(const requiredName of [
-  'BrookhavenWorldBaseline',
-  'Matter',
-  'ProfileStore',
-  'ReplicaServer',
-  'ReplicaClient',
-  'StarBlox'
-]){
-  const marker='<string name="Name">' + requiredName + '</string>';
-  if(!xml.includes(marker)){
-    throw new Error('refusing to publish: release-gated artifact is missing required instance ' + requiredName);
-  }
-}
+const before=await probeCurrentRelease({
+  apiKey,
+  universeId,
+  placeId
+});
 
 const published=await publishPlaceVersion({
   apiKey,
@@ -86,21 +79,38 @@ const published=await publishPlaceVersion({
   placeId,
   bytes:artifactBytes
 });
+if(published.versionNumber <= before.versionNumber){
+  throw new Error(
+    'Roblox publish did not advance the place version: previous=' +
+    before.versionNumber + ' published=' + published.versionNumber
+  );
+}
 
-const previousVersion=Math.max(0,published.versionNumber-1);
+const verified=await verifyPublishedRelease({
+  apiKey,
+  universeId,
+  placeId,
+  releaseId:STARBLOX_PRIVATE_RELEASE_ID,
+  versionNumber:published.versionNumber,
+  world:{
+    subtreeInstanceCount:Number(gate.step5.subtreeInstanceCount),
+    baselineModelSha256:binding.baselineModelSha256,
+    mountedSubtreeSha256:binding.mountedSubtreeSha256
+  }
+});
 
 await emit(buildPrivatePublishReceipt({
   universeId,
   placeId,
   releaseId:STARBLOX_PRIVATE_RELEASE_ID,
   sourceCommit,
-  previousVersion,
+  previousVersion:before.versionNumber,
   publishedVersion:published.versionNumber,
-  verifiedVersion:null,
+  verifiedVersion:verified.versionNumber,
   artifactSha256:binding.artifactSha256,
   artifactBytes:binding.artifactBytes,
   skipped:false,
-  verificationTaskPath:null,
+  verificationTaskPath:verified.taskPath,
   releaseGate:{
     version:gate.version,
     artifactSha256:binding.artifactSha256,
