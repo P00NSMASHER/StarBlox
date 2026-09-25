@@ -390,7 +390,7 @@ function validateEntry(table,index,sourceSlice){
     partType:classInfo.partType,
     shape,
     surface:parseSurface(fields.get('surface'),label + '.surface'),
-    reflectance:numberField(fields.get('reflectance'),label + '.reflectance',{min:0,max:1}),
+    reflectance:numberField(fields.get('reflectance'),label + '.reflectance',{min:0}),
     color:numericVector(fields.get('color'),3,label + '.color',{min:0,max:255}),
     anchored:booleanField(fields.get('anchored'),label + '.anchored'),
     mesh,
@@ -504,7 +504,14 @@ export function deserializeBrookhavenWorldSource(source,{
       meshCount:entries.filter(entry => entry.mesh !== null).length,
       fileMeshCount:entries.filter(entry => entry.mesh?.meshType === 'Enum.MeshType.FileMesh').length,
       uniqueAssetIdCount:uniqueAssets.length,
-      sortedAssetIdsSha256:sha256(Buffer.from(uniqueAssets.join(','),'utf8'))
+      sortedAssetIdsSha256:sha256(Buffer.from(uniqueAssets.join(','),'utf8')),
+      legacyPropertyAnomalies:Object.freeze({
+        reflectanceOutsideUnitRange:Object.freeze(
+          entries
+            .filter(entry => entry.reflectance > 1)
+            .map(entry => Object.freeze({index:entry.index,value:entry.reflectance}))
+        )
+      })
     }),
     validation:Object.freeze({
       rootEntriesContiguous:true,
