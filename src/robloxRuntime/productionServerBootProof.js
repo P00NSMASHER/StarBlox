@@ -60,7 +60,7 @@ assert(services.PrivatePlaytestTelemetry ~= nil, "private playtest telemetry ser
 
 local brookhaven = Workspace:FindFirstChild("BrookhavenWorldBaseline")
 assert(brookhaven ~= nil and brookhaven:IsA("Model"), "verified Brookhaven world mount missing")
-assert(#brookhaven:GetDescendants() >= 5493, "Brookhaven world mount is unexpectedly incomplete")
+assert(#brookhaven:GetDescendants() + 1 == 5493, "Brookhaven world mount instance count mismatch")
 
 local world = Workspace:FindFirstChild("StarBloxCoreLoop")
 assert(world ~= nil, "core-loop world was not created by production bootstrap")
