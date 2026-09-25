@@ -1,5 +1,11 @@
 {
   "id": "same-day-integrate-flex",
   "request": "Using the authorized checkout at vendor/authorized/roblox-flex-with-friends, start with these exact files: src/server/services/TrafficService.lua, RoadService.lua, AirTrafficService.lua, HeliTrafficService.lua, QuestService.lua, MinigameService.lua, WorldService.lua; src/client/controllers/PhoneMenuController.lua, TravelController.lua, QuestController.lua, MinigameController.lua; src/shared/Config/Traffic.lua, Quest.lua, World.lua. Port only ambient traffic, phone travel, quest presentation, one lightweight minigame pattern, and child-oriented NPC interaction needed for the vertical slice. Do not replace StarBlox ProfileStore, mastery, economy, typed networking or release authority. Keep changes bounded, tested, rollback-safe and visually verified.",
-  "searchQuery": "TrafficService RoadService AirTrafficService HeliTrafficService QuestService MinigameService PhoneMenuController TravelController"
+  "searchQuery": "TrafficService RoadService AirTrafficService HeliTrafficService QuestService MinigameService PhoneMenuController TravelController",
+  "adapterSpec": {
+    "path": "donors/flex.adapter.json",
+    "donorId": "flex",
+    "repository": "bsantanna/roblox-flex-with-friends",
+    "commit": "f23ff0b06c759e60aa651a6618a8d81692719fc9"
+  }
 }
