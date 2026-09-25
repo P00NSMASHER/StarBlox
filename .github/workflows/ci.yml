@@ -107,6 +107,14 @@ jobs:
           if(reflectanceAnomalies.length !== 1 || reflectanceAnomalies[0]?.index !== 832 || reflectanceAnomalies[0]?.value !== 5){
             throw new Error('legacy reflectance anomaly must be preserved exactly');
           }
+          const vertexColorAnomalies=receipt.structure?.legacyPropertyAnomalies?.meshVertexColorOutsideUnitRange || [];
+          const vertexAnomaly=vertexColorAnomalies[0];
+          if(vertexColorAnomalies.length !== 1 || vertexAnomaly?.index !== 844 ||
+             vertexAnomaly?.values?.[0] !== 3000000028082176 ||
+             vertexAnomaly?.values?.[1] !== 2.999999954472962e+31 ||
+             vertexAnomaly?.values?.[2] !== 3000000028082176){
+            throw new Error('legacy mesh vertex-color anomaly must be preserved exactly');
+          }
           console.log('BROOKHAVEN_WORLD_DESERIALIZATION=' + JSON.stringify(receipt));
           NODE
       - name: Prove native Roblox build
