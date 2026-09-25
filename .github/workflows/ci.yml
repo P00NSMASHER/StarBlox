@@ -232,6 +232,25 @@ jobs:
           }
           NODE
           npx vitest run src/devFactory/milestone4LiveAdapter.test.js
+      - name: Prove self-contained Milestone 4 packet and live fail-closed boundary
+        run: |
+          rm -rf /tmp/m4-self-contained
+          npm run roblox:m4:prepare -- --out-dir /tmp/m4-self-contained
+          test -f /tmp/m4-self-contained/milestone4-packet.json
+          test -f /tmp/m4-self-contained/staging/StarBlox-milestone4-staging.rbxlx
+          test -f /tmp/m4-self-contained/staging/milestone4-task.json
+          test -f /tmp/m4-self-contained/staging/factory-migration-evidence.json
+          test -f /tmp/m4-self-contained/staging/evidence/migration-export-receipt.json
+          grep -q '"status": "prepared"' /tmp/m4-self-contained/milestone4-packet.json
+          grep -q '"studioAttested": false' /tmp/m4-self-contained/milestone4-packet.json
+          grep -q '"liveActivationAllowed": false' /tmp/m4-self-contained/milestone4-packet.json
+          grep -q '"status": "verified"' /tmp/m4-self-contained/staging/factory-migration-evidence.json
+          if npm run roblox:m4:live -- --packet-dir /tmp/m4-self-contained --attestation-timeout-ms 5000 > /tmp/m4-live-unattested.log 2>&1; then
+            echo "expected Milestone 4 live cycle to fail without attested Studio"
+            exit 1
+          fi
+          grep -Eq 'live Studio attestation did not arrive|Studio attestation' /tmp/m4-live-unattested.log
+          test ! -f /tmp/m4-self-contained/live/milestone4-completion-receipt.json
       - name: Smoke-test Roblox capability catalog
         run: |
           npm run roblox:catalog -- --preflight /tmp/roblox-catalog-handoff.json --out /tmp/roblox-catalog.json --report /tmp/roblox-catalog.md
