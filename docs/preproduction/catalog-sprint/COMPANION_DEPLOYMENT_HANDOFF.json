@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "branch": "screenshot-match-preproduction",
+  "preparedFromHead": "aec90cbbc4768527ac3e20da152a8e32941ce948",
+  "blocker": "LIVE_REPLIT_DEPLOYMENT_PARITY",
+  "deployment": "https://star-blox.replit.app",
+  "affectedItems": [
+    "companions-2",
+    "companions-5",
+    "companions-6",
+    "companions-7",
+    "companions-8",
+    "companions-9",
+    "companions-12"
+  ],
+  "repoState": {
+    "catalogArtRuntime": "All seven item IDs map to /assets/catalog/companions-<n>.svg.",
+    "avatarBuddyRuntime": "companionAsset resolves companions-1..12 to /assets/catalog/<itemId>.svg and Buddy presentation injects <img> sources from equipped companion state.",
+    "sourceAssessment": "Current branch-side wiring is present; latest live QA shows public deployment does not expose those real images."
+  },
+  "latestLiveEvidence": {
+    "workflowRunId": 36097563765,
+    "deployment": "https://star-blox.replit.app",
+    "result": "FAIL_0_OF_7_REAL_IMAGE_PRESENTATION",
+    "commonFailure": "Cards exist but use generic radial gradients; real card/detail/avatar/Buddy images are absent."
+  },
+  "requiredDeploymentAction": "Publish/deploy the current screenshot-match-preproduction runtime (or an equivalent build containing the current companion catalogArtRuntime + avatarBuddyRuntime wiring) to the public Replit app. Do not regenerate companion art.",
+  "postDeployVerification": {
+    "workflow": ".github/workflows/live-replit-companion-qa.yml",
+    "script": "scripts/liveReplitCompanionQa.mjs",
+    "passRule": "Each affected companion must show its real image in required live surfaces and produce technicalPass=true/cardPass=true under authoritative live QA."
+  },
+  "safety": {
+    "mainTouched": false,
+    "replitTouched": false,
+    "deploymentPerformed": false,
+    "playerDataTouched": false
+  }
+}
