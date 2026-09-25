@@ -98,27 +98,56 @@ Every candidate audit must record:
 8. Duplicate capabilities across candidates are not double-counted when producing the final combined-stack estimate.
 
 
-## Results through Step 8
+## Results through Step 9
 
 | Audit step | Candidate | Workload-elimination score | Strongest verified value | Status |
 |---|---|---:|---|---|
 | 2 | Arnis Roblox | 57.33 / 100 | Repeatable city generation, interiors, roads, streaming/LOD, ambient life and engineering automation | Complete |
 | 3 | Brookhaven.rbxl public candidate | 64.67 / 100 | Brookhaven physical world, houses, vehicles, roleplay UI and client-side system contracts | Complete |
 | 4 | Welcome to Bloxburg [BETA].rbxl public candidate | 65.33 / 100 | Deep recoverable build-mode, wall/fence/plot, furniture and interior logic | Complete |
-| 5 | RoCitizens.rbxl public candidate | 76.00 / 100 | Broad roleplay stack: housing, careers/tasks, world events, phone/customization, trade, inventory and network contracts | Complete |\n| 6 | Meepcity.rbxl public candidate | 67.00 / 100 | Estates, pets, social parties, child-friendly activities and unusually complete recoverable server/persistence source | Complete |\n| 7 | Jailbreak (Beta).rbxlx public candidate | 51.67 / 100 | Strongest dedicated vehicle/garage/open-city driving donor, but authoritative server implementation is absent | Complete |\n| 8 | GamerKreep Robbing Simulator.rbxl | 78.33 / 100 | Creator-released full server source, city NPC response AI, housing/placeables, world events and persistence/economy patterns | Complete |
+| 5 | RoCitizens.rbxl public candidate | 76.00 / 100 | Broad roleplay stack: housing, careers/tasks, world events, phone/customization, trade, inventory and network contracts | Complete |
+| 6 | Meepcity.rbxl public candidate | 67.00 / 100 | Estates, pets, social parties, child-friendly activities and unusually complete recoverable server/persistence source | Complete |
+| 7 | Jailbreak (Beta).rbxlx public candidate | 51.67 / 100 | Strongest dedicated vehicle/garage/open-city driving donor, but authoritative server implementation is absent | Complete |
+| 8 | GamerKreep Robbing Simulator.rbxl | 78.33 / 100 | Creator-released full server source, city NPC response AI, housing/placeables, world events and persistence/economy patterns | Complete |
+| 9 | Deduplicated mother-lode analysis | 90.14% practical functional coverage / 97.28% technical maximum | Best practical stack: Arnis + authorized Brookhaven + Robbing Simulator behind existing StarBlox authority | Complete |
 
 ### Cross-candidate finding
 
-The three public archive place files are not complete functional server-source copies. Static cataloging found zero recoverable gameplay server Script source in Bloxburg and RoCitizens, and Brookhaven's only non-empty server Script source is a README helper. Their value is therefore concentrated in physical content, client/shared logic, UI, data/state shapes and remote contracts. Server authority must be rebuilt or supplied from a separately authorized complete source.
+The audits separate the material into three useful classes:
+
+1. **Engineering source:** Arnis is an Apache-2.0 city-generation and streaming/LOD engine.
+2. **Archive snapshots:** Brookhaven, Bloxburg, RoCitizens and Jailbreak preserve substantial world/client/shared content but little or no authoritative gameplay server source.
+3. **Recoverable full-game source:** MeepCity retains meaningful server/persistence source, while GamerKreep's creator-released Robbing Simulator preserves almost its entire server implementation.
+
+The **best single technical donor** is Robbing Simulator at 78.33 / 100.
+
+The **best practical combined stack** is Arnis + authenticated/authorized Brookhaven material + creator-released Robbing Simulator behind the existing StarBlox production authority layer.
+
+Across functional requirements R1-R14, that practical union provides **88.33 / 98 = 90.14% weighted functional coverage**, with 9 requirements at level 3, 5 at level 2, and none at level 0 or 1.
+
+The all-seven technical union reaches **95.33 / 98 = 97.28%**, with 12 of 14 functional requirements at level 3. The only requirements that remain below level 3 are multiplayer/networking fit and mobile/performance readiness.
+
+The public archive candidates remain research/reference inputs unless their provenance and rights are separately established.
 
 ## Final comparison outputs
 
-After all seven audits, produce:
+All required outputs are complete in `docs/goldmine-audits/09-MOTHERLODE.md`:
 
-1. individual 100-point elimination score;
+1. individual 100-point elimination scores;
 2. strongest unique capability from each candidate;
 3. overlap/deduplication map;
 4. best single candidate;
 5. best combined stack;
-6. estimated remaining bespoke StarBlox workload after the combined stack;
+6. remaining bespoke StarBlox workload;
 7. recommended migration order by engineering leverage and risk.
+
+### Final practical conclusion
+
+The mother lode is not a single repository. It is the combination of:
+
+- **Arnis** for repeatable world generation, interiors and streaming/LOD;
+- **authorized Brookhaven** for the desired world/content identity;
+- **Robbing Simulator** for recoverable NPC/event/housing/server patterns;
+- **existing StarBlox** for final persistence, networking, learning, mastery, economy and release authority.
+
+The remaining feature gap is concentrated in final vehicle integration, broad child-safe careers/jobs and mobile/performance certification. Cross-cutting integration, security review and QA remain mandatory and are not represented as simple percentage arithmetic.
