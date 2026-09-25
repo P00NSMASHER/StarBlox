@@ -42,7 +42,8 @@
     "roblox:brookhaven-world:mount:verify": "node scripts/verify-step5-world-mount.mjs",
     "roblox:release-gate:prepare": "node scripts/prepare-step6-release-gate.mjs",
     "roblox:real-client-proof": "node scripts/verify-roblox-real-client-playtest.mjs",
-    "roblox:production-server-boot-proof": "node scripts/verify-roblox-production-server-boot.mjs"
+    "roblox:production-server-boot-proof": "node scripts/verify-roblox-production-server-boot.mjs",
+    "roblox:step9:prepare-release": "node scripts/prepare-step9-release-candidate.mjs"
   },
   "dependencies": {
     "lucide-react": "^0.468.0",
