@@ -7,9 +7,9 @@
     "commit": "36f2084eac013853a612892c19646dedab97c204"
   },
   "currentStep": {
-    "number": 3,
-    "name": "prove-studio-sync-transport-and-native-place-baseline",
-    "status": "complete"
+    "number": 4,
+    "name": "attest-live-studio-peer-and-run-first-native-playtest",
+    "status": "blocked-awaiting-live-studio-peer"
   },
   "runtimeAuthority": {
     "robloxStudio": "staging-target",
@@ -23,7 +23,7 @@
     "Do not publish or activate a Roblox production experience from this step.",
     "Promote migrated systems only through explicit verification gates."
   ],
-  "nextStep": "attest-live-studio-peer-and-run-first-native-playtest",
+  "nextStep": "complete-step-4-on-a-machine-with-live-roblox-studio",
   "toolchain": {
     "manager": "Rokit",
     "managerVersion": "1.2.0",
@@ -42,5 +42,20 @@
     "connectorBuildVerified": true,
     "liveStudioPeerAttested": false,
     "liveStudioPeerRequiredNextStep": true
+  },
+  "liveStudioProof": {
+    "command": "npm run roblox:studio-live-proof",
+    "proofVersion": "starblox-live-studio-playtest-v1",
+    "requires": [
+      "live edit-mode Studio connector attestation",
+      "matching starblox-studio-connector-v1 protocol",
+      "server and client peers created by a real Studio playtest",
+      "server runtime sample proving RunService is running in Studio",
+      "zero captured Studio error logs",
+      "successful playtest stop acknowledgement"
+    ],
+    "failClosed": true,
+    "verified": false,
+    "blocker": "No reachable live Roblox Studio peer is available from the current execution environment."
   }
 }
