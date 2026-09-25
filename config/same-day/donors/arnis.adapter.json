@@ -1,0 +1,115 @@
+{
+  "schemaVersion": 1,
+  "donorId": "arnis",
+  "repository": "adpena/arnis-roblox",
+  "commit": "ff7984f990336da1d9f303d54b3f2e223bfdab35",
+  "sourceFiles": [
+    {
+      "path": "roblox/src/ServerScriptService/ImportService/StreamingService.lua",
+      "blobSha": "f9cc790d9aa50742cbda069c4593749a574295eb"
+    },
+    {
+      "path": "roblox/src/ServerScriptService/ImportService/ChunkLoader.lua",
+      "blobSha": "0ea0d6e71bf7aa304d19464430c84e09dd94b067"
+    },
+    {
+      "path": "roblox/src/ServerScriptService/ImportService/ChunkPriority.lua",
+      "blobSha": "0cd57f96f75b7f161026978f93ed00ff6d24e0b7"
+    },
+    {
+      "path": "roblox/src/ServerScriptService/ImportService/RoadChunkPlan.lua",
+      "blobSha": "a6a83ff8ba85e165c8460b3db1c8aacb0a4b9f52"
+    },
+    {
+      "path": "roblox/src/ServerScriptService/ImportService/Builders/BuildingBuilder.lua",
+      "blobSha": "b49c7d92334b6122b1ef18983627cc3964809614"
+    },
+    {
+      "path": "roblox/src/ServerScriptService/ImportService/Builders/RoomBuilder.lua",
+      "blobSha": "e44f443d544cc9c2dea30a2abb8357ef189a7b2e"
+    },
+    {
+      "path": "roblox/src/ServerScriptService/ImportService/Builders/RoadBuilder.lua",
+      "blobSha": "8652c517f8b36e2b0bc58f5bc0102838244404d0"
+    },
+    {
+      "path": "roblox/src/ServerScriptService/ImportService/MinimapService.lua",
+      "blobSha": "240e9b2119f646152f791a1b00bc01d24aec382c"
+    },
+    {
+      "path": "roblox/src/ServerScriptService/ImportService/AmbientLife.lua",
+      "blobSha": "48e3d3ee8aad9946b27855dca00ddb2b7a66413a"
+    },
+    {
+      "path": "roblox/src/ReplicatedStorage/Shared/StreamingRuntimeConfig.lua",
+      "blobSha": "adba27d74c0434ddda380789cd03cb08d4bb0f83"
+    }
+  ],
+  "mappings": [
+    {
+      "id": "streaming",
+      "sources": [
+        "roblox/src/ServerScriptService/ImportService/StreamingService.lua",
+        "roblox/src/ServerScriptService/ImportService/ChunkLoader.lua",
+        "roblox/src/ServerScriptService/ImportService/ChunkPriority.lua",
+        "roblox/src/ReplicatedStorage/Shared/StreamingRuntimeConfig.lua"
+      ],
+      "targets": [
+        "roblox/src/server/WorldEcsService.luau",
+        "roblox/src/server/WorldStreamingAdapter.luau"
+      ],
+      "strategy": "port minimum chunk/LOD and memory guardrails",
+      "authority": "WorldEcsService owns transient world state"
+    },
+    {
+      "id": "world-builders",
+      "sources": [
+        "roblox/src/ServerScriptService/ImportService/RoadChunkPlan.lua",
+        "roblox/src/ServerScriptService/ImportService/Builders/BuildingBuilder.lua",
+        "roblox/src/ServerScriptService/ImportService/Builders/RoomBuilder.lua",
+        "roblox/src/ServerScriptService/ImportService/Builders/RoadBuilder.lua"
+      ],
+      "targets": [
+        "roblox/src/server/WorldGenerationAdapter.luau"
+      ],
+      "strategy": "retain authorized Brookhaven identity; use builders only for expansion/interiors/roads",
+      "authority": "StarBlox world bootstrap owns activation"
+    },
+    {
+      "id": "ambient",
+      "sources": [
+        "roblox/src/ServerScriptService/ImportService/AmbientLife.lua",
+        "roblox/src/ServerScriptService/ImportService/MinimapService.lua"
+      ],
+      "targets": [
+        "roblox/src/server/AmbientWorldService.luau",
+        "roblox/src/client/WorldMapController.luau"
+      ],
+      "strategy": "port lightweight ambient hooks and minimap geometry",
+      "authority": "WorldEcsService owns entities; no rewards or persistence"
+    }
+  ],
+  "preserveAuthority": [
+    "ProfileSessionService",
+    "ReplicaStateService",
+    "SocialWorldService",
+    "AiNpcService",
+    "StarBlox quest/mastery authority",
+    "StarBlox economy authority",
+    "typed StarBlox networking"
+  ],
+  "forbidden": [
+    "replace Brookhaven visual identity",
+    "activate Arnis StudioPreview manifest chunks",
+    "write player persistence",
+    "award currency/mastery",
+    "publish"
+  ],
+  "acceptance": [
+    "chunk/LOD runtime evidence",
+    "memory guardrail evidence",
+    "Brookhaven staging world remains primary",
+    "tests pass",
+    "publication remains disabled"
+  ]
+}
