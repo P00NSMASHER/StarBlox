@@ -1,0 +1,63 @@
+name: Same-Day StarBlox Prep
+
+on:
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: Branch or commit to prepare
+        required: false
+        default: integration/same-day-starblox-pipeline
+
+permissions:
+  contents: read
+
+jobs:
+  prepare-staging-place:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      CARGO_TARGET_DIR: ${{ github.workspace }}/.cargo-target
+    steps:
+      - name: Checkout requested revision
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref }}
+
+      - name: Use Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Use Rust stable
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Install Rojo 7.7.0
+        run: cargo install rojo --version 7.7.0 --locked
+
+      - name: Build pre-Studio same-day bundle
+        run: |
+          rm -rf artifacts/same-day-starblox
+          npm run same-day:pipeline -- \
+            --manifest config/same-day/pipeline.example.json \
+            --skip-code-donors \
+            --stop-after build-staging-place
+
+      - name: Verify staged outputs
+        run: |
+          test -f artifacts/same-day-starblox/StarBloxSameDay.rbxlx
+          test -f artifacts/same-day-starblox/same-day-pipeline-state.json
+          test -f artifacts/same-day-starblox/same-day-pipeline-plan.json
+          test -f artifacts/same-day-starblox/same-day-staging-report.json
+          grep -q '"publicationAllowed": false' artifacts/same-day-starblox/same-day-staging-report.json
+          grep -q '"status": "complete"' artifacts/same-day-starblox/same-day-pipeline-state.json
+
+      - name: Upload resumable pre-Studio bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: starblox-same-day-pre-studio
+          path: artifacts/same-day-starblox
+          retention-days: 3
+          if-no-files-found: error
