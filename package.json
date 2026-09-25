@@ -22,7 +22,8 @@
     "roblox:ingest": "node scripts/ingest-roblox-source.mjs",
     "same-day:pipeline": "node scripts/same-day-pipeline.mjs",
     "same-day:gate": "node scripts/same-day-evidence-gate.mjs",
-    "same-day:verify": "node scripts/verify-same-day-summary.mjs"
+    "same-day:verify": "node scripts/verify-same-day-summary.mjs",
+    "same-day:doctor": "node scripts/same-day-doctor.mjs"
   },
   "dependencies": {
     "lucide-react": "^0.468.0",
