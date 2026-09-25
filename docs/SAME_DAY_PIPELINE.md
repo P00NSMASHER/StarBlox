@@ -53,12 +53,12 @@ Independent non-Studio work is parallelized up to `maxParallel`. Studio mutation
 
 Default manifest: `config/same-day/pipeline.example.json`
 
-Expected place inputs:
+Place inputs:
 
 - `sources/authorized/Brookhaven.rbxl`
 - `sources/authorized/Robbing-Simulator.rbxl`
 
-These files are intentionally gitignored.
+These files are intentionally gitignored. If either file is missing, the default manifest downloads the exact previously audited public source automatically over HTTPS and verifies both its byte count and SHA-256 before static ingestion. If upstream bytes drift, the pipeline fails closed rather than accepting the replacement.
 
 Pinned code donors are fetched automatically at exact commits:
 
