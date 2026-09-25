@@ -3,6 +3,7 @@ import { stableHash } from '../domainSchemas.js';
 import { sanitizeDiagnosticValue } from '../observability/sessionDiagnostics.js';
 import { assessStudioToolCall } from './studioToolContract.js';
 import { verifyFactoryMigrationEvidence } from './migrationEvidence.js';
+import { verifyDonorAdapterSpec } from '../sameDayPipeline/donorAdapterSpec.js';
 import {
   executeStudioActionBatch,
   rollbackStudioActionBatch
@@ -654,6 +655,22 @@ export async function runDevelopmentFactory({
     );
   }
 
+  let adapterSpecEvidence=null;
+  if(task?.adapterSpecEvidence != null){
+    const adapterValidation=verifyDonorAdapterSpec(task.adapterSpecEvidence);
+    if(!adapterValidation.ok){
+      throw new Error(
+        'invalid donor adapter spec evidence: ' + adapterValidation.errors.join('; ')
+      );
+    }
+    adapterSpecEvidence={
+      ...adapterValidation.spec,
+      file:typeof task.adapterSpecEvidence.file === 'string'
+        ? task.adapterSpecEvidence.file
+        : null
+    };
+  }
+
   let migrationEvidence=null;
   if(task?.migrationEvidence != null){
     const migrationValidation=verifyFactoryMigrationEvidence(task.migrationEvidence);
@@ -671,6 +688,7 @@ export async function runDevelopmentFactory({
     request:requireString(task?.request,'task.request'),
     searchQuery:typeof task?.searchQuery === 'string' ? task.searchQuery : '',
     inspectCalls:Array.isArray(task?.inspectCalls) ? clone(task.inspectCalls) : [],
+    adapterSpecEvidence,
     migrationEvidence
   };
   const start=iso(startedAt,'startedAt');
