@@ -101,6 +101,8 @@ jobs:
     needs: plan
     runs-on: ubuntu-24.04
     timeout-minutes: 120
+    outputs:
+      staged_commit_sha: ${{ steps.handoff.outputs.staged_commit_sha }}
     env:
       QUEUE_FILE: ${{ needs.plan.outputs.queue_file }}
       MATRIX_JSON: ${{ needs.plan.outputs.matrix }}
@@ -226,6 +228,30 @@ jobs:
 
           echo "FAILURE_COUNT=$FAILURES"
           test "$FAILURES" -eq 0
+
+      - name: Bind immutable staged commit for downstream QA
+        id: handoff
+        run: |
+          set -euo pipefail
+          git fetch origin screenshot-match-preproduction
+          STAGED_COMMIT_SHA="$(git rev-parse origin/screenshot-match-preproduction)"
+          node scripts/artFactoryStagedHandoff.mjs create \
+            --repo-root . \
+            --queue "$QUEUE_FILE" \
+            --staged-root artifacts/cpu-generation/batch \
+            --staged-commit "$STAGED_COMMIT_SHA" \
+            --generation-source "$GITHUB_SHA" \
+            --workflow-run "$GITHUB_RUN_ID" \
+            --output artifacts/cpu-generation/batch/staged-handoff.json
+          echo "staged_commit_sha=$STAGED_COMMIT_SHA" >> "$GITHUB_OUTPUT"
+
+      - name: Upload immutable staged handoff
+        uses: actions/upload-artifact@v4
+        with:
+          name: cpu-sequential-staged-handoff-${{ github.run_id }}
+          path: artifacts/cpu-generation/batch/staged-handoff.json
+          retention-days: 14
+          if-no-files-found: error
 
       - uses: actions/upload-artifact@v4
         if: always()

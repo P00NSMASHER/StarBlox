@@ -271,6 +271,8 @@ jobs:
   stage:
     needs: [plan, generate]
     runs-on: ubuntu-24.04
+    outputs:
+      staged_commit_sha: ${{ steps.handoff.outputs.staged_commit_sha }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -321,3 +323,30 @@ jobs:
           fi
           git commit -m "art-factory: stage CPU-generated exact candidates ($QUEUE_ID)"
           git push origin HEAD:screenshot-match-preproduction
+
+      - name: Bind immutable staged commit for downstream QA
+        id: handoff
+        env:
+          QUEUE_FILE: ${{ needs.plan.outputs.queue_file }}
+        run: |
+          set -euo pipefail
+          git fetch origin screenshot-match-preproduction
+          STAGED_COMMIT_SHA="$(git rev-parse origin/screenshot-match-preproduction)"
+          mkdir -p artifacts/staged-handoff
+          node scripts/artFactoryStagedHandoff.mjs create \
+            --repo-root . \
+            --queue "$QUEUE_FILE" \
+            --staged-root artifacts/collected \
+            --staged-commit "$STAGED_COMMIT_SHA" \
+            --generation-source "$GITHUB_SHA" \
+            --workflow-run "$GITHUB_RUN_ID" \
+            --output artifacts/staged-handoff/staged-handoff.json
+          echo "staged_commit_sha=$STAGED_COMMIT_SHA" >> "$GITHUB_OUTPUT"
+
+      - name: Upload immutable staged handoff
+        uses: actions/upload-artifact@v4
+        with:
+          name: cpu-staged-handoff-${{ github.run_id }}
+          path: artifacts/staged-handoff/staged-handoff.json
+          retention-days: 14
+          if-no-files-found: error

@@ -15,6 +15,8 @@ on:
       - 'scripts/artReviewNormalizer.node-test.mjs'
       - 'scripts/artFactoryState.mjs'
       - 'scripts/artFactoryState.node-test.mjs'
+      - 'scripts/artFactoryStagedHandoff.mjs'
+      - 'scripts/artFactoryStagedHandoff.node-test.mjs'
       - 'scripts/artRegenerationQueue.mjs'
       - 'scripts/artRegenerationQueue.node-test.mjs'
       - 'scripts/catalogFallbackBacklog.mjs'
@@ -199,7 +201,7 @@ jobs:
 
       - name: Verify fast factory contract
         run: |
-          node --test             scripts/artPromptOptimizer.node-test.mjs             scripts/artFactoryJob.node-test.mjs             scripts/artReviewNormalizer.node-test.mjs             scripts/artFactoryState.node-test.mjs             scripts/catalogFallbackBacklog.node-test.mjs             scripts/artRegenerationQueue.node-test.mjs             scripts/artWorkflowAudit.node-test.mjs
+          node --test             scripts/artPromptOptimizer.node-test.mjs             scripts/artFactoryJob.node-test.mjs             scripts/artReviewNormalizer.node-test.mjs             scripts/artFactoryState.node-test.mjs             scripts/artFactoryStagedHandoff.node-test.mjs             scripts/catalogFallbackBacklog.node-test.mjs             scripts/artRegenerationQueue.node-test.mjs             scripts/artWorkflowAudit.node-test.mjs
           node scripts/artPromptOptimizer.mjs validate \
             --repo-root . \
             --output artifacts/art-factory-preflight/prompt-optimizer-validation.json
