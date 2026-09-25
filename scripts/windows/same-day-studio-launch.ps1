@@ -1,6 +1,7 @@
 param(
   [string]$RepoRoot = (Get-Location).Path,
   [string]$BundleZip = "",
+  [string]$DonorZip = "",
   [string]$BundleDir = "",
   [string]$InstanceId = "default"
 )
@@ -17,6 +18,21 @@ if (-not [string]::IsNullOrWhiteSpace($BundleZip)) {
   if (Test-Path $BundleDir) { Remove-Item $BundleDir -Recurse -Force }
   New-Item -ItemType Directory -Force -Path $BundleDir | Out-Null
   Expand-Archive -Path $BundleZip -DestinationPath $BundleDir -Force
+}
+
+if (-not [string]::IsNullOrWhiteSpace($DonorZip)) {
+  if (-not (Test-Path $DonorZip)) { throw "Donor ZIP not found: $DonorZip" }
+  $VendorDir = Join-Path $RepoRoot "vendor\authorized"
+  $DonorReceiptDir = Join-Path $RepoRoot "artifacts\same-day-donors"
+  if (Test-Path $VendorDir) { Remove-Item $VendorDir -Recurse -Force }
+  if (Test-Path $DonorReceiptDir) { Remove-Item $DonorReceiptDir -Recurse -Force }
+  Expand-Archive -Path $DonorZip -DestinationPath $RepoRoot -Force
+}
+
+$DonorIndex = Join-Path $RepoRoot "artifacts\same-day-donors\donor-checkout-index.json"
+if (Test-Path $DonorIndex) {
+  & node "scripts/verify-same-day-donor-cache.mjs" --manifest "config/same-day/pipeline.example.json" --index $DonorIndex --out (Join-Path $RepoRoot "artifacts\same-day-donors\local-verification.json")
+  if ($LASTEXITCODE -ne 0) { throw "Pinned donor cache verification failed." }
 }
 
 $Place = Join-Path $BundleDir "StarBloxSameDay.rbxlx"
@@ -74,5 +90,8 @@ Write-Host ""
 Write-Host "StarBlox Studio staging verification: PASS"
 Write-Host "Place: $Place"
 Write-Host "Receipt: $(Join-Path $BundleDir 'studio-staging-smoke.json')"
+if (Test-Path $DonorIndex) {
+  Write-Host "Donor cache: VERIFIED"
+}
 Write-Host "Bridge PID: $($Bridge.Id)"
 Write-Host "Publication remains disabled."
