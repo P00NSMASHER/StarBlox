@@ -135,3 +135,453 @@ async function execute(stage){
     const input=abs(manifestDir,source.input);
     const bootstrap=await ensurePinnedSource({source,input});
     const dir=sourceOut(source.id);
+    await mkdir(dir,{recursive:true});
+    const result=await run(process.execPath,[
+      resolve(root,'scripts/ingest-roblox-source.mjs'),
+      '--input',input,
+      '--out-dir',resolve(dir,'ingestion'),
+      '--source-id',source.sourceId,
+      '--overwrite'
+    ],{cwd:root});
+    return {
+      ...result,
+      startedAt,
+      completedAt:new Date().toISOString(),
+      bootstrap,
+      artifacts:result.ok ? {
+        ingestionReceipt:resolve(dir,'ingestion/ingestion-receipt.json')
+      } : null
+    };
+  }
+
+  if(stage.type === 'migration-plan'){
+    const source=sources.get(stage.details.sourceId);
+    const dir=sourceOut(source.id);
+    const args=[
+      resolve(root,'scripts/migrate-roblox.mjs'),
+      '--ingestion-receipt',resolve(dir,'ingestion/ingestion-receipt.json'),
+      '--out-dir',resolve(dir,'planning')
+    ];
+    if(source.migrationRules){
+      args.push('--rules',abs(manifestDir,source.migrationRules));
+    }
+    const result=await run(process.execPath,args,{cwd:root});
+    return {
+      ...result,
+      startedAt,
+      completedAt:new Date().toISOString(),
+      artifacts:result.ok ? {
+        planningReceipt:resolve(dir,'planning/migration-planning-receipt.json'),
+        plan:resolve(dir,'planning/migration-plan.json')
+      } : null
+    };
+  }
+
+  if(stage.type === 'migration-export'){
+    const source=sources.get(stage.details.sourceId);
+    const input=abs(manifestDir,source.input);
+    const info=await stat(input);
+    const sourceRoot=info.isDirectory() ? input : dirname(input);
+    const dir=sourceOut(source.id);
+    const result=await run(process.execPath,[
+      resolve(root,'scripts/migrate-roblox.mjs'),
+      '--planning-receipt',resolve(dir,'planning/migration-planning-receipt.json'),
+      '--source-root',sourceRoot,
+      '--out-dir',resolve(dir,'export')
+    ],{cwd:root});
+    return {
+      ...result,
+      startedAt,
+      completedAt:new Date().toISOString(),
+      artifacts:result.ok ? {
+        exportReceipt:resolve(dir,'export/migration-export-receipt.json')
+      } : null
+    };
+  }
+
+  if(stage.type === 'code-donor-checkout'){
+    const repository=stage.details.repository;
+    const commit=stage.details.commit;
+    const checkout=abs(manifestDir,stage.details.checkout);
+    const repoUrl='https://github.com/' + repository + '.git';
+
+    if(await exists(checkout)){
+      if(!await exists(resolve(checkout,'.git'))){
+        return {
+          ok:false,
+          status:2,
+          startedAt,
+          completedAt:new Date().toISOString(),
+          error:'authorized donor checkout exists but is not a Git repository: ' + checkout
+        };
+      }
+      const dirty=await run('git',['-C',checkout,'status','--porcelain'],{cwd:root});
+      if(!dirty.ok || dirty.stdout.trim()){
+        return {
+          ok:false,
+          status:2,
+          startedAt,
+          completedAt:new Date().toISOString(),
+          error:'authorized donor checkout is not clean: ' + checkout
+        };
+      }
+      const remote=await run('git',['-C',checkout,'remote','get-url','origin'],{cwd:root});
+      if(!remote.ok || !remote.stdout.toLowerCase().includes(repository.toLowerCase())){
+        return {
+          ok:false,
+          status:2,
+          startedAt,
+          completedAt:new Date().toISOString(),
+          error:'authorized donor checkout origin does not match ' + repository
+        };
+      }
+    }else{
+      await mkdir(dirname(checkout),{recursive:true});
+      const cloned=await run('git',[
+        'clone','--filter=blob:none','--no-checkout',repoUrl,checkout
+      ],{cwd:root});
+      if(!cloned.ok){
+        return {
+          ...cloned,
+          startedAt,
+          completedAt:new Date().toISOString(),
+          error:'could not clone authorized donor ' + repository
+        };
+      }
+    }
+
+    const fetched=await run('git',[
+      '-C',checkout,'fetch','--depth=1','origin',commit
+    ],{cwd:root});
+    if(!fetched.ok){
+      return {
+        ...fetched,
+        startedAt,
+        completedAt:new Date().toISOString(),
+        error:'could not fetch pinned donor commit ' + commit
+      };
+    }
+
+    const checkedOut=await run('git',[
+      '-C',checkout,'checkout','--detach',commit
+    ],{cwd:root});
+    if(!checkedOut.ok){
+      return {
+        ...checkedOut,
+        startedAt,
+        completedAt:new Date().toISOString(),
+        error:'could not checkout pinned donor commit ' + commit
+      };
+    }
+
+    const head=await run('git',['-C',checkout,'rev-parse','HEAD'],{cwd:root});
+    const exact=head.ok ? head.stdout.trim().toLowerCase() : '';
+    if(!head.ok || exact !== commit.toLowerCase()){
+      return {
+        ok:false,
+        status:2,
+        startedAt,
+        completedAt:new Date().toISOString(),
+        error:'donor checkout HEAD mismatch; expected ' + commit + ' but found ' + exact
+      };
+    }
+
+    return {
+      ok:true,
+      status:0,
+      startedAt,
+      completedAt:new Date().toISOString(),
+      repository,
+      commit:exact,
+      checkout
+    };
+  }
+
+  if(stage.type === 'staging-project'){
+    const staged=await buildSameDayStagingProject({
+      repoRoot:root,
+      outDir,
+      sourceIds:stage.details.sourceIds
+    });
+    const placePath=resolve(outDir,'StarBloxSameDay.rbxlx');
+    const result=await run(
+      stage.details.rojoCommand || plan.rojoCommand || 'rojo',
+      ['build',staged.projectPath,'-o',placePath],
+      {cwd:root}
+    );
+    return {
+      ...result,
+      startedAt,
+      completedAt:new Date().toISOString(),
+      artifacts:result.ok ? {
+        project:staged.projectPath,
+        stagingReport:staged.reportPath,
+        place:placePath
+      } : {
+        project:staged.projectPath,
+        stagingReport:staged.reportPath
+      }
+    };
+  }
+
+  if(stage.type === 'studio-check'){
+    const adapter=await factoryAdapter();
+    let description=null;
+    try{
+      description=typeof adapter.studio.describe === 'function'
+        ? await adapter.studio.describe()
+        : null;
+      const staging=JSON.parse(
+        await readFile(resolve(outDir,'same-day-staging-report.json'),'utf8')
+      );
+      const treeResult=await adapter.studio.call('search_tree',{
+        query:stage.details.expectedRoot || 'StarBloxImported',
+        limit:50
+      });
+      const count=Number(treeResult?.count ?? treeResult?.results?.length ?? 0);
+      const needsImported=(staging.included || []).length > 0;
+      if(needsImported && count < 1){
+        return {
+          ok:false,
+          status:2,
+          startedAt,
+          completedAt:new Date().toISOString(),
+          error:
+            'Studio is connected but the staged donor world is not loaded. Open ' +
+            resolve(outDir,'StarBloxSameDay.rbxlx') +
+            ' (or sync same-day.project.json with Rojo), then resume.',
+          description
+        };
+      }
+      return {
+        ok:true,
+        status:0,
+        startedAt,
+        completedAt:new Date().toISOString(),
+        description,
+        stagedAssetCount:(staging.included || []).length,
+        treeCount:count
+      };
+    }catch(error){
+      return {
+        ok:false,
+        status:2,
+        startedAt,
+        completedAt:new Date().toISOString(),
+        error:
+          'Studio staging check failed: ' +
+          (error instanceof Error ? error.message : String(error)) +
+          '. Open the generated StarBloxSameDay.rbxlx, connect the StarBlox Studio connector, then resume.',
+        description
+      };
+    }
+  }
+
+  if(stage.type === 'factory-adapt'){
+    const source=sources.get(stage.details.sourceId);
+    const dir=sourceOut(source.id);
+    const migrationPlan=JSON.parse(await readFile(resolve(dir,'planning/migration-plan.json'),'utf8'));
+    const unitIds=(migrationPlan.units || [])
+      .filter(row =>
+        row.selected === true &&
+        row.exportDisposition === 'quarantine' &&
+        ['refactor','quarantine'].includes(row.migrationStrategy)
+      )
+      .map(row=>row.unitId);
+    if(!unitIds.length){
+      return {
+        ok:true,
+        status:0,
+        startedAt,
+        completedAt:new Date().toISOString(),
+        skipped:true,
+        reason:'no quarantined/refactor code units require factory adaptation; safe assets are staged through Rojo'
+      };
+    }
+    const task={
+      id:'same-day-adapt-' + source.id,
+      request:source.request || stage.details.request,
+      migration:{
+        exportReceipt:resolve(dir,'export/migration-export-receipt.json'),
+        unitIds
+      },
+      config:{
+        maxRepairCycles:plan.maxRepairCycles
+      }
+    };
+    const taskPath=resolve(dir,'adapt-task.json');
+    const runPath=resolve(dir,'adapt-development-run.json');
+    await writeFile(taskPath,JSON.stringify(task,null,2) + '\n');
+    const result=await run(process.execPath,[
+      resolve(root,'scripts/ai-development-factory.mjs'),
+      '--task',taskPath,
+      '--adapter',adapterPath,
+      '--out',runPath
+    ],{cwd:root});
+    return {
+      ...result,
+      startedAt,
+      completedAt:new Date().toISOString(),
+      artifacts:result.ok ? {task:taskPath,developmentRun:runPath} : {task:taskPath}
+    };
+  }
+
+  if(stage.type === 'factory-task'){
+    const taskPath=abs(manifestDir,stage.details.taskFile);
+    const runPath=resolve(outDir,stage.id + '-development-run.json');
+    const result=await run(process.execPath,[
+      resolve(root,'scripts/ai-development-factory.mjs'),
+      '--task',taskPath,
+      '--adapter',adapterPath,
+      '--out',runPath
+    ],{cwd:root});
+    return {
+      ...result,
+      startedAt,
+      completedAt:new Date().toISOString(),
+      artifacts:result.ok ? {developmentRun:runPath} : null
+    };
+  }
+
+  if(stage.type === 'release-gate'){
+    const gate=stage.details.gate;
+    const receiptPath=resolve(outDir,'gate-' + gate.id + '-receipt.json');
+    const integratedRun=resolve(
+      outDir,
+      'verify-integrated-slice-development-run.json'
+    );
+    const result=await run(gate.command,gate.args,{
+      cwd:root,
+      env:{
+        STARBLOX_PIPELINE_OUT_DIR:outDir,
+        STARBLOX_PIPELINE_STATE:statePath,
+        STARBLOX_PIPELINE_INTEGRATED_RUN:integratedRun,
+        STARBLOX_PIPELINE_GATE_RECEIPT:receiptPath
+      }
+    });
+    return {
+      ...result,
+      gate:gate.id,
+      startedAt,
+      completedAt:new Date().toISOString(),
+      artifacts:result.ok ? {receipt:receiptPath,integratedRun} : null
+    };
+  }
+
+  if(stage.type === 'finalize'){
+    const integratedRunPath=resolve(
+      outDir,
+      'verify-integrated-slice-development-run.json'
+    );
+    const integratedRunBytes=await readFile(integratedRunPath);
+    const crypto=await import('node:crypto');
+    const integratedRunSha256=crypto.createHash('sha256')
+      .update(integratedRunBytes)
+      .digest('hex');
+    const gateReceipts={};
+
+    for(const gateName of ['mobile','security','performance']){
+      const receiptPath=resolve(outDir,'gate-' + gateName + '-receipt.json');
+      const receipt=JSON.parse(await readFile(receiptPath,'utf8'));
+      if(
+        receipt?.version !== 'starblox-same-day-evidence-gate-v1' ||
+        receipt?.status !== 'passed' ||
+        receipt?.gate !== gateName ||
+        receipt?.publicationAllowed !== false
+      ){
+        throw new Error('invalid same-day gate receipt: ' + gateName);
+      }
+      if(receipt?.integratedRun?.sha256 !== integratedRunSha256){
+        throw new Error(
+          gateName + ' gate receipt does not bind to the exact integrated development run'
+        );
+      }
+      gateReceipts[gateName]={
+        file:receiptPath,
+        receiptHash:receipt.receiptHash,
+        integratedRunSha256:receipt.integratedRun.sha256,
+        metrics:receipt.metrics
+      };
+    }
+
+    const summary={
+      schemaVersion:1,
+      version:'starblox-same-day-slice-summary-v1',
+      ok:true,
+      planHash:plan.planHash,
+      completedStages:[...state.completedStages],
+      integratedRun:{
+        file:integratedRunPath,
+        sha256:integratedRunSha256
+      },
+      gates:gateReceipts,
+      publicationAllowed:false,
+      readyForInternalVerticalSliceReview:true
+    };
+    const summaryPath=resolve(outDir,'same-day-slice-summary.json');
+    await writeFile(summaryPath,JSON.stringify(summary,null,2) + '\n');
+    return {
+      ok:true,
+      status:0,
+      startedAt,
+      completedAt:new Date().toISOString(),
+      artifacts:{summary:summaryPath}
+    };
+  }
+
+  throw new Error('unsupported same-day pipeline stage type: ' + stage.type);
+}
+
+const PARALLEL_SAFE_TYPES=new Set([
+  'source-ingest',
+  'migration-plan',
+  'migration-export',
+  'code-donor-checkout',
+  'release-gate'
+]);
+
+while(true){
+  const ready=readySameDayPipelineStages(state,plan);
+  if(!ready.length) break;
+
+  const first=ready[0];
+  const parallelReady=ready.filter(stage=>PARALLEL_SAFE_TYPES.has(stage.type));
+  const batch=PARALLEL_SAFE_TYPES.has(first.type)
+    ? parallelReady.slice(0,Number(plan.maxParallel || 4))
+    : [first];
+
+  console.log(
+    '\nRunning ' + batch.length + ' stage' + (batch.length === 1 ? '' : 's') +
+    ' [' + (state.completedStages.length + 1) + '/' + plan.stages.length + ']'
+  );
+  for(const stage of batch) console.log('  → ' + stage.id);
+
+  const results=await Promise.all(
+    batch.map(async stage=>({stage,result:await execute(stage)}))
+  );
+
+  let blocked=false;
+  for(const {stage,result} of results){
+    recordSameDayStageResult(state,plan,stage.id,result);
+    if(result.ok){
+      console.log('PASS: ' + stage.id);
+    }else{
+      blocked=true;
+      console.error('BLOCKED: ' + stage.id);
+      if(result.stderr) console.error(result.stderr);
+      if(result.error) console.error(result.error);
+    }
+  }
+  await writeFile(statePath,JSON.stringify(state,null,2) + '\n');
+
+  if(blocked){
+    process.exitCode=2;
+    break;
+  }
+}
+
+console.log('\nStarBlox same-day pipeline');
+console.log('status: ' + state.status);
+console.log('completed: ' + state.completedStages.length + '/' + plan.stages.length);
+console.log('state: ' + statePath);
+console.log('plan: ' + planPath);
