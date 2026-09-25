@@ -1,0 +1,97 @@
+{
+  "schemaVersion": 1,
+  "wally": {
+    "version": "0.3.2",
+    "releaseTag": "v0.3.2",
+    "upstreamRevision": "8fcb1d862fe490909fa21d392b1a6c5cccafdfa8",
+    "manifest": "wally.toml",
+    "installCommand": "wally install"
+  },
+  "runtimePackages": {
+    "ProfileStore": {
+      "manager": "wally",
+      "alias": "ProfileStore",
+      "package": "lm-loleris/profilestore",
+      "version": "1.0.3",
+      "realm": "server",
+      "upstreamRepository": "MadStudioRoblox/ProfileStore",
+      "upstreamRevision": "45c9847cbcf1fc260369c50eb335aba7c35aecdd"
+    },
+    "Matter": {
+      "manager": "wally",
+      "alias": "Matter",
+      "package": "matter-ecs/matter",
+      "version": "0.8.4",
+      "realm": "shared",
+      "upstreamRepository": "matter-ecs/matter",
+      "upstreamRevision": "2604284eca9a67c55c69d180ece4247731f825dd"
+    },
+    "Replica": {
+      "manager": "vendored",
+      "upstreamRepository": "MadStudioRoblox/Replica",
+      "upstreamRevision": "9cae236aee840b1f436b6b1a63c76f4384e285b7",
+      "license": "Apache-2.0",
+      "files": [
+        {
+          "path": "vendor/Replica/ServerScriptService/ReplicaServer.luau",
+          "gitBlobSha1": "28587cb28b826fd6e0913a31e2b2802d021804cc"
+        },
+        {
+          "path": "vendor/Replica/ReplicatedStorage/ReplicaClient.luau",
+          "gitBlobSha1": "8af4adfae07185b20839b95ae7471960e07627cd"
+        },
+        {
+          "path": "vendor/Replica/ReplicatedStorage/ReplicaShared/Maid.luau",
+          "gitBlobSha1": "98b0e3df60ac21c5d1a77a2c40c4f948249c1b2b"
+        },
+        {
+          "path": "vendor/Replica/ReplicatedStorage/ReplicaShared/RateLimit.luau",
+          "gitBlobSha1": "3f2ba06f4491dfffc7e69d14389e0f84221e00e1"
+        },
+        {
+          "path": "vendor/Replica/ReplicatedStorage/ReplicaShared/Remote.luau",
+          "gitBlobSha1": "c47ebd753e5f4b6f0d3f14d1b25ca7379224d5d9"
+        },
+        {
+          "path": "vendor/Replica/ReplicatedStorage/ReplicaShared/Signal.luau",
+          "gitBlobSha1": "92dd07746f9a6272ccb71d37d9d1bc19d7e5648b"
+        },
+        {
+          "path": "vendor/Replica/LICENSE",
+          "gitBlobSha1": "261eeb9e9f8b2b4b0d119366dda99c6fd7d35c64"
+        }
+      ]
+    }
+  },
+  "generators": {
+    "Zap": {
+      "version": "0.6.29",
+      "releaseTag": "v0.6.29",
+      "upstreamRepository": "red-blox/zap",
+      "upstreamRevision": "8cd17ab78192217600eec6f688ed8f8aab18d707",
+      "schema": "network/starblox.zap",
+      "assets": {
+        "linux-x86_64": {
+          "file": "zap-0.6.29-linux-x86_64.zip",
+          "sha256": "5142de4df0077213cff010df2854706fa99155066c769257a6898afa19cc2cb6"
+        },
+        "macos-aarch64": {
+          "file": "zap-0.6.29-macos-aarch64.zip",
+          "sha256": "dfe1c2bc8987853e2c74ae5ccbece4978e74ee2d9540038eb8102db93303e653"
+        },
+        "macos-x86_64": {
+          "file": "zap-0.6.29-macos-x86_64.zip",
+          "sha256": "e54f0b3e01cc042dc2b9f9ae1cacc8925eae6cabf22f3edebe4bc3f451473252"
+        },
+        "windows-x86_64": {
+          "file": "zap-0.6.29-windows-x86_64.zip",
+          "sha256": "5ab088cc5e8354f9afeb63ffcc99c5aeb79a8f9c4c95bad7de4e5f5c9251aac2"
+        },
+        "wasm": {
+          "file": "zap-0.6.29-wasm.tgz",
+          "sha256": "c029b17a85c0828a690acad3d2fe33cc609c34bb527f30b351ec06d502a16a39"
+        }
+      }
+    }
+  }
+}

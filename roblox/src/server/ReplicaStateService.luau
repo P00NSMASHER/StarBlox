@@ -51,28 +51,46 @@ local function publicProjection(profileData)
 	}
 end
 
-function ReplicaStateService.new(replicaService)
-	assert(replicaService ~= nil, "ReplicaService dependency is required")
+function ReplicaStateService.new(replicaModule)
+	assert(replicaModule ~= nil, "Replica dependency is required")
+	assert(type(replicaModule.Token) == "function", "Replica.Token is required")
+	assert(type(replicaModule.New) == "function", "Replica.New is required")
+	assert(replicaModule.NewReadyPlayer ~= nil, "Replica.NewReadyPlayer is required")
+	assert(replicaModule.ReadyPlayers ~= nil, "Replica.ReadyPlayers is required")
+
 	local self = setmetatable({}, ReplicaStateService)
-	self._replicaService = replicaService
-	self._classToken = replicaService.NewClassToken("StarBloxPlayerState")
+	self._replicaModule = replicaModule
+	self._token = replicaModule.Token("StarBloxPlayerState")
 	self._replicas = {}
+	self._readyConnection = replicaModule.NewReadyPlayer:Connect(function(player)
+		local replica = self._replicas[player]
+		if replica ~= nil and replica:IsActive() then
+			replica:Subscribe(player)
+		end
+	end)
 	return self
 end
 
 function ReplicaStateService:Attach(player: Player, profileData: {[string]: any})
 	self:Detach(player)
 
-	local replica = self._replicaService.NewReplica({
-		ClassToken = self._classToken,
+	local replica = self._replicaModule.New({
+		Token = self._token,
 		Tags = {
 			PlayerUserId = player.UserId,
 		},
 		Data = publicProjection(profileData),
-		Replication = player,
 	})
 
 	self._replicas[player] = replica
+
+	-- Maintained Replica only allows selective Subscribe() after the client
+	-- has requested initial data. NewReadyPlayer handles the normal race;
+	-- this branch covers reconnect/order cases where readiness already exists.
+	if self._replicaModule.ReadyPlayers[player] == true then
+		replica:Subscribe(player)
+	end
+
 	return replica
 end
 
@@ -85,7 +103,7 @@ function ReplicaStateService:SetPath(player: Player, path: {string | number}, va
 	if replica == nil or not replica:IsActive() then
 		return false
 	end
-	replica:SetValue(path, value)
+	replica:Set(path, value)
 	return true
 end
 
@@ -97,7 +115,7 @@ function ReplicaStateService:Sync(player: Player, profileData: {[string]: any}):
 
 	local nextState = publicProjection(profileData)
 	for key, value in nextState do
-		replica:SetValue({key}, value)
+		replica:Set({key}, value)
 	end
 	return true
 end
@@ -109,6 +127,16 @@ function ReplicaStateService:Detach(player: Player)
 		if replica:IsActive() then
 			replica:Destroy()
 		end
+	end
+end
+
+function ReplicaStateService:Shutdown()
+	if self._readyConnection ~= nil then
+		self._readyConnection:Disconnect()
+		self._readyConnection = nil
+	end
+	for player, _ in self._replicas do
+		self:Detach(player)
 	end
 end
 

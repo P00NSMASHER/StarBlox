@@ -180,8 +180,8 @@ describe('StarBlox upstream implementation provenance', () => {
     expect(UPSTREAM_PROVENANCE.neonRunTelemetry.path).toBe('src/game/runTelemetry.ts');
     expect(UPSTREAM_PROVENANCE.profileStoreRuntime.path).toBe('ProfileStore.luau');
     expect(UPSTREAM_PROVENANCE.profileStoreTutorial.path).toBe('docs/tutorial/index.md');
-    expect(UPSTREAM_PROVENANCE.replicaServiceRuntime.path).toBe('src/ServerScriptService/ReplicaService.lua');
-    expect(UPSTREAM_PROVENANCE.replicaServiceApi.path).toBe('docs/api.md');
+    expect(UPSTREAM_PROVENANCE.replicaRuntime.path).toBe('src/ServerScriptService/ReplicaServer.luau');
+    expect(UPSTREAM_PROVENANCE.replicaClientRuntime.path).toBe('src/ReplicatedStorage/ReplicaClient.luau');
     expect(UPSTREAM_PROVENANCE.zapEvents.path).toBe('docs/config/events.md');
     expect(UPSTREAM_PROVENANCE.matterReplication.path).toBe('docs/Guides/Replication.md');
     expect(UPSTREAM_PROVENANCE.matterComponents.path).toBe('example/src/shared/components.luau');
@@ -226,8 +226,8 @@ describe('StarBlox upstream implementation provenance', () => {
     expect(UPSTREAM_PROVENANCE.nixeraExecutor.path).toBe('plugin/src/tools/Executor.luau');
     expect(UPSTREAM_PROVENANCE.profileStoreRuntime.path).toBe('ProfileStore.luau');
     expect(UPSTREAM_PROVENANCE.profileStoreTutorial.path).toBe('docs/tutorial/index.md');
-    expect(UPSTREAM_PROVENANCE.replicaServiceRuntime.path).toBe('src/ServerScriptService/ReplicaService.lua');
-    expect(UPSTREAM_PROVENANCE.replicaServiceApi.path).toBe('docs/api.md');
+    expect(UPSTREAM_PROVENANCE.replicaRuntime.path).toBe('src/ServerScriptService/ReplicaServer.luau');
+    expect(UPSTREAM_PROVENANCE.replicaClientRuntime.path).toBe('src/ReplicatedStorage/ReplicaClient.luau');
     expect(UPSTREAM_PROVENANCE.zapEvents.path).toBe('docs/config/events.md');
     expect(UPSTREAM_PROVENANCE.matterReplication.path).toBe('docs/Guides/Replication.md');
     expect(UPSTREAM_PROVENANCE.matterComponents.path).toBe('example/src/shared/components.luau');

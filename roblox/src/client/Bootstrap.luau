@@ -2,20 +2,20 @@
 
 local ClientBootstrap = {}
 
-function ClientBootstrap.start(replicaController)
-	assert(replicaController ~= nil, "ReplicaController dependency is required")
+function ClientBootstrap.start(replicaClient)
+	assert(replicaClient ~= nil, "ReplicaClient dependency is required")
 
 	local state = {
 		PlayerState = nil,
 	}
 
-	replicaController.ReplicaOfClassCreated("StarBloxPlayerState", function(replica)
+	replicaClient.OnNew("StarBloxPlayerState", function(replica)
 		state.PlayerState = replica
 	end)
 
-	-- ReplicaService requires all class listeners to be connected before the
-	-- one global initial-data request.
-	replicaController.RequestData()
+	-- Maintained Replica requires listeners to be connected before the one
+	-- global initial-data request.
+	replicaClient.RequestData()
 
 	return state
 end

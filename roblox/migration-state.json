@@ -1,0 +1,80 @@
+{
+  "schemaVersion": 1,
+  "migration": "starblox-web-to-roblox-native",
+  "status": "started",
+  "sourceBaseline": {
+    "branch": "main",
+    "commit": "e12897e0e3796728eb338e94ee31fa759a6713a8"
+  },
+  "currentStep": {
+    "number": 4,
+    "name": "prove-real-roblox-runtime-via-open-cloud",
+    "status": "verified"
+  },
+  "runtimeAuthority": {
+    "robloxStudio": "staging-target",
+    "webRuntime": "preserved",
+    "publicationAllowed": false,
+    "liveActivationAllowed": false
+  },
+  "preservationRules": [
+    "Keep the existing React/Vite runtime intact until an explicit cutover step.",
+    "Keep validated learning-content and evidence pipelines authoritative during migration.",
+    "Do not publish or activate a Roblox production experience from this step.",
+    "Promote migrated systems only through explicit verification gates."
+  ],
+  "nextStep": "complete-live-studio-migration-cycle",
+  "toolchain": {
+    "manager": "Rokit",
+    "managerVersion": "1.2.0",
+    "rojoVersion": "7.6.1",
+    "buildProofCommand": "npm run roblox:native:build-proof"
+  },
+  "roadmap": {
+    "totalSteps": 10,
+    "completedSteps": 4,
+    "remainingSteps": 6
+  },
+  "studioSync": {
+    "baseline": "roblox/native-place-baseline.json",
+    "repositorySyncEndpointVerified": true,
+    "placeBuildVerified": true,
+    "connectorBuildVerified": true,
+    "liveStudioPeerAttested": false,
+    "liveStudioPeerRequiredNextStep": true
+  },
+  "liveStudioProof": {
+    "command": "npm run roblox:studio-live-proof",
+    "proofVersion": "starblox-live-studio-playtest-v1",
+    "requires": [
+      "live edit-mode Studio connector attestation",
+      "matching starblox-studio-connector-v1 protocol",
+      "server and client peers created by a real Studio playtest",
+      "server runtime sample proving RunService is running in Studio",
+      "zero captured Studio error logs",
+      "successful playtest stop acknowledgement"
+    ],
+    "failClosed": true,
+    "verified": false,
+    "blocker": "No reachable live Roblox Studio peer is available from the current execution environment.",
+    "role": "optional-later-visual-and-interactive-qa",
+    "requiredForStep4": false
+  },
+  "openCloud": {
+    "selectedRuntimePath": "headless-open-cloud",
+    "universeId": "6027194615",
+    "placeId": "17602626136",
+    "command": "npm run roblox:open-cloud-proof",
+    "proofVersion": "starblox-open-cloud-headless-v1",
+    "nonPublishing": true,
+    "placeMutationPerformed": false,
+    "liveActivationAllowed": false,
+    "credentialSource": "GitHub Actions secret ROBLOX_OPEN_CLOUD_API_KEY",
+    "idSources": [
+      "GitHub Actions variable ROBLOX_UNIVERSE_ID",
+      "GitHub Actions variable ROBLOX_PLACE_ID"
+    ],
+    "verified": true,
+    "verifiedAt": "2026-09-25"
+  }
+}
