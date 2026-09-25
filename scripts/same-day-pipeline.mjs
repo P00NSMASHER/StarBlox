@@ -1,4 +1,3 @@
-import { createHash } from 'node:crypto';
 import { spawn } from 'node:child_process';
 import { mkdir,readFile,writeFile,stat } from 'node:fs/promises';
 import { dirname,isAbsolute,resolve } from 'node:path';
@@ -11,6 +10,7 @@ import {
   recordSameDayStageResult
 } from '../src/sameDayPipeline/sameDayPipeline.js';
 import { buildSameDayStagingProject } from '../src/sameDayPipeline/stagingProject.js';
+import { ensurePinnedSource } from '../src/sameDayPipeline/sourceBootstrap.js';
 
 function arg(name,required=false){
   const inline=process.argv.find(value=>value.startsWith(name + '='));
@@ -35,49 +35,6 @@ async function exists(path){
     if(error?.code === 'ENOENT') return false;
     throw error;
   }
-}
-
-async function ensurePinnedSource(source,input){
-  const pin=source.download;
-  if(!pin) return {downloaded:false,verified:false};
-
-  let bytes;
-  let downloaded=false;
-  if(await exists(input)){
-    bytes=await readFile(input);
-  }else{
-    const response=await fetch(pin.url,{redirect:'follow'});
-    if(!response.ok){
-      throw new Error(
-        'could not download authorized source ' + source.id +
-        ': HTTP ' + response.status
-      );
-    }
-    bytes=Buffer.from(await response.arrayBuffer());
-    downloaded=true;
-  }
-
-  const sha256=createHash('sha256').update(bytes).digest('hex');
-  if(bytes.length !== Number(pin.bytes) || sha256 !== String(pin.sha256).toLowerCase()){
-    throw new Error(
-      'authorized source fingerprint mismatch for ' + source.id +
-      '; expected ' + pin.sha256 + '/' + pin.bytes +
-      ' but found ' + sha256 + '/' + bytes.length
-    );
-  }
-
-  if(downloaded){
-    await mkdir(dirname(input),{recursive:true});
-    await writeFile(input,bytes);
-  }
-
-  return {
-    downloaded,
-    verified:true,
-    sha256,
-    bytes:bytes.length,
-    input
-  };
 }
 
 function run(command,args,{cwd,env={}}={}){
@@ -176,91 +133,5 @@ async function execute(stage){
   if(stage.type === 'source-ingest'){
     const source=stage.details.source;
     const input=abs(manifestDir,source.input);
-    const bootstrap=await ensurePinnedSource(source,input);
+    const bootstrap=await ensurePinnedSource({source,input});
     const dir=sourceOut(source.id);
-    await mkdir(dir,{recursive:true});
-    const result=await run(process.execPath,[
-      resolve(root,'scripts/ingest-roblox-source.mjs'),
-      '--input',input,
-      '--out-dir',resolve(dir,'ingestion'),
-      '--source-id',source.sourceId,
-      '--overwrite'
-    ],{cwd:root});
-    return {
-      ...result,
-      startedAt,
-      completedAt:new Date().toISOString(),
-      bootstrap,
-      artifacts:result.ok ? {
-        ingestionReceipt:resolve(dir,'ingestion/ingestion-receipt.json')
-      } : null
-    };
-  }
-
-  if(stage.type === 'migration-plan'){
-    const source=sources.get(stage.details.sourceId);
-    const dir=sourceOut(source.id);
-    const args=[
-      resolve(root,'scripts/migrate-roblox.mjs'),
-      '--ingestion-receipt',resolve(dir,'ingestion/ingestion-receipt.json'),
-      '--out-dir',resolve(dir,'planning')
-    ];
-    if(source.migrationRules){
-      args.push('--rules',abs(manifestDir,source.migrationRules));
-    }
-    const result=await run(process.execPath,args,{cwd:root});
-    return {
-      ...result,
-      startedAt,
-      completedAt:new Date().toISOString(),
-      artifacts:result.ok ? {
-        planningReceipt:resolve(dir,'planning/migration-planning-receipt.json'),
-        plan:resolve(dir,'planning/migration-plan.json')
-      } : null
-    };
-  }
-
-  if(stage.type === 'migration-export'){
-    const source=sources.get(stage.details.sourceId);
-    const input=abs(manifestDir,source.input);
-    const info=await stat(input);
-    const sourceRoot=info.isDirectory() ? input : dirname(input);
-    const dir=sourceOut(source.id);
-    const result=await run(process.execPath,[
-      resolve(root,'scripts/migrate-roblox.mjs'),
-      '--planning-receipt',resolve(dir,'planning/migration-planning-receipt.json'),
-      '--source-root',sourceRoot,
-      '--out-dir',resolve(dir,'export')
-    ],{cwd:root});
-    return {
-      ...result,
-      startedAt,
-      completedAt:new Date().toISOString(),
-      artifacts:result.ok ? {
-        exportReceipt:resolve(dir,'export/migration-export-receipt.json')
-      } : null
-    };
-  }
-
-  if(stage.type === 'code-donor-checkout'){
-    const repository=stage.details.repository;
-    const commit=stage.details.commit;
-    const checkout=abs(manifestDir,stage.details.checkout);
-    const repoUrl='https://github.com/' + repository + '.git';
-
-    if(await exists(checkout)){
-      if(!await exists(resolve(checkout,'.git'))){
-        return {
-          ok:false,
-          status:2,
-          startedAt,
-          completedAt:new Date().toISOString(),
-          error:'authorized donor checkout exists but is not a Git repository: ' + checkout
-        };
-      }
-      const dirty=await run('git',['-C',checkout,'status','--porcelain'],{cwd:root});
-      if(!dirty.ok || dirty.stdout.trim()){
-        return {
-          ok:false,
-          status:2,
-          startedAt,
