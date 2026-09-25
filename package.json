@@ -22,7 +22,8 @@
     "roblox:ingest": "node scripts/ingest-roblox-source.mjs",
     "roblox:promote-adaptation": "node scripts/promote-migration-adaptation.mjs",
     "roblox:native:build-proof": "node scripts/verify-roblox-native-build.mjs",
-    "roblox:studio-sync-proof": "node scripts/verify-roblox-studio-sync.mjs"
+    "roblox:studio-sync-proof": "node scripts/verify-roblox-studio-sync.mjs",
+    "roblox:studio-live-proof": "node scripts/verify-live-studio-playtest.mjs"
   },
   "dependencies": {
     "lucide-react": "^0.468.0",
