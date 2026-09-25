@@ -64,7 +64,7 @@ fn compare_subtrees(
         return Err(format!("{path}: class drift: expected {}, found {}", expected.class, actual.class).into());
     }
     if expected.properties != actual.properties {
-        return Err(format!("{path}: property drift for {} {}", expected.class, expected.name).into());
+        return Err(format!("{path}: property drift for {} {} expected={:?} actual={:?}", expected.class, expected.name, expected.properties, actual.properties).into());
     }
 
     stats.instance_count += 1;
