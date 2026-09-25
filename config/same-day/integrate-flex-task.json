@@ -1,5 +1,5 @@
 {
   "id": "same-day-integrate-flex",
-  "request": "Using the authorized source checkout at vendor/authorized/roblox-flex-with-friends, port only the highest-leverage systems into StarBlox: ambient road traffic, air/helicopter traffic, phone-based travel patterns, quest presentation, minigame patterns, and child-oriented NPC interaction. Do not replace StarBlox ProfileStore, learning/mastery, economy, typed networking, or release authority. Keep changes bounded, tested, rollback-safe, and visually verified where they affect the world.",
-  "searchQuery": "traffic quest minigame phone travel npc world"
+  "request": "Using the authorized checkout at vendor/authorized/roblox-flex-with-friends, start with these exact files: src/server/services/TrafficService.lua, RoadService.lua, AirTrafficService.lua, HeliTrafficService.lua, QuestService.lua, MinigameService.lua, WorldService.lua; src/client/controllers/PhoneMenuController.lua, TravelController.lua, QuestController.lua, MinigameController.lua; src/shared/Config/Traffic.lua, Quest.lua, World.lua. Port only ambient traffic, phone travel, quest presentation, one lightweight minigame pattern, and child-oriented NPC interaction needed for the vertical slice. Do not replace StarBlox ProfileStore, mastery, economy, typed networking or release authority. Keep changes bounded, tested, rollback-safe and visually verified.",
+  "searchQuery": "TrafficService RoadService AirTrafficService HeliTrafficService QuestService MinigameService PhoneMenuController TravelController"
 }
