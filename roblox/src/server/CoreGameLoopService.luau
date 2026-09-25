@@ -17,18 +17,6 @@ local ANSWERS = table.freeze({
 	["culture-lab-culture-v1"] = "culture",
 })
 
-local STATION_POSITIONS = table.freeze({
-	["word-portal-put-v1"] = Vector3.new(0, 3, -24),
-	["spelling-forge-fog-v1"] = Vector3.new(26, 3, 4),
-	["culture-lab-culture-v1"] = Vector3.new(-26, 3, 4),
-})
-
-local STATION_PART_NAMES = table.freeze({
-	["word-portal-put-v1"] = "WordPortalStation",
-	["spelling-forge-fog-v1"] = "SpellingForgeStation",
-	["culture-lab-culture-v1"] = "CultureLabStation",
-})
-
 local function activityById(activityId: string)
 	for _, activity in Config.Activities do
 		if activity.Id == activityId then
@@ -42,146 +30,11 @@ local function utcDayKey(): string
 	return os.date("!%Y-%m-%d")
 end
 
-local function makePart(parent: Instance, name: string, size: Vector3, position: Vector3): Part
-	local part = Instance.new("Part")
-	part.Name = name
-	part.Anchored = true
-	part.Size = size
-	part.Position = position
-	part.TopSurface = Enum.SurfaceType.Smooth
-	part.BottomSurface = Enum.SurfaceType.Smooth
-	part.Parent = parent
-	return part
-end
-
-local function createStation(model: Model, activity)
-	local position = STATION_POSITIONS[activity.Id]
-	assert(position ~= nil, "missing station position: " .. activity.Id)
-
-	local station = makePart(
-		model,
-		STATION_PART_NAMES[activity.Id],
-		Vector3.new(10, 6, 10),
-		position
-	)
-	station.Material = Enum.Material.SmoothPlastic
-	station.Color = activity.Accent
-	station:SetAttribute("ActivityId", activity.Id)
-	station:SetAttribute("StationName", activity.StationName)
-	station:SetAttribute("StationIndex", activity.Index)
-	station:SetAttribute("Direction", activity.Direction)
-
-	local highlight = Instance.new("Highlight")
-	highlight.Name = "StationHighlight"
-	highlight.FillColor = activity.Accent
-	highlight.FillTransparency = 0.72
-	highlight.OutlineColor = Color3.new(1, 1, 1)
-	highlight.OutlineTransparency = 0.12
-	highlight.Parent = station
-
-	local light = Instance.new("PointLight")
-	light.Name = "StationGlow"
-	light.Color = activity.Accent
-	light.Brightness = 1.6
-	light.Range = 18
-	light.Parent = station
-
-	local prompt = Instance.new("ProximityPrompt")
-	prompt.Name = "StartActivityPrompt"
-	prompt.ActionText = "Start Activity"
-	prompt.ObjectText = activity.StationName
-	prompt.HoldDuration = 0
-	prompt.MaxActivationDistance = 14
-	prompt.RequiresLineOfSight = false
-	prompt.KeyboardKeyCode = Enum.KeyCode.E
-	prompt.GamepadKeyCode = Enum.KeyCode.ButtonX
-	prompt.Parent = station
-
-	local billboard = Instance.new("BillboardGui")
-	billboard.Name = "StationSign"
-	billboard.Size = UDim2.fromOffset(300, 84)
-	billboard.StudsOffset = Vector3.new(0, 5.5, 0)
-	billboard.AlwaysOnTop = true
-	billboard.Adornee = station
-	billboard.Parent = station
-
-	local label = Instance.new("TextLabel")
-	label.Name = "Title"
-	label.Size = UDim2.fromScale(1, 1)
-	label.BackgroundTransparency = 0.15
-	label.TextScaled = true
-	label.TextWrapped = true
-	label.Text = string.format("%d • %s\n%s", activity.Index, string.upper(activity.StationName), string.upper(activity.Direction))
-	label.TextColor3 = Color3.new(1, 1, 1)
-	label.Font = Enum.Font.GothamBold
-	label.Parent = billboard
-
-	return prompt
-end
-
-local function buildWorld()
+local function removePrototypeWorld()
 	local existing = Workspace:FindFirstChild(WORLD_MODEL_NAME)
 	if existing then
 		existing:Destroy()
 	end
-
-	local model = Instance.new("Model")
-	model.Name = WORLD_MODEL_NAME
-	model:SetAttribute("LoopId", Config.LoopId)
-	model:SetAttribute("DistrictName", Config.DistrictName)
-	model:SetAttribute("PolishRevision", Config.PolishRevision)
-	model.Parent = Workspace
-
-	local plaza = makePart(model, "BrightsidePlaza", Vector3.new(110, 1, 110), Vector3.new(0, -0.5, 0))
-	plaza.Material = Enum.Material.SmoothPlastic
-
-	local spawn = Instance.new("SpawnLocation")
-	spawn.Name = "StarBloxSpawn"
-	spawn.Anchored = true
-	spawn.Neutral = true
-	spawn.Size = Vector3.new(8, 1, 8)
-	spawn.Position = Vector3.new(0, 1, 28)
-	spawn.Parent = model
-
-	local guideTotem = makePart(model, "GuideTotem", Vector3.new(5, 7, 5), Vector3.new(0, 3.5, 15))
-	guideTotem.Material = Enum.Material.SmoothPlastic
-	guideTotem.Color = Color3.fromRGB(35, 42, 65)
-	guideTotem.CanCollide = true
-
-	local guideBillboard = Instance.new("BillboardGui")
-	guideBillboard.Name = "GuideBillboard"
-	guideBillboard.Size = UDim2.fromOffset(430, 130)
-	guideBillboard.StudsOffset = Vector3.new(0, 5.5, 0)
-	guideBillboard.AlwaysOnTop = true
-	guideBillboard.Adornee = guideTotem
-	guideBillboard.Parent = guideTotem
-
-	local guideLabel = Instance.new("TextLabel")
-	guideLabel.Name = "Directions"
-	guideLabel.Size = UDim2.fromScale(1, 1)
-	guideLabel.BackgroundTransparency = 0.12
-	guideLabel.TextColor3 = Color3.new(1, 1, 1)
-	guideLabel.Font = Enum.Font.GothamBold
-	guideLabel.TextScaled = true
-	guideLabel.TextWrapped = true
-	guideLabel.Text = "BRIGHTSIDE PLAZA\n1 WORD PORTAL ↑   2 SPELLING FORGE →   3 CULTURE LAB ←"
-	guideLabel.Parent = guideBillboard
-
-	for _, pathSpec in {
-		{name = "NorthPath", size = Vector3.new(10, 0.4, 48), position = Vector3.new(0, 0.2, 0)},
-		{name = "EastPath", size = Vector3.new(48, 0.4, 10), position = Vector3.new(13, 0.2, 4)},
-		{name = "WestPath", size = Vector3.new(48, 0.4, 10), position = Vector3.new(-13, 0.2, 4)},
-	} do
-		local path = makePart(model, pathSpec.name, pathSpec.size, pathSpec.position)
-		path.Material = Enum.Material.SmoothPlastic
-	end
-
-	local prompts = {}
-	for _, activity in Config.Activities do
-		prompts[activity.Id] = createStation(model, activity)
-	end
-
-	return model, prompts
 end
 
 local function ensureCoreLoopState(profileData)
@@ -408,7 +261,9 @@ function CoreGameLoopService.new(profiles, replicas, telemetry)
 	self._submitAnswer = submitAnswer
 	self._requestStatus = requestStatus
 	self._dismissOnboarding = dismissOnboarding
-	self._world, self._prompts = buildWorld()
+	removePrototypeWorld()
+	self._world = nil
+	self._prompts = {}
 
 	for activityId, prompt in self._prompts do
 		table.insert(self._connections, prompt.Triggered:Connect(function(player: Player)
