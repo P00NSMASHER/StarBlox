@@ -65,7 +65,15 @@ for(const path of liveFiles){
   }
 }
 
+const presentBrookhavenRuntimeFiles=[];
+const pendingBrookhavenRuntimeFiles=[];
+
 for(const path of brookhavenRuntimeFiles){
+  if(!fs.existsSync(path)){
+    pendingBrookhavenRuntimeFiles.push(path);
+    continue;
+  }
+  presentBrookhavenRuntimeFiles.push(path);
   const content=fs.readFileSync(path,'utf8');
   for(const token of learningFactoryTokens){
     if(content.includes(token)){
@@ -78,6 +86,8 @@ const result={
   schemaVersion:'starblox-brookhaven-learning-separation-check-v1',
   liveFiles,
   brookhavenRuntimeFiles,
+  presentBrookhavenRuntimeFiles,
+  pendingBrookhavenRuntimeFiles,
   learningFactoryTokenCount:learningFactoryTokens.length,
   violationCount:findings.length,
   findings,

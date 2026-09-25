@@ -52,15 +52,16 @@
         "scripts/convertBrookhavenNeutralScene.mjs",
         "scripts/validateBrookhavenProxyVerticalSlice.mjs",
         "scripts/validateBrookhavenResearchArtifacts.mjs",
-        ".github/workflows/brookhaven-research-boundary.yml"
+        ".github/workflows/brookhaven-research-boundary.yml",
+        "scripts/validateBrookhavenReplayStage.mjs"
       ],
       "verifyAfterReplay": [
-        "research artifact validation issueCount == 0",
-        "reuse boundary violationCount == 0",
-        "learning separation violationCount == 0",
-        "Step 8 completion true",
-        "Step 9 completion true",
-        "Step 10 completion true"
+        "staged replay validator passes with replayStage == 1",
+        "Brookhaven runtime boundary has zero violations",
+        "Brookhaven/learning separation assertion has zero violations for all currently replayed modules",
+        "protected live files remain unchanged from the integration branch product base",
+        "normal product build passes",
+        "full 12-step research artifact validation remains deferred until replay Groups 2-5 are complete"
       ]
     },
     {
@@ -135,7 +136,8 @@
         "42 rules remain exact blueprint/runtime parity",
         "14/13/15 rule split remains exact",
         "economy mutation remains zero",
-        "no save/reward/persistence/live-app wiring exists"
+        "no save/reward/persistence/live-app wiring exists",
+        "full 12-step research artifact validation passes"
       ]
     },
     {
