@@ -172,6 +172,22 @@ if(stagingReceipt.status !== 'prepared-offline'){
   throw new Error('Milestone 4 staging receipt did not reach prepared-offline status');
 }
 
+const factoryEvidencePath=resolve(stagingDir,'factory-migration-evidence.json');
+runNode('scripts/ai-development-factory.mjs',[
+  '--task',resolve(stagingDir,'milestone4-task.json'),
+  '--verify-migration-only',
+  '--out',factoryEvidencePath
+]);
+const factoryEvidence=JSON.parse(await readFile(factoryEvidencePath,'utf8'));
+if(
+  factoryEvidence.status !== 'verified' ||
+  factoryEvidence.units?.length !== 1 ||
+  factoryEvidence.units[0]?.unitId !== EXPECTED_UNIT ||
+  factoryEvidence.liveActivationAllowed !== false
+){
+  throw new Error('self-contained Milestone 4 factory task failed migration admission verification');
+}
+
 const packetBase={
   schemaVersion:1,
   version:'starblox-milestone4-packet-v1',
@@ -191,9 +207,11 @@ const packetBase={
     exportReceipt:'export/migration-export-receipt.json',
     stagingReceipt:'staging/milestone4-staging-receipt.json',
     stagingPlace:'staging/StarBlox-milestone4-staging.rbxlx',
-    factoryTask:'staging/milestone4-task.json'
+    factoryTask:'staging/milestone4-task.json',
+    factoryMigrationEvidence:'staging/factory-migration-evidence.json'
   },
   stagingReceiptHash:stagingReceipt.receiptHash,
+  factoryMigrationEvidenceHash:factoryEvidence.evidenceHash,
   execution:{
     studioAttested:false,
     factoryRunStarted:false,
