@@ -98,14 +98,14 @@ Every candidate audit must record:
 8. Duplicate capabilities across candidates are not double-counted when producing the final combined-stack estimate.
 
 
-## Results through Step 5
+## Results through Step 8
 
 | Audit step | Candidate | Workload-elimination score | Strongest verified value | Status |
 |---|---|---:|---|---|
 | 2 | Arnis Roblox | 57.33 / 100 | Repeatable city generation, interiors, roads, streaming/LOD, ambient life and engineering automation | Complete |
 | 3 | Brookhaven.rbxl public candidate | 64.67 / 100 | Brookhaven physical world, houses, vehicles, roleplay UI and client-side system contracts | Complete |
 | 4 | Welcome to Bloxburg [BETA].rbxl public candidate | 65.33 / 100 | Deep recoverable build-mode, wall/fence/plot, furniture and interior logic | Complete |
-| 5 | RoCitizens.rbxl public candidate | 76.00 / 100 | Broad roleplay stack: housing, careers/tasks, world events, phone/customization, trade, inventory and network contracts | Complete |
+| 5 | RoCitizens.rbxl public candidate | 76.00 / 100 | Broad roleplay stack: housing, careers/tasks, world events, phone/customization, trade, inventory and network contracts | Complete |\n| 6 | Meepcity.rbxl public candidate | 67.00 / 100 | Estates, pets, social parties, child-friendly activities and unusually complete recoverable server/persistence source | Complete |\n| 7 | Jailbreak (Beta).rbxlx public candidate | 51.67 / 100 | Strongest dedicated vehicle/garage/open-city driving donor, but authoritative server implementation is absent | Complete |\n| 8 | GamerKreep Robbing Simulator.rbxl | 78.33 / 100 | Creator-released full server source, city NPC response AI, housing/placeables, world events and persistence/economy patterns | Complete |
 
 ### Cross-candidate finding
 
