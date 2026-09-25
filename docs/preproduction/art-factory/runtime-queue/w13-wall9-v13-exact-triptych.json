@@ -34,5 +34,10 @@
     "route": "12 -> 14 -> 02 -> 08 on ACCEPT",
     "canonicalWriter": "08"
   },
-  "dispatchPolicy": "PREPARED_ONLY__QUEUE_WHEN_DECOR11_V9_TRANSITIONS_TO_RUNNING"
+  "dispatchPolicy": "PREPARED_ONLY__QUEUE_WHEN_DECOR11_V9_TRANSITIONS_TO_RUNNING",
+  "retry": {
+    "attempt": 2,
+    "reason": "Retry after runtime dependency repair and per-exact-queue concurrency isolation",
+    "supersedesRunId": 36091472716
+  }
 }
