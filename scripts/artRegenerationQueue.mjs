@@ -12,6 +12,17 @@ const PRODUCER_BY_COLLECTION = Object.freeze({
   lighting:'04', wall:'05', rugs:'07', decor:'09'
 });
 
+function reviewDocs(root){
+  const dir=path.join(root,'docs/preproduction/catalog-sprint/reviews');
+  return fs.readdirSync(dir)
+    .filter(name=>/^\d+\.json$/.test(name))
+    .sort()
+    .map(name=>({
+      path:path.relative(root,path.join(dir,name)),
+      data:JSON.parse(fs.readFileSync(path.join(dir,name),'utf8'))
+    }));
+}
+
 function failureCount(itemId,corpus){
   return corpus.observations.filter(x=>x.itemId===itemId && x.independent && x.decision==='REWORK').length;
 }
