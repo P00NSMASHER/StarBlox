@@ -7,7 +7,7 @@ import { chromium } from 'playwright';
 const baseUrl=process.env.STARBLOX_QA_URL||'https://star-blox.replit.app';
 const outputDir=process.env.STARBLOX_QA_OUTPUT||'artifacts/live-replit-companion-qa';
 // Re-run marker: current deployment-tolerant live companion evidence probe.
-// QA replay marker: deterministic-finalization-20260925
+// QA replay marker: release-coordinator-stranded-run-retry-20260925T0505Z
 const targets=[
   ['companions-2','Moon Cat'],
   ['companions-5','Pebble Turtle'],
