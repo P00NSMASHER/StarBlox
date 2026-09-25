@@ -1,14 +1,14 @@
 {
   "schemaVersion": 1,
   "migration": "starblox-web-to-roblox-native",
-  "status": "started",
+  "status": "final-release-gate-verified",
   "sourceBaseline": {
     "branch": "main",
     "commit": "e12897e0e3796728eb338e94ee31fa759a6713a8"
   },
   "currentStep": {
-    "number": 8,
-    "name": "player-experience-polish-and-automated-ux-qa",
+    "number": 10,
+    "name": "final-private-release-gate",
     "status": "verified"
   },
   "runtimeAuthority": {
@@ -23,7 +23,7 @@
     "Do not publish or activate a Roblox production experience from this step.",
     "Promote migrated systems only through explicit verification gates."
   ],
-  "nextStep": "private-real-client-playtest-and-release-telemetry",
+  "nextStep": "explicit-human-decision-on-public-activation",
   "toolchain": {
     "manager": "Rokit",
     "managerVersion": "1.2.0",
@@ -32,8 +32,8 @@
   },
   "roadmap": {
     "totalSteps": 10,
-    "completedSteps": 8,
-    "remainingSteps": 2
+    "completedSteps": 10,
+    "remainingSteps": 0
   },
   "studioSync": {
     "baseline": "roblox/native-place-baseline.json",
@@ -208,5 +208,60 @@
     "liveActivationAllowed": false,
     "productionActivationAllowed": false,
     "rollbackVersion": 4
+  },
+  "finalReleaseGate": {
+    "schemaVersion": 1,
+    "status": "verified-private-release-candidate",
+    "releaseId": "starblox-private-step9-canonical-step6-v4",
+    "universeId": "6027194615",
+    "placeId": "17602626136",
+    "releaseSourceCommit": "d6ad331c55e5a4bc4f1fcb66a130d8d67e463887",
+    "verificationToolingHead": "84fe52a2a1c1dabb93d6fc1e62f75bf833c73930",
+    "previousVersion": 10,
+    "publishedVersion": 11,
+    "verifiedVersion": 11,
+    "artifactSha256": "f997ac0922fa01afd69ad16fa681d0b271284f0b619aac5c76d9cb5a8591b2c9",
+    "releaseGateVersion": "starblox-step6-release-gate-v1",
+    "baselineModelSha256": "4dfd451ae211dead959ec3f165e2b477a9725d04727febdc66472e95328917df",
+    "mountedSubtreeSha256": "d2c88a68305a65475dfdab77220b69e4138d81e44250edd1849f69cee4c92a90",
+    "serializedBrookhavenInstanceCount": 5493,
+    "liveBrookhavenInstanceCount": 5516,
+    "deterministicRuntimeLegacyJoints": {
+      "Glue": 3,
+      "Snap": 4,
+      "Weld": 16,
+      "total": 23
+    },
+    "productionServerBoot": {
+      "verified": true,
+      "workflowRunId": 36197498682,
+      "workflowJobId": 108276569445
+    },
+    "realClient": {
+      "verified": true,
+      "workflowRunId": 36197498617,
+      "workflowJobId": 108279664580,
+      "touchClient": true,
+      "viewport": {
+        "x": 750,
+        "y": 402
+      },
+      "durationSeconds": 27,
+      "allThreePanelsOpened": true,
+      "threeClientSuccessStates": true,
+      "allThreeStationsOpenedAuthoritatively": true,
+      "threeCorrectCompletions": true,
+      "fullLoopCompleted": true,
+      "activityIdentityVerified": true,
+      "privacyReceiptVerified": true,
+      "onboardingObserved": false,
+      "wrongAnswerFeedbackObserved": false
+    },
+    "rollbackVersion": 10,
+    "authority": {
+      "publicAccessChangeAllowed": false,
+      "experienceVisibilityChangeAllowed": false,
+      "productionActivationAllowed": false
+    }
   }
 }
