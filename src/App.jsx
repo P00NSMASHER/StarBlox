@@ -31,31 +31,41 @@ import {
 
 const DEFAULT_SAVE = {
   stateVersion: 2,
-  coins: 40,
-  stars: 0,
-  xp: 0,
-  starWorth: 0,
-  owned: ['tops-1','bottoms-1','shoes-1','beds-1','desks-1','companions-1'],
+  coins: 720,
+  stars: 8,
+  xp: 610,
+  starWorth: 2400,
+  owned: [
+    'tops-1','bottoms-1','shoes-1','beds-1','desks-1','companions-1',
+    'tops-8','bottoms-7','shoes-7','headwear-8','backgear-7',
+    'companions-11','beds-8','desks-10','rugs-10','lighting-8','decor-11'
+  ],
   equipped: {
-    top:'tops-1',
-    bottom:'bottoms-1',
-    shoes:'shoes-1',
-    companion:'companions-1'
+    top:'tops-8',
+    bottom:'bottoms-7',
+    shoes:'shoes-7',
+    head:'headwear-8',
+    back:'backgear-7',
+    companion:'companions-11'
   },
-  stats: {},
-  mastered: [],
-  roomDecor: ['beds-1','desks-1'],
-  questsCompleted: 0,
-  transferWins: 0,
+  stats: {
+    phonics:{seen:7,correct:6,wrong:1,lastSeen:1,independentCorrect:5,masteryCorrect:4},
+    'high-frequency-words':{seen:6,correct:5,wrong:1,lastSeen:1,independentCorrect:4,masteryCorrect:4},
+    'word-meaning':{seen:4,correct:3,wrong:1,lastSeen:1,independentCorrect:3,masteryCorrect:3}
+  },
+  mastered: ['phonics','high-frequency-words'],
+  roomDecor: ['beds-8','desks-10','rugs-10','lighting-8'],
+  questsCompleted: 4,
+  transferWins: 3,
   lastDailyKey: '',
   daily: {quests:0,transfers:0,purchase:0},
-  dreamGoalId: 'companions-8',
+  dreamGoalId: 'companions-10',
   districtProgress: {
-    'Lantern Lane':0,
-    'Story Street':0,
-    'Wordwood Garden':0
+    'Lantern Lane':18,
+    'Story Street':11,
+    'Wordwood Garden':9
   },
-  companionBond: 0,
+  companionBond: 9,
   purchaseReceipts: [],
   activeQuestReceipt: '',
   lastCompletedQuestReceipt: ''
@@ -473,6 +483,23 @@ export function App(){
     (marketTier === 0 || item.tier === marketTier)
   );
 
+  const resetDemo = () => {
+    if(advanceTimer.current) window.clearTimeout(advanceTimer.current);
+    questReceiptRef.current = '';
+    setQuest([]);
+    setQIndex(0);
+    setFeedback(null);
+    setSelected('');
+    setWrongRewarded(false);
+    setMarketFilter('all');
+    setMarketTier(0);
+    setStoryOpen(false);
+    setImportMessage('Demo profile restored.');
+    setSave(migrateSave(DEFAULT_SAVE));
+    setScreen('room');
+    flash('Demo reset: showcase profile restored.');
+  };
+
   const saveDownload = () => {
     const blob = new Blob([exportSave(save)],{type:'application/json'});
     const url = URL.createObjectURL(blob);
@@ -786,6 +813,7 @@ export function App(){
                   <p>Use this before moving devices or migrating from another StarBlox build.</p>
                   <div className="backupActions">
                     <button className="secondaryButton" onClick={saveDownload}><Download size={18}/> Download save</button>
+                    <button className="secondaryButton" onClick={resetDemo}>Reset Demo</button>
                     <button className="secondaryButton" onClick={() => importRef.current?.click()}><Upload size={18}/> Import save</button>
                     <input ref={importRef} type="file" accept=".json,application/json" onChange={loadSaveFile} hidden />
                   </div>
