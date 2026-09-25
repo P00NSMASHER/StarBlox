@@ -270,6 +270,28 @@ npm run studio:factory -- --task migration-task.json --verify-migration-only --o
 
 Ordinary non-migration development tasks remain unchanged and do not require migration evidence.
 
+### Migration adaptation receipt
+
+A verified migration adaptation also emits `migration-adaptation-receipt.json` beside the development-run artifact.
+
+The receipt binds:
+
+- the exact verified migration-evidence hash;
+- the migration export receipt SHA-256/receiptHash, bundle ID/hash and plan-binding hash;
+- the exact migration plan ID/hash/catalog hash;
+- every adapted migration unit and its original exported artifact SHA-256/byte size;
+- the exact development-run JSON SHA-256/byte size plus run ID/hash;
+- the attested Studio bridge service, Studio instance ID and connector protocol version;
+- a stable hash of the connected Studio tool surface;
+- explicit repository proof for tests, certification, balance and build;
+- the actual persistent Studio mutation targets recorded by successful write receipts.
+
+A migration adaptation receipt is deliberately **not** a quarantine-exit approval. Each adapted unit is marked `promotionCandidate=true` but `quarantineExitApproved=false`. The receipt also requires a separate future promotion receipt and keeps publication/live activation disabled.
+
+Migration development now requires an actually attested Studio connector. If migration evidence is present but the connected adapter cannot prove the live Studio bridge identity/protocol, the factory fails before its first inspection call.
+
+The receipt and run artifact must live beside one another so a later quarantine-exit gate can re-hash the exact development run without ambiguous path resolution.
+
 ## Audit artifact
 
 Each run produces an immutable JSON artifact containing:
@@ -285,6 +307,8 @@ Each run produces an immutable JSON artifact containing:
 - repository gate result;
 - Studio connector attestation evidence when available;
 - verified migration evidence and exact selected migration-unit artifact hashes when the run adapts migrated content;
+- attested Studio connector identity for migration adaptations;
+- a sibling migration-adaptation receipt for verified migration runs, binding repository gates and persistent mutation targets while withholding quarantine-exit authority;
 - deterministic run hash.
 
 The artifact intentionally does not retain:
