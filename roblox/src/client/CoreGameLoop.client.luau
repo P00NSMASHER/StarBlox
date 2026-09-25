@@ -65,73 +65,76 @@ gui.Parent = playerGui
 
 local hud = Instance.new("Frame")
 hud.Name = "HUD"
-hud.Size = UDim2.new(1, -24, 0, 132)
+hud.Size = UDim2.fromOffset(314, 64)
 hud.Position = UDim2.fromOffset(12, 12)
 hud.BackgroundColor3 = COLORS.navy
-hud.BackgroundTransparency = 0.06
+hud.BackgroundTransparency = 0.16
 hud.Parent = gui
-round(hud, 18)
-outline(hud, 0.45)
+round(hud, 14)
+outline(hud, 0.68)
 
 local hudSize = Instance.new("UISizeConstraint")
-hudSize.MinSize = Vector2.new(300, 132)
-hudSize.MaxSize = Vector2.new(430, 132)
+hudSize.MinSize = Vector2.new(280, 64)
+hudSize.MaxSize = Vector2.new(340, 64)
 hudSize.Parent = hud
 
 local title = Instance.new("TextLabel")
 title.Name = "Title"
 title.BackgroundTransparency = 1
-title.Position = UDim2.fromOffset(14, 8)
-title.Size = UDim2.new(1, -28, 0, 30)
+title.Position = UDim2.fromOffset(12, 6)
+title.Size = UDim2.fromOffset(84, 24)
 title.Font = Enum.Font.GothamBold
 title.Text = "StarBlox"
 title.TextColor3 = COLORS.text
 title.TextScaled = true
 title.TextXAlignment = Enum.TextXAlignment.Left
 title.Parent = hud
-constrainText(title, 15, 22)
+constrainText(title, 14, 18)
 
 local economy = Instance.new("TextLabel")
 economy.Name = "Economy"
 economy.BackgroundTransparency = 1
-economy.Position = UDim2.fromOffset(14, 42)
-economy.Size = UDim2.new(1, -28, 0, 26)
+economy.Position = UDim2.fromOffset(96, 6)
+economy.Size = UDim2.new(1, -108, 0, 24)
 economy.Font = Enum.Font.GothamMedium
 economy.TextColor3 = COLORS.text
 economy.TextScaled = true
-economy.TextXAlignment = Enum.TextXAlignment.Left
+economy.TextXAlignment = Enum.TextXAlignment.Right
 economy.Parent = hud
-constrainText(economy, 13, 18)
+constrainText(economy, 12, 15)
 
 local progress = Instance.new("TextLabel")
 progress.Name = "Progress"
 progress.BackgroundTransparency = 1
-progress.Position = UDim2.fromOffset(14, 70)
-progress.Size = UDim2.new(1, -28, 0, 24)
+progress.Position = UDim2.fromOffset(12, 34)
+progress.Size = UDim2.new(1, -24, 0, 22)
 progress.Font = Enum.Font.GothamMedium
 progress.TextColor3 = COLORS.muted
 progress.TextScaled = true
 progress.TextXAlignment = Enum.TextXAlignment.Left
 progress.Parent = hud
-constrainText(progress, 12, 17)
+constrainText(progress, 11, 14)
 
 local nextHint = Instance.new("TextLabel")
 nextHint.Name = "NextHint"
-nextHint.BackgroundTransparency = 1
-nextHint.Position = UDim2.fromOffset(14, 98)
-nextHint.Size = UDim2.new(1, -28, 0, 24)
+nextHint.BackgroundColor3 = COLORS.navy
+nextHint.BackgroundTransparency = 0.16
+nextHint.Position = UDim2.fromOffset(12, 82)
+nextHint.Size = UDim2.fromOffset(260, 30)
 nextHint.Font = Enum.Font.GothamBold
 nextHint.TextColor3 = COLORS.warning
 nextHint.TextScaled = true
-nextHint.TextXAlignment = Enum.TextXAlignment.Left
+nextHint.TextXAlignment = Enum.TextXAlignment.Center
 nextHint.Text = "Loading your next station…"
-nextHint.Parent = hud
-constrainText(nextHint, 12, 17)
+nextHint.Parent = gui
+round(nextHint, 12)
+outline(nextHint, 0.72)
+constrainText(nextHint, 11, 14)
 
 local toast = Instance.new("TextLabel")
 toast.Name = "Toast"
 toast.AnchorPoint = Vector2.new(0.5, 0)
-toast.Position = UDim2.new(0.5, 0, 0, 154)
+toast.Position = UDim2.new(0.5, 0, 0, 120)
 toast.Size = UDim2.new(0.9, 0, 0, 50)
 toast.BackgroundColor3 = COLORS.panel
 toast.BackgroundTransparency = 1
@@ -156,25 +159,25 @@ local panel = Instance.new("Frame")
 panel.Name = "ActivityPanel"
 panel.AnchorPoint = Vector2.new(0.5, 0.5)
 panel.Position = UDim2.fromScale(0.5, 0.54)
-panel.Size = UDim2.new(0.92, 0, 0, 442)
+panel.Size = UDim2.new(0.84, 0, 0, 322)
 panel.BackgroundColor3 = COLORS.panel
 panel.BackgroundTransparency = 0.04
 panel.Visible = false
 panel.ZIndex = 30
 panel.Parent = gui
-round(panel, 20)
+round(panel, 18)
 outline(panel, 0.25)
 
 local panelConstraint = Instance.new("UISizeConstraint")
-panelConstraint.MaxSize = Vector2.new(640, 500)
-panelConstraint.MinSize = Vector2.new(300, 400)
+panelConstraint.MaxSize = Vector2.new(520, 322)
+panelConstraint.MinSize = Vector2.new(300, 300)
 panelConstraint.Parent = panel
 
 local closeButton = Instance.new("TextButton")
 closeButton.Name = "CloseButton"
 closeButton.AnchorPoint = Vector2.new(1, 0)
-closeButton.Position = UDim2.new(1, -12, 0, 12)
-closeButton.Size = UDim2.fromOffset(48, 48)
+closeButton.Position = UDim2.new(1, -10, 0, 10)
+closeButton.Size = UDim2.fromOffset(44, 44)
 closeButton.BackgroundColor3 = COLORS.panelSoft
 closeButton.Text = "×"
 closeButton.TextColor3 = COLORS.text
@@ -183,14 +186,14 @@ closeButton.Font = Enum.Font.GothamBold
 closeButton.AutoButtonColor = true
 closeButton.ZIndex = 32
 closeButton.Parent = panel
-round(closeButton, 14)
-constrainText(closeButton, 22, 30)
+round(closeButton, 12)
+constrainText(closeButton, 20, 26)
 
 local activityTitle = Instance.new("TextLabel")
 activityTitle.Name = "ActivityTitle"
 activityTitle.BackgroundTransparency = 1
-activityTitle.Position = UDim2.fromOffset(22, 18)
-activityTitle.Size = UDim2.new(1, -92, 0, 52)
+activityTitle.Position = UDim2.fromOffset(16, 12)
+activityTitle.Size = UDim2.new(1, -76, 0, 36)
 activityTitle.TextColor3 = COLORS.text
 activityTitle.Font = Enum.Font.GothamBold
 activityTitle.TextScaled = true
@@ -198,13 +201,13 @@ activityTitle.TextWrapped = true
 activityTitle.TextXAlignment = Enum.TextXAlignment.Left
 activityTitle.ZIndex = 31
 activityTitle.Parent = panel
-constrainText(activityTitle, 16, 24)
+constrainText(activityTitle, 15, 20)
 
 local promptLabel = Instance.new("TextLabel")
 promptLabel.Name = "Prompt"
 promptLabel.BackgroundTransparency = 1
-promptLabel.Position = UDim2.fromOffset(22, 82)
-promptLabel.Size = UDim2.new(1, -44, 0, 104)
+promptLabel.Position = UDim2.fromOffset(16, 54)
+promptLabel.Size = UDim2.new(1, -32, 0, 64)
 promptLabel.TextColor3 = COLORS.text
 promptLabel.Font = Enum.Font.GothamMedium
 promptLabel.TextScaled = true
@@ -212,27 +215,27 @@ promptLabel.TextWrapped = true
 promptLabel.TextXAlignment = Enum.TextXAlignment.Left
 promptLabel.ZIndex = 31
 promptLabel.Parent = panel
-constrainText(promptLabel, 15, 22)
+constrainText(promptLabel, 13, 18)
 
 local resultLabel = Instance.new("TextLabel")
 resultLabel.Name = "Result"
 resultLabel.BackgroundTransparency = 1
-resultLabel.Position = UDim2.fromOffset(22, 366)
-resultLabel.Size = UDim2.new(1, -44, 0, 52)
+resultLabel.Position = UDim2.fromOffset(16, 286)
+resultLabel.Size = UDim2.new(1, -32, 0, 26)
 resultLabel.TextColor3 = COLORS.muted
 resultLabel.Font = Enum.Font.GothamBold
 resultLabel.TextScaled = true
 resultLabel.TextWrapped = true
 resultLabel.ZIndex = 31
 resultLabel.Parent = panel
-constrainText(resultLabel, 13, 19)
+constrainText(resultLabel, 11, 15)
 
 local buttons = {}
 for index = 1, 3 do
 	local button = Instance.new("TextButton")
 	button.Name = "Choice" .. tostring(index)
-	button.Position = UDim2.new(0, 22, 0, 198 + ((index - 1) * 56))
-	button.Size = UDim2.new(1, -44, 0, 50)
+	button.Position = UDim2.new(0, 16, 0, 130 + ((index - 1) * 52))
+	button.Size = UDim2.new(1, -32, 0, 44)
 	button.BackgroundColor3 = COLORS.panelSoft
 	button.TextColor3 = COLORS.text
 	button.Font = Enum.Font.GothamBold
@@ -242,76 +245,76 @@ for index = 1, 3 do
 	button.Selectable = true
 	button.ZIndex = 31
 	button.Parent = panel
-	round(button, 14)
+	round(button, 12)
 	outline(button, 0.65)
-	constrainText(button, 14, 20)
+	constrainText(button, 13, 18)
 	buttons[index] = button
 end
 
 local onboarding = Instance.new("Frame")
 onboarding.Name = "Onboarding"
 onboarding.AnchorPoint = Vector2.new(0.5, 0.5)
-onboarding.Position = UDim2.fromScale(0.5, 0.52)
-onboarding.Size = UDim2.new(0.9, 0, 0, 350)
+onboarding.Position = UDim2.fromScale(0.5, 0.5)
+onboarding.Size = UDim2.new(0.78, 0, 0, 216)
 onboarding.BackgroundColor3 = COLORS.navy
 onboarding.BackgroundTransparency = 0.03
 onboarding.Visible = false
 onboarding.ZIndex = 50
 onboarding.Parent = gui
-round(onboarding, 22)
+round(onboarding, 18)
 outline(onboarding, 0.22)
 
 local onboardingConstraint = Instance.new("UISizeConstraint")
-onboardingConstraint.MaxSize = Vector2.new(580, 390)
-onboardingConstraint.MinSize = Vector2.new(300, 330)
+onboardingConstraint.MaxSize = Vector2.new(440, 216)
+onboardingConstraint.MinSize = Vector2.new(300, 200)
 onboardingConstraint.Parent = onboarding
 
 local onboardingTitle = Instance.new("TextLabel")
 onboardingTitle.BackgroundTransparency = 1
-onboardingTitle.Position = UDim2.fromOffset(24, 24)
-onboardingTitle.Size = UDim2.new(1, -48, 0, 50)
+onboardingTitle.Position = UDim2.fromOffset(18, 12)
+onboardingTitle.Size = UDim2.new(1, -36, 0, 32)
 onboardingTitle.Font = Enum.Font.GothamBold
-onboardingTitle.Text = "Welcome to Brightside!"
+onboardingTitle.Text = "Ready to explore?"
 onboardingTitle.TextColor3 = COLORS.text
 onboardingTitle.TextScaled = true
 onboardingTitle.TextWrapped = true
 onboardingTitle.ZIndex = 51
 onboardingTitle.Parent = onboarding
-constrainText(onboardingTitle, 18, 26)
+constrainText(onboardingTitle, 16, 21)
 
 local onboardingBody = Instance.new("TextLabel")
 onboardingBody.BackgroundTransparency = 1
-onboardingBody.Position = UDim2.fromOffset(24, 88)
-onboardingBody.Size = UDim2.new(1, -48, 0, 116)
+onboardingBody.Position = UDim2.fromOffset(18, 48)
+onboardingBody.Size = UDim2.new(1, -36, 0, 54)
 onboardingBody.Font = Enum.Font.GothamMedium
-onboardingBody.Text = "Explore three activity spots in the neighborhood. Finish Word Portal, Spelling Forge, and Culture Lab to complete a Brightside run."
+onboardingBody.Text = "Find 3 activity spots and answer one question at each."
 onboardingBody.TextColor3 = COLORS.text
 onboardingBody.TextScaled = true
 onboardingBody.TextWrapped = true
 onboardingBody.ZIndex = 51
 onboardingBody.Parent = onboarding
-constrainText(onboardingBody, 15, 21)
+constrainText(onboardingBody, 13, 17)
 
 local onboardingHint = Instance.new("TextLabel")
 onboardingHint.BackgroundTransparency = 1
-onboardingHint.Position = UDim2.fromOffset(24, 210)
-onboardingHint.Size = UDim2.new(1, -48, 0, 54)
+onboardingHint.Position = UDim2.fromOffset(18, 106)
+onboardingHint.Size = UDim2.new(1, -36, 0, 34)
 onboardingHint.Font = Enum.Font.GothamMedium
-onboardingHint.Text = "Explore the neighborhood, walk up to an activity prompt, then tap Start Activity."
+onboardingHint.Text = "Walk near a prompt and tap Start Activity."
 onboardingHint.TextColor3 = COLORS.warning
 onboardingHint.TextScaled = true
 onboardingHint.TextWrapped = true
 onboardingHint.ZIndex = 51
 onboardingHint.Parent = onboarding
-constrainText(onboardingHint, 13, 18)
+constrainText(onboardingHint, 11, 15)
 
 local onboardingButton = Instance.new("TextButton")
 onboardingButton.Name = "OnboardingContinue"
 onboardingButton.AnchorPoint = Vector2.new(0.5, 1)
-onboardingButton.Position = UDim2.new(0.5, 0, 1, -22)
-onboardingButton.Size = UDim2.new(1, -48, 0, 54)
+onboardingButton.Position = UDim2.new(0.5, 0, 1, -14)
+onboardingButton.Size = UDim2.new(1, -36, 0, 44)
 onboardingButton.BackgroundColor3 = COLORS.accent
-onboardingButton.Text = "Got it — let me explore"
+onboardingButton.Text = "Explore"
 onboardingButton.TextColor3 = COLORS.text
 onboardingButton.Font = Enum.Font.GothamBold
 onboardingButton.TextScaled = true
@@ -319,8 +322,49 @@ onboardingButton.AutoButtonColor = true
 onboardingButton.Selectable = true
 onboardingButton.ZIndex = 51
 onboardingButton.Parent = onboarding
-round(onboardingButton, 14)
-constrainText(onboardingButton, 15, 20)
+round(onboardingButton, 12)
+constrainText(onboardingButton, 14, 18)
+
+local waypoint = Instance.new("BillboardGui")
+waypoint.Name = "NextActivityWaypoint"
+waypoint.Size = UDim2.fromOffset(124, 30)
+waypoint.StudsOffsetWorldSpace = Vector3.new(0, 3.5, 0)
+waypoint.AlwaysOnTop = true
+waypoint.MaxDistance = 350
+waypoint.Enabled = false
+waypoint.Parent = playerGui
+
+local waypointLabel = Instance.new("TextLabel")
+waypointLabel.Name = "Label"
+waypointLabel.Size = UDim2.fromScale(1, 1)
+waypointLabel.BackgroundColor3 = COLORS.navy
+waypointLabel.BackgroundTransparency = 0.2
+waypointLabel.TextColor3 = COLORS.text
+waypointLabel.TextScaled = true
+waypointLabel.Font = Enum.Font.GothamBold
+waypointLabel.Parent = waypoint
+round(waypointLabel, 10)
+outline(waypointLabel, 0.72)
+constrainText(waypointLabel, 10, 13)
+
+local anchorFolder = workspace:WaitForChild("StarBloxActivityAnchors", 10)
+
+local function updateWaypoint(activityId: any, stationName: any)
+	waypoint.Enabled = false
+	waypoint.Adornee = nil
+	if anchorFolder == nil or type(activityId) ~= "string" then
+		return
+	end
+
+	for _, candidate in anchorFolder:GetChildren() do
+		if candidate:IsA("BasePart") and candidate:GetAttribute("ActivityId") == activityId then
+			waypoint.Adornee = candidate
+			waypointLabel.Text = "→ " .. tostring(stationName or "Next activity")
+			waypoint.Enabled = true
+			return
+		end
+	end
+end
 
 local currentActivity = nil
 local submitting = false
@@ -391,15 +435,14 @@ end
 
 local function updateHud()
 	economy.Text = string.format(
-		"Coins %d   •   XP %d   •   Stars %d",
+		"Coins %d   •   Stars %d",
 		readNumber("StarBloxCoins"),
-		readNumber("StarBloxXP"),
 		readNumber("StarBloxStars")
 	)
 	local loops = readNumber("StarBloxLoopRuns")
 	local runNumber = math.max(1, readNumber("StarBloxRunNumber"))
 	local trail = player:GetAttribute("StarBloxSparkTrailUnlocked") == true and " • Spark Trail ✓" or ""
-	progress.Text = string.format("Brightside loops %d • Run %d%s", loops, runNumber, trail)
+	progress.Text = string.format("Run %d • %d loops%s", runNumber, loops, trail)
 end
 
 for _, attribute in {
@@ -422,8 +465,9 @@ local function applyStatus(status)
 	local progressCount = tonumber(status.progress) or 0
 	local activityCount = tonumber(status.activityCount) or 3
 	local loops = tonumber(status.loopRuns) or 0
+	updateWaypoint(status.recommendedActivityId, status.recommendedStationName)
 	progress.Text = string.format(
-		"Run %d • %d/%d stations • %d loops%s",
+		"Run %d • %d/%d • %d loops%s",
 		tonumber(status.runNumber) or 1,
 		progressCount,
 		activityCount,
@@ -432,13 +476,13 @@ local function applyStatus(status)
 	)
 
 	if status.rewardCapReached == true then
-		nextHint.Text = "Daily rewards complete — keep playing for practice!"
+		nextHint.Text = "✓ Daily rewards complete"
 		nextHint.TextColor3 = COLORS.success
 	elseif type(status.recommendedStationName) == "string" then
-		nextHint.Text = "Next: " .. status.recommendedStationName .. " • explore the neighborhood"
+		nextHint.Text = "→ " .. status.recommendedStationName
 		nextHint.TextColor3 = COLORS.warning
 	else
-		nextHint.Text = "Brightside run complete — new run ready!"
+		nextHint.Text = "✓ Run complete — new run ready"
 		nextHint.TextColor3 = COLORS.success
 	end
 
@@ -469,14 +513,14 @@ local function refreshStatus(attempt: number?)
 		return
 	end
 
-	nextHint.Text = "Reconnecting to Brightside…"
+	nextHint.Text = "Reconnecting…"
 	nextHint.TextColor3 = COLORS.warning
 	if tryNumber < 3 then
 		task.delay(0.45 * (2 ^ (tryNumber - 1)), function()
 			refreshStatus(tryNumber + 1)
 		end)
 	else
-		nextHint.Text = "Couldn’t refresh progress. You can still walk to a station and try again."
+		nextHint.Text = "Couldn’t refresh — try an activity prompt."
 		nextHint.TextColor3 = COLORS.danger
 		sendPlaytestTelemetry("retry_state_seen")
 	end
