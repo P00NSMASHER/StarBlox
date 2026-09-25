@@ -451,6 +451,16 @@ jobs:
           npm run same-day:studio:smoke -- --help >/tmp/studio-smoke-help.txt 2>&1 || true
           grep -q 'StarBlox' scripts/same-day-studio-smoke.mjs
 
+      - name: Validate one-command Studio execution pack
+        run: |
+          node --check scripts/same-day-adaptation-receipt.mjs
+          grep -q -- '--stop-after wire-quest-mastery' scripts/windows/same-day-studio-execute.ps1
+          grep -q 'same-day-studio-launch.ps1' scripts/windows/same-day-studio-execute.ps1
+          grep -q 'same-day-adaptation-receipt.mjs' scripts/windows/same-day-studio-execute.ps1
+          grep -q 'Publication remains disabled' scripts/windows/same-day-studio-execute.ps1
+          grep -q "readyForIntegratedSliceVerification:true" scripts/same-day-adaptation-receipt.mjs
+          grep -q "publicationAllowed:false" scripts/same-day-adaptation-receipt.mjs
+
       - name: Run tests
         run: npm test
       - name: Run certification gate
