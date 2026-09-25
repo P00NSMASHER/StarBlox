@@ -3,6 +3,7 @@
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local TweenService = game:GetService("TweenService")
+local UserInputService = game:GetService("UserInputService")
 
 local player = Players.LocalPlayer
 local playerGui = player:WaitForChild("PlayerGui")
@@ -11,6 +12,13 @@ local activityOpened = remotes:WaitForChild("ActivityOpened") :: RemoteEvent
 local submitAnswer = remotes:WaitForChild("SubmitAnswer") :: RemoteFunction
 local requestStatus = remotes:WaitForChild("RequestStatus") :: RemoteFunction
 local dismissOnboarding = remotes:WaitForChild("DismissOnboarding") :: RemoteEvent
+local telemetryRemote = ReplicatedStorage:WaitForChild("StarBloxPrivatePlaytestTelemetry", 10)
+
+local function sendPlaytestTelemetry(eventName: string, payload: any?)
+	if telemetryRemote ~= nil and telemetryRemote:IsA("RemoteEvent") then
+		telemetryRemote:FireServer(eventName, payload or {})
+	end
+end
 
 local COLORS = {
 	navy = Color3.fromRGB(30, 36, 56),
@@ -318,6 +326,7 @@ local currentActivity = nil
 local submitting = false
 local statusRequestInFlight = false
 local onboardingDismissedLocally = false
+local onboardingShownReported = false
 
 local function readNumber(name: string): number
 	return tonumber(player:GetAttribute(name)) or 0
@@ -435,6 +444,10 @@ local function applyStatus(status)
 
 	if status.onboardingSeen ~= true and not onboardingDismissedLocally then
 		onboarding.Visible = true
+		if not onboardingShownReported then
+			onboardingShownReported = true
+			sendPlaytestTelemetry("onboarding_shown")
+		end
 	end
 
 	return true
@@ -465,11 +478,15 @@ local function refreshStatus(attempt: number?)
 	else
 		nextHint.Text = "Couldn’t refresh progress. You can still walk to a station and try again."
 		nextHint.TextColor3 = COLORS.danger
+		sendPlaytestTelemetry("retry_state_seen")
 	end
 end
 
 local function showActivity(activity)
 	currentActivity = activity
+	sendPlaytestTelemetry("activity_panel_opened", {
+		activityId = activity.id,
+	})
 	activityTitle.Text = activity.title or activity.stationName or "StarBlox Activity"
 	promptLabel.Text = activity.prompt or ""
 	resultLabel.Text = "Choose the best answer."
@@ -522,6 +539,7 @@ for index, button in buttons do
 			resultLabel.TextColor3 = COLORS.danger
 			shakePanel()
 		elseif response.correct == true then
+			sendPlaytestTelemetry("success_feedback_seen")
 			resultLabel.Text = response.message or "Station complete!"
 			resultLabel.TextColor3 = COLORS.success
 			showToast(response.message or "Station powered!", true)
@@ -532,6 +550,7 @@ for index, button in buttons do
 			end
 			task.delay(1.2, hidePanel)
 		else
+			sendPlaytestTelemetry("wrong_feedback_seen")
 			resultLabel.Text = response.message or "Try another answer!"
 			resultLabel.TextColor3 = COLORS.warning
 			shakePanel()
@@ -550,6 +569,7 @@ closeButton.Activated:Connect(hidePanel)
 onboardingButton.Activated:Connect(function()
 	onboardingDismissedLocally = true
 	onboarding.Visible = false
+	sendPlaytestTelemetry("onboarding_dismissed")
 	dismissOnboarding:FireServer()
 	showToast("Follow the signs to your first station.", true)
 end)
@@ -582,6 +602,17 @@ activityOpened.OnClientEvent:Connect(function(payload)
 end)
 
 task.defer(function()
-	task.wait(0.45)
+	task.wait(0.2)
+	local camera = workspace.CurrentCamera
+	local viewport = if camera ~= nil then camera.ViewportSize else Vector2.zero
+	sendPlaytestTelemetry("client_ready", {
+		touchEnabled = UserInputService.TouchEnabled,
+		keyboardEnabled = UserInputService.KeyboardEnabled,
+		gamepadEnabled = UserInputService.GamepadEnabled,
+		viewportX = viewport.X,
+		viewportY = viewport.Y,
+	})
+
+	task.wait(0.25)
 	refreshStatus(1)
 end)
