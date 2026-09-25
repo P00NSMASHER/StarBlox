@@ -546,6 +546,23 @@ async function execute(stage){
       }
     }
 
+    for(const [sourceId,evidence] of Object.entries(migrationExports)){
+      if(typeof evidence.receipt !== 'string' || !evidence.receipt){
+        throw new Error('final summary migration export receipt is missing: ' + sourceId);
+      }
+      const receiptBytes=await readFile(evidence.receipt);
+      const receipt=JSON.parse(receiptBytes.toString('utf8'));
+      if(
+        receipt?.version !== 'starblox-roblox-migration-export-v1' ||
+        receipt?.status !== 'exported' ||
+        receipt?.liveActivationAllowed !== false
+      ){
+        throw new Error('invalid migration export receipt in final summary: ' + sourceId);
+      }
+      evidence.sha256=sha256(receiptBytes);
+      evidence.receiptHash=receipt.receiptHash || null;
+    }
+
     for(const [sourceId,evidence] of Object.entries(placeSources)){
       if(!evidence.verified || !/^[a-f0-9]{64}$/.test(String(evidence.sha256 || ''))){
         throw new Error('final summary source evidence is incomplete: ' + sourceId);
