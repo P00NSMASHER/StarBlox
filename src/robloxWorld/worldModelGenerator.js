@@ -238,9 +238,16 @@ export function generateIsolatedBrookhavenWorld(ir,{
 
   const decalCount=ir.entries.filter(entry => entry.decal !== null).length;
   const specialMeshCount=ir.entries.filter(entry => entry.mesh !== null).length;
+  const uniqueAssetIds=[...new Set(ir.entries.flatMap(entry => entry.assetIds || []))]
+    .sort((a,b)=>a.length-b.length || a.localeCompare(b));
   if(decalCount !== step3Receipt.structure?.decalCount ||
-     specialMeshCount !== step3Receipt.structure?.meshCount){
-    throw new Error('Step 4 nested object counts do not match the verified Step 3 receipt');
+     specialMeshCount !== step3Receipt.structure?.meshCount ||
+     uniqueAssetIds.length !== step3Receipt.structure?.uniqueAssetIdCount){
+    throw new Error('Step 4 nested object/asset counts do not match the verified Step 3 receipt');
+  }
+  const assetIdHash=sha256(Buffer.from(uniqueAssetIds.join(','),'utf8'));
+  if(assetIdHash !== step3Receipt.structure?.sortedAssetIdsSha256){
+    throw new Error('Step 4 asset-ID set does not match the verified Step 3 receipt');
   }
 
   const generatedEntrySequenceSha256=sha256(Buffer.from(
@@ -274,6 +281,8 @@ export function generateIsolatedBrookhavenWorld(ir,{
       decalCount,
       specialMeshCount,
       generatedObjectCount:1+4936+decalCount+specialMeshCount,
+      uniqueAssetIdCount:uniqueAssetIds.length,
+      sortedAssetIdsSha256:sha256(Buffer.from(uniqueAssetIds.join(','),'utf8')),
       generatedEntrySequenceSha256,
       sourceCanonicalSequenceSha256,
       sourceSliceSequenceSha256
