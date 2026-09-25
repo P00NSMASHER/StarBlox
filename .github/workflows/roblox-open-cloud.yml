@@ -1,0 +1,38 @@
+name: Roblox Open Cloud Proof
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'roblox/**'
+      - 'src/robloxRuntime/**'
+      - 'scripts/verify-roblox-open-cloud.mjs'
+      - 'package.json'
+      - '.github/workflows/roblox-open-cloud.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: starblox-open-cloud-${{ github.repository }}
+  cancel-in-progress: false
+
+jobs:
+  headless-proof:
+    if: ${{ github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Use Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Run non-publishing StarBlox Open Cloud proof
+        env:
+          ROBLOX_OPEN_CLOUD_API_KEY: ${{ secrets.ROBLOX_OPEN_CLOUD_API_KEY }}
+          ROBLOX_UNIVERSE_ID: ${{ vars.ROBLOX_UNIVERSE_ID }}
+          ROBLOX_PLACE_ID: ${{ vars.ROBLOX_PLACE_ID }}
+        run: node scripts/verify-roblox-open-cloud.mjs
