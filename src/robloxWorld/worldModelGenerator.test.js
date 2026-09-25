@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto';
 import { describe,expect,it } from 'vitest';
 
 import { generateIsolatedBrookhavenWorld } from './worldModelGenerator.js';
@@ -85,7 +86,14 @@ describe('Target architecture Step 4 isolated world generator',()=>{
           entryCanonicalSequenceSha256:'d'.repeat(64),
           sourceSliceSequenceSha256:'e'.repeat(64)
         },
-        structure:{decalCount:494,meshCount:62},
+        structure:{
+          decalCount:494,
+          meshCount:62,
+          uniqueAssetIdCount:2,
+          sortedAssetIdsSha256:createHash('sha256')
+            .update(['461088522','5812251043'].join(','))
+            .digest('hex')
+        },
         boundaries:{robloxObjectsGenerated:false}
       }
     });
@@ -96,6 +104,7 @@ describe('Target architecture Step 4 isolated world generator',()=>{
     expect(xml).toContain('<Vector3 name="VertexColor"><X>1</X><Y>1</Y><Z>1</Z></Vector3>');
     expect(receipt.output.partCount).toBe(4936);
     expect(receipt.output.generatedObjectCount).toBe(5493);
+    expect(receipt.output.uniqueAssetIdCount).toBe(2);
     expect(receipt.adaptationPolicy.adaptationCount).toBe(2);
     expect(receipt.adaptationPolicy.adaptations.map(row=>row.entryIndex)).toEqual([832,844]);
     expect(receipt.isolation.containsScripts).toBe(false);
