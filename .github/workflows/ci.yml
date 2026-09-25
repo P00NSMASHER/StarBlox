@@ -149,10 +149,13 @@ jobs:
             --source-id step4-generated-world
 
           node --input-type=module - <<'NODE'
+          import assert from 'node:assert/strict';
           import {readFile,writeFile} from 'node:fs/promises';
           const receipt=JSON.parse(await readFile('/tmp/starblox-step4-world/generation-receipt.json','utf8'));
+          const snapshot=JSON.parse(await readFile('docs/roblox-world/STEP_4_ISOLATED_GENERATION.json','utf8'));
           const catalog=JSON.parse(await readFile('/tmp/starblox-step4-world/catalog.json','utf8'));
           const step3=JSON.parse(await readFile('docs/roblox-world/STEP_3_SAFE_DESERIALIZATION.json','utf8')).receipt;
+          assert.deepStrictEqual(snapshot.receipt,receipt,'checked-in Step 4 generation receipt is stale');
           if(receipt.input?.step3IrHash !== step3.ir?.irHash) throw new Error('Step 4 is not bound to Step 3 IR');
           if(receipt.output?.sourceCanonicalSequenceSha256 !== step3.ir?.entryCanonicalSequenceSha256){
             throw new Error('generated world source-canonical sequence drift');
