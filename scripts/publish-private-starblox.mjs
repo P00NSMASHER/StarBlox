@@ -78,11 +78,43 @@ if(!String(versionResult.stdout || '').includes(EXPECTED_ROJO_VERSION)){
   throw new Error('expected Rojo ' + EXPECTED_ROJO_VERSION + ' but found ' + String(versionResult.stdout || '').trim());
 }
 
-const output=resolve('artifacts/StarBlox-private-step5.rbxlx');
-await mkdir(dirname(output),{recursive:true});
+const buildRoot=resolve('artifacts/step9-brookhaven-build');
+await rm(buildRoot,{recursive:true,force:true});
+await mkdir(buildRoot,{recursive:true});
+const worldPath=resolve(buildRoot,'BrookhavenWorldBaseline.rbxmx');
+const generationReceiptPath=resolve(buildRoot,'generation-receipt.json');
+const projectPath=resolve(buildRoot,'StarBlox-Brookhaven.project.json');
+const compositionReceiptPath=resolve(buildRoot,'composition-receipt.json');
+const output=resolve(buildRoot,'StarBlox-private-step9-brookhaven.rbxlx');
+
+const generate=spawnSync(process.execPath,[
+  resolve('scripts/generate-brookhaven-world.mjs'),
+  '--out',worldPath,
+  '--receipt',generationReceiptPath
+],{
+  cwd:process.cwd(),
+  encoding:'utf8'
+});
+if(generate.status !== 0){
+  throw new Error('Brookhaven world generation failed: ' + (generate.stderr || generate.stdout || ''));
+}
+
+const compose=spawnSync(process.execPath,[
+  resolve('scripts/compose-brookhaven-starblox-place.mjs'),
+  '--world',worldPath,
+  '--project',projectPath,
+  '--receipt',compositionReceiptPath
+],{
+  cwd:process.cwd(),
+  encoding:'utf8'
+});
+if(compose.status !== 0){
+  throw new Error('Brookhaven + StarBlox composition failed: ' + (compose.stderr || compose.stdout || ''));
+}
+
 const build=spawnSync(rojo,[
   'build',
-  resolve('roblox/default.project.json'),
+  projectPath,
   '--output',
   output
 ],{
@@ -90,13 +122,16 @@ const build=spawnSync(rojo,[
   encoding:'utf8'
 });
 if(build.status !== 0){
-  throw new Error('Rojo build failed: ' + (build.stderr || build.stdout || ''));
+  throw new Error('Rojo composed-place build failed: ' + (build.stderr || build.stdout || ''));
 }
 
 try{
   const bytes=await readFile(output);
   const xml=bytes.toString('utf8');
   assertPublishCompatibleXml(xml);
+  if(!xml.includes('<string name="Name">BrookhavenWorldBaseline</string>')){
+    throw new Error('refusing to publish: compiled place is missing verified Brookhaven world mount');
+  }
   for(const requiredName of ['Matter','ProfileStore','ReplicaServer','ReplicaClient']){
     const marker='<string name="Name">' + requiredName + '</string>';
     if(!xml.includes(marker)){
@@ -146,6 +181,6 @@ try{
   }));
 }finally{
   if(process.env.STARBLOX_KEEP_PRIVATE_BUILD !== '1'){
-    await rm(output,{force:true});
+    await rm(buildRoot,{recursive:true,force:true});
   }
 }
