@@ -542,10 +542,9 @@ while(true){
   if(!ready.length) break;
 
   const first=ready[0];
+  const parallelReady=ready.filter(stage=>PARALLEL_SAFE_TYPES.has(stage.type));
   const batch=PARALLEL_SAFE_TYPES.has(first.type)
-    ? ready
-      .filter(stage=>stage.type === first.type)
-      .slice(0,Number(plan.maxParallel || 4))
+    ? parallelReady.slice(0,Number(plan.maxParallel || 4))
     : [first];
 
   console.log(
