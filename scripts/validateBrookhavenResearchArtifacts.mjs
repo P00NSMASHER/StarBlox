@@ -60,6 +60,36 @@ if(residential.schemaVersion!=='starblox-residential-feature-blueprint-v1') issu
 if((residential.mappings||[]).length!==14) issues.push('residential-mapping-count');
 if(residential.status!=='production-candidate-runtime-not-wired') issues.push('residential-live-status');
 
+const vehicleDefinitionSchemaPath='docs/preproduction/brookhaven-research/neutral-vehicle-definition-schema-v1.json';
+const vehicleDefinitionSchema=JSON.parse(fs.readFileSync(vehicleDefinitionSchemaPath,'utf8'));
+if(vehicleDefinitionSchema.$id!=='starblox://schemas/neutral-vehicle-definition-v1') issues.push('vehicle-definition-schema-id');
+if(vehicleDefinitionSchema.type!=='object') issues.push('vehicle-definition-schema-type');
+if(vehicleDefinitionSchema.additionalProperties!==false) issues.push('vehicle-definition-schema-open-object');
+const vehicleDefinitionRequired=[
+  'schemaVersion','id','label','archetype','era','interactionMode','capabilities','assetBinding','safety'
+];
+for(const field of vehicleDefinitionRequired){
+  if(!(vehicleDefinitionSchema.required||[]).includes(field)) issues.push('vehicle-definition-required:'+field);
+}
+const vehicleCapabilityEnum=vehicleDefinitionSchema.properties?.capabilities?.items?.enum||[];
+if(vehicleCapabilityEnum.length!==9) issues.push('vehicle-definition-capability-count');
+if(vehicleCapabilityEnum.some(value=>/(weapon|remote|brookhaven)/i.test(String(value)))){
+  issues.push('vehicle-definition-forbidden-capability');
+}
+const vehicleRightsEnum=vehicleDefinitionSchema.properties?.assetBinding?.properties?.rightsStatus?.enum||[];
+if(!vehicleRightsEnum.includes('project-rights-verified')) issues.push('vehicle-definition-rights-gate');
+const vehicleGeometryEnum=vehicleDefinitionSchema.properties?.assetBinding?.properties?.geometrySource?.enum||[];
+if(!vehicleGeometryEnum.includes('project-rights-verified-conversion')) issues.push('vehicle-definition-conversion-source');
+if(vehicleDefinitionSchema.properties?.safety?.properties?.brookhavenRuntimeDependency?.const!==false){
+  issues.push('vehicle-definition-runtime-boundary');
+}
+if(vehicleDefinitionSchema.properties?.safety?.properties?.remoteDependency?.const!==false){
+  issues.push('vehicle-definition-remote-boundary');
+}
+if(vehicleDefinitionSchema.properties?.safety?.properties?.weaponBehavior?.const!==false){
+  issues.push('vehicle-definition-weapon-boundary');
+}
+
 const vehiclePath='docs/preproduction/brookhaven-research/vehicle-system-blueprint-v1.json';
 const vehicle=JSON.parse(fs.readFileSync(vehiclePath,'utf8'));
 if(vehicle.schemaVersion!=='starblox-brookhaven-vehicle-blueprint-v1') issues.push('vehicle-schema');
@@ -133,6 +163,7 @@ const result={
   rightsPath,
   conversionPath,
   residentialPath,
+  vehicleDefinitionSchemaPath,
   vehiclePath,
   townPath,
   progressionPath,
