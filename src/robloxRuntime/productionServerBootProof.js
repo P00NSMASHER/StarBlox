@@ -93,7 +93,7 @@ export async function runProductionServerBootProof({
   timeoutMs=90_000,
   createRetryAttempts=12,
   createRetryBaseMs=2000,
-  createRetryMaxMs=90_000
+  createRetryMaxMs=60_000
 }){
   const task=await runOpenCloudLuauTask({
     apiKey,
