@@ -126,11 +126,22 @@ checks.push({
 });
 
 const agentCommand=String(process.env.STARBLOX_AGENT_COMMAND || '').trim();
+const piCommand=String(process.env.STARBLOX_PI_COMMAND || 'pi').trim();
+const bundledWrapper=resolve(process.cwd(),'scripts/agents/pi-factory-wrapper.mjs');
+const bundledWrapperPresent=await exists(bundledWrapper);
+const piProbe=agentCommand ? null : command(piCommand,['--version']);
+const agentReady=Boolean(agentCommand) || (bundledWrapperPresent && piProbe?.ok === true);
 checks.push({
   id:'agent-command',
-  ok:Boolean(agentCommand),
+  ok:agentReady,
   required:strictRuntime,
-  detail:agentCommand || 'STARBLOX_AGENT_COMMAND not configured'
+  detail:agentCommand
+    ? 'custom wrapper: ' + agentCommand
+    : (
+      bundledWrapperPresent
+        ? 'bundled Pi wrapper; ' + (piProbe?.detail || 'Pi command unavailable')
+        : 'bundled Pi wrapper missing'
+    )
 });
 
 const blockers=checks.filter(row=>row.required && !row.ok);
