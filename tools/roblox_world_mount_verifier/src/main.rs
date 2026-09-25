@@ -65,13 +65,28 @@ fn compare_subtrees(
         return Err(format!("{path}: class drift: expected {}, found {}", expected.class, actual.class).into());
     }
     if expected.properties != actual.properties {
-        let known_root_normalization = allow_rojo_mount_root_normalization
-            && expected.properties.is_empty()
-            && actual.properties.len() == 1
-            && matches!(
-                actual.properties.get(&ustr("NeedsPivotMigration")),
+        let known_root_normalization = if allow_rojo_mount_root_normalization {
+            let mut expected_normalized = expected.properties.clone();
+            let mut actual_normalized = actual.properties.clone();
+
+            if matches!(
+                expected_normalized.get(&ustr("NeedsPivotMigration")),
                 Some(Variant::Bool(false))
-            );
+            ) {
+                expected_normalized.remove(&ustr("NeedsPivotMigration"));
+            }
+            if matches!(
+                actual_normalized.get(&ustr("NeedsPivotMigration")),
+                Some(Variant::Bool(false))
+            ) {
+                actual_normalized.remove(&ustr("NeedsPivotMigration"));
+            }
+
+            expected_normalized == actual_normalized
+        } else {
+            false
+        };
+
         if !known_root_normalization {
             return Err(format!("{path}: property drift for {} {} expected={:?} actual={:?}", expected.class, expected.name, expected.properties, actual.properties).into());
         }
