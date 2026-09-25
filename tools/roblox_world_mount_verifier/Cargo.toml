@@ -1,0 +1,11 @@
+[package]
+name = "starblox-roblox-world-mount-verifier"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[dependencies]
+rbx_binary = "=3.0.0"
+rbx_dom_weak = "=4.2.0"
+rbx_xml = "=3.0.0"
+serde_json = "=1.0.145"
