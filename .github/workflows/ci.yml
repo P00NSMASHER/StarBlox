@@ -28,6 +28,12 @@ jobs:
           path: .
       - name: Install dependencies
         run: npm install --no-audit --no-fund
+      - name: Install pinned Roblox runtime packages
+        run: |
+          cd roblox
+          wally install
+          test -e Packages/Matter.lua
+          test -e ServerPackages/ProfileStore.lua
       - name: Verify frozen Brookhaven world source
         run: npm run roblox:world-source:verify
       - name: Verify structural Brookhaven world fingerprint
