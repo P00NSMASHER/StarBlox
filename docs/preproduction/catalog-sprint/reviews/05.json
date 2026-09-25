@@ -1,10 +1,10 @@
 {
-  "schemaVersion": 11,
+  "schemaVersion": 12,
   "reviewer": "05",
   "role": "independent catalog reviewer for beds/desks/companions/auras",
   "phase": "ART_VISUALS_SPRINT",
   "branch": "screenshot-match-preproduction",
-  "sourceHead": "46102a8118266aa7e5012129ac9fe2b5a437d6be",
+  "sourceHead": "12c6e414a0770f74e3e7fd85f04ed003033ad443",
   "policy": "docs/preproduction/DELIVERY_PROTOCOL_V2.md",
   "visualSprint": "docs/preproduction/ART_VISUALS_SPRINT.json",
   "referenceManifest": "docs/preproduction/reference-screenshots/original-reference-manifest.json",
@@ -15,14 +15,15 @@
     "auras"
   ],
   "priorShard": {
-    "blobSha": "d038b469dc46337c8a2b2c1fb7015748d54a7c09",
-    "preserves": "All exact-hash review history through Aura 11 ACCEPT, including accepted Beds 1-4, Desks 2-6, Companions 3/4/10/11, Auras 1-12, superseded legacy decisions and obsolete Desk WebP evidence."
+    "schemaVersion": 11,
+    "blobSha": "71b725d5778e17a54c62225aa6705d72905e476f",
+    "preserves": "All reviewer-05 exact-hash decisions through Desk10 v15, including every accepted hash and every earlier Desk10 REWORK. No verdict transfers to v16."
   },
   "currentCycle": {
     "scope": [
       "desks-10"
     ],
-    "version": "Desk10 v15 exact rendered hash",
+    "version": "Desk10 v16 exact rendered hash",
     "result": "REWORK_1_OF_1",
     "oldVerdictsTransferred": false,
     "actualSourcePixelsReviewed": true,
@@ -32,10 +33,15 @@
     "failFastSourceContract": false
   },
   "renderEvidence": {
-    "workflow": "StarBlox Staged Catalog Art QA",
-    "workflowRunId": 36084552262,
-    "artifactId": 10843243182,
-    "artifactDigest": "sha256:e30f545fc39bb2152c126843851e88c97f2afb8b777e62ce92901c2348190ff"
+    "workflow": "StarBlox Art Factory CPU Generation / exact staged QA",
+    "workflowRunId": 36093280868,
+    "qaJobId": 107941735341,
+    "stagedCommitSha": "fca0f0a3cbfc2728dd21def4929457e0dcbf50b1",
+    "handoffArtifactId": 10846562779,
+    "artifactId": 10846314979,
+    "artifactDigest": "sha256:fcb509476551baa46b79231a29b9ba82ac2a9326de35ae76917ac9e2443f3bc5",
+    "candidateGitBlobSha": "10d363a1bd9869c29a0907d3e98c8f9f2461f3ce",
+    "candidateSha256": "521174625a9d473731ec865969fbf67c2916d752a29ea4e65bce3db4c0b35678"
   },
   "reviews": [
     {
@@ -854,6 +860,76 @@
         "duplicateVisual": "PASS",
         "technicalIntegrity": "PASS"
       }
+    },
+    {
+      "itemId": "desks-10",
+      "name": "Neon Streaming Desk",
+      "collectionId": "desks",
+      "collection": "Desks & Tech",
+      "type": "room",
+      "tier": 4,
+      "theme": "Aqua Wave",
+      "price": 928,
+      "starReq": 5,
+      "assetPath": "public/assets/catalog-candidates/cpu/desks-10-w03-v16-a-minimal-mic-desk-original.png",
+      "repositoryPath": "public/assets/catalog-candidates/cpu/desks-10-w03-v16-a-minimal-mic-desk-original.png",
+      "assetHash": "10d363a1bd9869c29a0907d3e98c8f9f2461f3ce",
+      "sha256": "521174625a9d473731ec865969fbf67c2916d752a29ea4e65bce3db4c0b35678",
+      "contentSha256": "521174625a9d473731ec865969fbf67c2916d752a29ea4e65bce3db4c0b35678",
+      "hashAlgorithm": "git-blob-sha1",
+      "producer": "03",
+      "decision": "REWORK",
+      "learnerLabel": "REWORK",
+      "reviewedAt": "2026-09-25T05:37:55Z",
+      "evidenceRefs": [
+        "staged-commit:fca0f0a3cbfc2728dd21def4929457e0dcbf50b1",
+        "workflow:36093280868/job:107941735341",
+        "artifact:10846562779/staged-handoff.json",
+        "artifact:10846314979/staged-replacements/detail/desks-10-10d363a1.png",
+        "artifact:10846314979/staged-replacements/staged-replacements-contact-sheet.png",
+        "factory-evidence:docs/preproduction/art-factory/generated-evidence/w03-desk10-v16-mic-minimal/desks-10/staged-output.json"
+      ],
+      "evidence": {
+        "stagedCommitSha": "fca0f0a3cbfc2728dd21def4929457e0dcbf50b1",
+        "workflowRunId": 36093280868,
+        "qaJobId": 107941735341,
+        "handoffArtifactId": 10846562779,
+        "qaArtifactId": 10846314979,
+        "detailRenderPath": "staged-replacements/detail/desks-10-10d363a1.png",
+        "detailRenderSha256": "0e5edbeb7eff86bf8dac63df6faee3f9ab51eb6af682056f5c90d08f2e40558e",
+        "detailDimensions": [
+          800,
+          800
+        ],
+        "contactSheetPath": "staged-replacements/staged-replacements-contact-sheet.png",
+        "contactSheetSha256": "9007c04aa89cdf6b377b5580efa38cae54d633a50b7bf9a2c6933585abdc8d1b"
+      },
+      "reasonCodes": [
+        "MICROPHONE_STILL_MISSING",
+        "PC_TOWER_BELOW_NOT_ESTABLISHED",
+        "BLACK_DESK_CONTRACT_FAILURE",
+        "PURE_WHITE_BACKGROUND_MISSING",
+        "FORBIDDEN_CHAIR_PRESENT",
+        "FORBIDDEN_SHELVING_PRESENT",
+        "ROOM_CONTEXT_PRESENT",
+        "ISOLATED_PRODUCT_CONTRACT_FAILURE",
+        "STREAMING_DESK_IDENTITY_FAILURE"
+      ],
+      "reason": "REWORK. Desk10 v16 is a coherent desk-and-chair workstation, but the exact pixels do not satisfy the bounded Neon Streaming Desk contract. The dominant desk is white rather than black; no unmistakable microphone capsule on a short articulated boom is clamped to the right edge; and no closed PC tower is positioned below the right side. A rolling chair, upper shelving/organizer structures and green wall/floor room context violate explicit forbidden constraints and replace the required pure-white isolated product presentation. The small cyan display and teal chair provide limited Aqua Wave cues, but the card still reads as a generic workstation rather than a microphone-first Tier-4 streaming desk. Preserve this exact hash. The bounded repair should use deterministic/manual composition if necessary: one isolated black desk on pure white, two simple supports, one small blank centered monitor, one obvious short boom microphone clamped at the right edge, and one closed PC tower below right; no chair, shelving, extra screen/panel, room context or text.",
+      "nextOwner": "03",
+      "nextRepairGuidance": "Build one deterministic/manual isolated product composition matching the six required elements exactly; do not submit another unconstrained room/workstation render.",
+      "checks": {
+        "identity": "FAIL",
+        "themeTier": "PARTIAL",
+        "silhouette": "PARTIAL",
+        "materialLighting": "PASS",
+        "cardReadability": "PARTIAL",
+        "physicalConstruction": "PARTIAL",
+        "framingComposition": "FAIL",
+        "originality": "PASS",
+        "duplicateVisual": "PASS",
+        "technicalIntegrity": "PASS"
+      }
     }
   ],
   "preservedAcceptedCurrentHashes": [
@@ -985,15 +1061,15 @@
   ],
   "pendingCurrentHashes": [],
   "handoff": {
-    "14": "Desk10 v15 exact render packet consumed; do not rerender unchanged hash.",
-    "15": "Desk10 remains a bounded exact-pixel blocker after v15.",
-    "03": "Desk10 v15 REWORK. Preserve exact hash. Next retry: one black desk only on pure white; one small monitor, obvious short articulated boom microphone clamped to right edge, closed PC tower below right side; no side speakers/towers, screen artwork/person imagery, room ceiling/walls or extra equipment.",
-    "08": "Do not canonical-wire Desk10 v15."
+    "14": "Desk10 v16 exact render packet consumed; do not rerender unchanged hash.",
+    "15": "Desk10 remains a bounded exact-pixel blocker after v16.",
+    "03": "Desk10 v16 REWORK. Preserve exact hash. Use one isolated black desk on pure white with two supports, a small blank monitor, an obvious short boom microphone clamped right, and a closed PC tower below right; no chair, shelves, extra panels or room context.",
+    "08": "Do not canonical-wire Desk10 v16."
   },
   "summary": {
-    "totalVersionsReviewed": 43,
+    "totalVersionsReviewed": 44,
     "accepted": 25,
-    "rework": 18,
+    "rework": 19,
     "blocked": 0,
     "thisCycle": {
       "reviewed": 1,
@@ -1009,7 +1085,7 @@
     "reworkNow": [
       "desks-10"
     ],
-    "preservedAcceptedHashes": "All prior reviewer05 ACCEPTs remain frozen; Desk10 v15 is REWORK only."
+    "preservedAcceptedHashes": "All prior reviewer05 ACCEPTs remain frozen; Desk10 v16 is REWORK only."
   },
   "freeze": {
     "selfApproved": false,
@@ -1024,7 +1100,7 @@
   "currentReplacementDisposition": {
     "desks": {
       "REWORK": {
-        "desks-10": "d037ad0f53656c993adf772e92ce9edcb6814caa",
+        "desks-10": "10d363a1bd9869c29a0907d3e98c8f9f2461f3ce",
         "desks-9": "79d5f4e0520910fea1a6ac47c76df451b14ce6f2"
       },
       "ACCEPT": {
