@@ -239,6 +239,8 @@ local ServerScriptService = game:GetService("ServerScriptService")
 local StarterPlayer = game:GetService("StarterPlayer")
 local baseline = Workspace:WaitForChild("BrookhavenWorldBaseline")
 assert(baseline:IsA("Model"), "BrookhavenWorldBaseline must be a Model")
+assert(manifest.worldBaselineSha256 == ${JSON.stringify(String(world.baselineModelSha256 || ''))}, "unexpected world baseline SHA")
+assert(manifest.worldMountedSubtreeSha256 == ${JSON.stringify(String(world.mountedSubtreeSha256 || ''))}, "unexpected mounted world subtree SHA")
 assert(#baseline:GetDescendants() + 1 == ${Number(world.subtreeInstanceCount)}, "unexpected Brookhaven subtree instance count")
 for _, instance in baseline:GetDescendants() do
     assert(not instance:IsA("Script"), "locked Brookhaven baseline contains Script")
