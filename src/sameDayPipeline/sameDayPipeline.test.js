@@ -31,12 +31,18 @@ function manifest(){
       {
         id:'flex',
         taskFile:'config/integrate-flex-task.json',
-        purpose:'port authorized Flex-with-Friends quest/traffic/minigame systems'
+        purpose:'port authorized Flex-with-Friends quest/traffic/minigame systems',
+        repository:'bsantanna/roblox-flex-with-friends',
+        commit:'f23ff0b06c759e60aa651a6618a8d81692719fc9',
+        checkout:'vendor/authorized/roblox-flex-with-friends'
       },
       {
         id:'rorooms',
         taskFile:'config/integrate-rorooms-task.json',
-        purpose:'port authorized Rorooms social/profile/emote systems'
+        purpose:'port authorized Rorooms social/profile/emote systems',
+        repository:'Rorooms/Rorooms',
+        commit:'3d06941343b5bd70a92044b45fe25deb3e4e2095',
+        checkout:'vendor/authorized/Rorooms'
       }
     ],
     questMasteryTask:'config/quest-mastery-task.json',
@@ -59,6 +65,7 @@ describe('same-day StarBlox pipeline',()=>{
     expect(a.stages.map(row=>row.id)).toEqual([
       'ingest-brookhaven','plan-brookhaven','export-brookhaven',
       'ingest-robbing','plan-robbing','export-robbing',
+      'checkout-flex','checkout-rorooms',
       'build-staging-place','verify-studio-staging',
       'adapt-brookhaven','adapt-robbing',
       'integrate-flex','integrate-rorooms',
@@ -77,6 +84,10 @@ describe('same-day StarBlox pipeline',()=>{
     const duplicateTask=manifest();
     duplicateTask.integrationTasks[0].id='brookhaven';
     expect(()=>buildSameDayPipelinePlan(duplicateTask)).toThrow(/unique ids/);
+
+    const badPin=manifest();
+    badPin.integrationTasks[0].commit='main';
+    expect(()=>buildSameDayPipelinePlan(badPin)).toThrow(/exact 40-character Git SHA/);
 
     const publish=manifest();
     publish.gates.security={command:'npm',args:['run','publish']};
