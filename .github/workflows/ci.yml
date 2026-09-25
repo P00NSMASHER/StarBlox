@@ -229,7 +229,9 @@ jobs:
           test -s /tmp/starblox-step5-mounted.rbxlx
           test -s /tmp/starblox-step5-mount-receipt.json
           grep -q '"status": "verified-property-exact-starblox-mount"' /tmp/starblox-step5-mount-receipt.json
-          grep -q '"propertyExact": true' /tmp/starblox-step5-mount-receipt.json
+          grep -q '"propertyExactAfterKnownRojoNormalization": true' /tmp/starblox-step5-mount-receipt.json
+          grep -q '"descendantPropertiesExact": true' /tmp/starblox-step5-mount-receipt.json
+          grep -q '"NeedsPivotMigration": false' /tmp/starblox-step5-mount-receipt.json
           grep -q '"instanceCount": 5493' /tmp/starblox-step5-mount-receipt.json
           grep -q '"scriptCount": 0' /tmp/starblox-step5-mount-receipt.json
           grep -q '"remoteCount": 0' /tmp/starblox-step5-mount-receipt.json
