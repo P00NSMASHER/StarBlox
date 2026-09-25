@@ -44,7 +44,29 @@ struct CompareStats {
     instance_count: usize,
     script_count: usize,
     remote_count: usize,
+    color_encoding_normalization_count: usize,
 }
+
+fn color3_uint8_equivalent(expected: &Variant, actual: &Variant) -> bool {
+    fn quantize(value: f32) -> u8 {
+        (value.clamp(0.0, 1.0) * 255.0).round() as u8
+    }
+
+    match (expected, actual) {
+        (Variant::Color3(left), Variant::Color3uint8(right)) => {
+            quantize(left.r) == right.r
+                && quantize(left.g) == right.g
+                && quantize(left.b) == right.b
+        }
+        (Variant::Color3uint8(left), Variant::Color3(right)) => {
+            left.r == quantize(right.r)
+                && left.g == quantize(right.g)
+                && left.b == quantize(right.b)
+        }
+        _ => false,
+    }
+}
+
 
 fn compare_subtrees(
     expected_dom: &WeakDom,
@@ -65,10 +87,10 @@ fn compare_subtrees(
         return Err(format!("{path}: class drift: expected {}, found {}", expected.class, actual.class).into());
     }
     if expected.properties != actual.properties {
-        let known_root_normalization = if allow_rojo_mount_root_normalization {
-            let mut expected_normalized = expected.properties.clone();
-            let mut actual_normalized = actual.properties.clone();
+        let mut expected_normalized = expected.properties.clone();
+        let mut actual_normalized = actual.properties.clone();
 
+        if allow_rojo_mount_root_normalization {
             if matches!(
                 expected_normalized.get(&ustr("NeedsPivotMigration")),
                 Some(Variant::Bool(false))
@@ -81,14 +103,35 @@ fn compare_subtrees(
             ) {
                 actual_normalized.remove(&ustr("NeedsPivotMigration"));
             }
+        }
 
-            expected_normalized == actual_normalized
-        } else {
-            false
-        };
+        if expected_normalized.len() != actual_normalized.len() {
+            return Err(format!(
+                "{path}: property-count drift for {} {} expected={:?} actual={:?}",
+                expected.class, expected.name, expected.properties, actual.properties
+            ).into());
+        }
 
-        if !known_root_normalization {
-            return Err(format!("{path}: property drift for {} {} expected={:?} actual={:?}", expected.class, expected.name, expected.properties, actual.properties).into());
+        for (key, expected_value) in expected_normalized.iter() {
+            let actual_value = actual_normalized.get(key).ok_or_else(|| {
+                format!(
+                    "{path}: missing property {:?} for {} {}",
+                    key, expected.class, expected.name
+                )
+            })?;
+
+            if expected_value == actual_value {
+                continue;
+            }
+            if color3_uint8_equivalent(expected_value, actual_value) {
+                stats.color_encoding_normalization_count += 1;
+                continue;
+            }
+
+            return Err(format!(
+                "{path}: property drift for {} {} property={:?} expected={:?} actual={:?}",
+                expected.class, expected.name, key, expected_value, actual_value
+            ).into());
         }
     }
 
@@ -198,10 +241,13 @@ fn verify(baseline_path: &Path, mounted_path: &Path) -> Result<serde_json::Value
         "ok": true,
         "world": {
             "path": "Workspace/BrookhavenWorldBaseline",
-            "descendantPropertiesExact": true,
-            "rawRootPropertyExact": false,
-            "knownRojoRootNormalization": {"NeedsPivotMigration": false},
-            "propertyExactAfterKnownRojoNormalization": true,
+            "descendantPropertiesSemanticallyExact": true,
+            "rawSerializationExact": false,
+            "knownSerializationNormalizations": {
+                "NeedsPivotMigration": false,
+                "Color3ToColor3uint8": stats.color_encoding_normalization_count
+            },
+            "propertyExactAfterKnownSerializationNormalization": true,
             "instanceCount": stats.instance_count,
             "scriptCount": stats.script_count,
             "remoteCount": stats.remote_count
@@ -269,8 +315,8 @@ mod tests {
         fs::write(&baseline, baseline_xml("1")).unwrap();
         fs::write(&mounted, mounted_xml("1")).unwrap();
         let result = verify(&baseline, &mounted).unwrap();
-        assert_eq!(result["world"]["propertyExactAfterKnownRojoNormalization"], true);
-        assert_eq!(result["world"]["knownRojoRootNormalization"]["NeedsPivotMigration"], false);
+        assert_eq!(result["world"]["propertyExactAfterKnownSerializationNormalization"], true);
+        assert_eq!(result["world"]["knownSerializationNormalizations"]["NeedsPivotMigration"], false);
         assert_eq!(result["world"]["instanceCount"], 2);
         let _ = fs::remove_file(baseline);
         let _ = fs::remove_file(mounted);
