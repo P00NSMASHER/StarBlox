@@ -31,3 +31,24 @@ for(const [name,text,artifact] of [
     assert(text.includes(artifact));
   });
 }
+
+
+test('regular generation preflights exact SDXL prompt before diffusion',()=>{
+  const guard=regular.indexOf('Preflight exact SDXL prompt tokens and constraints');
+  const generate=regular.indexOf('python scripts/artFactoryDiffusers.py generate');
+  assert(guard>=0);
+  assert(generate>=0);
+  assert(guard<generate);
+  assert.match(regular,/artPromptTokenPreflight\.py/);
+  assert.match(regular,/"transformers==4\.57\.1"/);
+});
+
+test('sequential generation preflights every selected item before diffusion',()=>{
+  const guard=sequential.indexOf('python scripts/artPromptTokenPreflight.py');
+  const generate=sequential.indexOf('python scripts/artFactoryDiffusers.py generate');
+  assert(guard>=0);
+  assert(generate>=0);
+  assert(guard<generate);
+  assert.match(sequential,/PROMPT_PREFLIGHT_FAILED=\$ITEM/);
+  assert.match(sequential,/"transformers==4\.57\.1"/);
+});
