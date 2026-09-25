@@ -132,6 +132,30 @@ describe('Step 5: private Roblox place publishing', () => {
     expect(calls[0].options.body).toBe(bytes);
   });
 
+  it('retries transient 429 responses from the place publish endpoint', async () => {
+    let attempts=0;
+    const bytes=Buffer.from('<roblox></roblox>');
+    const fetchImpl=async () => {
+      attempts+=1;
+      if(attempts < 3){
+        return response(429,{errors:[{message:'throttled'}]},{retryAfter:'0'});
+      }
+      return response(200,{versionNumber:9});
+    };
+
+    await expect(publishPlaceVersion({
+      apiKey:'key',
+      universeId:'6027194615',
+      placeId:'17602626136',
+      bytes,
+      fetchImpl,
+      retryAttempts:3,
+      retryBaseMs:0,
+      retryMaxMs:0
+    })).resolves.toEqual({versionNumber:9});
+    expect(attempts).toBe(3);
+  });
+
   it('verifies the exact new place version and private release marker', async () => {
     const fetchImpl=async (url,options={}) => {
       if(options.method === 'POST'){
@@ -166,6 +190,39 @@ describe('Step 5: private Roblox place publishing', () => {
     expect(result.versionNumber).toBe(2);
   });
 
+  it('keeps publish and runtime verification as separate fail-closed stages', () => {
+    const publishScript=readFileSync(
+      new URL('../../scripts/publish-private-starblox.mjs',import.meta.url),
+      'utf8'
+    );
+    expect(publishScript).not.toContain('probeCurrentRelease({');
+    expect(publishScript).not.toContain('verifyPublishedRelease({');
+
+    const receipt=buildPrivatePublishReceipt({
+      universeId:'6027194615',
+      placeId:'17602626136',
+      releaseId:STARBLOX_PRIVATE_RELEASE_ID,
+      sourceCommit:'a'.repeat(40),
+      previousVersion:8,
+      publishedVersion:9,
+      verifiedVersion:null,
+      artifactSha256:'b'.repeat(64),
+      artifactBytes:1234
+    });
+
+    expect(receipt.status).toBe('published-awaiting-runtime-verification');
+    expect(receipt.versions).toEqual({
+      previous:8,
+      published:9,
+      verified:null
+    });
+    expect(receipt.verification).toEqual({
+      status:'pending-production-server-boot',
+      taskPath:null
+    });
+    expect(receipt.rollback.preservedPreviousVersion).toBe(8);
+  });
+
   it('produces a receipt that preserves the rollback version and withholds live authority', () => {
     const receipt=buildPrivatePublishReceipt({
       universeId:'6027194615',
@@ -185,6 +242,10 @@ describe('Step 5: private Roblox place publishing', () => {
       previous:1,
       published:2,
       verified:2
+    });
+    expect(receipt.verification).toEqual({
+      status:'verified',
+      taskPath:'task/path'
     });
     expect(receipt.rollback.preservedPreviousVersion).toBe(1);
     expect(receipt.authority).toEqual({
