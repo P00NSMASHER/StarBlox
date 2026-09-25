@@ -1,0 +1,5 @@
+{
+  "id": "same-day-quest-mastery-wiring",
+  "request": "Wire the integrated world, donor NPCs, interactions, home, vehicle, shop and minigame surfaces into the existing StarBlox Quest/mastery authority. Produce a vertical slice with 2-3 educational missions where server-validated learning outcomes unlock ordinary world progress and Star Coin/XP/mastery rewards. Preserve retry/duplicate reward protection, no-loss wrong answers, ProfileStore durability and typed network boundaries. Run tests and playtest the mission loop end to end.",
+  "searchQuery": "quest mastery Star Coins XP NPC minigame shop vehicle home"
+}
