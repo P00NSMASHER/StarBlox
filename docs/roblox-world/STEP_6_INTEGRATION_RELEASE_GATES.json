@@ -26,7 +26,11 @@
       "ReplicatedStorage/StarBlox",
       "ServerScriptService/StarBlox",
       "StarterPlayer/StarterPlayerScripts/StarBlox"
-    ]
+    ],
+    "nativeReleaseArtifactRbxDomInspectionRequired": true,
+    "nativeArtifactMustMatchMountedSubtreeHash": true,
+    "nativeArtifactMustContainExactlyThreeRuntimeMounts": true,
+    "nativeArtifactBaselineScriptsOrRemotesAllowed": 0
   },
   "authority": {
     "studioPlaytestAllowedAfterGate": true,
@@ -41,7 +45,10 @@
     "changedMountedSubtree": "block",
     "artifactDrift": "block",
     "sourceCommitMismatch": "block",
-    "runtimeParentedIntoWorld": "block"
+    "runtimeParentedIntoWorld": "block",
+    "nativeArtifactSubtreeMismatch": "block",
+    "nativeArtifactRuntimeMountMismatch": "block",
+    "nativeArtifactBaselineScriptOrRemote": "block"
   },
   "verification": {
     "ciRegeneratesStep5Proofs": true,
@@ -50,7 +57,13 @@
     "ciBindsThisPolicyToLiveGate": true,
     "fullRegressionSuitePassed": true,
     "step6GatePassed": true,
-    "ordinaryPrOpenCloudProbeSkippedToAvoidSharedRateLimit": true
+    "ordinaryPrOpenCloudProbeSkippedToAvoidSharedRateLimit": true,
+    "nativeArtifactRbxDomGatePassed": true,
+    "nativeArtifactHardeningRun": {
+      "workflow": "StarBlox CI",
+      "runId": 36192237813,
+      "verifiedCodeHead": "2153fb0e2c37382695b795559c05eb84162328c9"
+    }
   },
   "nextStep": "target-architecture-complete",
   "verifiedBy": {
