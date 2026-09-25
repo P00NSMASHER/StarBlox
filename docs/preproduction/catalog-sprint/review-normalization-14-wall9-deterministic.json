@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Fresh current reviewer-partition review of exact QA-rendered deterministic Wall9 bytes for Workstream 08.",
+  "reviewer": "14",
+  "sourceEvidence": {
+    "workflowRunId": 36094833312,
+    "artifactId": 10847495770,
+    "detailRenderPath": "staged-replacements/detail/wall-9-752423e3.png",
+    "candidatePath": "public/assets/catalog-candidates/deterministic/wall-9-v13.svg",
+    "reviewProvenance": "GPT-5.6 Sol direct visual inspection of exact QA-rendered pixels in current session; reviewer partition 14; producer stewardship 13."
+  },
+  "reviews": [
+    {
+      "itemId": "wall-9",
+      "name": "Art Gallery Wall",
+      "tier": 3,
+      "theme": "Adventure Club",
+      "assetPath": "/assets/catalog-candidates/deterministic/wall-9-v13.svg",
+      "assetHash": "752423e322f394adb1af5f48c1166eaf888f9830",
+      "producer": "13",
+      "creationMethod": "deterministic-svg",
+      "decision": "ACCEPT",
+      "evidenceRefs": [
+        "workflow:36094833312",
+        "artifact:10847495770/staged-replacements/detail/wall-9-752423e3.png",
+        "visual-check:exactly-three-equal-frames-one-row-mountain-compass-map-ocean-white-bg"
+      ]
+    }
+  ]
+}
