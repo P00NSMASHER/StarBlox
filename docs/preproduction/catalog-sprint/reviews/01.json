@@ -1,11 +1,11 @@
 {
-  "schemaVersion": 15,
-  "previousRevisionBlobSha": "ce9ce996b8fe34d248309408aafe88b8df4f9ac1",
+  "schemaVersion": 16,
+  "previousRevisionBlobSha": "6fedc695eeab6a20a425daba3c8a7f504b17d09e",
   "reviewer": "01",
   "role": "Visual Target Director / independent catalog reviewer",
   "phase": "ART_AND_VISUALS_ONLY",
   "branch": "screenshot-match-preproduction",
-  "sourceHead": "77f780a0544a5d9fb030f308145597b932652c8b",
+  "sourceHead": "c1760b0502ab66ba63c6a4a050c9fa56261e08db",
   "assignedCollections": [
     "tops",
     "bottoms",
@@ -36,13 +36,13 @@
     "scope": [
       "desks-11"
     ],
-    "version": "Desk11 v10 exact source hash",
-    "result": "REWORK_1_OF_1_FAIL_FAST",
+    "version": "Desk11 v11 exact rendered hash",
+    "result": "REWORK_1_OF_1",
     "oldVerdictsTransferred": false,
-    "actualCardScalePixelsReviewed": false,
+    "actualCardScalePixelsReviewed": true,
     "actualDetailPixelsReviewed": true,
     "selfApprovalConflict": false,
-    "failFastSourceContract": true
+    "failFastSourceContract": false
   },
   "renderEvidence": {
     "workflow": "StarBlox Staged Catalog Art QA",
@@ -1075,6 +1075,50 @@
         "duplicateVisual": "PASS",
         "technicalIntegrity": "PASS"
       }
+    },
+    {
+      "itemId": "desks-11",
+      "name": "Dream Creator Station",
+      "tier": 4,
+      "theme": "Art Attack",
+      "assetPath": "public/assets/catalog-candidates/cpu/desks-11-w03-v11-a-single-creator-desk-original.png",
+      "repositoryPath": "public/assets/catalog-candidates/cpu/desks-11-w03-v11-a-single-creator-desk-original.png",
+      "assetHash": "9885d0af716b21b62a7fd43b08af14cd0d83d2a7",
+      "sha256": "b1a761713fff1ee468a6dc8c3016a71a5b6715d9bb87f5493d577215ffe66009",
+      "contentSha256": "b1a761713fff1ee468a6dc8c3016a71a5b6715d9bb87f5493d577215ffe66009",
+      "hashAlgorithm": "git-blob-sha1",
+      "producer": "03",
+      "decision": "REWORK",
+      "learnerLabel": "REWORK",
+      "reviewedAt": "2026-09-25T00:26:07Z",
+      "evidenceRefs": [
+        "workflow:36077290366",
+        "artifact:10840054243/staged-replacements/detail/desks-11-9885d0af.png",
+        "artifact:10840054243/staged-replacements/staged-replacements-contact-sheet.png",
+        "factory-evidence:docs/preproduction/art-factory/generated-evidence/w03-desks10-v13-desks11-v11-literal-retry/desks-11/staged-output.json"
+      ],
+      "reasonCodes": [
+        "MONITOR_DOMINATES_CREATOR_IDENTITY",
+        "ROOM_CONTEXT_PRESENT",
+        "WALL_SHELVING_DOMINATES",
+        "STOOL_PRESENT",
+        "TEXT_LIKE_LABEL_ARTIFACTS",
+        "ISOLATED_PRODUCT_CONTRACT_FAILURE"
+      ],
+      "reason": "REWORK. Desk11 v11 is a major structural improvement and now reads as one coherent creator desk, but the exact Store/detail pixels still miss the bounded Dream Creator Station repair. A large computer monitor remains the central focal point, a stool is staged in front, wall/floor room context is visible, and the tall wall-mounted shelving/tool system dominates the upper composition. Text-like label artifacts are also visible. Preserve this exact hash. The next retry should keep the broad desk and two drawer pedestals, remove the monitor, stool, wall shelf, labels and room context, and show one isolated desk on a plain studio background with a drawing tablet, brush cup and a few colorful art bins as the dominant creator cues.",
+      "checks": {
+        "identity": "PARTIAL",
+        "themeTier": "PARTIAL",
+        "silhouette": "PASS",
+        "materialLighting": "PASS",
+        "cardReadability": "PARTIAL",
+        "physicalConstruction": "PASS",
+        "framingComposition": "FAIL",
+        "textArtifact": "FAIL",
+        "originality": "PASS",
+        "duplicateVisual": "PASS",
+        "technicalIntegrity": "PASS"
+      }
     }
   ],
   "currentReplacementDisposition": {
@@ -1127,7 +1171,7 @@
     },
     "desks": {
       "REWORK": {
-        "desks-11": "a46471a5a4adc6edfb004cabfb5af9ee0b4ae6c9",
+        "desks-11": "9885d0af716b21b62a7fd43b08af14cd0d83d2a7",
         "desks-12": "7d268e27c8d963dfb7e8c62274fe6b906973d5bd"
       },
       "ACCEPT": {
@@ -1148,15 +1192,15 @@
     "reworkNow": [
       "desks-11"
     ],
-    "preservedAcceptedHashes": "All prior reviewer01 ACCEPTs remain frozen; Desk11 v10 is REWORK only."
+    "preservedAcceptedHashes": "All prior reviewer01 ACCEPTs remain frozen; Desk11 v11 is REWORK only."
   },
   "handoff": {
     "13": "desks-12 exact hash ACCEPT; freeze it and remove from production scope.",
     "14": "Current render packets consumed; do not rerender unchanged hashes.",
-    "15": "Desk11 remains a bounded exact-pixel blocker after v10.",
+    "15": "Desk11 remains a bounded exact-pixel blocker after v11.",
     "09": "Decor7 v10 REWORK; preserve exact hash and use the v11 literal quad-skates-on-shoe-rack fallback.",
-    "03": "Desk11 v10 REWORK; preserve exact hash. Prepare one single-view creator-station retry with creator tools dominant.",
-    "08": "Do not canonical-wire Desk11 v10."
+    "03": "Desk11 v11 REWORK; preserve exact hash. Next retry: isolated desk only, no monitor/stool/wall shelf/room/text; drawing tablet, brush cup and small art bins dominant.",
+    "08": "Do not canonical-wire Desk11 v11."
   },
   "freeze": {
     "replitTouched": false,
@@ -1192,6 +1236,13 @@
         "items": [
           "desks-11",
           "desks-12"
+        ]
+      },
+      {
+        "workflowRunId": 36077290366,
+        "artifactId": 10840054243,
+        "items": [
+          "desks-11"
         ]
       }
     ]
