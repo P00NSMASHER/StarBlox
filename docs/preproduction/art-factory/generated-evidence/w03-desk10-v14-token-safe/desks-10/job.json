@@ -1,0 +1,159 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_JOB",
+  "repository": "P00NSMASHER/StarBlox",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "1358621264b03fb2aeb99baae1443a102e67febe",
+  "item": {
+    "id": "desks-10",
+    "name": "Neon Streaming Desk",
+    "collectionId": "desks",
+    "type": "room",
+    "tier": 4,
+    "theme": "Aqua Wave"
+  },
+  "sourceReviewHash": "50fb49c1bf2bcea8b1d48519fab3120f2fc7cf1f",
+  "rightsBasis": "USER_ATTESTED_FULL_RIGHTS",
+  "attempts": [
+    {
+      "attemptId": "desks-10-w03-a-token-safe-mic-desk-1c84b1590c",
+      "itemId": "desks-10",
+      "producer": "03",
+      "variant": "A-TOKEN-SAFE-MIC-DESK",
+      "promptBlocks": [
+        "metadata",
+        "category",
+        "silhouette",
+        "physical",
+        "material",
+        "theme",
+        "tier",
+        "card",
+        "original",
+        "stage",
+        "furniture",
+        "camera",
+        "depth",
+        "bloom",
+        "textile",
+        "wall",
+        "light"
+      ],
+      "promptText": "STARBLOX CATALOG ART — A-TOKEN-SAFE-MIC-DESK\n\nCreate one premium, kid-friendly 2D game catalog asset with polished dimensional quality.\n\nExact metadata: desks-10 — Neon Streaming Desk; collection desks; type room; tier 4; theme Aqua Wave.\n\nAuthoritative item-specific design brief:\nBlack streaming desk on white. Rectangular top, two legs, one monitor, one boom microphone clamped to right edge, PC below, cyan trim. No room, chair, shelves, rear frame, collage, text.\n\nExact-hash reviewer failure taxonomy: UNKNOWN_REWORK.\n\nRepair the documented failure codes while preserving qualities that were not implicated. Do not erase successful identity, silhouette, material depth, or readability merely to make a different image.\n\nUse the exact catalog ID/name/collection/tier/theme. Do not rename, recategorize, or substitute the item.\n\nMake the object unmistakably the stated product category with believable proportions and construction.\n\nPrioritize a distinctive clean silhouette that reads immediately at small Store-card size.\n\nShow real thickness, seams/joints/edges, layered parts, volume, contact points and functional construction—not a flat icon, emblem or sticker.\n\nUse category-appropriate material texture and highlights/shadows that explain the form.\n\nExpress the exact theme through material, construction, light and motif—not a palette swap or pasted decal.\n\nRespect tier progression: Starter stays simple and attractive; higher tiers gain richer form/material detail; Luxe gains spectacle without losing identity.\n\nDesign for both detail view and a 600×600 Store card with strong contrast, uncluttered hierarchy and no tiny critical details.\n\nAvoid recolor-only siblings, repeated template silhouettes, generic rings/badges, or interchangeable props.\n\nPresent one isolated subject on a clean premium background. No UI, text, watermark, logo, fake price badge or unrelated props.\n\nFor furniture/decor, show supports, joints, cushions/panels/hardware, weight and grounded contact.\n\nUse a clean product-style three-quarter view when appropriate so front, side and thickness are visible.\n\nUse occlusion, contact/cast shadows and foreground/midground/background separation so the asset feels spatial.\n\nUse controlled emissive light/bloom only where appropriate; preserve edges and local contrast.\n\nFor textiles, show weave/pile/folds/stitching/edge finish/thickness and believable softness or drape.\n\nFor wall decor, show mounting/frame/backing/relief depth and a believable wall-object form—not a floating emblem.\n\nFor lighting, show a physical base/mount/chassis, emitter or bulb, support structure and believable emitted/reflected light.\n\nOutput a production-worthy source image for exact-byte staging, card/detail rendering and independent review. Do not claim approval; the reviewer decides from rendered pixels.",
+      "promptSha256": "1c84b1590ca2ee54e8a0bcfdf5bc2936f6674b523fb9f5e102158a6f5d140b3c",
+      "runtimePromptText": "desks-10 Neon Streaming Desk; Aqua Wave; tier 4. Black streaming desk on white. Rectangular top, two legs, one monitor, one boom microphone clamped to right edge, PC below, cyan trim. single isolated product, grounded shadow.",
+      "runtimePromptSha256": "a17815f19f5432bd163967c18970437bfdc6051b8ddbe89916494d9817797965",
+      "runtimeNegativePromptText": "room, chair, shelves, rear frame, collage, text, collage, multiple views, repeated variants, text, logo, watermark, UI",
+      "runtimeNegativePromptSha256": "a6f66cd2ae98abf4c342c80251427cee19b47ee29b9466c3903139e7cf88cd84",
+      "promptRecipeVersion": "artPromptOptimizer-request-v1:w03-desk10-v14-token-safe",
+      "seed": 365627663,
+      "runtime": {
+        "repo": "huggingface/diffusers",
+        "commit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c"
+      },
+      "model": {
+        "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+        "revision": "462165984030d82259a11f4367a4eed129e94a7b",
+        "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+      },
+      "conditioning": {
+        "referenceAssetSha256": null,
+        "controlImageSha256": null,
+        "adapterScale": null
+      },
+      "output": {
+        "repoPath": null,
+        "sha256": null,
+        "gitBlobSha": null,
+        "bytes": null,
+        "width": null,
+        "height": null
+      },
+      "status": "PLANNED_NOT_GENERATED"
+    },
+    {
+      "attemptId": "desks-10-w03-b-mic-desk-minimal-f0c872015a",
+      "itemId": "desks-10",
+      "producer": "03",
+      "variant": "B-MIC-DESK-MINIMAL",
+      "promptBlocks": [
+        "metadata",
+        "category",
+        "silhouette",
+        "physical",
+        "material",
+        "theme",
+        "tier",
+        "card",
+        "original",
+        "stage",
+        "furniture",
+        "camera",
+        "depth",
+        "bloom",
+        "textile",
+        "wall",
+        "light"
+      ],
+      "promptText": "STARBLOX CATALOG ART — B-MIC-DESK-MINIMAL\n\nCreate one premium, kid-friendly 2D game catalog asset with polished dimensional quality.\n\nExact metadata: desks-10 — Neon Streaming Desk; collection desks; type room; tier 4; theme Aqua Wave.\n\nAuthoritative item-specific design brief:\nOne black desk on white: two legs, monitor, boom microphone clamped to edge, PC below, cyan trim. No wall, chair, shelves, rear panel, second view, text.\n\nExact-hash reviewer failure taxonomy: UNKNOWN_REWORK.\n\nRepair the documented failure codes while preserving qualities that were not implicated. Do not erase successful identity, silhouette, material depth, or readability merely to make a different image.\n\nUse the exact catalog ID/name/collection/tier/theme. Do not rename, recategorize, or substitute the item.\n\nMake the object unmistakably the stated product category with believable proportions and construction.\n\nPrioritize a distinctive clean silhouette that reads immediately at small Store-card size.\n\nShow real thickness, seams/joints/edges, layered parts, volume, contact points and functional construction—not a flat icon, emblem or sticker.\n\nUse category-appropriate material texture and highlights/shadows that explain the form.\n\nExpress the exact theme through material, construction, light and motif—not a palette swap or pasted decal.\n\nRespect tier progression: Starter stays simple and attractive; higher tiers gain richer form/material detail; Luxe gains spectacle without losing identity.\n\nDesign for both detail view and a 600×600 Store card with strong contrast, uncluttered hierarchy and no tiny critical details.\n\nAvoid recolor-only siblings, repeated template silhouettes, generic rings/badges, or interchangeable props.\n\nPresent one isolated subject on a clean premium background. No UI, text, watermark, logo, fake price badge or unrelated props.\n\nFor furniture/decor, show supports, joints, cushions/panels/hardware, weight and grounded contact.\n\nUse a clean product-style three-quarter view when appropriate so front, side and thickness are visible.\n\nUse occlusion, contact/cast shadows and foreground/midground/background separation so the asset feels spatial.\n\nUse controlled emissive light/bloom only where appropriate; preserve edges and local contrast.\n\nFor textiles, show weave/pile/folds/stitching/edge finish/thickness and believable softness or drape.\n\nFor wall decor, show mounting/frame/backing/relief depth and a believable wall-object form—not a floating emblem.\n\nFor lighting, show a physical base/mount/chassis, emitter or bulb, support structure and believable emitted/reflected light.\n\nOutput a production-worthy source image for exact-byte staging, card/detail rendering and independent review. Do not claim approval; the reviewer decides from rendered pixels.",
+      "promptSha256": "f0c872015ad915e99803afbd90db9f0e9ede806116ec3dd58015567a2eae2258",
+      "runtimePromptText": "desks-10 Neon Streaming Desk; Aqua Wave; tier 4. One black desk on white: two legs, monitor, boom microphone clamped to edge, PC below, cyan trim. single isolated product, grounded shadow.",
+      "runtimePromptSha256": "5544246e751bca57d70ad2869ffc91ea5a2d508351ab92b9443e4b78ab5ec9ff",
+      "runtimeNegativePromptText": "wall, chair, shelves, rear panel, second view, text, collage, multiple views, repeated variants, text, logo, watermark, UI",
+      "runtimeNegativePromptSha256": "95d712c74a36883fc40d809653fde700c847f1d4a1dd3830fdfec1480077ad06",
+      "promptRecipeVersion": "artPromptOptimizer-request-v1:w03-desk10-v14-token-safe",
+      "seed": 1962981852,
+      "runtime": {
+        "repo": "huggingface/diffusers",
+        "commit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c"
+      },
+      "model": {
+        "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+        "revision": "462165984030d82259a11f4367a4eed129e94a7b",
+        "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+      },
+      "conditioning": {
+        "referenceAssetSha256": null,
+        "controlImageSha256": null,
+        "adapterScale": null
+      },
+      "output": {
+        "repoPath": null,
+        "sha256": null,
+        "gitBlobSha": null,
+        "bytes": null,
+        "width": null,
+        "height": null
+      },
+      "status": "PLANNED_NOT_GENERATED"
+    }
+  ],
+  "requestContext": {
+    "requestPath": "docs/preproduction/art-factory/requests/w03-desk10-v14-token-safe-20260925.json",
+    "batchId": "w03-desk10-v14-token-safe",
+    "requestSourceHead": "02326706a3fc5320a7208c92a660cef828c74bdf",
+    "requestRecordSha256": "ef94ec1639dac6dfa524800331985463d281681c392da9a52de33116872e34f8",
+    "planner": "15",
+    "reviewer": "05",
+    "renderOwner": "14",
+    "integrationOwner": "08",
+    "contextReferences": [],
+    "plannerVariants": [
+      {
+        "variantId": "A-TOKEN-SAFE-MIC-DESK",
+        "plannerSeed": null,
+        "optimizerInputSha256": "b64824dcc8db29a031938d0079a81be7a50ef9468f2295d2a0a403a4e5174925",
+        "compiledPromptSha256": "1c84b1590ca2ee54e8a0bcfdf5bc2936f6674b523fb9f5e102158a6f5d140b3c",
+        "compiledSeed": 365627663
+      },
+      {
+        "variantId": "B-MIC-DESK-MINIMAL",
+        "plannerSeed": null,
+        "optimizerInputSha256": "94064f2dba4a44e056bbb66b7aa077a8c20a5661a85140c83613696131c7c022",
+        "compiledPromptSha256": "f0c872015ad915e99803afbd90db9f0e9ede806116ec3dd58015567a2eae2258",
+        "compiledSeed": 1962981852
+      }
+    ]
+  },
+  "planSha256": "6313c2069c2dc0325a2981e3a0463b7cecb5a695cffc498fae4caef45516fa15"
+}
