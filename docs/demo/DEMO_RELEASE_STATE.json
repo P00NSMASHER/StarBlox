@@ -35,24 +35,67 @@
     "note": "Seven companion assets remain blocked only by live parity verification; repository artwork/wiring exists."
   },
   "qa": {
-    "ci": "PENDING",
-    "visualBrowser": "PENDING",
-    "persistenceBrowser": "PENDING",
-    "questEndToEnd": "PENDING",
-    "buyEquipPlace": "PENDING",
-    "mobileDesktop": "PENDING",
-    "consoleRuntimeErrors": "PENDING",
-    "resetDemo": "IMPLEMENTED_NOT_YET_BROWSER_VERIFIED"
+    "ci": {
+      "status": "PASS",
+      "runId": 36116529084
+    },
+    "visualBrowser": {
+      "status": "PASS",
+      "runId": 36116438644,
+      "releaseBlockingCount": 0,
+      "viewports": [
+        "desktop-1408x1056",
+        "landscape-1024x768",
+        "phone-390x844",
+        "phone-320x568"
+      ],
+      "screens": [
+        "Home",
+        "Store",
+        "Quest"
+      ],
+      "runtimeErrors": "NONE_OBSERVED"
+    },
+    "persistenceBrowser": {
+      "status": "PASS",
+      "runId": 36116529246,
+      "cases": [
+        "rapid-purchase-exactly-once-and-reload",
+        "equip-persists-after-reload",
+        "room-double-tap-underlying-place-put-away-and-reload",
+        "visible-room-right-rail-action-routing",
+        "multi-tab-same-purchase-replay-exactly-once",
+        "indexeddb-recovers-localstorage-and-no-art-state",
+        "quest-retry-rapid-answer-and-final-refresh",
+        "final-core-progress-invariants",
+        "reset-demo-restores-showcase-profile-and-reload"
+      ]
+    },
+    "questEndToEnd": "PASS",
+    "buyEquipPlace": "PASS",
+    "mobileDesktop": "PASS",
+    "consoleRuntimeErrors": "PASS_NONE_OBSERVED",
+    "resetDemo": "PASS"
   },
   "deployment": {
     "replitAllowed": true,
     "attempted": true,
     "changed": false,
-    "status": "BLOCKED_BY_BROWSER_TUNNEL",
-    "publicUrl": "https://star-blox.replit.app"
+    "status": "BLOCKED_LOGIN_REQUIRED",
+    "publicUrl": "https://star-blox.replit.app",
+    "existingDeploymentLoads": true,
+    "existingDeploymentMatchesDemo": false,
+    "evidence": "Public app loads but does not show Reset Demo and contains no demo-freeze/target commit marker.",
+    "requiredNextAction": "Authenticate Replit (or connect the Replit ChatGPT app), sync demo-freeze, build/test, deploy, then rerun live companion QA."
   },
   "freeze": {
     "immutableTagCreated": false,
-    "ready": false
-  }
+    "ready": false,
+    "blockers": [
+      "Deploy demo-freeze to public Replit app.",
+      "Clear live parity for companions-2,5,6,7,8,9,12.",
+      "Confirm deployed public app matches last tested runtime head or a descendant containing only release-state documentation."
+    ]
+  },
+  "lastTestedRuntimeHead": "b0ce0fa42ad70c3b524ffd16945e3c3d97c6df3d"
 }
