@@ -34,6 +34,14 @@ if(!/^[a-f0-9]{40}$/.test(sourceCommit)){
   throw new Error('STARBLOX_SOURCE_COMMIT must be the exact 40-character PR head SHA');
 }
 
+function run(command,args,label){
+  const result=spawnSync(command,args,{cwd:process.cwd(),encoding:'utf8'});
+  if(result.status !== 0){
+    throw new Error(label + ' failed: ' + (result.stderr || result.stdout || ''));
+  }
+  return String(result.stdout || '').trim();
+}
+
 async function emit(receipt){
   const json=JSON.stringify(receipt,null,2) + '\n';
   if(receiptPath){
@@ -43,11 +51,7 @@ async function emit(receipt){
   process.stdout.write(json);
 }
 
-const before=await probeCurrentRelease({
-  apiKey,
-  universeId,
-  placeId
-});
+const before=await probeCurrentRelease({apiKey,universeId,placeId});
 
 if(before.releaseId === STARBLOX_PRIVATE_RELEASE_ID){
   await emit(buildPrivatePublishReceipt({
@@ -67,45 +71,95 @@ if(before.releaseId === STARBLOX_PRIVATE_RELEASE_ID){
 }
 
 const rojo=process.platform === 'win32' ? 'rojo.exe' : 'rojo';
-const versionResult=spawnSync(rojo,['--version'],{
-  cwd:process.cwd(),
-  encoding:'utf8'
-});
-if(versionResult.status !== 0){
-  throw new Error('Rojo version check failed: ' + (versionResult.stderr || versionResult.stdout || ''));
-}
-if(!String(versionResult.stdout || '').includes(EXPECTED_ROJO_VERSION)){
-  throw new Error('expected Rojo ' + EXPECTED_ROJO_VERSION + ' but found ' + String(versionResult.stdout || '').trim());
+const version=run(rojo,['--version'],'Rojo version check');
+if(!version.includes(EXPECTED_ROJO_VERSION)){
+  throw new Error('expected Rojo ' + EXPECTED_ROJO_VERSION + ' but found ' + version);
 }
 
-const output=resolve('artifacts/StarBlox-private-step5.rbxlx');
-await mkdir(dirname(output),{recursive:true});
-const build=spawnSync(rojo,[
+const buildRoot=resolve('artifacts/step9-canonical-step5-v3');
+const worldPath=resolve(buildRoot,'BrookhavenWorldBaseline.rbxmx');
+const generationReceiptPath=resolve(buildRoot,'generation-receipt.json');
+const exactnessLockPath=resolve(buildRoot,'step5-exactness-lock.json');
+const mountReceiptPath=resolve(buildRoot,'step5-mount-preparation.json');
+const mountedProjectPath=resolve('roblox/.step5-mounted.project.json');
+const mountedBaselinePath=resolve('roblox/.step5-generated/BrookhavenWorldBaseline.rbxmx');
+const output=resolve(buildRoot,'StarBlox-private-step9-canonical-step5-v3.rbxlx');
+
+await rm(buildRoot,{recursive:true,force:true});
+await rm(mountedProjectPath,{force:true});
+await rm(resolve('roblox/.step5-generated'),{recursive:true,force:true});
+await mkdir(buildRoot,{recursive:true});
+
+run(process.execPath,[
+  resolve('scripts/generate-brookhaven-world.mjs'),
+  '--out',worldPath,
+  '--receipt',generationReceiptPath
+],'Brookhaven world generation');
+
+const [worldBytes,step5Snapshot]=await Promise.all([
+  readFile(worldPath),
+  readFile(resolve('docs/roblox-world/STEP_5_WORLD_EXACTNESS_AND_MOUNT.json'),'utf8').then(JSON.parse)
+]);
+if(step5Snapshot?.status !== 'verified-exact-world-with-starblox-mounted-beside-it'){
+  throw new Error('canonical Step 5 snapshot is not verified');
+}
+const lock=step5Snapshot.exactnessLock;
+const worldSha=sha256Bytes(worldBytes);
+if(
+  lock?.status !== 'exactness-verified-and-baseline-locked' ||
+  lock?.baseline?.modelSha256 !== worldSha ||
+  Number(lock?.baseline?.bytes) !== worldBytes.length
+){
+  throw new Error('generated Brookhaven world does not match canonical Step 5 exactness lock');
+}
+await writeFile(exactnessLockPath,JSON.stringify(lock,null,2)+'\n');
+
+run(process.execPath,[
+  resolve('scripts/prepare-step5-world-mount.mjs'),
+  '--baseline',worldPath,
+  '--lock',exactnessLockPath,
+  '--out-project',mountedProjectPath,
+  '--baseline-copy',mountedBaselinePath,
+  '--receipt',mountReceiptPath
+],'canonical Step 5 mount preparation');
+
+run(rojo,[
   'build',
-  resolve('roblox/default.project.json'),
+  mountedProjectPath,
   '--output',
   output
-],{
-  cwd:process.cwd(),
-  encoding:'utf8'
-});
-if(build.status !== 0){
-  throw new Error('Rojo build failed: ' + (build.stderr || build.stdout || ''));
-}
+],'Rojo canonical Step 5 mounted build');
 
 try{
   const bytes=await readFile(output);
   const xml=bytes.toString('utf8');
   assertPublishCompatibleXml(xml);
 
+  for(const requiredName of [
+    'BrookhavenWorldBaseline',
+    'Matter',
+    'ProfileStore',
+    'ReplicaServer',
+    'ReplicaClient',
+    'StarBlox'
+  ]){
+    const marker='<string name="Name">' + requiredName + '</string>';
+    if(!xml.includes(marker)){
+      throw new Error('refusing to publish: compiled place is missing required instance ' + requiredName);
+    }
+  }
+
+  const copiedBaseline=await readFile(mountedBaselinePath);
+  if(
+    sha256Bytes(copiedBaseline) !== lock.baseline.modelSha256 ||
+    copiedBaseline.length !== Number(lock.baseline.bytes)
+  ){
+    throw new Error('canonical Step 5 read-only Brookhaven baseline changed during publish build');
+  }
+
   const artifactSha256=sha256Bytes(bytes);
   const artifactBytes=bytes.length;
-  const published=await publishPlaceVersion({
-    apiKey,
-    universeId,
-    placeId,
-    bytes
-  });
+  const published=await publishPlaceVersion({apiKey,universeId,placeId,bytes});
 
   if(published.versionNumber <= before.versionNumber){
     throw new Error(
@@ -137,6 +191,8 @@ try{
   }));
 }finally{
   if(process.env.STARBLOX_KEEP_PRIVATE_BUILD !== '1'){
-    await rm(output,{force:true});
+    await rm(buildRoot,{recursive:true,force:true});
+    await rm(mountedProjectPath,{force:true});
+    await rm(resolve('roblox/.step5-generated'),{recursive:true,force:true});
   }
 }
