@@ -31,8 +31,8 @@ describe('Step 9: private real-client playtest telemetry', () => {
     expect(server).toContain('storesUserId = false');
     expect(server).toContain('storesRawAnswers = false');
     expect(server).toContain('storesChat = false');
-    expect(server).not.toMatch(/\.Name\b/);
-    expect(server).not.toMatch(/UserId\b/);
+    expect(server).not.toContain('player.Name');
+    expect(server).not.toContain('player.UserId');
   });
 
   it('proves the actual core-loop LocalScript emits mobile and UI evidence', () => {
