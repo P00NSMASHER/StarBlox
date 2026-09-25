@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 15,
+  "schemaVersion": 16,
   "reviewer": "02",
   "role": "independent reviewer for Shoes/Backgear/Handgear/Seating",
   "phase": "ART_VISUALS_SPRINT",
@@ -7,7 +7,7 @@
   "policy": "docs/preproduction/DELIVERY_PROTOCOL_V2.md",
   "visualSprint": "docs/preproduction/ART_VISUALS_SPRINT.json",
   "artFactoryPolicy": "docs/preproduction/art-factory/ART_FACTORY_V2.json",
-  "sourceHead": "d3892e7531",
+  "sourceHead": "31112f941d7952671abd8bcc2d36da601ef45766",
   "priorReviewShard": {
     "blobSha": "4173dbb9923157eb5a13090d526f88cfec162edd",
     "schemaVersion": 10,
@@ -240,9 +240,9 @@
   ],
   "currentCycle": {
     "scope": [
-      "wall-9"
+      "decor-11"
     ],
-    "version": "Wall9 v12 exact source hash",
+    "version": "Decor11 v8 exact source hash",
     "result": "REWORK_1_OF_1_FAIL_FAST",
     "oldVerdictsTransferred": false,
     "actualCardScalePixelsReviewed": false,
@@ -1286,6 +1286,46 @@
         "duplicateVisual": "PASS",
         "technicalIntegrity": "PASS"
       }
+    },
+    {
+      "itemId": "decor-11",
+      "name": "Dream Vanity Set",
+      "tier": 4,
+      "theme": "Art Attack",
+      "assetPath": "public/assets/catalog-candidates/cpu/decor-11-w09-v8-b-simple-vanity-stool-original.png",
+      "repositoryPath": "public/assets/catalog-candidates/cpu/decor-11-w09-v8-b-simple-vanity-stool-original.png",
+      "assetHash": "332bf3f0636797a3d0a8f6fa08b3e43232b81598",
+      "sha256": "0202ac29798ce6ecd08061daba503bfe400e918e851029670f327f68d01dc336",
+      "contentSha256": "0202ac29798ce6ecd08061daba503bfe400e918e851029670f327f68d01dc336",
+      "hashAlgorithm": "git-blob-sha1",
+      "producer": "09",
+      "decision": "REWORK",
+      "learnerLabel": "REWORK",
+      "reviewedAt": "2026-09-25T00:03:22Z",
+      "evidenceRefs": [
+        "factory-evidence:docs/preproduction/art-factory/generated-evidence/w09-decor11-v8-simple-stool-retry/decor-11/staged-output.json",
+        "source:public/assets/catalog-candidates/cpu/decor-11-w09-v8-b-simple-vanity-stool-original.png",
+        "source-fail-fast:isolated-set-contract-failure"
+      ],
+      "reasonCodes": [
+        "ROOM_VIGNETTE_PRESENT",
+        "ISOLATED_SET_CONTRACT_FAILURE",
+        "BACKGROUND_ARCHITECTURE_DOMINATES",
+        "STORE_CARD_PRODUCT_ISOLATION_WEAK"
+      ],
+      "reason": "REWORK fail-fast from the exact committed source pixels. Decor11 v8 finally establishes one vanity table, one mirror and one separate padded stool, but the candidate remains staged as a room vignette with wall, window, curtain and floor context. That violates the bounded isolated-product repair requested after v7 and weakens Store-card isolation. Preserve this exact hash. Use the prepared v9 three-piece retry: exactly one table, one oval mirror and one separate padded stool centered together on a plain studio background, with no room architecture, alternate view, duplicate furniture, split image or text.",
+      "checks": {
+        "identity": "PASS",
+        "themeTier": "PASS",
+        "silhouette": "PARTIAL",
+        "materialLighting": "PASS",
+        "cardReadability": "PARTIAL",
+        "physicalConstruction": "PASS",
+        "framingComposition": "FAIL",
+        "originality": "PASS",
+        "duplicateVisual": "PASS",
+        "technicalIntegrity": "PASS"
+      }
     }
   ],
   "currentReplacementDisposition": {
@@ -1307,7 +1347,7 @@
         "decor-12": "0926a84e4b1e47ce58b5335e3cc655c77fb67d07"
       },
       "REWORK": {
-        "decor-11": "7badb72a99eb63aa259e5345a6a806cacb6c73a2",
+        "decor-11": "332bf3f0636797a3d0a8f6fa08b3e43232b81598",
         "decor-12": "72655049c8c0c488f56c80916ed7213e62d7e374"
       }
     }
@@ -1319,15 +1359,15 @@
     "newBlockedThisRun": 0,
     "newUsableBy08Now": [],
     "reworkNow": [
-      "wall-9"
+      "decor-11"
     ],
-    "preservedAcceptedHashes": "All prior reviewer02 ACCEPTs remain frozen; Wall9 v12 is REWORK only."
+    "preservedAcceptedHashes": "All prior reviewer02 ACCEPTs remain frozen; Decor11 v8 is REWORK only."
   },
   "handoff": {
     "13": "Wall9 v12 REWORK; preserve exact hash. Next attempt must use a simpler exactly-three-frame horizontal composition with no enclosing grid.",
     "14": "Current packets consumed; do not rerender unchanged hashes.",
-    "15": "Wall9 remains a bounded exact-pixel blocker.",
-    "09": "Decor11 v7 REWORK; preserve exact hash and use the already-planned B-SIMPLE-VANITY-STOOL attempt as v8.",
-    "08": "Do not canonical-wire Wall9 v12."
+    "15": "Decor11 remains a bounded exact-pixel blocker after v8.",
+    "09": "Decor11 v8 REWORK; preserve exact hash and dispatch the already-prepared v9 B-THREE-PIECE-VANITY retry.",
+    "08": "Do not canonical-wire Decor11 v8."
   }
 }
