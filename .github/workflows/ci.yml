@@ -93,10 +93,13 @@ jobs:
           grep -Eq '"irHash": "sha256:[a-f0-9]{64}"' /tmp/brookhaven-world-deserialization-receipt.json
           node --input-type=module - <<'NODE'
           import assert from 'node:assert/strict';
+          import assert from 'node:assert/strict';
           import {readFile} from 'node:fs/promises';
           const ir=JSON.parse(await readFile('/tmp/brookhaven-world-ir.json','utf8'));
           const receipt=JSON.parse(await readFile('/tmp/brookhaven-world-deserialization-receipt.json','utf8'));
+          const snapshot=JSON.parse(await readFile('docs/roblox-world/STEP_3_SAFE_DESERIALIZATION.json','utf8'));
           const fp=JSON.parse(await readFile('docs/roblox-world/STEP_2_IMMUTABLE_FINGERPRINT.json','utf8'));
+          assert.deepStrictEqual(snapshot.receipt,receipt,'checked-in Step 3 deserialization receipt is stale');
           const snapshot=JSON.parse(await readFile('docs/roblox-world/STEP_3_SAFE_DESERIALIZATION.json','utf8'));
           assert.deepStrictEqual(snapshot.receipt,receipt,'checked-in Step 3 receipt is stale');
           if(ir.entryCount !== 4936 || ir.entries?.length !== 4936) throw new Error('IR must contain exactly 4936 entries');
