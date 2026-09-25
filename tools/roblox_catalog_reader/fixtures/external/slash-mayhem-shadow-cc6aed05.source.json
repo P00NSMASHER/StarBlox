@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "sourceType": "external-public-roblox-binary",
+  "sourceProject": "SlashMayhem-Shadow",
+  "repository": "jasons-open-repo/SlashMayhem-Shadow",
+  "commit": "cc6aed0509d10989a4505dff354f029efcd2bf27",
+  "path": "Slash-Meyhem-Shadow-Edition.rbxl",
+  "upstreamGitBlobSha": "134605d10270906eae89edbdaba006ce91963668",
+  "rightsStatus": "project-rights-verified",
+  "rightsBasis": "user-provided standing authorization covering Roblox and Brookhaven assets; verification performed on user's other account",
+  "storedRepresentation": "base64",
+  "storedFile": "slash-mayhem-shadow-cc6aed05.rbxl.b64",
+  "intendedUse": "real-rich-rbxl-ingestion-and-capability-review",
+  "migrationAuthorized": false,
+  "studioMutationAuthorized": false,
+  "publicationAuthorized": false,
+  "notes": "Pinned richer Roblox place used for static non-executing StarBlox ingestion/capability review. Source provenance is exact; rights status is based on the user's standing authorization."
+}

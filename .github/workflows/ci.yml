@@ -97,6 +97,51 @@ jobs:
             publicationStarted:receipt.publicationStarted
           }));
           NODE
+      - name: Prove rich real RBXL ingestion and capability review
+        run: |
+          rm -rf /tmp/rich-real-source /tmp/rich-real-ingest
+          mkdir -p /tmp/rich-real-source
+          base64 --decode tools/roblox_catalog_reader/fixtures/external/slash-mayhem-shadow-cc6aed05.rbxl.b64 > /tmp/rich-real-source/Slash-Meyhem-Shadow-Edition.rbxl
+          test "$(git hash-object /tmp/rich-real-source/Slash-Meyhem-Shadow-Edition.rbxl)" = "134605d10270906eae89edbdaba006ce91963668"
+          npm run roblox:ingest -- --input /tmp/rich-real-source/Slash-Meyhem-Shadow-Edition.rbxl --out-dir /tmp/rich-real-ingest --source-id slash-mayhem-shadow-cc6aed05
+          test -f /tmp/rich-real-ingest/source-preflight.json
+          test -f /tmp/rich-real-ingest/catalog-handoff.json
+          test -f /tmp/rich-real-ingest/capability-catalog.json
+          test -f /tmp/rich-real-ingest/capability-catalog.md
+          test -f /tmp/rich-real-ingest/ingestion-receipt.json
+          grep -q '"status": "cataloged"' /tmp/rich-real-ingest/ingestion-receipt.json
+          grep -q '"migrationStarted": false' /tmp/rich-real-ingest/ingestion-receipt.json
+          grep -q '"studioMutationStarted": false' /tmp/rich-real-ingest/ingestion-receipt.json
+          grep -q '"publicationStarted": false' /tmp/rich-real-ingest/ingestion-receipt.json
+          node --input-type=module - <<'NODE'
+          import {readFile} from 'node:fs/promises';
+          const catalog=JSON.parse(await readFile('/tmp/rich-real-ingest/capability-catalog.json','utf8'));
+          const receipt=JSON.parse(await readFile('/tmp/rich-real-ingest/ingestion-receipt.json','utf8'));
+          const summary=catalog.summary || {};
+          if(!(summary.instanceCount > 80)) throw new Error('expected richer place to contain more than 80 instances');
+          if(!(summary.scriptCount > 0)) throw new Error('expected richer place to contain at least one script');
+          if(!(summary.systemCandidateCount > 0)) throw new Error('expected richer place to produce system candidates');
+          if(summary.sourceFingerprintCount !== 1) throw new Error('expected exactly one source fingerprint');
+          if(receipt.migrationStarted !== false) throw new Error('migration must remain disabled');
+          if(receipt.studioMutationStarted !== false) throw new Error('Studio mutation must remain disabled');
+          if(receipt.publicationStarted !== false) throw new Error('publication must remain disabled');
+          const inventoryCounts=Object.fromEntries(
+            Object.entries(catalog.inventory || {}).map(([key,value]) => [
+              key,
+              Array.isArray(value) ? value.length : null
+            ])
+          );
+          console.log('RICH_REAL_RBXL_CAPABILITY_REVIEW=' + JSON.stringify({
+            sourceId:receipt.sourceId,
+            catalogHash:catalog.catalogHash,
+            summary,
+            inventoryCounts,
+            nextStep:receipt.nextStep,
+            migrationStarted:receipt.migrationStarted,
+            studioMutationStarted:receipt.studioMutationStarted,
+            publicationStarted:receipt.publicationStarted
+          }));
+          NODE
       - name: Smoke-test Roblox capability catalog
         run: |
           npm run roblox:catalog -- --preflight /tmp/roblox-catalog-handoff.json --out /tmp/roblox-catalog.json --report /tmp/roblox-catalog.md

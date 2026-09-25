@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 1,
+  "milestone": "release-hardening-3",
+  "status": "complete",
+  "title": "First richer real authorized Roblox source ingestion and capability review",
+  "source": {
+    "sourceId": "slash-mayhem-shadow-cc6aed05",
+    "project": "SlashMayhem-Shadow",
+    "repository": "jasons-open-repo/SlashMayhem-Shadow",
+    "commit": "cc6aed0509d10989a4505dff354f029efcd2bf27",
+    "path": "Slash-Meyhem-Shadow-Edition.rbxl",
+    "upstreamGitBlobSha": "134605d10270906eae89edbdaba006ce91963668",
+    "rightsStatus": "project-rights-verified",
+    "rightsBasis": "user-provided standing authorization covering Roblox and Brookhaven assets; verification performed on user's other account"
+  },
+  "ingestion": {
+    "catalogHash": "fnv1a32:67baef81",
+    "sourceCount": 1,
+    "sourceFingerprintCount": 1,
+    "instanceCount": 8586,
+    "scriptCount": 596,
+    "remoteCount": 0,
+    "assetIdCount": 13994,
+    "capabilityCount": 16,
+    "systemCandidateCount": 36,
+    "inventoryCounts": {
+      "scripts": 596,
+      "remotes": 0,
+      "uiTrees": 26,
+      "models": 198,
+      "vehicles": 22,
+      "houses": 0,
+      "tools": 2,
+      "animations": 8,
+      "sounds": 5
+    },
+    "riskFlags": [
+      "unbounded-loop-review"
+    ],
+    "nextStep": "review-capability-catalog"
+  },
+  "boundaries": {
+    "importedLuauExecuted": false,
+    "migrationStarted": false,
+    "studioMutationStarted": false,
+    "publicationStarted": false,
+    "liveActivationAllowed": false
+  },
+  "acceptance": {
+    "realBinarySource": true,
+    "exactUpstreamBlobVerified": true,
+    "richerThanBaseplate": true,
+    "scriptsObserved": true,
+    "systemCandidatesObserved": true,
+    "capabilityReviewCompleted": true,
+    "fullCiPassed": true
+  },
+  "nextMilestone": "real-studio-adaptation-playtest-evidence"
+}
