@@ -123,12 +123,12 @@
       "type": "object",
       "additionalProperties": false,
       "required": [
-        "brookhavenRuntimeDependency",
+        "externalRuntimeDependency",
         "remoteDependency",
         "weaponBehavior"
       ],
       "properties": {
-        "brookhavenRuntimeDependency": {
+        "externalRuntimeDependency": {
           "const": false
         },
         "remoteDependency": {
