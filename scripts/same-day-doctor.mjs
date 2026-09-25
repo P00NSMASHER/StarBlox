@@ -1,8 +1,6 @@
 import { spawnSync } from 'node:child_process';
 import { readFile,stat } from 'node:fs/promises';
 import { dirname,isAbsolute,resolve } from 'node:path';
-import { pathToFileURL } from 'node:url';
-
 import { buildSameDayPipelinePlan } from '../src/sameDayPipeline/sameDayPipeline.js';
 import { ensurePinnedSource } from '../src/sameDayPipeline/sourceBootstrap.js';
 
@@ -35,6 +33,7 @@ async function exists(path){
   }
 }
 
+const strictRuntime=process.argv.includes('--strict-runtime');
 const manifestPath=resolve(process.cwd(),arg('--manifest',true));
 const base=dirname(manifestPath);
 const manifest=JSON.parse(await readFile(manifestPath,'utf8'));
@@ -122,7 +121,7 @@ try{
 checks.push({
   id:'studio-bridge',
   ok:bridge.ok,
-  required:false,
+  required:strictRuntime,
   detail:bridge.detail
 });
 
@@ -130,7 +129,7 @@ const agentCommand=String(process.env.STARBLOX_AGENT_COMMAND || '').trim();
 checks.push({
   id:'agent-command',
   ok:Boolean(agentCommand),
-  required:false,
+  required:strictRuntime,
   detail:agentCommand || 'STARBLOX_AGENT_COMMAND not configured'
 });
 
@@ -139,6 +138,7 @@ const warnings=checks.filter(row=>!row.required && !row.ok);
 const report={
   schemaVersion:1,
   version:'starblox-same-day-doctor-v1',
+  mode:strictRuntime ? 'strict-runtime' : 'prep',
   ready:blockers.length === 0,
   planHash:plan.planHash,
   blockers,
