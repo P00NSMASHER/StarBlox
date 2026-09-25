@@ -1,4 +1,5 @@
 use std::{
+    collections::HashSet,
     env,
     fs::{self, File},
     io::{BufReader, BufWriter},
@@ -113,6 +114,106 @@ fn write_subtree(
     Ok(())
 }
 
+const FORBIDDEN_PROJECTION_CLASSES: &[&str] = &[
+    "Script",
+    "LocalScript",
+    "ModuleScript",
+    "RemoteEvent",
+    "RemoteFunction",
+    "UnreliableRemoteEvent",
+    "BindableEvent",
+    "BindableFunction",
+];
+
+#[derive(Debug, Clone, Copy)]
+struct ProjectionStats {
+    stripped_instances: usize,
+    stripped_forbidden_instances: usize,
+    forbidden_remaining: usize,
+}
+
+fn is_projection_forbidden(class_name: &str) -> bool {
+    FORBIDDEN_PROJECTION_CLASSES
+        .iter()
+        .any(|forbidden| *forbidden == class_name)
+}
+
+fn sanitize_projection_subtree(
+    dom: &mut WeakDom,
+    referent: Ref,
+) -> Result<ProjectionStats, Box<dyn std::error::Error>> {
+    let root = dom
+        .get_by_ref(referent)
+        .ok_or("projection root disappeared before sanitization")?;
+    if is_projection_forbidden(root.class.as_str()) {
+        return Err("asset projection root cannot itself be executable/networking".into());
+    }
+
+    let forbidden = dom
+        .descendants_of(referent)
+        .filter(|instance| is_projection_forbidden(instance.class.as_str()))
+        .map(|instance| instance.referent())
+        .collect::<HashSet<_>>();
+
+    let roots = forbidden
+        .iter()
+        .copied()
+        .filter(|candidate| {
+            dom.ancestors_of(*candidate)
+                .skip(1)
+                .all(|ancestor| !forbidden.contains(&ancestor.referent()))
+        })
+        .collect::<Vec<_>>();
+
+    let stripped_instances = roots
+        .iter()
+        .map(|root_ref| dom.descendants_of(*root_ref).count())
+        .sum();
+
+    for root_ref in roots {
+        dom.destroy(root_ref);
+    }
+
+    let forbidden_remaining = dom
+        .descendants_of(referent)
+        .filter(|instance| is_projection_forbidden(instance.class.as_str()))
+        .count();
+
+    Ok(ProjectionStats {
+        stripped_instances,
+        stripped_forbidden_instances: forbidden.len(),
+        forbidden_remaining,
+    })
+}
+
+fn write_asset_projection(
+    dom: &mut WeakDom,
+    referent: Ref,
+    out_path: &Path,
+) -> Result<ProjectionStats, Box<dyn std::error::Error>> {
+    let stats = sanitize_projection_subtree(dom, referent)?;
+    if stats.forbidden_remaining != 0 {
+        return Err("asset projection still contains forbidden executable/network instances".into());
+    }
+
+    let source = dom
+        .get_by_ref(referent)
+        .ok_or("projection root disappeared before wrapping")?;
+    let projection_name = format!("{} Assets", source.name);
+    let children = source.children().to_vec();
+
+    let mut projected = WeakDom::new(
+        rbx_dom_weak::InstanceBuilder::new("Folder").with_name(projection_name),
+    );
+    let projected_root = projected.root_ref();
+    for child in children {
+        dom.transfer(child, &mut projected, projected_root);
+    }
+
+    write_subtree(&projected, projected.root_ref(), out_path)?;
+    Ok(stats)
+}
+
 fn arg_value(args: &[String], name: &str) -> Option<String> {
     args.iter()
         .position(|arg| arg == name)
@@ -126,24 +227,47 @@ fn run() -> Result<(), Box<dyn std::error::Error>> {
         .ok_or("usage: exporter --input Place.rbxl --path DataModel/System --out output.rbxmx")?;
     let instance_path = arg_value(&args, "--path").ok_or("--path is required")?;
     let out = arg_value(&args, "--out").ok_or("--out is required")?;
+    let asset_projection = args.iter().any(|arg| arg == "--asset-projection");
 
     let source_path = PathBuf::from(source);
     let out_path = PathBuf::from(out);
 
-    let dom = read_dom(&source_path)?;
+    let mut dom = read_dom(&source_path)?;
     let referent = resolve_path(&dom, &instance_path)?;
-    write_subtree(&dom, referent, &out_path)?;
-
     let instance = dom
         .get_by_ref(referent)
         .ok_or("resolved referent disappeared before export")?;
+    let instance_name = instance.name.clone();
+    let instance_class = instance.class.to_string();
+
+    let projection = if asset_projection {
+        Some(write_asset_projection(&mut dom, referent, &out_path)?)
+    } else {
+        write_subtree(&dom, referent, &out_path)?;
+        None
+    };
+
+    let (sanitized, stripped_instances, stripped_forbidden_instances, forbidden_remaining) =
+        match projection {
+            Some(stats) => (
+                true,
+                stats.stripped_instances,
+                stats.stripped_forbidden_instances,
+                stats.forbidden_remaining,
+            ),
+            None => (false, 0, 0, 0),
+        };
 
     println!(
-        "{{\"ok\":true,\"name\":{},\"className\":{},\"path\":{},\"out\":{}}}",
-        serde_json_escape(&instance.name),
-        serde_json_escape(instance.class.as_str()),
+        "{{\"ok\":true,\"name\":{},\"className\":{},\"path\":{},\"out\":{},\"assetProjection\":{},\"strippedInstances\":{},\"strippedForbiddenInstances\":{},\"forbiddenRemaining\":{}}}",
+        serde_json_escape(&instance_name),
+        serde_json_escape(&instance_class),
         serde_json_escape(&instance_path),
         serde_json_escape(out_path.to_string_lossy().as_ref()),
+        sanitized,
+        stripped_instances,
+        stripped_forbidden_instances,
+        forbidden_remaining,
     );
 
     Ok(())
@@ -228,6 +352,63 @@ mod tests {
         assert_eq!(house.children().len(), 1);
         let door = exported.get_by_ref(house.children()[0]).unwrap();
         assert_eq!(door.name, "Door");
+
+        let _ = fs::remove_file(input);
+        let _ = fs::remove_file(output);
+    }
+
+    #[test]
+    fn sanitized_projection_strips_scripts_and_channels_but_keeps_world_assets() {
+        let input = temp_path("projection.rbxlx");
+        let output = temp_path("projection.rbxmx");
+        fs::write(
+            &input,
+            r#"
+<roblox version="4">
+  <Item class="Workspace" referent="RBX1">
+    <Properties><string name="Name">Workspace</string></Properties>
+    <Item class="Model" referent="RBX2">
+      <Properties><string name="Name">Town</string></Properties>
+      <Item class="Part" referent="RBX3">
+        <Properties><string name="Name">House</string></Properties>
+      </Item>
+      <Item class="Script" referent="RBX4">
+        <Properties><string name="Name">LegacyServer</string><ProtectedString name="Source">print("no")</ProtectedString></Properties>
+        <Item class="StringValue" referent="RBX5">
+          <Properties><string name="Name">ScriptChild</string></Properties>
+        </Item>
+      </Item>
+      <Item class="RemoteEvent" referent="RBX6">
+        <Properties><string name="Name">LegacyRemote</string></Properties>
+      </Item>
+      <Item class="BindableEvent" referent="RBX7">
+        <Properties><string name="Name">LegacyBindable</string></Properties>
+      </Item>
+    </Item>
+  </Item>
+</roblox>
+"#,
+        )
+        .unwrap();
+
+        let mut dom = read_dom(&input).unwrap();
+        let workspace = resolve_path(&dom, "DataModel/Workspace").unwrap();
+        let stats = write_asset_projection(&mut dom, workspace, &output).unwrap();
+        assert_eq!(stats.stripped_forbidden_instances, 3);
+        assert_eq!(stats.stripped_instances, 4);
+        assert_eq!(stats.forbidden_remaining, 0);
+
+        let exported = read_dom(&output).unwrap();
+        let root = exported.root();
+        assert_eq!(root.children().len(), 1);
+        let folder = exported.get_by_ref(root.children()[0]).unwrap();
+        assert_eq!(folder.class.as_str(), "Folder");
+        let descendants = exported
+            .descendants_of(folder.referent())
+            .map(|instance| (instance.class.to_string(), instance.name.clone()))
+            .collect::<Vec<_>>();
+        assert!(descendants.iter().any(|(class, name)| class == "Part" && name == "House"));
+        assert!(!descendants.iter().any(|(class, _)| is_projection_forbidden(class)));
 
         let _ = fs::remove_file(input);
         let _ = fs::remove_file(output);
