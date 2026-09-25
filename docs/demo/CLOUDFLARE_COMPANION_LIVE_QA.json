@@ -1,0 +1,95 @@
+{
+  "schemaVersion": 1,
+  "checkedAt": "2026-09-25",
+  "deployment": {
+    "url": "https://starblox-demo.pages.dev",
+    "provider": "Cloudflare Pages",
+    "productionBranch": "demo-release-candidate-2026-09-25",
+    "commit": "b0ce0fa42ad70c3b524ffd16945e3c3d97c6df3d"
+  },
+  "method": "Live browser rendering in production Store > Buddies, with Luxe tier isolation for companions-12. Each target card was present, used the expected SVG, image.complete was true, natural dimensions were 150x150, and no fallback art was active.",
+  "results": [
+    {
+      "id": "companions-2",
+      "name": "Moon Cat",
+      "src": "/assets/catalog/companions-2.svg",
+      "card": true,
+      "complete": true,
+      "naturalWidth": 150,
+      "naturalHeight": 150,
+      "fallback": false,
+      "status": "PASS"
+    },
+    {
+      "id": "companions-5",
+      "name": "Pebble Turtle",
+      "src": "/assets/catalog/companions-5.svg",
+      "card": true,
+      "complete": true,
+      "naturalWidth": 150,
+      "naturalHeight": 150,
+      "fallback": false,
+      "status": "PASS"
+    },
+    {
+      "id": "companions-6",
+      "name": "Comet Fox",
+      "src": "/assets/catalog/companions-6.svg",
+      "card": true,
+      "complete": true,
+      "naturalWidth": 150,
+      "naturalHeight": 150,
+      "fallback": false,
+      "status": "PASS"
+    },
+    {
+      "id": "companions-7",
+      "name": "Story Owl",
+      "src": "/assets/catalog/companions-7.svg",
+      "card": true,
+      "complete": true,
+      "naturalWidth": 150,
+      "naturalHeight": 150,
+      "fallback": false,
+      "status": "PASS"
+    },
+    {
+      "id": "companions-8",
+      "name": "Bubble Axolotl",
+      "src": "/assets/catalog/companions-8.svg",
+      "card": true,
+      "complete": true,
+      "naturalWidth": 150,
+      "naturalHeight": 150,
+      "fallback": false,
+      "status": "PASS"
+    },
+    {
+      "id": "companions-9",
+      "name": "Garden Snail",
+      "src": "/assets/catalog/companions-9.svg",
+      "card": true,
+      "complete": true,
+      "naturalWidth": 150,
+      "naturalHeight": 150,
+      "fallback": false,
+      "status": "PASS"
+    },
+    {
+      "id": "companions-12",
+      "name": "Star Unicorn",
+      "src": "/assets/catalog/companions-12.svg",
+      "card": true,
+      "complete": true,
+      "naturalWidth": 150,
+      "naturalHeight": 150,
+      "fallback": false,
+      "status": "PASS"
+    }
+  ],
+  "summary": {
+    "passed": 7,
+    "failed": 0,
+    "releaseBlockingFailures": 0
+  }
+}
