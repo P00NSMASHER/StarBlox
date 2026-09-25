@@ -291,6 +291,17 @@ npm run same-day:pipeline -- \
 
 The saved state refuses to resume if the manifest changed, preventing a partially completed run from silently switching plans.
 
+## Live progress and critical path
+
+During a run:
+
+```bash
+npm run same-day:status -- \
+  --manifest config/same-day/pipeline.example.json
+```
+
+This reports completed/failed/pending stage counts, percentage complete, ready-next stages, blockers, elapsed wall time, parallelized stage-time savings, and the five slowest completed stages. Add `--json` for machine-readable output. Use the slowest-stage list to decide where further same-day optimization is actually worth doing.
+
 ## One-day slice acceptance target
 
 The fast lane aims to verify:
