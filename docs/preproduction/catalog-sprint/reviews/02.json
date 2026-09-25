@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 16,
+  "schemaVersion": 17,
   "reviewer": "02",
   "role": "independent reviewer for Shoes/Backgear/Handgear/Seating",
   "phase": "ART_VISUALS_SPRINT",
@@ -7,7 +7,7 @@
   "policy": "docs/preproduction/DELIVERY_PROTOCOL_V2.md",
   "visualSprint": "docs/preproduction/ART_VISUALS_SPRINT.json",
   "artFactoryPolicy": "docs/preproduction/art-factory/ART_FACTORY_V2.json",
-  "sourceHead": "31112f941d7952671abd8bcc2d36da601ef45766",
+  "sourceHead": "7ea121c95900bff5d0f59dbb06f428effbf7080e",
   "priorReviewShard": {
     "blobSha": "4173dbb9923157eb5a13090d526f88cfec162edd",
     "schemaVersion": 10,
@@ -242,13 +242,13 @@
     "scope": [
       "decor-11"
     ],
-    "version": "Decor11 v8 exact source hash",
-    "result": "REWORK_1_OF_1_FAIL_FAST",
+    "version": "Decor11 v9 exact rendered hash",
+    "result": "REWORK_1_OF_1",
     "oldVerdictsTransferred": false,
-    "actualCardScalePixelsReviewed": false,
+    "actualCardScalePixelsReviewed": true,
     "actualDetailPixelsReviewed": true,
     "selfApprovalConflict": false,
-    "failFastSourceContract": true
+    "failFastSourceContract": false
   },
   "currentRenderEvidence": {
     "sources": [
@@ -267,6 +267,13 @@
           "decor-10",
           "decor-11",
           "decor-12"
+        ]
+      },
+      {
+        "workflowRunId": 36078172630,
+        "artifactId": 10841500304,
+        "items": [
+          "decor-11"
         ]
       }
     ]
@@ -1326,6 +1333,48 @@
         "duplicateVisual": "PASS",
         "technicalIntegrity": "PASS"
       }
+    },
+    {
+      "itemId": "decor-11",
+      "name": "Dream Vanity Set",
+      "tier": 4,
+      "theme": "Art Attack",
+      "assetPath": "public/assets/catalog-candidates/cpu/decor-11-w09-v9-b-three-piece-vanity-original.png",
+      "repositoryPath": "public/assets/catalog-candidates/cpu/decor-11-w09-v9-b-three-piece-vanity-original.png",
+      "assetHash": "3ea52c59b32addeeca4ce07701a095165f82540c",
+      "sha256": "e623a2bd172debf7db206203418deacd77b11288a43c185831f2846678d4daf3",
+      "contentSha256": "e623a2bd172debf7db206203418deacd77b11288a43c185831f2846678d4daf3",
+      "hashAlgorithm": "git-blob-sha1",
+      "producer": "09",
+      "decision": "REWORK",
+      "learnerLabel": "REWORK",
+      "reviewedAt": "2026-09-25T00:36:47Z",
+      "evidenceRefs": [
+        "workflow:36078172630",
+        "artifact:10841500304/staged-replacements/detail/decor-11-3ea52c59.png",
+        "artifact:10841500304/staged-replacements/staged-replacements-contact-sheet.png",
+        "factory-evidence:docs/preproduction/art-factory/generated-evidence/w09-decor11-v9-ultraliteral/decor-11/staged-output.json"
+      ],
+      "reasonCodes": [
+        "ROOM_VIGNETTE_PRESENT",
+        "TRIPLE_MIRROR_IDENTITY_DRIFT",
+        "SINGLE_OVAL_MIRROR_CONTRACT_FAILURE",
+        "BACKGROUND_ARCHITECTURE_DOMINATES",
+        "ISOLATED_PRODUCT_CONTRACT_FAILURE"
+      ],
+      "reason": "REWORK. Decor11 v9 is a coherent vanity with a separate stool, but the exact rendered pixels still violate the bounded product-isolation repair. The candidate is staged inside a room with wall/floor/architectural context and uses one large center mirror plus two side mirrors instead of the required single oval mirror. Preserve this exact hash. The next retry must show exactly one vanity table, exactly one oval mirror and exactly one separate padded stool on seamless white, with no side mirrors, wall, window, curtain, floor, shelving, room, labels, text, alternate view or duplicate furniture.",
+      "checks": {
+        "identity": "PARTIAL",
+        "themeTier": "PASS",
+        "silhouette": "PARTIAL",
+        "materialLighting": "PASS",
+        "cardReadability": "PARTIAL",
+        "physicalConstruction": "PASS",
+        "framingComposition": "FAIL",
+        "originality": "PASS",
+        "duplicateVisual": "PASS",
+        "technicalIntegrity": "PASS"
+      }
     }
   ],
   "currentReplacementDisposition": {
@@ -1347,7 +1396,7 @@
         "decor-12": "0926a84e4b1e47ce58b5335e3cc655c77fb67d07"
       },
       "REWORK": {
-        "decor-11": "332bf3f0636797a3d0a8f6fa08b3e43232b81598",
+        "decor-11": "3ea52c59b32addeeca4ce07701a095165f82540c",
         "decor-12": "72655049c8c0c488f56c80916ed7213e62d7e374"
       }
     }
@@ -1361,13 +1410,14 @@
     "reworkNow": [
       "decor-11"
     ],
-    "preservedAcceptedHashes": "All prior reviewer02 ACCEPTs remain frozen; Decor11 v8 is REWORK only."
+    "preservedAcceptedHashes": "All prior reviewer02 ACCEPTs remain frozen; Decor11 v9 is REWORK only."
   },
   "handoff": {
     "13": "Wall9 v12 REWORK; preserve exact hash. Next attempt must use a simpler exactly-three-frame horizontal composition with no enclosing grid.",
     "14": "Current packets consumed; do not rerender unchanged hashes.",
-    "15": "Decor11 remains a bounded exact-pixel blocker after v8.",
-    "09": "Decor11 v8 REWORK; preserve exact hash and dispatch the already-prepared v9 B-THREE-PIECE-VANITY retry.",
-    "08": "Do not canonical-wire Decor11 v8."
-  }
+    "15": "Decor11 remains a bounded exact-pixel blocker after v9.",
+    "09": "Decor11 v9 REWORK; preserve exact hash. Next retry: exactly one table, one oval mirror, one separate padded stool on seamless white; no side mirrors or room context.",
+    "08": "Do not canonical-wire Decor11 v9."
+  },
+  "previousRevisionBlobSha": "8a7b67d6e946ba7129834d23769ec969c7ab9418"
 }
