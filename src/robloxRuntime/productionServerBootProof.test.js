@@ -18,8 +18,8 @@ describe('Step 9 joinability: production server boot gate', () => {
 
     expect(rokit).toContain('wally = "UpliftGames/wally@0.3.2"');
     expect(workflow).toContain('wally install');
-    expect(workflow).toContain('test -e Packages/Matter.lua');
-    expect(workflow).toContain('test -e ServerPackages/ProfileStore.lua');
+    expect(workflow).toContain('test -e Packages/Matter.lua.lua');
+    expect(workflow).toContain('test -e ServerPackages/ProfileStore.lua.lua');
   });
 
   it('refuses native builds and private publishes when runtime packages are omitted', () => {
