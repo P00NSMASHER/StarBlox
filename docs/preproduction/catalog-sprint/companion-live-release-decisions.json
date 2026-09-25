@@ -60,6 +60,29 @@
       },
       "reason": "Live card exists, but no real companion image, detail preview, avatar-stage preview, or Buddy image is present on the public deployment.",
       "nextAction": "Deploy/wire the existing companion artwork/runtime to the public Replit app, then rerun the same live companion QA."
+    },
+    {
+      "order": 7,
+      "itemId": "companions-6",
+      "name": "Comet Fox",
+      "decision": "BLOCKED_LIVE_PARITY",
+      "decidedAt": "2026-09-25T08:38:26Z",
+      "evidence": {
+        "found": true,
+        "cardImage": null,
+        "background": "generic radial gradient",
+        "previewAvailable": false,
+        "detailPresent": false,
+        "avatarStagePresent": false,
+        "buddyAvailable": true,
+        "buddyRootCompanionId": null,
+        "buddyCompanionId": null,
+        "buddyImage": null,
+        "cardPass": false,
+        "technicalPass": false
+      },
+      "reason": "Live card exists, but the current public deployment does not present the real Comet Fox image in the card, preview, avatar stage, or Buddy surface.",
+      "nextAction": "Deploy/wire the existing companion artwork/runtime to the public Replit app, then rerun the same live companion QA."
     }
   ]
 }
