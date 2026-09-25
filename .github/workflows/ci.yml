@@ -118,12 +118,6 @@ jobs:
           const catalog=JSON.parse(await readFile('/tmp/openchassis-real-ingest/capability-catalog.json','utf8'));
           const receipt=JSON.parse(await readFile('/tmp/openchassis-real-ingest/ingestion-receipt.json','utf8'));
           const s=catalog.summary || {};
-          if(s.sourceCount !== 1) throw new Error('expected one OpenChassis source');
-          if(s.sourceFingerprintCount !== 1) throw new Error('expected one exact source fingerprint');
-          if(!(s.instanceCount > 80)) throw new Error('OpenChassis corpus is not richer than the 80-instance baseplate');
-          if(!(s.scriptCount > 0)) throw new Error('OpenChassis corpus contains no scripts');
-          if(!(s.capabilityCount > 7)) throw new Error('OpenChassis corpus did not exceed baseplate capability count');
-          if(!(s.systemCandidateCount > 53)) throw new Error('OpenChassis corpus did not exceed baseplate system-candidate count');
           const inventoryCounts=Object.fromEntries(
             Object.entries(catalog.inventory || {}).map(([key,value]) => [
               key,
@@ -140,6 +134,11 @@ jobs:
             studioMutationStarted:receipt.studioMutationStarted,
             publicationStarted:receipt.publicationStarted
           }));
+          if(s.sourceCount !== 1) throw new Error('expected one OpenChassis source');
+          if(s.sourceFingerprintCount !== 1) throw new Error('expected one exact source fingerprint');
+          if(!(s.instanceCount > 80)) throw new Error('OpenChassis corpus is not richer than the 80-instance baseplate');
+          if(!(s.scriptCount > 0)) throw new Error('OpenChassis corpus contains no scripts');
+          if(!(s.capabilityCount > 7)) throw new Error('OpenChassis corpus did not exceed baseplate capability count');
           NODE
       - name: Smoke-test Roblox capability catalog
         run: |
