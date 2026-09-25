@@ -1,0 +1,78 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_BATCH_REQUEST",
+  "planner": "15",
+  "producer": "03",
+  "preflightOwner": "06",
+  "reviewer": "05",
+  "renderOwner": "14",
+  "integrationOwner": "08",
+  "coordinationOwner": "15",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "02326706a3fc5320a7208c92a660cef828c74bdf",
+  "manifestVersion": 45,
+  "batchId": "w03-desk10-v14-token-safe",
+  "scope": [
+    "desks-10"
+  ],
+  "state": "PREPARED_AFTER_V13_TOKEN_OVERFLOW",
+  "assignmentAuthority": {
+    "path": "docs/preproduction/art-factory/RELEASE_BLOCKERS_CURRENT.json",
+    "runtimeProofPath": "docs/preproduction/art-factory/CPU_RUNTIME_PROOF.json",
+    "runtimeProofStatus": "PROVEN",
+    "runtimeCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+    "modelRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "assignedReviewers": {
+      "desks-10": "05"
+    },
+    "note": "v13 A failed before generation because runtime prompt length was 84 > 77. No v13 candidate bytes were staged. This request shortens the product instruction materially."
+  },
+  "reviewSource": {
+    "decision": "REWORK",
+    "latestExact": {
+      "version": "v12",
+      "gitBlobSha": "50fb49c1bf2bcea8b1d48519fab3120f2fc7cf1f",
+      "sha256": "025e4b8632f874ef8b2a3825400516accf58cddbd068c296745ef3e41180f105"
+    },
+    "failedGeneration": {
+      "version": "v13",
+      "variant": "A-SIMPLE-MIC-DESK",
+      "runId": 36076241300,
+      "failure": "CLIP_TOKEN_LIMIT_84_GT_77",
+      "candidateBytesStaged": false
+    }
+  },
+  "items": {
+    "desks-10": {
+      "currentLegacy": {
+        "reviewDecision": "REWORK",
+        "gitBlobSha1": "50fb49c1bf2bcea8b1d48519fab3120f2fc7cf1f"
+      },
+      "variants": [
+        {
+          "variantId": "A-TOKEN-SAFE-MIC-DESK",
+          "optimizerInput": "Black streaming desk on white. Rectangular top, two legs, one monitor, one boom microphone clamped to right edge, PC below, cyan trim. No room, chair, shelves, rear frame, collage, text."
+        },
+        {
+          "variantId": "B-MIC-DESK-MINIMAL",
+          "optimizerInput": "One black desk on white: two legs, monitor, boom microphone clamped to edge, PC below, cyan trim. No wall, chair, shelves, rear panel, second view, text."
+        }
+      ]
+    }
+  },
+  "executionBudget": {
+    "width": 640,
+    "height": 640,
+    "steps": 12,
+    "guidanceScale": 5,
+    "dtype": "float32"
+  },
+  "safety": {
+    "preserveRejectedExactHashes": true,
+    "preserveAcceptedExactHashes": true,
+    "producerSelfReview": false,
+    "canonicalMappingsChanged": false,
+    "workflowFilesChanged": false
+  }
+}
