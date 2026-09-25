@@ -36,9 +36,10 @@
     "scope": [
       "desks-11"
     ],
-    "version": "Desk11 v11 exact rendered hash",
+    "version": "Desk11 v12 exact rendered hash",
     "result": "REWORK_1_OF_1",
     "oldVerdictsTransferred": false,
+    "actualSourcePixelsReviewed": true,
     "actualCardScalePixelsReviewed": true,
     "actualDetailPixelsReviewed": true,
     "selfApprovalConflict": false,
@@ -1119,6 +1120,49 @@
         "duplicateVisual": "PASS",
         "technicalIntegrity": "PASS"
       }
+    },
+    {
+      "itemId": "desks-11",
+      "name": "Dream Creator Station",
+      "tier": 4,
+      "theme": "Art Attack",
+      "assetPath": "public/assets/catalog-candidates/cpu/desks-11-w03-v12-a-isolated-creator-desk-original.png",
+      "repositoryPath": "public/assets/catalog-candidates/cpu/desks-11-w03-v12-a-isolated-creator-desk-original.png",
+      "assetHash": "5c67fa673159331f543a766e1d1d5729d1b2d291",
+      "sha256": "af096cd3e1d627ae2ac3b8303fb1f84d0329f513475657828078bcb8b9b49dba",
+      "contentSha256": "af096cd3e1d627ae2ac3b8303fb1f84d0329f513475657828078bcb8b9b49dba",
+      "hashAlgorithm": "git-blob-sha1",
+      "producer": "03",
+      "decision": "REWORK",
+      "learnerLabel": "REWORK",
+      "reviewedAt": "2026-09-25T03:45:29Z",
+      "evidenceRefs": [
+        "workflow:36091506500",
+        "artifact:10846281245/staged-replacements/detail/desks-11-5c67fa67.png",
+        "artifact:10846281245/staged-replacements/staged-replacements-contact-sheet.png",
+        "factory-evidence:docs/preproduction/art-factory/generated-evidence/w03-desk11-v12-isolated-creator/desks-11/staged-output.json"
+      ],
+      "reasonCodes": [
+        "ROOM_CONTEXT_PRESENT",
+        "MULTI_OBJECT_FURNITURE_SCENE",
+        "CHAIR_OR_STOOL_PRESENT",
+        "SECONDARY_STORAGE_TOWER_PRESENT",
+        "ISOLATED_PRODUCT_CONTRACT_FAILURE",
+        "CREATOR_DESK_IDENTITY_FRAGMENTED"
+      ],
+      "reason": "REWORK. Desk11 v12 still fails the bounded isolated-product contract. The exact detail pixels show a furnished room rather than one catalog product: a large creator-desk/storage unit is joined by a separate chair/stool, a second narrow drawer/storage tower, background cabinetry/shelving, wall trim, window and floor context. The primary desk silhouette is also fragmented by tall organizer architecture instead of reading as one simple freestanding creator desk. Preserve this exact hash. Next retry should be radically simpler: one broad cream desk only on seamless white, exactly two low drawer pedestals/supports with open knee space, one flat drawing tablet, one brush cup and three small colorful art bins on the worktop. No chair or stool, no second cabinet/tower, no tall hutch, no wall, window, shelves, floor, room, monitor, text, collage or alternate view.",
+      "checks": {
+        "identity": "FAIL",
+        "themeTier": "PARTIAL",
+        "silhouette": "FAIL",
+        "materialLighting": "PASS",
+        "cardReadability": "PARTIAL",
+        "physicalConstruction": "PARTIAL",
+        "framingComposition": "FAIL",
+        "originality": "PASS",
+        "duplicateVisual": "PASS",
+        "technicalIntegrity": "PASS"
+      }
     }
   ],
   "currentReplacementDisposition": {
@@ -1192,15 +1236,15 @@
     "reworkNow": [
       "desks-11"
     ],
-    "preservedAcceptedHashes": "All prior reviewer01 ACCEPTs remain frozen; Desk11 v11 is REWORK only."
+    "preservedAcceptedHashes": "All prior reviewer01 ACCEPTs remain frozen; Desk11 v12 is REWORK only."
   },
   "handoff": {
     "13": "desks-12 exact hash ACCEPT; freeze it and remove from production scope.",
-    "14": "Current render packets consumed; do not rerender unchanged hashes.",
-    "15": "Desk11 remains a bounded exact-pixel blocker after v11.",
+    "14": "Desk11 v12 exact render packet consumed; do not rerender unchanged hash.",
+    "15": "Desk11 remains a bounded exact-pixel blocker after v12.",
     "09": "Decor7 v10 REWORK; preserve exact hash and use the v11 literal quad-skates-on-shoe-rack fallback.",
-    "03": "Desk11 v11 REWORK; preserve exact hash. Next retry: isolated desk only, no monitor/stool/wall shelf/room/text; drawing tablet, brush cup and small art bins dominant.",
-    "08": "Do not canonical-wire Desk11 v11."
+    "03": "Desk11 v12 REWORK. Preserve exact hash. Next retry: one broad cream desk only on seamless white; exactly two low drawer pedestals/supports, open knee space, flat drawing tablet, brush cup and three small colorful art bins. No chair/stool, second cabinet/tower, tall hutch, wall/window/shelves/floor/room, monitor, text, collage or alternate view.",
+    "08": "Do not canonical-wire Desk11 v12."
   },
   "freeze": {
     "replitTouched": false,
