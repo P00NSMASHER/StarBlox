@@ -20,19 +20,16 @@
     "starWorth": 2400
   },
   "artwork": {
-    "manifestVersion": 47,
-    "finalPortable": 185,
+    "manifestVersion": 48,
+    "finalPortable": 192,
     "target": 192,
-    "remaining": [
-      "companions-2",
-      "companions-5",
-      "companions-6",
-      "companions-7",
-      "companions-8",
-      "companions-9",
-      "companions-12"
+    "remaining": [],
+    "status": "PASS_192_OF_192",
+    "evidence": [
+      "catalog-art-manifest.json",
+      "docs/demo/CLOUDFLARE_COMPANION_LIVE_QA.json"
     ],
-    "note": "Seven companion assets remain blocked only by live parity verification; repository artwork/wiring exists."
+    "note": "All 192 catalog entries are final-portable. The last seven companions were promoted after Cloudflare production live QA verified expected SVG presentation, successful image decode, 150x150 natural dimensions, and no fallback art."
   },
   "qa": {
     "ci": {
