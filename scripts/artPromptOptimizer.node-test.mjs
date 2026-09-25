@@ -142,3 +142,22 @@ test('required constraints fail closed when they cannot fit runtime budget',()=>
  const required=Array.from({length:12},(_,i)=>'required physical object constraint number '+i+' with several descriptive words');
  assert.throws(()=>compose(desk,['furniture'],'A-OVERFLOW',{},'brief',{required,forbidden:[]}),/required constraints exceed runtime prompt word budget/);
 });
+
+
+test('structured constraints are authoritative and do not duplicate brief prose',()=>{
+ const desk={id:'desks-10',name:'Neon Streaming Desk',collectionId:'desks',type:'room',tier:4,theme:'Aqua Wave'};
+ const constraints={
+  required:['broad black streaming desk','two stable side supports','one smaller monitor','short boom microphone with visible capsule clamped to right edge','closed PC tower below','plain white studio background'],
+  forbidden:['room','wall','shelves','rear frame','chair','extra screen','collage','labels','text']
+ };
+ const brief='One broad black streaming desk on plain white studio background. Two stable side supports. One smaller monitor. One short boom microphone with obvious capsule clamped to right desk edge. One closed PC tower below. Cyan trim. No room, wall, shelves, rear frame, chair, extra screen, collage, labels, text.';
+ const p=compose(desk,['furniture','camera','depth'],'A-MIC-FIRST-WHITE-STUDIO',{},brief,constraints);
+ for(const phrase of constraints.required){
+   assert.equal(p.runtimePromptText.toLowerCase().split(phrase.toLowerCase()).length-1,1);
+ }
+ for(const phrase of constraints.forbidden){
+   assert(p.runtimeNegativePromptText.toLowerCase().includes(phrase.toLowerCase()));
+ }
+ assert(!p.runtimePromptText.includes('One broad black streaming desk on plain white studio background.'));
+ assert(p.runtimePromptText.trim().split(/\s+/).length<=RUNTIME_PROMPT_WORD_BUDGET);
+});

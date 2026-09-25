@@ -125,7 +125,8 @@ export function buildRuntimeNegativePrompt(item,brief='',constraints={}){
   throw Error(`item ${item?.id||'unknown'} forbidden constraints exceed runtime negative word budget: ${requiredForbiddenWords.length} > ${RUNTIME_NEGATIVE_PROMPT_WORD_BUDGET}`);
  }
  const global=['collage','multiple views','repeated variants','text','logo','watermark','UI'];
- const explicit=uniq([...normalized.forbidden,...explicitNegativePhrases(brief)]);
+ const briefExclusions=normalized.forbidden.length?[]:explicitNegativePhrases(brief);
+ const explicit=uniq([...normalized.forbidden,...briefExclusions]);
  const explicitWords=promptWords(explicit.join('; '));
  const remaining=Math.max(0,RUNTIME_NEGATIVE_PROMPT_WORD_BUDGET-explicitWords.length);
  return [...explicitWords,...promptWords(global.join(' ')).slice(0,remaining)]
@@ -146,7 +147,7 @@ export function buildRuntimePrompt(item,variant='A',brief='',failureCodes=[],con
  if(fixed.length>RUNTIME_PROMPT_WORD_BUDGET){
   throw Error(`item ${item.id} required constraints exceed runtime prompt word budget: ${fixed.length} > ${RUNTIME_PROMPT_WORD_BUDGET}`);
  }
- const briefBudget=Math.max(0,RUNTIME_PROMPT_WORD_BUDGET-fixed.length);
+ const briefBudget=normalized.required.length?0:Math.max(0,RUNTIME_PROMPT_WORD_BUDGET-fixed.length);
  const runtime=[...promptWords(prefix),...promptWords(requiredText),...balancedBriefWords(item,brief,briefBudget),...promptWords(repair),...promptWords(suffix)]
   .slice(0,RUNTIME_PROMPT_WORD_BUDGET)
   .join(' ');
