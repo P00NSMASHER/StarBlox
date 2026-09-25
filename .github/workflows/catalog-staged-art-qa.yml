@@ -22,6 +22,7 @@ on:
       - 'scripts/artReviewNormalizer.mjs'
       - 'scripts/catalogVisualPreflight.py'
       - 'scripts/catalogVisualCalibration.py'
+      - 'docs/preproduction/art-factory/QA_TRIGGER.json'
       - '.github/workflows/catalog-staged-art-qa.yml'
   workflow_run:
     workflows:
