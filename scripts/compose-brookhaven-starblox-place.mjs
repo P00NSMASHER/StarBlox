@@ -38,15 +38,27 @@ const generatedProjectPath=resolve(robloxDir,'.step5.generated.project.json');
 const step4Path=resolve(repoRoot,'docs/roblox-world/STEP_4_ISOLATED_GENERATION.json');
 const verifierManifest=resolve(repoRoot,'tools/roblox_world_mount_verifier/Cargo.toml');
 const temp=await mkdtemp(resolve(tmpdir(),'starblox-step5-'));
-const baselinePath=resolve(temp,'BrookhavenWorldBaseline.rbxmx');
-const generationReceiptPath=resolve(temp,'generation-receipt.json');
+const baselineArg=arg('--baseline');
+const generationReceiptArg=arg('--generation-receipt');
+if(Boolean(baselineArg) !== Boolean(generationReceiptArg)){
+  throw new Error('--baseline and --generation-receipt must be supplied together');
+}
+const reusedStep4Artifacts=Boolean(baselineArg);
+const baselinePath=reusedStep4Artifacts
+  ? absolute(baselineArg,'--baseline')
+  : resolve(temp,'BrookhavenWorldBaseline.rbxmx');
+const generationReceiptPath=reusedStep4Artifacts
+  ? absolute(generationReceiptArg,'--generation-receipt')
+  : resolve(temp,'generation-receipt.json');
 
 try{
-  run(process.execPath,[
-    resolve(repoRoot,'scripts/generate-brookhaven-world.mjs'),
-    '--out',baselinePath,
-    '--receipt',generationReceiptPath
-  ]);
+  if(!reusedStep4Artifacts){
+    run(process.execPath,[
+      resolve(repoRoot,'scripts/generate-brookhaven-world.mjs'),
+      '--out',baselinePath,
+      '--receipt',generationReceiptPath
+    ]);
+  }
 
   const step4Bytes=await readFile(step4Path);
   const step4=JSON.parse(step4Bytes.toString('utf8'));
@@ -118,6 +130,7 @@ try{
       worldPath:'Workspace/BrookhavenWorldBaseline',
       projectSha256:digest(projectBytes),
       method:'temporary-rojo-project-exact-rbxmx-mount',
+      reusedStep4Artifacts,
       baselineMutated:false
     },
     verification:verifier,
