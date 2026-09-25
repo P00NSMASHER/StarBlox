@@ -491,6 +491,46 @@ function missingRepositoryGates(repository,required=[]){
   return required.filter(name => !repositoryGatePassed(repository?.gates?.[name]));
 }
 
+function developmentMutationSummary(batches=[]){
+  const seen=new Map();
+
+  for(const batch of batches){
+    for(const receipt of batch?.receipts || []){
+      if(receipt?.ok !== true) continue;
+      if(!['write','destructive','execute'].includes(String(receipt?.effect || ''))) continue;
+
+      const path=String(
+        receipt?.result?.path ||
+        receipt?.result?.deleted ||
+        ''
+      ).trim();
+      if(!path) continue;
+
+      const tool=String(receipt?.tool || '');
+      const property=typeof receipt?.result?.property === 'string'
+        ? receipt.result.property
+        : null;
+      const key=[tool,path,property || ''].join('||');
+      if(!seen.has(key)){
+        seen.set(key,{tool,path,property});
+      }
+    }
+  }
+
+  const targets=[...seen.values()].sort((a,b) =>
+    a.path.localeCompare(b.path) ||
+    a.tool.localeCompare(b.tool) ||
+    String(a.property || '').localeCompare(String(b.property || ''))
+  );
+
+  return {
+    count:targets.length,
+    targets,
+    targetsHash:stableHash(targets)
+  };
+}
+
+
 async function runVerificationCycle({
   studio,
   plan,
@@ -617,7 +657,8 @@ function artifactPayload(run){
     finalReview:run.finalReview,
     rollback:run.rollback,
     repository:run.repository,
-    studioAttestation:run.studioAttestation
+    studioAttestation:run.studioAttestation,
+    mutationSummary:run.mutationSummary
   };
 }
 
@@ -866,6 +907,7 @@ export async function runDevelopmentFactory({
   }
 
   const cycles=audit.map(item => sanitizedResult(item));
+  const mutationSummary=developmentMutationSummary(batches);
   const base={
     schemaVersion:DEVELOPMENT_RUN_SCHEMA_VERSION,
     developmentRunVersion:DEVELOPMENT_RUN_VERSION,
@@ -878,7 +920,8 @@ export async function runDevelopmentFactory({
     finalReview:sanitizedResult(finalReview),
     rollback:sanitizedResult(rollback),
     repository:sanitizedResult(finalVerification?.repository ?? null),
-    studioAttestation:sanitizedResult(studioAttestation)
+    studioAttestation:sanitizedResult(studioAttestation),
+    mutationSummary
   };
 
   return deepFreeze({
@@ -915,6 +958,16 @@ export function verifyDevelopmentRun(run){
       errors.push(
         ...migrationValidation.errors.map(error => 'migration evidence: ' + error)
       );
+    }
+  }
+  if(!run.mutationSummary || !Array.isArray(run.mutationSummary.targets)){
+    errors.push('development run is missing mutation summary');
+  }else{
+    if(run.mutationSummary.count !== run.mutationSummary.targets.length){
+      errors.push('development run mutation summary count mismatch');
+    }
+    if(stableHash(run.mutationSummary.targets) !== run.mutationSummary.targetsHash){
+      errors.push('development run mutation summary hash mismatch');
     }
   }
   try{
