@@ -109,20 +109,30 @@ jobs:
           QUEUE_FILE: ${{ steps.queue.outputs.queue_file }}
         run: |
           set -euo pipefail
-          MODEL_ID="$(python -c 'import json,os;print(json.load(open(os.environ["QUEUE_FILE"]))["modelId"])')"
-          MODEL_REV="$(python -c 'import json,os;print(json.load(open(os.environ["QUEUE_FILE"]))["modelRevision"])')"
-          mkdir -p artifacts/cpu-generation/jobs/preflight
-          python - <<'PY' > /tmp/starblox-prompt-preflight.tsv
-          import json, os
+          python - <<'PY'
+          import json, os, pathlib, subprocess, sys
           q=json.load(open(os.environ["QUEUE_FILE"]))
+          model_id=q["modelId"]
+          model_rev=q["modelRevision"]
+          outdir=pathlib.Path("artifacts/cpu-generation/jobs/preflight")
+          outdir.mkdir(parents=True,exist_ok=True)
           for item in q["items"]:
-              job=json.load(open(f"artifacts/cpu-generation/jobs/{item}.json"))
+              job_path=pathlib.Path(f"artifacts/cpu-generation/jobs/{item}.json")
+              job=json.loads(job_path.read_text())
               wanted=q["variantByItem"][item]
               matches=[a for a in job["attempts"] if a["variant"]==wanted]
               assert len(matches)==1, (item,wanted)
-              print("\t".join((item,matches[0]["attemptId"])))
+              subprocess.run([
+                  sys.executable,"scripts/artPromptTokenPreflight.py",
+                  "--job",str(job_path),
+                  "--attempt-id",matches[0]["attemptId"],
+                  "--model-id",model_id,
+                  "--model-revision",model_rev,
+                  "--output",str(outdir/f"{item}.json"),
+              ],check=True)
           PY
-          while IFS=
+
+      - uses: actions/upload-artifact@v4
         with:
           name: cpu-sequential-plan-${{ github.run_id }}
           path: artifacts/cpu-generation/jobs/
