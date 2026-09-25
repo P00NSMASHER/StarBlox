@@ -79,23 +79,25 @@
   },
   "deployment": {
     "replitAllowed": true,
-    "attempted": true,
-    "changed": false,
-    "status": "BLOCKED_LOGIN_REQUIRED",
+    "replId": "821e329b-9d6b-4bc9-940d-b18a07aaa463",
     "publicUrl": "https://star-blox.replit.app",
-    "existingDeploymentLoads": true,
+    "connection": "CONNECTED",
+    "publishAttempted": true,
+    "publishChanged": false,
+    "status": "BLOCKED_ACCOUNT_CREDITS",
+    "blockerMessage": "Replit blocked publish because the account has used all available credits. Publishing from the Replit website is subject to the same restriction.",
     "existingDeploymentMatchesDemo": false,
-    "evidence": "Public app loads but does not show Reset Demo and contains no demo-freeze/target commit marker.",
-    "requiredNextAction": "Authenticate Replit (or connect the Replit ChatGPT app), sync demo-freeze, build/test, deploy, then rerun live companion QA."
+    "requiredNextAction": "Add/restore Replit credits or have the organization admin do so, then publish the StarBlox app and rerun live companion QA."
   },
   "freeze": {
     "immutableTagCreated": false,
     "ready": false,
     "blockers": [
-      "Deploy demo-freeze to public Replit app.",
-      "Clear live parity for companions-2,5,6,7,8,9,12.",
-      "Confirm deployed public app matches last tested runtime head or a descendant containing only release-state documentation."
+      "Replit publish is blocked by exhausted account credits.",
+      "After publish, clear live parity for companions-2,5,6,7,8,9,12.",
+      "Confirm public deployment contains Reset Demo / Home-first demo runtime and matches tested runtime head b0ce0fa42ad70c3b524ffd16945e3c3d97c6df3d or a code-equivalent descendant."
     ]
   },
-  "lastTestedRuntimeHead": "b0ce0fa42ad70c3b524ffd16945e3c3d97c6df3d"
+  "lastTestedRuntimeHead": "b0ce0fa42ad70c3b524ffd16945e3c3d97c6df3d",
+  "branchHeadAtBlocker": "59b14ecb4465a90d7d43913e9c5a6aa34733dbf8"
 }
