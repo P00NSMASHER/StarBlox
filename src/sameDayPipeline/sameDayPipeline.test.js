@@ -1,6 +1,7 @@
 import { describe,expect,it } from 'vitest';
 import {
   buildSameDayPipelinePlan,
+  collectSameDayInputProvenance,
   createSameDayPipelineState,
   nextSameDayPipelineStage,
   readySameDayPipelineStages,
@@ -121,6 +122,59 @@ describe('same-day StarBlox pipeline',()=>{
     expect(state.status).toBe('blocked');
     expect(state.stages['plan-brookhaven'].attemptCount).toBe(1);
     expect(nextSameDayPipelineStage(state,plan).id).toBe('plan-brookhaven');
+  });
+
+
+  it('binds provenance to exact completed source fingerprints and donor commits',()=>{
+    const input=manifest();
+    input.authorizedWorld.download={
+      url:'https://example.com/Brookhaven.rbxl',
+      sha256:'a'.repeat(64),
+      bytes:1276795
+    };
+    input.donors[0].download={
+      url:'https://example.com/Robbing-Simulator.rbxl',
+      sha256:'b'.repeat(64),
+      bytes:2531904
+    };
+    const plan=buildSameDayPipelinePlan(input);
+    const state=createSameDayPipelineState(plan);
+
+    for(const [stageId,sha256,bytes] of [
+      ['ingest-brookhaven','a'.repeat(64),1276795],
+      ['ingest-robbing','b'.repeat(64),2531904]
+    ]){
+      state.stages[stageId].status='complete';
+      state.stages[stageId].result={
+        ok:true,
+        bootstrap:{verified:true,downloaded:true,sha256,bytes}
+      };
+    }
+    for(const [stageId,repository,commit,checkout] of [
+      ['checkout-flex','bsantanna/roblox-flex-with-friends',
+        'f23ff0b06c759e60aa651a6618a8d81692719fc9','vendor/authorized/roblox-flex-with-friends'],
+      ['checkout-rorooms','Rorooms/Rorooms',
+        '3d06941343b5bd70a92044b45fe25deb3e4e2095','vendor/authorized/Rorooms']
+    ]){
+      state.stages[stageId].status='complete';
+      state.stages[stageId].result={ok:true,repository,commit,checkout};
+    }
+
+    const provenance=collectSameDayInputProvenance(state,plan);
+    expect(provenance.placeSources.brookhaven.sha256).toBe('a'.repeat(64));
+    expect(provenance.placeSources.robbing.bytes).toBe(2531904);
+    expect(provenance.codeDonors.flex.commit)
+      .toBe('f23ff0b06c759e60aa651a6618a8d81692719fc9');
+    expect(provenance.codeDonors.rorooms.repository).toBe('Rorooms/Rorooms');
+
+    state.stages['ingest-brookhaven'].result.bootstrap.sha256='c'.repeat(64);
+    expect(()=>collectSameDayInputProvenance(state,plan))
+      .toThrow(/source fingerprint does not match pinned manifest/);
+
+    state.stages['ingest-brookhaven'].result.bootstrap.sha256='a'.repeat(64);
+    state.stages['checkout-flex'].result.commit='d'.repeat(40);
+    expect(()=>collectSameDayInputProvenance(state,plan))
+      .toThrow(/code donor commit mismatch/);
   });
 
   it('detects plan tampering',()=>{
