@@ -1,1 +1,36 @@
-name: StarBlox Cloudflare Pages Artifact\n\non:\n  push:\n    branches:\n      - cloudflare-pages-deploy-prep\n  workflow_dispatch:\n\njobs:\n  build-artifact:\n    runs-on: ubuntu-24.04\n    timeout-minutes: 15\n    steps:\n      - name: Checkout\n        uses: actions/checkout@v4\n      - name: Use Node 22\n        uses: actions/setup-node@v4\n        with:\n          node-version: 22\n      - name: Install dependencies\n        run: npm install --no-audit --no-fund\n      - name: Run tests\n        run: npm test -- --reporter=verbose\n      - name: Build production bundle\n        run: npm run build\n      - name: Write release identity\n        run: |\n          printf '%s\n' "$GITHUB_SHA" > dist/RELEASE_SHA.txt\n          printf '%s\n' 'demo-release-candidate-2026-09-25' > dist/RELEASE_SOURCE.txt\n      - name: Upload Pages artifact\n        uses: actions/upload-artifact@v4\n        with:\n          name: starblox-cloudflare-pages-dist\n          path: dist\n          if-no-files-found: error\n          retention-days: 3\n
+name: StarBlox Cloudflare Pages Artifact
+
+on:
+  push:
+    branches:
+      - cloudflare-pages-deploy-prep
+  workflow_dispatch:
+
+jobs:
+  build-artifact:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Use Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+      - name: Run tests
+        run: npm test -- --reporter=verbose
+      - name: Build production bundle
+        run: npm run build
+      - name: Write release identity
+        run: |
+          printf '%s\\n' "$GITHUB_SHA" > dist/RELEASE_SHA.txt
+          printf '%s\\n' 'demo-release-candidate-2026-09-25' > dist/RELEASE_SOURCE.txt
+      - name: Upload Pages artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: starblox-cloudflare-pages-dist
+          path: dist
+          if-no-files-found: error
+          retention-days: 3
