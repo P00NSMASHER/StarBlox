@@ -52,6 +52,16 @@ jobs:
           node --input-type=module - <<'NODE'
           import {readFile} from 'node:fs/promises';
           const fp=JSON.parse(await readFile('/tmp/brookhaven-world-fingerprint.json','utf8'));
+          const materials=fp.structure?.primaryMaterialCounts || {};
+          const materialTotal=Object.values(materials).reduce((sum,value) => sum + Number(value || 0),0);
+          if(materialTotal !== 4936) throw new Error('primary material count must cover all 4936 entries');
+          if(Object.keys(materials).length !== 8) throw new Error('expected 8 primary materials');
+          if(fp.structure?.assetReferences?.uniqueCount !== 154) throw new Error('expected 154 unique Roblox asset IDs');
+          for(const key of ['positionSequence','sizeSequence','cframes','colors']){
+            const proof=fp.structure?.[key];
+            if(proof?.count !== 4936) throw new Error(key + ' must cover all 4936 entries');
+            if(!/^[a-f0-9]{64}$/.test(proof?.sequenceSha256 || '')) throw new Error(key + ' sequence hash missing');
+          }
           console.log('BROOKHAVEN_WORLD_FINGERPRINT=' + JSON.stringify({
             fingerprintHash:fp.fingerprintHash,
             source:fp.source,
