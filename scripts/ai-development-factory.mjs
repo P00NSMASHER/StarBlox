@@ -160,6 +160,16 @@ await writeFile(outPath,runJson);
 
 let adaptationReceiptPath=null;
 if(run.status === 'verified' && task.migrationEvidence){
+  adaptationReceiptPath=fromRoot(
+    arg('--adaptation-receipt') ||
+    resolve(dirname(outPath),'migration-adaptation-receipt.json')
+  );
+  if(dirname(adaptationReceiptPath) !== dirname(outPath)){
+    throw new Error(
+      'migration adaptation receipt must be written beside the development run artifact'
+    );
+  }
+
   const runBytes=Buffer.from(runJson,'utf8');
   const runSha256=createHash('sha256').update(runBytes).digest('hex');
   const adaptationReceipt=buildMigrationAdaptationReceipt({
@@ -175,10 +185,6 @@ if(run.status === 'verified' && task.migrationEvidence){
       adaptationValidation.errors.join('; ')
     );
   }
-  adaptationReceiptPath=fromRoot(
-    arg('--adaptation-receipt') ||
-    resolve(dirname(outPath),'migration-adaptation-receipt.json')
-  );
   await writeFile(
     adaptationReceiptPath,
     JSON.stringify(adaptationReceipt,null,2) + '\n'
