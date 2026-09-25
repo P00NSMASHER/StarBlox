@@ -1,35 +1,31 @@
 {
   "schemaVersion": 8,
-  "expectedManifestVersion": 45,
-  "expectedStrictCanonicalBefore": 8,
-  "reviewer": "05",
-  "batchLabel": "Deterministic Desk10 + Desk11 qualified exact-hash ACCEPTs",
+  "expectedManifestVersion": 46,
+  "expectedStrictCanonicalBefore": 10,
+  "reviewer": "14",
+  "batchLabel": "Deterministic Decor11 + Wall9 qualified exact-hash ACCEPTs",
   "reviewEvidence": [
     {
-      "path": "docs/preproduction/catalog-sprint/review-normalization-05-desk10-deterministic.json"
+      "path": "docs/preproduction/catalog-sprint/review-normalization-14-decor11-deterministic.json"
     },
     {
-      "path": "docs/preproduction/catalog-sprint/review-normalization-05-desk11-deterministic.json"
+      "path": "docs/preproduction/catalog-sprint/review-normalization-14-wall9-deterministic.json"
     }
   ],
   "items": [
     {
-      "itemId": "desks-10",
-      "assetPath": "/assets/catalog-candidates/deterministic/desks-10-v16.svg",
-      "assetHash": "8eb15c972ec4a29e52db24d8c93e468348b55874",
-      "producer": "03"
+      "itemId": "decor-11",
+      "assetPath": "/assets/catalog-candidates/deterministic/decor-11-v10.svg",
+      "assetHash": "8179542a5966926d4462bda26d01553cf1e72b0d",
+      "producer": "09"
     },
     {
-      "itemId": "desks-11",
-      "assetPath": "/assets/catalog-candidates/deterministic/desks-11-v13.svg",
-      "assetHash": "199b6bd5340ab02c4a302df2c2a67e19dd5b0d4d",
-      "producer": "03"
+      "itemId": "wall-9",
+      "assetPath": "/assets/catalog-candidates/deterministic/wall-9-v13.svg",
+      "assetHash": "752423e322f394adb1af5f48c1166eaf888f9830",
+      "producer": "13"
     }
   ],
-  "nextAcceptedQueues": [
-    "14: decor-11 deterministic exact-hash ACCEPT pending separate reviewer14 batch.",
-    "14: wall-9 deterministic exact-hash ACCEPT pending separate reviewer14 batch."
-  ],
-  "commitMessage": "catalog: wire deterministic Desk10 and Desk11",
-  "retryNote": "Retry after aligning desks-11 review metadata to authoritative Store identity; exact hashes unchanged."
+  "nextAcceptedQueues": [],
+  "commitMessage": "catalog: wire deterministic Decor11 and Wall9"
 }
