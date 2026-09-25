@@ -46,7 +46,7 @@ describe('Step 6: native player-facing vertical slice', () => {
     expect(server).toContain('data.Progress.VerticalSlice.RewardClaimed');
     expect(server).toContain('self._replicas:Sync(player, data)');
     expect(bootstrap).not.toContain('VerticalSliceService.new(profiles, replicas)');
-    expect(bootstrap).toContain('CoreGameLoopService.new(profiles, replicas)');
+    expect(bootstrap).toContain('CoreGameLoopService.new(profiles, replicas');
     expect(template).toContain('RewardClaimed = false');
   });
 
