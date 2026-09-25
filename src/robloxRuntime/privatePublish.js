@@ -128,16 +128,21 @@ export async function runOpenCloudLuauTask({
     task=await parseResponse(response,'Roblox Luau execution status');
   }
 
-  if(taskFailed(task)){
-    const message=task?.error?.message || task?.error?.code || task?.state || 'unknown task failure';
-    throw new Error('Roblox Luau execution task failed: ' + String(message));
-  }
-
   const logsResponse=await fetchImpl(statusUrl + '/logs',{
     method:'GET',
     headers:{'x-api-key':key}
   });
   const logs=await parseResponse(logsResponse,'Roblox Luau execution logs');
+
+  if(taskFailed(task)){
+    const message=task?.error?.message || task?.error?.code || task?.state || 'unknown task failure';
+    const diagnostic=JSON.stringify(logs).slice(0,8000);
+    throw new Error(
+      'Roblox Luau execution task failed: ' +
+      String(message) +
+      (diagnostic ? ' | logs=' + diagnostic : '')
+    );
+  }
 
   return {
     path:String(create.path || ''),
