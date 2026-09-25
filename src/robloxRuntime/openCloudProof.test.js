@@ -5,10 +5,18 @@ import {
   runStarBloxOpenCloudProof
 } from './openCloudProof.js';
 
-function response(status,payload){
+function response(status,payload,headers={}){
+  const normalized=Object.fromEntries(
+    Object.entries(headers).map(([key,value]) => [key.toLowerCase(),String(value)])
+  );
   return {
     ok:status >= 200 && status < 300,
     status,
+    headers:{
+      get(name){
+        return normalized[String(name).toLowerCase()] ?? null;
+      }
+    },
     async text(){ return JSON.stringify(payload); }
   };
 }
@@ -77,6 +85,52 @@ describe('Step 4: Roblox Open Cloud headless proof', () => {
       logSentinelVerified:true
     });
     expect(calls[0].options.headers['x-api-key']).toBe('test-key');
+  });
+
+  it('retries bounded Roblox task-creation throttling and honors Retry-After', async () => {
+    let postAttempts=0;
+    const fetchImpl=async (url,options={}) => {
+      if(options.method === 'POST'){
+        postAttempts+=1;
+        if(postAttempts === 1){
+          return response(
+            429,
+            {message:'Luau task creation rate limit exceeded'},
+            {'retry-after':'0'}
+          );
+        }
+        return response(200,{
+          path:'universes/6027194615/places/17602626136/versions/9/luau-execution-sessions/session-r/tasks/task-r',
+          state:'COMPLETE'
+        });
+      }
+      if(url.endsWith('/logs')){
+        return response(200,{
+          messages:[
+            'STARBLOX_OPEN_CLOUD_PROOF_OK universe=6027194615 place=17602626136 server=true studio=false version=9'
+          ]
+        });
+      }
+      return response(200,{
+        path:'universes/6027194615/places/17602626136/versions/9/luau-execution-sessions/session-r/tasks/task-r',
+        state:'COMPLETE'
+      });
+    };
+
+    const proof=await runStarBloxOpenCloudProof({
+      apiKey:'key',
+      universeId:'6027194615',
+      placeId:'17602626136',
+      fetchImpl,
+      createRetryAttempts:2,
+      createRetryBaseMs:0,
+      createRetryMaxMs:0,
+      pollIntervalMs:0
+    });
+
+    expect(postAttempts).toBe(2);
+    expect(proof.status).toBe('verified');
+    expect(proof.evidence.logSentinelVerified).toBe(true);
   });
 
   it('fails closed on missing credentials, task errors, or missing sentinel logs', async () => {
