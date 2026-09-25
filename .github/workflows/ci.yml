@@ -349,7 +349,7 @@ jobs:
             artifactBytes,
             sourceCommit
           });
-          assert.equal(policy.status,'integration-and-release-gates-configured');
+          assert.equal(policy.status,'verified-integration-and-release-gates');
           assert.equal(policy.inputs?.releaseGateVersion,gate.version);
           assert.equal(policy.world?.baselineModelSha256,verified.baselineModelSha256);
           assert.equal(policy.world?.mountedSubtreeSha256,verified.mountedSubtreeSha256);
