@@ -1,9 +1,6 @@
 name: StarBlox Step 9 Verify Phone Playtest
 
 on:
-  push:
-    branches:
-      - release/step9-joinfix2
   workflow_dispatch:
 
 permissions:
