@@ -313,6 +313,65 @@ jobs:
           assert.equal(snapshot.artifactPolicy?.mountedPlaceCommitted,false);
           console.log('STARBLOX_STEP5_RECEIPT_BOUND='+snapshot.mountReceipt.baseline.mountedSubtreeSha256);
           NODE
+      - name: Build and verify Step 6 integration release gate
+        run: |
+          SOURCE_COMMIT="$(git rev-parse HEAD)"
+          npm run roblox:release-gate:prepare -- \
+            --step5 docs/roblox-world/STEP_5_WORLD_EXACTNESS_AND_MOUNT.json \
+            --lock /tmp/starblox-step4-world/step5-exactness-lock.json \
+            --mount /tmp/starblox-step4-world/step5-mount-receipt.json \
+            --artifact /tmp/starblox-step4-world/StarBlox-Step5-Mounted.rbxlx \
+            --source-commit "$SOURCE_COMMIT" \
+            --out /tmp/starblox-step4-world/step6-release-gate.json
+          grep -q '"status": "private-release-gate-open"' /tmp/starblox-step4-world/step6-release-gate.json
+          grep -q '"privatePublicationAllowed": true' /tmp/starblox-step4-world/step6-release-gate.json
+          grep -q '"publicAccessChangeAllowed": false' /tmp/starblox-step4-world/step6-release-gate.json
+          grep -q '"productionActivationAllowed": false' /tmp/starblox-step4-world/step6-release-gate.json
+          node --input-type=module - <<'NODE'
+          import assert from 'node:assert/strict';
+          import {execFileSync} from 'node:child_process';
+          import {readFile} from 'node:fs/promises';
+          import {verifyStep6ReleaseGate} from './src/robloxRuntime/releaseGate.js';
+
+          const [gateBytes,step5Bytes,artifactBytes,policyBytes,manifestSource]=await Promise.all([
+            readFile('/tmp/starblox-step4-world/step6-release-gate.json'),
+            readFile('docs/roblox-world/STEP_5_WORLD_EXACTNESS_AND_MOUNT.json'),
+            readFile('/tmp/starblox-step4-world/StarBlox-Step5-Mounted.rbxlx'),
+            readFile('docs/roblox-world/STEP_6_INTEGRATION_RELEASE_GATES.json'),
+            readFile('roblox/src/shared/DeploymentManifest.luau','utf8')
+          ]);
+          const gate=JSON.parse(gateBytes.toString('utf8'));
+          const policy=JSON.parse(policyBytes.toString('utf8'));
+          const sourceCommit=execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim();
+          const verified=verifyStep6ReleaseGate({
+            gate,
+            step5SnapshotBytes:step5Bytes,
+            artifactBytes,
+            sourceCommit
+          });
+          assert.equal(policy.status,'verified-integration-and-release-gates');
+          assert.equal(policy.inputs?.releaseGateVersion,gate.version);
+          assert.equal(policy.world?.baselineModelSha256,verified.baselineModelSha256);
+          assert.equal(policy.world?.mountedSubtreeSha256,verified.mountedSubtreeSha256);
+          assert.equal(policy.world?.subtreeInstanceCount,5493);
+          assert.equal(policy.integration?.publisherMayRebuildDefaultProject,false);
+          assert.equal(policy.integration?.publisherRequiresReleaseGate,true);
+          assert.equal(policy.integration?.liveStudioProofRequiresReleaseGate,true);
+          assert.equal(policy.authority?.privatePublicationAllowedAfterGate,true);
+          assert.equal(policy.authority?.publicAccessChangeAllowed,false);
+          assert.equal(policy.authority?.productionActivationAllowed,false);
+          assert.ok(manifestSource.includes(verified.baselineModelSha256),'deployment manifest baseline SHA is stale');
+          assert.ok(manifestSource.includes(verified.mountedSubtreeSha256),'deployment manifest subtree SHA is stale');
+
+          const tampered=Buffer.concat([artifactBytes,Buffer.from('tamper')]);
+          assert.throws(()=>verifyStep6ReleaseGate({
+            gate,
+            step5SnapshotBytes:step5Bytes,
+            artifactBytes:tampered,
+            sourceCommit
+          }),/artifact changed/);
+          console.log('STARBLOX_STEP6_RELEASE_GATE='+JSON.stringify(verified));
+          NODE
       - name: Prove native Roblox build
         run: npm run roblox:native:build-proof
       - name: Prove Roblox Studio sync baseline
@@ -718,19 +777,21 @@ jobs:
       - name: Build production bundle
         run: npm run build
       - name: Prove real Roblox runtime through Open Cloud
-        if: ${{ github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository }}
+        if: ${{ github.event_name == 'push' || (github.event_name == 'pull_request' && github.head_ref == 'release/roblox-polish-step8' && github.event.pull_request.head.repo.full_name == github.repository) }}
         env:
           ROBLOX_OPEN_CLOUD_API_KEY: ${{ secrets.ROBLOX_OPEN_CLOUD_API_KEY }}
           ROBLOX_UNIVERSE_ID: ${{ vars.ROBLOX_UNIVERSE_ID }}
           ROBLOX_PLACE_ID: ${{ vars.ROBLOX_PLACE_ID }}
         run: npm run roblox:open-cloud-proof
-      - name: Publish Step 8 polished private StarBlox build
+      - name: Publish release-gated private StarBlox build
         if: ${{ github.event_name == 'pull_request' && github.head_ref == 'release/roblox-polish-step8' && github.event.pull_request.head.repo.full_name == github.repository }}
         env:
           ROBLOX_OPEN_CLOUD_API_KEY: ${{ secrets.ROBLOX_OPEN_CLOUD_API_KEY }}
           ROBLOX_UNIVERSE_ID: ${{ vars.ROBLOX_UNIVERSE_ID }}
           ROBLOX_PLACE_ID: ${{ vars.ROBLOX_PLACE_ID }}
-          STARBLOX_SOURCE_COMMIT: ${{ github.event.pull_request.head.sha }}
+          STARBLOX_SOURCE_COMMIT: ${{ github.sha }}
+          STARBLOX_RELEASE_GATE_RECEIPT: /tmp/starblox-step4-world/step6-release-gate.json
+          STARBLOX_RELEASE_ARTIFACT: /tmp/starblox-step4-world/StarBlox-Step5-Mounted.rbxlx
           STARBLOX_PUBLISH_RECEIPT: ${{ github.workspace }}/artifacts/starblox-private-publish-receipt.json
         run: npm run roblox:publish-private
       - name: Verify Step 8 player polish on real Roblox server
