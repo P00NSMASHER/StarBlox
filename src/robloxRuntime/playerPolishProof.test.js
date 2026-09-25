@@ -61,7 +61,7 @@ describe('Step 8: player-experience polish and automated UX QA', () => {
     }
 
     expect(server).toContain('removePrototypeWorld');
-    expect(server).toContain('StarBloxActivityAnchors');
+    expect(server).toContain('WorldBindings.RuntimeAnchorFolderName');
     expect(server).toContain('anchor.Parent = runtimeFolder');
     expect(server).not.toContain('anchor.Parent = worldRoot');
     expect(server).toContain('anchor.Transparency = 1');
