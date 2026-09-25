@@ -1,0 +1,53 @@
+{
+  "schemaVersion": "starblox-target-architecture-step6-v1",
+  "step": "target-architecture-6-of-6",
+  "status": "integration-and-release-gates-configured",
+  "inputs": {
+    "step5Snapshot": "docs/roblox-world/STEP_5_WORLD_EXACTNESS_AND_MOUNT.json",
+    "requiredStep5Schema": "starblox-brookhaven-step5-snapshot-v1",
+    "requiredStep5Status": "verified-exact-world-with-starblox-mounted-beside-it",
+    "releaseGateVersion": "starblox-step6-release-gate-v1",
+    "sourceCommitBinding": "exact-40-character-git-sha"
+  },
+  "world": {
+    "baselineModelSha256": "4dfd451ae211dead959ec3f165e2b477a9725d04727febdc66472e95328917df",
+    "mountedSubtreeSha256": "d2c88a68305a65475dfdab77220b69e4138d81e44250edd1849f69cee4c92a90",
+    "subtreeInstanceCount": 5493,
+    "scriptsOrRemotesInsideBaseline": 0
+  },
+  "integration": {
+    "releaseArtifactSource": "live-Step5-mounted-place",
+    "publisherMayRebuildDefaultProject": false,
+    "publisherRequiresReleaseGate": true,
+    "liveStudioProofRequiresReleaseGate": true,
+    "releaseArtifactBoundToSourceCommit": true,
+    "postPublishServerVerifiesWorldMount": true,
+    "runtimeMounts": [
+      "ReplicatedStorage/StarBlox",
+      "ServerScriptService/StarBlox",
+      "StarterPlayer/StarterPlayerScripts/StarBlox"
+    ]
+  },
+  "authority": {
+    "studioPlaytestAllowedAfterGate": true,
+    "privatePublicationAllowedAfterGate": true,
+    "publicAccessChangeAllowed": false,
+    "experienceVisibilityChangeAllowed": false,
+    "productionActivationAllowed": false
+  },
+  "failurePolicy": {
+    "staleStep5Receipt": "block",
+    "changedWorldBaseline": "block",
+    "changedMountedSubtree": "block",
+    "artifactDrift": "block",
+    "sourceCommitMismatch": "block",
+    "runtimeParentedIntoWorld": "block"
+  },
+  "verification": {
+    "ciRegeneratesStep5Proofs": true,
+    "ciBuildsCombinedArtifact": true,
+    "ciBuildsStep6ReleaseGate": true,
+    "ciBindsThisPolicyToLiveGate": true
+  },
+  "nextStep": "target-architecture-complete"
+}
