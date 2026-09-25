@@ -110,6 +110,36 @@ jobs:
         if: startsWith(github.ref_name, 'integration/brookhaven-replay-v2-')
         run: npm run build
 
+      - name: Use Node 22 for final Stage 6 product CI
+        if: startsWith(github.ref_name, 'integration/brookhaven-replay-v2-')
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Run full StarBlox product CI at replay Stage 6
+        if: startsWith(github.ref_name, 'integration/brookhaven-replay-v2-')
+        run: |
+          stage6=$(node -e "const p=require('./package.json'); const s=p.scripts||{}; const req=['validate:brookhaven-research','test:brookhaven-residential','test:brookhaven-step-8-10','assert:brookhaven-learning-separation']; process.stdout.write(req.every(k=>typeof s[k]==='string')?'yes':'no')")
+          if [[ "$stage6" != "yes" ]]; then
+            echo "Full product CI deferred until replay Stage 6."
+            exit 0
+          fi
+          npm install --no-audit --no-fund
+          timeout 120s npm test -- --reporter=verbose
+          node --test \
+            scripts/artPromptOptimizer.node-test.mjs \
+            scripts/artFactoryJob.node-test.mjs \
+            scripts/artReviewNormalizer.node-test.mjs \
+            scripts/artFactoryState.node-test.mjs \
+            scripts/artFactoryStagedHandoff.node-test.mjs \
+            scripts/artQaWorkflowContract.node-test.mjs \
+            scripts/canonicalPublicationContract.node-test.mjs \
+            scripts/catalogFallbackBacklog.node-test.mjs \
+            scripts/artRegenerationQueue.node-test.mjs \
+            scripts/artWorkflowAudit.node-test.mjs
+          python3 scripts/artPromptTokenPreflight.py --self-test
+          npm run build
+
       - name: Validate Brookhaven research artifacts and boundaries
         if: github.ref_name == 'brookhaven-research-snapshot-v1'
         run: npm run validate:brookhaven-research

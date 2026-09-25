@@ -154,7 +154,10 @@
       "verifyAfterReplay": [
         "destination package.json retains all product scripts/dependencies",
         "Brookhaven research commands invoke current hardened test files",
-        "full product build passes"
+        "full product build passes",
+        "full StarBlox npm test suite passes under Node 22",
+        "art factory contract tests and prompt-token preflight pass",
+        "production bundle build passes under Node 22"
       ]
     }
   ],
