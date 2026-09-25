@@ -3,11 +3,30 @@
   "tree": {
     "$className": "DataModel",
     "ReplicatedStorage": {
+      "Packages": {
+        "$path": {
+          "optional": "Packages"
+        }
+      },
+      "ReplicaClient": {
+        "$path": "vendor/Replica/ReplicatedStorage/ReplicaClient.luau"
+      },
+      "ReplicaShared": {
+        "$path": "vendor/Replica/ReplicatedStorage/ReplicaShared"
+      },
       "StarBlox": {
         "$path": "src/shared"
       }
     },
     "ServerScriptService": {
+      "ServerPackages": {
+        "$path": {
+          "optional": "ServerPackages"
+        }
+      },
+      "ReplicaServer": {
+        "$path": "vendor/Replica/ServerScriptService/ReplicaServer.luau"
+      },
       "StarBlox": {
         "$path": "src/server"
       }
