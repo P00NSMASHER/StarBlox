@@ -1,0 +1,79 @@
+{
+  "schemaVersion": 1,
+  "milestone": "release-hardening-4",
+  "status": "prepared-awaiting-live-studio",
+  "source": {
+    "project": "SlashMayhem-Shadow",
+    "repository": "jasons-open-repo/SlashMayhem-Shadow",
+    "commit": "cc6aed0509d10989a4505dff354f029efcd2bf27",
+    "path": "Slash-Meyhem-Shadow-Edition.rbxl",
+    "catalogHash": "fnv1a32:67baef81",
+    "rightsStatus": "project-rights-verified"
+  },
+  "selectedUnit": {
+    "unitId": "slash-mayhem-shadow-cc6aed05-slash-meyhem-shadow-edition-rbxl-startergui-0982d021",
+    "systemName": "StarterGui",
+    "rootPath": "DataModel/StarterGui",
+    "sourceId": "slash-mayhem-shadow-cc6aed05:Slash-Meyhem-Shadow-Edition.rbxl",
+    "sourceFile": "Slash-Meyhem-Shadow-Edition.rbxl",
+    "sourceSha256": "19b8e08f496d97ef900cff84be4f2c9c50e146c553178a4b18e17ab155abe31d",
+    "sourceBytes": 325128,
+    "capabilities": [
+      "ui"
+    ],
+    "engineeringLeverageScore": 4.3,
+    "migrationStrategy": "refactor",
+    "exportDisposition": "quarantine",
+    "suggestedTarget": "ServerStorage/StarBloxMigration/Quarantine/startergui",
+    "blockers": [
+      "logic-refactor-required"
+    ],
+    "riskFlags": [],
+    "stats": {
+      "instances": 4,
+      "scripts": 1,
+      "remotes": 0,
+      "assets": 4
+    },
+    "externalDependencyCount": 0
+  },
+  "preparedProof": {
+    "richSourceIngestion": true,
+    "singleUnitPlan": true,
+    "exactPlanningReceiptRequired": true,
+    "exactExportReceiptRequired": true,
+    "factoryMigrationEvidenceVerified": true,
+    "unattestedExecutionRejected": true,
+    "preparationCiRunId": 36160314907,
+    "preparationCiConclusion": "success"
+  },
+  "requiredLiveEvidence": {
+    "studioConnectorAttested": true,
+    "persistentMutationProof": true,
+    "studioTestsRequired": true,
+    "studioTestsPassed": true,
+    "singlePlayerPlaytestRequired": true,
+    "runtimeLogsRequired": true,
+    "viewportEvidenceRequired": true,
+    "reviewerPassRequired": true,
+    "repositoryGatesRequired": [
+      "tests",
+      "certification",
+      "balance",
+      "build"
+    ],
+    "adaptationReceiptRequired": true,
+    "promotionReceiptRequired": true
+  },
+  "currentExternalBlocker": {
+    "code": "LIVE_STUDIO_UNAVAILABLE",
+    "detail": "No connected remote desktop device is currently available, so Roblox Studio and the local StarBlox bridge/plugin cannot be attested or exercised in this session."
+  },
+  "boundaries": {
+    "studioMutationStarted": false,
+    "playtestStarted": false,
+    "publicationStarted": false,
+    "liveActivationAllowed": false,
+    "productionActivationAllowed": false
+  }
+}
