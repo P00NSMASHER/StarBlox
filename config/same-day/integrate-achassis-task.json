@@ -1,5 +1,11 @@
 {
   "id": "same-day-integrate-achassis",
   "request": "Using the authorized checkout at vendor/authorized/A-Chassis, inspect only the minimal driving path first: Scripts/A-Chassis Tune.luau, Scripts/Drive.luau, Scripts/Initialize.luau, Scripts/Plugins/Controls.luau, Scripts/CustomEngine.luau, Scripts/Units.luau, and Scripts/Plugins/MSteer Camera.luau. Integrate one stable vehicle path with steering, acceleration, braking, seat ownership and mobile/controller-compatible input. Skip gauges, sounds, aerodynamics, tire cosmetics and other optional plugins unless the core drive path requires them. Keep vehicle ownership/rewards server-authoritative through StarBlox and require a live Studio driving playtest.",
-  "searchQuery": "A-Chassis Tune Drive Initialize Controls CustomEngine Units MSteer"
+  "searchQuery": "A-Chassis Tune Drive Initialize Controls CustomEngine Units MSteer",
+  "adapterSpec": {
+    "path": "donors/achassis.adapter.json",
+    "donorId": "achassis",
+    "repository": "lisphm/A-Chassis",
+    "commit": "3533c32ed04210fd11eaa8d4c45ddc5da951f6fb"
+  }
 }
