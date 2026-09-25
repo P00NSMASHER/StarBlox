@@ -426,6 +426,16 @@ jobs:
             echo "expected non-touch mobile evidence to be rejected"
             exit 1
           fi
+      - name: Validate same-day Studio handoff scripts
+        run: |
+          node --check scripts/same-day-studio-smoke.mjs
+          grep -q 'StarBlox Studio staging verification: PASS' scripts/windows/same-day-studio-launch.ps1
+          grep -q 'starblox-studio-connector-v1' scripts/windows/same-day-studio-launch.ps1
+          grep -q 'publicationAllowed:false' scripts/same-day-studio-smoke.mjs
+          grep -q 'mutationCalls:0' scripts/same-day-studio-smoke.mjs
+          npm run same-day:studio:smoke -- --help >/tmp/studio-smoke-help.txt 2>&1 || true
+          grep -q 'StarBlox' scripts/same-day-studio-smoke.mjs
+
       - name: Run tests
         run: npm test
       - name: Run certification gate
