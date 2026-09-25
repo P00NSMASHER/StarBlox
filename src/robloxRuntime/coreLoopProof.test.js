@@ -66,7 +66,7 @@ describe('Step 7: Roblox-native StarBlox core loop', () => {
     expect(replica).toContain('CoreLoop = profileData.Progress.CoreLoop');
   });
 
-  it('builds a navigable world and mobile activity UI', () => {
+  it('retires prototype geometry while preserving core-loop remotes and mobile activity UI', () => {
     const server=readFileSync(
       new URL('../../roblox/src/server/CoreGameLoopService.luau',import.meta.url),
       'utf8'
@@ -76,24 +76,32 @@ describe('Step 7: Roblox-native StarBlox core loop', () => {
       'utf8'
     );
 
-    for(const token of [
+    for(const retiredToken of [
+      'BrightsidePlaza',
+      'StarBloxSpawn',
+      'GuideBillboard',
+      'StationSign',
       'WordPortalStation',
       'SpellingForgeStation',
       'CultureLabStation',
       'NorthPath',
       'EastPath',
       'WestPath',
-      'ProximityPrompt',
-      'RequestStatus'
+      'Instance.new("SpawnLocation")',
+      'Instance.new("BillboardGui")',
+      'Vector3.new(0, 3, -24)',
+      'Vector3.new(26, 3, 4)',
+      'Vector3.new(-26, 3, 4)'
     ]){
-      expect(server).toContain(token);
+      expect(server).not.toContain(retiredToken);
     }
+    expect(server).toContain('removePrototypeWorld');
+    expect(server).toContain('RequestStatus');
     expect(client).toContain('ScreenGui');
     expect(client).toContain('ActivityPanel');
     expect(client).toContain('TextButton');
     expect(client).toContain('Activated:Connect');
     expect(client).toContain('submitAnswer:InvokeServer');
-    expect(client).toContain('Brightside loops');
   });
 
   it('headless proof exercises repeatability, inventory unlock, duplicate guard, and reward cap', () => {
