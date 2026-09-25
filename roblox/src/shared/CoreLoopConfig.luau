@@ -4,11 +4,20 @@ local CoreLoopConfig = table.freeze({
 	SchemaVersion = 1,
 	LoopId = "brightside-core-loop-v1",
 	DistrictName = "Brightside Plaza",
+	PolishRevision = "step8-release-polish-v1",
 	DailyRewardRunCap = 3,
 	FirstLoopCosmeticId = "brightside-spark-trail",
+	Onboarding = table.freeze({
+		Title = "Welcome to Brightside!",
+		Body = "Explore all three glowing stations. Finish Word Portal, Spelling Forge, and Culture Lab to complete a Brightside run.",
+		Hint = "Follow the plaza signs, walk up to a station, then tap Start Activity.",
+	}),
 	Activities = table.freeze({
 		table.freeze({
 			Id = "word-portal-put-v1",
+			Index = 1,
+			Direction = "North",
+			Accent = Color3.fromRGB(109, 104, 255),
 			StationName = "Word Portal",
 			Title = "Power the Word Portal",
 			Prompt = "Which word completes the sentence: Please ___ your book on the desk.",
@@ -20,6 +29,9 @@ local CoreLoopConfig = table.freeze({
 		}),
 		table.freeze({
 			Id = "spelling-forge-fog-v1",
+			Index = 2,
+			Direction = "East",
+			Accent = Color3.fromRGB(255, 146, 77),
 			StationName = "Spelling Forge",
 			Title = "Light the Spelling Forge",
 			Prompt = "Which spelling word completes the sentence: The ___ made the road hard to see.",
@@ -31,6 +43,9 @@ local CoreLoopConfig = table.freeze({
 		}),
 		table.freeze({
 			Id = "culture-lab-culture-v1",
+			Index = 3,
+			Direction = "West",
+			Accent = Color3.fromRGB(66, 204, 156),
 			StationName = "Culture Lab",
 			Title = "Tune the Culture Lab",
 			Prompt = "Which word means traditions, foods, music, stories, and ways of life shared by a group?",
