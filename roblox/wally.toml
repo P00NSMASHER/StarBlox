@@ -1,0 +1,13 @@
+[package]
+name = "p00nsmasher/starblox-runtime"
+description = "Pinned Roblox runtime dependencies for StarBlox"
+version = "0.1.0"
+registry = "https://github.com/UpliftGames/wally-index"
+realm = "shared"
+private = true
+
+[dependencies]
+Matter = "matter-ecs/matter@0.8.4"
+
+[server-dependencies]
+ProfileStore = "lm-loleris/profilestore@1.0.3"
