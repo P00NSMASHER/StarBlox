@@ -400,6 +400,75 @@ export function recordSameDayStageResult(state,plan,stageId,result){
   return state;
 }
 
+export function collectSameDayInputProvenance(state,plan){
+  if(!plain(state)) throw new TypeError('state must be an object.');
+  if(state.planHash !== plan.planHash) throw new Error('state planHash does not match plan');
+
+  const placeSources={};
+  const codeDonors={};
+
+  for(const row of plan.stages){
+    const stageState=state.stages?.[row.id];
+    const result=stageState?.result;
+
+    if(row.type === 'source-ingest'){
+      if(stageState?.status !== 'complete'){
+        throw new Error('source ingest is not complete: ' + row.id);
+      }
+      const source=row.details?.source;
+      const evidence=result?.bootstrap;
+      if(!source?.id || evidence?.verified !== true){
+        throw new Error('source provenance is incomplete: ' + row.id);
+      }
+      const sha256=String(evidence.sha256 || '').toLowerCase();
+      const bytes=Number(evidence.bytes);
+      if(!/^[a-f0-9]{64}$/.test(sha256) || !Number.isInteger(bytes) || bytes < 1){
+        throw new Error('source fingerprint is invalid: ' + row.id);
+      }
+      if(
+        source.download &&
+        (
+          sha256 !== String(source.download.sha256).toLowerCase() ||
+          bytes !== Number(source.download.bytes)
+        )
+      ){
+        throw new Error('source fingerprint does not match pinned manifest: ' + source.id);
+      }
+
+      placeSources[source.id]={
+        sourceId:source.sourceId,
+        input:source.input,
+        sha256,
+        bytes,
+        downloaded:evidence.downloaded === true,
+        verified:true
+      };
+    }
+
+    if(row.type === 'code-donor-checkout'){
+      if(stageState?.status !== 'complete'){
+        throw new Error('code donor checkout is not complete: ' + row.id);
+      }
+      const donorId=row.details?.id;
+      const repository=String(result?.repository || '');
+      const commit=String(result?.commit || '').toLowerCase();
+      if(!donorId || repository.toLowerCase() !== String(row.details?.repository || '').toLowerCase()){
+        throw new Error('code donor repository mismatch: ' + row.id);
+      }
+      if(!/^[a-f0-9]{40}$/.test(commit) || commit !== String(row.details?.commit || '').toLowerCase()){
+        throw new Error('code donor commit mismatch: ' + row.id);
+      }
+      codeDonors[donorId]={
+        repository,
+        commit,
+        checkout:result?.checkout || row.details?.checkout || null
+      };
+    }
+  }
+
+  return {placeSources,codeDonors};
+}
+
 export function readySameDayPipelineStages(state,plan){
   if(state.planHash !== plan.planHash) throw new Error('state planHash does not match plan');
   return plan.stages.filter(row => {
