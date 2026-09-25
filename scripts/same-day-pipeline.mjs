@@ -1,4 +1,4 @@
-import { spawnSync } from 'node:child_process';
+import { spawn } from 'node:child_process';
 import { mkdir,readFile,writeFile,stat } from 'node:fs/promises';
 import { dirname,isAbsolute,resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
@@ -6,7 +6,7 @@ import { pathToFileURL } from 'node:url';
 import {
   buildSameDayPipelinePlan,
   createSameDayPipelineState,
-  nextSameDayPipelineStage,
+  readySameDayPipelineStages,
   recordSameDayStageResult
 } from '../src/sameDayPipeline/sameDayPipeline.js';
 import { buildSameDayStagingProject } from '../src/sameDayPipeline/stagingProject.js';
@@ -37,19 +37,39 @@ async function exists(path){
 }
 
 function run(command,args,{cwd,env={}}={}){
-  const result=spawnSync(command,args,{
-    cwd,
-    env:{...process.env,...env},
-    encoding:'utf8',
-    maxBuffer:128 * 1024 * 1024
+  return new Promise(resolveRun => {
+    const child=spawn(command,args,{
+      cwd,
+      env:{...process.env,...env},
+      stdio:['ignore','pipe','pipe']
+    });
+    let stdout='';
+    let stderr='';
+    const keepTail=(current,chunk)=>{
+      const next=current + String(chunk || '');
+      return next.length > 120_000 ? next.slice(-120_000) : next;
+    };
+    child.stdout?.on('data',chunk=>{ stdout=keepTail(stdout,chunk); });
+    child.stderr?.on('data',chunk=>{ stderr=keepTail(stderr,chunk); });
+    child.on('error',error=>{
+      resolveRun({
+        ok:false,
+        command:[command,...args].join(' '),
+        status:null,
+        stdout:stdout.slice(-30_000),
+        stderr:(stderr + '\n' + error.message).trim().slice(-30_000)
+      });
+    });
+    child.on('close',status=>{
+      resolveRun({
+        ok:status === 0,
+        command:[command,...args].join(' '),
+        status,
+        stdout:stdout.slice(-30_000),
+        stderr:stderr.slice(-30_000)
+      });
+    });
   });
-  return {
-    ok:result.status === 0,
-    command:[command,...args].join(' '),
-    status:result.status,
-    stdout:(result.stdout || '').slice(-30_000),
-    stderr:(result.stderr || '').slice(-30_000)
-  };
 }
 
 const manifestPath=resolve(process.cwd(),arg('--manifest',true));
@@ -114,7 +134,7 @@ async function execute(stage){
     const input=abs(manifestDir,source.input);
     const dir=sourceOut(source.id);
     await mkdir(dir,{recursive:true});
-    const result=run(process.execPath,[
+    const result=await run(process.execPath,[
       resolve(root,'scripts/ingest-roblox-source.mjs'),
       '--input',input,
       '--out-dir',resolve(dir,'ingestion'),
@@ -160,7 +180,7 @@ async function execute(stage){
     const info=await stat(input);
     const sourceRoot=info.isDirectory() ? input : dirname(input);
     const dir=sourceOut(source.id);
-    const result=run(process.execPath,[
+    const result=await run(process.execPath,[
       resolve(root,'scripts/migrate-roblox.mjs'),
       '--planning-receipt',resolve(dir,'planning/migration-planning-receipt.json'),
       '--source-root',sourceRoot,
@@ -192,7 +212,7 @@ async function execute(stage){
           error:'authorized donor checkout exists but is not a Git repository: ' + checkout
         };
       }
-      const dirty=run('git',['-C',checkout,'status','--porcelain'],{cwd:root});
+      const dirty=await run('git',['-C',checkout,'status','--porcelain'],{cwd:root});
       if(!dirty.ok || dirty.stdout.trim()){
         return {
           ok:false,
@@ -202,7 +222,7 @@ async function execute(stage){
           error:'authorized donor checkout is not clean: ' + checkout
         };
       }
-      const remote=run('git',['-C',checkout,'remote','get-url','origin'],{cwd:root});
+      const remote=await run('git',['-C',checkout,'remote','get-url','origin'],{cwd:root});
       if(!remote.ok || !remote.stdout.toLowerCase().includes(repository.toLowerCase())){
         return {
           ok:false,
@@ -214,7 +234,7 @@ async function execute(stage){
       }
     }else{
       await mkdir(dirname(checkout),{recursive:true});
-      const cloned=run('git',[
+      const cloned=await run('git',[
         'clone','--filter=blob:none','--no-checkout',repoUrl,checkout
       ],{cwd:root});
       if(!cloned.ok){
@@ -227,7 +247,7 @@ async function execute(stage){
       }
     }
 
-    const fetched=run('git',[
+    const fetched=await run('git',[
       '-C',checkout,'fetch','--depth=1','origin',commit
     ],{cwd:root});
     if(!fetched.ok){
@@ -239,7 +259,7 @@ async function execute(stage){
       };
     }
 
-    const checkedOut=run('git',[
+    const checkedOut=await run('git',[
       '-C',checkout,'checkout','--detach',commit
     ],{cwd:root});
     if(!checkedOut.ok){
@@ -251,7 +271,7 @@ async function execute(stage){
       };
     }
 
-    const head=run('git',['-C',checkout,'rev-parse','HEAD'],{cwd:root});
+    const head=await run('git',['-C',checkout,'rev-parse','HEAD'],{cwd:root});
     const exact=head.ok ? head.stdout.trim().toLowerCase() : '';
     if(!head.ok || exact !== commit.toLowerCase()){
       return {
@@ -281,7 +301,7 @@ async function execute(stage){
       sourceIds:stage.details.sourceIds
     });
     const placePath=resolve(outDir,'StarBloxSameDay.rbxlx');
-    const result=run(
+    const result=await run(
       stage.details.rojoCommand || plan.rojoCommand || 'rojo',
       ['build',staged.projectPath,'-o',placePath],
       {cwd:root}
@@ -389,7 +409,7 @@ async function execute(stage){
     const taskPath=resolve(dir,'adapt-task.json');
     const runPath=resolve(dir,'adapt-development-run.json');
     await writeFile(taskPath,JSON.stringify(task,null,2) + '\n');
-    const result=run(process.execPath,[
+    const result=await run(process.execPath,[
       resolve(root,'scripts/ai-development-factory.mjs'),
       '--task',taskPath,
       '--adapter',adapterPath,
@@ -406,7 +426,7 @@ async function execute(stage){
   if(stage.type === 'factory-task'){
     const taskPath=abs(manifestDir,stage.details.taskFile);
     const runPath=resolve(outDir,stage.id + '-development-run.json');
-    const result=run(process.execPath,[
+    const result=await run(process.execPath,[
       resolve(root,'scripts/ai-development-factory.mjs'),
       '--task',taskPath,
       '--adapter',adapterPath,
@@ -427,7 +447,7 @@ async function execute(stage){
       outDir,
       'verify-integrated-slice-development-run.json'
     );
-    const result=run(gate.command,gate.args,{
+    const result=await run(gate.command,gate.args,{
       cwd:root,
       env:{
         STARBLOX_PIPELINE_OUT_DIR:outDir,
@@ -509,23 +529,53 @@ async function execute(stage){
   throw new Error('unsupported same-day pipeline stage type: ' + stage.type);
 }
 
-while(true){
-  const stage=nextSameDayPipelineStage(state,plan);
-  if(!stage) break;
+const PARALLEL_SAFE_TYPES=new Set([
+  'source-ingest',
+  'migration-plan',
+  'migration-export',
+  'code-donor-checkout',
+  'release-gate'
+]);
 
-  console.log('\n[' + (state.completedStages.length + 1) + '/' + plan.stages.length + '] ' + stage.id);
-  const result=await execute(stage);
-  recordSameDayStageResult(state,plan,stage.id,result);
+while(true){
+  const ready=readySameDayPipelineStages(state,plan);
+  if(!ready.length) break;
+
+  const first=ready[0];
+  const batch=PARALLEL_SAFE_TYPES.has(first.type)
+    ? ready
+      .filter(stage=>stage.type === first.type)
+      .slice(0,Number(plan.maxParallel || 4))
+    : [first];
+
+  console.log(
+    '\nRunning ' + batch.length + ' stage' + (batch.length === 1 ? '' : 's') +
+    ' [' + (state.completedStages.length + 1) + '/' + plan.stages.length + ']'
+  );
+  for(const stage of batch) console.log('  → ' + stage.id);
+
+  const results=await Promise.all(
+    batch.map(async stage=>({stage,result:await execute(stage)}))
+  );
+
+  let blocked=false;
+  for(const {stage,result} of results){
+    recordSameDayStageResult(state,plan,stage.id,result);
+    if(result.ok){
+      console.log('PASS: ' + stage.id);
+    }else{
+      blocked=true;
+      console.error('BLOCKED: ' + stage.id);
+      if(result.stderr) console.error(result.stderr);
+      if(result.error) console.error(result.error);
+    }
+  }
   await writeFile(statePath,JSON.stringify(state,null,2) + '\n');
 
-  if(!result.ok){
-    console.error('BLOCKED: ' + stage.id);
-    if(result.stderr) console.error(result.stderr);
-    if(result.error) console.error(result.error);
+  if(blocked){
     process.exitCode=2;
     break;
   }
-  console.log('PASS: ' + stage.id);
 }
 
 console.log('\nStarBlox same-day pipeline');
