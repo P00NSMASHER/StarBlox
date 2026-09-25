@@ -81,6 +81,8 @@ const root=process.cwd();
 const outDir=abs(manifestDir,manifest.outputDir || plan.outputDir);
 const statePath=resolve(outDir,'same-day-pipeline-state.json');
 const planPath=resolve(outDir,'same-day-pipeline-plan.json');
+const stopAfter=arg('--stop-after');
+const skipCodeDonors=has('--skip-code-donors');
 
 await mkdir(outDir,{recursive:true});
 await writeFile(planPath,JSON.stringify(plan,null,2) + '\n');
@@ -541,7 +543,10 @@ async function execute(stage){
       }
       if(planStage.type === 'migration-export' && planStage.details?.sourceId){
         migrationExports[planStage.details.sourceId]={
-          receipt:stageResult?.artifacts?.exportReceipt || null
+          receipt:resolve(
+            sourceOut(planStage.details.sourceId),
+            'export/migration-export-receipt.json'
+          )
         };
       }
     }
@@ -627,7 +632,10 @@ const PARALLEL_SAFE_TYPES=new Set([
 ]);
 
 while(true){
-  const ready=readySameDayPipelineStages(state,plan);
+  let ready=readySameDayPipelineStages(state,plan);
+  if(skipCodeDonors){
+    ready=ready.filter(stage=>stage.type !== 'code-donor-checkout');
+  }
   if(!ready.length) break;
 
   const first=ready[0];
@@ -664,10 +672,19 @@ while(true){
     process.exitCode=2;
     break;
   }
+
+  if(stopAfter && state.stages?.[stopAfter]?.status === 'complete'){
+    console.log('PAUSED AFTER: ' + stopAfter);
+    break;
+  }
 }
 
 console.log('\nStarBlox same-day pipeline');
 console.log('status: ' + state.status);
 console.log('completed: ' + state.completedStages.length + '/' + plan.stages.length);
+if(stopAfter && state.stages?.[stopAfter]?.status === 'complete' && state.status !== 'complete'){
+  console.log('paused after: ' + stopAfter);
+  console.log('resume: npm run same-day:pipeline -- --manifest ' + manifestPath + ' --resume');
+}
 console.log('state: ' + statePath);
 console.log('plan: ' + planPath);
