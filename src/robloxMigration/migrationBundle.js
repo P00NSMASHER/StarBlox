@@ -78,6 +78,32 @@ export function buildMigrationBundleManifest(plan,artifacts){
       throw new Error('artifact disposition does not match migration plan: ' + unitId);
     }
 
+    let projection=null;
+    if(unit.migrationStrategy === 'asset-projection'){
+      const raw=artifact.projection;
+      if(
+        !raw ||
+        raw.sanitized !== true ||
+        raw.policy !== unit.projectionPolicy ||
+        Number(raw.forbiddenRemaining) !== 0 ||
+        !Number.isInteger(Number(raw.strippedInstances)) ||
+        Number(raw.strippedInstances) < 0 ||
+        !Number.isInteger(Number(raw.strippedForbiddenInstances)) ||
+        Number(raw.strippedForbiddenInstances) < 0
+      ){
+        throw new Error('asset projection evidence is invalid: ' + unitId);
+      }
+      projection={
+        policy:raw.policy,
+        sanitized:true,
+        strippedInstances:Number(raw.strippedInstances),
+        strippedForbiddenInstances:Number(raw.strippedForbiddenInstances),
+        forbiddenRemaining:0
+      };
+    }else if(artifact.projection != null){
+      throw new Error('non-projection artifact may not supply projection evidence: ' + unitId);
+    }
+
     return {
       unitId,
       systemName:unit.systemName,
@@ -92,6 +118,8 @@ export function buildMigrationBundleManifest(plan,artifacts){
       sha256,
       bytes,
       suggestedTarget:unit.suggestedTarget,
+      projectionPolicy:unit.projectionPolicy ?? null,
+      projection,
       activation:'staging-only'
     };
   }).sort((a,b) => a.unitId.localeCompare(b.unitId));
@@ -160,6 +188,16 @@ export function verifyMigrationBundleManifest(manifest){
   for(const artifact of manifest.artifacts || []){
     if(!safeRelativePath(artifact.file)) errors.push('unsafe artifact file path');
     if(artifact.activation !== 'staging-only') errors.push('artifact is not staging-only');
+    if(artifact.migrationStrategy === 'asset-projection'){
+      if(
+        artifact.projectionPolicy !== 'strip-executable-network-v1' ||
+        artifact.projection?.sanitized !== true ||
+        artifact.projection?.policy !== artifact.projectionPolicy ||
+        Number(artifact.projection?.forbiddenRemaining) !== 0
+      ){
+        errors.push('asset projection artifact is missing sanitization evidence');
+      }
+    }
     if(!String(artifact.suggestedTarget || '').startsWith('ServerStorage/StarBloxMigration/')){
       errors.push('artifact target escapes StarBlox migration staging root');
     }
@@ -187,7 +225,8 @@ function selectedUnitBinding(unit){
     sourceRootPath:unit.rootPath,
     migrationStrategy:unit.migrationStrategy,
     disposition:unit.exportDisposition,
-    suggestedTarget:unit.suggestedTarget
+    suggestedTarget:unit.suggestedTarget,
+    projectionPolicy:unit.projectionPolicy ?? null
   };
 }
 
