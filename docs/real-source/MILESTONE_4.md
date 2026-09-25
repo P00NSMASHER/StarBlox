@@ -56,6 +56,52 @@ Milestone 4 requires evidence that cannot be truthfully synthesized in CI:
 
 The factory correctly refuses to run the real migration task without this attestation.
 
+## Self-contained live execution path
+
+The repository now reconstructs the complete Milestone-4 packet locally from the pinned real source:
+
+```
+npm run roblox:m4:prepare -- --overwrite
+```
+
+That command independently rebuilds and verifies:
+
+1. the pinned real Roblox source bytes and exact upstream Git blob;
+2. safe ingestion and capability catalog;
+3. discovery migration plan;
+4. deterministic selection of the exact approved `StarterGui` unit;
+5. a single-unit migration plan and planning receipt;
+6. the exact quarantined migration export and export receipt;
+7. a neutral `StarterGuiSource` quarantine container;
+8. a native StarBlox staging `.rbxlx` place containing that inert source under `ServerStorage`;
+9. a self-contained copy of the complete export evidence chain;
+10. the exact factory task and factory migration-admission evidence.
+
+The authoritative exported migration artifact is not rewritten. The staging place derives a neutral `Folder` container from the exported service root so imported source can remain inert under `ServerStorage`.
+
+The live cycle does not need an external AI coding provider. The deterministic adapter only:
+
+- inspects the exact quarantine source;
+- verifies imported script evidence exists without executing it;
+- adds exact unit/state provenance markers inside quarantine;
+- installs one bounded test module under `ServerScriptService/Tests`;
+- requires the test to pass;
+- requires a real single-player Studio playtest;
+- checks runtime logs;
+- requires non-empty viewport evidence;
+- runs repository tests, certification, balance, and build;
+- emits the existing adaptation and promotion receipts only after those proofs pass.
+
+When the authorized machine has Studio plus the StarBlox connector installed, the full live path is:
+
+```
+npm run roblox:m4:live -- --launch-studio
+```
+
+The runner can start the loopback StarBlox bridge, launch the prepared staging place, wait for the exact `starblox-studio-connector-v1` edit-peer attestation, run a native Studio playtest preflight, execute the deterministic factory cycle, certify quarantine exit, and emit `live/milestone4-completion-receipt.json`.
+
+That completion receipt is written **only** when Studio tests, runtime playtest, logs, viewport proof, repository gates, adaptation receipt, and promotion receipt are all valid. Publication and production activation remain false.
+
 ## Exact completion boundary
 
 When the authorized desktop is connected:
