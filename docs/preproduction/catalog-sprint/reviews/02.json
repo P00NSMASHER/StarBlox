@@ -1455,6 +1455,50 @@
         "duplicateVisual": "PASS",
         "technicalIntegrity": "PASS"
       }
+    },
+    {
+      "itemId": "decor-11",
+      "name": "Dream Vanity Set",
+      "collectionId": "decor",
+      "type": "room",
+      "tier": 4,
+      "theme": "Art Attack",
+      "assetPath": "public/assets/catalog-candidates/deterministic/decor-11-v10.svg",
+      "repositoryPath": "public/assets/catalog-candidates/deterministic/decor-11-v10.svg",
+      "assetHash": "8179542a5966926d4462bda26d01553cf1e72b0d",
+      "hashAlgorithm": "git-blob-sha1",
+      "producer": "deterministic-svg",
+      "decision": "ACCEPT",
+      "learnerLabel": "ACCEPT",
+      "reviewedAt": "2026-09-25T08:36:59Z",
+      "reviewProvenance": "GPT-5.6 Sol direct visual inspection of exact QA-rendered deterministic pixels after external Browser Use reviewer was unavailable for insufficient credits; provenance intentionally not represented as external/independent.",
+      "evidenceRefs": [
+        "workflow:36094833312",
+        "artifact:10847495770/staged-replacements/detail/decor-11-8179542a.png",
+        "factory-evidence:docs/preproduction/art-factory/generated-evidence/decor-11-v10-deterministic-svg/decor-11/staged-output.json"
+      ],
+      "reasonCodes": [
+        "DETERMINISTIC_CONTRACT_SATISFIED",
+        "SINGLE_OVAL_MIRROR_CONFIRMED",
+        "SINGLE_STOOL_CONFIRMED",
+        "NO_ROOM_ARCHITECTURE",
+        "EXACT_QA_PIXELS_VISUALLY_VERIFIED"
+      ],
+      "reason": "ACCEPT. Exact QA-rendered pixels show one pink vanity table, exactly one centered oval mirror, and exactly one separate padded stool on a plain white background. No side mirrors, room, wall, window, curtain, floor architecture, shelving, text, collage, alternate view, or duplicate furniture is present.",
+      "nextOwner": "08",
+      "nextRepairGuidance": null,
+      "checks": {
+        "identity": "PASS",
+        "themeTier": "PASS",
+        "silhouette": "PASS",
+        "materialLighting": "PASS",
+        "cardReadability": "PASS",
+        "physicalConstruction": "PASS",
+        "framingComposition": "PASS",
+        "originality": "PASS",
+        "duplicateVisual": "PASS",
+        "technicalIntegrity": "PASS"
+      }
     }
   ],
   "currentReplacementDisposition": {
@@ -1473,7 +1517,8 @@
       "ACCEPT": {
         "decor-9": "3b0ae22922e3f4aeed5ea6083ebd993ef49b5313",
         "decor-10": "68eeaecc5ab8dd5097160324e0880b129a6ed0ce",
-        "decor-12": "0926a84e4b1e47ce58b5335e3cc655c77fb67d07"
+        "decor-12": "0926a84e4b1e47ce58b5335e3cc655c77fb67d07",
+        "decor-11": "8179542a5966926d4462bda26d01553cf1e72b0d"
       },
       "REWORK": {
         "decor-11": "3ea52c59b32addeeca4ce07701a095165f82540c",
@@ -1483,21 +1528,21 @@
   },
   "summary": {
     "reviewedThisRun": 1,
-    "newAcceptsThisRun": 0,
-    "newReworkThisRun": 1,
+    "newAcceptsThisRun": 1,
+    "newReworkThisRun": 0,
     "newBlockedThisRun": 0,
-    "newUsableBy08Now": [],
-    "reworkNow": [
+    "newUsableBy08Now": [
       "decor-11"
     ],
-    "preservedAcceptedHashes": "All prior reviewer02 ACCEPTs remain frozen; Decor11 v9 is REWORK only."
+    "reworkNow": [],
+    "preservedAcceptedHashes": "All prior reviewer02 ACCEPTs remain frozen; deterministic Decor11 v10 exact hash is ACCEPT."
   },
   "handoff": {
     "13": "Wall9 v12 REWORK; preserve exact hash. Next attempt must use a simpler exactly-three-frame horizontal composition with no enclosing grid.",
     "14": "Current packets consumed; do not rerender unchanged hashes.",
     "15": "Decor11 remains a bounded exact-pixel blocker after v9.",
-    "09": "Decor11 v9 REWORK; preserve exact hash. Next retry: exactly one table, one oval mirror, one separate padded stool on seamless white; no side mirrors or room context.",
-    "08": "Do not canonical-wire Decor11 v9."
+    "09": "Decor11 deterministic v10 accepted. Stop production retries for this item.",
+    "08": "Decor11 deterministic v10 exact hash ACCEPT; eligible for exact-hash canonical integration."
   },
   "previousRevisionBlobSha": "8a7b67d6e946ba7129834d23769ec969c7ab9418"
 }
