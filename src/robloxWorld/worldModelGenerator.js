@@ -236,6 +236,13 @@ export function generateIsolatedBrookhavenWorld(ir,{
     '<string name="Name">BrookhavenWorldBaseline</string>'+
     '</Properties>'+items.join('')+'</Item></roblox>\n';
 
+  const decalCount=ir.entries.filter(entry => entry.decal !== null).length;
+  const specialMeshCount=ir.entries.filter(entry => entry.mesh !== null).length;
+  if(decalCount !== step3Receipt.structure?.decalCount ||
+     specialMeshCount !== step3Receipt.structure?.meshCount){
+    throw new Error('Step 4 nested object counts do not match the verified Step 3 receipt');
+  }
+
   const generatedEntrySequenceSha256=sha256(Buffer.from(
     objectSpecs.map(row=>row.generatedSpecHash).join('\n'),'utf8'
   ));
@@ -264,9 +271,9 @@ export function generateIsolatedBrookhavenWorld(ir,{
       bytes:Buffer.byteLength(xml,'utf8'),
       sha256:modelSha256,
       partCount:4936,
-      decalCount:494,
-      specialMeshCount:62,
-      generatedObjectCount:1+4936+494+62,
+      decalCount,
+      specialMeshCount,
+      generatedObjectCount:1+4936+decalCount+specialMeshCount,
       generatedEntrySequenceSha256,
       sourceCanonicalSequenceSha256,
       sourceSliceSequenceSha256
