@@ -222,6 +222,176 @@ if((town.locations||[]).filter(row=>row.playerFacingEligible).length!==15) issue
 if(town.status!=='production-candidate-runtime-not-wired') issues.push('town-live-status');
 if(town.topologyPolicy?.includes('original StarBlox proxy')!==true) issues.push('town-topology-policy');
 
+const townLocationSchemaPath='docs/preproduction/brookhaven-research/neutral-town-location-schema-v1.json';
+const townLocationSchema=JSON.parse(fs.readFileSync(townLocationSchemaPath,'utf8'));
+if(townLocationSchema.$id!=='starblox://schemas/neutral-town-location-v1') issues.push('town-location-schema-id');
+if(townLocationSchema.type!=='object') issues.push('town-location-schema-type');
+if(townLocationSchema.additionalProperties!==false) issues.push('town-location-schema-open-object');
+const townLocationRequired=[
+  'schemaVersion','id','label','category','lifecycle','playerFacingEligible','evidenceRef','safety'
+];
+for(const field of townLocationRequired){
+  if(!(townLocationSchema.required||[]).includes(field)) issues.push('town-location-required:'+field);
+}
+if(townLocationSchema.properties?.safety?.additionalProperties!==false) issues.push('town-location-safety-open-object');
+if(townLocationSchema.properties?.safety?.properties?.externalRuntimeDependency?.const!==false) issues.push('town-location-schema-runtime-boundary');
+if(townLocationSchema.properties?.safety?.properties?.remoteDependency?.const!==false) issues.push('town-location-schema-remote-boundary');
+if(townLocationSchema.properties?.safety?.properties?.exactSourceCoordinatesClaimed?.const!==false) issues.push('town-location-schema-coordinate-boundary');
+
+const townLocationCatalogPath='docs/preproduction/brookhaven-research/neutral-town-location-catalog-v1.json';
+const townLocationCatalog=JSON.parse(fs.readFileSync(townLocationCatalogPath,'utf8'));
+if(townLocationCatalog.schemaVersion!=='starblox-neutral-town-location-catalog-v1') issues.push('town-location-catalog-schema');
+if(townLocationCatalog.status!=='definition-only-runtime-not-wired') issues.push('town-location-catalog-status');
+if(townLocationCatalog.definitionSchemaRef!==townLocationSchemaPath) issues.push('town-location-catalog-schema-ref');
+if(townLocationCatalog.sourceBlueprintRef!==townPath) issues.push('town-location-catalog-blueprint-ref');
+if(townLocationCatalog.rightsStatus!=='verified-for-project-use') issues.push('town-location-catalog-rights');
+const townDefinitions=townLocationCatalog.definitions||[];
+if(townDefinitions.length!==17||townLocationCatalog.locationCount!==17) issues.push('town-location-catalog-count');
+if(townLocationCatalog.playerFacingCount!==15) issues.push('town-location-catalog-player-facing-count');
+if(townLocationCatalog.deferredCount!==2) issues.push('town-location-catalog-deferred-count');
+
+const expectedTownRows=new Map((town.locations||[]).map(row=>[row.id,row]));
+const seenTownDefinitionIds=new Set();
+const townDefinitionAllowedKeys=Object.keys(townLocationSchema.properties||{});
+const townSafetyAllowedKeys=Object.keys(townLocationSchema.properties?.safety?.properties||{});
+for(const definition of townDefinitions){
+  const id=String(definition?.id||'');
+  if(seenTownDefinitionIds.has(id)) issues.push('town-location-duplicate:'+id);
+  seenTownDefinitionIds.add(id);
+  const blueprintRow=expectedTownRows.get(id);
+  if(!blueprintRow) issues.push('town-location-unexpected-id:'+id);
+  if(definition.schemaVersion!=='starblox-neutral-town-location-v1') issues.push('town-location-version:'+id);
+  for(const field of townLocationRequired){
+    if(!(field in (definition||{}))) issues.push('town-location-missing:'+id+':'+field);
+  }
+  for(const key of Object.keys(definition||{})){
+    if(!townDefinitionAllowedKeys.includes(key)) issues.push('town-location-extra:'+id+':'+key);
+  }
+  if(blueprintRow){
+    if(definition.label!==blueprintRow.label) issues.push('town-location-label:'+id);
+    if(definition.category!==blueprintRow.category) issues.push('town-location-category:'+id);
+    if(definition.playerFacingEligible!==blueprintRow.playerFacingEligible) issues.push('town-location-eligibility:'+id);
+  }
+  const expectedLifecycle=definition.playerFacingEligible?'player-facing':'research-deferred';
+  if(definition.lifecycle!==expectedLifecycle) issues.push('town-location-lifecycle:'+id);
+  if(definition.playerFacingEligible && definition.category==='research-deferred') issues.push('town-location-deferred-leak:'+id);
+  if(!definition.playerFacingEligible && definition.category!=='research-deferred') issues.push('town-location-deferred-category:'+id);
+  if(definition.evidenceRef!==townPath+'#'+id) issues.push('town-location-evidence-ref:'+id);
+  const safety=definition.safety||{};
+  for(const key of Object.keys(safety)){
+    if(!townSafetyAllowedKeys.includes(key)) issues.push('town-location-safety-extra:'+id+':'+key);
+  }
+  if(safety.externalRuntimeDependency!==false) issues.push('town-location-external-runtime:'+id);
+  if(safety.remoteDependency!==false) issues.push('town-location-remote:'+id);
+  if(safety.exactSourceCoordinatesClaimed!==false) issues.push('town-location-coordinate-claim:'+id);
+}
+for(const id of expectedTownRows.keys()){
+  if(!seenTownDefinitionIds.has(id)) issues.push('town-location-missing-id:'+id);
+}
+if(townDefinitions.filter(row=>row.playerFacingEligible).length!==15) issues.push('town-location-derived-player-facing-count');
+if(townDefinitions.filter(row=>!row.playerFacingEligible).length!==2) issues.push('town-location-derived-deferred-count');
+
+const townTopologyPath='docs/preproduction/brookhaven-research/starblox-proxy-town-topology-v1.json';
+const townTopology=JSON.parse(fs.readFileSync(townTopologyPath,'utf8'));
+if(townTopology.schemaVersion!=='starblox-proxy-town-topology-v1') issues.push('town-topology-schema');
+if(townTopology.status!=='original-starblox-proxy-runtime-not-wired') issues.push('town-topology-status');
+if(townTopology.sourceBlueprintRef!==townPath) issues.push('town-topology-blueprint-ref');
+if(townTopology.topologyKind!=='original-starblox-proxy') issues.push('town-topology-kind');
+if(townTopology.edgeSemantics!=='undirected') issues.push('town-topology-edge-semantics');
+if(townTopology.locationCount!==17||(townTopology.locationIds||[]).length!==17) issues.push('town-topology-location-count');
+if(townTopology.edgeCount!==14||(townTopology.edges||[]).length!==14) issues.push('town-topology-edge-count');
+if(townTopology.claims?.exactSourceCoordinates!==false) issues.push('town-topology-coordinate-claim');
+if(townTopology.claims?.exactSourceRoadLayout!==false) issues.push('town-topology-road-claim');
+if(townTopology.claims?.exactSourceTopology!==false) issues.push('town-topology-source-topology-claim');
+if(townTopology.safety?.externalRuntimeDependency!==false) issues.push('town-topology-runtime-boundary');
+if(townTopology.safety?.remoteDependency!==false) issues.push('town-topology-remote-boundary');
+if(townTopology.safety?.liveQuestRouting!==false) issues.push('town-topology-live-quest-boundary');
+
+const townDefinitionIds=[...seenTownDefinitionIds].sort();
+const topologyLocationIds=[...(townTopology.locationIds||[])].map(String).sort();
+if(sorted(townDefinitionIds)!==sorted(topologyLocationIds)) issues.push('town-topology-location-id-parity');
+
+const canonicalTownEdge=(edge)=>{
+  const a=String(edge?.[0]||'');
+  const b=String(edge?.[1]||'');
+  return a.localeCompare(b)<=0?[a,b]:[b,a];
+};
+const townEdgeKey=(edge)=>canonicalTownEdge(edge).join('|');
+const topologyEdgeKeys=[];
+const topologyEdgeKeySet=new Set();
+for(const edge of townTopology.edges||[]){
+  if(!Array.isArray(edge)||edge.length!==2){
+    issues.push('town-topology-edge-shape');
+    continue;
+  }
+  const [a,b]=edge.map(String);
+  if(a===b) issues.push('town-topology-self-edge:'+a);
+  if(!seenTownDefinitionIds.has(a)||!seenTownDefinitionIds.has(b)) issues.push('town-topology-unknown-endpoint:'+a+':'+b);
+  const aDef=townDefinitions.find(row=>row.id===a);
+  const bDef=townDefinitions.find(row=>row.id===b);
+  if(aDef?.playerFacingEligible===false||bDef?.playerFacingEligible===false) issues.push('town-topology-deferred-leak:'+a+':'+b);
+  const key=townEdgeKey(edge);
+  if(topologyEdgeKeySet.has(key)) issues.push('town-topology-duplicate-edge:'+key);
+  topologyEdgeKeySet.add(key);
+  topologyEdgeKeys.push(key);
+}
+const blueprintEdgeKeys=(town.proxyEdges||[]).map(townEdgeKey);
+if(sorted(topologyEdgeKeys)!==sorted(blueprintEdgeKeys)) issues.push('town-topology-blueprint-edge-parity');
+
+const step9CompletionPath='docs/preproduction/brookhaven-research/step-09-town-completion-v2.json';
+const step9Completion=JSON.parse(fs.readFileSync(step9CompletionPath,'utf8'));
+if(step9Completion.schemaVersion!=='starblox-brookhaven-step-9-town-completion-v2') issues.push('step9-completion-schema');
+if(step9Completion.step!=='9-of-12') issues.push('step9-completion-step');
+if(step9Completion.status!=='complete-neutral-town-system-hardened-runtime-not-wired-live') issues.push('step9-completion-status');
+if(step9Completion.rightsStatus!=='verified-for-project-use') issues.push('step9-completion-rights');
+if(step9Completion.completion?.locationDefinitions!==17) issues.push('step9-completion-location-count');
+if(step9Completion.completion?.playerFacingLocations!==15) issues.push('step9-completion-player-facing-count');
+if(step9Completion.completion?.researchDeferredLocations!==2) issues.push('step9-completion-deferred-count');
+if(step9Completion.completion?.proxyEdges!==14) issues.push('step9-completion-edge-count');
+if(step9Completion.completion?.definitionSchemaClosed!==true) issues.push('step9-completion-schema-closed');
+if(step9Completion.completion?.definitionCatalogDeterministic!==true) issues.push('step9-completion-catalog-deterministic');
+if(step9Completion.completion?.locationLoaderDeepFrozen!==true) issues.push('step9-completion-location-freeze');
+if(step9Completion.completion?.topologyLoaderDeepFrozen!==true) issues.push('step9-completion-topology-freeze');
+if(step9Completion.completion?.runtimePreviewReadOnly!==true) issues.push('step9-completion-preview-readonly');
+if(step9Completion.completion?.runtimePreviewParityCheckedAgainstExistingRuntime!==true) issues.push('step9-completion-runtime-parity');
+if(step9Completion.completion?.proxyTopologyParityCheckedAgainstExistingRuntime!==true) issues.push('step9-completion-topology-parity');
+if(step9Completion.completion?.deferredZonesExcludedFromPlayerFacingTopology!==true) issues.push('step9-completion-deferred-boundary');
+if(step9Completion.completion?.topologyKind!=='original-starblox-proxy') issues.push('step9-completion-topology-kind');
+if(step9Completion.completion?.exactSourceCoordinatesClaimed!==false) issues.push('step9-completion-coordinate-claim');
+if(step9Completion.completion?.exactSourceRoadLayoutClaimed!==false) issues.push('step9-completion-road-claim');
+if(step9Completion.completion?.exactSourceTopologyClaimed!==false) issues.push('step9-completion-source-topology-claim');
+if(step9Completion.completion?.projectRightsVerified!==true) issues.push('step9-completion-rights-flag');
+if(step9Completion.completion?.externalRuntimeDependencyAllowed!==false) issues.push('step9-completion-external-runtime');
+if(step9Completion.completion?.remoteDependencyAllowed!==false) issues.push('step9-completion-remote');
+if(step9Completion.completion?.liveQuestRoutingEnabled!==false) issues.push('step9-completion-live-quest');
+if(step9Completion.completion?.liveAppWired!==false) issues.push('step9-completion-live-app');
+if(step9Completion.completion?.persistenceChanged!==false) issues.push('step9-completion-persistence');
+if(step9Completion.completion?.economyChanged!==false) issues.push('step9-completion-economy');
+if(step9Completion.completion?.networkingChanged!==false) issues.push('step9-completion-networking');
+if(step9Completion.completion?.deploymentPerformed!==false) issues.push('step9-completion-deploy');
+if(sorted(step9Completion.deferredBoundary?.ids)!==sorted(['mystery-zone','restricted-zone'])) issues.push('step9-completion-deferred-ids');
+if(step9Completion.deferredBoundary?.playerFacingEligible!==false) issues.push('step9-completion-deferred-eligibility');
+if(step9Completion.deferredBoundary?.topologyDegree!==0) issues.push('step9-completion-deferred-degree');
+if(step9Completion.nextStepBoundary?.step9Complete!==true) issues.push('step9-completion-flag');
+if(step9Completion.nextStepBoundary?.noLiveIntegrationAuthorizedByThisReceipt!==true) issues.push('step9-completion-live-authorization');
+
+for(const [name,artifactPath] of Object.entries(step9Completion.artifacts||{})){
+  if(typeof artifactPath!=='string'||!artifactPath||!fs.existsSync(artifactPath)){
+    issues.push('step9-completion-artifact:'+name);
+  }
+}
+const step9LocationLoaderSource=fs.readFileSync(step9Completion.artifacts.locationLoader,'utf8');
+const step9TopologyLoaderSource=fs.readFileSync(step9Completion.artifacts.topologyLoader,'utf8');
+const step9PreviewSource=fs.readFileSync(step9Completion.artifacts.runtimePreviewAdapter,'utf8');
+if(!step9LocationLoaderSource.includes('loadNeutralTownLocationCatalog')) issues.push('step9-completion-location-loader-export');
+if(step9LocationLoaderSource.includes('townSystemRuntime')) issues.push('step9-completion-location-loader-runtime-coupling');
+if(!step9TopologyLoaderSource.includes('loadStarBloxProxyTownTopology')) issues.push('step9-completion-topology-loader-export');
+if(step9TopologyLoaderSource.includes('townSystemRuntime')) issues.push('step9-completion-topology-loader-runtime-coupling');
+if(!step9PreviewSource.includes('buildNeutralTownRuntimePreview')) issues.push('step9-completion-preview-export');
+if(step9PreviewSource.includes('townSystemRuntime')) issues.push('step9-completion-preview-runtime-coupling');
+if(step9PreviewSource.includes('unlockTownLocation')||step9PreviewSource.includes('visitTownLocation')||step9PreviewSource.includes('deriveTownRoute')) issues.push('step9-completion-preview-action-coupling');
+if(step9PreviewSource.includes('App.jsx')||step9PreviewSource.includes('fetch(')||step9PreviewSource.includes('XMLHttpRequest')) issues.push('step9-completion-preview-live-coupling');
+
 const progressionPath='docs/preproduction/brookhaven-research/life-sim-progression-blueprint-v1.json';
 const progression=JSON.parse(fs.readFileSync(progressionPath,'utf8'));
 if(progression.schemaVersion!=='starblox-life-sim-progression-blueprint-v1') issues.push('progression-schema');
@@ -284,6 +454,10 @@ const result={
   vehiclePath,
   step8CompletionPath,
   townPath,
+  townLocationSchemaPath,
+  townLocationCatalogPath,
+  townTopologyPath,
+  step9CompletionPath,
   progressionPath,
   replayPath,
   readinessPath,
@@ -294,6 +468,9 @@ const result={
   vehicleDefinitionCount:vehicleDefinitions.length,
   step8Complete:step8Completion.nextStepBoundary?.step8Complete===true,
   townLocationCount:town.locations?.length||0,
+  neutralTownLocationCount:townDefinitions.length,
+  townProxyEdgeCount:(townTopology.edges||[]).length,
+  step9Complete:step9Completion.nextStepBoundary?.step9Complete===true,
   progressionRuleCount:
     (progression.residential?.length||0)+
     (progression.vehicles?.length||0)+
