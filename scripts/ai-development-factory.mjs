@@ -9,6 +9,7 @@ import {
   verifyDevelopmentRun
 } from '../src/devFactory/developmentFactory.js';
 import { loadFactoryMigrationEvidence } from '../src/devFactory/migrationInput.js';
+import { verifyDonorAdapterSpec } from '../src/sameDayPipeline/donorAdapterSpec.js';
 
 function arg(name,required=false){
   const inline=process.argv.find(value => value.startsWith(name + '='));
@@ -79,6 +80,33 @@ const outPath=fromRoot(
 );
 
 const task=JSON.parse(await readFile(taskPath,'utf8'));
+if(task.adapterSpecEvidence != null){
+  throw new Error(
+    'task JSON may not supply adapterSpecEvidence directly; provide task.adapterSpec path binding'
+  );
+}
+if(task.adapterSpec != null){
+  if(!task.adapterSpec || typeof task.adapterSpec !== 'object' || Array.isArray(task.adapterSpec)){
+    throw new Error('task.adapterSpec must be an object');
+  }
+  const specValue=String(task.adapterSpec.path || '').trim();
+  if(!specValue) throw new Error('task.adapterSpec.path is required');
+  const specPath=isAbsolute(specValue) ? specValue : resolve(dirname(taskPath),specValue);
+  const rawSpec=JSON.parse(await readFile(specPath,'utf8'));
+  const validation=verifyDonorAdapterSpec(rawSpec,{
+    donorId:String(task.adapterSpec.donorId || ''),
+    repository:String(task.adapterSpec.repository || ''),
+    commit:String(task.adapterSpec.commit || '')
+  });
+  if(!validation.ok){
+    throw new Error('donor adapter spec rejected: ' + validation.errors.join('; '));
+  }
+  task.adapterSpecEvidence={
+    ...validation.spec,
+    file:specPath
+  };
+  delete task.adapterSpec;
+}
 if(task.migrationEvidence != null){
   throw new Error(
     'task JSON may not supply migrationEvidence directly; provide task.migration export receipt inputs'
