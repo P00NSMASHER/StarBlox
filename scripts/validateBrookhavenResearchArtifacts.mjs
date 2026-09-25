@@ -168,6 +168,52 @@ for(const id of expectedVehicleIds){
   if(!seenVehicleDefinitionIds.has(id)) issues.push('vehicle-definition-missing-id:'+id);
 }
 
+const step8CompletionPath='docs/preproduction/brookhaven-research/step-08-vehicle-completion-v2.json';
+const step8Completion=JSON.parse(fs.readFileSync(step8CompletionPath,'utf8'));
+if(step8Completion.schemaVersion!=='starblox-brookhaven-step-8-vehicle-completion-v2') issues.push('step8-completion-schema');
+if(step8Completion.step!=='8-of-12') issues.push('step8-completion-step');
+if(step8Completion.status!=='complete-neutral-vehicle-system-hardened-runtime-not-wired-live') issues.push('step8-completion-status');
+if(step8Completion.rightsStatus!=='verified-for-project-use') issues.push('step8-completion-rights');
+if(step8Completion.completion?.currentVehicleDefinitions!==13) issues.push('step8-completion-current-count');
+if(step8Completion.completion?.legacyIdentifiersRetainedOnlyInResearchRuntime!==4) issues.push('step8-completion-legacy-count');
+if(step8Completion.completion?.currentDefinitionCatalogExcludesLegacy!==true) issues.push('step8-completion-legacy-boundary');
+if(step8Completion.completion?.definitionSchemaClosed!==true) issues.push('step8-completion-schema-closed');
+if(step8Completion.completion?.definitionCatalogDeterministic!==true) issues.push('step8-completion-deterministic');
+if(step8Completion.completion?.definitionLoaderDeepFrozen!==true) issues.push('step8-completion-loader-freeze');
+if(step8Completion.completion?.runtimePreviewReadOnly!==true) issues.push('step8-completion-preview-readonly');
+if(step8Completion.completion?.runtimePreviewParityCheckedAgainstExistingRuntime!==true) issues.push('step8-completion-parity');
+if(step8Completion.completion?.visualPayloadStatus!=='identifier-only') issues.push('step8-completion-visual-status');
+if(step8Completion.completion?.geometryPayloadAttached!==false) issues.push('step8-completion-geometry-overclaim');
+if(step8Completion.completion?.projectRightsVerified!==true) issues.push('step8-completion-rights-flag');
+if(step8Completion.completion?.externalRuntimeDependencyAllowed!==false) issues.push('step8-completion-external-runtime');
+if(step8Completion.completion?.remoteDependencyAllowed!==false) issues.push('step8-completion-remote');
+if(step8Completion.completion?.weaponBehaviorAllowed!==false) issues.push('step8-completion-weapon');
+if(step8Completion.completion?.liveAppWired!==false) issues.push('step8-completion-live-app');
+if(step8Completion.completion?.persistenceChanged!==false) issues.push('step8-completion-persistence');
+if(step8Completion.completion?.economyChanged!==false) issues.push('step8-completion-economy');
+if(step8Completion.completion?.networkingChanged!==false) issues.push('step8-completion-networking');
+if(step8Completion.completion?.deploymentPerformed!==false) issues.push('step8-completion-deploy');
+if(step8Completion.archetypeBoundaries?.displayOnlyVehicleId!=='tank') issues.push('step8-completion-display-id');
+if(step8Completion.archetypeBoundaries?.displayOnlyVehicleDrivable!==false) issues.push('step8-completion-display-boundary');
+if(step8Completion.archetypeBoundaries?.emergencyVehicleId!=='fire-truck') issues.push('step8-completion-emergency-id');
+if(step8Completion.archetypeBoundaries?.emergencyControlsRestrictedToEmergencyArchetype!==true) issues.push('step8-completion-emergency-boundary');
+if(step8Completion.nextStepBoundary?.step8Complete!==true) issues.push('step8-completion-flag');
+if(step8Completion.nextStepBoundary?.noLiveIntegrationAuthorizedByThisReceipt!==true) issues.push('step8-completion-live-authorization');
+
+for(const [name,artifactPath] of Object.entries(step8Completion.artifacts||{})){
+  if(typeof artifactPath!=='string'||!artifactPath||!fs.existsSync(artifactPath)){
+    issues.push('step8-completion-artifact:'+name);
+  }
+}
+const step8LoaderSource=fs.readFileSync(step8Completion.artifacts.definitionLoader,'utf8');
+const step8PreviewSource=fs.readFileSync(step8Completion.artifacts.runtimePreviewAdapter,'utf8');
+if(!step8LoaderSource.includes('loadNeutralVehicleDefinitionCatalog')) issues.push('step8-completion-loader-export');
+if(step8LoaderSource.includes('vehicleSystemRuntime')) issues.push('step8-completion-loader-runtime-coupling');
+if(!step8PreviewSource.includes('buildNeutralVehicleRuntimePreview')) issues.push('step8-completion-preview-export');
+if(step8PreviewSource.includes('vehicleSystemRuntime')) issues.push('step8-completion-preview-runtime-coupling');
+if(step8PreviewSource.includes('spawnNeutralVehicle')||step8PreviewSource.includes('applyVehicleAction')) issues.push('step8-completion-preview-action-coupling');
+if(step8PreviewSource.includes('App.jsx')||step8PreviewSource.includes('fetch(')||step8PreviewSource.includes('XMLHttpRequest')) issues.push('step8-completion-preview-live-coupling');
+
 const townPath='docs/preproduction/brookhaven-research/town-system-blueprint-v1.json';
 const town=JSON.parse(fs.readFileSync(townPath,'utf8'));
 if(town.schemaVersion!=='starblox-town-system-blueprint-v1') issues.push('town-schema');
@@ -236,6 +282,7 @@ const result={
   vehicleDefinitionSchemaPath,
   vehicleDefinitionCatalogPath,
   vehiclePath,
+  step8CompletionPath,
   townPath,
   progressionPath,
   replayPath,
@@ -245,6 +292,7 @@ const result={
   edgeCount:graph.edges?.length||0,
   vehicleCount:vehicle.currentVehicles?.length||0,
   vehicleDefinitionCount:vehicleDefinitions.length,
+  step8Complete:step8Completion.nextStepBoundary?.step8Complete===true,
   townLocationCount:town.locations?.length||0,
   progressionRuleCount:
     (progression.residential?.length||0)+
