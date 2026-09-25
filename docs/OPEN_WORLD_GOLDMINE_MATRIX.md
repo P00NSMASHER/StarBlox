@@ -97,6 +97,20 @@ Every candidate audit must record:
 7. No candidate is allowed to replace StarBlox learning/mastery/economy authority simply because it ships an older economy.
 8. Duplicate capabilities across candidates are not double-counted when producing the final combined-stack estimate.
 
+
+## Results through Step 5
+
+| Audit step | Candidate | Workload-elimination score | Strongest verified value | Status |
+|---|---|---:|---|---|
+| 2 | Arnis Roblox | 57.33 / 100 | Repeatable city generation, interiors, roads, streaming/LOD, ambient life and engineering automation | Complete |
+| 3 | Brookhaven.rbxl public candidate | 64.67 / 100 | Brookhaven physical world, houses, vehicles, roleplay UI and client-side system contracts | Complete |
+| 4 | Welcome to Bloxburg [BETA].rbxl public candidate | 65.33 / 100 | Deep recoverable build-mode, wall/fence/plot, furniture and interior logic | Complete |
+| 5 | RoCitizens.rbxl public candidate | 76.00 / 100 | Broad roleplay stack: housing, careers/tasks, world events, phone/customization, trade, inventory and network contracts | Complete |
+
+### Cross-candidate finding
+
+The three public archive place files are not complete functional server-source copies. Static cataloging found zero recoverable gameplay server Script source in Bloxburg and RoCitizens, and Brookhaven's only non-empty server Script source is a README helper. Their value is therefore concentrated in physical content, client/shared logic, UI, data/state shapes and remote contracts. Server authority must be rebuilt or supplied from a separately authorized complete source.
+
 ## Final comparison outputs
 
 After all seven audits, produce:
