@@ -39,7 +39,7 @@ if(placeId !== EXPECTED_PLACE_ID){
   throw new Error('ROBLOX_PLACE_ID must target StarBlox place ' + EXPECTED_PLACE_ID);
 }
 if(!/^[a-f0-9]{40}$/.test(sourceCommit)){
-  throw new Error('STARBLOX_SOURCE_COMMIT must be the exact 40-character PR head SHA');
+  throw new Error('STARBLOX_SOURCE_COMMIT must be the exact 40-character checked-out commit SHA');
 }
 if(!gatePath) throw new Error('STARBLOX_RELEASE_GATE_RECEIPT is required');
 if(!artifactPath) throw new Error('STARBLOX_RELEASE_ARTIFACT is required');
