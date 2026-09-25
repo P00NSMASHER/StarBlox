@@ -142,6 +142,49 @@ jobs:
             publicationStarted:receipt.publicationStarted
           }));
           NODE
+      - name: Prepare one bounded real-source Studio cycle packet
+        run: |
+          rm -rf /tmp/m4-discovery /tmp/m4-plan /tmp/m4-export
+          npm run roblox:migrate -- --ingestion-receipt /tmp/rich-real-ingest/ingestion-receipt.json --out-dir /tmp/m4-discovery --min-score 0
+          npm run roblox:select-studio-unit -- --plan /tmp/m4-discovery/migration-plan.json --rules-out /tmp/m4-rules.json --selection-out /tmp/m4-selection.json
+          npm run roblox:migrate -- --ingestion-receipt /tmp/rich-real-ingest/ingestion-receipt.json --out-dir /tmp/m4-plan --rules /tmp/m4-rules.json
+          node --input-type=module - <<'NODE'
+          import {readFile,writeFile} from 'node:fs/promises';
+          const selection=JSON.parse(await readFile('/tmp/m4-selection.json','utf8'));
+          const plan=JSON.parse(await readFile('/tmp/m4-plan/migration-plan.json','utf8'));
+          const chosen=plan.units.filter(unit => unit.selected);
+          if(chosen.length !== 1) throw new Error('expected exactly one selected unit, found ' + chosen.length);
+          if(chosen[0].unitId !== selection.unit.unitId) throw new Error('bounded plan selected wrong unit');
+          if(chosen[0].migrationStrategy !== 'refactor') throw new Error('first Studio cycle must use refactor strategy');
+          if(chosen[0].exportDisposition !== 'quarantine') throw new Error('first Studio cycle must remain quarantined');
+          if(chosen[0].riskFlags.length !== 0) throw new Error('first Studio cycle must be risk-flag free');
+          await writeFile('/tmp/m4-task.json',JSON.stringify({
+            id:'milestone-4-real-studio-cycle',
+            request:[
+              'Adapt exactly the verified migrated quarantine unit for StarBlox.',
+              'Preserve quarantine boundaries.',
+              'Require Studio tests and a single-player playtest.',
+              'Inspect runtime logs and capture viewport evidence.',
+              'Do not publish, upload, purchase, or enable live activation.'
+            ].join(' '),
+            migration:{
+              exportReceipt:'/tmp/m4-export/migration-export-receipt.json',
+              unitIds:[chosen[0].unitId]
+            }
+          },null,2)+'\n');
+          console.log('MILESTONE4_SELECTED_UNIT=' + JSON.stringify(selection.unit));
+          NODE
+          npm run roblox:migrate -- --planning-receipt /tmp/m4-plan/migration-planning-receipt.json --source-root /tmp/rich-real-source --out-dir /tmp/m4-export
+          npm run studio:factory -- --task /tmp/m4-task.json --verify-migration-only --out /tmp/m4-factory-evidence.json
+          grep -q '"status": "verified"' /tmp/m4-factory-evidence.json
+          grep -q '"scope": "quarantine-refactor-only"' /tmp/m4-factory-evidence.json
+          grep -q '"liveActivationAllowed": false' /tmp/m4-factory-evidence.json
+          if npm run studio:factory -- --task /tmp/m4-task.json --adapter tools/dev_factory/fixtures/unattested-adapter.mjs --out /tmp/m4-run.json > /tmp/m4-unattested.log 2>&1; then
+            echo "expected real migration task to fail without attested Studio"
+            exit 1
+          fi
+          grep -q "requires an attested live Studio connector" /tmp/m4-unattested.log
+          test ! -f /tmp/m4-run.json
       - name: Smoke-test Roblox capability catalog
         run: |
           npm run roblox:catalog -- --preflight /tmp/roblox-catalog-handoff.json --out /tmp/roblox-catalog.json --report /tmp/roblox-catalog.md
