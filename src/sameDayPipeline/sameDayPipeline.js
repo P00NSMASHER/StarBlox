@@ -30,11 +30,29 @@ function safeId(value,label){
 
 function normalizeSource(raw,label,role){
   if(!plain(raw)) throw new TypeError(label + ' must be an object.');
+  let download=null;
+  if(raw.download != null){
+    if(!plain(raw.download)) throw new TypeError(label + '.download must be an object.');
+    const url=requiredString(raw.download.url,label + '.download.url');
+    if(!/^https:\/\//i.test(url)){
+      throw new TypeError(label + '.download.url must use https');
+    }
+    const sha256=requiredString(raw.download.sha256,label + '.download.sha256').toLowerCase();
+    if(!/^[a-f0-9]{64}$/.test(sha256)){
+      throw new TypeError(label + '.download.sha256 must be an exact SHA-256');
+    }
+    const bytes=Number(raw.download.bytes);
+    if(!Number.isInteger(bytes) || bytes < 1){
+      throw new TypeError(label + '.download.bytes must be a positive integer');
+    }
+    download={url,sha256,bytes};
+  }
   return {
     id:safeId(raw.id,label + '.id'),
     role,
     sourceId:requiredString(raw.sourceId || raw.id,label + '.sourceId'),
     input:requiredString(raw.input,label + '.input'),
+    download,
     migrationRules:typeof raw.migrationRules === 'string' && raw.migrationRules.trim()
       ? raw.migrationRules.trim()
       : null,
@@ -218,179 +236,3 @@ export function buildSameDayPipelinePlan(input){
 
   for(const task of manifest.integrationTasks){
     const id='integrate-' + task.id;
-    const dependencies=[...tail];
-    const checkoutId=checkoutStages.get(task.id);
-    if(checkoutId) dependencies.push(checkoutId);
-    stages.push(stage(id,'factory-task',dependencies,{
-      taskFile:task.taskFile,
-      purpose:task.purpose
-    }));
-    tail=[id];
-  }
-
-  const questId='wire-quest-mastery';
-  stages.push(stage(questId,'factory-task',tail,{
-    taskFile:manifest.questMasteryTask,
-    purpose:'quest-mastery-wiring'
-  }));
-
-  const integratedId='verify-integrated-slice';
-  stages.push(stage(integratedId,'factory-task',[questId],{
-    taskFile:manifest.integratedVerificationTask,
-    purpose:'studio-build-playtest-visual-log-review-repair'
-  }));
-
-  const gateIds=[];
-  for(const gateName of REQUIRED_GATES){
-    const id='gate-' + gateName;
-    gateIds.push(id);
-    stages.push(stage(id,'release-gate',[integratedId],{
-      gate:manifest.gates[gateName]
-    }));
-  }
-
-  stages.push(stage('finalize-same-day-slice','finalize',gateIds,{
-    requiredGates:[...REQUIRED_GATES],
-    publicationAllowed:false
-  }));
-
-  const payload={
-    schemaVersion:SAME_DAY_PIPELINE_SCHEMA_VERSION,
-    version:SAME_DAY_PIPELINE_VERSION,
-    runName:manifest.runName,
-    outputDir:manifest.outputDir,
-    factoryAdapter:manifest.factoryAdapter,
-    maxRepairCycles:manifest.maxRepairCycles,
-    maxParallel:manifest.maxParallel,
-    rojoCommand:manifest.rojoCommand,
-    sourceIds:[manifest.authorizedWorld.id,...manifest.donors.map(row=>row.id)],
-    integrationTaskIds:manifest.integrationTasks.map(row=>row.id),
-    stages
-  };
-
-  const plan={
-    ...payload,
-    planHash:stableHash(payload)
-  };
-
-  const validation=verifySameDayPipelinePlan(plan);
-  if(!validation.ok){
-    throw new Error('generated invalid same-day pipeline plan: ' + validation.errors.join('; '));
-  }
-  return plan;
-}
-
-export function verifySameDayPipelinePlan(plan){
-  const errors=[];
-  if(!plain(plan)) return {ok:false,errors:['plan must be an object']};
-  if(plan.schemaVersion !== SAME_DAY_PIPELINE_SCHEMA_VERSION) errors.push('schemaVersion mismatch');
-  if(plan.version !== SAME_DAY_PIPELINE_VERSION) errors.push('version mismatch');
-  if(!Array.isArray(plan.stages) || !plan.stages.length) errors.push('stages are required');
-
-  const stages=Array.isArray(plan.stages) ? plan.stages : [];
-  const ids=stages.map(row=>row?.id).filter(Boolean);
-  if(new Set(ids).size !== ids.length) errors.push('stage ids must be unique');
-
-  const seen=new Set();
-  for(const row of stages){
-    if(!row || typeof row.id !== 'string') continue;
-    if(row.autoPublish !== false) errors.push(row.id + ' must set autoPublish=false');
-    for(const dependency of row.dependsOn || []){
-      if(!seen.has(dependency)){
-        errors.push(row.id + ' depends on missing or later stage ' + dependency);
-      }
-    }
-    const serialized=JSON.stringify(row).toLowerCase();
-    if(/"publicationallowed":true|"autopublish":true/.test(serialized)){
-      errors.push(row.id + ' enables publication');
-    }
-    seen.add(row.id);
-  }
-
-  for(const name of REQUIRED_GATES){
-    if(!ids.includes('gate-' + name)) errors.push('missing ' + name + ' release gate');
-  }
-
-  const final=stages.find(row=>row.id === 'finalize-same-day-slice');
-  if(!final) errors.push('missing finalization stage');
-  else{
-    const required=new Set(REQUIRED_GATES.map(name=>'gate-' + name));
-    for(const id of required){
-      if(!(final.dependsOn || []).includes(id)) errors.push('finalization does not depend on ' + id);
-    }
-    if(final.details?.publicationAllowed !== false){
-      errors.push('finalization must keep publication disabled');
-    }
-  }
-
-  if(typeof plan.planHash === 'string'){
-    const {planHash,...payload}=plan;
-    if(stableHash(payload) !== planHash) errors.push('planHash mismatch');
-  }else{
-    errors.push('planHash is required');
-  }
-
-  return {ok:errors.length === 0,errors};
-}
-
-export function createSameDayPipelineState(plan){
-  const validation=verifySameDayPipelinePlan(plan);
-  if(!validation.ok) throw new Error('cannot create state for invalid plan: ' + validation.errors.join('; '));
-  return {
-    schemaVersion:1,
-    version:'starblox-same-day-pipeline-state-v1',
-    planHash:plan.planHash,
-    status:'ready',
-    completedStages:[],
-    stages:Object.fromEntries(plan.stages.map(row=>[
-      row.id,
-      {
-        status:'pending',
-        stageHash:stableHash(row),
-        attemptCount:0,
-        result:null
-      }
-    ]))
-  };
-}
-
-export function recordSameDayStageResult(state,plan,stageId,result){
-  if(!plain(state)) throw new TypeError('state must be an object.');
-  if(state.planHash !== plan.planHash) throw new Error('state planHash does not match plan');
-  const stage=plan.stages.find(row=>row.id === stageId);
-  if(!stage) throw new Error('unknown stage: ' + stageId);
-  const current=state.stages?.[stageId];
-  if(!current) throw new Error('state is missing stage: ' + stageId);
-
-  for(const dependency of stage.dependsOn){
-    if(state.stages?.[dependency]?.status !== 'complete'){
-      throw new Error(stageId + ' cannot complete before dependency ' + dependency);
-    }
-  }
-
-  current.attemptCount=Number(current.attemptCount || 0) + 1;
-  current.result=clone(result || {});
-  current.status=result?.ok === true ? 'complete' : 'failed';
-
-  if(current.status === 'complete'){
-    if(!state.completedStages.includes(stageId)) state.completedStages.push(stageId);
-    state.status=stageId === 'finalize-same-day-slice' ? 'complete' : 'running';
-  }else{
-    state.status='blocked';
-  }
-
-  return state;
-}
-
-export function readySameDayPipelineStages(state,plan){
-  if(state.planHash !== plan.planHash) throw new Error('state planHash does not match plan');
-  return plan.stages.filter(row => {
-    const status=state.stages?.[row.id]?.status;
-    if(status === 'complete') return false;
-    return row.dependsOn.every(id=>state.stages?.[id]?.status === 'complete');
-  });
-}
-
-export function nextSameDayPipelineStage(state,plan){
-  return readySameDayPipelineStages(state,plan)[0] || null;
-}
