@@ -439,8 +439,8 @@ jobs:
           ROBLOX_UNIVERSE_ID: ${{ vars.ROBLOX_UNIVERSE_ID }}
           ROBLOX_PLACE_ID: ${{ vars.ROBLOX_PLACE_ID }}
         run: npm run roblox:open-cloud-proof
-      - name: Publish Step 8 polished private StarBlox build
-        if: ${{ github.event_name == 'pull_request' && github.head_ref == 'release/roblox-polish-step8' && github.event.pull_request.head.repo.full_name == github.repository }}
+      - name: Publish Step 9 private real-client telemetry build
+        if: ${{ github.event_name == 'pull_request' && github.head_ref == 'release/roblox-private-playtest-step9-current' && github.event.pull_request.head.repo.full_name == github.repository }}
         env:
           ROBLOX_OPEN_CLOUD_API_KEY: ${{ secrets.ROBLOX_OPEN_CLOUD_API_KEY }}
           ROBLOX_UNIVERSE_ID: ${{ vars.ROBLOX_UNIVERSE_ID }}
@@ -448,15 +448,15 @@ jobs:
           STARBLOX_SOURCE_COMMIT: ${{ github.event.pull_request.head.sha }}
           STARBLOX_PUBLISH_RECEIPT: ${{ github.workspace }}/artifacts/starblox-private-publish-receipt.json
         run: npm run roblox:publish-private
-      - name: Verify Step 8 player polish on real Roblox server
-        if: ${{ github.event_name == 'pull_request' && github.head_ref == 'release/roblox-polish-step8' && github.event.pull_request.head.repo.full_name == github.repository }}
+      - name: Verify Step 9 real touch-client playtest
+        if: ${{ github.event_name == 'pull_request' && github.head_ref == 'release/roblox-private-playtest-step9-current' && github.event.pull_request.head.repo.full_name == github.repository }}
         env:
           ROBLOX_OPEN_CLOUD_API_KEY: ${{ secrets.ROBLOX_OPEN_CLOUD_API_KEY }}
           ROBLOX_UNIVERSE_ID: ${{ vars.ROBLOX_UNIVERSE_ID }}
           ROBLOX_PLACE_ID: ${{ vars.ROBLOX_PLACE_ID }}
-        run: npm run roblox:player-polish-proof
-      - name: Upload Step 8 private publish receipt
-        if: ${{ always() && github.event_name == 'pull_request' && github.head_ref == 'release/roblox-polish-step8' }}
+        run: npm run roblox:real-client-proof
+      - name: Upload Step 9 private publish receipt
+        if: ${{ always() && github.event_name == 'pull_request' && github.head_ref == 'release/roblox-private-playtest-step9-current' }}
         uses: actions/upload-artifact@v4
         with:
           name: starblox-private-publish-receipt
