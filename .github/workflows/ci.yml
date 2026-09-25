@@ -23,6 +23,12 @@ jobs:
         uses: dtolnay/rust-toolchain@stable
       - name: Install dependencies
         run: npm install --no-audit --no-fund
+      - name: Syntax-check same-day orchestration
+        run: |
+          node --check scripts/same-day-pipeline.mjs
+          node --check scripts/same-day-evidence-gate.mjs
+          node --check src/sameDayPipeline/sameDayPipeline.js
+          node --check src/sameDayPipeline/sourceBootstrap.js
       - name: Test Roblox file reader
         run: npm run roblox:catalog:reader:test
       - name: Smoke-test Roblox source preflight
