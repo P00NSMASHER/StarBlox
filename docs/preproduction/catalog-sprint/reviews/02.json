@@ -1499,6 +1499,51 @@
         "duplicateVisual": "PASS",
         "technicalIntegrity": "PASS"
       }
+    },
+    {
+      "itemId": "wall-9",
+      "name": "Art Gallery Wall",
+      "collectionId": "wall",
+      "type": "room",
+      "tier": 3,
+      "theme": "Adventure Club",
+      "assetPath": "public/assets/catalog-candidates/deterministic/wall-9-v13.svg",
+      "repositoryPath": "public/assets/catalog-candidates/deterministic/wall-9-v13.svg",
+      "assetHash": "752423e322f394adb1af5f48c1166eaf888f9830",
+      "hashAlgorithm": "git-blob-sha1",
+      "producer": "deterministic-svg",
+      "decision": "ACCEPT",
+      "learnerLabel": "ACCEPT",
+      "reviewedAt": "2026-09-25T08:37:19Z",
+      "reviewProvenance": "GPT-5.6 Sol direct visual inspection of exact QA-rendered deterministic pixels after external Browser Use reviewer was unavailable for insufficient credits; provenance intentionally not represented as external/independent.",
+      "evidenceRefs": [
+        "workflow:36094833312",
+        "artifact:10847495770/staged-replacements/detail/wall-9-752423e3.png",
+        "factory-evidence:docs/preproduction/art-factory/generated-evidence/wall-9-v13-deterministic-svg/wall-9/staged-output.json"
+      ],
+      "reasonCodes": [
+        "DETERMINISTIC_CONTRACT_SATISFIED",
+        "EXACTLY_THREE_FRAMES",
+        "ONE_HORIZONTAL_ROW_CONFIRMED",
+        "CENTER_COMPASS_MAP_CONFIRMED",
+        "NO_OUTER_GRID_OR_EXTRA_PANEL",
+        "EXACT_QA_PIXELS_VISUALLY_VERIFIED"
+      ],
+      "reason": "ACCEPT. Exact QA-rendered pixels show exactly three equal independent portrait frames in one horizontal row on a plain white background: left mountain trail, center large black compass rose over a beige map, and right blue ocean coast. No outer border/backboard/grid, fourth frame, shelf, room, floor, furniture, extra panel, or text is present.",
+      "nextOwner": "08",
+      "nextRepairGuidance": null,
+      "checks": {
+        "identity": "PASS",
+        "themeTier": "PASS",
+        "silhouette": "PASS",
+        "materialLighting": "PASS",
+        "cardReadability": "PASS",
+        "physicalConstruction": "PASS",
+        "framingComposition": "PASS",
+        "originality": "PASS",
+        "duplicateVisual": "PASS",
+        "technicalIntegrity": "PASS"
+      }
     }
   ],
   "currentReplacementDisposition": {
@@ -1510,7 +1555,8 @@
       "ACCEPT": {
         "wall-11": "50ffc975030f6c7e28cf9836756bb312dfa646fb",
         "wall-12": "e9387a7174a888980616ea9afac43cc9b3adbb3b",
-        "wall-10": "e5d4fe1c3d7a0a8ad82f61914228e5bdac6ef43d"
+        "wall-10": "e5d4fe1c3d7a0a8ad82f61914228e5bdac6ef43d",
+        "wall-9": "752423e322f394adb1af5f48c1166eaf888f9830"
       }
     },
     "decor": {
@@ -1532,17 +1578,17 @@
     "newReworkThisRun": 0,
     "newBlockedThisRun": 0,
     "newUsableBy08Now": [
-      "decor-11"
+      "wall-9"
     ],
     "reworkNow": [],
-    "preservedAcceptedHashes": "All prior reviewer02 ACCEPTs remain frozen; deterministic Decor11 v10 exact hash is ACCEPT."
+    "preservedAcceptedHashes": "All prior reviewer02 ACCEPTs remain frozen; deterministic Wall9 v13 exact hash is ACCEPT."
   },
   "handoff": {
-    "13": "Wall9 v12 REWORK; preserve exact hash. Next attempt must use a simpler exactly-three-frame horizontal composition with no enclosing grid.",
+    "13": "Wall9 deterministic v13 accepted. Stop production retries for this item.",
     "14": "Current packets consumed; do not rerender unchanged hashes.",
     "15": "Decor11 remains a bounded exact-pixel blocker after v9.",
     "09": "Decor11 deterministic v10 accepted. Stop production retries for this item.",
-    "08": "Decor11 deterministic v10 exact hash ACCEPT; eligible for exact-hash canonical integration."
+    "08": "Wall9 deterministic v13 exact hash ACCEPT; eligible for exact-hash canonical integration."
   },
   "previousRevisionBlobSha": "8a7b67d6e946ba7129834d23769ec969c7ab9418"
 }
