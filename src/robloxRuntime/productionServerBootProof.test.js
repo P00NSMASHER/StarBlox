@@ -12,7 +12,7 @@ describe('Step 9 joinability: production server boot gate', () => {
       'utf8'
     );
     const workflow=readFileSync(
-      new URL('../../.github/workflows/step9-private-playtest.yml',import.meta.url),
+      new URL('../../.github/workflows/step9-joinfix-exec.yml',import.meta.url),
       'utf8'
     );
 
