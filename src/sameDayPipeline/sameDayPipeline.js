@@ -85,12 +85,34 @@ export function normalizeSameDayPipelineManifest(input){
   const integrationTasks=Array.isArray(input.integrationTasks)
     ? input.integrationTasks.map((row,index)=>{
       if(!plain(row)) throw new TypeError('integrationTasks[' + index + '] must be an object.');
+      const repository=typeof row.repository === 'string' && row.repository.trim()
+        ? row.repository.trim()
+        : null;
+      const commit=typeof row.commit === 'string' && row.commit.trim()
+        ? row.commit.trim().toLowerCase()
+        : null;
+      const checkout=typeof row.checkout === 'string' && row.checkout.trim()
+        ? row.checkout.trim()
+        : null;
+      const checkoutConfigured=Boolean(repository || commit || checkout);
+      if(checkoutConfigured){
+        if(!repository || !/^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/.test(repository)){
+          throw new TypeError('integrationTasks[' + index + '].repository must be owner/repo');
+        }
+        if(!commit || !/^[a-f0-9]{40}$/.test(commit)){
+          throw new TypeError('integrationTasks[' + index + '].commit must be an exact 40-character Git SHA');
+        }
+        if(!checkout) throw new TypeError('integrationTasks[' + index + '].checkout is required');
+      }
       return {
         id:safeId(row.id,'integrationTasks[' + index + '].id'),
         taskFile:requiredString(row.taskFile,'integrationTasks[' + index + '].taskFile'),
         purpose:typeof row.purpose === 'string' && row.purpose.trim()
           ? row.purpose.trim()
-          : 'authorized-code-donor-integration'
+          : 'authorized-code-donor-integration',
+        repository,
+        commit,
+        checkout
       };
     })
     : [];
@@ -160,6 +182,19 @@ export function buildSameDayPipelinePlan(input){
     adaptRows.push({source,exportId,adaptId});
   }
 
+  const checkoutStages=new Map();
+  for(const task of manifest.integrationTasks){
+    if(!task.repository) continue;
+    const id='checkout-' + task.id;
+    checkoutStages.set(task.id,id);
+    stages.push(stage(id,'code-donor-checkout',[],{
+      id:task.id,
+      repository:task.repository,
+      commit:task.commit,
+      checkout:task.checkout
+    }));
+  }
+
   stages.push(stage('build-staging-place','staging-project',exportIds,{
     sourceIds:sources.map(row=>row.id),
     rojoCommand:manifest.rojoCommand
@@ -180,7 +215,10 @@ export function buildSameDayPipelinePlan(input){
 
   for(const task of manifest.integrationTasks){
     const id='integrate-' + task.id;
-    stages.push(stage(id,'factory-task',tail,{
+    const dependencies=[...tail];
+    const checkoutId=checkoutStages.get(task.id);
+    if(checkoutId) dependencies.push(checkoutId);
+    stages.push(stage(id,'factory-task',dependencies,{
       taskFile:task.taskFile,
       purpose:task.purpose
     }));
