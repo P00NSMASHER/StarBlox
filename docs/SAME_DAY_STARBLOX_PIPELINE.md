@@ -107,12 +107,19 @@ Imported Luau is never executed during catalog/migration.
 
 Repositories such as Flex-with-Friends and Rorooms enter through explicit factory integration tasks instead of pretending they are Roblox place files.
 
+The manifest pins each donor to an exact 40-character Git commit SHA. The pipeline:
+
+1. clones the public repository into its dedicated ignored vendor directory if needed;
+2. refuses a dirty or mismatched existing checkout;
+3. fetches the exact pinned SHA;
+4. checks out that SHA detached;
+5. verifies HEAD equals the manifest pin;
+6. never executes donor repository scripts during checkout.
+
 The default task files are:
 
 - `config/same-day/integrate-flex-task.json`
 - `config/same-day/integrate-rorooms-task.json`
-
-Their source checkouts are expected at the paths named in those tasks.
 
 ## Factory adapter
 
@@ -138,6 +145,29 @@ Roles:
 - `visual-review`
 
 This avoids hard-wiring StarBlox to a specific model vendor.
+
+## Safe asset assembly
+
+After every Roblox place donor is exported, the pipeline verifies its migration plan/bundle and creates a generated `same-day.project.json`.
+
+Only units meeting **all** of these conditions are mounted into `Workspace/StarBloxImported`:
+
+- export disposition is `staging`;
+- strategy is `extract` or `asset-only`;
+- script count is zero;
+- remote count is zero;
+- risk flags are empty;
+- the exported file still matches its approved SHA-256 and byte count.
+
+Code-bearing/refactor units are never mounted this way. They stay quarantined and enter the AI Development Factory separately.
+
+The pipeline then runs:
+
+```bash
+rojo build same-day.project.json -o StarBloxSameDay.rbxlx
+```
+
+It stops at `verify-studio-staging` until the generated place is open (or the project is live-synced) and the StarBlox Studio connector can see `StarBloxImported`. After that one local-GUI checkpoint, `--resume` continues the automated adaptation path.
 
 ## Studio runtime proof
 
@@ -200,15 +230,7 @@ sources/authorized/
   Robbing-Simulator.rbxl
 ```
 
-Place authorized source-code repositories under:
-
-```text
-vendor/authorized/
-  roblox-flex-with-friends/
-  Rorooms/
-```
-
-These large/private source corpora do not need to be committed to StarBlox.
+The pipeline creates the configured `vendor/authorized/` source-code checkouts automatically at their pinned commits. Both `sources/authorized/` and `vendor/authorized/` are gitignored.
 
 Start the Studio bridge:
 
