@@ -3,7 +3,7 @@
   "kind": "STARBLOX_RELEASE_ART_BLOCKER_LEDGER",
   "branch": "screenshot-match-preproduction",
   "source": {
-    "computedAtHead": "5a834b014c3f48f5a134068928ffbd3903f7d97e",
+    "computedAtHead": "61072b0d9be88dc8e29ff1abfbecfa39c297db3d",
     "manifest": {
       "version": 45,
       "finalCount": 181,
@@ -18,37 +18,37 @@
       "name": "Neon Streaming Desk",
       "producer": "03",
       "reviewer": "05",
-      "state": "CPU_V12_RUNNING",
-      "activeQueue": "w03-desk10-v12-ultraliteral",
-      "generationRunId": 36069228853,
+      "state": "CPU_V13_RUNNING",
+      "activeQueue": "w03-desks10-v13-desks11-v11-literal-retry",
+      "generationRunId": 36076241300,
       "latestEvidence": {
-        "version": "v11",
-        "gitBlobSha": "0255b3af108f7cda131101965f754b8b507ce3dd",
-        "sha256": "8ddcce08ba65392a685b4820ad7b0a656deeee7b5b9db548e5d658b6abb15927"
+        "version": "v12",
+        "gitBlobSha": "50fb49c1bf2bcea8b1d48519fab3120f2fc7cf1f",
+        "sha256": "025e4b8632f874ef8b2a3825400516accf58cddbd068c296745ef3e41180f105"
       },
-      "nextRepair": "v12 A-MIC-FIRST-DESK is running now. Do not launch another Desk10 retry unless this exact v12 hash is independently REWORK."
+      "nextRepair": "v13 A-SIMPLE-MIC-DESK is running. Do not launch another Desk10 retry unless this exact v13 hash is independently REWORK."
     },
     {
       "id": "desks-11",
       "name": "Dream Creator Station",
       "producer": "03",
       "reviewer": "01",
-      "state": "CPU_V10_PENDING",
-      "activeQueue": "w03-desk11-v10-ultraliteral",
-      "generationRunId": 36069422037,
+      "state": "CPU_V11_RUNNING",
+      "activeQueue": "w03-desks10-v13-desks11-v11-literal-retry",
+      "generationRunId": 36076241300,
       "latestEvidence": {
-        "version": "v9",
-        "gitBlobSha": "5895f9d6a32ea6e13a8d45691950a3ddbce46340",
-        "sha256": "b7123b0f4225922630e7671a9b9327283fc50a14e3404bec1d31503629eb59a4"
+        "version": "v10",
+        "gitBlobSha": "a46471a5a4adc6edfb004cabfb5af9ee0b4ae6c9",
+        "sha256": "490541208e0af9537cbf0e143448e7fbb2e2a59ce2b22447586f5f5a0690da84"
       },
-      "nextRepair": "v10 A-WORKTOP-FIRST is the one pending CPU successor behind Desk10 v12."
+      "nextRepair": "v11 A-SINGLE-CREATOR-DESK is running. Do not duplicate while the exact successor is unresolved."
     },
     {
       "id": "wall-9",
       "name": "Art Gallery Wall",
       "producer": "13",
       "reviewer": "02",
-      "state": "V12_REWORK__NEXT_RETRY_NOT_QUEUED",
+      "state": "V13_PREPARED_NOT_QUEUED",
       "activeQueue": null,
       "generationRunId": null,
       "latestEvidence": {
@@ -56,52 +56,55 @@
         "gitBlobSha": "6e08e353949fa85539990a4731e1db1b62cf5591",
         "sha256": "53f60098a7b60155db9dcd2dad0fd6cf132cc21bd7efe4c242997165b8a5ceba"
       },
-      "nextRepair": "Prepare a new simpler version only after preserving Desk10/Desk11 CPU order: exactly three independent frames, no enclosing grid, center frame unmistakable compass over map."
+      "nextRepair": "v13 A-THREE-INDEPENDENT-FRAMES is prepared. Queue only when Decor11 v9 transitions to running so the pending slot is not displaced.",
+      "preparedQueue": "w13-wall9-v13-exact-triptych"
     },
     {
       "id": "decor-11",
       "name": "Dream Vanity Set",
       "producer": "09",
       "reviewer": "02",
-      "state": "PREPARED_V8_WAIT_CPU_SLOT",
-      "preparedQueue": "w09-decor11-v8-simple-stool",
+      "state": "CPU_V9_PENDING",
       "latestEvidence": {
-        "version": "v7",
-        "gitBlobSha": "7badb72a99eb63aa259e5345a6a806cacb6c73a2",
-        "sha256": "31ef9871ff7ed83d583630a7e78ec500dfd75116d78a840ef9f660914aa8fa45"
+        "version": "v8",
+        "gitBlobSha": "332bf3f0636797a3d0a8f6fa08b3e43232b81598",
+        "sha256": "0202ac29798ce6ecd08061daba503bfe400e918e851029670f327f68d01dc336"
       },
-      "nextRepair": "v8 B-SIMPLE-VANITY-STOOL is prepared and CLIP-safe. Queue only after Desk11 v10 transitions to running so it becomes the single pending successor."
+      "nextRepair": "v9 B-THREE-PIECE-VANITY is the single pending successor behind the running producer03 batch.",
+      "activeQueue": "w09-decor11-v9-ultraliteral",
+      "generationRunId": 36076256659
     }
   ],
   "parallelWorkPlan": {
     "cpuSemaphore": "ONE_RUNNING_PLUS_ONE_PENDING",
     "currentCpuBatch": {
-      "queueId": "w03-desk10-v12-ultraliteral",
+      "queueId": "w03-desks10-v13-desks11-v11-literal-retry",
       "items": [
-        "desks-10"
+        "desks-10",
+        "desks-11"
       ],
-      "runId": 36069228853,
+      "runId": 36076241300,
       "state": "RUNNING"
     },
     "pendingSuccessor": {
-      "queueId": "w03-desk11-v10-ultraliteral",
+      "queueId": "w09-decor11-v9-ultraliteral",
       "items": [
-        "desks-11"
+        "decor-11"
       ],
-      "runId": 36069422037,
+      "runId": 36076256659,
       "state": "PENDING"
     },
     "preparedNext": [
       {
         "rank": 1,
-        "producer": "09",
-        "queuePath": "docs/preproduction/art-factory/prepared-queues/w09-decor11-v8-simple-stool.json",
+        "producer": "13",
+        "queuePath": "docs/preproduction/art-factory/prepared-queues/w13-wall9-v13-exact-triptych.json",
         "items": [
-          "decor-11"
+          "wall-9"
         ]
       }
     ],
-    "queuePolicy": "Preserve Desk10 v12 running and Desk11 v10 pending. When Desk11 v10 transitions to running, queue Decor11 v8 exactly once as the pending successor. Do not queue Wall9 work until a genuinely new post-v12 request is prepared, and never displace the current pending successor."
+    "queuePolicy": "Keep producer03 running and Decor11 v9 as the single pending successor. Queue Wall9 v13 only after Decor11 transitions to running. Never create a second pending run in the shared concurrency group."
   },
   "nonArtReleaseState": {
     "liveFunctionalSmoke": "GREEN",
