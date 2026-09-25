@@ -254,7 +254,7 @@ jobs:
           assert.equal(lock.verification?.generatedPropertiesVerifiedForEveryEntry,true);
           assert.equal(lock.readOnlyPolicy?.baselineMutationAllowed,false);
           assert.equal(lock.boundaries?.starBloxMounted,false);
-          await writeFile('/tmp/starblox-step4-world/step5-exactness-lock.json',JSON.stringify(lock,null,2)+'\\n');
+          await writeFile('/tmp/starblox-step4-world/step5-exactness-lock.json',JSON.stringify(lock,null,2)+'\n');
           console.log('STARBLOX_STEP5_EXACTNESS='+JSON.stringify(lock));
           NODE
           grep -q '"status": "exactness-verified-and-baseline-locked"' /tmp/starblox-step4-world/step5-exactness-lock.json
