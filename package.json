@@ -39,7 +39,8 @@
     "roblox:brookhaven-world:deserialize": "node scripts/deserialize-brookhaven-world.mjs",
     "roblox:brookhaven-world:generate": "node scripts/generate-brookhaven-world.mjs",
     "roblox:real-client-proof": "node scripts/verify-roblox-real-client-playtest.mjs",
-    "roblox:production-server-boot-proof": "node scripts/verify-roblox-production-server-boot.mjs"
+    "roblox:production-server-boot-proof": "node scripts/verify-roblox-production-server-boot.mjs",
+    "roblox:brookhaven-world:compose": "node scripts/compose-brookhaven-starblox-place.mjs"
   },
   "dependencies": {
     "lucide-react": "^0.468.0",
