@@ -57,7 +57,7 @@ export async function buildSameDayStagingProject({
     }
 
     const units=new Map(plan.units.map(unit=>[unit.unitId,unit]));
-    imported[sourceId]={};
+    imported[sourceId]={'$className':'Folder'};
 
     for(const artifact of bundle.artifacts || []){
       const unit=units.get(artifact.unitId);
@@ -105,7 +105,7 @@ export async function buildSameDayStagingProject({
       });
     }
 
-    if(Object.keys(imported[sourceId]).length === 0){
+    if(Object.keys(imported[sourceId]).length === 1){
       delete imported[sourceId];
     }
   }
@@ -132,7 +132,10 @@ export async function buildSameDayStagingProject({
         }
       },
       Workspace:{
-        StarBloxImported:imported
+        StarBloxImported:{
+          '$className':'Folder',
+          ...imported
+        }
       }
     }
   };
