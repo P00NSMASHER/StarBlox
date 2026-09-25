@@ -609,7 +609,17 @@ describe('Step 2: AI development factory', () => {
           playtest:{required:false},
           visual:{required:false}
         }),
-        code:async () => ({summary:'No-op proof',actions:[]}),
+        code:async () => ({
+          summary:'Make a reversible adaptation without Studio tests',
+          actions:[{
+            tool:'set_property',
+            args:{
+              path:'Workspace/TestPart',
+              property:'Anchored',
+              value:true
+            }
+          }]
+        }),
         review:async ({verification}) => ({
           verdict:verification.ok ? 'pass' : 'fail',
           findings:verification.errors
@@ -630,6 +640,21 @@ describe('Step 2: AI development factory', () => {
     const tampered=JSON.parse(JSON.stringify(run));
     tampered.task.migrationEvidence.units[0].artifactBytes=124;
     expect(verifyDevelopmentRun(tampered).errors.join(' ')).toMatch(/migration evidence hash mismatch/);
+
+    const noTestAdaptation=buildMigrationAdaptationReceipt({
+      run,
+      runArtifactFile:'ai-development-run.json',
+      runArtifactSha256:'9'.repeat(64),
+      runArtifactBytes:1024
+    });
+    expect(() => buildMigrationPromotionReceipt({
+      adaptationReceipt:noTestAdaptation,
+      adaptationReceiptFile:'migration-adaptation-receipt.json',
+      adaptationReceiptSha256:'8'.repeat(64),
+      adaptationReceiptBytes:2048,
+      run,
+      unitIds:['authorized-system-refactor']
+    })).toThrow(/Studio tests were not required/);
   });
 
   it('emits a non-promotional adaptation receipt for an attested verified migration change', async () => {
