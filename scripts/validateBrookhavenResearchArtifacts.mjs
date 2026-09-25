@@ -80,7 +80,7 @@ const vehicleRightsEnum=vehicleDefinitionSchema.properties?.assetBinding?.proper
 if(!vehicleRightsEnum.includes('project-rights-verified')) issues.push('vehicle-definition-rights-gate');
 const vehicleGeometryEnum=vehicleDefinitionSchema.properties?.assetBinding?.properties?.geometrySource?.enum||[];
 if(!vehicleGeometryEnum.includes('project-rights-verified-conversion')) issues.push('vehicle-definition-conversion-source');
-if(vehicleDefinitionSchema.properties?.safety?.properties?.brookhavenRuntimeDependency?.const!==false){
+if(vehicleDefinitionSchema.properties?.safety?.properties?.externalRuntimeDependency?.const!==false){
   issues.push('vehicle-definition-runtime-boundary');
 }
 if(vehicleDefinitionSchema.properties?.safety?.properties?.remoteDependency?.const!==false){
