@@ -5,6 +5,7 @@ import { pathToFileURL } from 'node:url';
 
 import {
   buildSameDayPipelinePlan,
+  collectSameDayInputProvenance,
   createSameDayPipelineState,
   readySameDayPipelineStages,
   recordSameDayStageResult
@@ -519,31 +520,9 @@ async function execute(stage){
       };
     }
 
-    const placeSources={};
-    const codeDonors={};
+    const {placeSources,codeDonors}=collectSameDayInputProvenance(state,plan);
     const migrationExports={};
     for(const planStage of plan.stages){
-      const stageResult=state.stages?.[planStage.id]?.result;
-      if(planStage.type === 'source-ingest'){
-        const source=planStage.details?.source;
-        if(source?.id){
-          placeSources[source.id]={
-            sourceId:source.sourceId,
-            input:source.input,
-            sha256:stageResult?.bootstrap?.sha256 || null,
-            bytes:Number(stageResult?.bootstrap?.bytes || 0) || null,
-            downloaded:stageResult?.bootstrap?.downloaded === true,
-            verified:stageResult?.bootstrap?.verified === true
-          };
-        }
-      }
-      if(planStage.type === 'code-donor-checkout' && planStage.details?.id){
-        codeDonors[planStage.details.id]={
-          repository:stageResult?.repository || planStage.details.repository,
-          commit:stageResult?.commit || planStage.details.commit,
-          checkout:stageResult?.checkout || planStage.details.checkout
-        };
-      }
       if(planStage.type === 'migration-export' && planStage.details?.sourceId){
         migrationExports[planStage.details.sourceId]={
           receipt:resolve(
@@ -569,17 +548,6 @@ async function execute(stage){
       }
       evidence.sha256=sha256(receiptBytes);
       evidence.receiptHash=receipt.receiptHash || null;
-    }
-
-    for(const [sourceId,evidence] of Object.entries(placeSources)){
-      if(!evidence.verified || !/^[a-f0-9]{64}$/.test(String(evidence.sha256 || ''))){
-        throw new Error('final summary source evidence is incomplete: ' + sourceId);
-      }
-    }
-    for(const [donorId,evidence] of Object.entries(codeDonors)){
-      if(!/^[a-f0-9]{40}$/.test(String(evidence.commit || ''))){
-        throw new Error('final summary donor commit is invalid: ' + donorId);
-      }
     }
 
     const summaryPayload={
