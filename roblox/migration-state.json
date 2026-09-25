@@ -7,8 +7,8 @@
     "commit": "e12897e0e3796728eb338e94ee31fa759a6713a8"
   },
   "currentStep": {
-    "number": 4,
-    "name": "prove-real-roblox-runtime-via-open-cloud",
+    "number": 5,
+    "name": "first-controlled-private-starblox-publish",
     "status": "verified"
   },
   "runtimeAuthority": {
@@ -23,7 +23,7 @@
     "Do not publish or activate a Roblox production experience from this step.",
     "Promote migrated systems only through explicit verification gates."
   ],
-  "nextStep": "complete-live-studio-migration-cycle",
+  "nextStep": "build-native-player-facing-gameplay-vertical-slice",
   "toolchain": {
     "manager": "Rokit",
     "managerVersion": "1.2.0",
@@ -32,8 +32,8 @@
   },
   "roadmap": {
     "totalSteps": 10,
-    "completedSteps": 4,
-    "remainingSteps": 6
+    "completedSteps": 5,
+    "remainingSteps": 5
   },
   "studioSync": {
     "baseline": "roblox/native-place-baseline.json",
@@ -76,5 +76,23 @@
     ],
     "verified": true,
     "verifiedAt": "2026-09-25"
+  },
+  "privatePublish": {
+    "releaseId": "starblox-private-step5-v1",
+    "universeId": "6027194615",
+    "placeId": "17602626136",
+    "sourceCommit": "a191e5f36c091a0962568fdeb501a6c229eed8ce",
+    "mergeCommit": "2205fae0e534fec3846e2bedbb5e16c08734b738",
+    "previousVersion": 1,
+    "publishedVersion": 2,
+    "verifiedVersion": 2,
+    "artifactSha256": "e505c0dff8cfce5e87c734f2a3c930be826b4b2f67b55c5d7d057ffe569acf12",
+    "workflowRunId": 36172752556,
+    "receiptArtifactId": 10881303734,
+    "experienceVisibilityChangeAttempted": false,
+    "publicAccessChangeAttempted": false,
+    "liveActivationAllowed": false,
+    "productionActivationAllowed": false,
+    "rollbackVersion": 1
   }
 }
