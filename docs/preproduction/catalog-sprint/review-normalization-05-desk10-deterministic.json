@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Schema-only normalization of reviewer 05's immutable Desk10 deterministic exact-hash ACCEPT for Workstream 08. The review verdict is not changed. Producer field denotes current catalog stewardship owner 03; original creation method remains deterministic-svg.",
+  "reviewer": "05",
+  "sourceEvidence": {
+    "path": "docs/preproduction/catalog-sprint/reviews/05.json",
+    "blobSha": "c158e41c90859b2deb2b89184b84c0867989f005",
+    "sourceCommit": "7af2a2072556186c5a483a13f303fcf2b6c2fe1a",
+    "workflowRunId": 36094833312,
+    "artifactId": 10847495770
+  },
+  "reviews": [
+    {
+      "itemId": "desks-10",
+      "name": "Neon Streaming Desk",
+      "tier": 4,
+      "theme": "Aqua Wave",
+      "assetPath": "/assets/catalog-candidates/deterministic/desks-10-v16.svg",
+      "assetHash": "8eb15c972ec4a29e52db24d8c93e468348b55874",
+      "producer": "03",
+      "creationMethod": "deterministic-svg",
+      "decision": "ACCEPT",
+      "evidenceRefs": [
+        "source:docs/preproduction/catalog-sprint/reviews/05.json@c158e41c90859b2deb2b89184b84c0867989f005",
+        "workflow:36094833312/artifact:10847495770",
+        "reviewer05:EXACT_DETERMINISTIC_HASH_ACCEPT"
+      ]
+    }
+  ]
+}
