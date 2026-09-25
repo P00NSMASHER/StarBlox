@@ -1,6 +1,7 @@
 import { spawnSync } from 'node:child_process';
 import { mkdir,readFile,writeFile,stat } from 'node:fs/promises';
 import { dirname,isAbsolute,resolve } from 'node:path';
+import { pathToFileURL } from 'node:url';
 
 import {
   buildSameDayPipelinePlan,
@@ -8,6 +9,7 @@ import {
   nextSameDayPipelineStage,
   recordSameDayStageResult
 } from '../src/sameDayPipeline/sameDayPipeline.js';
+import { buildSameDayStagingProject } from '../src/sameDayPipeline/stagingProject.js';
 
 function arg(name,required=false){
   const inline=process.argv.find(value=>value.startsWith(name + '='));
@@ -88,6 +90,17 @@ const normalizedSources=[
 ];
 const sources=new Map(normalizedSources.map(source=>[source.id,source]));
 const adapterPath=abs(manifestDir,manifest.factoryAdapter);
+let loadedAdapter=null;
+
+async function factoryAdapter(){
+  if(loadedAdapter) return loadedAdapter;
+  const module=await import(pathToFileURL(adapterPath).href);
+  loadedAdapter=module.default || module;
+  if(!loadedAdapter?.studio || typeof loadedAdapter.studio.call !== 'function'){
+    throw new Error('factory adapter must expose studio.call');
+  }
+  return loadedAdapter;
+}
 
 function sourceOut(id){
   return resolve(outDir,'sources',id);
@@ -163,18 +176,105 @@ async function execute(stage){
     };
   }
 
+  if(stage.type === 'staging-project'){
+    const staged=await buildSameDayStagingProject({
+      repoRoot:root,
+      outDir,
+      sourceIds:stage.details.sourceIds
+    });
+    const placePath=resolve(outDir,'StarBloxSameDay.rbxlx');
+    const result=run(
+      stage.details.rojoCommand || plan.rojoCommand || 'rojo',
+      ['build',staged.projectPath,'-o',placePath],
+      {cwd:root}
+    );
+    return {
+      ...result,
+      startedAt,
+      completedAt:new Date().toISOString(),
+      artifacts:result.ok ? {
+        project:staged.projectPath,
+        stagingReport:staged.reportPath,
+        place:placePath
+      } : {
+        project:staged.projectPath,
+        stagingReport:staged.reportPath
+      }
+    };
+  }
+
+  if(stage.type === 'studio-check'){
+    const adapter=await factoryAdapter();
+    let description=null;
+    try{
+      description=typeof adapter.studio.describe === 'function'
+        ? await adapter.studio.describe()
+        : null;
+      const staging=JSON.parse(
+        await readFile(resolve(outDir,'same-day-staging-report.json'),'utf8')
+      );
+      const treeResult=await adapter.studio.call('search_tree',{
+        query:stage.details.expectedRoot || 'StarBloxImported',
+        limit:50
+      });
+      const count=Number(treeResult?.count ?? treeResult?.results?.length ?? 0);
+      const needsImported=(staging.included || []).length > 0;
+      if(needsImported && count < 1){
+        return {
+          ok:false,
+          status:2,
+          startedAt,
+          completedAt:new Date().toISOString(),
+          error:
+            'Studio is connected but the staged donor world is not loaded. Open ' +
+            resolve(outDir,'StarBloxSameDay.rbxlx') +
+            ' (or sync same-day.project.json with Rojo), then resume.',
+          description
+        };
+      }
+      return {
+        ok:true,
+        status:0,
+        startedAt,
+        completedAt:new Date().toISOString(),
+        description,
+        stagedAssetCount:(staging.included || []).length,
+        treeCount:count
+      };
+    }catch(error){
+      return {
+        ok:false,
+        status:2,
+        startedAt,
+        completedAt:new Date().toISOString(),
+        error:
+          'Studio staging check failed: ' +
+          (error instanceof Error ? error.message : String(error)) +
+          '. Open the generated StarBloxSameDay.rbxlx, connect the StarBlox Studio connector, then resume.',
+        description
+      };
+    }
+  }
+
   if(stage.type === 'factory-adapt'){
     const source=sources.get(stage.details.sourceId);
     const dir=sourceOut(source.id);
     const migrationPlan=JSON.parse(await readFile(resolve(dir,'planning/migration-plan.json'),'utf8'));
-    const unitIds=(migrationPlan.units || []).filter(row=>row.selected).map(row=>row.unitId);
+    const unitIds=(migrationPlan.units || [])
+      .filter(row =>
+        row.selected === true &&
+        row.exportDisposition === 'quarantine' &&
+        ['refactor','quarantine'].includes(row.migrationStrategy)
+      )
+      .map(row=>row.unitId);
     if(!unitIds.length){
       return {
-        ok:source.required === false,
-        status:source.required === false ? 0 : 2,
+        ok:true,
+        status:0,
         startedAt,
         completedAt:new Date().toISOString(),
-        error:'no selected migration units'
+        skipped:true,
+        reason:'no quarantined/refactor code units require factory adaptation; safe assets are staged through Rojo'
       };
     }
     const task={
