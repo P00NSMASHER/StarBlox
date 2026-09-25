@@ -420,6 +420,8 @@ async function gatherRuntimeEvidence(studio,plan,{safety={}}={}){
                 captured:true,
                 width:Number(capture?.width) || null,
                 height:Number(capture?.height) || null,
+                originalWidth:Number(capture?.originalWidth) || Number(capture?.width) || null,
+                originalHeight:Number(capture?.originalHeight) || Number(capture?.height) || null,
                 artifactHash:stableHash(capture)
               };
             }catch(error){
