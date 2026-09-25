@@ -23,6 +23,7 @@ import {
   persistSnapshot,
   readIndexedDbBackup
 } from './storage';
+import { PlaytestPanel } from './observability/PlaytestPanel.jsx';
 
 const DEFAULT_SAVE = {
   stateVersion: 2,
@@ -480,6 +481,7 @@ export function App(){
   return (
     <div className="shell">
       {toast && <div className="toast" role="status">{toast}</div>}
+      <PlaytestPanel save={save} screen={screen} />
 
       <header className="hud">
         <button className="brand" onClick={() => setScreen('world')} aria-label="Go to Brightside City">
