@@ -3,6 +3,7 @@ import {
   buildSameDayPipelinePlan,
   createSameDayPipelineState,
   nextSameDayPipelineStage,
+  readySameDayPipelineStages,
   recordSameDayStageResult,
   verifySameDayPipelinePlan
 } from './sameDayPipeline.js';
@@ -14,6 +15,7 @@ function manifest(){
     outputDir:'artifacts/same-day',
     factoryAdapter:'config/factory-adapter.mjs',
     maxRepairCycles:2,
+    maxParallel:4,
     authorizedWorld:{
       id:'brookhaven',
       sourceId:'authorized-brookhaven',
@@ -99,6 +101,12 @@ describe('same-day StarBlox pipeline',()=>{
     const state=createSameDayPipelineState(plan);
 
     expect(nextSameDayPipelineStage(state,plan).id).toBe('ingest-brookhaven');
+    expect(readySameDayPipelineStages(state,plan).map(row=>row.id)).toEqual([
+      'ingest-brookhaven',
+      'ingest-robbing',
+      'checkout-flex',
+      'checkout-rorooms'
+    ]);
     expect(()=>recordSameDayStageResult(
       state,
       plan,
