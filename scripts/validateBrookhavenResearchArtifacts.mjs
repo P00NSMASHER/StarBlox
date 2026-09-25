@@ -771,6 +771,144 @@ if(step12.completion?.mergePerformed!==false) issues.push('step12-merge-boundary
 if(step12.completion?.deploymentPerformed!==false) issues.push('step12-deploy-boundary');
 if((step12.postPlanPriorityQueue||[]).length<5) issues.push('step12-priority-queue');
 
+const step12FinalizationPath='docs/preproduction/brookhaven-research/step-12-finalization-v2.json';
+const step12Finalization=JSON.parse(fs.readFileSync(step12FinalizationPath,'utf8'));
+if(step12Finalization.schemaVersion!=='starblox-brookhaven-step-12-finalization-v2') issues.push('step12-v2-schema');
+if(step12Finalization.step!=='12-of-12') issues.push('step12-v2-number');
+if(step12Finalization.status!=='complete-hardened-gap-hunt-program-closed-no-merge-no-deploy') issues.push('step12-v2-status');
+if(step12Finalization.sourceGapHunt!==step12Path) issues.push('step12-v2-source-gap-hunt');
+
+if(step12Finalization.hardenedPrerequisites?.step8!==step8CompletionPath) issues.push('step12-v2-step8-ref');
+if(step12Finalization.hardenedPrerequisites?.step9!==step9CompletionPath) issues.push('step12-v2-step9-ref');
+if(step12Finalization.hardenedPrerequisites?.step10!==step10CompletionPath) issues.push('step12-v2-step10-ref');
+if(step12Finalization.hardenedPrerequisites?.step11Replay!==replayV2Path) issues.push('step12-v2-step11-replay-ref');
+if(step12Finalization.hardenedPrerequisites?.step11Readiness!==readinessV2Path) issues.push('step12-v2-step11-readiness-ref');
+if(step12Finalization.hardenedPrerequisites?.step8Complete!==true) issues.push('step12-v2-step8-complete');
+if(step12Finalization.hardenedPrerequisites?.step9Complete!==true) issues.push('step12-v2-step9-complete');
+if(step12Finalization.hardenedPrerequisites?.step10Complete!==true) issues.push('step12-v2-step10-complete');
+if(step12Finalization.hardenedPrerequisites?.step11Complete!==true) issues.push('step12-v2-step11-complete');
+
+const originalGapIds=(step12.searchedGaps||[]).map(row=>String(row.id)).sort();
+const dedupeGapIds=(step12Finalization.dedupeLedger||[]).map(row=>String(row.id)).sort();
+if(step12Finalization.gapHuntClosure?.searchedGapCount!==originalGapIds.length) issues.push('step12-v2-gap-count-field');
+if(originalGapIds.length!==10) issues.push('step12-v2-original-gap-count');
+if(sorted(originalGapIds)!==sorted(dedupeGapIds)) issues.push('step12-v2-dedupe-id-parity');
+if(step12Finalization.gapHuntClosure?.targetedSearchPerformed!==true) issues.push('step12-v2-targeted-search');
+if(step12Finalization.gapHuntClosure?.broadSearchPerformedByFinalization!==false) issues.push('step12-v2-broad-search');
+if(step12Finalization.gapHuntClosure?.recoveredNewVisualPayloads!==0) issues.push('step12-v2-payload-overclaim');
+if(step12Finalization.gapHuntClosure?.newPointersPinnedByOriginalGapHunt!==true) issues.push('step12-v2-pointer-evidence');
+if(step12Finalization.gapHuntClosure?.deadSearchLanesRecorded!==true) issues.push('step12-v2-dead-lanes');
+if(step12Finalization.gapHuntClosure?.futureSearchDedupeReady!==true) issues.push('step12-v2-dedupe-ready');
+if(step12Finalization.gapHuntClosure?.noCompleteHouseVisualCatalogRecovered!==true) issues.push('step12-v2-house-overclaim');
+if(step12Finalization.gapHuntClosure?.noCompleteVehicleVisualCatalogRecovered!==true) issues.push('step12-v2-vehicle-overclaim');
+if(step12Finalization.gapHuntClosure?.noPortedVehicleReturnPayloadRecovered!==true) issues.push('step12-v2-ported-vehicle-overclaim');
+if(step12Finalization.gapHuntClosure?.noLoadableEntriesBackingTablesRecovered!==true) issues.push('step12-v2-loadable-table-overclaim');
+if(step12Finalization.gapHuntClosure?.noPublicRobloxPlaceModelPayloadRecovered!==true) issues.push('step12-v2-place-model-overclaim');
+
+if(step12Finalization.searchReopenPolicy?.broadGithubSearchClosed!==true) issues.push('step12-v2-search-closed');
+if(step12Finalization.searchReopenPolicy?.repeatedDeadLaneSearchForbidden!==true) issues.push('step12-v2-repeat-search-gate');
+if(step12Finalization.searchReopenPolicy?.searchMustRemainTargeted!==true) issues.push('step12-v2-targeted-reopen');
+if(step12Finalization.searchReopenPolicy?.provenanceMustBePinnedBeforeUse!==true) issues.push('step12-v2-provenance-gate');
+const step12ReopenTriggers=new Set(step12Finalization.searchReopenPolicy?.reopenRequiresOneOf||[]);
+for(const trigger of [
+  'new concrete filename',
+  'new asset ID',
+  'new internal module name',
+  'new content-table symbol',
+  'materially new repository corpus',
+  'authorized source/export artifact'
+]){
+  if(!step12ReopenTriggers.has(trigger)) issues.push('step12-v2-reopen-trigger:'+trigger);
+}
+
+if(step12Finalization.nextWorkBoundary?.primaryNextAction!=='controlled replay onto a fresh stabilized StarBlox product branch using Step 11 v2') issues.push('step12-v2-next-work');
+if(step12Finalization.nextWorkBoundary?.publicSearchRole!=='supplemental gap-specific discovery only') issues.push('step12-v2-public-search-role');
+
+for(const field of [
+  'rawExecutablePayloadMayShip',
+  'remoteDependentSourcePayloadMayShip',
+  'liveAppWired',
+  'persistenceChanged',
+  'economyChanged',
+  'networkingChanged',
+  'mergePerformed',
+  'deploymentPerformed',
+  'liveIntegrationAuthorized'
+]){
+  if(step12Finalization.safety?.[field]!==false) issues.push('step12-v2-safety:'+field);
+}
+if(step12Finalization.completion?.step12Complete!==true) issues.push('step12-v2-completion');
+if(step12Finalization.completion?.twelveStepResearchProgramComplete!==true) issues.push('step12-v2-program-completion');
+if(step12Finalization.completion?.gapSearchProgramClosed!==true) issues.push('step12-v2-gap-search-closed');
+if(step12Finalization.completion?.finalProgramReceiptRequired!==true) issues.push('step12-v2-program-receipt');
+
+const programCompletionPath='docs/preproduction/brookhaven-research/program-completion-v1.json';
+const programCompletion=JSON.parse(fs.readFileSync(programCompletionPath,'utf8'));
+if(programCompletion.schemaVersion!=='starblox-brookhaven-research-program-completion-v1') issues.push('program-completion-schema');
+if(programCompletion.status!=='complete-12-step-research-program-closed-no-merge-no-deploy') issues.push('program-completion-status');
+if(programCompletion.branch!=='brookhaven-research-snapshot-v1') issues.push('program-completion-branch');
+
+const programSteps=programCompletion.steps||[];
+if(programSteps.length!==12) issues.push('program-completion-step-count');
+const programStepNumbers=programSteps.map(row=>Number(row.step));
+if(new Set(programStepNumbers).size!==12||sorted(programStepNumbers)!==sorted([1,2,3,4,5,6,7,8,9,10,11,12])) issues.push('program-completion-step-numbers');
+for(const row of programSteps){
+  if(row.status!=='complete') issues.push('program-completion-step-status:'+row.step);
+  if(typeof row.primaryArtifact!=='string'||!row.primaryArtifact||!fs.existsSync(row.primaryArtifact)){
+    issues.push('program-completion-step-artifact:'+row.step);
+    continue;
+  }
+  const parsed=JSON.parse(fs.readFileSync(row.primaryArtifact,'utf8'));
+  if(row.expectedSchema && parsed.schemaVersion!==row.expectedSchema){
+    issues.push('program-completion-step-schema:'+row.step);
+  }
+  if(row.checkpointKey && parsed.steps?.[row.checkpointKey]?.status!=='complete'){
+    issues.push('program-completion-checkpoint:'+row.step);
+  }
+}
+
+if(programCompletion.hardenedSystemSummary?.currentVehicles!==13) issues.push('program-completion-vehicle-count');
+if(programCompletion.hardenedSystemSummary?.neutralTownLocations!==17) issues.push('program-completion-town-count');
+if(programCompletion.hardenedSystemSummary?.playerFacingTownLocations!==15) issues.push('program-completion-town-player-facing-count');
+if(programCompletion.hardenedSystemSummary?.deferredTownLocations!==2) issues.push('program-completion-town-deferred-count');
+if(programCompletion.hardenedSystemSummary?.proxyTownEdges!==14) issues.push('program-completion-edge-count');
+if(programCompletion.hardenedSystemSummary?.progressionRules!==42) issues.push('program-completion-rule-count');
+if(programCompletion.hardenedSystemSummary?.replayGroups!==6) issues.push('program-completion-replay-group-count');
+if(programCompletion.hardenedSystemSummary?.targetedGapLanesClosed!==10) issues.push('program-completion-gap-lane-count');
+
+if(programCompletion.provenanceAndRights?.rightsStatus!=='verified-for-project-use') issues.push('program-completion-rights');
+if(programCompletion.provenanceAndRights?.publicRepositoryProvenanceTrackedSeparately!==true) issues.push('program-completion-provenance-separation');
+if(programCompletion.provenanceAndRights?.publicRepositoryLicenseStatusNotUsedAsSubstituteForProjectRightsEvidence!==true) issues.push('program-completion-license-boundary');
+if(programCompletion.provenanceAndRights?.unresolvedPayloadsRemainUnclaimed!==true) issues.push('program-completion-unresolved-payloads');
+
+for(const field of [
+  'steps1Through12Complete',
+  'broadGithubHuntingClosed',
+  'repeatedDeadLaneSearchClosed',
+  'controlledReplayRequiredBeforeProductIntegration',
+  'authorizedAssetExportRemainsPrimaryVisualPayloadPath'
+]){
+  if(programCompletion.closure?.[field]!==true) issues.push('program-completion-closure:'+field);
+}
+if(programCompletion.closure?.exactSourceMapParityClaimed!==false) issues.push('program-completion-map-parity');
+if(programCompletion.closure?.exactSourceProgressionParityClaimed!==false) issues.push('program-completion-progression-parity');
+if(programCompletion.closure?.rawSourceRuntimeDependencyAllowed!==false) issues.push('program-completion-runtime-boundary');
+
+for(const field of [
+  'brookhavenRemoteCallsWired',
+  'rawExecutablePayloadMayShip',
+  'liveAppWired',
+  'persistenceChanged',
+  'economyChanged',
+  'networkingChanged',
+  'directMergePerformed',
+  'deploymentPerformed',
+  'liveIntegrationAuthorized'
+]){
+  if(programCompletion.safety?.[field]!==false) issues.push('program-completion-safety:'+field);
+}
+if((programCompletion.postProgramNextActions||[]).length<5) issues.push('program-completion-next-actions');
+
 const result={
   schemaVersion:'starblox-brookhaven-research-validation-v2',
   graphPath,
@@ -797,6 +935,8 @@ const result={
   replayPath,
   readinessPath,
   step12Path,
+  step12FinalizationPath,
+  programCompletionPath,
   nodeCount:graph.nodes?.length||0,
   edgeCount:graph.edges?.length||0,
   vehicleCount:vehicle.currentVehicles?.length||0,
@@ -814,6 +954,9 @@ const result={
   step10Complete:step10Completion.nextStepBoundary?.step10Complete===true,
   step11ReplayGroupCount:replayV2Groups.length,
   step11Complete:readinessV2.nextStepBoundary?.step11Complete===true,
+  targetedGapLaneCount:originalGapIds.length,
+  step12Complete:step12Finalization.completion?.step12Complete===true,
+  programComplete:programCompletion.closure?.steps1Through12Complete===true,
   issueCount:issues.length,
   issues
 };
