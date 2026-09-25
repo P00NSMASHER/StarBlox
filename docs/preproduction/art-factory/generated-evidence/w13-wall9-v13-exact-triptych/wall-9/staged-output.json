@@ -1,0 +1,90 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_STAGED_OUTPUT",
+  "repository": "P00NSMASHER/StarBlox",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "effc136aa484630ec00184c49922475ee905e270",
+  "sourcePlanSha256": "f434dcbb39797f1ffb6f1e7a15f6552909d963e81fc67ac048ee29364d2923c5",
+  "item": {
+    "id": "wall-9",
+    "name": "Art Gallery Wall",
+    "collectionId": "wall",
+    "type": "room",
+    "tier": 3,
+    "theme": "Adventure Club"
+  },
+  "attempt": {
+    "attemptId": "wall-9-w13-a-three-independent-frames-a1f40b19e0",
+    "producer": "13",
+    "variant": "A-THREE-INDEPENDENT-FRAMES",
+    "promptBlocks": [
+      "metadata",
+      "category",
+      "silhouette",
+      "physical",
+      "material",
+      "theme",
+      "tier",
+      "card",
+      "original",
+      "stage",
+      "wall",
+      "depth",
+      "camera",
+      "bloom",
+      "textile",
+      "light"
+    ],
+    "promptSha256": "a1f40b19e04e9669b64d242b6cc73af4842074583605e4f918a0b437a367d575",
+    "promptRecipeVersion": "artPromptOptimizer-request-v1:w13-wall9-v13-exact-triptych",
+    "seed": 619227976,
+    "runtime": {
+      "repo": "huggingface/diffusers",
+      "commit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c"
+    },
+    "model": {
+      "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+      "revision": "462165984030d82259a11f4367a4eed129e94a7b",
+      "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+    },
+    "conditioning": {
+      "referenceAssetSha256": null,
+      "controlImageSha256": null,
+      "adapterScale": null
+    }
+  },
+  "output": {
+    "repoPath": "public/assets/catalog-candidates/cpu/wall-9-w13-v13-a-three-independent-frames-original.png",
+    "sha256": "79eb7079bd8934fcc4d2b96a039e560fff64948978b24e1058504b64cf868f26",
+    "gitBlobSha": "64aeabd8f936da18ffe99aadafe0f18de5f8a4c6",
+    "bytes": 613852,
+    "format": "PNG",
+    "width": 640,
+    "height": 640,
+    "mode": "RGB"
+  },
+  "derivativeLineage": {
+    "derivativeOfSha256": null,
+    "sourcePreserved": true
+  },
+  "renderEvidence": [],
+  "review": {
+    "reviewer": "02",
+    "routing": {
+      "reviewer": "02",
+      "routingFile": "docs/preproduction/art-factory/runtime-queue/w13-wall9-v13-exact-triptych.json",
+      "routingFileSha256": "1f46a7776111c5ffc93b126c09efb4162dab030ad6ede1416bf63d990c1286ea",
+      "queueId": "w13-wall9-v13-exact-triptych"
+    },
+    "state": "PENDING_ACTUAL_PIXEL_REVIEW",
+    "decision": null
+  },
+  "safety": {
+    "canonicalArtModified": false,
+    "gameplayModified": false,
+    "automaticPerceptualDecision": false,
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+  },
+  "status": "STAGED_EXACT_BYTES_VERIFIED",
+  "recordSha256": "68dde898713dd890bd14036caa35a1ea1f8ed069661b53fdc23a3174b38bb4d9"
+}
