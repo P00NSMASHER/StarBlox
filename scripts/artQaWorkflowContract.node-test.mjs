@@ -40,7 +40,8 @@ test('regular generation preflights exact SDXL prompt before diffusion',()=>{
   assert(generate>=0);
   assert(guard<generate);
   assert.match(regular,/artPromptTokenPreflight\.py/);
-  assert.match(regular,/"transformers==4\.57\.1"/);
+  assert.match(regular,/"transformers==5\.17\.0"/);
+  assert.match(regular,/"huggingface_hub==1\.33\.0"/);
 });
 
 test('sequential generation preflights every selected item before diffusion',()=>{
@@ -50,5 +51,6 @@ test('sequential generation preflights every selected item before diffusion',()=
   assert(generate>=0);
   assert(guard<generate);
   assert.match(sequential,/PROMPT_PREFLIGHT_FAILED=\$ITEM/);
-  assert.match(sequential,/"transformers==4\.57\.1"/);
+  assert.match(sequential,/"transformers==5\.17\.0"/);
+  assert.match(sequential,/"huggingface_hub==1\.33\.0"/);
 });

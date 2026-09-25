@@ -128,7 +128,7 @@ jobs:
           python -m pip install --index-url https://download.pytorch.org/whl/cpu "torch==2.8.0"
           python -m pip install \
             "diffusers @ git+https://github.com/huggingface/diffusers.git@7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c" \
-            "transformers==4.57.1" accelerate safetensors huggingface_hub hf_xet Pillow "sentencepiece==0.2.1" invisible-watermark
+            "transformers==5.17.0" accelerate safetensors "huggingface_hub==1.33.0" hf_xet Pillow "sentencepiece==0.2.1" invisible-watermark
 
       - name: Generate, verify and self-stage each item on one runner
         run: |
