@@ -2,8 +2,13 @@
   "schemaVersion": 1,
   "kind": "STARBLOX_STAGED_ART_QA_TRIGGER",
   "branch": "screenshot-match-preproduction",
-  "purpose": "Explicit branch-local replay trigger for exact staged candidate rendering while the workflow is sidecar-only.",
+  "purpose": "Explicit branch-local replay trigger for exact staged candidate rendering.",
   "rule": "Changing this file requests QA only. It never approves, canonicalizes, deploys, or changes gameplay.",
-  "lastRequestedFor": "desks-11|5c67fa673159331f543a766e1d1d5729d1b2d291",
-  "reason": "Legacy bridge: render exact Desk11 v12 staged hash for reviewer01. Exact current-tree blob verified unchanged before trigger."
+  "lastRequestedFor": [
+    "desks-10|8eb15c972ec4a29e52db24d8c93e468348b55874",
+    "desks-11|199b6bd5340ab02c4a302df2c2a67e19dd5b0d4d",
+    "decor-11|8179542a5966926d4462bda26d01553cf1e72b0d",
+    "wall-9|752423e322f394adb1af5f48c1166eaf888f9830"
+  ],
+  "reason": "Render the four deterministic literal SVG release-blocker candidates together for immediate exact-hash independent review."
 }
