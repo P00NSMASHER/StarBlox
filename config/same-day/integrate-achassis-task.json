@@ -1,0 +1,5 @@
+{
+  "id": "same-day-integrate-achassis",
+  "request": "Using the authorized source checkout at vendor/authorized/A-Chassis, integrate the minimum production vehicle runtime needed for the StarBlox vertical slice: one stable drivable vehicle path with steering, acceleration, braking, seat ownership and mobile/controller-compatible input. Keep vehicle ownership and rewards server-authoritative through StarBlox services. Do not import redundant economy, persistence or UI. Require a live Studio driving playtest and repair any runtime errors within the bounded factory budget.",
+  "searchQuery": "chassis vehicle seat steering throttle brake input mobile controller"
+}
