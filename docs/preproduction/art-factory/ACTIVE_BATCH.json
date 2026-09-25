@@ -1,9 +1,9 @@
 {
-  "schemaVersion": 36,
+  "schemaVersion": 37,
   "owner": "15",
   "branch": "screenshot-match-preproduction",
-  "sourceHead": "87cce0ba5e54a647133f5c1ded6a8f1066b361e9",
-  "updatedAt": "2026-09-25T00:13:33Z",
+  "sourceHead": "8bb762eea8b6c981c8806998ab9d7dd81cef20bc",
+  "updatedAt": "2026-09-25T00:38:06Z",
   "status": "ACTIVE_FINAL_FOUR_VISIBLE_ART_RETRY",
   "policy": {
     "maxConcurrentProductionBatches": 4,
@@ -73,37 +73,36 @@
   },
   "cpuGenerationSemaphore": {
     "workflowPath": ".github/workflows/art-factory-cpu-generation.yml",
-    "observedAt": "2026-09-25T00:13:33Z",
+    "observedAt": "2026-09-25T00:38:06Z",
     "running": {
-      "runId": 36076241300,
-      "headSha": "ffba4574540c29679191e85401230b74eed145f5",
-      "batch": "w03-desks10-v13-desks11-v11-literal-retry",
-      "state": "IN_PROGRESS__DESK10_V13_TOKEN_OVERFLOW__DESK11_V11_GENERATING",
+      "runId": 36077238834,
+      "headSha": "1358621264b03fb2aeb99baae1443a102e67febe",
+      "batch": "w03-desk10-v14-token-safe",
+      "state": "IN_PROGRESS",
       "jobs": [
-        "desks-10",
-        "desks-11"
+        "desks-10"
       ]
     },
     "pending": {
-      "runId": 36076256659,
-      "headSha": "fe956313315929c10d2503d3a502b8f95e2935ea",
-      "batch": "w09-decor11-v9-ultraliteral",
+      "runId": 36078220075,
+      "headSha": "7ea121c95900bff5d0f59dbb06f428effbf7080e",
+      "batch": "w03-desk11-v12-isolated-creator",
       "state": "PENDING",
       "jobs": [
-        "decor-11"
+        "desks-11"
       ]
     },
-    "authorization": "WHEN_DECOR11_V9_TRANSITIONS_TO_RUNNING_QUEUE_DESK10_V14_TOKEN_SAFE; WALL9_V13_STAYS_PREPARED_UNTIL_NEXT_SLOT",
-    "rule": "Keep exactly one running and one pending. Desk10 v13 failed before image creation on CLIP token overflow; its token-safe v14 packet is prepared. Desk11 v11 continues in the running batch. Decor11 v9 remains the only pending run.",
+    "authorization": "WHEN_DESK11_V12_TRANSITIONS_TO_RUNNING_QUEUE_DECOR11_V10_SINGLE_OVAL; WALL9_V13_STAYS_PREPARED_UNTIL_NEXT_SLOT",
+    "rule": "Keep exactly one running and one pending. Desk10 v14 is the token-safe recovery now generating. Desk11 v12 is the single pending successor. Decor11 v9 is exact-hash REWORK and v10 is prepared; Wall9 v13 remains prepared behind it.",
     "preparedNext": [
       {
         "rank": 1,
-        "queuePath": "docs/preproduction/art-factory/prepared-queues/w03-desk10-v14-token-safe.json",
+        "queuePath": "docs/preproduction/art-factory/prepared-queues/w09-decor11-v10-single-oval.json",
         "scope": [
-          "desks-10"
+          "decor-11"
         ],
-        "producer": "03",
-        "reviewer": "05"
+        "producer": "09",
+        "reviewer": "02"
       },
       {
         "rank": 2,
@@ -124,7 +123,7 @@
         "desks-10",
         "desks-11"
       ],
-      "state": "DESK10_V14_PREPARED__DESK11_V11_GENERATING",
+      "state": "DESK10_V14_GENERATING__DESK11_V12_PENDING",
       "reviewerByItem": {
         "desks-10": "05",
         "desks-11": "01"
@@ -132,11 +131,11 @@
     },
     {
       "producer": "09",
-      "batchId": "w09-decor11-v9-ultraliteral",
+      "batchId": "w09-decor11-tail",
       "scope": [
         "decor-11"
       ],
-      "state": "PENDING_CPU",
+      "state": "V9_REWORK__V10_PREPARED_WAIT_SLOT",
       "reviewer": "02"
     },
     {
@@ -308,7 +307,7 @@
     "evidenceHead": "398f5100df0562a1e346c9110597e52b565982d0",
     "rule": "Do not reopen already-green functional browser, Store observer, persistence or reduced-motion investigations absent a bound-hash change or fresh current-byte failure. EXT10 remains limited to the previously released phone composition repair."
   },
-  "antiStallDisposition": "Desk10 v13 stopped safely before image creation because the runtime prompt exceeded CLIP 77-token input. Token-safe Desk10 v14 is prepared. Desk11 v11 continues generating; Decor11 v9 is the single pending successor; Wall9 v13 is prepared behind it. No rejected or accepted exact bytes were overwritten.",
+  "antiStallDisposition": "Desk10 v14 token-safe recovery is generating; Desk11 v12 isolated-creator retry is the single pending successor. Decor11 v9 exact pixels are REWORK and v10 single-oval retry is prepared. Wall9 v13 exact-triptych retry remains prepared behind Decor11. No accepted or rejected exact bytes were overwritten.",
   "crossAccountProduction": {
     "externalScopes": {
       "EXT01": "Tops11-12",
@@ -327,40 +326,48 @@
     "reviewer14LegacyException": "14 may complete already-assigned legacy hash review only; do not route new hashes to 14 for review."
   },
   "readerRule": "Every worker must revalidate branch head, assignment, exact hash and review state before writing. This file never overrides newer exact-hash evidence.",
-  "cycleId": "director-step3-runtime-token-repair",
+  "cycleId": "director-step3-final-four-repair-chain",
   "criticalPath": {
-    "computedAtHead": "a083b97bda64d66ab673a1065a98c73df22c7f78",
+    "computedAtHead": "8bb762eea8b6c981c8806998ab9d7dd81cef20bc",
     "order": [
       {
         "rank": 1,
-        "blocker": "CPU_DESK10_V13_AND_DESK11_V11",
+        "blocker": "CPU_DESK10_V14",
         "affectedScopes": [
-          "desks-10",
-          "desks-11"
+          "desks-10"
         ],
-        "prerequisite": "Exact REWORK decisions recorded for Desk10 v12 and Desk11 v10.",
-        "nextOwner": "03 -> 12/14 -> 05/01 -> 08 on ACCEPT."
+        "prerequisite": "v13 token overflow produced no candidate bytes; token-safe v14 queued.",
+        "nextOwner": "03 -> 12/14 -> 05 -> 08 on ACCEPT."
       },
       {
         "rank": 2,
-        "blocker": "CPU_DECOR11_V9",
+        "blocker": "CPU_DESK11_V12",
         "affectedScopes": [
-          "decor-11"
+          "desks-11"
         ],
-        "prerequisite": "Decor11 v8 exact REWORK recorded.",
-        "nextOwner": "09 -> 12/14 -> 02 -> 08 on ACCEPT."
+        "prerequisite": "v11 exact rendered REWORK recorded.",
+        "nextOwner": "03 -> 12/14 -> 01 -> 08 on ACCEPT."
       },
       {
         "rank": 3,
+        "blocker": "CPU_DECOR11_V10",
+        "affectedScopes": [
+          "decor-11"
+        ],
+        "prerequisite": "v9 exact rendered REWORK recorded.",
+        "nextOwner": "09 -> 12/14 -> 02 -> 08 on ACCEPT."
+      },
+      {
+        "rank": 4,
         "blocker": "CPU_WALL9_V13",
         "affectedScopes": [
           "wall-9"
         ],
-        "prerequisite": "Wall9 v12 exact REWORK recorded and new exact-triptych request prepared.",
+        "prerequisite": "v12 exact REWORK recorded and exact-triptych packet prepared.",
         "nextOwner": "13 -> 12/14 -> 02 -> 08 on ACCEPT."
       },
       {
-        "rank": 4,
+        "rank": 5,
         "blocker": "LIVE_COMPANION_PARITY",
         "affectedScopes": [
           "companions-2",
