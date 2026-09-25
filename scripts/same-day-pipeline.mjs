@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto';
 import { spawn } from 'node:child_process';
 import { mkdir,readFile,writeFile,stat } from 'node:fs/promises';
 import { dirname,isAbsolute,resolve } from 'node:path';
@@ -34,6 +35,49 @@ async function exists(path){
     if(error?.code === 'ENOENT') return false;
     throw error;
   }
+}
+
+async function ensurePinnedSource(source,input){
+  const pin=source.download;
+  if(!pin) return {downloaded:false,verified:false};
+
+  let bytes;
+  let downloaded=false;
+  if(await exists(input)){
+    bytes=await readFile(input);
+  }else{
+    const response=await fetch(pin.url,{redirect:'follow'});
+    if(!response.ok){
+      throw new Error(
+        'could not download authorized source ' + source.id +
+        ': HTTP ' + response.status
+      );
+    }
+    bytes=Buffer.from(await response.arrayBuffer());
+    downloaded=true;
+  }
+
+  const sha256=createHash('sha256').update(bytes).digest('hex');
+  if(bytes.length !== Number(pin.bytes) || sha256 !== String(pin.sha256).toLowerCase()){
+    throw new Error(
+      'authorized source fingerprint mismatch for ' + source.id +
+      '; expected ' + pin.sha256 + '/' + pin.bytes +
+      ' but found ' + sha256 + '/' + bytes.length
+    );
+  }
+
+  if(downloaded){
+    await mkdir(dirname(input),{recursive:true});
+    await writeFile(input,bytes);
+  }
+
+  return {
+    downloaded,
+    verified:true,
+    sha256,
+    bytes:bytes.length,
+    input
+  };
 }
 
 function run(command,args,{cwd,env={}}={}){
@@ -132,6 +176,7 @@ async function execute(stage){
   if(stage.type === 'source-ingest'){
     const source=stage.details.source;
     const input=abs(manifestDir,source.input);
+    const bootstrap=await ensurePinnedSource(source,input);
     const dir=sourceOut(source.id);
     await mkdir(dir,{recursive:true});
     const result=await run(process.execPath,[
@@ -145,6 +190,7 @@ async function execute(stage){
       ...result,
       startedAt,
       completedAt:new Date().toISOString(),
+      bootstrap,
       artifacts:result.ok ? {
         ingestionReceipt:resolve(dir,'ingestion/ingestion-receipt.json')
       } : null
@@ -218,367 +264,3 @@ async function execute(stage){
           ok:false,
           status:2,
           startedAt,
-          completedAt:new Date().toISOString(),
-          error:'authorized donor checkout is not clean: ' + checkout
-        };
-      }
-      const remote=await run('git',['-C',checkout,'remote','get-url','origin'],{cwd:root});
-      if(!remote.ok || !remote.stdout.toLowerCase().includes(repository.toLowerCase())){
-        return {
-          ok:false,
-          status:2,
-          startedAt,
-          completedAt:new Date().toISOString(),
-          error:'authorized donor checkout origin does not match ' + repository
-        };
-      }
-    }else{
-      await mkdir(dirname(checkout),{recursive:true});
-      const cloned=await run('git',[
-        'clone','--filter=blob:none','--no-checkout',repoUrl,checkout
-      ],{cwd:root});
-      if(!cloned.ok){
-        return {
-          ...cloned,
-          startedAt,
-          completedAt:new Date().toISOString(),
-          error:'could not clone authorized donor ' + repository
-        };
-      }
-    }
-
-    const fetched=await run('git',[
-      '-C',checkout,'fetch','--depth=1','origin',commit
-    ],{cwd:root});
-    if(!fetched.ok){
-      return {
-        ...fetched,
-        startedAt,
-        completedAt:new Date().toISOString(),
-        error:'could not fetch pinned donor commit ' + commit
-      };
-    }
-
-    const checkedOut=await run('git',[
-      '-C',checkout,'checkout','--detach',commit
-    ],{cwd:root});
-    if(!checkedOut.ok){
-      return {
-        ...checkedOut,
-        startedAt,
-        completedAt:new Date().toISOString(),
-        error:'could not checkout pinned donor commit ' + commit
-      };
-    }
-
-    const head=await run('git',['-C',checkout,'rev-parse','HEAD'],{cwd:root});
-    const exact=head.ok ? head.stdout.trim().toLowerCase() : '';
-    if(!head.ok || exact !== commit.toLowerCase()){
-      return {
-        ok:false,
-        status:2,
-        startedAt,
-        completedAt:new Date().toISOString(),
-        error:'donor checkout HEAD mismatch; expected ' + commit + ' but found ' + exact
-      };
-    }
-
-    return {
-      ok:true,
-      status:0,
-      startedAt,
-      completedAt:new Date().toISOString(),
-      repository,
-      commit:exact,
-      checkout
-    };
-  }
-
-  if(stage.type === 'staging-project'){
-    const staged=await buildSameDayStagingProject({
-      repoRoot:root,
-      outDir,
-      sourceIds:stage.details.sourceIds
-    });
-    const placePath=resolve(outDir,'StarBloxSameDay.rbxlx');
-    const result=await run(
-      stage.details.rojoCommand || plan.rojoCommand || 'rojo',
-      ['build',staged.projectPath,'-o',placePath],
-      {cwd:root}
-    );
-    return {
-      ...result,
-      startedAt,
-      completedAt:new Date().toISOString(),
-      artifacts:result.ok ? {
-        project:staged.projectPath,
-        stagingReport:staged.reportPath,
-        place:placePath
-      } : {
-        project:staged.projectPath,
-        stagingReport:staged.reportPath
-      }
-    };
-  }
-
-  if(stage.type === 'studio-check'){
-    const adapter=await factoryAdapter();
-    let description=null;
-    try{
-      description=typeof adapter.studio.describe === 'function'
-        ? await adapter.studio.describe()
-        : null;
-      const staging=JSON.parse(
-        await readFile(resolve(outDir,'same-day-staging-report.json'),'utf8')
-      );
-      const treeResult=await adapter.studio.call('search_tree',{
-        query:stage.details.expectedRoot || 'StarBloxImported',
-        limit:50
-      });
-      const count=Number(treeResult?.count ?? treeResult?.results?.length ?? 0);
-      const needsImported=(staging.included || []).length > 0;
-      if(needsImported && count < 1){
-        return {
-          ok:false,
-          status:2,
-          startedAt,
-          completedAt:new Date().toISOString(),
-          error:
-            'Studio is connected but the staged donor world is not loaded. Open ' +
-            resolve(outDir,'StarBloxSameDay.rbxlx') +
-            ' (or sync same-day.project.json with Rojo), then resume.',
-          description
-        };
-      }
-      return {
-        ok:true,
-        status:0,
-        startedAt,
-        completedAt:new Date().toISOString(),
-        description,
-        stagedAssetCount:(staging.included || []).length,
-        treeCount:count
-      };
-    }catch(error){
-      return {
-        ok:false,
-        status:2,
-        startedAt,
-        completedAt:new Date().toISOString(),
-        error:
-          'Studio staging check failed: ' +
-          (error instanceof Error ? error.message : String(error)) +
-          '. Open the generated StarBloxSameDay.rbxlx, connect the StarBlox Studio connector, then resume.',
-        description
-      };
-    }
-  }
-
-  if(stage.type === 'factory-adapt'){
-    const source=sources.get(stage.details.sourceId);
-    const dir=sourceOut(source.id);
-    const migrationPlan=JSON.parse(await readFile(resolve(dir,'planning/migration-plan.json'),'utf8'));
-    const unitIds=(migrationPlan.units || [])
-      .filter(row =>
-        row.selected === true &&
-        row.exportDisposition === 'quarantine' &&
-        ['refactor','quarantine'].includes(row.migrationStrategy)
-      )
-      .map(row=>row.unitId);
-    if(!unitIds.length){
-      return {
-        ok:true,
-        status:0,
-        startedAt,
-        completedAt:new Date().toISOString(),
-        skipped:true,
-        reason:'no quarantined/refactor code units require factory adaptation; safe assets are staged through Rojo'
-      };
-    }
-    const task={
-      id:'same-day-adapt-' + source.id,
-      request:source.request || stage.details.request,
-      migration:{
-        exportReceipt:resolve(dir,'export/migration-export-receipt.json'),
-        unitIds
-      },
-      config:{
-        maxRepairCycles:plan.maxRepairCycles
-      }
-    };
-    const taskPath=resolve(dir,'adapt-task.json');
-    const runPath=resolve(dir,'adapt-development-run.json');
-    await writeFile(taskPath,JSON.stringify(task,null,2) + '\n');
-    const result=await run(process.execPath,[
-      resolve(root,'scripts/ai-development-factory.mjs'),
-      '--task',taskPath,
-      '--adapter',adapterPath,
-      '--out',runPath
-    ],{cwd:root});
-    return {
-      ...result,
-      startedAt,
-      completedAt:new Date().toISOString(),
-      artifacts:result.ok ? {task:taskPath,developmentRun:runPath} : {task:taskPath}
-    };
-  }
-
-  if(stage.type === 'factory-task'){
-    const taskPath=abs(manifestDir,stage.details.taskFile);
-    const runPath=resolve(outDir,stage.id + '-development-run.json');
-    const result=await run(process.execPath,[
-      resolve(root,'scripts/ai-development-factory.mjs'),
-      '--task',taskPath,
-      '--adapter',adapterPath,
-      '--out',runPath
-    ],{cwd:root});
-    return {
-      ...result,
-      startedAt,
-      completedAt:new Date().toISOString(),
-      artifacts:result.ok ? {developmentRun:runPath} : null
-    };
-  }
-
-  if(stage.type === 'release-gate'){
-    const gate=stage.details.gate;
-    const receiptPath=resolve(outDir,'gate-' + gate.id + '-receipt.json');
-    const integratedRun=resolve(
-      outDir,
-      'verify-integrated-slice-development-run.json'
-    );
-    const result=await run(gate.command,gate.args,{
-      cwd:root,
-      env:{
-        STARBLOX_PIPELINE_OUT_DIR:outDir,
-        STARBLOX_PIPELINE_STATE:statePath,
-        STARBLOX_PIPELINE_INTEGRATED_RUN:integratedRun,
-        STARBLOX_PIPELINE_GATE_RECEIPT:receiptPath
-      }
-    });
-    return {
-      ...result,
-      gate:gate.id,
-      startedAt,
-      completedAt:new Date().toISOString(),
-      artifacts:result.ok ? {receipt:receiptPath,integratedRun} : null
-    };
-  }
-
-  if(stage.type === 'finalize'){
-    const integratedRunPath=resolve(
-      outDir,
-      'verify-integrated-slice-development-run.json'
-    );
-    const integratedRunBytes=await readFile(integratedRunPath);
-    const crypto=await import('node:crypto');
-    const integratedRunSha256=crypto.createHash('sha256')
-      .update(integratedRunBytes)
-      .digest('hex');
-    const gateReceipts={};
-
-    for(const gateName of ['mobile','security','performance']){
-      const receiptPath=resolve(outDir,'gate-' + gateName + '-receipt.json');
-      const receipt=JSON.parse(await readFile(receiptPath,'utf8'));
-      if(
-        receipt?.version !== 'starblox-same-day-evidence-gate-v1' ||
-        receipt?.status !== 'passed' ||
-        receipt?.gate !== gateName ||
-        receipt?.publicationAllowed !== false
-      ){
-        throw new Error('invalid same-day gate receipt: ' + gateName);
-      }
-      if(receipt?.integratedRun?.sha256 !== integratedRunSha256){
-        throw new Error(
-          gateName + ' gate receipt does not bind to the exact integrated development run'
-        );
-      }
-      gateReceipts[gateName]={
-        file:receiptPath,
-        receiptHash:receipt.receiptHash,
-        integratedRunSha256:receipt.integratedRun.sha256,
-        metrics:receipt.metrics
-      };
-    }
-
-    const summary={
-      schemaVersion:1,
-      version:'starblox-same-day-slice-summary-v1',
-      ok:true,
-      planHash:plan.planHash,
-      completedStages:[...state.completedStages],
-      integratedRun:{
-        file:integratedRunPath,
-        sha256:integratedRunSha256
-      },
-      gates:gateReceipts,
-      publicationAllowed:false,
-      readyForInternalVerticalSliceReview:true
-    };
-    const summaryPath=resolve(outDir,'same-day-slice-summary.json');
-    await writeFile(summaryPath,JSON.stringify(summary,null,2) + '\n');
-    return {
-      ok:true,
-      status:0,
-      startedAt,
-      completedAt:new Date().toISOString(),
-      artifacts:{summary:summaryPath}
-    };
-  }
-
-  throw new Error('unsupported same-day pipeline stage type: ' + stage.type);
-}
-
-const PARALLEL_SAFE_TYPES=new Set([
-  'source-ingest',
-  'migration-plan',
-  'migration-export',
-  'code-donor-checkout',
-  'release-gate'
-]);
-
-while(true){
-  const ready=readySameDayPipelineStages(state,plan);
-  if(!ready.length) break;
-
-  const first=ready[0];
-  const parallelReady=ready.filter(stage=>PARALLEL_SAFE_TYPES.has(stage.type));
-  const batch=PARALLEL_SAFE_TYPES.has(first.type)
-    ? parallelReady.slice(0,Number(plan.maxParallel || 4))
-    : [first];
-
-  console.log(
-    '\nRunning ' + batch.length + ' stage' + (batch.length === 1 ? '' : 's') +
-    ' [' + (state.completedStages.length + 1) + '/' + plan.stages.length + ']'
-  );
-  for(const stage of batch) console.log('  → ' + stage.id);
-
-  const results=await Promise.all(
-    batch.map(async stage=>({stage,result:await execute(stage)}))
-  );
-
-  let blocked=false;
-  for(const {stage,result} of results){
-    recordSameDayStageResult(state,plan,stage.id,result);
-    if(result.ok){
-      console.log('PASS: ' + stage.id);
-    }else{
-      blocked=true;
-      console.error('BLOCKED: ' + stage.id);
-      if(result.stderr) console.error(result.stderr);
-      if(result.error) console.error(result.error);
-    }
-  }
-  await writeFile(statePath,JSON.stringify(state,null,2) + '\n');
-
-  if(blocked){
-    process.exitCode=2;
-    break;
-  }
-}
-
-console.log('\nStarBlox same-day pipeline');
-console.log('status: ' + state.status);
-console.log('completed: ' + state.completedStages.length + '/' + plan.stages.length);
-console.log('state: ' + statePath);
-console.log('plan: ' + planPath);
