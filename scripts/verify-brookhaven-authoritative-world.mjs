@@ -138,11 +138,57 @@ function sortedCounts(pattern,text){
   );
 }
 
+function numericSequenceFingerprint(text,field,arity){
+  const n='(-?(?:\\d+(?:\\.\\d*)?|\\.\\d+)(?:[eE][+-]?\\d+)?)';
+  const fields=Array.from({length:arity},(_,index) =>
+    '\\[' + (index+1) + '\\]=' + n + ';'
+  ).join('');
+  const pattern=new RegExp(field + '=\\{' + fields + '\\};','g');
+  const rows=[];
+  let match;
+  while((match=pattern.exec(text))){
+    rows.push(match.slice(1).join(','));
+  }
+  return {
+    count:rows.length,
+    sequenceSha256:sha256(Buffer.from(rows.join('\n'),'utf8'))
+  };
+}
+
+function primaryMaterialCounts(text){
+  return sortedCounts(
+    /transparency=-?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?;texture="([^"]+)";position=\{/g,
+    text
+  );
+}
+
+function primaryColorSequenceFingerprint(text){
+  const scalar='-?(?:\\d+(?:\\.\\d*)?|\\.\\d+)(?:[eE][+-]?\\d+)?';
+  const n='(' + scalar + ')';
+  const pattern=new RegExp(
+    'reflectance=' + scalar +
+    ';color=\\{\\[1\\]=' + n +
+    ';\\[2\\]=' + n +
+    ';\\[3\\]=' + n +
+    ';\\};\\s*anchored=(?:true|false);',
+    'g'
+  );
+  const rows=[];
+  let match;
+  while((match=pattern.exec(text))){
+    rows.push(match.slice(1,4).join(','));
+  }
+  return {
+    count:rows.length,
+    sequenceSha256:sha256(Buffer.from(rows.join('\n'),'utf8'))
+  };
+}
+
 function extractAssetIds(text){
   const ids=new Set();
   for(const pattern of [
     /rbxassetid:\/\/(\d+)/gi,
-    /(?:asset\?id=|library\/)(\d+)/gi
+    /(?:asset\/\?id=|asset\?id=|library\/)(\d+)/gi
   ]){
     let match;
     while((match=pattern.exec(text))){
@@ -175,7 +221,7 @@ function sourceStructure(text){
   }
   const assetIds=extractAssetIds(text);
   const shapes=sortedCounts(/shape="([^"]+)";/g,text);
-  const materials=sortedCounts(/texture="([^"]+)";/g,text);
+  const materials=primaryMaterialCounts(text);
   const surfaces=sortedCounts(
     /(?:Top|Front|Bottom|Right|Left|Back)="([^"]+)";/g,
     text
@@ -201,9 +247,13 @@ function sourceStructure(text){
       )
     },
     positions:positionBounds(text),
+    positionSequence:numericSequenceFingerprint(text,'position',3),
     sizes:sizeBounds(text),
+    sizeSequence:numericSequenceFingerprint(text,'size',3),
+    cframes:numericSequenceFingerprint(text,'cframe',12),
+    colors:primaryColorSequenceFingerprint(text),
     shapeCounts:shapes,
-    materialCounts:materials,
+    primaryMaterialCounts:materials,
     surfaceCounts:surfaces,
     assetReferences:{
       uniqueCount:assetIds.length,

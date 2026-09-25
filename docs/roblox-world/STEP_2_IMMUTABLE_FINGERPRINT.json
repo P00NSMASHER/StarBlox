@@ -1,10 +1,11 @@
 {
   "schemaVersion": "starblox-brookhaven-world-fingerprint-snapshot-v1",
   "step": "target-architecture-2-of-6",
-  "status": "verified",
+  "status": "verified-corrected",
   "verifiedBy": {
     "workflow": "StarBlox CI",
-    "runId": 36181323661
+    "runId": 36182237878,
+    "verifiedHead": "f800be8a5b5badad76bdefd3bf4d44c094829f3a"
   },
   "source": {
     "label": "Brookhaven Map serialized world",
@@ -13,7 +14,7 @@
     "sha256": "e9abef1d41b85a8f83aca36ba661de41f4321562937c1e2eea907395c292d694",
     "rightsStatus": "verified-for-project-use"
   },
-  "fingerprintHash": "sha256:99722a254d3ddcb9032fbafe8acf1e4d000c2ff54ecdd3e3d1e804a9b68c8c6a",
+  "fingerprintHash": "sha256:fde35ba75526051a3c57936a2b2e437d2a33f82a146b88f495a67821fc45dbc1",
   "structure": {
     "entryMarkers": {
       "count": 4936,
@@ -38,6 +39,10 @@
         2208.18701171875
       ]
     },
+    "positionSequence": {
+      "count": 4936,
+      "sequenceSha256": "b528da8fcca3e908d9d9cc776e6abafe1f4acec37a64c82ca5a3a71a82e7d6d0"
+    },
     "sizes": {
       "count": 4936,
       "min": [
@@ -51,6 +56,18 @@
         1998.17041015625
       ]
     },
+    "sizeSequence": {
+      "count": 4936,
+      "sequenceSha256": "c0c34c55b042331077f406076406f0a973d49650c29ea724a422fdca9ea357a3"
+    },
+    "cframes": {
+      "count": 4936,
+      "sequenceSha256": "e9790fa1d2dd287b070276344ae34de3abed79624c152f15b58211e4b04d43dc"
+    },
+    "colors": {
+      "count": 4936,
+      "sequenceSha256": "59924314fdbd941952f9ec3b365eb97d0e01a92384b0d8a754e9aa266610302b"
+    },
     "shapeCounts": {
       "Block": 4244,
       "Seat": 271,
@@ -63,7 +80,12 @@
     "primaryMaterialCounts": {
       "SmoothPlastic": 4452,
       "Neon": 242,
-      "Plastic": 231
+      "Plastic": 231,
+      "Brick": 4,
+      "Glass": 3,
+      "Metal": 2,
+      "DiamondPlate": 1,
+      "Wood": 1
     },
     "surfaceCounts": {
       "Smooth": 27460,
@@ -76,17 +98,29 @@
       "Glue": 2
     },
     "assetReferences": {
-      "uniqueCount": 8,
-      "sortedIdsSha256": "ecc2c617767a42dd9723b721240d6aba2af48d18f3a22ec5103db565ea8893ba",
-      "ids": [
+      "uniqueCount": 154,
+      "sortedIdsSha256": "95c0e8b97478ed6ae0a36948f8568878d15b94153ceaefbc34d7088b098a6552",
+      "first20": [
+        "1033714",
+        "1082816",
+        "3270017",
+        "19106014",
+        "25078175",
+        "26639749",
+        "28502053",
+        "32023686",
+        "43418683",
+        "82337638",
+        "100454579",
+        "103286109",
+        "104516854",
+        "255580072",
         "386188498",
         "461088522",
         "474389588",
-        "1337543143",
-        "2373177878",
-        "5812251043",
-        "5814230667",
-        "6850451632"
+        "952752650",
+        "1296047316",
+        "1337543143"
       ]
     },
     "lexicalCounts": {
