@@ -1,87 +1,137 @@
-# Brookhaven Research — Step 12 of 12: Targeted Gap Hunt and Reprioritization
+# Brookhaven Research — Step 12 of 12: Hardened Gap-Hunt Finalization and Program Closure
 
-Status: **COMPLETE — 12-step research plan closed; no merge/deploy performed**
+Status: **COMPLETE — 12-step research program closed; no merge/deploy/live integration performed**
 
-Machine-readable result:
+Step 12 is complete and the Brookhaven research program is closed at the research boundary.
 
-`docs/preproduction/brookhaven-research/step-12-targeted-gap-hunt-v1.json`
+## Authoritative closure artifacts
 
-## What Step 12 did
+The original targeted search evidence remains immutable at:
 
-Step 12 followed the rule established in Step 11: stop broad searching and search only for gaps exposed by implementation.
+- `docs/preproduction/brookhaven-research/step-12-targeted-gap-hunt-v1.json`
 
-The targeted gaps were:
+The hardened Step 12 closure is:
 
-- `GetListOfPortedVehicles` return payload;
-- backing tables behind `LoadableEntries.Houses`, `Mansions`, `Motels`, and `Apartments`;
-- MeshId/TextureId mappings for `031_House`, `049_House`, `052_House`, and `056_House`;
-- public Brookhaven `.rbxl/.rbxlx/.rbxm/.rbxmx` payloads;
-- contents behind Roblox module `110191289672557`;
-- any new vehicle asset payload corresponding to the 13 resolved current vehicle names.
+- `docs/preproduction/brookhaven-research/step-12-finalization-v2.json`
 
-## Outcome
+The complete 12-step program receipt is:
 
-No complete new house/vehicle visual payload catalog was recovered from public GitHub.
+- `docs/preproduction/brookhaven-research/program-completion-v1.json`
 
-That negative result is important and is now persisted so future discovery tasks do not repeatedly search the same dead lanes.
+The v2 finalization does **not** pretend a new broad search occurred. It closes and validates the original targeted search against the hardened Steps 8–11.
 
-Specifically:
+## Original targeted gap hunt
 
-- no public GitHub hit for Brookhaven `.rbxl`, `.rbxlx`, `.rbxm`, or `.rbxmx` in the targeted code search;
-- no searched house identifier produced an associated Brookhaven MeshId/TextureId table;
-- no public copy of the `GetListOfPortedVehicles` return payload was found;
-- no public copy of the backing `LoadableEntries.*` tables was found.
+The original Step 12 searched exactly 10 implementation-exposed lanes:
 
-## New evidence pinned
+1. `GetListOfPortedVehicles` return payload;
+2. Houses backing table;
+3. Mansions backing table;
+4. Motels backing table;
+5. Apartments backing table;
+6. house identifier → MeshId/TextureId mappings;
+7. public Roblox Brookhaven place/model files;
+8. module `110191289672557` contents;
+9. Brookhaven IslandService pointer;
+10. refreshed current-vehicle catalog/payload evidence.
 
-### Independent map-module corroboration
+The outcome remains:
 
-`Cristianboy9/Requires-Roblox-Pekora@c808eb4...`
+- complete new house visual catalog recovered: **no**;
+- complete new vehicle visual catalog recovered: **no**;
+- ported-vehicle return payload recovered: **no**;
+- LoadableEntries backing tables recovered: **no**;
+- public Brookhaven `.rbxl/.rbxlx/.rbxm/.rbxmx` payload recovered: **no**;
+- new visual payload count: **0**.
 
-`Maps/Brookhaven.lua` contains only:
+Those negative results are preserved as useful dedupe evidence rather than silently discarded.
 
-`require(110191289672557).brookhaven()`
+## Search closure / reopen policy
 
-This independently corroborates the previously discovered “Brookhaven Map” module pointer but does not expose the module contents.
+Broad repeated GitHub hunting is now closed for this research program.
 
-### Brookhaven IslandService pointer
+A dead lane may only be reopened when implementation exposes at least one materially new input:
 
-`Venom-DevX/Modules@2f68279...`
+- a concrete filename;
+- a new asset ID;
+- a new internal module name;
+- a new content-table symbol;
+- a materially new repository corpus;
+- an authorized source/export artifact.
 
-`Brookhaven/IslandService.lua` exists as a large obfuscated runtime module. It is classified as **runtime implementation, not an asset catalog** and remains barred from StarBlox production by the Step 4 reuse boundary.
+Any future search must remain targeted and provenance must be pinned before evidence is used.
 
-### Opensurs refresh
+## Hardened prerequisites
 
-The public `HOSTI1315/Opensurs` repository advanced to commit `73980f9...`, but the relevant `Brookhaven.lua.txt` Git blob remains exactly:
+Step 12 closure depends on the hardened completion boundaries already established for:
 
-`a83bf37be1bf8635cc7851906ead200bee43b85b`
+- Step 8 — neutral vehicle system;
+- Step 9 — neutral town system;
+- Step 10 — read-only progression shadow;
+- Step 11 — six-group controlled replay/reconciliation boundary.
 
-—the same content frozen earlier. That is useful dedupe evidence: repository-head movement did not produce a new Brookhaven asset catalog in that artifact.
+If any of those completion gates regress, the full-program validator fails.
 
-## Final asset-recovery assessment
+## Final 12-step program manifest
 
-The strongest actual inputs remain:
+`program-completion-v1.json` binds each step to an authoritative artifact:
 
-1. the serialized Brookhaven Map Gist for geometry/material/decal scene information;
-2. the Aqui runtime scan for world and subsystem taxonomy;
-3. Opensurs/Vazador for property IDs, lots, vehicle names, and behavior vocabulary.
+- Step 1 — frozen source snapshot;
+- Step 2 — asset graph;
+- Step 3 — resolved catalogs;
+- Step 4 — reuse boundary;
+- Steps 5–7 — neutral conversion / proxy vertical slice / residential checkpoint;
+- Step 8 — hardened vehicle completion;
+- Step 9 — hardened town completion;
+- Step 10 — hardened progression completion;
+- Step 11 — hardened reconciliation readiness;
+- Step 12 — hardened gap-hunt finalization.
 
-The bottleneck is no longer understanding the Brookhaven product architecture. The bottleneck is obtaining **authorized asset-level visual payloads/backing tables** and passing them through the neutral converter.
+The validator checks that all 12 step entries are present, unique, marked complete, point to real artifacts, and satisfy their expected schemas/checkpoints.
 
-## Recommended next work after this 12-step plan
+## Final research outputs
 
-1. controlled replay onto the stabilized StarBlox branch;
-2. use the project's verified-rights source channel to export the actual map/module or equivalent authorized source;
-3. export the house/mansion/motel/apartment tables and current vehicle list from an authorized source environment;
-4. bind every recovered payload to the Step 3 identifiers and provenance manifest;
-5. replace Step 6 proxies incrementally and run technical/content/performance QA;
-6. resume GitHub searching only when a new concrete identifier/path/asset ID is exposed by implementation.
+The hardened program currently establishes:
 
-## Completion state
+- 13 current neutral vehicle definitions;
+- 17 neutral town locations;
+- 15 player-facing town locations;
+- 2 research-deferred locations;
+- 14 original-StarBlox proxy town edges;
+- 42 read-only progression rules;
+- 6 controlled Step 11 replay groups;
+- 10 closed targeted gap lanes.
 
-- Steps 1–12: complete.
-- Rights state: verified-for-project-use as already recorded by the project.
-- Brookhaven runtime/exploit dependency in StarBlox: none.
-- Live product integration: none.
-- Merge: not performed.
-- Deployment: not performed.
+## What remains intentionally unresolved
+
+The remaining bottleneck is **authorized asset-level visual payload acquisition/export**, not architectural discovery.
+
+The next asset work should come through rights-cleared source/export channels for unresolved map, house, property-table, and vehicle payloads. Every recovered payload must be bound to existing identifiers and provenance before neutral conversion.
+
+Proxy replacement remains incremental and requires content, technical, and performance QA.
+
+## Post-program next action
+
+The primary next engineering action is **not another research step**.
+
+It is to create a fresh integration branch from the stabilized StarBlox product lineage and execute the Step 11 v2 replay groups in order, with all fail-closed gates active.
+
+Public search becomes supplemental, gap-specific discovery only.
+
+## Final safety boundary
+
+Research-program completion does **not** authorize product integration or deployment.
+
+At closure:
+
+- Brookhaven remote calls wired: **no**;
+- raw executable payloads allowed to ship: **no**;
+- live `App.jsx` wiring: **no**;
+- persistence changes: **none**;
+- economy changes: **none**;
+- networking changes: **none**;
+- direct merge performed: **no**;
+- deployment performed: **no**;
+- live integration authorized: **no**.
+
+Steps 1–12 are complete.
