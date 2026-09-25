@@ -49,6 +49,15 @@ try{
   if(!xml.includes('StarBlox')){
     throw new Error('Rojo build artifact does not contain StarBlox instances');
   }
+  for(const requiredName of ['Matter','ProfileStore','ReplicaServer','ReplicaClient']){
+    const marker='<string name="Name">' + requiredName + '</string>';
+    if(!xml.includes(marker)){
+      throw new Error(
+        'Rojo build artifact is missing required runtime dependency instance: ' +
+        requiredName
+      );
+    }
+  }
 
   console.log(JSON.stringify({
     status:'verified',
