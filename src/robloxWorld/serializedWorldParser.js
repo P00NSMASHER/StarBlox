@@ -333,7 +333,7 @@ function parseMesh(value,label){
   return Object.freeze({
     offset:numericVector(fields.get('offset'),3,label + '.offset'),
     meshType,
-    vertexColor:numericVector(fields.get('vertexcolor'),3,label + '.vertexcolor',{min:0,max:1}),
+    vertexColor:numericVector(fields.get('vertexcolor'),3,label + '.vertexcolor'),
     scale:numericVector(fields.get('scale'),3,label + '.scale',{positive:true}),
     meshId,
     texture,
@@ -510,6 +510,14 @@ export function deserializeBrookhavenWorldSource(source,{
           entries
             .filter(entry => entry.reflectance > 1)
             .map(entry => Object.freeze({index:entry.index,value:entry.reflectance}))
+        ),
+        meshVertexColorOutsideUnitRange:Object.freeze(
+          entries
+            .filter(entry => entry.mesh?.vertexColor?.some(value => value < 0 || value > 1))
+            .map(entry => Object.freeze({
+              index:entry.index,
+              values:Object.freeze([...entry.mesh.vertexColor])
+            }))
         )
       })
     }),
