@@ -1,4 +1,4 @@
-name: StarBlox Step 9 Fast Release
+name: StarBlox Step 9 Final Release Gate
 
 on:
   pull_request:
@@ -15,7 +15,7 @@ concurrency:
 
 jobs:
   publish-and-server-boot:
-    if: ${{ github.event_name == 'workflow_dispatch' || (github.head_ref == 'release/step9-canonical-step6-v4' && github.event.pull_request.draft == false) }}
+    if: ${{ github.event_name == 'workflow_dispatch' || (github.head_ref == 'release/step9-step6-final-v1' && github.event.pull_request.draft == false) }}
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
@@ -150,7 +150,7 @@ jobs:
           retention-days: 30
 
   real-client-gate:
-    if: ${{ github.event_name == 'workflow_dispatch' || (github.head_ref == 'release/step9-canonical-step6-v4' && github.event.pull_request.draft == false) }}
+    if: ${{ github.event_name == 'workflow_dispatch' || (github.head_ref == 'release/step9-step6-final-v1' && github.event.pull_request.draft == false) }}
     needs: publish-and-server-boot
     runs-on: ubuntu-latest
     timeout-minutes: 15
