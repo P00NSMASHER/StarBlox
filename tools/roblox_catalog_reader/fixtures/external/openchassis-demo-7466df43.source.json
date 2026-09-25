@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "sourceType": "external-public-roblox-binary",
+  "sourceProject": "OpenChassis",
+  "repository": "OpenChassis/OpenChassis",
+  "commit": "7466df436875f81d923acf9b946e44f5dd3840a0",
+  "path": "demo clutter/DemoPlace.rbxl",
+  "upstreamGitBlobSha": "f68b29d449941b24cd070b4988a1852a2b67d5f3",
+  "license": "MIT",
+  "licenseFile": "OPENCHASSIS_LICENSE.txt",
+  "storedRepresentation": "base64",
+  "storedFile": "openchassis-demo-7466df43.rbxl.b64",
+  "intendedUse": "milestone-3-rich-authorized-corpus-capability-review",
+  "migrationAuthorized": false,
+  "studioMutationAuthorized": false,
+  "publicationAuthorized": false,
+  "notes": "Pinned OpenChassis demo place used to prove StarBlox can ingest and capability-review a materially richer licensed Roblox corpus. No migration or Studio mutation is authorized by this fixture."
+}
