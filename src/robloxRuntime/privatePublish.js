@@ -61,6 +61,21 @@ function delay(ms){
   return new Promise(resolve => setTimeout(resolve,ms));
 }
 
+function retryAfterMs(response,{attempt,baseMs,maxMs}){
+  const raw=response?.headers?.get?.('retry-after');
+  if(raw != null && String(raw).trim()){
+    const seconds=Number(raw);
+    if(Number.isFinite(seconds) && seconds >= 0){
+      return Math.min(maxMs,Math.max(0,Math.round(seconds * 1000)));
+    }
+    const at=Date.parse(String(raw));
+    if(Number.isFinite(at)){
+      return Math.min(maxMs,Math.max(0,at-Date.now()));
+    }
+  }
+  return Math.min(maxMs,Math.max(0,baseMs * (2 ** attempt)));
+}
+
 function taskFailed(task){
   if(task?.error) return true;
   return /FAIL|ERROR|CANCEL/i.test(String(task?.state || ''));
@@ -94,7 +109,10 @@ export async function runOpenCloudLuauTask({
   script,
   fetchImpl=globalThis.fetch,
   pollIntervalMs=1000,
-  timeoutMs=90_000
+  timeoutMs=90_000,
+  createRetryAttempts=8,
+  createRetryBaseMs=2000,
+  createRetryMaxMs=60_000
 }){
   const key=requireApiKey(apiKey);
   const universe=requireId(universeId,'universeId');
@@ -102,8 +120,9 @@ export async function runOpenCloudLuauTask({
   if(typeof script !== 'string' || !script.trim()) throw new Error('Luau script is required');
   if(typeof fetchImpl !== 'function') throw new TypeError('fetch implementation is required');
 
+  const maxCreateAttempts=Math.max(1,Math.min(12,Number(createRetryAttempts) || 8));
   let createResponse;
-  for(let attempt=0;attempt<4;attempt+=1){
+  for(let attempt=0;attempt<maxCreateAttempts;attempt+=1){
     createResponse=await fetchImpl(
       LUAU_ROOT + '/universes/' + universe + '/places/' + place + '/luau-execution-session-tasks',
       {
@@ -115,12 +134,12 @@ export async function runOpenCloudLuauTask({
         body:JSON.stringify({script,timeout:'30s'})
       }
     );
-    if(createResponse.status !== 429 || attempt === 3) break;
-    const retrySeconds=Number(createResponse.headers?.get?.('retry-after'));
-    const waitMs=Number.isFinite(retrySeconds) && retrySeconds > 0
-      ? Math.min(retrySeconds * 1000,30_000)
-      : Math.min(5_000 * (2 ** attempt),30_000);
-    await delay(waitMs);
+    if(createResponse.status !== 429 || attempt === maxCreateAttempts-1) break;
+    await delay(retryAfterMs(createResponse,{
+      attempt,
+      baseMs:Math.max(0,Number(createRetryBaseMs) || 0),
+      maxMs:Math.max(0,Number(createRetryMaxMs) || 0)
+    }));
   }
   const create=await parseResponse(createResponse,'Roblox Luau execution create');
   const statusUrl=taskUrl(create.path);
