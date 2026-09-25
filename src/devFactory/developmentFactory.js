@@ -664,6 +664,11 @@ export async function runDevelopmentFactory({
   const start=iso(startedAt,'startedAt');
   const runId='devrun-' + stableHash({task:normalizedTask,startedAt:start}).split(':')[1];
   const studioAttestation=await readStudioAttestation(studio);
+  if(migrationEvidence && studioAttestation.attested !== true){
+    throw new Error(
+      'migration development requires an attested live Studio connector before inspection or mutation'
+    );
+  }
   const maxRepairCycles=Math.max(0,Math.min(5,Number(config.maxRepairCycles ?? 2)));
   const maxTotalMutationCalls=Math.max(1,Math.min(500,Number(config.maxTotalMutationCalls ?? 120)));
   const maxToolCallsPerBatch=Math.max(1,Math.min(100,Number(config.maxToolCallsPerBatch ?? 50)));
