@@ -1,0 +1,99 @@
+{
+  "schemaVersion": 1,
+  "baselineId": "starblox-brookhaven-world-source-v1",
+  "step": "target-architecture-1-authoritative-world-source",
+  "status": "complete-pinned-serialized-world-source",
+  "recordedAt": "2026-09-25",
+  "source": {
+    "type": "github-gist-raw-revision",
+    "owner": "hahssas",
+    "gistId": "800060cf55ddf767c6d0e57e6248b51d",
+    "revision": "6970071894be634d70b67b895b85d2299126b065",
+    "file": "gistfile1.txt",
+    "rawUrl": "https://gist.githubusercontent.com/hahssas/800060cf55ddf767c6d0e57e6248b51d/raw/6970071894be634d70b67b895b85d2299126b065/gistfile1.txt",
+    "titleMarker": "-- Brookhaven Map"
+  },
+  "identity": {
+    "encoding": "ASCII/UTF-8",
+    "bytes": 3182943,
+    "sha256": "e9abef1d41b85a8f83aca36ba661de41f4321562937c1e2eea907395c292d694",
+    "highestObservedTopLevelIndex": 4936
+  },
+  "storage": {
+    "mode": "ordered-exact-byte-chunks",
+    "concatenateWithoutSeparators": true,
+    "chunks": [
+      {
+        "index": 1,
+        "path": "research-inputs/brookhaven/world-baseline/source/chunk-0001.txt",
+        "bytes": 450000,
+        "sha256": "5df0279a268dba9d631a4444f0ccd16bc3a0074566a2a50c17c70763c98d6a62"
+      },
+      {
+        "index": 2,
+        "path": "research-inputs/brookhaven/world-baseline/source/chunk-0002.txt",
+        "bytes": 450000,
+        "sha256": "a96d83f0634dbc0a143403350167abb0d1ef30d2c2bb56f7a006792c05b7732f"
+      },
+      {
+        "index": 3,
+        "path": "research-inputs/brookhaven/world-baseline/source/chunk-0003.txt",
+        "bytes": 450000,
+        "sha256": "356603eee749498f8baea62563e6c322373b725b1c522cff67b24124e72d7282"
+      },
+      {
+        "index": 4,
+        "path": "research-inputs/brookhaven/world-baseline/source/chunk-0004.txt",
+        "bytes": 450000,
+        "sha256": "bd6366edf2ada8ef04589409ce8fa6e2942b7c1fd3d70d3754bd7c6ecf1ad08c"
+      },
+      {
+        "index": 5,
+        "path": "research-inputs/brookhaven/world-baseline/source/chunk-0005.txt",
+        "bytes": 450000,
+        "sha256": "fdafdb048db96998b86a0da1bd8b998fc7f09777a1b002acb2ca3bf0875d2c64"
+      },
+      {
+        "index": 6,
+        "path": "research-inputs/brookhaven/world-baseline/source/chunk-0006.txt",
+        "bytes": 450000,
+        "sha256": "004f5cd7df3dfaec216e8f109c9d1673d4e98ef62de9794f15f66aaa5435d9cc"
+      },
+      {
+        "index": 7,
+        "path": "research-inputs/brookhaven/world-baseline/source/chunk-0007.txt",
+        "bytes": 450000,
+        "sha256": "8617f890333e69339b209ffdd68ae2d10febe77a71d23e432ae8c0a8798510e3"
+      },
+      {
+        "index": 8,
+        "path": "research-inputs/brookhaven/world-baseline/source/chunk-0008.txt",
+        "bytes": 32943,
+        "sha256": "c7a520a0e4a67d6084bae048cb23d7e451111642a4dcdec51dd7e6c6e09c5d62"
+      }
+    ]
+  },
+  "rights": {
+    "projectStatus": "verified-for-project-use",
+    "basis": "user-confirmed prior rights evidence and current explicit authorization",
+    "usesPermittedByUser": [
+      "commercial",
+      "educational",
+      "other project purposes"
+    ],
+    "publicSourceProvenanceTrackedSeparately": true
+  },
+  "scope": {
+    "authoritativeFor": "StarBlox world-clone baseline input",
+    "exactFor": "the pinned serialized Brookhaven map revision above",
+    "exactCurrentLiveBrookhavenPlaceParityClaimed": false,
+    "limitation": "No fuller Brookhaven .rbxl/.rbxlx place file was located during Step 1. This baseline exactly preserves the pinned serialized map payload, but Step 1 does not claim that the serialization is byte-identical to the current live Brookhaven place."
+  },
+  "boundaries": {
+    "conversionStarted": false,
+    "worldExtractionStarted": false,
+    "starBloxMountStarted": false,
+    "publicationStarted": false,
+    "liveActivationAllowed": false
+  }
+}
