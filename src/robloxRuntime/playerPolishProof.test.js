@@ -78,21 +78,31 @@ describe('Step 8: player-experience polish and automated UX QA', () => {
     expect(config).toContain('Explore the neighborhood');
   });
 
-  it('meets the mobile UI contract with safe insets and large touch targets', () => {
+  it('uses a compact landscape-safe HUD, activity card, onboarding card, and next-activity waypoint', () => {
     const client=readFileSync(
       new URL('../../roblox/src/client/CoreGameLoop.client.luau',import.meta.url),
       'utf8'
     );
 
     expect(client).toContain('DeviceSafeInsets');
-    expect(client).toContain('UISizeConstraint');
-    expect(client).toContain('UICorner');
-    expect(client).toContain('UIStroke');
-    expect(client).toContain('TextWrapped = true');
-    expect(client).toContain('button.Size = UDim2.new(1, -44, 0, 50)');
-    expect(client).toContain('closeButton.Size = UDim2.fromOffset(48, 48)');
-    expect(client).toContain('onboardingButton.Size = UDim2.new(1, -48, 0, 54)');
+    expect(client).toContain('hud.Size = UDim2.fromOffset(314, 64)');
+    expect(client).toContain('nextHint.Size = UDim2.fromOffset(260, 30)');
+    expect(client).toContain('panel.Size = UDim2.new(0.84, 0, 0, 322)');
+    expect(client).toContain('panelConstraint.MaxSize = Vector2.new(520, 322)');
+    expect(client).toContain('button.Size = UDim2.new(1, -32, 0, 44)');
+    expect(client).toContain('closeButton.Size = UDim2.fromOffset(44, 44)');
+    expect(client).toContain('onboarding.Size = UDim2.new(0.78, 0, 0, 216)');
+    expect(client).toContain('onboardingButton.Size = UDim2.new(1, -36, 0, 44)');
+    expect(client).toContain('waypoint.Size = UDim2.fromOffset(124, 30)');
+    expect(client).toContain('waypoint.MaxDistance = 350');
+    expect(client).toContain('waypoint.Adornee = candidate');
     expect(client).toContain('Selectable = true');
+
+    expect(client).not.toContain('hud.Size = UDim2.new(1, -24, 0, 132)');
+    expect(client).not.toContain('panel.Size = UDim2.new(0.92, 0, 0, 442)');
+    expect(client).not.toContain('onboarding.Size = UDim2.new(0.9, 0, 0, 350)');
+    expect(client).not.toContain('StarBlox • Brightside Plaza');
+    expect(client).not.toContain('Coins %d   •   XP %d   •   Stars %d');
   });
 
   it('adds clear feedback, dismissible onboarding, and recoverable failure states', () => {
@@ -108,7 +118,7 @@ describe('Step 8: player-experience polish and automated UX QA', () => {
     expect(client).toContain('rate_limited');
     expect(client).toContain('profile_unavailable');
     expect(client).toContain('activity_not_open');
-    expect(client).toContain('Reconnecting to Brightside');
+    expect(client).toContain('Reconnecting…');
     expect(client).toContain('tryNumber < 3');
     expect(client).toContain('dismissOnboarding:FireServer()');
     expect(client).toContain('closeButton.Activated:Connect');
