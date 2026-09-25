@@ -1,0 +1,89 @@
+{
+  "schemaVersion": 1,
+  "donorId": "achassis",
+  "repository": "lisphm/A-Chassis",
+  "commit": "3533c32ed04210fd11eaa8d4c45ddc5da951f6fb",
+  "sourceFiles": [
+    {
+      "path": "Scripts/A-Chassis Tune.luau",
+      "blobSha": "2f41624792b75fbff12e0cd2a1f3d82492f280ac"
+    },
+    {
+      "path": "Scripts/Drive.luau",
+      "blobSha": "775e2841c4a17dd8326b9605231bae6863b2532d"
+    },
+    {
+      "path": "Scripts/Initialize.luau",
+      "blobSha": "188e85fd6225a6183c36e914b44e15064e56d837"
+    },
+    {
+      "path": "Scripts/Plugins/Controls.luau",
+      "blobSha": "6d6487e0e53416eb71de75ec58d092f1d7c79903"
+    },
+    {
+      "path": "Scripts/CustomEngine.luau",
+      "blobSha": "7a1bc4bccb7471b915bb0ac9757494594ba5712c"
+    },
+    {
+      "path": "Scripts/Units.luau",
+      "blobSha": "376065cb3bd43d476833c3969fa727137aeca78d"
+    },
+    {
+      "path": "Scripts/Plugins/MSteer Camera.luau",
+      "blobSha": "4bc264a2aee5dc4c0a81bf493371f3f68d5fb8a1"
+    }
+  ],
+  "mappings": [
+    {
+      "id": "drive-core",
+      "sources": [
+        "Scripts/A-Chassis Tune.luau",
+        "Scripts/Drive.luau",
+        "Scripts/Initialize.luau",
+        "Scripts/Units.luau"
+      ],
+      "targets": [
+        "roblox/src/server/VehicleRuntimeService.luau",
+        "roblox/src/client/VehicleController.luau"
+      ],
+      "strategy": "port one stable vehicle path only",
+      "authority": "server owns spawn/ownership; client owns input/presentation"
+    },
+    {
+      "id": "controls",
+      "sources": [
+        "Scripts/Plugins/Controls.luau",
+        "Scripts/Plugins/MSteer Camera.luau",
+        "Scripts/CustomEngine.luau"
+      ],
+      "targets": [
+        "roblox/src/client/VehicleController.luau"
+      ],
+      "strategy": "retain only mobile/controller steering and required engine calculations",
+      "authority": "client input cannot award or persist ownership"
+    }
+  ],
+  "preserveAuthority": [
+    "ProfileSessionService",
+    "ReplicaStateService",
+    "SocialWorldService",
+    "AiNpcService",
+    "StarBlox quest/mastery authority",
+    "StarBlox economy authority",
+    "typed StarBlox networking"
+  ],
+  "forbidden": [
+    "client-authoritative ownership",
+    "client rewards",
+    "optional gauges/sounds/aero cosmetics unless required",
+    "replace ProfileStore",
+    "publish"
+  ],
+  "acceptance": [
+    "one drivable vehicle",
+    "mobile/controller input",
+    "seat ownership validated server-side",
+    "live driving playtest",
+    "no duplicate vehicle rewards"
+  ]
+}
