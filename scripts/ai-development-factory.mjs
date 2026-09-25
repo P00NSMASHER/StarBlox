@@ -1,7 +1,8 @@
 
+import { createHash } from 'node:crypto';
 import { readFile,writeFile } from 'node:fs/promises';
 import { spawnSync } from 'node:child_process';
-import { dirname,isAbsolute,resolve } from 'node:path';
+import { basename,dirname,isAbsolute,resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 
 import {
@@ -9,6 +10,10 @@ import {
   verifyDevelopmentRun
 } from '../src/devFactory/developmentFactory.js';
 import { loadFactoryMigrationEvidence } from '../src/devFactory/migrationInput.js';
+import {
+  buildMigrationAdaptationReceipt,
+  verifyMigrationAdaptationReceipt
+} from '../src/devFactory/adaptationReceipt.js';
 
 function arg(name,required=false){
   const inline=process.argv.find(value => value.startsWith(name + '='));
@@ -150,13 +155,46 @@ if(!validation.ok){
   throw new Error('development run artifact is invalid: ' + validation.errors.join('; '));
 }
 
-await writeFile(outPath,JSON.stringify(run,null,2) + '\n');
+const runJson=JSON.stringify(run,null,2) + '\n';
+await writeFile(outPath,runJson);
+
+let adaptationReceiptPath=null;
+if(run.status === 'verified' && task.migrationEvidence){
+  const runBytes=Buffer.from(runJson,'utf8');
+  const runSha256=createHash('sha256').update(runBytes).digest('hex');
+  const adaptationReceipt=buildMigrationAdaptationReceipt({
+    run,
+    runArtifactFile:basename(outPath),
+    runArtifactSha256:runSha256,
+    runArtifactBytes:runBytes.length
+  });
+  const adaptationValidation=verifyMigrationAdaptationReceipt(adaptationReceipt);
+  if(!adaptationValidation.ok){
+    throw new Error(
+      'migration adaptation receipt is invalid: ' +
+      adaptationValidation.errors.join('; ')
+    );
+  }
+  adaptationReceiptPath=fromRoot(
+    arg('--adaptation-receipt') ||
+    resolve(dirname(outPath),'migration-adaptation-receipt.json')
+  );
+  await writeFile(
+    adaptationReceiptPath,
+    JSON.stringify(adaptationReceipt,null,2) + '\n'
+  );
+}
 
 console.log('StarBlox AI Development Factory');
 console.log('run: ' + run.runId);
 console.log('status: ' + run.status);
 console.log('hash: ' + run.runHash);
 console.log('artifact: ' + outPath);
+if(adaptationReceiptPath){
+  console.log('adaptation receipt: ' + adaptationReceiptPath);
+  console.log('quarantine exit approved: false');
+  console.log('next: quarantine-exit-certification');
+}
 
 if(run.status !== 'verified'){
   process.exitCode=2;
