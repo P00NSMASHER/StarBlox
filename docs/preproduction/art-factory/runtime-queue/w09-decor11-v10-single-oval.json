@@ -36,8 +36,8 @@
   },
   "dispatchPolicy": "PREPARED_ONLY__QUEUE_WHEN_DESK11_V12_TRANSITIONS_TO_GENERATING",
   "retry": {
-    "attempt": 2,
-    "reason": "Serialized Step6 retry after runtime dependency and constrained-prompt repairs",
-    "supersedesRunId": 36091462690
+    "attempt": 3,
+    "reason": "Retry under per-exact-queue concurrency after prior pending-run replacement",
+    "supersedesRunId": 36092618366
   }
 }
