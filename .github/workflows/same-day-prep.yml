@@ -5,6 +5,12 @@ on:
     branches: [integration/same-day-starblox-pipeline]
     paths:
       - .github/workflows/same-day-prep.yml
+      - config/same-day/**
+      - scripts/same-day-pipeline.mjs
+      - src/sameDayPipeline/**
+      - src/robloxMigration/**
+      - tools/roblox_catalog_reader/**
+      - tools/roblox_migration_exporter/**
   workflow_dispatch:
     inputs:
       ref:
