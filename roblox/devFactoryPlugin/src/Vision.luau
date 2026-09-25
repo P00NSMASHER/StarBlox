@@ -4,6 +4,8 @@ local AssetService = game:GetService("AssetService")
 local CaptureService = game:GetService("CaptureService")
 local UserInputService = game:GetService("UserInputService")
 local Workspace = game:GetService("Workspace")
+local UserInputService = game:GetService("UserInputService")
+local Workspace = game:GetService("Workspace")
 
 local Vision = {}
 
