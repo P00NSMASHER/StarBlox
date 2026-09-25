@@ -126,14 +126,38 @@ The default task files are:
 
 ## Factory adapter
 
-`config/same-day/factory-adapter.mjs` is provider-neutral.
+`config/same-day/factory-adapter.mjs` connects the StarBlox Studio bridge to a bounded AI worker.
 
-It connects:
+The default path is now the bundled read-only Pi wrapper:
 
-- the StarBlox local Studio bridge; and
-- any local AI-agent wrapper supplied through `STARBLOX_AGENT_COMMAND`.
+`scripts/agents/pi-factory-wrapper.mjs`
 
-The agent wrapper protocol is:
+Install Pi once:
+
+```bash
+npm install -g @mariozechner/pi-coding-agent
+```
+
+Authenticate Pi with the provider/model you want to use, then the same-day adapter works without `STARBLOX_AGENT_COMMAND`. Optional overrides:
+
+```bash
+export STARBLOX_PI_COMMAND=pi
+export STARBLOX_PI_MODEL='your-model-pattern'
+export STARBLOX_PI_THINKING=high
+```
+
+The bundled wrapper:
+
+- gives Pi only read/grep/find/list repository tools;
+- disables extension and skill discovery for factory calls;
+- uses ephemeral/no-session runs;
+- converts Studio RGBA viewport captures into real PNG attachments for visual review;
+- validates every role response against the StarBlox factory JSON contract;
+- refuses unsupported mutation tools such as `delete_instance` or arbitrary Luau execution.
+
+Custom wrappers remain supported through `STARBLOX_AGENT_COMMAND` and optional `STARBLOX_AGENT_ARGS`.
+
+The wrapper protocol is:
 
 - read one JSON object from stdin;
 - receive the role as the final command-line argument;
@@ -146,8 +170,6 @@ Roles:
 - `review`
 - `repair`
 - `visual-review`
-
-This avoids hard-wiring StarBlox to a specific model vendor.
 
 ## Safe asset assembly
 
@@ -238,7 +260,7 @@ The doctor validates Node, Git, Cargo/Rust, Rojo, the factory adapter, exact pin
 
 ## Setup
 
-Place authorized Roblox source files under a local source directory such as:
+The default manifest contains fingerprinted download metadata for the authorized Brookhaven and Robbing Simulator place inputs. If the files are missing, the pipeline downloads them and refuses to continue unless SHA-256 and byte length match the pinned values. You may also place the exact authorized files manually under:
 
 ```text
 sources/authorized/
@@ -248,21 +270,28 @@ sources/authorized/
 
 The pipeline creates the configured `vendor/authorized/` source-code checkouts automatically at their pinned commits. Both `sources/authorized/` and `vendor/authorized/` are gitignored.
 
+Before Studio mutation, run the strict doctor:
+
+```bash
+npm run same-day:doctor -- \
+  --manifest config/same-day/pipeline.example.json \
+  --strict-runtime
+```
+
+This requires the Studio bridge and either the bundled Pi path or a custom agent wrapper to be ready.
+
 Start the Studio bridge:
 
 ```bash
 npm run studio:bridge
 ```
 
-Connect the StarBlox Studio plugin and configure an agent wrapper:
+Connect the StarBlox Studio plugin. No custom agent wrapper is required when Pi is installed and authenticated.
+
+For a custom agent instead:
 
 ```bash
 export STARBLOX_AGENT_COMMAND=/path/to/agent-wrapper
-```
-
-Optional arguments:
-
-```bash
 export STARBLOX_AGENT_ARGS='["--project","StarBlox"]'
 ```
 
