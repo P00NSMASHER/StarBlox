@@ -422,30 +422,76 @@ async function execute(stage){
 
   if(stage.type === 'release-gate'){
     const gate=stage.details.gate;
+    const receiptPath=resolve(outDir,'gate-' + gate.id + '-receipt.json');
+    const integratedRun=resolve(
+      outDir,
+      'verify-integrated-slice-development-run.json'
+    );
     const result=run(gate.command,gate.args,{
       cwd:root,
       env:{
         STARBLOX_PIPELINE_OUT_DIR:outDir,
         STARBLOX_PIPELINE_STATE:statePath,
-        STARBLOX_PIPELINE_INTEGRATED_RUN:resolve(
-          outDir,
-          'verify-integrated-slice-development-run.json'
-        )
+        STARBLOX_PIPELINE_INTEGRATED_RUN:integratedRun,
+        STARBLOX_PIPELINE_GATE_RECEIPT:receiptPath
       }
     });
     return {
       ...result,
       gate:gate.id,
       startedAt,
-      completedAt:new Date().toISOString()
+      completedAt:new Date().toISOString(),
+      artifacts:result.ok ? {receipt:receiptPath,integratedRun} : null
     };
   }
 
   if(stage.type === 'finalize'){
+    const integratedRunPath=resolve(
+      outDir,
+      'verify-integrated-slice-development-run.json'
+    );
+    const integratedRunBytes=await readFile(integratedRunPath);
+    const crypto=await import('node:crypto');
+    const integratedRunSha256=crypto.createHash('sha256')
+      .update(integratedRunBytes)
+      .digest('hex');
+    const gateReceipts={};
+
+    for(const gateName of ['mobile','security','performance']){
+      const receiptPath=resolve(outDir,'gate-' + gateName + '-receipt.json');
+      const receipt=JSON.parse(await readFile(receiptPath,'utf8'));
+      if(
+        receipt?.version !== 'starblox-same-day-evidence-gate-v1' ||
+        receipt?.status !== 'passed' ||
+        receipt?.gate !== gateName ||
+        receipt?.publicationAllowed !== false
+      ){
+        throw new Error('invalid same-day gate receipt: ' + gateName);
+      }
+      if(receipt?.integratedRun?.sha256 !== integratedRunSha256){
+        throw new Error(
+          gateName + ' gate receipt does not bind to the exact integrated development run'
+        );
+      }
+      gateReceipts[gateName]={
+        file:receiptPath,
+        receiptHash:receipt.receiptHash,
+        integratedRunSha256:receipt.integratedRun.sha256,
+        metrics:receipt.metrics
+      };
+    }
+
     const summary={
+      schemaVersion:1,
+      version:'starblox-same-day-slice-summary-v1',
       ok:true,
       planHash:plan.planHash,
       completedStages:[...state.completedStages],
+      integratedRun:{
+        file:integratedRunPath,
+        sha256:integratedRunSha256
+      },
+      gates:gateReceipts,
       publicationAllowed:false,
       readyForInternalVerticalSliceReview:true
     };
