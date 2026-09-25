@@ -63,6 +63,9 @@ jobs:
           git config core.sparseCheckoutCone false
           cat > .git/info/sparse-checkout <<'EOF'
           /.github/workflows/art-factory-preflight.yml
+          /.github/workflows/art-factory-cpu-generation.yml
+          /.github/workflows/art-factory-cpu-sequential-generation.yml
+          /.github/workflows/catalog-staged-art-qa.yml
           /requirements-art-factory-ci.txt
           /scripts/
           /docs/preproduction/art-factory/
