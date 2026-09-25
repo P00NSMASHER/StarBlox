@@ -1,0 +1,82 @@
+{
+  "schemaVersion": 1,
+  "checkedAt": "2026-09-25",
+  "deployment": {
+    "provider": "Cloudflare Pages",
+    "url": "https://starblox-demo.pages.dev",
+    "productionBranch": "demo-release-candidate-2026-09-25",
+    "commit": "b0ce0fa42ad70c3b524ffd16945e3c3d97c6df3d"
+  },
+  "desktop": {
+    "viewport": "1408x1056",
+    "status": "PASS",
+    "httpStatus": 200,
+    "title": "StarBlox",
+    "homeFirst": true,
+    "stagedProfile": {
+      "coins": 720,
+      "stars": 8,
+      "homeHeading": "Creator Bedroom"
+    },
+    "storeNavigation": true,
+    "questsNavigation": true,
+    "studyNavigation": true,
+    "resetDemoPresent": true,
+    "downloadSavePresent": true,
+    "resetDemoRestoresHome": true,
+    "runtimeErrors": 0,
+    "companions": {
+      "ids": [
+        "companions-2",
+        "companions-5",
+        "companions-6",
+        "companions-7",
+        "companions-8",
+        "companions-9",
+        "companions-12"
+      ],
+      "allCardsPresent": true,
+      "allExpectedSvgPaths": true,
+      "allDecoded": true,
+      "naturalDimensions": "150x150",
+      "fallbackCount": 0
+    }
+  },
+  "mobile": [
+    {
+      "viewport": "390x844",
+      "status": "PASS",
+      "runtimeErrors": 0,
+      "pageHorizontalOverflow": false,
+      "home": true,
+      "store": true,
+      "buddies": true,
+      "quests": true,
+      "study": true,
+      "resetDemo": true,
+      "downloadSave": true,
+      "primaryNavHeightPx": 56
+    },
+    {
+      "viewport": "320x568",
+      "status": "PASS",
+      "runtimeErrors": 0,
+      "pageHorizontalOverflow": false,
+      "home": true,
+      "store": true,
+      "buddies": true,
+      "quests": true,
+      "study": true,
+      "resetDemo": true,
+      "downloadSave": true,
+      "primaryNavHeightPx": 56
+    }
+  ],
+  "persistenceEvidence": {
+    "exactCandidateWorkflowRunId": 36116529246,
+    "exactCandidateCommit": "b0ce0fa42ad70c3b524ffd16945e3c3d97c6df3d",
+    "conclusion": "success",
+    "note": "Exact deployed candidate previously passed Persistence Browser QA including reset-demo-restores-showcase-profile-and-reload."
+  },
+  "result": "PASS_FINAL_PUBLIC_SMOKE"
+}
