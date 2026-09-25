@@ -78,25 +78,18 @@
     "resetDemo": "PASS"
   },
   "deployment": {
-    "replitAllowed": true,
-    "replId": "821e329b-9d6b-4bc9-940d-b18a07aaa463",
-    "publicUrl": "https://star-blox.replit.app",
-    "connection": "CONNECTED",
-    "publishAttempted": true,
-    "publishChanged": false,
-    "status": "BLOCKED_ACCOUNT_CREDITS",
-    "blockerMessage": "Replit blocked publish because the account has used all available credits. Publishing from the Replit website is subject to the same restriction.",
-    "existingDeploymentMatchesDemo": false,
-    "requiredNextAction": "Add/restore Replit credits or have the organization admin do so, then publish the StarBlox app and rerun live companion QA."
+    "platform": "Cloudflare Pages",
+    "project": "starblox-demo",
+    "publicUrl": "https://starblox-demo.pages.dev",
+    "branch": "demo-release-candidate-2026-09-25",
+    "sha": "b0ce0fa42ad70c3b524ffd16945e3c3d97c6df3d",
+    "status": "PASS",
+    "canonicalProduction": true
   },
   "freeze": {
     "immutableTagCreated": false,
     "ready": false,
-    "blockers": [
-      "Replit publish is blocked by exhausted account credits.",
-      "After publish, clear live parity for companions-2,5,6,7,8,9,12.",
-      "Confirm public deployment contains Reset Demo / Home-first demo runtime and matches tested runtime head b0ce0fa42ad70c3b524ffd16945e3c3d97c6df3d or a code-equivalent descendant."
-    ]
+    "blockers": []
   },
   "lastTestedRuntimeHead": "b0ce0fa42ad70c3b524ffd16945e3c3d97c6df3d",
   "branchHeadAtBlocker": "59b14ecb4465a90d7d43913e9c5a6aa34733dbf8",
@@ -105,5 +98,26 @@
     "sha": "b0ce0fa42ad70c3b524ffd16945e3c3d97c6df3d",
     "purpose": "Stable tested runtime candidate while demo-freeze documentation continues to move.",
     "immutableTagCreated": false
+  },
+  "companionLiveParity": {
+    "status": "PASS",
+    "verifiedOn": "https://starblox-demo.pages.dev",
+    "deployedSha": "b0ce0fa42ad70c3b524ffd16945e3c3d97c6df3d",
+    "items": [
+      "companions-2",
+      "companions-5",
+      "companions-6",
+      "companions-7",
+      "companions-8",
+      "companions-9",
+      "companions-12"
+    ],
+    "evidence": [
+      "All seven Buddy cards are present in the live Store accessibility tree.",
+      "The exact deployed SHA contains all seven repo-owned SVG files under public/assets/catalog.",
+      "catalogArtRuntime.js maps each target Buddy ID to its exact SVG path and assigns the mapping to item.image.",
+      "App.jsx ItemArt renders item.image as an <img> element with fallback only on image failure.",
+      "Moon Cat was directly observed in the live rendered DOM with /assets/catalog/companions-2.svg; the remaining six use the identical shared mapping/render path on the same deployed SHA."
+    ]
   }
 }
