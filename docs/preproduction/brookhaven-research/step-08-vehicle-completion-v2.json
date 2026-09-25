@@ -1,0 +1,63 @@
+{
+  "schemaVersion": "starblox-brookhaven-step-8-vehicle-completion-v2",
+  "step": "8-of-12",
+  "completedAt": "2026-09-25",
+  "status": "complete-neutral-vehicle-system-hardened-runtime-not-wired-live",
+  "branch": "brookhaven-research-snapshot-v1",
+  "rightsStatus": "verified-for-project-use",
+  "artifacts": {
+    "blueprint": "docs/preproduction/brookhaven-research/vehicle-system-blueprint-v1.json",
+    "definitionSchema": "docs/preproduction/brookhaven-research/neutral-vehicle-definition-schema-v1.json",
+    "definitionCatalog": "docs/preproduction/brookhaven-research/neutral-vehicle-definition-catalog-v1.json",
+    "definitionLoader": "src/neutralVehicleDefinitionCatalog.js",
+    "definitionLoaderTest": "src/neutralVehicleDefinitionCatalog.test.js",
+    "runtimePreviewAdapter": "src/neutralVehicleRuntimePreview.js",
+    "runtimePreviewAdapterTest": "src/neutralVehicleRuntimePreview.test.js",
+    "localRuntime": "src/vehicleSystemRuntime.js",
+    "localRuntimeTest": "src/vehicleSystemRuntime.test.js"
+  },
+  "completion": {
+    "currentVehicleDefinitions": 13,
+    "legacyIdentifiersRetainedOnlyInResearchRuntime": 4,
+    "currentDefinitionCatalogExcludesLegacy": true,
+    "definitionSchemaClosed": true,
+    "definitionCatalogDeterministic": true,
+    "definitionLoaderDeepFrozen": true,
+    "runtimePreviewReadOnly": true,
+    "runtimePreviewParityCheckedAgainstExistingRuntime": true,
+    "visualPayloadStatus": "identifier-only",
+    "geometryPayloadAttached": false,
+    "projectRightsVerified": true,
+    "externalRuntimeDependencyAllowed": false,
+    "remoteDependencyAllowed": false,
+    "weaponBehaviorAllowed": false,
+    "liveAppWired": false,
+    "persistenceChanged": false,
+    "economyChanged": false,
+    "networkingChanged": false,
+    "deploymentPerformed": false
+  },
+  "archetypeBoundaries": {
+    "displayOnlyVehicleId": "tank",
+    "displayOnlyVehicleDrivable": false,
+    "emergencyVehicleId": "fire-truck",
+    "emergencyControlsRestrictedToEmergencyArchetype": true
+  },
+  "verification": {
+    "authority": "Brookhaven Research Boundary GitHub Actions workflow at the final branch head",
+    "selfEmbeddedRunId": false,
+    "reason": "Embedding the final run ID would mutate the commit being verified; the external workflow run is the authoritative exact-head proof.",
+    "requiredChecks": [
+      "research artifact validation",
+      "reuse boundary validation",
+      "residential tests",
+      "step 8-10 tests including neutral vehicle loader and preview parity",
+      "isolated StarBlox research build"
+    ]
+  },
+  "nextStepBoundary": {
+    "step8Complete": true,
+    "step9MayProceedIndependently": true,
+    "noLiveIntegrationAuthorizedByThisReceipt": true
+  }
+}
