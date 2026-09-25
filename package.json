@@ -30,7 +30,8 @@
     "roblox:publish-private": "node scripts/publish-private-starblox.mjs",
     "roblox:vertical-slice-proof": "node scripts/verify-roblox-vertical-slice.mjs",
     "roblox:core-loop-proof": "node scripts/verify-roblox-core-loop.mjs",
-    "roblox:player-polish-proof": "node scripts/verify-roblox-player-polish.mjs"
+    "roblox:player-polish-proof": "node scripts/verify-roblox-player-polish.mjs",
+    "roblox:real-client-proof": "node scripts/verify-roblox-real-client-playtest.mjs"
   },
   "dependencies": {
     "lucide-react": "^0.468.0",
