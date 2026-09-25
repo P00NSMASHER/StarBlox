@@ -157,6 +157,51 @@ jobs:
           );
           NODE
 
+      - name: Verify exact source and export provenance
+        run: |
+          node --input-type=module - <<'NODE'
+          import {readFile} from 'node:fs/promises';
+          import {resolve} from 'node:path';
+
+          const base='artifacts/same-day-starblox';
+          const state=JSON.parse(await readFile(resolve(base,'same-day-pipeline-state.json'),'utf8'));
+          const expected={
+            brookhaven:'ddc2248663770e968dfe2b27b97b577c0c12fd93177305b884bed9c929923217',
+            robbing:'f413653c19d124517c4dc5409b635ae58122d4e1a63255e9aa7608fd0ba9f920'
+          };
+
+          for(const [id,sha256] of Object.entries(expected)){
+            const ingest=state.stages?.['ingest-'+id]?.result;
+            if(ingest?.bootstrap?.verified !== true || ingest.bootstrap.sha256 !== sha256){
+              throw new Error(id+' source fingerprint is not bound to the expected authorized bytes');
+            }
+            const plan=JSON.parse(await readFile(
+              resolve(base,'sources',id,'planning','migration-plan.json'),'utf8'
+            ));
+            if(!(Number(plan.summary?.selectedUnits) > 0)){
+              throw new Error(id+' migration plan selected zero units');
+            }
+            const receipt=JSON.parse(await readFile(
+              resolve(base,'sources',id,'export','migration-export-receipt.json'),'utf8'
+            ));
+            if(
+              receipt.status !== 'exported' ||
+              receipt.liveActivationAllowed !== false ||
+              receipt.publicationStarted !== false ||
+              receipt.studioMutationStarted !== false
+            ){
+              throw new Error(id+' export receipt crossed the staging-only boundary');
+            }
+            console.log(id, {
+              sha256,
+              selected:plan.summary.selectedUnits,
+              staging:plan.summary.stagingUnits,
+              quarantine:plan.summary.quarantineUnits,
+              bytes:receipt.summary?.totalBytes
+            });
+          }
+          NODE
+
       - name: Upload resumable pre-Studio bundle
         uses: actions/upload-artifact@v4
         with:
