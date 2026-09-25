@@ -224,6 +224,49 @@ jobs:
           cargo run --quiet --manifest-path tools/roblox_catalog_reader/Cargo.toml -- \
             /tmp/starblox-step4-world/StarBlox-Step4-Isolated-World.rbxlx \
             > /tmp/starblox-step4-world/place-dom.json
+      - name: Compose Brookhaven world with StarBlox runtime
+        run: |
+          npm run roblox:brookhaven-world:compose -- \
+            --world /tmp/starblox-step4-world/BrookhavenWorldBaseline.rbxmx \
+            --project /tmp/starblox-step4-world/StarBlox-Brookhaven.project.json \
+            --receipt /tmp/starblox-step4-world/composition-receipt.json
+          grep -q '"status": "composed-brookhaven-world-and-starblox-runtime"' /tmp/starblox-step4-world/composition-receipt.json
+          grep -q '"workspaceBrookhavenWorld": true' /tmp/starblox-step4-world/composition-receipt.json
+          grep -q '"replicatedStorageStarBlox": true' /tmp/starblox-step4-world/composition-receipt.json
+          grep -q '"serverScriptServiceStarBlox": true' /tmp/starblox-step4-world/composition-receipt.json
+          grep -q '"starterPlayerStarBlox": true' /tmp/starblox-step4-world/composition-receipt.json
+
+          rojo build /tmp/starblox-step4-world/StarBlox-Brookhaven.project.json \
+            --output /tmp/starblox-step4-world/StarBlox-Brookhaven-Composed.rbxlx
+          test -s /tmp/starblox-step4-world/StarBlox-Brookhaven-Composed.rbxlx
+          grep -q 'BrookhavenWorldBaseline' /tmp/starblox-step4-world/StarBlox-Brookhaven-Composed.rbxlx
+          grep -q 'StarBlox' /tmp/starblox-step4-world/StarBlox-Brookhaven-Composed.rbxlx
+
+          npm run roblox:catalog -- \
+            --input /tmp/starblox-step4-world/StarBlox-Brookhaven-Composed.rbxlx \
+            --out /tmp/starblox-step4-world/composed-catalog.json \
+            --report /tmp/starblox-step4-world/composed-catalog.md \
+            --source-id step5-composed-place
+
+          node --input-type=module - <<'NODE'
+          import {createHash} from 'node:crypto';
+          import {readFile} from 'node:fs/promises';
+          const catalog=JSON.parse(await readFile('/tmp/starblox-step4-world/composed-catalog.json','utf8'));
+          const receipt=JSON.parse(await readFile('/tmp/starblox-step4-world/composition-receipt.json','utf8'));
+          const step4=JSON.parse(await readFile('docs/roblox-world/STEP_4_ISOLATED_GENERATION.json','utf8')).receipt;
+          const classes=catalog.classCounts || {};
+          const expected={Part:4385,Seat:271,WedgePart:247,CornerWedgePart:31,VehicleSeat:2,Decal:494,SpecialMesh:62};
+          for(const [name,count] of Object.entries(expected)){
+            if(classes[name] !== count) throw new Error('Step 5 changed Brookhaven native class count for '+name+': '+classes[name]);
+          }
+          if((catalog.summary?.scriptCount || 0) < 1) throw new Error('Step 5 composed place is missing StarBlox scripts');
+          if((catalog.summary?.instanceCount || 0) <= 5494) throw new Error('Step 5 composed place did not add StarBlox runtime instances');
+          const world=await readFile('/tmp/starblox-step4-world/BrookhavenWorldBaseline.rbxmx');
+          const sha=createHash('sha256').update(world).digest('hex');
+          if(sha !== step4.output.sha256 || sha !== receipt.world.sha256){
+            throw new Error('Step 5 composition mutated authoritative Brookhaven world bytes');
+          }
+          NODE
       - name: Prove native Roblox build
         run: npm run roblox:native:build-proof
       - name: Prove Roblox Studio sync baseline
