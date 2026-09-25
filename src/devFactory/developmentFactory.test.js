@@ -16,6 +16,10 @@ import {
   buildMigrationAdaptationReceipt,
   verifyMigrationAdaptationReceipt
 } from './adaptationReceipt.js';
+import {
+  buildMigrationPromotionReceipt,
+  verifyMigrationPromotionReceipt
+} from './promotionReceipt.js';
 
 function createStudio({
   episode=true,
@@ -680,7 +684,7 @@ describe('Step 2: AI development factory', () => {
       agents:{
         plan:async () => ({
           summary:'Adapt the unit behind StarBlox boundaries.',
-          tests:{required:false},
+          tests:{required:true,path:'ServerScriptService/Tests'},
           playtest:{required:false},
           visual:{required:false}
         }),
@@ -743,6 +747,45 @@ describe('Step 2: AI development factory', () => {
     const tampered=JSON.parse(JSON.stringify(receipt));
     tampered.adaptation.quarantineExitApproved=true;
     expect(verifyMigrationAdaptationReceipt(tampered).ok).toBe(false);
+
+    const promotion=buildMigrationPromotionReceipt({
+      adaptationReceipt:receipt,
+      adaptationReceiptFile:'migration-adaptation-receipt.json',
+      adaptationReceiptSha256:'2'.repeat(64),
+      adaptationReceiptBytes:4096,
+      run,
+      unitIds:['authorized-system-adapt']
+    });
+
+    expect(promotion.status).toBe('quarantine-exit-certified');
+    expect(promotion.units).toHaveLength(1);
+    expect(promotion.units[0]).toEqual(expect.objectContaining({
+      unitId:'authorized-system-adapt',
+      previousStatus:'quarantine',
+      promotedStatus:'certified-adapted-staging',
+      quarantineExitApproved:true,
+      publicationAllowed:false,
+      liveActivationAllowed:false
+    }));
+    expect(promotion.certification.studioTestsRequired).toBe(true);
+    expect(promotion.certification.studioTestsPassed).toBe(true);
+    expect(promotion.publicationStarted).toBe(false);
+    expect(promotion.liveActivationAllowed).toBe(false);
+    expect(promotion.productionActivationAllowed).toBe(false);
+    expect(verifyMigrationPromotionReceipt(promotion)).toEqual({ok:true,errors:[]});
+
+    expect(() => buildMigrationPromotionReceipt({
+      adaptationReceipt:receipt,
+      adaptationReceiptFile:'migration-adaptation-receipt.json',
+      adaptationReceiptSha256:'2'.repeat(64),
+      adaptationReceiptBytes:4096,
+      run,
+      unitIds:['not-adapted']
+    })).toThrow(/not bound to the verified adaptation/);
+
+    const promotedTamper=JSON.parse(JSON.stringify(promotion));
+    promotedTamper.liveActivationAllowed=true;
+    expect(verifyMigrationPromotionReceipt(promotedTamper).ok).toBe(false);
   });
 
   it('rejects migration adaptation through an unattested Studio connector before inspection', async () => {
