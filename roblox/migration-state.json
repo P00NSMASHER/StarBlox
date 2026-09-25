@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "migration": "starblox-web-to-roblox-native",
+  "status": "started",
+  "sourceBaseline": {
+    "branch": "main",
+    "commit": "36f2084eac013853a612892c19646dedab97c204"
+  },
+  "currentStep": {
+    "number": 1,
+    "name": "establish-source-backed-rojo-boundary",
+    "status": "complete"
+  },
+  "runtimeAuthority": {
+    "robloxStudio": "staging-target",
+    "webRuntime": "preserved",
+    "publicationAllowed": false,
+    "liveActivationAllowed": false
+  },
+  "preservationRules": [
+    "Keep the existing React/Vite runtime intact until an explicit cutover step.",
+    "Keep validated learning-content and evidence pipelines authoritative during migration.",
+    "Do not publish or activate a Roblox production experience from this step.",
+    "Promote migrated systems only through explicit verification gates."
+  ],
+  "nextStep": "pin-rojo-toolchain-and-prove-local-build"
+}
