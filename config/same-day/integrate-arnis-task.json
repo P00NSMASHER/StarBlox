@@ -1,0 +1,5 @@
+{
+  "id": "same-day-integrate-arnis",
+  "request": "Using the authorized source checkout at vendor/authorized/arnis-roblox, selectively port the highest-leverage world infrastructure into StarBlox: chunk/LOD streaming, large-world memory guardrails, building/interior/road generation patterns, minimap/world geometry integration, and ambient-world hooks. Do not replace the authorized Brookhaven visual/world identity. Treat Arnis as the expansion and scale layer behind the Brookhaven-derived district. Preserve StarBlox networking, ProfileStore, quest/mastery and release authority. Require tests and runtime evidence for any streaming or world-generation changes.",
+  "searchQuery": "streaming chunk lod building room road minimap ambient world memory"
+}
