@@ -48,7 +48,7 @@ describe('Step 9 joinability: production server boot gate', () => {
     expect(script).toContain('CoreLoop service missing after bootstrap');
     expect(script).toContain('private playtest telemetry service missing after bootstrap');
     expect(script).toContain('verified Brookhaven world mount missing');
-    expect(script).toContain('Brookhaven world mount is unexpectedly incomplete');
+    expect(script).toContain('Brookhaven world mount instance count mismatch');
     expect(script).toContain('STARBLOX_PRODUCTION_SERVER_BOOT_OK');
   });
 });
