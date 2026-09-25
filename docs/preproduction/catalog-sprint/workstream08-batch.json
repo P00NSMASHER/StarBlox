@@ -1,27 +1,34 @@
 {
   "schemaVersion": 8,
-  "expectedManifestVersion": 24,
-  "expectedStrictCanonicalBefore": 84,
-  "reviewer": "14",
-  "batchLabel": "Rug 11 v3 qualified exact-hash ACCEPT",
+  "expectedManifestVersion": 45,
+  "expectedStrictCanonicalBefore": 8,
+  "reviewer": "05",
+  "batchLabel": "Deterministic Desk10 + Desk11 qualified exact-hash ACCEPTs",
   "reviewEvidence": [
     {
-      "path": "docs/preproduction/catalog-sprint/review-normalization-14-rugs-11-v3.json"
+      "path": "docs/preproduction/catalog-sprint/review-normalization-05-desk10-deterministic.json"
+    },
+    {
+      "path": "docs/preproduction/catalog-sprint/review-normalization-05-desk11-deterministic.json"
     }
   ],
   "items": [
     {
-      "itemId": "rugs-11",
-      "assetPath": "/assets/catalog/rugs-11-w07-v3.png",
-      "assetHash": "2c93f18fb5960f7056819c341a3da8f7fff3fb9d",
-      "producer": "07"
+      "itemId": "desks-10",
+      "assetPath": "/assets/catalog-candidates/deterministic/desks-10-v16.svg",
+      "assetHash": "8eb15c972ec4a29e52db24d8c93e468348b55874",
+      "producer": "03"
+    },
+    {
+      "itemId": "desks-11",
+      "assetPath": "/assets/catalog-candidates/deterministic/desks-11-v13.svg",
+      "assetHash": "199b6bd5340ab02c4a302df2c2a67e19dd5b0d4d",
+      "producer": "03"
     }
   ],
   "nextAcceptedQueues": [
-    "02: Shoes 7-10 current exact hashes are qualified ACCEPTs and should be consumed in the next bounded batch if still pending after this Rug 11 integration.",
-    "05: Aura 11 exact render evidence is available; consume only if reviewer 05's current exact-hash ACCEPT remains qualified and pending.",
-    "14: Rugs 12 remains BLOCKED because the declared accepted-candidate hash does not match the current tree hash; never wire it without fresh exact-current review.",
-    "01: Tops 11-12 v6 are BLOCKED on qualified pixel evidence and are not eligible."
+    "14: decor-11 deterministic exact-hash ACCEPT pending separate reviewer14 batch.",
+    "14: wall-9 deterministic exact-hash ACCEPT pending separate reviewer14 batch."
   ],
-  "commitMessage": "catalog: wire reviewer14 accepted Rug 11 v3"
+  "commitMessage": "catalog: wire deterministic Desk10 and Desk11"
 }
