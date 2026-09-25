@@ -73,6 +73,38 @@ jobs:
             nextStep:fp.nextStep
           }));
           NODE
+      - name: Safely deserialize frozen Brookhaven world
+        run: |
+          rm -f /tmp/brookhaven-world-ir.json /tmp/brookhaven-world-deserialization-receipt.json
+          npm run roblox:brookhaven-world:deserialize -- --out /tmp/brookhaven-world-ir.json --receipt /tmp/brookhaven-world-deserialization-receipt.json
+          test -f /tmp/brookhaven-world-ir.json
+          test -f /tmp/brookhaven-world-deserialization-receipt.json
+          grep -q '"status": "verified-safe-deserialization"' /tmp/brookhaven-world-deserialization-receipt.json
+          grep -q '"entryCount": 4936' /tmp/brookhaven-world-deserialization-receipt.json
+          grep -q '"decalCount": 494' /tmp/brookhaven-world-deserialization-receipt.json
+          grep -q '"meshCount": 62' /tmp/brookhaven-world-deserialization-receipt.json
+          grep -q '"fileMeshCount": 27' /tmp/brookhaven-world-deserialization-receipt.json
+          grep -q '"uniqueAssetIdCount": 154' /tmp/brookhaven-world-deserialization-receipt.json
+          grep -q '"sourceExecuted": false' /tmp/brookhaven-world-deserialization-receipt.json
+          grep -q '"sourceEvaluatedAsLua": false' /tmp/brookhaven-world-deserialization-receipt.json
+          grep -q '"sourceInsertedIntoStudio": false' /tmp/brookhaven-world-deserialization-receipt.json
+          grep -q '"robloxObjectsGenerated": false' /tmp/brookhaven-world-deserialization-receipt.json
+          grep -q '"publicationStarted": false' /tmp/brookhaven-world-deserialization-receipt.json
+          grep -Eq '"irHash": "sha256:[a-f0-9]{64}"' /tmp/brookhaven-world-deserialization-receipt.json
+          node --input-type=module - <<'NODE'
+          import {readFile} from 'node:fs/promises';
+          const ir=JSON.parse(await readFile('/tmp/brookhaven-world-ir.json','utf8'));
+          const receipt=JSON.parse(await readFile('/tmp/brookhaven-world-deserialization-receipt.json','utf8'));
+          const fp=JSON.parse(await readFile('docs/roblox-world/STEP_2_IMMUTABLE_FINGERPRINT.json','utf8'));
+          if(ir.entryCount !== 4936 || ir.entries?.length !== 4936) throw new Error('IR must contain exactly 4936 entries');
+          if(ir.entries[0]?.index !== 1 || ir.entries.at(-1)?.index !== 4936) throw new Error('IR entry sequence drift');
+          if(receipt.source?.step2FingerprintHash !== fp.fingerprintHash) throw new Error('Step 3 is not bound to Step 2 fingerprint');
+          if(receipt.source?.sha256 !== fp.source?.sha256) throw new Error('Step 3 source hash drift');
+          if(ir.irHash !== receipt.ir?.irHash) throw new Error('IR and receipt hash mismatch');
+          if(receipt.validation?.rootEntriesContiguous !== true) throw new Error('root entry contiguity not proven');
+          if(receipt.validation?.allEntriesTyped !== true) throw new Error('typed-entry proof missing');
+          console.log('BROOKHAVEN_WORLD_DESERIALIZATION=' + JSON.stringify(receipt));
+          NODE
       - name: Prove native Roblox build
         run: npm run roblox:native:build-proof
       - name: Prove Roblox Studio sync baseline
