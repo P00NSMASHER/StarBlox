@@ -16,7 +16,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: starblox-art-factory-cpu-generation
+  group: starblox-art-factory-cpu-generation-${{ github.sha }}
   cancel-in-progress: false
 
 jobs:

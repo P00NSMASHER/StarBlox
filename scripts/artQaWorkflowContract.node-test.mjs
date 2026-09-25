@@ -54,3 +54,12 @@ test('sequential generation preflights every selected item before diffusion',()=
   assert.match(sequential,/"transformers==5\.17\.0"/);
   assert.match(sequential,/"huggingface_hub==1\.33\.0"/);
 });
+
+
+test('different CPU queue commits cannot cancel or replace one another',()=>{
+  assert.match(regular,/group:\s*starblox-art-factory-cpu-generation-\$\{\{ github\.sha \}\}/);
+  assert.match(regular,/cancel-in-progress:\s*false/);
+  assert.doesNotMatch(regular,/group:\s*starblox-art-factory-cpu-generation\s*$/m);
+  assert.match(sequential,/group:\s*starblox-art-factory-cpu-sequential-\$\{\{ inputs\.queue_file \}\}/);
+  assert.match(sequential,/cancel-in-progress:\s*false/);
+});
