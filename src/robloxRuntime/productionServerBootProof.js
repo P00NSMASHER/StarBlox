@@ -90,7 +90,10 @@ export async function runProductionServerBootProof({
   releaseId=STARBLOX_SERVER_BOOT_RELEASE_ID,
   fetchImpl=globalThis.fetch,
   pollIntervalMs=1000,
-  timeoutMs=90_000
+  timeoutMs=90_000,
+  createRetryAttempts=12,
+  createRetryBaseMs=2000,
+  createRetryMaxMs=90_000
 }){
   const task=await runOpenCloudLuauTask({
     apiKey,
@@ -99,6 +102,9 @@ export async function runProductionServerBootProof({
     fetchImpl,
     pollIntervalMs,
     timeoutMs,
+    createRetryAttempts,
+    createRetryBaseMs,
+    createRetryMaxMs,
     script:buildProductionServerBootProbeScript({releaseId})
   });
 
