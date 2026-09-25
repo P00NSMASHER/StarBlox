@@ -60,7 +60,14 @@ try{
   }
 
   const piCommand=String(process.env.STARBLOX_PI_COMMAND || 'pi').trim();
+  let piPrefixArgs=[];
+  if(process.env.STARBLOX_PI_ARGS){
+    const parsed=JSON.parse(process.env.STARBLOX_PI_ARGS);
+    if(!Array.isArray(parsed)) throw new Error('STARBLOX_PI_ARGS must be a JSON array');
+    piPrefixArgs=parsed.map(String);
+  }
   const args=[
+    ...piPrefixArgs,
     '--no-session',
     '--no-extensions',
     '--no-skills',
@@ -78,7 +85,8 @@ try{
     maxBuffer:64 * 1024 * 1024,
     env:{
       ...process.env,
-      PI_SKIP_VERSION_CHECK:process.env.PI_SKIP_VERSION_CHECK || '1'
+      PI_SKIP_VERSION_CHECK:process.env.PI_SKIP_VERSION_CHECK || '1',
+      STARBLOX_FACTORY_ROLE:role
     }
   });
 
