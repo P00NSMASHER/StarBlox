@@ -22,7 +22,7 @@
     "scope": [
       "desks-10"
     ],
-    "version": "Desk10 v14 exact rendered hash",
+    "version": "Desk10 v15 exact rendered hash",
     "result": "REWORK_1_OF_1",
     "oldVerdictsTransferred": false,
     "actualSourcePixelsReviewed": true,
@@ -810,6 +810,50 @@
         "duplicateVisual": "PASS",
         "technicalIntegrity": "PASS"
       }
+    },
+    {
+      "itemId": "desks-10",
+      "name": "Neon Streaming Desk",
+      "tier": 4,
+      "theme": "Aqua Wave",
+      "assetPath": "public/assets/catalog-candidates/cpu/desks-10-w03-v15-a-mic-first-white-studio-original.png",
+      "repositoryPath": "public/assets/catalog-candidates/cpu/desks-10-w03-v15-a-mic-first-white-studio-original.png",
+      "assetHash": "d037ad0f53656c993adf772e92ce9edcb6814caa",
+      "sha256": "67821e7e826315149d1d6e8e07b6737ae8237b8a9f4a528b6f32cb7a80a40b5f",
+      "contentSha256": "67821e7e826315149d1d6e8e07b6737ae8237b8a9f4a528b6f32cb7a80a40b5f",
+      "hashAlgorithm": "git-blob-sha1",
+      "producer": "03",
+      "decision": "REWORK",
+      "learnerLabel": "REWORK",
+      "reviewedAt": "2026-09-25T04:03:42Z",
+      "evidenceRefs": [
+        "workflow:36092049760",
+        "artifact:10846556064/staged-replacements/detail/desks-10-d037ad0f.png",
+        "artifact:10846556064/staged-replacements/staged-replacements-contact-sheet.png",
+        "factory-evidence:docs/preproduction/art-factory/generated-evidence/w03-desk10-v15-mic-studio/desks-10/staged-output.json"
+      ],
+      "reasonCodes": [
+        "MICROPHONE_STILL_MISSING",
+        "PC_TOWER_BELOW_NOT_ESTABLISHED",
+        "OVERSIZED_MONITOR_DOMINATES",
+        "EXTRA_SIDE_TOWER_OR_SPEAKER_OBJECTS",
+        "WHITE_STUDIO_BACKGROUND_MISSING",
+        "ROOM_CONTEXT_PRESENT",
+        "ISOLATED_PRODUCT_CONTRACT_FAILURE"
+      ],
+      "reason": "REWORK. Desk10 v15 proves the hardened prompt/token pipeline is functioning, but the exact rendered product still misses the Neon Streaming Desk contract. A very large monitor remains the dominant focal point, flanked by two oversized speaker/tower-like objects. There is no unmistakable short boom microphone with visible capsule clamped to the right desk edge, and no clear closed PC tower positioned below the desk. The dark ceiling/wall environment also replaces the required plain white studio background. Preserve this exact hash. Next retry should simplify further: one black desk only on pure white, one small monitor no wider than roughly one-third of the worktop, one obvious microphone capsule on a short articulated boom clamped to the right edge, and one closed rectangular PC tower visibly below the right side. Remove side speakers/towers, screen artwork/person imagery, room ceiling/walls and all extra equipment.",
+      "checks": {
+        "identity": "FAIL",
+        "themeTier": "PARTIAL",
+        "silhouette": "PARTIAL",
+        "materialLighting": "PASS",
+        "cardReadability": "PARTIAL",
+        "physicalConstruction": "PARTIAL",
+        "framingComposition": "FAIL",
+        "originality": "PASS",
+        "duplicateVisual": "PASS",
+        "technicalIntegrity": "PASS"
+      }
     }
   ],
   "preservedAcceptedCurrentHashes": [
@@ -941,10 +985,10 @@
   ],
   "pendingCurrentHashes": [],
   "handoff": {
-    "14": "Desk10 v14 exact Store/detail render packet consumed; do not rerender unchanged hash.",
-    "15": "Desk10 remains a bounded exact-pixel blocker after v14.",
-    "03": "Desk10 v14 REWORK; preserve exact hash. Next retry: broad desk, smaller single monitor, obvious short boom microphone clamped to right edge, closed PC tower below, plain white studio background.",
-    "08": "Do not canonical-wire Desk10 v14."
+    "14": "Desk10 v15 exact render packet consumed; do not rerender unchanged hash.",
+    "15": "Desk10 remains a bounded exact-pixel blocker after v15.",
+    "03": "Desk10 v15 REWORK. Preserve exact hash. Next retry: one black desk only on pure white; one small monitor, obvious short articulated boom microphone clamped to right edge, closed PC tower below right side; no side speakers/towers, screen artwork/person imagery, room ceiling/walls or extra equipment.",
+    "08": "Do not canonical-wire Desk10 v15."
   },
   "summary": {
     "totalVersionsReviewed": 43,
@@ -965,7 +1009,7 @@
     "reworkNow": [
       "desks-10"
     ],
-    "preservedAcceptedHashes": "All prior reviewer05 ACCEPTs remain frozen; Desk10 v14 is REWORK only."
+    "preservedAcceptedHashes": "All prior reviewer05 ACCEPTs remain frozen; Desk10 v15 is REWORK only."
   },
   "freeze": {
     "selfApproved": false,
@@ -980,7 +1024,7 @@
   "currentReplacementDisposition": {
     "desks": {
       "REWORK": {
-        "desks-10": "29b310a7f075abeb8acb58bcad84474394bdce6a",
+        "desks-10": "d037ad0f53656c993adf772e92ce9edcb6814caa",
         "desks-9": "79d5f4e0520910fea1a6ac47c76df451b14ce6f2"
       },
       "ACCEPT": {
