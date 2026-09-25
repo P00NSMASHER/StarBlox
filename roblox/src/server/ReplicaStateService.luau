@@ -28,6 +28,7 @@ local function publicProjection(profileData)
 				LoopRuns = profileData.Progress.CoreLoop.LoopRuns,
 				RewardDay = profileData.Progress.CoreLoop.RewardDay,
 				RewardedRunsToday = profileData.Progress.CoreLoop.RewardedRunsToday,
+				OnboardingSeen = profileData.Progress.CoreLoop.OnboardingSeen == true,
 			} or nil,
 		},
 		Daily = {

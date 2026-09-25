@@ -65,8 +65,26 @@ local function createStation(model: Model, activity)
 		position
 	)
 	station.Material = Enum.Material.SmoothPlastic
+	station.Color = activity.Accent
 	station:SetAttribute("ActivityId", activity.Id)
 	station:SetAttribute("StationName", activity.StationName)
+	station:SetAttribute("StationIndex", activity.Index)
+	station:SetAttribute("Direction", activity.Direction)
+
+	local highlight = Instance.new("Highlight")
+	highlight.Name = "StationHighlight"
+	highlight.FillColor = activity.Accent
+	highlight.FillTransparency = 0.72
+	highlight.OutlineColor = Color3.new(1, 1, 1)
+	highlight.OutlineTransparency = 0.12
+	highlight.Parent = station
+
+	local light = Instance.new("PointLight")
+	light.Name = "StationGlow"
+	light.Color = activity.Accent
+	light.Brightness = 1.6
+	light.Range = 18
+	light.Parent = station
 
 	local prompt = Instance.new("ProximityPrompt")
 	prompt.Name = "StartActivityPrompt"
@@ -75,6 +93,8 @@ local function createStation(model: Model, activity)
 	prompt.HoldDuration = 0
 	prompt.MaxActivationDistance = 14
 	prompt.RequiresLineOfSight = false
+	prompt.KeyboardKeyCode = Enum.KeyCode.E
+	prompt.GamepadKeyCode = Enum.KeyCode.ButtonX
 	prompt.Parent = station
 
 	local billboard = Instance.new("BillboardGui")
@@ -91,7 +111,9 @@ local function createStation(model: Model, activity)
 	label.BackgroundTransparency = 0.15
 	label.TextScaled = true
 	label.TextWrapped = true
-	label.Text = string.upper(activity.StationName)
+	label.Text = string.format("%d • %s\n%s", activity.Index, string.upper(activity.StationName), string.upper(activity.Direction))
+	label.TextColor3 = Color3.new(1, 1, 1)
+	label.Font = Enum.Font.GothamBold
 	label.Parent = billboard
 
 	return prompt
@@ -107,6 +129,7 @@ local function buildWorld()
 	model.Name = WORLD_MODEL_NAME
 	model:SetAttribute("LoopId", Config.LoopId)
 	model:SetAttribute("DistrictName", Config.DistrictName)
+	model:SetAttribute("PolishRevision", Config.PolishRevision)
 	model.Parent = Workspace
 
 	local plaza = makePart(model, "BrightsidePlaza", Vector3.new(110, 1, 110), Vector3.new(0, -0.5, 0))
@@ -119,6 +142,30 @@ local function buildWorld()
 	spawn.Size = Vector3.new(8, 1, 8)
 	spawn.Position = Vector3.new(0, 1, 28)
 	spawn.Parent = model
+
+	local guideTotem = makePart(model, "GuideTotem", Vector3.new(5, 7, 5), Vector3.new(0, 3.5, 15))
+	guideTotem.Material = Enum.Material.SmoothPlastic
+	guideTotem.Color = Color3.fromRGB(35, 42, 65)
+	guideTotem.CanCollide = true
+
+	local guideBillboard = Instance.new("BillboardGui")
+	guideBillboard.Name = "GuideBillboard"
+	guideBillboard.Size = UDim2.fromOffset(430, 130)
+	guideBillboard.StudsOffset = Vector3.new(0, 5.5, 0)
+	guideBillboard.AlwaysOnTop = true
+	guideBillboard.Adornee = guideTotem
+	guideBillboard.Parent = guideTotem
+
+	local guideLabel = Instance.new("TextLabel")
+	guideLabel.Name = "Directions"
+	guideLabel.Size = UDim2.fromScale(1, 1)
+	guideLabel.BackgroundTransparency = 0.12
+	guideLabel.TextColor3 = Color3.new(1, 1, 1)
+	guideLabel.Font = Enum.Font.GothamBold
+	guideLabel.TextScaled = true
+	guideLabel.TextWrapped = true
+	guideLabel.Text = "BRIGHTSIDE PLAZA\n1 WORD PORTAL ↑   2 SPELLING FORGE →   3 CULTURE LAB ←"
+	guideLabel.Parent = guideBillboard
 
 	for _, pathSpec in {
 		{name = "NorthPath", size = Vector3.new(10, 0.4, 48), position = Vector3.new(0, 0.2, 0)},
@@ -144,6 +191,7 @@ local function ensureCoreLoopState(profileData)
 		CompletedByRun = {},
 		RewardDay = "",
 		RewardedRunsToday = 0,
+		OnboardingSeen = false,
 	}
 	local state = profileData.Progress.CoreLoop
 	state.RunNumber = math.max(1, tonumber(state.RunNumber) or 1)
@@ -151,6 +199,7 @@ local function ensureCoreLoopState(profileData)
 	state.CompletedByRun = type(state.CompletedByRun) == "table" and state.CompletedByRun or {}
 	state.RewardDay = type(state.RewardDay) == "string" and state.RewardDay or ""
 	state.RewardedRunsToday = math.max(0, tonumber(state.RewardedRunsToday) or 0)
+	state.OnboardingSeen = state.OnboardingSeen == true
 	return state
 end
 
@@ -158,6 +207,9 @@ local function publicActivity(activity)
 	return {
 		id = activity.Id,
 		stationName = activity.StationName,
+		stationIndex = activity.Index,
+		direction = activity.Direction,
+		accent = activity.Accent,
 		title = activity.Title,
 		prompt = activity.Prompt,
 		choices = table.clone(activity.Choices),
@@ -186,6 +238,54 @@ function CoreGameLoopService.GetPublicActivity(activityId: string)
 		return nil
 	end
 	return publicActivity(activity)
+end
+
+function CoreGameLoopService.MarkOnboardingSeen(profileData): boolean
+	local state = ensureCoreLoopState(profileData)
+	if state.OnboardingSeen == true then
+		return false
+	end
+	state.OnboardingSeen = true
+	return true
+end
+
+function CoreGameLoopService.BuildStatus(profileData)
+	local state = ensureCoreLoopState(profileData)
+	local current = state.CompletedByRun[tostring(state.RunNumber)] or {}
+	local completedIds = {}
+	local recommendedActivityId = nil
+	local recommendedStationName = nil
+
+	for _, activity in Config.Activities do
+		if current[activity.Id] == true then
+			table.insert(completedIds, activity.Id)
+		elseif recommendedActivityId == nil then
+			recommendedActivityId = activity.Id
+			recommendedStationName = activity.StationName
+		end
+	end
+
+	return {
+		ok = true,
+		district = Config.DistrictName,
+		runNumber = state.RunNumber,
+		loopRuns = state.LoopRuns,
+		progress = #completedIds,
+		activityCount = #Config.Activities,
+		completedActivityIds = completedIds,
+		recommendedActivityId = recommendedActivityId,
+		recommendedStationName = recommendedStationName,
+		rewardedRunsToday = state.RewardedRunsToday,
+		dailyRewardRunCap = Config.DailyRewardRunCap,
+		rewardCapReached = state.RewardedRunsToday >= Config.DailyRewardRunCap,
+		onboardingSeen = state.OnboardingSeen == true,
+		cosmeticUnlocked = profileData.Inventory.Cosmetics[Config.FirstLoopCosmeticId] == true,
+		economy = {
+			Coins = profileData.Economy.Coins,
+			XP = profileData.Economy.XP,
+			Stars = profileData.Economy.Stars,
+		},
+	}
 end
 
 function CoreGameLoopService.ApplyCompletion(profileData, activityId: string, dayKey: string)
@@ -299,9 +399,14 @@ function CoreGameLoopService.new(profiles, replicas)
 	requestStatus.Name = "RequestStatus"
 	requestStatus.Parent = remoteRoot
 
+	local dismissOnboarding = Instance.new("RemoteEvent")
+	dismissOnboarding.Name = "DismissOnboarding"
+	dismissOnboarding.Parent = remoteRoot
+
 	self._activityOpened = activityOpened
 	self._submitAnswer = submitAnswer
 	self._requestStatus = requestStatus
+	self._dismissOnboarding = dismissOnboarding
 	self._world, self._prompts = buildWorld()
 
 	for activityId, prompt in self._prompts do
@@ -333,36 +438,22 @@ function CoreGameLoopService.new(profiles, replicas)
 		return self:_status(player)
 	end
 
+	table.insert(self._connections, self._dismissOnboarding.OnServerEvent:Connect(function(player: Player)
+		self._profiles:WithProfile(player, function(data)
+			if CoreGameLoopService.MarkOnboardingSeen(data) then
+				self._replicas:Sync(player, data)
+			end
+			player:SetAttribute("StarBloxOnboardingSeen", true)
+		end)
+	end))
+
 	return self
 end
 
 function CoreGameLoopService:_status(player: Player)
 	local result = nil
 	self._profiles:WithProfile(player, function(data)
-		local state = ensureCoreLoopState(data)
-		local current = state.CompletedByRun[tostring(state.RunNumber)] or {}
-		local progress = 0
-		for _, activity in Config.Activities do
-			if current[activity.Id] == true then
-				progress += 1
-			end
-		end
-		result = {
-			ok = true,
-			district = Config.DistrictName,
-			runNumber = state.RunNumber,
-			loopRuns = state.LoopRuns,
-			progress = progress,
-			activityCount = #Config.Activities,
-			rewardedRunsToday = state.RewardedRunsToday,
-			dailyRewardRunCap = Config.DailyRewardRunCap,
-			cosmeticUnlocked = data.Inventory.Cosmetics[Config.FirstLoopCosmeticId] == true,
-			economy = {
-				Coins = data.Economy.Coins,
-				XP = data.Economy.XP,
-				Stars = data.Economy.Stars,
-			},
-		}
+		result = CoreGameLoopService.BuildStatus(data)
 	end)
 	return result or {ok = false, code = "profile_unavailable"}
 end
@@ -374,6 +465,7 @@ function CoreGameLoopService:PlayerReady(player: Player, data: {[string]: any})
 	player:SetAttribute("StarBloxStars", data.Economy.Stars)
 	player:SetAttribute("StarBloxLoopRuns", state.LoopRuns)
 	player:SetAttribute("StarBloxRunNumber", state.RunNumber)
+	player:SetAttribute("StarBloxOnboardingSeen", state.OnboardingSeen == true)
 	player:SetAttribute(
 		"StarBloxSparkTrailUnlocked",
 		data.Inventory.Cosmetics[Config.FirstLoopCosmeticId] == true
@@ -406,6 +498,7 @@ function CoreGameLoopService:_submit(player: Player, request: any)
 
 	local completion = nil
 	local latestEconomy = nil
+	local statusSnapshot = nil
 	local found = self._profiles:WithProfile(player, function(data)
 		completion = CoreGameLoopService.ApplyCompletion(data, session.activityId, utcDayKey())
 		if completion.ok ~= true then
@@ -416,6 +509,7 @@ function CoreGameLoopService:_submit(player: Player, request: any)
 			XP = data.Economy.XP,
 			Stars = data.Economy.Stars,
 		}
+		statusSnapshot = CoreGameLoopService.BuildStatus(data)
 		self._replicas:Sync(player, data)
 	end)
 
@@ -440,6 +534,7 @@ function CoreGameLoopService:_submit(player: Player, request: any)
 			and "Brightside loop complete! New run unlocked."
 			or "Station powered! Keep exploring Brightside.",
 		completion = completion,
+		status = statusSnapshot,
 		economy = latestEconomy,
 	}
 end

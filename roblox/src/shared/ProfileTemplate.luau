@@ -23,6 +23,7 @@ local ProfileTemplate = {
 			CompletedByRun = {},
 			RewardDay = "",
 			RewardedRunsToday = 0,
+			OnboardingSeen = false,
 		},
 	},
 
