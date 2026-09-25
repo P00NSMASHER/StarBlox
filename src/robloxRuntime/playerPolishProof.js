@@ -57,37 +57,8 @@ local proofReplicas = {
 }
 local core = service.new(proofProfiles, proofReplicas)
 
-local world = Workspace:WaitForChild("StarBloxCoreLoop", 5)
-assert(world ~= nil, "core-loop world missing")
-assert(world:GetAttribute("PolishRevision") == config.PolishRevision, "world polish revision mismatch")
-
-local guide = world:FindFirstChild("GuideTotem")
-assert(guide and guide:IsA("BasePart"), "guide totem missing")
-local guideBoard = guide:FindFirstChild("GuideBillboard")
-assert(guideBoard and guideBoard:IsA("BillboardGui"), "guide billboard missing")
-local directions = guideBoard:FindFirstChild("Directions")
-assert(directions and directions:IsA("TextLabel"), "guide directions missing")
-assert(string.find(directions.Text, "WORD PORTAL", 1, true) ~= nil, "guide missing Word Portal")
-assert(string.find(directions.Text, "SPELLING FORGE", 1, true) ~= nil, "guide missing Spelling Forge")
-assert(string.find(directions.Text, "CULTURE LAB", 1, true) ~= nil, "guide missing Culture Lab")
-
-local stationNames = {
-    ["word-portal-put-v1"] = "WordPortalStation",
-    ["spelling-forge-fog-v1"] = "SpellingForgeStation",
-    ["culture-lab-culture-v1"] = "CultureLabStation",
-}
-for _, activity in config.Activities do
-    local station = world:FindFirstChild(stationNames[activity.Id])
-    assert(station and station:IsA("BasePart"), "station missing: " .. activity.Id)
-    assert(station:GetAttribute("StationIndex") == activity.Index, "station index attribute mismatch")
-    assert(station:GetAttribute("Direction") == activity.Direction, "station direction attribute mismatch")
-    assert(station:FindFirstChild("StationHighlight"):IsA("Highlight"), "station highlight missing")
-    assert(station:FindFirstChild("StationGlow"):IsA("PointLight"), "station glow missing")
-    local prompt = station:FindFirstChild("StartActivityPrompt")
-    assert(prompt and prompt:IsA("ProximityPrompt"), "station prompt missing")
-    assert(prompt.KeyboardKeyCode == Enum.KeyCode.E, "keyboard hint mismatch")
-    assert(prompt.GamepadKeyCode == Enum.KeyCode.ButtonX, "gamepad hint mismatch")
-end
+local prototypeWorld = Workspace:FindFirstChild("StarBloxCoreLoop")
+assert(prototypeWorld == nil, "legacy prototype world must remain retired")
 
 local remotes = ReplicatedStorage:WaitForChild("StarBloxCoreLoop", 5)
 assert(remotes:FindFirstChild("ActivityOpened"):IsA("RemoteEvent"), "ActivityOpened remote missing")
@@ -167,11 +138,8 @@ export async function runPlayerPolishProof({
     taskPath:task.path,
     terminalState:task.state,
     evidence:Object.freeze({
-      guideTotem:true,
-      numberedDirectionalSigns:true,
-      stationHighlights:true,
-      stationLights:true,
-      nativeInputHints:true,
+      prototypeWorldAbsent:true,
+      runtimeGeometryOwnedByWorldPipeline:true,
       onboardingRemote:true,
       onboardingPersistence:true,
       recommendedNextStation:true,
