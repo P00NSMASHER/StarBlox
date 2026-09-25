@@ -98,6 +98,76 @@ if((vehicle.legacyVehicles||[]).length!==4) issues.push('vehicle-blueprint-legac
 if(vehicle.status!=='production-candidate-runtime-not-wired') issues.push('vehicle-live-status');
 if(vehicle.payloadPolicy?.recoveredVisualPayloads!==0) issues.push('vehicle-payload-overclaim');
 
+const vehicleDefinitionCatalogPath='docs/preproduction/brookhaven-research/neutral-vehicle-definition-catalog-v1.json';
+const vehicleDefinitionCatalog=JSON.parse(fs.readFileSync(vehicleDefinitionCatalogPath,'utf8'));
+if(vehicleDefinitionCatalog.schemaVersion!=='starblox-neutral-vehicle-definition-catalog-v1') issues.push('vehicle-definition-catalog-schema');
+if(vehicleDefinitionCatalog.status!=='definition-only-runtime-not-wired') issues.push('vehicle-definition-catalog-status');
+if(vehicleDefinitionCatalog.definitionSchemaRef!==vehicleDefinitionSchemaPath) issues.push('vehicle-definition-catalog-schema-ref');
+if(vehicleDefinitionCatalog.sourceBlueprintRef!==vehiclePath) issues.push('vehicle-definition-catalog-blueprint-ref');
+if(vehicleDefinitionCatalog.rightsStatus!=='verified-for-project-use') issues.push('vehicle-definition-catalog-rights');
+const vehicleDefinitions=vehicleDefinitionCatalog.definitions||[];
+if(vehicleDefinitions.length!==13) issues.push('vehicle-definition-catalog-count');
+if(vehicleDefinitionCatalog.definitionCount!==vehicleDefinitions.length) issues.push('vehicle-definition-catalog-count-field');
+
+const expectedVehicleIds=new Set((vehicle.currentVehicles||[]).map(row=>row.id));
+const legacyVehicleIds=new Set((vehicle.legacyVehicles||[]).map(row=>row.id));
+const seenVehicleDefinitionIds=new Set();
+const vehicleDefinitionAllowedKeys=Object.keys(vehicleDefinitionSchema.properties||{});
+const vehicleAssetAllowedKeys=Object.keys(vehicleDefinitionSchema.properties?.assetBinding?.properties||{});
+const vehicleSafetyAllowedKeys=Object.keys(vehicleDefinitionSchema.properties?.safety?.properties||{});
+const allowedVehicleCapabilities=new Set(vehicleCapabilityEnum);
+const baseDrivableCapabilities=['spawn','despawn','headlights','hazards','paint-token','wheel-style','driving-mode'];
+const sorted=(values)=>[...(values||[])].sort().join('|');
+for(const definition of vehicleDefinitions){
+  const id=String(definition?.id||'');
+  if(seenVehicleDefinitionIds.has(id)) issues.push('vehicle-definition-duplicate:'+id);
+  seenVehicleDefinitionIds.add(id);
+  if(!expectedVehicleIds.has(id)) issues.push('vehicle-definition-unexpected-id:'+id);
+  if(legacyVehicleIds.has(id)) issues.push('vehicle-definition-legacy-leak:'+id);
+  if(definition.schemaVersion!=='starblox-neutral-vehicle-definition-v1') issues.push('vehicle-definition-version:'+id);
+  for(const field of vehicleDefinitionRequired){
+    if(!(field in (definition||{}))) issues.push('vehicle-definition-missing:'+id+':'+field);
+  }
+  for(const key of Object.keys(definition||{})){
+    if(!vehicleDefinitionAllowedKeys.includes(key)) issues.push('vehicle-definition-extra:'+id+':'+key);
+  }
+  const blueprintRow=(vehicle.currentVehicles||[]).find(row=>row.id===id);
+  if(blueprintRow && definition.archetype!==blueprintRow.archetype) issues.push('vehicle-definition-archetype:'+id);
+  if(definition.era!=='current') issues.push('vehicle-definition-era:'+id);
+  const expectedInteraction=definition.archetype==='display-only'?'display-only':'drivable';
+  if(definition.interactionMode!==expectedInteraction) issues.push('vehicle-definition-interaction:'+id);
+  const capabilities=definition.capabilities||[];
+  if(new Set(capabilities).size!==capabilities.length) issues.push('vehicle-definition-duplicate-capability:'+id);
+  if(capabilities.some(value=>!allowedVehicleCapabilities.has(value))) issues.push('vehicle-definition-capability-outside-schema:'+id);
+  const expectedCapabilities=definition.archetype==='display-only'
+    ? ['spawn','despawn','paint-token']
+    : definition.archetype==='emergency'
+      ? [...baseDrivableCapabilities,'emergency-lights','emergency-siren']
+      : baseDrivableCapabilities;
+  if(sorted(capabilities)!==sorted(expectedCapabilities)) issues.push('vehicle-definition-capability-set:'+id);
+
+  const assetBinding=definition.assetBinding||{};
+  for(const key of Object.keys(assetBinding)){
+    if(!vehicleAssetAllowedKeys.includes(key)) issues.push('vehicle-definition-asset-extra:'+id+':'+key);
+  }
+  if(assetBinding.status!=='identifier-only') issues.push('vehicle-definition-asset-status:'+id);
+  if(assetBinding.geometrySource!=='none') issues.push('vehicle-definition-geometry-overclaim:'+id);
+  if(assetBinding.rightsStatus!=='project-rights-verified') issues.push('vehicle-definition-asset-rights:'+id);
+  if(!String(assetBinding.provenanceRef||'').startsWith(vehiclePath+'#')) issues.push('vehicle-definition-provenance-path:'+id);
+  if(!String(assetBinding.provenanceRef||'').endsWith('#'+id)) issues.push('vehicle-definition-provenance-id:'+id);
+
+  const safety=definition.safety||{};
+  for(const key of Object.keys(safety)){
+    if(!vehicleSafetyAllowedKeys.includes(key)) issues.push('vehicle-definition-safety-extra:'+id+':'+key);
+  }
+  if(safety.externalRuntimeDependency!==false) issues.push('vehicle-definition-external-runtime:'+id);
+  if(safety.remoteDependency!==false) issues.push('vehicle-definition-remote:'+id);
+  if(safety.weaponBehavior!==false) issues.push('vehicle-definition-weapon:'+id);
+}
+for(const id of expectedVehicleIds){
+  if(!seenVehicleDefinitionIds.has(id)) issues.push('vehicle-definition-missing-id:'+id);
+}
+
 const townPath='docs/preproduction/brookhaven-research/town-system-blueprint-v1.json';
 const town=JSON.parse(fs.readFileSync(townPath,'utf8'));
 if(town.schemaVersion!=='starblox-town-system-blueprint-v1') issues.push('town-schema');
@@ -164,6 +234,7 @@ const result={
   conversionPath,
   residentialPath,
   vehicleDefinitionSchemaPath,
+  vehicleDefinitionCatalogPath,
   vehiclePath,
   townPath,
   progressionPath,
@@ -173,6 +244,7 @@ const result={
   nodeCount:graph.nodes?.length||0,
   edgeCount:graph.edges?.length||0,
   vehicleCount:vehicle.currentVehicles?.length||0,
+  vehicleDefinitionCount:vehicleDefinitions.length,
   townLocationCount:town.locations?.length||0,
   progressionRuleCount:
     (progression.residential?.length||0)+
