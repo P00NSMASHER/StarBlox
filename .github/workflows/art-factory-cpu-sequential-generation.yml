@@ -260,3 +260,12 @@ jobs:
           path: artifacts/cpu-generation/batch/
           retention-days: 14
           if-no-files-found: warn
+
+  qa-exact-staged:
+    needs: [generate-sequential]
+    if: ${{ needs.generate-sequential.result == 'success' && needs.generate-sequential.outputs.staged_commit_sha != '' }}
+    uses: ./.github/workflows/catalog-staged-art-qa.yml
+    with:
+      staged_commit_sha: ${{ needs.generate-sequential.outputs.staged_commit_sha }}
+      handoff_artifact_name: cpu-sequential-staged-handoff-${{ github.run_id }}
+    secrets: inherit

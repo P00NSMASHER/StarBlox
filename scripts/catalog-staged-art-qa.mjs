@@ -232,6 +232,25 @@ function selectOwnCollectionPath(lane,id,fallback,report){
 }
 function selectFactoryVerifiedCandidates(report){
   const root='docs/preproduction/art-factory/generated-evidence';
+  let handoffScope=null;
+  const handoffPath=String(process.env.STARBLOX_QA_HANDOFF||'').trim();
+  if(handoffPath){
+    const handoff=JSON.parse(fs.readFileSync(handoffPath,'utf8'));
+    if(handoff?.kind!=='STARBLOX_ART_FACTORY_STAGED_HANDOFF') throw new Error('invalid staged handoff scope');
+    handoffScope=new Map((handoff.items||[]).map(item=>[
+      String(item.itemId),
+      {
+        repositoryPath:normalizeRepoPath(item.repositoryPath),
+        blobSha:String(item.gitBlobSha||'').toLowerCase()
+      }
+    ]));
+    report.handoffScope={
+      stagedCommitSha:String(handoff.stagedCommitSha||''),
+      queueId:String(handoff.queueId||''),
+      itemCount:handoffScope.size,
+      itemIds:[...handoffScope.keys()].sort()
+    };
+  }
   if(!fs.existsSync(root)) return [];
   const files=[];
   const walk=dir=>{for(const ent of fs.readdirSync(dir,{withFileTypes:true})){const p=path.join(dir,ent.name);if(ent.isDirectory())walk(p);else if(ent.isFile()&&ent.name==='staged-output.json')files.push(p);}};
@@ -242,6 +261,11 @@ function selectFactoryVerifiedCandidates(report){
     if(data?.status!=='STAGED_EXACT_BYTES_VERIFIED') continue;
     const item=data.item||{}, output=data.output||{}, id=String(item.id||''), repositoryPath=normalizeRepoPath(output.repoPath), declaredBlobSha=String(output.gitBlobSha||'').toLowerCase();
     if(!id||!repositoryPath||!declaredBlobSha) continue;
+    if(handoffScope){
+      const wanted=handoffScope.get(id);
+      if(!wanted) continue;
+      if(wanted.repositoryPath!==repositoryPath || wanted.blobSha!==declaredBlobSha) continue;
+    }
     if(!fs.existsSync(repositoryPath)){report.warnings.push(`${id}: verified factory evidence points to missing current-tree path ${repositoryPath}`);continue;}
     const actualBlobSha=blobSha(repositoryPath);
     if(actualBlobSha!==declaredBlobSha){report.warnings.push(`${id}: verified factory evidence blob mismatch ${declaredBlobSha} != ${actualBlobSha} at ${repositoryPath}`);continue;}
@@ -249,6 +273,12 @@ function selectFactoryVerifiedCandidates(report){
     if(!signature.ok){report.errors.push(`${id}: factory candidate signature failed ${repositoryPath} (${signature.reason})`);continue;}
     if(!safety.ok){report.errors.push(`${id}: factory candidate safety failed ${repositoryPath} (${safety.reason})`);continue;}
     out.push({id,name:item.name||id,tier:item.tier??null,theme:item.theme??null,producerLane:`factory:${String(data?.attempt?.producer||'')}`,discovery:'factory-staged-output',repositoryPath,blobSha:actualBlobSha,declaredBlobSha,signature,safety,reviewer:String(data?.review?.reviewer||''),evidencePath});
+  }
+  if(handoffScope){
+    for(const [itemId,wanted] of handoffScope){
+      const match=out.find(row=>row.id===itemId && row.repositoryPath===wanted.repositoryPath && row.blobSha===wanted.blobSha);
+      if(!match) report.errors.push(`${itemId}: immutable handoff candidate missing from exact checkout/evidence`);
+    }
   }
   return out;
 }

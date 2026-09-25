@@ -24,28 +24,48 @@ on:
       - 'scripts/catalogVisualCalibration.py'
       - 'docs/preproduction/art-factory/QA_TRIGGER.json'
       - '.github/workflows/catalog-staged-art-qa.yml'
-  workflow_run:
-    workflows:
-      - 'StarBlox Art Factory CPU Generation'
-      - 'StarBlox Art Factory CPU Sequential Generation'
-    types: [completed]
-    branches: [screenshot-match-preproduction]
+  workflow_call:
+    inputs:
+      staged_commit_sha:
+        description: Immutable commit containing exact staged candidate bytes
+        required: true
+        type: string
+      handoff_artifact_name:
+        description: Artifact containing staged-handoff.json from generation
+        required: true
+        type: string
   workflow_dispatch:
 
 concurrency:
-  group: starblox-staged-art-qa-${{ github.ref }}
-  cancel-in-progress: true
+  group: starblox-staged-art-qa-${{ inputs.staged_commit_sha || github.sha }}
+  cancel-in-progress: false
 
 jobs:
   render-assigned-candidates:
     runs-on: ubuntu-24.04
     timeout-minutes: 25
     steps:
-      - name: Checkout
+      - name: Checkout exact QA source
         uses: actions/checkout@v4
         with:
-          ref: screenshot-match-preproduction
+          ref: ${{ inputs.staged_commit_sha || github.sha }}
           fetch-depth: 0
+
+      - name: Download immutable staged handoff
+        if: ${{ inputs.handoff_artifact_name != '' }}
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ inputs.handoff_artifact_name }}
+          path: artifacts/staged-handoff
+
+      - name: Verify immutable staged handoff against exact checkout
+        if: ${{ inputs.handoff_artifact_name != '' }}
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "${{ inputs.staged_commit_sha }}"
+          node scripts/artFactoryStagedHandoff.mjs verify \
+            --repo-root . \
+            --handoff artifacts/staged-handoff/staged-handoff.json
 
       - name: Use Node 22
         uses: actions/setup-node@v4
@@ -68,7 +88,8 @@ jobs:
         continue-on-error: true
         run: node scripts/catalog-staged-art-qa.mjs
         env:
-          STARBLOX_QA_FACTORY_ONLY: ${{ github.event_name == 'workflow_run' && '1' || '0' }}
+          STARBLOX_QA_FACTORY_ONLY: ${{ inputs.staged_commit_sha != '' && '1' || '0' }}
+          STARBLOX_QA_HANDOFF: ${{ inputs.handoff_artifact_name != '' && 'artifacts/staged-handoff/staged-handoff.json' || '' }}
           STARBLOX_QA_PUSH_MESSAGE: ${{ github.event.head_commit.message }}
 
       - name: Use Python 3.12

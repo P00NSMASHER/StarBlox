@@ -350,3 +350,12 @@ jobs:
           path: artifacts/staged-handoff/staged-handoff.json
           retention-days: 14
           if-no-files-found: error
+
+  qa-exact-staged:
+    needs: [stage]
+    if: ${{ needs.stage.result == 'success' && needs.stage.outputs.staged_commit_sha != '' }}
+    uses: ./.github/workflows/catalog-staged-art-qa.yml
+    with:
+      staged_commit_sha: ${{ needs.stage.outputs.staged_commit_sha }}
+      handoff_artifact_name: cpu-staged-handoff-${{ github.run_id }}
+    secrets: inherit

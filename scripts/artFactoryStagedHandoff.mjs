@@ -7,6 +7,25 @@ import {pathToFileURL} from 'node:url';
 const SHA1=/^[0-9a-f]{40}$/i;
 const SHA256=/^[0-9a-f]{64}$/i;
 
+export function verifyStagedHandoff({handoff,checkoutSha,blobAtPath={}}={}){
+  if(!handoff || handoff.kind!=='STARBLOX_ART_FACTORY_STAGED_HANDOFF') throw new Error('invalid staged handoff');
+  const expected=String(handoff.stagedCommitSha||'').toLowerCase();
+  const actual=String(checkoutSha||'').toLowerCase();
+  if(!SHA1.test(expected) || !SHA1.test(actual) || expected!==actual) {
+    throw new Error(`checkout SHA mismatch: expected ${expected||'missing'} got ${actual||'missing'}`);
+  }
+  const items=handoff.items||[];
+  if(!items.length) throw new Error('staged handoff has no items');
+  for(const item of items){
+    const repoPath=String(item.repositoryPath||'');
+    const expectedBlob=String(item.gitBlobSha||'').toLowerCase();
+    const actualBlob=String(blobAtPath[repoPath]||'').toLowerCase();
+    if(!repoPath || !SHA1.test(expectedBlob)) throw new Error(`${item.itemId||'unknown'}: invalid handoff blob binding`);
+    if(actualBlob!==expectedBlob) throw new Error(`${item.itemId||'unknown'}: checkout blob mismatch for ${repoPath}`);
+  }
+  return {stagedCommitSha:actual,itemCount:items.length};
+}
+
 export function buildStagedHandoff({
   queue,
   stagedOutputs,
@@ -113,26 +132,45 @@ function blobMapAtCommit(repoRoot,commit,stagedOutputs){
 
 async function main(){
   const [command,...rest]=process.argv.slice(2);
-  if(command!=='create') throw new Error('usage: artFactoryStagedHandoff.mjs create --queue FILE --staged-root DIR --staged-commit SHA --generation-source SHA --output FILE');
   const args=parseArgs(rest);
   const repoRoot=path.resolve(args['repo-root']||'.');
-  const queuePath=path.resolve(repoRoot,args.queue);
-  const stagedRoot=path.resolve(repoRoot,args['staged-root']);
-  const output=path.resolve(repoRoot,args.output);
-  const queue=JSON.parse(fs.readFileSync(queuePath,'utf8'));
-  const stagedOutputs=collectStaged(stagedRoot,queue.items||[]);
-  const stagedCommitSha=String(args['staged-commit']||'');
-  const handoff=buildStagedHandoff({
-    queue,
-    stagedOutputs,
-    stagedCommitSha,
-    generationSourceSha:String(args['generation-source']||''),
-    workflowRunId:args['workflow-run']||null,
-    blobAtPath:blobMapAtCommit(repoRoot,stagedCommitSha,stagedOutputs)
-  });
-  fs.mkdirSync(path.dirname(output),{recursive:true});
-  fs.writeFileSync(output,JSON.stringify(handoff,null,2)+'\n');
-  process.stdout.write(JSON.stringify({stagedCommitSha:handoff.stagedCommitSha,itemCount:handoff.items.length})+'\n');
+
+  if(command==='create'){
+    const queuePath=path.resolve(repoRoot,args.queue);
+    const stagedRoot=path.resolve(repoRoot,args['staged-root']);
+    const output=path.resolve(repoRoot,args.output);
+    const queue=JSON.parse(fs.readFileSync(queuePath,'utf8'));
+    const stagedOutputs=collectStaged(stagedRoot,queue.items||[]);
+    const stagedCommitSha=String(args['staged-commit']||'');
+    const handoff=buildStagedHandoff({
+      queue,
+      stagedOutputs,
+      stagedCommitSha,
+      generationSourceSha:String(args['generation-source']||''),
+      workflowRunId:args['workflow-run']||null,
+      blobAtPath:blobMapAtCommit(repoRoot,stagedCommitSha,stagedOutputs)
+    });
+    fs.mkdirSync(path.dirname(output),{recursive:true});
+    fs.writeFileSync(output,JSON.stringify(handoff,null,2)+'\n');
+    process.stdout.write(JSON.stringify({stagedCommitSha:handoff.stagedCommitSha,itemCount:handoff.items.length})+'\n');
+    return;
+  }
+
+  if(command==='verify'){
+    const handoff=JSON.parse(fs.readFileSync(path.resolve(repoRoot,args.handoff),'utf8'));
+    const checkoutSha=execFileSync('git',['rev-parse','HEAD'],{cwd:repoRoot,encoding:'utf8'}).trim();
+    const blobAtPath={};
+    for(const item of handoff.items||[]){
+      const repoPath=String(item.repositoryPath||'');
+      if(!repoPath) continue;
+      blobAtPath[repoPath]=execFileSync('git',['rev-parse',`HEAD:${repoPath}`],{cwd:repoRoot,encoding:'utf8'}).trim();
+    }
+    const result=verifyStagedHandoff({handoff,checkoutSha,blobAtPath});
+    process.stdout.write(JSON.stringify(result)+'\n');
+    return;
+  }
+
+  throw new Error('usage: artFactoryStagedHandoff.mjs create|verify ...');
 }
 
 if(process.argv[1]&&import.meta.url===pathToFileURL(process.argv[1]).href){

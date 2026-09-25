@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {buildStagedHandoff} from './artFactoryStagedHandoff.mjs';
+import {buildStagedHandoff,verifyStagedHandoff} from './artFactoryStagedHandoff.mjs';
 
 const queue={
   kind:'STARBLOX_ART_FACTORY_CPU_GENERATION_QUEUE',
@@ -68,4 +68,35 @@ test('requires a full immutable staged SHA',()=>{
     generationSourceSha:'d'.repeat(40),
     blobAtPath:{'public/assets/catalog-candidates/cpu/desks-10-v15.png':'a'.repeat(40)}
   }),/immutable staged commit SHA required/);
+});
+
+test('verifies immutable checkout against staged handoff',()=>{
+  const handoff=buildStagedHandoff({
+    queue,
+    stagedOutputs:[staged],
+    stagedCommitSha:'c'.repeat(40),
+    generationSourceSha:'d'.repeat(40),
+    blobAtPath:{'public/assets/catalog-candidates/cpu/desks-10-v15.png':'a'.repeat(40)}
+  });
+  const result=verifyStagedHandoff({
+    handoff,
+    checkoutSha:'c'.repeat(40),
+    blobAtPath:{'public/assets/catalog-candidates/cpu/desks-10-v15.png':'a'.repeat(40)}
+  });
+  assert.equal(result.itemCount,1);
+});
+
+test('rejects moving branch checkout even when candidate blob still exists',()=>{
+  const handoff=buildStagedHandoff({
+    queue,
+    stagedOutputs:[staged],
+    stagedCommitSha:'c'.repeat(40),
+    generationSourceSha:'d'.repeat(40),
+    blobAtPath:{'public/assets/catalog-candidates/cpu/desks-10-v15.png':'a'.repeat(40)}
+  });
+  assert.throws(()=>verifyStagedHandoff({
+    handoff,
+    checkoutSha:'e'.repeat(40),
+    blobAtPath:{'public/assets/catalog-candidates/cpu/desks-10-v15.png':'a'.repeat(40)}
+  }),/checkout SHA mismatch/);
 });
