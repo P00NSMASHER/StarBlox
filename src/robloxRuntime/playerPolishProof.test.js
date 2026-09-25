@@ -1,0 +1,105 @@
+import { readFileSync } from 'node:fs';
+import { describe,expect,it } from 'vitest';
+
+import {
+  buildPlayerPolishProbeScript
+} from './playerPolishProof.js';
+
+describe('Step 8: player-experience polish and automated UX QA', () => {
+  it('adds onboarding, recommended navigation, and fail-closed reward-cap status', () => {
+    const server=readFileSync(
+      new URL('../../roblox/src/server/CoreGameLoopService.luau',import.meta.url),
+      'utf8'
+    );
+    const config=readFileSync(
+      new URL('../../roblox/src/shared/CoreLoopConfig.luau',import.meta.url),
+      'utf8'
+    );
+    const profile=readFileSync(
+      new URL('../../roblox/src/shared/ProfileTemplate.luau',import.meta.url),
+      'utf8'
+    );
+
+    expect(config).toContain('PolishRevision = "step8-release-polish-v1"');
+    expect(config).toContain('Welcome to Brightside!');
+    expect(config).toContain('Direction = "North"');
+    expect(config).toContain('Direction = "East"');
+    expect(config).toContain('Direction = "West"');
+
+    expect(server).toContain('function CoreGameLoopService.BuildStatus');
+    expect(server).toContain('function CoreGameLoopService.MarkOnboardingSeen');
+    expect(server).toContain('recommendedStationName');
+    expect(server).toContain('rewardCapReached');
+    expect(server).toContain('DismissOnboarding');
+    expect(profile).toContain('OnboardingSeen = false');
+  });
+
+  it('polishes the native plaza with strong navigational affordances', () => {
+    const server=readFileSync(
+      new URL('../../roblox/src/server/CoreGameLoopService.luau',import.meta.url),
+      'utf8'
+    );
+
+    for(const token of [
+      'GuideTotem',
+      'GuideBillboard',
+      'StationHighlight',
+      'StationGlow',
+      'KeyboardKeyCode = Enum.KeyCode.E',
+      'GamepadKeyCode = Enum.KeyCode.ButtonX',
+      'StationIndex',
+      'Direction'
+    ]){
+      expect(server).toContain(token);
+    }
+  });
+
+  it('meets the mobile UI contract with safe insets and large touch targets', () => {
+    const client=readFileSync(
+      new URL('../../roblox/src/client/CoreGameLoop.client.luau',import.meta.url),
+      'utf8'
+    );
+
+    expect(client).toContain('DeviceSafeInsets');
+    expect(client).toContain('UISizeConstraint');
+    expect(client).toContain('UICorner');
+    expect(client).toContain('UIStroke');
+    expect(client).toContain('TextWrapped = true');
+    expect(client).toContain('button.Size = UDim2.new(1, -44, 0, 50)');
+    expect(client).toContain('closeButton.Size = UDim2.fromOffset(48, 48)');
+    expect(client).toContain('onboardingButton.Size = UDim2.new(1, -48, 0, 54)');
+    expect(client).toContain('Selectable = true');
+  });
+
+  it('adds clear feedback, dismissible onboarding, and recoverable failure states', () => {
+    const client=readFileSync(
+      new URL('../../roblox/src/client/CoreGameLoop.client.luau',import.meta.url),
+      'utf8'
+    );
+
+    expect(client).toContain('TweenService');
+    expect(client).toContain('showToast');
+    expect(client).toContain('shakePanel');
+    expect(client).toContain('friendlyFailure');
+    expect(client).toContain('rate_limited');
+    expect(client).toContain('profile_unavailable');
+    expect(client).toContain('activity_not_open');
+    expect(client).toContain('Reconnecting to Brightside');
+    expect(client).toContain('tryNumber < 3');
+    expect(client).toContain('dismissOnboarding:FireServer()');
+    expect(client).toContain('closeButton.Activated:Connect');
+  });
+
+  it('headless proof exercises the real Roblox polish objects and state transitions', () => {
+    const script=buildPlayerPolishProbeScript();
+    expect(script).toContain('STARBLOX_PLAYER_POLISH_OK');
+    expect(script).toContain('GuideTotem');
+    expect(script).toContain('StationHighlight');
+    expect(script).toContain('DismissOnboarding');
+    expect(script).toContain('status0.recommendedActivityId == "word-portal-put-v1"');
+    expect(script).toContain('status1.recommendedActivityId == "spelling-forge-fog-v1"');
+    expect(script).toContain('status2.recommendedActivityId == "culture-lab-culture-v1"');
+    expect(script).toContain('rewardCapReached == true');
+    expect(script).toContain('productionActivationAllowed == false');
+  });
+});
