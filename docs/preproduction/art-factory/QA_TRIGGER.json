@@ -4,6 +4,6 @@
   "branch": "screenshot-match-preproduction",
   "purpose": "Explicit branch-local replay trigger for exact staged candidate rendering while the workflow is sidecar-only.",
   "rule": "Changing this file requests QA only. It never approves, canonicalizes, deploys, or changes gameplay.",
-  "lastRequestedFor": "decor-11|3ea52c59b32addeeca4ce07701a095165f82540c",
-  "reason": "Render exact Decor11 v9 staged hash at Store-card and detail scale for reviewer02."
+  "lastRequestedFor": "desks-10|29b310a7f075abeb8acb58bcad84474394bdce6a",
+  "reason": "Render exact Desk10 v14 staged hash at Store-card and detail scale for reviewer05."
 }
