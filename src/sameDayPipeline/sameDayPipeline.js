@@ -150,6 +150,9 @@ export function normalizeSameDayPipelineManifest(input){
     maxRepairCycles:Number.isInteger(input.maxRepairCycles) && input.maxRepairCycles >= 0
       ? Math.min(input.maxRepairCycles,3)
       : 2,
+    maxParallel:Number.isInteger(input.maxParallel) && input.maxParallel > 0
+      ? Math.min(input.maxParallel,8)
+      : 4,
     rojoCommand:typeof input.rojoCommand === 'string' && input.rojoCommand.trim()
       ? input.rojoCommand.trim()
       : 'rojo',
@@ -258,6 +261,7 @@ export function buildSameDayPipelinePlan(input){
     outputDir:manifest.outputDir,
     factoryAdapter:manifest.factoryAdapter,
     maxRepairCycles:manifest.maxRepairCycles,
+    maxParallel:manifest.maxParallel,
     rojoCommand:manifest.rojoCommand,
     sourceIds:[manifest.authorizedWorld.id,...manifest.donors.map(row=>row.id)],
     integrationTaskIds:manifest.integrationTasks.map(row=>row.id),
@@ -378,13 +382,15 @@ export function recordSameDayStageResult(state,plan,stageId,result){
   return state;
 }
 
-export function nextSameDayPipelineStage(state,plan){
+export function readySameDayPipelineStages(state,plan){
   if(state.planHash !== plan.planHash) throw new Error('state planHash does not match plan');
-  for(const row of plan.stages){
+  return plan.stages.filter(row => {
     const status=state.stages?.[row.id]?.status;
-    if(status === 'complete') continue;
-    const ready=row.dependsOn.every(id=>state.stages?.[id]?.status === 'complete');
-    if(ready) return row;
-  }
-  return null;
+    if(status === 'complete') return false;
+    return row.dependsOn.every(id=>state.stages?.[id]?.status === 'complete');
+  });
+}
+
+export function nextSameDayPipelineStage(state,plan){
+  return readySameDayPipelineStages(state,plan)[0] || null;
 }
