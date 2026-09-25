@@ -94,7 +94,7 @@ jobs:
           fs.writeFileSync(md,s);
           NODE
 
-      - name: Commit canonical files and evidence coherently, then push without force
+      - name: Commit canonical files and evidence coherently to local candidate tree
         run: |
           set -eu
           test "$GITHUB_REF" = 'refs/heads/screenshot-match-preproduction'
@@ -104,8 +104,23 @@ jobs:
           test -n "$(git diff --cached --name-only)"
           MSG=$(node -e "const c=require('./docs/preproduction/catalog-sprint/workstream08-batch.json'); process.stdout.write(c.commitMessage||'catalog: wire qualified exact-hash accepts')")
           git commit -m "$MSG"
+
+      - name: Audit exact candidate tree before every canonical push attempt
+        run: |
+          set -eu
+          mkdir -p artifacts/workstream08
           for attempt in 1 2 3; do
-            if git push origin HEAD:refs/heads/screenshot-match-preproduction; then exit 0; fi
+            CANDIDATE_SHA="$(git rev-parse HEAD)"
+            AUDIT_OUT="artifacts/workstream08/workflow-audit-attempt-${attempt}-${CANDIDATE_SHA}.json"
+            node scripts/artWorkflowAudit.mjs \
+              --repo-root . \
+              --output "$AUDIT_OUT"
+            test -z "$(git status --porcelain --untracked-files=no)"
+            cp "$AUDIT_OUT" artifacts/workstream08/workflow-audit.json
+            if git push origin HEAD:refs/heads/screenshot-match-preproduction; then
+              echo "AUDITED_PUSH_SHA=$CANDIDATE_SHA"
+              exit 0
+            fi
             git fetch origin screenshot-match-preproduction
             if ! git rebase origin/screenshot-match-preproduction; then
               git rebase --abort || true
@@ -116,13 +131,14 @@ jobs:
           echo 'Safe canonical publication failed after retries; no force push.' >&2
           exit 1
 
-      - name: Run end-to-end art workflow audit before publication
-        run: |
-          mkdir -p artifacts/workstream08
-          node scripts/artWorkflowAudit.mjs \
-            --repo-root . \
-            --output artifacts/workstream08/workflow-audit.json
-
+      - name: Upload prepublication integration audit evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: workstream08-prepublication-audit-${{ github.run_id }}
+          path: artifacts/workstream08/
+          if-no-files-found: warn
+          retention-days: 14
       - name: Print canonical result
         if: always()
         run: |

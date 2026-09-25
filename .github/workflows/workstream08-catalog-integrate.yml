@@ -51,12 +51,7 @@ jobs:
       - name: Finalize integration evidence
         run: node scripts/workstream08Integrate.mjs --finalize-tests
 
-      - name: Run end-to-end art workflow audit before publication
-        run: |
-          mkdir -p artifacts/workstream08
-          node scripts/artWorkflowAudit.mjs             --repo-root .             --output artifacts/workstream08/workflow-audit.json
-
-      - name: Commit canonical accepted batch and push without force
+      - name: Commit canonical accepted batch locally
         run: |
           set -eu
           git config user.name "github-actions[bot]"
@@ -67,8 +62,21 @@ jobs:
             exit 0
           fi
           git commit -m "catalog: integrate qualified exact-hash accepts"
+
+      - name: Audit exact candidate tree before every canonical push attempt
+        run: |
+          set -eu
+          mkdir -p artifacts/workstream08
           for attempt in 1 2 3; do
-            if git push origin HEAD:refs/heads/screenshot-match-preproduction; then exit 0; fi
+            CANDIDATE_SHA="$(git rev-parse HEAD)"
+            AUDIT_OUT="artifacts/workstream08/workflow-audit-attempt-${attempt}-${CANDIDATE_SHA}.json"
+            node scripts/artWorkflowAudit.mjs --repo-root . --output "$AUDIT_OUT"
+            test -z "$(git status --porcelain --untracked-files=no)"
+            cp "$AUDIT_OUT" artifacts/workstream08/workflow-audit.json
+            if git push origin HEAD:refs/heads/screenshot-match-preproduction; then
+              echo "AUDITED_PUSH_SHA=$CANDIDATE_SHA"
+              exit 0
+            fi
             git fetch origin screenshot-match-preproduction
             if ! git rebase origin/screenshot-match-preproduction; then
               git rebase --abort || true
