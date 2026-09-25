@@ -1,0 +1,73 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_BATCH_REQUEST",
+  "planner": "15",
+  "producer": "13",
+  "preflightOwner": "06",
+  "reviewer": "02",
+  "renderOwner": "14",
+  "integrationOwner": "08",
+  "coordinationOwner": "15",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "1cd6f5d925327ca483fd1f4a55fc4d35250aba73",
+  "manifestVersion": 45,
+  "batchId": "w13-wall9-v13-exact-triptych",
+  "scope": [
+    "wall-9"
+  ],
+  "state": "AUTHORIZED_AFTER_V12_REWORK",
+  "assignmentAuthority": {
+    "path": "docs/preproduction/art-factory/RELEASE_BLOCKERS_CURRENT.json",
+    "runtimeProofPath": "docs/preproduction/art-factory/CPU_RUNTIME_PROOF.json",
+    "runtimeProofStatus": "PROVEN",
+    "runtimeCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+    "modelRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "assignedReviewers": {
+      "wall-9": "02"
+    },
+    "note": "Post-v12 bounded triptych retry. Exactly three independent frames; preserve all prior rejected and accepted hashes."
+  },
+  "reviewSource": {
+    "decision": "REWORK",
+    "latestExact": {
+      "version": "v12",
+      "gitBlobSha": "6e08e353949fa85539990a4731e1db1b62cf5591",
+      "sha256": "53f60098a7b60155db9dcd2dad0fd6cf132cc21bd7efe4c242997165b8a5ceba"
+    },
+    "note": "V12 contained four frames, omitted the required center compass-map image, and added enclosing grid architecture."
+  },
+  "items": {
+    "wall-9": {
+      "currentLegacy": {
+        "path": "public/assets/catalog-candidates/cpu/wall-9-w13-v12-a-exact-three-portrait-frames-original.png",
+        "gitBlobSha1": "6e08e353949fa85539990a4731e1db1b62cf5591",
+        "reviewDecision": "REWORK"
+      },
+      "variants": [
+        {
+          "variantId": "A-THREE-INDEPENDENT-FRAMES",
+          "optimizerInput": "Exactly THREE separate equal portrait picture frames in one horizontal row on a plain white background. Left frame: mountain trail. Center frame: one large black compass rose over a simple beige map. Right frame: blue ocean coast. Thin dark frames, equal spacing. NO outer border, backboard, grid, fourth frame, shelf, room, floor, furniture, extra panel, text."
+        },
+        {
+          "variantId": "B-LITERAL-TRAVEL-TRIPTYCH",
+          "optimizerInput": "Three framed travel pictures only, side by side on white: left mountain path, center unmistakable compass over map, right ocean shoreline. Exactly three equal independent frames. NO fourth frame, enclosing panel, grid, shelf, room, furniture, floor, collage, text."
+        }
+      ]
+    }
+  },
+  "executionBudget": {
+    "width": 640,
+    "height": 640,
+    "steps": 14,
+    "guidanceScale": 5.5,
+    "dtype": "float32"
+  },
+  "safety": {
+    "preserveRejectedExactHashes": true,
+    "preserveAcceptedExactHashes": true,
+    "producerSelfReview": false,
+    "canonicalMappingsChanged": false,
+    "workflowFilesChanged": false
+  }
+}
