@@ -554,6 +554,186 @@ if(!step10PreviewSource.includes('buildNeutralProgressionRuntimePreview')) issue
 if(step10PreviewSource.includes('lifeSimProgressionShadowRuntime')||step10PreviewSource.includes('residentialFeatureRuntime')||step10PreviewSource.includes('vehicleSystemRuntime')||step10PreviewSource.includes('townSystemRuntime')) issues.push('step10-completion-preview-runtime-coupling');
 if(step10PreviewSource.includes('localStorage')||step10PreviewSource.includes('App.jsx')||step10PreviewSource.includes('fetch(')||step10PreviewSource.includes('XMLHttpRequest')) issues.push('step10-completion-preview-live-coupling');
 
+const replayV2Path='docs/preproduction/brookhaven-research/step-11-replay-manifest-v2.json';
+const replayV2=JSON.parse(fs.readFileSync(replayV2Path,'utf8'));
+if(replayV2.schemaVersion!=='starblox-brookhaven-step-11-replay-manifest-v2') issues.push('step11-v2-schema');
+if(replayV2.step!=='11-of-12') issues.push('step11-v2-number');
+if(replayV2.status!=='complete-ready-for-controlled-replay-no-merge-performed') issues.push('step11-v2-status');
+if(replayV2.planBasis?.researchBaselineHead!=='0e208a41e85ecc4a9dc98275aa6e37c1988f1018') issues.push('step11-v2-step10-baseline');
+if(replayV2.strategy?.mode!=='fresh-product-base-controlled-explicit-replay') issues.push('step11-v2-strategy');
+if(replayV2.strategy?.directMergeBrookhavenIntoProduct!==false) issues.push('step11-v2-brookhaven-direct-merge');
+if(replayV2.strategy?.directMergeLearningFactoryIntoProduct!==false) issues.push('step11-v2-learning-direct-merge');
+if(replayV2.strategy?.directMergeBrookhavenAndLearningFactory!==false) issues.push('step11-v2-cross-research-merge');
+if(replayV2.strategy?.failClosedOnUnexpectedFiles!==true) issues.push('step11-v2-unexpected-file-gate');
+if(replayV2.strategy?.verifyAfterEveryGroup!==true) issues.push('step11-v2-group-verification');
+if(replayV2.strategy?.learningFactoryReconciledSeparately!==true) issues.push('step11-v2-learning-separation');
+
+const protectedStep11LiveFiles=[
+  'src/App.jsx',
+  'src/main.jsx',
+  'src/gameModel.js',
+  'src/storage.js'
+];
+if(sorted(replayV2.protectedLiveFiles)!==sorted(protectedStep11LiveFiles)) issues.push('step11-v2-protected-files');
+
+const replayV2Groups=replayV2.orderedReplayGroups||[];
+if(replayV2Groups.length!==6) issues.push('step11-v2-group-count');
+const expectedReplayGroupIds=[
+  'research-boundary-metadata-validation',
+  'residential-neutral-runtime',
+  'hardened-vehicle-layer',
+  'hardened-town-layer',
+  'hardened-progression-shadow',
+  'package-scripts-manual-additive-reapply'
+];
+for(let index=0;index<expectedReplayGroupIds.length;index+=1){
+  const group=replayV2Groups[index];
+  if(group?.order!==index+1) issues.push('step11-v2-group-order:'+(index+1));
+  if(group?.id!==expectedReplayGroupIds[index]) issues.push('step11-v2-group-id:'+(index+1));
+}
+const replayV2Includes=replayV2Groups.flatMap(group=>group.include||[]);
+for(const protectedPath of protectedStep11LiveFiles){
+  if(replayV2Includes.includes(protectedPath)) issues.push('step11-v2-protected-file-replay:'+protectedPath);
+}
+if(replayV2Includes.includes('package.json')) issues.push('step11-v2-package-blob-replay');
+
+const requiredGroupIncludes={
+  'research-boundary-metadata-validation':[
+    'docs/preproduction/brookhaven-research/**',
+    'scripts/assertBrookhavenReuseBoundary.mjs',
+    'scripts/assertBrookhavenLearningSeparation.mjs',
+    'scripts/validateBrookhavenResearchArtifacts.mjs',
+    '.github/workflows/brookhaven-research-boundary.yml'
+  ],
+  'residential-neutral-runtime':[
+    'src/residentialFeatureRuntime.js',
+    'src/residentialFeatureRuntime.test.js'
+  ],
+  'hardened-vehicle-layer':[
+    'src/vehicleSystemRuntime.js',
+    'src/vehicleSystemRuntime.test.js',
+    'src/neutralVehicleDefinitionCatalog.js',
+    'src/neutralVehicleDefinitionCatalog.test.js',
+    'src/neutralVehicleRuntimePreview.js',
+    'src/neutralVehicleRuntimePreview.test.js'
+  ],
+  'hardened-town-layer':[
+    'src/townSystemRuntime.js',
+    'src/townSystemRuntime.test.js',
+    'src/neutralTownLocationCatalog.js',
+    'src/neutralTownLocationCatalog.test.js',
+    'src/starBloxProxyTownTopology.js',
+    'src/starBloxProxyTownTopology.test.js',
+    'src/neutralTownRuntimePreview.js',
+    'src/neutralTownRuntimePreview.test.js'
+  ],
+  'hardened-progression-shadow':[
+    'src/lifeSimProgressionShadowRuntime.js',
+    'src/lifeSimProgressionShadowRuntime.test.js',
+    'src/neutralProgressionRuleCatalog.js',
+    'src/neutralProgressionRuleCatalog.test.js',
+    'src/neutralProgressionRuntimePreview.js',
+    'src/neutralProgressionRuntimePreview.test.js'
+  ],
+  'package-scripts-manual-additive-reapply':[
+    'validate:brookhaven-research',
+    'test:brookhaven-residential',
+    'test:brookhaven-step-8-10',
+    'assert:brookhaven-learning-separation'
+  ]
+};
+for(const [groupId,requiredPaths] of Object.entries(requiredGroupIncludes)){
+  const group=replayV2Groups.find(row=>row.id===groupId);
+  const includes=group?.include||[];
+  for(const requiredPath of requiredPaths){
+    if(!includes.includes(requiredPath)) issues.push('step11-v2-missing-include:'+groupId+':'+requiredPath);
+  }
+}
+const packageGroup=replayV2Groups.find(row=>row.id==='package-scripts-manual-additive-reapply');
+if(packageGroup?.method!=='manual additive edit; do not replay package.json blob') issues.push('step11-v2-package-method');
+
+const doNotReplayEntries=replayV2.explicitlyDoNotReplay||[];
+const doNotReplayPaths=new Set(doNotReplayEntries.map(row=>row.path));
+for(const protectedPath of protectedStep11LiveFiles){
+  if(!doNotReplayPaths.has(protectedPath)) issues.push('step11-v2-do-not-replay-protected:'+protectedPath);
+}
+if(!doNotReplayPaths.has('scripts/buildBrookhavenResearchWithKnownBaseFix.mjs')) issues.push('step11-v2-temp-build-patch-exclusion');
+if(!doNotReplayPaths.has('any learning-factory file')) issues.push('step11-v2-learning-file-exclusion');
+if(!doNotReplayPaths.has('raw/unresolved executable or remote-dependent source payloads')) issues.push('step11-v2-raw-payload-exclusion');
+
+if(replayV2.promotionGates?.everyReplayGroupMustPassBeforeNext!==true) issues.push('step11-v2-promotion-order');
+if(replayV2.promotionGates?.unexpectedFileChangeBlocksPromotion!==true) issues.push('step11-v2-promotion-unexpected-files');
+if(replayV2.promotionGates?.protectedLiveFileChangeBlocksPromotion!==true) issues.push('step11-v2-promotion-live-files');
+if(replayV2.promotionGates?.reuseBoundaryViolationBlocksPromotion!==true) issues.push('step11-v2-promotion-reuse-boundary');
+if(replayV2.promotionGates?.learningSeparationViolationBlocksPromotion!==true) issues.push('step11-v2-promotion-learning-boundary');
+if(replayV2.promotionGates?.testFailureBlocksPromotion!==true) issues.push('step11-v2-promotion-tests');
+if(replayV2.promotionGates?.buildFailureBlocksPromotion!==true) issues.push('step11-v2-promotion-build');
+if(replayV2.promotionGates?.deploymentAllowedByThisManifest!==false) issues.push('step11-v2-promotion-deploy');
+if(replayV2.exitCriteria?.hardenedSteps8To10Included!==true) issues.push('step11-v2-hardened-prerequisites');
+if(replayV2.exitCriteria?.liveProductFilesExcluded!==true) issues.push('step11-v2-live-file-exclusion');
+if(replayV2.exitCriteria?.learningFactorySeparated!==true) issues.push('step11-v2-learning-separation-exit');
+if(replayV2.exitCriteria?.temporaryInheritedBuildPatchExcluded!==true) issues.push('step11-v2-temp-patch-exit');
+if(replayV2.exitCriteria?.noMergePerformed!==true) issues.push('step11-v2-merge-boundary');
+if(replayV2.exitCriteria?.noDeploymentPerformed!==true) issues.push('step11-v2-deploy-boundary');
+if(replayV2.exitCriteria?.step11Complete!==true) issues.push('step11-v2-completion');
+
+const readinessV2Path='docs/preproduction/brookhaven-research/step-11-reconciliation-readiness-v2.json';
+const readinessV2=JSON.parse(fs.readFileSync(readinessV2Path,'utf8'));
+if(readinessV2.schemaVersion!=='starblox-brookhaven-step-11-reconciliation-readiness-v2') issues.push('step11-readiness-v2-schema');
+if(readinessV2.step!=='11-of-12') issues.push('step11-readiness-v2-number');
+if(readinessV2.status!=='complete-hardened-controlled-replay-boundary-no-merge-performed') issues.push('step11-readiness-v2-status');
+if(readinessV2.strategy?.method!=='fresh-product-base-controlled-explicit-replay') issues.push('step11-readiness-v2-strategy');
+if(readinessV2.strategy?.replayManifest!==replayV2Path) issues.push('step11-readiness-v2-manifest-ref');
+if(readinessV2.strategy?.replayGroups!==6) issues.push('step11-readiness-v2-group-count');
+if(readinessV2.strategy?.directMergeAllowed!==false) issues.push('step11-readiness-v2-direct-merge');
+if(readinessV2.strategy?.protectedLiveFilesMayBeTransplanted!==false) issues.push('step11-readiness-v2-live-transplant');
+if(readinessV2.strategy?.learningFactoryMayBeCoReplayed!==false) issues.push('step11-readiness-v2-learning-coreplay');
+if(readinessV2.strategy?.verifyEveryGroup!==true) issues.push('step11-readiness-v2-verify-every-group');
+if(readinessV2.strategy?.failClosedOnUnexpectedFiles!==true) issues.push('step11-readiness-v2-fail-closed');
+
+if(readinessV2.hardenedPrerequisites?.step8Complete!==true) issues.push('step11-readiness-v2-step8');
+if(readinessV2.hardenedPrerequisites?.step9Complete!==true) issues.push('step11-readiness-v2-step9');
+if(readinessV2.hardenedPrerequisites?.step10Complete!==true) issues.push('step11-readiness-v2-step10');
+if(readinessV2.hardenedPrerequisites?.step8Completion!==step8CompletionPath) issues.push('step11-readiness-v2-step8-ref');
+if(readinessV2.hardenedPrerequisites?.step9Completion!==step9CompletionPath) issues.push('step11-readiness-v2-step9-ref');
+if(readinessV2.hardenedPrerequisites?.step10Completion!==step10CompletionPath) issues.push('step11-readiness-v2-step10-ref');
+
+if(readinessV2.separation?.assertion!=='scripts/assertBrookhavenLearningSeparation.mjs') issues.push('step11-readiness-v2-separation-assertion');
+if(readinessV2.separation?.hardenedModulesCovered!==true) issues.push('step11-readiness-v2-hardened-modules');
+if(sorted(readinessV2.separation?.liveEntryPointsProtected)!==sorted(protectedStep11LiveFiles)) issues.push('step11-readiness-v2-protected-live-files');
+if(readinessV2.separation?.learningFactorySeparate!==true) issues.push('step11-readiness-v2-learning-separate');
+
+for(const field of [
+  'temporaryInheritedBuildPatchExcluded',
+  'packageJsonBlobReplayForbidden',
+  'packageScriptsManualAdditiveOnly',
+  'rawExecutablePayloadReplayForbidden',
+  'liveAppWiringForbidden',
+  'persistenceMigrationForbidden',
+  'economyMutationForbidden',
+  'deploymentForbidden'
+]){
+  if(readinessV2.replaySafety?.[field]!==true) issues.push('step11-readiness-v2-safety:'+field);
+}
+if(readinessV2.nextStepBoundary?.step11Complete!==true) issues.push('step11-readiness-v2-completion');
+if(readinessV2.nextStepBoundary?.nextStep!=='12') issues.push('step11-readiness-v2-next-step');
+if(readinessV2.nextStepBoundary?.noMergePerformed!==true) issues.push('step11-readiness-v2-no-merge');
+if(readinessV2.nextStepBoundary?.noDeploymentPerformed!==true) issues.push('step11-readiness-v2-no-deploy');
+if(readinessV2.nextStepBoundary?.noLiveIntegrationAuthorized!==true) issues.push('step11-readiness-v2-no-live-auth');
+
+const separationSource=fs.readFileSync('scripts/assertBrookhavenLearningSeparation.mjs','utf8');
+for(const token of [
+  'neutralVehicleDefinitionCatalog',
+  'neutralVehicleRuntimePreview',
+  'neutralTownLocationCatalog',
+  'starBloxProxyTownTopology',
+  'neutralTownRuntimePreview',
+  'neutralProgressionRuleCatalog',
+  'neutralProgressionRuntimePreview'
+]){
+  if(!separationSource.includes(token)) issues.push('step11-separation-missing-hardened-token:'+token);
+}
+
 const replayPath='docs/preproduction/brookhaven-research/step-11-replay-manifest-v1.json';
 const replay=JSON.parse(fs.readFileSync(replayPath,'utf8'));
 if(replay.schemaVersion!=='starblox-brookhaven-step-11-replay-manifest-v1') issues.push('step11-replay-schema');
@@ -612,6 +792,8 @@ const result={
   progressionRuleSchemaPath,
   progressionRuleCatalogPath,
   step10CompletionPath,
+  replayV2Path,
+  readinessV2Path,
   replayPath,
   readinessPath,
   step12Path,
@@ -630,6 +812,8 @@ const result={
     (progression.town?.length||0),
   neutralProgressionRuleCount:progressionRules.length,
   step10Complete:step10Completion.nextStepBoundary?.step10Complete===true,
+  step11ReplayGroupCount:replayV2Groups.length,
+  step11Complete:readinessV2.nextStepBoundary?.step11Complete===true,
   issueCount:issues.length,
   issues
 };
