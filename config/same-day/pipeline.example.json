@@ -22,6 +22,22 @@
   ],
   "integrationTasks": [
     {
+      "id": "arnis",
+      "taskFile": "integrate-arnis-task.json",
+      "purpose": "authorized Arnis world-generation, interiors and streaming integration",
+      "repository": "adpena/arnis-roblox",
+      "commit": "ff7984f990336da1d9f303d54b3f2e223bfdab35",
+      "checkout": "../../vendor/authorized/arnis-roblox"
+    },
+    {
+      "id": "achassis",
+      "taskFile": "integrate-achassis-task.json",
+      "purpose": "authorized A-Chassis vehicle runtime integration",
+      "repository": "lisphm/A-Chassis",
+      "commit": "3533c32ed04210fd11eaa8d4c45ddc5da951f6fb",
+      "checkout": "../../vendor/authorized/A-Chassis"
+    },
+    {
       "id": "flex",
       "taskFile": "integrate-flex-task.json",
       "purpose": "authorized Flex-with-Friends quest, traffic, phone travel and minigame integration",
@@ -70,5 +86,6 @@
       ]
     }
   },
-  "rojoCommand": "rojo"
+  "rojoCommand": "rojo",
+  "maxParallel": 4
 }
