@@ -261,6 +261,43 @@ jobs:
           grep -q '"verifiedEntryCount": 4936' /tmp/starblox-step4-world/step5-exactness-lock.json
           grep -q '"baselineMutationAllowed": false' /tmp/starblox-step4-world/step5-exactness-lock.json
           grep -q '"starBloxMounted": false' /tmp/starblox-step4-world/step5-exactness-lock.json
+      - name: Mount StarBlox beside locked Brookhaven world for Step 5
+        run: |
+          rm -rf roblox/.step5-generated roblox/.step5-mounted.project.json
+          BASELINE_SHA_BEFORE="$(sha256sum /tmp/starblox-step4-world/BrookhavenWorldBaseline.rbxmx | awk '{print $1}')"
+          npm run roblox:brookhaven-world:mount:prepare -- \
+            --baseline /tmp/starblox-step4-world/BrookhavenWorldBaseline.rbxmx \
+            --lock /tmp/starblox-step4-world/step5-exactness-lock.json \
+            --out-project roblox/.step5-mounted.project.json \
+            --baseline-copy roblox/.step5-generated/BrookhavenWorldBaseline.rbxmx \
+            --receipt /tmp/starblox-step4-world/step5-mount-preparation.json
+          test -f roblox/.step5-mounted.project.json
+          test -f roblox/.step5-generated/BrookhavenWorldBaseline.rbxmx
+          grep -q '"status": "step5-mount-prepared"' /tmp/starblox-step4-world/step5-mount-preparation.json
+          grep -q '"copyMode": "0444-read-only"' /tmp/starblox-step4-world/step5-mount-preparation.json
+
+          rojo build roblox/.step5-mounted.project.json \
+            --output /tmp/starblox-step4-world/StarBlox-Step5-Mounted.rbxlx
+          test -s /tmp/starblox-step4-world/StarBlox-Step5-Mounted.rbxlx
+          cargo run --quiet --manifest-path tools/roblox_catalog_reader/Cargo.toml -- \
+            /tmp/starblox-step4-world/StarBlox-Step5-Mounted.rbxlx \
+            > /tmp/starblox-step4-world/step5-mounted-dom.json
+
+          npm run roblox:brookhaven-world:mount:verify -- \
+            --isolated-dom /tmp/starblox-step4-world/place-dom.json \
+            --mounted-dom /tmp/starblox-step4-world/step5-mounted-dom.json \
+            --lock /tmp/starblox-step4-world/step5-exactness-lock.json \
+            --baseline roblox/.step5-generated/BrookhavenWorldBaseline.rbxmx \
+            --baseline-sha-before "$BASELINE_SHA_BEFORE" \
+            --out /tmp/starblox-step4-world/step5-mount-receipt.json
+          grep -q '"status": "starblox-mounted-beside-locked-world"' /tmp/starblox-step4-world/step5-mount-receipt.json
+          grep -q '"fileBytesUnchanged": true' /tmp/starblox-step4-world/step5-mount-receipt.json
+          grep -q '"subtreeInstanceCount": 5493' /tmp/starblox-step4-world/step5-mount-receipt.json
+          grep -q '"parentedIntoBaseline": false' /tmp/starblox-step4-world/step5-mount-receipt.json
+          grep -q '"worldBaselineMutated": false' /tmp/starblox-step4-world/step5-mount-receipt.json
+          BASELINE_SHA_AFTER="$(sha256sum roblox/.step5-generated/BrookhavenWorldBaseline.rbxmx | awk '{print $1}')"
+          test "$BASELINE_SHA_BEFORE" = "$BASELINE_SHA_AFTER"
+          rm -rf roblox/.step5-generated roblox/.step5-mounted.project.json
       - name: Prove native Roblox build
         run: npm run roblox:native:build-proof
       - name: Prove Roblox Studio sync baseline
