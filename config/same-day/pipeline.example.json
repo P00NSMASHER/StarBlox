@@ -21,7 +21,7 @@
       "id": "robbing",
       "sourceId": "authorized-robbing-simulator",
       "input": "../../sources/authorized/Robbing-Simulator.rbxl",
-      "migrationRules": "../roblox-migration.rules.example.json",
+      "migrationRules": "robbing-fast-lane.rules.json",
       "request": "Adapt only the selected Robbing Simulator NPC, event, housing/placeable and interaction systems behind StarBlox authority. Exclude obsolete or age-inappropriate mechanics.",
       "download": {
         "url": "https://devforum.roblox.com/uploads/short-url/beIcwQ8KgqJA5BlbmyCyu78a7g4.rbxl",
