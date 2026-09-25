@@ -86,13 +86,45 @@ if(gate === 'mobile'){
   if(evidence.visualReview?.ok !== true){
     throw new Error('mobile gate requires an accepted visual review');
   }
+  const device=runtime.screenshot?.device;
+  if(!device || device.touchEnabled !== true){
+    throw new Error('mobile gate requires touch-enabled client evidence from the captured playtest');
+  }
+  const viewportWidth=Number(device.viewportWidth);
+  const viewportHeight=Number(device.viewportHeight);
+  if(
+    !Number.isFinite(viewportWidth) ||
+    !Number.isFinite(viewportHeight) ||
+    viewportWidth < 240 ||
+    viewportHeight < 240
+  ){
+    throw new Error('mobile gate requires valid client viewport dimensions');
+  }
+  const shortSide=Math.min(viewportWidth,viewportHeight);
+  const longSide=Math.max(viewportWidth,viewportHeight);
+  if(shortSide > 700 || longSide > 1400){
+    throw new Error(
+      'mobile gate requires a mobile/tablet-sized emulated viewport; found ' +
+      viewportWidth + 'x' + viewportHeight
+    );
+  }
   if(Array.isArray(runtime.errors) && runtime.errors.length){
     throw new Error('mobile runtime evidence contains errors: ' + runtime.errors.join('; '));
   }
   metrics={
     screenshot:{
       width:Number(runtime.screenshot.width || 0),
-      height:Number(runtime.screenshot.height || 0)
+      height:Number(runtime.screenshot.height || 0),
+      originalWidth:Number(runtime.screenshot.originalWidth || runtime.screenshot.width || 0),
+      originalHeight:Number(runtime.screenshot.originalHeight || runtime.screenshot.height || 0)
+    },
+    device:{
+      touchEnabled:true,
+      keyboardEnabled:device.keyboardEnabled === true,
+      mouseEnabled:device.mouseEnabled === true,
+      gamepadEnabled:device.gamepadEnabled === true,
+      viewportWidth,
+      viewportHeight
     },
     visualReviewAccepted:true,
     acceptanceMentionsMobile:true
