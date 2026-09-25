@@ -152,6 +152,29 @@
       },
       "reason": "Garden Snail exists in the live catalog, but its real artwork is absent from card, preview, avatar-stage, and Buddy rendering.",
       "nextAction": "Deploy/wire the existing companion artwork/runtime to the public Replit app, then rerun the same live companion QA."
+    },
+    {
+      "order": 11,
+      "itemId": "companions-12",
+      "name": "Star Unicorn",
+      "decision": "BLOCKED_LIVE_PARITY",
+      "decidedAt": "2026-09-25T08:39:11Z",
+      "evidence": {
+        "found": true,
+        "cardImage": null,
+        "background": "generic radial gradient",
+        "previewAvailable": false,
+        "detailPresent": false,
+        "avatarStagePresent": false,
+        "buddyAvailable": true,
+        "buddyRootCompanionId": null,
+        "buddyCompanionId": null,
+        "buddyImage": null,
+        "cardPass": false,
+        "technicalPass": false
+      },
+      "reason": "Star Unicorn exists in the live catalog, but the current public deployment does not render its real artwork in the card, preview, avatar stage, or Buddy surfaces.",
+      "nextAction": "Deploy/wire the existing companion artwork/runtime to the public Replit app, then rerun the same live companion QA."
     }
   ]
 }
