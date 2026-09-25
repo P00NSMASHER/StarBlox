@@ -8,7 +8,7 @@
     "id": "brookhaven",
     "sourceId": "authorized-brookhaven",
     "input": "../../sources/authorized/Brookhaven.rbxl",
-    "migrationRules": "../roblox-migration.rules.example.json",
+    "migrationRules": "brookhaven-world.rules.json",
     "request": "Adapt the selected authorized Brookhaven world, housing, vehicle, avatar and presentation units behind StarBlox authority. Preserve StarBlox ProfileStore, typed networking, quest/mastery and economy authority.",
     "download": {
       "url": "https://raw.githubusercontent.com/IIIStatusIII/Roblox-Uncopylocked-Games/main/Brookhaven.rbxl",
