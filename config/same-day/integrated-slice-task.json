@@ -1,0 +1,5 @@
+{
+  "id": "same-day-integrated-slice-verification",
+  "request": "Verify and repair the complete StarBlox one-day vertical slice. The plan MUST require Studio tests, a live playtest, viewport capture and visual review. During the playtest request telemetry domains players, world, runtime and performance. Exercise spawn, phone/world navigation, one home interaction, one vehicle path, one NPC educational quest, one shop interaction, one minigame and save/rejoin-visible state where feasible. Acceptance MUST explicitly include mobile/touch usability, no runtime error logs, no duplicate rewards, server-authoritative progression, and performance evidence. Repair only within the bounded factory budget and leave publication disabled.",
+  "searchQuery": "spawn phone home vehicle npc quest shop minigame mobile performance"
+}
