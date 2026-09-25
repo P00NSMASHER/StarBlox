@@ -39,7 +39,9 @@
     "roblox:brookhaven-world:deserialize": "node scripts/deserialize-brookhaven-world.mjs",
     "roblox:brookhaven-world:generate": "node scripts/generate-brookhaven-world.mjs",
     "roblox:brookhaven-world:mount:prepare": "node scripts/prepare-step5-world-mount.mjs",
-    "roblox:brookhaven-world:mount:verify": "node scripts/verify-step5-world-mount.mjs"
+    "roblox:brookhaven-world:mount:verify": "node scripts/verify-step5-world-mount.mjs",
+    "roblox:real-client-proof": "node scripts/verify-roblox-real-client-playtest.mjs",
+    "roblox:production-server-boot-proof": "node scripts/verify-roblox-production-server-boot.mjs"
   },
   "dependencies": {
     "lucide-react": "^0.468.0",
