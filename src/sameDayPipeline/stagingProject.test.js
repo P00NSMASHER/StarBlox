@@ -133,6 +133,8 @@ describe('same-day staging Rojo project',()=>{
     expect(result.report.included.map(row=>row.unitId)).toEqual([plan.units[0].unitId]);
     expect(result.report.skipped.map(row=>row.unitId)).toEqual([plan.units[1].unitId]);
     expect(result.report.scriptBearingUnitsMounted).toBe(0);
+    expect(result.project.tree.Workspace.StarBloxImported['$className']).toBe('Folder');
+    expect(result.project.tree.Workspace.StarBloxImported[sourceId]['$className']).toBe('Folder');
     expect(result.project.tree.Workspace.StarBloxImported[sourceId][plan.units[0].unitId]['$path'])
       .toMatch(/staging/);
     expect(JSON.parse(await readFile(result.projectPath,'utf8')).name).toBe('StarBloxSameDay');
