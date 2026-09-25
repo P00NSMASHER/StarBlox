@@ -1,5 +1,6 @@
-import { readFile } from 'node:fs/promises';
-import { isAbsolute,resolve } from 'node:path';
+import { createHash } from 'node:crypto';
+import { mkdir,readFile,writeFile } from 'node:fs/promises';
+import { dirname,isAbsolute,resolve } from 'node:path';
 
 function arg(name,def=null){
   const inline=process.argv.find(value=>value.startsWith(name + '='));
@@ -31,7 +32,9 @@ const runPath=absolute(
 );
 if(!runPath) throw new Error('integrated development run path is required');
 
-const run=JSON.parse(await readFile(runPath,'utf8'));
+const runBytes=await readFile(runPath);
+const runSha256=createHash('sha256').update(runBytes).digest('hex');
+const run=JSON.parse(runBytes.toString('utf8'));
 if(run.status !== 'verified'){
   throw new Error('integrated development run is not verified: ' + run.status);
 }
@@ -43,6 +46,8 @@ if(!verifyCycle?.evidence){
 const evidence=verifyCycle.evidence;
 const runtime=evidence.runtime || {};
 const plan=run.plan || {};
+
+let metrics={};
 
 if(gate === 'security'){
   if(run.studioAttestation?.required === true && run.studioAttestation?.attested !== true){
@@ -59,6 +64,11 @@ if(gate === 'security'){
   if(Array.isArray(evidence.errors) && evidence.errors.length){
     throw new Error('verification contains errors: ' + evidence.errors.join('; '));
   }
+  metrics={
+    studioAttested:run.studioAttestation?.attested === true || run.studioAttestation?.required !== true,
+    repositoryGates:['tests','certification','balance','build'],
+    verificationErrorCount:Array.isArray(evidence.errors) ? evidence.errors.length : 0
+  };
   console.log('StarBlox same-day security evidence gate: PASS');
 }
 
@@ -79,6 +89,14 @@ if(gate === 'mobile'){
   if(Array.isArray(runtime.errors) && runtime.errors.length){
     throw new Error('mobile runtime evidence contains errors: ' + runtime.errors.join('; '));
   }
+  metrics={
+    screenshot:{
+      width:Number(runtime.screenshot.width || 0),
+      height:Number(runtime.screenshot.height || 0)
+    },
+    visualReviewAccepted:true,
+    acceptanceMentionsMobile:true
+  };
   console.log(
     'StarBlox same-day mobile evidence gate: PASS (' +
     String(runtime.screenshot.width || '?') + 'x' +
@@ -118,9 +136,47 @@ if(gate === 'performance'){
     );
   }
 
+  metrics={
+    averageHz:Number(perf.averageHz),
+    p95FrameMs:Number(perf.p95FrameMs),
+    memoryMb:Number.isFinite(Number(perf.memoryMb)) ? Number(perf.memoryMb) : null,
+    thresholds:{
+      minHz,
+      maxP95Ms:maxP95,
+      maxMemoryMb:maxMemory
+    }
+  };
   console.log(
     'StarBlox same-day performance evidence gate: PASS ' +
     '(avg ' + Number(perf.averageHz).toFixed(1) + ' Hz, p95 ' +
     Number(perf.p95FrameMs).toFixed(1) + ' ms)'
   );
+}
+
+const receiptPayload={
+  schemaVersion:1,
+  version:'starblox-same-day-evidence-gate-v1',
+  status:'passed',
+  gate,
+  integratedRun:{
+    file:runPath,
+    sha256:runSha256,
+    runId:run.runId || null,
+    runHash:run.runHash || null
+  },
+  metrics,
+  publicationAllowed:false
+};
+const receipt={
+  ...receiptPayload,
+  receiptHash:'sha256:' + createHash('sha256')
+    .update(JSON.stringify(receiptPayload))
+    .digest('hex')
+};
+const outRaw=arg('--out') || process.env.STARBLOX_PIPELINE_GATE_RECEIPT || '';
+if(outRaw){
+  const out=absolute(outRaw);
+  await mkdir(dirname(out),{recursive:true});
+  await writeFile(out,JSON.stringify(receipt,null,2) + '\n');
+  console.log('receipt: ' + out);
 }
