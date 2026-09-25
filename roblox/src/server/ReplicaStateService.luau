@@ -23,6 +23,12 @@ local function publicProjection(profileData)
 		Progress = {
 			Districts = table.clone(profileData.Progress.Districts),
 			MasteredSkills = copyArray(profileData.Progress.MasteredSkills),
+			CoreLoop = profileData.Progress.CoreLoop and {
+				RunNumber = profileData.Progress.CoreLoop.RunNumber,
+				LoopRuns = profileData.Progress.CoreLoop.LoopRuns,
+				RewardDay = profileData.Progress.CoreLoop.RewardDay,
+				RewardedRunsToday = profileData.Progress.CoreLoop.RewardedRunsToday,
+			} or nil,
 		},
 		Daily = {
 			LastDailyId = profileData.Daily.LastDailyId,
