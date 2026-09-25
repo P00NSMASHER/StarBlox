@@ -18,12 +18,6 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - id: meepcity
-            filename: Meepcity.rbxl
-            url: https://raw.githubusercontent.com/IIIStatusIII/Roblox-Uncopylocked-Games/main/Meepcity.rbxl
-          - id: jailbreak
-            filename: Jailbreak-Beta.rbxlx
-            url: https://raw.githubusercontent.com/IIIStatusIII/Roblox-Uncopylocked-Games/main/Jailbreak%20%28Beta%29.rbxlx
           - id: robbing-simulator
             filename: Robbing-Simulator.rbxl
             url: https://devforum.roblox.com/uploads/short-url/beIcwQ8KgqJA5BlbmyCyu78a7g4.rbxl
