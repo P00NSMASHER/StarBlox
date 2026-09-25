@@ -25,11 +25,18 @@ function manifest(){
         id:'robbing',
         sourceId:'creator-robbing-simulator',
         input:'sources/Robbing-Simulator.rbxl'
-      },
+      }
+    ],
+    integrationTasks:[
       {
         id:'flex',
-        sourceId:'authorized-flex-with-friends',
-        input:'sources/flex-place.rbxl'
+        taskFile:'config/integrate-flex-task.json',
+        purpose:'port authorized Flex-with-Friends quest/traffic/minigame systems'
+      },
+      {
+        id:'rorooms',
+        taskFile:'config/integrate-rorooms-task.json',
+        purpose:'port authorized Rorooms social/profile/emote systems'
       }
     ],
     questMasteryTask:'config/quest-mastery-task.json',
@@ -52,7 +59,7 @@ describe('same-day StarBlox pipeline',()=>{
     expect(a.stages.map(row=>row.id)).toEqual([
       'ingest-brookhaven','plan-brookhaven','export-brookhaven','adapt-brookhaven',
       'ingest-robbing','plan-robbing','export-robbing','adapt-robbing',
-      'ingest-flex','plan-flex','export-flex','adapt-flex',
+      'integrate-flex','integrate-rorooms',
       'wire-quest-mastery','verify-integrated-slice',
       'gate-mobile','gate-security','gate-performance','finalize-same-day-slice'
     ]);
@@ -64,6 +71,10 @@ describe('same-day StarBlox pipeline',()=>{
     const duplicate=manifest();
     duplicate.donors[0].id='brookhaven';
     expect(()=>buildSameDayPipelinePlan(duplicate)).toThrow(/unique ids/);
+
+    const duplicateTask=manifest();
+    duplicateTask.integrationTasks[0].id='brookhaven';
+    expect(()=>buildSameDayPipelinePlan(duplicateTask)).toThrow(/unique ids/);
 
     const publish=manifest();
     publish.gates.security={command:'npm',args:['run','publish']};
