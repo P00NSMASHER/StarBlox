@@ -53,6 +53,19 @@ It does **not** authorize:
 - experience-visibility changes
 - production/live activation
 
+## Verified completion
+
+Target Architecture **6 / 6** is verified.
+
+- verification workflow: **StarBlox CI**
+- verified run: **36191024712**
+- verified branch head: `8cb52626f28c219b5481ec2ae40df38b2b77daf3`
+- Step-6 release-gate proof: **passed**
+- full tests, certification gate, balance gate, and production bundle: **passed**
+- ordinary PR Open Cloud probe: intentionally skipped to avoid consuming the shared Roblox Luau-task quota; actual release PR publication remains Open-Cloud-gated and fail-closed
+
+A subsequent world-development change invalidates the Step-5/Step-6 world fingerprints and must be reverified before private publication.
+
 ## Completion
 
 When the Step-6 policy is bound to a freshly generated release gate in CI and the full regression suite passes, the six-step Target Architecture is complete.
