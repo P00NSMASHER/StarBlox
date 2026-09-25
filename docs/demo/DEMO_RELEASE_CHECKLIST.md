@@ -16,7 +16,7 @@ Baseline: `screenshot-match-preproduction@d8cdc27fd943cc3ecde632ca4247bf9650d77c
 
 ## Release gates
 
-- [x] 192/192 catalog entries release-cleared — manifest v48, 192 final-portable, 0 remaining; final seven companions passed Cloudflare production live QA
+- [x] 192/192 catalog entries release-cleared — manifest v49, 192 final-portable, 0 remaining, CI run 36138462689 PASS; final seven companions passed Cloudflare production live QA
 - [x] CI passes on tested runtime head `b0ce0fa42ad70c3b524ffd16945e3c3d97c6df3d` (run `36116529084`)
 - [x] Visual browser QA passes on tested runtime head: desktop, landscape, 390px phone, 320px phone; zero release-blocking failures (run `36116438644`)
 - [x] Persistence browser QA passes on tested runtime head (run `36116529246`)
