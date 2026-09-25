@@ -4,7 +4,7 @@ const LUAU_ROOT='https://apis.roblox.com/cloud/v2';
 const PUBLISH_ROOT='https://apis.roblox.com/universes/v1';
 
 export const STARBLOX_PRIVATE_RELEASE_ID='starblox-private-step8-v1';
-export const STARBLOX_PRIVATE_PUBLISH_VERSION='starblox-private-publish-v1';
+export const STARBLOX_PRIVATE_PUBLISH_VERSION='starblox-private-publish-v2';
 
 const UNSUPPORTED_PUBLISH_CLASSES=Object.freeze([
   'EditableImage',
@@ -231,8 +231,26 @@ export async function publishPlaceVersion({
   return {versionNumber};
 }
 
-function verifiedReleaseScript({releaseId,versionNumber}){
+function verifiedReleaseScript({releaseId,versionNumber,world=null}){
   const safeRelease=JSON.stringify(String(releaseId));
+  const worldChecks=world ? `
+local Workspace = game:GetService("Workspace")
+local ServerScriptService = game:GetService("ServerScriptService")
+local StarterPlayer = game:GetService("StarterPlayer")
+local baseline = Workspace:WaitForChild("BrookhavenWorldBaseline")
+assert(baseline:IsA("Model"), "BrookhavenWorldBaseline must be a Model")
+assert(#baseline:GetDescendants() + 1 == ${Number(world.subtreeInstanceCount)}, "unexpected Brookhaven subtree instance count")
+for _, instance in baseline:GetDescendants() do
+    assert(not instance:IsA("Script"), "locked Brookhaven baseline contains Script")
+    assert(not instance:IsA("LocalScript"), "locked Brookhaven baseline contains LocalScript")
+    assert(not instance:IsA("ModuleScript"), "locked Brookhaven baseline contains ModuleScript")
+    assert(not instance:IsA("RemoteEvent"), "locked Brookhaven baseline contains RemoteEvent")
+    assert(not instance:IsA("RemoteFunction"), "locked Brookhaven baseline contains RemoteFunction")
+end
+assert(ReplicatedStorage:FindFirstChild("StarBlox") ~= nil, "ReplicatedStorage/StarBlox missing")
+assert(ServerScriptService:FindFirstChild("StarBlox") ~= nil, "ServerScriptService/StarBlox missing")
+assert(StarterPlayer:WaitForChild("StarterPlayerScripts"):FindFirstChild("StarBlox") ~= nil, "StarterPlayerScripts/StarBlox missing")
+` : '';
   return `local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local root = ReplicatedStorage:WaitForChild("StarBlox")
 local module = root:WaitForChild("DeploymentManifest")
@@ -241,6 +259,7 @@ assert(type(manifest) == "table", "DeploymentManifest must return a table")
 assert(manifest.releaseId == ${safeRelease}, "unexpected release id: " .. tostring(manifest.releaseId))
 assert(manifest.releaseChannel == "private-staging", "unexpected release channel")
 assert(manifest.productionActivationAllowed == false, "production activation must remain disabled")
+${worldChecks}
 assert(game.PlaceVersion == ${Number(versionNumber)}, "unexpected place version: " .. tostring(game.PlaceVersion))
 print("STARBLOX_PRIVATE_PUBLISH_OK release=" .. tostring(manifest.releaseId) .. " version=" .. tostring(game.PlaceVersion))
 return tostring(manifest.releaseId), tostring(game.PlaceVersion)
@@ -253,6 +272,7 @@ export async function verifyPublishedRelease({
   placeId,
   releaseId,
   versionNumber,
+  world=null,
   fetchImpl=globalThis.fetch,
   pollIntervalMs=1000,
   timeoutMs=90_000
@@ -264,7 +284,7 @@ export async function verifyPublishedRelease({
     fetchImpl,
     pollIntervalMs,
     timeoutMs,
-    script:verifiedReleaseScript({releaseId,versionNumber})
+    script:verifiedReleaseScript({releaseId,versionNumber,world})
   });
   if(task.versionNumber !== Number(versionNumber)){
     throw new Error(
@@ -296,7 +316,8 @@ export function buildPrivatePublishReceipt({
   artifactSha256,
   artifactBytes,
   skipped=false,
-  verificationTaskPath=null
+  verificationTaskPath=null,
+  releaseGate=null
 }){
   return Object.freeze({
     schemaVersion:1,
@@ -320,6 +341,12 @@ export function buildPrivatePublishReceipt({
       verified:Number(verifiedVersion)
     }),
     verificationTaskPath:verificationTaskPath ? String(verificationTaskPath) : null,
+    releaseGate:releaseGate ? Object.freeze({
+      version:String(releaseGate.version || ''),
+      artifactSha256:String(releaseGate.artifactSha256 || ''),
+      baselineModelSha256:String(releaseGate.baselineModelSha256 || ''),
+      mountedSubtreeSha256:String(releaseGate.mountedSubtreeSha256 || '')
+    }) : null,
     authority:Object.freeze({
       experienceVisibilityChangeAttempted:false,
       publicAccessChangeAttempted:false,
