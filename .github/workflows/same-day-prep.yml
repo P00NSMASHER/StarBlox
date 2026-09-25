@@ -77,9 +77,12 @@ jobs:
           test -f artifacts/same-day-starblox/same-day-staging-report.json
           grep -q '"publicationAllowed": false' artifacts/same-day-starblox/same-day-staging-report.json
           node --input-type=module - <<'NODE'
-          import {readFile} from 'node:fs/promises';
+          import {readFile,stat} from 'node:fs/promises';
+          import {resolve} from 'node:path';
+
+          const base='artifacts/same-day-starblox';
           const state=JSON.parse(await readFile(
-            'artifacts/same-day-starblox/same-day-pipeline-state.json',
+            resolve(base,'same-day-pipeline-state.json'),
             'utf8'
           ));
           if(state.stages?.['build-staging-place']?.status !== 'complete'){
@@ -90,6 +93,68 @@ jobs:
               throw new Error(id + ' should remain pending in pre-Studio prep');
             }
           }
+
+          const report=JSON.parse(await readFile(
+            resolve(base,'same-day-staging-report.json'),
+            'utf8'
+          ));
+          if(report.publicationAllowed !== false) throw new Error('staging publication must remain disabled');
+          if(report.scriptBearingUnitsMounted !== 0) throw new Error('script-bearing legacy unit was mounted');
+          if(report.remoteBearingUnitsMounted !== 0) throw new Error('remote-bearing legacy unit was mounted');
+          if(Number(report.sanitizedProjectionUnitsMounted || 0) < 1){
+            throw new Error('no sanitized world projection was mounted');
+          }
+
+          const world=report.included.find(row =>
+            row.sourceId === 'brookhaven' &&
+            row.systemName === 'Workspace' &&
+            row.projection?.sanitized === true
+          );
+          if(!world) throw new Error('sanitized Brookhaven Workspace projection is missing');
+          if(world.projection.policy !== 'strip-executable-network-v1'){
+            throw new Error('unexpected Brookhaven projection policy');
+          }
+          if(Number(world.projection.forbiddenRemaining) !== 0){
+            throw new Error('Brookhaven projection contains forbidden executable/network classes');
+          }
+          if(Number(world.projection.strippedForbiddenInstances || 0) < 1){
+            throw new Error('Brookhaven projection did not record stripped forbidden instances');
+          }
+
+          const worldPath=resolve(base,'sources/brookhaven/export',world.path);
+          const worldInfo=await stat(worldPath);
+          if(worldInfo.size < 10_000_000){
+            throw new Error('Brookhaven staged world is implausibly small: ' + worldInfo.size);
+          }
+          const placeInfo=await stat(resolve(base,'StarBloxSameDay.rbxlx'));
+          if(placeInfo.size < 10_000_000){
+            throw new Error('generated StarBlox place is implausibly small: ' + placeInfo.size);
+          }
+
+          const xml=await readFile(worldPath,'utf8');
+          const forbidden=[
+            'Script','LocalScript','ModuleScript',
+            'RemoteEvent','RemoteFunction','UnreliableRemoteEvent',
+            'BindableEvent','BindableFunction'
+          ];
+          for(const className of forbidden){
+            if(xml.includes('class="' + className + '"')){
+              throw new Error('forbidden class survived Brookhaven projection: ' + className);
+            }
+          }
+          const modelCount=(xml.match(/class="Model"/g) || []).length;
+          const partCount=(xml.match(/class="(?:Part|MeshPart|UnionOperation)"/g) || []).length;
+          if(modelCount < 500 || partCount < 2_000){
+            throw new Error(
+              'Brookhaven projection lacks expected physical-world density: ' +
+              modelCount + ' models / ' + partCount + ' physical parts'
+            );
+          }
+          console.log(
+            'Brookhaven world projection verified: ' +
+            modelCount + ' models / ' + partCount + ' physical parts / ' +
+            worldInfo.size + ' bytes'
+          );
           NODE
 
       - name: Upload resumable pre-Studio bundle
