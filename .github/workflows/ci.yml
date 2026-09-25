@@ -32,7 +32,8 @@ jobs:
         run: |
           cd roblox
           wally install
-          find Packages ServerPackages -maxdepth 3 -print 2>/dev/null | sort || true
+          test -e Packages/Matter
+          test -e ServerPackages/ProfileStore
       - name: Verify frozen Brookhaven world source
         run: npm run roblox:world-source:verify
       - name: Verify structural Brookhaven world fingerprint
