@@ -83,6 +83,29 @@
       },
       "reason": "Live card exists, but the current public deployment does not present the real Comet Fox image in the card, preview, avatar stage, or Buddy surface.",
       "nextAction": "Deploy/wire the existing companion artwork/runtime to the public Replit app, then rerun the same live companion QA."
+    },
+    {
+      "order": 8,
+      "itemId": "companions-7",
+      "name": "Story Owl",
+      "decision": "BLOCKED_LIVE_PARITY",
+      "decidedAt": "2026-09-25T08:38:34Z",
+      "evidence": {
+        "found": true,
+        "cardImage": null,
+        "background": "generic radial gradient",
+        "previewAvailable": false,
+        "detailPresent": false,
+        "avatarStagePresent": false,
+        "buddyAvailable": true,
+        "buddyRootCompanionId": null,
+        "buddyCompanionId": null,
+        "buddyImage": null,
+        "cardPass": false,
+        "technicalPass": false
+      },
+      "reason": "Story Owl is present in the live catalog, but its actual artwork is absent from card, detail/preview, avatar stage, and Buddy presentation.",
+      "nextAction": "Deploy/wire the existing companion artwork/runtime to the public Replit app, then rerun the same live companion QA."
     }
   ]
 }
