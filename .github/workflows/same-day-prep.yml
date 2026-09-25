@@ -1,6 +1,10 @@
 name: Same-Day StarBlox Prep
 
 on:
+  push:
+    branches: [integration/same-day-starblox-pipeline]
+    paths:
+      - .github/workflows/same-day-prep.yml
   workflow_dispatch:
     inputs:
       ref:
@@ -52,7 +56,21 @@ jobs:
           test -f artifacts/same-day-starblox/same-day-pipeline-plan.json
           test -f artifacts/same-day-starblox/same-day-staging-report.json
           grep -q '"publicationAllowed": false' artifacts/same-day-starblox/same-day-staging-report.json
-          grep -q '"status": "complete"' artifacts/same-day-starblox/same-day-pipeline-state.json
+          node --input-type=module - <<'NODE'
+          import {readFile} from 'node:fs/promises';
+          const state=JSON.parse(await readFile(
+            'artifacts/same-day-starblox/same-day-pipeline-state.json',
+            'utf8'
+          ));
+          if(state.stages?.['build-staging-place']?.status !== 'complete'){
+            throw new Error('build-staging-place did not complete');
+          }
+          for(const id of ['checkout-arnis','checkout-achassis','checkout-flex','checkout-rorooms']){
+            if(state.stages?.[id]?.status !== 'pending'){
+              throw new Error(id + ' should remain pending in pre-Studio prep');
+            }
+          }
+          NODE
 
       - name: Upload resumable pre-Studio bundle
         uses: actions/upload-artifact@v4
