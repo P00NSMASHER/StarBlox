@@ -34,24 +34,31 @@ describe('Step 8: player-experience polish and automated UX QA', () => {
     expect(profile).toContain('OnboardingSeen = false');
   });
 
-  it('polishes the native plaza with strong navigational affordances', () => {
+  it('keeps navigation state while retiring prototype world geometry and signs', () => {
     const server=readFileSync(
       new URL('../../roblox/src/server/CoreGameLoopService.luau',import.meta.url),
       'utf8'
     );
+    const config=readFileSync(
+      new URL('../../roblox/src/shared/CoreLoopConfig.luau',import.meta.url),
+      'utf8'
+    );
 
-    for(const token of [
+    for(const retiredToken of [
       'GuideTotem',
       'GuideBillboard',
       'StationHighlight',
       'StationGlow',
-      'KeyboardKeyCode = Enum.KeyCode.E',
-      'GamepadKeyCode = Enum.KeyCode.ButtonX',
-      'StationIndex',
-      'Direction'
+      'StationSign',
+      'BrightsidePlaza',
+      'StarBloxSpawn'
     ]){
-      expect(server).toContain(token);
+      expect(server).not.toContain(retiredToken);
     }
+    expect(server).toContain('removePrototypeWorld');
+    expect(config).toContain('Direction = "North"');
+    expect(config).toContain('Direction = "East"');
+    expect(config).toContain('Direction = "West"');
   });
 
   it('meets the mobile UI contract with safe insets and large touch targets', () => {
@@ -93,8 +100,9 @@ describe('Step 8: player-experience polish and automated UX QA', () => {
   it('headless proof exercises the real Roblox polish objects and state transitions', () => {
     const script=buildPlayerPolishProbeScript();
     expect(script).toContain('STARBLOX_PLAYER_POLISH_OK');
-    expect(script).toContain('GuideTotem');
-    expect(script).toContain('StationHighlight');
+    expect(script).toContain('legacy prototype world must remain retired');
+    expect(script).not.toContain('GuideTotem');
+    expect(script).not.toContain('StationHighlight');
     expect(script).toContain('DismissOnboarding');
     expect(script).toContain('status0.recommendedActivityId == "word-portal-put-v1"');
     expect(script).toContain('status1.recommendedActivityId == "spelling-forge-fog-v1"');
