@@ -16,7 +16,7 @@ Baseline: `screenshot-match-preproduction@d8cdc27fd943cc3ecde632ca4247bf9650d77c
 
 ## Release gates
 
-- [ ] 192/192 catalog entries release-cleared — 185/192 complete; seven companion entries require post-deploy live parity.
+- [x] 192/192 catalog entries release-cleared — manifest v48, 192 final-portable, 0 remaining; final seven companions passed Cloudflare production live QA
 - [x] CI passes on tested runtime head `b0ce0fa42ad70c3b524ffd16945e3c3d97c6df3d` (run `36116529084`)
 - [x] Visual browser QA passes on tested runtime head: desktop, landscape, 390px phone, 320px phone; zero release-blocking failures (run `36116438644`)
 - [x] Persistence browser QA passes on tested runtime head (run `36116529246`)
