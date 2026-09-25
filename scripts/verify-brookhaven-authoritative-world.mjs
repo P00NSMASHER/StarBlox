@@ -166,7 +166,13 @@ function topLevelEntryMarkers(text){
 
 function sourceStructure(text){
   const entryIndices=topLevelEntryMarkers(text);
-  const maxIndex=entryIndices.length ? Math.max(...entryIndices) : 0;
+  const uniqueIndices=[...new Set(entryIndices)].sort((a,b) => a-b);
+  const maxIndex=uniqueIndices.length ? uniqueIndices.at(-1) : 0;
+  const minIndex=uniqueIndices.length ? uniqueIndices[0] : 0;
+  const missingIndices=[];
+  for(let index=1;index<=maxIndex;index++){
+    if(!uniqueIndices.includes(index)) missingIndices.push(index);
+  }
   const assetIds=extractAssetIds(text);
   const shapes=sortedCounts(/shape="([^"]+)";/g,text);
   const materials=sortedCounts(/texture="([^"]+)";/g,text);
@@ -178,8 +184,18 @@ function sourceStructure(text){
   return {
     entryMarkers:{
       count:entryIndices.length,
-      minimumIndex:entryIndices.length ? Math.min(...entryIndices) : null,
+      uniqueCount:uniqueIndices.length,
+      minimumIndex:minIndex || null,
       maximumIndex:maxIndex || null,
+      duplicateCount:entryIndices.length-uniqueIndices.length,
+      missingIndices:missingIndices.slice(0,100),
+      missingIndexCount:missingIndices.length,
+      contiguousFromOne:Boolean(
+        uniqueIndices.length &&
+        minIndex === 1 &&
+        uniqueIndices.length === maxIndex &&
+        missingIndices.length === 0
+      ),
       indexSequenceSha256:sha256(
         Buffer.from(entryIndices.join(','),'utf8')
       )
@@ -217,6 +233,7 @@ function fingerprintPayload(receipt){
     source:receipt.source,
     chunks:receipt.chunks,
     structure:receipt.structure,
+    metadataDiscrepancies:receipt.metadataDiscrepancies,
     boundaries:receipt.boundaries,
     nextStep:receipt.nextStep
   };
@@ -326,16 +343,6 @@ export async function verifyBrookhavenAuthoritativeWorld({
 
   const structure=sourceStructure(text);
   if(
-    structure.entryMarkers.count !==
-      Number(manifest.source?.observedTopLevelEntryMarkers)
-  ){
-    throw new Error(
-      'Brookhaven top-level entry marker count changed; expected ' +
-      manifest.source.observedTopLevelEntryMarkers + ' but found ' +
-      structure.entryMarkers.count
-    );
-  }
-  if(
     structure.entryMarkers.maximumIndex !==
       Number(manifest.source?.maximumObservedTopLevelIndex)
   ){
@@ -344,6 +351,27 @@ export async function verifyBrookhavenAuthoritativeWorld({
       manifest.source.maximumObservedTopLevelIndex + ' but found ' +
       structure.entryMarkers.maximumIndex
     );
+  }
+  if(
+    structure.entryMarkers.contiguousFromOne !== true ||
+    structure.entryMarkers.duplicateCount !== 0
+  ){
+    throw new Error(
+      'Brookhaven top-level entry sequence is not a unique contiguous 1..N sequence'
+    );
+  }
+
+  const declaredMarkerCount=Number(manifest.source?.observedTopLevelEntryMarkers);
+  const metadataDiscrepancies=[];
+  if(structure.entryMarkers.count !== declaredMarkerCount){
+    metadataDiscrepancies.push({
+      field:'source.observedTopLevelEntryMarkers',
+      manifestValue:declaredMarkerCount,
+      verifiedValue:structure.entryMarkers.count,
+      resolution:
+        'non-normative observation differs from exact frozen bytes; ' +
+        'source SHA-256/byte freeze remains authoritative'
+    });
   }
 
   const base={
@@ -368,6 +396,7 @@ export async function verifyBrookhavenAuthoritativeWorld({
     },
     chunks:chunkEvidence,
     structure,
+    metadataDiscrepancies,
     boundaries:{
       sourceExecuted:false,
       sourceEvaluatedAsLua:false,
