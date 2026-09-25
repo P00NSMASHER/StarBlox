@@ -36,8 +36,8 @@ jobs:
         run: |
           cd roblox
           wally install
-          test -e Packages/Matter
-          test -e ServerPackages/ProfileStore
+          test -e Packages/Matter.lua
+          test -e ServerPackages/ProfileStore.lua
       - name: Verify canonical Brookhaven source and fingerprint
         run: |
           npm run roblox:world-source:verify
