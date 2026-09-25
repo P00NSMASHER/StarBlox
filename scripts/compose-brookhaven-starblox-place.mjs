@@ -95,8 +95,8 @@ try{
   const verifier=JSON.parse(verifierRaw);
 
   if(verifier?.ok !== true ||
-     verifier?.world?.propertyExactAfterKnownRojoNormalization !== true ||
-     verifier?.world?.descendantPropertiesExact !== true ||
+     verifier?.world?.propertyExactAfterKnownSerializationNormalization !== true ||
+     verifier?.world?.descendantPropertiesSemanticallyExact !== true ||
      verifier?.world?.instanceCount !== step4.receipt.output.generatedObjectCount ||
      verifier?.world?.scriptCount !== 0 ||
      verifier?.world?.remoteCount !== 0 ||
