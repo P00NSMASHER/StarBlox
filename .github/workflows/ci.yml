@@ -28,6 +28,12 @@ jobs:
           path: .
       - name: Install dependencies
         run: npm install --no-audit --no-fund
+      - name: Install pinned Roblox runtime packages
+        run: |
+          cd roblox
+          wally install
+          test -e Packages/Matter
+          test -e ServerPackages/ProfileStore
       - name: Verify frozen Brookhaven world source
         run: npm run roblox:world-source:verify
       - name: Verify structural Brookhaven world fingerprint
@@ -650,6 +656,37 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: starblox-private-publish-receipt
+          path: artifacts/starblox-private-publish-receipt.json
+          if-no-files-found: ignore
+          retention-days: 30
+      - name: Publish Step 9 Brookhaven-mainline private telemetry build
+        if: ${{ github.event_name == 'pull_request' && github.head_ref == 'release/step9-brookhaven-mainline-v2' && github.event.pull_request.head.repo.full_name == github.repository }}
+        env:
+          ROBLOX_OPEN_CLOUD_API_KEY: ${{ secrets.ROBLOX_OPEN_CLOUD_API_KEY }}
+          ROBLOX_UNIVERSE_ID: ${{ vars.ROBLOX_UNIVERSE_ID }}
+          ROBLOX_PLACE_ID: ${{ vars.ROBLOX_PLACE_ID }}
+          STARBLOX_SOURCE_COMMIT: ${{ github.event.pull_request.head.sha }}
+          STARBLOX_PUBLISH_RECEIPT: ${{ github.workspace }}/artifacts/starblox-private-publish-receipt.json
+        run: npm run roblox:publish-private
+      - name: Verify Step 9 packaged production server boot
+        if: ${{ github.event_name == 'pull_request' && github.head_ref == 'release/step9-brookhaven-mainline-v2' && github.event.pull_request.head.repo.full_name == github.repository }}
+        env:
+          ROBLOX_OPEN_CLOUD_API_KEY: ${{ secrets.ROBLOX_OPEN_CLOUD_API_KEY }}
+          ROBLOX_UNIVERSE_ID: ${{ vars.ROBLOX_UNIVERSE_ID }}
+          ROBLOX_PLACE_ID: ${{ vars.ROBLOX_PLACE_ID }}
+        run: npm run roblox:production-server-boot-proof
+      - name: Verify Step 9 real touch-client playtest
+        if: ${{ github.event_name == 'pull_request' && github.head_ref == 'release/step9-brookhaven-mainline-v2' && github.event.pull_request.head.repo.full_name == github.repository }}
+        env:
+          ROBLOX_OPEN_CLOUD_API_KEY: ${{ secrets.ROBLOX_OPEN_CLOUD_API_KEY }}
+          ROBLOX_UNIVERSE_ID: ${{ vars.ROBLOX_UNIVERSE_ID }}
+          ROBLOX_PLACE_ID: ${{ vars.ROBLOX_PLACE_ID }}
+        run: npm run roblox:real-client-proof
+      - name: Upload Step 9 private publish receipt
+        if: ${{ always() && github.event_name == 'pull_request' && github.head_ref == 'release/step9-brookhaven-mainline-v2' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: starblox-private-publish-receipt-step9
           path: artifacts/starblox-private-publish-receipt.json
           if-no-files-found: ignore
           retention-days: 30
