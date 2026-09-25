@@ -173,9 +173,9 @@ export async function probeCurrentRelease(options){
     script:releaseProbeScript()
   });
   const text=JSON.stringify(task.logs);
-  const match=text.match(/STARBLOX_RELEASE_PROBE release=([^\\s"\\]+]+) version=(\\d+)/);
-  const fallback=text.match(/STARBLOX_RELEASE_PROBE release=([A-Za-z0-9._:-]+) version=(\d+)/);
-  const parsed=match || fallback;
+  const parsed=text.match(
+    /STARBLOX_RELEASE_PROBE release=([A-Za-z0-9._:-]+) version=(\d+)/
+  );
   if(!parsed){
     throw new Error('current-release probe logs are missing the expected sentinel');
   }
