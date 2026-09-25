@@ -39,4 +39,30 @@ describe('native Roblox Studio project boundary', () => {
       liveActivationAllowed:false
     }));
   });
+
+  it('binds the native place to a fail-closed Studio sync baseline', async () => {
+    const baseline=await readJson('roblox/native-place-baseline.json');
+
+    expect(baseline).toEqual(expect.objectContaining({
+      status:'repository-verified-sync-ready',
+      placeProject:'roblox/default.project.json',
+      placeName:'StarBloxRoblox'
+    }));
+    expect(baseline.studioConnector).toEqual(expect.objectContaining({
+      project:'roblox/devFactoryPlugin/default.project.json',
+      protocol:'starblox-studio-connector-v1',
+      livePeerAttestationRequired:true
+    }));
+    expect(baseline.proof).toEqual(expect.objectContaining({
+      placeBuildRequired:true,
+      connectorBuildRequired:true,
+      rojoServeEndpointRequired:true,
+      liveStudioPeerAttested:false
+    }));
+    expect(baseline.authority).toEqual({
+      publicationAllowed:false,
+      liveActivationAllowed:false,
+      productionDataMutationAllowed:false
+    });
+  });
 });
