@@ -168,8 +168,25 @@ jobs:
           if(catalog.summary?.scriptCount !== 0 || catalog.summary?.remoteCount !== 0){
             throw new Error('isolated Step 4 world unexpectedly contains scripts/remotes');
           }
-          if(catalog.summary?.assetIdCount !== 154){
-            throw new Error('generated native asset-ID count drift: '+catalog.summary?.assetIdCount);
+          if(catalog.summary?.instanceCount !== 5494){
+            throw new Error('generated native instance count drift: '+catalog.summary?.instanceCount);
+          }
+          const xml=await readFile('/tmp/starblox-step4-world/BrookhavenWorldBaseline.rbxmx','utf8');
+          const assetIds=new Set();
+          for(const pattern of [
+            /rbxassetid:\/\/(\d+)/gi,
+            /(?:asset\/\?id=|asset\?id=|library\/)(\d+)/gi
+          ]){
+            let match;
+            while((match=pattern.exec(xml))) assetIds.add(match[1]);
+          }
+          const ordered=[...assetIds].sort((a,b)=>a.length-b.length || a.localeCompare(b));
+          const {createHash}=await import('node:crypto');
+          const assetHash=createHash('sha256').update(ordered.join(',')).digest('hex');
+          if(ordered.length !== 154) throw new Error('generated native asset URL count drift: '+ordered.length);
+          if(assetHash !== step3.structure?.sortedAssetIdsSha256) throw new Error('generated native asset URL set drift');
+          if(receipt.output?.uniqueAssetIdCount !== 154 || receipt.output?.sortedAssetIdsSha256 !== assetHash){
+            throw new Error('Step 4 receipt asset identity mismatch');
           }
           const project={
             name:'StarBloxStep4IsolatedWorld',
@@ -187,7 +204,7 @@ jobs:
             model:receipt.output,
             adaptations:receipt.adaptationPolicy,
             nativeClassCounts:expected,
-            assetIdCount:catalog.summary.assetIdCount
+            assetIdCount:ordered.length
           }));
           NODE
 
