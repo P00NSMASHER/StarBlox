@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import fs from 'node:fs';
 import path from 'node:path';
+import {pathToFileURL} from 'node:url';
 import {recommend,train} from './artPromptOptimizer.mjs';
 import {loadFactoryState} from './artFactoryState.mjs';
 
