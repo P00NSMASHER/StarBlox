@@ -7,13 +7,12 @@
     "world"
   ],
   "excludeCapabilities": [
-    "combat",
     "monetization",
     "admin"
   ],
   "includeSystems": [],
   "excludeSystems": [],
   "assetProjectionSystems": [],
-  "minEngineeringLeverageScore": 5,
-  "includeRisky": false
+  "minEngineeringLeverageScore": 3.5,
+  "includeRisky": true
 }
