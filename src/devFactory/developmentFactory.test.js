@@ -12,6 +12,10 @@ import {
   verifyDevelopmentRun
 } from './developmentFactory.js';
 import { buildFactoryMigrationEvidence } from './migrationEvidence.js';
+import {
+  buildMigrationAdaptationReceipt,
+  verifyMigrationAdaptationReceipt
+} from './adaptationReceipt.js';
 
 function createStudio({
   episode=true,
@@ -548,6 +552,19 @@ describe('Step 2: AI development factory', () => {
 
   it('binds verified migration evidence into the development run hash', async () => {
     const studio=createStudio();
+    studio.requiresAttestation=true;
+    studio.expectedConnectorVersion='starblox-studio-connector-v1';
+    studio.supportedTools=['search_tree','read_all_scripts'];
+    studio.describe=async () => ({
+      service:'starblox-studio-bridge',
+      instanceId:'migration-studio',
+      peers:[{
+        instanceId:'migration-studio',
+        role:'edit',
+        connectorVersion:'starblox-studio-connector-v1',
+        tools:['search_tree','read_all_scripts','get_logs']
+      }]
+    });
     const migrationEvidence=buildFactoryMigrationEvidence({
       exportReceipt:{
         sha256:'a'.repeat(64),
@@ -609,6 +626,169 @@ describe('Step 2: AI development factory', () => {
     const tampered=JSON.parse(JSON.stringify(run));
     tampered.task.migrationEvidence.units[0].artifactBytes=124;
     expect(verifyDevelopmentRun(tampered).errors.join(' ')).toMatch(/migration evidence hash mismatch/);
+  });
+
+  it('emits a non-promotional adaptation receipt for an attested verified migration change', async () => {
+    const studio=createStudio();
+    studio.requiresAttestation=true;
+    studio.expectedConnectorVersion='starblox-studio-connector-v1';
+    studio.supportedTools=['search_tree','read_all_scripts'];
+    studio.describe=async () => ({
+      service:'starblox-studio-bridge',
+      instanceId:'migration-adapter-studio',
+      peers:[{
+        instanceId:'migration-adapter-studio',
+        role:'edit',
+        connectorVersion:'starblox-studio-connector-v1',
+        tools:['search_tree','read_all_scripts','get_logs']
+      }]
+    });
+
+    const migrationEvidence=buildFactoryMigrationEvidence({
+      exportReceipt:{
+        sha256:'d'.repeat(64),
+        receiptHash:'sha256:' + 'e'.repeat(64),
+        bundleId:'roblox-migration-bundle-adapt',
+        bundleHash:'fnv1a32:bundle-adapt',
+        planBindingHash:'fnv1a32:binding-adapt'
+      },
+      plan:{
+        planId:'roblox-migration-plan-adapt',
+        planHash:'fnv1a32:plan-adapt',
+        catalogHash:'fnv1a32:catalog-adapt'
+      },
+      units:[{
+        unitId:'authorized-system-adapt',
+        systemName:'Authorized System',
+        migrationStrategy:'refactor',
+        disposition:'quarantine',
+        activation:'staging-only',
+        artifactFile:'quarantine/authorized-system-adapt.rbxmx',
+        artifactSha256:'f'.repeat(64),
+        artifactBytes:456,
+        suggestedTarget:'ServerStorage/StarBloxMigration/Quarantine/authorized-system'
+      }]
+    });
+
+    const run=await runDevelopmentFactory({
+      task:{
+        id:'migration-adaptation-receipt',
+        request:'Adapt the verified quarantine unit',
+        migrationEvidence
+      },
+      studio,
+      agents:{
+        plan:async () => ({
+          summary:'Adapt the unit behind StarBlox boundaries.',
+          tests:{required:false},
+          playtest:{required:false},
+          visual:{required:false}
+        }),
+        code:async () => ({
+          summary:'Write adapted StarBlox module',
+          actions:[{
+            tool:'write_script',
+            args:{
+              path:'ServerScriptService/Main',
+              source:'return { adapted = true }'
+            }
+          }]
+        }),
+        review:async ({verification}) => ({
+          verdict:verification.ok ? 'pass' : 'fail',
+          findings:verification.errors
+        })
+      },
+      repositoryGate:{run:async () => ({
+        ok:true,
+        gates:{
+          tests:{ok:true},
+          certification:{ok:true},
+          balance:{ok:true},
+          build:{ok:true}
+        }
+      })},
+      startedAt:'2026-09-24T13:29:45Z'
+    });
+
+    expect(run.status).toBe('verified');
+
+    const receipt=buildMigrationAdaptationReceipt({
+      run,
+      runArtifactFile:'ai-development-run.json',
+      runArtifactSha256:'1'.repeat(64),
+      runArtifactBytes:2048
+    });
+
+    expect(receipt.status).toBe('verified-adaptation');
+    expect(receipt.studio.attested).toBe(true);
+    expect(receipt.studio.instanceId).toBe('migration-adapter-studio');
+    expect(receipt.repository.gates).toEqual({
+      tests:true,
+      certification:true,
+      balance:true,
+      build:true
+    });
+    expect(receipt.adaptation.mutationTargets).toContainEqual({
+      tool:'write_script',
+      path:'ServerScriptService/Main',
+      property:null
+    });
+    expect(receipt.input.units[0].promotionCandidate).toBe(true);
+    expect(receipt.input.units[0].quarantineExitApproved).toBe(false);
+    expect(receipt.adaptation.quarantineExitApproved).toBe(false);
+    expect(receipt.liveActivationAllowed).toBe(false);
+    expect(verifyMigrationAdaptationReceipt(receipt)).toEqual({ok:true,errors:[]});
+
+    const tampered=JSON.parse(JSON.stringify(receipt));
+    tampered.adaptation.quarantineExitApproved=true;
+    expect(verifyMigrationAdaptationReceipt(tampered).ok).toBe(false);
+  });
+
+  it('rejects migration adaptation through an unattested Studio connector before inspection', async () => {
+    const studio=createStudio();
+    const migrationEvidence=buildFactoryMigrationEvidence({
+      exportReceipt:{
+        sha256:'a'.repeat(64),
+        receiptHash:'sha256:' + 'b'.repeat(64),
+        bundleId:'roblox-migration-bundle-unattested',
+        bundleHash:'fnv1a32:bundle-unattested',
+        planBindingHash:'fnv1a32:binding-unattested'
+      },
+      plan:{
+        planId:'roblox-migration-plan-unattested',
+        planHash:'fnv1a32:plan-unattested',
+        catalogHash:'fnv1a32:catalog-unattested'
+      },
+      units:[{
+        unitId:'unattested-refactor',
+        systemName:'Unattested System',
+        migrationStrategy:'refactor',
+        disposition:'quarantine',
+        activation:'staging-only',
+        artifactFile:'quarantine/unattested-refactor.rbxmx',
+        artifactSha256:'c'.repeat(64),
+        artifactBytes:123,
+        suggestedTarget:'ServerStorage/StarBloxMigration/Quarantine/unattested'
+      }]
+    });
+
+    await expect(runDevelopmentFactory({
+      task:{
+        id:'migration-unattested',
+        request:'Do not mutate Studio without connector identity',
+        migrationEvidence
+      },
+      studio,
+      agents:{
+        plan:async () => { throw new Error('planner must not run'); },
+        code:async () => { throw new Error('coder must not run'); },
+        review:async () => { throw new Error('reviewer must not run'); }
+      },
+      startedAt:'2026-09-24T13:29:50Z'
+    })).rejects.toThrow(/requires an attested live Studio connector/);
+
+    expect(studio.calls).toEqual([]);
   });
 
   it('runs inspect -> plan -> code -> tests/runtime/visual -> review -> repository gates', async () => {
