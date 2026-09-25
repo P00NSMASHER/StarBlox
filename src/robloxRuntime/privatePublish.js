@@ -3,7 +3,7 @@ import { createHash } from 'node:crypto';
 const LUAU_ROOT='https://apis.roblox.com/cloud/v2';
 const PUBLISH_ROOT='https://apis.roblox.com/universes/v1';
 
-export const STARBLOX_PRIVATE_RELEASE_ID='starblox-private-step5-v1';
+export const STARBLOX_PRIVATE_RELEASE_ID='starblox-private-step6-v1';
 export const STARBLOX_PRIVATE_PUBLISH_VERSION='starblox-private-publish-v1';
 
 const UNSUPPORTED_PUBLISH_CLASSES=Object.freeze([
@@ -128,16 +128,21 @@ export async function runOpenCloudLuauTask({
     task=await parseResponse(response,'Roblox Luau execution status');
   }
 
-  if(taskFailed(task)){
-    const message=task?.error?.message || task?.error?.code || task?.state || 'unknown task failure';
-    throw new Error('Roblox Luau execution task failed: ' + String(message));
-  }
-
   const logsResponse=await fetchImpl(statusUrl + '/logs',{
     method:'GET',
     headers:{'x-api-key':key}
   });
   const logs=await parseResponse(logsResponse,'Roblox Luau execution logs');
+
+  if(taskFailed(task)){
+    const message=task?.error?.message || task?.error?.code || task?.state || 'unknown task failure';
+    const diagnostic=JSON.stringify(logs).slice(0,8000);
+    throw new Error(
+      'Roblox Luau execution task failed: ' +
+      String(message) +
+      (diagnostic ? ' | logs=' + diagnostic : '')
+    );
+  }
 
   return {
     path:String(create.path || ''),

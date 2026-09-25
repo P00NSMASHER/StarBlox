@@ -13,6 +13,10 @@ local ProfileTemplate = {
 	Progress = {
 		Districts = {},
 		MasteredSkills = {},
+		VerticalSlice = {
+			Completed = false,
+			RewardClaimed = false,
+		},
 	},
 
 	Learning = {
