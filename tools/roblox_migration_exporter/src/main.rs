@@ -221,32 +221,43 @@ fn arg_value(args: &[String], name: &str) -> Option<String> {
         .cloned()
 }
 
-fn run() -> Result<(), Box<dyn std::error::Error>> {
-    let args = env::args().skip(1).collect::<Vec<_>>();
-    let source = arg_value(&args, "--input")
-        .ok_or("usage: exporter --input Place.rbxl --path DataModel/System --out output.rbxmx")?;
-    let instance_path = arg_value(&args, "--path").ok_or("--path is required")?;
-    let out = arg_value(&args, "--out").ok_or("--out is required")?;
-    let asset_projection = args.iter().any(|arg| arg == "--asset-projection");
+fn export_pairs(args: &[String]) -> Result<Vec<(String, PathBuf)>, Box<dyn std::error::Error>> {
+    let mut paths = Vec::new();
+    let mut outs = Vec::new();
 
-    let source_path = PathBuf::from(source);
-    let out_path = PathBuf::from(out);
+    for (index, arg) in args.iter().enumerate() {
+        if arg == "--path" {
+            paths.push(
+                args.get(index + 1)
+                    .ok_or("--path requires a value")?
+                    .clone(),
+            );
+        }
+        if arg == "--out" {
+            outs.push(PathBuf::from(
+                args.get(index + 1)
+                    .ok_or("--out requires a value")?,
+            ));
+        }
+    }
 
-    let mut dom = read_dom(&source_path)?;
-    let referent = resolve_path(&dom, &instance_path)?;
-    let instance = dom
-        .get_by_ref(referent)
-        .ok_or("resolved referent disappeared before export")?;
-    let instance_name = instance.name.clone();
-    let instance_class = instance.class.to_string();
+    if paths.is_empty() {
+        return Err("--path is required".into());
+    }
+    if paths.len() != outs.len() {
+        return Err("every --path must have one corresponding --out".into());
+    }
 
-    let projection = if asset_projection {
-        Some(write_asset_projection(&mut dom, referent, &out_path)?)
-    } else {
-        write_subtree(&dom, referent, &out_path)?;
-        None
-    };
+    Ok(paths.into_iter().zip(outs).collect())
+}
 
+fn export_result_json(
+    name: &str,
+    class_name: &str,
+    instance_path: &str,
+    out_path: &Path,
+    projection: Option<ProjectionStats>,
+) -> String {
     let (sanitized, stripped_instances, stripped_forbidden_instances, forbidden_remaining) =
         match projection {
             Some(stats) => (
@@ -258,17 +269,67 @@ fn run() -> Result<(), Box<dyn std::error::Error>> {
             None => (false, 0, 0, 0),
         };
 
-    println!(
+    format!(
         "{{\"ok\":true,\"name\":{},\"className\":{},\"path\":{},\"out\":{},\"assetProjection\":{},\"strippedInstances\":{},\"strippedForbiddenInstances\":{},\"forbiddenRemaining\":{}}}",
-        serde_json_escape(&instance_name),
-        serde_json_escape(&instance_class),
-        serde_json_escape(&instance_path),
+        serde_json_escape(name),
+        serde_json_escape(class_name),
+        serde_json_escape(instance_path),
         serde_json_escape(out_path.to_string_lossy().as_ref()),
         sanitized,
         stripped_instances,
         stripped_forbidden_instances,
         forbidden_remaining,
-    );
+    )
+}
+
+fn run() -> Result<(), Box<dyn std::error::Error>> {
+    let args = env::args().skip(1).collect::<Vec<_>>();
+    let source = arg_value(&args, "--input")
+        .ok_or("usage: exporter --input Place.rbxl --path DataModel/System --out output.rbxmx")?;
+    let pairs = export_pairs(&args)?;
+    let asset_projection = args.iter().any(|arg| arg == "--asset-projection");
+
+    if asset_projection && pairs.len() != 1 {
+        return Err("asset projection exports must run one subtree per fresh DOM".into());
+    }
+
+    let source_path = PathBuf::from(source);
+    let mut dom = read_dom(&source_path)?;
+    let mut results = Vec::with_capacity(pairs.len());
+
+    for (instance_path, out_path) in &pairs {
+        let referent = resolve_path(&dom, instance_path)?;
+        let instance = dom
+            .get_by_ref(referent)
+            .ok_or("resolved referent disappeared before export")?;
+        let instance_name = instance.name.clone();
+        let instance_class = instance.class.to_string();
+
+        let projection = if asset_projection {
+            Some(write_asset_projection(&mut dom, referent, out_path)?)
+        } else {
+            write_subtree(&dom, referent, out_path)?;
+            None
+        };
+
+        results.push(export_result_json(
+            &instance_name,
+            &instance_class,
+            instance_path,
+            out_path,
+            projection,
+        ));
+    }
+
+    if results.len() == 1 {
+        println!("{}", results[0]);
+    } else {
+        println!(
+            "{{\"ok\":true,\"batch\":true,\"count\":{},\"exports\":[{}]}}",
+            results.len(),
+            results.join(",")
+        );
+    }
 
     Ok(())
 }
@@ -355,6 +416,37 @@ mod tests {
 
         let _ = fs::remove_file(input);
         let _ = fs::remove_file(output);
+    }
+
+    #[test]
+    fn batch_export_reuses_one_dom_for_multiple_subtrees() {
+        let input = temp_path("batch-fixture.rbxlx");
+        let house_output = temp_path("batch-house.rbxmx");
+        let vehicle_output = temp_path("batch-vehicle.rbxmx");
+        fs::write(&input, fixture_xml()).unwrap();
+
+        let dom = read_dom(&input).unwrap();
+        let house = resolve_path(&dom, "DataModel/Systems/House").unwrap();
+        let vehicle = resolve_path(&dom, "DataModel/Systems/Vehicle").unwrap();
+        write_subtree(&dom, house, &house_output).unwrap();
+        write_subtree(&dom, vehicle, &vehicle_output).unwrap();
+
+        let house_dom = read_dom(&house_output).unwrap();
+        let vehicle_dom = read_dom(&vehicle_output).unwrap();
+        assert_eq!(house_dom.root().children().len(), 1);
+        assert_eq!(vehicle_dom.root().children().len(), 1);
+        assert_eq!(
+            house_dom.get_by_ref(house_dom.root().children()[0]).unwrap().name,
+            "House"
+        );
+        assert_eq!(
+            vehicle_dom.get_by_ref(vehicle_dom.root().children()[0]).unwrap().name,
+            "Vehicle"
+        );
+
+        let _ = fs::remove_file(input);
+        let _ = fs::remove_file(house_output);
+        let _ = fs::remove_file(vehicle_output);
     }
 
     #[test]
