@@ -1,5 +1,5 @@
 {
   "id": "same-day-integrate-rorooms",
-  "request": "Using the authorized source checkout at vendor/authorized/Rorooms, selectively port profiles, avatar selection, friends, items, emotes and world-navigation UI into StarBlox. Route durable state through StarBlox ProfileStore/Replica boundaries and keep social safety controls server-authoritative. Preserve the existing StarBlox UI and only replace or extend components where the donor materially shortens implementation.",
-  "searchQuery": "profile friends items emotes avatar worlds ui"
+  "request": "Using the authorized checkout at vendor/authorized/Rorooms, start with these exact files: src/Client/Profiles/AvatarSelector.luau, ProfilesController.luau; src/Client/Friends/FriendsController.luau; src/Client/Items/ItemsController.luau; src/Client/Emotes/EmotesController.luau; src/Client/Worlds/WorldsController.luau; src/Server/Profiles/ProfilesService.luau; src/Server/Items/ItemsService.luau; src/Server/Emotes/EmotesService.luau; src/Server/Worlds/WorldsService.luau and WorldRegistryService.luau; plus the matching ScreenGuis only when needed. Port the smallest useful social/profile/item/emote/world-navigation shell. Route durable state through StarBlox ProfileStore/Replica boundaries and keep social safety server-authoritative. Preserve existing StarBlox UI unless the donor clearly saves implementation time.",
+  "searchQuery": "AvatarSelector ProfilesController FriendsController ItemsController EmotesController WorldsController ProfilesService ItemsService EmotesService WorldsService"
 }
