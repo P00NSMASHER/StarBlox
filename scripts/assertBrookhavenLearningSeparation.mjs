@@ -10,15 +10,29 @@ const liveFiles=[
 const brookhavenResearchModules=[
   'residentialFeatureRuntime',
   'vehicleSystemRuntime',
+  'neutralVehicleDefinitionCatalog',
+  'neutralVehicleRuntimePreview',
   'townSystemRuntime',
-  'lifeSimProgressionShadowRuntime'
+  'neutralTownLocationCatalog',
+  'starBloxProxyTownTopology',
+  'neutralTownRuntimePreview',
+  'lifeSimProgressionShadowRuntime',
+  'neutralProgressionRuleCatalog',
+  'neutralProgressionRuntimePreview'
 ];
 
 const brookhavenRuntimeFiles=[
   'src/residentialFeatureRuntime.js',
   'src/vehicleSystemRuntime.js',
+  'src/neutralVehicleDefinitionCatalog.js',
+  'src/neutralVehicleRuntimePreview.js',
   'src/townSystemRuntime.js',
-  'src/lifeSimProgressionShadowRuntime.js'
+  'src/neutralTownLocationCatalog.js',
+  'src/starBloxProxyTownTopology.js',
+  'src/neutralTownRuntimePreview.js',
+  'src/lifeSimProgressionShadowRuntime.js',
+  'src/neutralProgressionRuleCatalog.js',
+  'src/neutralProgressionRuntimePreview.js'
 ];
 
 const learningFactoryTokens=[
