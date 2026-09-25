@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_STAGED_OUTPUT",
+  "repository": "P00NSMASHER/StarBlox",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "62105119f8a6b4f896203008b7bb76acaacc40d9",
+  "item": {
+    "id": "desks-11",
+    "name": "Creator Desk",
+    "collectionId": "desks",
+    "type": "room",
+    "tier": 4,
+    "theme": "Candy Core"
+  },
+  "attempt": {
+    "attemptId": "desks-11-v13-deterministic-svg",
+    "producer": "deterministic-svg",
+    "variant": "DETERMINISTIC_LITERAL_SVG",
+    "method": "deterministic-vector"
+  },
+  "output": {
+    "repoPath": "public/assets/catalog-candidates/deterministic/desks-11-v13.svg",
+    "gitBlobSha": "199b6bd5340ab02c4a302df2c2a67e19dd5b0d4d",
+    "format": "SVG"
+  },
+  "review": {
+    "reviewer": "01",
+    "routing": {
+      "reviewer": "01",
+      "queueId": "desks-11-v13-deterministic-svg"
+    },
+    "state": "PENDING_ACTUAL_PIXEL_REVIEW",
+    "decision": null
+  },
+  "safety": {
+    "canonicalArtModified": false,
+    "gameplayModified": false,
+    "automaticPerceptualDecision": false
+  },
+  "status": "STAGED_EXACT_BYTES_VERIFIED"
+}
