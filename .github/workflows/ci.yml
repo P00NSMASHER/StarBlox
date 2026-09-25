@@ -28,6 +28,12 @@ jobs:
           path: .
       - name: Install dependencies
         run: npm install --no-audit --no-fund
+      - name: Install pinned Roblox runtime packages
+        run: |
+          cd roblox
+          wally install
+          test -e Packages/Matter
+          test -e ServerPackages/ProfileStore
       - name: Prove native Roblox build
         run: npm run roblox:native:build-proof
       - name: Prove Roblox Studio sync baseline
