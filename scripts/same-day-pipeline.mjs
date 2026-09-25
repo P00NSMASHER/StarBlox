@@ -176,6 +176,104 @@ async function execute(stage){
     };
   }
 
+  if(stage.type === 'code-donor-checkout'){
+    const repository=stage.details.repository;
+    const commit=stage.details.commit;
+    const checkout=abs(manifestDir,stage.details.checkout);
+    const repoUrl='https://github.com/' + repository + '.git';
+
+    if(await exists(checkout)){
+      if(!await exists(resolve(checkout,'.git'))){
+        return {
+          ok:false,
+          status:2,
+          startedAt,
+          completedAt:new Date().toISOString(),
+          error:'authorized donor checkout exists but is not a Git repository: ' + checkout
+        };
+      }
+      const dirty=run('git',['-C',checkout,'status','--porcelain'],{cwd:root});
+      if(!dirty.ok || dirty.stdout.trim()){
+        return {
+          ok:false,
+          status:2,
+          startedAt,
+          completedAt:new Date().toISOString(),
+          error:'authorized donor checkout is not clean: ' + checkout
+        };
+      }
+      const remote=run('git',['-C',checkout,'remote','get-url','origin'],{cwd:root});
+      if(!remote.ok || !remote.stdout.toLowerCase().includes(repository.toLowerCase())){
+        return {
+          ok:false,
+          status:2,
+          startedAt,
+          completedAt:new Date().toISOString(),
+          error:'authorized donor checkout origin does not match ' + repository
+        };
+      }
+    }else{
+      await mkdir(dirname(checkout),{recursive:true});
+      const cloned=run('git',[
+        'clone','--filter=blob:none','--no-checkout',repoUrl,checkout
+      ],{cwd:root});
+      if(!cloned.ok){
+        return {
+          ...cloned,
+          startedAt,
+          completedAt:new Date().toISOString(),
+          error:'could not clone authorized donor ' + repository
+        };
+      }
+    }
+
+    const fetched=run('git',[
+      '-C',checkout,'fetch','--depth=1','origin',commit
+    ],{cwd:root});
+    if(!fetched.ok){
+      return {
+        ...fetched,
+        startedAt,
+        completedAt:new Date().toISOString(),
+        error:'could not fetch pinned donor commit ' + commit
+      };
+    }
+
+    const checkedOut=run('git',[
+      '-C',checkout,'checkout','--detach',commit
+    ],{cwd:root});
+    if(!checkedOut.ok){
+      return {
+        ...checkedOut,
+        startedAt,
+        completedAt:new Date().toISOString(),
+        error:'could not checkout pinned donor commit ' + commit
+      };
+    }
+
+    const head=run('git',['-C',checkout,'rev-parse','HEAD'],{cwd:root});
+    const exact=head.ok ? head.stdout.trim().toLowerCase() : '';
+    if(!head.ok || exact !== commit.toLowerCase()){
+      return {
+        ok:false,
+        status:2,
+        startedAt,
+        completedAt:new Date().toISOString(),
+        error:'donor checkout HEAD mismatch; expected ' + commit + ' but found ' + exact
+      };
+    }
+
+    return {
+      ok:true,
+      status:0,
+      startedAt,
+      completedAt:new Date().toISOString(),
+      repository,
+      commit:exact,
+      checkout
+    };
+  }
+
   if(stage.type === 'staging-project'){
     const staged=await buildSameDayStagingProject({
       repoRoot:root,
