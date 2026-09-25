@@ -22,21 +22,21 @@ describe('Step 9 joinability: production server boot gate', () => {
     expect(workflow).toContain('test -e ServerPackages/ProfileStore.lua');
   });
 
-  it('refuses native builds and private publishes when runtime packages are omitted', () => {
+  it('requires runtime packages and the native Step 6 artifact gate before release', () => {
     const build=readFileSync(
       new URL('../../scripts/verify-roblox-native-build.mjs',import.meta.url),
       'utf8'
     );
-    const publish=readFileSync(
-      new URL('../../scripts/publish-private-starblox.mjs',import.meta.url),
+    const releaseGate=readFileSync(
+      new URL('../../scripts/prepare-step6-release-gate.mjs',import.meta.url),
       'utf8'
     );
 
     for(const dependency of ['Matter','ProfileStore','ReplicaServer','ReplicaClient']){
       expect(build).toContain(dependency);
-      expect(publish).toContain(dependency);
     }
-    expect(publish).toContain('refusing to publish');
+    expect(releaseGate).toContain('inspectStep6ReleaseArtifact');
+    expect(releaseGate).toContain('buildStep6ReleaseGate');
   });
 
   it('real-engine boot proof requires the production package and bootstrap path', () => {
