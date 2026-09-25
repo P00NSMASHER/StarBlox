@@ -1,0 +1,209 @@
+{
+  "schemaVersion": "starblox-brookhaven-step-11-replay-manifest-v2",
+  "step": "11-of-12",
+  "recordedAt": "2026-09-25",
+  "status": "complete-ready-for-controlled-replay-no-merge-performed",
+  "planBasis": {
+    "researchBaselineHead": "0e208a41e85ecc4a9dc98275aa6e37c1988f1018",
+    "productHead": "d8cdc27fd943cc3ecde632ca4247bf9650d77c29",
+    "learningFactoryHead": "c1af648ba00a1b5aff52a3b3268fa5a15f396f55",
+    "brookhavenProductMergeBase": "1d6d3e6130c83289fc270c0b543c31cffee1d226",
+    "learningProductMergeBase": "8a0c9d38befd244b7bfcb5fe4eb3ac7e2d3115d0",
+    "divergence": {
+      "brookhavenVsProduct": {
+        "status": "diverged",
+        "researchAheadBy": 113,
+        "researchBehindBy": 459
+      },
+      "learningFactoryVsProduct": {
+        "status": "diverged",
+        "researchAheadBy": 200,
+        "researchBehindBy": 567
+      }
+    },
+    "finalHeadVerification": "external Brookhaven Research Boundary CI at the final Step 11 commit"
+  },
+  "strategy": {
+    "mode": "fresh-product-base-controlled-explicit-replay",
+    "directMergeBrookhavenIntoProduct": false,
+    "directMergeLearningFactoryIntoProduct": false,
+    "directMergeBrookhavenAndLearningFactory": false,
+    "nextIntegrationBranch": "create fresh branch from then-current screenshot-match-preproduction",
+    "fileSelection": "only explicit include paths in ordered groups may be replayed",
+    "failClosedOnUnexpectedFiles": true,
+    "verifyAfterEveryGroup": true,
+    "learningFactoryReconciledSeparately": true
+  },
+  "protectedLiveFiles": [
+    "src/App.jsx",
+    "src/main.jsx",
+    "src/gameModel.js",
+    "src/storage.js"
+  ],
+  "orderedReplayGroups": [
+    {
+      "order": 1,
+      "id": "research-boundary-metadata-validation",
+      "purpose": "Establish rights, neutral schemas/catalogs, completion receipts, validation, and separation boundaries before runtime code.",
+      "include": [
+        "docs/preproduction/brookhaven-research/**",
+        "scripts/assertBrookhavenReuseBoundary.mjs",
+        "scripts/assertBrookhavenLearningSeparation.mjs",
+        "scripts/convertBrookhavenNeutralScene.mjs",
+        "scripts/validateBrookhavenProxyVerticalSlice.mjs",
+        "scripts/validateBrookhavenResearchArtifacts.mjs",
+        ".github/workflows/brookhaven-research-boundary.yml"
+      ],
+      "verifyAfterReplay": [
+        "research artifact validation issueCount == 0",
+        "reuse boundary violationCount == 0",
+        "learning separation violationCount == 0",
+        "Step 8 completion true",
+        "Step 9 completion true",
+        "Step 10 completion true"
+      ]
+    },
+    {
+      "order": 2,
+      "id": "residential-neutral-runtime",
+      "purpose": "Replay the already-isolated residential runtime before vehicle/town/progression layers.",
+      "include": [
+        "src/residentialFeatureRuntime.js",
+        "src/residentialFeatureRuntime.test.js"
+      ],
+      "verifyAfterReplay": [
+        "residential test file passes",
+        "no live entry-point import exists",
+        "no persistence/economy wiring exists"
+      ]
+    },
+    {
+      "order": 3,
+      "id": "hardened-vehicle-layer",
+      "purpose": "Replay the Step 8 runtime plus neutral schema/catalog/loader/preview and parity tests as one bounded unit.",
+      "include": [
+        "src/vehicleSystemRuntime.js",
+        "src/vehicleSystemRuntime.test.js",
+        "src/neutralVehicleDefinitionCatalog.js",
+        "src/neutralVehicleDefinitionCatalog.test.js",
+        "src/neutralVehicleRuntimePreview.js",
+        "src/neutralVehicleRuntimePreview.test.js"
+      ],
+      "verifyAfterReplay": [
+        "Step 8 tests pass",
+        "13 current vehicle definitions remain in parity",
+        "legacy identifiers remain outside current neutral definition catalog",
+        "no live/network/persistence/economy coupling exists"
+      ]
+    },
+    {
+      "order": 4,
+      "id": "hardened-town-layer",
+      "purpose": "Replay the Step 9 town runtime plus neutral location/topology loaders, preview, and parity tests.",
+      "include": [
+        "src/townSystemRuntime.js",
+        "src/townSystemRuntime.test.js",
+        "src/neutralTownLocationCatalog.js",
+        "src/neutralTownLocationCatalog.test.js",
+        "src/starBloxProxyTownTopology.js",
+        "src/starBloxProxyTownTopology.test.js",
+        "src/neutralTownRuntimePreview.js",
+        "src/neutralTownRuntimePreview.test.js"
+      ],
+      "verifyAfterReplay": [
+        "Step 9 tests pass",
+        "17 locations remain 15 player-facing / 2 deferred",
+        "14 proxy edges remain exact runtime parity",
+        "deferred locations have zero topology degree",
+        "no exact source coordinate/road/topology claim exists"
+      ]
+    },
+    {
+      "order": 5,
+      "id": "hardened-progression-shadow",
+      "purpose": "Replay the Step 10 read-only progression shadow only after the neutral environment layers are green.",
+      "include": [
+        "src/lifeSimProgressionShadowRuntime.js",
+        "src/lifeSimProgressionShadowRuntime.test.js",
+        "src/neutralProgressionRuleCatalog.js",
+        "src/neutralProgressionRuleCatalog.test.js",
+        "src/neutralProgressionRuntimePreview.js",
+        "src/neutralProgressionRuntimePreview.test.js"
+      ],
+      "verifyAfterReplay": [
+        "Step 10 tests pass",
+        "42 rules remain exact blueprint/runtime parity",
+        "14/13/15 rule split remains exact",
+        "economy mutation remains zero",
+        "no save/reward/persistence/live-app wiring exists"
+      ]
+    },
+    {
+      "order": 6,
+      "id": "package-scripts-manual-additive-reapply",
+      "purpose": "Add only current Brookhaven-specific npm script entries to the destination package.json without replacing the product package file.",
+      "include": [
+        "validate:brookhaven-research",
+        "test:brookhaven-residential",
+        "test:brookhaven-step-8-10",
+        "assert:brookhaven-learning-separation"
+      ],
+      "method": "manual additive edit; do not replay package.json blob",
+      "verifyAfterReplay": [
+        "destination package.json retains all product scripts/dependencies",
+        "Brookhaven research commands invoke current hardened test files",
+        "full product build passes"
+      ]
+    }
+  ],
+  "explicitlyDoNotReplay": [
+    {
+      "path": "scripts/buildBrookhavenResearchWithKnownBaseFix.mjs",
+      "reason": "Temporary research CI workaround; reconcile against the current product base rather than carrying the workaround forward."
+    },
+    {
+      "path": "src/App.jsx",
+      "reason": "Live entry point is protected and must not be transplanted from research."
+    },
+    {
+      "path": "src/main.jsx",
+      "reason": "Live bootstrap is protected and must not be transplanted from research."
+    },
+    {
+      "path": "src/gameModel.js",
+      "reason": "Live quest/game model is protected and must not be transplanted from research."
+    },
+    {
+      "path": "src/storage.js",
+      "reason": "Persistence is protected and must not be transplanted from research."
+    },
+    {
+      "path": "any learning-factory file",
+      "reason": "Learning-factory reconciliation remains a separate gated workstream."
+    },
+    {
+      "path": "raw/unresolved executable or remote-dependent source payloads",
+      "reason": "Only neutralized, rights-cleared, validated data/assets may enter future integration."
+    }
+  ],
+  "promotionGates": {
+    "everyReplayGroupMustPassBeforeNext": true,
+    "unexpectedFileChangeBlocksPromotion": true,
+    "protectedLiveFileChangeBlocksPromotion": true,
+    "reuseBoundaryViolationBlocksPromotion": true,
+    "learningSeparationViolationBlocksPromotion": true,
+    "testFailureBlocksPromotion": true,
+    "buildFailureBlocksPromotion": true,
+    "deploymentAllowedByThisManifest": false
+  },
+  "exitCriteria": {
+    "replayManifestExplicit": true,
+    "hardenedSteps8To10Included": true,
+    "liveProductFilesExcluded": true,
+    "learningFactorySeparated": true,
+    "temporaryInheritedBuildPatchExcluded": true,
+    "noMergePerformed": true,
+    "noDeploymentPerformed": true,
+    "step11Complete": true
+  }
+}
