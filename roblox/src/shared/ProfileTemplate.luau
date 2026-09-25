@@ -17,6 +17,13 @@ local ProfileTemplate = {
 			Completed = false,
 			RewardClaimed = false,
 		},
+		CoreLoop = {
+			RunNumber = 1,
+			LoopRuns = 0,
+			CompletedByRun = {},
+			RewardDay = "",
+			RewardedRunsToday = 0,
+		},
 	},
 
 	Learning = {
