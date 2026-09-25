@@ -1,7 +1,7 @@
 local DeploymentManifest = table.freeze({
     schemaVersion = 1,
     releaseChannel = "private-staging",
-    releaseId = "starblox-private-step9-joinfix-v1",
+    releaseId = "starblox-private-step9-brookhaven-v2",
     productionActivationAllowed = false,
 })
 
