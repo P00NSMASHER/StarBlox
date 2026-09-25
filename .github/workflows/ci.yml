@@ -28,6 +28,8 @@ jobs:
           path: .
       - name: Install dependencies
         run: npm install --no-audit --no-fund
+      - name: Verify frozen Brookhaven world source
+        run: npm run roblox:world-source:verify
       - name: Prove native Roblox build
         run: npm run roblox:native:build-proof
       - name: Prove Roblox Studio sync baseline
