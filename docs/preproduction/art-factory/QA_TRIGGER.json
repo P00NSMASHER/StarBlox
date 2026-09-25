@@ -1,0 +1,8 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_STAGED_ART_QA_TRIGGER",
+  "branch": "screenshot-match-preproduction",
+  "purpose": "Explicit branch-local replay trigger for exact staged candidate rendering while the workflow is sidecar-only.",
+  "rule": "Changing this file requests QA only. It never approves, canonicalizes, deploys, or changes gameplay.",
+  "lastRequestedFor": "PIPELINE_BOOTSTRAP"
+}
