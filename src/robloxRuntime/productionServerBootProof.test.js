@@ -39,6 +39,12 @@ describe('Step 9 joinability: production server boot gate', () => {
     expect(releaseGate).toContain('buildStep6ReleaseGate');
   });
 
+  it('binds the production boot proof to the exact published place version', () => {
+    const script=buildProductionServerBootProbeScript({expectedVersion:42});
+    expect(script).toContain('game.PlaceVersion == 42');
+    expect(script).toContain('unexpected published version');
+  });
+
   it('real-engine boot proof requires the production package and bootstrap path', () => {
     const script=buildProductionServerBootProbeScript();
     expect(script).toContain('Matter package missing from published place');
