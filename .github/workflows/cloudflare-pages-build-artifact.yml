@@ -27,6 +27,47 @@ jobs:
         run: |
           printf '%s\\n' "$GITHUB_SHA" > dist/RELEASE_SHA.txt
           printf '%s\\n' 'demo-release-candidate-2026-09-25' > dist/RELEASE_SOURCE.txt
+      - name: Build Cloudflare Pages manifest
+        run: |
+          npm install --no-save --package-lock=false blake3-wasm
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          import path from 'node:path';
+          import { hash as blake3hash } from 'blake3-wasm';
+
+          const root = 'dist';
+          const manifest = {};
+          const files = [];
+
+          function walk(dir) {
+            for (const entry of fs.readdirSync(dir,{withFileTypes:true})) {
+              const full = path.join(dir,entry.name);
+              if (entry.isDirectory()) { walk(full); continue; }
+              const rel = path.relative(root,full).split(path.sep).join('/');
+              const buf = fs.readFileSync(full);
+              const ext = path.extname(rel).slice(1);
+              const hash = blake3hash(buf.toString('base64') + ext).toString('hex').slice(0,32);
+              const publicPath = path.join('public',...rel.split('/'));
+              const source = fs.existsSync(publicPath) ? 'public' : 'generated';
+              manifest['/' + rel] = hash;
+              files.push({path:'/' + rel,hash,size:buf.length,source,sourcePath:source==='public'?publicPath:null});
+            }
+          }
+
+          walk(root);
+          fs.writeFileSync('pages-manifest.json',JSON.stringify(manifest,null,2)+'\n');
+          fs.writeFileSync('pages-file-map.json',JSON.stringify(files,null,2)+'\n');
+          console.log(JSON.stringify({fileCount:files.length,publicCount:files.filter(f=>f.source==='public').length,generatedCount:files.filter(f=>f.source==='generated').length},null,2));
+          NODE
+      - name: Upload Pages manifest artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: starblox-cloudflare-pages-manifest
+          path: |
+            pages-manifest.json
+            pages-file-map.json
+          if-no-files-found: error
+          retention-days: 3
       - name: Upload Pages artifact
         uses: actions/upload-artifact@v4
         with:
