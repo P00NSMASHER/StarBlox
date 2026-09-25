@@ -177,3 +177,45 @@ export function verifyStep5MountedWorld({
     nextStep:'target-architecture-6-integration-and-release-gates'
   });
 }
+
+
+export function inspectStep6ReleaseArtifact(dom){
+  const mounted=findUniqueByName(dom,'BrookhavenWorldBaseline','Step 6 release artifact');
+  if(!pathEndsWith(mounted.path,['Workspace','BrookhavenWorldBaseline'])){
+    fail('Step 6 release artifact baseline is not mounted directly under Workspace');
+  }
+
+  const mountedHash=subtreeHash(mounted.node);
+  const mountedCount=countTree(mounted.node);
+  const baselineDescendants=descendantRows(mounted.node);
+  const forbiddenClasses=new Set([
+    'Script','LocalScript','ModuleScript',
+    'RemoteEvent','RemoteFunction','UnreliableRemoteEvent'
+  ]);
+  const forbidden=baselineDescendants.filter(row=>forbiddenClasses.has(nodeClass(row.node)));
+
+  const runtimePaths=[
+    ['ReplicatedStorage','StarBlox'],
+    ['ServerScriptService','StarBlox'],
+    ['StarterPlayer','StarterPlayerScripts','StarBlox']
+  ];
+  const runtimeRows=runtimePaths.map(suffix=>findPath(dom,suffix,'Step 6 StarBlox runtime mount'));
+  for(const row of runtimeRows){
+    if(row.path.includes('BrookhavenWorldBaseline')){
+      fail('Step 6 release artifact parents StarBlox runtime into Brookhaven baseline');
+    }
+  }
+
+  return Object.freeze({
+    baseline:Object.freeze({
+      mountedSubtreeSha256:mountedHash,
+      subtreeInstanceCount:mountedCount,
+      scriptsOrRemotesInsideBaseline:forbidden.length
+    }),
+    runtime:Object.freeze({
+      mountCount:runtimePaths.length,
+      mounts:Object.freeze(runtimePaths.map(path=>path.join('/'))),
+      parentedIntoBaseline:false
+    })
+  });
+}
