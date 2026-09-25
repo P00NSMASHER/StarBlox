@@ -1,0 +1,84 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_BATCH_REQUEST",
+  "planner": "15",
+  "producer": "03",
+  "preflightOwner": "06",
+  "reviewer": "01",
+  "renderOwner": "14",
+  "integrationOwner": "08",
+  "coordinationOwner": "15",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "a0a418860a283a9859615453f3e78d97f93a60dd",
+  "manifestVersion": 45,
+  "batchId": "w03-desk11-v12-isolated-creator",
+  "scope": [
+    "desks-11"
+  ],
+  "state": "PREPARED_AFTER_V11_REWORK",
+  "assignmentAuthority": {
+    "path": "docs/preproduction/art-factory/ACTIVE_BATCH.json",
+    "runtimeProofPath": "docs/preproduction/art-factory/CPU_RUNTIME_PROOF.json",
+    "runtimeProofStatus": "PROVEN",
+    "runtimeCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+    "modelRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "assignedReviewers": {
+      "desks-11": "01"
+    },
+    "note": "Bounded post-v11 isolation repair from exact rendered reviewer01 evidence. Preserve all prior rejected and accepted hashes."
+  },
+  "reviewSource": {
+    "decision": "REWORK",
+    "latestExact": {
+      "version": "v11",
+      "gitBlobSha": "9885d0af716b21b62a7fd43b08af14cd0d83d2a7",
+      "sha256": "b1a761713fff1ee468a6dc8c3016a71a5b6715d9bb87f5493d577215ffe66009"
+    },
+    "evidence": {
+      "workflowRunId": 36077290366,
+      "artifactId": 10840054243
+    },
+    "reasonCodes": [
+      "MONITOR_DOMINATES_CREATOR_IDENTITY",
+      "ROOM_CONTEXT_PRESENT",
+      "WALL_SHELVING_DOMINATES",
+      "STOOL_PRESENT",
+      "TEXT_LIKE_LABEL_ARTIFACTS",
+      "ISOLATED_PRODUCT_CONTRACT_FAILURE"
+    ]
+  },
+  "items": {
+    "desks-11": {
+      "currentLegacy": {
+        "path": "public/assets/catalog-candidates/cpu/desks-11-w03-v11-a-single-creator-desk-original.png",
+        "gitBlobSha1": "9885d0af716b21b62a7fd43b08af14cd0d83d2a7",
+        "reviewDecision": "REWORK"
+      },
+      "variants": [
+        {
+          "variantId": "A-ISOLATED-CREATOR-DESK",
+          "optimizerInput": "One cream art desk on plain white. Wide top, two drawer pedestals, open center, drawing tablet, brush cup, three small colorful art bins. No monitor, screen, stool, chair, wall, shelves, room, labels, text, collage, second view."
+        },
+        {
+          "variantId": "B-CREATOR-DESK-ONLY",
+          "optimizerInput": "One creator desk only on seamless white: broad cream top, two drawer cabinets, open knee space, drawing tablet, brush cup, three color bins. No computer, chair, stool, wall, shelving, room, text, second view."
+        }
+      ]
+    }
+  },
+  "executionBudget": {
+    "width": 640,
+    "height": 640,
+    "steps": 12,
+    "guidanceScale": 5,
+    "dtype": "float32"
+  },
+  "safety": {
+    "preserveRejectedExactHashes": true,
+    "preserveAcceptedExactHashes": true,
+    "producerSelfReview": false,
+    "canonicalMappingsChanged": false,
+    "workflowFilesChanged": false
+  }
+}
