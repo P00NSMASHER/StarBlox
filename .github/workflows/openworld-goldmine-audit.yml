@@ -37,8 +37,6 @@ jobs:
 
       - uses: dtolnay/rust-toolchain@stable
 
-      - run: npm install --ignore-scripts
-
       - name: Download exact public candidate
         shell: bash
         run: |
