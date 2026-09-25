@@ -22,6 +22,8 @@ on:
       - 'scripts/catalogVisualPreflight.py'
       - 'scripts/catalogVisualCalibration.py'
       - 'docs/preproduction/art-factory/verify_staged_output.py'
+      - 'docs/preproduction/art-factory/ACTIVE_BATCH.json'
+      - 'docs/preproduction/art-factory/ART_FACTORY_V2.json'
       - 'docs/preproduction/catalog-sprint/reviews/*.json'
       - 'docs/preproduction/catalog-sprint/lane-*.json'
       - 'public/assets/catalog/**'
