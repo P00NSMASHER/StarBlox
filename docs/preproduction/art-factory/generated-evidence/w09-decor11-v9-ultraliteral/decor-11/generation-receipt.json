@@ -1,0 +1,112 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_GENERATION_RECEIPT",
+  "repository": "P00NSMASHER/StarBlox",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "fe956313315929c10d2503d3a502b8f95e2935ea",
+  "sourcePlanSha256": "847884e7f256f60e1d71a37e3080c56b035c4f252742d5dd1a89a6a097febbca",
+  "executionCheckout": {
+    "branch": "screenshot-match-preproduction",
+    "head": "fe956313315929c10d2503d3a502b8f95e2935ea",
+    "planSourceHeadMatchesExecutionHead": true
+  },
+  "attempt": {
+    "attemptId": "decor-11-w09-b-three-piece-vanity-d5d724b5a6",
+    "itemId": "decor-11",
+    "producer": "09",
+    "variant": "B-THREE-PIECE-VANITY",
+    "promptSha256": "d5d724b5a64d0cbce58b2834d47cdb944b0692485903366ec6f6b5bd7fce4103",
+    "runtimePromptSha256": "79162a3359e631427d82e9c07f4a1a7b1439eb568a4afb8f3d47dfb1c48213d7",
+    "runtimeNegativePromptSha256": "859dc872fa7d984fc1bef19ff806be8fce4e51cdc200b80173edca96eb1ab096",
+    "promptRecipeVersion": "artPromptOptimizer-request-v1:w09-decor11-v9-ultraliteral",
+    "seed": 130405640
+  },
+  "runtime": {
+    "repo": "huggingface/diffusers",
+    "commit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "resolvedCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "runtimeCommitVerified": true,
+    "diffusersVersion": "0.41.0.dev0",
+    "diffusersInstallSource": "https://github.com/huggingface/diffusers.git",
+    "torchVersion": "2.8.0+cpu",
+    "transformersVersion": "5.17.0",
+    "accelerateVersion": "1.15.0",
+    "huggingfaceHubVersion": "1.33.0",
+    "safetensorsVersion": "0.8.0",
+    "pythonPillowVersion": "12.3.0",
+    "device": "cpu",
+    "dtype": "float32",
+    "executionMode": "cpu-fallback"
+  },
+  "model": {
+    "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+    "revision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS",
+    "resolvedRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "snapshotRevisionVerified": true,
+    "selectiveSnapshot": true,
+    "snapshotAllowPatterns": [
+      "model_index.json",
+      "scheduler/*",
+      "tokenizer/*",
+      "tokenizer_2/*",
+      "feature_extractor/*",
+      "text_encoder/config.json",
+      "text_encoder/model.fp16.safetensors",
+      "text_encoder_2/config.json",
+      "text_encoder_2/model.fp16.safetensors",
+      "unet/config.json",
+      "unet/diffusion_pytorch_model.fp16.safetensors",
+      "vae/config.json",
+      "vae/diffusion_pytorch_model.fp16.safetensors"
+    ]
+  },
+  "conditioning": {
+    "referenceAssetSha256": null,
+    "controlImageSha256": null,
+    "adapterScale": null,
+    "referenceImage": null,
+    "ipAdapterModelId": null,
+    "ipAdapterRevision": null,
+    "ipAdapterResolvedRevision": null,
+    "ipAdapterRevisionVerified": false,
+    "ipAdapterWeightName": null,
+    "ipAdapterSubfolder": null
+  },
+  "generation": {
+    "width": 640,
+    "height": 640,
+    "numInferenceSteps": 14,
+    "guidanceScale": 5.5,
+    "runtimePromptTokenCounts": {
+      "tokenizer": 56,
+      "tokenizer_2": 56
+    },
+    "runtimeNegativePromptTokenCounts": {
+      "tokenizer": 32,
+      "tokenizer_2": 32
+    },
+    "executedSeed": 130405640
+  },
+  "output": {
+    "repoPath": "public/assets/catalog-candidates/cpu/decor-11-w09-v9-b-three-piece-vanity-original.png",
+    "sha256": "e623a2bd172debf7db206203418deacd77b11288a43c185831f2846678d4daf3",
+    "gitBlobSha": "3ea52c59b32addeeca4ce07701a095165f82540c",
+    "bytes": 550714,
+    "width": 640,
+    "height": 640,
+    "format": "PNG",
+    "sourceBytesPreserved": true,
+    "reusedExistingIdenticalBytes": false
+  },
+  "safety": {
+    "canonicalArtModified": false,
+    "gameplayModified": false,
+    "reviewDecisionMade": false,
+    "deploymentPerformed": false,
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+  },
+  "nextGate": "RUN_VERIFY_STAGED_OUTPUT_THEN_REAL_RENDER_AND_INDEPENDENT_EXACT_HASH_REVIEW",
+  "status": "GENERATED_SOURCE_BYTES_UNVERIFIED",
+  "recordSha256": "1216fa1d6a41bd055d6cc84294791bc2a68c374d98ab8b2dbf67102c0fe38653"
+}
