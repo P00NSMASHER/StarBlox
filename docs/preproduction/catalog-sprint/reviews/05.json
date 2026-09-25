@@ -1,10 +1,10 @@
 {
-  "schemaVersion": 10,
+  "schemaVersion": 11,
   "reviewer": "05",
   "role": "independent catalog reviewer for beds/desks/companions/auras",
   "phase": "ART_VISUALS_SPRINT",
   "branch": "screenshot-match-preproduction",
-  "sourceHead": "ea510567e6",
+  "sourceHead": "46102a8118266aa7e5012129ac9fe2b5a437d6be",
   "policy": "docs/preproduction/DELIVERY_PROTOCOL_V2.md",
   "visualSprint": "docs/preproduction/ART_VISUALS_SPRINT.json",
   "referenceManifest": "docs/preproduction/reference-screenshots/original-reference-manifest.json",
@@ -22,18 +22,20 @@
     "scope": [
       "desks-10"
     ],
-    "version": "Desk10 v12 exact source hash",
-    "result": "REWORK_1_OF_1_FAIL_FAST",
+    "version": "Desk10 v14 exact rendered hash",
+    "result": "REWORK_1_OF_1",
     "oldVerdictsTransferred": false,
     "actualSourcePixelsReviewed": true,
+    "actualCardScalePixelsReviewed": true,
+    "actualDetailPixelsReviewed": true,
     "selfApprovalConflict": false,
-    "failFastSourceContract": true
+    "failFastSourceContract": false
   },
   "renderEvidence": {
     "workflow": "StarBlox Staged Catalog Art QA",
-    "workflowRunId": 35984489131,
-    "artifactId": 10801511855,
-    "artifactDigest": "sha256:e728db1299775a32c53164ec4334de017289b2e2dff62104fdfe4bee1d22ee42"
+    "workflowRunId": 36084552262,
+    "artifactId": 10843243182,
+    "artifactDigest": "sha256:e30f545fc39bb2152c126843851e88c97f2afb8b777e62ce92901c2348190ff"
   },
   "reviews": [
     {
@@ -767,6 +769,47 @@
         "duplicateVisual": "PASS",
         "technicalIntegrity": "PASS"
       }
+    },
+    {
+      "itemId": "desks-10",
+      "name": "Neon Streaming Desk",
+      "tier": 4,
+      "theme": "Aqua Wave",
+      "assetPath": "public/assets/catalog-candidates/cpu/desks-10-w03-v14-a-token-safe-mic-desk-original.png",
+      "repositoryPath": "public/assets/catalog-candidates/cpu/desks-10-w03-v14-a-token-safe-mic-desk-original.png",
+      "assetHash": "29b310a7f075abeb8acb58bcad84474394bdce6a",
+      "sha256": "688bba457a3352ea43d510dd64ce37d45062b44fb1062d4d1521053905fa4c21",
+      "contentSha256": "688bba457a3352ea43d510dd64ce37d45062b44fb1062d4d1521053905fa4c21",
+      "hashAlgorithm": "git-blob-sha1",
+      "producer": "03",
+      "decision": "REWORK",
+      "learnerLabel": "REWORK",
+      "reviewedAt": "2026-09-25T02:04:13Z",
+      "evidenceRefs": [
+        "workflow:36084552262",
+        "artifact:10843243182/staged-replacements/detail/desks-10-29b310a7.png#sha256=806207b6312185ba7b77a0385aba3f3b4b19450aa206fdda9907872a950eb6cd",
+        "artifact:10843243182/staged-replacements/staged-replacements-contact-sheet.png#sha256=662aa72db118ad416600b8c8c60072fdbdea9fa929b504c8a3530d3e3897c96f",
+        "factory-evidence:docs/preproduction/art-factory/generated-evidence/w03-desk10-v14-token-safe/desks-10/staged-output.json"
+      ],
+      "reasonCodes": [
+        "MICROPHONE_STILL_MISSING",
+        "OVERSIZED_MONITOR_DOMINATES",
+        "ROOM_CONTEXT_PRESENT",
+        "ISOLATED_PRODUCT_CONTRACT_FAILURE"
+      ],
+      "reason": "REWORK. Desk10 v14 is cleaner and now reads as one coherent neon computer desk, but the exact Store/detail pixels still miss the bounded Neon Streaming Desk contract. There is no unmistakable microphone capsule on a normal boom arm clamped to the desk edge, the oversized monitor dominates the product, and cyan wall/floor room context remains instead of a clean isolated studio presentation. The glowing right-side support also reads partly like open shelving rather than a simple PC tower/support. Preserve this exact hash. The next retry should keep one broad desk and one smaller monitor, add one obvious short boom microphone clamped to the right edge, place a closed PC tower below, and use a plain white studio background with no room architecture.",
+      "checks": {
+        "identity": "FAIL",
+        "themeTier": "PASS",
+        "silhouette": "PARTIAL",
+        "materialLighting": "PASS",
+        "cardReadability": "PARTIAL",
+        "physicalConstruction": "PARTIAL",
+        "framingComposition": "FAIL",
+        "originality": "PASS",
+        "duplicateVisual": "PASS",
+        "technicalIntegrity": "PASS"
+      }
     }
   ],
   "preservedAcceptedCurrentHashes": [
@@ -898,15 +941,15 @@
   ],
   "pendingCurrentHashes": [],
   "handoff": {
-    "14": "Desk9/10 v3 render packets consumed; do not rerender unchanged hashes.",
-    "15": "Desk10 remains a bounded exact-pixel blocker.",
-    "03": "Desk10 v12 REWORK; preserve exact hash. Do not rerender unchanged bytes.",
-    "08": "Do not canonical-wire Desk10 v12."
+    "14": "Desk10 v14 exact Store/detail render packet consumed; do not rerender unchanged hash.",
+    "15": "Desk10 remains a bounded exact-pixel blocker after v14.",
+    "03": "Desk10 v14 REWORK; preserve exact hash. Next retry: broad desk, smaller single monitor, obvious short boom microphone clamped to right edge, closed PC tower below, plain white studio background.",
+    "08": "Do not canonical-wire Desk10 v14."
   },
   "summary": {
-    "totalVersionsReviewed": 42,
+    "totalVersionsReviewed": 43,
     "accepted": 25,
-    "rework": 17,
+    "rework": 18,
     "blocked": 0,
     "thisCycle": {
       "reviewed": 1,
@@ -922,7 +965,7 @@
     "reworkNow": [
       "desks-10"
     ],
-    "preservedAcceptedHashes": "All prior reviewer05 ACCEPTs remain frozen; Desk10 v12 is REWORK only."
+    "preservedAcceptedHashes": "All prior reviewer05 ACCEPTs remain frozen; Desk10 v14 is REWORK only."
   },
   "freeze": {
     "selfApproved": false,
@@ -937,7 +980,7 @@
   "currentReplacementDisposition": {
     "desks": {
       "REWORK": {
-        "desks-10": "50fb49c1bf2bcea8b1d48519fab3120f2fc7cf1f",
+        "desks-10": "29b310a7f075abeb8acb58bcad84474394bdce6a",
         "desks-9": "79d5f4e0520910fea1a6ac47c76df451b14ce6f2"
       },
       "ACCEPT": {
