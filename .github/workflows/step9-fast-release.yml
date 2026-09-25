@@ -15,7 +15,7 @@ concurrency:
 
 jobs:
   publish-and-server-boot:
-    if: ${{ github.event_name == 'workflow_dispatch' || github.head_ref == 'release/step9-canonical-step5-v3' }}
+    if: ${{ github.event_name == 'workflow_dispatch' || github.head_ref == 'release/step9-canonical-step6-v4' }}
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -76,10 +76,38 @@ jobs:
           test -s /tmp/starblox-step9-fast/StarBlox-Step9-Fast.rbxlx
           grep -q 'BrookhavenWorldBaseline' /tmp/starblox-step9-fast/StarBlox-Step9-Fast.rbxlx
           grep -q 'StarBlox' /tmp/starblox-step9-fast/StarBlox-Step9-Fast.rbxlx
+
+          BASELINE_SHA="$(sha256sum roblox/.step5-generated/BrookhavenWorldBaseline.rbxmx | awk '{print $1}')"
+          cargo run --quiet --manifest-path tools/roblox_catalog_reader/Cargo.toml -- \
+            roblox/.step5-generated/BrookhavenWorldBaseline.rbxmx \
+            > /tmp/starblox-step9-fast/isolated-world-dom.json
+          cargo run --quiet --manifest-path tools/roblox_catalog_reader/Cargo.toml -- \
+            /tmp/starblox-step9-fast/StarBlox-Step9-Fast.rbxlx \
+            > /tmp/starblox-step9-fast/mounted-place-dom.json
+
+          npm run roblox:brookhaven-world:mount:verify -- \
+            --isolated-dom /tmp/starblox-step9-fast/isolated-world-dom.json \
+            --mounted-dom /tmp/starblox-step9-fast/mounted-place-dom.json \
+            --lock /tmp/starblox-step9-fast/step5-lock.json \
+            --baseline roblox/.step5-generated/BrookhavenWorldBaseline.rbxmx \
+            --baseline-sha-before "$BASELINE_SHA" \
+            --out /tmp/starblox-step9-fast/mount-receipt.json
+
+          npm run roblox:release-gate:prepare -- \
+            --step5 docs/roblox-world/STEP_5_WORLD_EXACTNESS_AND_MOUNT.json \
+            --lock /tmp/starblox-step9-fast/step5-lock.json \
+            --mount /tmp/starblox-step9-fast/mount-receipt.json \
+            --artifact /tmp/starblox-step9-fast/StarBlox-Step9-Fast.rbxlx \
+            --source-commit "${{ github.event.pull_request.head.sha || github.sha }}" \
+            --out /tmp/starblox-step9-fast/step6-release-gate.json
+
+          grep -q '"status": "private-release-gate-open"' /tmp/starblox-step9-fast/step6-release-gate.json
           rm -rf roblox/.step5-generated roblox/.step5-mounted.project.json
       - name: Run Step 9 targeted regression suite
         run: |
           npx vitest run \
+            src/robloxRuntime/releaseGate.test.js \
+            src/robloxRuntime/releaseEntryPointBoundary.test.js \
             src/robloxRuntime/privatePublish.test.js \
             src/robloxRuntime/productionServerBootProof.test.js \
             src/robloxRuntime/realClientPlaytestProof.test.js \
@@ -92,6 +120,9 @@ jobs:
           ROBLOX_UNIVERSE_ID: ${{ vars.ROBLOX_UNIVERSE_ID }}
           ROBLOX_PLACE_ID: ${{ vars.ROBLOX_PLACE_ID }}
           STARBLOX_SOURCE_COMMIT: ${{ github.event.pull_request.head.sha || github.sha }}
+          STARBLOX_RELEASE_GATE_RECEIPT: /tmp/starblox-step9-fast/step6-release-gate.json
+          STARBLOX_RELEASE_ARTIFACT: /tmp/starblox-step9-fast/StarBlox-Step9-Fast.rbxlx
+          STARBLOX_STEP5_SNAPSHOT: ${{ github.workspace }}/docs/roblox-world/STEP_5_WORLD_EXACTNESS_AND_MOUNT.json
           STARBLOX_PUBLISH_RECEIPT: ${{ github.workspace }}/artifacts/starblox-private-publish-receipt.json
         run: npm run roblox:publish-private
       - name: Verify production server boot in published Brookhaven world
@@ -110,8 +141,8 @@ jobs:
           const bootBytes=await readFile('artifacts/starblox-production-server-boot-proof.json');
           const publish=JSON.parse(publishBytes);
           const boot=JSON.parse(bootBytes);
-          if(publish.status!=='published-awaiting-runtime-verification'){
-            throw new Error('publish receipt is not awaiting runtime verification');
+          if(publish.status!=='published-and-verified'){
+            throw new Error('publish receipt is not Step-6 gated and verified');
           }
           if(boot.status!=='verified') throw new Error('production server boot is not verified');
           if(boot.releaseId!==publish.releaseId) throw new Error('release id mismatch between publish and server boot');
@@ -139,7 +170,7 @@ jobs:
         if: ${{ always() }}
         uses: actions/upload-artifact@v4
         with:
-          name: starblox-step9-v3-runtime-verification
+          name: starblox-step9-v4-runtime-verification
           path: |
             artifacts/starblox-private-publish-receipt.json
             artifacts/starblox-production-server-boot-proof.json
@@ -148,7 +179,7 @@ jobs:
           retention-days: 30
 
   real-client-gate:
-    if: ${{ github.event_name == 'workflow_dispatch' || github.head_ref == 'release/step9-canonical-step5-v3' }}
+    if: ${{ github.event_name == 'workflow_dispatch' || github.head_ref == 'release/step9-canonical-step6-v4' }}
     needs: publish-and-server-boot
     runs-on: ubuntu-latest
     timeout-minutes: 15
