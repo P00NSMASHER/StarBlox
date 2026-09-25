@@ -158,6 +158,31 @@ try{
   await record('quest-retry-rapid-answer-and-final-refresh',async()=>{ await openQuest(page); const beforeQuest=await readSave(page); const retry=await exerciseWrongRetry(page); const rapid=await solveCorrect(page,{rapid:true}); await solveCorrect(page); await solveCorrect(page); const final=await currentQuestion(page); const beforeFinal=await readSave(page); const started=Date.now(); await clickAnswer(page,final.answer); const committed=await waitForSave(page,v=>Boolean(v.lastCompletedQuestReceipt)&&v.questsCompleted>=8,[],850); const commitMs=Date.now()-started; assert(commitMs<900,'Quest completion not durable before 950ms UI transition',{commitMs}); assert(committed.questsCompleted===beforeFinal.questsCompleted+1,'Quest completion count not exactly once'); assert(committed.companionBond===beforeFinal.companionBond+1,'Buddy Bond completion not exactly once'); assert(committed.daily.quests===beforeFinal.daily.quests+1,'Daily Quest completion not exactly once'); assert(committed.coins>=beforeFinal.coins+30&&committed.xp>=beforeFinal.xp+30,'Quest completion reward missing'); await page.reload({waitUntil:'networkidle'}); const after=await readSave(page); assert(after.questsCompleted===committed.questsCompleted&&after.companionBond===committed.companionBond&&after.daily.quests===committed.daily.quests,'Quest completion changed after immediate refresh'); assert(after.lastCompletedQuestReceipt===committed.lastCompletedQuestReceipt,'Quest receipt disappeared after refresh'); return {beforeQuest:critical(beforeQuest),retry,rapid,beforeFinal:critical(beforeFinal),commitMs,committed:critical(committed),afterRefresh:critical(after)}; },page);
 
   await record('final-core-progress-invariants',async()=>{ const s=await readSave(page); assert(s.owned.includes('future-no-art-999')&&s.equipped.back==='future-no-art-999','Unknown/no-art inventory/equip disappeared'); assert(s.roomDecor.includes('future-no-art-room')&&s.dreamGoalId==='future-no-art-goal','Unknown/no-art room/Dream Goal disappeared'); assert(s.coins>=0&&s.stars>=0&&s.xp>=0,'Currency/XP negative'); assert(s.mastered.includes('synthetic-skill'),'Mastery evidence pruned'); const seededDistricts=seed.districtProgress; for(const [district,start] of Object.entries(seededDistricts)) assert((s.districtProgress?.[district]||0)>=start,'District progress regressed',{district,start,actual:s.districtProgress?.[district]}); const seedTotal=Object.values(seededDistricts).reduce((sum,value)=>sum+value,0); const finalTotal=Object.values(s.districtProgress||{}).reduce((sum,value)=>sum+(Number(value)||0),0); assert(finalTotal===seedTotal+5,'District progress did not advance exactly once per successful Quest action',{seedTotal,finalTotal,expected:seedTotal+5,districtProgress:s.districtProgress}); return {state:critical(s)}; },page);
+
+  await record('reset-demo-restores-showcase-profile-and-reload',async()=>{
+    await openStudy(page);
+    const reset=page.getByRole('button',{name:/Reset Demo/i}).first();
+    await reset.waitFor({state:'visible'});
+    await reset.click();
+    const restored=await waitForSave(page,v=>
+      v?.coins===720 &&
+      v?.stars===8 &&
+      v?.xp===610 &&
+      v?.starWorth===2400 &&
+      v?.dreamGoalId==='companions-10' &&
+      v?.owned?.includes('decor-11') &&
+      !v?.roomDecor?.includes('decor-11') &&
+      v?.equipped?.companion==='companions-11'
+    ,[],5000);
+    assert(restored.mastered?.includes('phonics')&&restored.mastered?.includes('high-frequency-words'),'Reset Demo did not restore staged mastery');
+    const homeActive=(await page.locator('.navBtn.active').textContent())?.trim()||'';
+    assert(/Home/i.test(homeActive),'Reset Demo did not route back to Home',{homeActive});
+    await page.reload({waitUntil:'networkidle'});
+    const reloaded=await readSave(page);
+    assert(reloaded.coins===720&&reloaded.stars===8&&reloaded.xp===610,'Reset Demo profile did not survive reload',{reloaded:critical(reloaded)});
+    assert(reloaded.dreamGoalId==='companions-10'&&reloaded.owned.includes('decor-11')&&!reloaded.roomDecor.includes('decor-11'),'Reset Demo staged purchase/placement state changed after reload',{reloaded:critical(reloaded)});
+    return {restored:critical(restored),reloaded:critical(reloaded),homeActive};
+  },page);
 }catch(error){ fatal=error; }
 finally{
   const report={status:fatal||results.some(r=>r.status==='FAIL')?'FAIL':'PASS',sourceHead:process.env.GITHUB_SHA||null,baseUrl:BASE_URL,syntheticOnly:true,noRealPlayerData:true,browser:`Chromium ${browserVersion} via Playwright`,cases:results};
