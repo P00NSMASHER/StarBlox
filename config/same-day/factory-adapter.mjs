@@ -11,15 +11,15 @@ function parseArgs(){
 }
 
 const agentCommand=String(process.env.STARBLOX_AGENT_COMMAND || '').trim();
-if(!agentCommand){
-  throw new Error(
-    'STARBLOX_AGENT_COMMAND is required. Point it at a local agent wrapper that reads JSON from stdin ' +
-    'and returns one JSON object on stdout.'
-  );
-}
 const agentArgs=parseArgs();
 
 function invokeAgent(role,context){
+  if(!agentCommand){
+    throw new Error(
+      'STARBLOX_AGENT_COMMAND is required for factory agent work. Point it at a local wrapper ' +
+      'that reads JSON from stdin and returns one JSON object on stdout.'
+    );
+  }
   const payload={
     protocol:'starblox-factory-agent-v1',
     role,
