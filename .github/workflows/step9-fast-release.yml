@@ -151,7 +151,7 @@ jobs:
     if: ${{ github.event_name == 'workflow_dispatch' || github.head_ref == 'release/step9-canonical-step5-v3' }}
     needs: publish-and-server-boot
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 15
     steps:
       - name: Checkout
         uses: actions/checkout@v4
