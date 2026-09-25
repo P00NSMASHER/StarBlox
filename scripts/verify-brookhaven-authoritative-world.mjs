@@ -162,6 +162,28 @@ function primaryMaterialCounts(text){
   );
 }
 
+function primaryColorSequenceFingerprint(text){
+  const scalar='-?(?:\\d+(?:\\.\\d*)?|\\.\\d+)(?:[eE][+-]?\\d+)?';
+  const n='(' + scalar + ')';
+  const pattern=new RegExp(
+    'reflectance=' + scalar +
+    ';color=\\{\\[1\\]=' + n +
+    ';\\[2\\]=' + n +
+    ';\\[3\\]=' + n +
+    ';\\};\\s*anchored=(?:true|false);',
+    'g'
+  );
+  const rows=[];
+  let match;
+  while((match=pattern.exec(text))){
+    rows.push(match.slice(1,4).join(','));
+  }
+  return {
+    count:rows.length,
+    sequenceSha256:sha256(Buffer.from(rows.join('\n'),'utf8'))
+  };
+}
+
 function extractAssetIds(text){
   const ids=new Set();
   for(const pattern of [
@@ -229,7 +251,7 @@ function sourceStructure(text){
     sizes:sizeBounds(text),
     sizeSequence:numericSequenceFingerprint(text,'size',3),
     cframes:numericSequenceFingerprint(text,'cframe',12),
-    colors:numericSequenceFingerprint(text,'color',3),
+    colors:primaryColorSequenceFingerprint(text),
     shapeCounts:shapes,
     primaryMaterialCounts:materials,
     surfaceCounts:surfaces,
