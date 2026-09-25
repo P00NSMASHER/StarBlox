@@ -26,8 +26,8 @@ if(lock.schemaVersion !== 1) fail('unsupported toolchain lock schema');
 
 const manifest=text('wally.toml');
 const exactPackages=[
-  ['Matter','matter-ecs/matter@0.8.4'],
-  ['ProfileStore','lm-loleris/profilestore@1.0.3']
+  ['Matter','matter-ecs/matter@=0.8.4'],
+  ['ProfileStore','lm-loleris/profilestore@=1.0.3']
 ];
 for(const [alias,pkg] of exactPackages){
   const needle=alias + ' = "' + pkg + '"';
