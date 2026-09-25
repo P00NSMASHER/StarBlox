@@ -103,6 +103,10 @@ jobs:
           if(ir.irHash !== receipt.ir?.irHash) throw new Error('IR and receipt hash mismatch');
           if(receipt.validation?.rootEntriesContiguous !== true) throw new Error('root entry contiguity not proven');
           if(receipt.validation?.allEntriesTyped !== true) throw new Error('typed-entry proof missing');
+          const reflectanceAnomalies=receipt.structure?.legacyPropertyAnomalies?.reflectanceOutsideUnitRange || [];
+          if(reflectanceAnomalies.length !== 1 || reflectanceAnomalies[0]?.index !== 832 || reflectanceAnomalies[0]?.value !== 5){
+            throw new Error('legacy reflectance anomaly must be preserved exactly');
+          }
           console.log('BROOKHAVEN_WORLD_DESERIALIZATION=' + JSON.stringify(receipt));
           NODE
       - name: Prove native Roblox build
