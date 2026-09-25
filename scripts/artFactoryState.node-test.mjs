@@ -45,3 +45,14 @@ test('interim canonical companion is a live-verification blocker',()=>{
   assert.equal(state.items['companions-2'].state,'CANONICAL_INTERIM_NEEDS_LIVE_VERIFICATION');
   assert.equal(state.items['companions-2'].releaseBlocking,true);
 });
+
+test('canonical interim verification outranks alternate REWORK and staged replacement evidence',()=>{
+  const items=[{id:'companions-5',name:'Pebble Turtle',collectionId:'companions',tier:2,theme:'Galaxy Glow'}];
+  const manifest={items:{'companions-5':{assetPath:'/assets/catalog/companions-5.svg',status:'interim-not-verified'}}};
+  const review={itemId:'companions-5',assetHash:'old-review',assetPath:'/assets/catalog-candidates/companions-5-detail.webp',decision:'REWORK',independent:true,reviewer:'05',producer:'06',failureCodes:['THEME_MISMATCH']};
+  const corpus={observations:[review],current:[review]};
+  const staged=[{itemId:'companions-5',assetHash:'generated-v2',repositoryPath:'public/assets/catalog-candidates/cpu/companions-5-v2.png',version:2,producer:'06',reviewer:'05',valid:true}];
+  const state=buildFactoryState({items,manifest,corpus,stagedCandidates:staged,fallbackBacklog:{allMissing:[]}});
+  assert.equal(state.items['companions-5'].state,'CANONICAL_INTERIM_NEEDS_LIVE_VERIFICATION');
+  assert.equal(state.items['companions-5'].releaseBlocking,true);
+});

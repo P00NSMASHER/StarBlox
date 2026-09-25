@@ -94,3 +94,12 @@ test('unfilled release fallback enters queue without fabricated review',()=>{
   assert.equal(rec.variants.length,4);
   assert(rec.variants.every(v=>v.promptText.includes('desks-7')));
 });
+
+test('canonical interim live-verification state blocks stale REWORK regeneration',()=>{
+  const row={itemId:'companions-5',collectionId:'companions',assetHash:'old-review',decision:'REWORK',independent:true,failureCodes:['THEME_MISMATCH'],reviewer:'05',producer:'06',tier:2};
+  const authoritativeState={items:{'companions-5':{state:'CANONICAL_INTERIM_NEEDS_LIVE_VERIFICATION',pendingCandidate:{assetHash:'generated-v2'}}}};
+  const q=buildRegenerationQueue({corpus:{observations:[row],current:[row]},authoritativeState});
+  assert.equal(q.selected.length,0);
+  assert.equal(q.pending.length,0);
+  assert.equal(q.preserve[0].reason,'CANONICAL_INTERIM_REQUIRES_LIVE_VERIFICATION_NOT_REGENERATION');
+});

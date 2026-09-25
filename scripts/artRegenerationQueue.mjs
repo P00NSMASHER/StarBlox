@@ -39,6 +39,11 @@ export function buildRegenerationQueue({corpus,authoritativeState=null,fallbackB
   const actionable=[],blocked=[],pending=[],preserve=[];
   const stateByItem=authoritativeState?.items||{};
   for(const row of corpus.current){
+    const authoritativeItem=stateByItem[row.itemId]||null;
+    if(authoritativeItem?.state==='CANONICAL_INTERIM_NEEDS_LIVE_VERIFICATION'){
+      preserve.push({itemId:row.itemId,assetHash:row.assetHash,reason:'CANONICAL_INTERIM_REQUIRES_LIVE_VERIFICATION_NOT_REGENERATION'});
+      continue;
+    }
     if(!row.independent){ preserve.push({itemId:row.itemId,reason:'CURRENT_REVIEW_NOT_INDEPENDENT'}); continue; }
     if(row.decision==='ACCEPT'){ preserve.push({itemId:row.itemId,assetHash:row.assetHash,reason:'PRESERVE_ACCEPTED_EXACT_HASH'}); continue; }
     if(row.decision!=='REWORK'){
@@ -107,6 +112,7 @@ export function buildRegenerationQueue({corpus,authoritativeState=null,fallbackB
       newerPendingCandidatesExcluded:true,
       pendingSuppressionAuthority:'DERIVED_EXACT_FACTORY_STATE_ONLY',
       laneSnapshotsAuthoritative:false,
+      canonicalInterimExcludedFromRegeneration:true,
       independentReviewRequired:true,
       maxItemsPerProducerBatch:4,
       automaticGeneration:false,

@@ -76,13 +76,14 @@ export function buildFactoryState({
     const canonicalPath=normalizePath(canonical?.assetPath);
     const reviewPath=normalizePath(review?.assetPath);
     const decision=upper(review?.decision);
+    const canonicalStatus=String(canonical?.status||'').toLowerCase();
     let state;
-    if(pendingCandidate) state='PENDING_EXACT_HASH_REVIEW';
+    if(canonicalStatus==='interim-not-verified') state='CANONICAL_INTERIM_NEEDS_LIVE_VERIFICATION';
+    else if(pendingCandidate) state='PENDING_EXACT_HASH_REVIEW';
     else if(decision==='REWORK') state='REWORK_NEEDS_PRODUCTION';
     else if(decision==='BLOCKED') state='BLOCKED_NEEDS_EVIDENCE_FIX';
     else if(decision==='ACCEPT' && (!canonicalPath || !reviewPath || canonicalPath!==reviewPath)) state='ACCEPT_AWAITING_CANONICAL';
-    else if(decision==='ACCEPT') state=String(canonical?.status||'').toLowerCase()==='final-portable' ? 'CANONICAL_ACCEPTED' : 'CANONICAL_ACCEPTED_NEEDS_RELEASE_VERIFICATION';
-    else if(String(canonical?.status||'').toLowerCase()==='interim-not-verified') state='CANONICAL_INTERIM_NEEDS_LIVE_VERIFICATION';
+    else if(decision==='ACCEPT') state=canonicalStatus==='final-portable' ? 'CANONICAL_ACCEPTED' : 'CANONICAL_ACCEPTED_NEEDS_RELEASE_VERIFICATION';
     else if(canonical) state='CANONICAL_PRESENT_UNREVIEWED';
     else state='UNFILLED_NEEDS_PRODUCTION';
 
@@ -153,6 +154,7 @@ export function buildFactoryState({
         'docs/preproduction/art-factory/RELEASE_BLOCKERS_CURRENT.json'
       ],
       staleLaneCandidateCannotSuppressRegeneration:true,
+      canonicalInterimReleaseGateOverridesAlternateCandidateReview:true,
       exactHashTerminalReviewWinsOverStagedEvidence:true,
       automaticApproval:false
     },
