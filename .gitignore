@@ -13,3 +13,7 @@ content-expansion-plan.json
 # Wally-generated Roblox packages (recreated from roblox/wally.toml)
 roblox/Packages/
 roblox/ServerPackages/
+
+# Ephemeral Step 5 locked-world mount files
+roblox/.step5-generated/
+roblox/.step5-mounted.project.json
