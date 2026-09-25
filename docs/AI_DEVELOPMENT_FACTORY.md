@@ -292,6 +292,56 @@ Migration development now requires an actually attested Studio connector. If mig
 
 The receipt and run artifact must live beside one another so a later quarantine-exit gate can re-hash the exact development run without ambiguous path resolution.
 
+### Quarantine-exit certification and promotion receipt
+
+Leaving migration quarantine is a separate, explicit operation. A verified adaptation receipt alone cannot promote a unit.
+
+The operator must name the exact unit IDs to certify:
+
+```
+npm run roblox:promote-adaptation -- \
+  --adaptation-receipt /path/to/adaptation/migration-adaptation-receipt.json \
+  --units exact-unit-id-1,exact-unit-id-2
+```
+
+The command re-reads and verifies the adaptation receipt and exact sibling development-run bytes before certification. It fails closed if either artifact has drifted.
+
+Quarantine exit additionally requires:
+
+- the development run remains structurally/hash valid and status `verified`;
+- the adaptation receipt still binds the exact run ID/hash and migration-evidence hash;
+- Studio connector identity matches the attested adaptation receipt;
+- repository proof still matches the adaptation receipt;
+- mutation-target proof still matches the exact development run;
+- Studio tests were explicitly required **and** actually passed;
+- any required runtime proof passed;
+- any required visual proof passed;
+- the final reviewer passed the adaptation;
+- the complete factory verification passed;
+- repository tests, certification, balance and build proof passed;
+- no rollback was required;
+- at least one persistent Studio mutation is bound to the run;
+- every explicitly named unit is an adaptation promotion candidate and originated from approved migration quarantine.
+
+A successful gate emits `migration-promotion-receipt.json` with status `quarantine-exit-certified`.
+
+Promotion is unit-scoped. Each approved unit moves only from:
+
+`quarantine` → `certified-adapted-staging`
+
+The promotion receipt **does not** publish the game, activate production content, or grant live runtime authority. It carries:
+
+- `quarantineExitApproved=true` for the explicitly selected units;
+- `publicationAllowed=false`;
+- `liveActivationAllowed=false`;
+- top-level `publicationStarted=false`;
+- `productionActivationAllowed=false`;
+- a required next integration-readiness review.
+
+The receipt is SHA-256 payload-bound and also records the exact adaptation-receipt SHA-256/receiptHash, exact development-run SHA-256/runHash, migration evidence hash, approved plan/export lineage, verification-summary hash, mutation-target hash, and certification hash.
+
+This keeps development verification, quarantine exit, integration, publication and live activation as separate authorities.
+
 ## Audit artifact
 
 Each run produces an immutable JSON artifact containing:
@@ -309,6 +359,7 @@ Each run produces an immutable JSON artifact containing:
 - verified migration evidence and exact selected migration-unit artifact hashes when the run adapts migrated content;
 - attested Studio connector identity for migration adaptations;
 - a sibling migration-adaptation receipt for verified migration runs, binding repository gates and persistent mutation targets while withholding quarantine-exit authority;
+- a separate unit-scoped migration-promotion receipt only after quarantine-exit certification;
 - deterministic run hash.
 
 The artifact intentionally does not retain:
