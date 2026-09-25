@@ -231,7 +231,10 @@ export async function publishPlaceVersion({
   universeId,
   placeId,
   bytes,
-  fetchImpl=globalThis.fetch
+  fetchImpl=globalThis.fetch,
+  retryAttempts=5,
+  retryBaseMs=2000,
+  retryMaxMs=30_000
 }){
   const key=requireApiKey(apiKey);
   const universe=requireId(universeId,'universeId');
@@ -240,17 +243,28 @@ export async function publishPlaceVersion({
     throw new Error('publish bytes are required');
   }
 
-  const response=await fetchImpl(
-    PUBLISH_ROOT + '/' + universe + '/places/' + place + '/versions?versionType=Published',
-    {
-      method:'POST',
-      headers:{
-        'x-api-key':key,
-        'content-type':'application/xml'
-      },
-      body:bytes
-    }
-  );
+  const maxAttempts=Math.max(1,Math.min(8,Number(retryAttempts) || 5));
+  let response;
+  for(let attempt=0;attempt<maxAttempts;attempt+=1){
+    response=await fetchImpl(
+      PUBLISH_ROOT + '/' + universe + '/places/' + place + '/versions?versionType=Published',
+      {
+        method:'POST',
+        headers:{
+          'x-api-key':key,
+          'content-type':'application/xml'
+        },
+        body:bytes
+      }
+    );
+    if(response.status !== 429 || attempt === maxAttempts-1) break;
+    await delay(retryAfterMs(response,{
+      attempt,
+      baseMs:Math.max(0,Number(retryBaseMs) || 0),
+      maxMs:Math.max(0,Number(retryMaxMs) || 0)
+    }));
+  }
+
   const payload=await parseResponse(response,'Roblox place publish');
   const versionNumber=Number(payload?.versionNumber);
   if(!Number.isInteger(versionNumber) || versionNumber < 1){
@@ -320,16 +334,23 @@ export function buildPrivatePublishReceipt({
   sourceCommit,
   previousVersion,
   publishedVersion,
-  verifiedVersion,
+  verifiedVersion=null,
   artifactSha256,
   artifactBytes,
   skipped=false,
   verificationTaskPath=null
 }){
+  const published=Number(publishedVersion);
+  const verified=verifiedVersion == null ? null : Number(verifiedVersion);
+  const verificationComplete=Number.isInteger(verified) && verified === published;
   return Object.freeze({
     schemaVersion:1,
     receiptVersion:STARBLOX_PRIVATE_PUBLISH_VERSION,
-    status:skipped ? 'already-current' : 'published-and-verified',
+    status:skipped
+      ? 'already-current'
+      : verificationComplete
+        ? 'published-and-verified'
+        : 'published-awaiting-runtime-verification',
     releaseId:String(releaseId),
     sourceCommit:String(sourceCommit || ''),
     target:Object.freeze({
@@ -344,8 +365,12 @@ export function buildPrivatePublishReceipt({
     }),
     versions:Object.freeze({
       previous:Number(previousVersion),
-      published:Number(publishedVersion),
-      verified:Number(verifiedVersion)
+      published,
+      verified
+    }),
+    verification:Object.freeze({
+      status:verificationComplete ? 'verified' : 'pending-production-server-boot',
+      taskPath:verificationTaskPath ? String(verificationTaskPath) : null
     }),
     verificationTaskPath:verificationTaskPath ? String(verificationTaskPath) : null,
     authority:Object.freeze({
@@ -356,6 +381,7 @@ export function buildPrivatePublishReceipt({
     }),
     rollback:Object.freeze({
       preservedPreviousVersion:Number(previousVersion),
+      previousVersionBasis:'immediate predecessor of the version number returned by the serialized publish request',
       mechanism:'Roblox Creator Dashboard > Configure > Places > Version History > Restore',
       automaticRollbackAttempted:false,
       note:'Roblox retains saved place versions; restoring a prior version creates a new place version.'

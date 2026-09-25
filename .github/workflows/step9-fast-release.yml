@@ -99,13 +99,51 @@ jobs:
           ROBLOX_OPEN_CLOUD_API_KEY: ${{ secrets.ROBLOX_OPEN_CLOUD_API_KEY }}
           ROBLOX_UNIVERSE_ID: ${{ vars.ROBLOX_UNIVERSE_ID }}
           ROBLOX_PLACE_ID: ${{ vars.ROBLOX_PLACE_ID }}
-        run: npm run roblox:production-server-boot-proof
-      - name: Upload private publish receipt
+        run: |
+          mkdir -p artifacts
+          node scripts/verify-roblox-production-server-boot.mjs > artifacts/starblox-production-server-boot-proof.json
+          cat artifacts/starblox-production-server-boot-proof.json
+          node --input-type=module - <<'NODE'
+          import {createHash} from 'node:crypto';
+          import {readFile,writeFile} from 'node:fs/promises';
+          const publishBytes=await readFile('artifacts/starblox-private-publish-receipt.json');
+          const bootBytes=await readFile('artifacts/starblox-production-server-boot-proof.json');
+          const publish=JSON.parse(publishBytes);
+          const boot=JSON.parse(bootBytes);
+          if(publish.status!=='published-awaiting-runtime-verification'){
+            throw new Error('publish receipt is not awaiting runtime verification');
+          }
+          if(boot.status!=='verified') throw new Error('production server boot is not verified');
+          if(boot.releaseId!==publish.releaseId) throw new Error('release id mismatch between publish and server boot');
+          if(Number(boot.versionNumber)!==Number(publish.versions?.published)){
+            throw new Error('server boot did not verify the exact published place version');
+          }
+          const digest=bytes=>createHash('sha256').update(bytes).digest('hex');
+          const bound={
+            schemaVersion:1,
+            status:'published-and-production-server-boot-verified',
+            releaseId:publish.releaseId,
+            sourceCommit:publish.sourceCommit,
+            versionNumber:Number(boot.versionNumber),
+            publishReceiptSha256:digest(publishBytes),
+            serverBootProofSha256:digest(bootBytes),
+            brookhavenWorldMounted:boot.evidence?.brookhavenWorldMounted===true,
+            privacyBoundary:'real-client evidence still required separately'
+          };
+          await writeFile(
+            'artifacts/starblox-step9-runtime-verification.json',
+            JSON.stringify(bound,null,2)+'\n'
+          );
+          NODE
+      - name: Upload Step 9 publish and runtime verification
         if: ${{ always() }}
         uses: actions/upload-artifact@v4
         with:
-          name: starblox-step9-v3-private-publish
-          path: artifacts/starblox-private-publish-receipt.json
+          name: starblox-step9-v3-runtime-verification
+          path: |
+            artifacts/starblox-private-publish-receipt.json
+            artifacts/starblox-production-server-boot-proof.json
+            artifacts/starblox-step9-runtime-verification.json
           if-no-files-found: ignore
           retention-days: 30
 

@@ -6,10 +6,8 @@ import {
   STARBLOX_PRIVATE_RELEASE_ID,
   assertPublishCompatibleXml,
   buildPrivatePublishReceipt,
-  probeCurrentRelease,
   publishPlaceVersion,
-  sha256Bytes,
-  verifyPublishedRelease
+  sha256Bytes
 } from '../src/robloxRuntime/privatePublish.js';
 
 const EXPECTED_UNIVERSE_ID='6027194615';
@@ -50,8 +48,6 @@ async function emit(receipt){
   }
   process.stdout.write(json);
 }
-
-const before=await probeCurrentRelease({apiKey,universeId,placeId});
 
 const rojo=process.platform === 'win32' ? 'rojo.exe' : 'rojo';
 const version=run(rojo,['--version'],'Rojo version check');
@@ -143,34 +139,20 @@ try{
   const artifactSha256=sha256Bytes(bytes);
   const artifactBytes=bytes.length;
   const published=await publishPlaceVersion({apiKey,universeId,placeId,bytes});
-
-  if(published.versionNumber <= before.versionNumber){
-    throw new Error(
-      'Roblox publish did not advance the place version: previous=' +
-      before.versionNumber + ' published=' + published.versionNumber
-    );
-  }
-
-  const verified=await verifyPublishedRelease({
-    apiKey,
-    universeId,
-    placeId,
-    releaseId:STARBLOX_PRIVATE_RELEASE_ID,
-    versionNumber:published.versionNumber
-  });
+  const previousVersion=Math.max(0,published.versionNumber-1);
 
   await emit(buildPrivatePublishReceipt({
     universeId,
     placeId,
     releaseId:STARBLOX_PRIVATE_RELEASE_ID,
     sourceCommit,
-    previousVersion:before.versionNumber,
+    previousVersion,
     publishedVersion:published.versionNumber,
-    verifiedVersion:verified.versionNumber,
+    verifiedVersion:null,
     artifactSha256,
     artifactBytes,
     skipped:false,
-    verificationTaskPath:verified.taskPath
+    verificationTaskPath:null
   }));
 }finally{
   if(process.env.STARBLOX_KEEP_PRIVATE_BUILD !== '1'){
