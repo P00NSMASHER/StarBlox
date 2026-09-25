@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "baselineVersion": "starblox-native-place-baseline-v1",
+  "status": "repository-verified-sync-ready",
+  "placeProject": "roblox/default.project.json",
+  "placeName": "StarBloxRoblox",
+  "syncRoots": {
+    "ReplicatedStorage/StarBlox": "roblox/src/shared",
+    "ServerScriptService/StarBlox": "roblox/src/server",
+    "StarterPlayer/StarterPlayerScripts/StarBlox": "roblox/src/client"
+  },
+  "studioConnector": {
+    "project": "roblox/devFactoryPlugin/default.project.json",
+    "protocol": "starblox-studio-connector-v1",
+    "bridge": "http://127.0.0.1:38473",
+    "livePeerAttestationRequired": true
+  },
+  "toolchain": {
+    "manager": "Rokit",
+    "managerVersion": "1.2.0",
+    "rojoVersion": "7.6.1"
+  },
+  "proof": {
+    "placeBuildRequired": true,
+    "connectorBuildRequired": true,
+    "rojoServeEndpointRequired": true,
+    "liveStudioPeerAttested": false
+  },
+  "authority": {
+    "publicationAllowed": false,
+    "liveActivationAllowed": false,
+    "productionDataMutationAllowed": false
+  }
+}
