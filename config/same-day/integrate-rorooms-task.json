@@ -1,0 +1,5 @@
+{
+  "id": "same-day-integrate-rorooms",
+  "request": "Using the authorized source checkout at vendor/authorized/Rorooms, selectively port profiles, avatar selection, friends, items, emotes and world-navigation UI into StarBlox. Route durable state through StarBlox ProfileStore/Replica boundaries and keep social safety controls server-authoritative. Preserve the existing StarBlox UI and only replace or extend components where the donor materially shortens implementation.",
+  "searchQuery": "profile friends items emotes avatar worlds ui"
+}
