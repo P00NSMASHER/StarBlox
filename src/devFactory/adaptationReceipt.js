@@ -11,49 +11,6 @@ function gatePassed(value){
   return value === true || Boolean(value && typeof value === 'object' && value.ok === true);
 }
 
-function mutationTargets(run){
-  const seen=new Map();
-
-  for(const cycle of run.cycles || []){
-    if(!['code','repair'].includes(cycle?.stage)) continue;
-    const receipts=Array.isArray(cycle?.batch?.receipts)
-      ? cycle.batch.receipts
-      : [];
-
-    for(const receipt of receipts){
-      if(receipt?.ok !== true) continue;
-      if(!['write','destructive','execute'].includes(String(receipt?.effect || ''))) continue;
-
-      const path=String(
-        receipt?.result?.path ||
-        receipt?.result?.deleted ||
-        ''
-      ).trim();
-      if(!path) continue;
-
-      const tool=String(receipt?.tool || '');
-      const property=typeof receipt?.result?.property === 'string'
-        ? receipt.result.property
-        : null;
-      const key=[tool,path,property || ''].join('||');
-
-      if(!seen.has(key)){
-        seen.set(key,{
-          tool,
-          path,
-          property
-        });
-      }
-    }
-  }
-
-  return [...seen.values()].sort((a,b) =>
-    a.path.localeCompare(b.path) ||
-    a.tool.localeCompare(b.tool) ||
-    String(a.property || '').localeCompare(String(b.property || ''))
-  );
-}
-
 function receiptPayload(receipt){
   return {
     schemaVersion:receipt.schemaVersion,
@@ -110,7 +67,9 @@ export function buildMigrationAdaptationReceipt({
     throw new Error('development run artifact bytes are invalid');
   }
 
-  const targets=mutationTargets(run);
+  const targets=Array.isArray(run.mutationSummary?.targets)
+    ? run.mutationSummary.targets.map(target => ({...target}))
+    : [];
   if(targets.length === 0){
     throw new Error('verified migration adaptation made no persistent Studio mutations');
   }
