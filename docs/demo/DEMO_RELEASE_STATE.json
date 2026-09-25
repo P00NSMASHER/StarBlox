@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "project": "StarBlox",
+  "branch": "demo-freeze",
+  "baselinePreproductionHead": "d8cdc27fd943cc3ecde632ca4247bf9650d77c29",
+  "strategy": "artwork -> feature freeze -> polished demo -> immutable demo tag -> production reconciliation",
+  "protectedWork": {
+    "mainTouched": false,
+    "pr46Merged": false,
+    "pr46Policy": "defer until after immutable demo freeze"
+  },
+  "demoProfile": {
+    "startScreen": "room",
+    "resetControl": true,
+    "stagedPurchase": "companions-10",
+    "stagedPlacement": "decor-11",
+    "coins": 720,
+    "stars": 8,
+    "xp": 610,
+    "starWorth": 2400
+  },
+  "artwork": {
+    "manifestVersion": 47,
+    "finalPortable": 185,
+    "target": 192,
+    "remaining": [
+      "companions-2",
+      "companions-5",
+      "companions-6",
+      "companions-7",
+      "companions-8",
+      "companions-9",
+      "companions-12"
+    ],
+    "note": "Seven companion assets remain blocked only by live parity verification; repository artwork/wiring exists."
+  },
+  "qa": {
+    "ci": "PENDING",
+    "visualBrowser": "PENDING",
+    "persistenceBrowser": "PENDING",
+    "questEndToEnd": "PENDING",
+    "buyEquipPlace": "PENDING",
+    "mobileDesktop": "PENDING",
+    "consoleRuntimeErrors": "PENDING",
+    "resetDemo": "IMPLEMENTED_NOT_YET_BROWSER_VERIFIED"
+  },
+  "deployment": {
+    "replitAllowed": true,
+    "attempted": true,
+    "changed": false,
+    "status": "BLOCKED_BY_BROWSER_TUNNEL",
+    "publicUrl": "https://star-blox.replit.app"
+  },
+  "freeze": {
+    "immutableTagCreated": false,
+    "ready": false
+  }
+}
