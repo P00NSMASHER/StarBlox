@@ -192,6 +192,21 @@ describe('Step 5: Brookhaven migration planning', () => {
     expect(risky.riskFlags).toContain('dynamic-code');
   });
 
+  it('can project a mixed scripted system into staging without authorizing its legacy code', () => {
+    const plan=buildRobloxMigrationPlan(catalog(),{
+      minEngineeringLeverageScore:0,
+      assetProjectionSystems:['House System']
+    });
+
+    const house=plan.units.find(unit => unit.systemName === 'House System');
+    expect(house.selected).toBe(true);
+    expect(house.migrationStrategy).toBe('asset-projection');
+    expect(house.exportDisposition).toBe('staging');
+    expect(house.projectionPolicy).toBe('strip-executable-network-v1');
+    expect(house.stats.scripts).toBeGreaterThan(0);
+    expect(house.stats.remotes).toBeGreaterThan(0);
+  });
+
   it('supports capability and system exclusions without mutating the source catalog', () => {
     const source=catalog();
     const before=JSON.parse(JSON.stringify(source));
@@ -239,6 +254,31 @@ describe('Step 5: Brookhaven migration planning', () => {
     expect(markdown).toContain('Vehicle Fleet');
     expect(markdown).toContain(plan.planHash);
     expect(markdown).toContain('staging artifacts only');
+  });
+});
+
+describe('Step 5: asset projection bundle integrity', () => {
+  it('requires explicit zero-forbidden sanitization evidence', () => {
+    const plan=buildRobloxMigrationPlan(catalog(),{
+      minEngineeringLeverageScore:0,
+      assetProjectionSystems:['House System']
+    });
+    const house=plan.units.find(unit => unit.systemName === 'House System');
+
+    expect(() => buildMigrationBundleManifest(plan,[{
+      unitId:house.unitId,
+      disposition:'staging',
+      file:'staging/' + house.unitId + '.rbxmx',
+      sha256:'d'.repeat(64),
+      bytes:100,
+      projection:{
+        policy:'strip-executable-network-v1',
+        sanitized:true,
+        strippedInstances:2,
+        strippedForbiddenInstances:2,
+        forbiddenRemaining:1
+      }
+    }])).toThrow(/asset projection evidence/);
   });
 });
 
