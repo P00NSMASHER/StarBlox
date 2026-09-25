@@ -15,6 +15,7 @@ local SocialWorldService = require(script.Parent.SocialWorldService)
 local AiNpcService = require(script.Parent.AiNpcService)
 local AuthoritativeActionService = require(script.Parent.AuthoritativeActionService)
 local CoreGameLoopService = require(script.Parent.CoreGameLoopService)
+local PrivatePlaytestTelemetryService = require(script.Parent.PrivatePlaytestTelemetryService)
 
 local Bootstrap = {}
 
@@ -34,7 +35,8 @@ function Bootstrap.start(dependencies)
 	local social = SocialWorldService.new(profiles, replicas, ecs, liveOps, dependencies.SocialWorldAdapters)
 	local aiNpc = AiNpcService.new(profiles, dependencies.AiNpcAdapters, dependencies.TelemetrySink)
 	local action = AuthoritativeActionService.new(dependencies.ActionAdapters, dependencies.TelemetrySink)
-	local coreLoop = CoreGameLoopService.new(profiles, replicas)
+	local privatePlaytestTelemetry = PrivatePlaytestTelemetryService.new()
+	local coreLoop = CoreGameLoopService.new(profiles, replicas, privatePlaytestTelemetry)
 	action:Start()
 
 	local function playerAdded(player: Player)
@@ -46,12 +48,14 @@ function Bootstrap.start(dependencies)
 			return
 		end
 		replicas:Attach(player, profile.Data)
+		privatePlaytestTelemetry:PlayerReady(player)
 		coreLoop:PlayerReady(player, profile.Data)
 		action:PlayerAdded(player)
 	end
 
 	local function playerRemoving(player: Player)
 		coreLoop:PlayerRemoving(player)
+		privatePlaytestTelemetry:PlayerRemoving(player)
 		social:PlayerRemoving(player)
 		aiNpc:PlayerRemoving(player)
 		action:PlayerRemoving(player)
@@ -66,7 +70,9 @@ function Bootstrap.start(dependencies)
 	Players.PlayerRemoving:Connect(playerRemoving)
 
 	game:BindToClose(function()
+		privatePlaytestTelemetry:FlushAll()
 		coreLoop:Destroy()
+		privatePlaytestTelemetry:Destroy()
 		action:Stop()
 		replicas:Shutdown()
 		profiles:ReleaseAll()
@@ -84,6 +90,7 @@ function Bootstrap.start(dependencies)
 		AiNpc = aiNpc,
 		Action = action,
 		CoreLoop = coreLoop,
+		PrivatePlaytestTelemetry = privatePlaytestTelemetry,
 	})
 end
 
