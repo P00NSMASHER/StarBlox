@@ -26,6 +26,9 @@ jobs:
         with:
           node-version: '22'
 
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
       - name: Verify final-client gate unit contract
         run: npx vitest run src/robloxRuntime/finalClientGate.test.js
 
