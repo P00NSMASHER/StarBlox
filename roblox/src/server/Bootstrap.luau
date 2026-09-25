@@ -20,11 +20,11 @@ local Bootstrap = {}
 function Bootstrap.start(dependencies)
 	assert(dependencies ~= nil, "dependencies are required")
 	assert(dependencies.ProfileStore ~= nil, "ProfileStore dependency is required")
-	assert(dependencies.ReplicaService ~= nil, "ReplicaService dependency is required")
+	assert(dependencies.Replica ~= nil, "Replica dependency is required")
 	assert(dependencies.Matter ~= nil, "Matter dependency is required")
 
 	local profiles = ProfileSessionService.new(dependencies.ProfileStore, ProfileTemplate)
-	local replicas = ReplicaStateService.new(dependencies.ReplicaService)
+	local replicas = ReplicaStateService.new(dependencies.Replica)
 	local ecs = WorldEcsService.new(dependencies.Matter)
 	local artifacts = RuntimeArtifactService.new()
 	local replays = ReplayIngressService.new(dependencies.ReplayLimits)
@@ -63,9 +63,7 @@ function Bootstrap.start(dependencies)
 
 	game:BindToClose(function()
 		action:Stop()
-		for _, player in Players:GetPlayers() do
-			replicas:Detach(player)
-		end
+		replicas:Shutdown()
 		profiles:ReleaseAll()
 	end)
 
