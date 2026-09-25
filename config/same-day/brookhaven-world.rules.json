@@ -1,0 +1,23 @@
+{
+  "includeCapabilities": [
+    "housing",
+    "vehicles",
+    "ui",
+    "npc",
+    "quests",
+    "social",
+    "placement",
+    "animation",
+    "audio",
+    "world",
+    "effects"
+  ],
+  "excludeCapabilities": [],
+  "includeSystems": [],
+  "excludeSystems": [],
+  "assetProjectionSystems": [
+    "Workspace"
+  ],
+  "minEngineeringLeverageScore": 3.5,
+  "includeRisky": false
+}
