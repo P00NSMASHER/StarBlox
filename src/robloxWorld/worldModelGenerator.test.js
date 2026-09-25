@@ -38,7 +38,8 @@ function fullIr(){
         face:'Enum.NormalId.Front',
         texture:'rbxassetid://5812251043',
         assetIds:['5812251043']
-      }
+      },
+      assetIds:['5812251043']
     };
   }
   for(let i=0;i<61;i++){
@@ -66,7 +67,8 @@ function fullIr(){
       meshId:'rbxassetid://461088522',
       texture:'',
       assetIds:['461088522']
-    }
+    },
+    assetIds:['461088522']
   };
   return {
     version:'starblox-brookhaven-world-ir-v1',
