@@ -218,6 +218,25 @@ jobs:
           cargo run --quiet --manifest-path tools/roblox_catalog_reader/Cargo.toml -- \
             /tmp/starblox-step4-world/StarBlox-Step4-Isolated-World.rbxlx \
             > /tmp/starblox-step4-world/place-dom.json
+      - name: Prove property-exact Brookhaven world mount into StarBlox
+        run: |
+          cargo test --manifest-path tools/roblox_world_mount_verifier/Cargo.toml --quiet
+          npm run roblox:brookhaven-world:compose -- \
+            --baseline /tmp/starblox-step4-world/BrookhavenWorldBaseline.rbxmx \
+            --generation-receipt /tmp/starblox-step4-world/generation-receipt.json \
+            --out /tmp/starblox-step5-mounted.rbxlx \
+            --receipt /tmp/starblox-step5-mount-receipt.json
+          test -s /tmp/starblox-step5-mounted.rbxlx
+          test -s /tmp/starblox-step5-mount-receipt.json
+          grep -q '"status": "verified-property-exact-starblox-mount"' /tmp/starblox-step5-mount-receipt.json
+          grep -q '"propertyExact": true' /tmp/starblox-step5-mount-receipt.json
+          grep -q '"instanceCount": 5493' /tmp/starblox-step5-mount-receipt.json
+          grep -q '"scriptCount": 0' /tmp/starblox-step5-mount-receipt.json
+          grep -q '"remoteCount": 0' /tmp/starblox-step5-mount-receipt.json
+          grep -q '"reusedStep4Artifacts": true' /tmp/starblox-step5-mount-receipt.json
+          grep -q '"publicationStarted": false' /tmp/starblox-step5-mount-receipt.json
+          grep -q 'BrookhavenWorldBaseline' /tmp/starblox-step5-mounted.rbxlx
+          grep -q 'StarBlox' /tmp/starblox-step5-mounted.rbxlx
       - name: Prove native Roblox build
         run: npm run roblox:native:build-proof
       - name: Prove Roblox Studio sync baseline
