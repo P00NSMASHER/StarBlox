@@ -426,6 +426,18 @@ jobs:
             echo "expected non-touch mobile evidence to be rejected"
             exit 1
           fi
+      - name: Verify pinned donor adapter specifications
+        run: |
+          for donor in arnis achassis flex rorooms; do
+            npm run studio:factory -- \
+              --task "config/same-day/integrate-$donor-task.json" \
+              --verify-adapter-spec-only \
+              --out "/tmp/$donor-adapter-spec.json"
+            grep -q '"version": "starblox-donor-adapter-spec-v1"' "/tmp/$donor-adapter-spec.json"
+            grep -Eq '"specHash": "fnv1a32:[a-f0-9]{8}"' "/tmp/$donor-adapter-spec.json"
+            grep -Eq '"commit": "[a-f0-9]{40}"' "/tmp/$donor-adapter-spec.json"
+          done
+
       - name: Validate same-day Studio handoff scripts
         run: |
           node --check scripts/same-day-studio-smoke.mjs
