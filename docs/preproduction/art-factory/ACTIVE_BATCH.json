@@ -1,10 +1,10 @@
 {
-  "schemaVersion": 34,
+  "schemaVersion": 35,
   "owner": "15",
   "branch": "screenshot-match-preproduction",
-  "sourceHead": "5a834b014c3f48f5a134068928ffbd3903f7d97e",
-  "updatedAt": "2026-09-24T22:50:00Z",
-  "status": "ACTIVE_FINAL_FOUR_VISIBLE_ART_TAIL",
+  "sourceHead": "a083b97bda64d66ab673a1065a98c73df22c7f78",
+  "updatedAt": "2026-09-25T00:09:12Z",
+  "status": "ACTIVE_FINAL_FOUR_VISIBLE_ART_RETRY",
   "policy": {
     "maxConcurrentProductionBatches": 4,
     "maxItemsPerBatch": 4,
@@ -73,57 +73,75 @@
   },
   "cpuGenerationSemaphore": {
     "workflowPath": ".github/workflows/art-factory-cpu-generation.yml",
-    "observedAt": "2026-09-24T22:50:00Z",
-    "running": {
-      "runId": 36069228853,
-      "headSha": "ba1de25458ac3f34fd49fe87be79f3bdf0d47214",
-      "batch": "w03-desk10-v12-ultraliteral",
-      "state": "IN_PROGRESS",
-      "jobs": [
-        "desks-10"
-      ],
-      "phase": "CPU_GENERATION"
-    },
-    "pending": {
-      "runId": 36069422037,
-      "headSha": "5a834b014c3f48f5a134068928ffbd3903f7d97e",
-      "batch": "w03-desk11-v10-ultraliteral",
-      "state": "PENDING",
-      "jobs": [
-        "desks-11"
-      ]
-    },
-    "authorization": "QUEUE_DECOR11_V8_ONLY_AFTER_DESK11_V10_TRANSITIONS_TO_RUNNING",
-    "rule": "Exactly one running plus one pending. Desk10 v12 runs now; Desk11 v10 is pending; Decor11 v8 is the next prepared successor.",
+    "observedAt": "2026-09-25T00:09:12Z",
+    "running": null,
+    "pending": null,
+    "authorization": "QUEUE_W03_DESKS10_11_THEN_W09_DECOR11_THEN_W13_WALL9",
+    "rule": "All four visible blockers have independent REWORK dispositions. Queue the bounded successor packets under the shared non-cancelling CPU generation semaphore; do not duplicate any of these scopes.",
     "preparedNext": [
       {
         "rank": 1,
-        "queuePath": "docs/preproduction/art-factory/prepared-queues/w09-decor11-v8-simple-stool.json",
+        "queuePath": "docs/preproduction/art-factory/runtime-queue/w03-desks10-v13-desks11-v11-literal-retry.json",
+        "scope": [
+          "desks-10",
+          "desks-11"
+        ],
+        "producer": "03",
+        "reviewerByItem": {
+          "desks-10": "05",
+          "desks-11": "01"
+        }
+      },
+      {
+        "rank": 2,
+        "queuePath": "docs/preproduction/art-factory/runtime-queue/w09-decor11-v9-ultraliteral.json",
         "scope": [
           "decor-11"
         ],
         "producer": "09",
+        "reviewer": "02"
+      },
+      {
+        "rank": 3,
+        "queuePath": "docs/preproduction/art-factory/runtime-queue/w13-wall9-v13-exact-triptych.json",
+        "scope": [
+          "wall-9"
+        ],
+        "producer": "13",
         "reviewer": "02"
       }
     ]
   },
   "batches": [
     {
+      "producer": "03",
+      "batchId": "w03-desks10-v13-desks11-v11-literal-retry",
+      "scope": [
+        "desks-10",
+        "desks-11"
+      ],
+      "state": "AUTHORIZED_QUEUE_NEXT",
+      "reviewerByItem": {
+        "desks-10": "05",
+        "desks-11": "01"
+      }
+    },
+    {
       "producer": "09",
-      "batchId": "w09-decor11-v8-simple-stool",
+      "batchId": "w09-decor11-v9-ultraliteral",
       "scope": [
         "decor-11"
       ],
-      "state": "PREPARED_WAIT_DESK11_RUNNING",
+      "state": "AUTHORIZED_AFTER_V8_REWORK",
       "reviewer": "02"
     },
     {
       "producer": "13",
-      "batchId": "wall9-post-v12",
+      "batchId": "w13-wall9-v13-exact-triptych",
       "scope": [
         "wall-9"
       ],
-      "state": "REWORK_NEEDS_NEW_REQUEST",
+      "state": "AUTHORIZED_AFTER_V12_REWORK",
       "reviewer": "02"
     }
   ],
@@ -286,7 +304,7 @@
     "evidenceHead": "398f5100df0562a1e346c9110597e52b565982d0",
     "rule": "Do not reopen already-green functional browser, Store observer, persistence or reduced-motion investigations absent a bound-hash change or fresh current-byte failure. EXT10 remains limited to the previously released phone composition repair."
   },
-  "antiStallDisposition": "Desk10 v12 and Desk11 v10 CPU generation are complete; producer03 production slots cleared. Decor11 v8 exact candidate is staged for independent review. Wall9 remains bounded REWORK requiring a new request. This reconciliation removes stale duplicate producer03 coordination only; it does not transfer review decisions or canonicalize assets.",
+  "antiStallDisposition": "Desk10 v12, Desk11 v10, Decor11 v8 and Wall9 v12 are independently REWORK and preserved. Three bounded successor packets are authorized: producer03 Desk10 v13 + Desk11 v11, producer09 Decor11 v9, and producer13 Wall9 v13. No accepted exact hash is regenerated or displaced.",
   "crossAccountProduction": {
     "externalScopes": {
       "EXT01": "Tops11-12",
@@ -305,48 +323,40 @@
     "reviewer14LegacyException": "14 may complete already-assigned legacy hash review only; do not route new hashes to 14 for review."
   },
   "readerRule": "Every worker must revalidate branch head, assignment, exact hash and review state before writing. This file never overrides newer exact-hash evidence.",
-  "cycleId": "director-20260924T1954ET-preflight-reconcile",
+  "cycleId": "director-step3-post-review-retry",
   "criticalPath": {
-    "computedAtHead": "5a834b014c3f48f5a134068928ffbd3903f7d97e",
+    "computedAtHead": "a083b97bda64d66ab673a1065a98c73df22c7f78",
     "order": [
       {
         "rank": 1,
-        "blocker": "CPU_DESK10_V12",
+        "blocker": "CPU_DESK10_V13_AND_DESK11_V11",
         "affectedScopes": [
-          "desks-10"
+          "desks-10",
+          "desks-11"
         ],
-        "prerequisite": "Run 36069228853 stages exact candidate.",
-        "nextOwner": "source fail-fast/render -> 05 -> 08 on ACCEPT."
+        "prerequisite": "Exact REWORK decisions recorded for Desk10 v12 and Desk11 v10.",
+        "nextOwner": "03 -> 12/14 -> 05/01 -> 08 on ACCEPT."
       },
       {
         "rank": 2,
-        "blocker": "CPU_DESK11_V10",
-        "affectedScopes": [
-          "desks-11"
-        ],
-        "prerequisite": "Pending run 36069422037 starts automatically after Desk10.",
-        "nextOwner": "source fail-fast/render -> 01 -> 08 on ACCEPT."
-      },
-      {
-        "rank": 3,
-        "blocker": "CPU_DECOR11_V8",
+        "blocker": "CPU_DECOR11_V9",
         "affectedScopes": [
           "decor-11"
         ],
-        "prerequisite": "Desk11 v10 transitions to running; queue prepared v8 once.",
-        "nextOwner": "source fail-fast/render -> 02 -> 08 on ACCEPT."
+        "prerequisite": "Decor11 v8 exact REWORK recorded.",
+        "nextOwner": "09 -> 12/14 -> 02 -> 08 on ACCEPT."
       },
       {
-        "rank": 4,
-        "blocker": "WALL9_POST_V12_REWORK",
+        "rank": 3,
+        "blocker": "CPU_WALL9_V13",
         "affectedScopes": [
           "wall-9"
         ],
-        "prerequisite": "Prepare a genuinely new exact-three-frame request without disturbing current CPU order.",
-        "nextOwner": "13 -> 12/14 -> 02 -> 08."
+        "prerequisite": "Wall9 v12 exact REWORK recorded and new exact-triptych request prepared.",
+        "nextOwner": "13 -> 12/14 -> 02 -> 08 on ACCEPT."
       },
       {
-        "rank": 5,
+        "rank": 4,
         "blocker": "LIVE_COMPANION_PARITY",
         "affectedScopes": [
           "companions-2",
@@ -357,8 +367,8 @@
           "companions-9",
           "companions-12"
         ],
-        "prerequisite": "Replit companion wiring completion + republish + live QA.",
-        "nextOwner": "Replit parity; no blanket generation."
+        "prerequisite": "Live companion image wiring/publish evidence.",
+        "nextOwner": "Live parity remediation; do not regenerate companion art."
       }
     ],
     "acceptedAwaitingCanonical": 0
