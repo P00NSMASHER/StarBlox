@@ -1,0 +1,105 @@
+name: Same-Day Pre-Studio Proof
+
+on:
+  push:
+    branches: [integration/same-day-starblox-pipeline]
+    paths:
+      - .github/workflows/same-day-prestudio-proof.yml
+
+permissions:
+  contents: read
+
+jobs:
+  prove-real-sources:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      CARGO_TARGET_DIR: ${{ github.workspace }}/.cargo-target
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Use Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Use Rust stable
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Run real-source pipeline through migration export
+        run: |
+          rm -rf artifacts/same-day-starblox sources/authorized
+          npm run same-day:pipeline -- \
+            --manifest config/same-day/pipeline.example.json \
+            --stop-after export-robbing \
+            --skip-code-donors
+
+      - name: Verify real-source pre-Studio receipts
+        run: |
+          node --input-type=module - <<'NODE'
+          import {readFile} from 'node:fs/promises';
+          const state=JSON.parse(await readFile(
+            'artifacts/same-day-starblox/same-day-pipeline-state.json',
+            'utf8'
+          ));
+          for(const id of [
+            'ingest-brookhaven','plan-brookhaven','export-brookhaven',
+            'ingest-robbing','plan-robbing','export-robbing'
+          ]){
+            if(state.stages?.[id]?.status!=='complete'){
+              throw new Error(id+' did not complete: '+JSON.stringify(state.stages?.[id]));
+            }
+          }
+          const expected={
+            brookhaven:'ddc2248663770e968dfe2b27b97b577c0c12fd93177305b884bed9c929923217',
+            robbing:'f413653c19d124517c4dc5409b635ae58122d4e1a63255e9aa7608fd0ba9f920'
+          };
+          for(const [id,sha] of Object.entries(expected)){
+            const proof=state.stages['ingest-'+id].result?.bootstrap;
+            if(proof?.verified!==true || proof.sha256!==sha){
+              throw new Error(id+' source pin was not verified');
+            }
+            const plan=JSON.parse(await readFile(
+              'artifacts/same-day-starblox/sources/'+id+'/planning/migration-plan.json',
+              'utf8'
+            ));
+            if(!(plan.summary?.selectedUnits>0)){
+              throw new Error(id+' selected zero migration units');
+            }
+            const receipt=JSON.parse(await readFile(
+              'artifacts/same-day-starblox/sources/'+id+'/export/migration-export-receipt.json',
+              'utf8'
+            ));
+            if(
+              receipt.status!=='exported' ||
+              receipt.liveActivationAllowed!==false ||
+              receipt.publicationStarted!==false
+            ){
+              throw new Error(id+' export receipt is not safely staged');
+            }
+            console.log(id, {
+              selected:plan.summary.selectedUnits,
+              staging:plan.summary.stagingUnits,
+              quarantine:plan.summary.quarantineUnits,
+              bytes:receipt.summary.totalBytes
+            });
+          }
+          NODE
+
+      - name: Upload proof receipts
+        uses: actions/upload-artifact@v4
+        with:
+          name: same-day-prestudio-proof
+          retention-days: 7
+          path: |
+            artifacts/same-day-starblox/same-day-pipeline-plan.json
+            artifacts/same-day-starblox/same-day-pipeline-state.json
+            artifacts/same-day-starblox/sources/*/ingestion/ingestion-receipt.json
+            artifacts/same-day-starblox/sources/*/planning/migration-plan.json
+            artifacts/same-day-starblox/sources/*/planning/migration-planning-receipt.json
+            artifacts/same-day-starblox/sources/*/export/migration-bundle.json
+            artifacts/same-day-starblox/sources/*/export/migration-export-receipt.json
