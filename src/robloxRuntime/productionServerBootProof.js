@@ -69,7 +69,24 @@ assert(services.PrivatePlaytestTelemetry ~= nil, "private playtest telemetry ser
 
 local brookhaven = Workspace:FindFirstChild("BrookhavenWorldBaseline")
 assert(brookhaven ~= nil and brookhaven:IsA("Model"), "verified Brookhaven world mount missing")
-assert(#brookhaven:GetDescendants() + 1 == 5493, "Brookhaven world mount instance count mismatch")
+local brookhavenCount = #brookhaven:GetDescendants() + 1
+if brookhavenCount ~= 5493 then
+    local classCounts = {}
+    for _, instance in brookhaven:GetDescendants() do
+        classCounts[instance.ClassName] = (classCounts[instance.ClassName] or 0) + 1
+    end
+    local classParts = {}
+    for className, count in classCounts do
+        table.insert(classParts, className .. "=" .. tostring(count))
+    end
+    table.sort(classParts)
+    error(
+        "Brookhaven world mount instance count mismatch: actual=" ..
+        tostring(brookhavenCount) ..
+        " expected=5493 classes=" ..
+        table.concat(classParts, ",")
+    )
+end
 
 local world = Workspace:FindFirstChild("StarBloxCoreLoop")
 assert(world ~= nil, "core-loop world was not created by production bootstrap")
