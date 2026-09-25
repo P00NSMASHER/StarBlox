@@ -55,17 +55,20 @@ function resolveLinkedPath(base,value,label){
     : safeResolve(base,value,label);
 }
 
-function runExporter({input,instancePath,out}){
+function runExporter({input,instancePath,out,assetProjection=false}){
+  const exporterArgs=[
+    'run','--quiet',
+    '--manifest-path',exporterManifest,
+    '--',
+    '--input',input,
+    '--path',instancePath,
+    '--out',out
+  ];
+  if(assetProjection) exporterArgs.push('--asset-projection');
+
   const result=spawnSync(
     'cargo',
-    [
-      'run','--quiet',
-      '--manifest-path',exporterManifest,
-      '--',
-      '--input',input,
-      '--path',instancePath,
-      '--out',out
-    ],
+    exporterArgs,
     {
       cwd:root,
       encoding:'utf8',
@@ -439,11 +442,31 @@ async function exportMode({planningReceiptRaw,sourceRootRaw,outDir}){
       unit.unitId + '.rbxmx\n'
     );
 
-    runExporter({
+    const exportResult=runExporter({
       input,
       instancePath:unit.rootPath,
-      out
+      out,
+      assetProjection:unit.migrationStrategy === 'asset-projection'
     });
+
+    let projection=null;
+    if(unit.migrationStrategy === 'asset-projection'){
+      if(
+        exportResult?.assetProjection !== true ||
+        Number(exportResult?.forbiddenRemaining) !== 0
+      ){
+        throw new Error(
+          'asset projection did not prove executable/network stripping for ' + unit.unitId
+        );
+      }
+      projection={
+        policy:unit.projectionPolicy,
+        sanitized:true,
+        strippedInstances:Number(exportResult.strippedInstances || 0),
+        strippedForbiddenInstances:Number(exportResult.strippedForbiddenInstances || 0),
+        forbiddenRemaining:Number(exportResult.forbiddenRemaining || 0)
+      };
+    }
 
     const fileDigest=await digest(out);
     artifacts.push({
@@ -451,7 +474,8 @@ async function exportMode({planningReceiptRaw,sourceRootRaw,outDir}){
       disposition:unit.exportDisposition,
       file:relative(outDir,out).replaceAll('\\','/'),
       sha256:fileDigest.sha256,
-      bytes:fileDigest.bytes
+      bytes:fileDigest.bytes,
+      projection
     });
   }
 
