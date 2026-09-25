@@ -18,7 +18,7 @@ function response(status,payload){
   };
 }
 
-describe('Step 5: private Roblox place publishing', () => {
+describe('Step 6: release-gated private Roblox place publishing', () => {
   it('commits an explicit private-staging deployment marker', () => {
     const source=readFileSync(
       new URL('../../roblox/src/shared/DeploymentManifest.luau',import.meta.url),
@@ -97,6 +97,9 @@ describe('Step 5: private Roblox place publishing', () => {
         const body=JSON.parse(options.body);
         expect(body.script).toContain(STARBLOX_PRIVATE_RELEASE_ID);
         expect(body.script).toContain('game.PlaceVersion == 2');
+        expect(body.script).toContain('BrookhavenWorldBaseline');
+        expect(body.script).toContain('subtree instance count');
+        expect(body.script).toContain('ServerScriptService:FindFirstChild("StarBlox")');
         return response(200,{
           path:'universes/6027194615/places/17602626136/versions/2/luau-execution-sessions/b/tasks/b',
           state:'COMPLETE'
@@ -120,6 +123,7 @@ describe('Step 5: private Roblox place publishing', () => {
       placeId:'17602626136',
       releaseId:STARBLOX_PRIVATE_RELEASE_ID,
       versionNumber:2,
+      world:{subtreeInstanceCount:5493},
       fetchImpl
     });
     expect(result.versionNumber).toBe(2);
@@ -136,7 +140,13 @@ describe('Step 5: private Roblox place publishing', () => {
       verifiedVersion:2,
       artifactSha256:'b'.repeat(64),
       artifactBytes:1234,
-      verificationTaskPath:'task/path'
+      verificationTaskPath:'task/path',
+      releaseGate:{
+        version:'starblox-step6-release-gate-v1',
+        artifactSha256:'b'.repeat(64),
+        baselineModelSha256:'c'.repeat(64),
+        mountedSubtreeSha256:'d'.repeat(64)
+      }
     });
 
     expect(receipt.status).toBe('published-and-verified');
@@ -146,6 +156,12 @@ describe('Step 5: private Roblox place publishing', () => {
       verified:2
     });
     expect(receipt.rollback.preservedPreviousVersion).toBe(1);
+    expect(receipt.releaseGate).toEqual({
+      version:'starblox-step6-release-gate-v1',
+      artifactSha256:'b'.repeat(64),
+      baselineModelSha256:'c'.repeat(64),
+      mountedSubtreeSha256:'d'.repeat(64)
+    });
     expect(receipt.authority).toEqual({
       experienceVisibilityChangeAttempted:false,
       publicAccessChangeAttempted:false,
