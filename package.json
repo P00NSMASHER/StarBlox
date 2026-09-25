@@ -23,7 +23,8 @@
     "same-day:pipeline": "node scripts/same-day-pipeline.mjs",
     "same-day:gate": "node scripts/same-day-evidence-gate.mjs",
     "same-day:verify": "node scripts/verify-same-day-summary.mjs",
-    "same-day:doctor": "node scripts/same-day-doctor.mjs"
+    "same-day:doctor": "node scripts/same-day-doctor.mjs",
+    "same-day:status": "node scripts/same-day-status.mjs"
   },
   "dependencies": {
     "lucide-react": "^0.468.0",
