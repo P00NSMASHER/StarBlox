@@ -322,6 +322,23 @@ mod tests {
         let _ = fs::remove_file(mounted);
     }
 
+
+    #[test]
+    fn accepts_only_exact_color3_uint8_equivalence() {
+        use rbx_dom_weak::types::{Color3, Color3uint8};
+
+        let float = Variant::Color3(Color3 {
+            r: 17.0 / 255.0,
+            g: 34.0 / 255.0,
+            b: 51.0 / 255.0,
+        });
+        let exact = Variant::Color3uint8(Color3uint8 { r: 17, g: 34, b: 51 });
+        let drifted = Variant::Color3uint8(Color3uint8 { r: 18, g: 34, b: 51 });
+
+        assert!(color3_uint8_equivalent(&float, &exact));
+        assert!(!color3_uint8_equivalent(&float, &drifted));
+    }
+
     #[test]
     fn rejects_property_drift() {
         let baseline = temp("rbxmx");
