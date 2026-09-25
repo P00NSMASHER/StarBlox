@@ -1,0 +1,79 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_BATCH_REQUEST",
+  "planner": "15",
+  "producer": "03",
+  "preflightOwner": "06",
+  "reviewer": "05",
+  "renderOwner": "14",
+  "integrationOwner": "08",
+  "coordinationOwner": "15",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "365d1176a5a9f41b31bc82bc16c75c4e12c9e57a",
+  "manifestVersion": 45,
+  "batchId": "w03-desk10-v15-mic-studio",
+  "scope": [
+    "desks-10"
+  ],
+  "state": "PREPARED_AFTER_V14_RENDERED_REWORK",
+  "assignmentAuthority": {
+    "path": "docs/preproduction/art-factory/RELEASE_BLOCKERS_CURRENT.json",
+    "runtimeProofPath": "docs/preproduction/art-factory/CPU_RUNTIME_PROOF.json",
+    "runtimeProofStatus": "PROVEN",
+    "runtimeCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+    "modelRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "assignedReviewers": {
+      "desks-10": "05"
+    },
+    "note": "Planner artifact preserved the human repair reason but collapsed the runtime prompt to generic silhouette/readability language. This bounded v15 request restores the exact rendered-v14 repair contract before dispatch."
+  },
+  "reviewSource": {
+    "decision": "REWORK",
+    "latestExact": {
+      "version": "v14",
+      "gitBlobSha": "29b310a7f075abeb8acb58bcad84474394bdce6a",
+      "sha256": "688bba457a3352ea43d510dd64ce37d45062b44fb1062d4d1521053905fa4c21"
+    },
+    "workflowRunId": 36084552262,
+    "artifactId": 10843243182,
+    "reasonCodes": [
+      "MICROPHONE_STILL_MISSING",
+      "OVERSIZED_MONITOR_DOMINATES",
+      "ROOM_CONTEXT_PRESENT",
+      "ISOLATED_PRODUCT_CONTRACT_FAILURE"
+    ]
+  },
+  "items": {
+    "desks-10": {
+      "currentLegacy": {
+        "reviewDecision": "REWORK",
+        "gitBlobSha1": "29b310a7f075abeb8acb58bcad84474394bdce6a"
+      },
+      "variants": [
+        {
+          "variantId": "A-MIC-FIRST-WHITE-STUDIO",
+          "optimizerInput": "One broad black streaming desk on plain white studio background. Two stable side supports. One smaller monitor. One short boom microphone with obvious capsule clamped to right desk edge. One closed PC tower below. Cyan trim. No room, wall, shelves, rear frame, chair, extra screen, collage, labels, text."
+        },
+        {
+          "variantId": "B-MINIMAL-STREAMING-DESK",
+          "optimizerInput": "Single isolated black streaming desk on white. Broad top, two side supports, small monitor, short boom mic with visible capsule clamped to right edge, closed PC tower below, cyan accents. No room architecture, shelf, chair, rear panel, duplicate view, text."
+        }
+      ]
+    }
+  },
+  "executionBudget": {
+    "width": 640,
+    "height": 640,
+    "steps": 12,
+    "guidanceScale": 5,
+    "dtype": "float32"
+  },
+  "safety": {
+    "preserveRejectedExactHashes": true,
+    "preserveAcceptedExactHashes": true,
+    "producerSelfReview": false,
+    "canonicalMappingsChanged": false,
+    "workflowFilesChanged": false
+  }
+}
