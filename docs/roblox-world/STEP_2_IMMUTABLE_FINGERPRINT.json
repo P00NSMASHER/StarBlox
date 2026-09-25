@@ -4,7 +4,8 @@
   "status": "verified-corrected",
   "verifiedBy": {
     "workflow": "StarBlox CI",
-    "runId": 36182237878
+    "runId": 36182237878,
+    "verifiedHead": "f800be8a5b5badad76bdefd3bf4d44c094829f3a"
   },
   "source": {
     "label": "Brookhaven Map serialized world",
@@ -38,6 +39,10 @@
         2208.18701171875
       ]
     },
+    "positionSequence": {
+      "count": 4936,
+      "sequenceSha256": "b528da8fcca3e908d9d9cc776e6abafe1f4acec37a64c82ca5a3a71a82e7d6d0"
+    },
     "sizes": {
       "count": 4936,
       "min": [
@@ -50,6 +55,18 @@
         492.7134704589844,
         1998.17041015625
       ]
+    },
+    "sizeSequence": {
+      "count": 4936,
+      "sequenceSha256": "c0c34c55b042331077f406076406f0a973d49650c29ea724a422fdca9ea357a3"
+    },
+    "cframes": {
+      "count": 4936,
+      "sequenceSha256": "e9790fa1d2dd287b070276344ae34de3abed79624c152f15b58211e4b04d43dc"
+    },
+    "colors": {
+      "count": 4936,
+      "sequenceSha256": "59924314fdbd941952f9ec3b365eb97d0e01a92384b0d8a754e9aa266610302b"
     },
     "shapeCounts": {
       "Block": 4244,
@@ -114,22 +131,6 @@
       "canCollideTrue": 2705,
       "canCollideFalse": 2231,
       "enumReferences": 556
-    },
-    "positionSequence": {
-      "count": 4936,
-      "sequenceSha256": "b528da8fcca3e908d9d9cc776e6abafe1f4acec37a64c82ca5a3a71a82e7d6d0"
-    },
-    "sizeSequence": {
-      "count": 4936,
-      "sequenceSha256": "c0c34c55b042331077f406076406f0a973d49650c29ea724a422fdca9ea357a3"
-    },
-    "cframes": {
-      "count": 4936,
-      "sequenceSha256": "e9790fa1d2dd287b070276344ae34de3abed79624c152f15b58211e4b04d43dc"
-    },
-    "colors": {
-      "count": 4936,
-      "sequenceSha256": "59924314fdbd941952f9ec3b365eb97d0e01a92384b0d8a754e9aa266610302b"
     }
   },
   "metadataDiscrepancies": [
