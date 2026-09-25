@@ -29,11 +29,11 @@ jobs:
           printf '%s\\n' 'demo-release-candidate-2026-09-25' > dist/RELEASE_SOURCE.txt
       - name: Build Cloudflare Pages manifest
         run: |
-          npm install --no-save --package-lock=false blake3-wasm
+          npm install --no-save --package-lock=false @noble/hashes
           node --input-type=module <<'NODE'
           import fs from 'node:fs';
           import path from 'node:path';
-          import { hash as blake3hash } from 'blake3-wasm';
+          import { blake3 } from '@noble/hashes/blake3.js';
 
           const root = 'dist';
           const manifest = {};
@@ -46,7 +46,7 @@ jobs:
               const rel = path.relative(root,full).split(path.sep).join('/');
               const buf = fs.readFileSync(full);
               const ext = path.extname(rel).slice(1);
-              const hash = blake3hash(buf.toString('base64') + ext).toString('hex').slice(0,32);
+              const hash = Buffer.from(blake3(new TextEncoder().encode(buf.toString('base64') + ext))).toString('hex').slice(0,32);
               const publicPath = path.join('public',...rel.split('/'));
               const source = fs.existsSync(publicPath) ? 'public' : 'generated';
               manifest['/' + rel] = hash;
