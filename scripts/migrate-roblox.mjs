@@ -55,15 +55,23 @@ function resolveLinkedPath(base,value,label){
     : safeResolve(base,value,label);
 }
 
-function runExporter({input,instancePath,out,assetProjection=false}){
+function runExporterRequests({input,requests,assetProjection=false}){
+  if(!Array.isArray(requests) || requests.length === 0){
+    throw new Error('migration exporter requests are required');
+  }
+  if(assetProjection && requests.length !== 1){
+    throw new Error('asset projection exporter requests must run one at a time');
+  }
+
   const exporterArgs=[
     'run','--quiet',
     '--manifest-path',exporterManifest,
     '--',
-    '--input',input,
-    '--path',instancePath,
-    '--out',out
+    '--input',input
   ];
+  for(const request of requests){
+    exporterArgs.push('--path',request.instancePath,'--out',request.out);
+  }
   if(assetProjection) exporterArgs.push('--asset-projection');
 
   const result=spawnSync(
@@ -76,21 +84,44 @@ function runExporter({input,instancePath,out,assetProjection=false}){
     }
   );
 
+  const label=requests.map(request=>request.instancePath).join(', ');
   if(result.error){
     throw new Error('could not start migration exporter: ' + result.error.message);
   }
   if(result.status !== 0){
     throw new Error(
-      'migration exporter failed for ' + instancePath + ': ' +
+      'migration exporter failed for ' + label + ': ' +
       (result.stderr || result.stdout || ('exit ' + result.status)).trim()
     );
   }
 
+  let payload;
   try{
-    return JSON.parse(result.stdout);
+    payload=JSON.parse(result.stdout);
   }catch{
-    throw new Error('migration exporter returned invalid JSON for ' + instancePath);
+    throw new Error('migration exporter returned invalid JSON for ' + label);
   }
+
+  if(requests.length === 1){
+    return [payload];
+  }
+  if(
+    payload?.ok !== true ||
+    payload?.batch !== true ||
+    !Array.isArray(payload.exports) ||
+    payload.exports.length !== requests.length
+  ){
+    throw new Error('migration exporter returned invalid batch evidence for ' + label);
+  }
+  return payload.exports;
+}
+
+function runExporter({input,instancePath,out,assetProjection=false}){
+  return runExporterRequests({
+    input,
+    requests:[{instancePath,out}],
+    assetProjection
+  })[0];
 }
 
 async function digest(path){
@@ -411,46 +442,101 @@ async function exportMode({planningReceiptRaw,sourceRootRaw,outDir}){
   );
 
   const artifacts=[];
-  for(const unit of plan.units.filter(item => item.selected)){
+  const selectedUnits=plan.units.filter(item => item.selected);
+  const sourceGroups=new Map();
+
+  for(const unit of selectedUnits){
     const input=safeResolve(sourceRoot,unit.sourceFile,'--source-root');
+    if(!sourceGroups.has(input)) sourceGroups.set(input,[]);
+    sourceGroups.get(input).push(unit);
+  }
+
+  for(const [input,units] of sourceGroups){
     const inputInfo=await stat(input);
     if(!inputInfo.isFile()){
       throw new Error('migration source is not a file: ' + input);
     }
 
-    if(!unit.sourceSha256 || unit.sourceBytes == null){
+    const expected=units[0];
+    if(!expected.sourceSha256 || expected.sourceBytes == null){
       throw new Error(
-        'migration source fingerprint is missing for ' + unit.sourceFile +
+        'migration source fingerprint is missing for ' + expected.sourceFile +
         '; rebuild the capability catalog before exporting'
       );
     }
+    for(const unit of units){
+      if(
+        unit.sourceSha256 !== expected.sourceSha256 ||
+        Number(unit.sourceBytes) !== Number(expected.sourceBytes)
+      ){
+        throw new Error('migration units disagree on source fingerprint: ' + unit.sourceFile);
+      }
+    }
+
     const sourceDigest=await digest(input);
-    if(sourceDigest.sha256 !== unit.sourceSha256 || sourceDigest.bytes !== unit.sourceBytes){
+    if(
+      sourceDigest.sha256 !== expected.sourceSha256 ||
+      sourceDigest.bytes !== Number(expected.sourceBytes)
+    ){
       throw new Error(
-        'migration source fingerprint mismatch for ' + unit.sourceFile +
-        '; expected ' + unit.sourceSha256 + '/' + unit.sourceBytes +
+        'migration source fingerprint mismatch for ' + expected.sourceFile +
+        '; expected ' + expected.sourceSha256 + '/' + expected.sourceBytes +
         ' but found ' + sourceDigest.sha256 + '/' + sourceDigest.bytes
       );
     }
 
-    const folder=resolve(outDir,unit.exportDisposition);
-    await mkdir(folder,{recursive:true});
-    const out=resolve(folder,unit.unitId + '.rbxmx');
+    const ordinary=[];
+    const projections=[];
+    for(const unit of units){
+      const folder=resolve(outDir,unit.exportDisposition);
+      await mkdir(folder,{recursive:true});
+      const out=resolve(folder,unit.unitId + '.rbxmx');
+      const row={unit,out};
+      if(unit.migrationStrategy === 'asset-projection') projections.push(row);
+      else ordinary.push(row);
+    }
 
-    process.stderr.write(
-      'migration: ' + unit.systemName + ' -> ' + unit.exportDisposition + '/' +
-      unit.unitId + '.rbxmx\n'
-    );
+    if(ordinary.length){
+      for(const {unit} of ordinary){
+        process.stderr.write(
+          'migration: ' + unit.systemName + ' -> ' + unit.exportDisposition + '/' +
+          unit.unitId + '.rbxmx (batched)\n'
+        );
+      }
+      runExporterRequests({
+        input,
+        requests:ordinary.map(({unit,out})=>({
+          instancePath:unit.rootPath,
+          out
+        }))
+      });
 
-    const exportResult=runExporter({
-      input,
-      instancePath:unit.rootPath,
-      out,
-      assetProjection:unit.migrationStrategy === 'asset-projection'
-    });
+      for(const {unit,out} of ordinary){
+        const fileDigest=await digest(out);
+        artifacts.push({
+          unitId:unit.unitId,
+          disposition:unit.exportDisposition,
+          file:relative(outDir,out).replaceAll('\\','/'),
+          sha256:fileDigest.sha256,
+          bytes:fileDigest.bytes,
+          projection:null
+        });
+      }
+    }
 
-    let projection=null;
-    if(unit.migrationStrategy === 'asset-projection'){
+    // Asset projection sanitization mutates the DOM, so each projection is
+    // intentionally isolated in a fresh exporter process/parse.
+    for(const {unit,out} of projections){
+      process.stderr.write(
+        'migration: ' + unit.systemName + ' -> ' + unit.exportDisposition + '/' +
+        unit.unitId + '.rbxmx (isolated projection)\n'
+      );
+      const exportResult=runExporter({
+        input,
+        instancePath:unit.rootPath,
+        out,
+        assetProjection:true
+      });
       if(
         exportResult?.assetProjection !== true ||
         Number(exportResult?.forbiddenRemaining) !== 0
@@ -459,26 +545,24 @@ async function exportMode({planningReceiptRaw,sourceRootRaw,outDir}){
           'asset projection did not prove executable/network stripping for ' + unit.unitId
         );
       }
-      projection={
+      const projection={
         policy:unit.projectionPolicy,
         sanitized:true,
         strippedInstances:Number(exportResult.strippedInstances || 0),
         strippedForbiddenInstances:Number(exportResult.strippedForbiddenInstances || 0),
         forbiddenRemaining:Number(exportResult.forbiddenRemaining || 0)
       };
+      const fileDigest=await digest(out);
+      artifacts.push({
+        unitId:unit.unitId,
+        disposition:unit.exportDisposition,
+        file:relative(outDir,out).replaceAll('\\','/'),
+        sha256:fileDigest.sha256,
+        bytes:fileDigest.bytes,
+        projection
+      });
     }
-
-    const fileDigest=await digest(out);
-    artifacts.push({
-      unitId:unit.unitId,
-      disposition:unit.exportDisposition,
-      file:relative(outDir,out).replaceAll('\\','/'),
-      sha256:fileDigest.sha256,
-      bytes:fileDigest.bytes,
-      projection
-    });
   }
-
   const manifest=buildMigrationBundleManifest(plan,artifacts);
   const binding=verifyMigrationBundleAgainstPlan(manifest,plan);
   if(!binding.ok){
