@@ -3,7 +3,7 @@ import { createHash } from 'node:crypto';
 const LUAU_ROOT='https://apis.roblox.com/cloud/v2';
 const PUBLISH_ROOT='https://apis.roblox.com/universes/v1';
 
-export const STARBLOX_PRIVATE_RELEASE_ID='starblox-private-step8-v1';
+export const STARBLOX_PRIVATE_RELEASE_ID='starblox-private-step9-joinfix-v1';
 export const STARBLOX_PRIVATE_PUBLISH_VERSION='starblox-private-publish-v1';
 
 const UNSUPPORTED_PUBLISH_CLASSES=Object.freeze([
@@ -102,17 +102,26 @@ export async function runOpenCloudLuauTask({
   if(typeof script !== 'string' || !script.trim()) throw new Error('Luau script is required');
   if(typeof fetchImpl !== 'function') throw new TypeError('fetch implementation is required');
 
-  const createResponse=await fetchImpl(
-    LUAU_ROOT + '/universes/' + universe + '/places/' + place + '/luau-execution-session-tasks',
-    {
-      method:'POST',
-      headers:{
-        'x-api-key':key,
-        'content-type':'application/json'
-      },
-      body:JSON.stringify({script,timeout:'30s'})
-    }
-  );
+  let createResponse;
+  for(let attempt=0;attempt<4;attempt+=1){
+    createResponse=await fetchImpl(
+      LUAU_ROOT + '/universes/' + universe + '/places/' + place + '/luau-execution-session-tasks',
+      {
+        method:'POST',
+        headers:{
+          'x-api-key':key,
+          'content-type':'application/json'
+        },
+        body:JSON.stringify({script,timeout:'30s'})
+      }
+    );
+    if(createResponse.status !== 429 || attempt === 3) break;
+    const retrySeconds=Number(createResponse.headers?.get?.('retry-after'));
+    const waitMs=Number.isFinite(retrySeconds) && retrySeconds > 0
+      ? Math.min(retrySeconds * 1000,30_000)
+      : Math.min(5_000 * (2 ** attempt),30_000);
+    await delay(waitMs);
+  }
   const create=await parseResponse(createResponse,'Roblox Luau execution create');
   const statusUrl=taskUrl(create.path);
   const deadline=Date.now()+timeoutMs;
