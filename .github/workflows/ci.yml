@@ -31,9 +31,11 @@ jobs:
       - name: Install pinned Roblox runtime packages
         run: |
           cd roblox
+          grep -q 'Matter = "matter-ecs/matter@0.8.4"' wally.toml
+          grep -q 'ProfileStore = "lm-loleris/profilestore@1.0.3"' wally.toml
           wally install
-          test -e Packages/Matter
-          test -e ServerPackages/ProfileStore
+          test -e Packages/Matter || test -e Packages/Matter.lua || test -e Packages/Matter.luau
+          test -e ServerPackages/ProfileStore || test -e ServerPackages/ProfileStore.lua || test -e ServerPackages/ProfileStore.luau
       - name: Verify frozen Brookhaven world source
         run: npm run roblox:world-source:verify
       - name: Verify structural Brookhaven world fingerprint
