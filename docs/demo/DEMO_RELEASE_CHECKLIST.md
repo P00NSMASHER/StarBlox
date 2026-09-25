@@ -34,3 +34,5 @@ Baseline: `screenshot-match-preproduction@d8cdc27fd943cc3ecde632ca4247bf9650d77c
 - Roblox backbone/runtime reconciliation
 - Production persistence/network migration
 - Major security/performance architecture changes
+
+- [x] Final public smoke test — Cloudflare production PASS on desktop 1408x1056 and phones 390x844 / 320x568; 0 runtime errors, no page-level horizontal overflow, Reset Demo PASS, companion live parity 7/7.
