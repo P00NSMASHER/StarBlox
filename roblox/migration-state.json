@@ -8,8 +8,8 @@
   },
   "currentStep": {
     "number": 4,
-    "name": "attest-live-studio-peer-and-run-first-native-playtest",
-    "status": "blocked-awaiting-live-studio-peer"
+    "name": "prove-real-roblox-runtime-via-open-cloud",
+    "status": "verification-running"
   },
   "runtimeAuthority": {
     "robloxStudio": "staging-target",
@@ -23,7 +23,7 @@
     "Do not publish or activate a Roblox production experience from this step.",
     "Promote migrated systems only through explicit verification gates."
   ],
-  "nextStep": "complete-step-4-on-a-machine-with-live-roblox-studio",
+  "nextStep": "complete-open-cloud-headless-proof",
   "toolchain": {
     "manager": "Rokit",
     "managerVersion": "1.2.0",
@@ -56,6 +56,24 @@
     ],
     "failClosed": true,
     "verified": false,
-    "blocker": "No reachable live Roblox Studio peer is available from the current execution environment."
+    "blocker": "No reachable live Roblox Studio peer is available from the current execution environment.",
+    "role": "optional-later-visual-and-interactive-qa",
+    "requiredForStep4": false
+  },
+  "openCloud": {
+    "selectedRuntimePath": "headless-open-cloud",
+    "universeId": "6027194615",
+    "placeId": "17602626136",
+    "command": "npm run roblox:open-cloud-proof",
+    "proofVersion": "starblox-open-cloud-headless-v1",
+    "nonPublishing": true,
+    "placeMutationPerformed": false,
+    "liveActivationAllowed": false,
+    "credentialSource": "GitHub Actions secret ROBLOX_OPEN_CLOUD_API_KEY",
+    "idSources": [
+      "GitHub Actions variable ROBLOX_UNIVERSE_ID",
+      "GitHub Actions variable ROBLOX_PLACE_ID"
+    ],
+    "verified": false
   }
 }
