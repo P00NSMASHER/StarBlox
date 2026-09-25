@@ -1,9 +1,9 @@
 {
-  "version": 48,
+  "version": 49,
   "target": 192,
   "finalCount": 192,
   "remaining": 0,
-  "note": "192/192 catalog entries are final-portable. The final seven companion entries (2,5,6,7,8,9,12) were promoted after production Cloudflare Pages live QA verified each Store card used its expected SVG, loaded completely at 150x150 natural dimensions, and did not activate fallback art. Evidence: docs/demo/CLOUDFLARE_COMPANION_LIVE_QA.json.",
+  "note": "192/192 catalog entries are final-portable. The final seven companion entries (2,5,6,7,8,9,12) passed production Cloudflare live QA with expected SVG presentation, successful 150x150 browser decode, and no fallback art. Independent exact-hash ACCEPT records for the current Git blob hashes are recorded by reviewer 14 with producer 06 in docs/preproduction/catalog-sprint/reviews/14.json. Live evidence: docs/demo/CLOUDFLARE_COMPANION_LIVE_QA.json.",
   "duplicateAssetPaths": [],
   "items": {
     "tops-1": {
