@@ -1,0 +1,121 @@
+{
+  "schemaVersion": 1,
+  "donorId": "rorooms",
+  "repository": "Rorooms/Rorooms",
+  "commit": "3d06941343b5bd70a92044b45fe25deb3e4e2095",
+  "sourceFiles": [
+    {
+      "path": "src/Client/Profiles/AvatarSelector.luau",
+      "blobSha": "026cc7c0351ab2fe5d693692adf8154d231fc376"
+    },
+    {
+      "path": "src/Client/Profiles/ProfilesController.luau",
+      "blobSha": "7715eaa49e07e8b2efab0dd9ae99d193635d497a"
+    },
+    {
+      "path": "src/Client/Friends/FriendsController.luau",
+      "blobSha": "368184deda40c766d82d98709cc8a413a674f0a8"
+    },
+    {
+      "path": "src/Client/Items/ItemsController.luau",
+      "blobSha": "6e7900e93498594a44b9d1b7e09a561ce966780c"
+    },
+    {
+      "path": "src/Client/Emotes/EmotesController.luau",
+      "blobSha": "77d4557a75f5487e5e669a070ac0a246b1894657"
+    },
+    {
+      "path": "src/Client/Worlds/WorldsController.luau",
+      "blobSha": "be4c33fc0038fb41f6b9cb88fa4d532d399c578e"
+    },
+    {
+      "path": "src/Server/Profiles/ProfilesService.luau",
+      "blobSha": "6656d4b9ce73f733f66c3d3abe3f349f76684b3b"
+    },
+    {
+      "path": "src/Server/Items/ItemsService.luau",
+      "blobSha": "4202e02f260d800b9e5fd54fddb42942b28bfabd"
+    },
+    {
+      "path": "src/Server/Emotes/EmotesService.luau",
+      "blobSha": "1e225ae4a81da1164ab6f990d091714218e9c1b9"
+    },
+    {
+      "path": "src/Server/Worlds/WorldsService.luau",
+      "blobSha": "74141ddca18b649711ba6f61fb024e0f7a0ed6ec"
+    },
+    {
+      "path": "src/Server/Worlds/WorldRegistryService.luau",
+      "blobSha": "5794f2c58f5bd0c06151ed08c664a45bfd98372f"
+    }
+  ],
+  "mappings": [
+    {
+      "id": "profiles-social",
+      "sources": [
+        "src/Client/Profiles/AvatarSelector.luau",
+        "src/Client/Profiles/ProfilesController.luau",
+        "src/Client/Friends/FriendsController.luau",
+        "src/Server/Profiles/ProfilesService.luau"
+      ],
+      "targets": [
+        "roblox/src/server/SocialWorldService.luau",
+        "roblox/src/client/SocialProfileController.luau"
+      ],
+      "strategy": "port UI/social interaction patterns; map all durable fields into StarBlox profile projection",
+      "authority": "ProfileSessionService and ReplicaStateService own durable/public state"
+    },
+    {
+      "id": "items-emotes",
+      "sources": [
+        "src/Client/Items/ItemsController.luau",
+        "src/Client/Emotes/EmotesController.luau",
+        "src/Server/Items/ItemsService.luau",
+        "src/Server/Emotes/EmotesService.luau"
+      ],
+      "targets": [
+        "roblox/src/server/SocialWorldService.luau",
+        "roblox/src/client/SocialInventoryController.luau"
+      ],
+      "strategy": "port smallest item/emote shell using StarBlox inventory and social unlocks",
+      "authority": "StarBlox Inventory/Social profile state owns unlocks"
+    },
+    {
+      "id": "world-navigation",
+      "sources": [
+        "src/Client/Worlds/WorldsController.luau",
+        "src/Server/Worlds/WorldsService.luau",
+        "src/Server/Worlds/WorldRegistryService.luau"
+      ],
+      "targets": [
+        "roblox/src/client/PhoneWorldController.luau",
+        "roblox/src/server/WorldTravelService.luau"
+      ],
+      "strategy": "reuse world-browser/navigation presentation without external registry dependency",
+      "authority": "StarBlox server validates world navigation"
+    }
+  ],
+  "preserveAuthority": [
+    "ProfileSessionService",
+    "ReplicaStateService",
+    "SocialWorldService",
+    "AiNpcService",
+    "StarBlox quest/mastery authority",
+    "StarBlox economy authority",
+    "typed StarBlox networking"
+  ],
+  "forbidden": [
+    "replace ProfileSessionService",
+    "replace ReplicaStateService",
+    "external world registry dependency",
+    "direct MarketplaceService monetization in vertical slice",
+    "publish"
+  ],
+  "acceptance": [
+    "profile/social UI renders",
+    "items/emotes use StarBlox state",
+    "world navigation remains server-authoritative",
+    "no duplicate persistence stack",
+    "mobile UI usable"
+  ]
+}
