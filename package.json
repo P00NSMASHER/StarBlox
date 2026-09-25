@@ -34,7 +34,8 @@
     "roblox:m4:staging": "node scripts/prepare-milestone4-staging.mjs",
     "roblox:m4:prepare": "node scripts/prepare-milestone4-packet.mjs",
     "roblox:m4:live": "node scripts/run-milestone4-live-cycle.mjs",
-    "roblox:real-client-proof": "node scripts/verify-roblox-real-client-playtest.mjs"
+    "roblox:real-client-proof": "node scripts/verify-roblox-real-client-playtest.mjs",
+    "roblox:production-server-boot-proof": "node scripts/verify-roblox-production-server-boot.mjs"
   },
   "dependencies": {
     "lucide-react": "^0.468.0",
