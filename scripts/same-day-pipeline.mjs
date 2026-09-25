@@ -224,7 +224,17 @@ async function execute(stage){
 
   if(stage.type === 'release-gate'){
     const gate=stage.details.gate;
-    const result=run(gate.command,gate.args,{cwd:root});
+    const result=run(gate.command,gate.args,{
+      cwd:root,
+      env:{
+        STARBLOX_PIPELINE_OUT_DIR:outDir,
+        STARBLOX_PIPELINE_STATE:statePath,
+        STARBLOX_PIPELINE_INTEGRATED_RUN:resolve(
+          outDir,
+          'verify-integrated-slice-development-run.json'
+        )
+      }
+    });
     return {
       ...result,
       gate:gate.id,
