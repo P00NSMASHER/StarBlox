@@ -24,7 +24,26 @@ assert(#config.Quest.Choices == 3, "vertical-slice quest must expose exactly thr
 assert(config.Reward.Coins == 10 and config.Reward.XP == 5 and config.Reward.Stars == 1, "unexpected reward")
 
 local world = Workspace:WaitForChild("StarBloxVerticalSlice", 10)
-assert(world ~= nil, "vertical-slice world missing")
+if world == nil then
+    local LogService = game:GetService("LogService")
+    local ok, history = pcall(function()
+        return LogService:GetLogHistory()
+    end)
+    if ok and type(history) == "table" then
+        local startIndex = math.max(1, #history - 40)
+        for index = startIndex, #history do
+            local row = history[index]
+            print("STARBLOX_BOOT_LOG type=" .. tostring(row.messageType) .. " message=" .. tostring(row.message))
+        end
+    end
+    local runtime = ServerScriptService:FindFirstChild("StarBlox") and ServerScriptService.StarBlox:FindFirstChild("Runtime")
+    if runtime then
+        print("STARBLOX_RUNTIME_DIAGNOSTIC class=" .. tostring(runtime.ClassName) .. " disabled=" .. tostring((runtime :: any).Disabled))
+    else
+        print("STARBLOX_RUNTIME_DIAGNOSTIC missing")
+    end
+    error("vertical-slice world missing")
+end
 assert(world:GetAttribute("SliceId") == config.SliceId, "world slice id mismatch")
 
 local spawn = world:FindFirstChild("StarBloxSpawn")
