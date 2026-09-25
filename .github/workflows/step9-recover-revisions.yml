@@ -1,0 +1,24 @@
+name: StarBlox Step 9 Recover Telemetry Revision
+
+on:
+  push:
+    branches:
+      - release/step9-joinfix2
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  recover:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: List telemetry revisions
+        env:
+          ROBLOX_OPEN_CLOUD_API_KEY: ${{ secrets.ROBLOX_OPEN_CLOUD_API_KEY }}
+        run: |
+          STATUS="$(curl -sS             -o /tmp/revisions.json             -w '%{http_code}'             -H "x-api-key: $ROBLOX_OPEN_CLOUD_API_KEY"             "https://apis.roblox.com/cloud/v2/universes/6027194615/data-stores/StarBloxPrivatePlaytestTelemetry_v1/entries/latest:listRevisions?page_size=20")"
+          echo "HTTP_STATUS=$STATUS"
+          cat /tmp/revisions.json
+          test "$STATUS" = "200"
