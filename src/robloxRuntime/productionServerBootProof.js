@@ -6,9 +6,17 @@ export const STARBLOX_SERVER_BOOT_PROOF_VERSION='starblox-production-server-boot
 export const STARBLOX_SERVER_BOOT_RELEASE_ID='starblox-private-step9-canonical-step6-v4';
 
 export function buildProductionServerBootProbeScript({
-  releaseId=STARBLOX_SERVER_BOOT_RELEASE_ID
+  releaseId=STARBLOX_SERVER_BOOT_RELEASE_ID,
+  expectedVersion=null
 }={}){
   const release=JSON.stringify(String(releaseId));
+  const version=expectedVersion == null ? null : Number(expectedVersion);
+  if(version !== null && (!Number.isInteger(version) || version < 1)){
+    throw new Error('expectedVersion must be a positive integer');
+  }
+  const versionCheck=version === null
+    ? ''
+    : 'assert(game.PlaceVersion == ' + version + ', "unexpected published version: " .. tostring(game.PlaceVersion))\\n';
   return `local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local ServerScriptService = game:GetService("ServerScriptService")
 local Workspace = game:GetService("Workspace")
@@ -17,6 +25,7 @@ local shared = ReplicatedStorage:WaitForChild("StarBlox")
 local manifest = require(shared:WaitForChild("DeploymentManifest"))
 assert(manifest.releaseId == ${release}, "unexpected release: " .. tostring(manifest.releaseId))
 assert(manifest.productionActivationAllowed == false, "production activation must remain disabled")
+${versionCheck}
 
 local packages = ReplicatedStorage:FindFirstChild("Packages")
 assert(packages ~= nil, "shared Wally Packages folder missing")
@@ -88,6 +97,7 @@ export async function runProductionServerBootProof({
   universeId,
   placeId,
   releaseId=STARBLOX_SERVER_BOOT_RELEASE_ID,
+  expectedVersion=null,
   fetchImpl=globalThis.fetch,
   pollIntervalMs=1000,
   timeoutMs=90_000,
@@ -105,8 +115,15 @@ export async function runProductionServerBootProof({
     createRetryAttempts,
     createRetryBaseMs,
     createRetryMaxMs,
-    script:buildProductionServerBootProbeScript({releaseId})
+    script:buildProductionServerBootProbeScript({releaseId,expectedVersion})
   });
+
+  if(expectedVersion != null && task.versionNumber !== Number(expectedVersion)){
+    throw new Error(
+      'production server boot ran unexpected version: expected ' +
+      expectedVersion + ' got ' + task.versionNumber
+    );
+  }
 
   const text=JSON.stringify(task.logs);
   const sentinel='STARBLOX_PRODUCTION_SERVER_BOOT_OK release=' +
