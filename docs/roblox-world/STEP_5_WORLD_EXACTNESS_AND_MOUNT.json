@@ -1,0 +1,84 @@
+{
+  "schemaVersion": "starblox-brookhaven-step5-snapshot-v1",
+  "step": "target-architecture-5-of-6",
+  "status": "verified-exact-world-with-starblox-mounted-beside-it",
+  "verifiedBy": {
+    "workflow": "StarBlox CI",
+    "runId": 36189091022,
+    "verifiedHead": "3998f0888d50ee81f74fb0cb911ed59f4ef83c34"
+  },
+  "exactnessLock": {
+    "schemaVersion": 1,
+    "version": "starblox-brookhaven-world-exactness-v1",
+    "status": "exactness-verified-and-baseline-locked",
+    "baseline": {
+      "rootName": "BrookhavenWorldBaseline",
+      "modelSha256": "4dfd451ae211dead959ec3f165e2b477a9725d04727febdc66472e95328917df",
+      "bytes": 5303322,
+      "step3IrHash": "sha256:558cb27979f308a171fc33165bddc5ee078326bd4aed4483a1a46f4f7ba8caba",
+      "entryCount": 4936,
+      "generatedEntrySequenceSha256": "6adb5fcc0d1bc5910d38b0495d84a77a8a844e47c4a72ce2525b4a24f9de0601",
+      "sourceCanonicalSequenceSha256": "abea208104e4433431e7875df77c66b69a4e1e83dbf03e9453975aceb811c94d",
+      "sourceSliceSequenceSha256": "54e1343151439f29557b3a4646e6700098392ce5c9c4be60571d5765d4e01cf8",
+      "adaptationCount": 2
+    },
+    "verification": {
+      "sourceIdentityVerifiedForEveryEntry": true,
+      "generatedPropertiesVerifiedForEveryEntry": true,
+      "onlyApprovedLegacyAdaptationsApplied": true,
+      "verifiedEntryCount": 4936,
+      "verifiedPropertySpecCount": 4936
+    },
+    "readOnlyPolicy": {
+      "baselineMutationAllowed": false,
+      "runtimeMayReferenceBaseline": true,
+      "runtimeMayParentGameplayIntoBaseline": false,
+      "runtimeMayWriteBaselineProperties": false,
+      "runtimeMayReplaceBaseline": false,
+      "mountMode": "workspace-sibling-read-only-world"
+    },
+    "boundaries": {
+      "starBloxMounted": false,
+      "robloxPlaceMutated": false,
+      "publicationStarted": false,
+      "liveActivationAllowed": false
+    },
+    "nextSubstep": "mount-starblox-runtime-beside-locked-world"
+  },
+  "mountReceipt": {
+    "schemaVersion": 1,
+    "version": "starblox-world-mount-verification-v1",
+    "status": "starblox-mounted-beside-locked-world",
+    "baseline": {
+      "modelSha256": "4dfd451ae211dead959ec3f165e2b477a9725d04727febdc66472e95328917df",
+      "fileBytesUnchanged": true,
+      "isolatedSubtreeSha256": "d2c88a68305a65475dfdab77220b69e4138d81e44250edd1849f69cee4c92a90",
+      "mountedSubtreeSha256": "d2c88a68305a65475dfdab77220b69e4138d81e44250edd1849f69cee4c92a90",
+      "subtreeInstanceCount": 5493,
+      "scriptsOrRemotesAdded": 0
+    },
+    "runtime": {
+      "mounted": true,
+      "mountCount": 3,
+      "mounts": [
+        "ReplicatedStorage/StarBlox",
+        "ServerScriptService/StarBlox",
+        "StarterPlayer/StarterPlayerScripts/StarBlox"
+      ],
+      "parentedIntoBaseline": false
+    },
+    "boundaries": {
+      "worldBaselineMutated": false,
+      "committedWorldAssetCreated": false,
+      "publicationStarted": false,
+      "liveActivationAllowed": false
+    },
+    "nextStep": "target-architecture-6-integration-and-release-gates"
+  },
+  "artifactPolicy": {
+    "generatedWorldModelCommitted": false,
+    "mountedPlaceCommitted": false,
+    "ephemeralRojoProjectCommitted": false,
+    "baselineRemainsReproducibleFromFrozenSource": true
+  }
+}
