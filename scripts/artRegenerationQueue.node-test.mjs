@@ -13,11 +13,22 @@ test('routes technical defects away from generation',()=>{
   const q=buildRegenerationQueue({corpus:{observations:[row],current:[row]}});
   assert.equal(q.actionable.length,0); assert.equal(q.blocked[0].reason,'TECHNICAL_REPAIR_REQUIRED_NOT_PROMPT_REGEN');
 });
-test('newer pending candidate suppresses stale regeneration',()=>{
+test('authoritative pending exact hash suppresses regeneration',()=>{
   const row={itemId:'decor-3',collectionId:'decor',assetHash:'old',decision:'REWORK',independent:true,failureCodes:['FLAT_COMPOSITION'],reviewer:'14',producer:'09',tier:2};
-  const lanes=[{path:'lane-09.json',data:{items:[{id:'decor-3',gitBlobSha:'new',status:'STAGED_READY_FOR_REVIEW_14'}]}}];
-  const q=buildRegenerationQueue({corpus:{observations:[row],current:[row]},laneDocuments:lanes});
-  assert.equal(q.selected.length,0); assert.equal(q.pending[0].pendingCandidates[0].hash,'new');
+  const authoritativeState={items:{'decor-3':{pendingCandidate:{assetHash:'new',repositoryPath:'public/assets/catalog-candidates/decor-3-v2.png'}}}};
+  const q=buildRegenerationQueue({corpus:{observations:[row],current:[row]},authoritativeState});
+  assert.equal(q.selected.length,0);
+  assert.equal(q.pending[0].pendingCandidates[0].assetHash,'new');
+  assert.equal(q.pending[0].reason,'AUTHORITATIVE_NEWER_CANDIDATE_PENDING_EXACT_HASH_REVIEW');
+});
+
+test('stale lane snapshots cannot suppress regeneration',()=>{
+  const row={itemId:'wall-9',collectionId:'wall',assetHash:'reviewed-v12',decision:'REWORK',independent:true,failureCodes:['WEAK_SILHOUETTE_IDENTITY'],reviewer:'02',producer:'13',tier:3};
+  const staleLaneDocuments=[{path:'lane-05.json',data:{wallCandidates:[{id:'wall-9',blobSha:'ancient-svg',status:'READY_FOR_REVIEW'}]}}];
+  const authoritativeState={items:{'wall-9':{state:'REWORK_NEEDS_PRODUCTION',pendingCandidate:null}}};
+  const q=buildRegenerationQueue({corpus:{observations:[row],current:[row]},authoritativeState,laneDocuments:staleLaneDocuments});
+  assert.equal(q.pending.length,0);
+  assert.equal(q.selected[0].itemId,'wall-9');
 });
 test('selects bounded highest-priority work per producer',()=>{
   const rows=Array.from({length:6},(_,i)=>({itemId:'wall-'+(i+5),collectionId:'wall',assetHash:'h'+i,decision:'REWORK',independent:true,failureCodes:['WEAK_DEPTH'],reviewer:'14',producer:'05',tier:i%5+1,name:'x',theme:'y'}));

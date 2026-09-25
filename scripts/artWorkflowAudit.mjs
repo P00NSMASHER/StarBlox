@@ -2,10 +2,8 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import {execFileSync} from 'node:child_process';
-import {pathToFileURL} from 'node:url';
-import {buildReviewCorpus} from './artReviewNormalizer.mjs';
 import {buildRegenerationQueue} from './artRegenerationQueue.mjs';
-import {buildFallbackBacklog} from './catalogFallbackBacklog.mjs';
+import {loadFactoryState} from './artFactoryState.mjs';
 
 const uniq = values => [...new Set(values)];
 const normalizeAssetPath = value => {
@@ -19,7 +17,7 @@ const normalizeAssetPath = value => {
 function push(list,code,detail){list.push({code,...detail});}
 function currentMap(corpus){return new Map((corpus.current||[]).map(row=>[row.itemId,row]));}
 
-export function auditWorkflow({items=[],manifest={items:{}},corpus={current:[],observations:[],conflicts:[]},queue={selected:[],pending:[],blocked:[],preserve:[]},fallback={productionQueue:[],acceptedAwaitingCanonical:[],blockedEvidence:[]},activeBatch=null,blobByPath={}}={}){
+export function auditWorkflow({items=[],manifest={items:{}},corpus={current:[],observations:[],conflicts:[]},queue={selected:[],pending:[],blocked:[],preserve:[]},fallback={productionQueue:[],acceptedAwaitingCanonical:[],blockedEvidence:[]},authoritativeState=null,activeBatch=null,blobByPath={}}={}){
   const errors=[],warnings=[];
   const ids=items.map(x=>x.id);
   if(ids.length!==192) push(errors,'STORE_COUNT_MISMATCH',{expected:192,actual:ids.length});
@@ -94,7 +92,24 @@ export function auditWorkflow({items=[],manifest={items:{}},corpus={current:[],o
   const fallbackAccepted=new Set((fallback.acceptedAwaitingCanonical||[]).map(x=>x.itemId));
   for(const id of fallbackAccepted) if(fallbackProduction.has(id)) push(errors,'FALLBACK_STATE_CONTRADICTION',{itemId:id});
 
+  if(authoritativeState){
+    for(const row of queue.selected||[]){
+      const pendingCandidate=authoritativeState.items?.[row.itemId]?.pendingCandidate||null;
+      if(pendingCandidate?.assetHash) push(errors,'REGEN_SELECTED_DESPITE_AUTHORITATIVE_PENDING_CANDIDATE',{itemId:row.itemId,pendingHash:pendingCandidate.assetHash});
+    }
+    for(const row of queue.pending||[]){
+      const pendingCandidate=authoritativeState.items?.[row.itemId]?.pendingCandidate||null;
+      const queueHash=row.pendingCandidates?.[0]?.assetHash||row.pendingCandidates?.[0]?.hash||null;
+      if(!pendingCandidate?.assetHash || pendingCandidate.assetHash!==queueHash){
+        push(errors,'REGEN_PENDING_NOT_BACKED_BY_AUTHORITATIVE_STATE',{itemId:row.itemId,queueHash,authoritativeHash:pendingCandidate?.assetHash||null});
+      }
+    }
+  }
+
   if(activeBatch){
+    if(authoritativeState?.sourceHead && activeBatch.sourceHead && activeBatch.sourceHead!==authoritativeState.sourceHead){
+      push(warnings,'STALE_ACTIVE_BATCH_SNAPSHOT',{snapshotHead:activeBatch.sourceHead,authoritativeHead:authoritativeState.sourceHead});
+    }
     const batches=activeBatch.batches||[];
     const max=Number(activeBatch.policy?.maxConcurrentProductionBatches??4);
     if(batches.length>max) push(errors,'ACTIVE_BATCH_OVER_CAPACITY',{count:batches.length,max});
@@ -127,32 +142,27 @@ export function auditWorkflow({items=[],manifest={items:{}},corpus={current:[],o
       regenerationBlocked:(queue.blocked||[]).length,
       fallbackProduction:(fallback.productionQueue||[]).length,
       fallbackAcceptedAwaitingCanonical:(fallback.acceptedAwaitingCanonical||[]).length,
+      authoritativeStateSourceHead:authoritativeState?.sourceHead??null,
+      authoritativeReleaseBlockers:authoritativeState?.releaseBlockerCount??null,
       activeProductionBatches:activeBatch?.batches?.length??null
     }
   };
 }
 
 function parseArgs(argv){const o={};for(let i=0;i<argv.length;i++){const t=argv[i];if(!t.startsWith('--'))continue;const k=t.slice(2),n=argv[i+1];if(n&&!n.startsWith('--')){o[k]=n;i++;}else o[k]=true;}return o;}
-function reviewDocs(root){const d=path.join(root,'docs/preproduction/catalog-sprint/reviews');return fs.readdirSync(d).filter(x=>/^\d+\.json$/.test(x)).sort().map(name=>({path:path.relative(root,path.join(d,name)),data:JSON.parse(fs.readFileSync(path.join(d,name),'utf8'))}));}
-function laneDocs(root){const d=path.join(root,'docs/preproduction/catalog-sprint');return fs.readdirSync(d).filter(x=>/^lane-(?:\d+|CHAT)\.json$/i.test(x)).sort().map(name=>({path:path.relative(root,path.join(d,name)),data:JSON.parse(fs.readFileSync(path.join(d,name),'utf8'))}));}
 function blobMap(root,paths){const out={};for(const rel of uniq(paths.map(normalizeAssetPath).filter(Boolean))){try{out[rel]=execFileSync('git',['rev-parse',`HEAD:${rel}`],{cwd:root,encoding:'utf8'}).trim();}catch{}}return out;}
 
 async function main(){
   const args=parseArgs(process.argv.slice(2)),root=path.resolve(args['repo-root']||'.');
-  const game=await import(pathToFileURL(path.join(root,'src/gameModel.js')).href+'?workflowAudit='+Date.now());
-  const items=game.store||game.gameModel?.store||[];
-  const manifest=JSON.parse(fs.readFileSync(path.join(root,'catalog-art-manifest.json'),'utf8'));
-  const docs=reviewDocs(root);
-  const corpus=buildReviewCorpus({docs,items});
-  const queue=buildRegenerationQueue({corpus,laneDocuments:laneDocs(root)});
-  const fallback=buildFallbackBacklog({items,manifest,reviewCorpus:corpus});
+  const {items,manifest,corpus,fallbackBacklog,state}=await loadFactoryState(root);
+  const queue=buildRegenerationQueue({corpus,authoritativeState:state,fallbackBacklog});
   const activePath=path.join(root,'docs/preproduction/art-factory/ACTIVE_BATCH.json');
   const activeBatch=fs.existsSync(activePath)?JSON.parse(fs.readFileSync(activePath,'utf8')):null;
   const assetPaths=[
     ...(corpus.current||[]).map(x=>x.assetPath),
     ...Object.values(manifest.items||{}).map(x=>x.assetPath)
   ];
-  const report=auditWorkflow({items,manifest,corpus,queue,fallback,activeBatch,blobByPath:blobMap(root,assetPaths)});
+  const report=auditWorkflow({items,manifest,corpus,queue,fallback:fallbackBacklog,authoritativeState:state,activeBatch,blobByPath:blobMap(root,assetPaths)});
   report.sourceHead=execFileSync('git',['rev-parse','HEAD'],{cwd:root,encoding:'utf8'}).trim();
   const body=JSON.stringify(report,null,2)+'\n';
   if(args.output){const dest=path.resolve(args.output);fs.mkdirSync(path.dirname(dest),{recursive:true});fs.writeFileSync(dest,body);}else process.stdout.write(body);

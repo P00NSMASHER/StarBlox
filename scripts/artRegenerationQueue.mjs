@@ -1,14 +1,9 @@
 #!/usr/bin/env node
 import fs from 'node:fs';
 import path from 'node:path';
-import {pathToFileURL} from 'node:url';
-import {buildReviewCorpus} from './artReviewNormalizer.mjs';
 import {recommend,train} from './artPromptOptimizer.mjs';
-import {buildFallbackBacklog} from './catalogFallbackBacklog.mjs';
+import {loadFactoryState} from './artFactoryState.mjs';
 
-const PENDING_RX = /READY_FOR_REVIEW|READY_FOR_FRESH_REVIEW|STAGED|PENDING_(?:REVIEW|\d+)|AWAITING_(?:REVIEW|RENDER)|EXACT_BYTES_VERIFIED|RENDER_EVIDENCE_READY|GENERATED|REVIEW_REQUEST/i;
-const HASH_KEYS = ['assetHash','gitBlobSha','candidateBlobSha','blobSha','hash'];
-const ID_KEYS = ['itemId','id'];
 const PRODUCER_BY_COLLECTION = Object.freeze({
   tops:'09', bottoms:'05', headwear:'12', facegear:'12',
   shoes:'06', backgear:'12', handgear:'12', seating:'06',
@@ -16,34 +11,6 @@ const PRODUCER_BY_COLLECTION = Object.freeze({
   lighting:'04', wall:'05', rugs:'07', decor:'09'
 });
 
-function allObjects(value,out=[]){
-  if(!value || typeof value!=='object') return out;
-  if(Array.isArray(value)){ for(const v of value) allObjects(v,out); return out; }
-  out.push(value); for(const v of Object.values(value)) allObjects(v,out); return out;
-}
-function first(obj,keys){ for(const k of keys) if(obj?.[k]!=null) return obj[k]; return null; }
-function stateText(obj){ return ['status','state','decision','reviewStatus','candidateStatus','deliveryStatus','repositoryStatus','nextGate'].map(k=>String(obj?.[k]??'')).join(' '); }
-function reviewDocs(root){
-  const dir=path.join(root,'docs/preproduction/catalog-sprint/reviews');
-  return fs.readdirSync(dir).filter(x=>/^\d+\.json$/.test(x)).sort().map(name=>({path:path.relative(root,path.join(dir,name)),data:JSON.parse(fs.readFileSync(path.join(dir,name),'utf8'))}));
-}
-function laneDocs(root){
-  const dir=path.join(root,'docs/preproduction/catalog-sprint');
-  return fs.readdirSync(dir).filter(x=>/^lane-(?:\d+|CHAT)\.json$/i.test(x)).sort().map(name=>({path:path.relative(root,path.join(dir,name)),data:JSON.parse(fs.readFileSync(path.join(dir,name),'utf8'))}));
-}
-function pendingForItem(itemId,reviewHash,docs){
-  const hits=[];
-  for(const doc of docs) for(const obj of allObjects(doc.data)){
-    const id=String(first(obj,ID_KEYS)||'');
-    if(id!==itemId) continue;
-    const hash=String(first(obj,HASH_KEYS)||'').toLowerCase();
-    const state=stateText(obj);
-    if(!hash || hash===String(reviewHash||'').toLowerCase() || !PENDING_RX.test(state)) continue;
-    hits.push({sourcePath:doc.path,hash,state:state.trim().slice(0,240)});
-  }
-  const seen=new Set();
-  return hits.filter(x=>{const k=x.sourcePath+'|'+x.hash;if(seen.has(k))return false;seen.add(k);return true});
-}
 function failureCount(itemId,corpus){
   return corpus.observations.filter(x=>x.itemId===itemId && x.independent && x.decision==='REWORK').length;
 }
@@ -56,8 +23,9 @@ function priorityScore(row,corpus){
   const releaseBlocker=row.sourceState==='UNFILLED_RELEASE_BLOCKER'?10000:0;
   return releaseBlocker+failures*100+tier*10+duplicate+theme+depth;
 }
-export function buildRegenerationQueue({corpus,laneDocuments=[],fallbackBacklog=null}){
+export function buildRegenerationQueue({corpus,authoritativeState=null,fallbackBacklog=null}){
   const actionable=[],blocked=[],pending=[],preserve=[];
+  const stateByItem=authoritativeState?.items||{};
   for(const row of corpus.current){
     if(!row.independent){ preserve.push({itemId:row.itemId,reason:'CURRENT_REVIEW_NOT_INDEPENDENT'}); continue; }
     if(row.decision==='ACCEPT'){ preserve.push({itemId:row.itemId,assetHash:row.assetHash,reason:'PRESERVE_ACCEPTED_EXACT_HASH'}); continue; }
@@ -69,9 +37,9 @@ export function buildRegenerationQueue({corpus,laneDocuments=[],fallbackBacklog=
       blocked.push({itemId:row.itemId,assetHash:row.assetHash,decision:row.decision,failureCodes:row.failureCodes,reason:'TECHNICAL_REPAIR_REQUIRED_NOT_PROMPT_REGEN'});
       continue;
     }
-    const newer=pendingForItem(row.itemId,row.assetHash,laneDocuments);
-    if(newer.length){
-      pending.push({itemId:row.itemId,reviewedHash:row.assetHash,pendingCandidates:newer,reason:'NEWER_CANDIDATE_PENDING_RENDER_OR_REVIEW'});
+    const pendingCandidate=stateByItem[row.itemId]?.pendingCandidate||null;
+    if(pendingCandidate?.assetHash && pendingCandidate.assetHash!==row.assetHash){
+      pending.push({itemId:row.itemId,reviewedHash:row.assetHash,pendingCandidates:[pendingCandidate],reason:'AUTHORITATIVE_NEWER_CANDIDATE_PENDING_EXACT_HASH_REVIEW'});
       continue;
     }
     actionable.push({
@@ -86,9 +54,9 @@ export function buildRegenerationQueue({corpus,laneDocuments=[],fallbackBacklog=
   const currentIds=new Set(corpus.current.map(row=>row.itemId));
   for(const row of fallbackBacklog?.productionQueue||[]){
     if(row.state!=='UNFILLED_NEEDS_PRODUCTION' || currentIds.has(row.itemId)) continue;
-    const newer=pendingForItem(row.itemId,null,laneDocuments);
-    if(newer.length){
-      pending.push({itemId:row.itemId,reviewedHash:null,pendingCandidates:newer,reason:'UNFILLED_ITEM_HAS_NEWER_CANDIDATE_PENDING_RENDER_OR_REVIEW'});
+    const pendingCandidate=stateByItem[row.itemId]?.pendingCandidate||null;
+    if(pendingCandidate?.assetHash){
+      pending.push({itemId:row.itemId,reviewedHash:null,pendingCandidates:[pendingCandidate],reason:'UNFILLED_ITEM_HAS_AUTHORITATIVE_PENDING_EXACT_HASH'});
       continue;
     }
     const route=row.route||{};
@@ -125,6 +93,8 @@ export function buildRegenerationQueue({corpus,laneDocuments=[],fallbackBacklog=
       acceptedHashesFrozen:true,
       technicalBlockersExcludedFromGeneration:true,
       newerPendingCandidatesExcluded:true,
+      pendingSuppressionAuthority:'DERIVED_EXACT_FACTORY_STATE_ONLY',
+      laneSnapshotsAuthoritative:false,
       independentReviewRequired:true,
       maxItemsPerProducerBatch:4,
       automaticGeneration:false,
@@ -166,14 +136,12 @@ export function attachPromptRecommendations(queue,{items=[],reviewDocs=[]}={}){
 function args(argv){const out={};for(let i=0;i<argv.length;i++){const x=argv[i];if(!x.startsWith('--'))continue;const k=x.slice(2),v=argv[i+1];if(v&&!v.startsWith('--')){out[k]=v;i++}else out[k]=true}return out}
 async function main(){
   const a=args(process.argv.slice(2)),root=path.resolve(a['repo-root']||'.');
-  const mod=await import(pathToFileURL(path.join(root,'src/gameModel.js')).href+`?regen=${Date.now()}`);
-  const items=mod.store||mod.gameModel?.store||[];
   const reviews=reviewDocs(root);
-  const corpus=buildReviewCorpus({docs:reviews,items});
-  if(corpus.conflicts.length) throw Error('review conflicts prevent queue generation');
-  const manifest=JSON.parse(fs.readFileSync(path.join(root,'catalog-art-manifest.json'),'utf8'));
-  const fallbackBacklog=buildFallbackBacklog({items,manifest,reviewCorpus:corpus});
-  const queue=attachPromptRecommendations(buildRegenerationQueue({corpus,laneDocuments:laneDocs(root),fallbackBacklog}),{items,reviewDocs:reviews});
+  const {items,corpus,fallbackBacklog,state}=await loadFactoryState(root);
+  const queue=attachPromptRecommendations(
+    buildRegenerationQueue({corpus,authoritativeState:state,fallbackBacklog}),
+    {items,reviewDocs:reviews}
+  );
   const text=JSON.stringify(queue,null,2)+'\n';
   if(a.output){const dest=path.resolve(a.output);fs.mkdirSync(path.dirname(dest),{recursive:true});fs.writeFileSync(dest,text)}else process.stdout.write(text);
 }

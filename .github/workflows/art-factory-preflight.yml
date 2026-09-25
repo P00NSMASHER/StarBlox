@@ -13,6 +13,8 @@ on:
       - 'scripts/artFactoryJob.node-test.mjs'
       - 'scripts/artReviewNormalizer.mjs'
       - 'scripts/artReviewNormalizer.node-test.mjs'
+      - 'scripts/artFactoryState.mjs'
+      - 'scripts/artFactoryState.node-test.mjs'
       - 'scripts/artRegenerationQueue.mjs'
       - 'scripts/artRegenerationQueue.node-test.mjs'
       - 'scripts/catalogFallbackBacklog.mjs'
@@ -197,7 +199,7 @@ jobs:
 
       - name: Verify fast factory contract
         run: |
-          node --test             scripts/artPromptOptimizer.node-test.mjs             scripts/artFactoryJob.node-test.mjs             scripts/artReviewNormalizer.node-test.mjs             scripts/catalogFallbackBacklog.node-test.mjs             scripts/artRegenerationQueue.node-test.mjs             scripts/artWorkflowAudit.node-test.mjs
+          node --test             scripts/artPromptOptimizer.node-test.mjs             scripts/artFactoryJob.node-test.mjs             scripts/artReviewNormalizer.node-test.mjs             scripts/artFactoryState.node-test.mjs             scripts/catalogFallbackBacklog.node-test.mjs             scripts/artRegenerationQueue.node-test.mjs             scripts/artWorkflowAudit.node-test.mjs
           node scripts/artPromptOptimizer.mjs validate \
             --repo-root . \
             --output artifacts/art-factory-preflight/prompt-optimizer-validation.json
@@ -219,6 +221,7 @@ jobs:
           NODE
           node scripts/artReviewNormalizer.mjs             --repo-root .             --output artifacts/art-factory-preflight/review-corpus.json
           node scripts/catalogFallbackBacklog.mjs             --repo-root .             --output artifacts/art-factory-preflight/fallback-backlog.json
+          node scripts/artFactoryState.mjs             --repo-root .             --output artifacts/art-factory-preflight/factory-state.json
           node scripts/artRegenerationQueue.mjs             --repo-root .             --output artifacts/art-factory-preflight/regeneration-queue.json
           node scripts/artWorkflowAudit.mjs             --repo-root .             --output artifacts/art-factory-preflight/workflow-audit.json
 
@@ -341,6 +344,7 @@ jobs:
           audit = load('workflow-audit.json')
           fallback = load('fallback-backlog.json')
           queue = load('regeneration-queue.json')
+          factory = load('factory-state.json')
           cal = load('visual-calibration.json')
           changed = (root / 'changed-files.txt').read_text().splitlines() if (root / 'changed-files.txt').exists() else []
 
@@ -355,6 +359,8 @@ jobs:
               f"- Accepted awaiting canonical: **{fallback.get('summary',{}).get('acceptedAwaitingCanonicalCount','?')}**",
               f"- Regeneration selected: **{queue.get('counts',{}).get('selected','?')}**",
               f"- Pending newer candidates: **{queue.get('counts',{}).get('pending','?')}**",
+              f"- Authoritative factory release blockers: **{factory.get('releaseBlockerCount','?')}**",
+              f"- State authority: **{factory.get('policy',{}).get('authority','NOT_RUN')}**",
           ]
           if cal:
               ready = cal.get('readiness',{})
@@ -371,7 +377,7 @@ jobs:
           PY
 
       - name: Upload deterministic evidence
-        if: always() && (steps.scope.outputs.python == 'true' || failure())
+        if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: starblox-art-factory-preflight-${{ github.sha }}

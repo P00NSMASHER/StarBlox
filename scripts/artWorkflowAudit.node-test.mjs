@@ -41,3 +41,34 @@ test('active batches enforce one producer and non-overlapping scopes',()=>{
   assert(report.errors.some(x=>x.code==='ACTIVE_BATCH_DUPLICATE_PRODUCER'));
   assert(report.errors.some(x=>x.code==='ACTIVE_BATCH_SCOPE_COLLISION'));
 });
+
+test('authoritative state exposes stale coordination snapshots without making them authoritative',()=>{
+  const authoritativeState={sourceHead:'new-head',releaseBlockerCount:1,items:{'x-9':{pendingCandidate:{assetHash:'new-candidate'}}}};
+  const activeBatch={sourceHead:'old-head',policy:{maxConcurrentProductionBatches:4,maxItemsPerBatch:4},batches:[]};
+  const queue={selected:[],pending:[{itemId:'x-9',pendingCandidates:[{assetHash:'new-candidate'}]}],blocked:[],preserve:[]};
+  const report=auditWorkflow({
+    items,
+    manifest:{target:192,items:{}},
+    corpus:{conflicts:[],observations:[],current:[]},
+    queue,
+    fallback:{productionQueue:[],acceptedAwaitingCanonical:[],blockedEvidence:[]},
+    authoritativeState,
+    activeBatch
+  });
+  assert.equal(report.status,'PASS');
+  assert(report.warnings.some(x=>x.code==='STALE_ACTIVE_BATCH_SNAPSHOT'));
+  assert.equal(report.summary.authoritativeStateSourceHead,'new-head');
+});
+
+test('pending regeneration state must be backed by authoritative exact state',()=>{
+  const queue={selected:[],pending:[{itemId:'x-9',pendingCandidates:[{assetHash:'ghost'}]}],blocked:[],preserve:[]};
+  const report=auditWorkflow({
+    items,
+    manifest:{target:192,items:{}},
+    corpus:{conflicts:[],observations:[],current:[]},
+    queue,
+    fallback:{productionQueue:[],acceptedAwaitingCanonical:[],blockedEvidence:[]},
+    authoritativeState:{sourceHead:'h',releaseBlockerCount:0,items:{}}
+  });
+  assert(report.errors.some(x=>x.code==='REGEN_PENDING_NOT_BACKED_BY_AUTHORITATIVE_STATE'));
+});
