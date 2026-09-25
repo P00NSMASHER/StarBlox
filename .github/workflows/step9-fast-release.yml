@@ -75,7 +75,7 @@ jobs:
           retention-days: 7
 
   publish-and-server-boot:
-    if: ${{ github.event_name == 'workflow_dispatch' || (github.head_ref == 'release/step9-step6-final-v1' && github.event.pull_request.draft == false) }}
+    if: ${{ github.event_name == 'workflow_dispatch' }}
     needs: prepare-release-candidate
     runs-on: ubuntu-latest
     timeout-minutes: 20
@@ -211,7 +211,7 @@ jobs:
           retention-days: 30
 
   real-client-gate:
-    if: ${{ github.event_name == 'workflow_dispatch' || (github.head_ref == 'release/step9-step6-final-v1' && github.event.pull_request.draft == false) }}
+    if: ${{ github.event_name == 'workflow_dispatch' }}
     needs: publish-and-server-boot
     runs-on: ubuntu-latest
     timeout-minutes: 15
