@@ -66,6 +66,13 @@ const runFiles={
   'wire-quest-mastery':resolve(outDir,'wire-quest-mastery-development-run.json')
 };
 
+const expectedDonors={
+  'integrate-arnis':{donorId:'arnis',commit:'ff7984f990336da1d9f303d54b3f2e223bfdab35'},
+  'integrate-achassis':{donorId:'achassis',commit:'3533c32ed04210fd11eaa8d4c45ddc5da951f6fb'},
+  'integrate-flex':{donorId:'flex',commit:'f23ff0b06c759e60aa651a6618a8d81692719fc9'},
+  'integrate-rorooms':{donorId:'rorooms',commit:'3d06941343b5bd70a92044b45fe25deb3e4e2095'}
+};
+
 const runs={};
 for(const [stageId,file] of Object.entries(runFiles)){
   const stageResult=state.stages?.[stageId]?.result || {};
@@ -91,6 +98,32 @@ for(const [stageId,file] of Object.entries(runFiles)){
   if(run.studioAttestation?.required===true && run.studioAttestation?.attested!==true){
     throw new Error(stageId+' Studio attestation is missing');
   }
+
+  const expectedDonor=expectedDonors[stageId];
+  if(expectedDonor){
+    const spec=run.task?.adapterSpecEvidence;
+    if(!spec){
+      throw new Error(stageId+' is missing donor adapter spec evidence');
+    }
+    if(
+      spec.donorId!==expectedDonor.donorId ||
+      String(spec.commit || '').toLowerCase()!==expectedDonor.commit
+    ){
+      throw new Error(stageId+' donor adapter evidence does not match pinned donor');
+    }
+  }
+
+  if(stageId==='adapt-brookhaven' || stageId==='adapt-robbing'){
+    const migration=run.task?.migrationEvidence;
+    if(
+      !migration ||
+      migration.status!=='verified' ||
+      migration.liveActivationAllowed!==false
+    ){
+      throw new Error(stageId+' is missing verified staging-only migration evidence');
+    }
+  }
+
   runs[stageId]={
     skipped:false,
     file,
