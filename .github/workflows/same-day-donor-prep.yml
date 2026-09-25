@@ -1,0 +1,59 @@
+name: Same-Day StarBlox Donor Prep
+
+on:
+  push:
+    branches: [integration/same-day-starblox-pipeline]
+    paths:
+      - .github/workflows/same-day-donor-prep.yml
+      - config/same-day/pipeline.example.json
+      - config/same-day/integrate-*-task.json
+      - config/same-day/donors/**
+      - scripts/prepare-same-day-donors.mjs
+      - src/sameDayPipeline/donorAdapterSpec.js
+  workflow_dispatch:
+
+concurrency:
+  group: same-day-donor-prep-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  prepare-donors:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Prepare exact pinned donor checkouts
+        run: |
+          rm -rf vendor/authorized artifacts/same-day-donors
+          node scripts/prepare-same-day-donors.mjs \
+            --manifest config/same-day/pipeline.example.json \
+            --out-dir artifacts/same-day-donors
+
+      - name: Verify donor receipts
+        run: |
+          test -f artifacts/same-day-donors/donor-checkout-index.json
+          for donor in arnis achassis flex rorooms; do
+            test -f "artifacts/same-day-donors/$donor-checkout-receipt.json"
+            grep -q '"version": "starblox-donor-checkout-receipt-v1"' "artifacts/same-day-donors/$donor-checkout-receipt.json"
+            grep -Eq '"receiptHash": "sha256:[a-f0-9]{64}"' "artifacts/same-day-donors/$donor-checkout-receipt.json"
+          done
+          grep -Eq '"indexHash": "sha256:[a-f0-9]{64}"' artifacts/same-day-donors/donor-checkout-index.json
+
+      - name: Upload resumable donor source cache
+        uses: actions/upload-artifact@v4
+        with:
+          name: starblox-same-day-donors
+          path: |
+            vendor/authorized
+            artifacts/same-day-donors
+          include-hidden-files: true
+          retention-days: 3
+          if-no-files-found: error
