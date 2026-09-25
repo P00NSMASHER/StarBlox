@@ -422,6 +422,16 @@ async function gatherRuntimeEvidence(studio,plan,{safety={}}={}){
                 height:Number(capture?.height) || null,
                 originalWidth:Number(capture?.originalWidth) || Number(capture?.width) || null,
                 originalHeight:Number(capture?.originalHeight) || Number(capture?.height) || null,
+                device:capture?.device && typeof capture.device === 'object'
+                  ? {
+                    touchEnabled:capture.device.touchEnabled === true,
+                    keyboardEnabled:capture.device.keyboardEnabled === true,
+                    mouseEnabled:capture.device.mouseEnabled === true,
+                    gamepadEnabled:capture.device.gamepadEnabled === true,
+                    viewportWidth:Number(capture.device.viewportWidth) || null,
+                    viewportHeight:Number(capture.device.viewportHeight) || null
+                  }
+                  : null,
                 artifactHash:stableHash(capture)
               };
             }catch(error){
