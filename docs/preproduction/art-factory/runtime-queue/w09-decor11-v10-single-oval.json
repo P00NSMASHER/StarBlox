@@ -34,5 +34,10 @@
     "route": "12 -> 14 -> 02 -> 08 on ACCEPT",
     "canonicalWriter": "08"
   },
-  "dispatchPolicy": "PREPARED_ONLY__QUEUE_WHEN_DESK11_V12_TRANSITIONS_TO_GENERATING"
+  "dispatchPolicy": "PREPARED_ONLY__QUEUE_WHEN_DESK11_V12_TRANSITIONS_TO_GENERATING",
+  "retry": {
+    "attempt": 2,
+    "reason": "Serialized Step6 retry after runtime dependency and constrained-prompt repairs",
+    "supersedesRunId": 36091462690
+  }
 }
