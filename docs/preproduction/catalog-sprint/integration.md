@@ -1,25 +1,21 @@
-# Workstream 08 — Catalog Integration
+# Workstream 08 catalog integration
 
-STATUS: **INTEGRATED_ACCEPTED_INCREMENT_TESTS_PASS_STORE_SMOKE_PENDING**
+Status: **Deterministic Desk10 + Desk11 qualified exact-hash ACCEPTs PREPARED; VALIDATION PENDING**
 
-Branch: `screenshot-match-preproduction` only. Replit/Floot/main/player data remain untouched.
+Source head: `660b50d450bc1c3061f5aa6f2df821fa21970982`  
+Branch: `screenshot-match-preproduction` only. Replit/Floot/main/player data untouched.
 
-## This integration
+| ID | Name | Tier/theme | Canonical asset | Git blob | Decode |
+|---|---|---|---|---|---|
+| desks-10 | Neon Streaming Desk | T4 · Aqua Wave | `/assets/catalog-candidates/deterministic/desks-10-v16.svg` | `8eb15c972ec4a29e52db24d8c93e468348b55874` | SVG 800×800 |
+| desks-11 | Dream Creator Station | T4 · Art Attack | `/assets/catalog-candidates/deterministic/desks-11-v13.svg` | `199b6bd5340ab02c4a302df2c2a67e19dd5b0d4d` | SVG 800×800 |
 
-Integrated 8 newly qualified exact-hash replacements: `lighting-5`, `lighting-6`, `lighting-7`, `lighting-8`, `lighting-9`, `lighting-10`, `lighting-11`, `lighting-12`. Exact repository bytes/hashes, current Store metadata, supported decode, canonical path/content uniqueness and reviewer independence were all validated before wiring.
+Every accepted blob was re-read from the repository, checked against authoritative Store identity/category/tier/theme, decoded/safety-checked, confirmed independent from its producer and checked for canonical path/content collisions.
 
-Canonical manifest is now v31: **163 final-portable / 7 interim / 29 non-final**, with 170 canonical entries and 170 runtime mappings. Legacy labels remain distinct from the strict accepted-current-hash count.
+After this batch: manifest v46; **183/192 legacy final-portable labels**, **10/192 strict independently accepted + canonical-wired current hashes**, **182 strict remaining**, **0 release-cleared**.
 
-Strict current replacement state: **36 accepted / 8 canonical-wired / 0 release-cleared**.
+## Executed validation
 
-## Validation
+Affected catalog mapping/content tests **PASS** and the Vite production build **PASS**. Strict changed-art Store/mobile QA was executed. It **PASSed**.
 
-- metadata: PASS_8_OF_8_AGAINST_CURRENT_GAME_MODEL
-- exact stored bytes: PASS_8_OF_8_EXACT_GIT_BLOB_SHA
-- safe decode/render evidence: PASS_8_OF_8_SUPPORTED_FORMAT_PLUS_INDEPENDENT_RENDER_EVIDENCE
-- canonical uniqueness: PASS_170_UNIQUE_PATHS_AND_CONTENT_HASHES
-- npm tests: PASS_FULL_NPM_TEST_WORKFLOW
-- production build: PASS_VITE_PRODUCTION_BUILD_WORKFLOW
-- Store/mobile smoke: PENDING_AUTOMATIC_CATALOG_MOBILE_QA_ON_CANONICAL_COMMIT
-
-Next: consume every fresh exact-hash ACCEPT immediately; never wire REWORK or producer-only claims.
+The unrelated full-suite harness issue remains separate: run `35677462826` collected `scripts/artPromptOptimizer.test.mjs` as a test file with no test suite. No assertion was weakened.

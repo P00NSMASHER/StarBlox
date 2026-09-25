@@ -153,6 +153,10 @@ const portableCatalogArt = Object.freeze({
   'desks-5': '/assets/catalog/desks-5-w03-recovered-v2.jpg',
   'desks-6': '/assets/catalog/desks-6-w03-recovered-v2.jpg',
   'desks-7': '/assets/catalog-candidates/cpu/desks-7-w13-v2-a-creator-desk-original.png',
+  'desks-8': '/assets/catalog-candidates/cpu/desks-8-w13-v4-a-token-safe-aqua-desk-original.png',
+  'desks-9': '/assets/catalog-candidates/cpu/desks-9-w03-v6-b-art-maker-worktable-original.png',
+  'desks-10': '/assets/catalog-candidates/deterministic/desks-10-v16.svg',
+  'desks-11': '/assets/catalog-candidates/deterministic/desks-11-v13.svg',
   'desks-12': '/assets/catalog-candidates/cpu/desks-12-w13-v4-a-freestanding-luxury-desk-original.png',
   'lighting-1': '/assets/catalog/lighting-1-v2.jpg',
   'lighting-2': '/assets/catalog/lighting-2-v2.jpg',
@@ -173,6 +177,7 @@ const portableCatalogArt = Object.freeze({
   'wall-5': '/assets/catalog/wall-5-w05-v2.png',
   'wall-6': '/assets/catalog/wall-6-w05-v2.png',
   'wall-7': '/assets/catalog/wall-7-w05-v2.png',
+  'wall-8': '/assets/catalog-candidates/cpu/wall-8-w13-v10-a-flat-blue-ocean-window-original.png',
   'wall-10': '/assets/catalog-candidates/cpu/wall-10-w13-v2-a-no-text-skyline-original.png',
   'wall-11': '/assets/catalog-candidates/cpu/wall-11-w13-v1-a-pixel-bevel-mirror-original.png',
   'wall-12': '/assets/catalog-candidates/cpu/wall-12-w13-v1-a-jeweled-relief-crest-original.png',
@@ -194,14 +199,11 @@ const portableCatalogArt = Object.freeze({
   'decor-4': '/assets/catalog/decor-4-w09-v3.webp',
   'decor-5': '/assets/catalog-candidates/cpu/decor-5-w09-v3-a-physical-original.png',
   'decor-6': '/assets/catalog-candidates/cpu/decor-6-w03-v2-a-single-telescope-original.png',
-  'decor-9': '/assets/catalog-candidates/cpu/decor-9-w09-v1-a-easel-with-tray-original.png',
-  'decor-10': '/assets/catalog-candidates/cpu/decor-10-w09-v1-a-retro-mini-fridge-original.png',
-  'decor-12': '/assets/catalog-candidates/cpu/decor-12-w09-v3-a-trophy-cups-wall-original.png',  'desks-9': '/assets/catalog-candidates/cpu/desks-9-w03-v6-b-art-maker-worktable-original.png',
   'decor-7': '/assets/catalog-candidates/cpu/decor-7-w09-v11-a-two-quad-skates-on-shoe-rack-original.png',
   'decor-8': '/assets/catalog-candidates/cpu/decor-8-w03-v6-b-single-blue-aquarium-original.png',
-  'desks-8': '/assets/catalog-candidates/cpu/desks-8-w13-v4-a-token-safe-aqua-desk-original.png',
-  'wall-8': '/assets/catalog-candidates/cpu/wall-8-w13-v10-a-flat-blue-ocean-window-original.png',
-
+  'decor-9': '/assets/catalog-candidates/cpu/decor-9-w09-v1-a-easel-with-tray-original.png',
+  'decor-10': '/assets/catalog-candidates/cpu/decor-10-w09-v1-a-retro-mini-fridge-original.png',
+  'decor-12': '/assets/catalog-candidates/cpu/decor-12-w09-v3-a-trophy-cups-wall-original.png'
 });
 
 for (const item of gameModel.store) {

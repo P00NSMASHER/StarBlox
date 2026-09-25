@@ -1,3 +1,9 @@
+## V2 canonical increment — Deterministic Desk10 + Desk11 qualified exact-hash ACCEPTs
+
+Prepared from `660b50d450bc1c3061f5aa6f2df821fa21970982` using exact hash-bound reviewer 05 ACCEPT evidence. 2 items passed repository-byte, Store metadata, decode/safety, reviewer-independence and canonical uniqueness checks. Full tests/build/Store-mobile smoke are required before publication.
+
+Exact IDs: `desks-10`, `desks-11`.
+
 # Workstream 08 — Catalog Integration
 
 STATUS: **INTEGRATED_ACCEPTED_INCREMENT_TESTS_PASS_STORE_SMOKE_PENDING**
