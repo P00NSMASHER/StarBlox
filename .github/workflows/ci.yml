@@ -38,6 +38,7 @@ jobs:
             scripts/artFactoryState.node-test.mjs \
             scripts/artFactoryStagedHandoff.node-test.mjs \
             scripts/artQaWorkflowContract.node-test.mjs \
+            scripts/canonicalPublicationContract.node-test.mjs \
             scripts/catalogFallbackBacklog.node-test.mjs \
             scripts/artRegenerationQueue.node-test.mjs \
             scripts/artWorkflowAudit.node-test.mjs
