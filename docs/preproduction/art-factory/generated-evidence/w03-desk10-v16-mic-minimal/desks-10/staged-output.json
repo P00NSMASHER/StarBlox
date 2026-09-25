@@ -1,0 +1,91 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_STAGED_OUTPUT",
+  "repository": "P00NSMASHER/StarBlox",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "47aaf5b8c4e4329659e3d32c68ea633604271379",
+  "sourcePlanSha256": "7016ae32c24f91689d53a8e075ae7a2b7a88a7dc1871cb88bd029d3e68a3950e",
+  "item": {
+    "id": "desks-10",
+    "name": "Neon Streaming Desk",
+    "collectionId": "desks",
+    "type": "room",
+    "tier": 4,
+    "theme": "Aqua Wave"
+  },
+  "attempt": {
+    "attemptId": "desks-10-w03-a-minimal-mic-desk-7e4b7ddcc7",
+    "producer": "03",
+    "variant": "A-MINIMAL-MIC-DESK",
+    "promptBlocks": [
+      "metadata",
+      "category",
+      "silhouette",
+      "physical",
+      "material",
+      "theme",
+      "tier",
+      "card",
+      "original",
+      "stage",
+      "furniture",
+      "camera",
+      "depth",
+      "bloom",
+      "textile",
+      "wall",
+      "light"
+    ],
+    "promptSha256": "7e4b7ddcc7ef3765fe0266f3e7a5d3fb8818bc260d46f5e8905a43f76b57aed9",
+    "promptRecipeVersion": "artPromptOptimizer-request-v1:w03-desk10-v16-mic-minimal",
+    "seed": 190459068,
+    "runtime": {
+      "repo": "huggingface/diffusers",
+      "commit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c"
+    },
+    "model": {
+      "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+      "revision": "462165984030d82259a11f4367a4eed129e94a7b",
+      "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+    },
+    "conditioning": {
+      "referenceAssetSha256": null,
+      "controlImageSha256": null,
+      "adapterScale": null
+    }
+  },
+  "output": {
+    "repoPath": "public/assets/catalog-candidates/cpu/desks-10-w03-v16-a-minimal-mic-desk-original.png",
+    "sha256": "521174625a9d473731ec865969fbf67c2916d752a29ea4e65bce3db4c0b35678",
+    "gitBlobSha": "10d363a1bd9869c29a0907d3e98c8f9f2461f3ce",
+    "bytes": 490915,
+    "format": "PNG",
+    "width": 640,
+    "height": 640,
+    "mode": "RGB"
+  },
+  "derivativeLineage": {
+    "derivativeOfSha256": null,
+    "sourcePreserved": true
+  },
+  "renderEvidence": [],
+  "review": {
+    "reviewer": "05",
+    "routing": {
+      "reviewer": "05",
+      "routingFile": "docs/preproduction/art-factory/runtime-queue/w03-desk10-v16-mic-minimal.json",
+      "routingFileSha256": "b3bacb23c6f3ede3b4100ec7060eb518d6ef3061a7b1dbf36b1a72b1f6ac0db8",
+      "queueId": "w03-desk10-v16-mic-minimal"
+    },
+    "state": "PENDING_ACTUAL_PIXEL_REVIEW",
+    "decision": null
+  },
+  "safety": {
+    "canonicalArtModified": false,
+    "gameplayModified": false,
+    "automaticPerceptualDecision": false,
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+  },
+  "status": "STAGED_EXACT_BYTES_VERIFIED",
+  "recordSha256": "cf085935b06663b6135c6b27178d0ca87cce282f8bc8a354b1b61777fc6f3a5b"
+}

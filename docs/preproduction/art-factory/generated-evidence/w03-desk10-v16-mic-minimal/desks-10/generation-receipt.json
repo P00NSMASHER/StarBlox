@@ -1,0 +1,112 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_GENERATION_RECEIPT",
+  "repository": "P00NSMASHER/StarBlox",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "47aaf5b8c4e4329659e3d32c68ea633604271379",
+  "sourcePlanSha256": "7016ae32c24f91689d53a8e075ae7a2b7a88a7dc1871cb88bd029d3e68a3950e",
+  "executionCheckout": {
+    "branch": "screenshot-match-preproduction",
+    "head": "47aaf5b8c4e4329659e3d32c68ea633604271379",
+    "planSourceHeadMatchesExecutionHead": true
+  },
+  "attempt": {
+    "attemptId": "desks-10-w03-a-minimal-mic-desk-7e4b7ddcc7",
+    "itemId": "desks-10",
+    "producer": "03",
+    "variant": "A-MINIMAL-MIC-DESK",
+    "promptSha256": "7e4b7ddcc7ef3765fe0266f3e7a5d3fb8818bc260d46f5e8905a43f76b57aed9",
+    "runtimePromptSha256": "a4e330ce6798bb7f2928a1b91039f886b700a9937f465def78efbbf93ba06c3a",
+    "runtimeNegativePromptSha256": "7980d2634343f80e04bc21ed3e7efc5426e9365cfee13162522936b4e9209b71",
+    "promptRecipeVersion": "artPromptOptimizer-request-v1:w03-desk10-v16-mic-minimal",
+    "seed": 190459068
+  },
+  "runtime": {
+    "repo": "huggingface/diffusers",
+    "commit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "resolvedCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "runtimeCommitVerified": true,
+    "diffusersVersion": "0.41.0.dev0",
+    "diffusersInstallSource": "https://github.com/huggingface/diffusers.git",
+    "torchVersion": "2.8.0+cpu",
+    "transformersVersion": "5.17.0",
+    "accelerateVersion": "1.15.0",
+    "huggingfaceHubVersion": "1.33.0",
+    "safetensorsVersion": "0.8.0",
+    "pythonPillowVersion": "12.3.0",
+    "device": "cpu",
+    "dtype": "float32",
+    "executionMode": "cpu-fallback"
+  },
+  "model": {
+    "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+    "revision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS",
+    "resolvedRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "snapshotRevisionVerified": true,
+    "selectiveSnapshot": true,
+    "snapshotAllowPatterns": [
+      "model_index.json",
+      "scheduler/*",
+      "tokenizer/*",
+      "tokenizer_2/*",
+      "feature_extractor/*",
+      "text_encoder/config.json",
+      "text_encoder/model.fp16.safetensors",
+      "text_encoder_2/config.json",
+      "text_encoder_2/model.fp16.safetensors",
+      "unet/config.json",
+      "unet/diffusion_pytorch_model.fp16.safetensors",
+      "vae/config.json",
+      "vae/diffusion_pytorch_model.fp16.safetensors"
+    ]
+  },
+  "conditioning": {
+    "referenceAssetSha256": null,
+    "controlImageSha256": null,
+    "adapterScale": null,
+    "referenceImage": null,
+    "ipAdapterModelId": null,
+    "ipAdapterRevision": null,
+    "ipAdapterResolvedRevision": null,
+    "ipAdapterRevisionVerified": false,
+    "ipAdapterWeightName": null,
+    "ipAdapterSubfolder": null
+  },
+  "generation": {
+    "width": 640,
+    "height": 640,
+    "numInferenceSteps": 12,
+    "guidanceScale": 5.0,
+    "runtimePromptTokenCounts": {
+      "tokenizer": 57,
+      "tokenizer_2": 57
+    },
+    "runtimeNegativePromptTokenCounts": {
+      "tokenizer": 43,
+      "tokenizer_2": 43
+    },
+    "executedSeed": 190459068
+  },
+  "output": {
+    "repoPath": "public/assets/catalog-candidates/cpu/desks-10-w03-v16-a-minimal-mic-desk-original.png",
+    "sha256": "521174625a9d473731ec865969fbf67c2916d752a29ea4e65bce3db4c0b35678",
+    "gitBlobSha": "10d363a1bd9869c29a0907d3e98c8f9f2461f3ce",
+    "bytes": 490915,
+    "width": 640,
+    "height": 640,
+    "format": "PNG",
+    "sourceBytesPreserved": true,
+    "reusedExistingIdenticalBytes": false
+  },
+  "safety": {
+    "canonicalArtModified": false,
+    "gameplayModified": false,
+    "reviewDecisionMade": false,
+    "deploymentPerformed": false,
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+  },
+  "nextGate": "RUN_VERIFY_STAGED_OUTPUT_THEN_REAL_RENDER_AND_INDEPENDENT_EXACT_HASH_REVIEW",
+  "status": "GENERATED_SOURCE_BYTES_UNVERIFIED",
+  "recordSha256": "bd7d708ae154c8b26d0a493d00ad8ce2970ea5ebb73aa747a84e453c73967d81"
+}
