@@ -19,8 +19,8 @@ describe('Step 9 joinability: production server boot gate', () => {
     expect(rokit).toContain('rojo = "rojo-rbx/rojo@7.6.1"');
     expect(workflow).toContain('wally-v0.3.2-linux.zip');
     expect(workflow).toContain('wally install');
-    expect(workflow).toContain('test -e Packages/Matter');
-    expect(workflow).toContain('test -e ServerPackages/ProfileStore');
+    expect(workflow).toContain("-name 'Matter.lua'");
+    expect(workflow).toContain("-name 'ProfileStore.lua'");
   });
 
   it('refuses native builds and private publishes when runtime packages are omitted', () => {
