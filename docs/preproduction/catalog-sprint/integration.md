@@ -1,18 +1,18 @@
 # Workstream 08 catalog integration
 
-Status: **Deterministic Desk10 + Desk11 qualified exact-hash ACCEPTs PREPARED; VALIDATION PENDING**
+Status: **Deterministic Decor11 + Wall9 qualified exact-hash ACCEPTs PREPARED; VALIDATION PENDING**
 
-Source head: `660b50d450bc1c3061f5aa6f2df821fa21970982`  
+Source head: `ecd69a80e4f4793981a1851ec954c65f2b94d075`  
 Branch: `screenshot-match-preproduction` only. Replit/Floot/main/player data untouched.
 
 | ID | Name | Tier/theme | Canonical asset | Git blob | Decode |
 |---|---|---|---|---|---|
-| desks-10 | Neon Streaming Desk | T4 · Aqua Wave | `/assets/catalog-candidates/deterministic/desks-10-v16.svg` | `8eb15c972ec4a29e52db24d8c93e468348b55874` | SVG 800×800 |
-| desks-11 | Dream Creator Station | T4 · Art Attack | `/assets/catalog-candidates/deterministic/desks-11-v13.svg` | `199b6bd5340ab02c4a302df2c2a67e19dd5b0d4d` | SVG 800×800 |
+| decor-11 | Dream Vanity Set | T4 · Art Attack | `/assets/catalog-candidates/deterministic/decor-11-v10.svg` | `8179542a5966926d4462bda26d01553cf1e72b0d` | SVG 800×800 |
+| wall-9 | Art Gallery Wall | T3 · Adventure Club | `/assets/catalog-candidates/deterministic/wall-9-v13.svg` | `752423e322f394adb1af5f48c1166eaf888f9830` | SVG 800×800 |
 
 Every accepted blob was re-read from the repository, checked against authoritative Store identity/category/tier/theme, decoded/safety-checked, confirmed independent from its producer and checked for canonical path/content collisions.
 
-After this batch: manifest v46; **183/192 legacy final-portable labels**, **10/192 strict independently accepted + canonical-wired current hashes**, **182 strict remaining**, **0 release-cleared**.
+After this batch: manifest v47; **185/192 legacy final-portable labels**, **12/192 strict independently accepted + canonical-wired current hashes**, **180 strict remaining**, **0 release-cleared**.
 
 ## Executed validation
 

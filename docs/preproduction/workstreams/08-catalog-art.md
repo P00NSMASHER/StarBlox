@@ -1,3 +1,9 @@
+## V2 canonical increment — Deterministic Decor11 + Wall9 qualified exact-hash ACCEPTs
+
+Prepared from `ecd69a80e4f4793981a1851ec954c65f2b94d075` using exact hash-bound reviewer 14 ACCEPT evidence. 2 items passed repository-byte, Store metadata, decode/safety, reviewer-independence and canonical uniqueness checks. Full tests/build/Store-mobile smoke are required before publication.
+
+Exact IDs: `decor-11`, `wall-9`.
+
 ## V2 canonical increment — Deterministic Desk10 + Desk11 qualified exact-hash ACCEPTs
 
 Prepared from `660b50d450bc1c3061f5aa6f2df821fa21970982` using exact hash-bound reviewer 05 ACCEPT evidence. 2 items passed repository-byte, Store metadata, decode/safety, reviewer-independence and canonical uniqueness checks. Full tests/build/Store-mobile smoke are required before publication.

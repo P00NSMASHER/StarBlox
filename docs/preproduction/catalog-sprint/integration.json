@@ -4,97 +4,96 @@
   "phase": "CATALOG_SPRINT",
   "status": "INTEGRATED_ACCEPTED_INCREMENT_CATALOG_TESTS_BUILD_STORE_SMOKE_PASS_PENDING_PUSH",
   "branch": "screenshot-match-preproduction",
-  "auditedSourceHead": "660b50d450bc1c3061f5aa6f2df821fa21970982",
-  "batchLabel": "Deterministic Desk10 + Desk11 qualified exact-hash ACCEPTs",
+  "auditedSourceHead": "ecd69a80e4f4793981a1851ec954c65f2b94d075",
+  "batchLabel": "Deterministic Decor11 + Wall9 qualified exact-hash ACCEPTs",
   "reviewerEvidence": [
     {
-      "reviewer": "05",
-      "source": "docs/preproduction/catalog-sprint/review-normalization-05-desk10-deterministic.json",
-      "blobSha": "34178ce43134a4d37d1a6c84c5adb269212bc15e"
+      "reviewer": "14",
+      "source": "docs/preproduction/catalog-sprint/review-normalization-14-decor11-deterministic.json",
+      "blobSha": "8e5e5b8fdde959097bd9b5f2975d748dcaacfd0b"
     },
     {
-      "reviewer": "05",
-      "source": "docs/preproduction/catalog-sprint/review-normalization-05-desk11-deterministic.json",
-      "blobSha": "f14530ed53b6475d5426c32ce6d1573eb9f9a985"
+      "reviewer": "14",
+      "source": "docs/preproduction/catalog-sprint/review-normalization-14-wall9-deterministic.json",
+      "blobSha": "51e2e328a52d498f5e2314c52eff2d07fdc29584"
     }
   ],
   "canonicalBefore": {
-    "manifestVersion": 45,
-    "manifestBlobSha": "208232d403db957e2d9cea3fbbd60de6a5d625dc",
-    "runtimeBlobSha": "e07c7d474fb450018feacecec3f3c8aa67a95081",
-    "manifestEntries": 188,
-    "strictAcceptedCanonical": 8
-  },
-  "canonicalAfter": {
     "manifestVersion": 46,
     "manifestBlobSha": "e57ad93606d787c0c86fd76f7e9d6152c83b3ab1",
     "runtimeBlobSha": "aed69ea05304a85ba6f715f47d0c843abdb72112",
-    "catalogTarget": 192,
     "manifestEntries": 190,
-    "runtimeMappings": 190,
-    "finalPortable": 183,
+    "strictAcceptedCanonical": 10
+  },
+  "canonicalAfter": {
+    "manifestVersion": 47,
+    "manifestBlobSha": "a1df3adf1ae6ca2a76c9236d831a9aec27a64b75",
+    "runtimeBlobSha": "db865cd1a8f70213c40f939f04e68d2fac06f672",
+    "catalogTarget": 192,
+    "manifestEntries": 192,
+    "runtimeMappings": 192,
+    "finalPortable": 185,
     "interimNotVerified": 7,
-    "nonFinal": 9,
+    "nonFinal": 7,
     "duplicateAssetPaths": 0,
     "duplicateContentHashes": 0,
-    "strictAcceptedCanonical": 10
+    "strictAcceptedCanonical": 12
   },
   "integratedThisRun": [
     {
-      "itemId": "desks-10",
-      "name": "Neon Streaming Desk",
-      "collectionId": "desks",
-      "collectionName": "Desks & Tech",
-      "type": "room",
-      "tier": 4,
-      "theme": "Aqua Wave",
-      "price": 928,
-      "starReq": 5,
-      "assetPath": "/assets/catalog-candidates/deterministic/desks-10-v16.svg",
-      "repositoryPath": "public/assets/catalog-candidates/deterministic/desks-10-v16.svg",
-      "assetBlobSha": "8eb15c972ec4a29e52db24d8c93e468348b55874",
-      "sha256": "9964d041ec5e5ffafa8e7783ac80b0b6b66c4af03b2366c97d7d0dfc4a03dcfb",
-      "bytes": 1766,
-      "width": 800,
-      "height": 800,
-      "format": "SVG",
-      "producer": "03",
-      "reviewer": "05",
-      "reviewEvidence": "docs/preproduction/catalog-sprint/review-normalization-05-desk10-deterministic.json",
-      "reviewBlobSha": "34178ce43134a4d37d1a6c84c5adb269212bc15e",
-      "evidenceRefs": [
-        "source:docs/preproduction/catalog-sprint/reviews/05.json@c158e41c90859b2deb2b89184b84c0867989f005",
-        "workflow:36094833312/artifact:10847495770",
-        "reviewer05:EXACT_DETERMINISTIC_HASH_ACCEPT"
-      ]
-    },
-    {
-      "itemId": "desks-11",
-      "name": "Dream Creator Station",
-      "collectionId": "desks",
-      "collectionName": "Desks & Tech",
+      "itemId": "decor-11",
+      "name": "Dream Vanity Set",
+      "collectionId": "decor",
+      "collectionName": "Room Decor",
       "type": "room",
       "tier": 4,
       "theme": "Art Attack",
       "price": 1276,
       "starReq": 5,
-      "assetPath": "/assets/catalog-candidates/deterministic/desks-11-v13.svg",
-      "repositoryPath": "public/assets/catalog-candidates/deterministic/desks-11-v13.svg",
-      "assetBlobSha": "199b6bd5340ab02c4a302df2c2a67e19dd5b0d4d",
-      "sha256": "d0f6d7cab65f7adf15b7a44a665ab50d0b072e0efff239f0509efe1e38d68810",
-      "bytes": 1884,
+      "assetPath": "/assets/catalog-candidates/deterministic/decor-11-v10.svg",
+      "repositoryPath": "public/assets/catalog-candidates/deterministic/decor-11-v10.svg",
+      "assetBlobSha": "8179542a5966926d4462bda26d01553cf1e72b0d",
+      "sha256": "c211a11883d7254f9ee6140853c31a7f2e6b22aa426e4ef1510893d217475dc7",
+      "bytes": 1402,
       "width": 800,
       "height": 800,
       "format": "SVG",
-      "producer": "03",
-      "reviewer": "05",
-      "reviewEvidence": "docs/preproduction/catalog-sprint/review-normalization-05-desk11-deterministic.json",
-      "reviewBlobSha": "f14530ed53b6475d5426c32ce6d1573eb9f9a985",
+      "producer": "09",
+      "reviewer": "14",
+      "reviewEvidence": "docs/preproduction/catalog-sprint/review-normalization-14-decor11-deterministic.json",
+      "reviewBlobSha": "8e5e5b8fdde959097bd9b5f2975d748dcaacfd0b",
       "evidenceRefs": [
         "workflow:36094833312",
-        "artifact:10847495770/staged-replacements/detail/desks-11-199b6bd5.png",
-        "visual-check:exactly-two-pedestals-open-knee-tablet-brush-cup-three-bins-white-bg",
-        "store-identity:Dream Creator Station|tier4|Art Attack"
+        "artifact:10847495770/staged-replacements/detail/decor-11-8179542a.png",
+        "visual-check:one-pink-vanity-one-oval-mirror-one-separate-stool-white-bg"
+      ]
+    },
+    {
+      "itemId": "wall-9",
+      "name": "Art Gallery Wall",
+      "collectionId": "wall",
+      "collectionName": "Wall Decor",
+      "type": "room",
+      "tier": 3,
+      "theme": "Adventure Club",
+      "price": 667,
+      "starReq": 2,
+      "assetPath": "/assets/catalog-candidates/deterministic/wall-9-v13.svg",
+      "repositoryPath": "public/assets/catalog-candidates/deterministic/wall-9-v13.svg",
+      "assetBlobSha": "752423e322f394adb1af5f48c1166eaf888f9830",
+      "sha256": "580fd558ffa7e9ebf4321ecf0ef0cf26c3f10c605c4d4927d8a59992a23bbfbd",
+      "bytes": 1720,
+      "width": 800,
+      "height": 800,
+      "format": "SVG",
+      "producer": "13",
+      "reviewer": "14",
+      "reviewEvidence": "docs/preproduction/catalog-sprint/review-normalization-14-wall9-deterministic.json",
+      "reviewBlobSha": "51e2e328a52d498f5e2314c52eff2d07fdc29584",
+      "evidenceRefs": [
+        "workflow:36094833312",
+        "artifact:10847495770/staged-replacements/detail/wall-9-752423e3.png",
+        "visual-check:exactly-three-equal-frames-one-row-mountain-compass-map-ocean-white-bg"
       ]
     }
   ],
@@ -102,10 +101,10 @@
     "exactStoreMetadata": "PASS_2_OF_2",
     "storedPathAndBlobReadback": "PASS_2_OF_2",
     "safeDecode": "PASS_2_OF_2",
-    "reviewerIndependence": "PASS_REVIEWER_05",
+    "reviewerIndependence": "PASS_REVIEWER_14",
     "reviewerDisagreement": "PASS_NONE_ON_ACCEPTED_EXACT_HASHES",
-    "canonicalUniqueness": "PASS_190_UNIQUE_PATHS_AND_CONTENT",
-    "runtimeManifestAgreement": "PASS_190_OF_190",
+    "canonicalUniqueness": "PASS_192_UNIQUE_PATHS_AND_CONTENT",
+    "runtimeManifestAgreement": "PASS_192_OF_192",
     "stablePricesUnlocksOwnership": "UNCHANGED_BY_SCOPE"
   },
   "postCommitValidation": {
@@ -113,7 +112,7 @@
     "productionBuild": "PASS_VITE_PRODUCTION_BUILD",
     "storeSmoke": "PASS_STRICT_CHANGED_ART_STORE_MOBILE_QA_PRECOMMIT",
     "referenceComparison": "HANDOFF_14_FRESH_REFERENCE_CAPTURE_AFTER_CANONICAL_PUSH",
-    "storeSmokeRun": "CURRENT_WORKFLOW_36115269887"
+    "storeSmokeRun": "CURRENT_WORKFLOW_36115479669"
   },
   "counts": {
     "generatedLocalKnown": 0,
@@ -121,18 +120,15 @@
     "preservedBlobOnlyKnown": 0,
     "branchStagedRepairIdsKnown": 35,
     "independentlyReviewedUniqueCatalogIds": 48,
-    "acceptedCurrentReplacementHashes": 10,
-    "canonicalWiredAcceptedHashesAfterCommit": 10,
+    "acceptedCurrentReplacementHashes": 12,
+    "canonicalWiredAcceptedHashesAfterCommit": 12,
     "catalogReleaseClearedIds": 0,
     "newlyAcceptedAndWiredThisRun": 2,
-    "strictAcceptedRemaining": 182
+    "strictAcceptedRemaining": 180
   },
-  "nextAcceptedQueues": [
-    "14: decor-11 deterministic exact-hash ACCEPT pending separate reviewer14 batch.",
-    "14: wall-9 deterministic exact-hash ACCEPT pending separate reviewer14 batch."
-  ],
+  "nextAcceptedQueues": [],
   "blockers": [
-    "182 catalog IDs remain outside the strict accepted-and-canonical set after this batch.",
+    "180 catalog IDs remain outside the strict accepted-and-canonical set after this batch.",
     "Catalog release still requires all 192 current hashes accepted/canonical plus final duplicate/near-duplicate and Store/mobile/release verification.",
     "Nonvisual release gates remain open/deferred, not waived."
   ],

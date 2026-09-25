@@ -178,6 +178,7 @@ const portableCatalogArt = Object.freeze({
   'wall-6': '/assets/catalog/wall-6-w05-v2.png',
   'wall-7': '/assets/catalog/wall-7-w05-v2.png',
   'wall-8': '/assets/catalog-candidates/cpu/wall-8-w13-v10-a-flat-blue-ocean-window-original.png',
+  'wall-9': '/assets/catalog-candidates/deterministic/wall-9-v13.svg',
   'wall-10': '/assets/catalog-candidates/cpu/wall-10-w13-v2-a-no-text-skyline-original.png',
   'wall-11': '/assets/catalog-candidates/cpu/wall-11-w13-v1-a-pixel-bevel-mirror-original.png',
   'wall-12': '/assets/catalog-candidates/cpu/wall-12-w13-v1-a-jeweled-relief-crest-original.png',
@@ -203,6 +204,7 @@ const portableCatalogArt = Object.freeze({
   'decor-8': '/assets/catalog-candidates/cpu/decor-8-w03-v6-b-single-blue-aquarium-original.png',
   'decor-9': '/assets/catalog-candidates/cpu/decor-9-w09-v1-a-easel-with-tray-original.png',
   'decor-10': '/assets/catalog-candidates/cpu/decor-10-w09-v1-a-retro-mini-fridge-original.png',
+  'decor-11': '/assets/catalog-candidates/deterministic/decor-11-v10.svg',
   'decor-12': '/assets/catalog-candidates/cpu/decor-12-w09-v3-a-trophy-cups-wall-original.png'
 });
 
