@@ -2,7 +2,7 @@ name: StarBlox CI
 
 on:
   push:
-    branches: [main, screenshot-match-preproduction]
+    branches: [main, screenshot-match-preproduction, demo-freeze]
     paths-ignore:
       - 'docs/**'
       - '**/*.md'
