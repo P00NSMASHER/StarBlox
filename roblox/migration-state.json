@@ -7,8 +7,8 @@
     "commit": "e12897e0e3796728eb338e94ee31fa759a6713a8"
   },
   "currentStep": {
-    "number": 6,
-    "name": "native-player-facing-vertical-slice",
+    "number": 7,
+    "name": "repeatable-native-core-game-loop",
     "status": "verified"
   },
   "runtimeAuthority": {
@@ -23,7 +23,7 @@
     "Do not publish or activate a Roblox production experience from this step.",
     "Promote migrated systems only through explicit verification gates."
   ],
-  "nextStep": "expand-vertical-slice-into-core-native-game-loop",
+  "nextStep": "player-experience-polish-and-real-device-qa",
   "toolchain": {
     "manager": "Rokit",
     "managerVersion": "1.2.0",
@@ -32,8 +32,8 @@
   },
   "roadmap": {
     "totalSteps": 10,
-    "completedSteps": 6,
-    "remainingSteps": 4
+    "completedSteps": 7,
+    "remainingSteps": 3
   },
   "studioSync": {
     "baseline": "roblox/native-place-baseline.json",
@@ -128,5 +128,46 @@
     "liveActivationAllowed": false,
     "productionActivationAllowed": false,
     "rollbackVersion": 2
+  },
+  "coreLoop": {
+    "loopId": "brightside-core-loop-v1",
+    "releaseId": "starblox-private-step7-v1",
+    "universeId": "6027194615",
+    "placeId": "17602626136",
+    "previousVersion": 3,
+    "publishedVersion": 4,
+    "verifiedVersion": 4,
+    "publishSourceCommit": "809d00723d35235af0816bd445de4de9fd200477",
+    "mergedCommit": "2ce67a10bdeffb92255666ee9eb77b68d7b8aaa9",
+    "artifactSha256": "c2068c3b8e103df1c001d928cc029e5d0bac9ac1150b23682081c2280b848d4a",
+    "publishWorkflowRunId": 36176830773,
+    "publishReceiptArtifactId": 10881674681,
+    "finalProofTaskPath": "universes/6027194615/places/17602626136/versions/4/luau-execution-sessions/789ed102-d7bc-493f-8faa-c03027f02e3c/tasks/789ed102-d7bc-493f-8faa-c03027f02e3c",
+    "activities": [
+      "word-portal-put-v1",
+      "spelling-forge-fog-v1",
+      "culture-lab-culture-v1"
+    ],
+    "evidence": {
+      "productionRuntimeScriptPresent": true,
+      "productionRuntimeScriptEnabled": true,
+      "engineServiceInstantiation": true,
+      "threeActivityStations": true,
+      "navigationPaths": true,
+      "serverAuthoritativeAnswers": true,
+      "replicatedAnswersHidden": true,
+      "repeatableRuns": true,
+      "durableDistrictProgression": true,
+      "firstLoopCosmeticUnlock": true,
+      "dailyRewardCap": true,
+      "duplicateRewardGuard": true,
+      "coreLoopRemotes": true
+    },
+    "firstLoopCosmeticId": "brightside-spark-trail",
+    "dailyRewardRunCap": 3,
+    "publicAccessChangeAttempted": false,
+    "liveActivationAllowed": false,
+    "productionActivationAllowed": false,
+    "rollbackVersion": 3
   }
 }
