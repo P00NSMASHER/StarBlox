@@ -1,0 +1,80 @@
+{
+  "schemaVersion": 1,
+  "version": "starblox-step10-final-release-gate-v1",
+  "status": "verified-private-release-candidate",
+  "release": {
+    "releaseId": "starblox-private-step9-canonical-step6-v4",
+    "universeId": "6027194615",
+    "placeId": "17602626136",
+    "sourceCommit": "d6ad331c55e5a4bc4f1fcb66a130d8d67e463887",
+    "verificationToolingHead": "84fe52a2a1c1dabb93d6fc1e62f75bf833c73930",
+    "previousVersion": 10,
+    "publishedVersion": 11,
+    "verifiedVersion": 11,
+    "artifactSha256": "f997ac0922fa01afd69ad16fa681d0b271284f0b619aac5c76d9cb5a8591b2c9"
+  },
+  "world": {
+    "releaseGateVersion": "starblox-step6-release-gate-v1",
+    "baselineModelSha256": "4dfd451ae211dead959ec3f165e2b477a9725d04727febdc66472e95328917df",
+    "mountedSubtreeSha256": "d2c88a68305a65475dfdab77220b69e4138d81e44250edd1849f69cee4c92a90",
+    "serializedInstanceCount": 5493,
+    "liveInstanceCount": 5516,
+    "deterministicRuntimeExpansion": {
+      "Glue": 3,
+      "Snap": 4,
+      "Weld": 16,
+      "total": 23
+    },
+    "forbiddenRuntimeClassesObserved": false
+  },
+  "serverBoot": {
+    "verified": true,
+    "workflowRunId": 36197498682,
+    "workflowJobId": 108276569445,
+    "matterPresentAndRequired": true,
+    "profileStorePresentAndRequired": true,
+    "replicaServerPresentAndRequired": true,
+    "replicaClientPresent": true,
+    "productionRuntimeEnabled": true,
+    "productionBootstrapStarted": true,
+    "brookhavenWorldMounted": true,
+    "coreLoopCreated": true,
+    "playtestTelemetryCreated": true
+  },
+  "client": {
+    "verified": true,
+    "workflowRunId": 36197498617,
+    "workflowJobId": 108279664580,
+    "touchClient": true,
+    "viewport": {
+      "x": 750,
+      "y": 402
+    },
+    "durationSeconds": 27,
+    "allThreePanelsOpened": true,
+    "threeClientSuccessStates": true,
+    "allThreeStationsOpenedAuthoritatively": true,
+    "threeCorrectCompletions": true,
+    "fullLoopCompleted": true,
+    "activityIdentityVerified": true,
+    "privacyReceiptVerified": true,
+    "onboardingObserved": false,
+    "wrongAnswerFeedbackObserved": false
+  },
+  "authority": {
+    "privatePublicationAllowed": true,
+    "publicAccessChangeAllowed": false,
+    "experienceVisibilityChangeAllowed": false,
+    "productionActivationAllowed": false
+  },
+  "rollback": {
+    "preservedVersion": 10,
+    "mechanism": "Roblox Creator Dashboard > Configure > Places > Version History > Restore"
+  },
+  "conclusion": {
+    "roadmapComplete": true,
+    "completedSteps": 10,
+    "totalSteps": 10,
+    "nextAction": "explicit-human-decision-on-public-activation"
+  }
+}
