@@ -404,6 +404,156 @@ if(progression.economyBoundary?.awardsCoins!==false) issues.push('progression-co
 if(progression.economyBoundary?.awardsStars!==false) issues.push('progression-stars-boundary');
 if(progression.economyBoundary?.changesMastery!==false) issues.push('progression-mastery-boundary');
 
+const progressionRuleSchemaPath='docs/preproduction/brookhaven-research/neutral-progression-rule-schema-v1.json';
+const progressionRuleSchema=JSON.parse(fs.readFileSync(progressionRuleSchemaPath,'utf8'));
+if(progressionRuleSchema.$id!=='starblox://schemas/neutral-progression-rule-v1') issues.push('progression-rule-schema-id');
+if(progressionRuleSchema.type!=='object') issues.push('progression-rule-schema-type');
+if(progressionRuleSchema.additionalProperties!==false) issues.push('progression-rule-schema-open-object');
+const progressionRuleRequired=['schemaVersion','targetType','targetId','criteria','sourceRef'];
+for(const field of progressionRuleRequired){
+  if(!(progressionRuleSchema.required||[]).includes(field)) issues.push('progression-rule-required:'+field);
+}
+const progressionMetricEnum=progressionRuleSchema.properties?.criteria?.items?.properties?.metric?.enum||[];
+if(sorted(progressionMetricEnum)!==sorted(['questsCompleted','stars','starWorth','masteredCount'])) issues.push('progression-rule-metric-enum');
+if(progressionRuleSchema.properties?.criteria?.items?.additionalProperties!==false) issues.push('progression-criterion-open-object');
+if(progressionRuleSchema.properties?.criteria?.items?.properties?.gte?.minimum!==0) issues.push('progression-threshold-minimum');
+
+const progressionRuleCatalogPath='docs/preproduction/brookhaven-research/neutral-progression-rule-catalog-v1.json';
+const progressionRuleCatalog=JSON.parse(fs.readFileSync(progressionRuleCatalogPath,'utf8'));
+if(progressionRuleCatalog.schemaVersion!=='starblox-neutral-progression-rule-catalog-v1') issues.push('progression-rule-catalog-schema');
+if(progressionRuleCatalog.status!=='shadow-read-only-runtime-not-wired-live') issues.push('progression-rule-catalog-status');
+if(progressionRuleCatalog.ruleSchemaRef!==progressionRuleSchemaPath) issues.push('progression-rule-catalog-schema-ref');
+if(progressionRuleCatalog.sourceBlueprintRef!==progressionPath) issues.push('progression-rule-catalog-blueprint-ref');
+if(progressionRuleCatalog.rulePolicy!=='original-starblox-research-design-not-source-progression-parity') issues.push('progression-rule-policy');
+if(progressionRuleCatalog.sourceParityClaims?.exactSourceProgression!==false) issues.push('progression-rule-source-progression-claim');
+if(progressionRuleCatalog.sourceParityClaims?.exactSourceEconomy!==false) issues.push('progression-rule-source-economy-claim');
+if(sorted(progressionRuleCatalog.metrics)!==sorted(['questsCompleted','stars','starWorth','masteredCount'])) issues.push('progression-rule-catalog-metrics');
+if(progressionRuleCatalog.ruleCount!==42) issues.push('progression-rule-count-field');
+if(progressionRuleCatalog.counts?.residential!==14) issues.push('progression-rule-residential-count-field');
+if(progressionRuleCatalog.counts?.vehicle!==13) issues.push('progression-rule-vehicle-count-field');
+if(progressionRuleCatalog.counts?.town!==15) issues.push('progression-rule-town-count-field');
+if(progressionRuleCatalog.mutationBoundary?.readsExistingSave!==true) issues.push('progression-rule-read-save-boundary');
+for(const field of ['writesExistingSave','awardsCoins','deductsCoins','awardsStars','changesStarWorth','changesXp','changesMastery','changesQuestRewards']){
+  if(progressionRuleCatalog.mutationBoundary?.[field]!==false) issues.push('progression-rule-mutation:'+field);
+}
+
+const progressionRules=progressionRuleCatalog.rules||[];
+if(progressionRules.length!==42) issues.push('progression-rule-catalog-count');
+const progressionRuleAllowedKeys=Object.keys(progressionRuleSchema.properties||{});
+const progressionCriterionAllowedKeys=Object.keys(progressionRuleSchema.properties?.criteria?.items?.properties||{});
+const progressionAllowedMetrics=new Set(progressionMetricEnum);
+const progressionRuleTargetKeys=new Set();
+const residentialTargetIds=new Set((residential.mappings||[]).map(row=>row.neutralFeatureId));
+const vehicleTargetIds=new Set(vehicleDefinitions.map(row=>row.id));
+const playerFacingTownTargetIds=new Set(townDefinitions.filter(row=>row.playerFacingEligible).map(row=>row.id));
+const deferredTownTargetIds=new Set(townDefinitions.filter(row=>!row.playerFacingEligible).map(row=>row.id));
+
+for(const rule of progressionRules){
+  const targetType=String(rule?.targetType||'');
+  const targetId=String(rule?.targetId||'');
+  const key=targetType+':'+targetId;
+  if(progressionRuleTargetKeys.has(key)) issues.push('progression-rule-duplicate-target:'+key);
+  progressionRuleTargetKeys.add(key);
+  if(rule.schemaVersion!=='starblox-neutral-progression-rule-v1') issues.push('progression-rule-version:'+key);
+  for(const field of progressionRuleRequired){
+    if(!(field in (rule||{}))) issues.push('progression-rule-missing:'+key+':'+field);
+  }
+  for(const field of Object.keys(rule||{})){
+    if(!progressionRuleAllowedKeys.includes(field)) issues.push('progression-rule-extra:'+key+':'+field);
+  }
+  if(!['residential','vehicle','town'].includes(targetType)) issues.push('progression-rule-target-type:'+key);
+  if(targetType==='residential'&&!residentialTargetIds.has(targetId)) issues.push('progression-rule-residential-target:'+targetId);
+  if(targetType==='vehicle'&&!vehicleTargetIds.has(targetId)) issues.push('progression-rule-vehicle-target:'+targetId);
+  if(targetType==='town'&&!playerFacingTownTargetIds.has(targetId)) issues.push('progression-rule-town-target:'+targetId);
+  if(targetType==='town'&&deferredTownTargetIds.has(targetId)) issues.push('progression-rule-deferred-town-target:'+targetId);
+  if(rule.sourceRef!==progressionPath+'#'+targetType+'/'+targetId) issues.push('progression-rule-source-ref:'+key);
+  const seenCriteriaMetrics=new Set();
+  for(const criterion of rule.criteria||[]){
+    for(const field of Object.keys(criterion||{})){
+      if(!progressionCriterionAllowedKeys.includes(field)) issues.push('progression-criterion-extra:'+key+':'+field);
+    }
+    if(!progressionAllowedMetrics.has(criterion.metric)) issues.push('progression-criterion-metric:'+key+':'+criterion.metric);
+    if(seenCriteriaMetrics.has(criterion.metric)) issues.push('progression-criterion-duplicate-metric:'+key+':'+criterion.metric);
+    seenCriteriaMetrics.add(criterion.metric);
+    if(!Number.isFinite(Number(criterion.gte))||Number(criterion.gte)<0) issues.push('progression-criterion-threshold:'+key+':'+criterion.metric);
+  }
+}
+if(progressionRules.filter(row=>row.targetType==='residential').length!==14) issues.push('progression-rule-derived-residential-count');
+if(progressionRules.filter(row=>row.targetType==='vehicle').length!==13) issues.push('progression-rule-derived-vehicle-count');
+if(progressionRules.filter(row=>row.targetType==='town').length!==15) issues.push('progression-rule-derived-town-count');
+
+const blueprintProgressionRules=[
+  ...(progression.residential||[]),
+  ...(progression.vehicles||[]),
+  ...(progression.town||[])
+];
+const normalizeProgressionCriteria=(criteria)=>[...(criteria||[])]
+  .map(row=>({metric:String(row.metric),gte:Number(row.gte)}))
+  .sort((a,b)=>a.metric.localeCompare(b.metric)||a.gte-b.gte);
+const blueprintProgressionByKey=new Map(blueprintProgressionRules.map(rule=>[
+  rule.targetType+':'+rule.targetId,
+  normalizeProgressionCriteria(rule.criteria)
+]));
+for(const rule of progressionRules){
+  const key=rule.targetType+':'+rule.targetId;
+  const expectedCriteria=blueprintProgressionByKey.get(key);
+  if(!expectedCriteria){
+    issues.push('progression-rule-blueprint-missing:'+key);
+    continue;
+  }
+  if(JSON.stringify(normalizeProgressionCriteria(rule.criteria))!==JSON.stringify(expectedCriteria)){
+    issues.push('progression-rule-blueprint-criteria:'+key);
+  }
+}
+for(const key of blueprintProgressionByKey.keys()){
+  if(!progressionRuleTargetKeys.has(key)) issues.push('progression-rule-catalog-missing:'+key);
+}
+
+const step10CompletionPath='docs/preproduction/brookhaven-research/step-10-progression-completion-v2.json';
+const step10Completion=JSON.parse(fs.readFileSync(step10CompletionPath,'utf8'));
+if(step10Completion.schemaVersion!=='starblox-brookhaven-step-10-progression-completion-v2') issues.push('step10-completion-schema');
+if(step10Completion.step!=='10-of-12') issues.push('step10-completion-step');
+if(step10Completion.status!=='complete-progression-shadow-hardened-runtime-not-wired-live') issues.push('step10-completion-status');
+if(step10Completion.completion?.progressionRules!==42) issues.push('step10-completion-rule-count');
+if(step10Completion.completion?.residentialRules!==14) issues.push('step10-completion-residential-count');
+if(step10Completion.completion?.vehicleRules!==13) issues.push('step10-completion-vehicle-count');
+if(step10Completion.completion?.townRules!==15) issues.push('step10-completion-town-count');
+if(step10Completion.completion?.supportedMetrics!==4) issues.push('step10-completion-metric-count');
+if(step10Completion.completion?.ruleSchemaClosed!==true) issues.push('step10-completion-schema-closed');
+if(step10Completion.completion?.ruleCatalogDeterministic!==true) issues.push('step10-completion-catalog-deterministic');
+if(step10Completion.completion?.ruleLoaderDeepFrozen!==true) issues.push('step10-completion-loader-freeze');
+if(step10Completion.completion?.runtimePreviewReadOnly!==true) issues.push('step10-completion-preview-readonly');
+if(step10Completion.completion?.ruleParityCheckedAgainstExistingRuntime!==true) issues.push('step10-completion-rule-parity');
+if(step10Completion.completion?.evaluationParityCheckedAgainstExistingRuntime!==true) issues.push('step10-completion-evaluation-parity');
+if(step10Completion.completion?.deferredTownTargetsExcluded!==true) issues.push('step10-completion-deferred-boundary');
+if(step10Completion.completion?.exactSourceProgressionClaimed!==false) issues.push('step10-completion-source-progression-claim');
+if(step10Completion.completion?.exactSourceEconomyClaimed!==false) issues.push('step10-completion-source-economy-claim');
+if(step10Completion.completion?.readsExistingSave!==true) issues.push('step10-completion-read-save');
+for(const field of ['writesExistingSave','awardsCoins','deductsCoins','awardsStars','changesStarWorth','changesXp','changesMastery','changesQuestRewards','liveAppWired','persistenceChanged','economyChanged','networkingChanged','deploymentPerformed']){
+  if(step10Completion.completion?.[field]!==false) issues.push('step10-completion-mutation:'+field);
+}
+if(sorted(step10Completion.metricBoundary?.metrics)!==sorted(['questsCompleted','stars','starWorth','masteredCount'])) issues.push('step10-completion-metrics');
+if(step10Completion.metricBoundary?.unsupportedMetricsRejected!==true) issues.push('step10-completion-unsupported-metrics');
+if(step10Completion.metricBoundary?.negativeOrNonFiniteThresholdsRejected!==true) issues.push('step10-completion-threshold-boundary');
+if(step10Completion.townBoundary?.playerFacingTownRuleCount!==15) issues.push('step10-completion-town-rule-count');
+if(sorted(step10Completion.townBoundary?.deferredTargetIds)!==sorted(['mystery-zone','restricted-zone'])) issues.push('step10-completion-deferred-ids');
+if(step10Completion.townBoundary?.deferredTargetsPresentInRules!==false) issues.push('step10-completion-deferred-targets');
+if(step10Completion.nextStepBoundary?.step10Complete!==true) issues.push('step10-completion-flag');
+if(step10Completion.nextStepBoundary?.noLiveIntegrationAuthorizedByThisReceipt!==true) issues.push('step10-completion-live-authorization');
+
+for(const [name,artifactPath] of Object.entries(step10Completion.artifacts||{})){
+  if(typeof artifactPath!=='string'||!artifactPath||!fs.existsSync(artifactPath)){
+    issues.push('step10-completion-artifact:'+name);
+  }
+}
+const step10RuleLoaderSource=fs.readFileSync(step10Completion.artifacts.ruleLoader,'utf8');
+const step10PreviewSource=fs.readFileSync(step10Completion.artifacts.runtimePreviewAdapter,'utf8');
+if(!step10RuleLoaderSource.includes('loadNeutralProgressionRuleCatalog')) issues.push('step10-completion-loader-export');
+if(step10RuleLoaderSource.includes('lifeSimProgressionShadowRuntime')||step10RuleLoaderSource.includes('residentialFeatureRuntime')||step10RuleLoaderSource.includes('vehicleSystemRuntime')||step10RuleLoaderSource.includes('townSystemRuntime')) issues.push('step10-completion-loader-runtime-coupling');
+if(!step10PreviewSource.includes('buildNeutralProgressionRuntimePreview')) issues.push('step10-completion-preview-export');
+if(step10PreviewSource.includes('lifeSimProgressionShadowRuntime')||step10PreviewSource.includes('residentialFeatureRuntime')||step10PreviewSource.includes('vehicleSystemRuntime')||step10PreviewSource.includes('townSystemRuntime')) issues.push('step10-completion-preview-runtime-coupling');
+if(step10PreviewSource.includes('localStorage')||step10PreviewSource.includes('App.jsx')||step10PreviewSource.includes('fetch(')||step10PreviewSource.includes('XMLHttpRequest')) issues.push('step10-completion-preview-live-coupling');
+
 const replayPath='docs/preproduction/brookhaven-research/step-11-replay-manifest-v1.json';
 const replay=JSON.parse(fs.readFileSync(replayPath,'utf8'));
 if(replay.schemaVersion!=='starblox-brookhaven-step-11-replay-manifest-v1') issues.push('step11-replay-schema');
@@ -459,6 +609,9 @@ const result={
   townTopologyPath,
   step9CompletionPath,
   progressionPath,
+  progressionRuleSchemaPath,
+  progressionRuleCatalogPath,
+  step10CompletionPath,
   replayPath,
   readinessPath,
   step12Path,
@@ -475,6 +628,8 @@ const result={
     (progression.residential?.length||0)+
     (progression.vehicles?.length||0)+
     (progression.town?.length||0),
+  neutralProgressionRuleCount:progressionRules.length,
+  step10Complete:step10Completion.nextStepBoundary?.step10Complete===true,
   issueCount:issues.length,
   issues
 };
