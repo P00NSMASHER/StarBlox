@@ -63,13 +63,23 @@ export async function buildSameDayStagingProject({
       const unit=units.get(artifact.unitId);
       if(!unit) throw new Error(sourceId + ' bundle references unknown unit ' + artifact.unitId);
 
-      const safeAsset=
-        artifact.disposition === 'staging' &&
+      const sanitizedProjection=
+        unit.migrationStrategy === 'asset-projection' &&
+        artifact.projectionPolicy === 'strip-executable-network-v1' &&
+        artifact.projection?.sanitized === true &&
+        artifact.projection?.policy === artifact.projectionPolicy &&
+        Number(artifact.projection?.forbiddenRemaining) === 0;
+
+      const ordinarySafeAsset=
         ['extract','asset-only'].includes(unit.migrationStrategy) &&
         Number(unit.stats?.scripts || 0) === 0 &&
         Number(unit.stats?.remotes || 0) === 0 &&
         Array.isArray(unit.riskFlags) &&
         unit.riskFlags.length === 0;
+
+      const safeAsset=
+        artifact.disposition === 'staging' &&
+        (sanitizedProjection || ordinarySafeAsset);
 
       if(!safeAsset){
         skipped.push({
@@ -101,7 +111,8 @@ export async function buildSameDayStagingProject({
         systemName:artifact.systemName,
         sha256:artifact.sha256,
         bytes:artifact.bytes,
-        path:artifact.file
+        path:artifact.file,
+        projection:artifact.projection || null
       });
     }
 
@@ -151,6 +162,11 @@ export async function buildSameDayStagingProject({
     skipped,
     scriptBearingUnitsMounted:0,
     remoteBearingUnitsMounted:0,
+    sanitizedProjectionUnitsMounted:included.filter(row => row.projection?.sanitized === true).length,
+    strippedInstances:included.reduce(
+      (sum,row)=>sum + Number(row.projection?.strippedInstances || 0),
+      0
+    ),
     publicationAllowed:false
   };
 
