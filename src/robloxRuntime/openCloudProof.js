@@ -16,27 +16,62 @@ function taskUrl(path){
   return API_ROOT + '/' + clean;
 }
 
-async function jsonRequest(fetchImpl,url,{method='GET',apiKey,body}={}){
-  const response=await fetchImpl(url,{
-    method,
-    headers:{
-      'x-api-key':apiKey,
-      ...(body === undefined ? {} : {'content-type':'application/json'})
-    },
-    ...(body === undefined ? {} : {body:JSON.stringify(body)})
-  });
-  const text=await response.text();
-  let payload={};
-  try{
-    payload=text ? JSON.parse(text) : {};
-  }catch{
-    throw new Error('Roblox Open Cloud returned non-JSON HTTP ' + response.status);
+function retryAfterMs(response,{attempt,baseMs,maxMs}){
+  const raw=response?.headers?.get?.('retry-after');
+  if(raw != null && String(raw).trim()){
+    const seconds=Number(raw);
+    if(Number.isFinite(seconds) && seconds >= 0){
+      return Math.min(maxMs,Math.max(0,Math.round(seconds * 1000)));
+    }
+    const at=Date.parse(String(raw));
+    if(Number.isFinite(at)){
+      return Math.min(maxMs,Math.max(0,at-Date.now()));
+    }
   }
-  if(!response.ok){
+  return Math.min(maxMs,Math.max(0,baseMs * (2 ** attempt)));
+}
+
+async function jsonRequest(fetchImpl,url,{
+  method='GET',
+  apiKey,
+  body,
+  retry429=0,
+  retryBaseMs=1000,
+  retryMaxMs=30_000
+}={}){
+  let attempt=0;
+  while(true){
+    const response=await fetchImpl(url,{
+      method,
+      headers:{
+        'x-api-key':apiKey,
+        ...(body === undefined ? {} : {'content-type':'application/json'})
+      },
+      ...(body === undefined ? {} : {body:JSON.stringify(body)})
+    });
+    const text=await response.text();
+    let payload={};
+    try{
+      payload=text ? JSON.parse(text) : {};
+    }catch{
+      throw new Error('Roblox Open Cloud returned non-JSON HTTP ' + response.status);
+    }
+    if(response.ok) return payload;
+
+    if(response.status === 429 && attempt < retry429){
+      const waitMs=retryAfterMs(response,{
+        attempt,
+        baseMs:retryBaseMs,
+        maxMs:retryMaxMs
+      });
+      attempt+=1;
+      await delay(waitMs);
+      continue;
+    }
+
     const detail=payload?.message || payload?.error?.message || payload?.error || text;
     throw new Error('Roblox Open Cloud HTTP ' + response.status + ': ' + String(detail || 'request failed'));
   }
-  return payload;
 }
 
 export function buildStarBloxHeadlessProbeScript({universeId,placeId}){
@@ -67,7 +102,10 @@ export async function runStarBloxOpenCloudProof({
   placeId,
   fetchImpl=globalThis.fetch,
   pollIntervalMs=1000,
-  timeoutMs=90_000
+  timeoutMs=90_000,
+  createRetryAttempts=4,
+  createRetryBaseMs=2000,
+  createRetryMaxMs=30_000
 }){
   if(typeof apiKey !== 'string' || !apiKey.trim()){
     throw new Error('ROBLOX_OPEN_CLOUD_API_KEY is required');
@@ -84,7 +122,10 @@ export async function runStarBloxOpenCloudProof({
     {
       method:'POST',
       apiKey,
-      body:{script,timeout:'30s'}
+      body:{script,timeout:'30s'},
+      retry429:Math.max(0,Math.min(8,Number(createRetryAttempts) || 0)),
+      retryBaseMs:Math.max(0,Number(createRetryBaseMs) || 0),
+      retryMaxMs:Math.max(0,Number(createRetryMaxMs) || 0)
     }
   );
 
