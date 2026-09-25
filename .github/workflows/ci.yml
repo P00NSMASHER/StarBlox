@@ -2,7 +2,7 @@ name: StarBlox CI
 
 on:
   push:
-    branches: [main]
+    branches: [main, integration/same-day-starblox-pipeline]
   pull_request:
     branches: [main]
 
@@ -227,6 +227,18 @@ jobs:
           grep -q '"expansionId"' /tmp/content-expansion-plan.json
           grep -q '"levelHash"' /tmp/content-expansion-plan.json
           grep -q '"liveActivationAllowed"' /tmp/content-expansion-plan.json || true
+      - name: Smoke-test same-day orchestration plan
+        run: |
+          rm -rf artifacts/same-day-starblox
+          npm run same-day:pipeline -- --manifest config/same-day/pipeline.example.json --plan-only
+          test -f artifacts/same-day-starblox/same-day-pipeline-plan.json
+          grep -q '"version": "starblox-same-day-pipeline-v1"' artifacts/same-day-starblox/same-day-pipeline-plan.json
+          grep -q '"id": "integrate-flex"' artifacts/same-day-starblox/same-day-pipeline-plan.json
+          grep -q '"id": "integrate-rorooms"' artifacts/same-day-starblox/same-day-pipeline-plan.json
+          grep -q '"id": "gate-mobile"' artifacts/same-day-starblox/same-day-pipeline-plan.json
+          grep -q '"id": "gate-security"' artifacts/same-day-starblox/same-day-pipeline-plan.json
+          grep -q '"id": "gate-performance"' artifacts/same-day-starblox/same-day-pipeline-plan.json
+          grep -q '"publicationAllowed": false' artifacts/same-day-starblox/same-day-pipeline-plan.json
       - name: Run tests
         run: npm test
       - name: Run certification gate
