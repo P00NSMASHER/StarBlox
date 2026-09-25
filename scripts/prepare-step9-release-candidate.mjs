@@ -37,6 +37,8 @@ const step5Path=resolve('docs/roblox-world/STEP_5_WORLD_EXACTNESS_AND_MOUNT.json
 const worldPath=resolve(outDir,'BrookhavenWorldBaseline.rbxmx');
 const generationReceiptPath=resolve(outDir,'generation-receipt.json');
 const lockPath=resolve(outDir,'step5-exactness-lock.json');
+const isolatedProjectPath=resolve(outDir,'isolated.project.json');
+const isolatedPlacePath=resolve(outDir,'StarBlox-Step4-Isolated-World.rbxlx');
 const isolatedDomPath=resolve(outDir,'isolated-dom.json');
 const mountedProjectPath=resolve('roblox/.step5-mounted.project.json');
 const mountedBaselinePath=resolve('roblox/.step5-generated/BrookhavenWorldBaseline.rbxmx');
@@ -83,9 +85,23 @@ await writeFile(lockPath,JSON.stringify(lock,null,2)+'\n');
 const readerArgs=path=>[
   'run','--quiet','--manifest-path','tools/roblox_catalog_reader/Cargo.toml','--',path
 ];
+const isolatedProject={
+  name:'StarBloxStep4IsolatedWorld',
+  tree:{
+    $className:'DataModel',
+    Workspace:{
+      BrookhavenWorldBaseline:{
+        $path:'BrookhavenWorldBaseline.rbxmx'
+      }
+    }
+  }
+};
+await writeFile(isolatedProjectPath,JSON.stringify(isolatedProject,null,2)+'\n');
+const rojo=process.platform==='win32' ? 'rojo.exe' : 'rojo';
+run(rojo,['build',isolatedProjectPath,'--output',isolatedPlacePath],'Step 4 isolated place build');
 await writeFile(
   isolatedDomPath,
-  run('cargo',readerArgs(worldPath),'isolated rbx-dom read',{capture:true})
+  run('cargo',readerArgs(isolatedPlacePath),'isolated built-place rbx-dom read',{capture:true})
 );
 
 const baselineShaBefore=sha256(worldBytes);
@@ -98,7 +114,6 @@ run(process.execPath,[
   '--receipt',mountPreparationPath
 ],'Step 5 mount preparation');
 
-const rojo=process.platform==='win32' ? 'rojo.exe' : 'rojo';
 run(rojo,['build',mountedProjectPath,'--output',mountedPlacePath],'Step 5 mounted place build');
 await writeFile(
   mountedDomPath,
