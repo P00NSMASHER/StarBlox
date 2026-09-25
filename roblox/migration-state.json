@@ -7,8 +7,8 @@
     "commit": "36f2084eac013853a612892c19646dedab97c204"
   },
   "currentStep": {
-    "number": 2,
-    "name": "pin-rojo-toolchain-and-prove-local-build",
+    "number": 3,
+    "name": "prove-studio-sync-transport-and-native-place-baseline",
     "status": "complete"
   },
   "runtimeAuthority": {
@@ -23,7 +23,7 @@
     "Do not publish or activate a Roblox production experience from this step.",
     "Promote migrated systems only through explicit verification gates."
   ],
-  "nextStep": "prove-studio-sync-and-native-place-baseline",
+  "nextStep": "attest-live-studio-peer-and-run-first-native-playtest",
   "toolchain": {
     "manager": "Rokit",
     "managerVersion": "1.2.0",
@@ -32,7 +32,15 @@
   },
   "roadmap": {
     "totalSteps": 10,
-    "completedSteps": 2,
-    "remainingSteps": 8
+    "completedSteps": 3,
+    "remainingSteps": 7
+  },
+  "studioSync": {
+    "baseline": "roblox/native-place-baseline.json",
+    "repositorySyncEndpointVerified": true,
+    "placeBuildVerified": true,
+    "connectorBuildVerified": true,
+    "liveStudioPeerAttested": false,
+    "liveStudioPeerRequiredNextStep": true
   }
 }
