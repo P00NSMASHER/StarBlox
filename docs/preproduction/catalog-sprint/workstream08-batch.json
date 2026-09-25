@@ -30,5 +30,6 @@
     "14: decor-11 deterministic exact-hash ACCEPT pending separate reviewer14 batch.",
     "14: wall-9 deterministic exact-hash ACCEPT pending separate reviewer14 batch."
   ],
-  "commitMessage": "catalog: wire deterministic Desk10 and Desk11"
+  "commitMessage": "catalog: wire deterministic Desk10 and Desk11",
+  "retryNote": "Retry after aligning desks-11 review metadata to authoritative Store identity; exact hashes unchanged."
 }
