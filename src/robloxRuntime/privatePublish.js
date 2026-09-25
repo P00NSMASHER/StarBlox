@@ -3,7 +3,7 @@ import { createHash } from 'node:crypto';
 const LUAU_ROOT='https://apis.roblox.com/cloud/v2';
 const PUBLISH_ROOT='https://apis.roblox.com/universes/v1';
 
-export const STARBLOX_PRIVATE_RELEASE_ID='starblox-private-step8-v1';
+export const STARBLOX_PRIVATE_RELEASE_ID='starblox-private-step9-canonical-step6-v4';
 export const STARBLOX_PRIVATE_PUBLISH_VERSION='starblox-private-publish-v2';
 
 const UNSUPPORTED_PUBLISH_CLASSES=Object.freeze([
