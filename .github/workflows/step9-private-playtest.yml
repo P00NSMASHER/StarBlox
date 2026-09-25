@@ -35,6 +35,18 @@ jobs:
       - name: Install JavaScript dependencies
         run: npm install --no-audit --no-fund
 
+      - name: Install Wally v0.3.2
+        run: |
+          curl -fsSL -o /tmp/wally.zip https://github.com/UpliftGames/wally/releases/download/v0.3.2/wally-v0.3.2-linux.zip
+          rm -rf /tmp/wally-bin
+          mkdir -p /tmp/wally-bin
+          unzip -q /tmp/wally.zip -d /tmp/wally-bin
+          WALLY_BIN="$(find /tmp/wally-bin -type f -name wally -print -quit)"
+          test -n "$WALLY_BIN"
+          chmod +x "$WALLY_BIN"
+          echo "$(dirname "$WALLY_BIN")" >> "$GITHUB_PATH"
+          "$WALLY_BIN" --version
+
       - name: Install pinned Roblox runtime packages
         run: |
           cd roblox
