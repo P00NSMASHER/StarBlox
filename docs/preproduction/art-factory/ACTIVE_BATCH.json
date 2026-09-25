@@ -109,24 +109,6 @@
   },
   "batches": [
     {
-      "producer": "03",
-      "batchId": "w03-desk10-v12-ultraliteral",
-      "scope": [
-        "desks-10"
-      ],
-      "state": "RUNNING",
-      "reviewer": "05"
-    },
-    {
-      "producer": "03",
-      "batchId": "w03-desk11-v10-ultraliteral",
-      "scope": [
-        "desks-11"
-      ],
-      "state": "PENDING_CPU_SUCCESSOR",
-      "reviewer": "01"
-    },
-    {
       "producer": "09",
       "batchId": "w09-decor11-v8-simple-stool",
       "scope": [
@@ -304,7 +286,7 @@
     "evidenceHead": "398f5100df0562a1e346c9110597e52b565982d0",
     "rule": "Do not reopen already-green functional browser, Store observer, persistence or reduced-motion investigations absent a bound-hash change or fresh current-byte failure. EXT10 remains limited to the previously released phone composition repair."
   },
-  "antiStallDisposition": "Eight unmistakable exact-pixel REWORKs were persisted immediately. CPU restarted on producer13 trio; producer09 and producer03 failure-specific queues precompiled to eliminate replanning gaps.",
+  "antiStallDisposition": "Desk10 v12 and Desk11 v10 CPU generation are complete; producer03 production slots cleared. Decor11 v8 exact candidate is staged for independent review. Wall9 remains bounded REWORK requiring a new request. This reconciliation removes stale duplicate producer03 coordination only; it does not transfer review decisions or canonicalize assets.",
   "crossAccountProduction": {
     "externalScopes": {
       "EXT01": "Tops11-12",
@@ -323,7 +305,7 @@
     "reviewer14LegacyException": "14 may complete already-assigned legacy hash review only; do not route new hashes to 14 for review."
   },
   "readerRule": "Every worker must revalidate branch head, assignment, exact hash and review state before writing. This file never overrides newer exact-hash evidence.",
-  "cycleId": "director-20260924T1531Z-obvious-rework-restart",
+  "cycleId": "director-20260924T1954ET-preflight-reconcile",
   "criticalPath": {
     "computedAtHead": "5a834b014c3f48f5a134068928ffbd3903f7d97e",
     "order": [
