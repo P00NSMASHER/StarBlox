@@ -10,7 +10,7 @@
     "validate:brookhaven-research": "node scripts/validateBrookhavenResearchArtifacts.mjs && node scripts/assertBrookhavenReuseBoundary.mjs && node scripts/assertBrookhavenLearningSeparation.mjs && node scripts/validateBrookhavenProxyVerticalSlice.mjs",
     "test:brookhaven-residential": "vitest run src/residentialFeatureRuntime.test.js",
     "build:brookhaven-research": "node scripts/buildBrookhavenResearchWithKnownBaseFix.mjs",
-    "test:brookhaven-step-8-10": "vitest run src/neutralVehicleDefinitionCatalog.test.js src/vehicleSystemRuntime.test.js src/townSystemRuntime.test.js src/lifeSimProgressionShadowRuntime.test.js",
+    "test:brookhaven-step-8-10": "vitest run src/neutralVehicleDefinitionCatalog.test.js src/neutralVehicleRuntimePreview.test.js src/vehicleSystemRuntime.test.js src/townSystemRuntime.test.js src/lifeSimProgressionShadowRuntime.test.js",
     "assert:brookhaven-learning-separation": "node scripts/assertBrookhavenLearningSeparation.mjs"
   },
   "dependencies": {
