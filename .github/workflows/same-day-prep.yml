@@ -12,6 +12,10 @@ on:
         required: false
         default: integration/same-day-starblox-pipeline
 
+concurrency:
+  group: same-day-prep-${{ github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
 
