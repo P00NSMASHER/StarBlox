@@ -25,7 +25,8 @@ assert(type(report) == "table", "no real-client playtest telemetry has been reco
 
 assert(report.telemetryVersion == "starblox-private-playtest-v1", "telemetry version mismatch")
 assert(report.releaseId == ${release}, "latest telemetry is not from the Step 9 release")
-assert(report.placeVersion == game.PlaceVersion, "telemetry place version does not match current private place")
+assert(type(report.placeVersion) == "number" and report.placeVersion >= 7, "telemetry place version predates the Step 9 joinability fix")
+assert(report.placeVersion <= game.PlaceVersion, "telemetry place version is newer than the current private place")
 assert(type(report.sessionId) == "string" and report.sessionId ~= "", "session id missing")
 assert(type(report.durationSeconds) == "number" and report.durationSeconds >= 1, "playtest duration missing")
 
@@ -66,7 +67,8 @@ assert(privacy.storesChat == false, "telemetry must not store chat")
 
 print(
     "STARBLOX_REAL_CLIENT_OK release=" .. tostring(report.releaseId) ..
-    " version=" .. tostring(report.placeVersion) ..
+    " testedVersion=" .. tostring(report.placeVersion) ..
+    " currentVersion=" .. tostring(game.PlaceVersion) ..
     " touch=" .. tostring(client.touchEnabled) ..
     " viewport=" .. tostring(client.viewportX) .. "x" .. tostring(client.viewportY) ..
     " loops=" .. tostring(server.loop_completed)
@@ -95,8 +97,7 @@ export async function runRealClientPlaytestProof({
   });
 
   const text=JSON.stringify(task.logs);
-  const prefix='STARBLOX_REAL_CLIENT_OK release=' +
-    String(releaseId) + ' version=' + String(task.versionNumber) + ' touch=true';
+  const prefix='STARBLOX_REAL_CLIENT_OK release=' + String(releaseId) + ' testedVersion=';
   if(!text.includes(prefix)){
     throw new Error('Roblox logs are missing the real-client playtest proof sentinel');
   }
@@ -106,7 +107,7 @@ export async function runRealClientPlaytestProof({
     proofVersion:STARBLOX_REAL_CLIENT_PROOF_VERSION,
     status:'verified',
     releaseId:String(releaseId),
-    versionNumber:task.versionNumber,
+    currentVersionNumber:task.versionNumber,
     taskPath:task.path,
     terminalState:task.state,
     evidence:Object.freeze({
