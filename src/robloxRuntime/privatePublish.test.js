@@ -7,13 +7,19 @@ import {
   buildPrivatePublishReceipt,
   probeCurrentRelease,
   publishPlaceVersion,
+  runOpenCloudLuauTask,
   verifyPublishedRelease
 } from './privatePublish.js';
 
-function response(status,payload){
+function response(status,payload,{retryAfter=null}={}){
   return {
     ok:status >= 200 && status < 300,
     status,
+    headers:{
+      get(name){
+        return String(name).toLowerCase() === 'retry-after' ? retryAfter : null;
+      }
+    },
     async text(){ return JSON.stringify(payload); }
   };
 }
@@ -71,6 +77,36 @@ describe('Step 6: release-gated private Roblox place publishing', () => {
     });
   });
 
+  it('retries transient Open Cloud 429 task-creation throttles', async () => {
+    let creates=0;
+    const fetchImpl=async (url,options={}) => {
+      if(options.method === 'POST'){
+        creates+=1;
+        if(creates < 3){
+          return response(429,{message:'throttled'},{retryAfter:'0'});
+        }
+        return response(200,{
+          path:'universes/6027194615/places/17602626136/versions/3/luau-execution-sessions/c/tasks/c',
+          state:'COMPLETE'
+        });
+      }
+      if(url.endsWith('/logs')) return response(200,{messages:['proof-log']});
+      throw new Error('unexpected request: ' + url);
+    };
+
+    await expect(runOpenCloudLuauTask({
+      apiKey:'key',
+      universeId:'6027194615',
+      placeId:'17602626136',
+      script:'print("proof")',
+      fetchImpl,
+      createRetryAttempts:3,
+      createRetryBaseMs:0,
+      createRetryMaxMs:0
+    })).resolves.toMatchObject({versionNumber:3,state:'COMPLETE'});
+    expect(creates).toBe(3);
+  });
+
   it('publishes XML bytes only to the exact StarBlox place endpoint', async () => {
     const calls=[];
     const fetchImpl=async (url,options={}) => {
@@ -92,6 +128,30 @@ describe('Step 6: release-gated private Roblox place publishing', () => {
     );
     expect(calls[0].options.headers['content-type']).toBe('application/xml');
     expect(calls[0].options.body).toBe(bytes);
+  });
+
+  it('retries transient 429 responses from the place publish endpoint', async () => {
+    let attempts=0;
+    const bytes=Buffer.from('<roblox></roblox>');
+    const fetchImpl=async () => {
+      attempts+=1;
+      if(attempts < 3){
+        return response(429,{message:'throttled'},{retryAfter:'0'});
+      }
+      return response(200,{versionNumber:9});
+    };
+
+    await expect(publishPlaceVersion({
+      apiKey:'key',
+      universeId:'6027194615',
+      placeId:'17602626136',
+      bytes,
+      fetchImpl,
+      retryAttempts:3,
+      retryBaseMs:0,
+      retryMaxMs:0
+    })).resolves.toEqual({versionNumber:9});
+    expect(attempts).toBe(3);
   });
 
   it('verifies the exact new place version and private release marker', async () => {
@@ -136,6 +196,43 @@ describe('Step 6: release-gated private Roblox place publishing', () => {
       fetchImpl
     });
     expect(result.versionNumber).toBe(2);
+  });
+
+  it('keeps Step 6 gating while deferring runtime proof to the production boot stage', () => {
+    const publisher=readFileSync(
+      new URL('../../scripts/publish-private-starblox.mjs',import.meta.url),
+      'utf8'
+    );
+    expect(publisher).toContain('STARBLOX_RELEASE_GATE_RECEIPT');
+    expect(publisher).toContain('STARBLOX_RELEASE_ARTIFACT');
+    expect(publisher).toContain('verifyStep6ReleaseGate');
+    expect(publisher).not.toContain('probeCurrentRelease({');
+    expect(publisher).not.toContain('verifyPublishedRelease({');
+
+    const receipt=buildPrivatePublishReceipt({
+      universeId:'6027194615',
+      placeId:'17602626136',
+      releaseId:STARBLOX_PRIVATE_RELEASE_ID,
+      sourceCommit:'a'.repeat(40),
+      previousVersion:8,
+      publishedVersion:9,
+      verifiedVersion:null,
+      artifactSha256:'b'.repeat(64),
+      artifactBytes:1234,
+      releaseGate:{
+        version:'starblox-step6-release-gate-v1',
+        artifactSha256:'b'.repeat(64),
+        baselineModelSha256:'c'.repeat(64),
+        mountedSubtreeSha256:'d'.repeat(64)
+      }
+    });
+    expect(receipt.status).toBe('published-awaiting-runtime-verification');
+    expect(receipt.versions).toEqual({previous:8,published:9,verified:null});
+    expect(receipt.verification).toEqual({
+      status:'pending-production-server-boot',
+      taskPath:null
+    });
+    expect(receipt.releaseGate?.version).toBe('starblox-step6-release-gate-v1');
   });
 
   it('produces a receipt that preserves the rollback version and withholds live authority', () => {

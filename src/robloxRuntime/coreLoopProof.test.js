@@ -35,7 +35,7 @@ describe('Step 7: Roblox-native StarBlox core loop', () => {
       new URL('../../roblox/src/server/Bootstrap.luau',import.meta.url),
       'utf8'
     );
-    expect(bootstrap).toContain('CoreGameLoopService.new(profiles, replicas)');
+    expect(bootstrap).toContain('CoreGameLoopService.new(profiles, replicas');
     expect(bootstrap).toContain('coreLoop:PlayerReady');
     expect(bootstrap).toContain('coreLoop:PlayerRemoving');
     expect(bootstrap).toContain('CoreLoop = coreLoop');

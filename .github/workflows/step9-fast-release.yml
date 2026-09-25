@@ -1,0 +1,234 @@
+name: StarBlox Step 9 Final Release Gate
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened, ready_for_review]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: starblox-step9-v4-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  prepare-release-candidate:
+    if: ${{ github.event_name == 'workflow_dispatch' || github.head_ref == 'release/step9-step6-final-v1' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout exact release candidate
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - name: Use Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Use Rust stable
+        uses: dtolnay/rust-toolchain@stable
+      - name: Setup pinned Roblox toolchain
+        uses: CompeyDev/setup-rokit@v0.2.1
+        with:
+          version: v1.2.0
+          path: .
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+      - name: Install pinned Roblox runtime packages
+        run: |
+          cd roblox
+          wally install
+          test -e Packages/Matter.lua
+          test -e ServerPackages/ProfileStore.lua
+      - name: Run focused Step 9 and Step 6 regression suite
+        run: |
+          npx vitest run \
+            src/robloxRuntime/releaseGate.test.js \
+            src/robloxRuntime/releaseEntryPointBoundary.test.js \
+            src/robloxRuntime/privatePublish.test.js \
+            src/robloxRuntime/productionServerBootProof.test.js \
+            src/robloxRuntime/realClientPlaytestProof.test.js \
+            src/robloxRuntime/coreLoopProof.test.js \
+            src/robloxRuntime/verticalSliceProof.test.js
+          npm run roblox:backbone:verify
+      - name: Prepare native-inspected Step 6 release candidate
+        run: |
+          node scripts/prepare-step9-release-candidate.mjs \
+            --source-commit "${{ github.event.pull_request.head.sha || github.sha }}" \
+            --out-dir artifacts/step9-release-candidate
+          test -s artifacts/step9-release-candidate/StarBlox-Step9-Step6-Gated.rbxlx
+          test -s artifacts/step9-release-candidate/step6-release-gate.json
+          grep -q '"status": "private-release-gate-open"' artifacts/step9-release-candidate/step6-release-gate.json
+          grep -q '"nativeArtifactWorldVerified": true' artifacts/step9-release-candidate/step6-release-gate.json
+          grep -q '"nativeArtifactRuntimeVerified": true' artifacts/step9-release-candidate/step6-release-gate.json
+      - name: Upload non-publishing release-candidate proof
+        uses: actions/upload-artifact@v4
+        with:
+          name: starblox-step9-v4-prepublish-candidate
+          path: |
+            artifacts/step9-release-candidate/step9-release-candidate.json
+            artifacts/step9-release-candidate/step6-release-gate.json
+            artifacts/step9-release-candidate/StarBlox-Step9-Step6-Gated.rbxlx
+          if-no-files-found: error
+          retention-days: 7
+
+  publish-and-server-boot:
+    if: ${{ github.event_name == 'workflow_dispatch' }}
+    needs: prepare-release-candidate
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout exact release candidate
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - name: Use Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Use Rust stable
+        uses: dtolnay/rust-toolchain@stable
+      - name: Setup pinned Roblox toolchain
+        uses: CompeyDev/setup-rokit@v0.2.1
+        with:
+          version: v1.2.0
+          path: .
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+      - name: Install pinned Roblox runtime packages
+        run: |
+          cd roblox
+          wally install
+          test -e Packages/Matter.lua
+          test -e ServerPackages/ProfileStore.lua
+      - name: Run focused Step 9 and Step 6 regression suite
+        run: |
+          npx vitest run \
+            src/robloxRuntime/releaseGate.test.js \
+            src/robloxRuntime/releaseEntryPointBoundary.test.js \
+            src/robloxRuntime/privatePublish.test.js \
+            src/robloxRuntime/productionServerBootProof.test.js \
+            src/robloxRuntime/realClientPlaytestProof.test.js \
+            src/robloxRuntime/coreLoopProof.test.js \
+            src/robloxRuntime/verticalSliceProof.test.js
+          npm run roblox:backbone:verify
+      - name: Prepare native-inspected Step 6 release candidate
+        run: |
+          node scripts/prepare-step9-release-candidate.mjs \
+            --source-commit "${{ github.event.pull_request.head.sha || github.sha }}" \
+            --out-dir artifacts/step9-release-candidate
+          test -s artifacts/step9-release-candidate/StarBlox-Step9-Step6-Gated.rbxlx
+          test -s artifacts/step9-release-candidate/step6-release-gate.json
+          grep -q '"status": "private-release-gate-open"' artifacts/step9-release-candidate/step6-release-gate.json
+          grep -q '"nativeArtifactWorldVerified": true' artifacts/step9-release-candidate/step6-release-gate.json
+          grep -q '"nativeArtifactRuntimeVerified": true' artifacts/step9-release-candidate/step6-release-gate.json
+      - name: Publish exact Step 6-gated private candidate
+        env:
+          ROBLOX_OPEN_CLOUD_API_KEY: ${{ secrets.ROBLOX_OPEN_CLOUD_API_KEY }}
+          ROBLOX_UNIVERSE_ID: ${{ vars.ROBLOX_UNIVERSE_ID }}
+          ROBLOX_PLACE_ID: ${{ vars.ROBLOX_PLACE_ID }}
+          STARBLOX_SOURCE_COMMIT: ${{ github.event.pull_request.head.sha || github.sha }}
+          STARBLOX_RELEASE_GATE_RECEIPT: ${{ github.workspace }}/artifacts/step9-release-candidate/step6-release-gate.json
+          STARBLOX_RELEASE_ARTIFACT: ${{ github.workspace }}/artifacts/step9-release-candidate/StarBlox-Step9-Step6-Gated.rbxlx
+          STARBLOX_PUBLISH_RECEIPT: ${{ github.workspace }}/artifacts/starblox-private-publish-receipt.json
+        run: |
+          npm run roblox:publish-private
+          grep -q '"status": "published-awaiting-runtime-verification"' artifacts/starblox-private-publish-receipt.json
+          grep -q '"productionActivationAllowed": false' artifacts/starblox-private-publish-receipt.json
+      - name: Verify exact published version boots in production server
+        env:
+          ROBLOX_OPEN_CLOUD_API_KEY: ${{ secrets.ROBLOX_OPEN_CLOUD_API_KEY }}
+          ROBLOX_UNIVERSE_ID: ${{ vars.ROBLOX_UNIVERSE_ID }}
+          ROBLOX_PLACE_ID: ${{ vars.ROBLOX_PLACE_ID }}
+          STARBLOX_PUBLISH_RECEIPT: ${{ github.workspace }}/artifacts/starblox-private-publish-receipt.json
+        run: |
+          npm run roblox:production-server-boot-proof > artifacts/starblox-production-server-boot-proof.json
+          cat artifacts/starblox-production-server-boot-proof.json
+          node --input-type=module - <<'NODE'
+          import {createHash} from 'node:crypto';
+          import {readFile,writeFile} from 'node:fs/promises';
+
+          const publishBytes=await readFile('artifacts/starblox-private-publish-receipt.json');
+          const bootBytes=await readFile('artifacts/starblox-production-server-boot-proof.json');
+          const gateBytes=await readFile('artifacts/step9-release-candidate/step6-release-gate.json');
+          const publish=JSON.parse(publishBytes);
+          const boot=JSON.parse(bootBytes);
+          const gate=JSON.parse(gateBytes);
+          if(publish.status!=='published-awaiting-runtime-verification'){
+            throw new Error('publish receipt is not awaiting production boot proof');
+          }
+          if(boot.status!=='verified') throw new Error('production server boot is not verified');
+          if(boot.releaseId!==publish.releaseId) throw new Error('release id mismatch between publish and boot');
+          if(Number(boot.versionNumber)!==Number(publish.versions?.published)){
+            throw new Error('production boot did not verify the exact published place version');
+          }
+          if(publish.releaseGate?.version!==gate.version ||
+             publish.releaseGate?.artifactSha256!==gate.artifact?.sha256){
+            throw new Error('publish receipt lost Step 6 release-gate binding');
+          }
+          if(boot.evidence?.brookhavenWorldMounted!==true ||
+             boot.evidence?.productionBootstrapStarted!==true ||
+             boot.evidence?.playtestTelemetryCreated!==true){
+            throw new Error('production boot proof is incomplete');
+          }
+          const digest=bytes=>createHash('sha256').update(bytes).digest('hex');
+          const bound={
+            schemaVersion:1,
+            status:'published-and-production-server-boot-verified',
+            releaseId:publish.releaseId,
+            sourceCommit:publish.sourceCommit,
+            versionNumber:Number(boot.versionNumber),
+            releaseGateVersion:gate.version,
+            releaseArtifactSha256:gate.artifact.sha256,
+            baselineModelSha256:gate.step5.baselineModelSha256,
+            mountedSubtreeSha256:gate.step5.mountedSubtreeSha256,
+            publishReceiptSha256:digest(publishBytes),
+            serverBootProofSha256:digest(bootBytes),
+            releaseGateSha256:digest(gateBytes),
+            brookhavenWorldMounted:true,
+            productionActivationAllowed:false,
+            remainingGate:'genuine-real-touch-client-telemetry'
+          };
+          await writeFile(
+            'artifacts/starblox-step9-runtime-verification.json',
+            JSON.stringify(bound,null,2)+'\n'
+          );
+          NODE
+      - name: Upload Step 9 gated runtime evidence
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: starblox-step9-v4-runtime-evidence
+          path: |
+            artifacts/step9-release-candidate/step9-release-candidate.json
+            artifacts/step9-release-candidate/step6-release-gate.json
+            artifacts/starblox-private-publish-receipt.json
+            artifacts/starblox-production-server-boot-proof.json
+            artifacts/starblox-step9-runtime-verification.json
+          if-no-files-found: ignore
+          retention-days: 30
+
+  real-client-gate:
+    if: ${{ github.event_name == 'workflow_dispatch' }}
+    needs: publish-and-server-boot
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout exact release candidate
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - name: Use Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+      - name: Require genuine real touch-client evidence
+        env:
+          ROBLOX_OPEN_CLOUD_API_KEY: ${{ secrets.ROBLOX_OPEN_CLOUD_API_KEY }}
+          ROBLOX_UNIVERSE_ID: ${{ vars.ROBLOX_UNIVERSE_ID }}
+          ROBLOX_PLACE_ID: ${{ vars.ROBLOX_PLACE_ID }}
+        run: npm run roblox:real-client-proof

@@ -3,7 +3,7 @@ import { createHash } from 'node:crypto';
 const LUAU_ROOT='https://apis.roblox.com/cloud/v2';
 const PUBLISH_ROOT='https://apis.roblox.com/universes/v1';
 
-export const STARBLOX_PRIVATE_RELEASE_ID='starblox-private-step8-v1';
+export const STARBLOX_PRIVATE_RELEASE_ID='starblox-private-step9-canonical-step6-v4';
 export const STARBLOX_PRIVATE_PUBLISH_VERSION='starblox-private-publish-v2';
 
 const UNSUPPORTED_PUBLISH_CLASSES=Object.freeze([
@@ -61,6 +61,21 @@ function delay(ms){
   return new Promise(resolve => setTimeout(resolve,ms));
 }
 
+function retryAfterMs(response,{attempt,baseMs,maxMs}){
+  const raw=response?.headers?.get?.('retry-after');
+  if(raw != null && String(raw).trim()){
+    const seconds=Number(raw);
+    if(Number.isFinite(seconds) && seconds >= 0){
+      return Math.min(maxMs,Math.max(0,Math.round(seconds * 1000)));
+    }
+    const at=Date.parse(String(raw));
+    if(Number.isFinite(at)){
+      return Math.min(maxMs,Math.max(0,at-Date.now()));
+    }
+  }
+  return Math.min(maxMs,Math.max(0,baseMs * (2 ** attempt)));
+}
+
 function taskFailed(task){
   if(task?.error) return true;
   return /FAIL|ERROR|CANCEL/i.test(String(task?.state || ''));
@@ -94,7 +109,10 @@ export async function runOpenCloudLuauTask({
   script,
   fetchImpl=globalThis.fetch,
   pollIntervalMs=1000,
-  timeoutMs=90_000
+  timeoutMs=90_000,
+  createRetryAttempts=8,
+  createRetryBaseMs=2000,
+  createRetryMaxMs=60_000
 }){
   const key=requireApiKey(apiKey);
   const universe=requireId(universeId,'universeId');
@@ -102,17 +120,27 @@ export async function runOpenCloudLuauTask({
   if(typeof script !== 'string' || !script.trim()) throw new Error('Luau script is required');
   if(typeof fetchImpl !== 'function') throw new TypeError('fetch implementation is required');
 
-  const createResponse=await fetchImpl(
-    LUAU_ROOT + '/universes/' + universe + '/places/' + place + '/luau-execution-session-tasks',
-    {
-      method:'POST',
-      headers:{
-        'x-api-key':key,
-        'content-type':'application/json'
-      },
-      body:JSON.stringify({script,timeout:'30s'})
-    }
-  );
+  const maxCreateAttempts=Math.max(1,Math.min(12,Number(createRetryAttempts) || 8));
+  let createResponse;
+  for(let attempt=0;attempt<maxCreateAttempts;attempt+=1){
+    createResponse=await fetchImpl(
+      LUAU_ROOT + '/universes/' + universe + '/places/' + place + '/luau-execution-session-tasks',
+      {
+        method:'POST',
+        headers:{
+          'x-api-key':key,
+          'content-type':'application/json'
+        },
+        body:JSON.stringify({script,timeout:'30s'})
+      }
+    );
+    if(createResponse.status !== 429 || attempt === maxCreateAttempts-1) break;
+    await delay(retryAfterMs(createResponse,{
+      attempt,
+      baseMs:Math.max(0,Number(createRetryBaseMs) || 0),
+      maxMs:Math.max(0,Number(createRetryMaxMs) || 0)
+    }));
+  }
   const create=await parseResponse(createResponse,'Roblox Luau execution create');
   const statusUrl=taskUrl(create.path);
   const deadline=Date.now()+timeoutMs;
@@ -203,7 +231,10 @@ export async function publishPlaceVersion({
   universeId,
   placeId,
   bytes,
-  fetchImpl=globalThis.fetch
+  fetchImpl=globalThis.fetch,
+  retryAttempts=5,
+  retryBaseMs=2000,
+  retryMaxMs=30_000
 }){
   const key=requireApiKey(apiKey);
   const universe=requireId(universeId,'universeId');
@@ -212,17 +243,27 @@ export async function publishPlaceVersion({
     throw new Error('publish bytes are required');
   }
 
-  const response=await fetchImpl(
-    PUBLISH_ROOT + '/' + universe + '/places/' + place + '/versions?versionType=Published',
-    {
-      method:'POST',
-      headers:{
-        'x-api-key':key,
-        'content-type':'application/xml'
-      },
-      body:bytes
-    }
-  );
+  const maxAttempts=Math.max(1,Math.min(8,Number(retryAttempts) || 5));
+  let response;
+  for(let attempt=0;attempt<maxAttempts;attempt+=1){
+    response=await fetchImpl(
+      PUBLISH_ROOT + '/' + universe + '/places/' + place + '/versions?versionType=Published',
+      {
+        method:'POST',
+        headers:{
+          'x-api-key':key,
+          'content-type':'application/xml'
+        },
+        body:bytes
+      }
+    );
+    if(response.status !== 429 || attempt === maxAttempts-1) break;
+    await delay(retryAfterMs(response,{
+      attempt,
+      baseMs:Math.max(0,Number(retryBaseMs) || 0),
+      maxMs:Math.max(0,Number(retryMaxMs) || 0)
+    }));
+  }
   const payload=await parseResponse(response,'Roblox place publish');
   const versionNumber=Number(payload?.versionNumber);
   if(!Number.isInteger(versionNumber) || versionNumber < 1){
@@ -314,17 +355,24 @@ export function buildPrivatePublishReceipt({
   sourceCommit,
   previousVersion,
   publishedVersion,
-  verifiedVersion,
+  verifiedVersion=null,
   artifactSha256,
   artifactBytes,
   skipped=false,
   verificationTaskPath=null,
   releaseGate=null
 }){
+  const published=Number(publishedVersion);
+  const verified=verifiedVersion == null ? null : Number(verifiedVersion);
+  const verificationComplete=Number.isInteger(verified) && verified === published;
   return Object.freeze({
     schemaVersion:1,
     receiptVersion:STARBLOX_PRIVATE_PUBLISH_VERSION,
-    status:skipped ? 'already-current' : 'published-and-verified',
+    status:skipped
+      ? 'already-current'
+      : verificationComplete
+        ? 'published-and-verified'
+        : 'published-awaiting-runtime-verification',
     releaseId:String(releaseId),
     sourceCommit:String(sourceCommit || ''),
     target:Object.freeze({
@@ -339,8 +387,12 @@ export function buildPrivatePublishReceipt({
     }),
     versions:Object.freeze({
       previous:Number(previousVersion),
-      published:Number(publishedVersion),
-      verified:Number(verifiedVersion)
+      published,
+      verified
+    }),
+    verification:Object.freeze({
+      status:verificationComplete ? 'verified' : 'pending-production-server-boot',
+      taskPath:verificationTaskPath ? String(verificationTaskPath) : null
     }),
     verificationTaskPath:verificationTaskPath ? String(verificationTaskPath) : null,
     releaseGate:releaseGate ? Object.freeze({
@@ -357,6 +409,7 @@ export function buildPrivatePublishReceipt({
     }),
     rollback:Object.freeze({
       preservedPreviousVersion:Number(previousVersion),
+      previousVersionBasis:'immediate predecessor of the version number returned by the serialized publish request',
       mechanism:'Roblox Creator Dashboard > Configure > Places > Version History > Restore',
       automaticRollbackAttempted:false,
       note:'Roblox retains saved place versions; restoring a prior version creates a new place version.'
