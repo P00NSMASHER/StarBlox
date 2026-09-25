@@ -7,8 +7,8 @@
     "commit": "e12897e0e3796728eb338e94ee31fa759a6713a8"
   },
   "currentStep": {
-    "number": 5,
-    "name": "first-controlled-private-starblox-publish",
+    "number": 6,
+    "name": "native-player-facing-vertical-slice",
     "status": "verified"
   },
   "runtimeAuthority": {
@@ -23,7 +23,7 @@
     "Do not publish or activate a Roblox production experience from this step.",
     "Promote migrated systems only through explicit verification gates."
   ],
-  "nextStep": "build-native-player-facing-gameplay-vertical-slice",
+  "nextStep": "expand-vertical-slice-into-core-native-game-loop",
   "toolchain": {
     "manager": "Rokit",
     "managerVersion": "1.2.0",
@@ -32,8 +32,8 @@
   },
   "roadmap": {
     "totalSteps": 10,
-    "completedSteps": 5,
-    "remainingSteps": 5
+    "completedSteps": 6,
+    "remainingSteps": 4
   },
   "studioSync": {
     "baseline": "roblox/native-place-baseline.json",
@@ -94,5 +94,39 @@
     "liveActivationAllowed": false,
     "productionActivationAllowed": false,
     "rollbackVersion": 1
+  },
+  "verticalSlice": {
+    "sliceId": "bright-side-word-portal-v1",
+    "releaseId": "starblox-private-step6-v1",
+    "universeId": "6027194615",
+    "placeId": "17602626136",
+    "previousVersion": 2,
+    "publishedVersion": 3,
+    "verifiedVersion": 3,
+    "publishSourceCommit": "30cf7f3ddfd7acf6ea68ac180fce4fd2bb2cd58f",
+    "mergedCommit": "3aa0b39609df67b8f5cccbd4d31212989e6b290a",
+    "artifactSha256": "434c808d3c008dadf8b516c05e476548106a6d737d8af4c0bbde03d8a981537f",
+    "publishWorkflowRunId": 36174702721,
+    "publishReceiptArtifactId": 10882580034,
+    "finalProofWorkflowRunId": 36175593561,
+    "finalProofTaskPath": "universes/6027194615/places/17602626136/versions/3/luau-execution-sessions/4a154857-597f-4716-8959-06d720c096fd/tasks/4a154857-597f-4716-8959-06d720c096fd",
+    "evidence": {
+      "productionRuntimeScriptPresent": true,
+      "productionRuntimeScriptEnabled": true,
+      "engineServiceInstantiation": true,
+      "nativeWorld": true,
+      "spawn": true,
+      "questKiosk": true,
+      "proximityPrompt": true,
+      "serverAuthoritativeQuestion": true,
+      "replicatedAnswerHidden": true,
+      "rewardContract": true,
+      "questRemotes": true
+    },
+    "openCloudExecutionNote": "Luau Execution uses a custom script-execution server, so the proof explicitly instantiates the production VerticalSliceService. Normal player servers use Runtime.server -> Bootstrap -> VerticalSliceService.",
+    "publicAccessChangeAttempted": false,
+    "liveActivationAllowed": false,
+    "productionActivationAllowed": false,
+    "rollbackVersion": 2
   }
 }
