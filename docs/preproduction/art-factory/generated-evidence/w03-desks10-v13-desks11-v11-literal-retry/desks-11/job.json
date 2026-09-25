@@ -1,0 +1,159 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_JOB",
+  "repository": "P00NSMASHER/StarBlox",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "ffba4574540c29679191e85401230b74eed145f5",
+  "item": {
+    "id": "desks-11",
+    "name": "Dream Creator Station",
+    "collectionId": "desks",
+    "type": "room",
+    "tier": 4,
+    "theme": "Art Attack"
+  },
+  "sourceReviewHash": "a46471a5a4adc6edfb004cabfb5af9ee0b4ae6c9",
+  "rightsBasis": "USER_ATTESTED_FULL_RIGHTS",
+  "attempts": [
+    {
+      "attemptId": "desks-11-w03-a-single-creator-desk-4210b351d8",
+      "itemId": "desks-11",
+      "producer": "03",
+      "variant": "A-SINGLE-CREATOR-DESK",
+      "promptBlocks": [
+        "metadata",
+        "category",
+        "silhouette",
+        "physical",
+        "material",
+        "theme",
+        "tier",
+        "card",
+        "original",
+        "stage",
+        "furniture",
+        "camera",
+        "depth",
+        "bloom",
+        "textile",
+        "wall",
+        "light"
+      ],
+      "promptText": "STARBLOX CATALOG ART — A-SINGLE-CREATOR-DESK\n\nCreate one premium, kid-friendly 2D game catalog asset with polished dimensional quality.\n\nExact metadata: desks-11 — Dream Creator Station; collection desks; type room; tier 4; theme Art Attack.\n\nAuthoritative item-specific design brief:\nOne freestanding creator art desk on plain white. Wide cream tabletop, exactly two drawer pedestals, open knee space, one low peg tool rail, one drawing tablet on the tabletop, one brush cup, three small colorful art bins. Entire desk centered. NO monitor, chair, room, tall cabinet, shelves, second view, collage, text.\n\nExact-hash reviewer failure taxonomy: UNKNOWN_REWORK.\n\nRepair the documented failure codes while preserving qualities that were not implicated. Do not erase successful identity, silhouette, material depth, or readability merely to make a different image.\n\nUse the exact catalog ID/name/collection/tier/theme. Do not rename, recategorize, or substitute the item.\n\nMake the object unmistakably the stated product category with believable proportions and construction.\n\nPrioritize a distinctive clean silhouette that reads immediately at small Store-card size.\n\nShow real thickness, seams/joints/edges, layered parts, volume, contact points and functional construction—not a flat icon, emblem or sticker.\n\nUse category-appropriate material texture and highlights/shadows that explain the form.\n\nExpress the exact theme through material, construction, light and motif—not a palette swap or pasted decal.\n\nRespect tier progression: Starter stays simple and attractive; higher tiers gain richer form/material detail; Luxe gains spectacle without losing identity.\n\nDesign for both detail view and a 600×600 Store card with strong contrast, uncluttered hierarchy and no tiny critical details.\n\nAvoid recolor-only siblings, repeated template silhouettes, generic rings/badges, or interchangeable props.\n\nPresent one isolated subject on a clean premium background. No UI, text, watermark, logo, fake price badge or unrelated props.\n\nFor furniture/decor, show supports, joints, cushions/panels/hardware, weight and grounded contact.\n\nUse a clean product-style three-quarter view when appropriate so front, side and thickness are visible.\n\nUse occlusion, contact/cast shadows and foreground/midground/background separation so the asset feels spatial.\n\nUse controlled emissive light/bloom only where appropriate; preserve edges and local contrast.\n\nFor textiles, show weave/pile/folds/stitching/edge finish/thickness and believable softness or drape.\n\nFor wall decor, show mounting/frame/backing/relief depth and a believable wall-object form—not a floating emblem.\n\nFor lighting, show a physical base/mount/chassis, emitter or bulb, support structure and believable emitted/reflected light.\n\nOutput a production-worthy source image for exact-byte staging, card/detail rendering and independent review. Do not claim approval; the reviewer decides from rendered pixels.",
+      "promptSha256": "4210b351d8766aaa24d8d64dfbdb0b4031d6e737c55880dcfca5906416bcfc43",
+      "runtimePromptText": "desks-11 Dream Creator Station; Art Attack; tier 4. One freestanding creator art desk on plain white. Wide cream tabletop, exactly two drawer pedestals, open knee space, one low peg tool rail, one drawing tablet on the tabletop, one brush cup, three small colorful art bins. Entire desk centered. single isolated product, grounded shadow.",
+      "runtimePromptSha256": "7d6fe2b403b03cb67a86cfe4d77bb091de0a225d3b6ecb4566c5ba8f1042200c",
+      "runtimeNegativePromptText": "monitor, chair, room, tall cabinet, shelves, second view, collage, text, collage, multiple views, repeated variants, text, logo, watermark, UI",
+      "runtimeNegativePromptSha256": "73a3118f386cea73ad5fbc3f0e6e6ab440107c64a5a802308f9cbd3669a49041",
+      "promptRecipeVersion": "artPromptOptimizer-request-v1:w03-desks10-v13-desks11-v11-literal-retry",
+      "seed": 895445885,
+      "runtime": {
+        "repo": "huggingface/diffusers",
+        "commit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c"
+      },
+      "model": {
+        "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+        "revision": "462165984030d82259a11f4367a4eed129e94a7b",
+        "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+      },
+      "conditioning": {
+        "referenceAssetSha256": null,
+        "controlImageSha256": null,
+        "adapterScale": null
+      },
+      "output": {
+        "repoPath": null,
+        "sha256": null,
+        "gitBlobSha": null,
+        "bytes": null,
+        "width": null,
+        "height": null
+      },
+      "status": "PLANNED_NOT_GENERATED"
+    },
+    {
+      "attemptId": "desks-11-w03-b-art-desk-only-d9bf3146c4",
+      "itemId": "desks-11",
+      "producer": "03",
+      "variant": "B-ART-DESK-ONLY",
+      "promptBlocks": [
+        "metadata",
+        "category",
+        "silhouette",
+        "physical",
+        "material",
+        "theme",
+        "tier",
+        "card",
+        "original",
+        "stage",
+        "furniture",
+        "camera",
+        "depth",
+        "bloom",
+        "textile",
+        "wall",
+        "light"
+      ],
+      "promptText": "STARBLOX CATALOG ART — B-ART-DESK-ONLY\n\nCreate one premium, kid-friendly 2D game catalog asset with polished dimensional quality.\n\nExact metadata: desks-11 — Dream Creator Station; collection desks; type room; tier 4; theme Art Attack.\n\nAuthoritative item-specific design brief:\nOne creator desk only on white: broad cream worktop, two drawer supports, open leg space, low organizer rail, drawing tablet, brush cup, three colorful supply bins. NO computer monitor, chair, wall, room, tall storage, alternate view, split image, text.\n\nExact-hash reviewer failure taxonomy: UNKNOWN_REWORK.\n\nRepair the documented failure codes while preserving qualities that were not implicated. Do not erase successful identity, silhouette, material depth, or readability merely to make a different image.\n\nUse the exact catalog ID/name/collection/tier/theme. Do not rename, recategorize, or substitute the item.\n\nMake the object unmistakably the stated product category with believable proportions and construction.\n\nPrioritize a distinctive clean silhouette that reads immediately at small Store-card size.\n\nShow real thickness, seams/joints/edges, layered parts, volume, contact points and functional construction—not a flat icon, emblem or sticker.\n\nUse category-appropriate material texture and highlights/shadows that explain the form.\n\nExpress the exact theme through material, construction, light and motif—not a palette swap or pasted decal.\n\nRespect tier progression: Starter stays simple and attractive; higher tiers gain richer form/material detail; Luxe gains spectacle without losing identity.\n\nDesign for both detail view and a 600×600 Store card with strong contrast, uncluttered hierarchy and no tiny critical details.\n\nAvoid recolor-only siblings, repeated template silhouettes, generic rings/badges, or interchangeable props.\n\nPresent one isolated subject on a clean premium background. No UI, text, watermark, logo, fake price badge or unrelated props.\n\nFor furniture/decor, show supports, joints, cushions/panels/hardware, weight and grounded contact.\n\nUse a clean product-style three-quarter view when appropriate so front, side and thickness are visible.\n\nUse occlusion, contact/cast shadows and foreground/midground/background separation so the asset feels spatial.\n\nUse controlled emissive light/bloom only where appropriate; preserve edges and local contrast.\n\nFor textiles, show weave/pile/folds/stitching/edge finish/thickness and believable softness or drape.\n\nFor wall decor, show mounting/frame/backing/relief depth and a believable wall-object form—not a floating emblem.\n\nFor lighting, show a physical base/mount/chassis, emitter or bulb, support structure and believable emitted/reflected light.\n\nOutput a production-worthy source image for exact-byte staging, card/detail rendering and independent review. Do not claim approval; the reviewer decides from rendered pixels.",
+      "promptSha256": "d9bf3146c47bdce791799bfa9d937ea689c78984bf01f2346dea3e7f7f2239de",
+      "runtimePromptText": "desks-11 Dream Creator Station; Art Attack; tier 4. One creator desk only on white: broad cream worktop, two drawer supports, open leg space, low organizer rail, drawing tablet, brush cup, three colorful supply bins. single isolated product, grounded shadow.",
+      "runtimePromptSha256": "f4b2a558a38a8a81b47c65a9314fabc64d45223f15cada37b00894931ace1baa",
+      "runtimeNegativePromptText": "computer monitor, chair, wall, room, tall storage, alternate view, split image, text, collage, multiple views, repeated variants, text, logo, watermark, UI",
+      "runtimeNegativePromptSha256": "04695852bfa0b5da162c1f683b532e28e6f709d1372fbad224e3669830a9aedb",
+      "promptRecipeVersion": "artPromptOptimizer-request-v1:w03-desks10-v13-desks11-v11-literal-retry",
+      "seed": 288340035,
+      "runtime": {
+        "repo": "huggingface/diffusers",
+        "commit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c"
+      },
+      "model": {
+        "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+        "revision": "462165984030d82259a11f4367a4eed129e94a7b",
+        "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+      },
+      "conditioning": {
+        "referenceAssetSha256": null,
+        "controlImageSha256": null,
+        "adapterScale": null
+      },
+      "output": {
+        "repoPath": null,
+        "sha256": null,
+        "gitBlobSha": null,
+        "bytes": null,
+        "width": null,
+        "height": null
+      },
+      "status": "PLANNED_NOT_GENERATED"
+    }
+  ],
+  "requestContext": {
+    "requestPath": "docs/preproduction/art-factory/requests/w03-desks10-v13-desks11-v11-literal-retry-20260925.json",
+    "batchId": "w03-desks10-v13-desks11-v11-literal-retry",
+    "requestSourceHead": "1290089366a1251ddf2610fcd2992f5bbd3221c0",
+    "requestRecordSha256": "dcf3e576c6c27f08efa99d18a4b443a0c26cd39882ee3da8a1c87f8fb6ede478",
+    "planner": "15",
+    "reviewer": null,
+    "renderOwner": "14",
+    "integrationOwner": "08",
+    "contextReferences": [],
+    "plannerVariants": [
+      {
+        "variantId": "A-SINGLE-CREATOR-DESK",
+        "plannerSeed": null,
+        "optimizerInputSha256": "03e03712eec213928e8c7dbf67b6bbcea63f9cadfe69f1e335d9f1160ba16271",
+        "compiledPromptSha256": "4210b351d8766aaa24d8d64dfbdb0b4031d6e737c55880dcfca5906416bcfc43",
+        "compiledSeed": 895445885
+      },
+      {
+        "variantId": "B-ART-DESK-ONLY",
+        "plannerSeed": null,
+        "optimizerInputSha256": "403142cd3276b76ba70e622d7340792f3967466d7207e4232b268a51447c6447",
+        "compiledPromptSha256": "d9bf3146c47bdce791799bfa9d937ea689c78984bf01f2346dea3e7f7f2239de",
+        "compiledSeed": 288340035
+      }
+    ]
+  },
+  "planSha256": "582b13eb8d7836b4f95189179253378e0f287429e1c89a632aaef0cdc1e3b731"
+}

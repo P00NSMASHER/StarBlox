@@ -1,0 +1,112 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_GENERATION_RECEIPT",
+  "repository": "P00NSMASHER/StarBlox",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "ffba4574540c29679191e85401230b74eed145f5",
+  "sourcePlanSha256": "582b13eb8d7836b4f95189179253378e0f287429e1c89a632aaef0cdc1e3b731",
+  "executionCheckout": {
+    "branch": "screenshot-match-preproduction",
+    "head": "ffba4574540c29679191e85401230b74eed145f5",
+    "planSourceHeadMatchesExecutionHead": true
+  },
+  "attempt": {
+    "attemptId": "desks-11-w03-a-single-creator-desk-4210b351d8",
+    "itemId": "desks-11",
+    "producer": "03",
+    "variant": "A-SINGLE-CREATOR-DESK",
+    "promptSha256": "4210b351d8766aaa24d8d64dfbdb0b4031d6e737c55880dcfca5906416bcfc43",
+    "runtimePromptSha256": "7d6fe2b403b03cb67a86cfe4d77bb091de0a225d3b6ecb4566c5ba8f1042200c",
+    "runtimeNegativePromptSha256": "73a3118f386cea73ad5fbc3f0e6e6ab440107c64a5a802308f9cbd3669a49041",
+    "promptRecipeVersion": "artPromptOptimizer-request-v1:w03-desks10-v13-desks11-v11-literal-retry",
+    "seed": 895445885
+  },
+  "runtime": {
+    "repo": "huggingface/diffusers",
+    "commit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "resolvedCommit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c",
+    "runtimeCommitVerified": true,
+    "diffusersVersion": "0.41.0.dev0",
+    "diffusersInstallSource": "https://github.com/huggingface/diffusers.git",
+    "torchVersion": "2.8.0+cpu",
+    "transformersVersion": "5.17.0",
+    "accelerateVersion": "1.15.0",
+    "huggingfaceHubVersion": "1.33.0",
+    "safetensorsVersion": "0.8.0",
+    "pythonPillowVersion": "12.3.0",
+    "device": "cpu",
+    "dtype": "float32",
+    "executionMode": "cpu-fallback"
+  },
+  "model": {
+    "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+    "revision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS",
+    "resolvedRevision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "snapshotRevisionVerified": true,
+    "selectiveSnapshot": true,
+    "snapshotAllowPatterns": [
+      "model_index.json",
+      "scheduler/*",
+      "tokenizer/*",
+      "tokenizer_2/*",
+      "feature_extractor/*",
+      "text_encoder/config.json",
+      "text_encoder/model.fp16.safetensors",
+      "text_encoder_2/config.json",
+      "text_encoder_2/model.fp16.safetensors",
+      "unet/config.json",
+      "unet/diffusion_pytorch_model.fp16.safetensors",
+      "vae/config.json",
+      "vae/diffusion_pytorch_model.fp16.safetensors"
+    ]
+  },
+  "conditioning": {
+    "referenceAssetSha256": null,
+    "controlImageSha256": null,
+    "adapterScale": null,
+    "referenceImage": null,
+    "ipAdapterModelId": null,
+    "ipAdapterRevision": null,
+    "ipAdapterResolvedRevision": null,
+    "ipAdapterRevisionVerified": false,
+    "ipAdapterWeightName": null,
+    "ipAdapterSubfolder": null
+  },
+  "generation": {
+    "width": 640,
+    "height": 640,
+    "numInferenceSteps": 14,
+    "guidanceScale": 5.5,
+    "runtimePromptTokenCounts": {
+      "tokenizer": 75,
+      "tokenizer_2": 75
+    },
+    "runtimeNegativePromptTokenCounts": {
+      "tokenizer": 36,
+      "tokenizer_2": 36
+    },
+    "executedSeed": 895445885
+  },
+  "output": {
+    "repoPath": "public/assets/catalog-candidates/cpu/desks-11-w03-v11-a-single-creator-desk-original.png",
+    "sha256": "b1a761713fff1ee468a6dc8c3016a71a5b6715d9bb87f5493d577215ffe66009",
+    "gitBlobSha": "9885d0af716b21b62a7fd43b08af14cd0d83d2a7",
+    "bytes": 526588,
+    "width": 640,
+    "height": 640,
+    "format": "PNG",
+    "sourceBytesPreserved": true,
+    "reusedExistingIdenticalBytes": false
+  },
+  "safety": {
+    "canonicalArtModified": false,
+    "gameplayModified": false,
+    "reviewDecisionMade": false,
+    "deploymentPerformed": false,
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+  },
+  "nextGate": "RUN_VERIFY_STAGED_OUTPUT_THEN_REAL_RENDER_AND_INDEPENDENT_EXACT_HASH_REVIEW",
+  "status": "GENERATED_SOURCE_BYTES_UNVERIFIED",
+  "recordSha256": "abbb5bec82cac31ec7517b24fbf8e516ed639f6b1916522270b37d25bce3feea"
+}
