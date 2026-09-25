@@ -2,6 +2,8 @@
 
 local AssetService = game:GetService("AssetService")
 local CaptureService = game:GetService("CaptureService")
+local UserInputService = game:GetService("UserInputService")
+local Workspace = game:GetService("Workspace")
 
 local Vision = {}
 
@@ -95,6 +97,12 @@ function Vision.capture(_args: any): any
 	local sampled, outWidth, outHeight = downsample(pixels, width, height)
 	local raw = buffer.tostring(sampled)
 
+	local viewport = Vector2.new(width, height)
+	local camera = Workspace.CurrentCamera
+	if camera then
+		viewport = camera.ViewportSize
+	end
+
 	return {
 		format = "rgba8",
 		width = outWidth,
@@ -102,6 +110,14 @@ function Vision.capture(_args: any): any
 		dataB64 = base64Encode(raw),
 		originalWidth = width,
 		originalHeight = height,
+		device = {
+			touchEnabled = UserInputService.TouchEnabled,
+			keyboardEnabled = UserInputService.KeyboardEnabled,
+			mouseEnabled = UserInputService.MouseEnabled,
+			gamepadEnabled = UserInputService.GamepadEnabled,
+			viewportWidth = math.max(1, math.floor(viewport.X)),
+			viewportHeight = math.max(1, math.floor(viewport.Y)),
+		},
 	}
 end
 
