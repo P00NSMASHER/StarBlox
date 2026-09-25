@@ -57,8 +57,10 @@ describe('same-day StarBlox pipeline',()=>{
     expect(a).toEqual(b);
     expect(verifySameDayPipelinePlan(a)).toEqual({ok:true,errors:[]});
     expect(a.stages.map(row=>row.id)).toEqual([
-      'ingest-brookhaven','plan-brookhaven','export-brookhaven','adapt-brookhaven',
-      'ingest-robbing','plan-robbing','export-robbing','adapt-robbing',
+      'ingest-brookhaven','plan-brookhaven','export-brookhaven',
+      'ingest-robbing','plan-robbing','export-robbing',
+      'build-staging-place','verify-studio-staging',
+      'adapt-brookhaven','adapt-robbing',
       'integrate-flex','integrate-rorooms',
       'wire-quest-mastery','verify-integrated-slice',
       'gate-mobile','gate-security','gate-performance','finalize-same-day-slice'
