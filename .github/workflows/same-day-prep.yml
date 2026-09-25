@@ -39,7 +39,17 @@ jobs:
         run: npm install --no-audit --no-fund
 
       - name: Install Rojo 7.7.0
-        run: cargo install rojo --version 7.7.0 --locked
+        run: |
+          curl -fsSL \
+            -o /tmp/rojo.zip \
+            https://github.com/rojo-rbx/rojo/releases/download/v7.7.0/rojo-7.7.0-linux-x86_64.zip
+          rm -rf /tmp/rojo-bin
+          mkdir -p /tmp/rojo-bin
+          unzip -q /tmp/rojo.zip -d /tmp/rojo-bin
+          ROJO_BIN="$(find /tmp/rojo-bin -type f -name rojo -print -quit)"
+          test -n "$ROJO_BIN"
+          sudo install -m 0755 "$ROJO_BIN" /usr/local/bin/rojo
+          rojo --version
 
       - name: Build pre-Studio same-day bundle
         run: |
