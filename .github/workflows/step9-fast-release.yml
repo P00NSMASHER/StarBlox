@@ -1,0 +1,129 @@
+name: StarBlox Step 9 Fast Release
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened, ready_for_review]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: starblox-step9-fast-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  publish-and-server-boot:
+    if: ${{ github.event_name == 'workflow_dispatch' || github.head_ref == 'release/step9-canonical-step5-v3' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Use Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Setup pinned Roblox toolchain
+        uses: CompeyDev/setup-rokit@v0.2.1
+        with:
+          version: v1.2.0
+          path: .
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+      - name: Install pinned Roblox runtime packages
+        run: |
+          cd roblox
+          wally install
+          test -e Packages/Matter
+          test -e ServerPackages/ProfileStore
+      - name: Verify canonical Brookhaven source and fingerprint
+        run: |
+          npm run roblox:world-source:verify
+          npm run roblox:brookhaven-world:verify -- --out /tmp/brookhaven-world-fingerprint.json
+          grep -q '"status": "verified-immutable-source"' /tmp/brookhaven-world-fingerprint.json
+          grep -q '"sha256": "e9abef1d41b85a8f83aca36ba661de41f4321562937c1e2eea907395c292d694"' /tmp/brookhaven-world-fingerprint.json
+      - name: Prove canonical Step 5 mount is reproducible
+        run: |
+          rm -rf /tmp/starblox-step9-fast roblox/.step5-generated roblox/.step5-mounted.project.json
+          mkdir -p /tmp/starblox-step9-fast
+          npm run roblox:brookhaven-world:generate -- \
+            --out /tmp/starblox-step9-fast/BrookhavenWorldBaseline.rbxmx \
+            --receipt /tmp/starblox-step9-fast/generation-receipt.json
+          node --input-type=module - <<'NODE'
+          import {createHash} from 'node:crypto';
+          import {readFile,writeFile} from 'node:fs/promises';
+          const snapshot=JSON.parse(await readFile('docs/roblox-world/STEP_5_WORLD_EXACTNESS_AND_MOUNT.json','utf8'));
+          if(snapshot.status!=='verified-exact-world-with-starblox-mounted-beside-it') throw new Error('Step 5 snapshot is not verified');
+          const bytes=await readFile('/tmp/starblox-step9-fast/BrookhavenWorldBaseline.rbxmx');
+          const sha=createHash('sha256').update(bytes).digest('hex');
+          const lock=snapshot.exactnessLock;
+          if(lock.status!=='exactness-verified-and-baseline-locked') throw new Error('Step 5 lock is not verified');
+          if(lock.baseline.modelSha256!==sha || Number(lock.baseline.bytes)!==bytes.length){
+            throw new Error('generated world does not match canonical Step 5 lock');
+          }
+          await writeFile('/tmp/starblox-step9-fast/step5-lock.json',JSON.stringify(lock,null,2)+'\n');
+          NODE
+          npm run roblox:brookhaven-world:mount:prepare -- \
+            --baseline /tmp/starblox-step9-fast/BrookhavenWorldBaseline.rbxmx \
+            --lock /tmp/starblox-step9-fast/step5-lock.json \
+            --out-project roblox/.step5-mounted.project.json \
+            --baseline-copy roblox/.step5-generated/BrookhavenWorldBaseline.rbxmx \
+            --receipt /tmp/starblox-step9-fast/mount-preparation.json
+          rojo build roblox/.step5-mounted.project.json \
+            --output /tmp/starblox-step9-fast/StarBlox-Step9-Fast.rbxlx
+          test -s /tmp/starblox-step9-fast/StarBlox-Step9-Fast.rbxlx
+          grep -q 'BrookhavenWorldBaseline' /tmp/starblox-step9-fast/StarBlox-Step9-Fast.rbxlx
+          grep -q 'StarBlox' /tmp/starblox-step9-fast/StarBlox-Step9-Fast.rbxlx
+          rm -rf roblox/.step5-generated roblox/.step5-mounted.project.json
+      - name: Run Step 9 targeted regression suite
+        run: |
+          npx vitest run \
+            src/robloxRuntime/privatePublish.test.js \
+            src/robloxRuntime/productionServerBootProof.test.js \
+            src/robloxRuntime/realClientPlaytestProof.test.js \
+            src/robloxRuntime/coreLoopProof.test.js \
+            src/robloxRuntime/verticalSliceProof.test.js
+          npm run roblox:backbone:verify
+      - name: Publish exact Step 9 candidate through canonical Step 5
+        env:
+          ROBLOX_OPEN_CLOUD_API_KEY: ${{ secrets.ROBLOX_OPEN_CLOUD_API_KEY }}
+          ROBLOX_UNIVERSE_ID: ${{ vars.ROBLOX_UNIVERSE_ID }}
+          ROBLOX_PLACE_ID: ${{ vars.ROBLOX_PLACE_ID }}
+          STARBLOX_SOURCE_COMMIT: ${{ github.event.pull_request.head.sha || github.sha }}
+          STARBLOX_PUBLISH_RECEIPT: ${{ github.workspace }}/artifacts/starblox-private-publish-receipt.json
+        run: npm run roblox:publish-private
+      - name: Verify production server boot in published Brookhaven world
+        env:
+          ROBLOX_OPEN_CLOUD_API_KEY: ${{ secrets.ROBLOX_OPEN_CLOUD_API_KEY }}
+          ROBLOX_UNIVERSE_ID: ${{ vars.ROBLOX_UNIVERSE_ID }}
+          ROBLOX_PLACE_ID: ${{ vars.ROBLOX_PLACE_ID }}
+        run: npm run roblox:production-server-boot-proof
+      - name: Upload private publish receipt
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: starblox-step9-v3-private-publish
+          path: artifacts/starblox-private-publish-receipt.json
+          if-no-files-found: ignore
+          retention-days: 30
+
+  real-client-gate:
+    if: ${{ github.event_name == 'workflow_dispatch' || github.head_ref == 'release/step9-canonical-step5-v3' }}
+    needs: publish-and-server-boot
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Use Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify genuine real touch-client playtest
+        env:
+          ROBLOX_OPEN_CLOUD_API_KEY: ${{ secrets.ROBLOX_OPEN_CLOUD_API_KEY }}
+          ROBLOX_UNIVERSE_ID: ${{ vars.ROBLOX_UNIVERSE_ID }}
+          ROBLOX_PLACE_ID: ${{ vars.ROBLOX_PLACE_ID }}
+        run: node scripts/verify-roblox-real-client-playtest.mjs
