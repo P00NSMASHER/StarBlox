@@ -1,0 +1,251 @@
+{
+  "schemaVersion": "starblox-neutral-town-location-catalog-v1",
+  "generatedAt": "2026-09-25",
+  "status": "definition-only-runtime-not-wired",
+  "definitionSchemaRef": "docs/preproduction/brookhaven-research/neutral-town-location-schema-v1.json",
+  "sourceBlueprintRef": "docs/preproduction/brookhaven-research/town-system-blueprint-v1.json",
+  "rightsStatus": "verified-for-project-use",
+  "locationCount": 17,
+  "playerFacingCount": 15,
+  "deferredCount": 2,
+  "definitions": [
+    {
+      "schemaVersion": "starblox-neutral-town-location-v1",
+      "id": "airport",
+      "label": "Airport",
+      "category": "transport",
+      "lifecycle": "player-facing",
+      "playerFacingEligible": true,
+      "evidenceRef": "docs/preproduction/brookhaven-research/town-system-blueprint-v1.json#airport",
+      "safety": {
+        "externalRuntimeDependency": false,
+        "remoteDependency": false,
+        "exactSourceCoordinatesClaimed": false
+      }
+    },
+    {
+      "schemaVersion": "starblox-neutral-town-location-v1",
+      "id": "auto-mall",
+      "label": "Auto Mall",
+      "category": "commerce",
+      "lifecycle": "player-facing",
+      "playerFacingEligible": true,
+      "evidenceRef": "docs/preproduction/brookhaven-research/town-system-blueprint-v1.json#auto-mall",
+      "safety": {
+        "externalRuntimeDependency": false,
+        "remoteDependency": false,
+        "exactSourceCoordinatesClaimed": false
+      }
+    },
+    {
+      "schemaVersion": "starblox-neutral-town-location-v1",
+      "id": "auto-shop",
+      "label": "Auto Shop",
+      "category": "commerce",
+      "lifecycle": "player-facing",
+      "playerFacingEligible": true,
+      "evidenceRef": "docs/preproduction/brookhaven-research/town-system-blueprint-v1.json#auto-shop",
+      "safety": {
+        "externalRuntimeDependency": false,
+        "remoteDependency": false,
+        "exactSourceCoordinatesClaimed": false
+      }
+    },
+    {
+      "schemaVersion": "starblox-neutral-town-location-v1",
+      "id": "bank",
+      "label": "Bank",
+      "category": "civic",
+      "lifecycle": "player-facing",
+      "playerFacingEligible": true,
+      "evidenceRef": "docs/preproduction/brookhaven-research/town-system-blueprint-v1.json#bank",
+      "safety": {
+        "externalRuntimeDependency": false,
+        "remoteDependency": false,
+        "exactSourceCoordinatesClaimed": false
+      }
+    },
+    {
+      "schemaVersion": "starblox-neutral-town-location-v1",
+      "id": "burger-barn",
+      "label": "Burger Barn",
+      "category": "commerce",
+      "lifecycle": "player-facing",
+      "playerFacingEligible": true,
+      "evidenceRef": "docs/preproduction/brookhaven-research/town-system-blueprint-v1.json#burger-barn",
+      "safety": {
+        "externalRuntimeDependency": false,
+        "remoteDependency": false,
+        "exactSourceCoordinatesClaimed": false
+      }
+    },
+    {
+      "schemaVersion": "starblox-neutral-town-location-v1",
+      "id": "church",
+      "label": "Church",
+      "category": "community",
+      "lifecycle": "player-facing",
+      "playerFacingEligible": true,
+      "evidenceRef": "docs/preproduction/brookhaven-research/town-system-blueprint-v1.json#church",
+      "safety": {
+        "externalRuntimeDependency": false,
+        "remoteDependency": false,
+        "exactSourceCoordinatesClaimed": false
+      }
+    },
+    {
+      "schemaVersion": "starblox-neutral-town-location-v1",
+      "id": "commercial-stores",
+      "label": "Commercial Stores",
+      "category": "commerce",
+      "lifecycle": "player-facing",
+      "playerFacingEligible": true,
+      "evidenceRef": "docs/preproduction/brookhaven-research/town-system-blueprint-v1.json#commercial-stores",
+      "safety": {
+        "externalRuntimeDependency": false,
+        "remoteDependency": false,
+        "exactSourceCoordinatesClaimed": false
+      }
+    },
+    {
+      "schemaVersion": "starblox-neutral-town-location-v1",
+      "id": "daycare",
+      "label": "Daycare",
+      "category": "education",
+      "lifecycle": "player-facing",
+      "playerFacingEligible": true,
+      "evidenceRef": "docs/preproduction/brookhaven-research/town-system-blueprint-v1.json#daycare",
+      "safety": {
+        "externalRuntimeDependency": false,
+        "remoteDependency": false,
+        "exactSourceCoordinatesClaimed": false
+      }
+    },
+    {
+      "schemaVersion": "starblox-neutral-town-location-v1",
+      "id": "fire-department",
+      "label": "Fire Department",
+      "category": "emergency",
+      "lifecycle": "player-facing",
+      "playerFacingEligible": true,
+      "evidenceRef": "docs/preproduction/brookhaven-research/town-system-blueprint-v1.json#fire-department",
+      "safety": {
+        "externalRuntimeDependency": false,
+        "remoteDependency": false,
+        "exactSourceCoordinatesClaimed": false
+      }
+    },
+    {
+      "schemaVersion": "starblox-neutral-town-location-v1",
+      "id": "horse-stables",
+      "label": "Horse Stables",
+      "category": "recreation",
+      "lifecycle": "player-facing",
+      "playerFacingEligible": true,
+      "evidenceRef": "docs/preproduction/brookhaven-research/town-system-blueprint-v1.json#horse-stables",
+      "safety": {
+        "externalRuntimeDependency": false,
+        "remoteDependency": false,
+        "exactSourceCoordinatesClaimed": false
+      }
+    },
+    {
+      "schemaVersion": "starblox-neutral-town-location-v1",
+      "id": "hospital",
+      "label": "Hospital",
+      "category": "health",
+      "lifecycle": "player-facing",
+      "playerFacingEligible": true,
+      "evidenceRef": "docs/preproduction/brookhaven-research/town-system-blueprint-v1.json#hospital",
+      "safety": {
+        "externalRuntimeDependency": false,
+        "remoteDependency": false,
+        "exactSourceCoordinatesClaimed": false
+      }
+    },
+    {
+      "schemaVersion": "starblox-neutral-town-location-v1",
+      "id": "mystery-zone",
+      "label": "Mystery Zone",
+      "category": "research-deferred",
+      "lifecycle": "research-deferred",
+      "playerFacingEligible": false,
+      "evidenceRef": "docs/preproduction/brookhaven-research/town-system-blueprint-v1.json#mystery-zone",
+      "safety": {
+        "externalRuntimeDependency": false,
+        "remoteDependency": false,
+        "exactSourceCoordinatesClaimed": false
+      }
+    },
+    {
+      "schemaVersion": "starblox-neutral-town-location-v1",
+      "id": "restricted-zone",
+      "label": "Restricted Zone",
+      "category": "research-deferred",
+      "lifecycle": "research-deferred",
+      "playerFacingEligible": false,
+      "evidenceRef": "docs/preproduction/brookhaven-research/town-system-blueprint-v1.json#restricted-zone",
+      "safety": {
+        "externalRuntimeDependency": false,
+        "remoteDependency": false,
+        "exactSourceCoordinatesClaimed": false
+      }
+    },
+    {
+      "schemaVersion": "starblox-neutral-town-location-v1",
+      "id": "school",
+      "label": "School",
+      "category": "education",
+      "lifecycle": "player-facing",
+      "playerFacingEligible": true,
+      "evidenceRef": "docs/preproduction/brookhaven-research/town-system-blueprint-v1.json#school",
+      "safety": {
+        "externalRuntimeDependency": false,
+        "remoteDependency": false,
+        "exactSourceCoordinatesClaimed": false
+      }
+    },
+    {
+      "schemaVersion": "starblox-neutral-town-location-v1",
+      "id": "subway",
+      "label": "Subway",
+      "category": "transport",
+      "lifecycle": "player-facing",
+      "playerFacingEligible": true,
+      "evidenceRef": "docs/preproduction/brookhaven-research/town-system-blueprint-v1.json#subway",
+      "safety": {
+        "externalRuntimeDependency": false,
+        "remoteDependency": false,
+        "exactSourceCoordinatesClaimed": false
+      }
+    },
+    {
+      "schemaVersion": "starblox-neutral-town-location-v1",
+      "id": "town-hall",
+      "label": "Town Hall",
+      "category": "civic",
+      "lifecycle": "player-facing",
+      "playerFacingEligible": true,
+      "evidenceRef": "docs/preproduction/brookhaven-research/town-system-blueprint-v1.json#town-hall",
+      "safety": {
+        "externalRuntimeDependency": false,
+        "remoteDependency": false,
+        "exactSourceCoordinatesClaimed": false
+      }
+    },
+    {
+      "schemaVersion": "starblox-neutral-town-location-v1",
+      "id": "yacht",
+      "label": "Yacht",
+      "category": "recreation",
+      "lifecycle": "player-facing",
+      "playerFacingEligible": true,
+      "evidenceRef": "docs/preproduction/brookhaven-research/town-system-blueprint-v1.json#yacht",
+      "safety": {
+        "externalRuntimeDependency": false,
+        "remoteDependency": false,
+        "exactSourceCoordinatesClaimed": false
+      }
+    }
+  ]
+}
