@@ -84,7 +84,7 @@ title.BackgroundTransparency = 1
 title.Position = UDim2.fromOffset(14, 8)
 title.Size = UDim2.new(1, -28, 0, 30)
 title.Font = Enum.Font.GothamBold
-title.Text = "StarBlox • Brightside Plaza"
+title.Text = "StarBlox"
 title.TextColor3 = COLORS.text
 title.TextScaled = true
 title.TextXAlignment = Enum.TextXAlignment.Left
@@ -284,7 +284,7 @@ onboardingBody.BackgroundTransparency = 1
 onboardingBody.Position = UDim2.fromOffset(24, 88)
 onboardingBody.Size = UDim2.new(1, -48, 0, 116)
 onboardingBody.Font = Enum.Font.GothamMedium
-onboardingBody.Text = "Explore all three glowing stations. Finish Word Portal, Spelling Forge, and Culture Lab to complete a Brightside run."
+onboardingBody.Text = "Explore three activity spots in the neighborhood. Finish Word Portal, Spelling Forge, and Culture Lab to complete a Brightside run."
 onboardingBody.TextColor3 = COLORS.text
 onboardingBody.TextScaled = true
 onboardingBody.TextWrapped = true
@@ -297,7 +297,7 @@ onboardingHint.BackgroundTransparency = 1
 onboardingHint.Position = UDim2.fromOffset(24, 210)
 onboardingHint.Size = UDim2.new(1, -48, 0, 54)
 onboardingHint.Font = Enum.Font.GothamMedium
-onboardingHint.Text = "Follow the signs, walk up to a station, then tap Start Activity."
+onboardingHint.Text = "Explore the neighborhood, walk up to an activity prompt, then tap Start Activity."
 onboardingHint.TextColor3 = COLORS.warning
 onboardingHint.TextScaled = true
 onboardingHint.TextWrapped = true
@@ -311,7 +311,7 @@ onboardingButton.AnchorPoint = Vector2.new(0.5, 1)
 onboardingButton.Position = UDim2.new(0.5, 0, 1, -22)
 onboardingButton.Size = UDim2.new(1, -48, 0, 54)
 onboardingButton.BackgroundColor3 = COLORS.accent
-onboardingButton.Text = "Got it — show me the plaza"
+onboardingButton.Text = "Got it — let me explore"
 onboardingButton.TextColor3 = COLORS.text
 onboardingButton.Font = Enum.Font.GothamBold
 onboardingButton.TextScaled = true
@@ -435,7 +435,7 @@ local function applyStatus(status)
 		nextHint.Text = "Daily rewards complete — keep playing for practice!"
 		nextHint.TextColor3 = COLORS.success
 	elseif type(status.recommendedStationName) == "string" then
-		nextHint.Text = "Next: " .. status.recommendedStationName .. " • follow the glowing signs"
+		nextHint.Text = "Next: " .. status.recommendedStationName .. " • explore the neighborhood"
 		nextHint.TextColor3 = COLORS.warning
 	else
 		nextHint.Text = "Brightside run complete — new run ready!"
@@ -571,7 +571,7 @@ onboardingButton.Activated:Connect(function()
 	onboarding.Visible = false
 	sendPlaytestTelemetry("onboarding_dismissed")
 	dismissOnboarding:FireServer()
-	showToast("Follow the signs to your first station.", true)
+	showToast("Explore the neighborhood to find your first activity.", true)
 end)
 
 activityOpened.OnClientEvent:Connect(function(payload)
