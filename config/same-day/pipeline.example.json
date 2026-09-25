@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 1,
+  "runName": "starblox-one-day-vertical-slice",
+  "outputDir": "../../artifacts/same-day-starblox",
+  "factoryAdapter": "factory-adapter.mjs",
+  "maxRepairCycles": 2,
+  "authorizedWorld": {
+    "id": "brookhaven",
+    "sourceId": "authorized-brookhaven",
+    "input": "../../sources/authorized/Brookhaven.rbxl",
+    "migrationRules": "../roblox-migration.rules.example.json",
+    "request": "Adapt the selected authorized Brookhaven world, housing, vehicle, avatar and presentation units behind StarBlox authority. Preserve StarBlox ProfileStore, typed networking, quest/mastery and economy authority."
+  },
+  "donors": [
+    {
+      "id": "robbing",
+      "sourceId": "authorized-robbing-simulator",
+      "input": "../../sources/authorized/Robbing-Simulator.rbxl",
+      "migrationRules": "../roblox-migration.rules.example.json",
+      "request": "Adapt only the selected Robbing Simulator NPC, event, housing/placeable and interaction systems behind StarBlox authority. Exclude obsolete or age-inappropriate mechanics."
+    }
+  ],
+  "integrationTasks": [
+    {
+      "id": "flex",
+      "taskFile": "integrate-flex-task.json",
+      "purpose": "authorized Flex-with-Friends quest, traffic, phone travel and minigame integration"
+    },
+    {
+      "id": "rorooms",
+      "taskFile": "integrate-rorooms-task.json",
+      "purpose": "authorized Rorooms profile, social, item and emote integration"
+    }
+  ],
+  "questMasteryTask": "quest-mastery-task.json",
+  "integratedVerificationTask": "integrated-slice-task.json",
+  "gates": {
+    "mobile": {
+      "command": "node",
+      "args": [
+        "scripts/same-day-evidence-gate.mjs",
+        "--gate",
+        "mobile"
+      ]
+    },
+    "security": {
+      "command": "node",
+      "args": [
+        "scripts/same-day-evidence-gate.mjs",
+        "--gate",
+        "security"
+      ]
+    },
+    "performance": {
+      "command": "node",
+      "args": [
+        "scripts/same-day-evidence-gate.mjs",
+        "--gate",
+        "performance",
+        "--min-hz",
+        "25",
+        "--max-p95-ms",
+        "50"
+      ]
+    }
+  }
+}
