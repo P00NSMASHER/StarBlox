@@ -113,8 +113,14 @@ jobs:
           grep -q '"status": "verified-immutable-source"' /tmp/brookhaven-world-fingerprint.json
           grep -q '"bytes": 3182943' /tmp/brookhaven-world-fingerprint.json
           grep -q '"sha256": "e9abef1d41b85a8f83aca36ba661de41f4321562937c1e2eea907395c292d694"' /tmp/brookhaven-world-fingerprint.json
-          grep -q '"count": 4935' /tmp/brookhaven-world-fingerprint.json
+          grep -q '"count": 4936' /tmp/brookhaven-world-fingerprint.json
+          grep -q '"uniqueCount": 4936' /tmp/brookhaven-world-fingerprint.json
           grep -q '"maximumIndex": 4936' /tmp/brookhaven-world-fingerprint.json
+          grep -q '"duplicateCount": 0' /tmp/brookhaven-world-fingerprint.json
+          grep -q '"missingIndexCount": 0' /tmp/brookhaven-world-fingerprint.json
+          grep -q '"contiguousFromOne": true' /tmp/brookhaven-world-fingerprint.json
+          grep -q '"manifestValue": 4935' /tmp/brookhaven-world-fingerprint.json
+          grep -q '"verifiedValue": 4936' /tmp/brookhaven-world-fingerprint.json
           grep -q '"sourceExecuted": false' /tmp/brookhaven-world-fingerprint.json
           grep -q '"sourceEvaluatedAsLua": false' /tmp/brookhaven-world-fingerprint.json
           grep -q '"sourceInsertedIntoStudio": false' /tmp/brookhaven-world-fingerprint.json
