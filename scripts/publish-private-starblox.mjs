@@ -93,7 +93,9 @@ const verified=await verifyPublishedRelease({
   releaseId:STARBLOX_PRIVATE_RELEASE_ID,
   versionNumber:published.versionNumber,
   world:{
-    subtreeInstanceCount:Number(gate.step5.subtreeInstanceCount)
+    subtreeInstanceCount:Number(gate.step5.subtreeInstanceCount),
+    baselineModelSha256:binding.baselineModelSha256,
+    mountedSubtreeSha256:binding.mountedSubtreeSha256
   }
 });
 
