@@ -14,7 +14,7 @@ local LiveOpsService = require(script.Parent.LiveOpsService)
 local SocialWorldService = require(script.Parent.SocialWorldService)
 local AiNpcService = require(script.Parent.AiNpcService)
 local AuthoritativeActionService = require(script.Parent.AuthoritativeActionService)
-local VerticalSliceService = require(script.Parent.VerticalSliceService)
+local CoreGameLoopService = require(script.Parent.CoreGameLoopService)
 
 local Bootstrap = {}
 
@@ -34,7 +34,7 @@ function Bootstrap.start(dependencies)
 	local social = SocialWorldService.new(profiles, replicas, ecs, liveOps, dependencies.SocialWorldAdapters)
 	local aiNpc = AiNpcService.new(profiles, dependencies.AiNpcAdapters, dependencies.TelemetrySink)
 	local action = AuthoritativeActionService.new(dependencies.ActionAdapters, dependencies.TelemetrySink)
-	local verticalSlice = VerticalSliceService.new(profiles, replicas)
+	local coreLoop = CoreGameLoopService.new(profiles, replicas)
 	action:Start()
 
 	local function playerAdded(player: Player)
@@ -46,12 +46,12 @@ function Bootstrap.start(dependencies)
 			return
 		end
 		replicas:Attach(player, profile.Data)
-		verticalSlice:PlayerReady(player, profile.Data)
+		coreLoop:PlayerReady(player, profile.Data)
 		action:PlayerAdded(player)
 	end
 
 	local function playerRemoving(player: Player)
-		verticalSlice:PlayerRemoving(player)
+		coreLoop:PlayerRemoving(player)
 		social:PlayerRemoving(player)
 		aiNpc:PlayerRemoving(player)
 		action:PlayerRemoving(player)
@@ -66,7 +66,7 @@ function Bootstrap.start(dependencies)
 	Players.PlayerRemoving:Connect(playerRemoving)
 
 	game:BindToClose(function()
-		verticalSlice:Destroy()
+		coreLoop:Destroy()
 		action:Stop()
 		replicas:Shutdown()
 		profiles:ReleaseAll()
@@ -83,7 +83,7 @@ function Bootstrap.start(dependencies)
 		SocialWorld = social,
 		AiNpc = aiNpc,
 		Action = action,
-		VerticalSlice = verticalSlice,
+		CoreLoop = coreLoop,
 	})
 end
 
