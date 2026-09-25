@@ -79,6 +79,7 @@ export function buildStep6ReleaseGate({
   liveExactnessLock,
   liveMountReceipt,
   artifactBytes,
+  artifactInspection,
   sourceCommit
 }={}){
   const commit=requireCommit(sourceCommit);
@@ -90,6 +91,34 @@ export function buildStep6ReleaseGate({
   const snapshotSha=sha256(snapshotBytes);
   const artifactSha=sha256(artifact);
   if(snapshotBytes.length <= 0 || artifact.length <= 0) fail('release inputs may not be empty');
+
+  if(!artifactInspection || typeof artifactInspection !== 'object'){
+    fail('native release-artifact inspection is required');
+  }
+  if(requireSha(
+      artifactInspection?.baseline?.mountedSubtreeSha256,
+      'artifact mounted subtree SHA'
+    ) !== world.mountedSubtreeSha256){
+    fail('release artifact Brookhaven subtree does not match verified Step 5 mount');
+  }
+  if(Number(artifactInspection?.baseline?.subtreeInstanceCount) !== 5493){
+    fail('release artifact Brookhaven subtree instance count must remain 5493');
+  }
+  if(Number(artifactInspection?.baseline?.scriptsOrRemotesInsideBaseline) !== 0){
+    fail('release artifact Brookhaven baseline contains gameplay scripts/remotes');
+  }
+  if(Number(artifactInspection?.runtime?.mountCount) !== 3 ||
+     artifactInspection?.runtime?.parentedIntoBaseline !== false){
+    fail('release artifact StarBlox runtime mounts are invalid');
+  }
+  const requiredMounts=[
+    'ReplicatedStorage/StarBlox',
+    'ServerScriptService/StarBlox',
+    'StarterPlayer/StarterPlayerScripts/StarBlox'
+  ];
+  if(!isDeepStrictEqual([...(artifactInspection?.runtime?.mounts || [])],requiredMounts)){
+    fail('release artifact StarBlox runtime mount set is invalid');
+  }
 
   return Object.freeze({
     schemaVersion:1,
@@ -116,7 +145,9 @@ export function buildStep6ReleaseGate({
       worldReadOnlyBoundaryVerified:true,
       runtimeMountedBesideWorld:true,
       sourceCommitBound:true,
-      releaseArtifactBound:true
+      releaseArtifactBound:true,
+      nativeArtifactWorldVerified:true,
+      nativeArtifactRuntimeVerified:true
     }),
     authority:Object.freeze({
       studioPlaytestAllowed:true,
@@ -157,7 +188,9 @@ export function verifyStep6ReleaseGate({
      gate?.gates?.worldReadOnlyBoundaryVerified !== true ||
      gate?.gates?.runtimeMountedBesideWorld !== true ||
      gate?.gates?.sourceCommitBound !== true ||
-     gate?.gates?.releaseArtifactBound !== true){
+     gate?.gates?.releaseArtifactBound !== true ||
+     gate?.gates?.nativeArtifactWorldVerified !== true ||
+     gate?.gates?.nativeArtifactRuntimeVerified !== true){
     fail('release gate is missing required verified conditions');
   }
   if(gate?.authority?.privatePublicationAllowed !== true ||
