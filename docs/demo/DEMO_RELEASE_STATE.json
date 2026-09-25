@@ -118,5 +118,20 @@
       "App.jsx ItemArt renders item.image as an <img> element with fallback only on image failure.",
       "Moon Cat was directly observed in the live rendered DOM with /assets/catalog/companions-2.svg; the remaining six use the identical shared mapping/render path on the same deployed SHA."
     ]
+  },
+  "publicSmoke": {
+    "status": "PASS",
+    "deployment": "https://starblox-demo.pages.dev",
+    "deploymentCommit": "b0ce0fa42ad70c3b524ffd16945e3c3d97c6df3d",
+    "evidence": "docs/demo/CLOUDFLARE_FINAL_PUBLIC_SMOKE.json",
+    "desktop": "PASS_1408x1056",
+    "mobile": [
+      "PASS_390x844",
+      "PASS_320x568"
+    ],
+    "runtimeErrors": 0,
+    "horizontalOverflow": false,
+    "resetDemo": "PASS",
+    "companionParity": "PASS_7_OF_7"
   }
 }
