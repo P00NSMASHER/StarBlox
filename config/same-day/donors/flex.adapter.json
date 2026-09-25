@@ -1,0 +1,137 @@
+{
+  "schemaVersion": 1,
+  "donorId": "flex",
+  "repository": "bsantanna/roblox-flex-with-friends",
+  "commit": "f23ff0b06c759e60aa651a6618a8d81692719fc9",
+  "sourceFiles": [
+    {
+      "path": "src/server/services/TrafficService.lua",
+      "blobSha": "4f02ddf1a38b533b847224b349aab312eab126a4"
+    },
+    {
+      "path": "src/server/services/RoadService.lua",
+      "blobSha": "44fd3baf38674484de937fab0fca0d76ca0597b0"
+    },
+    {
+      "path": "src/server/services/AirTrafficService.lua",
+      "blobSha": "07287cf82de19bc3e090ecb2d4ebe6be9fd083e6"
+    },
+    {
+      "path": "src/server/services/HeliTrafficService.lua",
+      "blobSha": "bddeea1679ab492f0f02e9cdfb7f883810071629"
+    },
+    {
+      "path": "src/server/services/QuestService.lua",
+      "blobSha": "b5e8b2e5c8f3c14a029f229dc1f6218a4cabf13b"
+    },
+    {
+      "path": "src/server/services/MinigameService.lua",
+      "blobSha": "d2135a8880fac41aa1f7681ccabe5ba9dfe81504"
+    },
+    {
+      "path": "src/server/services/WorldService.lua",
+      "blobSha": "b362f2462c9daf9912c72d10a00293a932d1b962"
+    },
+    {
+      "path": "src/client/controllers/PhoneMenuController.lua",
+      "blobSha": "94ec84caf354d78ac2f2730967236f79e1c2a1b4"
+    },
+    {
+      "path": "src/client/controllers/TravelController.lua",
+      "blobSha": "1537a44f7af84649fd7055f459737515b5bece49"
+    },
+    {
+      "path": "src/client/controllers/QuestController.lua",
+      "blobSha": "013d86d069c274dfe5ca149744140e58716b7e17"
+    },
+    {
+      "path": "src/client/controllers/MinigameController.lua",
+      "blobSha": "db3e2bf7118063165813344860de800050ad287b"
+    },
+    {
+      "path": "src/shared/Config/Traffic.lua",
+      "blobSha": "39283bcc43fd850c9c9a556ce59dbee0382b2c97"
+    },
+    {
+      "path": "src/shared/Config/Quest.lua",
+      "blobSha": "d334a4c659103c2f165ad101cf16b557077b6167"
+    },
+    {
+      "path": "src/shared/Config/World.lua",
+      "blobSha": "35925c57068b344661e071f355f692322bdf6ad7"
+    }
+  ],
+  "mappings": [
+    {
+      "id": "traffic",
+      "sources": [
+        "src/server/services/TrafficService.lua",
+        "src/server/services/RoadService.lua",
+        "src/server/services/AirTrafficService.lua",
+        "src/server/services/HeliTrafficService.lua",
+        "src/shared/Config/Traffic.lua"
+      ],
+      "targets": [
+        "roblox/src/server/AmbientTrafficService.luau",
+        "roblox/src/server/WorldEcsService.luau"
+      ],
+      "strategy": "port decorative spline traffic and air traffic without replacing Brookhaven roads",
+      "authority": "server drives ambient traffic; no durable state"
+    },
+    {
+      "id": "quest-minigame",
+      "sources": [
+        "src/server/services/QuestService.lua",
+        "src/server/services/MinigameService.lua",
+        "src/client/controllers/QuestController.lua",
+        "src/client/controllers/MinigameController.lua",
+        "src/shared/Config/Quest.lua"
+      ],
+      "targets": [
+        "roblox/src/server/SocialWorldService.luau",
+        "roblox/src/server/AiNpcService.luau",
+        "roblox/src/client/QuestWorldController.luau"
+      ],
+      "strategy": "port presentation/session lifecycle only; route correctness/rewards into StarBlox quest/mastery",
+      "authority": "StarBlox quest/mastery/economy remains authoritative"
+    },
+    {
+      "id": "phone-travel",
+      "sources": [
+        "src/client/controllers/PhoneMenuController.lua",
+        "src/client/controllers/TravelController.lua",
+        "src/server/services/WorldService.lua",
+        "src/shared/Config/World.lua"
+      ],
+      "targets": [
+        "roblox/src/client/PhoneWorldController.luau",
+        "roblox/src/server/WorldTravelService.luau"
+      ],
+      "strategy": "port small phone/travel shell and zone navigation",
+      "authority": "server validates destinations; client is presentation only"
+    }
+  ],
+  "preserveAuthority": [
+    "ProfileSessionService",
+    "ReplicaStateService",
+    "SocialWorldService",
+    "AiNpcService",
+    "StarBlox quest/mastery authority",
+    "StarBlox economy authority",
+    "typed StarBlox networking"
+  ],
+  "forbidden": [
+    "replace ProfileStore",
+    "use donor reward currency",
+    "replace StarBlox typed networking",
+    "replace Brookhaven world",
+    "publish"
+  ],
+  "acceptance": [
+    "ambient road traffic visible",
+    "phone travel works",
+    "one NPC quest presentation works",
+    "one minigame shell works",
+    "all rewards remain StarBlox-authoritative"
+  ]
+}
