@@ -1,4 +1,5 @@
 import { spawnSync } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
 
 import { createStarBloxLocalStudioAdapter } from '../../src/devFactory/localStudioConnector.js';
 
@@ -10,16 +11,14 @@ function parseArgs(){
   return value.map(String);
 }
 
-const agentCommand=String(process.env.STARBLOX_AGENT_COMMAND || '').trim();
-const agentArgs=parseArgs();
+const configuredAgentCommand=String(process.env.STARBLOX_AGENT_COMMAND || '').trim();
+const bundledPiWrapper=fileURLToPath(
+  new URL('../../scripts/agents/pi-factory-wrapper.mjs',import.meta.url)
+);
+const agentCommand=configuredAgentCommand || process.execPath;
+const agentArgs=configuredAgentCommand ? parseArgs() : [bundledPiWrapper];
 
 function invokeAgent(role,context){
-  if(!agentCommand){
-    throw new Error(
-      'STARBLOX_AGENT_COMMAND is required for factory agent work. Point it at a local wrapper ' +
-      'that reads JSON from stdin and returns one JSON object on stdout.'
-    );
-  }
   const payload={
     protocol:'starblox-factory-agent-v1',
     role,
