@@ -33,7 +33,8 @@
     "roblox:player-polish-proof": "node scripts/verify-roblox-player-polish.mjs",
     "roblox:m4:staging": "node scripts/prepare-milestone4-staging.mjs",
     "roblox:m4:prepare": "node scripts/prepare-milestone4-packet.mjs",
-    "roblox:m4:live": "node scripts/run-milestone4-live-cycle.mjs"
+    "roblox:m4:live": "node scripts/run-milestone4-live-cycle.mjs",
+    "roblox:real-client-proof": "node scripts/verify-roblox-real-client-playtest.mjs"
   },
   "dependencies": {
     "lucide-react": "^0.468.0",
