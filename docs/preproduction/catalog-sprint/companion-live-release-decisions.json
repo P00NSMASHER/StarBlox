@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "branch": "screenshot-match-preproduction",
+  "liveQa": {
+    "deployment": "https://star-blox.replit.app",
+    "workflowRunId": 36097563765,
+    "jobId": 107952939730,
+    "verifiedAt": "2026-09-25T05:13:36Z",
+    "consoleErrors": 0,
+    "pageErrors": 0,
+    "requestFailures": 0,
+    "fatal": null,
+    "cardPassCount": 0,
+    "technicalPassCount": 0
+  },
+  "rule": "A companion release decision is PASS only when current live evidence shows its real image presentation and technical pass. Existing repo art alone is not sufficient.",
+  "decisions": [
+    {
+      "order": 5,
+      "itemId": "companions-2",
+      "name": "Moon Cat",
+      "decision": "BLOCKED_LIVE_PARITY",
+      "decidedAt": "2026-09-25T08:37:57Z",
+      "evidence": {
+        "found": true,
+        "cardImage": null,
+        "background": "generic radial gradient",
+        "previewAvailable": false,
+        "detailPresent": false,
+        "avatarStagePresent": false,
+        "buddyAvailable": true,
+        "buddyRootCompanionId": null,
+        "buddyCompanionId": null,
+        "buddyImage": null,
+        "cardPass": false,
+        "technicalPass": false
+      },
+      "reason": "Live card exists, but no real companion image, detail preview, avatar-stage preview, or Buddy image is present. Repo-owned art may exist, but the current public deployment does not expose it correctly.",
+      "nextAction": "Deploy/wire the existing companion artwork/runtime to the public Replit app, then rerun the same live companion QA."
+    }
+  ]
+}
