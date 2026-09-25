@@ -30,7 +30,10 @@
     "roblox:publish-private": "node scripts/publish-private-starblox.mjs",
     "roblox:vertical-slice-proof": "node scripts/verify-roblox-vertical-slice.mjs",
     "roblox:core-loop-proof": "node scripts/verify-roblox-core-loop.mjs",
-    "roblox:player-polish-proof": "node scripts/verify-roblox-player-polish.mjs"
+    "roblox:player-polish-proof": "node scripts/verify-roblox-player-polish.mjs",
+    "roblox:m4:staging": "node scripts/prepare-milestone4-staging.mjs",
+    "roblox:m4:prepare": "node scripts/prepare-milestone4-packet.mjs",
+    "roblox:m4:live": "node scripts/run-milestone4-live-cycle.mjs"
   },
   "dependencies": {
     "lucide-react": "^0.468.0",
