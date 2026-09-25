@@ -227,6 +227,9 @@ jobs:
           grep -q '"expansionId"' /tmp/content-expansion-plan.json
           grep -q '"levelHash"' /tmp/content-expansion-plan.json
           grep -q '"liveActivationAllowed"' /tmp/content-expansion-plan.json || true
+      - name: Test migration adaptation receipt boundary
+        run: |
+          npx vitest run src/devFactory/developmentFactory.test.js
       - name: Run tests
         run: npm test
       - name: Run certification gate
