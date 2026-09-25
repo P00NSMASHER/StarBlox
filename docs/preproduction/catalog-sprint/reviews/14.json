@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 9,
+  "schemaVersion": 17,
   "reviewer": "14",
   "role": "Visual Release QA / independent catalog reviewer",
   "phase": "ART_VISUALS_SPRINT",
@@ -493,6 +493,209 @@
         "originality": "PASS",
         "duplicateVisual": "PASS"
       }
+    },
+    {
+      "itemId": "companions-2",
+      "name": "Moon Cat",
+      "tier": 1,
+      "theme": "Pixel Party",
+      "assetPath": "/assets/catalog/companions-2.svg",
+      "repositoryPath": "public/assets/catalog/companions-2.svg",
+      "assetHash": "45b5e59ea5bb28dbc3d8c325f313ec4b92ef8005",
+      "hashAlgorithm": "git-blob-sha1",
+      "producer": "06",
+      "decision": "ACCEPT",
+      "reviewedAt": "2026-09-25T13:08:00Z",
+      "evidenceRefs": [
+        "docs/demo/CLOUDFLARE_COMPANION_LIVE_QA.json",
+        "docs/preproduction/catalog-sprint/companion-live-release-decisions.json",
+        "docs/preproduction/catalog-sprint/COMPANION_DEPLOYMENT_HANDOFF.json",
+        "deployment:https://starblox-demo.pages.dev"
+      ],
+      "reason": "Independent exact-hash release ACCEPT for the current repo-owned companion SVG after the remaining live-parity blocker was cleared on the production Cloudflare Pages demo. The production Store rendered this exact expected asset path, the browser reported the image complete at 150x150 natural dimensions, and no fallback art was active. Prior handoff evidence identified deployment parity as the remaining blocker and explicitly required reuse of the existing companion art rather than regeneration.",
+      "checks": {
+        "exactHash": "PASS",
+        "liveStoreCard": "PASS",
+        "expectedAssetPath": "PASS",
+        "imageDecode": "PASS",
+        "naturalDimensions": "PASS_150x150",
+        "fallbackArt": "PASS_NONE",
+        "independentReviewer": "PASS_REVIEWER_14_PRODUCER_06"
+      }
+    },
+    {
+      "itemId": "companions-5",
+      "name": "Pebble Turtle",
+      "tier": 2,
+      "theme": "Galaxy Glow",
+      "assetPath": "/assets/catalog/companions-5.svg",
+      "repositoryPath": "public/assets/catalog/companions-5.svg",
+      "assetHash": "3d30ea4f291c2ac5fb8b60171df249167c3647cb",
+      "hashAlgorithm": "git-blob-sha1",
+      "producer": "06",
+      "decision": "ACCEPT",
+      "reviewedAt": "2026-09-25T13:08:00Z",
+      "evidenceRefs": [
+        "docs/demo/CLOUDFLARE_COMPANION_LIVE_QA.json",
+        "docs/preproduction/catalog-sprint/companion-live-release-decisions.json",
+        "docs/preproduction/catalog-sprint/COMPANION_DEPLOYMENT_HANDOFF.json",
+        "deployment:https://starblox-demo.pages.dev"
+      ],
+      "reason": "Independent exact-hash release ACCEPT for the current repo-owned companion SVG after the remaining live-parity blocker was cleared on the production Cloudflare Pages demo. The production Store rendered this exact expected asset path, the browser reported the image complete at 150x150 natural dimensions, and no fallback art was active. Prior handoff evidence identified deployment parity as the remaining blocker and explicitly required reuse of the existing companion art rather than regeneration.",
+      "checks": {
+        "exactHash": "PASS",
+        "liveStoreCard": "PASS",
+        "expectedAssetPath": "PASS",
+        "imageDecode": "PASS",
+        "naturalDimensions": "PASS_150x150",
+        "fallbackArt": "PASS_NONE",
+        "independentReviewer": "PASS_REVIEWER_14_PRODUCER_06"
+      }
+    },
+    {
+      "itemId": "companions-6",
+      "name": "Comet Fox",
+      "tier": 2,
+      "theme": "Sunny Pop",
+      "assetPath": "/assets/catalog/companions-6.svg",
+      "repositoryPath": "public/assets/catalog/companions-6.svg",
+      "assetHash": "0d7b1d86360e6ef7d9d6bf70340d009436836a70",
+      "hashAlgorithm": "git-blob-sha1",
+      "producer": "06",
+      "decision": "ACCEPT",
+      "reviewedAt": "2026-09-25T13:08:00Z",
+      "evidenceRefs": [
+        "docs/demo/CLOUDFLARE_COMPANION_LIVE_QA.json",
+        "docs/preproduction/catalog-sprint/companion-live-release-decisions.json",
+        "docs/preproduction/catalog-sprint/COMPANION_DEPLOYMENT_HANDOFF.json",
+        "deployment:https://starblox-demo.pages.dev"
+      ],
+      "reason": "Independent exact-hash release ACCEPT for the current repo-owned companion SVG after the remaining live-parity blocker was cleared on the production Cloudflare Pages demo. The production Store rendered this exact expected asset path, the browser reported the image complete at 150x150 natural dimensions, and no fallback art was active. Prior handoff evidence identified deployment parity as the remaining blocker and explicitly required reuse of the existing companion art rather than regeneration.",
+      "checks": {
+        "exactHash": "PASS",
+        "liveStoreCard": "PASS",
+        "expectedAssetPath": "PASS",
+        "imageDecode": "PASS",
+        "naturalDimensions": "PASS_150x150",
+        "fallbackArt": "PASS_NONE",
+        "independentReviewer": "PASS_REVIEWER_14_PRODUCER_06"
+      }
+    },
+    {
+      "itemId": "companions-7",
+      "name": "Story Owl",
+      "tier": 3,
+      "theme": "Aqua Wave",
+      "assetPath": "/assets/catalog/companions-7.svg",
+      "repositoryPath": "public/assets/catalog/companions-7.svg",
+      "assetHash": "a7a852d6d6b1486d5f0820f5ea93240e31c9ae2c",
+      "hashAlgorithm": "git-blob-sha1",
+      "producer": "06",
+      "decision": "ACCEPT",
+      "reviewedAt": "2026-09-25T13:08:00Z",
+      "evidenceRefs": [
+        "docs/demo/CLOUDFLARE_COMPANION_LIVE_QA.json",
+        "docs/preproduction/catalog-sprint/companion-live-release-decisions.json",
+        "docs/preproduction/catalog-sprint/COMPANION_DEPLOYMENT_HANDOFF.json",
+        "deployment:https://starblox-demo.pages.dev"
+      ],
+      "reason": "Independent exact-hash release ACCEPT for the current repo-owned companion SVG after the remaining live-parity blocker was cleared on the production Cloudflare Pages demo. The production Store rendered this exact expected asset path, the browser reported the image complete at 150x150 natural dimensions, and no fallback art was active. Prior handoff evidence identified deployment parity as the remaining blocker and explicitly required reuse of the existing companion art rather than regeneration.",
+      "checks": {
+        "exactHash": "PASS",
+        "liveStoreCard": "PASS",
+        "expectedAssetPath": "PASS",
+        "imageDecode": "PASS",
+        "naturalDimensions": "PASS_150x150",
+        "fallbackArt": "PASS_NONE",
+        "independentReviewer": "PASS_REVIEWER_14_PRODUCER_06"
+      }
+    },
+    {
+      "itemId": "companions-8",
+      "name": "Bubble Axolotl",
+      "tier": 3,
+      "theme": "Art Attack",
+      "assetPath": "/assets/catalog/companions-8.svg",
+      "repositoryPath": "public/assets/catalog/companions-8.svg",
+      "assetHash": "29a71f6ec9ba4b16aa84c3afd04466935a9a0a89",
+      "hashAlgorithm": "git-blob-sha1",
+      "producer": "06",
+      "decision": "ACCEPT",
+      "reviewedAt": "2026-09-25T13:08:00Z",
+      "evidenceRefs": [
+        "docs/demo/CLOUDFLARE_COMPANION_LIVE_QA.json",
+        "docs/preproduction/catalog-sprint/companion-live-release-decisions.json",
+        "docs/preproduction/catalog-sprint/COMPANION_DEPLOYMENT_HANDOFF.json",
+        "deployment:https://starblox-demo.pages.dev"
+      ],
+      "reason": "Independent exact-hash release ACCEPT for the current repo-owned companion SVG after the remaining live-parity blocker was cleared on the production Cloudflare Pages demo. The production Store rendered this exact expected asset path, the browser reported the image complete at 150x150 natural dimensions, and no fallback art was active. Prior handoff evidence identified deployment parity as the remaining blocker and explicitly required reuse of the existing companion art rather than regeneration.",
+      "checks": {
+        "exactHash": "PASS",
+        "liveStoreCard": "PASS",
+        "expectedAssetPath": "PASS",
+        "imageDecode": "PASS",
+        "naturalDimensions": "PASS_150x150",
+        "fallbackArt": "PASS_NONE",
+        "independentReviewer": "PASS_REVIEWER_14_PRODUCER_06"
+      }
+    },
+    {
+      "itemId": "companions-9",
+      "name": "Garden Snail",
+      "tier": 3,
+      "theme": "Star Luxe",
+      "assetPath": "/assets/catalog/companions-9.svg",
+      "repositoryPath": "public/assets/catalog/companions-9.svg",
+      "assetHash": "3208135a5b44b0d080e5c80da43b63aa04d7652e",
+      "hashAlgorithm": "git-blob-sha1",
+      "producer": "06",
+      "decision": "ACCEPT",
+      "reviewedAt": "2026-09-25T13:08:00Z",
+      "evidenceRefs": [
+        "docs/demo/CLOUDFLARE_COMPANION_LIVE_QA.json",
+        "docs/preproduction/catalog-sprint/companion-live-release-decisions.json",
+        "docs/preproduction/catalog-sprint/COMPANION_DEPLOYMENT_HANDOFF.json",
+        "deployment:https://starblox-demo.pages.dev"
+      ],
+      "reason": "Independent exact-hash release ACCEPT for the current repo-owned companion SVG after the remaining live-parity blocker was cleared on the production Cloudflare Pages demo. The production Store rendered this exact expected asset path, the browser reported the image complete at 150x150 natural dimensions, and no fallback art was active. Prior handoff evidence identified deployment parity as the remaining blocker and explicitly required reuse of the existing companion art rather than regeneration.",
+      "checks": {
+        "exactHash": "PASS",
+        "liveStoreCard": "PASS",
+        "expectedAssetPath": "PASS",
+        "imageDecode": "PASS",
+        "naturalDimensions": "PASS_150x150",
+        "fallbackArt": "PASS_NONE",
+        "independentReviewer": "PASS_REVIEWER_14_PRODUCER_06"
+      }
+    },
+    {
+      "itemId": "companions-12",
+      "name": "Star Unicorn",
+      "tier": 5,
+      "theme": "Adventure Club",
+      "assetPath": "/assets/catalog/companions-12.svg",
+      "repositoryPath": "public/assets/catalog/companions-12.svg",
+      "assetHash": "64b6ea9a0d31fd73ed9770f7d991152abbc47139",
+      "hashAlgorithm": "git-blob-sha1",
+      "producer": "06",
+      "decision": "ACCEPT",
+      "reviewedAt": "2026-09-25T13:08:00Z",
+      "evidenceRefs": [
+        "docs/demo/CLOUDFLARE_COMPANION_LIVE_QA.json",
+        "docs/preproduction/catalog-sprint/companion-live-release-decisions.json",
+        "docs/preproduction/catalog-sprint/COMPANION_DEPLOYMENT_HANDOFF.json",
+        "deployment:https://starblox-demo.pages.dev"
+      ],
+      "reason": "Independent exact-hash release ACCEPT for the current repo-owned companion SVG after the remaining live-parity blocker was cleared on the production Cloudflare Pages demo. The production Store rendered this exact expected asset path, the browser reported the image complete at 150x150 natural dimensions, and no fallback art was active. Prior handoff evidence identified deployment parity as the remaining blocker and explicitly required reuse of the existing companion art rather than regeneration.",
+      "checks": {
+        "exactHash": "PASS",
+        "liveStoreCard": "PASS",
+        "expectedAssetPath": "PASS",
+        "imageDecode": "PASS",
+        "naturalDimensions": "PASS_150x150",
+        "fallbackArt": "PASS_NONE",
+        "independentReviewer": "PASS_REVIEWER_14_PRODUCER_06"
+      }
     }
   ],
   "handoff": {
@@ -521,5 +724,25 @@
     "docs/preproduction/catalog-sprint/chat-rugs-12-v3-reconciled-review-14-to-08.json",
     "docs/preproduction/catalog-sprint/chat-wall-1-4-w05-v2-review-14-to-08.json",
     "docs/preproduction/catalog-sprint/chat-decor-3-4-w09-v3-review-14-to-08.json"
-  ]
+  ],
+  "currentCycle": {
+    "scope": [
+      "companions-2",
+      "companions-5",
+      "companions-6",
+      "companions-7",
+      "companions-8",
+      "companions-9",
+      "companions-12"
+    ],
+    "version": "Cloudflare production companion exact-hash parity closure",
+    "result": "ACCEPT_7_OF_7",
+    "oldVerdictsTransferred": false,
+    "actualSourcePixelsReviewed": false,
+    "actualCardScalePixelsReviewed": true,
+    "actualDetailPixelsReviewed": false,
+    "selfApprovalConflict": false,
+    "failFastSourceContract": false,
+    "note": "This cycle closes release parity only. It does not claim a new aesthetic re-review; existing art was retained per the deployment handoff."
+  }
 }
