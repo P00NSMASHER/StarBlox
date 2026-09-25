@@ -29,9 +29,34 @@ function baseEntry(index=1){
 
 function fullIr(){
   const entries=Array.from({length:4936},(_,i)=>baseEntry(i+1));
-  entries[831]={...baseEntry(832),reflectance:5};
+  for(let i=0;i<494;i++){
+    entries[i]={
+      ...entries[i],
+      decal:{
+        transparency:0,
+        face:'Enum.NormalId.Front',
+        texture:'rbxassetid://5812251043',
+        assetIds:['5812251043']
+      }
+    };
+  }
+  for(let i=0;i<61;i++){
+    entries[i]={
+      ...entries[i],
+      mesh:{
+        offset:[0,0,0],
+        meshType:'Enum.MeshType.Brick',
+        vertexColor:[1,1,1],
+        scale:[1,1,1],
+        meshId:null,
+        texture:'',
+        assetIds:[]
+      }
+    };
+  }
+  entries[831]={...entries[831],reflectance:5};
   entries[843]={
-    ...baseEntry(844),
+    ...entries[843],
     mesh:{
       offset:[0,0,0],
       meshType:'Enum.MeshType.FileMesh',
@@ -60,6 +85,7 @@ describe('Target architecture Step 4 isolated world generator',()=>{
           entryCanonicalSequenceSha256:'d'.repeat(64),
           sourceSliceSequenceSha256:'e'.repeat(64)
         },
+        structure:{decalCount:494,meshCount:62},
         boundaries:{robloxObjectsGenerated:false}
       }
     });
@@ -69,7 +95,7 @@ describe('Target architecture Step 4 isolated world generator',()=>{
     expect(xml).toContain('<float name="Reflectance">1</float>');
     expect(xml).toContain('<Vector3 name="VertexColor"><X>1</X><Y>1</Y><Z>1</Z></Vector3>');
     expect(receipt.output.partCount).toBe(4936);
-    expect(receipt.output.generatedObjectCount).toBe(4999);
+    expect(receipt.output.generatedObjectCount).toBe(5493);
     expect(receipt.adaptationPolicy.adaptationCount).toBe(2);
     expect(receipt.adaptationPolicy.adaptations.map(row=>row.entryIndex)).toEqual([832,844]);
     expect(receipt.isolation.containsScripts).toBe(false);
