@@ -60,6 +60,21 @@ local core = service.new(proofProfiles, proofReplicas)
 local prototypeWorld = Workspace:FindFirstChild("StarBloxCoreLoop")
 assert(prototypeWorld == nil, "legacy prototype world must remain retired")
 
+local brookhaven = Workspace:FindFirstChild("BrookhavenWorldBaseline")
+assert(brookhaven ~= nil and brookhaven:IsA("Model"), "verified Brookhaven world mount missing")
+local anchors = Workspace:FindFirstChild("StarBloxActivityAnchors")
+assert(anchors ~= nil and anchors:IsA("Folder"), "real-world activity anchor folder missing")
+for _, anchorName in {"WordPortalAnchor","SpellingForgeAnchor","CultureLabAnchor"} do
+    local anchor = anchors:FindFirstChild(anchorName)
+    assert(anchor ~= nil and anchor:IsA("BasePart"), "activity anchor missing: " .. anchorName)
+    assert(anchor.Transparency == 1, "activity anchor must remain invisible")
+    assert(anchor.CanCollide == false, "activity anchor must remain non-colliding")
+    assert(not anchor:IsDescendantOf(brookhaven), "activity anchor mutated the locked world hierarchy")
+    local prompt = anchor:FindFirstChild("StartActivityPrompt")
+    assert(prompt ~= nil and prompt:IsA("ProximityPrompt"), "activity prompt missing: " .. anchorName)
+end
+assert((core :: any)._spawnCFrame ~= nil, "real-world spawn binding missing")
+
 local remotes = ReplicatedStorage:WaitForChild("StarBloxCoreLoop", 5)
 assert(remotes:FindFirstChild("ActivityOpened"):IsA("RemoteEvent"), "ActivityOpened remote missing")
 assert(remotes:FindFirstChild("SubmitAnswer"):IsA("RemoteFunction"), "SubmitAnswer remote missing")
@@ -140,6 +155,8 @@ export async function runPlayerPolishProof({
     evidence:Object.freeze({
       prototypeWorldAbsent:true,
       runtimeGeometryOwnedByWorldPipeline:true,
+      realWorldActivityAnchors:true,
+      worldSpawnBound:true,
       onboardingRemote:true,
       onboardingPersistence:true,
       recommendedNextStation:true,
