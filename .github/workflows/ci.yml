@@ -383,8 +383,8 @@ jobs:
           ROBLOX_UNIVERSE_ID: ${{ vars.ROBLOX_UNIVERSE_ID }}
           ROBLOX_PLACE_ID: ${{ vars.ROBLOX_PLACE_ID }}
         run: npm run roblox:open-cloud-proof
-      - name: Publish Step 6 private StarBlox vertical slice
-        if: ${{ github.event_name == 'pull_request' && github.head_ref == 'release/roblox-vertical-slice-step6' && github.event.pull_request.head.repo.full_name == github.repository }}
+      - name: Publish Step 7 private StarBlox core loop
+        if: ${{ github.event_name == 'pull_request' && github.head_ref == 'release/roblox-core-loop-step7' && github.event.pull_request.head.repo.full_name == github.repository }}
         env:
           ROBLOX_OPEN_CLOUD_API_KEY: ${{ secrets.ROBLOX_OPEN_CLOUD_API_KEY }}
           ROBLOX_UNIVERSE_ID: ${{ vars.ROBLOX_UNIVERSE_ID }}
@@ -392,15 +392,15 @@ jobs:
           STARBLOX_SOURCE_COMMIT: ${{ github.event.pull_request.head.sha }}
           STARBLOX_PUBLISH_RECEIPT: ${{ github.workspace }}/artifacts/starblox-private-publish-receipt.json
         run: npm run roblox:publish-private
-      - name: Verify Step 6 vertical slice on real Roblox server
-        if: ${{ github.event_name == 'pull_request' && github.head_ref == 'release/roblox-vertical-slice-step6' && github.event.pull_request.head.repo.full_name == github.repository }}
+      - name: Verify Step 7 core loop on real Roblox server
+        if: ${{ github.event_name == 'pull_request' && github.head_ref == 'release/roblox-core-loop-step7' && github.event.pull_request.head.repo.full_name == github.repository }}
         env:
           ROBLOX_OPEN_CLOUD_API_KEY: ${{ secrets.ROBLOX_OPEN_CLOUD_API_KEY }}
           ROBLOX_UNIVERSE_ID: ${{ vars.ROBLOX_UNIVERSE_ID }}
           ROBLOX_PLACE_ID: ${{ vars.ROBLOX_PLACE_ID }}
-        run: npm run roblox:vertical-slice-proof
-      - name: Upload Step 6 private publish receipt
-        if: ${{ always() && github.event_name == 'pull_request' && github.head_ref == 'release/roblox-vertical-slice-step6' }}
+        run: npm run roblox:core-loop-proof
+      - name: Upload Step 7 private publish receipt
+        if: ${{ always() && github.event_name == 'pull_request' && github.head_ref == 'release/roblox-core-loop-step7' }}
         uses: actions/upload-artifact@v4
         with:
           name: starblox-private-publish-receipt
