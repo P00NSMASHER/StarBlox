@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "createdAt": "2026-09-25",
+  "purpose": "PR #46 / production reconciliation after final demo freeze",
+  "demoRelease": {
+    "publicUrl": "https://starblox-demo.pages.dev",
+    "deployedCommit": "b0ce0fa42ad70c3b524ffd16945e3c3d97c6df3d",
+    "artwork": "192/192 final-portable",
+    "finalSmoke": "PASS"
+  },
+  "pr46": {
+    "number": 46,
+    "title": "Finish Step 3 Roblox backbone package/runtime wiring with maintained Replica",
+    "state": "closed",
+    "merged": false,
+    "headBranch": "hardening/roblox-backbone-maintained-replica",
+    "headCommit": "cab3a3d8c553f2bf9807825b4faabf08bd32742f",
+    "comparisonToCurrentMain": {
+      "aheadBy": 6,
+      "behindBy": 125,
+      "status": "diverged"
+    }
+  },
+  "currentMain": {
+    "commit": "522465a03f23d38523d6976247f2b2221cbf41ad",
+    "verifiedPrivateRobloxPublish": true,
+    "robloxMigrationStep": 5,
+    "nextStep": "build-native-player-facing-gameplay-vertical-slice"
+  },
+  "reconciliation": {
+    "decision": "SUPERSEDED_BY_CURRENT_MAIN",
+    "staleCherryPickRequired": false,
+    "rationale": [
+      "Current main already contains the maintained MadStudioRoblox/Replica runtime at upstream revision 9cae236aee840b1f436b6b1a63c76f4384e285b7.",
+      "Current main already pins Wally 0.3.2, Matter 0.8.4, ProfileStore 1.0.3, Zap 0.6.29, vendored Replica file identities, and Rojo mounts.",
+      "Current main already contains self-starting server/client composition roots and readiness-aware ReplicaStateService behavior from the PR #46 design.",
+      "Current main has advanced beyond the closed PR through verified private Roblox publish work.",
+      "Replaying the six old PR commits onto current main would risk regressing newer production changes."
+    ],
+    "retainedBackboneFiles": [
+      "roblox/wally.toml",
+      "roblox/toolchain.lock.json",
+      "roblox/src/server/Runtime.server.luau",
+      "roblox/src/client/Runtime.client.luau",
+      "roblox/src/server/ReplicaStateService.luau",
+      "scripts/verify-roblox-toolchain.mjs",
+      "src/robloxRuntime/backboneContract.test.js"
+    ],
+    "nextIntegrationAction": "Continue production work from current main using the existing maintained Replica/toolchain backbone. Do not reopen or merge PR #46 unless a later diff proves a specific missing change."
+  }
+}
