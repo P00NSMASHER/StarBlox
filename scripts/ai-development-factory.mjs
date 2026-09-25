@@ -72,11 +72,16 @@ function repositoryGate(){
 
 const taskPath=fromRoot(arg('--task',true));
 const verifyMigrationOnly=hasFlag('--verify-migration-only');
-const adapterRaw=arg('--adapter',!verifyMigrationOnly);
+const verifyAdapterSpecOnly=hasFlag('--verify-adapter-spec-only');
+const adapterRaw=arg('--adapter',!verifyMigrationOnly && !verifyAdapterSpecOnly);
 const adapterPath=adapterRaw ? fromRoot(adapterRaw) : null;
 const outPath=fromRoot(
   arg('--out') ||
-  (verifyMigrationOnly ? 'factory-migration-evidence.json' : 'ai-development-run.json')
+  (
+    verifyMigrationOnly
+      ? 'factory-migration-evidence.json'
+      : (verifyAdapterSpecOnly ? 'factory-adapter-spec-evidence.json' : 'ai-development-run.json')
+  )
 );
 
 const task=JSON.parse(await readFile(taskPath,'utf8'));
@@ -130,6 +135,20 @@ if(task.migration != null){
     unitIds:task.migration.unitIds
   });
   delete task.migration;
+}
+
+if(verifyAdapterSpecOnly){
+  if(!task.adapterSpecEvidence){
+    throw new Error('--verify-adapter-spec-only requires task.adapterSpec binding');
+  }
+  await writeFile(outPath,JSON.stringify(task.adapterSpecEvidence,null,2) + '\n');
+  console.log('StarBlox AI Development Factory donor adapter input');
+  console.log('status: verified');
+  console.log('donor: ' + task.adapterSpecEvidence.donorId);
+  console.log('commit: ' + task.adapterSpecEvidence.commit);
+  console.log('hash: ' + task.adapterSpecEvidence.specHash);
+  console.log('artifact: ' + outPath);
+  process.exit(0);
 }
 
 if(verifyMigrationOnly){
