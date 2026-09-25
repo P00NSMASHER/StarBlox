@@ -7,13 +7,19 @@ import {
   buildPrivatePublishReceipt,
   probeCurrentRelease,
   publishPlaceVersion,
+  runOpenCloudLuauTask,
   verifyPublishedRelease
 } from './privatePublish.js';
 
-function response(status,payload){
+function response(status,payload,{retryAfter=null}={}){
   return {
     ok:status >= 200 && status < 300,
     status,
+    headers:{
+      get(name){
+        return String(name).toLowerCase() === 'retry-after' ? retryAfter : null;
+      }
+    },
     async text(){ return JSON.stringify(payload); }
   };
 }
@@ -66,6 +72,41 @@ describe('Step 5: private Roblox place publishing', () => {
       versionNumber:1,
       taskPath:'universes/6027194615/places/17602626136/versions/1/luau-execution-sessions/a/tasks/a'
     });
+  });
+
+  it('retries transient Open Cloud 429 create throttles before failing the proof', async () => {
+    let creates=0;
+    const fetchImpl=async (url,options={}) => {
+      if(options.method === 'POST'){
+        creates+=1;
+        if(creates < 3){
+          return response(429,{errors:[{code:0,message:''}]},{retryAfter:'0'});
+        }
+        return response(200,{
+          path:'universes/6027194615/places/17602626136/versions/3/luau-execution-sessions/c/tasks/c',
+          state:'COMPLETE'
+        });
+      }
+      if(url.endsWith('/logs')){
+        return response(200,{messages:['proof-log']});
+      }
+      throw new Error('unexpected request: ' + url);
+    };
+
+    await expect(runOpenCloudLuauTask({
+      apiKey:'key',
+      universeId:'6027194615',
+      placeId:'17602626136',
+      script:'print("proof")',
+      fetchImpl,
+      createRetryAttempts:3,
+      createRetryBaseMs:0,
+      createRetryMaxMs:0
+    })).resolves.toMatchObject({
+      versionNumber:3,
+      state:'COMPLETE'
+    });
+    expect(creates).toBe(3);
   });
 
   it('publishes XML bytes only to the exact StarBlox place endpoint', async () => {
