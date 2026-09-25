@@ -366,13 +366,14 @@ function CoreGameLoopService.ApplyCompletion(profileData, activityId: string, da
 	}
 end
 
-function CoreGameLoopService.new(profiles, replicas)
+function CoreGameLoopService.new(profiles, replicas, telemetry)
 	assert(profiles ~= nil, "profiles dependency is required")
 	assert(replicas ~= nil, "replicas dependency is required")
 
 	local self = setmetatable({}, CoreGameLoopService)
 	self._profiles = profiles
 	self._replicas = replicas
+	self._telemetry = telemetry
 	self._sessions = {}
 	self._lastSubmitAt = {}
 	self._connections = {}
@@ -423,6 +424,11 @@ function CoreGameLoopService.new(profiles, replicas)
 				activityId = activityId,
 				openedAt = os.clock(),
 			}
+			if self._telemetry ~= nil then
+				self._telemetry:RecordServerEvent(player, "station_opened", {
+					activityId = activityId,
+				})
+			end
 			self._activityOpened:FireClient(player, {
 				status = "ready",
 				activity = publicActivity(activityById(activityId)),
@@ -489,6 +495,11 @@ function CoreGameLoopService:_submit(player: Player, request: any)
 	end
 
 	if not CoreGameLoopService.GradeAnswer(session.activityId, request.choice) then
+		if self._telemetry ~= nil then
+			self._telemetry:RecordServerEvent(player, "answer_wrong", {
+				activityId = session.activityId,
+			})
+		end
 		return {
 			ok = true,
 			correct = false,
@@ -515,6 +526,17 @@ function CoreGameLoopService:_submit(player: Player, request: any)
 
 	if not found or completion == nil or completion.ok ~= true or latestEconomy == nil then
 		return {ok = false, code = "profile_unavailable"}
+	end
+
+	if self._telemetry ~= nil then
+		self._telemetry:RecordServerEvent(player, "answer_correct", {
+			activityId = session.activityId,
+		})
+		if completion.loopCompleted == true then
+			self._telemetry:RecordServerEvent(player, "loop_completed", {
+				activityId = session.activityId,
+			})
+		end
 	end
 
 	self._sessions[player] = nil
