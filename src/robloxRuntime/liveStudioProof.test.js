@@ -44,7 +44,7 @@ describe('Step 4: live Roblox Studio playtest proof', () => {
       has:tool => STARBLOX_STUDIO_CONNECTOR_TOOLS.includes(tool),
       async describe(){
         describeCalls+=1;
-        return describe(describeCalls >= 2 ? ['edit','server','client-1'] : ['edit']);
+        return description(describeCalls >= 2 ? ['edit','server','client-1'] : ['edit']);
       },
       async call(tool,args){
         calls.push({tool,args});
