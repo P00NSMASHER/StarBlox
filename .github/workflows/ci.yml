@@ -220,3 +220,167 @@ jobs:
           rm -rf /tmp/roblox-migration-factory-tamper
           cp -R /tmp/roblox-migration /tmp/roblox-migration-factory-tamper
           node --input-type=module - <<'NODE'
+          import {readFile,writeFile,appendFile} from 'node:fs/promises';
+          import {resolve} from 'node:path';
+          const task=JSON.parse(await readFile('/tmp/factory-migration-task.json','utf8'));
+          const bundle=JSON.parse(await readFile('/tmp/roblox-migration-factory-tamper/migration-bundle.json','utf8'));
+          const unitId=task.migration.unitIds[0];
+          const artifact=bundle.artifacts.find(row => row.unitId===unitId);
+          if(!artifact) throw new Error('eligible unit artifact missing');
+          await appendFile(resolve('/tmp/roblox-migration-factory-tamper',artifact.file),'\n');
+          task.migration.exportReceipt='/tmp/roblox-migration-factory-tamper/migration-export-receipt.json';
+          await writeFile('/tmp/factory-migration-tamper-task.json',JSON.stringify(task,null,2)+'\n');
+          NODE
+          if npm run studio:factory -- --task /tmp/factory-migration-tamper-task.json --verify-migration-only --out /tmp/factory-migration-tamper-evidence.json; then
+            echo "expected tampered migrated artifact to fail factory verification"
+            exit 1
+          fi
+      - name: Prove Roblox migration rejects source-byte drift
+        run: |
+          rm -rf /tmp/roblox-source-drift /tmp/roblox-drift-migration
+          mkdir -p /tmp/roblox-source-drift
+          cp tools/roblox_catalog_reader/fixtures/sample.rbxmx /tmp/roblox-source-drift/sample.rbxmx
+          printf '\n' >> /tmp/roblox-source-drift/sample.rbxmx
+          if npm run roblox:migrate -- --planning-receipt /tmp/roblox-receipt-plan/migration-planning-receipt.json --source-root /tmp/roblox-source-drift --out-dir /tmp/roblox-drift-migration; then
+            echo "expected source fingerprint mismatch"
+            exit 1
+          fi
+      - name: Smoke-test automated content expansion planning
+        run: |
+          npm run content:expand -- --brief tools/content_expansion/fixtures/brief.json --catalog /tmp/roblox-catalog.json --chunks tools/content_expansion/fixtures/chunks.json --out /tmp/content-expansion-plan.json
+          grep -q '"expansionId"' /tmp/content-expansion-plan.json
+          grep -q '"levelHash"' /tmp/content-expansion-plan.json
+      - name: Smoke-test same-day orchestration plan
+        run: |
+          rm -rf artifacts/same-day-starblox
+          npm run same-day:pipeline -- --manifest config/same-day/pipeline.example.json --plan-only
+          test -f artifacts/same-day-starblox/same-day-pipeline-plan.json
+          grep -q '"version": "starblox-same-day-pipeline-v1"' artifacts/same-day-starblox/same-day-pipeline-plan.json
+          grep -q '"id": "integrate-arnis"' artifacts/same-day-starblox/same-day-pipeline-plan.json
+          grep -q '"id": "integrate-achassis"' artifacts/same-day-starblox/same-day-pipeline-plan.json
+          grep -q '"id": "integrate-flex"' artifacts/same-day-starblox/same-day-pipeline-plan.json
+          grep -q '"id": "integrate-rorooms"' artifacts/same-day-starblox/same-day-pipeline-plan.json
+          grep -q '"id": "gate-mobile"' artifacts/same-day-starblox/same-day-pipeline-plan.json
+          grep -q '"id": "gate-security"' artifacts/same-day-starblox/same-day-pipeline-plan.json
+          grep -q '"id": "gate-performance"' artifacts/same-day-starblox/same-day-pipeline-plan.json
+          grep -q '"publicationAllowed": false' artifacts/same-day-starblox/same-day-pipeline-plan.json
+      - name: Smoke-test same-day evidence gates
+        run: |
+          cat > /tmp/same-day-integrated-run.json <<'JSON'
+          {
+            "runId": "ci-same-day-run",
+            "runHash": "fnv1a32:12345678",
+            "status": "verified",
+            "studioAttestation": {
+              "required": true,
+              "attested": true
+            },
+            "rollback": {
+              "ok": true
+            },
+            "repository": {
+              "gates": {
+                "tests": {"ok": true},
+                "certification": {"ok": true},
+                "balance": {"ok": true},
+                "build": {"ok": true}
+              }
+            },
+            "plan": {
+              "acceptance": [
+                "Mobile touch and small-screen usability is visually verified",
+                "Server-authoritative progression remains intact"
+              ],
+              "visual": {"required": true}
+            },
+            "cycles": [
+              {
+                "stage": "verify",
+                "evidence": {
+                  "errors": [],
+                  "visualReview": {"ok": true},
+                  "runtime": {
+                    "errors": [],
+                    "screenshot": {
+                      "captured": true,
+                      "width": 390,
+                      "height": 844,
+                      "originalWidth": 390,
+                      "originalHeight": 844,
+                      "device": {
+                        "touchEnabled": true,
+                        "keyboardEnabled": false,
+                        "mouseEnabled": false,
+                        "gamepadEnabled": false,
+                        "viewportWidth": 390,
+                        "viewportHeight": 844
+                      }
+                    },
+                    "telemetry": {
+                      "performance": {
+                        "averageHz": 60,
+                        "p95FrameMs": 20,
+                        "memoryMb": 350
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+          JSON
+          node scripts/same-day-evidence-gate.mjs --gate mobile --run /tmp/same-day-integrated-run.json --out /tmp/mobile-gate.json
+          node scripts/same-day-evidence-gate.mjs --gate security --run /tmp/same-day-integrated-run.json --out /tmp/security-gate.json
+          node scripts/same-day-evidence-gate.mjs --gate performance --run /tmp/same-day-integrated-run.json --out /tmp/performance-gate.json --min-hz 25 --max-p95-ms 50
+          for gate in mobile security performance; do
+            grep -q '"status": "passed"' "/tmp/$gate-gate.json"
+            grep -q '"publicationAllowed": false' "/tmp/$gate-gate.json"
+            grep -Eq '"receiptHash": "sha256:[a-f0-9]{64}"' "/tmp/$gate-gate.json"
+          done
+          node --input-type=module - <<'NODE'
+          import {createHash} from 'node:crypto';
+          import {readFile} from 'node:fs/promises';
+          const run=await readFile('/tmp/same-day-integrated-run.json');
+          const expected=createHash('sha256').update(run).digest('hex');
+          for(const gate of ['mobile','security','performance']){
+            const receipt=JSON.parse(await readFile('/tmp/'+gate+'-gate.json','utf8'));
+            if(receipt.integratedRun.sha256!==expected){
+              throw new Error(gate+' receipt not bound to exact integrated run');
+            }
+            const {receiptHash,...payload}=receipt;
+            const computed='sha256:'+createHash('sha256').update(JSON.stringify(payload)).digest('hex');
+            if(computed!==receiptHash) throw new Error(gate+' receipt hash mismatch');
+          }
+          NODE
+          cp /tmp/same-day-integrated-run.json /tmp/same-day-integrated-run-bad.json
+          node --input-type=module - <<'NODE'
+          import {readFile,writeFile} from 'node:fs/promises';
+          const path='/tmp/same-day-integrated-run-bad.json';
+          const run=JSON.parse(await readFile(path,'utf8'));
+          run.cycles[0].evidence.runtime.telemetry.performance.p95FrameMs=200;
+          await writeFile(path,JSON.stringify(run));
+          NODE
+          if node scripts/same-day-evidence-gate.mjs --gate performance --run /tmp/same-day-integrated-run-bad.json --max-p95-ms 50; then
+            echo "expected failing performance evidence to be rejected"
+            exit 1
+          fi
+          cp /tmp/same-day-integrated-run.json /tmp/same-day-mobile-bad.json
+          node --input-type=module - <<'NODE'
+          import {readFile,writeFile} from 'node:fs/promises';
+          const path='/tmp/same-day-mobile-bad.json';
+          const run=JSON.parse(await readFile(path,'utf8'));
+          run.cycles[0].evidence.runtime.screenshot.device.touchEnabled=false;
+          await writeFile(path,JSON.stringify(run));
+          NODE
+          if node scripts/same-day-evidence-gate.mjs --gate mobile --run /tmp/same-day-mobile-bad.json; then
+            echo "expected non-touch mobile evidence to be rejected"
+            exit 1
+          fi
+      - name: Run tests
+        run: npm test
+      - name: Run certification gate
+        run: npm run certification:gate
+      - name: Run balance gate
+        run: npm run balance:gate
+      - name: Build production bundle
+        run: npm run build
