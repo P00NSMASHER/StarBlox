@@ -298,6 +298,21 @@ jobs:
           BASELINE_SHA_AFTER="$(sha256sum roblox/.step5-generated/BrookhavenWorldBaseline.rbxmx | awk '{print $1}')"
           test "$BASELINE_SHA_BEFORE" = "$BASELINE_SHA_AFTER"
           rm -rf roblox/.step5-generated roblox/.step5-mounted.project.json
+      - name: Bind checked-in Step 5 receipt to live verification
+        run: |
+          node --input-type=module - <<'NODE'
+          import assert from 'node:assert/strict';
+          import {readFile} from 'node:fs/promises';
+          const snapshot=JSON.parse(await readFile('docs/roblox-world/STEP_5_WORLD_EXACTNESS_AND_MOUNT.json','utf8'));
+          const lock=JSON.parse(await readFile('/tmp/starblox-step4-world/step5-exactness-lock.json','utf8'));
+          const mount=JSON.parse(await readFile('/tmp/starblox-step4-world/step5-mount-receipt.json','utf8'));
+          assert.equal(snapshot.status,'verified-exact-world-with-starblox-mounted-beside-it');
+          assert.deepStrictEqual(snapshot.exactnessLock,lock,'checked-in Step 5 exactness receipt is stale');
+          assert.deepStrictEqual(snapshot.mountReceipt,mount,'checked-in Step 5 mount receipt is stale');
+          assert.equal(snapshot.artifactPolicy?.generatedWorldModelCommitted,false);
+          assert.equal(snapshot.artifactPolicy?.mountedPlaceCommitted,false);
+          console.log('STARBLOX_STEP5_RECEIPT_BOUND='+snapshot.mountReceipt.baseline.mountedSubtreeSha256);
+          NODE
       - name: Prove native Roblox build
         run: npm run roblox:native:build-proof
       - name: Prove Roblox Studio sync baseline
