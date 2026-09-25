@@ -303,7 +303,17 @@ jobs:
                     "screenshot": {
                       "captured": true,
                       "width": 390,
-                      "height": 844
+                      "height": 844,
+                      "originalWidth": 390,
+                      "originalHeight": 844,
+                      "device": {
+                        "touchEnabled": true,
+                        "keyboardEnabled": false,
+                        "mouseEnabled": false,
+                        "gamepadEnabled": false,
+                        "viewportWidth": 390,
+                        "viewportHeight": 844
+                      }
                     },
                     "telemetry": {
                       "performance": {
@@ -351,6 +361,20 @@ jobs:
           NODE
           if node scripts/same-day-evidence-gate.mjs --gate performance --run /tmp/same-day-integrated-run-bad.json --max-p95-ms 50; then
             echo "expected failing performance evidence to be rejected"
+            exit 1
+          fi
+          cp /tmp/same-day-integrated-run.json /tmp/same-day-integrated-run-desktop.json
+          node --input-type=module - <<'NODE'
+          import {readFile,writeFile} from 'node:fs/promises';
+          const path='/tmp/same-day-integrated-run-desktop.json';
+          const run=JSON.parse(await readFile(path,'utf8'));
+          run.cycles[0].evidence.runtime.screenshot.device.touchEnabled=false;
+          run.cycles[0].evidence.runtime.screenshot.device.viewportWidth=1920;
+          run.cycles[0].evidence.runtime.screenshot.device.viewportHeight=1080;
+          await writeFile(path,JSON.stringify(run));
+          NODE
+          if node scripts/same-day-evidence-gate.mjs --gate mobile --run /tmp/same-day-integrated-run-desktop.json; then
+            echo "expected non-touch desktop evidence to be rejected by mobile gate"
             exit 1
           fi
       - name: Run tests
