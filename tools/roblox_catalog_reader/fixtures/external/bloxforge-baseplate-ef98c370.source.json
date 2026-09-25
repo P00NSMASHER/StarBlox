@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "sourceType": "external-public-roblox-binary",
+  "sourceProject": "BloxForge",
+  "repository": "princeofscale/bloxforge",
+  "commit": "ef98c370b6e0dd93273eae245485b547b09aca53",
+  "path": "packages/core/assets/Baseplate.rbxl",
+  "upstreamGitBlobSha": "710aa68f25ae659157493d386a9d6508e0331e10",
+  "license": "MIT",
+  "licenseFile": "BLOXFORGE_LICENSE.txt",
+  "storedRepresentation": "base64",
+  "storedFile": "bloxforge-baseplate-ef98c370.rbxl.b64",
+  "intendedUse": "real-rbxl-ingestion-proof-only",
+  "migrationAuthorized": false,
+  "studioMutationAuthorized": false,
+  "publicationAuthorized": false,
+  "notes": "Pinned upstream binary used only to prove StarBlox can ingest a real Roblox .rbxl source through preflight, handoff, catalog, and receipt boundaries. It is not Brookhaven content and is not a production gameplay corpus."
+}
