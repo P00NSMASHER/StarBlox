@@ -445,6 +445,9 @@ jobs:
           grep -q 'starblox-studio-connector-v1' scripts/windows/same-day-studio-launch.ps1
           grep -q 'publicationAllowed:false' scripts/same-day-studio-smoke.mjs
           grep -q 'mutationCalls:0' scripts/same-day-studio-smoke.mjs
+          grep -q 'verify-same-day-donor-cache.mjs' scripts/windows/same-day-studio-launch.ps1
+          grep -q -- '--stop-after checkout-rorooms' scripts/windows/same-day-studio-launch.ps1
+          grep -q 'networkFetch:false' scripts/same-day-pipeline.mjs
           npm run same-day:studio:smoke -- --help >/tmp/studio-smoke-help.txt 2>&1 || true
           grep -q 'StarBlox' scripts/same-day-studio-smoke.mjs
 
