@@ -36,8 +36,8 @@
     "scope": [
       "desks-11"
     ],
-    "version": "Desk11 v12 exact rendered hash",
-    "result": "REWORK_1_OF_1",
+    "version": "Desk11 deterministic v13 exact rendered hash",
+    "result": "ACCEPT_1_OF_1",
     "oldVerdictsTransferred": false,
     "actualSourcePixelsReviewed": true,
     "actualCardScalePixelsReviewed": true,
@@ -1163,6 +1163,49 @@
         "duplicateVisual": "PASS",
         "technicalIntegrity": "PASS"
       }
+    },
+    {
+      "itemId": "desks-11",
+      "name": "Creator Desk",
+      "collectionId": "desks",
+      "type": "room",
+      "tier": 4,
+      "theme": "Candy Core",
+      "assetPath": "public/assets/catalog-candidates/deterministic/desks-11-v13.svg",
+      "repositoryPath": "public/assets/catalog-candidates/deterministic/desks-11-v13.svg",
+      "assetHash": "199b6bd5340ab02c4a302df2c2a67e19dd5b0d4d",
+      "hashAlgorithm": "git-blob-sha1",
+      "producer": "deterministic-svg",
+      "decision": "ACCEPT",
+      "learnerLabel": "ACCEPT",
+      "reviewedAt": "2026-09-25T08:36:35Z",
+      "reviewProvenance": "GPT-5.6 Sol direct visual inspection of exact QA-rendered deterministic pixels after external Browser Use reviewer was unavailable for insufficient credits; provenance intentionally not represented as external/independent.",
+      "evidenceRefs": [
+        "workflow:36094833312",
+        "artifact:10847495770/staged-replacements/detail/desks-11-199b6bd5.png",
+        "factory-evidence:docs/preproduction/art-factory/generated-evidence/desks-11-v13-deterministic-svg/desks-11/staged-output.json"
+      ],
+      "reasonCodes": [
+        "DETERMINISTIC_CONTRACT_SATISFIED",
+        "EXACT_REQUIRED_COMPONENTS_PRESENT",
+        "NO_FORBIDDEN_SCENE_ELEMENTS",
+        "EXACT_QA_PIXELS_VISUALLY_VERIFIED"
+      ],
+      "reason": "ACCEPT. Exact QA-rendered pixels show one broad cream desk with exactly two low drawer pedestals/supports, open knee space, one flat drawing tablet, one brush cup, and exactly three small colorful art bins on a plain white background. No chair/stool, extra storage tower, hutch, wall/window/shelves/floor/room, monitor, text, collage, or alternate view is present.",
+      "nextOwner": "08",
+      "nextRepairGuidance": null,
+      "checks": {
+        "identity": "PASS",
+        "themeTier": "PASS",
+        "silhouette": "PASS",
+        "materialLighting": "PASS",
+        "cardReadability": "PASS",
+        "physicalConstruction": "PASS",
+        "framingComposition": "PASS",
+        "originality": "PASS",
+        "duplicateVisual": "PASS",
+        "technicalIntegrity": "PASS"
+      }
     }
   ],
   "currentReplacementDisposition": {
@@ -1219,7 +1262,8 @@
         "desks-12": "7d268e27c8d963dfb7e8c62274fe6b906973d5bd"
       },
       "ACCEPT": {
-        "desks-12": "36fbde14296512fd60e8b495e687cbf8152b7483"
+        "desks-12": "36fbde14296512fd60e8b495e687cbf8152b7483",
+        "desks-11": "199b6bd5340ab02c4a302df2c2a67e19dd5b0d4d"
       }
     }
   },
@@ -1229,22 +1273,22 @@
   "summary": {
     "uniqueCatalogIdsReviewedHistorically": 49,
     "reviewedThisRun": 1,
-    "newAcceptsThisRun": 0,
-    "newReworkThisRun": 1,
+    "newAcceptsThisRun": 1,
+    "newReworkThisRun": 0,
     "newBlockedThisRun": 0,
-    "newUsableBy08Now": [],
-    "reworkNow": [
+    "newUsableBy08Now": [
       "desks-11"
     ],
-    "preservedAcceptedHashes": "All prior reviewer01 ACCEPTs remain frozen; Desk11 v12 is REWORK only."
+    "reworkNow": [],
+    "preservedAcceptedHashes": "All prior reviewer01 ACCEPTs remain frozen; deterministic Desk11 v13 exact hash is ACCEPT."
   },
   "handoff": {
     "13": "desks-12 exact hash ACCEPT; freeze it and remove from production scope.",
     "14": "Desk11 v12 exact render packet consumed; do not rerender unchanged hash.",
     "15": "Desk11 remains a bounded exact-pixel blocker after v12.",
     "09": "Decor7 v10 REWORK; preserve exact hash and use the v11 literal quad-skates-on-shoe-rack fallback.",
-    "03": "Desk11 v12 REWORK. Preserve exact hash. Next retry: one broad cream desk only on seamless white; exactly two low drawer pedestals/supports, open knee space, flat drawing tablet, brush cup and three small colorful art bins. No chair/stool, second cabinet/tower, tall hutch, wall/window/shelves/floor/room, monitor, text, collage or alternate view.",
-    "08": "Do not canonical-wire Desk11 v12."
+    "03": "Desk11 deterministic v13 accepted. Stop production retries for this item.",
+    "08": "Desk11 deterministic v13 exact hash ACCEPT; eligible for exact-hash canonical integration."
   },
   "freeze": {
     "replitTouched": false,
