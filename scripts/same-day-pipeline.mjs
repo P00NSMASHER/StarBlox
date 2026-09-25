@@ -162,7 +162,7 @@ async function execute(stage){
     if(source.migrationRules){
       args.push('--rules',abs(manifestDir,source.migrationRules));
     }
-    const result=run(process.execPath,args,{cwd:root});
+    const result=await run(process.execPath,args,{cwd:root});
     return {
       ...result,
       startedAt,
