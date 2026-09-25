@@ -16,7 +16,7 @@ export function buildProductionServerBootProbeScript({
   }
   const versionCheck=version === null
     ? ''
-    : 'assert(game.PlaceVersion == ' + version + ', "unexpected published version: " .. tostring(game.PlaceVersion))\\n';
+    : 'assert(game.PlaceVersion == ' + version + ', "unexpected published version: " .. tostring(game.PlaceVersion))\n';
   return `local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local ServerScriptService = game:GetService("ServerScriptService")
 local Workspace = game:GetService("Workspace")
