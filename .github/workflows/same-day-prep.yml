@@ -5,13 +5,23 @@ on:
     branches: [integration/same-day-starblox-pipeline]
     paths:
       - .github/workflows/same-day-prep.yml
-      - config/same-day/**
+      - config/same-day/pipeline.example.json
+      - config/same-day/brookhaven-world.rules.json
+      - config/same-day/robbing-fast-lane.rules.json
+      - config/roblox-migration.rules.example.json
       - scripts/same-day-pipeline.mjs
       - scripts/migrate-roblox.mjs
-      - src/sameDayPipeline/**
+      - scripts/ingest-roblox-source.mjs
+      - scripts/catalog-roblox.mjs
+      - scripts/roblox-source-preflight.mjs
+      - src/sameDayPipeline/sameDayPipeline.js
+      - src/sameDayPipeline/sourceBootstrap.js
+      - src/sameDayPipeline/stagingProject.js
       - src/robloxMigration/**
+      - src/robloxCatalog/**
       - tools/roblox_catalog_reader/**
       - tools/roblox_migration_exporter/**
+      - roblox/src/**
   workflow_dispatch:
     inputs:
       ref:
@@ -32,11 +42,12 @@ jobs:
     timeout-minutes: 60
     env:
       CARGO_TARGET_DIR: ${{ github.workspace }}/.cargo-target
+
     steps:
       - name: Checkout requested revision
         uses: actions/checkout@v4
         with:
-          ref: ${{ inputs.ref }}
+          ref: ${{ github.event_name == 'workflow_dispatch' && inputs.ref || github.ref }}
 
       - name: Use Node 22
         uses: actions/setup-node@v4
@@ -45,6 +56,12 @@ jobs:
 
       - name: Use Rust stable
         uses: dtolnay/rust-toolchain@stable
+
+      - name: Cache Rust build products
+        uses: actions/cache@v4
+        with:
+          path: .cargo-target
+          key: starblox-rust-${{ runner.os }}-${{ hashFiles('tools/roblox_catalog_reader/Cargo.toml', 'tools/roblox_catalog_reader/src/**', 'tools/roblox_migration_exporter/Cargo.toml', 'tools/roblox_migration_exporter/src/**') }}
 
       - name: Install dependencies
         run: npm install --no-audit --no-fund
@@ -62,7 +79,35 @@ jobs:
           sudo install -m 0755 "$ROJO_BIN" /usr/local/bin/rojo
           rojo --version
 
+      - name: Restore exact pre-Studio bundle cache
+        id: prestudio-cache
+        uses: actions/cache@v4
+        with:
+          path: artifacts/same-day-starblox
+          key: >-
+            starblox-prestudio-v3-${{ runner.os }}-
+            ${{ hashFiles(
+              'config/same-day/pipeline.example.json',
+              'config/same-day/brookhaven-world.rules.json',
+              'config/same-day/robbing-fast-lane.rules.json',
+              'config/roblox-migration.rules.example.json',
+              'scripts/same-day-pipeline.mjs',
+              'scripts/migrate-roblox.mjs',
+              'scripts/ingest-roblox-source.mjs',
+              'scripts/catalog-roblox.mjs',
+              'scripts/roblox-source-preflight.mjs',
+              'src/sameDayPipeline/sameDayPipeline.js',
+              'src/sameDayPipeline/sourceBootstrap.js',
+              'src/sameDayPipeline/stagingProject.js',
+              'src/robloxMigration/**',
+              'src/robloxCatalog/**',
+              'tools/roblox_catalog_reader/**',
+              'tools/roblox_migration_exporter/**',
+              'roblox/src/**'
+            ) }}
+
       - name: Build pre-Studio same-day bundle
+        if: steps.prestudio-cache.outputs.cache-hit != 'true'
         run: |
           rm -rf artifacts/same-day-starblox
           npm run same-day:pipeline -- \
@@ -89,3 +134,179 @@ jobs:
           if(state.stages?.['build-staging-place']?.status !== 'complete'){
             throw new Error('build-staging-place did not complete');
           }
+          for(const id of ['checkout-arnis','checkout-achassis','checkout-flex','checkout-rorooms']){
+            if(state.stages?.[id]?.status !== 'pending'){
+              throw new Error(id + ' should remain pending in pre-Studio prep');
+            }
+          }
+
+          const report=JSON.parse(await readFile(
+            resolve(base,'same-day-staging-report.json'),
+            'utf8'
+          ));
+          if(report.publicationAllowed !== false) throw new Error('staging publication must remain disabled');
+          if(report.scriptBearingUnitsMounted !== 0) throw new Error('script-bearing legacy unit was mounted');
+          if(report.remoteBearingUnitsMounted !== 0) throw new Error('remote-bearing legacy unit was mounted');
+          if(Number(report.sanitizedProjectionUnitsMounted || 0) < 1){
+            throw new Error('no sanitized world projection was mounted');
+          }
+
+          const world=report.included.find(row =>
+            row.sourceId === 'brookhaven' &&
+            row.systemName === 'Workspace' &&
+            row.projection?.sanitized === true
+          );
+          if(!world) throw new Error('sanitized Brookhaven Workspace projection is missing');
+          if(world.projection.policy !== 'strip-executable-network-v1'){
+            throw new Error('unexpected Brookhaven projection policy');
+          }
+          if(Number(world.projection.forbiddenRemaining) !== 0){
+            throw new Error('Brookhaven projection contains forbidden executable/network classes');
+          }
+          if(Number(world.projection.strippedForbiddenInstances || 0) < 1){
+            throw new Error('Brookhaven projection did not record stripped forbidden instances');
+          }
+
+          const worldPath=resolve(base,'sources/brookhaven/export',world.path);
+          const worldInfo=await stat(worldPath);
+          if(worldInfo.size < 10_000_000){
+            throw new Error('Brookhaven staged world is implausibly small: ' + worldInfo.size);
+          }
+          const placeInfo=await stat(resolve(base,'StarBloxSameDay.rbxlx'));
+          if(placeInfo.size < 10_000_000){
+            throw new Error('generated StarBlox place is implausibly small: ' + placeInfo.size);
+          }
+
+          const xml=await readFile(worldPath,'utf8');
+          const forbidden=[
+            'Script','LocalScript','ModuleScript',
+            'RemoteEvent','RemoteFunction','UnreliableRemoteEvent',
+            'BindableEvent','BindableFunction'
+          ];
+          for(const className of forbidden){
+            if(xml.includes('class="' + className + '"')){
+              throw new Error('forbidden class survived Brookhaven projection: ' + className);
+            }
+          }
+          const modelCount=(xml.match(/class="Model"/g) || []).length;
+          const partCount=(xml.match(/class="(?:Part|MeshPart|UnionOperation)"/g) || []).length;
+          if(modelCount < 500 || partCount < 2_000){
+            throw new Error(
+              'Brookhaven projection lacks expected physical-world density: ' +
+              modelCount + ' models / ' + partCount + ' physical parts'
+            );
+          }
+          console.log(
+            'Brookhaven world projection verified: ' +
+            modelCount + ' models / ' + partCount + ' physical parts / ' +
+            worldInfo.size + ' bytes'
+          );
+          NODE
+
+      - name: Verify exact source and export provenance
+        run: |
+          node --input-type=module - <<'NODE'
+          import {readFile} from 'node:fs/promises';
+          import {resolve} from 'node:path';
+
+          const base='artifacts/same-day-starblox';
+          const state=JSON.parse(await readFile(resolve(base,'same-day-pipeline-state.json'),'utf8'));
+          const expected={
+            brookhaven:'ddc2248663770e968dfe2b27b97b577c0c12fd93177305b884bed9c929923217',
+            robbing:'f413653c19d124517c4dc5409b635ae58122d4e1a63255e9aa7608fd0ba9f920'
+          };
+
+          for(const [id,sha256] of Object.entries(expected)){
+            const ingest=state.stages?.['ingest-'+id]?.result;
+            if(ingest?.bootstrap?.verified !== true || ingest.bootstrap.sha256 !== sha256){
+              throw new Error(id+' source fingerprint is not bound to the expected authorized bytes');
+            }
+            const plan=JSON.parse(await readFile(
+              resolve(base,'sources',id,'planning','migration-plan.json'),'utf8'
+            ));
+            if(!(Number(plan.summary?.selectedUnits) > 0)){
+              throw new Error(id+' migration plan selected zero units');
+            }
+            const receipt=JSON.parse(await readFile(
+              resolve(base,'sources',id,'export','migration-export-receipt.json'),'utf8'
+            ));
+            if(
+              receipt.status !== 'exported' ||
+              receipt.liveActivationAllowed !== false ||
+              receipt.publicationStarted !== false ||
+              receipt.studioMutationStarted !== false
+            ){
+              throw new Error(id+' export receipt crossed the staging-only boundary');
+            }
+            console.log(id, {
+              sha256,
+              selected:plan.summary.selectedUnits,
+              staging:plan.summary.stagingUnits,
+              quarantine:plan.summary.quarantineUnits,
+              bytes:receipt.summary?.totalBytes
+            });
+          }
+          NODE
+
+      - name: Prove uploaded bundle is relocatable
+        run: |
+          rm -rf /tmp/starblox-relocated
+          cp -R artifacts/same-day-starblox /tmp/starblox-relocated
+          node --input-type=module - <<'NODE'
+          import {readFile,writeFile} from 'node:fs/promises';
+          import {resolve} from 'node:path';
+
+          const base='/tmp/starblox-relocated';
+          let selected=null;
+          for(const sourceId of ['robbing','brookhaven']){
+            const plan=JSON.parse(await readFile(
+              resolve(base,'sources',sourceId,'planning','migration-plan.json'),
+              'utf8'
+            ));
+            const unit=(plan.units || []).find(row =>
+              row.selected === true &&
+              row.exportDisposition === 'quarantine' &&
+              ['refactor','quarantine'].includes(row.migrationStrategy)
+            );
+            if(unit){
+              selected={sourceId,unitId:unit.unitId};
+              break;
+            }
+          }
+          if(!selected) throw new Error('no quarantined/refactor unit available for relocation proof');
+
+          const task={
+            id:'ci-relocated-migration-proof',
+            request:'Verify relocated same-day migration evidence',
+            migration:{
+              exportReceipt:resolve(
+                base,'sources',selected.sourceId,'export','migration-export-receipt.json'
+              ),
+              unitIds:[selected.unitId]
+            }
+          };
+          await writeFile('/tmp/relocated-factory-task.json',JSON.stringify(task,null,2)+'\n');
+          console.log('relocation proof unit',selected);
+          NODE
+          npm run studio:factory -- \
+            --task /tmp/relocated-factory-task.json \
+            --verify-migration-only \
+            --out /tmp/relocated-factory-evidence.json
+          grep -q '"status": "verified"' /tmp/relocated-factory-evidence.json
+          grep -q '"liveActivationAllowed": false' /tmp/relocated-factory-evidence.json
+          test -f /tmp/starblox-relocated/StarBloxSameDay.rbxlx
+
+      - name: Record pre-Studio timing
+        run: |
+          npm run same-day:status -- \
+            --manifest config/same-day/pipeline.example.json \
+            --json > artifacts/same-day-starblox/prestudio-status.json
+          cat artifacts/same-day-starblox/prestudio-status.json
+
+      - name: Upload resumable pre-Studio bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: starblox-same-day-pre-studio
+          path: artifacts/same-day-starblox
+          retention-days: 3
+          if-no-files-found: error
