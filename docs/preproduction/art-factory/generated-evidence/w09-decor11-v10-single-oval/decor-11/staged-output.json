@@ -1,0 +1,91 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_STAGED_OUTPUT",
+  "repository": "P00NSMASHER/StarBlox",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "506c5015b55aeb10f516ef7178c2b61f44d4ab79",
+  "sourcePlanSha256": "bcd2cf92ddfc51aa51df810a154eb51bf3dc19e8faef1a1eeb11d4daf649be7e",
+  "item": {
+    "id": "decor-11",
+    "name": "Dream Vanity Set",
+    "collectionId": "decor",
+    "type": "room",
+    "tier": 4,
+    "theme": "Art Attack"
+  },
+  "attempt": {
+    "attemptId": "decor-11-w09-a-one-oval-vanity-stool-c12452f2f5",
+    "producer": "09",
+    "variant": "A-ONE-OVAL-VANITY-STOOL",
+    "promptBlocks": [
+      "metadata",
+      "category",
+      "silhouette",
+      "physical",
+      "material",
+      "theme",
+      "tier",
+      "card",
+      "original",
+      "stage",
+      "furniture",
+      "camera",
+      "depth",
+      "bloom",
+      "textile",
+      "wall",
+      "light"
+    ],
+    "promptSha256": "c12452f2f58ce2aa8bdefb74fcbd3625c09e0fa7128773bd7bf222c3ce23bc3e",
+    "promptRecipeVersion": "artPromptOptimizer-request-v1:w09-decor11-v10-single-oval",
+    "seed": 531864066,
+    "runtime": {
+      "repo": "huggingface/diffusers",
+      "commit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c"
+    },
+    "model": {
+      "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+      "revision": "462165984030d82259a11f4367a4eed129e94a7b",
+      "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+    },
+    "conditioning": {
+      "referenceAssetSha256": null,
+      "controlImageSha256": null,
+      "adapterScale": null
+    }
+  },
+  "output": {
+    "repoPath": "public/assets/catalog-candidates/cpu/decor-11-w09-v10-a-one-oval-vanity-stool-original.png",
+    "sha256": "22a9a40add0e12c66a82d06cb5bac0abf49f4d7ceb98fd47b9128d000d3e8cc4",
+    "gitBlobSha": "bb247d8c0424bf6fcd1271dc260d55f28ecaf68d",
+    "bytes": 561834,
+    "format": "PNG",
+    "width": 640,
+    "height": 640,
+    "mode": "RGB"
+  },
+  "derivativeLineage": {
+    "derivativeOfSha256": null,
+    "sourcePreserved": true
+  },
+  "renderEvidence": [],
+  "review": {
+    "reviewer": "02",
+    "routing": {
+      "reviewer": "02",
+      "routingFile": "docs/preproduction/art-factory/runtime-queue/w09-decor11-v10-single-oval-retry2.json",
+      "routingFileSha256": "68e128db8dd251daaa160510fce74cacfe96fc73778d1427e78dd2380ef0c14d",
+      "queueId": "w09-decor11-v10-single-oval"
+    },
+    "state": "PENDING_ACTUAL_PIXEL_REVIEW",
+    "decision": null
+  },
+  "safety": {
+    "canonicalArtModified": false,
+    "gameplayModified": false,
+    "automaticPerceptualDecision": false,
+    "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+  },
+  "status": "STAGED_EXACT_BYTES_VERIFIED",
+  "recordSha256": "2ff2e4f652256fe6dfb60b29ca0514fe1216cc96a98c68d2bb58e956571fbfcf"
+}

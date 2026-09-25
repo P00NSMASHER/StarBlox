@@ -1,0 +1,255 @@
+{
+  "schemaVersion": 1,
+  "kind": "STARBLOX_ART_FACTORY_JOB",
+  "repository": "P00NSMASHER/StarBlox",
+  "branch": "screenshot-match-preproduction",
+  "sourceHead": "506c5015b55aeb10f516ef7178c2b61f44d4ab79",
+  "item": {
+    "id": "decor-11",
+    "name": "Dream Vanity Set",
+    "collectionId": "decor",
+    "type": "room",
+    "tier": 4,
+    "theme": "Art Attack"
+  },
+  "sourceReviewHash": "3ea52c59b32addeeca4ce07701a095165f82540c",
+  "rightsBasis": "USER_ATTESTED_FULL_RIGHTS",
+  "attempts": [
+    {
+      "attemptId": "decor-11-w09-a-one-oval-vanity-stool-c12452f2f5",
+      "itemId": "decor-11",
+      "producer": "09",
+      "variant": "A-ONE-OVAL-VANITY-STOOL",
+      "promptBlocks": [
+        "metadata",
+        "category",
+        "silhouette",
+        "physical",
+        "material",
+        "theme",
+        "tier",
+        "card",
+        "original",
+        "stage",
+        "furniture",
+        "camera",
+        "depth",
+        "bloom",
+        "textile",
+        "wall",
+        "light"
+      ],
+      "promptText": "STARBLOX CATALOG ART — A-ONE-OVAL-VANITY-STOOL\n\nCreate one premium, kid-friendly 2D game catalog asset with polished dimensional quality.\n\nExact metadata: decor-11 — Dream Vanity Set; collection decor; type room; tier 4; theme Art Attack.\n\nAuthoritative item-specific design brief:\nOne pink vanity table on seamless white. Exactly one oval mirror centered on the table. Exactly one separate padded stool in front. No side mirrors, room, wall, window, curtain, floor, shelving, labels, text, collage, second view.\n\nExact-hash reviewer failure taxonomy: UNKNOWN_REWORK.\n\nRepair the documented failure codes while preserving qualities that were not implicated. Do not erase successful identity, silhouette, material depth, or readability merely to make a different image.\n\nUse the exact catalog ID/name/collection/tier/theme. Do not rename, recategorize, or substitute the item.\n\nMake the object unmistakably the stated product category with believable proportions and construction.\n\nPrioritize a distinctive clean silhouette that reads immediately at small Store-card size.\n\nShow real thickness, seams/joints/edges, layered parts, volume, contact points and functional construction—not a flat icon, emblem or sticker.\n\nUse category-appropriate material texture and highlights/shadows that explain the form.\n\nExpress the exact theme through material, construction, light and motif—not a palette swap or pasted decal.\n\nRespect tier progression: Starter stays simple and attractive; higher tiers gain richer form/material detail; Luxe gains spectacle without losing identity.\n\nDesign for both detail view and a 600×600 Store card with strong contrast, uncluttered hierarchy and no tiny critical details.\n\nAvoid recolor-only siblings, repeated template silhouettes, generic rings/badges, or interchangeable props.\n\nPresent one isolated subject on a clean premium background. No UI, text, watermark, logo, fake price badge or unrelated props.\n\nFor furniture/decor, show supports, joints, cushions/panels/hardware, weight and grounded contact.\n\nUse a clean product-style three-quarter view when appropriate so front, side and thickness are visible.\n\nUse occlusion, contact/cast shadows and foreground/midground/background separation so the asset feels spatial.\n\nUse controlled emissive light/bloom only where appropriate; preserve edges and local contrast.\n\nFor textiles, show weave/pile/folds/stitching/edge finish/thickness and believable softness or drape.\n\nFor wall decor, show mounting/frame/backing/relief depth and a believable wall-object form—not a floating emblem.\n\nFor lighting, show a physical base/mount/chassis, emitter or bulb, support structure and believable emitted/reflected light.\n\nOutput a production-worthy source image for exact-byte staging, card/detail rendering and independent review. Do not claim approval; the reviewer decides from rendered pixels.\n\nExplicit generation constraints:\nRequired: one pink vanity table | one oval mirror centered on table | one separate padded stool | seamless white background\nForbidden: side mirrors | room | wall | window | curtain | floor | shelving | labels | text | collage | alternate view | duplicate furniture",
+      "promptSha256": "c12452f2f58ce2aa8bdefb74fcbd3625c09e0fa7128773bd7bf222c3ce23bc3e",
+      "runtimePromptText": "decor-11 Dream Vanity Set; Art Attack; tier 4. Required: one pink vanity table; one oval mirror centered on table; one separate padded stool; seamless white background. single isolated product, grounded shadow.",
+      "runtimePromptSha256": "79c211ca23b9ef97771109b7307470dae0e9581fe424ce0d36da413594361f54",
+      "runtimeNegativePromptText": "side mirrors; room; wall; window; curtain; floor; shelving; labels; text; collage; alternate view; duplicate furniture collage multiple views repeated variants text logo watermark UI",
+      "runtimeNegativePromptSha256": "ae658ec2152f783598eca6b77091b5b8c8cbd3e1e5d5a3e177f212a237951882",
+      "constraints": {
+        "required": [
+          "one pink vanity table",
+          "one oval mirror centered on table",
+          "one separate padded stool",
+          "seamless white background"
+        ],
+        "forbidden": [
+          "side mirrors",
+          "room",
+          "wall",
+          "window",
+          "curtain",
+          "floor",
+          "shelving",
+          "labels",
+          "text",
+          "collage",
+          "alternate view",
+          "duplicate furniture"
+        ]
+      },
+      "constraintsSha256": "473639a0ec40f991d18c79bb0ea7b6ccf07d5fffc5df242a7c23315fb4c9f511",
+      "promptRecipeVersion": "artPromptOptimizer-request-v1:w09-decor11-v10-single-oval",
+      "seed": 531864066,
+      "runtime": {
+        "repo": "huggingface/diffusers",
+        "commit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c"
+      },
+      "model": {
+        "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+        "revision": "462165984030d82259a11f4367a4eed129e94a7b",
+        "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+      },
+      "conditioning": {
+        "referenceAssetSha256": null,
+        "controlImageSha256": null,
+        "adapterScale": null
+      },
+      "output": {
+        "repoPath": null,
+        "sha256": null,
+        "gitBlobSha": null,
+        "bytes": null,
+        "width": null,
+        "height": null
+      },
+      "status": "PLANNED_NOT_GENERATED"
+    },
+    {
+      "attemptId": "decor-11-w09-b-minimal-vanity-set-b9bb0cd9f4",
+      "itemId": "decor-11",
+      "producer": "09",
+      "variant": "B-MINIMAL-VANITY-SET",
+      "promptBlocks": [
+        "metadata",
+        "category",
+        "silhouette",
+        "physical",
+        "material",
+        "theme",
+        "tier",
+        "card",
+        "original",
+        "stage",
+        "furniture",
+        "camera",
+        "depth",
+        "bloom",
+        "textile",
+        "wall",
+        "light"
+      ],
+      "promptText": "STARBLOX CATALOG ART — B-MINIMAL-VANITY-SET\n\nCreate one premium, kid-friendly 2D game catalog asset with polished dimensional quality.\n\nExact metadata: decor-11 — Dream Vanity Set; collection decor; type room; tier 4; theme Art Attack.\n\nAuthoritative item-specific design brief:\nOne vanity table, one oval mirror, one separate padded stool on plain white. Pink Art Attack styling. No extra mirrors, room, walls, windows, curtains, floor, shelves, text, duplicate furniture, alternate view.\n\nExact-hash reviewer failure taxonomy: UNKNOWN_REWORK.\n\nRepair the documented failure codes while preserving qualities that were not implicated. Do not erase successful identity, silhouette, material depth, or readability merely to make a different image.\n\nUse the exact catalog ID/name/collection/tier/theme. Do not rename, recategorize, or substitute the item.\n\nMake the object unmistakably the stated product category with believable proportions and construction.\n\nPrioritize a distinctive clean silhouette that reads immediately at small Store-card size.\n\nShow real thickness, seams/joints/edges, layered parts, volume, contact points and functional construction—not a flat icon, emblem or sticker.\n\nUse category-appropriate material texture and highlights/shadows that explain the form.\n\nExpress the exact theme through material, construction, light and motif—not a palette swap or pasted decal.\n\nRespect tier progression: Starter stays simple and attractive; higher tiers gain richer form/material detail; Luxe gains spectacle without losing identity.\n\nDesign for both detail view and a 600×600 Store card with strong contrast, uncluttered hierarchy and no tiny critical details.\n\nAvoid recolor-only siblings, repeated template silhouettes, generic rings/badges, or interchangeable props.\n\nPresent one isolated subject on a clean premium background. No UI, text, watermark, logo, fake price badge or unrelated props.\n\nFor furniture/decor, show supports, joints, cushions/panels/hardware, weight and grounded contact.\n\nUse a clean product-style three-quarter view when appropriate so front, side and thickness are visible.\n\nUse occlusion, contact/cast shadows and foreground/midground/background separation so the asset feels spatial.\n\nUse controlled emissive light/bloom only where appropriate; preserve edges and local contrast.\n\nFor textiles, show weave/pile/folds/stitching/edge finish/thickness and believable softness or drape.\n\nFor wall decor, show mounting/frame/backing/relief depth and a believable wall-object form—not a floating emblem.\n\nFor lighting, show a physical base/mount/chassis, emitter or bulb, support structure and believable emitted/reflected light.\n\nOutput a production-worthy source image for exact-byte staging, card/detail rendering and independent review. Do not claim approval; the reviewer decides from rendered pixels.\n\nExplicit generation constraints:\nRequired: one pink vanity table | one oval mirror centered on table | one separate padded stool | seamless white background\nForbidden: side mirrors | room | wall | window | curtain | floor | shelving | labels | text | collage | alternate view | duplicate furniture",
+      "promptSha256": "b9bb0cd9f41ce1aa61d9212074aa695e76c5af303b888eac361358cf22df3997",
+      "runtimePromptText": "decor-11 Dream Vanity Set; Art Attack; tier 4. Required: one pink vanity table; one oval mirror centered on table; one separate padded stool; seamless white background. single isolated product, grounded shadow.",
+      "runtimePromptSha256": "79c211ca23b9ef97771109b7307470dae0e9581fe424ce0d36da413594361f54",
+      "runtimeNegativePromptText": "side mirrors; room; wall; window; curtain; floor; shelving; labels; text; collage; alternate view; duplicate furniture collage multiple views repeated variants text logo watermark UI",
+      "runtimeNegativePromptSha256": "ae658ec2152f783598eca6b77091b5b8c8cbd3e1e5d5a3e177f212a237951882",
+      "constraints": {
+        "required": [
+          "one pink vanity table",
+          "one oval mirror centered on table",
+          "one separate padded stool",
+          "seamless white background"
+        ],
+        "forbidden": [
+          "side mirrors",
+          "room",
+          "wall",
+          "window",
+          "curtain",
+          "floor",
+          "shelving",
+          "labels",
+          "text",
+          "collage",
+          "alternate view",
+          "duplicate furniture"
+        ]
+      },
+      "constraintsSha256": "473639a0ec40f991d18c79bb0ea7b6ccf07d5fffc5df242a7c23315fb4c9f511",
+      "promptRecipeVersion": "artPromptOptimizer-request-v1:w09-decor11-v10-single-oval",
+      "seed": 316278957,
+      "runtime": {
+        "repo": "huggingface/diffusers",
+        "commit": "7263f3317f6b392d62f41e9d75ed9d7e21fc5a5c"
+      },
+      "model": {
+        "modelId": "stabilityai/stable-diffusion-xl-base-1.0",
+        "revision": "462165984030d82259a11f4367a4eed129e94a7b",
+        "rightsBasis": "USER_ATTESTED_FULL_RIGHTS"
+      },
+      "conditioning": {
+        "referenceAssetSha256": null,
+        "controlImageSha256": null,
+        "adapterScale": null
+      },
+      "output": {
+        "repoPath": null,
+        "sha256": null,
+        "gitBlobSha": null,
+        "bytes": null,
+        "width": null,
+        "height": null
+      },
+      "status": "PLANNED_NOT_GENERATED"
+    }
+  ],
+  "requestContext": {
+    "requestPath": "docs/preproduction/art-factory/requests/w09-decor11-v10-single-oval-20260925.json",
+    "batchId": "w09-decor11-v10-single-oval",
+    "requestSourceHead": "8b582529335d3a99ae036bb0e2434bab71c3bc50",
+    "requestRecordSha256": "1b62182f6f2f0e0b8d26b8ae65132cac8d9c148aede60ba9c7be4e09ed38cb7f",
+    "planner": "15",
+    "reviewer": "02",
+    "renderOwner": "14",
+    "integrationOwner": "08",
+    "contextReferences": [],
+    "plannerVariants": [
+      {
+        "variantId": "A-ONE-OVAL-VANITY-STOOL",
+        "plannerSeed": null,
+        "optimizerInputSha256": "dc43a26178b4fd60e7411512ef0a8c30a9f83c88ebdf7e559fbe3015cb967237",
+        "constraints": {
+          "required": [
+            "one pink vanity table",
+            "one oval mirror centered on table",
+            "one separate padded stool",
+            "seamless white background"
+          ],
+          "forbidden": [
+            "side mirrors",
+            "room",
+            "wall",
+            "window",
+            "curtain",
+            "floor",
+            "shelving",
+            "labels",
+            "text",
+            "collage",
+            "alternate view",
+            "duplicate furniture"
+          ]
+        },
+        "constraintsSha256": "473639a0ec40f991d18c79bb0ea7b6ccf07d5fffc5df242a7c23315fb4c9f511",
+        "compiledPromptSha256": "c12452f2f58ce2aa8bdefb74fcbd3625c09e0fa7128773bd7bf222c3ce23bc3e",
+        "compiledRuntimePromptSha256": "79c211ca23b9ef97771109b7307470dae0e9581fe424ce0d36da413594361f54",
+        "compiledRuntimeNegativePromptSha256": "ae658ec2152f783598eca6b77091b5b8c8cbd3e1e5d5a3e177f212a237951882",
+        "compiledSeed": 531864066
+      },
+      {
+        "variantId": "B-MINIMAL-VANITY-SET",
+        "plannerSeed": null,
+        "optimizerInputSha256": "597b8decf9368449a4484903f30eb41152c658dacb9db96386aa5aa40fd85281",
+        "constraints": {
+          "required": [
+            "one pink vanity table",
+            "one oval mirror centered on table",
+            "one separate padded stool",
+            "seamless white background"
+          ],
+          "forbidden": [
+            "side mirrors",
+            "room",
+            "wall",
+            "window",
+            "curtain",
+            "floor",
+            "shelving",
+            "labels",
+            "text",
+            "collage",
+            "alternate view",
+            "duplicate furniture"
+          ]
+        },
+        "constraintsSha256": "473639a0ec40f991d18c79bb0ea7b6ccf07d5fffc5df242a7c23315fb4c9f511",
+        "compiledPromptSha256": "b9bb0cd9f41ce1aa61d9212074aa695e76c5af303b888eac361358cf22df3997",
+        "compiledRuntimePromptSha256": "79c211ca23b9ef97771109b7307470dae0e9581fe424ce0d36da413594361f54",
+        "compiledRuntimeNegativePromptSha256": "ae658ec2152f783598eca6b77091b5b8c8cbd3e1e5d5a3e177f212a237951882",
+        "compiledSeed": 316278957
+      }
+    ]
+  },
+  "planSha256": "bcd2cf92ddfc51aa51df810a154eb51bf3dc19e8faef1a1eeb11d4daf649be7e"
+}
