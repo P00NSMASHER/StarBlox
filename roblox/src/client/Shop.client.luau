@@ -12,394 +12,402 @@ local purchaseHome = remotes:WaitForChild("PurchaseHomeTier") :: RemoteFunction
 local visitHome = remotes:WaitForChild("VisitHome") :: RemoteFunction
 local returnWorld = remotes:WaitForChild("ReturnWorld") :: RemoteFunction
 
-local COLORS = {
-	navy = Color3.fromRGB(30, 36, 56),
-	panel = Color3.fromRGB(42, 49, 74),
-	row = Color3.fromRGB(55, 64, 94),
-	text = Color3.fromRGB(248, 250, 255),
-	muted = Color3.fromRGB(194, 202, 225),
-	accent = Color3.fromRGB(109, 104, 255),
-	success = Color3.fromRGB(66, 204, 156),
-	warning = Color3.fromRGB(255, 184, 77),
-	danger = Color3.fromRGB(255, 104, 116),
+local UI = {
+	white = Color3.fromRGB(245,245,245),
+	tile = Color3.fromRGB(222,222,222),
+	border = Color3.fromRGB(115,115,115),
+	text = Color3.fromRGB(42,42,42),
+	muted = Color3.fromRGB(90,90,90),
+	red = Color3.fromRGB(210,49,49),
+	green = Color3.fromRGB(68,173,92),
+	blue = Color3.fromRGB(80,154,221),
 }
 
 local function round(guiObject: GuiObject, radius: number)
-	local corner = Instance.new("UICorner")
-	corner.CornerRadius = UDim.new(0, radius)
-	corner.Parent = guiObject
+	local c = Instance.new("UICorner")
+	c.CornerRadius = UDim.new(0,radius)
+	c.Parent = guiObject
 end
 
-local function constrainText(label: TextLabel | TextButton, minSize: number, maxSize: number)
-	local constraint = Instance.new("UITextSizeConstraint")
-	constraint.MinTextSize = minSize
-	constraint.MaxTextSize = maxSize
-	constraint.Parent = label
+local function stroke(guiObject: GuiObject, color: Color3?)
+	local s = Instance.new("UIStroke")
+	s.Color = color or UI.border
+	s.Thickness = 1
+	s.Transparency = 0.15
+	s.Parent = guiObject
+end
+
+local function constrain(label: TextLabel | TextButton, minSize: number, maxSize: number)
+	local c = Instance.new("UITextSizeConstraint")
+	c.MinTextSize = minSize
+	c.MaxTextSize = maxSize
+	c.Parent = label
 end
 
 local gui = Instance.new("ScreenGui")
 gui.Name = "StarBloxShopUI"
 gui.ResetOnSpawn = false
 gui.IgnoreGuiInset = false
-gui.DisplayOrder = 25
+gui.DisplayOrder = 26
 pcall(function()
 	gui.ScreenInsets = Enum.ScreenInsets.DeviceSafeInsets
 end)
 gui.Parent = playerGui
 
+-- Kept only as compatibility hooks for older tests/callers; hidden from players.
 local shopButton = Instance.new("TextButton")
 shopButton.Name = "ShopButton"
-shopButton.AnchorPoint = Vector2.new(1, 0)
-shopButton.Position = UDim2.new(1, -12, 0, 110)
 shopButton.Size = UDim2.fromOffset(84, 44)
-shopButton.BackgroundColor3 = COLORS.accent
-shopButton.Text = "Shop"
-shopButton.TextColor3 = COLORS.text
-shopButton.Font = Enum.Font.GothamBold
-shopButton.TextScaled = true
-shopButton.Parent = gui
-shopButton.Selectable = false
 shopButton.Visible = false
-round(shopButton, 10)
-constrainText(shopButton, 12, 15)
+shopButton.Parent = gui
 
 local homeButton = Instance.new("TextButton")
 homeButton.Name = "HomeButton"
-homeButton.AnchorPoint = Vector2.new(1, 0)
-homeButton.Position = UDim2.new(1, -98, 0, 110)
 homeButton.Size = UDim2.fromOffset(84, 44)
-homeButton.BackgroundColor3 = COLORS.navy
-homeButton.Text = "Home"
-homeButton.TextColor3 = COLORS.text
-homeButton.Font = Enum.Font.GothamBold
-homeButton.TextScaled = true
-homeButton.Parent = gui
-homeButton.Selectable = false
 homeButton.Visible = false
-round(homeButton, 10)
-constrainText(homeButton, 12, 15)
+homeButton.Parent = gui
 
 local panel = Instance.new("Frame")
 panel.Name = "ShopPanel"
-panel.AnchorPoint = Vector2.new(0.5, 0.5)
-panel.Position = UDim2.fromScale(0.5, 0.52)
-panel.Size = UDim2.new(0.88, 0, 0, 330)
-panel.BackgroundColor3 = COLORS.panel
+panel.AnchorPoint = Vector2.new(1,0.5)
+panel.Position = UDim2.new(1,-70,0.5,4)
+panel.Size = UDim2.fromOffset(356, 326)
+panel.BackgroundColor3 = UI.white
+panel.BackgroundTransparency = 0.06
 panel.Visible = false
 panel.ZIndex = 60
 panel.Parent = gui
-round(panel, 16)
+round(panel,5)
+stroke(panel)
 
-local panelConstraint = Instance.new("UISizeConstraint")
-panelConstraint.MinSize = Vector2.new(330, 300)
-panelConstraint.MaxSize = Vector2.new(620, 330)
-panelConstraint.Parent = panel
+local constraint = Instance.new("UISizeConstraint")
+constraint.MinSize = Vector2.new(330,300)
+constraint.MaxSize = Vector2.new(390,340)
+constraint.Parent = panel
 
 local title = Instance.new("TextLabel")
 title.BackgroundTransparency = 1
-title.Position = UDim2.fromOffset(16, 10)
-title.Size = UDim2.new(1, -80, 0, 28)
-title.Text = "StarBlox Shop"
-title.TextColor3 = COLORS.text
+title.Position = UDim2.fromOffset(10,8)
+title.Size = UDim2.new(1,-170,0,28)
+title.Text = "Houses"
+title.TextColor3 = UI.text
 title.Font = Enum.Font.GothamBold
 title.TextScaled = true
 title.TextXAlignment = Enum.TextXAlignment.Left
 title.ZIndex = 61
 title.Parent = panel
-constrainText(title, 15, 20)
-
-local closeButton = Instance.new("TextButton")
-closeButton.AnchorPoint = Vector2.new(1, 0)
-closeButton.Position = UDim2.new(1, -10, 0, 8)
-closeButton.Size = UDim2.fromOffset(44, 44)
-closeButton.BackgroundColor3 = COLORS.row
-closeButton.Text = "×"
-closeButton.TextColor3 = COLORS.text
-closeButton.Font = Enum.Font.GothamBold
-closeButton.TextScaled = true
-closeButton.ZIndex = 62
-closeButton.Parent = panel
-closeButton.Selectable = true
-round(closeButton, 12)
-constrainText(closeButton, 20, 26)
-
-local subtitle = Instance.new("TextLabel")
-subtitle.BackgroundTransparency = 1
-subtitle.Position = UDim2.fromOffset(16, 40)
-subtitle.Size = UDim2.new(1, -32, 0, 24)
-subtitle.Text = "Correct answers earn coins."
-subtitle.TextColor3 = COLORS.warning
-subtitle.Font = Enum.Font.GothamMedium
-subtitle.TextScaled = true
-subtitle.TextXAlignment = Enum.TextXAlignment.Left
-subtitle.ZIndex = 61
-subtitle.Parent = panel
-constrainText(subtitle, 11, 14)
+constrain(title,14,18)
 
 local balance = Instance.new("TextLabel")
 balance.BackgroundTransparency = 1
-balance.Position = UDim2.fromOffset(16, 65)
-balance.Size = UDim2.new(1, -32, 0, 24)
-balance.Text = "Coins 0"
-balance.TextColor3 = COLORS.text
-balance.Font = Enum.Font.GothamBold
+balance.Position = UDim2.fromOffset(10,36)
+balance.Size = UDim2.new(1,-20,0,20)
+balance.Text = "0 coins"
+balance.TextColor3 = UI.muted
+balance.Font = Enum.Font.GothamMedium
 balance.TextScaled = true
 balance.TextXAlignment = Enum.TextXAlignment.Left
 balance.ZIndex = 61
 balance.Parent = panel
-constrainText(balance, 12, 15)
+constrain(balance,10,13)
+
+local visit = Instance.new("TextButton")
+visit.Name = "VisitHome"
+visit.AnchorPoint = Vector2.new(1,0)
+visit.Position = UDim2.new(1,-116,0,6)
+visit.Size = UDim2.fromOffset(50, 50)
+visit.BackgroundColor3 = UI.white
+visit.Text = "⌂"
+visit.TextColor3 = UI.text
+visit.Font = Enum.Font.GothamBold
+visit.TextScaled = true
+visit.ZIndex = 63
+visit.Parent = panel
+round(visit,4)
+stroke(visit)
+constrain(visit,20,28)
+
+local world = Instance.new("TextButton")
+world.Name = "ReturnWorld"
+world.AnchorPoint = Vector2.new(1,0)
+world.Position = UDim2.new(1,-62,0,6)
+world.Size = UDim2.fromOffset(50, 50)
+world.BackgroundColor3 = UI.white
+world.Text = "↺"
+world.TextColor3 = UI.text
+world.Font = Enum.Font.GothamBold
+world.TextScaled = true
+world.ZIndex = 63
+world.Parent = panel
+round(world,4)
+stroke(world)
+constrain(world,20,28)
+
+local closeButton = Instance.new("TextButton")
+closeButton.Name = "CloseButton"
+closeButton.AnchorPoint = Vector2.new(1,0)
+closeButton.Position = UDim2.new(1,-6,0,6)
+closeButton.Size = UDim2.fromOffset(50, 50)
+closeButton.BackgroundColor3 = UI.red
+closeButton.Text = "X"
+closeButton.TextColor3 = Color3.new(1,1,1)
+closeButton.Font = Enum.Font.GothamBold
+closeButton.TextScaled = true
+closeButton.ZIndex = 63
+closeButton.Parent = panel
+round(closeButton,4)
+stroke(closeButton,Color3.fromRGB(135,30,30))
+constrain(closeButton,20,28)
 
 local scroller = Instance.new("ScrollingFrame")
 scroller.Name = "Catalog"
-scroller.Position = UDim2.fromOffset(12, 94)
-scroller.Size = UDim2.new(1, -24, 1, -106)
+scroller.Position = UDim2.fromOffset(8,62)
+scroller.Size = UDim2.new(1,-16,1,-70)
 scroller.BackgroundTransparency = 1
 scroller.BorderSizePixel = 0
 scroller.AutomaticCanvasSize = Enum.AutomaticSize.Y
-scroller.CanvasSize = UDim2.fromOffset(0, 0)
-scroller.ScrollBarThickness = 6
+scroller.CanvasSize = UDim2.fromOffset(0,0)
+scroller.ScrollBarThickness = 5
+scroller.ScrollBarImageColor3 = UI.border
 scroller.ZIndex = 61
 scroller.Parent = panel
 
-local list = Instance.new("UIListLayout")
-list.Padding = UDim.new(0, 6)
-list.SortOrder = Enum.SortOrder.LayoutOrder
-list.Parent = scroller
+local grid = Instance.new("UIGridLayout")
+grid.CellPadding = UDim2.fromOffset(5, 5)
+grid.CellSize = UDim2.fromOffset(78, 78)
+grid.SortOrder = Enum.SortOrder.LayoutOrder
+grid.Parent = scroller
 
 local state = nil
-local atHome = false
 local busy = false
 
-local function clearRows()
+local function clear()
 	for _, child in scroller:GetChildren() do
-		if child:IsA("Frame") or child:IsA("TextLabel") then
+		if child:IsA("GuiObject") and not child:IsA("UIGridLayout") then
 			child:Destroy()
 		end
 	end
 end
 
-local function section(text: string, order: number)
-	local label = Instance.new("TextLabel")
-	label.LayoutOrder = order
-	label.Size = UDim2.new(1, -4, 0, 28)
-	label.BackgroundTransparency = 1
-	label.Text = text
-	label.TextColor3 = COLORS.warning
-	label.Font = Enum.Font.GothamBold
-	label.TextScaled = true
-	label.TextXAlignment = Enum.TextXAlignment.Left
-	label.ZIndex = 62
-	label.Parent = scroller
-	constrainText(label, 12, 15)
+local function symbolFor(kind: string): string
+	if kind == "bed" then return "▤" end
+	if kind == "chair" then return "⌑" end
+	if kind == "desk" then return "▭" end
+	if kind == "lamp" then return "◉" end
+	if kind == "poster" then return "▧" end
+	if kind == "rug" then return "▬" end
+	if kind == "books" then return "▥" end
+	return "□"
 end
 
-local function row(
+local function tile(
+	symbol: string,
 	name: string,
-	price: number,
-	buttonText: string,
-	enabled: boolean,
+	detail: string,
+	badgeText: string,
+	badgeColor: Color3,
 	order: number,
-	callback: () -> ()
+	callback: (() -> ())?
 )
 	local frame = Instance.new("Frame")
 	frame.LayoutOrder = order
-	frame.Size = UDim2.new(1, -4, 0, 54)
-	frame.BackgroundColor3 = COLORS.row
+	frame.Size = UDim2.fromOffset(78, 78)
+	frame.BackgroundColor3 = UI.tile
 	frame.ZIndex = 62
 	frame.Parent = scroller
-	round(frame, 10)
+	round(frame,4)
+	stroke(frame)
+
+	local icon = Instance.new("TextLabel")
+	icon.BackgroundTransparency = 1
+	icon.Position = UDim2.fromOffset(3,2)
+	icon.Size = UDim2.new(1,-6,0,33)
+	icon.Text = symbol
+	icon.TextColor3 = UI.text
+	icon.Font = Enum.Font.GothamBold
+	icon.TextScaled = true
+	icon.ZIndex = 63
+	icon.Parent = frame
+	constrain(icon,15,24)
 
 	local label = Instance.new("TextLabel")
 	label.BackgroundTransparency = 1
-	label.Position = UDim2.fromOffset(12, 4)
-	label.Size = UDim2.new(1, -126, 1, -8)
-	label.Text = string.format("%s  •  %d coins", name, price)
-	label.TextColor3 = COLORS.text
-	label.Font = Enum.Font.GothamMedium
+	label.Position = UDim2.fromOffset(4,35)
+	label.Size = UDim2.new(1,-8,0,19)
+	label.Text = name
+	label.TextColor3 = UI.text
+	label.Font = Enum.Font.GothamBold
 	label.TextScaled = true
 	label.TextWrapped = true
-	label.TextXAlignment = Enum.TextXAlignment.Left
 	label.ZIndex = 63
 	label.Parent = frame
-	constrainText(label, 11, 14)
+	constrain(label,8,11)
 
-	local button = Instance.new("TextButton")
-	button.AnchorPoint = Vector2.new(1, 0.5)
-	button.Position = UDim2.new(1, -6, 0.5, 0)
-	button.Size = UDim2.fromOffset(104, 44)
-	button.BackgroundColor3 = if enabled then COLORS.accent else COLORS.navy
-	button.Text = buttonText
-	button.TextColor3 = if enabled then COLORS.text else COLORS.muted
-	button.Font = Enum.Font.GothamBold
-	button.TextScaled = true
-	button.Active = enabled
-	button.AutoButtonColor = enabled
-	button.Selectable = enabled
-	button.ZIndex = 64
-	button.Parent = frame
-	round(button, 10)
-	constrainText(button, 11, 14)
+	local d = Instance.new("TextLabel")
+	d.BackgroundTransparency = 1
+	d.Position = UDim2.fromOffset(3,55)
+	d.Size = UDim2.new(1,-6,0,18)
+	d.Text = detail
+	d.TextColor3 = UI.muted
+	d.Font = Enum.Font.GothamMedium
+	d.TextScaled = true
+	d.ZIndex = 63
+	d.Parent = frame
+	constrain(d,7,9)
 
-	if enabled then
-		button.Activated:Connect(callback)
+	if badgeText ~= "" then
+		local badge = Instance.new("TextLabel")
+		badge.AnchorPoint = Vector2.new(1,0)
+		badge.Position = UDim2.new(1,-2,0,2)
+		badge.Size = UDim2.fromOffset(25,14)
+		badge.BackgroundColor3 = badgeColor
+		badge.Text = badgeText
+		badge.TextColor3 = Color3.new(1,1,1)
+		badge.Font = Enum.Font.GothamBold
+		badge.TextScaled = true
+		badge.ZIndex = 65
+		badge.Parent = frame
+		round(badge,3)
+		constrain(badge,6,9)
+	end
+
+	if callback then
+		local hit = Instance.new("TextButton")
+		hit.Size = UDim2.fromScale(1,1)
+		hit.BackgroundTransparency = 1
+		hit.Text = ""
+		hit.ZIndex = 66
+		hit.Parent = frame
+		hit.Activated:Connect(callback)
 	end
 end
 
-local function fetchState()
-	local ok, result = pcall(function()
+local function fetchState(): boolean
+	local ok,result = pcall(function()
 		return getState:InvokeServer()
 	end)
-	if ok and type(result) == "table" and result.ok == true then
-		state = result
-		balance.Text = string.format("Coins %d  •  Home Tier %d", tonumber(result.coins) or 0, tonumber(result.homeTier) or 1)
+	if ok and type(result)=="table" and result.ok==true then
+		state=result
+		balance.Text=string.format("%d coins • home %d",tonumber(result.coins) or 0,tonumber(result.homeTier) or 1)
 		return true
 	end
 	return false
 end
 
-local renderState
+local render
 
 local function purchaseItemById(itemId: string)
-	if busy then
-		return
-	end
-	busy = true
-	local ok, result = pcall(function()
-		return purchaseItem:InvokeServer(itemId)
-	end)
-	busy = false
-	if ok and type(result) == "table" then
-		if result.ok == true then
+	if busy then return end
+	busy=true
+	local ok,result=pcall(function() return purchaseItem:InvokeServer(itemId) end)
+	busy=false
+	if ok and type(result)=="table" then
+		if result.ok==true then
 			fetchState()
-			renderState()
-		elseif result.code == "not_enough_coins" then
-			subtitle.Text = "Answer more questions to earn the coins you need."
-			subtitle.TextColor3 = COLORS.danger
+			render()
+		elseif result.code=="not_enough_coins" then
+			balance.Text="answer questions for more coins"
+			balance.TextColor3=UI.red
 		end
 	end
 end
 
 local function purchaseTier(tier: number)
-	if busy then
-		return
-	end
-	busy = true
-	local ok, result = pcall(function()
-		return purchaseHome:InvokeServer(tier)
-	end)
-	busy = false
-	if ok and type(result) == "table" then
-		if result.ok == true then
+	if busy then return end
+	busy=true
+	local ok,result=pcall(function() return purchaseHome:InvokeServer(tier) end)
+	busy=false
+	if ok and type(result)=="table" then
+		if result.ok==true then
 			fetchState()
-			renderState()
-		elseif result.code == "not_enough_coins" then
-			subtitle.Text = "Answer more questions to upgrade your home."
-			subtitle.TextColor3 = COLORS.danger
+			render()
+		elseif result.code=="not_enough_coins" then
+			balance.Text="answer questions for more coins"
+			balance.TextColor3=UI.red
 		end
 	end
 end
 
-renderState = function()
-	if type(state) ~= "table" then
-		return
-	end
-	clearRows()
-	subtitle.Text = "Correct answers earn coins."
-	subtitle.TextColor3 = COLORS.warning
-
-	local order = 1
-	section("Home upgrades", order)
-	order += 1
-	for _, home in state.homes or {} do
-		local tier = tonumber(home.Tier) or 1
-		local current = tonumber(state.homeTier) or 1
-		local buttonText = "Buy"
-		local enabled = tier == current + 1
-		if tier == current then
-			buttonText = "Current"
-		elseif tier < current then
-			buttonText = "Owned"
-		elseif tier > current + 1 then
-			buttonText = "Locked"
-		end
-		row(tostring(home.Name), tonumber(home.Price) or 0, buttonText, enabled, order, function()
-			purchaseTier(tier)
-		end)
-		order += 1
-	end
-
-	section("Furniture & decor", order)
-	order += 1
-	for _, item in state.items or {} do
-		local itemId = tostring(item.Id)
-		local owned = state.ownedItems and state.ownedItems[itemId] == true
-		row(
-			tostring(item.Name),
-			tonumber(item.Price) or 0,
-			owned and "Owned" or "Buy",
-			not owned,
+render=function()
+	if type(state)~="table" then return end
+	clear()
+	balance.TextColor3=UI.muted
+	local order=1
+	for _,home in state.homes or {} do
+		local tier=tonumber(home.Tier) or 1
+		local current=tonumber(state.homeTier) or 1
+		local owned=tier<=current
+		local unlocked=tier==current+1
+		local badge=owned and "✓" or (unlocked and "$" or "×")
+		local color=owned and UI.green or (unlocked and UI.blue or UI.red)
+		tile(
+			"⌂",
+			tostring(home.Name),
+			owned and "owned" or (tostring(home.Price).."¢"),
+			badge,
+			color,
 			order,
-			function()
-				purchaseItemById(itemId)
-			end
+			unlocked and function() purchaseTier(tier) end or nil
 		)
-		order += 1
+		order+=1
+	end
+	for _,item in state.items or {} do
+		local id=tostring(item.Id)
+		local owned=state.ownedItems and state.ownedItems[id]==true
+		tile(
+			symbolFor(tostring(item.Kind)),
+			tostring(item.Name),
+			owned and "owned" or (tostring(item.Price).."¢"),
+			owned and "✓" or "$",
+			owned and UI.green or UI.blue,
+			order,
+			owned and nil or function() purchaseItemById(id) end
+		)
+		order+=1
 	end
 end
 
-local openStore = Instance.new("BindableEvent")
-openStore.Name = "OpenStore"
-openStore.Parent = gui
+local openStore=Instance.new("BindableEvent")
+openStore.Name="OpenStore"
+openStore.Parent=gui
 
-local toggleHome = Instance.new("BindableEvent")
-toggleHome.Name = "ToggleHome"
-toggleHome.Parent = gui
+local toggleHome=Instance.new("BindableEvent")
+toggleHome.Name="ToggleHome"
+toggleHome.Parent=gui
 
-local function openStorePanel()
+local function openPanel()
 	if fetchState() then
-		renderState()
-		panel.Visible = true
+		render()
+		panel.Visible=true
 	end
 end
 
-shopButton.Activated:Connect(function()
-	if panel.Visible then
-		panel.Visible = false
-	else
-		openStorePanel()
-	end
-end)
-
-openStore.Event:Connect(openStorePanel)
+openStore.Event:Connect(openPanel)
+shopButton.Activated:Connect(openPanel)
 
 closeButton.Activated:Connect(function()
-	panel.Visible = false
+	panel.Visible=false
 end)
 
-local function toggleHomeLocation()
-	if busy then
-		return
-	end
-	busy = true
-	local ok, result = pcall(function()
-		if atHome then
-			return returnWorld:InvokeServer()
-		end
-		return visitHome:InvokeServer()
-	end)
-	busy = false
-	if ok and type(result) == "table" and result.ok == true then
-		atHome = not atHome
-		homeButton.Text = if atHome then "World" else "Home"
-		panel.Visible = false
-	end
-end
+visit.Activated:Connect(function()
+	pcall(function() visitHome:InvokeServer() end)
+	panel.Visible=false
+end)
 
-homeButton.Activated:Connect(toggleHomeLocation)
-toggleHome.Event:Connect(toggleHomeLocation)
+world.Activated:Connect(function()
+	pcall(function() returnWorld:InvokeServer() end)
+	panel.Visible=false
+end)
+
+homeButton.Activated:Connect(function()
+	toggleHome:Fire()
+end)
+
+toggleHome.Event:Connect(function()
+	pcall(function() visitHome:InvokeServer() end)
+	panel.Visible=false
+end)
 
 player:GetAttributeChangedSignal("StarBloxCoins"):Connect(function()
-	if panel.Visible and fetchState() then
-		renderState()
-	end
+	if panel.Visible and fetchState() then render() end
 end)

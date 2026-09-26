@@ -88,10 +88,11 @@ describe('Phase 7: question economy, store, and player homes',()=>{
     const client=read('roblox/src/client/Shop.client.luau');
     expect(client).toContain('shopButton.Size = UDim2.fromOffset(84, 44)');
     expect(client).toContain('homeButton.Size = UDim2.fromOffset(84, 44)');
-    expect(client).toContain('button.Size = UDim2.fromOffset(104, 44)');
-    expect(client).toContain('closeButton.Size = UDim2.fromOffset(44, 44)');
-    expect(client).toContain('panel.Size = UDim2.new(0.88, 0, 0, 330)');
-    expect(client).toContain('Correct answers earn coins.');
+    expect(client).toContain('shopButton.Visible = false');
+    expect(client).toContain('homeButton.Visible = false');
+    expect(client).toContain('closeButton.Size = UDim2.fromOffset(50, 50)');
+    expect(client).toContain('panel.Size = UDim2.fromOffset(356, 326)');
+    expect(client).toContain('grid.CellSize = UDim2.fromOffset(78, 78)');
     expect(client).toContain('PurchaseItem');
     expect(client).toContain('PurchaseHomeTier');
     expect(client).toContain('VisitHome');

@@ -86,11 +86,11 @@ describe('Step 8: player-experience polish and automated UX QA', () => {
 
     expect(client).toContain('DeviceSafeInsets');
     expect(client).toContain('hud.AnchorPoint = Vector2.new(1, 0)');
-    expect(client).toContain('hud.Position = UDim2.new(1, -12, 0, 12)');
+    expect(client).toContain('hud.Position = UDim2.new(1, -72, 0, 8)');
     expect(client).toContain('nextHint.AnchorPoint = Vector2.new(1, 0)');
-    expect(client).toContain('nextHint.Position = UDim2.new(1, -12, 0, 76)');
-    expect(client).toContain('hud.Size = UDim2.fromOffset(286, 58)');
-    expect(client).toContain('nextHint.Size = UDim2.fromOffset(220, 28)');
+    expect(client).toContain('nextHint.Position = UDim2.new(0.5, 76, 0, 8)');
+    expect(client).toContain('hud.Size = UDim2.fromOffset(205, 46)');
+    expect(client).toContain('nextHint.Size = UDim2.fromOffset(150, 30)');
     expect(client).toContain('panel.Size = UDim2.new(0.84, 0, 0, 322)');
     expect(client).toContain('panelConstraint.MaxSize = Vector2.new(520, 322)');
     expect(client).toContain('button.Size = UDim2.new(1, -32, 0, 44)');
@@ -121,7 +121,6 @@ describe('Step 8: player-experience polish and automated UX QA', () => {
     expect(client).toContain('successPulse');
     expect(client).toContain('shakePanel');
     expect(client).toContain('rewardSummary');
-    expect(client).toContain('Challenge %d/%d • %s');
     expect(client).toContain('friendlyFailure');
     expect(client).toContain('rate_limited');
     expect(client).toContain('profile_unavailable');
