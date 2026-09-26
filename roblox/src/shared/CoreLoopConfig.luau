@@ -17,10 +17,15 @@ local CoreLoopConfig = table.freeze({
 		TargetSuccessFloor = 0.70,
 		TargetSuccessCeiling = 0.85,
 	}),
+	QuestionExperiments = table.freeze({
+		TreatmentPercent = 10,
+		ControlVariant = "A",
+		TreatmentVariant = "B",
+	}),
 	QuestionRotation = table.freeze({
 		BankRevision = "dynamic-abvm-star-sync-v1",
-		StarFallbackPerStation = 20,
-		MinimumQuestionsPerStation = 20,
+		StarFallbackPerStation = 40,
+		MinimumQuestionsPerStation = 40,
 		Strategy = "fresh-material-once-then-current-snapshot-star-fallback-loop",
 		ResetCursorOnBankSnapshotChange = true,
 		AnswersServerOnly = true,

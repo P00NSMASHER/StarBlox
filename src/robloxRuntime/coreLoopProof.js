@@ -22,8 +22,8 @@ assert(config.PolishRevision == "phase8-challenging-questions-v1", "Phase 8 revi
 assert(config.ChallengeName == "Neighborhood Challenge", "challenge identity mismatch")
 assert(config.QuestionReward.Coins == 10, "correct-answer coin reward mismatch")
 assert(config.QuestionReward.XP == 1, "correct-answer XP reward mismatch")
-assert(config.QuestionRotation.StarFallbackPerStation >= 20, "STAR fallback floor mismatch")
-assert(config.QuestionRotation.MinimumQuestionsPerStation >= 20, "minimum question pool mismatch")
+assert(config.QuestionRotation.StarFallbackPerStation >= 40, "STAR fallback floor mismatch")
+assert(config.QuestionRotation.MinimumQuestionsPerStation >= 40, "minimum question pool mismatch")
 assert(config.QuestionRotation.Strategy == "fresh-material-once-then-current-snapshot-star-fallback-loop", "rotation strategy mismatch")
 assert(config.QuestionRotation.AnswersServerOnly == true, "answers must remain server-only")
 assert(config.QuestionRotation.NoLiveLlm == true, "normal quest flow must not depend on a live LLM")
@@ -38,8 +38,8 @@ assert(bank.Source.CertificationVersion == "dynamic-abvm-star-sync-v1", "questio
 assert(bank.Source.MaterialFirst == true, "material-first bank marker missing")
 assert(bank.Source.StarFallback == true, "STAR fallback bank marker missing")
 assert(bank.Source.AnswersServerOnly == true, "server bank answer boundary mismatch")
-assert((bank.Source.StarReadingCount or 0) >= 25, "STAR Reading floor missing")
-assert((bank.Source.StarMathCount or 0) >= 25, "STAR Math floor missing")
+assert((bank.Source.StarReadingCount or 0) >= 60, "STAR Reading floor missing")
+assert((bank.Source.StarMathCount or 0) >= 60, "STAR Math floor missing")
 
 local stationIds = {
     "word-portal-put-v1",
@@ -211,8 +211,8 @@ export async function runCoreLoopProof({
       starFallbackAfterMaterial:true,
       freshMaterialThenSnapshotStarFallback:true,
       dynamicQuestionSyncBank:true,
-      starReadingAtLeast25:true,
-      starMathAtLeast25:true,
+      starReadingAtLeast60:true,
+      starMathAtLeast60:true,
       persistentPerStationRotation:true,
       serverAuthoritativeAnswers:true,
       staleAnswerReplayBlocked:true,
