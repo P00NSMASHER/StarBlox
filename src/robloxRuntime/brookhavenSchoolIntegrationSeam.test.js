@@ -42,6 +42,7 @@ describe('Brookhaven parity x school integration seam',()=>{
   it('hands the next school question across scopes without undefined variables',()=>{
     const service=read('roblox/src/server/CoreGameLoopService.luau');
 
+    expect(service).toContain('local function selectedQuestionFor(profileData, activityId: string)');
     expect(service).toContain('local nextQuestion = CoreQuestionBank.Select(');
     expect(service).toContain('nextQuestionId = if nextQuestion ~= nil then nextQuestion.Id else nil');
     expect(service).toContain('nextQuestionId = questionReward.nextQuestionId');
