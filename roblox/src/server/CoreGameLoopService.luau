@@ -843,6 +843,12 @@ function CoreGameLoopService:_submit(player: Player, request: any)
 	}
 end
 
+function CoreGameLoopService:SetActivityPromptsEnabled(enabled: boolean)
+	for _, prompt in self._prompts or {} do
+		prompt.Enabled = enabled
+	end
+end
+
 function CoreGameLoopService:GetSpawnCFrame(): CFrame
 	return self._spawnCFrame
 end
