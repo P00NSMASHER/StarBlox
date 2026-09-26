@@ -72,9 +72,14 @@
     }
   },
   "currentStarBloxImplementation": {
-    "vehicles": 8,
+    "runtimePlayableVehicles": 8,
+    "verifiedReferenceVehicles": 22,
+    "verifiedReferenceSmallVehicles": 22,
     "inventoryItems": 12,
     "houses": "runtime styles/tiers are not counted as Brookhaven parity houses",
+    "smallReferenceMetadataComplete": true,
+    "vehicleParityComplete": false,
+    "inventoryParityComplete": false,
     "parityComplete": false
   },
   "firstVerifiedVehicleBatch": {
@@ -243,5 +248,10 @@
       "target": 34,
       "rule": "availability/requirement gates must be modeled; do not make retired event vehicles falsely free"
     }
+  ],
+  "implementationNotes": [
+    "The 22 Small-category entries are factual reference metadata only and are non-playable until original StarBlox runtime geometry/behavior is attached.",
+    "Reference-only entries fail closed in purchase and spawn paths; game-pass/event requirements are never converted into learning-coin purchases.",
+    "The eight temporary StarBlox vehicles remain the only runtime-playable vehicles."
   ]
 }
