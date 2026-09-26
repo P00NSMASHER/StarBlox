@@ -50,6 +50,7 @@ export function classifyBrookhavenInteractionCandidates(ir){
   const doorCandidates=[];
   const garageCandidates=[];
   const lightCandidates=[];
+  const strictDoorCandidates=[];
 
   for(const entry of ir.entries){
     if(entry.className==='Seat'){
@@ -80,6 +81,12 @@ export function classifyBrookhavenInteractionCandidates(ir){
       horizontalWide>=2.2 && horizontalWide<=7.5
     ){
       doorCandidates.push(candidate(entry,'door-candidate',extents));
+      if(
+        worldY>=6 && worldY<=8.6 &&
+        horizontalWide>=2.2 && horizontalWide<=4.6
+      ){
+        strictDoorCandidates.push(candidate(entry,'strict-door-candidate',extents));
+      }
       continue;
     }
 
@@ -106,10 +113,61 @@ export function classifyBrookhavenInteractionCandidates(ir){
     }
   }
 
+  const helperEvidence=[];
+  const tinyHelpers=ir.entries.filter(entry=>{
+    if(!Array.isArray(entry.size) || entry.size.length!==3) return false;
+    const max=Math.max(...entry.size.map(Number));
+    const volume=entry.size.reduce((product,value)=>product*Number(value),1);
+    return Number.isFinite(max) && Number.isFinite(volume) && max<1.5 && volume<=1;
+  });
+
+  for(const door of strictDoorCandidates){
+    const source=ir.entries[door.index-1];
+    const helpers=tinyHelpers
+      .filter(entry=>{
+        if(entry.index===door.index) return false;
+        const dx=entry.position[0]-source.position[0];
+        const dy=entry.position[1]-source.position[1];
+        const dz=entry.position[2]-source.position[2];
+        const distance=Math.sqrt((dx*dx)+(dy*dy)+(dz*dz));
+        return distance<=4.5 && Math.abs(dy)<=3.2;
+      })
+      .sort((a,b)=>{
+        const da=Math.hypot(
+          a.position[0]-source.position[0],
+          a.position[1]-source.position[1],
+          a.position[2]-source.position[2]
+        );
+        const db=Math.hypot(
+          b.position[0]-source.position[0],
+          b.position[1]-source.position[1],
+          b.position[2]-source.position[2]
+        );
+        return da-db || a.index-b.index;
+      });
+
+    if(helpers.length){
+      const helper=helpers[0];
+      helperEvidence.push(Object.freeze({
+        doorIndex:door.index,
+        helperIndex:helper.index,
+        helperTransparency:helper.transparency,
+        helperCanCollide:helper.canCollide,
+        distance:round(Math.hypot(
+          helper.position[0]-source.position[0],
+          helper.position[1]-source.position[1],
+          helper.position[2]-source.position[2]
+        ),2)
+      }));
+    }
+  }
+
   return Object.freeze({
     nativeSeats:Object.freeze(nativeSeats),
     vehicleSeats:Object.freeze(vehicleSeats),
     doorCandidates:Object.freeze(doorCandidates),
+    strictDoorCandidates:Object.freeze(strictDoorCandidates),
+    strictDoorHelperEvidence:Object.freeze(helperEvidence),
     garageCandidates:Object.freeze(garageCandidates),
     lightCandidates:Object.freeze(lightCandidates)
   });
@@ -138,6 +196,8 @@ export function buildBrookhavenInteractionCandidateManifest(ir,{irHash=null}={})
       nativeSeats:classified.nativeSeats.length,
       vehicleSeats:classified.vehicleSeats.length,
       doorCandidates:classified.doorCandidates.length,
+      strictDoorCandidates:classified.strictDoorCandidates.length,
+      strictDoorHelperEvidence:classified.strictDoorHelperEvidence.length,
       garageCandidates:classified.garageCandidates.length,
       lightCandidates:classified.lightCandidates.length
     },
@@ -145,6 +205,8 @@ export function buildBrookhavenInteractionCandidateManifest(ir,{irHash=null}={})
       nativeSeats:classified.nativeSeats,
       vehicleSeats:classified.vehicleSeats,
       doors:classified.doorCandidates,
+      strictDoors:classified.strictDoorCandidates,
+      strictDoorHelperEvidence:classified.strictDoorHelperEvidence,
       garages:classified.garageCandidates,
       lights:classified.lightCandidates
     }
