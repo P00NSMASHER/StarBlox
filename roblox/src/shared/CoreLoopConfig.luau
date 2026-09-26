@@ -24,6 +24,12 @@ local CoreLoopConfig = table.freeze({
 	}),
 	PilotMode = table.freeze({
 		Enabled = true,
+		BaselineEpoch = "pilot-baseline-v1",
+		BaselineMinFirstAttempts = 54,
+		BaselineMinCompletedSessions = 3,
+		CalibrationMinFirstAttempts = 100,
+		CalibrationMinCompletedSessions = 6,
+		CalibrationTargetFirstAttempts = 200,
 		SessionLength = 18,
 		CurrentMaterialQuestions = 6,
 		PriorSkillQuestions = 4,
