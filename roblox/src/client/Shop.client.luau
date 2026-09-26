@@ -51,7 +51,7 @@ local shopButton = Instance.new("TextButton")
 shopButton.Name = "ShopButton"
 shopButton.AnchorPoint = Vector2.new(1, 0)
 shopButton.Position = UDim2.new(1, -12, 0, 110)
-shopButton.Size = UDim2.fromOffset(78, 32)
+shopButton.Size = UDim2.fromOffset(84, 44)
 shopButton.BackgroundColor3 = COLORS.accent
 shopButton.Text = "Shop"
 shopButton.TextColor3 = COLORS.text
@@ -66,7 +66,7 @@ local homeButton = Instance.new("TextButton")
 homeButton.Name = "HomeButton"
 homeButton.AnchorPoint = Vector2.new(1, 0)
 homeButton.Position = UDim2.new(1, -98, 0, 110)
-homeButton.Size = UDim2.fromOffset(78, 32)
+homeButton.Size = UDim2.fromOffset(84, 44)
 homeButton.BackgroundColor3 = COLORS.navy
 homeButton.Text = "Home"
 homeButton.TextColor3 = COLORS.text
@@ -201,7 +201,7 @@ local function row(
 )
 	local frame = Instance.new("Frame")
 	frame.LayoutOrder = order
-	frame.Size = UDim2.new(1, -4, 0, 50)
+	frame.Size = UDim2.new(1, -4, 0, 54)
 	frame.BackgroundColor3 = COLORS.row
 	frame.ZIndex = 62
 	frame.Parent = scroller
@@ -224,7 +224,7 @@ local function row(
 	local button = Instance.new("TextButton")
 	button.AnchorPoint = Vector2.new(1, 0.5)
 	button.Position = UDim2.new(1, -6, 0.5, 0)
-	button.Size = UDim2.fromOffset(104, 40)
+	button.Size = UDim2.fromOffset(104, 44)
 	button.BackgroundColor3 = if enabled then COLORS.accent else COLORS.navy
 	button.Text = buttonText
 	button.TextColor3 = if enabled then COLORS.text else COLORS.muted
