@@ -14,9 +14,9 @@ local LATEST_KEY = "latest"
 local RETENTION_STORE_NAME = "StarBloxPrivateRetention_v1"
 local RETENTION_KEY = "aggregate"
 local RETENTION_VERSION = "starblox-private-retention-v1"
-local ITEM_METRICS_STORE_NAME = "StarBloxQuestionItemMetrics_v1"
+local ITEM_METRICS_STORE_NAME = "StarBloxQuestionItemMetrics_v2"
 local ITEM_METRICS_KEY = "aggregate"
-local ITEM_METRICS_VERSION = "starblox-question-item-metrics-v1"
+local ITEM_METRICS_VERSION = "starblox-question-item-metrics-v2-pilot-baseline"
 local MAX_ITEM_ROWS = 600
 local REMOTE_NAME = "StarBloxPrivatePlaytestTelemetry"
 
@@ -35,6 +35,8 @@ local ALLOWED_SERVER_EVENTS = table.freeze({
 	answer_wrong = true,
 	answer_correct = true,
 	question_attempt = true,
+	pilot_started = true,
+	pilot_completed = true,
 	loop_completed = true,
 })
 
@@ -160,6 +162,8 @@ function PrivatePlaytestTelemetryService:_ensureSession(player)
 			answer_wrong = 0,
 			answer_correct = 0,
 			question_attempt = 0,
+			pilot_started = 0,
+			pilot_completed = 0,
 			loop_completed = 0,
 		},
 		activityIds = {},
@@ -246,6 +250,8 @@ function PrivatePlaytestTelemetryService:_persistRetentionAggregate(report)
 					touchSessions = 0,
 					fullLoopSessions = 0,
 					repeatLoopSessions = 0,
+					pilotSessionsStarted = 0,
+					pilotSessionsCompleted = 0,
 					sessionsWithFirstStation = 0,
 					totalFirstStationSeconds = 0,
 					totalDurationSeconds = 0,
@@ -270,6 +276,12 @@ function PrivatePlaytestTelemetryService:_persistRetentionAggregate(report)
 			end
 			if snapshot.retention.secondLoopStarted == true then
 				aggregate.repeatLoopSessions = (aggregate.repeatLoopSessions or 0) + 1
+			end
+			if (snapshot.server.pilot_started or 0) > 0 then
+				aggregate.pilotSessionsStarted = (aggregate.pilotSessionsStarted or 0) + 1
+			end
+			if (snapshot.server.pilot_completed or 0) > 0 then
+				aggregate.pilotSessionsCompleted = (aggregate.pilotSessionsCompleted or 0) + 1
 			end
 			if type(snapshot.retention.firstStationSeconds) == "number" then
 				aggregate.sessionsWithFirstStation = (aggregate.sessionsWithFirstStation or 0) + 1
@@ -299,10 +311,16 @@ function PrivatePlaytestTelemetryService:_persistItemMetricsAggregate(report)
 	local snapshot = self:_snapshot(report)
 	local firstAttempts = 0
 	local firstCorrect = 0
+	local firstPilotAttempts = 0
+	local firstPilotCorrect = 0
 	for _, item in snapshot.itemAttempts or {} do
 		if item.firstScoredSeen == true then
 			firstAttempts += 1
 			if item.firstCorrect == true then firstCorrect += 1 end
+			if item.firstPilot == true then
+				firstPilotAttempts += 1
+				if item.firstCorrect == true then firstPilotCorrect += 1 end
+			end
 		end
 	end
 	if firstAttempts <= 0 then
@@ -311,6 +329,7 @@ function PrivatePlaytestTelemetryService:_persistItemMetricsAggregate(report)
 	end
 
 	local sessionAccuracy = firstCorrect / firstAttempts
+	local pilotSessionAccuracy = if firstPilotAttempts > 0 then firstPilotCorrect / firstPilotAttempts else nil
 	self._aggregatedItemSessions[report.sessionId] = true
 	local ok, reason = pcall(function()
 		self._itemMetricsStore:UpdateAsync(ITEM_METRICS_KEY, function(existing)
@@ -351,6 +370,20 @@ function PrivatePlaytestTelemetryService:_persistItemMetricsAggregate(report)
 							rubricPoints = 0,
 							rubricMaxPoints = 0,
 							supportAttempts = 0,
+							pilotAttempts = 0,
+							pilotCorrect = 0,
+							pilotWrong = 0,
+							firstPilotAttempts = 0,
+							firstPilotCorrect = 0,
+							pilotRubricPoints = 0,
+							pilotRubricMaxPoints = 0,
+							pilotBucketCounts = {},
+							firstPilotBucketCounts = {},
+							pilotResponseTimeBands = {},
+							pilotMisconceptionCounts = {},
+							sumPilotSessionAccuracy = 0,
+							sumPilotSessionAccuracySquared = 0,
+							sumPilotItemSessionProduct = 0,
 							responseTimeBands = {},
 							choiceIndexCounts = {},
 							misconceptionCounts = {},
@@ -372,6 +405,30 @@ function PrivatePlaytestTelemetryService:_persistItemMetricsAggregate(report)
 					row.rubricPoints = (row.rubricPoints or 0) + (item.rubricPoints or 0)
 					row.rubricMaxPoints = (row.rubricMaxPoints or 0) + (item.rubricMaxPoints or 0)
 					row.supportAttempts = (row.supportAttempts or 0) + (item.supportAttempts or 0)
+					row.pilotAttempts = (row.pilotAttempts or 0) + (item.pilotAttempts or 0)
+					row.pilotCorrect = (row.pilotCorrect or 0) + (item.pilotCorrect or 0)
+					row.pilotWrong = (row.pilotWrong or 0) + (item.pilotWrong or 0)
+					row.firstPilotAttempts =
+						(row.firstPilotAttempts or 0) + (if item.firstPilot == true then 1 else 0)
+					row.firstPilotCorrect =
+						(row.firstPilotCorrect or 0) + (if item.firstPilot == true and item.firstCorrect == true then 1 else 0)
+					row.pilotRubricPoints = (row.pilotRubricPoints or 0) + (item.pilotRubricPoints or 0)
+					row.pilotRubricMaxPoints = (row.pilotRubricMaxPoints or 0) + (item.pilotRubricMaxPoints or 0)
+					row.pilotBucketCounts = type(row.pilotBucketCounts) == "table" and row.pilotBucketCounts or {}
+					row.firstPilotBucketCounts = type(row.firstPilotBucketCounts) == "table" and row.firstPilotBucketCounts or {}
+					row.pilotResponseTimeBands = type(row.pilotResponseTimeBands) == "table" and row.pilotResponseTimeBands or {}
+					row.pilotMisconceptionCounts = type(row.pilotMisconceptionCounts) == "table" and row.pilotMisconceptionCounts or {}
+					mergeCounters(row.pilotBucketCounts, item.pilotBucketCounts)
+					mergeCounters(row.firstPilotBucketCounts, item.firstPilotBucketCounts)
+					mergeCounters(row.pilotResponseTimeBands, item.pilotResponseTimeBands)
+					mergeCounters(row.pilotMisconceptionCounts, item.pilotMisconceptionCounts)
+					if item.firstPilot == true and pilotSessionAccuracy ~= nil then
+						row.sumPilotSessionAccuracy = (row.sumPilotSessionAccuracy or 0) + pilotSessionAccuracy
+						row.sumPilotSessionAccuracySquared =
+							(row.sumPilotSessionAccuracySquared or 0) + (pilotSessionAccuracy * pilotSessionAccuracy)
+						row.sumPilotItemSessionProduct =
+							(row.sumPilotItemSessionProduct or 0) + (if item.firstCorrect == true then pilotSessionAccuracy else 0)
+					end
 					row.responseTimeBands = type(row.responseTimeBands) == "table" and row.responseTimeBands or {}
 					row.choiceIndexCounts = type(row.choiceIndexCounts) == "table" and row.choiceIndexCounts or {}
 					row.misconceptionCounts = type(row.misconceptionCounts) == "table" and row.misconceptionCounts or {}
@@ -487,6 +544,15 @@ function PrivatePlaytestTelemetryService:RecordServerEvent(player, eventName: an
 				correct = 0,
 				wrong = 0,
 				supportAttempts = 0,
+				pilotAttempts = 0,
+				pilotCorrect = 0,
+				pilotWrong = 0,
+				pilotRubricPoints = 0,
+				pilotRubricMaxPoints = 0,
+				pilotBucketCounts = {},
+				firstPilotBucketCounts = {},
+				pilotResponseTimeBands = {},
+				pilotMisconceptionCounts = {},
 				rubricPoints = 0,
 				rubricMaxPoints = 0,
 				responseTimeBands = {},
@@ -494,6 +560,7 @@ function PrivatePlaytestTelemetryService:RecordServerEvent(player, eventName: an
 				misconceptionCounts = {},
 				firstScoredSeen = false,
 				firstCorrect = false,
+				firstPilot = false,
 				firstVariant = nil,
 				firstRubricPoints = 0,
 				firstRubricMaxPoints = 0,
@@ -503,9 +570,31 @@ function PrivatePlaytestTelemetryService:RecordServerEvent(player, eventName: an
 
 		item.attempts += 1
 		local support = cleanBool(source.support)
+		local pilot = cleanBool(source.pilot)
 		local correct = cleanBool(source.correct)
+		local pilotBucket = nil
+		if pilot then
+			item.pilotAttempts += 1
+			if correct then item.pilotCorrect += 1 else item.pilotWrong += 1 end
+			pilotBucket = cleanMetricKey(source.pilotBucket, 40)
+			if pilotBucket ~= nil then
+				ensureCounter(item.pilotBucketCounts, pilotBucket)
+			end
+			local pilotBand = cleanMetricKey(source.responseTimeBand, 20)
+			if pilotBand ~= nil and ALLOWED_RESPONSE_TIME_BANDS[pilotBand] == true then
+				ensureCounter(item.pilotResponseTimeBands, pilotBand)
+			end
+			local pilotMisconception = cleanMetricKey(source.misconception, 80)
+			if pilotMisconception ~= nil then
+				ensureCounter(item.pilotMisconceptionCounts, pilotMisconception)
+			end
+		end
 		local rubricPoints = clampInteger(source.rubricPoints, 0, 10)
 		local rubricMaxPoints = math.max(1, clampInteger(source.rubricMaxPoints, 1, 10))
+		if pilot then
+			item.pilotRubricPoints += rubricPoints
+			item.pilotRubricMaxPoints += rubricMaxPoints
+		end
 		item.rubricPoints += rubricPoints
 		item.rubricMaxPoints += rubricMaxPoints
 		if support then
@@ -516,6 +605,10 @@ function PrivatePlaytestTelemetryService:RecordServerEvent(player, eventName: an
 			if item.firstScoredSeen ~= true then
 				item.firstScoredSeen = true
 				item.firstCorrect = correct
+				item.firstPilot = pilot
+				if pilot and pilotBucket ~= nil then
+					ensureCounter(item.firstPilotBucketCounts, pilotBucket)
+				end
 				item.firstRubricPoints = rubricPoints
 				item.firstRubricMaxPoints = rubricMaxPoints
 				local variant = cleanMetricKey(source.variantId, 8)
