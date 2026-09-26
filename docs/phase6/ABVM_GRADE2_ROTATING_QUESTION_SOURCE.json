@@ -1,18 +1,22 @@
 {
-  "schemaVersion": 3,
-  "certificationVersion": "phase8-material-first-star-fallback-v1",
-  "status": "certified-source-grounded-plus-star-fallback",
-  "upstream": {
+  "schemaVersion": 4,
+  "certificationVersion": "dynamic-abvm-star-sync-v1",
+  "status": "certified-daily-abvm-material-plus-regenerated-star-fallback",
+  "generatedFrom": {
     "repository": "P00NSMASHER/abvmschoolstarworld",
     "path": "pages/data/study-pack.json",
-    "blobSha": "9db898dbdba7208778ec3f61d25a427bb3dd8b60",
-    "packSourceHash": "teacher-pages-0ca987de6de2d3791e25",
+    "scanner": "scripts/refresh-teacher-pages.mjs",
+    "healthCheck": "scripts/check-refresh-health.mjs",
+    "sourceHash": "teacher-pages-0ca987de6de2d3791e25",
     "sourceCapturedAt": "2026-09-24T20:13:58.158Z",
-    "weekLabel": "Week of September 21, 2026"
+    "sourceCheckedAt": "2026-09-24T20:13:58.158Z",
+    "weekLabel": "Week of September 21, 2026",
+    "bankSnapshotId": "abvm-0ca987de6de2"
   },
   "starAlignment": {
     "assessment": "Renaissance Star Reading and Star Math",
     "itemPolicy": "original-practice-only-not-copied-test-items",
+    "regenerationPolicy": "regenerate-on-every-verified-ABVM-source-change",
     "readingDomains": [
       "Word knowledge and skills",
       "Comprehension strategies and constructing meaning",
@@ -24,1227 +28,1950 @@
       "Algebra",
       "Geometry and measurement",
       "Data analysis, statistics, and probability"
-    ]
+    ],
+    "readingQuestionCount": 30,
+    "mathQuestionCount": 30
   },
   "qualityPolicy": {
     "materialFirst": true,
-    "materialQuestionsPerStation": 12,
-    "starFallbackQuestionsPerStation": 8,
+    "materialCountByStation": {
+      "word-portal-put-v1": 12,
+      "spelling-forge-fog-v1": 12,
+      "culture-lab-culture-v1": 12
+    },
+    "starFallbackQuestionsPerStation": 20,
+    "minimumDifficulty": 2,
     "forbiddenMetaPromptPatterns": [
       "sight word",
-      "which .* is on the current .* list",
-      "what .* is being practiced this week",
-      "which story is on the current .* page",
       "teacher page",
-      "study list"
+      "study list",
+      "being practiced this week"
     ],
-    "minimumDifficulty": 2,
     "answersServerOnly": true,
-    "minimumQuestionsPerStation": 20,
-    "rotation": "material-once-then-star-fallback-loop",
-    "tierOrder": "12 material questions, then 8 original STAR-aligned fallback questions",
+    "rotation": "fresh-material-once-then-current-snapshot-star-fallback-loop",
+    "resetPlayerQuestionCursorWhenSnapshotChanges": true,
     "noLiveLlm": true
   },
   "questions": [
     {
-      "id": "phase8-mat-grammar-command-1",
+      "id": "abvm-0ca987de6de2-mat-read-sentence-command",
       "stationId": "word-portal-put-v1",
       "subject": "Reading / ELA",
       "skill": "sentence-types",
-      "prompt": "Which sentence is a command even though it does not use the word “please”?",
+      "prompt": "Which sentence gives a direction without asking a question?",
       "choices": [
-        "Did you close the gate?",
-        "Close the gate before the dog runs out.",
-        "The gate is beside the fence."
+        "Put the library book on the shelf.",
+        "Where is the library book?",
+        "The library book is on the shelf."
       ],
-      "answer": "Close the gate before the dog runs out.",
-      "explanation": "A command tells someone to do something. This sentence gives a direction.",
-      "provenance": "curriculum-practice-derived-from-published-topic",
+      "answer": "Put the library book on the shelf.",
+      "explanation": "A command tells someone what to do.",
+      "provenance": "curriculum-practice-derived-from-verified-abvm-pack",
       "sourceFact": "Grammar: types of sentences (test Wednesday, Sept. 30)",
       "tier": "material",
       "domain": "Language: sentence types",
       "difficulty": 3,
-      "contentHash": "sha256:cfd9de86ca1fa55170edf3963a786361cd8f206933279c06f23d955b0d887f2f"
+      "contentHash": "sha256:4b3caa764c64544f08132dcecb86c57d67d10de476b8d3b925d264f22131ed47"
     },
     {
-      "id": "phase8-mat-grammar-question-1",
+      "id": "abvm-0ca987de6de2-mat-read-sentence-question",
       "stationId": "word-portal-put-v1",
       "subject": "Reading / ELA",
       "skill": "sentence-types",
-      "prompt": "Mia wants to ask where her library book is. Which sentence does that job correctly?",
+      "prompt": "A student needs to find out when recess starts. Which sentence does that job?",
       "choices": [
-        "Where did I put my library book?",
-        "Put my library book on the desk.",
-        "My library book is on the desk."
+        "When does recess start?",
+        "Recess starts after lunch.",
+        "Line up for recess."
       ],
-      "answer": "Where did I put my library book?",
-      "explanation": "A question asks for information and ends with a question mark.",
-      "provenance": "curriculum-practice-derived-from-published-topic",
+      "answer": "When does recess start?",
+      "explanation": "A question asks for information.",
+      "provenance": "curriculum-practice-derived-from-verified-abvm-pack",
       "sourceFact": "Grammar: types of sentences (test Wednesday, Sept. 30)",
       "tier": "material",
       "domain": "Language: sentence types",
       "difficulty": 3,
-      "contentHash": "sha256:7cbd1e82f860a0ab2f7ecd2310ef10a2c16714dd615b95704b3c1a810e4064aa"
+      "contentHash": "sha256:0645c617e6c786bf20e2d47c533989abec23a71e3cc44e9f0849769f95982e93"
     },
     {
-      "id": "phase8-mat-grammar-revise-1",
+      "id": "abvm-0ca987de6de2-mat-read-sentence-purpose",
       "stationId": "word-portal-put-v1",
       "subject": "Reading / ELA",
       "skill": "sentence-types",
-      "prompt": "The sentence “You finished the picture.” is a statement. Which revision turns it into a question?",
+      "prompt": "Which pair has a statement first and a command second?",
       "choices": [
-        "Did you finish the picture?",
-        "Finish the picture now.",
-        "You finished the picture!"
+        "The paint is wet. — Do not touch it.",
+        "Is the paint wet? — The paint is wet.",
+        "Do not touch it. — Is the paint wet?"
       ],
-      "answer": "Did you finish the picture?",
-      "explanation": "The revision asks for information instead of telling information.",
-      "provenance": "curriculum-practice-derived-from-published-topic",
+      "answer": "The paint is wet. — Do not touch it.",
+      "explanation": "The first tells information; the second gives a direction.",
+      "provenance": "curriculum-practice-derived-from-verified-abvm-pack",
       "sourceFact": "Grammar: types of sentences (test Wednesday, Sept. 30)",
       "tier": "material",
       "domain": "Language: sentence types",
       "difficulty": 3,
-      "contentHash": "sha256:d861d0a4d1a349e5f606ca21ebf40ddb57d49f3361013622f6a55eede50957ac"
+      "contentHash": "sha256:f8acd8c67929b0052e3e6dfe4def6262d3db1498bab62378f877ff74f312e6ba"
     },
     {
-      "id": "phase8-mat-grammar-purpose-1",
+      "id": "abvm-0ca987de6de2-mat-read-blend-transfer",
       "stationId": "word-portal-put-v1",
       "subject": "Reading / ELA",
-      "skill": "sentence-types",
-      "prompt": "A teacher says, “Bring your reading log tomorrow.” Why is this a command?",
+      "skill": "consonant-blends",
+      "prompt": "Which word starts with the same beginning blend as “flag”?",
       "choices": [
-        "It gives a direction.",
-        "It asks for a reason.",
-        "It tells what already happened."
+        "flip",
+        "frog",
+        "lamp"
       ],
-      "answer": "It gives a direction.",
-      "explanation": "Commands tell someone what to do.",
-      "provenance": "curriculum-practice-derived-from-published-topic",
-      "sourceFact": "Grammar: types of sentences (test Wednesday, Sept. 30); Reading Log",
-      "tier": "material",
-      "domain": "Language: sentence purpose",
-      "difficulty": 3,
-      "contentHash": "sha256:5ca0222af3660c0157108c8aca889baa0c8844041ac7fc6bc6bc264d729fd069"
-    },
-    {
-      "id": "phase8-mat-vocab-peered-1",
-      "stationId": "word-portal-put-v1",
-      "subject": "Reading / ELA",
-      "skill": "vocabulary-in-context",
-      "prompt": "Little Flap peered through the leaves before moving closer. What does “peered” most likely mean?",
-      "choices": [
-        "looked carefully",
-        "called loudly",
-        "flew quickly"
-      ],
-      "answer": "looked carefully",
-      "explanation": "The context shows Little Flap looking through the leaves before deciding what to do.",
-      "provenance": "curriculum-practice-derived-from-published-topic",
-      "sourceFact": "Vocabulary: action, afraid, depend, nervously, peered, perfectly, rescue, secret",
+      "answer": "flip",
+      "explanation": "Flag and flip both begin with fl.",
+      "provenance": "curriculum-practice-derived-from-verified-abvm-pack",
+      "sourceFact": "Phonics: 2-letter consonant blends",
       "tier": "material",
       "domain": "Word knowledge and skills",
       "difficulty": 3,
-      "contentHash": "sha256:0059a1d3af5e64a23016e22c73f0917a987074dedc079b49961e2e61f2f5f0c2"
+      "contentHash": "sha256:2642dacf278b78ba00e6b0a5f09046fe43432c83862ea928193faa3cf37a509d"
     },
     {
-      "id": "phase8-mat-vocab-nervously-1",
+      "id": "abvm-0ca987de6de2-mat-read-blend-middle",
       "stationId": "word-portal-put-v1",
       "subject": "Reading / ELA",
-      "skill": "vocabulary-in-context",
-      "prompt": "A bird waited nervously before its first flight. Which detail best shows the meaning of “nervously”?",
+      "skill": "consonant-blends",
+      "prompt": "Which word begins with two consonants whose sounds can both be heard?",
       "choices": [
-        "Its wings shook a little.",
-        "It slept peacefully.",
-        "It sang the same song every morning."
+        "step",
+        "ship",
+        "cake"
       ],
-      "answer": "Its wings shook a little.",
-      "explanation": "Shaking before a first flight is a clue that the bird feels worried or unsure.",
-      "provenance": "curriculum-practice-derived-from-published-topic",
-      "sourceFact": "Vocabulary: action, afraid, depend, nervously, peered, perfectly, rescue, secret",
+      "answer": "step",
+      "explanation": "In st, both consonant sounds are heard.",
+      "provenance": "curriculum-practice-derived-from-verified-abvm-pack",
+      "sourceFact": "Phonics: 2-letter consonant blends",
       "tier": "material",
       "domain": "Word knowledge and skills",
       "difficulty": 3,
-      "contentHash": "sha256:c4532bf8fbed08ac4cfb6ffb456e6fb7b1ab9b46a161623f3766b6027ddcf07d"
+      "contentHash": "sha256:0e846d9f63e18c8ecb356c2aeeb5edf9f9197ae48f53618c206cc062e985b28e"
     },
     {
-      "id": "phase8-mat-vocab-depend-1",
+      "id": "abvm-0ca987de6de2-mat-read-blend-change",
       "stationId": "word-portal-put-v1",
       "subject": "Reading / ELA",
-      "skill": "vocabulary-in-context",
-      "prompt": "Baby birds depend on adults for food. Which sentence uses “depend” in the same way?",
+      "skill": "consonant-blends",
+      "prompt": "Change the first sound in “clap” from /c/ to /f/. Which word do you make?",
       "choices": [
-        "Young plants need sunlight to grow.",
-        "A child paints a bright picture.",
-        "A bell rings at noon."
+        "flap",
+        "cap",
+        "clip"
       ],
-      "answer": "Young plants need sunlight to grow.",
-      "explanation": "To depend on something is to need or rely on it.",
-      "provenance": "curriculum-practice-derived-from-published-topic",
-      "sourceFact": "Vocabulary: action, afraid, depend, nervously, peered, perfectly, rescue, secret",
+      "answer": "flap",
+      "explanation": "Changing cl to fl makes flap.",
+      "provenance": "curriculum-practice-derived-from-verified-abvm-pack",
+      "sourceFact": "Phonics: 2-letter consonant blends",
       "tier": "material",
       "domain": "Word knowledge and skills",
       "difficulty": 3,
-      "contentHash": "sha256:fedd2f31ebfb04cd7e749acfd6dcc5af2bb023323614195f94b8bf8758a7562e"
+      "contentHash": "sha256:45937faaf620ee347ca634bb0eeee891017b6e707297777fd2e2bf6d7498300d"
     },
     {
-      "id": "phase8-mat-vocab-rescue-1",
+      "id": "abvm-0ca987de6de2-mat-read-cvc-reason",
       "stationId": "word-portal-put-v1",
       "subject": "Reading / ELA",
-      "skill": "vocabulary-in-context",
-      "prompt": "Which situation is the best example of a rescue?",
+      "skill": "cvc-structure",
+      "prompt": "Which word is CVC and has the short-o sound?",
       "choices": [
-        "A firefighter carries a trapped kitten to safety.",
-        "A child hides a note under a pillow.",
-        "A runner practices before a race."
+        "hop",
+        "hope",
+        "shop"
       ],
-      "answer": "A firefighter carries a trapped kitten to safety.",
-      "explanation": "A rescue means helping someone or something get out of danger.",
-      "provenance": "curriculum-practice-derived-from-published-topic",
-      "sourceFact": "Vocabulary: action, afraid, depend, nervously, peered, perfectly, rescue, secret",
+      "answer": "hop",
+      "explanation": "Hop is consonant-vowel-consonant and uses short o.",
+      "provenance": "curriculum-practice-derived-from-verified-abvm-pack",
+      "sourceFact": "Word structure: CVC words",
       "tier": "material",
       "domain": "Word knowledge and skills",
       "difficulty": 3,
-      "contentHash": "sha256:b2e73858014256abef20bf0382a71f5f271ad1e3866a6d604de8876664d04a47"
+      "contentHash": "sha256:5dea14ba34294f6d96ed4ca3a56ae24d6ab7ce9550acf3036ff9c6197aca9639"
     },
     {
-      "id": "phase8-mat-reading-infer-1",
+      "id": "abvm-0ca987de6de2-mat-read-cvc-build",
+      "stationId": "word-portal-put-v1",
+      "subject": "Reading / ELA",
+      "skill": "cvc-structure",
+      "prompt": "Choose the letters that make a CVC word meaning “a small animal kept at home.”",
+      "choices": [
+        "p-e-t",
+        "p-ee-t",
+        "pl-e-t"
+      ],
+      "answer": "p-e-t",
+      "explanation": "Pet follows consonant-vowel-consonant.",
+      "provenance": "curriculum-practice-derived-from-verified-abvm-pack",
+      "sourceFact": "Word structure: CVC words",
+      "tier": "material",
+      "domain": "Word knowledge and skills",
+      "difficulty": 3,
+      "contentHash": "sha256:f1756c12b1f6d6e4d15a27c48e9dbcae4241b69a7e0738fa38de1c2ab09b80eb"
+    },
+    {
+      "id": "abvm-0ca987de6de2-mat-read-comprehension-infer",
       "stationId": "word-portal-put-v1",
       "subject": "Reading / ELA",
       "skill": "inference",
-      "prompt": "A small bird stood at the edge of a branch. It looked down, pulled its wings close, and took one slow step backward. Then an older bird moved beside it and waited. What can the reader infer about the small bird?",
+      "prompt": "Nora zipped her coat, pulled on mittens, and saw her breath make a little cloud. What can you infer about the weather?",
       "choices": [
-        "It feels unsure about flying.",
-        "It is angry about the weather.",
-        "It is searching for food."
+        "It is cold outside.",
+        "It is very hot outside.",
+        "It is raining hard."
       ],
-      "answer": "It feels unsure about flying.",
-      "explanation": "The bird steps backward and holds its wings close, which supports the inference that it feels unsure.",
-      "provenance": "curriculum-practice-derived-from-published-topic",
-      "sourceFact": "Story: Little Flap Learns to Fly; Reading comprehension: visualize, theme",
+      "answer": "It is cold outside.",
+      "explanation": "The coat, mittens, and visible breath are evidence that it is cold.",
+      "provenance": "curriculum-practice-derived-from-verified-abvm-pack",
+      "sourceFact": "Reading comprehension: visualize, theme",
       "tier": "material",
       "domain": "Comprehension strategies and constructing meaning",
       "difficulty": 3,
-      "contentHash": "sha256:442255d629428740636590bec2850bb4dd265012e7985e32f546247c378cfc34"
+      "contentHash": "sha256:129156cc500e6d2f38677154143b1b5c92b752ba9c18a6363829c9cba08b0424"
     },
     {
-      "id": "phase8-mat-reading-visualize-1",
-      "stationId": "word-portal-put-v1",
-      "subject": "Reading / ELA",
-      "skill": "visualizing",
-      "prompt": "Read: “The little bird stretched both wings, leaned into the wind, and lifted above the branch.” Which picture should a reader imagine?",
-      "choices": [
-        "A bird rising into the air with its wings open.",
-        "A bird sleeping inside a nest.",
-        "A bird pecking seeds on the ground."
-      ],
-      "answer": "A bird rising into the air with its wings open.",
-      "explanation": "The action words “stretched,” “leaned,” and “lifted” describe the bird taking flight.",
-      "provenance": "curriculum-practice-derived-from-published-topic",
-      "sourceFact": "Story: Little Flap Learns to Fly; Reading comprehension: visualize, theme",
-      "tier": "material",
-      "domain": "Comprehension strategies and constructing meaning",
-      "difficulty": 3,
-      "contentHash": "sha256:5b34461451457aa1a3e261a0f520c348b9594c7a603b2c5389ec74c642c7efbe"
-    },
-    {
-      "id": "phase8-mat-reading-theme-1",
+      "id": "abvm-0ca987de6de2-mat-read-comprehension-theme",
       "stationId": "word-portal-put-v1",
       "subject": "Reading / ELA",
       "skill": "theme",
-      "prompt": "A young bird is afraid to try something new. It practices, gets encouragement, and finally succeeds. Which theme best fits?",
+      "prompt": "Jay dropped his model bridge twice. Each time he fixed one weak part and tried again. On the third try it held. Which lesson fits the story best?",
       "choices": [
-        "Courage can grow when you keep trying.",
-        "It is best to avoid every difficult task.",
-        "Winning is only possible without help."
+        "Keep trying and learn from mistakes.",
+        "The first try is always best.",
+        "It is better not to build things."
       ],
-      "answer": "Courage can grow when you keep trying.",
-      "explanation": "The character begins afraid but succeeds through practice and encouragement.",
-      "provenance": "curriculum-practice-derived-from-published-topic",
-      "sourceFact": "Story: Little Flap Learns to Fly; Reading comprehension: visualize, theme",
+      "answer": "Keep trying and learn from mistakes.",
+      "explanation": "Jay improves the bridge by learning from each failed attempt.",
+      "provenance": "curriculum-practice-derived-from-verified-abvm-pack",
+      "sourceFact": "Reading comprehension: visualize, theme",
       "tier": "material",
       "domain": "Analyzing literary text",
       "difficulty": 3,
-      "contentHash": "sha256:629346c99a9e2347b195f7ba5af70f8eb1b5b63695d778af0e387b310ada0ef4"
+      "contentHash": "sha256:65504ed77469b0d1c6bbfae2d3d7895be25cd3b34aed6ff8441e40aa6aa3fcf1"
     },
     {
-      "id": "phase8-mat-reading-evidence-1",
+      "id": "abvm-0ca987de6de2-mat-read-comprehension-evidence",
       "stationId": "word-portal-put-v1",
       "subject": "Reading / ELA",
       "skill": "text-evidence",
-      "prompt": "Read: “Nora was afraid to climb the tall ladder. She took a breath, held the rail, and climbed one step at a time.” Which detail best shows Nora acts even though she is afraid?",
+      "prompt": "Lena thinks the puppy is excited. Which detail is the strongest evidence? “The puppy raced in circles, wagged its tail, and bounced toward Lena.”",
       "choices": [
-        "She climbs one step at a time.",
-        "The ladder is tall.",
-        "She takes a breath."
+        "It wagged its tail and bounced toward Lena.",
+        "The puppy is an animal.",
+        "Lena was standing nearby."
       ],
-      "answer": "She climbs one step at a time.",
-      "explanation": "Climbing despite her fear is the strongest evidence that she acts with courage.",
-      "provenance": "curriculum-practice-derived-from-published-topic",
-      "sourceFact": "Reading comprehension: visualize, theme; Vocabulary: afraid",
+      "answer": "It wagged its tail and bounced toward Lena.",
+      "explanation": "Those actions directly show excitement.",
+      "provenance": "curriculum-practice-derived-from-verified-abvm-pack",
+      "sourceFact": "Reading comprehension: visualize, theme",
       "tier": "material",
-      "domain": "Analyzing literary text",
+      "domain": "Comprehension strategies and constructing meaning",
       "difficulty": 3,
-      "contentHash": "sha256:486f12c6a4762f9f6380c6807fa8037fe7bac3ebd2ab332cd3d16ab6053aff1b"
+      "contentHash": "sha256:b6ddb8dbc2dc0e19c8a5b7669e3127e37b35f2dc1bb1bf45e6030cfe9b57c568"
     },
     {
-      "id": "phase8-star-read-mainidea-1",
+      "id": "abvm-0ca987de6de2-mat-read-comprehension-visualize",
       "stationId": "word-portal-put-v1",
       "subject": "Reading / ELA",
-      "skill": "main-idea",
-      "prompt": "Beavers build dams across streams. The dams slow the water and create ponds. These ponds give beavers a safe place to build their homes. What is the main idea?",
+      "skill": "visualize",
+      "prompt": "Read: “Golden leaves spun through the cool air and covered the sidewalk.” Which picture best matches the sentence?",
       "choices": [
-        "Beaver dams change streams and help create safe homes.",
-        "Beavers eat only plants that grow beside ponds.",
-        "Streams always move too quickly for animals."
+        "Leaves swirling down onto a sidewalk.",
+        "Snow piled beside a frozen pond.",
+        "Flowers opening on a sunny lawn."
       ],
-      "answer": "Beaver dams change streams and help create safe homes.",
-      "explanation": "The details explain what dams do and why they help beavers.",
-      "provenance": "original-star-aligned-practice",
-      "sourceFact": "Renaissance Star Reading public domain: comprehension strategies and constructing meaning",
+      "answer": "Leaves swirling down onto a sidewalk.",
+      "explanation": "The words golden leaves, spun, and sidewalk support that mental picture.",
+      "provenance": "curriculum-practice-derived-from-verified-abvm-pack",
+      "sourceFact": "Reading comprehension: visualize, theme",
+      "tier": "material",
+      "domain": "Comprehension strategies and constructing meaning",
+      "difficulty": 3,
+      "contentHash": "sha256:37f7f4e2b55aeaf425c6ba266b693a13a880cde068e34b6197ea43b7d45b9669"
+    },
+    {
+      "id": "abvm-0ca987de6de2-star-read-07-word",
+      "stationId": "word-portal-put-v1",
+      "subject": "Reading / ELA",
+      "skill": "text-evidence",
+      "prompt": "Read: “The kitten crouched low, wiggled its back legs, and sprang toward the toy mouse.” Which detail best shows the kitten was getting ready to pounce?",
+      "choices": [
+        "The toy was a mouse.",
+        "It crouched low and wiggled its back legs.",
+        "The kitten had fur."
+      ],
+      "answer": "It crouched low and wiggled its back legs.",
+      "explanation": "Those actions are direct evidence of preparing to pounce.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Reading public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
       "tier": "star-fallback",
       "domain": "Comprehension strategies and constructing meaning",
       "difficulty": 3,
-      "contentHash": "sha256:43729b4bba3120f4095f35c6470f2a1a0326cb616424311919058ac0962c1b13"
+      "contentHash": "sha256:ca36822973d25d78645608a2cddedb3681c97c59890c134b2069795125e163fc"
     },
     {
-      "id": "phase8-star-read-sequence-1",
+      "id": "abvm-0ca987de6de2-star-read-12-word",
       "stationId": "word-portal-put-v1",
       "subject": "Reading / ELA",
-      "skill": "sequence",
-      "prompt": "Lena planted a bean seed. First she filled a cup with soil. Next she pushed the seed into the soil. Then she watered it. What did Lena do just before watering?",
+      "skill": "word-parts",
+      "prompt": "What does the word “careless” mean?",
       "choices": [
-        "She pushed the seed into the soil.",
-        "She filled a cup with water.",
-        "She picked a bean from the plant."
-      ],
-      "answer": "She pushed the seed into the soil.",
-      "explanation": "The passage says pushing the seed into the soil happened immediately before watering.",
-      "provenance": "original-star-aligned-practice",
-      "sourceFact": "Renaissance Star Reading public domain: comprehension strategies and constructing meaning",
-      "tier": "star-fallback",
-      "domain": "Comprehension strategies and constructing meaning",
-      "difficulty": 3,
-      "contentHash": "sha256:3924312561408abe15ec7098b1c3d04588e9e028c263e6ba6c227a3f956480fa"
-    },
-    {
-      "id": "phase8-star-read-context-1",
-      "stationId": "word-portal-put-v1",
-      "subject": "Reading / ELA",
-      "skill": "vocabulary-in-context",
-      "prompt": "The trail was narrow, so the hikers walked in a single line. What does “narrow” mean here?",
-      "choices": [
-        "not very wide",
         "very noisy",
-        "easy to climb"
+        "without enough care",
+        "a kind of place"
       ],
-      "answer": "not very wide",
-      "explanation": "Walking in a single line is a clue that the trail does not have much width.",
-      "provenance": "original-star-aligned-practice",
-      "sourceFact": "Renaissance Star Reading public domain: word knowledge and skills",
+      "answer": "without enough care",
+      "explanation": "The prefix or suffix changes the base word to make this meaning.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Reading public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
       "tier": "star-fallback",
       "domain": "Word knowledge and skills",
-      "difficulty": 3,
-      "contentHash": "sha256:62e84b4f6fee128bf4b8a329467d384892c4618f54fc37b1b686a42e5b0397ed"
+      "difficulty": 2,
+      "contentHash": "sha256:30ed49280e016b037f808a512b8ea83624e89c3701fc7d4d34567ef3855fc928"
     },
     {
-      "id": "phase8-star-read-infer-1",
+      "id": "abvm-0ca987de6de2-star-read-29-word",
       "stationId": "word-portal-put-v1",
       "subject": "Reading / ELA",
-      "skill": "inference",
-      "prompt": "Kai looked at the dark clouds, zipped his jacket, and hurried to bring his bike into the garage. What is Kai most likely expecting?",
+      "skill": "author-purpose",
+      "prompt": "What is the author’s main purpose in this text? “A poster says, “Bring a reusable bottle and help reduce trash!””",
       "choices": [
-        "rain",
-        "a birthday party",
-        "a hot afternoon"
+        "to hide the topic",
+        "to persuade",
+        "to list random words"
       ],
-      "answer": "rain",
-      "explanation": "Dark clouds and bringing the bike inside are clues that rain may be coming.",
-      "provenance": "original-star-aligned-practice",
-      "sourceFact": "Renaissance Star Reading public domain: comprehension strategies and constructing meaning",
-      "tier": "star-fallback",
-      "domain": "Comprehension strategies and constructing meaning",
-      "difficulty": 3,
-      "contentHash": "sha256:3857a617986d2c478b38e5cc87aba1ec3e5d41893d9d54058901760b1f699de6"
-    },
-    {
-      "id": "phase8-star-read-character-1",
-      "stationId": "word-portal-put-v1",
-      "subject": "Reading / ELA",
-      "skill": "character",
-      "prompt": "After Sam spilled the box of crayons, Priya knelt down and helped pick them up without being asked. What does this show about Priya?",
-      "choices": [
-        "She is helpful.",
-        "She is impatient.",
-        "She is confused."
-      ],
-      "answer": "She is helpful.",
-      "explanation": "Helping without being asked shows a helpful character trait.",
-      "provenance": "original-star-aligned-practice",
-      "sourceFact": "Renaissance Star Reading public domain: analyzing literary text",
-      "tier": "star-fallback",
-      "domain": "Analyzing literary text",
-      "difficulty": 3,
-      "contentHash": "sha256:fb309e0414303821878506636c6a795176746b351dbf7df276a29520feaf915a"
-    },
-    {
-      "id": "phase8-star-read-author-1",
-      "stationId": "word-portal-put-v1",
-      "subject": "Reading / ELA",
-      "skill": "authors-craft",
-      "prompt": "Why does the author write, “The leaves danced across the sidewalk”?",
-      "choices": [
-        "To help the reader picture leaves blowing in the wind.",
-        "To explain that leaves can really dance like people.",
-        "To prove the sidewalk is moving."
-      ],
-      "answer": "To help the reader picture leaves blowing in the wind.",
-      "explanation": "The author uses person-like action to create a vivid picture of windblown leaves.",
-      "provenance": "original-star-aligned-practice",
-      "sourceFact": "Renaissance Star Reading public domain: understanding author’s craft",
+      "answer": "to persuade",
+      "explanation": "The kind of information and wording reveal the author’s purpose.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Reading public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
       "tier": "star-fallback",
       "domain": "Understanding author’s craft",
       "difficulty": 3,
-      "contentHash": "sha256:4916828abb4bdb781d034e399263e8e314489d1426f9dd2cd44ae6d8c5ccc133"
+      "contentHash": "sha256:5058514e6b9b09eae48669634484658fa72829ef1b3a6c40687ca6e19a76fabb"
     },
     {
-      "id": "phase8-star-read-text-evidence-1",
+      "id": "abvm-0ca987de6de2-star-math-03-word",
+      "stationId": "word-portal-put-v1",
+      "subject": "Math",
+      "skill": "place-value",
+      "prompt": "In 758, what is the value of the digit 5?",
+      "choices": [
+        "500",
+        "50",
+        "5"
+      ],
+      "answer": "50",
+      "explanation": "The digit is in the tens place.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Math public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
+      "tier": "star-fallback",
+      "domain": "Numbers and operations",
+      "difficulty": 3,
+      "contentHash": "sha256:00620a064db176c288e41df620290ae5e396b565c73c60e6de1c41ff5258198d"
+    },
+    {
+      "id": "abvm-0ca987de6de2-star-read-11-word",
       "stationId": "word-portal-put-v1",
       "subject": "Reading / ELA",
-      "skill": "text-evidence",
-      "prompt": "Read: “Maya packed a flashlight, a map, and extra water before the hike.” Which detail best supports the idea that Maya prepared carefully?",
+      "skill": "context-clues",
+      "prompt": "In the sentence “The enormous box barely fit through the doorway,” what does “enormous” most likely mean?",
       "choices": [
-        "She packed several useful supplies.",
-        "She went on a hike.",
-        "She owns a flashlight."
+        "very small",
+        "very quiet",
+        "very large"
       ],
-      "answer": "She packed several useful supplies.",
-      "explanation": "Packing several useful items before leaving is direct evidence of careful preparation.",
-      "provenance": "original-star-aligned-practice",
-      "sourceFact": "Renaissance Star Reading public domain: comprehension strategies and constructing meaning",
+      "answer": "very large",
+      "explanation": "The context clue about barely fitting supports the meaning “very large”.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Reading public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
+      "tier": "star-fallback",
+      "domain": "Word knowledge and skills",
+      "difficulty": 2,
+      "contentHash": "sha256:238039ab08f2a767d864f90fc6950759034e410abda93597a70538c76e35af20"
+    },
+    {
+      "id": "abvm-0ca987de6de2-star-read-04-word",
+      "stationId": "word-portal-put-v1",
+      "subject": "Reading / ELA",
+      "skill": "sequence",
+      "prompt": "Read: “First Lena mixed the batter. Next, the batter went into the pan. Last, the pan went into the oven.” What happened immediately before the pan went into the oven?",
+      "choices": [
+        "The batter went into the pan.",
+        "The cake was eaten.",
+        "The oven was turned off."
+      ],
+      "answer": "The batter went into the pan.",
+      "explanation": "The sequence word “next” marks the step just before the last event.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Reading public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
       "tier": "star-fallback",
       "domain": "Comprehension strategies and constructing meaning",
       "difficulty": 3,
-      "contentHash": "sha256:abc2aa9265d388c612d0697a288fa3fbad54082da181ecace1e6bbe19ff13c14"
+      "contentHash": "sha256:7b107e3d76788092c9eeb9ce834b7b0cbabfd8f64749fcf8f89b48acc378e10a"
     },
     {
-      "id": "phase8-star-read-compare-1",
+      "id": "abvm-0ca987de6de2-star-math-11-word",
+      "stationId": "word-portal-put-v1",
+      "subject": "Math",
+      "skill": "addition-within-100",
+      "prompt": "What is 41 + 14?",
+      "choices": [
+        "45",
+        "56",
+        "55"
+      ],
+      "answer": "55",
+      "explanation": "Add tens and ones carefully.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Math public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
+      "tier": "star-fallback",
+      "domain": "Numbers and operations",
+      "difficulty": 3,
+      "contentHash": "sha256:bc10408ac90903e54cb6fa713c14e1161f2c0c9ffdbdddc11d1f116f46c812cd"
+    },
+    {
+      "id": "abvm-0ca987de6de2-star-read-09-word",
       "stationId": "word-portal-put-v1",
       "subject": "Reading / ELA",
-      "skill": "compare-contrast",
-      "prompt": "A turtle moves slowly on land but swims quickly in water. A rabbit runs quickly on land but does not swim well. How are the animals different?",
+      "skill": "author-purpose",
+      "prompt": "What is the author’s main purpose in this text? “A poster says, “Bring a reusable bottle and help reduce trash!””",
       "choices": [
-        "Each moves best in a different place.",
-        "Both move slowly everywhere.",
-        "Both swim better than they run."
+        "to list random words",
+        "to persuade",
+        "to hide the topic"
       ],
-      "answer": "Each moves best in a different place.",
-      "explanation": "The turtle is quicker in water, while the rabbit is quicker on land.",
-      "provenance": "original-star-aligned-practice",
-      "sourceFact": "Renaissance Star Reading public domain: comprehension strategies and constructing meaning",
+      "answer": "to persuade",
+      "explanation": "The kind of information and wording reveal the author’s purpose.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Reading public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
       "tier": "star-fallback",
-      "domain": "Comprehension strategies and constructing meaning",
+      "domain": "Understanding author’s craft",
       "difficulty": 3,
-      "contentHash": "sha256:007989c67ee6668363c3a4df5cd5a0a9609707133bf4d2da2563504afe60d33a"
+      "contentHash": "sha256:39b11bc8e627a816c0bdae526b53286058471335e52d2bacd8040eda1e1f0f44"
     },
     {
-      "id": "phase8-mat-blend-compare-1",
-      "stationId": "spelling-forge-fog-v1",
-      "subject": "Reading / ELA",
-      "skill": "consonant-blends",
-      "prompt": "Which pair begins with the same two-letter consonant blend?",
-      "choices": [
-        "flag — flip",
-        "frog — fog",
-        "clap — cap"
-      ],
-      "answer": "flag — flip",
-      "explanation": "Both words begin with “fl.” The other pairs lose one sound from the blend.",
-      "provenance": "curriculum-practice-derived-from-published-topic",
-      "sourceFact": "Phonics: 2-letter consonant blends",
-      "tier": "material",
-      "domain": "Phonics: consonant blends",
-      "difficulty": 3,
-      "contentHash": "sha256:1035fc886fa5652b9975e68debf506fcadd6c93129ce17502c83ad0040932ebe"
-    },
-    {
-      "id": "phase8-mat-blend-complete-1",
-      "stationId": "spelling-forge-fog-v1",
-      "subject": "Reading / ELA",
-      "skill": "consonant-blends",
-      "prompt": "Which beginning blend makes a real word that fits the sentence? “The bird can ___y across the yard.”",
-      "choices": [
-        "fl",
-        "br",
-        "cl"
-      ],
-      "answer": "fl",
-      "explanation": "Adding “fl” makes “fly,” which fits the sentence.",
-      "provenance": "curriculum-practice-derived-from-published-topic",
-      "sourceFact": "Story: Little Flap Learns to Fly; Phonics: 2-letter consonant blends",
-      "tier": "material",
-      "domain": "Phonics: consonant blends",
-      "difficulty": 3,
-      "contentHash": "sha256:77f5c4e7990c2ea0d5b6ce821e981cefaff80c4da1ab8254fda98dbffa2ac2be"
-    },
-    {
-      "id": "phase8-mat-blend-sound-1",
-      "stationId": "spelling-forge-fog-v1",
-      "subject": "Reading / ELA",
-      "skill": "consonant-blends",
-      "prompt": "In which word can you hear both beginning consonant sounds without adding a vowel between them?",
-      "choices": [
-        "stop",
-        "soap",
-        "top"
-      ],
-      "answer": "stop",
-      "explanation": "In “stop,” the /s/ and /t/ sounds blend together at the beginning.",
-      "provenance": "curriculum-practice-derived-from-published-topic",
-      "sourceFact": "Phonics: 2-letter consonant blends",
-      "tier": "material",
-      "domain": "Phonics: consonant blends",
-      "difficulty": 3,
-      "contentHash": "sha256:a4a2e2969b3ec45fa64d87ed54b32e2965b5d0c64862123e01f98d0c1e129169"
-    },
-    {
-      "id": "phase8-mat-cvc-reason-1",
-      "stationId": "spelling-forge-fog-v1",
-      "subject": "Reading / ELA",
-      "skill": "cvc-word-structure",
-      "prompt": "Which choice contains two CVC words with the same middle vowel sound?",
-      "choices": [
-        "map — cat",
-        "fly — flap",
-        "here — pet"
-      ],
-      "answer": "map — cat",
-      "explanation": "Both “map” and “cat” have a consonant-vowel-consonant pattern and the short-a sound.",
-      "provenance": "curriculum-practice-derived-from-published-topic",
-      "sourceFact": "Word structure: CVC words",
-      "tier": "material",
-      "domain": "Phonics: CVC structure",
-      "difficulty": 3,
-      "contentHash": "sha256:4026c26613400e9fd387c3645ea4e7e57e63d72ebfc6d1fbfda8de0ebbb249a4"
-    },
-    {
-      "id": "phase8-mat-long-a-1",
-      "stationId": "spelling-forge-fog-v1",
-      "subject": "Reading / ELA",
-      "skill": "short-long-a",
-      "prompt": "Which word has the long-a sound?",
-      "choices": [
-        "cake",
-        "cap",
-        "map"
-      ],
-      "answer": "cake",
-      "explanation": "The final e changes the vowel sound in “cake” to long a.",
-      "provenance": "curriculum-practice-derived-from-published-topic",
-      "sourceFact": "Friday, Oct. 2 test focus: short a / long a",
-      "tier": "material",
-      "domain": "Phonics: vowel patterns",
-      "difficulty": 3,
-      "contentHash": "sha256:ebb593a34c4d9a8525ed665790568de8dee2f2d30dd8a6a92be7e97e3fa3bb3a"
-    },
-    {
-      "id": "phase8-mat-short-a-1",
-      "stationId": "spelling-forge-fog-v1",
-      "subject": "Reading / ELA",
-      "skill": "short-long-a",
-      "prompt": "Which sentence contains a word with the short-a sound?",
-      "choices": [
-        "The cat sat by the bag.",
-        "Jake made a cake.",
-        "The rain came late."
-      ],
-      "answer": "The cat sat by the bag.",
-      "explanation": "“Cat,” “sat,” and “bag” all use the short-a sound.",
-      "provenance": "curriculum-practice-derived-from-published-topic",
-      "sourceFact": "Friday, Oct. 2 test focus: short a / long a",
-      "tier": "material",
-      "domain": "Phonics: vowel patterns",
-      "difficulty": 3,
-      "contentHash": "sha256:c704b3c583662833037bc4f266166e640b72a86b5586b6a8d21394f553b9b1c5"
-    },
-    {
-      "id": "phase8-mat-subtract-story-1",
-      "stationId": "spelling-forge-fog-v1",
+      "id": "abvm-0ca987de6de2-star-math-27-word",
+      "stationId": "word-portal-put-v1",
       "subject": "Math",
-      "skill": "subtraction-within-12",
-      "prompt": "There are 12 crayons in a box. Emma gives 5 to a friend. How many crayons are left?",
-      "choices": [
-        "7",
-        "6",
-        "8"
-      ],
-      "answer": "7",
-      "explanation": "12 − 5 = 7.",
-      "provenance": "curriculum-practice-derived-from-published-topic",
-      "sourceFact": "Math: Subtraction to 12 (test Tuesday, Sept. 29)",
-      "tier": "material",
-      "domain": "Numbers and operations",
-      "difficulty": 3,
-      "contentHash": "sha256:d4f881cc6034d632cd7bb49204f339959a8eedd5ef2b0d10273e8deba12c4711"
-    },
-    {
-      "id": "phase8-mat-subtract-missing-1",
-      "stationId": "spelling-forge-fog-v1",
-      "subject": "Math",
-      "skill": "subtraction-within-12",
-      "prompt": "Which number makes the equation true? 11 − □ = 6",
-      "choices": [
-        "5",
-        "4",
-        "6"
-      ],
-      "answer": "5",
-      "explanation": "11 − 5 = 6.",
-      "provenance": "curriculum-practice-derived-from-published-topic",
-      "sourceFact": "Math: Subtraction to 12 (test Tuesday, Sept. 29)",
-      "tier": "material",
-      "domain": "Numbers and operations",
-      "difficulty": 3,
-      "contentHash": "sha256:d6b9da5c33c791c3922276d7077f1c6ae48c2b4ab64308e81e5fbdf9046f0792"
-    },
-    {
-      "id": "phase8-mat-subtract-compare-1",
-      "stationId": "spelling-forge-fog-v1",
-      "subject": "Math",
-      "skill": "subtraction-within-12",
-      "prompt": "Ava has 10 stickers. Ben has 6 stickers. How many more stickers does Ava have than Ben?",
-      "choices": [
-        "4",
-        "16",
-        "6"
-      ],
-      "answer": "4",
-      "explanation": "The difference is 10 − 6 = 4.",
-      "provenance": "curriculum-practice-derived-from-published-topic",
-      "sourceFact": "Math: Subtraction to 12 (test Tuesday, Sept. 29)",
-      "tier": "material",
-      "domain": "Numbers and operations",
-      "difficulty": 3,
-      "contentHash": "sha256:269600b2557555db09e5b91fdd862ed7cda12477b3d3c9b01776d80ba10d38c5"
-    },
-    {
-      "id": "phase8-mat-subtract-unknown-start-1",
-      "stationId": "spelling-forge-fog-v1",
-      "subject": "Math",
-      "skill": "subtraction-within-12",
-      "prompt": "Some birds were on a fence. 4 flew away, and 7 stayed. How many birds were there at first?",
-      "choices": [
-        "11",
-        "3",
-        "10"
-      ],
-      "answer": "11",
-      "explanation": "The starting amount must be 4 + 7 = 11, because 11 − 4 = 7.",
-      "provenance": "curriculum-practice-derived-from-published-topic",
-      "sourceFact": "Math: Subtraction to 12 (test Tuesday, Sept. 29)",
-      "tier": "material",
-      "domain": "Numbers and operations",
-      "difficulty": 3,
-      "contentHash": "sha256:686bf707029cbe0148225ec7870862f983d272e3d6a1854857e8f833fe80cfef"
-    },
-    {
-      "id": "phase8-mat-subtract-factfamily-1",
-      "stationId": "spelling-forge-fog-v1",
-      "subject": "Math",
-      "skill": "subtraction-within-12",
-      "prompt": "Which equation belongs to the same fact family as 5 + 7 = 12?",
-      "choices": [
-        "12 − 7 = 5",
-        "12 − 5 = 6",
-        "7 − 5 = 12"
-      ],
-      "answer": "12 − 7 = 5",
-      "explanation": "The numbers 5, 7, and 12 make the related fact 12 − 7 = 5.",
-      "provenance": "curriculum-practice-derived-from-published-topic",
-      "sourceFact": "Math: Subtraction to 12 (test Tuesday, Sept. 29)",
-      "tier": "material",
-      "domain": "Numbers and operations",
-      "difficulty": 3,
-      "contentHash": "sha256:3d0bbd914777138a353125e239dd9774a5e2e0ed124884eae237e24d13224874"
-    },
-    {
-      "id": "phase8-mat-subtract-strategy-1",
-      "stationId": "spelling-forge-fog-v1",
-      "subject": "Math",
-      "skill": "subtraction-within-12",
-      "prompt": "Mia solves 12 − 8 by thinking, “8 + ___ = 12.” Which number completes her thinking?",
+      "skill": "geometry",
+      "prompt": "How many sides does a rectangle have?",
       "choices": [
         "4",
         "3",
         "5"
       ],
       "answer": "4",
-      "explanation": "8 + 4 = 12, so 12 − 8 = 4.",
-      "provenance": "curriculum-practice-derived-from-published-topic",
-      "sourceFact": "Math: Subtraction to 12 (test Tuesday, Sept. 29)",
-      "tier": "material",
-      "domain": "Numbers and operations",
-      "difficulty": 3,
-      "contentHash": "sha256:6e3d3d4fa9599180ccec8286be3905d69523e98cb02bd51d0eccb7c7b6c04d6f"
-    },
-    {
-      "id": "phase8-star-math-placevalue-1",
-      "stationId": "spelling-forge-fog-v1",
-      "subject": "Math",
-      "skill": "place-value",
-      "prompt": "In the number 472, what value does the digit 7 have?",
-      "choices": [
-        "70",
-        "7",
-        "700"
-      ],
-      "answer": "70",
-      "explanation": "The 7 is in the tens place, so its value is 70.",
-      "provenance": "original-star-aligned-practice",
-      "sourceFact": "Renaissance Star Math public domain: Numbers and Operations",
-      "tier": "star-fallback",
-      "domain": "Numbers and operations",
-      "difficulty": 3,
-      "contentHash": "sha256:c8d0c9de0d3f6db58997f3885f91efe773c1a44f6791f34799ad1e570e5e62a4"
-    },
-    {
-      "id": "phase8-star-math-compare-1",
-      "stationId": "spelling-forge-fog-v1",
-      "subject": "Math",
-      "skill": "compare-numbers",
-      "prompt": "Which number is greatest?",
-      "choices": [
-        "398",
-        "389",
-        "308"
-      ],
-      "answer": "398",
-      "explanation": "All have 3 hundreds; 398 has the greatest tens digit.",
-      "provenance": "original-star-aligned-practice",
-      "sourceFact": "Renaissance Star Math public domain: Numbers and Operations",
-      "tier": "star-fallback",
-      "domain": "Numbers and operations",
-      "difficulty": 3,
-      "contentHash": "sha256:973c02bde87a94342d0aa574ef15ef83d25a995be73cd37a03284df3be821138"
-    },
-    {
-      "id": "phase8-star-math-addition-1",
-      "stationId": "spelling-forge-fog-v1",
-      "subject": "Math",
-      "skill": "addition-within-100",
-      "prompt": "Lena has 28 beads and gets 17 more. How many beads does she have now?",
-      "choices": [
-        "45",
-        "35",
-        "55"
-      ],
-      "answer": "45",
-      "explanation": "28 + 17 = 45.",
-      "provenance": "original-star-aligned-practice",
-      "sourceFact": "Renaissance Star Math public domain: Numbers and Operations",
-      "tier": "star-fallback",
-      "domain": "Numbers and operations",
-      "difficulty": 3,
-      "contentHash": "sha256:573d70bede973ce3de4ecd476dce7a189d5f8ca987e347626bc712d1be7a91fb"
-    },
-    {
-      "id": "phase8-star-math-pattern-1",
-      "stationId": "spelling-forge-fog-v1",
-      "subject": "Math",
-      "skill": "number-patterns",
-      "prompt": "What number comes next? 36, 41, 46, 51, ___",
-      "choices": [
-        "56",
-        "55",
-        "61"
-      ],
-      "answer": "56",
-      "explanation": "The pattern adds 5 each time.",
-      "provenance": "original-star-aligned-practice",
-      "sourceFact": "Renaissance Star Math public domain: Algebra",
-      "tier": "star-fallback",
-      "domain": "Algebra",
-      "difficulty": 3,
-      "contentHash": "sha256:e80480f30026bfa767f289957a7753a9901e58e09d0a64d236c53dab275268a1"
-    },
-    {
-      "id": "phase8-star-math-equality-1",
-      "stationId": "spelling-forge-fog-v1",
-      "subject": "Math",
-      "skill": "equations",
-      "prompt": "Which number makes both sides equal? 24 + 8 = 20 + □",
-      "choices": [
-        "12",
-        "4",
-        "32"
-      ],
-      "answer": "12",
-      "explanation": "24 + 8 = 32, and 20 + 12 = 32.",
-      "provenance": "original-star-aligned-practice",
-      "sourceFact": "Renaissance Star Math public domain: Algebra",
-      "tier": "star-fallback",
-      "domain": "Algebra",
-      "difficulty": 3,
-      "contentHash": "sha256:b1c193f27365a9e727895a6dcc4e5853b4cb7d6451118da1b6bd65d689868457"
-    },
-    {
-      "id": "phase8-star-math-time-1",
-      "stationId": "spelling-forge-fog-v1",
-      "subject": "Math",
-      "skill": "time",
-      "prompt": "Soccer practice starts at 3:30 and lasts 45 minutes. What time does it end?",
-      "choices": [
-        "4:15",
-        "4:05",
-        "3:75"
-      ],
-      "answer": "4:15",
-      "explanation": "Thirty minutes brings the time to 4:00, and 15 more minutes makes 4:15.",
-      "provenance": "original-star-aligned-practice",
-      "sourceFact": "Renaissance Star Math public domain: Geometry and Measurement",
+      "explanation": "Count the straight sides of the shape.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Math public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
       "tier": "star-fallback",
       "domain": "Geometry and measurement",
-      "difficulty": 3,
-      "contentHash": "sha256:b505537576ad7f10d1936152d57e86c4330b59f2a1c9595d423243d2450cccac"
+      "difficulty": 2,
+      "contentHash": "sha256:8e20950f06e6cd0052f96dd06012806f9e5dacdc3e66a15e679e3ba207ba9cc9"
     },
     {
-      "id": "phase8-star-math-measure-1",
-      "stationId": "spelling-forge-fog-v1",
+      "id": "abvm-0ca987de6de2-star-math-12-word",
+      "stationId": "word-portal-put-v1",
       "subject": "Math",
-      "skill": "measurement",
-      "prompt": "A ribbon is 32 centimeters long. Mia cuts off 9 centimeters. How long is the ribbon now?",
+      "skill": "subtraction-within-100",
+      "prompt": "What is 92 − 29?",
       "choices": [
-        "23 cm",
-        "41 cm",
-        "21 cm"
+        "73",
+        "63",
+        "62"
       ],
-      "answer": "23 cm",
-      "explanation": "32 − 9 = 23 centimeters.",
-      "provenance": "original-star-aligned-practice",
-      "sourceFact": "Renaissance Star Math public domain: Geometry and Measurement",
+      "answer": "63",
+      "explanation": "Subtract tens and ones.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Math public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
       "tier": "star-fallback",
-      "domain": "Geometry and measurement",
+      "domain": "Numbers and operations",
       "difficulty": 3,
-      "contentHash": "sha256:dce9f1852d9c77bb7552a7319b1490f17db1b80fbfd2c2b3279950c497a681c1"
+      "contentHash": "sha256:4552414bce0c4c31e2c24c3ecd2c82399b43d0036d1da633f61b6df0c404a020"
     },
     {
-      "id": "phase8-star-math-data-1",
-      "stationId": "spelling-forge-fog-v1",
+      "id": "abvm-0ca987de6de2-star-math-17-word",
+      "stationId": "word-portal-put-v1",
       "subject": "Math",
-      "skill": "data-analysis",
-      "prompt": "A class survey shows 6 students chose apples, 9 chose bananas, and 4 chose grapes. How many more students chose bananas than grapes?",
+      "skill": "geometry",
+      "prompt": "How many sides does a pentagon have?",
       "choices": [
         "5",
-        "13",
-        "3"
+        "4",
+        "6"
       ],
       "answer": "5",
-      "explanation": "9 − 4 = 5.",
-      "provenance": "original-star-aligned-practice",
-      "sourceFact": "Renaissance Star Math public domain: Data Analysis, Statistics, and Probability",
+      "explanation": "Count the straight sides of the shape.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Math public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
       "tier": "star-fallback",
-      "domain": "Data analysis, statistics, and probability",
-      "difficulty": 3,
-      "contentHash": "sha256:0dc604fe4a40578eba413a8467d70b034075884049f8a1ee878b7c6ad4e14f0c"
-    },
-    {
-      "id": "phase8-mat-religion-grace-1",
-      "stationId": "culture-lab-culture-v1",
-      "subject": "Religion",
-      "skill": "grace",
-      "prompt": "A lesson says Jesus gives us a new life called grace. Which statement best matches that idea?",
-      "choices": [
-        "Grace helps us live as children of God.",
-        "Grace is a prize earned by winning.",
-        "Grace means never needing help."
-      ],
-      "answer": "Grace helps us live as children of God.",
-      "explanation": "The lesson connects grace with new life and living as children of God.",
-      "provenance": "curriculum-practice-derived-from-published-topic",
-      "sourceFact": "Jesus gave us the new life of grace",
-      "tier": "material",
-      "domain": "Religion: grace",
-      "difficulty": 3,
-      "contentHash": "sha256:f232a563e4e98f29955702ee2935f593391b0506d3972104699e7fbc186cbdf5"
-    },
-    {
-      "id": "phase8-mat-religion-seed-1",
-      "stationId": "culture-lab-culture-v1",
-      "subject": "Religion",
-      "skill": "jesus-seed-analogy",
-      "prompt": "The lesson compares Jesus to a seed that dies so a new plant can grow. What idea is the comparison teaching?",
-      "choices": [
-        "Jesus died so we can have new life.",
-        "Seeds are the most important gift.",
-        "Plants never need water."
-      ],
-      "answer": "Jesus died so we can have new life.",
-      "explanation": "The seed comparison connects death followed by new life with Jesus giving us new life.",
-      "provenance": "curriculum-practice-derived-from-published-topic",
-      "sourceFact": "Jesus is like a seed. A seed dies for a new plant to grow — Jesus died so we can have new life (grace)",
-      "tier": "material",
-      "domain": "Religion: Jesus and new life",
-      "difficulty": 3,
-      "contentHash": "sha256:ce02025981c49f66d5bd26db35a0aedc13d294acbf69d692574e1758b9358c75"
-    },
-    {
-      "id": "phase8-mat-religion-disciples-1",
-      "stationId": "culture-lab-culture-v1",
-      "subject": "Religion",
-      "skill": "discipleship",
-      "prompt": "Which action best shows what it means to live as a disciple, a friend of Jesus?",
-      "choices": [
-        "Include a lonely classmate even when no one tells you to.",
-        "Ignore someone who needs help.",
-        "Be kind only when a reward is offered."
-      ],
-      "answer": "Include a lonely classmate even when no one tells you to.",
-      "explanation": "Discipleship is shown through loving choices, not only by knowing the word.",
-      "provenance": "curriculum-practice-derived-from-published-topic",
-      "sourceFact": "We are called to be disciples, friends of Jesus",
-      "tier": "material",
-      "domain": "Religion: discipleship",
-      "difficulty": 3,
-      "contentHash": "sha256:080ea1116d02be964f484b7d941a0690e3177296e59280d548d74f6a78f28484"
-    },
-    {
-      "id": "phase8-mat-religion-mary-1",
-      "stationId": "culture-lab-culture-v1",
-      "subject": "Religion",
-      "skill": "mary",
-      "prompt": "Why does the lesson say Mary is also our mother?",
-      "choices": [
-        "She is Jesus’ mother and the mother of the Church.",
-        "She was one of the twelve apostles.",
-        "She wrote every story about Jesus."
-      ],
-      "answer": "She is Jesus’ mother and the mother of the Church.",
-      "explanation": "The source directly connects Mary’s motherhood of Jesus and the Church with her care for us.",
-      "provenance": "curriculum-practice-derived-from-published-topic",
-      "sourceFact": "Mary is Jesus' mother and the mother of the Church so she is our mother too",
-      "tier": "material",
-      "domain": "Religion: Mary",
-      "difficulty": 3,
-      "contentHash": "sha256:dcbe519f03c4e16e77e9c418339052ee4365a684f0d76b5530f30de7cdaa6d67"
-    },
-    {
-      "id": "phase8-mat-religion-trinity-1",
-      "stationId": "culture-lab-culture-v1",
-      "subject": "Religion",
-      "skill": "trinity",
-      "prompt": "Which statement correctly explains the Trinity?",
-      "choices": [
-        "One God in three Persons: Father, Son, and Holy Spirit",
-        "Three gods who sometimes work together",
-        "One Person with three different names"
-      ],
-      "answer": "One God in three Persons: Father, Son, and Holy Spirit",
-      "explanation": "The lesson teaches one God in three Persons.",
-      "provenance": "curriculum-practice-derived-from-published-topic",
-      "sourceFact": "Trinity: 3 persons in one God (Father, Son, Holy Spirit)",
-      "tier": "material",
-      "domain": "Religion: Trinity",
-      "difficulty": 3,
-      "contentHash": "sha256:b975a2648f331a17594173c4839661c7af069aeb13c1dbf93e601a3162e043e5"
-    },
-    {
-      "id": "phase8-mat-religion-image-1",
-      "stationId": "culture-lab-culture-v1",
-      "subject": "Religion",
-      "skill": "image-and-likeness",
-      "prompt": "The lesson says people are made in God’s image and likeness. Which ability from the lesson best supports that idea?",
-      "choices": [
-        "We can think, choose, and love.",
-        "We can run faster than every animal.",
-        "We never make mistakes."
-      ],
-      "answer": "We can think, choose, and love.",
-      "explanation": "The lesson names thinking, choosing, and loving as ways people reflect God’s image and likeness.",
-      "provenance": "curriculum-practice-derived-from-published-topic",
-      "sourceFact": "We are made in God's image and likeness; we can think, choose, love",
-      "tier": "material",
-      "domain": "Religion: image and likeness",
-      "difficulty": 3,
-      "contentHash": "sha256:bd9d633d0713daec96c61b2d59b8c54116921ea64efe494d15262f2fa0fa4244"
-    },
-    {
-      "id": "phase8-mat-religion-creation-1",
-      "stationId": "culture-lab-culture-v1",
-      "subject": "Religion",
-      "skill": "care-for-creation",
-      "prompt": "After a picnic, which choice best shows responsibility for God’s gift of creation?",
-      "choices": [
-        "Pick up your trash and recycle what you can.",
-        "Leave trash because someone else may clean it.",
-        "Break branches so the park looks different."
-      ],
-      "answer": "Pick up your trash and recycle what you can.",
-      "explanation": "Caring for creation means taking responsible care of the world around us.",
-      "provenance": "curriculum-practice-derived-from-published-topic",
-      "sourceFact": "It is our responsibility to take care of God's gifts of creation",
-      "tier": "material",
-      "domain": "Religion: creation",
-      "difficulty": 3,
-      "contentHash": "sha256:62389505adac056d6452c69bd1955faf902822e779857cfffb16d716bca371c0"
-    },
-    {
-      "id": "phase8-mat-religion-gifts-1",
-      "stationId": "culture-lab-culture-v1",
-      "subject": "Religion",
-      "skill": "gifts-from-god",
-      "prompt": "Which response best shows gratitude for a gift from God?",
-      "choices": [
-        "Use it responsibly and thank God.",
-        "Waste it because more can be found.",
-        "Keep it only so nobody else can enjoy it."
-      ],
-      "answer": "Use it responsibly and thank God.",
-      "explanation": "The lesson connects God’s gifts with gratitude and responsible care.",
-      "provenance": "curriculum-practice-derived-from-published-topic",
-      "sourceFact": "Gifts from God; We thank God for His gift of creation",
-      "tier": "material",
-      "domain": "Religion: gratitude",
-      "difficulty": 3,
-      "contentHash": "sha256:920bfd7e2e2581dce8e4748bcea312bf71ea7c320d5e0640d3177391a542dd75"
-    },
-    {
-      "id": "phase8-mat-religion-senses-1",
-      "stationId": "culture-lab-culture-v1",
-      "subject": "Religion",
-      "skill": "senses",
-      "prompt": "Which example shows using a sense to enjoy a gift of creation?",
-      "choices": [
-        "Listening to birds sing in the morning.",
-        "Solving 8 + 4 on paper.",
-        "Remembering a phone number."
-      ],
-      "answer": "Listening to birds sing in the morning.",
-      "explanation": "Hearing birds uses the sense of hearing to enjoy creation.",
-      "provenance": "curriculum-practice-derived-from-published-topic",
-      "sourceFact": "We use our senses to enjoy God's gifts",
-      "tier": "material",
-      "domain": "Religion: senses and creation",
+      "domain": "Geometry and measurement",
       "difficulty": 2,
-      "contentHash": "sha256:31d371576d4cfc950635704502a0ed4c70cfb369b12a24eb16c990c29da3947a"
+      "contentHash": "sha256:5a2cc29034cd7e864cadff6b4be1dd3e7374dcb7814b30a705a9855297eebb40"
     },
     {
-      "id": "phase8-mat-religion-savior-1",
-      "stationId": "culture-lab-culture-v1",
-      "subject": "Religion",
-      "skill": "jesus-savior",
-      "prompt": "Which idea best explains why the lesson calls Jesus our Savior?",
+      "id": "abvm-0ca987de6de2-star-math-15-word",
+      "stationId": "word-portal-put-v1",
+      "subject": "Math",
+      "skill": "unknown-number",
+      "prompt": "Which number makes the equation true? 7 + □ = 19",
       "choices": [
-        "Jesus died for our sins and gives us new life.",
-        "Jesus taught people how to build houses.",
-        "Jesus won every contest he entered."
+        "13",
+        "12",
+        "10"
       ],
-      "answer": "Jesus died for our sins and gives us new life.",
-      "explanation": "The lesson connects Jesus as Savior with dying for our sins and giving new life.",
-      "provenance": "curriculum-practice-derived-from-published-topic",
-      "sourceFact": "Jesus died for our sins; He is our Savior",
-      "tier": "material",
-      "domain": "Religion: Savior",
-      "difficulty": 3,
-      "contentHash": "sha256:cb338760eae88162c591b9f27d9953829f41a884e983ad10bd4d319f9fd69c55"
-    },
-    {
-      "id": "phase8-mat-religion-vine-1",
-      "stationId": "culture-lab-culture-v1",
-      "subject": "Religion",
-      "skill": "vine-and-branches",
-      "prompt": "In the image of a vine and its branches, why must a branch stay connected to the vine?",
-      "choices": [
-        "It receives what it needs to live and grow.",
-        "It becomes a different kind of plant.",
-        "It no longer needs water or sunlight."
-      ],
-      "answer": "It receives what it needs to live and grow.",
-      "explanation": "The vine-and-branches image teaches the importance of staying connected to the source of life.",
-      "provenance": "curriculum-practice-derived-from-published-topic",
-      "sourceFact": "The parable of the vine and the branches",
-      "tier": "material",
-      "domain": "Religion: vine and branches",
-      "difficulty": 3,
-      "contentHash": "sha256:0ee37c1d998196866c07e7b4bbc7435cab05ef7d4e53710c78957f893d468fd9"
-    },
-    {
-      "id": "phase8-mat-religion-bestgift-1",
-      "stationId": "culture-lab-culture-v1",
-      "subject": "Religion",
-      "skill": "jesus-best-gift",
-      "prompt": "Why does the lesson call Jesus God’s greatest gift to us?",
-      "choices": [
-        "He shows us God’s love and teaches us how to live.",
-        "He makes every hard job disappear.",
-        "He gives people the most expensive things."
-      ],
-      "answer": "He shows us God’s love and teaches us how to live.",
-      "explanation": "The lesson says Jesus tells us about God, shows God’s love, and teaches us how to live.",
-      "provenance": "curriculum-practice-derived-from-published-topic",
-      "sourceFact": "Jesus is God's greatest gift to us; he tells us about God and teaches us how to live",
-      "tier": "material",
-      "domain": "Religion: Jesus as gift",
-      "difficulty": 3,
-      "contentHash": "sha256:bd79bf37beab25e3f98290eb84da770701b44858b965bab095658521601ec69a"
-    },
-    {
-      "id": "phase8-star-read-purpose-2",
-      "stationId": "culture-lab-culture-v1",
-      "subject": "Reading / ELA",
-      "skill": "authors-purpose",
-      "prompt": "A paragraph explains how to wash your hands in five ordered steps. What is the author’s main purpose?",
-      "choices": [
-        "to teach how to do something",
-        "to tell a funny story",
-        "to persuade readers to buy soap"
-      ],
-      "answer": "to teach how to do something",
-      "explanation": "A list of ordered steps is written to explain a process.",
-      "provenance": "original-star-aligned-practice",
-      "sourceFact": "Renaissance Star Reading public domain: comprehension strategies and understanding author’s craft",
+      "answer": "12",
+      "explanation": "Find the missing addend.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Math public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
       "tier": "star-fallback",
-      "domain": "Understanding author’s craft",
+      "domain": "Algebra",
       "difficulty": 3,
-      "contentHash": "sha256:5728d391d2451960a5197c514011c8164beea4c463971ed75eda724254b5513f"
+      "contentHash": "sha256:bc4740c68ef358116a3f22bee95e7f8c162ed23851c111134be91a38107cba3d"
     },
     {
-      "id": "phase8-star-read-pointview-1",
-      "stationId": "culture-lab-culture-v1",
-      "subject": "Reading / ELA",
-      "skill": "point-of-view",
-      "prompt": "Read: “I tucked the note into my backpack and hurried to the bus.” Which clue shows the story is told by a character in the story?",
+      "id": "abvm-0ca987de6de2-star-math-07-word",
+      "stationId": "word-portal-put-v1",
+      "subject": "Math",
+      "skill": "geometry",
+      "prompt": "How many sides does a hexagon have?",
       "choices": [
-        "The narrator uses the word “I.”",
-        "The sentence mentions a backpack.",
-        "The action happens before a bus ride."
+        "7",
+        "6",
+        "5"
       ],
-      "answer": "The narrator uses the word “I.”",
-      "explanation": "Using “I” shows a first-person narrator who is part of the story.",
-      "provenance": "original-star-aligned-practice",
-      "sourceFact": "Renaissance Star Reading public domain: analyzing literary text",
+      "answer": "6",
+      "explanation": "Count the straight sides of the shape.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Math public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
+      "tier": "star-fallback",
+      "domain": "Geometry and measurement",
+      "difficulty": 2,
+      "contentHash": "sha256:35aef8849f129eac8c7de957f06ddb79d3a29bc7cc7e4a075d93b1eb003cbbcf"
+    },
+    {
+      "id": "abvm-0ca987de6de2-star-read-13-word",
+      "stationId": "word-portal-put-v1",
+      "subject": "Reading / ELA",
+      "skill": "cause-effect",
+      "prompt": "Lena read: “The trail was muddy, so we stepped carefully around the puddles.” Why did they step carefully?",
+      "choices": [
+        "They were racing.",
+        "The trail was muddy.",
+        "The puddles were frozen solid."
+      ],
+      "answer": "The trail was muddy.",
+      "explanation": "The first part gives the cause for the careful steps.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Reading public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
+      "tier": "star-fallback",
+      "domain": "Comprehension strategies and constructing meaning",
+      "difficulty": 3,
+      "contentHash": "sha256:26101e754333f4af2acdbf2497b7c598060f1107a06ea9da6ab564028e1b27ad"
+    },
+    {
+      "id": "abvm-0ca987de6de2-star-read-28-word",
+      "stationId": "word-portal-put-v1",
+      "subject": "Reading / ELA",
+      "skill": "character-development",
+      "prompt": "At the start of a story, Noah refuses to ask for help. After making the same mistake twice, Noah asks a classmate to explain the directions and succeeds. How did the character change?",
+      "choices": [
+        "The character became more willing to ask for help.",
+        "The character decided directions are never useful.",
+        "The character stopped caring about the task."
+      ],
+      "answer": "The character became more willing to ask for help.",
+      "explanation": "The ending shows a change in the character’s choice.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Reading public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
       "tier": "star-fallback",
       "domain": "Analyzing literary text",
       "difficulty": 3,
-      "contentHash": "sha256:197a06ef2ebe016347f825a0e1a6791969415e0ac4e8a88ea833ffa482d70132"
+      "contentHash": "sha256:ccfab2b2df63713760c70eb0dc885ab1cbb78afb0deb5e79366ae2de880b90f5"
     },
     {
-      "id": "phase8-star-read-cause-1",
-      "stationId": "culture-lab-culture-v1",
-      "subject": "Reading / ELA",
-      "skill": "cause-effect",
-      "prompt": "The sidewalk was icy, so the school put salt on it. What was the cause?",
-      "choices": [
-        "The sidewalk was icy.",
-        "The school used salt.",
-        "Students walked carefully."
-      ],
-      "answer": "The sidewalk was icy.",
-      "explanation": "The icy sidewalk caused the school to put down salt.",
-      "provenance": "original-star-aligned-practice",
-      "sourceFact": "Renaissance Star Reading public domain: comprehension strategies and constructing meaning",
-      "tier": "star-fallback",
-      "domain": "Comprehension strategies and constructing meaning",
-      "difficulty": 3,
-      "contentHash": "sha256:677d328de8a3f59e6277cd7e3e3a97f8d26aaf4e91c166ef096429738ac20191"
-    },
-    {
-      "id": "phase8-star-read-summary-1",
-      "stationId": "culture-lab-culture-v1",
-      "subject": "Reading / ELA",
-      "skill": "summary",
-      "prompt": "Tess forgot her lunch. Her friend shared half a sandwich and some fruit. Tess thanked her and promised to return the favor. Which is the best summary?",
-      "choices": [
-        "A friend helps Tess when she forgets her lunch.",
-        "Tess eats fruit every day at school.",
-        "A sandwich is cut into two equal pieces."
-      ],
-      "answer": "A friend helps Tess when she forgets her lunch.",
-      "explanation": "The best summary includes the main problem and the important response without extra details.",
-      "provenance": "original-star-aligned-practice",
-      "sourceFact": "Renaissance Star Reading public domain: comprehension strategies and constructing meaning",
-      "tier": "star-fallback",
-      "domain": "Comprehension strategies and constructing meaning",
-      "difficulty": 3,
-      "contentHash": "sha256:ba09dee4574d61c4155e31ad30ae6dcd2dec64bd58be92a68f5a1d824fd7a4fc"
-    },
-    {
-      "id": "phase8-star-math-money-1",
-      "stationId": "culture-lab-culture-v1",
+      "id": "abvm-0ca987de6de2-star-math-08-word",
+      "stationId": "word-portal-put-v1",
       "subject": "Math",
-      "skill": "money",
-      "prompt": "You have 2 quarters, 1 dime, and 3 pennies. How much money do you have?",
+      "skill": "measurement",
+      "prompt": "A ribbon is 24 centimeters long. 4 centimeters are cut off. How many centimeters remain?",
       "choices": [
-        "63¢",
-        "53¢",
-        "43¢"
+        "20",
+        "21",
+        "28"
       ],
-      "answer": "63¢",
-      "explanation": "Two quarters are 50¢, plus 10¢ and 3¢ gives 63¢.",
-      "provenance": "original-star-aligned-practice",
-      "sourceFact": "Renaissance Star Math public domain: Geometry and Measurement",
+      "answer": "20",
+      "explanation": "Subtract the part cut off from the original length.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Math public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
       "tier": "star-fallback",
       "domain": "Geometry and measurement",
       "difficulty": 3,
-      "contentHash": "sha256:250c02c4ab3fe6a4f3e3f4cd9d77c2581aba10e7469aa932d41a02995e236d92"
+      "contentHash": "sha256:9c177c6a9630a509e8e0ecfd0e6a716a2d11f39f2fb08793b17a100bf92214ab"
     },
     {
-      "id": "phase8-star-math-geometry-1",
-      "stationId": "culture-lab-culture-v1",
+      "id": "abvm-0ca987de6de2-star-math-09-word",
+      "stationId": "word-portal-put-v1",
       "subject": "Math",
-      "skill": "geometry",
-      "prompt": "Which shape has exactly 4 sides and 4 right angles, but its sides do not all have to be the same length?",
+      "skill": "data-interpretation",
+      "prompt": "A class graph shows cats: 7, dogs: 4, fish: 8. Which pet got the most votes?",
       "choices": [
-        "rectangle",
-        "triangle",
-        "pentagon"
+        "cats",
+        "dogs",
+        "fish"
       ],
-      "answer": "rectangle",
-      "explanation": "A rectangle has four sides and four right angles; only a square requires all four sides to be equal.",
-      "provenance": "original-star-aligned-practice",
-      "sourceFact": "Renaissance Star Math public domain: Geometry and Measurement",
-      "tier": "star-fallback",
-      "domain": "Geometry and measurement",
-      "difficulty": 3,
-      "contentHash": "sha256:f4e0a39f687e3e8b527a9d06a6b3b41acdde53cdadde4d3a7570b25d6b4fd044"
-    },
-    {
-      "id": "phase8-star-math-groups-1",
-      "stationId": "culture-lab-culture-v1",
-      "subject": "Math",
-      "skill": "equal-groups",
-      "prompt": "There are 4 plates with 3 crackers on each plate. How many crackers are there altogether?",
-      "choices": [
-        "12",
-        "7",
-        "9"
-      ],
-      "answer": "12",
-      "explanation": "3 + 3 + 3 + 3 = 12.",
-      "provenance": "original-star-aligned-practice",
-      "sourceFact": "Renaissance Star Math public domain: Numbers and Operations",
-      "tier": "star-fallback",
-      "domain": "Numbers and operations",
-      "difficulty": 3,
-      "contentHash": "sha256:11ecbacdeae6828804e31c003ba3f101f065d3fb7dc5b2606df597c5a9c2a0f0"
-    },
-    {
-      "id": "phase8-star-math-table-1",
-      "stationId": "culture-lab-culture-v1",
-      "subject": "Math",
-      "skill": "data-analysis",
-      "prompt": "A table shows books read: Ava 5, Ben 7, Cole 4. How many books did Ava and Cole read altogether?",
-      "choices": [
-        "9",
-        "12",
-        "11"
-      ],
-      "answer": "9",
-      "explanation": "5 + 4 = 9.",
-      "provenance": "original-star-aligned-practice",
-      "sourceFact": "Renaissance Star Math public domain: Data Analysis, Statistics, and Probability",
+      "answer": "fish",
+      "explanation": "Compare the three totals and choose the greatest.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Math public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
       "tier": "star-fallback",
       "domain": "Data analysis, statistics, and probability",
       "difficulty": 3,
-      "contentHash": "sha256:a65f67c288fdd9734a80a35bfa22d54e07847a89e0f3758ed4c9c2819be1decd"
+      "contentHash": "sha256:016110241564c80b3112d4e53e3a6d7604ce6783935103828581fcd04dc1f336"
+    },
+    {
+      "id": "abvm-0ca987de6de2-star-read-10-word",
+      "stationId": "word-portal-put-v1",
+      "subject": "Reading / ELA",
+      "skill": "word-choice",
+      "prompt": "Read: “The wind whispered through the tall grass.” Why might the author use the word “whispered”?",
+      "choices": [
+        "To help the reader imagine a soft sound.",
+        "To prove the wind can speak like a person.",
+        "To tell the exact temperature."
+      ],
+      "answer": "To help the reader imagine a soft sound.",
+      "explanation": "The word choice creates a quiet sound image for the reader.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Reading public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
+      "tier": "star-fallback",
+      "domain": "Understanding author’s craft",
+      "difficulty": 3,
+      "contentHash": "sha256:88eb04aaf22d6464cb88672820ae6a411aeca7292cb059dc26c0e7e2da8b9ea8"
+    },
+    {
+      "id": "abvm-0ca987de6de2-star-read-02-word",
+      "stationId": "word-portal-put-v1",
+      "subject": "Reading / ELA",
+      "skill": "word-parts",
+      "prompt": "What does the word “careless” mean?",
+      "choices": [
+        "a kind of place",
+        "very noisy",
+        "without enough care"
+      ],
+      "answer": "without enough care",
+      "explanation": "The prefix or suffix changes the base word to make this meaning.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Reading public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
+      "tier": "star-fallback",
+      "domain": "Word knowledge and skills",
+      "difficulty": 2,
+      "contentHash": "sha256:b1dde88455a781382a00669ef57c6c9c2e1ef233ba0e9f447e746cc78e77a312"
+    },
+    {
+      "id": "abvm-0ca987de6de2-star-math-04-word",
+      "stationId": "word-portal-put-v1",
+      "subject": "Math",
+      "skill": "compare-numbers",
+      "prompt": "Which comparison is true?",
+      "choices": [
+        "395 < 413",
+        "395 > 413",
+        "395 = 413"
+      ],
+      "answer": "395 < 413",
+      "explanation": "The number on the left is smaller.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Math public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
+      "tier": "star-fallback",
+      "domain": "Numbers and operations",
+      "difficulty": 3,
+      "contentHash": "sha256:19e6321199e31a86c725b13c2c60238503e642f99b01e361524b550eed5e3092"
+    },
+    {
+      "id": "abvm-0ca987de6de2-mat-math-sub-0",
+      "stationId": "spelling-forge-fog-v1",
+      "subject": "Math",
+      "skill": "subtraction",
+      "prompt": "What is 7 − 3?",
+      "choices": [
+        "4",
+        "5",
+        "3"
+      ],
+      "answer": "4",
+      "explanation": "Subtract 3 from 7.",
+      "provenance": "curriculum-practice-derived-from-verified-abvm-pack",
+      "sourceFact": "Subtraction to 12",
+      "tier": "material",
+      "domain": "Numbers and operations",
+      "difficulty": 3,
+      "contentHash": "sha256:c05995369437505480c2190d575f6190ced821a6ac9bb9aba91191d4cb88ff6b"
+    },
+    {
+      "id": "abvm-0ca987de6de2-mat-math-missing-1",
+      "stationId": "spelling-forge-fog-v1",
+      "subject": "Math",
+      "skill": "missing-number",
+      "prompt": "Which number makes the equation true? 7 − □ = 3",
+      "choices": [
+        "4",
+        "3",
+        "5"
+      ],
+      "answer": "4",
+      "explanation": "The missing part is 4.",
+      "provenance": "curriculum-practice-derived-from-verified-abvm-pack",
+      "sourceFact": "Subtraction to 12",
+      "tier": "material",
+      "domain": "Numbers and operations",
+      "difficulty": 3,
+      "contentHash": "sha256:20d84cc999a2fba6d1bc8b46260ef1d22e049a6f220890d170584c4d4ac63440"
+    },
+    {
+      "id": "abvm-0ca987de6de2-mat-math-story-2",
+      "stationId": "spelling-forge-fog-v1",
+      "subject": "Math",
+      "skill": "subtraction-word-problem",
+      "prompt": "A jar had 9 counters. 8 were used. How many counters are left?",
+      "choices": [
+        "1",
+        "2",
+        "0"
+      ],
+      "answer": "1",
+      "explanation": "Subtract the counters used from the starting amount.",
+      "provenance": "curriculum-practice-derived-from-verified-abvm-pack",
+      "sourceFact": "Subtraction to 12",
+      "tier": "material",
+      "domain": "Numbers and operations",
+      "difficulty": 3,
+      "contentHash": "sha256:1c44428160296c8955d06bd6cc04c8f620c465e483fe77b2d9d4a41a0ffda28f"
+    },
+    {
+      "id": "abvm-0ca987de6de2-mat-math-compare-3",
+      "stationId": "spelling-forge-fog-v1",
+      "subject": "Math",
+      "skill": "subtraction-strategy",
+      "prompt": "Which equation can be used to check 11 − 5 = 6?",
+      "choices": [
+        "6 + 5 = 11",
+        "5 + 11 = 6",
+        "11 + 6 = 5"
+      ],
+      "answer": "6 + 5 = 11",
+      "explanation": "Addition can check a subtraction fact.",
+      "provenance": "curriculum-practice-derived-from-verified-abvm-pack",
+      "sourceFact": "Subtraction to 12",
+      "tier": "material",
+      "domain": "Numbers and operations",
+      "difficulty": 3,
+      "contentHash": "sha256:defd67c3a8f083277cfd33382d59dceb2a51dbd70fd6d9e987df53815fbcc74a"
+    },
+    {
+      "id": "abvm-0ca987de6de2-mat-math-sub-4",
+      "stationId": "spelling-forge-fog-v1",
+      "subject": "Math",
+      "skill": "subtraction",
+      "prompt": "What is 6 − 1?",
+      "choices": [
+        "5",
+        "6",
+        "4"
+      ],
+      "answer": "5",
+      "explanation": "Subtract 1 from 6.",
+      "provenance": "curriculum-practice-derived-from-verified-abvm-pack",
+      "sourceFact": "Subtraction to 12",
+      "tier": "material",
+      "domain": "Numbers and operations",
+      "difficulty": 3,
+      "contentHash": "sha256:c2c568a3c8be32e4baed171a683d1743f0cb7c6abed50b1877de6fdf0c3dc93d"
+    },
+    {
+      "id": "abvm-0ca987de6de2-mat-math-missing-5",
+      "stationId": "spelling-forge-fog-v1",
+      "subject": "Math",
+      "skill": "missing-number",
+      "prompt": "Which number makes the equation true? 9 − □ = 5",
+      "choices": [
+        "4",
+        "3",
+        "5"
+      ],
+      "answer": "4",
+      "explanation": "The missing part is 4.",
+      "provenance": "curriculum-practice-derived-from-verified-abvm-pack",
+      "sourceFact": "Subtraction to 12",
+      "tier": "material",
+      "domain": "Numbers and operations",
+      "difficulty": 3,
+      "contentHash": "sha256:feb39536d4a88e3890ff56f8e8166a78b658f917580ec6e75b311c8bf5186053"
+    },
+    {
+      "id": "abvm-0ca987de6de2-mat-math-story-6",
+      "stationId": "spelling-forge-fog-v1",
+      "subject": "Math",
+      "skill": "subtraction-word-problem",
+      "prompt": "A jar had 10 counters. 8 were used. How many counters are left?",
+      "choices": [
+        "2",
+        "3",
+        "0"
+      ],
+      "answer": "2",
+      "explanation": "Subtract the counters used from the starting amount.",
+      "provenance": "curriculum-practice-derived-from-verified-abvm-pack",
+      "sourceFact": "Subtraction to 12",
+      "tier": "material",
+      "domain": "Numbers and operations",
+      "difficulty": 3,
+      "contentHash": "sha256:7f7303d36110d4d9a15005b0531a490809081598db3274c922c085438f61efa2"
+    },
+    {
+      "id": "abvm-0ca987de6de2-mat-math-compare-7",
+      "stationId": "spelling-forge-fog-v1",
+      "subject": "Math",
+      "skill": "subtraction-strategy",
+      "prompt": "Which equation can be used to check 12 − 3 = 9?",
+      "choices": [
+        "9 + 3 = 12",
+        "3 + 12 = 9",
+        "12 + 9 = 3"
+      ],
+      "answer": "9 + 3 = 12",
+      "explanation": "Addition can check a subtraction fact.",
+      "provenance": "curriculum-practice-derived-from-verified-abvm-pack",
+      "sourceFact": "Subtraction to 12",
+      "tier": "material",
+      "domain": "Numbers and operations",
+      "difficulty": 3,
+      "contentHash": "sha256:369249a36eb936ff9312540021134e6f9dab6e82a2a2b2d4b8822b4a43d5888b"
+    },
+    {
+      "id": "abvm-0ca987de6de2-mat-math-sub-8",
+      "stationId": "spelling-forge-fog-v1",
+      "subject": "Math",
+      "skill": "subtraction",
+      "prompt": "What is 12 − 9?",
+      "choices": [
+        "3",
+        "4",
+        "2"
+      ],
+      "answer": "3",
+      "explanation": "Subtract 9 from 12.",
+      "provenance": "curriculum-practice-derived-from-verified-abvm-pack",
+      "sourceFact": "Subtraction to 12",
+      "tier": "material",
+      "domain": "Numbers and operations",
+      "difficulty": 3,
+      "contentHash": "sha256:19c77d72a6403bcdd16c1f4728f2a59eaf485b050166e8a87447c2d92d2e8208"
+    },
+    {
+      "id": "abvm-0ca987de6de2-mat-math-missing-9",
+      "stationId": "spelling-forge-fog-v1",
+      "subject": "Math",
+      "skill": "missing-number",
+      "prompt": "Which number makes the equation true? 12 − □ = 6",
+      "choices": [
+        "6",
+        "5",
+        "7"
+      ],
+      "answer": "6",
+      "explanation": "The missing part is 6.",
+      "provenance": "curriculum-practice-derived-from-verified-abvm-pack",
+      "sourceFact": "Subtraction to 12",
+      "tier": "material",
+      "domain": "Numbers and operations",
+      "difficulty": 3,
+      "contentHash": "sha256:a972de32ece4c079d0e6d23718e9e4d7a4330e0daf16080935ad885b2e8cc47b"
+    },
+    {
+      "id": "abvm-0ca987de6de2-mat-math-story-10",
+      "stationId": "spelling-forge-fog-v1",
+      "subject": "Math",
+      "skill": "subtraction-word-problem",
+      "prompt": "A jar had 6 counters. 1 were used. How many counters are left?",
+      "choices": [
+        "5",
+        "6",
+        "3"
+      ],
+      "answer": "5",
+      "explanation": "Subtract the counters used from the starting amount.",
+      "provenance": "curriculum-practice-derived-from-verified-abvm-pack",
+      "sourceFact": "Subtraction to 12",
+      "tier": "material",
+      "domain": "Numbers and operations",
+      "difficulty": 3,
+      "contentHash": "sha256:c2e546c203e74bd1fa5f118221363920b9e0eef6a445039f527078b6b04df537"
+    },
+    {
+      "id": "abvm-0ca987de6de2-mat-math-compare-11",
+      "stationId": "spelling-forge-fog-v1",
+      "subject": "Math",
+      "skill": "subtraction-strategy",
+      "prompt": "Which equation can be used to check 8 − 7 = 1?",
+      "choices": [
+        "1 + 7 = 8",
+        "7 + 8 = 1",
+        "8 + 1 = 7"
+      ],
+      "answer": "1 + 7 = 8",
+      "explanation": "Addition can check a subtraction fact.",
+      "provenance": "curriculum-practice-derived-from-verified-abvm-pack",
+      "sourceFact": "Subtraction to 12",
+      "tier": "material",
+      "domain": "Numbers and operations",
+      "difficulty": 3,
+      "contentHash": "sha256:7904d03cbe793cfbf8f2a34426919d8e13ada7991b9cedb28e02cc847b0e2142"
+    },
+    {
+      "id": "abvm-0ca987de6de2-star-math-25-spelling",
+      "stationId": "spelling-forge-fog-v1",
+      "subject": "Math",
+      "skill": "unknown-number",
+      "prompt": "Which number makes the equation true? 15 + □ = 25",
+      "choices": [
+        "10",
+        "8",
+        "11"
+      ],
+      "answer": "10",
+      "explanation": "Find the missing addend.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Math public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
+      "tier": "star-fallback",
+      "domain": "Algebra",
+      "difficulty": 3,
+      "contentHash": "sha256:9b942d16ff94b0f221eec2f0d95f6ab23a82d6f11b94a624053540c099fea8ce"
+    },
+    {
+      "id": "abvm-0ca987de6de2-star-math-22-spelling",
+      "stationId": "spelling-forge-fog-v1",
+      "subject": "Math",
+      "skill": "subtraction-within-100",
+      "prompt": "What is 49 − 31?",
+      "choices": [
+        "28",
+        "17",
+        "18"
+      ],
+      "answer": "18",
+      "explanation": "Subtract tens and ones.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Math public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
+      "tier": "star-fallback",
+      "domain": "Numbers and operations",
+      "difficulty": 3,
+      "contentHash": "sha256:978304669894197632b3acd4d47ad910c3e10ba8987a0a2df04ade829d34ca2c"
+    },
+    {
+      "id": "abvm-0ca987de6de2-star-math-02-spelling",
+      "stationId": "spelling-forge-fog-v1",
+      "subject": "Math",
+      "skill": "subtraction-within-100",
+      "prompt": "What is 98 − 14?",
+      "choices": [
+        "84",
+        "94",
+        "83"
+      ],
+      "answer": "84",
+      "explanation": "Subtract tens and ones.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Math public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
+      "tier": "star-fallback",
+      "domain": "Numbers and operations",
+      "difficulty": 3,
+      "contentHash": "sha256:6e785ac5ddcf0d30f59e95a3234d4b16922e47eb5e8dc8a3f941345a03807e3d"
+    },
+    {
+      "id": "abvm-0ca987de6de2-star-read-21-spelling",
+      "stationId": "spelling-forge-fog-v1",
+      "subject": "Reading / ELA",
+      "skill": "context-clues",
+      "prompt": "In the sentence “The rapid box barely fit through the doorway,” what does “rapid” most likely mean?",
+      "choices": [
+        "careful",
+        "slow",
+        "fast"
+      ],
+      "answer": "fast",
+      "explanation": "The context clue about barely fitting supports the meaning “fast”.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Reading public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
+      "tier": "star-fallback",
+      "domain": "Word knowledge and skills",
+      "difficulty": 2,
+      "contentHash": "sha256:537a25f2bed3749eac2fd6075f0e14e2dbcbb8326784685c978096dd35d6092b"
+    },
+    {
+      "id": "abvm-0ca987de6de2-star-read-08-spelling",
+      "stationId": "spelling-forge-fog-v1",
+      "subject": "Reading / ELA",
+      "skill": "character-development",
+      "prompt": "At the start of a story, Leo refuses to ask for help. After making the same mistake twice, Leo asks a classmate to explain the directions and succeeds. How did the character change?",
+      "choices": [
+        "The character stopped caring about the task.",
+        "The character decided directions are never useful.",
+        "The character became more willing to ask for help."
+      ],
+      "answer": "The character became more willing to ask for help.",
+      "explanation": "The ending shows a change in the character’s choice.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Reading public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
+      "tier": "star-fallback",
+      "domain": "Analyzing literary text",
+      "difficulty": 3,
+      "contentHash": "sha256:7f7aca474fccfcbccd0e3a8528e971c2fd05cba1e0fbf48efe71dadf5a639edf"
+    },
+    {
+      "id": "abvm-0ca987de6de2-star-math-26-spelling",
+      "stationId": "spelling-forge-fog-v1",
+      "subject": "Math",
+      "skill": "patterns",
+      "prompt": "What number comes next? 2, 12, 22, 32, __",
+      "choices": [
+        "52",
+        "42",
+        "41"
+      ],
+      "answer": "42",
+      "explanation": "The same amount is added each time.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Math public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
+      "tier": "star-fallback",
+      "domain": "Algebra",
+      "difficulty": 3,
+      "contentHash": "sha256:e39a3cc1aef4da4665cc71f975071efa4b90ecb02f19fbbdb1ac27acaa5849f5"
+    },
+    {
+      "id": "abvm-0ca987de6de2-star-read-05-spelling",
+      "stationId": "spelling-forge-fog-v1",
+      "subject": "Reading / ELA",
+      "skill": "theme",
+      "prompt": "Read: “A child practices tying shoes every morning. After many tries, the knot finally stays tied.” Which lesson best fits the story?",
+      "choices": [
+        "Winning is the only thing that matters.",
+        "Practice can help you improve.",
+        "Problems always disappear without effort."
+      ],
+      "answer": "Practice can help you improve.",
+      "explanation": "The character’s actions and outcome support that lesson.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Reading public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
+      "tier": "star-fallback",
+      "domain": "Analyzing literary text",
+      "difficulty": 3,
+      "contentHash": "sha256:7a3da6a04d11b8bc48d69ee6fc32d3bcb458abdaaa34b6fec59813f47a0556d0"
+    },
+    {
+      "id": "abvm-0ca987de6de2-star-math-20-spelling",
+      "stationId": "spelling-forge-fog-v1",
+      "subject": "Math",
+      "skill": "probability-language",
+      "prompt": "A bag has 5 blue tiles and 1 yellow tile. Without looking, which color is more likely to be picked?",
+      "choices": [
+        "They are equally likely.",
+        "blue",
+        "yellow"
+      ],
+      "answer": "blue",
+      "explanation": "There are more blue tiles, so blue is more likely.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Math public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
+      "tier": "star-fallback",
+      "domain": "Data analysis, statistics, and probability",
+      "difficulty": 2,
+      "contentHash": "sha256:11bb06a39b8e27cb99d8518806be604772eb736a888aa918b9716fb14975b9fa"
+    },
+    {
+      "id": "abvm-0ca987de6de2-star-read-17-spelling",
+      "stationId": "spelling-forge-fog-v1",
+      "subject": "Reading / ELA",
+      "skill": "text-evidence",
+      "prompt": "Read: “The kitten crouched low, wiggled its back legs, and sprang toward the toy mouse.” Which detail best shows the kitten was getting ready to pounce?",
+      "choices": [
+        "The toy was a mouse.",
+        "The kitten had fur.",
+        "It crouched low and wiggled its back legs."
+      ],
+      "answer": "It crouched low and wiggled its back legs.",
+      "explanation": "Those actions are direct evidence of preparing to pounce.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Reading public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
+      "tier": "star-fallback",
+      "domain": "Comprehension strategies and constructing meaning",
+      "difficulty": 3,
+      "contentHash": "sha256:d2d5fceb3c5d75c371d7a86d44761e275863639baf0cd7c07606f6d42854a184"
+    },
+    {
+      "id": "abvm-0ca987de6de2-star-math-28-spelling",
+      "stationId": "spelling-forge-fog-v1",
+      "subject": "Math",
+      "skill": "measurement",
+      "prompt": "A ribbon is 23 centimeters long. 8 centimeters are cut off. How many centimeters remain?",
+      "choices": [
+        "16",
+        "15",
+        "31"
+      ],
+      "answer": "15",
+      "explanation": "Subtract the part cut off from the original length.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Math public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
+      "tier": "star-fallback",
+      "domain": "Geometry and measurement",
+      "difficulty": 3,
+      "contentHash": "sha256:c96b0da2068462c2962aa2d118d8fe2750948eade817fc1e3096dc4ef45c56c0"
+    },
+    {
+      "id": "abvm-0ca987de6de2-star-read-22-spelling",
+      "stationId": "spelling-forge-fog-v1",
+      "subject": "Reading / ELA",
+      "skill": "word-parts",
+      "prompt": "What does the word “careless” mean?",
+      "choices": [
+        "without enough care",
+        "very noisy",
+        "a kind of place"
+      ],
+      "answer": "without enough care",
+      "explanation": "The prefix or suffix changes the base word to make this meaning.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Reading public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
+      "tier": "star-fallback",
+      "domain": "Word knowledge and skills",
+      "difficulty": 2,
+      "contentHash": "sha256:cbf3b049abaccee79d2afb68f984f1f7f32f9e5e5749d8d9af515da7fa7573b1"
+    },
+    {
+      "id": "abvm-0ca987de6de2-star-math-16-spelling",
+      "stationId": "spelling-forge-fog-v1",
+      "subject": "Math",
+      "skill": "patterns",
+      "prompt": "What number comes next? 4, 6, 8, 10, __",
+      "choices": [
+        "14",
+        "11",
+        "12"
+      ],
+      "answer": "12",
+      "explanation": "The same amount is added each time.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Math public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
+      "tier": "star-fallback",
+      "domain": "Algebra",
+      "difficulty": 3,
+      "contentHash": "sha256:15a021dae89cd7126cc0d9080052c0dd7fb1969c5fd164e467b25f5d2dc02cb8"
+    },
+    {
+      "id": "abvm-0ca987de6de2-star-read-15-spelling",
+      "stationId": "spelling-forge-fog-v1",
+      "subject": "Reading / ELA",
+      "skill": "theme",
+      "prompt": "Read: “A child practices tying shoes every morning. After many tries, the knot finally stays tied.” Which lesson best fits the story?",
+      "choices": [
+        "Practice can help you improve.",
+        "Winning is the only thing that matters.",
+        "Problems always disappear without effort."
+      ],
+      "answer": "Practice can help you improve.",
+      "explanation": "The character’s actions and outcome support that lesson.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Reading public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
+      "tier": "star-fallback",
+      "domain": "Analyzing literary text",
+      "difficulty": 3,
+      "contentHash": "sha256:0d25084d27b420080626e67a69353a42c77963c1b2521c71b8f460eb2fa2d170"
+    },
+    {
+      "id": "abvm-0ca987de6de2-star-math-01-spelling",
+      "stationId": "spelling-forge-fog-v1",
+      "subject": "Math",
+      "skill": "addition-within-100",
+      "prompt": "What is 21 + 29?",
+      "choices": [
+        "40",
+        "50",
+        "51"
+      ],
+      "answer": "50",
+      "explanation": "Add tens and ones carefully.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Math public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
+      "tier": "star-fallback",
+      "domain": "Numbers and operations",
+      "difficulty": 3,
+      "contentHash": "sha256:86744e786d0f7e2296fc285dd49c4641e1d81ba1c870ce7c498b1600a8197822"
+    },
+    {
+      "id": "abvm-0ca987de6de2-star-math-10-spelling",
+      "stationId": "spelling-forge-fog-v1",
+      "subject": "Math",
+      "skill": "probability-language",
+      "prompt": "A bag has 5 blue tiles and 1 yellow tile. Without looking, which color is more likely to be picked?",
+      "choices": [
+        "blue",
+        "They are equally likely.",
+        "yellow"
+      ],
+      "answer": "blue",
+      "explanation": "There are more blue tiles, so blue is more likely.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Math public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
+      "tier": "star-fallback",
+      "domain": "Data analysis, statistics, and probability",
+      "difficulty": 2,
+      "contentHash": "sha256:d1ad77aa8d617bc4474a5eed69c2dd75b1c9a1345c70dc7ce323c4c1b1afc3eb"
+    },
+    {
+      "id": "abvm-0ca987de6de2-star-read-01-spelling",
+      "stationId": "spelling-forge-fog-v1",
+      "subject": "Reading / ELA",
+      "skill": "context-clues",
+      "prompt": "In the sentence “The drowsy box barely fit through the doorway,” what does “drowsy” most likely mean?",
+      "choices": [
+        "angry",
+        "excited",
+        "sleepy"
+      ],
+      "answer": "sleepy",
+      "explanation": "The context clue about barely fitting supports the meaning “sleepy”.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Reading public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
+      "tier": "star-fallback",
+      "domain": "Word knowledge and skills",
+      "difficulty": 2,
+      "contentHash": "sha256:fc99e80a8cadc8529a89c692093c13d66d75b566e475ff75e555320054fead39"
+    },
+    {
+      "id": "abvm-0ca987de6de2-star-math-13-spelling",
+      "stationId": "spelling-forge-fog-v1",
+      "subject": "Math",
+      "skill": "place-value",
+      "prompt": "In 777, what is the value of the digit 7?",
+      "choices": [
+        "7",
+        "700",
+        "70"
+      ],
+      "answer": "70",
+      "explanation": "The digit is in the tens place.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Math public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
+      "tier": "star-fallback",
+      "domain": "Numbers and operations",
+      "difficulty": 3,
+      "contentHash": "sha256:76e626500fdbdefcd84b07c0d52cff52de5621d82ab0d1185b1b779f9c43c548"
+    },
+    {
+      "id": "abvm-0ca987de6de2-star-read-24-spelling",
+      "stationId": "spelling-forge-fog-v1",
+      "subject": "Reading / ELA",
+      "skill": "sequence",
+      "prompt": "Read: “First Eli mixed the batter. Next, the batter went into the pan. Last, the pan went into the oven.” What happened immediately before the pan went into the oven?",
+      "choices": [
+        "The cake was eaten.",
+        "The batter went into the pan.",
+        "The oven was turned off."
+      ],
+      "answer": "The batter went into the pan.",
+      "explanation": "The sequence word “next” marks the step just before the last event.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Reading public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
+      "tier": "star-fallback",
+      "domain": "Comprehension strategies and constructing meaning",
+      "difficulty": 3,
+      "contentHash": "sha256:6ddb33511c8dad2961680e7a38f35431e50788b1f1b65cc0530f8836bd236090"
+    },
+    {
+      "id": "abvm-0ca987de6de2-star-read-20-spelling",
+      "stationId": "spelling-forge-fog-v1",
+      "subject": "Reading / ELA",
+      "skill": "word-choice",
+      "prompt": "Read: “The wind whispered through the tall grass.” Why might the author use the word “whispered”?",
+      "choices": [
+        "To prove the wind can speak like a person.",
+        "To tell the exact temperature.",
+        "To help the reader imagine a soft sound."
+      ],
+      "answer": "To help the reader imagine a soft sound.",
+      "explanation": "The word choice creates a quiet sound image for the reader.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Reading public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
+      "tier": "star-fallback",
+      "domain": "Understanding author’s craft",
+      "difficulty": 3,
+      "contentHash": "sha256:59719207ef7fb9fa419e1764e8c52cccfe2479a38282b71cd72cfd32d9415590"
+    },
+    {
+      "id": "abvm-0ca987de6de2-star-read-06-spelling",
+      "stationId": "spelling-forge-fog-v1",
+      "subject": "Reading / ELA",
+      "skill": "inference",
+      "prompt": "Read: “Zoe tucked the permission slip into the front pocket of the backpack, then checked the pocket twice before leaving.” What can you infer?",
+      "choices": [
+        "Zoe forgot there was a backpack.",
+        "Zoe thinks the slip is important.",
+        "Zoe wants to lose the slip."
+      ],
+      "answer": "Zoe thinks the slip is important.",
+      "explanation": "Checking the pocket twice shows the slip matters to the character.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Reading public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
+      "tier": "star-fallback",
+      "domain": "Comprehension strategies and constructing meaning",
+      "difficulty": 3,
+      "contentHash": "sha256:0139a8f7820449dc6df45482c4afd709a1e39b8d85d0cca7a4a4a94ba3b0db1b"
+    },
+    {
+      "id": "abvm-0ca987de6de2-mat-religion-0",
+      "stationId": "culture-lab-culture-v1",
+      "subject": "Religion",
+      "skill": "religion-application",
+      "prompt": "Which statement best matches this lesson idea?",
+      "choices": [
+        "Jesus gave us the new life of grace",
+        "Jesus is God's greatest gift to us; he tells us about God and teaches us how to live",
+        "Jesus died for our sins; He is our Savior"
+      ],
+      "answer": "Jesus is God's greatest gift to us; he tells us about God and teaches us how to live",
+      "explanation": "The correct choice matches the verified Religion lesson material.",
+      "provenance": "curriculum-practice-derived-from-verified-abvm-pack",
+      "sourceFact": "Jesus is God's greatest gift to us; he tells us about God and teaches us how to live",
+      "tier": "material",
+      "domain": "Religion: current lesson application",
+      "difficulty": 3,
+      "contentHash": "sha256:92b39c09819d604958c58e7a8764d6c6b8ce58da294cb282a5499842cbdbece8"
+    },
+    {
+      "id": "abvm-0ca987de6de2-mat-religion-1",
+      "stationId": "culture-lab-culture-v1",
+      "subject": "Religion",
+      "skill": "religion-application",
+      "prompt": "The lesson calls grace “new life.” Which answer names who gives this new life?",
+      "choices": [
+        "A school rule",
+        "A prize someone earns",
+        "Jesus"
+      ],
+      "answer": "Jesus",
+      "explanation": "The current lesson teaches that Jesus gives us the new life of grace.",
+      "provenance": "curriculum-practice-derived-from-verified-abvm-pack",
+      "sourceFact": "Jesus gave us the new life of grace",
+      "tier": "material",
+      "domain": "Religion: current lesson application",
+      "difficulty": 3,
+      "contentHash": "sha256:f6e5c1d800ef9c199b262c5abc627a56416edbc6a57d6ed1d52f554798ee248a"
+    },
+    {
+      "id": "abvm-0ca987de6de2-mat-religion-2",
+      "stationId": "culture-lab-culture-v1",
+      "subject": "Religion",
+      "skill": "religion-application",
+      "prompt": "Which statement best matches this lesson idea?",
+      "choices": [
+        "Jesus is God's greatest gift to us; he tells us about God and teaches us how to live",
+        "Jesus gave us the new life of grace",
+        "Jesus died for our sins; He is our Savior"
+      ],
+      "answer": "Jesus died for our sins; He is our Savior",
+      "explanation": "The correct choice matches the verified Religion lesson material.",
+      "provenance": "curriculum-practice-derived-from-verified-abvm-pack",
+      "sourceFact": "Jesus died for our sins; He is our Savior",
+      "tier": "material",
+      "domain": "Religion: current lesson application",
+      "difficulty": 3,
+      "contentHash": "sha256:58d8d4391101a3172f1c10763cca9c4e29f93b36fd96de06b1dc091424b770ec"
+    },
+    {
+      "id": "abvm-0ca987de6de2-mat-religion-3",
+      "stationId": "culture-lab-culture-v1",
+      "subject": "Religion",
+      "skill": "religion-application",
+      "prompt": "The lesson calls grace “new life.” Which answer names who gives this new life?",
+      "choices": [
+        "Jesus",
+        "A prize someone earns",
+        "A school rule"
+      ],
+      "answer": "Jesus",
+      "explanation": "The current lesson teaches that Jesus gives us the new life of grace.",
+      "provenance": "curriculum-practice-derived-from-verified-abvm-pack",
+      "sourceFact": "Jesus is like a seed. A seed dies for a new plant to grow — Jesus died so we can have new life (grace)",
+      "tier": "material",
+      "domain": "Religion: current lesson application",
+      "difficulty": 3,
+      "contentHash": "sha256:9c623bb0afe57092cceb2eb5992fe6e80325d283ea537b4b62169457546edb82"
+    },
+    {
+      "id": "abvm-0ca987de6de2-mat-religion-4",
+      "stationId": "culture-lab-culture-v1",
+      "subject": "Religion",
+      "skill": "religion-application",
+      "prompt": "Which action best shows what it means to live as a disciple and friend of Jesus?",
+      "choices": [
+        "Ignore people who need help.",
+        "Choose a loving action even when it is not the easiest choice.",
+        "Choose what is easiest even if it hurts someone."
+      ],
+      "answer": "Choose a loving action even when it is not the easiest choice.",
+      "explanation": "A disciple tries to follow Jesus in how they live.",
+      "provenance": "curriculum-practice-derived-from-verified-abvm-pack",
+      "sourceFact": "We are called to be disciples, friends of Jesus. Mary is Jesus' mother and the mother of the Church so she is our mother too",
+      "tier": "material",
+      "domain": "Religion: current lesson application",
+      "difficulty": 3,
+      "contentHash": "sha256:1be24647f7ee046c687004a4dbdfa5f51cc1bc44d0775813d2c7a6521ea9edfa"
+    },
+    {
+      "id": "abvm-0ca987de6de2-mat-religion-5",
+      "stationId": "culture-lab-culture-v1",
+      "subject": "Religion",
+      "skill": "religion-application",
+      "prompt": "Which statement best matches this lesson idea?",
+      "choices": [
+        "Jesus gave us the new life of grace",
+        "The parable of the vine and the branches",
+        "Jesus is God's greatest gift to us; he tells us about God and teaches us how to live"
+      ],
+      "answer": "The parable of the vine and the branches",
+      "explanation": "The correct choice matches the verified Religion lesson material.",
+      "provenance": "curriculum-practice-derived-from-verified-abvm-pack",
+      "sourceFact": "The parable of the vine and the branches",
+      "tier": "material",
+      "domain": "Religion: current lesson application",
+      "difficulty": 3,
+      "contentHash": "sha256:6126b1572331cc003d00936e93bd8f0e7ec2e6f68d8ef9fa19a77468dafcedb8"
+    },
+    {
+      "id": "abvm-0ca987de6de2-mat-religion-6",
+      "stationId": "culture-lab-culture-v1",
+      "subject": "Religion",
+      "skill": "religion-application",
+      "prompt": "Which statement best matches this lesson idea?",
+      "choices": [
+        "Gifts from God",
+        "Jesus gave us the new life of grace",
+        "Jesus is God's greatest gift to us; he tells us about God and teaches us how to live"
+      ],
+      "answer": "Gifts from God",
+      "explanation": "The correct choice matches the verified Religion lesson material.",
+      "provenance": "curriculum-practice-derived-from-verified-abvm-pack",
+      "sourceFact": "Gifts from God",
+      "tier": "material",
+      "domain": "Religion: current lesson application",
+      "difficulty": 3,
+      "contentHash": "sha256:0cc5bdfa08fc2f2e46aff496b6529e16a36c4f040d6928a7a70ae35a42144b47"
+    },
+    {
+      "id": "abvm-0ca987de6de2-mat-religion-7",
+      "stationId": "culture-lab-culture-v1",
+      "subject": "Religion",
+      "skill": "religion-application",
+      "prompt": "Which ability best connects with being made in God’s image and likeness in this lesson?",
+      "choices": [
+        "Never needing help from anyone.",
+        "Being able to run faster than everyone.",
+        "Being able to think, choose, and love."
+      ],
+      "answer": "Being able to think, choose, and love.",
+      "explanation": "Those abilities are named in the current lesson.",
+      "provenance": "curriculum-practice-derived-from-verified-abvm-pack",
+      "sourceFact": "We are made in God's image and likeness; we can think, choose, love",
+      "tier": "material",
+      "domain": "Religion: current lesson application",
+      "difficulty": 3,
+      "contentHash": "sha256:6d57afbf977e3a5e199be41d07d5647c36eb4904898f1754ae451728e36928b3"
+    },
+    {
+      "id": "abvm-0ca987de6de2-mat-religion-8",
+      "stationId": "culture-lab-culture-v1",
+      "subject": "Religion",
+      "skill": "religion-application",
+      "prompt": "Which description correctly explains the Trinity?",
+      "choices": [
+        "One Person with three different names only.",
+        "Three separate gods with no connection.",
+        "One God in three Persons: Father, Son, and Holy Spirit."
+      ],
+      "answer": "One God in three Persons: Father, Son, and Holy Spirit.",
+      "explanation": "That is the lesson’s description of the Trinity.",
+      "provenance": "curriculum-practice-derived-from-verified-abvm-pack",
+      "sourceFact": "Trinity: 3 persons in one God (Father, Son, Holy Spirit)",
+      "tier": "material",
+      "domain": "Religion: current lesson application",
+      "difficulty": 3,
+      "contentHash": "sha256:40821111ee65998ccf92ba7b9d33aff9b5d804a3d7be3d1e3507285278f0e5c9"
+    },
+    {
+      "id": "abvm-0ca987de6de2-mat-religion-9",
+      "stationId": "culture-lab-culture-v1",
+      "subject": "Religion",
+      "skill": "religion-application",
+      "prompt": "Which statement best matches this lesson idea?",
+      "choices": [
+        "We use our senses to enjoy God's gifts",
+        "Jesus gave us the new life of grace",
+        "Jesus is God's greatest gift to us; he tells us about God and teaches us how to live"
+      ],
+      "answer": "We use our senses to enjoy God's gifts",
+      "explanation": "The correct choice matches the verified Religion lesson material.",
+      "provenance": "curriculum-practice-derived-from-verified-abvm-pack",
+      "sourceFact": "We use our senses to enjoy God's gifts",
+      "tier": "material",
+      "domain": "Religion: current lesson application",
+      "difficulty": 3,
+      "contentHash": "sha256:9cd21749c7decfd15370bbf2b5b594bf67cb95f462e61c2264a721abca3451bd"
+    },
+    {
+      "id": "abvm-0ca987de6de2-mat-religion-10",
+      "stationId": "culture-lab-culture-v1",
+      "subject": "Religion",
+      "skill": "religion-application",
+      "prompt": "Which choice best applies the lesson about caring for creation?",
+      "choices": [
+        "Pick up litter and protect living things.",
+        "Ignore people who need help.",
+        "Choose what is easiest even if it hurts someone."
+      ],
+      "answer": "Pick up litter and protect living things.",
+      "explanation": "Caring for the world is an application of the lesson about creation.",
+      "provenance": "curriculum-practice-derived-from-verified-abvm-pack",
+      "sourceFact": "It is our responsibility to take care of God's gifts of creation",
+      "tier": "material",
+      "domain": "Religion: current lesson application",
+      "difficulty": 3,
+      "contentHash": "sha256:5205b9f900fe45e75aae071e29491e5d26783c7451a3f7c13192e69f6340cd48"
+    },
+    {
+      "id": "abvm-0ca987de6de2-mat-religion-11",
+      "stationId": "culture-lab-culture-v1",
+      "subject": "Religion",
+      "skill": "religion-application",
+      "prompt": "Which statement best matches this lesson idea?",
+      "choices": [
+        "Jesus is God's greatest gift to us; he tells us about God and teaches us how to live",
+        "We thank God for His gift of creation",
+        "Jesus gave us the new life of grace"
+      ],
+      "answer": "We thank God for His gift of creation",
+      "explanation": "The correct choice matches the verified Religion lesson material.",
+      "provenance": "curriculum-practice-derived-from-verified-abvm-pack",
+      "sourceFact": "We thank God for His gift of creation",
+      "tier": "material",
+      "domain": "Religion: current lesson application",
+      "difficulty": 3,
+      "contentHash": "sha256:9edc06adfae4bfefa86833991f43787b50f660d3fad623cbac68630e120cb0a8"
+    },
+    {
+      "id": "abvm-0ca987de6de2-star-read-23-culture",
+      "stationId": "culture-lab-culture-v1",
+      "subject": "Reading / ELA",
+      "skill": "cause-effect",
+      "prompt": "Eli read: “The trail was muddy, so we stepped carefully around the puddles.” Why did they step carefully?",
+      "choices": [
+        "They were racing.",
+        "The trail was muddy.",
+        "The puddles were frozen solid."
+      ],
+      "answer": "The trail was muddy.",
+      "explanation": "The first part gives the cause for the careful steps.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Reading public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
+      "tier": "star-fallback",
+      "domain": "Comprehension strategies and constructing meaning",
+      "difficulty": 3,
+      "contentHash": "sha256:d78ddc390d76bea074ecad04ca023ebe3c3e177140d5a75476dfa432c829c32f"
+    },
+    {
+      "id": "abvm-0ca987de6de2-star-math-05-culture",
+      "stationId": "culture-lab-culture-v1",
+      "subject": "Math",
+      "skill": "unknown-number",
+      "prompt": "Which number makes the equation true? 5 + □ = 8",
+      "choices": [
+        "4",
+        "3",
+        "1"
+      ],
+      "answer": "3",
+      "explanation": "Find the missing addend.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Math public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
+      "tier": "star-fallback",
+      "domain": "Algebra",
+      "difficulty": 3,
+      "contentHash": "sha256:2e03ad31a157e5ed9ce3b8abb80eaaf4fd0e821cc86416333b449b13d39fa319"
+    },
+    {
+      "id": "abvm-0ca987de6de2-star-read-18-culture",
+      "stationId": "culture-lab-culture-v1",
+      "subject": "Reading / ELA",
+      "skill": "character-development",
+      "prompt": "At the start of a story, Nora refuses to ask for help. After making the same mistake twice, Nora asks a classmate to explain the directions and succeeds. How did the character change?",
+      "choices": [
+        "The character decided directions are never useful.",
+        "The character stopped caring about the task.",
+        "The character became more willing to ask for help."
+      ],
+      "answer": "The character became more willing to ask for help.",
+      "explanation": "The ending shows a change in the character’s choice.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Reading public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
+      "tier": "star-fallback",
+      "domain": "Analyzing literary text",
+      "difficulty": 3,
+      "contentHash": "sha256:de52567586ff834b4e3b1a6c792fc3fec3a942dce713825d9e33b5b6f5362583"
+    },
+    {
+      "id": "abvm-0ca987de6de2-star-math-30-culture",
+      "stationId": "culture-lab-culture-v1",
+      "subject": "Math",
+      "skill": "probability-language",
+      "prompt": "A bag has 5 blue tiles and 1 yellow tile. Without looking, which color is more likely to be picked?",
+      "choices": [
+        "yellow",
+        "They are equally likely.",
+        "blue"
+      ],
+      "answer": "blue",
+      "explanation": "There are more blue tiles, so blue is more likely.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Math public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
+      "tier": "star-fallback",
+      "domain": "Data analysis, statistics, and probability",
+      "difficulty": 2,
+      "contentHash": "sha256:6744f737fde2111d60f2c6e20a5184f0c06df5455603b6cc10f8f7cea4dabd65"
+    },
+    {
+      "id": "abvm-0ca987de6de2-star-math-19-culture",
+      "stationId": "culture-lab-culture-v1",
+      "subject": "Math",
+      "skill": "data-interpretation",
+      "prompt": "A class graph shows cats: 2, dogs: 7, fish: 2. Which pet got the most votes?",
+      "choices": [
+        "fish",
+        "cats",
+        "dogs"
+      ],
+      "answer": "dogs",
+      "explanation": "Compare the three totals and choose the greatest.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Math public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
+      "tier": "star-fallback",
+      "domain": "Data analysis, statistics, and probability",
+      "difficulty": 3,
+      "contentHash": "sha256:478b0108189507217de7db74d20473db54f72a447e862cbe147b5123cd8f7804"
+    },
+    {
+      "id": "abvm-0ca987de6de2-star-read-30-culture",
+      "stationId": "culture-lab-culture-v1",
+      "subject": "Reading / ELA",
+      "skill": "word-choice",
+      "prompt": "Read: “The wind whispered through the tall grass.” Why might the author use the word “whispered”?",
+      "choices": [
+        "To tell the exact temperature.",
+        "To prove the wind can speak like a person.",
+        "To help the reader imagine a soft sound."
+      ],
+      "answer": "To help the reader imagine a soft sound.",
+      "explanation": "The word choice creates a quiet sound image for the reader.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Reading public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
+      "tier": "star-fallback",
+      "domain": "Understanding author’s craft",
+      "difficulty": 3,
+      "contentHash": "sha256:944679cb32479f86f5b2bba8e60a89dbf91cca9eab301983091847b68437888c"
+    },
+    {
+      "id": "abvm-0ca987de6de2-star-math-24-culture",
+      "stationId": "culture-lab-culture-v1",
+      "subject": "Math",
+      "skill": "compare-numbers",
+      "prompt": "Which comparison is true?",
+      "choices": [
+        "839 = 866",
+        "839 < 866",
+        "839 > 866"
+      ],
+      "answer": "839 < 866",
+      "explanation": "The number on the left is smaller.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Math public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
+      "tier": "star-fallback",
+      "domain": "Numbers and operations",
+      "difficulty": 3,
+      "contentHash": "sha256:a02cf17945326d37d37a710fa0367079b718b8d0e2e9f25c0f61d5c8c0e54810"
+    },
+    {
+      "id": "abvm-0ca987de6de2-star-math-06-culture",
+      "stationId": "culture-lab-culture-v1",
+      "subject": "Math",
+      "skill": "patterns",
+      "prompt": "What number comes next? 8, 18, 28, 38, __",
+      "choices": [
+        "58",
+        "48",
+        "47"
+      ],
+      "answer": "48",
+      "explanation": "The same amount is added each time.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Math public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
+      "tier": "star-fallback",
+      "domain": "Algebra",
+      "difficulty": 3,
+      "contentHash": "sha256:eadb3b99a3822c96a4886cbc72d2283118fd35cfa7ecaa753ac824669aab1fc0"
+    },
+    {
+      "id": "abvm-0ca987de6de2-star-math-29-culture",
+      "stationId": "culture-lab-culture-v1",
+      "subject": "Math",
+      "skill": "data-interpretation",
+      "prompt": "A class graph shows cats: 5, dogs: 4, fish: 6. Which pet got the most votes?",
+      "choices": [
+        "fish",
+        "dogs",
+        "cats"
+      ],
+      "answer": "fish",
+      "explanation": "Compare the three totals and choose the greatest.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Math public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
+      "tier": "star-fallback",
+      "domain": "Data analysis, statistics, and probability",
+      "difficulty": 3,
+      "contentHash": "sha256:0badba5a3d5b10d966c1950a6b64df774de62c210fe6d7881362ed587a46e485"
+    },
+    {
+      "id": "abvm-0ca987de6de2-star-read-03-culture",
+      "stationId": "culture-lab-culture-v1",
+      "subject": "Reading / ELA",
+      "skill": "cause-effect",
+      "prompt": "Mia read: “The trail was muddy, so we stepped carefully around the puddles.” Why did they step carefully?",
+      "choices": [
+        "The trail was muddy.",
+        "The puddles were frozen solid.",
+        "They were racing."
+      ],
+      "answer": "The trail was muddy.",
+      "explanation": "The first part gives the cause for the careful steps.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Reading public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
+      "tier": "star-fallback",
+      "domain": "Comprehension strategies and constructing meaning",
+      "difficulty": 3,
+      "contentHash": "sha256:f8214a145d14ecab610286a608808df472a0d05a9251353bb91e58b641073374"
+    },
+    {
+      "id": "abvm-0ca987de6de2-star-read-26-culture",
+      "stationId": "culture-lab-culture-v1",
+      "subject": "Reading / ELA",
+      "skill": "inference",
+      "prompt": "Read: “Sam tucked the permission slip into the front pocket of the backpack, then checked the pocket twice before leaving.” What can you infer?",
+      "choices": [
+        "Sam forgot there was a backpack.",
+        "Sam thinks the slip is important.",
+        "Sam wants to lose the slip."
+      ],
+      "answer": "Sam thinks the slip is important.",
+      "explanation": "Checking the pocket twice shows the slip matters to the character.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Reading public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
+      "tier": "star-fallback",
+      "domain": "Comprehension strategies and constructing meaning",
+      "difficulty": 3,
+      "contentHash": "sha256:f93af27fbef6559bb01b04c0fbd8a6f161409c295897ae98ef17a23577e30f0c"
+    },
+    {
+      "id": "abvm-0ca987de6de2-star-math-21-culture",
+      "stationId": "culture-lab-culture-v1",
+      "subject": "Math",
+      "skill": "addition-within-100",
+      "prompt": "What is 47 + 10?",
+      "choices": [
+        "58",
+        "57",
+        "47"
+      ],
+      "answer": "57",
+      "explanation": "Add tens and ones carefully.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Math public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
+      "tier": "star-fallback",
+      "domain": "Numbers and operations",
+      "difficulty": 3,
+      "contentHash": "sha256:c580229f1d057c3c48cb700dce2309b5a3ee574f51d426e0f185fe74cff6f94b"
+    },
+    {
+      "id": "abvm-0ca987de6de2-star-read-19-culture",
+      "stationId": "culture-lab-culture-v1",
+      "subject": "Reading / ELA",
+      "skill": "author-purpose",
+      "prompt": "What is the author’s main purpose in this text? “A poster says, “Bring a reusable bottle and help reduce trash!””",
+      "choices": [
+        "to hide the topic",
+        "to persuade",
+        "to list random words"
+      ],
+      "answer": "to persuade",
+      "explanation": "The kind of information and wording reveal the author’s purpose.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Reading public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
+      "tier": "star-fallback",
+      "domain": "Understanding author’s craft",
+      "difficulty": 3,
+      "contentHash": "sha256:7a6d5dcb8184b1fce731843c08ae4af7d534e0ac733adb66f680babcef064b6d"
+    },
+    {
+      "id": "abvm-0ca987de6de2-star-read-25-culture",
+      "stationId": "culture-lab-culture-v1",
+      "subject": "Reading / ELA",
+      "skill": "theme",
+      "prompt": "Read: “A child practices tying shoes every morning. After many tries, the knot finally stays tied.” Which lesson best fits the story?",
+      "choices": [
+        "Winning is the only thing that matters.",
+        "Problems always disappear without effort.",
+        "Practice can help you improve."
+      ],
+      "answer": "Practice can help you improve.",
+      "explanation": "The character’s actions and outcome support that lesson.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Reading public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
+      "tier": "star-fallback",
+      "domain": "Analyzing literary text",
+      "difficulty": 3,
+      "contentHash": "sha256:7177d9fd45646c41773cae456cd4cc50c1baf983a0bfc223cc944b73ced6632e"
+    },
+    {
+      "id": "abvm-0ca987de6de2-star-math-18-culture",
+      "stationId": "culture-lab-culture-v1",
+      "subject": "Math",
+      "skill": "measurement",
+      "prompt": "A ribbon is 19 centimeters long. 8 centimeters are cut off. How many centimeters remain?",
+      "choices": [
+        "12",
+        "27",
+        "11"
+      ],
+      "answer": "11",
+      "explanation": "Subtract the part cut off from the original length.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Math public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
+      "tier": "star-fallback",
+      "domain": "Geometry and measurement",
+      "difficulty": 3,
+      "contentHash": "sha256:bac36a91c78946db9386efcfa26eca94d92838a535164ce589c6501f18f20863"
+    },
+    {
+      "id": "abvm-0ca987de6de2-star-read-14-culture",
+      "stationId": "culture-lab-culture-v1",
+      "subject": "Reading / ELA",
+      "skill": "sequence",
+      "prompt": "Read: “First Mia mixed the batter. Next, the batter went into the pan. Last, the pan went into the oven.” What happened immediately before the pan went into the oven?",
+      "choices": [
+        "The oven was turned off.",
+        "The cake was eaten.",
+        "The batter went into the pan."
+      ],
+      "answer": "The batter went into the pan.",
+      "explanation": "The sequence word “next” marks the step just before the last event.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Reading public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
+      "tier": "star-fallback",
+      "domain": "Comprehension strategies and constructing meaning",
+      "difficulty": 3,
+      "contentHash": "sha256:cfe21e76385ced41e2b174f95dc899836d24758ccc85eaa76fea2d5a84793b89"
+    },
+    {
+      "id": "abvm-0ca987de6de2-star-math-14-culture",
+      "stationId": "culture-lab-culture-v1",
+      "subject": "Math",
+      "skill": "compare-numbers",
+      "prompt": "Which comparison is true?",
+      "choices": [
+        "480 > 515",
+        "480 = 515",
+        "480 < 515"
+      ],
+      "answer": "480 < 515",
+      "explanation": "The number on the left is smaller.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Math public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
+      "tier": "star-fallback",
+      "domain": "Numbers and operations",
+      "difficulty": 3,
+      "contentHash": "sha256:280cb37d1999f2fd8bad170ffed1118b6de5e8e986a6ea2d4583219f426005dc"
+    },
+    {
+      "id": "abvm-0ca987de6de2-star-read-27-culture",
+      "stationId": "culture-lab-culture-v1",
+      "subject": "Reading / ELA",
+      "skill": "text-evidence",
+      "prompt": "Read: “The kitten crouched low, wiggled its back legs, and sprang toward the toy mouse.” Which detail best shows the kitten was getting ready to pounce?",
+      "choices": [
+        "The toy was a mouse.",
+        "The kitten had fur.",
+        "It crouched low and wiggled its back legs."
+      ],
+      "answer": "It crouched low and wiggled its back legs.",
+      "explanation": "Those actions are direct evidence of preparing to pounce.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Reading public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
+      "tier": "star-fallback",
+      "domain": "Comprehension strategies and constructing meaning",
+      "difficulty": 3,
+      "contentHash": "sha256:ad2ec4a51f30829d560593bd22372aa4956b3c47a9ab183316d47afdb0d93bc3"
+    },
+    {
+      "id": "abvm-0ca987de6de2-star-math-23-culture",
+      "stationId": "culture-lab-culture-v1",
+      "subject": "Math",
+      "skill": "place-value",
+      "prompt": "In 446, what is the value of the digit 4?",
+      "choices": [
+        "40",
+        "4",
+        "400"
+      ],
+      "answer": "40",
+      "explanation": "The digit is in the tens place.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Math public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
+      "tier": "star-fallback",
+      "domain": "Numbers and operations",
+      "difficulty": 3,
+      "contentHash": "sha256:2a90a64bd9e69c623c878212936ba35ac3d2c310f42278c90328a3209ef59009"
+    },
+    {
+      "id": "abvm-0ca987de6de2-star-read-16-culture",
+      "stationId": "culture-lab-culture-v1",
+      "subject": "Reading / ELA",
+      "skill": "inference",
+      "prompt": "Read: “Nora tucked the permission slip into the front pocket of the backpack, then checked the pocket twice before leaving.” What can you infer?",
+      "choices": [
+        "Nora thinks the slip is important.",
+        "Nora forgot there was a backpack.",
+        "Nora wants to lose the slip."
+      ],
+      "answer": "Nora thinks the slip is important.",
+      "explanation": "Checking the pocket twice shows the slip matters to the character.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Reading public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
+      "tier": "star-fallback",
+      "domain": "Comprehension strategies and constructing meaning",
+      "difficulty": 3,
+      "contentHash": "sha256:92d9cc007fbb21e4cd0c34c0c23bb5c59b4de70cd0427ccaab55b39a66b4b8b4"
     }
   ]
 }
