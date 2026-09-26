@@ -56,7 +56,7 @@ const STATIONS=['word-portal-put-v1','spelling-forge-fog-v1','culture-lab-cultur
 const FORBIDDEN=[/sight word/i,/which .* is on the current .* list/i,/teacher page/i,/study list/i,/being practiced this week/i];
 function makeQuestion(input){
   const base={...input};
-  if(!base.id||!base.stationId||!base.prompt||!base.answer) throw new Error('Question is missing required fields.');
+  if(!base.id||!base.prompt||!base.answer) throw new Error('Question is missing required fields.');
   if(!Array.isArray(base.choices)||base.choices.length!==3||new Set(base.choices).size!==3) throw new Error('Question '+base.id+' must have exactly three unique choices.');
   if(!base.choices.includes(base.answer)) throw new Error('Question '+base.id+' answer is not in choices.');
   if(FORBIDDEN.some(pattern=>pattern.test(base.prompt))) throw new Error('Forbidden meta prompt in '+base.id+': '+base.prompt);
@@ -453,6 +453,7 @@ for(const stationId of STATIONS){
   questions.push(...material,...fallbackByStation[stationId]);
 }
 if(starRead.length<25||starMathQuestions.length<25) throw new Error('STAR fallback coverage dropped below 25 Reading and 25 Math questions.');
+if(questions.some(question=>!question.stationId)) throw new Error('Final question bank contains an unbound station question.');
 
 const source={
   schemaVersion:4,
