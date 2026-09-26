@@ -27,16 +27,17 @@ local returnWorld = shopRemotes:WaitForChild("ReturnWorld") :: RemoteFunction
 local shopGui = playerGui:WaitForChild("StarBloxShopUI", 10)
 local openStore = if shopGui then shopGui:FindFirstChild("OpenStore") else nil
 
-local COLORS = {
-	rail = Color3.fromRGB(30, 36, 56),
-	panel = Color3.fromRGB(42, 49, 74),
-	row = Color3.fromRGB(55, 64, 94),
-	text = Color3.fromRGB(248, 250, 255),
-	muted = Color3.fromRGB(194, 202, 225),
-	accent = Color3.fromRGB(109, 104, 255),
-	success = Color3.fromRGB(66, 204, 156),
-	warning = Color3.fromRGB(255, 184, 77),
-	danger = Color3.fromRGB(255, 104, 116),
+local UI = {
+	white = Color3.fromRGB(245, 245, 245),
+	tile = Color3.fromRGB(222, 222, 222),
+	tileDark = Color3.fromRGB(194, 194, 194),
+	border = Color3.fromRGB(115, 115, 115),
+	text = Color3.fromRGB(42, 42, 42),
+	muted = Color3.fromRGB(90, 90, 90),
+	red = Color3.fromRGB(210, 49, 49),
+	green = Color3.fromRGB(68, 173, 92),
+	blue = Color3.fromRGB(80, 154, 221),
+	coin = Color3.fromRGB(228, 183, 50),
 }
 
 local function round(guiObject: GuiObject, radius: number)
@@ -45,11 +46,19 @@ local function round(guiObject: GuiObject, radius: number)
 	corner.Parent = guiObject
 end
 
-local function constrainText(label: TextLabel | TextButton | TextBox, minSize: number, maxSize: number)
-	local constraint = Instance.new("UITextSizeConstraint")
-	constraint.MinTextSize = minSize
-	constraint.MaxTextSize = maxSize
-	constraint.Parent = label
+local function stroke(guiObject: GuiObject, color: Color3?, thickness: number?)
+	local line = Instance.new("UIStroke")
+	line.Color = color or UI.border
+	line.Thickness = thickness or 1
+	line.Transparency = 0.15
+	line.Parent = guiObject
+end
+
+local function constrain(label: TextLabel | TextButton | TextBox, minSize: number, maxSize: number)
+	local c = Instance.new("UITextSizeConstraint")
+	c.MinTextSize = minSize
+	c.MaxTextSize = maxSize
+	c.Parent = label
 end
 
 local gui = Instance.new("ScreenGui")
@@ -62,279 +71,241 @@ pcall(function()
 end)
 gui.Parent = playerGui
 
+-- Brookhaven keeps its navigation as separate light square buttons down the right edge.
 local rail = Instance.new("Frame")
 rail.Name = "Sidebar"
 rail.AnchorPoint = Vector2.new(1, 0.5)
-rail.Position = UDim2.new(1, -8, 0.5, 16)
-rail.Size = UDim2.fromOffset(58, 328)
-rail.BackgroundColor3 = COLORS.rail
-rail.BackgroundTransparency = 0.1
+rail.Position = UDim2.new(1, -8, 0.5, 14)
+rail.Size = UDim2.fromOffset(54, 326)
+rail.BackgroundTransparency = 1
 rail.Parent = gui
-round(rail, 16)
 
 local railScroll = Instance.new("ScrollingFrame")
 railScroll.Name = "Actions"
-railScroll.Position = UDim2.fromOffset(4, 5)
-railScroll.Size = UDim2.new(1, -8, 1, -10)
+railScroll.Size = UDim2.fromScale(1, 1)
 railScroll.BackgroundTransparency = 1
 railScroll.BorderSizePixel = 0
-railScroll.ScrollBarThickness = 3
+railScroll.ScrollBarThickness = 0
 railScroll.AutomaticCanvasSize = Enum.AutomaticSize.Y
 railScroll.CanvasSize = UDim2.fromOffset(0, 0)
 railScroll.Parent = rail
 
 local railList = Instance.new("UIListLayout")
-railList.Padding = UDim.new(0, 5)
+railList.Padding = UDim.new(0, 4)
 railList.HorizontalAlignment = Enum.HorizontalAlignment.Center
 railList.SortOrder = Enum.SortOrder.LayoutOrder
 railList.Parent = railScroll
 
+local function railButton(symbol: string, name: string, order: number): TextButton
+	local b = Instance.new("TextButton")
+	b.Name = name .. "Button"
+	b.LayoutOrder = order
+	b.Size = UDim2.fromOffset(50, 50)
+	b.BackgroundColor3 = UI.white
+	b.BackgroundTransparency = 0.05
+	b.Text = symbol
+	b.TextColor3 = UI.text
+	b.Font = Enum.Font.GothamBold
+	b.TextScaled = true
+	b.AutoButtonColor = true
+	b.Selectable = true
+	b.Parent = railScroll
+	round(b, 8)
+	stroke(b)
+	constrain(b, 18, 30)
+	return b
+end
+
+local avatarBtn = railButton("☺", "Avatar", 1)
+local inventoryBtn = railButton("▣", "Inventory", 2)
+local emotesBtn = railButton("✦", "Emotes", 3)
+local vehicleBtn = railButton("▰", "Vehicles", 4)
+local housesBtn = railButton("⌂", "Houses", 5)
+local bioBtn = railButton("ID", "Bio", 6)
+local jobsBtn = railButton("JOB", "Jobs", 7)
+local mapBtn = railButton("◇", "Map", 8)
+local shopBtn = railButton("$", "Shop", 9)
+
+-- The selection window sits immediately left of the rail, like Brookhaven vehicle/house menus.
 local panel = Instance.new("Frame")
 panel.Name = "MirrorPanel"
-panel.AnchorPoint = Vector2.new(0.5, 0.5)
-panel.Position = UDim2.fromScale(0.5, 0.52)
-panel.Size = UDim2.new(0.86, 0, 0, 330)
-panel.BackgroundColor3 = COLORS.panel
+panel.AnchorPoint = Vector2.new(1, 0.5)
+panel.Position = UDim2.new(1, -70, 0.5, 4)
+panel.Size = UDim2.fromOffset(356, 326)
+panel.BackgroundColor3 = UI.white
+panel.BackgroundTransparency = 0.06
 panel.Visible = false
 panel.ZIndex = 70
 panel.Parent = gui
-round(panel, 16)
+round(panel, 5)
+stroke(panel)
 
 local panelConstraint = Instance.new("UISizeConstraint")
-panelConstraint.MinSize = Vector2.new(320, 300)
-panelConstraint.MaxSize = Vector2.new(620, 330)
+panelConstraint.MinSize = Vector2.new(330, 300)
+panelConstraint.MaxSize = Vector2.new(390, 340)
 panelConstraint.Parent = panel
 
 local title = Instance.new("TextLabel")
 title.BackgroundTransparency = 1
-title.Position = UDim2.fromOffset(16, 10)
-title.Size = UDim2.new(1, -78, 0, 30)
-title.Text = "StarBlox"
-title.TextColor3 = COLORS.text
+title.Position = UDim2.fromOffset(10, 8)
+title.Size = UDim2.new(1, -70, 0, 28)
+title.Text = ""
+title.TextColor3 = UI.text
 title.Font = Enum.Font.GothamBold
 title.TextScaled = true
 title.TextXAlignment = Enum.TextXAlignment.Left
 title.ZIndex = 71
 title.Parent = panel
-constrainText(title, 15, 20)
-
-local subtitle = Instance.new("TextLabel")
-subtitle.BackgroundTransparency = 1
-subtitle.Position = UDim2.fromOffset(16, 42)
-subtitle.Size = UDim2.new(1, -32, 0, 24)
-subtitle.Text = "Answer questions to earn coins."
-subtitle.TextColor3 = COLORS.warning
-subtitle.Font = Enum.Font.GothamMedium
-subtitle.TextScaled = true
-subtitle.TextXAlignment = Enum.TextXAlignment.Left
-subtitle.ZIndex = 71
-subtitle.Parent = panel
-constrainText(subtitle, 11, 14)
-
-local close = Instance.new("TextButton")
-close.AnchorPoint = Vector2.new(1, 0)
-close.Position = UDim2.new(1, -10, 0, 8)
-close.Size = UDim2.fromOffset(44, 44)
-close.BackgroundColor3 = COLORS.row
-close.Text = "×"
-close.TextColor3 = COLORS.text
-close.Font = Enum.Font.GothamBold
-close.TextScaled = true
-close.ZIndex = 72
-close.Parent = panel
-close.Selectable = true
-round(close, 12)
-constrainText(close, 20, 26)
+constrain(title, 14, 18)
 
 local balance = Instance.new("TextLabel")
 balance.BackgroundTransparency = 1
-balance.Position = UDim2.fromOffset(16, 68)
-balance.Size = UDim2.new(1, -32, 0, 22)
-balance.Text = "Coins 0"
-balance.TextColor3 = COLORS.text
-balance.Font = Enum.Font.GothamBold
+balance.Position = UDim2.fromOffset(10, 36)
+balance.Size = UDim2.new(1, -20, 0, 20)
+balance.Text = "0 coins"
+balance.TextColor3 = UI.muted
+balance.Font = Enum.Font.GothamMedium
 balance.TextScaled = true
 balance.TextXAlignment = Enum.TextXAlignment.Left
 balance.ZIndex = 71
 balance.Parent = panel
-constrainText(balance, 12, 15)
+constrain(balance, 10, 13)
+
+local close = Instance.new("TextButton")
+close.Name = "Close"
+close.AnchorPoint = Vector2.new(1, 0)
+close.Position = UDim2.new(1, -6, 0, 6)
+close.Size = UDim2.fromOffset(50, 50)
+close.BackgroundColor3 = UI.red
+close.Text = "X"
+close.TextColor3 = Color3.new(1, 1, 1)
+close.Font = Enum.Font.GothamBold
+close.TextScaled = true
+close.ZIndex = 73
+close.Parent = panel
+close.Selectable = true
+round(close, 4)
+stroke(close, Color3.fromRGB(135, 30, 30), 1)
+constrain(close, 20, 28)
 
 local scroller = Instance.new("ScrollingFrame")
-scroller.Position = UDim2.fromOffset(12, 96)
-scroller.Size = UDim2.new(1, -24, 1, -108)
+scroller.Name = "Grid"
+scroller.Position = UDim2.fromOffset(8, 62)
+scroller.Size = UDim2.new(1, -16, 1, -70)
 scroller.BackgroundTransparency = 1
 scroller.BorderSizePixel = 0
 scroller.AutomaticCanvasSize = Enum.AutomaticSize.Y
 scroller.CanvasSize = UDim2.fromOffset(0, 0)
 scroller.ScrollBarThickness = 5
+scroller.ScrollBarImageColor3 = UI.border
 scroller.ZIndex = 71
 scroller.Parent = panel
 
-local contentList = Instance.new("UIListLayout")
-contentList.Padding = UDim.new(0, 6)
-contentList.SortOrder = Enum.SortOrder.LayoutOrder
-contentList.Parent = scroller
+local grid = Instance.new("UIGridLayout")
+grid.CellPadding = UDim2.fromOffset(5, 5)
+grid.CellSize = UDim2.fromOffset(78, 78)
+grid.SortOrder = Enum.SortOrder.LayoutOrder
+grid.HorizontalAlignment = Enum.HorizontalAlignment.Left
+grid.Parent = scroller
 
 local mirrorState = nil
 local roleplayState = nil
 local busy = false
 
-local function railButton(label: string, order: number): TextButton
-	local b = Instance.new("TextButton")
-	b.Name = label .. "Button"
-	b.LayoutOrder = order
-	b.Size = UDim2.fromOffset(44, 44)
-	b.BackgroundColor3 = COLORS.row
-	b.Text = label
-	b.TextColor3 = COLORS.text
-	b.Font = Enum.Font.GothamBold
-	b.TextScaled = true
-	b.Selectable = true
-	b.Parent = railScroll
-	round(b, 12)
-	constrainText(b, 8, 11)
-	return b
-end
-
-local avatarBtn = railButton("Ava", 1)
-local inventoryBtn = railButton("Items", 2)
-local emotesBtn = railButton("Emote", 3)
-local vehicleBtn = railButton("Cars", 4)
-local housesBtn = railButton("House", 5)
-local bioBtn = railButton("Bio", 6)
-local jobsBtn = railButton("Jobs", 7)
-local mapBtn = railButton("Map", 8)
-local shopBtn = railButton("Shop", 9)
-
-local function clear()
+local function clearGrid()
 	for _, child in scroller:GetChildren() do
-		if child:IsA("Frame") or child:IsA("TextLabel") or child:IsA("TextBox") or child:IsA("TextButton") then
+		if child:IsA("GuiObject") and not child:IsA("UIGridLayout") then
 			child:Destroy()
 		end
 	end
 end
 
-local function setHeader(nextTitle: string, nextSubtitle: string)
+local function setHeader(nextTitle: string)
 	title.Text = nextTitle
-	subtitle.Text = nextSubtitle
-	subtitle.TextColor3 = COLORS.warning
-	balance.Text = string.format("Coins %d", tonumber(player:GetAttribute("StarBloxCoins")) or 0)
+	balance.Text = string.format("%d coins", tonumber(player:GetAttribute("StarBloxCoins")) or 0)
 	panel.Visible = true
 end
 
-local function section(text: string, order: number)
-	local label = Instance.new("TextLabel")
-	label.LayoutOrder = order
-	label.Size = UDim2.new(1, -4, 0, 28)
-	label.BackgroundTransparency = 1
-	label.Text = text
-	label.TextColor3 = COLORS.warning
-	label.Font = Enum.Font.GothamBold
-	label.TextScaled = true
-	label.TextXAlignment = Enum.TextXAlignment.Left
-	label.ZIndex = 72
-	label.Parent = scroller
-	constrainText(label, 12, 15)
-end
-
-local function row(
+local function tile(
+	symbol: string,
 	name: string,
 	detail: string,
-	action: string,
-	enabled: boolean,
+	stateText: string,
+	stateColor: Color3,
 	order: number,
-	callback: () -> ()
+	callback: (() -> ())?
 )
 	local frame = Instance.new("Frame")
 	frame.LayoutOrder = order
-	frame.Size = UDim2.new(1, -4, 0, 58)
-	frame.BackgroundColor3 = COLORS.row
+	frame.Size = UDim2.fromOffset(78, 78)
+	frame.BackgroundColor3 = UI.tile
 	frame.ZIndex = 72
 	frame.Parent = scroller
-	round(frame, 10)
+	round(frame, 4)
+	stroke(frame)
 
-	local nameLabel = Instance.new("TextLabel")
-	nameLabel.BackgroundTransparency = 1
-	nameLabel.Position = UDim2.fromOffset(12, 4)
-	nameLabel.Size = UDim2.new(1, -126, 0, 25)
-	nameLabel.Text = name
-	nameLabel.TextColor3 = COLORS.text
-	nameLabel.Font = Enum.Font.GothamBold
-	nameLabel.TextScaled = true
-	nameLabel.TextXAlignment = Enum.TextXAlignment.Left
-	nameLabel.ZIndex = 73
-	nameLabel.Parent = frame
-	constrainText(nameLabel, 11, 14)
+	local icon = Instance.new("TextLabel")
+	icon.BackgroundTransparency = 1
+	icon.Position = UDim2.fromOffset(3, 2)
+	icon.Size = UDim2.new(1, -6, 0, 33)
+	icon.Text = symbol
+	icon.TextColor3 = UI.text
+	icon.Font = Enum.Font.GothamBold
+	icon.TextScaled = true
+	icon.ZIndex = 73
+	icon.Parent = frame
+	constrain(icon, 15, 24)
+
+	local label = Instance.new("TextLabel")
+	label.BackgroundTransparency = 1
+	label.Position = UDim2.fromOffset(4, 35)
+	label.Size = UDim2.new(1, -8, 0, 19)
+	label.Text = name
+	label.TextColor3 = UI.text
+	label.Font = Enum.Font.GothamBold
+	label.TextScaled = true
+	label.TextWrapped = true
+	label.ZIndex = 73
+	label.Parent = frame
+	constrain(label, 8, 11)
 
 	local detailLabel = Instance.new("TextLabel")
 	detailLabel.BackgroundTransparency = 1
-	detailLabel.Position = UDim2.fromOffset(12, 29)
-	detailLabel.Size = UDim2.new(1, -126, 0, 20)
+	detailLabel.Position = UDim2.fromOffset(3, 55)
+	detailLabel.Size = UDim2.new(1, -6, 0, 18)
 	detailLabel.Text = detail
-	detailLabel.TextColor3 = COLORS.muted
+	detailLabel.TextColor3 = UI.muted
 	detailLabel.Font = Enum.Font.GothamMedium
 	detailLabel.TextScaled = true
-	detailLabel.TextXAlignment = Enum.TextXAlignment.Left
 	detailLabel.ZIndex = 73
 	detailLabel.Parent = frame
-	constrainText(detailLabel, 10, 12)
+	constrain(detailLabel, 7, 9)
 
-	local actionButton = Instance.new("TextButton")
-	actionButton.AnchorPoint = Vector2.new(1, 0.5)
-	actionButton.Position = UDim2.new(1, -6, 0.5, 0)
-	actionButton.Size = UDim2.fromOffset(104, 44)
-	actionButton.BackgroundColor3 = if enabled then COLORS.accent else COLORS.rail
-	actionButton.Text = action
-	actionButton.TextColor3 = if enabled then COLORS.text else COLORS.muted
-	actionButton.Font = Enum.Font.GothamBold
-	actionButton.TextScaled = true
-	actionButton.Active = enabled
-	actionButton.AutoButtonColor = enabled
-	actionButton.Selectable = enabled
-	actionButton.ZIndex = 74
-	actionButton.Parent = frame
-	round(actionButton, 10)
-	constrainText(actionButton, 10, 13)
-
-	if enabled then
-		actionButton.Activated:Connect(callback)
+	if stateText ~= "" then
+		local badge = Instance.new("TextLabel")
+		badge.AnchorPoint = Vector2.new(1, 0)
+		badge.Position = UDim2.new(1, -2, 0, 2)
+		badge.Size = UDim2.fromOffset(25, 14)
+		badge.BackgroundColor3 = stateColor
+		badge.Text = stateText
+		badge.TextColor3 = Color3.new(1, 1, 1)
+		badge.Font = Enum.Font.GothamBold
+		badge.TextScaled = true
+		badge.ZIndex = 75
+		badge.Parent = frame
+		round(badge, 3)
+		constrain(badge, 6, 9)
 	end
-end
 
-local function inputBox(placeholder: string, defaultText: string, order: number): TextBox
-	local box = Instance.new("TextBox")
-	box.LayoutOrder = order
-	box.Size = UDim2.new(1, -4, 0, 46)
-	box.BackgroundColor3 = COLORS.row
-	box.Text = defaultText
-	box.PlaceholderText = placeholder
-	box.PlaceholderColor3 = COLORS.muted
-	box.TextColor3 = COLORS.text
-	box.Font = Enum.Font.GothamMedium
-	box.TextScaled = true
-	box.ClearTextOnFocus = false
-	box.ZIndex = 73
-	box.Parent = scroller
-	round(box, 10)
-	constrainText(box, 12, 15)
-	return box
-end
-
-local function simpleAction(label: string, order: number, callback: () -> ())
-	local b = Instance.new("TextButton")
-	b.LayoutOrder = order
-	b.Size = UDim2.new(1, -4, 0, 44)
-	b.BackgroundColor3 = COLORS.accent
-	b.Text = label
-	b.TextColor3 = COLORS.text
-	b.Font = Enum.Font.GothamBold
-	b.TextScaled = true
-	b.Selectable = true
-	b.ZIndex = 73
-	b.Parent = scroller
-	round(b, 10)
-	constrainText(b, 11, 14)
-	b.Activated:Connect(callback)
+	if callback then
+		local hit = Instance.new("TextButton")
+		hit.Size = UDim2.fromScale(1, 1)
+		hit.BackgroundTransparency = 1
+		hit.Text = ""
+		hit.ZIndex = 76
+		hit.Parent = frame
+		hit.Activated:Connect(callback)
+	end
 end
 
 local function fetchMirrorState(): boolean
@@ -343,7 +314,7 @@ local function fetchMirrorState(): boolean
 	end)
 	if ok and type(result) == "table" and result.ok == true then
 		mirrorState = result
-		balance.Text = string.format("Coins %d", tonumber(result.coins) or 0)
+		balance.Text = string.format("%d coins", tonumber(result.coins) or 0)
 		return true
 	end
 	return false
@@ -360,23 +331,25 @@ local function fetchRoleplayState(): boolean
 	return false
 end
 
-local function purchaseAndRefresh(remote: RemoteFunction, id: string, rerender: () -> ())
-	if busy then
-		return
-	end
+local function purchase(remote: RemoteFunction, id: string, rerender: () -> ())
+	if busy then return end
 	busy = true
 	local ok, result = pcall(function()
 		return remote:InvokeServer(id)
 	end)
 	busy = false
-	if ok and type(result) == "table" then
-		if result.ok == true then
-			fetchMirrorState()
-			rerender()
-		elseif result.code == "not_enough_coins" then
-			subtitle.Text = "Answer more questions to earn the coins you need."
-			subtitle.TextColor3 = COLORS.danger
-		end
+	if ok and type(result) == "table" and result.ok == true then
+		fetchMirrorState()
+		rerender()
+	elseif ok and type(result) == "table" and result.code == "not_enough_coins" then
+		balance.Text = "Answer questions to earn more coins"
+		balance.TextColor3 = UI.red
+		task.delay(1.2, function()
+			balance.TextColor3 = UI.muted
+			if mirrorState then
+				balance.Text = string.format("%d coins", tonumber(mirrorState.coins) or 0)
+			end
+		end)
 	end
 end
 
@@ -389,130 +362,99 @@ local showAvatar
 local showMap
 
 showVehicles = function()
-	if not fetchMirrorState() then
-		return
-	end
-	clear()
-	setHeader("Vehicles", "Buy with learning coins. Spawn owned vehicles anywhere.")
+	if not fetchMirrorState() then return end
+	clearGrid()
+	setHeader("Vehicles")
 	local order = 1
-	section("Garage", order)
-	order += 1
 	for _, vehicle in mirrorState.vehicles or {} do
 		local id = tostring(vehicle.Id)
 		local owned = mirrorState.ownedVehicles and mirrorState.ownedVehicles[id] == true
-		local detail = string.format("%d coins • %d seats", tonumber(vehicle.Price) or 0, tonumber(vehicle.Seats) or 1)
-		row(tostring(vehicle.Name), detail, owned and "Spawn" or "Buy", true, order, function()
-			if owned then
-				pcall(function()
-					spawnVehicle:InvokeServer(id)
-				end)
-				panel.Visible = false
-			else
-				purchaseAndRefresh(purchaseVehicle, id, showVehicles)
+		tile(
+			"▰",
+			tostring(vehicle.Name),
+			owned and "spawn" or (tostring(vehicle.Price) .. "¢"),
+			owned and "✓" or "$",
+			owned and UI.green or UI.blue,
+			order,
+			function()
+				if owned then
+					pcall(function() spawnVehicle:InvokeServer(id) end)
+					panel.Visible = false
+				else
+					purchase(purchaseVehicle, id, showVehicles)
+				end
 			end
-		end)
+		)
 		order += 1
 	end
-	row("Current Vehicle", "Remove your spawned vehicle", "Despawn", true, order, function()
-		pcall(function()
-			despawnVehicle:InvokeServer()
-		end)
+	tile("×","Despawn","current","",UI.red,order,function()
+		pcall(function() despawnVehicle:InvokeServer() end)
 		panel.Visible = false
 	end)
 end
 
 showInventory = function()
-	if not fetchMirrorState() then
-		return
-	end
-	clear()
-	setHeader("Inventory", "Carry props and tools around town.")
+	if not fetchMirrorState() then return end
+	clearGrid()
+	setHeader("Items")
 	local order = 1
-	section("Backpack", order)
-	order += 1
 	for _, item in mirrorState.inventory or {} do
 		local id = tostring(item.Id)
 		local owned = mirrorState.ownedTools and mirrorState.ownedTools[id] == true
-		local detail = if tonumber(item.Price) == 0 then "Included" else tostring(item.Price) .. " coins"
-		row(tostring(item.Name), detail, owned and "Equip" or "Buy", true, order, function()
-			if owned then
-				pcall(function()
-					equipTool:InvokeServer(id)
-				end)
-				panel.Visible = false
-			else
-				purchaseAndRefresh(purchaseTool, id, showInventory)
+		tile(
+			"▣",
+			tostring(item.Name),
+			owned and "equip" or (tostring(item.Price) .. "¢"),
+			owned and "✓" or "$",
+			owned and UI.green or UI.blue,
+			order,
+			function()
+				if owned then
+					pcall(function() equipTool:InvokeServer(id) end)
+					panel.Visible = false
+				else
+					purchase(purchaseTool, id, showInventory)
+				end
 			end
-		end)
+		)
 		order += 1
 	end
 end
 
 showJobs = function()
-	if not fetchRoleplayState() then
-		return
-	end
-	clear()
-	setHeader("Jobs", "Pick a role for your town story.")
+	if not fetchRoleplayState() then return end
+	clearGrid()
+	setHeader("Jobs")
 	local order = 1
-	section("Roleplay jobs", order)
-	order += 1
 	for _, job in roleplayState.jobs or {} do
 		local selected = tostring(job) == tostring(roleplayState.job)
-		row(tostring(job), selected and "Current job" or "Free roleplay job", selected and "Current" or "Choose", not selected, order, function()
-			pcall(function()
-				setJob:InvokeServer(job)
-			end)
-			fetchRoleplayState()
-			showJobs()
-		end)
+		tile(
+			"JOB",
+			tostring(job),
+			selected and "current" or "choose",
+			selected and "✓" or "",
+			UI.green,
+			order,
+			selected and nil or function()
+				pcall(function() setJob:InvokeServer(job) end)
+				fetchRoleplayState()
+				showJobs()
+			end
+		)
 		order += 1
 	end
 end
 
-showBio = function()
-	if not fetchRoleplayState() then
-		return
-	end
-	clear()
-	setHeader("Character Bio", "Set a filtered roleplay name and age.")
-	local order = 1
-	section("Profile", order)
-	order += 1
-	local nameBox = inputBox("Roleplay name", tostring(roleplayState.displayName or ""), order)
-	order += 1
-	local ageBox = inputBox("Age (1–120)", tostring(roleplayState.age or ""), order)
-	order += 1
-	simpleAction("Save Bio", order, function()
-		local ok, result = pcall(function()
-			return saveBio:InvokeServer(nameBox.Text, ageBox.Text)
-		end)
-		if ok and type(result) == "table" and result.ok == true then
-			subtitle.Text = "Bio saved."
-			subtitle.TextColor3 = COLORS.success
-		else
-			subtitle.Text = "Use a short name and an age from 1–120."
-			subtitle.TextColor3 = COLORS.danger
-		end
-	end)
-end
-
 showEmotes = function()
-	clear()
-	setHeader("Emotes", "Quick Roblox roleplay emotes.")
+	clearGrid()
+	setHeader("Emotes")
 	local order = 1
-	section("Animations", order)
-	order += 1
-	for _, emoteName in {"wave", "point", "cheer", "laugh", "dance", "dance2", "dance3"} do
-		local label = string.upper(string.sub(emoteName, 1, 1)) .. string.sub(emoteName, 2)
-		simpleAction(label, order, function()
+	for _, emoteName in {"wave","point","cheer","laugh","dance","dance2","dance3"} do
+		local label = string.upper(string.sub(emoteName,1,1)) .. string.sub(emoteName,2)
+		tile("✦",label,"play","",UI.green,order,function()
 			local character = player.Character
 			local humanoid = character and character:FindFirstChildOfClass("Humanoid")
-			if humanoid ~= nil then
-				pcall(function()
-					humanoid:PlayEmote(emoteName)
-				end)
-			end
+			if humanoid then pcall(function() humanoid:PlayEmote(emoteName) end) end
 			panel.Visible = false
 		end)
 		order += 1
@@ -520,75 +462,121 @@ showEmotes = function()
 end
 
 showAvatar = function()
-	clear()
-	setHeader("Avatar", "Use your Roblox avatar in town.")
-	local order = 1
-	section("Appearance", order)
-	order += 1
-	simpleAction("Reset to Roblox Avatar", order, function()
-		local ok, result = pcall(function()
-			return resetAvatar:InvokeServer()
-		end)
-		if ok and type(result) == "table" and result.ok == true then
-			subtitle.Text = "Avatar restored."
-			subtitle.TextColor3 = COLORS.success
-		else
-			subtitle.Text = "Avatar could not be refreshed right now."
-			subtitle.TextColor3 = COLORS.danger
-		end
+	clearGrid()
+	setHeader("Avatar")
+	tile("☺","Roblox Avatar","reset","",UI.blue,1,function()
+		pcall(function() resetAvatar:InvokeServer() end)
+		panel.Visible = false
 	end)
 end
 
 showMap = function()
-	clear()
-	setHeader("Map", "Fast travel between your town and your home.")
-	local order = 1
-	section("Destinations", order)
-	order += 1
-	simpleAction("Town", order, function()
-		pcall(function()
-			returnWorld:InvokeServer()
-		end)
+	clearGrid()
+	setHeader("Map")
+	tile("◇","Town","travel","",UI.blue,1,function()
+		pcall(function() returnWorld:InvokeServer() end)
 		panel.Visible = false
 	end)
-	order += 1
-	simpleAction("My Home", order, function()
-		pcall(function()
-			visitHome:InvokeServer()
-		end)
+	tile("⌂","My Home","travel","",UI.blue,2,function()
+		pcall(function() visitHome:InvokeServer() end)
 		panel.Visible = false
 	end)
 end
 
-avatarBtn.Activated:Connect(showAvatar)
-inventoryBtn.Activated:Connect(showInventory)
-emotesBtn.Activated:Connect(showEmotes)
-vehicleBtn.Activated:Connect(showVehicles)
+local bioPanel = Instance.new("Frame")
+bioPanel.Name = "BioEditor"
+bioPanel.Size = UDim2.new(1, -16, 0, 170)
+bioPanel.BackgroundTransparency = 1
+bioPanel.Visible = false
+bioPanel.ZIndex = 80
+bioPanel.Parent = panel
+
+local function showBio()
+	if not fetchRoleplayState() then return end
+	clearGrid()
+	setHeader("Bio")
+	bioPanel.Visible = true
+	bioPanel.Position = UDim2.fromOffset(8, 70)
+
+	local nameBox = Instance.new("TextBox")
+	nameBox.Position = UDim2.fromOffset(0, 0)
+	nameBox.Size = UDim2.new(1, -16, 0, 44)
+	nameBox.BackgroundColor3 = UI.white
+	nameBox.Text = tostring(roleplayState.displayName or "")
+	nameBox.PlaceholderText = "Roleplay name"
+	nameBox.TextColor3 = UI.text
+	nameBox.Font = Enum.Font.GothamMedium
+	nameBox.TextScaled = true
+	nameBox.ClearTextOnFocus = false
+	nameBox.Parent = bioPanel
+	round(nameBox,4)
+	stroke(nameBox)
+	constrain(nameBox,12,15)
+
+	local ageBox = nameBox:Clone()
+	ageBox.Position = UDim2.fromOffset(0, 50)
+	ageBox.Text = tostring(roleplayState.age or "")
+	ageBox.PlaceholderText = "Age"
+	ageBox.Parent = bioPanel
+
+	local save = Instance.new("TextButton")
+	save.Position = UDim2.fromOffset(0,100)
+	save.Size = UDim2.new(1,-16,0,44)
+	save.BackgroundColor3 = UI.green
+	save.Text = "SAVE"
+	save.TextColor3 = Color3.new(1,1,1)
+	save.Font = Enum.Font.GothamBold
+	save.TextScaled = true
+	save.Parent = bioPanel
+	round(save,4)
+	constrain(save,12,16)
+	save.Activated:Connect(function()
+		pcall(function() saveBio:InvokeServer(nameBox.Text, ageBox.Text) end)
+		panel.Visible = false
+	end)
+end
+
+local function hideBio()
+	for _, child in bioPanel:GetChildren() do
+		if child:IsA("GuiObject") then child:Destroy() end
+	end
+	bioPanel.Visible = false
+end
+
+local function wrap(action: () -> ())
+	return function()
+		hideBio()
+		action()
+	end
+end
+
+avatarBtn.Activated:Connect(wrap(showAvatar))
+inventoryBtn.Activated:Connect(wrap(showInventory))
+emotesBtn.Activated:Connect(wrap(showEmotes))
+vehicleBtn.Activated:Connect(wrap(showVehicles))
+bioBtn.Activated:Connect(wrap(showBio))
+jobsBtn.Activated:Connect(wrap(showJobs))
+mapBtn.Activated:Connect(wrap(showMap))
 
 housesBtn.Activated:Connect(function()
+	hideBio()
 	panel.Visible = false
-	if openStore and openStore:IsA("BindableEvent") then
-		openStore:Fire()
-	end
+	if openStore and openStore:IsA("BindableEvent") then openStore:Fire() end
 end)
 
-bioBtn.Activated:Connect(showBio)
-jobsBtn.Activated:Connect(showJobs)
-mapBtn.Activated:Connect(showMap)
-
 shopBtn.Activated:Connect(function()
+	hideBio()
 	panel.Visible = false
-	if openStore and openStore:IsA("BindableEvent") then
-		openStore:Fire()
-	end
+	if openStore and openStore:IsA("BindableEvent") then openStore:Fire() end
 end)
 
 close.Activated:Connect(function()
+	hideBio()
 	panel.Visible = false
 end)
 
 player:GetAttributeChangedSignal("StarBloxCoins"):Connect(function()
 	if panel.Visible then
-		balance.Text = string.format("Coins %d", tonumber(player:GetAttribute("StarBloxCoins")) or 0)
+		balance.Text = string.format("%d coins", tonumber(player:GetAttribute("StarBloxCoins")) or 0)
 	end
 end)
