@@ -519,6 +519,94 @@ local function categoryForPreset(presetId: string): string
 	end
 end
 
+
+local PREVIEW_SCALE_FIELDS = {
+	HeightScale = "BodyHeightScale",
+	WidthScale = "BodyWidthScale",
+	DepthScale = "BodyDepthScale",
+	HeadScale = "HeadScale",
+	BodyTypeScale = "BodyTypeScale",
+	ProportionScale = "BodyProportionScale",
+}
+
+local function buildPresetPreview(parent: GuiObject, preset): boolean
+	local character = player.Character
+	if character == nil then
+		return false
+	end
+
+	local previousArchivable = character.Archivable
+	character.Archivable = true
+	local ok, clone = pcall(function()
+		return character:Clone()
+	end)
+	character.Archivable = previousArchivable
+	if not ok or clone == nil then
+		return false
+	end
+
+	for _, descendant in clone:GetDescendants() do
+		if descendant:IsA("Script")
+			or descendant:IsA("LocalScript")
+			or descendant:IsA("ModuleScript")
+			or descendant:IsA("BillboardGui")
+			or descendant:IsA("Tool")
+		then
+			descendant:Destroy()
+		elseif descendant:IsA("BasePart") then
+			descendant.Anchored = true
+			descendant.CanCollide = false
+			descendant.CanTouch = false
+			descendant.CanQuery = false
+		end
+	end
+
+	local humanoid = clone:FindFirstChildOfClass("Humanoid")
+	if humanoid ~= nil then
+		humanoid.DisplayDistanceType = Enum.HumanoidDisplayDistanceType.None
+		local preview = if type(preset.Preview) == "table" then preset.Preview else {}
+		for field, scaleName in PREVIEW_SCALE_FIELDS do
+			local value = tonumber(preview[field])
+			if value ~= nil then
+				local scaleValue = humanoid:FindFirstChild(scaleName)
+				if scaleValue and scaleValue:IsA("NumberValue") then
+					scaleValue.Value = value
+				end
+			end
+		end
+	end
+
+	local viewport = Instance.new("ViewportFrame")
+	viewport.Name = "AvatarPreview"
+	viewport.Position = UDim2.fromOffset(4, 3)
+	viewport.Size = UDim2.new(1, -8, 0, 55)
+	viewport.BackgroundTransparency = 1
+	viewport.Ambient = Color3.fromRGB(205, 205, 205)
+	viewport.LightColor = Color3.fromRGB(255, 255, 255)
+	viewport.LightDirection = Vector3.new(-1, -1, -1)
+	viewport.ZIndex = 89
+	viewport.Parent = parent
+
+	local world = Instance.new("WorldModel")
+	world.Name = "PreviewWorld"
+	world.Parent = viewport
+	clone.Parent = world
+	clone:PivotTo(CFrame.new(0, 0, 0))
+
+	local _, size = clone:GetBoundingBox()
+	local height = math.max(4, size.Y)
+	local camera = Instance.new("Camera")
+	camera.Name = "PreviewCamera"
+	camera.FieldOfView = 32
+	camera.CFrame = CFrame.lookAt(
+		Vector3.new(0, height * 0.48, math.max(6, height * 1.18)),
+		Vector3.new(0, height * 0.48, 0)
+	)
+	camera.Parent = viewport
+	viewport.CurrentCamera = camera
+	return true
+end
+
 local function clearPresetGrid()
 	for _, child in presetsScroll:GetChildren() do
 		if child:IsA("GuiObject") and not child:IsA("UIGridLayout") then
@@ -554,18 +642,20 @@ local function renderPresets()
 			round(card, 7)
 			stroke(card, COLORS.border, 1, 0.45)
 
-			local figure = Instance.new("TextLabel")
-			figure.Name = "Figure"
-			figure.Position = UDim2.fromOffset(5, 5)
-			figure.Size = UDim2.new(1, -10, 0, 52)
-			figure.BackgroundTransparency = 1
-			figure.Text = if category == "classic" then "♟" elseif category == "body" then "♙" else "♟"
-			figure.TextColor3 = COLORS.text
-			figure.Font = Enum.Font.GothamBold
-			figure.TextScaled = true
-			figure.ZIndex = 89
-			figure.Parent = card
-			constrain(figure, 24, 38)
+			if not buildPresetPreview(card, preset) then
+				local figure = Instance.new("TextLabel")
+				figure.Name = "FigureFallback"
+				figure.Position = UDim2.fromOffset(5, 5)
+				figure.Size = UDim2.new(1, -10, 0, 52)
+				figure.BackgroundTransparency = 1
+				figure.Text = "♟"
+				figure.TextColor3 = COLORS.text
+				figure.Font = Enum.Font.GothamBold
+				figure.TextScaled = true
+				figure.ZIndex = 89
+				figure.Parent = card
+				constrain(figure, 24, 38)
+			end
 
 			local label = Instance.new("TextLabel")
 			label.Name = "Label"
