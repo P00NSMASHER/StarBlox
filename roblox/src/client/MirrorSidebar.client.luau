@@ -5,17 +5,27 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local player = Players.LocalPlayer
 local playerGui = player:WaitForChild("PlayerGui")
+
 local mirrorRemotes = ReplicatedStorage:WaitForChild("StarBloxMirror")
-local getState = mirrorRemotes:WaitForChild("GetState") :: RemoteFunction
+local mirrorGetState = mirrorRemotes:WaitForChild("GetState") :: RemoteFunction
 local purchaseVehicle = mirrorRemotes:WaitForChild("PurchaseVehicle") :: RemoteFunction
 local spawnVehicle = mirrorRemotes:WaitForChild("SpawnVehicle") :: RemoteFunction
 local despawnVehicle = mirrorRemotes:WaitForChild("DespawnVehicle") :: RemoteFunction
 local purchaseTool = mirrorRemotes:WaitForChild("PurchaseTool") :: RemoteFunction
 local equipTool = mirrorRemotes:WaitForChild("EquipTool") :: RemoteFunction
 
+local roleplayRemotes = ReplicatedStorage:WaitForChild("StarBloxRoleplay")
+local roleplayGetState = roleplayRemotes:WaitForChild("GetState") :: RemoteFunction
+local setJob = roleplayRemotes:WaitForChild("SetJob") :: RemoteFunction
+local saveBio = roleplayRemotes:WaitForChild("SaveBio") :: RemoteFunction
+local resetAvatar = roleplayRemotes:WaitForChild("ResetAvatar") :: RemoteFunction
+
+local shopRemotes = ReplicatedStorage:WaitForChild("StarBloxShop")
+local visitHome = shopRemotes:WaitForChild("VisitHome") :: RemoteFunction
+local returnWorld = shopRemotes:WaitForChild("ReturnWorld") :: RemoteFunction
+
 local shopGui = playerGui:WaitForChild("StarBloxShopUI", 10)
 local openStore = if shopGui then shopGui:FindFirstChild("OpenStore") else nil
-local toggleHome = if shopGui then shopGui:FindFirstChild("ToggleHome") else nil
 
 local COLORS = {
 	rail = Color3.fromRGB(30, 36, 56),
@@ -35,7 +45,7 @@ local function round(guiObject: GuiObject, radius: number)
 	corner.Parent = guiObject
 end
 
-local function constrainText(label: TextLabel | TextButton, minSize: number, maxSize: number)
+local function constrainText(label: TextLabel | TextButton | TextBox, minSize: number, maxSize: number)
 	local constraint = Instance.new("UITextSizeConstraint")
 	constraint.MinTextSize = minSize
 	constraint.MaxTextSize = maxSize
@@ -55,23 +65,29 @@ gui.Parent = playerGui
 local rail = Instance.new("Frame")
 rail.Name = "Sidebar"
 rail.AnchorPoint = Vector2.new(1, 0.5)
-rail.Position = UDim2.new(1, -8, 0.5, 18)
-rail.Size = UDim2.fromOffset(54, 232)
+rail.Position = UDim2.new(1, -8, 0.5, 16)
+rail.Size = UDim2.fromOffset(58, 328)
 rail.BackgroundColor3 = COLORS.rail
-rail.BackgroundTransparency = 0.12
+rail.BackgroundTransparency = 0.1
 rail.Parent = gui
 round(rail, 16)
 
-local list = Instance.new("UIListLayout")
-list.Padding = UDim.new(0, 4)
-list.HorizontalAlignment = Enum.HorizontalAlignment.Center
-list.VerticalAlignment = Enum.VerticalAlignment.Center
-list.Parent = rail
+local railScroll = Instance.new("ScrollingFrame")
+railScroll.Name = "Actions"
+railScroll.Position = UDim2.fromOffset(4, 5)
+railScroll.Size = UDim2.new(1, -8, 1, -10)
+railScroll.BackgroundTransparency = 1
+railScroll.BorderSizePixel = 0
+railScroll.ScrollBarThickness = 3
+railScroll.AutomaticCanvasSize = Enum.AutomaticSize.Y
+railScroll.CanvasSize = UDim2.fromOffset(0, 0)
+railScroll.Parent = rail
 
-local padding = Instance.new("UIPadding")
-padding.PaddingTop = UDim.new(0, 6)
-padding.PaddingBottom = UDim.new(0, 6)
-padding.Parent = rail
+local railList = Instance.new("UIListLayout")
+railList.Padding = UDim.new(0, 5)
+railList.HorizontalAlignment = Enum.HorizontalAlignment.Center
+railList.SortOrder = Enum.SortOrder.LayoutOrder
+railList.Parent = railScroll
 
 local panel = Instance.new("Frame")
 panel.Name = "MirrorPanel"
@@ -159,11 +175,14 @@ contentList.Padding = UDim.new(0, 6)
 contentList.SortOrder = Enum.SortOrder.LayoutOrder
 contentList.Parent = scroller
 
-local state = nil
+local mirrorState = nil
+local roleplayState = nil
 local busy = false
 
-local function button(label: string): TextButton
+local function railButton(label: string, order: number): TextButton
 	local b = Instance.new("TextButton")
+	b.Name = label .. "Button"
+	b.LayoutOrder = order
 	b.Size = UDim2.fromOffset(44, 44)
 	b.BackgroundColor3 = COLORS.row
 	b.Text = label
@@ -171,23 +190,36 @@ local function button(label: string): TextButton
 	b.Font = Enum.Font.GothamBold
 	b.TextScaled = true
 	b.Selectable = true
-	b.Parent = rail
+	b.Parent = railScroll
 	round(b, 12)
-	constrainText(b, 9, 12)
+	constrainText(b, 8, 11)
 	return b
 end
 
-local homeBtn = button("Home")
-local vehicleBtn = button("Cars")
-local inventoryBtn = button("Items")
-local shopBtn = button("Shop")
+local avatarBtn = railButton("Ava", 1)
+local inventoryBtn = railButton("Items", 2)
+local emotesBtn = railButton("Emote", 3)
+local vehicleBtn = railButton("Cars", 4)
+local housesBtn = railButton("House", 5)
+local bioBtn = railButton("Bio", 6)
+local jobsBtn = railButton("Jobs", 7)
+local mapBtn = railButton("Map", 8)
+local shopBtn = railButton("Shop", 9)
 
 local function clear()
 	for _, child in scroller:GetChildren() do
-		if child:IsA("Frame") or child:IsA("TextLabel") then
+		if child:IsA("Frame") or child:IsA("TextLabel") or child:IsA("TextBox") or child:IsA("TextButton") then
 			child:Destroy()
 		end
 	end
+end
+
+local function setHeader(nextTitle: string, nextSubtitle: string)
+	title.Text = nextTitle
+	subtitle.Text = nextSubtitle
+	subtitle.TextColor3 = COLORS.warning
+	balance.Text = string.format("Coins %d", tonumber(player:GetAttribute("StarBloxCoins")) or 0)
+	panel.Visible = true
 end
 
 local function section(text: string, order: number)
@@ -269,13 +301,60 @@ local function row(
 	end
 end
 
-local function fetchState(): boolean
+local function inputBox(placeholder: string, defaultText: string, order: number): TextBox
+	local box = Instance.new("TextBox")
+	box.LayoutOrder = order
+	box.Size = UDim2.new(1, -4, 0, 46)
+	box.BackgroundColor3 = COLORS.row
+	box.Text = defaultText
+	box.PlaceholderText = placeholder
+	box.PlaceholderColor3 = COLORS.muted
+	box.TextColor3 = COLORS.text
+	box.Font = Enum.Font.GothamMedium
+	box.TextScaled = true
+	box.ClearTextOnFocus = false
+	box.ZIndex = 73
+	box.Parent = scroller
+	round(box, 10)
+	constrainText(box, 12, 15)
+	return box
+end
+
+local function simpleAction(label: string, order: number, callback: () -> ())
+	local b = Instance.new("TextButton")
+	b.LayoutOrder = order
+	b.Size = UDim2.new(1, -4, 0, 44)
+	b.BackgroundColor3 = COLORS.accent
+	b.Text = label
+	b.TextColor3 = COLORS.text
+	b.Font = Enum.Font.GothamBold
+	b.TextScaled = true
+	b.Selectable = true
+	b.ZIndex = 73
+	b.Parent = scroller
+	round(b, 10)
+	constrainText(b, 11, 14)
+	b.Activated:Connect(callback)
+end
+
+local function fetchMirrorState(): boolean
 	local ok, result = pcall(function()
-		return getState:InvokeServer()
+		return mirrorGetState:InvokeServer()
 	end)
 	if ok and type(result) == "table" and result.ok == true then
-		state = result
+		mirrorState = result
 		balance.Text = string.format("Coins %d", tonumber(result.coins) or 0)
+		return true
+	end
+	return false
+end
+
+local function fetchRoleplayState(): boolean
+	local ok, result = pcall(function()
+		return roleplayGetState:InvokeServer()
+	end)
+	if ok and type(result) == "table" and result.ok == true then
+		roleplayState = result
 		return true
 	end
 	return false
@@ -292,7 +371,7 @@ local function purchaseAndRefresh(remote: RemoteFunction, id: string, rerender: 
 	busy = false
 	if ok and type(result) == "table" then
 		if result.ok == true then
-			fetchState()
+			fetchMirrorState()
 			rerender()
 		elseif result.code == "not_enough_coins" then
 			subtitle.Text = "Answer more questions to earn the coins you need."
@@ -303,22 +382,24 @@ end
 
 local showVehicles
 local showInventory
+local showJobs
+local showBio
+local showEmotes
+local showAvatar
+local showMap
 
 showVehicles = function()
-	if not fetchState() then
+	if not fetchMirrorState() then
 		return
 	end
 	clear()
-	panel.Visible = true
-	title.Text = "Vehicles"
-	subtitle.Text = "Buy with learning coins. Spawn owned vehicles anywhere."
-	subtitle.TextColor3 = COLORS.warning
+	setHeader("Vehicles", "Buy with learning coins. Spawn owned vehicles anywhere.")
 	local order = 1
 	section("Garage", order)
 	order += 1
-	for _, vehicle in state.vehicles or {} do
+	for _, vehicle in mirrorState.vehicles or {} do
 		local id = tostring(vehicle.Id)
-		local owned = state.ownedVehicles and state.ownedVehicles[id] == true
+		local owned = mirrorState.ownedVehicles and mirrorState.ownedVehicles[id] == true
 		local detail = string.format("%d coins • %d seats", tonumber(vehicle.Price) or 0, tonumber(vehicle.Seats) or 1)
 		row(tostring(vehicle.Name), detail, owned and "Spawn" or "Buy", true, order, function()
 			if owned then
@@ -341,20 +422,17 @@ showVehicles = function()
 end
 
 showInventory = function()
-	if not fetchState() then
+	if not fetchMirrorState() then
 		return
 	end
 	clear()
-	panel.Visible = true
-	title.Text = "Inventory"
-	subtitle.Text = "Carry props and tools around town."
-	subtitle.TextColor3 = COLORS.warning
+	setHeader("Inventory", "Carry props and tools around town.")
 	local order = 1
 	section("Backpack", order)
 	order += 1
-	for _, item in state.inventory or {} do
+	for _, item in mirrorState.inventory or {} do
 		local id = tostring(item.Id)
-		local owned = state.ownedTools and state.ownedTools[id] == true
+		local owned = mirrorState.ownedTools and mirrorState.ownedTools[id] == true
 		local detail = if tonumber(item.Price) == 0 then "Included" else tostring(item.Price) .. " coins"
 		row(tostring(item.Name), detail, owned and "Equip" or "Buy", true, order, function()
 			if owned then
@@ -370,15 +448,133 @@ showInventory = function()
 	end
 end
 
-homeBtn.Activated:Connect(function()
-	if toggleHome and toggleHome:IsA("BindableEvent") then
-		toggleHome:Fire()
+showJobs = function()
+	if not fetchRoleplayState() then
+		return
 	end
+	clear()
+	setHeader("Jobs", "Pick a role for your town story.")
+	local order = 1
+	section("Roleplay jobs", order)
+	order += 1
+	for _, job in roleplayState.jobs or {} do
+		local selected = tostring(job) == tostring(roleplayState.job)
+		row(tostring(job), selected and "Current job" or "Free roleplay job", selected and "Current" or "Choose", not selected, order, function()
+			pcall(function()
+				setJob:InvokeServer(job)
+			end)
+			fetchRoleplayState()
+			showJobs()
+		end)
+		order += 1
+	end
+end
+
+showBio = function()
+	if not fetchRoleplayState() then
+		return
+	end
+	clear()
+	setHeader("Character Bio", "Set a filtered roleplay name and age.")
+	local order = 1
+	section("Profile", order)
+	order += 1
+	local nameBox = inputBox("Roleplay name", tostring(roleplayState.displayName or ""), order)
+	order += 1
+	local ageBox = inputBox("Age (1–120)", tostring(roleplayState.age or ""), order)
+	order += 1
+	simpleAction("Save Bio", order, function()
+		local ok, result = pcall(function()
+			return saveBio:InvokeServer(nameBox.Text, ageBox.Text)
+		end)
+		if ok and type(result) == "table" and result.ok == true then
+			subtitle.Text = "Bio saved."
+			subtitle.TextColor3 = COLORS.success
+		else
+			subtitle.Text = "Use a short name and an age from 1–120."
+			subtitle.TextColor3 = COLORS.danger
+		end
+	end)
+end
+
+showEmotes = function()
+	clear()
+	setHeader("Emotes", "Quick Roblox roleplay emotes.")
+	local order = 1
+	section("Animations", order)
+	order += 1
+	for _, emoteName in {"wave", "point", "cheer", "laugh", "dance", "dance2", "dance3"} do
+		local label = string.upper(string.sub(emoteName, 1, 1)) .. string.sub(emoteName, 2)
+		simpleAction(label, order, function()
+			local character = player.Character
+			local humanoid = character and character:FindFirstChildOfClass("Humanoid")
+			if humanoid ~= nil then
+				pcall(function()
+					humanoid:PlayEmote(emoteName)
+				end)
+			end
+			panel.Visible = false
+		end)
+		order += 1
+	end
+end
+
+showAvatar = function()
+	clear()
+	setHeader("Avatar", "Use your Roblox avatar in town.")
+	local order = 1
+	section("Appearance", order)
+	order += 1
+	simpleAction("Reset to Roblox Avatar", order, function()
+		local ok, result = pcall(function()
+			return resetAvatar:InvokeServer()
+		end)
+		if ok and type(result) == "table" and result.ok == true then
+			subtitle.Text = "Avatar restored."
+			subtitle.TextColor3 = COLORS.success
+		else
+			subtitle.Text = "Avatar could not be refreshed right now."
+			subtitle.TextColor3 = COLORS.danger
+		end
+	end)
+end
+
+showMap = function()
+	clear()
+	setHeader("Map", "Fast travel between your town and your home.")
+	local order = 1
+	section("Destinations", order)
+	order += 1
+	simpleAction("Town", order, function()
+		pcall(function()
+			returnWorld:InvokeServer()
+		end)
+		panel.Visible = false
+	end)
+	order += 1
+	simpleAction("My Home", order, function()
+		pcall(function()
+			visitHome:InvokeServer()
+		end)
+		panel.Visible = false
+	end)
+end
+
+avatarBtn.Activated:Connect(showAvatar)
+inventoryBtn.Activated:Connect(showInventory)
+emotesBtn.Activated:Connect(showEmotes)
+vehicleBtn.Activated:Connect(showVehicles)
+
+housesBtn.Activated:Connect(function()
 	panel.Visible = false
+	if openStore and openStore:IsA("BindableEvent") then
+		openStore:Fire()
+	end
 end)
 
-vehicleBtn.Activated:Connect(showVehicles)
-inventoryBtn.Activated:Connect(showInventory)
+bioBtn.Activated:Connect(showBio)
+jobsBtn.Activated:Connect(showJobs)
+mapBtn.Activated:Connect(showMap)
 
 shopBtn.Activated:Connect(function()
 	panel.Visible = false
