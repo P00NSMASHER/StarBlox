@@ -63,10 +63,10 @@ assert(coreConfig.QuestionRotation.Strategy == "persistent-per-station-after-cor
 assert(coreConfig.QuestionReward.Coins == 10, "Phase 7 correct-answer coin reward mismatch")
 
 local questionBank = require(serverRoot:WaitForChild("CoreQuestionBank"))
-assert(questionBank.Source.CertificationVersion == "phase7-material-first-question-source-v1", "Phase 7 question bank certification missing")
+assert(questionBank.Source.CertificationVersion == "phase8-material-first-star-fallback-v1", "Phase 8 question bank certification missing")
 assert(questionBank.Source.MaterialFirst == true, "Phase 7 material-first marker missing")
 for _, stationId in {"word-portal-put-v1","spelling-forge-fog-v1","culture-lab-culture-v1"} do
-    assert(questionBank.CountForStation(stationId) == 6, "Phase 7 station question count mismatch: " .. stationId)
+    assert(questionBank.CountForStation(stationId) == 20, "Phase 8 station question count mismatch: " .. stationId)
 end
 
 local runtime = serverRoot:WaitForChild("Runtime")
