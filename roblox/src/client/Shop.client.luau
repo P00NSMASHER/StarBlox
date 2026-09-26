@@ -57,13 +57,13 @@ gui.Parent = playerGui
 -- Kept only as compatibility hooks for older tests/callers; hidden from players.
 local shopButton = Instance.new("TextButton")
 shopButton.Name = "ShopButton"
-shopButton.Size = UDim2.fromOffset(84,44)
+shopButton.Size = UDim2.fromOffset(84, 44)
 shopButton.Visible = false
 shopButton.Parent = gui
 
 local homeButton = Instance.new("TextButton")
 homeButton.Name = "HomeButton"
-homeButton.Size = UDim2.fromOffset(84,44)
+homeButton.Size = UDim2.fromOffset(84, 44)
 homeButton.Visible = false
 homeButton.Parent = gui
 
@@ -71,7 +71,7 @@ local panel = Instance.new("Frame")
 panel.Name = "ShopPanel"
 panel.AnchorPoint = Vector2.new(1,0.5)
 panel.Position = UDim2.new(1,-70,0.5,4)
-panel.Size = UDim2.fromOffset(356,326)
+panel.Size = UDim2.fromOffset(356, 326)
 panel.BackgroundColor3 = UI.white
 panel.BackgroundTransparency = 0.06
 panel.Visible = false
@@ -115,7 +115,7 @@ local visit = Instance.new("TextButton")
 visit.Name = "VisitHome"
 visit.AnchorPoint = Vector2.new(1,0)
 visit.Position = UDim2.new(1,-116,0,6)
-visit.Size = UDim2.fromOffset(50,50)
+visit.Size = UDim2.fromOffset(50, 50)
 visit.BackgroundColor3 = UI.white
 visit.Text = "⌂"
 visit.TextColor3 = UI.text
@@ -131,7 +131,7 @@ local world = Instance.new("TextButton")
 world.Name = "ReturnWorld"
 world.AnchorPoint = Vector2.new(1,0)
 world.Position = UDim2.new(1,-62,0,6)
-world.Size = UDim2.fromOffset(50,50)
+world.Size = UDim2.fromOffset(50, 50)
 world.BackgroundColor3 = UI.white
 world.Text = "↺"
 world.TextColor3 = UI.text
@@ -147,7 +147,7 @@ local closeButton = Instance.new("TextButton")
 closeButton.Name = "CloseButton"
 closeButton.AnchorPoint = Vector2.new(1,0)
 closeButton.Position = UDim2.new(1,-6,0,6)
-closeButton.Size = UDim2.fromOffset(50,50)
+closeButton.Size = UDim2.fromOffset(50, 50)
 closeButton.BackgroundColor3 = UI.red
 closeButton.Text = "X"
 closeButton.TextColor3 = Color3.new(1,1,1)
@@ -173,8 +173,8 @@ scroller.ZIndex = 61
 scroller.Parent = panel
 
 local grid = Instance.new("UIGridLayout")
-grid.CellPadding = UDim2.fromOffset(5,5)
-grid.CellSize = UDim2.fromOffset(78,78)
+grid.CellPadding = UDim2.fromOffset(5, 5)
+grid.CellSize = UDim2.fromOffset(78, 78)
 grid.SortOrder = Enum.SortOrder.LayoutOrder
 grid.Parent = scroller
 
@@ -211,7 +211,7 @@ local function tile(
 )
 	local frame = Instance.new("Frame")
 	frame.LayoutOrder = order
-	frame.Size = UDim2.fromOffset(78,78)
+	frame.Size = UDim2.fromOffset(78, 78)
 	frame.BackgroundColor3 = UI.tile
 	frame.ZIndex = 62
 	frame.Parent = scroller
