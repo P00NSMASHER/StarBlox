@@ -14,6 +14,7 @@ local saveOutfit = roleplayRemotes:WaitForChild("SaveOutfit") :: RemoteFunction
 local loadOutfit = roleplayRemotes:WaitForChild("LoadOutfit") :: RemoteFunction
 local deleteOutfit = roleplayRemotes:WaitForChild("DeleteOutfit") :: RemoteFunction
 local applyAvatarPreset = roleplayRemotes:WaitForChild("ApplyAvatarPreset") :: RemoteFunction
+local removeAvatarItem = roleplayRemotes:WaitForChild("RemoveAvatarItem") :: RemoteFunction
 
 local COLORS = {
 	white = Color3.fromRGB(239, 239, 239),
@@ -205,6 +206,42 @@ local reloadButton = utilityButton("Reload", "↻", 80)
 local randomButton = utilityButton("NextLook", "♟", 120)
 local profileButton = utilityButton("Profile", "◎", 160)
 
+-- Equipped-item strip visible beneath My Outfits in the reference recording.
+local equippedTray = Instance.new("Frame")
+equippedTray.Name = "EquippedItems"
+equippedTray.Position = UDim2.fromOffset(84, 431)
+equippedTray.Size = UDim2.fromOffset(378, 58)
+equippedTray.BackgroundColor3 = COLORS.white
+equippedTray.BackgroundTransparency = 0.18
+equippedTray.ZIndex = 86
+equippedTray.Parent = root
+round(equippedTray, 7)
+stroke(equippedTray, COLORS.border, 1, 0.4)
+
+local equippedLayout = Instance.new("UIListLayout")
+equippedLayout.FillDirection = Enum.FillDirection.Horizontal
+equippedLayout.Padding = UDim.new(0, 3)
+equippedLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
+equippedLayout.VerticalAlignment = Enum.VerticalAlignment.Center
+equippedLayout.SortOrder = Enum.SortOrder.LayoutOrder
+equippedLayout.Parent = equippedTray
+
+local function itemSymbol(key: string): string
+	if key == "HairAccessory" then return "♨" end
+	if key == "HatAccessory" then return "⌃" end
+	if key == "FaceAccessory" or key == "Face" then return "☺" end
+	if key == "BackAccessory" then return "▣" end
+	if key == "FrontAccessory" then return "◇" end
+	if key == "NeckAccessory" then return "○" end
+	if key == "ShouldersAccessory" then return "⌒" end
+	if key == "WaistAccessory" then return "▬" end
+	if key == "Shirt" then return "T" end
+	if key == "Pants" then return "Ⅱ" end
+	if key == "GraphicTShirt" then return "▧" end
+	return "□"
+end
+
+
 -- Right-side preset chooser.
 local presetsPanel = Instance.new("Frame")
 presetsPanel.Name = "PresetPanel"
@@ -390,6 +427,88 @@ local function updateOutfitSlots()
 	end
 end
 
+
+local function renderEquippedItems()
+	for _, child in equippedTray:GetChildren() do
+		if child:IsA("GuiObject") and not child:IsA("UIListLayout") then
+			child:Destroy()
+		end
+	end
+
+	local items = if type(state) == "table" then state.avatarItems else nil
+	for slot = 1, 7 do
+		local item = if type(items) == "table" then items[slot] else nil
+		local cell = Instance.new("Frame")
+		cell.Name = "EquippedSlot" .. tostring(slot)
+		cell.LayoutOrder = slot
+		cell.Size = UDim2.fromOffset(50, 50)
+		cell.BackgroundColor3 = COLORS.tile
+		cell.BackgroundTransparency = if item ~= nil then 0.04 else 0.35
+		cell.ZIndex = 87
+		cell.Parent = equippedTray
+		round(cell, 5)
+		stroke(cell, COLORS.border, 1, 0.5)
+
+		if item ~= nil then
+			local key = tostring(item.Key or "")
+			local assetId = tostring(item.AssetId or "")
+			local icon = Instance.new("TextLabel")
+			icon.Name = "Icon"
+			icon.Position = UDim2.fromOffset(4, 4)
+			icon.Size = UDim2.new(1, -8, 0, 29)
+			icon.BackgroundTransparency = 1
+			icon.Text = itemSymbol(key)
+			icon.TextColor3 = COLORS.text
+			icon.Font = Enum.Font.GothamBold
+			icon.TextScaled = true
+			icon.ZIndex = 88
+			icon.Parent = cell
+			constrain(icon, 15, 22)
+
+			local label = Instance.new("TextLabel")
+			label.Name = "Asset"
+			label.Position = UDim2.fromOffset(3, 34)
+			label.Size = UDim2.new(1, -6, 0, 13)
+			label.BackgroundTransparency = 1
+			label.Text = string.sub(assetId, math.max(1, #assetId - 4))
+			label.TextColor3 = COLORS.muted
+			label.Font = Enum.Font.GothamMedium
+			label.TextScaled = true
+			label.ZIndex = 88
+			label.Parent = cell
+			constrain(label, 6, 8)
+
+			local remove = Instance.new("TextButton")
+			remove.Name = "Remove"
+			remove.AnchorPoint = Vector2.new(1, 0)
+			remove.Position = UDim2.new(1, 2, 0, -3)
+			remove.Size = UDim2.fromOffset(18, 18)
+			remove.BackgroundColor3 = COLORS.red
+			remove.Text = "×"
+			remove.TextColor3 = Color3.new(1, 1, 1)
+			remove.Font = Enum.Font.GothamBold
+			remove.TextScaled = true
+			remove.ZIndex = 90
+			remove.Parent = cell
+			round(remove, 9)
+			constrain(remove, 10, 13)
+			remove.Activated:Connect(function()
+				local ok, result = pcall(function()
+					return removeAvatarItem:InvokeServer(key, assetId)
+				end)
+				if ok and type(result) == "table" and result.ok == true then
+					fetchState()
+					renderEquippedItems()
+					showStatus("Item removed", true)
+					task.delay(0.2, frameAvatar)
+				else
+					showStatus("Couldn't remove that item")
+				end
+			end)
+		end
+	end
+end
+
 local function categoryForPreset(presetId: string): string
 	if presetId == "classic" or presetId == "blocky" or presetId == "original" then
 		return "classic"
@@ -479,7 +598,9 @@ local function renderPresets()
 					return applyAvatarPreset:InvokeServer(id)
 				end)
 				if ok and type(result) == "table" and result.ok == true then
-					showStatus("Look applied", true)
+					showStatus("Look applied", true) 
+					fetchState()
+					renderEquippedItems()
 					task.delay(0.2, frameAvatar)
 				else
 					showStatus("Couldn't apply that look")
@@ -527,7 +648,9 @@ for slot = 1, 4 do
 				return loadOutfit:InvokeServer(slot)
 			end)
 			if ok and type(result) == "table" and result.ok == true then
-				showStatus("Outfit " .. tostring(slot) .. " loaded", true)
+				showStatus("Outfit " .. tostring(slot) .. " loaded", true) 
+				fetchState()
+				renderEquippedItems()
 				task.delay(0.2, frameAvatar)
 			else
 				showStatus("Couldn't load that outfit")
@@ -565,7 +688,9 @@ resetButton.Activated:Connect(function()
 		return resetAvatar:InvokeServer()
 	end)
 	if ok and type(result) == "table" and result.ok == true then
-		showStatus("Original avatar restored", true)
+		showStatus("Original avatar restored", true) 
+		fetchState()
+		renderEquippedItems()
 		task.delay(0.2, frameAvatar)
 	else
 		showStatus("Couldn't reset avatar")
@@ -598,6 +723,8 @@ undoButton.Activated:Connect(function()
 	end)
 	if ok and type(result) == "table" and result.ok == true then
 		showStatus("Original avatar restored", true)
+		fetchState()
+		renderEquippedItems()
 		task.delay(0.2, frameAvatar)
 	else
 		showStatus("Couldn't reset avatar")
@@ -607,6 +734,7 @@ end)
 reloadButton.Activated:Connect(function()
 	fetchState()
 	updateOutfitSlots()
+	renderEquippedItems()
 	renderPresets()
 	showStatus("Avatar menu refreshed", true)
 end)
@@ -626,6 +754,8 @@ randomButton.Activated:Connect(function()
 	end)
 	if ok and type(result) == "table" and result.ok == true then
 		showStatus(tostring(preset.Label or "Look") .. " applied", true)
+		fetchState()
+		renderEquippedItems()
 		task.delay(0.2, frameAvatar)
 	end
 end)
@@ -655,6 +785,7 @@ openAvatarEditor.Event:Connect(function()
 	gui.Enabled = true
 	setShellLabelsVisible(false)
 	updateOutfitSlots()
+	renderEquippedItems()
 	renderPresets()
 	task.defer(frameAvatar)
 end)
