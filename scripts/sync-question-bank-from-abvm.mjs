@@ -314,7 +314,7 @@ const READ_DOMAINS=[
 const MATH_DOMAINS=['Numbers and operations','Algebra','Geometry and measurement','Data analysis, statistics, and probability'];
 const names=['Mia','Leo','Ava','Noah','Zoe','Eli','Nora','Sam','Lena','Jay'];
 const contextRows=[
-  ['enormous','very large',['tiny','huge','quiet']],
+  ['enormous','very large',['very small','very large','very quiet']],
   ['glanced','looked quickly',['stared for hours','looked quickly','closed a door']],
   ['drowsy','sleepy',['sleepy','excited','angry']],
   ['fragile','easy to break',['easy to break','very loud','full of water']],
