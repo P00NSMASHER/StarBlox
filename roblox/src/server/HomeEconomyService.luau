@@ -524,9 +524,6 @@ function HomeEconomyService.new(profiles, replicas, spawnCFrame: CFrame, familyS
 	self._spawnCFrame = spawnCFrame
 	self._slots = {}
 	self._usedPlots = {}
-	self._lastHouseSwapAt = {}
-	self._doorLocked = {}
-	self._doorStates = {}
 	self._lastPurchaseAt = {}
 	self._lastPlacementAt = {}
 	self._lastHouseSwapAt = {}
