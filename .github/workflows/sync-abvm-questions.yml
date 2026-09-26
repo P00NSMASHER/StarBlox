@@ -7,12 +7,6 @@ on:
     - cron: '47 15 * * *'
       timezone: 'America/New_York'
   workflow_dispatch:
-  push:
-    branches:
-      - questions/daily-abvm-star-sync-economy
-    paths:
-      - scripts/sync-question-bank-from-abvm.mjs
-
 permissions:
   contents: write
 
