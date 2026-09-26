@@ -1,8 +1,8 @@
 --!strict
 
 local BrookhavenMirrorConfig = table.freeze({
-	SchemaVersion = 2,
-	Revision = "recording-parity-shell-v1",
+	SchemaVersion = 3,
+	Revision = "recording-parity-shell-catalog-reference-v2",
 	World = table.freeze({
 		Mode = "exact-frozen-brookhaven-world",
 		BrookhavenBaselineLocked = true,
@@ -43,6 +43,21 @@ local BrookhavenMirrorConfig = table.freeze({
 		Houses = 83,
 		Vehicles = 188,
 		InventoryItems = 173,
+		VehicleCategories = table.freeze({
+			Small = 22,
+			Street = 64,
+			Work = 46,
+			Event = 34,
+			Boats = 18,
+			Flying = 4,
+		}),
+	}),
+	CatalogImplementation = table.freeze({
+		Vehicles = 8,
+		InventoryItems = 12,
+		VehicleParityComplete = false,
+		InventoryParityComplete = false,
+		ReferenceFile = "docs/BROOKHAVEN_CATALOG_REFERENCE.json",
 	}),
 })
 
