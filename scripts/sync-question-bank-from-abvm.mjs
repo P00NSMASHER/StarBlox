@@ -468,6 +468,8 @@ const source={
     repository:'P00NSMASHER/abvmschoolstarworld',
     path:'pages/data/study-pack.json',
     scanner:'scripts/refresh-teacher-pages.mjs',
+    scannerCommit,
+    generatorVersion:GENERATOR_VERSION,
     healthCheck:'scripts/check-refresh-health.mjs',
     sourceHash:rawSourceHash,
     sourceCapturedAt:data.sourceCapturedAt||pack.sourceCapturedAt||null,
