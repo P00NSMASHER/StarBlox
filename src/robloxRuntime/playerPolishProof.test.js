@@ -67,7 +67,8 @@ describe('Step 8: player-experience polish and automated UX QA', () => {
     expect(server).toContain('anchor.Transparency = 1');
     expect(server).toContain('anchor.CanCollide = false');
     expect(bindings).toContain('BrookhavenWorldBaseline');
-    expect(bindings).toContain('BHW_3461');
+    expect(bindings).toContain('BHW_1202');
+    expect(bindings).toContain('BHW_2442');
     expect(bindings).toContain('BHW_4879');
     expect(bindings).toContain('BHW_4876');
     expect(bindings).toContain('BHW_3405');
