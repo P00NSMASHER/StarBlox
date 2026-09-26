@@ -41,7 +41,7 @@
     "minimumDifficulty": 2,
     "answersServerOnly": true,
     "minimumQuestionsPerStation": 20,
-    "rotation": "persistent-per-station-after-correct-answer",
+    "rotation": "material-once-then-star-fallback-loop",
     "tierOrder": "12 material questions, then 8 original STAR-aligned fallback questions",
     "noLiveLlm": true
   },
