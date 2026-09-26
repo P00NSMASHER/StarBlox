@@ -875,6 +875,8 @@ function CoreGameLoopService:_submitPilot(player: Player, request: any)
 	local attemptIndex = math.max(1, math.floor(tonumber(session.wrongAttempts) or 0) + 1)
 	local attemptResponseBand = responseTimeBand(session.questionPresentedAt)
 	local attemptChoiceIndex = choiceIndex(question, request.choice)
+	local attemptExperimentId = session.experimentId
+	local attemptVariantId = session.variantId
 	local misconception = nil
 	if type(question.Misconceptions) == "table" then
 		misconception = question.Misconceptions[tostring(request.choice)]
@@ -935,8 +937,8 @@ function CoreGameLoopService:_submitPilot(player: Player, request: any)
 			rubricPoints = rubricPoints,
 			rubricMaxPoints = rubricMaxPoints,
 			support = false,
-			experimentId = session.experimentId,
-			variantId = session.variantId,
+			experimentId = attemptExperimentId,
+			variantId = attemptVariantId,
 			pilot = true,
 			pilotBucket = entry.Bucket,
 		})
