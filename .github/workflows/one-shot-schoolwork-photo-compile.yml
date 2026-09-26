@@ -1,0 +1,87 @@
+name: One-shot compile schoolwork photo pipeline
+
+on:
+  push:
+    branches:
+      - learning/schoolwork-photo-pipeline
+    paths:
+      - .github/workflows/one-shot-schoolwork-photo-compile.yml
+
+permissions:
+  contents: write
+
+jobs:
+  compile:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout feature branch
+        uses: actions/checkout@v4
+        with:
+          ref: learning/schoolwork-photo-pipeline
+          fetch-depth: 0
+
+      - name: Use Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Validate sanitized schoolwork photo pack
+        run: |
+          node scripts/validate-schoolwork-photo-pack.mjs \
+            docs/phase6/SCHOOLWORK_PHOTO_SOURCE.json \
+            --catalog-out /tmp/schoolwork-catalog.json \
+            --receipt-out /tmp/schoolwork-receipt.json \
+            --snapshot-id preflight
+
+      - name: Rebuild certified question bank with photo-derived material
+        shell: bash
+        run: |
+          set -euo pipefail
+          SCANNER_COMMIT="$(node --input-type=module - <<'NODE'
+          import {readFileSync} from 'node:fs';
+          const source=JSON.parse(readFileSync('docs/phase6/ABVM_GRADE2_ROTATING_QUESTION_SOURCE.json','utf8'));
+          process.stdout.write(String(source.generatedFrom.scannerCommit||'unknown'));
+          NODE
+          )"
+          node scripts/sync-question-bank-from-abvm.mjs \
+            --pack docs/phase6/ABVM_CURRENT_STUDY_PACK.json \
+            --scanner-commit "$SCANNER_COMMIT"
+
+      - name: Validate independent alignment
+        run: node scripts/validate-question-alignment.mjs
+
+      - name: Run schoolwork photo and question-bank regression tests
+        run: |
+          npx vitest run \
+            src/schoolworkPhoto/schoolworkPhotoPipeline.test.js \
+            src/robloxRuntime/dailyQuestionSync.test.js \
+            src/robloxRuntime/phase6QuestionBank.test.js \
+            src/robloxRuntime/questionAlignmentValidator.test.js \
+            src/robloxRuntime/researchQuestionImprovements712.test.js \
+            src/robloxRuntime/coreLoopProof.test.js \
+            src/robloxRuntime/phase7EconomyHomes.test.js
+
+      - name: Commit generated outputs and remove one-shot workflow
+        shell: bash
+        run: |
+          set -euo pipefail
+          git rm .github/workflows/one-shot-schoolwork-photo-compile.yml
+          git add \
+            docs/phase6/ABVM_CURRENT_STUDY_PACK.json \
+            docs/phase6/ABVM_GRADE2_ROTATING_QUESTION_SOURCE.json \
+            docs/phase6/SCHOOLWORK_PHOTO_QUESTION_CATALOG.json \
+            docs/phase6/SCHOOLWORK_PHOTO_REVIEW_RECEIPT.json \
+            roblox/src/server/CoreQuestionBank.luau
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git diff --cached --check
+          if git diff --cached --quiet; then
+            echo "No generated changes."
+            exit 1
+          fi
+          git commit -m "Compile sanitized schoolwork photo questions"
+          git push origin HEAD:learning/schoolwork-photo-pipeline
