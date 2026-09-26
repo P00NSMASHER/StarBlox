@@ -193,13 +193,43 @@ local function toolHandle(tool: Tool, size: Vector3, color: Color3): Part
 	return handle
 end
 
+local function attachToolPart(
+	tool: Tool,
+	handle: BasePart,
+	name: string,
+	size: Vector3,
+	cframe: CFrame,
+	color: Color3,
+	shape: Enum.PartType?
+): Part
+	local part = Instance.new("Part")
+	part.Name = name
+	part.Size = size
+	part.CFrame = cframe
+	part.Color = color
+	part.Material = Enum.Material.SmoothPlastic
+	part.CanCollide = false
+	part.Massless = true
+	if shape ~= nil then
+		part.Shape = shape
+	end
+	part.Parent = tool
+	local weld = Instance.new("WeldConstraint")
+	weld.Part0 = handle
+	weld.Part1 = part
+	weld.Parent = part
+	return part
+end
+
 local function createTool(definition): Tool
 	local tool = Instance.new("Tool")
 	tool.Name = definition.Name
 	tool.ToolTip = definition.Name
 	tool.CanBeDropped = false
 	tool:SetAttribute("ItemId", definition.Id)
+	tool:SetAttribute("ToolKind", definition.Kind)
 	tool:SetAttribute("RuntimeOwned", true)
+	tool:SetAttribute("ToolActive", false)
 
 	local handle
 	if definition.Kind == "phone" then
@@ -207,9 +237,11 @@ local function createTool(definition): Tool
 	elseif definition.Kind == "flashlight" then
 		handle = toolHandle(tool, Vector3.new(0.45, 1.7, 0.45), Color3.fromRGB(55, 55, 60))
 		local light = Instance.new("SpotLight")
+		light.Name = "Beam"
 		light.Angle = 55
 		light.Brightness = 3
 		light.Range = 32
+		light.Enabled = false
 		light.Parent = handle
 	elseif definition.Kind == "laptop" then
 		handle = toolHandle(tool, Vector3.new(2.2, 0.18, 1.5), Color3.fromRGB(85, 90, 105))
@@ -217,6 +249,16 @@ local function createTool(definition): Tool
 		handle = toolHandle(tool, Vector3.new(1.3, 0.9, 0.7), Color3.fromRGB(40, 40, 44))
 	elseif definition.Kind == "umbrella" then
 		handle = toolHandle(tool, Vector3.new(0.25, 3.2, 0.25), Color3.fromRGB(80, 80, 86))
+		local canopy = attachToolPart(
+			tool,
+			handle,
+			"Canopy",
+			Vector3.new(3.8, 0.55, 3.8),
+			handle.CFrame * CFrame.new(0, 1.65, 0),
+			Color3.fromRGB(112, 157, 216),
+			Enum.PartType.Ball
+		)
+		canopy.Transparency = 1
 	elseif definition.Kind == "book" then
 		handle = toolHandle(tool, Vector3.new(1.5, 0.25, 2), Color3.fromRGB(84, 127, 201))
 	elseif definition.Kind == "clipboard" then
@@ -229,6 +271,15 @@ local function createTool(definition): Tool
 		handle = toolHandle(tool, Vector3.new(1.8, 2.4, 1.4), Color3.fromRGB(218, 126, 177))
 	elseif definition.Kind == "extinguisher" then
 		handle = toolHandle(tool, Vector3.new(0.8, 2, 0.8), Color3.fromRGB(210, 49, 49))
+		local spray = Instance.new("ParticleEmitter")
+		spray.Name = "Spray"
+		spray.Enabled = false
+		spray.Rate = 95
+		spray.Lifetime = NumberRange.new(0.35, 0.65)
+		spray.Speed = NumberRange.new(12, 18)
+		spray.SpreadAngle = Vector2.new(18, 18)
+		spray.Acceleration = Vector3.new(0, -4, 0)
+		spray.Parent = handle
 	elseif definition.Kind == "backpack" then
 		handle = toolHandle(tool, Vector3.new(1.5, 1.8, 0.7), Color3.fromRGB(76, 112, 180))
 	else
@@ -283,6 +334,9 @@ function MirrorLifestyleService.new(profiles, replicas)
 	local clearTools = Instance.new("RemoteFunction")
 	clearTools.Name = "ClearTools"
 	clearTools.Parent = root
+	local toolAction = Instance.new("RemoteFunction")
+	toolAction.Name = "ToolAction"
+	toolAction.Parent = root
 	local vehicleAction = Instance.new("RemoteFunction")
 	vehicleAction.Name = "VehicleAction"
 	vehicleAction.Parent = root
@@ -307,6 +361,9 @@ function MirrorLifestyleService.new(profiles, replicas)
 	end
 	clearTools.OnServerInvoke = function(player)
 		return self:_clearTools(player)
+	end
+	toolAction.OnServerInvoke = function(player, itemId)
+		return self:_toolAction(player, itemId)
 	end
 	vehicleAction.OnServerInvoke = function(player, action)
 		return self:_vehicleAction(player, action)
@@ -510,6 +567,73 @@ function MirrorLifestyleService:_clearTools(player)
 	clearFrom(player:FindFirstChildOfClass("Backpack"))
 	clearFrom(player.Character)
 	return {ok = true, removed = removed}
+end
+
+
+function MirrorLifestyleService:_toolAction(player: Player, itemId: any)
+	if not self:_allow(player) or type(itemId) ~= "string" then
+		return {ok = false, code = "invalid_request"}
+	end
+	local definition = TOOL_BY_ID[itemId]
+	if definition == nil then
+		return {ok = false, code = "unknown_tool"}
+	end
+
+	local character = player.Character
+	if character == nil then
+		return {ok = false, code = "character_unavailable"}
+	end
+	local tool = nil
+	for _, child in character:GetChildren() do
+		if child:IsA("Tool") and child:GetAttribute("ItemId") == itemId then
+			tool = child
+			break
+		end
+	end
+	if tool == nil then
+		return {ok = false, code = "tool_not_equipped"}
+	end
+
+	if definition.Kind == "flashlight" then
+		local handle = tool:FindFirstChild("Handle")
+		local beam = handle and handle:FindFirstChild("Beam")
+		if beam == nil or not beam:IsA("SpotLight") then
+			return {ok = false, code = "tool_runtime_invalid"}
+		end
+		beam.Enabled = not beam.Enabled
+		tool:SetAttribute("ToolActive", beam.Enabled)
+		return {ok = true, itemId = itemId, active = beam.Enabled}
+	end
+
+	if definition.Kind == "umbrella" then
+		local canopy = tool:FindFirstChild("Canopy")
+		if canopy == nil or not canopy:IsA("BasePart") then
+			return {ok = false, code = "tool_runtime_invalid"}
+		end
+		local active = tool:GetAttribute("ToolActive") ~= true
+		canopy.Transparency = if active then 0 else 1
+		tool:SetAttribute("ToolActive", active)
+		return {ok = true, itemId = itemId, active = active}
+	end
+
+	if definition.Kind == "extinguisher" then
+		local handle = tool:FindFirstChild("Handle")
+		local spray = handle and handle:FindFirstChild("Spray")
+		if spray == nil or not spray:IsA("ParticleEmitter") then
+			return {ok = false, code = "tool_runtime_invalid"}
+		end
+		spray.Enabled = true
+		tool:SetAttribute("ToolActive", true)
+		task.delay(1.2, function()
+			if tool.Parent ~= nil and spray.Parent ~= nil then
+				spray.Enabled = false
+				tool:SetAttribute("ToolActive", false)
+			end
+		end)
+		return {ok = true, itemId = itemId, active = true}
+	end
+
+	return {ok = false, code = "client_or_passive_tool"}
 end
 
 function MirrorLifestyleService:_equipTool(player, id)
