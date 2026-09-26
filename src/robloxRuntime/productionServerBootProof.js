@@ -121,15 +121,15 @@ for _, remoteName in {"GetState","SetJob","SaveBio","ResetAvatar"} do
     assert(remote ~= nil and remote:IsA("RemoteFunction"), "roleplay remote missing: " .. remoteName)
 end
 
+local brookhaven = Workspace:FindFirstChild("BrookhavenWorldBaseline")
+assert(brookhaven ~= nil and brookhaven:IsA("Model"), "verified Brookhaven world mount missing")
+
 local plotBindings = require(shared:WaitForChild("WorldPlotBindings"))
 assert(#plotBindings.Plots == 8, "Brookhaven house plot binding count mismatch")
 for _, plot in plotBindings.Plots do
     local part = brookhaven:FindFirstChild(plot.SourcePartName, true)
     assert(part ~= nil and part:IsA("BasePart"), "Brookhaven house plot source missing: " .. plot.SourcePartName)
 end
-
-local brookhaven = Workspace:FindFirstChild("BrookhavenWorldBaseline")
-assert(brookhaven ~= nil and brookhaven:IsA("Model"), "verified Brookhaven world mount missing")
 
 -- Roblox materializes legacy surface joints when the serialized world is
 -- loaded into a live server. The locked artifact contains 5,493 serialized
