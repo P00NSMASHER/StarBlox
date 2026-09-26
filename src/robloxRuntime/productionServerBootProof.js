@@ -135,7 +135,7 @@ assert(homeFolder:GetAttribute("BaselineMutationAllowed") == false, "player-home
 
 local mirrorRemotes = ReplicatedStorage:FindFirstChild("StarBloxMirror")
 assert(mirrorRemotes ~= nil and mirrorRemotes:IsA("Folder"), "Brookhaven mirror remotes missing after bootstrap")
-for _, remoteName in {"GetState","PurchaseVehicle","SpawnVehicle","DespawnVehicle","PurchaseTool","EquipTool","ClearTools","VehicleAction"} do
+for _, remoteName in {"GetState","PurchaseVehicle","SpawnVehicle","DespawnVehicle","PurchaseTool","EquipTool","ClearTools","ToolAction","VehicleAction"} do
     local remote = mirrorRemotes:FindFirstChild(remoteName)
     assert(remote ~= nil and remote:IsA("RemoteFunction"), "mirror remote missing: " .. remoteName)
 end
