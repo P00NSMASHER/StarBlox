@@ -7,6 +7,8 @@ local Config = require(ReplicatedStorage.StarBlox.CoreLoopConfig)
 local WorldBindings = require(ReplicatedStorage.StarBlox.WorldActivityBindings)
 local CoreQuestionBank = require(script.Parent.CoreQuestionBank)
 local PilotQuestionMixer = require(script.Parent.PilotQuestionMixer)
+local LearningPriority = require(script.Parent.LearningPriority)
+local SpacedMastery = require(script.Parent.SpacedMastery)
 
 local CoreGameLoopService = {}
 CoreGameLoopService.__index = CoreGameLoopService
@@ -160,6 +162,14 @@ local function ensureQuestionState(profileData)
 		type(profileData.Learning.SkillStats) == "table"
 		and profileData.Learning.SkillStats
 		or {}
+	profileData.Learning.SpacedMasteryBySkill =
+		type(profileData.Learning.SpacedMasteryBySkill) == "table"
+		and profileData.Learning.SpacedMasteryBySkill
+		or {}
+	profileData.Learning.Automation =
+		type(profileData.Learning.Automation) == "table"
+		and profileData.Learning.Automation
+		or {}
 	profileData.Learning.Experiments =
 		type(profileData.Learning.Experiments) == "table"
 		and profileData.Learning.Experiments
@@ -180,6 +190,26 @@ local function ensurePilotState(profileData)
 	pilot.QuestionsCompleted = math.max(0, math.floor(tonumber(pilot.QuestionsCompleted) or 0))
 	pilot.LastCompletedAt = math.max(0, math.floor(tonumber(pilot.LastCompletedAt) or 0))
 	return pilot
+end
+
+local function ensureAutomationState(profileData)
+	ensureQuestionState(profileData)
+	local automation = profileData.Learning.Automation
+	automation.PriorityUnlockedAt = math.max(0, math.floor(tonumber(automation.PriorityUnlockedAt) or 0))
+	automation.SpacedMasteryUnlockedAt = math.max(0, math.floor(tonumber(automation.SpacedMasteryUnlockedAt) or 0))
+	automation.LastPrioritySelectionAt = math.max(0, math.floor(tonumber(automation.LastPrioritySelectionAt) or 0))
+	local now = os.time()
+	if LearningPriority.IsUnlocked(profileData, Config.LearningAutomation.Step5Priority)
+		and automation.PriorityUnlockedAt <= 0
+	then
+		automation.PriorityUnlockedAt = now
+	end
+	if SpacedMastery.IsUnlocked(profileData, Config.LearningAutomation.Step6SpacedMastery)
+		and automation.SpacedMasteryUnlockedAt <= 0
+	then
+		automation.SpacedMasteryUnlockedAt = now
+	end
+	return automation
 end
 
 local function questionCursor(profileData, activityId: string): number
@@ -226,7 +256,10 @@ local function recordLearningAttempt(
 	correct: boolean,
 	rubricPoints: number?,
 	rubricMaxPoints: number?,
-	updateAdaptive: boolean?
+	updateAdaptive: boolean?,
+	misconception: string?,
+	spacedRetrieval: boolean?,
+	firstAttempt: boolean?
 )
 	if question == nil then
 		return nil, nil
@@ -244,6 +277,10 @@ local function recordLearningAttempt(
 			RubricMaxPoints = 0,
 			ConsecutiveCorrect = 0,
 			ConsecutiveWrong = 0,
+			LastSeenAt = 0,
+			LastCorrectAt = 0,
+			LastWrongAt = 0,
+			MisconceptionCounts = {},
 		}
 		profileData.Learning.SkillStats[skillKey] = stats
 	end
@@ -255,6 +292,12 @@ local function recordLearningAttempt(
 	stats.RubricMaxPoints = math.max(0, math.floor(tonumber(stats.RubricMaxPoints) or 0))
 	stats.ConsecutiveCorrect = math.max(0, math.floor(tonumber(stats.ConsecutiveCorrect) or 0))
 	stats.ConsecutiveWrong = math.max(0, math.floor(tonumber(stats.ConsecutiveWrong) or 0))
+	stats.LastSeenAt = math.max(0, math.floor(tonumber(stats.LastSeenAt) or 0))
+	stats.LastCorrectAt = math.max(0, math.floor(tonumber(stats.LastCorrectAt) or 0))
+	stats.LastWrongAt = math.max(0, math.floor(tonumber(stats.LastWrongAt) or 0))
+	stats.MisconceptionCounts = type(stats.MisconceptionCounts) == "table" and stats.MisconceptionCounts or {}
+	local attemptNow = os.time()
+	stats.LastSeenAt = attemptNow
 
 	local awarded = math.max(0, math.floor(tonumber(rubricPoints) or 0))
 	local possible = math.max(1, math.floor(tonumber(rubricMaxPoints) or 2))
@@ -273,6 +316,7 @@ local function recordLearningAttempt(
 		stats.Correct += 1
 		stats.ConsecutiveCorrect += 1
 		stats.ConsecutiveWrong = 0
+		stats.LastCorrectAt = attemptNow
 		if adaptive ~= nil then
 			adaptive.CorrectStreak += 1
 			adaptive.WrongStreak = 0
@@ -286,6 +330,10 @@ local function recordLearningAttempt(
 		stats.Wrong += 1
 		stats.ConsecutiveWrong += 1
 		stats.ConsecutiveCorrect = 0
+		stats.LastWrongAt = attemptNow
+		if type(misconception) == "string" and misconception ~= "" then
+			stats.MisconceptionCounts[misconception] = (stats.MisconceptionCounts[misconception] or 0) + 1
+		end
 		if adaptive ~= nil then
 			adaptive.WrongStreak += 1
 			adaptive.CorrectStreak = 0
@@ -295,6 +343,26 @@ local function recordLearningAttempt(
 			end
 		end
 	end
+	if firstAttempt ~= false and SpacedMastery.IsUnlocked(profileData, Config.LearningAutomation.Step6SpacedMastery) then
+		if spacedRetrieval == true then
+			SpacedMastery.RecordRetrieval(
+				profileData,
+				skillKey,
+				correct,
+				attemptNow,
+				Config.LearningAutomation.Step6SpacedMastery
+			)
+		else
+			SpacedMastery.Observe(
+				profileData,
+				skillKey,
+				correct,
+				attemptNow,
+				Config.LearningAutomation.Step6SpacedMastery
+			)
+		end
+	end
+	ensureAutomationState(profileData)
 	return adaptive, stats
 end
 
@@ -340,11 +408,22 @@ local function choiceIndex(question, choice: any): number?
 end
 
 local function selectedQuestionFor(profileData, activityId: string)
-	return CoreQuestionBank.Select(
+	local cursor = questionCursor(profileData, activityId)
+	local difficulty = targetDifficulty(profileData, activityId)
+	local selected = LearningPriority.SelectForStation(
+		profileData,
+		CoreQuestionBank,
 		activityId,
-		questionCursor(profileData, activityId),
-		targetDifficulty(profileData, activityId)
+		cursor,
+		difficulty,
+		Config.LearningAutomation,
+		os.time()
 	)
+	if selected ~= nil and LearningPriority.IsUnlocked(profileData, Config.LearningAutomation.Step5Priority) then
+		local automation = ensureAutomationState(profileData)
+		automation.LastPrioritySelectionAt = os.time()
+	end
+	return selected
 end
 
 local function publicActivity(activity, question, profileData)
@@ -407,7 +486,9 @@ end
 function CoreGameLoopService.ApplyCorrectQuestionReward(
 	profileData,
 	activityId: string,
-	questionId: string
+	questionId: string,
+	firstAttempt: boolean?,
+	sessionAuthorized: boolean?
 )
 	local question = CoreQuestionBank.GetById(questionId)
 	if question == nil or question.StationId ~= activityId then
@@ -415,9 +496,11 @@ function CoreGameLoopService.ApplyCorrectQuestionReward(
 	end
 
 	local currentCursor = questionCursor(profileData, activityId)
-	local expected = CoreQuestionBank.Select(activityId, currentCursor, targetDifficulty(profileData, activityId))
-	if expected == nil or expected.Id ~= questionId then
-		return {ok = false, code = "stale_question"}
+	if sessionAuthorized ~= true then
+		local expected = selectedQuestionFor(profileData, activityId)
+		if expected == nil or expected.Id ~= questionId then
+			return {ok = false, code = "stale_question"}
+		end
 	end
 
 	local cursors = ensureQuestionState(profileData)
@@ -428,14 +511,10 @@ function CoreGameLoopService.ApplyCorrectQuestionReward(
 	end
 
 	local rubricPoints, rubricMaxPoints = rubricScore(question, question.Answer, true)
-	recordLearningAttempt(profileData, question, true, rubricPoints, rubricMaxPoints)
+	recordLearningAttempt(profileData, question, true, rubricPoints, rubricMaxPoints, true, nil, false, firstAttempt ~= false)
 	profileData.Economy.Coins += Config.QuestionReward.Coins
 	profileData.Economy.XP += Config.QuestionReward.XP
-	local nextQuestion = CoreQuestionBank.Select(
-		activityId,
-		currentCursor + 1,
-		targetDifficulty(profileData, activityId)
-	)
+	local nextQuestion = selectedQuestionFor(profileData, activityId)
 
 	return {
 		ok = true,
@@ -536,6 +615,12 @@ function CoreGameLoopService.BuildStatus(profileData)
 			sessionLength = Config.PilotMode.SessionLength,
 			awardsEconomy = Config.PilotMode.AwardsEconomy == true,
 			advancesChallenge = Config.PilotMode.AdvancesChallenge == true,
+		},
+		learningAutomation = {
+			step5PriorityUnlocked = LearningPriority.IsUnlocked(profileData, Config.LearningAutomation.Step5Priority),
+			step6SpacedMasteryUnlocked = SpacedMastery.IsUnlocked(profileData, Config.LearningAutomation.Step6SpacedMastery),
+			questionsCompleted = ensurePilotState(profileData).QuestionsCompleted,
+			sessionsCompleted = ensurePilotState(profileData).SessionsCompleted,
 		},
 	}
 end
@@ -817,11 +902,13 @@ function CoreGameLoopService:_startPilotSession(player: Player)
 			and pilotState.SessionsCompleted < Config.PilotMode.BaselineMinCompletedSessions
 		pilotState.SessionsStarted += 1
 		local pilotSessionNumber = pilotState.SessionsStarted
+		ensureAutomationState(data)
 		local queue = PilotQuestionMixer.Build(
 			data,
 			CoreQuestionBank,
 			Config.PilotMode,
-			pilotSessionNumber
+			pilotSessionNumber,
+			Config.LearningAutomation
 		)
 		local first = queue[1]
 		local question = if first ~= nil then CoreQuestionBank.GetById(first.QuestionId) else nil
@@ -911,7 +998,10 @@ function CoreGameLoopService:_submitPilot(player: Player, request: any)
 			correct,
 			rubricPoints,
 			rubricMaxPoints,
-			not (session.baselinePhase == true)
+			not (session.baselinePhase == true),
+			misconception,
+			entry.SpacedRetrieval == true,
+			attemptIndex == 1
 		)
 		if correct then
 			pilotState.QuestionsCompleted += 1
@@ -1068,6 +1158,9 @@ function CoreGameLoopService:_submit(player: Player, request: any)
 		local hint = answeredQuestion.Hint
 		local scaffold = nil
 		local misconception = nil
+		if type(answeredQuestion.Misconceptions) == "table" then
+			misconception = answeredQuestion.Misconceptions[tostring(request.choice)]
+		end
 		local supportActivity = nil
 		local found = self._profiles:WithProfile(player, function(data)
 			local adaptive = recordLearningAttempt(
@@ -1075,13 +1168,14 @@ function CoreGameLoopService:_submit(player: Player, request: any)
 				answeredQuestion,
 				false,
 				rubricPoints,
-				rubricMaxPoints
+				rubricMaxPoints,
+				true,
+				misconception,
+				false,
+				attemptIndex == 1
 			)
 			if type(answeredQuestion.WrongFeedback) == "table" then
 				feedback = answeredQuestion.WrongFeedback[tostring(request.choice)] or feedback
-			end
-			if type(answeredQuestion.Misconceptions) == "table" then
-				misconception = answeredQuestion.Misconceptions[tostring(request.choice)]
 			end
 
 			if session.supportMode ~= true
@@ -1162,7 +1256,11 @@ function CoreGameLoopService:_submit(player: Player, request: any)
 				answeredQuestion,
 				true,
 				rubricPoints,
-				rubricMaxPoints
+				rubricMaxPoints,
+				true,
+				nil,
+				false,
+				attemptIndex == 1
 			)
 			rootActivity = publicActivity(activity, rootQuestion, data)
 			self._replicas:Sync(player, data)
@@ -1213,7 +1311,9 @@ function CoreGameLoopService:_submit(player: Player, request: any)
 		questionReward = CoreGameLoopService.ApplyCorrectQuestionReward(
 			data,
 			session.activityId,
-			session.questionId
+			session.questionId,
+			attemptIndex == 1,
+			true
 		)
 		if questionReward.ok ~= true then
 			return
