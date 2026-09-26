@@ -197,6 +197,11 @@ local function incrementClassStats(school, classId: string, grade: string)
 	stats[gradeKey] = math.max(0, tonumber(stats[gradeKey]) or 0) + 1
 end
 
+function ClassSessionService.EnsureDay(profileData, schoolDayId: string)
+	local school = ensureSchool(profileData)
+	return rotateDay(school, schoolDayId)
+end
+
 function ClassSessionService.OpenClass(
 	profileData,
 	schoolDayId: string,
