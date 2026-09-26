@@ -963,22 +963,23 @@ end
 
 showAvatar = function()
 	clearCategories()
-	clearGrid()
-	setHeader("Avatar Editor")
-	tile("☺", "Reset Avatar", "Roblox look", "", UI.blue, 1, function()
+	panel.Visible = false
+	plotSelector.Visible = false
+	setActionLabelsVisible(false)
+
+	local editorGui = playerGui:FindFirstChild("BrookhavenAvatarEditorUI")
+	if editorGui == nil then
+		editorGui = playerGui:WaitForChild("BrookhavenAvatarEditorUI", 2)
+	end
+	local openEditor = editorGui and editorGui:FindFirstChild("OpenAvatarEditor")
+	if openEditor and openEditor:IsA("BindableEvent") then
+		openEditor:Fire()
+	else
+		-- Fail gracefully if the dedicated editor has not mounted yet.
 		pcall(function()
 			resetAvatar:InvokeServer()
 		end)
-		closePanel()
-	end)
-
-	if fetchRoleplayState() then
-		tile("ID", "Roleplay ID", tostring(roleplayState.displayName or "Player"), "", UI.blue, 2, function()
-			showFamily()
-		end)
-		tile("♟", "Current Job", tostring(roleplayState.job or "None"), "", UI.blue, 3, function()
-			showFamily()
-		end)
+		setActionLabelsVisible(true)
 	end
 end
 
