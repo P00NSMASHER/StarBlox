@@ -49,10 +49,9 @@ describe('School foundation milestones 1-6',()=>{
     expect(config).toContain('CycleSeconds = 30 * 60');
     expect(config).toContain('QuestionsPerAcademicPeriod = 4');
 
-    // Milestones 1-6 intentionally build underneath the existing experience.
-    expect(bootstrap).not.toContain('SchoolClockService');
-    expect(bootstrap).not.toContain('ClassSessionService');
-    expect(bootstrap).not.toContain('SchoolSystemEnabled');
+    // The complete system is wired but remains dark until the release flag is enabled.
+    expect(bootstrap).toContain('SchoolConfig.FeatureFlags.SchoolSystemEnabled == true');
+    expect(bootstrap).toContain('SchoolRuntimeService.new(profiles, replicas)');
     expect(bootstrap).toContain('CoreGameLoopService.new(profiles, replicas');
   });
 
@@ -154,7 +153,7 @@ describe('School foundation milestones 1-6',()=>{
     expect(replica).not.toContain('Receipts =');
   });
 
-  it('implements four-question class sessions with retry-friendly grading and no economy mutation yet',()=>{
+  it('implements four-question class sessions with retry-friendly grading and separate economy authority',()=>{
     const config=read('roblox/src/shared/SchoolConfig.luau');
     const sessions=read('roblox/src/server/ClassSessionService.luau');
 
