@@ -6,6 +6,7 @@ local Workspace = game:GetService("Workspace")
 local Config = require(ReplicatedStorage.StarBlox.CoreLoopConfig)
 local WorldBindings = require(ReplicatedStorage.StarBlox.WorldActivityBindings)
 local CoreQuestionBank = require(script.Parent.CoreQuestionBank)
+local PilotQuestionMixer = require(script.Parent.PilotQuestionMixer)
 
 local CoreGameLoopService = {}
 CoreGameLoopService.__index = CoreGameLoopService
@@ -165,6 +166,20 @@ local function ensureQuestionState(profileData)
 		or {}
 	profileData.Learning.WrongStreak = math.max(0, math.floor(tonumber(profileData.Learning.WrongStreak) or 0))
 	return profileData.Learning.QuestionCursorByStation
+end
+
+local function ensurePilotState(profileData)
+	ensureQuestionState(profileData)
+	local pilot = profileData.Learning.Pilot
+	if type(pilot) ~= "table" then
+		pilot = {}
+		profileData.Learning.Pilot = pilot
+	end
+	pilot.SessionsStarted = math.max(0, math.floor(tonumber(pilot.SessionsStarted) or 0))
+	pilot.SessionsCompleted = math.max(0, math.floor(tonumber(pilot.SessionsCompleted) or 0))
+	pilot.QuestionsCompleted = math.max(0, math.floor(tonumber(pilot.QuestionsCompleted) or 0))
+	pilot.LastCompletedAt = math.max(0, math.floor(tonumber(pilot.LastCompletedAt) or 0))
+	return pilot
 end
 
 local function questionCursor(profileData, activityId: string): number
@@ -365,6 +380,17 @@ local function publicActivity(activity, question, profileData)
 	}
 end
 
+local function pilotPublicActivity(activity, question, profileData, entry, index: number, total: number)
+	local result = publicActivity(activity, question, profileData)
+	result.mode = "pilot"
+	result.title = string.format("Study Pilot • %d/%d", index, total)
+	result.pilotIndex = index
+	result.pilotTotal = total
+	result.pilotBucket = entry.Bucket
+	result.reward = {coins = 0, xp = 0, stars = 0}
+	return result
+end
+
 function CoreGameLoopService.GradeAnswer(questionId: any, choice: any): boolean
 	return CoreQuestionBank.Grade(questionId, choice)
 end
@@ -496,6 +522,12 @@ function CoreGameLoopService.BuildStatus(profileData)
 			XP = profileData.Economy.XP,
 			Stars = profileData.Economy.Stars,
 		},
+		pilot = {
+			enabled = Config.PilotMode.Enabled == true,
+			sessionLength = Config.PilotMode.SessionLength,
+			awardsEconomy = Config.PilotMode.AwardsEconomy == true,
+			advancesChallenge = Config.PilotMode.AdvancesChallenge == true,
+		},
 	}
 end
 
@@ -586,7 +618,9 @@ function CoreGameLoopService.new(profiles, replicas, telemetry)
 	self._replicas = replicas
 	self._telemetry = telemetry
 	self._sessions = {}
+	self._pilotSessions = {}
 	self._lastSubmitAt = {}
+	self._lastPilotSubmitAt = {}
 	self._connections = {}
 	self._playerSpawnConnections = {}
 
@@ -612,6 +646,14 @@ function CoreGameLoopService.new(profiles, replicas, telemetry)
 	requestStatus.Name = "RequestStatus"
 	requestStatus.Parent = remoteRoot
 
+	local startPilot = Instance.new("RemoteFunction")
+	startPilot.Name = "StartPilot"
+	startPilot.Parent = remoteRoot
+
+	local submitPilotAnswer = Instance.new("RemoteFunction")
+	submitPilotAnswer.Name = "SubmitPilotAnswer"
+	submitPilotAnswer.Parent = remoteRoot
+
 	local dismissOnboarding = Instance.new("RemoteEvent")
 	dismissOnboarding.Name = "DismissOnboarding"
 	dismissOnboarding.Parent = remoteRoot
@@ -619,6 +661,8 @@ function CoreGameLoopService.new(profiles, replicas, telemetry)
 	self._activityOpened = activityOpened
 	self._submitAnswer = submitAnswer
 	self._requestStatus = requestStatus
+	self._startPilot = startPilot
+	self._submitPilotAnswer = submitPilotAnswer
 	self._dismissOnboarding = dismissOnboarding
 	removePrototypeWorld()
 	self._anchorFolder, self._prompts, self._spawnCFrame = buildWorldBindings()
@@ -682,6 +726,14 @@ function CoreGameLoopService.new(profiles, replicas, telemetry)
 		return self:_status(player)
 	end
 
+	self._startPilot.OnServerInvoke = function(player: Player)
+		return self:_startPilotSession(player)
+	end
+
+	self._submitPilotAnswer.OnServerInvoke = function(player: Player, request: any)
+		return self:_submitPilot(player, request)
+	end
+
 	table.insert(self._connections, self._dismissOnboarding.OnServerEvent:Connect(function(player: Player)
 		self._profiles:WithProfile(player, function(data)
 			if CoreGameLoopService.MarkOnboardingSeen(data) then
@@ -738,6 +790,213 @@ function CoreGameLoopService:PlayerReady(player: Player, data: {[string]: any})
 			self:_placeCharacterAtWorldSpawn(character)
 		end)
 	end
+end
+
+function CoreGameLoopService:_startPilotSession(player: Player)
+	if Config.PilotMode.Enabled ~= true then
+		return {ok = false, code = "pilot_disabled"}
+	end
+	if self._profiles:Get(player) == nil then
+		return {ok = false, code = "profile_unavailable"}
+	end
+
+	local response = nil
+	local found = self._profiles:WithProfile(player, function(data)
+		local pilotState = ensurePilotState(data)
+		pilotState.SessionsStarted += 1
+		local queue = PilotQuestionMixer.Build(
+			data,
+			CoreQuestionBank,
+			Config.PilotMode,
+			pilotState.SessionsStarted
+		)
+		local first = queue[1]
+		local question = if first ~= nil then CoreQuestionBank.GetById(first.QuestionId) else nil
+		local activity = if first ~= nil then activityById(first.StationId) else nil
+		if first == nil or question == nil or activity == nil then
+			return
+		end
+
+		local public = pilotPublicActivity(activity, question, data, first, 1, #queue)
+		self._pilotSessions[player] = {
+			queue = queue,
+			index = 1,
+			wrongAttempts = 0,
+			questionPresentedAt = os.clock(),
+			experimentId = public.experimentId,
+			variantId = public.variantId,
+		}
+		self._replicas:Sync(player, data)
+		response = {
+			ok = true,
+			activity = public,
+			pilotIndex = 1,
+			pilotTotal = #queue,
+		}
+	end)
+
+	if not found or response == nil then
+		return {ok = false, code = "profile_unavailable"}
+	end
+	if self._telemetry ~= nil then
+		self._telemetry:RecordServerEvent(player, "pilot_started", {
+			questionId = response.activity.questionId,
+			activityId = response.activity.id,
+		})
+	end
+	return response
+end
+
+function CoreGameLoopService:_submitPilot(player: Player, request: any)
+	local now = os.clock()
+	local previous = self._lastPilotSubmitAt[player] or -math.huge
+	if now - previous < 0.2 then
+		return {ok = false, code = "rate_limited"}
+	end
+	self._lastPilotSubmitAt[player] = now
+
+	local session = self._pilotSessions[player]
+	if session == nil then
+		return {ok = false, code = "pilot_not_started"}
+	end
+	if type(request) ~= "table" or type(request.choice) ~= "string" then
+		return {ok = false, code = "invalid_request"}
+	end
+
+	local entry = session.queue[session.index]
+	local question = if entry ~= nil then CoreQuestionBank.GetById(entry.QuestionId) else nil
+	local activity = if entry ~= nil then activityById(entry.StationId) else nil
+	if entry == nil or question == nil or activity == nil then
+		return {ok = false, code = "invalid_request"}
+	end
+
+	local correct = CoreGameLoopService.GradeAnswer(question.Id, request.choice)
+	local rubricPoints, rubricMaxPoints = rubricScore(question, request.choice, correct)
+	local attemptIndex = math.max(1, math.floor(tonumber(session.wrongAttempts) or 0) + 1)
+	local attemptResponseBand = responseTimeBand(session.questionPresentedAt)
+	local attemptChoiceIndex = choiceIndex(question, request.choice)
+	local misconception = nil
+	if type(question.Misconceptions) == "table" then
+		misconception = question.Misconceptions[tostring(request.choice)]
+	end
+
+	local nextActivity = nil
+	local completed = false
+	local found = self._profiles:WithProfile(player, function(data)
+		recordLearningAttempt(data, question, correct, rubricPoints, rubricMaxPoints)
+		local pilotState = ensurePilotState(data)
+		if correct then
+			pilotState.QuestionsCompleted += 1
+			local nextIndex = session.index + 1
+			if nextIndex > #session.queue then
+				pilotState.SessionsCompleted += 1
+				pilotState.LastCompletedAt = os.time()
+				completed = true
+			else
+				session.index = nextIndex
+				session.wrongAttempts = 0
+				local nextEntry = session.queue[nextIndex]
+				local nextQuestion = CoreQuestionBank.GetById(nextEntry.QuestionId)
+				local nextStation = activityById(nextEntry.StationId)
+				if nextQuestion ~= nil and nextStation ~= nil then
+					nextActivity = pilotPublicActivity(
+						nextStation,
+						nextQuestion,
+						data,
+						nextEntry,
+						nextIndex,
+						#session.queue
+					)
+					session.questionPresentedAt = os.clock()
+					session.experimentId = nextActivity.experimentId
+					session.variantId = nextActivity.variantId
+				end
+			end
+		else
+			session.wrongAttempts = math.max(0, math.floor(tonumber(session.wrongAttempts) or 0)) + 1
+		end
+		self._replicas:Sync(player, data)
+	end)
+
+	if not found then
+		return {ok = false, code = "profile_unavailable"}
+	end
+
+	if self._telemetry ~= nil then
+		self._telemetry:RecordServerEvent(player, "question_attempt", {
+			activityId = activity.Id,
+			questionId = question.Id,
+			contentHash = question.ContentHash,
+			correct = correct,
+			choiceIndex = attemptChoiceIndex,
+			attemptIndex = attemptIndex,
+			responseTimeBand = attemptResponseBand,
+			misconception = misconception,
+			rubricPoints = rubricPoints,
+			rubricMaxPoints = rubricMaxPoints,
+			support = false,
+			experimentId = session.experimentId,
+			variantId = session.variantId,
+			pilot = true,
+			pilotBucket = entry.Bucket,
+		})
+	end
+
+	if not correct then
+		local feedback = "That choice does not fit yet."
+		if type(question.WrongFeedback) == "table" then
+			feedback = question.WrongFeedback[tostring(request.choice)] or feedback
+		end
+		return {
+			ok = true,
+			correct = false,
+			message = feedback,
+			hint = question.Hint,
+			scaffold = if session.wrongAttempts >= 2 then question.Scaffold else nil,
+			rubricScore = rubricPoints,
+			rubricMaxPoints = rubricMaxPoints,
+			partialCredit = rubricPoints > 0,
+			pilotIndex = session.index,
+			pilotTotal = #session.queue,
+		}
+	end
+
+	if completed then
+		self._pilotSessions[player] = nil
+		if self._telemetry ~= nil then
+			self._telemetry:RecordServerEvent(player, "pilot_completed", {
+				activityId = activity.Id,
+				questionId = question.Id,
+			})
+		end
+		return {
+			ok = true,
+			correct = true,
+			pilotComplete = true,
+			message = "Study Pilot complete — 18 questions finished.",
+			explanation = question.Explanation,
+			rubricScore = rubricPoints,
+			rubricMaxPoints = rubricMaxPoints,
+			pilotIndex = #session.queue,
+			pilotTotal = #session.queue,
+		}
+	end
+
+	if nextActivity == nil then
+		return {ok = false, code = "pilot_queue_invalid"}
+	end
+	return {
+		ok = true,
+		correct = true,
+		pilotContinue = true,
+		message = "Nice work — next question.",
+		explanation = question.Explanation,
+		rubricScore = rubricPoints,
+		rubricMaxPoints = rubricMaxPoints,
+		activity = nextActivity,
+		pilotIndex = session.index,
+		pilotTotal = #session.queue,
+	}
 end
 
 function CoreGameLoopService:_submit(player: Player, request: any)
@@ -1033,7 +1292,9 @@ end
 
 function CoreGameLoopService:PlayerRemoving(player: Player)
 	self._sessions[player] = nil
+	self._pilotSessions[player] = nil
 	self._lastSubmitAt[player] = nil
+	self._lastPilotSubmitAt[player] = nil
 	local spawnConnection = self._playerSpawnConnections[player]
 	if spawnConnection then
 		spawnConnection:Disconnect()
@@ -1049,8 +1310,14 @@ function CoreGameLoopService:Destroy()
 	for player, _ in self._sessions do
 		self._sessions[player] = nil
 	end
+	for player, _ in self._pilotSessions do
+		self._pilotSessions[player] = nil
+	end
 	for player, _ in self._lastSubmitAt do
 		self._lastSubmitAt[player] = nil
+	end
+	for player, _ in self._lastPilotSubmitAt do
+		self._lastPilotSubmitAt[player] = nil
 	end
 	for player, connection in self._playerSpawnConnections do
 		connection:Disconnect()
