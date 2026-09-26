@@ -3,7 +3,7 @@
 -- School foundation milestones 1-6.
 -- This module is intentionally inert until SchoolSystemEnabled is explicitly enabled.
 local SchoolConfig = table.freeze({
-	SchemaVersion = 1,
+	SchemaVersion = 2,
 
 	FeatureFlags = table.freeze({
 		SchoolSystemEnabled = false,
@@ -11,6 +11,18 @@ local SchoolConfig = table.freeze({
 
 	CycleSeconds = 30 * 60,
 	QuestionsPerAcademicPeriod = 4,
+
+	Attendance = table.freeze({
+		OnTimeGraceSeconds = 15,
+		LateJoinAllowed = true,
+		MakeupAllowedAfterSchool = true,
+	}),
+
+	World = table.freeze({
+		WorldRootName = "BrookhavenWorldBaseline",
+		RuntimeAnchorFolderName = "StarBloxSchoolAnchors",
+		BaselineMutationAllowed = false,
+	}),
 
 	Scoring = table.freeze({
 		FirstTryPoints = 25,
@@ -216,6 +228,7 @@ local SchoolConfig = table.freeze({
 
 	QuestionSelection = table.freeze({
 		RecentQuestionWindow = 24,
+		WeakSkillBoost = true,
 		PinPromptAndAnswerServerSide = true,
 		PinContentHash = true,
 		PinBankSnapshotId = true,
