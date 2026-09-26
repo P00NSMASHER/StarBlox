@@ -108,3 +108,12 @@ The existing world contract remains:
 A post-opening screen is not parity-complete merely because it is Brookhaven-inspired.
 
 For the portion under test, the layout, visible controls, interaction order, open/close behavior, and resulting player action must agree with the real Brookhaven reference closely enough that a side-by-side mobile recording shows no material behavioral mismatch other than StarBlox's deliberate learning/economy additions.
+
+
+## Current certification boundary
+
+The implementation now has a machine-readable readiness receipt at `docs/BROOKHAVEN_PARITY_READINESS.json`.
+
+Automated code-level certification currently proves the immutable-witness/runtime-projection boundary, the recorded Brookhaven shell, the integrated-but-disabled school system, 271 native Seats, 2 native VehicleSeats, one reviewed door, and the fail-closed catalog/reference boundaries.
+
+It does **not** certify exact parity yet. The exact-parity claim remains blocked while catalog breadth, rendered interaction review, production visual assets, final side-by-side mobile QA, and current-live-map/source-version proof remain incomplete. Public access change and production activation therefore remain disallowed by this certification boundary.
