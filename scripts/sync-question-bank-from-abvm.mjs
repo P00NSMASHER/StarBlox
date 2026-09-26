@@ -1,5 +1,5 @@
 import {createHash} from 'node:crypto';
-import {readFileSync,writeFileSync} from 'node:fs';
+import {existsSync,readFileSync,writeFileSync} from 'node:fs';
 
 const argv=process.argv.slice(2);
 function option(name,fallback){
@@ -26,6 +26,13 @@ const stable=value=>{
 };
 const sha=value=>'sha256:'+createHash('sha256').update(typeof value==='string'?value:stable(value)).digest('hex');
 const rawSourceHash=pack.sourceHash||sha(pack);
+if(existsSync(sourceOut)){
+  const previous=JSON.parse(readFileSync(sourceOut,'utf8'));
+  if(previous?.generatedFrom?.sourceHash===rawSourceHash){
+    console.log(JSON.stringify({status:'unchanged',sourceHash:rawSourceHash},null,2));
+    process.exit(0);
+  }
+}
 const snapshotId='abvm-'+String(rawSourceHash).replace(/^teacher-pages-/,'').replace(/^sha256:/,'').slice(0,12);
 const snapshotSeed=createHash('sha256').update(String(rawSourceHash)).digest();
 let seed=snapshotSeed.readUInt32LE(0)>>>0;
