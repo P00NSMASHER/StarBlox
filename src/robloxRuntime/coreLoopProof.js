@@ -22,7 +22,7 @@ assert(config.PolishRevision == "phase7-questions-coins-homes-v1", "Phase 7 revi
 assert(config.ChallengeName == "Neighborhood Challenge", "challenge identity mismatch")
 assert(config.QuestionReward.Coins == 10, "correct-answer coin reward mismatch")
 assert(config.QuestionReward.XP == 1, "correct-answer XP reward mismatch")
-assert(config.QuestionRotation.QuestionsPerStation == 6, "question pool size mismatch")
+assert(config.QuestionRotation.QuestionsPerStation == 20, "question pool size mismatch")
 assert(config.QuestionRotation.Strategy == "persistent-per-station-after-correct-answer", "rotation strategy mismatch")
 assert(config.QuestionRotation.AnswersServerOnly == true, "answers must remain server-only")
 assert(config.QuestionRotation.NoLiveLlm == true, "normal quest flow must not depend on a live LLM")
@@ -33,7 +33,7 @@ assert(config.LoopReward.Coins == 0, "challenge completion must not mint coins")
 
 local serverRoot = ServerScriptService:WaitForChild("StarBlox")
 local bank = require(serverRoot:WaitForChild("CoreQuestionBank"))
-assert(bank.Source.CertificationVersion == "phase7-material-first-question-source-v1", "question-bank certification mismatch")
+assert(bank.Source.CertificationVersion == "phase8-material-first-star-fallback-v1", "question-bank certification mismatch")
 assert(bank.Source.MaterialFirst == true, "material-first bank marker missing")
 assert(bank.Source.AnswersServerOnly == true, "server bank answer boundary mismatch")
 
@@ -43,16 +43,16 @@ local stationIds = {
     "culture-lab-culture-v1",
 }
 for _, stationId in stationIds do
-    assert(bank.CountForStation(stationId) == 6, "station must have six certified questions: " .. stationId)
+    assert(bank.CountForStation(stationId) == 20, "station must have twenty certified questions: " .. stationId)
     local seen = {}
-    for cursor = 0, 5 do
+    for cursor = 0, 19 do
         local question = bank.Select(stationId, cursor)
         assert(question ~= nil, "rotation returned nil")
         assert(question.StationId == stationId, "question station binding mismatch")
-        assert(seen[question.Id] ~= true, "question repeated before six-question cycle completed")
+        assert(seen[question.Id] ~= true, "question repeated before twenty-question cycle completed")
         seen[question.Id] = true
     end
-    assert(bank.Select(stationId, 6).Id == bank.Select(stationId, 0).Id, "seventh selection must wrap to first")
+    assert(bank.Select(stationId, 20).Id == bank.Select(stationId, 0).Id, "twenty-first selection must wrap to first")
 end
 
 local runtime = serverRoot:WaitForChild("Runtime")
@@ -178,7 +178,7 @@ export async function runCoreLoopProof({
     terminalState:task.state,
     evidence:Object.freeze({
       materialFirstQuestionBank:true,
-      sixQuestionsPerStation:true,
+      twentyQuestionsPerStation:true,
       persistentPerStationRotation:true,
       serverAuthoritativeAnswers:true,
       staleAnswerReplayBlocked:true,
