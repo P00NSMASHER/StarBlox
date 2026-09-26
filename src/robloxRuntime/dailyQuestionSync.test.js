@@ -14,6 +14,8 @@ describe('Daily ABVM curriculum -> StarBlox question sync',()=>{
     expect(workflow).toContain('repository: P00NSMASHER/abvmschoolstarworld');
     expect(workflow).toContain('node .abvm/scripts/refresh-teacher-pages.mjs');
     expect(workflow).toContain('node .abvm/scripts/check-refresh-health.mjs --require-today --max-age-hours 1');
+    expect(workflow).toContain("if(data?.delivery!=='verified') throw new Error('legacy ABVM fallback is not verified')");
+    expect(workflow).toContain("legacy ABVM fallback integrity passed");
     expect(workflow).toContain('node scripts/sync-question-bank-from-abvm.mjs --pack .abvm/pages/data/study-pack.json');
   });
 
