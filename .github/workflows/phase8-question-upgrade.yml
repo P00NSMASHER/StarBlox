@@ -1,0 +1,34 @@
+name: Phase 8 Question Upgrade
+
+on:
+  push:
+    branches:
+      - questions/phase8-material-star-fallback
+    paths:
+      - scripts/phase8-question-upgrade.mjs
+      - .github/workflows/phase8-question-upgrade.yml
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: questions/phase8-material-star-fallback
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Generate Phase 8 bank
+        run: node scripts/phase8-question-upgrade.mjs
+      - name: Commit generated upgrade
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git diff --cached --check
+          git commit -m "feat: upgrade Grade 2 questions with STAR-aligned fallback"
+          git push origin HEAD:questions/phase8-material-star-fallback
