@@ -39,6 +39,7 @@ local ProfileTemplate = {
 		QuestionBankSnapshotId = "",
 		AdaptiveByStation = {},
 		SkillStats = {},
+		Experiments = {},
 		RecentConceptIds = {},
 		WrongStreak = 0,
 	},
