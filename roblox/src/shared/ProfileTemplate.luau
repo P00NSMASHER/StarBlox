@@ -70,6 +70,11 @@ local ProfileTemplate = {
 	},
 
 	Social = {
+		Roleplay = {
+			DisplayName = "",
+			Age = "",
+			Job = "Citizen",
+		},
 		Home = {
 			PlotId = "",
 			Tier = 1,
