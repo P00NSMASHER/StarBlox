@@ -39,7 +39,24 @@ end
 
 function SchoolAttendanceService.BuildWorld()
 	local worldRoot = Workspace:FindFirstChild(Bindings.WorldRootName)
-	assert(worldRoot ~= nil and worldRoot:IsA("Model"), "verified Brookhaven world root missing")
+	assert(
+		worldRoot ~= nil and worldRoot:IsA("Model"),
+		"Brookhaven runtime projection missing for school integration: " .. Bindings.WorldRootName
+	)
+	if Bindings.RuntimeProjectionRequired == true then
+		assert(
+			worldRoot:GetAttribute("StarBloxRuntimeProjection") == true,
+			"school integration requires the verified Brookhaven runtime projection"
+		)
+		assert(
+			worldRoot:GetAttribute("ImmutableWitnessName") == Bindings.ImmutableWitnessName,
+			"school runtime projection is not bound to the expected immutable witness"
+		)
+	end
+	assert(
+		Workspace:FindFirstChild(Bindings.ImmutableWitnessName) == nil,
+		"immutable Brookhaven witness must not be exposed in Workspace"
+	)
 
 	local previous = Workspace:FindFirstChild(Bindings.RuntimeAnchorFolderName)
 	if previous then previous:Destroy() end
@@ -48,6 +65,8 @@ function SchoolAttendanceService.BuildWorld()
 	folder.Name = Bindings.RuntimeAnchorFolderName
 	folder:SetAttribute("BaselineMutationAllowed", false)
 	folder:SetAttribute("WorldRootName", Bindings.WorldRootName)
+	folder:SetAttribute("ImmutableWitnessName", Bindings.ImmutableWitnessName)
+	folder:SetAttribute("RuntimeProjectionVerified", true)
 	folder.Parent = Workspace
 
 	local prompts = {}
