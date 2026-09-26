@@ -1122,6 +1122,8 @@ local function purchase(remote: RemoteFunction, id: string, rerender: () -> ())
 		rerender()
 	elseif ok and type(result) == "table" and result.code == "not_enough_coins" then
 		showStatus("Answer questions to earn more coins.")
+	elseif ok and type(result) == "table" and result.code == "reference_only" then
+		showStatus("Reference only • " .. tostring(result.requirement or "Unavailable"))
 	else
 		showStatus("That action could not be completed.")
 	end
@@ -1301,17 +1303,22 @@ showVehicles = function()
 		if vehicleMatchesCategory(catalogCategory, activeVehicleCategory) then
 			local id = tostring(vehicle.Id)
 			local owned = mirrorState.ownedVehicles and mirrorState.ownedVehicles[id] == true
+			local runtimePlayable = vehicle.RuntimePlayable ~= false
 			if activeVehicleOwnedOnly and not owned then
 				continue
 			end
+			local badgeText = if not runtimePlayable then "R" elseif owned then "" else "$"
+			local badgeColor = if not runtimePlayable then UI.muted elseif owned then UI.green else UI.blue
 			iconTile(
 				symbolForVehicle(kind),
 				tostring(vehicle.Name),
-				owned and "" or "$",
-				owned and UI.green or UI.blue,
+				badgeText,
+				badgeColor,
 				order,
 				function()
-					if owned then
+					if not runtimePlayable then
+						showStatus("Reference only • " .. tostring(vehicle.Requirement or "Unavailable"))
+					elseif owned then
 						pcall(function()
 							spawnVehicle:InvokeServer(id)
 						end)
