@@ -79,7 +79,7 @@ describe('School system milestones 7-12',()=>{
     expect(client).toContain('waypoint.Text = string.format(');
     expect(client).toContain('"→ %s%s • %d studs"');
     expect(client).toContain('closeButton.BackgroundColor3 = COLORS.red');
-    expect(client).toContain('panelConstraint.MaxSize = Vector2.new(520, 410)');
+    expect(client).toContain('panelConstraint.MaxSize = Vector2.new(520, 458)');
     expect(client).toContain('payload.report.earnings');
     expect(client).toContain('+%d Coins • +%d XP • +%d Stars');
   });
@@ -246,6 +246,19 @@ describe('School system milestones 7-12',()=>{
     expect(client).toContain('panel.BackgroundTransparency = 0.04');
     expect(client).toContain('report.BackgroundTransparency = 0.04');
     expect(client).toContain('closeButton.Text = "X"');
+  });
+
+  it('renders structured Grade 2 visual models inside school classes',()=>{
+    const client=read('roblox/src/client/SchoolSystem.client.luau');
+
+    expect(client).toContain('richFrame.Name = "RichQuestionVisual"');
+    for(const renderer of ['renderBarChart','renderClock','renderNumberLine','renderPlaceValue','renderFraction']){
+      expect(client).toContain('local function '+renderer);
+    }
+    expect(client).toContain('local function renderRichContent');
+    expect(client).toContain('local hasRich = renderRichContent(question.richContent)');
+    expect(client).toContain('panel.Size = UDim2.new(0.84, 0, 0, 458)');
+    expect(client).toContain('clearRichVisual()');
   });
 
 });
