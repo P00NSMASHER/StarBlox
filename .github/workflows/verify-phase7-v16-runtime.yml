@@ -1,0 +1,57 @@
+name: StarBlox Verify Phase 7 V16 Runtime
+
+on:
+  push:
+    branches:
+      - verify/phase7-v16-runtime
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Verify live v16 question rotation and coin economy
+        env:
+          ROBLOX_OPEN_CLOUD_API_KEY: ${{ secrets.ROBLOX_OPEN_CLOUD_API_KEY }}
+          ROBLOX_UNIVERSE_ID: ${{ vars.ROBLOX_UNIVERSE_ID }}
+          ROBLOX_PLACE_ID: ${{ vars.ROBLOX_PLACE_ID }}
+        run: |
+          mkdir -p artifacts
+          node scripts/verify-roblox-core-loop.mjs > artifacts/phase7-v16-core-loop-proof.json
+          cat artifacts/phase7-v16-core-loop-proof.json
+          node --input-type=module - <<'NODE'
+          import {readFile} from 'node:fs/promises';
+          const proof=JSON.parse(await readFile('artifacts/phase7-v16-core-loop-proof.json','utf8'));
+          if(proof.status!=='verified') throw new Error('live core-loop proof not verified');
+          if(Number(proof.versionNumber)!==16) throw new Error('expected live place version 16, got '+proof.versionNumber);
+          for(const key of [
+            'materialFirstQuestionBank',
+            'sixQuestionsPerStation',
+            'persistentPerStationRotation',
+            'serverAuthoritativeAnswers',
+            'staleAnswerReplayBlocked',
+            'correctAnswerCoinReward',
+            'challengeCoinsDisabled',
+            'realWorldActivityAnchors',
+            'prototypeWorldAbsent',
+            'worldSpawnBound'
+          ]){
+            if(proof.evidence?.[key]!==true) throw new Error('missing live Phase 7 proof: '+key);
+          }
+          console.log('STARBLOX_PHASE7_V16_BEHAVIOR_OK');
+          NODE
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: starblox-phase7-v16-runtime-proof
+          path: artifacts/phase7-v16-core-loop-proof.json
+          if-no-files-found: error
+          retention-days: 30
