@@ -9,9 +9,9 @@ local WorldActivityBindings = table.freeze({
 	-- baseline. StarBlox reads their transforms only; gameplay instances remain
 	-- outside BrookhavenWorldBaseline.
 	--
-	-- Brookhaven parity spawn: BHW_1202 is a collidable town-square plaza tile
-	-- immediately beside the fountain water at BHW_2442. The runtime player
-	-- spawn is projected onto the plaza tile and faces the fountain.
+	-- Brookhaven parity spawn: a collidable town-square plaza tile immediately
+	-- beside the fountain. The runtime player spawn is projected onto the plaza
+	-- tile and faces the fountain.
 	Spawn = table.freeze({
 		SourcePartName = "BHW_1202",
 		FacingSourcePartName = "BHW_2442",
