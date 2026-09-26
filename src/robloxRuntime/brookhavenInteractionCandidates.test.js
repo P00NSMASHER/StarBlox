@@ -48,6 +48,12 @@ describe('Brookhaven interaction candidate analysis',()=>{
     const ir=loadIr();
     const result=classifyBrookhavenInteractionCandidates(ir);
     expect(result.doorCandidates).toHaveLength(46);
+    expect(result.strictDoorCandidates).toHaveLength(14);
+    expect(result.strictDoorHelperEvidence).toHaveLength(1);
+    expect(result.strictDoorHelperEvidence[0]).toMatchObject({
+      doorIndex:1454,
+      helperIndex:1461
+    });
     expect(result.garageCandidates).toHaveLength(101);
     expect(result.lightCandidates).toHaveLength(111);
     expect(result.doorCandidates.map(item=>item.index).slice(0,5)).toEqual([1306,1309,1314,1422,1428]);
