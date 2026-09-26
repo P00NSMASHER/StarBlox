@@ -110,4 +110,21 @@ describe('Brookhaven recording parity: post-opening world shell',()=>{
     expect(sidebar).toContain('clearTools:InvokeServer()');
   });
 
+  it('renders the current tool and vehicle catalog as live 3D previews instead of glyph-only placeholders',()=>{
+    const sidebar=read('roblox/src/client/MirrorSidebar.client.luau');
+    const catalog=read('roblox/src/shared/MirrorCatalog.luau');
+
+    expect(sidebar).toContain('local function viewportFor(frame: GuiObject): (ViewportFrame, WorldModel)');
+    expect(sidebar).toContain('viewport.Name = "ObjectPreview"');
+    expect(sidebar).toContain('local function renderVehiclePreview');
+    expect(sidebar).toContain('local function renderToolPreview');
+    expect(sidebar).toContain('"vehicle",\n\t\t\t\tkind');
+    expect(sidebar).toContain('"tool",\n\t\t\t\tkind');
+
+    const vehicleCount=(catalog.match(/Id = "vehicle-/g)||[]).length;
+    const toolCount=(catalog.match(/Id = "tool-/g)||[]).length;
+    expect(vehicleCount).toBe(8);
+    expect(toolCount).toBe(12);
+  });
+
 });
