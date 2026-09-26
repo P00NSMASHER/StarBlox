@@ -39,7 +39,8 @@ if(existsSync(sourceOut)){
     process.exit(0);
   }
 }
-const snapshotId='abvm-'+String(rawSourceHash).replace(/^teacher-pages-/,'').replace(/^sha256:/,'').slice(0,12);
+const generatorTag=createHash('sha256').update(GENERATOR_VERSION).digest('hex').slice(0,6);
+const snapshotId='abvm-'+String(rawSourceHash).replace(/^teacher-pages-/,'').replace(/^sha256:/,'').slice(0,12)+'-'+generatorTag;
 const snapshotSeed=createHash('sha256').update(String(rawSourceHash)).digest();
 let seed=snapshotSeed.readUInt32LE(0)>>>0;
 function rand(){
@@ -802,7 +803,14 @@ for(const stationId of STATIONS){
     lines.push('\t\t\tSourceFact = '+q(item.sourceFact)+',');
     lines.push('\t\t\tTier = '+q(item.tier)+',');
     lines.push('\t\t\tDomain = '+q(item.domain)+',');
+    lines.push('\t\t\tStandards = table.freeze({'+item.standards.map(q).join(', ')+'}),');
+    lines.push('\t\t\tDOK = '+item.dok+',');
+    lines.push('\t\t\tCognitiveDemand = '+q(item.cognitiveDemand)+',');
     lines.push('\t\t\tDifficulty = '+item.difficulty+',');
+    lines.push('\t\t\tHint = '+q(item.hint)+',');
+    lines.push('\t\t\tScaffold = '+q(item.scaffold)+',');
+    lines.push('\t\t\tWrongFeedback = table.freeze({'+item.choiceDiagnostics.map(row=>'['+q(row.choice)+'] = '+q(row.feedback)).join(', ')+'}),');
+    lines.push('\t\t\tMisconceptions = table.freeze({'+item.choiceDiagnostics.map(row=>'['+q(row.choice)+'] = '+q(row.misconception)).join(', ')+'}),');
     lines.push('\t\t}),');
   }
   lines.push('\t}),');
