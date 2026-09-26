@@ -22,7 +22,7 @@ describe('Phase 9: Brookhaven UI parity skin',()=>{
     for(const source of [sidebar,shop]){
       expect(source).toContain('BackgroundColor3 = UI.white');
       expect(source).toContain('UIGridLayout');
-      expect(source).toContain('CellSize = UDim2.fromOffset(78, 78)');
+      expect(source).toMatch(/CellSize = UDim2\.fromOffset\(78,\s*78\)/);
       expect(source).toContain('BackgroundColor3 = UI.red');
       expect(source).toContain('Text = "X"');
     }
