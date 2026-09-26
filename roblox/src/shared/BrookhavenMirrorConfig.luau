@@ -2,7 +2,7 @@
 
 local BrookhavenMirrorConfig = table.freeze({
 	SchemaVersion = 1,
-	Revision = "phase8-brookhaven-mirror-learning-economy-v1",
+	Revision = "phase9-long-horizon-learning-economy-v1",
 	World = table.freeze({
 		Mode = "exact-frozen-brookhaven-world",
 		BrookhavenBaselineLocked = true,
@@ -11,6 +11,11 @@ local BrookhavenMirrorConfig = table.freeze({
 	Economy = table.freeze({
 		CurrencyName = "Coins",
 		CorrectAnswerCoins = 10,
+		EconomyRevision = "long-horizon-v1",
+		StarMansionCumulativeCoins = 37500,
+		StarMansionCorrectAnswers = 3750,
+		PremiumSportsCarCoins = 12000,
+		PremiumSportsCarCorrectAnswers = 1200,
 		PaidCurrencyRequiredForGameplayUnlocks = false,
 		LearningCoinsRequiredForPurchases = true,
 	}),
