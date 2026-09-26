@@ -52,10 +52,22 @@ describe('Brookhaven recording parity: post-opening world shell',()=>{
 
     expect(sidebar).toContain('panel.Name = "BrookhavenContextPanel"');
     expect(sidebar).toContain('panel.BackgroundTransparency = 1');
-    expect(sidebar).toContain('grid.CellSize = UDim2.fromOffset(62, 64)');
+    expect(sidebar).toContain('grid.CellSize = UDim2.fromOffset(49, 49)');
     expect(sidebar).toContain('categoryRail.Name = "CategoryRail"');
     expect(sidebar).toContain('{Id = "tech", Symbol = "▯"}');
-    expect(sidebar).toContain('{Id = "cars", Symbol = "▰"}');
+    for(const required of [
+      '{Id = "small", Symbol = "○"}',
+      '{Id = "street", Symbol = "▰"}',
+      '{Id = "work", Symbol = "▱"}',
+      '{Id = "event", Symbol = "★"}',
+      '{Id = "boats", Symbol = "≈"}',
+      '{Id = "flying", Symbol = "↑"}',
+    ]){
+      expect(sidebar).toContain(required);
+    }
+    for(const retired of ['{Id = "cars"', '{Id = "utility"', '{Id = "bikes"']){
+      expect(sidebar).not.toContain(retired);
+    }
     expect(sidebar).toContain('close.BackgroundColor3 = UI.red');
     expect(sidebar).toContain('setActionLabelsVisible(false)');
   });
@@ -75,7 +87,7 @@ describe('Brookhaven recording parity: post-opening world shell',()=>{
     expect(config).toContain('Mode = "exact-frozen-brookhaven-world"');
     expect(config).toContain('BrookhavenBaselineLocked = true');
     expect(config).toContain('RuntimeSystemsMayMutateBaseline = false');
-    expect(config).toContain('Revision = "recording-parity-shell-v1"');
+    expect(config).toContain('Revision = "recording-parity-shell-catalog-reference-v2"');
     expect(config).toContain('{Id = "quick-chat", Label = "Quick Chat", Order = 1}');
     expect(config).toContain('{Id = "houses", Label = "House", Order = 5}');
   });
