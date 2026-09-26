@@ -53,6 +53,10 @@ describe('Step 9 joinability: production server boot gate', () => {
     expect(script).toContain('Bootstrap.start');
     expect(script).toContain('CoreLoop service missing after bootstrap');
     expect(script).toContain('private playtest telemetry service missing after bootstrap');
+    expect(script).toContain('Phase 6 config revision missing');
+    expect(script).toContain('Phase 6 question bank certification missing');
+    expect(script).toContain('Phase 6 station question count mismatch');
+    expect(script).toContain('Phase 6 retention aggregate store missing after bootstrap');
     expect(script).toContain('verified Brookhaven world mount missing');
     expect(script).toContain('Brookhaven serialized class count mismatch');
     expect(script).toContain('unexpected runtime Glue joint count');
