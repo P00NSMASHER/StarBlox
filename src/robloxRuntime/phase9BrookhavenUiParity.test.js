@@ -87,7 +87,7 @@ describe('Brookhaven recording parity: post-opening world shell',()=>{
     expect(config).toContain('Mode = "exact-frozen-brookhaven-world"');
     expect(config).toContain('BrookhavenBaselineLocked = true');
     expect(config).toContain('RuntimeSystemsMayMutateBaseline = false');
-    expect(config).toContain('Revision = "recording-parity-shell-catalog-reference-v2"');
+    expect(config).toContain('Revision = "recording-parity-shell-catalog-reference-v3"');
     expect(config).toContain('{Id = "quick-chat", Label = "Quick Chat", Order = 1}');
     expect(config).toContain('{Id = "houses", Label = "House", Order = 5}');
   });
