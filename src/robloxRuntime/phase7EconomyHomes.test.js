@@ -99,4 +99,17 @@ describe('Phase 7: question economy, store, and player homes',()=>{
     expect(client).toContain('VisitHome');
     expect(client).toContain('ReturnWorld');
   });
+  it('lets players choose among the eight verified Brookhaven house plots authoritatively',()=>{
+    const service=read('roblox/src/server/HomeEconomyService.luau');
+
+    expect(service).toContain('getPlots.Name = "GetPlots"');
+    expect(service).toContain('selectPlot.Name = "SelectPlot"');
+    expect(service).toContain('function HomeEconomyService:_plotState');
+    expect(service).toContain('function HomeEconomyService:_selectPlot');
+    expect(service).toContain('code = "plot_occupied"');
+    expect(service).toContain('home.PlotId = WorldPlotBindings.Plots[targetIndex].Id');
+    expect(service).toContain('player:SetAttribute("StarBloxHomePlotId", home.PlotId)');
+    expect(service).toContain('self:_reservePlot(player, home, home.PlotId)');
+  });
+
 });
