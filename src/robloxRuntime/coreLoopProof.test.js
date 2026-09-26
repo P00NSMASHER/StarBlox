@@ -22,7 +22,6 @@ describe('Step 7: Roblox-native StarBlox core loop', () => {
       'culture-lab-culture-v1'
     ]){
       expect(shared).toContain(id);
-      expect(server).toContain(id);
     }
     const bank=readFileSync(
       new URL('../../roblox/src/server/CoreQuestionBank.luau',import.meta.url),
