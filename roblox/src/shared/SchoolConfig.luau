@@ -1,9 +1,10 @@
 --!strict
 
--- School foundation milestones 1-6.
+-- School system milestones 1-12 plus Brookhaven runtime-projection integration.
 -- This module is intentionally inert until SchoolSystemEnabled is explicitly enabled.
 local SchoolConfig = table.freeze({
-	SchemaVersion = 2,
+	SchemaVersion = 3,
+	IntegrationRevision = "brookhaven-runtime-projection-v1",
 
 	FeatureFlags = table.freeze({
 		SchoolSystemEnabled = false,
@@ -19,7 +20,9 @@ local SchoolConfig = table.freeze({
 	}),
 
 	World = table.freeze({
-		WorldRootName = "BrookhavenWorldBaseline",
+		WorldRootName = "BrookhavenWorldRuntime",
+		ImmutableWitnessName = "BrookhavenWorldBaseline",
+		RuntimeProjectionRequired = true,
 		RuntimeAnchorFolderName = "StarBloxSchoolAnchors",
 		BaselineMutationAllowed = false,
 	}),
