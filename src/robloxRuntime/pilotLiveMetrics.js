@@ -81,11 +81,21 @@ local payload = {
     retention = {
         placeVersion = if type(retention) == "table" then retention.placeVersion else nil,
         sessions = if type(retention) == "table" then retention.sessions else 0,
-        pilotSessionsStarted = if type(retention) == "table" then retention.pilotSessionsStarted else 0,
-        pilotSessionsCompleted = if type(retention) == "table" then retention.pilotSessionsCompleted else 0,
-        baselinePilotSessionsStarted = if type(retention) == "table" then retention.baselinePilotSessionsStarted else 0,
-        baselinePilotSessionsCompleted = if type(retention) == "table" then retention.baselinePilotSessionsCompleted else 0,
-        updatedAt = if type(retention) == "table" then retention.updatedAt else nil,
+        pilotSessionsStarted = if type(metrics) == "table"
+            then metrics.pilotSessionsStarted
+            elseif type(retention) == "table" then retention.pilotSessionsStarted else 0,
+        pilotSessionsCompleted = if type(metrics) == "table"
+            then metrics.pilotSessionsCompleted
+            elseif type(retention) == "table" then retention.pilotSessionsCompleted else 0,
+        baselinePilotSessionsStarted = if type(metrics) == "table"
+            then metrics.baselinePilotSessionsStarted
+            elseif type(retention) == "table" then retention.baselinePilotSessionsStarted else 0,
+        baselinePilotSessionsCompleted = if type(metrics) == "table"
+            then metrics.baselinePilotSessionsCompleted
+            elseif type(retention) == "table" then retention.baselinePilotSessionsCompleted else 0,
+        updatedAt = if type(metrics) == "table"
+            then metrics.updatedAt
+            elseif type(retention) == "table" then retention.updatedAt else nil,
     },
     metricsError = metricsError,
     retentionError = retentionError,
