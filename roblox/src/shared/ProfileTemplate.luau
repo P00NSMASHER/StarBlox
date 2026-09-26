@@ -49,6 +49,8 @@ local ProfileTemplate = {
 	Inventory = {
 		Cosmetics = {},
 		OwnedItems = {},
+		OwnedVehicles = {},
+		OwnedTools = {["tool-phone"] = true},
 		Equipped = {},
 	},
 
