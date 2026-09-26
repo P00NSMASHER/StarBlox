@@ -2,6 +2,11 @@
 
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+local SchoolConfig = require(ReplicatedStorage.StarBlox.SchoolConfig)
+if SchoolConfig.FeatureFlags.SchoolSystemEnabled == true then
+	return
+end
 local TweenService = game:GetService("TweenService")
 local UserInputService = game:GetService("UserInputService")
 
