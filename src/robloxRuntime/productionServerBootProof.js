@@ -2,7 +2,7 @@ import {
   runOpenCloudLuauTask
 } from './privatePublish.js';
 
-export const STARBLOX_SERVER_BOOT_PROOF_VERSION='starblox-production-server-boot-v4';
+export const STARBLOX_SERVER_BOOT_PROOF_VERSION='starblox-production-server-boot-v5';
 export const STARBLOX_SERVER_BOOT_RELEASE_ID='starblox-private-step9-canonical-step6-v4';
 
 export function buildProductionServerBootProbeScript({
@@ -59,15 +59,22 @@ assert(mirrorConfig.Economy.PaidCurrencyRequiredForGameplayUnlocks == false, "pa
 assert(coreConfig.PolishRevision == "phase8-challenging-questions-v1", "Phase 8 config revision missing")
 assert(coreConfig.QuestionRotation.AnswersServerOnly == true, "Phase 8 answer boundary missing")
 assert(coreConfig.QuestionRotation.NoLiveLlm == true, "Phase 8 live-model boundary missing")
-assert(coreConfig.QuestionRotation.Strategy == "material-once-then-star-fallback-loop", "Phase 8 rotation strategy missing")
+assert(coreConfig.QuestionRotation.Strategy == "fresh-material-once-then-current-snapshot-star-fallback-loop", "Phase 8 rotation strategy missing")
+assert(coreConfig.QuestionRotation.StarFallbackPerStation >= 20, "Phase 8 STAR fallback floor missing")
+assert(coreConfig.QuestionRotation.MinimumQuestionsPerStation >= 20, "Phase 8 minimum station pool missing")
 assert(coreConfig.QuestionReward.Coins == 10, "Phase 8 correct-answer coin reward mismatch")
 
 local questionBank = require(serverRoot:WaitForChild("CoreQuestionBank"))
-assert(questionBank.Source.CertificationVersion == "phase8-material-first-star-fallback-v1", "Phase 8 question bank certification missing")
+assert(questionBank.Source.CertificationVersion == "dynamic-abvm-star-sync-v1", "Phase 8 question bank certification missing")
 assert(questionBank.Source.MaterialFirst == true, "Phase 8 material-first marker missing")
 assert(questionBank.Source.StarFallback == true, "Phase 8 STAR fallback marker missing")
+assert((questionBank.Source.StarReadingCount or 0) >= 25, "Phase 8 STAR Reading floor missing")
+assert((questionBank.Source.StarMathCount or 0) >= 25, "Phase 8 STAR Math floor missing")
 for _, stationId in {"word-portal-put-v1","spelling-forge-fog-v1","culture-lab-culture-v1"} do
-    assert(questionBank.CountForStation(stationId) == 20, "Phase 8 station question count mismatch: " .. stationId)
+    local materialCount = questionBank.MaterialCountByStation[stationId] or 0
+    local totalCount = questionBank.CountForStation(stationId)
+    assert(materialCount > 0, "Phase 8 material pool missing: " .. stationId)
+    assert(totalCount >= materialCount + coreConfig.QuestionRotation.StarFallbackPerStation, "Phase 8 station question count mismatch: " .. stationId)
 end
 
 local runtime = serverRoot:WaitForChild("Runtime")
@@ -281,6 +288,10 @@ export async function runProductionServerBootProof({
       rotatingQuestionBankCreated:true,
       materialFirstQuestionBank:true,
       persistentPerStationRotation:true,
+      freshMaterialThenSnapshotStarFallback:true,
+      dynamicQuestionSyncBank:true,
+      starReadingAtLeast25:true,
+      starMathAtLeast25:true,
       correctAnswerCoinEconomy:true,
       phase6RetentionStoreCreated:true,
       homeEconomyCreated:true,

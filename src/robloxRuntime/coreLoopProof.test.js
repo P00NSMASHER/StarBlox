@@ -149,9 +149,11 @@ describe('Step 7: Roblox-native StarBlox core loop', () => {
     expect(script).toContain('STARBLOX_CORE_LOOP_OK');
     expect(script).toContain('QuestionCursorByStation');
     expect(script).toContain('phase8-challenging-questions-v1');
-    expect(script).toContain('phase8-material-first-star-fallback-v1');
-    expect(script).toContain('first twelve questions must be current material');
+    expect(script).toContain('dynamic-abvm-star-sync-v1');
+    expect(script).toContain('fresh material must be served before STAR fallback');
     expect(script).toContain('fallback question must be STAR-aligned');
+    expect(script).toContain('STAR Reading floor missing');
+    expect(script).toContain('STAR Math floor missing');
     expect(script).toContain('STAR fallback should remain active rather than returning to stale material');
     expect(script).not.toContain('station must have six certified questions');
     expect(script).toContain('three correct answers should grant 30 coins');

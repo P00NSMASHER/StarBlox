@@ -2,7 +2,7 @@ import {
   runOpenCloudLuauTask
 } from './privatePublish.js';
 
-export const STARBLOX_CORE_LOOP_PROOF_VERSION='starblox-core-loop-proof-v3';
+export const STARBLOX_CORE_LOOP_PROOF_VERSION='starblox-core-loop-proof-v4';
 export const STARBLOX_CORE_LOOP_RELEASE_ID='starblox-private-step9-canonical-step6-v4';
 
 export function buildCoreLoopProbeScript({releaseId=STARBLOX_CORE_LOOP_RELEASE_ID}={}){
@@ -22,8 +22,9 @@ assert(config.PolishRevision == "phase8-challenging-questions-v1", "Phase 8 revi
 assert(config.ChallengeName == "Neighborhood Challenge", "challenge identity mismatch")
 assert(config.QuestionReward.Coins == 10, "correct-answer coin reward mismatch")
 assert(config.QuestionReward.XP == 1, "correct-answer XP reward mismatch")
-assert(config.QuestionRotation.QuestionsPerStation == 20, "question pool size mismatch")
-assert(config.QuestionRotation.Strategy == "material-once-then-star-fallback-loop", "rotation strategy mismatch")
+assert(config.QuestionRotation.StarFallbackPerStation >= 20, "STAR fallback floor mismatch")
+assert(config.QuestionRotation.MinimumQuestionsPerStation >= 20, "minimum question pool mismatch")
+assert(config.QuestionRotation.Strategy == "fresh-material-once-then-current-snapshot-star-fallback-loop", "rotation strategy mismatch")
 assert(config.QuestionRotation.AnswersServerOnly == true, "answers must remain server-only")
 assert(config.QuestionRotation.NoLiveLlm == true, "normal quest flow must not depend on a live LLM")
 for _, activity in config.Activities do
@@ -33,10 +34,12 @@ assert(config.LoopReward.Coins == 0, "challenge completion must not mint coins")
 
 local serverRoot = ServerScriptService:WaitForChild("StarBlox")
 local bank = require(serverRoot:WaitForChild("CoreQuestionBank"))
-assert(bank.Source.CertificationVersion == "phase8-material-first-star-fallback-v1", "question-bank certification mismatch")
+assert(bank.Source.CertificationVersion == "dynamic-abvm-star-sync-v1", "question-bank certification mismatch")
 assert(bank.Source.MaterialFirst == true, "material-first bank marker missing")
 assert(bank.Source.StarFallback == true, "STAR fallback bank marker missing")
 assert(bank.Source.AnswersServerOnly == true, "server bank answer boundary mismatch")
+assert((bank.Source.StarReadingCount or 0) >= 25, "STAR Reading floor missing")
+assert((bank.Source.StarMathCount or 0) >= 25, "STAR Math floor missing")
 
 local stationIds = {
     "word-portal-put-v1",
@@ -44,34 +47,39 @@ local stationIds = {
     "culture-lab-culture-v1",
 }
 for _, stationId in stationIds do
-    assert(bank.CountForStation(stationId) == 20, "station must have twenty certified questions: " .. stationId)
+    local materialCount = bank.MaterialCountByStation[stationId] or 0
+    local totalCount = bank.CountForStation(stationId)
+    local fallbackCount = totalCount - materialCount
+    assert(materialCount > 0, "station material pool missing: " .. stationId)
+    assert(fallbackCount >= config.QuestionRotation.StarFallbackPerStation, "station STAR fallback pool below floor: " .. stationId)
 
     local materialSeen = {}
-    for cursor = 0, 11 do
+    for cursor = 0, materialCount - 1 do
         local question = bank.Select(stationId, cursor)
         assert(question ~= nil, "material rotation returned nil")
         assert(question.StationId == stationId, "question station binding mismatch")
-        assert(question.Tier == "material", "first twelve questions must be current material")
+        assert(question.Tier == "material", "fresh material must be served before STAR fallback")
         assert(materialSeen[question.Id] ~= true, "material question repeated before source material exhausted")
         materialSeen[question.Id] = true
     end
 
     local fallbackSeen = {}
-    for cursor = 12, 19 do
+    for offset = 0, fallbackCount - 1 do
+        local cursor = materialCount + offset
         local question = bank.Select(stationId, cursor)
         assert(question ~= nil, "STAR fallback rotation returned nil")
         assert(question.StationId == stationId, "fallback question station binding mismatch")
         assert(question.Tier == "star-fallback", "fallback question must be STAR-aligned")
-        assert(fallbackSeen[question.Id] ~= true, "STAR fallback repeated before eight-question cycle completed")
+        assert(fallbackSeen[question.Id] ~= true, "STAR fallback repeated before its snapshot cycle completed")
         fallbackSeen[question.Id] = true
     end
 
     assert(
-        bank.Select(stationId, 20).Id == bank.Select(stationId, 12).Id,
-        "after material is exhausted, fallback should loop from its first item"
+        bank.Select(stationId, materialCount + fallbackCount).Id == bank.Select(stationId, materialCount).Id,
+        "after fresh material is exhausted, STAR fallback should loop from its first item"
     )
     assert(
-        bank.Select(stationId, 28).Id == bank.Select(stationId, 12).Id,
+        bank.Select(stationId, materialCount + (fallbackCount * 2)).Id == bank.Select(stationId, materialCount).Id,
         "STAR fallback should remain active rather than returning to stale material"
     )
 end
@@ -159,7 +167,7 @@ assert(profile.Economy.Stars == 3, "three rewarded challenges should grant 3 sta
 
 core:Destroy()
 
-print("STARBLOX_CORE_LOOP_OK release=" .. tostring(manifest.releaseId) .. " version=" .. tostring(game.PlaceVersion) .. " phase8=true material=12 fallback=8 coins=30")
+print("STARBLOX_CORE_LOOP_OK release=" .. tostring(manifest.releaseId) .. " version=" .. tostring(game.PlaceVersion) .. " phase8=true dynamic=true coins=30")
 return tostring(manifest.releaseId), tostring(game.PlaceVersion)
 `;
 }
@@ -184,7 +192,7 @@ export async function runCoreLoopProof({
   });
   const text=JSON.stringify(task.logs);
   const sentinel='STARBLOX_CORE_LOOP_OK release=' +
-    String(releaseId) + ' version=' + String(task.versionNumber) + ' phase8=true material=12 fallback=8 coins=30';
+    String(releaseId) + ' version=' + String(task.versionNumber) + ' phase8=true dynamic=true coins=30';
   if(!text.includes(sentinel)){
     throw new Error('Roblox logs are missing the Phase 8 core-loop proof sentinel');
   }
@@ -201,7 +209,10 @@ export async function runCoreLoopProof({
       materialFirstQuestionBank:true,
       materialQuestionsFirst:true,
       starFallbackAfterMaterial:true,
-      twentyQuestionsPerStation:true,
+      freshMaterialThenSnapshotStarFallback:true,
+      dynamicQuestionSyncBank:true,
+      starReadingAtLeast25:true,
+      starMathAtLeast25:true,
       persistentPerStationRotation:true,
       serverAuthoritativeAnswers:true,
       staleAnswerReplayBlocked:true,
