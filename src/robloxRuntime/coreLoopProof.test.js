@@ -27,11 +27,15 @@ describe('Step 7: Roblox-native StarBlox core loop', () => {
       new URL('../../roblox/src/server/CoreQuestionBank.luau',import.meta.url),
       'utf8'
     );
+    const source=JSON.parse(readFileSync(
+      new URL('../../docs/phase6/ABVM_GRADE2_ROTATING_QUESTION_SOURCE.json',import.meta.url),
+      'utf8'
+    ));
     expect(shared.match(/Grade 2: current ABVM material first, then STAR-aligned practice/g)?.length).toBe(3);
     expect(shared).not.toMatch(/Answer\s*=/);
     expect(shared).not.toContain('Choices = table.freeze');
-    expect(bank).toContain('phase8-material-first-star-fallback-v1');
-    expect(bank.match(/\t\t\tAnswer = /g)?.length).toBe(60);
+    expect(bank).toContain('dynamic-abvm-star-sync-v1');
+    expect(bank.match(/\t\t\tAnswer = /g)?.length).toBe(source.questions.length);
     expect(server).not.toContain('local ANSWERS = table.freeze');
     expect(server).toContain('CoreQuestionBank.Select');
     expect(server).toContain('function CoreGameLoopService.GradeAnswer');
