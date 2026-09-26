@@ -148,6 +148,12 @@ describe('Step 7: Roblox-native StarBlox core loop', () => {
     expect(script).toContain('STARBLOX_CORE_LOOP_OK');
     expect(script).toContain('STARBLOX_CORE_LOOP_OK');
     expect(script).toContain('QuestionCursorByStation');
+    expect(script).toContain('phase8-challenging-questions-v1');
+    expect(script).toContain('phase8-material-first-star-fallback-v1');
+    expect(script).toContain('first twelve questions must be current material');
+    expect(script).toContain('fallback question must be STAR-aligned');
+    expect(script).toContain('STAR fallback should remain active rather than returning to stale material');
+    expect(script).not.toContain('station must have six certified questions');
     expect(script).toContain('three correct answers should grant 30 coins');
     expect(script).toContain('stale answer replay was not rejected');
     expect(script).toContain('challenge progression must not mint coins');

@@ -56,17 +56,18 @@ assert(mirrorConfig.World.Mode == "exact-frozen-brookhaven-world", "Brookhaven m
 assert(mirrorConfig.World.BrookhavenBaselineLocked == true, "Brookhaven baseline lock missing")
 assert(mirrorConfig.Economy.CorrectAnswerCoins == 10, "mirror learning-coin reward mismatch")
 assert(mirrorConfig.Economy.PaidCurrencyRequiredForGameplayUnlocks == false, "paid gameplay unlock boundary drift")
-assert(coreConfig.PolishRevision == "phase7-questions-coins-homes-v1", "Phase 7 config revision missing")
-assert(coreConfig.QuestionRotation.AnswersServerOnly == true, "Phase 7 answer boundary missing")
-assert(coreConfig.QuestionRotation.NoLiveLlm == true, "Phase 7 live-model boundary missing")
-assert(coreConfig.QuestionRotation.Strategy == "persistent-per-station-after-correct-answer", "Phase 7 rotation strategy missing")
-assert(coreConfig.QuestionReward.Coins == 10, "Phase 7 correct-answer coin reward mismatch")
+assert(coreConfig.PolishRevision == "phase8-challenging-questions-v1", "Phase 8 config revision missing")
+assert(coreConfig.QuestionRotation.AnswersServerOnly == true, "Phase 8 answer boundary missing")
+assert(coreConfig.QuestionRotation.NoLiveLlm == true, "Phase 8 live-model boundary missing")
+assert(coreConfig.QuestionRotation.Strategy == "material-once-then-star-fallback-loop", "Phase 8 rotation strategy missing")
+assert(coreConfig.QuestionReward.Coins == 10, "Phase 8 correct-answer coin reward mismatch")
 
 local questionBank = require(serverRoot:WaitForChild("CoreQuestionBank"))
-assert(questionBank.Source.CertificationVersion == "phase7-material-first-question-source-v1", "Phase 7 question bank certification missing")
-assert(questionBank.Source.MaterialFirst == true, "Phase 7 material-first marker missing")
+assert(questionBank.Source.CertificationVersion == "phase8-material-first-star-fallback-v1", "Phase 8 question bank certification missing")
+assert(questionBank.Source.MaterialFirst == true, "Phase 8 material-first marker missing")
+assert(questionBank.Source.StarFallback == true, "Phase 8 STAR fallback marker missing")
 for _, stationId in {"word-portal-put-v1","spelling-forge-fog-v1","culture-lab-culture-v1"} do
-    assert(questionBank.CountForStation(stationId) == 6, "Phase 7 station question count mismatch: " .. stationId)
+    assert(questionBank.CountForStation(stationId) == 20, "Phase 8 station question count mismatch: " .. stationId)
 end
 
 local runtime = serverRoot:WaitForChild("Runtime")
