@@ -99,6 +99,7 @@ local function buildWorldBindings()
 		prompt.HoldDuration = 0
 		prompt.MaxActivationDistance = 16
 		prompt.RequiresLineOfSight = false
+		prompt.Enabled = SchoolConfig.FeatureFlags.SchoolSystemEnabled ~= true
 		prompt.KeyboardKeyCode = Enum.KeyCode.E
 		prompt.GamepadKeyCode = Enum.KeyCode.ButtonX
 		prompt.Parent = anchor
