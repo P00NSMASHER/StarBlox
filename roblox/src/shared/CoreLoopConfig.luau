@@ -9,6 +9,14 @@ local CoreLoopConfig = table.freeze({
 	DailyRewardRunCap = 3,
 	FirstLoopCosmeticId = "brightside-spark-trail",
 	QuestionReward = table.freeze({Coins = 10, XP = 1}),
+	AdaptiveQuestioning = table.freeze({
+		MinDifficulty = 2,
+		MaxDifficulty = 3,
+		PromoteAfterCorrect = 2,
+		ScaffoldAfterWrong = 2,
+		TargetSuccessFloor = 0.70,
+		TargetSuccessCeiling = 0.85,
+	}),
 	QuestionRotation = table.freeze({
 		BankRevision = "dynamic-abvm-star-sync-v1",
 		StarFallbackPerStation = 20,

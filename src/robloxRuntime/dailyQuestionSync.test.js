@@ -63,7 +63,7 @@ describe('Daily ABVM curriculum -> StarBlox question sync',()=>{
     expect(before.generatedFrom.sourceHash).not.toBe(after.generatedFrom.sourceHash);
     expect(before.generatedFrom.bankSnapshotId).not.toBe(after.generatedFrom.bankSnapshotId);
     expect(after.generatedFrom.scannerCommit).toBe('scanner-after');
-    expect(after.generatedFrom.generatorVersion).toBe('dynamic-abvm-star-sync-generator-v2');
+    expect(after.generatedFrom.generatorVersion).toBe('dynamic-abvm-star-sync-generator-v3-research-1-6');
 
     const beforeMaterial=before.questions.filter(q=>q.tier==='material'&&q.subject==='Math').map(q=>q.prompt);
     const afterMaterial=after.questions.filter(q=>q.tier==='material'&&q.subject==='Math').map(q=>q.prompt);

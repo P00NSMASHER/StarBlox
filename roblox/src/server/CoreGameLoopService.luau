@@ -151,12 +151,94 @@ local function ensureQuestionState(profileData)
 		type(profileData.Learning.RecentQuestionIds) == "table"
 		and profileData.Learning.RecentQuestionIds
 		or {}
+	profileData.Learning.AdaptiveByStation =
+		type(profileData.Learning.AdaptiveByStation) == "table"
+		and profileData.Learning.AdaptiveByStation
+		or {}
+	profileData.Learning.SkillStats =
+		type(profileData.Learning.SkillStats) == "table"
+		and profileData.Learning.SkillStats
+		or {}
+	profileData.Learning.WrongStreak = math.max(0, math.floor(tonumber(profileData.Learning.WrongStreak) or 0))
 	return profileData.Learning.QuestionCursorByStation
 end
 
 local function questionCursor(profileData, activityId: string): number
 	local cursors = ensureQuestionState(profileData)
 	return math.max(0, math.floor(tonumber(cursors[activityId]) or 0))
+end
+
+local function ensureAdaptiveState(profileData, activityId: string)
+	ensureQuestionState(profileData)
+	local all = profileData.Learning.AdaptiveByStation
+	local raw = all[activityId]
+	if type(raw) ~= "table" then
+		raw = {}
+		all[activityId] = raw
+	end
+	raw.Difficulty = math.clamp(
+		math.floor(tonumber(raw.Difficulty) or Config.AdaptiveQuestioning.MinDifficulty),
+		Config.AdaptiveQuestioning.MinDifficulty,
+		Config.AdaptiveQuestioning.MaxDifficulty
+	)
+	raw.CorrectStreak = math.max(0, math.floor(tonumber(raw.CorrectStreak) or 0))
+	raw.WrongStreak = math.max(0, math.floor(tonumber(raw.WrongStreak) or 0))
+	return raw
+end
+
+local function targetDifficulty(profileData, activityId: string): number
+	return ensureAdaptiveState(profileData, activityId).Difficulty
+end
+
+local function recordLearningAttempt(profileData, question, correct: boolean)
+	if question == nil then
+		return nil, nil
+	end
+	ensureQuestionState(profileData)
+	local skillKey = tostring(question.Skill or question.Domain or "unknown")
+	local stats = profileData.Learning.SkillStats[skillKey]
+	if type(stats) ~= "table" then
+		stats = {Seen = 0, Correct = 0, Wrong = 0, ConsecutiveCorrect = 0, ConsecutiveWrong = 0}
+		profileData.Learning.SkillStats[skillKey] = stats
+	end
+	stats.Seen = math.max(0, math.floor(tonumber(stats.Seen) or 0)) + 1
+	stats.Correct = math.max(0, math.floor(tonumber(stats.Correct) or 0))
+	stats.Wrong = math.max(0, math.floor(tonumber(stats.Wrong) or 0))
+	stats.ConsecutiveCorrect = math.max(0, math.floor(tonumber(stats.ConsecutiveCorrect) or 0))
+	stats.ConsecutiveWrong = math.max(0, math.floor(tonumber(stats.ConsecutiveWrong) or 0))
+
+	local adaptive = ensureAdaptiveState(profileData, question.StationId)
+	if correct then
+		stats.Correct += 1
+		stats.ConsecutiveCorrect += 1
+		stats.ConsecutiveWrong = 0
+		adaptive.CorrectStreak += 1
+		adaptive.WrongStreak = 0
+		profileData.Learning.WrongStreak = 0
+		if adaptive.CorrectStreak >= Config.AdaptiveQuestioning.PromoteAfterCorrect then
+			adaptive.Difficulty = math.min(Config.AdaptiveQuestioning.MaxDifficulty, adaptive.Difficulty + 1)
+			adaptive.CorrectStreak = 0
+		end
+	else
+		stats.Wrong += 1
+		stats.ConsecutiveWrong += 1
+		stats.ConsecutiveCorrect = 0
+		adaptive.WrongStreak += 1
+		adaptive.CorrectStreak = 0
+		profileData.Learning.WrongStreak += 1
+		if adaptive.WrongStreak >= Config.AdaptiveQuestioning.ScaffoldAfterWrong then
+			adaptive.Difficulty = Config.AdaptiveQuestioning.MinDifficulty
+		end
+	end
+	return adaptive, stats
+end
+
+local function selectedQuestionFor(profileData, activityId: string)
+	return CoreQuestionBank.Select(
+		activityId,
+		questionCursor(profileData, activityId),
+		targetDifficulty(profileData, activityId)
+	)
 end
 
 local function publicActivity(activity, question)
@@ -174,6 +256,10 @@ local function publicActivity(activity, question)
 		choices = table.clone(question.Choices),
 		subject = question.Subject,
 		skill = question.Skill,
+		difficulty = question.Difficulty,
+		dok = question.DOK,
+		cognitiveDemand = question.CognitiveDemand,
+		standards = if type(question.Standards) == "table" then table.clone(question.Standards) else {},
 		source = activity.Source,
 		sourceWeek = CoreQuestionBank.Source.WeekLabel,
 		reward = {
@@ -199,7 +285,7 @@ function CoreGameLoopService.ApplyCorrectQuestionReward(
 	end
 
 	local currentCursor = questionCursor(profileData, activityId)
-	local expected = CoreQuestionBank.Select(activityId, currentCursor)
+	local expected = CoreQuestionBank.Select(activityId, currentCursor, targetDifficulty(profileData, activityId))
 	if expected == nil or expected.Id ~= questionId then
 		return {ok = false, code = "stale_question"}
 	end
@@ -211,15 +297,21 @@ function CoreGameLoopService.ApplyCorrectQuestionReward(
 		table.remove(profileData.Learning.RecentQuestionIds, 1)
 	end
 
+	recordLearningAttempt(profileData, question, true)
 	profileData.Economy.Coins += Config.QuestionReward.Coins
 	profileData.Economy.XP += Config.QuestionReward.XP
-	local nextQuestion = CoreQuestionBank.Select(activityId, currentCursor + 1)
+	local nextQuestion = CoreQuestionBank.Select(
+		activityId,
+		currentCursor + 1,
+		targetDifficulty(profileData, activityId)
+	)
 
 	return {
 		ok = true,
 		coins = Config.QuestionReward.Coins,
 		xp = Config.QuestionReward.XP,
-		nextQuestionId = if nextQuestion ~= nil then nextQuestion.Id else nil,
+		targetDifficulty = targetDifficulty(profileData, activityId),
+		nextQuestionId = questionReward.nextQuestionId,
 	}
 end
 
@@ -275,7 +367,7 @@ function CoreGameLoopService.BuildStatus(profileData)
 
 	local tier, nextMilestoneLoops = masteryTier(state.LoopRuns)
 	local recommendedQuestion = if recommendedActivityId ~= nil
-		then CoreQuestionBank.Select(recommendedActivityId, questionCursor(profileData, recommendedActivityId))
+		then selectedQuestionFor(profileData, recommendedActivityId)
 		else nil
 
 	return {
@@ -446,10 +538,7 @@ function CoreGameLoopService.new(profiles, replicas, telemetry)
 			local activity = activityById(activityId)
 			local selectedQuestion = nil
 			self._profiles:WithProfile(player, function(data)
-				selectedQuestion = CoreQuestionBank.Select(
-					activityId,
-					questionCursor(data, activityId)
-				)
+				selectedQuestion = selectedQuestionFor(data, activityId)
 			end)
 			if activity == nil or selectedQuestion == nil then
 				self._activityOpened:FireClient(player, {
@@ -462,6 +551,9 @@ function CoreGameLoopService.new(profiles, replicas, telemetry)
 			self._sessions[player] = {
 				activityId = activityId,
 				questionId = selectedQuestion.Id,
+				rootQuestionId = selectedQuestion.Id,
+				supportMode = false,
+				wrongAttempts = 0,
 				openedAt = os.clock(),
 			}
 			if self._telemetry ~= nil then
@@ -559,17 +651,95 @@ function CoreGameLoopService:_submit(player: Player, request: any)
 		return {ok = false, code = "invalid_request"}
 	end
 
+	local answeredQuestion = CoreQuestionBank.GetById(session.questionId)
+	local activity = activityById(session.activityId)
+	if answeredQuestion == nil or activity == nil then
+		return {ok = false, code = "invalid_request"}
+	end
+
 	if not CoreGameLoopService.GradeAnswer(session.questionId, request.choice) then
+		session.wrongAttempts = math.max(0, math.floor(tonumber(session.wrongAttempts) or 0)) + 1
+		local feedback = "That choice does not fit yet."
+		local hint = answeredQuestion.Hint
+		local scaffold = nil
+		local misconception = nil
+		local supportActivity = nil
+		local found = self._profiles:WithProfile(player, function(data)
+			local adaptive = recordLearningAttempt(data, answeredQuestion, false)
+			if type(answeredQuestion.WrongFeedback) == "table" then
+				feedback = answeredQuestion.WrongFeedback[tostring(request.choice)] or feedback
+			end
+			if type(answeredQuestion.Misconceptions) == "table" then
+				misconception = answeredQuestion.Misconceptions[tostring(request.choice)]
+			end
+
+			if session.supportMode ~= true
+				and session.wrongAttempts >= Config.AdaptiveQuestioning.ScaffoldAfterWrong
+			then
+				local support = CoreQuestionBank.FindSupportQuestion(
+					session.activityId,
+					answeredQuestion.Id,
+					if adaptive ~= nil then adaptive.Difficulty else Config.AdaptiveQuestioning.MinDifficulty
+				)
+				if support ~= nil then
+					session.rootQuestionId = session.rootQuestionId or answeredQuestion.Id
+					session.questionId = support.Id
+					session.supportMode = true
+					session.wrongAttempts = 0
+					supportActivity = publicActivity(activity, support)
+					supportActivity.scaffold = true
+				else
+					scaffold = answeredQuestion.Scaffold
+				end
+			end
+			self._replicas:Sync(player, data)
+		end)
+		if not found then
+			return {ok = false, code = "profile_unavailable"}
+		end
 		if self._telemetry ~= nil then
 			self._telemetry:RecordServerEvent(player, "answer_wrong", {
 				activityId = session.activityId,
-				questionId = session.questionId,
+				questionId = answeredQuestion.Id,
+				misconception = misconception,
+				scaffolded = supportActivity ~= nil,
 			})
 		end
 		return {
 			ok = true,
 			correct = false,
-			message = "Almost! Try another answer.",
+			message = feedback,
+			hint = hint,
+			scaffold = scaffold,
+			activity = supportActivity,
+		}
+	end
+
+	if session.supportMode == true then
+		local rootQuestionId = session.rootQuestionId
+		local rootQuestion = if type(rootQuestionId) == "string" then CoreQuestionBank.GetById(rootQuestionId) else nil
+		if rootQuestion == nil then
+			return {ok = false, code = "invalid_request"}
+		end
+		local found = self._profiles:WithProfile(player, function(data)
+			recordLearningAttempt(data, answeredQuestion, true)
+			self._replicas:Sync(player, data)
+		end)
+		if not found then
+			return {ok = false, code = "profile_unavailable"}
+		end
+		session.questionId = rootQuestion.Id
+		session.supportMode = false
+		session.wrongAttempts = 0
+		local rootActivity = publicActivity(activity, rootQuestion)
+		rootActivity.scaffoldReturn = true
+		return {
+			ok = true,
+			correct = true,
+			scaffoldCleared = true,
+			message = "Nice work. Now use that idea on the original question.",
+			explanation = answeredQuestion.Explanation,
+			activity = rootActivity,
 		}
 	end
 
@@ -607,9 +777,6 @@ function CoreGameLoopService:_submit(player: Player, request: any)
 	if completion == nil or completion.ok ~= true or latestEconomy == nil then
 		return {ok = false, code = "profile_unavailable"}
 	end
-
-	local answeredQuestion = CoreQuestionBank.GetById(session.questionId)
-	local activity = activityById(session.activityId)
 
 	if self._telemetry ~= nil then
 		self._telemetry:RecordServerEvent(player, "answer_correct", {
