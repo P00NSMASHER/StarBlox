@@ -5,6 +5,7 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local ProfileTemplate = require(ReplicatedStorage.StarBlox.ProfileTemplate)
 local WorldProjectionService = require(script.Parent.WorldProjectionService)
+local WorldInteractionService = require(script.Parent.WorldInteractionService)
 local ProfileSessionService = require(script.Parent.ProfileSessionService)
 local ReplicaStateService = require(script.Parent.ReplicaStateService)
 local WorldEcsService = require(script.Parent.WorldEcsService)
@@ -31,6 +32,7 @@ function Bootstrap.start(dependencies)
 	assert(dependencies.Matter ~= nil, "Matter dependency is required")
 
 	local worldProjection = WorldProjectionService.new()
+	local worldInteractions = WorldInteractionService.new(worldProjection)
 	local profiles = ProfileSessionService.new(dependencies.ProfileStore, ProfileTemplate)
 	local replicas = ReplicaStateService.new(dependencies.Replica)
 	local ecs = WorldEcsService.new(dependencies.Matter)
@@ -94,6 +96,7 @@ function Bootstrap.start(dependencies)
 		homeEconomy:Destroy()
 		coreLoop:Destroy()
 		privatePlaytestTelemetry:Destroy()
+		worldInteractions:Destroy()
 		worldProjection:Destroy()
 		action:Stop()
 		replicas:Shutdown()
@@ -102,6 +105,7 @@ function Bootstrap.start(dependencies)
 
 	return table.freeze({
 		WorldProjection = worldProjection,
+		WorldInteractions = worldInteractions,
 		Profiles = profiles,
 		Replicas = replicas,
 		Ecs = ecs,
