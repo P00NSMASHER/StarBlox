@@ -35,6 +35,12 @@ local AVATAR_PRESETS = table.freeze({
 	tall = table.freeze({Label = "Tall", HeightScale = 1.05, WidthScale = 0.94, DepthScale = 0.94, HeadScale = 0.95}),
 	stylized = table.freeze({Label = "Stylized", BodyTypeScale = 1, ProportionScale = 1, HeightScale = 1, WidthScale = 0.9, DepthScale = 0.9, HeadScale = 1}),
 	wide = table.freeze({Label = "Wide", HeightScale = 0.96, WidthScale = 1, DepthScale = 1, HeadScale = 1}),
+	petite = table.freeze({Label = "Petite", HeightScale = 0.88, WidthScale = 0.86, DepthScale = 0.86, HeadScale = 1}),
+	athletic = table.freeze({Label = "Athletic", HeightScale = 1.02, WidthScale = 0.96, DepthScale = 0.96, HeadScale = 0.96}),
+	slim = table.freeze({Label = "Slim", HeightScale = 1, WidthScale = 0.82, DepthScale = 0.86, HeadScale = 0.96}),
+	blocky = table.freeze({Label = "Blocky", BodyTypeScale = 0, ProportionScale = 0, HeightScale = 0.98, WidthScale = 1, DepthScale = 1, HeadScale = 1}),
+	hero = table.freeze({Label = "Hero", BodyTypeScale = 0.75, ProportionScale = 0.75, HeightScale = 1.04, WidthScale = 0.93, DepthScale = 0.93, HeadScale = 0.94}),
+	soft = table.freeze({Label = "Soft", BodyTypeScale = 0.55, ProportionScale = 0.45, HeightScale = 0.95, WidthScale = 0.92, DepthScale = 0.92, HeadScale = 1}),
 })
 
 local JOBS = table.freeze({
