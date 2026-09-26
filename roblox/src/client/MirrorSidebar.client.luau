@@ -859,13 +859,173 @@ local function tile(
 end
 
 
+
+local function previewPart(
+	world: WorldModel,
+	name: string,
+	size: Vector3,
+	cframe: CFrame,
+	color: Color3,
+	shape: Enum.PartType?
+): Part
+	local part = Instance.new("Part")
+	part.Name = name
+	part.Size = size
+	part.CFrame = cframe
+	part.Color = color
+	part.Material = Enum.Material.SmoothPlastic
+	part.Anchored = true
+	part.CanCollide = false
+	part.CanTouch = false
+	part.CanQuery = false
+	if shape ~= nil then
+		part.Shape = shape
+	end
+	part.Parent = world
+	return part
+end
+
+local function viewportFor(frame: GuiObject): (ViewportFrame, WorldModel)
+	local viewport = Instance.new("ViewportFrame")
+	viewport.Name = "ObjectPreview"
+	viewport.Position = UDim2.fromOffset(3, 3)
+	viewport.Size = UDim2.new(1, -6, 1, -6)
+	viewport.BackgroundTransparency = 1
+	viewport.Ambient = Color3.fromRGB(205, 205, 205)
+	viewport.LightColor = Color3.fromRGB(255, 255, 255)
+	viewport.LightDirection = Vector3.new(-1, -1, -1)
+	viewport.ZIndex = 73
+	viewport.Parent = frame
+
+	local world = Instance.new("WorldModel")
+	world.Name = "PreviewWorld"
+	world.Parent = viewport
+	return viewport, world
+end
+
+local function finishPreview(viewport: ViewportFrame, target: Vector3, distance: number)
+	local camera = Instance.new("Camera")
+	camera.Name = "PreviewCamera"
+	camera.FieldOfView = 34
+	camera.CFrame = CFrame.lookAt(
+		target + Vector3.new(distance * 0.75, distance * 0.5, distance),
+		target
+	)
+	camera.Parent = viewport
+	viewport.CurrentCamera = camera
+end
+
+local function renderVehiclePreview(frame: GuiObject, kind: string)
+	local viewport, world = viewportFor(frame)
+	local bodyColor = Color3.fromRGB(104, 160, 218)
+	local trimColor = Color3.fromRGB(45, 51, 58)
+	local wheelColor = Color3.fromRGB(40, 40, 40)
+
+	if kind == "bike" then
+		previewPart(world, "Frame", Vector3.new(0.28, 1.1, 2.2), CFrame.new(0, 0.85, 0), bodyColor)
+		for _, z in {-0.82, 0.82} do
+			previewPart(
+				world,
+				"Wheel",
+				Vector3.new(0.28, 1.1, 1.1),
+				CFrame.new(0, 0.35, z) * CFrame.Angles(0, 0, math.rad(90)),
+				wheelColor,
+				Enum.PartType.Cylinder
+			)
+		end
+		finishPreview(viewport, Vector3.new(0, 0.7, 0), 4.8)
+		return
+	end
+
+	local width = if kind == "truck" then 2.8 elseif kind == "van" then 2.7 elseif kind == "cart" then 2.5 else 2.6
+	local length = if kind == "truck" then 4.8 elseif kind == "van" then 4.5 elseif kind == "cart" then 3.6 else 4.1
+	local bodyHeight = if kind == "van" then 1.25 elseif kind == "cart" then 0.65 else 0.8
+
+	previewPart(world, "Body", Vector3.new(width, bodyHeight, length), CFrame.new(0, 0.85, 0), bodyColor)
+	if kind ~= "cart" then
+		previewPart(
+			world,
+			"Cabin",
+			Vector3.new(width * 0.78, if kind == "van" then 1.35 else 0.9, length * 0.48),
+			CFrame.new(0, 1.55, -length * 0.08),
+			Color3.fromRGB(190, 220, 235)
+		)
+	end
+	for _, x in {-width * 0.42, width * 0.42} do
+		for _, z in {-length * 0.33, length * 0.33} do
+			previewPart(
+				world,
+				"Wheel",
+				Vector3.new(0.38, 0.8, 0.8),
+				CFrame.new(x, 0.42, z) * CFrame.Angles(0, 0, math.rad(90)),
+				wheelColor,
+				Enum.PartType.Cylinder
+			)
+		end
+	end
+	if kind == "truck" then
+		previewPart(world, "Bed", Vector3.new(width * 0.88, 0.36, length * 0.34), CFrame.new(0, 1.15, length * 0.27), trimColor)
+	end
+	finishPreview(viewport, Vector3.new(0, 0.85, 0), 6.2)
+end
+
+local function renderToolPreview(frame: GuiObject, kind: string)
+	local viewport, world = viewportFor(frame)
+	local primary = Color3.fromRGB(100, 155, 214)
+	local dark = Color3.fromRGB(50, 55, 62)
+	local light = Color3.fromRGB(225, 225, 225)
+
+	if kind == "phone" then
+		previewPart(world, "Phone", Vector3.new(1.2, 2.1, 0.22), CFrame.new(), dark)
+		previewPart(world, "Screen", Vector3.new(0.96, 1.65, 0.08), CFrame.new(0, 0.05, -0.15), primary)
+	elseif kind == "flashlight" then
+		previewPart(world, "Handle", Vector3.new(0.65, 1.9, 0.65), CFrame.new(), dark, Enum.PartType.Cylinder)
+		previewPart(world, "Lamp", Vector3.new(1.1, 0.55, 1.1), CFrame.new(0, 1.05, 0), primary, Enum.PartType.Cylinder)
+	elseif kind == "laptop" then
+		previewPart(world, "Base", Vector3.new(2.3, 0.18, 1.5), CFrame.new(0, -0.5, 0.25), dark)
+		previewPart(world, "Screen", Vector3.new(2.2, 1.55, 0.16), CFrame.new(0, 0.35, -0.48) * CFrame.Angles(math.rad(-12), 0, 0), primary)
+	elseif kind == "camera" then
+		previewPart(world, "Body", Vector3.new(2.0, 1.4, 0.8), CFrame.new(), dark)
+		previewPart(world, "Lens", Vector3.new(0.9, 0.9, 0.5), CFrame.new(0, 0, -0.62) * CFrame.Angles(math.rad(90), 0, 0), primary, Enum.PartType.Cylinder)
+	elseif kind == "umbrella" then
+		previewPart(world, "Shaft", Vector3.new(0.18, 2.6, 0.18), CFrame.new(0, -0.25, 0), dark)
+		previewPart(world, "Canopy", Vector3.new(2.7, 0.55, 2.7), CFrame.new(0, 1.1, 0), primary, Enum.PartType.Ball)
+	elseif kind == "guitar" then
+		previewPart(world, "Body", Vector3.new(1.6, 1.8, 0.5), CFrame.new(0, -0.45, 0), primary, Enum.PartType.Ball)
+		previewPart(world, "Neck", Vector3.new(0.36, 2.0, 0.28), CFrame.new(0, 1.15, 0), dark)
+	elseif kind == "binoculars" then
+		for _, x in {-0.55, 0.55} do
+			previewPart(world, "Lens", Vector3.new(0.72, 1.8, 0.72), CFrame.new(x, 0, 0) * CFrame.Angles(math.rad(90), 0, 0), dark, Enum.PartType.Cylinder)
+		end
+	elseif kind == "stroller" then
+		previewPart(world, "Seat", Vector3.new(1.7, 1.0, 1.8), CFrame.new(0, 0.45, 0), primary)
+		previewPart(world, "Handle", Vector3.new(1.5, 0.16, 0.16), CFrame.new(0, 1.55, 0.65), dark)
+		for _, x in {-0.62, 0.62} do
+			for _, z in {-0.55, 0.55} do
+				previewPart(world, "Wheel", Vector3.new(0.28, 0.6, 0.6), CFrame.new(x, -0.35, z) * CFrame.Angles(0, 0, math.rad(90)), dark, Enum.PartType.Cylinder)
+			end
+		end
+	elseif kind == "extinguisher" then
+		previewPart(world, "Tank", Vector3.new(1.0, 2.2, 1.0), CFrame.new(), Color3.fromRGB(210, 55, 55), Enum.PartType.Cylinder)
+		previewPart(world, "Handle", Vector3.new(0.8, 0.2, 0.25), CFrame.new(0, 1.2, 0), dark)
+	elseif kind == "backpack" then
+		previewPart(world, "Pack", Vector3.new(1.65, 2.0, 0.85), CFrame.new(), primary)
+		previewPart(world, "Pocket", Vector3.new(1.25, 0.75, 0.25), CFrame.new(0, -0.42, -0.52), dark)
+	else
+		previewPart(world, "Item", Vector3.new(1.8, 2.1, 0.42), CFrame.new(), if kind == "book" then primary else light)
+	end
+	finishPreview(viewport, Vector3.new(0, 0.25, 0), 4.5)
+end
+
 local function iconTile(
 	symbol: string,
 	accessibleName: string,
 	badgeText: string,
 	badgeColor: Color3,
 	order: number,
-	callback: (() -> ())?
+	callback: (() -> ())?,
+	previewType: string?,
+	previewKind: string?
 )
 	local frame = Instance.new("Frame")
 	frame.Name = accessibleName
@@ -878,18 +1038,24 @@ local function iconTile(
 	round(frame, 6)
 	stroke(frame, UI.border, 1, 0.45)
 
-	local icon = Instance.new("TextLabel")
-	icon.Name = "Icon"
-	icon.Position = UDim2.fromOffset(5, 5)
-	icon.Size = UDim2.new(1, -10, 1, -10)
-	icon.BackgroundTransparency = 1
-	icon.Text = symbol
-	icon.TextColor3 = UI.text
-	icon.Font = Enum.Font.GothamBold
-	icon.TextScaled = true
-	icon.ZIndex = 73
-	icon.Parent = frame
-	constrain(icon, 22, 38)
+	if previewType == "vehicle" then
+		renderVehiclePreview(frame, tostring(previewKind or "car"))
+	elseif previewType == "tool" then
+		renderToolPreview(frame, tostring(previewKind or ""))
+	else
+		local icon = Instance.new("TextLabel")
+		icon.Name = "Icon"
+		icon.Position = UDim2.fromOffset(5, 5)
+		icon.Size = UDim2.new(1, -10, 1, -10)
+		icon.BackgroundTransparency = 1
+		icon.Text = symbol
+		icon.TextColor3 = UI.text
+		icon.Font = Enum.Font.GothamBold
+		icon.TextScaled = true
+		icon.ZIndex = 73
+		icon.Parent = frame
+		constrain(icon, 22, 38)
+	end
 
 	if badgeText ~= "" then
 		local badge = Instance.new("TextLabel")
@@ -1154,7 +1320,9 @@ showVehicles = function()
 					else
 						purchase(purchaseVehicle, id, showVehicles)
 					end
-				end
+				end,
+				"vehicle",
+				kind
 			)
 			order += 1
 		end
@@ -1218,7 +1386,9 @@ showTools = function()
 					else
 						purchase(purchaseTool, id, showTools)
 					end
-				end
+				end,
+				"tool",
+				kind
 			)
 			order += 1
 		end
