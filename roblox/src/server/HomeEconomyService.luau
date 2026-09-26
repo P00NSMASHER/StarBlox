@@ -4,14 +4,13 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Workspace = game:GetService("Workspace")
 
 local StoreCatalog = require(ReplicatedStorage.StarBlox.StoreCatalog)
+local WorldPlotBindings = require(ReplicatedStorage.StarBlox.WorldPlotBindings)
 
 local HomeEconomyService = {}
 HomeEconomyService.__index = HomeEconomyService
 
 local REMOTE_ROOT_NAME = "StarBloxShop"
 local HOME_FOLDER_NAME = "StarBloxPlayerHomes"
-local HOME_HEIGHT = 420
-local HOME_SPACING = 56
 
 local ITEM_BY_ID = {}
 for _, item in StoreCatalog.Items do
@@ -168,8 +167,15 @@ function HomeEconomyService.new(profiles, replicas, spawnCFrame: CFrame)
 	self._replicas = replicas
 	self._spawnCFrame = spawnCFrame
 	self._slots = {}
-	self._nextSlot = 1
+	self._usedPlots = {}
 	self._lastPurchaseAt = {}
+
+	local worldRoot = Workspace:FindFirstChild(WorldPlotBindings.WorldRootName)
+	assert(
+		worldRoot ~= nil and worldRoot:IsA("Model"),
+		"verified Brookhaven world root missing for house plots: " .. WorldPlotBindings.WorldRootName
+	)
+	self._worldRoot = worldRoot
 
 	local previous = Workspace:FindFirstChild(HOME_FOLDER_NAME)
 	if previous then
@@ -232,14 +238,32 @@ function HomeEconomyService.new(profiles, replicas, spawnCFrame: CFrame)
 	return self
 end
 
-function HomeEconomyService:_homeCFrame(player: Player): CFrame
+function HomeEconomyService:_homeCFrame(player: Player): (CFrame, any)
 	local slot = self._slots[player]
 	if slot == nil then
-		slot = self._nextSlot
-		self._nextSlot += 1
-		self._slots[player] = slot
+		for index, binding in WorldPlotBindings.Plots do
+			if self._usedPlots[index] == nil then
+				slot = index
+				self._slots[player] = index
+				self._usedPlots[index] = player
+				break
+			end
+		end
 	end
-	return self._spawnCFrame * CFrame.new((slot - 1) * HOME_SPACING, HOME_HEIGHT, 0)
+	assert(slot ~= nil, "no Brookhaven house plot available for player")
+
+	local binding = WorldPlotBindings.Plots[slot]
+	local source = self._worldRoot:FindFirstChild(binding.SourcePartName, true)
+	assert(
+		source ~= nil and source:IsA("BasePart"),
+		"Brookhaven house plot source missing: " .. binding.SourcePartName
+	)
+	local base = source.CFrame * CFrame.new(
+		0,
+		(source.Size.Y / 2) + binding.HeightOffset,
+		0
+	)
+	return base, binding
 end
 
 function HomeEconomyService:_destroyHome(player: Player)
@@ -260,11 +284,13 @@ function HomeEconomyService:_rebuildHome(player: Player, profileData)
 	local owned = ensureInventory(profileData)
 	local tier = homeState.Tier
 	local width, depth, height = tierDimensions(tier)
-	local base = self:_homeCFrame(player)
+	local base, plotBinding = self:_homeCFrame(player)
 
 	local model = Instance.new("Model")
 	model.Name = "HomeSlot_" .. tostring(self._slots[player])
 	model:SetAttribute("HomeTier", tier)
+	model:SetAttribute("PlotId", plotBinding.Id)
+	model:SetAttribute("SourceWorldPart", plotBinding.SourcePartName)
 	model:SetAttribute("RuntimeOwned", true)
 	model:SetAttribute("BaselineMutationAllowed", false)
 	model.Parent = self._homeFolder
@@ -430,7 +456,11 @@ function HomeEconomyService:PlayerReady(player: Player, profileData)
 end
 
 function HomeEconomyService:PlayerRemoving(player: Player)
+	local slot = self._slots[player]
 	self:_destroyHome(player)
+	if slot ~= nil and self._usedPlots[slot] == player then
+		self._usedPlots[slot] = nil
+	end
 	self._slots[player] = nil
 	self._lastPurchaseAt[player] = nil
 end
@@ -440,6 +470,7 @@ function HomeEconomyService:Destroy()
 		self:_destroyHome(player)
 	end
 	self._slots = {}
+	self._usedPlots = {}
 	if self._homeFolder ~= nil and self._homeFolder.Parent ~= nil then
 		self._homeFolder:Destroy()
 	end
