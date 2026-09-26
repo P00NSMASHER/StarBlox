@@ -571,11 +571,11 @@ const contextRows=[
   ['assist','help',['help','hide','measure']]
 ];
 const themeRows=[
-  ['A child practices tying shoes every morning. After many tries, the knot finally stays tied.','Practice can help you improve.'],
-  ['Two friends want the same swing, so they agree to take turns.','Sharing fairly can solve a problem.'],
-  ['A student notices a new classmate alone and invites them to join a game.','Kindness can help someone feel included.'],
-  ['A gardener forgets to water a plant, notices it drooping, and begins checking it each day.','Taking responsibility can fix a mistake.'],
-  ['A runner loses one race, changes how she practices, and improves the next week.','A setback can teach you what to change.']
+  ['A child practices tying shoes every morning. After many tries, the knot finally stays tied.','Practice can help you improve.','Shoes are easiest to tie in the morning.','It is better to ask someone else to do hard things.'],
+  ['Two friends want the same swing, so they agree to take turns.','Sharing fairly can solve a problem.','The swing is the best thing on the playground.','Friends should always want exactly the same thing.'],
+  ['A student notices a new classmate alone and invites them to join a game.','Kindness can help someone feel included.','Games are only fun with new students.','A person should wait until someone asks for help.'],
+  ['A gardener forgets to water a plant, notices it drooping, and begins checking it each day.','Taking responsibility can fix a mistake.','Plants should be checked only after they droop.','One mistake means the plant cannot recover.'],
+  ['A runner loses one race, changes how she practices, and improves the next week.','A setback can teach you what to change.','Winning every race is the only sign of improvement.','Changing a plan means the first plan was useless.']
 ];
 const purposeRows=[
   ['A page explains how bees carry pollen from flower to flower.','to inform'],
@@ -596,9 +596,15 @@ function starReading(){
       prompt='In the sentence “The '+row[0]+' box barely fit through the doorway,” what does “'+row[0]+'” most likely mean?';
       choices=shuffled(row[2]); answer=row[1]; explanation='The context clue about barely fitting supports the meaning “'+answer+'”.'; domain=READ_DOMAINS[0]; skill='context-clues';
     }else if(family===1){
-      const words=[['unhappy','not happy'],['rewrite','write again'],['careless','without enough care'],['preview','look at before'],['helpful','giving help']];
+      const words=[
+        ['unhappy','not happy','very happy','happy again'],
+        ['rewrite','write again','write before','stop writing'],
+        ['careless','without enough care','full of care','able to care'],
+        ['preview','look at before','look at again','look away from'],
+        ['helpful','giving help','needing help','without help']
+      ];
       const row=words[(i+snapshotSeed[2])%words.length];
-      prompt='What does the word “'+row[0]+'” mean?'; choices=shuffled([row[1],'very noisy','a kind of place']); answer=row[1]; explanation='The prefix or suffix changes the base word to make this meaning.'; domain=READ_DOMAINS[0]; skill='word-parts';
+      prompt='What does the word “'+row[0]+'” mean?'; choices=shuffled([row[1],row[2],row[3]]); answer=row[1]; explanation='The prefix or suffix changes the base word to make this meaning.'; domain=READ_DOMAINS[0]; skill='word-parts';
     }else if(family===2){
       prompt=n+' read: “The trail was muddy, so we stepped carefully around the puddles.” Why did they step carefully?';
       choices=shuffled(['The trail was muddy.','They were racing.','The puddles were frozen solid.']); answer='The trail was muddy.'; explanation='The first part gives the cause for the careful steps.'; domain=READ_DOMAINS[1]; skill='cause-effect';
@@ -607,19 +613,21 @@ function starReading(){
       choices=shuffled(['The batter went into the pan.','The oven was turned off.','The cake was eaten.']); answer='The batter went into the pan.'; explanation='The sequence word “next” marks the step just before the last event.'; domain=READ_DOMAINS[1]; skill='sequence';
     }else if(family===4){
       const row=themeRows[(i+snapshotSeed[3])%themeRows.length];
-      prompt='Read: “'+row[0]+'” Which lesson best fits the story?'; choices=shuffled([row[1],'Winning is the only thing that matters.','Problems always disappear without effort.']); answer=row[1]; explanation='The character’s actions and outcome support that lesson.'; domain=READ_DOMAINS[2]; skill='theme';
+      prompt='Read: “'+row[0]+'” Which lesson best fits the story?'; choices=shuffled([row[1],row[2],row[3]]); answer=row[1]; explanation='The character’s actions and outcome support that lesson.'; domain=READ_DOMAINS[2]; skill='theme';
     }else if(family===5){
       prompt='Read: “'+n+' tucked the permission slip into the front pocket of the backpack, then checked the pocket twice before leaving.” What can you infer?';
-      choices=shuffled([n+' thinks the slip is important.',n+' wants to lose the slip.',n+' forgot there was a backpack.']); answer=n+' thinks the slip is important.'; explanation='Checking the pocket twice shows the slip matters to the character.'; domain=READ_DOMAINS[1]; skill='inference';
+      choices=shuffled([n+' thinks the slip is important.',n+' is mainly worried the backpack looks messy.',n+' plans to give the slip to a friend.']); answer=n+' thinks the slip is important.'; explanation='Checking the pocket twice shows the slip matters to the character.'; domain=READ_DOMAINS[1]; skill='inference';
     }else if(family===6){
-      prompt='Read: “The kitten crouched low, wiggled its back legs, and sprang toward the toy mouse.” Which detail best shows the kitten was getting ready to pounce?';
-      choices=shuffled(['It crouched low and wiggled its back legs.','The toy was a mouse.','The kitten had fur.']); answer='It crouched low and wiggled its back legs.'; explanation='Those actions are direct evidence of preparing to pounce.'; domain=READ_DOMAINS[1]; skill='text-evidence';
+      prompt='Read: “The kitten crouched low, wiggled its back legs, stared at the toy mouse, and sprang forward.” Which detail is the strongest evidence that the kitten was getting ready to pounce?';
+      choices=shuffled(['It crouched low and wiggled its back legs.','It stared at the toy mouse.','The toy mouse was in front of it.']); answer='It crouched low and wiggled its back legs.'; explanation='Several details relate to the toy, but crouching and wiggling the back legs most directly show preparation to pounce.'; domain=READ_DOMAINS[1]; skill='text-evidence';
     }else if(family===7){
       prompt='At the start of a story, '+n+' refuses to ask for help. After making the same mistake twice, '+n+' asks a classmate to explain the directions and succeeds. How did the character change?';
       choices=shuffled(['The character became more willing to ask for help.','The character stopped caring about the task.','The character decided directions are never useful.']); answer='The character became more willing to ask for help.'; explanation='The ending shows a change in the character’s choice.'; domain=READ_DOMAINS[2]; skill='character-development';
     }else if(family===8){
       const row=purposeRows[(i+snapshotSeed[4])%purposeRows.length];
-      prompt='What is the author’s main purpose in this text? “'+row[0]+'”'; choices=shuffled([row[1],'to hide the topic','to list random words']); answer=row[1]; explanation='The kind of information and wording reveal the author’s purpose.'; domain=READ_DOMAINS[3]; skill='author-purpose';
+      const purposeChoices=['to inform','to persuade','to entertain','to teach how to do something'];
+      const distractors=purposeChoices.filter(value=>value!==row[1]);
+      prompt='What is the author’s main purpose in this text? “'+row[0]+'”'; choices=shuffled([row[1],distractors[0],distractors[1]]); answer=row[1]; explanation='The kind of information and wording reveal the author’s purpose.'; domain=READ_DOMAINS[3]; skill='author-purpose';
     }else{
       prompt='Read: “The wind whispered through the tall grass.” Why might the author use the word “whispered”?';
       choices=shuffled(['To help the reader imagine a soft sound.','To prove the wind can speak like a person.','To tell the exact temperature.']); answer='To help the reader imagine a soft sound.'; explanation='The word choice creates a quiet sound image for the reader.'; domain=READ_DOMAINS[3]; skill='word-choice';
@@ -639,8 +647,15 @@ function starMath(){
     const family=i%10;
     let prompt,choices,answer,explanation,domain,skill;
     if(family===0){
-      const a=int(20,70),b=int(10,29),sum=a+b;
-      prompt='What is '+a+' + '+b+'?'; choices=shuffled([String(sum),String(sum-10),String(sum+1)]); answer=String(sum); explanation='Add tens and ones carefully.'; domain=MATH_DOMAINS[0]; skill='addition-within-100';
+      const start=int(18,45),added=int(8,25),removed=int(3,Math.min(15,start+added-1));
+      const afterFirst=start+added;
+      const final=afterFirst-removed;
+      prompt='A class had '+start+' markers. The teacher added '+added+' more, then '+removed+' markers were used. How many markers are left?';
+      choices=shuffled([String(final),String(afterFirst),String(Math.max(0,start-removed))]);
+      answer=String(final);
+      explanation='First add '+start+' + '+added+' = '+afterFirst+'. Then subtract '+removed+' to get '+final+'.';
+      domain=MATH_DOMAINS[0];
+      skill='two-step-word-problem';
     }else if(family===1){
       const a=int(45,99),b=int(10,Math.min(40,a-1)),diff=a-b;
       prompt='What is '+a+' − '+b+'?'; choices=shuffled([String(diff),String(diff+10),String(Math.max(0,diff-1))]); answer=String(diff); explanation='Subtract tens and ones.'; domain=MATH_DOMAINS[0]; skill='subtraction-within-100';
