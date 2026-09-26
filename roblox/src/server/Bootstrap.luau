@@ -24,7 +24,7 @@ local FamilyService = require(script.Parent.FamilyService)
 local QuickChatService = require(script.Parent.QuickChatService)
 local MovementService = require(script.Parent.MovementService)
 local PlayerSettingsService = require(script.Parent.PlayerSettingsService)
-local PrivatePlaytestTelemetryService = require(script.Parent.PrivatePlaytestTelemetryService)
+local PrivatePlaytestTelemetryService = require(script.Parent.PrivatePlaytestTelemetryService)\nlocal SchoolConfig = require(ReplicatedStorage.StarBlox.SchoolConfig)\nlocal SchoolRuntimeService = require(script.Parent.SchoolRuntimeService)
 
 local Bootstrap = {}
 
