@@ -3,7 +3,7 @@ import {
 } from './privatePublish.js';
 
 export const STARBLOX_POLISH_PROOF_VERSION='starblox-player-polish-proof-v1';
-export const STARBLOX_POLISH_RELEASE_ID='starblox-private-step8-v1';
+export const STARBLOX_POLISH_RELEASE_ID='starblox-private-step9-canonical-step6-v4';
 
 export function buildPlayerPolishProbeScript({releaseId=STARBLOX_POLISH_RELEASE_ID}={}){
   const release=JSON.stringify(String(releaseId));
@@ -17,7 +17,7 @@ assert(manifest.releaseId == ${release}, "unexpected release: " .. tostring(mani
 assert(manifest.productionActivationAllowed == false, "production activation must remain disabled")
 
 local config = require(shared:WaitForChild("CoreLoopConfig"))
-assert(config.PolishRevision == "step8-release-polish-v1", "polish revision mismatch")
+assert(config.PolishRevision == "phase6-content-fun-retention-v1", "polish revision mismatch")
 assert(config.Onboarding.Title == "Welcome to Brightside!", "onboarding title mismatch")
 assert(#config.Activities == 3, "expected three activities")
 for index, activity in config.Activities do
@@ -25,6 +25,7 @@ for index, activity in config.Activities do
     assert(typeof(activity.Accent) == "Color3", "station accent missing")
     assert(type(activity.Direction) == "string" and activity.Direction ~= "", "station direction missing")
     assert(activity.Answer == nil, "answer leaked into replicated config")
+    assert(activity.Choices == nil, "rotating choices must remain server-selected")
 end
 
 local serverRoot = ServerScriptService:WaitForChild("StarBlox")
@@ -87,6 +88,9 @@ assert(status0.progress == 0, "initial progress mismatch")
 assert(status0.recommendedActivityId == "word-portal-put-v1", "initial recommendation mismatch")
 assert(status0.recommendedStationName == "Word Portal", "initial station recommendation mismatch")
 assert(status0.rewardCapReached == false, "reward cap should not start reached")
+assert(status0.challenge.name == "Neighborhood Challenge", "challenge status missing")
+assert(status0.challenge.tier == "Rookie", "initial mastery tier mismatch")
+assert(type(status0.recommendedQuestionId) == "string", "rotating recommendation missing")
 
 assert(service.MarkOnboardingSeen(profile) == true, "first onboarding dismissal should mutate")
 assert(service.MarkOnboardingSeen(profile) == false, "second onboarding dismissal should be idempotent")
@@ -139,7 +143,7 @@ export async function runPlayerPolishProof({
   const text=JSON.stringify(task.logs);
   const sentinel='STARBLOX_PLAYER_POLISH_OK release=' +
     String(releaseId) + ' version=' + String(task.versionNumber) +
-    ' revision=step8-release-polish-v1';
+    ' revision=phase6-content-fun-retention-v1';
   if(!text.includes(sentinel)){
     throw new Error('Roblox logs are missing the Step 8 player-polish proof sentinel');
   }
