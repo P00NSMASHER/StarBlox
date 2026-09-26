@@ -827,7 +827,7 @@ function starMath(){
     }else if(family===12){
       const start=int(0,10),step=pick([2,5,10]),jumps=int(2,4),end=start+step*jumps;
       prompt='Start at '+start+' on a number line and make '+jumps+' jumps of '+step+' to the right. Where do you land?';
-      choices=shuffled([String(end),String(end-step),String(start+jumps)]); answer=String(end);
+      choices=shuffled([String(end),String(end-step),String(end+step)]); answer=String(end);
       explanation='Move right '+step+' each time for '+jumps+' equal jumps.';
       domain=MATH_DOMAINS[2]; skill='number-line'; difficulty=2; richContent={kind:'number-line',start,end,step,highlight:end};
     }else if(family===13){
