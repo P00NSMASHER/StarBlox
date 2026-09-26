@@ -51,11 +51,19 @@ function WorldInteractionService.new(worldProjection)
 	self._runtime = runtime
 	self._witness = witness
 	self._doorStates = {}
+	self._garageStates = {}
+	self._lightStates = {}
 	self._connections = {}
 	self._destroyed = false
 
 	for _, binding in WorldInteractionBindings.Doors do
 		self:_bindDoor(binding)
+	end
+	for _, binding in WorldInteractionBindings.GarageDoors do
+		self:_bindGarageDoor(binding)
+	end
+	for _, binding in WorldInteractionBindings.Lights do
+		self:_bindLight(binding)
 	end
 
 	return self
@@ -212,6 +220,199 @@ function WorldInteractionService:_toggleDoor(bindingId: string, player: Player)
 	end)
 end
 
+
+function WorldInteractionService:_bindGarageDoor(binding)
+	assert(type(binding.Id) == "string" and binding.Id ~= "", "garage binding Id is required")
+	assert(type(binding.PartName) == "string" and binding.PartName ~= "", "garage binding PartName is required")
+
+	local runtimePart = self._runtime:FindFirstChild(binding.PartName, true)
+	local witnessPart = self._witness:FindFirstChild(binding.PartName, true)
+	assert(
+		runtimePart ~= nil and runtimePart:IsA("BasePart"),
+		"reviewed Brookhaven runtime garage door missing: " .. binding.PartName
+	)
+	assert(
+		witnessPart ~= nil and witnessPart:IsA("BasePart"),
+		"reviewed Brookhaven witness garage door missing: " .. binding.PartName
+	)
+	assert(
+		runtimePart.ClassName == witnessPart.ClassName
+			and runtimePart.Size == witnessPart.Size
+			and runtimePart.CFrame == witnessPart.CFrame,
+		"reviewed runtime garage door no longer matches immutable witness: " .. binding.PartName
+	)
+
+	local detector = Instance.new("ClickDetector")
+	detector.Name = "StarBloxGarageClick"
+	detector.MaxActivationDistance = finitePositive(binding.MaxActivationDistance, 12)
+	detector.Parent = runtimePart
+
+	local state = {
+		binding = binding,
+		part = runtimePart,
+		closedCFrame = runtimePart.CFrame,
+		closedCanCollide = runtimePart.CanCollide,
+		detector = detector,
+		active = false,
+		token = 0,
+		activeTween = nil,
+	}
+	self._garageStates[binding.Id] = state
+
+	runtimePart:SetAttribute("StarBloxInteractionId", binding.Id)
+	runtimePart:SetAttribute("StarBloxInteractionKind", "garage-door")
+	runtimePart:SetAttribute("StarBloxGarageState", "closed")
+
+	table.insert(self._connections, detector.MouseClick:Connect(function(player)
+		self:_toggleGarageDoor(binding.Id, player)
+	end))
+end
+
+function WorldInteractionService:_toggleGarageDoor(bindingId: string, player: Player)
+	if self._destroyed then
+		return
+	end
+	local state = self._garageStates[bindingId]
+	if state == nil or state.active or player.Parent ~= Players then
+		return
+	end
+
+	local root = playerRoot(player)
+	if root == nil then
+		return
+	end
+	local maxDistance = finitePositive(state.binding.MaxActivationDistance, 12)
+	if (root.Position - state.part.Position).Magnitude > maxDistance + 2 then
+		return
+	end
+
+	state.active = true
+	state.token += 1
+	local token = state.token
+	state.detector.MaxActivationDistance = 0
+
+	local liftStuds = finitePositive(
+		state.binding.LiftStuds,
+		math.max(6, state.part.Size.Y)
+	)
+	local openCFrame = state.closedCFrame * CFrame.new(0, liftStuds, 0)
+	state.part.CanCollide = false
+	state.part:SetAttribute("StarBloxGarageState", "opening")
+
+	local opening = TweenService:Create(
+		state.part,
+		TweenInfo.new(0.38, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
+		{CFrame = openCFrame}
+	)
+	state.activeTween = opening
+	opening:Play()
+	opening.Completed:Once(function()
+		if self._destroyed or state.token ~= token then
+			return
+		end
+		state.part:SetAttribute("StarBloxGarageState", "open")
+	end)
+
+	task.delay(finitePositive(state.binding.OpenSeconds, 2.5), function()
+		if self._destroyed or state.token ~= token or state.part.Parent == nil then
+			return
+		end
+		state.part:SetAttribute("StarBloxGarageState", "closing")
+		local closing = TweenService:Create(
+			state.part,
+			TweenInfo.new(0.38, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut),
+			{CFrame = state.closedCFrame}
+		)
+		state.activeTween = closing
+		closing:Play()
+		closing.Completed:Once(function()
+			if self._destroyed or state.token ~= token then
+				return
+			end
+			state.part.CFrame = state.closedCFrame
+			state.part.CanCollide = state.closedCanCollide
+			state.part:SetAttribute("StarBloxGarageState", "closed")
+			state.detector.MaxActivationDistance = maxDistance
+			state.activeTween = nil
+			state.active = false
+		end)
+	end)
+end
+
+function WorldInteractionService:_bindLight(binding)
+	assert(type(binding.Id) == "string" and binding.Id ~= "", "light binding Id is required")
+	assert(type(binding.PartName) == "string" and binding.PartName ~= "", "light binding PartName is required")
+
+	local runtimePart = self._runtime:FindFirstChild(binding.PartName, true)
+	local witnessPart = self._witness:FindFirstChild(binding.PartName, true)
+	assert(
+		runtimePart ~= nil and runtimePart:IsA("BasePart"),
+		"reviewed Brookhaven runtime light fixture missing: " .. binding.PartName
+	)
+	assert(
+		witnessPart ~= nil and witnessPart:IsA("BasePart"),
+		"reviewed Brookhaven witness light fixture missing: " .. binding.PartName
+	)
+	assert(
+		runtimePart.ClassName == witnessPart.ClassName
+			and runtimePart.Size == witnessPart.Size
+			and runtimePart.CFrame == witnessPart.CFrame,
+		"reviewed runtime light fixture no longer matches immutable witness: " .. binding.PartName
+	)
+
+	local detector = Instance.new("ClickDetector")
+	detector.Name = "StarBloxLightClick"
+	detector.MaxActivationDistance = finitePositive(binding.MaxActivationDistance, 10)
+	detector.Parent = runtimePart
+
+	local light = Instance.new("PointLight")
+	light.Name = "StarBloxRuntimeLight"
+	light.Brightness = finitePositive(binding.Brightness, 2)
+	light.Range = finitePositive(binding.Range, 18)
+	light.Shadows = binding.Shadows == true
+	light.Enabled = binding.InitiallyOn == true
+	light.Parent = runtimePart
+
+	local state = {
+		binding = binding,
+		part = runtimePart,
+		detector = detector,
+		light = light,
+		on = light.Enabled,
+	}
+	self._lightStates[binding.Id] = state
+
+	runtimePart:SetAttribute("StarBloxInteractionId", binding.Id)
+	runtimePart:SetAttribute("StarBloxInteractionKind", "light")
+	runtimePart:SetAttribute("StarBloxLightState", if state.on then "on" else "off")
+
+	table.insert(self._connections, detector.MouseClick:Connect(function(player)
+		self:_toggleLight(binding.Id, player)
+	end))
+end
+
+function WorldInteractionService:_toggleLight(bindingId: string, player: Player)
+	if self._destroyed or player.Parent ~= Players then
+		return
+	end
+	local state = self._lightStates[bindingId]
+	if state == nil then
+		return
+	end
+	local root = playerRoot(player)
+	if root == nil then
+		return
+	end
+	local maxDistance = finitePositive(state.binding.MaxActivationDistance, 10)
+	if (root.Position - state.part.Position).Magnitude > maxDistance + 2 then
+		return
+	end
+
+	state.on = not state.on
+	state.light.Enabled = state.on
+	state.part:SetAttribute("StarBloxLightState", if state.on then "on" else "off")
+end
+
 function WorldInteractionService:Destroy()
 	if self._destroyed then
 		return
@@ -242,6 +443,41 @@ function WorldInteractionService:Destroy()
 		end
 	end
 	self._doorStates = {}
+
+	for _, state in self._garageStates do
+		state.token += 1
+		if state.activeTween ~= nil then
+			pcall(function()
+				state.activeTween:Cancel()
+			end)
+		end
+		if state.part ~= nil and state.part.Parent ~= nil then
+			state.part.CFrame = state.closedCFrame
+			state.part.CanCollide = state.closedCanCollide
+			state.part:SetAttribute("StarBloxGarageState", nil)
+			state.part:SetAttribute("StarBloxInteractionId", nil)
+			state.part:SetAttribute("StarBloxInteractionKind", nil)
+		end
+		if state.detector ~= nil and state.detector.Parent ~= nil then
+			state.detector:Destroy()
+		end
+	end
+	self._garageStates = {}
+
+	for _, state in self._lightStates do
+		if state.part ~= nil and state.part.Parent ~= nil then
+			state.part:SetAttribute("StarBloxLightState", nil)
+			state.part:SetAttribute("StarBloxInteractionId", nil)
+			state.part:SetAttribute("StarBloxInteractionKind", nil)
+		end
+		if state.detector ~= nil and state.detector.Parent ~= nil then
+			state.detector:Destroy()
+		end
+		if state.light ~= nil and state.light.Parent ~= nil then
+			state.light:Destroy()
+		end
+	end
+	self._lightStates = {}
 end
 
 return WorldInteractionService
