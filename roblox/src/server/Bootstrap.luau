@@ -19,6 +19,8 @@ local HomeEconomyService = require(script.Parent.HomeEconomyService)
 local MirrorLifestyleService = require(script.Parent.MirrorLifestyleService)
 local RoleplayService = require(script.Parent.RoleplayService)
 local PrivatePlaytestTelemetryService = require(script.Parent.PrivatePlaytestTelemetryService)
+local SchoolConfig = require(ReplicatedStorage.StarBlox.SchoolConfig)
+local SchoolRuntimeService = require(script.Parent.SchoolRuntimeService)
 
 local Bootstrap = {}
 
@@ -43,6 +45,10 @@ function Bootstrap.start(dependencies)
 	local homeEconomy = HomeEconomyService.new(profiles, replicas, coreLoop:GetSpawnCFrame())
 	local mirrorLifestyle = MirrorLifestyleService.new(profiles, replicas)
 	local roleplay = RoleplayService.new(profiles, replicas)
+	local schoolRuntime = nil
+	if SchoolConfig.FeatureFlags.SchoolSystemEnabled == true then
+		schoolRuntime = SchoolRuntimeService.new(profiles, replicas)
+	end
 	action:Start()
 
 	local function playerAdded(player: Player)
@@ -59,10 +65,12 @@ function Bootstrap.start(dependencies)
 		homeEconomy:PlayerReady(player, profile.Data)
 		mirrorLifestyle:PlayerReady(player, profile.Data)
 		roleplay:PlayerReady(player, profile.Data)
+		if schoolRuntime ~= nil then schoolRuntime:PlayerReady(player) end
 		action:PlayerAdded(player)
 	end
 
 	local function playerRemoving(player: Player)
+		if schoolRuntime ~= nil then schoolRuntime:PlayerRemoving(player) end
 		roleplay:PlayerRemoving(player)
 		mirrorLifestyle:PlayerRemoving(player)
 		homeEconomy:PlayerRemoving(player)
@@ -83,6 +91,7 @@ function Bootstrap.start(dependencies)
 
 	game:BindToClose(function()
 		privatePlaytestTelemetry:FlushAll()
+		if schoolRuntime ~= nil then schoolRuntime:Destroy() end
 		roleplay:Destroy()
 		mirrorLifestyle:Destroy()
 		homeEconomy:Destroy()
@@ -109,6 +118,7 @@ function Bootstrap.start(dependencies)
 		MirrorLifestyle = mirrorLifestyle,
 		Roleplay = roleplay,
 		PrivatePlaytestTelemetry = privatePlaytestTelemetry,
+		SchoolRuntime = schoolRuntime,
 	})
 end
 
