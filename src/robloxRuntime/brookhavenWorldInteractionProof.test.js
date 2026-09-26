@@ -9,7 +9,8 @@ describe('Brookhaven reviewed runtime interaction activation',()=>{
   it('activates exactly one reviewed door while broad candidate activation stays disabled',()=>{
     const bindings=read('roblox/src/shared/WorldInteractionBindings.luau');
 
-    expect(bindings).toContain('Revision = "reviewed-door-proof-v1"');
+    expect(bindings).toContain('SchemaVersion = 3');
+    expect(bindings).toContain('Revision = "reviewed-runtime-interactions-v2"');
     expect(bindings).toContain('WorldRootName = "BrookhavenWorldRuntime"');
     expect(bindings).toContain('ImmutableWitnessName = "BrookhavenWorldBaseline"');
     expect(bindings).toContain('Id = "door-proof-1454"');
@@ -60,4 +61,28 @@ describe('Brookhaven reviewed runtime interaction activation',()=>{
     );
     expect(bootstrap).toContain('WorldInteractions = worldInteractions');
   });
+  it('supports garage doors and lights without auto-activating any unreviewed candidates',()=>{
+    const bindings=read('roblox/src/shared/WorldInteractionBindings.luau');
+    const service=read('roblox/src/server/WorldInteractionService.luau');
+
+    expect(bindings).toContain('GarageDoors = table.freeze({})');
+    expect(bindings).toContain('Lights = table.freeze({})');
+    expect(bindings).toContain('AutomaticCandidateActivationAllowed = false');
+
+    expect(service).toContain('for _, binding in WorldInteractionBindings.GarageDoors do');
+    expect(service).toContain('for _, binding in WorldInteractionBindings.Lights do');
+    expect(service).toContain('function WorldInteractionService:_bindGarageDoor');
+    expect(service).toContain('function WorldInteractionService:_toggleGarageDoor');
+    expect(service).toContain('runtimePart.CFrame == witnessPart.CFrame');
+    expect(service).toContain('detector.Name = "StarBloxGarageClick"');
+    expect(service).toContain('StarBloxGarageState');
+
+    expect(service).toContain('function WorldInteractionService:_bindLight');
+    expect(service).toContain('function WorldInteractionService:_toggleLight');
+    expect(service).toContain('local light = Instance.new("PointLight")');
+    expect(service).toContain('detector.Name = "StarBloxLightClick"');
+    expect(service).toContain('StarBloxLightState');
+    expect(service).not.toContain('witnessPart.CFrame =');
+  });
+
 });
