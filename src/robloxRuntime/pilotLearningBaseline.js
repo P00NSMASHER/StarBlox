@@ -16,15 +16,15 @@ function emptySummary(){
   };
 }
 function addRow(summary,row){
-  summary.firstAttempts+=Number(row.firstPilotAttempts)||0;
-  summary.firstCorrect+=Number(row.firstPilotCorrect)||0;
-  summary.attempts+=Number(row.pilotAttempts)||0;
-  summary.correct+=Number(row.pilotCorrect)||0;
-  summary.wrong+=Number(row.pilotWrong)||0;
-  summary.rubricPoints+=Number(row.pilotRubricPoints)||0;
-  summary.rubricMaxPoints+=Number(row.pilotRubricMaxPoints)||0;
-  mergeCounter(summary.responseTimeBands,row.pilotResponseTimeBands);
-  mergeCounter(summary.misconceptions,row.pilotMisconceptionCounts);
+  summary.firstAttempts+=Number(row.baselineFirstAttempts)||0;
+  summary.firstCorrect+=Number(row.baselineFirstCorrect)||0;
+  summary.attempts+=Number(row.baselinePilotAttempts)||0;
+  summary.correct+=Number(row.baselinePilotCorrect)||0;
+  summary.wrong+=Number(row.baselinePilotWrong)||0;
+  summary.rubricPoints+=Number(row.baselineRubricPoints)||0;
+  summary.rubricMaxPoints+=Number(row.baselineRubricMaxPoints)||0;
+  mergeCounter(summary.responseTimeBands,row.baselineResponseTimeBands);
+  mergeCounter(summary.misconceptions,row.baselineMisconceptionCounts);
 }
 function finalize(summary){
   const firstAttempts=summary.firstAttempts;
@@ -69,11 +69,11 @@ export function buildPilotBaseline({
   const firstPilotBucketCounts={};
   for(const {row} of rows){
     addRow(overallRaw,row);
-    mergeCounter(firstPilotBucketCounts,row.firstPilotBucketCounts);
+    mergeCounter(firstPilotBucketCounts,row.baselineFirstBucketCounts);
   }
   const overall=finalize(overallRaw);
-  const completedSessions=Number(liveMetrics?.retention?.pilotSessionsCompleted)||0;
-  const startedSessions=Number(liveMetrics?.retention?.pilotSessionsStarted)||0;
+  const completedSessions=Number(liveMetrics?.retention?.baselinePilotSessionsCompleted)||0;
+  const startedSessions=Number(liveMetrics?.retention?.baselinePilotSessionsStarted)||0;
 
   const baselineEstablished=
     overall.firstAttempts>=baselineMinFirstAttempts &&
@@ -96,7 +96,9 @@ export function buildPilotBaseline({
       placeVersion:Number(liveMetrics?.placeVersion)||null,
       bankSnapshotId:bankSource?.generatedFrom?.bankSnapshotId||null,
       metricsVersion:liveMetrics?.metricsVersion||null,
-      metricsUpdatedAt:liveMetrics?.metricsUpdatedAt||null
+      metricsUpdatedAt:liveMetrics?.metricsUpdatedAt||null,
+      cohort:'first-'+baselineMinCompletedSessions+'-completed-pilot-sessions',
+      frozen:true
     },
     readiness:{
       startedSessions,
@@ -118,6 +120,11 @@ export function buildPilotBaseline({
     bySubject:groupRows(rows,meta=>meta.subject),
     byDomain:groupRows(rows,meta=>meta.domain),
     byDifficulty:groupRows(rows,meta=>String(meta.difficulty??'unknown')),
+    governance:{
+      adaptiveDifficultyFrozenDuringBaseline:true,
+      postBaselinePilotDataExcluded:true,
+      baselineCohortImmutableByDefinition:true
+    },
     privacy:{
       containsUsernames:false,
       containsUserIds:false,
@@ -141,6 +148,8 @@ export function pilotBaselineMarkdown(report){
     '- 30s+ response share: **'+pct(report.overall.slowResponseShare)+'**',
     '- Baseline floor: **'+report.readiness.baselineMinFirstAttempts+' attempts / '+report.readiness.baselineMinCompletedSessions+' sessions**',
     '- Calibration floor: **'+report.readiness.calibrationMinFirstAttempts+' attempts / '+report.readiness.calibrationMinCompletedSessions+' sessions**',
+    '- Baseline cohort: **first '+report.readiness.baselineMinCompletedSessions+' completed pilot sessions only**',
+    '- Adaptive difficulty during baseline: **frozen**',
     '',
     'No usernames, user IDs, raw answers, or chat are included in this report.'
   ].join('\n')+'\n';
