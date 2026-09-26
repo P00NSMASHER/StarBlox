@@ -86,6 +86,7 @@ assert(type(services) == "table", "production Bootstrap did not return services"
 assert(services.CoreLoop ~= nil, "CoreLoop service missing after bootstrap")
 assert(services.HomeEconomy ~= nil, "HomeEconomy service missing after bootstrap")
 assert(services.MirrorLifestyle ~= nil, "MirrorLifestyle service missing after bootstrap")
+assert(services.Roleplay ~= nil, "Roleplay service missing after bootstrap")
 assert(services.PrivatePlaytestTelemetry ~= nil, "private playtest telemetry service missing after bootstrap")
 assert((services.PrivatePlaytestTelemetry :: any)._retentionStore ~= nil, "retention aggregate store missing after bootstrap")
 
@@ -112,6 +113,20 @@ local vehicleFolder = Workspace:FindFirstChild("StarBloxVehicles")
 assert(vehicleFolder ~= nil and vehicleFolder:IsA("Folder"), "vehicle runtime folder missing after bootstrap")
 assert(vehicleFolder:GetAttribute("RuntimeOwned") == true, "vehicle folder must be runtime-owned")
 assert(vehicleFolder:GetAttribute("BaselineMutationAllowed") == false, "vehicle folder must not mutate baseline")
+
+local roleplayRemotes = ReplicatedStorage:FindFirstChild("StarBloxRoleplay")
+assert(roleplayRemotes ~= nil and roleplayRemotes:IsA("Folder"), "roleplay remotes missing after bootstrap")
+for _, remoteName in {"GetState","SetJob","SaveBio","ResetAvatar"} do
+    local remote = roleplayRemotes:FindFirstChild(remoteName)
+    assert(remote ~= nil and remote:IsA("RemoteFunction"), "roleplay remote missing: " .. remoteName)
+end
+
+local plotBindings = require(shared:WaitForChild("WorldPlotBindings"))
+assert(#plotBindings.Plots == 8, "Brookhaven house plot binding count mismatch")
+for _, plot in plotBindings.Plots do
+    local part = brookhaven:FindFirstChild(plot.SourcePartName, true)
+    assert(part ~= nil and part:IsA("BasePart"), "Brookhaven house plot source missing: " .. plot.SourcePartName)
+end
 
 local brookhaven = Workspace:FindFirstChild("BrookhavenWorldBaseline")
 assert(brookhaven ~= nil and brookhaven:IsA("Model"), "verified Brookhaven world mount missing")
@@ -181,6 +196,7 @@ assert((services.CoreLoop :: any)._spawnCFrame ~= nil, "real-world spawn binding
 local telemetryRemote = ReplicatedStorage:FindFirstChild("StarBloxPrivatePlaytestTelemetry")
 assert(telemetryRemote and telemetryRemote:IsA("RemoteEvent"), "playtest telemetry remote missing after bootstrap")
 
+services.Roleplay:Destroy()
 services.MirrorLifestyle:Destroy()
 services.HomeEconomy:Destroy()
 services.CoreLoop:Destroy()
@@ -273,7 +289,10 @@ export async function runProductionServerBootProof({
       mirrorLifestyleCreated:true,
       mirrorRemotesCreated:true,
       vehicleRuntimeFolderCreated:true,
-      learningCoinPurchaseEconomy:true
+      learningCoinPurchaseEconomy:true,
+      roleplayServiceCreated:true,
+      roleplayRemotesCreated:true,
+      brookhavenHousePlotsBound:true
     }),
     publicAccessChangeAttempted:false,
     liveActivationAllowed:false,
