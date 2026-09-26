@@ -64,6 +64,10 @@ local openAvatarEditor = Instance.new("BindableEvent")
 openAvatarEditor.Name = "OpenAvatarEditor"
 openAvatarEditor.Parent = gui
 
+local closeAvatarEditor = Instance.new("BindableEvent")
+closeAvatarEditor.Name = "CloseAvatarEditor"
+closeAvatarEditor.Parent = gui
+
 local root = Instance.new("Frame")
 root.Name = "Editor"
 root.Size = UDim2.fromScale(1, 1)
@@ -511,6 +515,7 @@ local function closeEditor()
 end
 
 closeButton.Activated:Connect(closeEditor)
+closeAvatarEditor.Event:Connect(closeEditor)
 
 for slot = 1, 4 do
 	outfitSlotButtons[slot].Activated:Connect(function()
