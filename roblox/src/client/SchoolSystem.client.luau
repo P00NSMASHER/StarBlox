@@ -212,7 +212,8 @@ local function renderState(payload)
 	state = payload
 	stateReceivedAt = os.clock()
 	local clock = payload.clock
-	hud.Text = string.format("%s\n%s • %ds", clock.InGameStart, clock.DisplayName, clock.SecondsRemaining)
+	hud.Text = string.format("%s  •  %s  •  %ds", clock.InGameStart, clock.DisplayName, clock.SecondsRemaining)
+	hud.Visible = payload.dismissed ~= true
 	report.Visible = false
 
 	if payload.report and payload.report.ok then
@@ -394,7 +395,8 @@ RunService.Heartbeat:Connect(function()
 	if state and state.clock then
 		local elapsed = math.max(0, os.clock() - stateReceivedAt)
 		local remaining = math.max(0, math.ceil(state.clock.SecondsRemaining - elapsed))
-		hud.Text = string.format("%s\n%s • %ds", state.clock.InGameStart, state.clock.DisplayName, remaining)
+		hud.Text = string.format("%s  •  %s  •  %ds", state.clock.InGameStart, state.clock.DisplayName, remaining)
+		hud.Visible = state.dismissed ~= true
 	end
 
 	if not state or not state.targetAnchorName then
@@ -412,7 +414,7 @@ RunService.Heartbeat:Connect(function()
 		local targetName = state.targetDisplayName or state.clock.DisplayName
 		local roomText = if state.targetRoom then " • Room " .. tostring(state.targetRoom) else ""
 		waypoint.Text = string.format(
-			"NEXT → %s%s • %d studs",
+			"→ %s%s • %d studs",
 			targetName,
 			roomText,
 			math.floor(distance + 0.5)
