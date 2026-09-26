@@ -8,7 +8,9 @@ describe('School system milestones 7-12',()=>{
     const bindings=read('roblox/src/shared/SchoolWorldBindings.luau');
     const attendance=read('roblox/src/server/SchoolAttendanceService.luau');
 
-    expect(bindings).toContain('BrookhavenWorldBaseline');
+    expect(bindings).toContain('WorldRootName = "BrookhavenWorldRuntime"');
+    expect(bindings).toContain('ImmutableWitnessName = "BrookhavenWorldBaseline"');
+    expect(bindings).toContain('RuntimeProjectionRequired = true');
     expect(bindings).toContain('StarBloxSchoolAnchors');
     expect(bindings).toContain('BaselineMutationAllowed = false');
 
@@ -27,6 +29,11 @@ describe('School system milestones 7-12',()=>{
     expect(attendance).toContain('SchoolLibrary');
     expect(attendance).toContain('MakeUpClassPrompt');
     expect(attendance).toContain('ValidateProximity');
+    expect(attendance).toContain('worldRoot:GetAttribute("StarBloxRuntimeProjection") == true');
+    expect(attendance).toContain('worldRoot:GetAttribute("ImmutableWitnessName") == Bindings.ImmutableWitnessName');
+    expect(attendance).toContain('Workspace:FindFirstChild(Bindings.ImmutableWitnessName) == nil');
+    expect(attendance).toContain('folder:SetAttribute("RuntimeProjectionVerified", true)');
+
     expect(attendance).toContain('OnTimeGraceSeconds');
     expect(attendance).toContain('"MISSED"');
   });
@@ -204,6 +211,21 @@ describe('School system milestones 7-12',()=>{
     expect(client).toContain('local function richSummary');
     expect(client).toContain('question.richContent');
     expect(client).toContain('You have part of the reasoning right.');
+  });
+
+  it('is ready to compose with the Brookhaven immutable-witness/runtime-projection architecture',()=>{
+    const config=read('roblox/src/shared/SchoolConfig.luau');
+    const bindings=read('roblox/src/shared/SchoolWorldBindings.luau');
+    const attendance=read('roblox/src/server/SchoolAttendanceService.luau');
+
+    expect(config).toContain('SchemaVersion = 3');
+    expect(config).toContain('IntegrationRevision = "brookhaven-runtime-projection-v1"');
+    expect(config).toContain('WorldRootName = "BrookhavenWorldRuntime"');
+    expect(config).toContain('ImmutableWitnessName = "BrookhavenWorldBaseline"');
+    expect(config).toContain('RuntimeProjectionRequired = true');
+    expect(attendance).not.toContain('anchor.Parent = worldRoot');
+    expect(attendance).toContain('anchor.Parent = folder');
+    expect(bindings).toContain('Revision = "brookhaven-runtime-projection-v1"');
   });
 
 });
