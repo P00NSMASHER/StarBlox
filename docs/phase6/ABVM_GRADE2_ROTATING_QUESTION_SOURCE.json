@@ -6,12 +6,14 @@
     "repository": "P00NSMASHER/abvmschoolstarworld",
     "path": "pages/data/study-pack.json",
     "scanner": "scripts/refresh-teacher-pages.mjs",
+    "scannerCommit": "unknown",
+    "generatorVersion": "dynamic-abvm-star-sync-generator-v3-research-1-6",
     "healthCheck": "scripts/check-refresh-health.mjs",
     "sourceHash": "teacher-pages-0ca987de6de2d3791e25",
     "sourceCapturedAt": "2026-09-24T20:13:58.158Z",
     "sourceCheckedAt": "2026-09-24T20:13:58.158Z",
     "weekLabel": "Week of September 21, 2026",
-    "bankSnapshotId": "abvm-0ca987de6de2"
+    "bankSnapshotId": "abvm-0ca987de6de2-34b198"
   },
   "starAlignment": {
     "assessment": "Renaissance Star Reading and Star Math",
@@ -54,7 +56,7 @@
   },
   "questions": [
     {
-      "id": "abvm-0ca987de6de2-mat-read-sentence-command",
+      "id": "abvm-0ca987de6de2-34b198-mat-read-sentence-command",
       "stationId": "word-portal-put-v1",
       "subject": "Reading / ELA",
       "skill": "sentence-types",
@@ -71,10 +73,29 @@
       "tier": "material",
       "domain": "Language: sentence types",
       "difficulty": 3,
-      "contentHash": "sha256:4b3caa764c64544f08132dcecb86c57d67d10de476b8d3b925d264f22131ed47"
+      "standards": [
+        "CCSS.L.2.1"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Ask what the sentence is doing: telling, asking, or directing.",
+      "scaffold": "Ask what the sentence is doing: telling, asking, or directing.",
+      "choiceDiagnostics": [
+        {
+          "choice": "Where is the library book?",
+          "misconception": "sentence-purpose-confusion",
+          "feedback": "Decide whether the sentence tells, asks, or gives a direction."
+        },
+        {
+          "choice": "The library book is on the shelf.",
+          "misconception": "sentence-purpose-confusion",
+          "feedback": "Decide whether the sentence tells, asks, or gives a direction."
+        }
+      ],
+      "contentHash": "sha256:2599776f291e20ae45adaa1d116baa33aa7dd3e90b7639ab054bd5649f64dc4b"
     },
     {
-      "id": "abvm-0ca987de6de2-mat-read-sentence-question",
+      "id": "abvm-0ca987de6de2-34b198-mat-read-sentence-question",
       "stationId": "word-portal-put-v1",
       "subject": "Reading / ELA",
       "skill": "sentence-types",
@@ -91,10 +112,29 @@
       "tier": "material",
       "domain": "Language: sentence types",
       "difficulty": 3,
-      "contentHash": "sha256:0645c617e6c786bf20e2d47c533989abec23a71e3cc44e9f0849769f95982e93"
+      "standards": [
+        "CCSS.L.2.1"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Ask what the sentence is doing: telling, asking, or directing.",
+      "scaffold": "Ask what the sentence is doing: telling, asking, or directing.",
+      "choiceDiagnostics": [
+        {
+          "choice": "Recess starts after lunch.",
+          "misconception": "sentence-purpose-confusion",
+          "feedback": "Decide whether the sentence tells, asks, or gives a direction."
+        },
+        {
+          "choice": "Line up for recess.",
+          "misconception": "sentence-purpose-confusion",
+          "feedback": "Decide whether the sentence tells, asks, or gives a direction."
+        }
+      ],
+      "contentHash": "sha256:e5b3d3ad2495cbd0c607fcff0d7b7d796a411be335c978ca4bf609583bb252c1"
     },
     {
-      "id": "abvm-0ca987de6de2-mat-read-sentence-purpose",
+      "id": "abvm-0ca987de6de2-34b198-mat-read-sentence-purpose",
       "stationId": "word-portal-put-v1",
       "subject": "Reading / ELA",
       "skill": "sentence-types",
@@ -111,10 +151,29 @@
       "tier": "material",
       "domain": "Language: sentence types",
       "difficulty": 3,
-      "contentHash": "sha256:f8acd8c67929b0052e3e6dfe4def6262d3db1498bab62378f877ff74f312e6ba"
+      "standards": [
+        "CCSS.L.2.1"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Ask what the sentence is doing: telling, asking, or directing.",
+      "scaffold": "Ask what the sentence is doing: telling, asking, or directing.",
+      "choiceDiagnostics": [
+        {
+          "choice": "Is the paint wet? — The paint is wet.",
+          "misconception": "sentence-purpose-confusion",
+          "feedback": "Decide whether the sentence tells, asks, or gives a direction."
+        },
+        {
+          "choice": "Do not touch it. — Is the paint wet?",
+          "misconception": "sentence-purpose-confusion",
+          "feedback": "Decide whether the sentence tells, asks, or gives a direction."
+        }
+      ],
+      "contentHash": "sha256:9836eba69aaba138ccd3caf9dcc4b1702064fe1b495de58f6fb49a716260295f"
     },
     {
-      "id": "abvm-0ca987de6de2-mat-read-blend-transfer",
+      "id": "abvm-0ca987de6de2-34b198-mat-read-blend-transfer",
       "stationId": "word-portal-put-v1",
       "subject": "Reading / ELA",
       "skill": "consonant-blends",
@@ -131,10 +190,29 @@
       "tier": "material",
       "domain": "Word knowledge and skills",
       "difficulty": 3,
-      "contentHash": "sha256:2642dacf278b78ba00e6b0a5f09046fe43432c83862ea928193faa3cf37a509d"
+      "standards": [
+        "CCSS.RF.2.3"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Say the beginning slowly and listen for both consonant sounds.",
+      "scaffold": "Say the beginning slowly and listen for both consonant sounds.",
+      "choiceDiagnostics": [
+        {
+          "choice": "frog",
+          "misconception": "blend-sound-confusion",
+          "feedback": "Say the beginning slowly and listen for both consonant sounds."
+        },
+        {
+          "choice": "lamp",
+          "misconception": "blend-sound-confusion",
+          "feedback": "Say the beginning slowly and listen for both consonant sounds."
+        }
+      ],
+      "contentHash": "sha256:7c66b6262a0bcb9c98da1214fac81eddf6f13409a06a788a16b2d937a0ade506"
     },
     {
-      "id": "abvm-0ca987de6de2-mat-read-blend-middle",
+      "id": "abvm-0ca987de6de2-34b198-mat-read-blend-middle",
       "stationId": "word-portal-put-v1",
       "subject": "Reading / ELA",
       "skill": "consonant-blends",
@@ -151,10 +229,29 @@
       "tier": "material",
       "domain": "Word knowledge and skills",
       "difficulty": 3,
-      "contentHash": "sha256:0e846d9f63e18c8ecb356c2aeeb5edf9f9197ae48f53618c206cc062e985b28e"
+      "standards": [
+        "CCSS.RF.2.3"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Say the beginning slowly and listen for both consonant sounds.",
+      "scaffold": "Say the beginning slowly and listen for both consonant sounds.",
+      "choiceDiagnostics": [
+        {
+          "choice": "ship",
+          "misconception": "blend-sound-confusion",
+          "feedback": "Say the beginning slowly and listen for both consonant sounds."
+        },
+        {
+          "choice": "cake",
+          "misconception": "blend-sound-confusion",
+          "feedback": "Say the beginning slowly and listen for both consonant sounds."
+        }
+      ],
+      "contentHash": "sha256:327f9b13734b184b1120fd1e887778f977915cf312bbdc0d2dbf0e84634e2fc3"
     },
     {
-      "id": "abvm-0ca987de6de2-mat-read-blend-change",
+      "id": "abvm-0ca987de6de2-34b198-mat-read-blend-change",
       "stationId": "word-portal-put-v1",
       "subject": "Reading / ELA",
       "skill": "consonant-blends",
@@ -171,10 +268,29 @@
       "tier": "material",
       "domain": "Word knowledge and skills",
       "difficulty": 3,
-      "contentHash": "sha256:45937faaf620ee347ca634bb0eeee891017b6e707297777fd2e2bf6d7498300d"
+      "standards": [
+        "CCSS.RF.2.3"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Say the beginning slowly and listen for both consonant sounds.",
+      "scaffold": "Say the beginning slowly and listen for both consonant sounds.",
+      "choiceDiagnostics": [
+        {
+          "choice": "cap",
+          "misconception": "blend-sound-confusion",
+          "feedback": "Say the beginning slowly and listen for both consonant sounds."
+        },
+        {
+          "choice": "clip",
+          "misconception": "blend-sound-confusion",
+          "feedback": "Say the beginning slowly and listen for both consonant sounds."
+        }
+      ],
+      "contentHash": "sha256:414d2c602d02f1da690c77fc338269db194f8fa842fb7003ce6c7fd97b2a8378"
     },
     {
-      "id": "abvm-0ca987de6de2-mat-read-cvc-reason",
+      "id": "abvm-0ca987de6de2-34b198-mat-read-cvc-reason",
       "stationId": "word-portal-put-v1",
       "subject": "Reading / ELA",
       "skill": "cvc-structure",
@@ -191,10 +307,29 @@
       "tier": "material",
       "domain": "Word knowledge and skills",
       "difficulty": 3,
-      "contentHash": "sha256:5dea14ba34294f6d96ed4ca3a56ae24d6ab7ce9550acf3036ff9c6197aca9639"
+      "standards": [
+        "CCSS.RF.2.3"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Look for one consonant, one vowel, then one consonant.",
+      "scaffold": "Look for one consonant, one vowel, then one consonant.",
+      "choiceDiagnostics": [
+        {
+          "choice": "hope",
+          "misconception": "word-structure-confusion",
+          "feedback": "Check the letter pattern one position at a time."
+        },
+        {
+          "choice": "shop",
+          "misconception": "word-structure-confusion",
+          "feedback": "Check the letter pattern one position at a time."
+        }
+      ],
+      "contentHash": "sha256:4d252814cac02cf22f643ed81ba49d8661c1211d6f780710f6d62c0fb0bc4614"
     },
     {
-      "id": "abvm-0ca987de6de2-mat-read-cvc-build",
+      "id": "abvm-0ca987de6de2-34b198-mat-read-cvc-build",
       "stationId": "word-portal-put-v1",
       "subject": "Reading / ELA",
       "skill": "cvc-structure",
@@ -211,10 +346,29 @@
       "tier": "material",
       "domain": "Word knowledge and skills",
       "difficulty": 3,
-      "contentHash": "sha256:f1756c12b1f6d6e4d15a27c48e9dbcae4241b69a7e0738fa38de1c2ab09b80eb"
+      "standards": [
+        "CCSS.RF.2.3"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Look for one consonant, one vowel, then one consonant.",
+      "scaffold": "Look for one consonant, one vowel, then one consonant.",
+      "choiceDiagnostics": [
+        {
+          "choice": "p-ee-t",
+          "misconception": "word-structure-confusion",
+          "feedback": "Check the letter pattern one position at a time."
+        },
+        {
+          "choice": "pl-e-t",
+          "misconception": "word-structure-confusion",
+          "feedback": "Check the letter pattern one position at a time."
+        }
+      ],
+      "contentHash": "sha256:248e193e8af1e2d0c0caec17ea56704b05c69c57ecebbbf5d43dc77fe180cb31"
     },
     {
-      "id": "abvm-0ca987de6de2-mat-read-comprehension-infer",
+      "id": "abvm-0ca987de6de2-34b198-mat-read-comprehension-infer",
       "stationId": "word-portal-put-v1",
       "subject": "Reading / ELA",
       "skill": "inference",
@@ -231,10 +385,29 @@
       "tier": "material",
       "domain": "Comprehension strategies and constructing meaning",
       "difficulty": 3,
-      "contentHash": "sha256:129156cc500e6d2f38677154143b1b5c92b752ba9c18a6363829c9cba08b0424"
+      "standards": [
+        "CCSS.RL.2.1"
+      ],
+      "dok": 3,
+      "cognitiveDemand": "strategic-reasoning",
+      "hint": "Combine a text clue with what you already know.",
+      "scaffold": "Find one clue that is definitely true. What does that clue suggest?",
+      "choiceDiagnostics": [
+        {
+          "choice": "It is very hot outside.",
+          "misconception": "unsupported-inference",
+          "feedback": "The best inference must be supported by a specific clue in the text."
+        },
+        {
+          "choice": "It is raining hard.",
+          "misconception": "unsupported-inference",
+          "feedback": "The best inference must be supported by a specific clue in the text."
+        }
+      ],
+      "contentHash": "sha256:ee33107da20eddfec6a2db5d40e41b28efaadbf5d7ab22cbc78c3e546dcf4831"
     },
     {
-      "id": "abvm-0ca987de6de2-mat-read-comprehension-theme",
+      "id": "abvm-0ca987de6de2-34b198-mat-read-comprehension-theme",
       "stationId": "word-portal-put-v1",
       "subject": "Reading / ELA",
       "skill": "theme",
@@ -251,10 +424,29 @@
       "tier": "material",
       "domain": "Analyzing literary text",
       "difficulty": 3,
-      "contentHash": "sha256:65504ed77469b0d1c6bbfae2d3d7895be25cd3b34aed6ff8441e40aa6aa3fcf1"
+      "standards": [
+        "CCSS.RL.2.2"
+      ],
+      "dok": 3,
+      "cognitiveDemand": "strategic-reasoning",
+      "hint": "Think about what the character learned from the whole story.",
+      "scaffold": "First identify the character’s problem and what changed by the end.",
+      "choiceDiagnostics": [
+        {
+          "choice": "The first try is always best.",
+          "misconception": "surface-detail-not-theme",
+          "feedback": "A theme is a lesson from the whole story, not one small detail."
+        },
+        {
+          "choice": "It is better not to build things.",
+          "misconception": "surface-detail-not-theme",
+          "feedback": "A theme is a lesson from the whole story, not one small detail."
+        }
+      ],
+      "contentHash": "sha256:6f83ff7e0384788c3c3194363dc5468ad67f8bdd9641e679549232216d7e9c45"
     },
     {
-      "id": "abvm-0ca987de6de2-mat-read-comprehension-evidence",
+      "id": "abvm-0ca987de6de2-34b198-mat-read-comprehension-evidence",
       "stationId": "word-portal-put-v1",
       "subject": "Reading / ELA",
       "skill": "text-evidence",
@@ -271,10 +463,29 @@
       "tier": "material",
       "domain": "Comprehension strategies and constructing meaning",
       "difficulty": 3,
-      "contentHash": "sha256:b6ddb8dbc2dc0e19c8a5b7669e3127e37b35f2dc1bb1bf45e6030cfe9b57c568"
+      "standards": [
+        "CCSS.RL.2.1"
+      ],
+      "dok": 3,
+      "cognitiveDemand": "strategic-reasoning",
+      "hint": "Choose the detail that most directly proves the idea.",
+      "scaffold": "Restate the claim, then point to the one detail that proves it most directly.",
+      "choiceDiagnostics": [
+        {
+          "choice": "The puppy is an animal.",
+          "misconception": "weak-or-irrelevant-evidence",
+          "feedback": "Pick the detail that proves the claim most directly."
+        },
+        {
+          "choice": "Lena was standing nearby.",
+          "misconception": "weak-or-irrelevant-evidence",
+          "feedback": "Pick the detail that proves the claim most directly."
+        }
+      ],
+      "contentHash": "sha256:3d1cfbcbe91cb17fecaf6f0def7b9cb4629237198b585b73c290ebf807806b5b"
     },
     {
-      "id": "abvm-0ca987de6de2-mat-read-comprehension-visualize",
+      "id": "abvm-0ca987de6de2-34b198-mat-read-comprehension-visualize",
       "stationId": "word-portal-put-v1",
       "subject": "Reading / ELA",
       "skill": "visualize",
@@ -291,350 +502,68 @@
       "tier": "material",
       "domain": "Comprehension strategies and constructing meaning",
       "difficulty": 3,
-      "contentHash": "sha256:37f7f4e2b55aeaf425c6ba266b693a13a880cde068e34b6197ea43b7d45b9669"
-    },
-    {
-      "id": "abvm-0ca987de6de2-star-read-07-word",
-      "stationId": "word-portal-put-v1",
-      "subject": "Reading / ELA",
-      "skill": "text-evidence",
-      "prompt": "Read: “The kitten crouched low, wiggled its back legs, and sprang toward the toy mouse.” Which detail best shows the kitten was getting ready to pounce?",
-      "choices": [
-        "The toy was a mouse.",
-        "It crouched low and wiggled its back legs.",
-        "The kitten had fur."
+      "standards": [
+        "CCSS.RL.2.1"
       ],
-      "answer": "It crouched low and wiggled its back legs.",
-      "explanation": "Those actions are direct evidence of preparing to pounce.",
-      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
-      "sourceFact": "STAR Reading public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
-      "tier": "star-fallback",
-      "domain": "Comprehension strategies and constructing meaning",
-      "difficulty": 3,
-      "contentHash": "sha256:ca36822973d25d78645608a2cddedb3681c97c59890c134b2069795125e163fc"
-    },
-    {
-      "id": "abvm-0ca987de6de2-star-read-12-word",
-      "stationId": "word-portal-put-v1",
-      "subject": "Reading / ELA",
-      "skill": "word-parts",
-      "prompt": "What does the word “careless” mean?",
-      "choices": [
-        "very noisy",
-        "without enough care",
-        "a kind of place"
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Match the important describing words to a mental picture.",
+      "scaffold": "Match the important describing words to a mental picture.",
+      "choiceDiagnostics": [
+        {
+          "choice": "Snow piled beside a frozen pond.",
+          "misconception": "unsupported-choice",
+          "feedback": "Recheck the evidence or calculation that supports your choice."
+        },
+        {
+          "choice": "Flowers opening on a sunny lawn.",
+          "misconception": "unsupported-choice",
+          "feedback": "Recheck the evidence or calculation that supports your choice."
+        }
       ],
-      "answer": "without enough care",
-      "explanation": "The prefix or suffix changes the base word to make this meaning.",
-      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
-      "sourceFact": "STAR Reading public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
-      "tier": "star-fallback",
-      "domain": "Word knowledge and skills",
-      "difficulty": 2,
-      "contentHash": "sha256:30ed49280e016b037f808a512b8ea83624e89c3701fc7d4d34567ef3855fc928"
+      "contentHash": "sha256:cdd0d6921e5be88c1b8c159bfb4fd7474748bf45e7eb5b334b93df20fafec9da"
     },
     {
-      "id": "abvm-0ca987de6de2-star-read-29-word",
-      "stationId": "word-portal-put-v1",
-      "subject": "Reading / ELA",
-      "skill": "author-purpose",
-      "prompt": "What is the author’s main purpose in this text? “A poster says, “Bring a reusable bottle and help reduce trash!””",
-      "choices": [
-        "to hide the topic",
-        "to persuade",
-        "to list random words"
-      ],
-      "answer": "to persuade",
-      "explanation": "The kind of information and wording reveal the author’s purpose.",
-      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
-      "sourceFact": "STAR Reading public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
-      "tier": "star-fallback",
-      "domain": "Understanding author’s craft",
-      "difficulty": 3,
-      "contentHash": "sha256:5058514e6b9b09eae48669634484658fa72829ef1b3a6c40687ca6e19a76fabb"
-    },
-    {
-      "id": "abvm-0ca987de6de2-star-math-03-word",
+      "id": "abvm-0ca987de6de2-34b198-star-math-04-word",
       "stationId": "word-portal-put-v1",
       "subject": "Math",
-      "skill": "place-value",
-      "prompt": "In 758, what is the value of the digit 5?",
+      "skill": "compare-numbers",
+      "prompt": "Which comparison is true?",
       "choices": [
-        "500",
-        "50",
-        "5"
+        "369 = 419",
+        "369 < 419",
+        "369 > 419"
       ],
-      "answer": "50",
-      "explanation": "The digit is in the tens place.",
+      "answer": "369 < 419",
+      "explanation": "The number on the left is smaller.",
       "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
       "sourceFact": "STAR Math public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
       "tier": "star-fallback",
       "domain": "Numbers and operations",
       "difficulty": 3,
-      "contentHash": "sha256:00620a064db176c288e41df620290ae5e396b565c73c60e6de1c41ff5258198d"
-    },
-    {
-      "id": "abvm-0ca987de6de2-star-read-11-word",
-      "stationId": "word-portal-put-v1",
-      "subject": "Reading / ELA",
-      "skill": "context-clues",
-      "prompt": "In the sentence “The enormous box barely fit through the doorway,” what does “enormous” most likely mean?",
-      "choices": [
-        "very small",
-        "very quiet",
-        "very large"
+      "standards": [
+        "CCSS.2.NBT.A.4"
       ],
-      "answer": "very large",
-      "explanation": "The context clue about barely fitting supports the meaning “very large”.",
-      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
-      "sourceFact": "STAR Reading public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
-      "tier": "star-fallback",
-      "domain": "Word knowledge and skills",
-      "difficulty": 2,
-      "contentHash": "sha256:238039ab08f2a767d864f90fc6950759034e410abda93597a70538c76e35af20"
-    },
-    {
-      "id": "abvm-0ca987de6de2-star-read-04-word",
-      "stationId": "word-portal-put-v1",
-      "subject": "Reading / ELA",
-      "skill": "sequence",
-      "prompt": "Read: “First Lena mixed the batter. Next, the batter went into the pan. Last, the pan went into the oven.” What happened immediately before the pan went into the oven?",
-      "choices": [
-        "The batter went into the pan.",
-        "The cake was eaten.",
-        "The oven was turned off."
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Compare the greatest place value first.",
+      "scaffold": "Compare the greatest place value first.",
+      "choiceDiagnostics": [
+        {
+          "choice": "369 = 419",
+          "misconception": "comparison-place-confusion",
+          "feedback": "Compare the largest place value first."
+        },
+        {
+          "choice": "369 > 419",
+          "misconception": "comparison-place-confusion",
+          "feedback": "Compare the largest place value first."
+        }
       ],
-      "answer": "The batter went into the pan.",
-      "explanation": "The sequence word “next” marks the step just before the last event.",
-      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
-      "sourceFact": "STAR Reading public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
-      "tier": "star-fallback",
-      "domain": "Comprehension strategies and constructing meaning",
-      "difficulty": 3,
-      "contentHash": "sha256:7b107e3d76788092c9eeb9ce834b7b0cbabfd8f64749fcf8f89b48acc378e10a"
+      "contentHash": "sha256:8ccb5fa4a1337097274bea1efb1a604e5226dda9548d540d56ae41eb55d8f36d"
     },
     {
-      "id": "abvm-0ca987de6de2-star-math-11-word",
-      "stationId": "word-portal-put-v1",
-      "subject": "Math",
-      "skill": "addition-within-100",
-      "prompt": "What is 41 + 14?",
-      "choices": [
-        "45",
-        "56",
-        "55"
-      ],
-      "answer": "55",
-      "explanation": "Add tens and ones carefully.",
-      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
-      "sourceFact": "STAR Math public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
-      "tier": "star-fallback",
-      "domain": "Numbers and operations",
-      "difficulty": 3,
-      "contentHash": "sha256:bc10408ac90903e54cb6fa713c14e1161f2c0c9ffdbdddc11d1f116f46c812cd"
-    },
-    {
-      "id": "abvm-0ca987de6de2-star-read-09-word",
-      "stationId": "word-portal-put-v1",
-      "subject": "Reading / ELA",
-      "skill": "author-purpose",
-      "prompt": "What is the author’s main purpose in this text? “A poster says, “Bring a reusable bottle and help reduce trash!””",
-      "choices": [
-        "to list random words",
-        "to persuade",
-        "to hide the topic"
-      ],
-      "answer": "to persuade",
-      "explanation": "The kind of information and wording reveal the author’s purpose.",
-      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
-      "sourceFact": "STAR Reading public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
-      "tier": "star-fallback",
-      "domain": "Understanding author’s craft",
-      "difficulty": 3,
-      "contentHash": "sha256:39b11bc8e627a816c0bdae526b53286058471335e52d2bacd8040eda1e1f0f44"
-    },
-    {
-      "id": "abvm-0ca987de6de2-star-math-27-word",
-      "stationId": "word-portal-put-v1",
-      "subject": "Math",
-      "skill": "geometry",
-      "prompt": "How many sides does a rectangle have?",
-      "choices": [
-        "4",
-        "3",
-        "5"
-      ],
-      "answer": "4",
-      "explanation": "Count the straight sides of the shape.",
-      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
-      "sourceFact": "STAR Math public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
-      "tier": "star-fallback",
-      "domain": "Geometry and measurement",
-      "difficulty": 2,
-      "contentHash": "sha256:8e20950f06e6cd0052f96dd06012806f9e5dacdc3e66a15e679e3ba207ba9cc9"
-    },
-    {
-      "id": "abvm-0ca987de6de2-star-math-12-word",
-      "stationId": "word-portal-put-v1",
-      "subject": "Math",
-      "skill": "subtraction-within-100",
-      "prompt": "What is 92 − 29?",
-      "choices": [
-        "73",
-        "63",
-        "62"
-      ],
-      "answer": "63",
-      "explanation": "Subtract tens and ones.",
-      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
-      "sourceFact": "STAR Math public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
-      "tier": "star-fallback",
-      "domain": "Numbers and operations",
-      "difficulty": 3,
-      "contentHash": "sha256:4552414bce0c4c31e2c24c3ecd2c82399b43d0036d1da633f61b6df0c404a020"
-    },
-    {
-      "id": "abvm-0ca987de6de2-star-math-17-word",
-      "stationId": "word-portal-put-v1",
-      "subject": "Math",
-      "skill": "geometry",
-      "prompt": "How many sides does a pentagon have?",
-      "choices": [
-        "5",
-        "4",
-        "6"
-      ],
-      "answer": "5",
-      "explanation": "Count the straight sides of the shape.",
-      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
-      "sourceFact": "STAR Math public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
-      "tier": "star-fallback",
-      "domain": "Geometry and measurement",
-      "difficulty": 2,
-      "contentHash": "sha256:5a2cc29034cd7e864cadff6b4be1dd3e7374dcb7814b30a705a9855297eebb40"
-    },
-    {
-      "id": "abvm-0ca987de6de2-star-math-15-word",
-      "stationId": "word-portal-put-v1",
-      "subject": "Math",
-      "skill": "unknown-number",
-      "prompt": "Which number makes the equation true? 7 + □ = 19",
-      "choices": [
-        "13",
-        "12",
-        "10"
-      ],
-      "answer": "12",
-      "explanation": "Find the missing addend.",
-      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
-      "sourceFact": "STAR Math public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
-      "tier": "star-fallback",
-      "domain": "Algebra",
-      "difficulty": 3,
-      "contentHash": "sha256:bc4740c68ef358116a3f22bee95e7f8c162ed23851c111134be91a38107cba3d"
-    },
-    {
-      "id": "abvm-0ca987de6de2-star-math-07-word",
-      "stationId": "word-portal-put-v1",
-      "subject": "Math",
-      "skill": "geometry",
-      "prompt": "How many sides does a hexagon have?",
-      "choices": [
-        "7",
-        "6",
-        "5"
-      ],
-      "answer": "6",
-      "explanation": "Count the straight sides of the shape.",
-      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
-      "sourceFact": "STAR Math public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
-      "tier": "star-fallback",
-      "domain": "Geometry and measurement",
-      "difficulty": 2,
-      "contentHash": "sha256:35aef8849f129eac8c7de957f06ddb79d3a29bc7cc7e4a075d93b1eb003cbbcf"
-    },
-    {
-      "id": "abvm-0ca987de6de2-star-read-13-word",
-      "stationId": "word-portal-put-v1",
-      "subject": "Reading / ELA",
-      "skill": "cause-effect",
-      "prompt": "Lena read: “The trail was muddy, so we stepped carefully around the puddles.” Why did they step carefully?",
-      "choices": [
-        "They were racing.",
-        "The trail was muddy.",
-        "The puddles were frozen solid."
-      ],
-      "answer": "The trail was muddy.",
-      "explanation": "The first part gives the cause for the careful steps.",
-      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
-      "sourceFact": "STAR Reading public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
-      "tier": "star-fallback",
-      "domain": "Comprehension strategies and constructing meaning",
-      "difficulty": 3,
-      "contentHash": "sha256:26101e754333f4af2acdbf2497b7c598060f1107a06ea9da6ab564028e1b27ad"
-    },
-    {
-      "id": "abvm-0ca987de6de2-star-read-28-word",
-      "stationId": "word-portal-put-v1",
-      "subject": "Reading / ELA",
-      "skill": "character-development",
-      "prompt": "At the start of a story, Noah refuses to ask for help. After making the same mistake twice, Noah asks a classmate to explain the directions and succeeds. How did the character change?",
-      "choices": [
-        "The character became more willing to ask for help.",
-        "The character decided directions are never useful.",
-        "The character stopped caring about the task."
-      ],
-      "answer": "The character became more willing to ask for help.",
-      "explanation": "The ending shows a change in the character’s choice.",
-      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
-      "sourceFact": "STAR Reading public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
-      "tier": "star-fallback",
-      "domain": "Analyzing literary text",
-      "difficulty": 3,
-      "contentHash": "sha256:ccfab2b2df63713760c70eb0dc885ab1cbb78afb0deb5e79366ae2de880b90f5"
-    },
-    {
-      "id": "abvm-0ca987de6de2-star-math-08-word",
-      "stationId": "word-portal-put-v1",
-      "subject": "Math",
-      "skill": "measurement",
-      "prompt": "A ribbon is 24 centimeters long. 4 centimeters are cut off. How many centimeters remain?",
-      "choices": [
-        "20",
-        "21",
-        "28"
-      ],
-      "answer": "20",
-      "explanation": "Subtract the part cut off from the original length.",
-      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
-      "sourceFact": "STAR Math public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
-      "tier": "star-fallback",
-      "domain": "Geometry and measurement",
-      "difficulty": 3,
-      "contentHash": "sha256:9c177c6a9630a509e8e0ecfd0e6a716a2d11f39f2fb08793b17a100bf92214ab"
-    },
-    {
-      "id": "abvm-0ca987de6de2-star-math-09-word",
-      "stationId": "word-portal-put-v1",
-      "subject": "Math",
-      "skill": "data-interpretation",
-      "prompt": "A class graph shows cats: 7, dogs: 4, fish: 8. Which pet got the most votes?",
-      "choices": [
-        "cats",
-        "dogs",
-        "fish"
-      ],
-      "answer": "fish",
-      "explanation": "Compare the three totals and choose the greatest.",
-      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
-      "sourceFact": "STAR Math public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
-      "tier": "star-fallback",
-      "domain": "Data analysis, statistics, and probability",
-      "difficulty": 3,
-      "contentHash": "sha256:016110241564c80b3112d4e53e3a6d7604ce6783935103828581fcd04dc1f336"
-    },
-    {
-      "id": "abvm-0ca987de6de2-star-read-10-word",
+      "id": "abvm-0ca987de6de2-34b198-star-read-10-word",
       "stationId": "word-portal-put-v1",
       "subject": "Reading / ELA",
       "skill": "word-choice",
@@ -651,17 +580,660 @@
       "tier": "star-fallback",
       "domain": "Understanding author’s craft",
       "difficulty": 3,
-      "contentHash": "sha256:88eb04aaf22d6464cb88672820ae6a411aeca7292cb059dc26c0e7e2da8b9ea8"
+      "standards": [
+        "CCSS.RL.2.4"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Think about the picture or feeling created by that exact word.",
+      "scaffold": "Think about the picture or feeling created by that exact word.",
+      "choiceDiagnostics": [
+        {
+          "choice": "To prove the wind can speak like a person.",
+          "misconception": "literal-language-confusion",
+          "feedback": "Think about the image or feeling the author creates, not only the literal meaning."
+        },
+        {
+          "choice": "To tell the exact temperature.",
+          "misconception": "literal-language-confusion",
+          "feedback": "Think about the image or feeling the author creates, not only the literal meaning."
+        }
+      ],
+      "contentHash": "sha256:b5bbbb5e74f1aa02f0ed937744f3912bea7b5d1c6c15c611849fd03c09ad0801"
     },
     {
-      "id": "abvm-0ca987de6de2-star-read-02-word",
+      "id": "abvm-0ca987de6de2-34b198-star-read-12-word",
       "stationId": "word-portal-put-v1",
       "subject": "Reading / ELA",
       "skill": "word-parts",
       "prompt": "What does the word “careless” mean?",
       "choices": [
-        "a kind of place",
-        "very noisy",
+        "full of care",
+        "without enough care",
+        "able to care"
+      ],
+      "answer": "without enough care",
+      "explanation": "The prefix or suffix changes the base word to make this meaning.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Reading public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
+      "tier": "star-fallback",
+      "domain": "Word knowledge and skills",
+      "difficulty": 2,
+      "standards": [
+        "CCSS.L.2.4.b"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Separate the prefix or suffix from the base word.",
+      "scaffold": "Separate the prefix or suffix from the base word.",
+      "choiceDiagnostics": [
+        {
+          "choice": "full of care",
+          "misconception": "affix-meaning-confusion",
+          "feedback": "Check what the prefix or suffix changes about the base word."
+        },
+        {
+          "choice": "able to care",
+          "misconception": "affix-meaning-confusion",
+          "feedback": "Check what the prefix or suffix changes about the base word."
+        }
+      ],
+      "contentHash": "sha256:91acabbc08a61bf680ec7fe7788f4aa55b05b20b9097a9246be9d7514758ef0c"
+    },
+    {
+      "id": "abvm-0ca987de6de2-34b198-star-math-24-word",
+      "stationId": "word-portal-put-v1",
+      "subject": "Math",
+      "skill": "compare-numbers",
+      "prompt": "Which comparison is true?",
+      "choices": [
+        "316 < 366",
+        "316 > 366",
+        "316 = 366"
+      ],
+      "answer": "316 < 366",
+      "explanation": "The number on the left is smaller.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Math public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
+      "tier": "star-fallback",
+      "domain": "Numbers and operations",
+      "difficulty": 3,
+      "standards": [
+        "CCSS.2.NBT.A.4"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Compare the greatest place value first.",
+      "scaffold": "Compare the greatest place value first.",
+      "choiceDiagnostics": [
+        {
+          "choice": "316 > 366",
+          "misconception": "comparison-place-confusion",
+          "feedback": "Compare the largest place value first."
+        },
+        {
+          "choice": "316 = 366",
+          "misconception": "comparison-place-confusion",
+          "feedback": "Compare the largest place value first."
+        }
+      ],
+      "contentHash": "sha256:11b5860f341309fc951089ed72f4cad5721a3cac8e528db4c149ea3f912639f7"
+    },
+    {
+      "id": "abvm-0ca987de6de2-34b198-star-math-17-word",
+      "stationId": "word-portal-put-v1",
+      "subject": "Math",
+      "skill": "geometry",
+      "prompt": "How many sides does a rectangle have?",
+      "choices": [
+        "4",
+        "3",
+        "5"
+      ],
+      "answer": "4",
+      "explanation": "Count the straight sides of the shape.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Math public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
+      "tier": "star-fallback",
+      "domain": "Geometry and measurement",
+      "difficulty": 2,
+      "standards": [
+        "CCSS.2.G.A.1"
+      ],
+      "dok": 1,
+      "cognitiveDemand": "recall-and-fluency",
+      "hint": "Count the defining sides or corners, not the size or color.",
+      "scaffold": "Count the defining sides or corners, not the size or color.",
+      "choiceDiagnostics": [
+        {
+          "choice": "3",
+          "misconception": "off-by-one",
+          "feedback": "You are very close. Recheck the final counting or regrouping step."
+        },
+        {
+          "choice": "5",
+          "misconception": "off-by-one",
+          "feedback": "You are very close. Recheck the final counting or regrouping step."
+        }
+      ],
+      "contentHash": "sha256:00c21f8bc1efee624d220830703ff3f6acaf92e8fb016acf3e2c38f7d0079791"
+    },
+    {
+      "id": "abvm-0ca987de6de2-34b198-star-read-11-word",
+      "stationId": "word-portal-put-v1",
+      "subject": "Reading / ELA",
+      "skill": "context-clues",
+      "prompt": "In the sentence “The enormous box barely fit through the doorway,” what does “enormous” most likely mean?",
+      "choices": [
+        "very small",
+        "very quiet",
+        "very large"
+      ],
+      "answer": "very large",
+      "explanation": "The context clue about barely fitting supports the meaning “very large”.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Reading public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
+      "tier": "star-fallback",
+      "domain": "Word knowledge and skills",
+      "difficulty": 2,
+      "standards": [
+        "CCSS.L.2.4.a"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Look for a nearby clue that shows what the unknown word means.",
+      "scaffold": "Look for a nearby clue that shows what the unknown word means.",
+      "choiceDiagnostics": [
+        {
+          "choice": "very small",
+          "misconception": "opposite-or-unrelated-meaning",
+          "feedback": "Use the sentence clue, not just a familiar-looking word."
+        },
+        {
+          "choice": "very quiet",
+          "misconception": "opposite-or-unrelated-meaning",
+          "feedback": "Use the sentence clue, not just a familiar-looking word."
+        }
+      ],
+      "contentHash": "sha256:0b5bf2056cba1f053d4f91000eb07ed81d76b9f7d4ecb19db05c1a7f866d5084"
+    },
+    {
+      "id": "abvm-0ca987de6de2-34b198-star-read-29-word",
+      "stationId": "word-portal-put-v1",
+      "subject": "Reading / ELA",
+      "skill": "author-purpose",
+      "prompt": "What is the author’s main purpose in this text? “A poster says, “Bring a reusable bottle and help reduce trash!””",
+      "choices": [
+        "to inform",
+        "to persuade",
+        "to entertain"
+      ],
+      "answer": "to persuade",
+      "explanation": "The kind of information and wording reveal the author’s purpose.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Reading public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
+      "tier": "star-fallback",
+      "domain": "Understanding author’s craft",
+      "difficulty": 3,
+      "standards": [
+        "CCSS.RI.2.6"
+      ],
+      "dok": 3,
+      "cognitiveDemand": "strategic-reasoning",
+      "hint": "Ask whether the author is informing, persuading, teaching, or entertaining.",
+      "scaffold": "What is the text mostly trying to make the reader know, do, or feel?",
+      "choiceDiagnostics": [
+        {
+          "choice": "to inform",
+          "misconception": "purpose-confusion",
+          "feedback": "Focus on what the author wants the reader to know, do, or feel."
+        },
+        {
+          "choice": "to entertain",
+          "misconception": "purpose-confusion",
+          "feedback": "Focus on what the author wants the reader to know, do, or feel."
+        }
+      ],
+      "contentHash": "sha256:f006eeacf2e3989d9c1d1745860a824553c405a2051905bdb3788ee60467e8df"
+    },
+    {
+      "id": "abvm-0ca987de6de2-34b198-star-read-04-word",
+      "stationId": "word-portal-put-v1",
+      "subject": "Reading / ELA",
+      "skill": "sequence",
+      "prompt": "Read: “First Lena mixed the batter. Next, the batter went into the pan. Last, the pan went into the oven.” What happened immediately before the pan went into the oven?",
+      "choices": [
+        "The batter went into the pan.",
+        "The cake was eaten.",
+        "The oven was turned off."
+      ],
+      "answer": "The batter went into the pan.",
+      "explanation": "The sequence word “next” marks the step just before the last event.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Reading public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
+      "tier": "star-fallback",
+      "domain": "Comprehension strategies and constructing meaning",
+      "difficulty": 3,
+      "standards": [
+        "CCSS.RL.2.5"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Use order words such as first, next, before, and last.",
+      "scaffold": "Use order words such as first, next, before, and last.",
+      "choiceDiagnostics": [
+        {
+          "choice": "The cake was eaten.",
+          "misconception": "sequence-order-confusion",
+          "feedback": "Use the order words to locate what happened immediately before or after."
+        },
+        {
+          "choice": "The oven was turned off.",
+          "misconception": "sequence-order-confusion",
+          "feedback": "Use the order words to locate what happened immediately before or after."
+        }
+      ],
+      "contentHash": "sha256:b7f98aa95aac1f77699766958b5851740755f148f7d2034adadb108857c904b4"
+    },
+    {
+      "id": "abvm-0ca987de6de2-34b198-star-math-18-word",
+      "stationId": "word-portal-put-v1",
+      "subject": "Math",
+      "skill": "measurement",
+      "prompt": "A ribbon is 14 centimeters long. 8 centimeters are cut off. How many centimeters remain?",
+      "choices": [
+        "7",
+        "22",
+        "6"
+      ],
+      "answer": "6",
+      "explanation": "Subtract the part cut off from the original length.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Math public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
+      "tier": "star-fallback",
+      "domain": "Geometry and measurement",
+      "difficulty": 3,
+      "standards": [
+        "CCSS.2.MD.A.1"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Identify the starting amount, the change, and the unit.",
+      "scaffold": "Draw or imagine the length before and after the change.",
+      "choiceDiagnostics": [
+        {
+          "choice": "7",
+          "misconception": "off-by-one",
+          "feedback": "You are very close. Recheck the final counting or regrouping step."
+        },
+        {
+          "choice": "22",
+          "misconception": "operation-or-unit-confusion",
+          "feedback": "Track both the operation and the measurement unit."
+        }
+      ],
+      "contentHash": "sha256:6af3bdf83d36968ef8f2f86c583214d18cb12bd35201e9fee31afe18f57ef932"
+    },
+    {
+      "id": "abvm-0ca987de6de2-34b198-star-math-14-word",
+      "stationId": "word-portal-put-v1",
+      "subject": "Math",
+      "skill": "compare-numbers",
+      "prompt": "Which comparison is true?",
+      "choices": [
+        "153 = 161",
+        "153 > 161",
+        "153 < 161"
+      ],
+      "answer": "153 < 161",
+      "explanation": "The number on the left is smaller.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Math public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
+      "tier": "star-fallback",
+      "domain": "Numbers and operations",
+      "difficulty": 3,
+      "standards": [
+        "CCSS.2.NBT.A.4"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Compare the greatest place value first.",
+      "scaffold": "Compare the greatest place value first.",
+      "choiceDiagnostics": [
+        {
+          "choice": "153 = 161",
+          "misconception": "comparison-place-confusion",
+          "feedback": "Compare the largest place value first."
+        },
+        {
+          "choice": "153 > 161",
+          "misconception": "comparison-place-confusion",
+          "feedback": "Compare the largest place value first."
+        }
+      ],
+      "contentHash": "sha256:30c51ad691ced3e3ced8c89862f853449d75c351457c5cfbff27b0ee5f3aaeb8"
+    },
+    {
+      "id": "abvm-0ca987de6de2-34b198-star-read-13-word",
+      "stationId": "word-portal-put-v1",
+      "subject": "Reading / ELA",
+      "skill": "cause-effect",
+      "prompt": "Lena read: “The trail was muddy, so we stepped carefully around the puddles.” Why did they step carefully?",
+      "choices": [
+        "They were racing.",
+        "The trail was muddy.",
+        "The puddles were frozen solid."
+      ],
+      "answer": "The trail was muddy.",
+      "explanation": "The first part gives the cause for the careful steps.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Reading public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
+      "tier": "star-fallback",
+      "domain": "Comprehension strategies and constructing meaning",
+      "difficulty": 3,
+      "standards": [
+        "CCSS.RI.2.3"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Find what happened first that made the later event happen.",
+      "scaffold": "Find what happened first that made the later event happen.",
+      "choiceDiagnostics": [
+        {
+          "choice": "They were racing.",
+          "misconception": "detail-cause-confusion",
+          "feedback": "Choose the event that actually caused the result, not another detail."
+        },
+        {
+          "choice": "The puddles were frozen solid.",
+          "misconception": "detail-cause-confusion",
+          "feedback": "Choose the event that actually caused the result, not another detail."
+        }
+      ],
+      "contentHash": "sha256:077c36d829df7fec476b19b8cca904feeb3ce24ebb306aaed1c24cac36b90cfb"
+    },
+    {
+      "id": "abvm-0ca987de6de2-34b198-star-read-09-word",
+      "stationId": "word-portal-put-v1",
+      "subject": "Reading / ELA",
+      "skill": "author-purpose",
+      "prompt": "What is the author’s main purpose in this text? “A poster says, “Bring a reusable bottle and help reduce trash!””",
+      "choices": [
+        "to entertain",
+        "to persuade",
+        "to inform"
+      ],
+      "answer": "to persuade",
+      "explanation": "The kind of information and wording reveal the author’s purpose.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Reading public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
+      "tier": "star-fallback",
+      "domain": "Understanding author’s craft",
+      "difficulty": 3,
+      "standards": [
+        "CCSS.RI.2.6"
+      ],
+      "dok": 3,
+      "cognitiveDemand": "strategic-reasoning",
+      "hint": "Ask whether the author is informing, persuading, teaching, or entertaining.",
+      "scaffold": "What is the text mostly trying to make the reader know, do, or feel?",
+      "choiceDiagnostics": [
+        {
+          "choice": "to entertain",
+          "misconception": "purpose-confusion",
+          "feedback": "Focus on what the author wants the reader to know, do, or feel."
+        },
+        {
+          "choice": "to inform",
+          "misconception": "purpose-confusion",
+          "feedback": "Focus on what the author wants the reader to know, do, or feel."
+        }
+      ],
+      "contentHash": "sha256:b901d66ec465d005ba4e0fb9b481bdce64d83ee0ae17dadf15af576865b095af"
+    },
+    {
+      "id": "abvm-0ca987de6de2-34b198-star-math-09-word",
+      "stationId": "word-portal-put-v1",
+      "subject": "Math",
+      "skill": "data-interpretation",
+      "prompt": "A class graph shows cats: 4, dogs: 8, fish: 7. Which pet got the most votes?",
+      "choices": [
+        "dogs",
+        "cats",
+        "fish"
+      ],
+      "answer": "dogs",
+      "explanation": "Compare the three totals and choose the greatest.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Math public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
+      "tier": "star-fallback",
+      "domain": "Data analysis, statistics, and probability",
+      "difficulty": 3,
+      "standards": [
+        "CCSS.2.MD.D.10"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Read the labels and compare the values, not the picture size.",
+      "scaffold": "Read the labels and compare the values, not the picture size.",
+      "choiceDiagnostics": [
+        {
+          "choice": "cats",
+          "misconception": "graph-reading-confusion",
+          "feedback": "Read the category label and value before comparing."
+        },
+        {
+          "choice": "fish",
+          "misconception": "graph-reading-confusion",
+          "feedback": "Read the category label and value before comparing."
+        }
+      ],
+      "contentHash": "sha256:6b385a4431efacb32b3ededc5c43849ffad6fa05863160264394b517f1814ac6"
+    },
+    {
+      "id": "abvm-0ca987de6de2-34b198-star-math-10-word",
+      "stationId": "word-portal-put-v1",
+      "subject": "Math",
+      "skill": "probability-language",
+      "prompt": "A bag has 5 blue tiles and 1 yellow tile. Without looking, which color is more likely to be picked?",
+      "choices": [
+        "yellow",
+        "blue",
+        "They are equally likely."
+      ],
+      "answer": "blue",
+      "explanation": "There are more blue tiles, so blue is more likely.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Math public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
+      "tier": "star-fallback",
+      "domain": "Data analysis, statistics, and probability",
+      "difficulty": 2,
+      "standards": [
+        "STAR.MATH.DATA.PROBABILITY"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "More matching objects means a more likely result.",
+      "scaffold": "More matching objects means a more likely result.",
+      "choiceDiagnostics": [
+        {
+          "choice": "yellow",
+          "misconception": "relative-frequency-confusion",
+          "feedback": "Compare how many of each outcome are possible."
+        },
+        {
+          "choice": "They are equally likely.",
+          "misconception": "relative-frequency-confusion",
+          "feedback": "Compare how many of each outcome are possible."
+        }
+      ],
+      "contentHash": "sha256:7858064df1352d4d0c8ee0df0cd8db3b17a614b64fa82005e6cac45de0a9be71"
+    },
+    {
+      "id": "abvm-0ca987de6de2-34b198-star-math-26-word",
+      "stationId": "word-portal-put-v1",
+      "subject": "Math",
+      "skill": "patterns",
+      "prompt": "What number comes next? 3, 8, 13, 18, __",
+      "choices": [
+        "23",
+        "22",
+        "28"
+      ],
+      "answer": "23",
+      "explanation": "The same amount is added each time.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Math public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
+      "tier": "star-fallback",
+      "domain": "Algebra",
+      "difficulty": 3,
+      "standards": [
+        "CCSS.2.NBT.A.2"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Find the amount that changes from one term to the next.",
+      "scaffold": "Find the amount that changes from one term to the next.",
+      "choiceDiagnostics": [
+        {
+          "choice": "22",
+          "misconception": "off-by-one",
+          "feedback": "You are very close. Recheck the final counting or regrouping step."
+        },
+        {
+          "choice": "28",
+          "misconception": "wrong-pattern-step",
+          "feedback": "Find the repeated change between neighboring numbers."
+        }
+      ],
+      "contentHash": "sha256:12762080797bfba1791f61d5afd43784db83fd444672f28680fdd660729caa5e"
+    },
+    {
+      "id": "abvm-0ca987de6de2-34b198-star-math-08-word",
+      "stationId": "word-portal-put-v1",
+      "subject": "Math",
+      "skill": "measurement",
+      "prompt": "A ribbon is 18 centimeters long. 6 centimeters are cut off. How many centimeters remain?",
+      "choices": [
+        "12",
+        "13",
+        "24"
+      ],
+      "answer": "12",
+      "explanation": "Subtract the part cut off from the original length.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Math public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
+      "tier": "star-fallback",
+      "domain": "Geometry and measurement",
+      "difficulty": 3,
+      "standards": [
+        "CCSS.2.MD.A.1"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Identify the starting amount, the change, and the unit.",
+      "scaffold": "Draw or imagine the length before and after the change.",
+      "choiceDiagnostics": [
+        {
+          "choice": "13",
+          "misconception": "off-by-one",
+          "feedback": "You are very close. Recheck the final counting or regrouping step."
+        },
+        {
+          "choice": "24",
+          "misconception": "operation-or-unit-confusion",
+          "feedback": "Track both the operation and the measurement unit."
+        }
+      ],
+      "contentHash": "sha256:7df287ca6c14b3cce050b3aaf46b870d33a752e6fb6889f6f3fbae0d28d85f26"
+    },
+    {
+      "id": "abvm-0ca987de6de2-34b198-star-read-07-word",
+      "stationId": "word-portal-put-v1",
+      "subject": "Reading / ELA",
+      "skill": "text-evidence",
+      "prompt": "Read: “The kitten crouched low, wiggled its back legs, stared at the toy mouse, and sprang forward.” Which detail is the strongest evidence that the kitten was getting ready to pounce?",
+      "choices": [
+        "It stared at the toy mouse.",
+        "It crouched low and wiggled its back legs.",
+        "The toy mouse was in front of it."
+      ],
+      "answer": "It crouched low and wiggled its back legs.",
+      "explanation": "Several details relate to the toy, but crouching and wiggling the back legs most directly show preparation to pounce.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Reading public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
+      "tier": "star-fallback",
+      "domain": "Comprehension strategies and constructing meaning",
+      "difficulty": 3,
+      "standards": [
+        "CCSS.RL.2.1"
+      ],
+      "dok": 3,
+      "cognitiveDemand": "strategic-reasoning",
+      "hint": "Choose the detail that most directly proves the idea.",
+      "scaffold": "Restate the claim, then point to the one detail that proves it most directly.",
+      "choiceDiagnostics": [
+        {
+          "choice": "It stared at the toy mouse.",
+          "misconception": "weak-or-irrelevant-evidence",
+          "feedback": "Pick the detail that proves the claim most directly."
+        },
+        {
+          "choice": "The toy mouse was in front of it.",
+          "misconception": "weak-or-irrelevant-evidence",
+          "feedback": "Pick the detail that proves the claim most directly."
+        }
+      ],
+      "contentHash": "sha256:2c0eda6d831caff2e5fe8c355b2f5bc9b26c51ff31e9ab57a4a9b0f28cd52d46"
+    },
+    {
+      "id": "abvm-0ca987de6de2-34b198-star-read-28-word",
+      "stationId": "word-portal-put-v1",
+      "subject": "Reading / ELA",
+      "skill": "character-development",
+      "prompt": "At the start of a story, Noah refuses to ask for help. After making the same mistake twice, Noah asks a classmate to explain the directions and succeeds. How did the character change?",
+      "choices": [
+        "The character became more willing to ask for help.",
+        "The character decided directions are never useful.",
+        "The character stopped caring about the task."
+      ],
+      "answer": "The character became more willing to ask for help.",
+      "explanation": "The ending shows a change in the character’s choice.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Reading public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
+      "tier": "star-fallback",
+      "domain": "Analyzing literary text",
+      "difficulty": 3,
+      "standards": [
+        "CCSS.RL.2.3"
+      ],
+      "dok": 3,
+      "cognitiveDemand": "strategic-reasoning",
+      "hint": "Compare the character’s choice at the beginning and the end.",
+      "scaffold": "Name the beginning choice. Now name the ending choice.",
+      "choiceDiagnostics": [
+        {
+          "choice": "The character decided directions are never useful.",
+          "misconception": "beginning-ending-confusion",
+          "feedback": "Compare how the character acts at the beginning with the ending."
+        },
+        {
+          "choice": "The character stopped caring about the task.",
+          "misconception": "beginning-ending-confusion",
+          "feedback": "Compare how the character acts at the beginning with the ending."
+        }
+      ],
+      "contentHash": "sha256:2706f1c6c73de014bfefc9c197db13accda2ab3d68cc273c3fd1d3f7b348fb14"
+    },
+    {
+      "id": "abvm-0ca987de6de2-34b198-star-read-02-word",
+      "stationId": "word-portal-put-v1",
+      "subject": "Reading / ELA",
+      "skill": "word-parts",
+      "prompt": "What does the word “careless” mean?",
+      "choices": [
+        "able to care",
+        "full of care",
         "without enough care"
       ],
       "answer": "without enough care",
@@ -671,30 +1243,68 @@
       "tier": "star-fallback",
       "domain": "Word knowledge and skills",
       "difficulty": 2,
-      "contentHash": "sha256:b1dde88455a781382a00669ef57c6c9c2e1ef233ba0e9f447e746cc78e77a312"
+      "standards": [
+        "CCSS.L.2.4.b"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Separate the prefix or suffix from the base word.",
+      "scaffold": "Separate the prefix or suffix from the base word.",
+      "choiceDiagnostics": [
+        {
+          "choice": "able to care",
+          "misconception": "affix-meaning-confusion",
+          "feedback": "Check what the prefix or suffix changes about the base word."
+        },
+        {
+          "choice": "full of care",
+          "misconception": "affix-meaning-confusion",
+          "feedback": "Check what the prefix or suffix changes about the base word."
+        }
+      ],
+      "contentHash": "sha256:0cd591e8b54df50168e92a33418bd80beb4912875d492851ead1a1a89fb856ab"
     },
     {
-      "id": "abvm-0ca987de6de2-star-math-04-word",
+      "id": "abvm-0ca987de6de2-34b198-star-math-19-word",
       "stationId": "word-portal-put-v1",
       "subject": "Math",
-      "skill": "compare-numbers",
-      "prompt": "Which comparison is true?",
+      "skill": "data-interpretation",
+      "prompt": "A class graph shows cats: 2, dogs: 6, fish: 3. Which pet got the most votes?",
       "choices": [
-        "395 < 413",
-        "395 > 413",
-        "395 = 413"
+        "fish",
+        "cats",
+        "dogs"
       ],
-      "answer": "395 < 413",
-      "explanation": "The number on the left is smaller.",
+      "answer": "dogs",
+      "explanation": "Compare the three totals and choose the greatest.",
       "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
       "sourceFact": "STAR Math public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
       "tier": "star-fallback",
-      "domain": "Numbers and operations",
+      "domain": "Data analysis, statistics, and probability",
       "difficulty": 3,
-      "contentHash": "sha256:19e6321199e31a86c725b13c2c60238503e642f99b01e361524b550eed5e3092"
+      "standards": [
+        "CCSS.2.MD.D.10"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Read the labels and compare the values, not the picture size.",
+      "scaffold": "Read the labels and compare the values, not the picture size.",
+      "choiceDiagnostics": [
+        {
+          "choice": "fish",
+          "misconception": "graph-reading-confusion",
+          "feedback": "Read the category label and value before comparing."
+        },
+        {
+          "choice": "cats",
+          "misconception": "graph-reading-confusion",
+          "feedback": "Read the category label and value before comparing."
+        }
+      ],
+      "contentHash": "sha256:c15ba2cb95d34e9d8c66e00b253d03e108f6d5d0254548ce67832fbdc6a17233"
     },
     {
-      "id": "abvm-0ca987de6de2-mat-math-sub-0",
+      "id": "abvm-0ca987de6de2-34b198-mat-math-sub-0",
       "stationId": "spelling-forge-fog-v1",
       "subject": "Math",
       "skill": "subtraction",
@@ -711,10 +1321,29 @@
       "tier": "material",
       "domain": "Numbers and operations",
       "difficulty": 3,
-      "contentHash": "sha256:c05995369437505480c2190d575f6190ced821a6ac9bb9aba91191d4cb88ff6b"
+      "standards": [
+        "CCSS.2.NBT.B.5"
+      ],
+      "dok": 1,
+      "cognitiveDemand": "recall-and-fluency",
+      "hint": "Take away the second amount from the first.",
+      "scaffold": "Take away the second amount from the first.",
+      "choiceDiagnostics": [
+        {
+          "choice": "5",
+          "misconception": "off-by-one",
+          "feedback": "You are very close. Recheck the final counting or regrouping step."
+        },
+        {
+          "choice": "3",
+          "misconception": "off-by-one",
+          "feedback": "You are very close. Recheck the final counting or regrouping step."
+        }
+      ],
+      "contentHash": "sha256:32af4fa40e78ccadb5b29ded9fff7dabcd726fb02ca20fca01e2111c50ab6705"
     },
     {
-      "id": "abvm-0ca987de6de2-mat-math-missing-1",
+      "id": "abvm-0ca987de6de2-34b198-mat-math-missing-1",
       "stationId": "spelling-forge-fog-v1",
       "subject": "Math",
       "skill": "missing-number",
@@ -731,10 +1360,29 @@
       "tier": "material",
       "domain": "Numbers and operations",
       "difficulty": 3,
-      "contentHash": "sha256:20d84cc999a2fba6d1bc8b46260ef1d22e049a6f220890d170584c4d4ac63440"
+      "standards": [
+        "CCSS.2.OA.A.1"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Use the inverse operation to find the missing part.",
+      "scaffold": "Use the inverse operation to find the missing part.",
+      "choiceDiagnostics": [
+        {
+          "choice": "3",
+          "misconception": "off-by-one",
+          "feedback": "You are very close. Recheck the final counting or regrouping step."
+        },
+        {
+          "choice": "5",
+          "misconception": "off-by-one",
+          "feedback": "You are very close. Recheck the final counting or regrouping step."
+        }
+      ],
+      "contentHash": "sha256:adf0b85b592ac9ee4b71d80cc7768758a6c3aa83f465766e22d0bd8d8f2cdb8a"
     },
     {
-      "id": "abvm-0ca987de6de2-mat-math-story-2",
+      "id": "abvm-0ca987de6de2-34b198-mat-math-story-2",
       "stationId": "spelling-forge-fog-v1",
       "subject": "Math",
       "skill": "subtraction-word-problem",
@@ -751,10 +1399,29 @@
       "tier": "material",
       "domain": "Numbers and operations",
       "difficulty": 3,
-      "contentHash": "sha256:1c44428160296c8955d06bd6cc04c8f620c465e483fe77b2d9d4a41a0ffda28f"
+      "standards": [
+        "CCSS.2.OA.A.1"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Decide what amount is being taken away or compared.",
+      "scaffold": "Decide what amount is being taken away or compared.",
+      "choiceDiagnostics": [
+        {
+          "choice": "2",
+          "misconception": "off-by-one",
+          "feedback": "You are very close. Recheck the final counting or regrouping step."
+        },
+        {
+          "choice": "0",
+          "misconception": "off-by-one",
+          "feedback": "You are very close. Recheck the final counting or regrouping step."
+        }
+      ],
+      "contentHash": "sha256:1ccbe7fbc50acbf55a973157f8df98575dfc9f4b456518ecd84594ae3347f399"
     },
     {
-      "id": "abvm-0ca987de6de2-mat-math-compare-3",
+      "id": "abvm-0ca987de6de2-34b198-mat-math-compare-3",
       "stationId": "spelling-forge-fog-v1",
       "subject": "Math",
       "skill": "subtraction-strategy",
@@ -771,10 +1438,29 @@
       "tier": "material",
       "domain": "Numbers and operations",
       "difficulty": 3,
-      "contentHash": "sha256:defd67c3a8f083277cfd33382d59dceb2a51dbd70fd6d9e987df53815fbcc74a"
+      "standards": [
+        "CCSS.2.OA.B.2"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Use the related addition fact to check the subtraction.",
+      "scaffold": "Use the related addition fact to check the subtraction.",
+      "choiceDiagnostics": [
+        {
+          "choice": "5 + 11 = 6",
+          "misconception": "fact-family-confusion",
+          "feedback": "Use the related addition fact to check the subtraction."
+        },
+        {
+          "choice": "11 + 6 = 5",
+          "misconception": "fact-family-confusion",
+          "feedback": "Use the related addition fact to check the subtraction."
+        }
+      ],
+      "contentHash": "sha256:3cd74a97d8ee5c40b7189f43d5b1606ad2b2725dea9a75e28ff82a4d0343d11c"
     },
     {
-      "id": "abvm-0ca987de6de2-mat-math-sub-4",
+      "id": "abvm-0ca987de6de2-34b198-mat-math-sub-4",
       "stationId": "spelling-forge-fog-v1",
       "subject": "Math",
       "skill": "subtraction",
@@ -791,10 +1477,29 @@
       "tier": "material",
       "domain": "Numbers and operations",
       "difficulty": 3,
-      "contentHash": "sha256:c2c568a3c8be32e4baed171a683d1743f0cb7c6abed50b1877de6fdf0c3dc93d"
+      "standards": [
+        "CCSS.2.NBT.B.5"
+      ],
+      "dok": 1,
+      "cognitiveDemand": "recall-and-fluency",
+      "hint": "Take away the second amount from the first.",
+      "scaffold": "Take away the second amount from the first.",
+      "choiceDiagnostics": [
+        {
+          "choice": "6",
+          "misconception": "off-by-one",
+          "feedback": "You are very close. Recheck the final counting or regrouping step."
+        },
+        {
+          "choice": "4",
+          "misconception": "off-by-one",
+          "feedback": "You are very close. Recheck the final counting or regrouping step."
+        }
+      ],
+      "contentHash": "sha256:d3b77797eee4e3f9c8f71197bf9b838b01d586ffb63d153ce73ba61b3275852e"
     },
     {
-      "id": "abvm-0ca987de6de2-mat-math-missing-5",
+      "id": "abvm-0ca987de6de2-34b198-mat-math-missing-5",
       "stationId": "spelling-forge-fog-v1",
       "subject": "Math",
       "skill": "missing-number",
@@ -811,10 +1516,29 @@
       "tier": "material",
       "domain": "Numbers and operations",
       "difficulty": 3,
-      "contentHash": "sha256:feb39536d4a88e3890ff56f8e8166a78b658f917580ec6e75b311c8bf5186053"
+      "standards": [
+        "CCSS.2.OA.A.1"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Use the inverse operation to find the missing part.",
+      "scaffold": "Use the inverse operation to find the missing part.",
+      "choiceDiagnostics": [
+        {
+          "choice": "3",
+          "misconception": "off-by-one",
+          "feedback": "You are very close. Recheck the final counting or regrouping step."
+        },
+        {
+          "choice": "5",
+          "misconception": "off-by-one",
+          "feedback": "You are very close. Recheck the final counting or regrouping step."
+        }
+      ],
+      "contentHash": "sha256:065a83adb9b21c918a39268070630c8e29fb19a633926beaed47d633d76f6c2d"
     },
     {
-      "id": "abvm-0ca987de6de2-mat-math-story-6",
+      "id": "abvm-0ca987de6de2-34b198-mat-math-story-6",
       "stationId": "spelling-forge-fog-v1",
       "subject": "Math",
       "skill": "subtraction-word-problem",
@@ -831,10 +1555,29 @@
       "tier": "material",
       "domain": "Numbers and operations",
       "difficulty": 3,
-      "contentHash": "sha256:7f7303d36110d4d9a15005b0531a490809081598db3274c922c085438f61efa2"
+      "standards": [
+        "CCSS.2.OA.A.1"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Decide what amount is being taken away or compared.",
+      "scaffold": "Decide what amount is being taken away or compared.",
+      "choiceDiagnostics": [
+        {
+          "choice": "3",
+          "misconception": "off-by-one",
+          "feedback": "You are very close. Recheck the final counting or regrouping step."
+        },
+        {
+          "choice": "0",
+          "misconception": "unsupported-choice",
+          "feedback": "Recheck the evidence or calculation that supports your choice."
+        }
+      ],
+      "contentHash": "sha256:dea5de730e3be6150bd7386c98f7ce15f31bba8c95a9085b0d28941716d9894a"
     },
     {
-      "id": "abvm-0ca987de6de2-mat-math-compare-7",
+      "id": "abvm-0ca987de6de2-34b198-mat-math-compare-7",
       "stationId": "spelling-forge-fog-v1",
       "subject": "Math",
       "skill": "subtraction-strategy",
@@ -851,10 +1594,29 @@
       "tier": "material",
       "domain": "Numbers and operations",
       "difficulty": 3,
-      "contentHash": "sha256:369249a36eb936ff9312540021134e6f9dab6e82a2a2b2d4b8822b4a43d5888b"
+      "standards": [
+        "CCSS.2.OA.B.2"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Use the related addition fact to check the subtraction.",
+      "scaffold": "Use the related addition fact to check the subtraction.",
+      "choiceDiagnostics": [
+        {
+          "choice": "3 + 12 = 9",
+          "misconception": "fact-family-confusion",
+          "feedback": "Use the related addition fact to check the subtraction."
+        },
+        {
+          "choice": "12 + 9 = 3",
+          "misconception": "fact-family-confusion",
+          "feedback": "Use the related addition fact to check the subtraction."
+        }
+      ],
+      "contentHash": "sha256:3205885a3119beb729c6253a4dd7f5fe26a1fc4b3e491ed03d7c729e1e49f5e2"
     },
     {
-      "id": "abvm-0ca987de6de2-mat-math-sub-8",
+      "id": "abvm-0ca987de6de2-34b198-mat-math-sub-8",
       "stationId": "spelling-forge-fog-v1",
       "subject": "Math",
       "skill": "subtraction",
@@ -871,10 +1633,29 @@
       "tier": "material",
       "domain": "Numbers and operations",
       "difficulty": 3,
-      "contentHash": "sha256:19c77d72a6403bcdd16c1f4728f2a59eaf485b050166e8a87447c2d92d2e8208"
+      "standards": [
+        "CCSS.2.NBT.B.5"
+      ],
+      "dok": 1,
+      "cognitiveDemand": "recall-and-fluency",
+      "hint": "Take away the second amount from the first.",
+      "scaffold": "Take away the second amount from the first.",
+      "choiceDiagnostics": [
+        {
+          "choice": "4",
+          "misconception": "off-by-one",
+          "feedback": "You are very close. Recheck the final counting or regrouping step."
+        },
+        {
+          "choice": "2",
+          "misconception": "off-by-one",
+          "feedback": "You are very close. Recheck the final counting or regrouping step."
+        }
+      ],
+      "contentHash": "sha256:981fbae2bee45c18a4d2bf6d6902e2cd5b980661e3943f32a18ae11defcbffcb"
     },
     {
-      "id": "abvm-0ca987de6de2-mat-math-missing-9",
+      "id": "abvm-0ca987de6de2-34b198-mat-math-missing-9",
       "stationId": "spelling-forge-fog-v1",
       "subject": "Math",
       "skill": "missing-number",
@@ -891,10 +1672,29 @@
       "tier": "material",
       "domain": "Numbers and operations",
       "difficulty": 3,
-      "contentHash": "sha256:a972de32ece4c079d0e6d23718e9e4d7a4330e0daf16080935ad885b2e8cc47b"
+      "standards": [
+        "CCSS.2.OA.A.1"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Use the inverse operation to find the missing part.",
+      "scaffold": "Use the inverse operation to find the missing part.",
+      "choiceDiagnostics": [
+        {
+          "choice": "5",
+          "misconception": "off-by-one",
+          "feedback": "You are very close. Recheck the final counting or regrouping step."
+        },
+        {
+          "choice": "7",
+          "misconception": "off-by-one",
+          "feedback": "You are very close. Recheck the final counting or regrouping step."
+        }
+      ],
+      "contentHash": "sha256:784813ab4afedb60676fd126463b1147f6375a334ce12ba532a1658b74203a0b"
     },
     {
-      "id": "abvm-0ca987de6de2-mat-math-story-10",
+      "id": "abvm-0ca987de6de2-34b198-mat-math-story-10",
       "stationId": "spelling-forge-fog-v1",
       "subject": "Math",
       "skill": "subtraction-word-problem",
@@ -911,10 +1711,29 @@
       "tier": "material",
       "domain": "Numbers and operations",
       "difficulty": 3,
-      "contentHash": "sha256:c2e546c203e74bd1fa5f118221363920b9e0eef6a445039f527078b6b04df537"
+      "standards": [
+        "CCSS.2.OA.A.1"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Decide what amount is being taken away or compared.",
+      "scaffold": "Decide what amount is being taken away or compared.",
+      "choiceDiagnostics": [
+        {
+          "choice": "6",
+          "misconception": "off-by-one",
+          "feedback": "You are very close. Recheck the final counting or regrouping step."
+        },
+        {
+          "choice": "3",
+          "misconception": "unsupported-choice",
+          "feedback": "Recheck the evidence or calculation that supports your choice."
+        }
+      ],
+      "contentHash": "sha256:d51784005a09526ba306927df056177388b6abd08a696fca07dd31207734df7d"
     },
     {
-      "id": "abvm-0ca987de6de2-mat-math-compare-11",
+      "id": "abvm-0ca987de6de2-34b198-mat-math-compare-11",
       "stationId": "spelling-forge-fog-v1",
       "subject": "Math",
       "skill": "subtraction-strategy",
@@ -931,90 +1750,419 @@
       "tier": "material",
       "domain": "Numbers and operations",
       "difficulty": 3,
-      "contentHash": "sha256:7904d03cbe793cfbf8f2a34426919d8e13ada7991b9cedb28e02cc847b0e2142"
+      "standards": [
+        "CCSS.2.OA.B.2"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Use the related addition fact to check the subtraction.",
+      "scaffold": "Use the related addition fact to check the subtraction.",
+      "choiceDiagnostics": [
+        {
+          "choice": "7 + 8 = 1",
+          "misconception": "fact-family-confusion",
+          "feedback": "Use the related addition fact to check the subtraction."
+        },
+        {
+          "choice": "8 + 1 = 7",
+          "misconception": "fact-family-confusion",
+          "feedback": "Use the related addition fact to check the subtraction."
+        }
+      ],
+      "contentHash": "sha256:aa933113ad8fb3d0359682dbc4c4b9d8773050dcb45623199b16d103436ef220"
     },
     {
-      "id": "abvm-0ca987de6de2-star-math-25-spelling",
+      "id": "abvm-0ca987de6de2-34b198-star-math-02-spelling",
+      "stationId": "spelling-forge-fog-v1",
+      "subject": "Math",
+      "skill": "subtraction-within-100",
+      "prompt": "What is 53 − 40?",
+      "choices": [
+        "13",
+        "23",
+        "12"
+      ],
+      "answer": "13",
+      "explanation": "Subtract tens and ones.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Math public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
+      "tier": "star-fallback",
+      "domain": "Numbers and operations",
+      "difficulty": 3,
+      "standards": [
+        "CCSS.2.NBT.B.5"
+      ],
+      "dok": 1,
+      "cognitiveDemand": "recall-and-fluency",
+      "hint": "Subtract tens and ones carefully and check with addition.",
+      "scaffold": "Break the second number into tens and ones.",
+      "choiceDiagnostics": [
+        {
+          "choice": "23",
+          "misconception": "addition-or-under-subtraction",
+          "feedback": "This answer is too large for this subtraction. Check whether you added instead of taking away."
+        },
+        {
+          "choice": "12",
+          "misconception": "off-by-one",
+          "feedback": "You are very close. Recheck the final counting or regrouping step."
+        }
+      ],
+      "contentHash": "sha256:c665538751e9fb1328dd71eb075796c70dadce61c6678a003e75e2555365f32f"
+    },
+    {
+      "id": "abvm-0ca987de6de2-34b198-star-read-22-spelling",
+      "stationId": "spelling-forge-fog-v1",
+      "subject": "Reading / ELA",
+      "skill": "word-parts",
+      "prompt": "What does the word “careless” mean?",
+      "choices": [
+        "without enough care",
+        "full of care",
+        "able to care"
+      ],
+      "answer": "without enough care",
+      "explanation": "The prefix or suffix changes the base word to make this meaning.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Reading public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
+      "tier": "star-fallback",
+      "domain": "Word knowledge and skills",
+      "difficulty": 2,
+      "standards": [
+        "CCSS.L.2.4.b"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Separate the prefix or suffix from the base word.",
+      "scaffold": "Separate the prefix or suffix from the base word.",
+      "choiceDiagnostics": [
+        {
+          "choice": "full of care",
+          "misconception": "affix-meaning-confusion",
+          "feedback": "Check what the prefix or suffix changes about the base word."
+        },
+        {
+          "choice": "able to care",
+          "misconception": "affix-meaning-confusion",
+          "feedback": "Check what the prefix or suffix changes about the base word."
+        }
+      ],
+      "contentHash": "sha256:7655989a713795e5a3965312cf089cbe1a7201192b96643a44f5d40a4bcf1f21"
+    },
+    {
+      "id": "abvm-0ca987de6de2-34b198-star-math-30-spelling",
+      "stationId": "spelling-forge-fog-v1",
+      "subject": "Math",
+      "skill": "probability-language",
+      "prompt": "A bag has 5 blue tiles and 1 yellow tile. Without looking, which color is more likely to be picked?",
+      "choices": [
+        "blue",
+        "yellow",
+        "They are equally likely."
+      ],
+      "answer": "blue",
+      "explanation": "There are more blue tiles, so blue is more likely.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Math public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
+      "tier": "star-fallback",
+      "domain": "Data analysis, statistics, and probability",
+      "difficulty": 2,
+      "standards": [
+        "STAR.MATH.DATA.PROBABILITY"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "More matching objects means a more likely result.",
+      "scaffold": "More matching objects means a more likely result.",
+      "choiceDiagnostics": [
+        {
+          "choice": "yellow",
+          "misconception": "relative-frequency-confusion",
+          "feedback": "Compare how many of each outcome are possible."
+        },
+        {
+          "choice": "They are equally likely.",
+          "misconception": "relative-frequency-confusion",
+          "feedback": "Compare how many of each outcome are possible."
+        }
+      ],
+      "contentHash": "sha256:83a97b4b025105c77c8ffaea713e8e9c0ed62e0d42f2e1505db6018fba4bf991"
+    },
+    {
+      "id": "abvm-0ca987de6de2-34b198-star-read-05-spelling",
+      "stationId": "spelling-forge-fog-v1",
+      "subject": "Reading / ELA",
+      "skill": "theme",
+      "prompt": "Read: “A child practices tying shoes every morning. After many tries, the knot finally stays tied.” Which lesson best fits the story?",
+      "choices": [
+        "Shoes are easiest to tie in the morning.",
+        "Practice can help you improve.",
+        "It is better to ask someone else to do hard things."
+      ],
+      "answer": "Practice can help you improve.",
+      "explanation": "The character’s actions and outcome support that lesson.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Reading public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
+      "tier": "star-fallback",
+      "domain": "Analyzing literary text",
+      "difficulty": 3,
+      "standards": [
+        "CCSS.RL.2.2"
+      ],
+      "dok": 3,
+      "cognitiveDemand": "strategic-reasoning",
+      "hint": "Think about what the character learned from the whole story.",
+      "scaffold": "First identify the character’s problem and what changed by the end.",
+      "choiceDiagnostics": [
+        {
+          "choice": "Shoes are easiest to tie in the morning.",
+          "misconception": "surface-detail-not-theme",
+          "feedback": "A theme is a lesson from the whole story, not one small detail."
+        },
+        {
+          "choice": "It is better to ask someone else to do hard things.",
+          "misconception": "surface-detail-not-theme",
+          "feedback": "A theme is a lesson from the whole story, not one small detail."
+        }
+      ],
+      "contentHash": "sha256:9479f3da0ce1a5ac96e0a998a3a127384fb2ab386803bc204cda8b01eb256035"
+    },
+    {
+      "id": "abvm-0ca987de6de2-34b198-star-read-06-spelling",
+      "stationId": "spelling-forge-fog-v1",
+      "subject": "Reading / ELA",
+      "skill": "inference",
+      "prompt": "Read: “Zoe tucked the permission slip into the front pocket of the backpack, then checked the pocket twice before leaving.” What can you infer?",
+      "choices": [
+        "Zoe plans to give the slip to a friend.",
+        "Zoe thinks the slip is important.",
+        "Zoe is mainly worried the backpack looks messy."
+      ],
+      "answer": "Zoe thinks the slip is important.",
+      "explanation": "Checking the pocket twice shows the slip matters to the character.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Reading public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
+      "tier": "star-fallback",
+      "domain": "Comprehension strategies and constructing meaning",
+      "difficulty": 3,
+      "standards": [
+        "CCSS.RL.2.1"
+      ],
+      "dok": 3,
+      "cognitiveDemand": "strategic-reasoning",
+      "hint": "Combine a text clue with what you already know.",
+      "scaffold": "Find one clue that is definitely true. What does that clue suggest?",
+      "choiceDiagnostics": [
+        {
+          "choice": "Zoe plans to give the slip to a friend.",
+          "misconception": "unsupported-inference",
+          "feedback": "The best inference must be supported by a specific clue in the text."
+        },
+        {
+          "choice": "Zoe is mainly worried the backpack looks messy.",
+          "misconception": "unsupported-inference",
+          "feedback": "The best inference must be supported by a specific clue in the text."
+        }
+      ],
+      "contentHash": "sha256:9277f063c282c11fc1e332b58e1a98525366d1f9b79dcdbc8ee7515278980074"
+    },
+    {
+      "id": "abvm-0ca987de6de2-34b198-star-math-25-spelling",
       "stationId": "spelling-forge-fog-v1",
       "subject": "Math",
       "skill": "unknown-number",
-      "prompt": "Which number makes the equation true? 15 + □ = 25",
+      "prompt": "Which number makes the equation true? 12 + □ = 15",
       "choices": [
-        "10",
-        "8",
-        "11"
+        "3",
+        "4",
+        "1"
       ],
-      "answer": "10",
+      "answer": "3",
       "explanation": "Find the missing addend.",
       "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
       "sourceFact": "STAR Math public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
       "tier": "star-fallback",
       "domain": "Algebra",
       "difficulty": 3,
-      "contentHash": "sha256:9b942d16ff94b0f221eec2f0d95f6ab23a82d6f11b94a624053540c099fea8ce"
-    },
-    {
-      "id": "abvm-0ca987de6de2-star-math-22-spelling",
-      "stationId": "spelling-forge-fog-v1",
-      "subject": "Math",
-      "skill": "subtraction-within-100",
-      "prompt": "What is 49 − 31?",
-      "choices": [
-        "28",
-        "17",
-        "18"
+      "standards": [
+        "CCSS.2.OA.A.1"
       ],
-      "answer": "18",
-      "explanation": "Subtract tens and ones.",
-      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
-      "sourceFact": "STAR Math public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
-      "tier": "star-fallback",
-      "domain": "Numbers and operations",
-      "difficulty": 3,
-      "contentHash": "sha256:978304669894197632b3acd4d47ad910c3e10ba8987a0a2df04ade829d34ca2c"
-    },
-    {
-      "id": "abvm-0ca987de6de2-star-math-02-spelling",
-      "stationId": "spelling-forge-fog-v1",
-      "subject": "Math",
-      "skill": "subtraction-within-100",
-      "prompt": "What is 98 − 14?",
-      "choices": [
-        "84",
-        "94",
-        "83"
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Use the inverse operation to uncover the unknown.",
+      "scaffold": "Cover the unknown and ask which inverse operation undoes the equation.",
+      "choiceDiagnostics": [
+        {
+          "choice": "4",
+          "misconception": "off-by-one",
+          "feedback": "You are very close. Recheck the final counting or regrouping step."
+        },
+        {
+          "choice": "1",
+          "misconception": "inverse-operation-confusion",
+          "feedback": "Undo the operation to isolate the unknown."
+        }
       ],
-      "answer": "84",
-      "explanation": "Subtract tens and ones.",
-      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
-      "sourceFact": "STAR Math public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
-      "tier": "star-fallback",
-      "domain": "Numbers and operations",
-      "difficulty": 3,
-      "contentHash": "sha256:6e785ac5ddcf0d30f59e95a3234d4b16922e47eb5e8dc8a3f941345a03807e3d"
+      "contentHash": "sha256:095e14125f1a4069d16d6051eff2c0d78225d571eee731aaa4dbbe8ac08da327"
     },
     {
-      "id": "abvm-0ca987de6de2-star-read-21-spelling",
+      "id": "abvm-0ca987de6de2-34b198-star-read-17-spelling",
       "stationId": "spelling-forge-fog-v1",
       "subject": "Reading / ELA",
-      "skill": "context-clues",
-      "prompt": "In the sentence “The rapid box barely fit through the doorway,” what does “rapid” most likely mean?",
+      "skill": "text-evidence",
+      "prompt": "Read: “The kitten crouched low, wiggled its back legs, stared at the toy mouse, and sprang forward.” Which detail is the strongest evidence that the kitten was getting ready to pounce?",
       "choices": [
-        "careful",
-        "slow",
-        "fast"
+        "It stared at the toy mouse.",
+        "The toy mouse was in front of it.",
+        "It crouched low and wiggled its back legs."
       ],
-      "answer": "fast",
-      "explanation": "The context clue about barely fitting supports the meaning “fast”.",
+      "answer": "It crouched low and wiggled its back legs.",
+      "explanation": "Several details relate to the toy, but crouching and wiggling the back legs most directly show preparation to pounce.",
       "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
       "sourceFact": "STAR Reading public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
       "tier": "star-fallback",
-      "domain": "Word knowledge and skills",
-      "difficulty": 2,
-      "contentHash": "sha256:537a25f2bed3749eac2fd6075f0e14e2dbcbb8326784685c978096dd35d6092b"
+      "domain": "Comprehension strategies and constructing meaning",
+      "difficulty": 3,
+      "standards": [
+        "CCSS.RL.2.1"
+      ],
+      "dok": 3,
+      "cognitiveDemand": "strategic-reasoning",
+      "hint": "Choose the detail that most directly proves the idea.",
+      "scaffold": "Restate the claim, then point to the one detail that proves it most directly.",
+      "choiceDiagnostics": [
+        {
+          "choice": "It stared at the toy mouse.",
+          "misconception": "weak-or-irrelevant-evidence",
+          "feedback": "Pick the detail that proves the claim most directly."
+        },
+        {
+          "choice": "The toy mouse was in front of it.",
+          "misconception": "weak-or-irrelevant-evidence",
+          "feedback": "Pick the detail that proves the claim most directly."
+        }
+      ],
+      "contentHash": "sha256:4758cd9a977041dd2ad00fe127999554c341928f6d1c19d894d1daf9dfaae5ea"
     },
     {
-      "id": "abvm-0ca987de6de2-star-read-08-spelling",
+      "id": "abvm-0ca987de6de2-34b198-star-math-11-spelling",
+      "stationId": "spelling-forge-fog-v1",
+      "subject": "Math",
+      "skill": "two-step-word-problem",
+      "prompt": "A class had 23 markers. The teacher added 13 more, then 3 markers were used. How many markers are left?",
+      "choices": [
+        "33",
+        "36",
+        "20"
+      ],
+      "answer": "33",
+      "explanation": "First add 23 + 13 = 36. Then subtract 3 to get 33.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Math public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
+      "tier": "star-fallback",
+      "domain": "Numbers and operations",
+      "difficulty": 3,
+      "standards": [
+        "CCSS.2.OA.A.1"
+      ],
+      "dok": 3,
+      "cognitiveDemand": "strategic-reasoning",
+      "hint": "Solve the first change, write the new amount, then do the second change.",
+      "scaffold": "Write the answer after step 1 before you touch step 2.",
+      "choiceDiagnostics": [
+        {
+          "choice": "36",
+          "misconception": "one-step-only",
+          "feedback": "This problem changes twice. Solve both steps in order."
+        },
+        {
+          "choice": "20",
+          "misconception": "one-step-only",
+          "feedback": "This problem changes twice. Solve both steps in order."
+        }
+      ],
+      "contentHash": "sha256:237316f9454cf21a7ee56050f06cbbd1f6cc21f11eaa48c1b98f6256f8f5cc54"
+    },
+    {
+      "id": "abvm-0ca987de6de2-34b198-star-math-29-spelling",
+      "stationId": "spelling-forge-fog-v1",
+      "subject": "Math",
+      "skill": "data-interpretation",
+      "prompt": "A class graph shows cats: 4, dogs: 7, fish: 3. Which pet got the most votes?",
+      "choices": [
+        "fish",
+        "dogs",
+        "cats"
+      ],
+      "answer": "dogs",
+      "explanation": "Compare the three totals and choose the greatest.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Math public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
+      "tier": "star-fallback",
+      "domain": "Data analysis, statistics, and probability",
+      "difficulty": 3,
+      "standards": [
+        "CCSS.2.MD.D.10"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Read the labels and compare the values, not the picture size.",
+      "scaffold": "Read the labels and compare the values, not the picture size.",
+      "choiceDiagnostics": [
+        {
+          "choice": "fish",
+          "misconception": "graph-reading-confusion",
+          "feedback": "Read the category label and value before comparing."
+        },
+        {
+          "choice": "cats",
+          "misconception": "graph-reading-confusion",
+          "feedback": "Read the category label and value before comparing."
+        }
+      ],
+      "contentHash": "sha256:7133294088d75f13ee2cea864e01b90dbcb17241a3322e7ad6d951eb5266f715"
+    },
+    {
+      "id": "abvm-0ca987de6de2-34b198-star-read-15-spelling",
+      "stationId": "spelling-forge-fog-v1",
+      "subject": "Reading / ELA",
+      "skill": "theme",
+      "prompt": "Read: “A child practices tying shoes every morning. After many tries, the knot finally stays tied.” Which lesson best fits the story?",
+      "choices": [
+        "Practice can help you improve.",
+        "Shoes are easiest to tie in the morning.",
+        "It is better to ask someone else to do hard things."
+      ],
+      "answer": "Practice can help you improve.",
+      "explanation": "The character’s actions and outcome support that lesson.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Reading public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
+      "tier": "star-fallback",
+      "domain": "Analyzing literary text",
+      "difficulty": 3,
+      "standards": [
+        "CCSS.RL.2.2"
+      ],
+      "dok": 3,
+      "cognitiveDemand": "strategic-reasoning",
+      "hint": "Think about what the character learned from the whole story.",
+      "scaffold": "First identify the character’s problem and what changed by the end.",
+      "choiceDiagnostics": [
+        {
+          "choice": "Shoes are easiest to tie in the morning.",
+          "misconception": "surface-detail-not-theme",
+          "feedback": "A theme is a lesson from the whole story, not one small detail."
+        },
+        {
+          "choice": "It is better to ask someone else to do hard things.",
+          "misconception": "surface-detail-not-theme",
+          "feedback": "A theme is a lesson from the whole story, not one small detail."
+        }
+      ],
+      "contentHash": "sha256:e78b29b00c1c8954b758b5b4d0ecb7acd9e694aba33acd809baf90316c12b802"
+    },
+    {
+      "id": "abvm-0ca987de6de2-34b198-star-read-08-spelling",
       "stationId": "spelling-forge-fog-v1",
       "subject": "Reading / ELA",
       "skill": "character-development",
@@ -1031,250 +2179,263 @@
       "tier": "star-fallback",
       "domain": "Analyzing literary text",
       "difficulty": 3,
-      "contentHash": "sha256:7f7aca474fccfcbccd0e3a8528e971c2fd05cba1e0fbf48efe71dadf5a639edf"
+      "standards": [
+        "CCSS.RL.2.3"
+      ],
+      "dok": 3,
+      "cognitiveDemand": "strategic-reasoning",
+      "hint": "Compare the character’s choice at the beginning and the end.",
+      "scaffold": "Name the beginning choice. Now name the ending choice.",
+      "choiceDiagnostics": [
+        {
+          "choice": "The character stopped caring about the task.",
+          "misconception": "beginning-ending-confusion",
+          "feedback": "Compare how the character acts at the beginning with the ending."
+        },
+        {
+          "choice": "The character decided directions are never useful.",
+          "misconception": "beginning-ending-confusion",
+          "feedback": "Compare how the character acts at the beginning with the ending."
+        }
+      ],
+      "contentHash": "sha256:885f3710ac43f74203820b9c64b2a8f9d579f06b794ed77202e8b2117d59c0ad"
     },
     {
-      "id": "abvm-0ca987de6de2-star-math-26-spelling",
+      "id": "abvm-0ca987de6de2-34b198-star-math-01-spelling",
       "stationId": "spelling-forge-fog-v1",
       "subject": "Math",
-      "skill": "patterns",
-      "prompt": "What number comes next? 2, 12, 22, 32, __",
+      "skill": "two-step-word-problem",
+      "prompt": "A class had 18 markers. The teacher added 25 more, then 13 markers were used. How many markers are left?",
       "choices": [
-        "52",
-        "42",
-        "41"
+        "30",
+        "5",
+        "43"
       ],
-      "answer": "42",
-      "explanation": "The same amount is added each time.",
-      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
-      "sourceFact": "STAR Math public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
-      "tier": "star-fallback",
-      "domain": "Algebra",
-      "difficulty": 3,
-      "contentHash": "sha256:e39a3cc1aef4da4665cc71f975071efa4b90ecb02f19fbbdb1ac27acaa5849f5"
-    },
-    {
-      "id": "abvm-0ca987de6de2-star-read-05-spelling",
-      "stationId": "spelling-forge-fog-v1",
-      "subject": "Reading / ELA",
-      "skill": "theme",
-      "prompt": "Read: “A child practices tying shoes every morning. After many tries, the knot finally stays tied.” Which lesson best fits the story?",
-      "choices": [
-        "Winning is the only thing that matters.",
-        "Practice can help you improve.",
-        "Problems always disappear without effort."
-      ],
-      "answer": "Practice can help you improve.",
-      "explanation": "The character’s actions and outcome support that lesson.",
-      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
-      "sourceFact": "STAR Reading public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
-      "tier": "star-fallback",
-      "domain": "Analyzing literary text",
-      "difficulty": 3,
-      "contentHash": "sha256:7a3da6a04d11b8bc48d69ee6fc32d3bcb458abdaaa34b6fec59813f47a0556d0"
-    },
-    {
-      "id": "abvm-0ca987de6de2-star-math-20-spelling",
-      "stationId": "spelling-forge-fog-v1",
-      "subject": "Math",
-      "skill": "probability-language",
-      "prompt": "A bag has 5 blue tiles and 1 yellow tile. Without looking, which color is more likely to be picked?",
-      "choices": [
-        "They are equally likely.",
-        "blue",
-        "yellow"
-      ],
-      "answer": "blue",
-      "explanation": "There are more blue tiles, so blue is more likely.",
-      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
-      "sourceFact": "STAR Math public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
-      "tier": "star-fallback",
-      "domain": "Data analysis, statistics, and probability",
-      "difficulty": 2,
-      "contentHash": "sha256:11bb06a39b8e27cb99d8518806be604772eb736a888aa918b9716fb14975b9fa"
-    },
-    {
-      "id": "abvm-0ca987de6de2-star-read-17-spelling",
-      "stationId": "spelling-forge-fog-v1",
-      "subject": "Reading / ELA",
-      "skill": "text-evidence",
-      "prompt": "Read: “The kitten crouched low, wiggled its back legs, and sprang toward the toy mouse.” Which detail best shows the kitten was getting ready to pounce?",
-      "choices": [
-        "The toy was a mouse.",
-        "The kitten had fur.",
-        "It crouched low and wiggled its back legs."
-      ],
-      "answer": "It crouched low and wiggled its back legs.",
-      "explanation": "Those actions are direct evidence of preparing to pounce.",
-      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
-      "sourceFact": "STAR Reading public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
-      "tier": "star-fallback",
-      "domain": "Comprehension strategies and constructing meaning",
-      "difficulty": 3,
-      "contentHash": "sha256:d2d5fceb3c5d75c371d7a86d44761e275863639baf0cd7c07606f6d42854a184"
-    },
-    {
-      "id": "abvm-0ca987de6de2-star-math-28-spelling",
-      "stationId": "spelling-forge-fog-v1",
-      "subject": "Math",
-      "skill": "measurement",
-      "prompt": "A ribbon is 23 centimeters long. 8 centimeters are cut off. How many centimeters remain?",
-      "choices": [
-        "16",
-        "15",
-        "31"
-      ],
-      "answer": "15",
-      "explanation": "Subtract the part cut off from the original length.",
-      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
-      "sourceFact": "STAR Math public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
-      "tier": "star-fallback",
-      "domain": "Geometry and measurement",
-      "difficulty": 3,
-      "contentHash": "sha256:c96b0da2068462c2962aa2d118d8fe2750948eade817fc1e3096dc4ef45c56c0"
-    },
-    {
-      "id": "abvm-0ca987de6de2-star-read-22-spelling",
-      "stationId": "spelling-forge-fog-v1",
-      "subject": "Reading / ELA",
-      "skill": "word-parts",
-      "prompt": "What does the word “careless” mean?",
-      "choices": [
-        "without enough care",
-        "very noisy",
-        "a kind of place"
-      ],
-      "answer": "without enough care",
-      "explanation": "The prefix or suffix changes the base word to make this meaning.",
-      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
-      "sourceFact": "STAR Reading public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
-      "tier": "star-fallback",
-      "domain": "Word knowledge and skills",
-      "difficulty": 2,
-      "contentHash": "sha256:cbf3b049abaccee79d2afb68f984f1f7f32f9e5e5749d8d9af515da7fa7573b1"
-    },
-    {
-      "id": "abvm-0ca987de6de2-star-math-16-spelling",
-      "stationId": "spelling-forge-fog-v1",
-      "subject": "Math",
-      "skill": "patterns",
-      "prompt": "What number comes next? 4, 6, 8, 10, __",
-      "choices": [
-        "14",
-        "11",
-        "12"
-      ],
-      "answer": "12",
-      "explanation": "The same amount is added each time.",
-      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
-      "sourceFact": "STAR Math public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
-      "tier": "star-fallback",
-      "domain": "Algebra",
-      "difficulty": 3,
-      "contentHash": "sha256:15a021dae89cd7126cc0d9080052c0dd7fb1969c5fd164e467b25f5d2dc02cb8"
-    },
-    {
-      "id": "abvm-0ca987de6de2-star-read-15-spelling",
-      "stationId": "spelling-forge-fog-v1",
-      "subject": "Reading / ELA",
-      "skill": "theme",
-      "prompt": "Read: “A child practices tying shoes every morning. After many tries, the knot finally stays tied.” Which lesson best fits the story?",
-      "choices": [
-        "Practice can help you improve.",
-        "Winning is the only thing that matters.",
-        "Problems always disappear without effort."
-      ],
-      "answer": "Practice can help you improve.",
-      "explanation": "The character’s actions and outcome support that lesson.",
-      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
-      "sourceFact": "STAR Reading public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
-      "tier": "star-fallback",
-      "domain": "Analyzing literary text",
-      "difficulty": 3,
-      "contentHash": "sha256:0d25084d27b420080626e67a69353a42c77963c1b2521c71b8f460eb2fa2d170"
-    },
-    {
-      "id": "abvm-0ca987de6de2-star-math-01-spelling",
-      "stationId": "spelling-forge-fog-v1",
-      "subject": "Math",
-      "skill": "addition-within-100",
-      "prompt": "What is 21 + 29?",
-      "choices": [
-        "40",
-        "50",
-        "51"
-      ],
-      "answer": "50",
-      "explanation": "Add tens and ones carefully.",
+      "answer": "30",
+      "explanation": "First add 18 + 25 = 43. Then subtract 13 to get 30.",
       "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
       "sourceFact": "STAR Math public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
       "tier": "star-fallback",
       "domain": "Numbers and operations",
       "difficulty": 3,
-      "contentHash": "sha256:86744e786d0f7e2296fc285dd49c4641e1d81ba1c870ce7c498b1600a8197822"
-    },
-    {
-      "id": "abvm-0ca987de6de2-star-math-10-spelling",
-      "stationId": "spelling-forge-fog-v1",
-      "subject": "Math",
-      "skill": "probability-language",
-      "prompt": "A bag has 5 blue tiles and 1 yellow tile. Without looking, which color is more likely to be picked?",
-      "choices": [
-        "blue",
-        "They are equally likely.",
-        "yellow"
+      "standards": [
+        "CCSS.2.OA.A.1"
       ],
-      "answer": "blue",
-      "explanation": "There are more blue tiles, so blue is more likely.",
-      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
-      "sourceFact": "STAR Math public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
-      "tier": "star-fallback",
-      "domain": "Data analysis, statistics, and probability",
-      "difficulty": 2,
-      "contentHash": "sha256:d1ad77aa8d617bc4474a5eed69c2dd75b1c9a1345c70dc7ce323c4c1b1afc3eb"
-    },
-    {
-      "id": "abvm-0ca987de6de2-star-read-01-spelling",
-      "stationId": "spelling-forge-fog-v1",
-      "subject": "Reading / ELA",
-      "skill": "context-clues",
-      "prompt": "In the sentence “The drowsy box barely fit through the doorway,” what does “drowsy” most likely mean?",
-      "choices": [
-        "angry",
-        "excited",
-        "sleepy"
+      "dok": 3,
+      "cognitiveDemand": "strategic-reasoning",
+      "hint": "Solve the first change, write the new amount, then do the second change.",
+      "scaffold": "Write the answer after step 1 before you touch step 2.",
+      "choiceDiagnostics": [
+        {
+          "choice": "5",
+          "misconception": "one-step-only",
+          "feedback": "This problem changes twice. Solve both steps in order."
+        },
+        {
+          "choice": "43",
+          "misconception": "one-step-only",
+          "feedback": "This problem changes twice. Solve both steps in order."
+        }
       ],
-      "answer": "sleepy",
-      "explanation": "The context clue about barely fitting supports the meaning “sleepy”.",
-      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
-      "sourceFact": "STAR Reading public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
-      "tier": "star-fallback",
-      "domain": "Word knowledge and skills",
-      "difficulty": 2,
-      "contentHash": "sha256:fc99e80a8cadc8529a89c692093c13d66d75b566e475ff75e555320054fead39"
+      "contentHash": "sha256:0eb729151e6f6f65f9f8d4060ced6f0c9e2de3a5407dd6fc4c2863d45e7b3e36"
     },
     {
-      "id": "abvm-0ca987de6de2-star-math-13-spelling",
+      "id": "abvm-0ca987de6de2-34b198-star-math-13-spelling",
       "stationId": "spelling-forge-fog-v1",
       "subject": "Math",
       "skill": "place-value",
-      "prompt": "In 777, what is the value of the digit 7?",
+      "prompt": "In 632, what is the value of the digit 3?",
       "choices": [
-        "7",
-        "700",
-        "70"
+        "30",
+        "300",
+        "3"
       ],
-      "answer": "70",
+      "answer": "30",
       "explanation": "The digit is in the tens place.",
       "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
       "sourceFact": "STAR Math public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
       "tier": "star-fallback",
       "domain": "Numbers and operations",
       "difficulty": 3,
-      "contentHash": "sha256:76e626500fdbdefcd84b07c0d52cff52de5621d82ab0d1185b1b779f9c43c548"
+      "standards": [
+        "CCSS.2.NBT.A.1"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Name the place first: hundreds, tens, or ones.",
+      "scaffold": "Rewrite the number as hundreds + tens + ones.",
+      "choiceDiagnostics": [
+        {
+          "choice": "300",
+          "misconception": "place-value-position-confusion",
+          "feedback": "The digit’s value depends on whether it is in the hundreds, tens, or ones place."
+        },
+        {
+          "choice": "3",
+          "misconception": "place-value-position-confusion",
+          "feedback": "The digit’s value depends on whether it is in the hundreds, tens, or ones place."
+        }
+      ],
+      "contentHash": "sha256:e3a472ebbf1213a0268ea8f45da2808b15e41fc3d459e606fc7f3aac0f720dbe"
     },
     {
-      "id": "abvm-0ca987de6de2-star-read-24-spelling",
+      "id": "abvm-0ca987de6de2-34b198-star-math-22-spelling",
+      "stationId": "spelling-forge-fog-v1",
+      "subject": "Math",
+      "skill": "subtraction-within-100",
+      "prompt": "What is 52 − 24?",
+      "choices": [
+        "28",
+        "27",
+        "38"
+      ],
+      "answer": "28",
+      "explanation": "Subtract tens and ones.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Math public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
+      "tier": "star-fallback",
+      "domain": "Numbers and operations",
+      "difficulty": 3,
+      "standards": [
+        "CCSS.2.NBT.B.5"
+      ],
+      "dok": 1,
+      "cognitiveDemand": "recall-and-fluency",
+      "hint": "Subtract tens and ones carefully and check with addition.",
+      "scaffold": "Break the second number into tens and ones.",
+      "choiceDiagnostics": [
+        {
+          "choice": "27",
+          "misconception": "off-by-one",
+          "feedback": "You are very close. Recheck the final counting or regrouping step."
+        },
+        {
+          "choice": "38",
+          "misconception": "addition-or-under-subtraction",
+          "feedback": "This answer is too large for this subtraction. Check whether you added instead of taking away."
+        }
+      ],
+      "contentHash": "sha256:4dd6ca6da9f5ae3abfd884d398d2b4ff61e3158e5462dae8682eb03ac9fde2e3"
+    },
+    {
+      "id": "abvm-0ca987de6de2-34b198-star-math-20-spelling",
+      "stationId": "spelling-forge-fog-v1",
+      "subject": "Math",
+      "skill": "probability-language",
+      "prompt": "A bag has 5 blue tiles and 1 yellow tile. Without looking, which color is more likely to be picked?",
+      "choices": [
+        "They are equally likely.",
+        "blue",
+        "yellow"
+      ],
+      "answer": "blue",
+      "explanation": "There are more blue tiles, so blue is more likely.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Math public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
+      "tier": "star-fallback",
+      "domain": "Data analysis, statistics, and probability",
+      "difficulty": 2,
+      "standards": [
+        "STAR.MATH.DATA.PROBABILITY"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "More matching objects means a more likely result.",
+      "scaffold": "More matching objects means a more likely result.",
+      "choiceDiagnostics": [
+        {
+          "choice": "They are equally likely.",
+          "misconception": "relative-frequency-confusion",
+          "feedback": "Compare how many of each outcome are possible."
+        },
+        {
+          "choice": "yellow",
+          "misconception": "relative-frequency-confusion",
+          "feedback": "Compare how many of each outcome are possible."
+        }
+      ],
+      "contentHash": "sha256:58617ffb914ba5be6ff453c63e54f1368e1bf56ab92d7042ae32a15e5b43b0f8"
+    },
+    {
+      "id": "abvm-0ca987de6de2-34b198-star-read-20-spelling",
+      "stationId": "spelling-forge-fog-v1",
+      "subject": "Reading / ELA",
+      "skill": "word-choice",
+      "prompt": "Read: “The wind whispered through the tall grass.” Why might the author use the word “whispered”?",
+      "choices": [
+        "To prove the wind can speak like a person.",
+        "To tell the exact temperature.",
+        "To help the reader imagine a soft sound."
+      ],
+      "answer": "To help the reader imagine a soft sound.",
+      "explanation": "The word choice creates a quiet sound image for the reader.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Reading public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
+      "tier": "star-fallback",
+      "domain": "Understanding author’s craft",
+      "difficulty": 3,
+      "standards": [
+        "CCSS.RL.2.4"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Think about the picture or feeling created by that exact word.",
+      "scaffold": "Think about the picture or feeling created by that exact word.",
+      "choiceDiagnostics": [
+        {
+          "choice": "To prove the wind can speak like a person.",
+          "misconception": "literal-language-confusion",
+          "feedback": "Think about the image or feeling the author creates, not only the literal meaning."
+        },
+        {
+          "choice": "To tell the exact temperature.",
+          "misconception": "literal-language-confusion",
+          "feedback": "Think about the image or feeling the author creates, not only the literal meaning."
+        }
+      ],
+      "contentHash": "sha256:1179a9e424cbeade3a61f0b0a90ef10878844b41624fa3aaabb45e0cd9b64db6"
+    },
+    {
+      "id": "abvm-0ca987de6de2-34b198-star-math-03-spelling",
+      "stationId": "spelling-forge-fog-v1",
+      "subject": "Math",
+      "skill": "place-value",
+      "prompt": "In 583, what is the value of the digit 8?",
+      "choices": [
+        "8",
+        "800",
+        "80"
+      ],
+      "answer": "80",
+      "explanation": "The digit is in the tens place.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Math public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
+      "tier": "star-fallback",
+      "domain": "Numbers and operations",
+      "difficulty": 3,
+      "standards": [
+        "CCSS.2.NBT.A.1"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Name the place first: hundreds, tens, or ones.",
+      "scaffold": "Rewrite the number as hundreds + tens + ones.",
+      "choiceDiagnostics": [
+        {
+          "choice": "8",
+          "misconception": "place-value-position-confusion",
+          "feedback": "The digit’s value depends on whether it is in the hundreds, tens, or ones place."
+        },
+        {
+          "choice": "800",
+          "misconception": "place-value-position-confusion",
+          "feedback": "The digit’s value depends on whether it is in the hundreds, tens, or ones place."
+        }
+      ],
+      "contentHash": "sha256:203db18a1f928c0dd7d50f2cc539a823522750cadc18122d2164300d15df2e82"
+    },
+    {
+      "id": "abvm-0ca987de6de2-34b198-star-read-24-spelling",
       "stationId": "spelling-forge-fog-v1",
       "subject": "Reading / ELA",
       "skill": "sequence",
@@ -1291,50 +2452,107 @@
       "tier": "star-fallback",
       "domain": "Comprehension strategies and constructing meaning",
       "difficulty": 3,
-      "contentHash": "sha256:6ddb33511c8dad2961680e7a38f35431e50788b1f1b65cc0530f8836bd236090"
+      "standards": [
+        "CCSS.RL.2.5"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Use order words such as first, next, before, and last.",
+      "scaffold": "Use order words such as first, next, before, and last.",
+      "choiceDiagnostics": [
+        {
+          "choice": "The cake was eaten.",
+          "misconception": "sequence-order-confusion",
+          "feedback": "Use the order words to locate what happened immediately before or after."
+        },
+        {
+          "choice": "The oven was turned off.",
+          "misconception": "sequence-order-confusion",
+          "feedback": "Use the order words to locate what happened immediately before or after."
+        }
+      ],
+      "contentHash": "sha256:e84dc2f0e913cbd8df75d5738bc920dd999d5d86cc57fe1dd41f355067a4d0eb"
     },
     {
-      "id": "abvm-0ca987de6de2-star-read-20-spelling",
+      "id": "abvm-0ca987de6de2-34b198-star-read-01-spelling",
       "stationId": "spelling-forge-fog-v1",
       "subject": "Reading / ELA",
-      "skill": "word-choice",
-      "prompt": "Read: “The wind whispered through the tall grass.” Why might the author use the word “whispered”?",
+      "skill": "context-clues",
+      "prompt": "In the sentence “The drowsy box barely fit through the doorway,” what does “drowsy” most likely mean?",
       "choices": [
-        "To prove the wind can speak like a person.",
-        "To tell the exact temperature.",
-        "To help the reader imagine a soft sound."
+        "angry",
+        "excited",
+        "sleepy"
       ],
-      "answer": "To help the reader imagine a soft sound.",
-      "explanation": "The word choice creates a quiet sound image for the reader.",
+      "answer": "sleepy",
+      "explanation": "The context clue about barely fitting supports the meaning “sleepy”.",
       "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
       "sourceFact": "STAR Reading public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
       "tier": "star-fallback",
-      "domain": "Understanding author’s craft",
-      "difficulty": 3,
-      "contentHash": "sha256:59719207ef7fb9fa419e1764e8c52cccfe2479a38282b71cd72cfd32d9415590"
+      "domain": "Word knowledge and skills",
+      "difficulty": 2,
+      "standards": [
+        "CCSS.L.2.4.a"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Look for a nearby clue that shows what the unknown word means.",
+      "scaffold": "Look for a nearby clue that shows what the unknown word means.",
+      "choiceDiagnostics": [
+        {
+          "choice": "angry",
+          "misconception": "opposite-or-unrelated-meaning",
+          "feedback": "Use the sentence clue, not just a familiar-looking word."
+        },
+        {
+          "choice": "excited",
+          "misconception": "opposite-or-unrelated-meaning",
+          "feedback": "Use the sentence clue, not just a familiar-looking word."
+        }
+      ],
+      "contentHash": "sha256:fa71a2614b2544c934073158550c88ef008d4ec7edb65d0cd3209dbdfc63a3a1"
     },
     {
-      "id": "abvm-0ca987de6de2-star-read-06-spelling",
+      "id": "abvm-0ca987de6de2-34b198-star-read-21-spelling",
       "stationId": "spelling-forge-fog-v1",
       "subject": "Reading / ELA",
-      "skill": "inference",
-      "prompt": "Read: “Zoe tucked the permission slip into the front pocket of the backpack, then checked the pocket twice before leaving.” What can you infer?",
+      "skill": "context-clues",
+      "prompt": "In the sentence “The rapid box barely fit through the doorway,” what does “rapid” most likely mean?",
       "choices": [
-        "Zoe forgot there was a backpack.",
-        "Zoe thinks the slip is important.",
-        "Zoe wants to lose the slip."
+        "careful",
+        "slow",
+        "fast"
       ],
-      "answer": "Zoe thinks the slip is important.",
-      "explanation": "Checking the pocket twice shows the slip matters to the character.",
+      "answer": "fast",
+      "explanation": "The context clue about barely fitting supports the meaning “fast”.",
       "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
       "sourceFact": "STAR Reading public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
       "tier": "star-fallback",
-      "domain": "Comprehension strategies and constructing meaning",
-      "difficulty": 3,
-      "contentHash": "sha256:0139a8f7820449dc6df45482c4afd709a1e39b8d85d0cca7a4a4a94ba3b0db1b"
+      "domain": "Word knowledge and skills",
+      "difficulty": 2,
+      "standards": [
+        "CCSS.L.2.4.a"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Look for a nearby clue that shows what the unknown word means.",
+      "scaffold": "Look for a nearby clue that shows what the unknown word means.",
+      "choiceDiagnostics": [
+        {
+          "choice": "careful",
+          "misconception": "opposite-or-unrelated-meaning",
+          "feedback": "Use the sentence clue, not just a familiar-looking word."
+        },
+        {
+          "choice": "slow",
+          "misconception": "opposite-or-unrelated-meaning",
+          "feedback": "Use the sentence clue, not just a familiar-looking word."
+        }
+      ],
+      "contentHash": "sha256:953a6adebea18721b9e4c4f01c57a9e9df08f42b24329cc50f35f33fb688c2f7"
     },
     {
-      "id": "abvm-0ca987de6de2-mat-religion-0",
+      "id": "abvm-0ca987de6de2-34b198-mat-religion-0",
       "stationId": "culture-lab-culture-v1",
       "subject": "Religion",
       "skill": "religion-application",
@@ -1351,10 +2569,29 @@
       "tier": "material",
       "domain": "Religion: current lesson application",
       "difficulty": 3,
-      "contentHash": "sha256:92b39c09819d604958c58e7a8764d6c6b8ce58da294cb282a5499842cbdbece8"
+      "standards": [
+        "ABVM.RELIGION.CURRENT"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Match the lesson idea to the choice that actually puts it into action.",
+      "scaffold": "Match the lesson idea to the choice that actually puts it into action.",
+      "choiceDiagnostics": [
+        {
+          "choice": "Jesus gave us the new life of grace",
+          "misconception": "lesson-application-confusion",
+          "feedback": "Choose the action that best demonstrates the lesson in real life."
+        },
+        {
+          "choice": "Jesus died for our sins; He is our Savior",
+          "misconception": "lesson-application-confusion",
+          "feedback": "Choose the action that best demonstrates the lesson in real life."
+        }
+      ],
+      "contentHash": "sha256:224c53bbb5f8ed98c08d2e90292a4ed6202ec88e5c3c588e22f403ffc3f5f8f2"
     },
     {
-      "id": "abvm-0ca987de6de2-mat-religion-1",
+      "id": "abvm-0ca987de6de2-34b198-mat-religion-1",
       "stationId": "culture-lab-culture-v1",
       "subject": "Religion",
       "skill": "religion-application",
@@ -1371,10 +2608,29 @@
       "tier": "material",
       "domain": "Religion: current lesson application",
       "difficulty": 3,
-      "contentHash": "sha256:f6e5c1d800ef9c199b262c5abc627a56416edbc6a57d6ed1d52f554798ee248a"
+      "standards": [
+        "ABVM.RELIGION.CURRENT"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Match the lesson idea to the choice that actually puts it into action.",
+      "scaffold": "Match the lesson idea to the choice that actually puts it into action.",
+      "choiceDiagnostics": [
+        {
+          "choice": "A school rule",
+          "misconception": "lesson-application-confusion",
+          "feedback": "Choose the action that best demonstrates the lesson in real life."
+        },
+        {
+          "choice": "A prize someone earns",
+          "misconception": "lesson-application-confusion",
+          "feedback": "Choose the action that best demonstrates the lesson in real life."
+        }
+      ],
+      "contentHash": "sha256:46f3d8bfa25d8d39b9d3d30331df48dbb7a3ab78a8913bff4a7eedb95b5517f4"
     },
     {
-      "id": "abvm-0ca987de6de2-mat-religion-2",
+      "id": "abvm-0ca987de6de2-34b198-mat-religion-2",
       "stationId": "culture-lab-culture-v1",
       "subject": "Religion",
       "skill": "religion-application",
@@ -1391,10 +2647,29 @@
       "tier": "material",
       "domain": "Religion: current lesson application",
       "difficulty": 3,
-      "contentHash": "sha256:58d8d4391101a3172f1c10763cca9c4e29f93b36fd96de06b1dc091424b770ec"
+      "standards": [
+        "ABVM.RELIGION.CURRENT"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Match the lesson idea to the choice that actually puts it into action.",
+      "scaffold": "Match the lesson idea to the choice that actually puts it into action.",
+      "choiceDiagnostics": [
+        {
+          "choice": "Jesus is God's greatest gift to us; he tells us about God and teaches us how to live",
+          "misconception": "lesson-application-confusion",
+          "feedback": "Choose the action that best demonstrates the lesson in real life."
+        },
+        {
+          "choice": "Jesus gave us the new life of grace",
+          "misconception": "lesson-application-confusion",
+          "feedback": "Choose the action that best demonstrates the lesson in real life."
+        }
+      ],
+      "contentHash": "sha256:617ea0b21eb77d502f7e00c7194f54e9a593af6e4b0953e41aceb090f66bfe7d"
     },
     {
-      "id": "abvm-0ca987de6de2-mat-religion-3",
+      "id": "abvm-0ca987de6de2-34b198-mat-religion-3",
       "stationId": "culture-lab-culture-v1",
       "subject": "Religion",
       "skill": "religion-application",
@@ -1411,10 +2686,29 @@
       "tier": "material",
       "domain": "Religion: current lesson application",
       "difficulty": 3,
-      "contentHash": "sha256:9c623bb0afe57092cceb2eb5992fe6e80325d283ea537b4b62169457546edb82"
+      "standards": [
+        "ABVM.RELIGION.CURRENT"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Match the lesson idea to the choice that actually puts it into action.",
+      "scaffold": "Match the lesson idea to the choice that actually puts it into action.",
+      "choiceDiagnostics": [
+        {
+          "choice": "A prize someone earns",
+          "misconception": "lesson-application-confusion",
+          "feedback": "Choose the action that best demonstrates the lesson in real life."
+        },
+        {
+          "choice": "A school rule",
+          "misconception": "lesson-application-confusion",
+          "feedback": "Choose the action that best demonstrates the lesson in real life."
+        }
+      ],
+      "contentHash": "sha256:6bcf67a695b58456327294d13ce820e297ff50e7071c391443c84d1966960827"
     },
     {
-      "id": "abvm-0ca987de6de2-mat-religion-4",
+      "id": "abvm-0ca987de6de2-34b198-mat-religion-4",
       "stationId": "culture-lab-culture-v1",
       "subject": "Religion",
       "skill": "religion-application",
@@ -1431,10 +2725,29 @@
       "tier": "material",
       "domain": "Religion: current lesson application",
       "difficulty": 3,
-      "contentHash": "sha256:1be24647f7ee046c687004a4dbdfa5f51cc1bc44d0775813d2c7a6521ea9edfa"
+      "standards": [
+        "ABVM.RELIGION.CURRENT"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Match the lesson idea to the choice that actually puts it into action.",
+      "scaffold": "Match the lesson idea to the choice that actually puts it into action.",
+      "choiceDiagnostics": [
+        {
+          "choice": "Ignore people who need help.",
+          "misconception": "lesson-application-confusion",
+          "feedback": "Choose the action that best demonstrates the lesson in real life."
+        },
+        {
+          "choice": "Choose what is easiest even if it hurts someone.",
+          "misconception": "lesson-application-confusion",
+          "feedback": "Choose the action that best demonstrates the lesson in real life."
+        }
+      ],
+      "contentHash": "sha256:05b0fdbde54c4d85740d7416a35480745cde216ecbc0a2b63889995a81663589"
     },
     {
-      "id": "abvm-0ca987de6de2-mat-religion-5",
+      "id": "abvm-0ca987de6de2-34b198-mat-religion-5",
       "stationId": "culture-lab-culture-v1",
       "subject": "Religion",
       "skill": "religion-application",
@@ -1451,10 +2764,29 @@
       "tier": "material",
       "domain": "Religion: current lesson application",
       "difficulty": 3,
-      "contentHash": "sha256:6126b1572331cc003d00936e93bd8f0e7ec2e6f68d8ef9fa19a77468dafcedb8"
+      "standards": [
+        "ABVM.RELIGION.CURRENT"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Match the lesson idea to the choice that actually puts it into action.",
+      "scaffold": "Match the lesson idea to the choice that actually puts it into action.",
+      "choiceDiagnostics": [
+        {
+          "choice": "Jesus gave us the new life of grace",
+          "misconception": "lesson-application-confusion",
+          "feedback": "Choose the action that best demonstrates the lesson in real life."
+        },
+        {
+          "choice": "Jesus is God's greatest gift to us; he tells us about God and teaches us how to live",
+          "misconception": "lesson-application-confusion",
+          "feedback": "Choose the action that best demonstrates the lesson in real life."
+        }
+      ],
+      "contentHash": "sha256:21d64d1f496530e10cd5664d7810e64bd6a975e90d1cccaa1266979c0fa406ff"
     },
     {
-      "id": "abvm-0ca987de6de2-mat-religion-6",
+      "id": "abvm-0ca987de6de2-34b198-mat-religion-6",
       "stationId": "culture-lab-culture-v1",
       "subject": "Religion",
       "skill": "religion-application",
@@ -1471,10 +2803,29 @@
       "tier": "material",
       "domain": "Religion: current lesson application",
       "difficulty": 3,
-      "contentHash": "sha256:0cc5bdfa08fc2f2e46aff496b6529e16a36c4f040d6928a7a70ae35a42144b47"
+      "standards": [
+        "ABVM.RELIGION.CURRENT"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Match the lesson idea to the choice that actually puts it into action.",
+      "scaffold": "Match the lesson idea to the choice that actually puts it into action.",
+      "choiceDiagnostics": [
+        {
+          "choice": "Jesus gave us the new life of grace",
+          "misconception": "lesson-application-confusion",
+          "feedback": "Choose the action that best demonstrates the lesson in real life."
+        },
+        {
+          "choice": "Jesus is God's greatest gift to us; he tells us about God and teaches us how to live",
+          "misconception": "lesson-application-confusion",
+          "feedback": "Choose the action that best demonstrates the lesson in real life."
+        }
+      ],
+      "contentHash": "sha256:57df00161df6bea019e788e1df85d6eaa155fab0468f6c029f19ac416cabaa7e"
     },
     {
-      "id": "abvm-0ca987de6de2-mat-religion-7",
+      "id": "abvm-0ca987de6de2-34b198-mat-religion-7",
       "stationId": "culture-lab-culture-v1",
       "subject": "Religion",
       "skill": "religion-application",
@@ -1491,10 +2842,29 @@
       "tier": "material",
       "domain": "Religion: current lesson application",
       "difficulty": 3,
-      "contentHash": "sha256:6d57afbf977e3a5e199be41d07d5647c36eb4904898f1754ae451728e36928b3"
+      "standards": [
+        "ABVM.RELIGION.CURRENT"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Match the lesson idea to the choice that actually puts it into action.",
+      "scaffold": "Match the lesson idea to the choice that actually puts it into action.",
+      "choiceDiagnostics": [
+        {
+          "choice": "Never needing help from anyone.",
+          "misconception": "lesson-application-confusion",
+          "feedback": "Choose the action that best demonstrates the lesson in real life."
+        },
+        {
+          "choice": "Being able to run faster than everyone.",
+          "misconception": "lesson-application-confusion",
+          "feedback": "Choose the action that best demonstrates the lesson in real life."
+        }
+      ],
+      "contentHash": "sha256:28c332ce85e81bfba14ccfddce4b812909edfc9b097faf0bde6c5b6b7e76ce1f"
     },
     {
-      "id": "abvm-0ca987de6de2-mat-religion-8",
+      "id": "abvm-0ca987de6de2-34b198-mat-religion-8",
       "stationId": "culture-lab-culture-v1",
       "subject": "Religion",
       "skill": "religion-application",
@@ -1511,10 +2881,29 @@
       "tier": "material",
       "domain": "Religion: current lesson application",
       "difficulty": 3,
-      "contentHash": "sha256:40821111ee65998ccf92ba7b9d33aff9b5d804a3d7be3d1e3507285278f0e5c9"
+      "standards": [
+        "ABVM.RELIGION.CURRENT"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Match the lesson idea to the choice that actually puts it into action.",
+      "scaffold": "Match the lesson idea to the choice that actually puts it into action.",
+      "choiceDiagnostics": [
+        {
+          "choice": "One Person with three different names only.",
+          "misconception": "lesson-application-confusion",
+          "feedback": "Choose the action that best demonstrates the lesson in real life."
+        },
+        {
+          "choice": "Three separate gods with no connection.",
+          "misconception": "lesson-application-confusion",
+          "feedback": "Choose the action that best demonstrates the lesson in real life."
+        }
+      ],
+      "contentHash": "sha256:627d180f9ba85e4bd42db9e5c40155f20f9336558cc00439fe373961e7f3e7b2"
     },
     {
-      "id": "abvm-0ca987de6de2-mat-religion-9",
+      "id": "abvm-0ca987de6de2-34b198-mat-religion-9",
       "stationId": "culture-lab-culture-v1",
       "subject": "Religion",
       "skill": "religion-application",
@@ -1531,10 +2920,29 @@
       "tier": "material",
       "domain": "Religion: current lesson application",
       "difficulty": 3,
-      "contentHash": "sha256:9cd21749c7decfd15370bbf2b5b594bf67cb95f462e61c2264a721abca3451bd"
+      "standards": [
+        "ABVM.RELIGION.CURRENT"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Match the lesson idea to the choice that actually puts it into action.",
+      "scaffold": "Match the lesson idea to the choice that actually puts it into action.",
+      "choiceDiagnostics": [
+        {
+          "choice": "Jesus gave us the new life of grace",
+          "misconception": "lesson-application-confusion",
+          "feedback": "Choose the action that best demonstrates the lesson in real life."
+        },
+        {
+          "choice": "Jesus is God's greatest gift to us; he tells us about God and teaches us how to live",
+          "misconception": "lesson-application-confusion",
+          "feedback": "Choose the action that best demonstrates the lesson in real life."
+        }
+      ],
+      "contentHash": "sha256:a357e37a12da4b2cd6c9e34a40b0fc9476160fb26d5c34edd1f54ed9679a9e8a"
     },
     {
-      "id": "abvm-0ca987de6de2-mat-religion-10",
+      "id": "abvm-0ca987de6de2-34b198-mat-religion-10",
       "stationId": "culture-lab-culture-v1",
       "subject": "Religion",
       "skill": "religion-application",
@@ -1551,10 +2959,29 @@
       "tier": "material",
       "domain": "Religion: current lesson application",
       "difficulty": 3,
-      "contentHash": "sha256:5205b9f900fe45e75aae071e29491e5d26783c7451a3f7c13192e69f6340cd48"
+      "standards": [
+        "ABVM.RELIGION.CURRENT"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Match the lesson idea to the choice that actually puts it into action.",
+      "scaffold": "Match the lesson idea to the choice that actually puts it into action.",
+      "choiceDiagnostics": [
+        {
+          "choice": "Ignore people who need help.",
+          "misconception": "lesson-application-confusion",
+          "feedback": "Choose the action that best demonstrates the lesson in real life."
+        },
+        {
+          "choice": "Choose what is easiest even if it hurts someone.",
+          "misconception": "lesson-application-confusion",
+          "feedback": "Choose the action that best demonstrates the lesson in real life."
+        }
+      ],
+      "contentHash": "sha256:32ef523e2e35ceab7f897cda7a7da5b51b00fbaba82ba9bd5d4fa875d9fac8e7"
     },
     {
-      "id": "abvm-0ca987de6de2-mat-religion-11",
+      "id": "abvm-0ca987de6de2-34b198-mat-religion-11",
       "stationId": "culture-lab-culture-v1",
       "subject": "Religion",
       "skill": "religion-application",
@@ -1571,110 +2998,341 @@
       "tier": "material",
       "domain": "Religion: current lesson application",
       "difficulty": 3,
-      "contentHash": "sha256:9edc06adfae4bfefa86833991f43787b50f660d3fad623cbac68630e120cb0a8"
+      "standards": [
+        "ABVM.RELIGION.CURRENT"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Match the lesson idea to the choice that actually puts it into action.",
+      "scaffold": "Match the lesson idea to the choice that actually puts it into action.",
+      "choiceDiagnostics": [
+        {
+          "choice": "Jesus is God's greatest gift to us; he tells us about God and teaches us how to live",
+          "misconception": "lesson-application-confusion",
+          "feedback": "Choose the action that best demonstrates the lesson in real life."
+        },
+        {
+          "choice": "Jesus gave us the new life of grace",
+          "misconception": "lesson-application-confusion",
+          "feedback": "Choose the action that best demonstrates the lesson in real life."
+        }
+      ],
+      "contentHash": "sha256:6a2aaf8709d37ff7c3719ef5a90ddfc74bffbb1f9da81890d9b07f72b2e9cdeb"
     },
     {
-      "id": "abvm-0ca987de6de2-star-read-23-culture",
+      "id": "abvm-0ca987de6de2-34b198-star-math-16-culture",
+      "stationId": "culture-lab-culture-v1",
+      "subject": "Math",
+      "skill": "patterns",
+      "prompt": "What number comes next? 2, 7, 12, 17, __",
+      "choices": [
+        "21",
+        "22",
+        "27"
+      ],
+      "answer": "22",
+      "explanation": "The same amount is added each time.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Math public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
+      "tier": "star-fallback",
+      "domain": "Algebra",
+      "difficulty": 3,
+      "standards": [
+        "CCSS.2.NBT.A.2"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Find the amount that changes from one term to the next.",
+      "scaffold": "Find the amount that changes from one term to the next.",
+      "choiceDiagnostics": [
+        {
+          "choice": "21",
+          "misconception": "off-by-one",
+          "feedback": "You are very close. Recheck the final counting or regrouping step."
+        },
+        {
+          "choice": "27",
+          "misconception": "wrong-pattern-step",
+          "feedback": "Find the repeated change between neighboring numbers."
+        }
+      ],
+      "contentHash": "sha256:68bea4b0afcf3272a2a8f415ee0494c1aa64197ae53910f54c78e9b1ec36b2a8"
+    },
+    {
+      "id": "abvm-0ca987de6de2-34b198-star-math-07-culture",
+      "stationId": "culture-lab-culture-v1",
+      "subject": "Math",
+      "skill": "geometry",
+      "prompt": "How many sides does a triangle have?",
+      "choices": [
+        "2",
+        "4",
+        "3"
+      ],
+      "answer": "3",
+      "explanation": "Count the straight sides of the shape.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Math public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
+      "tier": "star-fallback",
+      "domain": "Geometry and measurement",
+      "difficulty": 2,
+      "standards": [
+        "CCSS.2.G.A.1"
+      ],
+      "dok": 1,
+      "cognitiveDemand": "recall-and-fluency",
+      "hint": "Count the defining sides or corners, not the size or color.",
+      "scaffold": "Count the defining sides or corners, not the size or color.",
+      "choiceDiagnostics": [
+        {
+          "choice": "2",
+          "misconception": "off-by-one",
+          "feedback": "You are very close. Recheck the final counting or regrouping step."
+        },
+        {
+          "choice": "4",
+          "misconception": "off-by-one",
+          "feedback": "You are very close. Recheck the final counting or regrouping step."
+        }
+      ],
+      "contentHash": "sha256:c953e9694d0ffac3631616f09cc4dccb072cc32f3b95e0ef6e34e62e710a1781"
+    },
+    {
+      "id": "abvm-0ca987de6de2-34b198-star-read-25-culture",
       "stationId": "culture-lab-culture-v1",
       "subject": "Reading / ELA",
-      "skill": "cause-effect",
-      "prompt": "Eli read: “The trail was muddy, so we stepped carefully around the puddles.” Why did they step carefully?",
+      "skill": "theme",
+      "prompt": "Read: “A child practices tying shoes every morning. After many tries, the knot finally stays tied.” Which lesson best fits the story?",
       "choices": [
-        "They were racing.",
-        "The trail was muddy.",
-        "The puddles were frozen solid."
+        "Shoes are easiest to tie in the morning.",
+        "It is better to ask someone else to do hard things.",
+        "Practice can help you improve."
       ],
-      "answer": "The trail was muddy.",
-      "explanation": "The first part gives the cause for the careful steps.",
+      "answer": "Practice can help you improve.",
+      "explanation": "The character’s actions and outcome support that lesson.",
       "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
       "sourceFact": "STAR Reading public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
       "tier": "star-fallback",
-      "domain": "Comprehension strategies and constructing meaning",
+      "domain": "Analyzing literary text",
       "difficulty": 3,
-      "contentHash": "sha256:d78ddc390d76bea074ecad04ca023ebe3c3e177140d5a75476dfa432c829c32f"
+      "standards": [
+        "CCSS.RL.2.2"
+      ],
+      "dok": 3,
+      "cognitiveDemand": "strategic-reasoning",
+      "hint": "Think about what the character learned from the whole story.",
+      "scaffold": "First identify the character’s problem and what changed by the end.",
+      "choiceDiagnostics": [
+        {
+          "choice": "Shoes are easiest to tie in the morning.",
+          "misconception": "surface-detail-not-theme",
+          "feedback": "A theme is a lesson from the whole story, not one small detail."
+        },
+        {
+          "choice": "It is better to ask someone else to do hard things.",
+          "misconception": "surface-detail-not-theme",
+          "feedback": "A theme is a lesson from the whole story, not one small detail."
+        }
+      ],
+      "contentHash": "sha256:5753334d1a0824150925ec2eda3ed2aa2bc660859da4d2a085aa53293aa1b7c4"
     },
     {
-      "id": "abvm-0ca987de6de2-star-math-05-culture",
+      "id": "abvm-0ca987de6de2-34b198-star-math-21-culture",
+      "stationId": "culture-lab-culture-v1",
+      "subject": "Math",
+      "skill": "two-step-word-problem",
+      "prompt": "A class had 31 markers. The teacher added 11 more, then 3 markers were used. How many markers are left?",
+      "choices": [
+        "42",
+        "39",
+        "28"
+      ],
+      "answer": "39",
+      "explanation": "First add 31 + 11 = 42. Then subtract 3 to get 39.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Math public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
+      "tier": "star-fallback",
+      "domain": "Numbers and operations",
+      "difficulty": 3,
+      "standards": [
+        "CCSS.2.OA.A.1"
+      ],
+      "dok": 3,
+      "cognitiveDemand": "strategic-reasoning",
+      "hint": "Solve the first change, write the new amount, then do the second change.",
+      "scaffold": "Write the answer after step 1 before you touch step 2.",
+      "choiceDiagnostics": [
+        {
+          "choice": "42",
+          "misconception": "one-step-only",
+          "feedback": "This problem changes twice. Solve both steps in order."
+        },
+        {
+          "choice": "28",
+          "misconception": "one-step-only",
+          "feedback": "This problem changes twice. Solve both steps in order."
+        }
+      ],
+      "contentHash": "sha256:90eea15002f6028a0c5f7417a43160a206b1358ac4156b7e776a50c9635f2237"
+    },
+    {
+      "id": "abvm-0ca987de6de2-34b198-star-math-05-culture",
       "stationId": "culture-lab-culture-v1",
       "subject": "Math",
       "skill": "unknown-number",
-      "prompt": "Which number makes the equation true? 5 + □ = 8",
+      "prompt": "Which number makes the equation true? 4 + □ = 16",
       "choices": [
-        "4",
-        "3",
-        "1"
+        "10",
+        "13",
+        "12"
       ],
-      "answer": "3",
+      "answer": "12",
       "explanation": "Find the missing addend.",
       "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
       "sourceFact": "STAR Math public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
       "tier": "star-fallback",
       "domain": "Algebra",
       "difficulty": 3,
-      "contentHash": "sha256:2e03ad31a157e5ed9ce3b8abb80eaaf4fd0e821cc86416333b449b13d39fa319"
+      "standards": [
+        "CCSS.2.OA.A.1"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Use the inverse operation to uncover the unknown.",
+      "scaffold": "Cover the unknown and ask which inverse operation undoes the equation.",
+      "choiceDiagnostics": [
+        {
+          "choice": "10",
+          "misconception": "inverse-operation-confusion",
+          "feedback": "Undo the operation to isolate the unknown."
+        },
+        {
+          "choice": "13",
+          "misconception": "off-by-one",
+          "feedback": "You are very close. Recheck the final counting or regrouping step."
+        }
+      ],
+      "contentHash": "sha256:60bc2b6c78c3c0f9a571e0bf8ed5c42e122d1c5ac6c80a3b262e461b11a708b3"
     },
     {
-      "id": "abvm-0ca987de6de2-star-read-18-culture",
+      "id": "abvm-0ca987de6de2-34b198-star-read-27-culture",
       "stationId": "culture-lab-culture-v1",
       "subject": "Reading / ELA",
-      "skill": "character-development",
-      "prompt": "At the start of a story, Nora refuses to ask for help. After making the same mistake twice, Nora asks a classmate to explain the directions and succeeds. How did the character change?",
+      "skill": "text-evidence",
+      "prompt": "Read: “The kitten crouched low, wiggled its back legs, stared at the toy mouse, and sprang forward.” Which detail is the strongest evidence that the kitten was getting ready to pounce?",
       "choices": [
-        "The character decided directions are never useful.",
-        "The character stopped caring about the task.",
-        "The character became more willing to ask for help."
+        "It stared at the toy mouse.",
+        "The toy mouse was in front of it.",
+        "It crouched low and wiggled its back legs."
       ],
-      "answer": "The character became more willing to ask for help.",
-      "explanation": "The ending shows a change in the character’s choice.",
+      "answer": "It crouched low and wiggled its back legs.",
+      "explanation": "Several details relate to the toy, but crouching and wiggling the back legs most directly show preparation to pounce.",
       "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
       "sourceFact": "STAR Reading public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
       "tier": "star-fallback",
-      "domain": "Analyzing literary text",
+      "domain": "Comprehension strategies and constructing meaning",
       "difficulty": 3,
-      "contentHash": "sha256:de52567586ff834b4e3b1a6c792fc3fec3a942dce713825d9e33b5b6f5362583"
+      "standards": [
+        "CCSS.RL.2.1"
+      ],
+      "dok": 3,
+      "cognitiveDemand": "strategic-reasoning",
+      "hint": "Choose the detail that most directly proves the idea.",
+      "scaffold": "Restate the claim, then point to the one detail that proves it most directly.",
+      "choiceDiagnostics": [
+        {
+          "choice": "It stared at the toy mouse.",
+          "misconception": "weak-or-irrelevant-evidence",
+          "feedback": "Pick the detail that proves the claim most directly."
+        },
+        {
+          "choice": "The toy mouse was in front of it.",
+          "misconception": "weak-or-irrelevant-evidence",
+          "feedback": "Pick the detail that proves the claim most directly."
+        }
+      ],
+      "contentHash": "sha256:49b2efb723a5cd711c715cc4600a805c63ffa275cafdaedb5960e7ea10bfc683"
     },
     {
-      "id": "abvm-0ca987de6de2-star-math-30-culture",
+      "id": "abvm-0ca987de6de2-34b198-star-math-15-culture",
       "stationId": "culture-lab-culture-v1",
       "subject": "Math",
-      "skill": "probability-language",
-      "prompt": "A bag has 5 blue tiles and 1 yellow tile. Without looking, which color is more likely to be picked?",
+      "skill": "unknown-number",
+      "prompt": "Which number makes the equation true? 13 + □ = 19",
       "choices": [
-        "yellow",
-        "They are equally likely.",
-        "blue"
+        "4",
+        "6",
+        "7"
       ],
-      "answer": "blue",
-      "explanation": "There are more blue tiles, so blue is more likely.",
+      "answer": "6",
+      "explanation": "Find the missing addend.",
       "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
       "sourceFact": "STAR Math public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
       "tier": "star-fallback",
-      "domain": "Data analysis, statistics, and probability",
-      "difficulty": 2,
-      "contentHash": "sha256:6744f737fde2111d60f2c6e20a5184f0c06df5455603b6cc10f8f7cea4dabd65"
-    },
-    {
-      "id": "abvm-0ca987de6de2-star-math-19-culture",
-      "stationId": "culture-lab-culture-v1",
-      "subject": "Math",
-      "skill": "data-interpretation",
-      "prompt": "A class graph shows cats: 2, dogs: 7, fish: 2. Which pet got the most votes?",
-      "choices": [
-        "fish",
-        "cats",
-        "dogs"
-      ],
-      "answer": "dogs",
-      "explanation": "Compare the three totals and choose the greatest.",
-      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
-      "sourceFact": "STAR Math public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
-      "tier": "star-fallback",
-      "domain": "Data analysis, statistics, and probability",
+      "domain": "Algebra",
       "difficulty": 3,
-      "contentHash": "sha256:478b0108189507217de7db74d20473db54f72a447e862cbe147b5123cd8f7804"
+      "standards": [
+        "CCSS.2.OA.A.1"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Use the inverse operation to uncover the unknown.",
+      "scaffold": "Cover the unknown and ask which inverse operation undoes the equation.",
+      "choiceDiagnostics": [
+        {
+          "choice": "4",
+          "misconception": "inverse-operation-confusion",
+          "feedback": "Undo the operation to isolate the unknown."
+        },
+        {
+          "choice": "7",
+          "misconception": "off-by-one",
+          "feedback": "You are very close. Recheck the final counting or regrouping step."
+        }
+      ],
+      "contentHash": "sha256:03c8fbc9c3e62402c6344756eaa0c47b9dc22733bf4c26b11e2f9a3a92582e0d"
     },
     {
-      "id": "abvm-0ca987de6de2-star-read-30-culture",
+      "id": "abvm-0ca987de6de2-34b198-star-read-16-culture",
+      "stationId": "culture-lab-culture-v1",
+      "subject": "Reading / ELA",
+      "skill": "inference",
+      "prompt": "Read: “Nora tucked the permission slip into the front pocket of the backpack, then checked the pocket twice before leaving.” What can you infer?",
+      "choices": [
+        "Nora thinks the slip is important.",
+        "Nora plans to give the slip to a friend.",
+        "Nora is mainly worried the backpack looks messy."
+      ],
+      "answer": "Nora thinks the slip is important.",
+      "explanation": "Checking the pocket twice shows the slip matters to the character.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Reading public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
+      "tier": "star-fallback",
+      "domain": "Comprehension strategies and constructing meaning",
+      "difficulty": 3,
+      "standards": [
+        "CCSS.RL.2.1"
+      ],
+      "dok": 3,
+      "cognitiveDemand": "strategic-reasoning",
+      "hint": "Combine a text clue with what you already know.",
+      "scaffold": "Find one clue that is definitely true. What does that clue suggest?",
+      "choiceDiagnostics": [
+        {
+          "choice": "Nora plans to give the slip to a friend.",
+          "misconception": "unsupported-inference",
+          "feedback": "The best inference must be supported by a specific clue in the text."
+        },
+        {
+          "choice": "Nora is mainly worried the backpack looks messy.",
+          "misconception": "unsupported-inference",
+          "feedback": "The best inference must be supported by a specific clue in the text."
+        }
+      ],
+      "contentHash": "sha256:3e4626ccb3d11dd2876f726245701738f1fb36755572d4f083584a68aa8a9647"
+    },
+    {
+      "id": "abvm-0ca987de6de2-34b198-star-read-30-culture",
       "stationId": "culture-lab-culture-v1",
       "subject": "Reading / ELA",
       "skill": "word-choice",
@@ -1691,70 +3349,185 @@
       "tier": "star-fallback",
       "domain": "Understanding author’s craft",
       "difficulty": 3,
-      "contentHash": "sha256:944679cb32479f86f5b2bba8e60a89dbf91cca9eab301983091847b68437888c"
+      "standards": [
+        "CCSS.RL.2.4"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Think about the picture or feeling created by that exact word.",
+      "scaffold": "Think about the picture or feeling created by that exact word.",
+      "choiceDiagnostics": [
+        {
+          "choice": "To tell the exact temperature.",
+          "misconception": "literal-language-confusion",
+          "feedback": "Think about the image or feeling the author creates, not only the literal meaning."
+        },
+        {
+          "choice": "To prove the wind can speak like a person.",
+          "misconception": "literal-language-confusion",
+          "feedback": "Think about the image or feeling the author creates, not only the literal meaning."
+        }
+      ],
+      "contentHash": "sha256:c3fe9345ee927a98e35d8f4b563014d8ddb208ff37169192e408fd244cfd3606"
     },
     {
-      "id": "abvm-0ca987de6de2-star-math-24-culture",
+      "id": "abvm-0ca987de6de2-34b198-star-math-12-culture",
       "stationId": "culture-lab-culture-v1",
       "subject": "Math",
-      "skill": "compare-numbers",
-      "prompt": "Which comparison is true?",
+      "skill": "subtraction-within-100",
+      "prompt": "What is 91 − 14?",
       "choices": [
-        "839 = 866",
-        "839 < 866",
-        "839 > 866"
+        "77",
+        "87",
+        "76"
       ],
-      "answer": "839 < 866",
-      "explanation": "The number on the left is smaller.",
+      "answer": "77",
+      "explanation": "Subtract tens and ones.",
       "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
       "sourceFact": "STAR Math public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
       "tier": "star-fallback",
       "domain": "Numbers and operations",
       "difficulty": 3,
-      "contentHash": "sha256:a02cf17945326d37d37a710fa0367079b718b8d0e2e9f25c0f61d5c8c0e54810"
-    },
-    {
-      "id": "abvm-0ca987de6de2-star-math-06-culture",
-      "stationId": "culture-lab-culture-v1",
-      "subject": "Math",
-      "skill": "patterns",
-      "prompt": "What number comes next? 8, 18, 28, 38, __",
-      "choices": [
-        "58",
-        "48",
-        "47"
+      "standards": [
+        "CCSS.2.NBT.B.5"
       ],
-      "answer": "48",
-      "explanation": "The same amount is added each time.",
-      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
-      "sourceFact": "STAR Math public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
-      "tier": "star-fallback",
-      "domain": "Algebra",
-      "difficulty": 3,
-      "contentHash": "sha256:eadb3b99a3822c96a4886cbc72d2283118fd35cfa7ecaa753ac824669aab1fc0"
-    },
-    {
-      "id": "abvm-0ca987de6de2-star-math-29-culture",
-      "stationId": "culture-lab-culture-v1",
-      "subject": "Math",
-      "skill": "data-interpretation",
-      "prompt": "A class graph shows cats: 5, dogs: 4, fish: 6. Which pet got the most votes?",
-      "choices": [
-        "fish",
-        "dogs",
-        "cats"
+      "dok": 1,
+      "cognitiveDemand": "recall-and-fluency",
+      "hint": "Subtract tens and ones carefully and check with addition.",
+      "scaffold": "Break the second number into tens and ones.",
+      "choiceDiagnostics": [
+        {
+          "choice": "87",
+          "misconception": "addition-or-under-subtraction",
+          "feedback": "This answer is too large for this subtraction. Check whether you added instead of taking away."
+        },
+        {
+          "choice": "76",
+          "misconception": "off-by-one",
+          "feedback": "You are very close. Recheck the final counting or regrouping step."
+        }
       ],
-      "answer": "fish",
-      "explanation": "Compare the three totals and choose the greatest.",
-      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
-      "sourceFact": "STAR Math public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
-      "tier": "star-fallback",
-      "domain": "Data analysis, statistics, and probability",
-      "difficulty": 3,
-      "contentHash": "sha256:0badba5a3d5b10d966c1950a6b64df774de62c210fe6d7881362ed587a46e485"
+      "contentHash": "sha256:def7de78d161c97c0304ad4f27e1cbd0ddb6dd11f3491bb85a2d1f4f2af77106"
     },
     {
-      "id": "abvm-0ca987de6de2-star-read-03-culture",
+      "id": "abvm-0ca987de6de2-34b198-star-read-26-culture",
+      "stationId": "culture-lab-culture-v1",
+      "subject": "Reading / ELA",
+      "skill": "inference",
+      "prompt": "Read: “Sam tucked the permission slip into the front pocket of the backpack, then checked the pocket twice before leaving.” What can you infer?",
+      "choices": [
+        "Sam plans to give the slip to a friend.",
+        "Sam thinks the slip is important.",
+        "Sam is mainly worried the backpack looks messy."
+      ],
+      "answer": "Sam thinks the slip is important.",
+      "explanation": "Checking the pocket twice shows the slip matters to the character.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Reading public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
+      "tier": "star-fallback",
+      "domain": "Comprehension strategies and constructing meaning",
+      "difficulty": 3,
+      "standards": [
+        "CCSS.RL.2.1"
+      ],
+      "dok": 3,
+      "cognitiveDemand": "strategic-reasoning",
+      "hint": "Combine a text clue with what you already know.",
+      "scaffold": "Find one clue that is definitely true. What does that clue suggest?",
+      "choiceDiagnostics": [
+        {
+          "choice": "Sam plans to give the slip to a friend.",
+          "misconception": "unsupported-inference",
+          "feedback": "The best inference must be supported by a specific clue in the text."
+        },
+        {
+          "choice": "Sam is mainly worried the backpack looks messy.",
+          "misconception": "unsupported-inference",
+          "feedback": "The best inference must be supported by a specific clue in the text."
+        }
+      ],
+      "contentHash": "sha256:e311c46d6003e0d42243766c5d2b17f4260d1ce922ec484b924c45641ad3991d"
+    },
+    {
+      "id": "abvm-0ca987de6de2-34b198-star-read-23-culture",
+      "stationId": "culture-lab-culture-v1",
+      "subject": "Reading / ELA",
+      "skill": "cause-effect",
+      "prompt": "Eli read: “The trail was muddy, so we stepped carefully around the puddles.” Why did they step carefully?",
+      "choices": [
+        "They were racing.",
+        "The trail was muddy.",
+        "The puddles were frozen solid."
+      ],
+      "answer": "The trail was muddy.",
+      "explanation": "The first part gives the cause for the careful steps.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Reading public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
+      "tier": "star-fallback",
+      "domain": "Comprehension strategies and constructing meaning",
+      "difficulty": 3,
+      "standards": [
+        "CCSS.RI.2.3"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Find what happened first that made the later event happen.",
+      "scaffold": "Find what happened first that made the later event happen.",
+      "choiceDiagnostics": [
+        {
+          "choice": "They were racing.",
+          "misconception": "detail-cause-confusion",
+          "feedback": "Choose the event that actually caused the result, not another detail."
+        },
+        {
+          "choice": "The puddles were frozen solid.",
+          "misconception": "detail-cause-confusion",
+          "feedback": "Choose the event that actually caused the result, not another detail."
+        }
+      ],
+      "contentHash": "sha256:9e88370711e55da54819b0a8d725998adf48545ec5cfc7262ede34573b1f63ff"
+    },
+    {
+      "id": "abvm-0ca987de6de2-34b198-star-read-18-culture",
+      "stationId": "culture-lab-culture-v1",
+      "subject": "Reading / ELA",
+      "skill": "character-development",
+      "prompt": "At the start of a story, Nora refuses to ask for help. After making the same mistake twice, Nora asks a classmate to explain the directions and succeeds. How did the character change?",
+      "choices": [
+        "The character decided directions are never useful.",
+        "The character stopped caring about the task.",
+        "The character became more willing to ask for help."
+      ],
+      "answer": "The character became more willing to ask for help.",
+      "explanation": "The ending shows a change in the character’s choice.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Reading public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
+      "tier": "star-fallback",
+      "domain": "Analyzing literary text",
+      "difficulty": 3,
+      "standards": [
+        "CCSS.RL.2.3"
+      ],
+      "dok": 3,
+      "cognitiveDemand": "strategic-reasoning",
+      "hint": "Compare the character’s choice at the beginning and the end.",
+      "scaffold": "Name the beginning choice. Now name the ending choice.",
+      "choiceDiagnostics": [
+        {
+          "choice": "The character decided directions are never useful.",
+          "misconception": "beginning-ending-confusion",
+          "feedback": "Compare how the character acts at the beginning with the ending."
+        },
+        {
+          "choice": "The character stopped caring about the task.",
+          "misconception": "beginning-ending-confusion",
+          "feedback": "Compare how the character acts at the beginning with the ending."
+        }
+      ],
+      "contentHash": "sha256:5525ee8c5cdb70556ebe51fc504568e6741067112e503958ddba9b807096134b"
+    },
+    {
+      "id": "abvm-0ca987de6de2-34b198-star-read-03-culture",
       "stationId": "culture-lab-culture-v1",
       "subject": "Reading / ELA",
       "skill": "cause-effect",
@@ -1771,110 +3544,107 @@
       "tier": "star-fallback",
       "domain": "Comprehension strategies and constructing meaning",
       "difficulty": 3,
-      "contentHash": "sha256:f8214a145d14ecab610286a608808df472a0d05a9251353bb91e58b641073374"
-    },
-    {
-      "id": "abvm-0ca987de6de2-star-read-26-culture",
-      "stationId": "culture-lab-culture-v1",
-      "subject": "Reading / ELA",
-      "skill": "inference",
-      "prompt": "Read: “Sam tucked the permission slip into the front pocket of the backpack, then checked the pocket twice before leaving.” What can you infer?",
-      "choices": [
-        "Sam forgot there was a backpack.",
-        "Sam thinks the slip is important.",
-        "Sam wants to lose the slip."
+      "standards": [
+        "CCSS.RI.2.3"
       ],
-      "answer": "Sam thinks the slip is important.",
-      "explanation": "Checking the pocket twice shows the slip matters to the character.",
-      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
-      "sourceFact": "STAR Reading public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
-      "tier": "star-fallback",
-      "domain": "Comprehension strategies and constructing meaning",
-      "difficulty": 3,
-      "contentHash": "sha256:f93af27fbef6559bb01b04c0fbd8a6f161409c295897ae98ef17a23577e30f0c"
-    },
-    {
-      "id": "abvm-0ca987de6de2-star-math-21-culture",
-      "stationId": "culture-lab-culture-v1",
-      "subject": "Math",
-      "skill": "addition-within-100",
-      "prompt": "What is 47 + 10?",
-      "choices": [
-        "58",
-        "57",
-        "47"
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Find what happened first that made the later event happen.",
+      "scaffold": "Find what happened first that made the later event happen.",
+      "choiceDiagnostics": [
+        {
+          "choice": "The puddles were frozen solid.",
+          "misconception": "detail-cause-confusion",
+          "feedback": "Choose the event that actually caused the result, not another detail."
+        },
+        {
+          "choice": "They were racing.",
+          "misconception": "detail-cause-confusion",
+          "feedback": "Choose the event that actually caused the result, not another detail."
+        }
       ],
-      "answer": "57",
-      "explanation": "Add tens and ones carefully.",
-      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
-      "sourceFact": "STAR Math public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
-      "tier": "star-fallback",
-      "domain": "Numbers and operations",
-      "difficulty": 3,
-      "contentHash": "sha256:c580229f1d057c3c48cb700dce2309b5a3ee574f51d426e0f185fe74cff6f94b"
+      "contentHash": "sha256:7d5b9d14cbe6fef477978e72854b898574b49ed3e91e9e3f8f24c222e3d99119"
     },
     {
-      "id": "abvm-0ca987de6de2-star-read-19-culture",
-      "stationId": "culture-lab-culture-v1",
-      "subject": "Reading / ELA",
-      "skill": "author-purpose",
-      "prompt": "What is the author’s main purpose in this text? “A poster says, “Bring a reusable bottle and help reduce trash!””",
-      "choices": [
-        "to hide the topic",
-        "to persuade",
-        "to list random words"
-      ],
-      "answer": "to persuade",
-      "explanation": "The kind of information and wording reveal the author’s purpose.",
-      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
-      "sourceFact": "STAR Reading public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
-      "tier": "star-fallback",
-      "domain": "Understanding author’s craft",
-      "difficulty": 3,
-      "contentHash": "sha256:7a6d5dcb8184b1fce731843c08ae4af7d534e0ac733adb66f680babcef064b6d"
-    },
-    {
-      "id": "abvm-0ca987de6de2-star-read-25-culture",
-      "stationId": "culture-lab-culture-v1",
-      "subject": "Reading / ELA",
-      "skill": "theme",
-      "prompt": "Read: “A child practices tying shoes every morning. After many tries, the knot finally stays tied.” Which lesson best fits the story?",
-      "choices": [
-        "Winning is the only thing that matters.",
-        "Problems always disappear without effort.",
-        "Practice can help you improve."
-      ],
-      "answer": "Practice can help you improve.",
-      "explanation": "The character’s actions and outcome support that lesson.",
-      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
-      "sourceFact": "STAR Reading public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
-      "tier": "star-fallback",
-      "domain": "Analyzing literary text",
-      "difficulty": 3,
-      "contentHash": "sha256:7177d9fd45646c41773cae456cd4cc50c1baf983a0bfc223cc944b73ced6632e"
-    },
-    {
-      "id": "abvm-0ca987de6de2-star-math-18-culture",
+      "id": "abvm-0ca987de6de2-34b198-star-math-28-culture",
       "stationId": "culture-lab-culture-v1",
       "subject": "Math",
       "skill": "measurement",
-      "prompt": "A ribbon is 19 centimeters long. 8 centimeters are cut off. How many centimeters remain?",
+      "prompt": "A ribbon is 19 centimeters long. 5 centimeters are cut off. How many centimeters remain?",
       "choices": [
-        "12",
-        "27",
-        "11"
+        "15",
+        "24",
+        "14"
       ],
-      "answer": "11",
+      "answer": "14",
       "explanation": "Subtract the part cut off from the original length.",
       "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
       "sourceFact": "STAR Math public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
       "tier": "star-fallback",
       "domain": "Geometry and measurement",
       "difficulty": 3,
-      "contentHash": "sha256:bac36a91c78946db9386efcfa26eca94d92838a535164ce589c6501f18f20863"
+      "standards": [
+        "CCSS.2.MD.A.1"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Identify the starting amount, the change, and the unit.",
+      "scaffold": "Draw or imagine the length before and after the change.",
+      "choiceDiagnostics": [
+        {
+          "choice": "15",
+          "misconception": "off-by-one",
+          "feedback": "You are very close. Recheck the final counting or regrouping step."
+        },
+        {
+          "choice": "24",
+          "misconception": "operation-or-unit-confusion",
+          "feedback": "Track both the operation and the measurement unit."
+        }
+      ],
+      "contentHash": "sha256:df2d7231d260759f774cfb5ae2eb3b84c87986f875a45bbc5902dca10986c462"
     },
     {
-      "id": "abvm-0ca987de6de2-star-read-14-culture",
+      "id": "abvm-0ca987de6de2-34b198-star-math-27-culture",
+      "stationId": "culture-lab-culture-v1",
+      "subject": "Math",
+      "skill": "geometry",
+      "prompt": "How many sides does a rectangle have?",
+      "choices": [
+        "5",
+        "4",
+        "3"
+      ],
+      "answer": "4",
+      "explanation": "Count the straight sides of the shape.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Math public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
+      "tier": "star-fallback",
+      "domain": "Geometry and measurement",
+      "difficulty": 2,
+      "standards": [
+        "CCSS.2.G.A.1"
+      ],
+      "dok": 1,
+      "cognitiveDemand": "recall-and-fluency",
+      "hint": "Count the defining sides or corners, not the size or color.",
+      "scaffold": "Count the defining sides or corners, not the size or color.",
+      "choiceDiagnostics": [
+        {
+          "choice": "5",
+          "misconception": "off-by-one",
+          "feedback": "You are very close. Recheck the final counting or regrouping step."
+        },
+        {
+          "choice": "3",
+          "misconception": "off-by-one",
+          "feedback": "You are very close. Recheck the final counting or regrouping step."
+        }
+      ],
+      "contentHash": "sha256:df9aadfd25cdb0f8ea3374949069b645859849f9d3893fd98477a045e0b3bcff"
+    },
+    {
+      "id": "abvm-0ca987de6de2-34b198-star-read-14-culture",
       "stationId": "culture-lab-culture-v1",
       "subject": "Reading / ELA",
       "skill": "sequence",
@@ -1891,87 +3661,143 @@
       "tier": "star-fallback",
       "domain": "Comprehension strategies and constructing meaning",
       "difficulty": 3,
-      "contentHash": "sha256:cfe21e76385ced41e2b174f95dc899836d24758ccc85eaa76fea2d5a84793b89"
-    },
-    {
-      "id": "abvm-0ca987de6de2-star-math-14-culture",
-      "stationId": "culture-lab-culture-v1",
-      "subject": "Math",
-      "skill": "compare-numbers",
-      "prompt": "Which comparison is true?",
-      "choices": [
-        "480 > 515",
-        "480 = 515",
-        "480 < 515"
+      "standards": [
+        "CCSS.RL.2.5"
       ],
-      "answer": "480 < 515",
-      "explanation": "The number on the left is smaller.",
-      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
-      "sourceFact": "STAR Math public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
-      "tier": "star-fallback",
-      "domain": "Numbers and operations",
-      "difficulty": 3,
-      "contentHash": "sha256:280cb37d1999f2fd8bad170ffed1118b6de5e8e986a6ea2d4583219f426005dc"
-    },
-    {
-      "id": "abvm-0ca987de6de2-star-read-27-culture",
-      "stationId": "culture-lab-culture-v1",
-      "subject": "Reading / ELA",
-      "skill": "text-evidence",
-      "prompt": "Read: “The kitten crouched low, wiggled its back legs, and sprang toward the toy mouse.” Which detail best shows the kitten was getting ready to pounce?",
-      "choices": [
-        "The toy was a mouse.",
-        "The kitten had fur.",
-        "It crouched low and wiggled its back legs."
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Use order words such as first, next, before, and last.",
+      "scaffold": "Use order words such as first, next, before, and last.",
+      "choiceDiagnostics": [
+        {
+          "choice": "The oven was turned off.",
+          "misconception": "sequence-order-confusion",
+          "feedback": "Use the order words to locate what happened immediately before or after."
+        },
+        {
+          "choice": "The cake was eaten.",
+          "misconception": "sequence-order-confusion",
+          "feedback": "Use the order words to locate what happened immediately before or after."
+        }
       ],
-      "answer": "It crouched low and wiggled its back legs.",
-      "explanation": "Those actions are direct evidence of preparing to pounce.",
-      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
-      "sourceFact": "STAR Reading public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
-      "tier": "star-fallback",
-      "domain": "Comprehension strategies and constructing meaning",
-      "difficulty": 3,
-      "contentHash": "sha256:ad2ec4a51f30829d560593bd22372aa4956b3c47a9ab183316d47afdb0d93bc3"
+      "contentHash": "sha256:e67f5219de8ba01086c4d43803fbe8e94bad2bd1108863cebfd35924195d6fd0"
     },
     {
-      "id": "abvm-0ca987de6de2-star-math-23-culture",
+      "id": "abvm-0ca987de6de2-34b198-star-math-23-culture",
       "stationId": "culture-lab-culture-v1",
       "subject": "Math",
       "skill": "place-value",
-      "prompt": "In 446, what is the value of the digit 4?",
+      "prompt": "In 659, what is the value of the digit 5?",
       "choices": [
-        "40",
-        "4",
-        "400"
+        "500",
+        "50",
+        "5"
       ],
-      "answer": "40",
+      "answer": "50",
       "explanation": "The digit is in the tens place.",
       "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
       "sourceFact": "STAR Math public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
       "tier": "star-fallback",
       "domain": "Numbers and operations",
       "difficulty": 3,
-      "contentHash": "sha256:2a90a64bd9e69c623c878212936ba35ac3d2c310f42278c90328a3209ef59009"
+      "standards": [
+        "CCSS.2.NBT.A.1"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Name the place first: hundreds, tens, or ones.",
+      "scaffold": "Rewrite the number as hundreds + tens + ones.",
+      "choiceDiagnostics": [
+        {
+          "choice": "500",
+          "misconception": "place-value-position-confusion",
+          "feedback": "The digit’s value depends on whether it is in the hundreds, tens, or ones place."
+        },
+        {
+          "choice": "5",
+          "misconception": "place-value-position-confusion",
+          "feedback": "The digit’s value depends on whether it is in the hundreds, tens, or ones place."
+        }
+      ],
+      "contentHash": "sha256:439dda20ed99f0fe77633e2de0def9237ced685e662111d282eba21cc3f24e3e"
     },
     {
-      "id": "abvm-0ca987de6de2-star-read-16-culture",
+      "id": "abvm-0ca987de6de2-34b198-star-read-19-culture",
       "stationId": "culture-lab-culture-v1",
       "subject": "Reading / ELA",
-      "skill": "inference",
-      "prompt": "Read: “Nora tucked the permission slip into the front pocket of the backpack, then checked the pocket twice before leaving.” What can you infer?",
+      "skill": "author-purpose",
+      "prompt": "What is the author’s main purpose in this text? “A poster says, “Bring a reusable bottle and help reduce trash!””",
       "choices": [
-        "Nora thinks the slip is important.",
-        "Nora forgot there was a backpack.",
-        "Nora wants to lose the slip."
+        "to inform",
+        "to persuade",
+        "to entertain"
       ],
-      "answer": "Nora thinks the slip is important.",
-      "explanation": "Checking the pocket twice shows the slip matters to the character.",
+      "answer": "to persuade",
+      "explanation": "The kind of information and wording reveal the author’s purpose.",
       "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
       "sourceFact": "STAR Reading public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
       "tier": "star-fallback",
-      "domain": "Comprehension strategies and constructing meaning",
+      "domain": "Understanding author’s craft",
       "difficulty": 3,
-      "contentHash": "sha256:92d9cc007fbb21e4cd0c34c0c23bb5c59b4de70cd0427ccaab55b39a66b4b8b4"
+      "standards": [
+        "CCSS.RI.2.6"
+      ],
+      "dok": 3,
+      "cognitiveDemand": "strategic-reasoning",
+      "hint": "Ask whether the author is informing, persuading, teaching, or entertaining.",
+      "scaffold": "What is the text mostly trying to make the reader know, do, or feel?",
+      "choiceDiagnostics": [
+        {
+          "choice": "to inform",
+          "misconception": "purpose-confusion",
+          "feedback": "Focus on what the author wants the reader to know, do, or feel."
+        },
+        {
+          "choice": "to entertain",
+          "misconception": "purpose-confusion",
+          "feedback": "Focus on what the author wants the reader to know, do, or feel."
+        }
+      ],
+      "contentHash": "sha256:f897afcbad23651a5f931bcacb07ec223902bafe9c2af00d52434e2d069a8bb2"
+    },
+    {
+      "id": "abvm-0ca987de6de2-34b198-star-math-06-culture",
+      "stationId": "culture-lab-culture-v1",
+      "subject": "Math",
+      "skill": "patterns",
+      "prompt": "What number comes next? 6, 16, 26, 36, __",
+      "choices": [
+        "45",
+        "46",
+        "56"
+      ],
+      "answer": "46",
+      "explanation": "The same amount is added each time.",
+      "provenance": "original-star-aligned-practice-regenerated-with-curriculum-snapshot",
+      "sourceFact": "STAR Math public domain alignment; curriculum snapshot teacher-pages-0ca987de6de2d3791e25",
+      "tier": "star-fallback",
+      "domain": "Algebra",
+      "difficulty": 3,
+      "standards": [
+        "CCSS.2.NBT.A.2"
+      ],
+      "dok": 2,
+      "cognitiveDemand": "skill-and-concept-application",
+      "hint": "Find the amount that changes from one term to the next.",
+      "scaffold": "Find the amount that changes from one term to the next.",
+      "choiceDiagnostics": [
+        {
+          "choice": "45",
+          "misconception": "off-by-one",
+          "feedback": "You are very close. Recheck the final counting or regrouping step."
+        },
+        {
+          "choice": "56",
+          "misconception": "wrong-pattern-step",
+          "feedback": "Find the repeated change between neighboring numbers."
+        }
+      ],
+      "contentHash": "sha256:6d9777998a998bedd96758a039067274b8302b8052d2e269933406ed18ae8ea4"
     }
   ]
 }
