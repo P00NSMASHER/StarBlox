@@ -67,8 +67,16 @@ jobs:
           console.log('legacy ABVM fallback integrity passed:',pack.sourceHash);
           NODE
 
+      - name: Record the exact ABVM scanner revision
+        id: scanner
+        shell: bash
+        run: echo "sha=$(git -C .abvm rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
       - name: Rebuild material and STAR questions from the verified pack
-        run: node scripts/sync-question-bank-from-abvm.mjs --pack .abvm/pages/data/study-pack.json
+        run: |
+          node scripts/sync-question-bank-from-abvm.mjs \
+            --pack .abvm/pages/data/study-pack.json \
+            --scanner-commit "${{ steps.scanner.outputs.sha }}"
 
       - name: Install StarBlox QA dependencies
         run: npm install --no-audit --no-fund
