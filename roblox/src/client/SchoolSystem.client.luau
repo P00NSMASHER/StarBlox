@@ -154,6 +154,227 @@ feedback.ZIndex = 41
 feedback.Parent = panel
 constrain(feedback, 10, 14)
 
+local richFrame = Instance.new("Frame")
+richFrame.Name = "RichQuestionVisual"
+richFrame.Position = UDim2.fromOffset(16, 108)
+richFrame.Size = UDim2.new(1, -32, 0, 82)
+richFrame.BackgroundColor3 = Color3.fromRGB(235, 235, 235)
+richFrame.BackgroundTransparency = 0.08
+richFrame.Visible = false
+richFrame.ZIndex = 41
+richFrame.Parent = panel
+round(richFrame, 5)
+stroke(richFrame, 0.4)
+
+local function richText(
+	parent: Instance,
+	textValue: string,
+	position: UDim2,
+	size: UDim2,
+	bold: boolean?
+): TextLabel
+	local label = Instance.new("TextLabel")
+	label.BackgroundTransparency = 1
+	label.Position = position
+	label.Size = size
+	label.Text = textValue
+	label.TextColor3 = COLORS.text
+	label.TextScaled = true
+	label.TextWrapped = true
+	label.Font = if bold == true then Enum.Font.GothamBold else Enum.Font.GothamMedium
+	label.ZIndex = 43
+	label.Parent = parent
+	constrain(label, 8, 13)
+	return label
+end
+
+local function clearRichVisual()
+	for _, child in richFrame:GetChildren() do
+		if not child:IsA("UICorner") and not child:IsA("UIStroke") then
+			child:Destroy()
+		end
+	end
+	richFrame.Visible = false
+end
+
+local function renderBarChart(content): boolean
+	local bars = content.bars
+	if type(bars) ~= "table" or #bars < 2 then
+		return false
+	end
+	local maxValue = 1
+	for _, row in bars do
+		maxValue = math.max(maxValue, tonumber(row.value) or 0)
+	end
+	local width = 1 / #bars
+	for index, row in bars do
+		local holder = Instance.new("Frame")
+		holder.BackgroundTransparency = 1
+		holder.Position = UDim2.new((index - 1) * width, 3, 0, 4)
+		holder.Size = UDim2.new(width, -6, 1, -8)
+		holder.ZIndex = 42
+		holder.Parent = richFrame
+
+		local value = math.max(0, tonumber(row.value) or 0)
+		local barHeight = 42 * math.clamp(value / maxValue, 0.08, 1)
+		local bar = Instance.new("Frame")
+		bar.AnchorPoint = Vector2.new(0.5, 1)
+		bar.Position = UDim2.new(0.5, 0, 0, 53)
+		bar.Size = UDim2.new(0.55, 0, 0, barHeight)
+		bar.BackgroundColor3 = COLORS.cyan
+		bar.ZIndex = 43
+		bar.Parent = holder
+		round(bar, 2)
+
+		richText(holder, tostring(value), UDim2.new(0, 0, 0, 0), UDim2.new(1, 0, 0, 18), true)
+		richText(holder, tostring(row.label or ""), UDim2.new(0, 0, 1, -20), UDim2.new(1, 0, 0, 18), false)
+	end
+	return true
+end
+
+local function renderClock(content): boolean
+	local hour = math.clamp(math.floor(tonumber(content.hour) or 12), 1, 12)
+	local minute = math.clamp(math.floor(tonumber(content.minute) or 0), 0, 59)
+	local clock = Instance.new("Frame")
+	clock.AnchorPoint = Vector2.new(0.5, 0.5)
+	clock.Position = UDim2.fromScale(0.5, 0.5)
+	clock.Size = UDim2.fromOffset(70, 70)
+	clock.BackgroundColor3 = Color3.fromRGB(250, 250, 250)
+	clock.ZIndex = 42
+	clock.Parent = richFrame
+	round(clock, 35)
+	stroke(clock, 0.2)
+
+	for number = 1, 12 do
+		local angle = math.rad((number * 30) - 90)
+		local label = richText(
+			clock,
+			tostring(number),
+			UDim2.fromOffset(30 + math.cos(angle) * 25, 28 + math.sin(angle) * 25),
+			UDim2.fromOffset(12, 12),
+			false
+		)
+		label.AnchorPoint = Vector2.new(0.5, 0.5)
+	end
+
+	local hourHand = Instance.new("Frame")
+	hourHand.AnchorPoint = Vector2.new(0.5, 1)
+	hourHand.Position = UDim2.fromScale(0.5, 0.5)
+	hourHand.Size = UDim2.fromOffset(4, 21)
+	hourHand.Rotation = (hour % 12) * 30 + minute * 0.5
+	hourHand.BackgroundColor3 = COLORS.text
+	hourHand.ZIndex = 44
+	hourHand.Parent = clock
+	round(hourHand, 2)
+
+	local minuteHand = Instance.new("Frame")
+	minuteHand.AnchorPoint = Vector2.new(0.5, 1)
+	minuteHand.Position = UDim2.fromScale(0.5, 0.5)
+	minuteHand.Size = UDim2.fromOffset(2, 29)
+	minuteHand.Rotation = minute * 6
+	minuteHand.BackgroundColor3 = COLORS.cyan
+	minuteHand.ZIndex = 45
+	minuteHand.Parent = clock
+	return true
+end
+
+local function renderNumberLine(content): boolean
+	local startValue = tonumber(content.start)
+	local endValue = tonumber(content["end"])
+	local step = tonumber(content.step)
+	if startValue == nil or endValue == nil or step == nil or step <= 0 or endValue <= startValue then
+		return false
+	end
+
+	local line = Instance.new("Frame")
+	line.Position = UDim2.new(0, 24, 0.5, -1)
+	line.Size = UDim2.new(1, -48, 0, 2)
+	line.BackgroundColor3 = COLORS.text
+	line.ZIndex = 42
+	line.Parent = richFrame
+
+	local count = math.clamp(math.floor((endValue - startValue) / step) + 1, 2, 8)
+	for index = 1, count do
+		local value = startValue + (index - 1) * step
+		local fraction = (index - 1) / (count - 1)
+		local tick = Instance.new("Frame")
+		tick.AnchorPoint = Vector2.new(0.5, 0.5)
+		tick.Position = UDim2.new(fraction, 24 * (1 - fraction) - 24 * fraction, 0.5, 0)
+		tick.Size = UDim2.fromOffset(2, 14)
+		tick.BackgroundColor3 = if value == tonumber(content.highlight) then COLORS.cyan else COLORS.text
+		tick.ZIndex = 43
+		tick.Parent = richFrame
+
+		local label = richText(
+			richFrame,
+			tostring(value),
+			UDim2.new(fraction, -14, 0.5, 10),
+			UDim2.fromOffset(28, 18),
+			value == tonumber(content.highlight)
+		)
+		label.AnchorPoint = Vector2.new(0.5, 0)
+	end
+	return true
+end
+
+local function renderPlaceValue(content): boolean
+	local values = {
+		{"Hundreds", tonumber(content.hundreds) or 0},
+		{"Tens", tonumber(content.tens) or 0},
+		{"Ones", tonumber(content.ones) or 0},
+	}
+	for index, row in values do
+		local card = Instance.new("Frame")
+		card.Position = UDim2.new((index - 1) / 3, 4, 0, 7)
+		card.Size = UDim2.new(1 / 3, -8, 1, -14)
+		card.BackgroundColor3 = Color3.fromRGB(250, 250, 250)
+		card.ZIndex = 42
+		card.Parent = richFrame
+		round(card, 4)
+		stroke(card, 0.5)
+		richText(card, row[1], UDim2.fromOffset(4, 4), UDim2.new(1, -8, 0, 24), false)
+		richText(card, tostring(row[2]), UDim2.fromOffset(4, 30), UDim2.new(1, -8, 1, -34), true)
+	end
+	return true
+end
+
+local function renderFraction(content): boolean
+	local parts = math.clamp(math.floor(tonumber(content.parts) or 2), 2, 4)
+	local shaded = math.clamp(math.floor(tonumber(content.shaded) or 0), 0, parts)
+	for index = 1, parts do
+		local cell = Instance.new("Frame")
+		cell.Position = UDim2.new((index - 1) / parts, 5, 0, 12)
+		cell.Size = UDim2.new(1 / parts, -10, 1, -24)
+		cell.BackgroundColor3 = if index <= shaded then COLORS.cyan else Color3.fromRGB(250, 250, 250)
+		cell.ZIndex = 42
+		cell.Parent = richFrame
+		round(cell, 3)
+		stroke(cell, 0.3)
+	end
+	return true
+end
+
+local function renderRichContent(content: any): boolean
+	clearRichVisual()
+	if type(content) ~= "table" then
+		return false
+	end
+	local kind = tostring(content.kind or "")
+	local rendered = if kind == "bar-chart"
+		then renderBarChart(content)
+		elseif kind == "clock-face"
+		then renderClock(content)
+		elseif kind == "number-line"
+		then renderNumberLine(content)
+		elseif kind == "place-value"
+		then renderPlaceValue(content)
+		elseif kind == "shape-fraction"
+		then renderFraction(content)
+		else false
+	richFrame.Visible = rendered
+	return rendered
+end
+
 local buttons = {}
 for index = 1, 3 do
 	local button = Instance.new("TextButton")
@@ -314,9 +535,25 @@ local function renderQuestion(nextSession)
 		classLabel ..= " • MAKE-UP"
 	end
 	local promptText = tostring(question.prompt or "")
-	local visualText = richSummary(question.richContent)
-	if visualText ~= "" then
-		promptText ..= "\n" .. visualText
+	local hasRich = renderRichContent(question.richContent)
+	if hasRich then
+		panel.Size = UDim2.new(0.84, 0, 0, 458)
+		questionLabel.Size = UDim2.new(1, -72, 0, 90)
+		feedback.Position = UDim2.fromOffset(16, 194)
+		for index, button in buttons do
+			button.Position = UDim2.fromOffset(16, 248 + ((index - 1) * 60))
+		end
+	else
+		panel.Size = UDim2.new(0.84, 0, 0, 410)
+		questionLabel.Size = UDim2.new(1, -72, 0, 134)
+		feedback.Position = UDim2.fromOffset(16, 146)
+		for index, button in buttons do
+			button.Position = UDim2.fromOffset(16, 202 + ((index - 1) * 60))
+		end
+		local visualText = richSummary(question.richContent)
+		if visualText ~= "" then
+			promptText ..= "\n" .. visualText
+		end
 	end
 	questionLabel.Text = string.format(
 		"%s • %d/%d\n%s",
@@ -386,6 +623,7 @@ end
 
 closeButton.Activated:Connect(function()
 	panel.Visible = false
+	clearRichVisual()
 end)
 
 stateEvent.OnClientEvent:Connect(renderState)
