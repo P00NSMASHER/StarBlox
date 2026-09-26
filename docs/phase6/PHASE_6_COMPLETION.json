@@ -1,0 +1,105 @@
+{
+  "schemaVersion": 1,
+  "version": "starblox-phase6-completion-v1",
+  "status": "implementation-complete-private-v15-verified-pilot-ready",
+  "phase": "Phase 6 — Content, Fun & Retention",
+  "mergedMainCommit": "208b7854887b126916ee6c8e71e3b88fbb78c06e",
+  "privateRelease": {
+    "releaseId": "starblox-private-step9-canonical-step6-v4",
+    "universeId": "6027194615",
+    "placeId": "17602626136",
+    "placeVersion": 15,
+    "sourceCommit": "323e59315be25c23db746b81e4bf35b83da9a2d4",
+    "workflowRunId": 36215706688,
+    "artifactSha256": "d27fb714f7bf80275ce98101a2e8b1ab298ca48186f0b6f42b7aefb1ba05db48",
+    "baselineModelSha256": "4dfd451ae211dead959ec3f165e2b477a9725d04727febdc66472e95328917df",
+    "mountedSubtreeSha256": "d2c88a68305a65475dfdab77220b69e4138d81e44250edd1849f69cee4c92a90",
+    "exactServerBootVerified": true,
+    "rotatingQuestionBankVerifiedInRoblox": true,
+    "retentionStoreVerifiedInRoblox": true,
+    "prototypeWorldAbsent": true,
+    "realWorldActivityAnchors": true,
+    "worldSpawnBound": true
+  },
+  "content": {
+    "certificationVersion": "phase6-abvm-question-source-v1",
+    "upstreamRepository": "P00NSMASHER/abvmschoolstarworld",
+    "upstreamPath": "pages/data/study-pack.json",
+    "upstreamBlobSha": "9db898dbdba7208778ec3f61d25a427bb3dd8b60",
+    "upstreamPackSourceHash": "teacher-pages-0ca987de6de2d3791e25",
+    "questionCount": 9,
+    "questionsPerStation": 3,
+    "stationCount": 3,
+    "rotation": "deterministic-by-run-number",
+    "answersServerOnly": true,
+    "liveLlmRequiredForNormalGameplay": false
+  },
+  "gameplay": {
+    "challengeName": "Neighborhood Challenge",
+    "masteryTiers": [
+      "Rookie",
+      "Explorer",
+      "Pathfinder",
+      "Trailblazer",
+      "Brightside Pro"
+    ],
+    "firstLoopCosmetic": "brightside-spark-trail",
+    "rewardCapRunsPerDay": 3,
+    "explanationFeedback": true,
+    "rewardSummaryFeedback": true,
+    "stationAccentFeedback": true,
+    "successPulse": true
+  },
+  "worldAndMobileRegressionLock": {
+    "preservedVerifiedV14WorldLayout": true,
+    "spawn": "BHW_3461",
+    "wordPortal": "BHW_4879",
+    "spellingForge": "BHW_4876",
+    "cultureLab": "BHW_3405",
+    "maximumStationDistanceFromSpawnStuds": 150,
+    "hudPixels": [
+      286,
+      58
+    ],
+    "activityCardHeightPixels": 322,
+    "onboardingCardHeightPixels": 216,
+    "waypointPixels": [
+      96,
+      24
+    ],
+    "waypointMaxDistanceStuds": 220
+  },
+  "retention": {
+    "aggregateVersion": "starblox-private-retention-v1",
+    "reportCommand": "npm run roblox:phase6:retention-report",
+    "metrics": [
+      "time-to-first-station",
+      "first-activity-choice",
+      "full-loop-completion-rate",
+      "repeat-loop-start-rate",
+      "average-session-duration"
+    ],
+    "pilotTargetSessions": 5,
+    "pilotStatus": "ready-awaiting-genuine-private-player-sessions",
+    "syntheticRetentionEvidenceAllowed": false,
+    "publicBetaDecisionBlockedUntilMeasuredPilotReviewed": true,
+    "privacy": {
+      "storesUsername": false,
+      "storesUserId": false,
+      "storesRawAnswers": false,
+      "storesChat": false,
+      "storesSessionIdsInAggregate": false
+    }
+  },
+  "repositoryCleanup": {
+    "staleIssue82Closed": true,
+    "staleIssue83Closed": true,
+    "temporaryPhase6PublisherNeutralized": true
+  },
+  "authority": {
+    "experienceVisibilityChangeAttempted": false,
+    "publicAccessChangeAttempted": false,
+    "liveActivationAllowed": false,
+    "productionActivationAllowed": false
+  }
+}
