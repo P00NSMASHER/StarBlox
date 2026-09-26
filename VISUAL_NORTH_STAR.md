@@ -1,5 +1,15 @@
 # StarBlox Visual North Star
 
+> **2026-09-26 Roblox runtime override**
+>
+> For the production Roblox game, the post-opening visual and interaction target is now **exact Brookhaven parity**. The user's StarBlox opening sequence is the only currently approved player-facing exception.
+>
+> The canonical contract is `docs/BROOKHAVEN_EXACT_POST_OPENING_PARITY.md`. It supersedes the legacy custom StarBlox shell, left navigation, custom HUD/chrome, Home/Quest/Store composition, and other bespoke player-facing presentation described below whenever those requirements conflict with the exact Brookhaven target.
+>
+> The older material remains only as historical/legacy web-prototype guidance. It must not be used to justify a custom post-opening Roblox interface.
+
+## Legacy visual direction — superseded for Roblox post-opening runtime
+
 These requirements are derived from the user's three approved reference screens shared on 2026-09-18. They are the canonical visual target for the current build.
 
 ## Core target
