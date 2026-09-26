@@ -681,14 +681,14 @@ const purposeRows=[
 
 function starReading(){
   const out=[];
-  for(let i=0;i<30;i++){
-    const family=i%10;
+  for(let i=0;i<60;i++){
+    const family=i%15;
     const n=pick(names);
-    let prompt,choices,answer,explanation,domain,skill;
+    let prompt,choices,answer,explanation,domain,skill,difficulty;
     if(family===0){
       const row=contextRows[(i+snapshotSeed[1])%contextRows.length];
       prompt='In the sentence “The '+row[0]+' box barely fit through the doorway,” what does “'+row[0]+'” most likely mean?';
-      choices=shuffled(row[2]); answer=row[1]; explanation='The context clue about barely fitting supports the meaning “'+answer+'”.'; domain=READ_DOMAINS[0]; skill='context-clues';
+      choices=shuffled(row[2]); answer=row[1]; explanation='The context clue about barely fitting supports the meaning “'+answer+'”.'; domain=READ_DOMAINS[0]; skill='context-clues'; difficulty=2;
     }else if(family===1){
       const words=[
         ['unhappy','not happy','very happy','happy again'],
@@ -698,38 +698,67 @@ function starReading(){
         ['helpful','giving help','needing help','without help']
       ];
       const row=words[(i+snapshotSeed[2])%words.length];
-      prompt='What does the word “'+row[0]+'” mean?'; choices=shuffled([row[1],row[2],row[3]]); answer=row[1]; explanation='The prefix or suffix changes the base word to make this meaning.'; domain=READ_DOMAINS[0]; skill='word-parts';
+      prompt='What does the word “'+row[0]+'” mean?'; choices=shuffled([row[1],row[2],row[3]]); answer=row[1]; explanation='The prefix or suffix changes the base word to make this meaning.'; domain=READ_DOMAINS[0]; skill='word-parts'; difficulty=2;
     }else if(family===2){
       prompt=n+' read: “The trail was muddy, so we stepped carefully around the puddles.” Why did they step carefully?';
-      choices=shuffled(['The trail was muddy.','They were racing.','The puddles were frozen solid.']); answer='The trail was muddy.'; explanation='The first part gives the cause for the careful steps.'; domain=READ_DOMAINS[1]; skill='cause-effect';
+      choices=shuffled(['The trail was muddy.','They were racing.','The puddles were frozen solid.']); answer='The trail was muddy.'; explanation='The first part gives the cause for the careful steps.'; domain=READ_DOMAINS[1]; skill='cause-effect'; difficulty=2;
     }else if(family===3){
       prompt='Read: “First '+n+' mixed the batter. Next, the batter went into the pan. Last, the pan went into the oven.” What happened immediately before the pan went into the oven?';
-      choices=shuffled(['The batter went into the pan.','The oven was turned off.','The cake was eaten.']); answer='The batter went into the pan.'; explanation='The sequence word “next” marks the step just before the last event.'; domain=READ_DOMAINS[1]; skill='sequence';
+      choices=shuffled(['The batter went into the pan.','The oven was turned off.','The cake was eaten.']); answer='The batter went into the pan.'; explanation='The sequence word “next” marks the step just before the last event.'; domain=READ_DOMAINS[1]; skill='sequence'; difficulty=2;
     }else if(family===4){
       const row=themeRows[(i+snapshotSeed[3])%themeRows.length];
-      prompt='Read: “'+row[0]+'” Which lesson best fits the story?'; choices=shuffled([row[1],row[2],row[3]]); answer=row[1]; explanation='The character’s actions and outcome support that lesson.'; domain=READ_DOMAINS[2]; skill='theme';
+      prompt='Read: “'+row[0]+'” Which lesson best fits the story?'; choices=shuffled([row[1],row[2],row[3]]); answer=row[1]; explanation='The character’s actions and outcome support that lesson.'; domain=READ_DOMAINS[2]; skill='theme'; difficulty=3;
     }else if(family===5){
       prompt='Read: “'+n+' tucked the permission slip into the front pocket of the backpack, then checked the pocket twice before leaving.” What can you infer?';
-      choices=shuffled([n+' thinks the slip is important.',n+' is mainly worried the backpack looks messy.',n+' plans to give the slip to a friend.']); answer=n+' thinks the slip is important.'; explanation='Checking the pocket twice shows the slip matters to the character.'; domain=READ_DOMAINS[1]; skill='inference';
+      choices=shuffled([n+' thinks the slip is important.',n+' is mainly worried the backpack looks messy.',n+' plans to give the slip to a friend.']); answer=n+' thinks the slip is important.'; explanation='Checking the pocket twice shows the slip matters to the character.'; domain=READ_DOMAINS[1]; skill='inference'; difficulty=3;
     }else if(family===6){
       prompt='Read: “The kitten crouched low, wiggled its back legs, stared at the toy mouse, and sprang forward.” Which detail is the strongest evidence that the kitten was getting ready to pounce?';
-      choices=shuffled(['It crouched low and wiggled its back legs.','It stared at the toy mouse.','The toy mouse was in front of it.']); answer='It crouched low and wiggled its back legs.'; explanation='Several details relate to the toy, but crouching and wiggling the back legs most directly show preparation to pounce.'; domain=READ_DOMAINS[1]; skill='text-evidence';
+      choices=shuffled(['It crouched low and wiggled its back legs.','It stared at the toy mouse.','The toy mouse was in front of it.']); answer='It crouched low and wiggled its back legs.'; explanation='Several details relate to the toy, but crouching and wiggling the back legs most directly show preparation to pounce.'; domain=READ_DOMAINS[1]; skill='text-evidence'; difficulty=3;
     }else if(family===7){
       prompt='At the start of a story, '+n+' refuses to ask for help. After making the same mistake twice, '+n+' asks a classmate to explain the directions and succeeds. How did the character change?';
-      choices=shuffled(['The character became more willing to ask for help.','The character stopped caring about the task.','The character decided directions are never useful.']); answer='The character became more willing to ask for help.'; explanation='The ending shows a change in the character’s choice.'; domain=READ_DOMAINS[2]; skill='character-development';
+      choices=shuffled(['The character became more willing to ask for help.','The character stopped caring about the task.','The character decided directions are never useful.']); answer='The character became more willing to ask for help.'; explanation='The ending shows a change in the character’s choice.'; domain=READ_DOMAINS[2]; skill='character-development'; difficulty=3;
     }else if(family===8){
       const row=purposeRows[(i+snapshotSeed[4])%purposeRows.length];
       const purposeChoices=['to inform','to persuade','to entertain','to teach how to do something'];
       const distractors=purposeChoices.filter(value=>value!==row[1]);
-      prompt='What is the author’s main purpose in this text? “'+row[0]+'”'; choices=shuffled([row[1],distractors[0],distractors[1]]); answer=row[1]; explanation='The kind of information and wording reveal the author’s purpose.'; domain=READ_DOMAINS[3]; skill='author-purpose';
-    }else{
+      prompt='What is the author’s main purpose in this text? “'+row[0]+'”'; choices=shuffled([row[1],distractors[0],distractors[1]]); answer=row[1]; explanation='The kind of information and wording reveal the author’s purpose.'; domain=READ_DOMAINS[3]; skill='author-purpose'; difficulty=3;
+    }else if(family===9){
       prompt='Read: “The wind whispered through the tall grass.” Why might the author use the word “whispered”?';
-      choices=shuffled(['To help the reader imagine a soft sound.','To prove the wind can speak like a person.','To tell the exact temperature.']); answer='To help the reader imagine a soft sound.'; explanation='The word choice creates a quiet sound image for the reader.'; domain=READ_DOMAINS[3]; skill='word-choice';
+      choices=shuffled(['To help the reader imagine a soft sound.','To prove the wind can speak like a person.','To tell the exact temperature.']); answer='To help the reader imagine a soft sound.'; explanation='The word choice creates a quiet sound image for the reader.'; domain=READ_DOMAINS[3]; skill='word-choice'; difficulty=2;
+    }else if(family===10){
+      prompt='Read: “Beavers build dams in streams. The dams slow the water and create ponds. The ponds give beavers safer places to build homes.” What is the main idea?';
+      choices=shuffled(['Beaver dams change streams in ways that help beavers live safely.','Beavers are the only animals that live near ponds.','Streams always become ponds during the winter.']);
+      answer='Beaver dams change streams in ways that help beavers live safely.';
+      explanation='All three details explain how dams change the water and help beavers.';
+      domain=READ_DOMAINS[1]; skill='main-idea'; difficulty=3;
+    }else if(family===11){
+      prompt='Text 1 says a turtle hides in its shell when danger is near. Text 2 says a rabbit runs quickly to its burrow. What is one difference?';
+      choices=shuffled(['The turtle protects itself by hiding in a shell, while the rabbit escapes by running.','Both animals use the same body part to stay safe.','Neither animal changes what it does when danger appears.']);
+      answer='The turtle protects itself by hiding in a shell, while the rabbit escapes by running.';
+      explanation='The two texts describe different ways the animals respond to danger.';
+      domain=READ_DOMAINS[2]; skill='compare-contrast'; difficulty=3;
+    }else if(family===12){
+      prompt='Read: “First the seed coat splits. Next a root grows downward. Then a stem pushes upward toward the light.” How is this information organized?';
+      choices=shuffled(['In the order the events happen.','By explaining two things that are different.','By listing a problem and several opinions.']);
+      answer='In the order the events happen.';
+      explanation='First, next, and then signal a sequence structure.';
+      domain=READ_DOMAINS[3]; skill='text-structure'; difficulty=2;
+    }else if(family===13){
+      prompt='Which word best replaces “tiny” in the sentence “A tiny ant carried the crumb” without changing the meaning?';
+      choices=shuffled(['small','weak','quiet']); answer='small';
+      explanation='Small is the closest synonym for tiny in this sentence.';
+      domain=READ_DOMAINS[0]; skill='synonym-nuance'; difficulty=2;
+    }else{
+      prompt='Read both sentences: “The sidewalk was shiny with puddles. '+n+' stepped around the water and closed the umbrella before entering the store.” What can you infer?';
+      choices=shuffled(['The rain has probably stopped.','The store has no roof.','The sidewalk is covered with snow.']);
+      answer='The rain has probably stopped.';
+      explanation='The puddles show recent rain, and closing the umbrella suggests it is no longer raining.';
+      domain=READ_DOMAINS[1]; skill='multi-sentence-inference'; difficulty=3;
     }
     out.push(makeQuestion({
       id:snapshotId+'-star-read-'+String(i+1).padStart(2,'0'),stationId:'',subject:'Reading / ELA',skill,prompt,choices,answer,explanation,
       provenance:'original-star-aligned-practice-regenerated-with-curriculum-snapshot',
-      sourceFact:'STAR Reading public domain alignment; curriculum snapshot '+rawSourceHash,tier:'star-fallback',domain,difficulty:family<2?2:3
+      sourceFact:'STAR Reading public domain alignment; curriculum snapshot '+rawSourceHash,tier:'star-fallback',domain,difficulty
     }));
   }
   return out;
@@ -737,9 +766,9 @@ function starReading(){
 
 function starMath(){
   const out=[];
-  for(let i=0;i<30;i++){
-    const family=i%10;
-    let prompt,choices,answer,explanation,domain,skill;
+  for(let i=0;i<60;i++){
+    const family=i%15;
+    let prompt,choices,answer,explanation,domain,skill,difficulty,richContent,experiment;
     if(family===0){
       const start=int(18,45),added=int(8,25),removed=int(3,Math.min(15,start+added-1));
       const afterFirst=start+added;
@@ -748,42 +777,81 @@ function starMath(){
       choices=shuffled([String(final),String(afterFirst),String(Math.max(0,start-removed))]);
       answer=String(final);
       explanation='First add '+start+' + '+added+' = '+afterFirst+'. Then subtract '+removed+' to get '+final+'.';
-      domain=MATH_DOMAINS[0];
-      skill='two-step-word-problem';
+      domain=MATH_DOMAINS[0]; skill='two-step-word-problem'; difficulty=3;
     }else if(family===1){
       const a=int(45,99),b=int(10,Math.min(40,a-1)),diff=a-b;
-      prompt='What is '+a+' − '+b+'?'; choices=shuffled([String(diff),String(diff+10),String(Math.max(0,diff-1))]); answer=String(diff); explanation='Subtract tens and ones.'; domain=MATH_DOMAINS[0]; skill='subtraction-within-100';
+      prompt='What is '+a+' − '+b+'?'; choices=shuffled([String(diff),String(diff+10),String(Math.max(0,diff-1))]); answer=String(diff); explanation='Subtract tens and ones.'; domain=MATH_DOMAINS[0]; skill='subtraction-within-100'; difficulty=3;
     }else if(family===2){
       const hundreds=int(1,8),tens=int(1,9),ones=int(0,9),value=hundreds*100+tens*10+ones;
-      prompt='In '+value+', what is the value of the digit '+tens+'?'; choices=shuffled([String(tens*10),String(tens),String(tens*100)]); answer=String(tens*10); explanation='The digit is in the tens place.'; domain=MATH_DOMAINS[0]; skill='place-value';
+      prompt='In '+value+', what is the value of the digit '+tens+'?'; choices=shuffled([String(tens*10),String(tens),String(tens*100)]); answer=String(tens*10); explanation='The digit is in the tens place.'; domain=MATH_DOMAINS[0]; skill='place-value'; difficulty=2;
+      richContent={kind:'place-value',hundreds,tens,ones};
     }else if(family===3){
       const a=int(100,899),b=a+int(2,50);
-      prompt='Which comparison is true?'; choices=shuffled([a+' < '+b,a+' > '+b,a+' = '+b]); answer=a+' < '+b; explanation='The number on the left is smaller.'; domain=MATH_DOMAINS[0]; skill='compare-numbers';
+      prompt='Which comparison is true?'; choices=shuffled([a+' < '+b,a+' > '+b,a+' = '+b]); answer=a+' < '+b; explanation='The number on the left is smaller.'; domain=MATH_DOMAINS[0]; skill='compare-numbers'; difficulty=2;
     }else if(family===4){
       const a=int(4,15),x=int(3,12),sum=a+x;
-      prompt='Which number makes the equation true? '+a+' + □ = '+sum; choices=shuffled([String(x),String(x+1),String(Math.max(0,x-2))]); answer=String(x); explanation='Find the missing addend.'; domain=MATH_DOMAINS[1]; skill='unknown-number';
+      prompt='Which number makes the equation true? '+a+' + □ = '+sum; choices=shuffled([String(x),String(x+1),String(Math.max(0,x-2))]); answer=String(x); explanation='Find the missing addend.'; domain=MATH_DOMAINS[1]; skill='unknown-number'; difficulty=3;
     }else if(family===5){
       const start=int(2,8),step=pick([2,5,10]);
       prompt='What number comes next? '+[0,1,2,3].map(k=>start+k*step).join(', ')+', __'; const next=start+4*step;
-      choices=shuffled([String(next),String(next+step),String(next-1)]); answer=String(next); explanation='The same amount is added each time.'; domain=MATH_DOMAINS[1]; skill='patterns';
+      choices=shuffled([String(next),String(next+step),String(next-1)]); answer=String(next); explanation='The same amount is added each time.'; domain=MATH_DOMAINS[1]; skill='patterns'; difficulty=2;
+      richContent={kind:'number-line',start,end:next,step,highlight:next};
     }else if(family===6){
       const shape=pick([['hexagon',6],['pentagon',5],['rectangle',4],['triangle',3]]);
-      prompt='How many sides does a '+shape[0]+' have?'; choices=shuffled([String(shape[1]),String(shape[1]+1),String(Math.max(2,shape[1]-1))]); answer=String(shape[1]); explanation='Count the straight sides of the shape.'; domain=MATH_DOMAINS[2]; skill='geometry';
+      prompt='How many sides does a '+shape[0]+' have?'; choices=shuffled([String(shape[1]),String(shape[1]+1),String(Math.max(2,shape[1]-1))]); answer=String(shape[1]); explanation='Count the straight sides of the shape.'; domain=MATH_DOMAINS[2]; skill='geometry'; difficulty=2;
     }else if(family===7){
       const len=int(12,30),used=int(2,Math.min(9,len-1)),left=len-used;
-      prompt='A ribbon is '+len+' centimeters long. '+used+' centimeters are cut off. How many centimeters remain?'; choices=shuffled([String(left),String(len+used),String(left+1)]); answer=String(left); explanation='Subtract the part cut off from the original length.'; domain=MATH_DOMAINS[2]; skill='measurement';
+      prompt='A ribbon is '+len+' centimeters long. '+used+' centimeters are cut off. How many centimeters remain?'; choices=shuffled([String(left),String(len+used),String(left+1)]); answer=String(left); explanation='Subtract the part cut off from the original length.'; domain=MATH_DOMAINS[2]; skill='measurement'; difficulty=3;
     }else if(family===8){
       const cats=int(2,8),dogs=int(2,8),fish=int(2,8);
       const max=Math.max(cats,dogs,fish);
       const label=max===cats?'cats':max===dogs?'dogs':'fish';
-      prompt='A class graph shows cats: '+cats+', dogs: '+dogs+', fish: '+fish+'. Which pet got the most votes?'; choices=shuffled(['cats','dogs','fish']); answer=label; explanation='Compare the three totals and choose the greatest.'; domain=MATH_DOMAINS[3]; skill='data-interpretation';
+      prompt='A class graph has cats: '+cats+', dogs: '+dogs+', fish: '+fish+'. Which pet got the most votes?'; choices=shuffled(['cats','dogs','fish']); answer=label; explanation='Compare the three totals and choose the greatest.'; domain=MATH_DOMAINS[3]; skill='data-interpretation'; difficulty=2;
+      richContent={kind:'bar-chart',bars:[{label:'Cats',value:cats},{label:'Dogs',value:dogs},{label:'Fish',value:fish}]};
+      experiment={id:'rich-data-v1',type:'rich-format',control:'A',treatment:'B',treatmentPercent:10};
+    }else if(family===9){
+      prompt='A bag has 5 blue tiles and 1 yellow tile. Without looking, which color is more likely to be picked?'; choices=shuffled(['blue','yellow','They are equally likely.']); answer='blue'; explanation='There are more blue tiles, so blue is more likely.'; domain=MATH_DOMAINS[3]; skill='probability-language'; difficulty=2;
+    }else if(family===10){
+      const hour=int(1,11),minute=pick([0,30]);
+      const shown=hour+':'+String(minute).padStart(2,'0');
+      prompt='What time is shown on the clock?'; choices=shuffled([shown,((hour%12)+1)+':'+String(minute).padStart(2,'0'),hour+':'+String(minute===0?30:0).padStart(2,'0')]); answer=shown;
+      explanation='The minute hand shows '+(minute===0?'the hour exactly':'30 minutes past')+' and the hour hand shows '+hour+'.';
+      domain=MATH_DOMAINS[2]; skill='time'; difficulty=2; richContent={kind:'clock-face',hour,minute};
+    }else if(family===11){
+      const quarters=int(0,3),dimes=int(1,4),nickels=int(0,2);
+      const cents=quarters*25+dimes*10+nickels*5;
+      prompt='A jar has '+quarters+' quarter'+(quarters===1?'':'s')+', '+dimes+' dime'+(dimes===1?'':'s')+', and '+nickels+' nickel'+(nickels===1?'':'s')+'. How many cents is that?';
+      choices=shuffled([String(cents),String(Math.max(0,cents-10)),String(cents+5)]); answer=String(cents);
+      explanation='Add the coin values: quarters are 25¢, dimes are 10¢, and nickels are 5¢.';
+      domain=MATH_DOMAINS[2]; skill='money'; difficulty=2;
+    }else if(family===12){
+      const start=int(0,10),step=pick([2,5,10]),jumps=int(2,4),end=start+step*jumps;
+      prompt='Start at '+start+' on a number line and make '+jumps+' jumps of '+step+' to the right. Where do you land?';
+      choices=shuffled([String(end),String(end-step),String(start+jumps)]); answer=String(end);
+      explanation='Move right '+step+' each time for '+jumps+' equal jumps.';
+      domain=MATH_DOMAINS[2]; skill='number-line'; difficulty=2; richContent={kind:'number-line',start,end,step,highlight:end};
+    }else if(family===13){
+      const denominator=pick([2,3,4]),shaded=int(1,denominator-1);
+      prompt='A shape is split into '+denominator+' equal parts and '+shaded+' part'+(shaded===1?' is':'s are')+' shaded. Which fraction is shaded?';
+      answer=shaded+'/'+denominator;
+      let distractors=[Math.min(denominator,shaded+1)+'/'+denominator,shaded+'/'+Math.max(2,denominator-1)].filter(value=>value!==answer);
+      while(distractors.length<2) distractors.push((shaded+1)+'/'+(denominator+1));
+      choices=shuffled([answer,distractors[0],distractors[1]]);
+      explanation='The numerator counts shaded parts and the denominator counts all equal parts.';
+      domain=MATH_DOMAINS[2]; skill='fractions-shapes'; difficulty=2; richContent={kind:'shape-fraction',parts:denominator,shaded};
     }else{
-      prompt='A bag has 5 blue tiles and 1 yellow tile. Without looking, which color is more likely to be picked?'; choices=shuffled(['blue','yellow','They are equally likely.']); answer='blue'; explanation='There are more blue tiles, so blue is more likely.'; domain=MATH_DOMAINS[3]; skill='probability-language';
+      const a=int(3,12),b=int(2,9),sum=a+b;
+      prompt='Which equation belongs to the same fact family as '+a+' + '+b+' = '+sum+'?';
+      choices=shuffled([sum+' − '+a+' = '+b,sum+' + '+a+' = '+b,a+' − '+b+' = '+sum]);
+      answer=sum+' − '+a+' = '+b;
+      explanation='A fact family uses the same three numbers in related addition and subtraction equations.';
+      domain=MATH_DOMAINS[0]; skill='fact-family'; difficulty=2;
     }
     out.push(makeQuestion({
       id:snapshotId+'-star-math-'+String(i+1).padStart(2,'0'),stationId:'',subject:'Math',skill,prompt,choices,answer,explanation,
       provenance:'original-star-aligned-practice-regenerated-with-curriculum-snapshot',
-      sourceFact:'STAR Math public domain alignment; curriculum snapshot '+rawSourceHash,tier:'star-fallback',domain,difficulty:family===6||family===9?2:3
+      sourceFact:'STAR Math public domain alignment; curriculum snapshot '+rawSourceHash,tier:'star-fallback',domain,difficulty,
+      richContent,experiment
     }));
   }
   return out;
