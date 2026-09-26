@@ -470,7 +470,17 @@ function RoleplayService:_state(player: Player)
 		local rp = ensureRoleplay(data)
 		local presets = {}
 		for id, preset in AVATAR_PRESETS do
-			table.insert(presets, {Id = id, Label = preset.Label})
+			local preview = {}
+			for field, value in preset do
+				if field ~= "Label" and type(value) == "number" then
+					preview[field] = value
+				end
+			end
+			table.insert(presets, {
+				Id = id,
+				Label = preset.Label,
+				Preview = preview,
+			})
 		end
 		table.sort(presets, function(a, b)
 			return a.Label < b.Label
