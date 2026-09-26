@@ -64,6 +64,7 @@ jobs:
             src/robloxRuntime/phase7EconomyHomes.test.js \
             src/robloxRuntime/phase8MirrorSystems.test.js \
             src/robloxRuntime/phase9BrookhavenUiParity.test.js \
+            src/robloxRuntime/phase10HomePlacement.test.js \
             src/robloxWorld/worldPlotBindings.test.js \
             src/robloxRuntime/finalClientGate.test.js \
             src/robloxRuntime/mobileUxLayout.test.js \
