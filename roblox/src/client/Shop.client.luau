@@ -9,6 +9,8 @@ local remotes = ReplicatedStorage:WaitForChild("StarBloxShop")
 local getState = remotes:WaitForChild("GetState") :: RemoteFunction
 local purchaseItem = remotes:WaitForChild("PurchaseItem") :: RemoteFunction
 local purchaseHome = remotes:WaitForChild("PurchaseHomeTier") :: RemoteFunction
+local purchaseHomeStyle = remotes:WaitForChild("PurchaseHomeStyle") :: RemoteFunction
+local selectHomeStyle = remotes:WaitForChild("SelectHomeStyle") :: RemoteFunction
 local visitHome = remotes:WaitForChild("VisitHome") :: RemoteFunction
 local returnWorld = remotes:WaitForChild("ReturnWorld") :: RemoteFunction
 
@@ -332,6 +334,41 @@ local function purchaseTier(tier: number)
 	end
 end
 
+
+local function purchaseStyle(styleId: string)
+	if busy then return end
+	busy=true
+	local ok,result=pcall(function()
+		return purchaseHomeStyle:InvokeServer(styleId)
+	end)
+	busy=false
+	if ok and type(result)=="table" then
+		if result.ok==true then
+			fetchState()
+			render()
+		elseif result.code=="not_enough_coins" then
+			balance.Text="answer questions for more coins"
+			balance.TextColor3=UI.red
+		elseif result.code=="home_tier_required" then
+			balance.Text="upgrade your home tier first"
+			balance.TextColor3=UI.red
+		end
+	end
+end
+
+local function selectStyle(styleId: string)
+	if busy then return end
+	busy=true
+	local ok,result=pcall(function()
+		return selectHomeStyle:InvokeServer(styleId)
+	end)
+	busy=false
+	if ok and type(result)=="table" and result.ok==true then
+		fetchState()
+		render()
+	end
+end
+
 render=function()
 	if type(state)~="table" then return end
 	clear()
@@ -355,6 +392,50 @@ render=function()
 		)
 		order+=1
 	end
+
+	for _,style in state.styles or {} do
+		local id=tostring(style.Id)
+		local requiredTier=tonumber(style.RequiredTier) or 1
+		local owned=state.ownedStyles and state.ownedStyles[id]==true
+		local selected=tostring(state.selectedStyle or "")==id
+		local tierReady=(tonumber(state.homeTier) or 1)>=requiredTier
+		local detail
+		local badge
+		local color
+		local callback=nil
+
+		if selected then
+			detail="current"
+			badge="✓"
+			color=UI.green
+		elseif owned and tierReady then
+			detail="owned"
+			badge="⌂"
+			color=UI.green
+			callback=function() selectStyle(id) end
+		elseif not tierReady then
+			detail="tier "..tostring(requiredTier)
+			badge="×"
+			color=UI.red
+		else
+			detail=tostring(style.Price).."¢"
+			badge="$"
+			color=UI.blue
+			callback=function() purchaseStyle(id) end
+		end
+
+		tile(
+			"⌂",
+			tostring(style.Name),
+			detail,
+			badge,
+			color,
+			order,
+			callback
+		)
+		order+=1
+	end
+
 	for _,item in state.items or {} do
 		local id=tostring(item.Id)
 		local owned=state.ownedItems and state.ownedItems[id]==true
