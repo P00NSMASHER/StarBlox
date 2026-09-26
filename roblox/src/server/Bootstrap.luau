@@ -47,7 +47,7 @@ function Bootstrap.start(dependencies)
 	local roleplay = RoleplayService.new(profiles, replicas)
 	local schoolRuntime = nil
 	if SchoolConfig.FeatureFlags.SchoolSystemEnabled == true then
-		schoolRuntime = SchoolRuntimeService.new(profiles, replicas)
+		schoolRuntime = SchoolRuntimeService.new(profiles, replicas, coreLoop)
 	end
 	action:Start()
 
