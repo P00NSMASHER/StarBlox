@@ -1,17 +1,17 @@
 --!strict
 
 local MirrorCatalog = table.freeze({
-	SchemaVersion = 1,
-	Revision = "phase9-long-horizon-mirror-catalog-v1",
+	SchemaVersion = 2,
+	Revision = "brookhaven-category-mapped-placeholder-v2",
 	Vehicles = table.freeze({
-		table.freeze({Id = "vehicle-compact", Name = "Compact", Price = 750, Kind = "car", Seats = 2, Speed = 46}),
-		table.freeze({Id = "vehicle-sedan", Name = "Sedan", Price = 1200, Kind = "car", Seats = 4, Speed = 52}),
-		table.freeze({Id = "vehicle-suv", Name = "SUV", Price = 1800, Kind = "car", Seats = 5, Speed = 48}),
-		table.freeze({Id = "vehicle-pickup", Name = "Pickup", Price = 2200, Kind = "truck", Seats = 4, Speed = 46}),
-		table.freeze({Id = "vehicle-van", Name = "Van", Price = 3000, Kind = "van", Seats = 6, Speed = 43}),
-		table.freeze({Id = "vehicle-sports", Name = "Sports Car", Price = 12000, Kind = "car", Seats = 2, Speed = 68}),
-		table.freeze({Id = "vehicle-motorcycle", Name = "Motorcycle", Price = 4500, Kind = "bike", Seats = 1, Speed = 62}),
-		table.freeze({Id = "vehicle-cart", Name = "Golf Cart", Price = 1500, Kind = "cart", Seats = 4, Speed = 34}),
+		table.freeze({Id = "vehicle-compact", Name = "Compact", Price = 750, Kind = "car", Category = "Street", ParityStatus = "temporary-starblox", Seats = 2, Speed = 46}),
+		table.freeze({Id = "vehicle-sedan", Name = "Sedan", Price = 1200, Kind = "car", Category = "Street", ParityStatus = "temporary-starblox", Seats = 4, Speed = 52}),
+		table.freeze({Id = "vehicle-suv", Name = "SUV", Price = 1800, Kind = "car", Category = "Work", ParityStatus = "temporary-starblox", Seats = 5, Speed = 48}),
+		table.freeze({Id = "vehicle-pickup", Name = "Pickup", Price = 2200, Kind = "truck", Category = "Work", ParityStatus = "temporary-starblox", Seats = 4, Speed = 46}),
+		table.freeze({Id = "vehicle-van", Name = "Van", Price = 3000, Kind = "van", Category = "Work", ParityStatus = "temporary-starblox", Seats = 6, Speed = 43}),
+		table.freeze({Id = "vehicle-sports", Name = "Sports Car", Price = 12000, Kind = "car", Category = "Street", ParityStatus = "temporary-starblox", Seats = 2, Speed = 68}),
+		table.freeze({Id = "vehicle-motorcycle", Name = "Motorcycle", Price = 4500, Kind = "bike", Category = "Street", ParityStatus = "temporary-starblox", Seats = 1, Speed = 62}),
+		table.freeze({Id = "vehicle-cart", Name = "Golf Cart", Price = 1500, Kind = "cart", Category = "Street", ParityStatus = "temporary-starblox", Seats = 4, Speed = 34}),
 	}),
 	Inventory = table.freeze({
 		table.freeze({Id = "tool-phone", Name = "Phone", Price = 0, Kind = "phone"}),
