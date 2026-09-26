@@ -57,15 +57,48 @@ describe('Phase 8: Brookhaven mirror systems with learning economy',()=>{
     expect(homes).not.toContain('BrookhavenWorldBaseline');
   });
 
+  it('adds jobs, filtered bio, avatar reset, and roleplay overhead identity',()=>{
+    const service=read('roblox/src/server/RoleplayService.luau');
+    const template=read('roblox/src/shared/ProfileTemplate.luau');
+    const bootstrap=read('roblox/src/server/Bootstrap.luau');
+
+    expect(template).toContain('Roleplay = {');
+    expect(template).toContain('Job = "Citizen"');
+    expect(service).toContain('TextService:FilterStringAsync');
+    expect(service).toContain('GetNonChatStringForBroadcastAsync');
+    expect(service).toContain('SetJob');
+    expect(service).toContain('SaveBio');
+    expect(service).toContain('ResetAvatar');
+    expect(service).toContain('Police Officer');
+    expect(service).toContain('Teacher');
+    expect(service).toContain('Doctor');
+    expect(service).toContain('StarBloxRoleplayTag');
+    expect(bootstrap).toContain('RoleplayService.new(profiles, replicas)');
+    expect(bootstrap).toContain('Roleplay = roleplay');
+  });
+
+  it('binds player homes onto verified Brookhaven plots rather than a synthetic sky neighborhood',()=>{
+    const service=read('roblox/src/server/HomeEconomyService.luau');
+    const bindings=read('roblox/src/shared/WorldPlotBindings.luau');
+    expect(bindings.match(/Id = "plot-/g)?.length).toBe(8);
+    expect(service).toContain('WorldPlotBindings.WorldRootName');
+    expect(service).toContain('self._usedPlots');
+    expect(service).toContain('SourceWorldPart');
+    expect(service).not.toContain('HOME_HEIGHT');
+    expect(service).not.toContain('HOME_SPACING');
+  });
+
   it('uses one compact Brookhaven-style phone sidebar instead of duplicate shop buttons',()=>{
     const sidebar=read('roblox/src/client/MirrorSidebar.client.luau');
     const shop=read('roblox/src/client/Shop.client.luau');
     expect(sidebar).toContain('gui.Name = "BrookhavenMirrorSidebar"');
-    expect(sidebar).toContain('rail.Size = UDim2.fromOffset(54, 232)');
-    expect(sidebar).toContain('local homeBtn = button("Home")');
-    expect(sidebar).toContain('local vehicleBtn = button("Cars")');
-    expect(sidebar).toContain('local inventoryBtn = button("Items")');
-    expect(sidebar).toContain('local shopBtn = button("Shop")');
+    expect(sidebar).toContain('rail.Size = UDim2.fromOffset(58, 328)');
+    for(const label of ['Ava','Items','Emote','Cars','House','Bio','Jobs','Map','Shop']){
+      expect(sidebar).toContain('railButton("'+label+'"');
+    }
+    expect(sidebar).toContain('Humanoid');
+    expect(sidebar).toContain('PlayEmote');
+    expect(sidebar).toContain('Save Bio');
     expect(sidebar).toContain('actionButton.Size = UDim2.fromOffset(104, 44)');
     expect(sidebar).toContain('Answer questions to earn coins.');
     expect(shop).toContain('shopButton.Visible = false');
