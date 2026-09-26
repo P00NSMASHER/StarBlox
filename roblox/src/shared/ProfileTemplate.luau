@@ -55,9 +55,11 @@ local ProfileTemplate = {
 			DayId = "",
 			BankSnapshotId = "",
 			Periods = {},
+			AttendanceCounted = false,
 		},
 		RecentDays = {},
 		QuestionCursorByClass = {},
+		LastQuestionBankSnapshotId = "",
 		Statistics = {
 			DaysAttended = 0,
 			ClassesCompleted = 0,
