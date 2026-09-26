@@ -2,6 +2,7 @@
 
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local UserInputService = game:GetService("UserInputService")
 local Workspace = game:GetService("Workspace")
 
 local player = Players.LocalPlayer
@@ -81,6 +82,8 @@ local busy = false
 
 local function render()
 	local running = player:GetAttribute("StarBloxRunning") == true
+	local sprintSetting = player:GetAttribute("StarBloxSetting_SprintButton")
+	button.Visible = UserInputService.TouchEnabled and sprintSetting ~= false
 	button.BackgroundTransparency = if running then 0.24 else 0.48
 	button.TextTransparency = if running then 0 else 0.25
 	ring.Transparency = if running then 0.1 else 0.35
@@ -101,4 +104,5 @@ button.Activated:Connect(function()
 end)
 
 player:GetAttributeChangedSignal("StarBloxRunning"):Connect(render)
+player:GetAttributeChangedSignal("StarBloxSetting_SprintButton"):Connect(render)
 render()
