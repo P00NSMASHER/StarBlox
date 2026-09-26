@@ -65,6 +65,11 @@ describe('Step 9 joinability: production server boot gate', () => {
     expect(script).toContain('Brookhaven mirror remotes missing after bootstrap');
     expect(script).toContain('vehicle runtime folder missing after bootstrap');
     expect(script).toContain('StarBlox shop remotes missing after bootstrap');
+    expect(script).toContain('"SetPlacement"');
+    expect(script).toContain('"SetPlacementVisibility"');
+    expect(script).toContain('"ResetPlacement"');
+    expect(script).toContain('home placement version missing');
+    expect(script).toContain('home placement rotation step mismatch');
     expect(script).toContain('player-home runtime folder missing after bootstrap');
     expect(script).toContain('Phase 8 material-first marker missing');
     expect(script).toContain('Phase 8 STAR fallback marker missing');
