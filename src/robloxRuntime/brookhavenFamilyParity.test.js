@@ -10,7 +10,7 @@ describe('Brookhaven recording parity: ephemeral family groups',()=>{
     const service=read('roblox/src/server/FamilyService.luau');
     const bootstrap=read('roblox/src/server/Bootstrap.luau');
 
-    for(const remote of ['GetState','Invite','RespondInvite','Leave','RemoveMember','StateChanged']){
+    for(const remote of ['GetState','Create','Invite','RespondInvite','Leave','RemoveMember','StateChanged']){
       expect(service).toContain('Name = "'+remote+'"');
     }
     expect(service).toContain('local INVITE_TTL_SECONDS = 60');
@@ -33,16 +33,24 @@ describe('Brookhaven recording parity: ephemeral family groups',()=>{
     expect(service).not.toContain('_replicas');
   });
 
-  it('turns the top Family control into actual nearby-player family actions',()=>{
+  it('matches the recorded My Family panel and keeps actions on the family service',()=>{
     const sidebar=read('roblox/src/client/MirrorSidebar.client.luau');
+    const panel=read('roblox/src/client/FamilyPanel.client.luau');
 
-    expect(sidebar).toContain('familyGetState:InvokeServer()');
-    expect(sidebar).toContain('familyInvite:InvokeServer(userId)');
-    expect(sidebar).toContain('familyRespond:InvokeServer(ownerId, true)');
-    expect(sidebar).toContain('familyRespond:InvokeServer(ownerId, false)');
-    expect(sidebar).toContain('familyRemoveMember:InvokeServer(memberId)');
-    expect(sidebar).toContain('familyLeave:InvokeServer()');
-    expect(sidebar).toContain('familyStateChanged.OnClientEvent:Connect');
-    expect(sidebar).toContain('"No players nearby"');
+    expect(sidebar).toContain('familyGui:FindFirstChild("OpenFamilyPanel")');
+    expect(sidebar).toContain('openPanel:Fire()');
+    expect(panel).toContain('gui.Name = "BrookhavenFamilyUI"');
+    expect(panel).toContain('panel.Name = "MyFamilyPanel"');
+    expect(panel).toContain('title.Text = "My Family"');
+    expect(panel).toContain('close.BackgroundColor3 = UI.red');
+    expect(panel).toContain('"✚  Create a Family"');
+    expect(panel).toContain('"Hide Invites"');
+    expect(panel).toContain('createFamily:InvokeServer()');
+    expect(panel).toContain('invite:InvokeServer(userId)');
+    expect(panel).toContain('respondInvite:InvokeServer(ownerId, true)');
+    expect(panel).toContain('respondInvite:InvokeServer(ownerId, false)');
+    expect(panel).toContain('removeMember:InvokeServer(memberId)');
+    expect(panel).toContain('leave:InvokeServer()');
+    expect(panel).toContain('stateChanged.OnClientEvent:Connect');
   });
 });
