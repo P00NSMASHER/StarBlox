@@ -655,6 +655,7 @@ end
 local function setHeader(nextTitle: string)
 	plotSelector.Visible = false
 	panelTitle.Text = nextTitle
+	panelTitle.Visible = true
 	panel.Visible = true
 	setActionLabelsVisible(false)
 end
@@ -739,6 +740,68 @@ local function tile(
 
 	if callback then
 		local hit = Instance.new("TextButton")
+		hit.Size = UDim2.fromScale(1, 1)
+		hit.BackgroundTransparency = 1
+		hit.Text = ""
+		hit.ZIndex = 76
+		hit.Parent = frame
+		hit.Activated:Connect(callback)
+	end
+end
+
+
+local function iconTile(
+	symbol: string,
+	accessibleName: string,
+	badgeText: string,
+	badgeColor: Color3,
+	order: number,
+	callback: (() -> ())?
+)
+	local frame = Instance.new("Frame")
+	frame.Name = accessibleName
+	frame.LayoutOrder = order
+	frame.Size = UDim2.fromOffset(62, 64)
+	frame.BackgroundColor3 = UI.white
+	frame.BackgroundTransparency = 0.12
+	frame.ZIndex = 72
+	frame.Parent = scroller
+	round(frame, 6)
+	stroke(frame, UI.border, 1, 0.45)
+
+	local icon = Instance.new("TextLabel")
+	icon.Name = "Icon"
+	icon.Position = UDim2.fromOffset(5, 5)
+	icon.Size = UDim2.new(1, -10, 1, -10)
+	icon.BackgroundTransparency = 1
+	icon.Text = symbol
+	icon.TextColor3 = UI.text
+	icon.Font = Enum.Font.GothamBold
+	icon.TextScaled = true
+	icon.ZIndex = 73
+	icon.Parent = frame
+	constrain(icon, 22, 38)
+
+	if badgeText ~= "" then
+		local badge = Instance.new("TextLabel")
+		badge.Name = "Badge"
+		badge.AnchorPoint = Vector2.new(1, 0)
+		badge.Position = UDim2.new(1, -2, 0, 2)
+		badge.Size = UDim2.fromOffset(20, 15)
+		badge.BackgroundColor3 = badgeColor
+		badge.Text = badgeText
+		badge.TextColor3 = Color3.new(1, 1, 1)
+		badge.Font = Enum.Font.GothamBold
+		badge.TextScaled = true
+		badge.ZIndex = 75
+		badge.Parent = frame
+		round(badge, 4)
+		constrain(badge, 6, 9)
+	end
+
+	if callback then
+		local hit = Instance.new("TextButton")
+		hit.Name = "Select"
 		hit.Size = UDim2.fromScale(1, 1)
 		hit.BackgroundTransparency = 1
 		hit.Text = ""
@@ -931,6 +994,7 @@ showVehicles = function()
 	end
 	clearGrid()
 	setHeader("Vehicle")
+	panelTitle.Visible = false
 	setCategories({
 		{Id = "all", Symbol = "★"},
 		{Id = "cars", Symbol = "▰"},
@@ -947,11 +1011,10 @@ showVehicles = function()
 		if vehicleMatchesCategory(kind, activeVehicleCategory) then
 			local id = tostring(vehicle.Id)
 			local owned = mirrorState.ownedVehicles and mirrorState.ownedVehicles[id] == true
-			tile(
+			iconTile(
 				symbolForVehicle(kind),
 				tostring(vehicle.Name),
-				owned and "spawn" or (tostring(vehicle.Price) .. "¢"),
-				owned and "✓" or "$",
+				owned and "" or "$",
 				owned and UI.green or UI.blue,
 				order,
 				function()
@@ -968,7 +1031,7 @@ showVehicles = function()
 			order += 1
 		end
 	end
-	tile("×", "Despawn", "current", "", UI.red, order, function()
+	iconTile("×", "Despawn", "", UI.red, order, function()
 		pcall(function()
 			despawnVehicle:InvokeServer()
 		end)
@@ -982,6 +1045,7 @@ showTools = function()
 	end
 	clearGrid()
 	setHeader("Tools")
+	panelTitle.Visible = false
 	setCategories({
 		{Id = "all", Symbol = "★"},
 		{Id = "tech", Symbol = "▯"},
@@ -999,11 +1063,10 @@ showTools = function()
 		if toolMatchesCategory(kind, activeToolCategory) then
 			local id = tostring(item.Id)
 			local owned = mirrorState.ownedTools and mirrorState.ownedTools[id] == true
-			tile(
+			iconTile(
 				symbolForTool(kind),
 				tostring(item.Name),
-				owned and "equip" or (tostring(item.Price) .. "¢"),
-				owned and "✓" or "$",
+				owned and "" or "$",
 				owned and UI.green or UI.blue,
 				order,
 				function()
