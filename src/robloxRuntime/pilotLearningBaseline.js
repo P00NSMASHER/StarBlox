@@ -67,20 +67,23 @@ export function buildPilotBaseline({
 
   const overallRaw=emptySummary();
   const firstPilotBucketCounts={};
+  let calibrationFirstAttempts=0;
   for(const {row} of rows){
     addRow(overallRaw,row);
     mergeCounter(firstPilotBucketCounts,row.baselineFirstBucketCounts);
+    calibrationFirstAttempts+=Number(row.firstPilotAttempts)||0;
   }
   const overall=finalize(overallRaw);
   const completedSessions=Number(liveMetrics?.retention?.baselinePilotSessionsCompleted)||0;
   const startedSessions=Number(liveMetrics?.retention?.baselinePilotSessionsStarted)||0;
+  const calibrationCompletedSessions=Number(liveMetrics?.retention?.pilotSessionsCompleted)||0;
 
   const baselineEstablished=
     overall.firstAttempts>=baselineMinFirstAttempts &&
     completedSessions>=baselineMinCompletedSessions;
   const calibrationReady=
-    overall.firstAttempts>=calibrationMinFirstAttempts &&
-    completedSessions>=calibrationMinCompletedSessions;
+    calibrationFirstAttempts>=calibrationMinFirstAttempts &&
+    calibrationCompletedSessions>=calibrationMinCompletedSessions;
 
   const status=overall.firstAttempts===0
     ? 'awaiting-pilot-evidence'
@@ -107,6 +110,8 @@ export function buildPilotBaseline({
       baselineMinFirstAttempts,
       baselineMinCompletedSessions,
       baselineEstablished,
+      calibrationFirstAttempts,
+      calibrationCompletedSessions,
       calibrationMinFirstAttempts,
       calibrationMinCompletedSessions,
       calibrationTargetFirstAttempts,
@@ -147,6 +152,7 @@ export function pilotBaselineMarkdown(report){
     '- Retry rate: **'+pct(report.overall.retryRate)+'**',
     '- 30s+ response share: **'+pct(report.overall.slowResponseShare)+'**',
     '- Baseline floor: **'+report.readiness.baselineMinFirstAttempts+' attempts / '+report.readiness.baselineMinCompletedSessions+' sessions**',
+    '- Calibration evidence so far: **'+report.readiness.calibrationFirstAttempts+' attempts / '+report.readiness.calibrationCompletedSessions+' sessions**',
     '- Calibration floor: **'+report.readiness.calibrationMinFirstAttempts+' attempts / '+report.readiness.calibrationMinCompletedSessions+' sessions**',
     '- Baseline cohort: **first '+report.readiness.baselineMinCompletedSessions+' completed pilot sessions only**',
     '- Adaptive difficulty during baseline: **frozen**',
