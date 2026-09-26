@@ -173,16 +173,17 @@ function SchoolRuntimeService:_stateFor(player)
 		dismissed = clock.PeriodKind == "after-school",
 	}
 
-	if clock.PeriodKind == "report" or clock.PeriodKind == "after-school" then
-		self._profiles:WithProfile(player, function(data)
+	self._profiles:WithProfile(player, function(data)
+		Sessions.EnsureDay(data, clock.SchoolDayId)
+		if clock.PeriodKind == "report" or clock.PeriodKind == "after-school" then
 			payload.report = Report.Build(
 				data,
 				clock.SchoolDayId,
-				clock.PeriodKind == "report"
+				true
 			)
-			self._replicas:Sync(player, data)
-		end)
-	end
+		end
+		self._replicas:Sync(player, data)
+	end)
 
 	return payload
 end
