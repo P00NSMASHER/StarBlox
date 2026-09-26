@@ -1,0 +1,148 @@
+name: StarBlox Verify Final V19
+
+on:
+  push:
+    branches:
+      - verify/final-v19-current
+
+permissions:
+  contents: read
+
+jobs:
+  verify-v19:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Verify current proof contracts
+        run: |
+          npx vitest run \
+            src/robloxRuntime/productionServerBootProof.test.js \
+            src/robloxRuntime/coreLoopProof.test.js \
+            src/robloxRuntime/phase6QuestionBank.test.js \
+            src/robloxRuntime/dailyQuestionSync.test.js \
+            src/robloxRuntime/phase7EconomyHomes.test.js \
+            src/robloxRuntime/phase8MirrorSystems.test.js \
+            src/robloxWorld/worldPlotBindings.test.js
+
+      - name: Verify exact private v19 production server
+        env:
+          ROBLOX_OPEN_CLOUD_API_KEY: ${{ secrets.ROBLOX_OPEN_CLOUD_API_KEY }}
+          ROBLOX_UNIVERSE_ID: ${{ vars.ROBLOX_UNIVERSE_ID }}
+          ROBLOX_PLACE_ID: ${{ vars.ROBLOX_PLACE_ID }}
+          STARBLOX_EXPECTED_VERSION: '19'
+          STARBLOX_RELEASE_ID: starblox-private-step9-canonical-step6-v4
+        run: |
+          mkdir -p artifacts/v19
+          node scripts/verify-roblox-production-server-boot.mjs > artifacts/v19/server-boot-proof.json
+          cat artifacts/v19/server-boot-proof.json
+
+      - name: Verify exact private v19 question and coin loop
+        env:
+          ROBLOX_OPEN_CLOUD_API_KEY: ${{ secrets.ROBLOX_OPEN_CLOUD_API_KEY }}
+          ROBLOX_UNIVERSE_ID: ${{ vars.ROBLOX_UNIVERSE_ID }}
+          ROBLOX_PLACE_ID: ${{ vars.ROBLOX_PLACE_ID }}
+        run: |
+          node scripts/verify-roblox-core-loop.mjs > artifacts/v19/core-loop-proof.json
+          cat artifacts/v19/core-loop-proof.json
+          node --input-type=module - <<'NODE'
+          import {readFile,writeFile} from 'node:fs/promises';
+
+          const boot=JSON.parse(await readFile('artifacts/v19/server-boot-proof.json','utf8'));
+          const core=JSON.parse(await readFile('artifacts/v19/core-loop-proof.json','utf8'));
+
+          if(boot.status!=='verified' || Number(boot.versionNumber)!==19){
+            throw new Error('exact v19 production boot not verified');
+          }
+          if(core.status!=='verified' || Number(core.versionNumber)!==19){
+            throw new Error('exact v19 core loop not verified');
+          }
+
+          for(const key of [
+            'brookhavenWorldMounted',
+            'prototypeWorldAbsent',
+            'activityAnchorsCreated',
+            'worldSpawnBound',
+            'materialFirstQuestionBank',
+            'persistentPerStationRotation',
+            'freshMaterialThenSnapshotStarFallback',
+            'dynamicQuestionSyncBank',
+            'starReadingAtLeast25',
+            'starMathAtLeast25',
+            'correctAnswerCoinEconomy',
+            'homeEconomyCreated',
+            'shopRemotesCreated',
+            'brookhavenMirrorConfigLoaded',
+            'mirrorLifestyleCreated',
+            'mirrorRemotesCreated',
+            'vehicleRuntimeFolderCreated',
+            'roleplayServiceCreated',
+            'roleplayRemotesCreated',
+            'brookhavenHousePlotsBound'
+          ]){
+            if(boot.evidence?.[key]!==true) throw new Error('missing v19 boot evidence: '+key);
+          }
+
+          for(const key of [
+            'materialFirstQuestionBank',
+            'materialQuestionsFirst',
+            'starFallbackAfterMaterial',
+            'freshMaterialThenSnapshotStarFallback',
+            'dynamicQuestionSyncBank',
+            'starReadingAtLeast25',
+            'starMathAtLeast25',
+            'persistentPerStationRotation',
+            'serverAuthoritativeAnswers',
+            'staleAnswerReplayBlocked',
+            'correctAnswerCoinReward',
+            'challengeCoinsDisabled',
+            'realWorldActivityAnchors',
+            'prototypeWorldAbsent',
+            'worldSpawnBound'
+          ]){
+            if(core.evidence?.[key]!==true) throw new Error('missing v19 core-loop evidence: '+key);
+          }
+
+          if(boot.publicAccessChangeAttempted!==false ||
+             boot.productionActivationAllowed!==false ||
+             core.publicAccessChangeAttempted!==false ||
+             core.productionActivationAllowed!==false){
+            throw new Error('private authority boundary drift');
+          }
+
+          const receipt={
+            schemaVersion:1,
+            status:'final-v19-private-verified',
+            placeVersion:19,
+            exactFrozenBrookhavenWorld:true,
+            brookhavenStyleSystems:true,
+            dynamicAbvmQuestionSync:true,
+            materialFirst:true,
+            starFallbackAfterMaterial:true,
+            starReadingAtLeast25:true,
+            starMathAtLeast25:true,
+            questionOnlyCoinEconomy:true,
+            homesVehiclesItemsRoleplay:true,
+            publicAccessChangeAllowed:false,
+            productionActivationAllowed:false
+          };
+          await writeFile('artifacts/v19/final-v19-verification.json',JSON.stringify(receipt,null,2)+'\n');
+          console.log('STARBLOX_FINAL_V19_OK');
+          NODE
+
+      - name: Upload v19 verification evidence
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: starblox-final-v19-verification
+          path: artifacts/v19/
+          if-no-files-found: error
+          retention-days: 30
