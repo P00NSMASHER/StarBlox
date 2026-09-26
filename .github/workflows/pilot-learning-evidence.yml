@@ -1,0 +1,66 @@
+name: Pilot learning evidence
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '30 23 * * *'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: starblox-pilot-learning-evidence
+  cancel-in-progress: false
+
+jobs:
+  baseline-and-calibration:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Verify Steps 3-4 analyzers
+        run: |
+          npx vitest run \
+            src/robloxRuntime/pilotLearningSteps34.test.js \
+            src/robloxRuntime/pilotBaselineIntegrity.test.js \
+            src/robloxRuntime/studyPilotMode.test.js \
+            src/robloxRuntime/questionItemReview.test.js
+
+      - name: Read live privacy-minimized pilot evidence
+        env:
+          ROBLOX_OPEN_CLOUD_API_KEY: ${{ secrets.ROBLOX_OPEN_CLOUD_API_KEY }}
+          ROBLOX_UNIVERSE_ID: ${{ vars.ROBLOX_UNIVERSE_ID }}
+          ROBLOX_PLACE_ID: ${{ vars.ROBLOX_PLACE_ID }}
+        run: |
+          mkdir -p artifacts/pilot-private
+          node scripts/fetch-live-pilot-metrics.mjs \
+            --out artifacts/pilot-private/live.json
+
+      - name: Build baseline
+        run: |
+          node scripts/build-pilot-baseline.mjs \
+            artifacts/pilot-private/live.json \
+            docs/phase6/ABVM_GRADE2_ROTATING_QUESTION_SOURCE.json \
+            --json artifacts/pilot-private/baseline.json \
+            --markdown artifacts/pilot-private/baseline.md
+
+      - name: Run fail-closed calibration
+        run: |
+          node scripts/calibrate-pilot-items.mjs \
+            artifacts/pilot-private/baseline.json \
+            artifacts/pilot-private/live.json \
+            docs/phase6/ABVM_GRADE2_ROTATING_QUESTION_SOURCE.json \
+            --json artifacts/pilot-private/calibration.json \
+            --markdown artifacts/pilot-private/calibration.md
+
+      - name: Remove detailed private evidence before job exit
+        if: ${{ always() }}
+        run: rm -rf artifacts/pilot-private

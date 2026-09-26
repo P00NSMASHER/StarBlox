@@ -11,6 +11,8 @@ local remotes = ReplicatedStorage:WaitForChild("StarBloxCoreLoop")
 local activityOpened = remotes:WaitForChild("ActivityOpened") :: RemoteEvent
 local submitAnswer = remotes:WaitForChild("SubmitAnswer") :: RemoteFunction
 local requestStatus = remotes:WaitForChild("RequestStatus") :: RemoteFunction
+local startPilot = remotes:WaitForChild("StartPilot") :: RemoteFunction
+local submitPilotAnswer = remotes:WaitForChild("SubmitPilotAnswer") :: RemoteFunction
 local dismissOnboarding = remotes:WaitForChild("DismissOnboarding") :: RemoteEvent
 local telemetryRemote = ReplicatedStorage:WaitForChild("StarBloxPrivatePlaytestTelemetry", 10)
 
@@ -138,6 +140,25 @@ nextHint.Visible = false
 round(nextHint, 5)
 outline(nextHint, 0.15)
 constrainText(nextHint, 10, 13)
+
+local pilotButton = Instance.new("TextButton")
+pilotButton.Name = "StudyPilotButton"
+pilotButton.AnchorPoint = Vector2.new(1, 0)
+pilotButton.Position = UDim2.new(0.5, 76, 0, 42)
+pilotButton.Size = UDim2.fromOffset(110, 30)
+pilotButton.BackgroundColor3 = COLORS.accent
+pilotButton.Text = "Study Pilot"
+pilotButton.TextColor3 = Color3.new(1, 1, 1)
+pilotButton.Font = Enum.Font.GothamBold
+pilotButton.TextScaled = true
+pilotButton.AutoButtonColor = true
+pilotButton.Selectable = true
+pilotButton.Visible = false
+pilotButton.ZIndex = 20
+pilotButton.Parent = gui
+round(pilotButton, 5)
+outline(pilotButton, 0.15)
+constrainText(pilotButton, 10, 13)
 
 local toast = Instance.new("TextLabel")
 toast.Name = "Toast"
@@ -737,6 +758,8 @@ local function applyStatus(status)
 
 	updateClock()
 
+	pilotButton.Visible = type(status.pilot) == "table" and status.pilot.enabled == true
+
 	if type(status.recommendedStationName) == "string" then
 		nextHint.Text = "→ " .. status.recommendedStationName
 		nextHint.TextColor3 = if status.rewardCapReached == true then COLORS.muted else COLORS.warning
@@ -806,12 +829,20 @@ local function showActivity(activity)
 		button.Position = UDim2.new(0, 16, 0, (if hasRich then 208 else 130) + ((index - 1) * 52))
 	end
 	resultLabel.Position = UDim2.fromOffset(16, if hasRich then 364 else 286)
-	resultLabel.Text = if activity.scaffold == true
+	resultLabel.Text = if activity.mode == "pilot"
+		then string.format(
+			"Study Pilot • %d/%d",
+			tonumber(activity.pilotIndex) or 1,
+			tonumber(activity.pilotTotal) or 18
+		)
+		elseif activity.scaffold == true
 		then "Support step: solve this smaller question first."
 		elseif activity.scaffoldReturn == true
 		then "Use what you just practiced on the original question."
 		else "Choose the best answer."
-	resultLabel.TextColor3 = if activity.scaffold == true or activity.scaffoldReturn == true
+	resultLabel.TextColor3 = if activity.mode == "pilot"
+		then COLORS.accent
+		elseif activity.scaffold == true or activity.scaffoldReturn == true
 		then COLORS.warning
 		else COLORS.muted
 	for index, button in buttons do
@@ -833,6 +864,12 @@ local function friendlyFailure(response)
 		return "Your progress is still loading. Try again in a moment."
 	elseif response.code == "activity_not_open" then
 		return "Walk back to the station and tap Start Activity."
+	elseif response.code == "pilot_not_started" then
+		return "Tap Study Pilot to start a new pilot session."
+	elseif response.code == "pilot_disabled" then
+		return "Study Pilot is not available in this build."
+	elseif response.code == "pilot_queue_invalid" then
+		return "The pilot mix needs a refresh. Try again."
 	elseif response.code == "invalid_request" then
 		return "This activity reset. Reopen the station to continue."
 	end
@@ -851,6 +888,11 @@ for index, button in buttons do
 		end
 
 		local ok, response = pcall(function()
+			if currentActivity.mode == "pilot" then
+				return submitPilotAnswer:InvokeServer({
+					choice = currentActivity.choices[index],
+				})
+			end
 			return submitAnswer:InvokeServer({
 				activityId = currentActivity.id,
 				choice = currentActivity.choices[index],
@@ -863,7 +905,28 @@ for index, button in buttons do
 			shakePanel()
 		elseif response.correct == true then
 			sendPlaytestTelemetry("success_feedback_seen")
-			if response.scaffoldCleared == true and type(response.activity) == "table" then
+			if currentActivity.mode == "pilot" then
+				if response.pilotComplete == true then
+					local scoreText = if type(response.rubricScore) == "number" and type(response.rubricMaxPoints) == "number"
+						then string.format("  Reasoning: %d/%d.", response.rubricScore, response.rubricMaxPoints)
+						else ""
+					resultLabel.Text = (response.message or "Study Pilot complete.") .. scoreText
+					resultLabel.TextColor3 = COLORS.success
+					successPulse()
+					showToast("Study Pilot complete — 18 questions!", true)
+					task.delay(2.0, function()
+						hidePanel()
+						refreshStatus(1)
+					end)
+				elseif type(response.activity) == "table" then
+					showToast(response.message or "Nice work — next question.", true)
+					showActivity(response.activity)
+					successPulse()
+				else
+					resultLabel.Text = response.message or "Pilot question complete."
+					resultLabel.TextColor3 = COLORS.success
+				end
+			elseif response.scaffoldCleared == true and type(response.activity) == "table" then
 				showToast(response.message or "Good work. Now try the original question.", true)
 				showActivity(response.activity)
 				resultLabel.Text = response.message or "Use that idea on the original question."
@@ -924,6 +987,23 @@ for index, button in buttons do
 end
 
 closeButton.Activated:Connect(hidePanel)
+
+pilotButton.Activated:Connect(function()
+	if submitting then return end
+	submitting = true
+	pilotButton.Active = false
+	local ok, response = pcall(function()
+		return startPilot:InvokeServer()
+	end)
+	if ok and type(response) == "table" and response.ok == true and type(response.activity) == "table" then
+		showActivity(response.activity)
+		showToast("Study Pilot started — 18 questions.", true)
+	else
+		showToast(friendlyFailure(response), false)
+	end
+	pilotButton.Active = true
+	submitting = false
+end)
 
 onboardingButton.Activated:Connect(function()
 	onboardingDismissedLocally = true

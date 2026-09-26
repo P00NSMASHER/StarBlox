@@ -45,7 +45,10 @@
     "roblox:real-client-proof": "node scripts/verify-roblox-real-client-playtest.mjs",
     "roblox:production-server-boot-proof": "node scripts/verify-roblox-production-server-boot.mjs",
     "roblox:step9:prepare-release": "node scripts/prepare-step9-release-candidate.mjs",
-    "roblox:phase6:retention-report": "node scripts/verify-phase6-retention.mjs"
+    "roblox:phase6:retention-report": "node scripts/verify-phase6-retention.mjs",
+    "pilot:fetch-live-metrics": "node scripts/fetch-live-pilot-metrics.mjs",
+    "pilot:baseline": "node scripts/build-pilot-baseline.mjs",
+    "pilot:calibrate": "node scripts/calibrate-pilot-items.mjs"
   },
   "dependencies": {
     "lucide-react": "^0.468.0",

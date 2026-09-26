@@ -40,6 +40,12 @@ local ProfileTemplate = {
 		AdaptiveByStation = {},
 		SkillStats = {},
 		Experiments = {},
+		Pilot = {
+			SessionsStarted = 0,
+			SessionsCompleted = 0,
+			QuestionsCompleted = 0,
+			LastCompletedAt = 0,
+		},
 		RecentConceptIds = {},
 		WrongStreak = 0,
 	},
@@ -61,14 +67,14 @@ local ProfileTemplate = {
 	Settings = {
 		MusicVolume = 0.6,
 		DiagnosticsEnabled = false,
-		Brookhaven = {
-			SprintButton = true,
-			HideUI = false,
-			BabyCarSeat = "Off",
-			MuteOtherMusic = false,
-			HideHouseSigns = false,
-			HidePropsTool = false,
-		},
+	},
+	Brookhaven = {
+		SprintButton = true,
+		HideUI = false,
+		BabyCarSeat = "Off",
+		MuteOtherMusic = false,
+		HideHouseSigns = false,
+		HidePropsTool = false,
 	},
 
 	Rollout = {
