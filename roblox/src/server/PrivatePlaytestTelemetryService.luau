@@ -103,6 +103,65 @@ local function mergeCounters(target, incoming)
 	end
 end
 
+local function ensureBaselinePending(report, sessionNumber: number)
+	report.baselinePending = type(report.baselinePending) == "table" and report.baselinePending or {}
+	local key = tostring(sessionNumber)
+	local pending = report.baselinePending[key]
+	if type(pending) ~= "table" then
+		pending = {items = {}}
+		report.baselinePending[key] = pending
+	end
+	pending.items = type(pending.items) == "table" and pending.items or {}
+	return pending
+end
+
+local function ensureBaselinePendingItem(pending, questionId: string)
+	local item = pending.items[questionId]
+	if type(item) ~= "table" then
+		item = {
+			attempts = 0,
+			correct = 0,
+			wrong = 0,
+			firstAttempts = 0,
+			firstCorrect = 0,
+			rubricPoints = 0,
+			rubricMaxPoints = 0,
+			bucketCounts = {},
+			firstBucketCounts = {},
+			responseTimeBands = {},
+			misconceptionCounts = {},
+		}
+		pending.items[questionId] = item
+	end
+	return item
+end
+
+local function commitBaselinePending(report, sessionNumber: number): boolean
+	if type(report.baselinePending) ~= "table" then return false end
+	local key = tostring(sessionNumber)
+	local pending = report.baselinePending[key]
+	if type(pending) ~= "table" or type(pending.items) ~= "table" then return false end
+
+	for questionId, source in pending.items do
+		local target = report.itemAttempts[questionId]
+		if type(target) == "table" and type(source) == "table" then
+			target.baselinePilotAttempts += source.attempts or 0
+			target.baselinePilotCorrect += source.correct or 0
+			target.baselinePilotWrong += source.wrong or 0
+			target.baselineFirstAttempts += source.firstAttempts or 0
+			target.baselineFirstCorrect += source.firstCorrect or 0
+			target.baselineRubricPoints += source.rubricPoints or 0
+			target.baselineRubricMaxPoints += source.rubricMaxPoints or 0
+			mergeCounters(target.baselineBucketCounts, source.bucketCounts)
+			mergeCounters(target.baselineFirstBucketCounts, source.firstBucketCounts)
+			mergeCounters(target.baselineResponseTimeBands, source.responseTimeBands)
+			mergeCounters(target.baselineMisconceptionCounts, source.misconceptionCounts)
+		end
+	end
+	report.baselinePending[key] = nil
+	return true
+end
+
 function PrivatePlaytestTelemetryService.new(options)
 	local opts = options or {}
 	local self = setmetatable({}, PrivatePlaytestTelemetryService)
@@ -169,6 +228,7 @@ function PrivatePlaytestTelemetryService:_ensureSession(player)
 		activityIds = {},
 		questionIds = {},
 		itemAttempts = {},
+		baselinePending = {},
 		retention = {
 			firstStationSeconds = nil,
 			firstActivityId = nil,
@@ -619,6 +679,8 @@ function PrivatePlaytestTelemetryService:RecordServerEvent(player, eventName: an
 		local baseline = pilot and cleanBool(source.baseline)
 		local correct = cleanBool(source.correct)
 		local attemptIndex = clampInteger(source.attemptIndex, 1, 100)
+		local pilotSessionNumber = clampInteger(source.pilotSessionNumber, 0, 1000000)
+		local baselinePendingItem = nil
 		local pilotBucket = nil
 		if pilot then
 			item.pilotAttempts += 1
@@ -636,24 +698,30 @@ function PrivatePlaytestTelemetryService:RecordServerEvent(player, eventName: an
 				ensureCounter(item.pilotMisconceptionCounts, pilotMisconception)
 			end
 
-			if baseline then
-				item.baselinePilotAttempts += 1
-				if correct then item.baselinePilotCorrect += 1 else item.baselinePilotWrong += 1 end
+			if baseline and pilotSessionNumber >= 1 then
+				local pending = ensureBaselinePending(report, pilotSessionNumber)
+				baselinePendingItem = ensureBaselinePendingItem(pending, questionId)
+				baselinePendingItem.attempts += 1
+				if correct then
+					baselinePendingItem.correct += 1
+				else
+					baselinePendingItem.wrong += 1
+				end
 				if attemptIndex == 1 then
-					item.baselineFirstAttempts += 1
-					if correct then item.baselineFirstCorrect += 1 end
+					baselinePendingItem.firstAttempts += 1
+					if correct then baselinePendingItem.firstCorrect += 1 end
 					if pilotBucket ~= nil then
-						ensureCounter(item.baselineFirstBucketCounts, pilotBucket)
+						ensureCounter(baselinePendingItem.firstBucketCounts, pilotBucket)
 					end
 				end
 				if pilotBucket ~= nil then
-					ensureCounter(item.baselineBucketCounts, pilotBucket)
+					ensureCounter(baselinePendingItem.bucketCounts, pilotBucket)
 				end
 				if pilotBand ~= nil and ALLOWED_RESPONSE_TIME_BANDS[pilotBand] == true then
-					ensureCounter(item.baselineResponseTimeBands, pilotBand)
+					ensureCounter(baselinePendingItem.responseTimeBands, pilotBand)
 				end
 				if pilotMisconception ~= nil then
-					ensureCounter(item.baselineMisconceptionCounts, pilotMisconception)
+					ensureCounter(baselinePendingItem.misconceptionCounts, pilotMisconception)
 				end
 			end
 		end
@@ -662,9 +730,9 @@ function PrivatePlaytestTelemetryService:RecordServerEvent(player, eventName: an
 		if pilot then
 			item.pilotRubricPoints += rubricPoints
 			item.pilotRubricMaxPoints += rubricMaxPoints
-			if baseline then
-				item.baselineRubricPoints += rubricPoints
-				item.baselineRubricMaxPoints += rubricMaxPoints
+			if baselinePendingItem ~= nil then
+				baselinePendingItem.rubricPoints += rubricPoints
+				baselinePendingItem.rubricMaxPoints += rubricMaxPoints
 			end
 		end
 		item.rubricPoints += rubricPoints
@@ -702,11 +770,18 @@ function PrivatePlaytestTelemetryService:RecordServerEvent(player, eventName: an
 		end
 	elseif eventName == "pilot_started" then
 		if cleanBool(source.baseline) then
-			report.retention.baselinePilotSessionsStarted += 1
+			local pilotSessionNumber = clampInteger(source.pilotSessionNumber, 0, 1000000)
+			if pilotSessionNumber >= 1 then
+				ensureBaselinePending(report, pilotSessionNumber)
+				report.retention.baselinePilotSessionsStarted += 1
+			end
 		end
 	elseif eventName == "pilot_completed" then
 		if cleanBool(source.baseline) then
-			report.retention.baselinePilotSessionsCompleted += 1
+			local pilotSessionNumber = clampInteger(source.pilotSessionNumber, 0, 1000000)
+			if pilotSessionNumber >= 1 and commitBaselinePending(report, pilotSessionNumber) then
+				report.retention.baselinePilotSessionsCompleted += 1
+			end
 		end
 	elseif eventName == "station_opened" then
 		if report.retention.firstStationSeconds == nil then
