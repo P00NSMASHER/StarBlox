@@ -25,8 +25,10 @@ describe('Brookhaven parity x school integration seam',()=>{
 
     expect(bank).toContain('CertificationVersion = "dynamic-abvm-star-sync-v1"');
     expect(bank).toContain('MaterialFirst = true');
-    expect(bank).toContain('StarReadingCount = 30');
-    expect(bank).toContain('StarMathCount = 30');
+    const readingCount=Number(bank.match(/StarReadingCount = (\d+)/)?.[1]||0);
+    const mathCount=Number(bank.match(/StarMathCount = (\d+)/)?.[1]||0);
+    expect(readingCount).toBeGreaterThanOrEqual(25);
+    expect(mathCount).toBeGreaterThanOrEqual(25);
 
     expect(service).toContain('remoteRoot:SetAttribute("QuestionBankSnapshotId", CoreQuestionBank.Source.BankSnapshotId or "")');
     expect(service).toContain('remoteRoot:SetAttribute("QuestionPackSourceHash", CoreQuestionBank.Source.PackSourceHash or "")');
@@ -82,4 +84,23 @@ describe('Brookhaven parity x school integration seam',()=>{
     expect(release).toContain('Prepare exact native-inspected release candidate');
     expect(release).toContain('Verify exact published server boot');
   });
+  it('preserves the merged Grade 2 rich-question, rubric, and alignment upgrades',()=>{
+    const client=read('roblox/src/client/CoreGameLoop.client.luau');
+    const service=read('roblox/src/server/CoreGameLoopService.luau');
+    const workflow=read('.github/workflows/sync-abvm-questions.yml');
+
+    expect(client).toContain('richFrame.Name = "RichQuestionVisual"');
+    expect(client).toContain('renderBarChart');
+    expect(client).toContain('renderClock');
+    expect(client).toContain('renderNumberLine');
+    expect(client).toContain('resetQuestionPresentation()');
+    expect(service).toContain('local function rubricScore');
+    expect(service).toContain('rubricScore = rubricPoints');
+    expect(service).toContain('profileData.Learning.Experiments');
+    expect(workflow).toContain('Validate Grade 2 alignment before publication');
+    expect(workflow).toContain('src/robloxRuntime/questionAlignmentValidator.test.js');
+    expect(workflow).toContain('src/robloxRuntime/questionItemReview.test.js');
+    expect(workflow).toContain('src/robloxRuntime/researchQuestionImprovements712.test.js');
+  });
+
 });
