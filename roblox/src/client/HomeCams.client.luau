@@ -226,8 +226,9 @@ openHomeCams.Event:Connect(function()
 	end
 
 	local avatarEditor = playerGui:FindFirstChild("BrookhavenAvatarEditorUI")
-	if avatarEditor and avatarEditor:IsA("ScreenGui") then
-		avatarEditor.Enabled = false
+	local closeEditor = avatarEditor and avatarEditor:FindFirstChild("CloseAvatarEditor")
+	if closeEditor and closeEditor:IsA("BindableEvent") then
+		closeEditor:Fire()
 	end
 
 	local camera = Workspace.CurrentCamera
