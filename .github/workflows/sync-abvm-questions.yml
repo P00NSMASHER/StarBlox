@@ -9,6 +9,7 @@ on:
   workflow_dispatch:
 permissions:
   contents: write
+  actions: write
 
 concurrency:
   group: starblox-abvm-question-sync
@@ -91,6 +92,7 @@ jobs:
             src/robloxRuntime/phase8MirrorSystems.test.js
 
       - name: Commit only when the verified curriculum snapshot changed
+        id: curriculum_commit
         shell: bash
         run: |
           set -euo pipefail
@@ -100,10 +102,24 @@ jobs:
             roblox/src/server/CoreQuestionBank.luau
           if git diff --cached --quiet; then
             echo "No verified curriculum change; keeping the current StarBlox bank."
+            echo "changed=false" >> "$GITHUB_OUTPUT"
           else
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
             git diff --cached --check
             git commit -m "Refresh StarBlox questions from verified ABVM material"
             git push
+            echo "changed=true" >> "$GITHUB_OUTPUT"
           fi
+
+      - name: Dispatch the gated private Roblox refresh
+        if: steps.curriculum_commit.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          gh workflow run step9-fast-release.yml \
+            --ref main \
+            -f action=publish-private
+          echo "Dispatched the existing fail-closed private release workflow for the refreshed school bank."
