@@ -58,7 +58,17 @@ local function preferredWordSkill(question, classDef): boolean
 	return contains(classDef.PreferredSkills, question.Skill)
 end
 
-local function filteredForClass(classId: string, preferredSubject: string?)
+local function weaknessScore(question, skillStats)
+	local stats = type(skillStats) == "table" and skillStats[tostring(question.Skill or question.Domain or "unknown")] or nil
+	if type(stats) ~= "table" then return 1 end
+	local seen = math.max(0, tonumber(stats.Seen) or 0)
+	local correct = math.max(0, tonumber(stats.Correct) or 0)
+	local wrongStreak = math.max(0, tonumber(stats.ConsecutiveWrong) or 0)
+	local accuracy = if seen > 0 then correct / seen else 0.5
+	return (1 - accuracy) + math.min(1, wrongStreak * 0.2)
+end
+
+local function filteredForClass(classId: string, preferredSubject: string?, skillStats: any?)
 	local classDef = SchoolConfig.Classes[classId]
 	if classDef == nil then
 		return nil
@@ -93,6 +103,15 @@ local function filteredForClass(classId: string, preferredSubject: string?)
 		if #preferred >= SchoolConfig.QuestionsPerAcademicPeriod then
 			candidates = preferred
 		end
+	end
+
+	if classId == "star-lab" and SchoolConfig.QuestionSelection.WeakSkillBoost == true then
+		table.sort(candidates, function(left, right)
+			local leftScore = weaknessScore(left, skillStats)
+			local rightScore = weaknessScore(right, skillStats)
+			if leftScore == rightScore then return left.Id < right.Id end
+			return leftScore > rightScore
+		end)
 	end
 
 	return candidates
@@ -144,6 +163,12 @@ local function pinQuestion(question)
 		Difficulty = question.Difficulty,
 		Provenance = question.Provenance,
 		SourceFact = question.SourceFact,
+		Standards = question.Standards,
+		DOK = question.DOK,
+		Hint = question.Hint,
+		Scaffold = question.Scaffold,
+		WrongFeedback = question.WrongFeedback,
+		Misconceptions = question.Misconceptions,
 	}
 end
 
@@ -151,14 +176,15 @@ function ClassQuestionSelector.SelectBundle(
 	classId: string,
 	cursor: any,
 	recentQuestionIds: any,
-	preferredSubject: string?
+	preferredSubject: string?,
+	skillStats: any?
 )
 	local classDef = SchoolConfig.Classes[classId]
 	if classDef == nil then
 		return {ok = false, code = "unknown_class"}
 	end
 
-	local candidates = filteredForClass(classId, preferredSubject)
+	local candidates = filteredForClass(classId, preferredSubject, skillStats)
 	if candidates == nil or #candidates == 0 then
 		return {ok = false, code = "no_questions"}
 	end
@@ -225,6 +251,17 @@ function ClassQuestionSelector.SelectBundle(
 		questions = selected,
 		nextCursor = position,
 	}
+end
+
+function ClassQuestionSelector.SelectBundleForProfile(classId: string, cursor: any, profileData)
+	local learning = profileData and profileData.Learning or {}
+	return ClassQuestionSelector.SelectBundle(
+		classId,
+		cursor,
+		learning.RecentQuestionIds or {},
+		nil,
+		learning.SkillStats or {}
+	)
 end
 
 function ClassQuestionSelector.GetServerQuestion(questionId: string)
