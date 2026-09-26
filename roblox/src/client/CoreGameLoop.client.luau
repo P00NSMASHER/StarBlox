@@ -560,8 +560,14 @@ local function showActivity(activity)
 	activityTitle.Text = activity.title or activity.stationName or "StarBlox Activity"
 	activityTitle.TextColor3 = if typeof(activity.accent) == "Color3" then activity.accent else COLORS.text
 	promptLabel.Text = activity.prompt or ""
-	resultLabel.Text = "Choose the best answer."
-	resultLabel.TextColor3 = COLORS.muted
+	resultLabel.Text = if activity.scaffold == true
+		then "Support step: solve this smaller question first."
+		elseif activity.scaffoldReturn == true
+		then "Use what you just practiced on the original question."
+		else "Choose the best answer."
+	resultLabel.TextColor3 = if activity.scaffold == true or activity.scaffoldReturn == true
+		then COLORS.warning
+		else COLORS.muted
 	for index, button in buttons do
 		button.Text = tostring(activity.choices[index] or "")
 		button.Visible = activity.choices[index] ~= nil
@@ -611,30 +617,50 @@ for index, button in buttons do
 			shakePanel()
 		elseif response.correct == true then
 			sendPlaytestTelemetry("success_feedback_seen")
-			resultLabel.Text = response.explanation or response.message or "Station complete!"
-			resultLabel.TextColor3 = COLORS.success
-			successPulse()
-
-			local toastMessage = response.message or "Station powered!"
-			if type(response.rewardSummary) == "string" and response.rewardSummary ~= "" then
-				toastMessage = toastMessage .. "  " .. response.rewardSummary
-			end
-			if response.cosmeticUnlocked == true then
-				toastMessage = "Spark Trail unlocked!  " .. toastMessage
-			end
-			showToast(toastMessage, true)
-
-			if type(response.status) == "table" then
-				applyStatus(response.status)
+			if response.scaffoldCleared == true and type(response.activity) == "table" then
+				showToast(response.message or "Good work. Now try the original question.", true)
+				showActivity(response.activity)
+				resultLabel.Text = response.message or "Use that idea on the original question."
+				resultLabel.TextColor3 = COLORS.success
+				successPulse()
 			else
-				refreshStatus(1)
+				resultLabel.Text = response.explanation or response.message or "Station complete!"
+				resultLabel.TextColor3 = COLORS.success
+				successPulse()
+
+				local toastMessage = response.message or "Station powered!"
+				if type(response.rewardSummary) == "string" and response.rewardSummary ~= "" then
+					toastMessage = toastMessage .. "  " .. response.rewardSummary
+				end
+				if response.cosmeticUnlocked == true then
+					toastMessage = "Spark Trail unlocked!  " .. toastMessage
+				end
+				showToast(toastMessage, true)
+
+				if type(response.status) == "table" then
+					applyStatus(response.status)
+				else
+					refreshStatus(1)
+				end
+				task.delay(1.6, hidePanel)
 			end
-			task.delay(1.6, hidePanel)
 		else
 			sendPlaytestTelemetry("wrong_feedback_seen")
-			resultLabel.Text = response.message or "Try another answer!"
-			resultLabel.TextColor3 = COLORS.warning
-			shakePanel()
+			local feedback = response.message or "Try another answer!"
+			if type(response.hint) == "string" and response.hint ~= "" then
+				feedback = feedback .. "  Hint: " .. response.hint
+			end
+			if type(response.activity) == "table" then
+				showToast(response.message or "Let’s break this into a smaller step.", false)
+				showActivity(response.activity)
+			else
+				if type(response.scaffold) == "string" and response.scaffold ~= "" then
+					feedback = response.scaffold
+				end
+				resultLabel.Text = feedback
+				resultLabel.TextColor3 = COLORS.warning
+				shakePanel()
+			end
 		end
 
 		submitting = false
