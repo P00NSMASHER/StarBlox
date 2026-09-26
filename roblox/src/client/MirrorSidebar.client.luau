@@ -650,7 +650,7 @@ local mirrorState = nil
 local roleplayState = nil
 local busy = false
 local activeToolCategory = "all"
-local activeVehicleCategory = "all"
+local activeVehicleCategory = "street"
 local activeToolOwnedOnly = false
 local activeVehicleOwnedOnly = false
 local activeQuickChatCategory = "phrases"
@@ -1177,12 +1177,8 @@ local function symbolForVehicle(kind: string): string
 	return "▰"
 end
 
-local function vehicleMatchesCategory(kind: string, category: string): boolean
-	if category == "all" then return true end
-	if category == "cars" then return kind == "car" end
-	if category == "utility" then return kind == "truck" or kind == "van" or kind == "cart" end
-	if category == "bikes" then return kind == "bike" end
-	return false
+local function vehicleMatchesCategory(catalogCategory: string, category: string): boolean
+	return string.lower(catalogCategory) == string.lower(category)
 end
 
 local showVehicles
@@ -1287,10 +1283,12 @@ showVehicles = function()
 		closePanel()
 	end)
 	setCategories({
-		{Id = "all", Symbol = "★"},
-		{Id = "cars", Symbol = "▰"},
-		{Id = "utility", Symbol = "▱"},
-		{Id = "bikes", Symbol = "○"},
+		{Id = "small", Symbol = "○"},
+		{Id = "street", Symbol = "▰"},
+		{Id = "work", Symbol = "▱"},
+		{Id = "event", Symbol = "★"},
+		{Id = "boats", Symbol = "≈"},
+		{Id = "flying", Symbol = "↑"},
 	}, activeVehicleCategory, function(category)
 		activeVehicleCategory = category
 		showVehicles()
@@ -1299,7 +1297,8 @@ showVehicles = function()
 	local order = 1
 	for _, vehicle in mirrorState.vehicles or {} do
 		local kind = tostring(vehicle.Kind or "car")
-		if vehicleMatchesCategory(kind, activeVehicleCategory) then
+		local catalogCategory = tostring(vehicle.Category or "")
+		if vehicleMatchesCategory(catalogCategory, activeVehicleCategory) then
 			local id = tostring(vehicle.Id)
 			local owned = mirrorState.ownedVehicles and mirrorState.ownedVehicles[id] == true
 			if activeVehicleOwnedOnly and not owned then
