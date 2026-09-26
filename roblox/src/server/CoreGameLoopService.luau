@@ -262,6 +262,10 @@ local function publicActivity(activity, question)
 		standards = if type(question.Standards) == "table" then table.clone(question.Standards) else {},
 		source = activity.Source,
 		sourceWeek = CoreQuestionBank.Source.WeekLabel,
+		bankSnapshotId = CoreQuestionBank.Source.BankSnapshotId,
+		sourceHash = CoreQuestionBank.Source.PackSourceHash,
+		tier = question.Tier,
+		provenance = question.Provenance,
 		reward = {
 			coins = Config.QuestionReward.Coins,
 			xp = Config.QuestionReward.XP,
@@ -381,6 +385,14 @@ function CoreGameLoopService.BuildStatus(profileData)
 		recommendedActivityId = recommendedActivityId,
 		recommendedStationName = recommendedStationName,
 		recommendedQuestionId = if recommendedQuestion ~= nil then recommendedQuestion.Id else nil,
+		questionBank = {
+			snapshotId = CoreQuestionBank.Source.BankSnapshotId,
+			sourceHash = CoreQuestionBank.Source.PackSourceHash,
+			sourceWeek = CoreQuestionBank.Source.WeekLabel,
+			materialFirst = CoreQuestionBank.Source.MaterialFirst == true,
+			starReadingCount = tonumber(CoreQuestionBank.Source.StarReadingCount) or 0,
+			starMathCount = tonumber(CoreQuestionBank.Source.StarMathCount) or 0,
+		},
 		challenge = {
 			name = Config.ChallengeName,
 			completed = #completedIds,
@@ -500,6 +512,12 @@ function CoreGameLoopService.new(profiles, replicas, telemetry)
 	local remoteRoot = Instance.new("Folder")
 	remoteRoot.Name = REMOTE_ROOT_NAME
 	remoteRoot:SetAttribute("LoopId", Config.LoopId)
+	remoteRoot:SetAttribute("QuestionBankSnapshotId", CoreQuestionBank.Source.BankSnapshotId or "")
+	remoteRoot:SetAttribute("QuestionPackSourceHash", CoreQuestionBank.Source.PackSourceHash or "")
+	remoteRoot:SetAttribute("QuestionSourceWeek", CoreQuestionBank.Source.WeekLabel or "")
+	remoteRoot:SetAttribute("QuestionMaterialFirst", CoreQuestionBank.Source.MaterialFirst == true)
+	remoteRoot:SetAttribute("StarReadingCount", tonumber(CoreQuestionBank.Source.StarReadingCount) or 0)
+	remoteRoot:SetAttribute("StarMathCount", tonumber(CoreQuestionBank.Source.StarMathCount) or 0)
 	remoteRoot.Parent = ReplicatedStorage
 
 	local activityOpened = Instance.new("RemoteEvent")
@@ -612,6 +630,9 @@ function CoreGameLoopService:PlayerReady(player: Player, data: {[string]: any})
 	player:SetAttribute("StarBloxLoopRuns", state.LoopRuns)
 	player:SetAttribute("StarBloxRunNumber", state.RunNumber)
 	player:SetAttribute("StarBloxOnboardingSeen", state.OnboardingSeen == true)
+	player:SetAttribute("StarBloxQuestionBankSnapshotId", CoreQuestionBank.Source.BankSnapshotId or "")
+	player:SetAttribute("StarBloxQuestionPackSourceHash", CoreQuestionBank.Source.PackSourceHash or "")
+	player:SetAttribute("StarBloxQuestionSourceWeek", CoreQuestionBank.Source.WeekLabel or "")
 	player:SetAttribute(
 		"StarBloxSparkTrailUnlocked",
 		data.Inventory.Cosmetics[Config.FirstLoopCosmeticId] == true
