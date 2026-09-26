@@ -78,6 +78,9 @@ jobs:
             --pack .abvm/pages/data/study-pack.json \
             --scanner-commit "${{ steps.scanner.outputs.sha }}"
 
+      - name: Validate Grade 2 alignment before publication
+        run: node scripts/validate-question-alignment.mjs
+
       - name: Install StarBlox QA dependencies
         run: npm install --no-audit --no-fund
 
@@ -86,6 +89,9 @@ jobs:
           npx vitest run \
             src/robloxRuntime/phase6QuestionBank.test.js \
             src/robloxRuntime/dailyQuestionSync.test.js \
+            src/robloxRuntime/questionAlignmentValidator.test.js \
+            src/robloxRuntime/questionItemReview.test.js \
+            src/robloxRuntime/researchQuestionImprovements712.test.js \
             src/robloxRuntime/coreLoopProof.test.js \
             src/robloxRuntime/phase7EconomyHomes.test.js \
             src/robloxRuntime/phase8MirrorSystems.test.js
