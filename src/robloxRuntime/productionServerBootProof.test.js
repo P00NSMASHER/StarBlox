@@ -54,6 +54,11 @@ describe('Step 9 joinability: production server boot gate', () => {
     expect(script).toContain('CoreLoop service missing after bootstrap');
     expect(script).toContain('private playtest telemetry service missing after bootstrap');
     expect(script).toContain('HomeEconomy service missing after bootstrap');
+    expect(script).toContain('MirrorLifestyle service missing after bootstrap');
+    expect(script).toContain('Brookhaven mirror world mode missing');
+    expect(script).toContain('mirror learning-coin reward mismatch');
+    expect(script).toContain('Brookhaven mirror remotes missing after bootstrap');
+    expect(script).toContain('vehicle runtime folder missing after bootstrap');
     expect(script).toContain('StarBlox shop remotes missing after bootstrap');
     expect(script).toContain('player-home runtime folder missing after bootstrap');
     expect(script).toContain('Phase 7 material-first marker missing');
