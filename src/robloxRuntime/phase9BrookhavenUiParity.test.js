@@ -52,7 +52,10 @@ describe('Brookhaven recording parity: post-opening world shell',()=>{
 
     expect(sidebar).toContain('panel.Name = "BrookhavenContextPanel"');
     expect(sidebar).toContain('panel.BackgroundTransparency = 1');
-    expect(sidebar).toContain('grid.CellSize = UDim2.fromOffset(76, 64)');
+    expect(sidebar).toContain('grid.CellSize = UDim2.fromOffset(62, 64)');
+    expect(sidebar).toContain('categoryRail.Name = "CategoryRail"');
+    expect(sidebar).toContain('{Id = "tech", Symbol = "▯"}');
+    expect(sidebar).toContain('{Id = "cars", Symbol = "▰"}');
     expect(sidebar).toContain('close.BackgroundColor3 = UI.red');
     expect(sidebar).toContain('setActionLabelsVisible(false)');
   });
