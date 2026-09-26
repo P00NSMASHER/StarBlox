@@ -376,6 +376,9 @@ function ClassSessionService.OpenClass(
 		if existing.ClassId ~= classId then
 			return {ok = false, code = "period_class_conflict"}
 		end
+		if existing.Status == "completed" then
+			return {ok = false, code = "class_already_completed"}
+		end
 		if existing.Status ~= "missed" then
 			return {
 				ok = true,
