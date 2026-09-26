@@ -37,6 +37,17 @@ local function recentSkillSet(profileData, bank)
 	return result
 end
 
+local function recentQuestionSet(profileData)
+	local result = {}
+	local learning = profileData.Learning
+	local ids = if type(learning) == "table" and type(learning.RecentQuestionIds) == "table"
+		then learning.RecentQuestionIds else {}
+	for _, id in ids do
+		if type(id) == "string" then result[id] = true end
+	end
+	return result
+end
+
 function LearningPriority.SkillScore(
 	profileData,
 	skill: string,
@@ -101,15 +112,23 @@ function LearningPriority.SelectForStation(profileData, bank, stationId: string,
 	end
 
 	local candidates = {}
+	local fallbackCandidates = {}
+	local recentIds = recentQuestionSet(profileData)
 	for index = materialCount + 1, #pool do
 		local q = pool[index]
 		if type(targetDifficulty) ~= "number" or q.Difficulty == targetDifficulty then
-			table.insert(candidates, q)
+			table.insert(fallbackCandidates, q)
+			if recentIds[q.Id] ~= true then table.insert(candidates, q) end
 		end
 	end
-	if #candidates == 0 then
-		for index = materialCount + 1, #pool do table.insert(candidates, pool[index]) end
+	if #fallbackCandidates == 0 then
+		for index = materialCount + 1, #pool do
+			local q = pool[index]
+			table.insert(fallbackCandidates, q)
+			if recentIds[q.Id] ~= true then table.insert(candidates, q) end
+		end
 	end
+	if #candidates == 0 then candidates = fallbackCandidates end
 	local ranked = LearningPriority.RankQuestions(
 		profileData,
 		candidates,
