@@ -47,7 +47,9 @@
     "roblox:phase6:retention-report": "node scripts/verify-phase6-retention.mjs",
     "pilot:fetch-live-metrics": "node scripts/fetch-live-pilot-metrics.mjs",
     "pilot:baseline": "node scripts/build-pilot-baseline.mjs",
-    "pilot:calibrate": "node scripts/calibrate-pilot-items.mjs"
+    "pilot:calibrate": "node scripts/calibrate-pilot-items.mjs",
+    "learning:automation-state": "node scripts/derive-learning-automation.mjs",
+    "learning:star-checkpoint": "node scripts/evaluate-star-checkpoint.mjs"
   },
   "dependencies": {
     "lucide-react": "^0.468.0",
