@@ -241,7 +241,7 @@ function ClassSessionService.OpenClass(
 
 	local bundle
 	if classId == "star-lab" then
-		bundle = ClassQuestionSelector.SelectBundleForProfile(classId, cursor, profileData)
+		bundle = ClassQuestionSelector.SelectBundleForProfile(classId, cursor, profileData, schoolDayId)
 	else
 		bundle = ClassQuestionSelector.SelectBundle(
 			classId,
