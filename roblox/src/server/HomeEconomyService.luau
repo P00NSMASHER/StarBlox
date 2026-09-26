@@ -1,5 +1,6 @@
 --!strict
 
+local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local TweenService = game:GetService("TweenService")
 local Workspace = game:GetService("Workspace")
@@ -529,6 +530,8 @@ function HomeEconomyService.new(profiles, replicas, spawnCFrame: CFrame, familyS
 	self._lastHouseSwapAt = {}
 	self._doorLocked = {}
 	self._doorStates = {}
+	self._roommateByOwner = {}
+	self._bannedByOwner = {}
 
 	local worldRoot = Workspace:FindFirstChild(WorldPlotBindings.WorldRootName)
 	assert(
@@ -587,6 +590,18 @@ function HomeEconomyService.new(profiles, replicas, spawnCFrame: CFrame, familyS
 	setDoorsLocked.Name = "SetDoorsLocked"
 	setDoorsLocked.Parent = remoteRoot
 
+	local getHouseAccessState = Instance.new("RemoteFunction")
+	getHouseAccessState.Name = "GetHouseAccessState"
+	getHouseAccessState.Parent = remoteRoot
+
+	local setRoommate = Instance.new("RemoteFunction")
+	setRoommate.Name = "SetRoommate"
+	setRoommate.Parent = remoteRoot
+
+	local setHouseBan = Instance.new("RemoteFunction")
+	setHouseBan.Name = "SetHouseBan"
+	setHouseBan.Parent = remoteRoot
+
 	local setPlacement = Instance.new("RemoteFunction")
 	setPlacement.Name = "SetPlacement"
 	setPlacement.Parent = remoteRoot
@@ -632,6 +647,15 @@ function HomeEconomyService.new(profiles, replicas, spawnCFrame: CFrame, familyS
 	end
 	setDoorsLocked.OnServerInvoke = function(player: Player, locked: any)
 		return self:_setDoorsLocked(player, locked)
+	end
+	getHouseAccessState.OnServerInvoke = function(player: Player)
+		return self:_houseAccessState(player)
+	end
+	setRoommate.OnServerInvoke = function(player: Player, targetUserId: any)
+		return self:_setRoommate(player, targetUserId)
+	end
+	setHouseBan.OnServerInvoke = function(player: Player, targetUserId: any, banned: any)
+		return self:_setHouseBan(player, targetUserId, banned)
 	end
 	setPlacement.OnServerInvoke = function(player: Player, itemId: any, payload: any)
 		return self:_setPlacement(player, itemId, payload)
@@ -717,6 +741,129 @@ function HomeEconomyService:_homeCFrame(player: Player): (CFrame, any)
 end
 
 
+function HomeEconomyService:_resetAccessSettings(player: Player)
+	self._doorLocked[player] = false
+	self._roommateByOwner[player] = nil
+	self._bannedByOwner[player] = {}
+end
+
+function HomeEconomyService:_pruneAccessSettings(player: Player)
+	local roommate = self._roommateByOwner[player]
+	if roommate ~= nil and roommate.Parent ~= Players then
+		self._roommateByOwner[player] = nil
+	end
+
+	local banned = self._bannedByOwner[player]
+	if banned == nil then
+		banned = {}
+		self._bannedByOwner[player] = banned
+	end
+	for visitor in banned do
+		if visitor.Parent ~= Players or self._family:AreFamily(player, visitor) then
+			banned[visitor] = nil
+		end
+	end
+end
+
+function HomeEconomyService:_houseAccessState(player: Player)
+	self:_pruneAccessSettings(player)
+	local roommate = self._roommateByOwner[player]
+	local banned = self._bannedByOwner[player] or {}
+
+	local bannedPlayers = {}
+	for visitor in banned do
+		table.insert(bannedPlayers, {
+			UserId = visitor.UserId,
+			DisplayName = visitor.DisplayName,
+			Name = visitor.Name,
+		})
+	end
+	table.sort(bannedPlayers, function(a, b)
+		return string.lower(a.DisplayName) < string.lower(b.DisplayName)
+	end)
+
+	local candidates = {}
+	for _, candidate in Players:GetPlayers() do
+		if candidate ~= player and not self._family:AreFamily(player, candidate) then
+			table.insert(candidates, {
+				UserId = candidate.UserId,
+				DisplayName = candidate.DisplayName,
+				Name = candidate.Name,
+				IsRoommate = roommate == candidate,
+				IsBanned = banned[candidate] == true,
+			})
+		end
+	end
+	table.sort(candidates, function(a, b)
+		return string.lower(a.DisplayName) < string.lower(b.DisplayName)
+	end)
+
+	return {
+		ok = true,
+		doorsLocked = self._doorLocked[player] == true,
+		roommate = if roommate ~= nil then {
+			UserId = roommate.UserId,
+			DisplayName = roommate.DisplayName,
+			Name = roommate.Name,
+		} else nil,
+		banned = bannedPlayers,
+		candidates = candidates,
+	}
+end
+
+function HomeEconomyService:_setRoommate(player: Player, targetUserId: any)
+	if targetUserId == nil or targetUserId == false or tonumber(targetUserId) == 0 then
+		self._roommateByOwner[player] = nil
+		return {ok = true, roommateUserId = nil}
+	end
+
+	local parsed = tonumber(targetUserId)
+	if parsed == nil or parsed ~= math.floor(parsed) then
+		return {ok = false, code = "invalid_roommate"}
+	end
+	local target = Players:GetPlayerByUserId(parsed)
+	if target == nil or target == player then
+		return {ok = false, code = "roommate_unavailable"}
+	end
+	if self._family:AreFamily(player, target) then
+		return {ok = false, code = "family_already_has_access"}
+	end
+
+	self:_pruneAccessSettings(player)
+	self._roommateByOwner[player] = target
+	local banned = self._bannedByOwner[player]
+	if banned ~= nil then
+		banned[target] = nil
+	end
+	return {ok = true, roommateUserId = target.UserId}
+end
+
+function HomeEconomyService:_setHouseBan(player: Player, targetUserId: any, bannedValue: any)
+	local parsed = tonumber(targetUserId)
+	if parsed == nil or parsed ~= math.floor(parsed) or type(bannedValue) ~= "boolean" then
+		return {ok = false, code = "invalid_house_ban"}
+	end
+	local target = Players:GetPlayerByUserId(parsed)
+	if target == nil or target == player then
+		return {ok = false, code = "ban_target_unavailable"}
+	end
+	if bannedValue and self._family:AreFamily(player, target) then
+		return {ok = false, code = "family_cannot_be_banned"}
+	end
+
+	self:_pruneAccessSettings(player)
+	local banned = self._bannedByOwner[player]
+	if bannedValue then
+		if self._roommateByOwner[player] == target then
+			self._roommateByOwner[player] = nil
+		end
+		banned[target] = true
+	else
+		banned[target] = nil
+	end
+	return {ok = true, targetUserId = target.UserId, banned = bannedValue}
+end
+
 function HomeEconomyService:_houseSwapRemaining(player: Player): number
 	local previous = self._lastHouseSwapAt[player]
 	if previous == nil then
@@ -730,10 +877,18 @@ function HomeEconomyService:_markHouseSwap(player: Player)
 end
 
 function HomeEconomyService:_canUseHomeDoor(owner: Player, visitor: Player): boolean
+	if owner == visitor or self._family:CanAccessHome(owner, visitor) then
+		return true
+	end
+	self:_pruneAccessSettings(owner)
+	local banned = self._bannedByOwner[owner]
+	if banned ~= nil and banned[visitor] == true then
+		return false
+	end
 	if self._doorLocked[owner] ~= true then
 		return true
 	end
-	return self._family:CanAccessHome(owner, visitor)
+	return self._roommateByOwner[owner] == visitor
 end
 
 function HomeEconomyService:_bindHomeDoor(owner: Player, door: BasePart)
@@ -981,7 +1136,7 @@ function HomeEconomyService:_selectPlot(player: Player, plotId: any)
 		self._usedPlots[targetIndex] = player
 		home.PlotId = WorldPlotBindings.Plots[targetIndex].Id
 		if oldSlot ~= nil and oldSlot ~= targetIndex then
-			self._doorLocked[player] = false
+			self:_resetAccessSettings(player)
 			self:_markHouseSwap(player)
 		end
 		player:SetAttribute("StarBloxHomePlotId", home.PlotId)
@@ -1184,7 +1339,7 @@ function HomeEconomyService:_purchaseHomeStyle(player: Player, styleId: any)
 		if home.OwnedStyles[styleId] == true then
 			if home.SelectedStyle ~= styleId then
 				home.SelectedStyle = styleId
-				self._doorLocked[player] = false
+				self:_resetAccessSettings(player)
 				self:_markHouseSwap(player)
 			end
 			self._replicas:Sync(player, data)
@@ -1210,7 +1365,7 @@ function HomeEconomyService:_purchaseHomeStyle(player: Player, styleId: any)
 		data.Economy.Coins -= style.Price
 		home.OwnedStyles[styleId] = true
 		home.SelectedStyle = styleId
-		self._doorLocked[player] = false
+		self:_resetAccessSettings(player)
 		self:_markHouseSwap(player)
 		self._replicas:Sync(player, data)
 		self:_rebuildHome(player, data)
@@ -1264,7 +1419,7 @@ function HomeEconomyService:_selectHomeStyle(player: Player, styleId: any)
 				return
 			end
 			home.SelectedStyle = styleId
-			self._doorLocked[player] = false
+			self:_resetAccessSettings(player)
 			self:_markHouseSwap(player)
 		end
 		self._replicas:Sync(player, data)
@@ -1426,7 +1581,7 @@ function HomeEconomyService:_returnWorld(player: Player)
 end
 
 function HomeEconomyService:PlayerReady(player: Player, profileData)
-	self._doorLocked[player] = false
+	self:_resetAccessSettings(player)
 	local owned = ensureInventory(profileData)
 	local home = ensureHome(profileData)
 	ensurePlacementDefaults(home, owned)
@@ -1447,6 +1602,8 @@ function HomeEconomyService:PlayerRemoving(player: Player)
 	self._lastHouseSwapAt[player] = nil
 	self._doorLocked[player] = nil
 	self._doorStates[player] = nil
+	self._roommateByOwner[player] = nil
+	self._bannedByOwner[player] = nil
 end
 
 function HomeEconomyService:Destroy()
@@ -1455,6 +1612,11 @@ function HomeEconomyService:Destroy()
 	end
 	self._slots = {}
 	self._usedPlots = {}
+	self._lastHouseSwapAt = {}
+	self._doorLocked = {}
+	self._doorStates = {}
+	self._roommateByOwner = {}
+	self._bannedByOwner = {}
 	if self._homeFolder ~= nil and self._homeFolder.Parent ~= nil then
 		self._homeFolder:Destroy()
 	end
