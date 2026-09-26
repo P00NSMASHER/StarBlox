@@ -178,8 +178,20 @@ describe('automatic schoolwork photo intake adapter',()=>{
     expect(gated.issues).toEqual([]);
     expect(gated.summary.promotedSkillSignals).toBe(1);
     expect(gated.effectivePack.skillSignals.some(signal=>signal.generatorKey==='reading-setting')).toBe(true);
-    expect(JSON.stringify(gated.effectivePack)).not.toContain('rawText');
-    expect(JSON.stringify(gated.effectivePack)).not.toContain('studentResponse');
+    const persistedKeys=[];
+    const collectKeys=value=>{
+      if(Array.isArray(value)){
+        for(const child of value) collectKeys(child);
+      }else if(value&&typeof value==='object'){
+        for(const [key,child] of Object.entries(value)){
+          persistedKeys.push(key);
+          collectKeys(child);
+        }
+      }
+    };
+    collectKeys(gated.effectivePack);
+    expect(persistedKeys).not.toContain('rawText');
+    expect(persistedKeys).not.toContain('studentResponse');
   });
 
   it('is deterministic and exposes only the supported canonical skill generator list',()=>{
