@@ -618,7 +618,7 @@ for index, button in buttons do
 
 			local toastMessage = response.message or "Station powered!"
 			if type(response.rewardSummary) == "string" and response.rewardSummary ~= "" then
-				toastMessage ..= "  " .. response.rewardSummary
+				toastMessage = toastMessage .. "  " .. response.rewardSummary
 			end
 			if response.cosmeticUnlocked == true then
 				toastMessage = "Spark Trail unlocked!  " .. toastMessage
