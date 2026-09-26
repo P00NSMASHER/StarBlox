@@ -5,8 +5,8 @@
 -- Only the mutable Workspace/BrookhavenWorldRuntime projection may receive
 -- prompts or transient gameplay property changes.
 local WorldInteractionBindings = table.freeze({
-	SchemaVersion = 3,
-	Revision = "reviewed-runtime-interactions-v2",
+	SchemaVersion = 4,
+	Revision = "reviewed-runtime-interactions-v3",
 	WorldRootName = "BrookhavenWorldRuntime",
 	ImmutableWitnessName = "BrookhavenWorldBaseline",
 
@@ -38,12 +38,27 @@ local WorldInteractionBindings = table.freeze({
 	GarageDoors = table.freeze({}),
 	Lights = table.freeze({}),
 
+	CertifiedSummary = table.freeze({
+		NativeSeats = 271,
+		NativeVehicleSeats = 2,
+		ReviewedDoors = 1,
+		ReviewedGarageDoors = 0,
+		ReviewedLights = 0,
+	}),
+
 	CandidateSummary = table.freeze({
 		DoorCandidates = 46,
 		StrictDoorCandidates = 14,
 		StrictDoorHelperEvidence = 1,
 		GarageCandidates = 101,
 		LightCandidates = 111,
+	}),
+
+	PendingReview = table.freeze({
+		StrictDoors = 13,
+		GarageDoors = 101,
+		Lights = 111,
+		RequiresRenderedEvidence = true,
 	}),
 
 	-- Broad candidate populations can never become active automatically.
