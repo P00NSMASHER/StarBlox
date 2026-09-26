@@ -91,19 +91,18 @@ local function buildWorldBindings()
 		anchor:SetAttribute("WorldBindingOnly", true)
 		anchor.Parent = runtimeFolder
 
-		if SchoolConfig.FeatureFlags.SchoolSystemEnabled ~= true then
-			local prompt = Instance.new("ProximityPrompt")
-			prompt.Name = "StartActivityPrompt"
-			prompt.ActionText = "Start Activity"
-			prompt.ObjectText = activity.StationName
-			prompt.HoldDuration = 0
-			prompt.MaxActivationDistance = 16
-			prompt.RequiresLineOfSight = false
-			prompt.KeyboardKeyCode = Enum.KeyCode.E
-			prompt.GamepadKeyCode = Enum.KeyCode.ButtonX
-			prompt.Parent = anchor
-			prompts[activity.Id] = prompt
-		end
+		local prompt = Instance.new("ProximityPrompt")
+		prompt.Name = "StartActivityPrompt"
+		prompt.ActionText = "Start Activity"
+		prompt.ObjectText = activity.StationName
+		prompt.HoldDuration = 0
+		prompt.MaxActivationDistance = 16
+		prompt.RequiresLineOfSight = false
+		prompt.KeyboardKeyCode = Enum.KeyCode.E
+		prompt.GamepadKeyCode = Enum.KeyCode.ButtonX
+		prompt.Enabled = SchoolConfig.FeatureFlags.SchoolSystemEnabled ~= true
+		prompt.Parent = anchor
+		prompts[activity.Id] = prompt
 	end
 
 	local spawnSource = resolveWorldPart(
