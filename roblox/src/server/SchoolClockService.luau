@@ -49,6 +49,7 @@ function SchoolClockService.Resolve(unixSeconds: any)
 		PeriodStartedAtUnix = now - (offsetSeconds - period.StartOffsetSeconds),
 		PeriodEndsAtUnix = nextTransitionUnix,
 		SecondsRemaining = period.EndOffsetSeconds - offsetSeconds,
+		SecondsSincePeriodStart = offsetSeconds - period.StartOffsetSeconds,
 		NextPeriodId = nextPeriod.Id,
 		NextClassId = nextPeriod.ClassId,
 		SchoolActive = period.Kind ~= "after-school",
