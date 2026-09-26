@@ -26,12 +26,13 @@ local function pinnedQuestion(period, questionId: string)
 	return nil
 end
 
-function SchoolRuntimeService.new(profiles, replicas)
+function SchoolRuntimeService.new(profiles, replicas, legacyCoreLoop)
 	assert(Clock.IsEnabled(), "SchoolRuntimeService requires SchoolSystemEnabled")
 
 	local self = setmetatable({}, SchoolRuntimeService)
 	self._profiles = profiles
 	self._replicas = replicas
+	self._legacyCoreLoop = legacyCoreLoop
 	self._connections = {}
 	self._lastSubmitAt = {}
 	self._makeupPeriodByPlayer = {}
@@ -216,6 +217,7 @@ function SchoolRuntimeService.new(profiles, replicas)
 	end
 
 	self._lastClock = Clock.Now()
+	self:_syncLegacyPrompts(self._lastClock)
 	self._running = true
 	task.spawn(function()
 		while self._running do
@@ -224,6 +226,7 @@ function SchoolRuntimeService.new(profiles, replicas)
 			if now.PeriodId ~= self._lastClock.PeriodId then
 				self:_finalizePrevious(self._lastClock)
 				self._lastClock = now
+				self:_syncLegacyPrompts(now)
 				for _, player in Players:GetPlayers() do
 					self:_sendState(player)
 				end
@@ -232,6 +235,12 @@ function SchoolRuntimeService.new(profiles, replicas)
 	end)
 
 	return self
+end
+
+function SchoolRuntimeService:_syncLegacyPrompts(clock)
+	if self._legacyCoreLoop ~= nil and type(self._legacyCoreLoop.SetActivityPromptsEnabled) == "function" then
+		self._legacyCoreLoop:SetActivityPromptsEnabled(clock.PeriodKind == "after-school")
+	end
 end
 
 function SchoolRuntimeService:_reconcilePastPeriods(data, clock)
@@ -336,6 +345,9 @@ end
 
 function SchoolRuntimeService:Destroy()
 	self._running = false
+	if self._legacyCoreLoop ~= nil and type(self._legacyCoreLoop.SetActivityPromptsEnabled) == "function" then
+		self._legacyCoreLoop:SetActivityPromptsEnabled(true)
+	end
 	for _, connection in self._connections do
 		connection:Disconnect()
 	end
