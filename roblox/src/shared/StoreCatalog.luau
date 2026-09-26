@@ -19,6 +19,16 @@ local StoreCatalog = table.freeze({
 		table.freeze({Tier = 4, Name = "Skyline Penthouse", Price = 9000}),
 		table.freeze({Tier = 5, Name = "Star Mansion", Price = 24000}),
 	}),
+	Styles = table.freeze({
+		table.freeze({Id = "home-starter", Name = "Starter Home", RequiredTier = 1, Price = 0, Kind = "starter"}),
+		table.freeze({Id = "home-suburban", Name = "Suburban Home", RequiredTier = 2, Price = 1500, Kind = "suburban"}),
+		table.freeze({Id = "home-modern", Name = "Modern Glass Home", RequiredTier = 2, Price = 2500, Kind = "modern"}),
+		table.freeze({Id = "home-ranch", Name = "Ranch House", RequiredTier = 3, Price = 5000, Kind = "ranch"}),
+		table.freeze({Id = "home-townhouse", Name = "Townhouse", RequiredTier = 3, Price = 6500, Kind = "townhouse"}),
+		table.freeze({Id = "home-lakehouse", Name = "Lake House", RequiredTier = 4, Price = 10000, Kind = "lakehouse"}),
+		table.freeze({Id = "home-villa", Name = "Modern Villa", RequiredTier = 4, Price = 14000, Kind = "villa"}),
+		table.freeze({Id = "home-mansion", Name = "Star Mansion", RequiredTier = 5, Price = 30000, Kind = "mansion"}),
+	}),
 })
 
 return StoreCatalog
