@@ -7,6 +7,11 @@ local BrookhavenMirrorConfig = table.freeze({
 		Mode = "exact-frozen-brookhaven-world",
 		BrookhavenBaselineLocked = true,
 		RuntimeSystemsMayMutateBaseline = false,
+		ImmutableWitnessRootName = "BrookhavenWorldBaseline",
+		ImmutableWitnessLocation = "ServerStorage",
+		RuntimeProjectionRootName = "BrookhavenWorldRuntime",
+		RuntimeProjectionLocation = "Workspace",
+		RuntimeSystemsMayMutateProjection = true,
 	}),
 	Economy = table.freeze({
 		CurrencyName = "Coins",
