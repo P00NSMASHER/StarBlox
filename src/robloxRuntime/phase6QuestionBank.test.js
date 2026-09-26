@@ -71,7 +71,9 @@ describe('Phase 6: certified rotating Grade 2 question bank',()=>{
     expect(service).toContain('local CoreQuestionBank = require(script.Parent.CoreQuestionBank)');
     expect(service).not.toContain('local ANSWERS = table.freeze');
     expect(service).toContain('questionId = selectedQuestion.Id');
-    expect(service).toContain('CoreQuestionBank.Grade(session.questionId, request.choice)');
+    expect(service).toContain('function CoreGameLoopService.GradeAnswer');
+    expect(service).toContain('return CoreQuestionBank.Grade(questionId, choice)');
+    expect(service).toContain('CoreGameLoopService.GradeAnswer(session.questionId, request.choice)');
     expect(service).toContain('questionId = session.questionId');
   });
 
