@@ -2,7 +2,7 @@ import {
   runOpenCloudLuauTask
 } from './privatePublish.js';
 
-export const STARBLOX_SERVER_BOOT_PROOF_VERSION='starblox-production-server-boot-v3';
+export const STARBLOX_SERVER_BOOT_PROOF_VERSION='starblox-production-server-boot-v4';
 export const STARBLOX_SERVER_BOOT_RELEASE_ID='starblox-private-step9-canonical-step6-v4';
 
 export function buildProductionServerBootProbeScript({
@@ -51,6 +51,11 @@ assert(okReplica and Replica ~= nil, "ReplicaServer failed to require")
 
 local serverRoot = ServerScriptService:WaitForChild("StarBlox")
 local coreConfig = require(shared:WaitForChild("CoreLoopConfig"))
+local mirrorConfig = require(shared:WaitForChild("BrookhavenMirrorConfig"))
+assert(mirrorConfig.World.Mode == "exact-frozen-brookhaven-world", "Brookhaven mirror world mode missing")
+assert(mirrorConfig.World.BrookhavenBaselineLocked == true, "Brookhaven baseline lock missing")
+assert(mirrorConfig.Economy.CorrectAnswerCoins == 10, "mirror learning-coin reward mismatch")
+assert(mirrorConfig.Economy.PaidCurrencyRequiredForGameplayUnlocks == false, "paid gameplay unlock boundary drift")
 assert(coreConfig.PolishRevision == "phase7-questions-coins-homes-v1", "Phase 7 config revision missing")
 assert(coreConfig.QuestionRotation.AnswersServerOnly == true, "Phase 7 answer boundary missing")
 assert(coreConfig.QuestionRotation.NoLiveLlm == true, "Phase 7 live-model boundary missing")
@@ -80,6 +85,7 @@ assert(okBootstrap, "production Bootstrap.start failed: " .. tostring(services))
 assert(type(services) == "table", "production Bootstrap did not return services")
 assert(services.CoreLoop ~= nil, "CoreLoop service missing after bootstrap")
 assert(services.HomeEconomy ~= nil, "HomeEconomy service missing after bootstrap")
+assert(services.MirrorLifestyle ~= nil, "MirrorLifestyle service missing after bootstrap")
 assert(services.PrivatePlaytestTelemetry ~= nil, "private playtest telemetry service missing after bootstrap")
 assert((services.PrivatePlaytestTelemetry :: any)._retentionStore ~= nil, "retention aggregate store missing after bootstrap")
 
@@ -94,6 +100,18 @@ local homeFolder = Workspace:FindFirstChild("StarBloxPlayerHomes")
 assert(homeFolder ~= nil and homeFolder:IsA("Folder"), "player-home runtime folder missing after bootstrap")
 assert(homeFolder:GetAttribute("RuntimeOwned") == true, "player-home folder must be runtime-owned")
 assert(homeFolder:GetAttribute("BaselineMutationAllowed") == false, "player-home folder must not mutate baseline")
+
+local mirrorRemotes = ReplicatedStorage:FindFirstChild("StarBloxMirror")
+assert(mirrorRemotes ~= nil and mirrorRemotes:IsA("Folder"), "Brookhaven mirror remotes missing after bootstrap")
+for _, remoteName in {"GetState","PurchaseVehicle","SpawnVehicle","DespawnVehicle","PurchaseTool","EquipTool"} do
+    local remote = mirrorRemotes:FindFirstChild(remoteName)
+    assert(remote ~= nil and remote:IsA("RemoteFunction"), "mirror remote missing: " .. remoteName)
+end
+
+local vehicleFolder = Workspace:FindFirstChild("StarBloxVehicles")
+assert(vehicleFolder ~= nil and vehicleFolder:IsA("Folder"), "vehicle runtime folder missing after bootstrap")
+assert(vehicleFolder:GetAttribute("RuntimeOwned") == true, "vehicle folder must be runtime-owned")
+assert(vehicleFolder:GetAttribute("BaselineMutationAllowed") == false, "vehicle folder must not mutate baseline")
 
 local brookhaven = Workspace:FindFirstChild("BrookhavenWorldBaseline")
 assert(brookhaven ~= nil and brookhaven:IsA("Model"), "verified Brookhaven world mount missing")
@@ -163,6 +181,7 @@ assert((services.CoreLoop :: any)._spawnCFrame ~= nil, "real-world spawn binding
 local telemetryRemote = ReplicatedStorage:FindFirstChild("StarBloxPrivatePlaytestTelemetry")
 assert(telemetryRemote and telemetryRemote:IsA("RemoteEvent"), "playtest telemetry remote missing after bootstrap")
 
+services.MirrorLifestyle:Destroy()
 services.HomeEconomy:Destroy()
 services.CoreLoop:Destroy()
 services.PrivatePlaytestTelemetry:Destroy()
@@ -249,7 +268,12 @@ export async function runProductionServerBootProof({
       phase6RetentionStoreCreated:true,
       homeEconomyCreated:true,
       shopRemotesCreated:true,
-      playerHomeRuntimeFolderCreated:true
+      playerHomeRuntimeFolderCreated:true,
+      brookhavenMirrorConfigLoaded:true,
+      mirrorLifestyleCreated:true,
+      mirrorRemotesCreated:true,
+      vehicleRuntimeFolderCreated:true,
+      learningCoinPurchaseEconomy:true
     }),
     publicAccessChangeAttempted:false,
     liveActivationAllowed:false,
