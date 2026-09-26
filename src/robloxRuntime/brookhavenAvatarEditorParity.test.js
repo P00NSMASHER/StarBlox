@@ -32,7 +32,10 @@ describe('Brookhaven recording parity: live-world avatar editor',()=>{
     expect(editor).toContain('presetGrid.CellSize = UDim2.fromOffset(84, 84)');
     expect(editor).toContain('camera.CameraType = Enum.CameraType.Scriptable');
     expect(editor).toContain('camera.CFrame = CFrame.lookAt(cameraPosition, target)');
-    expect(editor).not.toContain('ViewportFrame');
+    expect(editor).toContain('local viewport = Instance.new("ViewportFrame")');
+    expect(editor).toContain('viewport.Name = "AvatarPreview"');
+    expect(editor).toContain('local world = Instance.new("WorldModel")');
+    expect(editor).toContain('clone:PivotTo(CFrame.new(0, 0, 0))');
   });
 
   it('matches the recording interaction structure: outfit slots, category tabs, red close, and live apply',()=>{
@@ -75,6 +78,8 @@ describe('Brookhaven recording parity: live-world avatar editor',()=>{
     expect(service).toContain('function RoleplayService:_removeAvatarItem');
     expect(service).toContain('code = "avatar_item_mismatch"');
     expect(service).toContain('outcome.avatarItems = avatarItemSummary(player)');
+    expect(service).toContain('Preview = preview');
+
   });
 
 });
