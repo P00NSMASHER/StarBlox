@@ -5,7 +5,7 @@ function report(){
   return {
     telemetryVersion:'starblox-private-playtest-v1',
     releaseId:'starblox-private-step9-canonical-step6-v4',
-    placeVersion:11,
+    placeVersion:14,
     durationSeconds:45,
     client:{ready:true,touchEnabled:true,viewportX:750,viewportY:402},
     counts:{
@@ -40,7 +40,7 @@ describe('Step 9 final touch-client gate',()=>{
   it('accepts the exact final candidate without requiring repeated onboarding or deliberate wrong answers',()=>{
     const receipt=verifyStep9ClientReport(report());
     expect(receipt.status).toBe('verified');
-    expect(receipt.placeVersion).toBe(11);
+    expect(receipt.placeVersion).toBe(14);
     expect(receipt.evidence.fullLoopCompleted).toBe(true);
     expect(receipt.evidence.onboardingObserved).toBe(false);
     expect(receipt.evidence.wrongAnswerFeedbackObserved).toBe(false);
@@ -53,7 +53,7 @@ describe('Step 9 final touch-client gate',()=>{
     expect(()=>verifyStep9ClientReport(wrongRelease)).toThrow(/release mismatch/);
 
     const wrongVersion=report();
-    wrongVersion.placeVersion=10;
+    wrongVersion.placeVersion=13;
     expect(()=>verifyStep9ClientReport(wrongVersion)).toThrow(/place version mismatch/);
 
     const incomplete=report();

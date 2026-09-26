@@ -1,5 +1,5 @@
 export const STEP9_FINAL_RELEASE_ID='starblox-private-step9-canonical-step6-v4';
-export const STEP9_FINAL_PLACE_VERSION=11;
+export const STEP9_FINAL_PLACE_VERSION=14;
 
 function n(value){
   return Number(value || 0);
