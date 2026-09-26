@@ -14,9 +14,9 @@ local LATEST_KEY = "latest"
 local RETENTION_STORE_NAME = "StarBloxPrivateRetention_v1"
 local RETENTION_KEY = "aggregate"
 local RETENTION_VERSION = "starblox-private-retention-v1"
-local ITEM_METRICS_STORE_NAME = "StarBloxQuestionItemMetrics_v1"
+local ITEM_METRICS_STORE_NAME = "StarBloxQuestionItemMetrics_v2"
 local ITEM_METRICS_KEY = "aggregate"
-local ITEM_METRICS_VERSION = "starblox-question-item-metrics-v1"
+local ITEM_METRICS_VERSION = "starblox-question-item-metrics-v2-pilot-baseline"
 local MAX_ITEM_ROWS = 600
 local REMOTE_NAME = "StarBloxPrivatePlaytestTelemetry"
 
