@@ -1,5 +1,8 @@
 --!strict
 
+local LearningPriority = require(script.Parent.LearningPriority)
+local SpacedMastery = require(script.Parent.SpacedMastery)
+
 local PilotQuestionMixer = {}
 
 local function sortedStationIds(bank)
@@ -87,6 +90,31 @@ local function priorPool(profileData, fallback)
 	return out
 end
 
+local function materialSkillSet(bank)
+	local result = {}
+	for stationId, pool in bank.QuestionsByStation do
+		local count = bank.MaterialCountByStation[stationId] or 0
+		for index = 1, count do
+			local question = pool[index]
+			if question ~= nil and type(question.Skill) == "string" then
+				result[question.Skill] = true
+			end
+		end
+	end
+	return result
+end
+
+local function duePool(profileData, pool, now: number, spacedConfig)
+	local out = {}
+	for _, question in pool do
+		local skill = tostring(question.Skill or "unknown")
+		if SpacedMastery.IsDue(profileData, skill, now, spacedConfig) then
+			table.insert(out, question)
+		end
+	end
+	return out
+end
+
 local function candidateAllowed(question, state, maxPerSkill: number, avoidConsecutive: boolean): boolean
 	if state.seenIds[question.Id] == true then return false end
 	local skill = tostring(question.Skill or "unknown")
@@ -109,7 +137,7 @@ local function choose(pool, state, maxPerSkill: number)
 	return nil
 end
 
-local function addQuestion(queue, question, requestedBucket: string, sourceBucket: string, state)
+local function addQuestion(queue, question, requestedBucket: string, sourceBucket: string, state, spacedRetrieval: boolean?)
 	local skill = tostring(question.Skill or "unknown")
 	state.seenIds[question.Id] = true
 	state.skillCounts[skill] = (state.skillCounts[skill] or 0) + 1
@@ -122,22 +150,35 @@ local function addQuestion(queue, question, requestedBucket: string, sourceBucke
 		Skill = skill,
 		Subject = question.Subject,
 		Tier = question.Tier,
+		SpacedRetrieval = spacedRetrieval == true,
 	})
 end
 
-function PilotQuestionMixer.Build(profileData, bank, pilotConfig, sessionOrdinal: number?)
+function PilotQuestionMixer.Build(profileData, bank, pilotConfig, sessionOrdinal: number?, automationConfig)
 	assert(type(profileData) == "table", "profileData is required")
 	assert(type(bank) == "table", "question bank is required")
 	assert(type(pilotConfig) == "table", "pilot config is required")
 
 	local ordinal = math.max(1, math.floor(tonumber(sessionOrdinal) or 1))
 	local maxPerSkill = math.max(1, math.floor(tonumber(pilotConfig.MaxQuestionsPerSkill) or 3))
+	local now = os.time()
 	local current = rotate(currentMaterialPool(bank), (ordinal - 1) * 2)
 	local starReading, starMath, fallback = fallbackPools(bank)
 	starReading = rotate(starReading, (ordinal - 1) * 5)
 	starMath = rotate(starMath, (ordinal - 1) * 7)
 	fallback = rotate(fallback, (ordinal - 1) * 11)
 	local prior = rotate(priorPool(profileData, fallback), ordinal - 1)
+	local currentSkills = materialSkillSet(bank)
+	local automation = if type(automationConfig) == "table" then automationConfig else {}
+	local priorityConfig = automation.Step5Priority or {}
+	local spacedConfig = automation.Step6SpacedMastery or {}
+	if LearningPriority.IsUnlocked(profileData, priorityConfig) then
+		starReading = LearningPriority.RankQuestions(profileData, starReading, bank, priorityConfig, spacedConfig, now, currentSkills)
+		starMath = LearningPriority.RankQuestions(profileData, starMath, bank, priorityConfig, spacedConfig, now, currentSkills)
+		fallback = LearningPriority.RankQuestions(profileData, fallback, bank, priorityConfig, spacedConfig, now, currentSkills)
+		prior = LearningPriority.RankQuestions(profileData, prior, bank, priorityConfig, spacedConfig, now, currentSkills)
+	end
+	local due = duePool(profileData, prior, now, spacedConfig)
 
 	local pattern = {
 		"current","star-reading","current","star-math","spaced",
@@ -158,6 +199,7 @@ function PilotQuestionMixer.Build(profileData, bank, pilotConfig, sessionOrdinal
 	for _, bucket in pattern do
 		local selected = nil
 		local sourceBucket = bucket
+		local spacedRetrieval = false
 		if bucket == "current" then
 			selected = choose(current, state, maxPerSkill)
 		elseif bucket == "star-reading" then
@@ -165,8 +207,14 @@ function PilotQuestionMixer.Build(profileData, bank, pilotConfig, sessionOrdinal
 		elseif bucket == "star-math" then
 			selected = choose(starMath, state, maxPerSkill)
 		elseif bucket == "spaced" then
-			selected = choose(prior, state, maxPerSkill)
-			sourceBucket = "prior-skill"
+			selected = choose(due, state, maxPerSkill)
+			if selected ~= nil then
+				sourceBucket = "spaced-due"
+				spacedRetrieval = true
+			else
+				selected = choose(prior, state, maxPerSkill)
+				sourceBucket = "prior-skill"
+			end
 			if selected == nil then
 				selected = choose(fallback, state, maxPerSkill)
 				sourceBucket = "cumulative-bootstrap"
@@ -177,7 +225,7 @@ function PilotQuestionMixer.Build(profileData, bank, pilotConfig, sessionOrdinal
 			sourceBucket = sourceBucket .. "-fallback"
 		end
 		assert(selected ~= nil, "pilot queue could not satisfy the requested mix")
-		addQuestion(queue, selected, bucket, sourceBucket, state)
+		addQuestion(queue, selected, bucket, sourceBucket, state, spacedRetrieval)
 	end
 
 	return queue
