@@ -5,8 +5,8 @@
 -- Only the mutable Workspace/BrookhavenWorldRuntime projection may receive
 -- prompts or transient gameplay property changes.
 local WorldInteractionBindings = table.freeze({
-	SchemaVersion = 2,
-	Revision = "reviewed-door-proof-v1",
+	SchemaVersion = 3,
+	Revision = "reviewed-runtime-interactions-v2",
 	WorldRootName = "BrookhavenWorldRuntime",
 	ImmutableWitnessName = "BrookhavenWorldBaseline",
 
@@ -33,6 +33,8 @@ local WorldInteractionBindings = table.freeze({
 		}),
 	}),
 
+	-- Frameworks are runtime-ready, but remain empty until exact rendered
+	-- evidence promotes a specific frozen-source entry into reviewed status.
 	GarageDoors = table.freeze({}),
 	Lights = table.freeze({}),
 
