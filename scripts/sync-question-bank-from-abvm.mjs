@@ -866,8 +866,8 @@ const starRead=shuffled(starReading());
 const starMathQuestions=shuffled(starMath());
 const fallbackByStation={};
 for(let index=0;index<STATIONS.length;index++){
-  const readSlice=starRead.slice(index*10,index*10+10).map(item=>({...item,stationId:STATIONS[index]}));
-  const mathSlice=starMathQuestions.slice(index*10,index*10+10).map(item=>({...item,stationId:STATIONS[index]}));
+  const readSlice=starRead.slice(index*20,index*20+20).map(item=>({...item,stationId:STATIONS[index]}));
+  const mathSlice=starMathQuestions.slice(index*20,index*20+20).map(item=>({...item,stationId:STATIONS[index]}));
   fallbackByStation[STATIONS[index]]=shuffled([...readSlice,...mathSlice]).map(item=>makeQuestion({...item,id:item.id+'-'+STATIONS[index].split('-')[0]}));
 }
 
@@ -878,7 +878,7 @@ for(const stationId of STATIONS){
   materialCountByStation[stationId]=material.length;
   questions.push(...material,...fallbackByStation[stationId]);
 }
-if(starRead.length<25||starMathQuestions.length<25) throw new Error('STAR fallback coverage dropped below 25 Reading and 25 Math questions.');
+if(starRead.length<60||starMathQuestions.length<60) throw new Error('STAR fallback coverage dropped below 60 Reading and 60 Math questions.');
 if(questions.some(question=>!question.stationId)) throw new Error('Final question bank contains an unbound station question.');
 
 const source={
@@ -910,7 +910,12 @@ const source={
   qualityPolicy:{
     materialFirst:true,
     materialCountByStation,
-    starFallbackQuestionsPerStation:20,
+    starFallbackQuestionsPerStation:40,
+    starReadingPoolTarget:60,
+    starMathPoolTarget:60,
+    richContentEnabled:true,
+    rubricScoringEnabled:true,
+    experimentAllocation:'90-control-10-treatment',
     minimumDifficulty:2,
     forbiddenMetaPromptPatterns:['sight word','teacher page','study list','being practiced this week'],
     answersServerOnly:true,
@@ -924,6 +929,17 @@ writeFileSync(sourceOut,JSON.stringify(source,null,2)+'\n');
 writeFileSync(packOut,JSON.stringify(data,null,2)+'\n');
 
 const q=JSON.stringify;
+function luaValue(value){
+  if(value===null||value===undefined) return 'nil';
+  if(Array.isArray(value)) return 'table.freeze({'+value.map(luaValue).join(', ')+'})';
+  if(typeof value==='object'){
+    return 'table.freeze({'+Object.entries(value).map(([key,child])=>'['+q(key)+'] = '+luaValue(child)).join(', ')+'})';
+  }
+  if(typeof value==='string') return q(value);
+  if(typeof value==='number') return Number.isFinite(value)?String(value):'0';
+  if(typeof value==='boolean') return value?'true':'false';
+  return 'nil';
+}
 const lines=[
   '--!strict','',
   '-- Generated from the verified ABVM teacher-page scanner. Do not hand-edit.',
@@ -972,6 +988,11 @@ for(const stationId of STATIONS){
     lines.push('\t\t\tScaffold = '+q(item.scaffold)+',');
     lines.push('\t\t\tWrongFeedback = table.freeze({'+item.choiceDiagnostics.map(row=>'['+q(row.choice)+'] = '+q(row.feedback)).join(', ')+'}),');
     lines.push('\t\t\tMisconceptions = table.freeze({'+item.choiceDiagnostics.map(row=>'['+q(row.choice)+'] = '+q(row.misconception)).join(', ')+'}),');
+    lines.push('\t\t\tRubric = '+luaValue(item.rubric)+',');
+    lines.push('\t\t\tAlignmentEvidence = '+luaValue(item.alignmentEvidence)+',');
+    lines.push('\t\t\tResponseType = '+q(item.responseType)+',');
+    if(item.richContent) lines.push('\t\t\tRichContent = '+luaValue(item.richContent)+',');
+    if(item.experiment) lines.push('\t\t\tExperiment = '+luaValue(item.experiment)+',');
     lines.push('\t\t}),');
   }
   lines.push('\t}),');
