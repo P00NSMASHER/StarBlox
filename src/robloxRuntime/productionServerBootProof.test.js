@@ -68,6 +68,9 @@ describe('Step 9 joinability: production server boot gate', () => {
     expect(script).toContain('player-home runtime folder missing after bootstrap');
     expect(script).toContain('Phase 8 material-first marker missing');
     expect(script).toContain('Phase 8 STAR fallback marker missing');
+    expect(script).toContain('Phase 8 STAR Reading floor missing');
+    expect(script).toContain('Phase 8 STAR Math floor missing');
+    expect(script).toContain('Phase 8 STAR fallback floor missing');
     expect(script).toContain('Phase 8 correct-answer coin reward mismatch');
     expect(script).toContain('Phase 8 config revision missing');
     expect(script).toContain('Phase 8 question bank certification missing');
