@@ -2,7 +2,6 @@
 
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local TextChatService = game:GetService("TextChatService")
 
 local player = Players.LocalPlayer
 local playerGui = player:WaitForChild("PlayerGui")
@@ -28,6 +27,10 @@ local familyRespond = familyRemotes:WaitForChild("RespondInvite") :: RemoteFunct
 local familyLeave = familyRemotes:WaitForChild("Leave") :: RemoteFunction
 local familyRemoveMember = familyRemotes:WaitForChild("RemoveMember") :: RemoteFunction
 local familyStateChanged = familyRemotes:WaitForChild("StateChanged") :: RemoteEvent
+
+local quickChatRemotes = ReplicatedStorage:WaitForChild("StarBloxQuickChat")
+local quickChatGetOptions = quickChatRemotes:WaitForChild("GetOptions") :: RemoteFunction
+local quickChatSend = quickChatRemotes:WaitForChild("Send") :: RemoteFunction
 
 local shopRemotes = ReplicatedStorage:WaitForChild("StarBloxShop")
 local getPlots = shopRemotes:WaitForChild("GetPlots") :: RemoteFunction
@@ -532,6 +535,8 @@ local roleplayState = nil
 local busy = false
 local activeToolCategory = "all"
 local activeVehicleCategory = "all"
+local activeQuickChatCategory = "phrases"
+local quickChatState = nil
 local actionHintsDismissed = false
 local plotState = nil
 local plotIndex = 1
@@ -1065,26 +1070,74 @@ showSettings = function()
 	end)
 end
 
-local function sendQuickChat(message: string)
-	local channels = TextChatService:FindFirstChild("TextChannels")
-	local general = if channels then channels:FindFirstChild("RBXGeneral") else nil
-	if general and general:IsA("TextChannel") then
-		pcall(function()
-			general:SendAsync(message)
-		end)
+local function fetchQuickChatOptions(): boolean
+	local ok, result = pcall(function()
+		return quickChatGetOptions:InvokeServer()
+	end)
+	if ok and type(result) == "table" and result.ok == true and type(result.categories) == "table" then
+		quickChatState = result
+		return true
 	end
-	closePanel()
+	return false
+end
+
+local function sendQuickChat(value: string)
+	if busy then
+		return
+	end
+	busy = true
+	local ok, result = pcall(function()
+		return quickChatSend:InvokeServer(value)
+	end)
+	busy = false
+
+	if ok and type(result) == "table" and result.ok == true then
+		closePanel()
+	elseif ok and type(result) == "table" and result.code == "quick_chat_cooldown" then
+		showStatus(
+			"Quick Chat: wait " .. tostring(tonumber(result.remainingSeconds) or 1) .. "s"
+		)
+	else
+		showStatus("Quick Chat unavailable.")
+	end
 end
 
 local function showQuickChat()
-	clearCategories()
+	if quickChatState == nil and not fetchQuickChatOptions() then
+		return
+	end
 	clearGrid()
 	setHeader("Quick Chat")
-	local phrases = {"Hi!", "Let's go!", "Nice!", "Follow me!", "Thanks!", "See you!"}
-	for index, phrase in phrases do
-		tile("…", phrase, "send", "", UI.blue, index, function()
-			sendQuickChat(phrase)
-		end)
+	setCategories({
+		{Id = "phrases", Symbol = "Aa"},
+		{Id = "emojis", Symbol = "☺"},
+	}, activeQuickChatCategory, function(category)
+		activeQuickChatCategory = category
+		showQuickChat()
+	end)
+
+	local categories = quickChatState.categories or {}
+	local values = if activeQuickChatCategory == "emojis"
+		then categories.Emojis
+		else categories.Phrases
+	if type(values) ~= "table" then
+		return
+	end
+
+	for index, value in values do
+		local text = tostring(value)
+		local isEmoji = activeQuickChatCategory == "emojis"
+		tile(
+			isEmoji and text or "⚡",
+			isEmoji and "Emoji" or text,
+			"send",
+			"",
+			UI.blue,
+			index,
+			function()
+				sendQuickChat(text)
+			end
+		)
 	end
 end
 
