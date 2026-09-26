@@ -106,6 +106,7 @@ jobs:
             src/robloxRuntime/questionItemReview.test.js \
             src/robloxRuntime/researchQuestionImprovements712.test.js \
             src/schoolworkPhoto/schoolworkPhotoPipeline.test.js \
+            src/schoolworkPhoto/schoolworkPhotoReviewGate.test.js \
             src/robloxRuntime/coreLoopProof.test.js \
             src/robloxRuntime/phase7EconomyHomes.test.js \
             src/robloxRuntime/phase8MirrorSystems.test.js

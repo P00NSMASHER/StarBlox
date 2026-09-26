@@ -21,5 +21,16 @@
     "teacherMarksIncluded": false,
     "gradesOrScoresIncluded": false,
     "rawWorksheetTextIncluded": false
+  },
+  "reviewGate": {
+    "reviewQueueVersion": "schoolwork-photo-review-queue-v1",
+    "queuePresent": true,
+    "totalReviewItems": 0,
+    "pendingReviewItems": 0,
+    "acceptedReviewItems": 0,
+    "rejectedReviewItems": 0,
+    "promotedSkillSignals": 0,
+    "gateStatus": "legacy-ambiguous-observations-omitted",
+    "legacyAmbiguousObservationsOmitted": true
   }
 }

@@ -17,3 +17,8 @@ roblox/ServerPackages/
 # Ephemeral Step 5 locked-world mount files
 roblox/.step5-generated/
 roblox/.step5-mounted.project.json
+# Local-only schoolwork photo intake and review evidence
+private-schoolwork/
+schoolwork-photo-private/
+docs/phase6/private-schoolwork/
+*.schoolwork-photo-private.json
