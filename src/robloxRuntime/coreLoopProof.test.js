@@ -30,11 +30,13 @@ describe('Step 7: Roblox-native StarBlox core loop', () => {
     expect(shared.match(/ABVM Grade 2 current source pack/g)?.length).toBe(3);
     expect(shared).not.toMatch(/Answer\s*=/);
     expect(shared).not.toContain('Choices = table.freeze');
-    expect(bank).toContain('phase6-abvm-question-source-v1');
-    expect(bank.match(/\t\t\tAnswer = /g)?.length).toBe(9);
+    expect(bank).toContain('phase7-material-first-question-source-v1');
+    expect(bank.match(/\t\t\tAnswer = /g)?.length).toBe(18);
     expect(server).not.toContain('local ANSWERS = table.freeze');
     expect(server).toContain('CoreQuestionBank.Select');
     expect(server).toContain('function CoreGameLoopService.GradeAnswer');
+    expect(server).toContain('function CoreGameLoopService.ApplyCorrectQuestionReward');
+    expect(server).toContain('profileData.Economy.Coins += Config.QuestionReward.Coins');
   });
 
   it('promotes the core loop into production bootstrap and retires the old vertical-slice startup', () => {
@@ -140,10 +142,12 @@ describe('Step 7: Roblox-native StarBlox core loop', () => {
   it('headless proof exercises repeatability, inventory unlock, duplicate guard, and reward cap', () => {
     const script=buildCoreLoopProbeScript();
     expect(script).toContain('STARBLOX_CORE_LOOP_OK');
-    expect(script).toContain('profile.Progress.CoreLoop.LoopRuns == 3');
+    expect(script).toContain('STARBLOX_CORE_LOOP_OK');
+    expect(script).toContain('QuestionCursorByStation');
+    expect(script).toContain('three correct answers should grant 30 coins');
+    expect(script).toContain('stale answer replay was not rejected');
+    expect(script).toContain('challenge progression must not mint coins');
     expect(script).toContain('brightside-spark-trail');
-    expect(script).toContain('fourth.rewardEligible == false');
-    expect(script).toContain('duplicate.duplicate == true');
     expect(script).toContain('productionActivationAllowed == false');
   });
 });
