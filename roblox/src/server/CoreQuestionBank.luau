@@ -18,6 +18,8 @@ local SOURCE = table.freeze({
 	NoLiveLlm = true,
 })
 
+local MATERIAL_QUESTIONS_PER_STATION = 12
+
 local QUESTIONS_BY_STATION = table.freeze({
 	["word-portal-put-v1"] = table.freeze({
 		table.freeze({
@@ -1004,8 +1006,17 @@ function CoreQuestionBank.Select(stationId: string, cursor: any)
 	local pool = QUESTIONS_BY_STATION[stationId]
 	if pool == nil or #pool == 0 then return nil end
 	local clean = normalizedCursor(cursor)
-	local index = (clean % #pool) + 1
-	return pool[index]
+	if clean < MATERIAL_QUESTIONS_PER_STATION then
+		return pool[clean + 1]
+	end
+
+	local fallbackCount = #pool - MATERIAL_QUESTIONS_PER_STATION
+	if fallbackCount <= 0 then
+		return pool[(clean % #pool) + 1]
+	end
+
+	local fallbackOffset = (clean - MATERIAL_QUESTIONS_PER_STATION) % fallbackCount
+	return pool[MATERIAL_QUESTIONS_PER_STATION + fallbackOffset + 1]
 end
 
 function CoreQuestionBank.GetById(questionId: string)
