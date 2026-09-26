@@ -1,0 +1,126 @@
+name: One-shot private publish 7f4f498e
+
+on:
+  push:
+    branches:
+      - release/private-main-7f4f498e
+    paths:
+      - .github/workflows/one-shot-private-publish-7f4f498e.yml
+
+permissions:
+  contents: read
+
+concurrency:
+  group: starblox-final-private-release
+  cancel-in-progress: false
+
+jobs:
+  final-private-release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout exact verified main commit
+        uses: actions/checkout@v4
+        with:
+          ref: 7f4f498e9f6b586441ae7fc74dedf77eb44e59cd
+          fetch-depth: 0
+
+      - name: Prove exact source commit
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "7f4f498e9f6b586441ae7fc74dedf77eb44e59cd"
+
+      - name: Use Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Use Rust stable
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Setup pinned Roblox toolchain
+        uses: CompeyDev/setup-rokit@v0.2.1
+        with:
+          version: v1.2.0
+          path: .
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Install pinned Roblox runtime packages
+        run: |
+          cd roblox
+          wally install
+          test -e Packages/Matter.lua
+          test -e ServerPackages/ProfileStore.lua
+
+      - name: Run final release regression gate
+        run: |
+          npx vitest run \
+            src/robloxRuntime/phase5FinalRelease.test.js \
+            src/robloxRuntime/phase6QuestionBank.test.js \
+            src/robloxRuntime/phase6Retention.test.js \
+            src/robloxRuntime/phase7EconomyHomes.test.js \
+            src/robloxRuntime/phase8MirrorSystems.test.js \
+            src/robloxRuntime/phase9BrookhavenUiParity.test.js \
+            src/robloxRuntime/phase10HomePlacement.test.js \
+            src/robloxRuntime/phase11HouseStyles.test.js \
+            src/robloxWorld/worldPlotBindings.test.js \
+            src/robloxRuntime/finalClientGate.test.js \
+            src/robloxRuntime/mobileUxLayout.test.js \
+            src/robloxRuntime/playerPolishProof.test.js \
+            src/robloxRuntime/coreLoopProof.test.js \
+            src/robloxRuntime/productionServerBootProof.test.js \
+            src/robloxWorld/worldActivityBindings.test.js \
+            src/robloxRuntime/releaseGate.test.js \
+            src/robloxRuntime/releaseEntryPointBoundary.test.js \
+            src/robloxRuntime/privatePublish.test.js
+          npm run roblox:backbone:verify
+
+      - name: Prepare exact native-inspected release candidate
+        run: |
+          node scripts/prepare-step9-release-candidate.mjs \
+            --source-commit "7f4f498e9f6b586441ae7fc74dedf77eb44e59cd" \
+            --out-dir artifacts/final-release
+          test -s artifacts/final-release/StarBlox-Step9-Step6-Gated.rbxlx
+          grep -q '"status": "private-release-gate-open"' artifacts/final-release/step6-release-gate.json
+          grep -q '"nativeArtifactWorldVerified": true' artifacts/final-release/step6-release-gate.json
+          grep -q '"nativeArtifactRuntimeVerified": true' artifacts/final-release/step6-release-gate.json
+          grep -q '"publicAccessChangeAllowed": false' artifacts/final-release/step6-release-gate.json
+          grep -q '"productionActivationAllowed": false' artifacts/final-release/step6-release-gate.json
+
+      - name: Publish exact gated candidate privately
+        env:
+          ROBLOX_OPEN_CLOUD_API_KEY: ${{ secrets.ROBLOX_OPEN_CLOUD_API_KEY }}
+          ROBLOX_UNIVERSE_ID: ${{ vars.ROBLOX_UNIVERSE_ID }}
+          ROBLOX_PLACE_ID: ${{ vars.ROBLOX_PLACE_ID }}
+          STARBLOX_SOURCE_COMMIT: 7f4f498e9f6b586441ae7fc74dedf77eb44e59cd
+          STARBLOX_RELEASE_GATE_RECEIPT: ${{ github.workspace }}/artifacts/final-release/step6-release-gate.json
+          STARBLOX_RELEASE_ARTIFACT: ${{ github.workspace }}/artifacts/final-release/StarBlox-Step9-Step6-Gated.rbxlx
+          STARBLOX_PUBLISH_RECEIPT: ${{ github.workspace }}/artifacts/final-release/private-publish-receipt.json
+        run: |
+          npm run roblox:publish-private
+          grep -q '"publicAccessChangeAttempted": false' artifacts/final-release/private-publish-receipt.json
+          grep -q '"productionActivationAllowed": false' artifacts/final-release/private-publish-receipt.json
+
+      - name: Verify exact published server boot
+        env:
+          ROBLOX_OPEN_CLOUD_API_KEY: ${{ secrets.ROBLOX_OPEN_CLOUD_API_KEY }}
+          ROBLOX_UNIVERSE_ID: ${{ vars.ROBLOX_UNIVERSE_ID }}
+          ROBLOX_PLACE_ID: ${{ vars.ROBLOX_PLACE_ID }}
+          STARBLOX_PUBLISH_RECEIPT: ${{ github.workspace }}/artifacts/final-release/private-publish-receipt.json
+        run: node scripts/verify-roblox-production-server-boot.mjs > artifacts/final-release/server-boot-proof.json
+
+      - name: Upload private release evidence
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: starblox-step1-private-release-evidence
+          path: |
+            artifacts/final-release/step9-release-candidate.json
+            artifacts/final-release/step6-release-gate.json
+            artifacts/final-release/private-publish-receipt.json
+            artifacts/final-release/server-boot-proof.json
+          if-no-files-found: ignore
+          retention-days: 30
