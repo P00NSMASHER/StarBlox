@@ -11,7 +11,7 @@ const sourceOut=option('--source-out','docs/phase6/ABVM_GRADE2_ROTATING_QUESTION
 const packOut=option('--pack-out','docs/phase6/ABVM_CURRENT_STUDY_PACK.json');
 const luaOut=option('--lua-out','roblox/src/server/CoreQuestionBank.luau');
 const scannerCommit=option('--scanner-commit','unknown');
-const GENERATOR_VERSION='dynamic-abvm-star-sync-generator-v2';
+const GENERATOR_VERSION='dynamic-abvm-star-sync-generator-v3-research-1-6';
 
 const data=JSON.parse(readFileSync(packPath,'utf8'));
 const pack=data.pack||data;
@@ -59,6 +59,219 @@ function shuffled(list){
 
 const STATIONS=['word-portal-put-v1','spelling-forge-fog-v1','culture-lab-culture-v1'];
 const FORBIDDEN=[/sight word/i,/which .* is on the current .* list/i,/teacher page/i,/study list/i,/being practiced this week/i];
+const STANDARD_BY_SKILL=Object.freeze({
+  'sentence-types':['CCSS.L.2.1'],
+  'consonant-blends':['CCSS.RF.2.3'],
+  'vowel-patterns':['CCSS.RF.2.3'],
+  'cvc-structure':['CCSS.RF.2.3'],
+  'plural-nouns':['CCSS.L.2.1.b'],
+  'vocabulary-in-context':['CCSS.L.2.4'],
+  'context-clues':['CCSS.L.2.4.a'],
+  'word-parts':['CCSS.L.2.4.b'],
+  'cause-effect':['CCSS.RI.2.3'],
+  'sequence':['CCSS.RL.2.5'],
+  'theme':['CCSS.RL.2.2'],
+  'inference':['CCSS.RL.2.1'],
+  'text-evidence':['CCSS.RL.2.1'],
+  'visualize':['CCSS.RL.2.1'],
+  'character-development':['CCSS.RL.2.3'],
+  'author-purpose':['CCSS.RI.2.6'],
+  'word-choice':['CCSS.RL.2.4'],
+  'addition':['CCSS.2.NBT.B.5'],
+  'addition-within-100':['CCSS.2.NBT.B.5'],
+  'subtraction':['CCSS.2.NBT.B.5'],
+  'subtraction-within-100':['CCSS.2.NBT.B.5'],
+  'missing-number':['CCSS.2.OA.A.1'],
+  'missing-addend':['CCSS.2.OA.A.1'],
+  'unknown-number':['CCSS.2.OA.A.1'],
+  'addition-word-problem':['CCSS.2.OA.A.1'],
+  'subtraction-word-problem':['CCSS.2.OA.A.1'],
+  'two-step-word-problem':['CCSS.2.OA.A.1'],
+  'subtraction-strategy':['CCSS.2.OA.B.2'],
+  'place-value':['CCSS.2.NBT.A.1'],
+  'compare-numbers':['CCSS.2.NBT.A.4'],
+  'patterns':['CCSS.2.NBT.A.2'],
+  'geometry':['CCSS.2.G.A.1'],
+  'measurement':['CCSS.2.MD.A.1'],
+  'time':['CCSS.2.MD.C.7'],
+  'data-interpretation':['CCSS.2.MD.D.10'],
+  'probability-language':['STAR.MATH.DATA.PROBABILITY'],
+  'religion-application':['ABVM.RELIGION.CURRENT']
+});
+
+const DOK_BY_SKILL=Object.freeze({
+  'sentence-types':2,
+  'consonant-blends':2,
+  'vowel-patterns':2,
+  'cvc-structure':2,
+  'plural-nouns':2,
+  'vocabulary-in-context':2,
+  'context-clues':2,
+  'word-parts':2,
+  'cause-effect':2,
+  'sequence':2,
+  'theme':3,
+  'inference':3,
+  'text-evidence':3,
+  'visualize':2,
+  'character-development':3,
+  'author-purpose':3,
+  'word-choice':2,
+  'addition':1,
+  'addition-within-100':1,
+  'subtraction':1,
+  'subtraction-within-100':1,
+  'missing-number':2,
+  'missing-addend':2,
+  'unknown-number':2,
+  'addition-word-problem':2,
+  'subtraction-word-problem':2,
+  'two-step-word-problem':3,
+  'subtraction-strategy':2,
+  'place-value':2,
+  'compare-numbers':2,
+  'patterns':2,
+  'geometry':1,
+  'measurement':2,
+  'time':2,
+  'data-interpretation':2,
+  'probability-language':2,
+  'religion-application':2
+});
+
+function standardsFor(subject,skill,domain){
+  const mapped=STANDARD_BY_SKILL[skill];
+  if(mapped) return [...mapped];
+  if(subject==='Religion') return ['ABVM.RELIGION.CURRENT'];
+  if(subject==='Math'){
+    if(domain==='Algebra') return ['CCSS.2.OA.A.1'];
+    if(domain==='Geometry and measurement') return ['CCSS.2.MD.A.1'];
+    if(domain==='Data analysis, statistics, and probability') return ['CCSS.2.MD.D.10'];
+    return ['CCSS.2.NBT.B.5'];
+  }
+  if(domain==='Word knowledge and skills') return ['CCSS.L.2.4'];
+  if(domain==='Understanding author’s craft') return ['CCSS.RL.2.4'];
+  if(domain==='Analyzing literary text') return ['CCSS.RL.2.2'];
+  return ['CCSS.RL.2.1'];
+}
+
+function hintFor(skill){
+  const hints={
+    'sentence-types':'Ask what the sentence is doing: telling, asking, or directing.',
+    'consonant-blends':'Say the beginning slowly and listen for both consonant sounds.',
+    'vowel-patterns':'Say each word aloud and listen to the vowel sound.',
+    'cvc-structure':'Look for one consonant, one vowel, then one consonant.',
+    'plural-nouns':'Ask whether the noun needs -s or -es to mean more than one.',
+    'vocabulary-in-context':'Use the rest of the sentence to test the word’s meaning.',
+    'context-clues':'Look for a nearby clue that shows what the unknown word means.',
+    'word-parts':'Separate the prefix or suffix from the base word.',
+    'cause-effect':'Find what happened first that made the later event happen.',
+    'sequence':'Use order words such as first, next, before, and last.',
+    'theme':'Think about what the character learned from the whole story.',
+    'inference':'Combine a text clue with what you already know.',
+    'text-evidence':'Choose the detail that most directly proves the idea.',
+    'visualize':'Match the important describing words to a mental picture.',
+    'character-development':'Compare the character’s choice at the beginning and the end.',
+    'author-purpose':'Ask whether the author is informing, persuading, teaching, or entertaining.',
+    'word-choice':'Think about the picture or feeling created by that exact word.',
+    'addition':'Combine the parts and check the ones place.',
+    'addition-within-100':'Add tens and ones, then check whether regrouping is needed.',
+    'subtraction':'Take away the second amount from the first.',
+    'subtraction-within-100':'Subtract tens and ones carefully and check with addition.',
+    'missing-number':'Use the inverse operation to find the missing part.',
+    'missing-addend':'Subtract the known addend from the total.',
+    'unknown-number':'Use the inverse operation to uncover the unknown.',
+    'addition-word-problem':'Decide what quantities are being joined before calculating.',
+    'subtraction-word-problem':'Decide what amount is being taken away or compared.',
+    'two-step-word-problem':'Solve the first change, write the new amount, then do the second change.',
+    'subtraction-strategy':'Use the related addition fact to check the subtraction.',
+    'place-value':'Name the place first: hundreds, tens, or ones.',
+    'compare-numbers':'Compare the greatest place value first.',
+    'patterns':'Find the amount that changes from one term to the next.',
+    'geometry':'Count the defining sides or corners, not the size or color.',
+    'measurement':'Identify the starting amount, the change, and the unit.',
+    'time':'Track how the minute hand moves before changing the hour.',
+    'data-interpretation':'Read the labels and compare the values, not the picture size.',
+    'probability-language':'More matching objects means a more likely result.',
+    'religion-application':'Match the lesson idea to the choice that actually puts it into action.'
+  };
+  return hints[skill]||'Use the important information in the question and eliminate choices that do not fit.';
+}
+
+function scaffoldFor(skill){
+  const scaffolds={
+    'theme':'First identify the character’s problem and what changed by the end.',
+    'inference':'Find one clue that is definitely true. What does that clue suggest?',
+    'text-evidence':'Restate the claim, then point to the one detail that proves it most directly.',
+    'character-development':'Name the beginning choice. Now name the ending choice.',
+    'author-purpose':'What is the text mostly trying to make the reader know, do, or feel?',
+    'two-step-word-problem':'Write the answer after step 1 before you touch step 2.',
+    'addition-within-100':'Solve the ones first, then the tens.',
+    'subtraction-within-100':'Break the second number into tens and ones.',
+    'unknown-number':'Cover the unknown and ask which inverse operation undoes the equation.',
+    'place-value':'Rewrite the number as hundreds + tens + ones.',
+    'measurement':'Draw or imagine the length before and after the change.'
+  };
+  return scaffolds[skill]||hintFor(skill);
+}
+
+function misconceptionFor(skill,choice,answer){
+  const numericChoice=Number(choice);
+  const numericAnswer=Number(answer);
+  if(Number.isFinite(numericChoice)&&Number.isFinite(numericAnswer)){
+    if(Math.abs(numericChoice-numericAnswer)===1){
+      return {tag:'off-by-one',feedback:'You are very close. Recheck the final counting or regrouping step.'};
+    }
+    if(skill.includes('subtraction')&&numericChoice>numericAnswer){
+      return {tag:'addition-or-under-subtraction',feedback:'This answer is too large for this subtraction. Check whether you added instead of taking away.'};
+    }
+    if(skill.includes('addition')&&numericChoice<numericAnswer){
+      return {tag:'missed-addend-or-place',feedback:'This answer is smaller than the total should be. Check whether every addend and place value was included.'};
+    }
+  }
+
+  const bySkill={
+    'context-clues':['opposite-or-unrelated-meaning','Use the sentence clue, not just a familiar-looking word.'],
+    'word-parts':['affix-meaning-confusion','Check what the prefix or suffix changes about the base word.'],
+    'cause-effect':['detail-cause-confusion','Choose the event that actually caused the result, not another detail.'],
+    'sequence':['sequence-order-confusion','Use the order words to locate what happened immediately before or after.'],
+    'theme':['surface-detail-not-theme','A theme is a lesson from the whole story, not one small detail.'],
+    'inference':['unsupported-inference','The best inference must be supported by a specific clue in the text.'],
+    'text-evidence':['weak-or-irrelevant-evidence','Pick the detail that proves the claim most directly.'],
+    'character-development':['beginning-ending-confusion','Compare how the character acts at the beginning with the ending.'],
+    'author-purpose':['purpose-confusion','Focus on what the author wants the reader to know, do, or feel.'],
+    'word-choice':['literal-language-confusion','Think about the image or feeling the author creates, not only the literal meaning.'],
+    'sentence-types':['sentence-purpose-confusion','Decide whether the sentence tells, asks, or gives a direction.'],
+    'consonant-blends':['blend-sound-confusion','Say the beginning slowly and listen for both consonant sounds.'],
+    'vowel-patterns':['vowel-sound-confusion','Listen to the vowel sound instead of choosing by spelling alone.'],
+    'cvc-structure':['word-structure-confusion','Check the letter pattern one position at a time.'],
+    'plural-nouns':['plural-ending-confusion','Check whether this word needs -s or -es.'],
+    'vocabulary-in-context':['context-meaning-confusion','Test each meaning in the sentence and keep the one that makes sense.'],
+    'missing-number':['inverse-operation-confusion','Use the inverse operation to find the missing number.'],
+    'missing-addend':['inverse-operation-confusion','Subtract the known part from the total to find the missing part.'],
+    'unknown-number':['inverse-operation-confusion','Undo the operation to isolate the unknown.'],
+    'two-step-word-problem':['one-step-only','This problem changes twice. Solve both steps in order.'],
+    'subtraction-strategy':['fact-family-confusion','Use the related addition fact to check the subtraction.'],
+    'place-value':['place-value-position-confusion','The digit’s value depends on whether it is in the hundreds, tens, or ones place.'],
+    'compare-numbers':['comparison-place-confusion','Compare the largest place value first.'],
+    'patterns':['wrong-pattern-step','Find the repeated change between neighboring numbers.'],
+    'geometry':['attribute-confusion','Count defining sides or vertices instead of using size or appearance.'],
+    'measurement':['operation-or-unit-confusion','Track both the operation and the measurement unit.'],
+    'time':['clock-hand-confusion','Use the minute hand first, then check the hour hand.'],
+    'data-interpretation':['graph-reading-confusion','Read the category label and value before comparing.'],
+    'probability-language':['relative-frequency-confusion','Compare how many of each outcome are possible.'],
+    'religion-application':['lesson-application-confusion','Choose the action that best demonstrates the lesson in real life.']
+  };
+  const [tag,feedback]=bySkill[skill]||['unsupported-choice','Recheck the evidence or calculation that supports your choice.'];
+  return {tag,feedback};
+}
+
+function buildChoiceDiagnostics(base){
+  return base.choices.filter(choice=>choice!==base.answer).map(choice=>{
+    const diagnostic=misconceptionFor(base.skill,choice,base.answer);
+    return {choice,misconception:diagnostic.tag,feedback:diagnostic.feedback};
+  });
+}
 function makeQuestion(input){
   const base={...input};
   if(!base.id||!base.prompt||!base.answer) throw new Error('Question is missing required fields.');
@@ -66,10 +279,41 @@ function makeQuestion(input){
   if(!base.choices.includes(base.answer)) throw new Error('Question '+base.id+' answer is not in choices.');
   if(FORBIDDEN.some(pattern=>pattern.test(base.prompt))) throw new Error('Forbidden meta prompt in '+base.id+': '+base.prompt);
   if(!Number.isInteger(base.difficulty)||base.difficulty<2||base.difficulty>3) throw new Error('Question '+base.id+' has invalid difficulty.');
-  const keys=['id','stationId','subject','skill','prompt','choices','answer','explanation','provenance','sourceFact','tier','domain','difficulty'];
+
+  const standards=Array.isArray(base.standards)&&base.standards.length
+    ? [...new Set(base.standards.map(String))]
+    : standardsFor(base.subject,base.skill,base.domain);
+  const dok=Number.isInteger(base.dok) ? base.dok : (DOK_BY_SKILL[base.skill]||2);
+  if(dok<1||dok>3) throw new Error('Question '+base.id+' has invalid DOK.');
+  const hint=String(base.hint||hintFor(base.skill));
+  const scaffold=String(base.scaffold||scaffoldFor(base.skill));
+  const choiceDiagnostics=Array.isArray(base.choiceDiagnostics)&&base.choiceDiagnostics.length
+    ? base.choiceDiagnostics
+    : buildChoiceDiagnostics(base);
+  const wrongChoices=base.choices.filter(choice=>choice!==base.answer);
+  if(choiceDiagnostics.length!==wrongChoices.length) throw new Error('Question '+base.id+' must diagnose every distractor.');
+  for(const choice of wrongChoices){
+    const row=choiceDiagnostics.find(item=>item?.choice===choice);
+    if(!row||!row.misconception||!row.feedback) throw new Error('Question '+base.id+' is missing misconception feedback for '+choice);
+  }
+
+  const enriched={
+    ...base,
+    standards,
+    dok,
+    cognitiveDemand:dok===1?'recall-and-fluency':dok===2?'skill-and-concept-application':'strategic-reasoning',
+    hint,
+    scaffold,
+    choiceDiagnostics
+  };
+  const keys=[
+    'id','stationId','subject','skill','prompt','choices','answer','explanation',
+    'provenance','sourceFact','tier','domain','difficulty','standards','dok',
+    'cognitiveDemand','hint','scaffold','choiceDiagnostics'
+  ];
   const material={};
-  for(const key of keys) if(base[key]!==undefined) material[key]=base[key];
-  return {...base,contentHash:sha(material)};
+  for(const key of keys) if(enriched[key]!==undefined) material[key]=enriched[key];
+  return {...enriched,contentHash:sha(material)};
 }
 function subject(regex){
   return pack.subjects.find(item=>regex.test(String(item.subject||'')))||{subject:'',topics:[],studyNotes:[]};
