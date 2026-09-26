@@ -98,7 +98,8 @@ describe('Step 8: player-experience polish and automated UX QA', () => {
     expect(client).toContain('onboarding.Size = UDim2.new(0.78, 0, 0, 216)');
     expect(client).toContain('onboardingButton.Size = UDim2.new(1, -36, 0, 44)');
     expect(client).toContain('waypoint.Size = UDim2.fromOffset(96, 24)');
-    expect(client).toContain('waypoint.MaxDistance = 350');
+    expect(client).toContain('waypoint.MaxDistance = 220');
+    expect(client).toContain('waypoint.AlwaysOnTop = false');
     expect(client).toContain('waypoint.Adornee = candidate');
     expect(client).toContain('Selectable = true');
 
