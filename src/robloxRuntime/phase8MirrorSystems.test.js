@@ -98,15 +98,17 @@ describe('Phase 8: Brookhaven mirror systems with learning economy',()=>{
     const sidebar=read('roblox/src/client/MirrorSidebar.client.luau');
     const shop=read('roblox/src/client/Shop.client.luau');
     expect(sidebar).toContain('gui.Name = "BrookhavenMirrorSidebar"');
-    expect(sidebar).toContain('rail.Size = UDim2.fromOffset(58, 328)');
-    for(const label of ['Ava','Items','Emote','Cars','House','Bio','Jobs','Map','Shop']){
-      expect(sidebar).toContain('railButton("'+label+'"');
+    expect(sidebar).toContain('rail.Size = UDim2.fromOffset(54, 326)');
+    for(const name of ['Avatar','Inventory','Emotes','Vehicles','Houses','Bio','Jobs','Map','Shop']){
+      expect(sidebar).toContain('"'+name+'Button"');
     }
+    expect(sidebar).toContain('panel.AnchorPoint = Vector2.new(1, 0.5)');
+    expect(sidebar).toContain('panel.Size = UDim2.fromOffset(356, 326)');
+    expect(sidebar).toContain('grid.CellSize = UDim2.fromOffset(78, 78)');
+    expect(sidebar).toContain('close.BackgroundColor3 = UI.red');
     expect(sidebar).toContain('Humanoid');
     expect(sidebar).toContain('PlayEmote');
     expect(sidebar).toContain('Save Bio');
-    expect(sidebar).toContain('actionButton.Size = UDim2.fromOffset(104, 44)');
-    expect(sidebar).toContain('Answer questions to earn coins.');
     expect(shop).toContain('shopButton.Visible = false');
     expect(shop).toContain('homeButton.Visible = false');
     expect(shop).toContain('OpenStore');
