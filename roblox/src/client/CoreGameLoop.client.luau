@@ -65,8 +65,9 @@ gui.Parent = playerGui
 
 local hud = Instance.new("Frame")
 hud.Name = "HUD"
-hud.Size = UDim2.fromOffset(314, 64)
-hud.Position = UDim2.fromOffset(12, 12)
+hud.AnchorPoint = Vector2.new(1, 0)
+hud.Size = UDim2.fromOffset(286, 58)
+hud.Position = UDim2.new(1, -12, 0, 12)
 hud.BackgroundColor3 = COLORS.navy
 hud.BackgroundTransparency = 0.16
 hud.Parent = gui
@@ -74,28 +75,28 @@ round(hud, 14)
 outline(hud, 0.68)
 
 local hudSize = Instance.new("UISizeConstraint")
-hudSize.MinSize = Vector2.new(280, 64)
-hudSize.MaxSize = Vector2.new(340, 64)
+hudSize.MinSize = Vector2.new(260, 58)
+hudSize.MaxSize = Vector2.new(300, 58)
 hudSize.Parent = hud
 
 local title = Instance.new("TextLabel")
 title.Name = "Title"
 title.BackgroundTransparency = 1
 title.Position = UDim2.fromOffset(12, 6)
-title.Size = UDim2.fromOffset(84, 24)
+title.Size = UDim2.fromOffset(72, 22)
 title.Font = Enum.Font.GothamBold
 title.Text = "StarBlox"
 title.TextColor3 = COLORS.text
 title.TextScaled = true
 title.TextXAlignment = Enum.TextXAlignment.Left
 title.Parent = hud
-constrainText(title, 14, 18)
+constrainText(title, 13, 17)
 
 local economy = Instance.new("TextLabel")
 economy.Name = "Economy"
 economy.BackgroundTransparency = 1
-economy.Position = UDim2.fromOffset(96, 6)
-economy.Size = UDim2.new(1, -108, 0, 24)
+economy.Position = UDim2.fromOffset(78, 6)
+economy.Size = UDim2.new(1, -90, 0, 22)
 economy.Font = Enum.Font.GothamMedium
 economy.TextColor3 = COLORS.text
 economy.TextScaled = true
@@ -106,8 +107,8 @@ constrainText(economy, 12, 15)
 local progress = Instance.new("TextLabel")
 progress.Name = "Progress"
 progress.BackgroundTransparency = 1
-progress.Position = UDim2.fromOffset(12, 34)
-progress.Size = UDim2.new(1, -24, 0, 22)
+progress.Position = UDim2.fromOffset(12, 31)
+progress.Size = UDim2.new(1, -24, 0, 19)
 progress.Font = Enum.Font.GothamMedium
 progress.TextColor3 = COLORS.muted
 progress.TextScaled = true
@@ -117,10 +118,11 @@ constrainText(progress, 11, 14)
 
 local nextHint = Instance.new("TextLabel")
 nextHint.Name = "NextHint"
+nextHint.AnchorPoint = Vector2.new(1, 0)
 nextHint.BackgroundColor3 = COLORS.navy
 nextHint.BackgroundTransparency = 0.16
-nextHint.Position = UDim2.fromOffset(12, 82)
-nextHint.Size = UDim2.fromOffset(260, 30)
+nextHint.Position = UDim2.new(1, -12, 0, 76)
+nextHint.Size = UDim2.fromOffset(220, 28)
 nextHint.Font = Enum.Font.GothamBold
 nextHint.TextColor3 = COLORS.warning
 nextHint.TextScaled = true
@@ -129,7 +131,7 @@ nextHint.Text = "Loading your next station…"
 nextHint.Parent = gui
 round(nextHint, 12)
 outline(nextHint, 0.72)
-constrainText(nextHint, 11, 14)
+constrainText(nextHint, 10, 13)
 
 local toast = Instance.new("TextLabel")
 toast.Name = "Toast"
@@ -327,10 +329,10 @@ constrainText(onboardingButton, 14, 18)
 
 local waypoint = Instance.new("BillboardGui")
 waypoint.Name = "NextActivityWaypoint"
-waypoint.Size = UDim2.fromOffset(124, 30)
-waypoint.StudsOffsetWorldSpace = Vector3.new(0, 3.5, 0)
-waypoint.AlwaysOnTop = true
-waypoint.MaxDistance = 350
+waypoint.Size = UDim2.fromOffset(96, 24)
+waypoint.StudsOffsetWorldSpace = Vector3.new(0, 2.5, 0)
+waypoint.AlwaysOnTop = false
+waypoint.MaxDistance = 220
 waypoint.Enabled = false
 waypoint.Parent = playerGui
 
@@ -338,14 +340,14 @@ local waypointLabel = Instance.new("TextLabel")
 waypointLabel.Name = "Label"
 waypointLabel.Size = UDim2.fromScale(1, 1)
 waypointLabel.BackgroundColor3 = COLORS.navy
-waypointLabel.BackgroundTransparency = 0.2
+waypointLabel.BackgroundTransparency = 0.38
 waypointLabel.TextColor3 = COLORS.text
 waypointLabel.TextScaled = true
 waypointLabel.Font = Enum.Font.GothamBold
 waypointLabel.Parent = waypoint
-round(waypointLabel, 10)
-outline(waypointLabel, 0.72)
-constrainText(waypointLabel, 10, 13)
+round(waypointLabel, 8)
+outline(waypointLabel, 0.86)
+constrainText(waypointLabel, 9, 11)
 
 local anchorFolder = workspace:WaitForChild("StarBloxActivityAnchors", 10)
 
