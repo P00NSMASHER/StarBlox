@@ -21,6 +21,12 @@ function row(overrides={}){
     firstPilotBucketCounts:{current:3,'star-reading':2,spaced:3},
     pilotResponseTimeBands:{'under-5s':1,'5-15s':5,'15-30s':3,'30s-plus':1},
     pilotMisconceptionCounts:{'unsupported-inference':2},
+    baselinePilotAttempts:10,baselinePilotCorrect:6,baselinePilotWrong:4,
+    baselineFirstAttempts:8,baselineFirstCorrect:5,
+    baselineRubricPoints:14,baselineRubricMaxPoints:20,
+    baselineFirstBucketCounts:{current:3,'star-reading':2,spaced:3},
+    baselineResponseTimeBands:{'under-5s':1,'5-15s':5,'15-30s':3,'30s-plus':1},
+    baselineMisconceptionCounts:{'unsupported-inference':2},
     sumPilotSessionAccuracy:5.4,
     sumPilotSessionAccuracySquared:3.9,
     sumPilotItemSessionProduct:3.6,
@@ -34,7 +40,12 @@ function live({completed=3,items={q1:row(),q2:row(),q3:row()}}={}){
     metricsVersion:'starblox-question-item-metrics-v2-pilot-baseline',
     metricsUpdatedAt:123,
     itemMetrics:items,
-    retention:{pilotSessionsStarted:completed,pilotSessionsCompleted:completed}
+    retention:{
+      pilotSessionsStarted:completed,
+      pilotSessionsCompleted:completed,
+      baselinePilotSessionsStarted:completed,
+      baselinePilotSessionsCompleted:completed
+    }
   };
 }
 
