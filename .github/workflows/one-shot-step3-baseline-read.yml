@@ -1,0 +1,91 @@
+name: One-shot Step 3 baseline read
+
+on:
+  push:
+    branches:
+      - release/private-main-4f64f29a
+    paths:
+      - .github/workflows/one-shot-step3-baseline-read.yml
+
+permissions:
+  contents: read
+
+jobs:
+  read-baseline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout exact Step 3 main
+        uses: actions/checkout@v4
+        with:
+          ref: 4f64f29a779d0f454e7836eff7340a2a08de24c0
+          fetch-depth: 0
+
+      - name: Prove exact source commit
+        run: test "$(git rev-parse HEAD)" = "4f64f29a779d0f454e7836eff7340a2a08de24c0"
+
+      - name: Use Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Verify Step 3 baseline analyzers
+        run: |
+          npx vitest run \
+            src/robloxRuntime/pilotBaselineIntegrity.test.js \
+            src/robloxRuntime/pilotLearningSteps34.test.js \
+            src/robloxRuntime/studyPilotMode.test.js
+
+      - name: Read live privacy-minimized baseline evidence only
+        env:
+          ROBLOX_OPEN_CLOUD_API_KEY: ${{ secrets.ROBLOX_OPEN_CLOUD_API_KEY }}
+          ROBLOX_UNIVERSE_ID: ${{ vars.ROBLOX_UNIVERSE_ID }}
+          ROBLOX_PLACE_ID: ${{ vars.ROBLOX_PLACE_ID }}
+        run: |
+          mkdir -p artifacts/step3-baseline
+          node scripts/fetch-live-pilot-metrics.mjs \
+            --out artifacts/step3-baseline/live.json
+          node scripts/build-pilot-baseline.mjs \
+            artifacts/step3-baseline/live.json \
+            docs/phase6/ABVM_GRADE2_ROTATING_QUESTION_SOURCE.json \
+            --json artifacts/step3-baseline/baseline.json \
+            --markdown artifacts/step3-baseline/baseline.md
+
+      - name: Print baseline-only summary
+        run: |
+          node --input-type=module - <<'NODE'
+          import {readFileSync} from 'node:fs';
+          const b=JSON.parse(readFileSync('artifacts/step3-baseline/baseline.json','utf8'));
+          const summary={
+            status:b.status,
+            placeVersion:b.source?.placeVersion ?? null,
+            bankSnapshotId:b.source?.bankSnapshotId ?? null,
+            cohort:b.source?.cohort ?? null,
+            frozen:b.source?.frozen ?? null,
+            baselineSessionsStarted:b.readiness?.startedSessions ?? 0,
+            baselineSessionsCompleted:b.readiness?.completedSessions ?? 0,
+            firstAttempts:b.readiness?.firstAttempts ?? 0,
+            baselineEstablished:b.readiness?.baselineEstablished ?? false,
+            firstAttemptAccuracy:b.overall?.firstAttemptAccuracy ?? null,
+            rubricRate:b.overall?.rubricRate ?? null,
+            retryRate:b.overall?.retryRate ?? null,
+            slowResponseShare:b.overall?.slowResponseShare ?? null,
+            calibrationFirstAttempts:b.readiness?.calibrationFirstAttempts ?? 0,
+            calibrationCompletedSessions:b.readiness?.calibrationCompletedSessions ?? 0,
+            privacy:b.privacy
+          };
+          console.log('STARBLOX_STEP3_BASELINE_SUMMARY '+JSON.stringify(summary));
+          NODE
+
+      - name: Upload privacy-minimized Step 3 baseline
+        uses: actions/upload-artifact@v4
+        with:
+          name: starblox-step3-baseline-summary
+          path: |
+            artifacts/step3-baseline/baseline.json
+            artifacts/step3-baseline/baseline.md
+          if-no-files-found: error
+          retention-days: 30
