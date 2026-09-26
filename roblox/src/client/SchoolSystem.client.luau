@@ -110,8 +110,7 @@ local function renderState(payload)
 	state = payload
 	stateReceivedAt = os.clock()
 	local clock = payload.clock
-	hud.Text = string.format("%s
-%s • %ds", clock.InGameStart, clock.DisplayName, clock.SecondsRemaining)
+	hud.Text = string.format("%s\n%s • %ds", clock.InGameStart, clock.DisplayName, clock.SecondsRemaining)
 	report.Visible = false
 
 	if payload.report and payload.report.ok then
@@ -136,10 +135,52 @@ local function renderState(payload)
 				table.insert(lines, "Missed work available at the Library.")
 			end
 		end
-		report.Text = table.concat(lines, "
-")
+		report.Text = table.concat(lines, "\n")
 		report.Visible = true
 	end
+end
+
+local function richSummary(content: any): string
+	if type(content) ~= "table" then return "" end
+	local kind = tostring(content.kind or "")
+	if kind == "clock-face" then
+		local hour = math.floor(tonumber(content.hour) or 12)
+		local minute = math.floor(tonumber(content.minute) or 0)
+		return string.format("Clock model: %d:%02d", hour, minute)
+	elseif kind == "number-line" then
+		local startValue = tonumber(content.start)
+		local endValue = tonumber(content["end"])
+		local step = tonumber(content.step)
+		if startValue ~= nil and endValue ~= nil and step ~= nil and step > 0 then
+			local values = {}
+			local value = startValue
+			while value <= endValue and #values < 10 do
+				table.insert(values, tostring(value))
+				value += step
+			end
+			return "Number line: " .. table.concat(values, "  •  ")
+		end
+	elseif kind == "shape-fraction" then
+		return string.format(
+			"Fraction model: %d of %d equal parts shaded",
+			math.floor(tonumber(content.shaded) or 0),
+			math.floor(tonumber(content.parts) or 0)
+		)
+	elseif kind == "place-value" then
+		return string.format(
+			"Place value: %s hundreds • %s tens • %s ones",
+			tostring(content.hundreds or 0),
+			tostring(content.tens or 0),
+			tostring(content.ones or 0)
+		)
+	elseif kind == "bar-chart" and type(content.bars) == "table" then
+		local parts = {}
+		for _, row in content.bars do
+			table.insert(parts, tostring(row.label or "?") .. ": " .. tostring(row.value or 0))
+		end
+		return "Bar chart: " .. table.concat(parts, "  •  ")
+	end
+	return ""
 end
 
 local function renderQuestion(nextSession)
@@ -160,13 +201,17 @@ local function renderQuestion(nextSession)
 	if nextSession.makeup then
 		classLabel ..= " • MAKE-UP"
 	end
+	local promptText = tostring(question.prompt or "")
+	local visualText = richSummary(question.richContent)
+	if visualText ~= "" then
+		promptText ..= "\n" .. visualText
+	end
 	questionLabel.Text = string.format(
-		"%s • %d/%d
-%s",
+		"%s • %d/%d\n%s",
 		classLabel,
 		nextSession.questionIndex,
 		nextSession.questionCount,
-		question.prompt
+		promptText
 	)
 
 	for index, button in buttons do
@@ -200,16 +245,17 @@ for _, button in buttons do
 		end
 
 		feedback.Text = result.explanation or ""
+		if result.partialCredit == true and result.correct ~= true then
+			feedback.Text ..= "\nYou have part of the reasoning right."
+		end
 		if result.scaffold then
-			feedback.Text = feedback.Text .. "
-Hint: " .. tostring(result.scaffold)
+			feedback.Text = feedback.Text .. "\nHint: " .. tostring(result.scaffold)
 		end
 
 		if result.correct then
 			if result.classComplete then
 				feedback.Text = feedback.Text .. string.format(
-					"
-Class complete — %s (%d)",
+					"\nClass complete — %s (%d)",
 					result.grade,
 					result.score
 				)
@@ -233,8 +279,7 @@ RunService.Heartbeat:Connect(function()
 	if state and state.clock then
 		local elapsed = math.max(0, os.clock() - stateReceivedAt)
 		local remaining = math.max(0, math.ceil(state.clock.SecondsRemaining - elapsed))
-		hud.Text = string.format("%s
-%s • %ds", state.clock.InGameStart, state.clock.DisplayName, remaining)
+		hud.Text = string.format("%s\n%s • %ds", state.clock.InGameStart, state.clock.DisplayName, remaining)
 	end
 
 	if not state or not state.targetAnchorName then
