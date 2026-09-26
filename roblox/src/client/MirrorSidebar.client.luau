@@ -21,6 +21,14 @@ local setJob = roleplayRemotes:WaitForChild("SetJob") :: RemoteFunction
 local saveBio = roleplayRemotes:WaitForChild("SaveBio") :: RemoteFunction
 local resetAvatar = roleplayRemotes:WaitForChild("ResetAvatar") :: RemoteFunction
 
+local familyRemotes = ReplicatedStorage:WaitForChild("StarBloxFamily")
+local familyGetState = familyRemotes:WaitForChild("GetState") :: RemoteFunction
+local familyInvite = familyRemotes:WaitForChild("Invite") :: RemoteFunction
+local familyRespond = familyRemotes:WaitForChild("RespondInvite") :: RemoteFunction
+local familyLeave = familyRemotes:WaitForChild("Leave") :: RemoteFunction
+local familyRemoveMember = familyRemotes:WaitForChild("RemoveMember") :: RemoteFunction
+local familyStateChanged = familyRemotes:WaitForChild("StateChanged") :: RemoteEvent
+
 local shopRemotes = ReplicatedStorage:WaitForChild("StarBloxShop")
 local getPlots = shopRemotes:WaitForChild("GetPlots") :: RemoteFunction
 local selectPlot = shopRemotes:WaitForChild("SelectPlot") :: RemoteFunction
@@ -985,32 +993,89 @@ end
 
 showFamily = function()
 	clearCategories()
-	if not fetchRoleplayState() then
-		return
-	end
 	clearGrid()
 	setHeader("Family")
+
+	local ok, familyState = pcall(function()
+		return familyGetState:InvokeServer()
+	end)
+	if not ok or type(familyState) ~= "table" or familyState.ok ~= true then
+		tile("!", "Family", "unavailable", "", UI.red, 1, nil)
+		return
+	end
+
 	local order = 1
-	tile("ID", tostring(roleplayState.displayName or "Player"), tostring(roleplayState.age or ""), "✓", UI.green, order, nil)
-	order += 1
-	for _, job in roleplayState.jobs or {} do
-		local selected = tostring(job) == tostring(roleplayState.job)
-		tile(
-			"♟",
-			tostring(job),
-			selected and "current" or "choose",
-			selected and "✓" or "",
-			UI.green,
-			order,
-			selected and nil or function()
+	for _, invite in familyState.pendingInvites or {} do
+		local ownerId = tonumber(invite.OwnerUserId)
+		local ownerName = tostring(invite.OwnerDisplayName or "Player")
+		tile("✓", "Join " .. ownerName, "accept", "", UI.green, order, function()
+			pcall(function()
+				familyRespond:InvokeServer(ownerId, true)
+			end)
+			showFamily()
+		end)
+		order += 1
+		tile("×", "Decline", ownerName, "", UI.red, order, function()
+			pcall(function()
+				familyRespond:InvokeServer(ownerId, false)
+			end)
+			showFamily()
+		end)
+		order += 1
+	end
+
+	for _, member in familyState.members or {} do
+		local isSelf = member.IsSelf == true
+		local isOwner = member.IsOwner == true
+		local detail = if isOwner then "owner" elseif isSelf then "you" else "family"
+		local callback = nil
+		if familyState.isOwner == true and not isSelf then
+			local memberId = tonumber(member.UserId)
+			callback = function()
 				pcall(function()
-					setJob:InvokeServer(job)
+					familyRemoveMember:InvokeServer(memberId)
 				end)
-				fetchRoleplayState()
 				showFamily()
 			end
+		end
+		tile(
+			isOwner and "★" or "♟",
+			tostring(member.DisplayName or member.Name or "Player"),
+			callback and "tap to remove" or detail,
+			isSelf and "✓" or "",
+			isOwner and UI.blue or UI.green,
+			order,
+			callback
 		)
 		order += 1
+	end
+
+	if familyState.inFamily ~= true or familyState.isOwner == true then
+		for _, candidate in familyState.candidates or {} do
+			local userId = tonumber(candidate.UserId)
+			local displayName = tostring(candidate.DisplayName or candidate.Name or "Player")
+			tile("＋", displayName, tostring(candidate.Distance or "?") .. " studs", "", UI.blue, order, function()
+				pcall(function()
+					familyInvite:InvokeServer(userId)
+				end)
+				showFamily()
+			end)
+			order += 1
+		end
+	end
+
+	if familyState.inFamily == true then
+		tile("×", "Leave Family", familyState.isOwner == true and "disband" or "leave", "", UI.red, order, function()
+			pcall(function()
+				familyLeave:InvokeServer()
+			end)
+			showFamily()
+		end)
+		order += 1
+	end
+
+	if order == 1 then
+		tile("♟", "No players nearby", "move closer to invite", "", UI.blue, order, nil)
 	end
 end
 
@@ -1142,6 +1207,11 @@ end)
 quickChatBolt.Activated:Connect(showQuickChat)
 quickChatButton.Activated:Connect(showQuickChat)
 familyButton.Activated:Connect(showFamily)
+familyStateChanged.OnClientEvent:Connect(function()
+	if panel.Visible and panelTitle.Text == "Family" then
+		showFamily()
+	end
+end)
 homeCamsButton.Activated:Connect(showHomeCams)
 settingsButton.Activated:Connect(showSettings)
 close.Activated:Connect(closePanel)
