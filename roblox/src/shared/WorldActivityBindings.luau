@@ -21,12 +21,12 @@ local WorldActivityBindings = table.freeze({
 		}),
 		["spelling-forge-fog-v1"] = table.freeze({
 			AnchorName = "SpellingForgeAnchor",
-			SourcePartName = "BHW_3191",
+			SourcePartName = "BHW_4876",
 			HeightOffset = 3,
 		}),
 		["culture-lab-culture-v1"] = table.freeze({
 			AnchorName = "CultureLabAnchor",
-			SourcePartName = "BHW_4654",
+			SourcePartName = "BHW_3405",
 			HeightOffset = 3,
 		}),
 	}),

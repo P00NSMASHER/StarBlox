@@ -69,8 +69,8 @@ describe('Step 8: player-experience polish and automated UX QA', () => {
     expect(bindings).toContain('BrookhavenWorldBaseline');
     expect(bindings).toContain('BHW_3461');
     expect(bindings).toContain('BHW_4879');
-    expect(bindings).toContain('BHW_3191');
-    expect(bindings).toContain('BHW_4654');
+    expect(bindings).toContain('BHW_4876');
+    expect(bindings).toContain('BHW_3405');
 
     expect(config).toContain('Direction = "North"');
     expect(config).toContain('Direction = "East"');

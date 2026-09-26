@@ -105,8 +105,8 @@ describe('Step 7: Roblox-native StarBlox core loop', () => {
       'StarBloxActivityAnchors',
       'BHW_3461',
       'BHW_4879',
-      'BHW_3191',
-      'BHW_4654'
+      'BHW_4876',
+      'BHW_3405'
     ]){
       expect(bindings).toContain(token);
     }
