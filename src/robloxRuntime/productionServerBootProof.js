@@ -208,11 +208,12 @@ assert((classCounts.Glue or 0) == 3, "unexpected runtime Glue joint count")
 assert((classCounts.Snap or 0) == 4, "unexpected runtime Snap joint count")
 assert((classCounts.Weld or 0) == 16, "unexpected runtime Weld joint count")
 for _, forbiddenClass in {"Script","LocalScript","ModuleScript","RemoteEvent","RemoteFunction"} do
-    assert((classCounts[forbiddenClass] or 0) == 0, "Brookhaven baseline contains forbidden runtime class " .. forbiddenClass)
+    assert((classCounts[forbiddenClass] or 0) == 0, "Brookhaven witness contains forbidden runtime class " .. forbiddenClass)
+    assert((runtimeClassCounts[forbiddenClass] or 0) == 0, "Brookhaven runtime projection unexpectedly contains gameplay class " .. forbiddenClass)
 end
 
 local generatedJointCount = (classCounts.Glue or 0) + (classCounts.Snap or 0) + (classCounts.Weld or 0)
-local liveCount = #brookhaven:GetDescendants() + 1
+local liveCount = #witness:GetDescendants() + 1
 local serializedEquivalentCount = liveCount - generatedJointCount
 assert(
     serializedEquivalentCount == 5493,
