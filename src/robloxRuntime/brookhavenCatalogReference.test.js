@@ -17,13 +17,15 @@ describe('Brookhaven catalog parity reference',()=>{
     expect(reference.verifiedTargets.houses.total).toBe(83);
     expect(Object.values(reference.verifiedTargets.vehicles.categories).reduce((a,b)=>a+b,0)).toBe(188);
 
-    expect(reference.currentStarBloxImplementation.vehicles).toBe(8);
+    expect(reference.currentStarBloxImplementation.runtimePlayableVehicles).toBe(8);
+    expect(reference.currentStarBloxImplementation.verifiedReferenceSmallVehicles).toBe(22);
     expect(reference.currentStarBloxImplementation.inventoryItems).toBe(12);
     expect(reference.currentStarBloxImplementation.parityComplete).toBe(false);
 
     expect(config).toContain('Vehicles = 188');
     expect(config).toContain('InventoryItems = 173');
-    expect(config).toContain('Vehicles = 8');
+    expect(config).toContain('RuntimePlayableVehicles = 8');
+    expect(config).toContain('VerifiedReferenceSmallVehicles = 22');
     expect(config).toContain('InventoryItems = 12');
     expect(config).toContain('VehicleParityComplete = false');
     expect(config).toContain('InventoryParityComplete = false');
