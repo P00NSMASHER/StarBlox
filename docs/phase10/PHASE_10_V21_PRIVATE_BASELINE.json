@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "version": "starblox-phase10-v21-private-baseline-v1",
+  "status": "verified-private-v21-home-placement-baseline",
+  "recordedAt": "2026-09-26",
+  "canonicalMainCommit": "28a0e8e46964af0efba8c544d935bd4a35327f41",
+  "privateRelease": {
+    "placeVersion": 21,
+    "sourceCommit": "9b9d9a7477c6b25b985c10036834ddd07592a8a9",
+    "workflowRunId": 36251753086,
+    "artifactSha256": "d10dfd743695eedba1385c132cbc3d4444070b759f62c8ad022d204e3e3d6133",
+    "exactServerBootVerified": true,
+    "baselineModelSha256": "4dfd451ae211dead959ec3f165e2b477a9725d04727febdc66472e95328917df",
+    "mountedSubtreeSha256": "d2c88a68305a65475dfdab77220b69e4138d81e44250edd1849f69cee4c92a90"
+  },
+  "placement": {
+    "persistent": true,
+    "serverClamped": true,
+    "movementStepStuds": 1,
+    "rotationStepDegrees": 15,
+    "hideShow": true,
+    "reset": true,
+    "runtimeOwnedOnly": true,
+    "baselineMutationAllowed": false
+  },
+  "authority": {
+    "publicAccessChangeAttempted": false,
+    "productionActivationAllowed": false
+  },
+  "cleanup": {
+    "oneOffPublisherNeutralized": true
+  }
+}
