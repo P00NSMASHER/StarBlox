@@ -18,6 +18,9 @@ describe('Phase 7: question economy, store, and player homes',()=>{
     expect(service).toContain('ApplyCorrectQuestionReward');
     expect(service).toContain('stale_question');
     expect(service).toContain('question_station_mismatch');
+    expect(service).toContain('local nextQuestion = CoreQuestionBank.Select(activityId, currentCursor + 1)');
+    expect(service).toContain('nextQuestionId = if nextQuestion ~= nil then nextQuestion.Id else nil');
+    expect(service).not.toContain('nextQuestionId = questionReward.nextQuestionId');
   });
 
   it('ships seven visible starter items and five sequential home tiers',()=>{
