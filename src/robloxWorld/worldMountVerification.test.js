@@ -18,7 +18,8 @@ function isolatedDom(){
 }
 function mountedDom(){
   return node('DataModel','DataModel',[
-    node('Workspace','Workspace',[baseline()]),
+    node('ServerStorage','ServerStorage',[baseline()]),
+    node('Workspace','Workspace',[]),
     node('ReplicatedStorage','ReplicatedStorage',[node('Folder','StarBlox')]),
     node('ServerScriptService','ServerScriptService',[node('Folder','StarBlox')]),
     node('StarterPlayer','StarterPlayer',[
@@ -36,7 +37,7 @@ const lock={
 };
 
 describe('Target architecture Step 5 StarBlox world mount boundary',()=>{
-  it('adds Workspace only to the generated mount project',()=>{
+  it('mounts the immutable witness in ServerStorage and keeps Workspace runtime-owned',()=>{
     const project=createStep5MountProject({
       name:'StarBloxRoblox',
       tree:{
@@ -45,8 +46,9 @@ describe('Target architecture Step 5 StarBlox world mount boundary',()=>{
         ServerScriptService:{StarBlox:{$path:'src/server'}}
       }
     });
-    expect(project.tree.Workspace.BrookhavenWorldBaseline.$path)
+    expect(project.tree.ServerStorage.BrookhavenWorldBaseline.$path)
       .toBe('.step5-generated/BrookhavenWorldBaseline.rbxmx');
+    expect(project.tree.Workspace).toBeUndefined();
     expect(project.tree.ReplicatedStorage.StarBlox.$path).toBe('src/shared');
   });
 
@@ -62,6 +64,9 @@ describe('Target architecture Step 5 StarBlox world mount boundary',()=>{
     expect(receipt.baseline.subtreeInstanceCount).toBe(5493);
     expect(receipt.runtime.mounted).toBe(true);
     expect(receipt.runtime.parentedIntoBaseline).toBe(false);
+    expect(receipt.runtime.projectionName).toBe('BrookhavenWorldRuntime');
+    expect(receipt.runtime.projectionPresentInStaticArtifact).toBe(false);
+    expect(receipt.baseline.witnessLocation).toBe('ServerStorage/BrookhavenWorldBaseline');
     expect(receipt.boundaries.worldBaselineMutated).toBe(false);
   });
 
