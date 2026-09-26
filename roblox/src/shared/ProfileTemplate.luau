@@ -40,6 +40,12 @@ local ProfileTemplate = {
 		AdaptiveByStation = {},
 		SkillStats = {},
 		Experiments = {},
+		Pilot = {
+			SessionsStarted = 0,
+			SessionsCompleted = 0,
+			QuestionsCompleted = 0,
+			LastCompletedAt = 0,
+		},
 		RecentConceptIds = {},
 		WrongStreak = 0,
 	},

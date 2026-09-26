@@ -22,6 +22,18 @@ local CoreLoopConfig = table.freeze({
 		ControlVariant = "A",
 		TreatmentVariant = "B",
 	}),
+	PilotMode = table.freeze({
+		Enabled = true,
+		SessionLength = 18,
+		CurrentMaterialQuestions = 6,
+		PriorSkillQuestions = 4,
+		StarReadingQuestions = 4,
+		StarMathQuestions = 4,
+		MaxQuestionsPerSkill = 3,
+		MaxConsecutiveSameSkill = 1,
+		AwardsEconomy = false,
+		AdvancesChallenge = false,
+	}),
 	QuestionRotation = table.freeze({
 		BankRevision = "dynamic-abvm-star-sync-v1",
 		StarFallbackPerStation = 40,
