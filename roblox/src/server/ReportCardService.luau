@@ -67,6 +67,7 @@ function ReportCardService.Build(profileData, schoolDayId: string, claimFullDay:
 	if fullDay and claimFullDay == true then
 		reward = SchoolProgressService.ApplyFullDay(profileData, schoolDayId)
 	end
+	local earnings = SchoolProgressService.GetDayEarnings(profileData, schoolDayId)
 
 	return {
 		ok = true,
@@ -79,6 +80,7 @@ function ReportCardService.Build(profileData, schoolDayId: string, claimFullDay:
 		tardy = tardy,
 		missed = missed,
 		averageScore = if completed > 0 then math.floor(scoreTotal / completed + 0.5) else 0,
+		earnings = earnings,
 		reward = reward,
 	}
 end
