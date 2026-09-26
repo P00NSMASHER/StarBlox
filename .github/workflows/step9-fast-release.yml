@@ -73,6 +73,7 @@ jobs:
             src/robloxRuntime/schoolFoundation.test.js \
             src/robloxRuntime/schoolSystem.test.js \
             src/robloxRuntime/brookhavenParityReadiness.test.js \
+            src/robloxRuntime/brookhavenFinalPrivateHandoff.test.js \
             src/robloxRuntime/phase10HomePlacement.test.js \
             src/robloxRuntime/phase11HouseStyles.test.js \
             src/robloxWorld/worldPlotBindings.test.js \
