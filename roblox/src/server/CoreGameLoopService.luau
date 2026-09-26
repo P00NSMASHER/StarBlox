@@ -159,6 +159,10 @@ local function ensureQuestionState(profileData)
 		type(profileData.Learning.SkillStats) == "table"
 		and profileData.Learning.SkillStats
 		or {}
+	profileData.Learning.Experiments =
+		type(profileData.Learning.Experiments) == "table"
+		and profileData.Learning.Experiments
+		or {}
 	profileData.Learning.WrongStreak = math.max(0, math.floor(tonumber(profileData.Learning.WrongStreak) or 0))
 	return profileData.Learning.QuestionCursorByStation
 end
@@ -190,7 +194,24 @@ local function targetDifficulty(profileData, activityId: string): number
 	return ensureAdaptiveState(profileData, activityId).Difficulty
 end
 
-local function recordLearningAttempt(profileData, question, correct: boolean)
+local function rubricScore(question, choice: any, correct: boolean): (number, number)
+	local rubric = if question ~= nil and type(question.Rubric) == "table" then question.Rubric else nil
+	local maxPoints = math.max(1, math.floor(tonumber(rubric and rubric.maxPoints) or 2))
+	if correct then
+		return maxPoints, maxPoints
+	end
+	local partial = if rubric ~= nil and type(rubric.partialCredit) == "table" then rubric.partialCredit else nil
+	local points = if partial ~= nil then tonumber(partial[tostring(choice)]) or 0 else 0
+	return math.clamp(math.floor(points), 0, maxPoints - 1), maxPoints
+end
+
+local function recordLearningAttempt(
+	profileData,
+	question,
+	correct: boolean,
+	rubricPoints: number?,
+	rubricMaxPoints: number?
+)
 	if question == nil then
 		return nil, nil
 	end
@@ -198,14 +219,34 @@ local function recordLearningAttempt(profileData, question, correct: boolean)
 	local skillKey = tostring(question.Skill or question.Domain or "unknown")
 	local stats = profileData.Learning.SkillStats[skillKey]
 	if type(stats) ~= "table" then
-		stats = {Seen = 0, Correct = 0, Wrong = 0, ConsecutiveCorrect = 0, ConsecutiveWrong = 0}
+		stats = {
+			Seen = 0,
+			Correct = 0,
+			Wrong = 0,
+			Partial = 0,
+			RubricPoints = 0,
+			RubricMaxPoints = 0,
+			ConsecutiveCorrect = 0,
+			ConsecutiveWrong = 0,
+		}
 		profileData.Learning.SkillStats[skillKey] = stats
 	end
 	stats.Seen = math.max(0, math.floor(tonumber(stats.Seen) or 0)) + 1
 	stats.Correct = math.max(0, math.floor(tonumber(stats.Correct) or 0))
 	stats.Wrong = math.max(0, math.floor(tonumber(stats.Wrong) or 0))
+	stats.Partial = math.max(0, math.floor(tonumber(stats.Partial) or 0))
+	stats.RubricPoints = math.max(0, math.floor(tonumber(stats.RubricPoints) or 0))
+	stats.RubricMaxPoints = math.max(0, math.floor(tonumber(stats.RubricMaxPoints) or 0))
 	stats.ConsecutiveCorrect = math.max(0, math.floor(tonumber(stats.ConsecutiveCorrect) or 0))
 	stats.ConsecutiveWrong = math.max(0, math.floor(tonumber(stats.ConsecutiveWrong) or 0))
+
+	local awarded = math.max(0, math.floor(tonumber(rubricPoints) or 0))
+	local possible = math.max(1, math.floor(tonumber(rubricMaxPoints) or 2))
+	stats.RubricPoints += awarded
+	stats.RubricMaxPoints += possible
+	if not correct and awarded > 0 then
+		stats.Partial += 1
+	end
 
 	local adaptive = ensureAdaptiveState(profileData, question.StationId)
 	if correct then
@@ -233,6 +274,47 @@ local function recordLearningAttempt(profileData, question, correct: boolean)
 	return adaptive, stats
 end
 
+local function experimentVariant(profileData, question): (string?, string?)
+	if question == nil or type(question.Experiment) ~= "table" then
+		return nil, nil
+	end
+	ensureQuestionState(profileData)
+	local experimentId = tostring(question.Experiment.id or "")
+	if experimentId == "" then
+		return nil, nil
+	end
+	local existing = profileData.Learning.Experiments[experimentId]
+	if existing == "A" or existing == "B" then
+		return experimentId, existing
+	end
+	local percent = math.clamp(
+		math.floor(tonumber(question.Experiment.treatmentPercent) or Config.QuestionExperiments.TreatmentPercent),
+		5,
+		10
+	)
+	local variant = if math.random(1, 100) <= percent
+		then Config.QuestionExperiments.TreatmentVariant
+		else Config.QuestionExperiments.ControlVariant
+	profileData.Learning.Experiments[experimentId] = variant
+	return experimentId, variant
+end
+
+local function responseTimeBand(startedAt: any): string
+	local elapsed = math.max(0, os.clock() - (tonumber(startedAt) or os.clock()))
+	if elapsed < 5 then return "under-5s" end
+	if elapsed < 15 then return "5-15s" end
+	if elapsed < 30 then return "15-30s" end
+	return "30s-plus"
+end
+
+local function choiceIndex(question, choice: any): number?
+	if question == nil or type(question.Choices) ~= "table" then return nil end
+	for index, candidate in question.Choices do
+		if tostring(candidate) == tostring(choice) then return index end
+	end
+	return nil
+end
+
 local function selectedQuestionFor(profileData, activityId: string)
 	return CoreQuestionBank.Select(
 		activityId,
@@ -241,8 +323,17 @@ local function selectedQuestionFor(profileData, activityId: string)
 	)
 end
 
-local function publicActivity(activity, question)
+local function publicActivity(activity, question, profileData)
 	assert(question ~= nil, "question is required for public activity")
+	local experimentId = nil
+	local variantId = nil
+	if profileData ~= nil then
+		experimentId, variantId = experimentVariant(profileData, question)
+	end
+	local showRich = question.RichContent ~= nil
+	if experimentId ~= nil then
+		showRich = variantId == Config.QuestionExperiments.TreatmentVariant
+	end
 	return {
 		id = activity.Id,
 		stationName = activity.StationName,
@@ -260,6 +351,10 @@ local function publicActivity(activity, question)
 		dok = question.DOK,
 		cognitiveDemand = question.CognitiveDemand,
 		standards = if type(question.Standards) == "table" then table.clone(question.Standards) else {},
+		rubricMaxPoints = if type(question.Rubric) == "table" then tonumber(question.Rubric.maxPoints) or 2 else 2,
+		richContent = if showRich then question.RichContent else nil,
+		experimentId = experimentId,
+		variantId = variantId,
 		source = activity.Source,
 		sourceWeek = CoreQuestionBank.Source.WeekLabel,
 		reward = {
@@ -297,7 +392,8 @@ function CoreGameLoopService.ApplyCorrectQuestionReward(
 		table.remove(profileData.Learning.RecentQuestionIds, 1)
 	end
 
-	recordLearningAttempt(profileData, question, true)
+	local rubricPoints, rubricMaxPoints = rubricScore(question, question.Answer, true)
+	recordLearningAttempt(profileData, question, true, rubricPoints, rubricMaxPoints)
 	profileData.Economy.Coins += Config.QuestionReward.Coins
 	profileData.Economy.XP += Config.QuestionReward.XP
 	local nextQuestion = CoreQuestionBank.Select(
@@ -311,7 +407,7 @@ function CoreGameLoopService.ApplyCorrectQuestionReward(
 		coins = Config.QuestionReward.Coins,
 		xp = Config.QuestionReward.XP,
 		targetDifficulty = targetDifficulty(profileData, activityId),
-		nextQuestionId = questionReward.nextQuestionId,
+		nextQuestionId = if nextQuestion ~= nil then nextQuestion.Id else nil,
 	}
 end
 
@@ -324,7 +420,7 @@ function CoreGameLoopService.GetPublicActivity(activityId: string, cursor: any?)
 	if question == nil then
 		return nil
 	end
-	return publicActivity(activity, question)
+	return publicActivity(activity, question, nil)
 end
 
 local function masteryTier(loopRuns: number): (string, number?)
