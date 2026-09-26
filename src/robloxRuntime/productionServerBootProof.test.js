@@ -92,7 +92,8 @@ describe('Step 9 joinability: production server boot gate', () => {
     expect(script).toContain('Phase 8 question bank certification missing');
     expect(script).toContain('Phase 8 station question count mismatch');
     expect(script).toContain('retention aggregate store missing after bootstrap');
-    expect(script).toContain('verified Brookhaven world mount missing');
+    expect(script).toContain('immutable Brookhaven witness missing from ServerStorage');
+    expect(script).toContain('mutable Brookhaven runtime projection missing');
     expect(script).toContain('Brookhaven serialized class count mismatch');
     expect(script).toContain('unexpected runtime Glue joint count');
     expect(script).toContain('Brookhaven serialized-equivalent count mismatch');
