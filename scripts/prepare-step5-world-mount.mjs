@@ -61,7 +61,9 @@ const receipt={
     base:'roblox/default.project.json',
     generated:relative(repo,outProject).replaceAll('\\','/'),
     committed:false,
-    ownsWorkspaceOnlyForEphemeralBuild:true
+    immutableWitnessLocation:'ServerStorage/BrookhavenWorldBaseline',
+    ownsWorkspace:false,
+    runtimeProjectionCreatedAtBoot:true
   },
   runtimeMounts:[
     'ReplicatedStorage/StarBlox',
