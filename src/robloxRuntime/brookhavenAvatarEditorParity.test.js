@@ -59,4 +59,22 @@ describe('Brookhaven recording parity: live-world avatar editor',()=>{
     expect(editor).not.toContain('HumanoidDescription');
     expect(editor).toContain('roleplayRemotes:WaitForChild("ApplyAvatarPreset")');
   });
+  it('matches the recorded equipped-item strip and removes only whitelisted worn assets',()=>{
+    const editor=read('roblox/src/client/AvatarEditor.client.luau');
+    const service=read('roblox/src/server/RoleplayService.luau');
+
+    expect(editor).toContain('equippedTray.Name = "EquippedItems"');
+    expect(editor).toContain('equippedTray.Size = UDim2.fromOffset(378, 58)');
+    expect(editor).toContain('for slot = 1, 7 do');
+    expect(editor).toContain('remove.BackgroundColor3 = COLORS.red');
+    expect(editor).toContain('removeAvatarItem:InvokeServer(key, assetId)');
+
+    expect(service).toContain('removeAvatarItem.Name = "RemoveAvatarItem"');
+    expect(service).toContain('REMOVABLE_AVATAR_NUMBER_FIELDS');
+    expect(service).toContain('REMOVABLE_AVATAR_STRING_FIELDS');
+    expect(service).toContain('function RoleplayService:_removeAvatarItem');
+    expect(service).toContain('code = "avatar_item_mismatch"');
+    expect(service).toContain('outcome.avatarItems = avatarItemSummary(player)');
+  });
+
 });
