@@ -577,6 +577,14 @@ function HomeEconomyService.new(profiles, replicas, spawnCFrame: CFrame)
 	resetPlacement.Name = "ResetPlacement"
 	resetPlacement.Parent = remoteRoot
 
+	local getPlots = Instance.new("RemoteFunction")
+	getPlots.Name = "GetPlots"
+	getPlots.Parent = remoteRoot
+
+	local selectPlot = Instance.new("RemoteFunction")
+	selectPlot.Name = "SelectPlot"
+	selectPlot.Parent = remoteRoot
+
 	local visitHome = Instance.new("RemoteFunction")
 	visitHome.Name = "VisitHome"
 	visitHome.Parent = remoteRoot
@@ -609,6 +617,12 @@ function HomeEconomyService.new(profiles, replicas, spawnCFrame: CFrame)
 	resetPlacement.OnServerInvoke = function(player: Player, itemId: any)
 		return self:_resetPlacement(player, itemId)
 	end
+	getPlots.OnServerInvoke = function(player: Player)
+		return self:_plotState(player)
+	end
+	selectPlot.OnServerInvoke = function(player: Player, plotId: any)
+		return self:_selectPlot(player, plotId)
+	end
 	visitHome.OnServerInvoke = function(player: Player)
 		return self:_visitHome(player)
 	end
@@ -619,19 +633,49 @@ function HomeEconomyService.new(profiles, replicas, spawnCFrame: CFrame)
 	return self
 end
 
-function HomeEconomyService:_homeCFrame(player: Player): (CFrame, any)
-	local slot = self._slots[player]
-	if slot == nil then
+function HomeEconomyService:_reservePlot(player: Player, home, requestedPlotId: string?): number
+	local current = self._slots[player]
+	if current ~= nil and self._usedPlots[current] == player then
+		return current
+	end
+
+	local requestedIndex = nil
+	if type(requestedPlotId) == "string" and requestedPlotId ~= "" then
 		for index, binding in WorldPlotBindings.Plots do
-			if self._usedPlots[index] == nil then
-				slot = index
-				self._slots[player] = index
-				self._usedPlots[index] = player
+			if binding.Id == requestedPlotId then
+				requestedIndex = index
 				break
 			end
 		end
 	end
-	assert(slot ~= nil, "no Brookhaven house plot available for player")
+
+	if requestedIndex ~= nil then
+		local occupant = self._usedPlots[requestedIndex]
+		if occupant == nil or occupant == player then
+			self._slots[player] = requestedIndex
+			self._usedPlots[requestedIndex] = player
+			home.PlotId = WorldPlotBindings.Plots[requestedIndex].Id
+			player:SetAttribute("StarBloxHomePlotId", home.PlotId)
+			return requestedIndex
+		end
+	end
+
+	for index, binding in WorldPlotBindings.Plots do
+		if self._usedPlots[index] == nil then
+			self._slots[player] = index
+			self._usedPlots[index] = player
+			home.PlotId = binding.Id
+			player:SetAttribute("StarBloxHomePlotId", home.PlotId)
+			return index
+		end
+	end
+
+	error("no Brookhaven house plot available for player")
+end
+
+function HomeEconomyService:_homeCFrame(player: Player): (CFrame, any)
+	local slot = self._slots[player]
+	assert(slot ~= nil, "Brookhaven house plot not reserved for player")
 
 	local binding = WorldPlotBindings.Plots[slot]
 	local source = self._worldRoot:FindFirstChild(binding.SourcePartName, true)
@@ -708,6 +752,68 @@ function HomeEconomyService:_rebuildHome(player: Player, profileData)
 	player:SetAttribute("StarBloxOwnedItemCount", count)
 end
 
+function HomeEconomyService:_plotState(player: Player)
+	local plots = {}
+	local selectedSlot = self._slots[player]
+	for index, binding in WorldPlotBindings.Plots do
+		local occupant = self._usedPlots[index]
+		table.insert(plots, {
+			Id = binding.Id,
+			Index = index,
+			Occupied = occupant ~= nil and occupant ~= player,
+			Mine = selectedSlot == index and occupant == player,
+		})
+	end
+	return {
+		ok = true,
+		plots = plots,
+		selectedPlotId = if selectedSlot ~= nil then WorldPlotBindings.Plots[selectedSlot].Id else "",
+	}
+end
+
+function HomeEconomyService:_selectPlot(player: Player, plotId: any)
+	if type(plotId) ~= "string" then
+		return {ok = false, code = "invalid_plot"}
+	end
+
+	local targetIndex = nil
+	for index, binding in WorldPlotBindings.Plots do
+		if binding.Id == plotId then
+			targetIndex = index
+			break
+		end
+	end
+	if targetIndex == nil then
+		return {ok = false, code = "unknown_plot"}
+	end
+
+	local occupant = self._usedPlots[targetIndex]
+	if occupant ~= nil and occupant ~= player then
+		return {ok = false, code = "plot_occupied"}
+	end
+
+	local outcome = nil
+	self._profiles:WithProfile(player, function(data)
+		local home = ensureHome(data)
+		local oldSlot = self._slots[player]
+		if oldSlot ~= nil and oldSlot ~= targetIndex and self._usedPlots[oldSlot] == player then
+			self._usedPlots[oldSlot] = nil
+		end
+		self._slots[player] = targetIndex
+		self._usedPlots[targetIndex] = player
+		home.PlotId = WorldPlotBindings.Plots[targetIndex].Id
+		player:SetAttribute("StarBloxHomePlotId", home.PlotId)
+		self._replicas:Sync(player, data)
+		self:_rebuildHome(player, data)
+		outcome = {
+			ok = true,
+			plotId = home.PlotId,
+			plotIndex = targetIndex,
+		}
+	end)
+	return outcome or {ok = false, code = "profile_unavailable"}
+end
+
 function HomeEconomyService:_state(player: Player)
 	local result = nil
 	self._profiles:WithProfile(player, function(data)
@@ -718,6 +824,7 @@ function HomeEconomyService:_state(player: Player)
 			ok = true,
 			coins = data.Economy.Coins,
 			homeTier = home.Tier,
+			plotId = home.PlotId,
 			selectedStyle = home.SelectedStyle,
 			ownedStyles = table.clone(home.OwnedStyles),
 			styles = StoreCatalog.Styles,
@@ -1088,6 +1195,7 @@ function HomeEconomyService:PlayerReady(player: Player, profileData)
 	local owned = ensureInventory(profileData)
 	local home = ensureHome(profileData)
 	ensurePlacementDefaults(home, owned)
+	self:_reservePlot(player, home, home.PlotId)
 	player:SetAttribute("StarBloxHomeStyle", home.SelectedStyle)
 	self:_rebuildHome(player, profileData)
 end
