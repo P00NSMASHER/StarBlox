@@ -61,6 +61,7 @@ jobs:
             src/robloxRuntime/phase5FinalRelease.test.js \
             src/robloxRuntime/phase6QuestionBank.test.js \
             src/robloxRuntime/phase6Retention.test.js \
+            src/robloxRuntime/phase7EconomyHomes.test.js \
             src/robloxRuntime/finalClientGate.test.js \
             src/robloxRuntime/mobileUxLayout.test.js \
             src/robloxRuntime/playerPolishProof.test.js \
