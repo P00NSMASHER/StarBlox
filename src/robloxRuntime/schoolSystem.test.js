@@ -173,4 +173,30 @@ describe('School system milestones 7-12',()=>{
     expect(bootstrap).toContain('if SchoolConfig.FeatureFlags.SchoolSystemEnabled == true then');
     expect(bootstrap).toContain('schoolRuntime = SchoolRuntimeService.new(profiles, replicas, coreLoop)');
   });
+
+  it('preserves the current 60+60 STAR bank, rich item cues, and rubric metadata inside school classes',()=>{
+    const source=JSON.parse(read('docs/phase6/ABVM_GRADE2_ROTATING_QUESTION_SOURCE.json'));
+    const selector=read('roblox/src/server/ClassQuestionSelector.luau');
+    const sessions=read('roblox/src/server/ClassSessionService.luau');
+    const client=read('roblox/src/client/SchoolSystem.client.luau');
+
+    expect(source.starAlignment.readingQuestionCount).toBe(60);
+    expect(source.starAlignment.mathQuestionCount).toBe(60);
+    expect(source.questions.filter(q=>q.tier==='star-fallback' && q.subject==='Reading / ELA')).toHaveLength(60);
+    expect(source.questions.filter(q=>q.tier==='star-fallback' && q.subject==='Math')).toHaveLength(60);
+    expect(source.questions.some(q=>q.richContent)).toBe(true);
+    expect(source.questions.every(q=>q.rubric && q.responseType==='multiple-choice')).toBe(true);
+
+    expect(selector).toContain('RichContent = question.RichContent');
+    expect(selector).toContain('Rubric = question.Rubric');
+    expect(selector).toContain('ResponseType = question.ResponseType');
+    expect(sessions).toContain('local function rubricScore');
+    expect(sessions).toContain('richContent = question.RichContent');
+    expect(sessions).toContain('rubricMaxPoints');
+    expect(sessions).toContain('partialCredit = rubricPoints > 0');
+    expect(client).toContain('local function richSummary');
+    expect(client).toContain('question.richContent');
+    expect(client).toContain('You have part of the reasoning right.');
+  });
+
 });
