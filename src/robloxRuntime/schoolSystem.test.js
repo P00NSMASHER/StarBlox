@@ -63,7 +63,7 @@ describe('School system milestones 7-12',()=>{
     const client=read('roblox/src/client/SchoolSystem.client.luau');
 
     for(const token of [
-      'SchoolHud','SchoolWaypoint','ClassroomPanel','SubmitClassAnswer',
+      'SchoolScheduleChip','SchoolWaypoint','ClassroomPanel','SubmitClassAnswer',
       'TODAY\'S REPORT','School dismissed — free roam!','Missed work available at the Library.'
     ]){
       expect(client).toContain(token);
@@ -73,6 +73,13 @@ describe('School system milestones 7-12',()=>{
     expect(client).toContain('MAKE-UP');
     expect(client).toContain('submitting');
     expect(client).toContain('UISizeConstraint');
+    expect(client).toContain('gui.DisplayOrder = 29');
+    expect(client).toContain('hud.Size = UDim2.fromOffset(286, 36)');
+    expect(client).toContain('hud.Visible = payload.dismissed ~= true');
+    expect(client).toContain('waypoint.Text = string.format(');
+    expect(client).toContain('"→ %s%s • %d studs"');
+    expect(client).toContain('closeButton.BackgroundColor3 = COLORS.red');
+    expect(client).toContain('panelConstraint.MaxSize = Vector2.new(520, 410)');
     expect(client).toContain('payload.report.earnings');
     expect(client).toContain('+%d Coins • +%d XP • +%d Stars');
   });
@@ -226,6 +233,19 @@ describe('School system milestones 7-12',()=>{
     expect(attendance).not.toContain('anchor.Parent = worldRoot');
     expect(attendance).toContain('anchor.Parent = folder');
     expect(bindings).toContain('Revision = "brookhaven-runtime-projection-v1"');
+  });
+
+  it('keeps the future school UI inside the Brookhaven visual language without enabling it',()=>{
+    const client=read('roblox/src/client/SchoolSystem.client.luau');
+    const config=read('roblox/src/shared/SchoolConfig.luau');
+
+    expect(config).toContain('SchoolSystemEnabled = false');
+    expect(client).toContain('hud.Name = "SchoolScheduleChip"');
+    expect(client).toContain('hud.BackgroundTransparency = 0.16');
+    expect(client).toContain('waypoint.BackgroundTransparency = 0.2');
+    expect(client).toContain('panel.BackgroundTransparency = 0.04');
+    expect(client).toContain('report.BackgroundTransparency = 0.04');
+    expect(client).toContain('closeButton.Text = "X"');
   });
 
 });
