@@ -3,7 +3,7 @@
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Workspace = game:GetService("Workspace")
 
-local Config = require(ReplicatedStorage.StarBlox.CoreLoopConfig)
+local Config = require(ReplicatedStorage.StarBlox.CoreLoopConfig)\nlocal SchoolConfig = require(ReplicatedStorage.StarBlox.SchoolConfig)
 local WorldBindings = require(ReplicatedStorage.StarBlox.WorldActivityBindings)
 local CoreQuestionBank = require(script.Parent.CoreQuestionBank)
 local PilotQuestionMixer = require(script.Parent.PilotQuestionMixer)
@@ -1339,7 +1339,7 @@ function CoreGameLoopService:_submit(player: Player, request: any)
 	}
 end
 
-function CoreGameLoopService:GetSpawnCFrame(): CFrame
+function CoreGameLoopService:SetActivityPromptsEnabled(enabled: boolean)\n\tfor _, prompt in self._prompts or {} do\n\t\tprompt.Enabled = enabled\n\tend\nend\n\nfunction CoreGameLoopService:GetSpawnCFrame(): CFrame
 	return self._spawnCFrame
 end
 
