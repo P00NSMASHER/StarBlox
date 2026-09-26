@@ -80,6 +80,8 @@ local ProfileTemplate = {
 			PlotId = "",
 			Tier = 1,
 			PlacementVersion = 1,
+			SelectedStyle = "home-starter",
+			OwnedStyles = {["home-starter"] = true},
 			Placements = {},
 		},
 		NpcAffinity = {},

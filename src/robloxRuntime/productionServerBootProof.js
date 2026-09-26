@@ -104,6 +104,8 @@ for _, remoteName in {
     "GetState",
     "PurchaseItem",
     "PurchaseHomeTier",
+    "PurchaseHomeStyle",
+    "SelectHomeStyle",
     "SetPlacement",
     "SetPlacementVisibility",
     "ResetPlacement",
@@ -113,6 +115,7 @@ for _, remoteName in {
     local remote = shopRemotes:FindFirstChild(remoteName)
     assert(remote ~= nil and remote:IsA("RemoteFunction"), "shop remote missing: " .. remoteName)
 end
+assert(shopRemotes:GetAttribute("HouseStyleCount") == 8, "house style catalog count mismatch")
 assert(shopRemotes:GetAttribute("PlacementVersion") == 1, "home placement version missing")
 assert(shopRemotes:GetAttribute("PlacementStep") == 1, "home placement step mismatch")
 assert(shopRemotes:GetAttribute("RotationStep") == 15, "home placement rotation step mismatch")
@@ -311,6 +314,8 @@ export async function runProductionServerBootProof({
       playerHomeRuntimeFolderCreated:true,
       homePlacementRemotesCreated:true,
       homePlacementPolicyVerified:true,
+      houseStyleCatalogCreated:true,
+      houseStyleRemotesCreated:true,
       brookhavenMirrorConfigLoaded:true,
       mirrorLifestyleCreated:true,
       mirrorRemotesCreated:true,
