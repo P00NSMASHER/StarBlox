@@ -84,10 +84,12 @@ report.Visible = false
 report.Parent = gui
 
 local state = nil
+local stateReceivedAt = 0
 local session = nil
 
 local function renderState(payload)
 	state = payload
+	stateReceivedAt = os.clock()
 	local clock = payload.clock
 	hud.Text = string.format("%s\n%s • %ds", clock.InGameStart, clock.DisplayName, clock.SecondsRemaining)
 	report.Visible = false
@@ -188,6 +190,12 @@ stateEvent.OnClientEvent:Connect(renderState)
 classOpened.OnClientEvent:Connect(renderQuestion)
 
 RunService.Heartbeat:Connect(function()
+	if state and state.clock then
+		local elapsed = math.max(0, os.clock() - stateReceivedAt)
+		local remaining = math.max(0, math.ceil(state.clock.SecondsRemaining - elapsed))
+		hud.Text = string.format("%s\n%s • %ds", state.clock.InGameStart, state.clock.DisplayName, remaining)
+	end
+
 	if not state or not state.targetAnchorName then
 		waypoint.Visible = false
 		return
