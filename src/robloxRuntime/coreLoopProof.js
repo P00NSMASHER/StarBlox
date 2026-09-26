@@ -18,12 +18,12 @@ assert(manifest.productionActivationAllowed == false, "production activation mus
 
 local config = require(shared:WaitForChild("CoreLoopConfig"))
 assert(config.LoopId == "brightside-core-loop-v1", "unexpected core loop id")
-assert(config.PolishRevision == "phase7-questions-coins-homes-v1", "Phase 7 revision missing")
+assert(config.PolishRevision == "phase8-challenging-questions-v1", "Phase 8 revision missing")
 assert(config.ChallengeName == "Neighborhood Challenge", "challenge identity mismatch")
 assert(config.QuestionReward.Coins == 10, "correct-answer coin reward mismatch")
 assert(config.QuestionReward.XP == 1, "correct-answer XP reward mismatch")
-assert(config.QuestionRotation.QuestionsPerStation == 6, "question pool size mismatch")
-assert(config.QuestionRotation.Strategy == "persistent-per-station-after-correct-answer", "rotation strategy mismatch")
+assert(config.QuestionRotation.QuestionsPerStation == 20, "question pool size mismatch")
+assert(config.QuestionRotation.Strategy == "material-once-then-star-fallback-loop", "rotation strategy mismatch")
 assert(config.QuestionRotation.AnswersServerOnly == true, "answers must remain server-only")
 assert(config.QuestionRotation.NoLiveLlm == true, "normal quest flow must not depend on a live LLM")
 for _, activity in config.Activities do
@@ -33,8 +33,9 @@ assert(config.LoopReward.Coins == 0, "challenge completion must not mint coins")
 
 local serverRoot = ServerScriptService:WaitForChild("StarBlox")
 local bank = require(serverRoot:WaitForChild("CoreQuestionBank"))
-assert(bank.Source.CertificationVersion == "phase7-material-first-question-source-v1", "question-bank certification mismatch")
+assert(bank.Source.CertificationVersion == "phase8-material-first-star-fallback-v1", "question-bank certification mismatch")
 assert(bank.Source.MaterialFirst == true, "material-first bank marker missing")
+assert(bank.Source.StarFallback == true, "STAR fallback bank marker missing")
 assert(bank.Source.AnswersServerOnly == true, "server bank answer boundary mismatch")
 
 local stationIds = {
@@ -43,16 +44,36 @@ local stationIds = {
     "culture-lab-culture-v1",
 }
 for _, stationId in stationIds do
-    assert(bank.CountForStation(stationId) == 6, "station must have six certified questions: " .. stationId)
-    local seen = {}
-    for cursor = 0, 5 do
+    assert(bank.CountForStation(stationId) == 20, "station must have twenty certified questions: " .. stationId)
+
+    local materialSeen = {}
+    for cursor = 0, 11 do
         local question = bank.Select(stationId, cursor)
-        assert(question ~= nil, "rotation returned nil")
+        assert(question ~= nil, "material rotation returned nil")
         assert(question.StationId == stationId, "question station binding mismatch")
-        assert(seen[question.Id] ~= true, "question repeated before six-question cycle completed")
-        seen[question.Id] = true
+        assert(question.Tier == "material", "first twelve questions must be current material")
+        assert(materialSeen[question.Id] ~= true, "material question repeated before source material exhausted")
+        materialSeen[question.Id] = true
     end
-    assert(bank.Select(stationId, 6).Id == bank.Select(stationId, 0).Id, "seventh selection must wrap to first")
+
+    local fallbackSeen = {}
+    for cursor = 12, 19 do
+        local question = bank.Select(stationId, cursor)
+        assert(question ~= nil, "STAR fallback rotation returned nil")
+        assert(question.StationId == stationId, "fallback question station binding mismatch")
+        assert(question.Tier == "star-fallback", "fallback question must be STAR-aligned")
+        assert(fallbackSeen[question.Id] ~= true, "STAR fallback repeated before eight-question cycle completed")
+        fallbackSeen[question.Id] = true
+    end
+
+    assert(
+        bank.Select(stationId, 20).Id == bank.Select(stationId, 12).Id,
+        "after material is exhausted, fallback should loop from its first item"
+    )
+    assert(
+        bank.Select(stationId, 28).Id == bank.Select(stationId, 12).Id,
+        "STAR fallback should remain active rather than returning to stale material"
+    )
 end
 
 local runtime = serverRoot:WaitForChild("Runtime")
@@ -138,7 +159,7 @@ assert(profile.Economy.Stars == 3, "three rewarded challenges should grant 3 sta
 
 core:Destroy()
 
-print("STARBLOX_CORE_LOOP_OK release=" .. tostring(manifest.releaseId) .. " version=" .. tostring(game.PlaceVersion) .. " phase7=true coins=30")
+print("STARBLOX_CORE_LOOP_OK release=" .. tostring(manifest.releaseId) .. " version=" .. tostring(game.PlaceVersion) .. " phase8=true material=12 fallback=8 coins=30")
 return tostring(manifest.releaseId), tostring(game.PlaceVersion)
 `;
 }
@@ -163,9 +184,9 @@ export async function runCoreLoopProof({
   });
   const text=JSON.stringify(task.logs);
   const sentinel='STARBLOX_CORE_LOOP_OK release=' +
-    String(releaseId) + ' version=' + String(task.versionNumber) + ' phase7=true coins=30';
+    String(releaseId) + ' version=' + String(task.versionNumber) + ' phase8=true material=12 fallback=8 coins=30';
   if(!text.includes(sentinel)){
-    throw new Error('Roblox logs are missing the Phase 7 core-loop proof sentinel');
+    throw new Error('Roblox logs are missing the Phase 8 core-loop proof sentinel');
   }
 
   return Object.freeze({
@@ -178,7 +199,9 @@ export async function runCoreLoopProof({
     terminalState:task.state,
     evidence:Object.freeze({
       materialFirstQuestionBank:true,
-      sixQuestionsPerStation:true,
+      materialQuestionsFirst:true,
+      starFallbackAfterMaterial:true,
+      twentyQuestionsPerStation:true,
       persistentPerStationRotation:true,
       serverAuthoritativeAnswers:true,
       staleAnswerReplayBlocked:true,
