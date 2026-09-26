@@ -408,6 +408,10 @@ function PrivatePlaytestTelemetryService:_persistItemMetricsAggregate(report)
 					schemaVersion = 1,
 					metricsVersion = ITEM_METRICS_VERSION,
 					sessions = 0,
+					pilotSessionsStarted = 0,
+					pilotSessionsCompleted = 0,
+					baselinePilotSessionsStarted = 0,
+					baselinePilotSessionsCompleted = 0,
 					items = {},
 					updatedAt = 0,
 					privacy = {
@@ -422,6 +426,16 @@ function PrivatePlaytestTelemetryService:_persistItemMetricsAggregate(report)
 				}
 
 			aggregate.sessions = (aggregate.sessions or 0) + 1
+			aggregate.pilotSessionsStarted =
+				(aggregate.pilotSessionsStarted or 0) + math.max(0, math.floor(snapshot.server.pilot_started or 0))
+			aggregate.pilotSessionsCompleted =
+				(aggregate.pilotSessionsCompleted or 0) + math.max(0, math.floor(snapshot.server.pilot_completed or 0))
+			aggregate.baselinePilotSessionsStarted =
+				(aggregate.baselinePilotSessionsStarted or 0)
+				+ math.max(0, math.floor(snapshot.retention.baselinePilotSessionsStarted or 0))
+			aggregate.baselinePilotSessionsCompleted =
+				(aggregate.baselinePilotSessionsCompleted or 0)
+				+ math.max(0, math.floor(snapshot.retention.baselinePilotSessionsCompleted or 0))
 			aggregate.items = type(aggregate.items) == "table" and aggregate.items or {}
 
 			for questionId, item in snapshot.itemAttempts or {} do
