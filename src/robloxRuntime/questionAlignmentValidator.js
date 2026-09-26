@@ -20,6 +20,8 @@ const SKILL_RULES=Object.freeze({
   'text-evidence':{domains:['Comprehension strategies and constructing meaning'],standards:['CCSS.RL.2.1'],anchors:['evidence','detail','prove','support']},
   visualize:{domains:['Comprehension strategies and constructing meaning'],standards:['CCSS.RL.2.1'],anchors:['picture','imagine','describe','visual']},
   'character-development':{domains:['Analyzing literary text'],standards:['CCSS.RL.2.3'],anchors:['character','beginning','ending','change']},
+  'story-elements':{domains:['Analyzing literary text'],standards:['CCSS.RL.2.3'],anchors:['character','setting','where','when','story']},
+  genre:{domains:['Analyzing literary text'],standards:['CCSS.RL.2.5'],anchors:['genre','fantasy','realistic','informational','biography']},
   'author-purpose':{domains:["Understanding author’s craft"],standards:['CCSS.RI.2.6'],anchors:['author','purpose','inform','persuade','entertain','teach']},
   'word-choice':{domains:["Understanding author’s craft"],standards:['CCSS.RL.2.4'],anchors:['word','phrase','meaning','image','feeling']},
   'main-idea':{domains:['Comprehension strategies and constructing meaning'],standards:['CCSS.RI.2.2'],anchors:['main idea','details','most','about']},
@@ -173,8 +175,17 @@ export function validateQuestionAlignment(source){
       if(!String(question.sourceFact||'').trim()){
         issues.push({id,type:'material-source-fact-missing'});
       }
-      if(question.provenance!=='curriculum-practice-derived-from-verified-abvm-pack'){
+      const allowedMaterialProvenance=new Set([
+        'curriculum-practice-derived-from-verified-abvm-pack',
+        'original-practice-derived-from-sanitized-schoolwork-photos'
+      ]);
+      if(!allowedMaterialProvenance.has(question.provenance)){
         issues.push({id,type:'material-provenance-invalid'});
+      }
+      if(question.provenance==='original-practice-derived-from-sanitized-schoolwork-photos'){
+        if(!String(question.sourceFact||'').startsWith('Sanitized schoolwork-photo skill evidence:')){
+          issues.push({id,type:'schoolwork-photo-source-fact-invalid'});
+        }
       }
     }else if(question.tier==='star-fallback'){
       if(question.provenance!=='original-star-aligned-practice-regenerated-with-curriculum-snapshot'){
