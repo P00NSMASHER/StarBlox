@@ -84,6 +84,16 @@ describe('School system milestones 7-12',()=>{
     expect(progress).toContain('state.RewardedSchoolDays < Config.Rewards.MaxRewardedSchoolDaysPerUtcDay');
   });
 
+
+  it('turns the school flag into a clean migration switch instead of running both learning loops',()=>{
+    const server=read('roblox/src/server/CoreGameLoopService.luau');
+    const client=read('roblox/src/client/CoreGameLoop.client.luau');
+
+    expect(server).toContain('SchoolConfig.FeatureFlags.SchoolSystemEnabled ~= true');
+    expect(client).toContain('SchoolConfig.FeatureFlags.SchoolSystemEnabled == true');
+    expect(client).toContain('return');
+  });
+
   it('keeps the completed system dark until an explicit release decision',()=>{
     const config=read('roblox/src/shared/SchoolConfig.luau');
     const bootstrap=read('roblox/src/server/Bootstrap.luau');
