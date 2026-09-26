@@ -24,9 +24,17 @@ describe('Step 7: Roblox-native StarBlox core loop', () => {
       expect(shared).toContain(id);
       expect(server).toContain(id);
     }
+    const bank=readFileSync(
+      new URL('../../roblox/src/server/CoreQuestionBank.luau',import.meta.url),
+      'utf8'
+    );
     expect(shared.match(/ABVM Grade 2 current source pack/g)?.length).toBe(3);
     expect(shared).not.toMatch(/Answer\s*=/);
-    expect(server).toContain('local ANSWERS = table.freeze');
+    expect(shared).not.toContain('Choices = table.freeze');
+    expect(bank).toContain('phase6-abvm-question-source-v1');
+    expect(bank.match(/\t\t\tAnswer = /g)?.length).toBe(9);
+    expect(server).not.toContain('local ANSWERS = table.freeze');
+    expect(server).toContain('CoreQuestionBank.Select');
     expect(server).toContain('function CoreGameLoopService.GradeAnswer');
   });
 
