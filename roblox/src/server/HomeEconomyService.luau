@@ -11,16 +11,31 @@ HomeEconomyService.__index = HomeEconomyService
 
 local REMOTE_ROOT_NAME = "StarBloxShop"
 local HOME_FOLDER_NAME = "StarBloxPlayerHomes"
+local PLACEMENT_VERSION = 1
+local PLACEMENT_STEP = 1
+local ROTATION_STEP = 15
 
 local ITEM_BY_ID = {}
-for _, item in StoreCatalog.Items do
+local ITEM_INDEX_BY_ID = {}
+for index, item in StoreCatalog.Items do
 	ITEM_BY_ID[item.Id] = item
+	ITEM_INDEX_BY_ID[item.Id] = index
 end
 
 local HOME_BY_TIER = {}
 for _, home in StoreCatalog.Homes do
 	HOME_BY_TIER[home.Tier] = home
 end
+
+local DEFAULT_PLACEMENTS = {
+	["beds-1"] = {X = -4, Z = -3, Yaw = 0},
+	["seating-1"] = {X = 3, Z = 2, Yaw = 180},
+	["desks-1"] = {X = 4, Z = -3, Yaw = 180},
+	["lighting-1"] = {X = 6, Z = 2, Yaw = 0},
+	["wall-1"] = {X = 0, Z = -5, Yaw = 0},
+	["rugs-1"] = {X = 0, Z = 1, Yaw = 0},
+	["decor-1"] = {X = -5, Z = 2, Yaw = 0},
+}
 
 local function ensureInventory(profileData)
 	profileData.Inventory = profileData.Inventory or {}
@@ -36,10 +51,12 @@ local function ensureHome(profileData)
 	profileData.Social.Home = profileData.Social.Home or {
 		PlotId = "",
 		Tier = 1,
+		PlacementVersion = PLACEMENT_VERSION,
 		Placements = {},
 	}
 	local home = profileData.Social.Home
 	home.Tier = math.clamp(math.floor(tonumber(home.Tier) or 1), 1, 5)
+	home.PlacementVersion = PLACEMENT_VERSION
 	home.Placements = type(home.Placements) == "table" and home.Placements or {}
 	return home
 end
@@ -67,73 +84,6 @@ local function part(
 	return p
 end
 
-local function addBed(parent: Instance, base: CFrame)
-	part(parent, "BedFrame", Vector3.new(7, 1, 4), base * CFrame.new(-4, 1, -3), Color3.fromRGB(128, 92, 68))
-	part(parent, "Mattress", Vector3.new(6.6, 0.8, 3.7), base * CFrame.new(-4, 1.8, -3), Color3.fromRGB(226, 232, 255))
-	part(parent, "Pillow", Vector3.new(1.8, 0.45, 3), base * CFrame.new(-6.1, 2.35, -3), Color3.fromRGB(255, 255, 255))
-end
-
-local function addDesk(parent: Instance, base: CFrame)
-	part(parent, "DeskTop", Vector3.new(5, 0.5, 2.4), base * CFrame.new(4, 2.8, -3), Color3.fromRGB(165, 118, 75))
-	for _, x in {-1.9, 1.9} do
-		for _, z in {-0.8, 0.8} do
-			part(parent, "DeskLeg", Vector3.new(0.35, 2.6, 0.35), base * CFrame.new(4 + x, 1.3, -3 + z), Color3.fromRGB(116, 82, 54))
-		end
-	end
-end
-
-local function addChair(parent: Instance, base: CFrame)
-	part(parent, "ChairSeat", Vector3.new(2.2, 0.4, 2.2), base * CFrame.new(2.8, 1.5, 1.6), Color3.fromRGB(116, 166, 237))
-	part(parent, "ChairBack", Vector3.new(2.2, 2.2, 0.4), base * CFrame.new(2.8, 2.5, 2.5), Color3.fromRGB(116, 166, 237))
-end
-
-local function addLamp(parent: Instance, base: CFrame)
-	part(parent, "LampBase", Vector3.new(1.4, 0.3, 1.4), base * CFrame.new(5.8, 0.7, 2), Color3.fromRGB(87, 95, 120))
-	part(parent, "LampStem", Vector3.new(0.3, 3.4, 0.3), base * CFrame.new(5.8, 2.5, 2), Color3.fromRGB(87, 95, 120))
-	local shade = part(parent, "LampShade", Vector3.new(2.2, 1.4, 2.2), base * CFrame.new(5.8, 4.2, 2), Color3.fromRGB(255, 222, 120))
-	shade.CanCollide = false
-end
-
-local function addRug(parent: Instance, base: CFrame)
-	local rug = part(parent, "StarterMat", Vector3.new(6, 0.15, 4), base * CFrame.new(0, 0.58, 1), Color3.fromRGB(112, 104, 230))
-	rug.CanCollide = false
-end
-
-local function addPoster(parent: Instance, base: CFrame, depth: number)
-	local poster = part(parent, "SchoolStarPoster", Vector3.new(4, 3, 0.18), base * CFrame.new(0, 5, -(depth / 2) + 0.65), Color3.fromRGB(255, 211, 73))
-	poster.CanCollide = false
-end
-
-local function addBooks(parent: Instance, base: CFrame)
-	part(parent, "BookCrate", Vector3.new(3.2, 1.6, 2.4), base * CFrame.new(-5, 1.3, 2.2), Color3.fromRGB(140, 94, 62))
-	for index, color in {
-		Color3.fromRGB(238, 92, 92),
-		Color3.fromRGB(89, 158, 236),
-		Color3.fromRGB(91, 191, 121),
-	} do
-		local book = part(parent, "Book" .. tostring(index), Vector3.new(0.45, 1.5, 1.8), base * CFrame.new(-5.7 + ((index - 1) * 0.7), 2.45, 2.2), color)
-		book.CanCollide = false
-	end
-end
-
-local function renderOwnedItem(parent: Instance, item, base: CFrame, depth: number)
-	if item.Kind == "bed" then
-		addBed(parent, base)
-	elseif item.Kind == "desk" then
-		addDesk(parent, base)
-	elseif item.Kind == "chair" then
-		addChair(parent, base)
-	elseif item.Kind == "lamp" then
-		addLamp(parent, base)
-	elseif item.Kind == "rug" then
-		addRug(parent, base)
-	elseif item.Kind == "poster" then
-		addPoster(parent, base, depth)
-	elseif item.Kind == "books" then
-		addBooks(parent, base)
-	end
-end
-
 local function tierDimensions(tier: number): (number, number, number)
 	if tier >= 5 then
 		return 40, 30, 16
@@ -158,6 +108,213 @@ local function tierColor(tier: number): Color3
 	return colors[tier] or colors[1]
 end
 
+local function finiteNumber(value: any): number?
+	local parsed = tonumber(value)
+	if parsed == nil or parsed ~= parsed or parsed == math.huge or parsed == -math.huge then
+		return nil
+	end
+	if math.abs(parsed) > 100000 then
+		return nil
+	end
+	return parsed
+end
+
+local function snap(value: number, step: number): number
+	return math.floor((value / step) + 0.5) * step
+end
+
+local function normalizeYaw(value: any): number
+	local parsed = finiteNumber(value) or 0
+	local snapped = snap(parsed, ROTATION_STEP) % 360
+	if snapped < 0 then
+		snapped += 360
+	end
+	return snapped
+end
+
+local function itemHalfFootprint(kind: string): (number, number)
+	if kind == "bed" then
+		return 3.8, 2.3
+	elseif kind == "desk" then
+		return 2.8, 1.6
+	elseif kind == "chair" then
+		return 1.5, 1.5
+	elseif kind == "lamp" then
+		return 1.3, 1.3
+	elseif kind == "rug" then
+		return 3.2, 2.2
+	elseif kind == "poster" then
+		return 2.2, 0.7
+	elseif kind == "books" then
+		return 1.9, 1.5
+	end
+	return 1.5, 1.5
+end
+
+local function fallbackPlacement(index: number)
+	local columns = 4
+	local row = math.floor((index - 1) / columns)
+	local column = (index - 1) % columns
+	return {
+		X = -6 + (column * 4),
+		Z = -4 + (row * 4),
+		Yaw = 0,
+		Visible = true,
+	}
+end
+
+local function defaultPlacement(itemId: string)
+	local raw = DEFAULT_PLACEMENTS[itemId]
+	if raw ~= nil then
+		return {
+			X = raw.X,
+			Z = raw.Z,
+			Yaw = raw.Yaw,
+			Visible = true,
+		}
+	end
+	return fallbackPlacement(ITEM_INDEX_BY_ID[itemId] or 1)
+end
+
+local function sanitizePlacement(item, tier: number, raw: any)
+	local width, depth = tierDimensions(tier)
+	local halfX, halfZ = itemHalfFootprint(item.Kind)
+	local maxX = math.max(0, (width / 2) - halfX - 0.75)
+	local maxZ = math.max(0, (depth / 2) - halfZ - 0.75)
+	local fallback = defaultPlacement(item.Id)
+
+	local x = finiteNumber(type(raw) == "table" and raw.X or nil) or fallback.X
+	local z = finiteNumber(type(raw) == "table" and raw.Z or nil) or fallback.Z
+	local yaw = normalizeYaw(type(raw) == "table" and raw.Yaw or fallback.Yaw)
+	local visible = not (type(raw) == "table" and raw.Visible == false)
+
+	return {
+		X = math.clamp(snap(x, PLACEMENT_STEP), -maxX, maxX),
+		Z = math.clamp(snap(z, PLACEMENT_STEP), -maxZ, maxZ),
+		Yaw = yaw,
+		Visible = visible,
+	}
+end
+
+local function ensurePlacementDefaults(home, owned)
+	for itemId in home.Placements do
+		if owned[itemId] ~= true or ITEM_BY_ID[itemId] == nil then
+			home.Placements[itemId] = nil
+		end
+	end
+
+	for _, item in StoreCatalog.Items do
+		if owned[item.Id] == true then
+			home.Placements[item.Id] = sanitizePlacement(
+				item,
+				home.Tier,
+				home.Placements[item.Id]
+			)
+		end
+	end
+end
+
+local function publicPlacements(home)
+	local output = {}
+	for itemId, placement in home.Placements do
+		output[itemId] = {
+			X = placement.X,
+			Z = placement.Z,
+			Yaw = placement.Yaw,
+			Visible = placement.Visible ~= false,
+		}
+	end
+	return output
+end
+
+local function addBed(parent: Instance, base: CFrame)
+	part(parent, "BedFrame", Vector3.new(7, 1, 4), base * CFrame.new(0, 0.5, 0), Color3.fromRGB(128, 92, 68))
+	part(parent, "Mattress", Vector3.new(6.6, 0.8, 3.7), base * CFrame.new(0, 1.35, 0), Color3.fromRGB(226, 232, 255))
+	part(parent, "Pillow", Vector3.new(1.8, 0.45, 3), base * CFrame.new(-2.1, 1.95, 0), Color3.fromRGB(255, 255, 255))
+end
+
+local function addDesk(parent: Instance, base: CFrame)
+	part(parent, "DeskTop", Vector3.new(5, 0.5, 2.4), base * CFrame.new(0, 2.8, 0), Color3.fromRGB(165, 118, 75))
+	for _, x in {-1.9, 1.9} do
+		for _, z in {-0.8, 0.8} do
+			part(parent, "DeskLeg", Vector3.new(0.35, 2.6, 0.35), base * CFrame.new(x, 1.3, z), Color3.fromRGB(116, 82, 54))
+		end
+	end
+end
+
+local function addChair(parent: Instance, base: CFrame)
+	part(parent, "ChairSeat", Vector3.new(2.2, 0.4, 2.2), base * CFrame.new(0, 1.5, 0), Color3.fromRGB(116, 166, 237))
+	part(parent, "ChairBack", Vector3.new(2.2, 2.2, 0.4), base * CFrame.new(0, 2.5, 0.9), Color3.fromRGB(116, 166, 237))
+end
+
+local function addLamp(parent: Instance, base: CFrame)
+	part(parent, "LampBase", Vector3.new(1.4, 0.3, 1.4), base * CFrame.new(0, 0.15, 0), Color3.fromRGB(87, 95, 120))
+	part(parent, "LampStem", Vector3.new(0.3, 3.4, 0.3), base * CFrame.new(0, 1.95, 0), Color3.fromRGB(87, 95, 120))
+	local shade = part(parent, "LampShade", Vector3.new(2.2, 1.4, 2.2), base * CFrame.new(0, 4.05, 0), Color3.fromRGB(255, 222, 120))
+	shade.CanCollide = false
+end
+
+local function addRug(parent: Instance, base: CFrame)
+	local rug = part(parent, "StarterMat", Vector3.new(6, 0.15, 4), base * CFrame.new(0, 0.08, 0), Color3.fromRGB(112, 104, 230))
+	rug.CanCollide = false
+end
+
+local function addPoster(parent: Instance, base: CFrame)
+	local poster = part(parent, "SchoolStarPoster", Vector3.new(4, 3, 0.18), base * CFrame.new(0, 2.3, 0), Color3.fromRGB(255, 211, 73))
+	poster.CanCollide = false
+end
+
+local function addBooks(parent: Instance, base: CFrame)
+	part(parent, "BookCrate", Vector3.new(3.2, 1.6, 2.4), base * CFrame.new(0, 0.8, 0), Color3.fromRGB(140, 94, 62))
+	for index, color in {
+		Color3.fromRGB(238, 92, 92),
+		Color3.fromRGB(89, 158, 236),
+		Color3.fromRGB(91, 191, 121),
+	} do
+		local book = part(
+			parent,
+			"Book" .. tostring(index),
+			Vector3.new(0.45, 1.5, 1.8),
+			base * CFrame.new(-0.7 + ((index - 1) * 0.7), 1.9, 0),
+			color
+		)
+		book.CanCollide = false
+	end
+end
+
+local function renderOwnedItem(parent: Instance, item, base: CFrame, placement)
+	local model = Instance.new("Model")
+	model.Name = item.Id
+	model:SetAttribute("ItemId", item.Id)
+	model:SetAttribute("PlacementX", placement.X)
+	model:SetAttribute("PlacementZ", placement.Z)
+	model:SetAttribute("PlacementYaw", placement.Yaw)
+	model:SetAttribute("RuntimeOwned", true)
+	model:SetAttribute("BaselineMutationAllowed", false)
+	model.Parent = parent
+
+	local itemBase =
+		base
+		* CFrame.new(placement.X, 0.5, placement.Z)
+		* CFrame.Angles(0, math.rad(placement.Yaw), 0)
+
+	if item.Kind == "bed" then
+		addBed(model, itemBase)
+	elseif item.Kind == "desk" then
+		addDesk(model, itemBase)
+	elseif item.Kind == "chair" then
+		addChair(model, itemBase)
+	elseif item.Kind == "lamp" then
+		addLamp(model, itemBase)
+	elseif item.Kind == "rug" then
+		addRug(model, itemBase)
+	elseif item.Kind == "poster" then
+		addPoster(model, itemBase)
+	elseif item.Kind == "books" then
+		addBooks(model, itemBase)
+	end
+end
+
 function HomeEconomyService.new(profiles, replicas, spawnCFrame: CFrame)
 	assert(profiles ~= nil, "profiles dependency is required")
 	assert(replicas ~= nil, "replicas dependency is required")
@@ -169,6 +326,7 @@ function HomeEconomyService.new(profiles, replicas, spawnCFrame: CFrame)
 	self._slots = {}
 	self._usedPlots = {}
 	self._lastPurchaseAt = {}
+	self._lastPlacementAt = {}
 
 	local worldRoot = Workspace:FindFirstChild(WorldPlotBindings.WorldRootName)
 	assert(
@@ -197,6 +355,9 @@ function HomeEconomyService.new(profiles, replicas, spawnCFrame: CFrame)
 	local remoteRoot = Instance.new("Folder")
 	remoteRoot.Name = REMOTE_ROOT_NAME
 	remoteRoot:SetAttribute("CatalogRevision", StoreCatalog.CatalogRevision)
+	remoteRoot:SetAttribute("PlacementVersion", PLACEMENT_VERSION)
+	remoteRoot:SetAttribute("PlacementStep", PLACEMENT_STEP)
+	remoteRoot:SetAttribute("RotationStep", ROTATION_STEP)
 	remoteRoot.Parent = ReplicatedStorage
 
 	local getState = Instance.new("RemoteFunction")
@@ -210,6 +371,18 @@ function HomeEconomyService.new(profiles, replicas, spawnCFrame: CFrame)
 	local purchaseHome = Instance.new("RemoteFunction")
 	purchaseHome.Name = "PurchaseHomeTier"
 	purchaseHome.Parent = remoteRoot
+
+	local setPlacement = Instance.new("RemoteFunction")
+	setPlacement.Name = "SetPlacement"
+	setPlacement.Parent = remoteRoot
+
+	local setPlacementVisibility = Instance.new("RemoteFunction")
+	setPlacementVisibility.Name = "SetPlacementVisibility"
+	setPlacementVisibility.Parent = remoteRoot
+
+	local resetPlacement = Instance.new("RemoteFunction")
+	resetPlacement.Name = "ResetPlacement"
+	resetPlacement.Parent = remoteRoot
 
 	local visitHome = Instance.new("RemoteFunction")
 	visitHome.Name = "VisitHome"
@@ -227,6 +400,15 @@ function HomeEconomyService.new(profiles, replicas, spawnCFrame: CFrame)
 	end
 	purchaseHome.OnServerInvoke = function(player: Player, tier: any)
 		return self:_purchaseHomeTier(player, tier)
+	end
+	setPlacement.OnServerInvoke = function(player: Player, itemId: any, payload: any)
+		return self:_setPlacement(player, itemId, payload)
+	end
+	setPlacementVisibility.OnServerInvoke = function(player: Player, itemId: any, visible: any)
+		return self:_setPlacementVisibility(player, itemId, visible)
+	end
+	resetPlacement.OnServerInvoke = function(player: Player, itemId: any)
+		return self:_resetPlacement(player, itemId)
 	end
 	visitHome.OnServerInvoke = function(player: Player)
 		return self:_visitHome(player)
@@ -282,6 +464,8 @@ function HomeEconomyService:_rebuildHome(player: Player, profileData)
 
 	local homeState = ensureHome(profileData)
 	local owned = ensureInventory(profileData)
+	ensurePlacementDefaults(homeState, owned)
+
 	local tier = homeState.Tier
 	local width, depth, height = tierDimensions(tier)
 	local base, plotBinding = self:_homeCFrame(player)
@@ -291,6 +475,7 @@ function HomeEconomyService:_rebuildHome(player: Player, profileData)
 	model:SetAttribute("HomeTier", tier)
 	model:SetAttribute("PlotId", plotBinding.Id)
 	model:SetAttribute("SourceWorldPart", plotBinding.SourcePartName)
+	model:SetAttribute("PlacementVersion", PLACEMENT_VERSION)
 	model:SetAttribute("RuntimeOwned", true)
 	model:SetAttribute("BaselineMutationAllowed", false)
 	model.Parent = self._homeFolder
@@ -309,15 +494,18 @@ function HomeEconomyService:_rebuildHome(player: Player, profileData)
 	local itemRoot = Instance.new("Folder")
 	itemRoot.Name = "OwnedItems"
 	itemRoot.Parent = model
+
 	for _, item in StoreCatalog.Items do
 		if owned[item.Id] == true then
-			renderOwnedItem(itemRoot, item, base, depth)
+			local placement = homeState.Placements[item.Id]
+			if placement ~= nil and placement.Visible ~= false then
+				renderOwnedItem(itemRoot, item, base, placement)
+			end
 		end
 	end
 
 	model.PrimaryPart = model:FindFirstChild("Floor") :: BasePart
 	player:SetAttribute("StarBloxHomeTier", tier)
-	player:SetAttribute("StarBloxOwnedItemCount", 0)
 	local count = 0
 	for _, item in StoreCatalog.Items do
 		if owned[item.Id] == true then
@@ -332,11 +520,16 @@ function HomeEconomyService:_state(player: Player)
 	self._profiles:WithProfile(player, function(data)
 		local home = ensureHome(data)
 		local owned = ensureInventory(data)
+		ensurePlacementDefaults(home, owned)
 		result = {
 			ok = true,
 			coins = data.Economy.Coins,
 			homeTier = home.Tier,
+			placementVersion = PLACEMENT_VERSION,
+			placementStep = PLACEMENT_STEP,
+			rotationStep = ROTATION_STEP,
 			ownedItems = table.clone(owned),
+			placements = publicPlacements(home),
 			items = StoreCatalog.Items,
 			homes = StoreCatalog.Homes,
 		}
@@ -351,6 +544,16 @@ function HomeEconomyService:_purchaseAllowed(player: Player): boolean
 		return false
 	end
 	self._lastPurchaseAt[player] = now
+	return true
+end
+
+function HomeEconomyService:_placementAllowed(player: Player): boolean
+	local now = os.clock()
+	local previous = self._lastPlacementAt[player] or -math.huge
+	if now - previous < 0.05 then
+		return false
+	end
+	self._lastPlacementAt[player] = now
 	return true
 end
 
@@ -380,10 +583,17 @@ function HomeEconomyService:_purchaseItem(player: Player, itemId: any)
 
 		data.Economy.Coins -= item.Price
 		owned[itemId] = true
+		local home = ensureHome(data)
+		ensurePlacementDefaults(home, owned)
 		self._replicas:Sync(player, data)
 		self:_rebuildHome(player, data)
 		player:SetAttribute("StarBloxCoins", data.Economy.Coins)
-		outcome = {ok = true, itemId = itemId, coins = data.Economy.Coins}
+		outcome = {
+			ok = true,
+			itemId = itemId,
+			coins = data.Economy.Coins,
+			placement = publicPlacements(home)[itemId],
+		}
 	end)
 	return outcome or {ok = false, code = "profile_unavailable"}
 end
@@ -419,10 +629,135 @@ function HomeEconomyService:_purchaseHomeTier(player: Player, tierValue: any)
 
 		data.Economy.Coins -= homeCatalog.Price
 		home.Tier = tier
+		ensurePlacementDefaults(home, ensureInventory(data))
 		self._replicas:Sync(player, data)
 		self:_rebuildHome(player, data)
 		player:SetAttribute("StarBloxCoins", data.Economy.Coins)
 		outcome = {ok = true, homeTier = tier, coins = data.Economy.Coins}
+	end)
+	return outcome or {ok = false, code = "profile_unavailable"}
+end
+
+function HomeEconomyService:_setPlacement(player: Player, itemId: any, payload: any)
+	if not self:_placementAllowed(player) then
+		return {ok = false, code = "rate_limited"}
+	end
+	if type(itemId) ~= "string" or type(payload) ~= "table" then
+		return {ok = false, code = "invalid_placement"}
+	end
+	local item = ITEM_BY_ID[itemId]
+	if item == nil then
+		return {ok = false, code = "unknown_item"}
+	end
+
+	local outcome = nil
+	self._profiles:WithProfile(player, function(data)
+		local owned = ensureInventory(data)
+		if owned[itemId] ~= true then
+			outcome = {ok = false, code = "not_owned"}
+			return
+		end
+
+		local home = ensureHome(data)
+		ensurePlacementDefaults(home, owned)
+		local current = home.Placements[itemId]
+		local nextPlacement = sanitizePlacement(item, home.Tier, {
+			X = payload.X ~= nil and payload.X or current.X,
+			Z = payload.Z ~= nil and payload.Z or current.Z,
+			Yaw = payload.Yaw ~= nil and payload.Yaw or current.Yaw,
+			Visible = current.Visible ~= false,
+		})
+		home.Placements[itemId] = nextPlacement
+		self._replicas:Sync(player, data)
+		self:_rebuildHome(player, data)
+		outcome = {
+			ok = true,
+			itemId = itemId,
+			placement = {
+				X = nextPlacement.X,
+				Z = nextPlacement.Z,
+				Yaw = nextPlacement.Yaw,
+				Visible = nextPlacement.Visible,
+			},
+		}
+	end)
+	return outcome or {ok = false, code = "profile_unavailable"}
+end
+
+function HomeEconomyService:_setPlacementVisibility(player: Player, itemId: any, visible: any)
+	if not self:_placementAllowed(player) then
+		return {ok = false, code = "rate_limited"}
+	end
+	if type(itemId) ~= "string" or type(visible) ~= "boolean" then
+		return {ok = false, code = "invalid_visibility"}
+	end
+	local item = ITEM_BY_ID[itemId]
+	if item == nil then
+		return {ok = false, code = "unknown_item"}
+	end
+
+	local outcome = nil
+	self._profiles:WithProfile(player, function(data)
+		local owned = ensureInventory(data)
+		if owned[itemId] ~= true then
+			outcome = {ok = false, code = "not_owned"}
+			return
+		end
+		local home = ensureHome(data)
+		ensurePlacementDefaults(home, owned)
+		local placement = sanitizePlacement(item, home.Tier, home.Placements[itemId])
+		placement.Visible = visible
+		home.Placements[itemId] = placement
+		self._replicas:Sync(player, data)
+		self:_rebuildHome(player, data)
+		outcome = {
+			ok = true,
+			itemId = itemId,
+			placement = {
+				X = placement.X,
+				Z = placement.Z,
+				Yaw = placement.Yaw,
+				Visible = placement.Visible,
+			},
+		}
+	end)
+	return outcome or {ok = false, code = "profile_unavailable"}
+end
+
+function HomeEconomyService:_resetPlacement(player: Player, itemId: any)
+	if not self:_placementAllowed(player) then
+		return {ok = false, code = "rate_limited"}
+	end
+	if type(itemId) ~= "string" then
+		return {ok = false, code = "invalid_item"}
+	end
+	local item = ITEM_BY_ID[itemId]
+	if item == nil then
+		return {ok = false, code = "unknown_item"}
+	end
+
+	local outcome = nil
+	self._profiles:WithProfile(player, function(data)
+		local owned = ensureInventory(data)
+		if owned[itemId] ~= true then
+			outcome = {ok = false, code = "not_owned"}
+			return
+		end
+		local home = ensureHome(data)
+		local placement = sanitizePlacement(item, home.Tier, defaultPlacement(itemId))
+		home.Placements[itemId] = placement
+		self._replicas:Sync(player, data)
+		self:_rebuildHome(player, data)
+		outcome = {
+			ok = true,
+			itemId = itemId,
+			placement = {
+				X = placement.X,
+				Z = placement.Z,
+				Yaw = placement.Yaw,
+				Visible = placement.Visible,
+			},
+		}
 	end)
 	return outcome or {ok = false, code = "profile_unavailable"}
 end
@@ -450,8 +785,9 @@ function HomeEconomyService:_returnWorld(player: Player)
 end
 
 function HomeEconomyService:PlayerReady(player: Player, profileData)
-	ensureInventory(profileData)
-	ensureHome(profileData)
+	local owned = ensureInventory(profileData)
+	local home = ensureHome(profileData)
+	ensurePlacementDefaults(home, owned)
 	self:_rebuildHome(player, profileData)
 end
 
@@ -463,6 +799,7 @@ function HomeEconomyService:PlayerRemoving(player: Player)
 	end
 	self._slots[player] = nil
 	self._lastPurchaseAt[player] = nil
+	self._lastPlacementAt[player] = nil
 end
 
 function HomeEconomyService:Destroy()
