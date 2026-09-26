@@ -6,7 +6,7 @@
     "repository": "P00NSMASHER/abvmschoolstarworld",
     "path": "pages/data/study-pack.json",
     "scanner": "scripts/refresh-teacher-pages.mjs",
-    "scannerCommit": "unknown",
+    "scannerCommit": "a15c7c2214a065707123e9b8ab8ac51a42240345",
     "generatorVersion": "dynamic-abvm-star-sync-generator-v4-research-7-12",
     "healthCheck": "scripts/check-refresh-health.mjs",
     "sourceHash": "teacher-pages-0ca987de6de2d3791e25",
