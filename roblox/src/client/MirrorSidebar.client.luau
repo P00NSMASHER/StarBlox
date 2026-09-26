@@ -22,6 +22,8 @@ local saveBio = roleplayRemotes:WaitForChild("SaveBio") :: RemoteFunction
 local resetAvatar = roleplayRemotes:WaitForChild("ResetAvatar") :: RemoteFunction
 
 local shopRemotes = ReplicatedStorage:WaitForChild("StarBloxShop")
+local getPlots = shopRemotes:WaitForChild("GetPlots") :: RemoteFunction
+local selectPlot = shopRemotes:WaitForChild("SelectPlot") :: RemoteFunction
 local visitHome = shopRemotes:WaitForChild("VisitHome") :: RemoteFunction
 local returnWorld = shopRemotes:WaitForChild("ReturnWorld") :: RemoteFunction
 
@@ -402,11 +404,128 @@ grid.SortOrder = Enum.SortOrder.LayoutOrder
 grid.HorizontalAlignment = Enum.HorizontalAlignment.Right
 grid.Parent = scroller
 
+-- Brookhaven's House action first chooses a vacant lot with previous/next + GO.
+local plotSelector = Instance.new("Frame")
+plotSelector.Name = "HousePlotSelector"
+plotSelector.AnchorPoint = Vector2.new(0.5, 0.5)
+plotSelector.Position = UDim2.fromScale(0.5, 0.43)
+plotSelector.Size = UDim2.fromOffset(520, 206)
+plotSelector.BackgroundTransparency = 1
+plotSelector.Visible = false
+plotSelector.ZIndex = 68
+plotSelector.Parent = shell
+
+local plotModes = Instance.new("Frame")
+plotModes.Name = "PlotModes"
+plotModes.AnchorPoint = Vector2.new(0.5, 0)
+plotModes.Position = UDim2.new(0.5, 0, 0, 0)
+plotModes.Size = UDim2.fromOffset(510, 58)
+plotModes.BackgroundTransparency = 1
+plotModes.ZIndex = 69
+plotModes.Parent = plotSelector
+
+for index, text in {"✓  ⌂", "⌂  ⌂", "⌂  ☀"} do
+	local mode = Instance.new("TextButton")
+	mode.Name = "Mode" .. tostring(index)
+	mode.Position = UDim2.fromOffset((index - 1) * 174, 0)
+	mode.Size = UDim2.fromOffset(164, 54)
+	mode.BackgroundColor3 = if index == 1 then Color3.fromRGB(191, 191, 191) else Color3.fromRGB(199, 184, 126)
+	mode.BackgroundTransparency = 0.1
+	mode.Text = text
+	mode.TextColor3 = UI.text
+	mode.Font = Enum.Font.GothamBold
+	mode.TextScaled = true
+	mode.AutoButtonColor = false
+	mode.Active = false
+	mode.ZIndex = 70
+	mode.Parent = plotModes
+	round(mode, 5)
+	stroke(mode, UI.border, 1, 0.4)
+	constrain(mode, 18, 26)
+end
+
+local plotCard = Instance.new("Frame")
+plotCard.Name = "PlotCard"
+plotCard.AnchorPoint = Vector2.new(0.5, 0)
+plotCard.Position = UDim2.new(0.5, 0, 0, 88)
+plotCard.Size = UDim2.fromOffset(220, 84)
+plotCard.BackgroundColor3 = UI.white
+plotCard.BackgroundTransparency = 0.2
+plotCard.ZIndex = 69
+plotCard.Parent = plotSelector
+round(plotCard, 7)
+stroke(plotCard, UI.border, 1, 0.4)
+
+local plotTitle = Instance.new("TextLabel")
+plotTitle.Name = "PlotTitle"
+plotTitle.Position = UDim2.fromOffset(8, 8)
+plotTitle.Size = UDim2.new(1, -16, 0, 30)
+plotTitle.BackgroundTransparency = 1
+plotTitle.Text = "House #1"
+plotTitle.TextColor3 = UI.text
+plotTitle.Font = Enum.Font.GothamBold
+plotTitle.TextScaled = true
+plotTitle.ZIndex = 70
+plotTitle.Parent = plotCard
+constrain(plotTitle, 14, 19)
+
+local plotStatus = Instance.new("TextLabel")
+plotStatus.Name = "PlotStatus"
+plotStatus.Position = UDim2.fromOffset(8, 43)
+plotStatus.Size = UDim2.new(1, -16, 0, 24)
+plotStatus.BackgroundTransparency = 1
+plotStatus.Text = "Vacant"
+plotStatus.TextColor3 = UI.text
+plotStatus.Font = Enum.Font.GothamMedium
+plotStatus.TextScaled = true
+plotStatus.ZIndex = 70
+plotStatus.Parent = plotCard
+constrain(plotStatus, 11, 15)
+
+local function plotArrow(name: string, text: string, x: number): TextButton
+	local button = Instance.new("TextButton")
+	button.Name = name
+	button.AnchorPoint = Vector2.new(0.5, 0)
+	button.Position = UDim2.new(0.5, x, 0, 91)
+	button.Size = UDim2.fromOffset(70, 70)
+	button.BackgroundColor3 = UI.white
+	button.BackgroundTransparency = 0.18
+	button.Text = text
+	button.TextColor3 = UI.white
+	button.Font = Enum.Font.GothamBold
+	button.TextScaled = true
+	button.ZIndex = 70
+	button.Parent = plotSelector
+	round(button, 35)
+	stroke(button, UI.border, 2, 0.18)
+	constrain(button, 32, 42)
+	return button
+end
+
+local previousPlot = plotArrow("PreviousPlot", "←", -178)
+local nextPlot = plotArrow("NextPlot", "→", 178)
+
+local plotGo = Instance.new("TextButton")
+plotGo.Name = "PlotGo"
+plotGo.AnchorPoint = Vector2.new(0.5, 0)
+plotGo.Position = UDim2.new(0.5, 0, 0, 174)
+plotGo.Size = UDim2.fromOffset(118, 32)
+plotGo.BackgroundTransparency = 1
+plotGo.Text = "GO"
+plotGo.TextColor3 = Color3.fromRGB(50, 214, 58)
+plotGo.Font = Enum.Font.GothamBold
+plotGo.TextScaled = true
+plotGo.ZIndex = 70
+plotGo.Parent = plotSelector
+constrain(plotGo, 25, 32)
+
 local mirrorState = nil
 local roleplayState = nil
 local busy = false
 local activeToolCategory = "all"
 local activeVehicleCategory = "all"
+local plotState = nil
+local plotIndex = 1
 
 local function setActionLabelsVisible(visible: boolean)
 	for _, item in actionLabels do
@@ -462,6 +581,7 @@ local function clearGrid()
 end
 
 local function setHeader(nextTitle: string)
+	plotSelector.Visible = false
 	panelTitle.Text = nextTitle
 	panel.Visible = true
 	setActionLabelsVisible(false)
@@ -599,6 +719,7 @@ end
 
 local function closePanel()
 	panel.Visible = false
+	plotSelector.Visible = false
 	statusText.Visible = false
 	clearCategories()
 	setActionLabelsVisible(true)
@@ -660,6 +781,67 @@ local showAvatar
 local showFamily
 local showHomeCams
 local showSettings
+
+local function renderPlotSelector()
+	local plots = if type(plotState) == "table" then plotState.plots else nil
+	if type(plots) ~= "table" or #plots == 0 then
+		plotTitle.Text = "No plots"
+		plotStatus.Text = "Unavailable"
+		plotGo.Text = ""
+		plotGo.Active = false
+		return
+	end
+
+	plotIndex = math.clamp(plotIndex, 1, #plots)
+	local selected = plots[plotIndex]
+	plotTitle.Text = string.format("House #%d", tonumber(selected.Index) or plotIndex)
+	if selected.Mine == true then
+		plotStatus.Text = "Your plot"
+		plotStatus.TextColor3 = UI.green
+		plotGo.Text = "GO"
+		plotGo.Active = true
+	elseif selected.Occupied == true then
+		plotStatus.Text = "Occupied"
+		plotStatus.TextColor3 = UI.red
+		plotGo.Text = "FULL"
+		plotGo.Active = false
+	else
+		plotStatus.Text = "Vacant"
+		plotStatus.TextColor3 = UI.text
+		plotGo.Text = "GO"
+		plotGo.Active = true
+	end
+end
+
+local function fetchPlots(): boolean
+	local ok, result = pcall(function()
+		return getPlots:InvokeServer()
+	end)
+	if not ok or type(result) ~= "table" or result.ok ~= true or type(result.plots) ~= "table" then
+		return false
+	end
+	plotState = result
+	plotIndex = 1
+	for index, entry in result.plots do
+		if entry.Mine == true then
+			plotIndex = index
+			break
+		end
+	end
+	return true
+end
+
+local function showPlotSelector()
+	panel.Visible = false
+	clearCategories()
+	if not fetchPlots() then
+		setActionLabelsVisible(true)
+		return
+	end
+	plotSelector.Visible = true
+	setActionLabelsVisible(false)
+	renderPlotSelector()
+end
 
 showVehicles = function()
 	if not fetchMirrorState() then
@@ -896,9 +1078,63 @@ animationsBtn.Activated:Connect(showAnimations)
 vehicleBtn.Activated:Connect(showVehicles)
 
 houseBtn.Activated:Connect(function()
-	closePanel()
-	if openStore and openStore:IsA("BindableEvent") then
-		openStore:Fire()
+	if plotSelector.Visible then
+		closePanel()
+	else
+		showPlotSelector()
+	end
+end)
+
+previousPlot.Activated:Connect(function()
+	if type(plotState) ~= "table" or type(plotState.plots) ~= "table" or #plotState.plots == 0 then
+		return
+	end
+	plotIndex -= 1
+	if plotIndex < 1 then
+		plotIndex = #plotState.plots
+	end
+	renderPlotSelector()
+end)
+
+nextPlot.Activated:Connect(function()
+	if type(plotState) ~= "table" or type(plotState.plots) ~= "table" or #plotState.plots == 0 then
+		return
+	end
+	plotIndex += 1
+	if plotIndex > #plotState.plots then
+		plotIndex = 1
+	end
+	renderPlotSelector()
+end)
+
+plotGo.Activated:Connect(function()
+	if not plotGo.Active or type(plotState) ~= "table" or type(plotState.plots) ~= "table" then
+		return
+	end
+	local selected = plotState.plots[plotIndex]
+	if type(selected) ~= "table" then
+		return
+	end
+
+	if selected.Mine == true then
+		closePanel()
+		if openStore and openStore:IsA("BindableEvent") then
+			openStore:Fire()
+		end
+		return
+	end
+
+	local ok, result = pcall(function()
+		return selectPlot:InvokeServer(selected.Id)
+	end)
+	if ok and type(result) == "table" and result.ok == true then
+		pcall(function()
+			visitHome:InvokeServer()
+		end)
+		closePanel()
+	else
+		fetchPlots()
+		renderPlotSelector()
 	end
 end)
 
