@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "version": "starblox-phase8-v18-live-verification-v1",
+  "status": "verified-private-v18-live",
+  "recordedAt": "2026-09-26",
+  "canonicalVerifierMainCommit": "4ac1978fdbba73539b079f1808938f99d1a1c063",
+  "privateRelease": {
+    "releaseId": "starblox-private-step9-canonical-step6-v4",
+    "universeId": "6027194615",
+    "placeId": "17602626136",
+    "placeVersion": 18,
+    "sourceCommit": "08965d64c58ad646808a6d1ad2ca8f7de27786ef",
+    "publishWorkflowRunId": 36222676724,
+    "verifyWorkflowRunId": 36223088498,
+    "artifactSha256": "d654724c674e7bd07a64d0a7185881c585501bbb2620f8e259232a2e6dcf8238",
+    "exactServerBootVerified": true,
+    "exactCoreLoopVerified": true
+  },
+  "brookhaven": {
+    "exactFrozenWorldMirror": true,
+    "baselineModelSha256": "4dfd451ae211dead959ec3f165e2b477a9725d04727febdc66472e95328917df",
+    "mountedSubtreeSha256": "d2c88a68305a65475dfdab77220b69e4138d81e44250edd1849f69cee4c92a90",
+    "serializedInstanceCount": 5493,
+    "baselineMutationAllowed": false,
+    "completeOriginalGameplayPackageAvailable": false,
+    "interactionSystemsMode": "behavior-matched-starblox-runtime"
+  },
+  "questions": {
+    "certificationVersion": "phase8-material-first-star-fallback-v1",
+    "questionsPerStation": 20,
+    "materialQuestionsPerStation": 12,
+    "starFallbackQuestionsPerStation": 8,
+    "rotation": "material-once-then-star-fallback-loop",
+    "materialQuestionsFirst": true,
+    "starFallbackAfterMaterial": true,
+    "metaListRecognitionPromptsForbidden": true,
+    "answersServerOnly": true,
+    "liveLlmRequiredForNormalGameplay": false,
+    "staleAnswerReplayBlocked": true
+  },
+  "economy": {
+    "currency": "Coins",
+    "correctAnswerCoins": 10,
+    "challengeCoins": 0,
+    "purchasesUseLearningCoins": true,
+    "paidCurrencyRequiredForGameplayUnlocks": false
+  },
+  "mirrorSystems": {
+    "homePlotsBoundToFrozenBrookhavenWorld": 8,
+    "homeTiers": 5,
+    "starterRenderedHomeItems": 7,
+    "vehiclesImplemented": 8,
+    "inventoryToolsImplemented": 12,
+    "jobsAndFilteredBio": true,
+    "avatarReset": true,
+    "emotes": true,
+    "mapHomeTravel": true,
+    "unifiedMobileSidebar": true
+  },
+  "authority": {
+    "experienceVisibilityChangeAttempted": false,
+    "publicAccessChangeAttempted": false,
+    "liveActivationAllowed": false,
+    "productionActivationAllowed": false
+  }
+}
